@@ -2,795 +2,849 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BA2A5EB03C
-	for <lists+linux-api@lfdr.de>; Mon, 26 Sep 2022 20:41:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 10C525EB470
+	for <lists+linux-api@lfdr.de>; Tue, 27 Sep 2022 00:17:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230050AbiIZSlW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 26 Sep 2022 14:41:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48822 "EHLO
+        id S231559AbiIZWRo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 26 Sep 2022 18:17:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41602 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230313AbiIZSky (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 26 Sep 2022 14:40:54 -0400
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A489712AF1
-        for <linux-api@vger.kernel.org>; Mon, 26 Sep 2022 11:40:04 -0700 (PDT)
-Received: by mail-pg1-x52e.google.com with SMTP id v4so7316481pgi.10
-        for <linux-api@vger.kernel.org>; Mon, 26 Sep 2022 11:40:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=PJBSyI8naYpvY03OnBbdIewGNHGjGyHD9ykkjmjkqAg=;
-        b=VJz+XT/aic3cDOg98Pw1GSogpUZznnW7qTY6UTa90i+Htg4ZR0trJwdiaJwBMREjQV
-         nBtXe39GWaGKJKMGPhI5iyRHtsZjcGyf+/R3NMOj9b16MHdQ9/ZeSScZRdyf8wyKE1Ha
-         v/hNfTSIoRDrz6zrMmYCHLHKU9BHl/FW2J5zAwFJz+luKEs+uLof7xwYGHuw/E+APFMW
-         Dem17igdN1xkP+nLylTAxW0I+BGNisFxRSFqd36t0/iux6wNUVvWWryQyPPrj4GKwS8+
-         9txyAkz8+PFXc4lpN0KQgztd9Nmj81IBXGG3I499d5NGhPwHjCPFIBXnueowygI6fyCi
-         /Xyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=PJBSyI8naYpvY03OnBbdIewGNHGjGyHD9ykkjmjkqAg=;
-        b=2ixDMC1zV6C+nN63Hl/i7+7S07CH+pCDrTl5BhVyBGoJJ+bU3IhLa9Wr4PLpdv+NKN
-         9nVFYuy+idMva/C4WRe6FnMmcpU+hBn9k6YZKw0nzinB9FlaVWs2v9s2fbmj2wYMKua7
-         64VOdDJzondqK3DcHr+U7UYlPRfPMZ9vE8fXNeTtxV0bRBMuVQ3b+tifGXMKEmO40giV
-         9SttupMymHX8+EIe6UIILgYzzcvduSiT0tKbKlOzce2tiKBaTqm9Ackiqetf6mSGTQax
-         yMRZoLvtYPkPv/jKw0KbsGjwPANMxchn5wW1EDllvc8ibkqJA5ffxNA5cuJ4/PAzedkB
-         wP9A==
-X-Gm-Message-State: ACrzQf2avftnsXdAlUR0yysHbPg2hTiK/KcinXe0XTm/eBCDR5zAz42k
-        jelmZeqcyNfzKsxB6kszG7Z9g48p0OzZ6Dtgj6M=
-X-Google-Smtp-Source: AMsMyM7rC25xL2IEBT4pdj/SK/PXoFj8TcD3jjdnhP+rtOCS1IZbBkKR3tUrUXU4u3Syejz+wuamRzck8f7Fu602uHY=
-X-Received: by 2002:a63:e417:0:b0:43c:2fc6:d60c with SMTP id
- a23-20020a63e417000000b0043c2fc6d60cmr17965667pgi.436.1664217583973; Mon, 26
- Sep 2022 11:39:43 -0700 (PDT)
+        with ESMTP id S231570AbiIZWRR (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 26 Sep 2022 18:17:17 -0400
+Received: from out01.mta.xmission.com (out01.mta.xmission.com [166.70.13.231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35E5A6A4B5;
+        Mon, 26 Sep 2022 15:17:00 -0700 (PDT)
+Received: from in02.mta.xmission.com ([166.70.13.52]:43744)
+        by out01.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1ocwOT-001CVq-En; Mon, 26 Sep 2022 16:16:05 -0600
+Received: from ip68-110-29-46.om.om.cox.net ([68.110.29.46]:42146 helo=email.froward.int.ebiederm.org.xmission.com)
+        by in02.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1ocwOR-00962z-8R; Mon, 26 Sep 2022 16:16:05 -0600
+From:   "Eric W. Biederman" <ebiederm@xmission.com>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     <linux-kernel@vger.kernel.org>, <linux-api@vger.kernel.org>,
+        <linux-arch@vger.kernel.org>
+Date:   Mon, 26 Sep 2022 17:15:32 -0500
+Message-ID: <871qrx3hq3.fsf@email.froward.int.ebiederm.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-References: <20220922224046.1143204-1-zokeefe@google.com> <20220922224046.1143204-4-zokeefe@google.com>
-In-Reply-To: <20220922224046.1143204-4-zokeefe@google.com>
-From:   Yang Shi <shy828301@gmail.com>
-Date:   Mon, 26 Sep 2022 11:39:31 -0700
-Message-ID: <CAHbLzkrL4T_kBG3VgxYgoiHkpe0eqkJvmmGKt9swy39c6MMCrw@mail.gmail.com>
-Subject: Re: [PATCH mm-unstable v4 03/10] mm/madvise: add file and shmem
- support to MADV_COLLAPSE
-To:     "Zach O'Keefe" <zokeefe@google.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
-        linux-api@vger.kernel.org,
-        Axel Rasmussen <axelrasmussen@google.com>,
-        James Houghton <jthoughton@google.com>,
-        Hugh Dickins <hughd@google.com>,
-        Miaohe Lin <linmiaohe@huawei.com>,
-        David Hildenbrand <david@redhat.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Pasha Tatashin <pasha.tatashin@soleen.com>,
-        Peter Xu <peterx@redhat.com>,
-        Rongwei Wang <rongwei.wang@linux.alibaba.com>,
-        SeongJae Park <sj@kernel.org>,
-        Song Liu <songliubraving@fb.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Chris Kennelly <ckennelly@google.com>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Patrick Xia <patrickx@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-XM-SPF: eid=1ocwOR-00962z-8R;;;mid=<871qrx3hq3.fsf@email.froward.int.ebiederm.org>;;;hst=in02.mta.xmission.com;;;ip=68.110.29.46;;;frm=ebiederm@xmission.com;;;spf=softfail
+X-XM-AID: U2FsdGVkX1+9B/Nm3Lp/ocJiezHkV8uDvjNhC/JcGV0=
+X-SA-Exim-Connect-IP: 68.110.29.46
+X-SA-Exim-Mail-From: ebiederm@xmission.com
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-DCC: XMission; sa07 1397; Body=1 Fuz1=1 Fuz2=1 
+X-Spam-Combo: ****;Kees Cook <keescook@chromium.org>
+X-Spam-Relay-Country: 
+X-Spam-Timing: total 1591 ms - load_scoreonly_sql: 0.06 (0.0%),
+        signal_user_changed: 11 (0.7%), b_tie_ro: 10 (0.6%), parse: 2.3 (0.1%),
+         extract_message_metadata: 30 (1.9%), get_uri_detail_list: 12 (0.7%),
+        tests_pri_-1000: 29 (1.8%), tests_pri_-950: 1.37 (0.1%),
+        tests_pri_-900: 1.31 (0.1%), tests_pri_-90: 187 (11.7%), check_bayes:
+        181 (11.4%), b_tokenize: 41 (2.6%), b_tok_get_all: 24 (1.5%),
+        b_comp_prob: 6 (0.4%), b_tok_touch_all: 104 (6.5%), b_finish: 0.96
+        (0.1%), tests_pri_0: 1305 (82.0%), check_dkim_signature: 1.18 (0.1%),
+        check_dkim_adsp: 2.8 (0.2%), poll_dns_idle: 0.45 (0.0%), tests_pri_10:
+        2.6 (0.2%), tests_pri_500: 17 (1.1%), rewrite_mail: 0.00 (0.0%)
+Subject: [PATCH] a.out: Remove the a.out implementation
+X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
+X-SA-Exim-Scanned: Yes (on in02.mta.xmission.com)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Sep 22, 2022 at 3:40 PM Zach O'Keefe <zokeefe@google.com> wrote:
->
-> Add support for MADV_COLLAPSE to collapse shmem-backed and file-backed
-> memory into THPs (requires CONFIG_READ_ONLY_THP_FOR_FS=y).
->
-> On success, the backing memory will be a hugepage.  For the memory range
-> and process provided, the page tables will synchronously have a huge pmd
-> installed, mapping the THP.  Other mappings of the file extent mapped by
-> the memory range may be added to a set of entries that khugepaged will
-> later process and attempt update their page tables to map the THP by a
-> pmd.
->
-> This functionality unlocks two important uses:
->
-> (1)     Immediately back executable text by THPs.  Current support provided
->         by CONFIG_READ_ONLY_THP_FOR_FS may take a long time on a large
->         system which might impair services from serving at their full rated
->         load after (re)starting.  Tricks like mremap(2)'ing text onto
->         anonymous memory to immediately realize iTLB performance prevents
->         page sharing and demand paging, both of which increase steady state
->         memory footprint.  Now, we can have the best of both worlds: Peak
->         upfront performance and lower RAM footprints.
->
-> (2)     userfaultfd-based live migration of virtual machines satisfy UFFD
->         faults by fetching native-sized pages over the network (to avoid
->         latency of transferring an entire hugepage).  However, after guest
->         memory has been fully copied to the new host, MADV_COLLAPSE can
->         be used to immediately increase guest performance.
->
-> Since khugepaged is single threaded, this change now introduces
-> possibility of collapse contexts racing in file collapse path.  There a
-> important few places to consider:
->
-> (1)     hpage_collapse_scan_file(), when we xas_pause() and drop RCU.
->         We could have the memory collapsed out from under us, but
->         the next xas_for_each() iteration will correctly pick up the
->         hugepage.  The hugepage might not be up to date (insofar as
->         copying of small page contents might not have completed - the
->         page still may be locked), but regardless what small page index
->         we were iterating over, we'll find the hugepage and identify it
->         as a suitably aligned compound page of order HPAGE_PMD_ORDER.
->
->         In khugepaged path, we locklessly check the value of the pmd,
->         and only add it to deferred collapse array if we find pmd
->         mapping pte table. This is fine, since other values that could
->         have raced in right afterwards denote failure, or that the
->         memory was successfully collapsed, so we don't need further
->         processing.
->
->         In madvise path, we'll take mmap_lock() in write to serialize
->         against page table updates and will know what to do based on the
->         true value of the pmd: recheck all ptes if we point to a pte table,
->         directly install the pmd, if the pmd has been cleared, but
->         memory not yet faulted, or nothing at all if we find a huge pmd.
->
->         It's worth putting emphasis here on how we treat the none pmd
->         here.  If khugepaged has processed this mm's page tables
->         already, it will have left the pmd cleared (ready for refault by
->         the process).  Depending on the VMA flags and sysfs settings,
->         amount of RAM on the machine, and the current load, could be a
->         relatively common occurrence - and as such is one we'd like to
->         handle successfully in MADV_COLLAPSE.  When we see the none pmd
->         in collapse_pte_mapped_thp(), we've locked mmap_lock in write
->         and checked (a) huepaged_vma_check() to see if the backing
->         memory is appropriate still, along with VMA sizing and
->         appropriate hugepage alignment within the file, and (b) we've
->         found a hugepage head of order HPAGE_PMD_ORDER at the offset
->         in the file mapped by our hugepage-aligned virtual address.
->         Even though the common-case is likely race with khugepaged,
->         given these checks (regardless how we got here - we could be
->         operating on a completely different file than originally checked
->         in hpage_collapse_scan_file() for all we know) it should be safe
->         to directly make the pmd a huge pmd pointing to this hugepage.
->
-> (2)     collapse_file() is mostly serialized on the same file extent by
->         lock sequence:
->
->                 |       lock hupepage
->                 |               lock mapping->i_pages
->                 |                       lock 1st page
->                 |               unlock mapping->i_pages
->                 |                               <page checks>
->                 |               lock mapping->i_pages
->                 |                               page_ref_freeze(3)
->                 |                               xas_store(hugepage)
->                 |               unlock mapping->i_pages
->                 |                               page_ref_unfreeze(1)
->                 |                       unlock 1st page
->                 V       unlock hugepage
->
->         Once a context (who already has their fresh hugepage locked)
->         locks mapping->i_pages exclusively, it will hold said lock
->         until it locks the first page, and it will hold that lock until
->         the after the hugepage has been added to the page cache (and
->         will unlock the hugepage after page table update, though that
->         isn't important here).
->
->         A racing context that loses the race for mapping->i_pages will
->         then lose the race to locking the first page.  Here - depending
->         on how far the other racing context has gotten - we might find
->         the new hugepage (in which case we'll exit cleanly when we
->         check PageTransCompound()), or we'll find the "old" 1st small
->         page (in which we'll exit cleanly when we discover unexpected
->         refcount of 2 after isolate_lru_page()).  This is assuming we
->         are able to successfully lock the page we find - in shmem path,
->         we could just fail the trylock and exit cleanly anyways.
->
->         Failure path in collapse_file() is similar: once we hold lock
->         on 1st small page, we are serialized against other collapse
->         contexts.  Before the 1st small page is unlocked, we add it
->         back to the pagecache and unfreeze the refcount appropriately.
->         Contexts who lost the race to the 1st small page will then find
->         the same 1st small page with the correct refcount and will be
->         able to proceed.
->
-> [shy828301@gmail.com: Delete hugepage_vma_revalidate_anon(), remove
->         check for multi-add in khugepaged_add_pte_mapped_thp()]
->   Link: https://lore.kernel.org/linux-mm/CAHbLzkrtpM=ic7cYAHcqkubah5VTR8N5=k5RT8MTvv5rN1Y91w@mail.gmail.com/
-> Link: https://lkml.kernel.org/r/20220907144521.3115321-4-zokeefe@google.com
-> Signed-off-by: Zach O'Keefe <zokeefe@google.com>
-> Cc: Axel Rasmussen <axelrasmussen@google.com>
-> Cc: Chris Kennelly <ckennelly@google.com>
-> Cc: David Hildenbrand <david@redhat.com>
-> Cc: David Rientjes <rientjes@google.com>
-> Cc: Hugh Dickins <hughd@google.com>
-> Cc: James Houghton <jthoughton@google.com>
-> Cc: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-> Cc: Matthew Wilcox <willy@infradead.org>
-> Cc: Miaohe Lin <linmiaohe@huawei.com>
-> Cc: Minchan Kim <minchan@kernel.org>
-> Cc: Pasha Tatashin <pasha.tatashin@soleen.com>
-> Cc: Peter Xu <peterx@redhat.com>
-> Cc: Rongwei Wang <rongwei.wang@linux.alibaba.com>
-> Cc: SeongJae Park <sj@kernel.org>
-> Cc: Song Liu <songliubraving@fb.com>
-> Cc: Vlastimil Babka <vbabka@suse.cz>
-> Cc: Yang Shi <shy828301@gmail.com>
-> ---
->  include/linux/khugepaged.h         |  13 +-
->  include/trace/events/huge_memory.h |   1 +
->  kernel/events/uprobes.c            |   2 +-
->  mm/khugepaged.c                    | 245 ++++++++++++++++++++++-------
->  4 files changed, 199 insertions(+), 62 deletions(-)
->
-> diff --git a/include/linux/khugepaged.h b/include/linux/khugepaged.h
-> index 384f034ae947..70162d707caf 100644
-> --- a/include/linux/khugepaged.h
-> +++ b/include/linux/khugepaged.h
-> @@ -16,11 +16,13 @@ extern void khugepaged_enter_vma(struct vm_area_struct *vma,
->                                  unsigned long vm_flags);
->  extern void khugepaged_min_free_kbytes_update(void);
->  #ifdef CONFIG_SHMEM
-> -extern void collapse_pte_mapped_thp(struct mm_struct *mm, unsigned long addr);
-> +extern int collapse_pte_mapped_thp(struct mm_struct *mm, unsigned long addr,
-> +                                  bool install_pmd);
->  #else
-> -static inline void collapse_pte_mapped_thp(struct mm_struct *mm,
-> -                                          unsigned long addr)
-> +static inline int collapse_pte_mapped_thp(struct mm_struct *mm,
-> +                                         unsigned long addr, bool install_pmd)
->  {
-> +       return 0;
->  }
->  #endif
->
-> @@ -46,9 +48,10 @@ static inline void khugepaged_enter_vma(struct vm_area_struct *vma,
->                                         unsigned long vm_flags)
->  {
->  }
-> -static inline void collapse_pte_mapped_thp(struct mm_struct *mm,
-> -                                          unsigned long addr)
-> +static inline int collapse_pte_mapped_thp(struct mm_struct *mm,
-> +                                         unsigned long addr, bool install_pmd)
->  {
-> +       return 0;
->  }
->
->  static inline void khugepaged_min_free_kbytes_update(void)
-> diff --git a/include/trace/events/huge_memory.h b/include/trace/events/huge_memory.h
-> index fbbb25494d60..df33453b70fc 100644
-> --- a/include/trace/events/huge_memory.h
-> +++ b/include/trace/events/huge_memory.h
-> @@ -11,6 +11,7 @@
->         EM( SCAN_FAIL,                  "failed")                       \
->         EM( SCAN_SUCCEED,               "succeeded")                    \
->         EM( SCAN_PMD_NULL,              "pmd_null")                     \
-> +       EM( SCAN_PMD_NONE,              "pmd_none")                     \
->         EM( SCAN_PMD_MAPPED,            "page_pmd_mapped")              \
->         EM( SCAN_EXCEED_NONE_PTE,       "exceed_none_pte")              \
->         EM( SCAN_EXCEED_SWAP_PTE,       "exceed_swap_pte")              \
-> diff --git a/kernel/events/uprobes.c b/kernel/events/uprobes.c
-> index e0a9b945e7bc..d9e357b7e17c 100644
-> --- a/kernel/events/uprobes.c
-> +++ b/kernel/events/uprobes.c
-> @@ -555,7 +555,7 @@ int uprobe_write_opcode(struct arch_uprobe *auprobe, struct mm_struct *mm,
->
->         /* try collapse pmd for compound page */
->         if (!ret && orig_page_huge)
-> -               collapse_pte_mapped_thp(mm, vaddr);
-> +               collapse_pte_mapped_thp(mm, vaddr, false);
->
->         return ret;
->  }
-> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> index b1e3f83c4eb2..a272fc065dd7 100644
-> --- a/mm/khugepaged.c
-> +++ b/mm/khugepaged.c
-> @@ -29,6 +29,7 @@ enum scan_result {
->         SCAN_FAIL,
->         SCAN_SUCCEED,
->         SCAN_PMD_NULL,
-> +       SCAN_PMD_NONE,
->         SCAN_PMD_MAPPED,
->         SCAN_EXCEED_NONE_PTE,
->         SCAN_EXCEED_SWAP_PTE,
-> @@ -821,6 +822,7 @@ static bool hpage_collapse_alloc_page(struct page **hpage, gfp_t gfp, int node)
->   */
->
->  static int hugepage_vma_revalidate(struct mm_struct *mm, unsigned long address,
-> +                                  bool expect_anon,
->                                    struct vm_area_struct **vmap,
->                                    struct collapse_control *cc)
->  {
-> @@ -845,8 +847,8 @@ static int hugepage_vma_revalidate(struct mm_struct *mm, unsigned long address,
->          * hugepage_vma_check may return true for qualified file
->          * vmas.
->          */
-> -       if (!vma->anon_vma || !vma_is_anonymous(vma))
-> -               return SCAN_VMA_CHECK;
-> +       if (expect_anon && (!(*vmap)->anon_vma || !vma_is_anonymous(*vmap)))
-> +               return SCAN_PAGE_ANON;
->         return SCAN_SUCCEED;
->  }
->
-> @@ -866,8 +868,8 @@ static int find_pmd_or_thp_or_none(struct mm_struct *mm,
->         /* See comments in pmd_none_or_trans_huge_or_clear_bad() */
->         barrier();
->  #endif
-> -       if (!pmd_present(pmde))
-> -               return SCAN_PMD_NULL;
-> +       if (pmd_none(pmde))
-> +               return SCAN_PMD_NONE;
->         if (pmd_trans_huge(pmde))
->                 return SCAN_PMD_MAPPED;
->         if (pmd_bad(pmde))
-> @@ -995,7 +997,7 @@ static int collapse_huge_page(struct mm_struct *mm, unsigned long address,
->                 goto out_nolock;
->
->         mmap_read_lock(mm);
-> -       result = hugepage_vma_revalidate(mm, address, &vma, cc);
-> +       result = hugepage_vma_revalidate(mm, address, true, &vma, cc);
->         if (result != SCAN_SUCCEED) {
->                 mmap_read_unlock(mm);
->                 goto out_nolock;
-> @@ -1026,7 +1028,7 @@ static int collapse_huge_page(struct mm_struct *mm, unsigned long address,
->          * handled by the anon_vma lock + PG_lock.
->          */
->         mmap_write_lock(mm);
-> -       result = hugepage_vma_revalidate(mm, address, &vma, cc);
-> +       result = hugepage_vma_revalidate(mm, address, true, &vma, cc);
->         if (result != SCAN_SUCCEED)
->                 goto out_up_write;
->         /* check if the pmd is still valid */
-> @@ -1320,6 +1322,26 @@ static void collect_mm_slot(struct khugepaged_mm_slot *mm_slot)
->  /*
->   * Notify khugepaged that given addr of the mm is pte-mapped THP. Then
->   * khugepaged should try to collapse the page table.
-> + *
-> + * Note that following race exists:
-> + * (1) khugepaged calls khugepaged_collapse_pte_mapped_thps() for mm_struct A,
-> + *     emptying the A's ->pte_mapped_thp[] array.
-> + * (2) MADV_COLLAPSE collapses some file extent with target mm_struct B, and
-> + *     retract_page_tables() finds a VMA in mm_struct A mapping the same extent
-> + *     (at virtual address X) and adds an entry (for X) into mm_struct A's
-> + *     ->pte-mapped_thp[] array.
-> + * (3) khugepaged calls khugepaged_collapse_scan_file() for mm_struct A at X,
-> + *     sees a pte-mapped THP (SCAN_PTE_MAPPED_HUGEPAGE) and adds an entry
-> + *     (for X) into mm_struct A's ->pte-mapped_thp[] array.
-> + * Thus, it's possible the same address is added multiple times for the same
-> + * mm_struct.  Should this happen, we'll simply attempt
-> + * collapse_pte_mapped_thp() multiple times for the same address, under the same
-> + * exclusive mmap_lock, and assuming the first call is successful, subsequent
-> + * attempts will return quickly (without grabbing any additional locks) when
-> + * a huge pmd is found in find_pmd_or_thp_or_none().  Since this is a cheap
-> + * check, and since this is a rare occurrence, the cost of preventing this
-> + * "multiple-add" is thought to be more expensive than just handling it, should
-> + * it occur.
 
-I do appreciate the thorough comments. It is quite helpful.
+In commit 19e8b701e258 ("a.out: Stop building a.out/osf1 support on
+alpha and m68k") the last users of a.out were disabled.
 
->   */
->  static bool khugepaged_add_pte_mapped_thp(struct mm_struct *mm,
->                                           unsigned long addr)
-> @@ -1341,6 +1363,27 @@ static bool khugepaged_add_pte_mapped_thp(struct mm_struct *mm,
->         return ret;
->  }
->
-> +/* hpage must be locked, and mmap_lock must be held in write */
-> +static int set_huge_pmd(struct vm_area_struct *vma, unsigned long addr,
-> +                       pmd_t *pmdp, struct page *hpage)
-> +{
-> +       struct vm_fault vmf = {
-> +               .vma = vma,
-> +               .address = addr,
-> +               .flags = 0,
+As nothing has turned up to cause this change to be reverted, let's
+remove the code implementing a.out support as well.
 
-It means you are going to install a readonly PMD. It is fine for
-readonly fs, but it may be not performant for shmem since the
-following write will trigger wp fault then the PMD will be split. So
-it should be ok to install writable PMD for shmem.
+There may be userspace users of the uapi bits left so the uapi
+headers have been left untouched.
 
-But anyway this is not a fatal problem, the patch looks good to me.
-Reviewed-by: Yang Shi <shy828301@gmail.com>
+Signed-off-by: "Eric W. Biederman" <ebiederm@xmission.com>
+---
 
+I was reminded that while this code was successfully disabled
+in the kernel we haven't deleted it yet.
 
-> +               .pmd = pmdp,
-> +       };
-> +
-> +       VM_BUG_ON(!PageTransHuge(hpage));
-> +       mmap_assert_write_locked(vma->vm_mm);
-> +
-> +       if (do_set_pmd(&vmf, hpage))
-> +               return SCAN_FAIL;
-> +
-> +       get_page(hpage);
-> +       return SCAN_SUCCEED;
-> +}
-> +
->  static void collapse_and_free_pmd(struct mm_struct *mm, struct vm_area_struct *vma,
->                                   unsigned long addr, pmd_t *pmdp)
->  {
-> @@ -1362,12 +1405,14 @@ static void collapse_and_free_pmd(struct mm_struct *mm, struct vm_area_struct *v
->   *
->   * @mm: process address space where collapse happens
->   * @addr: THP collapse address
-> + * @install_pmd: If a huge PMD should be installed
->   *
->   * This function checks whether all the PTEs in the PMD are pointing to the
->   * right THP. If so, retract the page table so the THP can refault in with
-> - * as pmd-mapped.
-> + * as pmd-mapped. Possibly install a huge PMD mapping the THP.
->   */
-> -void collapse_pte_mapped_thp(struct mm_struct *mm, unsigned long addr)
-> +int collapse_pte_mapped_thp(struct mm_struct *mm, unsigned long addr,
-> +                           bool install_pmd)
->  {
->         unsigned long haddr = addr & HPAGE_PMD_MASK;
->         struct vm_area_struct *vma = vma_lookup(mm, haddr);
-> @@ -1380,14 +1425,14 @@ void collapse_pte_mapped_thp(struct mm_struct *mm, unsigned long addr)
->
->         mmap_assert_write_locked(mm);
->
-> -       /* Fast check before locking page if not PMD mapping PTE table */
-> +       /* Fast check before locking page if already PMD-mapped */
->         result = find_pmd_or_thp_or_none(mm, haddr, &pmd);
-> -       if (result != SCAN_SUCCEED)
-> -               return;
-> +       if (result == SCAN_PMD_MAPPED)
-> +               return result;
->
->         if (!vma || !vma->vm_file ||
->             !range_in_vma(vma, haddr, haddr + HPAGE_PMD_SIZE))
-> -               return;
-> +               return SCAN_VMA_CHECK;
->
->         /*
->          * If we are here, we've succeeded in replacing all the native pages
-> @@ -1397,27 +1442,45 @@ void collapse_pte_mapped_thp(struct mm_struct *mm, unsigned long addr)
->          * analogously elide sysfs THP settings here.
->          */
->         if (!hugepage_vma_check(vma, vma->vm_flags, false, false, false))
-> -               return;
-> +               return SCAN_VMA_CHECK;
->
->         /* Keep pmd pgtable for uffd-wp; see comment in retract_page_tables() */
->         if (userfaultfd_wp(vma))
-> -               return;
-> +               return SCAN_PTE_UFFD_WP;
->
->         hpage = find_lock_page(vma->vm_file->f_mapping,
->                                linear_page_index(vma, haddr));
->         if (!hpage)
-> -               return;
-> +               return SCAN_PAGE_NULL;
->
-> -       if (!PageHead(hpage))
-> +       if (!PageHead(hpage)) {
-> +               result = SCAN_FAIL;
->                 goto drop_hpage;
-> +       }
->
-> -       if (compound_order(hpage) != HPAGE_PMD_ORDER)
-> +       if (compound_order(hpage) != HPAGE_PMD_ORDER) {
-> +               result = SCAN_PAGE_COMPOUND;
->                 goto drop_hpage;
-> +       }
->
->         if (find_pmd_or_thp_or_none(mm, haddr, &pmd) != SCAN_SUCCEED)
-> +       result = find_pmd_or_thp_or_none(mm, haddr, &pmd);
-> +       switch (result) {
-> +       case SCAN_SUCCEED:
-> +               break;
-> +       case SCAN_PMD_NONE:
-> +               /*
-> +                * In MADV_COLLAPSE path, possible race with khugepaged where
-> +                * all pte entries have been removed and pmd cleared.  If so,
-> +                * skip all the pte checks and just update the pmd mapping.
-> +                */
-> +               goto maybe_install_pmd;
-> +       default:
->                 goto drop_hpage;
-> +       }
->
->         start_pte = pte_offset_map_lock(mm, pmd, haddr, &ptl);
-> +       result = SCAN_FAIL;
->
->         /* step 1: check all mapped PTEs are to the right huge page */
->         for (i = 0, addr = haddr, pte = start_pte;
-> @@ -1429,8 +1492,10 @@ void collapse_pte_mapped_thp(struct mm_struct *mm, unsigned long addr)
->                         continue;
->
->                 /* page swapped out, abort */
-> -               if (!pte_present(*pte))
-> +               if (!pte_present(*pte)) {
-> +                       result = SCAN_PTE_NON_PRESENT;
->                         goto abort;
-> +               }
->
->                 page = vm_normal_page(vma, addr, *pte);
->                 if (WARN_ON_ONCE(page && is_zone_device_page(page)))
-> @@ -1465,12 +1530,19 @@ void collapse_pte_mapped_thp(struct mm_struct *mm, unsigned long addr)
->                 add_mm_counter(vma->vm_mm, mm_counter_file(hpage), -count);
->         }
->
-> -       /* step 4: collapse pmd */
-> +       /* step 4: remove pte entries */
->         collapse_and_free_pmd(mm, vma, haddr, pmd);
-> +
-> +maybe_install_pmd:
-> +       /* step 5: install pmd entry */
-> +       result = install_pmd
-> +                       ? set_huge_pmd(vma, haddr, pmd, hpage)
-> +                       : SCAN_SUCCEED;
-> +
->  drop_hpage:
->         unlock_page(hpage);
->         put_page(hpage);
-> -       return;
-> +       return result;
->
->  abort:
->         pte_unmap_unlock(start_pte, ptl);
-> @@ -1493,22 +1565,29 @@ static void khugepaged_collapse_pte_mapped_thps(struct khugepaged_mm_slot *mm_sl
->                 goto out;
->
->         for (i = 0; i < mm_slot->nr_pte_mapped_thp; i++)
-> -               collapse_pte_mapped_thp(mm, mm_slot->pte_mapped_thp[i]);
-> +               collapse_pte_mapped_thp(mm, mm_slot->pte_mapped_thp[i], false);
->
->  out:
->         mm_slot->nr_pte_mapped_thp = 0;
->         mmap_write_unlock(mm);
->  }
->
-> -static void retract_page_tables(struct address_space *mapping, pgoff_t pgoff)
-> +static int retract_page_tables(struct address_space *mapping, pgoff_t pgoff,
-> +                              struct mm_struct *target_mm,
-> +                              unsigned long target_addr, struct page *hpage,
-> +                              struct collapse_control *cc)
->  {
->         struct vm_area_struct *vma;
-> -       struct mm_struct *mm;
-> -       unsigned long addr;
-> -       pmd_t *pmd;
-> +       int target_result = SCAN_FAIL;
->
->         i_mmap_lock_write(mapping);
->         vma_interval_tree_foreach(vma, &mapping->i_mmap, pgoff, pgoff) {
-> +               int result = SCAN_FAIL;
-> +               struct mm_struct *mm = NULL;
-> +               unsigned long addr = 0;
-> +               pmd_t *pmd;
-> +               bool is_target = false;
-> +
->                 /*
->                  * Check vma->anon_vma to exclude MAP_PRIVATE mappings that
->                  * got written to. These VMAs are likely not worth investing
-> @@ -1525,24 +1604,34 @@ static void retract_page_tables(struct address_space *mapping, pgoff_t pgoff)
->                  * ptl. It has higher chance to recover THP for the VMA, but
->                  * has higher cost too.
->                  */
-> -               if (vma->anon_vma)
-> -                       continue;
-> +               if (vma->anon_vma) {
-> +                       result = SCAN_PAGE_ANON;
-> +                       goto next;
-> +               }
->                 addr = vma->vm_start + ((pgoff - vma->vm_pgoff) << PAGE_SHIFT);
-> -               if (addr & ~HPAGE_PMD_MASK)
-> -                       continue;
-> -               if (vma->vm_end < addr + HPAGE_PMD_SIZE)
-> -                       continue;
-> +               if (addr & ~HPAGE_PMD_MASK ||
-> +                   vma->vm_end < addr + HPAGE_PMD_SIZE) {
-> +                       result = SCAN_VMA_CHECK;
-> +                       goto next;
-> +               }
->                 mm = vma->vm_mm;
-> -               if (find_pmd_or_thp_or_none(mm, addr, &pmd) != SCAN_SUCCEED)
-> -                       continue;
-> +               is_target = mm == target_mm && addr == target_addr;
-> +               result = find_pmd_or_thp_or_none(mm, addr, &pmd);
-> +               if (result != SCAN_SUCCEED)
-> +                       goto next;
->                 /*
->                  * We need exclusive mmap_lock to retract page table.
->                  *
->                  * We use trylock due to lock inversion: we need to acquire
->                  * mmap_lock while holding page lock. Fault path does it in
->                  * reverse order. Trylock is a way to avoid deadlock.
-> +                *
-> +                * Also, it's not MADV_COLLAPSE's job to collapse other
-> +                * mappings - let khugepaged take care of them later.
->                  */
-> -               if (mmap_write_trylock(mm)) {
-> +               result = SCAN_PTE_MAPPED_HUGEPAGE;
-> +               if ((cc->is_khugepaged || is_target) &&
-> +                   mmap_write_trylock(mm)) {
->                         /*
->                          * When a vma is registered with uffd-wp, we can't
->                          * recycle the pmd pgtable because there can be pte
-> @@ -1551,22 +1640,45 @@ static void retract_page_tables(struct address_space *mapping, pgoff_t pgoff)
->                          * it'll always mapped in small page size for uffd-wp
->                          * registered ranges.
->                          */
-> -                       if (!hpage_collapse_test_exit(mm) &&
-> -                           !userfaultfd_wp(vma))
-> -                               collapse_and_free_pmd(mm, vma, addr, pmd);
-> +                       if (hpage_collapse_test_exit(mm)) {
-> +                               result = SCAN_ANY_PROCESS;
-> +                               goto unlock_next;
-> +                       }
-> +                       if (userfaultfd_wp(vma)) {
-> +                               result = SCAN_PTE_UFFD_WP;
-> +                               goto unlock_next;
-> +                       }
-> +                       collapse_and_free_pmd(mm, vma, addr, pmd);
-> +                       if (!cc->is_khugepaged && is_target)
-> +                               result = set_huge_pmd(vma, addr, pmd, hpage);
-> +                       else
-> +                               result = SCAN_SUCCEED;
-> +
-> +unlock_next:
->                         mmap_write_unlock(mm);
-> -               } else {
-> -                       /* Try again later */
-> +                       goto next;
-> +               }
-> +               /*
-> +                * Calling context will handle target mm/addr. Otherwise, let
-> +                * khugepaged try again later.
-> +                */
-> +               if (!is_target) {
->                         khugepaged_add_pte_mapped_thp(mm, addr);
-> +                       continue;
->                 }
-> +next:
-> +               if (is_target)
-> +                       target_result = result;
->         }
->         i_mmap_unlock_write(mapping);
-> +       return target_result;
->  }
->
->  /**
->   * collapse_file - collapse filemap/tmpfs/shmem pages into huge one.
->   *
->   * @mm: process address space where collapse happens
-> + * @addr: virtual collapse start address
->   * @file: file that collapse on
->   * @start: collapse start address
->   * @cc: collapse context and scratchpad
-> @@ -1586,8 +1698,9 @@ static void retract_page_tables(struct address_space *mapping, pgoff_t pgoff)
->   *    + restore gaps in the page cache;
->   *    + unlock and free huge page;
->   */
-> -static int collapse_file(struct mm_struct *mm, struct file *file,
-> -                        pgoff_t start, struct collapse_control *cc)
-> +static int collapse_file(struct mm_struct *mm, unsigned long addr,
-> +                        struct file *file, pgoff_t start,
-> +                        struct collapse_control *cc)
->  {
->         struct address_space *mapping = file->f_mapping;
->         struct page *hpage;
-> @@ -1895,7 +2008,8 @@ static int collapse_file(struct mm_struct *mm, struct file *file,
->                 /*
->                  * Remove pte page tables, so we can re-fault the page as huge.
->                  */
-> -               retract_page_tables(mapping, start);
-> +               result = retract_page_tables(mapping, start, mm, addr, hpage,
-> +                                            cc);
->                 unlock_page(hpage);
->                 hpage = NULL;
->         } else {
-> @@ -1951,8 +2065,9 @@ static int collapse_file(struct mm_struct *mm, struct file *file,
->         return result;
->  }
->
-> -static int khugepaged_scan_file(struct mm_struct *mm, struct file *file,
-> -                               pgoff_t start, struct collapse_control *cc)
-> +static int hpage_collapse_scan_file(struct mm_struct *mm, unsigned long addr,
-> +                                   struct file *file, pgoff_t start,
-> +                                   struct collapse_control *cc)
->  {
->         struct page *page = NULL;
->         struct address_space *mapping = file->f_mapping;
-> @@ -2040,7 +2155,7 @@ static int khugepaged_scan_file(struct mm_struct *mm, struct file *file,
->                         result = SCAN_EXCEED_NONE_PTE;
->                         count_vm_event(THP_SCAN_EXCEED_NONE_PTE);
->                 } else {
-> -                       result = collapse_file(mm, file, start, cc);
-> +                       result = collapse_file(mm, addr, file, start, cc);
->                 }
->         }
->
-> @@ -2048,8 +2163,9 @@ static int khugepaged_scan_file(struct mm_struct *mm, struct file *file,
->         return result;
->  }
->  #else
-> -static int khugepaged_scan_file(struct mm_struct *mm, struct file *file,
-> -                               pgoff_t start, struct collapse_control *cc)
-> +static int hpage_collapse_scan_file(struct mm_struct *mm, unsigned long addr,
-> +                                   struct file *file, pgoff_t start,
-> +                                   struct collapse_control *cc)
->  {
->         BUILD_BUG();
->  }
-> @@ -2145,8 +2261,9 @@ static unsigned int khugepaged_scan_mm_slot(unsigned int pages, int *result,
->                                                 khugepaged_scan.address);
->
->                                 mmap_read_unlock(mm);
-> -                               *result = khugepaged_scan_file(mm, file, pgoff,
-> -                                                              cc);
-> +                               *result = hpage_collapse_scan_file(mm,
-> +                                                                  khugepaged_scan.address,
-> +                                                                  file, pgoff, cc);
->                                 mmap_locked = false;
->                                 fput(file);
->                         } else {
-> @@ -2453,10 +2570,6 @@ int madvise_collapse(struct vm_area_struct *vma, struct vm_area_struct **prev,
->
->         *prev = vma;
->
-> -       /* TODO: Support file/shmem */
-> -       if (!vma->anon_vma || !vma_is_anonymous(vma))
-> -               return -EINVAL;
-> -
->         if (!hugepage_vma_check(vma, vma->vm_flags, false, false, false))
->                 return -EINVAL;
->
-> @@ -2479,7 +2592,8 @@ int madvise_collapse(struct vm_area_struct *vma, struct vm_area_struct **prev,
->                         cond_resched();
->                         mmap_read_lock(mm);
->                         mmap_locked = true;
-> -                       result = hugepage_vma_revalidate(mm, addr, &vma, cc);
-> +                       result = hugepage_vma_revalidate(mm, addr, false, &vma,
-> +                                                        cc);
->                         if (result  != SCAN_SUCCEED) {
->                                 last_fail = result;
->                                 goto out_nolock;
-> @@ -2489,16 +2603,35 @@ int madvise_collapse(struct vm_area_struct *vma, struct vm_area_struct **prev,
->                 }
->                 mmap_assert_locked(mm);
->                 memset(cc->node_load, 0, sizeof(cc->node_load));
-> -               result = hpage_collapse_scan_pmd(mm, vma, addr, &mmap_locked,
-> -                                                cc);
-> +               if (IS_ENABLED(CONFIG_SHMEM) && vma->vm_file) {
-> +                       struct file *file = get_file(vma->vm_file);
-> +                       pgoff_t pgoff = linear_page_index(vma, addr);
-> +
-> +                       mmap_read_unlock(mm);
-> +                       mmap_locked = false;
-> +                       result = hpage_collapse_scan_file(mm, addr, file, pgoff,
-> +                                                         cc);
-> +                       fput(file);
-> +               } else {
-> +                       result = hpage_collapse_scan_pmd(mm, vma, addr,
-> +                                                        &mmap_locked, cc);
-> +               }
->                 if (!mmap_locked)
->                         *prev = NULL;  /* Tell caller we dropped mmap_lock */
->
-> +handle_result:
->                 switch (result) {
->                 case SCAN_SUCCEED:
->                 case SCAN_PMD_MAPPED:
->                         ++thps;
->                         break;
-> +               case SCAN_PTE_MAPPED_HUGEPAGE:
-> +                       BUG_ON(mmap_locked);
-> +                       BUG_ON(*prev);
-> +                       mmap_write_lock(mm);
-> +                       result = collapse_pte_mapped_thp(mm, addr, true);
-> +                       mmap_write_unlock(mm);
-> +                       goto handle_result;
->                 /* Whitelisted set of results where continuing OK */
->                 case SCAN_PMD_NULL:
->                 case SCAN_PTE_NON_PRESENT:
-> --
-> 2.37.3.998.g577e59143f-goog
->
+Kees can you pick this up.
+
+ MAINTAINERS                           |   1 -
+ arch/alpha/include/asm/a.out.h        |  16 --
+ arch/alpha/kernel/Makefile            |   4 -
+ arch/alpha/kernel/binfmt_loader.c     |  46 ----
+ arch/alpha/kernel/osf_sys.c           |  30 ---
+ arch/arm/configs/badge4_defconfig     |   1 -
+ arch/arm/configs/corgi_defconfig      |   1 -
+ arch/arm/configs/ezx_defconfig        |   1 -
+ arch/arm/configs/footbridge_defconfig |   1 -
+ arch/arm/configs/hackkit_defconfig    |   1 -
+ arch/arm/configs/iop32x_defconfig     |   1 -
+ arch/arm/configs/jornada720_defconfig |   1 -
+ arch/arm/configs/lart_defconfig       |   1 -
+ arch/arm/configs/neponset_defconfig   |   1 -
+ arch/arm/configs/netwinder_defconfig  |   1 -
+ arch/arm/configs/rpc_defconfig        |   1 -
+ arch/arm/configs/spitz_defconfig      |   1 -
+ fs/Kconfig.binfmt                     |  33 ---
+ fs/Makefile                           |   1 -
+ fs/binfmt_aout.c                      | 342 --------------------------
+ fs/exec.c                             |   3 +-
+ include/linux/a.out.h                 |  18 --
+ 22 files changed, 1 insertion(+), 505 deletions(-)
+ delete mode 100644 arch/alpha/include/asm/a.out.h
+ delete mode 100644 arch/alpha/kernel/binfmt_loader.c
+ delete mode 100644 fs/binfmt_aout.c
+ delete mode 100644 include/linux/a.out.h
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index f5ca4aefd184..5458aa09f634 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7688,7 +7688,6 @@ R:	Kees Cook <keescook@chromium.org>
+ L:	linux-mm@kvack.org
+ S:	Supported
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/execve
+-F:	arch/alpha/kernel/binfmt_loader.c
+ F:	fs/*binfmt_*.c
+ F:	fs/exec.c
+ F:	include/linux/binfmts.h
+diff --git a/arch/alpha/include/asm/a.out.h b/arch/alpha/include/asm/a.out.h
+deleted file mode 100644
+index d2346b7caff1..000000000000
+--- a/arch/alpha/include/asm/a.out.h
++++ /dev/null
+@@ -1,16 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 */
+-#ifndef __ALPHA_A_OUT_H__
+-#define __ALPHA_A_OUT_H__
+-
+-#include <uapi/asm/a.out.h>
+-
+-
+-/* Assume that start addresses below 4G belong to a TASO application.
+-   Unfortunately, there is no proper bit in the exec header to check.
+-   Worse, we have to notice the start address before swapping to use
+-   /sbin/loader, which of course is _not_ a TASO application.  */
+-#define SET_AOUT_PERSONALITY(BFPM, EX) \
+-	set_personality (((BFPM->taso || EX.ah.entry < 0x100000000L \
+-			   ? ADDR_LIMIT_32BIT : 0) | PER_OSF4))
+-
+-#endif /* __A_OUT_GNU_H__ */
+diff --git a/arch/alpha/kernel/Makefile b/arch/alpha/kernel/Makefile
+index 5a74581bf0ee..6a274c0d53a2 100644
+--- a/arch/alpha/kernel/Makefile
++++ b/arch/alpha/kernel/Makefile
+@@ -47,10 +47,6 @@ else
+ # Misc support
+ obj-$(CONFIG_ALPHA_SRM)		+= srmcons.o
+ 
+-ifdef CONFIG_BINFMT_AOUT
+-obj-y	+= binfmt_loader.o
+-endif
+-
+ # Core logic support
+ obj-$(CONFIG_ALPHA_APECS)	+= core_apecs.o
+ obj-$(CONFIG_ALPHA_CIA)		+= core_cia.o
+diff --git a/arch/alpha/kernel/binfmt_loader.c b/arch/alpha/kernel/binfmt_loader.c
+deleted file mode 100644
+index e4be7a543ecf..000000000000
+--- a/arch/alpha/kernel/binfmt_loader.c
++++ /dev/null
+@@ -1,46 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-#include <linux/init.h>
+-#include <linux/fs.h>
+-#include <linux/file.h>
+-#include <linux/mm_types.h>
+-#include <linux/binfmts.h>
+-#include <linux/a.out.h>
+-
+-static int load_binary(struct linux_binprm *bprm)
+-{
+-	struct exec *eh = (struct exec *)bprm->buf;
+-	unsigned long loader;
+-	struct file *file;
+-	int retval;
+-
+-	if (eh->fh.f_magic != 0x183 || (eh->fh.f_flags & 0x3000) != 0x3000)
+-		return -ENOEXEC;
+-
+-	if (bprm->loader)
+-		return -ENOEXEC;
+-
+-	loader = bprm->vma->vm_end - sizeof(void *);
+-
+-	file = open_exec("/sbin/loader");
+-	retval = PTR_ERR(file);
+-	if (IS_ERR(file))
+-		return retval;
+-
+-	/* Remember if the application is TASO.  */
+-	bprm->taso = eh->ah.entry < 0x100000000UL;
+-
+-	bprm->interpreter = file;
+-	bprm->loader = loader;
+-	return 0;
+-}
+-
+-static struct linux_binfmt loader_format = {
+-	.load_binary	= load_binary,
+-};
+-
+-static int __init init_loader_binfmt(void)
+-{
+-	insert_binfmt(&loader_format);
+-	return 0;
+-}
+-arch_initcall(init_loader_binfmt);
+diff --git a/arch/alpha/kernel/osf_sys.c b/arch/alpha/kernel/osf_sys.c
+index d257293401e2..b3ad8c44c971 100644
+--- a/arch/alpha/kernel/osf_sys.c
++++ b/arch/alpha/kernel/osf_sys.c
+@@ -1278,45 +1278,15 @@ arch_get_unmapped_area(struct file *filp, unsigned long addr,
+ 	return addr;
+ }
+ 
+-#ifdef CONFIG_OSF4_COMPAT
+-/* Clear top 32 bits of iov_len in the user's buffer for
+-   compatibility with old versions of OSF/1 where iov_len
+-   was defined as int. */
+-static int
+-osf_fix_iov_len(const struct iovec __user *iov, unsigned long count)
+-{
+-	unsigned long i;
+-
+-	for (i = 0 ; i < count ; i++) {
+-		int __user *iov_len_high = (int __user *)&iov[i].iov_len + 1;
+-
+-		if (put_user(0, iov_len_high))
+-			return -EFAULT;
+-	}
+-	return 0;
+-}
+-#endif
+-
+ SYSCALL_DEFINE3(osf_readv, unsigned long, fd,
+ 		const struct iovec __user *, vector, unsigned long, count)
+ {
+-#ifdef CONFIG_OSF4_COMPAT
+-	if (unlikely(personality(current->personality) == PER_OSF4))
+-		if (osf_fix_iov_len(vector, count))
+-			return -EFAULT;
+-#endif
+-
+ 	return sys_readv(fd, vector, count);
+ }
+ 
+ SYSCALL_DEFINE3(osf_writev, unsigned long, fd,
+ 		const struct iovec __user *, vector, unsigned long, count)
+ {
+-#ifdef CONFIG_OSF4_COMPAT
+-	if (unlikely(personality(current->personality) == PER_OSF4))
+-		if (osf_fix_iov_len(vector, count))
+-			return -EFAULT;
+-#endif
+ 	return sys_writev(fd, vector, count);
+ }
+ 
+diff --git a/arch/arm/configs/badge4_defconfig b/arch/arm/configs/badge4_defconfig
+index 506f3378da07..6908032fbce8 100644
+--- a/arch/arm/configs/badge4_defconfig
++++ b/arch/arm/configs/badge4_defconfig
+@@ -6,7 +6,6 @@ CONFIG_UNUSED_BOARD_FILES=y
+ CONFIG_CMDLINE="init=/linuxrc root=/dev/mtdblock3"
+ CONFIG_CPU_FREQ_GOV_PERFORMANCE=y
+ CONFIG_FPE_NWFPE=y
+-CONFIG_BINFMT_AOUT=m
+ CONFIG_MODULES=y
+ CONFIG_MODVERSIONS=y
+ CONFIG_PARTITION_ADVANCED=y
+diff --git a/arch/arm/configs/corgi_defconfig b/arch/arm/configs/corgi_defconfig
+index 1f137f74050f..df84640f4f57 100644
+--- a/arch/arm/configs/corgi_defconfig
++++ b/arch/arm/configs/corgi_defconfig
+@@ -16,7 +16,6 @@ CONFIG_MACH_HUSKY=y
+ CONFIG_UNUSED_BOARD_FILES=y
+ CONFIG_CMDLINE="console=ttyS0,115200n8 console=tty1 noinitrd root=/dev/mtdblock2 rootfstype=jffs2   debug"
+ CONFIG_FPE_NWFPE=y
+-CONFIG_BINFMT_AOUT=m
+ CONFIG_MODULES=y
+ CONFIG_MODULE_UNLOAD=y
+ CONFIG_MODULE_FORCE_UNLOAD=y
+diff --git a/arch/arm/configs/ezx_defconfig b/arch/arm/configs/ezx_defconfig
+index 1a41391d7367..cd9ccc4e4627 100644
+--- a/arch/arm/configs/ezx_defconfig
++++ b/arch/arm/configs/ezx_defconfig
+@@ -25,7 +25,6 @@ CONFIG_CPU_FREQ_GOV_ONDEMAND=m
+ CONFIG_CPU_FREQ_GOV_CONSERVATIVE=m
+ CONFIG_CPU_IDLE=y
+ CONFIG_FPE_NWFPE=y
+-CONFIG_BINFMT_AOUT=m
+ CONFIG_PM=y
+ CONFIG_APM_EMULATION=y
+ CONFIG_MODULES=y
+diff --git a/arch/arm/configs/footbridge_defconfig b/arch/arm/configs/footbridge_defconfig
+index 504070812ad0..b5b56f8dda5f 100644
+--- a/arch/arm/configs/footbridge_defconfig
++++ b/arch/arm/configs/footbridge_defconfig
+@@ -9,7 +9,6 @@ CONFIG_ARCH_EBSA285_HOST=y
+ CONFIG_ARCH_NETWINDER=y
+ CONFIG_FPE_NWFPE=y
+ CONFIG_FPE_NWFPE_XP=y
+-CONFIG_BINFMT_AOUT=y
+ CONFIG_MODULES=y
+ CONFIG_PARTITION_ADVANCED=y
+ CONFIG_ACORN_PARTITION=y
+diff --git a/arch/arm/configs/hackkit_defconfig b/arch/arm/configs/hackkit_defconfig
+index b9327b2eacd3..398558c4ffa8 100644
+--- a/arch/arm/configs/hackkit_defconfig
++++ b/arch/arm/configs/hackkit_defconfig
+@@ -7,7 +7,6 @@ CONFIG_UNUSED_BOARD_FILES=y
+ CONFIG_CMDLINE="console=ttySA0,115200 root=/dev/ram0 initrd=0xc0400000,8M init=/rootshell"
+ CONFIG_CPU_FREQ_GOV_PERFORMANCE=y
+ CONFIG_FPE_NWFPE=y
+-CONFIG_BINFMT_AOUT=y
+ CONFIG_MODULES=y
+ CONFIG_NET=y
+ CONFIG_PACKET=y
+diff --git a/arch/arm/configs/iop32x_defconfig b/arch/arm/configs/iop32x_defconfig
+index c16e92cdfd00..19e30e790d35 100644
+--- a/arch/arm/configs/iop32x_defconfig
++++ b/arch/arm/configs/iop32x_defconfig
+@@ -12,7 +12,6 @@ CONFIG_MACH_N2100=y
+ CONFIG_UNUSED_BOARD_FILES=y
+ CONFIG_CMDLINE="console=ttyS0,115200 root=/dev/nfs ip=bootp cachepolicy=writealloc"
+ CONFIG_FPE_NWFPE=y
+-CONFIG_BINFMT_AOUT=y
+ CONFIG_MODULES=y
+ CONFIG_MODULE_UNLOAD=y
+ CONFIG_PARTITION_ADVANCED=y
+diff --git a/arch/arm/configs/jornada720_defconfig b/arch/arm/configs/jornada720_defconfig
+index 3dcf89d3e1f1..1a11ee6b3e24 100644
+--- a/arch/arm/configs/jornada720_defconfig
++++ b/arch/arm/configs/jornada720_defconfig
+@@ -6,7 +6,6 @@ CONFIG_SA1100_JORNADA720=y
+ CONFIG_SA1100_JORNADA720_SSP=y
+ CONFIG_UNUSED_BOARD_FILES=y
+ CONFIG_FPE_NWFPE=y
+-CONFIG_BINFMT_AOUT=y
+ CONFIG_PM=y
+ CONFIG_MODULES=y
+ CONFIG_NET=y
+diff --git a/arch/arm/configs/lart_defconfig b/arch/arm/configs/lart_defconfig
+index 0c2f19d756c0..00583d64d2ea 100644
+--- a/arch/arm/configs/lart_defconfig
++++ b/arch/arm/configs/lart_defconfig
+@@ -8,7 +8,6 @@ CONFIG_CMDLINE="console=ttySA0,9600 root=/dev/ram"
+ CONFIG_CPU_FREQ_DEFAULT_GOV_PERFORMANCE=y
+ CONFIG_CPU_FREQ_GOV_USERSPACE=y
+ CONFIG_FPE_NWFPE=y
+-CONFIG_BINFMT_AOUT=y
+ CONFIG_PM=y
+ CONFIG_MODULES=y
+ CONFIG_NET=y
+diff --git a/arch/arm/configs/neponset_defconfig b/arch/arm/configs/neponset_defconfig
+index 907403529e30..2d16ddb0e7ff 100644
+--- a/arch/arm/configs/neponset_defconfig
++++ b/arch/arm/configs/neponset_defconfig
+@@ -9,7 +9,6 @@ CONFIG_ZBOOT_ROM_BSS=0xc1000000
+ CONFIG_ZBOOT_ROM=y
+ CONFIG_CMDLINE="console=ttySA0,38400n8 cpufreq=221200 rw root=/dev/mtdblock2 mtdparts=sa1100:512K(boot),1M(kernel),2560K(initrd),4M(root) load_ramdisk=1 prompt_ramdisk=0 mem=32M noinitrd initrd=0xc0800000,3M"
+ CONFIG_FPE_NWFPE=y
+-CONFIG_BINFMT_AOUT=y
+ CONFIG_PM=y
+ CONFIG_MODULES=y
+ CONFIG_MODULE_UNLOAD=y
+diff --git a/arch/arm/configs/netwinder_defconfig b/arch/arm/configs/netwinder_defconfig
+index cf7bbcf9d98a..7a14ea1faa65 100644
+--- a/arch/arm/configs/netwinder_defconfig
++++ b/arch/arm/configs/netwinder_defconfig
+@@ -5,7 +5,6 @@ CONFIG_ARCH_NETWINDER=y
+ CONFIG_DEPRECATED_PARAM_STRUCT=y
+ CONFIG_CMDLINE="root=0x801"
+ CONFIG_FPE_NWFPE=y
+-CONFIG_BINFMT_AOUT=y
+ CONFIG_PARTITION_ADVANCED=y
+ CONFIG_NET=y
+ CONFIG_PACKET=y
+diff --git a/arch/arm/configs/rpc_defconfig b/arch/arm/configs/rpc_defconfig
+index 16d74a1f027a..b667c9d4527c 100644
+--- a/arch/arm/configs/rpc_defconfig
++++ b/arch/arm/configs/rpc_defconfig
+@@ -7,7 +7,6 @@ CONFIG_MODULE_UNLOAD=y
+ CONFIG_ARCH_RPC=y
+ CONFIG_CPU_SA110=y
+ CONFIG_FPE_NWFPE=y
+-CONFIG_BINFMT_AOUT=y
+ CONFIG_PARTITION_ADVANCED=y
+ CONFIG_BSD_DISKLABEL=y
+ CONFIG_SLAB=y
+diff --git a/arch/arm/configs/spitz_defconfig b/arch/arm/configs/spitz_defconfig
+index 1284a1d92ca3..66d74653f3fb 100644
+--- a/arch/arm/configs/spitz_defconfig
++++ b/arch/arm/configs/spitz_defconfig
+@@ -13,7 +13,6 @@ CONFIG_MACH_AKITA=y
+ CONFIG_MACH_BORZOI=y
+ CONFIG_CMDLINE="console=ttyS0,115200n8 console=tty1 noinitrd root=/dev/mtdblock2 rootfstype=jffs2   debug"
+ CONFIG_FPE_NWFPE=y
+-CONFIG_BINFMT_AOUT=m
+ CONFIG_MODULES=y
+ CONFIG_MODULE_UNLOAD=y
+ CONFIG_MODULE_FORCE_UNLOAD=y
+diff --git a/fs/Kconfig.binfmt b/fs/Kconfig.binfmt
+index 21e154516bf2..f14478643b91 100644
+--- a/fs/Kconfig.binfmt
++++ b/fs/Kconfig.binfmt
+@@ -142,39 +142,6 @@ config BINFMT_ZFLAT
+ 	help
+ 	  Support FLAT format compressed binaries
+ 
+-config HAVE_AOUT
+-       def_bool n
+-
+-config BINFMT_AOUT
+-	tristate "Kernel support for a.out and ECOFF binaries"
+-	depends on HAVE_AOUT
+-	help
+-	  A.out (Assembler.OUTput) is a set of formats for libraries and
+-	  executables used in the earliest versions of UNIX.  Linux used
+-	  the a.out formats QMAGIC and ZMAGIC until they were replaced
+-	  with the ELF format.
+-
+-	  The conversion to ELF started in 1995.  This option is primarily
+-	  provided for historical interest and for the benefit of those
+-	  who need to run binaries from that era.
+-
+-	  Most people should answer N here.  If you think you may have
+-	  occasional use for this format, enable module support above
+-	  and answer M here to compile this support as a module called
+-	  binfmt_aout.
+-
+-	  If any crucial components of your system (such as /sbin/init
+-	  or /lib/ld.so) are still in a.out format, you will have to
+-	  say Y here.
+-
+-config OSF4_COMPAT
+-	bool "OSF/1 v4 readv/writev compatibility"
+-	depends on ALPHA && BINFMT_AOUT
+-	help
+-	  Say Y if you are using OSF/1 binaries (like Netscape and Acrobat)
+-	  with v4 shared libraries freely available from Compaq. If you're
+-	  going to use shared libraries from Tru64 version 5.0 or later, say N.
+-
+ config BINFMT_MISC
+ 	tristate "Kernel support for MISC binaries"
+ 	help
+diff --git a/fs/Makefile b/fs/Makefile
+index 93b80529f8e8..4dea17840761 100644
+--- a/fs/Makefile
++++ b/fs/Makefile
+@@ -38,7 +38,6 @@ obj-$(CONFIG_FS_DAX)		+= dax.o
+ obj-$(CONFIG_FS_ENCRYPTION)	+= crypto/
+ obj-$(CONFIG_FS_VERITY)		+= verity/
+ obj-$(CONFIG_FILE_LOCKING)      += locks.o
+-obj-$(CONFIG_BINFMT_AOUT)	+= binfmt_aout.o
+ obj-$(CONFIG_BINFMT_MISC)	+= binfmt_misc.o
+ obj-$(CONFIG_BINFMT_SCRIPT)	+= binfmt_script.o
+ obj-$(CONFIG_BINFMT_ELF)	+= binfmt_elf.o
+diff --git a/fs/binfmt_aout.c b/fs/binfmt_aout.c
+deleted file mode 100644
+index 0dcfc691e7e2..000000000000
+--- a/fs/binfmt_aout.c
++++ /dev/null
+@@ -1,342 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-only
+-/*
+- *  linux/fs/binfmt_aout.c
+- *
+- *  Copyright (C) 1991, 1992, 1996  Linus Torvalds
+- */
+-
+-#include <linux/module.h>
+-
+-#include <linux/time.h>
+-#include <linux/kernel.h>
+-#include <linux/mm.h>
+-#include <linux/mman.h>
+-#include <linux/a.out.h>
+-#include <linux/errno.h>
+-#include <linux/signal.h>
+-#include <linux/string.h>
+-#include <linux/fs.h>
+-#include <linux/file.h>
+-#include <linux/stat.h>
+-#include <linux/fcntl.h>
+-#include <linux/ptrace.h>
+-#include <linux/user.h>
+-#include <linux/binfmts.h>
+-#include <linux/personality.h>
+-#include <linux/init.h>
+-#include <linux/coredump.h>
+-#include <linux/slab.h>
+-#include <linux/sched/task_stack.h>
+-
+-#include <linux/uaccess.h>
+-#include <asm/cacheflush.h>
+-
+-static int load_aout_binary(struct linux_binprm *);
+-static int load_aout_library(struct file*);
+-
+-static struct linux_binfmt aout_format = {
+-	.module		= THIS_MODULE,
+-	.load_binary	= load_aout_binary,
+-	.load_shlib	= load_aout_library,
+-};
+-
+-#define BAD_ADDR(x)	((unsigned long)(x) >= TASK_SIZE)
+-
+-static int set_brk(unsigned long start, unsigned long end)
+-{
+-	start = PAGE_ALIGN(start);
+-	end = PAGE_ALIGN(end);
+-	if (end > start)
+-		return vm_brk(start, end - start);
+-	return 0;
+-}
+-
+-/*
+- * create_aout_tables() parses the env- and arg-strings in new user
+- * memory and creates the pointer tables from them, and puts their
+- * addresses on the "stack", returning the new stack pointer value.
+- */
+-static unsigned long __user *create_aout_tables(char __user *p, struct linux_binprm * bprm)
+-{
+-	char __user * __user *argv;
+-	char __user * __user *envp;
+-	unsigned long __user *sp;
+-	int argc = bprm->argc;
+-	int envc = bprm->envc;
+-
+-	sp = (void __user *)((-(unsigned long)sizeof(char *)) & (unsigned long) p);
+-#ifdef __alpha__
+-/* whee.. test-programs are so much fun. */
+-	put_user(0, --sp);
+-	put_user(0, --sp);
+-	if (bprm->loader) {
+-		put_user(0, --sp);
+-		put_user(1003, --sp);
+-		put_user(bprm->loader, --sp);
+-		put_user(1002, --sp);
+-	}
+-	put_user(bprm->exec, --sp);
+-	put_user(1001, --sp);
+-#endif
+-	sp -= envc+1;
+-	envp = (char __user * __user *) sp;
+-	sp -= argc+1;
+-	argv = (char __user * __user *) sp;
+-#ifndef __alpha__
+-	put_user((unsigned long) envp,--sp);
+-	put_user((unsigned long) argv,--sp);
+-#endif
+-	put_user(argc,--sp);
+-	current->mm->arg_start = (unsigned long) p;
+-	while (argc-->0) {
+-		char c;
+-		put_user(p,argv++);
+-		do {
+-			get_user(c,p++);
+-		} while (c);
+-	}
+-	put_user(NULL,argv);
+-	current->mm->arg_end = current->mm->env_start = (unsigned long) p;
+-	while (envc-->0) {
+-		char c;
+-		put_user(p,envp++);
+-		do {
+-			get_user(c,p++);
+-		} while (c);
+-	}
+-	put_user(NULL,envp);
+-	current->mm->env_end = (unsigned long) p;
+-	return sp;
+-}
+-
+-/*
+- * These are the functions used to load a.out style executables and shared
+- * libraries.  There is no binary dependent code anywhere else.
+- */
+-
+-static int load_aout_binary(struct linux_binprm * bprm)
+-{
+-	struct pt_regs *regs = current_pt_regs();
+-	struct exec ex;
+-	unsigned long error;
+-	unsigned long fd_offset;
+-	unsigned long rlim;
+-	int retval;
+-
+-	ex = *((struct exec *) bprm->buf);		/* exec-header */
+-	if ((N_MAGIC(ex) != ZMAGIC && N_MAGIC(ex) != OMAGIC &&
+-	     N_MAGIC(ex) != QMAGIC && N_MAGIC(ex) != NMAGIC) ||
+-	    N_TRSIZE(ex) || N_DRSIZE(ex) ||
+-	    i_size_read(file_inode(bprm->file)) < ex.a_text+ex.a_data+N_SYMSIZE(ex)+N_TXTOFF(ex)) {
+-		return -ENOEXEC;
+-	}
+-
+-	/*
+-	 * Requires a mmap handler. This prevents people from using a.out
+-	 * as part of an exploit attack against /proc-related vulnerabilities.
+-	 */
+-	if (!bprm->file->f_op->mmap)
+-		return -ENOEXEC;
+-
+-	fd_offset = N_TXTOFF(ex);
+-
+-	/* Check initial limits. This avoids letting people circumvent
+-	 * size limits imposed on them by creating programs with large
+-	 * arrays in the data or bss.
+-	 */
+-	rlim = rlimit(RLIMIT_DATA);
+-	if (rlim >= RLIM_INFINITY)
+-		rlim = ~0;
+-	if (ex.a_data + ex.a_bss > rlim)
+-		return -ENOMEM;
+-
+-	/* Flush all traces of the currently running executable */
+-	retval = begin_new_exec(bprm);
+-	if (retval)
+-		return retval;
+-
+-	/* OK, This is the point of no return */
+-#ifdef __alpha__
+-	SET_AOUT_PERSONALITY(bprm, ex);
+-#else
+-	set_personality(PER_LINUX);
+-#endif
+-	setup_new_exec(bprm);
+-
+-	current->mm->end_code = ex.a_text +
+-		(current->mm->start_code = N_TXTADDR(ex));
+-	current->mm->end_data = ex.a_data +
+-		(current->mm->start_data = N_DATADDR(ex));
+-	current->mm->brk = ex.a_bss +
+-		(current->mm->start_brk = N_BSSADDR(ex));
+-
+-	retval = setup_arg_pages(bprm, STACK_TOP, EXSTACK_DEFAULT);
+-	if (retval < 0)
+-		return retval;
+-
+-
+-	if (N_MAGIC(ex) == OMAGIC) {
+-		unsigned long text_addr, map_size;
+-		loff_t pos;
+-
+-		text_addr = N_TXTADDR(ex);
+-
+-#ifdef __alpha__
+-		pos = fd_offset;
+-		map_size = ex.a_text+ex.a_data + PAGE_SIZE - 1;
+-#else
+-		pos = 32;
+-		map_size = ex.a_text+ex.a_data;
+-#endif
+-		error = vm_brk(text_addr & PAGE_MASK, map_size);
+-		if (error)
+-			return error;
+-
+-		error = read_code(bprm->file, text_addr, pos,
+-				  ex.a_text+ex.a_data);
+-		if ((signed long)error < 0)
+-			return error;
+-	} else {
+-		if ((ex.a_text & 0xfff || ex.a_data & 0xfff) &&
+-		    (N_MAGIC(ex) != NMAGIC) && printk_ratelimit())
+-		{
+-			printk(KERN_NOTICE "executable not page aligned\n");
+-		}
+-
+-		if ((fd_offset & ~PAGE_MASK) != 0 && printk_ratelimit())
+-		{
+-			printk(KERN_WARNING 
+-			       "fd_offset is not page aligned. Please convert program: %pD\n",
+-			       bprm->file);
+-		}
+-
+-		if (!bprm->file->f_op->mmap||((fd_offset & ~PAGE_MASK) != 0)) {
+-			error = vm_brk(N_TXTADDR(ex), ex.a_text+ex.a_data);
+-			if (error)
+-				return error;
+-
+-			read_code(bprm->file, N_TXTADDR(ex), fd_offset,
+-				  ex.a_text + ex.a_data);
+-			goto beyond_if;
+-		}
+-
+-		error = vm_mmap(bprm->file, N_TXTADDR(ex), ex.a_text,
+-			PROT_READ | PROT_EXEC, MAP_FIXED | MAP_PRIVATE,
+-			fd_offset);
+-
+-		if (error != N_TXTADDR(ex))
+-			return error;
+-
+-		error = vm_mmap(bprm->file, N_DATADDR(ex), ex.a_data,
+-				PROT_READ | PROT_WRITE | PROT_EXEC,
+-				MAP_FIXED | MAP_PRIVATE,
+-				fd_offset + ex.a_text);
+-		if (error != N_DATADDR(ex))
+-			return error;
+-	}
+-beyond_if:
+-	set_binfmt(&aout_format);
+-
+-	retval = set_brk(current->mm->start_brk, current->mm->brk);
+-	if (retval < 0)
+-		return retval;
+-
+-	current->mm->start_stack =
+-		(unsigned long) create_aout_tables((char __user *) bprm->p, bprm);
+-#ifdef __alpha__
+-	regs->gp = ex.a_gpvalue;
+-#endif
+-	finalize_exec(bprm);
+-	start_thread(regs, ex.a_entry, current->mm->start_stack);
+-	return 0;
+-}
+-
+-static int load_aout_library(struct file *file)
+-{
+-	struct inode * inode;
+-	unsigned long bss, start_addr, len;
+-	unsigned long error;
+-	int retval;
+-	struct exec ex;
+-	loff_t pos = 0;
+-
+-	inode = file_inode(file);
+-
+-	retval = -ENOEXEC;
+-	error = kernel_read(file, &ex, sizeof(ex), &pos);
+-	if (error != sizeof(ex))
+-		goto out;
+-
+-	/* We come in here for the regular a.out style of shared libraries */
+-	if ((N_MAGIC(ex) != ZMAGIC && N_MAGIC(ex) != QMAGIC) || N_TRSIZE(ex) ||
+-	    N_DRSIZE(ex) || ((ex.a_entry & 0xfff) && N_MAGIC(ex) == ZMAGIC) ||
+-	    i_size_read(inode) < ex.a_text+ex.a_data+N_SYMSIZE(ex)+N_TXTOFF(ex)) {
+-		goto out;
+-	}
+-
+-	/*
+-	 * Requires a mmap handler. This prevents people from using a.out
+-	 * as part of an exploit attack against /proc-related vulnerabilities.
+-	 */
+-	if (!file->f_op->mmap)
+-		goto out;
+-
+-	if (N_FLAGS(ex))
+-		goto out;
+-
+-	/* For  QMAGIC, the starting address is 0x20 into the page.  We mask
+-	   this off to get the starting address for the page */
+-
+-	start_addr =  ex.a_entry & 0xfffff000;
+-
+-	if ((N_TXTOFF(ex) & ~PAGE_MASK) != 0) {
+-		if (printk_ratelimit())
+-		{
+-			printk(KERN_WARNING 
+-			       "N_TXTOFF is not page aligned. Please convert library: %pD\n",
+-			       file);
+-		}
+-		retval = vm_brk(start_addr, ex.a_text + ex.a_data + ex.a_bss);
+-		if (retval)
+-			goto out;
+-
+-		read_code(file, start_addr, N_TXTOFF(ex),
+-			  ex.a_text + ex.a_data);
+-		retval = 0;
+-		goto out;
+-	}
+-	/* Now use mmap to map the library into memory. */
+-	error = vm_mmap(file, start_addr, ex.a_text + ex.a_data,
+-			PROT_READ | PROT_WRITE | PROT_EXEC,
+-			MAP_FIXED | MAP_PRIVATE,
+-			N_TXTOFF(ex));
+-	retval = error;
+-	if (error != start_addr)
+-		goto out;
+-
+-	len = PAGE_ALIGN(ex.a_text + ex.a_data);
+-	bss = ex.a_text + ex.a_data + ex.a_bss;
+-	if (bss > len) {
+-		retval = vm_brk(start_addr + len, bss - len);
+-		if (retval)
+-			goto out;
+-	}
+-	retval = 0;
+-out:
+-	return retval;
+-}
+-
+-static int __init init_aout_binfmt(void)
+-{
+-	register_binfmt(&aout_format);
+-	return 0;
+-}
+-
+-static void __exit exit_aout_binfmt(void)
+-{
+-	unregister_binfmt(&aout_format);
+-}
+-
+-core_initcall(init_aout_binfmt);
+-module_exit(exit_aout_binfmt);
+-MODULE_LICENSE("GPL");
+diff --git a/fs/exec.c b/fs/exec.c
+index d046dbb9cbd0..69a572fc57db 100644
+--- a/fs/exec.c
++++ b/fs/exec.c
+@@ -957,8 +957,7 @@ struct file *open_exec(const char *name)
+ }
+ EXPORT_SYMBOL(open_exec);
+ 
+-#if defined(CONFIG_HAVE_AOUT) || defined(CONFIG_BINFMT_FLAT) || \
+-    defined(CONFIG_BINFMT_ELF_FDPIC)
++#if defined(CONFIG_BINFMT_FLAT) || defined(CONFIG_BINFMT_ELF_FDPIC)
+ ssize_t read_code(struct file *file, unsigned long addr, loff_t pos, size_t len)
+ {
+ 	ssize_t res = vfs_read(file, (void __user *)addr, len, &pos);
+diff --git a/include/linux/a.out.h b/include/linux/a.out.h
+deleted file mode 100644
+index 600cf45645c6..000000000000
+--- a/include/linux/a.out.h
++++ /dev/null
+@@ -1,18 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 */
+-#ifndef __A_OUT_GNU_H__
+-#define __A_OUT_GNU_H__
+-
+-#include <uapi/linux/a.out.h>
+-
+-#ifndef __ASSEMBLY__
+-#ifdef linux
+-#include <asm/page.h>
+-#if defined(__i386__) || defined(__mc68000__)
+-#else
+-#ifndef SEGMENT_SIZE
+-#define SEGMENT_SIZE	PAGE_SIZE
+-#endif
+-#endif
+-#endif
+-#endif /*__ASSEMBLY__ */
+-#endif /* __A_OUT_GNU_H__ */
+-- 
+2.35.3
+
