@@ -2,98 +2,161 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 800A25ECC99
-	for <lists+linux-api@lfdr.de>; Tue, 27 Sep 2022 21:02:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C47D5ED065
+	for <lists+linux-api@lfdr.de>; Wed, 28 Sep 2022 00:47:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231209AbiI0TCD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 27 Sep 2022 15:02:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57182 "EHLO
+        id S231312AbiI0Wrh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 27 Sep 2022 18:47:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230265AbiI0TCA (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 27 Sep 2022 15:02:00 -0400
-X-Greylist: delayed 255 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 27 Sep 2022 12:01:59 PDT
-Received: from fsfvdiej.episotheque.com (fsfvdiej.episotheque.com [81.161.229.202])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B50D1BB6FD
-        for <linux-api@vger.kernel.org>; Tue, 27 Sep 2022 12:01:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; s=dkim; d=episotheque.com;
- h=Reply-To:From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding; i=san.con@episotheque.com;
- bh=BUrnWHy8nUdGJERYd+ZXpdOaFjc=;
- b=CMrstK1XCp4w/s3odEiBeVkI8gCtBtSSKbmykxPl8QzunrXmq285NtYdEJiryyKfvLcCEYNU9hVg
-   agdLvA7DwHY+O2JT4vB2nY8sqqAV2QQQjUbSOi2Lb8zVClf016pmQo6pEyfGMn6NcWnztkaiZlxQ
-   7YEW22VfKw36uTsjsuKy0e1fN9n2KQXCBrXPp/SCDtKF8zc91/zLe2mtqBChuerNhs9Km3uPOoY7
-   KCv2BRB3F5sGj1PnnkNAKL6tE/yCoDnONGUFi8KF/ydW7VTBuNTUti2HPlm8K0bFxNZx+CY4/hHN
-   GE+BFU2JYn85AL7UH44bHtnsKWHmdQrcUS+IHA==
-DomainKey-Signature: a=rsa-sha1; c=nofws; q=dns; s=dkim; d=episotheque.com;
- b=y1Dm3aheFWu3gQn+Mf/kUSMmNyx4ez58FHrIEwIlgC7CYhEsQKq1iuCfoMTijZL3FY6weywjOLTM
-   BXGSaKzyQE0mzx4SSp6yFogfyD59I36A9g67twb0lxSonLVJzshJxi9PYGFQqbPsO9IZgrpTmIej
-   pFNNOeTG2Sz7cXYvQUe1qkjutNQEDgCB9qh0niaMX7aLjGSzXzfsmW0VkYLCZdsAYWVyJGg/pkLs
-   KZEYZMelQ6VZOPFZrfhJ8DZl0BJccFFWxefOMm4+cMvyVQWQxZrEEjHU+VNJB5hOtI3vrr3rGM/B
-   QIuRnf7wAT8kTaj3IpBMHhzhl6rS9ZucrB+dqQ==;
-Reply-To: kolmandonald3@protonmail.com
-From:   Donald Kolman <san.con@episotheque.com>
-To:     linux-api@vger.kernel.org
-Subject: IMPORTANT
-Date:   27 Sep 2022 21:57:03 +0300
-Message-ID: <20220927215702.5AAE331CFA8C7718@episotheque.com>
+        with ESMTP id S229950AbiI0Wrg (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 27 Sep 2022 18:47:36 -0400
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 463FAB56FF
+        for <linux-api@vger.kernel.org>; Tue, 27 Sep 2022 15:47:34 -0700 (PDT)
+Received: by mail-pg1-x536.google.com with SMTP id 78so10632592pgb.13
+        for <linux-api@vger.kernel.org>; Tue, 27 Sep 2022 15:47:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=Ga4pQWEDXBG9/XYtSTlScJ77nN/lKyKRhvrVN6ZYtEQ=;
+        b=Zt6DAEHvTS8wxWv1WyEBwMpb/J0TAGqNJWSYq7B/TUUmald3XX9OlT/d5Lzj6Si+Bc
+         j2rFkg3bzOhJaWeJmSBV0V8U3XVEjrwk9qHAVJiEkvevxCuOWyXtok5P3iv/Iw8ESLef
+         6LPeA8HKLKlToZ8BNFYQq63V4Oktsc1qDJcFhLSS4oHG7yiRN/kOGqpPb7Yj4VO8VCP6
+         +5edR6WRMr1lS7G3XjYbUcnl8iY36M5Ts6GW4jUNk9gvSm6NZePMAF2GZViOeXNHh0tr
+         SRk8IvIZSS6mDMv+zdaigNV2/rVcP+cwljmgJZfO6Qwc/ZF3/efpr9a3QxY+c3ZolRxi
+         dBSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=Ga4pQWEDXBG9/XYtSTlScJ77nN/lKyKRhvrVN6ZYtEQ=;
+        b=IIaPcB0DB8OolcQxn1UDgn3hwtHAmXqI+FHh4usmFx9Nsho6yosVhJSIptFG76T7zK
+         d/LkBOr05vxY715g5ti+ZGSze2ZXRj/V/Sk4H/kFZxmuZYxYyzrpaswvgpLNCHN4I4Sd
+         icMHwUIGsdqYzkn7aMx0hIkkNovfaFzQC4c/Qm9+HYTwHs5pEYfyi/LJFm4jszS7/pBe
+         AGA98kDLMEorag38HFkaNnbIaqyE5J3BIfVVpELtQXVXDmpYk19yYG2q10RvCZa81l52
+         KXxGxIenTzjhCMU26Tze9Tl6LxBVd90BPNk0Cixzr88/zVMp6FctaRai4oGRh0/QQb0i
+         TjjQ==
+X-Gm-Message-State: ACrzQf2wxPlyF8yeVpzgDfLdzQb7MNMMEK+5MccgSzgeM0nbmm9AKy+E
+        nPFjnkYE3ey5bUxiWdTVzPaRuA==
+X-Google-Smtp-Source: AMsMyM7e3pORG/ZiCK/KOAmPTIhR9W8OFaIKxiR5Fl7ql/8DpZyNJcNG+S+vv6Tj5cxsHspqGFGwnQ==
+X-Received: by 2002:a63:1e03:0:b0:43a:a64d:f3a4 with SMTP id e3-20020a631e03000000b0043aa64df3a4mr26001459pge.121.1664318853506;
+        Tue, 27 Sep 2022 15:47:33 -0700 (PDT)
+Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
+        by smtp.gmail.com with ESMTPSA id l3-20020a170902f68300b00176b3c9693esm2081016plg.299.2022.09.27.15.47.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Sep 2022 15:47:32 -0700 (PDT)
+Date:   Tue, 27 Sep 2022 22:47:29 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Fuad Tabba <tabba@google.com>
+Cc:     Chao Peng <chao.p.peng@linux.intel.com>,
+        David Hildenbrand <david@redhat.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, aarcange@redhat.com, ddutile@redhat.com,
+        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com,
+        Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>
+Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
+Message-ID: <YzN9gYn1uwHopthW@google.com>
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
+ <d16284f5-3493-2892-38e6-f1fa5c10bdbb@redhat.com>
+ <Yyi+l3+p9lbBAC4M@google.com>
+ <CA+EHjTzy4iOxLF=5UX=s5v6HSB3Nb1LkwmGqoKhp_PAnFeVPSQ@mail.gmail.com>
+ <20220926142330.GC2658254@chaop.bj.intel.com>
+ <CA+EHjTz5yGhsxUug+wqa9hrBO60Be0dzWeWzX00YtNxin2eYHg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: Yes, score=7.5 required=5.0 tests=BAYES_99,BAYES_999,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+EHjTz5yGhsxUug+wqa9hrBO60Be0dzWeWzX00YtNxin2eYHg@mail.gmail.com>
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        FREEMAIL_FORGED_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,SPF_HELO_NONE,
-        SPF_PASS,URIBL_BLACK autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: *  1.7 URIBL_BLACK Contains an URL listed in the URIBL blacklist
-        *      [URIs: episotheque.com]
-        *  0.2 BAYES_999 BODY: Bayes spam probability is 99.9 to 100%
-        *      [score: 1.0000]
-        *  3.5 BAYES_99 BODY: Bayes spam probability is 99 to 100%
-        *      [score: 1.0000]
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [kolmandonald3[at]protonmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        *  2.1 FREEMAIL_FORGED_REPLYTO Freemail in Reply-To, but not From
-X-Spam-Level: *******
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hello linux-api@vger.kernel.org ,
+On Mon, Sep 26, 2022, Fuad Tabba wrote:
+> Hi,
+> 
+> On Mon, Sep 26, 2022 at 3:28 PM Chao Peng <chao.p.peng@linux.intel.com> wrote:
+> >
+> > On Fri, Sep 23, 2022 at 04:19:46PM +0100, Fuad Tabba wrote:
+> > > > Then on the KVM side, its mmap_start() + mmap_end() sequence would:
+> > > >
+> > > >   1. Not be supported for TDX or SEV-SNP because they don't allow adding non-zero
+> > > >      memory into the guest (after pre-boot phase).
+> > > >
+> > > >   2. Be mutually exclusive with shared<=>private conversions, and is allowed if
+> > > >      and only if the entire gfn range of the associated memslot is shared.
+> > >
+> > > In general I think that this would work with pKVM. However, limiting
+> > > private<->shared conversions to the granularity of a whole memslot
+> > > might be difficult to handle in pKVM, since the guest doesn't have the
+> > > concept of memslots. For example, in pKVM right now, when a guest
+> > > shares back its restricted DMA pool with the host it does so at the
+> > > page-level.
 
-I know it's an unconventional way of reaching out to you but it's
-for a good cause.
+Y'all are killing me :-)
 
+Isn't the guest enlightened?  E.g. can't you tell the guest "thou shalt share at
+granularity X"?  With KVM's newfangled scalable memslots and per-vCPU MRU slot,
+X doesn't even have to be that high to get reasonable performance, e.g. assuming
+the DMA pool is at most 2GiB, that's "only" 1024 memslots, which is supposed to
+work just fine in KVM.
 
-I=E2=80=99m Donald, a Research Assistant of the Research and Development
-Department working at one of the leading Bio Pharmaceutical
-Companies here in England. I'm looking for a reliable business
-person in your region to represent my company in sourcing some of
-our basic raw material used in the manufacturing of high quality
-Anti-Viral Vaccines, Cancer treatment and other lifesaving
-Pharmaceutical Products.
+> > > pKVM would also need a way to make an fd accessible again
+> > > when shared back, which I think isn't possible with this patch.
+> >
+> > But does pKVM really want to mmap/munmap a new region at the page-level,
+> > that can cause VMA fragmentation if the conversion is frequent as I see.
+> > Even with a KVM ioctl for mapping as mentioned below, I think there will
+> > be the same issue.
+> 
+> pKVM doesn't really need to unmap the memory. What is really important
+> is that the memory is not GUP'able.
 
-This may not be your area of specialization but it will be
-another income generating business out of your specialty. This is
-because Our company is yet to locate any seller to buy from,
-however, I have been able to discover a local dealer who can
-supply us with this product. He is selling at a cheap rate ,
-which is far cheaper than our previous purchases.
+Well, not entirely unguppable, just unguppable without a magic FOLL_* flag,
+otherwise KVM wouldn't be able to get the PFN to map into guest memory.
 
-I will give you more specific profit details when I receive
-feedback from you if you are interested.
+The problem is that gup() and "mapped" are tied together.  So yes, pKVM doesn't
+strictly need to unmap memory _in the untrusted host_, but since mapped==guppable,
+the end result is the same.
 
+Emphasis above because pKVM still needs unmap the memory _somehwere_.  IIUC, the
+current approach is to do that only in the stage-2 page tables, i.e. only in the
+context of the hypervisor.  Which is also the source of the gup() problems; the
+untrusted kernel is blissfully unaware that the memory is inaccessible.
 
-Best regards
-
-Donald Kolman
+Any approach that moves some of that information into the untrusted kernel so that
+the kernel can protect itself will incur fragmentation in the VMAs.  Well, unless
+all of guest memory becomes unguppable, but that's likely not a viable option.
