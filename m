@@ -2,708 +2,220 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 688055EC4CB
-	for <lists+linux-api@lfdr.de>; Tue, 27 Sep 2022 15:43:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 63B115EC7DB
+	for <lists+linux-api@lfdr.de>; Tue, 27 Sep 2022 17:34:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232871AbiI0Nn4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 27 Sep 2022 09:43:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52208 "EHLO
+        id S232313AbiI0Peq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 27 Sep 2022 11:34:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231944AbiI0Nny (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 27 Sep 2022 09:43:54 -0400
-Received: from smtpout.efficios.com (smtpout.efficios.com [IPv6:2607:5300:203:5aae::31e5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35CB2E7201;
-        Tue, 27 Sep 2022 06:43:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=efficios.com;
-        s=smtpout1; t=1664286229;
-        bh=9hhyMfCjwYqLpMqRBpNIj0ezFYZw3ZP/x5V4V7VG4sU=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=tWcvJCMbUoB3kRnBNiGaqHFKhEj5VjqOn05XoIXcc4x+aBmPAV7N8Ne+N+UztJzU7
-         dQKs8eIYHVewNy/OWa7M5CPbmIY9CWJltIrqyZRzm40Yeay68A2yoBb7tikY54qePF
-         ixt0NLbO4BtAofoZ8G+ukBgmS/lfkrjCLCu7lwK3WjAfTVnLdhCtgw7km3OYDlBBNV
-         w7x5PX3k9VyI/Wv+hoku8IJNW2LjQ21oI2V5z0ehdwoMAznx6kp4jbtVUnVcSWOwo/
-         XsxPQgqmeKsEpposXhM7BIpx21gQ0JU0HuAsSFbvlCEtWyKyRKSJa1n3Ljj+DRQU2X
-         syVsnAcsYujCw==
-Received: from localhost.localdomain (192-222-180-24.qc.cable.ebox.net [192.222.180.24])
-        by smtpout.efficios.com (Postfix) with ESMTPSA id 4McLSN5XlkzNmH;
-        Tue, 27 Sep 2022 09:43:48 -0400 (EDT)
-From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        "Paul E . McKenney" <paulmck@kernel.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
-        linux-api@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
-        Florian Weimer <fw@deneb.enyo.de>, David.Laight@ACULAB.COM,
-        carlos@redhat.com, Peter Oskolkov <posk@posk.io>,
-        Alexander Mikhalitsyn <alexander@mihalicyn.com>,
+        with ESMTP id S232301AbiI0Peo (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 27 Sep 2022 11:34:44 -0400
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2068.outbound.protection.outlook.com [40.107.94.68])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55EBDC22
+        for <linux-api@vger.kernel.org>; Tue, 27 Sep 2022 08:34:41 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=P+OU8mH0vK18mzlPQMBXyIKR2yi57adGARoQRPD+hWL46EYmvA8AddfWcz40zajHA01oYexXhzSV2CYKrEjNPmaMmMTo/jNT0s39nkxM0a+JeMKemWuigoPl4m1l3Xdf80w+8/IP7LNXOPcuBDt4haeLSnDpAIxXY1WCptPzktA9W/IastYJt/R/fiPSadqktMfnuZshP96wm8apIpiHK2mu2sSBl+V/virUkVXnRd+dEp34RRigvLgQ1o6Ui9kmiIIyISDjyOax+h+skO8u9q+fwWJwHIRE2NQrTezOcTfbU6fl3YDA+5BvTVRdBU1oZqRZJxGQvdhxtbTWAquLfA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JteX5M+FV40AGgl1M9DLEDHkl96qSerufGQeQMCxW84=;
+ b=WvKWTvQPhGNyt9AUeMFLtJUVD/Ff+TyVjeeGoz+HbEp/gpaThIHDIJZSCaEqolHLckkn1V8u+FqylJmeGZjF0PdRpEgclN/kcgRUPTrOlPkbhVNEL5K6RzGOlJqMftWuf0SjIvGRlE/WH2QgAllHge7AVoy50HdYoyU/myPKEn2DLwsq8z37Kjuk9sWKAxvV2h4MKJFjS3VEDJMVdB/JDaOpgx9F1uTSvZYE/KEGywAo+tEIZnVxHrQ4GRrWOZe1Vz9J0V/fR6fYlfWWnQR/Y2/0EJCt31mrpkRP+wPYWP0zCs0sdIuw56EjQ31iFjtHRxYuZfjj0CGkcykzTytRLw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JteX5M+FV40AGgl1M9DLEDHkl96qSerufGQeQMCxW84=;
+ b=F6ez0GTaWY2s4iZA1miKrknNeeRAlj95XF2nJudIgRKvP57iKZr+BHCMr2bF6lf+fXbqUg/DV9b3UhH8hYpDps71qJIRkIG1eMb5IoOMH3OH4bO4oqbXv+JvvkPMl7APLTLQD76TliI35tlwTMZJCMDycnUaxxJkbnjXTn9CMDolKq0k9l4yryH1Xabbu5FsPsIhssnWBUbpMdhaAyzKcW5RxW447j9GboJE8NGpZ+ZOPvSjrqAukgx1YjhTYuJLs7WJ+9KKBJa9GlVoZKcxaD3WyC3nm4FKg08I/HMfCY4T2BJLBectLuSYKR0BqE4Bz11BNN4ALDyIF9TAMz1NJg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS7PR12MB5744.namprd12.prod.outlook.com (2603:10b6:8:73::18) by
+ CH2PR12MB4104.namprd12.prod.outlook.com (2603:10b6:610:a4::12) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5654.26; Tue, 27 Sep 2022 15:34:38 +0000
+Received: from DS7PR12MB5744.namprd12.prod.outlook.com
+ ([fe80::94df:bc2b:6294:8cc6]) by DS7PR12MB5744.namprd12.prod.outlook.com
+ ([fe80::94df:bc2b:6294:8cc6%8]) with mapi id 15.20.5654.026; Tue, 27 Sep 2022
+ 15:34:38 +0000
+From:   Zi Yan <ziy@nvidia.com>
+To:     "Zach O'Keefe" <zokeefe@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
+        linux-api@vger.kernel.org,
+        Axel Rasmussen <axelrasmussen@google.com>,
+        James Houghton <jthoughton@google.com>,
+        Hugh Dickins <hughd@google.com>,
+        Yang Shi <shy828301@gmail.com>,
+        Miaohe Lin <linmiaohe@huawei.com>,
+        David Hildenbrand <david@redhat.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Pasha Tatashin <pasha.tatashin@soleen.com>,
+        Peter Xu <peterx@redhat.com>,
+        Rongwei Wang <rongwei.wang@linux.alibaba.com>,
+        SeongJae Park <sj@kernel.org>,
+        Song Liu <songliubraving@fb.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
         Chris Kennelly <ckennelly@google.com>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Subject: [PATCH v4.1 09/25] sched: Introduce per memory space current virtual cpu id
-Date:   Tue, 27 Sep 2022 09:43:05 -0400
-Message-Id: <20220927134305.149804-1-mathieu.desnoyers@efficios.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220922105941.237830-10-mathieu.desnoyers@efficios.com>
-References: <20220922105941.237830-10-mathieu.desnoyers@efficios.com>
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Patrick Xia <patrickx@google.com>
+Subject: Re: [PATCH mm-unstable v4 05/10] selftests/vm: dedup THP helpers
+Date:   Tue, 27 Sep 2022 11:34:35 -0400
+X-Mailer: MailMate (1.14r5916)
+Message-ID: <B6259986-56F7-4393-88F7-69DE839C53F2@nvidia.com>
+In-Reply-To: <20220922224046.1143204-6-zokeefe@google.com>
+References: <20220922224046.1143204-1-zokeefe@google.com>
+ <20220922224046.1143204-6-zokeefe@google.com>
+Content-Type: multipart/signed;
+ boundary="=_MailMate_0AE2B72B-BD07-4D20-84DC-88A269F5D75E_=";
+ micalg=pgp-sha512; protocol="application/pgp-signature"
+X-ClientProxiedBy: BL0PR01CA0030.prod.exchangelabs.com (2603:10b6:208:71::43)
+ To DS7PR12MB5744.namprd12.prod.outlook.com (2603:10b6:8:73::18)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR12MB5744:EE_|CH2PR12MB4104:EE_
+X-MS-Office365-Filtering-Correlation-Id: 337db2b3-ef89-4f99-4870-08daa09dc9bc
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 6pqYBNGd4NBRWDKOhDlVbYrYcuVoQHnQjdd2PN6emrB0YKejWLvARQDQXqHFHxSh+EO1I7mp0IRYNrtbKHbJujrJ0xOSo98N+g8zHWFweFggl63XKmMyB8fs9KdkJvjPvyPTUaHsOCc1JEC7yFBujXIOrwC1xfAdFANhF8XiW3jjR7T1RM5u5dFOdzIYC2cHFAfpDvdt4NfPY7G9EkPGURzrdAPvT+paxxsNge77nQodKcOuXWVVKIavRT6RTlzyvW02JB4dptflvUtf5qLiMKnWkau5BgSXOBRklnIr4bI2dWplAWVja37ilHNHr3owv/fdQ0lsv5SiBjcxgnZg15EmBemgqdxqAn1vDFnrGT34gf+TbKwpwdngYDkCaPhH4sa0d0KkfBWBLy/e3a1r+wpEjvI/bJwy9yFclB16jFfgiapZIyyNALf6G9Y1pXcT/J3H28ml7VnprYCk0W6yFBxEcXZpq7v9ubcy53yRscyW1XsaZ6alC49qTxlPcBr16UFb1wNreh+FWnjapitX9f5cOkJ8UCW1Mq4cC2LbxH1Xem6+CAjlT0oAiLb5O1eEqB5siIIHb8f7QaLZxKr1NgiRNt3XswQyOa1GyLabnDTMCJtyRC0iv+ZPahAcLaDuX9HBtUY29dp/u61tAJSafeE4bQjgRREdKbJqGZSYBzYbWvK/hpNqixtHioYZ0el+0ESMC0zzZCOIX+px7u2BoHTmLr6VRmlPNuM6LKjuto/BE+5TkzD3Z0o6AzVTRpmgpiwWlQsPYo2ERaym6Au5nGpHSmyYcTppEfK8aiNR9I2PPtLG1L28komAUIL7MeNKiywLRBfbA5djhiS1bvpQ946ao382AwpSm7OZgT9eHuTvbEJ4uftUBrv8V4Qu2NZk
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB5744.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(136003)(376002)(396003)(346002)(39860400002)(366004)(451199015)(966005)(86362001)(8676002)(66476007)(66556008)(38100700002)(478600001)(6506007)(53546011)(8936002)(66946007)(6486002)(33656002)(36756003)(41300700001)(5660300002)(316002)(6916009)(83380400001)(26005)(6512007)(54906003)(235185007)(7416002)(186003)(2906002)(4326008)(2616005)(6666004)(72826004)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?85JLf6oo35kO0Db7vPrIVrwdZ5sgj0oW6NxKEbAiWpnubNgWuPpd2MSu6O8M?=
+ =?us-ascii?Q?QRX+1Zothd7/O3fP1WMB+zsbLqxliEI9815h6GGy74A+w+/T40b+Cj6clfiu?=
+ =?us-ascii?Q?ZHUPOcbmhRh//Siii5FujgD3PqFoKk8M55246S4SBI6Y/o9qGuvubfHKZIl8?=
+ =?us-ascii?Q?j9kohLS0yp3Tp+vzu7XMcEC2ovz+bgJh0MTZKzl5fArQtu19sm0bNMvFReuJ?=
+ =?us-ascii?Q?BPj0sXRMZkkQFMnS+qMx1ov425cggM5q9737BDNkTBgpB4ixbmpVax1AB/jq?=
+ =?us-ascii?Q?ihrUTLh+KbdBUbp4Txx8o3MumODmoB0qdHCIJmlkvOp8vguO53B2Uu9t6i6j?=
+ =?us-ascii?Q?uS+WrcJDQEZXP90DY8XLmmu4mRe4tY+p4GjXfgLgj9hzasNSeRCeAlq4gZkM?=
+ =?us-ascii?Q?y+iMEDsPcxcHdfZOZyv2BmQCniEkxNioO8TSXyPPU6QTPU6yIGs5+AwuHZux?=
+ =?us-ascii?Q?fTPogwCsQ2XhvkZHmSZYuiHY2Lmvvx+hdhBCwvOch9KdH1109d7+sDAJxyRb?=
+ =?us-ascii?Q?UVTI56jLoQLZ54ly7EjHqTtnPJt16GymqpPzno8jByu+1sD13V50O40IXcgQ?=
+ =?us-ascii?Q?48CNqkldSH0nysMqawzsjhSeT0L6XTn9qJRD+iNEJZKPTHkOp4l0cksd0qZU?=
+ =?us-ascii?Q?VDNga1Q95/Jw8SLi3FtfuMOHHnOd2Tv0hoDso+78+d7mjqCxMOZR5UeblI7+?=
+ =?us-ascii?Q?ShrUzuQrl+hC0ZeSVhs/yRh8tcA9BPsHcE4Qvjo2eHi8gPYsW6vVi/AM2Dfa?=
+ =?us-ascii?Q?7JFaNpe5jwGOPUb7Vl4kOU3baM/qagbZuladCG6e756GVmX6ROj1NZShfzKt?=
+ =?us-ascii?Q?DbxTCfMOoArPMl97lu6qAXUnlAHEqB9/t8rt4NzVNxjdRDtEGKROFP03RCJK?=
+ =?us-ascii?Q?SrkviiNDlNRcx1VFM701Zvrt2rmu3BEadVc8rQN6WGPG3W3XyVIEQ2fWzpx4?=
+ =?us-ascii?Q?C+PZOaYU7Y9E0xgHnTKaRplnsrO35XW3xLQiivJGR28Nate7UanDZh472a68?=
+ =?us-ascii?Q?qCzMmf9Ok/GbZKu9oUXeTTrQbxOJadIF0O9vxS+qTSG/jDvcHg8Kqd9ysCtu?=
+ =?us-ascii?Q?zmRuRowrAaTf88sQRwhdawitej9fm80Oj8sW43ca8xJjMO4QtZLMxISdOMuC?=
+ =?us-ascii?Q?bxcnT8es1PUNs/KWbt8L1+IRMz/jfGmbRfVB94bMGKg1yg8I+a+Cr/TjG8Ky?=
+ =?us-ascii?Q?X3boLDr5dODJQOZKG4U60q61iYsSyPBpBvpt1Q361Rfg4jHBLDBWuTP/oDD+?=
+ =?us-ascii?Q?V/tlXnuPB5GdNYzhcmS7thdIeTswj8PX+PN9a+NXFBG+YxRYDjfYFqShUOtc?=
+ =?us-ascii?Q?saPNck9RqdNU+yiuKSizezILHg3IfIbDnW6QJ9nn6Nr96CCpU1SKTKARcjN6?=
+ =?us-ascii?Q?YvXqaAF/KF5STZi522ZLf00hIIbdZc/qWXVhmTY9YWbk1YFFSOImEdkDuPsT?=
+ =?us-ascii?Q?7jRSQ10s3G4vAJydobZ68pOmfaKWf/RZ3SS9P0drvH9EW8jkxb3QKb7xCod7?=
+ =?us-ascii?Q?+qMVYHXQa2z04Q0qzb14zcJItsmuwCenfIthP1vk8uR7KmpHbDUlPhhbS2Dz?=
+ =?us-ascii?Q?8HrgOLow5+R7m2qLdC/5PzFOFrCMS5kXh5nNOPWE?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 337db2b3-ef89-4f99-4870-08daa09dc9bc
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB5744.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Sep 2022 15:34:38.6214
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6PnBXAy6q83ncPzLCVc+P5N/AnoHtIWXsntJknvKKXFM67PD2sPB75tfFgFqUVZS
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4104
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-This feature allows the scheduler to expose a current virtual cpu id
-to user-space. This virtual cpu id is within the possible cpus range,
-and is temporarily (and uniquely) assigned while threads are actively
-running within a memory space. If a memory space has fewer threads than
-cores, or is limited to run on few cores concurrently through sched
-affinity or cgroup cpusets, the virtual cpu ids will be values close
-to 0, thus allowing efficient use of user-space memory for per-cpu
-data structures.
+--=_MailMate_0AE2B72B-BD07-4D20-84DC-88A269F5D75E_=
+Content-Type: text/plain
 
-The vcpu_ids are NUMA-aware. On NUMA systems, when a vcpu_id is observed
-by user-space to be associated with a NUMA node, it is guaranteed to
-never change NUMA node unless a kernel-level NUMA configuration change
-happens.
+On 22 Sep 2022, at 18:40, Zach O'Keefe wrote:
 
-This feature is meant to be exposed by a new rseq thread area field.
+> These files:
+>
+> tools/testing/selftests/vm/vm_util.c
+> tools/testing/selftests/vm/khugepaged.c
+>
+> Both contain logic to:
+>
+> 1) Determine hugepage size on current system
+> 2) Read /proc/self/smaps to determine number of THPs at an address
+>
+> Refactor selftests/vm/khugepaged.c to use the vm_util common helpers and
+> add it as a build dependency.
+>
+> Since selftests/vm/khugepaged.c is the largest user of check_huge(),
+> change the signature of check_huge() to match selftests/vm/khugepaged.c's
+> useage: take an expected number of hugepages, and return a bool indicating
+> if the correct number of hugepages were found.  Add a wrapper,
+> check_huge_anon(), in anticipation of checking smaps for file and shmem
+> hugepages.
+>
+> Update existing callsites to use the new pattern / function.
+>
+> Likewise, check_for_pattern() was duplicated, and it's a general enough
+> helper to include in vm_util helpers as well.
+>
+> Link: https://lkml.kernel.org/r/20220907144521.3115321-6-zokeefe@google.com
+> Signed-off-by: Zach O'Keefe <zokeefe@google.com>
+> Cc: Axel Rasmussen <axelrasmussen@google.com>
+> Cc: Chris Kennelly <ckennelly@google.com>
+> Cc: David Hildenbrand <david@redhat.com>
+> Cc: David Rientjes <rientjes@google.com>
+> Cc: Hugh Dickins <hughd@google.com>
+> Cc: James Houghton <jthoughton@google.com>
+> Cc: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+> Cc: Matthew Wilcox <willy@infradead.org>
+> Cc: Miaohe Lin <linmiaohe@huawei.com>
+> Cc: Minchan Kim <minchan@kernel.org>
+> Cc: Pasha Tatashin <pasha.tatashin@soleen.com>
+> Cc: Peter Xu <peterx@redhat.com>
+> Cc: Rongwei Wang <rongwei.wang@linux.alibaba.com>
+> Cc: SeongJae Park <sj@kernel.org>
+> Cc: Song Liu <songliubraving@fb.com>
+> Cc: Vlastimil Babka <vbabka@suse.cz>
+> Cc: Yang Shi <shy828301@gmail.com>
+> ---
+>  tools/testing/selftests/vm/Makefile           |  1 +
+>  tools/testing/selftests/vm/khugepaged.c       | 64 ++-----------------
+>  tools/testing/selftests/vm/soft-dirty.c       |  2 +-
+>  .../selftests/vm/split_huge_page_test.c       | 12 ++--
+>  tools/testing/selftests/vm/vm_util.c          | 26 +++++---
+>  tools/testing/selftests/vm/vm_util.h          |  3 +-
+>  6 files changed, 32 insertions(+), 76 deletions(-)
 
-The primary purpose of this feature is to do the heavy-lifting needed
-by memory allocators to allow them to use per-cpu data structures
-efficiently in the following situations:
+LGTM. Thanks. Reviewed-by: Zi Yan <ziy@nvidia.com>
 
-- Single-threaded applications,
-- Multi-threaded applications on large systems (many cores) with limited
-  cpu affinity mask,
-- Multi-threaded applications on large systems (many cores) with
-  restricted cgroup cpuset per container,
-- Processes using memory from many NUMA nodes.
+--
+Best Regards,
+Yan, Zi
 
-One of the key concern from scheduler maintainers is the overhead
-associated with additional spin locks or atomic operations in the
-scheduler fast-path. This is why the following optimization is
-implemented.
+--=_MailMate_0AE2B72B-BD07-4D20-84DC-88A269F5D75E_=
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename=signature.asc
+Content-Type: application/pgp-signature; name=signature.asc
 
-On context switch between threads belonging to the same memory space,
-transfer the mm_vcpu_id from prev to next without any atomic ops. This
-takes care of use-cases involving frequent context switch between
-threads belonging to the same memory space.
+-----BEGIN PGP SIGNATURE-----
 
-Additional optimizations can be done if the spin locks added when
-context switching between threads belonging to different processes end
-up being a performance bottleneck. Those are left out of this patch
-though. A performance impact would have to be clearly demonstrated to
-justify the added complexity.
+iQJDBAEBCgAtFiEE6rR4j8RuQ2XmaZol4n+egRQHKFQFAmMzGAsPHHppeUBudmlk
+aWEuY29tAAoJEOJ/noEUByhUUaUP/38rOhyEAmPShMKyOxr5yqLh20fO9cwevoWi
+KgoLRFATmzQ19TgtInQoURn6562PmvFUda8fQbnS4x3KYWMcb6+StwcRWcQP8N83
+AMqLdAR+NBMKwCNmY1TuR1mYAY4vLJl0S/zkzBfhTWKN9X25l1SLs4bMJuPUFo7B
+vUpFr/XaRzwdKMa0Z6bBp/oj06CQzmb84XZX3yJ3mfsQmrer8ow3JWa9tEXwqNwL
+MbcJ0gXQBvFJX/uoMUrARSTfR6Q42t6XchOn4qfQ3HA0nWJJdfR5htvr3d2Cep0s
+u3pyOXoIPP4WQTkuyrQGgiWE5+cO1RpFD8n/R0qEIpKLoHArweZOCQP3VtQzz0Yo
+XPHtPtXiGXPE+CvpZjPtUAGU1b2ogsShSIiVDlN9eZ5R6InS8jL2LFoqvgatao5X
+9W06WzL8UKNq7GH9R0nYuQUj92DkKcObhBFdJ/QQV8RPfIcQRk/JssiDsxbw2b9K
+n6s2IsRDnNOA2ZUgX7oNs4Go46VQdca6p/anigVTEwEggwHjAI6yn/Pq/IrDZMZj
+NC+SafLa6tby3ZC4sdGgemUWRcT2kCZuueqrfnqbT/GYxQTQ59JmDDLmtpS8qP4k
+CgQOILrlBVcC9cJNi70Li/tygARtwjWyiuT2a7EI8BqX11ma2uIbvDp343pNeify
+7pOqMpwp
+=+Q9i
+-----END PGP SIGNATURE-----
 
-The credit goes to Paul Turner (Google) for the vcpu_id idea. This
-feature is implemented based on the discussions with Paul Turner and
-Peter Oskolkov (Google), but I took the liberty to implement scheduler
-fast-path optimizations and my own NUMA-awareness scheme. The rumor has
-it that Google have been running a rseq vcpu_id extension internally at
-Google in production for a year. The tcmalloc source code indeed has
-comments hinting at a vcpu_id prototype extension to the rseq system
-call [1].
-
-The following benchmarks do not show any significant overhead added to
-the scheduler context switch by this feature:
-
-* perf bench sched messaging (process)
-
-Baseline:                    86.5±0.3 ms
-With mm_vcpu_id:             86.7±2.6 ms
-
-* perf bench sched messaging (threaded)
-
-Baseline:                    84.3±3.0 ms
-With mm_vcpu_id:             84.7±2.6 ms
-
-* hackbench (process)
-
-Baseline:                    82.9±2.7 ms
-With mm_vcpu_id:             82.9±2.9 ms
-
-* hackbench (threaded)
-
-Baseline:                    85.2±2.6 ms
-With mm_vcpu_id:             84.4±2.9 ms
-
-[1] https://github.com/google/tcmalloc/blob/master/tcmalloc/internal/linux_syscall_support.h#L26
-
-Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
----
-Changes since v3:
-- Remove per-runqueue vcpu id cache optimization.
-- Remove single-threaded process optimization.
-- Introduce spinlock to protect vcpu id bitmaps.
-
-Changes since v4:
-- Disable interrupts around mm_vcpu_get/mm_vcpu_put. The spin locks are
-  used from within the scheduler context switch with interrupts off, so
-  all uses of these spin locks need to have interrupts off.
-- Initialize tsk->mm_vcpu to -1 in dup_task_struct to be consistent with
-  other states where mm_vcpu_active is 0.
----
- fs/exec.c                |   6 ++
- include/linux/mm.h       |  25 ++++++
- include/linux/mm_types.h | 110 ++++++++++++++++++++++++-
- include/linux/sched.h    |   5 ++
- init/Kconfig             |   4 +
- kernel/fork.c            |  11 ++-
- kernel/sched/core.c      |  52 ++++++++++++
- kernel/sched/sched.h     | 168 +++++++++++++++++++++++++++++++++++++++
- kernel/signal.c          |   2 +
- 9 files changed, 381 insertions(+), 2 deletions(-)
-
-diff --git a/fs/exec.c b/fs/exec.c
-index 778123259e42..e42f76509f36 100644
---- a/fs/exec.c
-+++ b/fs/exec.c
-@@ -1015,6 +1015,9 @@ static int exec_mmap(struct mm_struct *mm)
- 	active_mm = tsk->active_mm;
- 	tsk->active_mm = mm;
- 	tsk->mm = mm;
-+	mm_init_vcpu_lock(mm);
-+	mm_init_vcpumask(mm);
-+	mm_init_node_vcpumask(mm);
- 	/*
- 	 * This prevents preemption while active_mm is being loaded and
- 	 * it and mm are being updated, which could cause problems for
-@@ -1809,6 +1812,7 @@ static int bprm_execve(struct linux_binprm *bprm,
- 
- 	check_unsafe_exec(bprm);
- 	current->in_execve = 1;
-+	sched_vcpu_before_execve(current);
- 
- 	file = do_open_execat(fd, filename, flags);
- 	retval = PTR_ERR(file);
-@@ -1839,6 +1843,7 @@ static int bprm_execve(struct linux_binprm *bprm,
- 	if (retval < 0)
- 		goto out;
- 
-+	sched_vcpu_after_execve(current);
- 	/* execve succeeded */
- 	current->fs->in_exec = 0;
- 	current->in_execve = 0;
-@@ -1858,6 +1863,7 @@ static int bprm_execve(struct linux_binprm *bprm,
- 		force_fatal_sig(SIGSEGV);
- 
- out_unmark:
-+	sched_vcpu_after_execve(current);
- 	current->fs->in_exec = 0;
- 	current->in_execve = 0;
- 
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 7898e29bcfb5..61b8b2e9bac3 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -3447,4 +3447,29 @@ madvise_set_anon_name(struct mm_struct *mm, unsigned long start,
-  */
- #define  ZAP_FLAG_DROP_MARKER        ((__force zap_flags_t) BIT(0))
- 
-+#ifdef CONFIG_SCHED_MM_VCPU
-+void sched_vcpu_before_execve(struct task_struct *t);
-+void sched_vcpu_after_execve(struct task_struct *t);
-+void sched_vcpu_fork(struct task_struct *t);
-+void sched_vcpu_exit_signals(struct task_struct *t);
-+static inline int task_mm_vcpu_id(struct task_struct *t)
-+{
-+	return t->mm_vcpu;
-+}
-+#else
-+static inline void sched_vcpu_before_execve(struct task_struct *t) { }
-+static inline void sched_vcpu_after_execve(struct task_struct *t) { }
-+static inline void sched_vcpu_fork(struct task_struct *t) { }
-+static inline void sched_vcpu_exit_signals(struct task_struct *t) { }
-+static inline int task_mm_vcpu_id(struct task_struct *t)
-+{
-+	/*
-+	 * Use the processor id as a fall-back when the mm vcpu feature is
-+	 * disabled. This provides functional per-cpu data structure accesses
-+	 * in user-space, althrough it won't provide the memory usage benefits.
-+	 */
-+	return raw_smp_processor_id();
-+}
-+#endif
-+
- #endif /* _LINUX_MM_H */
-diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
-index c29ab4c0cd5c..a85b17a290fd 100644
---- a/include/linux/mm_types.h
-+++ b/include/linux/mm_types.h
-@@ -17,6 +17,7 @@
- #include <linux/page-flags-layout.h>
- #include <linux/workqueue.h>
- #include <linux/seqlock.h>
-+#include <linux/nodemask.h>
- 
- #include <asm/mmu.h>
- 
-@@ -528,7 +529,19 @@ struct mm_struct {
- 		 * &struct mm_struct is freed.
- 		 */
- 		atomic_t mm_count;
--
-+#ifdef CONFIG_SCHED_MM_VCPU
-+		/**
-+		 * @vcpu_lock: Protect vcpu_id bitmap updates vs lookups.
-+		 *
-+		 * Prevent situations where updates to the vcpu_id bitmap
-+		 * happen concurrently with lookups. Those can lead to
-+		 * situations where a lookup cannot find a free bit simply
-+		 * because it was unlucky enough to load, non-atomically,
-+		 * bitmap words as they were being concurrently updated by the
-+		 * updaters.
-+		 */
-+		spinlock_t vcpu_lock;
-+#endif
- #ifdef CONFIG_MMU
- 		atomic_long_t pgtables_bytes;	/* PTE page table pages */
- #endif
-@@ -693,6 +706,101 @@ static inline cpumask_t *mm_cpumask(struct mm_struct *mm)
- 	return (struct cpumask *)&mm->cpu_bitmap;
- }
- 
-+#ifdef CONFIG_SCHED_MM_VCPU
-+/* Future-safe accessor for struct mm_struct's vcpu_mask. */
-+static inline cpumask_t *mm_vcpumask(struct mm_struct *mm)
-+{
-+	unsigned long vcpu_bitmap = (unsigned long)mm;
-+
-+	vcpu_bitmap += offsetof(struct mm_struct, cpu_bitmap);
-+	/* Skip cpu_bitmap */
-+	vcpu_bitmap += cpumask_size();
-+	return (struct cpumask *)vcpu_bitmap;
-+}
-+
-+static inline void mm_init_vcpumask(struct mm_struct *mm)
-+{
-+	cpumask_clear(mm_vcpumask(mm));
-+}
-+
-+static inline unsigned int mm_vcpumask_size(void)
-+{
-+	return cpumask_size();
-+}
-+
-+#else
-+static inline cpumask_t *mm_vcpumask(struct mm_struct *mm)
-+{
-+	return NULL;
-+}
-+
-+static inline void mm_init_vcpumask(struct mm_struct *mm) { }
-+
-+static inline unsigned int mm_vcpumask_size(void)
-+{
-+	return 0;
-+}
-+#endif
-+
-+#if defined(CONFIG_SCHED_MM_VCPU) && defined(CONFIG_NUMA)
-+/*
-+ * Layout of node vcpumasks:
-+ * - node_alloc vcpumask:        cpumask tracking which vcpu_id were
-+ *                               allocated (across nodes) in this
-+ *                               memory space.
-+ * - node vcpumask[nr_node_ids]: per-node cpumask tracking which vcpu_id
-+ *                               were allocated in this memory space.
-+ */
-+static inline cpumask_t *mm_node_alloc_vcpumask(struct mm_struct *mm)
-+{
-+	unsigned long vcpu_bitmap = (unsigned long)mm_vcpumask(mm);
-+
-+	/* Skip mm_vcpumask */
-+	vcpu_bitmap += cpumask_size();
-+	return (struct cpumask *)vcpu_bitmap;
-+}
-+
-+static inline cpumask_t *mm_node_vcpumask(struct mm_struct *mm, unsigned int node)
-+{
-+	unsigned long vcpu_bitmap = (unsigned long)mm_node_alloc_vcpumask(mm);
-+
-+	/* Skip node alloc vcpumask */
-+	vcpu_bitmap += cpumask_size();
-+	vcpu_bitmap += node * cpumask_size();
-+	return (struct cpumask *)vcpu_bitmap;
-+}
-+
-+static inline void mm_init_node_vcpumask(struct mm_struct *mm)
-+{
-+	unsigned int node;
-+
-+	if (num_possible_nodes() == 1)
-+		return;
-+	cpumask_clear(mm_node_alloc_vcpumask(mm));
-+	for (node = 0; node < nr_node_ids; node++)
-+		cpumask_clear(mm_node_vcpumask(mm, node));
-+}
-+
-+static inline void mm_init_vcpu_lock(struct mm_struct *mm)
-+{
-+	spin_lock_init(&mm->vcpu_lock);
-+}
-+
-+static inline unsigned int mm_node_vcpumask_size(void)
-+{
-+	if (num_possible_nodes() == 1)
-+		return 0;
-+	return (nr_node_ids + 1) * cpumask_size();
-+}
-+#else
-+static inline void mm_init_node_vcpumask(struct mm_struct *mm) { }
-+static inline void mm_init_vcpu_lock(struct mm_struct *mm) { }
-+static inline unsigned int mm_node_vcpumask_size(void)
-+{
-+	return 0;
-+}
-+#endif
-+
- struct mmu_gather;
- extern void tlb_gather_mmu(struct mmu_gather *tlb, struct mm_struct *mm);
- extern void tlb_gather_mmu_fullmm(struct mmu_gather *tlb, struct mm_struct *mm);
-diff --git a/include/linux/sched.h b/include/linux/sched.h
-index 6a80ce113d0e..9a2322c51b12 100644
---- a/include/linux/sched.h
-+++ b/include/linux/sched.h
-@@ -1300,6 +1300,11 @@ struct task_struct {
- 	unsigned long rseq_event_mask;
- #endif
- 
-+#ifdef CONFIG_SCHED_MM_VCPU
-+	int				mm_vcpu;	/* Current vcpu in mm */
-+	int				mm_vcpu_active;	/* Whether vcpu bitmap is active */
-+#endif
-+
- 	struct tlbflush_unmap_batch	tlb_ubc;
- 
- 	union {
-diff --git a/init/Kconfig b/init/Kconfig
-index c7900e8975f1..c0e830670b74 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -1027,6 +1027,10 @@ config RT_GROUP_SCHED
- 
- endif #CGROUP_SCHED
- 
-+config SCHED_MM_VCPU
-+	def_bool y
-+	depends on SMP && RSEQ
-+
- config UCLAMP_TASK_GROUP
- 	bool "Utilization clamping per group of tasks"
- 	depends on CGROUP_SCHED
-diff --git a/kernel/fork.c b/kernel/fork.c
-index 9d44f2d46c69..b7e93336c244 100644
---- a/kernel/fork.c
-+++ b/kernel/fork.c
-@@ -1049,6 +1049,10 @@ static struct task_struct *dup_task_struct(struct task_struct *orig, int node)
- 	tsk->reported_split_lock = 0;
- #endif
- 
-+#ifdef CONFIG_SCHED_MM_VCPU
-+	tsk->mm_vcpu = -1;
-+	tsk->mm_vcpu_active = 0;
-+#endif
- 	return tsk;
- 
- free_stack:
-@@ -1152,6 +1156,9 @@ static struct mm_struct *mm_init(struct mm_struct *mm, struct task_struct *p,
- 		goto fail_nocontext;
- 
- 	mm->user_ns = get_user_ns(user_ns);
-+	mm_init_vcpu_lock(mm);
-+	mm_init_vcpumask(mm);
-+	mm_init_node_vcpumask(mm);
- 	return mm;
- 
- fail_nocontext:
-@@ -1580,6 +1587,7 @@ static int copy_mm(unsigned long clone_flags, struct task_struct *tsk)
- 
- 	tsk->mm = mm;
- 	tsk->active_mm = mm;
-+	sched_vcpu_fork(tsk);
- 	return 0;
- }
- 
-@@ -3018,7 +3026,8 @@ void __init proc_caches_init(void)
- 	 * dynamically sized based on the maximum CPU number this system
- 	 * can have, taking hotplug into account (nr_cpu_ids).
- 	 */
--	mm_size = sizeof(struct mm_struct) + cpumask_size();
-+	mm_size = sizeof(struct mm_struct) + cpumask_size() + mm_vcpumask_size() +
-+		  mm_node_vcpumask_size();
- 
- 	mm_cachep = kmem_cache_create_usercopy("mm_struct",
- 			mm_size, ARCH_MIN_MMSTRUCT_ALIGN,
-diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index da0bf6fe9ecd..d9ba6f6d5a9c 100644
---- a/kernel/sched/core.c
-+++ b/kernel/sched/core.c
-@@ -4955,6 +4955,7 @@ prepare_task_switch(struct rq *rq, struct task_struct *prev,
- 	sched_info_switch(rq, prev, next);
- 	perf_event_task_sched_out(prev, next);
- 	rseq_preempt(prev);
-+	switch_mm_vcpu(prev, next);
- 	fire_sched_out_preempt_notifiers(prev, next);
- 	kmap_local_sched_out();
- 	prepare_task(next);
-@@ -11161,3 +11162,54 @@ void call_trace_sched_update_nr_running(struct rq *rq, int count)
- {
-         trace_sched_update_nr_running_tp(rq, count);
- }
-+
-+#ifdef CONFIG_SCHED_MM_VCPU
-+void sched_vcpu_exit_signals(struct task_struct *t)
-+{
-+	struct mm_struct *mm = t->mm;
-+	unsigned long flags;
-+
-+	if (!mm)
-+		return;
-+	local_irq_save(flags);
-+	mm_vcpu_put(mm, t->mm_vcpu);
-+	t->mm_vcpu = -1;
-+	t->mm_vcpu_active = 0;
-+	local_irq_restore(flags);
-+}
-+
-+void sched_vcpu_before_execve(struct task_struct *t)
-+{
-+	struct mm_struct *mm = t->mm;
-+	unsigned long flags;
-+
-+	if (!mm)
-+		return;
-+	local_irq_save(flags);
-+	mm_vcpu_put(mm, t->mm_vcpu);
-+	t->mm_vcpu = -1;
-+	t->mm_vcpu_active = 0;
-+	local_irq_restore(flags);
-+}
-+
-+void sched_vcpu_after_execve(struct task_struct *t)
-+{
-+	struct mm_struct *mm = t->mm;
-+	unsigned long flags;
-+
-+	WARN_ON_ONCE((t->flags & PF_KTHREAD) || !t->mm);
-+
-+	local_irq_save(flags);
-+	t->mm_vcpu = mm_vcpu_get(mm);
-+	t->mm_vcpu_active = 1;
-+	local_irq_restore(flags);
-+	rseq_set_notify_resume(t);
-+}
-+
-+void sched_vcpu_fork(struct task_struct *t)
-+{
-+	WARN_ON_ONCE((t->flags & PF_KTHREAD) || !t->mm);
-+	t->mm_vcpu = -1;
-+	t->mm_vcpu_active = 1;
-+}
-+#endif
-diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
-index 47b89a0fc6e5..cd5d994a7fd5 100644
---- a/kernel/sched/sched.h
-+++ b/kernel/sched/sched.h
-@@ -3116,4 +3116,172 @@ extern int sched_dynamic_mode(const char *str);
- extern void sched_dynamic_update(int mode);
- #endif
- 
-+#ifdef CONFIG_SCHED_MM_VCPU
-+static inline int __mm_vcpu_get_single_node(struct mm_struct *mm)
-+{
-+	struct cpumask *cpumask;
-+	int vcpu;
-+
-+	cpumask = mm_vcpumask(mm);
-+	vcpu = cpumask_first_zero(cpumask);
-+	if (vcpu >= nr_cpu_ids)
-+		return -1;
-+	__cpumask_set_cpu(vcpu, cpumask);
-+	return vcpu;
-+}
-+
-+#ifdef CONFIG_NUMA
-+static inline bool mm_node_vcpumask_test_cpu(struct mm_struct *mm, int vcpu_id)
-+{
-+	if (num_possible_nodes() == 1)
-+		return true;
-+	return cpumask_test_cpu(vcpu_id, mm_node_vcpumask(mm, numa_node_id()));
-+}
-+
-+static inline int __mm_vcpu_get(struct mm_struct *mm)
-+{
-+	struct cpumask *cpumask = mm_vcpumask(mm),
-+		       *node_cpumask = mm_node_vcpumask(mm, numa_node_id()),
-+		       *node_alloc_cpumask = mm_node_alloc_vcpumask(mm);
-+	unsigned int node;
-+	int vcpu;
-+
-+	if (num_possible_nodes() == 1)
-+		return __mm_vcpu_get_single_node(mm);
-+
-+	/*
-+	 * Try to reserve lowest available vcpu number within those already
-+	 * reserved for this NUMA node.
-+	 */
-+	vcpu = cpumask_first_one_and_zero(node_cpumask, cpumask);
-+	if (vcpu >= nr_cpu_ids)
-+		goto alloc_numa;
-+	__cpumask_set_cpu(vcpu, cpumask);
-+	goto end;
-+
-+alloc_numa:
-+	/*
-+	 * Try to reserve lowest available vcpu number within those not already
-+	 * allocated for numa nodes.
-+	 */
-+	vcpu = cpumask_first_zero_and_zero(node_alloc_cpumask, cpumask);
-+	if (vcpu >= nr_cpu_ids)
-+		goto numa_update;
-+	__cpumask_set_cpu(vcpu, cpumask);
-+	__cpumask_set_cpu(vcpu, node_cpumask);
-+	__cpumask_set_cpu(vcpu, node_alloc_cpumask);
-+	goto end;
-+
-+numa_update:
-+	/*
-+	 * NUMA node id configuration changed for at least one CPU in the system.
-+	 * We need to steal a currently unused vcpu_id from an overprovisioned
-+	 * node for our current node. Userspace must handle the fact that the
-+	 * node id associated with this vcpu_id may change due to node ID
-+	 * reconfiguration.
-+	 *
-+	 * Count how many possible cpus are attached to each (other) node id,
-+	 * and compare this with the per-mm node vcpumask cpu count. Find one
-+	 * which has too many cpus in its mask to steal from.
-+	 */
-+	for (node = 0; node < nr_node_ids; node++) {
-+		struct cpumask *iter_cpumask;
-+
-+		if (node == numa_node_id())
-+			continue;
-+		iter_cpumask = mm_node_vcpumask(mm, node);
-+		if (nr_cpus_node(node) < cpumask_weight(iter_cpumask)) {
-+			/* Try to steal from this node. */
-+			vcpu = cpumask_first_one_and_zero(iter_cpumask, cpumask);
-+			if (vcpu >= nr_cpu_ids)
-+				goto steal_fail;
-+			__cpumask_set_cpu(vcpu, cpumask);
-+			__cpumask_clear_cpu(vcpu, iter_cpumask);
-+			__cpumask_set_cpu(vcpu, node_cpumask);
-+			goto end;
-+		}
-+	}
-+
-+steal_fail:
-+	/*
-+	 * Our attempt at gracefully stealing a vcpu_id from another
-+	 * overprovisioned NUMA node failed. Fallback to grabbing the first
-+	 * available vcpu_id.
-+	 */
-+	vcpu = cpumask_first_zero(cpumask);
-+	if (vcpu >= nr_cpu_ids)
-+		return -1;
-+	__cpumask_set_cpu(vcpu, cpumask);
-+	/* Steal vcpu from its numa node mask. */
-+	for (node = 0; node < nr_node_ids; node++) {
-+		struct cpumask *iter_cpumask;
-+
-+		if (node == numa_node_id())
-+			continue;
-+		iter_cpumask = mm_node_vcpumask(mm, node);
-+		if (cpumask_test_cpu(vcpu, iter_cpumask)) {
-+			__cpumask_clear_cpu(vcpu, iter_cpumask);
-+			break;
-+		}
-+	}
-+	__cpumask_set_cpu(vcpu, node_cpumask);
-+end:
-+	return vcpu;
-+}
-+
-+#else
-+static inline bool mm_node_vcpumask_test_cpu(struct mm_struct *mm, int vcpu_id)
-+{
-+	return true;
-+}
-+static inline int __mm_vcpu_get(struct mm_struct *mm)
-+{
-+	return __mm_vcpu_get_single_node(mm);
-+}
-+#endif
-+
-+static inline void mm_vcpu_put(struct mm_struct *mm, int vcpu)
-+{
-+	lockdep_assert_irqs_disabled();
-+	if (vcpu < 0)
-+		return;
-+	spin_lock(&mm->vcpu_lock);
-+	__cpumask_clear_cpu(vcpu, mm_vcpumask(mm));
-+	spin_unlock(&mm->vcpu_lock);
-+}
-+
-+static inline int mm_vcpu_get(struct mm_struct *mm)
-+{
-+	int ret;
-+
-+	lockdep_assert_irqs_disabled();
-+	spin_lock(&mm->vcpu_lock);
-+	ret = __mm_vcpu_get(mm);
-+	spin_unlock(&mm->vcpu_lock);
-+	return ret;
-+}
-+
-+static inline void switch_mm_vcpu(struct task_struct *prev, struct task_struct *next)
-+{
-+	if (prev->mm_vcpu_active) {
-+		if (next->mm_vcpu_active && next->mm == prev->mm) {
-+			/*
-+			 * Context switch between threads in same mm, hand over
-+			 * the mm_vcpu from prev to next.
-+			 */
-+			next->mm_vcpu = prev->mm_vcpu;
-+			prev->mm_vcpu = -1;
-+			return;
-+		}
-+		mm_vcpu_put(prev->mm, prev->mm_vcpu);
-+		prev->mm_vcpu = -1;
-+	}
-+	if (next->mm_vcpu_active)
-+		next->mm_vcpu = mm_vcpu_get(next->mm);
-+}
-+
-+#else
-+static inline void switch_mm_vcpu(struct task_struct *prev, struct task_struct *next) { }
-+#endif
-+
- #endif /* _KERNEL_SCHED_SCHED_H */
-diff --git a/kernel/signal.c b/kernel/signal.c
-index 6f86fda5e432..85611c50a0c7 100644
---- a/kernel/signal.c
-+++ b/kernel/signal.c
-@@ -2949,6 +2949,7 @@ void exit_signals(struct task_struct *tsk)
- 	cgroup_threadgroup_change_begin(tsk);
- 
- 	if (thread_group_empty(tsk) || (tsk->signal->flags & SIGNAL_GROUP_EXIT)) {
-+		sched_vcpu_exit_signals(tsk);
- 		tsk->flags |= PF_EXITING;
- 		cgroup_threadgroup_change_end(tsk);
- 		return;
-@@ -2959,6 +2960,7 @@ void exit_signals(struct task_struct *tsk)
- 	 * From now this task is not visible for group-wide signals,
- 	 * see wants_signal(), do_signal_stop().
- 	 */
-+	sched_vcpu_exit_signals(tsk);
- 	tsk->flags |= PF_EXITING;
- 
- 	cgroup_threadgroup_change_end(tsk);
--- 
-2.25.1
-
+--=_MailMate_0AE2B72B-BD07-4D20-84DC-88A269F5D75E_=--
