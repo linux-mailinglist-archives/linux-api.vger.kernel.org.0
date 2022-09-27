@@ -2,140 +2,117 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E66E35EB4B3
-	for <lists+linux-api@lfdr.de>; Tue, 27 Sep 2022 00:44:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 287BC5EB6C9
+	for <lists+linux-api@lfdr.de>; Tue, 27 Sep 2022 03:24:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229866AbiIZWoL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 26 Sep 2022 18:44:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35574 "EHLO
+        id S229613AbiI0BYt (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 26 Sep 2022 21:24:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229605AbiIZWoJ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 26 Sep 2022 18:44:09 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30A2D9E2E5;
-        Mon, 26 Sep 2022 15:44:08 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id C24DA2199A;
-        Mon, 26 Sep 2022 22:44:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1664232246; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=3wqBvT1Pdp5nBIwk7f69QChWKcic6sFvlcDIXYHLhVw=;
-        b=bp3sjpaKgKxakHrVYbA6MiKdHvmDJOaK7Knl9ZekzxVGGvefEZtlBRay9JdXNdvtsI1FeT
-        BFiGJDTn7+nBrNUAcYcwtC/v/cFeQlQAXMryESS37gkkS89krmeCqqd4ZQnBlnku1Qj9nT
-        bHo5wmUgv+yvxmGT2ireKVPFG/FEpiA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1664232246;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=3wqBvT1Pdp5nBIwk7f69QChWKcic6sFvlcDIXYHLhVw=;
-        b=KNEYqmH80A7uU4gjB/CKhQ0gmEKPEUyR2v8DIyep3Ttnd3fg3CE5jdzAdX4shiTSaiECHR
-        w+8QIdUkTfKWlFCQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B2E7213486;
-        Mon, 26 Sep 2022 22:43:59 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id oE9qGi8rMmOyQwAAMHmgww
-        (envelope-from <neilb@suse.de>); Mon, 26 Sep 2022 22:43:59 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S229459AbiI0BYs (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 26 Sep 2022 21:24:48 -0400
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com [IPv6:2607:f8b0:4864:20::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64DF440BC8
+        for <linux-api@vger.kernel.org>; Mon, 26 Sep 2022 18:24:46 -0700 (PDT)
+Received: by mail-oi1-x229.google.com with SMTP id q10so2786347oib.5
+        for <linux-api@vger.kernel.org>; Mon, 26 Sep 2022 18:24:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=x5/X7S0D0PsuMd9Bj3ADbJYnKoDs6aX3p9Vher7KPK4=;
+        b=T98Ol14yNXZ31PsX1YZ/ZbDp+5FlzJPaIzZEe0LSf2DkhQF4ebrQcTWXHdXnaMYNMf
+         CgMYngJMjRuQpKh3Mcql2Jrpiji5N6l6zmn4I9zqErJksR7mIJ97v2GgQx2pG4lxLxrd
+         uG8K02iuABu4v8//VIlJDsnSHlc88WPqWaj5K5Cumw/6D0EvAksefSedSqfHhxXHYquE
+         EZ1i3z7ttGAPgiN0bMqd5CUnffFAZGUjTIWJo4yZdIUzWW5y64t8eCb/nLJONkLL1JPr
+         BwxZeh+l/JWjl9K0nt79CTW4TPEq9WL3pUFlyXvzG7/yIr/s4o+pgAI1aDzV/o7iCOf4
+         K50A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=x5/X7S0D0PsuMd9Bj3ADbJYnKoDs6aX3p9Vher7KPK4=;
+        b=e5DuKcUZ8UNOSE8hONszPQfwtt5EBAX3zNZsN4imel8eVTuYDyJBF8LeMEIXZ/fijN
+         tZx6l/ZECE0GbQVpkMv8GhaI9Tae05qFTdeMb6iVDTj3l96YyeDexWXYHyLhxOqF9bd/
+         Q9CPDYzCW8mlFI62LDQ+8QaAtwsOUkBFPoEcRfrfoPy7cTivJdUs6As2YHlxyOfvvQYO
+         amviR0JVoYN6/vqxUEwEuo0Kn2HuRkkv4yYJaGl4vDqb0BXJmk1Z5k1qQHQ8zd6kxGU9
+         BFh8PQyD+0cCubgUKlJzKWzksc5pxYLx9wMHAi1TWifn7Liz/3evwlSClxxdqK0sWvqU
+         NgYA==
+X-Gm-Message-State: ACrzQf1ZHGvBvsq/98UnSkwusJCqvJSXxYWAwVMueUZbxm6GnXWiNu7y
+        lwtwRGWgF3P1Oq2+ABte+AXdIYgDxd1ZOx2ewCKhwg==
+X-Google-Smtp-Source: AMsMyM53qxm8TeeWPjeLMg0JvSbn5Pjf07PvnhyBrbbJ1MGPvORc08yLoh3G5TEOasK8IK4UBQPsv8fDwqhkkCf3SEg=
+X-Received: by 2002:a05:6808:118c:b0:34f:9fc9:ce15 with SMTP id
+ j12-20020a056808118c00b0034f9fc9ce15mr727979oil.220.1664241885468; Mon, 26
+ Sep 2022 18:24:45 -0700 (PDT)
 MIME-Version: 1.0
-From:   "NeilBrown" <neilb@suse.de>
-To:     "Jeff Layton" <jlayton@kernel.org>
-Cc:     "Trond Myklebust" <trondmy@hammerspace.com>,
-        "jack@suse.cz" <jack@suse.cz>,
-        "zohar@linux.ibm.com" <zohar@linux.ibm.com>,
-        "djwong@kernel.org" <djwong@kernel.org>,
-        "brauner@kernel.org" <brauner@kernel.org>,
-        "linux-xfs@vger.kernel.org" <linux-xfs@vger.kernel.org>,
-        "bfields@fieldses.org" <bfields@fieldses.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "david@fromorbit.com" <david@fromorbit.com>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "chuck.lever@oracle.com" <chuck.lever@oracle.com>,
-        "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>,
-        "linux-nfs@vger.kernel.org" <linux-nfs@vger.kernel.org>,
-        "linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
-        "tytso@mit.edu" <tytso@mit.edu>,
-        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-        "xiubli@redhat.com" <xiubli@redhat.com>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>,
-        "lczerner@redhat.com" <lczerner@redhat.com>,
-        "ceph-devel@vger.kernel.org" <ceph-devel@vger.kernel.org>,
-        "linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>
-Subject: Re: [man-pages RFC PATCH v4] statx, inode: document the new
- STATX_INO_VERSION field
-In-reply-to: <baf852dfb57aaf5a670bc88236f8d62c99668fcc.camel@kernel.org>
-References: <24005713ad25370d64ab5bd0db0b2e4fcb902c1c.camel@kernel.org>,
- <20220918235344.GH3600936@dread.disaster.area>,
- <87fb43b117472c0a4c688c37a925ac51738c8826.camel@kernel.org>,
- <20220920001645.GN3600936@dread.disaster.area>,
- <5832424c328ea427b5c6ecdaa6dd53f3b99c20a0.camel@kernel.org>,
- <20220921000032.GR3600936@dread.disaster.area>,
- <93b6d9f7cf997245bb68409eeb195f9400e55cd0.camel@kernel.org>,
- <20220921214124.GS3600936@dread.disaster.area>,
- <e04e349170bc227b330556556d0592a53692b5b5.camel@kernel.org>,
- <1ef261e3ff1fa7fcd0d75ed755931aacb8062de2.camel@kernel.org>,
- <20220923095653.5c63i2jgv52j3zqp@quack3>,
- <2d41c08e1fd96d55c794c3b4cd43a51a0494bfcf.camel@hammerspace.com>,
- <baf852dfb57aaf5a670bc88236f8d62c99668fcc.camel@kernel.org>
-Date:   Tue, 27 Sep 2022 08:43:56 +1000
-Message-id: <166423223623.17572.7229091435446226718@noble.neil.brown.name>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20220922224046.1143204-1-zokeefe@google.com> <20220922224046.1143204-4-zokeefe@google.com>
+ <CAHbLzkrL4T_kBG3VgxYgoiHkpe0eqkJvmmGKt9swy39c6MMCrw@mail.gmail.com>
+In-Reply-To: <CAHbLzkrL4T_kBG3VgxYgoiHkpe0eqkJvmmGKt9swy39c6MMCrw@mail.gmail.com>
+From:   "Zach O'Keefe" <zokeefe@google.com>
+Date:   Mon, 26 Sep 2022 18:24:09 -0700
+Message-ID: <CAAa6QmTrAQQBqL7ry6_Mpg0D8C1uNDtfhjkzFyZz2+G_VXmGdQ@mail.gmail.com>
+Subject: Re: [PATCH mm-unstable v4 03/10] mm/madvise: add file and shmem
+ support to MADV_COLLAPSE
+To:     Yang Shi <shy828301@gmail.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
+        linux-api@vger.kernel.org,
+        Axel Rasmussen <axelrasmussen@google.com>,
+        James Houghton <jthoughton@google.com>,
+        Hugh Dickins <hughd@google.com>,
+        Miaohe Lin <linmiaohe@huawei.com>,
+        David Hildenbrand <david@redhat.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Pasha Tatashin <pasha.tatashin@soleen.com>,
+        Peter Xu <peterx@redhat.com>,
+        Rongwei Wang <rongwei.wang@linux.alibaba.com>,
+        SeongJae Park <sj@kernel.org>,
+        Song Liu <songliubraving@fb.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Chris Kennelly <ckennelly@google.com>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Patrick Xia <patrickx@google.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, 23 Sep 2022, Jeff Layton wrote:
-> 
-> Absolutely. That is the downside of this approach, but the priority here
-> has always been to improve nfsd. If we don't get the ability to present
-> this info via statx, then so be it. Later on, I suppose we can move that
-> handling into the kernel in some fashion if we decide it's worthwhile.
-> 
-> That said, not having this in statx makes it more difficult to test
-> i_version behavior. Maybe we can add a generic ioctl for that in the
-> interim?
+> > +/* hpage must be locked, and mmap_lock must be held in write */
+> > +static int set_huge_pmd(struct vm_area_struct *vma, unsigned long addr,
+> > +                       pmd_t *pmdp, struct page *hpage)
+> > +{
+> > +       struct vm_fault vmf = {
+> > +               .vma = vma,
+> > +               .address = addr,
+> > +               .flags = 0,
+>
+> It means you are going to install a readonly PMD. It is fine for
+> readonly fs, but it may be not performant for shmem since the
+> following write will trigger wp fault then the PMD will be split. So
+> it should be ok to install writable PMD for shmem.
+>
+> But anyway this is not a fatal problem, the patch looks good to me.
+> Reviewed-by: Yang Shi <shy828301@gmail.com>
+>
 
-I wonder if we are over-thinking this, trying too hard, making "perfect"
-the enemy of "good".
-While we agree that the current implementation of i_version is
-imperfect, it isn't causing major data corruption all around the world.
-I don't think there are even any known bug reports are there?
-So while we do want to fix it as best we can, we don't need to make that
-the first priority.
+Thanks, Yang!
 
-I think the first priority should be to document how we want it to work,
-which is what this thread is really all about.  The documentation can
-note that some (all) filesystems do not provide perfect semantics across
-unclean restarts, and can list any other anomalies that we are aware of.
-And on that basis we can export the current i_version to user-space via
-statx and start trying to write some test code.
+I haven't worked out the details for writable shmem, but I'm hoping
+FAULT_FLAG_WRITE is enough here.
 
-We can then look at moving the i_version/ctime update from *before* the
-write to *after* the write, and any other improvements that can be
-achieved easily in common code.  We can then update the man page to say
-"since Linux 6.42, this list of anomalies is no longer present".
-
-Then we can explore some options for handling unclean restart - in a
-context where we can write tests and maybe even demonstrate a concrete
-problem before we start trying to fix it.
-
-NeilBrown
+I'm also now wondering if FAULT_FLAG_REMOTE is needed here for
+process_madvise(MADV_COLLAPSE) when called on behalf of another
+process; though that would also mean it's needed in
+__collapse_huge_page_swapin() as well (even when running as
+khugepaged). I can't say I fully understand 1b2ee1266ea6 ("mm/core: Do
+not enforce PKEY permissions on remote mm access"), but if the comment
+in include/linux/mm_types.h is to be trusted, then this would be the
+case.
