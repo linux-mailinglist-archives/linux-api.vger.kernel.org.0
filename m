@@ -2,117 +2,94 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 287BC5EB6C9
-	for <lists+linux-api@lfdr.de>; Tue, 27 Sep 2022 03:24:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 281F65EB7C7
+	for <lists+linux-api@lfdr.de>; Tue, 27 Sep 2022 04:37:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229613AbiI0BYt (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 26 Sep 2022 21:24:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52272 "EHLO
+        id S229477AbiI0Cht (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 26 Sep 2022 22:37:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40844 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229459AbiI0BYs (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 26 Sep 2022 21:24:48 -0400
-Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com [IPv6:2607:f8b0:4864:20::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64DF440BC8
-        for <linux-api@vger.kernel.org>; Mon, 26 Sep 2022 18:24:46 -0700 (PDT)
-Received: by mail-oi1-x229.google.com with SMTP id q10so2786347oib.5
-        for <linux-api@vger.kernel.org>; Mon, 26 Sep 2022 18:24:46 -0700 (PDT)
+        with ESMTP id S229538AbiI0Chs (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 26 Sep 2022 22:37:48 -0400
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E260CA02EF
+        for <linux-api@vger.kernel.org>; Mon, 26 Sep 2022 19:37:46 -0700 (PDT)
+Received: by mail-pl1-x62c.google.com with SMTP id v1so7865794plo.9
+        for <linux-api@vger.kernel.org>; Mon, 26 Sep 2022 19:37:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=x5/X7S0D0PsuMd9Bj3ADbJYnKoDs6aX3p9Vher7KPK4=;
-        b=T98Ol14yNXZ31PsX1YZ/ZbDp+5FlzJPaIzZEe0LSf2DkhQF4ebrQcTWXHdXnaMYNMf
-         CgMYngJMjRuQpKh3Mcql2Jrpiji5N6l6zmn4I9zqErJksR7mIJ97v2GgQx2pG4lxLxrd
-         uG8K02iuABu4v8//VIlJDsnSHlc88WPqWaj5K5Cumw/6D0EvAksefSedSqfHhxXHYquE
-         EZ1i3z7ttGAPgiN0bMqd5CUnffFAZGUjTIWJo4yZdIUzWW5y64t8eCb/nLJONkLL1JPr
-         BwxZeh+l/JWjl9K0nt79CTW4TPEq9WL3pUFlyXvzG7/yIr/s4o+pgAI1aDzV/o7iCOf4
-         K50A==
+        d=chromium.org; s=google;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
+        bh=/XRd/aWBk5jCAmuoAQuPsY7AqhCiNuH6AfOLsLMKTdU=;
+        b=AeafmdoMSMHxUt9znzwqN62NCILxYpqTgFHT2ka5g6cIoZ+H7/6Tj+KVUxKXjken3f
+         wmippMkRevTMLncHHCjWoC1ug1ybN8fG9NoI1uoYUj1ihA355ms3znvMh8X4zEbzBJHR
+         0GY22DFARUMRFn+tuXVBrSvRv+ftAgeDTP8ts=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=x5/X7S0D0PsuMd9Bj3ADbJYnKoDs6aX3p9Vher7KPK4=;
-        b=e5DuKcUZ8UNOSE8hONszPQfwtt5EBAX3zNZsN4imel8eVTuYDyJBF8LeMEIXZ/fijN
-         tZx6l/ZECE0GbQVpkMv8GhaI9Tae05qFTdeMb6iVDTj3l96YyeDexWXYHyLhxOqF9bd/
-         Q9CPDYzCW8mlFI62LDQ+8QaAtwsOUkBFPoEcRfrfoPy7cTivJdUs6As2YHlxyOfvvQYO
-         amviR0JVoYN6/vqxUEwEuo0Kn2HuRkkv4yYJaGl4vDqb0BXJmk1Z5k1qQHQ8zd6kxGU9
-         BFh8PQyD+0cCubgUKlJzKWzksc5pxYLx9wMHAi1TWifn7Liz/3evwlSClxxdqK0sWvqU
-         NgYA==
-X-Gm-Message-State: ACrzQf1ZHGvBvsq/98UnSkwusJCqvJSXxYWAwVMueUZbxm6GnXWiNu7y
-        lwtwRGWgF3P1Oq2+ABte+AXdIYgDxd1ZOx2ewCKhwg==
-X-Google-Smtp-Source: AMsMyM53qxm8TeeWPjeLMg0JvSbn5Pjf07PvnhyBrbbJ1MGPvORc08yLoh3G5TEOasK8IK4UBQPsv8fDwqhkkCf3SEg=
-X-Received: by 2002:a05:6808:118c:b0:34f:9fc9:ce15 with SMTP id
- j12-20020a056808118c00b0034f9fc9ce15mr727979oil.220.1664241885468; Mon, 26
- Sep 2022 18:24:45 -0700 (PDT)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date;
+        bh=/XRd/aWBk5jCAmuoAQuPsY7AqhCiNuH6AfOLsLMKTdU=;
+        b=TUjUbfLMf/uW8ExHESL5w/DJTFQOz2MAm5+H0GY5A/pLOPN2/7XvgDlnPz8EllBLbz
+         /b3XiwMFrjd6lgPVC8Lru2k5Jd+EyXpXiU+ex1HfPVJrHQFIScpaWHXwB6Ya74hw9LbZ
+         kkYVXuafnIvdPlWGEtrYHSAWnQuUPVEGh0PquITmtyeKms/Dq6RhggS5gwPZPfxnejVg
+         2b2WJZldVPQx2DbIMQou1ImcCngloOVUlJnY5nOAAydjIVIF9XdgdeTnPuQ884TI/PJl
+         MpbERo/PL7yec/PIukFwlnyhzYpBM3dsTjXBDRrZxPjAAT1tydpYd9RbmtP5+O/U2a5h
+         uFLw==
+X-Gm-Message-State: ACrzQf2C+jSMrbU+PTpPs73iIRsXzNSQ7fbhltTs0ArrfCU9VUofFXpc
+        ZnNk084QTFy3RqPiRPr14K7K3OJRzu6lCQ==
+X-Google-Smtp-Source: AMsMyM5yLWdhYObdorDIlWiBERwUvOOeSq4ad3HIojfD6Tofme4SaUzlw/sZvWvNi+qe9egrnE0c6Q==
+X-Received: by 2002:a17:90b:1d8b:b0:200:5367:5ecd with SMTP id pf11-20020a17090b1d8b00b0020053675ecdmr1971892pjb.165.1664246265768;
+        Mon, 26 Sep 2022 19:37:45 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id s1-20020a170902b18100b00176e2fa216csm176564plr.52.2022.09.26.19.37.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Sep 2022 19:37:45 -0700 (PDT)
+From:   Kees Cook <keescook@chromium.org>
+To:     ebiederm@xmission.com
+Cc:     Kees Cook <keescook@chromium.org>, linux-kernel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org
+Subject: Re: [PATCH] a.out: Remove the a.out implementation
+Date:   Mon, 26 Sep 2022 19:36:33 -0700
+Message-Id: <166424619048.1957636.14312901276184216710.b4-ty@chromium.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <871qrx3hq3.fsf@email.froward.int.ebiederm.org>
+References: <871qrx3hq3.fsf@email.froward.int.ebiederm.org>
 MIME-Version: 1.0
-References: <20220922224046.1143204-1-zokeefe@google.com> <20220922224046.1143204-4-zokeefe@google.com>
- <CAHbLzkrL4T_kBG3VgxYgoiHkpe0eqkJvmmGKt9swy39c6MMCrw@mail.gmail.com>
-In-Reply-To: <CAHbLzkrL4T_kBG3VgxYgoiHkpe0eqkJvmmGKt9swy39c6MMCrw@mail.gmail.com>
-From:   "Zach O'Keefe" <zokeefe@google.com>
-Date:   Mon, 26 Sep 2022 18:24:09 -0700
-Message-ID: <CAAa6QmTrAQQBqL7ry6_Mpg0D8C1uNDtfhjkzFyZz2+G_VXmGdQ@mail.gmail.com>
-Subject: Re: [PATCH mm-unstable v4 03/10] mm/madvise: add file and shmem
- support to MADV_COLLAPSE
-To:     Yang Shi <shy828301@gmail.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
-        linux-api@vger.kernel.org,
-        Axel Rasmussen <axelrasmussen@google.com>,
-        James Houghton <jthoughton@google.com>,
-        Hugh Dickins <hughd@google.com>,
-        Miaohe Lin <linmiaohe@huawei.com>,
-        David Hildenbrand <david@redhat.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Pasha Tatashin <pasha.tatashin@soleen.com>,
-        Peter Xu <peterx@redhat.com>,
-        Rongwei Wang <rongwei.wang@linux.alibaba.com>,
-        SeongJae Park <sj@kernel.org>,
-        Song Liu <songliubraving@fb.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Chris Kennelly <ckennelly@google.com>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Patrick Xia <patrickx@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-> > +/* hpage must be locked, and mmap_lock must be held in write */
-> > +static int set_huge_pmd(struct vm_area_struct *vma, unsigned long addr,
-> > +                       pmd_t *pmdp, struct page *hpage)
-> > +{
-> > +       struct vm_fault vmf = {
-> > +               .vma = vma,
-> > +               .address = addr,
-> > +               .flags = 0,
->
-> It means you are going to install a readonly PMD. It is fine for
-> readonly fs, but it may be not performant for shmem since the
-> following write will trigger wp fault then the PMD will be split. So
-> it should be ok to install writable PMD for shmem.
->
-> But anyway this is not a fatal problem, the patch looks good to me.
-> Reviewed-by: Yang Shi <shy828301@gmail.com>
->
+On Mon, 26 Sep 2022 17:15:32 -0500, Eric W. Biederman wrote:
+> In commit 19e8b701e258 ("a.out: Stop building a.out/osf1 support on
+> alpha and m68k") the last users of a.out were disabled.
+> 
+> As nothing has turned up to cause this change to be reverted, let's
+> remove the code implementing a.out support as well.
+> 
+> There may be userspace users of the uapi bits left so the uapi
+> headers have been left untouched.
+> 
+> [...]
 
-Thanks, Yang!
+Let's do it! It can always be reverted. :) My favorite kind of patch:
 
-I haven't worked out the details for writable shmem, but I'm hoping
-FAULT_FLAG_WRITE is enough here.
+>  22 files changed, 1 insertion(+), 505 deletions(-)
+                                     ^^^^^^^^^^^^^^
 
-I'm also now wondering if FAULT_FLAG_REMOTE is needed here for
-process_madvise(MADV_COLLAPSE) when called on behalf of another
-process; though that would also mean it's needed in
-__collapse_huge_page_swapin() as well (even when running as
-khugepaged). I can't say I fully understand 1b2ee1266ea6 ("mm/core: Do
-not enforce PKEY permissions on remote mm access"), but if the comment
-in include/linux/mm_types.h is to be trusted, then this would be the
-case.
+Applied to for-next/execve, thanks!
+
+[1/1] a.out: Remove the a.out implementation
+      https://git.kernel.org/kees/c/795d91fe0e13
+
+-- 
+Kees Cook
+
