@@ -2,60 +2,60 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2EA8F5F00EE
-	for <lists+linux-api@lfdr.de>; Fri, 30 Sep 2022 00:46:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CA6975F0152
+	for <lists+linux-api@lfdr.de>; Fri, 30 Sep 2022 01:22:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230319AbiI2Wqa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 29 Sep 2022 18:46:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38396 "EHLO
+        id S229449AbiI2XW2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 29 Sep 2022 19:22:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49786 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230104AbiI2Wpw (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 29 Sep 2022 18:45:52 -0400
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3FBB386AE;
-        Thu, 29 Sep 2022 15:45:20 -0700 (PDT)
-Received: by mail-pf1-x42b.google.com with SMTP id w2so2719165pfb.0;
-        Thu, 29 Sep 2022 15:45:20 -0700 (PDT)
+        with ESMTP id S229550AbiI2XW1 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 29 Sep 2022 19:22:27 -0400
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37A42132D5E
+        for <linux-api@vger.kernel.org>; Thu, 29 Sep 2022 16:22:24 -0700 (PDT)
+Received: by mail-pj1-x1032.google.com with SMTP id x32-20020a17090a38a300b00209dced49cfso165365pjb.0
+        for <linux-api@vger.kernel.org>; Thu, 29 Sep 2022 16:22:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=google.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=ByScpYkyRiCU42lbuVk6qEFlopY8wZGmivn5KTd4TkE=;
-        b=lCAg7J5XBsmL67S4ZX++/AHEh9LqfKfUqfXAwLH9JogkhvyRO83RZ1Du9C4di0rODz
-         kLZh/NE3uWWM/16Hp3uljQIoX0MFNKNuV3C68eln7snytpYC2ZwiQ/V0cLeGd1eHLwBC
-         xZUPST6xsPprIa2dWHCykDOU91y140Q5KWomGApBmM0iNB3o1LdjW/DQ7VqhYIf1E8u2
-         h43ebHa7BCSKFwUduXxQhPuT5TwVny9wTPKsyTwC1K3cE1PDMdpfFs5LAi7yM1CLwhBA
-         SRQHTIlNp9clZhJVcQu1Dmhn2ngA/E21LXi/BXNoOBp9H7PEa/hZUshHWpvqrAmmDNji
-         +OWA==
+        bh=SlBvqIbtpL0VufXgwK7uhVH38JuonCmEli0InnRVEwc=;
+        b=WuAt0WRwYyROULHsLoKuJv2kXZVaCxvv5se5SYxucmOEgMFUNx2D57LgdDwCei2x1H
+         BHZJk6cnqMJ9lpHSGjIAQZn0y8BmTQuG82WIZcNgoFeD7LG4pqgoDjfwNUvpxX0kJLxv
+         Dw+WsZzJyUYdaQkT0re+VcE6b51zajqB6Pihs0d5Dm06lt/3y15zlDRlEVhaJYcITjqq
+         kxupICcV/19shZioX2psCPJiZdpZ4ysq5/1T3jM0Xx0pSi+GIDFyiPzVO05s6m98CDTT
+         tOo/5JDD8RVKU0DNuMgu6l56RXQ8C5tSDlMssCXWcmrz1Q8KJiW+10QJLFQH8nbm/WCu
+         b7Pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=ByScpYkyRiCU42lbuVk6qEFlopY8wZGmivn5KTd4TkE=;
-        b=kjGJVOCcN8AG7yVFyDxNPzY8T/qzqS7FUQRXn+39oAMuLBjlD3QR8c/55sEzQnEUm9
-         y6dvvb6YRIivQ73RJDaxQ627gm4Tza/V5HyoOOC8KU485mNmqQ77FfGHJnuGIKbPDujx
-         7FL6RvZfF9vFXuClVF7zYtHORtRZqXLZNmpv8T5GMQiHXb8+Ay9lM0lRw3V5vcUfjSr3
-         vrWWXr5+hjW8yavzgWL6bcPp12VMkPWT8CCcHPY9n+qC6DaMVU5MiPDczf73KV8Abib+
-         KlrLwW6G5I8yJyvAo/Z/FyohEZVVRS3m0peyJnTocE7EMvttS/TiI9IEMJK5c4XLmAEk
-         qs6Q==
-X-Gm-Message-State: ACrzQf1rFZDXllMfMqe4qYcA8bIkE6i3SFemGJmnR0ImVEO47eP3R36G
-        PnmtRcrmuG+jcdurKxNoIU4=
-X-Google-Smtp-Source: AMsMyM6MQvFe701ujja7rvZea79ByiauTnUf8YlkU9ZkqGQBYquDrfuLbNd+uGgJ3lljB5PQecL3LA==
-X-Received: by 2002:a63:4d4:0:b0:438:ce28:757f with SMTP id 203-20020a6304d4000000b00438ce28757fmr4873802pge.441.1664491520310;
-        Thu, 29 Sep 2022 15:45:20 -0700 (PDT)
-Received: from localhost ([192.55.54.55])
-        by smtp.gmail.com with ESMTPSA id u11-20020a170903124b00b001754cfb5e21sm415508plh.96.2022.09.29.15.45.17
+        bh=SlBvqIbtpL0VufXgwK7uhVH38JuonCmEli0InnRVEwc=;
+        b=Ta1OTkywYMeBy/h1vb9PwGMSHfyMlmKxc8rVRX5aRjKrtHumilfUlXui8ZVzLsLzMI
+         GKnGRC1SphihztEjzHoNnjuobdLvBID6YofK7AedffrNlmWyniBWgkUuJetF7siF5xHF
+         SnSV/rYpZOaoZRbSvAchpYylYMDA4xx8vZdrrJJaBzxBw/Jd5lIwVbqZgFPO50014a/n
+         8jtXM9yodumqnamTn9Eb5Uvvj0xsTVYJnP+3nZEhU5645S12za9+y1ec6IYZlLbfyhOb
+         ATbMEBOjMlxD3Kr3oTambIQqa2kKRknAVeIn0fQp55VRbbfY72eFMW6FahfLuygYOuMa
+         04Mg==
+X-Gm-Message-State: ACrzQf0mfwHvBhEMjHLqmbz9I7GWD+Wf45IML1bCthLORd7HFanNvBkD
+        SPEnyX+WpOi6AQA7VUhWEWLpgA==
+X-Google-Smtp-Source: AMsMyM75zZcPQQjlBQckiGdn+LExa+Ehm1TbE+ovPavYyibrIT8X85CNF5p+NDaTg0PkeD+6UnKilA==
+X-Received: by 2002:a17:90b:1d81:b0:205:f381:7372 with SMTP id pf1-20020a17090b1d8100b00205f3817372mr11503541pjb.165.1664493743484;
+        Thu, 29 Sep 2022 16:22:23 -0700 (PDT)
+Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
+        by smtp.gmail.com with ESMTPSA id g11-20020a17090a290b00b001f319e9b9e5sm4062149pjd.16.2022.09.29.16.22.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Sep 2022 15:45:18 -0700 (PDT)
-Date:   Thu, 29 Sep 2022 15:45:16 -0700
-From:   Isaku Yamahata <isaku.yamahata@gmail.com>
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+        Thu, 29 Sep 2022 16:22:22 -0700 (PDT)
+Date:   Thu, 29 Sep 2022 23:22:19 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Isaku Yamahata <isaku.yamahata@gmail.com>
+Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
         Vitaly Kuznetsov <vkuznets@redhat.com>,
         Wanpeng Li <wanpengli@tencent.com>,
         Jim Mattson <jmattson@google.com>,
@@ -79,20 +79,21 @@ Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
         ddutile@redhat.com, dhildenb@redhat.com,
         Quentin Perret <qperret@google.com>,
         Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com,
-        isaku.yamahata@gmail.com
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
 Subject: Re: [PATCH v8 2/8] KVM: Extend the memslot to support fd-based
  private memory
-Message-ID: <20220929224516.GA2260388@ls.amr.corp.intel.com>
+Message-ID: <YzYoq/4AcWGS/noD@google.com>
 References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
  <20220915142913.2213336-3-chao.p.peng@linux.intel.com>
+ <20220929224516.GA2260388@ls.amr.corp.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220915142913.2213336-3-chao.p.peng@linux.intel.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+In-Reply-To: <20220929224516.GA2260388@ls.amr.corp.intel.com>
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -100,71 +101,42 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Sep 15, 2022 at 10:29:07PM +0800,
-Chao Peng <chao.p.peng@linux.intel.com> wrote:
-...
-> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> index 584a5bab3af3..12dc0dc57b06 100644
-> --- a/virt/kvm/kvm_main.c
-> +++ b/virt/kvm/kvm_main.c
-...
-> @@ -4622,6 +4622,33 @@ static int kvm_vm_ioctl_get_stats_fd(struct kvm *kvm)
->  	return fd;
->  }
->  
-> +#define SANITY_CHECK_MEM_REGION_FIELD(field)					\
-> +do {										\
-> +	BUILD_BUG_ON(offsetof(struct kvm_user_mem_region, field) !=		\
-> +		     offsetof(struct kvm_userspace_memory_region, field));	\
-> +	BUILD_BUG_ON(sizeof_field(struct kvm_user_mem_region, field) !=		\
-> +		     sizeof_field(struct kvm_userspace_memory_region, field));	\
-> +} while (0)
-> +
-> +#define SANITY_CHECK_MEM_REGION_EXT_FIELD(field)					\
-> +do {											\
-> +	BUILD_BUG_ON(offsetof(struct kvm_user_mem_region, field) !=			\
-> +		     offsetof(struct kvm_userspace_memory_region_ext, field));		\
-> +	BUILD_BUG_ON(sizeof_field(struct kvm_user_mem_region, field) !=			\
-> +		     sizeof_field(struct kvm_userspace_memory_region_ext, field));	\
-> +} while (0)
-> +
-> +static void kvm_sanity_check_user_mem_region_alias(void)
-> +{
-> +	SANITY_CHECK_MEM_REGION_FIELD(slot);
-> +	SANITY_CHECK_MEM_REGION_FIELD(flags);
-> +	SANITY_CHECK_MEM_REGION_FIELD(guest_phys_addr);
-> +	SANITY_CHECK_MEM_REGION_FIELD(memory_size);
-> +	SANITY_CHECK_MEM_REGION_FIELD(userspace_addr);
-> +	SANITY_CHECK_MEM_REGION_EXT_FIELD(private_offset);
-> +	SANITY_CHECK_MEM_REGION_EXT_FIELD(private_fd);
-> +}
-> +
->  static long kvm_vm_ioctl(struct file *filp,
->  			   unsigned int ioctl, unsigned long arg)
->  {
-> @@ -4645,14 +4672,20 @@ static long kvm_vm_ioctl(struct file *filp,
->  		break;
->  	}
->  	case KVM_SET_USER_MEMORY_REGION: {
-> -		struct kvm_userspace_memory_region kvm_userspace_mem;
-> +		struct kvm_user_mem_region mem;
-> +		unsigned long size = sizeof(struct kvm_userspace_memory_region);
-> +
-> +		kvm_sanity_check_user_mem_region_alias();
->  
->  		r = -EFAULT;
-> -		if (copy_from_user(&kvm_userspace_mem, argp,
-> -						sizeof(kvm_userspace_mem)))
-> +		if (copy_from_user(&mem, argp, size);
-> +			goto out;
-> +
-> +		r = -EINVAL;
-> +		if (mem.flags & KVM_MEM_PRIVATE)
->  			goto out;
+On Thu, Sep 29, 2022, Isaku Yamahata wrote:
+> On Thu, Sep 15, 2022 at 10:29:07PM +0800,
+> Chao Peng <chao.p.peng@linux.intel.com> wrote:
+> > @@ -4645,14 +4672,20 @@ static long kvm_vm_ioctl(struct file *filp,
+> >  		break;
+> >  	}
+> >  	case KVM_SET_USER_MEMORY_REGION: {
+> > -		struct kvm_userspace_memory_region kvm_userspace_mem;
+> > +		struct kvm_user_mem_region mem;
+> > +		unsigned long size = sizeof(struct kvm_userspace_memory_region);
+> > +
+> > +		kvm_sanity_check_user_mem_region_alias();
+> >  
+> >  		r = -EFAULT;
+> > -		if (copy_from_user(&kvm_userspace_mem, argp,
+> > -						sizeof(kvm_userspace_mem)))
+> > +		if (copy_from_user(&mem, argp, size);
+> > +			goto out;
+> > +
+> > +		r = -EINVAL;
+> > +		if (mem.flags & KVM_MEM_PRIVATE)
+> >  			goto out;
+> 
+> Nit:  It's better to check if padding is zero.  Maybe rename it to reserved.
+> 
+> +               if (mem.pad1 || memchr_inv(mem.pad2, 0, sizeof(mem.pad2)))
+> +                       goto out;
 
-Nit:  It's better to check if padding is zero.  Maybe rename it to reserved.
+No need, KVM has more or less settled on using flags instead "reserving" bytes.
+E.g. if/when another fancy feature comes along, we'll add another KVM_MEM_XYZ
+and only consume the relevant fields when the flag is set.  Reserving bytes
+doesn't work very well because it assumes that '0' is an invalid value, e.g. if
+the future expansion is for a non-private file descriptor, then we'd need a new
+flag even if KVM reserved bytes since fd=0 is valid.
 
-+               if (mem.pad1 || memchr_inv(mem.pad2, 0, sizeof(mem.pad2)))
-+                       goto out;
--- 
-Isaku Yamahata <isaku.yamahata@gmail.com>
+The only reason to bother with pad2[14] at this time is to avoid having to define
+yet another struct if/when the struct needs to expand again.  The struct definition
+will still need to be changed, but at least we won't end up with struct
+kvm_userspace_memory_region_really_extended.
