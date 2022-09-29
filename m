@@ -2,195 +2,414 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C85375EDDCD
-	for <lists+linux-api@lfdr.de>; Wed, 28 Sep 2022 15:36:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 448B35EEDFF
+	for <lists+linux-api@lfdr.de>; Thu, 29 Sep 2022 08:44:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234051AbiI1Ng0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 28 Sep 2022 09:36:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44010 "EHLO
+        id S234856AbiI2GoP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 29 Sep 2022 02:44:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46986 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233742AbiI1NgY (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 28 Sep 2022 09:36:24 -0400
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com [66.111.4.230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6B26A3D4A;
-        Wed, 28 Sep 2022 06:36:15 -0700 (PDT)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 3051758057F;
-        Wed, 28 Sep 2022 09:36:12 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Wed, 28 Sep 2022 09:36:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
-         h=cc:cc:content-type:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm1; t=1664372172; x=1664379372; bh=tj
-        nmSL00ZZM1oFN2Ay5SF+8t5QvO8oA3qdQmqLG6FSc=; b=pyC2V+ZIEI8hVKL4jk
-        eh1aquPI6x2I81olRmeClPVF5hiKuHbjq+E3Y51i2sBCWzatKsoYOW5khczk6WTM
-        8J6YL2p0nhiHPsJmx3EYgz1OnPMvJkef/MNp0SnduwLZ1ZX6lpVzr9UkDHbY6eYW
-        SluwH3HiuqQUEGPhse5UegddHgqGjwiyQeFgJp003ukUcVs4zntu6M0FWPOP7TFA
-        TI1qrvyQWon8bG9iV39m4PEqzPilDsdhorlFNIzyBM1jcAIdglIV3t0JNzf7DuOC
-        l9MEdQpNb9xkBzQ6JqtJQX3ZDm5dmTKgJYDwUzRPqvXzX5m9Qt2azaQxldzP1pSO
-        v89g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm2; t=1664372172; x=1664379372; bh=tjnmSL00ZZM1oFN2Ay5SF+8t5QvO
-        8oA3qdQmqLG6FSc=; b=I81/AahetSMdo18CBUdQQn4rwPC0r15wzFvsbpWQ8B4E
-        746jkJMhyoYQKiBRceB2Gp47egha5pvGShnDJFfhL02LgoLPWnvFMmax8G6dAG0q
-        nOowrWfTh38eT9HNrQF46lVjPH8o/pV5CGVhtozHe55WVEbm75M5iXtqRH71uNsA
-        rDVoDbE4uPb4u9TexIb2JhapAbg+MC0aMx379ZD4xrzCxncdOz2grYX4F44ffRto
-        ql24c4H3yyZ5J5r7YQfN2Ql0whcssZyXK5FiGhdcpWeXcUHZ3L6H3SEluW1n/deT
-        NnMVKToWSZCaj+GJfGmYJX0mHnMa+eWkxNShDvaneg==
-X-ME-Sender: <xms:yU00Y3kjTKFsA4mKa-lwOV4QqioQlg16k5bYKWHXGWM31PtA16U6ww>
-    <xme:yU00Y63sy_55IDIvZxOjGFUOEQrlOw3cI29BFYlHinqPpZqravTtk568kQ5hXMLF9
-    QnFQMNC631kQVFFRes>
-X-ME-Received: <xmr:yU00Y9qLU-AErVU-Lm2JAIxeEVCEXTkrIaCyGkEHL8g96v_jTXTReZEvuFElOZSloLMXBw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeegkedgieekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesthdttddttddtvdenucfhrhhomhepfdfmihhr
-    ihhllhcutedrucfuhhhuthgvmhhovhdfuceokhhirhhilhhlsehshhhuthgvmhhovhdrnh
-    grmhgvqeenucggtffrrghtthgvrhhnpeelgffhfeetlefhveffleevfffgtefffeelfedu
-    udfhjeduteeggfeiheefteehjeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuve
-    hluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepkhhirhhilhhl
-    sehshhhuthgvmhhovhdrnhgrmhgv
-X-ME-Proxy: <xmx:yU00Y_nTE9FQbvMtkDpXIYFpJprXJRI2pO6aaokPg4j6Pp6bC76pzA>
-    <xmx:yU00Y127smmXEKIn220aLfUL0MekHTvkmatnwtwo4Tx3n16KZSxStw>
-    <xmx:yU00Y-vwEXbGnyuz1YEqODYDj3tQYEnAcF4PVm9Hf1yGm0Oty962Ig>
-    <xmx:zE00Y-RwGOa2beh1OemdZjSQGikerz2RKwrSbfVuTlu93LrEu1bacg>
-Feedback-ID: ie3994620:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 28 Sep 2022 09:36:09 -0400 (EDT)
-Received: by box.shutemov.name (Postfix, from userid 1000)
-        id C0423104667; Wed, 28 Sep 2022 16:36:05 +0300 (+03)
-Date:   Wed, 28 Sep 2022 16:36:05 +0300
-From:   "Kirill A. Shutemov" <kirill@shutemov.name>
-To:     Sean Christopherson <seanjc@google.com>
-Cc:     David Hildenbrand <david@redhat.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
-        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
-        aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
-Message-ID: <20220928133605.dy2tkdcpb5pkjejj@box.shutemov.name>
-References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
- <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
- <d16284f5-3493-2892-38e6-f1fa5c10bdbb@redhat.com>
- <20220923005808.vfltoecttoatgw5o@box.shutemov.name>
- <f703e615-3b75-96a2-fb48-2fefd8a2069b@redhat.com>
- <20220926144854.dyiacztlpx4fkjs5@box.shutemov.name>
- <0a99aa24-599c-cc60-b23b-b77887af3702@redhat.com>
- <YzOF7MT15nfBX0Ma@google.com>
+        with ESMTP id S234836AbiI2GoO (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 29 Sep 2022 02:44:14 -0400
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A48912AED9
+        for <linux-api@vger.kernel.org>; Wed, 28 Sep 2022 23:44:12 -0700 (PDT)
+Received: by mail-pj1-x1034.google.com with SMTP id l9-20020a17090a4d4900b00205e295400eso462092pjh.4
+        for <linux-api@vger.kernel.org>; Wed, 28 Sep 2022 23:44:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=/vsjYa0mVNB7hxEqcjh0e4fbj05c2V9q8r7ZQBxHpwM=;
+        b=taHM9fC3gawTMyKIp0dRgyeOgWlcE3tG7aO5KuMpgrd/uifguoPvOh9Ucdgdqupqe9
+         MTf9Es0cSWLJkL/G7L8vzaGpbwLXy6XHr6hGfD7pb4Y8PpSDARZcaVzh6dBhHP6NKtxn
+         eMHmQfoieDk+D2oS/owzPEqVgKnySxeztRglMXlm/ICt+QYTe34qqxVTqBP5Fl/7sWYL
+         JMB5nhFD2HCwOd2z7CF1zIa8MdvhH7u0s0YP8JKCW7TPNeKBIbE5pw3o5fBbaCUa/jl5
+         9bOvj5cuzbPZtT7plPkrMi/MeZCMBoKpM0/J1JH6VfbDnncbJFmjFv7wSyiSxonKcWjb
+         5e+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=/vsjYa0mVNB7hxEqcjh0e4fbj05c2V9q8r7ZQBxHpwM=;
+        b=AciZgg8doybhJh7yekSl1Pm51roRUgWs8jEKzGkPbRifaKalwAKHWlilUTzdKu7dWr
+         lsvl8z2Q8yds0A7Z297uwPUcjRugE5xp58rN1QHZJ0gyQiCAcneQ32qkD+8T9m1VVHlA
+         O8pXnfFfNdk0V8LQrySTzGjqdO0XuHCT8AGuHC50RQE0IOvb5Gndm6Q+OjTZ7LgX0VJ4
+         IZAI2b/k7KyyCbs5tONvp19VtDu/Ne31FB2UhCDizo/hnzGXG6lfxqLT8Ea1dXYjk6xN
+         q0eoShZWsGVN1EVShfVlbXYWIF9MR3DmjnrIdFw+/cASh3Hhj1kbbAAxt5XKtdeRiZTh
+         saDw==
+X-Gm-Message-State: ACrzQf260SsVqjOEB/ei7S9qsQFGX9nPNqARDte81sPNtF7SL5gzG7/6
+        iI6xLmdn8SCk2NKV+xIpRc4gdw==
+X-Google-Smtp-Source: AMsMyM7YBWdfkzRoRE4S/zqUvt7CLV44mC0samCAKxwGxcYZXq+hTWVlsCY1bMdyEMHyAcWmuIsi+w==
+X-Received: by 2002:a17:902:6943:b0:178:4751:a76b with SMTP id k3-20020a170902694300b001784751a76bmr1869132plt.37.1664433851784;
+        Wed, 28 Sep 2022 23:44:11 -0700 (PDT)
+Received: from C02FT5A6MD6R.bytedance.net ([61.120.150.75])
+        by smtp.gmail.com with ESMTPSA id s18-20020a170902ea1200b00172fad607b3sm5089387plg.207.2022.09.28.23.44.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Sep 2022 23:44:11 -0700 (PDT)
+From:   Gang Li <ligang.bdlg@bytedance.com>
+To:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Valentin Schneider <vschneid@redhat.com>
+Cc:     Gang Li <ligang.bdlg@bytedance.com>, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v4] sched/numa: add per-process numa_balancing
+Date:   Thu, 29 Sep 2022 14:43:58 +0800
+Message-Id: <20220929064359.46932-1-ligang.bdlg@bytedance.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YzOF7MT15nfBX0Ma@google.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Sep 27, 2022 at 11:23:24PM +0000, Sean Christopherson wrote:
-> On Mon, Sep 26, 2022, David Hildenbrand wrote:
-> > On 26.09.22 16:48, Kirill A. Shutemov wrote:
-> > > On Mon, Sep 26, 2022 at 12:35:34PM +0200, David Hildenbrand wrote:
-> > > > When using DAX, what happens with the shared <->private conversion? Which
-> > > > "type" is supposed to use dax, which not?
-> > > > 
-> > > > In other word, I'm missing too many details on the bigger picture of how
-> > > > this would work at all to see why it makes sense right now to prepare for
-> > > > that.
-> > > 
-> > > IIUC, KVM doesn't really care about pages or folios. They need PFN to
-> > > populate SEPT. Returning page/folio would make KVM do additional steps to
-> > > extract PFN and one more place to have a bug.
-> > 
-> > Fair enough. Smells KVM specific, though.
-> 
-> TL;DR: I'm good with either approach, though providing a "struct page" might avoid
->        refactoring the API in the nearish future.
-> 
-> Playing devil's advocate for a second, the counter argument is that KVM is the
-> only user for the foreseeable future.
-> 
-> That said, it might make sense to return a "struct page" from the core API and
-> force KVM to do page_to_pfn().  KVM already does that for HVA-based memory, so
-> it's not exactly new code.
+This patch add a new api PR_NUMA_BALANCING in prctl.
 
-Core MM tries to move away from struct page in favour of struct folio. We
-can make interface return folio.
+A large number of page faults will cause performance loss when numa
+balancing is performing. Thus those processes which care about worst-case
+performance need numa balancing disabled. Others, on the contrary, allow a
+temporary performance loss in exchange for higher average performance, so
+enable numa balancing is better for them.
 
-But it would require more work on KVM side.
+Numa balancing can only be controlled globally by
+/proc/sys/kernel/numa_balancing. Due to the above case, we want to
+disable/enable numa_balancing per-process instead.
 
-folio_pfn(folio) + offset % folio_nr_pages(folio) would give you PFN for
-base-pagesize PFN for given offset. I guess it is not too hard.
+Add numa_balancing under mm_struct. Then use it in task_tick_fair.
 
-It also gives KVM capability to populate multiple EPT entries for non-zero
-order folio and save few cycles.
+Set per-process numa balancing:
+	prctl(PR_NUMA_BALANCING, PR_SET_NUMAB_DISABLE); //disable
+	prctl(PR_NUMA_BALANCING, PR_SET_NUMAB_ENABLE);  //enable
+	prctl(PR_NUMA_BALANCING, PR_SET_NUMAB_DEFAULT); //follow global
+Get numa_balancing state:
+	prctl(PR_NUMA_BALANCING, PR_GET_NUMAB, &ret);
+	cat /proc/<pid>/status | grep NumaB_enabled
 
-Does it work for you?
+Cc: linux-api@vger.kernel.org
+Signed-off-by: Gang Li <ligang.bdlg@bytedance.com>
+---
+Changes in v4:
+- code clean: add wrapper function `numa_balancing_enabled`
 
-> More importantly, KVM may actually need/want the "struct page" in the not-too-distant
-> future to support mapping non-refcounted "struct page" memory into the guest.  The
-> ChromeOS folks have a use case involving virtio-gpu blobs where KVM can get handed a
-> "struct page" that _isn't_ refcounted[*].  Once the lack of mmu_notifier integration
-> is fixed, the remaining issue is that KVM doesn't currently have a way to determine
-> whether or not it holds a reference to the page.  Instead, KVM assumes that if the
-> page is "normal", it's refcounted, e.g. see kvm_release_pfn_clean().
-> 
-> KVM's current workaround for this is to refuse to map these pages into the guest,
-> i.e. KVM simply forces its assumption that normal pages are refcounted to be true.
-> To remove that workaround, the likely solution will be to pass around a tuple of
-> page+pfn, where "page" is non-NULL if the pfn is a refcounted "struct page".
-> 
-> At that point, getting handed a "struct page" from the core API would be a good
-> thing as KVM wouldn't need to probe the PFN to determine whether or not it's a
-> refcounted page.
-> 
-> Note, I still want the order to be provided by the API so that KVM doesn't need
-> to run through a bunch of helpers to try and figure out the allowed mapping size.
-> 
-> [*] https://lore.kernel.org/all/CAD=HUj736L5oxkzeL2JoPV8g1S6Rugy_TquW=PRt73YmFzP6Jw@mail.gmail.com
+Changes in v3:
+- Fix compile error.
 
-These non-refcounted "struct page" confuses me.
+Changes in v2:
+- Now PR_NUMA_BALANCING support three states: enabled, disabled, default.
+  enabled and disabled will ignore global setting, and default will follow
+  global setting.
+---
+ Documentation/filesystems/proc.rst   |  2 ++
+ fs/proc/task_mmu.c                   | 19 +++++++++++++++
+ include/linux/mm_types.h             |  3 +++
+ include/linux/sched/numa_balancing.h |  8 +++++++
+ include/uapi/linux/prctl.h           |  7 ++++++
+ kernel/fork.c                        |  3 +++
+ kernel/sched/core.c                  | 15 ++++++++++++
+ kernel/sched/fair.c                  | 32 ++++++++++++++++++++-----
+ kernel/sys.c                         | 35 ++++++++++++++++++++++++++++
+ 9 files changed, 118 insertions(+), 6 deletions(-)
 
-IIUC (probably not), the idea is to share a buffer between host and guest
-and avoid double buffering in page cache on the guest ("guest shadow
-buffer" means page cache, right?). Don't we already have DAX interfaces to
-bypass guest page cache?
-
-And do you think it would need to be handled on inaccessible API lavel or
-is it KVM-only thing that uses inaccessible API for some use-cases?
-
+diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+index e7aafc82be99..b2ddffad015f 100644
+--- a/Documentation/filesystems/proc.rst
++++ b/Documentation/filesystems/proc.rst
+@@ -192,6 +192,7 @@ read the file /proc/PID/status::
+   VmLib:      1412 kB
+   VmPTE:        20 kb
+   VmSwap:        0 kB
++  NumaB_enabled:  default
+   HugetlbPages:          0 kB
+   CoreDumping:    0
+   THP_enabled:	  1
+@@ -273,6 +274,7 @@ It's slow but very precise.
+  VmPTE                       size of page table entries
+  VmSwap                      amount of swap used by anonymous private data
+                              (shmem swap usage is not included)
++ NumaB_enabled               numa balancing state, set by prctl(PR_NUMA_BALANCING, ...)
+  HugetlbPages                size of hugetlb memory portions
+  CoreDumping                 process's memory is currently being dumped
+                              (killing the process may lead to a corrupted core)
+diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+index 8b4f3073f8f5..7358a5932e5a 100644
+--- a/fs/proc/task_mmu.c
++++ b/fs/proc/task_mmu.c
+@@ -19,6 +19,7 @@
+ #include <linux/shmem_fs.h>
+ #include <linux/uaccess.h>
+ #include <linux/pkeys.h>
++#include <linux/sched/numa_balancing.h>
+ 
+ #include <asm/elf.h>
+ #include <asm/tlb.h>
+@@ -75,6 +76,24 @@ void task_mem(struct seq_file *m, struct mm_struct *mm)
+ 		    " kB\nVmPTE:\t", mm_pgtables_bytes(mm) >> 10, 8);
+ 	SEQ_PUT_DEC(" kB\nVmSwap:\t", swap);
+ 	seq_puts(m, " kB\n");
++#ifdef CONFIG_NUMA_BALANCING
++	seq_puts(m, "NumaB_enabled:\t");
++	switch (mm->numab_enabled) {
++	case NUMAB_DEFAULT:
++		seq_puts(m, "default");
++		break;
++	case NUMAB_DISABLED:
++		seq_puts(m, "disabled");
++		break;
++	case NUMAB_ENABLED:
++		seq_puts(m, "enabled");
++		break;
++	default:
++		seq_puts(m, "unknown");
++		break;
++	}
++	seq_putc(m, '\n');
++#endif
+ 	hugetlb_report_usage(m, mm);
+ }
+ #undef SEQ_PUT_DEC
+diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+index 500e536796ca..d9bfa740d905 100644
+--- a/include/linux/mm_types.h
++++ b/include/linux/mm_types.h
+@@ -665,6 +665,9 @@ struct mm_struct {
+ 
+ 		/* numa_scan_seq prevents two threads remapping PTEs. */
+ 		int numa_scan_seq;
++
++		/* Controls whether NUMA balancing is active for this mm. */
++		int numab_enabled;
+ #endif
+ 		/*
+ 		 * An operation with batched TLB flushing is going on. Anything
+diff --git a/include/linux/sched/numa_balancing.h b/include/linux/sched/numa_balancing.h
+index 3988762efe15..f4a4cdf264bc 100644
+--- a/include/linux/sched/numa_balancing.h
++++ b/include/linux/sched/numa_balancing.h
+@@ -16,12 +16,20 @@
+ #define TNF_MIGRATE_FAIL 0x10
+ 
+ #ifdef CONFIG_NUMA_BALANCING
++enum {
++	NUMAB_DISABLED,
++	NUMAB_ENABLED,
++	NUMAB_DEFAULT
++};
++DECLARE_STATIC_KEY_FALSE(sched_numa_balancing);
+ extern void task_numa_fault(int last_node, int node, int pages, int flags);
+ extern pid_t task_numa_group_id(struct task_struct *p);
+ extern void set_numabalancing_state(bool enabled);
+ extern void task_numa_free(struct task_struct *p, bool final);
+ extern bool should_numa_migrate_memory(struct task_struct *p, struct page *page,
+ 					int src_nid, int dst_cpu);
++extern bool numa_balancing_enabled(struct task_struct *p);
++extern int numa_balancing_mode(struct mm_struct *mm);
+ #else
+ static inline void task_numa_fault(int last_node, int node, int pages,
+ 				   int flags)
+diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
+index a5e06dcbba13..4c57724b04c3 100644
+--- a/include/uapi/linux/prctl.h
++++ b/include/uapi/linux/prctl.h
+@@ -284,4 +284,11 @@ struct prctl_mm_map {
+ #define PR_SET_VMA		0x53564d41
+ # define PR_SET_VMA_ANON_NAME		0
+ 
++/* Set/get enabled per-process numa_balancing */
++#define PR_NUMA_BALANCING		65
++# define PR_SET_NUMAB_DISABLED		NUMAB_DISABLED
++# define PR_SET_NUMAB_ENABLED		NUMAB_ENABLED
++# define PR_SET_NUMAB_DEFAULT		NUMAB_DEFAULT
++# define PR_GET_NUMAB			3
++
+ #endif /* _LINUX_PRCTL_H */
+diff --git a/kernel/fork.c b/kernel/fork.c
+index 844dfdc8c639..1b9254315770 100644
+--- a/kernel/fork.c
++++ b/kernel/fork.c
+@@ -1133,6 +1133,9 @@ static struct mm_struct *mm_init(struct mm_struct *mm, struct task_struct *p,
+ 	init_tlb_flush_pending(mm);
+ #if defined(CONFIG_TRANSPARENT_HUGEPAGE) && !USE_SPLIT_PMD_PTLOCKS
+ 	mm->pmd_huge_pte = NULL;
++#endif
++#ifdef CONFIG_NUMA_BALANCING
++	mm->numab_enabled = NUMAB_DEFAULT;
+ #endif
+ 	mm_init_uprobes_state(mm);
+ 	hugetlb_count_init(mm);
+diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+index a77e8bfbfb5b..12d171978538 100644
+--- a/kernel/sched/core.c
++++ b/kernel/sched/core.c
+@@ -4396,6 +4396,21 @@ void set_numabalancing_state(bool enabled)
+ 	__set_numabalancing_state(enabled);
+ }
+ 
++inline int numa_balancing_mode(struct mm_struct *mm)
++{
++	int numab = mm->numab_enabled;
++
++	switch (numab) {
++	case NUMAB_ENABLED:
++		return NUMA_BALANCING_NORMAL;
++	case NUMAB_DISABLED:
++		return NUMA_BALANCING_DISABLED;
++	case NUMAB_DEFAULT:
++	default:
++		return sysctl_numa_balancing_mode;
++	}
++}
++
+ #ifdef CONFIG_PROC_SYSCTL
+ static void reset_memory_tiering(void)
+ {
+diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
+index ef0e6b3e08ff..87215b3776c9 100644
+--- a/kernel/sched/fair.c
++++ b/kernel/sched/fair.c
+@@ -2818,6 +2818,24 @@ void task_numa_free(struct task_struct *p, bool final)
+ 	}
+ }
+ 
++inline bool numa_balancing_enabled(struct task_struct *p)
++{
++	if (p->mm) {
++		int numab = p->mm->numab_enabled;
++
++		switch (numab) {
++		case NUMAB_ENABLED:
++			return true;
++		case NUMAB_DISABLED:
++			return false;
++		case NUMAB_DEFAULT:
++			break;
++		}
++	}
++
++	return static_branch_unlikely(&sched_numa_balancing);
++}
++
+ /*
+  * Got a PROT_NONE fault for a page on @node.
+  */
+@@ -2830,13 +2848,13 @@ void task_numa_fault(int last_cpupid, int mem_node, int pages, int flags)
+ 	struct numa_group *ng;
+ 	int priv;
+ 
+-	if (!static_branch_likely(&sched_numa_balancing))
+-		return;
+-
+ 	/* for example, ksmd faulting in a user's mm */
+ 	if (!p->mm)
+ 		return;
+ 
++	if (!numa_balancing_enabled(p))
++		return;
++
+ 	/*
+ 	 * NUMA faults statistics are unnecessary for the slow memory
+ 	 * node for memory tiering mode.
+@@ -3151,7 +3169,7 @@ static void update_scan_period(struct task_struct *p, int new_cpu)
+ 	int src_nid = cpu_to_node(task_cpu(p));
+ 	int dst_nid = cpu_to_node(new_cpu);
+ 
+-	if (!static_branch_likely(&sched_numa_balancing))
++	if (!numa_balancing_enabled(p))
+ 		return;
+ 
+ 	if (!p->mm || !p->numa_faults || (p->flags & PF_EXITING))
+@@ -7996,7 +8014,7 @@ static int migrate_degrades_locality(struct task_struct *p, struct lb_env *env)
+ 	unsigned long src_weight, dst_weight;
+ 	int src_nid, dst_nid, dist;
+ 
+-	if (!static_branch_likely(&sched_numa_balancing))
++	if (!numa_balancing_enabled(p))
+ 		return -1;
+ 
+ 	if (!p->numa_faults || !(env->sd->flags & SD_NUMA))
+@@ -11581,8 +11599,10 @@ static void task_tick_fair(struct rq *rq, struct task_struct *curr, int queued)
+ 		entity_tick(cfs_rq, se, queued);
+ 	}
+ 
+-	if (static_branch_unlikely(&sched_numa_balancing))
++#ifdef CONFIG_NUMA_BALANCING
++	if (numa_balancing_enabled(curr))
+ 		task_tick_numa(rq, curr);
++#endif
+ 
+ 	update_misfit_status(curr, rq);
+ 	update_overutilized_status(task_rq(curr));
+diff --git a/kernel/sys.c b/kernel/sys.c
+index 8a6432465dc5..11720a35455a 100644
+--- a/kernel/sys.c
++++ b/kernel/sys.c
+@@ -59,6 +59,7 @@
+ #include <linux/sched/coredump.h>
+ #include <linux/sched/task.h>
+ #include <linux/sched/cputime.h>
++#include <linux/sched/numa_balancing.h>
+ #include <linux/rcupdate.h>
+ #include <linux/uidgid.h>
+ #include <linux/cred.h>
+@@ -2101,6 +2102,23 @@ static int prctl_set_auxv(struct mm_struct *mm, unsigned long addr,
+ 	return 0;
+ }
+ 
++#ifdef CONFIG_NUMA_BALANCING
++static int prctl_pid_numa_balancing_write(int numa_balancing)
++{
++	if (numa_balancing != PR_SET_NUMAB_DEFAULT
++	    && numa_balancing != PR_SET_NUMAB_DISABLED
++	    && numa_balancing != PR_SET_NUMAB_ENABLED)
++		return -EINVAL;
++	current->mm->numab_enabled = numa_balancing;
++	return 0;
++}
++
++static int prctl_pid_numa_balancing_read(void)
++{
++	return current->mm->numab_enabled;
++}
++#endif
++
+ static int prctl_set_mm(int opt, unsigned long addr,
+ 			unsigned long arg4, unsigned long arg5)
+ {
+@@ -2615,6 +2633,23 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
+ 		error = set_syscall_user_dispatch(arg2, arg3, arg4,
+ 						  (char __user *) arg5);
+ 		break;
++#ifdef CONFIG_NUMA_BALANCING
++	case PR_NUMA_BALANCING:
++		switch (arg2) {
++		case PR_SET_NUMAB_DEFAULT:
++		case PR_SET_NUMAB_DISABLED:
++		case PR_SET_NUMAB_ENABLED:
++			error = prctl_pid_numa_balancing_write((int)arg2);
++			break;
++		case PR_GET_NUMAB:
++			error = put_user(prctl_pid_numa_balancing_read(), (int __user *)arg3);
++			break;
++		default:
++			error = -EINVAL;
++			break;
++		}
++		break;
++#endif
+ #ifdef CONFIG_SCHED_CORE
+ 	case PR_SCHED_CORE:
+ 		error = sched_core_share_pid(arg2, arg3, arg4, arg5);
 -- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+2.20.1
+
