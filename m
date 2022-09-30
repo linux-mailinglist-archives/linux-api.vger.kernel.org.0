@@ -2,89 +2,91 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BF1C5F0EA7
-	for <lists+linux-api@lfdr.de>; Fri, 30 Sep 2022 17:17:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC4C75F0FAC
+	for <lists+linux-api@lfdr.de>; Fri, 30 Sep 2022 18:15:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231879AbiI3PRJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 30 Sep 2022 11:17:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60472 "EHLO
+        id S231996AbiI3QPI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 30 Sep 2022 12:15:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231726AbiI3PQ5 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 30 Sep 2022 11:16:57 -0400
-Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57D8E156571
-        for <linux-api@vger.kernel.org>; Fri, 30 Sep 2022 08:16:50 -0700 (PDT)
-Received: by mail-io1-xd30.google.com with SMTP id p202so3507745iod.6
-        for <linux-api@vger.kernel.org>; Fri, 30 Sep 2022 08:16:50 -0700 (PDT)
+        with ESMTP id S230512AbiI3QPF (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 30 Sep 2022 12:15:05 -0400
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2332432D9C
+        for <linux-api@vger.kernel.org>; Fri, 30 Sep 2022 09:14:59 -0700 (PDT)
+Received: by mail-lj1-x233.google.com with SMTP id q17so5296876lji.11
+        for <linux-api@vger.kernel.org>; Fri, 30 Sep 2022 09:14:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date;
-        bh=rav/GnxDxXCmb0MWmQJI5rI/wm0ZOCSwNoHHz9z+r7A=;
-        b=YB6CjrLNYng7WeQ+wslm2VPbitaNP0ShR1T5EE1nM1ZDzkPIUIob+C5C13QD3JXPF1
-         NlTKpUe1scku9p9XtGg1Izf8Dc1TpUfDODtn3jM3q+jUgY+zDC8CkVafqeyuUs5Ukq4H
-         mxgGAAK+DsgqM6tuU2p8NgFuDB9wt0vJRVLYwkBPKv4B/ePv4XSF+IhrLjGkmdoqQgiK
-         rxRERHXXtZc2phGR1txS5Ern3RsbTR4MwgYbmiOu6gqswdwU6HISzy3r1yVdTddsuKrM
-         iiaVoLmXP/g0d+Kep6mJQOi0gGm+i42CSw87iKLR+VGAZR0m1PHT3JTUY1Mdx8cOHtjv
-         UphQ==
+        bh=GtlSJkLXw2SNcPVROAD1SJDnwutfnbZAayHj4onnywk=;
+        b=DOMyGYFKf+TZsvY4xp2ON3TIpgoHPlU49dDhE2e+lblBc8uIrSThwS/2igACfNwrxT
+         B80A327TY7zTQhfHZWcTomLg9RP5BFCafC1G5Xq0tQ7fwoJvvStDoxT0G2gxcG663JP2
+         Fs7G3g4B/VZpF4ch3hxit7Ug+GQ+GOdS/DQOAl43rZESxPq8F6OkxZ3VQDuWTfhZaVv4
+         SIQHFtGYvuP6RLRGuDR8p9bpU8nbzmLRHnOHWxhEywjmhLPHJS0aPcx7Quodth6mnW/e
+         VlopEFYGcfN96ScGyCOubqRcKtcTue5tCsqbI81iqfPNUwyTk6FXx34dym02k3Ilq/RK
+         sZ/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=rav/GnxDxXCmb0MWmQJI5rI/wm0ZOCSwNoHHz9z+r7A=;
-        b=wO1zjz9cEpVd1TW3/UaxpuPyWzocwmf+YBuUzcZwwE+6bUCZWvgzcPNimDmIHXXJkw
-         k/Z8/hyiG7sVvp7Gn2c9oE/k6z0kkPlZp6KMM+FmuTs5UuyjAsKHlvwt77e0Rz0ptJad
-         cLP6pry6tGTsRAu9pr6tqLmf3muYFygWmWMoDpWDhczBCcYW5jt3qSJrscBYpPxEzqOX
-         lvCBskYaLgSXWRBsQSzVVUpSY63IwFWGDDV7Kdmm1T9S19EwPJBvR0c1H6HWa5j5zf1J
-         NXX2VkpcU98D7tdBDGqPJBiJ+PggLE7a85mSs2vFwYGfWiU8U/SvD33sbHtqorsauM7g
-         XXVA==
-X-Gm-Message-State: ACrzQf1pOUw2EDJffrcmREUahMx0oDVRBgQd+nNHWRbVaVlZyF5wPYqt
-        SqIw+7j3hnUZI1PP5gZR9/vTNVSH2F7oaJrAJnQc2w==
-X-Google-Smtp-Source: AMsMyM6F7AAgEnbDB3rrGofw7Np/IRuyPPKXtazfBLnfUtfrHBecx6ZQ4/DCYfPtN9Dyv/lb8mRBcckQ17dphsFV0xw=
-X-Received: by 2002:a05:6638:31c2:b0:35a:c5b1:b567 with SMTP id
- n2-20020a05663831c200b0035ac5b1b567mr4600630jav.58.1664551009140; Fri, 30 Sep
- 2022 08:16:49 -0700 (PDT)
+        bh=GtlSJkLXw2SNcPVROAD1SJDnwutfnbZAayHj4onnywk=;
+        b=MMtuuP7+iss8bEG5j4HWlIjV4YOeFv5ScFxlLOxvuAsweBt+v5YZBesei4iuenriWh
+         taWLuUZO5rUqLuyQOs0FfuCxNgKXvBK5tJy+k01t2GctHfUQBLvIsEe5JNdmw4v32gAA
+         4wxQjcIptwQTyJygBBKfSf2eXRgtpVZw7il83CL9Wd/gG0gzh/H8R7/a5HFi+wyNJ4pU
+         /G7k1bcCC7He8Krv28V44K/G6JtRqmW+BPXFbgC94pE7UHoMRJvm472qUcWBKkIFECmH
+         3JhLxt4Y1g7Ea+vTdx8R75sv4Qd/KLrtc87Es+oai0ccgBpIrbEhUtRFiwVSLOqDGXL3
+         6frQ==
+X-Gm-Message-State: ACrzQf1/hINBpn7cC/uGHrVrthyny/bWbcTWJQQQgr1X3tUXJrAkrD2D
+        zCeETE5JKf280Do4jTuwTpVaIh9TEpqZLvS3iPt//Q==
+X-Google-Smtp-Source: AMsMyM7jpq+XBzS300JrKAbZeYDxFloAXMmPfSxwUISYLv3b6zRl+QtVRiHq6i7/nDDb8l/3nFMe7wpgyR1WcsBFjoI=
+X-Received: by 2002:a05:651c:1508:b0:26c:622e:abe1 with SMTP id
+ e8-20020a05651c150800b0026c622eabe1mr3044232ljf.228.1664554497777; Fri, 30
+ Sep 2022 09:14:57 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220929222936.14584-1-rick.p.edgecombe@intel.com> <20220929222936.14584-11-rick.p.edgecombe@intel.com>
-In-Reply-To: <20220929222936.14584-11-rick.p.edgecombe@intel.com>
-From:   Jann Horn <jannh@google.com>
-Date:   Fri, 30 Sep 2022 17:16:12 +0200
-Message-ID: <CAG48ez3hXfsUkMqcHmVetzywKC8a+PLhGReceTdwCf7B03Oj7g@mail.gmail.com>
-Subject: Re: [PATCH v2 10/39] x86/mm: Introduce _PAGE_COW
-To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
-Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>,
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com> <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
+In-Reply-To: <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
+From:   Fuad Tabba <tabba@google.com>
+Date:   Fri, 30 Sep 2022 17:14:00 +0100
+Message-ID: <CA+EHjTyrexb_LX7Jm9-MGwm4DBvfjCrADH4oumFyAvs2_0oSYw@mail.gmail.com>
+Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
+To:     Chao Peng <chao.p.peng@linux.intel.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
         "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        joao.moreira@intel.com, John Allen <john.allen@amd.com>,
-        kcc@google.com, eranian@google.com, rppt@kernel.org,
-        jamorris@linux.microsoft.com, dethoma@microsoft.com,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -92,15 +94,143 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Sep 30, 2022 at 12:30 AM Rick Edgecombe
-<rick.p.edgecombe@intel.com> wrote:
-> The reason it's lightly used is that Dirty=1 is normally set _before_ a
-> write. A write with a Write=0 PTE would typically only generate a fault,
-> not set Dirty=1. Hardware can (rarely) both set Write=1 *and* generate the
-> fault, resulting in a Dirty=0,Write=1 PTE. Hardware which supports shadow
-> stacks will no longer exhibit this oddity.
+Hi,
 
-Stupid question, since I just recently learned that IOMMUv2 is a
-thing: I assume this also holds for IOMMUs that implement IOMMUv2/SVA,
-where the IOMMU directly walks the userspace page tables, and not just
-for the CPU core?
+<...>
+
+> diff --git a/mm/memfd_inaccessible.c b/mm/memfd_inaccessible.c
+> new file mode 100644
+> index 000000000000..2d33cbdd9282
+> --- /dev/null
+> +++ b/mm/memfd_inaccessible.c
+> @@ -0,0 +1,219 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +#include "linux/sbitmap.h"
+> +#include <linux/memfd.h>
+> +#include <linux/pagemap.h>
+> +#include <linux/pseudo_fs.h>
+> +#include <linux/shmem_fs.h>
+> +#include <uapi/linux/falloc.h>
+> +#include <uapi/linux/magic.h>
+> +
+> +struct inaccessible_data {
+> +       struct mutex lock;
+> +       struct file *memfd;
+> +       struct list_head notifiers;
+> +};
+> +
+> +static void inaccessible_notifier_invalidate(struct inaccessible_data *data,
+> +                                pgoff_t start, pgoff_t end)
+> +{
+> +       struct inaccessible_notifier *notifier;
+> +
+> +       mutex_lock(&data->lock);
+> +       list_for_each_entry(notifier, &data->notifiers, list) {
+> +               notifier->ops->invalidate(notifier, start, end);
+> +       }
+> +       mutex_unlock(&data->lock);
+> +}
+> +
+> +static int inaccessible_release(struct inode *inode, struct file *file)
+> +{
+> +       struct inaccessible_data *data = inode->i_mapping->private_data;
+> +
+> +       fput(data->memfd);
+> +       kfree(data);
+> +       return 0;
+> +}
+> +
+> +static long inaccessible_fallocate(struct file *file, int mode,
+> +                                  loff_t offset, loff_t len)
+> +{
+> +       struct inaccessible_data *data = file->f_mapping->private_data;
+> +       struct file *memfd = data->memfd;
+> +       int ret;
+> +
+> +       if (mode & FALLOC_FL_PUNCH_HOLE) {
+> +               if (!PAGE_ALIGNED(offset) || !PAGE_ALIGNED(len))
+> +                       return -EINVAL;
+> +       }
+> +
+> +       ret = memfd->f_op->fallocate(memfd, mode, offset, len);
+
+I think that shmem_file_operations.fallocate is only set if
+CONFIG_TMPFS is enabled (shmem.c). Should there be a check at
+initialization that fallocate is set, or maybe a config dependency, or
+can we count on it always being enabled?
+
+> +       inaccessible_notifier_invalidate(data, offset, offset + len);
+> +       return ret;
+> +}
+> +
+
+<...>
+
+> +void inaccessible_register_notifier(struct file *file,
+> +                                   struct inaccessible_notifier *notifier)
+> +{
+> +       struct inaccessible_data *data = file->f_mapping->private_data;
+> +
+> +       mutex_lock(&data->lock);
+> +       list_add(&notifier->list, &data->notifiers);
+> +       mutex_unlock(&data->lock);
+> +}
+> +EXPORT_SYMBOL_GPL(inaccessible_register_notifier);
+
+If the memfd wasn't marked as inaccessible, or more generally
+speaking, if the file isn't a memfd_inaccessible file, this ends up
+accessing an uninitialized pointer for the notifier list. Should there
+be a check for that here, and have this function return an error if
+that's not the case?
+
+Thanks,
+/fuad
+
+
+
+> +
+> +void inaccessible_unregister_notifier(struct file *file,
+> +                                     struct inaccessible_notifier *notifier)
+> +{
+> +       struct inaccessible_data *data = file->f_mapping->private_data;
+> +
+> +       mutex_lock(&data->lock);
+> +       list_del(&notifier->list);
+> +       mutex_unlock(&data->lock);
+> +}
+> +EXPORT_SYMBOL_GPL(inaccessible_unregister_notifier);
+> +
+> +int inaccessible_get_pfn(struct file *file, pgoff_t offset, pfn_t *pfn,
+> +                        int *order)
+> +{
+> +       struct inaccessible_data *data = file->f_mapping->private_data;
+> +       struct file *memfd = data->memfd;
+> +       struct page *page;
+> +       int ret;
+> +
+> +       ret = shmem_getpage(file_inode(memfd), offset, &page, SGP_WRITE);
+> +       if (ret)
+> +               return ret;
+> +
+> +       *pfn = page_to_pfn_t(page);
+> +       *order = thp_order(compound_head(page));
+> +       SetPageUptodate(page);
+> +       unlock_page(page);
+> +
+> +       return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(inaccessible_get_pfn);
+> +
+> +void inaccessible_put_pfn(struct file *file, pfn_t pfn)
+> +{
+> +       struct page *page = pfn_t_to_page(pfn);
+> +
+> +       if (WARN_ON_ONCE(!page))
+> +               return;
+> +
+> +       put_page(page);
+> +}
+> +EXPORT_SYMBOL_GPL(inaccessible_put_pfn);
+> --
+> 2.25.1
+>
