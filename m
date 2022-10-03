@@ -2,50 +2,59 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DE7AC5F358C
-	for <lists+linux-api@lfdr.de>; Mon,  3 Oct 2022 20:24:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF4105F3593
+	for <lists+linux-api@lfdr.de>; Mon,  3 Oct 2022 20:24:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229910AbiJCSYQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 3 Oct 2022 14:24:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49548 "EHLO
+        id S229972AbiJCSY4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 3 Oct 2022 14:24:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229811AbiJCSYP (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 3 Oct 2022 14:24:15 -0400
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6709C422E3
-        for <linux-api@vger.kernel.org>; Mon,  3 Oct 2022 11:24:10 -0700 (PDT)
-Received: by mail-pj1-x102c.google.com with SMTP id 8-20020a17090a0b8800b00205d8564b11so10643912pjr.5
-        for <linux-api@vger.kernel.org>; Mon, 03 Oct 2022 11:24:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=wwu9lS4IvfCeN8Phj9REKX62enam27neFFF0OO9ppKE=;
-        b=lKYqWl6A7r7Sr3/E8BW6VSg1cqafipTQuK3eeQGyiGtbferERJ1wgzXHmp//KGEi2u
-         8h9uWTewlGL3XnZ5UgKRaznBiAGYZQBq50XP0umLoU6PolD2t32jNaRYebTAta7cD5AD
-         ZPlpGlvp8IeKDGNn/JAOTfP3n9rQeemlrq1uE=
+        with ESMTP id S230079AbiJCSYn (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 3 Oct 2022 14:24:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D357C7F
+        for <linux-api@vger.kernel.org>; Mon,  3 Oct 2022 11:24:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1664821476;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=P57fOCRr8L8IWMz1idkV10HcfpUZXl9CrILykX0M7Do=;
+        b=erUfC1BwJmdcS1u8aah8+SGooepxk/UTZkfAyq4Ba3kPwt6GRbkIn2HAnGCBN7lasqKIs/
+        WNp4BauZ8OLxUq0crVQuUeF21R5W8MDCnOwJEVdg+F8Le8yxM/ZEhvY6xTnIErUOsDjp8R
+        2SkwUS8v2DYyCogti63wJO8eMK2zCfI=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-548-udQDeWRpMeOoGqHjrw7B4w-1; Mon, 03 Oct 2022 14:24:34 -0400
+X-MC-Unique: udQDeWRpMeOoGqHjrw7B4w-1
+Received: by mail-qk1-f197.google.com with SMTP id h7-20020a05620a400700b006cebec84734so9841372qko.23
+        for <linux-api@vger.kernel.org>; Mon, 03 Oct 2022 11:24:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=wwu9lS4IvfCeN8Phj9REKX62enam27neFFF0OO9ppKE=;
-        b=ODzs7Ry6BoYLsSzjjp1sGGdLrSwBPkBw83QQrNVtfx2eAd/ZNu2KU0MLmHmWss8lMD
-         zrlZnWbPqqeN7butHnTu5Lu9X2Rzeq43pDie1ffaHp1vCoAxwPYfyY33n9+U6qIqy+bU
-         fs0H6tiAH9JPuhuYQc12Zesesjj944Ya8okXMDFvNYv32MIXH4CpJVeaduIOaBgXM2Nx
-         1yi29znTGUJ7lZfmPi7MprigW2PZeGS8AS9Gn0SWS15rosFoM44dco97aa0UYfRVKKEZ
-         VVZOMEHfvG4cn0mJxOEnMpLR0ydpLcCsnjHy3Sd5dEE7YjV4kmkZ4reY4B3qbGU4iy2m
-         DpMg==
-X-Gm-Message-State: ACrzQf0Y09cTgAreX85zeNhLA/mj45AbmyBFLfwRFN+cFuBxuMLdvNS9
-        0VD59WHtek9ykZYMf2+aJM9fw9GoyiM5Cg==
-X-Google-Smtp-Source: AMsMyM48Fs8gaQUQGBbjWpok2lFT9yYn1cXchH8flHZ8xyiWHgOGJ7sBj0XqkcvhSLNZbKtef4o3rg==
-X-Received: by 2002:a17:902:b589:b0:179:f8c5:7212 with SMTP id a9-20020a170902b58900b00179f8c57212mr23373642pls.174.1664821449445;
-        Mon, 03 Oct 2022 11:24:09 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id y1-20020a626401000000b0053e8f4a10c1sm7717403pfb.217.2022.10.03.11.24.08
+        bh=P57fOCRr8L8IWMz1idkV10HcfpUZXl9CrILykX0M7Do=;
+        b=dMDZAI1bamAJNDin8GbKCZEVoIQKCpnBNmvH2MhYCZwl4CIh4pD9q7XIca4XcIISdX
+         FY9JFIvFaYZJYxq9KEcwXVTBIzIeQ5+XVnJgy/NF+feaPW4Y+XWFHnorVbE1DksnHLiT
+         /QSV0Rl8MG6qg/J5Y7AgPvMNAdcIY9AOYyPjrei0/+/6/lhOckpy8ikh1Y/jtF1NlipW
+         dhb6SxqwGz1SNKq//Lb9JshFyRWu330LfItw+jHHHUMlIGLthkHBqbneaib7dAwExD5X
+         Q7LAD/RRoFejGten0+G0b4a1JjuGykSM8ea3VIcfkD1LAI4NI1fiWnUhjVjtfsfld1is
+         ychQ==
+X-Gm-Message-State: ACrzQf3tr5Yv//cIXiOdOHUlDhOIBO2WC18KtHh2w6kf2aGXTbv40xFs
+        iiwSjT+jtMjjc+dvIctUbkTp5VExho5+tIfOxtgEGg3T7RwbZStmbVUClWrOo6gGkscENI0owCd
+        RyJGxv2hsUqAV1qS/oN8F
+X-Received: by 2002:a05:6214:5609:b0:4ac:aa5e:5425 with SMTP id mg9-20020a056214560900b004acaa5e5425mr17021794qvb.81.1664821474554;
+        Mon, 03 Oct 2022 11:24:34 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4Af9yw7ubrxehHYf5SG+wnB1n3fA8M/KRQPPpTdYDWvwqKkVBNCpZxbdY+JnLWNQEAjxNlsw==
+X-Received: by 2002:a05:6214:5609:b0:4ac:aa5e:5425 with SMTP id mg9-20020a056214560900b004acaa5e5425mr17021775qvb.81.1664821474349;
+        Mon, 03 Oct 2022 11:24:34 -0700 (PDT)
+Received: from x1n (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca. [70.31.27.79])
+        by smtp.gmail.com with ESMTPSA id g12-20020ac8580c000000b0035d4f68232esm10631028qtg.3.2022.10.03.11.24.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Oct 2022 11:24:08 -0700 (PDT)
-Date:   Mon, 3 Oct 2022 11:24:07 -0700
-From:   Kees Cook <keescook@chromium.org>
+        Mon, 03 Oct 2022 11:24:33 -0700 (PDT)
+Date:   Mon, 3 Oct 2022 14:24:31 -0400
+From:   Peter Xu <peterx@redhat.com>
 To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
 Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -62,6 +71,7 @@ Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
         Florian Weimer <fweimer@redhat.com>,
         "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
         Mike Kravetz <mike.kravetz@oracle.com>,
         Nadav Amit <nadav.amit@gmail.com>,
         Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
@@ -74,53 +84,37 @@ Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
         kcc@google.com, eranian@google.com, rppt@kernel.org,
         jamorris@linux.microsoft.com, dethoma@microsoft.com,
         Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: Re: [PATCH v2 17/39] mm: Fixup places that call pte_mkwrite()
- directly
-Message-ID: <202210031124.81D807B6B@keescook>
+Subject: Re: [PATCH v2 13/39] mm: Move VM_UFFD_MINOR_BIT from 37 to 38
+Message-ID: <Yzso39wMlI8Tyn9c@x1n>
 References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
- <20220929222936.14584-18-rick.p.edgecombe@intel.com>
+ <20220929222936.14584-14-rick.p.edgecombe@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220929222936.14584-18-rick.p.edgecombe@intel.com>
+In-Reply-To: <20220929222936.14584-14-rick.p.edgecombe@intel.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Sep 29, 2022 at 03:29:14PM -0700, Rick Edgecombe wrote:
+On Thu, Sep 29, 2022 at 03:29:10PM -0700, Rick Edgecombe wrote:
 > From: Yu-cheng Yu <yu-cheng.yu@intel.com>
 > 
-> With the introduction of shadow stack memory there are two ways a pte can
-> be writable: regular writable memory and shadow stack memory.
-> 
-> In past patches, maybe_mkwrite() has been updated to apply pte_mkwrite()
-> or pte_mkwrite_shstk() depending on the VMA flag. This covers most cases
-> where a PTE is made writable. However, there are places where pte_mkwrite()
-> is called directly and the logic should now also create a shadow stack PTE
-> in the case of a shadow stack VMA.
-> 
->  - do_anonymous_page() and migrate_vma_insert_page() check VM_WRITE
->    directly and call pte_mkwrite(), which is the same as maybe_mkwrite()
->    in logic and intention. Just change them to maybe_mkwrite().
-> 
->  - When userfaultfd is creating a PTE after userspace handles the fault
->    it calls pte_mkwrite() directly. Teach it about pte_mkwrite_shstk()
-> 
-> In other cases where pte_mkwrite() is called directly, the VMA will not
-> be VM_SHADOW_STACK, and so shadow stack memory should not be created.
->  - In the case of pte_savedwrite(), shadow stack VMA's are excluded.
->  - In the case of the "dirty_accountable" optimization in mprotect(),
->    shadow stack VMA's won't be VM_SHARED, so it is not nessary.
+> To introduce VM_SHADOW_STACK as VM_HIGH_ARCH_BIT (37), and make all
+> VM_HIGH_ARCH_BITs stay together, move VM_UFFD_MINOR_BIT from 37 to 38.
 > 
 > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> Reviewed-by: Axel Rasmussen <axelrasmussen@google.com>
+> Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
+> Cc: Peter Xu <peterx@redhat.com>
+> Cc: Mike Kravetz <mike.kravetz@oracle.com>
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
+Acked-by: Peter Xu <peterx@redhat.com>
 
 -- 
-Kees Cook
+Peter Xu
+
