@@ -2,132 +2,188 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 73C115F2F3A
-	for <lists+linux-api@lfdr.de>; Mon,  3 Oct 2022 13:01:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F9805F315F
+	for <lists+linux-api@lfdr.de>; Mon,  3 Oct 2022 15:40:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229481AbiJCLBm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 3 Oct 2022 07:01:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44452 "EHLO
+        id S229814AbiJCNkT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 3 Oct 2022 09:40:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57890 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229464AbiJCLBl (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 3 Oct 2022 07:01:41 -0400
-Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com [64.147.123.18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39D102711;
-        Mon,  3 Oct 2022 04:01:40 -0700 (PDT)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailnew.west.internal (Postfix) with ESMTP id 1427B2B0693A;
-        Mon,  3 Oct 2022 07:01:36 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Mon, 03 Oct 2022 07:01:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
-         h=cc:cc:content-type:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm1; t=1664794895; x=1664802095; bh=zW
-        dvG4+iogw6diIyocCUGRkeH6TacYI7IEyT3UtjbNg=; b=XW0tQq+0FScqGFQ+dF
-        EG6F8k62Rsx9LqjjPoMSaTzwILoz+/n7fDSAlh7WYeR96n8T61QlRplQ1RwjHMcl
-        5yeu/5/d9DsmVOkrwscLBOVYwK//hEwVRqSGfyOxvyaN6fDU3U9/Ul0OAyquCK4L
-        zRmP8Y/FYnAIVSX/EEgAEL/OVuR+e1x1q141vTbhzYa4Xr1+1qkB9dSxrZodeJSv
-        47Gsq3Ji5dnuN5ybt15lYTZBO4OY32j0R3nw90tsm7yRM3eI40KVNN4uiQQID7lJ
-        hQ73LO0XlNe44SV2CPb3saKmbWbVBGNI34ILjrBrcE4C2D0m6MgnGajRH8sJJMcx
-        k74Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm2; t=1664794895; x=1664802095; bh=zWdvG4+iogw6diIyocCUGRkeH6Ta
-        cYI7IEyT3UtjbNg=; b=1sNbOr+reC4ozopaOlqM0nB+iKaIJWlgEvuSnvehqupR
-        +mlBVJgNgylpAZCIvqFPaIK2WPBApah/unlsgtS4kvfqTaq0BXfmuOgDyqL7ZnIQ
-        N4SHAmIclsBSegb6mvH9c6U6qgmglracDnl3H9l2JEzJ06uiMWBbM0OB6YGGTfWD
-        xnzX8C09pcaBkEsrBGKxi6+eppftTXbcrP0y67raFiRetpglM6SEeybTggLt0Jxu
-        nY7ma+CNPCBaDHOqaNh+TyiGfPgg6QbqgPqtYrZHB34i7u4TRk5W/6Bl6YElrJmP
-        flUk+OkuovZLsxzhxLvWeLYpKvAWNhY6chI73rMRtg==
-X-ME-Sender: <xms:DcE6Y6f52k5yy0Jlg1AeQ7dDWJCrmyiSx6kROu3hIkspfTGHK9TTRw>
-    <xme:DcE6Y0Nyco_uRp-K-WwZKELvbqi_T8WM-Zrx3OOkmBhxAu7gSWznB0GrnN29DXbFT
-    2-3FfUfe9_RpTMbUxY>
-X-ME-Received: <xmr:DcE6Y7gwh0050G_SwvT6qpZdBhwZjbBFjdHUuyL-6_rWH_mMo2iv_wfLg4oCQTj36_KCxg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeehledgfeegucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesthdttddttddtvdenucfhrhhomhepfdfmihhr
-    ihhllhcutedrucfuhhhuthgvmhhovhdfuceokhhirhhilhhlsehshhhuthgvmhhovhdrnh
-    grmhgvqeenucggtffrrghtthgvrhhnpefhieeghfdtfeehtdeftdehgfehuddtvdeuheet
-    tddtheejueekjeegueeivdektdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
-    epmhgrihhlfhhrohhmpehkihhrihhllhesshhhuhhtvghmohhvrdhnrghmvg
-X-ME-Proxy: <xmx:DcE6Y3962DbaiPjQuEqjImm6i_1iQb_fS9v9CvfrtqHzYR-gAxDkXQ>
-    <xmx:DcE6Y2sGkiMEPQ8rZ-eMFeI2-zb7XvW71RUslSW8I3M3jgj-wl-pxQ>
-    <xmx:DcE6Y-F5e4wRoyMQiP3Pv56Fi1Qf4Te9r2uZ0-YIquinDsLq-5Ao1w>
-    <xmx:D8E6YzreQvrnUZwE5JTwmdtxSOE-mJJ5MYLVoAkceXUT8tLhySzNUatLQXA>
-Feedback-ID: ie3994620:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 3 Oct 2022 07:01:33 -0400 (EDT)
+        with ESMTP id S229864AbiJCNkS (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 3 Oct 2022 09:40:18 -0400
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 520202936D;
+        Mon,  3 Oct 2022 06:40:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1664804417; x=1696340417;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+5qCpWO+BAGW3ExOyW3chioNW0LHy3lT3j4pg7MiQnQ=;
+  b=OOOksX1axHfX1SVR+j4lORPLuVLsK7iwzxqWdv6ApHo38UIGUD5DsgI6
+   DS2UKQPzmtIpOjKtBynm0y8ig/SQbmU7Voq4AYonpgFjt4o5A4RWs5vgw
+   L20DqmmJTRMDC69VHNVL1L6pp0eJUcPEqJUD7grm0rc7fKw66j/lhfBew
+   srJqETT1T9DSAIkxJg7jpDzfzvuPpRoTDvYGg1G5eH7xnwygVFNP+bXnB
+   LPFi11WXwovj+EFuXoG9m466JpNm5HC44ySawY09MNBqcqHgCbNksPoCS
+   u6vUxznHfEnbBGEESA+gwkhNmRlcKyyVFvkibI/JkpMmX7J2DoEzkYkyj
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10489"; a="283003462"
+X-IronPort-AV: E=Sophos;i="5.93,365,1654585200"; 
+   d="scan'208";a="283003462"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2022 06:40:16 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10489"; a="952343480"
+X-IronPort-AV: E=Sophos;i="5.93,365,1654585200"; 
+   d="scan'208";a="952343480"
+Received: from bandrei-mobl.ger.corp.intel.com (HELO box.shutemov.name) ([10.252.37.219])
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2022 06:40:08 -0700
 Received: by box.shutemov.name (Postfix, from userid 1000)
-        id 87A6C104CE4; Mon,  3 Oct 2022 14:01:29 +0300 (+03)
-Date:   Mon, 3 Oct 2022 14:01:29 +0300
-From:   "Kirill A. Shutemov" <kirill@shutemov.name>
-To:     Fuad Tabba <tabba@google.com>
-Cc:     "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
+        id 7FA5C104CE4; Mon,  3 Oct 2022 16:40:06 +0300 (+03)
+Date:   Mon, 3 Oct 2022 16:40:06 +0300
+From:   "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
-        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
-        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
-        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
-Message-ID: <20221003110129.bbee7kawhw5ed745@box.shutemov.name>
-References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
- <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
- <CA+EHjTyrexb_LX7Jm9-MGwm4DBvfjCrADH4oumFyAvs2_0oSYw@mail.gmail.com>
- <20220930162301.i226o523teuikygq@box.shutemov.name>
- <CA+EHjTyphrouY1FV2NQOBLDG81JYhiHFGBNKjT1K2j+pVNij+A@mail.gmail.com>
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        joao.moreira@intel.com, John Allen <john.allen@amd.com>,
+        kcc@google.com, eranian@google.com, rppt@kernel.org,
+        jamorris@linux.microsoft.com, dethoma@microsoft.com,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: Re: [PATCH v2 02/39] x86/cet/shstk: Add Kconfig option for Shadow
+ Stack
+Message-ID: <20221003134006.yoye7dvywuec6bco@box.shutemov.name>
+References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
+ <20220929222936.14584-3-rick.p.edgecombe@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CA+EHjTyphrouY1FV2NQOBLDG81JYhiHFGBNKjT1K2j+pVNij+A@mail.gmail.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20220929222936.14584-3-rick.p.edgecombe@intel.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Oct 03, 2022 at 08:33:13AM +0100, Fuad Tabba wrote:
-> > I think it is "don't do that" category. inaccessible_register_notifier()
-> > caller has to know what file it operates on, no?
+On Thu, Sep 29, 2022 at 03:28:59PM -0700, Rick Edgecombe wrote:
+> From: Yu-cheng Yu <yu-cheng.yu@intel.com>
 > 
-> The thing is, you could oops the kernel from userspace. For that, all
-> you have to do is a memfd_create without the MFD_INACCESSIBLE,
-> followed by a KVM_SET_USER_MEMORY_REGION using that as the private_fd.
-> I ran into this using my port of this patch series to arm64.
+> Shadow Stack provides protection against function return address
+> corruption. It is active when the processor supports it, the kernel has
+> CONFIG_X86_SHADOW_STACK enabled, and the application is built for the
+> feature. This is only implemented for the 64-bit kernel. When it is
+> enabled, legacy non-Shadow Stack applications continue to work, but without
+> protection.
+> 
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> Co-developed-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
+> Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
+> Cc: Kees Cook <keescook@chromium.org>
+> 
+> ---
+> 
+> v2:
+>  - Remove already wrong kernel size increase info (tlgx)
+>  - Change prompt to remove "Intel" (tglx)
+>  - Update line about what CPUs are supported (Dave)
+> 
+> Yu-cheng v25:
+>  - Remove X86_CET and use X86_SHADOW_STACK directly.
+> 
+> Yu-cheng v24:
+>  - Update for the splitting X86_CET to X86_SHADOW_STACK and X86_IBT.
+> 
+>  arch/x86/Kconfig           | 18 ++++++++++++++++++
+>  arch/x86/Kconfig.assembler |  5 +++++
+>  2 files changed, 23 insertions(+)
+> 
+> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+> index f9920f1341c8..b68eb75887b8 100644
+> --- a/arch/x86/Kconfig
+> +++ b/arch/x86/Kconfig
+> @@ -26,6 +26,7 @@ config X86_64
+>  	depends on 64BIT
+>  	# Options that are inherently 64-bit kernel only:
+>  	select ARCH_HAS_GIGANTIC_PAGE
+> +	select ARCH_HAS_SHADOW_STACK
+>  	select ARCH_SUPPORTS_INT128 if CC_HAS_INT128
+>  	select ARCH_USE_CMPXCHG_LOCKREF
+>  	select HAVE_ARCH_SOFT_DIRTY
+> @@ -1936,6 +1937,23 @@ config X86_SGX
+>  
+>  	  If unsure, say N.
+>  
+> +config ARCH_HAS_SHADOW_STACK
+> +	def_bool n
 
-My point is that it has to be handled on a different level. KVM has to
-reject private_fd if it is now inaccessible. It should be trivial by
-checking file->f_inode->i_sb->s_magic.
+Hm. Shouldn't ARCH_HAS_SHADOW_STACK definition be in arch/Kconfig, not
+under arch/x86?
+
+Also, I think "def_bool n" has the same meaning as just "bool", no?
+
+> +
+> +config X86_SHADOW_STACK
+> +	prompt "X86 Shadow Stack"
+> +	def_bool n
+
+Maybe just
+
+	bool "X86 Shadow Stack"
+
+?
+
+> +	depends on ARCH_HAS_SHADOW_STACK
+> +	select ARCH_USES_HIGH_VMA_FLAGS
+> +	help
+> +	  Shadow Stack protection is a hardware feature that detects function
+> +	  return address corruption. Today the kernel's support is limited to
+> +	  virtualizing it in KVM guests.
+> +
+> +	  CPUs supporting shadow stacks were first released in 2020.
+> +
+> +	  If unsure, say N.
+> +
+>  config EFI
+>  	bool "EFI runtime service support"
+>  	depends on ACPI
+> diff --git a/arch/x86/Kconfig.assembler b/arch/x86/Kconfig.assembler
+> index 26b8c08e2fc4..00c79dd93651 100644
+> --- a/arch/x86/Kconfig.assembler
+> +++ b/arch/x86/Kconfig.assembler
+> @@ -19,3 +19,8 @@ config AS_TPAUSE
+>  	def_bool $(as-instr,tpause %ecx)
+>  	help
+>  	  Supported by binutils >= 2.31.1 and LLVM integrated assembler >= V7
+> +
+> +config AS_WRUSS
+> +	def_bool $(as-instr,wrussq %rax$(comma)(%rbx))
+> +	help
+> +	  Supported by binutils >= 2.31 and LLVM integrated assembler
+> -- 
+> 2.17.1
+> 
 
 -- 
   Kiryl Shutsemau / Kirill A. Shutemov
