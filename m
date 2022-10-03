@@ -2,116 +2,218 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B93415F27DB
-	for <lists+linux-api@lfdr.de>; Mon,  3 Oct 2022 05:31:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 17D285F2B8B
+	for <lists+linux-api@lfdr.de>; Mon,  3 Oct 2022 10:18:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229469AbiJCDb4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 2 Oct 2022 23:31:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52244 "EHLO
+        id S229585AbiJCISi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 3 Oct 2022 04:18:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38242 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229462AbiJCDbz (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 2 Oct 2022 23:31:55 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5031356F5;
-        Sun,  2 Oct 2022 20:31:53 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 82392B8058E;
-        Mon,  3 Oct 2022 03:31:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3C19C433C1;
-        Mon,  3 Oct 2022 03:31:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1664767911;
-        bh=y35fnV1suzCrdYnC9ogHY7hnwYVGR7VG5Y9k9Bvj6Y4=;
-        h=Date:From:To:Cc:Subject:From;
-        b=aXP5wX8T+Tj8ZKfuf/V+xa7gVbK0pLGri+mgOnMuP/IlzoyXMTV3k4ILCuklR6mZM
-         FlaX90HO752CwrDRAnB4OdepWaGdvPTCVgt95WYpqKZHk979DdoVvdD1ZFziKehmd9
-         zheGJo2+IVxfZnix2V7pcEv8F/blcN0QtP0GI8MVxwJ0BbVEod0APOgnGLSwJuAqfa
-         grfOZgNRUjbIJ0CbrqHwg688qD4Ra9NLOmyhI7gmYwD0mwlGlvrfDDyPwqGrvJ9plG
-         qfMG4uxF+RUX0f63BuXtgjxCvoja9F4BNDjWRV5uCa8QPEwG2L/oQe7iX5WGEgXaqT
-         ciwkakE9U+5Aw==
-Date:   Sun, 2 Oct 2022 20:31:49 -0700
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     linux-fsdevel@vger.kernel.org,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        linux-xfs@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-fscrypt@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [GIT PULL] STATX_DIOALIGN for 6.1
-Message-ID: <YzpXpalOcvwp+keu@quark>
+        with ESMTP id S230224AbiJCISO (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 3 Oct 2022 04:18:14 -0400
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D50AF786E2
+        for <linux-api@vger.kernel.org>; Mon,  3 Oct 2022 00:53:20 -0700 (PDT)
+Received: by mail-ej1-f51.google.com with SMTP id nb11so20323217ejc.5
+        for <linux-api@vger.kernel.org>; Mon, 03 Oct 2022 00:53:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=cTF3AiWCQzUZJV3DQOd8YpyAQ0uZN+oT26/EmVI5Gno=;
+        b=DvdRFGG3GDv+8INZlnRFdJ/8sk5eEa7AareONRXiJEau+xbhzZax6uLRyfYITFWbZf
+         3NqpZEEzMP/hKmEkCARYJ5G9gzbOE0q7McTWIAngIxaTuYC1o8lT6E0RUJP/MLnLpZ7d
+         Qu+1Vd0FUnf6Z7BDCSiXfOB3Lp6wjhae3evjWtqy1Hvhcufb4H2zsgnTlazKt2OEhd79
+         BA6ZEelvKbFypTSJOPXKwWi6F96cJdE1vUQrd76EmQ0Smui1y+dlW96zT/pi7JhI5c/2
+         8NZeHRiN3xgZc7P9e5p+GcKW4B3xAZ9Q9xeU6JSlAtM3mdUAbXU1rYpnUGpgYkW0Wdos
+         uORw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=cTF3AiWCQzUZJV3DQOd8YpyAQ0uZN+oT26/EmVI5Gno=;
+        b=uTFh5I4Wqpu7dJnx6YurE+EINM8VICalM+1kHMGKrcl0dmWnPzaLUyFW1GqDC6xCFP
+         6dasEEujNoZ9Qv9izASYRD35cVJe8Wc2+GwK04rgsm6tlsHUMWtQHeVIT5NfNtsTaAoS
+         YQHAHQ+s9buquOBC/oyezf7P5gOyslLjY4rnqyTC8X/DnUvR+rfhPJXEInxb6snmUSBq
+         VtvLCSHCytb/ZRH5WuD+kquRV0x9f7snBPVSWHrtSve7Z96sbE7wB1zD57QyYEI5TTqA
+         WZXzMDUPsQojF3UmELlRKRbDwif/c2du2wIzRsjLIdWPQwCoAe8AX+KSMr6YqeWR0bXV
+         bneA==
+X-Gm-Message-State: ACrzQf33sce4znjEvFDfYrDY5rHJElvHWzBkljyh3ZlVLA9E8u436BQ9
+        ASN/GXK/J9/gSOHphaTfrNcEtVnmtVS7BW/PF09kcQtu8oFVOSHz
+X-Google-Smtp-Source: AMsMyM54UDKb/wQylYbThizMTNEzG/N4GHFJjCY1YMNV55ssdwv1emM1/33fLKcW7+Q244fzhfIJ6l3JiIpmQNO4rxw=
+X-Received: by 2002:a05:6512:261b:b0:4a1:abd7:3129 with SMTP id
+ bt27-20020a056512261b00b004a1abd73129mr7271284lfb.637.1664782430012; Mon, 03
+ Oct 2022 00:33:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-2-chao.p.peng@linux.intel.com> <CA+EHjTyrexb_LX7Jm9-MGwm4DBvfjCrADH4oumFyAvs2_0oSYw@mail.gmail.com>
+ <20220930162301.i226o523teuikygq@box.shutemov.name>
+In-Reply-To: <20220930162301.i226o523teuikygq@box.shutemov.name>
+From:   Fuad Tabba <tabba@google.com>
+Date:   Mon, 3 Oct 2022 08:33:13 +0100
+Message-ID: <CA+EHjTyphrouY1FV2NQOBLDG81JYhiHFGBNKjT1K2j+pVNij+A@mail.gmail.com>
+Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
+To:     "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
+        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
+        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL,
+        USER_IN_DEF_SPF_WL autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-The following changes since commit 1c23f9e627a7b412978b4e852793c5e3c3efc555:
+Hi
 
-  Linux 6.0-rc2 (2022-08-21 17:32:54 -0700)
+On Fri, Sep 30, 2022 at 5:23 PM Kirill A . Shutemov
+<kirill.shutemov@linux.intel.com> wrote:
+>
+> On Fri, Sep 30, 2022 at 05:14:00PM +0100, Fuad Tabba wrote:
+> > Hi,
+> >
+> > <...>
+> >
+> > > diff --git a/mm/memfd_inaccessible.c b/mm/memfd_inaccessible.c
+> > > new file mode 100644
+> > > index 000000000000..2d33cbdd9282
+> > > --- /dev/null
+> > > +++ b/mm/memfd_inaccessible.c
+> > > @@ -0,0 +1,219 @@
+> > > +// SPDX-License-Identifier: GPL-2.0
+> > > +#include "linux/sbitmap.h"
+> > > +#include <linux/memfd.h>
+> > > +#include <linux/pagemap.h>
+> > > +#include <linux/pseudo_fs.h>
+> > > +#include <linux/shmem_fs.h>
+> > > +#include <uapi/linux/falloc.h>
+> > > +#include <uapi/linux/magic.h>
+> > > +
+> > > +struct inaccessible_data {
+> > > +       struct mutex lock;
+> > > +       struct file *memfd;
+> > > +       struct list_head notifiers;
+> > > +};
+> > > +
+> > > +static void inaccessible_notifier_invalidate(struct inaccessible_data *data,
+> > > +                                pgoff_t start, pgoff_t end)
+> > > +{
+> > > +       struct inaccessible_notifier *notifier;
+> > > +
+> > > +       mutex_lock(&data->lock);
+> > > +       list_for_each_entry(notifier, &data->notifiers, list) {
+> > > +               notifier->ops->invalidate(notifier, start, end);
+> > > +       }
+> > > +       mutex_unlock(&data->lock);
+> > > +}
+> > > +
+> > > +static int inaccessible_release(struct inode *inode, struct file *file)
+> > > +{
+> > > +       struct inaccessible_data *data = inode->i_mapping->private_data;
+> > > +
+> > > +       fput(data->memfd);
+> > > +       kfree(data);
+> > > +       return 0;
+> > > +}
+> > > +
+> > > +static long inaccessible_fallocate(struct file *file, int mode,
+> > > +                                  loff_t offset, loff_t len)
+> > > +{
+> > > +       struct inaccessible_data *data = file->f_mapping->private_data;
+> > > +       struct file *memfd = data->memfd;
+> > > +       int ret;
+> > > +
+> > > +       if (mode & FALLOC_FL_PUNCH_HOLE) {
+> > > +               if (!PAGE_ALIGNED(offset) || !PAGE_ALIGNED(len))
+> > > +                       return -EINVAL;
+> > > +       }
+> > > +
+> > > +       ret = memfd->f_op->fallocate(memfd, mode, offset, len);
+> >
+> > I think that shmem_file_operations.fallocate is only set if
+> > CONFIG_TMPFS is enabled (shmem.c). Should there be a check at
+> > initialization that fallocate is set, or maybe a config dependency, or
+> > can we count on it always being enabled?
+>
+> It is already there:
+>
+>         config MEMFD_CREATE
+>                 def_bool TMPFS || HUGETLBFS
+>
+> And we reject inaccessible memfd_create() for HUGETLBFS.
+>
+> But if we go with a separate syscall, yes, we need the dependency.
 
-are available in the Git repository at:
+I missed that, thanks.
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/ebiggers/linux.git tags/statx-dioalign-for-linus
+>
+> > > +       inaccessible_notifier_invalidate(data, offset, offset + len);
+> > > +       return ret;
+> > > +}
+> > > +
+> >
+> > <...>
+> >
+> > > +void inaccessible_register_notifier(struct file *file,
+> > > +                                   struct inaccessible_notifier *notifier)
+> > > +{
+> > > +       struct inaccessible_data *data = file->f_mapping->private_data;
+> > > +
+> > > +       mutex_lock(&data->lock);
+> > > +       list_add(&notifier->list, &data->notifiers);
+> > > +       mutex_unlock(&data->lock);
+> > > +}
+> > > +EXPORT_SYMBOL_GPL(inaccessible_register_notifier);
+> >
+> > If the memfd wasn't marked as inaccessible, or more generally
+> > speaking, if the file isn't a memfd_inaccessible file, this ends up
+> > accessing an uninitialized pointer for the notifier list. Should there
+> > be a check for that here, and have this function return an error if
+> > that's not the case?
+>
+> I think it is "don't do that" category. inaccessible_register_notifier()
+> caller has to know what file it operates on, no?
 
-for you to fetch changes up to 61a223df421f698c253143014cfd384255b3cf1e:
+The thing is, you could oops the kernel from userspace. For that, all
+you have to do is a memfd_create without the MFD_INACCESSIBLE,
+followed by a KVM_SET_USER_MEMORY_REGION using that as the private_fd.
+I ran into this using my port of this patch series to arm64.
 
-  xfs: support STATX_DIOALIGN (2022-09-11 19:47:12 -0500)
+Cheers,
+/fuad
 
-----------------------------------------------------------------
 
-Make statx() support reporting direct I/O (DIO) alignment information.
-This provides a generic interface for userspace programs to determine
-whether a file supports DIO, and if so with what alignment restrictions.
-Specifically, STATX_DIOALIGN works on block devices, and on regular
-files when their containing filesystem has implemented support.
-
-An interface like this has been requested for years, since the
-conditions for when DIO is supported in Linux have gotten increasingly
-complex over time.  Today, DIO support and alignment requirements can be
-affected by various filesystem features such as multi-device support,
-data journalling, inline data, encryption, verity, compression,
-checkpoint disabling, log-structured mode, etc.  Further complicating
-things, Linux v6.0 relaxed the traditional rule of DIO needing to be
-aligned to the block device's logical block size; now user buffers (but
-not file offsets) only need to be aligned to the DMA alignment.
-
-The approach of uplifting the XFS specific ioctl XFS_IOC_DIOINFO was
-discarded in favor of creating a clean new interface with statx().
-
-For more information, see the individual commits and the man page update
-https://lore.kernel.org/r/20220722074229.148925-1-ebiggers@kernel.org.
-
-----------------------------------------------------------------
-Eric Biggers (8):
-      statx: add direct I/O alignment information
-      vfs: support STATX_DIOALIGN on block devices
-      fscrypt: change fscrypt_dio_supported() to prepare for STATX_DIOALIGN
-      ext4: support STATX_DIOALIGN
-      f2fs: move f2fs_force_buffered_io() into file.c
-      f2fs: simplify f2fs_force_buffered_io()
-      f2fs: support STATX_DIOALIGN
-      xfs: support STATX_DIOALIGN
-
- block/bdev.c              | 23 ++++++++++++++++++++++
- fs/crypto/inline_crypt.c  | 49 +++++++++++++++++++++++------------------------
- fs/ext4/ext4.h            |  1 +
- fs/ext4/file.c            | 37 ++++++++++++++++++++++++-----------
- fs/ext4/inode.c           | 37 +++++++++++++++++++++++++++++++++++
- fs/f2fs/f2fs.h            | 40 --------------------------------------
- fs/f2fs/file.c            | 43 ++++++++++++++++++++++++++++++++++++++++-
- fs/stat.c                 | 14 ++++++++++++++
- fs/xfs/xfs_iops.c         | 10 ++++++++++
- include/linux/blkdev.h    |  4 ++++
- include/linux/fscrypt.h   |  7 ++-----
- include/linux/stat.h      |  2 ++
- include/uapi/linux/stat.h |  4 +++-
- 13 files changed, 188 insertions(+), 83 deletions(-)
+> --
+>   Kiryl Shutsemau / Kirill A. Shutemov
