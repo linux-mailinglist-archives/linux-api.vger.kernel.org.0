@@ -2,57 +2,58 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EB3B65F35B8
-	for <lists+linux-api@lfdr.de>; Mon,  3 Oct 2022 20:39:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C73F05F35DF
+	for <lists+linux-api@lfdr.de>; Mon,  3 Oct 2022 20:51:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229739AbiJCSjP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 3 Oct 2022 14:39:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46940 "EHLO
+        id S229626AbiJCSvT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 3 Oct 2022 14:51:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229708AbiJCSjO (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 3 Oct 2022 14:39:14 -0400
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88E1841D06
-        for <linux-api@vger.kernel.org>; Mon,  3 Oct 2022 11:39:12 -0700 (PDT)
-Received: by mail-pg1-x532.google.com with SMTP id a23so2684834pgi.10
-        for <linux-api@vger.kernel.org>; Mon, 03 Oct 2022 11:39:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=G7bUMV+FEZy7kwIPvofvWVHEzM2JjGpJ/T9cn7FANKI=;
-        b=DbL7LAsMn1ZPP3tNqgEAs3OQijAthjiTsME8iEq9bYxYCoSv0lX69AAmGW/K9A6j/q
-         TMxBNDTbCnI8kpn+gp3mX8N+xIP0/vXpRvy2NYb976KpDaLB/bkmYwScsJ09vfjp9jgi
-         P5XvS/Lge/4CLPDX9IZNvy8a9fJitWxxwmk0E=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=G7bUMV+FEZy7kwIPvofvWVHEzM2JjGpJ/T9cn7FANKI=;
-        b=x79dhAy+3qx/ItRVMKZ1yw1FvrYQ6c1IE8yI915mlgHeQkO7lqljXIW6vewcdpe5J6
-         NCeTOuTjErKpEYDO0Qdf037uHsVC7HRLoR3B8e0nPfvEpdhuPRUmGeySY50oh/Cgvoab
-         s2QRpqiFhfWNi30ltckjJwrOhmWobDHTy8+t1c70raKffAKtazQ+KHOqUGNCw6hBdwuE
-         DX33wjzhN1NhF9F7/sBkP5fGVWrFZ6jgeBLGi6v6FSWr9MfeCkAiMJ+JRiFYsXWnAXs3
-         uTue/5X/alrA8rjtQB8Xal4lKLYEdI4gEHFprGrIH3yOFgJbTTCLOzydQ9mhqossH12h
-         ZEUA==
-X-Gm-Message-State: ACrzQf1BkksMNXM0fWmDzeFsFsYBtt6vJJXtbTWOOh2wE6TVJapkH9Zm
-        t3keawCr5QvRW7Vk9ZjColdOeg==
-X-Google-Smtp-Source: AMsMyM7dhnU1K9hukcn95YVuWGVu5LA5Bt+XPOoY3OKL7aWIGI8OTGW3VT2EJsGjF80hrfyoCag0wQ==
-X-Received: by 2002:a62:1482:0:b0:55f:eb9a:38b2 with SMTP id 124-20020a621482000000b0055feb9a38b2mr11535532pfu.29.1664822351896;
-        Mon, 03 Oct 2022 11:39:11 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id v62-20020a626141000000b0054097cb2da6sm7726006pfb.38.2022.10.03.11.39.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Oct 2022 11:39:11 -0700 (PDT)
-Date:   Mon, 3 Oct 2022 11:39:10 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
-Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        with ESMTP id S229576AbiJCSvS (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 3 Oct 2022 14:51:18 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F8D71DA58;
+        Mon,  3 Oct 2022 11:51:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1664823078; x=1696359078;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=sHpGmhITtQ8yrxSaq/GvsC2XRU7DBrZMlLdnk0v7/Vs=;
+  b=X1ni+Hwut12couTZuwI2cVQ184Q6S1Kzj5rc31U3OTm6/wSIJtwqKI1/
+   uKdOOSWvNwUE5J8Rd7o0o5z8E9QDSjVmuc0c+D/5ngy2IsMpQ4EaR91GH
+   tUaQX5DaiQ9uqwyobw24pRipleirSvEte36R07cjYMWQiggUDiv/pnLwi
+   xHd+fuaJTKBdiGZqATKyylVe0GiIPG0bpUUM0bXUmRtqlyRXMCT5U8BHy
+   UlCtJNdWEDQDmiBFq6OzoElZu4644Uf0sMlEiQlHwGbejN/BCn5ZPhLLD
+   IIGR9FGFqHkbD7SWcvtZDzldqPU/xJBPJTohxkgxFC77nD3qqUeOc25NZ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10489"; a="300333988"
+X-IronPort-AV: E=Sophos;i="5.93,366,1654585200"; 
+   d="scan'208";a="300333988"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2022 11:51:17 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10489"; a="601347405"
+X-IronPort-AV: E=Sophos;i="5.93,366,1654585200"; 
+   d="scan'208";a="601347405"
+Received: from akashred-mobl.amr.corp.intel.com (HELO [10.212.139.217]) ([10.212.139.217])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2022 11:51:16 -0700
+Message-ID: <023ee88b-1f23-acb6-9ac6-c75afbcb09d9@intel.com>
+Date:   Mon, 3 Oct 2022 11:51:15 -0700
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2 12/39] x86/mm: Update ptep_set_wrprotect() and
+ pmdp_set_wrprotect() for transition from _PAGE_DIRTY to _PAGE_COW
+Content-Language: en-US
+To:     Nadav Amit <nadav.amit@gmail.com>,
+        Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc:     X86 ML <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
+        Linux MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        linux-api@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
         Andy Lutomirski <luto@kernel.org>,
         Balbir Singh <bsingharora@gmail.com>,
         Borislav Petkov <bp@alien8.de>,
@@ -62,8 +63,8 @@ Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
         Florian Weimer <fweimer@redhat.com>,
         "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
         Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
         Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
         Peter Zijlstra <peterz@infradead.org>,
         Randy Dunlap <rdunlap@infradead.org>,
@@ -71,60 +72,52 @@ Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
         Weijiang Yang <weijiang.yang@intel.com>,
         "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
         joao.moreira@intel.com, John Allen <john.allen@amd.com>,
-        kcc@google.com, eranian@google.com, rppt@kernel.org,
-        jamorris@linux.microsoft.com, dethoma@microsoft.com
-Subject: Re: [PATCH v2 22/39] mm: Don't allow write GUPs to shadow stack
- memory
-Message-ID: <202210031134.B0B6B37@keescook>
+        kcc@google.com, eranian@google.com,
+        Mike Rapoport <rppt@kernel.org>, jamorris@linux.microsoft.com,
+        dethoma@microsoft.com, Yu-cheng Yu <yu-cheng.yu@intel.com>
 References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
- <20220929222936.14584-23-rick.p.edgecombe@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220929222936.14584-23-rick.p.edgecombe@intel.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+ <20220929222936.14584-13-rick.p.edgecombe@intel.com>
+ <E5D7151E-B5A6-4BEA-9642-ECCFC28F8C8E@gmail.com>
+From:   Dave Hansen <dave.hansen@intel.com>
+In-Reply-To: <E5D7151E-B5A6-4BEA-9642-ECCFC28F8C8E@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-8.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Sep 29, 2022 at 03:29:19PM -0700, Rick Edgecombe wrote:
-> [...]
-> Still allow FOLL_FORCE to write through shadow stack protections, as it
-> does for read-only protections.
+On 10/3/22 11:11, Nadav Amit wrote:
+>> +#ifdef CONFIG_X86_SHADOW_STACK
+>> +	/*
+>> +	 * Avoid accidentally creating shadow stack PTEs
+>> +	 * (Write=0,Dirty=1).  Use cmpxchg() to prevent races with
+>> +	 * the hardware setting Dirty=1.
+>> +	 */
+>> +	if (cpu_feature_enabled(X86_FEATURE_SHSTK)) {
+>> +		pte_t old_pte, new_pte;
+>> +
+>> +		old_pte = READ_ONCE(*ptep);
+>> +		do {
+>> +			new_pte = pte_wrprotect(old_pte);
+>> +		} while (!try_cmpxchg(&ptep->pte, &old_pte.pte, new_pte.pte));
+>> +
+>> +		return;
+>> +	}
+>> +#endif
+> There is no way of using IS_ENABLED() here instead of these ifdefs?
 
-As I asked in the cover letter: why do we need to add this for shstk? It
-was a mistake for general memory. :P
+Actually, both the existing #ifdef and an IS_ENABLED() check would be
+is superfluous as-is.
 
-> [...]
-> diff --git a/mm/gup.c b/mm/gup.c
-> index 5abdaf487460..56da98f3335c 100644
-> --- a/mm/gup.c
-> +++ b/mm/gup.c
-> @@ -1043,7 +1043,7 @@ static int check_vma_flags(struct vm_area_struct *vma, unsigned long gup_flags)
->  		return -EFAULT;
->  
->  	if (write) {
-> -		if (!(vm_flags & VM_WRITE)) {
-> +		if (!(vm_flags & VM_WRITE) || (vm_flags & VM_SHADOW_STACK)) {
->  			if (!(gup_flags & FOLL_FORCE))
->  				return -EFAULT;
->  			/*
+Adding X86_FEATURE_SHSTK disabled-features.h gives cpu_feature_enabled()
+compile-time optimizations for free.  No need for *any* additional
+CONFIG_* checks.
 
-How about this instead:
-
-  		return -EFAULT;
-  
- 	if (write) {
-+		if (vm_flags & VM_SHADOW_STACK)
-+			return -EFAULT;
- 		if (!(vm_flags & VM_WRITE)) {
- 			if (!(gup_flags & FOLL_FORCE))
- 				return -EFAULT;
-
-
--- 
-Kees Cook
+The only issue would be if the #ifdef'd code won't even compile with
+X86_FEATURE_SHSTK disabled.
