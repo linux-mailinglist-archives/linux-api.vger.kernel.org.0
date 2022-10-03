@@ -2,87 +2,108 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A21505F393B
-	for <lists+linux-api@lfdr.de>; Tue,  4 Oct 2022 00:42:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8526C5F394C
+	for <lists+linux-api@lfdr.de>; Tue,  4 Oct 2022 00:46:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229685AbiJCWmA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 3 Oct 2022 18:42:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39018 "EHLO
+        id S229907AbiJCWqV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 3 Oct 2022 18:46:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229653AbiJCWlo (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 3 Oct 2022 18:41:44 -0400
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB244220D5
-        for <linux-api@vger.kernel.org>; Mon,  3 Oct 2022 15:41:42 -0700 (PDT)
-Received: by mail-pg1-x534.google.com with SMTP id f193so10929556pgc.0
-        for <linux-api@vger.kernel.org>; Mon, 03 Oct 2022 15:41:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=0AA5mVx1sjanEJNpz1kP1A24AwPL5AGSN+ESikM8G4M=;
-        b=VA2wkSxhEFL+eKy/lIFXjIKz1DzSfgSEefJ5rtjsj1q3frLFZQ6mzW1Ed9JI45s1Et
-         XmjWZkilsyMHSNjclxEoFDGnZTfYZDl+r9V2QIu6bDOLlLa4Kuu+OuF8h52H5ga/S4EA
-         6TZdBYRGEkRcIyvWs1l2snBK2VDH6Lsko7fGI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=0AA5mVx1sjanEJNpz1kP1A24AwPL5AGSN+ESikM8G4M=;
-        b=eVIeFakbGvsNe3royDB9P/muDCddV4+9VcxSSDXsU0b+7/QDw1XObknOrOUwMhDfoF
-         S9KGAULnHHwvW+aHkO7d0fsVXJ7ISJzJ3zi+aZt/ZzxXdlF0/26sDuDNdeLEw8W9hN/t
-         PQMicefuJFb/rrRFcm47/uUMZ+XOsQjRtNV09UNEH0tKZKIXbTdAg5X9C60WK+NZeJJM
-         VUHTEaHQWCwkr4gs/mRK4frA9lOYUfZjhTTrt+r5fgX8uoNEmMnmy8Q1u6qjkLQGXEpN
-         QINT/SCqSOtgoOoK6pvQfNhGlPP/z94HVKWxhTJyonwslhlMVnG3QL+flSsimFWLa7b9
-         mbwQ==
-X-Gm-Message-State: ACrzQf0krOx7iGFukVORoJcK7SJgTKxQW/VpXnnk2lBkVsb79TazaPtJ
-        WbtRcGUdtCWPO/n+h1mEJHKgdQ==
-X-Google-Smtp-Source: AMsMyM6KFn3hsaPQ+/v9SY9Is1u0aX6T3pdbvPhrAobSs1cgE1Gpo2NXEvxIOkgpxZZP5yLEsTyAnA==
-X-Received: by 2002:a63:1f5f:0:b0:440:5310:4b0e with SMTP id q31-20020a631f5f000000b0044053104b0emr19679572pgm.293.1664836902512;
-        Mon, 03 Oct 2022 15:41:42 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id b13-20020a170902650d00b0017d665117dasm5499305plk.150.2022.10.03.15.41.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Oct 2022 15:41:41 -0700 (PDT)
-Date:   Mon, 3 Oct 2022 15:41:41 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
-Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        joao.moreira@intel.com, John Allen <john.allen@amd.com>,
-        kcc@google.com, eranian@google.com, rppt@kernel.org,
-        jamorris@linux.microsoft.com, dethoma@microsoft.com
-Subject: Re: [PATCH v2 31/39] x86/cet/shstk: Wire in CET interface
-Message-ID: <202210031539.CD26B37269@keescook>
+        with ESMTP id S229479AbiJCWqT (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 3 Oct 2022 18:46:19 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71EE91A073;
+        Mon,  3 Oct 2022 15:46:18 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 2608CB8165B;
+        Mon,  3 Oct 2022 22:46:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5BBBC433C1;
+        Mon,  3 Oct 2022 22:46:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1664837175;
+        bh=GNpI8alyczsGJm34nf0Ut1uPwaRQOXVFL9dF4cNtZQk=;
+        h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
+        b=kMIROoeuI3BGK2QBFkmfKm6Ikye3LYWIlJIoB+ZMzdGsId9icRf9LPv5PFMopc4mW
+         5Birj6BH7G9zxMFcahomzo1WVDcFpLyhezqH2YP0BF6JELBI9PR/yjGrMoPvs2bwMa
+         fmh9+2s2Tfla+ZWvUdY4ZCq2LjGmsRMGcpL8O0dXGj1T6nmT261rCcawr7dn8s7x2+
+         DeHY4uvhI1XNQE2gLhgJF+H0yrSUn/owTGxjU/XIQJUSUlT33ETAzmE8F5etsQPD74
+         29EWUj4ZVQauj78b/B3ZCbG0E1IV085svdnDw3U6U8EfH6ynWiMCqEbAYMftAI9mQt
+         lR69Ywt0YuKPQ==
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+        by mailauth.nyi.internal (Postfix) with ESMTP id 9AB8827C0054;
+        Mon,  3 Oct 2022 18:46:13 -0400 (EDT)
+Received: from imap48 ([10.202.2.98])
+  by compute2.internal (MEProxy); Mon, 03 Oct 2022 18:46:13 -0400
+X-ME-Sender: <xms:NGY7Y7fHcnsuAMA0Bi3LK5VTkHNxK595Yxp5kJMT1yMgMc0wTQ_3wg>
+    <xme:NGY7YxOP98Ws8OzfeVlnbWDPqeMBbtFA1Iv7raagQz7tNe6bs9dAcfjGtF1aADO1N
+    uVIG5CVk5K26ClhQ1s>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeeitddgudegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehn
+    ugihucfnuhhtohhmihhrshhkihdfuceolhhuthhosehkvghrnhgvlhdrohhrgheqnecugg
+    ftrfgrthhtvghrnhepveffgfevhfeiteduueetgeevvdevudevteefveffudeiveefuddt
+    leeitdeludfgnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghruf
+    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhguhidomhgvshhmthhprghu
+    thhhphgvrhhsohhnrghlihhthidqudduiedukeehieefvddqvdeifeduieeitdekqdhluh
+    htoheppehkvghrnhgvlhdrohhrgheslhhinhhugidrlhhuthhordhush
+X-ME-Proxy: <xmx:NGY7Y0hV1wv-Hz3Gdsf33qXZJ6bzUgNhl5E3h5Lr-n5VM-PiNI3uCQ>
+    <xmx:NGY7Y89rkdQ8MTimT2SfC3SsJG5eQRrzh9AnjaE56mqSeMjsxqeE5Q>
+    <xmx:NGY7Y3ul3kmzZrwKUo6K-M8GqyoMGcCAhjoFWIvdI2b32kk-sHMv1Q>
+    <xmx:NWY7Y-N7_--bM1kLIS8Z3bQ6snCjlaudE5oMUSuN4WJacDR2BQRN1Q>
+Feedback-ID: ieff94742:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id 1F2B531A0063; Mon,  3 Oct 2022 18:46:12 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-1015-gaf7d526680-fm-20220929.001-gaf7d5266
+Mime-Version: 1.0
+Message-Id: <b8b3caab-9f0c-4230-8d7b-debd7f79cdb9@app.fastmail.com>
+In-Reply-To: <202210031530.9CFB62B39F@keescook>
 References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
- <20220929222936.14584-32-rick.p.edgecombe@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220929222936.14584-32-rick.p.edgecombe@intel.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+ <20220929222936.14584-31-rick.p.edgecombe@intel.com>
+ <202210031530.9CFB62B39F@keescook>
+Date:   Mon, 03 Oct 2022 15:45:50 -0700
+From:   "Andy Lutomirski" <luto@kernel.org>
+To:     "Kees Cook" <keescook@chromium.org>,
+        "Rick P Edgecombe" <rick.p.edgecombe@intel.com>
+Cc:     "the arch/x86 maintainers" <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "Thomas Gleixner" <tglx@linutronix.de>,
+        "Ingo Molnar" <mingo@redhat.com>,
+        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org,
+        "Linux API" <linux-api@vger.kernel.org>,
+        "Arnd Bergmann" <arnd@arndb.de>,
+        "Balbir Singh" <bsingharora@gmail.com>,
+        "Borislav Petkov" <bp@alien8.de>,
+        "Cyrill Gorcunov" <gorcunov@gmail.com>,
+        "Dave Hansen" <dave.hansen@linux.intel.com>,
+        "Eugene Syromiatnikov" <esyr@redhat.com>,
+        "Florian Weimer" <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, "Jann Horn" <jannh@google.com>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "Mike Kravetz" <mike.kravetz@oracle.com>,
+        "Nadav Amit" <nadav.amit@gmail.com>,
+        "Oleg Nesterov" <oleg@redhat.com>, "Pavel Machek" <pavel@ucw.cz>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        "Randy Dunlap" <rdunlap@infradead.org>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
+        "Weijiang Yang" <weijiang.yang@intel.com>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        "Moreira, Joao" <joao.moreira@intel.com>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "kcc@google.com" <kcc@google.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "Mike Rapoport" <rppt@kernel.org>, jamorris@linux.microsoft.com,
+        dethoma@microsoft.com
+Subject: Re: [PATCH v2 30/39] x86: Expose thread features status in
+ /proc/$PID/arch_status
+Content-Type: text/plain
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -91,14 +112,45 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Sep 29, 2022 at 03:29:28PM -0700, Rick Edgecombe wrote:
-> The kernel now has the main CET functionality to support applications.
-> Wire in the WRSS and shadow stack enable/disable functions into the
-> existing CET API skeleton.
-> 
-> Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
 
--- 
-Kees Cook
+On Mon, Oct 3, 2022, at 3:37 PM, Kees Cook wrote:
+> On Thu, Sep 29, 2022 at 03:29:27PM -0700, Rick Edgecombe wrote:
+>> From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+>> 
+>> Applications and loaders can have logic to decide whether to enable CET.
+>> They usually don't report whether CET has been enabled or not, so there
+>> is no way to verify whether an application actually is protected by CET
+>> features.
+>> 
+>> Add two lines in /proc/$PID/arch_status to report enabled and locked
+>> features.
+>> 
+>> Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+>> [Switched to CET, added to commit log]
+>> Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
+>> 
+>> ---
+>> 
+>> v2:
+>>  - New patch
+>> 
+>>  arch/x86/kernel/Makefile     |  2 ++
+>>  arch/x86/kernel/fpu/xstate.c | 47 ---------------------------
+>>  arch/x86/kernel/proc.c       | 63 ++++++++++++++++++++++++++++++++++++
+>>  3 files changed, 65 insertions(+), 47 deletions(-)
+>>  create mode 100644 arch/x86/kernel/proc.c
+>
+> This is two patches: one to create proc.c, the other to add CET support.
+>
+> I found where the "arch_status" conversation was:
+> https://lore.kernel.org/all/CALCETrUjF9PBmkzH1J86vw4ZW785DP7FtcT+gcSrx29=BUnjoQ@mail.gmail.com/
+>
+> Andy, what did you mean "make sure that everything in it is namespaced"?
+> Everything already has a field name. And arch_status doesn't exactly
+> solve having compat fields -- it still needs to be handled manually?
+> Anyway... we have arch_status, so I guess it's fine.
+
+I think I meant that, since it's "arch_status" not "x86_status", the fields should have names like "x86.Thread_features".  Otherwise if another architecture adds a Thread_features field, then anything running under something like qemu userspace emulation could be confused.
+
+Assuming that's what I meant, I think my comment still stands :)
