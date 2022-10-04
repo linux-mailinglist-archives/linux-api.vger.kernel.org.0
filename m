@@ -2,54 +2,53 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 53E8A5F3C42
-	for <lists+linux-api@lfdr.de>; Tue,  4 Oct 2022 06:54:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6EDEC5F3C4C
+	for <lists+linux-api@lfdr.de>; Tue,  4 Oct 2022 07:01:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229611AbiJDEyb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 4 Oct 2022 00:54:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36262 "EHLO
+        id S229513AbiJDFBM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 4 Oct 2022 01:01:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229534AbiJDEya (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 4 Oct 2022 00:54:30 -0400
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 218EE459B7
-        for <linux-api@vger.kernel.org>; Mon,  3 Oct 2022 21:54:29 -0700 (PDT)
-Received: by mail-pj1-x1032.google.com with SMTP id gf8so9349627pjb.5
-        for <linux-api@vger.kernel.org>; Mon, 03 Oct 2022 21:54:29 -0700 (PDT)
+        with ESMTP id S229451AbiJDFBL (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 4 Oct 2022 01:01:11 -0400
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCE2B16599
+        for <linux-api@vger.kernel.org>; Mon,  3 Oct 2022 22:01:09 -0700 (PDT)
+Received: by mail-pg1-x534.google.com with SMTP id b5so11748228pgb.6
+        for <linux-api@vger.kernel.org>; Mon, 03 Oct 2022 22:01:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=0foMv+yNCzUvsFibuuhT0xJMSn3BsckwqQnYwsSpG6c=;
-        b=kP2DU18OL+6JoMmHiz7PTfk7riy2/Rm9Wy/RMJSZw0+4OsYTh77f0vWl9qv7iajjKy
-         RIz6U5V4DB8c8PdV0j+66I9QzpbtApMOuki0n8qXkaXGXt3gywvOawzFAo8PZUDgrvLn
-         K6ewO49a2ZbsvxZhb+uN62IdqX2lQY719nEKM=
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date;
+        bh=YCIEsQmqe2GU/op8ELVIz10eFCT8qx7jrOh827aE4ak=;
+        b=fdSA9xmIbaXZOFK29VojFiNPE/Ng3cLgMgO04lzffde9cZ0Aj70ulu+cOZLSn4HMID
+         ZcBnoO4BZD2KT85KEtfcmtPUO7G4u94DJbCG9gFWmQE4pvn0lIL6/Lc9NZX3JtjxD3+c
+         pQ6fyzv5HBKm5oOgaBDxztjBkP/mkKSY/Ry5M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=0foMv+yNCzUvsFibuuhT0xJMSn3BsckwqQnYwsSpG6c=;
-        b=EkmuyH+7UFtK6L6XbV4ikiBvxjcFfLfJlvlaiowL7XqqTdaLUvujSLJe+a0awt6+En
-         QUrZrN8s2IcOHrqG6NFLVo8vYQ+Vg343AXB8uuSS4rwYgyVbUOBCYQlJTN5HKadMcBXz
-         zl4AyItVqzdVwN9SVvf+Ww69TeP4olbTjvfHKSI4TttAHwKaRy0Z0vAtN4SHoMHNVdWK
-         3Adl0hfpyrMMy8YMxmJjMVv3gUOUjd9eQZIvAxy7/s35QeWVjvNBxduHgMH5MrSlI1AW
-         Lowe073SA9HuWFwGZtD3OnCAePW9TgeE3brOrOvbEvHz58utaGhTk9/23EPlpGuSGrGG
-         QIpA==
-X-Gm-Message-State: ACrzQf2gcGEJfmKpNdWloorftKkpK6YybhRjM39/nmUeBdVBCQr6XH8E
-        ABz/riAjXMIgdjj0JcqmviyC2Q==
-X-Google-Smtp-Source: AMsMyM7h1fPIVLatwHLhSPOimpTJ14eQWo/995Hwz/mCrD36Vca1l16aPrA63CLsA8WZ5DSuZ7p0tg==
-X-Received: by 2002:a17:90b:390e:b0:202:5d4e:c1f2 with SMTP id ob14-20020a17090b390e00b002025d4ec1f2mr15728874pjb.45.1664859268650;
-        Mon, 03 Oct 2022 21:54:28 -0700 (PDT)
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=YCIEsQmqe2GU/op8ELVIz10eFCT8qx7jrOh827aE4ak=;
+        b=Yufm1rUB1JyReCqnnGFLP6G7m9lSyOQ7NnEu6UPfZzIKdKKZawCiyPf+lqwsZ68Ti1
+         2suuEjXo8ckBd3qq6Klf3Z8Mla2i+b065fFg2Gm77/eJCRezRM57uELeY0cdqyhLj304
+         SKebSZINXOcjBKGfstvM/ciW8MYMBkd3ZSC5grssZK4wq68eCkmVcmTJG1sJD8x+J5dM
+         K68Z9c94SdHbmy6E5TfB32UReGEYWfqyfQZsrwoEybTMv0+K0w3L1HoyEBiQhv+rhAcn
+         COyaXN/No+BF7tKzx3S+1St12jRL4Bq58Ue0zRhmdTsDuqwFD5dsACPnVyizOLnEK5NC
+         E1Tw==
+X-Gm-Message-State: ACrzQf0BaFc+mUP7T228SFN9/rwnfMNw0xfRk2xf1FBiB4h5VHk0V6Uz
+        26kW4ZtrhBoOHcjq4Wg0/42Miw==
+X-Google-Smtp-Source: AMsMyM5PzL11modUqno6f/hvls5hZpn+KK4uhST+ROirabQr+EJiNbMAuTappoTzvGAyPi9jEbjxMQ==
+X-Received: by 2002:a63:da12:0:b0:43a:18ce:f959 with SMTP id c18-20020a63da12000000b0043a18cef959mr21506613pgh.386.1664859669373;
+        Mon, 03 Oct 2022 22:01:09 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id y20-20020aa78f34000000b005617c676344sm2649775pfr.89.2022.10.03.21.54.27
+        by smtp.gmail.com with ESMTPSA id y83-20020a626456000000b005386b58c8a3sm5814207pfb.100.2022.10.03.22.01.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Oct 2022 21:54:27 -0700 (PDT)
-Date:   Mon, 3 Oct 2022 21:54:26 -0700
+        Mon, 03 Oct 2022 22:01:08 -0700 (PDT)
+Date:   Mon, 3 Oct 2022 22:01:07 -0700
 From:   Kees Cook <keescook@chromium.org>
-To:     Dave Hansen <dave.hansen@intel.com>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>
+To:     Jann Horn <jannh@google.com>
 Cc:     Rick Edgecombe <rick.p.edgecombe@intel.com>, x86@kernel.org,
         "H . Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -64,7 +63,7 @@ Cc:     Rick Edgecombe <rick.p.edgecombe@intel.com>, x86@kernel.org,
         Dave Hansen <dave.hansen@linux.intel.com>,
         Eugene Syromiatnikov <esyr@redhat.com>,
         Florian Weimer <fweimer@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Mike Kravetz <mike.kravetz@oracle.com>,
         Nadav Amit <nadav.amit@gmail.com>,
@@ -76,20 +75,17 @@ Cc:     Rick Edgecombe <rick.p.edgecombe@intel.com>, x86@kernel.org,
         "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
         joao.moreira@intel.com, John Allen <john.allen@amd.com>,
         kcc@google.com, eranian@google.com, rppt@kernel.org,
-        jamorris@linux.microsoft.com, dethoma@microsoft.com,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        "Moger, Babu" <babu.moger@amd.com>
-Subject: Re: [PATCH v2 33/39] x86/cpufeatures: Limit shadow stack to Intel
- CPUs
-Message-ID: <202210032147.ED1310CEA8@keescook>
+        jamorris@linux.microsoft.com, dethoma@microsoft.com
+Subject: Re: [PATCH v2 00/39] Shadowstacks for userspace
+Message-ID: <202210032158.CE0941C4D@keescook>
 References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
- <20220929222936.14584-34-rick.p.edgecombe@intel.com>
- <202210031656.23FAA3195@keescook>
- <559f937f-cab4-d408-6d95-fc85b4809aa9@intel.com>
+ <202210030946.CB90B94C11@keescook>
+ <CAG48ez2TGdwcr-jUPm1EL1D6X2a-wbx+gXLZUq46qxO-FTctHQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <559f937f-cab4-d408-6d95-fc85b4809aa9@intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAG48ez2TGdwcr-jUPm1EL1D6X2a-wbx+gXLZUq46qxO-FTctHQ@mail.gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
@@ -100,32 +96,51 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Oct 03, 2022 at 05:09:04PM -0700, Dave Hansen wrote:
-> On 10/3/22 16:57, Kees Cook wrote:
-> > On Thu, Sep 29, 2022 at 03:29:30PM -0700, Rick Edgecombe wrote:
-> >> Shadow stack is supported on newer AMD processors, but the kernel
-> >> implementation has not been tested on them. Prevent basic issues from
-> >> showing up for normal users by disabling shadow stack on all CPUs except
-> >> Intel until it has been tested. At which point the limitation should be
-> >> removed.
-> >>
-> >> Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
-> > So running the selftests on an AMD system is sufficient to drop this
-> > patch?
+On Mon, Oct 03, 2022 at 07:25:03PM +0200, Jann Horn wrote:
+> On Mon, Oct 3, 2022 at 7:04 PM Kees Cook <keescook@chromium.org> wrote:
+> > On Thu, Sep 29, 2022 at 03:28:57PM -0700, Rick Edgecombe wrote:
+> > > This is an overdue followup to the “Shadow stacks for userspace” CET series.
+> > > Thanks for all the comments on the first version [0]. They drove a decent
+> > > amount of changes for v2. Since it has been awhile, I’ll try to summarize the
+> > > areas that got major changes since last time. Smaller changes are listed in
+> > > each patch.
+> >
+> > Thanks for the write-up!
+> >
+> > > [...]
+> > >         GUP
+> > >         ---
+> > >         Shadow stack memory is generally treated as writable by the kernel, but
+> > >         it behaves differently then other writable memory with respect to GUP.
+> > >         FOLL_WRITE will not GUP shadow stack memory unless FOLL_FORCE is also
+> > >         set. Shadow stack memory is writable from the perspective of being
+> > >         changeable by userspace, but it is also protected memory from
+> > >         userspace’s perspective. So preventing it from being writable via
+> > >         FOLL_WRITE help’s make it harder for userspace to arbitrarily write to
+> > >         it. However, like read-only memory, FOLL_FORCE can still write through
+> > >         it. This means shadow stacks can be written to via things like
+> > >         “/proc/self/mem”. Apps that want extra security will have to prevent
+> > >         access to kernel features that can write with FOLL_FORCE.
+> >
+> > This seems like a problem to me -- the point of SS is that there cannot be
+> > a way to write to them without specific instruction sequences. The fact
+> > that /proc/self/mem bypasses memory protections was an old design mistake
+> > that keeps leading to surprising behaviors. It would be much nicer to
+> > draw the line somewhere and just say that FOLL_FORCE doesn't work on
+> > VM_SHADOW_STACK. Why must FOLL_FORCE be allowed to write to SS?
 > 
-> Yes, that's enough.
+> But once you have FOLL_FORCE, you can also just write over stuff like
+> executable code instead of writing over the stack. I don't think
+> allowing FOLL_FORCE writes over shadow stacks from /proc/$pid/mem is
+> making things worse in any way, and it's probably helpful for stuff
+> like debuggers.
 > 
-> I _thought_ the AMD folks provided some tested-by's at some point in the
-> past.  But, maybe I'm confusing this for one of the other shared
-> features.  Either way, I'm sure no tested-by's were dropped on purpose.
-> 
-> I'm sure Rick is eager to trim down his series and this would be a great
-> patch to drop.  Does anyone want to make that easy for Rick?
-> 
-> <hint> <hint>
+> If you don't want /proc/$pid/mem to be able to do stuff like that,
+> then IMO the way to go is to change when /proc/$pid/mem uses
+> FOLL_FORCE, or to limit overall write access to /proc/$pid/mem.
 
-Hey Gustavo, Nathan, or Nick! I know y'all have some fancy AMD testing
-rigs. Got a moment to spin up this series and run the selftests? :)
+Yeah, all reasonable. I just wish we could ditch FOLL_FORCE; it continues
+to weird me out how powerful that fd's side-effects are.
 
 -- 
 Kees Cook
