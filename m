@@ -2,125 +2,110 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8EA6C5F40A8
-	for <lists+linux-api@lfdr.de>; Tue,  4 Oct 2022 12:18:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A0815F4545
+	for <lists+linux-api@lfdr.de>; Tue,  4 Oct 2022 16:18:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229619AbiJDKSH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 4 Oct 2022 06:18:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42182 "EHLO
+        id S229647AbiJDOSs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 4 Oct 2022 10:18:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33002 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229517AbiJDKSF (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 4 Oct 2022 06:18:05 -0400
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6EE42C646
-        for <linux-api@vger.kernel.org>; Tue,  4 Oct 2022 03:18:03 -0700 (PDT)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-234-vpaXn1vgMYacXBGVntZ1PA-1; Tue, 04 Oct 2022 11:18:00 +0100
-X-MC-Unique: vpaXn1vgMYacXBGVntZ1PA-1
-Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
- (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.38; Tue, 4 Oct
- 2022 11:17:57 +0100
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.040; Tue, 4 Oct 2022 11:17:57 +0100
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Dave Hansen' <dave.hansen@intel.com>,
-        Kees Cook <keescook@chromium.org>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>
-CC:     "x86@kernel.org" <x86@kernel.org>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, "Jann Horn" <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        "joao.moreira@intel.com" <joao.moreira@intel.com>,
-        John Allen <john.allen@amd.com>,
-        "kcc@google.com" <kcc@google.com>,
-        "eranian@google.com" <eranian@google.com>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: RE: [PATCH v2 24/39] x86/cet/shstk: Add user-mode shadow stack
- support
-Thread-Topic: [PATCH v2 24/39] x86/cet/shstk: Add user-mode shadow stack
- support
-Thread-Index: AQHY12Njz3/HZpf9jkaO+WwIiUYgJ63+BXng
-Date:   Tue, 4 Oct 2022 10:17:57 +0000
-Message-ID: <4b9c6208d1174c27a795cef487eb97b5@AcuMS.aculab.com>
-References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
- <20220929222936.14584-25-rick.p.edgecombe@intel.com>
- <202210031203.EB0DC0B7DD@keescook>
- <474d3aca-0cf0-8962-432b-77ac914cc563@intel.com>
-In-Reply-To: <474d3aca-0cf0-8962-432b-77ac914cc563@intel.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        with ESMTP id S229509AbiJDOSr (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 4 Oct 2022 10:18:47 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 976AE2FC2F;
+        Tue,  4 Oct 2022 07:18:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1664893125; x=1696429125;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=/ZhcxE23XxY+wRDapL4hQYTPECwVP1wjdbRokWF4C6M=;
+  b=hDxc17rngdiCzrfqOdO0kCB4KrobUCdfwdygSWb6iT21g46hp8EpG7Fc
+   BYfMRpWcIRspHIMcdNeM8UOnm4RUkMa9iZyUDNtnspXfDIpXCltlw/OyY
+   xTHf8pAW0rURgbVN175OhHGCuQnRqXcZloBaaVhgg4Idmne/hdMyx2u4s
+   LgtYTNpffFb5t1gJ1IjfnneApYT99P3VnNL2ktn2VyDX1thVBdlv+DhfW
+   j7yn5WeirC86esm6A8UsPwGj3tBeHbt5iPVqvzzI+TcIdlyJNOI+YE+5o
+   JN3Yu22hPyeID3Pv9wQCq2NpNPlzJrv5UXKV9DPRYny7teMnWkBos4+MY
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10490"; a="304464657"
+X-IronPort-AV: E=Sophos;i="5.95,158,1661842800"; 
+   d="scan'208";a="304464657"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2022 07:18:45 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10490"; a="623945386"
+X-IronPort-AV: E=Sophos;i="5.95,158,1661842800"; 
+   d="scan'208";a="623945386"
+Received: from samrober-mobl.amr.corp.intel.com (HELO [10.209.85.136]) ([10.209.85.136])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2022 07:18:44 -0700
+Message-ID: <62c6c3a7-3bd2-69ee-36cd-341e11c43978@intel.com>
+Date:   Tue, 4 Oct 2022 07:18:43 -0700
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2 06/39] x86/fpu: Add helper for modifying xstate
 Content-Language: en-US
+To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
+        "keescook@chromium.org" <keescook@chromium.org>
+Cc:     "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "kcc@google.com" <kcc@google.com>, "bp@alien8.de" <bp@alien8.de>,
+        "oleg@redhat.com" <oleg@redhat.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>, "arnd@arndb.de" <arnd@arndb.de>,
+        "Moreira, Joao" <joao.moreira@intel.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>
+References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
+ <20220929222936.14584-7-rick.p.edgecombe@intel.com>
+ <202210031045.419F7DB396@keescook>
+ <e0b3662ac478a7d2ae1991e8c674732592c2ea88.camel@intel.com>
+From:   Dave Hansen <dave.hansen@intel.com>
+In-Reply-To: <e0b3662ac478a7d2ae1991e8c674732592c2ea88.camel@intel.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-RnJvbTogRGF2ZSBIYW5zZW4NCj4gU2VudDogMDMgT2N0b2JlciAyMDIyIDIxOjA1DQo+IA0KPiBP
-biAxMC8zLzIyIDEyOjQzLCBLZWVzIENvb2sgd3JvdGU6DQo+ID4+ICtzdGF0aWMgaW5saW5lIHZv
-aWQgc2V0X2Nscl9iaXRzX21zcmwodTMyIG1zciwgdTY0IHNldCwgdTY0IGNsZWFyKQ0KPiA+PiAr
-ew0KPiA+PiArCXU2NCB2YWwsIG5ld192YWw7DQo+ID4+ICsNCj4gPj4gKwlyZG1zcmwobXNyLCB2
-YWwpOw0KPiA+PiArCW5ld192YWwgPSAodmFsICYgfmNsZWFyKSB8IHNldDsNCj4gPj4gKw0KPiA+
-PiArCWlmIChuZXdfdmFsICE9IHZhbCkNCj4gPj4gKwkJd3Jtc3JsKG1zciwgbmV3X3ZhbCk7DQo+
-ID4+ICt9DQo+ID4gSSBhbHdheXMgZ2V0IHVuY29tZm9ydGFibGUgd2hlbiBJIHNlZSB0aGVzZSBr
-aW5kcyBvZiBnZW5lcmFsaXplZCBoZWxwZXINCj4gPiBmdW5jdGlvbnMgZm9yIHRvdWNoaW5nIGNw
-dSBiaXRzLCBldGMuIEl0IGp1c3QgYmVncyBmb3IgZnV0dXJlIGF0dGFja2VyDQo+ID4gYWJ1c2Ug
-dG8gbXVjayB3aXRoIGFyYml0cmFyeSBiaXRzIC0tIGV2ZW4gbWFya2VkIGlubGluZSB0aGVyZSBp
-cyBhIHJpc2sNCj4gPiB0aGUgY29tcGlsZXIgd2lsbCBpZ25vcmUgdGhhdCBpbiBzb21lIGNpcmN1
-bXN0YW5jZXMgKG5vdCBhcyBjdXJyZW50bHkNCj4gPiB1c2VkIGluIHRoZSBjb2RlLCBidXQgSSdt
-IGltYWdpbmluZyBmdXR1cmUgY2hhbmdlcyBsZWFkaW5nIHRvIHN1Y2ggYQ0KPiA+IGNvbmRpdGlv
-bikuIFdpbGwgeW91IGh1bW9yIG1lIGFuZCBjaGFuZ2UgdGhpcyB0byBhIG1hY3JvIGluc3RlYWQ/
-IFRoYXQnbGwNCj4gPiBmb3JjZSBpdCBhbHdheXMgaW5saW5lIChldmVuIF9fYWx3YXlzX2lubGlu
-ZSBpc24ndCBhbHdheXMgaW5saW5lKToNCj4gDQo+IE9oLCBhcmUgeW91IHRoaW5raW5nIHRoYXQg
-dGhpcyBpcyBkYW5nZXJvdXMgYmVjYXVzZSBpdCdzIHNvIHN1cmdpY2FsIGFuZA0KPiBub24taW50
-cnVzaXZlPyAgSXQncyBldmVuIG1vcmUgcG93ZXJmdWwgdG8gYW4gYXR0YWNrZXIgdGhhbiwgc2F5
-DQo+IHdybXNybCgpLCBiZWNhdXNlIHRoZXJlIHRoZXkgYWN0dWFsbHkgaGF2ZSB0byBrbm93IHdo
-YXQgdGhlIGV4aXN0aW5nDQo+IHZhbHVlIGlzIHRvIHVwZGF0ZSBpdC4gIFdpdGggdGhpcyBoZWxw
-ZXIsIGl0J3MgcXVpdGUgZWFzeSB0byBmbGlwIGFuDQo+IGluZGl2aWR1YWwgYml0IHdpdGhvdXQg
-ZGlzdHVyYmluZyB0aGUgbmVpZ2hib3JpbmcgYml0cy4NCj4gDQo+IElzIHRoYXQgaXQ/DQo+IA0K
-PiBJIGRvbid0IF9saWtlXyB0aGUgI2RlZmluZXMsIGJ1dCBkb2luZyBvbmUgaGVyZSBkb2Vzbid0
-IHNlZW0gdG9vIG9uZXJvdXMNCj4gY29uc2lkZXJpbmcgaG93IGNyaXRpY2FsIE1TUnMgYXJlLg0K
-DQpIb3cgb2Z0ZW4gaXMgdGhlICdtc3InIG51bWJlciBub3QgYSBjb21waWxlLXRpbWUgY29uc3Rh
-bnQ/DQpBZGRpbmcgcmQvd3Jtc3IgdmFyaWFudHMgdGhhdCB2ZXJpZnkgdGhpcyB3b3VsZCByZWR1
-Y2UgdGhlDQphdHRhY2sgc3VyZmFjZSBhcyB3ZWxsLg0KDQoJRGF2aWQNCg0KLQ0KUmVnaXN0ZXJl
-ZCBBZGRyZXNzIExha2VzaWRlLCBCcmFtbGV5IFJvYWQsIE1vdW50IEZhcm0sIE1pbHRvbiBLZXlu
-ZXMsIE1LMSAxUFQsIFVLDQpSZWdpc3RyYXRpb24gTm86IDEzOTczODYgKFdhbGVzKQ0K
+On 10/3/22 13:05, Edgecombe, Rick P wrote:
+> The CET state is xsaves managed. It gets lazily restored before
+> returning to userspace with the rest of the fpu stuff. This function
+> will force restore all the fpu state to the registers early and lock
+> them from being automatically saved/restored. Then the tasks CET state
+> can be modified in the MSRs, before unlocking the fpregs. Last time I
+> tried to modify the state directly in the xsave buffer when it was
+> efficient, but it had issues and Thomas suggested this.
+
+Can you get the gist of this in a comment, please?
 
