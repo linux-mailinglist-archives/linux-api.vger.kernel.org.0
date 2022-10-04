@@ -2,195 +2,163 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FFED5F48CF
-	for <lists+linux-api@lfdr.de>; Tue,  4 Oct 2022 19:44:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 27F575F48E2
+	for <lists+linux-api@lfdr.de>; Tue,  4 Oct 2022 19:46:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229906AbiJDRoT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 4 Oct 2022 13:44:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52332 "EHLO
+        id S229549AbiJDRqu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 4 Oct 2022 13:46:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59424 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229803AbiJDRoQ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 4 Oct 2022 13:44:16 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 878D657887;
-        Tue,  4 Oct 2022 10:44:15 -0700 (PDT)
+        with ESMTP id S229889AbiJDRqt (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 4 Oct 2022 13:46:49 -0400
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6ED195E657;
+        Tue,  4 Oct 2022 10:46:44 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 24F6E614ED;
-        Tue,  4 Oct 2022 17:44:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39833C433C1;
-        Tue,  4 Oct 2022 17:44:14 +0000 (UTC)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 3D4C3CE105F;
+        Tue,  4 Oct 2022 17:46:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93DECC433B5;
+        Tue,  4 Oct 2022 17:46:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1664905454;
-        bh=Rte1HvtfgvFRVjI9vmQSmn8KC1YqoQCVVzKzmhIF2f8=;
-        h=From:To:Cc:Subject:Date:From;
-        b=TXoomx0Fwgy3RlDGeKpNyJvQKJXILM0zhFXPxPg0RxBKHgGPZLtzxY9O8ROE7lIo1
-         S6oXgY/E1bP+73sU9RMOO0BCkm+WUGpaXZgeoozXSkMqPJVBG2G+cfL1lXx4rP1MWx
-         iDklhkM0ofevngD3ygTIu3fQDaNt1wk95jKbntv8AoBAE3T78h0Ye0GbXizhIFwM/c
-         l4NZ6B/vRH++0uutSiyEWPZLYnLcvPOziMdVgQ5RNsqV4NsP8XGw0Qxv+Zdl/2m8ht
-         TJ/m1byfhSfKmoWqIj1g6HydyWV31REWXwDD8zCXYmZh48HljZ7H7C9IRiw1kZGixU
-         h+1fTlkD57ACA==
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     linux-man@vger.kernel.org
-Cc:     linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-ext4@vger.kernel.org,
-        linux-f2fs-devel@lists.sourceforge.net, linux-xfs@vger.kernel.org,
-        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
-        "Darrick J. Wong" <djwong@kernel.org>
-Subject: [man-pages PATCH v3] statx.2, open.2: document STATX_DIOALIGN
-Date:   Tue,  4 Oct 2022 10:43:07 -0700
-Message-Id: <20221004174307.6022-1-ebiggers@kernel.org>
-X-Mailer: git-send-email 2.37.3
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        s=k20201202; t=1664905600;
+        bh=4BSaUvrlCCPRQCV8MWBWOtBwSsI5CjjkAG/AXZX56MU=;
+        h=In-Reply-To:References:Date:From:To:Subject:From;
+        b=SGf0EWibQKd5xseEVZSOIQNbMlfPxpuaxGhlSm7+MiNxEPuiTTIXSqX06DQtPXxTH
+         TkvPTmDI5gIohVbp4uQ4K1qZos6sI5CC6/3cTAIKBH0aYmpaC1CaAxNDXqeJEiFaLK
+         YJaL1wzVqg4exvfneJ6g7810QrUBZqz7FnZ8clzzBMC+VPngZt+Jf8nqVXuq7WfgZk
+         L/vf7N4RgAbaGPJO6EReUAwmE4xKcsQ8A0BTMynuu+nMb8z9RywnY2FCexRJLVpLrb
+         uQOyN4qxVolohpUCuTOWhbg8OYBA0ZNYgXmSqKJUxrvPPbejbX/v6MrgjqTK5mXJ+O
+         FFLcj6AF4iGVw==
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+        by mailauth.nyi.internal (Postfix) with ESMTP id 665E827C0054;
+        Tue,  4 Oct 2022 13:46:38 -0400 (EDT)
+Received: from imap48 ([10.202.2.98])
+  by compute2.internal (MEProxy); Tue, 04 Oct 2022 13:46:38 -0400
+X-ME-Sender: <xms:fXE8YzcfH_ZqjDhKv8jKZx4ZWOo5aJhQ2NzUZ7Apd-X1VPczHbQJkg>
+    <xme:fXE8Y5PQ9YGDUn6YjYZNvSKLEh_b89vZOvzqZI7U4y70GKUmHm2cW2UiC-m5yjj5W
+    K1gt7Fts6L5gleQCO8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeeiuddguddujecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehn
+    ugihucfnuhhtohhmihhrshhkihdfuceolhhuthhosehkvghrnhgvlhdrohhrgheqnecugg
+    ftrfgrthhtvghrnheptdfhheettddvtedvtedugfeuuefhtddugedvleevleefvdetleff
+    gfefvdekgeefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+    homheprghnugihodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduudeiudek
+    heeifedvqddvieefudeiiedtkedqlhhuthhopeepkhgvrhhnvghlrdhorhhgsehlihhnuh
+    igrdhluhhtohdruhhs
+X-ME-Proxy: <xmx:fXE8Y8g48ud7sjY8IxGAZFP7i-IQ0_v7nq-mBGxl3tjg63-Po2mZTQ>
+    <xmx:fXE8Y09JaW5ll0h_VbziYaHUDa8_oWzJxvjHsj2LuWQV9ZZB7Hlc2w>
+    <xmx:fXE8Y_v0yO1-kT9OCYG_W-Fl5FmGYkucmyIY3gEha-8GDs7nV1dQbw>
+    <xmx:fnE8Y2P76YiRlxcWGtqIKdhjcFLYnbo3_cGNYiF4sWmyo3TPAlaA_Q>
+Feedback-ID: ieff94742:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id B662E31A0062; Tue,  4 Oct 2022 13:46:37 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-1015-gaf7d526680-fm-20220929.001-gaf7d5266
+Mime-Version: 1.0
+Message-Id: <dbc11c79-44bd-48aa-8548-21d86ac8fc0f@app.fastmail.com>
+In-Reply-To: <b22748f80c4993192bc7113b2ed28231dfaee94f.camel@intel.com>
+References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
+ <20220929222936.14584-40-rick.p.edgecombe@intel.com>
+ <ed5f3a95-2854-8b36-7ed9-f1d7ad0a2e51@kernel.org>
+ <b22748f80c4993192bc7113b2ed28231dfaee94f.camel@intel.com>
+Date:   Tue, 04 Oct 2022 10:46:17 -0700
+From:   "Andy Lutomirski" <luto@kernel.org>
+To:     "Rick P Edgecombe" <rick.p.edgecombe@intel.com>,
+        "Balbir Singh" <bsingharora@gmail.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "Eugene Syromiatnikov" <esyr@redhat.com>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        "Randy Dunlap" <rdunlap@infradead.org>,
+        "Kees Cook" <keescook@chromium.org>,
+        "Dave Hansen" <dave.hansen@linux.intel.com>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "Florian Weimer" <fweimer@redhat.com>,
+        "Nadav Amit" <nadav.amit@gmail.com>,
+        "Jann Horn" <jannh@google.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "kcc@google.com" <kcc@google.com>,
+        "Borislav Petkov" <bp@alien8.de>,
+        "Oleg Nesterov" <oleg@redhat.com>, "H.J. Lu" <hjl.tools@gmail.com>,
+        "Weijiang Yang" <weijiang.yang@intel.com>,
+        "Pavel Machek" <pavel@ucw.cz>, "Arnd Bergmann" <arnd@arndb.de>,
+        "Moreira, Joao" <joao.moreira@intel.com>,
+        "Thomas Gleixner" <tglx@linutronix.de>,
+        "Mike Kravetz" <mike.kravetz@oracle.com>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "Mike Rapoport" <rppt@kernel.org>,
+        "Ingo Molnar" <mingo@redhat.com>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
+        "Linux API" <linux-api@vger.kernel.org>,
+        "Cyrill Gorcunov" <gorcunov@gmail.com>
+Subject: Re: [OPTIONAL/RFC v2 39/39] x86: Add alt shadow stack support
+Content-Type: text/plain
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,SUSPICIOUS_RECIPS autolearn=ham
-        autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-From: Eric Biggers <ebiggers@google.com>
 
-Document the STATX_DIOALIGN support for statx()
-(https://git.kernel.org/linus/725737e7c21d2d25).
 
-Reviewed-by: Darrick J. Wong <djwong@kernel.org>
-Signed-off-by: Eric Biggers <ebiggers@google.com>
----
+On Tue, Oct 4, 2022, at 9:12 AM, Edgecombe, Rick P wrote:
+> On Mon, 2022-10-03 at 16:21 -0700, Andy Lutomirski wrote:
+>> On 9/29/22 15:29, Rick Edgecombe wrote:
+>> > To handle stack overflows, applications can register a separate
+>> > signal alt
+>> > stack to use for the stack to handle signals. To handle shadow
+>> > stack
+>> > overflows the kernel can similarly provide the ability to have an
+>> > alt
+>> > shadow stack.
+>> 
+>> 
+>> The overall SHSTK mechanism has a concept of a shadow stack that is 
+>> valid and not in use and a shadow stack that is in use.  This is
+>> used, 
+>> for example, by RSTORSSP.  I would like to imagine that this serves
+>> a 
+>> real purpose (presumably preventing two different threads from using
+>> the 
+>> same shadow stack and thus corrupting each others' state).
+>> 
+>> So maybe altshstk should use exactly the same mechanism.  Either
+>> signal 
+>> delivery should do the atomic very-and-mark-busy routine or
+>> registering 
+>> the stack as an altstack should do it.
+>> 
+>> I think your patch has this maybe 1/3 implemented
+>
+> I'm not following how it breaks down into 3 parts, so hopefully I'm not
+> missing something. We could do a software busy bit for the token at the
+> end of alt shstk though. It seems like a good idea.
 
-I'm resending this now that support for STATX_DIOALIGN has been merged
-upstream.
+I didn't mean there were three parts.  I just wild @&! guessed the amount of code written versus needed :)
 
-v3: updated mentions of Linux version, fixed some punctuation, and added
-    a Reviewed-by
+>
+> The busy-like bit in the RSTORSSP-type token is not called out as a
+> busy bit, but instead defined as reserved (must be 0) in some states.
+> (Note, it is different than the supervisor shadow stack format). Yea,
+> we could just probably use it like RSTORSSP does for this operation.
+>
+> Or just invent another new token format and stay away from bits marked
+> reserved. Then it wouldn't have to be atomic either, since userspace
+> couldn't use it.
 
-v2: rebased onto man-pages master branch, mentioned xfs, and updated
-    link to patchset
-
- man2/open.2  | 43 ++++++++++++++++++++++++++++++++-----------
- man2/statx.2 | 29 +++++++++++++++++++++++++++++
- 2 files changed, 61 insertions(+), 11 deletions(-)
-
-diff --git a/man2/open.2 b/man2/open.2
-index deba7e4ea..b8617e0d2 100644
---- a/man2/open.2
-+++ b/man2/open.2
-@@ -1732,21 +1732,42 @@ of user-space buffers and the file offset of I/Os.
- In Linux alignment
- restrictions vary by filesystem and kernel version and might be
- absent entirely.
--However there is currently no filesystem\-independent
--interface for an application to discover these restrictions for a given
--file or filesystem.
--Some filesystems provide their own interfaces
--for doing so, for example the
-+The handling of misaligned
-+.B O_DIRECT
-+I/Os also varies; they can either fail with
-+.B EINVAL
-+or fall back to buffered I/O.
-+.PP
-+Since Linux 6.1,
-+.B O_DIRECT
-+support and alignment restrictions for a file can be queried using
-+.BR statx (2),
-+using the
-+.B STATX_DIOALIGN
-+flag.
-+Support for
-+.B STATX_DIOALIGN
-+varies by filesystem; see
-+.BR statx (2).
-+.PP
-+Some filesystems provide their own interfaces for querying
-+.B O_DIRECT
-+alignment restrictions, for example the
- .B XFS_IOC_DIOINFO
- operation in
- .BR xfsctl (3).
-+.B STATX_DIOALIGN
-+should be used instead when it is available.
- .PP
--Under Linux 2.4, transfer sizes, the alignment of the user buffer,
--and the file offset must all be multiples of the logical block size
--of the filesystem.
--Since Linux 2.6.0, alignment to the logical block size of the
--underlying storage (typically 512 bytes) suffices.
--The logical block size can be determined using the
-+If none of the above is available, then direct I/O support and alignment
-+restrictions can only be assumed from known characteristics of the filesystem,
-+the individual file, the underlying storage device(s), and the kernel version.
-+In Linux 2.4, most block device based filesystems require that the file offset
-+and the length and memory address of all I/O segments be multiples of the
-+filesystem block size (typically 4096 bytes).
-+In Linux 2.6.0, this was relaxed to the logical block size of the block device
-+(typically 512 bytes).
-+A block device's logical block size can be determined using the
- .BR ioctl (2)
- .B BLKSSZGET
- operation or from the shell using the command:
-diff --git a/man2/statx.2 b/man2/statx.2
-index 0d1b4591f..50397057d 100644
---- a/man2/statx.2
-+++ b/man2/statx.2
-@@ -61,7 +61,12 @@ struct statx {
-        containing the filesystem where the file resides */
-     __u32 stx_dev_major;   /* Major ID */
-     __u32 stx_dev_minor;   /* Minor ID */
-+
-     __u64 stx_mnt_id;      /* Mount ID */
-+
-+    /* Direct I/O alignment restrictions */
-+    __u32 stx_dio_mem_align;
-+    __u32 stx_dio_offset_align;
- };
- .EE
- .in
-@@ -247,6 +252,8 @@ STATX_BTIME	Want stx_btime
- STATX_ALL	The same as STATX_BASIC_STATS | STATX_BTIME.
- 	It is deprecated and should not be used.
- STATX_MNT_ID	Want stx_mnt_id (since Linux 5.8)
-+STATX_DIOALIGN	Want stx_dio_mem_align and stx_dio_offset_align
-+	(since Linux 6.1; support varies by filesystem)
- .TE
- .in
- .PP
-@@ -407,6 +414,28 @@ This is the same number reported by
- .BR name_to_handle_at (2)
- and corresponds to the number in the first field in one of the records in
- .IR /proc/self/mountinfo .
-+.TP
-+.I stx_dio_mem_align
-+The alignment (in bytes) required for user memory buffers for direct I/O
-+.BR "" ( O_DIRECT )
-+on this file, or 0 if direct I/O is not supported on this file.
-+.IP
-+.B STATX_DIOALIGN
-+.IR "" ( stx_dio_mem_align
-+and
-+.IR stx_dio_offset_align )
-+is supported on block devices since Linux 6.1.
-+The support on regular files varies by filesystem; it is supported by ext4,
-+f2fs, and xfs since Linux 6.1.
-+.TP
-+.I stx_dio_offset_align
-+The alignment (in bytes) required for file offsets and I/O segment lengths for
-+direct I/O
-+.BR "" ( O_DIRECT )
-+on this file, or 0 if direct I/O is not supported on this file.
-+This will only be nonzero if
-+.I stx_dio_mem_align
-+is nonzero, and vice versa.
- .PP
- For further information on the above fields, see
- .BR inode (7).
-
-base-commit: bc28d289e5066fc626df260bafc249846a0f6ae6
--- 
-2.37.3
-
+But userspace *can* use it by delivering a signal.  I consider the scenario where two user threads set up the same altshstk and take signals concurrently to be about as dangerous and about as likely (under accidental or malicious conditions) as two user threads doing RSTORSSP at the same time.  Someone at Intel thought the latter was a big deal, so maybe we should match its behavior.
