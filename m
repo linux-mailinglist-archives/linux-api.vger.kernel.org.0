@@ -2,79 +2,93 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 070DC5F54F0
-	for <lists+linux-api@lfdr.de>; Wed,  5 Oct 2022 15:04:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3331D5F5572
+	for <lists+linux-api@lfdr.de>; Wed,  5 Oct 2022 15:33:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229562AbiJENEI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 5 Oct 2022 09:04:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44708 "EHLO
+        id S229979AbiJENdC convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Wed, 5 Oct 2022 09:33:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33496 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229505AbiJENEH (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 5 Oct 2022 09:04:07 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCA2E786DC;
-        Wed,  5 Oct 2022 06:04:06 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 767F9616E1;
-        Wed,  5 Oct 2022 13:04:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47B63C433C1;
-        Wed,  5 Oct 2022 13:04:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1664975045;
-        bh=bvM+jB0eDJn00RJ2w02HJMno7C/rvhAvA9ixbzV8D8Q=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=GAEi5XwUyJTM6kXENY8THipzyzcW4UsR+iOIk9OE2N30SkWjZyUPCqvnu0kkZ1ytt
-         snObPlm0BJoTwCEnjxDVpJ6mWYSfhMHSwaSpp8ek+ecR3X5LLvHH+iHrYhCjpRRcNa
-         qszvnxuGnI8lo1cfby+Kf5XTEN1X6g0nXwdnPSukqdX2bl8Ex7kt1TrI/vZHLsGCtf
-         ywSeQaYlUbXsuTfpixP++EedrfHPpeYh1PKBjBiHrlIGMIirU1Pl4KtxDFLBCKcHyd
-         wtdJL7rpVbf6gmChh9Z09Zz1zjtxX5sdKWbN/8kyQGTKMjQBBGQEXAArUH27/8ANgY
-         suMQ/DnCvYCAA==
-Date:   Wed, 5 Oct 2022 16:04:01 +0300
-From:   Jarkko Sakkinen <jarkko@kernel.org>
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
+        with ESMTP id S229943AbiJENdA (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 5 Oct 2022 09:33:00 -0400
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5C327A53C
+        for <linux-api@vger.kernel.org>; Wed,  5 Oct 2022 06:32:58 -0700 (PDT)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-220-Ey5VsqheNgyO3SFDIVsBNQ-1; Wed, 05 Oct 2022 14:32:55 +0100
+X-MC-Unique: Ey5VsqheNgyO3SFDIVsBNQ-1
+Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
+ (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.38; Wed, 5 Oct
+ 2022 14:32:53 +0100
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.040; Wed, 5 Oct 2022 14:32:53 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Kees Cook' <keescook@chromium.org>
+CC:     'Dave Hansen' <dave.hansen@intel.com>,
+        Rick Edgecombe <rick.p.edgecombe@intel.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "H . Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "Eugene Syromiatnikov" <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
         "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v8 2/8] KVM: Extend the memslot to support fd-based
- private memory
-Message-ID: <Yz2AwVjymt7xb1sL@kernel.org>
-References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
- <20220915142913.2213336-3-chao.p.peng@linux.intel.com>
+        "joao.moreira@intel.com" <joao.moreira@intel.com>,
+        John Allen <john.allen@amd.com>,
+        "kcc@google.com" <kcc@google.com>,
+        "eranian@google.com" <eranian@google.com>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: RE: [PATCH v2 24/39] x86/cet/shstk: Add user-mode shadow stack
+ support
+Thread-Topic: [PATCH v2 24/39] x86/cet/shstk: Add user-mode shadow stack
+ support
+Thread-Index: AQHY12Njz3/HZpf9jkaO+WwIiUYgJ63+BXnggACK/wCAAT4eAA==
+Date:   Wed, 5 Oct 2022 13:32:53 +0000
+Message-ID: <b1d59744f54743a4a8131787580d181a@AcuMS.aculab.com>
+References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
+ <20220929222936.14584-25-rick.p.edgecombe@intel.com>
+ <202210031203.EB0DC0B7DD@keescook>
+ <474d3aca-0cf0-8962-432b-77ac914cc563@intel.com>
+ <4b9c6208d1174c27a795cef487eb97b5@AcuMS.aculab.com>
+ <202210041229.99F8CB38B@keescook>
+In-Reply-To: <202210041229.99F8CB38B@keescook>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220915142913.2213336-3-chao.p.peng@linux.intel.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -82,51 +96,31 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Sep 15, 2022 at 10:29:07PM +0800, Chao Peng wrote:
-> In memory encryption usage, guest memory may be encrypted with special
-> key and can be accessed only by the VM itself. We call such memory
-> private memory. It's valueless and sometimes can cause problem to allow
-> userspace to access guest private memory. This patch extends the KVM
-> memslot definition so that guest private memory can be provided though
-> an inaccessible_notifier enlightened file descriptor (fd), without being
-> mmaped into userspace.
+From: Kees Cook
+> Sent: 04 October 2022 20:32
+...
+> Oh, yes! I do this all the time with FORTIFY shenanigans. Right, so,
+> instead of a macro, the "cannot be un-inlined" could be enforced with
+> this (untested):
 > 
-> This new extension, indicated by the new flag KVM_MEM_PRIVATE, adds two
-> additional KVM memslot fields private_fd/private_offset to allow
-> userspace to specify that guest private memory provided from the
-> private_fd and guest_phys_addr mapped at the private_offset of the
-> private_fd, spanning a range of memory_size.
+> static __always_inline void set_clr_bits_msrl(u32 msr, u64 set, u64 clear)
+> {
+> 	u64 val, new_val;
 > 
-> The extended memslot can still have the userspace_addr(hva). When use, a
-> single memslot can maintain both private memory through private
-> fd(private_fd/private_offset) and shared memory through
-> hva(userspace_addr). Whether the private or shared part is visible to
-> guest is maintained by other KVM code.
-> 
-> Since there is no userspace mapping for private fd so we cannot
-> get_user_pages() to get the pfn in KVM, instead we add a new
-> inaccessible_notifier in the internal memslot structure and rely on it
-> to get pfn by interacting with the memory file systems.
-> 
-> Together with the change, a new config HAVE_KVM_PRIVATE_MEM is added and
-> right now it is selected on X86_64 for Intel TDX usage.
-> 
-> To make code maintenance easy, internally we use a binary compatible
-> alias struct kvm_user_mem_region to handle both the normal and the
-> '_ext' variants.
-> 
-> Co-developed-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> 	BUILD_BUG_ON(!__builtin_constant_p(msr) ||
+> 		     !__builtin_constant_p(set) ||
+> 		     !__builtin_constant_p(clear));
 
-What if userspace_addr would contain address of an extension structure,
-if the flag is set, instead of shared address? I.e. interpret that field
-differently (could be turned into union too ofc).
+You can reduce the amount of text the brain has to parse
+by using:
 
-That idea could be at least re-used, if there's ever any new KVM_MEM_*
-flags that would need an extension.
+	BUILD_BUG_ON(!__builtin_constant_p(msr + set + clear));
 
-E.g. have struct kvm_userspace_memory_private, which contains shared
-address, fd and the offset.
+Just requires the brain to do a quick 'oh yes'...
 
-BR, Jarkko
+	David
+
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
+
