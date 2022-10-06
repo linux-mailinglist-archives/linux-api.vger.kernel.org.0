@@ -2,75 +2,42 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E2CEF5F6734
-	for <lists+linux-api@lfdr.de>; Thu,  6 Oct 2022 15:04:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 87A1D5F6A1E
+	for <lists+linux-api@lfdr.de>; Thu,  6 Oct 2022 16:58:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230089AbiJFNEW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 6 Oct 2022 09:04:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46396 "EHLO
+        id S231567AbiJFO6K (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 6 Oct 2022 10:58:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45230 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229774AbiJFNEV (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 6 Oct 2022 09:04:21 -0400
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com [66.111.4.224])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 764B9A3466;
-        Thu,  6 Oct 2022 06:04:17 -0700 (PDT)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 023085803FD;
-        Thu,  6 Oct 2022 09:04:16 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Thu, 06 Oct 2022 09:04:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
-         h=cc:cc:content-type:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm1; t=1665061455; x=1665068655; bh=N6
-        it90zhKBeS6kpjpWHzwwnMSuYeK60zqUPbb7rWWk4=; b=XTgNicp/w6VyyZaRPv
-        n4u89Y3VpJN0otlae1qyySdCkPUukZ695QdJy/OCy3++7pohYhDzlWsBkWKlQJnF
-        zawbDkPiWAL+qX37FxpvztDyhcIQ7u804FSnaWHTxgf00r6YgtQGLMJkZ5U6GYbR
-        YubxB3iGl1ZgFlNzemCy84m07QUj0p16Zi9PQzv/5PwIHtMNwZL2Dhc+BED6Kl8b
-        M5lKq1X5teQz4f9aj4K3r2NpFmepGMiE+WN6QNx1P8/w4AntZGlp4rCO0gzvzW69
-        sDnJ7MAI0QQdTetsS2DYE/U8hSNjrA7HIjuawWRV7bLDET+jfZ08TCMnecqIqjrY
-        GAdw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm2; t=1665061455; x=1665068655; bh=N6it90zhKBeS6kpjpWHzwwnMSuYe
-        K60zqUPbb7rWWk4=; b=FAaPD96zc+b9K5xKH2cUqvkpol+I33Kkf0et42qgz8z+
-        o1eNBQnQKM1AvC//U+cQVmrrqBd30HogyMEDiVxKvZdgTerM/pTVx2QnyIXOEv7d
-        60qslQZq3oWYM357Kd0o2xFwFf/0neVFntfmjMVLCvmPvsd4RUTzfau1b5gQuKjR
-        iwPI146Sf0m0L9eJr2iXTgvFnYamJOGcYab+IB4nXczcS1og8ic4XumxPvS6Inuh
-        MF5f8pJHOqfKa4fTi/Zc+HEg6NZRImJn1PwL0WZzUPoojpighNgVGN7e2QnppkQB
-        AyzUbVcL6ZrNN0AxCHcceqU3axK2l7bbi73RHaGaXw==
-X-ME-Sender: <xms:TNI-Y_cADBTmEGpGSZoXpsnbr5cBkxj_NhkFnZrsm2yluGABn--W0w>
-    <xme:TNI-Y1NvpK9thKw86UCe7rJ8yiX5AWUXVuvUmS7BsbCYx7l1rgp1Hf06pA9ptdAMn
-    e03yjclKp-CO2o26go>
-X-ME-Received: <xmr:TNI-Y4hQ7BaMUuWbsk8OvMCD4cp_6m7IvvkagIaoMywvoSSwmfD-0JJnobBS8vCOG5tQtw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeeihedgiedtucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesthdttddttddtvdenucfhrhhomhepfdfmihhr
-    ihhllhcutedrucfuhhhuthgvmhhovhdfuceokhhirhhilhhlsehshhhuthgvmhhovhdrnh
-    grmhgvqeenucggtffrrghtthgvrhhnpefhieeghfdtfeehtdeftdehgfehuddtvdeuheet
-    tddtheejueekjeegueeivdektdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
-    epmhgrihhlfhhrohhmpehkihhrihhllhesshhhuhhtvghmohhvrdhnrghmvg
-X-ME-Proxy: <xmx:TNI-Yw_mO4XX1-1h6dzQ5GGjTnQKz-0-O6J5r-Li9YBWT8GUM4OAQw>
-    <xmx:TNI-Y7sySt_8cYEM97yWcmGUiiP8-42qYLx8qLDtOk4nm5HGI0M94g>
-    <xmx:TNI-Y_E3ditAwkEwtCuCVsNs7bzaIfKHo7-Kml0mjUdfSlcsiX7qpw>
-    <xmx:T9I-Ywqn5ZabLPAsbikF_Gw5naaIf9n3eKnvmUiBpBnm0z1YXEjQRw>
-Feedback-ID: ie3994620:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 6 Oct 2022 09:04:11 -0400 (EDT)
-Received: by box.shutemov.name (Postfix, from userid 1000)
-        id 7C346104D90; Thu,  6 Oct 2022 16:04:08 +0300 (+03)
-Date:   Thu, 6 Oct 2022 16:04:08 +0300
-From:   "Kirill A. Shutemov" <kirill@shutemov.name>
-To:     Fuad Tabba <tabba@google.com>
-Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
+        with ESMTP id S230240AbiJFO6I (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 6 Oct 2022 10:58:08 -0400
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A29A1B0B3C;
+        Thu,  6 Oct 2022 07:58:07 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 07F7FCE167D;
+        Thu,  6 Oct 2022 14:58:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0517C433D6;
+        Thu,  6 Oct 2022 14:58:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1665068284;
+        bh=RXFhbjUEgArTx+F4zk5xpYjaKPlDHCDpb+OAY/+J95w=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=DDoMTX6Mmge49xaH/Vf5qGs8klHW630VPsGgLM9+rj8RQP0JHyiHH1uczV+b1R4eR
+         37mGDnn/YEoya/uO44EFk31UHV1p6PNcV0Vy+zXZmhY8UWa6Tli2sQX7eKSvMhk/bQ
+         WE6Q59ypwNyBMj2o8/le4Po0t1AibRVXGwyP8VOyi31XeJPyDSOKVtYbT0Me5TjbVc
+         e6dC8MmxQL8IuMlafX5xmn2+S8RswUwiq5FpgRmaM3wy9qU6nBVGLxHWXFFDhsy4JS
+         n2vkyUsGfyQbB67wXJD6MtcBFZCO3uv8vw8Cu6jrwr1HCPgxfxepmXSMpOxXVVaVvd
+         AlmTRLMGWJbbA==
+Date:   Thu, 6 Oct 2022 17:58:00 +0300
+From:   Jarkko Sakkinen <jarkko@kernel.org>
+To:     Chao Peng <chao.p.peng@linux.intel.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Sean Christopherson <seanjc@google.com>,
         Vitaly Kuznetsov <vkuznets@redhat.com>,
@@ -97,73 +64,46 @@ Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
         Quentin Perret <qperret@google.com>,
         Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
         Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
-Message-ID: <20221006130408.2bnuikg6peilaycp@box.shutemov.name>
+Subject: Re: [PATCH v8 2/8] KVM: Extend the memslot to support fd-based
+ private memory
+Message-ID: <Yz7s+JIexAHJm5dc@kernel.org>
 References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
- <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
- <CA+EHjTz=o9M47frGCXgNJ8J5_Rn=YjzZR5uvCTxStw+GfGE5kg@mail.gmail.com>
+ <20220915142913.2213336-3-chao.p.peng@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CA+EHjTz=o9M47frGCXgNJ8J5_Rn=YjzZR5uvCTxStw+GfGE5kg@mail.gmail.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20220915142913.2213336-3-chao.p.peng@linux.intel.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Oct 06, 2022 at 09:50:28AM +0100, Fuad Tabba wrote:
-> Hi,
+On Thu, Sep 15, 2022 at 10:29:07PM +0800, Chao Peng wrote:
+> This new extension, indicated by the new flag KVM_MEM_PRIVATE, adds two
+> additional KVM memslot fields private_fd/private_offset to allow
+> userspace to specify that guest private memory provided from the
+> private_fd and guest_phys_addr mapped at the private_offset of the
+> private_fd, spanning a range of memory_size.
 > 
-> <...>
-> 
-> 
-> > diff --git a/mm/memfd_inaccessible.c b/mm/memfd_inaccessible.c
-> > new file mode 100644
-> > index 000000000000..2d33cbdd9282
-> > --- /dev/null
-> > +++ b/mm/memfd_inaccessible.c
-> 
-> <...>
-> 
-> > +struct file *memfd_mkinaccessible(struct file *memfd)
-> > +{
-> > +       struct inaccessible_data *data;
-> > +       struct address_space *mapping;
-> > +       struct inode *inode;
-> > +       struct file *file;
-> > +
-> > +       data = kzalloc(sizeof(*data), GFP_KERNEL);
-> > +       if (!data)
-> > +               return ERR_PTR(-ENOMEM);
-> > +
-> > +       data->memfd = memfd;
-> > +       mutex_init(&data->lock);
-> > +       INIT_LIST_HEAD(&data->notifiers);
-> > +
-> > +       inode = alloc_anon_inode(inaccessible_mnt->mnt_sb);
-> > +       if (IS_ERR(inode)) {
-> > +               kfree(data);
-> > +               return ERR_CAST(inode);
-> > +       }
-> > +
-> > +       inode->i_mode |= S_IFREG;
-> > +       inode->i_op = &inaccessible_iops;
-> > +       inode->i_mapping->private_data = data;
-> > +
-> > +       file = alloc_file_pseudo(inode, inaccessible_mnt,
-> > +                                "[memfd:inaccessible]", O_RDWR,
-> > +                                &inaccessible_fops);
-> > +       if (IS_ERR(file)) {
-> > +               iput(inode);
-> > +               kfree(data);
-> 
-> I think this might be missing a return at this point.
+> The extended memslot can still have the userspace_addr(hva). When use, a
+> single memslot can maintain both private memory through private
+> fd(private_fd/private_offset) and shared memory through
+> hva(userspace_addr). Whether the private or shared part is visible to
+> guest is maintained by other KVM code.
 
-Good catch! Thanks!
+What is anyway the appeal of private_offset field, instead of having just
+1:1 association between regions and files, i.e. one memfd per region?
 
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+If this was the case, then an extended struct would not be needed in the
+first place. A simple union inside the existing struct would do:
+
+        union {
+                __u64 userspace_addr,
+                __u64 private_fd,
+        };
+
+BR, Jarkko
