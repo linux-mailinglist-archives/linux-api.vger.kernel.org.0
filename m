@@ -2,44 +2,92 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 108445F631B
-	for <lists+linux-api@lfdr.de>; Thu,  6 Oct 2022 10:55:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AAA995F630E
+	for <lists+linux-api@lfdr.de>; Thu,  6 Oct 2022 10:51:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230251AbiJFIzo convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Thu, 6 Oct 2022 04:55:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60056 "EHLO
+        id S231236AbiJFIvJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 6 Oct 2022 04:51:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229844AbiJFIzn (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 6 Oct 2022 04:55:43 -0400
-X-Greylist: delayed 1199 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 06 Oct 2022 01:55:39 PDT
-Received: from ouvsmtp1.octopuce.fr (ouvsmtp1.octopuce.fr [194.36.166.50])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0ACE795E40;
-        Thu,  6 Oct 2022 01:55:39 -0700 (PDT)
-Received: from panel.vitry.ouvaton.coop (unknown [194.36.166.20])
-        by ouvsmtp1.octopuce.fr (Postfix) with ESMTPS id 7717D173;
-        Thu,  6 Oct 2022 10:17:18 +0200 (CEST)
-Received: from sm.ouvaton.coop (ouvadm.octopuce.fr [194.36.166.2])
-        by panel.vitry.ouvaton.coop (Postfix) with ESMTPSA id 376215E16F9;
-        Thu,  6 Oct 2022 10:17:18 +0200 (CEST)
+        with ESMTP id S231221AbiJFIvI (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 6 Oct 2022 04:51:08 -0400
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9D6C95AD3
+        for <linux-api@vger.kernel.org>; Thu,  6 Oct 2022 01:51:06 -0700 (PDT)
+Received: by mail-lf1-x12d.google.com with SMTP id m19so332416lfq.9
+        for <linux-api@vger.kernel.org>; Thu, 06 Oct 2022 01:51:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=tIvLoyAzCOVKOX99D0R9AADU51C3uknT25CXCqDgD1U=;
+        b=syjvuFslfwj1fipmU574j5/yWZL2S3jYhnbWtJ5/bW8iUM/V71vSmb5AsxhaQ/2G0o
+         ctXQnXj/0GSOAbOLK304yQgqsFpIlw2wn3vENsIXReAQESQ7FYQ3e3iDUnXAdUxwt4Td
+         kB2rW56eQNiKHDXyNU3pU/c0Ku79mAkkC7m5TZZLTqHBqVkt65rb0q9hLTPBpEEa/mRq
+         eX1zzMQ6IXkPCewSrX8mVTXOcPVRl/qAef1AVJ52kW5/Ujtn6X047jAV62EnnUX9Aztm
+         0/+I6X+EdhcVKtpUJDxafJIJ2F5NBl87Wqp+wSebFHrCPcoC3fkGq5u8ifnCkUUfBbKO
+         WVFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=tIvLoyAzCOVKOX99D0R9AADU51C3uknT25CXCqDgD1U=;
+        b=UVgeFIyHCFThoOBUkd04KHPSk6JHQ0MnK19LwLyd4Lf+xSIcZ641zbG0ioCXmNRu0D
+         gc2v8NzXi/yCWaZgsznjtqFy9oqUSKgVEzIcesvfsRDOY6PW4AGyyPyG0BBNuZRlIPEC
+         SHusJ8FfrFdcxdVoTyLWi5c8D8BSIHDDxzH4PWEJA3Tsgzhg+NdZiB0JP+RNML+ausja
+         mVw3Bag08/BTikFZyVM2Rsv1h1Aax4n+oCcwinsqWRVfag2C9jkJeQRaSkC/AX3leT58
+         Y2mNDPlTWz1MVyVNqnz0Aqj2dLiacpdnA5CvthL93SkfeDztabG9yhX4+T1KBp3CWFW4
+         7nBA==
+X-Gm-Message-State: ACrzQf2+Y13VOWg/y3quDlXqM9r50C/PQPItq4uhJI0K2KypsxjcAZba
+        J105Y2DkwAiaQi+D24zhw7yowwIvdFo6f+MQfH2o6A==
+X-Google-Smtp-Source: AMsMyM5ikUdU3CKf42PjcY0cjPjhnAUfk+hgFVaVlzCr5IsHwJzEJDOSLagw5jbRXrOt3sxCo/qZdi3EfGbbRlMYSzI=
+X-Received: by 2002:ac2:4c8b:0:b0:4a2:2432:93ff with SMTP id
+ d11-20020ac24c8b000000b004a2243293ffmr1387544lfl.26.1665046264888; Thu, 06
+ Oct 2022 01:51:04 -0700 (PDT)
 MIME-Version: 1.0
-Date:   Thu, 06 Oct 2022 08:17:18 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8BIT
-From:   "Yann Droneaud" <ydroneaud@opteya.com>
-Message-ID: <125581881ad4aa85b2dadfe0d7338af9901caa03@opteya.com>
-Subject: Re: [PATCH v1 0/5] treewide cleanup of random integer usage
-To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
-        kernel-janitors@vger.kernel.org,
-        "Julia Lawall" <Julia.Lawall@inria.fr>,
-        "Nicolas Palix" <nicolas.palix@imag.fr>, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-In-Reply-To: <20221005214844.2699-1-Jason@zx2c4.com>
-References: <20221005214844.2699-1-Jason@zx2c4.com>
-X-Originating-IP: 10.0.20.16
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com> <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
+In-Reply-To: <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
+From:   Fuad Tabba <tabba@google.com>
+Date:   Thu, 6 Oct 2022 09:50:28 +0100
+Message-ID: <CA+EHjTz=o9M47frGCXgNJ8J5_Rn=YjzZR5uvCTxStw+GfGE5kg@mail.gmail.com>
+Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
+To:     Chao Peng <chao.p.peng@linux.intel.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -48,70 +96,122 @@ X-Mailing-List: linux-api@vger.kernel.org
 
 Hi,
 
-6 octobre 2022 à 04:51 "Jason A. Donenfeld" a écrit:
+<...>
 
-> 
-> This is a five part treewide cleanup of random integer handling. The
-> rules for random integers are:
-> 
-> - If you want a secure or an insecure random u64, use get_random_u64().
-> - If you want a secure or an insecure random u32, use get_random_u32().
->  * The old function prandom_u32() has been deprecated for a while now
->  and is just a wrapper around get_random_u32().
-> - If you want a secure or an insecure random u16, use get_random_u16().
-> - If you want a secure or an insecure random u8, use get_random_u8().
-> - If you want secure or insecure random bytes, use get_random_bytes().
->  * The old function prandom_bytes() has been deprecated for a while now
->  and has long been a wrapper around get_random_bytes().
-> - If you want a non-uniform random u32, u16, or u8 bounded by a certain
->  open interval maximum, use prandom_u32_max().
->  * I say "non-uniform", because it doesn't do any rejection sampling or
->  divisions. Hence, it stays within the prandom_* namespace.
-> 
-> These rules ought to be applied uniformly, so that we can clean up the
-> deprecated functions, and earn the benefits of using the modern
-> functions. In particular, in addition to the boring substitutions, this
-> patchset accomplishes a few nice effects:
-> 
-> - By using prandom_u32_max() with an upper-bound that the compiler can
->  prove at compile-time is ≤65536 or ≤256, internally get_random_u16()
->  or get_random_u8() is used, which wastes fewer batched random bytes,
->  and hence has higher throughput.
-> 
-> - By using prandom_u32_max() instead of %, when the upper-bound is not a
->  constant, division is still avoided, because prandom_u32_max() uses
->  a faster multiplication-based trick instead.
-> 
-> - By using get_random_u16() or get_random_u8() in cases where the return
->  value is intended to indeed be a u16 or a u8, we waste fewer batched
->  random bytes, and hence have higher throughput.
-> 
-> So, based on those rules and benefits from following them, this patchset
-> breaks down into the following five steps:
-> 
-> 1) Replace `prandom_u32() % max` and variants thereof with
->  prandom_u32_max(max).
-> 
-> 2) Replace `(type)get_random_u32()` and variants thereof with
->  get_random_u16() or get_random_u8(). I took the pains to actually
->  look and see what every lvalue type was across the entire tree.
-> 
-> 3) Replace remaining deprecated uses of prandom_u32() with
->  get_random_u32(). 
-> 
-> 4) Replace remaining deprecated uses of prandom_bytes() with
->  get_random_bytes().
-> 
-> 5) Remove the deprecated and now-unused prandom_u32() and
->  prandom_bytes() inline wrapper functions.
-> 
 
-Did you use some coccinelle patches ? Or other semantic patch tool ?
+> diff --git a/mm/memfd_inaccessible.c b/mm/memfd_inaccessible.c
+> new file mode 100644
+> index 000000000000..2d33cbdd9282
+> --- /dev/null
+> +++ b/mm/memfd_inaccessible.c
 
-Maybe we could introduce some coccinelle patch to ensure future get_random_u{16,32,64} usages be checked and patched to use the best fit.
+<...>
 
-Regards.
+> +struct file *memfd_mkinaccessible(struct file *memfd)
+> +{
+> +       struct inaccessible_data *data;
+> +       struct address_space *mapping;
+> +       struct inode *inode;
+> +       struct file *file;
+> +
+> +       data = kzalloc(sizeof(*data), GFP_KERNEL);
+> +       if (!data)
+> +               return ERR_PTR(-ENOMEM);
+> +
+> +       data->memfd = memfd;
+> +       mutex_init(&data->lock);
+> +       INIT_LIST_HEAD(&data->notifiers);
+> +
+> +       inode = alloc_anon_inode(inaccessible_mnt->mnt_sb);
+> +       if (IS_ERR(inode)) {
+> +               kfree(data);
+> +               return ERR_CAST(inode);
+> +       }
+> +
+> +       inode->i_mode |= S_IFREG;
+> +       inode->i_op = &inaccessible_iops;
+> +       inode->i_mapping->private_data = data;
+> +
+> +       file = alloc_file_pseudo(inode, inaccessible_mnt,
+> +                                "[memfd:inaccessible]", O_RDWR,
+> +                                &inaccessible_fops);
+> +       if (IS_ERR(file)) {
+> +               iput(inode);
+> +               kfree(data);
 
--- 
-Yann Droneaud
-OPTEYA
+I think this might be missing a return at this point.
+
+> +       }
+> +
+> +       file->f_flags |= O_LARGEFILE;
+> +
+> +       mapping = memfd->f_mapping;
+> +       mapping_set_unevictable(mapping);
+> +       mapping_set_gfp_mask(mapping,
+> +                            mapping_gfp_mask(mapping) & ~__GFP_MOVABLE);
+> +
+> +       return file;
+> +}
+
+Thanks,
+/fuad
+
+
+
+> +
+> +void inaccessible_register_notifier(struct file *file,
+> +                                   struct inaccessible_notifier *notifier)
+> +{
+> +       struct inaccessible_data *data = file->f_mapping->private_data;
+> +
+> +       mutex_lock(&data->lock);
+> +       list_add(&notifier->list, &data->notifiers);
+> +       mutex_unlock(&data->lock);
+> +}
+> +EXPORT_SYMBOL_GPL(inaccessible_register_notifier);
+> +
+> +void inaccessible_unregister_notifier(struct file *file,
+> +                                     struct inaccessible_notifier *notifier)
+> +{
+> +       struct inaccessible_data *data = file->f_mapping->private_data;
+> +
+> +       mutex_lock(&data->lock);
+> +       list_del(&notifier->list);
+> +       mutex_unlock(&data->lock);
+> +}
+> +EXPORT_SYMBOL_GPL(inaccessible_unregister_notifier);
+> +
+> +int inaccessible_get_pfn(struct file *file, pgoff_t offset, pfn_t *pfn,
+> +                        int *order)
+> +{
+> +       struct inaccessible_data *data = file->f_mapping->private_data;
+> +       struct file *memfd = data->memfd;
+> +       struct page *page;
+> +       int ret;
+> +
+> +       ret = shmem_getpage(file_inode(memfd), offset, &page, SGP_WRITE);
+> +       if (ret)
+> +               return ret;
+> +
+> +       *pfn = page_to_pfn_t(page);
+> +       *order = thp_order(compound_head(page));
+> +       SetPageUptodate(page);
+> +       unlock_page(page);
+> +
+> +       return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(inaccessible_get_pfn);
+> +
+> +void inaccessible_put_pfn(struct file *file, pfn_t pfn)
+> +{
+> +       struct page *page = pfn_t_to_page(pfn);
+> +
+> +       if (WARN_ON_ONCE(!page))
+> +               return;
+> +
+> +       put_page(page);
+> +}
+> +EXPORT_SYMBOL_GPL(inaccessible_put_pfn);
+> --
+> 2.25.1
+>
