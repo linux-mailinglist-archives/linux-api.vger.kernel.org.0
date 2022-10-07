@@ -2,156 +2,120 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C2F135F7A2B
-	for <lists+linux-api@lfdr.de>; Fri,  7 Oct 2022 16:59:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3991B5F7B9B
+	for <lists+linux-api@lfdr.de>; Fri,  7 Oct 2022 18:38:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229824AbiJGO7V (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 7 Oct 2022 10:59:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34584 "EHLO
+        id S230023AbiJGQiL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 7 Oct 2022 12:38:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229997AbiJGO7D (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 7 Oct 2022 10:59:03 -0400
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A2A5DD8B0
-        for <linux-api@vger.kernel.org>; Fri,  7 Oct 2022 07:58:59 -0700 (PDT)
-Received: by mail-pj1-x102c.google.com with SMTP id gf8so4618456pjb.5
-        for <linux-api@vger.kernel.org>; Fri, 07 Oct 2022 07:58:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ApS1gjiguDXZcZz0fMT7VsMAGGvTEXNN7etXS65aF2E=;
-        b=P9at1gy00LaQ67U9E1PqFxXj/+/Ep5lZ2MxNKcytXi47pMqLiyWzEa/Xe2j6FHWM4y
-         /hs7KujqnFNPAE3jZS5MWMfe3+xQAhIhJuW1dyoA1ekhjNaxULNBuqb/2klgeUPGWkYF
-         5S5WGPJDOLGI8G3dhBrFVznCIwrT7f7u07MoT7kQCn0HddgT1cP9+6D1aAApMjbGxIQJ
-         KQ5lGGS71MMnAnQJ7FClUslBS7YWByNlLuUfhv2PRp7+0dcRnApGUnnJxK061ld3oLrF
-         aqw3+neqPNcUW0v6HArS65p+1L4Mc4p5Eyi3bOlG00rA6Ll3S9qG/ECPlhkMQusT3cha
-         xF/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ApS1gjiguDXZcZz0fMT7VsMAGGvTEXNN7etXS65aF2E=;
-        b=7UhqQjSOu+UE139B+FJsGnBE5GbTvzw2/aKWt7Ictygrco0TBocvbfX4FjYgn0cG3O
-         U307qgNPG11QT2exuEl16htLc6eC2TuFkziwzqhQWF70e9UAptL5gXjGaFfZPrZB1kTH
-         PH6PWOdXkE8m1gIcKbyyqvedV7JnPvDz3bZa8Omsl5Xpc5T/lKLtjzhfX1jycjD7hxTK
-         zNF2xLVWjiPCbHjKZwsFT2voGQQejpx8/wSWTuHl5HWiZQplI4GcxuQu5uu/H9xeGbX5
-         XLbESmRvEm1RYQsWKGe7+c+lY7qxaH7RkHWf2NgndNYLrV17eoPAqvdplnke4y35appF
-         3JHA==
-X-Gm-Message-State: ACrzQf291FypcWTZ34D7N72TVfKDmIGaDJMp3W4NCaRa1S8dZQHt4dzc
-        MrOAWed2Do941XJ0WFMJMhp6tw==
-X-Google-Smtp-Source: AMsMyM642quwEQBN0ZX14M9u9coJDsTKuGQ1cCzLKA6Dq2TZW06v6vpj0wGS9syx5rD7OWwlzHZvqw==
-X-Received: by 2002:a17:90b:3ec1:b0:202:f490:e508 with SMTP id rm1-20020a17090b3ec100b00202f490e508mr5980841pjb.156.1665154738493;
-        Fri, 07 Oct 2022 07:58:58 -0700 (PDT)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
-        by smtp.gmail.com with ESMTPSA id m22-20020a63ed56000000b0043a0de69c94sm1750587pgk.14.2022.10.07.07.58.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Oct 2022 07:58:57 -0700 (PDT)
-Date:   Fri, 7 Oct 2022 14:58:54 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Jarkko Sakkinen <jarkko@kernel.org>
-Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v8 2/8] KVM: Extend the memslot to support fd-based
- private memory
-Message-ID: <Y0A+rogB6TRDtbyE@google.com>
-References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
- <20220915142913.2213336-3-chao.p.peng@linux.intel.com>
- <Yz7s+JIexAHJm5dc@kernel.org>
- <Yz7vHXZmU3EpmI0j@kernel.org>
- <Yz71ogila0mSHxxJ@google.com>
- <Y0AJ++m/TxoscOZg@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y0AJ++m/TxoscOZg@kernel.org>
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        with ESMTP id S229892AbiJGQiJ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 7 Oct 2022 12:38:09 -0400
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE55A92F4C;
+        Fri,  7 Oct 2022 09:38:04 -0700 (PDT)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailout.nyi.internal (Postfix) with ESMTP id 5CA5E5C0174;
+        Fri,  7 Oct 2022 12:38:02 -0400 (EDT)
+Received: from imap44 ([10.202.2.94])
+  by compute4.internal (MEProxy); Fri, 07 Oct 2022 12:38:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+        cc:cc:content-transfer-encoding:content-type:date:date:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to; s=fm1; t=1665160682; x=
+        1665247082; bh=Wut//gW95b9YmcBiYNJlr5pIpVRvIt/e3uD4ITntccQ=; b=G
+        J3iB0FOXvPugesXlHFTOcqWpq+EWsf+VOkkgpJ+c6W7u9+HjtbkuX51wGSLOcabo
+        Oe0GppyiYC3T+Pj81Sdx1mEFNqN2ynIdti/lKzodRfJ3mXLQE9nkN/TK5imxWNBv
+        c62+spI4OnYTjk3Xkl2hImhD2kvnwgu62bdFrtv8f1jLx+jBVu3ke6HJxRFTdlWI
+        SqnpFHnHWUNHdBFTIpb6wATm0P1T4lJ1RSd73GmA23R61GBZCuggND/A5L3yPQ8Z
+        c+pheUNe7d+89Onlt7mSEURUwAbN/RggYXg0KQmQcZyfHmGiEfymQZIOEYYlO3QQ
+        MZHzrMBe/Zvw4vtdjLeFA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding
+        :content-type:date:date:feedback-id:feedback-id:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1665160682; x=
+        1665247082; bh=Wut//gW95b9YmcBiYNJlr5pIpVRvIt/e3uD4ITntccQ=; b=n
+        J/LQywBfy6PIDq7MuDo1LW6TYLjEPgpxBnRiCJepoCg4vw9IQXt8maO/K6l9FDrd
+        XGRkFF6ad118I69bakhx5FBumyI7+IXq8to5cySlSipD0nWO5kcuVHWfwSWOG1o/
+        f/3FeBFQmNeUWF1Ap3nDSzqNQzuc0VUFE+Ce/Pkj1Q91LGVKrXjEP+xoyjJoeSIB
+        puh1plNYQzz9whWELNbIC1ycfgB0D0QFynD9+cVTbPtv0zOYgeG7oKyvv+aiodrv
+        zcOctKt/eiFrbthi1ZPwjvciQiU+vNVyc3UgsMLHRzrbSaU3rZIlwHnilQflz7Fm
+        d3Tz9T6bRVM+LDYhX2aPA==
+X-ME-Sender: <xms:6VVAY_O49uKDDJLOcuIQ4f5boSXt8fH55zjSj_oBeYE3B5yhOJTsHw>
+    <xme:6VVAY58tMc_fCuKVmkNcsNw7Z8QfQhQxExTZ6XiOl_jrU-YdRnil_7mWaKrrYm_y6
+    I_zpuuJ_tNxGwb-Rbk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeeijedguddtfecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefofgggkfgjfhffhffvvefutgfgsehtqhertderreejnecuhfhrohhmpedf
+    lfhirgiguhhnucgjrghnghdfuceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtg
+    homheqnecuggftrfgrthhtvghrnhepudefgeeftedugeehffdtheefgfevffelfefghefh
+    jeeugeevtefhudduvdeihefgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
+    hmrghilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
+X-ME-Proxy: <xmx:6VVAY-Se4U65sn7GJzCjrP9kMkT5m1hGvHGa9e8cHyMRZnDbjfGNlw>
+    <xmx:6VVAYzvr5MHIfJupyaRLOh0uQjgPOtxl8PXpCXZoPfs0AGR9ZTnpOQ>
+    <xmx:6VVAY3fudnrWARaVpMR_mTbrj0VsjnbSBE3Y4OK_x67IzvSkIQmWyQ>
+    <xmx:6lVAYz53p1Y4m4rh7OeRhSXgPXNVqJLqHRmLu9sPyVjkk7EicgoVSw>
+Feedback-ID: ifd894703:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id C9C5436A0073; Fri,  7 Oct 2022 12:38:01 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-1015-gaf7d526680-fm-20220929.001-gaf7d5266
+Mime-Version: 1.0
+Message-Id: <b3886864-5c54-4524-8e30-b6701553b615@app.fastmail.com>
+In-Reply-To: <Y0A9L2KajswAEKsu@kroah.com>
+References: <20221007141207.30635-1-jiaxun.yang@flygoat.com>
+ <Y0A9L2KajswAEKsu@kroah.com>
+Date:   Fri, 07 Oct 2022 17:37:34 +0100
+From:   "Jiaxun Yang" <jiaxun.yang@flygoat.com>
+To:     "Greg KH" <greg@kroah.com>
+Cc:     "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
+        linux-kernel@vger.kernel.org,
+        "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>,
+        linux-api@vger.kernel.org, f.fainelli@gmail.com
+Subject: Re: [PATCH v5] MIPS: Expose prid and globalnumber to sysfs
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Oct 07, 2022, Jarkko Sakkinen wrote:
-> On Thu, Oct 06, 2022 at 03:34:58PM +0000, Sean Christopherson wrote:
-> > On Thu, Oct 06, 2022, Jarkko Sakkinen wrote:
-> > > On Thu, Oct 06, 2022 at 05:58:03PM +0300, Jarkko Sakkinen wrote:
-> > > > On Thu, Sep 15, 2022 at 10:29:07PM +0800, Chao Peng wrote:
-> > > > > This new extension, indicated by the new flag KVM_MEM_PRIVATE, adds two
-> > > > > additional KVM memslot fields private_fd/private_offset to allow
-> > > > > userspace to specify that guest private memory provided from the
-> > > > > private_fd and guest_phys_addr mapped at the private_offset of the
-> > > > > private_fd, spanning a range of memory_size.
-> > > > > 
-> > > > > The extended memslot can still have the userspace_addr(hva). When use, a
-> > > > > single memslot can maintain both private memory through private
-> > > > > fd(private_fd/private_offset) and shared memory through
-> > > > > hva(userspace_addr). Whether the private or shared part is visible to
-> > > > > guest is maintained by other KVM code.
-> > > > 
-> > > > What is anyway the appeal of private_offset field, instead of having just
-> > > > 1:1 association between regions and files, i.e. one memfd per region?
-> > 
-> > Modifying memslots is slow, both in KVM and in QEMU (not sure about Google's VMM).
-> > E.g. if a vCPU converts a single page, it will be forced to wait until all other
-> > vCPUs drop SRCU, which can have severe latency spikes, e.g. if KVM is faulting in
-> > memory.  KVM's memslot updates also hold a mutex for the entire duration of the
-> > update, i.e. conversions on different vCPUs would be fully serialized, exacerbating
-> > the SRCU problem.
-> > 
-> > KVM also has historical baggage where it "needs" to zap _all_ SPTEs when any
-> > memslot is deleted.
-> > 
-> > Taking both a private_fd and a shared userspace address allows userspace to convert
-> > between private and shared without having to manipulate memslots.
-> 
-> Right, this was really good explanation, thank you.
-> 
-> Still wondering could this possibly work (or not):
-> 
-> 1. Union userspace_addr and private_fd.
 
-No, because userspace needs to be able to provide both userspace_addr (shared
-memory) and private_fd (private memory) for a single memslot.
 
-> 2. Instead of introducing private_offset, use guest_phys_addr as the
->    offset.
+=E5=9C=A82022=E5=B9=B410=E6=9C=887=E6=97=A5=E5=8D=81=E6=9C=88 =E4=B8=8B=E5=
+=8D=883:52=EF=BC=8CGreg KH=E5=86=99=E9=81=93=EF=BC=9A
+[...]
+>> +
+>> +static int cpuregs_cpu_offline(unsigned int cpu)
+>> +{
+>> +	struct device *dev;
+>> +	struct cpureg *reg =3D per_cpu(cpuregs, cpu);
+>> +
+>> +	dev =3D get_cpu_device(cpu);
+>> +	if (!dev || !reg)
+>> +		return -ENODEV;
+>> +	if (reg->kobj.parent) {
+>
+> Why are you looking at the parent of a kobject?  Why not just always
+> remove the kobject if you have a reference to it now?  How does the
+> parent matter?
 
-No, because that would force userspace to use a single private_fd for all of guest
-memory since it effectively means private_offset=0.  And userspace couldn't skip
-over holes in guest memory, i.e. the size of the memfd would need to follow the
-max guest gpa.  In other words, dropping private_offset could work, but it'd be
-quite kludgy and not worth saving 8 bytes.
+Another dummy copy from Arm64 code... kobject_put should be enough here?
+
+Thanks
+
+>
+> thanks,
+>
+> greg k-h
+
+--=20
+- Jiaxun
