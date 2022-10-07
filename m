@@ -2,80 +2,102 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 519145F79F7
-	for <lists+linux-api@lfdr.de>; Fri,  7 Oct 2022 16:52:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C2F135F7A2B
+	for <lists+linux-api@lfdr.de>; Fri,  7 Oct 2022 16:59:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229824AbiJGOwG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 7 Oct 2022 10:52:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50866 "EHLO
+        id S229824AbiJGO7V (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 7 Oct 2022 10:59:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229835AbiJGOwF (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 7 Oct 2022 10:52:05 -0400
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09C1766865;
-        Fri,  7 Oct 2022 07:51:52 -0700 (PDT)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailout.west.internal (Postfix) with ESMTP id 779EE320025E;
-        Fri,  7 Oct 2022 10:51:49 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Fri, 07 Oct 2022 10:51:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
-        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm3; t=1665154309; x=1665240709; bh=cbXxlpgk38
-        Og2OSP3BeodMmIhEyN7me626e1pixIS0A=; b=aIPzan2K/5vwQr3WnGbKft/MgW
-        JPGZlxE2o0tOeKglTTMczDdDL7JbYv9rOKwG/XlKMVhd0Ux97xTInMITTUI12vZj
-        Vs/ZOPTYVzrGvDTig+9cFE/h0mL5blPZbQlu3wiu6G1LabZLDjmYLWgnn2FaRgFY
-        gt8h3HXClEx/HULvjWErDnGBTOrX2vbhYFfFaLvZpDkImZrirbA+nEfRAOpy3yIK
-        azG8KOWEjENV5M9d/wSEM7QVSNMJOKj44IesruQluxpdtZlcleN7mAk5/PKAgdVF
-        sK0u7si7JPPNFVQFLS9CIKvCpQkI4RWFdzp94LyC9ir8cU2vaZ8Q9ko56OOw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; t=1665154309; x=1665240709; bh=cbXxlpgk38Og2OSP3BeodMmIhEyN
-        7me626e1pixIS0A=; b=snGjR8CIxyRDi1bd8qkxVdrIhI15r1WXpAvJPKxKG4q4
-        /F6y1Jdd7P+3JQjYs397XarlQoA7MdNHxLd/EN5Ad5OrFOUBLwyS5QD4A4JjhHQR
-        kjlCk9J6+Sbr5oqrxAmOUAqFZagh7+PUIhgN9atbrmm/2hIZS7uALcx+ikIaz8TM
-        986ouMn+UJS3/5ZVGKBjtmR1KTYNXAtFZTYgEEEBasgqEjTlK7ivfzzOukJV6UMl
-        X9/9ABpgJSDm0bv25BKWU6YCwc16Cc5WHnjCFWKZfUxhZM9wlpNirqCO6B+04HoZ
-        eXJK9TuDzAEjLESKDZj40vS09DdZe+FM4czuRnReGw==
-X-ME-Sender: <xms:BD1AYy1_2ZOZUpxE6_a3TZsTRqdU65-R2RDKm611YXzdX2cOCHR5Mg>
-    <xme:BD1AY1GwT-cC0kU7SM4HPMDPZDaTn8ndOoKDas96uKFfwUTDpXXtS_anmAU2Ge9-3
-    pJWix0uSOzuzw>
-X-ME-Received: <xmr:BD1AY64wY9Xh14lJyiK1raFmpMK-vjspn9YGSjwPRFnWmIa-ElO4grkHAHlr>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeeijedgkedvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghg
-    ucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhepheegvd
-    evvdeljeeugfdtudduhfekledtiefhveejkeejuefhtdeufefhgfehkeetnecuvehluhhs
-    thgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvghgsehkrhhorg
-    hhrdgtohhm
-X-ME-Proxy: <xmx:BD1AYz16QwKwJUZQaILrOIyFb8g5oxpXd4mF-nBVxqsX0qoRupC5Mg>
-    <xmx:BD1AY1GeDWn6s677bS3Yjcx-1UoO-dlW961jtqxbM23r_PIM0mxfoQ>
-    <xmx:BD1AY8_Km6gKn85xfUo1qo6davpj5oQFwW8VM7sF3aIt6tlAMxSx2Q>
-    <xmx:BT1AY99mzHQEy5O-ygwPRc-OojV7e19P51nI6_W6Xe6_Dkre2QlrQQ>
-Feedback-ID: i787e41f1:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 7 Oct 2022 10:51:48 -0400 (EDT)
-Date:   Fri, 7 Oct 2022 16:52:31 +0200
-From:   Greg KH <greg@kroah.com>
-To:     Jiaxun Yang <jiaxun.yang@flygoat.com>
-Cc:     linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org,
-        tsbogend@alpha.franken.de, linux-api@vger.kernel.org,
-        f.fainelli@gmail.com
-Subject: Re: [PATCH v5] MIPS: Expose prid and globalnumber to sysfs
-Message-ID: <Y0A9L2KajswAEKsu@kroah.com>
-References: <20221007141207.30635-1-jiaxun.yang@flygoat.com>
+        with ESMTP id S229997AbiJGO7D (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 7 Oct 2022 10:59:03 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A2A5DD8B0
+        for <linux-api@vger.kernel.org>; Fri,  7 Oct 2022 07:58:59 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id gf8so4618456pjb.5
+        for <linux-api@vger.kernel.org>; Fri, 07 Oct 2022 07:58:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ApS1gjiguDXZcZz0fMT7VsMAGGvTEXNN7etXS65aF2E=;
+        b=P9at1gy00LaQ67U9E1PqFxXj/+/Ep5lZ2MxNKcytXi47pMqLiyWzEa/Xe2j6FHWM4y
+         /hs7KujqnFNPAE3jZS5MWMfe3+xQAhIhJuW1dyoA1ekhjNaxULNBuqb/2klgeUPGWkYF
+         5S5WGPJDOLGI8G3dhBrFVznCIwrT7f7u07MoT7kQCn0HddgT1cP9+6D1aAApMjbGxIQJ
+         KQ5lGGS71MMnAnQJ7FClUslBS7YWByNlLuUfhv2PRp7+0dcRnApGUnnJxK061ld3oLrF
+         aqw3+neqPNcUW0v6HArS65p+1L4Mc4p5Eyi3bOlG00rA6Ll3S9qG/ECPlhkMQusT3cha
+         xF/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ApS1gjiguDXZcZz0fMT7VsMAGGvTEXNN7etXS65aF2E=;
+        b=7UhqQjSOu+UE139B+FJsGnBE5GbTvzw2/aKWt7Ictygrco0TBocvbfX4FjYgn0cG3O
+         U307qgNPG11QT2exuEl16htLc6eC2TuFkziwzqhQWF70e9UAptL5gXjGaFfZPrZB1kTH
+         PH6PWOdXkE8m1gIcKbyyqvedV7JnPvDz3bZa8Omsl5Xpc5T/lKLtjzhfX1jycjD7hxTK
+         zNF2xLVWjiPCbHjKZwsFT2voGQQejpx8/wSWTuHl5HWiZQplI4GcxuQu5uu/H9xeGbX5
+         XLbESmRvEm1RYQsWKGe7+c+lY7qxaH7RkHWf2NgndNYLrV17eoPAqvdplnke4y35appF
+         3JHA==
+X-Gm-Message-State: ACrzQf291FypcWTZ34D7N72TVfKDmIGaDJMp3W4NCaRa1S8dZQHt4dzc
+        MrOAWed2Do941XJ0WFMJMhp6tw==
+X-Google-Smtp-Source: AMsMyM642quwEQBN0ZX14M9u9coJDsTKuGQ1cCzLKA6Dq2TZW06v6vpj0wGS9syx5rD7OWwlzHZvqw==
+X-Received: by 2002:a17:90b:3ec1:b0:202:f490:e508 with SMTP id rm1-20020a17090b3ec100b00202f490e508mr5980841pjb.156.1665154738493;
+        Fri, 07 Oct 2022 07:58:58 -0700 (PDT)
+Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
+        by smtp.gmail.com with ESMTPSA id m22-20020a63ed56000000b0043a0de69c94sm1750587pgk.14.2022.10.07.07.58.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Oct 2022 07:58:57 -0700 (PDT)
+Date:   Fri, 7 Oct 2022 14:58:54 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Jarkko Sakkinen <jarkko@kernel.org>
+Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v8 2/8] KVM: Extend the memslot to support fd-based
+ private memory
+Message-ID: <Y0A+rogB6TRDtbyE@google.com>
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-3-chao.p.peng@linux.intel.com>
+ <Yz7s+JIexAHJm5dc@kernel.org>
+ <Yz7vHXZmU3EpmI0j@kernel.org>
+ <Yz71ogila0mSHxxJ@google.com>
+ <Y0AJ++m/TxoscOZg@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221007141207.30635-1-jiaxun.yang@flygoat.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+In-Reply-To: <Y0AJ++m/TxoscOZg@kernel.org>
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -83,156 +105,53 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Oct 07, 2022 at 03:12:07PM +0100, Jiaxun Yang wrote:
-> Some application would like to know precise model and rev of processor
-> to do errata workaround or optimization.
+On Fri, Oct 07, 2022, Jarkko Sakkinen wrote:
+> On Thu, Oct 06, 2022 at 03:34:58PM +0000, Sean Christopherson wrote:
+> > On Thu, Oct 06, 2022, Jarkko Sakkinen wrote:
+> > > On Thu, Oct 06, 2022 at 05:58:03PM +0300, Jarkko Sakkinen wrote:
+> > > > On Thu, Sep 15, 2022 at 10:29:07PM +0800, Chao Peng wrote:
+> > > > > This new extension, indicated by the new flag KVM_MEM_PRIVATE, adds two
+> > > > > additional KVM memslot fields private_fd/private_offset to allow
+> > > > > userspace to specify that guest private memory provided from the
+> > > > > private_fd and guest_phys_addr mapped at the private_offset of the
+> > > > > private_fd, spanning a range of memory_size.
+> > > > > 
+> > > > > The extended memslot can still have the userspace_addr(hva). When use, a
+> > > > > single memslot can maintain both private memory through private
+> > > > > fd(private_fd/private_offset) and shared memory through
+> > > > > hva(userspace_addr). Whether the private or shared part is visible to
+> > > > > guest is maintained by other KVM code.
+> > > > 
+> > > > What is anyway the appeal of private_offset field, instead of having just
+> > > > 1:1 association between regions and files, i.e. one memfd per region?
+> > 
+> > Modifying memslots is slow, both in KVM and in QEMU (not sure about Google's VMM).
+> > E.g. if a vCPU converts a single page, it will be forced to wait until all other
+> > vCPUs drop SRCU, which can have severe latency spikes, e.g. if KVM is faulting in
+> > memory.  KVM's memslot updates also hold a mutex for the entire duration of the
+> > update, i.e. conversions on different vCPUs would be fully serialized, exacerbating
+> > the SRCU problem.
+> > 
+> > KVM also has historical baggage where it "needs" to zap _all_ SPTEs when any
+> > memslot is deleted.
+> > 
+> > Taking both a private_fd and a shared userspace address allows userspace to convert
+> > between private and shared without having to manipulate memslots.
 > 
-> Expose them in sysfs as:
-> /sys/devices/system/cpu/cpuX/regs/identification/prid
-> /sys/devices/system/cpu/cpuX/regs/identification/globalnumber
+> Right, this was really good explanation, thank you.
 > 
-> Reusing AArch64 CPU registers directory.
+> Still wondering could this possibly work (or not):
 > 
-> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-> ---
-> v2: Drop static qualifier for kobj (gregkh)
-> v3: Use kzalloc to allocate struct cpuregs.
->     note: When Greg mentioned about static I was thinking about
->     static qualifier of percpu variable. After reading documents
->     again it turns out kobjs should be allocated at runtime. Arm64's
->     cpuinfo kobj is also on a percpu variable... I guess that was a
->     intentional use?
-> v4: Properly handle err of kobj creation. (gregkh)
-> v5: Drop invalid kfree
-> ---
->  .../ABI/testing/sysfs-devices-system-cpu      | 11 +++
->  arch/mips/kernel/topology.c                   | 99 +++++++++++++++++++
->  2 files changed, 110 insertions(+)
-> 
-> diff --git a/Documentation/ABI/testing/sysfs-devices-system-cpu b/Documentation/ABI/testing/sysfs-devices-system-cpu
-> index 5bf61881f012..9fdfe2de0f76 100644
-> --- a/Documentation/ABI/testing/sysfs-devices-system-cpu
-> +++ b/Documentation/ABI/testing/sysfs-devices-system-cpu
-> @@ -512,6 +512,17 @@ Description:	information about CPUs heterogeneity.
->  
->  		cpu_capacity: capacity of cpuX.
->  
-> +What:		/sys/devices/system/cpu/cpuX/regs/
-> +		/sys/devices/system/cpu/cpuX/regs/identification/
-> +		/sys/devices/system/cpu/cpuX/regs/identification/prid
-> +		/sys/devices/system/cpu/cpuX/regs/identification/globalnumber
-> +Date:		October 2022
-> +Contact:	Linux MIPS Kernel Mailing list <linux-mips@vger.kernel.org>
-> +Description:	MIPS CPU registers
-> +
-> +		'identification' directory exposes the Processor ID and Global Number
-> +		registers for identifying model and revision of the CPU.
-> +
->  What:		/sys/devices/system/cpu/vulnerabilities
->  		/sys/devices/system/cpu/vulnerabilities/meltdown
->  		/sys/devices/system/cpu/vulnerabilities/spectre_v1
-> diff --git a/arch/mips/kernel/topology.c b/arch/mips/kernel/topology.c
-> index 9429d85a4703..80aaaca3cfbc 100644
-> --- a/arch/mips/kernel/topology.c
-> +++ b/arch/mips/kernel/topology.c
-> @@ -5,6 +5,8 @@
->  #include <linux/node.h>
->  #include <linux/nodemask.h>
->  #include <linux/percpu.h>
-> +#include <linux/seq_file.h>
-> +#include <linux/smp.h>
->  
->  static DEFINE_PER_CPU(struct cpu, cpu_devices);
->  
-> @@ -26,3 +28,100 @@ static int __init topology_init(void)
->  }
->  
->  subsys_initcall(topology_init);
-> +
-> +static struct kobj_type cpuregs_kobj_type = {
-> +	.sysfs_ops = &kobj_sysfs_ops,
-> +};
-> +
-> +struct cpureg {
-> +	struct kobject kobj;
-> +	struct cpuinfo_mips *info;
-> +};
-> +static DEFINE_PER_CPU(struct cpureg *, cpuregs);
-> +
-> +#define kobj_to_cpureg(kobj)	container_of(kobj, struct cpureg, kobj)
-> +#define CPUREGS_ATTR_RO(_name, _field)						\
-> +	static ssize_t _name##_show(struct kobject *kobj,			\
-> +			struct kobj_attribute *attr, char *buf)			\
-> +	{									\
-> +		struct cpuinfo_mips *info = kobj_to_cpureg(kobj)->info;		\
-> +										\
-> +		return sprintf(buf, "0x%08x\n", info->_field);	\
+> 1. Union userspace_addr and private_fd.
 
-sysfs_emit() please.
+No, because userspace needs to be able to provide both userspace_addr (shared
+memory) and private_fd (private memory) for a single memslot.
 
+> 2. Instead of introducing private_offset, use guest_phys_addr as the
+>    offset.
 
-> +	}									\
-> +	static struct kobj_attribute cpuregs_attr_##_name = __ATTR_RO(_name)
-> +
-> +CPUREGS_ATTR_RO(prid, processor_id);
-> +CPUREGS_ATTR_RO(globalnumber, globalnumber);
-> +
-> +static struct attribute *cpuregs_id_attrs[] = {
-> +	&cpuregs_attr_prid.attr,
-> +	&cpuregs_attr_globalnumber.attr,
-> +	NULL
-> +};
-> +
-> +static const struct attribute_group cpuregs_attr_group = {
-> +	.attrs = cpuregs_id_attrs,
-> +	.name = "identification"
-> +};
-> +
-> +static int cpuregs_cpu_online(unsigned int cpu)
-> +{
-> +	int rc;
-> +	struct device *dev;
-> +	struct cpureg *reg;
-> +
-> +	dev = get_cpu_device(cpu);
-> +	if (!dev) {
-> +		rc = -ENODEV;
-> +		goto out;
-> +	}
-> +	reg = kzalloc(sizeof(struct cpureg), GFP_KERNEL);
-> +	if (!reg) {
-> +		rc = -ENOMEM;
-> +		goto out;
-> +	}
-> +	rc = kobject_init_and_add(&reg->kobj, &cpuregs_kobj_type,
-> +					&dev->kobj, "regs");
-> +	if (rc)
-> +		goto out_kobj;
-> +	rc = sysfs_create_group(&reg->kobj, &cpuregs_attr_group);
-> +	if (rc)
-> +		goto out_kobj;
-> +
-> +	return 0;
-> +out_kobj:
-> +	kobject_put(&reg->kobj);
-> +out:
-> +	return rc;
-> +}
-> +
-> +static int cpuregs_cpu_offline(unsigned int cpu)
-> +{
-> +	struct device *dev;
-> +	struct cpureg *reg = per_cpu(cpuregs, cpu);
-> +
-> +	dev = get_cpu_device(cpu);
-> +	if (!dev || !reg)
-> +		return -ENODEV;
-> +	if (reg->kobj.parent) {
-
-Why are you looking at the parent of a kobject?  Why not just always
-remove the kobject if you have a reference to it now?  How does the
-parent matter?
-
-thanks,
-
-greg k-h
+No, because that would force userspace to use a single private_fd for all of guest
+memory since it effectively means private_offset=0.  And userspace couldn't skip
+over holes in guest memory, i.e. the size of the memfd would need to follow the
+max guest gpa.  In other words, dropping private_offset could work, but it'd be
+quite kludgy and not worth saving 8 bytes.
