@@ -2,352 +2,518 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AE31D5F9B20
-	for <lists+linux-api@lfdr.de>; Mon, 10 Oct 2022 10:38:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3DE655F9C3D
+	for <lists+linux-api@lfdr.de>; Mon, 10 Oct 2022 11:49:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231389AbiJJIh7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 10 Oct 2022 04:37:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50392 "EHLO
+        id S231285AbiJJJtf (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 10 Oct 2022 05:49:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41188 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231229AbiJJIh7 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 10 Oct 2022 04:37:59 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED78265808;
-        Mon, 10 Oct 2022 01:37:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1665391076; x=1696927076;
-  h=date:from:to:cc:subject:message-id:reply-to:references:
-   mime-version:in-reply-to;
-  bh=/vuv9C+O7yyfz0UZadWdOspuDVGHXflFppFtBTStze0=;
-  b=F2JeS+ZjMYhMkBKUuNdajuAS7xxMnWntQI2kTiaZxpn7XO4lk4jo+TKL
-   iz2Ifz43Mu35WVo3GbBg1PbsFxnX4sOSORQEwG2TgfvW9Xl8RF3riDjjp
-   7foy7sd/Qss44xdVZu7BpYGfKObKgat3AP9xnvEfoifB0VqT2KYLnizil
-   n9WRPpMWdub/BvNtw7Wl4fi/SDzOhp0J28X1oPfIqDUqx/xYvIVxH9AwA
-   Vyxm9YfxO/lIYmtjGxcXLmxnV+bsOC0Tjqpvtu00CL/xsHaa1JjZPerc/
-   1TYxRiK7uULgx530TXsfbb642GrlBKegm2xrutQm3b+pCrQCf3s8zDciw
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10495"; a="330639308"
-X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; 
-   d="scan'208";a="330639308"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2022 01:37:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10495"; a="656855059"
-X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; 
-   d="scan'208";a="656855059"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
-  by orsmga008.jf.intel.com with ESMTP; 10 Oct 2022 01:37:46 -0700
-Date:   Mon, 10 Oct 2022 16:33:13 +0800
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     Fuad Tabba <tabba@google.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        with ESMTP id S231139AbiJJJtd (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 10 Oct 2022 05:49:33 -0400
+Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DD2269F69
+        for <linux-api@vger.kernel.org>; Mon, 10 Oct 2022 02:49:31 -0700 (PDT)
+Received: by mail-pg1-x52b.google.com with SMTP id 129so9895900pgc.5
+        for <linux-api@vger.kernel.org>; Mon, 10 Oct 2022 02:49:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=yTPDnHFb6yn6yAzwBwLliycS3BZD970uvW0h1x4YfhY=;
+        b=zfiJujTl6ctGmljHf4zIeMdLQj+DGnZLD2veaAb7eYP9RkpgrQ2UMDxLYIIyt/y5+l
+         neyYluhxGwMAaR1Ii0tgRdpvFLoUTc3lJ1sapA1CRbt6NlhjRIyQW8AouDYq03W4MnKF
+         edmGWdCpETS6LmE48BsIRIGY9Q+4upKEWjF1aGFx231jeyEO2sREvAA5yd1845M700Z2
+         I60lJ4ghpfqbAwZvJaxKI/gGVYIIA52/rC5WmLz1bXxYaFw1IgJz7rGu9JVz0ZwWDQPD
+         EmCYQ6HsF1A9DhWOhZ6KEet4odY6oG8oFR6tmAW+b+c+H7DpI3olGrUQAOf/KcjJNRfv
+         EKlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yTPDnHFb6yn6yAzwBwLliycS3BZD970uvW0h1x4YfhY=;
+        b=tgNpFW/Zj3wnx2KMUezgtbWRjktx5F8jv95kHybtIWAP3U/k2d7Dx38K+JY7c+LGnc
+         JEk2PjRuF1FNARzsYTz1IRtdWvmxRtDRC9PBfPgtuscXgEqI32hg2VelvGUtq3vSmCNG
+         2xMZzcPXPBtu3SPxLSZLjcW8DXzbQ2a7FasNvqR5m6F+6/zoYKcvSjXmp13ntdfrjQZ0
+         wlNgyVwyJ32AjsJliprOypysRqGA2ADJZiqLCIGdsoILS5DGs+YZRopcykCe+hGDgDXG
+         OFS7XyzOOc+qpo0fU8FGFUOt0cLkiD+eNuPdHX8WGgTEIotRUOzjQKR5KcagSRGZiZ2J
+         pRTw==
+X-Gm-Message-State: ACrzQf3UTjNSAITMts6VRF89UY7fnkOgFis14KOHy6ZRiMmbFdPCbChb
+        L9I5qo58PgvQ5bR2PGxELyLZbQ==
+X-Google-Smtp-Source: AMsMyM4QlzmXr990BjqxdtxVA+XsPYcs98cy7MfQmvDiPqz98Ph9nDpiV4kplioGKbLHfwSboylp4A==
+X-Received: by 2002:a05:6a00:16c8:b0:53b:3b9f:7283 with SMTP id l8-20020a056a0016c800b0053b3b9f7283mr19046210pfc.46.1665395371044;
+        Mon, 10 Oct 2022 02:49:31 -0700 (PDT)
+Received: from Tower.bytedance.net ([139.177.225.248])
+        by smtp.gmail.com with ESMTPSA id t195-20020a635fcc000000b004608b721dfesm3532360pgb.38.2022.10.10.02.49.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Oct 2022 02:49:30 -0700 (PDT)
+From:   Zhongkun He <hezhongkun.hzk@bytedance.com>
+To:     corbet@lwn.net, mhocko@suse.com, akpm@linux-foundation.org
+Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
         linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v8 8/8] KVM: Enable and expose KVM_MEM_PRIVATE
-Message-ID: <20221010083313.GB3145236@chaop.bj.intel.com>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
- <20220915142913.2213336-9-chao.p.peng@linux.intel.com>
- <CA+EHjTwXPrHYb2us7+vrdS9jwYXv3j5UniG0bpb6dKgV77A=8A@mail.gmail.com>
+        wuyun.abel@bytedance.com,
+        Zhongkun He <hezhongkun.hzk@bytedance.com>
+Subject: [RFC] mm: add new syscall pidfd_set_mempolicy()
+Date:   Mon, 10 Oct 2022 17:48:42 +0800
+Message-Id: <20221010094842.4123037-1-hezhongkun.hzk@bytedance.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+EHjTwXPrHYb2us7+vrdS9jwYXv3j5UniG0bpb6dKgV77A=8A@mail.gmail.com>
-X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Oct 06, 2022 at 09:55:31AM +0100, Fuad Tabba wrote:
-> Hi,
-> 
-> On Thu, Sep 15, 2022 at 3:37 PM Chao Peng <chao.p.peng@linux.intel.com> wrote:
-> >
-> > Expose KVM_MEM_PRIVATE and memslot fields private_fd/offset to
-> > userspace. KVM will register/unregister private memslot to fd-based
-> > memory backing store and response to invalidation event from
-> > inaccessible_notifier to zap the existing memory mappings in the
-> > secondary page table.
-> >
-> > Whether KVM_MEM_PRIVATE is actually exposed to userspace is determined
-> > by architecture code which can turn on it by overriding the default
-> > kvm_arch_has_private_mem().
-> >
-> > A 'kvm' reference is added in memslot structure since in
-> > inaccessible_notifier callback we can only obtain a memslot reference
-> > but 'kvm' is needed to do the zapping.
-> >
-> > Co-developed-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> > Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> > ---
-> >  include/linux/kvm_host.h |   1 +
-> >  virt/kvm/kvm_main.c      | 116 +++++++++++++++++++++++++++++++++++++--
-> >  2 files changed, 111 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-> > index b9906cdf468b..cb4eefac709c 100644
-> > --- a/include/linux/kvm_host.h
-> > +++ b/include/linux/kvm_host.h
-> > @@ -589,6 +589,7 @@ struct kvm_memory_slot {
-> >         struct file *private_file;
-> >         loff_t private_offset;
-> >         struct inaccessible_notifier notifier;
-> > +       struct kvm *kvm;
-> >  };
-> >
-> >  static inline bool kvm_slot_can_be_private(const struct kvm_memory_slot *slot)
-> > diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> > index 97d893f7482c..87e239d35b96 100644
-> > --- a/virt/kvm/kvm_main.c
-> > +++ b/virt/kvm/kvm_main.c
-> > @@ -983,6 +983,57 @@ static int kvm_vm_ioctl_set_mem_attr(struct kvm *kvm, gpa_t gpa, gpa_t size,
-> >                 xa_erase(&kvm->mem_attr_array, index);
-> >         return r;
-> >  }
-> > +
-> > +static void kvm_private_notifier_invalidate(struct inaccessible_notifier *notifier,
-> > +                                           pgoff_t start, pgoff_t end)
-> > +{
-> > +       struct kvm_memory_slot *slot = container_of(notifier,
-> > +                                                   struct kvm_memory_slot,
-> > +                                                   notifier);
-> > +       unsigned long base_pgoff = slot->private_offset >> PAGE_SHIFT;
-> > +       gfn_t start_gfn = slot->base_gfn;
-> > +       gfn_t end_gfn = slot->base_gfn + slot->npages;
-> > +
-> > +
-> > +       if (start > base_pgoff)
-> > +               start_gfn = slot->base_gfn + start - base_pgoff;
-> > +
-> > +       if (end < base_pgoff + slot->npages)
-> > +               end_gfn = slot->base_gfn + end - base_pgoff;
-> > +
-> > +       if (start_gfn >= end_gfn)
-> > +               return;
-> > +
-> > +       kvm_zap_gfn_range(slot->kvm, start_gfn, end_gfn);
-> > +}
-> > +
-> > +static struct inaccessible_notifier_ops kvm_private_notifier_ops = {
-> > +       .invalidate = kvm_private_notifier_invalidate,
-> > +};
-> > +
-> > +static inline void kvm_private_mem_register(struct kvm_memory_slot *slot)
-> > +{
-> > +       slot->notifier.ops = &kvm_private_notifier_ops;
-> > +       inaccessible_register_notifier(slot->private_file, &slot->notifier);
-> > +}
-> > +
-> > +static inline void kvm_private_mem_unregister(struct kvm_memory_slot *slot)
-> > +{
-> > +       inaccessible_unregister_notifier(slot->private_file, &slot->notifier);
-> > +}
-> > +
-> > +#else /* !CONFIG_HAVE_KVM_PRIVATE_MEM */
-> > +
-> > +static inline void kvm_private_mem_register(struct kvm_memory_slot *slot)
-> > +{
-> > +       WARN_ON_ONCE(1);
-> > +}
-> > +
-> > +static inline void kvm_private_mem_unregister(struct kvm_memory_slot *slot)
-> > +{
-> > +       WARN_ON_ONCE(1);
-> > +}
-> > +
-> >  #endif /* CONFIG_HAVE_KVM_PRIVATE_MEM */
-> >
-> >  #ifdef CONFIG_HAVE_KVM_PM_NOTIFIER
-> > @@ -1029,6 +1080,11 @@ static void kvm_destroy_dirty_bitmap(struct kvm_memory_slot *memslot)
-> >  /* This does not remove the slot from struct kvm_memslots data structures */
-> >  static void kvm_free_memslot(struct kvm *kvm, struct kvm_memory_slot *slot)
-> >  {
-> > +       if (slot->flags & KVM_MEM_PRIVATE) {
-> > +               kvm_private_mem_unregister(slot);
-> > +               fput(slot->private_file);
-> > +       }
-> > +
-> >         kvm_destroy_dirty_bitmap(slot);
-> >
-> >         kvm_arch_free_memslot(kvm, slot);
-> > @@ -1600,10 +1656,16 @@ bool __weak kvm_arch_has_private_mem(struct kvm *kvm)
-> >         return false;
-> >  }
-> >
-> > -static int check_memory_region_flags(const struct kvm_user_mem_region *mem)
-> > +static int check_memory_region_flags(struct kvm *kvm,
-> > +                                    const struct kvm_user_mem_region *mem)
-> >  {
-> >         u32 valid_flags = KVM_MEM_LOG_DIRTY_PAGES;
-> >
-> > +#ifdef CONFIG_HAVE_KVM_PRIVATE_MEM
-> > +       if (kvm_arch_has_private_mem(kvm))
-> > +               valid_flags |= KVM_MEM_PRIVATE;
-> > +#endif
-> > +
-> >  #ifdef __KVM_HAVE_READONLY_MEM
-> >         valid_flags |= KVM_MEM_READONLY;
-> >  #endif
-> > @@ -1679,6 +1741,9 @@ static int kvm_prepare_memory_region(struct kvm *kvm,
-> >  {
-> >         int r;
-> >
-> > +       if (change == KVM_MR_CREATE && new->flags & KVM_MEM_PRIVATE)
-> > +               kvm_private_mem_register(new);
-> > +
-> 
-> >From the discussion I had with Kirill in the first patch *, should
-> this check that the private_fd is inaccessible?
+There is usecase that System Management Software(SMS) want to give a
+memory policy to other processes to make better use of memory.
 
-Yes I can add a check in KVM code, see below for where I want to add it.
+The information about how to use memory is not known to the app.
+Instead, it is known to the userspace daemon(SMS), and that daemon
+will decide the memory usage policy based on different factors.
 
-> 
-> [*] https://lore.kernel.org/all/20221003110129.bbee7kawhw5ed745@box.shutemov.name/
-> 
-> Cheers,
-> /fuad
-> 
-> >         /*
-> >          * If dirty logging is disabled, nullify the bitmap; the old bitmap
-> >          * will be freed on "commit".  If logging is enabled in both old and
-> > @@ -1707,6 +1772,9 @@ static int kvm_prepare_memory_region(struct kvm *kvm,
-> >         if (r && new && new->dirty_bitmap && (!old || !old->dirty_bitmap))
-> >                 kvm_destroy_dirty_bitmap(new);
-> >
-> > +       if (r && change == KVM_MR_CREATE && new->flags & KVM_MEM_PRIVATE)
-> > +               kvm_private_mem_unregister(new);
-> > +
-> >         return r;
-> >  }
-> >
-> > @@ -2004,7 +2072,7 @@ int __kvm_set_memory_region(struct kvm *kvm,
-> >         int as_id, id;
-> >         int r;
-> >
-> > -       r = check_memory_region_flags(mem);
-> > +       r = check_memory_region_flags(kvm, mem);
-> >         if (r)
-> >                 return r;
-> >
-> > @@ -2023,6 +2091,10 @@ int __kvm_set_memory_region(struct kvm *kvm,
-> >              !access_ok((void __user *)(unsigned long)mem->userspace_addr,
-> >                         mem->memory_size))
-> >                 return -EINVAL;
-> > +       if (mem->flags & KVM_MEM_PRIVATE &&
-> > +               (mem->private_offset & (PAGE_SIZE - 1) ||
-> > +                mem->private_offset > U64_MAX - mem->memory_size))
-> > +               return -EINVAL;
-> >         if (as_id >= KVM_ADDRESS_SPACE_NUM || id >= KVM_MEM_SLOTS_NUM)
-> >                 return -EINVAL;
-> >         if (mem->guest_phys_addr + mem->memory_size < mem->guest_phys_addr)
-> > @@ -2061,6 +2133,9 @@ int __kvm_set_memory_region(struct kvm *kvm,
-> >                 if ((kvm->nr_memslot_pages + npages) < kvm->nr_memslot_pages)
-> >                         return -EINVAL;
-> >         } else { /* Modify an existing slot. */
-> > +               /* Private memslots are immutable, they can only be deleted. */
-> > +               if (mem->flags & KVM_MEM_PRIVATE)
-> > +                       return -EINVAL;
-> >                 if ((mem->userspace_addr != old->userspace_addr) ||
-> >                     (npages != old->npages) ||
-> >                     ((mem->flags ^ old->flags) & KVM_MEM_READONLY))
-> > @@ -2089,10 +2164,27 @@ int __kvm_set_memory_region(struct kvm *kvm,
-> >         new->npages = npages;
-> >         new->flags = mem->flags;
-> >         new->userspace_addr = mem->userspace_addr;
-> > +       if (mem->flags & KVM_MEM_PRIVATE) {
-> > +               new->private_file = fget(mem->private_fd);
-> > +               if (!new->private_file) {
-> > +                       r = -EINVAL;
+To solve the issue, this patch introduces a new syscall
+pidfd_set_mempolicy(2).  it sets the NUMA memory policy of the thread
+specified in pidfd.
 
-The check will go here.
+In current process context there is no locking because only the process
+accesses its own memory policy, so task_work is used in
+pidfd_set_mempolicy() to update the mempolicy of the process specified
+in pidfd, avoid using locks and race conditions.
 
-> > +                       goto out;
-> > +               }
-> > +               new->private_offset = mem->private_offset;
-> > +       }
-> > +
-> > +       new->kvm = kvm;
-> >
-> >         r = kvm_set_memslot(kvm, old, new, change);
-> >         if (r)
-> > -               kfree(new);
-> > +               goto out;
-> > +
-> > +       return 0;
-> > +
-> > +out:
-> > +       if (new->private_file)
-> > +               fput(new->private_file);
-> > +       kfree(new);
-> >         return r;
-> >  }
-> >  EXPORT_SYMBOL_GPL(__kvm_set_memory_region);
-> > @@ -4747,16 +4839,28 @@ static long kvm_vm_ioctl(struct file *filp,
-> >         }
-> >         case KVM_SET_USER_MEMORY_REGION: {
-> >                 struct kvm_user_mem_region mem;
-> > -               unsigned long size = sizeof(struct kvm_userspace_memory_region);
-> > +               unsigned int flags_offset = offsetof(typeof(mem), flags);
-> > +               unsigned long size;
-> > +               u32 flags;
-> >
-> >                 kvm_sanity_check_user_mem_region_alias();
-> >
-> > +               memset(&mem, 0, sizeof(mem));
-> > +
-> >                 r = -EFAULT;
-> > -               if (copy_from_user(&mem, argp, size);
-> > +               if (get_user(flags, (u32 __user *)(argp + flags_offset)))
-> > +                       goto out;
-> > +
-> > +               if (flags & KVM_MEM_PRIVATE)
-> > +                       size = sizeof(struct kvm_userspace_memory_region_ext);
-> > +               else
-> > +                       size = sizeof(struct kvm_userspace_memory_region);
-> > +
-> > +               if (copy_from_user(&mem, argp, size))
-> >                         goto out;
-> >
-> >                 r = -EINVAL;
-> > -               if (mem.flags & KVM_MEM_PRIVATE)
-> > +               if ((flags ^ mem.flags) & KVM_MEM_PRIVATE)
-> >                         goto out;
-> >
-> >                 r = kvm_vm_ioctl_set_memory_region(kvm, &mem);
-> > --
-> > 2.25.1
-> >
+The API is as follows,
+
+		long pidfd_set_mempolicy(int pidfd, int mode,
+                                     const unsigned long __user *nmask,
+                                     unsigned long maxnode,
+                                     unsigned int flags);
+
+Set's the [pidfd] task's "task/process memory policy". The pidfd argument
+is a PID file descriptor (see pidfd_open(2) man page) that specifies the
+process to which the mempolicy is to be applied. The flags argument is
+reserved for future use; currently, this argument must be specified as 0.
+Please see the set_mempolicy(2) man page for more details about
+other's arguments.
+
+Suggested-by: Michal Hocko <mhocko@suse.com>
+Signed-off-by: Zhongkun He <hezhongkun.hzk@bytedance.com>
+---
+ .../admin-guide/mm/numa_memory_policy.rst     | 21 ++++-
+ arch/alpha/kernel/syscalls/syscall.tbl        |  1 +
+ arch/arm/tools/syscall.tbl                    |  1 +
+ arch/arm64/include/asm/unistd.h               |  2 +-
+ arch/arm64/include/asm/unistd32.h             |  3 +-
+ arch/ia64/kernel/syscalls/syscall.tbl         |  1 +
+ arch/m68k/kernel/syscalls/syscall.tbl         |  1 +
+ arch/microblaze/kernel/syscalls/syscall.tbl   |  1 +
+ arch/mips/kernel/syscalls/syscall_n32.tbl     |  1 +
+ arch/mips/kernel/syscalls/syscall_n64.tbl     |  1 +
+ arch/mips/kernel/syscalls/syscall_o32.tbl     |  1 +
+ arch/parisc/kernel/syscalls/syscall.tbl       |  1 +
+ arch/powerpc/kernel/syscalls/syscall.tbl      |  1 +
+ arch/s390/kernel/syscalls/syscall.tbl         |  1 +
+ arch/sh/kernel/syscalls/syscall.tbl           |  1 +
+ arch/sparc/kernel/syscalls/syscall.tbl        |  1 +
+ arch/x86/entry/syscalls/syscall_32.tbl        |  1 +
+ arch/x86/entry/syscalls/syscall_64.tbl        |  1 +
+ arch/xtensa/kernel/syscalls/syscall.tbl       |  1 +
+ include/linux/mempolicy.h                     | 11 +++
+ include/linux/syscalls.h                      |  4 +
+ include/uapi/asm-generic/unistd.h             |  5 +-
+ kernel/sys_ni.c                               |  1 +
+ mm/mempolicy.c                                | 89 +++++++++++++++++++
+ 24 files changed, 146 insertions(+), 6 deletions(-)
+
+diff --git a/Documentation/admin-guide/mm/numa_memory_policy.rst b/Documentation/admin-guide/mm/numa_memory_policy.rst
+index 5a6afecbb0d0..b864dd88b2d2 100644
+--- a/Documentation/admin-guide/mm/numa_memory_policy.rst
++++ b/Documentation/admin-guide/mm/numa_memory_policy.rst
+@@ -408,9 +408,10 @@ follows:
+ Memory Policy APIs
+ ==================
+ 
+-Linux supports 4 system calls for controlling memory policy.  These APIS
+-always affect only the calling task, the calling task's address space, or
+-some shared object mapped into the calling task's address space.
++Linux supports 5 system calls for controlling memory policy.  The first four
++APIS affect only the calling task, the calling task's address space, or some
++shared object mapped into the calling task's address space. The last one can
++set the mempolicy of task specified in pidfd.
+ 
+ .. note::
+    the headers that define these APIs and the parameter data types for
+@@ -473,6 +474,20 @@ closest to which page allocation will come from. Specifying the home node overri
+ the default allocation policy to allocate memory close to the local node for an
+ executing CPU.
+ 
++Set [pidfd Task] Memory Policy::
++
++        long sys_pidfd_set_mempolicy(int pidfd, int mode,
++                                     const unsigned long __user *nmask,
++                                     unsigned long maxnode,
++                                     unsigned int flags);
++
++Set's the [pidfd] task's "task/process memory policy". The pidfd argument is
++a PID file descriptor (see pidfd_open(2) man page) that specifies the process
++to which the mempolicy is to be applied. The flags argument is reserved for
++future use; currently, this argument must be specified as 0. Please see the
++set_mempolicy(2) man page for more details about other's arguments.
++
++
+ 
+ Memory Policy Command Line Interface
+ ====================================
+diff --git a/arch/alpha/kernel/syscalls/syscall.tbl b/arch/alpha/kernel/syscalls/syscall.tbl
+index 3515bc4f16a4..d86baa5a6eca 100644
+--- a/arch/alpha/kernel/syscalls/syscall.tbl
++++ b/arch/alpha/kernel/syscalls/syscall.tbl
+@@ -490,3 +490,4 @@
+ 558	common	process_mrelease		sys_process_mrelease
+ 559	common  futex_waitv                     sys_futex_waitv
+ 560	common	set_mempolicy_home_node		sys_ni_syscall
++561	common  pidfd_set_mempolicy		sys_ni_syscall
+diff --git a/arch/arm/tools/syscall.tbl b/arch/arm/tools/syscall.tbl
+index ac964612d8b0..a7ccab8aafef 100644
+--- a/arch/arm/tools/syscall.tbl
++++ b/arch/arm/tools/syscall.tbl
+@@ -464,3 +464,4 @@
+ 448	common	process_mrelease		sys_process_mrelease
+ 449	common	futex_waitv			sys_futex_waitv
+ 450	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
++451	common	pidfd_set_mempolicy		sys_pidfd_set_mempolicy
+diff --git a/arch/arm64/include/asm/unistd.h b/arch/arm64/include/asm/unistd.h
+index 037feba03a51..64a514f90131 100644
+--- a/arch/arm64/include/asm/unistd.h
++++ b/arch/arm64/include/asm/unistd.h
+@@ -39,7 +39,7 @@
+ #define __ARM_NR_compat_set_tls		(__ARM_NR_COMPAT_BASE + 5)
+ #define __ARM_NR_COMPAT_END		(__ARM_NR_COMPAT_BASE + 0x800)
+ 
+-#define __NR_compat_syscalls		451
++#define __NR_compat_syscalls		452
+ #endif
+ 
+ #define __ARCH_WANT_SYS_CLONE
+diff --git a/arch/arm64/include/asm/unistd32.h b/arch/arm64/include/asm/unistd32.h
+index 604a2053d006..2e178e9152e6 100644
+--- a/arch/arm64/include/asm/unistd32.h
++++ b/arch/arm64/include/asm/unistd32.h
+@@ -907,7 +907,8 @@ __SYSCALL(__NR_process_mrelease, sys_process_mrelease)
+ __SYSCALL(__NR_futex_waitv, sys_futex_waitv)
+ #define __NR_set_mempolicy_home_node 450
+ __SYSCALL(__NR_set_mempolicy_home_node, sys_set_mempolicy_home_node)
+-
++#define __NR_pidfd_set_mempolicy 451
++__SYSCALL(__NR_pidfd_set_mempolicy, sys_pidfd_set_mempolicy)
+ /*
+  * Please add new compat syscalls above this comment and update
+  * __NR_compat_syscalls in asm/unistd.h.
+diff --git a/arch/ia64/kernel/syscalls/syscall.tbl b/arch/ia64/kernel/syscalls/syscall.tbl
+index 78b1d03e86e1..4e5bca7a985c 100644
+--- a/arch/ia64/kernel/syscalls/syscall.tbl
++++ b/arch/ia64/kernel/syscalls/syscall.tbl
+@@ -371,3 +371,4 @@
+ 448	common	process_mrelease		sys_process_mrelease
+ 449	common  futex_waitv                     sys_futex_waitv
+ 450	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
++451	common	pidfd_set_mempolicy		sys_pidfd_set_mempolicy
+diff --git a/arch/m68k/kernel/syscalls/syscall.tbl b/arch/m68k/kernel/syscalls/syscall.tbl
+index b1f3940bc298..8e50bf8ec41d 100644
+--- a/arch/m68k/kernel/syscalls/syscall.tbl
++++ b/arch/m68k/kernel/syscalls/syscall.tbl
+@@ -450,3 +450,4 @@
+ 448	common	process_mrelease		sys_process_mrelease
+ 449	common  futex_waitv                     sys_futex_waitv
+ 450	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
++451	common	pidfd_set_mempolicy		sys_pidfd_set_mempolicy
+diff --git a/arch/microblaze/kernel/syscalls/syscall.tbl b/arch/microblaze/kernel/syscalls/syscall.tbl
+index 820145e47350..f48e32532c5f 100644
+--- a/arch/microblaze/kernel/syscalls/syscall.tbl
++++ b/arch/microblaze/kernel/syscalls/syscall.tbl
+@@ -456,3 +456,4 @@
+ 448	common	process_mrelease		sys_process_mrelease
+ 449	common  futex_waitv                     sys_futex_waitv
+ 450	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
++451	common	pidfd_set_mempolicy		sys_pidfd_set_mempolicy
+diff --git a/arch/mips/kernel/syscalls/syscall_n32.tbl b/arch/mips/kernel/syscalls/syscall_n32.tbl
+index 253ff994ed2e..58e7c3140f4a 100644
+--- a/arch/mips/kernel/syscalls/syscall_n32.tbl
++++ b/arch/mips/kernel/syscalls/syscall_n32.tbl
+@@ -389,3 +389,4 @@
+ 448	n32	process_mrelease		sys_process_mrelease
+ 449	n32	futex_waitv			sys_futex_waitv
+ 450	n32	set_mempolicy_home_node		sys_set_mempolicy_home_node
++451	n32	pidfd_set_mempolicy		sys_pidfd_set_mempolicy
+diff --git a/arch/mips/kernel/syscalls/syscall_n64.tbl b/arch/mips/kernel/syscalls/syscall_n64.tbl
+index 3f1886ad9d80..70090c3ada16 100644
+--- a/arch/mips/kernel/syscalls/syscall_n64.tbl
++++ b/arch/mips/kernel/syscalls/syscall_n64.tbl
+@@ -365,3 +365,4 @@
+ 448	n64	process_mrelease		sys_process_mrelease
+ 449	n64	futex_waitv			sys_futex_waitv
+ 450	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
++451	n64	pidfd_set_mempolicy		sys_pidfd_set_mempolicy
+diff --git a/arch/mips/kernel/syscalls/syscall_o32.tbl b/arch/mips/kernel/syscalls/syscall_o32.tbl
+index 8f243e35a7b2..b0b0bad64fa0 100644
+--- a/arch/mips/kernel/syscalls/syscall_o32.tbl
++++ b/arch/mips/kernel/syscalls/syscall_o32.tbl
+@@ -438,3 +438,4 @@
+ 448	o32	process_mrelease		sys_process_mrelease
+ 449	o32	futex_waitv			sys_futex_waitv
+ 450	o32	set_mempolicy_home_node		sys_set_mempolicy_home_node
++451	o32	pidfd_set_mempolicy		sys_pidfd_set_mempolicy
+diff --git a/arch/parisc/kernel/syscalls/syscall.tbl b/arch/parisc/kernel/syscalls/syscall.tbl
+index 8a99c998da9b..4dfd328490ad 100644
+--- a/arch/parisc/kernel/syscalls/syscall.tbl
++++ b/arch/parisc/kernel/syscalls/syscall.tbl
+@@ -448,3 +448,4 @@
+ 448	common	process_mrelease		sys_process_mrelease
+ 449	common	futex_waitv			sys_futex_waitv
+ 450	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
++451	common	pidfd_set_mempolicy		sys_pidfd_set_mempolicy
+diff --git a/arch/powerpc/kernel/syscalls/syscall.tbl b/arch/powerpc/kernel/syscalls/syscall.tbl
+index 2600b4237292..20381463b2b5 100644
+--- a/arch/powerpc/kernel/syscalls/syscall.tbl
++++ b/arch/powerpc/kernel/syscalls/syscall.tbl
+@@ -530,3 +530,4 @@
+ 448	common	process_mrelease		sys_process_mrelease
+ 449	common  futex_waitv                     sys_futex_waitv
+ 450 	nospu	set_mempolicy_home_node		sys_set_mempolicy_home_node
++451	nospu	pidfd_set_mempolicy		sys_pidfd_set_mempolicy
+diff --git a/arch/s390/kernel/syscalls/syscall.tbl b/arch/s390/kernel/syscalls/syscall.tbl
+index 799147658dee..5e170dca81f6 100644
+--- a/arch/s390/kernel/syscalls/syscall.tbl
++++ b/arch/s390/kernel/syscalls/syscall.tbl
+@@ -453,3 +453,4 @@
+ 448  common	process_mrelease	sys_process_mrelease		sys_process_mrelease
+ 449  common	futex_waitv		sys_futex_waitv			sys_futex_waitv
+ 450  common	set_mempolicy_home_node	sys_set_mempolicy_home_node	sys_set_mempolicy_home_node
++451  common	pidfd_set_mempolicy	sys_pidfd_set_mempolicy		sys_pidfd_set_mempolicy
+diff --git a/arch/sh/kernel/syscalls/syscall.tbl b/arch/sh/kernel/syscalls/syscall.tbl
+index 2de85c977f54..bd3a24a9b41f 100644
+--- a/arch/sh/kernel/syscalls/syscall.tbl
++++ b/arch/sh/kernel/syscalls/syscall.tbl
+@@ -453,3 +453,4 @@
+ 448	common	process_mrelease		sys_process_mrelease
+ 449	common  futex_waitv                     sys_futex_waitv
+ 450	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
++451	common	pidfd_set_mempolicy		sys_pidfd_set_mempolicy
+diff --git a/arch/sparc/kernel/syscalls/syscall.tbl b/arch/sparc/kernel/syscalls/syscall.tbl
+index 4398cc6fb68d..bea2b5c6314b 100644
+--- a/arch/sparc/kernel/syscalls/syscall.tbl
++++ b/arch/sparc/kernel/syscalls/syscall.tbl
+@@ -496,3 +496,4 @@
+ 448	common	process_mrelease		sys_process_mrelease
+ 449	common  futex_waitv                     sys_futex_waitv
+ 450	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
++451	common	pidfd_set_mempolicy		sys_pidfd_set_mempolicy
+diff --git a/arch/x86/entry/syscalls/syscall_32.tbl b/arch/x86/entry/syscalls/syscall_32.tbl
+index 320480a8db4f..97bc70f5a8f7 100644
+--- a/arch/x86/entry/syscalls/syscall_32.tbl
++++ b/arch/x86/entry/syscalls/syscall_32.tbl
+@@ -455,3 +455,4 @@
+ 448	i386	process_mrelease	sys_process_mrelease
+ 449	i386	futex_waitv		sys_futex_waitv
+ 450	i386	set_mempolicy_home_node		sys_set_mempolicy_home_node
++451	i386	pidfd_set_mempolicy	sys_pidfd_set_mempolicy
+diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
+index c84d12608cd2..ba6d19dbd8f8 100644
+--- a/arch/x86/entry/syscalls/syscall_64.tbl
++++ b/arch/x86/entry/syscalls/syscall_64.tbl
+@@ -372,6 +372,7 @@
+ 448	common	process_mrelease	sys_process_mrelease
+ 449	common	futex_waitv		sys_futex_waitv
+ 450	common	set_mempolicy_home_node	sys_set_mempolicy_home_node
++451	common	pidfd_set_mempolicy	sys_pidfd_set_mempolicy
+ 
+ #
+ # Due to a historical design error, certain syscalls are numbered differently
+diff --git a/arch/xtensa/kernel/syscalls/syscall.tbl b/arch/xtensa/kernel/syscalls/syscall.tbl
+index 52c94ab5c205..9f7c563da4fb 100644
+--- a/arch/xtensa/kernel/syscalls/syscall.tbl
++++ b/arch/xtensa/kernel/syscalls/syscall.tbl
+@@ -421,3 +421,4 @@
+ 448	common	process_mrelease		sys_process_mrelease
+ 449	common  futex_waitv                     sys_futex_waitv
+ 450	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
++451	common	pidfd_set_mempolicy		sys_pidfd_set_mempolicy
+diff --git a/include/linux/mempolicy.h b/include/linux/mempolicy.h
+index 668389b4b53d..f3c522e8eb38 100644
+--- a/include/linux/mempolicy.h
++++ b/include/linux/mempolicy.h
+@@ -54,6 +54,17 @@ struct mempolicy {
+ 	} w;
+ };
+ 
++/*
++ *  The information of mempolicy used by task_work
++ *  to update it dynamically.
++ */
++struct mpol_worker {
++	unsigned short mode;
++	unsigned short flags;
++	nodemask_t nodes;
++	struct rcu_head update_work;
++};
++
+ /*
+  * Support for managing mempolicy data objects (clone, copy, destroy)
+  * The default fast path of a NULL MPOL_DEFAULT policy is always inlined.
+diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+index a34b0f9a9972..e611c088050b 100644
+--- a/include/linux/syscalls.h
++++ b/include/linux/syscalls.h
+@@ -1056,6 +1056,10 @@ asmlinkage long sys_memfd_secret(unsigned int flags);
+ asmlinkage long sys_set_mempolicy_home_node(unsigned long start, unsigned long len,
+ 					    unsigned long home_node,
+ 					    unsigned long flags);
++asmlinkage long sys_pidfd_set_mempolicy(int pidfd, int mode,
++					const unsigned long __user *nmask,
++					unsigned long maxnode,
++					unsigned int flags);
+ 
+ /*
+  * Architecture-specific system calls
+diff --git a/include/uapi/asm-generic/unistd.h b/include/uapi/asm-generic/unistd.h
+index 45fa180cc56a..c38013bbf5b0 100644
+--- a/include/uapi/asm-generic/unistd.h
++++ b/include/uapi/asm-generic/unistd.h
+@@ -886,8 +886,11 @@ __SYSCALL(__NR_futex_waitv, sys_futex_waitv)
+ #define __NR_set_mempolicy_home_node 450
+ __SYSCALL(__NR_set_mempolicy_home_node, sys_set_mempolicy_home_node)
+ 
++#define __NR_pidfd_set_mempolicy 451
++__SYSCALL(__NR_pidfd_set_mempolicy, sys_pidfd_set_mempolicy)
++
+ #undef __NR_syscalls
+-#define __NR_syscalls 451
++#define __NR_syscalls 452
+ 
+ /*
+  * 32 bit systems traditionally used different
+diff --git a/kernel/sys_ni.c b/kernel/sys_ni.c
+index 860b2dcf3ac4..5053deb888f7 100644
+--- a/kernel/sys_ni.c
++++ b/kernel/sys_ni.c
+@@ -299,6 +299,7 @@ COND_SYSCALL(set_mempolicy);
+ COND_SYSCALL(migrate_pages);
+ COND_SYSCALL(move_pages);
+ COND_SYSCALL(set_mempolicy_home_node);
++COND_SYSCALL(pidfd_set_mempolicy);
+ 
+ COND_SYSCALL(perf_event_open);
+ COND_SYSCALL(accept4);
+diff --git a/mm/mempolicy.c b/mm/mempolicy.c
+index b73d3248d976..2ce9be1a9dfd 100644
+--- a/mm/mempolicy.c
++++ b/mm/mempolicy.c
+@@ -102,6 +102,7 @@
+ #include <linux/mmu_notifier.h>
+ #include <linux/printk.h>
+ #include <linux/swapops.h>
++#include <linux/task_work.h>
+ 
+ #include <asm/tlbflush.h>
+ #include <asm/tlb.h>
+@@ -1572,6 +1573,94 @@ SYSCALL_DEFINE3(set_mempolicy, int, mode, const unsigned long __user *, nmask,
+ 	return kernel_set_mempolicy(mode, nmask, maxnode);
+ }
+ 
++/*
++ *  In process context there is no locking, so task_work is used to update
++ *  the mempolicy of process specified in pidfd, avoid using locks.
++ */
++static void pidfd_update_mpol(struct callback_head *cb)
++{
++	struct mpol_worker *worker = container_of(cb, struct mpol_worker, update_work);
++
++	do_set_mempolicy(worker->mode, worker->flags, &worker->nodes);
++	kfree(worker);
++}
++
++/* Set the memory policy of the process specified in pidfd. */
++static long do_pidfd_set_mempolicy(int pidfd, int mode, const unsigned long __user *nmask,
++		unsigned long maxnode, unsigned int flags)
++{
++	nodemask_t nodes, task_nodes, tmp;
++	struct mpol_worker *worker;
++	struct task_struct *task;
++	unsigned short mode_flags;
++	int ret, lmode = mode;
++	unsigned int f_flags;
++
++	if (flags)
++		return -EINVAL;
++
++	task = pidfd_get_task(pidfd, &f_flags);
++	if (IS_ERR(task))
++		return PTR_ERR(task);
++	/*
++	 * Check if this process has the right to modify the specified
++	 * process.
++	 */
++	if (!ptrace_may_access(task, PTRACE_MODE_ATTACH_REALCREDS)) {
++		ret = -EPERM;
++		goto out;
++	}
++
++	/*
++	 * Require CAP_SYS_NICE for influencing process performance.
++	 * User's task is allowed only.
++	 */
++	if (!capable(CAP_SYS_NICE) || (task->flags & PF_KTHREAD)) {
++		ret = -EPERM;
++		goto out;
++	}
++
++	ret = get_nodes(&nodes, nmask, maxnode);
++	if (ret)
++		goto out;
++
++	ret = sanitize_mpol_flags(&lmode, &mode_flags);
++	if (ret)
++		goto out;
++
++	task_nodes = cpuset_mems_allowed(task);
++
++	if (mode_flags & MPOL_F_RELATIVE_NODES)
++		mpol_relative_nodemask(&tmp, &nodes, &task_nodes);
++	else
++		nodes_and(tmp, nodes, task_nodes);
++
++	if (nodes_empty(tmp)) {
++		ret = -EINVAL;
++		goto out;
++	}
++	worker = kzalloc(sizeof(struct mpol_worker), GFP_KERNEL | __GFP_NOWARN);
++	if (!worker) {
++		ret = -ENOMEM;
++		goto out;
++	}
++	init_task_work(&worker->update_work, pidfd_update_mpol);
++	worker->flags = mode_flags;
++	worker->mode = lmode;
++	worker->nodes = nodes;
++
++	ret = task_work_add(task, &worker->update_work, TWA_SIGNAL);
++out:
++	put_task_struct(task);
++	return ret;
++}
++
++SYSCALL_DEFINE5(pidfd_set_mempolicy, int, pidfd, int, mode, const unsigned long __user *, nmask,
++		unsigned long, maxnode, unsigned int, flags)
++{
++	return do_pidfd_set_mempolicy(pidfd, mode, nmask, maxnode, flags);
++}
++
+ static int kernel_migrate_pages(pid_t pid, unsigned long maxnode,
+ 				const unsigned long __user *old_nodes,
+ 				const unsigned long __user *new_nodes)
+-- 
+2.25.1
+
