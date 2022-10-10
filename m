@@ -2,93 +2,65 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7EFF55F9EC3
-	for <lists+linux-api@lfdr.de>; Mon, 10 Oct 2022 14:35:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 68E3B5F9ED1
+	for <lists+linux-api@lfdr.de>; Mon, 10 Oct 2022 14:42:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230516AbiJJMfJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 10 Oct 2022 08:35:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34892 "EHLO
+        id S230501AbiJJMmz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 10 Oct 2022 08:42:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47324 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231177AbiJJMfG (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 10 Oct 2022 08:35:06 -0400
+        with ESMTP id S230471AbiJJMmy (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 10 Oct 2022 08:42:54 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1355F1583A
-        for <linux-api@vger.kernel.org>; Mon, 10 Oct 2022 05:35:01 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF3CD5300C
+        for <linux-api@vger.kernel.org>; Mon, 10 Oct 2022 05:42:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1665405301;
+        s=mimecast20190719; t=1665405771;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=QA6f2HlVW1NJBZ3C2GoKq9SiJ7l5EStNIWPvZ+GnIV8=;
-        b=PIon4rHaOshMl+hWKo7mYNaSr8EU69hlP9f/kNJmuh+cjSt0BhvvACNiOHZ5sNcBnankDS
-        +gVaPBywPVGfmJ1dSlweFsow7cyydKR0NuRMMs5qi9AX7iUsNRQgyZfr2YqxEVPCjohUG3
-        5odEjiZ2FKW7txD01+Tv6M1gx8059oY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=BZsgFIaUtMtPOAUv6onkZwQ4ROTArLHZaqizv0UA7y8=;
+        b=UbMmQ0KJSWa0R+bnvzDdm0yxPNytBOj1EXwEnWupdxjfDBv5+4Sfhy5lIOo2eD6xp6uSYF
+        FCTkEK7ufIrxyFYhAG/bQqcpASJYkFzhDHLKUb8rWUL7x5e2QVwppIRVczUoRiztLqBayc
+        1wPVT/yQ9aarCkoEhhpPLF/6lliBXvQ=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-2-wRjZH-_IOo-OjcM7dr5rog-1; Mon, 10 Oct 2022 08:33:41 -0400
-X-MC-Unique: wRjZH-_IOo-OjcM7dr5rog-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
+ us-mta-13-JZ7A8OJQM6CxKAIYT4lcFg-1; Mon, 10 Oct 2022 08:42:48 -0400
+X-MC-Unique: JZ7A8OJQM6CxKAIYT4lcFg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F1E57185A792;
-        Mon, 10 Oct 2022 12:33:39 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AEDEB3803903;
+        Mon, 10 Oct 2022 12:42:47 +0000 (UTC)
 Received: from oldenburg.str.redhat.com (unknown [10.39.192.124])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 5B496C2C8D6;
-        Mon, 10 Oct 2022 12:33:32 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 9DBA541136E5;
+        Mon, 10 Oct 2022 12:42:44 +0000 (UTC)
 From:   Florian Weimer <fweimer@redhat.com>
-To:     Andrew Cooper <Andrew.Cooper3@citrix.com>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        "joao.moreira@intel.com" <joao.moreira@intel.com>,
-        John Allen <john.allen@amd.com>,
-        "kcc@google.com" <kcc@google.com>,
-        "eranian@google.com" <eranian@google.com>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: Re: [PATCH v2 18/39] mm: Add guard pages around a shadow stack.
-References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
-        <20220929222936.14584-19-rick.p.edgecombe@intel.com>
-        <202210031127.C6CF796@keescook>
-        <37ef8d93-8bd2-ae5e-4508-9be090231d06@citrix.com>
-Date:   Mon, 10 Oct 2022 14:33:30 +0200
-In-Reply-To: <37ef8d93-8bd2-ae5e-4508-9be090231d06@citrix.com> (Andrew
-        Cooper's message of "Wed, 5 Oct 2022 02:30:56 +0000")
-Message-ID: <87bkqj26zp.fsf@oldenburg.str.redhat.com>
+To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
+        linux-api@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
+        David.Laight@ACULAB.COM, carlos@redhat.com,
+        Peter Oskolkov <posk@posk.io>,
+        Alexander Mikhalitsyn <alexander@mihalicyn.com>
+Subject: Re: [PATCH v4 01/25] rseq: Introduce feature size and alignment ELF
+ auxiliary vector entries
+References: <20220922105941.237830-1-mathieu.desnoyers@efficios.com>
+        <20220922105941.237830-2-mathieu.desnoyers@efficios.com>
+Date:   Mon, 10 Oct 2022 14:42:42 +0200
+In-Reply-To: <20220922105941.237830-2-mathieu.desnoyers@efficios.com> (Mathieu
+        Desnoyers's message of "Thu, 22 Sep 2022 06:59:16 -0400")
+Message-ID: <877d1726kd.fsf@oldenburg.str.redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
@@ -98,23 +70,61 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-* Andrew Cooper:
+* Mathieu Desnoyers:
 
-> You don't actually need a hole to create a guard.=C2=A0 Any mapping of ty=
-pe
-> !=3D shstk will do.
+> Export the rseq feature size supported by the kernel as well as the
+> required allocation alignment for the rseq per-thread area to user-space
+> through ELF auxiliary vector entries.
 >
-> If you've got a load of threads, you can tightly pack stack / shstk /
-> stack / shstk with no holes, and they each act as each other guard pages.
+> This is part of the extensible rseq ABI.
+>
+> Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+> ---
+>  fs/binfmt_elf.c             | 5 +++++
+>  include/uapi/linux/auxvec.h | 2 ++
+>  include/uapi/linux/rseq.h   | 5 +++++
+>  3 files changed, 12 insertions(+)
+>
+> diff --git a/fs/binfmt_elf.c b/fs/binfmt_elf.c
+> index 63c7ebb0da89..04fca1e4cbd2 100644
+> --- a/fs/binfmt_elf.c
+> +++ b/fs/binfmt_elf.c
+> @@ -46,6 +46,7 @@
+>  #include <linux/cred.h>
+>  #include <linux/dax.h>
+>  #include <linux/uaccess.h>
+> +#include <linux/rseq.h>
+>  #include <asm/param.h>
+>  #include <asm/page.h>
+>=20=20
+> @@ -288,6 +289,10 @@ create_elf_tables(struct linux_binprm *bprm, const s=
+truct elfhdr *exec,
+>  	if (bprm->have_execfd) {
+>  		NEW_AUX_ENT(AT_EXECFD, bprm->execfd);
+>  	}
+> +#ifdef CONFIG_RSEQ
+> +	NEW_AUX_ENT(AT_RSEQ_FEATURE_SIZE, offsetof(struct rseq, end));
+> +	NEW_AUX_ENT(AT_RSEQ_ALIGN, __alignof__(struct rseq));
+> +#endif
+>  #undef NEW_AUX_ENT
+>  	/* AT_NULL is zero; clear the rest too */
+>  	memset(elf_info, 0, (char *)mm->saved_auxv +
+> diff --git a/include/uapi/linux/auxvec.h b/include/uapi/linux/auxvec.h
+> index c7e502bf5a6f..6991c4b8ab18 100644
+> --- a/include/uapi/linux/auxvec.h
+> +++ b/include/uapi/linux/auxvec.h
+> @@ -30,6 +30,8 @@
+>  				 * differ from AT_PLATFORM. */
+>  #define AT_RANDOM 25	/* address of 16 random bytes */
+>  #define AT_HWCAP2 26	/* extension of AT_HWCAP */
+> +#define AT_RSEQ_FEATURE_SIZE	27	/* rseq supported feature size */
+> +#define AT_RSEQ_ALIGN		28	/* rseq allocation alignment */
+>=20=20
+>  #define AT_EXECFN  31	/* filename of program */
 
-Can userspace read the shadow stack directly?  Writing is obviously
-blocked, but reading?
-
-GCC's stack-clash probing uses OR instructions, so it would be fine with
-a readable mapping.  POSIX does not appear to require PROT_NONE mappings
-for the stack guard region, either.  However, the
-pthread_attr_setguardsize manual page pretty clearly says that it's got
-to be unreadable and unwriteable.  Hence my question.
+Do we need the alignment?  Or can we keep it perpetually at 32?  Or we
+could steal some bits from AT_RSEQ_FEATURE_SIZE?  (Not the lower
+bits=E2=80=94they aren't unused due to the way the feature size works.)
 
 Thanks,
 Florian
