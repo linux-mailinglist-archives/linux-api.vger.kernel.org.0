@@ -2,78 +2,66 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C2F25FA1A9
-	for <lists+linux-api@lfdr.de>; Mon, 10 Oct 2022 18:16:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5EA005FA1CA
+	for <lists+linux-api@lfdr.de>; Mon, 10 Oct 2022 18:22:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229671AbiJJQP6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 10 Oct 2022 12:15:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41552 "EHLO
+        id S229552AbiJJQW3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 10 Oct 2022 12:22:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54474 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229547AbiJJQP4 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 10 Oct 2022 12:15:56 -0400
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 485A45C37F;
-        Mon, 10 Oct 2022 09:15:54 -0700 (PDT)
-Received: by mail-wm1-x32d.google.com with SMTP id c3-20020a1c3503000000b003bd21e3dd7aso8855925wma.1;
-        Mon, 10 Oct 2022 09:15:54 -0700 (PDT)
+        with ESMTP id S229471AbiJJQW3 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 10 Oct 2022 12:22:29 -0400
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5D516E88F
+        for <linux-api@vger.kernel.org>; Mon, 10 Oct 2022 09:22:26 -0700 (PDT)
+Received: by mail-ed1-x530.google.com with SMTP id s30so16650400eds.1
+        for <linux-api@vger.kernel.org>; Mon, 10 Oct 2022 09:22:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:from:references:cc:to:content-language:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3b/H3b682Cs4auGqv8ODOX5sEwhRHiu4vm1CpnCyMBU=;
-        b=CLMvVxR0R9+iokJ1SXPR4KCiF/PkXiyxAU5cMCPBFjKjUZ+JAtavKliaG7v5KK5UnF
-         izYk+6gQoN/8RJXVBzSDBwkO5znRb9BowlHYsShOkcCpvyK5TlDX3zqF9EqFCP20Bqy5
-         anWP0EN+32g0kisnPx8cBq4XztFSwhD+Mz6yy0+SuFksrI1ddE0GdAUEcNOQ8GyvyilE
-         iH3qnrE/OCEjIbV1GpqrngYpiDYQah8WszNrxie41Uzv3qf8I8lfJ67JUgMw6/jDkBPN
-         SRY/VGUk+H6h/HidUJLfdRGuiLqAfcdbZ8cDYLT8MP1euSNghIBbBlkhPZTmN24P4kdU
-         djeg==
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=B4sl24uBHZcm0siB/6w/a46eJ+9xC++sD5qFOt3+D2o=;
+        b=Tp9IXfvuRVFXVlk9X0BvrpejPIqpeaNWsHDNRuAq2M0/ZqOtUlkqiPEuPam2OHb8xe
+         G8uxayWZj9bI65jSb9967UJDMX/CbhFi4CYFD4IWOIFQwKASKI6z8rbptU9Sg7AddTzq
+         2HSO3Sbk77TfXQ5+my0hBHNgI8UqvBF9CpyamA+CroGVKGsxxDqCCTJ8HaCJe2dl/1Tp
+         iKCTh3ZaLTbUS6hZLCfDfjZ8L8tXHNWIwiUxCy1pJIoORgYn35kNMFlu/gQsdkgoxSa/
+         FcxNxccNrxjoNcx20FJGuDNVQ+FSiWDB4EuZ6FdJSEAIHyHf07dKxnNcWQuJmOgg7nr1
+         MXtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:from:references:cc:to:content-language:subject
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=3b/H3b682Cs4auGqv8ODOX5sEwhRHiu4vm1CpnCyMBU=;
-        b=u1x+jKttyRmDA6ZuBAEWtqWFiqPXcrNPM17685Zo7foAURkIpVTg7OaP3Ox1NgcEt/
-         7icCVyemrSTt1KRjUdZEct6Zjzj1ltxwMDAAXl81nYA2p94JBZebI/ecMcvVQHTWbize
-         dMLM5uSVwO7STf2SIbkRZXXe8NRj2JeP1E+mQOc0Z8VOeF75ISY9bdtpolNc/Btfxjsz
-         PvLMSMTOTNdd/0MTBm4bhR91H8QU0CufYvcqjEa6qNIczqKRVcG9rmKOgx2HIViJ4Re7
-         dnOUIeHrQQoigTZ+46eeqp5HJPYXx6zkQ2LnkdobQ0IV5cf76RxLR0c/L/OA5mQtsE7D
-         4EGw==
-X-Gm-Message-State: ACrzQf3s7347uODmTiBAgLupClGy1kAaIVwTPrLR4CWIhi3BuRBeY9xN
-        KZLX/6l3jOCN61oodBSIIDQ=
-X-Google-Smtp-Source: AMsMyM5TvkeRbhpgyV7CoGtBE8xB2bAQsT0XL9iNLrlc7mFh/04EBX4FUH2CLHbV5qpYp8bGFSs9jQ==
-X-Received: by 2002:a05:600c:5490:b0:3b4:8db0:5547 with SMTP id iv16-20020a05600c549000b003b48db05547mr13112572wmb.77.1665418552586;
-        Mon, 10 Oct 2022 09:15:52 -0700 (PDT)
-Received: from [192.168.0.160] ([170.253.36.171])
-        by smtp.gmail.com with ESMTPSA id k4-20020adff5c4000000b00228dff8d975sm8986985wrp.109.2022.10.10.09.15.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 Oct 2022 09:15:51 -0700 (PDT)
-Message-ID: <23596caf-db1a-0c22-70a5-6ff409282fd1@gmail.com>
-Date:   Mon, 10 Oct 2022 18:15:42 +0200
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=B4sl24uBHZcm0siB/6w/a46eJ+9xC++sD5qFOt3+D2o=;
+        b=3M6Rt8CoRDVEz/eJsmSSp2mjtoVvtgmKEl605vBcI93iBxHKwUMf8W1u5VGeGJOClv
+         +Tlz3p31qb/E+Dlu2LYlVSamAWMKzLOIIzwc3o1cQ++eR0VGfb5uUgiO3AMGc8N+cVwJ
+         amV2W1Db9NdnseMAAcjMQyYmEo219Vwt0lpJB3ReQUv58X9euj8yjdPyq1LiKQceIuw3
+         zRjKOo2vU3rOiD4b+TilDAybz6T8hPqZDTkqQDGSBXecbCSkN/lcb8KGRcDsw0Lw0g/L
+         M7NpWusuW9SJcPXtRe7oxfBRcDAjPfEs+FMh7NyhyAPMCVftA1403nr6Nyvc/rAvX+b0
+         GT3w==
+X-Gm-Message-State: ACrzQf3FjwUngoBqClPdtZdTn7GxktJfYWxHVc9Lyw1OtC+M87qsvzMv
+        adxfe8nC0g2I6HUOw+/n/T6wEEO2C6QuNvR4kbnbvw==
+X-Google-Smtp-Source: AMsMyM5cL2Ux8zVe54QHezX88oEm60srycMNSA07hfb7FF9hoz2fJ1MbNnpuIY76T/VVQ0Mp9ZDXi+Th4biDAMmt8bU=
+X-Received: by 2002:a05:6402:2201:b0:44f:443e:2a78 with SMTP id
+ cq1-20020a056402220100b0044f443e2a78mr18351251edb.76.1665418944965; Mon, 10
+ Oct 2022 09:22:24 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Semantic newlines (was: [man-pages PATCH v3] statx.2, open.2:
- document STATX_DIOALIGN)
-Content-Language: en-US
-To:     "Darrick J. Wong" <djwong@kernel.org>
-Cc:     Eric Biggers <ebiggers@kernel.org>, linux-man@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-ext4@vger.kernel.org,
-        linux-f2fs-devel@lists.sourceforge.net, linux-xfs@vger.kernel.org,
-        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
-        "G. Branden Robinson" <g.branden.robinson@gmail.com>
-References: <20221004174307.6022-1-ebiggers@kernel.org>
- <26cafc28-e63a-6f13-df70-8ccec85a4ef0@gmail.com> <Y0Q4m9mj3DUZEkrW@magnolia>
-From:   Alejandro Colomar <alx.manpages@gmail.com>
-In-Reply-To: <Y0Q4m9mj3DUZEkrW@magnolia>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------FLnbu1X71N4cWPrqt0YiFtO0"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+References: <20221010094842.4123037-1-hezhongkun.hzk@bytedance.com>
+In-Reply-To: <20221010094842.4123037-1-hezhongkun.hzk@bytedance.com>
+From:   Frank van der Linden <fvdl@google.com>
+Date:   Mon, 10 Oct 2022 09:22:13 -0700
+Message-ID: <CAPTztWYTGOb8ZQzfgThqJn+fyi4ZB8=JQQZi5_rUoDhdftKtvg@mail.gmail.com>
+Subject: Re: [RFC] mm: add new syscall pidfd_set_mempolicy()
+To:     Zhongkun He <hezhongkun.hzk@bytedance.com>
+Cc:     corbet@lwn.net, mhocko@suse.com, akpm@linux-foundation.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        wuyun.abel@bytedance.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -81,183 +69,462 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------FLnbu1X71N4cWPrqt0YiFtO0
-Content-Type: multipart/mixed; boundary="------------QDGjJfjSqcau0rYuUmoIyW5q";
- protected-headers="v1"
-From: Alejandro Colomar <alx.manpages@gmail.com>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Eric Biggers <ebiggers@kernel.org>, linux-man@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-ext4@vger.kernel.org,
- linux-f2fs-devel@lists.sourceforge.net, linux-xfs@vger.kernel.org,
- linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
- "G. Branden Robinson" <g.branden.robinson@gmail.com>
-Message-ID: <23596caf-db1a-0c22-70a5-6ff409282fd1@gmail.com>
-Subject: Semantic newlines (was: [man-pages PATCH v3] statx.2, open.2:
- document STATX_DIOALIGN)
-References: <20221004174307.6022-1-ebiggers@kernel.org>
- <26cafc28-e63a-6f13-df70-8ccec85a4ef0@gmail.com> <Y0Q4m9mj3DUZEkrW@magnolia>
-In-Reply-To: <Y0Q4m9mj3DUZEkrW@magnolia>
+For consistency with process_madvise(), I would suggest calling it
+process_set_mempolicy. Other than that, this makes sense. To complete
+the set, perhaps a process_mbind() should be added as well. What do
+you think?
 
---------------QDGjJfjSqcau0rYuUmoIyW5q
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+- Frank
 
-SGkgRGFycmljaywNCg0KT24gMTAvMTAvMjIgMTc6MjIsIERhcnJpY2sgSi4gV29uZyB3cm90
-ZToNCj4gDQo+IEknbSBub3Qgc28gZmFtaWxpYXIgd2l0aCBzZW1hbnRpYyBuZXdsaW5lcy0t
-IGlzIHRoZXJlIGFuIGF1dG9tYXRlZA0KDQpUaGUgZm9sbG93aW5nIGNvbW1pdCBjb250YWlu
-cyBpbnRlcmVzdGluZyBkZXRhaWxzIGFib3V0IHRoZW0gYW5kIHRoZWlyIA0Kb3JpZ2luczoN
-Cg0KPGh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9kb2NzL21hbi1wYWdlcy9tYW4t
-cGFnZXMuZ2l0L2NvbW1pdD9pZD02ZmY2ZjQzZDY4MTY0Zjk5YThjM2ZiNjZmNDUyNWQxNDU1
-NzEzMTBjPg0KDQo+IHJlZmxvdyBwcm9ncmFtIHRoYXQgZml4ZXMgdGhlc2UgcHJvYmxlbXMg
-bWVjaGFuaWNhbGx5LCBvciBpcyB0aGlzDQo+IGV4cGVjdGVkIHRvIGJlIHBlcmZvcm1lZCBt
-YW51YWxseSBieSBtYW5wYWdlIGF1dGhvcnM/DQoNCkkgZG9uJ3Qga25vdyBvZiBhIHJlZmxv
-dyBwcm9ncmFtIHRoYXQgZml4ZXMgdGhpcy4NClRoZSBiaWdnZXN0IGlzc3VlIGlzIHRoYXQN
-CnBhcnNpbmcgbmF0dXJhbCBsYW5ndWFnZSBpcyBub3QgZXhhY3RseSBlYXN5Lg0KDQpTbywg
-aXQgaXMgZXhwZWN0ZWQgdG8gYmUgcGVyZm9ybWVkIG1hbnVhbGx5IGJ5IGF1dGhvcnMuDQoN
-Cj4gDQo+IElmIG1hbnVhbGx5LCBkbyB0aGUgaXRlbXMgaW4gYSBjb21tYS1zZXBhcmF0ZWQg
-bGlzdCBjb3VudCBhcyBjbGF1c2VzPw0KDQpJdCBkZXBlbmRzLg0KUGVkYW50aWNhbGx5LCB5
-ZXM7DQpidXQgd2UgZXZhbHVhdGUgaXQgY2FzZSBieSBjYXNlLA0KZGVwZW5kaW5nIG9uIHRo
-ZSBsZW5ndGggb2YgZWFjaCBzZW50ZW5jZQ0KYW5kIHRoZSBleGlzdGVuY2Ugb2Ygc3Vib3Jk
-aW5hdGUgY2xhdXNlcy4NClNvIGF1dGhvciB0YXN0ZSBpcyBpbXBvcnRhbnQgdGhlcmUgYW5k
-IHJlc3BlY3RlZC4NCg0KPiANCj4gV291bGQgdGhlIG5leHQgdHdvIHBhcmFncmFwaHMgb2Yg
-dGhpcyBlbWFpbCByZWZvcm1hdCBpbnRvIHNlbWFudGljDQo+IG5ld2xpbmVzIGxpa2Ugc28/
-DQo+IA0KPiAJSW4gdGhlIHNvdXJjZSBvZiBhIG1hbnVhbCBwYWdlLA0KPiAJbmV3IHNlbnRl
-bmNlcyBzaG91bGQgIGJlIHN0YXJ0ZWQgb24gbmV3IGxpbmVzLA0KPiAJbG9uZyBzZW50ZW5j
-ZXMgc2hvdWxkIGJlIHNwbGl0IGludG8gbGluZXMgYXQgY2xhdXNlIGJyZWFrcw0KPiAJKGNv
-bW1hcywgc2VtaWNvbG9ucywgY29sb25zLCBhbmQgc28gb24pLA0KPiAJYW5kIGxvbmcgY2xh
-dXNlcyBzaG91bGQgYmUgc3BsaXQgYXQgcGhyYXNlIGJvdW5kYXJpZXMuDQo+IAlUaGlzIGNv
-bnZlbnRpb24sDQo+IAlzb21ldGltZXMga25vd24gYXMgInNlbWFudGljIG5ld2xpbmVzIiwN
-Cj4gCW1ha2VzIGl0IGVhc2llciB0byBzZWUgdGhlIGVmZmVjdCBvZiBwYXRjaGVzLA0KPiAJ
-d2hpY2ggb2Z0ZW4gb3BlcmF0ZSBhdCB0aGUgbGV2ZWwgb2YgaW5kaXZpZHVhbCBzZW50ZW5j
-ZXMsIGNsYXVzZXMsIG9yIHBocmFzZXMuDQo+IA0KID4NCiA+IC0tRA0KID4NCiA+Pj4gK0lm
-IG5vbmUgb2YgdGhlIGFib3ZlIGlzIGF2YWlsYWJsZSwgdGhlbiBkaXJlY3QgSS9PIHN1cHBv
-cnQgYW5kIA0KYWxpZ25tZW50DQogPj4NCiA+PiBQbGVhc2UgdXNlIHNlbWFudGljIG5ld2xp
-bmVzLg0KID4+DQogPj4gU2VlIG1hbi1wYWdlcyg3KToNCiA+PiAgICAgVXNlIHNlbWFudGlj
-IG5ld2xpbmVzDQogPj4gICAgICAgICBJbiB0aGUgc291cmNlIG9mIGEgbWFudWFsIHBhZ2Us
-IG5ldyBzZW50ZW5jZXMgIHNob3VsZCAgYmUNCiA+PiAgICAgICAgIHN0YXJ0ZWQgb24gbmV3
-IGxpbmVzLCBsb25nIHNlbnRlbmNlcyBzaG91bGQgYmUgc3BsaXQgaW50bw0KID4+ICAgICAg
-ICAgbGluZXMgIGF0ICBjbGF1c2UgYnJlYWtzIChjb21tYXMsIHNlbWljb2xvbnMsIGNvbG9u
-cywgYW5kDQogPj4gICAgICAgICBzbyBvbiksIGFuZCBsb25nIGNsYXVzZXMgc2hvdWxkIGJl
-IHNwbGl0IGF0IHBocmFzZSBib3VuZOKAkA0KID4+ICAgICAgICAgYXJpZXMuICBUaGlzIGNv
-bnZlbnRpb24sICBzb21ldGltZXMgIGtub3duICBhcyAgInNlbWFudGljDQogPj4gICAgICAg
-ICBuZXdsaW5lcyIsICBtYWtlcyBpdCBlYXNpZXIgdG8gc2VlIHRoZSBlZmZlY3Qgb2YgcGF0
-Y2hlcywNCiA+PiAgICAgICAgIHdoaWNoIG9mdGVuIG9wZXJhdGUgYXQgdGhlIGxldmVsIG9m
-IGluZGl2aWR1YWwgc2VudGVuY2VzLA0KID4+ICAgICAgICAgY2xhdXNlcywgb3IgcGhyYXNl
-cy4NCiA+Pg0KID4+DQogPj4+ICtyZXN0cmljdGlvbnMgY2FuIG9ubHkgYmUgYXNzdW1lZCBm
-cm9tIGtub3duIGNoYXJhY3RlcmlzdGljcyBvZiB0aGUgDQpmaWxlc3lzdGVtLA0KID4+PiAr
-dGhlIGluZGl2aWR1YWwgZmlsZSwgdGhlIHVuZGVybHlpbmcgc3RvcmFnZSBkZXZpY2Uocyks
-IGFuZCB0aGUgDQprZXJuZWwgdmVyc2lvbi4NCiA+Pj4gK0luIExpbnV4IDIuNCwgbW9zdCBi
-bG9jayBkZXZpY2UgYmFzZWQgZmlsZXN5c3RlbXMgcmVxdWlyZSB0aGF0IHRoZSANCmZpbGUg
-b2Zmc2V0DQogPj4+ICthbmQgdGhlIGxlbmd0aCBhbmQgbWVtb3J5IGFkZHJlc3Mgb2YgYWxs
-IEkvTyBzZWdtZW50cyBiZSBtdWx0aXBsZXMgDQpvZiB0aGUNCiA+Pj4gK2ZpbGVzeXN0ZW0g
-YmxvY2sgc2l6ZSAodHlwaWNhbGx5IDQwOTYgYnl0ZXMpLg0KID4+PiArSW4gTGludXggMi42
-LjAsIHRoaXMgd2FzIHJlbGF4ZWQgdG8gdGhlIGxvZ2ljYWwgYmxvY2sgc2l6ZSBvZiB0aGUg
-DQpibG9jayBkZXZpY2UNCiA+Pj4gKyh0eXBpY2FsbHkgNTEyIGJ5dGVzKS4NCiA+Pj4gK0Eg
-YmxvY2sgZGV2aWNlJ3MgbG9naWNhbCBibG9jayBzaXplIGNhbiBiZSBkZXRlcm1pbmVkIHVz
-aW5nIHRoZQ0KID4+PiAgICAuQlIgaW9jdGwgKDIpDQogPj4+ICAgIC5CIEJMS1NTWkdFVA0K
-ID4+PiAgICBvcGVyYXRpb24gb3IgZnJvbSB0aGUgc2hlbGwgdXNpbmcgdGhlIGNvbW1hbmQ6
-DQogPj4+IGRpZmYgLS1naXQgYS9tYW4yL3N0YXR4LjIgYi9tYW4yL3N0YXR4LjINCiA+Pj4g
-aW5kZXggMGQxYjQ1OTFmLi41MDM5NzA1N2QgMTAwNjQ0DQogPj4+IC0tLSBhL21hbjIvc3Rh
-dHguMg0KID4+PiArKysgYi9tYW4yL3N0YXR4LjINCiA+Pj4gQEAgLTYxLDcgKzYxLDEyIEBA
-IHN0cnVjdCBzdGF0eCB7DQogPj4+ICAgICAgICAgICBjb250YWluaW5nIHRoZSBmaWxlc3lz
-dGVtIHdoZXJlIHRoZSBmaWxlIHJlc2lkZXMgKi8NCiA+Pj4gICAgICAgIF9fdTMyIHN0eF9k
-ZXZfbWFqb3I7ICAgLyogTWFqb3IgSUQgKi8NCiA+Pj4gICAgICAgIF9fdTMyIHN0eF9kZXZf
-bWlub3I7ICAgLyogTWlub3IgSUQgKi8NCiA+Pj4gKw0KID4+PiAgICAgICAgX191NjQgc3R4
-X21udF9pZDsgICAgICAvKiBNb3VudCBJRCAqLw0KID4+PiArDQogPj4+ICsgICAgLyogRGly
-ZWN0IEkvTyBhbGlnbm1lbnQgcmVzdHJpY3Rpb25zICovDQogPj4+ICsgICAgX191MzIgc3R4
-X2Rpb19tZW1fYWxpZ247DQogPj4+ICsgICAgX191MzIgc3R4X2Rpb19vZmZzZXRfYWxpZ247
-DQogPj4+ICAgIH07DQogPj4+ICAgIC5FRQ0KID4+PiAgICAuaW4NCiA+Pj4gQEAgLTI0Nyw2
-ICsyNTIsOCBAQCBTVEFUWF9CVElNRQlXYW50IHN0eF9idGltZQ0KID4+PiAgICBTVEFUWF9B
-TEwJVGhlIHNhbWUgYXMgU1RBVFhfQkFTSUNfU1RBVFMgfCBTVEFUWF9CVElNRS4NCiA+Pj4g
-ICAgCUl0IGlzIGRlcHJlY2F0ZWQgYW5kIHNob3VsZCBub3QgYmUgdXNlZC4NCiA+Pj4gICAg
-U1RBVFhfTU5UX0lECVdhbnQgc3R4X21udF9pZCAoc2luY2UgTGludXggNS44KQ0KID4+PiAr
-U1RBVFhfRElPQUxJR04JV2FudCBzdHhfZGlvX21lbV9hbGlnbiBhbmQgc3R4X2Rpb19vZmZz
-ZXRfYWxpZ24NCiA+Pj4gKwkoc2luY2UgTGludXggNi4xOyBzdXBwb3J0IHZhcmllcyBieSBm
-aWxlc3lzdGVtKQ0KID4+PiAgICAuVEUNCiA+Pj4gICAgLmluDQogPj4+ICAgIC5QUA0KID4+
-PiBAQCAtNDA3LDYgKzQxNCwyOCBAQCBUaGlzIGlzIHRoZSBzYW1lIG51bWJlciByZXBvcnRl
-ZCBieQ0KID4+PiAgICAuQlIgbmFtZV90b19oYW5kbGVfYXQgKDIpDQogPj4+ICAgIGFuZCBj
-b3JyZXNwb25kcyB0byB0aGUgbnVtYmVyIGluIHRoZSBmaXJzdCBmaWVsZCBpbiBvbmUgb2Yg
-dGhlIA0KcmVjb3JkcyBpbg0KID4+PiAgICAuSVIgL3Byb2Mvc2VsZi9tb3VudGluZm8gLg0K
-ID4+PiArLlRQDQogPj4+ICsuSSBzdHhfZGlvX21lbV9hbGlnbg0KID4+PiArVGhlIGFsaWdu
-bWVudCAoaW4gYnl0ZXMpIHJlcXVpcmVkIGZvciB1c2VyIG1lbW9yeSBidWZmZXJzIGZvciAN
-CmRpcmVjdCBJL08NCiA+Pj4gKy5CUiAiIiAoIE9fRElSRUNUICkNCiA+Pg0KID4+IC5SQiBh
-bmQgcmVtb3ZlIHRoZSAiIi4NCiA+Pg0KID4+PiArb24gdGhpcyBmaWxlLCBvciAwIGlmIGRp
-cmVjdCBJL08gaXMgbm90IHN1cHBvcnRlZCBvbiB0aGlzIGZpbGUuDQogPj4+ICsuSVANCiA+
-Pj4gKy5CIFNUQVRYX0RJT0FMSUdODQogPj4+ICsuSVIgIiIgKCBzdHhfZGlvX21lbV9hbGln
-bg0KID4+DQogPj4gLlJJDQogPj4NCiA+Pj4gK2FuZA0KID4+PiArLklSIHN0eF9kaW9fb2Zm
-c2V0X2FsaWduICkNCiA+Pj4gK2lzIHN1cHBvcnRlZCBvbiBibG9jayBkZXZpY2VzIHNpbmNl
-IExpbnV4IDYuMS4NCiA+Pj4gK1RoZSBzdXBwb3J0IG9uIHJlZ3VsYXIgZmlsZXMgdmFyaWVz
-IGJ5IGZpbGVzeXN0ZW07IGl0IGlzIHN1cHBvcnRlZCANCmJ5IGV4dDQsDQogPj4+ICtmMmZz
-LCBhbmQgeGZzIHNpbmNlIExpbnV4IDYuMS4NCiA+Pj4gKy5UUA0KID4+PiArLkkgc3R4X2Rp
-b19vZmZzZXRfYWxpZ24NCiA+Pj4gK1RoZSBhbGlnbm1lbnQgKGluIGJ5dGVzKSByZXF1aXJl
-ZCBmb3IgZmlsZSBvZmZzZXRzIGFuZCBJL08gc2VnbWVudCANCmxlbmd0aHMgZm9yDQogPj4+
-ICtkaXJlY3QgSS9PDQogPj4+ICsuQlIgIiIgKCBPX0RJUkVDVCApDQogPj4+ICtvbiB0aGlz
-IGZpbGUsIG9yIDAgaWYgZGlyZWN0IEkvTyBpcyBub3Qgc3VwcG9ydGVkIG9uIHRoaXMgZmls
-ZS4NCiA+Pj4gK1RoaXMgd2lsbCBvbmx5IGJlIG5vbnplcm8gaWYNCiA+Pj4gKy5JIHN0eF9k
-aW9fbWVtX2FsaWduDQogPj4+ICtpcyBub256ZXJvLCBhbmQgdmljZSB2ZXJzYS4NCiA+Pj4g
-ICAgLlBQDQogPj4+ICAgIEZvciBmdXJ0aGVyIGluZm9ybWF0aW9uIG9uIHRoZSBhYm92ZSBm
-aWVsZHMsIHNlZQ0KID4+PiAgICAuQlIgaW5vZGUgKDcpLg0KID4+Pg0KID4+PiBiYXNlLWNv
-bW1pdDogYmMyOGQyODllNTA2NmZjNjI2ZGYyNjBiYWZjMjQ5ODQ2YTBmNmFlNg0KID4+DQog
-Pj4gLS0NCiA+PiA8aHR0cDovL3d3dy5hbGVqYW5kcm8tY29sb21hci5lcy8+DQogPg0KID4N
-CiA+DQpZZXMsIHRoYXQgd291bGQgYmUgY29ycmVjdDsNCmluIGZhY3QsDQp5b3UgYWxtb3N0
-IG1hdGNoZWQgdGhlIGFjdHVhbCBzb3VyY2UgY29kZSBvZiB0aGUgbWFudWFsIHBhZ2UuDQpU
-aGVyZSBhcmUgdHdvIGRpZmZlcmVuY2VzOg0Kb25lIGNvbW1hIGF0IHdoaWNoIHdlIGRvbid0
-IGJyZWFrIChidXQgd2UgY291bGQpLA0KYW5kIGFsc28gd2UgYnJlYWsgdGhlIGxhc3QgbGlu
-ZSBiZWZvcmUgdGhlIGxpc3QuDQoNClNlZSB0aGUgc291cmNlIGNvZGUgaGVyZToNCjxodHRw
-czovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vZG9jcy9tYW4tcGFnZXMvbWFuLXBhZ2VzLmdp
-dC90cmVlL21hbjcvbWFuLXBhZ2VzLjcjbjYxMj4NCg0KPiBEbyB3ZSBzdGlsbCBsaW5lLXdy
-YXAgYXQgNzJeVzc0Xlc3OF5XODAgY29sdW1ucz8NCg0KWWVzLCA4MCBpcyBhIHN0cm9uZyBs
-aW1pdC4NCg0KTm9ybWFsbHksDQpicmVha2luZyBhdCB0aGUgbGV2ZWwgb2YgY2xhdXNlcw0K
-d2lsbCBsZWF2ZSB2ZXJ5IGZldyBsaW5lcyBwYXNzaW5nIHRoYXQgbGltaXQuDQpXaGVuIHRo
-ZXJlJ3Mgc3VjaCBhIGNhc2UsDQp5b3UgY2FuIGJyZWFrIGZ1cnRoZXIgYXQgdGhlIGxldmVs
-IG9mIHBocmFzZXMsDQphbmQgSSBkb3VidCBhbnkgbGluZSB3aWxsIHBhc3MgdGhlIDgwLWNv
-bCBib3VuZGFyeSBhZnRlciB0aGF0Lg0KDQo+IA0KPiBhbmQgd291bGQgdGhlIHByb3Bvc2Vk
-IG1hbnBhZ2UgdGV4dCByZWFkOg0KPiANCj4gCUlmIG5vbmUgb2YgdGhlIGFib3ZlIGlzIGF2
-YWlsYWJsZSwNCj4gCXRoZW4gZGlyZWN0IEkvTyBzdXBwb3J0IGFuZCBhbGlnbm1lbnQgcmVz
-dHJpY3Rpb25zIGNhbiBvbmx5IGJlIGFzc3VtZWQNCj4gCWZyb20ga25vd24gY2hhcmFjdGVy
-aXN0aWNzIG9mIHRoZSBmaWxlc3lzdGVtLA0KPiAJdGhlIGluZGl2aWR1YWwgZmlsZSwNCj4g
-CXRoZSB1bmRlcmx5aW5nIHN0b3JhZ2UgZGV2aWNlKHMpLA0KPiAJYW5kIHRoZSBrZXJuZWwg
-dmVyc2lvbi4NCj4gCUluIExpbnV4IDIuNCwNCj4gCW1vc3QgYmxvY2sgZGV2aWNlIGJhc2Vk
-IGZpbGVzeXN0ZW1zIHJlcXVpcmUgdGhhdCB0aGUgZmlsZSBvZmZzZXQgYW5kIHRoZQ0KDQpi
-bG9jayBkZXZpY2UgYmFzZWQgd291bGQgbmVlZCBzb21lICctJyBhcyBpdCdzIGEgY29tcG91
-bmQgYWRqZWN0aXZlIChJIA0KZG9uJ3Qga25vdyB0aGUgZXhhY3QgcnVsZXMgaW4gRW5nbGlz
-aCB3aGVuIHRoZXJlIGFyZSBtb3JlIHRoYW4gdHdvIHdvcmRzIA0KZm9ybWluZyBzdWNoIGFu
-IGFkamVjdGl2ZSwgcGxlYXNlIGNoZWNrKS4NCg0KSSB3b3VsZCBicmVhayBhZnRlciAncmVx
-dWlyZSB0aGF0Jy4NCg0KPiAJbGVuZ3RoIGFuZCBtZW1vcnkgYWRkcmVzcyBvZiBhbGwgSS9P
-IHNlZ21lbnRzIGJlIG11bHRpcGxlcyBvZiB0aGUNCg0KQW5kIHJpZ2h0IGJlZm9yZSAnYmUn
-LCBJIHRoaW5rLg0KDQo+IAlmaWxlc3lzdGVtIGJsb2NrIHNpemUNCj4gCSh0eXBpY2FsbHkg
-NDA5NiBieXRlcykuDQo+IAlJbiBMaW51eCAyLjYuMCwNCj4gCXRoaXMgd2FzIHJlbGF4ZWQg
-dG8gdGhlIGxvZ2ljYWwgYmxvY2sgc2l6ZSBvZiB0aGUgYmxvY2sgZGV2aWNlDQo+IAkodHlw
-aWNhbGx5IDUxMiBieXRlcykuDQo+IAlBIGJsb2NrIGRldmljZSdzIGxvZ2ljYWwgYmxvY2sg
-c2l6ZSBjYW4gYmUgZGV0ZXJtaW5lZCB1c2luZyB0aGUNCj4gCS5CUiBpb2N0bCAoMikNCj4g
-CS5CIEJMS1NTWkdFVA0KPiAJb3BlcmF0aW9uIG9yIGZyb20gdGhlIHNoZWxsIHVzaW5nIHRo
-ZSBjb21tYW5kOg0KDQpCdXQgbW9zdGx5IGxvb2tzIGdvb2QuDQoNCkNoZWVycywNCg0KQWxl
-eA0KDQotLSANCjxodHRwOi8vd3d3LmFsZWphbmRyby1jb2xvbWFyLmVzLz4NCg==
-
---------------QDGjJfjSqcau0rYuUmoIyW5q--
-
---------------FLnbu1X71N4cWPrqt0YiFtO0
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmNERS4ACgkQnowa+77/
-2zKj7A//aKQdZfQ6EpJ/XAWi+TPnghN4kxWqXEI401BOlj0xLosNPhLSc/grsWB4
-Ydsw286mZChBMYuYbnTrcpTyvHZXnaFSbNAoRKpSPAEn2Sc7Bx2ppZY4gGIQy51o
-O4zAZd1/cGQLc1f90nq5XCKaMjv5H9+20SHIUVAYu3BYYWuGAnYUBI5y7BTKp8Mj
-ZmctVJEh9Zk3DvrbHKnT1kiM2VZ+SPpZFgJpNkON18Dy1EUdHVos6yo1yL+YBNEj
-6cTdnM6opOkYMCA9mxgoxE0ADXD0c/b32ctz67BT+Q04AeBxzelt0ZlUPN8i2vWn
-eGEkarSOwTMd4ftRWO/5LpBQpXkIZYl5h9slhewTcnFcw0YQI1g1wWF0hO/mOxNE
-uGDNS9/Xp5/BkSe2fmE2d7aCvs64Wm+ybv6c1F0wm0SF/leZuQVwtl8KJ1GQUIIn
-g/idOzXvNjlGlL4Buc++4DAIChceOAGCifJG87zEozx6swfdAZpMe3I8apklbvZN
-tZdTcxBPIXxjo73x3RAy52AIh9vYwMbAYQa+99CzImPxZakMwo1QebvQEW0mjh9r
-vfmfGrCUs2z1LCmK5f713S5KYdV6ahiVBLaMHaj+RZXUs2ZhQziqZYsV4fdoG+CP
-hAWQM6MHw6o9Jsx42D7qZAXeHRJQdF86BuAl6jvRh+uUsnPT380=
-=cEgx
------END PGP SIGNATURE-----
-
---------------FLnbu1X71N4cWPrqt0YiFtO0--
+On Mon, Oct 10, 2022 at 2:49 AM Zhongkun He
+<hezhongkun.hzk@bytedance.com> wrote:
+>
+> There is usecase that System Management Software(SMS) want to give a
+> memory policy to other processes to make better use of memory.
+>
+> The information about how to use memory is not known to the app.
+> Instead, it is known to the userspace daemon(SMS), and that daemon
+> will decide the memory usage policy based on different factors.
+>
+> To solve the issue, this patch introduces a new syscall
+> pidfd_set_mempolicy(2).  it sets the NUMA memory policy of the thread
+> specified in pidfd.
+>
+> In current process context there is no locking because only the process
+> accesses its own memory policy, so task_work is used in
+> pidfd_set_mempolicy() to update the mempolicy of the process specified
+> in pidfd, avoid using locks and race conditions.
+>
+> The API is as follows,
+>
+>                 long pidfd_set_mempolicy(int pidfd, int mode,
+>                                      const unsigned long __user *nmask,
+>                                      unsigned long maxnode,
+>                                      unsigned int flags);
+>
+> Set's the [pidfd] task's "task/process memory policy". The pidfd argument
+> is a PID file descriptor (see pidfd_open(2) man page) that specifies the
+> process to which the mempolicy is to be applied. The flags argument is
+> reserved for future use; currently, this argument must be specified as 0.
+> Please see the set_mempolicy(2) man page for more details about
+> other's arguments.
+>
+> Suggested-by: Michal Hocko <mhocko@suse.com>
+> Signed-off-by: Zhongkun He <hezhongkun.hzk@bytedance.com>
+> ---
+>  .../admin-guide/mm/numa_memory_policy.rst     | 21 ++++-
+>  arch/alpha/kernel/syscalls/syscall.tbl        |  1 +
+>  arch/arm/tools/syscall.tbl                    |  1 +
+>  arch/arm64/include/asm/unistd.h               |  2 +-
+>  arch/arm64/include/asm/unistd32.h             |  3 +-
+>  arch/ia64/kernel/syscalls/syscall.tbl         |  1 +
+>  arch/m68k/kernel/syscalls/syscall.tbl         |  1 +
+>  arch/microblaze/kernel/syscalls/syscall.tbl   |  1 +
+>  arch/mips/kernel/syscalls/syscall_n32.tbl     |  1 +
+>  arch/mips/kernel/syscalls/syscall_n64.tbl     |  1 +
+>  arch/mips/kernel/syscalls/syscall_o32.tbl     |  1 +
+>  arch/parisc/kernel/syscalls/syscall.tbl       |  1 +
+>  arch/powerpc/kernel/syscalls/syscall.tbl      |  1 +
+>  arch/s390/kernel/syscalls/syscall.tbl         |  1 +
+>  arch/sh/kernel/syscalls/syscall.tbl           |  1 +
+>  arch/sparc/kernel/syscalls/syscall.tbl        |  1 +
+>  arch/x86/entry/syscalls/syscall_32.tbl        |  1 +
+>  arch/x86/entry/syscalls/syscall_64.tbl        |  1 +
+>  arch/xtensa/kernel/syscalls/syscall.tbl       |  1 +
+>  include/linux/mempolicy.h                     | 11 +++
+>  include/linux/syscalls.h                      |  4 +
+>  include/uapi/asm-generic/unistd.h             |  5 +-
+>  kernel/sys_ni.c                               |  1 +
+>  mm/mempolicy.c                                | 89 +++++++++++++++++++
+>  24 files changed, 146 insertions(+), 6 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/mm/numa_memory_policy.rst b/Documentation/admin-guide/mm/numa_memory_policy.rst
+> index 5a6afecbb0d0..b864dd88b2d2 100644
+> --- a/Documentation/admin-guide/mm/numa_memory_policy.rst
+> +++ b/Documentation/admin-guide/mm/numa_memory_policy.rst
+> @@ -408,9 +408,10 @@ follows:
+>  Memory Policy APIs
+>  ==================
+>
+> -Linux supports 4 system calls for controlling memory policy.  These APIS
+> -always affect only the calling task, the calling task's address space, or
+> -some shared object mapped into the calling task's address space.
+> +Linux supports 5 system calls for controlling memory policy.  The first four
+> +APIS affect only the calling task, the calling task's address space, or some
+> +shared object mapped into the calling task's address space. The last one can
+> +set the mempolicy of task specified in pidfd.
+>
+>  .. note::
+>     the headers that define these APIs and the parameter data types for
+> @@ -473,6 +474,20 @@ closest to which page allocation will come from. Specifying the home node overri
+>  the default allocation policy to allocate memory close to the local node for an
+>  executing CPU.
+>
+> +Set [pidfd Task] Memory Policy::
+> +
+> +        long sys_pidfd_set_mempolicy(int pidfd, int mode,
+> +                                     const unsigned long __user *nmask,
+> +                                     unsigned long maxnode,
+> +                                     unsigned int flags);
+> +
+> +Set's the [pidfd] task's "task/process memory policy". The pidfd argument is
+> +a PID file descriptor (see pidfd_open(2) man page) that specifies the process
+> +to which the mempolicy is to be applied. The flags argument is reserved for
+> +future use; currently, this argument must be specified as 0. Please see the
+> +set_mempolicy(2) man page for more details about other's arguments.
+> +
+> +
+>
+>  Memory Policy Command Line Interface
+>  ====================================
+> diff --git a/arch/alpha/kernel/syscalls/syscall.tbl b/arch/alpha/kernel/syscalls/syscall.tbl
+> index 3515bc4f16a4..d86baa5a6eca 100644
+> --- a/arch/alpha/kernel/syscalls/syscall.tbl
+> +++ b/arch/alpha/kernel/syscalls/syscall.tbl
+> @@ -490,3 +490,4 @@
+>  558    common  process_mrelease                sys_process_mrelease
+>  559    common  futex_waitv                     sys_futex_waitv
+>  560    common  set_mempolicy_home_node         sys_ni_syscall
+> +561    common  pidfd_set_mempolicy             sys_ni_syscall
+> diff --git a/arch/arm/tools/syscall.tbl b/arch/arm/tools/syscall.tbl
+> index ac964612d8b0..a7ccab8aafef 100644
+> --- a/arch/arm/tools/syscall.tbl
+> +++ b/arch/arm/tools/syscall.tbl
+> @@ -464,3 +464,4 @@
+>  448    common  process_mrelease                sys_process_mrelease
+>  449    common  futex_waitv                     sys_futex_waitv
+>  450    common  set_mempolicy_home_node         sys_set_mempolicy_home_node
+> +451    common  pidfd_set_mempolicy             sys_pidfd_set_mempolicy
+> diff --git a/arch/arm64/include/asm/unistd.h b/arch/arm64/include/asm/unistd.h
+> index 037feba03a51..64a514f90131 100644
+> --- a/arch/arm64/include/asm/unistd.h
+> +++ b/arch/arm64/include/asm/unistd.h
+> @@ -39,7 +39,7 @@
+>  #define __ARM_NR_compat_set_tls                (__ARM_NR_COMPAT_BASE + 5)
+>  #define __ARM_NR_COMPAT_END            (__ARM_NR_COMPAT_BASE + 0x800)
+>
+> -#define __NR_compat_syscalls           451
+> +#define __NR_compat_syscalls           452
+>  #endif
+>
+>  #define __ARCH_WANT_SYS_CLONE
+> diff --git a/arch/arm64/include/asm/unistd32.h b/arch/arm64/include/asm/unistd32.h
+> index 604a2053d006..2e178e9152e6 100644
+> --- a/arch/arm64/include/asm/unistd32.h
+> +++ b/arch/arm64/include/asm/unistd32.h
+> @@ -907,7 +907,8 @@ __SYSCALL(__NR_process_mrelease, sys_process_mrelease)
+>  __SYSCALL(__NR_futex_waitv, sys_futex_waitv)
+>  #define __NR_set_mempolicy_home_node 450
+>  __SYSCALL(__NR_set_mempolicy_home_node, sys_set_mempolicy_home_node)
+> -
+> +#define __NR_pidfd_set_mempolicy 451
+> +__SYSCALL(__NR_pidfd_set_mempolicy, sys_pidfd_set_mempolicy)
+>  /*
+>   * Please add new compat syscalls above this comment and update
+>   * __NR_compat_syscalls in asm/unistd.h.
+> diff --git a/arch/ia64/kernel/syscalls/syscall.tbl b/arch/ia64/kernel/syscalls/syscall.tbl
+> index 78b1d03e86e1..4e5bca7a985c 100644
+> --- a/arch/ia64/kernel/syscalls/syscall.tbl
+> +++ b/arch/ia64/kernel/syscalls/syscall.tbl
+> @@ -371,3 +371,4 @@
+>  448    common  process_mrelease                sys_process_mrelease
+>  449    common  futex_waitv                     sys_futex_waitv
+>  450    common  set_mempolicy_home_node         sys_set_mempolicy_home_node
+> +451    common  pidfd_set_mempolicy             sys_pidfd_set_mempolicy
+> diff --git a/arch/m68k/kernel/syscalls/syscall.tbl b/arch/m68k/kernel/syscalls/syscall.tbl
+> index b1f3940bc298..8e50bf8ec41d 100644
+> --- a/arch/m68k/kernel/syscalls/syscall.tbl
+> +++ b/arch/m68k/kernel/syscalls/syscall.tbl
+> @@ -450,3 +450,4 @@
+>  448    common  process_mrelease                sys_process_mrelease
+>  449    common  futex_waitv                     sys_futex_waitv
+>  450    common  set_mempolicy_home_node         sys_set_mempolicy_home_node
+> +451    common  pidfd_set_mempolicy             sys_pidfd_set_mempolicy
+> diff --git a/arch/microblaze/kernel/syscalls/syscall.tbl b/arch/microblaze/kernel/syscalls/syscall.tbl
+> index 820145e47350..f48e32532c5f 100644
+> --- a/arch/microblaze/kernel/syscalls/syscall.tbl
+> +++ b/arch/microblaze/kernel/syscalls/syscall.tbl
+> @@ -456,3 +456,4 @@
+>  448    common  process_mrelease                sys_process_mrelease
+>  449    common  futex_waitv                     sys_futex_waitv
+>  450    common  set_mempolicy_home_node         sys_set_mempolicy_home_node
+> +451    common  pidfd_set_mempolicy             sys_pidfd_set_mempolicy
+> diff --git a/arch/mips/kernel/syscalls/syscall_n32.tbl b/arch/mips/kernel/syscalls/syscall_n32.tbl
+> index 253ff994ed2e..58e7c3140f4a 100644
+> --- a/arch/mips/kernel/syscalls/syscall_n32.tbl
+> +++ b/arch/mips/kernel/syscalls/syscall_n32.tbl
+> @@ -389,3 +389,4 @@
+>  448    n32     process_mrelease                sys_process_mrelease
+>  449    n32     futex_waitv                     sys_futex_waitv
+>  450    n32     set_mempolicy_home_node         sys_set_mempolicy_home_node
+> +451    n32     pidfd_set_mempolicy             sys_pidfd_set_mempolicy
+> diff --git a/arch/mips/kernel/syscalls/syscall_n64.tbl b/arch/mips/kernel/syscalls/syscall_n64.tbl
+> index 3f1886ad9d80..70090c3ada16 100644
+> --- a/arch/mips/kernel/syscalls/syscall_n64.tbl
+> +++ b/arch/mips/kernel/syscalls/syscall_n64.tbl
+> @@ -365,3 +365,4 @@
+>  448    n64     process_mrelease                sys_process_mrelease
+>  449    n64     futex_waitv                     sys_futex_waitv
+>  450    common  set_mempolicy_home_node         sys_set_mempolicy_home_node
+> +451    n64     pidfd_set_mempolicy             sys_pidfd_set_mempolicy
+> diff --git a/arch/mips/kernel/syscalls/syscall_o32.tbl b/arch/mips/kernel/syscalls/syscall_o32.tbl
+> index 8f243e35a7b2..b0b0bad64fa0 100644
+> --- a/arch/mips/kernel/syscalls/syscall_o32.tbl
+> +++ b/arch/mips/kernel/syscalls/syscall_o32.tbl
+> @@ -438,3 +438,4 @@
+>  448    o32     process_mrelease                sys_process_mrelease
+>  449    o32     futex_waitv                     sys_futex_waitv
+>  450    o32     set_mempolicy_home_node         sys_set_mempolicy_home_node
+> +451    o32     pidfd_set_mempolicy             sys_pidfd_set_mempolicy
+> diff --git a/arch/parisc/kernel/syscalls/syscall.tbl b/arch/parisc/kernel/syscalls/syscall.tbl
+> index 8a99c998da9b..4dfd328490ad 100644
+> --- a/arch/parisc/kernel/syscalls/syscall.tbl
+> +++ b/arch/parisc/kernel/syscalls/syscall.tbl
+> @@ -448,3 +448,4 @@
+>  448    common  process_mrelease                sys_process_mrelease
+>  449    common  futex_waitv                     sys_futex_waitv
+>  450    common  set_mempolicy_home_node         sys_set_mempolicy_home_node
+> +451    common  pidfd_set_mempolicy             sys_pidfd_set_mempolicy
+> diff --git a/arch/powerpc/kernel/syscalls/syscall.tbl b/arch/powerpc/kernel/syscalls/syscall.tbl
+> index 2600b4237292..20381463b2b5 100644
+> --- a/arch/powerpc/kernel/syscalls/syscall.tbl
+> +++ b/arch/powerpc/kernel/syscalls/syscall.tbl
+> @@ -530,3 +530,4 @@
+>  448    common  process_mrelease                sys_process_mrelease
+>  449    common  futex_waitv                     sys_futex_waitv
+>  450    nospu   set_mempolicy_home_node         sys_set_mempolicy_home_node
+> +451    nospu   pidfd_set_mempolicy             sys_pidfd_set_mempolicy
+> diff --git a/arch/s390/kernel/syscalls/syscall.tbl b/arch/s390/kernel/syscalls/syscall.tbl
+> index 799147658dee..5e170dca81f6 100644
+> --- a/arch/s390/kernel/syscalls/syscall.tbl
+> +++ b/arch/s390/kernel/syscalls/syscall.tbl
+> @@ -453,3 +453,4 @@
+>  448  common    process_mrelease        sys_process_mrelease            sys_process_mrelease
+>  449  common    futex_waitv             sys_futex_waitv                 sys_futex_waitv
+>  450  common    set_mempolicy_home_node sys_set_mempolicy_home_node     sys_set_mempolicy_home_node
+> +451  common    pidfd_set_mempolicy     sys_pidfd_set_mempolicy         sys_pidfd_set_mempolicy
+> diff --git a/arch/sh/kernel/syscalls/syscall.tbl b/arch/sh/kernel/syscalls/syscall.tbl
+> index 2de85c977f54..bd3a24a9b41f 100644
+> --- a/arch/sh/kernel/syscalls/syscall.tbl
+> +++ b/arch/sh/kernel/syscalls/syscall.tbl
+> @@ -453,3 +453,4 @@
+>  448    common  process_mrelease                sys_process_mrelease
+>  449    common  futex_waitv                     sys_futex_waitv
+>  450    common  set_mempolicy_home_node         sys_set_mempolicy_home_node
+> +451    common  pidfd_set_mempolicy             sys_pidfd_set_mempolicy
+> diff --git a/arch/sparc/kernel/syscalls/syscall.tbl b/arch/sparc/kernel/syscalls/syscall.tbl
+> index 4398cc6fb68d..bea2b5c6314b 100644
+> --- a/arch/sparc/kernel/syscalls/syscall.tbl
+> +++ b/arch/sparc/kernel/syscalls/syscall.tbl
+> @@ -496,3 +496,4 @@
+>  448    common  process_mrelease                sys_process_mrelease
+>  449    common  futex_waitv                     sys_futex_waitv
+>  450    common  set_mempolicy_home_node         sys_set_mempolicy_home_node
+> +451    common  pidfd_set_mempolicy             sys_pidfd_set_mempolicy
+> diff --git a/arch/x86/entry/syscalls/syscall_32.tbl b/arch/x86/entry/syscalls/syscall_32.tbl
+> index 320480a8db4f..97bc70f5a8f7 100644
+> --- a/arch/x86/entry/syscalls/syscall_32.tbl
+> +++ b/arch/x86/entry/syscalls/syscall_32.tbl
+> @@ -455,3 +455,4 @@
+>  448    i386    process_mrelease        sys_process_mrelease
+>  449    i386    futex_waitv             sys_futex_waitv
+>  450    i386    set_mempolicy_home_node         sys_set_mempolicy_home_node
+> +451    i386    pidfd_set_mempolicy     sys_pidfd_set_mempolicy
+> diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
+> index c84d12608cd2..ba6d19dbd8f8 100644
+> --- a/arch/x86/entry/syscalls/syscall_64.tbl
+> +++ b/arch/x86/entry/syscalls/syscall_64.tbl
+> @@ -372,6 +372,7 @@
+>  448    common  process_mrelease        sys_process_mrelease
+>  449    common  futex_waitv             sys_futex_waitv
+>  450    common  set_mempolicy_home_node sys_set_mempolicy_home_node
+> +451    common  pidfd_set_mempolicy     sys_pidfd_set_mempolicy
+>
+>  #
+>  # Due to a historical design error, certain syscalls are numbered differently
+> diff --git a/arch/xtensa/kernel/syscalls/syscall.tbl b/arch/xtensa/kernel/syscalls/syscall.tbl
+> index 52c94ab5c205..9f7c563da4fb 100644
+> --- a/arch/xtensa/kernel/syscalls/syscall.tbl
+> +++ b/arch/xtensa/kernel/syscalls/syscall.tbl
+> @@ -421,3 +421,4 @@
+>  448    common  process_mrelease                sys_process_mrelease
+>  449    common  futex_waitv                     sys_futex_waitv
+>  450    common  set_mempolicy_home_node         sys_set_mempolicy_home_node
+> +451    common  pidfd_set_mempolicy             sys_pidfd_set_mempolicy
+> diff --git a/include/linux/mempolicy.h b/include/linux/mempolicy.h
+> index 668389b4b53d..f3c522e8eb38 100644
+> --- a/include/linux/mempolicy.h
+> +++ b/include/linux/mempolicy.h
+> @@ -54,6 +54,17 @@ struct mempolicy {
+>         } w;
+>  };
+>
+> +/*
+> + *  The information of mempolicy used by task_work
+> + *  to update it dynamically.
+> + */
+> +struct mpol_worker {
+> +       unsigned short mode;
+> +       unsigned short flags;
+> +       nodemask_t nodes;
+> +       struct rcu_head update_work;
+> +};
+> +
+>  /*
+>   * Support for managing mempolicy data objects (clone, copy, destroy)
+>   * The default fast path of a NULL MPOL_DEFAULT policy is always inlined.
+> diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+> index a34b0f9a9972..e611c088050b 100644
+> --- a/include/linux/syscalls.h
+> +++ b/include/linux/syscalls.h
+> @@ -1056,6 +1056,10 @@ asmlinkage long sys_memfd_secret(unsigned int flags);
+>  asmlinkage long sys_set_mempolicy_home_node(unsigned long start, unsigned long len,
+>                                             unsigned long home_node,
+>                                             unsigned long flags);
+> +asmlinkage long sys_pidfd_set_mempolicy(int pidfd, int mode,
+> +                                       const unsigned long __user *nmask,
+> +                                       unsigned long maxnode,
+> +                                       unsigned int flags);
+>
+>  /*
+>   * Architecture-specific system calls
+> diff --git a/include/uapi/asm-generic/unistd.h b/include/uapi/asm-generic/unistd.h
+> index 45fa180cc56a..c38013bbf5b0 100644
+> --- a/include/uapi/asm-generic/unistd.h
+> +++ b/include/uapi/asm-generic/unistd.h
+> @@ -886,8 +886,11 @@ __SYSCALL(__NR_futex_waitv, sys_futex_waitv)
+>  #define __NR_set_mempolicy_home_node 450
+>  __SYSCALL(__NR_set_mempolicy_home_node, sys_set_mempolicy_home_node)
+>
+> +#define __NR_pidfd_set_mempolicy 451
+> +__SYSCALL(__NR_pidfd_set_mempolicy, sys_pidfd_set_mempolicy)
+> +
+>  #undef __NR_syscalls
+> -#define __NR_syscalls 451
+> +#define __NR_syscalls 452
+>
+>  /*
+>   * 32 bit systems traditionally used different
+> diff --git a/kernel/sys_ni.c b/kernel/sys_ni.c
+> index 860b2dcf3ac4..5053deb888f7 100644
+> --- a/kernel/sys_ni.c
+> +++ b/kernel/sys_ni.c
+> @@ -299,6 +299,7 @@ COND_SYSCALL(set_mempolicy);
+>  COND_SYSCALL(migrate_pages);
+>  COND_SYSCALL(move_pages);
+>  COND_SYSCALL(set_mempolicy_home_node);
+> +COND_SYSCALL(pidfd_set_mempolicy);
+>
+>  COND_SYSCALL(perf_event_open);
+>  COND_SYSCALL(accept4);
+> diff --git a/mm/mempolicy.c b/mm/mempolicy.c
+> index b73d3248d976..2ce9be1a9dfd 100644
+> --- a/mm/mempolicy.c
+> +++ b/mm/mempolicy.c
+> @@ -102,6 +102,7 @@
+>  #include <linux/mmu_notifier.h>
+>  #include <linux/printk.h>
+>  #include <linux/swapops.h>
+> +#include <linux/task_work.h>
+>
+>  #include <asm/tlbflush.h>
+>  #include <asm/tlb.h>
+> @@ -1572,6 +1573,94 @@ SYSCALL_DEFINE3(set_mempolicy, int, mode, const unsigned long __user *, nmask,
+>         return kernel_set_mempolicy(mode, nmask, maxnode);
+>  }
+>
+> +/*
+> + *  In process context there is no locking, so task_work is used to update
+> + *  the mempolicy of process specified in pidfd, avoid using locks.
+> + */
+> +static void pidfd_update_mpol(struct callback_head *cb)
+> +{
+> +       struct mpol_worker *worker = container_of(cb, struct mpol_worker, update_work);
+> +
+> +       do_set_mempolicy(worker->mode, worker->flags, &worker->nodes);
+> +       kfree(worker);
+> +}
+> +
+> +/* Set the memory policy of the process specified in pidfd. */
+> +static long do_pidfd_set_mempolicy(int pidfd, int mode, const unsigned long __user *nmask,
+> +               unsigned long maxnode, unsigned int flags)
+> +{
+> +       nodemask_t nodes, task_nodes, tmp;
+> +       struct mpol_worker *worker;
+> +       struct task_struct *task;
+> +       unsigned short mode_flags;
+> +       int ret, lmode = mode;
+> +       unsigned int f_flags;
+> +
+> +       if (flags)
+> +               return -EINVAL;
+> +
+> +       task = pidfd_get_task(pidfd, &f_flags);
+> +       if (IS_ERR(task))
+> +               return PTR_ERR(task);
+> +       /*
+> +        * Check if this process has the right to modify the specified
+> +        * process.
+> +        */
+> +       if (!ptrace_may_access(task, PTRACE_MODE_ATTACH_REALCREDS)) {
+> +               ret = -EPERM;
+> +               goto out;
+> +       }
+> +
+> +       /*
+> +        * Require CAP_SYS_NICE for influencing process performance.
+> +        * User's task is allowed only.
+> +        */
+> +       if (!capable(CAP_SYS_NICE) || (task->flags & PF_KTHREAD)) {
+> +               ret = -EPERM;
+> +               goto out;
+> +       }
+> +
+> +       ret = get_nodes(&nodes, nmask, maxnode);
+> +       if (ret)
+> +               goto out;
+> +
+> +       ret = sanitize_mpol_flags(&lmode, &mode_flags);
+> +       if (ret)
+> +               goto out;
+> +
+> +       task_nodes = cpuset_mems_allowed(task);
+> +
+> +       if (mode_flags & MPOL_F_RELATIVE_NODES)
+> +               mpol_relative_nodemask(&tmp, &nodes, &task_nodes);
+> +       else
+> +               nodes_and(tmp, nodes, task_nodes);
+> +
+> +       if (nodes_empty(tmp)) {
+> +               ret = -EINVAL;
+> +               goto out;
+> +       }
+> +       worker = kzalloc(sizeof(struct mpol_worker), GFP_KERNEL | __GFP_NOWARN);
+> +       if (!worker) {
+> +               ret = -ENOMEM;
+> +               goto out;
+> +       }
+> +       init_task_work(&worker->update_work, pidfd_update_mpol);
+> +       worker->flags = mode_flags;
+> +       worker->mode = lmode;
+> +       worker->nodes = nodes;
+> +
+> +       ret = task_work_add(task, &worker->update_work, TWA_SIGNAL);
+> +out:
+> +       put_task_struct(task);
+> +       return ret;
+> +}
+> +
+> +SYSCALL_DEFINE5(pidfd_set_mempolicy, int, pidfd, int, mode, const unsigned long __user *, nmask,
+> +               unsigned long, maxnode, unsigned int, flags)
+> +{
+> +       return do_pidfd_set_mempolicy(pidfd, mode, nmask, maxnode, flags);
+> +}
+> +
+>  static int kernel_migrate_pages(pid_t pid, unsigned long maxnode,
+>                                 const unsigned long __user *old_nodes,
+>                                 const unsigned long __user *new_nodes)
+> --
+> 2.25.1
+>
+>
