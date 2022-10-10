@@ -2,41 +2,40 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 68E3B5F9ED1
-	for <lists+linux-api@lfdr.de>; Mon, 10 Oct 2022 14:42:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D6C595F9F0D
+	for <lists+linux-api@lfdr.de>; Mon, 10 Oct 2022 15:04:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230501AbiJJMmz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 10 Oct 2022 08:42:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47324 "EHLO
+        id S229564AbiJJNEv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 10 Oct 2022 09:04:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60436 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230471AbiJJMmy (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 10 Oct 2022 08:42:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF3CD5300C
-        for <linux-api@vger.kernel.org>; Mon, 10 Oct 2022 05:42:52 -0700 (PDT)
+        with ESMTP id S229612AbiJJNEu (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 10 Oct 2022 09:04:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA8E03890
+        for <linux-api@vger.kernel.org>; Mon, 10 Oct 2022 06:04:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1665405771;
+        s=mimecast20190719; t=1665407079;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=BZsgFIaUtMtPOAUv6onkZwQ4ROTArLHZaqizv0UA7y8=;
-        b=UbMmQ0KJSWa0R+bnvzDdm0yxPNytBOj1EXwEnWupdxjfDBv5+4Sfhy5lIOo2eD6xp6uSYF
-        FCTkEK7ufIrxyFYhAG/bQqcpASJYkFzhDHLKUb8rWUL7x5e2QVwppIRVczUoRiztLqBayc
-        1wPVT/yQ9aarCkoEhhpPLF/6lliBXvQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=/EKUr7eRGSpHO08SnSJlFsYYLyW7vfd3DLTPqPH/Gog=;
+        b=VjOs6OnYF9XlfR/DoqLf0wUiFnGTIXWSV5jvGe4yQ/1JKZPSk4u8tUQCKqnxRKhWHu1SuJ
+        2bVZ9I1JtB2YnZQDGsu0LlbVTtWZ+C3iGGIP7X47BBXT4zuOk/TCrAnoYTark20rZdgdoW
+        YGiT0Ef75FRYJ7DJIUk0ndZnOrdt0gQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-13-JZ7A8OJQM6CxKAIYT4lcFg-1; Mon, 10 Oct 2022 08:42:48 -0400
-X-MC-Unique: JZ7A8OJQM6CxKAIYT4lcFg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+ us-mta-448-pcK5r2phP4KyPBixilkzJw-1; Mon, 10 Oct 2022 09:04:35 -0400
+X-MC-Unique: pcK5r2phP4KyPBixilkzJw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AEDEB3803903;
-        Mon, 10 Oct 2022 12:42:47 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D6C30101CC6B;
+        Mon, 10 Oct 2022 13:04:34 +0000 (UTC)
 Received: from oldenburg.str.redhat.com (unknown [10.39.192.124])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 9DBA541136E5;
-        Mon, 10 Oct 2022 12:42:44 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id D60D42157F41;
+        Mon, 10 Oct 2022 13:04:30 +0000 (UTC)
 From:   Florian Weimer <fweimer@redhat.com>
 To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 Cc:     Peter Zijlstra <peterz@infradead.org>,
@@ -48,22 +47,20 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         David.Laight@ACULAB.COM, carlos@redhat.com,
         Peter Oskolkov <posk@posk.io>,
         Alexander Mikhalitsyn <alexander@mihalicyn.com>
-Subject: Re: [PATCH v4 01/25] rseq: Introduce feature size and alignment ELF
- auxiliary vector entries
+Subject: Re: [PATCH v4 00/25] RSEQ node id and virtual cpu id extensions
 References: <20220922105941.237830-1-mathieu.desnoyers@efficios.com>
-        <20220922105941.237830-2-mathieu.desnoyers@efficios.com>
-Date:   Mon, 10 Oct 2022 14:42:42 +0200
-In-Reply-To: <20220922105941.237830-2-mathieu.desnoyers@efficios.com> (Mathieu
-        Desnoyers's message of "Thu, 22 Sep 2022 06:59:16 -0400")
-Message-ID: <877d1726kd.fsf@oldenburg.str.redhat.com>
+Date:   Mon, 10 Oct 2022 15:04:29 +0200
+In-Reply-To: <20220922105941.237830-1-mathieu.desnoyers@efficios.com> (Mathieu
+        Desnoyers's message of "Thu, 22 Sep 2022 06:59:15 -0400")
+Message-ID: <8735bv25k2.fsf@oldenburg.str.redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -72,59 +69,33 @@ X-Mailing-List: linux-api@vger.kernel.org
 
 * Mathieu Desnoyers:
 
-> Export the rseq feature size supported by the kernel as well as the
-> required allocation alignment for the rseq per-thread area to user-space
-> through ELF auxiliary vector entries.
+> Extend the rseq ABI to expose a NUMA node ID and a vm_vcpu_id field.
 >
-> This is part of the extensible rseq ABI.
+> The NUMA node ID field allows implementing a faster getcpu(2) in libc.
 >
-> Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-> ---
->  fs/binfmt_elf.c             | 5 +++++
->  include/uapi/linux/auxvec.h | 2 ++
->  include/uapi/linux/rseq.h   | 5 +++++
->  3 files changed, 12 insertions(+)
->
-> diff --git a/fs/binfmt_elf.c b/fs/binfmt_elf.c
-> index 63c7ebb0da89..04fca1e4cbd2 100644
-> --- a/fs/binfmt_elf.c
-> +++ b/fs/binfmt_elf.c
-> @@ -46,6 +46,7 @@
->  #include <linux/cred.h>
->  #include <linux/dax.h>
->  #include <linux/uaccess.h>
-> +#include <linux/rseq.h>
->  #include <asm/param.h>
->  #include <asm/page.h>
->=20=20
-> @@ -288,6 +289,10 @@ create_elf_tables(struct linux_binprm *bprm, const s=
-truct elfhdr *exec,
->  	if (bprm->have_execfd) {
->  		NEW_AUX_ENT(AT_EXECFD, bprm->execfd);
->  	}
-> +#ifdef CONFIG_RSEQ
-> +	NEW_AUX_ENT(AT_RSEQ_FEATURE_SIZE, offsetof(struct rseq, end));
-> +	NEW_AUX_ENT(AT_RSEQ_ALIGN, __alignof__(struct rseq));
-> +#endif
->  #undef NEW_AUX_ENT
->  	/* AT_NULL is zero; clear the rest too */
->  	memset(elf_info, 0, (char *)mm->saved_auxv +
-> diff --git a/include/uapi/linux/auxvec.h b/include/uapi/linux/auxvec.h
-> index c7e502bf5a6f..6991c4b8ab18 100644
-> --- a/include/uapi/linux/auxvec.h
-> +++ b/include/uapi/linux/auxvec.h
-> @@ -30,6 +30,8 @@
->  				 * differ from AT_PLATFORM. */
->  #define AT_RANDOM 25	/* address of 16 random bytes */
->  #define AT_HWCAP2 26	/* extension of AT_HWCAP */
-> +#define AT_RSEQ_FEATURE_SIZE	27	/* rseq supported feature size */
-> +#define AT_RSEQ_ALIGN		28	/* rseq allocation alignment */
->=20=20
->  #define AT_EXECFN  31	/* filename of program */
+> The virtual cpu id allows ideal scaling (down or up) of user-space
+> per-cpu data structures. The virtual cpu ids allocated within a memory
+> space are tracked by the scheduler, which takes into account the number
+> of concurrently running threads, thus implicitly considering the number
+> of threads, the cpu affinity, the cpusets applying to those threads, and
+> the number of logical cores on the system.
 
-Do we need the alignment?  Or can we keep it perpetually at 32?  Or we
-could steal some bits from AT_RSEQ_FEATURE_SIZE?  (Not the lower
-bits=E2=80=94they aren't unused due to the way the feature size works.)
+Do you have some code that shows how the userspace application handshake
+is supposed to work with the existing three __rseq_* symbols?  Maybe I'm
+missing something.
+
+From an application perspective, it would be best to add 8 more shared
+bytes in use, to push the new feature size over 32.  This would be
+clearly visible in __rseq_size, helping applications a lot.
+
+Alternatively, we could sacrifice a bit to indicate that the this round
+of extensions is present.  But we'll need another bit to indicate that
+the last remaining 4 bytes are in use, for consistency.  Or come up with
+something to put their today.  The TID seems like an obvious choice.
+
+If we want to the 8 more bytes route, TID and PID should be
+uncontroversal?  The PID cache is clearly something that userspace
+likes, not just as a defeat device for the old BYTE benchmark.
 
 Thanks,
 Florian
