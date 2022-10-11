@@ -2,118 +2,205 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AC90F5FBB5C
-	for <lists+linux-api@lfdr.de>; Tue, 11 Oct 2022 21:29:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DEEB65FBDFE
+	for <lists+linux-api@lfdr.de>; Wed, 12 Oct 2022 00:59:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230108AbiJKT3O (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 11 Oct 2022 15:29:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59756 "EHLO
+        id S229587AbiJKW7b (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 11 Oct 2022 18:59:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34100 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230095AbiJKT3L (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 11 Oct 2022 15:29:11 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB857915E2;
-        Tue, 11 Oct 2022 12:29:10 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        with ESMTP id S229577AbiJKW73 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 11 Oct 2022 18:59:29 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABB8992593;
+        Tue, 11 Oct 2022 15:59:27 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 1197E1F889;
-        Tue, 11 Oct 2022 19:29:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1665516549; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=nEMUDkYRdfE4vY5mjXK1cb1A3J1MmMksjA+ax0To5uY=;
-        b=DDbvC0NQr4SrpJ4gKZjfv1Ri2c5ylwKBQAvdqzYhtAGEl6S4BUR9V7YCc2JNaHMuke8yva
-        XslR/rbpoZxGKLhSJJ716TTWzhjSVro49rieJx22SEd+uV+Dz9rq5jVrl1p15ls6BuVHoD
-        tYD9YFVmz88Lhtejb5/pR7WGaHHqNSo=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 167F4139ED;
-        Tue, 11 Oct 2022 19:29:07 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id zgCVLgPERWNzSAAAMHmgww
-        (envelope-from <mhocko@suse.com>); Tue, 11 Oct 2022 19:29:07 +0000
-Date:   Tue, 11 Oct 2022 21:29:05 +0200
-From:   Michal Hocko <mhocko@suse.com>
-To:     Frank van der Linden <fvdl@google.com>
-Cc:     Zhongkun He <hezhongkun.hzk@bytedance.com>, corbet@lwn.net,
-        akpm@linux-foundation.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, wuyun.abel@bytedance.com
-Subject: Re: [RFC] mm: add new syscall pidfd_set_mempolicy()
-Message-ID: <Y0XEAUD9Ujcu/j8y@dhcp22.suse.cz>
-References: <20221010094842.4123037-1-hezhongkun.hzk@bytedance.com>
- <CAPTztWYTGOb8ZQzfgThqJn+fyi4ZB8=JQQZi5_rUoDhdftKtvg@mail.gmail.com>
- <Y0WE/lEiNvl2ljo1@dhcp22.suse.cz>
- <CAPTztWZZOxtzdEm=wbOiL_VDPJuCaW0XVCvsdRpCHE+ph+5eZQ@mail.gmail.com>
+        by ams.source.kernel.org (Postfix) with ESMTPS id 387E1B8160D;
+        Tue, 11 Oct 2022 22:59:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86F37C433D6;
+        Tue, 11 Oct 2022 22:59:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1665529164;
+        bh=uLhjiSU6dHOtAMnX7fEozmgHIL3cBmodbbEpRxHuGto=;
+        h=From:To:Cc:Subject:Date:From;
+        b=tRTCxhmrMRcfoNQQDoVD4+mN2LX8IwtFR7oZeWKKS8Tc25Djoy+7v1RXW3PEDIPdP
+         RZlqnqX3LN4w7+QKAEo7Ueqz3LcCsGjTs8iXdatSn66hytIcLgxnwnUsGwz83zb9QT
+         HneEkgnp/65S/TuJc1r5TyoGhaiOXvnJJwHr8y/Nw+pFKUhzRrLesMYcLM08fDyrid
+         aEgcGrIVaXXKNRuZr3Ze50CN1FT76SmqYrPOsflkz68JrxmM02SztuyMdkIG74bdsN
+         y1qVH7XZgqjSVhKw6qf73ubtLAGsz0Qh+dMpqPpEdRiaiPtdriSxJl4MoaOnZyay2F
+         x8aCqukoe/lrA==
+From:   Eric Biggers <ebiggers@kernel.org>
+To:     linux-man@vger.kernel.org
+Cc:     linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-ext4@vger.kernel.org,
+        linux-f2fs-devel@lists.sourceforge.net, linux-xfs@vger.kernel.org,
+        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
+        "Darrick J. Wong" <djwong@kernel.org>
+Subject: [man-pages PATCH v4] statx.2, open.2: document STATX_DIOALIGN
+Date:   Tue, 11 Oct 2022 15:59:14 -0700
+Message-Id: <20221011225914.216344-1-ebiggers@kernel.org>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAPTztWZZOxtzdEm=wbOiL_VDPJuCaW0XVCvsdRpCHE+ph+5eZQ@mail.gmail.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,SUSPICIOUS_RECIPS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue 11-10-22 10:22:23, Frank van der Linden wrote:
-> On Tue, Oct 11, 2022 at 8:00 AM Michal Hocko <mhocko@suse.com> wrote:
-> >
-> > On Mon 10-10-22 09:22:13, Frank van der Linden wrote:
-> > > For consistency with process_madvise(), I would suggest calling it
-> > > process_set_mempolicy.
-> >
-> > This operation has per-thread rather than per-process semantic so I do
-> > not think your proposed naming is better.
-> 
-> True. I suppose you could argue that it should have been
-> pidfd_madvise() then for consistency, but that ship has sailed.
+From: Eric Biggers <ebiggers@google.com>
 
-madvise commands have per mm semantic. It is set_mempolicy which is
-kinda special and it allows to have per task_struct semantic even when
-the actual allocation is in the same address space. To be honest I am
-not really sure why that is this way because threads aim to share memory
-so why should they have different memory policies?
+Document the STATX_DIOALIGN support for statx()
+(https://git.kernel.org/linus/725737e7c21d2d25).
 
-I suspect that the original thinking was that some portions that are
-private to the process want to have different affinities (e.g. stacks
-and dedicated per cpu heap arenas). E.g. worker pools which want to be
-per-cpu local with their own allocations but operate on shared data that
-requires different policies.
+Reviewed-by: Darrick J. Wong <djwong@kernel.org>
+Signed-off-by: Eric Biggers <ebiggers@google.com>
+---
 
-> > > Other than that, this makes sense. To complete
-> > > the set, perhaps a process_mbind() should be added as well. What do
-> > > you think?
-> >
-> > Is there any real usecase for this interface? How is the caller supposed
-> > to make per-range decisions without a very involved coordination with
-> > the target process?
-> 
-> The use case for a potential pidfd_mbind() is basically a combination
-> of what is described for in the process_madvise proposal (
-> https://lore.kernel.org/lkml/20200901000633.1920247-1-minchan@kernel.org/
-> ), and what this proposal describes: system management software acting
-> as an orchestrator that has a better overview of the system as a whole
-> (NUMA nodes, memory tiering), and has knowledge of the layout of the
-> processes involved.
+v4: formatting tweaks, as suggested by Alejandro
 
-Well, per address range operation is a completely different beast I
-would say. External tool would need to a) understand what that range is
-used for (e.g. stack/heap ranges, mmaped shared files like libraries or
-private mappings) and b) by in sync with memory layout modifications
-done by applications (e.g. that an mmap has been issued to back malloc
-request). Quite a lot of understanding about the specific process. I
-would say that with that intimate knowledge it is quite better to be
-part of the process and do those changes from within of the process
-itself.
+v3: updated mentions of Linux version, fixed some punctuation, and added
+    a Reviewed-by
+
+v2: rebased onto man-pages master branch, mentioned xfs, and updated
+    link to patchset
+
+ man2/open.2  | 52 +++++++++++++++++++++++++++++++++++++++++-----------
+ man2/statx.2 | 31 +++++++++++++++++++++++++++++++
+ 2 files changed, 72 insertions(+), 11 deletions(-)
+
+diff --git a/man2/open.2 b/man2/open.2
+index 57beb324a..8e4a063b4 100644
+--- a/man2/open.2
++++ b/man2/open.2
+@@ -1732,21 +1732,51 @@ of user-space buffers and the file offset of I/Os.
+ In Linux alignment
+ restrictions vary by filesystem and kernel version and might be
+ absent entirely.
+-However there is currently no filesystem\-independent
+-interface for an application to discover these restrictions for a given
+-file or filesystem.
+-Some filesystems provide their own interfaces
+-for doing so, for example the
++The handling of misaligned
++.B O_DIRECT
++I/Os also varies;
++they can either fail with
++.B EINVAL
++or fall back to buffered I/O.
++.PP
++Since Linux 6.1,
++.B O_DIRECT
++support and alignment restrictions for a file can be queried using
++.BR statx (2),
++using the
++.B STATX_DIOALIGN
++flag.
++Support for
++.B STATX_DIOALIGN
++varies by filesystem;
++see
++.BR statx (2).
++.PP
++Some filesystems provide their own interfaces for querying
++.B O_DIRECT
++alignment restrictions,
++for example the
+ .B XFS_IOC_DIOINFO
+ operation in
+ .BR xfsctl (3).
++.B STATX_DIOALIGN
++should be used instead when it is available.
+ .PP
+-Under Linux 2.4, transfer sizes, the alignment of the user buffer,
+-and the file offset must all be multiples of the logical block size
+-of the filesystem.
+-Since Linux 2.6.0, alignment to the logical block size of the
+-underlying storage (typically 512 bytes) suffices.
+-The logical block size can be determined using the
++If none of the above is available,
++then direct I/O support and alignment restrictions
++can only be assumed from known characteristics of the filesystem,
++the individual file,
++the underlying storage device(s),
++and the kernel version.
++In Linux 2.4,
++most block device based filesystems require that
++the file offset and the length and memory address of all I/O segments
++be multiples of the filesystem block size
++(typically 4096 bytes).
++In Linux 2.6.0,
++this was relaxed to the logical block size of the block device
++(typically 512 bytes).
++A block device's logical block size can be determined using the
+ .BR ioctl (2)
+ .B BLKSSZGET
+ operation or from the shell using the command:
+diff --git a/man2/statx.2 b/man2/statx.2
+index 2a85be7c0..84c35bdf3 100644
+--- a/man2/statx.2
++++ b/man2/statx.2
+@@ -61,7 +61,12 @@ struct statx {
+        containing the filesystem where the file resides */
+     __u32 stx_dev_major;   /* Major ID */
+     __u32 stx_dev_minor;   /* Minor ID */
++
+     __u64 stx_mnt_id;      /* Mount ID */
++
++    /* Direct I/O alignment restrictions */
++    __u32 stx_dio_mem_align;
++    __u32 stx_dio_offset_align;
+ };
+ .EE
+ .in
+@@ -247,6 +252,8 @@ STATX_BTIME	Want stx_btime
+ STATX_ALL	The same as STATX_BASIC_STATS | STATX_BTIME.
+ 	It is deprecated and should not be used.
+ STATX_MNT_ID	Want stx_mnt_id (since Linux 5.8)
++STATX_DIOALIGN	Want stx_dio_mem_align and stx_dio_offset_align
++	(since Linux 6.1; support varies by filesystem)
+ .TE
+ .in
+ .PP
+@@ -407,6 +414,30 @@ This is the same number reported by
+ .BR name_to_handle_at (2)
+ and corresponds to the number in the first field in one of the records in
+ .IR /proc/self/mountinfo .
++.TP
++.I stx_dio_mem_align
++The alignment (in bytes) required for user memory buffers for direct I/O
++.RB ( O_DIRECT )
++on this file,
++or 0 if direct I/O is not supported on this file.
++.IP
++.B STATX_DIOALIGN
++.RI ( stx_dio_mem_align
++and
++.IR stx_dio_offset_align )
++is supported on block devices since Linux 6.1.
++The support on regular files varies by filesystem;
++it is supported by ext4, f2fs, and xfs since Linux 6.1.
++.TP
++.I stx_dio_offset_align
++The alignment (in bytes) required for file offsets and I/O segment lengths
++for direct I/O
++.BR "" ( O_DIRECT )
++on this file,
++or 0 if direct I/O is not supported on this file.
++This will only be nonzero if
++.I stx_dio_mem_align
++is nonzero, and vice versa.
+ .PP
+ For further information on the above fields, see
+ .BR inode (7).
+
+base-commit: ab47278f252262dd9bd90f3386ffd7d8700fa25a
 -- 
-Michal Hocko
-SUSE Labs
+2.37.3
+
