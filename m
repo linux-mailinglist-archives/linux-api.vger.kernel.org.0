@@ -2,87 +2,113 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2EAC05FC655
-	for <lists+linux-api@lfdr.de>; Wed, 12 Oct 2022 15:23:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B2B895FC8CA
+	for <lists+linux-api@lfdr.de>; Wed, 12 Oct 2022 18:00:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229563AbiJLNXh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 12 Oct 2022 09:23:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47364 "EHLO
+        id S230029AbiJLQAH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 12 Oct 2022 12:00:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229836AbiJLNXg (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Oct 2022 09:23:36 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61E7F1EC42;
-        Wed, 12 Oct 2022 06:23:35 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 1614721C46;
-        Wed, 12 Oct 2022 13:23:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1665581014; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=axxPf0w5DXM3j5NJDUDmXxmlQDnP+BGR3NcKUGmmygk=;
-        b=bpbzjrYvyfEWNNdqbcE+1/xybLofs5vUcNiCggQ00eBKQM9/2KeJOSebD5u5LVoG/uL0WT
-        C2yFlqF5ouupcJy3etp0WrlDOmA/+QP7FmA5IGNWtHHqlCvwZjmYytUDN0OzJA8nNQb84b
-        Z7f3JD6zupuXEIA0/lkUwX3bY2X5pbY=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CAB0413ACD;
-        Wed, 12 Oct 2022 13:23:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id 6eqeLtW/RmM7eQAAMHmgww
-        (envelope-from <mhocko@suse.com>); Wed, 12 Oct 2022 13:23:33 +0000
-Date:   Wed, 12 Oct 2022 15:23:33 +0200
-From:   Michal Hocko <mhocko@suse.com>
-To:     Vinicius Petrucci <vpetrucci@gmail.com>
-Cc:     Frank van der Linden <fvdl@google.com>,
-        Zhongkun He <hezhongkun.hzk@bytedance.com>, corbet@lwn.net,
-        akpm@linux-foundation.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, wuyun.abel@bytedance.com
-Subject: Re: [RFC] mm: add new syscall pidfd_set_mempolicy()
-Message-ID: <Y0a/1SnV9kTz0hRG@dhcp22.suse.cz>
-References: <20221010094842.4123037-1-hezhongkun.hzk@bytedance.com>
- <CAPTztWYTGOb8ZQzfgThqJn+fyi4ZB8=JQQZi5_rUoDhdftKtvg@mail.gmail.com>
- <Y0WE/lEiNvl2ljo1@dhcp22.suse.cz>
- <CAPTztWZZOxtzdEm=wbOiL_VDPJuCaW0XVCvsdRpCHE+ph+5eZQ@mail.gmail.com>
- <Y0XEAUD9Ujcu/j8y@dhcp22.suse.cz>
- <CAEZ6=UOA6=ikSdxN662xyhT3wauGuqZReKLOb=_9EmSRckNr=Q@mail.gmail.com>
- <Y0a8IxAXy43unTSb@dhcp22.suse.cz>
+        with ESMTP id S229620AbiJLQAA (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Oct 2022 12:00:00 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53A341A83A;
+        Wed, 12 Oct 2022 08:59:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1665590397; x=1697126397;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=x+Vvi8HGhrn79pVpDuauzqv2LPYrdQbCpKoSgkWyCaQ=;
+  b=N7H43qoXTLbxJSfPjHM4NCPeS1rlSqKT03ZpBOZfCc1HCUKHpvN2S7Lc
+   /LWM+V7kffocXoUn8fZCkc0Z7cVyGwDk/Qmaal8Bqzu04A3nbtWoinE6P
+   69fKUtdPsCQA6HW+mZJa17pRGrRd3fUTd+w0ZgxhPDX0PxFXkjyKwO86+
+   V3kK5xp/YaluMUOKgQcpyz1jxamEzBO0mqSyx6ybe7FnAYp3w9cvJ1S/Z
+   63o7Kad+a/GYCNvcEdllfimxNhzEr5FA95UOHelCKBzmqmvyilpYSImZx
+   yz98Lw1AdjlaJFeIZ6hcwx2bnHKijetXcPTFBoa2eOwoNU8cSozsmEXUS
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10498"; a="304818430"
+X-IronPort-AV: E=Sophos;i="5.95,179,1661842800"; 
+   d="scan'208";a="304818430"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2022 08:59:56 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10498"; a="695522374"
+X-IronPort-AV: E=Sophos;i="5.95,179,1661842800"; 
+   d="scan'208";a="695522374"
+Received: from mpatter1-mobl.amr.corp.intel.com (HELO [10.209.53.34]) ([10.209.53.34])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2022 08:59:51 -0700
+Message-ID: <e3c3d68d-ce99-a70a-1026-0ba99520ae57@intel.com>
+Date:   Wed, 12 Oct 2022 08:59:51 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y0a8IxAXy43unTSb@dhcp22.suse.cz>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2 01/39] Documentation/x86: Add CET description
+Content-Language: en-US
+To:     Florian Weimer <fweimer@redhat.com>,
+        "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+Cc:     "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "kcc@google.com" <kcc@google.com>, "bp@alien8.de" <bp@alien8.de>,
+        "oleg@redhat.com" <oleg@redhat.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>, "arnd@arndb.de" <arnd@arndb.de>,
+        "Moreira, Joao" <joao.moreira@intel.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>
+References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
+ <20220929222936.14584-2-rick.p.edgecombe@intel.com>
+ <87ilkr27nv.fsf@oldenburg.str.redhat.com>
+ <62481017bc02b35587dd520ed446a011641aa390.camel@intel.com>
+ <87v8opz0me.fsf@oldenburg.str.redhat.com>
+From:   Dave Hansen <dave.hansen@intel.com>
+In-Reply-To: <87v8opz0me.fsf@oldenburg.str.redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed 12-10-22 15:07:48, Michal Hocko wrote:
-> On Wed 12-10-22 07:34:06, Vinicius Petrucci wrote:
-[...]
-> > Having a feature like "pidfd/process_mbind" would really simplify our
-> > user-level agent implementation moving forward, as right now we are
-> > adding a LD_PRELOAD wrapper (for signal handler) to listen and execute
-> > "mbind" requests from another process. If there's any other
-> > alternative solution to this already (via ptrace?), please let me
-> > know.
-> 
-> userfaultfd sounds like the closest match if #PF handling under control
-> of an external agent is viable.
+On 10/12/22 05:29, Florian Weimer wrote:
+>> What did you think of the proposal to disable existing binaries and
+>> start from scratch? Elaborated in the coverletter in the section
+>> "Compatibility of Existing Binaries/Enabling Interface".
+> The ABI was finalized around four years ago, and we have shipped several
+> Fedora and Red Hat Enterprise Linux versions with it.  Other
+> distributions did as well.  It's a bit late to make changes now, and
+> certainly not for such trivialities. 
 
-And just to clarify. I haven't ever played with using userfaultfd for
-numa balancing so I might be completely wrong here.
--- 
-Michal Hocko
-SUSE Labs
+Just to be clear: You're saying that a user/kernel ABI was "finalized"
+by glibc shipping the user side of it, before there being an upstream
+kernel implementation?
