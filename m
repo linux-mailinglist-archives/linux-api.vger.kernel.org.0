@@ -2,88 +2,125 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C7345FC516
-	for <lists+linux-api@lfdr.de>; Wed, 12 Oct 2022 14:15:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC23B5FC525
+	for <lists+linux-api@lfdr.de>; Wed, 12 Oct 2022 14:19:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229763AbiJLMPP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 12 Oct 2022 08:15:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50226 "EHLO
+        id S229540AbiJLMTL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 12 Oct 2022 08:19:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55278 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229757AbiJLMPO (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Oct 2022 08:15:14 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDCB543607;
-        Wed, 12 Oct 2022 05:15:12 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 6069C21BF9;
-        Wed, 12 Oct 2022 12:15:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1665576911; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
+        with ESMTP id S229678AbiJLMTK (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Oct 2022 08:19:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BD3EC06BC
+        for <linux-api@vger.kernel.org>; Wed, 12 Oct 2022 05:19:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1665577147;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=dCQ2WpDCxrbeT5GJTKPF0LqosNd9RnwLmJ2qJ7436Gs=;
-        b=K/IlkhgrX+2welPakjC0Axi79t2kTcd8AbUB/YTbrcVymSQOLha6U/tbxVDRKT4KIKkyAZ
-        7Sy+HUDJFDfhIl82HhHEsetW0xrPGq6muCTweAJz5vkYuZvsAKtGgGbGBpLJ0vamfcQ6gE
-        79FoAkuLBJcGOH2Op8WMHHngsqv5zn4=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        bh=NV9CicB0DRH4ogY4pUsl7yjoSLbllPXxF4kP6gpANzQ=;
+        b=ZkdFf4RSyplWIFAZsiTBd1eC38yxC4jqCcTmT2b2alQ3A3NN3PoyHHda7lfpms+UpCV42o
+        YinuqKnTn2KnnTI3pA1PMZ8gm6RDgUXPy9ShiVq+ARkciW4TcK1ASiuVoCZHFaP726PPqc
+        t1XN8hCIg5p+27MIUNYYcvPVvk6wOaQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-83-Mfy2mdPFOvymBf8YsiyteA-1; Wed, 12 Oct 2022 08:19:04 -0400
+X-MC-Unique: Mfy2mdPFOvymBf8YsiyteA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 21B9313A5C;
-        Wed, 12 Oct 2022 12:15:11 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id n/pZB8+vRmM4UgAAMHmgww
-        (envelope-from <mhocko@suse.com>); Wed, 12 Oct 2022 12:15:11 +0000
-Date:   Wed, 12 Oct 2022 14:15:10 +0200
-From:   Michal Hocko <mhocko@suse.com>
-To:     Zhongkun He <hezhongkun.hzk@bytedance.com>
-Cc:     corbet@lwn.net, akpm@linux-foundation.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, wuyun.abel@bytedance.com
-Subject: Re: [External] Re: [RFC] mm: add new syscall pidfd_set_mempolicy()
-Message-ID: <Y0avztF7QU8P/OoB@dhcp22.suse.cz>
-References: <20221010094842.4123037-1-hezhongkun.hzk@bytedance.com>
- <Y0WEbCqJHjnqsg8n@dhcp22.suse.cz>
- <582cf257-bc0d-c96e-e72e-9164cff4fce1@bytedance.com>
- <Y0aCiYMQ4liL2azT@dhcp22.suse.cz>
- <a0421769-c2b9-d59a-0358-3cc84b2cb2bd@bytedance.com>
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 526D8811E75;
+        Wed, 12 Oct 2022 12:19:02 +0000 (UTC)
+Received: from oldenburg.str.redhat.com (unknown [10.39.192.47])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 5D68C414A809;
+        Wed, 12 Oct 2022 12:18:54 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+Cc:     "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "kcc@google.com" <kcc@google.com>, "bp@alien8.de" <bp@alien8.de>,
+        "oleg@redhat.com" <oleg@redhat.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>, "arnd@arndb.de" <arnd@arndb.de>,
+        "Moreira, Joao" <joao.moreira@intel.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>
+Subject: Re: [PATCH v2 23/39] x86: Introduce userspace API for CET enabling
+References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
+        <20220929222936.14584-24-rick.p.edgecombe@intel.com>
+        <87v8os0wx5.fsf@oldenburg.str.redhat.com>
+        <8599719452d9615235f7fdd274a9b6ea04ab1f7c.camel@intel.com>
+Date:   Wed, 12 Oct 2022 14:18:52 +0200
+In-Reply-To: <8599719452d9615235f7fdd274a9b6ea04ab1f7c.camel@intel.com> (Rick
+        P. Edgecombe's message of "Mon, 10 Oct 2022 16:28:57 +0000")
+Message-ID: <87zge1z13n.fsf@oldenburg.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a0421769-c2b9-d59a-0358-3cc84b2cb2bd@bytedance.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed 12-10-22 19:22:21, Zhongkun He wrote:
-> > 
-> > Yes, this will require some refactoring and one potential way is to make
-> > mpol ref counting unconditional. The conditional ref. counting has
-> > already caused issues in the past and the code is rather hard to follow
-> > anyway. I am not really sure this optimization is worth it.
-> > 
-> > Another option would be to block the pidfd side of things on completion
-> > which would wake it up from the task_work context but I would rather
-> > explore the ref counting approach first and only if this is proven to be
-> > too expensive to go with hacks like this.
-> 
-> Hi Michal
-> 
-> The counting approach means executing mpol_get/put() when start/finish using
-> mempolicy,right?
+* Rick P. Edgecombe:
 
-We already do that via mpol_{get,put} but there are cases where the
-reference counting is ignored because it cannot be freed and also mpol_cond_put
-resp. open coded versions of mpol_needs_cond_ref.
--- 
-Michal Hocko
-SUSE Labs
+> On Mon, 2022-10-10 at 12:56 +0200, Florian Weimer wrote:
+>> > +     /* Only support enabling/disabling one feature at a time. */
+>> > +     if (hweight_long(features) > 1)
+>> > +             return -EINVAL;
+>> 
+>> This means we'll soon need three extra system calls for x86-64
+>> process
+>> start: SHSTK, IBT, and switching off vsyscall emulation.  (The latter
+>> does not need any special CPU support.)
+>> 
+>> Maybe we can do something else instead to make the strace output a
+>> little bit cleaner?
+>
+> In previous versions it supported enabling multiple features in a
+> single syscall. Thomas Gleixner pointed out that (this was on the LAM
+> patchset that shared the interface at the time) it makes the behavior
+> of what to do when one feature fails to enable complicated:
+>
+> https://lore.kernel.org/lkml/87zgjjqico.ffs@tglx/
+
+Can we return the bits for the features that were actually enabled?
+Those three don't have cross-dependencies in the sense that you would
+only use X & Y together, but not X or Y alone.
+
+Thanks,
+Florian
+
