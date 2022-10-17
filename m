@@ -2,165 +2,182 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 89157601261
-	for <lists+linux-api@lfdr.de>; Mon, 17 Oct 2022 17:06:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F1EA260132D
+	for <lists+linux-api@lfdr.de>; Mon, 17 Oct 2022 18:05:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231658AbiJQPGb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 17 Oct 2022 11:06:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46910 "EHLO
+        id S229739AbiJQQFq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 17 Oct 2022 12:05:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49480 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231236AbiJQPGF (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 17 Oct 2022 11:06:05 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3FFE6D547;
-        Mon, 17 Oct 2022 08:05:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1666019141; x=1697555141;
-  h=date:from:to:cc:subject:message-id:reply-to:references:
-   mime-version:in-reply-to;
-  bh=PvgBjoYyaoMX/iKVZUi6GVXenC/pYD5E0G2UFDGF3Zw=;
-  b=IU3LmUkLVt36rvVKa9l916RfDbpgiRFHzjy57j8VE5wsnRvfpKAlpOZd
-   2brl+HVkkRpDgs7erNYSqncIAX0+BRkq4+tdIRDIMCpISsSX48TyhAIYH
-   VnQbj3GuBSvty8nqptQNxuxmOGH9mbkPpN92Ms9GY9vt6+ScHe/HrJ00Z
-   pcweMnaz1AbVk57r2pqnh1tn46FvqCqDQVdhEXW8NkL0Dwn1vssEQQRbS
-   tNz9bjTm8JYYwuDOLvDpzn4Vr87zueycm4qVj3chWuAC/Mpe720lkbPXY
-   37lO6G2qq5TUIONbfaVt7aKKZKBdMaNwTBawqKECCT8vPiOOYox7upECp
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10503"; a="370011931"
-X-IronPort-AV: E=Sophos;i="5.95,191,1661842800"; 
-   d="scan'208";a="370011931"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2022 08:03:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10503"; a="691387974"
-X-IronPort-AV: E=Sophos;i="5.95,191,1661842800"; 
-   d="scan'208";a="691387974"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
-  by fmsmga008.fm.intel.com with ESMTP; 17 Oct 2022 08:03:27 -0700
-Date:   Mon, 17 Oct 2022 22:58:56 +0800
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     Fuad Tabba <tabba@google.com>
-Cc:     Sean Christopherson <seanjc@google.com>,
-        David Hildenbrand <david@redhat.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, aarcange@redhat.com, ddutile@redhat.com,
-        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com,
-        Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>
-Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
-Message-ID: <20221017145856.GB3417432@chaop.bj.intel.com>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-References: <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
- <d16284f5-3493-2892-38e6-f1fa5c10bdbb@redhat.com>
- <Yyi+l3+p9lbBAC4M@google.com>
- <CA+EHjTzy4iOxLF=5UX=s5v6HSB3Nb1LkwmGqoKhp_PAnFeVPSQ@mail.gmail.com>
- <20220926142330.GC2658254@chaop.bj.intel.com>
- <CA+EHjTz5yGhsxUug+wqa9hrBO60Be0dzWeWzX00YtNxin2eYHg@mail.gmail.com>
- <YzN9gYn1uwHopthW@google.com>
- <CA+EHjTw3din891hMUeRW-cn46ktyMWSdoB31pL+zWpXo_=3UVg@mail.gmail.com>
- <20221013133457.GA3263142@chaop.bj.intel.com>
- <CA+EHjTzZ2zsm7Ru_OKCZg9FCYESgZsmB=7ScKRh6ZN4=4OZ3gw@mail.gmail.com>
+        with ESMTP id S229722AbiJQQFp (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 17 Oct 2022 12:05:45 -0400
+Received: from smtpout.efficios.com (smtpout.efficios.com [IPv6:2607:5300:203:5aae::31e5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41A9C6A492;
+        Mon, 17 Oct 2022 09:05:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=efficios.com;
+        s=smtpout1; t=1666022717;
+        bh=Yiw7gSqlI3hHqY8j9RQbEVxPlTn0uq4K7BeOAcs30rY=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=N0zoDqFJ9uILwRgG3gkcQzo7FsigxD9IHxBwKN9F+ad7w5NsFHahgrohSe7X3kEDv
+         gwF/5p0FyXWkvdlDLeHAWqHsXT80zg2vzjMsOS1mzpcWY9N/dKkMx8ypp7iCps/DMB
+         qdbB/zxw/x7ofCAtX1mtZmXa7kbOuJGQzwreQPV/tdJwXYuAsvb0QVzVRkLPXZbrIV
+         oR5ng3bccSIXO4z9qLVA4mv96tBnBXiWDpVjbutcPPayo6GPKZV+95rN8HjdNsY706
+         8vLhjfxqoRYq8GnxERN6S1/lxlTyLt8H5m9BCZ9J2I0yN8vps3vri1a9zhn1q2lIC6
+         tEArj3xQdRjZg==
+Received: from [172.16.0.72] (192-222-180-24.qc.cable.ebox.net [192.222.180.24])
+        by smtpout.efficios.com (Postfix) with ESMTPSA id 4MrhfN5HnszV0j;
+        Mon, 17 Oct 2022 12:05:16 -0400 (EDT)
+Message-ID: <55ade976-efac-3a89-f5e4-9008b7030388@efficios.com>
+Date:   Mon, 17 Oct 2022 12:05:34 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+EHjTzZ2zsm7Ru_OKCZg9FCYESgZsmB=7ScKRh6ZN4=4OZ3gw@mail.gmail.com>
-X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Subject: Re: [PATCH v4 00/25] RSEQ node id and virtual cpu id extensions
+Content-Language: en-US
+To:     Florian Weimer <fweimer@redhat.com>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
+        linux-api@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
+        David.Laight@ACULAB.COM, carlos@redhat.com,
+        Peter Oskolkov <posk@posk.io>,
+        Alexander Mikhalitsyn <alexander@mihalicyn.com>
+References: <20220922105941.237830-1-mathieu.desnoyers@efficios.com>
+ <8735bv25k2.fsf@oldenburg.str.redhat.com>
+From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+In-Reply-To: <8735bv25k2.fsf@oldenburg.str.redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Oct 17, 2022 at 11:31:19AM +0100, Fuad Tabba wrote:
-> Hi,
+On 2022-10-10 09:04, Florian Weimer wrote:
+> * Mathieu Desnoyers:
 > 
-> > >
-> > > Actually, for pKVM, there is no need for the guest memory to be
-> > > GUP'able at all if we use the new inaccessible_get_pfn().
-> >
-> > If pKVM can use inaccessible_get_pfn() to get pfn and can avoid GUP (I
-> > think that is the major concern?), do you see any other gap from
-> > existing API?
+>> Extend the rseq ABI to expose a NUMA node ID and a vm_vcpu_id field.
+>>
+>> The NUMA node ID field allows implementing a faster getcpu(2) in libc.
+>>
+>> The virtual cpu id allows ideal scaling (down or up) of user-space
+>> per-cpu data structures. The virtual cpu ids allocated within a memory
+>> space are tracked by the scheduler, which takes into account the number
+>> of concurrently running threads, thus implicitly considering the number
+>> of threads, the cpu affinity, the cpusets applying to those threads, and
+>> the number of logical cores on the system.
 > 
-> Actually for this part no, there aren't any gaps and
-> inaccessible_get_pfn() is sufficient.
+> Do you have some code that shows how the userspace application handshake
+> is supposed to work with the existing three __rseq_* symbols?  Maybe I'm
+> missing something.
 
-Thanks for the confirmation.
+see https://lore.kernel.org/lkml/20220922105941.237830-5-mathieu.desnoyers@efficios.com/
+
++static
++unsigned int get_rseq_feature_size(void)
++{
++	unsigned long auxv_rseq_feature_size, auxv_rseq_align;
++
++	auxv_rseq_align = getauxval(AT_RSEQ_ALIGN);
++	assert(!auxv_rseq_align || auxv_rseq_align <= RSEQ_THREAD_AREA_ALLOC_SIZE);
++
++	auxv_rseq_feature_size = getauxval(AT_RSEQ_FEATURE_SIZE);
++	assert(!auxv_rseq_feature_size || auxv_rseq_feature_size <= RSEQ_THREAD_AREA_ALLOC_SIZE);
++	if (auxv_rseq_feature_size)
++		return auxv_rseq_feature_size;
++	else
++		return ORIG_RSEQ_FEATURE_SIZE;
++}
+
+then in rseq_init():
+
++	rseq_feature_size = get_rseq_feature_size();
++	if (rseq_feature_size == ORIG_RSEQ_FEATURE_SIZE)
++		rseq_size = ORIG_RSEQ_ALLOC_SIZE;
++	else
++		rseq_size = RSEQ_THREAD_AREA_ALLOC_SIZE;
+
+Then using it for e.g. node_id:
+
+https://lore.kernel.org/lkml/20220922105941.237830-6-mathieu.desnoyers@efficios.com/
+
++#ifndef rseq_sizeof_field
++#define rseq_sizeof_field(TYPE, MEMBER) sizeof((((TYPE *)0)->MEMBER))
++#endif
++
++#ifndef rseq_offsetofend
++#define rseq_offsetofend(TYPE, MEMBER) \
++	(offsetof(TYPE, MEMBER)	+ rseq_sizeof_field(TYPE, MEMBER))
++#endif
+
++static inline bool rseq_node_id_available(void)
++{
++	return (int) rseq_feature_size >= rseq_offsetofend(struct rseq_abi, node_id);
++}
++
++/*
++ * Current NUMA node number.
++ */
++static inline uint32_t rseq_current_node_id(void)
++{
++	assert(rseq_node_id_available());
++	return RSEQ_ACCESS_ONCE(rseq_get_abi()->node_id);
++}
 
 > 
-> > > This of
-> > > course goes back to what I'd mentioned before in v7; it seems that
-> > > representing the memslot memory as a file descriptor should be
-> > > orthogonal to whether the memory is shared or private, rather than a
-> > > private_fd for private memory and the userspace_addr for shared
-> > > memory. The host can then map or unmap the shared/private memory using
-> > > the fd, which allows it more freedom in even choosing to unmap shared
-> > > memory when not needed, for example.
-> >
-> > Using both private_fd and userspace_addr is only needed in TDX and other
-> > confidential computing scenarios, pKVM may only use private_fd if the fd
-> > can also be mmaped as a whole to userspace as Sean suggested.
-> 
-> That does work in practice, for now at least, and is what I do in my
-> current port. However, the naming and how the API is defined as
-> implied by the name and the documentation. By calling the field
-> private_fd, it does imply that it should not be mapped, which is also
-> what api.rst says in PATCH v8 5/8. My worry is that in that case pKVM
-> would be mis/ab-using this interface, and that future changes could
-> cause unforeseen issues for pKVM.
+>  From an application perspective, it would be best to add 8 more shared
+> bytes in use, to push the new feature size over 32.  This would be
+> clearly visible in __rseq_size, helping applications a lot.
 
-That is fairly enough. We can change the naming and the documents.
+[ I guess you meant 12 bytes ]
+
+The fool-proof approach here would be to skip the 12 bytes of padding
+currently at the end of struct rseq.
+
+Maybe this is something we should do in order to make sure the userspace
+check is regular for all fields.
 
 > 
-> Maybe renaming this to something like "guest_fp", and specifying in
-> the documentation that it can be restricted, e.g., instead of "the
-> content of the private memory is invisible to userspace" something
-> along the lines of  "the content of the guest memory may be restricted
-> to userspace".
+> Alternatively, we could sacrifice a bit to indicate that the this round
+> of extensions is present.  But we'll need another bit to indicate that
+> the last remaining 4 bytes are in use, for consistency.  Or come up with
+> something to put their today.  The TID seems like an obvious choice.
 
-Some other candidates in my mind:
-- restricted_fd: to pair with the mm side restricted_memfd
-- protected_fd: as Sean suggested before
-- fd: how it's explained relies on the memslot.flag.
+Whatever we add into those bits would need to be "special" and use
+something like a flag check to validate whether the field is populated
+or not. Perhaps keeping things simpler and skipping those 12 bytes
+entirely is preferable.
+
+> 
+> If we want to the 8 more bytes route, TID and PID should be
+> uncontroversal?  The PID cache is clearly something that userspace
+> likes, not just as a defeat device for the old BYTE benchmark.
+
+I agree that having the PID and TID there might be relevant, but I
+would rather prefer to have all fields use a check that is regular
+from the point of view of userspace. This minimizes the risk of user
+errors.
+
+Thoughts ?
 
 Thanks,
-Chao
+
+Mathieu
+
+
 > 
-> What do you think?
+> Thanks,
+> Florian
 > 
-> Cheers,
-> /fuad
-> 
-> >
-> > Thanks,
-> > Chao
-> > >
-> > > Cheers,
-> > > /fuad
+
+-- 
+Mathieu Desnoyers
+EfficiOS Inc.
+https://www.efficios.com
+
