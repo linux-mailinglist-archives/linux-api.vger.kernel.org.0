@@ -2,152 +2,143 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 76DA56016E5
-	for <lists+linux-api@lfdr.de>; Mon, 17 Oct 2022 21:05:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA9486017BD
+	for <lists+linux-api@lfdr.de>; Mon, 17 Oct 2022 21:34:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230163AbiJQTFw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 17 Oct 2022 15:05:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44634 "EHLO
+        id S230140AbiJQTeL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 17 Oct 2022 15:34:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38976 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229787AbiJQTFu (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 17 Oct 2022 15:05:50 -0400
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E314850F9B
-        for <linux-api@vger.kernel.org>; Mon, 17 Oct 2022 12:05:48 -0700 (PDT)
-Received: by mail-lj1-x233.google.com with SMTP id c22so13829705lja.6
-        for <linux-api@vger.kernel.org>; Mon, 17 Oct 2022 12:05:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=tpLbF7MUjfgdwKeolFrKwUGGJvkFHEynVfhNRIRYzO0=;
-        b=cTXJI0UBOdBxXG2IHW1rqIDOvBkglMHN1TS3v9u/Mg6E19sNCf3CHq90Ltlb8bjRuV
-         uwZxsI3QP9DlzIDrz8Ff7f9zknZmBhB2m3pkIj381yHasQYOvkpoqdJncN9JKC2twFC8
-         ShVufGPOkpE2dB+4eCyihCzXtxWBY+X/y95BOpw7uAHWW2nmY6ScgSdvp0Pxz6khfbyi
-         YxhW1XKkSTezSkUawIx5/j0VpvJshXk6TJGUrtcsbKTwNFF6pKmyHcosQZh7T9atBa+E
-         fdb7oqoR8tN6oS+MAKpeLCi//GJfCoW515YxPGh6OzLSq2gny6eetjefpyJ4o3QbBEiq
-         9V6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tpLbF7MUjfgdwKeolFrKwUGGJvkFHEynVfhNRIRYzO0=;
-        b=yo/8GokppP0GGMiYjQa0djZJkxh3qLHTgchDvldi2MpXq8ZpxvpJb7Mlwq8b3VQ4G7
-         NJsxY6n9OgfNduU66RBOV/CYf/Sc/byFuu+6jRYu7VJN/nUpZSFCcl9HOOjZQXj/g7+i
-         kO57UD4/88pnVs6MtdsX3mw9iHc1knLpt9BJu9wP1EY0357Jn0VaQxO/GdbtbiM7Q6Tg
-         YiCSdUjQrSZAMC+IfJuQnqY79FPJ5gjDRFL6LWBR6zfS4p0qT8tRGeXpL53jq3yF+O1e
-         m0q4+WkXq4FAK5l+2bffo1sqs9Sy0aArCvP3qAn4tUMbX0eY/gqLQ6lUHSwFIwCnycqN
-         si3g==
-X-Gm-Message-State: ACrzQf1uecTzA0OSYV9RdcU+fijAeR3dmIrilIPlbDRacjWW2B8kQm3q
-        AfPkr90OI4qQCqBqYzYgwYT0mhrsfitDB6wuX9oi5Q==
-X-Google-Smtp-Source: AMsMyM4AkQi9c7U3RtdWYwjcZCizC5KFrocAewLyWt0H2WuNks4/hroyUpSgGTZ2Szy1PxqSxcVc8+OpiywAfS+j4K8=
-X-Received: by 2002:a05:651c:20d:b0:26f:bc4c:f957 with SMTP id
- y13-20020a05651c020d00b0026fbc4cf957mr4763341ljn.199.1666033547017; Mon, 17
- Oct 2022 12:05:47 -0700 (PDT)
+        with ESMTP id S229921AbiJQTeK (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 17 Oct 2022 15:34:10 -0400
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98F0813F1A;
+        Mon, 17 Oct 2022 12:34:07 -0700 (PDT)
+Received: from zn.tnic (p200300ea9733e793329c23fffea6a903.dip0.t-ipconnect.de [IPv6:2003:ea:9733:e793:329c:23ff:fea6:a903])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id DD66C1EC0531;
+        Mon, 17 Oct 2022 21:34:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1666035242;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=A+SmiBJtXQInyL9q8CMvvRTfqz11s9Su0HRnFCAP13s=;
+        b=As/Dl4Uqbukr/M8bYV5G+unu8ttU5HPzu1In68Ztxl6Xsux90JCWMYQsLahcd1FdbGFV38
+        D457tUet2dDGlD4SvgQY8lPX5ya4SRNatFxvU2pw8T5B3x+QKVpHPGNeuHWKHoLD/dz30m
+        Emtw31b/EA0Y9iAHG7aqgozUYBp1Nz4=
+Date:   Mon, 17 Oct 2022 21:33:56 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+Cc:     "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "kcc@google.com" <kcc@google.com>, "pavel@ucw.cz" <pavel@ucw.cz>,
+        "oleg@redhat.com" <oleg@redhat.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "Moreira, Joao" <joao.moreira@intel.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>
+Subject: Re: [PATCH v2 05/39] x86/fpu/xstate: Introduce CET MSR and XSAVES
+ supervisor states
+Message-ID: <Y02uJDzi/sagFFHt@zn.tnic>
+References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
+ <20220929222936.14584-6-rick.p.edgecombe@intel.com>
+ <Y0qBiSXdZepd7Is9@zn.tnic>
+ <ea4c2081fa1498386da52931cd19b8c495d5dc6b.camel@intel.com>
 MIME-Version: 1.0
-References: <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
- <d16284f5-3493-2892-38e6-f1fa5c10bdbb@redhat.com> <Yyi+l3+p9lbBAC4M@google.com>
- <CA+EHjTzy4iOxLF=5UX=s5v6HSB3Nb1LkwmGqoKhp_PAnFeVPSQ@mail.gmail.com>
- <20220926142330.GC2658254@chaop.bj.intel.com> <CA+EHjTz5yGhsxUug+wqa9hrBO60Be0dzWeWzX00YtNxin2eYHg@mail.gmail.com>
- <YzN9gYn1uwHopthW@google.com> <CA+EHjTw3din891hMUeRW-cn46ktyMWSdoB31pL+zWpXo_=3UVg@mail.gmail.com>
- <20221013133457.GA3263142@chaop.bj.intel.com> <CA+EHjTzZ2zsm7Ru_OKCZg9FCYESgZsmB=7ScKRh6ZN4=4OZ3gw@mail.gmail.com>
- <20221017145856.GB3417432@chaop.bj.intel.com>
-In-Reply-To: <20221017145856.GB3417432@chaop.bj.intel.com>
-From:   Fuad Tabba <tabba@google.com>
-Date:   Mon, 17 Oct 2022 20:05:10 +0100
-Message-ID: <CA+EHjTyiU230am0cuWc7xBBirGocPWGmyqCskhTytA10xpigYQ@mail.gmail.com>
-Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     Sean Christopherson <seanjc@google.com>,
-        David Hildenbrand <david@redhat.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, aarcange@redhat.com, ddutile@redhat.com,
-        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com,
-        Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ea4c2081fa1498386da52931cd19b8c495d5dc6b.camel@intel.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi,
+On Mon, Oct 17, 2022 at 06:57:13PM +0000, Edgecombe, Rick P wrote:
+> Hmm yea. Another reason the actual define is passed in is that the
+> macro want's to stringify the XFEATURE define in order to generate the 
+> message like this:
+> XFEATURE_YMM: struct is 123 bytes, cpu state is 456 bytes
+> 
+> The exact format of the message is probably not too critical though. If
+> instead it used xfeature_names[], it could be:
+> [AVX registers]: struct is 123 bytes, cpu state is 456 bytes
 
-> > > Using both private_fd and userspace_addr is only needed in TDX and other
-> > > confidential computing scenarios, pKVM may only use private_fd if the fd
-> > > can also be mmaped as a whole to userspace as Sean suggested.
-> >
-> > That does work in practice, for now at least, and is what I do in my
-> > current port. However, the naming and how the API is defined as
-> > implied by the name and the documentation. By calling the field
-> > private_fd, it does imply that it should not be mapped, which is also
-> > what api.rst says in PATCH v8 5/8. My worry is that in that case pKVM
-> > would be mis/ab-using this interface, and that future changes could
-> > cause unforeseen issues for pKVM.
->
-> That is fairly enough. We can change the naming and the documents.
->
-> >
-> > Maybe renaming this to something like "guest_fp", and specifying in
-> > the documentation that it can be restricted, e.g., instead of "the
-> > content of the private memory is invisible to userspace" something
-> > along the lines of  "the content of the guest memory may be restricted
-> > to userspace".
->
-> Some other candidates in my mind:
-> - restricted_fd: to pair with the mm side restricted_memfd
-> - protected_fd: as Sean suggested before
-> - fd: how it's explained relies on the memslot.flag.
+Bah, "registers", that made me look at the thing. Yeah, not sure if all
+those "registers" strings even matter there.
 
-All these sound good, since they all capture the potential use cases.
-Restricted might be the most logical choice if that's going to also
-become the name for the mem_fd.
+[AVX]: struct is 123 bytes, cpu state is 456 bytes
 
-Thanks,
-/fuad
+looks good enough to me too. But WTH do I know.
 
-> Thanks,
-> Chao
-> >
-> > What do you think?
-> >
-> > Cheers,
-> > /fuad
-> >
-> > >
-> > > Thanks,
-> > > Chao
-> > > >
-> > > > Cheers,
-> > > > /fuad
+> The full block looks like (like you had):
+> switch (nr) {
+> case XFEATURE_YMM:	  return XCHECK_SZ(sz, nr, struct ymmh_struct);
+> case XFEATURE_BNDREGS:	  return XCHECK_SZ(sz, nr, struct
+> mpx_bndreg_state);
+> case XFEATURE_BNDCSR:	  return XCHECK_SZ(sz, nr, struct
+> mpx_bndcsr_state);
+> case XFEATURE_OPMASK:	  return XCHECK_SZ(sz, nr, struct
+> avx_512_opmask_state);
+> case XFEATURE_ZMM_Hi256:  return XCHECK_SZ(sz, nr, struct
+> avx_512_zmm_uppers_state);
+> case XFEATURE_Hi16_ZMM:	  return XCHECK_SZ(sz, nr, struct
+> avx_512_hi16_state);
+> case XFEATURE_PKRU: 	  return XCHECK_SZ(sz, nr, struct pkru_state);
+> case XFEATURE_PASID: 	  return XCHECK_SZ(sz, nr, struct
+> ia32_pasid_state);
+> case XFEATURE_XTILE_CFG:  return XCHECK_SZ(sz, nr, struct xtile_cfg);
+> case XFEATURE_CET_USER:	  return XCHECK_SZ(sz, nr, struct
+> cet_user_state);
+> case XFEATURE_XTILE_DATA: check_xtile_data_against_struct(sz); return
+> true;
+> default:
+> 	WARN_ONCE(1, "no structure for xstate: %d\n", nr);
+> 	XSTATE_WARN_ON(1);
+> 	return false;
+> }
+> 
+> I like how it fits the XFEATURE_XTILE_DATA check in with the rest.
+
+Yap, nice and straight-forward pattern. :)
+
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
