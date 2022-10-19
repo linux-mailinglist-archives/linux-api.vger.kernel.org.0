@@ -2,47 +2,61 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 84D1560483E
-	for <lists+linux-api@lfdr.de>; Wed, 19 Oct 2022 15:52:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 51672604AB5
+	for <lists+linux-api@lfdr.de>; Wed, 19 Oct 2022 17:10:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233734AbiJSNw6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 19 Oct 2022 09:52:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43456 "EHLO
+        id S231720AbiJSPKO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 19 Oct 2022 11:10:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233595AbiJSNwI (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 19 Oct 2022 09:52:08 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EBC2185422;
-        Wed, 19 Oct 2022 06:35:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1666186557; x=1697722557;
-  h=date:from:to:cc:subject:message-id:reply-to:references:
-   mime-version:in-reply-to;
-  bh=4xcGc4T12PBypY/VcZfHNkEly5yZ/s7CT5KUy36zg78=;
-  b=jjhzCoBCsLf8VUs0R+QfGydIe7QYMFm556unX6I3R1DhSqiZ6WdqdGVa
-   b58y8RqAbpOUVWcVU80uo6UdKSAEaP58z78cTXYknf8jnPI1EPw1Ko8CS
-   9P4GSLacFbYoEP5y0IdzcamCNPNMyiKLNICDGy3Sb384VgKaZcR10bNVB
-   RA8w2ffKnvwlH2hIji1lwf7aova5NGJGlNbXdroBiWEj3jQJb4F+KSwx+
-   P8m2wZLALph4TDFXT2aZIqb6t4vHFkYos0euU2OjLo9a0tQGtZztObxhN
-   m5uvSoc3lGKdeFUgCz0ogBy9KOvVgmRg9BL0ZqEQxRM9EEY9rXf4luzXk
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10505"; a="286801355"
-X-IronPort-AV: E=Sophos;i="5.95,196,1661842800"; 
-   d="scan'208";a="286801355"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2022 06:35:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10505"; a="624137726"
-X-IronPort-AV: E=Sophos;i="5.95,196,1661842800"; 
-   d="scan'208";a="624137726"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
-  by orsmga007.jf.intel.com with ESMTP; 19 Oct 2022 06:35:14 -0700
-Date:   Wed, 19 Oct 2022 21:30:43 +0800
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     Fuad Tabba <tabba@google.com>
-Cc:     Sean Christopherson <seanjc@google.com>,
-        David Hildenbrand <david@redhat.com>, kvm@vger.kernel.org,
+        with ESMTP id S232627AbiJSPJb (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 19 Oct 2022 11:09:31 -0400
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3B6C34721
+        for <linux-api@vger.kernel.org>; Wed, 19 Oct 2022 08:03:00 -0700 (PDT)
+Received: by mail-lf1-x134.google.com with SMTP id g1so28568104lfu.12
+        for <linux-api@vger.kernel.org>; Wed, 19 Oct 2022 08:03:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=8uws4B5WgtxEQQPonRBN7dDm57mj+TMYZwg9NWMF6uE=;
+        b=GNoRQIq9JKVsi3NBMOHtxRxaA+HyiSRxEbQwKROCIdQN7YeQVvkeCL/tBfTJ0rFShS
+         wLv+OMed6GKtlzQERAvDIH0fS9RwWNLH1iDzg8iIFUBsQUCTCUR56HEIdBHp5w6KeZ+i
+         ed0p1SeRI6LjurmDyBxbuv8clbnocReb3YyBgtI/ebogw01dMtsK7A/KD1lbcyPsqtH5
+         TaWyyc8eNama/1dRhNwUMQO8P85tBb+QCcPLfYt81cuF60S21NuSTt9ENjFqtPiqHbYW
+         QbAZcIWW265YqQ7fQmjB0etPPuYGAVxyYuBBwAInvDjayuW/S/xhDX/aqG8lWy7/HjYu
+         bNlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8uws4B5WgtxEQQPonRBN7dDm57mj+TMYZwg9NWMF6uE=;
+        b=P4XHUm6m2fGCg7TU0UOWhTYcLXlCH2/ByWKN4zoJYqG9fuqt3JwSFO/NaTvjdWb2wD
+         3zfVgAe7qhg0No6dcK70nA1mEYubUe5puvqfsN6byBcgC8fetVfi+nOc3M9x6DQYFake
+         NiiC/PR5FHPmg13mS3CdIBiPV4b/8mpF7dkEsGBPSkNPrMzOjjLddITtvHL40dxSvlAd
+         JdGfC9izs+3k2F9gmTRKV/18/SV1g25nuhVdl3ueSCtE7Ymjjlhe7r/b0efAX4ZvM3GN
+         rKLe9tkbroB/RADrhl5gpqoBnfWXodR+89kpNiWBCZupggdRUI4S6H+HxTToRUAdAzgZ
+         6g/Q==
+X-Gm-Message-State: ACrzQf04cAAewimgkcaxE/ez15SFBrSS4LSB7OG2lApzo1JLxG0DwIIs
+        OlcPoAztuaugS/41/73wrwQEGby7E3TFfjSLfgJjHlXYhDvVdA==
+X-Google-Smtp-Source: AMsMyM73/Iz2UA6hD6VnKREmVWKox8T+CDDwCUSlKn0rjft7dc92r9M4EXDXMPFumhxI7Ld+a4+gjwQViVOGvFn4W+A=
+X-Received: by 2002:a05:6512:4cb:b0:4a2:25b6:9e73 with SMTP id
+ w11-20020a05651204cb00b004a225b69e73mr3205357lfq.30.1666191778897; Wed, 19
+ Oct 2022 08:02:58 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-6-chao.p.peng@linux.intel.com> <CA+EHjTxukqBfaN6D+rPOiX83zkGknHEQ16J0k6GQSdL_-e9C6g@mail.gmail.com>
+ <20221012023516.GA3218049@chaop.bj.intel.com> <CA+EHjTyGyGL+ox81=jdtoHERtHPV=P7wJub=3j7chdijyq-AgA@mail.gmail.com>
+ <Y03UiYYioV+FQIpx@google.com> <20221019132308.GA3496045@chaop.bj.intel.com>
+In-Reply-To: <20221019132308.GA3496045@chaop.bj.intel.com>
+From:   Fuad Tabba <tabba@google.com>
+Date:   Wed, 19 Oct 2022 16:02:22 +0100
+Message-ID: <CA+EHjTytCEup0m-nhnVHsuQ1xjaCxXNHO_Oxe+QbpwqaewpfKQ@mail.gmail.com>
+Subject: Re: [PATCH v8 5/8] KVM: Register/unregister the guest private memory regions
+To:     Chao Peng <chao.p.peng@linux.intel.com>
+Cc:     Sean Christopherson <seanjc@google.com>, kvm@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
         linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
@@ -67,94 +81,42 @@ Cc:     Sean Christopherson <seanjc@google.com>,
         Yu Zhang <yu.c.zhang@linux.intel.com>,
         "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
         luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, aarcange@redhat.com, ddutile@redhat.com,
-        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
         Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com,
-        Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>
-Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
-Message-ID: <20221019133043.GB3496045@chaop.bj.intel.com>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-References: <Yyi+l3+p9lbBAC4M@google.com>
- <CA+EHjTzy4iOxLF=5UX=s5v6HSB3Nb1LkwmGqoKhp_PAnFeVPSQ@mail.gmail.com>
- <20220926142330.GC2658254@chaop.bj.intel.com>
- <CA+EHjTz5yGhsxUug+wqa9hrBO60Be0dzWeWzX00YtNxin2eYHg@mail.gmail.com>
- <YzN9gYn1uwHopthW@google.com>
- <CA+EHjTw3din891hMUeRW-cn46ktyMWSdoB31pL+zWpXo_=3UVg@mail.gmail.com>
- <20221013133457.GA3263142@chaop.bj.intel.com>
- <CA+EHjTzZ2zsm7Ru_OKCZg9FCYESgZsmB=7ScKRh6ZN4=4OZ3gw@mail.gmail.com>
- <20221017145856.GB3417432@chaop.bj.intel.com>
- <CA+EHjTyiU230am0cuWc7xBBirGocPWGmyqCskhTytA10xpigYQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+EHjTyiU230am0cuWc7xBBirGocPWGmyqCskhTytA10xpigYQ@mail.gmail.com>
-X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Oct 17, 2022 at 08:05:10PM +0100, Fuad Tabba wrote:
-> Hi,
-> 
-> > > > Using both private_fd and userspace_addr is only needed in TDX and other
-> > > > confidential computing scenarios, pKVM may only use private_fd if the fd
-> > > > can also be mmaped as a whole to userspace as Sean suggested.
-> > >
-> > > That does work in practice, for now at least, and is what I do in my
-> > > current port. However, the naming and how the API is defined as
-> > > implied by the name and the documentation. By calling the field
-> > > private_fd, it does imply that it should not be mapped, which is also
-> > > what api.rst says in PATCH v8 5/8. My worry is that in that case pKVM
-> > > would be mis/ab-using this interface, and that future changes could
-> > > cause unforeseen issues for pKVM.
+> > > This sounds good. Thank you.
 > >
-> > That is fairly enough. We can change the naming and the documents.
-> >
-> > >
-> > > Maybe renaming this to something like "guest_fp", and specifying in
-> > > the documentation that it can be restricted, e.g., instead of "the
-> > > content of the private memory is invisible to userspace" something
-> > > along the lines of  "the content of the guest memory may be restricted
-> > > to userspace".
-> >
-> > Some other candidates in my mind:
-> > - restricted_fd: to pair with the mm side restricted_memfd
-> > - protected_fd: as Sean suggested before
-> > - fd: how it's explained relies on the memslot.flag.
-> 
-> All these sound good, since they all capture the potential use cases.
-> Restricted might be the most logical choice if that's going to also
-> become the name for the mem_fd.
+> > I like the idea of a separate Kconfig, e.g. CONFIG_KVM_GENERIC_PRIVATE_MEM or
+> > something.  I highly doubt there will be any non-x86 users for multiple years,
+> > if ever, but it would allow testing the private memory stuff on ARM (and any other
+> > non-x86 arch) without needing full pKVM support and with only minor KVM
+> > modifications, e.g. the x86 support[*] to test UPM without TDX is shaping up to be
+> > trivial.
+>
+> CONFIG_KVM_GENERIC_PRIVATE_MEM looks good to me.
 
-Thanks, I will use 'restricted' for them. e.g.:
-- memfd_restricted() syscall
-- restricted_fd
-- restricted_offset
+That sounds good to me, and just keeping the xarray isn't really an
+issue for pKVM. We could end up using it instead of some of the other
+structures we use for tracking.
 
-The memslot flags will still be KVM_MEM_PRIVATE, since I think pKVM will
-create its own one?
+Cheers,
+/fuad
 
-Chao
-> 
 > Thanks,
-> /fuad
-> 
-> > Thanks,
-> > Chao
-> > >
-> > > What do you think?
-> > >
-> > > Cheers,
-> > > /fuad
-> > >
-> > > >
-> > > > Thanks,
-> > > > Chao
-> > > > >
-> > > > > Cheers,
-> > > > > /fuad
+> Chao
+> >
+> > [*] https://lore.kernel.org/all/Y0mu1FKugNQG5T8K@google.com
