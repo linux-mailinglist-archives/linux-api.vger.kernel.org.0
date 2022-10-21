@@ -2,134 +2,102 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2618C606D70
-	for <lists+linux-api@lfdr.de>; Fri, 21 Oct 2022 04:11:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC2066078E1
+	for <lists+linux-api@lfdr.de>; Fri, 21 Oct 2022 15:52:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229757AbiJUCLx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 20 Oct 2022 22:11:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38166 "EHLO
+        id S231226AbiJUNv6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 21 Oct 2022 09:51:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53026 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229489AbiJUCLw (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 20 Oct 2022 22:11:52 -0400
-Received: from smtpout.efficios.com (smtpout.efficios.com [IPv6:2607:5300:203:5aae::31e5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC84E1EEA2D;
-        Thu, 20 Oct 2022 19:11:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=efficios.com;
-        s=smtpout1; t=1666318308;
-        bh=YYLNRpLFjpOx3zPbx2dWD9ifcWMbbBXNZdhWZRlErMs=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=FCRNNf/SxQz2jg1jx9wfUn4kq/dv5zt3ogNg+jvjR7fS5A7T6AVrzviTCEDYrY5/b
-         SJgfcXBIEmQ5L11Ay9HdYW93i85isJ+0SIeZdw02lZnI4dv3iUu30oGo21olvHTfcL
-         J6IOMo7TSic7m5KnQ1U65cMtPwNtzwgqCozc3DPKYPIwsLSWRF7Mdi3NlFHxALjyp4
-         kepwEM+z7d+b34Bvu1x0N0AgkijDlgmmPPPF9M7NDjQd0y4fGclhlA59mXCMxmAArT
-         yaIAsNIQvGz5JiEVp251at8ZUA1GTHhI5inajwK24QP6h6qdFcTUo5geWRYKebeXBp
-         jtMmYS/jv2s/g==
-Received: from [10.1.0.216] (192-222-188-69.qc.cable.ebox.net [192.222.188.69])
-        by smtpout.efficios.com (Postfix) with ESMTPSA id 4Mtnyr1BYXzVCZ;
-        Thu, 20 Oct 2022 22:11:48 -0400 (EDT)
-Message-ID: <7652446f-424f-35c1-6ebb-c8ffd8c99b1a@efficios.com>
-Date:   Thu, 20 Oct 2022 22:11:42 -0400
+        with ESMTP id S230446AbiJUNvy (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 21 Oct 2022 09:51:54 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D35D5277099;
+        Fri, 21 Oct 2022 06:51:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1666360312; x=1697896312;
+  h=date:from:to:cc:subject:message-id:reply-to:references:
+   mime-version:in-reply-to;
+  bh=DaWZG1/RJ5yq5HjRGu08lgshjmm5vbZXlRwrj8iUEyQ=;
+  b=UhpLSBbzCwnl8MpjzDPT1/5gwzSO7dJ0nn/hotq4zUIC4OrXvPniCmQa
+   qCuG3vE1YOSlh1S8gcgwiBp6qMsMfPioGkHhidLAm6nTtvsKhyyPmgTz+
+   R4dpbGwOHbF/nvyLyj/r6XQLCp0MuBC3pc4U+qBhdYLTc/IngCjbGIz8B
+   suEEeFHUpNPzPitQ+jV8Tq7GNS9/+jNm3/nkHSVAEojLHUK965vp47AMM
+   9OiH1DzHcdNIO99blsW9HbyIj7VVLXD5cF9SzAwpTNlzG6Ci4TBp4TdR5
+   6leqzRPqbYahWvuhthY3VnlNO36yC2jPn/jaOoAxfJc0TKup8IB6+qfvq
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10507"; a="286725182"
+X-IronPort-AV: E=Sophos;i="5.95,200,1661842800"; 
+   d="scan'208";a="286725182"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2022 06:51:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10507"; a="625348380"
+X-IronPort-AV: E=Sophos;i="5.95,200,1661842800"; 
+   d="scan'208";a="625348380"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+  by orsmga007.jf.intel.com with ESMTP; 21 Oct 2022 06:51:41 -0700
+Date:   Fri, 21 Oct 2022 21:47:11 +0800
+From:   Chao Peng <chao.p.peng@linux.intel.com>
+To:     Vishal Annapurve <vannapurve@google.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
+Message-ID: <20221021134711.GA3607894@chaop.bj.intel.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
+ <CAGtprH_MiCxT2xSxD2UrM4M+ghL0V=XEZzEX4Fo5wQKV4fAL4w@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [RFC PATCH] rseq: Use pr_warn_once() when deprecated/unknown ABI
- flags are encountered
-Content-Language: en-US
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        "Paul E . McKenney" <paulmck@kernel.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
-        linux-api@vger.kernel.org, Peter Oskolkov <posk@posk.io>,
-        Mark Rutland <mark.rutland@arm.com>
-References: <20220929141227.205343-1-mathieu.desnoyers@efficios.com>
-From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-In-Reply-To: <20220929141227.205343-1-mathieu.desnoyers@efficios.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAGtprH_MiCxT2xSxD2UrM4M+ghL0V=XEZzEX4Fo5wQKV4fAL4w@mail.gmail.com>
+X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
+        SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 2022-09-29 10:12, Mathieu Desnoyers wrote:
-> These commits use WARN_ON_ONCE() and kill the offending processes when
-> deprecated and unknown flags are encountered:
 > 
-> commit c17a6ff93213 ("rseq: Kill process when unknown flags are encountered in ABI structures")
-> commit 0190e4198e47 ("rseq: Deprecate RSEQ_CS_FLAG_NO_RESTART_ON_* flags")
+> In the context of userspace inaccessible memfd, what would be a
+> suggested way to enforce NUMA memory policy for physical memory
+> allocation? mbind[1] won't work here in absence of virtual address
+> range.
+
+How about set_mempolicy():
+https://www.man7.org/linux/man-pages/man2/set_mempolicy.2.html
+
+Chao
 > 
-> The WARN_ON_ONCE() triggered by userspace input prevents use of
-> Syzkaller to fuzz the rseq system call.
-> 
-> Replace this WARN_ON_ONCE() by pr_warn_once() messages which contain
-> actually useful information.
-
-Hi Peter,
-
-Should I resubmit this or can you simply pick up the Acked-by from Paul 
-McKenney and Mark Rutland and route this through the tip tree ?
-
-Thanks,
-
-Mathieu
-
-> 
-> Reported-by: Mark Rutland <mark.rutland@arm.com>
-> Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-> ---
->   kernel/rseq.c | 19 +++++++++++++++++--
->   1 file changed, 17 insertions(+), 2 deletions(-)
-> 
-> diff --git a/kernel/rseq.c b/kernel/rseq.c
-> index bda8175f8f99..d38ab944105d 100644
-> --- a/kernel/rseq.c
-> +++ b/kernel/rseq.c
-> @@ -171,12 +171,27 @@ static int rseq_get_rseq_cs(struct task_struct *t, struct rseq_cs *rseq_cs)
->   	return 0;
->   }
->   
-> +static bool rseq_warn_flags(const char *str, u32 flags)
-> +{
-> +	u32 test_flags;
-> +
-> +	if (!flags)
-> +		return false;
-> +	test_flags = flags & RSEQ_CS_NO_RESTART_FLAGS;
-> +	if (test_flags)
-> +		pr_warn_once("Deprecated flags (%u) in %s ABI structure", test_flags, str);
-> +	test_flags = flags & ~RSEQ_CS_NO_RESTART_FLAGS;
-> +	if (test_flags)
-> +		pr_warn_once("Unknown flags (%u) in %s ABI structure", test_flags, str);
-> +	return true;
-> +}
-> +
->   static int rseq_need_restart(struct task_struct *t, u32 cs_flags)
->   {
->   	u32 flags, event_mask;
->   	int ret;
->   
-> -	if (WARN_ON_ONCE(cs_flags & RSEQ_CS_NO_RESTART_FLAGS) || cs_flags)
-> +	if (rseq_warn_flags("rseq_cs", cs_flags))
->   		return -EINVAL;
->   
->   	/* Get thread flags. */
-> @@ -184,7 +199,7 @@ static int rseq_need_restart(struct task_struct *t, u32 cs_flags)
->   	if (ret)
->   		return ret;
->   
-> -	if (WARN_ON_ONCE(flags & RSEQ_CS_NO_RESTART_FLAGS) || flags)
-> +	if (rseq_warn_flags("rseq", flags))
->   		return -EINVAL;
->   
->   	/*
-
--- 
-Mathieu Desnoyers
-EfficiOS Inc.
-https://www.efficios.com
-
+> [1] https://github.com/chao-p/qemu/blob/privmem-v8/backends/hostmem.c#L382
