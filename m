@@ -2,46 +2,69 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3451C60B52C
-	for <lists+linux-api@lfdr.de>; Mon, 24 Oct 2022 20:13:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 50A2560B6B2
+	for <lists+linux-api@lfdr.de>; Mon, 24 Oct 2022 21:08:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231854AbiJXSND (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 24 Oct 2022 14:13:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58756 "EHLO
+        id S231984AbiJXTI2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 24 Oct 2022 15:08:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34208 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231936AbiJXSMW (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 24 Oct 2022 14:12:22 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 461B757E17;
-        Mon, 24 Oct 2022 09:54:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1666630459; x=1698166459;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=f12+hDSs2xhh9+cgFUHAQwPz5EdOX4nrGTxSpB9xto8=;
-  b=Lx4O7B4HXPSw6eCOX6fxKVKroy/kLcxL2hy81b68CBxeeJRyLCmgMCfL
-   +GmcUQtQfNoaO0aKDUWtL30YejrZoBatDCS3PeFJE4DrVZy75n4meLb3V
-   lTd9rYHhJuaupDbeWYGNYIRyNXZj3pq47viEZfMgcU99FnPK0/qZgfmIi
-   gspbcVr59orDB9o72YPvLlrDzWGOkCq17RmNQJRAMNg2/pBM0j0LNOMfA
-   bj+i/Q+CUyf8nP7jn5Mf5krunxQliQkthbAZqVw/QMtNgTnCY5KYq20Fa
-   rnUMOQajJskrGGHNEtBU+aDreoW/sfo7JqEpyO72zuy8iUIvlJ76mj0/t
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="290739879"
-X-IronPort-AV: E=Sophos;i="5.95,209,1661842800"; 
-   d="scan'208";a="290739879"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2022 07:59:41 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="631284461"
-X-IronPort-AV: E=Sophos;i="5.95,209,1661842800"; 
-   d="scan'208";a="631284461"
-Received: from unisar-mobl.ger.corp.intel.com (HELO box.shutemov.name) ([10.249.38.228])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2022 07:59:30 -0700
-Received: by box.shutemov.name (Postfix, from userid 1000)
-        id 381A7104D5C; Mon, 24 Oct 2022 17:59:28 +0300 (+03)
-Date:   Mon, 24 Oct 2022 17:59:28 +0300
-From:   "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-To:     Sean Christopherson <seanjc@google.com>
+        with ESMTP id S232156AbiJXTH7 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 24 Oct 2022 15:07:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB05EEEA8B
+        for <linux-api@vger.kernel.org>; Mon, 24 Oct 2022 10:47:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1666633561;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=UBAegUasNa5RuqJ7q9GZwuYTzFErEwMDb+Eg1mrTrvE=;
+        b=ZXmDyMxRy0FntsStdSea8NP67OlWyzaeSw+jhxGbqEBury2DEgbxx5n8ePLNqDYTm2/dH/
+        7/mRALbnFDHZZOFM/r30R0HNd4PaKRQQplI9Y2CrgIHsSof9W5HYVh8/eGGpimNA1LsUB6
+        VcP0OHosIpULVgIQab26dUOC0fRfstI=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-580-rbnsKXkmOUOunuuwRaS1BA-1; Mon, 24 Oct 2022 11:26:39 -0400
+X-MC-Unique: rbnsKXkmOUOunuuwRaS1BA-1
+Received: by mail-wm1-f72.google.com with SMTP id f7-20020a7bcd07000000b003c6e73579d3so4271803wmj.8
+        for <linux-api@vger.kernel.org>; Mon, 24 Oct 2022 08:26:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UBAegUasNa5RuqJ7q9GZwuYTzFErEwMDb+Eg1mrTrvE=;
+        b=nrddI6rO0cXni7zM7m/4wm17kx+3AVGu24jw3sUOJRFSS7oQSfm9B+kR9N+k0CuGA5
+         ffKZ052sLE4qoAhKHchy8VxG14KwU1vTyChzqKb+WvVfNfQKcFhZxetojfa1uGvHXsC/
+         nrOTywoYkzW/2blQ4M1pKliO4hHR9UWy/3twKmFNx5iZoRiKNCfaSu4cvg5JX4SzAIhV
+         x10SOEXJuJ1Cbwhr7ScHEYRBlft/dmCENlxPBdPdQkPolAVh0aeQ+uI/xYABsSBWBWt8
+         Y74hJ+p1O6G2qBN516ygKcK8Hux488miGAXaed3HlGV4P6dnYaVgelHiF/UpmWTzunTb
+         YzDQ==
+X-Gm-Message-State: ACrzQf2YEYqk9qSg8RW5SroDz58G1K6eaEQYb0g923m98ZmL1Q1c1MoP
+        BFfa6gsVnh8IvHqMsNEAU3XOpWpgFnWXRXSLbbhOo/+Rs4sw2o4h/Zd/Yxzk/XxXFtZAG8G6QdJ
+        153UGOoi5cItov+j9mCRS
+X-Received: by 2002:a5d:5a11:0:b0:22e:3ed1:e426 with SMTP id bq17-20020a5d5a11000000b0022e3ed1e426mr21883701wrb.642.1666625197885;
+        Mon, 24 Oct 2022 08:26:37 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4QYF0qpu+Yh4YQF+Y42ukyfMe46omRnCHz7TFmRMmq2+h+eVJ2IzD1faJk9A3cMFb5eNTxMw==
+X-Received: by 2002:a5d:5a11:0:b0:22e:3ed1:e426 with SMTP id bq17-20020a5d5a11000000b0022e3ed1e426mr21883650wrb.642.1666625197580;
+        Mon, 24 Oct 2022 08:26:37 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c704:f100:6371:a05b:e038:ac2c? (p200300cbc704f1006371a05be038ac2c.dip0.t-ipconnect.de. [2003:cb:c704:f100:6371:a05b:e038:ac2c])
+        by smtp.gmail.com with ESMTPSA id k21-20020a05600c0b5500b003cdf141f363sm194606wmr.11.2022.10.24.08.26.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 24 Oct 2022 08:26:37 -0700 (PDT)
+Message-ID: <e0371b20-0edf-0fc3-71db-e0c94bd0f290@redhat.com>
+Date:   Mon, 24 Oct 2022 17:26:34 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
+Content-Language: en-US
+To:     "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Sean Christopherson <seanjc@google.com>
 Cc:     Chao Peng <chao.p.peng@linux.intel.com>,
         Vishal Annapurve <vannapurve@google.com>, kvm@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-mm@kvack.org,
@@ -66,70 +89,74 @@ Cc:     Chao Peng <chao.p.peng@linux.intel.com>,
         Vlastimil Babka <vbabka@suse.cz>,
         Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
         jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
-        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
-        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+        aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
         Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
         Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
-Message-ID: <20221024145928.66uehsokp7bpa2st@box.shutemov.name>
 References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
  <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
  <CAGtprH_MiCxT2xSxD2UrM4M+ghL0V=XEZzEX4Fo5wQKV4fAL4w@mail.gmail.com>
- <20221021134711.GA3607894@chaop.bj.intel.com>
- <Y1LGRvVaWwHS+Zna@google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y1LGRvVaWwHS+Zna@google.com>
-X-Spam-Status: No, score=-2.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+ <20221021134711.GA3607894@chaop.bj.intel.com> <Y1LGRvVaWwHS+Zna@google.com>
+ <20221024145928.66uehsokp7bpa2st@box.shutemov.name>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <20221024145928.66uehsokp7bpa2st@box.shutemov.name>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Oct 21, 2022 at 04:18:14PM +0000, Sean Christopherson wrote:
-> On Fri, Oct 21, 2022, Chao Peng wrote:
-> > > 
-> > > In the context of userspace inaccessible memfd, what would be a
-> > > suggested way to enforce NUMA memory policy for physical memory
-> > > allocation? mbind[1] won't work here in absence of virtual address
-> > > range.
-> > 
-> > How about set_mempolicy():
-> > https://www.man7.org/linux/man-pages/man2/set_mempolicy.2.html
+On 24.10.22 16:59, Kirill A . Shutemov wrote:
+> On Fri, Oct 21, 2022 at 04:18:14PM +0000, Sean Christopherson wrote:
+>> On Fri, Oct 21, 2022, Chao Peng wrote:
+>>>>
+>>>> In the context of userspace inaccessible memfd, what would be a
+>>>> suggested way to enforce NUMA memory policy for physical memory
+>>>> allocation? mbind[1] won't work here in absence of virtual address
+>>>> range.
+>>>
+>>> How about set_mempolicy():
+>>> https://www.man7.org/linux/man-pages/man2/set_mempolicy.2.html
+>>
+>> Andy Lutomirski brought this up in an off-list discussion way back when the whole
+>> private-fd thing was first being proposed.
+>>
+>>    : The current Linux NUMA APIs (mbind, move_pages) work on virtual addresses.  If
+>>    : we want to support them for TDX private memory, we either need TDX private
+>>    : memory to have an HVA or we need file-based equivalents. Arguably we should add
+>>    : fmove_pages and fbind syscalls anyway, since the current API is quite awkward
+>>    : even for tools like numactl.
 > 
-> Andy Lutomirski brought this up in an off-list discussion way back when the whole
-> private-fd thing was first being proposed.
+> Yeah, we definitely have gaps in API wrt NUMA, but I don't think it be
+> addressed in the initial submission.
 > 
->   : The current Linux NUMA APIs (mbind, move_pages) work on virtual addresses.  If
->   : we want to support them for TDX private memory, we either need TDX private
->   : memory to have an HVA or we need file-based equivalents. Arguably we should add
->   : fmove_pages and fbind syscalls anyway, since the current API is quite awkward
->   : even for tools like numactl.
+> BTW, it is not regression comparing to old KVM slots, if the memory is
+> backed by memfd or other file:
+> 
+> MBIND(2)
+>         The  specified policy will be ignored for any MAP_SHARED mappings in the
+>         specified memory range.  Rather the pages will be allocated according to
+>         the  memory  policy  of the thread that caused the page to be allocated.
+>         Again, this may not be the thread that called mbind().
 
-Yeah, we definitely have gaps in API wrt NUMA, but I don't think it be
-addressed in the initial submission.
+IIRC, that documentation is imprecise/incorrect especially when it comes 
+to memfd. Page faults in shared mappings will similarly obey the set 
+mbind() policy when allocating new pages.
 
-BTW, it is not regression comparing to old KVM slots, if the memory is
-backed by memfd or other file:
+QEMU relies on that.
 
-MBIND(2)
-       The  specified policy will be ignored for any MAP_SHARED mappings in the
-       specified memory range.  Rather the pages will be allocated according to
-       the  memory  policy  of the thread that caused the page to be allocated.
-       Again, this may not be the thread that called mbind().
-
-It is not clear how to define fbind(2) semantics, considering that multiple
-processes may compete for the same region of page cache.
-
-Should it be per-inode or per-fd? Or maybe per-range in inode/fd?
-
-fmove_pages(2) should be relatively straight forward, since it is
-best-effort and does not guarantee that the page will note be moved
-somewhare else just after return from the syscall.
+The "fun" begins when we have multiple mappings, and only some have a 
+policy set ... or if we already, previously allocated the pages.
 
 -- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+Thanks,
+
+David / dhildenb
+
