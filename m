@@ -2,175 +2,251 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9875160E911
-	for <lists+linux-api@lfdr.de>; Wed, 26 Oct 2022 21:36:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B93D60EA7F
+	for <lists+linux-api@lfdr.de>; Wed, 26 Oct 2022 22:46:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234874AbiJZTgr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 26 Oct 2022 15:36:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50490 "EHLO
+        id S234551AbiJZUqZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 26 Oct 2022 16:46:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234979AbiJZTgp (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 26 Oct 2022 15:36:45 -0400
-Received: from sonic310-30.consmr.mail.ne1.yahoo.com (sonic310-30.consmr.mail.ne1.yahoo.com [66.163.186.211])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C0EB814E4
-        for <linux-api@vger.kernel.org>; Wed, 26 Oct 2022 12:36:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1666813001; bh=fgyo2ISY3OAsGAQIUHFMsA2y9yvPMn9uSWbL47QxgxA=; h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To; b=uTw2h70iE/0PCD7KKMkxLHTtgAoTGrE5zsq+ZBQoedItywpfJrL6SYgLxfpBnLMw6Thl7JKq/8LntfQ/knJv4LUxgmH5qH/GmusYgjflF0lJzLndr9BvY6oGucrYSbKEUongwy7WDWjcK6kbYn7H+MXyQ6NBSt6+r/+m1wRf8i+h0XI9qHg/VRQCSKqLcDlhWiP3h1jgZZDe9dqDTm35r5COaPClVY5PgL5f6yoYNGe3/u4PhcaVSfd5HP5lfODx3aaxZC2ykOI8jWWaC+zl6enoYKUArFdWbgwxBex/tRotca/Jd+/vdsWfFuFxEDjO+Up0SiwtEbhvxE+DmlZ40g==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1666813001; bh=XORoNFgByCE8mTnxUG6iFHtoEpoZrKyHEA68/kkIPxD=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=t+zIjAP5vbgQdmLR2xrDnQkEJUj0Kwf0b+TRGgingAkT4bIT3hIlObTYOxHD9XbBAudtOoj8HocP+d8IOIS7wTTMC+sSeUNP47a5fln6hIP4mUDUUKPxLwKoDZQAfjjeyip8amyQsY41fEioz/h/Orrmr6KxPF7JZUsBTYqdrhHhDbdyXvWYmMNvYam0yLZl4bHYMLJxImjtcQqvmRKH+5iyJjeu03GjQ9JxJcfeHi9LW1S7p7ta1vDvgrGz4UKHCxN6L0UjFtAKdUhGP1lxD+iUC2r+f4iAGln0TyX0miEpGNMPaCwbsmD1NvYuIsoKtyWBoJoVcOs/JOigSm4ENw==
-X-YMail-OSG: AcF0dHUVM1lbkt5gX5hDUE0dbPop16EuKUO5obC9.AaQT86FBILl_UN.TYJlbMs
- Kg4LKXY6YVinaHUb6rNs5uCL5NOgnWTqB5NdbQVNx.dAq0wWQAoavhotUfkGuu4PvI5oys6x2odX
- jBgBBeq96ApUNFgN.J1radWcIcVhlafkzHOCZ5vypQRUQR9IXxjPLhXiTKoB98uIukk4pwBPM11L
- wM4FP.G8tTDjB2O3bzlyc4gU.Dy0M0f5rvrRPELdbKDC6H3WAEuxuIiOad3RErKIlcwiqHnl5yPY
- ze_C5bcx8xvub34zLiNmPfMLIfEdqI1qqjDH0VF9rN4YGeaywh6zczKjF3Q45CsAGHtDZFVWWvK9
- gZvCMV76q7e4poDnE_32_jmRiuas1SbzmsszNZEBcV_OmV.jWHchwpLWoFuQ8oMhHqL7Ijrt9qeq
- NtnMo5SoSAi2luDso5Q4GOEft4VWJZPlRDLSqSHz9dHPKXF_iU_9wj.c41lofn5c.S7IpPUs85MF
- dH52bxflrFcJckAgAqcyi0EPXsqE6Ef6yZh69bvnsfGFvuSlp8Qip731OdZLZTOogZ5xKc0Botbs
- g622dUa1R1imzIPWc3m5IAysMqqIS5_dis1mD9rcdQEcOECa4T03Sks06Jj367.68_Qv_jREySIZ
- VvBOxlYQyVwwUiTF2CrShAebQs4MU8XVhlZESCwqi57kgsyD7JUU7cbOmv0.QPyMDmizLlTE1Eq7
- n4C36xKuNMYcvIQqmGHLB_PIJwQzLrO61DbmdhODARGSomz5DrpZzL7qUzww.ErhwGb64kavx1qh
- JL4d5kkiWpuL4RRPaumNitlU5Altz9dAUgyD.FRV0A2s5wYZe0wcLfpvJWhyN3hJFXe2sRPUaZDm
- 1pfAFFtF9jlyj91VJk3V6CwltC4QuKoY5odMPenTIpY3yS4U9ps_8Cw9QeouY11AugCq6BRI1Or1
- F0jI8zPe63.PC5PQSW_cLPyaGHGCv3O0Ssu3J1FslFFWD5gP.Y82eLV_hoEHVAxIrIomf9iudzWy
- OGh969pMXfzWubO3m_KCM30PZ.pc64U7GZTu8I8Prht8SSH557zuimExq8n_KR0ScMHy70qKlrqW
- AbeT9_tvzmraVmwYhKWgvr8oABCNe7blBUaamLigtl1fC2Ke.AoIBWA7H.StNuwDApwQPXoPqYoY
- 2xTwohVP6ZK9l65GyMboLkt_si2hYk7FvQzZY9ouYhd0B3zASgV6QGsQN6AtSRpnivgZQuyJ.a_R
- jh79r9znqnoUeURIi2TafsZNraM7AFqNCXFq6OOOn6ROHYaCI09KM.zwz_qmSqQxHeOk4BXf54VK
- hnNMX0UuaK5UfgKuEusXi6rA_K7muRmgHqBVhdYWkL6QfQZNE6.EKBPOgfjLLkCd7JVS2T9moDQC
- HPsgbnzwtBatLd2MdvatoUVeY58j0cNTHzCv2llF9KbKHRh1qwOwrJti8sKDqqbqjanbNVxsgvMS
- .a4jGzBiqEbzifzmtJsmKDvFK14QlEDBaMOLd4VXSm06cxrQIH19OmjAyg7VuzUA3X1AajSIanbv
- G5MCIOT_ElyD3Q19lW0Z9eontYl4KrbPydKxQ_QRt8jPGdDg3u9.BjJDcV_k_ySDlGtQV1heEezX
- mlcv1vc0bHQjMtvVtcHANhu_N5XqOCZYuN8jn.NtwD8dzaSEDaHLFAD.VGVJQJ6lgNWYV0W_OC10
- 4txovE9J7jYYE2QOfeEoO6q9WhwSuqAUNbPt90ljYQg6UAPQ3dsuobuU2Xxu0lIif6BE27sCp3Gz
- dXQz8FKu.k2kugWEZhQ6NU3J5NpKzeHAlZHdT.qmlF6T25M0elvCZPmOK26MhzJZST.fj2NfSTkF
- OcDrmYtoR_8P8H8RTGHIQWeLK6rVp3aJFKGlofbnsoGaUhswkhR8M4IWflm43H1oy_mIiwQPi31t
- sVRB6CUDJXdzQk2nDWZOOeM9OR3zDla_eSPuNIsTk8VCbOt423SlrMpSj5M3hBdYKYjruuFIuDBl
- tnTBNyHsQuJr5Cz4uz277KY.KQ0M5lczjEGWnmMmfu8gF8CmZjPE9UPfPP2CJX2.UG5glrSsQBvl
- zSrCqCbzaLiYq.8pjEUb0la6LdTKDDT4_8kWtngRJUmite4xbPh_YRQjitGKgZ0hnKcx.GNgWvCZ
- TCJ0teB7SLKXxIVv9wc7y8.g9D.L0k9A90F4HIMunjd9_fLAiGk31Gndk_mNPmccmPFxkGtBdUWe
- gKvlQ2qdRBY_5KRZsW.N0O4n5i23_yNbPkSzsx9cd
-X-Sonic-MF: <casey@schaufler-ca.com>
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic310.consmr.mail.ne1.yahoo.com with HTTP; Wed, 26 Oct 2022 19:36:41 +0000
-Received: by hermes--production-bf1-64dccd5d47-k9w9h (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 0c5d151e36f47c5c39f843a98a5bcf91;
-          Wed, 26 Oct 2022 19:36:36 +0000 (UTC)
-Message-ID: <5396ab1e-9b93-df33-ca49-58dc59459a76@schaufler-ca.com>
-Date:   Wed, 26 Oct 2022 12:36:34 -0700
+        with ESMTP id S234241AbiJZUqY (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 26 Oct 2022 16:46:24 -0400
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04ED2792F4;
+        Wed, 26 Oct 2022 13:46:23 -0700 (PDT)
+Received: by mail-pj1-x1033.google.com with SMTP id u8-20020a17090a5e4800b002106dcdd4a0so3976145pji.1;
+        Wed, 26 Oct 2022 13:46:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=osbqX8leV6g/SkiEHlFgEuxy7LRzWU2Y7Uh+l7tX15w=;
+        b=jpYjPBLG06J9WOn/bBWpwBCbAYRsRYqGtpSJMTFmnFYTA2ZFnazgRXI8p//toCQ2TJ
+         y0spJgx5cSlhzZ3SljvtDIADHdIjucdfN8NSuX9QNmLHoPzorq79XbjryWXjfHFl30lq
+         a+yGNHUmONi8/9fjz20oKzw3ydyHBmBZfyBBhDMaJiuRleHwSAzhKieuIBUJl+OaRWkx
+         J8ePiRgrp1obhqOjSj/zBR/mn+zZs1yFys+iRMsX91dPwar3019jAkA21DzvD4AEs3Ci
+         EqQhVJdb++3PMZsV4Ve+oth/VTO9h3hSFBdHXErMhMsb9uXlU65Dc3fy+9wGFc3kxwVE
+         7xyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=osbqX8leV6g/SkiEHlFgEuxy7LRzWU2Y7Uh+l7tX15w=;
+        b=pWmAG25EI2ueXl0IeDbrrmorANO51zg96TsFc9GR9OutZa1SD+xCY0aiXmSYs+KU3s
+         y5tDb4/IHsUcOdKEhIsKqDmj1Ifj66lYr0E8M9+fKX7sXhV8LYV9kJFQKCQ5SDgyacO4
+         HUm4KWW9Z1dg0axMoJWVpVhr3d0R7gdaRSTj/VVh/kFU7Z8g1m6Pjjsqb1REAtFgB6Ng
+         nkgLO1Fz6w1JjWypm7K4Pe3oizY3otijOI4D/Gw2dvVnt8/R4/4tnn9rDLSdBCbaJO34
+         DZbE7t2DO0CLDVSBk1+tFw5eU3KHCHowrWnY+NSdpipC8HxqHU3rEakdZBBQq2490C5f
+         whxg==
+X-Gm-Message-State: ACrzQf0DqPeWIXYkG2Zift1zj+gIF4S7nUEcWUKObQKS860e5uRKzLqC
+        +4lB2rLiD/7q4bcHvhDZg9o=
+X-Google-Smtp-Source: AMsMyM7NaRTKclIWYEWcxpgdPdqgRZFy22OSD7N8p45NptTu2RyVSV2oujVK1I0Ov2AG9q7XgNRCoQ==
+X-Received: by 2002:a17:902:7b95:b0:178:ab50:76b5 with SMTP id w21-20020a1709027b9500b00178ab5076b5mr46490591pll.161.1666817182250;
+        Wed, 26 Oct 2022 13:46:22 -0700 (PDT)
+Received: from localhost ([192.55.54.55])
+        by smtp.gmail.com with ESMTPSA id a8-20020a170902710800b00172973d3cd9sm3308650pll.55.2022.10.26.13.46.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Oct 2022 13:46:21 -0700 (PDT)
+Date:   Wed, 26 Oct 2022 13:46:20 -0700
+From:   Isaku Yamahata <isaku.yamahata@gmail.com>
+To:     Chao Peng <chao.p.peng@linux.intel.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>, tabba@google.com,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com,
+        isaku.yamahata@gmail.com
+Subject: Re: [PATCH v9 6/8] KVM: Update lpage info when private/shared memory
+ are mixed
+Message-ID: <20221026204620.GB3819453@ls.amr.corp.intel.com>
+References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
+ <20221025151344.3784230-7-chao.p.peng@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH v1 2/8] LSM: Add an LSM identifier for external use
-Content-Language: en-US
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     casey.schaufler@intel.com, paul@paul-moore.com,
-        linux-security-module@vger.kernel.org, jmorris@namei.org,
-        keescook@chromium.org, john.johansen@canonical.com,
-        penguin-kernel@i-love.sakura.ne.jp, stephen.smalley.work@gmail.com,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        mic@digikod.net, casey@schaufler-ca.com
-References: <20221025184519.13231-1-casey@schaufler-ca.com>
- <20221025184519.13231-3-casey@schaufler-ca.com> <Y1jMeWl0oV4/2zyE@kroah.com>
-From:   Casey Schaufler <casey@schaufler-ca.com>
-In-Reply-To: <Y1jMeWl0oV4/2zyE@kroah.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Mailer: WebService/1.1.20783 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20221025151344.3784230-7-chao.p.peng@linux.intel.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 10/25/2022 10:58 PM, Greg KH wrote:
-> On Tue, Oct 25, 2022 at 11:45:13AM -0700, Casey Schaufler wrote:
->> Add an integer member "id" to the struct lsm_id. This value is
->> a unique identifier associated with each security module. The
->> values are defined in a new UAPI header file. Each existing LSM
->> has been updated to include it's LSMID in the lsm_id.
->>
->> The LSM ID values are sequential, with the oldest module
->> LSM_ID_CAPABILITY being the lowest value and the existing
->> modules numbered in the order they were included in the
->> main line kernel. The first 32 values (0 - 31) are reserved
->> for some as yet unknown but important use.
->>
->> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
->> ---
->>  include/linux/lsm_hooks.h    |  1 +
->>  include/uapi/linux/lsm.h     | 32 ++++++++++++++++++++++++++++++++
->>  security/apparmor/lsm.c      |  2 ++
->>  security/bpf/hooks.c         |  2 ++
->>  security/commoncap.c         |  2 ++
->>  security/landlock/setup.c    |  2 ++
->>  security/loadpin/loadpin.c   |  2 ++
->>  security/lockdown/lockdown.c |  2 ++
->>  security/safesetid/lsm.c     |  2 ++
->>  security/selinux/hooks.c     |  2 ++
->>  security/smack/smack_lsm.c   |  2 ++
->>  security/tomoyo/tomoyo.c     |  2 ++
->>  security/yama/yama_lsm.c     |  2 ++
->>  13 files changed, 55 insertions(+)
->>  create mode 100644 include/uapi/linux/lsm.h
->>
->> diff --git a/include/linux/lsm_hooks.h b/include/linux/lsm_hooks.h
->> index e383e468f742..dd4b4d95a172 100644
->> --- a/include/linux/lsm_hooks.h
->> +++ b/include/linux/lsm_hooks.h
->> @@ -1607,6 +1607,7 @@ struct security_hook_heads {
->>   */
->>  struct lsm_id {
->>  	const char	*lsm;		/* Name of the LSM */
->> +	int		id;		/* LSM ID */
-> Again, kerneldoc.
->
-> And if this crosses the user/kernel boundry, please make it __u64.  Or
-> __s32?  Something explicit please.
+On Tue, Oct 25, 2022 at 11:13:42PM +0800,
+Chao Peng <chao.p.peng@linux.intel.com> wrote:
 
-Will do.
+> When private/shared memory are mixed in a large page, the lpage_info may
+> not be accurate and should be updated with this mixed info. A large page
+> has mixed pages can't be really mapped as large page since its
+> private/shared pages are from different physical memory.
+> 
+> Update lpage_info when private/shared memory attribute is changed. If
+> both private and shared pages are within a large page region, it can't
+> be mapped as large page. It's a bit challenge to track the mixed
+> info in a 'count' like variable, this patch instead reserves a bit in
+> 'disallow_lpage' to indicate a large page has mixed private/share pages.
+> 
+> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> ---
+>  arch/x86/include/asm/kvm_host.h |   8 +++
+>  arch/x86/kvm/mmu/mmu.c          | 112 +++++++++++++++++++++++++++++++-
+>  arch/x86/kvm/x86.c              |   2 +
+>  include/linux/kvm_host.h        |  19 ++++++
+>  virt/kvm/kvm_main.c             |  16 +++--
+>  5 files changed, 152 insertions(+), 5 deletions(-)
+> 
+...
+> diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
+> index 33b1aec44fb8..67a9823a8c35 100644
+> --- a/arch/x86/kvm/mmu/mmu.c
+> +++ b/arch/x86/kvm/mmu/mmu.c
+...
+> @@ -6910,3 +6915,108 @@ void kvm_mmu_pre_destroy_vm(struct kvm *kvm)
+>  	if (kvm->arch.nx_lpage_recovery_thread)
+>  		kthread_stop(kvm->arch.nx_lpage_recovery_thread);
+>  }
+> +
+> +static inline bool linfo_is_mixed(struct kvm_lpage_info *linfo)
+> +{
+> +	return linfo->disallow_lpage & KVM_LPAGE_PRIVATE_SHARED_MIXED;
+> +}
+> +
+> +static inline void linfo_update_mixed(struct kvm_lpage_info *linfo, bool mixed)
+> +{
+> +	if (mixed)
+> +		linfo->disallow_lpage |= KVM_LPAGE_PRIVATE_SHARED_MIXED;
+> +	else
+> +		linfo->disallow_lpage &= ~KVM_LPAGE_PRIVATE_SHARED_MIXED;
+> +}
+> +
+> +static bool mem_attr_is_mixed_2m(struct kvm *kvm, unsigned int attr,
+> +				 gfn_t start, gfn_t end)
+> +{
+> +	XA_STATE(xas, &kvm->mem_attr_array, start);
+> +	gfn_t gfn = start;
+> +	void *entry;
+> +	bool shared = attr == KVM_MEM_ATTR_SHARED;
+> +	bool mixed = false;
+> +
+> +	rcu_read_lock();
+> +	entry = xas_load(&xas);
+> +	while (gfn < end) {
+> +		if (xas_retry(&xas, entry))
+> +			continue;
+> +
+> +		KVM_BUG_ON(gfn != xas.xa_index, kvm);
+> +
+> +		if ((entry && !shared) || (!entry && shared)) {
+> +			mixed = true;
+> +			goto out;
+
+nitpick: goto isn't needed. break should work.
+
+> +		}
+> +
+> +		entry = xas_next(&xas);
+> +		gfn++;
+> +	}
+> +out:
+> +	rcu_read_unlock();
+> +	return mixed;
+> +}
+> +
+> +static bool mem_attr_is_mixed(struct kvm *kvm, struct kvm_memory_slot *slot,
+> +			      int level, unsigned int attr,
+> +			      gfn_t start, gfn_t end)
+> +{
+> +	unsigned long gfn;
+> +	void *entry;
+> +
+> +	if (level == PG_LEVEL_2M)
+> +		return mem_attr_is_mixed_2m(kvm, attr, start, end);
+> +
+> +	entry = xa_load(&kvm->mem_attr_array, start);
+> +	for (gfn = start; gfn < end; gfn += KVM_PAGES_PER_HPAGE(level - 1)) {
+> +		if (linfo_is_mixed(lpage_info_slot(gfn, slot, level - 1)))
+> +			return true;
+> +		if (xa_load(&kvm->mem_attr_array, gfn) != entry)
+> +			return true;
+> +	}
+> +	return false;
+> +}
+> +
+> +void kvm_arch_update_mem_attr(struct kvm *kvm, struct kvm_memory_slot *slot,
+> +			      unsigned int attr, gfn_t start, gfn_t end)
+> +{
+> +
+> +	unsigned long lpage_start, lpage_end;
+> +	unsigned long gfn, pages, mask;
+> +	int level;
+> +
+> +	WARN_ONCE(!(attr & (KVM_MEM_ATTR_PRIVATE | KVM_MEM_ATTR_SHARED)),
+> +			"Unsupported mem attribute.\n");
+> +
+> +	/*
+> +	 * The sequence matters here: we update the higher level basing on the
+> +	 * lower level's scanning result.
+> +	 */
+> +	for (level = PG_LEVEL_2M; level <= KVM_MAX_HUGEPAGE_LEVEL; level++) {
+> +		pages = KVM_PAGES_PER_HPAGE(level);
+> +		mask = ~(pages - 1);
+
+nitpick: KVM_HPAGE_MASK(level).  Maybe matter of preference.
 
 
->>  };
->>  
->>  /*
->> diff --git a/include/uapi/linux/lsm.h b/include/uapi/linux/lsm.h
->> new file mode 100644
->> index 000000000000..d5bcbb9375df
->> --- /dev/null
->> +++ b/include/uapi/linux/lsm.h
->> @@ -0,0 +1,32 @@
->> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
->> +/*
->> + * Linus Security Modules (LSM) - User space API
-> s/Linus/Linux/.
+> +		lpage_start = max(start & mask, slot->base_gfn);
+> +		lpage_end = (end - 1) & mask;
+> +
+> +		/*
+> +		 * We only need to scan the head and tail page, for middle pages
+> +		 * we know they are not mixed.
+> +		 */
+> +		linfo_update_mixed(lpage_info_slot(lpage_start, slot, level),
+> +				   mem_attr_is_mixed(kvm, slot, level, attr,
+> +						     lpage_start, start));
+> +
+> +		if (lpage_start == lpage_end)
+> +			return;
+> +
+> +		for (gfn = lpage_start + pages; gfn < lpage_end; gfn += pages)
+> +			linfo_update_mixed(lpage_info_slot(gfn, slot, level),
+> +					   false);
+> +
+> +		linfo_update_mixed(lpage_info_slot(lpage_end, slot, level),
+> +				   mem_attr_is_mixed(kvm, slot, level, attr,
+> +						     end, lpage_end + pages));
+> +	}
+> +}
 
-Whoops.
-
->
->
->> + *
->> + * Copyright (C) 2022 Casey Schaufler <casey@schaufler-ca.com>
->> + * Copyright (C) Intel Corporation
-> No date for Intel?
-
-The latest guidance I have received is that Intel does not want a date.
-
->> + */
->> +
->> +#ifndef _UAPI_LINUX_LSM_H
->> +#define _UAPI_LINUX_LSM_H
->> +
->> +/*
->> + * ID values to identify security modules.
->> + * A system may use more than one security module.
->> + *
->> + * LSM_ID_XXX values 0 - 31 are reserved for future use
-> Reserved for what?  Why?
-
-You're not the first person to ask. I'll remove the reserved values
-for the next version. The invalid value has to change as the id field
-is going to be unsigned.
-
->
-> thanks,
->
-> greg k-h
+-- 
+Isaku Yamahata <isaku.yamahata@gmail.com>
