@@ -2,47 +2,47 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F2DCE60DE1F
-	for <lists+linux-api@lfdr.de>; Wed, 26 Oct 2022 11:33:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CBD8260E058
+	for <lists+linux-api@lfdr.de>; Wed, 26 Oct 2022 14:09:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231164AbiJZJdz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 26 Oct 2022 05:33:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40950 "EHLO
+        id S233757AbiJZMJQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 26 Oct 2022 08:09:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48146 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233249AbiJZJdx (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 26 Oct 2022 05:33:53 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE8D2B2D8C;
-        Wed, 26 Oct 2022 02:33:51 -0700 (PDT)
+        with ESMTP id S233809AbiJZMI6 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 26 Oct 2022 08:08:58 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5F83E6F6D;
+        Wed, 26 Oct 2022 05:07:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1666776832; x=1698312832;
+  t=1666786075; x=1698322075;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=zsehgtAmLtFaGdM+ObxrPHSZHhDKDCZ/UI+d4lI+/gQ=;
-  b=Zul/o8o0QnXYftCGP7Ey91uIUQHGTTsAAkiLl0qVvVJeR8sMbwhHvqfV
-   UfGPNMhjMfjDKAbqNk2xdN3NvENH+HG7HLgC8vfJ/Sc+HXYYCVO7/XFcA
-   ItqrDYa8EbPUDTWGgsyrAw5Vzx4DkNwgPmkJu/1RHBae06ZXaQV7nEjWr
-   nOSoPsPncg/roTCYbpsoub/2kmXL6+CafLysEjebw+skgyHw7nK8wiAwB
-   YyNRBHQXKu43BrCZQJptI8fQo8p1W26RAzfC0l9/9ef5M91X1/NJqXQ30
-   bc3FIoBHqRsxXMBvSzkYJSawu52i3Hf4A5NhcpHX2NnOcOJP3gKtOvBBM
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10511"; a="369970002"
+  bh=auCx4lJKU6GEweJByzkltVr3pxiaCkdDtF7hTEb/GQA=;
+  b=mCCRpiXKJOOFc81pqBVjTqzURP5C4s32vIEdsiM9djaZ/A0qq3WZ9qr2
+   +aSThrDXLMTt+B9Iw0H3lLcxsglFclSYA2skEX01K9tLgU3zyqGBI9SkF
+   jStI70Bv2GqqlJ9B1xAGHikEMo+ORFlkwkwpVQjnpD90GZA2q83yxN7YP
+   ZkH2ifyXpE5HBD5VDbmVS2DHkri46Czrp3/RDPKtvsfy4LXDtzOQsizGm
+   RmbjaG3soDh5kxzVdICWghM9M5JDcRq6aEsW6Hf2SbOqDNa21P6PM+i+c
+   vctUbH5y+zEBM9gy0CKNlOJCyRowNoWTUACQyVPZA4qBSJzojaQctQ3rs
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10511"; a="291233039"
 X-IronPort-AV: E=Sophos;i="5.95,214,1661842800"; 
-   d="gz'50?scan'50,208,50";a="369970002"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2022 02:33:51 -0700
+   d="gz'50?scan'50,208,50";a="291233039"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2022 05:07:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10511"; a="757241325"
+X-IronPort-AV: E=McAfee;i="6500,9779,10511"; a="583131639"
 X-IronPort-AV: E=Sophos;i="5.95,214,1661842800"; 
-   d="gz'50?scan'50,208,50";a="757241325"
+   d="gz'50?scan'50,208,50";a="583131639"
 Received: from lkp-server02.sh.intel.com (HELO b6d29c1a0365) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 26 Oct 2022 02:33:47 -0700
+  by orsmga003.jf.intel.com with ESMTP; 26 Oct 2022 05:07:50 -0700
 Received: from kbuild by b6d29c1a0365 with local (Exim 4.96)
         (envelope-from <lkp@intel.com>)
-        id 1oncnC-0007FQ-0e;
-        Wed, 26 Oct 2022 09:33:46 +0000
-Date:   Wed, 26 Oct 2022 17:33:25 +0800
+        id 1onfCI-0007OC-0l;
+        Wed, 26 Oct 2022 12:07:50 +0000
+Date:   Wed, 26 Oct 2022 20:07:03 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Casey Schaufler <casey@schaufler-ca.com>,
         casey.schaufler@intel.com, paul@paul-moore.com,
@@ -52,17 +52,16 @@ Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
         john.johansen@canonical.com, penguin-kernel@i-love.sakura.ne.jp,
         stephen.smalley.work@gmail.com, linux-kernel@vger.kernel.org,
         linux-api@vger.kernel.org, mic@digikod.net
-Subject: Re: [PATCH v1 6/8] LSM: lsm_self_attr syscall for LSM self attributes
-Message-ID: <202210261747.pCxX0LaU-lkp@intel.com>
-References: <20221025184519.13231-7-casey@schaufler-ca.com>
+Subject: Re: [PATCH v1 7/8] LSM: Create lsm_module_list system call
+Message-ID: <202210261957.yIwlP9qs-lkp@intel.com>
+References: <20221025184519.13231-8-casey@schaufler-ca.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="gimxpqUfBuLNcu6w"
+Content-Type: multipart/mixed; boundary="FuVYd75VnqhTM9vm"
 Content-Disposition: inline
-In-Reply-To: <20221025184519.13231-7-casey@schaufler-ca.com>
-X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+In-Reply-To: <20221025184519.13231-8-casey@schaufler-ca.com>
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
+        SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -70,7 +69,7 @@ List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
 
---gimxpqUfBuLNcu6w
+--FuVYd75VnqhTM9vm
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
@@ -87,8 +86,8 @@ https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Casey-Schaufler/LSM-Identify-modules-by-more-than-name/20221026-034541
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/hardening
-patch link:    https://lore.kernel.org/r/20221025184519.13231-7-casey%40schaufler-ca.com
-patch subject: [PATCH v1 6/8] LSM: lsm_self_attr syscall for LSM self attributes
+patch link:    https://lore.kernel.org/r/20221025184519.13231-8-casey%40schaufler-ca.com
+patch subject: [PATCH v1 7/8] LSM: Create lsm_module_list system call
 config: arm-randconfig-r031-20221025 (attached as .config)
 compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 791a7ae1ba3efd6bca96338e10ffde557ba83920)
 reproduce (this is a W=1 build):
@@ -96,10 +95,10 @@ reproduce (this is a W=1 build):
         chmod +x ~/bin/make.cross
         # install arm cross compiling tool for clang build
         # apt-get install binutils-arm-linux-gnueabi
-        # https://github.com/intel-lab-lkp/linux/commit/c9d17b230f202246a9451fbdefac8c1720eb68a6
+        # https://github.com/intel-lab-lkp/linux/commit/e4fdffbcada3e48a7f4049e4c872642a1fed8f04
         git remote add linux-review https://github.com/intel-lab-lkp/linux
         git fetch --no-tags linux-review Casey-Schaufler/LSM-Identify-modules-by-more-than-name/20221026-034541
-        git checkout c9d17b230f202246a9451fbdefac8c1720eb68a6
+        git checkout e4fdffbcada3e48a7f4049e4c872642a1fed8f04
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
@@ -113,7 +112,7 @@ All errors (new ones prefixed by >>):
    include/linux/syscalls.h:1060:42: warning: declaration of 'struct lsm_ctx' will not be visible outside of this function [-Wvisibility]
    asmlinkage long sys_lsm_self_attr(struct lsm_ctx *ctx, size_t *size, int flags);
                                             ^
->> security/lsm_syscalls.c:47:1: error: conflicting types for 'sys_lsm_self_attr'
+   security/lsm_syscalls.c:47:1: error: conflicting types for 'sys_lsm_self_attr'
    SYSCALL_DEFINE3(lsm_self_attr,
    ^
    include/linux/syscalls.h:220:36: note: expanded from macro 'SYSCALL_DEFINE3'
@@ -131,37 +130,55 @@ All errors (new ones prefixed by >>):
    include/linux/syscalls.h:1060:17: note: previous declaration is here
    asmlinkage long sys_lsm_self_attr(struct lsm_ctx *ctx, size_t *size, int flags);
                    ^
-   1 warning and 1 error generated.
+>> security/lsm_syscalls.c:171:1: error: conflicting types for 'sys_lsm_module_list'
+   SYSCALL_DEFINE3(lsm_module_list,
+   ^
+   include/linux/syscalls.h:220:36: note: expanded from macro 'SYSCALL_DEFINE3'
+   #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS__)
+                                      ^
+   include/linux/syscalls.h:229:2: note: expanded from macro 'SYSCALL_DEFINEx'
+           __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+           ^
+   include/linux/syscalls.h:243:18: note: expanded from macro '__SYSCALL_DEFINEx'
+           asmlinkage long sys##name(__MAP(x,__SC_DECL,__VA_ARGS__))       \
+                           ^
+   <scratch space>:104:1: note: expanded from here
+   sys_lsm_module_list
+   ^
+   include/linux/syscalls.h:1061:17: note: previous declaration is here
+   asmlinkage long sys_lsm_module_list(unsigned int *ids, size_t *size, int flags);
+                   ^
+   1 warning and 2 errors generated.
 
 
-vim +/sys_lsm_self_attr +47 security/lsm_syscalls.c
+vim +/sys_lsm_module_list +171 security/lsm_syscalls.c
 
-    33	
-    34	/**
-    35	 * lsm_self_attr - Return current task's security module attributes
-    36	 * @ctx: the LSM contexts
-    37	 * @size: size of @ctx, updated on return
-    38	 * @flags: reserved for future use, must be zero
-    39	 *
-    40	 * Returns the calling task's LSM contexts. On success this
-    41	 * function returns the number of @ctx array elements. This value
-    42	 * may be zero if there are no LSM contexts assigned. If @size is
-    43	 * insufficient to contain the return data -E2BIG is returned and
-    44	 * @size is set to the minimum required size. In all other cases
-    45	 * a negative value indicating the error is returned.
-    46	 */
-  > 47	SYSCALL_DEFINE3(lsm_self_attr,
+   157	
+   158	/**
+   159	 * lsm_module_list - Return a list of the active security modules
+   160	 * @ids: the LSM module ids
+   161	 * @size: size of @ids, updated on return
+   162	 * @flags: reserved for future use, must be zero
+   163	 *
+   164	 * Returns a list of the active LSM ids. On success this function
+   165	 * returns the number of @ids array elements. This value may be zero
+   166	 * if there are no LSMs active. If @size is insufficient to contain
+   167	 * the return data -E2BIG is returned and @size is set to the minimum
+   168	 * required size. In all other cases a negative value indicating the
+   169	 * error is returned.
+   170	 */
+ > 171	SYSCALL_DEFINE3(lsm_module_list,
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---gimxpqUfBuLNcu6w
+--FuVYd75VnqhTM9vm
 Content-Type: application/gzip
 Content-Disposition: attachment; filename=".config.gz"
 Content-Transfer-Encoding: base64
 
-H4sICMzkWGMAAy5jb25maWcAnDxZc9s4k+/zK1iZqq1vHzLR4XO3/ACRoIQRSTAEKMl+YSky
+H4sICFUNWWMAAy5jb25maWcAnDxZc9s4k+/zK1iZqq1vHzLR4XO3/ACRoIQRSTAEKMl+YSky
 nWhHlrySPN/k3283eAEkKKd2HpKou3E1+m5wfv/td4e8nw+v6/N2s97tfjrf831+XJ/zZ+dl
 u8v/2/G4E3HpUI/JP4A42O7f//myPr46N38M/xh8Pm6Gzjw/7vOd4x72L9vv7zB4e9j/9vtv
 Lo98Ns1cN1vQRDAeZZKu5MOnzW69/+78nR9PQOcMb/4Y/DFw/vV9e/6vL1/gz9ft8Xg4ftnt
@@ -833,4 +850,4 @@ U4XxoNTG6UxK6hq/O/8847nphqb0P9D6oFjvicI63EZ8kihL2FO4u3BeUbqi80moYbyEBO3U
 ZmpDgev2T5KPYsevzy/GWd7A9MzyoY9SUMo3tuiCnvMmdbOa26hsGquVrEiCd84S/wef9vMo
 OFACAA==
 
---gimxpqUfBuLNcu6w--
+--FuVYd75VnqhTM9vm--
