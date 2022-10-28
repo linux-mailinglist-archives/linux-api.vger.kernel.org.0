@@ -2,124 +2,142 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7FB3760FF17
-	for <lists+linux-api@lfdr.de>; Thu, 27 Oct 2022 19:14:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8CA91610A28
+	for <lists+linux-api@lfdr.de>; Fri, 28 Oct 2022 08:17:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235373AbiJ0ROr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 27 Oct 2022 13:14:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55618 "EHLO
+        id S229674AbiJ1GRQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 28 Oct 2022 02:17:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36248 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235239AbiJ0ROq (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 27 Oct 2022 13:14:46 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BD23264A;
-        Thu, 27 Oct 2022 10:14:42 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 89597B826D7;
-        Thu, 27 Oct 2022 17:14:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6FCAC433C1;
-        Thu, 27 Oct 2022 17:14:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1666890879;
-        bh=k+aoyyn+rNCjwBk+i7ZtBHKKkShng0Ez7j/+Qq6YQYM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=IT6ovDv1uwtX6yb/kvPj3J2SfhAfu7zp0GOPfvzVjNnXMf82mYZSGQIieEtdZFX8s
-         WQq709mp1gPK/zjrJn6i0GO3dbrqX8eRwtzgcGjqtKnwMjSmoxM+f1WxobcuKdi5++
-         uyoBkRRF6NjP6/wQMq1Tcgf3YEpT+xi66m5UPwJk=
-Date:   Thu, 27 Oct 2022 19:13:47 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Casey Schaufler <casey@schaufler-ca.com>
-Cc:     casey.schaufler@intel.com, paul@paul-moore.com,
-        linux-security-module@vger.kernel.org, jmorris@namei.org,
-        keescook@chromium.org, john.johansen@canonical.com,
-        penguin-kernel@i-love.sakura.ne.jp, stephen.smalley.work@gmail.com,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        mic@digikod.net
-Subject: Re: [PATCH v1 4/8] LSM: Maintain a table of LSM attribute data
-Message-ID: <Y1q8SzpcdWgm/fLq@kroah.com>
-References: <20221025184519.13231-1-casey@schaufler-ca.com>
- <20221025184519.13231-5-casey@schaufler-ca.com>
- <Y1jNGMKfb+NUPrJS@kroah.com>
- <e3949b66-26fe-807e-a626-79ca78396e8a@schaufler-ca.com>
- <Y1olXIbTGx9NnthU@kroah.com>
- <d545ef2a-5cc5-2848-e699-ff791d34d7c7@schaufler-ca.com>
+        with ESMTP id S229588AbiJ1GRP (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 28 Oct 2022 02:17:15 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B75EF68CD6;
+        Thu, 27 Oct 2022 23:17:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1666937834; x=1698473834;
+  h=date:from:to:cc:subject:message-id:reply-to:references:
+   mime-version:in-reply-to;
+  bh=dF/aWwaNQggwj6gD+KJTCT5Ni9qMvVF3l+TfbYoad8o=;
+  b=cz4o6+8UlqHnvioAVQjz4Ublzvx8r+9l3uEQN2RV0Ivt+YJkLLVcCfL0
+   8QplgOY/8AE7rrUfZYbwpdVYKaZ9in52yRzSPgSMPrkjv/M3lG0tKmL6C
+   j8BwegLkehF7mAy/Iw6z39HnTOseMEHWx2QfMD8408wgFLI3t8TqAMaL0
+   UK3Vt9wqn9CymgRBiJmk2o7nU5K2bX/bojBdnsLhe39jenVsoquk4tIhE
+   bLWyMh1sgqnPIZkEHD25lmzRy118mpem8iBU85zZhApGHxyZmmgCGmi6r
+   SJiBO3cROnEXTHLeLO9uWM/gmGYFNNcsNcSafc3ZwA7r/kWx45oqkfEeJ
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10513"; a="372634624"
+X-IronPort-AV: E=Sophos;i="5.95,220,1661842800"; 
+   d="scan'208";a="372634624"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2022 23:17:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10513"; a="627427865"
+X-IronPort-AV: E=Sophos;i="5.95,220,1661842800"; 
+   d="scan'208";a="627427865"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+  by orsmga007.jf.intel.com with ESMTP; 27 Oct 2022 23:17:01 -0700
+Date:   Fri, 28 Oct 2022 14:12:32 +0800
+From:   Chao Peng <chao.p.peng@linux.intel.com>
+To:     Isaku Yamahata <isaku.yamahata@gmail.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>, tabba@google.com,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v9 1/8] mm: Introduce memfd_restricted system call to
+ create restricted user memory
+Message-ID: <20221028061232.GA3885130@chaop.bj.intel.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
+ <20221025151344.3784230-2-chao.p.peng@linux.intel.com>
+ <20221026173145.GA3819453@ls.amr.corp.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d545ef2a-5cc5-2848-e699-ff791d34d7c7@schaufler-ca.com>
-X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20221026173145.GA3819453@ls.amr.corp.intel.com>
+X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Oct 27, 2022 at 10:08:23AM -0700, Casey Schaufler wrote:
-> On 10/26/2022 11:29 PM, Greg KH wrote:
-> > On Wed, Oct 26, 2022 at 05:38:21PM -0700, Casey Schaufler wrote:
-> >> On 10/25/2022 11:00 PM, Greg KH wrote:
-> >>> On Tue, Oct 25, 2022 at 11:45:15AM -0700, Casey Schaufler wrote:
-> >>>> As LSMs are registered add their lsm_id pointers to a table.
-> >>>> This will be used later for attribute reporting.
-> >>>>
-> >>>> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
-> >>>> ---
-> >>>>  include/linux/security.h | 17 +++++++++++++++++
-> >>>>  security/security.c      | 18 ++++++++++++++++++
-> >>>>  2 files changed, 35 insertions(+)
-> >>>>
-> >>>> diff --git a/include/linux/security.h b/include/linux/security.h
-> >>>> index ca1b7109c0db..e1678594d983 100644
-> >>>> --- a/include/linux/security.h
-> >>>> +++ b/include/linux/security.h
-> >>>> @@ -138,6 +138,23 @@ enum lockdown_reason {
-> >>>>  
-> >>>>  extern const char *const lockdown_reasons[LOCKDOWN_CONFIDENTIALITY_MAX+1];
-> >>>>  
-> >>>> +#define LSMID_ENTRIES ( \
-> >>>> +	1 + /* capabilities */ \
-> >>> No #define for capabilities?
-> >> Nope. There isn't one. CONFIG_SECURITY takes care of it.
-> >>
-> >>>> +	(IS_ENABLED(CONFIG_SECURITY_SELINUX) ? 1 : 0) + \
-> >>>> +	(IS_ENABLED(CONFIG_SECURITY_SMACK) ? 1 : 0) + \
-> >>>> +	(IS_ENABLED(CONFIG_SECURITY_TOMOYO) ? 1 : 0) + \
-> >>>> +	(IS_ENABLED(CONFIG_SECURITY_IMA) ? 1 : 0) + \
-> >>>> +	(IS_ENABLED(CONFIG_SECURITY_APPARMOR) ? 1 : 0) + \
-> >>>> +	(IS_ENABLED(CONFIG_SECURITY_YAMA) ? 1 : 0) + \
-> >>>> +	(IS_ENABLED(CONFIG_SECURITY_LOADPIN) ? 1 : 0) + \
-> >>>> +	(IS_ENABLED(CONFIG_SECURITY_SAFESETID) ? 1 : 0) + \
-> >>>> +	(IS_ENABLED(CONFIG_SECURITY_LOCKDOWN) ? 1 : 0) + \
-> >>>> +	(IS_ENABLED(CONFIG_BPF_LSM) ? 1 : 0) + \
-> >>>> +	(IS_ENABLED(CONFIG_SECURITY_LANDLOCK) ? 1 : 0))
-> >>>> +
-> >>>> +extern int lsm_id;
-> >>> u64?
-> >> u32. I doubt we'll get more than 32K security modules.
-> > These should be bits, not values, right?
+On Wed, Oct 26, 2022 at 10:31:45AM -0700, Isaku Yamahata wrote:
+> On Tue, Oct 25, 2022 at 11:13:37PM +0800,
+> Chao Peng <chao.p.peng@linux.intel.com> wrote:
 > 
-> lsm_id is the count of security modules that are registered.
-> It seemed like a good name for the value at the time, but as
-> it's causing confusion I should probably change it.
-
-Yeah, that's confusing.  "lsm_num_availble" might be better.
-
-> > Wait, this magic entry value is going to change depeneding on what is,
-> > or is not, enabled.  How is that a stable user/kernel api at all?
-> >
-> > confused.
+> > +int restrictedmem_get_page(struct file *file, pgoff_t offset,
+> > +			   struct page **pagep, int *order)
+> > +{
+> > +	struct restrictedmem_data *data = file->f_mapping->private_data;
+> > +	struct file *memfd = data->memfd;
+> > +	struct page *page;
+> > +	int ret;
+> > +
+> > +	ret = shmem_getpage(file_inode(memfd), offset, &page, SGP_WRITE);
 > 
-> I'll clarify.
+> shmem_getpage() was removed.
+> https://lkml.kernel.org/r/20220902194653.1739778-34-willy@infradead.org
+
+Thanks for pointing out. My current base(kvm/queue) has not included
+this change yet so still use shmem_getpage().
+
+Chao
 > 
-> This patch isn't implementing an API, but is required by subsequent
-> patches that do. Does linux-api want to see patches that are in support
-> of APIs, or just those with actual API implementation?
-
-There's nothing wrong with seeing this patch, I was just confused as it
-seemed to be a user facing api.  It wasn't obvious to me, sorry.
-
-greg k-h
+> I needed the following fix to compile.
+> 
+> thanks,
+> 
+> diff --git a/mm/restrictedmem.c b/mm/restrictedmem.c
+> index e5bf8907e0f8..4694dd5609d6 100644
+> --- a/mm/restrictedmem.c
+> +++ b/mm/restrictedmem.c
+> @@ -231,13 +231,15 @@ int restrictedmem_get_page(struct file *file, pgoff_t offset,
+>  {
+>         struct restrictedmem_data *data = file->f_mapping->private_data;
+>         struct file *memfd = data->memfd;
+> +       struct folio *folio = NULL;
+>         struct page *page;
+>         int ret;
+>  
+> -       ret = shmem_getpage(file_inode(memfd), offset, &page, SGP_WRITE);
+> +       ret = shmem_get_folio(file_inode(memfd), offset, &folio, SGP_WRITE);
+>         if (ret)
+>                 return ret;
+>  
+> +       page = folio_file_page(folio, offset);
+>         *pagep = page;
+>         if (order)
+>                 *order = thp_order(compound_head(page));
+> -- 
+> Isaku Yamahata <isaku.yamahata@gmail.com>
