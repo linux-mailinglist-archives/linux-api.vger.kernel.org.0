@@ -2,368 +2,328 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AC70E6149D1
-	for <lists+linux-api@lfdr.de>; Tue,  1 Nov 2022 12:49:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BBFE6149D8
+	for <lists+linux-api@lfdr.de>; Tue,  1 Nov 2022 12:50:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229487AbiKALtj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 1 Nov 2022 07:49:39 -0400
+        id S231313AbiKALuP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 1 Nov 2022 07:50:15 -0400
 Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40180 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231331AbiKALtD (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 1 Nov 2022 07:49:03 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B044FD2D;
-        Tue,  1 Nov 2022 04:43:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1667303014; x=1698839014;
-  h=date:from:to:cc:subject:message-id:reply-to:references:
-   mime-version:in-reply-to;
-  bh=4KiQzvQ3ZQDSZnSelbcIg3zXaQ/2lSH85X61Qpll+XE=;
-  b=Aih8tX7JdiYjwEiUaetb2HQR+Rm0mcBo3wOyx/99JDLWYVgUquazwvw9
-   DVuMUHdaoBbyH2T4En++HybvjtIvNwxLeAdM+foEvXFs4oDR4t2vDpCTm
-   zY8qhalpFcMxTr6KKrp8y+5kcVP19sFkPaUJwdok+khYoSc1bhd9UouvK
-   MV5pW8cABsglCdfbYFKe7UJF8XdonMmZrzm9MXzcURUS9M4jWSQ6Zj9SA
-   Zz1DRz+bv9ROLyt2WyfpoioKzTXdWbWxQYiQuXk6Io2wIQxaomqy0SNYF
-   xsqCwglG8YH1cDbDJvtkZM6VsVit2JTnxQu49MEGaDuuhVq6Ww+SEnLiV
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10517"; a="288829033"
-X-IronPort-AV: E=Sophos;i="5.95,230,1661842800"; 
-   d="scan'208";a="288829033"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2022 04:43:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10517"; a="628549716"
-X-IronPort-AV: E=Sophos;i="5.95,230,1661842800"; 
-   d="scan'208";a="628549716"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
-  by orsmga007.jf.intel.com with ESMTP; 01 Nov 2022 04:43:22 -0700
-Date:   Tue, 1 Nov 2022 19:38:54 +0800
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     Isaku Yamahata <isaku.yamahata@gmail.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v9 7/8] KVM: Handle page fault for private memory
-Message-ID: <20221101113854.GB4015495@chaop.bj.intel.com>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-8-chao.p.peng@linux.intel.com>
- <20221026215425.GC3819453@ls.amr.corp.intel.com>
- <20221028065545.GD3885130@chaop.bj.intel.com>
- <20221101000250.GA674570@ls.amr.corp.intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+        with ESMTP id S229648AbiKALti (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 1 Nov 2022 07:49:38 -0400
+Received: from EUR02-VE1-obe.outbound.protection.outlook.com (mail-eopbgr20042.outbound.protection.outlook.com [40.107.2.42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9430F19C36;
+        Tue,  1 Nov 2022 04:45:23 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=pass;
+ b=epRevjZHz5QCJxH4SwkXtsWBsxXbgpN40dyDVc23gnT/xaNH7aGtl2UeNMcjPn4RH5LKhpb3n07niQ3u74CP2aKlSk/aIcW7iRyrAMukYiOpQJPl+G6Ksq+sJ8BL8kqc8QSmOT5OBL9PVwvu1qkm1cYMSPOOvrp3EJTyS9OJ6vblJiodUFkzLybgeeGih7uiW4kzgW+FQr8OLI1GaZjOP3RsGW1rmJnCQBRa20Ukr++lSlOPXhgH83gwyKX2OgRvDGJN37l/M2rytjN8z3TNBqMJ0seMq+fMM71lEN14wureFgrvXqizX1eYwRcnvuzslRiHdBXitrs1S+yVPcKJSA==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0Lm6CH8MMUoD/G6jZUL6JRMF4OGpJwtWp0S0oFIfvLw=;
+ b=NWbwmkBO/8urhUBYzNxqOWJ+aO00d6CsvIaPdbyhHOYyBP7q776OU+tUpXTdf5RGFk1DUYNqaRkYmzwaqNMEUM75dleT0/1WnjDBgbzoinLO3/8QEPzrlkbErnSkxdJPv1NljLlxa2mR/uNQtceAvzP1G2mWAhuwp7UYWpvQYmu++UwN3z6LEH8Br+QuvSoL0GS6t+9MCj4pCnh7cDDQvc4bxvw3OgUj3GLVNE3oJYeqBy0jVlgg8x03U+6vbsokvfCFTvW4Wq32PuHqiNzeuChppa7UM2rB1aPOOoX4yLB4F+EclWkBKoh6pptEJXoczIc50GKhPIAnwwLtstmZ3A==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 63.35.35.123) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=armh.onmicrosoft.com; arc=pass (0
+ oda=1 ltdi=1 spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0Lm6CH8MMUoD/G6jZUL6JRMF4OGpJwtWp0S0oFIfvLw=;
+ b=2CJu0Y8YLgWfnoVGM5Zz//rJnmTOhAr4K0uQhz+0GGIcBiKTvQpu+6Gva4eHEYUJnoI2K3x8pZJ83pLteAG5nxrNOs/dcpvRlGrzmrQIeDbcXI8IpVr9zs8f+WDPVa7nAG/z6XHZG2vpXy2qFJqxEx9xrB7f6StHgD423WLL8Lo=
+Received: from AS8PR04CA0194.eurprd04.prod.outlook.com (2603:10a6:20b:2f3::19)
+ by PAVPR08MB9819.eurprd08.prod.outlook.com (2603:10a6:102:31f::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5769.16; Tue, 1 Nov
+ 2022 11:45:15 +0000
+Received: from AM7EUR03FT007.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:20b:2f3:cafe::9) by AS8PR04CA0194.outlook.office365.com
+ (2603:10a6:20b:2f3::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5769.15 via Frontend
+ Transport; Tue, 1 Nov 2022 11:45:15 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ AM7EUR03FT007.mail.protection.outlook.com (100.127.140.242) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5769.14 via Frontend Transport; Tue, 1 Nov 2022 11:45:15 +0000
+Received: ("Tessian outbound 6c699027a257:v130"); Tue, 01 Nov 2022 11:45:15 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: 2647c60af6ddf6e9
+X-CR-MTA-TID: 64aa7808
+Received: from 07ee51695762.1
+        by 64aa7808-outbound-1.mta.getcheckrecipient.com id 7B554909-4AC6-4DEA-9931-089CABC515DC.1;
+        Tue, 01 Nov 2022 11:45:08 +0000
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 07ee51695762.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Tue, 01 Nov 2022 11:45:08 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=l1rEop5yxhciGW5Iw4Ta+d7f4jSUMjOeutpp9oxSxYhLExxz0etiHZTZQE41ecYdhyzy10nGc81el4a8d08WolXnUO8MKQpEpjB6nfHlpL2O0hrAKYP4A+36EN4VF07vIxWtgSXaXm2yJ79sm+2u5Bld1cTAzcRvvogh6cy6foew9Se0loT0+M8q1QZOYhqCr3pMLjJnzyHPen3x5xZtfI0KGSoBftcoaxwY7azVBoMtgDp8DJCghuvC/ZTvNs25aQp6M/x4QMj9mDZgWJG9QtPo2ZgwZa9YA0LY6ol5GkeS/fBn3zGYZOljgE7nbhy6q3ztmBiasv4PMHWtVm+/nQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0Lm6CH8MMUoD/G6jZUL6JRMF4OGpJwtWp0S0oFIfvLw=;
+ b=V8dCpFfHZOgCuFKG2hS62zfq4QN75LowiLmgL3+GpoRT09rQCY0/RFBDXc+GCPMZB3sySXAAfGiJ7JsjXc5mPwLS7CnY0HtlDyCA6nNbEBrFTK7Y8cspOhOge9a3rnHeMu4zELGDDfxOLxTNDfDFUFS/ZW0NLTWUkCgNc0IYluPYp2HOAvtsXznaTyb+BHwVuiai09490UD0GJzIYZpYO8mo966Fz8C/syFrxxVkMUvt4ql+CrkoGWiJhIuP0JOrVtrVSxu1Fnzodl9Ms8JpYDL+iQT0uoC9tqtUgYbAcEuI9TJnYMyIKg6DBvkV88Dnyysv8MaBUZlmkQiHvkOjMQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0Lm6CH8MMUoD/G6jZUL6JRMF4OGpJwtWp0S0oFIfvLw=;
+ b=2CJu0Y8YLgWfnoVGM5Zz//rJnmTOhAr4K0uQhz+0GGIcBiKTvQpu+6Gva4eHEYUJnoI2K3x8pZJ83pLteAG5nxrNOs/dcpvRlGrzmrQIeDbcXI8IpVr9zs8f+WDPVa7nAG/z6XHZG2vpXy2qFJqxEx9xrB7f6StHgD423WLL8Lo=
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+Received: from DB9PR08MB7179.eurprd08.prod.outlook.com (2603:10a6:10:2cc::19)
+ by AM9PR08MB6209.eurprd08.prod.outlook.com (2603:10a6:20b:283::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5769.21; Tue, 1 Nov
+ 2022 11:45:06 +0000
+Received: from DB9PR08MB7179.eurprd08.prod.outlook.com
+ ([fe80::8999:7c8d:d088:d198]) by DB9PR08MB7179.eurprd08.prod.outlook.com
+ ([fe80::8999:7c8d:d088:d198%5]) with mapi id 15.20.5769.021; Tue, 1 Nov 2022
+ 11:45:06 +0000
+Date:   Tue, 1 Nov 2022 11:44:52 +0000
+From:   'Szabolcs Nagy' <szabolcs.nagy@arm.com>
+To:     David Laight <David.Laight@ACULAB.COM>
+Cc:     Theodore Ts'o <tytso@mit.edu>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+Subject: Re: linux interprets an fcntl int arg as long
+Message-ID: <Y2EGtE05hcVn3B3a@arm.com>
+References: <Y1/DS6uoWP7OSkmd@arm.com>
+ <Y2B6jcLUJ1F2y2yL@mit.edu>
+ <Y2DisyknbKxeCik4@arm.com>
+ <a0693686d0ae41599fe1700680ec56ec@AcuMS.aculab.com>
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20221101000250.GA674570@ls.amr.corp.intel.com>
-X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <a0693686d0ae41599fe1700680ec56ec@AcuMS.aculab.com>
+X-ClientProxiedBy: LO4P265CA0245.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:350::17) To DB9PR08MB7179.eurprd08.prod.outlook.com
+ (2603:10a6:10:2cc::19)
+MIME-Version: 1.0
+X-MS-TrafficTypeDiagnostic: DB9PR08MB7179:EE_|AM9PR08MB6209:EE_|AM7EUR03FT007:EE_|PAVPR08MB9819:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5a8a02b1-94f8-49a4-3d1b-08dabbfe8b09
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: TQWoHfwyaSv65pD4oVFUhhDyIDqJVGwWDeASsJK/SB6E0hIICU8WyPifwfbJ5rr3ObRhK6pvdXDh1pGqRA4x7A2VLI3enCW2cDiM0tgM2k4YPDt+RBYzew6dpTs9sKlQWn0HIKtoH50Bu0EXhn3uPtYGrRrzBe1O4cN3xw5iZKB9k8WDQJu0ISaEpmYtKcNIbHtSlRpzOmjxyH0tnjeuo2JsCvRvYAehCNKNokC47UwEel7uW/6DCOQmudDXl/AcdbpMVM0ZbAWjx+Kf0WkU5nv4OQkGP8OVkDoapK8TklVGIy+oHLq0bbUbiyhajK/Mz9fskx3jj88BXo9wYR5jcoBzHe7lWp40zr9PdO76TcTG1dvs62kQRmEa4Uh+OsvsEqGdgxlIGXgTUDk4JwM0FGm5Tx/iDdiVAc4zyQ+5oCcN9RkuHW9mmwajK61Mi8L6OgdaLe6UneT57RsCzma5hfMeuuF+p94wGFu8/Kox2id3EY+TYRjAaFq9Dm+jYvhJsSXONeXsnf4R6sWLrrNHo3ICXfqEXverzWtcQhv85ZfSPOZERoYkwz1a5IqOML5S8jox+9x5rjMlSu1kbDUHmPYu2nC9LbV6tz8vm2ZMf1d1XLhg7fMyyidTl3zHIvLIra7dwKen/7b6MtlHLIADt0XZMXMaxHX0aYvXbS99OQzEadScC22RWnQpakDpO+G3TlH7ezvoTg4VTNku2F70gA==
+X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR08MB7179.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(396003)(366004)(136003)(376002)(346002)(451199015)(2906002)(186003)(2616005)(478600001)(6486002)(8676002)(66556008)(66476007)(6916009)(66946007)(6666004)(4326008)(38100700002)(54906003)(6506007)(41300700001)(36756003)(316002)(5660300002)(8936002)(6512007)(86362001)(26005);DIR:OUT;SFP:1101;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR08MB6209
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: AM7EUR03FT007.eop-EUR03.prod.protection.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 4f25a5e4-4b06-4764-7d18-08dabbfe858d
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: SCc8uA0qXX8dYNPyKaCuwLcqCccAzqV7SAkhqmN9ggIhYkbJD1lB7/bEdL7p6JYMq3Am5UbkAGYBaohxm8wur1Uondhd8ose7xES3kZmchtglXmBtd+Zh0c0GU9w9Y8HX7NDk1OEYQDrucxj+g0PnByjA5SKBJAuItdinX5eT5jc82seYPanG09V62HlVWs1PCnHca5kF3NAshb6G40DbellBBkjPqQ93wDWxtxEv9tUde78CIzxXUixTqgSm4C9JWyeH/sJvZ7rOWv7sz0gDZWFP5NCg5uk06Q8Q9TpONcEu4cDr8BgtRxpwpemmKnUHf0NFAHonGvPgqLACOwipLNCItvBtKOxjDgLyn63HKcQxRAOYq7Cs/SocNs1t5KeHQvkgr4rdDIeozJrr4JBlT7B2j8cKARasFF1BMdwDTGfnX3pC87mHkkEpizrg+JIl8CcNJZdiT59s0F5tJkHP43PHbQNzR2uIAZRg3UrwKCtIlMmVKElk80MJYkM7I/gZ4tzi+qjjm6HtC7r4G6WHK1GMo4hvwgGJtu2C4v6bGsE1LTDIopvecsnSQelLslwIuyJHX04HmhrT1C+VroXwB8b6p+5F6v1OMLW3mZVJbc6n2rJK3qxrr/1gJnvDwhi3f0pJLN/JfbH8fhiNnvNQo3Bgk8ip+foy/oSJG/o48Z0EC8UPSkj1JBzbM9yXVe6D7hj6EkF+lOblHWF3PikN/L9EdpPJ4jp1396nkfYtHkkydc3qqA4pFAFkX0tzq25hK7AcDm6g5aahwMtR18Ukg==
+X-Forefront-Antispam-Report: CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(136003)(396003)(376002)(346002)(451199015)(36840700001)(46966006)(40470700004)(6862004)(8936002)(2616005)(36756003)(316002)(5660300002)(4326008)(186003)(6512007)(6666004)(70206006)(40460700003)(36860700001)(70586007)(8676002)(26005)(450100002)(41300700001)(336012)(6506007)(107886003)(2906002)(40480700001)(81166007)(356005)(47076005)(6486002)(478600001)(82310400005)(86362001)(54906003)(82740400003);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Nov 2022 11:45:15.4134
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5a8a02b1-94f8-49a4-3d1b-08dabbfe8b09
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: AM7EUR03FT007.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAVPR08MB9819
+X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,FORGED_SPF_HELO,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_NONE,UNPARSEABLE_RELAY autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Oct 31, 2022 at 05:02:50PM -0700, Isaku Yamahata wrote:
-> On Fri, Oct 28, 2022 at 02:55:45PM +0800,
-> Chao Peng <chao.p.peng@linux.intel.com> wrote:
-> 
-> > On Wed, Oct 26, 2022 at 02:54:25PM -0700, Isaku Yamahata wrote:
-> > > On Tue, Oct 25, 2022 at 11:13:43PM +0800,
-> > > Chao Peng <chao.p.peng@linux.intel.com> wrote:
-> > > 
-> > > > A memslot with KVM_MEM_PRIVATE being set can include both fd-based
-> > > > private memory and hva-based shared memory. Architecture code (like TDX
-> > > > code) can tell whether the on-going fault is private or not. This patch
-> > > > adds a 'is_private' field to kvm_page_fault to indicate this and
-> > > > architecture code is expected to set it.
-> > > > 
-> > > > To handle page fault for such memslot, the handling logic is different
-> > > > depending on whether the fault is private or shared. KVM checks if
-> > > > 'is_private' matches the host's view of the page (maintained in
-> > > > mem_attr_array).
-> > > >   - For a successful match, private pfn is obtained with
-> > > >     restrictedmem_get_page () from private fd and shared pfn is obtained
-> > > >     with existing get_user_pages().
-> > > >   - For a failed match, KVM causes a KVM_EXIT_MEMORY_FAULT exit to
-> > > >     userspace. Userspace then can convert memory between private/shared
-> > > >     in host's view and retry the fault.
-> > > > 
-> > > > Co-developed-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> > > > Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> > > > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> > > > ---
-> > > >  arch/x86/kvm/mmu/mmu.c          | 56 +++++++++++++++++++++++++++++++--
-> > > >  arch/x86/kvm/mmu/mmu_internal.h | 14 ++++++++-
-> > > >  arch/x86/kvm/mmu/mmutrace.h     |  1 +
-> > > >  arch/x86/kvm/mmu/spte.h         |  6 ++++
-> > > >  arch/x86/kvm/mmu/tdp_mmu.c      |  3 +-
-> > > >  include/linux/kvm_host.h        | 28 +++++++++++++++++
-> > > >  6 files changed, 103 insertions(+), 5 deletions(-)
-> > > > 
-> > > > diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
-> > > > index 67a9823a8c35..10017a9f26ee 100644
-> > > > --- a/arch/x86/kvm/mmu/mmu.c
-> > > > +++ b/arch/x86/kvm/mmu/mmu.c
-> > > > @@ -3030,7 +3030,7 @@ static int host_pfn_mapping_level(struct kvm *kvm, gfn_t gfn,
-> > > >  
-> > > >  int kvm_mmu_max_mapping_level(struct kvm *kvm,
-> > > >  			      const struct kvm_memory_slot *slot, gfn_t gfn,
-> > > > -			      int max_level)
-> > > > +			      int max_level, bool is_private)
-> > > >  {
-> > > >  	struct kvm_lpage_info *linfo;
-> > > >  	int host_level;
-> > > > @@ -3042,6 +3042,9 @@ int kvm_mmu_max_mapping_level(struct kvm *kvm,
-> > > >  			break;
-> > > >  	}
-> > > >  
-> > > > +	if (is_private)
-> > > > +		return max_level;
-> > > 
-> > > Below PG_LEVEL_NUM is passed by zap_collapsible_spte_range().  It doesn't make
-> > > sense.
-> > > 
-> > > > +
-> > > >  	if (max_level == PG_LEVEL_4K)
-> > > >  		return PG_LEVEL_4K;
-> > > >  
-> > > > @@ -3070,7 +3073,8 @@ void kvm_mmu_hugepage_adjust(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault
-> > > >  	 * level, which will be used to do precise, accurate accounting.
-> > > >  	 */
-> > > >  	fault->req_level = kvm_mmu_max_mapping_level(vcpu->kvm, slot,
-> > > > -						     fault->gfn, fault->max_level);
-> > > > +						     fault->gfn, fault->max_level,
-> > > > +						     fault->is_private);
-> > > >  	if (fault->req_level == PG_LEVEL_4K || fault->huge_page_disallowed)
-> > > >  		return;
-> > > >  
-> > > > @@ -4141,6 +4145,32 @@ void kvm_arch_async_page_ready(struct kvm_vcpu *vcpu, struct kvm_async_pf *work)
-> > > >  	kvm_mmu_do_page_fault(vcpu, work->cr2_or_gpa, 0, true);
-> > > >  }
-> > > >  
-> > > > +static inline u8 order_to_level(int order)
-> > > > +{
-> > > > +	BUILD_BUG_ON(KVM_MAX_HUGEPAGE_LEVEL > PG_LEVEL_1G);
-> > > > +
-> > > > +	if (order >= KVM_HPAGE_GFN_SHIFT(PG_LEVEL_1G))
-> > > > +		return PG_LEVEL_1G;
-> > > > +
-> > > > +	if (order >= KVM_HPAGE_GFN_SHIFT(PG_LEVEL_2M))
-> > > > +		return PG_LEVEL_2M;
-> > > > +
-> > > > +	return PG_LEVEL_4K;
-> > > > +}
-> > > > +
-> > > > +static int kvm_faultin_pfn_private(struct kvm_page_fault *fault)
-> > > > +{
-> > > > +	int order;
-> > > > +	struct kvm_memory_slot *slot = fault->slot;
-> > > > +
-> > > > +	if (kvm_restricted_mem_get_pfn(slot, fault->gfn, &fault->pfn, &order))
-> > > > +		return RET_PF_RETRY;
-> > > > +
-> > > > +	fault->max_level = min(order_to_level(order), fault->max_level);
-> > > > +	fault->map_writable = !(slot->flags & KVM_MEM_READONLY);
-> > > > +	return RET_PF_CONTINUE;
-> > > > +}
-> > > > +
-> > > >  static int kvm_faultin_pfn(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault)
-> > > >  {
-> > > >  	struct kvm_memory_slot *slot = fault->slot;
-> > > > @@ -4173,6 +4203,22 @@ static int kvm_faultin_pfn(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault)
-> > > >  			return RET_PF_EMULATE;
-> > > >  	}
-> > > >  
-> > > > +	if (kvm_slot_can_be_private(slot) &&
-> > > > +	    fault->is_private != kvm_mem_is_private(vcpu->kvm, fault->gfn)) {
-> > > > +		vcpu->run->exit_reason = KVM_EXIT_MEMORY_FAULT;
-> > > > +		if (fault->is_private)
-> > > > +			vcpu->run->memory.flags = KVM_MEMORY_EXIT_FLAG_PRIVATE;
-> > > > +		else
-> > > > +			vcpu->run->memory.flags = 0;
-> > > > +		vcpu->run->memory.padding = 0;
-> > > > +		vcpu->run->memory.gpa = fault->gfn << PAGE_SHIFT;
-> > > > +		vcpu->run->memory.size = PAGE_SIZE;
-> > > > +		return RET_PF_USER;
-> > > > +	}
-> > > > +
-> > > > +	if (fault->is_private)
-> > > > +		return kvm_faultin_pfn_private(fault);
-> > > > +
-> > > >  	async = false;
-> > > >  	fault->pfn = __gfn_to_pfn_memslot(slot, fault->gfn, false, &async,
-> > > >  					  fault->write, &fault->map_writable,
-> > > > @@ -5557,6 +5603,9 @@ int noinline kvm_mmu_page_fault(struct kvm_vcpu *vcpu, gpa_t cr2_or_gpa, u64 err
-> > > >  			return -EIO;
-> > > >  	}
-> > > >  
-> > > > +	if (r == RET_PF_USER)
-> > > > +		return 0;
-> > > > +
-> > > >  	if (r < 0)
-> > > >  		return r;
-> > > >  	if (r != RET_PF_EMULATE)
-> > > > @@ -6408,7 +6457,8 @@ static bool kvm_mmu_zap_collapsible_spte(struct kvm *kvm,
-> > > >  		 */
-> > > >  		if (sp->role.direct &&
-> > > >  		    sp->role.level < kvm_mmu_max_mapping_level(kvm, slot, sp->gfn,
-> > > > -							       PG_LEVEL_NUM)) {
-> > > > +							       PG_LEVEL_NUM,
-> > > > +							       false)) {
-> > > >  			kvm_zap_one_rmap_spte(kvm, rmap_head, sptep);
-> > > >  
-> > > >  			if (kvm_available_flush_tlb_with_range())
-> > > > diff --git a/arch/x86/kvm/mmu/mmu_internal.h b/arch/x86/kvm/mmu/mmu_internal.h
-> > > > index 582def531d4d..5cdff5ca546c 100644
-> > > > --- a/arch/x86/kvm/mmu/mmu_internal.h
-> > > > +++ b/arch/x86/kvm/mmu/mmu_internal.h
-> > > > @@ -188,6 +188,7 @@ struct kvm_page_fault {
-> > > >  
-> > > >  	/* Derived from mmu and global state.  */
-> > > >  	const bool is_tdp;
-> > > > +	const bool is_private;
-> > > >  	const bool nx_huge_page_workaround_enabled;
-> > > >  
-> > > >  	/*
-> > > > @@ -236,6 +237,7 @@ int kvm_tdp_page_fault(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault);
-> > > >   * RET_PF_RETRY: let CPU fault again on the address.
-> > > >   * RET_PF_EMULATE: mmio page fault, emulate the instruction directly.
-> > > >   * RET_PF_INVALID: the spte is invalid, let the real page fault path update it.
-> > > > + * RET_PF_USER: need to exit to userspace to handle this fault.
-> > > >   * RET_PF_FIXED: The faulting entry has been fixed.
-> > > >   * RET_PF_SPURIOUS: The faulting entry was already fixed, e.g. by another vCPU.
-> > > >   *
-> > > > @@ -252,6 +254,7 @@ enum {
-> > > >  	RET_PF_RETRY,
-> > > >  	RET_PF_EMULATE,
-> > > >  	RET_PF_INVALID,
-> > > > +	RET_PF_USER,
-> > > >  	RET_PF_FIXED,
-> > > >  	RET_PF_SPURIOUS,
-> > > >  };
-> > > > @@ -309,7 +312,7 @@ static inline int kvm_mmu_do_page_fault(struct kvm_vcpu *vcpu, gpa_t cr2_or_gpa,
-> > > >  
-> > > >  int kvm_mmu_max_mapping_level(struct kvm *kvm,
-> > > >  			      const struct kvm_memory_slot *slot, gfn_t gfn,
-> > > > -			      int max_level);
-> > > > +			      int max_level, bool is_private);
-> > > >  void kvm_mmu_hugepage_adjust(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault);
-> > > >  void disallowed_hugepage_adjust(struct kvm_page_fault *fault, u64 spte, int cur_level);
-> > > >  
-> > > > @@ -318,4 +321,13 @@ void *mmu_memory_cache_alloc(struct kvm_mmu_memory_cache *mc);
-> > > >  void account_huge_nx_page(struct kvm *kvm, struct kvm_mmu_page *sp);
-> > > >  void unaccount_huge_nx_page(struct kvm *kvm, struct kvm_mmu_page *sp);
-> > > >  
-> > > > +#ifndef CONFIG_HAVE_KVM_RESTRICTED_MEM
-> > > > +static inline int kvm_restricted_mem_get_pfn(struct kvm_memory_slot *slot,
-> > > > +					gfn_t gfn, kvm_pfn_t *pfn, int *order)
-> > > > +{
-> > > > +	WARN_ON_ONCE(1);
-> > > > +	return -EOPNOTSUPP;
-> > > > +}
-> > > > +#endif /* CONFIG_HAVE_KVM_RESTRICTED_MEM */
-> > > > +
-> > > >  #endif /* __KVM_X86_MMU_INTERNAL_H */
-> > > > diff --git a/arch/x86/kvm/mmu/mmutrace.h b/arch/x86/kvm/mmu/mmutrace.h
-> > > > index ae86820cef69..2d7555381955 100644
-> > > > --- a/arch/x86/kvm/mmu/mmutrace.h
-> > > > +++ b/arch/x86/kvm/mmu/mmutrace.h
-> > > > @@ -58,6 +58,7 @@ TRACE_DEFINE_ENUM(RET_PF_CONTINUE);
-> > > >  TRACE_DEFINE_ENUM(RET_PF_RETRY);
-> > > >  TRACE_DEFINE_ENUM(RET_PF_EMULATE);
-> > > >  TRACE_DEFINE_ENUM(RET_PF_INVALID);
-> > > > +TRACE_DEFINE_ENUM(RET_PF_USER);
-> > > >  TRACE_DEFINE_ENUM(RET_PF_FIXED);
-> > > >  TRACE_DEFINE_ENUM(RET_PF_SPURIOUS);
-> > > >  
-> > > > diff --git a/arch/x86/kvm/mmu/spte.h b/arch/x86/kvm/mmu/spte.h
-> > > > index 7670c13ce251..9acdf72537ce 100644
-> > > > --- a/arch/x86/kvm/mmu/spte.h
-> > > > +++ b/arch/x86/kvm/mmu/spte.h
-> > > > @@ -315,6 +315,12 @@ static inline bool is_dirty_spte(u64 spte)
-> > > >  	return dirty_mask ? spte & dirty_mask : spte & PT_WRITABLE_MASK;
-> > > >  }
-> > > >  
-> > > > +static inline bool is_private_spte(u64 spte)
-> > > > +{
-> > > > +	/* FIXME: Query C-bit/S-bit for SEV/TDX. */
-> > > > +	return false;
-> > > > +}
-> > > > +
-> > > 
-> > > PFN encoded in spte doesn't make sense.  In VMM for TDX, private-vs-shared is
-> > > determined by S-bit of GFN.
+The 11/01/2022 10:02, David Laight wrote:
+> From: Szabolcs Nagy
+> > Sent: 01 November 2022 09:11
 > > 
-> > My understanding is we will have software bit in the spte, will we? In
-> > current TDX code I see we have SPTE_SHARED_MASK bit defined.
-> 
-> I'm afraid that you're referring old version.  It's not.  For TDX, gfn needs
-> to be checked.  Which isn't encoded in spte.
-
-Okay.
-
-> 
-> 
-> > > >  static inline u64 get_rsvd_bits(struct rsvd_bits_validate *rsvd_check, u64 pte,
-> > > >  				int level)
-> > > >  {
-> > > > diff --git a/arch/x86/kvm/mmu/tdp_mmu.c b/arch/x86/kvm/mmu/tdp_mmu.c
-> > > > index 672f0432d777..9f97aac90606 100644
-> > > > --- a/arch/x86/kvm/mmu/tdp_mmu.c
-> > > > +++ b/arch/x86/kvm/mmu/tdp_mmu.c
-> > > > @@ -1768,7 +1768,8 @@ static void zap_collapsible_spte_range(struct kvm *kvm,
-> > > >  			continue;
-> > > >  
-> > > >  		max_mapping_level = kvm_mmu_max_mapping_level(kvm, slot,
-> > > > -							      iter.gfn, PG_LEVEL_NUM);
-> > > > +						iter.gfn, PG_LEVEL_NUM,
-> > > > +						is_private_spte(iter.old_spte));
-> > > >  		if (max_mapping_level < iter.level)
-> > > >  			continue;
-> > > 
-> > > This is to merge pages into a large page on the next kvm page fault.  large page
-> > > support is not yet supported.  Let's skip the private slot until large page
-> > > support is done.
+> > The 10/31/2022 21:46, Theodore Ts'o wrote:
+> > > On Mon, Oct 31, 2022 at 12:44:59PM +0000, Szabolcs Nagy wrote:
+> > > > and such fcntl call can happen with c code that just passes
+> > > > F_SEAL_WRITE since it is an int and e.g. with aarch64 pcs rules
+> > > > it is passed in a register where top bits can be non-zero
+> > > > (unlikely in practice but valid).
+> > >
+> > > In Linux's aarch64 ABI, an int is a 4-byte value.  It is *not* an
+> > > 8-byte value.  So passing in "F_SEAL_WRITE | 0xF00000000" as an int
+> > > (as in your example) is simply not valid thing for the userspace
+> > > program to do.
+> > >
+> > > Now, if there is a C program which has "int c = F_SEAL_WRITE", if the
+> > > PCS allows the compiler to pass a function paramter c --- for example
+> > > f(a, b, c) --- where the 4-byte paramter 'c' is placed in a 64-bit
+> > > register where the high bits of the 64-bit register contains non-zero
+> > > garbage values, I would argue that this is a bug in the PCS and/or the
+> > > compiler.
 > > 
-> > So what your suggestion is passing in a 'false' at this time for
-> > 'is_private'? Unless we will decide not use the above is_private_spte,
-> > this code does not hurt, right? is_private_spte() return false before
-> > we finally get chance to add the large page support.
+> > the callee uses va_arg(ap, type) to get the argument,
+> > and if the type is wider than what was actually passed
+> > then anything can happen. in practice what happens is
+> > that the top bits can be non-zero.
+> > 
+> > many pcs are affected (aarch64 is the one i know well,
+> > but at least x86_64, arm are affected too). and even if
+> > it was aarch64 pcs only, it is incompetent to say that
+> > the pcs is wrong: that's a constraint we are working with.
+> > 
+> > the kernel must not read a wider type than what it
+> > documents as argument to variadic functions in the c api.
+> > (it does not make much sense to expect anything there
+> > anyway, but it can break userspace)
 > 
-> Let's pass false always for now.
+> The Linux kernel just assumes that the varargs call looks like
+> a non-varags call with the same parameters.
+> (It doesn't use va_arg())
+> All syscall arguments are passed in registers (unlike BSDs
+> where they can also be on the user stack).
+> On 64bit systems the same registers are expected to be used
+> for 64bit and 32bit integers and for pointers.
+> 32bit values usually get masked because they get passed to
+> a function with an 'int' argument.
+> 
+> If any fcntl() calls require a 64bit value and the C ABI
+> might leave non-zero high bits in an register containing
+> a 32bit value (esp. to a varargs function) then the calling
+> code will need to cast such arguments to 64 bits.
 
-Good to me. Thanks.
+the entire point of my mail is that it is not possible
+to tell in the libc if the vararg is pointer or int.
 
-Chao
-> -- 
-> Isaku Yamahata <isaku.yamahata@gmail.com>
+so in case a user passed an int, the libc cannot fix
+that up, like it usually does for other cases where
+linux syscall abi is incompatible with the c api.
+
+let me go through step by step what is going on:
+
+user code:
+----------
+int fcntl(int, int, ...);
+void foobar(int fd, int foo, long arg)
+{
+	/* top bits of arg are used by the user (non-zero),
+	   they are not for the syscall. */
+
+	/* bottom bits of arg are passed to fcntl:
+	   the compiler passes arg unmodified in a register
+	   where top bits are set, but that's fine: the callee
+	   only supposed to use the bottom 32bits.  */
+	fcntl(fd, F_ADD_SEALS, (int)arg);
+}
+
+libc code:
+----------
+long internal_syscall(int, long, long, long, long, long, long);
+int fcntl(int fd, int cmd, ...)
+{
+	va_list ap;
+	va_start(ap, cmd);
+	/* this is non-conforming C: wrong type in va_arg,
+	   but that's not relevant since libc can implement
+	   this as target specific asm, the important bit is
+	   that the correct type is not known: libc cannot
+	   replicate the kernel side dispatch logic because
+	   new cmd can be introduced in the future with
+	   arbitrary type arg.
+
+	   top 32bits of arg are non-zero, libc cannot
+	   zero them here as arg may be long or pointer.  */
+	long arg = va_arg(ap, long);
+	va_end(ap);
+	return internal_syscall(SYS_fcntl, fd, cmd, arg, 0, 0, 0);
+}
+
+kernel code:
+------------
+SYSCALL_DEFINE3(fcntl, unsigned int, fd, unsigned int, cmd, unsigned long, arg)
+{
+	...
+	switch (cmd) {
+	...
+	/* this part is in memfd_fcntl.  */
+	case F_ADD_SEALS:
+		/* uses arg as long instead of the documented
+		   int type and fails because top bits are set.  */
+	}
+}
+
+
+
+> 
+> OTOH I suspect the argument is either absent, int or pointer.
+> So it should mask the value to 32 bits.
+
+how does that work on 64bit targets?
+
+and how does it work on 32bit targets if a new cmd
+is introduced with short int argument (posix does
+not guarantee that it won't)?
+
+> 
+> Note that there are ABI where 'int' and 'pointer' get passed
+> in different registers.
+> Fortunately none will support Linux!
+
+what i explained above is not theoretical abi or libc:
+this is how things work now in practice on x86_64 and
+aarch64 and it is clearly broken.
+
+normally when linux does something silly like this the
+libc fixes it up (since we want to support old kernels),
+but in this case that would mean replicating the entire
+ioctl, prctl, fcntl, etc dispatch logic in userspace
+which is impractical and cannot be future proof.
+
+so going forward i'd like linux devs to consider the
+3 points i raised in my original mail. and fix
+memfd_fcntl accordingly.
+
+thanks.
+
+
+complete example (tested on aarch64 and x86_64):
+
+$ cat a.c
+#define _GNU_SOURCE 1
+#include <stdio.h>
+#include <fcntl.h>
+#include <sys/mman.h>
+
+int g = 0;
+__attribute__((noinline)) /* pretend to be in another TU. */
+int foobar(int fd, int c, long arg)
+{
+        if (arg & 0x100000000) /* use top bits for something */
+                g+=c;
+        return fcntl(fd, F_ADD_SEALS, (int)arg);
+}
+
+int main (int argc, char *argv[])
+{
+  int fd = memfd_create ("tst", MFD_CLOEXEC|MFD_ALLOW_SEALING);
+  if (fd < 0 ) return -1;
+  int r = foobar(fd, argc, F_SEAL_WRITE | 0xF00000000);
+  printf("%d %d %m\n", g, r);
+  return 0;
+}
+$ gcc -O2 a.c
+$ ./a.out
+1 -1 Invalid argument
+$ strace ./a.out 2>&1 |grep fcntl
+fcntl(3, F_ADD_SEALS, F_SEAL_WRITE|0xf00000000) = -1 EINVAL (Invalid argument)
