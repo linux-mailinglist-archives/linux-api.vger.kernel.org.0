@@ -2,157 +2,152 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D2CD6182D8
-	for <lists+linux-api@lfdr.de>; Thu,  3 Nov 2022 16:30:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D484618462
+	for <lists+linux-api@lfdr.de>; Thu,  3 Nov 2022 17:28:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231404AbiKCPaH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 3 Nov 2022 11:30:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39014 "EHLO
+        id S231801AbiKCQ2R (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 3 Nov 2022 12:28:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51392 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231801AbiKCP3n (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 3 Nov 2022 11:29:43 -0400
-Received: from todd.t-8ch.de (todd.t-8ch.de [IPv6:2a01:4f8:c010:41de::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97052167C4;
-        Thu,  3 Nov 2022 08:29:14 -0700 (PDT)
-From:   =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weissschuh.net;
-        s=mail; t=1667489352;
-        bh=PZByBmsOolWMq3HddyC3qa9xFMg1ubeZTofhZPwh6dU=;
-        h=From:To:Cc:Subject:Date:From;
-        b=UpfoN0634Tdc0FuIrNGCbUamoyuSTtDZbAwWz8a4BCoRn7haOurZLRe2Tdyf9QjHn
-         UY5Bb+FCaVDRXVuQIDXIzGNlwYVV+aCniBlt6JUuMaAPUnVCl8TPiGZaGF94ScseXJ
-         +txdOwwgFAPoNDH/ngArRZvvG+MJm/b4ZPp+zTDo=
-To:     Greg KH <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Karel Zak <kzak@redhat.com>,
-        Masatake YAMATO <yamato@redhat.com>, linux-api@vger.kernel.org
-Subject: [PATCH v3] kernel/ksysfs.c: export kernel cpu byteorder
-Date:   Thu,  3 Nov 2022 16:24:07 +0100
-Message-Id: <20221103152407.3348-1-linux@weissschuh.net>
-X-Mailer: git-send-email 2.38.1
+        with ESMTP id S231822AbiKCQ1u (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 3 Nov 2022 12:27:50 -0400
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB3481CB32
+        for <linux-api@vger.kernel.org>; Thu,  3 Nov 2022 09:27:23 -0700 (PDT)
+Received: by mail-pf1-x42c.google.com with SMTP id k15so2105635pfg.2
+        for <linux-api@vger.kernel.org>; Thu, 03 Nov 2022 09:27:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Qbc9/7qEOtavwLw8LQp9XE09/9bhelNZbWmBfVDGw/4=;
+        b=nRKfJ4QQ3+p6c+xIQjyLkoMwJvMnwYkAuaPcWumPlxJnVKcvToJsNiOAGYenmja0Sy
+         0RoJkXdIm/TX+G8gnDZ+obkXWdspQdCFRI8jyQ0Jbs1WkCbaBSCKMFWUKWu6G3aYiNf+
+         UQS/IMoncWgX6OOaPRMaCTiHd4UobAg5+BLo68MES2g/g2g52drNelqM/o5S6rL276vQ
+         59B9YcfdRSBbO8RH0qvr4sgiqXAKyJqC46UCoo6fS3cz6SnqinDkZiU40iLNXr90+JsU
+         JTENrIEpqr75AzmQXB9iCQJUqbZTKhHGlXw36gDu1kRfRLSYiBKX6y1lz/w+ys/ieg8s
+         2YFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Qbc9/7qEOtavwLw8LQp9XE09/9bhelNZbWmBfVDGw/4=;
+        b=jQ5ycZfEkb7M7ZKrvcZ5P3IDE7bO8piUXgVLjQxtLqAfnPTAe0uaEaabslr3QJAzT9
+         eTyUoHEPppAPs5YOmwKSBGcrM0nFisyrsOhCzequi5KzjIT/jXhuMOOo2Wkol5wcvdDI
+         Rit40egEKtZ1hCRsRQA54T66U2U/emj8crOBqDAyfGjxFmCLOGah6aCKz80OAFjLNchp
+         Fq0XVOVne4kI76ulSxOcunTS8boc6XADhJ6Hi68JK3Vz2oFyGDQclbONSIfxnSiMcFB8
+         yaMbtZaLtDIERWFZ8faWMIRqOusHywdy8lKF3Hv4umC9DL/m7Ap2UP0FCkgrn3ne0mLL
+         PgKw==
+X-Gm-Message-State: ACrzQf35j8inDWndttvdOc84+UQwuTdLrZB1VX6HwcFlSJw7PMwcJ4R0
+        7zr+AGdoa3i9J8+0fKHAOtMsHkPQrWP5g8kPwXzc7g==
+X-Google-Smtp-Source: AMsMyM7LsxnGFqh+M0E5h18/S54Hm40LIPJDB0peNXRc06g8NnvtmJDyMzFqlwvdks3WF/JqPmHtsXk2TpzQtF/OoJ8=
+X-Received: by 2002:a63:c4c:0:b0:46f:e243:503a with SMTP id
+ 12-20020a630c4c000000b0046fe243503amr14314192pgm.483.1667492842447; Thu, 03
+ Nov 2022 09:27:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1667489045; l=3398; s=20211113; h=from:subject; bh=PZByBmsOolWMq3HddyC3qa9xFMg1ubeZTofhZPwh6dU=; b=v15hMi/ivTX5CWvpzMcrySqQJkPXO7/fXMBiavSMAxGqtvwsL8eF+Mp4fP0ecL1SX2Iwzmu4fohL FraMLAZ9DpcuMeJIWm+xwp7YEopLU1TeDLC3VXEdM/sZGLXRwIdj
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519; pk=9LP6KM4vD/8CwHW7nouRBhWLyQLcK1MkP6aTZbzUlj4=
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-2-chao.p.peng@linux.intel.com> <CAGtprH_MiCxT2xSxD2UrM4M+ghL0V=XEZzEX4Fo5wQKV4fAL4w@mail.gmail.com>
+ <20221021134711.GA3607894@chaop.bj.intel.com> <Y1LGRvVaWwHS+Zna@google.com> <20221024145928.66uehsokp7bpa2st@box.shutemov.name>
+In-Reply-To: <20221024145928.66uehsokp7bpa2st@box.shutemov.name>
+From:   Vishal Annapurve <vannapurve@google.com>
+Date:   Thu, 3 Nov 2022 21:57:11 +0530
+Message-ID: <CAGtprH95A_1Xwaf9uCS6VX6Vi8jTTeewS1WYOwC6bFk5kq9G+g@mail.gmail.com>
+Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
+To:     "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Cc:     Sean Christopherson <seanjc@google.com>,
+        Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
+        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
+        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Certain files in procfs are formatted in byteorder-dependent formats.
-For example the IP addresses in /proc/net/udp.
+On Mon, Oct 24, 2022 at 8:30 PM Kirill A . Shutemov
+<kirill.shutemov@linux.intel.com> wrote:
+>
+> On Fri, Oct 21, 2022 at 04:18:14PM +0000, Sean Christopherson wrote:
+> > On Fri, Oct 21, 2022, Chao Peng wrote:
+> > > >
+> > > > In the context of userspace inaccessible memfd, what would be a
+> > > > suggested way to enforce NUMA memory policy for physical memory
+> > > > allocation? mbind[1] won't work here in absence of virtual address
+> > > > range.
+> > >
+> > > How about set_mempolicy():
+> > > https://www.man7.org/linux/man-pages/man2/set_mempolicy.2.html
+> >
+> > Andy Lutomirski brought this up in an off-list discussion way back when the whole
+> > private-fd thing was first being proposed.
+> >
+> >   : The current Linux NUMA APIs (mbind, move_pages) work on virtual addresses.  If
+> >   : we want to support them for TDX private memory, we either need TDX private
+> >   : memory to have an HVA or we need file-based equivalents. Arguably we should add
+> >   : fmove_pages and fbind syscalls anyway, since the current API is quite awkward
+> >   : even for tools like numactl.
+>
+> Yeah, we definitely have gaps in API wrt NUMA, but I don't think it be
+> addressed in the initial submission.
+>
+> BTW, it is not regression comparing to old KVM slots, if the memory is
+> backed by memfd or other file:
+>
+> MBIND(2)
+>        The  specified policy will be ignored for any MAP_SHARED mappings in the
+>        specified memory range.  Rather the pages will be allocated according to
+>        the  memory  policy  of the thread that caused the page to be allocated.
+>        Again, this may not be the thread that called mbind().
+>
+> It is not clear how to define fbind(2) semantics, considering that multiple
+> processes may compete for the same region of page cache.
+>
+> Should it be per-inode or per-fd? Or maybe per-range in inode/fd?
+>
 
-When using emulation like qemu-user, applications are not guaranteed to
-be using the same byteorder as the kernel.
-Therefore the kernel needs to provide a way for applications to discover
-the byteorder used in API-filesystems.
-Using systemcalls is not enough because these are intercepted and
-translated by the emulation.
+David's analysis on mempolicy with shmem seems to be right. set_policy
+on virtual address range does seem to change the shared policy for the
+inode irrespective of the mapping type.
 
-Also this makes it easier for non-compiled applications like
-shellscripts to discover the byteorder.
+Maybe having a way to set numa policy per-range in the inode would be
+at par with what we can do today via mbind on virtual address ranges.
 
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 
----
 
-Development of userspace part: https://github.com/util-linux/util-linux/pull/1872
-
-Changelog:
-
-v1: https://lore.kernel.org/lkml/20221101005043.1791-1-linux@weissschuh.net/
-v1->v2:
-  * Move file to /sys/kernel/byteorder
-v2: https://lore.kernel.org/lkml/20221101130401.1841-1-linux@weissschuh.net/
-v2->v3:
-  * Fix commit title to mention sysfs
-  * Use explicit cpu_byteorder name
-  * Use sysfs_emit
-  * Use myself as Contact
-  * Reword commit message
----
- .../ABI/testing/sysfs-kernel-cpu_byteorder     | 12 ++++++++++++
- kernel/ksysfs.c                                | 18 ++++++++++++++++++
- 2 files changed, 30 insertions(+)
- create mode 100644 Documentation/ABI/testing/sysfs-kernel-cpu_byteorder
-
-diff --git a/Documentation/ABI/testing/sysfs-kernel-cpu_byteorder b/Documentation/ABI/testing/sysfs-kernel-cpu_byteorder
-new file mode 100644
-index 000000000000..f0e6ac1b5356
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-kernel-cpu_byteorder
-@@ -0,0 +1,12 @@
-+What:		/sys/kernel/cpu_byteorder
-+Date:		February 2023
-+KernelVersion:	6.2
-+Contact:	Thomas Weißschuh <linux@weissschuh.net>
-+Description:
-+		The endianness of the running kernel.
-+
-+		Access: Read
-+
-+		Valid values:
-+			"little", "big"
-+Users:		util-linux
-diff --git a/kernel/ksysfs.c b/kernel/ksysfs.c
-index 65dba9076f31..2df00b789b90 100644
---- a/kernel/ksysfs.c
-+++ b/kernel/ksysfs.c
-@@ -6,6 +6,7 @@
-  * Copyright (C) 2004 Kay Sievers <kay.sievers@vrfy.org>
-  */
- 
-+#include <asm/byteorder.h>
- #include <linux/kobject.h>
- #include <linux/string.h>
- #include <linux/sysfs.h>
-@@ -20,6 +21,14 @@
- 
- #include <linux/rcupdate.h>	/* rcu_expedited and rcu_normal */
- 
-+#if defined(__LITTLE_ENDIAN)
-+#define CPU_BYTEORDER_STRING	"little"
-+#elif defined(__BIG_ENDIAN)
-+#define CPU_BYTEORDER_STRING	"big"
-+#else
-+#error Unknown byteorder
-+#endif
-+
- #define KERNEL_ATTR_RO(_name) \
- static struct kobj_attribute _name##_attr = __ATTR_RO(_name)
- 
-@@ -34,6 +43,14 @@ static ssize_t uevent_seqnum_show(struct kobject *kobj,
- }
- KERNEL_ATTR_RO(uevent_seqnum);
- 
-+/* cpu byteorder */
-+static ssize_t cpu_byteorder_show(struct kobject *kobj,
-+				  struct kobj_attribute *attr, char *buf)
-+{
-+	return sysfs_emit(buf, "%s\n", CPU_BYTEORDER_STRING);
-+}
-+KERNEL_ATTR_RO(cpu_byteorder);
-+
- #ifdef CONFIG_UEVENT_HELPER
- /* uevent helper program, used during early boot */
- static ssize_t uevent_helper_show(struct kobject *kobj,
-@@ -215,6 +232,7 @@ EXPORT_SYMBOL_GPL(kernel_kobj);
- static struct attribute * kernel_attrs[] = {
- 	&fscaps_attr.attr,
- 	&uevent_seqnum_attr.attr,
-+	&cpu_byteorder_attr.attr,
- #ifdef CONFIG_UEVENT_HELPER
- 	&uevent_helper_attr.attr,
- #endif
-
-base-commit: 8e5423e991e8cd0988d0c4a3f4ac4ca1af7d148a
--- 
-2.38.1
-
+> fmove_pages(2) should be relatively straight forward, since it is
+> best-effort and does not guarantee that the page will note be moved
+> somewhare else just after return from the syscall.
+>
+> --
+>   Kiryl Shutsemau / Kirill A. Shutemov
