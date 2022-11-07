@@ -2,33 +2,33 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 49FFB61FBAA
-	for <lists+linux-api@lfdr.de>; Mon,  7 Nov 2022 18:42:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8907B61FCB0
+	for <lists+linux-api@lfdr.de>; Mon,  7 Nov 2022 19:05:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232959AbiKGRmC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 7 Nov 2022 12:42:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51604 "EHLO
+        id S232364AbiKGSFK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 7 Nov 2022 13:05:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232938AbiKGRl7 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 7 Nov 2022 12:41:59 -0500
+        with ESMTP id S233026AbiKGSEt (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 7 Nov 2022 13:04:49 -0500
 Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E9462126C;
-        Mon,  7 Nov 2022 09:41:57 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9AD224F26;
+        Mon,  7 Nov 2022 10:00:43 -0800 (PST)
 Received: from zn.tnic (p200300ea9733e71f329c23fffea6a903.dip0.t-ipconnect.de [IPv6:2003:ea:9733:e71f:329c:23ff:fea6:a903])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id C065B1EC0722;
-        Mon,  7 Nov 2022 18:41:55 +0100 (CET)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 49F851EC059D;
+        Mon,  7 Nov 2022 19:00:42 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1667842915;
+        t=1667844042;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=gJdffZO5kYB9eNhnO4vweVey1VWb+3Mzd1jym5+DC2I=;
-        b=ffvOmvwpYJnDQy61JsxKGmrhyBduP1zuPftYGVnRVe0JJLAmzK2nPehrNtnVsx3a9e1tO3
-        SEEM8ppJWvAct3c6sERMe7eEyGZzGrc/aC2OCvrtvTACJ/ED6EELSOM0GLZKPTxN29S60Y
-        Kbc77HICYcQpVecRwwNJN9N4hFdB6Bc=
-Date:   Mon, 7 Nov 2022 18:41:50 +0100
+        bh=UkSYnjmUQupdoESl0cYE22dAydPPeLNDAdR5Iz0pnhU=;
+        b=bXNIbKBf++r6UJZ1YxkMPFeTEsnxN+C6+C+eLrtUPptX7sJ1W2m3VuISpp81WPCK4PTYdm
+        mK9DduVUBLvg9bqJuQ6msgSIq572Li4j8FEI7OJElPzWdein5uvqIVmWrwPB6EpjLMZqtf
+        Xphdp9jPHy+GLhx1wExdY8rJG2XIe+E=
+Date:   Mon, 7 Nov 2022 19:00:37 +0100
 From:   Borislav Petkov <bp@alien8.de>
 To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
 Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
@@ -58,15 +58,15 @@ Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
         eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
         dethoma@microsoft.com, akpm@linux-foundation.org,
         Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: Re: [PATCH v3 03/37] x86/cpufeatures: Add CPU feature flags for
- shadow stacks
-Message-ID: <Y2lDXvadKG0fsSKk@zn.tnic>
+Subject: Re: [PATCH v3 04/37] x86/cpufeatures: Enable CET CR4 bit for shadow
+ stack
+Message-ID: <Y2lHxb5BnbQi499s@zn.tnic>
 References: <20221104223604.29615-1-rick.p.edgecombe@intel.com>
- <20221104223604.29615-4-rick.p.edgecombe@intel.com>
+ <20221104223604.29615-5-rick.p.edgecombe@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20221104223604.29615-4-rick.p.edgecombe@intel.com>
+In-Reply-To: <20221104223604.29615-5-rick.p.edgecombe@intel.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -76,85 +76,79 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Nov 04, 2022 at 03:35:30PM -0700, Rick Edgecombe wrote:
-> diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
-> index b71f4f2ecdd5..5626ecb8a080 100644
-> --- a/arch/x86/include/asm/cpufeatures.h
-> +++ b/arch/x86/include/asm/cpufeatures.h
-> @@ -304,6 +304,7 @@
->  #define X86_FEATURE_UNRET		(11*32+15) /* "" AMD BTB untrain return */
->  #define X86_FEATURE_USE_IBPB_FW		(11*32+16) /* "" Use IBPB during runtime firmware calls */
->  #define X86_FEATURE_RSB_VMEXIT_LITE	(11*32+17) /* "" Fill RSB on VM exit when EIBRS is enabled */
-> +#define X86_FEATURE_USER_SHSTK		(11*32+18) /* Shadow stack support for user mode applications */
+On Fri, Nov 04, 2022 at 03:35:31PM -0700, Rick Edgecombe wrote:
+>  static __always_inline void setup_cet(struct cpuinfo_x86 *c)
+>  {
+> -	u64 msr = CET_ENDBR_EN;
+> +	bool kernel_ibt = HAS_KERNEL_IBT && cpu_feature_enabled(X86_FEATURE_IBT);
+> +	bool user_shstk;
+> +	u64 msr = 0;
+>  
+> -	if (!HAS_KERNEL_IBT ||
+> -	    !cpu_feature_enabled(X86_FEATURE_IBT))
+> +	/*
+> +	 * Enable user shadow stack only if the Linux defined user shadow stack
+> +	 * cap was not cleared by command line.
+> +	 */
+> +	user_shstk = cpu_feature_enabled(X86_FEATURE_SHSTK) &&
+> +		     IS_ENABLED(CONFIG_X86_USER_SHADOW_STACK) &&
+> +		     !test_bit(X86_FEATURE_USER_SHSTK, (unsigned long *)cpu_caps_cleared);
 
-This clashes with the calldepth tracking in tip, see updated diff below.
+Huh, why poke at cpu_caps_cleared? 
 
-> This is off of v6.1-rc3
+Look below:
 
-In the future, please do all your x86 patches against latest tip/master
-so that there's no issues like that.
+> +	if (!kernel_ibt && !user_shstk)
+>  		return;
+>  
+> +	if (user_shstk)
+> +		set_cpu_cap(c, X86_FEATURE_USER_SHSTK);
+> +
+> +	if (kernel_ibt)
+> +		msr = CET_ENDBR_EN;
+> +
+>  	wrmsrl(MSR_IA32_S_CET, msr);
+>  	cr4_set_bits(X86_CR4_CET);
+>  
+> -	if (!ibt_selftest()) {
+> +	if (kernel_ibt && !ibt_selftest()) {
+>  		pr_err("IBT selftest: Failed!\n");
+>  		setup_clear_cpu_cap(X86_FEATURE_IBT);
+>  		return;
+>  	}
+>  }
+> +#else /* CONFIG_X86_CET */
+> +static inline void setup_cet(struct cpuinfo_x86 *c) {}
+> +#endif
+>  
+>  __noendbr void cet_disable(void)
+>  {
+> -	if (cpu_feature_enabled(X86_FEATURE_IBT))
+> -		wrmsrl(MSR_IA32_S_CET, 0);
+> +	if (!(cpu_feature_enabled(X86_FEATURE_IBT) ||
+> +	      cpu_feature_enabled(X86_FEATURE_SHSTK)))
+> +		return;
+> +
+> +	wrmsrl(MSR_IA32_S_CET, 0);
+> +	wrmsrl(MSR_IA32_U_CET, 0);
+
+Here you need to do
+
+	setup_clear_cpu_cap(X86_FEATURE_IBT);
+	setup_clear_cpu_cap(X86_FEATURE_SHSTK);
+
+and then the cpu_feature_enabled() test above alone should suffice.
+
+But, before you do that, I'd like to ask you to update your patchset
+ontop of tip/master because the conflicts are getting non-trivial. This
+one doesn't even want to apply with a large fuzz:
+
+$ patch -p1 --dry-run -F20 -i /tmp/new
+checking file arch/x86/kernel/cpu/common.c
+Hunk #1 FAILED at 596.
+1 out of 1 hunk FAILED
 
 Thx.
-
----
-diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
-index 97669aaf1202..8d67249f5232 100644
---- a/arch/x86/include/asm/cpufeatures.h
-+++ b/arch/x86/include/asm/cpufeatures.h
-@@ -306,6 +306,7 @@
- #define X86_FEATURE_RSB_VMEXIT_LITE	(11*32+17) /* "" Fill RSB on VM exit when EIBRS is enabled */
- #define X86_FEATURE_SGX_EDECCSSA	(11*32+18) /* "" SGX EDECCSSA user leaf function */
- #define X86_FEATURE_CALL_DEPTH		(11*32+19) /* "" Call depth tracking for RSB stuffing */
-+#define X86_FEATURE_USER_SHSTK		(11*32+20) /* Shadow stack support for user mode applications */
- 
- /* Intel-defined CPU features, CPUID level 0x00000007:1 (EAX), word 12 */
- #define X86_FEATURE_AVX_VNNI		(12*32+ 4) /* AVX VNNI instructions */
-@@ -367,6 +368,7 @@
- #define X86_FEATURE_OSPKE		(16*32+ 4) /* OS Protection Keys Enable */
- #define X86_FEATURE_WAITPKG		(16*32+ 5) /* UMONITOR/UMWAIT/TPAUSE Instructions */
- #define X86_FEATURE_AVX512_VBMI2	(16*32+ 6) /* Additional AVX512 Vector Bit Manipulation Instructions */
-+#define X86_FEATURE_SHSTK		(16*32+ 7) /* Shadow Stack */
- #define X86_FEATURE_GFNI		(16*32+ 8) /* Galois Field New Instructions */
- #define X86_FEATURE_VAES		(16*32+ 9) /* Vector AES */
- #define X86_FEATURE_VPCLMULQDQ		(16*32+10) /* Carry-Less Multiplication Double Quadword */
-diff --git a/arch/x86/include/asm/disabled-features.h b/arch/x86/include/asm/disabled-features.h
-index bbb03b25263e..79fbb7799526 100644
---- a/arch/x86/include/asm/disabled-features.h
-+++ b/arch/x86/include/asm/disabled-features.h
-@@ -93,6 +93,12 @@
- # define DISABLE_TDX_GUEST	(1 << (X86_FEATURE_TDX_GUEST & 31))
- #endif
- 
-+#ifdef CONFIG_X86_USER_SHADOW_STACK
-+#define DISABLE_USER_SHSTK	0
-+#else
-+#define DISABLE_USER_SHSTK	(1 << (X86_FEATURE_USER_SHSTK & 31))
-+#endif
-+
- /*
-  * Make sure to add features to the correct mask
-  */
-@@ -108,7 +114,7 @@
- #define DISABLED_MASK9	(DISABLE_SGX)
- #define DISABLED_MASK10	0
- #define DISABLED_MASK11	(DISABLE_RETPOLINE|DISABLE_RETHUNK|DISABLE_UNRET| \
--			 DISABLE_CALL_DEPTH_TRACKING)
-+			 DISABLE_CALL_DEPTH_TRACKING|DISABLE_USER_SHSTK)
- #define DISABLED_MASK12	0
- #define DISABLED_MASK13	0
- #define DISABLED_MASK14	0
-diff --git a/arch/x86/kernel/cpu/cpuid-deps.c b/arch/x86/kernel/cpu/cpuid-deps.c
-index d95221117129..c3e4e5246df9 100644
---- a/arch/x86/kernel/cpu/cpuid-deps.c
-+++ b/arch/x86/kernel/cpu/cpuid-deps.c
-@@ -79,6 +79,7 @@ static const struct cpuid_dep cpuid_deps[] = {
- 	{ X86_FEATURE_XFD,			X86_FEATURE_XSAVES    },
- 	{ X86_FEATURE_XFD,			X86_FEATURE_XGETBV1   },
- 	{ X86_FEATURE_AMX_TILE,			X86_FEATURE_XFD       },
-+	{ X86_FEATURE_SHSTK,			X86_FEATURE_XSAVES    },
- 	{}
- };
- 
 
 -- 
 Regards/Gruss,
