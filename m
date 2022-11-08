@@ -2,92 +2,97 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 699606211ED
-	for <lists+linux-api@lfdr.de>; Tue,  8 Nov 2022 14:05:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 45C4262161B
+	for <lists+linux-api@lfdr.de>; Tue,  8 Nov 2022 15:22:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233779AbiKHNFC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 8 Nov 2022 08:05:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48820 "EHLO
+        id S233968AbiKHOWq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 8 Nov 2022 09:22:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233866AbiKHNFB (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 8 Nov 2022 08:05:01 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED609B99;
-        Tue,  8 Nov 2022 05:05:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=dHBGD5sXlI0lRYkCZWGfedeiEQdnEUe+C13lU+wZ1iY=; b=QyvWUkK6pirDDr6L21v798/C7u
-        qqoX+8LbeKfELkmoNJQCl1/4RTkBp+Q1C5iWU5oX4faHgFcSAUyIr/DDmsbT87hAtZlvRHdNYGDIg
-        aMQBS4HzZFNOWMwAKiJTxPE01mKYIHPEDY+pTESREbmDVBbhE0JAAOus5IWcP1XNJwRy0TwmOsETt
-        LY5Q6pS4faSz6cQ2Q5M7FCSK/vV3HYwAZzWr94+O52T0Tk87mnN+lV2s4iCoBTWozgbbOPXecE/ID
-        k9btwTc5+ikym8XA/Y5Ms7EJjxN4f0l1duzlrtRoHojTnlo2ZU10O8NVK1YtpVB3DWbMJCaaMjxid
-        RLO8fq6g==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1osOHe-00AHQF-5N; Tue, 08 Nov 2022 13:04:54 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 2CCC7300338;
-        Tue,  8 Nov 2022 14:04:46 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 145D82B8C8559; Tue,  8 Nov 2022 14:04:46 +0100 (CET)
-Date:   Tue, 8 Nov 2022 14:04:46 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        "Paul E . McKenney" <paulmck@kernel.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
-        linux-api@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
-        Florian Weimer <fw@deneb.enyo.de>, David.Laight@aculab.com,
-        carlos@redhat.com, Peter Oskolkov <posk@posk.io>,
-        Alexander Mikhalitsyn <alexander@mihalicyn.com>,
-        Chris Kennelly <ckennelly@google.com>
-Subject: Re: [PATCH v5 08/24] sched: Introduce per memory space current
- virtual cpu id
-Message-ID: <Y2pT7ij/TcI4EmH6@hirez.programming.kicks-ass.net>
-References: <20221103200359.328736-1-mathieu.desnoyers@efficios.com>
- <20221103200359.328736-9-mathieu.desnoyers@efficios.com>
+        with ESMTP id S234255AbiKHOWP (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 8 Nov 2022 09:22:15 -0500
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74CE854B20
+        for <linux-api@vger.kernel.org>; Tue,  8 Nov 2022 06:22:14 -0800 (PST)
+Received: by mail-ej1-x632.google.com with SMTP id n12so38934063eja.11
+        for <linux-api@vger.kernel.org>; Tue, 08 Nov 2022 06:22:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=SzBlYeGeT15Xra75w9IZDBjQ7Da3XKSmRdlnDJDYrko=;
+        b=jSc0NsQQnXAyfyqUSZKDYzahyhZz76E4rHtd1pE51SxxJXT4eloDHBPPzfL4l0WO9W
+         Zy0eD/wdi9YvuhhZVh71lpB+gRMRflSPleKA2AqutM0QAeQUK7ne3Wj+qhZGFmVtiAA2
+         GSrXNpoVvtsC6jiqhPzbKbOxpLZXG9YkEkJfwfQ1jAoKxSY/UanwvITnEYykxoswTSRy
+         35KlXeZohejq4A/oSAVKeQAaZZzRsWYDHxrMVdsEUd0sKhH4dLM9jfMRv4UXezOMWm+s
+         HDMUKfY1jNVl5iOHIvGfVew7yvON7Ho70PVLOILpaxG9deCgI2iCdTKd4QljfXyGnom+
+         kYbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=SzBlYeGeT15Xra75w9IZDBjQ7Da3XKSmRdlnDJDYrko=;
+        b=wJTPd/Xt9Hsp+l4/QbS4dbCN/HNNFjlZCtChfu2i1F6wVdans/8ayx1eigKyjbVVrE
+         kBZXEXxY55Bxh8tWWwzIRHBMdZieseTkMeR+lqOger3VVgBN3o6NuRZjvQA5scyPbbs5
+         XhPSnntYX8K0Retvl+s9dkuC8DiL3MYHE2AoA91TFwPa0RoF/o1q7XMQN5QCsyLmZVnY
+         Cw5Bws7nY+XtDZkPVsHD95P9UxehvU3SswRrVi5XopNjXWYdtJP4fhSqtGDBsekQVXsJ
+         mY9uOPK4Lxd93KgJjYY+8ive5anNHBZAimTvscg5wyg7FL5CEncf9PCjwlga+r8yACgx
+         vzYw==
+X-Gm-Message-State: ACrzQf3IGTe2s3bMVm255SDJruwQnArJ4QPqtMisWQb8qy41pmcvGyYl
+        Ib5IKh7xqENxoj8aR53TnhRvDk8SIIFpT6ZN4lc=
+X-Google-Smtp-Source: AMsMyM70nlaS3Y1LyS3bDYm9icHloC5/nVvOpGiPirMzidxMQyxx2Vh+YRH4/uqxcekytNlLIQPSbkHiQzrLo6nGTu8=
+X-Received: by 2002:a17:907:c08:b0:7ad:f758:2899 with SMTP id
+ ga8-20020a1709070c0800b007adf7582899mr35587413ejc.671.1667917332806; Tue, 08
+ Nov 2022 06:22:12 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221103200359.328736-9-mathieu.desnoyers@efficios.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Received: by 2002:a05:6402:3514:b0:462:e787:e7e with HTTP; Tue, 8 Nov 2022
+ 06:22:11 -0800 (PST)
+Reply-To: mr.abraham022@gmail.com
+From:   "Mr.Abraham" <davidkekeli4@gmail.com>
+Date:   Tue, 8 Nov 2022 14:22:11 +0000
+Message-ID: <CAO+ex-UZzNgvtEnUjU-Qr2vXws1D3nSaYaxbZRGFW8g0scgnvA@mail.gmail.com>
+Subject: Greeting
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=5.0 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_HK_NAME_FM_MR_MRS,
+        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2a00:1450:4864:20:0:0:0:632 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.4720]
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [mr.abraham022[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [davidkekeli4[at]gmail.com]
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [davidkekeli4[at]gmail.com]
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        *  0.0 T_HK_NAME_FM_MR_MRS No description available.
+        *  2.9 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Nov 03, 2022 at 04:03:43PM -0400, Mathieu Desnoyers wrote:
-
-> The credit goes to Paul Turner (Google) for the vcpu_id idea. This
-> feature is implemented based on the discussions with Paul Turner and
-> Peter Oskolkov (Google), but I took the liberty to implement scheduler
-> fast-path optimizations and my own NUMA-awareness scheme. The rumor has
-> it that Google have been running a rseq vcpu_id extension internally at
-> Google in production for a year. The tcmalloc source code indeed has
-> comments hinting at a vcpu_id prototype extension to the rseq system
-> call [1].
-
-Re NUMA thing -- that means that on a 512 node system a single threaded
-task can still observe 512 separate vcpu-ids, right?
-
-Also, said space won't be dense.
-
-The main selling point of the whole vcpu-id scheme was that the id space
-is dense and not larger than min(nr_cpus, nr_threads), which then gives
-useful properties.
-
-But I'm not at all seeing how the NUMA thing preserves that.
-
-Also; given the utter mind-bendiness of the NUMA thing; should it go
-into it's own patch; introduce the regular plain old vcpu first, and
-then add things to it -- that also allows pushing those weird cpumask
-ops you've created later into the series.
+My Greeting, Did you receive the letter i sent to you. Please answer me.
+Regard, Mr.Abraham
