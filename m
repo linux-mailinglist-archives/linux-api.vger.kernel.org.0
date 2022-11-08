@@ -2,33 +2,33 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 03E6C621D2F
-	for <lists+linux-api@lfdr.de>; Tue,  8 Nov 2022 20:45:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F2C5621D68
+	for <lists+linux-api@lfdr.de>; Tue,  8 Nov 2022 21:07:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229700AbiKHTpY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 8 Nov 2022 14:45:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44766 "EHLO
+        id S229700AbiKHUHi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 8 Nov 2022 15:07:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229452AbiKHTpV (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 8 Nov 2022 14:45:21 -0500
-Received: from smtpout.efficios.com (smtpout.efficios.com [IPv6:2607:5300:203:5aae::31e5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 519D31D654;
-        Tue,  8 Nov 2022 11:45:19 -0800 (PST)
+        with ESMTP id S229649AbiKHUHh (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 8 Nov 2022 15:07:37 -0500
+Received: from smtpout.efficios.com (smtpout.efficios.com [167.114.26.122])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9764B60EB3;
+        Tue,  8 Nov 2022 12:07:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=efficios.com;
-        s=smtpout1; t=1667936717;
-        bh=N9FGx501778vNVrOHYv7pAKWQyx42YqgfZDZQz7Kpgk=;
+        s=smtpout1; t=1667938055;
+        bh=2YjYNBDqhLy3uADbeMp1P3aHSxfJP3jjX9skYBBOTF8=;
         h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=k3iNJAuKTFU1zCZs/molOCmMlgz/rjg/gx2J96nBs8Qmowxl5/5/XbzmM8ddiN31j
-         HH4vY1V+Uxx11sHIUyU0mRQmfs0aMLSZ5a/hDbv13H4spU7VQ8qf8+L/eIZWvDnQ6N
-         gZlzjsswfTAW1xCXAv7yESvj2OK11CO1cnMXGS9n2glgaqwBEkIBADosDHvorRPBwl
-         nf+qFoDKxJndZCKSQczBv5XFZUTh3oSyQyJxyTvL1kBrAuE05fxgs5r+fvXxkMOCp1
-         QER9Qns99zg8tw80p/vMPMxUTTon9pMOpqjOGnuM1kh53FKdiK+OBDXP+4MLO/tg01
-         RlnUMNIryPV9Q==
+        b=WQ0fUS7O2LZBWNGgFF80xUg98NuQStaICXq4CeaFKXRP37pRB00VE9cBYQRd7SHqZ
+         UhFNmn5cBzmXXMdDQ7rNSs17pzVHJlamaHmqsSvYLew9vVDfgGaYxotc47IfcL/ytU
+         wva/GxcNATQqmcA55gpxsJAinnhnnnmlVBdUdox9xx3rJP85WIr/EpHtZ36X3lDmgE
+         JlakrdHEW2+gTAOmpTTeA3eUl5R3eb1q+jRP4n4XJ50XdZg3OMsBAKKboOnvoPHwp+
+         esbrPxSsG8/U7yTCxPc6vYf3lSPnqr7wRgBmSYTxjeYZNIbrNtvTiYBCGKEAeZGe1k
+         9w4Lnf20tUpOw==
 Received: from [172.16.0.153] (192-222-180-24.qc.cable.ebox.net [192.222.180.24])
-        by smtpout.efficios.com (Postfix) with ESMTPSA id 4N6JV51LvbzgHZ;
-        Tue,  8 Nov 2022 14:45:17 -0500 (EST)
-Message-ID: <916c7a1f-fddd-77d6-6f91-6d3c196e1d86@efficios.com>
-Date:   Tue, 8 Nov 2022 14:45:24 -0500
+        by smtpout.efficios.com (Postfix) with ESMTPSA id 4N6Jzq2RB4zgTw;
+        Tue,  8 Nov 2022 15:07:35 -0500 (EST)
+Message-ID: <580eec2b-f204-2eb1-806d-8282b8b60bf2@efficios.com>
+Date:   Tue, 8 Nov 2022 15:07:42 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.0
@@ -47,9 +47,9 @@ Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
         Chris Kennelly <ckennelly@google.com>
 References: <20221103200359.328736-1-mathieu.desnoyers@efficios.com>
  <20221103200359.328736-9-mathieu.desnoyers@efficios.com>
- <Y2pS4gC1MHw+mX3x@hirez.programming.kicks-ass.net>
+ <Y2pT7ij/TcI4EmH6@hirez.programming.kicks-ass.net>
 From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-In-Reply-To: <Y2pS4gC1MHw+mX3x@hirez.programming.kicks-ass.net>
+In-Reply-To: <Y2pT7ij/TcI4EmH6@hirez.programming.kicks-ass.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -61,42 +61,87 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 2022-11-08 08:00, Peter Zijlstra wrote:
+On 2022-11-08 08:04, Peter Zijlstra wrote:
 > On Thu, Nov 03, 2022 at 04:03:43PM -0400, Mathieu Desnoyers wrote:
 > 
->> diff --git a/fs/exec.c b/fs/exec.c
->> index 349a5da91efe..93eb88f4053b 100644
->> --- a/fs/exec.c
->> +++ b/fs/exec.c
->> @@ -1013,6 +1013,9 @@ static int exec_mmap(struct mm_struct *mm)
->>   	tsk->active_mm = mm;
->>   	tsk->mm = mm;
->>   	lru_gen_add_mm(mm);
->> +	mm_init_vcpu_lock(mm);
->> +	mm_init_vcpumask(mm);
->> +	mm_init_node_vcpumask(mm);
->>   	/*
->>   	 * This prevents preemption while active_mm is being loaded and
->>   	 * it and mm are being updated, which could cause problems for
+>> The credit goes to Paul Turner (Google) for the vcpu_id idea. This
+>> feature is implemented based on the discussions with Paul Turner and
+>> Peter Oskolkov (Google), but I took the liberty to implement scheduler
+>> fast-path optimizations and my own NUMA-awareness scheme. The rumor has
+>> it that Google have been running a rseq vcpu_id extension internally at
+>> Google in production for a year. The tcmalloc source code indeed has
+>> comments hinting at a vcpu_id prototype extension to the rseq system
+>> call [1].
 > 
->> @@ -1150,6 +1154,9 @@ static struct mm_struct *mm_init(struct mm_struct *mm, struct task_struct *p,
->>   
->>   	mm->user_ns = get_user_ns(user_ns);
->>   	lru_gen_init_mm(mm);
->> +	mm_init_vcpu_lock(mm);
->> +	mm_init_vcpumask(mm);
->> +	mm_init_node_vcpumask(mm);
->>   	return mm;
->>   
->>   fail_nocontext:
-> 
-> Why isn't all that a single mm_init_vcpu(mm) or something ?
+> Re NUMA thing -- that means that on a 512 node system a single threaded
+> task can still observe 512 separate vcpu-ids, right?
 
-Good point, I'll update that.
+Yes, that's correct.
+
+> 
+> Also, said space won't be dense.
+
+Indeed, this can be inefficient if the data structure within the 
+single-threaded task is not NUMA-aware *and* that task is free to bounce 
+all over the 512 numa nodes.
+
+> 
+> The main selling point of the whole vcpu-id scheme was that the id space
+> is dense and not larger than min(nr_cpus, nr_threads), which then gives
+> useful properties.
+> 
+> But I'm not at all seeing how the NUMA thing preserves that.
+
+If a userspace per-vcpu data structure is implemented with NUMA-local 
+allocations, then it becomes really interesting to guarantee that the 
+per-vcpu-id accesses are always numa-local for performance reasons.
+
+If a userspace per-vcpu data structure is not numa-aware, then we have 
+two scenarios:
+
+A) The cpuset/sched affinity under which it runs pins it to a set of 
+cores belonging to a specific NUMA node. In this case, even with 
+numa-aware vcpu id allocation, the ids will stay as close to 0 as if not 
+numa-aware.
+
+B) No specific cpuset/sched affinity set, which means the task is free 
+to bounce all over. In this case I agree that having the indexing 
+numa-aware, but the per-vcpu data structure not numa-aware, is inefficient.
+
+I wonder whether scenarios with 512 nodes systems, with containers using 
+few cores, but without using cpusets/sched affinity to pin the workload 
+to specific numa nodes is a workload we should optimize for ? It looks 
+like the lack of numa locality due to lack of allowed cores restriction 
+is a userspace configuration issue.
+
+We also must keep in mind that we can expect a single task to load a mix 
+of executable/shared libraries where some pieces may be numa-aware, and 
+others may not. This means we should ideally support a numa-aware 
+vcpu-id allocation scheme and non-numa-aware vcpu-id allocation scheme 
+within the same task.
+
+This could be achieved by exposing two struct rseq fields rather than 
+one, e.g.:
+
+vm_vcpu_id -> flat indexing, not numa-aware.
+vm_numa_vcpu_id -> numa-aware vcpu id indexing.
+
+This would allow data structures that are inherently numa-aware to 
+benefit from numa-locality, without hurting non-numa-aware data structures.
+
+> 
+> Also; given the utter mind-bendiness of the NUMA thing; should it go
+> into it's own patch; introduce the regular plain old vcpu first, and
+> then add things to it -- that also allows pushing those weird cpumask
+> ops you've created later into the series.
+
+Good idea. I can do that once we agree on the way forward for flat vs 
+numa-aware vcpu-id rseq fields.
 
 Thanks,
 
 Mathieu
+
 
 -- 
 Mathieu Desnoyers
