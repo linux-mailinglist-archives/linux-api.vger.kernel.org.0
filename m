@@ -2,50 +2,50 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 192766209FC
-	for <lists+linux-api@lfdr.de>; Tue,  8 Nov 2022 08:21:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 33A37620B29
+	for <lists+linux-api@lfdr.de>; Tue,  8 Nov 2022 09:28:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232723AbiKHHVE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 8 Nov 2022 02:21:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60168 "EHLO
+        id S232901AbiKHI2w (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 8 Nov 2022 03:28:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42310 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232494AbiKHHVD (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 8 Nov 2022 02:21:03 -0500
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E9ED13D05;
-        Mon,  7 Nov 2022 23:21:02 -0800 (PST)
+        with ESMTP id S230154AbiKHI2u (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 8 Nov 2022 03:28:50 -0500
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEA6C2791F;
+        Tue,  8 Nov 2022 00:28:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1667892062; x=1699428062;
+  t=1667896128; x=1699432128;
   h=date:from:to:cc:subject:message-id:reply-to:references:
    mime-version:in-reply-to;
-  bh=upQwL5A0Maekh82raTC60T5oBKGppSiNQzfVbZZR6Q8=;
-  b=NHZNtum37Ge4b2nlVNYfhNWqQeDTgP1qrq3FaXkb/9JepQ1xobuoFHio
-   xA1ch3lfnVuWBN6NE6rVlH6Y90/WigCk9thA8qEijNyDaPkooyfOis+OZ
-   u334GIWAl3n/QSoVrQW+s4g6QgZX8NF3qAv+TYTOHYB0+h7me/Ox/daGR
-   YRF54QlGLpHFHLxpwFFK3F8R4c9Pl0wiwhVQXIda1xfgsM7cuFl2g3++L
-   P/865ao2BKIRjxHfTEQKJciWfW49XFgQ8IVeVA0qx1l92X5uJveR081M9
-   5qSSWBgCwZFjro/whtOeNKQsm24iAl6DeVwzMLYBFKO+cyPGRMGcNf5y9
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="312416933"
+  bh=WIPURCPIsIJH60CXb2Fq3UuwkzckzrtWTTFyYgbY51I=;
+  b=aWBNPcrbX+BLGev3E1xOsWythLVkTi6/AiT24RMYu8IG8Ur8z/UO7EaV
+   EWOrVN20KpmneXXjp39Ignaj5egFn0y4MU/qIWOPIf57bZN84KnxRwJAo
+   pFxVrBL1z8UZOUPa+2XAuTRqMGTxuE+b1C3iqS/uy8p4iNsMyOCK+JtwI
+   KY/NsAbyDwGGp4gVYG011+cdUEM7lR8BKG4YaVhoO7wysI82WHOTjxyRB
+   PwNkzy/0msZ3O3WFG9BsBs7p1IvLEV4ip8KxqW1QffyciAVTWdvGHVzSN
+   bgs1V4Cp6AYqQTVTqn2hzp6cp/dP2DoJIJNiIW9r2cO9VxMdzwM6xJSqh
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="291027452"
 X-IronPort-AV: E=Sophos;i="5.96,147,1665471600"; 
-   d="scan'208";a="312416933"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2022 23:21:01 -0800
+   d="scan'208";a="291027452"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2022 00:28:48 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="638690908"
+X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="630798909"
 X-IronPort-AV: E=Sophos;i="5.96,147,1665471600"; 
-   d="scan'208";a="638690908"
+   d="scan'208";a="630798909"
 Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
-  by fmsmga007.fm.intel.com with ESMTP; 07 Nov 2022 23:20:50 -0800
-Date:   Tue, 8 Nov 2022 15:16:24 +0800
+  by orsmga007.jf.intel.com with ESMTP; 08 Nov 2022 00:28:36 -0800
+Date:   Tue, 8 Nov 2022 16:24:10 +0800
 From:   Chao Peng <chao.p.peng@linux.intel.com>
 To:     Sean Christopherson <seanjc@google.com>
-Cc:     Fuad Tabba <tabba@google.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Vitaly Kuznetsov <vkuznets@redhat.com>,
         Wanpeng Li <wanpengli@tencent.com>,
@@ -68,21 +68,22 @@ Cc:     Fuad Tabba <tabba@google.com>, kvm@vger.kernel.org,
         luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
         ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
         ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
+        Quentin Perret <qperret@google.com>, tabba@google.com,
         Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
         Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v9 4/8] KVM: Use gfn instead of hva for mmu_notifier_retry
-Message-ID: <20221108071624.GA76278@chaop.bj.intel.com>
+Subject: Re: [PATCH v9 5/8] KVM: Register/unregister the guest private memory
+ regions
+Message-ID: <20221108082410.GA84375@chaop.bj.intel.com>
 Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-5-chao.p.peng@linux.intel.com>
- <CA+EHjTySnJTuLB+XoRya6kS_zw2iMahW9-Ze70oKTf+6k0GrGQ@mail.gmail.com>
- <20221104022813.GA4129873@chaop.bj.intel.com>
- <Y2WSXLtcJOpWPtuv@google.com>
+ <20221025151344.3784230-6-chao.p.peng@linux.intel.com>
+ <Y2RJFWplouV2iF5E@google.com>
+ <20221104082843.GA4142342@chaop.bj.intel.com>
+ <Y2WB48kD0J4VGynX@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y2WSXLtcJOpWPtuv@google.com>
+In-Reply-To: <Y2WB48kD0J4VGynX@google.com>
 X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
         SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
@@ -92,99 +93,178 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Nov 04, 2022 at 10:29:48PM +0000, Sean Christopherson wrote:
-> On Fri, Nov 04, 2022, Chao Peng wrote:
-> > On Thu, Oct 27, 2022 at 11:29:14AM +0100, Fuad Tabba wrote:
-> > > Hi,
-> > > 
-> > > On Tue, Oct 25, 2022 at 4:19 PM Chao Peng <chao.p.peng@linux.intel.com> wrote:
-> > > >
-> > > > Currently in mmu_notifier validate path, hva range is recorded and then
-> > > > checked against in the mmu_notifier_retry_hva() of the page fault path.
-> > > > However, for the to be introduced private memory, a page fault may not
-> > > > have a hva associated, checking gfn(gpa) makes more sense.
-> > > >
-> > > > For existing non private memory case, gfn is expected to continue to
-> > > > work. The only downside is when aliasing multiple gfns to a single hva,
-> > > > the current algorithm of checking multiple ranges could result in a much
-> > > > larger range being rejected. Such aliasing should be uncommon, so the
-> > > > impact is expected small.
-> > > >
-> > > > It also fixes a bug in kvm_zap_gfn_range() which has already been using
-> > > 
-> > > nit: Now it's kvm_unmap_gfn_range().
-> > 
-> > Forgot to mention: the bug is still with kvm_zap_gfn_range(). It calls
-> > kvm_mmu_invalidate_begin/end with a gfn range but before this series
-> > kvm_mmu_invalidate_begin/end actually accept a hva range. Note it's
-> > unrelated to whether we use kvm_zap_gfn_range() or kvm_unmap_gfn_range()
-> > in the following patch (patch 05).
+On Fri, Nov 04, 2022 at 09:19:31PM +0000, Sean Christopherson wrote:
+> Paolo, any thoughts before I lead things further astray?
 > 
-> Grr, in the future, if you find an existing bug, please send a patch.  At the
-> very least, report the bug.
+> On Fri, Nov 04, 2022, Chao Peng wrote:
+> > On Thu, Nov 03, 2022 at 11:04:53PM +0000, Sean Christopherson wrote:
+> > > On Tue, Oct 25, 2022, Chao Peng wrote:
+> > > > @@ -4708,6 +4802,24 @@ static long kvm_vm_ioctl(struct file *filp,
+> > > >  		r = kvm_vm_ioctl_set_memory_region(kvm, &mem);
+> > > >  		break;
+> > > >  	}
+> > > > +#ifdef CONFIG_KVM_GENERIC_PRIVATE_MEM
+> > > > +	case KVM_MEMORY_ENCRYPT_REG_REGION:
+> > > > +	case KVM_MEMORY_ENCRYPT_UNREG_REGION: {
+> > > 
+> > > I'm having second thoughts about usurping KVM_MEMORY_ENCRYPT_(UN)REG_REGION.  Aside
+> > > from the fact that restricted/protected memory may not be encrypted, there are
+> > > other potential use cases for per-page memory attributes[*], e.g. to make memory
+> > > read-only (or no-exec, or exec-only, etc...) without having to modify memslots.
+> > > 
+> > > Any paravirt use case where the attributes of a page are effectively dictated by
+> > > the guest is going to run into the exact same performance problems with memslots,
+> > > which isn't suprising in hindsight since shared vs. private is really just an
+> > > attribute, albeit with extra special semantics.
+> > > 
+> > > And if we go with a brand new ioctl(), maybe someday in the very distant future
+> > > we can deprecate and delete KVM_MEMORY_ENCRYPT_(UN)REG_REGION.
+> > > 
+> > > Switching to a new ioctl() should be a minor change, i.e. shouldn't throw too big
+> > > of a wrench into things.
+> > > 
+> > > Something like:
+> > > 
+> > >   KVM_SET_MEMORY_ATTRIBUTES
+> > > 
+> > >   struct kvm_memory_attributes {
+> > > 	__u64 address;
+> > > 	__u64 size;
+> > > 	__u64 flags;
+> 
+> Oh, this is half-baked.  I lost track of which flags were which.  What I intended
+> was a separate, initially-unused flags, e.g.
 
-Agreed, this can be sent out separately from this series.
+That makes sense.
 
-> The APICv case that this was added for could very
-> well be broken because of this, and the resulting failures would be an absolute
-> nightmare to debug.
+> 
+>  struct kvm_memory_attributes {
+> 	__u64 address;
+> 	__u64 size;
+> 	__u64 attributes;
+> 	__u64 flags;
+>   }
+> 
+> so that KVM can tweak behavior and/or extend the effective size of the struct.
+> 
+> > I like the idea of adding a new ioctl(). But putting all attributes into
+> > a flags in uAPI sounds not good to me, e.g. forcing userspace to set all
+> > attributes in one call can cause pain for userspace, probably for KVM
+> > implementation as well. For private<->shared memory conversion, we
+> > actually only care the KVM_MEM_ATTR_SHARED or KVM_MEM_ATTR_PRIVATE bit,
+> 
+> Not necessarily, e.g. I can see pKVM wanting to convert from RW+PRIVATE => RO+SHARED
+> or even RW+PRIVATE => NONE+SHARED so that the guest can't write/access the memory
+> while it's accessible from the host.
+> 
+> And if this does extend beyond shared/private, dropping from RWX=>R, i.e. dropping
+> WX permissions, would also be a common operation.
+> 
+> Hmm, typing that out makes me think that if we do end up supporting other "attributes",
+> i.e. protections, we should go straight to full RWX protections instead of doing
+> things piecemeal, i.e. add individual protections instead of combinations like
+> NO_EXEC and READ_ONLY.  The protections would have to be inverted for backwards
+> compatibility, but that's easy enough to handle.  The semantics could be like
+> protection keys, which also have inverted persmissions, where the final protections
+> are the combination of memslot+attributes, i.e. a read-only memslot couldn't be made
+> writable via attributes.
+> 
+> E.g. userspace could do "NO_READ | NO_WRITE | NO_EXEC" to temporarily block access
+> to memory without needing to delete the memslot.  KVM would need to disallow
+> unsupported combinations, e.g. disallowed effective protections would be:
+> 
+>   - W or WX [unless there's an arch that supports write-only memory]
+>   - R or RW [until KVM plumbs through support for no-exec, or it's unsupported in hardware]
+>   - X       [until KVM plumbs through support for exec-only, or it's unsupported in hardware]
+> 
+> Anyways, that's all future work...
+> 
+> > but we force userspace to set other irrelevant bits as well if use this
+> > API.
+> 
+> They aren't irrelevant though, as the memory attributes are all describing the
+> allowed protections for a given page.
 
-Given the apicv_inhibit should be rare, the change looks good to me.
-Just to be clear, your will send out this fix, right?
+The 'allowed' protections seems answer my concern. But after we enabled
+"NO_READ | NO_WRITE | NO_EXEC", are we going to check "NO_READ |
+NO_WRITE | NO_EXEC" are also set together with the PRIVATE bit? I just
+can't imagine what the semantic would be if we have the PRIVATE bit set
+but other bits indicate it's actually can READ/WRITE/EXEC from usrspace.
+
+> If there's a use case where userspace "can't"
+> keep track of the attributes for whatever reason, then userspace could do a RMW
+> to set/clear attributes.  Alternatively, the ioctl() could take an "operation" and
+> support WRITE/OR/AND to allow setting/clearing individual flags, e.g. tweak the
+> above to be: 
+
+A getter would be good, it might also be needed for live migration.
+
+>  
+>  struct kvm_memory_attributes {
+> 	__u64 address;
+> 	__u64 size;
+> 	__u64 attributes;
+> 	__u32 operation;
+> 	__u32 flags;
+>   }
+> 
+> > I looked at kvm_device_attr, sounds we can do similar:
+> 
+> The device attributes deal with isolated, arbitrary values, whereas memory attributes
+> are flags, i.e. devices are 1:1 whereas memory is 1:MANY.  There is no "unset" for
+> device attributes, because they aren't flags.  Device attributes vs. memory attributes
+> really are two very different things that just happen to use a common name.
+> 
+> If it helped clarify things without creating naming problems, we could even use
+> PROTECTIONS instead of ATTRIBUTES.
+> 
+> >   KVM_SET_MEMORY_ATTR
+> > 
+> >   struct kvm_memory_attr {
+> > 	__u64 address;
+> > 	__u64 size;
+> > #define KVM_MEM_ATTR_SHARED	BIT(0)
+> > #define KVM_MEM_ATTR_READONLY	BIT(1)
+> > #define KVM_MEM_ATTR_NOEXEC	BIT(2)
+> > 	__u32 attr;
+> 
+> As above, letting userspace set only a single attribute would prevent setting
+> (or clearing) multiple attributes in a single ioctl().
+> 
+> > 	__u32 pad;
+> >   }
+> > 
+> > I'm not sure if we need KVM_GET_MEMORY_ATTR/KVM_HAS_MEMORY_ATTR as well,
+> 
+> Definitely would need to communicate to userspace that various attributes are
+> supported.  That doesn't necessarily require a common ioctl(), but I don't see
+> any reason not to add a common helper, and adding a common helper would mean
+> KVM_CAP_PRIVATE_MEM can go away.  But it should return a bitmask so that userspace
+> can do a single query to get all supported attributes, e.g. KVM_SUPPORTED_MEMORY_ATTRIBUTES.  
+
+Do you have preference on using a new ioctl or just keep it as a cap?
+E.g. KVM_CAP_MEMORY_ATTIBUTES can also returns a mask.
+
+> 
+> As for KVM_GET_MEMORY_ATTRIBUTES, we wouldn't necessarily have to provide such an
+> API, e.g. we could hold off until someone came along with a RMW use case (as above).
+> That said, debug would likely be a nightmare without KVM_GET_MEMORY_ATTRIBUTES,
+> so it's probably best to add it straightway.
+
+Dive into the implementation a bit, for KVM_GET_MEMORY_ATTRIBUTES we can
+have different attributes for different pages in the same user-provided
+range, in that case we will have to either return a list or just a error
+number. Or we only support per-page attributes for the getter?
 
 Chao
-
 > 
-> Compile tested only...
+> > but sounds like we need a KVM_UNSET_MEMORY_ATTR.
 > 
-> --
-> From: Sean Christopherson <seanjc@google.com>
-> Date: Fri, 4 Nov 2022 22:20:33 +0000
-> Subject: [PATCH] KVM: x86/mmu: Block all page faults during
->  kvm_zap_gfn_range()
+> No need if the setter operates on all attributes.
 > 
-> When zapping a GFN range, pass 0 => ALL_ONES for the to-be-invalidated
-> range to effectively block all page faults while the zap is in-progress.
-> The invalidation helpers take a host virtual address, whereas zapping a
-> GFN obviously provides a guest physical address and with the wrong unit
-> of measurement (frame vs. byte).
+> > Since we are exposing the attribute directly to userspace I also think
+> > we'd better treat shared memory as the default, so even when the private
+> > memory is not used, the bit can still be meaningful. So define BIT(0) as
+> > KVM_MEM_ATTR_PRIVATE instead of KVM_MEM_ATTR_SHARED.
 > 
-> Alternatively, KVM could walk all memslots to get the associated HVAs,
-> but thanks to SMM, that would require multiple lookups.  And practically
-> speaking, kvm_zap_gfn_range() usage is quite rare and not a hot path,
-> e.g. MTRR and CR0.CD are almost guaranteed to be done only on vCPU0
-> during boot, and APICv inhibits are similarly infrequent operations.
-> 
-> Fixes: edb298c663fc ("KVM: x86/mmu: bump mmu notifier count in kvm_zap_gfn_range")
-> Cc: stable@vger.kernel.org
-> Cc: Maxim Levitsky <mlevitsk@redhat.com>
-> Signed-off-by: Sean Christopherson <seanjc@google.com>
-> ---
->  arch/x86/kvm/mmu/mmu.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
-> index 6f81539061d6..1ccb769f62af 100644
-> --- a/arch/x86/kvm/mmu/mmu.c
-> +++ b/arch/x86/kvm/mmu/mmu.c
-> @@ -6056,7 +6056,7 @@ void kvm_zap_gfn_range(struct kvm *kvm, gfn_t gfn_start, gfn_t gfn_end)
->  
->  	write_lock(&kvm->mmu_lock);
->  
-> -	kvm_mmu_invalidate_begin(kvm, gfn_start, gfn_end);
-> +	kvm_mmu_invalidate_begin(kvm, 0, -1ul);
->  
->  	flush = kvm_rmap_zap_gfn_range(kvm, gfn_start, gfn_end);
->  
-> @@ -6070,7 +6070,7 @@ void kvm_zap_gfn_range(struct kvm *kvm, gfn_t gfn_start, gfn_t gfn_end)
->  		kvm_flush_remote_tlbs_with_address(kvm, gfn_start,
->  						   gfn_end - gfn_start);
->  
-> -	kvm_mmu_invalidate_end(kvm, gfn_start, gfn_end);
-> +	kvm_mmu_invalidate_end(kvm, 0, -1ul);
->  
->  	write_unlock(&kvm->mmu_lock);
->  }
-> 
-> base-commit: c12879206e47730ff5ab255bbf625b28ade4028f
-> -- 
+> Ah, right.
