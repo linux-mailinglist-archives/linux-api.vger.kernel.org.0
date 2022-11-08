@@ -2,40 +2,40 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C2A76211B6
-	for <lists+linux-api@lfdr.de>; Tue,  8 Nov 2022 14:00:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 699606211ED
+	for <lists+linux-api@lfdr.de>; Tue,  8 Nov 2022 14:05:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233809AbiKHNAt (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 8 Nov 2022 08:00:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43466 "EHLO
+        id S233779AbiKHNFC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 8 Nov 2022 08:05:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48820 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234118AbiKHNAs (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 8 Nov 2022 08:00:48 -0500
+        with ESMTP id S233866AbiKHNFB (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 8 Nov 2022 08:05:01 -0500
 Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90D8651C26;
-        Tue,  8 Nov 2022 05:00:47 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED609B99;
+        Tue,  8 Nov 2022 05:05:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
         References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
         Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=olIRjvaT0a1rrqwIqSwvRmzbEh4XGsq5/8DNb5CsDww=; b=oDuIVuYc4iT3k7aA8Av5FxmtAq
-        terfqJVI43Fi4Meei/pcZmax28q/pqzKbtdOipQxX0UBmdMuEvfxTLwEu4x5mi7q1lgzNqhvFTcqi
-        t94BXp3eUAQKuPS/cmuTFQsFkM56GXvtJrK9/VzOf08Al/fjgbAc7lxHOtHdVmQZ69pkaqzYqFUPF
-        0HLqDS391jCex48W7j9+2el1gKa4ltVrHnTd6aicTQNJnVtYGDYX609D66TMgUpnjtalEf3P/Z+Ll
-        vM0VH0v4r2HVGH8RaGj2UwnWpmZCQuH3QU3tep8jO1gXUxNroNIGADongFYyLYYNFQdHzG9nmuzfN
-        hCXKm8Yw==;
+        bh=dHBGD5sXlI0lRYkCZWGfedeiEQdnEUe+C13lU+wZ1iY=; b=QyvWUkK6pirDDr6L21v798/C7u
+        qqoX+8LbeKfELkmoNJQCl1/4RTkBp+Q1C5iWU5oX4faHgFcSAUyIr/DDmsbT87hAtZlvRHdNYGDIg
+        aMQBS4HzZFNOWMwAKiJTxPE01mKYIHPEDY+pTESREbmDVBbhE0JAAOus5IWcP1XNJwRy0TwmOsETt
+        LY5Q6pS4faSz6cQ2Q5M7FCSK/vV3HYwAZzWr94+O52T0Tk87mnN+lV2s4iCoBTWozgbbOPXecE/ID
+        k9btwTc5+ikym8XA/Y5Ms7EJjxN4f0l1duzlrtRoHojTnlo2ZU10O8NVK1YtpVB3DWbMJCaaMjxid
+        RLO8fq6g==;
 Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
         by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1osODN-00AHD3-4b; Tue, 08 Nov 2022 13:00:29 +0000
+        id 1osOHe-00AHQF-5N; Tue, 08 Nov 2022 13:04:54 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
         (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id BB98E30036B;
-        Tue,  8 Nov 2022 14:00:18 +0100 (CET)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 2CCC7300338;
+        Tue,  8 Nov 2022 14:04:46 +0100 (CET)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 993BF2B8C7B0C; Tue,  8 Nov 2022 14:00:18 +0100 (CET)
-Date:   Tue, 8 Nov 2022 14:00:18 +0100
+        id 145D82B8C8559; Tue,  8 Nov 2022 14:04:46 +0100 (CET)
+Date:   Tue, 8 Nov 2022 14:04:46 +0100
 From:   Peter Zijlstra <peterz@infradead.org>
 To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
@@ -49,7 +49,7 @@ Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
         Chris Kennelly <ckennelly@google.com>
 Subject: Re: [PATCH v5 08/24] sched: Introduce per memory space current
  virtual cpu id
-Message-ID: <Y2pS4gC1MHw+mX3x@hirez.programming.kicks-ass.net>
+Message-ID: <Y2pT7ij/TcI4EmH6@hirez.programming.kicks-ass.net>
 References: <20221103200359.328736-1-mathieu.desnoyers@efficios.com>
  <20221103200359.328736-9-mathieu.desnoyers@efficios.com>
 MIME-Version: 1.0
@@ -67,30 +67,27 @@ X-Mailing-List: linux-api@vger.kernel.org
 
 On Thu, Nov 03, 2022 at 04:03:43PM -0400, Mathieu Desnoyers wrote:
 
-> diff --git a/fs/exec.c b/fs/exec.c
-> index 349a5da91efe..93eb88f4053b 100644
-> --- a/fs/exec.c
-> +++ b/fs/exec.c
-> @@ -1013,6 +1013,9 @@ static int exec_mmap(struct mm_struct *mm)
->  	tsk->active_mm = mm;
->  	tsk->mm = mm;
->  	lru_gen_add_mm(mm);
-> +	mm_init_vcpu_lock(mm);
-> +	mm_init_vcpumask(mm);
-> +	mm_init_node_vcpumask(mm);
->  	/*
->  	 * This prevents preemption while active_mm is being loaded and
->  	 * it and mm are being updated, which could cause problems for
+> The credit goes to Paul Turner (Google) for the vcpu_id idea. This
+> feature is implemented based on the discussions with Paul Turner and
+> Peter Oskolkov (Google), but I took the liberty to implement scheduler
+> fast-path optimizations and my own NUMA-awareness scheme. The rumor has
+> it that Google have been running a rseq vcpu_id extension internally at
+> Google in production for a year. The tcmalloc source code indeed has
+> comments hinting at a vcpu_id prototype extension to the rseq system
+> call [1].
 
-> @@ -1150,6 +1154,9 @@ static struct mm_struct *mm_init(struct mm_struct *mm, struct task_struct *p,
->  
->  	mm->user_ns = get_user_ns(user_ns);
->  	lru_gen_init_mm(mm);
-> +	mm_init_vcpu_lock(mm);
-> +	mm_init_vcpumask(mm);
-> +	mm_init_node_vcpumask(mm);
->  	return mm;
->  
->  fail_nocontext:
+Re NUMA thing -- that means that on a 512 node system a single threaded
+task can still observe 512 separate vcpu-ids, right?
 
-Why isn't all that a single mm_init_vcpu(mm) or something ?
+Also, said space won't be dense.
+
+The main selling point of the whole vcpu-id scheme was that the id space
+is dense and not larger than min(nr_cpus, nr_threads), which then gives
+useful properties.
+
+But I'm not at all seeing how the NUMA thing preserves that.
+
+Also; given the utter mind-bendiness of the NUMA thing; should it go
+into it's own patch; introduce the regular plain old vcpu first, and
+then add things to it -- that also allows pushing those weird cpumask
+ops you've created later into the series.
