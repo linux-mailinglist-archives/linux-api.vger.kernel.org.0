@@ -2,124 +2,89 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 48E86620D45
-	for <lists+linux-api@lfdr.de>; Tue,  8 Nov 2022 11:30:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 40516620D72
+	for <lists+linux-api@lfdr.de>; Tue,  8 Nov 2022 11:36:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232125AbiKHKaK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 8 Nov 2022 05:30:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54722 "EHLO
+        id S233993AbiKHKgV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 8 Nov 2022 05:36:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57314 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233544AbiKHKaK (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 8 Nov 2022 05:30:10 -0500
-Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4146D1DA47
-        for <linux-api@vger.kernel.org>; Tue,  8 Nov 2022 02:30:08 -0800 (PST)
-Received: by mail-yb1-xb34.google.com with SMTP id e123so12574470ybh.11
-        for <linux-api@vger.kernel.org>; Tue, 08 Nov 2022 02:30:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=c0t8MRtYwKPYmHc+uFj52fT/0bK2RxKS/AKiULktAkE=;
-        b=ej6taqjjpNtiP/HV1iWwTEXhdg3YYHb5FtJY3uGIoKr0q09kdSMWcHz+JEDomGIjiY
-         Wo7kDx7DZw7tO5qo83tNgNripoyCRQQwUDh9efq154InwJDMCidImzGI6boWAzrAOrG/
-         3008tHshnyyIJOi2rS4Ptdjx1RvaPFtdsnaU+qXAbCwWuoCLXBkW1zTAYqCrGmU3Va9h
-         IEUqIB54EELVw9WnK5RwX2mVFK/HGcyGag8rET7wKeVOxarxgHJKYe0QA5aSnh86SMT2
-         /70dWyDPYpMnm90ZCtM3Y9h539YZRc95j7W3ud2wn2/xckyFXe1QMJ24pwsBWramSvtF
-         PcIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=c0t8MRtYwKPYmHc+uFj52fT/0bK2RxKS/AKiULktAkE=;
-        b=AmYFt63fiSnbS5MHeKwHb9Z3OJFQwxO1OUrhoeMTsC6L0jsbvGEvjlFbWt1Q+mcB7e
-         srS2qNaj5ssEIWeBTBebwFzKcABux0JVhP1QwRxZCs5U/5esRnmdJnaGOxJKyUIeWgLf
-         nYhj3Jxg/FXxu6VfG7l1hCuybOhtK2IEfLuF6OQlXXrTY5TQQq6vOjc0lrz++KTKj0gd
-         hJQDcHvNFCMM5y3XIQD0FZ0T4egeawT6s1MxOOX/b3bV0DSEI45j+qphwGMzLl+clCBe
-         1V1f0ICYd8T8W1Ujna3QrVDqL+rXiiybsNal470OP59HAuVCdPOhi6UKO8gsc/azXskH
-         0/FA==
-X-Gm-Message-State: ANoB5pko04UyTNlNZEya12uq7Kn8a6zdk+YRuQGufDUnMD9aXAzsZqKt
-        21tjm3BXs2w2gCd9M6gQSm6XC+3p8oeFfKBgHseR4A==
-X-Google-Smtp-Source: AA0mqf5Q6IpJPWPDtxNUT69YjRnDlcsHE6zOJaVsznPVdqxOBpw3UYzyyFZiFhU0xjeM7sXKZflzX0lsU9sXiL4He4g=
-X-Received: by 2002:a05:6902:b16:b0:6d6:9455:d6c5 with SMTP id
- ch22-20020a0569020b1600b006d69455d6c5mr11867369ybb.164.1667903407271; Tue, 08
- Nov 2022 02:30:07 -0800 (PST)
+        with ESMTP id S233964AbiKHKgK (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 8 Nov 2022 05:36:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4873F3F04C
+        for <linux-api@vger.kernel.org>; Tue,  8 Nov 2022 02:35:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1667903707;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=vaAhJO6YJxCUy0qLzJPY5v+gPU2l/x5Y41FTzwGsB+s=;
+        b=gwpAoDlJHvX95V0Mc+6sCBsp5sNiq300+ANhImk5IhLfb6TFcuRcupdLNtxFo4bv6Y5GPS
+        tqWbPF8qVh5FTT5rpBJ4SQsSUPZmKZ8wQYh9Uhi1AQGcwDFBAvVLiXXmGxH7BaO7EkFZD7
+        YSErYHTw4uhiCslUVN15WadfX2y3aIo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-77-ah5IEpZaNEeHNi7qrAIfKg-1; Tue, 08 Nov 2022 05:35:06 -0500
+X-MC-Unique: ah5IEpZaNEeHNi7qrAIfKg-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A095C101A528;
+        Tue,  8 Nov 2022 10:35:05 +0000 (UTC)
+Received: from oldenburg.str.redhat.com (unknown [10.2.16.65])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 7EE9C47505F;
+        Tue,  8 Nov 2022 10:35:04 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     Naresh Kamboju <naresh.kamboju@linaro.org>
+Cc:     "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        lkft-triage@lists.linaro.org, libc-alpha@sourceware.org,
+        linux-api@vger.kernel.org,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Shuah Khan <shuah@kernel.org>
+Subject: Re: selftests: clone3: clone3_clear_sighand failed - Bail out!
+ Failed to clear signal handler for child process
+References: <CA+G9fYs+fOTBO=aTfO57xby=QQDaqUt4umwgo6bwLB_iGoSEPw@mail.gmail.com>
+Date:   Tue, 08 Nov 2022 11:35:03 +0100
+In-Reply-To: <CA+G9fYs+fOTBO=aTfO57xby=QQDaqUt4umwgo6bwLB_iGoSEPw@mail.gmail.com>
+        (Naresh Kamboju's message of "Tue, 8 Nov 2022 15:28:55 +0530")
+Message-ID: <87h6z9ka3s.fsf@oldenburg.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-From:   Naresh Kamboju <naresh.kamboju@linaro.org>
-Date:   Tue, 8 Nov 2022 15:59:56 +0530
-Message-ID: <CA+G9fYtLoBo31wRD=+Q8DfO36OGBACp2GY6xvyj8CmUk37rbuA@mail.gmail.com>
-Subject: selftests: clone3: clone3_cap_checkpoint_restore fails - Could not
- set CAP_CHECKPOINT_RESTORE
-To:     open list <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>, lkft-triage@lists.linaro.org
-Cc:     Florian Weimer <fweimer@redhat.com>, libc-alpha@sourceware.org,
-        linux-api@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
-        Christian Brauner <brauner@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-selftests clone3 cap_checkpoint_restore fails on all devices.
+* Naresh Kamboju:
 
-Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
+> selftests: clone3: clone3_clear_sighand failed on arm32 and i386
+> but passed on arm64 and x86_64.
+>
+> Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
+>
+> # selftests: clone3: clone3_clear_sighand
+> # TAP version 13
+> # 1..1
+> # # clone3() syscall supported
+> # Bail out! Failed to clear signal handler for child process
+> # # Planned tests != run tests (1 != 0)
+> # # Totals: pass:0 fail:0 xfail:0 xpass:0 skip:0 error:0
+> not ok 2 selftests: clone3: clone3_clear_sighand # exit=1
 
-[   97.198602] audit: type=1701 audit(1651167820.383:12):
-auid=4294967295 uid=0 gid=0 ses=4294967295 pid=1732
-comm=\"clone3_cap_chec\"
-exe=\"/opt/kselftests/default-in-kernel/clone3/clone3_cap_checkpoint_restore\"
-sig=6 res=1
+Not sure why you are reporting this to libc-alpha.  We'd like to help,
+but there doesn't seem to be anything glibc-specific in this report?
 
-# selftests: clone3: clone3_cap_checkpoint_restore
-# TAP version 13
-# 1..1
-# # Starting 1 tests from 1 test cases.
-# #  RUN           global.clone3_cap_checkpoint_restore ...
-# # clone3_cap_checkpoint_restore.c:155:clone3_cap_checkpoint_restore:Child
-has PID 1733
-# # clone3() syscall supported
-# cap_set_proc: Operation not permitted
-# # clone3_cap_checkpoint_restore.c:164:clone3_cap_checkpoint_restore:Expected
-set_capability() (-1) == 0 (0)
-# # clone3_cap_checkpoint_restore.c:165:clone3_cap_checkpoint_restore:Could
-not set CAP_CHECKPOINT_RESTORE
-# # clone3_cap_checkpoint_restore: Test terminated by assertion
-# #          FAIL  global.clone3_cap_checkpoint_restore
-# not ok 1 global.clone3_cap_checkpoint_restore
-# # FAILED: 0 / 1 tests passed.
-# # Totals: pass:0 fail:1 xfail:0 xpass:0 skip:0 error:0
-not ok 4 selftests: clone3: clone3_cap_checkpoint_restore # exit=1
+Thanks,
+Florian
 
-Test details links,
-https://lkft.validation.linaro.org/scheduler/job/5812724#L2074
-
-Test results comparison link,
-https://qa-reports.linaro.org/lkft/linux-next-master/build/next-20221107/testrun/12848543/suite/kselftest-clone3/tests/
-
-https://qa-reports.linaro.org/lkft/linux-next-master/build/next-20221107/testrun/12848543/suite/kselftest-clone3/test/clone3.clone3_cap_checkpoint_restore/history/
-
-https://qa-reports.linaro.org/lkft/linux-next-master/build/next-20221107/testrun/12848543/suite/kselftest-clone3/test/clone3.clone3_cap_checkpoint_restore/details/
-
-
-metadata:
-  git_ref: master
-  git_repo: https://gitlab.com/Linaro/lkft/mirrors/next/linux-next
-  git_sha: d8e87774068af213ab5b058b1b114dc397b577aa
-  git_describe: next-20221107
-  kernel_version: 6.1.0-rc3
-  kernel-config: https://builds.tuxbuild.com/2HChVOSNxUpvfAfLTnaK7zyTdUi/config
-  build-url: https://gitlab.com/Linaro/lkft/mirrors/next/linux-next/-/pipelines/687092361
-  artifact-location: https://builds.tuxbuild.com/2HChVOSNxUpvfAfLTnaK7zyTdUi
-  toolchain: gcc-11
-
-
---
-Linaro LKFT
-https://lkft.linaro.org
