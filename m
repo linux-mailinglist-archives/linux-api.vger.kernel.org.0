@@ -2,56 +2,56 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 24BCE62378A
-	for <lists+linux-api@lfdr.de>; Thu, 10 Nov 2022 00:35:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DC42C62378E
+	for <lists+linux-api@lfdr.de>; Thu, 10 Nov 2022 00:35:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231481AbiKIXfX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 9 Nov 2022 18:35:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41172 "EHLO
+        id S231949AbiKIXfr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 9 Nov 2022 18:35:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232021AbiKIXfK (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 9 Nov 2022 18:35:10 -0500
+        with ESMTP id S231980AbiKIXfe (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 9 Nov 2022 18:35:34 -0500
 Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com [IPv6:2607:f8b0:4864:20::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 784A5167F9
-        for <linux-api@vger.kernel.org>; Wed,  9 Nov 2022 15:35:09 -0800 (PST)
-Received: by mail-oi1-x229.google.com with SMTP id h132so257393oif.2
-        for <linux-api@vger.kernel.org>; Wed, 09 Nov 2022 15:35:09 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03F1C2E9E5
+        for <linux-api@vger.kernel.org>; Wed,  9 Nov 2022 15:35:34 -0800 (PST)
+Received: by mail-oi1-x229.google.com with SMTP id h132so258245oif.2
+        for <linux-api@vger.kernel.org>; Wed, 09 Nov 2022 15:35:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=paul-moore-com.20210112.gappssmtp.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=qq8crRA49byhvbqo3AsTYVWlVFPHxse2O1PzauO0pJ0=;
-        b=lRuKgOhL1twVfKy7p+XiqTFSge+bCJe8FgxK56/gAzursYxWm6YS6fZEi0zBTWbnUZ
-         VFa0x6lJUejrfCjcd0YNGh0lb1rLQIXvJm6f1k4crkAvR6AH+/6uOwncekHAE9NuwrAZ
-         3uqBcMQo1RL1H/m+vOXK5qtvC2dMNi6MhqZ9jwobmqbDikIWdtola1ctxZ1dr3T5l4BU
-         +BCHWPYhmngtOIF2900rClpYurUPe0lCFt+cTUWSEi2HytKEXFdFGpNYYo/qxRVXCF0I
-         lAPMUadLdeh2ci9VQcdpFnTvie1NtvKJVcnq5paoihGWbhtJqNDxgkqbt+T3Sz1XQr3A
-         Vwpw==
+        bh=shy1bSg5ln0S2oADqhwWw8EsMzx5HDdKaMPKkyMf+gs=;
+        b=HIa78ftndFCy7LJ6aLzwGXh4jG/89gIZ8W+9hUOfwDK+w0NqtyNwkcOGWvBJLENdRJ
+         WRNfCtX+lYc6L/KxD7wiKwkkJzJmlCKSXiEKD7eEIA0rgvazFLoo2ORVYbcvCBKlu9Sc
+         zBB2441tuvg2ps+NP7JFxP3mzKZf2dC12AGMomip8SW2vMODOk5eZmIeHuaI94WnwayM
+         sJ5sVZweeOd+qOEGnKMI+4IAhLTKnxMwQ5kN7LNVuGU8wpwkZReb6YkOTsw2Mqgl6s83
+         he233b6EBjO+h+l2GBibExBY8Rh2Xelvjbo6G7OuP7J3vnEa5ZJWXCBhueNi0UflExtV
+         +e8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=qq8crRA49byhvbqo3AsTYVWlVFPHxse2O1PzauO0pJ0=;
-        b=OkRYSs+WuDIHjSO1BVyYog1wNM4CYt8PxUHGpA36XvaIOidw3k/nVI8/wm0XDH9scr
-         pOe0GrwhLtKomVjz9DAPcqo0I63b69kpXlyqwxxJSQGsrvflLfQv+Oo5HWLz1AyOazSl
-         juHo/qqcNGQTvTZZEC/anJZ+A0Tl4T3aEVrDL7s6Pcmq7kRyfUWSU71znwF33XfRIL1y
-         n3GTBwVR7yz06aAhvP6Ezx7syqiPA2njGswYEgMFmQONx849yl0s9s4VmYiU5O4FsFwg
-         fJfVFA6/51UoT2lR9Bp8L7SF/c31yrmcVNeO2eLcnqUXCmovPg23SINw0Mgm8wwDReJP
-         YqbA==
-X-Gm-Message-State: ACrzQf3XTOIQSrctcNbcEo3ZGpLZvanCEQqEbwDW2nR6FKKG00yYAXLN
-        JR2ELdFNS0j5tOo30GhXU7pUf9JFr+o3aPoM3t0/
-X-Google-Smtp-Source: AMsMyM6H0PfBQZzUkHm9R/V/QznmXAdsUOj3VBAEyNrGYjmtkPXi5HhdNcTzoTlnT3z0W0btZetP5jMyYSGY6Tw9Ikk=
+        bh=shy1bSg5ln0S2oADqhwWw8EsMzx5HDdKaMPKkyMf+gs=;
+        b=sIkrb4qUmjVQF9ptFOCpPgBYeuGWNWPRf+PFSZOvvrIcgdIy+BXIcKQ2nbBDX09C6d
+         oFFOgEG8LTxLeEerFu6xGZw0GBgZz/jDMaVTJtPCXES6hK2m7BmD/Q2ebPhS2G5//gFd
+         dzEnMaAICObgFcjgrVzGRkgCTrnhKVJtpjoYx1bklpMagdNX54TGfrjeHG6WcUn0EYdO
+         n9V2dmXT4+wOV0vLjpnhL0sF76jU6fMxodhI2u8f5xiu58Ayg95JsFq/7o8zGega0KIJ
+         o1inXj931h/fCs/fRRnSlTAImnoD4+baYdTfiTkg9iDJLbpTdA+MTbPaWUjPne2GUm0a
+         lCbg==
+X-Gm-Message-State: ACrzQf0b9uiX6gg96XOXzjD8adMKagpUxMHFlrwAHXWtU8gnHnlSYOy9
+        x+g/mjo7wV8qVYQzMk/jqSHVdn2n1RghTt8K2BiI
+X-Google-Smtp-Source: AMsMyM6Ynx4zzeC51isR9kHn9lxVD7jUvWH20IzPJ5yVXl4cEzR3M3wOItJzn73/yBJ+RiLCwVZcXKowSVoizK7R+6A=
 X-Received: by 2002:a05:6808:1525:b0:35a:57ef:83b0 with SMTP id
- u37-20020a056808152500b0035a57ef83b0mr761481oiw.172.1668036908647; Wed, 09
- Nov 2022 15:35:08 -0800 (PST)
+ u37-20020a056808152500b0035a57ef83b0mr761763oiw.172.1668036933664; Wed, 09
+ Nov 2022 15:35:33 -0800 (PST)
 MIME-Version: 1.0
-References: <20221025184519.13231-1-casey@schaufler-ca.com> <20221025184519.13231-7-casey@schaufler-ca.com>
-In-Reply-To: <20221025184519.13231-7-casey@schaufler-ca.com>
+References: <20221025184519.13231-1-casey@schaufler-ca.com> <20221025184519.13231-8-casey@schaufler-ca.com>
+In-Reply-To: <20221025184519.13231-8-casey@schaufler-ca.com>
 From:   Paul Moore <paul@paul-moore.com>
-Date:   Wed, 9 Nov 2022 18:34:57 -0500
-Message-ID: <CAHC9VhQ039=X+0edudy64-fpw4C2SwWV_MucbYfXwFKduwnbWA@mail.gmail.com>
-Subject: Re: [PATCH v1 6/8] LSM: lsm_self_attr syscall for LSM self attributes
+Date:   Wed, 9 Nov 2022 18:35:22 -0500
+Message-ID: <CAHC9VhQ5Jrt3Ns+m7DFZ+_pP81AWqSx588HMZR+7MUuMfSZoig@mail.gmail.com>
+Subject: Re: [PATCH v1 7/8] LSM: Create lsm_module_list system call
 To:     Casey Schaufler <casey@schaufler-ca.com>
 Cc:     casey.schaufler@intel.com, linux-security-module@vger.kernel.org,
         jmorris@namei.org, keescook@chromium.org,
@@ -70,213 +70,57 @@ X-Mailing-List: linux-api@vger.kernel.org
 
 On Tue, Oct 25, 2022 at 2:48 PM Casey Schaufler <casey@schaufler-ca.com> wrote:
 >
-> Create a system call lsm_self_attr() to provide the security
-> module maintained attributes of the current process. Historically
-> these attributes have been exposed to user space via entries in
-> procfs under /proc/self/attr.
+> Create a system call to report the list of Linux Security Modules
+> that are active on the system. The list is provided as an array
+> of LSM ID numbers.
 >
-> Attributes are provided as a collection of lsm_ctx structures
-> which are placed into a user supplied buffer. Each structure
-> identifys the security module providing the attribute, which
-> of the possible attributes is provided, the size of the
-> attribute, and finally the attribute value. The format of the
-> attribute value is defined by the security module, but will
-> always be \0 terminated. The ctx_len value will be larger than
-> strlen(ctx).
->
->         ------------------------------
->         | unsigned int id            |
->         ------------------------------
->         | unsigned int flags         |
->         ------------------------------
->         | __kernel_size_t ctx_len    |
->         ------------------------------
->         | unsigned char ctx[ctx_len] |
->         ------------------------------
->         | unsigned int id            |
->         ------------------------------
->         | unsigned int flags         |
->         ------------------------------
->         | __kernel_size_t ctx_len    |
->         ------------------------------
->         | unsigned char ctx[ctx_len] |
->         ------------------------------
+> The calling application can use this list determine what LSM
+> specific actions it might take. That might include chosing an
+> output format, determining required privilege or bypassing
+> security module specific behavior.
 >
 > Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
 > ---
->  include/linux/syscalls.h |   2 +
->  include/uapi/linux/lsm.h |  21 ++++++
->  kernel/sys_ni.c          |   3 +
->  security/Makefile        |   1 +
->  security/lsm_syscalls.c  | 156 +++++++++++++++++++++++++++++++++++++++
->  5 files changed, 183 insertions(+)
->  create mode 100644 security/lsm_syscalls.c
+>  include/linux/syscalls.h |  1 +
+>  kernel/sys_ni.c          |  1 +
+>  security/lsm_syscalls.c  | 38 ++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 40 insertions(+)
 
 ...
 
-> diff --git a/include/uapi/linux/lsm.h b/include/uapi/linux/lsm.h
-> index 61e13b1b9ece..1d27fb5b7746 100644
-> --- a/include/uapi/linux/lsm.h
-> +++ b/include/uapi/linux/lsm.h
-> @@ -9,6 +9,27 @@
->  #ifndef _UAPI_LINUX_LSM_H
->  #define _UAPI_LINUX_LSM_H
->
-> +#include <linux/types.h>
-> +#include <linux/unistd.h>
-> +
-> +/**
-> + * struct lsm_ctx - LSM context
-> + * @id: the LSM id number, see LSM_ID_XXX
-> + * @flags: context specifier and LSM specific flags
-> + * @ctx_len: the size of @ctx
-> + * @ctx: the LSM context, a nul terminated string
-> + *
-> + * @ctx in a nul terminated string.
-> + *     (strlen(@ctx) < @ctx_len) is always true.
-> + *     (strlen(@ctx) == @ctx_len + 1) is not guaranteed.
-> + */
-
-We can do better than this, or rather we *should* do better than this.
-One of the big advantages of creating a new API is we can fix some of
-the silly things we have had to do in the past, including the
-"sometimes" NUL terminator on strings.  For this LSM syscalls let's
-make a promise that all human readable strings will be properly NUL
-terminated; currently this includes all LSM contexts, and likely will
-remain that way forever for various reasons, but let's leave the door
-open for arbitrary blobs (see the "special" LSM ID discussion from
-earlier in the patchset).  With that in mind I might suggest the
-following:
-
-  /**
-   * struct lsm_ctx - LSM context
-   * @id: the LSM id number, see LSM_ID_XXX
-   * @flags: context specifier and LSM specific flags
-   * @ctx_len: the size of @ctx
-   * @ctx: the LSM context, see description
-   *
-   * For LSMs which provide human readable contexts @ctx will be a nul
-   * terminated string and @ctx_len will include the size of the string
-   * and the nul terminator, e.g. 'ctx_len == strlen(ctx) + 1'.  For LSMs
-   * which provide binary-only contexts @cts will be a binary blob with
-   * @ctx_len being the exact value of the blob.  The type of the @ctx,
-   * human readable string or binary, can be determined by inspecting
-   * both @id and @flags.
-   *
-   * If a given LSM @id does not define a set of values for use in the
-   * @flags field, @flags MUST be set to zero.
-   */
-  struct lsm_ctx {
-    __u32 id;
-    __U32 flags;
-    __kernel_size_t ctx_len;
-    __u8 ctx[];
-  };
-
-> +struct lsm_ctx {
-> +       unsigned int            id;
-> +       unsigned int            flags;
-> +       __kernel_size_t         ctx_len;
-> +       unsigned char           ctx[];
-> +};
-
-I agree with Greg, we should be explicit about variable sizing, let's
-make sure everything in the UAPI header is defined in terms of
-__uXX/__sXX.  This includes strings as __u8 arrays.
-
-Also, I sorta despite the 'let's line all the struct fields up
-horizontally!' approach in struct/variable definitions.  I personally
-think it looks horrible and it clutters up future patches.  Please
-don't do this unless the individual file already does it, and since we
-are creating this new please don't :)
-
 > diff --git a/security/lsm_syscalls.c b/security/lsm_syscalls.c
-> new file mode 100644
-> index 000000000000..da0fab7065e2
-> --- /dev/null
+> index da0fab7065e2..cd5db370b974 100644
+> --- a/security/lsm_syscalls.c
 > +++ b/security/lsm_syscalls.c
-> @@ -0,0 +1,156 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * System calls implementing the Linux Security Module API.
-> + *
-> + *  Copyright (C) 2022 Casey Schaufler <casey@schaufler-ca.com>
-> + *  Copyright (C) Intel Corporation
-> + */
-> +
-> +#include <asm/current.h>
-> +#include <linux/compiler_types.h>
-> +#include <linux/err.h>
-> +#include <linux/errno.h>
-> +#include <linux/security.h>
-> +#include <linux/stddef.h>
-> +#include <linux/syscalls.h>
-> +#include <linux/types.h>
-> +#include <linux/lsm_hooks.h>
-> +#include <uapi/linux/lsm.h>
-> +
-> +struct feature_map {
-> +       char *name;
-> +       int feature;
-> +};
-> +
-> +static const struct feature_map lsm_attr_names[] = {
-> +       { .name = "current",    .feature = LSM_ATTR_CURRENT, },
-> +       { .name = "exec",       .feature = LSM_ATTR_EXEC, },
-> +       { .name = "fscreate",   .feature = LSM_ATTR_FSCREATE, },
-> +       { .name = "keycreate",  .feature = LSM_ATTR_KEYCREATE, },
-> +       { .name = "prev",       .feature = LSM_ATTR_PREV, },
-> +       { .name = "sockcreate", .feature = LSM_ATTR_SOCKCREATE, },
-> +};
+> @@ -154,3 +154,41 @@ SYSCALL_DEFINE3(lsm_self_attr,
+>         kfree(final);
+>         return rc;
+>  }
 > +
 > +/**
-> + * lsm_self_attr - Return current task's security module attributes
-> + * @ctx: the LSM contexts
-> + * @size: size of @ctx, updated on return
+> + * lsm_module_list - Return a list of the active security modules
+> + * @ids: the LSM module ids
+> + * @size: size of @ids, updated on return
 > + * @flags: reserved for future use, must be zero
 > + *
-> + * Returns the calling task's LSM contexts. On success this
-> + * function returns the number of @ctx array elements. This value
-> + * may be zero if there are no LSM contexts assigned. If @size is
-> + * insufficient to contain the return data -E2BIG is returned and
-> + * @size is set to the minimum required size. In all other cases
-> + * a negative value indicating the error is returned.
+> + * Returns a list of the active LSM ids. On success this function
+> + * returns the number of @ids array elements. This value may be zero
+> + * if there are no LSMs active. If @size is insufficient to contain
+> + * the return data -E2BIG is returned and @size is set to the minimum
+> + * required size. In all other cases a negative value indicating the
+> + * error is returned.
 > + */
-> +SYSCALL_DEFINE3(lsm_self_attr,
-> +              struct lsm_ctx __user *, ctx,
-> +              size_t __user *, size,
-> +              int, flags)
 
-See my comments above about UAPI types, let's change this to something
-like this:
+Let's make a promise that for this syscall we will order the LSM IDs
+in the array in the same order as which they are configured/executed.
+I'm doubtful that only a *very* small number of applications will care
+about this (if any), but this is something we can do so let's do it
+now while we can.
 
-[NOTE: I'm assuming it is safe to use __XXX types in syscall declarations?]
-
-  SYSCALL_DEFINE3(lsm_self_attr,
-                 struct lsm_ctx __user *, ctx,
-                 __kernel_size_t __user *, size,
-                 __u32, flags)
-
-> +{
-> +       struct lsm_ctx *final = NULL;
-> +       struct lsm_ctx *interum;
-> +       struct lsm_ctx *ip;
-> +       void *curr;
-> +       char **interum_ctx;
-> +       char *cp;
-> +       size_t total_size = 0;
-> +       int count = 0;
-> +       int attr;
-> +       int len;
-> +       int rc = 0;
-> +       int i;
-
-Ungh, reverse christmas trees ... I kinda hate it from a style
-perspective, enough to mention it here, but I'm not going to be petty
-enough to say "change it".
-
-However, if you did want to flip it upside down (normal christmas
-tree?) during the respin I would be grateful ;)
+> +SYSCALL_DEFINE3(lsm_module_list,
+> +               unsigned int __user *, ids,
+> +               size_t __user *, size,
+> +               unsigned int, flags)
 
 --
 paul-moore.com
