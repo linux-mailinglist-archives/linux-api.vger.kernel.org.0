@@ -2,40 +2,40 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 284C36226EB
-	for <lists+linux-api@lfdr.de>; Wed,  9 Nov 2022 10:28:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8ADF8622756
+	for <lists+linux-api@lfdr.de>; Wed,  9 Nov 2022 10:42:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229702AbiKIJ2u (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 9 Nov 2022 04:28:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33876 "EHLO
+        id S229985AbiKIJmx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 9 Nov 2022 04:42:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46518 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229846AbiKIJ2p (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 9 Nov 2022 04:28:45 -0500
+        with ESMTP id S230001AbiKIJmv (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 9 Nov 2022 04:42:51 -0500
 Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7ACF11E4;
-        Wed,  9 Nov 2022 01:28:43 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6A12CE36;
+        Wed,  9 Nov 2022 01:42:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
         References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
         Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=550k583ytKlQmS1L2KsRGrIUXS3avi+7Y1sWRHILWd4=; b=s+wxmiJezVRJMcVS3iWJaZNuiw
-        A0J9xsum1QBbWbBiOC495YeVzPC5WpSiDKUbSPNibk20303gRcxp7gyORmdJPgGZEAkdgbuZ9cZHo
-        Dc9WFklokbdBybHeVKc/Ga46ztlcpvv5jDm/W59ADpJPgHizYQYqpBAkZFU8Kz64aa1OxXspnDXHH
-        FZNgQFQOaQPJg+uhfzyazfflY9zZEy5lpi+ujVzpPQ0SLJZRJoc9B1TBH1pNLoKqQZL+N5kHiWzgo
-        nNITMPGAx7GPJHWxyrruHDRV91HgD+rkFxog/NNqG/x6E/I6nBznEtUR+41MwnUSXlESAWpVCIyxT
-        jKBhXCUg==;
+        bh=jlIZaaSJIR4LiHnUtZng5vtJ+u+uFUe9yS9JZEQlzUA=; b=cnKBWsglZbyYyrp41/ddrrcDR9
+        1liTQ3whyKdsfyOCXTExSWXJicVnjq6VEVVREaIpkFJyxMYBGbjd3JMwMKpV9dYAcVRo/qa4hHVSD
+        ZKmcRrgFc0llzAc5yq/06c1abegSQAdh0LOjPyxK990Ih8a569JHz2ksh4LW/tMju5xFrPooJVR74
+        r9ZUYixGF/NtwS2odB+4QD0r90NR6iByCcAf4ZFVYo6llt5kQLnaBubFW9Vmwt4aSWijcFcDrhZxS
+        0iJYAfn7S4ead4CRD0wlZPPMmz6/MC4ccFnZszyDGwf0SOEXp5ErMf7gPpZDoRuVghAb9AvakUHvY
+        RPmEObjA==;
 Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
         by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1oshNj-00B46i-8C; Wed, 09 Nov 2022 09:28:27 +0000
+        id 1oshbY-00B4c3-HJ; Wed, 09 Nov 2022 09:42:44 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
         (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 6E306300392;
-        Wed,  9 Nov 2022 10:28:18 +0100 (CET)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id C03AD300137;
+        Wed,  9 Nov 2022 10:42:37 +0100 (CET)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 2A14C2BD856F7; Wed,  9 Nov 2022 10:28:18 +0100 (CET)
-Date:   Wed, 9 Nov 2022 10:28:18 +0100
+        id A03A02BD856FF; Wed,  9 Nov 2022 10:42:37 +0100 (CET)
+Date:   Wed, 9 Nov 2022 10:42:37 +0100
 From:   Peter Zijlstra <peterz@infradead.org>
 To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
@@ -49,7 +49,7 @@ Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
         Chris Kennelly <ckennelly@google.com>
 Subject: Re: [PATCH v5 08/24] sched: Introduce per memory space current
  virtual cpu id
-Message-ID: <Y2tyshbt+qgJXU9O@hirez.programming.kicks-ass.net>
+Message-ID: <Y2t2DcHHLVB3tDfw@hirez.programming.kicks-ass.net>
 References: <20221103200359.328736-1-mathieu.desnoyers@efficios.com>
  <20221103200359.328736-9-mathieu.desnoyers@efficios.com>
 MIME-Version: 1.0
@@ -67,38 +67,78 @@ X-Mailing-List: linux-api@vger.kernel.org
 
 On Thu, Nov 03, 2022 at 04:03:43PM -0400, Mathieu Desnoyers wrote:
 
-> diff --git a/kernel/fork.c b/kernel/fork.c
-> index 08969f5aa38d..6a2323266942 100644
-> --- a/kernel/fork.c
-> +++ b/kernel/fork.c
-> @@ -1047,6 +1047,10 @@ static struct task_struct *dup_task_struct(struct task_struct *orig, int node)
->  	tsk->reported_split_lock = 0;
->  #endif
->  
-> +#ifdef CONFIG_SCHED_MM_VCPU
-> +	tsk->mm_vcpu = -1;
-> +	tsk->mm_vcpu_active = 0;
-> +#endif
->  	return tsk;
->  
->  free_stack:
-
-Note how the above hunk does exactly the same as the below thunk, and I
-think they're even on the same code-path.
-
-How about moving all of this to __sched_fork() or something?
-
-> @@ -1579,6 +1586,7 @@ static int copy_mm(unsigned long clone_flags, struct task_struct *tsk)
->  
->  	tsk->mm = mm;
->  	tsk->active_mm = mm;
-> +	sched_vcpu_fork(tsk);
->  	return 0;
->  }
-
-> +void sched_vcpu_fork(struct task_struct *t)
+> +void sched_vcpu_exit_signals(struct task_struct *t)
 > +{
-> +	WARN_ON_ONCE((t->flags & PF_KTHREAD) || !t->mm);
+> +	struct mm_struct *mm = t->mm;
+> +	unsigned long flags;
+> +
+> +	if (!mm)
+> +		return;
+> +	local_irq_save(flags);
+> +	mm_vcpu_put(mm, t->mm_vcpu);
 > +	t->mm_vcpu = -1;
-> +	t->mm_vcpu_active = 1;
+> +	t->mm_vcpu_active = 0;
+> +	local_irq_restore(flags);
 > +}
+> +
+> +void sched_vcpu_before_execve(struct task_struct *t)
+> +{
+> +	struct mm_struct *mm = t->mm;
+> +	unsigned long flags;
+> +
+> +	if (!mm)
+> +		return;
+> +	local_irq_save(flags);
+> +	mm_vcpu_put(mm, t->mm_vcpu);
+> +	t->mm_vcpu = -1;
+> +	t->mm_vcpu_active = 0;
+> +	local_irq_restore(flags);
+> +}
+> +
+> +void sched_vcpu_after_execve(struct task_struct *t)
+> +{
+> +	struct mm_struct *mm = t->mm;
+> +	unsigned long flags;
+> +
+> +	WARN_ON_ONCE((t->flags & PF_KTHREAD) || !t->mm);
+> +
+> +	local_irq_save(flags);
+> +	t->mm_vcpu = mm_vcpu_get(mm);
+> +	t->mm_vcpu_active = 1;
+> +	local_irq_restore(flags);
+> +	rseq_set_notify_resume(t);
+> +}
+
+> +static inline void mm_vcpu_put(struct mm_struct *mm, int vcpu)
+> +{
+> +	lockdep_assert_irqs_disabled();
+> +	if (vcpu < 0)
+> +		return;
+> +	spin_lock(&mm->vcpu_lock);
+> +	__cpumask_clear_cpu(vcpu, mm_vcpumask(mm));
+> +	spin_unlock(&mm->vcpu_lock);
+> +}
+> +
+> +static inline int mm_vcpu_get(struct mm_struct *mm)
+> +{
+> +	int ret;
+> +
+> +	lockdep_assert_irqs_disabled();
+> +	spin_lock(&mm->vcpu_lock);
+> +	ret = __mm_vcpu_get(mm);
+> +	spin_unlock(&mm->vcpu_lock);
+> +	return ret;
+> +}
+
+
+This:
+
+	local_irq_disable()
+	spin_lock()
+
+thing is a PREEMPT_RT anti-pattern.
+
+At the very very least this should then be raw_spin_lock(), not in the
+least because you're calling this from under rq->lock, which itself is a
+raw_spin_lock_t.
+
