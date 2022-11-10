@@ -2,318 +2,214 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 99551623A25
-	for <lists+linux-api@lfdr.de>; Thu, 10 Nov 2022 04:02:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7094E623A39
+	for <lists+linux-api@lfdr.de>; Thu, 10 Nov 2022 04:12:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232631AbiKJDC1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 9 Nov 2022 22:02:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57608 "EHLO
+        id S231898AbiKJDMA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 9 Nov 2022 22:12:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232322AbiKJDCZ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 9 Nov 2022 22:02:25 -0500
-Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com [IPv6:2607:f8b0:4864:20::b31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA6BB12AA1
-        for <linux-api@vger.kernel.org>; Wed,  9 Nov 2022 19:02:23 -0800 (PST)
-Received: by mail-yb1-xb31.google.com with SMTP id i131so745853ybc.9
-        for <linux-api@vger.kernel.org>; Wed, 09 Nov 2022 19:02:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore-com.20210112.gappssmtp.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=YL3LX46XKYMbjgGL9jFDEJXEOeiqtDCe9nmJNdX8kI4=;
-        b=h6c8zckaVkExEbJMp0nh2SqDzRojVGz6m51ty7zXXHJL772po4nIPsp4KJqxtS/mRA
-         tbX/vpn+W+vKO6KBigpTS/Ce7GyhdyRTZvb3z4RKoOtBQHcPziSKs0tC2UieLrFxFcHx
-         m1BamyDQp+1sK6Iwk5y4pOHWg0zWZ++xRdFr/pke3XrRdiXnahucUgLDUrytrHrvWEqn
-         1Xy/2w3xEMUj/3pcYl8bqJKbZC5seo84/OEbYaXHV2QExa4e96Fa2S1sLuIBTeZcYvQY
-         nl/1BJe7E3X+4hS22+fzrViOoUrK5jBeJBdJiabXVdbSu558rGImir8QJPXdasHpXPyT
-         4/Dw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=YL3LX46XKYMbjgGL9jFDEJXEOeiqtDCe9nmJNdX8kI4=;
-        b=wVWZy5pJFrrTRPGoXkEyeB6llMSWFmD4+hJWHC5jVxEXnXSzGzK026bdNedmF7Q+S/
-         eyW/w90NWCxr3BLpOIBcNeAUpiYFZtXDmPeiCffSaoYX17bhpDyPKPl3f2QYD9gHejVi
-         23ACUwbLYBfDzhJCY7hn28JbVxj6zmeYxD/WuR0bSbYh/1CYnfFQhRYiYe1aotxU/UIO
-         gK0S5bTmagMFD3fsucQ4minrgCNtUo7bDDaWXE+UVYvROhfRfKJtVCweKqBssCxU9SgG
-         af3ePEm/aMq6v0dMRz1sKdt63gSW2t4BNHnVGEm3hmy0E/euKpYtz5nVlPBclkRUfAM6
-         FxKQ==
-X-Gm-Message-State: ANoB5pkZxNZZ3PxWur6D6+QCPJ9t8iacFdMZewN4rzwEXeL5Ed5x/cz6
-        0l+FPUnQG4bM5isF2a688S5FhURQkkBGf7YUgkSR
-X-Google-Smtp-Source: AA0mqf5Uww+041R1DyFGTvzowgmI/f4Oo5kexBhef6PEdFk05t1u2NCtsEqP/8V5TYLlV7ec1slKXfMfbLdMCwx7tEQ=
-X-Received: by 2002:a25:32c8:0:b0:6dc:d157:3984 with SMTP id
- y191-20020a2532c8000000b006dcd1573984mr650817yby.49.1668049342909; Wed, 09
- Nov 2022 19:02:22 -0800 (PST)
+        with ESMTP id S230388AbiKJDL7 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 9 Nov 2022 22:11:59 -0500
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2071.outbound.protection.outlook.com [40.107.220.71])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 660ED1EEE8;
+        Wed,  9 Nov 2022 19:11:58 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dsAYW5lttMqwgeah3kP+J6wpbs8qRw9/DiFbUqGIfFWszkOK8pXwnnZd8aoobzBGNr1C/0/+Q1LilW0zUr9wylu30AVTqWo9gXX/g4TdJU7qXPbIb8HITNHoBEBLPh1iec3vPK91Gbz0oVy8gNne5azFs6BFK6eFFE9pyiIC9l++RYTD+EzT+zfT+24uWgiR4Tr/HMSMooXOB4Q0SNcRGZILIybgV357lyOwz7CPfPe1eiXICNn7NgWKj12dXzBE7O83+Qkr0UEuJQn3Jr6g5PZLhnhZAymVOZBlpahf4YVA6jhclFGHCS4uEzQcXYHdsczBAJt4NU2bihBQrRvzpg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=iXzAEfmEaPZ3di6DkyMxuCVVmgB5/K/C1yYMKOMzxvc=;
+ b=lojzf9BN66FXGlqUcEt4w6BkSq1nYgvwW1nQph6mrp8Nr84sidJwugcXreoQC+q1rr8g9HW04S15jAdQG9wrtyYT5dIk639rJBQsgeQhwE9llzZHYUSKUMK3GKKC60oeEH7qntdS3cT37CeY72AtFaHg81HuLDgMgqAJcpUCv6UNtGpzMeGnXU5SsMA3CiUK8orQL4PNlE843E58KIQ/MR0g9f+qVpFM7LV4Gg95BK6CipzZvnfp6qhQz4dRo5BGbD4gxiFbIpg55tyUgvBSvU8CoW+aVyhKt/gDofGIWq7hlmi/yicwQurvC8pEZMRIBqO6UyNzuA0e2lI8wxZs6w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=bytedance.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iXzAEfmEaPZ3di6DkyMxuCVVmgB5/K/C1yYMKOMzxvc=;
+ b=gxpq9cOvR1kxvMstNZ0y+QK9qUZA/gp3jO2amB8bIjoORCKY3usZ8SxEsiIYCvnkRXzs9uv4KIwq8FPpKwZt/mbooud0xaf9g2uHzIFuabnHwybn74KabD/ptjL2tfzCaNXhNMUGJgzHxETQPYKU15A6dYvBRFeUBMUUSN6wMyBDWrYH8nqAd3YtOu0wwO/F6r9wBDqI2+oSwH178bFJR0PRFG8pyaTOIx8kVSG9J6FoMP6vQEihdoFgJAR88S54xv2ODnbzjUsBYIdEQUIjLsSuLy2kelvt2aNxexJhU1LYt5ICbBH+B6QYcko3XsKg2D9b9VkngqoREPj3x2TB9w==
+Received: from BN9PR03CA0696.namprd03.prod.outlook.com (2603:10b6:408:ef::11)
+ by BL1PR12MB5190.namprd12.prod.outlook.com (2603:10b6:208:31c::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.27; Thu, 10 Nov
+ 2022 03:11:57 +0000
+Received: from BN8NAM11FT032.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:ef:cafe::d1) by BN9PR03CA0696.outlook.office365.com
+ (2603:10b6:408:ef::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.13 via Frontend
+ Transport; Thu, 10 Nov 2022 03:11:56 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ BN8NAM11FT032.mail.protection.outlook.com (10.13.177.88) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5813.12 via Frontend Transport; Thu, 10 Nov 2022 03:11:56 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.26; Wed, 9 Nov 2022
+ 19:11:43 -0800
+Received: from [10.110.48.28] (10.126.231.35) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Wed, 9 Nov 2022
+ 19:11:42 -0800
+Message-ID: <49ed07b1-e167-7f94-9986-8e86fb60bb09@nvidia.com>
+Date:   Wed, 9 Nov 2022 19:11:41 -0800
 MIME-Version: 1.0
-References: <20221025184519.13231-1-casey@schaufler-ca.com>
- <20221025184519.13231-7-casey@schaufler-ca.com> <CAHC9VhQ039=X+0edudy64-fpw4C2SwWV_MucbYfXwFKduwnbWA@mail.gmail.com>
- <25913838-c116-ed14-bdc0-3dcc0ce7f67f@schaufler-ca.com>
-In-Reply-To: <25913838-c116-ed14-bdc0-3dcc0ce7f67f@schaufler-ca.com>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Wed, 9 Nov 2022 22:02:11 -0500
-Message-ID: <CAHC9VhRMUZvXxVezp+1AsHRiesW_wKcU+nzdMj2+nKDasphEpg@mail.gmail.com>
-Subject: Re: [PATCH v1 6/8] LSM: lsm_self_attr syscall for LSM self attributes
-To:     Casey Schaufler <casey@schaufler-ca.com>
-Cc:     casey.schaufler@intel.com, linux-security-module@vger.kernel.org,
-        jmorris@namei.org, keescook@chromium.org,
-        john.johansen@canonical.com, penguin-kernel@i-love.sakura.ne.jp,
-        stephen.smalley.work@gmail.com, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, mic@digikod.net
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v5 0/2] sched/numa: add per-process numa_balancing
+Content-Language: en-US
+To:     Gang Li <ligang.bdlg@bytedance.com>
+CC:     <linux-api@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20221027025302.45766-1-ligang.bdlg@bytedance.com>
+From:   John Hubbard <jhubbard@nvidia.com>
+In-Reply-To: <20221027025302.45766-1-ligang.bdlg@bytedance.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.126.231.35]
+X-ClientProxiedBy: rnnvmail201.nvidia.com (10.129.68.8) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8NAM11FT032:EE_|BL1PR12MB5190:EE_
+X-MS-Office365-Filtering-Correlation-Id: d018ca13-2b54-4190-86c5-08dac2c95363
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: qpXO6wASvvg7EWekUq7BE4t7OcCNWQneZNACOk73oQLeaD9Oxou9omTh/VnDV7mfBYZtsC5WUje129GmukBu3a2A73F+Z1KCVgmhDq4oGYtqY7GPGx/uKp0s8jqzk1WRl5qMCqhUW4n7bBmmcOix3szO+tV2f8wDKbp+VYISGmiE6qahUsKIW+berN37+14lTZAnlqCfQ0n/kCo/IASYB2F4QyoYMicrNjSzBgBhFh9LJMdKXGBZaiUMNc6W6ZMsnBg6rOSzuN74JgVIr9Dbyj/I+wNuX+Gb0l7VAqF/sWBQB8lcP0zwfqsfU+5UL6g4fHYFcC9k4VRqWXQjwrLrCZ8r7oAALQ6iJyal57N6DK5jXZE4IDL+30v5OoRnuOIICVW5RZeWsWR90cmlW7GKLecADu9VlCxNCGkP05hXpRPRdtkGR/zYk0zp/yYJzWcLvbx7lC67J7bW/JjwyuPfz6KfDlqolWAwEw70TXPOGjgfi5EoSl2of0afZjQJSJfE0OLxjD/jOO63yIHTFQvtyXi1UQG5nZzla2Icclfev271PPfu+s+iAJxpI2j2RWgSygnBY7Fp+QO0TI7no74fXRyB185WKqZI3GXVnpeNpZjxxbDpFxlajjl1GWnEpwOgf58ZuDnjnSbK8u0iGVwWxaqd2wbTHrnD3U7COAjd79hPNpWP9xfAPaj1iTXhSm8SAfDc3tL8HhzjKXcZtR+uszTBDbXhKM899HLEZGXgu7uxikjoHVnv4cppdeoUWsQwGjHQqNGpiNpHMEx65D5wTIjjWeu88Byc4WXtPqn1Tc0mGcIYzA2CZQeMY6o8lgYm
+X-Forefront-Antispam-Report: CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230022)(4636009)(396003)(346002)(376002)(39860400002)(136003)(451199015)(46966006)(40470700004)(36840700001)(4326008)(31696002)(8676002)(70206006)(70586007)(53546011)(16576012)(316002)(82740400003)(40480700001)(336012)(36860700001)(83380400001)(47076005)(2906002)(40460700003)(426003)(41300700001)(186003)(86362001)(5660300002)(26005)(2616005)(8936002)(36756003)(16526019)(82310400005)(478600001)(31686004)(7636003)(54906003)(6916009)(356005)(43740500002);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2022 03:11:56.7561
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d018ca13-2b54-4190-86c5-08dac2c95363
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT032.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5190
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
+        SPF_NONE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Nov 9, 2022 at 8:32 PM Casey Schaufler <casey@schaufler-ca.com> wrote:
-> On 11/9/2022 3:34 PM, Paul Moore wrote:
-> > On Tue, Oct 25, 2022 at 2:48 PM Casey Schaufler <casey@schaufler-ca.com> wrote:
-> >> Create a system call lsm_self_attr() to provide the security
-> >> module maintained attributes of the current process. Historically
-> >> these attributes have been exposed to user space via entries in
-> >> procfs under /proc/self/attr.
-> >>
-> >> Attributes are provided as a collection of lsm_ctx structures
-> >> which are placed into a user supplied buffer. Each structure
-> >> identifys the security module providing the attribute, which
-> >> of the possible attributes is provided, the size of the
-> >> attribute, and finally the attribute value. The format of the
-> >> attribute value is defined by the security module, but will
-> >> always be \0 terminated. The ctx_len value will be larger than
-> >> strlen(ctx).
-> >>
-> >>         ------------------------------
-> >>         | unsigned int id            |
-> >>         ------------------------------
-> >>         | unsigned int flags         |
-> >>         ------------------------------
-> >>         | __kernel_size_t ctx_len    |
-> >>         ------------------------------
-> >>         | unsigned char ctx[ctx_len] |
-> >>         ------------------------------
-> >>         | unsigned int id            |
-> >>         ------------------------------
-> >>         | unsigned int flags         |
-> >>         ------------------------------
-> >>         | __kernel_size_t ctx_len    |
-> >>         ------------------------------
-> >>         | unsigned char ctx[ctx_len] |
-> >>         ------------------------------
-> >>
-> >> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
-> >> ---
-> >>  include/linux/syscalls.h |   2 +
-> >>  include/uapi/linux/lsm.h |  21 ++++++
-> >>  kernel/sys_ni.c          |   3 +
-> >>  security/Makefile        |   1 +
-> >>  security/lsm_syscalls.c  | 156 +++++++++++++++++++++++++++++++++++++++
-> >>  5 files changed, 183 insertions(+)
-> >>  create mode 100644 security/lsm_syscalls.c
-> > ..
-> >
-> >> diff --git a/include/uapi/linux/lsm.h b/include/uapi/linux/lsm.h
-> >> index 61e13b1b9ece..1d27fb5b7746 100644
-> >> --- a/include/uapi/linux/lsm.h
-> >> +++ b/include/uapi/linux/lsm.h
-> >> @@ -9,6 +9,27 @@
-> >>  #ifndef _UAPI_LINUX_LSM_H
-> >>  #define _UAPI_LINUX_LSM_H
-> >>
-> >> +#include <linux/types.h>
-> >> +#include <linux/unistd.h>
-> >> +
-> >> +/**
-> >> + * struct lsm_ctx - LSM context
-> >> + * @id: the LSM id number, see LSM_ID_XXX
-> >> + * @flags: context specifier and LSM specific flags
-> >> + * @ctx_len: the size of @ctx
-> >> + * @ctx: the LSM context, a nul terminated string
-> >> + *
-> >> + * @ctx in a nul terminated string.
-> >> + *     (strlen(@ctx) < @ctx_len) is always true.
-> >> + *     (strlen(@ctx) == @ctx_len + 1) is not guaranteed.
-> >> + */
-> > We can do better than this, or rather we *should* do better than this.
-> > One of the big advantages of creating a new API is we can fix some of
-> > the silly things we have had to do in the past, including the
-> > "sometimes" NUL terminator on strings.  For this LSM syscalls let's
-> > make a promise that all human readable strings will be properly NUL
-> > terminated;
->
-> It requires effort and buffer management to ensure that ctx_len == strlen(ctx)+1,
-> but if you think it's important, sure.
+On 10/26/22 19:53, Gang Li wrote:
+> # Introduce
+> Add PR_NUMA_BALANCING in prctl.
+> 
+> A large number of page faults will cause performance loss when numa
+> balancing is performing. Thus those processes which care about worst-case
+> performance need numa balancing disabled. Others, on the contrary, allow a
+> temporary performance loss in exchange for higher average performance, so
+> enable numa balancing is better for them.
+> 
+> Numa balancing can only be controlled globally by
+> /proc/sys/kernel/numa_balancing. Due to the above case, we want to
+> disable/enable numa_balancing per-process instead.
 
-I do, yes.  A safe, familiar, and consistent API is worth a little
-extra work.  Ensuring the human readable strings are always nul
-terminated is familiar to most everyone who has sat in from of a code
-editor, and making sure that the @ctx_len variable indicates the full
-length of the @ctx buffer (both for strings and binary blobs) provides
-a consistent way to manage the context, even if the application isn't
-aware of the exact LSM-specific format.
+Hi Gang Li,
 
-> >  currently this includes all LSM contexts, and likely will
-> > remain that way forever for various reasons, but let's leave the door
-> > open for arbitrary blobs (see the "special" LSM ID discussion from
-> > earlier in the patchset).  With that in mind I might suggest the
-> > following:
-> >
-> >   /**
-> >    * struct lsm_ctx - LSM context
-> >    * @id: the LSM id number, see LSM_ID_XXX
-> >    * @flags: context specifier and LSM specific flags
-> >    * @ctx_len: the size of @ctx
-> >    * @ctx: the LSM context, see description
-> >    *
-> >    * For LSMs which provide human readable contexts @ctx will be a nul
-> >    * terminated string and @ctx_len will include the size of the string
-> >    * and the nul terminator, e.g. 'ctx_len == strlen(ctx) + 1'.  For LSMs
-> >    * which provide binary-only contexts @cts will be a binary blob with
-> >    * @ctx_len being the exact value of the blob.  The type of the @ctx,
-> >    * human readable string or binary, can be determined by inspecting
-> >    * both @id and @flags.
->
-> I'd go a touch further, defining LSM_ATTR_BINARY as a flag and demanding
-> that any attribute that isn't a nul terminated string be thus identified,
-> even if it is always binary. Thus, LSM_ATTR_CURRENT and LSM_ATTR_BINARY
-> together would be an error.
+Wow, it feels like I'm getting a Christmas present early, this is great
+news!
 
-No, the class/format of the context (string or binary, and the LSM
-specific formatting for each) can be deduced from the LSM ID, @id, and
-if necessary the @flags field.  I don't want this API to explicitly
-prevent a binary LSM_ATTR_CURRENT if the rest of the system is
-modified to support it in the future.
+This feature is something we've always wanted for GPUs and Compute
+Accelerators, too. Because what happens there is: we might have GPUs in
+the system that have mapped CPU memory into their page tables. When
+autonuma unmaps the CPU ptes, this triggers (via mmu invalidate
+callbacks) an unmapping on each GPU. But GPU mapping and unmapping is
+far heavier weight than the corresponding CPU operations.
 
-> >    *
-> >    * If a given LSM @id does not define a set of values for use in the
-> >    * @flags field, @flags MUST be set to zero.
-> >    */
-> >   struct lsm_ctx {
-> >     __u32 id;
-> >     __U32 flags;
-> >     __kernel_size_t ctx_len;
-> >     __u8 ctx[];
-> >   };
-> >
-> >> +struct lsm_ctx {
-> >> +       unsigned int            id;
-> >> +       unsigned int            flags;
-> >> +       __kernel_size_t         ctx_len;
-> >> +       unsigned char           ctx[];
-> >> +};
-> > I agree with Greg, we should be explicit about variable sizing, let's
-> > make sure everything in the UAPI header is defined in terms of
-> > __uXX/__sXX.  This includes strings as __u8 arrays.
-> >
-> > Also, I sorta despite the 'let's line all the struct fields up
-> > horizontally!' approach in struct/variable definitions.
->
-> Kids. Got no respect for tradition.
+And so for things such as OpenCL apps that run on a GPU, the only viable
+approach is to somehow disable autonuma balancing. And until your series
+here, that was a system wide setting, which leads to not being able to
+ever have things set up "right", without constantly intervening at the
+sysadmin level.
 
-I think you meant to say, "Kids.          Got no          respect
- for      tradition."
+So for the series, please feel free to add:
 
-> >   I personally
-> > think it looks horrible and it clutters up future patches.  Please
-> > don't do this unless the individual file already does it, and since we
-> > are creating this new please don't :)
-> >
-> >> diff --git a/security/lsm_syscalls.c b/security/lsm_syscalls.c
-> >> new file mode 100644
-> >> index 000000000000..da0fab7065e2
-> >> --- /dev/null
-> >> +++ b/security/lsm_syscalls.c
-> >> @@ -0,0 +1,156 @@
-> >> +// SPDX-License-Identifier: GPL-2.0-only
-> >> +/*
-> >> + * System calls implementing the Linux Security Module API.
-> >> + *
-> >> + *  Copyright (C) 2022 Casey Schaufler <casey@schaufler-ca.com>
-> >> + *  Copyright (C) Intel Corporation
-> >> + */
-> >> +
-> >> +#include <asm/current.h>
-> >> +#include <linux/compiler_types.h>
-> >> +#include <linux/err.h>
-> >> +#include <linux/errno.h>
-> >> +#include <linux/security.h>
-> >> +#include <linux/stddef.h>
-> >> +#include <linux/syscalls.h>
-> >> +#include <linux/types.h>
-> >> +#include <linux/lsm_hooks.h>
-> >> +#include <uapi/linux/lsm.h>
-> >> +
-> >> +struct feature_map {
-> >> +       char *name;
-> >> +       int feature;
-> >> +};
-> >> +
-> >> +static const struct feature_map lsm_attr_names[] = {
-> >> +       { .name = "current",    .feature = LSM_ATTR_CURRENT, },
-> >> +       { .name = "exec",       .feature = LSM_ATTR_EXEC, },
-> >> +       { .name = "fscreate",   .feature = LSM_ATTR_FSCREATE, },
-> >> +       { .name = "keycreate",  .feature = LSM_ATTR_KEYCREATE, },
-> >> +       { .name = "prev",       .feature = LSM_ATTR_PREV, },
-> >> +       { .name = "sockcreate", .feature = LSM_ATTR_SOCKCREATE, },
-> >> +};
-> >> +
-> >> +/**
-> >> + * lsm_self_attr - Return current task's security module attributes
-> >> + * @ctx: the LSM contexts
-> >> + * @size: size of @ctx, updated on return
-> >> + * @flags: reserved for future use, must be zero
-> >> + *
-> >> + * Returns the calling task's LSM contexts. On success this
-> >> + * function returns the number of @ctx array elements. This value
-> >> + * may be zero if there are no LSM contexts assigned. If @size is
-> >> + * insufficient to contain the return data -E2BIG is returned and
-> >> + * @size is set to the minimum required size. In all other cases
-> >> + * a negative value indicating the error is returned.
-> >> + */
-> >> +SYSCALL_DEFINE3(lsm_self_attr,
-> >> +              struct lsm_ctx __user *, ctx,
-> >> +              size_t __user *, size,
-> >> +              int, flags)
-> > See my comments above about UAPI types, let's change this to something
-> > like this:
-> >
-> > [NOTE: I'm assuming it is safe to use __XXX types in syscall declarations?]
-> >
-> >   SYSCALL_DEFINE3(lsm_self_attr,
-> >                  struct lsm_ctx __user *, ctx,
-> >                  __kernel_size_t __user *, size,
-> >                  __u32, flags)
-> >
-> >> +{
-> >> +       struct lsm_ctx *final = NULL;
-> >> +       struct lsm_ctx *interum;
-> >> +       struct lsm_ctx *ip;
-> >> +       void *curr;
-> >> +       char **interum_ctx;
-> >> +       char *cp;
-> >> +       size_t total_size = 0;
-> >> +       int count = 0;
-> >> +       int attr;
-> >> +       int len;
-> >> +       int rc = 0;
-> >> +       int i;
-> > Ungh, reverse christmas trees ... I kinda hate it from a style
-> > perspective, enough to mention it here, but I'm not going to be petty
-> > enough to say "change it".
->
-> I really don't care. Last I saw reverse christmas tree was the officially
-> recommended style. I don't care one way or the other.
+Acked-by: John Hubbard <jhubbard@nvidia.com>
 
-I think it is one of those per-subsystem oddities like it or not.
-
-> >
-> > However, if you did want to flip it upside down (normal christmas
-> > tree?) during the respin I would be grateful ;)
-> >
-
+thanks,
 -- 
-paul-moore.com
+John Hubbard
+NVIDIA
+
+> 
+> Set per-process numa balancing:
+> 	prctl(PR_NUMA_BALANCING, PR_SET_NUMA_BALANCING_DISABLE); //disable
+> 	prctl(PR_NUMA_BALANCING, PR_SET_NUMA_BALANCING_ENABLE);  //enable
+> 	prctl(PR_NUMA_BALANCING, PR_SET_NUMA_BALANCING_DEFAULT); //follow global
+> Get numa_balancing state:
+> 	prctl(PR_NUMA_BALANCING, PR_GET_NUMA_BALANCING, &ret);
+> 	cat /proc/<pid>/status | grep NumaB_mode
+> 
+> # Unixbench multithread result
+> I ran benchmark 20 times, but still have measurement error. I will run
+> benchmark more precisely on the next version of this patchset.
+> +-------------------+----------+
+> |       NAME        | OVERHEAD |
+> +-------------------+----------+
+> | Dhrystone2        | -0.27%   |
+> | Whetstone         | -0.17%   |
+> | Execl             | -0.92%   |
+> | File_Copy_1024    | 0.31%    |
+> | File_Copy_256     | -1.96%   |
+> | File_Copy_4096    | 0.40%    |
+> | Pipe_Throughput   | -3.08%   |
+> | Context_Switching | -1.11%   |
+> | Process_Creation  | 3.24%    |
+> | Shell_Scripts_1   | 0.26%    |
+> | Shell_Scripts_8   | 0.32%    |
+> | System_Call       | 0.10%    |
+> +-------------------+----------+
+> | Total             | -0.21%   |
+> +-------------------+----------+
+> 
+> # Changes
+> Changes in v5:
+> - replace numab_enabled with numa_balancing_mode (Peter Zijlstra)
+> - make numa_balancing_enabled and numa_balancing_mode inline (Peter Zijlstra)
+> - use static_branch_inc/dec instead of static_branch_enable/disable (Peter Zijlstra)
+> - delete CONFIG_NUMA_BALANCING in task_tick_fair (Peter Zijlstra)
+> - reword commit, use imperative mood (Bagas Sanjaya)
+> - Unixbench overhead result
+> 
+> Changes in v4:
+> - code clean: add wrapper function `numa_balancing_enabled`
+> 
+> Changes in v3:
+> - Fix compile error.
+> 
+> Changes in v2:
+> - Now PR_NUMA_BALANCING support three states: enabled, disabled, default.
+>    enabled and disabled will ignore global setting, and default will follow
+>    global setting.
+> 
+> Gang Li (2):
+>    sched/numa: use static_branch_inc/dec for sched_numa_balancing
+>    sched/numa: add per-process numa_balancing
+> 
+>   Documentation/filesystems/proc.rst   |  2 ++
+>   fs/proc/task_mmu.c                   | 20 ++++++++++++
+>   include/linux/mm_types.h             |  3 ++
+>   include/linux/sched/numa_balancing.h | 45 ++++++++++++++++++++++++++
+>   include/uapi/linux/prctl.h           |  7 +++++
+>   kernel/fork.c                        |  4 +++
+>   kernel/sched/core.c                  | 26 +++++++--------
+>   kernel/sched/fair.c                  |  9 +++---
+>   kernel/sys.c                         | 47 ++++++++++++++++++++++++++++
+>   mm/mprotect.c                        |  6 ++--
+>   10 files changed, 150 insertions(+), 19 deletions(-)
+> 
+
