@@ -2,127 +2,114 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 14CA6623A49
-	for <lists+linux-api@lfdr.de>; Thu, 10 Nov 2022 04:18:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C151F6248B2
+	for <lists+linux-api@lfdr.de>; Thu, 10 Nov 2022 18:53:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232240AbiKJDSH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 9 Nov 2022 22:18:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35310 "EHLO
+        id S231357AbiKJRxg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 10 Nov 2022 12:53:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232154AbiKJDSF (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 9 Nov 2022 22:18:05 -0500
-Received: from mail-oo1-xc33.google.com (mail-oo1-xc33.google.com [IPv6:2607:f8b0:4864:20::c33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93EF52D1F5
-        for <linux-api@vger.kernel.org>; Wed,  9 Nov 2022 19:18:04 -0800 (PST)
-Received: by mail-oo1-xc33.google.com with SMTP id e11-20020a4ab14b000000b0049be568062bso100172ooo.4
-        for <linux-api@vger.kernel.org>; Wed, 09 Nov 2022 19:18:04 -0800 (PST)
+        with ESMTP id S231305AbiKJRxf (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 10 Nov 2022 12:53:35 -0500
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F0822250A
+        for <linux-api@vger.kernel.org>; Thu, 10 Nov 2022 09:53:34 -0800 (PST)
+Received: by mail-pl1-x636.google.com with SMTP id p12so2063876plq.4
+        for <linux-api@vger.kernel.org>; Thu, 10 Nov 2022 09:53:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore-com.20210112.gappssmtp.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ui4nz+rk4+cy7iX09mK3SZJkU54S/hpyEMWrZ+RjI2M=;
-        b=eC+RoKfhId/DMoP2yqdKWn4KQDV/bHSjRCDt/kWA5xOVi5nb2pPkI4mlgslo1JNknx
-         Tbc3SQ7t4elqvdUA3nUUCKvQbTL7ks+AB1IJ5XhKa2/de9c1Udet2zrq/4jLZG7GTcyo
-         qTJd5hnqSuyrRaevhIkhNKvsdvsYMK4tChfEz0tiplUuDiC5uC04CxKrOxSGi0hN2o+4
-         CO0OjAnj9tnmtB5qAC9vFShPdrrfEgCzNnfwl/zNEBCkbuZ9vTypUAhuhzEGgjMN41/b
-         UI8hKSlDuk0oJLzFvXx2H4VG88DRFWuETaRueen5S0NSNB5HmirGKvFdgsSm1yQjpbQW
-         TSGg==
+        d=google.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=2oKQDlB6eYx+fAXvKZFnqwvhnIR4JQKKCXs9/v8+asA=;
+        b=USq4b5Vh1OXggTCD0w44axvUCuw0wgwmRJONRIlB95PFBRewtOpmoKc7I2XbMFe+Jt
+         py6SLDlrcfHe9Q3VO4+7dfiMGs6dPX9qHKjrdWteekp4+U/DoQ8k4+BtA12MyhPAKSwW
+         oWUbDGwbmbtRu0HlyiAF1gzP3/dmYGn+4ag1yp2zQxUQz3Y8R8NAepQDJa1zRgnFTAwp
+         482q2MupCDGAkGCVertYK1p6MwGRwEAvRckuUOPwVBujunwWETFLz4d1bnde8cgKCLkj
+         6U6T7ZnM4yWVZOheoRcwISEPaZCMlXQ5G+O2GSFI15kWlhWhoPX3ZMRej3KuRu/bUqnC
+         oRxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Ui4nz+rk4+cy7iX09mK3SZJkU54S/hpyEMWrZ+RjI2M=;
-        b=p2Ax+9Uxd2Z4xWTZougmvccYiAfcyKktndpI8OwMCjlQmDi9zn850MmdPQGPF3QiaH
-         rdIsi1iYlS/Vsf3GQwOVwkNczk57yYY2Lr1F9XBOD4JdAIw0WREX7V4iWd6JWZf746Fb
-         Ykd2OuLAHhFZbVe+JQdH7AdLCMbX/oDiwX8ymdI9GNwthPAHL2DxWoZknlL09B05EhIa
-         +i+gzNmGMnHH+WCKBQzFS+1lVDaAmO/yR0OnIppthHbtgafxB2aJH+uaNWjmfb5VkPx9
-         sk76wawgvQsNqGCxabViQXMkd+COz+6pxrkU3bGnj3E4oaz3BfV52RKtRvAIO6SnxoGE
-         Kh+w==
-X-Gm-Message-State: ANoB5pnS/Y+mcfDU90qTXuo7uTfDmoZ98SPFJAAlOkQFDFs8mutFK1I8
-        sAU3c5wYOTI2sThneEjiqKkBKmYreZbij9yYFsAl
-X-Google-Smtp-Source: AA0mqf4jNyWHNPdiVFcHIrPF0+v2AoEgmnjHvVUr776+Z6yoxo2tMWAfX7sFLgPjynd2YPyaEA2X+YXWw2y/wJe591Q=
-X-Received: by 2002:a4a:ca8f:0:b0:49e:f01a:feaf with SMTP id
- x15-20020a4aca8f000000b0049ef01afeafmr7560680ooq.81.1668050283850; Wed, 09
- Nov 2022 19:18:03 -0800 (PST)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2oKQDlB6eYx+fAXvKZFnqwvhnIR4JQKKCXs9/v8+asA=;
+        b=Q8okfdy+ktallvgA6EgWSa9nTbIjHSAv4R9KCNhh2LeUjl0N6ykncjrDxuUX9QvdxK
+         3w3stt+HcsktRrHc2m8+Tgsm/CDiphoj0lwavOc/TWuCUz+3Z/j9zPD3y/AVc+42Cyku
+         hXJuEFO3dAlG2+AIoklP1mD8jAITHixppzyNopTKy1dVsntl+UYfKnM0WSk4bmyv37hF
+         RzpVVl7kNYwpgvRw8/7mzGEIzojL/HFf8RuGuEkZEJjColDeLRWwbh34zZPHAL4RAwu7
+         cStbyr8nwdL8P2cUDA7Yk6kb04ftaWhDx/fIizk7/nePIiqeNOzWx7VUM2HIi8lGTyAq
+         /k4g==
+X-Gm-Message-State: ANoB5pn1CuyNWCx9FfgaVNmQdjzA2N0MM4/5TOE1Q8qYtcS14Q+EWdQL
+        eCMOFZtZJ6q/hOGANnDn+JIGAQLtwQNLjw==
+X-Google-Smtp-Source: AA0mqf5Tm7voUfqlq46fUuj/FQZ0U+LCKMGUSx8RMJOkkJOakWUAIRLRpdmCoJrBserqv+E6AVAQEA==
+X-Received: by 2002:a17:903:120f:b0:188:82fc:e259 with SMTP id l15-20020a170903120f00b0018882fce259mr18758217plh.61.1668102813812;
+        Thu, 10 Nov 2022 09:53:33 -0800 (PST)
+Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
+        by smtp.gmail.com with ESMTPSA id i13-20020a170902c94d00b00172e19c5f8bsm11666966pla.168.2022.11.10.09.53.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Nov 2022 09:53:33 -0800 (PST)
+Date:   Thu, 10 Nov 2022 17:53:29 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Chao Peng <chao.p.peng@linux.intel.com>
+Cc:     Fuad Tabba <tabba@google.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v9 4/8] KVM: Use gfn instead of hva for mmu_notifier_retry
+Message-ID: <Y206mVuJlXjO10qx@google.com>
+References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
+ <20221025151344.3784230-5-chao.p.peng@linux.intel.com>
+ <CA+EHjTySnJTuLB+XoRya6kS_zw2iMahW9-Ze70oKTf+6k0GrGQ@mail.gmail.com>
+ <20221104022813.GA4129873@chaop.bj.intel.com>
+ <Y2WSXLtcJOpWPtuv@google.com>
+ <20221108071624.GA76278@chaop.bj.intel.com>
 MIME-Version: 1.0
-References: <20221025184519.13231-1-casey@schaufler-ca.com>
- <20221025184519.13231-8-casey@schaufler-ca.com> <CAHC9VhQ5Jrt3Ns+m7DFZ+_pP81AWqSx588HMZR+7MUuMfSZoig@mail.gmail.com>
- <ea927e49-0099-df0a-d263-400782486b35@schaufler-ca.com>
-In-Reply-To: <ea927e49-0099-df0a-d263-400782486b35@schaufler-ca.com>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Wed, 9 Nov 2022 22:17:52 -0500
-Message-ID: <CAHC9VhQMfAix=KqpWGNg_2cryBJHyiFTzURQ1YuD_0SY92ZHsA@mail.gmail.com>
-Subject: Re: [PATCH v1 7/8] LSM: Create lsm_module_list system call
-To:     Casey Schaufler <casey@schaufler-ca.com>
-Cc:     casey.schaufler@intel.com, linux-security-module@vger.kernel.org,
-        jmorris@namei.org, keescook@chromium.org,
-        john.johansen@canonical.com, penguin-kernel@i-love.sakura.ne.jp,
-        stephen.smalley.work@gmail.com, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, mic@digikod.net
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221108071624.GA76278@chaop.bj.intel.com>
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Nov 9, 2022 at 8:37 PM Casey Schaufler <casey@schaufler-ca.com> wrote:
-> On 11/9/2022 3:35 PM, Paul Moore wrote:
-> > On Tue, Oct 25, 2022 at 2:48 PM Casey Schaufler <casey@schaufler-ca.com> wrote:
-> >> Create a system call to report the list of Linux Security Modules
-> >> that are active on the system. The list is provided as an array
-> >> of LSM ID numbers.
-> >>
-> >> The calling application can use this list determine what LSM
-> >> specific actions it might take. That might include chosing an
-> >> output format, determining required privilege or bypassing
-> >> security module specific behavior.
-> >>
-> >> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
-> >> ---
-> >>  include/linux/syscalls.h |  1 +
-> >>  kernel/sys_ni.c          |  1 +
-> >>  security/lsm_syscalls.c  | 38 ++++++++++++++++++++++++++++++++++++++
-> >>  3 files changed, 40 insertions(+)
-> > ..
-> >
-> >> diff --git a/security/lsm_syscalls.c b/security/lsm_syscalls.c
-> >> index da0fab7065e2..cd5db370b974 100644
-> >> --- a/security/lsm_syscalls.c
-> >> +++ b/security/lsm_syscalls.c
-> >> @@ -154,3 +154,41 @@ SYSCALL_DEFINE3(lsm_self_attr,
-> >>         kfree(final);
-> >>         return rc;
-> >>  }
-> >> +
-> >> +/**
-> >> + * lsm_module_list - Return a list of the active security modules
-> >> + * @ids: the LSM module ids
-> >> + * @size: size of @ids, updated on return
-> >> + * @flags: reserved for future use, must be zero
-> >> + *
-> >> + * Returns a list of the active LSM ids. On success this function
-> >> + * returns the number of @ids array elements. This value may be zero
-> >> + * if there are no LSMs active. If @size is insufficient to contain
-> >> + * the return data -E2BIG is returned and @size is set to the minimum
-> >> + * required size. In all other cases a negative value indicating the
-> >> + * error is returned.
-> >> + */
-> > Let's make a promise that for this syscall we will order the LSM IDs
-> > in the array in the same order as which they are configured/executed.
->
-> Sure. Order registered, which can vary, as opposed to LSM ID order,
-> which cannot. That could be important to ensure that applications
-> that enforce the same policy as the kernel will hit the checks in
-> the same order as the kernel. That's how it is coded. It needs to
-> be documented.
+On Tue, Nov 08, 2022, Chao Peng wrote:
+> On Fri, Nov 04, 2022 at 10:29:48PM +0000, Sean Christopherson wrote:
+> > The APICv case that this was added for could very well be broken because of
+> > this, and the resulting failures would be an absolute nightmare to debug.
+> 
+> Given the apicv_inhibit should be rare, the change looks good to me.
+> Just to be clear, your will send out this fix, right?
 
-Yep.  One of the big reasons for documenting it this way is to ensure
-that we define the order as part of the API.
-
--- 
-paul-moore.com
+Ya, I'll post an official patch.
