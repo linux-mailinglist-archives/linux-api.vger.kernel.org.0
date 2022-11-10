@@ -2,69 +2,65 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B5BE624C4F
-	for <lists+linux-api@lfdr.de>; Thu, 10 Nov 2022 22:01:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6593C624E7F
+	for <lists+linux-api@lfdr.de>; Fri, 11 Nov 2022 00:36:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231396AbiKJVBl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 10 Nov 2022 16:01:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55424 "EHLO
+        id S230055AbiKJXga (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 10 Nov 2022 18:36:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37422 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231221AbiKJVBi (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 10 Nov 2022 16:01:38 -0500
-Received: from mail-oa1-x2e.google.com (mail-oa1-x2e.google.com [IPv6:2001:4860:4864:20::2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E72572BB0B
-        for <linux-api@vger.kernel.org>; Thu, 10 Nov 2022 13:01:37 -0800 (PST)
-Received: by mail-oa1-x2e.google.com with SMTP id 586e51a60fabf-13c569e5ff5so3506082fac.6
-        for <linux-api@vger.kernel.org>; Thu, 10 Nov 2022 13:01:37 -0800 (PST)
+        with ESMTP id S229586AbiKJXga (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 10 Nov 2022 18:36:30 -0500
+Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com [IPv6:2607:f8b0:4864:20::235])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD4B7B97
+        for <linux-api@vger.kernel.org>; Thu, 10 Nov 2022 15:36:28 -0800 (PST)
+Received: by mail-oi1-x235.google.com with SMTP id l127so3479885oia.8
+        for <linux-api@vger.kernel.org>; Thu, 10 Nov 2022 15:36:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uSbodY8FqZ0Ciim/vAb77VV4F9ElrHL2UVuKiq5ungA=;
-        b=YMGD8nMS55gvLSoZ8tKrtFoOZ/Ve6TrHy42MgIRNg7/fmubAxDJH5DG0RW10SxvOeP
-         DjTT4GnaBPcWIi5FHosoNTKOgkLUY73yZvvLd9GalbDMFolHEKGR8P2hdFUvIFmPB/SO
-         BrV90aXQ1eoZkI6c1yhjIGCApzY+hu3tS/DTZEU/Fg2s7BMNOWpnAvF4Cuip1vbjLDDi
-         Wi0Cf6JFPCLTbtm34QorcHgGhquebmcOqtlB6bTQLk4Mr7H+4Eba3Bf+AHWKYeyJTbOW
-         TJMserRFDaCMIXo5v2+5i1CgxrdLo/ul7beHcB3VpcJHaJjJRJj3Y82oz8ECPN2Z55/w
-         fCMg==
+        d=paul-moore-com.20210112.gappssmtp.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=6Ft0hBbh9NEYU0Q7LYEiUUDxfj2Q8E7rZp1hHrO+RN0=;
+        b=gwTsesygGDK9RHm4ccvvyo7xedqsjAAWJ+PsCK12AavacXlui2OiIxwTtt4JBPq+Bp
+         2W+GbHMwJMdZwGqvobWfbmC5F8rro/S2IhV/oijWt8SKlM8jbieJBoeasva1ghe0Nn5a
+         LBJMLP5NUzzx9TRGgAmfShISCrmRreX4qeb35DfsajyAJppUKRHsFeOtP+lB/X4sUtQm
+         C3BItKKFQ7nMG2Wq23MGTw13aGrlJ7hZkZ06J/5V23gF+BNJiJdV1Sp6LUo64+KfVm2T
+         +AocSuBt6eS5F1mbRlj9ipNb3Ma8qqTILPJKDxeeFdxzOB8qGNZeKLsaIwaJBSCwCWgG
+         OctQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=uSbodY8FqZ0Ciim/vAb77VV4F9ElrHL2UVuKiq5ungA=;
-        b=wDf5EYE/fz/DZCAVJSSKVDUREwnUkHvcqmB1aJJTaJnUCVRICQoHdb62O7AIwg8g50
-         aMgE7EaEFOxDNVmEg14d6/Yv5xLWYwinCShlpRo+VA/rH2p+aUbbOubrU+TDJOm1Vt8f
-         ocGZbl/UgVa1l0SI6wnyVE/zvjTLEAdxoyAsHnSQT/ICLoFaHjpBk0qH3OZYi84e/ulu
-         hSCwdmA2zhrWhCBPB37jgeQGpPv9Ht1WyuCyl2eNZmxy+/BTAukflijzfhu7clf3tcaI
-         DrFFai9J0wNZMTy6iV9Zxt3Ei3+2rup/3xz4kBeZXt5zWJP3EEz8lkkNCgGX4Xra1pGu
-         r9QA==
-X-Gm-Message-State: ACrzQf3JvG8OHuCQjqDbQH/POF6MfzCmx8ZHqb60WdMCegsvQLCpiUmn
-        Fa2RYPU71rN0+LNx3ZbN+2NheWi+qeDcXvakfv2A0g==
-X-Google-Smtp-Source: AMsMyM5Lbc1uK8AP5uOpZgGwnsT6w5cfTgiZG9wE2H4u+6rVvgryo+vd5IZC988GgRuXQXR3iL+1Gj8CZ3j8fJF1g8o=
-X-Received: by 2002:a05:6870:ab84:b0:13c:7d1c:5108 with SMTP id
- gs4-20020a056870ab8400b0013c7d1c5108mr2177638oab.282.1668114096980; Thu, 10
- Nov 2022 13:01:36 -0800 (PST)
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6Ft0hBbh9NEYU0Q7LYEiUUDxfj2Q8E7rZp1hHrO+RN0=;
+        b=ND1WQWVnVkKrhlLAh3h2qBbIraCHY3pnFVPieK5KGIR9jr9VN717jUPGqZ5a7CCjjY
+         NsV7tpzjuRo/1SdYgm9vcY/8WXaionakcvggtFtOXLWPafSY+ZIRo7h4ZqeJGflu43xt
+         7A/V26HPQpdSyKZU9wHU1Fj27Z54K5KlxHF2fkaVgB4qGTHxDWKXouInNtruD6Ls9i89
+         6afsblgcqJDzUw2Fp0qtdn//AVDLNGapJnJSJyDwRXdM2fUGsJ5o6CWh/jLSnVWrTmc+
+         Uozoljb9/eC1J62r82PEEqDiDL6PVHTFlPMZ+IZhOnXOIk3RFu81npw02nKeGrNxj2PZ
+         uQqA==
+X-Gm-Message-State: ACrzQf08GpEuTC6KWelu2EdiCFR6uZKX5hVEEvph3S69VhNOOdWxPLyR
+        Whc0NbR8UCFlFp+4fWeBBIAvEWgL08LJAlnRkldO
+X-Google-Smtp-Source: AMsMyM4NJn94t8DTDVfilpvElddesuRrU5drh86cqDoFkFEPrwBe+yf9kbLVNK8+HaGnPvpMNAvB54yeHNFwQl/A4RY=
+X-Received: by 2002:aca:6502:0:b0:35a:6535:df with SMTP id m2-20020aca6502000000b0035a653500dfmr2182347oim.51.1668123388137;
+ Thu, 10 Nov 2022 15:36:28 -0800 (PST)
 MIME-Version: 1.0
-References: <mhng-9e6b4607-6bea-411c-b843-916c1e0798ee@palmerdabbelt-glaptop> <182c1d4e-a117-79d6-4dd1-8e3c8a447b4a@ghiti.fr>
-In-Reply-To: <182c1d4e-a117-79d6-4dd1-8e3c8a447b4a@ghiti.fr>
-From:   Dmitry Vyukov <dvyukov@google.com>
-Date:   Thu, 10 Nov 2022 13:01:26 -0800
-Message-ID: <CACT4Y+YYAfTafFk7DE0B=qQFgkPXS7492AhBdY_CP1WdB8CGfA@mail.gmail.com>
-Subject: Re: [PATCH] riscv: Bump COMMAND_LINE_SIZE value to 1024
-To:     Alex Ghiti <alex@ghiti.fr>
-Cc:     Palmer Dabbelt <palmer@dabbelt.com>, macro@orcam.me.uk,
-        david.abdurachmanov@gmail.com,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        linux-api@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-kernel@vger.kernel.org
+References: <20221025184519.13231-1-casey@schaufler-ca.com>
+ <20221025184519.13231-7-casey@schaufler-ca.com> <CAHC9VhQ039=X+0edudy64-fpw4C2SwWV_MucbYfXwFKduwnbWA@mail.gmail.com>
+In-Reply-To: <CAHC9VhQ039=X+0edudy64-fpw4C2SwWV_MucbYfXwFKduwnbWA@mail.gmail.com>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Thu, 10 Nov 2022 18:36:17 -0500
+Message-ID: <CAHC9VhSCAM+xdKf_f210-M-ZFY9KBVgpK84nbuCcVF9Z3qs2eA@mail.gmail.com>
+Subject: Re: [PATCH v1 6/8] LSM: lsm_self_attr syscall for LSM self attributes
+To:     Casey Schaufler <casey@schaufler-ca.com>
+Cc:     casey.schaufler@intel.com, linux-security-module@vger.kernel.org,
+        jmorris@namei.org, keescook@chromium.org,
+        john.johansen@canonical.com, penguin-kernel@i-love.sakura.ne.jp,
+        stephen.smalley.work@gmail.com, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, mic@digikod.net
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -72,86 +68,104 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, 21 Jun 2021 at 00:11, Alex Ghiti <alex@ghiti.fr> wrote:
->
-> Hi Palmer,
->
-> Le 23/04/2021 =C3=A0 04:57, Palmer Dabbelt a =C3=A9crit :
-> > On Fri, 02 Apr 2021 11:33:30 PDT (-0700), macro@orcam.me.uk wrote:
-> >> On Fri, 2 Apr 2021, David Abdurachmanov wrote:
-> >>
-> >>> > > >  This macro is exported as a part of the user API so it must
-> >>> not depend on
-> >>> > > > Kconfig.  Also changing it (rather than say adding
-> >>> COMMAND_LINE_SIZE_V2 or
-> >>> > > > switching to an entirely new data object that has its dimension
-> >>> set in a
-> >>> > > > different way) requires careful evaluation as external binaries
-> >>> have and
-> >>> > > > will have the value it expands to compiled in, so it's a part
-> >>> of the ABI
-> >>> > > > too.
-> >>> > >
-> >>> > > Thanks, I didn't realize this was part of the user BI.  In that
-> >>> case we
-> >>> > > really can't chage it, so we'll have to sort out some other way
-> >>> do fix
-> >>> > > whatever is going on.
-> >>> > >
-> >>> > > I've dropped this from fixes.
-> >>> >
-> >>> > Does increasing COMMAND_LINE_SIZE break user-space binaries? I woul=
-d
-> >>> > expect it to work the same way as adding new enum values, or adding
-> >>> > fields at the end of versioned structs, etc.
-> >>> > I would assume the old bootloaders/etc will only support up to the
-> >>> > old, smaller max command line size, while the kernel will support
-> >>> > larger command line size, which is fine.
-> >>> > However, if something copies /proc/cmdline into a fixed-size buffer
-> >>> > and expects that to work, that will break... that's quite unfortuna=
-te
-> >>> > user-space code... is it what we afraid of?
-> >>> >
-> >>> > Alternatively, could expose the same COMMAND_LINE_SIZE, but interna=
-lly
-> >>> > support a larger command line?
-> >>>
-> >>> Looking at kernel commit history I see PowerPC switched from 512 to
-> >>> 2048, and I don't see complaints about the ABI on the mailing list.
-> >>>
-> >>> If COMMAND_LINE_SIZE is used by user space applications and we
-> >>> increase it there shouldn't be problems. I would expect things to
-> >>> work, but just get truncated boot args? That is the application will
-> >>> continue only to look at the initial 512 chars.
-> >>
-> >>  The macro is in an include/uapi header, so it's exported to the userl=
-and
-> >> and a part of the user API.  I don't know what the consequences are fo=
-r
-> >> the RISC-V port specifically, but it has raised my attention, and I th=
-ink
-> >> it has to be investigated.
-> >>
-> >>  Perhaps it's OK to change it after all, but you'd have to go through
-> >> known/potential users of this macro.  I guess there shouldn't be that
-> >> many
-> >> of them.
-> >>
-> >>  In any case it cannot depend on Kconfig, because the userland won't h=
-ave
-> >> access to the configuration, and then presumably wants to handle any a=
-nd
-> >> all.
+On Wed, Nov 9, 2022 at 6:34 PM Paul Moore <paul@paul-moore.com> wrote:
+> On Tue, Oct 25, 2022 at 2:48 PM Casey Schaufler <casey@schaufler-ca.com> wrote:
 > >
-> > It kind of feels to me like COMMAND_LINE_SIZE shouldn't have been part
-> > of the UABI to begin with.  I sent a patch to remove it from the
-> > asm-generic UABI, let's see if anyone knows of a reason it should be UA=
-BI:
+> > Create a system call lsm_self_attr() to provide the security
+> > module maintained attributes of the current process. Historically
+> > these attributes have been exposed to user space via entries in
+> > procfs under /proc/self/attr.
 > >
-> > https://lore.kernel.org/linux-arch/20210423025545.313965-1-palmer@dabbe=
-lt.com/T/#u
->
-> Arnd seemed to agree with you about removing COMMAND_LINE_SIZE from the
-> UABI, any progress on your side?
+> > Attributes are provided as a collection of lsm_ctx structures
+> > which are placed into a user supplied buffer. Each structure
+> > identifys the security module providing the attribute, which
+> > of the possible attributes is provided, the size of the
+> > attribute, and finally the attribute value. The format of the
+> > attribute value is defined by the security module, but will
+> > always be \0 terminated. The ctx_len value will be larger than
+> > strlen(ctx).
+> >
+> >         ------------------------------
+> >         | unsigned int id            |
+> >         ------------------------------
+> >         | unsigned int flags         |
+> >         ------------------------------
+> >         | __kernel_size_t ctx_len    |
+> >         ------------------------------
+> >         | unsigned char ctx[ctx_len] |
+> >         ------------------------------
+> >         | unsigned int id            |
+> >         ------------------------------
+> >         | unsigned int flags         |
+> >         ------------------------------
+> >         | __kernel_size_t ctx_len    |
+> >         ------------------------------
+> >         | unsigned char ctx[ctx_len] |
+> >         ------------------------------
+> >
+> > Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
+> > ---
+> >  include/linux/syscalls.h |   2 +
+> >  include/uapi/linux/lsm.h |  21 ++++++
+> >  kernel/sys_ni.c          |   3 +
+> >  security/Makefile        |   1 +
+> >  security/lsm_syscalls.c  | 156 +++++++++++++++++++++++++++++++++++++++
+> >  5 files changed, 183 insertions(+)
+> >  create mode 100644 security/lsm_syscalls.c
 
-Was this ever merged? Don't see this even in linux-next.
+...
+
+> > +/**
+> > + * lsm_self_attr - Return current task's security module attributes
+> > + * @ctx: the LSM contexts
+> > + * @size: size of @ctx, updated on return
+> > + * @flags: reserved for future use, must be zero
+> > + *
+> > + * Returns the calling task's LSM contexts. On success this
+> > + * function returns the number of @ctx array elements. This value
+> > + * may be zero if there are no LSM contexts assigned. If @size is
+> > + * insufficient to contain the return data -E2BIG is returned and
+> > + * @size is set to the minimum required size. In all other cases
+> > + * a negative value indicating the error is returned.
+> > + */
+> > +SYSCALL_DEFINE3(lsm_self_attr,
+> > +              struct lsm_ctx __user *, ctx,
+> > +              size_t __user *, size,
+> > +              int, flags)
+>
+> See my comments above about UAPI types, let's change this to something
+> like this:
+>
+> [NOTE: I'm assuming it is safe to use __XXX types in syscall declarations?]
+>
+>   SYSCALL_DEFINE3(lsm_self_attr,
+>                  struct lsm_ctx __user *, ctx,
+>                  __kernel_size_t __user *, size,
+>                  __u32, flags)
+>
+
+I wanted to clarify how I originally envisioned this syscall/API, as
+it looks like it behaves a bit differently than I originally intended.
+My thought was that this syscall would be used to fetch one LSM
+attribute context at a time, returning an array of lsm_ctx structs,
+with one, and only one, for each LSM that supports that particular
+attribute.  If the LSM does not support that attribute, it must not
+enter an entry to the array.  Requesting more than one attribute
+context per invocation is not allowed.  The idea was to closely
+resemble the familiar open("/proc/self/attr/current")/read()/close()
+result without relying on procfs and supporting multiple LSMs with an
+easy(ish) API.  The new, single syscall should also be faster,
+although none of this should be happening in a performance critical
+section anyway.
+
+In addition, the lsm_ctx::flags field is intended to convey
+information specific to the given LSM, i.e. it should not repeat any
+of the flag information specified in the syscall parameters.  I don't
+believe any of the currently in-tree LSMs would require any special
+flags for their contexts, so this should always be zero/clear in this
+initial patchset, but it is something to keep in mind for the future.
+
+Thoughts?
+
+--
+paul-moore.com
