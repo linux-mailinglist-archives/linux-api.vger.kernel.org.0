@@ -2,140 +2,108 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D368A6270E0
-	for <lists+linux-api@lfdr.de>; Sun, 13 Nov 2022 17:41:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 794F5627863
+	for <lists+linux-api@lfdr.de>; Mon, 14 Nov 2022 10:00:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235252AbiKMQlb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 13 Nov 2022 11:41:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34378 "EHLO
+        id S235895AbiKNJAf (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 14 Nov 2022 04:00:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235214AbiKMQl3 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 13 Nov 2022 11:41:29 -0500
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D114210FC6
-        for <linux-api@vger.kernel.org>; Sun, 13 Nov 2022 08:41:27 -0800 (PST)
-Received: by mail-pf1-x435.google.com with SMTP id 130so8982121pfu.8
-        for <linux-api@vger.kernel.org>; Sun, 13 Nov 2022 08:41:27 -0800 (PST)
+        with ESMTP id S236651AbiKNJA2 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 14 Nov 2022 04:00:28 -0500
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6A601CFEC
+        for <linux-api@vger.kernel.org>; Mon, 14 Nov 2022 01:00:26 -0800 (PST)
+Received: by mail-pj1-x1030.google.com with SMTP id c15-20020a17090a1d0f00b0021365864446so9987930pjd.4
+        for <linux-api@vger.kernel.org>; Mon, 14 Nov 2022 01:00:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+QrikNB/GMZeY3ufdrYnFiRrHx7b40lntxGNUYf5p3U=;
-        b=DEsPXPkx4VzqvFb/BNADTLQhtFuR2MiVR6MQA/nq9lpHzO3CRtZw1rrdnZXcAUnZln
-         uNtFnG1jMSD7MbPvszAtMSvtYiQe3kVI8zn6phL6ldMUlNTajEkJT4D1jMXe7yMTQ7Uj
-         KQzJzP9UxB2sZUGQiwtB2R5J/8+uN8KUgAPkHwDfdX9d4GdcWf9xquF1Pp7DfzPMsBZq
-         LQIX1jqb3v6SFTIxFr3drmEHE4p89UB2VMtW8+u58oVfmpMxw7bq4woCtZPTaOL9uRZT
-         ebdYqvS0JiXc/02HFlybd8IU9Pp4/xcVhIg3dyEHdbuFZiNeRXLCwL8wDQtDD9W3jxsX
-         o05g==
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=OHVvZDZbyEogVtk3XYqfqyWzOeOsXZdmYG4Vsfr4Pzs=;
+        b=IGlH+a/boVb7i6zolSK0zEvoMEddtxxH2nmc93lCCFV08bOZCNlgJxgFDpF0/JPDHu
+         ckYIGRfz/EA6eMc0VzdGQD4o1oB48QASsZlQIPKQ4BQlDOc3hHV4plz+jza1GFZ/VVjc
+         nTf+60GJLFAy4UVqpFpMpYwATK9woaMgfDBav2fX9dc2oUUVytTfnDZm2POJF9JsXFEU
+         RuMh+Tb5gNg6/ehHkMlHXQhE2ZGSs+MeqRjBBsUWLunO9jpHkixaOind7phxwkQxktl5
+         5SwJCZ9A4LQ2zUWuwMDqrLaHDIfzIDda+5BUT9byEbOAV899p/9dGl5MLl6kQ7TOJQR4
+         CAsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=+QrikNB/GMZeY3ufdrYnFiRrHx7b40lntxGNUYf5p3U=;
-        b=0jfO+OIZGeaeY76Rk6DvLhDKlgHUpXV/NNIe/CWK9xuDhxILClWxAsk//wkooK492F
-         81MJKWJrnByflNxIOkUx4cUZwakHuqBx4a1xE4E0jWCu5epJ/f+DUFo/6GyxeeRqbQVJ
-         s5isZoavzSA9TR2Hh/vEDH8JXY96e+9PhG4jvSlhbtgJCOWGsMH2hRT0G4FkJ2c9QMGh
-         nlSLu1aHjeu3RP4LndN97vksJp++QJiXEWffdRWBdictlIbL6O694AEbK1hG95s44VO1
-         1yn3lnwMjPAka5MIOttXUTR9pZOYR19QlebSuIo25IZmjDjhm7n2fu9aiUxuPjY9BOi8
-         aOSA==
-X-Gm-Message-State: ANoB5pmcaVMwRvT6eCUEznjoGbaEzdYoTbc67yYlwSCVEtVQMKkyYDtf
-        K2+E0qdctsDM+ybMt877v/L89w==
-X-Google-Smtp-Source: AA0mqf61Hhi23BxOCwNEasLV8GXX2B6mVAH7ThC0PZPXQNtBDFDI4bOxR0Hn5F0usudfIlB4j7q4SQ==
-X-Received: by 2002:a65:49c6:0:b0:46f:ed3a:ac42 with SMTP id t6-20020a6549c6000000b0046fed3aac42mr9107496pgs.617.1668357687296;
-        Sun, 13 Nov 2022 08:41:27 -0800 (PST)
-Received: from [10.4.223.134] ([139.177.225.226])
-        by smtp.gmail.com with ESMTPSA id n3-20020a17090ab80300b00210c84b8ae5sm4772471pjr.35.2022.11.13.08.41.23
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=OHVvZDZbyEogVtk3XYqfqyWzOeOsXZdmYG4Vsfr4Pzs=;
+        b=0uVaCYbVp18KpWaBCN8mZG0SZDptZuRB9GBlgrL/iRoWjtpl1Rf59dFJa0GryTyveM
+         7X5jQYXG/kmIyofE+fA9ij1TO3BBikCJDt2z0i/GXaDMTu/eHttemnoLehU//+kB2RNC
+         3WsERJ4epWbu3CUcjGSejNC2zesKQTYjZEstPmGINFetyorJOaf+SOq/slzqntx0k3Ra
+         wX+yt/DTlZTKgax67O0ntkaoLJ5UM0QM+U7YEXxiZ6GsRC4wAJmCNMnjc20vKQYRXCAt
+         gOIk8HgwfMvY+KTkBfPJj0NXwT+nbmp8dFc+E0UdjHkLumf4gKPhn3Y6McAM28Hjd2b/
+         U0+Q==
+X-Gm-Message-State: ANoB5pmTLFWsKhprzTJ+5fzrHj7XlAoGvKYwnrIXpKySLk1vNtoFSZwQ
+        rd4lkbTu7NpwGZMuhmHcJUpTOQ==
+X-Google-Smtp-Source: AA0mqf5cZNQj8u+ZxbCaroI0Pmri5Pe5JqwutWZDxOXw61J8pMLqk/LVBKLC6XaybdNpMOnMuMHJrg==
+X-Received: by 2002:a17:903:1009:b0:17f:72a4:30a1 with SMTP id a9-20020a170903100900b0017f72a430a1mr12980922plb.124.1668416426378;
+        Mon, 14 Nov 2022 01:00:26 -0800 (PST)
+Received: from [10.94.58.189] ([139.177.225.254])
+        by smtp.gmail.com with ESMTPSA id q13-20020aa7960d000000b0056a7486da77sm6371684pfg.13.2022.11.14.01.00.20
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 13 Nov 2022 08:41:26 -0800 (PST)
-Message-ID: <a44f794e-fe60-e261-3631-9107822d5c36@bytedance.com>
-Date:   Mon, 14 Nov 2022 00:41:21 +0800
+        Mon, 14 Nov 2022 01:00:26 -0800 (PST)
+Message-ID: <e57733cd-364d-84e0-cfe0-fd41de14f434@bytedance.com>
+Date:   Mon, 14 Nov 2022 17:00:18 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [External] Re: [PATCH v2] mm: add new syscall
- pidfd_set_mempolicy().
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     corbet@lwn.net, mhocko@suse.com, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20221111084051.2121029-1-hezhongkun.hzk@bytedance.com>
- <20221111112732.30e1696bcd0d5b711c188a9a@linux-foundation.org>
-From:   Zhongkun He <hezhongkun.hzk@bytedance.com>
-In-Reply-To: <20221111112732.30e1696bcd0d5b711c188a9a@linux-foundation.org>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.4.2
+Subject: Re: [RFC PATCH] getting misc stats/attributes via xattr API
+To:     Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel@vger.kernel.org
+Cc:     Dave Chinner <david@fromorbit.com>, Theodore Ts'o <tytso@mit.edu>,
+        Karel Zak <kzak@redhat.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Christian Brauner <brauner@kernel.org>,
+        linux-kernel@vger.kernel.org,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-man <linux-man@vger.kernel.org>,
+        LSM <linux-security-module@vger.kernel.org>,
+        Ian Kent <raven@themaw.net>,
+        David Howells <dhowells@redhat.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <christian@brauner.io>,
+        Amir Goldstein <amir73il@gmail.com>,
+        James Bottomley <James.Bottomley@hansenpartnership.com>
+References: <YnEeuw6fd1A8usjj@miu.piliscsaba.redhat.com>
+Content-Language: en-US
+From:   Abel Wu <wuyun.abel@bytedance.com>
+In-Reply-To: <YnEeuw6fd1A8usjj@miu.piliscsaba.redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Andrew, thanks for your replay.
+Hi Miklos and anyone interested in this proposal, is there any update on
+this? Sorry that I didn't find any..
 
-> This sounds a bit suspicious.  Please share much more detail about
-> these races.  If we proced with this design then mpol_put_async()
-> shouild have comments which fully describe the need for the async free.
+Thanks & Best regards,
+	Abel
+
+On 5/3/22 8:23 PM, Miklos Szeredi wrote:
+> This is a simplification of the getvalues(2) prototype and moving it to the
+> getxattr(2) interface, as suggested by Dave.
 > 
-> How do we *know* that these races are fully prevented with this
-> approach?  How do we know that mpol_put_async() won't free the data
-> until the race window has fully passed?
-
-A mempolicy can be either associated with a process or with a VMA.
-All vma manipulation is somewhat protected by a down_read on
-mmap_lock.In process context there is no locking because only
-the process accesses its own state before.
-
-Now  we need to change the process context mempolicy specified
-in pidfd. the mempolicy may about to be freed by
-pidfd_set_mempolicy() while alloc_pages() is using it,
-the race condition appears.
-
-process context mempolicy is used in:
-alloc_pages()
-alloc_pages_bulk_array_mempolicy()
-policy_mbind_nodemask()
-mempolicy_slab_node()
-.....
-
-Say something like the following：
-
-pidfd_set_mempolicy()        target task stack:
-                                 alloc_pages:
-                                 mpol = p->mempolicy;
-task_lock(task);
-  old = task->mempolicy;
-  task->mempolicy = new;
-  task_unlock(task);
-  mpol_put(old);
-                               /*old mpol has been freed.*/
-                               policy_node(...., mpol)
-    	           __alloc_pages(mpol);
-To reduce the use of locks and atomic operations(mpol_get/put)
-in the hot path,task_work is used in mpol_put_async(),
-when the target task exit to user mode,	the process context
-mempolicy is not used anymore, mpol_free_async()
-will be called as task_work to free mempolicy in
-target context.			
-
-
-> Also, in some situations mpol_put_async() will free the data
-> synchronously anyway, so aren't these races still present?
-> If the task has run exit_task_work(),task_work_add() will fail.
-we can free the mempolicy directly because mempolicy is not used.
-
+> The patch itself just adds the possibility to retrieve a single line of
+> /proc/$$/mountinfo (which was the basic requirement from which the fsinfo
+> patchset grew out of).
 > 
-> Secondly, why was the `flags' argument added?  We might use it one day?
-> For what purpose?  I mean, every syscall could have a does-nothing
-> `flags' arg, but we don't do that.  What's the plan here?
+> But this should be able to serve Amir's per-sb iostats, as well as a host of
+> other cases where some statistic needs to be retrieved from some object.  Note:
+> a filesystem object often represents other kinds of objects (such as processes
+> in /proc) so this is not limited to fs attributes.
 > 
-I found that some functions use 'flags' for scalability, such
-as process_madvise(), set_mempolicy_home_node(). back to our case, This 
-operation has per-thread rather than per-process semantic ,we could use 
-flags to switch for future extension if any. but I'm not sure.
-
-Thanks.
+> This also opens up the interface to setting attributes via setxattr(2).
+> 
