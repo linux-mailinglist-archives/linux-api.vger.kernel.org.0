@@ -2,108 +2,128 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 794F5627863
-	for <lists+linux-api@lfdr.de>; Mon, 14 Nov 2022 10:00:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 061526278F4
+	for <lists+linux-api@lfdr.de>; Mon, 14 Nov 2022 10:25:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235895AbiKNJAf (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 14 Nov 2022 04:00:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43038 "EHLO
+        id S236721AbiKNJZA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 14 Nov 2022 04:25:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236651AbiKNJA2 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 14 Nov 2022 04:00:28 -0500
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6A601CFEC
-        for <linux-api@vger.kernel.org>; Mon, 14 Nov 2022 01:00:26 -0800 (PST)
-Received: by mail-pj1-x1030.google.com with SMTP id c15-20020a17090a1d0f00b0021365864446so9987930pjd.4
-        for <linux-api@vger.kernel.org>; Mon, 14 Nov 2022 01:00:26 -0800 (PST)
+        with ESMTP id S236704AbiKNJY7 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 14 Nov 2022 04:24:59 -0500
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49BDA231
+        for <linux-api@vger.kernel.org>; Mon, 14 Nov 2022 01:24:58 -0800 (PST)
+Received: by mail-pj1-x1033.google.com with SMTP id m6-20020a17090a5a4600b00212f8dffec9so10087029pji.0
+        for <linux-api@vger.kernel.org>; Mon, 14 Nov 2022 01:24:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=OHVvZDZbyEogVtk3XYqfqyWzOeOsXZdmYG4Vsfr4Pzs=;
-        b=IGlH+a/boVb7i6zolSK0zEvoMEddtxxH2nmc93lCCFV08bOZCNlgJxgFDpF0/JPDHu
-         ckYIGRfz/EA6eMc0VzdGQD4o1oB48QASsZlQIPKQ4BQlDOc3hHV4plz+jza1GFZ/VVjc
-         nTf+60GJLFAy4UVqpFpMpYwATK9woaMgfDBav2fX9dc2oUUVytTfnDZm2POJF9JsXFEU
-         RuMh+Tb5gNg6/ehHkMlHXQhE2ZGSs+MeqRjBBsUWLunO9jpHkixaOind7phxwkQxktl5
-         5SwJCZ9A4LQ2zUWuwMDqrLaHDIfzIDda+5BUT9byEbOAV899p/9dGl5MLl6kQ7TOJQR4
-         CAsw==
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2148sqylEkmjswFsMWG1hvqqLaO0xyf1SiCUhyBRhaQ=;
+        b=wDmXeMBBM5jSJ/rpe94OT8vmZBocQzSOc2asE4+zf3/rv3ent4zKaT8mtg8PyjCFU5
+         2RUzEpAC+0zcOMEnW/et/WDcoJYvUN3Uvq9sskGvYTdlE6Pn39zd81tE9UNAfHBNEtx4
+         avQW9asTBmZiES1iB7Ux0C/jRhSnPPEPtLujUGby6LtECk1fjNAXPHIErxjf/S2/CqD7
+         xoJHNK/933wBWaLG6toe5+DU8eAEIVkxat/mjG+0jU/ZSCn76zQR+CX6SLIDT6wLeAhg
+         E+WK5T3IsQI62HF7yVJSqeyH9SWca57H0s5Zj38EUCAlKgbXpujmmr4YSUotKeezKjS6
+         FM3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OHVvZDZbyEogVtk3XYqfqyWzOeOsXZdmYG4Vsfr4Pzs=;
-        b=0uVaCYbVp18KpWaBCN8mZG0SZDptZuRB9GBlgrL/iRoWjtpl1Rf59dFJa0GryTyveM
-         7X5jQYXG/kmIyofE+fA9ij1TO3BBikCJDt2z0i/GXaDMTu/eHttemnoLehU//+kB2RNC
-         3WsERJ4epWbu3CUcjGSejNC2zesKQTYjZEstPmGINFetyorJOaf+SOq/slzqntx0k3Ra
-         wX+yt/DTlZTKgax67O0ntkaoLJ5UM0QM+U7YEXxiZ6GsRC4wAJmCNMnjc20vKQYRXCAt
-         gOIk8HgwfMvY+KTkBfPJj0NXwT+nbmp8dFc+E0UdjHkLumf4gKPhn3Y6McAM28Hjd2b/
-         U0+Q==
-X-Gm-Message-State: ANoB5pmTLFWsKhprzTJ+5fzrHj7XlAoGvKYwnrIXpKySLk1vNtoFSZwQ
-        rd4lkbTu7NpwGZMuhmHcJUpTOQ==
-X-Google-Smtp-Source: AA0mqf5cZNQj8u+ZxbCaroI0Pmri5Pe5JqwutWZDxOXw61J8pMLqk/LVBKLC6XaybdNpMOnMuMHJrg==
-X-Received: by 2002:a17:903:1009:b0:17f:72a4:30a1 with SMTP id a9-20020a170903100900b0017f72a430a1mr12980922plb.124.1668416426378;
-        Mon, 14 Nov 2022 01:00:26 -0800 (PST)
-Received: from [10.94.58.189] ([139.177.225.254])
-        by smtp.gmail.com with ESMTPSA id q13-20020aa7960d000000b0056a7486da77sm6371684pfg.13.2022.11.14.01.00.20
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=2148sqylEkmjswFsMWG1hvqqLaO0xyf1SiCUhyBRhaQ=;
+        b=p7Gb8kgWxTunDr7xk72HaqQszl+gCymv1GZaJ3Yv4nsGpwSz2xj7iKwG+tJlufwkwt
+         Df3tl1J8gBdkDCHhgwEncHQdXyhhTY/OAmvtfG4y+kD3zkmwoAcghV1KUMjkYSeJywZ1
+         A9lblvu92YoRRyR7dK179TiaG1QfV2789ryD3gEx/5Ci3dOqGE7WEheAcLypYBux4Sue
+         tkEQ2lkhmGbhQKXTZQ9VHguQZReBUE+k8KBWTg8+uBxOUw+cXDqi4QA63mLPUQhgZMbf
+         fq43rWB9DnA4zUcmBkakM71pGT1GYQs+RruJQs+xl+jDaCabuMD0beAzBdlKuQ7nrO//
+         /r4Q==
+X-Gm-Message-State: ANoB5pkSWDIadpxKPdb1FyLBHId2XYi5vim7rtjNGacFZdcyH/f7q3W3
+        EH99yjoXYuQdiqU1WHHwovUItQ==
+X-Google-Smtp-Source: AA0mqf4JWvsDijQPfo/kXXptsIS2yyDPC0lc7dAS8Ff3VNNyq4RT1WTyw4YINmHAKX/obSA93DCkqA==
+X-Received: by 2002:a17:90a:6d8f:b0:214:2ee7:3dc with SMTP id a15-20020a17090a6d8f00b002142ee703dcmr12797742pjk.105.1668417897845;
+        Mon, 14 Nov 2022 01:24:57 -0800 (PST)
+Received: from [10.68.76.92] ([139.177.225.245])
+        by smtp.gmail.com with ESMTPSA id h13-20020a170902f54d00b00176b3c9693esm6852376plf.299.2022.11.14.01.24.54
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Nov 2022 01:00:26 -0800 (PST)
-Message-ID: <e57733cd-364d-84e0-cfe0-fd41de14f434@bytedance.com>
-Date:   Mon, 14 Nov 2022 17:00:18 +0800
+        Mon, 14 Nov 2022 01:24:57 -0800 (PST)
+Message-ID: <404735fb-023d-df37-e88e-8b05981bc1d5@bytedance.com>
+Date:   Mon, 14 Nov 2022 17:24:52 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.2
-Subject: Re: [RFC PATCH] getting misc stats/attributes via xattr API
-To:     Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel@vger.kernel.org
-Cc:     Dave Chinner <david@fromorbit.com>, Theodore Ts'o <tytso@mit.edu>,
-        Karel Zak <kzak@redhat.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Christian Brauner <brauner@kernel.org>,
-        linux-kernel@vger.kernel.org,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-man <linux-man@vger.kernel.org>,
-        LSM <linux-security-module@vger.kernel.org>,
-        Ian Kent <raven@themaw.net>,
-        David Howells <dhowells@redhat.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <christian@brauner.io>,
-        Amir Goldstein <amir73il@gmail.com>,
-        James Bottomley <James.Bottomley@hansenpartnership.com>
-References: <YnEeuw6fd1A8usjj@miu.piliscsaba.redhat.com>
-Content-Language: en-US
-From:   Abel Wu <wuyun.abel@bytedance.com>
-In-Reply-To: <YnEeuw6fd1A8usjj@miu.piliscsaba.redhat.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [External] Re: [PATCH v2] mm: add new syscall
+ pidfd_set_mempolicy().
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     corbet@lwn.net, mhocko@suse.com, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20221111084051.2121029-1-hezhongkun.hzk@bytedance.com>
+ <20221111112732.30e1696bcd0d5b711c188a9a@linux-foundation.org>
+From:   Zhongkun He <hezhongkun.hzk@bytedance.com>
+In-Reply-To: <20221111112732.30e1696bcd0d5b711c188a9a@linux-foundation.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Miklos and anyone interested in this proposal, is there any update on
-this? Sorry that I didn't find any..
+Hi Andrew,
+> This sounds a bit suspicious.  Please share much more detail about
+> these races.  If we proced with this design then mpol_put_async()
+> shouild have comments which fully describe the need for the async free.
+> 
 
-Thanks & Best regards,
-	Abel
+Add some comments for async free, and use the TWA_SIGNAL_NO_IPI to
+notify the @task.
 
-On 5/3/22 8:23 PM, Miklos Szeredi wrote:
-> This is a simplification of the getvalues(2) prototype and moving it to the
-> getxattr(2) interface, as suggested by Dave.
-> 
-> The patch itself just adds the possibility to retrieve a single line of
-> /proc/$$/mountinfo (which was the basic requirement from which the fsinfo
-> patchset grew out of).
-> 
-> But this should be able to serve Amir's per-sb iostats, as well as a host of
-> other cases where some statistic needs to be retrieved from some object.  Note:
-> a filesystem object often represents other kinds of objects (such as processes
-> in /proc) so this is not limited to fs attributes.
-> 
-> This also opens up the interface to setting attributes via setxattr(2).
-> 
+
+-/*
+- * mpol destructor for pidfd_set_mempolicy().
++/**
++ * mpol_put_async - free mempolicy asynchronously.
++ * @task: the target task to free mempolicy.
++ * @p : mempolicy to free
++ *
++ * @task must be specified by user.
+   * free mempolicy directly if task is null or task_work_add() failed.
++ *
++ * A mempolicy can be either associated with a process or with a VMA.
++ * All vma manipulation is protected by mmap_lock.In process context
++ * there is no locking. If we need to apply mempolicy to other's
++ * task specified in pidfd, the original mempolicy may about to be
++ * freed by pidfd_set_mempolicy() while target task is using it.
++ * So,mpol_put_async() is used for free old mempolicy asynchronously.
+   */
+-void mpol_put_async(struct task_struct *task, struct mempolicy *p)
++static void mpol_put_async(struct task_struct *task, struct mempolicy *p)
+  {
+-       enum task_work_notify_mode notify = TWA_RESUME;
+-
+         if (!atomic_dec_and_test(&p->refcnt))
+                 return;
+
+@@ -333,10 +342,8 @@ void mpol_put_async(struct task_struct *task, 
+struct mempolicy *p)
+                 goto out;
+
+         init_task_work(&p->w.cb_head, mpol_free_async);
+-       if (task_work_pending(task))
+-               notify = TWA_SIGNAL; /* free memory in time */
+
+-       if (!task_work_add(task, &p->w.cb_head, notify))
++       if (!task_work_add(task, &p->w.cb_head, TWA_SIGNAL_NO_IPI))
+                 return;
+  out:
+         kmem_cache_free(policy_cache, p);
+
+
+
+Thanks.
