@@ -2,216 +2,99 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CE8E5627D29
-	for <lists+linux-api@lfdr.de>; Mon, 14 Nov 2022 12:57:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 37978627CB4
+	for <lists+linux-api@lfdr.de>; Mon, 14 Nov 2022 12:46:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236661AbiKNL5b (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 14 Nov 2022 06:57:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59210 "EHLO
+        id S236770AbiKNLqF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 14 Nov 2022 06:46:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42478 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237162AbiKNL5M (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 14 Nov 2022 06:57:12 -0500
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7472B21E27
-        for <linux-api@vger.kernel.org>; Mon, 14 Nov 2022 03:54:13 -0800 (PST)
-Received: by mail-wm1-x335.google.com with SMTP id v7so7324481wmn.0
-        for <linux-api@vger.kernel.org>; Mon, 14 Nov 2022 03:54:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
-         :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UFrv/gZh3M5M+GHa7rgQfMzZBcJfOT6Htd7GIwYXDjY=;
-        b=EUoeLavTVlHYdJZCNph9EHvSI+oEmosznJ6f/upKgsdxBCVKAD+wKTTxF2HefZF4aJ
-         +voBzLkimQpEK0QSkfAiC1ct7gmCt04TDRoYbiQk2+ZrURn8qyzn7B8NaLHEY4CnDGm6
-         2jfadRSEAwkAURqUwVqJzHS0olixUeaFGq8/b2tw1FpYy5tfyimf03hvtmiBkAGD8Dwl
-         b0COvNcSFazcgu2nDWFiq0ZFNQbDFye/UqRwXqYAyjzv+ihl5HvLX0qY0nWmYQKPF5Em
-         ZwJAftOJ9dK9vLfL3ce4f68mG7VbwAJZ0JD+C1zsDfb08VanEK8T+D9r6Jo/S49b7wiV
-         j91A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
-         :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=UFrv/gZh3M5M+GHa7rgQfMzZBcJfOT6Htd7GIwYXDjY=;
-        b=AgGdZMvDyybxK/PnD6DxjkUQQrkuAhZ8CQv3j/dZnPE/qXJB3zHbgEKKJrFYVz3eZ2
-         ZO8yeFn1+XsmWKYirJCiQmCErOpgWgDV7/X8hNVWtHJb51uPoY1734Qa0X27TTtXWs/L
-         m+vjO23fd4YyKKBSRoZEnHlVhfV28pDUJ8uXw4ZL0aqK710C+805D8rppJmJz7beQoTm
-         oRH7oiATi7TI9p9WFar2cTzYrnfPYTsLlIXDwegnZnZnLnXaEGWVhWFlbK1kzlvBkAny
-         tW5VGuLykBsB5NYsDsYyUucBaYNlO4+QAXijstPY0/Hwe3g/wHR2LLXYlrJu9kKFJVBZ
-         hO8w==
-X-Gm-Message-State: ANoB5plci8L7+hBIWvHPEbmYv9Ke9FsxrvcRNyMGLQ5Mqwh8m1Wcc49M
-        4q8h3Ilks8jUwA2R7SrRmpJRbg==
-X-Google-Smtp-Source: AA0mqf403V0vwqaE+mnyncg76u8ir3wUv9Nm7KTIlaElnQNtqjHebbBnqedRs9sCRLI9w2BMk0/32Q==
-X-Received: by 2002:a05:600c:2315:b0:3cf:ae53:918f with SMTP id 21-20020a05600c231500b003cfae53918fmr7727329wmo.131.1668426851811;
-        Mon, 14 Nov 2022 03:54:11 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
-        by smtp.gmail.com with ESMTPSA id c17-20020adffb11000000b002417f35767asm6097766wrr.40.2022.11.14.03.54.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Nov 2022 03:54:11 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
-        by zen.linaroharston (Postfix) with ESMTP id 5E6971FFB7;
-        Mon, 14 Nov 2022 11:54:10 +0000 (GMT)
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
-User-agent: mu4e 1.9.2; emacs 28.2.50
-From:   Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        AKASHI Takahiro <takahiro.akashi@linaro.org>
-Subject: Re: [PATCH v9 0/8] KVM: mm: fd-based approach for supporting KVM
-Date:   Mon, 14 Nov 2022 11:43:37 +0000
-In-reply-to: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
-Message-ID: <87k03xbvkt.fsf@linaro.org>
+        with ESMTP id S236149AbiKNLp3 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 14 Nov 2022 06:45:29 -0500
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 470112180D;
+        Mon, 14 Nov 2022 03:44:49 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id F1E061FED3;
+        Mon, 14 Nov 2022 11:44:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1668426287; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Iq24fi/K1ZWxZUXMvcUoyTILrqk5JmMovex8xWMhGvs=;
+        b=S+9g95Urw709nCH24xOaR7yO668sAayDLj+OvE2gd++F0B3Uctz3YCnc4Dm+houj7Rkq+O
+        o9SNuP3/3CedtLzMpL1fiOwJ9IHCmkCRUXc/tRLtHK9UhdrtpX1iarg+ryTnBA77fJUTrj
+        gbUVJGeEqe5Vb6sjMG7NEJRyttxaBSg=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CFCA013A92;
+        Mon, 14 Nov 2022 11:44:47 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id 3XuMMC8qcmMuAwAAMHmgww
+        (envelope-from <mhocko@suse.com>); Mon, 14 Nov 2022 11:44:47 +0000
+Date:   Mon, 14 Nov 2022 12:44:47 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     Zhongkun He <hezhongkun.hzk@bytedance.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>, corbet@lwn.net,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [External] Re: [PATCH v2] mm: add new syscall
+ pidfd_set_mempolicy().
+Message-ID: <Y3IqLzvduM6HqPJV@dhcp22.suse.cz>
+References: <20221111084051.2121029-1-hezhongkun.hzk@bytedance.com>
+ <20221111112732.30e1696bcd0d5b711c188a9a@linux-foundation.org>
+ <a44f794e-fe60-e261-3631-9107822d5c36@bytedance.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a44f794e-fe60-e261-3631-9107822d5c36@bytedance.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Mon 14-11-22 00:41:21, Zhongkun He wrote:
+> Hi Andrew, thanks for your replay.
+> 
+> > This sounds a bit suspicious.  Please share much more detail about
+> > these races.  If we proced with this design then mpol_put_async()
+> > shouild have comments which fully describe the need for the async free.
+> > 
+> > How do we *know* that these races are fully prevented with this
+> > approach?  How do we know that mpol_put_async() won't free the data
+> > until the race window has fully passed?
+> 
+> A mempolicy can be either associated with a process or with a VMA.
+> All vma manipulation is somewhat protected by a down_read on
+> mmap_lock.In process context there is no locking because only
+> the process accesses its own state before.
 
-Chao Peng <chao.p.peng@linux.intel.com> writes:
+We shouldn't really rely on mmap_sem for this IMO. There is alloc_lock
+(aka task lock) that makes sure the policy is stable so that caller can
+atomically take a reference and hold on the policy. And we do not do
+that consistently and this should be fixed. E.g. just looking at some
+random places like allowed_mems_nr (relying on get_task_policy) is
+completely lockless and some paths (like fadvise) do not use any of the
+explicit (alloc_lock) or implicit (mmap_lock) locking. That means that
+the task_work based approach cannot really work in this case, right?
 
-<snip>
-> Introduction
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> KVM userspace being able to crash the host is horrible. Under current
-> KVM architecture, all guest memory is inherently accessible from KVM
-> userspace and is exposed to the mentioned crash issue. The goal of this
-> series is to provide a solution to align mm and KVM, on a userspace
-> inaccessible approach of exposing guest memory.=20
->
-> Normally, KVM populates secondary page table (e.g. EPT) by using a host
-> virtual address (hva) from core mm page table (e.g. x86 userspace page
-> table). This requires guest memory being mmaped into KVM userspace, but
-> this is also the source where the mentioned crash issue can happen. In
-> theory, apart from those 'shared' memory for device emulation etc, guest
-> memory doesn't have to be mmaped into KVM userspace.
->
-> This series introduces fd-based guest memory which will not be mmaped
-> into KVM userspace. KVM populates secondary page table by using a
-> fd/offset pair backed by a memory file system. The fd can be created
-> from a supported memory filesystem like tmpfs/hugetlbfs and KVM can
-> directly interact with them with newly introduced in-kernel interface,
-> therefore remove the KVM userspace from the path of accessing/mmaping
-> the guest memory.=20
->
-> Kirill had a patch [2] to address the same issue in a different way. It
-> tracks guest encrypted memory at the 'struct page' level and relies on
-> HWPOISON to reject the userspace access. The patch has been discussed in
-> several online and offline threads and resulted in a design document [3]
-> which is also the original proposal for this series. Later this patch
-> series evolved as more comments received in community but the major
-> concepts in [3] still hold true so recommend reading.
->
-> The patch series may also be useful for other usages, for example, pure
-> software approach may use it to harden itself against unintentional
-> access to guest memory. This series is designed with these usages in
-> mind but doesn't have code directly support them and extension might be
-> needed.
-
-There are a couple of additional use cases where having a consistent
-memory interface with the kernel would be useful.
-
-  - Xen DomU guests providing other domains with VirtIO backends
-
-  Xen by default doesn't give other domains special access to a domains
-  memory. The guest can grant access to regions of its memory to other
-  domains for this purpose.=20
-
-  - pKVM on ARM
-
-  Similar to Xen, pKVM moves the management of the page tables into the
-  hypervisor and again doesn't allow those domains to share memory by
-  default.
-
-  - VirtIO loopback
-
-  This allows for VirtIO devices for the host kernel to be serviced by
-  backends running in userspace. Obviously the memory userspace is
-  allowed to access is strictly limited to the buffers and queues
-  because giving userspace unrestricted access to the host kernel would
-  have consequences.
-
-All of these VirtIO backends work with vhost-user which uses memfds to
-pass references to guest memory from the VMM to the backend
-implementation.
-
-> mm change
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D
-> Introduces a new memfd_restricted system call which can create memory
-> file that is restricted from userspace access via normal MMU operations
-> like read(), write() or mmap() etc and the only way to use it is
-> passing it to a third kernel module like KVM and relying on it to
-> access the fd through the newly added restrictedmem kernel interface.
-> The restrictedmem interface bridges the memory file subsystems
-> (tmpfs/hugetlbfs etc) and their users (KVM in this case) and provides
-> bi-directional communication between them.=20
->
->
-> KVM change
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> Extends the KVM memslot to provide guest private (encrypted) memory from
-> a fd. With this extension, a single memslot can maintain both private
-> memory through private fd (restricted_fd/restricted_offset) and shared
-> (unencrypted) memory through userspace mmaped host virtual address
-> (userspace_addr). For a particular guest page, the corresponding page in
-> KVM memslot can be only either private or shared and only one of the
-> shared/private parts of the memslot is visible to guest. For how this
-> new extension is used in QEMU, please refer to kvm_set_phys_mem() in
-> below TDX-enabled QEMU repo.
->
-> Introduces new KVM_EXIT_MEMORY_FAULT exit to allow userspace to get the
-> chance on decision-making for shared <-> private memory conversion. The
-> exit can be an implicit conversion in KVM page fault handler or an
-> explicit conversion from guest OS.
->
-> Extends existing SEV ioctls KVM_MEMORY_ENCRYPT_{UN,}REG_REGION to
-> convert a guest page between private <-> shared. The data maintained in
-> these ioctls tells the truth whether a guest page is private or shared
-> and this information will be used in KVM page fault handler to decide
-> whether the private or the shared part of the memslot is visible to
-> guest.
->
-<snip>
-
---=20
-Alex Benn=C3=A9e
+Playing more tricks will not really help long term. So while your patch
+tries to workaround the current state of the art I do not think we
+really want that. As stated previously, I would much rather see proper
+reference counting instead. I thought we have agreed this would be the
+first approach unless the resulting performance is really bad. Have you
+concluded that to be the case? I do not see any numbers or notes in the
+changelog.
+-- 
+Michal Hocko
+SUSE Labs
