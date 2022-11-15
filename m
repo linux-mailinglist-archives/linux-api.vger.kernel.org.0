@@ -2,90 +2,115 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2560962912A
-	for <lists+linux-api@lfdr.de>; Tue, 15 Nov 2022 05:21:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A50D629299
+	for <lists+linux-api@lfdr.de>; Tue, 15 Nov 2022 08:39:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230251AbiKOEVq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 14 Nov 2022 23:21:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49180 "EHLO
+        id S232222AbiKOHjJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 15 Nov 2022 02:39:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54106 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230199AbiKOEVp (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 14 Nov 2022 23:21:45 -0500
-X-Greylist: delayed 322 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 14 Nov 2022 20:21:43 PST
-Received: from juno.mpi-klsb.mpg.de (juno.mpi-klsb.mpg.de [139.19.86.40])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27805C763
-        for <linux-api@vger.kernel.org>; Mon, 14 Nov 2022 20:21:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mpi-sws.org
-        ; s=mail201904; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Subject
-        :References:In-Reply-To:Message-ID:Cc:To:From:Date:sender:reply-to:content-id
-        :content-description:resent-date:resent-from:resent-sender:resent-to:
-        resent-cc:resent-message-id:list-id:list-help:list-unsubscribe:list-subscribe
-        :list-post:list-owner:list-archive;
-        bh=r0432T7jVMKum4pTQ/oaiZ/Dqwe0AOeMgD6+AgcoabM=; b=u0OZEBqLvhRz2kS1/bubuw0oc/
-        jdxC/tN6ayyi577vyJ7wUzNHnDOcDYgLDtvUXcZBdasK0sV3a9YAROtJBeIzjg2ygOERc279e7n5z
-        5Od2PpOUUW0ysj0XozLS0Q+szCA33K6oxhUYWqdMQmhBIQJJpHxql6piO4ySosLFTwAg=;
-Received: from srv-00-62.mpi-klsb.mpg.de ([139.19.86.27]:45226 helo=max.mpi-klsb.mpg.de)
-        by juno.mpi-klsb.mpg.de (envelope-from <msammler@mpi-sws.org>) 
-        with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92) id 1ounMo-00021Z-Rg; Tue, 15 Nov 2022 05:16:16 +0100
-Received: from [107.133.148.158] (port=57104 helo=dummy.faircode.eu)
-        by max.mpi-klsb.mpg.de (envelope-from <msammler@mpi-sws.org>) 
-        with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128)
-        (Exim 4.94.2) id 1ounMo-001oYS-62; Tue, 15 Nov 2022 05:16:10 +0100
-Date:   Mon, 14 Nov 2022 20:16:07 -0800 (PST)
-From:   Michael Sammler <msammler@mpi-sws.org>
-To:     =?UTF-8?Q?Stephen_R=C3=B6ttger?= <sroettger@google.com>
-Cc:     Kees Cook <keescook@chromium.org>, linux-api@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linuxram@us.ibm.com,
-        luto@amacapital.net, wad@chromium.org
-Message-ID: <0a643215-03ce-4388-bd1a-301dcab87c41@mpi-sws.org>
-In-Reply-To: <CAEAAPHZrMDGsAnZM=GC0bu5WpGvXaDakJBq-WDkW06aDc7_68w@mail.gmail.com>
-References: <CAEAAPHZrMDGsAnZM=GC0bu5WpGvXaDakJBq-WDkW06aDc7_68w@mail.gmail.com>
-Subject: Re: [RFC PATCH] seccomp: Add protection keys into seccomp_data
+        with ESMTP id S232312AbiKOHjJ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 15 Nov 2022 02:39:09 -0500
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 140512C3
+        for <linux-api@vger.kernel.org>; Mon, 14 Nov 2022 23:39:08 -0800 (PST)
+Received: by mail-pf1-x433.google.com with SMTP id y13so13375010pfp.7
+        for <linux-api@vger.kernel.org>; Mon, 14 Nov 2022 23:39:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qrKxYxO/T/9+ij5BpZ+ZeE91vTMifnc8qboFL3OM2PU=;
+        b=H01TrKGhQrD5MzuM4fOKDD5uVKMwHmW0a2HUiqcgBfGdx+x8fahWBZgYIaWZbJeywr
+         fZSutuU7hMyabiDX4PvQFlJRZG/NI9FZMGgbpxMXcpHWRQgP9FTvHDRCoqq5IZfLXjk8
+         a7kRqownJt+7uXXfEMcRzLwDYxVIQkoCjcgSBODuxOJddjB3/9/SG1h7Qn04lglhLTo6
+         LWhgRHFBV5vIiK+qSGNXeYd+FJn90lIJOGwqQS7Rgul0LkJYgkXu5mpUSBrvKz7/f5u/
+         CmLFjD/T9aAY77w4gyCmSRQeaOirfaoTEdXZz6f3GR+InFg4D/xZAGJlWKqqTg77tm1x
+         39Rw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=qrKxYxO/T/9+ij5BpZ+ZeE91vTMifnc8qboFL3OM2PU=;
+        b=uSD2NsZhaZUrm9qOvnQgyKp1lq3aaCGmv4XBU5XMwkDeXllZ+zwc8YHSN0CzwL3ew9
+         V7yLM/0QLARykXWxyADm58UqAGrhO+ABzN1heO8Z/ApBG6bhvX0CFRWvYyFi/qeUMQhI
+         YO12P76k7Okq5ga/TDuqvX9jUqLfRUjePO6QAZBAygOhSKiZt6QDC+w8T5HmdwyIHhDw
+         F1vXyeb6NSyiAUuuRw05Gv6VGoQ5GhbuaQXcwT0+SFz4MFA8RAp6JXCGIpVkDaL12bEQ
+         /JdVj3q2R6MNK47AylSHYojb2mD20u66gGqQWur3ZC1JbDWTNtRdgxzI02vY1ky6QH0D
+         S36w==
+X-Gm-Message-State: ANoB5pm4JNIVLfYoIitGzQwnQQDN9yXt3FAcY7X1piJ2f46H3TlQtPnw
+        BLxao89Ryazh6QHOuAot5mTGdw==
+X-Google-Smtp-Source: AA0mqf78gRM3zma7ZP3Cy070W+sbXWWKNNRsCbOy5Iv8juBkB9xy5KIhg2Qcr76QN4KCFo1dK8075A==
+X-Received: by 2002:a65:5908:0:b0:46f:1e8f:1633 with SMTP id f8-20020a655908000000b0046f1e8f1633mr14878101pgu.556.1668497947573;
+        Mon, 14 Nov 2022 23:39:07 -0800 (PST)
+Received: from [10.68.76.92] ([139.177.225.229])
+        by smtp.gmail.com with ESMTPSA id n63-20020a17090a5ac500b00200461cfa99sm10894663pji.11.2022.11.14.23.39.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 14 Nov 2022 23:39:07 -0800 (PST)
+Message-ID: <82c9c89c-aee2-08a3-e562-359631bb0137@bytedance.com>
+Date:   Tue, 15 Nov 2022 15:39:02 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [External] Re: [PATCH v2] mm: add new syscall
+ pidfd_set_mempolicy().
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>, corbet@lwn.net,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20221111084051.2121029-1-hezhongkun.hzk@bytedance.com>
+ <20221111112732.30e1696bcd0d5b711c188a9a@linux-foundation.org>
+ <a44f794e-fe60-e261-3631-9107822d5c36@bytedance.com>
+ <Y3IqLzvduM6HqPJV@dhcp22.suse.cz>
+ <3a3b4f5b-14d1-27d8-7727-cf23da90988f@bytedance.com>
+ <Y3KFFfMFE55lVdNZ@dhcp22.suse.cz>
+From:   Zhongkun He <hezhongkun.hzk@bytedance.com>
+In-Reply-To: <Y3KFFfMFE55lVdNZ@dhcp22.suse.cz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Correlation-ID: <0a643215-03ce-4388-bd1a-301dcab87c41@mpi-sws.org>
-X-RSPAMD-Score: -0.1 (/)
-X-RSPAMD-Report: Action: no action
- Symbol: RCVD_VIA_SMTP_AUTH(0.00)
- Symbol: ARC_NA(0.00)
- Symbol: MID_RHS_MATCH_FROM(0.00)
- Symbol: FROM_HAS_DN(0.00)
- Symbol: TO_DN_SOME(0.00)
- Symbol: TO_MATCH_ENVRCPT_ALL(0.00)
- Symbol: R_SPF_NEUTRAL(0.00)
- Symbol: MIME_GOOD(-0.10)
- Symbol: DMARC_NA(0.00)
- Symbol: RCPT_COUNT_SEVEN(0.00)
- Symbol: NEURAL_HAM(-0.00)
- Symbol: FROM_EQ_ENVFROM(0.00)
- Symbol: R_DKIM_NA(0.00)
- Symbol: MIME_TRACE(0.00)
- Symbol: ASN(0.00)
- Symbol: RCVD_COUNT_TWO(0.00)
- Symbol: RCVD_TLS_ALL(0.00)
- Message-ID: 0a643215-03ce-4388-bd1a-301dcab87c41@mpi-sws.org
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+>>> We shouldn't really rely on mmap_sem for this IMO.
+>>
+>>   Yes, We should rely on mmap_sem for vma->vm_policy,but not for
+>>   process context policy(task->mempolicy).
+> 
+> But the caller has no way to know which kind of policy is returned so
+> the locking cannot be conditional on the policy type.
+
+Yes. vma->vm_policy is protected by mmap_sem, which is reliable if
+we want to add a new apis(pidfd_mbind()) to change the vma->vm_policy
+specified in pidfd. but not for pidfd_set_mempolicy(task->mempolicy is
+protected by alloc_lock).
+
+> 
+> Yes this is all understood but the level of the overhead is not really
+> clear. So the question is whether this will induce a visible overhead.
+OK,i will try it.
+
+> Because from the maintainability point of view it is much less costly to
+> have a clear life time model. Right now we have a mix of reference
+> counting and per-task requirements which is rather subtle and easy to
+> get wrong. In an ideal world we would have get_vma_policy always
+> returning a reference counted policy or NULL. If we really need to
+> optimize for cache line bouncing we can go with per cpu reference
+> counters (something that was not available at the time the mempolicy
+> code has been introduced).
+> 
+> So I am not saying that the task_work based solution is not possible I
+> just think that this looks like a good opportunity to get from the
+> existing subtle model.
+
+OK, i got it. Thanks for your reply and suggestions.
 
 
-> We're currently working on a feature in chromium that uses pkeys for
-> in-process isolation. Being able to use the pkey state in the seccomp
-> filter would be pretty useful for this. For example, it would allow
-> us to enforce that no code outside the isolated thread would ever
-> map/mprotect executable memory.
-> We can probably do something similar by adding instruction pointer
-> checks to the seccomp filter, but that feels quite hacky and this
-> feature would make a much nicer implementation.
->
-> Are there any plans to make a version 2 of this patch?
-
-Thanks for your interest in this patch, but I am now working on other projects and currently don't plan to make a version 2 of this patch.
+Zhongkun.
