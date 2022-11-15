@@ -2,135 +2,90 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E53E56290E6
-	for <lists+linux-api@lfdr.de>; Tue, 15 Nov 2022 04:40:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2560962912A
+	for <lists+linux-api@lfdr.de>; Tue, 15 Nov 2022 05:21:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232646AbiKODkH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 14 Nov 2022 22:40:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37036 "EHLO
+        id S230251AbiKOEVq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 14 Nov 2022 23:21:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49180 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232482AbiKODkG (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 14 Nov 2022 22:40:06 -0500
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05D5D1144E
-        for <linux-api@vger.kernel.org>; Mon, 14 Nov 2022 19:40:05 -0800 (PST)
-Received: by mail-pg1-x534.google.com with SMTP id q1so12097048pgl.11
-        for <linux-api@vger.kernel.org>; Mon, 14 Nov 2022 19:40:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=IzdlQonh9ksiWRR0k5Cq1A47+kjhq4OFBIwy1qdcCmg=;
-        b=ZLDkTjJFwaTtzx3Ef09Onguq8cMTLUu9IEYjbLoRUGzk6ulTDfFw+ni0uy1n1Utjjj
-         HJHHJjd4XNpN6yIrAbr8fMM5mGQ3ERZuduvwoNToYgXUJ2F7mhGkSD7hHYG95gvFtaRj
-         Ih510ouJY4TlIBwaj4F63HFxqAFxe92iA/vGZVp/00tgZd56F9LOzQXyeQBXyWrqvqD5
-         +tJjfQsDPmI3BgrCZQk1RIArWN9leJGs4MsqSi5cWwsFimv+oMiMsBgpB/+PsX90xuAk
-         jrLGuydsKvTIVXVNpOkKN2TRoeLGpP+WzLG1DhDTmHV9R3Wu/FefvswkfajppVg6jenm
-         eOjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IzdlQonh9ksiWRR0k5Cq1A47+kjhq4OFBIwy1qdcCmg=;
-        b=x3otAzIs2ut1JcR5rleXyVs3sD9KaHPR22NelfH0cOsBNUOHqjC6ZiCTb049uT/KPY
-         oZJgAJaPRqaghomj9srBVTLcd7qbqqn9X+UiiMmVUU6HY1h9XKGm3roTPWyGbi0dsTpv
-         w9x/Kk34U58LXIkLItS91DfgLBV1DK4lHD7TzlJg4FDw6wk9HBBKKkISJJvpBKDPIEe0
-         DOD7KWLMcT3yZKwKa++OwtRQcmC3t/Rl70DVrEQ4HAIyYMy3krvRkQsQ8WigbSjeBbvb
-         j2hyNqyOuEGmh7LjCC6fbOdl0cRziTt5+gZjdPruypeqtSliqMc3M6hfcCZB6wy5rke2
-         7P1w==
-X-Gm-Message-State: ANoB5pnD1iU/ZACwqJrNzhbNEUGlYzl3CHsh+4k0z3GUzBCuYPfNeKi9
-        HQQikqlDjLV5iHHvADZ15P4q+Q==
-X-Google-Smtp-Source: AA0mqf6btc+EJX1sgkPBLfYXPRpcR1cqU2L9+Cbc/TvjhYzVhQRiZmUsPGAYH2NmA3RNvpVLWxaQYg==
-X-Received: by 2002:aa7:8396:0:b0:56b:f3b2:5543 with SMTP id u22-20020aa78396000000b0056bf3b25543mr16810448pfm.65.1668483604557;
-        Mon, 14 Nov 2022 19:40:04 -0800 (PST)
-Received: from [10.255.4.35] ([139.177.225.229])
-        by smtp.gmail.com with ESMTPSA id x13-20020a63f70d000000b0046f469a2661sm6586284pgh.27.2022.11.14.19.39.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Nov 2022 19:40:04 -0800 (PST)
-Message-ID: <ba8aa36a-d0d7-b716-a9c7-02c6d5a60712@bytedance.com>
-Date:   Tue, 15 Nov 2022 11:39:55 +0800
+        with ESMTP id S230199AbiKOEVp (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 14 Nov 2022 23:21:45 -0500
+X-Greylist: delayed 322 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 14 Nov 2022 20:21:43 PST
+Received: from juno.mpi-klsb.mpg.de (juno.mpi-klsb.mpg.de [139.19.86.40])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27805C763
+        for <linux-api@vger.kernel.org>; Mon, 14 Nov 2022 20:21:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mpi-sws.org
+        ; s=mail201904; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Subject
+        :References:In-Reply-To:Message-ID:Cc:To:From:Date:sender:reply-to:content-id
+        :content-description:resent-date:resent-from:resent-sender:resent-to:
+        resent-cc:resent-message-id:list-id:list-help:list-unsubscribe:list-subscribe
+        :list-post:list-owner:list-archive;
+        bh=r0432T7jVMKum4pTQ/oaiZ/Dqwe0AOeMgD6+AgcoabM=; b=u0OZEBqLvhRz2kS1/bubuw0oc/
+        jdxC/tN6ayyi577vyJ7wUzNHnDOcDYgLDtvUXcZBdasK0sV3a9YAROtJBeIzjg2ygOERc279e7n5z
+        5Od2PpOUUW0ysj0XozLS0Q+szCA33K6oxhUYWqdMQmhBIQJJpHxql6piO4ySosLFTwAg=;
+Received: from srv-00-62.mpi-klsb.mpg.de ([139.19.86.27]:45226 helo=max.mpi-klsb.mpg.de)
+        by juno.mpi-klsb.mpg.de (envelope-from <msammler@mpi-sws.org>) 
+        with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92) id 1ounMo-00021Z-Rg; Tue, 15 Nov 2022 05:16:16 +0100
+Received: from [107.133.148.158] (port=57104 helo=dummy.faircode.eu)
+        by max.mpi-klsb.mpg.de (envelope-from <msammler@mpi-sws.org>) 
+        with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128)
+        (Exim 4.94.2) id 1ounMo-001oYS-62; Tue, 15 Nov 2022 05:16:10 +0100
+Date:   Mon, 14 Nov 2022 20:16:07 -0800 (PST)
+From:   Michael Sammler <msammler@mpi-sws.org>
+To:     =?UTF-8?Q?Stephen_R=C3=B6ttger?= <sroettger@google.com>
+Cc:     Kees Cook <keescook@chromium.org>, linux-api@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linuxram@us.ibm.com,
+        luto@amacapital.net, wad@chromium.org
+Message-ID: <0a643215-03ce-4388-bd1a-301dcab87c41@mpi-sws.org>
+In-Reply-To: <CAEAAPHZrMDGsAnZM=GC0bu5WpGvXaDakJBq-WDkW06aDc7_68w@mail.gmail.com>
+References: <CAEAAPHZrMDGsAnZM=GC0bu5WpGvXaDakJBq-WDkW06aDc7_68w@mail.gmail.com>
+Subject: Re: [RFC PATCH] seccomp: Add protection keys into seccomp_data
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.2
-Subject: Re: [RFC PATCH] getting misc stats/attributes via xattr API
-To:     Miklos Szeredi <miklos@szeredi.hu>
-Cc:     linux-fsdevel@vger.kernel.org, Dave Chinner <david@fromorbit.com>,
-        Theodore Ts'o <tytso@mit.edu>, Karel Zak <kzak@redhat.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Christian Brauner <brauner@kernel.org>,
-        linux-kernel@vger.kernel.org,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-man <linux-man@vger.kernel.org>,
-        LSM <linux-security-module@vger.kernel.org>,
-        Ian Kent <raven@themaw.net>,
-        David Howells <dhowells@redhat.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <christian@brauner.io>,
-        Amir Goldstein <amir73il@gmail.com>,
-        James Bottomley <James.Bottomley@hansenpartnership.com>,
-        chenying.kernel@bytedance.com
-References: <YnEeuw6fd1A8usjj@miu.piliscsaba.redhat.com>
- <e57733cd-364d-84e0-cfe0-fd41de14f434@bytedance.com>
- <CAJfpegsVsnjUy2N+qO-j4ToScwev01AjwUA0Enp_DxroPQS30A@mail.gmail.com>
-Content-Language: en-US
-From:   Abel Wu <wuyun.abel@bytedance.com>
-In-Reply-To: <CAJfpegsVsnjUy2N+qO-j4ToScwev01AjwUA0Enp_DxroPQS30A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-Correlation-ID: <0a643215-03ce-4388-bd1a-301dcab87c41@mpi-sws.org>
+X-RSPAMD-Score: -0.1 (/)
+X-RSPAMD-Report: Action: no action
+ Symbol: RCVD_VIA_SMTP_AUTH(0.00)
+ Symbol: ARC_NA(0.00)
+ Symbol: MID_RHS_MATCH_FROM(0.00)
+ Symbol: FROM_HAS_DN(0.00)
+ Symbol: TO_DN_SOME(0.00)
+ Symbol: TO_MATCH_ENVRCPT_ALL(0.00)
+ Symbol: R_SPF_NEUTRAL(0.00)
+ Symbol: MIME_GOOD(-0.10)
+ Symbol: DMARC_NA(0.00)
+ Symbol: RCPT_COUNT_SEVEN(0.00)
+ Symbol: NEURAL_HAM(-0.00)
+ Symbol: FROM_EQ_ENVFROM(0.00)
+ Symbol: R_DKIM_NA(0.00)
+ Symbol: MIME_TRACE(0.00)
+ Symbol: ASN(0.00)
+ Symbol: RCVD_COUNT_TWO(0.00)
+ Symbol: RCVD_TLS_ALL(0.00)
+ Message-ID: 0a643215-03ce-4388-bd1a-301dcab87c41@mpi-sws.org
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 11/14/22 8:35 PM, Miklos Szeredi wrote:
-> On Mon, 14 Nov 2022 at 10:00, Abel Wu <wuyun.abel@bytedance.com> wrote:
->>
->> Hi Miklos and anyone interested in this proposal, is there any update on
->> this? Sorry that I didn't find any..
-> 
-> No update.
-> 
-> Which part are you interested in?
 
-We noticed that atop(1) can introduce a burst cpu usage once number of
-processes becoming large. It is mostly due to the overhead of massive
-syscalls. There are similar cases like monitor agents recording system
-status and consuming resources in modern data centers. So it would be
-nice to get a bunch of info in one syscall.
 
-> 
-> Getting mount attributes?  Or a generic key-value retrieval and
-> storage interface?
+> We're currently working on a feature in chromium that uses pkeys for
+> in-process isolation. Being able to use the pkey state in the seccomp
+> filter would be pretty useful for this. For example, it would allow
+> us to enforce that no code outside the isolated thread would ever
+> map/mprotect executable memory.
+> We can probably do something similar by adding instruction pointer
+> checks to the seccomp filter, but that feels quite hacky and this
+> feature would make a much nicer implementation.
+>
+> Are there any plans to make a version 2 of this patch?
 
-The latter.
-
-> 
-> For the first one there are multiple proposals, one of them is adding
-> a new system call using binary structs.  The fsinfo(2) syscall was
-> deemed overdesigned and rejected.  Something simpler would probably be
-> fairly uncontroversial.
-> 
-> As for the other proposal it seems like some people would prefer a set
-> of new syscalls, while some others would like to reuse the xattr
-> syscalls.  No agreement seems to have been reached.
-
-So the divergence comes from 'how' rather than 'why', right?
-
-Thanks & Best,
-	Abel
-
-> 
-> Also I think a notification system for mount related events is also a
-> much needed component.   I've tried to explore using the fsnotify
-> framework for this, but the code is pretty convoluted and I couldn't
-> get prototype working.
-> 
-> Thanks,
-> Miklos
+Thanks for your interest in this patch, but I am now working on other projects and currently don't plan to make a version 2 of this patch.
