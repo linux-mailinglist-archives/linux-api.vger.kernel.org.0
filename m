@@ -2,98 +2,118 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0366362B6D1
-	for <lists+linux-api@lfdr.de>; Wed, 16 Nov 2022 10:44:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E6E662B739
+	for <lists+linux-api@lfdr.de>; Wed, 16 Nov 2022 11:10:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231974AbiKPJoS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 16 Nov 2022 04:44:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60458 "EHLO
+        id S232130AbiKPKK2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 16 Nov 2022 05:10:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231235AbiKPJoR (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 16 Nov 2022 04:44:17 -0500
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22D8DC35;
-        Wed, 16 Nov 2022 01:44:17 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        with ESMTP id S231952AbiKPKK1 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 16 Nov 2022 05:10:27 -0500
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94B7D1A825;
+        Wed, 16 Nov 2022 02:10:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=IP43t3hJu1Ut6R9gno8nfJ5M4E7h1wkQRd32HTSGUjo=; b=cwGxlcmqkrn87V+pOU9TIN5gsZ
+        k8k+ZoTpU4HiUzsqFp0EdEccYC9aLsFjSnFJKHVZkUssN+8m1CajV6ccnmwTQLTzAvE3fh0Eg9UWj
+        8Vjq2DE8gsMlpoe3bNrOPKMnoimSk4Hy4A1AembykPKeRTvnNsVwJrqZ5S5Rq1xy2QrGvR0VQpvzR
+        aqBiXKrgeyXbwJA2FSEv5araqwycTv9CHOUplwwq23PBbX+jaY3gKF6bBpvmm1ZwIvXGV37I2R7kL
+        9eUIxURMM9d6ZtfgZRR07+9oQGfYZUe+x5IjIJAFy3DxvvCkM9Tm7pQyMPG0BKjuL9SeQ5YQCqn1Q
+        srVTO45w==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1ovFMY-001GVE-G6; Wed, 16 Nov 2022 10:09:46 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id CB0651F917;
-        Wed, 16 Nov 2022 09:44:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1668591855; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=bd1ed+hXkn5V0KAbqZOvNVfy2rS7WvVz5GEqvktKWWY=;
-        b=X7MK3qsoKxTEpjWbFjE9xW0c2iyyPdjK7wws/FefVvJvW9CRT/hoRursX3YRl3h4gO/gln
-        iWUy8RzwaPACPNE7Ka4m9J+lAieH4Z+Neuln6AnJPVivUFAoDvbEiBDBEAyHDtuKPtStIR
-        VyMepZxN93/ysm6GILFefm67khV6+mU=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AAFE3134CE;
-        Wed, 16 Nov 2022 09:44:15 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id V5FhJ++wdGNKPQAAMHmgww
-        (envelope-from <mhocko@suse.com>); Wed, 16 Nov 2022 09:44:15 +0000
-Date:   Wed, 16 Nov 2022 10:44:15 +0100
-From:   Michal Hocko <mhocko@suse.com>
-To:     Zhongkun He <hezhongkun.hzk@bytedance.com>
-Cc:     "Huang, Ying" <ying.huang@intel.com>, corbet@lwn.net,
-        akpm@linux-foundation.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [External] Re: [PATCH v2] mm: add new syscall
- pidfd_set_mempolicy().
-Message-ID: <Y3Sw77bL/b6ePl3G@dhcp22.suse.cz>
-References: <20221111084051.2121029-1-hezhongkun.hzk@bytedance.com>
- <87zgcrwfac.fsf@yhuang6-desk2.ccr.corp.intel.com>
- <0445de39-15a4-f645-b380-39f20abb6524@bytedance.com>
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id E8DE730002E;
+        Wed, 16 Nov 2022 11:09:43 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 8B0392B5E08EB; Wed, 16 Nov 2022 11:09:43 +0100 (CET)
+Date:   Wed, 16 Nov 2022 11:09:43 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+Cc:     "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        "kcc@google.com" <kcc@google.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "bp@alien8.de" <bp@alien8.de>, "oleg@redhat.com" <oleg@redhat.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "pavel@ucw.cz" <pavel@ucw.cz>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>
+Subject: Re: [PATCH v3 15/37] x86/mm: Check Shadow Stack page fault errors
+Message-ID: <Y3S258Vtj63/fBsI@hirez.programming.kicks-ass.net>
+References: <20221104223604.29615-1-rick.p.edgecombe@intel.com>
+ <20221104223604.29615-16-rick.p.edgecombe@intel.com>
+ <Y3N8Sn65TzyD6jwL@hirez.programming.kicks-ass.net>
+ <b89565c96a0330c27ae179d96be05d2fc006121c.camel@intel.com>
+ <Y3P/qltUOcCYsXoD@hirez.programming.kicks-ass.net>
+ <2766aedef0780f03b81ea7dfea42dffb328e21f1.camel@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0445de39-15a4-f645-b380-39f20abb6524@bytedance.com>
+In-Reply-To: <2766aedef0780f03b81ea7dfea42dffb328e21f1.camel@intel.com>
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed 16-11-22 17:38:09, Zhongkun He wrote:
-> Hi Ying, thanks for your replay and suggestions.
+On Tue, Nov 15, 2022 at 11:13:34PM +0000, Edgecombe, Rick P wrote:
+
+> When a page becomes COW it changes from a shadow stack permissioned
+> page (Write=0,Dirty=1) to (Write=0,Dirty=0,CoW=1), which is simply
+> read-only to the CPU. When shadow stack is enabled, a RET would
+> normally pop the shadow stack by reading it with a "shadow stack read"
+> access. However, in the COW case the shadow stack memory does not have
+> shadow stack permissions, it is read-only. So it will generate a fault.
 > 
-> > 
-> > I suggest to move the flags in "mode" parameter (MPOL_F_STATIC_NODES,
-> > MPOL_F_RELATIVE_NODES, MPOL_F_NUMA_BALANCING, etc.) to "flags"
-> > parameter, otherwise, why add it?
+> For conventionally writable pages, a read can be serviced with a read
+> only PTE, and COW would not have to happen. But for shadow stack, there
+> isn't the concept of read-only shadow stack memory. If it is shadow
+> stack permissioned, it can be modified via CALL and RET instructions.
+> So COW needs to happen before any memory can be mapped with shadow
+> stack permissions.
 > 
-> The "flags" is used for future extension if any, just like
-> process_madvise() and set_mempolicy_home_node().
-> Maybe it should be removed.
+> Shadow stack accesses (read or write) need to be serviced with shadow
+> stack permissioned memory, so in the case of a shadow stack read
+> access, treat it as a WRITE fault so both COW will happen and the write
+> fault path will tickle maybe_mkwrite() and map the memory shadow stack.
 
-No, please! Even if there is no use for the flags now we are usually
-terrible at predicting future and potential extensions. MPOL_F* is kinda
-flags but for historical reasons it is a separate mode and we shouldn't
-create a new confusion when this is treated differently for pidfd based
-APIs.
-
-> > And, how about add a "home_node" parameter?  I don't think that it's a
-> > good idea to add another new syscall for pidfd_set_mempolicy_home_node()
-> > in the future.
-
-Why would this be a bad idea?
-
-> Good idea, but "home_node" is used for vma policy, not task policy.
-> It is possible to use it in pidfd_mbind() in the future.
-
-I woould go with pidfd_set_mempolicy_home_node to counterpart an
-existing syscall.
-
--- 
-Michal Hocko
-SUSE Labs
+ACK.
