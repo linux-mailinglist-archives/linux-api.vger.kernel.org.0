@@ -2,162 +2,218 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 09A4A62B02F
-	for <lists+linux-api@lfdr.de>; Wed, 16 Nov 2022 01:43:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E12BD62B1C5
+	for <lists+linux-api@lfdr.de>; Wed, 16 Nov 2022 04:19:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230076AbiKPAnR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 15 Nov 2022 19:43:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34532 "EHLO
+        id S231599AbiKPDTU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 15 Nov 2022 22:19:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40804 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229937AbiKPAnQ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 15 Nov 2022 19:43:16 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84E7B2CC94;
-        Tue, 15 Nov 2022 16:43:14 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 178E060C89;
-        Wed, 16 Nov 2022 00:43:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 773C7C433D6;
-        Wed, 16 Nov 2022 00:43:11 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
-        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="SYWaBXGU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
-        t=1668559389;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=qkMzVfZO6MnvmNWivwaf0RHBj22gVN9c7Q6Xj0c2l0A=;
-        b=SYWaBXGUSwnnVGkO7D7Dnl4XabQbYcjAxbjlRqJ7S1dn6fN+/sHbVwHn1e8t0lXYXUwO2v
-        QxGZf6FFJzndvcFFJj/OmyEKe8W6lhhOtBKV/jnTTig+TwZ6Jbb0u4T2ytHnDUK25O8t7Q
-        T2hRuoNdlOWwhjQweBBTQPtvojH0wt0=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 7454d2f0 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-        Wed, 16 Nov 2022 00:43:09 +0000 (UTC)
-Date:   Wed, 16 Nov 2022 01:43:06 +0100
-From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
-To:     dri-devel@lists.freedesktop.org, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Daniel Vetter <daniel.vetter@intel.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ilia Mirkin <imirkin@alum.mit.edu>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
-        Christian Brauner <brauner@kernel.org>,
-        Michel =?utf-8?Q?D=C3=A4nzer?= <michel@daenzer.net>,
-        Alex Deucher <alexdeucher@gmail.com>,
-        Adam Jackson <ajax@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sean Paul <sean@poorly.run>, David Airlie <airlied@redhat.com>,
-        Rob Clark <robdclark@gmail.com>,
-        Sultan Alsawaf <sultan@kerneltoast.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
+        with ESMTP id S229766AbiKPDTS (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 15 Nov 2022 22:19:18 -0500
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FA88C11;
+        Tue, 15 Nov 2022 19:19:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1668568757; x=1700104757;
+  h=date:from:to:cc:subject:message-id:reply-to:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=I/nWquwbUx6Foszq8Q3bav+jUHNq3BtFcT49kSsIgfs=;
+  b=ktRpWaJvXRBckL+Yjs4AQ6OjY/Hb1OzkSwA2aShI3Sl0Dcb2X1Ca+n1p
+   04iQQM4RNbLIQD+12UXGOJXmuvkGJZbrCdVGGcmOYPfTRnXejP2HKhNki
+   hEjEk84ThqB0ysjG8XJfa6mON7kcR9LnrGL0LDf9BW4ANeONzc2ROoFFh
+   8Yn7rP1ps7ZeIsumXwuXoKuxEJ7foAScGgys0l2us62qW3My7LIpBNO40
+   GwW3ubTIKtjqHw5A14vYJDT0DcyZpzwJml9RiDKjMbOogib02XXM6ga7s
+   L0813erSeaLTFlOliku1qail/mfVDt5fIKa687X2ADQgPBQqMeGyHr0ES
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10532"; a="295799639"
+X-IronPort-AV: E=Sophos;i="5.96,167,1665471600"; 
+   d="scan'208";a="295799639"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2022 19:19:16 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10532"; a="633472721"
+X-IronPort-AV: E=Sophos;i="5.96,167,1665471600"; 
+   d="scan'208";a="633472721"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+  by orsmga007.jf.intel.com with ESMTP; 15 Nov 2022 19:19:05 -0800
+Date:   Wed, 16 Nov 2022 11:14:41 +0800
+From:   Chao Peng <chao.p.peng@linux.intel.com>
+To:     Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>
-Subject: Re: [PATCH] drm/atomic: do not branch based on the value of
- current->comm[0]
-Message-ID: <Y3QyGtFcIj/LGPIw@zx2c4.com>
-References: <20221105222012.4226-1-Jason@zx2c4.com>
- <Y3QwcKEVTg8hu2WA@zx2c4.com>
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>, tabba@google.com,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v9 3/8] KVM: Add KVM_EXIT_MEMORY_FAULT exit
+Message-ID: <20221116031441.GA364614@chaop.bj.intel.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
+ <20221025151344.3784230-4-chao.p.peng@linux.intel.com>
+ <87cz9o9mr8.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y3QwcKEVTg8hu2WA@zx2c4.com>
-X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <87cz9o9mr8.fsf@linaro.org>
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hey again,
-
-On Wed, Nov 16, 2022 at 01:36:00AM +0100, Jason A. Donenfeld wrote:
-> I'm a bit surprised that this patch was ignored. I had sort of assumed
-
-Mystery solved: this message to you bounced from this linux.ie address I
-somehow wound up with in the recipients list. Fixing now by using the
-one in MAINTAINERS. Sorry about that.
-
-Jason
-
-> On Sat, Nov 05, 2022 at 11:20:12PM +0100, Jason A. Donenfeld wrote:
-> > This reverts 26b1d3b527e7 ("drm/atomic: Take the atomic toys away from
-> > X"), a rootkit-like kludge that has no business being inside of a
-> > general purpose kernel. It's the type of debugging hack I'll use
-> > momentarily but never commit, or a sort of babbies-first-process-hider
-> > malware trick.
-> > 
-> > The backstory is that some userspace code -- xorg-server -- has a
-> > modesetting DDX that isn't really coded right. With nobody wanting to
-> > maintain X11 anymore, rather than fixing the buggy code, the kernel was
-> > adjusted to avoid having to touch X11. A bummer, but fair enough: if the
-> > kernel doesn't want to support some userspace API any more, the right
-> > thing to do is to arrange for a graceful fallback where userspace thinks
-> > it's not available in a manageable way.
-> > 
-> > However, the *way* it goes about doing that is just to check
-> > `current->comm[0] == 'X'`, and disable it for only that case. So that
-> > means it's *not* simply a matter of the kernel not wanting to support a
-> > particular userspace API anymore, but rather it's the kernel not wanting
-> > to support xorg-server, in theory, but actually, it turns out, that's
-> > all processes that begin with 'X'.
-> > 
-> > Playing games with current->comm like this is obviously wrong, and it's
-> > pretty shocking that this ever got committed.
-> > 
-> > Fortunately, since this was committed, somebody did actually disable
-> > the userspace side by default in X11:
-> > https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/180 and
-> > this was three years ago. So userspace is mostly fine now for ordinary
-> > default usage. And people who opt into this -- since it does actually
-> > work fine for many use cases on i915 -- ostensibly know what they're
-> > getting themselves into (my case).
-> > 
-> > So let's just revert this `comm[0] == 'X'` business entirely, but still
-> > allow for `value == 2`, in case anybody actually started working on that
-> > part elsewhere.
-> > 
-> > Fixes: 26b1d3b527e7 ("drm/atomic: Take the atomic toys away from X")
-> > Cc: Daniel Vetter <daniel.vetter@intel.com>
-> > Cc: Peter Zijlstra <peterz@infradead.org>
-> > Cc: Ilia Mirkin <imirkin@alum.mit.edu>
-> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > Cc: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-> > Cc: Christian Brauner <brauner@kernel.org>
-> > Cc: Michel DÃ¤nzer <michel@daenzer.net>
-> > Cc: Alex Deucher <alexdeucher@gmail.com>
-> > Cc: Adam Jackson <ajax@redhat.com>
-> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > Cc: Sean Paul <sean@poorly.run>
-> > Cc: David Airlie <airlied@linux.ie>
-> > Cc: Rob Clark <robdclark@gmail.com>
-> > Cc: Sultan Alsawaf <sultan@kerneltoast.com>
-> > Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+On Tue, Nov 15, 2022 at 04:56:12PM +0000, Alex Bennée wrote:
+> 
+> Chao Peng <chao.p.peng@linux.intel.com> writes:
+> 
+> > This new KVM exit allows userspace to handle memory-related errors. It
+> > indicates an error happens in KVM at guest memory range [gpa, gpa+size).
+> > The flags includes additional information for userspace to handle the
+> > error. Currently bit 0 is defined as 'private memory' where '1'
+> > indicates error happens due to private memory access and '0' indicates
+> > error happens due to shared memory access.
+> >
+> > When private memory is enabled, this new exit will be used for KVM to
+> > exit to userspace for shared <-> private memory conversion in memory
+> > encryption usage. In such usage, typically there are two kind of memory
+> > conversions:
+> >   - explicit conversion: happens when guest explicitly calls into KVM
+> >     to map a range (as private or shared), KVM then exits to userspace
+> >     to perform the map/unmap operations.
+> >   - implicit conversion: happens in KVM page fault handler where KVM
+> >     exits to userspace for an implicit conversion when the page is in a
+> >     different state than requested (private or shared).
+> >
+> > Suggested-by: Sean Christopherson <seanjc@google.com>
+> > Co-developed-by: Yu Zhang <yu.c.zhang@linux.intel.com>
+> > Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
+> > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
 > > ---
-> >  drivers/gpu/drm/drm_ioctl.c | 5 -----
-> >  1 file changed, 5 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
-> > index ca2a6e6101dc..017f31e67179 100644
-> > --- a/drivers/gpu/drm/drm_ioctl.c
-> > +++ b/drivers/gpu/drm/drm_ioctl.c
-> > @@ -336,11 +336,6 @@ drm_setclientcap(struct drm_device *dev, void *data, struct drm_file *file_priv)
-> >  	case DRM_CLIENT_CAP_ATOMIC:
-> >  		if (!drm_core_check_feature(dev, DRIVER_ATOMIC))
-> >  			return -EOPNOTSUPP;
-> > -		/* The modesetting DDX has a totally broken idea of atomic. */
-> > -		if (current->comm[0] == 'X' && req->value == 1) {
-> > -			pr_info("broken atomic modeset userspace detected, disabling atomic\n");
-> > -			return -EOPNOTSUPP;
-> > -		}
-> >  		if (req->value > 2)
-> >  			return -EINVAL;
-> >  		file_priv->atomic = req->value;
-> > -- 
-> > 2.38.1
+> >  Documentation/virt/kvm/api.rst | 23 +++++++++++++++++++++++
+> >  include/uapi/linux/kvm.h       |  9 +++++++++
+> >  2 files changed, 32 insertions(+)
+> >
+> > diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+> > index f3fa75649a78..975688912b8c 100644
+> > --- a/Documentation/virt/kvm/api.rst
+> > +++ b/Documentation/virt/kvm/api.rst
+> > @@ -6537,6 +6537,29 @@ array field represents return values. The userspace should update the return
+> >  values of SBI call before resuming the VCPU. For more details on RISC-V SBI
+> >  spec refer, https://github.com/riscv/riscv-sbi-doc.
+> >  
+> > +::
+> > +
+> > +		/* KVM_EXIT_MEMORY_FAULT */
+> > +		struct {
+> > +  #define KVM_MEMORY_EXIT_FLAG_PRIVATE	(1 << 0)
+> > +			__u32 flags;
+> > +			__u32 padding;
+> > +			__u64 gpa;
+> > +			__u64 size;
+> > +		} memory;
+> > +
+> > +If exit reason is KVM_EXIT_MEMORY_FAULT then it indicates that the VCPU has
+> > +encountered a memory error which is not handled by KVM kernel module and
+> > +userspace may choose to handle it. The 'flags' field indicates the memory
+> > +properties of the exit.
+> > +
+> > + - KVM_MEMORY_EXIT_FLAG_PRIVATE - indicates the memory error is caused by
+> > +   private memory access when the bit is set. Otherwise the memory error is
+> > +   caused by shared memory access when the bit is clear.
+> 
+> What does a shared memory access failure entail?
+
+In the context of confidential computing usages, guest can issue a
+shared memory access while the memory is actually private from the host
+point of view. This exit with bit 0 cleared gives userspace a chance to
+convert the private memory to shared memory on host.
+
+> 
+> If you envision any other failure modes it might be worth making it
+> explicit with additional flags.
+
+Sean mentioned some more usages[1][]2] other than the memory conversion
+for confidential usage. But I would leave those flags being added in the
+future after those usages being well discussed.
+
+[1] https://lkml.kernel.org/r/20200617230052.GB27751@linux.intel.com
+[2] https://lore.kernel.org/all/YKxJLcg%2FWomPE422@google.com
+
+> I also wonder if a bitmask makes sense if
+> there can only be one reason for a failure? Maybe all that is needed is
+> a reason enum?
+
+Tough we only have one reason right now but we still want to leave room
+for future extension. Enum can express a single value at once well but
+bitmask makes it possible to express multiple orthogonal flags.
+
+Chao
+> 
+> > +
+> > +'gpa' and 'size' indicate the memory range the error occurs at. The userspace
+> > +may handle the error and return to KVM to retry the previous memory access.
+> > +
+> >  ::
+> >  
+> >      /* KVM_EXIT_NOTIFY */
+> > diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+> > index f1ae45c10c94..fa60b032a405 100644
+> > --- a/include/uapi/linux/kvm.h
+> > +++ b/include/uapi/linux/kvm.h
+> > @@ -300,6 +300,7 @@ struct kvm_xen_exit {
+> >  #define KVM_EXIT_RISCV_SBI        35
+> >  #define KVM_EXIT_RISCV_CSR        36
+> >  #define KVM_EXIT_NOTIFY           37
+> > +#define KVM_EXIT_MEMORY_FAULT     38
+> >  
+> >  /* For KVM_EXIT_INTERNAL_ERROR */
+> >  /* Emulate instruction failed. */
+> > @@ -538,6 +539,14 @@ struct kvm_run {
+> >  #define KVM_NOTIFY_CONTEXT_INVALID	(1 << 0)
+> >  			__u32 flags;
+> >  		} notify;
+> > +		/* KVM_EXIT_MEMORY_FAULT */
+> > +		struct {
+> > +#define KVM_MEMORY_EXIT_FLAG_PRIVATE	(1 << 0)
+> > +			__u32 flags;
+> > +			__u32 padding;
+> > +			__u64 gpa;
+> > +			__u64 size;
+> > +		} memory;
+> >  		/* Fix the size of the union. */
+> >  		char padding[256];
+> >  	};
+> 
+> 
+> -- 
+> Alex Bennée
