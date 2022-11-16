@@ -2,93 +2,91 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0633262B537
-	for <lists+linux-api@lfdr.de>; Wed, 16 Nov 2022 09:30:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D136A62B5B9
+	for <lists+linux-api@lfdr.de>; Wed, 16 Nov 2022 09:56:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238820AbiKPI36 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 16 Nov 2022 03:29:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34150 "EHLO
+        id S232898AbiKPI4c (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 16 Nov 2022 03:56:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52010 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238642AbiKPI3h (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 16 Nov 2022 03:29:37 -0500
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6A0630565
-        for <linux-api@vger.kernel.org>; Wed, 16 Nov 2022 00:27:04 -0800 (PST)
-Received: by mail-lj1-x233.google.com with SMTP id u11so20792604ljk.6
-        for <linux-api@vger.kernel.org>; Wed, 16 Nov 2022 00:27:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=5iWr0Dml3nvmnir3p5kT1oKHtxFQQWFh7Xz5+526tHc=;
-        b=eUxDNYovZZye+RqS4J+ifyVe/k33ysu4ePPcEdRM77GxFyT4HSIyGAk51xQ7S3A8++
-         //pqzUtYIhDHg/IpblugHMylsgl8BUFF7bpED/fm/eXtvwHHIO+zTpOaLUwFX3Lx0I7+
-         4vYPdCqpyDEr8CpVU/+AXjBUsVAnBoGtwbKobm5mXLdPvlNSfUca8xMYf72MONB4dBMV
-         yeHDCwe0+7RN1mFvizKW1ncY3ih9T37hWgxj00448fJXbDjabiEGCaM1NrVtNXiLUUPP
-         +AAvFkbbp6kuP2/507xGNRgZgtgbDk6ClC8Fq3hm9wD6114XDxfa6BBE0RFgyiq9SdpB
-         1HDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5iWr0Dml3nvmnir3p5kT1oKHtxFQQWFh7Xz5+526tHc=;
-        b=dTh9hSKIGockGA7S28nf3vMGZV8VBTje8S+gsPX3fzD3h0vV8t1FEYwYiqSlHMVfe+
-         zbraOTxp/rDwrfMJ7L8QyL9TnsCgBpQfbVqjLJVXe+OZdD7wfy7e13m1PfAe/+9HyGLV
-         7anBkisHB3hAEnJTu4zCvvuh7F9Ks8iPrC9TcOl6CUmM9romoSa8gzMIx8w9VVfGpCkN
-         t1aoVmWVdJepbCa59ZrmLgYwjJSjJWWitkhbAoSQrAiREUzfLKo4KWt4RBmvdTn2Bpek
-         GWUR2wIK4gPScU03jDSV6AHs205lT4isB+P0uhhL/79dA/Ypvg1e7kEfip/7YfnsuAvZ
-         O/0Q==
-X-Gm-Message-State: ANoB5pmF2wLvBciRK5TqzevjjbnAmIJbKpxUOV1it3o+qBoqCvi5hToB
-        pALhteCSDbpUCeaEz1qKT7vfwDKYKrLb3hGsRK0=
-X-Google-Smtp-Source: AA0mqf5hhEfx82363r5toJmvlpkYk0FQvY/2M3l/vNKv55abgxJPw/T5DVdV4XtlUFz2+R9gvMSkAYoHkq2vxGfEB5A=
-X-Received: by 2002:a2e:300f:0:b0:277:7eef:1d97 with SMTP id
- w15-20020a2e300f000000b002777eef1d97mr7872655ljw.516.1668587222242; Wed, 16
- Nov 2022 00:27:02 -0800 (PST)
+        with ESMTP id S230429AbiKPI4V (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 16 Nov 2022 03:56:21 -0500
+X-Greylist: delayed 447 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 16 Nov 2022 00:56:16 PST
+Received: from abrecht.li (unknown [IPv6:2a05:41c0:8:f804::a3c:105])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FF39192A1
+        for <linux-api@vger.kernel.org>; Wed, 16 Nov 2022 00:56:16 -0800 (PST)
+Received: from mail.abrecht.li (unknown [IPv6:fc00:4::a3c:103])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by abrecht.li (Postfix) with ESMTPSA id F25572D61423;
+        Wed, 16 Nov 2022 08:48:45 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 abrecht.li F25572D61423
 MIME-Version: 1.0
-Received: by 2002:ab2:7d8b:0:b0:170:a062:384 with HTTP; Wed, 16 Nov 2022
- 00:27:01 -0800 (PST)
-From:   Susan George <susanmonans86@gmail.com>
-Date:   Wed, 16 Nov 2022 09:27:01 +0100
-Message-ID: <CAOAoGObMdpWqYt5=dSeTBsADa9SXvMjugrrCXLBC6MDGwvo7YA@mail.gmail.com>
-Subject: =?UTF-8?Q?Hallo_Beg=C3=BCnstigter?=
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=2.6 required=5.0 tests=BAYES_60,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLY,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: **
+Date:   Wed, 16 Nov 2022 09:48:45 +0100
+From:   Daniel Abrecht 
+        <freedesktop-linux-dri-devel@nodmarc.danielabrecht.ch>
+To:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc:     dri-devel@lists.freedesktop.org, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        =?UTF-8?Q?Michel_D=C3=A4nz?= =?UTF-8?Q?er?= <michel@daenzer.net>,
+        Christian Brauner <brauner@kernel.org>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Sultan Alsawaf <sultan@kerneltoast.com>,
+        Sean Paul <sean@poorly.run>,
+        Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Subject: Re: [PATCH] drm/atomic: do not branch based on the value of
+ current->comm[0]
+In-Reply-To: <20221105222012.4226-1-Jason@zx2c4.com>
+References: <20221105222012.4226-1-Jason@zx2c4.com>
+User-Agent: Roundcube Webmail/1.4.13
+Message-ID: <26ef4a7059dd995731e2d4426c2400b2@abrecht.li>
+X-Sender: freedesktop-linux-dri-devel@nodmarc.danielabrecht.ch
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE,
+        SPF_HELO_PASS,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hallo Beg=C3=BCnstigter
+Am 2022-11-05 23:20, schrieb Jason A. Donenfeld:
+> This reverts 26b1d3b527e7 ("drm/atomic: Take the atomic toys away from 
+> X")
 
-Wir m=C3=B6chten Sie dar=C3=BCber informieren, dass Ihr Ausgleichsfonds in =
-H=C3=B6he
-von 500.000,00 =E2=82=AC auf einer Bankomatkarte gutgeschrieben wurde, mit =
-der
-Sie t=C3=A4glich bis zu 3.000 =E2=82=AC bei jeder Bank Ihrer Wahl in Ihrem =
-Land
-abheben k=C3=B6nnen.
+I'm in favor of reverting this commit. I've tried to get allowing to 
+enable atomic in Xorg again in there in the past: 
+https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/533
 
-Kontaktieren Sie Herrn Michael Karl erhalten Sie umgehend diese
-Nachricht, damit er Sie bez=C3=BCglich des Erhalts Ihrer Bankomatkarte
-beraten kann. Unten ist seine Kontaktadresse
+I've no illusions of getting this through though, after all mostly the 
+same people control what's merged into Xorg, what drm stuff gets into 
+the kernel and who disabled it in the kernel in the first place. And 
+there doesn't seem much interest in dealing with anything Xorg either, 
+in the merge request I linked, someone even called Xorg "abandonware". 
+This is also why I didn't respond here until now.
 
-Ansprechpartner: Hr. Michael Karl
-Kontakt-E-Mail: mickarl670@gmail.com
+I do see value in enabling this. When I looked at this 2 years ago, 
+there were situations where enabling atomic brought clear improvements, 
+and I would expect that it can still improve performance on some special 
+systems. I think the users should have the option to use it if they want 
+or need to.
 
-Kontaktieren Sie sie so schnell wie m=C3=B6glich mit Ihrem vollst=C3=A4ndig=
-en
-Namen, Ihrer Wohnadresse, Ihrer Stadt, Ihrem Land und Ihrer
-Telefonnummer
+There is also the concern that this may cause a regression, but I would 
+argue, that there never was a regression to be fixed here in the first 
+place. There may have been that one broken application in the past, but 
+it was just that, a broken application, not something broken by the 
+kernel. I do not think the kernel should modify it's behavior just to 
+work around bugs in a specific program, which have always existed, and 
+didn't come from a changer in behavior of the kernel APIs. If a program 
+was written wrongly, the program should be fixed, and in case of Xorg, I 
+think it is fixed already.
 
-Vielen Dank,
-MS. Susan George
-Verbindungsb=C3=BCro der Vereinten Nationen
-Direktion f=C3=BCr internationale Zahlungen
+This probably won't mean much coming from me, but:
+Acked-by: Daniel Abrecht <public@danielabrecht.ch>
