@@ -2,71 +2,77 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 38EA662C834
-	for <lists+linux-api@lfdr.de>; Wed, 16 Nov 2022 19:52:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E9A6262C8B9
+	for <lists+linux-api@lfdr.de>; Wed, 16 Nov 2022 20:07:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229758AbiKPSwi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 16 Nov 2022 13:52:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48646 "EHLO
+        id S232506AbiKPTHH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 16 Nov 2022 14:07:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232197AbiKPSvI (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 16 Nov 2022 13:51:08 -0500
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDD7C49B4A
-        for <linux-api@vger.kernel.org>; Wed, 16 Nov 2022 10:48:47 -0800 (PST)
-Received: by mail-pj1-x1031.google.com with SMTP id r61-20020a17090a43c300b00212f4e9cccdso3146122pjg.5
-        for <linux-api@vger.kernel.org>; Wed, 16 Nov 2022 10:48:47 -0800 (PST)
+        with ESMTP id S229724AbiKPTHG (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 16 Nov 2022 14:07:06 -0500
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 656F36035C
+        for <linux-api@vger.kernel.org>; Wed, 16 Nov 2022 11:07:02 -0800 (PST)
+Received: by mail-wm1-x32e.google.com with SMTP id v7so12602156wmn.0
+        for <linux-api@vger.kernel.org>; Wed, 16 Nov 2022 11:07:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=A0w6P3/5rWNmrPimfeWShNgQxfD7eWOB8psbtgB4eNM=;
-        b=iuHU2XySbRBXDBvmb7KGdjsTrJ11MtKm8XUWbJgiH+mJZH0mrNKnmVkYWIqEN8KH+D
-         TMTSgskSxS+dz6pqJQ/6lU5YOrdG2ZlIZWDOaRJRiQwsbQA3PrerGAmObwm4ynhLdSAK
-         ipQyS23YgpxwcwZ6vh4k2Bq/MDUW0MakaENRTi4n4z7trqezhQAU1VBvvRliz6hMutEA
-         9nByJ3f7EiBHZeDsD30/pNhrYplPoCDi15C49ph/4Z5Ug6emFwiauN/3keUjTSc8xjjS
-         9rhI8o2gCdwKZQMaSLBrQFcQ5PC0p5wqf3PICwkpXgJE4dUBiCSgdG/Zg1bcsS/uJXqa
-         0yLg==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+         :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RrIEWhRQRlR3NVC7xZs7jfrYAvxywp8v6T2LfNTij+Q=;
+        b=Jx3yqn06j6rS5Fs5NvtNZW3afRbtKDAjyYZ/cbyT5J0fw+x5DSiBa34zecJ2zXBEP6
+         dXVq49aZkpeYNlw8FZCjejz+X8sYE98oXGoc760qT01ItS+LpGXs0KR6luYi6XidGGnJ
+         izQy2tFtJsUmRdujni2tPVUtXn9CPZshGLwHnmOZlDGECGPB/n+QnPoJLt8dAH9evwNe
+         fhOCmkSkLWIbZ04JJ1cM5aaZNcxxY3L6QunV484wNTFteoVmyskDXedR8UqBBpqCdgYP
+         ARhbe6kOrZMHvVRuGOwhLHdlqHzOAwDs9awbU2PksEIQB6p43e6EtlScRKP2mnLQYKXa
+         PFRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=A0w6P3/5rWNmrPimfeWShNgQxfD7eWOB8psbtgB4eNM=;
-        b=a2ETdeH/ZqS5s8KxceIET2vgDrgP0l1SDOTplcfT4/pZjXMELskh1gaecAWBYB6fIk
-         iRg3fG+c7s+KyiDKy0KbqCFazoYdOOAM5pRNMUD7l+C+WA5gUKV8IuBLXc4s2qXQymO0
-         gvz25wxmEKz+0mXp77qBsuDdmpA8cQlUe5VjeYg17/BXfQGqQFYhaqyTGVkTUiVrYX66
-         tXWTMSMauTSo93NS26kv6/9Xm1R5TZ1itIcFKJnCX5hx58pvikb7xs91V/uVAsE85UHt
-         8S46ZnI8YwCVNvVtYV5OINqiEiKH60w7r23B3YfnXrFmJX8b3PdoLJfoNWaIzEcd3ml9
-         wwDQ==
-X-Gm-Message-State: ANoB5pmstShDwTK197WxCvsA4GgM1NM4a1nuremhzn/RuBTVUmtaFNo2
-        cozZhLjQn78Gc6hEiwIMZoyYRA==
-X-Google-Smtp-Source: AA0mqf7gsXMWPLCwPxYnb+HvqYNLX3WPvDWV8mKDKQpAZsMJhL2t5iqRN/vftj6zV72w0hUj24psag==
-X-Received: by 2002:a17:90b:3c0d:b0:20d:478a:9d75 with SMTP id pb13-20020a17090b3c0d00b0020d478a9d75mr5030085pjb.149.1668624527166;
-        Wed, 16 Nov 2022 10:48:47 -0800 (PST)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
-        by smtp.gmail.com with ESMTPSA id 7-20020a621507000000b0056c0b98617esm11265827pfv.0.2022.11.16.10.48.46
+        h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+         :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=RrIEWhRQRlR3NVC7xZs7jfrYAvxywp8v6T2LfNTij+Q=;
+        b=1Sv68sI6CRXEX2JXpr41NuiQFtbh0G+Me0WKeZ7/HL18vRM1xKTdi2dq0SaEfB7Rhq
+         VtrBH3TWvPvbpPPMXnQq6zGJGaeq+TXpcZfbnBpD279qMEXedYCuqw6m6we2ld0ba42V
+         8PSUKFI+ZXqNk+7ovpVDqhBi4fDLNV9UOsZV2AQkBl3QM5Vn9Q71DLu4YfrRdhUvIN+7
+         eR9VLsjnpVz3FKYIR9fouMzN5NTtwr30H4623a0RaLETerbnPtqlVL7ZTdM4Hp0NIGKS
+         nC0mucL9P28Agh8j0IvRfm9UJQDxJf2Yc5jBhBZdHaMSJ5syn7H3W/ljGo3wFNS42ivG
+         awEg==
+X-Gm-Message-State: ANoB5pmUIc9+yr+nIHhkW2Iug7MHBzpMm6dUPYOhKFd/DHPqbIaGWMdY
+        ct8QNvneuN6Km7jXoLC5jDTXrA==
+X-Google-Smtp-Source: AA0mqf5UxIGeoP/5D5Yx/z21S7fh+uGiPqn06sMVoycK8I50cpSvwpmmKvt4/Ece9ChnPUGalp4tAQ==
+X-Received: by 2002:a05:600c:3d0c:b0:3cf:f66c:9246 with SMTP id bh12-20020a05600c3d0c00b003cff66c9246mr2115368wmb.27.1668625620910;
+        Wed, 16 Nov 2022 11:07:00 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+        by smtp.gmail.com with ESMTPSA id p13-20020adfe60d000000b00236e9755c02sm15976702wrm.111.2022.11.16.11.07.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Nov 2022 10:48:46 -0800 (PST)
-Date:   Wed, 16 Nov 2022 18:48:43 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     Chao Peng <chao.p.peng@linux.intel.com>,
-        kvm list <kvm@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Wed, 16 Nov 2022 11:07:00 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+        by zen.linaroharston (Postfix) with ESMTP id BDA921FFB7;
+        Wed, 16 Nov 2022 19:06:59 +0000 (GMT)
+References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
+ <20221025151344.3784230-4-chao.p.peng@linux.intel.com>
+ <87cz9o9mr8.fsf@linaro.org> <20221116031441.GA364614@chaop.bj.intel.com>
+User-agent: mu4e 1.9.2; emacs 28.2.50
+From:   Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To:     Chao Peng <chao.p.peng@linux.intel.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, Linux API <linux-api@vger.kernel.org>,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
         linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
         Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
         Vitaly Kuznetsov <vkuznets@redhat.com>,
         Wanpeng Li <wanpengli@tencent.com>,
         Jim Mattson <jmattson@google.com>,
         Joerg Roedel <joro@8bytes.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
         Jeff Layton <jlayton@kernel.org>,
         "J . Bruce Fields" <bfields@fieldses.org>,
         Andrew Morton <akpm@linux-foundation.org>,
@@ -76,81 +82,186 @@ Cc:     Chao Peng <chao.p.peng@linux.intel.com>,
         Vlastimil Babka <vbabka@suse.cz>,
         Vishal Annapurve <vannapurve@google.com>,
         Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        "Nakajima, Jun" <jun.nakajima@intel.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        David Hildenbrand <david@redhat.com>, aarcange@redhat.com,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
         ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Fuad Tabba <tabba@google.com>,
-        Michael Roth <michael.roth@amd.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Wei W Wang <wei.w.wang@intel.com>
+        Quentin Perret <qperret@google.com>, tabba@google.com,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
 Subject: Re: [PATCH v9 3/8] KVM: Add KVM_EXIT_MEMORY_FAULT exit
-Message-ID: <Y3Uwi2lc4NDrdzML@google.com>
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-4-chao.p.peng@linux.intel.com>
- <2e252f4f-7d45-42ac-a88f-fa8045fe3748@app.fastmail.com>
+Date:   Wed, 16 Nov 2022 19:03:49 +0000
+In-reply-to: <20221116031441.GA364614@chaop.bj.intel.com>
+Message-ID: <87mt8q90rw.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2e252f4f-7d45-42ac-a88f-fa8045fe3748@app.fastmail.com>
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Nov 16, 2022, Andy Lutomirski wrote:
-> 
-> 
-> On Tue, Oct 25, 2022, at 8:13 AM, Chao Peng wrote:
-> > diff --git a/Documentation/virt/kvm/api.rst 
-> > b/Documentation/virt/kvm/api.rst
-> > index f3fa75649a78..975688912b8c 100644
-> > --- a/Documentation/virt/kvm/api.rst
-> > +++ b/Documentation/virt/kvm/api.rst
-> > @@ -6537,6 +6537,29 @@ array field represents return values. The 
-> > userspace should update the return
-> >  values of SBI call before resuming the VCPU. For more details on 
-> > RISC-V SBI
-> >  spec refer, https://github.com/riscv/riscv-sbi-doc.
-> > 
-> > +::
-> > +
-> > +		/* KVM_EXIT_MEMORY_FAULT */
-> > +		struct {
-> > +  #define KVM_MEMORY_EXIT_FLAG_PRIVATE	(1 << 0)
-> > +			__u32 flags;
-> > +			__u32 padding;
-> > +			__u64 gpa;
-> > +			__u64 size;
-> > +		} memory;
-> > +
-> 
-> Would it make sense to also have a field for the access type (read, write,
-> execute, etc)?  I realize that shared <-> private conversion doesn't strictly
-> need this, but it seems like it could be useful for logging failures and also
-> for avoiding a second immediate fault if the type gets converted but doesn't
-> have the right protection yet.
 
-I don't think a separate field is necessary, that info can be conveyed via flags.
-Though maybe we should go straight to a u64 for flags.  Hmm, and maybe avoid bits
-0-3 so that if/when RWX info is conveyed the flags can align with
-PROT_{READ,WRITE,EXEC} and the EPT flags, e.g.
+Chao Peng <chao.p.peng@linux.intel.com> writes:
 
-	KVM_MEMORY_EXIT_FLAG_READ	(1 << 0)
-	KVM_MEMORY_EXIT_FLAG_WRITE	(1 << 1)
-	KVM_MEMORY_EXIT_FLAG_EXECUTE	(1 << 2)
+> On Tue, Nov 15, 2022 at 04:56:12PM +0000, Alex Benn=C3=A9e wrote:
+>>=20
+>> Chao Peng <chao.p.peng@linux.intel.com> writes:
+>>=20
+>> > This new KVM exit allows userspace to handle memory-related errors. It
+>> > indicates an error happens in KVM at guest memory range [gpa, gpa+size=
+).
+>> > The flags includes additional information for userspace to handle the
+>> > error. Currently bit 0 is defined as 'private memory' where '1'
+>> > indicates error happens due to private memory access and '0' indicates
+>> > error happens due to shared memory access.
+>> >
+>> > When private memory is enabled, this new exit will be used for KVM to
+>> > exit to userspace for shared <-> private memory conversion in memory
+>> > encryption usage. In such usage, typically there are two kind of memory
+>> > conversions:
+>> >   - explicit conversion: happens when guest explicitly calls into KVM
+>> >     to map a range (as private or shared), KVM then exits to userspace
+>> >     to perform the map/unmap operations.
+>> >   - implicit conversion: happens in KVM page fault handler where KVM
+>> >     exits to userspace for an implicit conversion when the page is in a
+>> >     different state than requested (private or shared).
+>> >
+>> > Suggested-by: Sean Christopherson <seanjc@google.com>
+>> > Co-developed-by: Yu Zhang <yu.c.zhang@linux.intel.com>
+>> > Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
+>> > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+>> > ---
+>> >  Documentation/virt/kvm/api.rst | 23 +++++++++++++++++++++++
+>> >  include/uapi/linux/kvm.h       |  9 +++++++++
+>> >  2 files changed, 32 insertions(+)
+>> >
+>> > diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/a=
+pi.rst
+>> > index f3fa75649a78..975688912b8c 100644
+>> > --- a/Documentation/virt/kvm/api.rst
+>> > +++ b/Documentation/virt/kvm/api.rst
+>> > @@ -6537,6 +6537,29 @@ array field represents return values. The users=
+pace should update the return
+>> >  values of SBI call before resuming the VCPU. For more details on RISC=
+-V SBI
+>> >  spec refer, https://github.com/riscv/riscv-sbi-doc.
+>> >=20=20
+>> > +::
+>> > +
+>> > +		/* KVM_EXIT_MEMORY_FAULT */
+>> > +		struct {
+>> > +  #define KVM_MEMORY_EXIT_FLAG_PRIVATE	(1 << 0)
+>> > +			__u32 flags;
+>> > +			__u32 padding;
+>> > +			__u64 gpa;
+>> > +			__u64 size;
+>> > +		} memory;
+>> > +
+>> > +If exit reason is KVM_EXIT_MEMORY_FAULT then it indicates that the VC=
+PU has
+>> > +encountered a memory error which is not handled by KVM kernel module =
+and
+>> > +userspace may choose to handle it. The 'flags' field indicates the me=
+mory
+>> > +properties of the exit.
+>> > +
+>> > + - KVM_MEMORY_EXIT_FLAG_PRIVATE - indicates the memory error is cause=
+d by
+>> > +   private memory access when the bit is set. Otherwise the memory er=
+ror is
+>> > +   caused by shared memory access when the bit is clear.
+>>=20
+>> What does a shared memory access failure entail?
+>
+> In the context of confidential computing usages, guest can issue a
+> shared memory access while the memory is actually private from the host
+> point of view. This exit with bit 0 cleared gives userspace a chance to
+> convert the private memory to shared memory on host.
 
-> (Obviously, if this were changed, KVM would need the ability to report that
-> it doesn't actually know the mode.)
-> 
-> --Andy
+I think this should be explicit rather than implied by the absence of
+another flag. Sean suggested you might want flags for RWX failures so
+maybe something like:
+
+	KVM_MEMORY_EXIT_SHARED_FLAG_READ	(1 << 0)
+	KVM_MEMORY_EXIT_SHARED_FLAG_WRITE	(1 << 1)
+	KVM_MEMORY_EXIT_SHARED_FLAG_EXECUTE	(1 << 2)
+        KVM_MEMORY_EXIT_FLAG_PRIVATE            (1 << 3)
+
+which would allow you to signal the various failure modes of the shared
+region, or that you had accessed private memory.
+
+>
+>>=20
+>> If you envision any other failure modes it might be worth making it
+>> explicit with additional flags.
+>
+> Sean mentioned some more usages[1][]2] other than the memory conversion
+> for confidential usage. But I would leave those flags being added in the
+> future after those usages being well discussed.
+>
+> [1] https://lkml.kernel.org/r/20200617230052.GB27751@linux.intel.com
+> [2] https://lore.kernel.org/all/YKxJLcg%2FWomPE422@google.com
+>
+>> I also wonder if a bitmask makes sense if
+>> there can only be one reason for a failure? Maybe all that is needed is
+>> a reason enum?
+>
+> Tough we only have one reason right now but we still want to leave room
+> for future extension. Enum can express a single value at once well but
+> bitmask makes it possible to express multiple orthogonal flags.
+
+I agree if multiple orthogonal failures can occur at once a bitmask is
+the right choice.
+
+>
+> Chao
+>>=20
+>> > +
+>> > +'gpa' and 'size' indicate the memory range the error occurs at. The u=
+serspace
+>> > +may handle the error and return to KVM to retry the previous memory a=
+ccess.
+>> > +
+>> >  ::
+>> >=20=20
+>> >      /* KVM_EXIT_NOTIFY */
+>> > diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+>> > index f1ae45c10c94..fa60b032a405 100644
+>> > --- a/include/uapi/linux/kvm.h
+>> > +++ b/include/uapi/linux/kvm.h
+>> > @@ -300,6 +300,7 @@ struct kvm_xen_exit {
+>> >  #define KVM_EXIT_RISCV_SBI        35
+>> >  #define KVM_EXIT_RISCV_CSR        36
+>> >  #define KVM_EXIT_NOTIFY           37
+>> > +#define KVM_EXIT_MEMORY_FAULT     38
+>> >=20=20
+>> >  /* For KVM_EXIT_INTERNAL_ERROR */
+>> >  /* Emulate instruction failed. */
+>> > @@ -538,6 +539,14 @@ struct kvm_run {
+>> >  #define KVM_NOTIFY_CONTEXT_INVALID	(1 << 0)
+>> >  			__u32 flags;
+>> >  		} notify;
+>> > +		/* KVM_EXIT_MEMORY_FAULT */
+>> > +		struct {
+>> > +#define KVM_MEMORY_EXIT_FLAG_PRIVATE	(1 << 0)
+>> > +			__u32 flags;
+>> > +			__u32 padding;
+>> > +			__u64 gpa;
+>> > +			__u64 size;
+>> > +		} memory;
+>> >  		/* Fix the size of the union. */
+>> >  		char padding[256];
+>> >  	};
+>>=20
+>>=20
+>> --=20
+>> Alex Benn=C3=A9e
+
+
+--=20
+Alex Benn=C3=A9e
