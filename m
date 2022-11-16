@@ -2,91 +2,143 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D136A62B5B9
-	for <lists+linux-api@lfdr.de>; Wed, 16 Nov 2022 09:56:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 45D9862B6AC
+	for <lists+linux-api@lfdr.de>; Wed, 16 Nov 2022 10:38:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232898AbiKPI4c (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 16 Nov 2022 03:56:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52010 "EHLO
+        id S233766AbiKPJiT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 16 Nov 2022 04:38:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230429AbiKPI4V (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 16 Nov 2022 03:56:21 -0500
-X-Greylist: delayed 447 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 16 Nov 2022 00:56:16 PST
-Received: from abrecht.li (unknown [IPv6:2a05:41c0:8:f804::a3c:105])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FF39192A1
-        for <linux-api@vger.kernel.org>; Wed, 16 Nov 2022 00:56:16 -0800 (PST)
-Received: from mail.abrecht.li (unknown [IPv6:fc00:4::a3c:103])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by abrecht.li (Postfix) with ESMTPSA id F25572D61423;
-        Wed, 16 Nov 2022 08:48:45 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 abrecht.li F25572D61423
+        with ESMTP id S233874AbiKPJiR (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 16 Nov 2022 04:38:17 -0500
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EF5C23E94
+        for <linux-api@vger.kernel.org>; Wed, 16 Nov 2022 01:38:16 -0800 (PST)
+Received: by mail-pj1-x102b.google.com with SMTP id q1-20020a17090a750100b002139ec1e999so1852867pjk.1
+        for <linux-api@vger.kernel.org>; Wed, 16 Nov 2022 01:38:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ED3dVZVhTXurH9uVn9Km9+qzSuteSy+hO2CW2MEdWTU=;
+        b=I/7hBPwo37uWwdiPvScqp5Wub/IybcuswDPzUWm8rPIFGRsJNEuTVzrGQec8Ow/l/d
+         aKnmhZEjWitb73ekE3JC0wqz1Oep1X0J2fzqil9JzjWCl3ue1ogO8l8x0Nrp0Y3vebvA
+         HFfs+KKvymqM4vfSpUHJQ/C8Ga7T3aTpHhqukRCmkCDrYDZFBuCnjK0du8NuQRg+alzJ
+         i5tjHe9Y5bMNOUAwOjs+QWG+c2OtcYzs4E09M+1P90Lg3JgRx2+/lIppdhPFqVVL/HLg
+         hiOawDrc9p4LqIRHMEKakCa77RJmZq5YG8kly2mNrLV/9e74LnZ6CGCWYdbcJoyX0ZsG
+         BzDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=ED3dVZVhTXurH9uVn9Km9+qzSuteSy+hO2CW2MEdWTU=;
+        b=vow6j1ZGgexD4T+401bVTPK3o+6+PFcYwVHgahDCYgL8hrXsMFcJOzDVNjUdMwkJKy
+         I/tybf58XoLeMn18qAp1XqCi3rV+mQ6Uok1Ju+py8M64OkvXpW+UuuakdhD5exgLRW40
+         xhqbgmygzx9dteAT+Ec16HTCKmyc8EcgRrMcaSRhWAmz/CgU0SGf2haZvkKrOQC4Jig/
+         qYEiCjI8+TP36B+p67Gp4yXvWvuWvsLtqvSr/P/sF451QyhhEu/yhFaP5ePo4cBsij3W
+         sQ+xtRiH/WJ0RONVqvV6q6SXJOwmSHULKO8HZIXv8npmiw3fWYbtm7PHpjqVfzlCIz4E
+         zRhg==
+X-Gm-Message-State: ANoB5pl47iKJC0Owj6y8YEA6+stwE9eNdiQAA6KxX0UPUXOzZrXveefR
+        jIrMv6pdTOBx5F06knMBkyOmwg==
+X-Google-Smtp-Source: AA0mqf6mO/o9kgca96vOeZ6qwUazWfcWU/RyXDHE4Gy+8A40ZFbYqCJCwRW5uzjdX4dDB5SHOuDr3A==
+X-Received: by 2002:a17:902:b694:b0:187:337a:b2a1 with SMTP id c20-20020a170902b69400b00187337ab2a1mr8336586pls.96.1668591495172;
+        Wed, 16 Nov 2022 01:38:15 -0800 (PST)
+Received: from [10.68.76.92] ([139.177.225.229])
+        by smtp.gmail.com with ESMTPSA id e24-20020a63f558000000b00470275c8d6dsm9012484pgk.10.2022.11.16.01.38.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 16 Nov 2022 01:38:14 -0800 (PST)
+Message-ID: <0445de39-15a4-f645-b380-39f20abb6524@bytedance.com>
+Date:   Wed, 16 Nov 2022 17:38:09 +0800
 MIME-Version: 1.0
-Date:   Wed, 16 Nov 2022 09:48:45 +0100
-From:   Daniel Abrecht 
-        <freedesktop-linux-dri-devel@nodmarc.danielabrecht.ch>
-To:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc:     dri-devel@lists.freedesktop.org, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Peter Zijlstra <peterz@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        =?UTF-8?Q?Michel_D=C3=A4nz?= =?UTF-8?Q?er?= <michel@daenzer.net>,
-        Christian Brauner <brauner@kernel.org>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Sultan Alsawaf <sultan@kerneltoast.com>,
-        Sean Paul <sean@poorly.run>,
-        Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-Subject: Re: [PATCH] drm/atomic: do not branch based on the value of
- current->comm[0]
-In-Reply-To: <20221105222012.4226-1-Jason@zx2c4.com>
-References: <20221105222012.4226-1-Jason@zx2c4.com>
-User-Agent: Roundcube Webmail/1.4.13
-Message-ID: <26ef4a7059dd995731e2d4426c2400b2@abrecht.li>
-X-Sender: freedesktop-linux-dri-devel@nodmarc.danielabrecht.ch
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [External] Re: [PATCH v2] mm: add new syscall
+ pidfd_set_mempolicy().
+To:     "Huang, Ying" <ying.huang@intel.com>
+Cc:     corbet@lwn.net, mhocko@suse.com, akpm@linux-foundation.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20221111084051.2121029-1-hezhongkun.hzk@bytedance.com>
+ <87zgcrwfac.fsf@yhuang6-desk2.ccr.corp.intel.com>
+From:   Zhongkun He <hezhongkun.hzk@bytedance.com>
+In-Reply-To: <87zgcrwfac.fsf@yhuang6-desk2.ccr.corp.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE,
-        SPF_HELO_PASS,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Am 2022-11-05 23:20, schrieb Jason A. Donenfeld:
-> This reverts 26b1d3b527e7 ("drm/atomic: Take the atomic toys away from 
-> X")
+Hi Ying, thanks for your replay and suggestions.
 
-I'm in favor of reverting this commit. I've tried to get allowing to 
-enable atomic in Xorg again in there in the past: 
-https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/533
+> 
+> I suggest to move the flags in "mode" parameter (MPOL_F_STATIC_NODES,
+> MPOL_F_RELATIVE_NODES, MPOL_F_NUMA_BALANCING, etc.) to "flags"
+> parameter, otherwise, why add it?
 
-I've no illusions of getting this through though, after all mostly the 
-same people control what's merged into Xorg, what drm stuff gets into 
-the kernel and who disabled it in the kernel in the first place. And 
-there doesn't seem much interest in dealing with anything Xorg either, 
-in the merge request I linked, someone even called Xorg "abandonware". 
-This is also why I didn't respond here until now.
+The "flags" is used for future extension if any, just like
+process_madvise() and set_mempolicy_home_node().
+Maybe it should be removed.
 
-I do see value in enabling this. When I looked at this 2 years ago, 
-there were situations where enabling atomic brought clear improvements, 
-and I would expect that it can still improve performance on some special 
-systems. I think the users should have the option to use it if they want 
-or need to.
+> 
+> And, how about add a "home_node" parameter?  I don't think that it's a
+> good idea to add another new syscall for pidfd_set_mempolicy_home_node()
+> in the future.
+> 
 
-There is also the concern that this may cause a regression, but I would 
-argue, that there never was a regression to be fixed here in the first 
-place. There may have been that one broken application in the past, but 
-it was just that, a broken application, not something broken by the 
-kernel. I do not think the kernel should modify it's behavior just to 
-work around bugs in a specific program, which have always existed, and 
-didn't come from a changer in behavior of the kernel APIs. If a program 
-was written wrongly, the program should be fixed, and in case of Xorg, I 
-think it is fixed already.
+Good idea, but "home_node" is used for vma policy, not task policy.
+It is possible to use it in pidfd_mbind() in the future.
 
-This probably won't mean much coming from me, but:
-Acked-by: Daniel Abrecht <public@danielabrecht.ch>
+> 
+> IMHO, "The first four APIS" and "The last one" isn't easy to be
+> understood.  How about
+> 
+> "sys_pidfd_set_mempolicy sets the mempolicy of task specified in the
+> pidfd, the others affect only the calling task, ...".
+> 
+
+Got it.
+
+> 
+> Why add "sys_"?  I fount that there's no "sys_" before set_mempolicy()/mbind() etc.
+> 
+
+Got it.
+
+>> +void mpol_put_async(struct task_struct *task, struct mempolicy *p)
+> 
+> How about change __mpol_put() directly?
+
+> 
+> Why can we fall back to freeing directly if task_work_add() failed?
+> Should we check the return code and fall back only if -ESRCH and WARN
+> for other cases?
+> 
+
+A task_work based solution has not been accepted yet, it will be 
+considered later if needed.
+
+
+>> +	}
+> 
+> Why do we need to write lock mmap_sem?  IIUC, we don't touch vma.
+> 
+
+Yes, it should be removed.
+
+>>   /*
+> 
+> Because we will change task_struct->mempolicy in another task, we need
+> to use kind of "load acquire" / "store release" memory order.  For
+> example, rcu_dereference() / rcu_assign_pointer(), etc.
+> 
+Thanks again for your suggestion.
+
+Best Regards,
+Zhongkun
