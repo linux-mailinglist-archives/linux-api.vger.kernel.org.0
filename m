@@ -2,266 +2,136 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E9A6262C8B9
-	for <lists+linux-api@lfdr.de>; Wed, 16 Nov 2022 20:07:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2066062CB54
+	for <lists+linux-api@lfdr.de>; Wed, 16 Nov 2022 21:46:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232506AbiKPTHH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 16 Nov 2022 14:07:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34832 "EHLO
+        id S233702AbiKPUqD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 16 Nov 2022 15:46:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59326 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229724AbiKPTHG (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 16 Nov 2022 14:07:06 -0500
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 656F36035C
-        for <linux-api@vger.kernel.org>; Wed, 16 Nov 2022 11:07:02 -0800 (PST)
-Received: by mail-wm1-x32e.google.com with SMTP id v7so12602156wmn.0
-        for <linux-api@vger.kernel.org>; Wed, 16 Nov 2022 11:07:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
-         :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RrIEWhRQRlR3NVC7xZs7jfrYAvxywp8v6T2LfNTij+Q=;
-        b=Jx3yqn06j6rS5Fs5NvtNZW3afRbtKDAjyYZ/cbyT5J0fw+x5DSiBa34zecJ2zXBEP6
-         dXVq49aZkpeYNlw8FZCjejz+X8sYE98oXGoc760qT01ItS+LpGXs0KR6luYi6XidGGnJ
-         izQy2tFtJsUmRdujni2tPVUtXn9CPZshGLwHnmOZlDGECGPB/n+QnPoJLt8dAH9evwNe
-         fhOCmkSkLWIbZ04JJ1cM5aaZNcxxY3L6QunV484wNTFteoVmyskDXedR8UqBBpqCdgYP
-         ARhbe6kOrZMHvVRuGOwhLHdlqHzOAwDs9awbU2PksEIQB6p43e6EtlScRKP2mnLQYKXa
-         PFRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
-         :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=RrIEWhRQRlR3NVC7xZs7jfrYAvxywp8v6T2LfNTij+Q=;
-        b=1Sv68sI6CRXEX2JXpr41NuiQFtbh0G+Me0WKeZ7/HL18vRM1xKTdi2dq0SaEfB7Rhq
-         VtrBH3TWvPvbpPPMXnQq6zGJGaeq+TXpcZfbnBpD279qMEXedYCuqw6m6we2ld0ba42V
-         8PSUKFI+ZXqNk+7ovpVDqhBi4fDLNV9UOsZV2AQkBl3QM5Vn9Q71DLu4YfrRdhUvIN+7
-         eR9VLsjnpVz3FKYIR9fouMzN5NTtwr30H4623a0RaLETerbnPtqlVL7ZTdM4Hp0NIGKS
-         nC0mucL9P28Agh8j0IvRfm9UJQDxJf2Yc5jBhBZdHaMSJ5syn7H3W/ljGo3wFNS42ivG
-         awEg==
-X-Gm-Message-State: ANoB5pmUIc9+yr+nIHhkW2Iug7MHBzpMm6dUPYOhKFd/DHPqbIaGWMdY
-        ct8QNvneuN6Km7jXoLC5jDTXrA==
-X-Google-Smtp-Source: AA0mqf5UxIGeoP/5D5Yx/z21S7fh+uGiPqn06sMVoycK8I50cpSvwpmmKvt4/Ece9ChnPUGalp4tAQ==
-X-Received: by 2002:a05:600c:3d0c:b0:3cf:f66c:9246 with SMTP id bh12-20020a05600c3d0c00b003cff66c9246mr2115368wmb.27.1668625620910;
-        Wed, 16 Nov 2022 11:07:00 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
-        by smtp.gmail.com with ESMTPSA id p13-20020adfe60d000000b00236e9755c02sm15976702wrm.111.2022.11.16.11.07.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Nov 2022 11:07:00 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
-        by zen.linaroharston (Postfix) with ESMTP id BDA921FFB7;
-        Wed, 16 Nov 2022 19:06:59 +0000 (GMT)
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-4-chao.p.peng@linux.intel.com>
- <87cz9o9mr8.fsf@linaro.org> <20221116031441.GA364614@chaop.bj.intel.com>
-User-agent: mu4e 1.9.2; emacs 28.2.50
-From:   Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v9 3/8] KVM: Add KVM_EXIT_MEMORY_FAULT exit
-Date:   Wed, 16 Nov 2022 19:03:49 +0000
-In-reply-to: <20221116031441.GA364614@chaop.bj.intel.com>
-Message-ID: <87mt8q90rw.fsf@linaro.org>
+        with ESMTP id S231221AbiKPUqC (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 16 Nov 2022 15:46:02 -0500
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2077.outbound.protection.outlook.com [40.107.94.77])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC6CA1CFE6;
+        Wed, 16 Nov 2022 12:45:58 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ohrbm9vmK640FhYnF/RPQufgQboEgBjILIgbk0iMhEWxvoLANF4Qsuuu4LpEMZsQN6angQ7d8QWpRwfInXP6NgbhiwFRQZXFptHsuRqKFM/9/RNsAn0lhQY5DCMBxsUfbleuWZ3ln54cuHcS0yfsjJlhAxL/t5wQskT7Pwoqs/9/f/4U9pGLBS/qQqRF8HynDN4MlQKVV9YbzEaZlaA1z5qypmLGb2jM9E+jaVVSWUbD5hn/PhM4YZBLUDtuG1/7kb1VA4bq0qBWuqZWLsb2qOZKrLo4Su2+6bJhJ/1mWgX7JcNCVg6j5O9LJaV3GS+8F8Jokkhc04xnXkBkwHJ3aw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=CrjtNxLTW3jPW5PQgpeE33v+g8UUrFILnLj40R33c0c=;
+ b=DS5EdhW7BsuY87cH73Z55Gd5htmhh45lqPIJZVt0hNJESyL1TA8nAn8Pii6IpkvpmOTd0Zeti1sd7/TLyzIXjsbJUiPfK3jRnBkrroB362P1Na4yEebmngW5CCVlFj6uIlT/vy5AjiETBlKG/nysoO6YTWTKywDbw8PlEaDpSa4ZX+qcEnt7e+/xynJ/EPEXagH7lABwERLPJRPTmUEwNrbJCh6olJa90JpPFQXJpwyMuVP1ZE+J2lSDwEx60DHzdkAFD/nAC3E6w7npOTsnskidUMdZDik6Ao+gEtfd5flhtwQOObx/MsaNE3Ozl0ywK5Tm4yi28chLK3ASDLQ3Xg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.160) smtp.rcpttodomain=bytedance.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CrjtNxLTW3jPW5PQgpeE33v+g8UUrFILnLj40R33c0c=;
+ b=sorwRJA+fnoF1h2hKUyvzeqB9FamP+caDp9en3yh8hqxDr089/p9DajWCGOLqmUu8FkGyaMV1v7bwqNfqOexVn0d8+Lx0x26raOunTj9G0djqsGf5mX/zVHHDFPIdUWx4ZqhFnSNWbEslO5K+MRThihWXzSB+aG+LFGoTej9tq/MxDzqcfxtY5UpcHBfWdCBUxxYZc6az78Md/AMrq/ad/LH6mQXwAosSFFxNmZ3lW62rS64MsqNxgHEtIaUmELDZFg9KS4ET0CVTwk/mXQSLG5qPME9zSKjN5aHbvFxwBhD9Y5S7qtAgn5zheJuGpU6s/dmHxohT5UCO113PfAkHg==
+Received: from MW4PR04CA0174.namprd04.prod.outlook.com (2603:10b6:303:85::29)
+ by MN0PR12MB6198.namprd12.prod.outlook.com (2603:10b6:208:3c5::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.18; Wed, 16 Nov
+ 2022 20:45:57 +0000
+Received: from CO1NAM11FT064.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:85:cafe::e0) by MW4PR04CA0174.outlook.office365.com
+ (2603:10b6:303:85::29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.18 via Frontend
+ Transport; Wed, 16 Nov 2022 20:45:56 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ CO1NAM11FT064.mail.protection.outlook.com (10.13.175.77) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5834.8 via Frontend Transport; Wed, 16 Nov 2022 20:45:56 +0000
+Received: from rnnvmail202.nvidia.com (10.129.68.7) by mail.nvidia.com
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Wed, 16 Nov
+ 2022 12:45:44 -0800
+Received: from rnnvmail203.nvidia.com (10.129.68.9) by rnnvmail202.nvidia.com
+ (10.129.68.7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Wed, 16 Nov
+ 2022 12:45:43 -0800
+Received: from blueforge.nvidia.com (10.127.8.13) by mail.nvidia.com
+ (10.129.68.9) with Microsoft SMTP Server id 15.2.986.36 via Frontend
+ Transport; Wed, 16 Nov 2022 12:45:43 -0800
+From:   John Hubbard <jhubbard@nvidia.com>
+To:     <ligang.bdlg@bytedance.com>
+CC:     <linux-api@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        "Valentin Schneider" <vschneid@redhat.com>,
+        <linux-fsdevel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v5 0/2] sched/numa: add per-process numa_balancing
+Date:   Wed, 16 Nov 2022 12:45:40 -0800
+Message-ID: <20221116204540.163222-1-jhubbard@nvidia.com>
+X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221027025302.45766-1-ligang.bdlg@bytedance.com>
+References: <20221027025302.45766-1-ligang.bdlg@bytedance.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-NVConfidentiality: public
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1NAM11FT064:EE_|MN0PR12MB6198:EE_
+X-MS-Office365-Filtering-Correlation-Id: ea886a98-c424-4683-9720-08dac8138fa8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 7j4CmThscefgrqEUCiwuylGOwQijgZS4guH8U3tudT4MW2t/pJuhbhxj/AhJpTAUL83upyFY8BpJ9ANoRodaPkjEE9zzcL3Gnj74gZpK4VTD98tR8mrFTz5VSiIvKxWiOHzdXkzsZHgqybj4wMnlDY5q4k+fb1SvocYfUohTwgPNaZXLJx/hgujRXX4Z5Zjv+xkfDXAGFSP7XBcQpWdBU0c5d6EgzfOdwRs/retwPPxSkpbsjHz8qt4Tbixs8wtN66T7V4Cle+2N4XnvMVA/KXX/DvXNdMdy1TPWMfIgraZocsoQQrLtSuEEStvso+mPAYoGvmSkwXWsDTJKgiMcB8pvzSaNEm/B2Mk+9FYf9RnKMnxtk0adecfbUa333P1EnZsJG5rIsYuKF3QBbfh6w1BjfmJCKuRKt7cEpHRSp2E2reC9W5Y2Scr50CCsFT7NlsLVcxxRDg5yxje+nHvLW6e6T3tnaugZbb29hlvmGdG6ypjPQGOB4pEKZ6Z95/f7/X1X9s3s1QBj6kGlEfSNQTafKlFI7Qz48pIpi/wyGDPWxpgSOZlrHUb6zRj9qFC+bBxwzGPuVOTSOP3+z9a+axAYlsQwbu4271Xmp3Wvvg9sRxwz3hs3PAnEzAhPvabeR6R9hh/a4ZN1RqU3MAgMUA0LvoDVLGksUsyq5MC8dyI6+bwFAcBtkfAQM6ZMMe5Q7Vo0WAjRxjL8US+SH7ohDouXHwnPHE9+seBCoykrL+dpcdZ+F8McyhofYWd9mhqSjB5xNSO3slOL6SW7f/JFwSJv744CXTvEhWdWVkpVK7JYRySi93FlRXIXzFg55/082+6+t/Fm3x4WTthhFxOquUgXFct8hqvMtn9RzWnNvG9ZlrxLoqqbPWUq6D7WTAif2MQ4YuhR96WTSN8JQKbmuA==
+X-Forefront-Antispam-Report: CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230022)(4636009)(346002)(39860400002)(396003)(136003)(376002)(451199015)(46966006)(40470700004)(36840700001)(356005)(40460700003)(54906003)(426003)(36756003)(6916009)(7416002)(40480700001)(26005)(83380400001)(2906002)(41300700001)(4744005)(47076005)(336012)(82740400003)(7636003)(86362001)(478600001)(8936002)(2616005)(1076003)(316002)(36860700001)(70586007)(70206006)(82310400005)(5660300002)(4326008)(7696005)(8676002)(186003)(966005);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2022 20:45:56.5533
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ea886a98-c424-4683-9720-08dac8138fa8
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT064.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6198
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+Hi Gang Li,
 
-Chao Peng <chao.p.peng@linux.intel.com> writes:
+If you want this to move forward, you'll likely need to include the
+original To: and Cc: people. And also, any new ones who responded with
+review comments. I've added here, those that I found in your v4 series
+[1].
 
-> On Tue, Nov 15, 2022 at 04:56:12PM +0000, Alex Benn=C3=A9e wrote:
->>=20
->> Chao Peng <chao.p.peng@linux.intel.com> writes:
->>=20
->> > This new KVM exit allows userspace to handle memory-related errors. It
->> > indicates an error happens in KVM at guest memory range [gpa, gpa+size=
-).
->> > The flags includes additional information for userspace to handle the
->> > error. Currently bit 0 is defined as 'private memory' where '1'
->> > indicates error happens due to private memory access and '0' indicates
->> > error happens due to shared memory access.
->> >
->> > When private memory is enabled, this new exit will be used for KVM to
->> > exit to userspace for shared <-> private memory conversion in memory
->> > encryption usage. In such usage, typically there are two kind of memory
->> > conversions:
->> >   - explicit conversion: happens when guest explicitly calls into KVM
->> >     to map a range (as private or shared), KVM then exits to userspace
->> >     to perform the map/unmap operations.
->> >   - implicit conversion: happens in KVM page fault handler where KVM
->> >     exits to userspace for an implicit conversion when the page is in a
->> >     different state than requested (private or shared).
->> >
->> > Suggested-by: Sean Christopherson <seanjc@google.com>
->> > Co-developed-by: Yu Zhang <yu.c.zhang@linux.intel.com>
->> > Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
->> > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
->> > ---
->> >  Documentation/virt/kvm/api.rst | 23 +++++++++++++++++++++++
->> >  include/uapi/linux/kvm.h       |  9 +++++++++
->> >  2 files changed, 32 insertions(+)
->> >
->> > diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/a=
-pi.rst
->> > index f3fa75649a78..975688912b8c 100644
->> > --- a/Documentation/virt/kvm/api.rst
->> > +++ b/Documentation/virt/kvm/api.rst
->> > @@ -6537,6 +6537,29 @@ array field represents return values. The users=
-pace should update the return
->> >  values of SBI call before resuming the VCPU. For more details on RISC=
--V SBI
->> >  spec refer, https://github.com/riscv/riscv-sbi-doc.
->> >=20=20
->> > +::
->> > +
->> > +		/* KVM_EXIT_MEMORY_FAULT */
->> > +		struct {
->> > +  #define KVM_MEMORY_EXIT_FLAG_PRIVATE	(1 << 0)
->> > +			__u32 flags;
->> > +			__u32 padding;
->> > +			__u64 gpa;
->> > +			__u64 size;
->> > +		} memory;
->> > +
->> > +If exit reason is KVM_EXIT_MEMORY_FAULT then it indicates that the VC=
-PU has
->> > +encountered a memory error which is not handled by KVM kernel module =
-and
->> > +userspace may choose to handle it. The 'flags' field indicates the me=
-mory
->> > +properties of the exit.
->> > +
->> > + - KVM_MEMORY_EXIT_FLAG_PRIVATE - indicates the memory error is cause=
-d by
->> > +   private memory access when the bit is set. Otherwise the memory er=
-ror is
->> > +   caused by shared memory access when the bit is clear.
->>=20
->> What does a shared memory access failure entail?
->
-> In the context of confidential computing usages, guest can issue a
-> shared memory access while the memory is actually private from the host
-> point of view. This exit with bit 0 cleared gives userspace a chance to
-> convert the private memory to shared memory on host.
+The message that I'm replying to appears to only be sent to a couple of
+generic lists, and so it's going to be invisible to most of those
+people.
 
-I think this should be explicit rather than implied by the absence of
-another flag. Sean suggested you might want flags for RWX failures so
-maybe something like:
+Also, I already acked this series separately [2], before I saw the
+missing Cc's.
 
-	KVM_MEMORY_EXIT_SHARED_FLAG_READ	(1 << 0)
-	KVM_MEMORY_EXIT_SHARED_FLAG_WRITE	(1 << 1)
-	KVM_MEMORY_EXIT_SHARED_FLAG_EXECUTE	(1 << 2)
-        KVM_MEMORY_EXIT_FLAG_PRIVATE            (1 << 3)
+[1] https://lore.kernel.org/all/20220929064359.46932-1-ligang.bdlg@bytedance.com/
 
-which would allow you to signal the various failure modes of the shared
-region, or that you had accessed private memory.
+[2] https://lore.kernel.org/all/49ed07b1-e167-7f94-9986-8e86fb60bb09@nvidia.com/
 
->
->>=20
->> If you envision any other failure modes it might be worth making it
->> explicit with additional flags.
->
-> Sean mentioned some more usages[1][]2] other than the memory conversion
-> for confidential usage. But I would leave those flags being added in the
-> future after those usages being well discussed.
->
-> [1] https://lkml.kernel.org/r/20200617230052.GB27751@linux.intel.com
-> [2] https://lore.kernel.org/all/YKxJLcg%2FWomPE422@google.com
->
->> I also wonder if a bitmask makes sense if
->> there can only be one reason for a failure? Maybe all that is needed is
->> a reason enum?
->
-> Tough we only have one reason right now but we still want to leave room
-> for future extension. Enum can express a single value at once well but
-> bitmask makes it possible to express multiple orthogonal flags.
-
-I agree if multiple orthogonal failures can occur at once a bitmask is
-the right choice.
-
->
-> Chao
->>=20
->> > +
->> > +'gpa' and 'size' indicate the memory range the error occurs at. The u=
-serspace
->> > +may handle the error and return to KVM to retry the previous memory a=
-ccess.
->> > +
->> >  ::
->> >=20=20
->> >      /* KVM_EXIT_NOTIFY */
->> > diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
->> > index f1ae45c10c94..fa60b032a405 100644
->> > --- a/include/uapi/linux/kvm.h
->> > +++ b/include/uapi/linux/kvm.h
->> > @@ -300,6 +300,7 @@ struct kvm_xen_exit {
->> >  #define KVM_EXIT_RISCV_SBI        35
->> >  #define KVM_EXIT_RISCV_CSR        36
->> >  #define KVM_EXIT_NOTIFY           37
->> > +#define KVM_EXIT_MEMORY_FAULT     38
->> >=20=20
->> >  /* For KVM_EXIT_INTERNAL_ERROR */
->> >  /* Emulate instruction failed. */
->> > @@ -538,6 +539,14 @@ struct kvm_run {
->> >  #define KVM_NOTIFY_CONTEXT_INVALID	(1 << 0)
->> >  			__u32 flags;
->> >  		} notify;
->> > +		/* KVM_EXIT_MEMORY_FAULT */
->> > +		struct {
->> > +#define KVM_MEMORY_EXIT_FLAG_PRIVATE	(1 << 0)
->> > +			__u32 flags;
->> > +			__u32 padding;
->> > +			__u64 gpa;
->> > +			__u64 size;
->> > +		} memory;
->> >  		/* Fix the size of the union. */
->> >  		char padding[256];
->> >  	};
->>=20
->>=20
->> --=20
->> Alex Benn=C3=A9e
-
-
---=20
-Alex Benn=C3=A9e
+thanks,
+-- 
+John Hubbard
+NVIDIA
