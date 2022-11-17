@@ -2,79 +2,195 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EC7D62D3ED
-	for <lists+linux-api@lfdr.de>; Thu, 17 Nov 2022 08:19:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E72EE62DA9D
+	for <lists+linux-api@lfdr.de>; Thu, 17 Nov 2022 13:25:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239199AbiKQHT2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 17 Nov 2022 02:19:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55682 "EHLO
+        id S240057AbiKQMZe (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 17 Nov 2022 07:25:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234545AbiKQHT1 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 17 Nov 2022 02:19:27 -0500
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7955C2EF4B
-        for <linux-api@vger.kernel.org>; Wed, 16 Nov 2022 23:19:26 -0800 (PST)
-Received: by mail-pl1-x629.google.com with SMTP id v17so840369plo.1
-        for <linux-api@vger.kernel.org>; Wed, 16 Nov 2022 23:19:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=U2F1Gvqt/Q56rI57EGntvViKlZXpCO31yBDbo9Chm+4=;
-        b=OInrjIJb+zpctma3IvYVArFUeiEyzg2eW2VpGlSGYfRa4spB/NJyuFmt9+YkAEbLxD
-         eVbAWUV6/QzVBBMBNFk0ZBQ0zbk0XCPap3dKrd+59hpOoVwXbfBgPzuxw8aBAHBkQzVr
-         U125oCXOKcMJXCT+FKNHw8WP6uuZxf5UVkpJTF16JXfoUL27tcO6F8nZIBBlc0zKLB07
-         3OwYEEW2iVje+2CVhKYSgmZsJr6p9t4fOmLfFwStJYi0HlqTVbNz3vPgG2HYJNe0A70E
-         8tw8poGlqSBMcksZmvYaxutCbwqoaT9Yp93dWWYEoZc1B4M11OD5O+QsktO7IjgItdu2
-         wlcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=U2F1Gvqt/Q56rI57EGntvViKlZXpCO31yBDbo9Chm+4=;
-        b=b9bfjUIV7d8gPop4btTBTXbusXA3jHGZpe82AvuNU/Jj+dW/AVMz9VNY7ds2kVbn+l
-         B74n0eS6nphGJ8V44Zy4jSH3zngxobzBHzUnQnRiuZTaSTI6k2BhIu+EgVYJaTdABP3U
-         jpAh1Fu8zZBh2s3nPfzQ6+n+IvRHtLauD/u2BuXPVDn9cIHlCF+shpIdaccEQeTZBFdm
-         eCc5y6bsNyj4aXDA/PQ7CqmaFWSFQ9yeDZVkOb2qxvuu4s+gMXckjthZ1e8VIM58/Kgu
-         bT+X4v5AG3fIjg3e6U/A2HUO9exgyazuV1EuefcBOX4n7NHCrheqdm/Joc+xzLE2wvfT
-         du5Q==
-X-Gm-Message-State: ANoB5pkeZKdsQxVKRqvlGrbLnIRintOZVSzkzJTvUX13ihR0iGZ1FNDW
-        0MUR9mCytK3DRLpIQV+BsS8NUEoQBLYtpw==
-X-Google-Smtp-Source: AA0mqf5wEXQHErhBBGxMw+n4hHa0kstF3CSQkP6tE64hX1AHAC8zFohruy5DaoR1XqwZWrNDiAeJsQ==
-X-Received: by 2002:a17:90a:8d14:b0:213:e4:3f57 with SMTP id c20-20020a17090a8d1400b0021300e43f57mr7246449pjo.204.1668669565963;
-        Wed, 16 Nov 2022 23:19:25 -0800 (PST)
-Received: from [10.68.76.92] ([139.177.225.229])
-        by smtp.gmail.com with ESMTPSA id f12-20020a170902684c00b0017808db132bsm427529pln.137.2022.11.16.23.19.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Nov 2022 23:19:25 -0800 (PST)
-Message-ID: <6433156f-34a8-400f-e282-91268b242279@bytedance.com>
-Date:   Thu, 17 Nov 2022 15:19:20 +0800
+        with ESMTP id S240077AbiKQMZX (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 17 Nov 2022 07:25:23 -0500
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97D1B71F09;
+        Thu, 17 Nov 2022 04:25:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1668687922; x=1700223922;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:mime-version:content-transfer-encoding;
+  bh=i6MDBdtMxQSKJ1D9KtGRVtH3qi5rR8OCssXKX9F8TkY=;
+  b=SrCsd/MrUdmllhNxW9TH2XcKYGWaDuCudibhPVLDmqiZNrbe3c+x9JK0
+   8NGCRhkwZ9vWxM1ihYa4biEKJFXTrlvqcgm0QCekmoZ7FfyuWIF8itqYj
+   jR8ZT7qIbcaZql2ceEh34O4lIyOLHFb2ZOU9wkU1NubUySWs8y/6Qxzy4
+   a/b8LeJFl4Wah6yZRTlp3jxOfd7Vf8hf6SaasgumIwCQ09YrOyb0BY2VM
+   Ilzn2WHpWvCPPdAJB4trlX1YsmBIxsyaWAcakKVN4BI2vqNrTDhzkXCcB
+   vKyTRHhlsVkvWF49jOaHSF5sjFLbRWE1DbUWNsiafXV2TIUPY4Ce9z7X0
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10533"; a="300369094"
+X-IronPort-AV: E=Sophos;i="5.96,171,1665471600"; 
+   d="scan'208";a="300369094"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2022 04:25:22 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10533"; a="708595537"
+X-IronPort-AV: E=Sophos;i="5.96,171,1665471600"; 
+   d="scan'208";a="708595537"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by fmsmga004.fm.intel.com with ESMTP; 17 Nov 2022 04:25:21 -0800
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Thu, 17 Nov 2022 04:25:20 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Thu, 17 Nov 2022 04:25:20 -0800
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31 via Frontend Transport; Thu, 17 Nov 2022 04:25:20 -0800
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.44) by
+ edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.31; Thu, 17 Nov 2022 04:25:19 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gRRyc4sIBFtAS4VNmCKAOiUyKT9xhz/e/HdDPOdEU6QYV96bQJZcZ0LSnH7WRGTkp1O07eq7eibaz5Cf/2lG46iw7/YNLvMb0IkSEBfzQztbPLtObQ00pmttUVafZNnodE+1ZvoPiEYqJNg44e3V6nHYXcJjBCbrgxcYbdzQdM/T5A8Kon8B9JlGI/eFpOfwJQLwmg+wrLRWehANV92OYf/sbUJPoUUxkdMGyF8cRR8XQV2+82tPIrC/sdYEvDHDSFDoBKCM/vzWU/0ComYhcVaaZB5lO5iRatW7K2WHqhrBQ2dh52LSUHdnPjjvFxV4FHq8q2tEs9ArGvT+EBPa0A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=c3fB9bE/r1WyjzR+vB2HCDSKLeolAsUy7kdQx1XnBN4=;
+ b=aSHOvQtfPzYeK0rh3h8l8tDYfaRX/ESa6YkDWMiRtj34zfFEgqPGA9XEtZK2LOkdPHejVHDHKgCd8GQCprnmpFS8KS4+s/ew83Sd21UJJ5Llklnbc6bO2AqGyHM/qYLHa6QsvOvHRujHw8TRelzO5yf6SHsc8pwVWgGzUMT04ZrGqnCb1ONaMOsahc+7VSujT4k+83vFPFucw8i3jpyd28o88zLuP1RMq5mDy7b2tc0W+Aov7b8As1jk9MLjJYhunqx0yFQwo5FBrbRs66HKtNT5ZCzqfRVlX3rZUZD5MEGB/HF+GeBNOLkVs14MyOxGNAXQ4DVrJVRIM4L8fTEd4w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from CY4PR11MB2005.namprd11.prod.outlook.com (2603:10b6:903:2e::18)
+ by DM6PR11MB4516.namprd11.prod.outlook.com (2603:10b6:5:2a5::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.18; Thu, 17 Nov
+ 2022 12:25:17 +0000
+Received: from CY4PR11MB2005.namprd11.prod.outlook.com
+ ([fe80::ad04:c349:b06a:c1b4]) by CY4PR11MB2005.namprd11.prod.outlook.com
+ ([fe80::ad04:c349:b06a:c1b4%9]) with mapi id 15.20.5813.020; Thu, 17 Nov 2022
+ 12:25:17 +0000
+From:   "Schimpe, Christina" <christina.schimpe@intel.com>
+To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
+        "peterz@infradead.org" <peterz@infradead.org>
+CC:     "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        "kcc@google.com" <kcc@google.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "bp@alien8.de" <bp@alien8.de>, "oleg@redhat.com" <oleg@redhat.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>, "arnd@arndb.de" <arnd@arndb.de>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>
+Subject: RE: [PATCH v3 35/37] x86/cet: Add PTRACE interface for CET
+Thread-Topic: [PATCH v3 35/37] x86/cet: Add PTRACE interface for CET
+Thread-Index: AQHY8J5eaXgH6xugZk20MwPZdy8SOK5AIA2AgACAkACAAnwdkA==
+Date:   Thu, 17 Nov 2022 12:25:16 +0000
+Message-ID: <CY4PR11MB2005AD47BA1D97BC1A96A769F9069@CY4PR11MB2005.namprd11.prod.outlook.com>
+References: <20221104223604.29615-1-rick.p.edgecombe@intel.com>
+         <20221104223604.29615-36-rick.p.edgecombe@intel.com>
+         <Y3Olme4Nl+VOkjAH@hirez.programming.kicks-ass.net>
+ <223bf306716f5eb68e4f9fd660414c84cddd9886.camel@intel.com>
+In-Reply-To: <223bf306716f5eb68e4f9fd660414c84cddd9886.camel@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CY4PR11MB2005:EE_|DM6PR11MB4516:EE_
+x-ms-office365-filtering-correlation-id: 1d56de1c-9c11-4e9e-6c03-08dac896c902
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 7Ms4MfSzYGXpBXUwAxooPY0d9vzeXwvPzaXpaO/R4JzWsGdQLraFEUv7npQ810YUqze0Q95V2Ml6sPCbqci7O1pRcfiF7uMGiNFi3yaGXI6bDewfiY7UxONW8wCQBHJynUy8qYghZpZI8qCL+PmiD/YWwAmCgjbodVSa5hI6avVVYQBJXIEIFqSfL5B5W/fMrrYPWlpY/GKm8WTlDt+voc2wUtm3tePEzA/bRekqKmFfTNkxCVrD+A5UNNasedunQ8sMWZ0bGveMqYn5FbpdT9n2unigPMfgKg4QnV6Ksvf+lJgap2YWGMMOj/ipBWWjiNgfdXj/kD5fdtOMVfssnLPipaqf2HJLH2uwI++DvUpHtEv5/F5WCs7fB4W60qJKmhQ9rsn80Sx7d/7HZqW7k50mizpyxYfnAX9WshIWw7FQ+fKCsaX3g/RJ0f62S2I+wivFM6FLT4juFCDk/LZI+eYeUnPD/G27Sbg37r7V8lcTgNnteSJeAg7YscOsj2FTzHGfsVkudhnQo4xV8CCxh7FJuAf0tykrmGHVeZvPmYHg+LEVlVppKP8HvwJNYve7QsvSCQsi8WwlmNKe5wYNS6Q9Py2aPXVghIl+cmWWmwes8Oq0WfzSGbtkJUxseK9R1/6AsbGwHcZ3RnWVi0tPquJm2sOugjlsaCemN1sXTRoIpyYCq3h9EnggyQYOvZwNfX0FJM1ZUpHj+r6JQGmn3A==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY4PR11MB2005.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(376002)(136003)(346002)(396003)(366004)(39860400002)(451199015)(26005)(33656002)(83380400001)(38070700005)(86362001)(122000001)(38100700002)(82960400001)(7406005)(2906002)(55016003)(4001150100001)(186003)(9686003)(5660300002)(7416002)(478600001)(7696005)(110136005)(6506007)(52536014)(41300700001)(66556008)(54906003)(71200400001)(8936002)(66446008)(66476007)(8676002)(64756008)(76116006)(4326008)(66946007)(316002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?T2FrS1MwV3lNVm51bUVNcDRjRk13K2hxaXRGRkllQ0lUbTRRS3hyYm0zMGFy?=
+ =?utf-8?B?a2dtNEFmTWVheldSbUhSeWk1Mzk5eHZXWVF6TG0ydUFTd0lOWVpObFhIRVRm?=
+ =?utf-8?B?bHFSY2diOXhONTdsZUhFRVZMNndxWVpsWEZZbHdWTC9pSlAySjFTYm9yQ1lo?=
+ =?utf-8?B?QVArQ0o5M25Pd3hyYmVpc0g3bHZpb0didFJnZVgvMFRMaE1tTXlKUy9IWGoy?=
+ =?utf-8?B?c3NiTk0yWUlkM2ZHUnNJRXUzOXFmd2FFK3hZMXlPeVMwT2RFbnF6ZmN0OUFt?=
+ =?utf-8?B?b2s3cVVQU0g0WnNaNjlXaDhQQ0g4SksrVGR1UG8rRWxFWGVPZThSMmhXSkNY?=
+ =?utf-8?B?N0UxcU1QbnljZzV3RUN6NEdpbWRucGVVTmM1YjlJbnBuOUp2cGhRUXNnTTJF?=
+ =?utf-8?B?VjY2ZFdOU2hMN2RSOTlGckM2QjBrOHJVNHJXMk9sek9IcVVMMFUrTXNoMWkz?=
+ =?utf-8?B?Yi9WZWVKVEwvdENxcGhpTHlic2pvNm5yNU94cGdBOVJLaG9SUFhTSXl3bSs3?=
+ =?utf-8?B?bDNGdFBSYkt6UlhLWmZ2WS9sQkxWbDM2elRuaUdqY1E3ajB5RDRkQXc0dkE2?=
+ =?utf-8?B?WXFEVFBrTml1QnM0N0QvTXVtWURNTWtObzQyR2oxSEpHSlc3VFgzRVNDeHBq?=
+ =?utf-8?B?d0ttdVZvOUVYMVFMZ09qUmFxS1NNS2hsc1RKSHlkTDJQdElpaVRUUE50Q1pE?=
+ =?utf-8?B?SlBJYzlVZ2NtbTR6ZExBRm0wUG1MRmVuM2pqK0NzSU5mbzRKTHhzbGJNMndB?=
+ =?utf-8?B?RWUyc2lwbVg1eFpQb2tXWno1c01ST003YUpuRVBWZXNBblpwWG90TG9CL1ZF?=
+ =?utf-8?B?V2dydk1FUmZGS1hJclE0N1B3WUlmK1A5RnZRbjJBam44RWs4c3I0cUFUMmE3?=
+ =?utf-8?B?M3kzS1h5ZXFhVTBXUmVaZi9CSFpkd29OcmljdEVZcFp3aEk2YXBYM3ZXTzZs?=
+ =?utf-8?B?cTN3RnIwMTRlMlhWM1VRM2RxNzdvbHlOaWdjUXdtSFBLSVpsc0dSK2ZaUW5I?=
+ =?utf-8?B?VW5WN09aODJYUGxucmJxbjM0ZkhtbnErc01jb1V1VkoxcDJ2NnIzVFFEVU85?=
+ =?utf-8?B?Rlk0R0JuMDBjNWhVclhVTFI3aVIyNEZOMm9mUzBjUjREVWNVMDFHWkdIZ2sr?=
+ =?utf-8?B?dWxUZlAyY0lmQjZ3cmRSRGIxY2ZjSjBqMkI4bzZlYjAvNGlCY3FKQ0Z0bzZC?=
+ =?utf-8?B?SldreWR0NGlwT2pzOC9GREZBSnA4YVRCU21KODJMQk5laTFSME1XYWlPak5X?=
+ =?utf-8?B?VDNVUURqendoSU5DQll5ZUN3Q1Z0WnJVVTMxeHJkODhhOGo4ZlhGSVBoV081?=
+ =?utf-8?B?anF3Z3BSR282UlRkVDhQREx6dEFwOVpBNGMyVUFQdW5Oa1h0NFBOd3hEM3NN?=
+ =?utf-8?B?TDhTcFVwMTh6OWFyRmg4RXdzZ0hZaEVQNllwTVlvaDB3dG1GWWd4Y0lEVU8v?=
+ =?utf-8?B?cFhqZG5Mb2ZTekM1WG9sbEJMZU1XSkxZUVVmRWFjbElqSHpLVU1YVS9mb2FT?=
+ =?utf-8?B?WjliZGtyUnB4R2g3cVM2WDVTYXZqdFRBT1VvYUtjR2p0UUNBV08wNW44ajlZ?=
+ =?utf-8?B?TGViYTRKaEh3R1REM1U5QWYrd0JKY1RkVXVRYVFZbDZVTms2UzB0WGRjWkR2?=
+ =?utf-8?B?VGkrNWRUWjFSeXJ6ckU4Zzhkdm5mUlQzc0VGWHJCSHFXQjNVUG0yMmsvUngw?=
+ =?utf-8?B?ekdaZEI4d2pLTkdQSjM2aWlLSGJudkdwUTBMb0pSM2ZPUEpoVitEOCswMkRF?=
+ =?utf-8?B?S0dVQ25LdXVPUHN6TTE3Ty9vaC9Ea1RZOWZGUHlRaHlUanNCZkRYQnZKaHNq?=
+ =?utf-8?B?MFE3R015T1lsaFIxKzJiT3cyWktOcmdwaytoalFEM1orL2lzZm5XU2NFM1hK?=
+ =?utf-8?B?eFhBczZpamVyK1ZveHhINGU3dzJZUXA1NnVFL2pmaDAxNlM2QVNUNTVTTllk?=
+ =?utf-8?B?bFJwUkRmTVB3YWQzQk1YT3pwTW1tMityeitqK1BHUTBkcGp0QXFPWEdmb2t1?=
+ =?utf-8?B?ejB3eWJ1QnJNNDNoaFF3emdtU3V3VHZ2VGJUMGZWeklJNnlibUhxUzM5eUUz?=
+ =?utf-8?B?TFZlbzRkc00rSnNDcm5vMmllYnU2S3NnaXRuMHpvOEtWTU96bTBrOGltdFE3?=
+ =?utf-8?B?bjB1L2RYL294eG9MZGpLbitsZlAyVXRKUDByUHFWVnM5dVVGUVhtdGZwWFBC?=
+ =?utf-8?B?WVE9PQ==?=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [External] Re: [PATCH v2] mm: add new syscall
- pidfd_set_mempolicy().
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>, corbet@lwn.net,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20221111084051.2121029-1-hezhongkun.hzk@bytedance.com>
- <20221111112732.30e1696bcd0d5b711c188a9a@linux-foundation.org>
- <a44f794e-fe60-e261-3631-9107822d5c36@bytedance.com>
- <Y3IqLzvduM6HqPJV@dhcp22.suse.cz>
- <3a3b4f5b-14d1-27d8-7727-cf23da90988f@bytedance.com>
- <Y3KFFfMFE55lVdNZ@dhcp22.suse.cz>
- <82c9c89c-aee2-08a3-e562-359631bb0137@bytedance.com>
- <0bd0b744-3d97-b4c3-a4fb-6040f8f8024a@bytedance.com>
- <Y3T6SqZvAmSG5I6W@dhcp22.suse.cz>
-From:   Zhongkun He <hezhongkun.hzk@bytedance.com>
-In-Reply-To: <Y3T6SqZvAmSG5I6W@dhcp22.suse.cz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CY4PR11MB2005.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1d56de1c-9c11-4e9e-6c03-08dac896c902
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Nov 2022 12:25:16.9062
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: HEBed/KjpoDN9gD49tiVkMS++k7V5/4vhVLdN9ga86zRETJmsMDDvR2gjFcxIfYRhMGk4bV00I7K5Mcnco9BXy7qG9Jej5YUo4BodYVbL5A=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4516
+X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: base64
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -82,297 +198,50 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Michal, thanks for your replay.
+PiArIENocmlzdGluYQ0KPiANCj4gT24gVHVlLCAyMDIyLTExLTE1IGF0IDE1OjQzICswMTAwLCBQ
+ZXRlciBaaWpsc3RyYSB3cm90ZToNCj4gPiBPbiBGcmksIE5vdiAwNCwgMjAyMiBhdCAwMzozNjow
+MlBNIC0wNzAwLCBSaWNrIEVkZ2Vjb21iZSB3cm90ZToNCj4gPiA+IEZyb206IFl1LWNoZW5nIFl1
+IDx5dS1jaGVuZy55dUBpbnRlbC5jb20+DQo+ID4gPg0KPiA+ID4gU29tZSBhcHBsaWNhdGlvbnMg
+KGxpa2UgR0RCIGFuZCBDUklVKSB3b3VsZCBsaWtlIHRvIHR3ZWFrIENFVCBzdGF0ZQ0KPiA+ID4g
+dmlhIHB0cmFjZS4gVGhpcyBhbGxvd3MgZm9yIGV4aXN0aW5nIGZ1bmN0aW9uYWxpdHkgdG8gY29u
+dGludWUgdG8NCj4gPiA+IHdvcmsgZm9yIHNlaXplZCBDRVQgYXBwbGljYXRpb25zLiBQcm92aWRl
+IGFuIGludGVyZmFjZSBiYXNlZCBvbiB0aGUNCj4gPiA+IHhzYXZlIGJ1ZmZlciBmb3JtYXQgb2Yg
+Q0VULCBidXQgZmlsdGVyIHVubmVlZGVkIHN0YXRlcyB0byBtYWtlIHRoZQ0KPiA+ID4ga2VybmVs
+4oCZcyBqb2IgZWFzaWVyLg0KPiA+ID4NCj4gPiA+IFRoZXJlIGlzIGFscmVhZHkgcHRyYWNlIGZ1
+bmN0aW9uYWxpdHkgZm9yIGFjY2Vzc2luZyB4c3RhdGUsIGJ1dCB0aGlzDQo+ID4gPiBkb2VzIG5v
+dCBpbmNsdWRlIHN1cGVydmlzb3IgeGZlYXR1cmVzLiBTbyB0aGVyZSBpcyBub3QgYSBjb21wbGV0
+ZWx5DQo+ID4gPiBjbGVhciBwbGFjZSBmb3Igd2hlcmUgdG8gcHV0IHRoZSBDRVQgc3RhdGUuIEFk
+ZGluZyBpdCB0byB0aGUgdXNlcg0KPiA+ID4geGZlYXR1cmVzIHJlZ3NldCB3b3VsZCBjb21wbGlj
+YXRlIHRoYXQgY29kZSwgYXMgaXQgY3VycmVudGx5IHNoYXJlcw0KPiA+ID4gbG9naWMgd2l0aCBz
+aWduYWxzIHdoaWNoIHNob3VsZCBub3QgaGF2ZSBzdXBlcnZpc29yIGZlYXR1cmVzLg0KPiA+ID4N
+Cj4gPiA+IERvbuKAmXQgYWRkIGEgZ2VuZXJhbCBzdXBlcnZpc29yIHhmZWF0dXJlIHJlZ3NldCBs
+aWtlIHRoZSB1c2VyIG9uZSwNCj4gPiA+IGJlY2F1c2UgaXQgaXMgYmV0dGVyIHRvIG1haW50YWlu
+IGZsZXhpYmlsaXR5IGZvciBvdGhlciBzdXBlcnZpc29yDQo+ID4gPiB4ZmVhdHVyZXMgdG8gZGVm
+aW5lIHRoZWlyIG93biBpbnRlcmZhY2UuIEZvciBleGFtcGxlLCBhbiB4ZmVhdHVyZQ0KPiA+ID4g
+bWF5IGRlY2lkZSBub3QgdG8gZXhwb3NlIGFsbCBvZiBpdOKAmXMgc3RhdGUgdG8gdXNlcnNwYWNl
+LiBBIGxvdCBvZg0KPiA+ID4gZW51bSB2YWx1ZXMgcmVtYWluIHRvIGJlIHVzZWQsIHNvIGp1c3Qg
+cHV0IGl0IGluIGRlZGljYXRlZCBDRVQNCj4gPiA+IHJlZ3NldC4NCj4gPiA+DQo+ID4gPiBUaGUg
+b25seSBkb3duc2lkZSB0byBub3QgaGF2aW5nIGEgZ2VuZXJpYyBzdXBlcnZpc29yIHhmZWF0dXJl
+DQo+ID4gPiByZWdzZXQsIGlzIHRoYXQgYXBwcyBuZWVkIHRvIGJlIGVubGlnaHRlbmVkIG9mIGFu
+eSBuZXcgc3VwZXJ2aXNvcg0KPiA+ID4geGZlYXR1cmUgZXhwb3NlZCB0aGlzIHdheSAoaS5lLiB0
+aGV5IGNhbuKAmXQgdHJ5IHRvIGhhdmUgZ2VuZXJpYw0KPiA+ID4gc2F2ZS9yZXN0b3JlIGxvZ2lj
+KS4gQnV0IG1heWJlIHRoYXQgaXMgYSBnb29kIHRoaW5nLCBiZWNhdXNlIHRoZXkNCj4gPiA+IGhh
+dmUgdG8gdGhpbmsgdGhyb3VnaCBlYWNoIG5ldyB4ZmVhdHVyZSBpbnN0ZWFkIG9mIGVuY291bnRl
+cmluZw0KPiA+ID4gaXNzdWVzIHdoZW4gbmV3IGEgbmV3IHN1cGVydmlzb3IgeGZlYXR1cmUgd2Fz
+IGFkZGVkLg0KPiA+DQo+ID4gUGVyIHRoaXMgYXJndW1lbnQgdGhpcyBzaG91bGQgbm90IHVzZSB0
+aGUgQ0VUIFhTQVZFIGZvcm1hdCBhbmQgQ0VUDQo+ID4gbmFtZSBhdCBhbGwsIGJlY2F1c2UgdGhh
+dCBjb25mbGF0ZXMgdGhlIHNpdHVhdGlvbiB2cyBJQlQuIEVuYWJsaW5nDQo+ID4gdGhhdCBtaWdo
+dCBub3Qgd2FudCB0byBmb2xsb3cgdGhpcyBwcmVjZWRlbnQuDQo+IA0KPiBIbW0sIHdlIGRlZmlu
+aXRlbHkgbmVlZCB0byBiZSBhYmxlIHRvIHNldCB0aGUgU1NQLiBDaHJpc3RpbmEsIGRvZXMgR0RC
+IG5lZWQNCj4gYW55dGhpbmcgZWxzZT8gSSB0aG91Z2h0IG1heWJlIHRvZ2dsaW5nIFNIU1RLX0VO
+Pw0KDQpJbiBhZGRpdGlvbiB0byB0aGUgU1NQLCB3ZSB3YW50IHRvIHdyaXRlIHRoZSBDRVQgc3Rh
+dGUuIEZvciBpbnN0YW5jZSBmb3IgaW5mZXJpb3IgY2FsbHMsDQp3ZSB3YW50IHRvIHJlc2V0IHRo
+ZSBJQlQgYml0cy4NCkhvd2V2ZXIsIHdlIHdvbid0IHdyaXRlIHN0YXRlcyB0aGF0IGFyZSBkaXNh
+bGxvd2VkIGJ5IEhXLg0KSW50ZWwgRGV1dHNjaGxhbmQgR21iSApSZWdpc3RlcmVkIEFkZHJlc3M6
+IEFtIENhbXBlb24gMTAsIDg1NTc5IE5ldWJpYmVyZywgR2VybWFueQpUZWw6ICs0OSA4OSA5OSA4
+ODUzLTAsIHd3dy5pbnRlbC5kZSA8aHR0cDovL3d3dy5pbnRlbC5kZT4KTWFuYWdpbmcgRGlyZWN0
+b3JzOiBDaHJpc3RpbiBFaXNlbnNjaG1pZCwgU2hhcm9uIEhlY2ssIFRpZmZhbnkgRG9vbiBTaWx2
+YSAgCkNoYWlycGVyc29uIG9mIHRoZSBTdXBlcnZpc29yeSBCb2FyZDogTmljb2xlIExhdQpSZWdp
+c3RlcmVkIE9mZmljZTogTXVuaWNoCkNvbW1lcmNpYWwgUmVnaXN0ZXI6IEFtdHNnZXJpY2h0IE11
+ZW5jaGVuIEhSQiAxODY5MjgK
 
-> 
-> It would be better to add the patch that has been tested.
-
-OK.
-
-> 
-> One way to deal with that would be to use a similar model as css_tryget
-
-Percpu_ref is a good way to  reduce memory footprint in fast path.But it
-has the potential to make mempolicy heavy. the sizeof mempolicy is 32
-bytes and it may not have a long life time, which duplicated from the
-parent in fork().If we modify atomic_t to percpu_ref, the efficiency of
-reading in fastpath will increase, the efficiency of creation and
-deletion will decrease, and the occupied space will increase
-significantly.I am not really sure it is worth it.
-
-atomic_t; 4
-sizeof(percpu_ref + percpu_ref_data + cpus* unsigned long)
-16+56+cpus*8
-
-> 
-> Btw. have you tried to profile those slowdowns to identify hotspots?
-> 
-> Thanks
-
-Yes, it will degrade performance about 2%-%3 may because of the 
-task_lock and  atomic operations on the reference count as shown
-in the previous email.
-
-new hotspots in perf.
-1.34%  [kernel]          [k] __mpol_put
-0.53%  [kernel]          [k] _raw_spin_lock
-0.44%  [kernel]          [k] get_task_policy
-
-
-Tested patch.
-
-diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
-index 8a74cdcc9af0..3f1b5c8329a8 100644
---- a/fs/proc/task_mmu.c
-+++ b/fs/proc/task_mmu.c
-@@ -105,10 +105,7 @@ static void hold_task_mempolicy(struct 
-proc_maps_private *priv)
-  {
-         struct task_struct *task = priv->task;
-
--       task_lock(task);
-         priv->task_mempolicy = get_task_policy(task);
--       mpol_get(priv->task_mempolicy);
--       task_unlock(task);
-  }
-  static void release_task_mempolicy(struct proc_maps_private *priv)
-  {
-diff --git a/include/linux/mempolicy.h b/include/linux/mempolicy.h
-index d232de7cdc56..786481d7abfd 100644
---- a/include/linux/mempolicy.h
-+++ b/include/linux/mempolicy.h
-@@ -62,7 +62,7 @@ struct mempolicy {
-  extern void __mpol_put(struct mempolicy *pol);
-  static inline void mpol_put(struct mempolicy *pol)
-  {
--       if (pol)
-+       if (pol && !(pol->flags & MPOL_F_STATIC))
-                 __mpol_put(pol);
-  }
-
-diff --git a/include/uapi/linux/mempolicy.h b/include/uapi/linux/mempolicy.h
-index 046d0ccba4cd..7c2068163a0c 100644
---- a/include/uapi/linux/mempolicy.h
-+++ b/include/uapi/linux/mempolicy.h
-@@ -63,7 +63,7 @@ enum {
-  #define MPOL_F_SHARED  (1 << 0)        /* identify shared policies */
-  #define MPOL_F_MOF     (1 << 3) /* this policy wants migrate on fault */
-  #define MPOL_F_MORON   (1 << 4) /* Migrate On protnone Reference On 
-Node */
--
-+#define MPOL_F_STATIC (1 << 5)
-  /*
-   * These bit locations are exposed in the vm.zone_reclaim_mode sysctl
-   * ABI.  New bits are OK, but existing bits can never change.
-diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index 546df97c31e4..4cca96a40d04 100644
---- a/mm/hugetlb.c
-+++ b/mm/hugetlb.c
-@@ -1247,6 +1247,7 @@ static struct page *dequeue_huge_page_vma(struct 
-hstate *h,
-         }
-
-         mpol_cond_put(mpol);
-+       mpol_put(mpol);
-         return page;
-
-  err:
-@@ -2316,6 +2317,7 @@ struct page 
-*alloc_buddy_huge_page_with_mpol(struct hstate *h,
-         if (!page)
-                 page = alloc_surplus_huge_page(h, gfp_mask, nid, nodemask);
-         mpol_cond_put(mpol);
-+       mpol_put(mpol);
-         return page;
-  }
-
-@@ -2352,6 +2354,7 @@ struct page *alloc_huge_page_vma(struct hstate *h, 
-struct vm_area_struct *vma,
-         node = huge_node(vma, address, gfp_mask, &mpol, &nodemask);
-         page = alloc_huge_page_nodemask(h, node, nodemask, gfp_mask);
-         mpol_cond_put(mpol);
-+       mpol_put(mpol);
-
-         return page;
-  }
-diff --git a/mm/mempolicy.c b/mm/mempolicy.c
-index 61aa9aedb728..ea670db6881f 100644
---- a/mm/mempolicy.c
-+++ b/mm/mempolicy.c
-@@ -126,6 +126,7 @@ enum zone_type policy_zone = 0;
-  static struct mempolicy default_policy = {
-         .refcnt = ATOMIC_INIT(1), /* never free it */
-         .mode = MPOL_LOCAL,
-+       .flags = MPOL_F_STATIC
-  };
-
-  static struct mempolicy preferred_node_policy[MAX_NUMNODES];
-@@ -160,11 +161,19 @@ EXPORT_SYMBOL_GPL(numa_map_to_online_node);
-
-  struct mempolicy *get_task_policy(struct task_struct *p)
-  {
--       struct mempolicy *pol = p->mempolicy;
-+       struct mempolicy *pol;
-         int node;
-
--       if (pol)
--               return pol;
-+       if (p->mempolicy)
-+       {
-+               task_lock(p);
-+               pol = p->mempolicy;
-+               mpol_get(pol);
-+               task_unlock(p);
-+
-+               if(pol)
-+                       return pol;
-+       }
-
-         node = numa_node_id();
-         if (node != NUMA_NO_NODE) {
-@@ -1764,10 +1773,12 @@ struct mempolicy *__get_vma_policy(struct 
-vm_area_struct *vma,
-                          * a pseudo vma whose vma->vm_ops=NULL. Take a 
-reference
-                          * count on these policies which will be dropped by
-                          * mpol_cond_put() later
-+                        *
-+                        * if (mpol_needs_cond_ref(pol))
-+                        *      mpol_get(pol);
-                          */
--                       if (mpol_needs_cond_ref(pol))
--                               mpol_get(pol);
-                 }
-+               mpol_get(pol);
-         }
-
-         return pol;
-@@ -1799,9 +1810,9 @@ static struct mempolicy *get_vma_policy(struct 
-vm_area_struct *vma,
-  bool vma_policy_mof(struct vm_area_struct *vma)
-  {
-         struct mempolicy *pol;
-+       bool ret = false;
-
-         if (vma->vm_ops && vma->vm_ops->get_policy) {
--               bool ret = false;
-
-                 pol = vma->vm_ops->get_policy(vma, vma->vm_start);
-                 if (pol && (pol->flags & MPOL_F_MOF))
-@@ -1812,10 +1823,13 @@ bool vma_policy_mof(struct vm_area_struct *vma)
-         }
-
-         pol = vma->vm_policy;
-+       mpol_get(pol);
-         if (!pol)
-                 pol = get_task_policy(current);
-+       ret = pol && (pol->flags & MPOL_F_MOF);
-+       mpol_put(pol);
-
--       return pol->flags & MPOL_F_MOF;
-+       return ret;
-  }
-
-  bool apply_policy_zone(struct mempolicy *policy, enum zone_type zone)
-@@ -2179,7 +2193,6 @@ struct folio *vma_alloc_folio(gfp_t gfp, int 
-order, struct vm_area_struct *vma,
-                 unsigned nid;
-
-                 nid = interleave_nid(pol, vma, addr, PAGE_SHIFT + order);
--               mpol_cond_put(pol);
-                 gfp |= __GFP_COMP;
-                 page = alloc_page_interleave(gfp, order, nid);
-                 if (page && order > 1)
-@@ -2194,7 +2207,6 @@ struct folio *vma_alloc_folio(gfp_t gfp, int 
-order, struct vm_area_struct *vma,
-                 node = policy_node(gfp, pol, node);
-                 gfp |= __GFP_COMP;
-                 page = alloc_pages_preferred_many(gfp, order, node, pol);
--               mpol_cond_put(pol);
-                 if (page && order > 1)
-                         prep_transhuge_page(page);
-                 folio = (struct folio *)page;
-@@ -2219,7 +2231,6 @@ struct folio *vma_alloc_folio(gfp_t gfp, int 
-order, struct vm_area_struct *vma,
-
-                 nmask = policy_nodemask(gfp, pol);
-                 if (!nmask || node_isset(hpage_node, *nmask)) {
--                       mpol_cond_put(pol);
-                         /*
-                          * First, try to allocate THP only on local 
-node, but
-                          * don't reclaim unnecessarily, just compact.
-@@ -2244,8 +2255,9 @@ struct folio *vma_alloc_folio(gfp_t gfp, int 
-order, struct vm_area_struct *vma,
-         nmask = policy_nodemask(gfp, pol);
-         preferred_nid = policy_node(gfp, pol, node);
-         folio = __folio_alloc(gfp, order, preferred_nid, nmask);
--       mpol_cond_put(pol);
-  out:
-+       mpol_cond_put(pol);
-+       mpol_put(pol);
-         return folio;
-  }
-  EXPORT_SYMBOL(vma_alloc_folio);
-@@ -2286,6 +2298,7 @@ struct page *alloc_pages(gfp_t gfp, unsigned order)
-                                 policy_node(gfp, pol, numa_node_id()),
-                                 policy_nodemask(gfp, pol));
-
-+       mpol_put(pol);
-         return page;
-  }
-  EXPORT_SYMBOL(alloc_pages);
-@@ -2365,21 +2378,23 @@ unsigned long 
-alloc_pages_bulk_array_mempolicy(gfp_t gfp,
-                 unsigned long nr_pages, struct page **page_array)
-  {
-         struct mempolicy *pol = &default_policy;
-+       unsigned long allocated;
-
-         if (!in_interrupt() && !(gfp & __GFP_THISNODE))
-                 pol = get_task_policy(current);
-
--       if (pol->mode == MPOL_INTERLEAVE)
--               return alloc_pages_bulk_array_interleave(gfp, pol,
-+       if (pol->mode == MPOL_INTERLEAVE) {
-+               allocated =  alloc_pages_bulk_array_interleave(gfp, pol,
-                                                          nr_pages, 
-page_array);
--
--       if (pol->mode == MPOL_PREFERRED_MANY)
--               return alloc_pages_bulk_array_preferred_many(gfp,
-+       } else if (pol->mode == MPOL_PREFERRED_MANY)
-+               allocated = alloc_pages_bulk_array_preferred_many(gfp,
-                                 numa_node_id(), pol, nr_pages, page_array);
--
--       return __alloc_pages_bulk(gfp, policy_node(gfp, pol, 
-numa_node_id()),
-+       else
-+              allocated = __alloc_pages_bulk(gfp, policy_node(gfp, pol, 
-numa_node_id()),
-                                   policy_nodemask(gfp, pol), nr_pages, 
-NULL,
-                                   page_array);
-+       mpol_put(pol);
-+       return allocated;
-  }
-
-  int vma_dup_policy(struct vm_area_struct *src, struct vm_area_struct *dst)
-@@ -2636,6 +2651,7 @@ int mpol_misplaced(struct page *page, struct 
-vm_area_struct *vma, unsigned long
-                 ret = polnid;
-  out:
-         mpol_cond_put(pol);
-+       mpol_put(pol);
-
-         return ret;
-  }
-@@ -2917,7 +2933,7 @@ void __init numa_policy_init(void)
-                 preferred_node_policy[nid] = (struct mempolicy) {
-                         .refcnt = ATOMIC_INIT(1),
-                         .mode = MPOL_PREFERRED,
--                       .flags = MPOL_F_MOF | MPOL_F_MORON,
-+                       .flags = MPOL_F_MOF | MPOL_F_MORON | MPOL_F_STATIC,
-                         .nodes = nodemask_of_node(nid),
-                 };
-         }
