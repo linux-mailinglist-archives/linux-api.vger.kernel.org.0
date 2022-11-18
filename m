@@ -2,71 +2,62 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8ED2062F5FB
-	for <lists+linux-api@lfdr.de>; Fri, 18 Nov 2022 14:29:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8381B62F9D0
+	for <lists+linux-api@lfdr.de>; Fri, 18 Nov 2022 16:59:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242040AbiKRN27 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 18 Nov 2022 08:28:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49730 "EHLO
+        id S241449AbiKRP7V (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 18 Nov 2022 10:59:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241935AbiKRN2q (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 18 Nov 2022 08:28:46 -0500
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39C846DCF9
-        for <linux-api@vger.kernel.org>; Fri, 18 Nov 2022 05:28:43 -0800 (PST)
-Received: by mail-wr1-x429.google.com with SMTP id y16so9218183wrt.12
-        for <linux-api@vger.kernel.org>; Fri, 18 Nov 2022 05:28:42 -0800 (PST)
+        with ESMTP id S241341AbiKRP7T (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 18 Nov 2022 10:59:19 -0500
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F95776162
+        for <linux-api@vger.kernel.org>; Fri, 18 Nov 2022 07:59:17 -0800 (PST)
+Received: by mail-pj1-x1036.google.com with SMTP id d13-20020a17090a3b0d00b00213519dfe4aso5442785pjc.2
+        for <linux-api@vger.kernel.org>; Fri, 18 Nov 2022 07:59:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
-         :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jFuAN0qalS8PXGclZBpJGpqKwSse98B1zaIXuj/qhsM=;
-        b=X/gqqsl/WLpKtb9vOD4WiP4Oi7fWHjwjntx8mX7OxhsG5wzq+ZEu37/nMAgR/K0NTa
-         w3qxyDj/5ysz05YJVpUs55kmmloX1IkC2zB1+/KzU94RHSvVV8QJIGUQUlri/5EUyK2r
-         mGh3S7znVf5hxcm2FIq10hXZNhSXHhkk0XSUejjdU6tvjBJaDulCkhJ1yHJ5qUwTLhSd
-         MoeZaDkThsztpF4G73yNPcJGkFAhdKPv1GGINAnUYMuW1RHIMFNHAh629fNId0Ygj6h4
-         QlGc8/i2b3sseFW3mxLr72CnhypCMQDx+K68Ypw8eLM56TGZBoLoX2zeC77yyHo3GfeR
-         z9tg==
+        d=google.com; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=BIzAKlqfAaMg368D6jPlp8HmIeVCVtTOFRZVfOrIoRA=;
+        b=s6eyQMrxXlVr7mjyTTlqJhnlh/Xi9X6Am4TwNlENwsPyRh8KvXIqhnsP3MMWC9+MoB
+         oQd97BmjUOsQPxgMsh5zyjcOYLIVp3cqB3U8qN7/Ud5hvTdIANRIWIS/vJblpoBTxukB
+         h0Lxk6Jg3vNqw4OVzI0CkcjluXS6vsT31cdyDImlVx7++g13+ozmNNZ5BkzVdivrg7g+
+         00m3rpeYDbyzY05rk/dB8GnC4ClchfIxtJ5aTCzCQyATv7KhMjKNSIDvnh3cGt1Q5v+L
+         lNMyGoelDxkjB2wAw8ywO8jmucxwhUGJpJ8n7dWOAqcgUj06ocsZtkUfpHvBn0wBdFz1
+         TsrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
-         :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=jFuAN0qalS8PXGclZBpJGpqKwSse98B1zaIXuj/qhsM=;
-        b=0/9pzSffJYu7Kitk71BYxGSJWCTU7F63fdGVhIvtL8k0HtgYoQ+s9HSYdy3cFEuFh5
-         BOd7FG5BoRr/Ct+1pYgL5deklfQUHOSme/g0oYp5hEKRhNAWWWLKSDPd0t1NxN2+lx1B
-         v+AiOEw6YWDP3bc7srKvdeVvOXsJbZq+Br1s2LkPwOWk8HeG8/u5Pi0RhHohQzC1fnuq
-         kbLdKjhHl2CaErRd40DEXivRdpMJExD9mtrwg91aSRt8d+baKtuW82uUW7dPgqQmsREr
-         QY3u67BPVPsvWa+/NkhLJIRwXNvWsJeBNBL6M2/rnMY0h5I2SNkLEtCw6k0AQlUmu288
-         pLfw==
-X-Gm-Message-State: ANoB5plGUvbYbZXl/KKm/Z2jdx1ORCa1d8IftyxDv7211kCMxO24obaS
-        Ey6/AqokAzckrlf1QGFKne5FWw==
-X-Google-Smtp-Source: AA0mqf6tYbIf5kiwBxBEeJpBK3Zoi0R3hbVIR4uxKZjI5EAk4XwJowCkhnyQfuyrbXxeKsj5OY9J7w==
-X-Received: by 2002:adf:aa91:0:b0:241:b2b2:a71d with SMTP id h17-20020adfaa91000000b00241b2b2a71dmr4389646wrc.326.1668778121454;
-        Fri, 18 Nov 2022 05:28:41 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
-        by smtp.gmail.com with ESMTPSA id y10-20020adfe6ca000000b00236860e7e9esm3459102wrm.98.2022.11.18.05.28.40
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=BIzAKlqfAaMg368D6jPlp8HmIeVCVtTOFRZVfOrIoRA=;
+        b=aEkQR6BsFBZwqW2b18BDe77d7xe9S65RYzgZHPz1s1aa0zX2Tn2VWoSP7UUVwUOyku
+         DTunnvh5K/no9M6xbhR9l7GvNj/pEFfTYY4S9oBmoTCzsIY0oesn3VAMOm0skiqgmJvl
+         Cn2zr9udBbgdrgGkc/cjfigxv4aklA4XomOE/w4dcZY7DItGHMyJbqPFgxC70btSdeSo
+         kJIdD/JFzo0iyxufAMEykm+FB+/3lXlMKIig96HG0TtCLnqttPendZ8K7odKMI7lhwHy
+         QvggPSR+EdWK4ysQK17yjXRE/VaYUK4JlR48idqLRM2O7FJNWAt2OcbfOcF7yMMKkUqm
+         qWHw==
+X-Gm-Message-State: ANoB5pnK3W2D/7v5V8Lw6xTBQjJXRFH7JsbFX44YZRmbA4lD7/FD66cz
+        otR82Hkrdjfx4l6ObECXXOeKcg==
+X-Google-Smtp-Source: AA0mqf68z73TZ4LH+iMU8Y7+vIcozkzW9+xI2VfYzqSxI4RUtQBXAdSaqw03S7HKwO0upOzd1Ydjhw==
+X-Received: by 2002:a17:90a:9f03:b0:211:59c6:6133 with SMTP id n3-20020a17090a9f0300b0021159c66133mr8428311pjp.238.1668787156611;
+        Fri, 18 Nov 2022 07:59:16 -0800 (PST)
+Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
+        by smtp.gmail.com with ESMTPSA id s16-20020a170902a51000b001869f2120a5sm3840359plq.34.2022.11.18.07.59.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Nov 2022 05:28:40 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
-        by zen.linaroharston (Postfix) with ESMTP id 11C631FFB7;
-        Fri, 18 Nov 2022 13:28:40 +0000 (GMT)
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-4-chao.p.peng@linux.intel.com>
- <87cz9o9mr8.fsf@linaro.org> <20221116031441.GA364614@chaop.bj.intel.com>
- <87mt8q90rw.fsf@linaro.org> <20221117134520.GD422408@chaop.bj.intel.com>
- <87a64p8vof.fsf@linaro.org> <20221118013201.GA456562@chaop.bj.intel.com>
-User-agent: mu4e 1.9.2; emacs 28.2.50
-From:   Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
+        Fri, 18 Nov 2022 07:59:16 -0800 (PST)
+Date:   Fri, 18 Nov 2022 15:59:12 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
         Vitaly Kuznetsov <vkuznets@redhat.com>,
         Wanpeng Li <wanpengli@tencent.com>,
         Jim Mattson <jmattson@google.com>,
@@ -92,89 +83,80 @@ Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
         Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
         Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
 Subject: Re: [PATCH v9 3/8] KVM: Add KVM_EXIT_MEMORY_FAULT exit
-Date:   Fri, 18 Nov 2022 13:23:51 +0000
-In-reply-to: <20221118013201.GA456562@chaop.bj.intel.com>
-Message-ID: <87o7t475o7.fsf@linaro.org>
+Message-ID: <Y3er0M5Rpf1X97W/@google.com>
+References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
+ <20221025151344.3784230-4-chao.p.peng@linux.intel.com>
+ <87cz9o9mr8.fsf@linaro.org>
+ <20221116031441.GA364614@chaop.bj.intel.com>
+ <87mt8q90rw.fsf@linaro.org>
+ <20221117134520.GD422408@chaop.bj.intel.com>
+ <87a64p8vof.fsf@linaro.org>
+ <20221118013201.GA456562@chaop.bj.intel.com>
+ <87o7t475o7.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87o7t475o7.fsf@linaro.org>
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Fri, Nov 18, 2022, Alex Bennée wrote:
+> 
+> Chao Peng <chao.p.peng@linux.intel.com> writes:
+> 
+> > On Thu, Nov 17, 2022 at 03:08:17PM +0000, Alex Bennée wrote:
+> >> >> I think this should be explicit rather than implied by the absence of
+> >> >> another flag. Sean suggested you might want flags for RWX failures so
+> >> >> maybe something like:
+> >> >> 
+> >> >> 	KVM_MEMORY_EXIT_SHARED_FLAG_READ	(1 << 0)
+> >> >> 	KVM_MEMORY_EXIT_SHARED_FLAG_WRITE	(1 << 1)
+> >> >> 	KVM_MEMORY_EXIT_SHARED_FLAG_EXECUTE	(1 << 2)
+> >> >>         KVM_MEMORY_EXIT_FLAG_PRIVATE            (1 << 3)
+> >> >
+> >> > Yes, but I would not add 'SHARED' to RWX, they are not share memory
+> >> > specific, private memory can also set them once introduced.
+> >> 
+> >> OK so how about:
+> >> 
+> >>  	KVM_MEMORY_EXIT_FLAG_READ	(1 << 0)
+> >>  	KVM_MEMORY_EXIT_FLAG_WRITE	(1 << 1)
+> >>  	KVM_MEMORY_EXIT_FLAG_EXECUTE	(1 << 2)
+> >>         KVM_MEMORY_EXIT_FLAG_SHARED     (1 << 3)
+> >>         KVM_MEMORY_EXIT_FLAG_PRIVATE    (1 << 4)
+> >
+> > We don't actually need a new bit, the opposite side of private is
+> > shared, i.e. flags with KVM_MEMORY_EXIT_FLAG_PRIVATE cleared expresses
+> > 'shared'.
+> 
+> If that is always true and we never expect a 3rd type of memory that is
+> fine. But given we are leaving room for expansion having an explicit bit
+> allows for that as well as making cases of forgetting to set the flags
+> more obvious.
 
-Chao Peng <chao.p.peng@linux.intel.com> writes:
+Hrm, I'm on the fence.
 
-> On Thu, Nov 17, 2022 at 03:08:17PM +0000, Alex Benn=C3=A9e wrote:
->>=20
-<snip>
->> >> >> > +
->> >> >> > +		/* KVM_EXIT_MEMORY_FAULT */
->> >> >> > +		struct {
->> >> >> > +  #define KVM_MEMORY_EXIT_FLAG_PRIVATE	(1 << 0)
->> >> >> > +			__u32 flags;
->> >> >> > +			__u32 padding;
->> >> >> > +			__u64 gpa;
->> >> >> > +			__u64 size;
->> >> >> > +		} memory;
->> >> >> > +
->> >> >> > +If exit reason is KVM_EXIT_MEMORY_FAULT then it indicates that =
-the VCPU has
->> >> >> > +encountered a memory error which is not handled by KVM kernel m=
-odule and
->> >> >> > +userspace may choose to handle it. The 'flags' field indicates =
-the memory
->> >> >> > +properties of the exit.
->> >> >> > +
->> >> >> > + - KVM_MEMORY_EXIT_FLAG_PRIVATE - indicates the memory error is=
- caused by
->> >> >> > +   private memory access when the bit is set. Otherwise the mem=
-ory error is
->> >> >> > +   caused by shared memory access when the bit is clear.
->> >> >>=20
->> >> >> What does a shared memory access failure entail?
->> >> >
->> >> > In the context of confidential computing usages, guest can issue a
->> >> > shared memory access while the memory is actually private from the =
-host
->> >> > point of view. This exit with bit 0 cleared gives userspace a chanc=
-e to
->> >> > convert the private memory to shared memory on host.
->> >>=20
->> >> I think this should be explicit rather than implied by the absence of
->> >> another flag. Sean suggested you might want flags for RWX failures so
->> >> maybe something like:
->> >>=20
->> >> 	KVM_MEMORY_EXIT_SHARED_FLAG_READ	(1 << 0)
->> >> 	KVM_MEMORY_EXIT_SHARED_FLAG_WRITE	(1 << 1)
->> >> 	KVM_MEMORY_EXIT_SHARED_FLAG_EXECUTE	(1 << 2)
->> >>         KVM_MEMORY_EXIT_FLAG_PRIVATE            (1 << 3)
->> >
->> > Yes, but I would not add 'SHARED' to RWX, they are not share memory
->> > specific, private memory can also set them once introduced.
->>=20
->> OK so how about:
->>=20
->>  	KVM_MEMORY_EXIT_FLAG_READ	(1 << 0)
->>  	KVM_MEMORY_EXIT_FLAG_WRITE	(1 << 1)
->>  	KVM_MEMORY_EXIT_FLAG_EXECUTE	(1 << 2)
->>         KVM_MEMORY_EXIT_FLAG_SHARED     (1 << 3)
->>         KVM_MEMORY_EXIT_FLAG_PRIVATE    (1 << 4)
->
-> We don't actually need a new bit, the opposite side of private is
-> shared, i.e. flags with KVM_MEMORY_EXIT_FLAG_PRIVATE cleared expresses
-> 'shared'.
+A dedicated flag isn't strictly needed, e.g. even if we end up with 3+ types in
+this category, the baseline could always be "private".
 
-If that is always true and we never expect a 3rd type of memory that is
-fine. But given we are leaving room for expansion having an explicit bit
-allows for that as well as making cases of forgetting to set the flags
-more obvious.
+I do like being explicit, and adding a PRIVATE flag costs KVM practically nothing
+to implement and maintain, but evetually we'll up with flags that are paired with
+an implicit state, e.g. see the many #PF error codes in x86.  In other words,
+inevitably KVM will need to define the default/base state of the access, at which
+point the base state for SHARED vs. PRIVATE is "undefined".  
 
---=20
-Alex Benn=C3=A9e
+The RWX bits are in the same boat, e.g. the READ flag isn't strictly necessary.
+I was thinking more of the KVM_SET_MEMORY_ATTRIBUTES ioctl(), which does need
+the full RWX gamut, when I typed out that response.
+
+So I would say if we add an explicit READ flag, then we might as well add an explicit
+PRIVATE flag too.  But if we omit PRIVATE, then we should omit READ too.
