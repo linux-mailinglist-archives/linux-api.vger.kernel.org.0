@@ -2,67 +2,52 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 50727633736
-	for <lists+linux-api@lfdr.de>; Tue, 22 Nov 2022 09:33:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 558F1633749
+	for <lists+linux-api@lfdr.de>; Tue, 22 Nov 2022 09:40:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229476AbiKVIdS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 22 Nov 2022 03:33:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36096 "EHLO
+        id S232847AbiKVIkT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 22 Nov 2022 03:40:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44508 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232840AbiKVIdP (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 22 Nov 2022 03:33:15 -0500
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 243192AC4C
-        for <linux-api@vger.kernel.org>; Tue, 22 Nov 2022 00:33:14 -0800 (PST)
-Received: by mail-pl1-x631.google.com with SMTP id w23so12925392ply.12
-        for <linux-api@vger.kernel.org>; Tue, 22 Nov 2022 00:33:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ICq6wKj+fTCmm2GjCUS1L0jcKrWJpIWh5rHEbpke/Aw=;
-        b=F97DvddPsXnZFYx+QA0dfxA6f30QqDBS69xRYssBkziviud34e1LSnX9q7xF/57AuE
-         dP0StyJf+OaVouXPLVZ/Ce+C/uKXJ3gYoZLnAf3E2UnKyLAaykL9jHZe/J0qxWLvcb/3
-         g33c/xMTGng9r4Aucbbcy2yDCaxrt1nzY+QrQn+7LJY5gScK/lNJ81AxkYA6Mkxa0BX6
-         QNcoi8zGYqUflEtd5A7aOuBkTkGgviLK1RaQ5ICYAt2/4eupEedkUzUNheoKnfMJYl/X
-         LaEncu+bZgFb7Dv0ZAnsZdMJJ7eXn3+HMe/TtL6Im+9ZI7GtgiKzgFhM8R9Oej5E7otX
-         0UOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=ICq6wKj+fTCmm2GjCUS1L0jcKrWJpIWh5rHEbpke/Aw=;
-        b=7Zc1OLTKkJ6E3Xjg6I9jbHYmQqDXxJnLPPNBWlrLC8O+1G8WAK3eQ5XhQx9ILIhd7q
-         U1isU39yAKver7is0lNtn/jDHxIljROrPZsdxT379Q7CcRZSXYj+z4tCvZeu66qQnQOT
-         WxPqkw3A6M1kEIQhEX9KM8MaybCNsN2p5FbSQXy8TewibPvb5e62Y6eO5yfSwmZ9ieJa
-         nvmOGjtpN+ufVzP5gQDLvELDz2HuyeXI68LqZjLgCQRj7KKJBv7RYG3sQ3SmwhYOMCGs
-         8/mz5V4/o/DJi7IIWJxm9FxTByGLy3t5HzFmzkUxAFAldpO5C4E3+beCsLn9RHDtAnUT
-         wBNA==
-X-Gm-Message-State: ANoB5plOd18/bqAiZmXnTl4Il1Xnvl9IMTVZinjXUQfnHT28nYJNKmDh
-        xc0VhT6UneN8qoPcu7eObbRzNw==
-X-Google-Smtp-Source: AA0mqf4vL/diUtsIX5LpP10tBGJx/S2/Ws+e7zKi3MOsrP9d2mD1bwtgXW5DaRmMpVUpuJIekszqkg==
-X-Received: by 2002:a17:90a:d38a:b0:218:a7e6:60df with SMTP id q10-20020a17090ad38a00b00218a7e660dfmr11210368pju.38.1669105993608;
-        Tue, 22 Nov 2022 00:33:13 -0800 (PST)
-Received: from [10.254.109.138] ([139.177.225.251])
-        by smtp.gmail.com with ESMTPSA id l12-20020a170903120c00b0016c5306917fsm11448352plh.53.2022.11.22.00.33.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Nov 2022 00:33:13 -0800 (PST)
-Message-ID: <ff3e9255-028a-7174-3608-2d9c362bdaf7@bytedance.com>
-Date:   Tue, 22 Nov 2022 16:33:09 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [External] Re: [PATCH v2] mm: add new syscall
- pidfd_set_mempolicy().
-To:     Michal Hocko <mhocko@suse.com>
+        with ESMTP id S232819AbiKVIkS (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 22 Nov 2022 03:40:18 -0500
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1D7F30F68;
+        Tue, 22 Nov 2022 00:40:17 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 0A49E21F4C;
+        Tue, 22 Nov 2022 08:40:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1669106416; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=8BZ09nC+Ltb5ETuM0UVHvj1htjE600StTsDaDLvmw28=;
+        b=Ejw1DBowwlD1MjGWZTvlL9cwgiYFjIT1GODBe3YPf+UfBsmX6zfGtD9/YNB6PKhsQANtUP
+        Sl6oIxkVZMl8Osn6QTVBiIpJx0pVxG3AWBwnehh4sI23sYah90hsobVfqYd5sdDHDp08rS
+        mmGmTVnERp0vqFnoAEDw+SQZ84WYvCo=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E0A8513B01;
+        Tue, 22 Nov 2022 08:40:15 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id ZRqONO+KfGP9IAAAMHmgww
+        (envelope-from <mhocko@suse.com>); Tue, 22 Nov 2022 08:40:15 +0000
+Date:   Tue, 22 Nov 2022 09:40:15 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     Zhongkun He <hezhongkun.hzk@bytedance.com>
 Cc:     Andrew Morton <akpm@linux-foundation.org>, corbet@lwn.net,
         linux-mm@kvack.org, linux-kernel@vger.kernel.org,
         linux-api@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20221111084051.2121029-1-hezhongkun.hzk@bytedance.com>
- <20221111112732.30e1696bcd0d5b711c188a9a@linux-foundation.org>
- <a44f794e-fe60-e261-3631-9107822d5c36@bytedance.com>
+Subject: Re: [External] Re: [PATCH v2] mm: add new syscall
+ pidfd_set_mempolicy().
+Message-ID: <Y3yK78HMSVA/Q6CS@dhcp22.suse.cz>
+References: <a44f794e-fe60-e261-3631-9107822d5c36@bytedance.com>
  <Y3IqLzvduM6HqPJV@dhcp22.suse.cz>
  <3a3b4f5b-14d1-27d8-7727-cf23da90988f@bytedance.com>
  <Y3KFFfMFE55lVdNZ@dhcp22.suse.cz>
@@ -71,41 +56,44 @@ References: <20221111084051.2121029-1-hezhongkun.hzk@bytedance.com>
  <Y3T6SqZvAmSG5I6W@dhcp22.suse.cz>
  <6433156f-34a8-400f-e282-91268b242279@bytedance.com>
  <Y3uNWbPmwHtytKzY@dhcp22.suse.cz>
-From:   Zhongkun He <hezhongkun.hzk@bytedance.com>
-In-Reply-To: <Y3uNWbPmwHtytKzY@dhcp22.suse.cz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+ <ff3e9255-028a-7174-3608-2d9c362bdaf7@bytedance.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ff3e9255-028a-7174-3608-2d9c362bdaf7@bytedance.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Michal, thanks for your replay and suggestions.
-
+On Tue 22-11-22 16:33:09, Zhongkun He wrote:
+> Hi Michal, thanks for your replay and suggestions.
 > 
-> Yes the memory consumption is going to increase but the question is
-> whether this is something that is a real problem. Is it really common to
-> have many vmas with a dedicated policy?
-
-Yes, it does not a realy problem.
-
+> > 
+> > Yes the memory consumption is going to increase but the question is
+> > whether this is something that is a real problem. Is it really common to
+> > have many vmas with a dedicated policy?
 > 
-> What I am arguing here is that there are essentially 2 ways forward.
-> Either we continue to build up on top of the existing and arguably very
-> fragile code and make it even more subtle or follow a general pattern of
-> a proper reference counting (with usual tricks to reduce cache line
-> bouncing and similar issues). I do not really see why memory policies
-> should be any different and require very special treatment.
+> Yes, it does not a realy problem.
 > 
+> > 
+> > What I am arguing here is that there are essentially 2 ways forward.
+> > Either we continue to build up on top of the existing and arguably very
+> > fragile code and make it even more subtle or follow a general pattern of
+> > a proper reference counting (with usual tricks to reduce cache line
+> > bouncing and similar issues). I do not really see why memory policies
+> > should be any different and require very special treatment.
+> > 
+> 
+> I got it. It is rather subtle and easy to get wrong if we push forward
+> with the existing way and it is a good opportunity to get from the
+> existing subtle model. I will try that on next version.
 
-I got it. It is rather subtle and easy to get wrong if we push forward
-with the existing way and it is a good opportunity to get from the
-existing subtle model. I will try that on next version.
-
-__
-Best Regards,
-Zhongkun
+Thanks for being receptive to the review feedback!
+-- 
+Michal Hocko
+SUSE Labs
