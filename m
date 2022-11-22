@@ -2,172 +2,186 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BD2B9633916
-	for <lists+linux-api@lfdr.de>; Tue, 22 Nov 2022 10:55:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1248D634868
+	for <lists+linux-api@lfdr.de>; Tue, 22 Nov 2022 21:39:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233407AbiKVJy6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 22 Nov 2022 04:54:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54798 "EHLO
+        id S234222AbiKVUju (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 22 Nov 2022 15:39:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45812 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232621AbiKVJy5 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 22 Nov 2022 04:54:57 -0500
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46AAE183AC;
-        Tue, 22 Nov 2022 01:54:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1669110896; x=1700646896;
-  h=date:from:to:cc:subject:message-id:reply-to:references:
-   mime-version:in-reply-to;
-  bh=rJIOCd9N5PvCN1hTjd1er2T0b67rVXxGjK1ymZuckrA=;
-  b=b7vNNj68/Ax6Wu+zUkZ0SXMQh1/D6weUFJgdYBLzCTERYsopZyfn5lCS
-   AC5ecYKuoLjRaZJZIaCJyMYgtoLp+2hrSPIat/rojvvpMC4JUxNDKZvHs
-   eap8QuRh1CaW9CPTvZZXcUarJiOCcg++ZFyjPQcJtrQGojRB2+DkqJdLd
-   F47Tqt43uU6ADr8efBIq8G/OXHLz905oPtZ2kiJ6v4cWM4S04SVTi15D9
-   7Z5ZsqycGoIBpky9UGhIirnF4SffdLXYY34xzc7v6Qm8Hi3CpYd4P0vHX
-   10Kfn/yMCEM1UgspnjZAYFYYaXzhbEu16Wo3B0QiRxglJWxOqaKKGjwyZ
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10538"; a="314927693"
-X-IronPort-AV: E=Sophos;i="5.96,183,1665471600"; 
-   d="scan'208";a="314927693"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2022 01:54:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10538"; a="635489296"
-X-IronPort-AV: E=Sophos;i="5.96,183,1665471600"; 
-   d="scan'208";a="635489296"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
-  by orsmga007.jf.intel.com with ESMTP; 22 Nov 2022 01:54:45 -0800
-Date:   Tue, 22 Nov 2022 17:50:22 +0800
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     Sean Christopherson <seanjc@google.com>
-Cc:     Alex =?utf-8?B?QmVubu+/vWU=?= <alex.bennee@linaro.org>,
-        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v9 3/8] KVM: Add KVM_EXIT_MEMORY_FAULT exit
-Message-ID: <20221122095022.GA617784@chaop.bj.intel.com>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-4-chao.p.peng@linux.intel.com>
- <87cz9o9mr8.fsf@linaro.org>
- <20221116031441.GA364614@chaop.bj.intel.com>
- <87mt8q90rw.fsf@linaro.org>
- <20221117134520.GD422408@chaop.bj.intel.com>
- <87a64p8vof.fsf@linaro.org>
- <20221118013201.GA456562@chaop.bj.intel.com>
- <87o7t475o7.fsf@linaro.org>
- <Y3er0M5Rpf1X97W/@google.com>
+        with ESMTP id S234320AbiKVUjr (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 22 Nov 2022 15:39:47 -0500
+X-Greylist: delayed 89243 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 22 Nov 2022 12:39:45 PST
+Received: from smtpout.efficios.com (unknown [IPv6:2607:5300:203:b2ee::31e5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F49D6B389;
+        Tue, 22 Nov 2022 12:39:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=efficios.com;
+        s=smtpout1; t=1669149584;
+        bh=NMAzq6XfftXBO/HcXtHhXgm94OkSYYLzbKGIA8GTwns=;
+        h=From:To:Cc:Subject:Date:From;
+        b=HNJIv2GjMVFd9tDS8gYrOg891v+d73j3fKDi3kX4ZtGeQksXPxrrtu2eoZ/vDzyqn
+         iCBHEj6eYWyhaqjgfG1yp5W1vIVzs3f6pKcuQ5JLvF9na0NZAcMj5Hc8SSePQB5CDi
+         a0NT2fao5Nc/6DRUUJPrBsgmNLLauhZuLM6VXLDvlQxsFYE6ily5ShWquJB77fqCL/
+         TYXS1E1+QVkLHhFigwHNWZFqz8VCmJFoiSiQY5vTw6x8YpGwqyN279ZHQIu3GP8wRI
+         o0EmXOFxJTZEQlzz+DDPOWs3c5qgO49IauUCIBKftztTIpoiOYTH+Za4XQEZR8pQfS
+         zbTnUwcnW8W8Q==
+Received: from localhost.localdomain (192-222-180-24.qc.cable.ebox.net [192.222.180.24])
+        by smtpout.efficios.com (Postfix) with ESMTPSA id 4NGx2S1mzgzXDR;
+        Tue, 22 Nov 2022 15:39:44 -0500 (EST)
+From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
+        linux-api@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
+        Florian Weimer <fw@deneb.enyo.de>, David.Laight@ACULAB.COM,
+        carlos@redhat.com, Peter Oskolkov <posk@posk.io>,
+        Alexander Mikhalitsyn <alexander@mihalicyn.com>,
+        Chris Kennelly <ckennelly@google.com>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Subject: [PATCH 00/30] RSEQ node id and mm concurrency id extensions
+Date:   Tue, 22 Nov 2022 15:39:02 -0500
+Message-Id: <20221122203932.231377-1-mathieu.desnoyers@efficios.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y3er0M5Rpf1X97W/@google.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RDNS_NONE,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Nov 18, 2022 at 03:59:12PM +0000, Sean Christopherson wrote:
-> On Fri, Nov 18, 2022, Alex Benn?e wrote:
-> > 
-> > Chao Peng <chao.p.peng@linux.intel.com> writes:
-> > 
-> > > On Thu, Nov 17, 2022 at 03:08:17PM +0000, Alex Benn?e wrote:
-> > >> >> I think this should be explicit rather than implied by the absence of
-> > >> >> another flag. Sean suggested you might want flags for RWX failures so
-> > >> >> maybe something like:
-> > >> >> 
-> > >> >> 	KVM_MEMORY_EXIT_SHARED_FLAG_READ	(1 << 0)
-> > >> >> 	KVM_MEMORY_EXIT_SHARED_FLAG_WRITE	(1 << 1)
-> > >> >> 	KVM_MEMORY_EXIT_SHARED_FLAG_EXECUTE	(1 << 2)
-> > >> >>         KVM_MEMORY_EXIT_FLAG_PRIVATE            (1 << 3)
-> > >> >
-> > >> > Yes, but I would not add 'SHARED' to RWX, they are not share memory
-> > >> > specific, private memory can also set them once introduced.
-> > >> 
-> > >> OK so how about:
-> > >> 
-> > >>  	KVM_MEMORY_EXIT_FLAG_READ	(1 << 0)
-> > >>  	KVM_MEMORY_EXIT_FLAG_WRITE	(1 << 1)
-> > >>  	KVM_MEMORY_EXIT_FLAG_EXECUTE	(1 << 2)
-> > >>         KVM_MEMORY_EXIT_FLAG_SHARED     (1 << 3)
-> > >>         KVM_MEMORY_EXIT_FLAG_PRIVATE    (1 << 4)
-> > >
-> > > We don't actually need a new bit, the opposite side of private is
-> > > shared, i.e. flags with KVM_MEMORY_EXIT_FLAG_PRIVATE cleared expresses
-> > > 'shared'.
-> > 
-> > If that is always true and we never expect a 3rd type of memory that is
-> > fine. But given we are leaving room for expansion having an explicit bit
-> > allows for that as well as making cases of forgetting to set the flags
-> > more obvious.
-> 
-> Hrm, I'm on the fence.
-> 
-> A dedicated flag isn't strictly needed, e.g. even if we end up with 3+ types in
-> this category, the baseline could always be "private".
+Extend the rseq ABI to expose NUMA node ID, mm_cid, and mm_numa_cid
+fields.
 
-The baseline for the current code is actually "shared".
+The NUMA node ID field allows implementing a faster getcpu(2) in libc.
 
-> 
-> I do like being explicit, and adding a PRIVATE flag costs KVM practically nothing
-> to implement and maintain, but evetually we'll up with flags that are paired with
-> an implicit state, e.g. see the many #PF error codes in x86.  In other words,
-> inevitably KVM will need to define the default/base state of the access, at which
-> point the base state for SHARED vs. PRIVATE is "undefined".  
+The per-memory-map concurrency id (mm_cid) [1] allows ideal scaling
+(down or up) of user-space per-cpu data structures. The concurrency ids
+allocated within a memory map are tracked by the scheduler, which takes
+into account the number of concurrently running threads, thus implicitly
+considering the number of threads, the cpu affinity, the cpusets
+applying to those threads, and the number of logical cores on the
+system.
 
-Current memory conversion for confidential usage is bi-directional so we
-already need both private and shared states and if we use one bit for
-both "shared" and "private" then we will have to define the default
-state, e.g, currently the default state is "shared" when we define
+The NUMA-aware concurrency id (mm_numa_cid) is similar to the mm_cid,
+except that it keeps track of the NUMA node ids with which each cid has
+been associated. On NUMA systems, when a NUMA-aware concurrency ID is
+observed by user-space to be associated with a NUMA node, it is
+guaranteed to never change NUMA node unless a kernel-level NUMA
+configuration change happens. This is useful for NUMA-aware per-cpu data
+structures running in environments where a process or a set of processes
+belonging to cpuset are pinned to a set of cores which belong to a
+subset of the system's NUMA nodes.
 
-	KVM_MEMORY_EXIT_FLAG_PRIVATE	(1 << 0)
+This series is based on tip/sched/core
+commit 52b33d87b9197 ("sched/psi: Use task->psi_flags to clear in CPU migration")
 
-> 
-> The RWX bits are in the same boat, e.g. the READ flag isn't strictly necessary.
-> I was thinking more of the KVM_SET_MEMORY_ATTRIBUTES ioctl(), which does need
-> the full RWX gamut, when I typed out that response.
+Thanks,
 
-For KVM_SET_MEMORY_ATTRIBUTES it's reasonable to add RWX bits and match
-that to the permission bits definition in EPT entry.
+Mathieu
 
-> 
-> So I would say if we add an explicit READ flag, then we might as well add an explicit
-> PRIVATE flag too.  But if we omit PRIVATE, then we should omit READ too.
+[1] was previously known as vcpu_id in earlier versions of this patch set.
 
-Since we assume the default state is shared, so we actually only need a
-PRIVATE flag, e.g. there is no SHARED flag and will ignore the RWX for now.
+Mathieu Desnoyers (30):
+  selftests/rseq: Fix: Fail thread registration when CONFIG_RSEQ=n
+  rseq: Introduce feature size and alignment ELF auxiliary vector
+    entries
+  rseq: Introduce extensible rseq ABI
+  rseq: Extend struct rseq with numa node id
+  selftests/rseq: Use ELF auxiliary vector for extensible rseq
+  selftests/rseq: Implement rseq numa node id field selftest
+  sched: Introduce per-memory-map concurrency ID
+  rseq: Extend struct rseq with per-memory-map concurrency ID
+  selftests/rseq: Remove RSEQ_SKIP_FASTPATH code
+  selftests/rseq: Implement rseq mm_cid field support
+  selftests/rseq: x86: Template memory ordering and percpu access mode
+  selftests/rseq: arm: Template memory ordering and percpu access mode
+  selftests/rseq: arm64: Template memory ordering and percpu access mode
+  selftests/rseq: mips: Template memory ordering and percpu access mode
+  selftests/rseq: ppc: Template memory ordering and percpu access mode
+  selftests/rseq: s390: Template memory ordering and percpu access mode
+  selftests/rseq: riscv: Template memory ordering and percpu access mode
+  selftests/rseq: Implement basic percpu ops mm_cid test
+  selftests/rseq: Implement parametrized mm_cid test
+  selftests/rseq: parametrized test: Report/abort on negative
+    concurrency ID
+  tracing/rseq: Add mm_cid field to rseq_update
+  lib: Implement find_{first,next,nth}_notandnot_bit,
+    find_first_andnot_bit
+  cpumask: Implement cpumask_{first,next}_{not,}andnot
+  sched: NUMA-aware per-memory-map concurrency ID
+  rseq: Extend struct rseq with per-memory-map NUMA-aware Concurrency ID
+  selftests/rseq: x86: Implement rseq_load_u32_u32
+  selftests/rseq: Implement mm_numa_cid accessors in headers
+  selftests/rseq: Implement numa node id vs mm_numa_cid invariant test
+  selftests/rseq: Implement mm_numa_cid tests
+  tracing/rseq: Add mm_numa_cid field to rseq_update
 
-Chao
+ fs/binfmt_elf.c                               |    5 +
+ fs/exec.c                                     |    4 +
+ include/linux/cpumask.h                       |   60 +
+ include/linux/find.h                          |  123 +-
+ include/linux/mm.h                            |   43 +
+ include/linux/mm_types.h                      |  109 +-
+ include/linux/sched.h                         |   12 +
+ include/trace/events/rseq.h                   |    9 +-
+ include/uapi/linux/auxvec.h                   |    2 +
+ include/uapi/linux/rseq.h                     |   31 +
+ init/Kconfig                                  |    4 +
+ kernel/fork.c                                 |   11 +-
+ kernel/ptrace.c                               |    2 +-
+ kernel/rseq.c                                 |   73 +-
+ kernel/sched/core.c                           |   49 +
+ kernel/sched/sched.h                          |  192 +++
+ kernel/signal.c                               |    2 +
+ lib/find_bit.c                                |   42 +
+ tools/testing/selftests/rseq/.gitignore       |    9 +
+ tools/testing/selftests/rseq/Makefile         |   34 +-
+ .../testing/selftests/rseq/basic_numa_test.c  |  117 ++
+ .../selftests/rseq/basic_percpu_ops_test.c    |   58 +-
+ tools/testing/selftests/rseq/basic_test.c     |    4 +
+ tools/testing/selftests/rseq/compiler.h       |    6 +
+ tools/testing/selftests/rseq/param_test.c     |  181 ++-
+ tools/testing/selftests/rseq/rseq-abi.h       |   31 +
+ tools/testing/selftests/rseq/rseq-arm-bits.h  |  505 +++++++
+ tools/testing/selftests/rseq/rseq-arm.h       |  707 +---------
+ .../testing/selftests/rseq/rseq-arm64-bits.h  |  392 ++++++
+ tools/testing/selftests/rseq/rseq-arm64.h     |  532 +-------
+ .../testing/selftests/rseq/rseq-bits-reset.h  |   11 +
+ .../selftests/rseq/rseq-bits-template.h       |   51 +
+ tools/testing/selftests/rseq/rseq-mips-bits.h |  462 +++++++
+ tools/testing/selftests/rseq/rseq-mips.h      |  652 +--------
+ tools/testing/selftests/rseq/rseq-ppc-bits.h  |  454 +++++++
+ tools/testing/selftests/rseq/rseq-ppc.h       |  629 +--------
+ .../testing/selftests/rseq/rseq-riscv-bits.h  |  410 ++++++
+ tools/testing/selftests/rseq/rseq-riscv.h     |  541 +-------
+ tools/testing/selftests/rseq/rseq-s390-bits.h |  474 +++++++
+ tools/testing/selftests/rseq/rseq-s390.h      |  501 +------
+ tools/testing/selftests/rseq/rseq-skip.h      |   65 -
+ tools/testing/selftests/rseq/rseq-x86-bits.h  | 1036 ++++++++++++++
+ tools/testing/selftests/rseq/rseq-x86.h       | 1204 +----------------
+ tools/testing/selftests/rseq/rseq.c           |   91 +-
+ tools/testing/selftests/rseq/rseq.h           |  258 +++-
+ .../testing/selftests/rseq/run_param_test.sh  |    5 +
+ 46 files changed, 5532 insertions(+), 4661 deletions(-)
+ create mode 100644 tools/testing/selftests/rseq/basic_numa_test.c
+ create mode 100644 tools/testing/selftests/rseq/rseq-arm-bits.h
+ create mode 100644 tools/testing/selftests/rseq/rseq-arm64-bits.h
+ create mode 100644 tools/testing/selftests/rseq/rseq-bits-reset.h
+ create mode 100644 tools/testing/selftests/rseq/rseq-bits-template.h
+ create mode 100644 tools/testing/selftests/rseq/rseq-mips-bits.h
+ create mode 100644 tools/testing/selftests/rseq/rseq-ppc-bits.h
+ create mode 100644 tools/testing/selftests/rseq/rseq-riscv-bits.h
+ create mode 100644 tools/testing/selftests/rseq/rseq-s390-bits.h
+ delete mode 100644 tools/testing/selftests/rseq/rseq-skip.h
+ create mode 100644 tools/testing/selftests/rseq/rseq-x86-bits.h
+
+-- 
+2.25.1
+
