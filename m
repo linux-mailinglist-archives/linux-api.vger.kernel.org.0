@@ -2,238 +2,110 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B3BDF63352E
-	for <lists+linux-api@lfdr.de>; Tue, 22 Nov 2022 07:22:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 50727633736
+	for <lists+linux-api@lfdr.de>; Tue, 22 Nov 2022 09:33:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232174AbiKVGWC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 22 Nov 2022 01:22:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39126 "EHLO
+        id S229476AbiKVIdS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 22 Nov 2022 03:33:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36096 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232157AbiKVGWA (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 22 Nov 2022 01:22:00 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C49732D77B;
-        Mon, 21 Nov 2022 22:21:58 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 238CE61552;
-        Tue, 22 Nov 2022 06:21:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D708C433D6;
-        Tue, 22 Nov 2022 06:21:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1669098117;
-        bh=bfNLT2YUtJP1xSjZ7j5UfuX/y0pWjX4jNCEWTPv1j80=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=tRgoEpQy5REN8BKzBaovdzyF35oCrh6mGm3ozrdxaLAGicgmzYiOjeYxokQ5COyyf
-         yFOFyUpKLw5rK04aueAliIfl5oXj4kayf2QnRihJNm69a/vkFNDr4svGrK1QaTPmJc
-         hgMB8kV1OarC3/JG1HJgNPKYtqfB96jMnca0XJ5zD10fAJDPYWfzGtrhYcOLCyuvHm
-         ufnOAHSVEFDw76U/XTYwUA8K9CTxt26JThqmqOEGS48i3tSDJkSc/zIXgAf5FpMc0Y
-         PjxEv9TDZTw2gBMAY371vL/f09B8GcQPrHaM0mN3IzEiRgiJ0yZIgBxoKjiBh0Aw0w
-         ayWWK+ZSXaslw==
-Date:   Mon, 21 Nov 2022 22:21:57 -0800
-From:   "Darrick J. Wong" <djwong@kernel.org>
-To:     Dave Chinner <david@fromorbit.com>
-Cc:     Catherine Hoang <catherine.hoang@oracle.com>,
-        linux-xfs@vger.kernel.org, linux-ext4 <linux-ext4@vger.kernel.org>,
-        Theodore Ts'o <tytso@mit.edu>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        linux-api@vger.kernel.org
-Subject: Re: [PATCH v1] xfs_spaceman: add fsuuid command
-Message-ID: <Y3xqhXjJpXosOPPH@magnolia>
-References: <20221109222335.84920-1-catherine.hoang@oracle.com>
- <Y3abjYmX//CF/ey0@magnolia>
- <20221117215125.GH3600936@dread.disaster.area>
- <Y3bKjm2vOwy/jV4Z@magnolia>
- <20221121233357.GO3600936@dread.disaster.area>
+        with ESMTP id S232840AbiKVIdP (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 22 Nov 2022 03:33:15 -0500
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 243192AC4C
+        for <linux-api@vger.kernel.org>; Tue, 22 Nov 2022 00:33:14 -0800 (PST)
+Received: by mail-pl1-x631.google.com with SMTP id w23so12925392ply.12
+        for <linux-api@vger.kernel.org>; Tue, 22 Nov 2022 00:33:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ICq6wKj+fTCmm2GjCUS1L0jcKrWJpIWh5rHEbpke/Aw=;
+        b=F97DvddPsXnZFYx+QA0dfxA6f30QqDBS69xRYssBkziviud34e1LSnX9q7xF/57AuE
+         dP0StyJf+OaVouXPLVZ/Ce+C/uKXJ3gYoZLnAf3E2UnKyLAaykL9jHZe/J0qxWLvcb/3
+         g33c/xMTGng9r4Aucbbcy2yDCaxrt1nzY+QrQn+7LJY5gScK/lNJ81AxkYA6Mkxa0BX6
+         QNcoi8zGYqUflEtd5A7aOuBkTkGgviLK1RaQ5ICYAt2/4eupEedkUzUNheoKnfMJYl/X
+         LaEncu+bZgFb7Dv0ZAnsZdMJJ7eXn3+HMe/TtL6Im+9ZI7GtgiKzgFhM8R9Oej5E7otX
+         0UOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=ICq6wKj+fTCmm2GjCUS1L0jcKrWJpIWh5rHEbpke/Aw=;
+        b=7Zc1OLTKkJ6E3Xjg6I9jbHYmQqDXxJnLPPNBWlrLC8O+1G8WAK3eQ5XhQx9ILIhd7q
+         U1isU39yAKver7is0lNtn/jDHxIljROrPZsdxT379Q7CcRZSXYj+z4tCvZeu66qQnQOT
+         WxPqkw3A6M1kEIQhEX9KM8MaybCNsN2p5FbSQXy8TewibPvb5e62Y6eO5yfSwmZ9ieJa
+         nvmOGjtpN+ufVzP5gQDLvELDz2HuyeXI68LqZjLgCQRj7KKJBv7RYG3sQ3SmwhYOMCGs
+         8/mz5V4/o/DJi7IIWJxm9FxTByGLy3t5HzFmzkUxAFAldpO5C4E3+beCsLn9RHDtAnUT
+         wBNA==
+X-Gm-Message-State: ANoB5plOd18/bqAiZmXnTl4Il1Xnvl9IMTVZinjXUQfnHT28nYJNKmDh
+        xc0VhT6UneN8qoPcu7eObbRzNw==
+X-Google-Smtp-Source: AA0mqf4vL/diUtsIX5LpP10tBGJx/S2/Ws+e7zKi3MOsrP9d2mD1bwtgXW5DaRmMpVUpuJIekszqkg==
+X-Received: by 2002:a17:90a:d38a:b0:218:a7e6:60df with SMTP id q10-20020a17090ad38a00b00218a7e660dfmr11210368pju.38.1669105993608;
+        Tue, 22 Nov 2022 00:33:13 -0800 (PST)
+Received: from [10.254.109.138] ([139.177.225.251])
+        by smtp.gmail.com with ESMTPSA id l12-20020a170903120c00b0016c5306917fsm11448352plh.53.2022.11.22.00.33.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 22 Nov 2022 00:33:13 -0800 (PST)
+Message-ID: <ff3e9255-028a-7174-3608-2d9c362bdaf7@bytedance.com>
+Date:   Tue, 22 Nov 2022 16:33:09 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221121233357.GO3600936@dread.disaster.area>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [External] Re: [PATCH v2] mm: add new syscall
+ pidfd_set_mempolicy().
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>, corbet@lwn.net,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20221111084051.2121029-1-hezhongkun.hzk@bytedance.com>
+ <20221111112732.30e1696bcd0d5b711c188a9a@linux-foundation.org>
+ <a44f794e-fe60-e261-3631-9107822d5c36@bytedance.com>
+ <Y3IqLzvduM6HqPJV@dhcp22.suse.cz>
+ <3a3b4f5b-14d1-27d8-7727-cf23da90988f@bytedance.com>
+ <Y3KFFfMFE55lVdNZ@dhcp22.suse.cz>
+ <82c9c89c-aee2-08a3-e562-359631bb0137@bytedance.com>
+ <0bd0b744-3d97-b4c3-a4fb-6040f8f8024a@bytedance.com>
+ <Y3T6SqZvAmSG5I6W@dhcp22.suse.cz>
+ <6433156f-34a8-400f-e282-91268b242279@bytedance.com>
+ <Y3uNWbPmwHtytKzY@dhcp22.suse.cz>
+From:   Zhongkun He <hezhongkun.hzk@bytedance.com>
+In-Reply-To: <Y3uNWbPmwHtytKzY@dhcp22.suse.cz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-[adding Ted, the ext4 list, fsdevel, and api, because why not?]
+Hi Michal, thanks for your replay and suggestions.
 
-On Tue, Nov 22, 2022 at 10:33:57AM +1100, Dave Chinner wrote:
-> On Thu, Nov 17, 2022 at 03:58:06PM -0800, Darrick J. Wong wrote:
-> > On Fri, Nov 18, 2022 at 08:51:25AM +1100, Dave Chinner wrote:
-> > > On Thu, Nov 17, 2022 at 12:37:33PM -0800, Darrick J. Wong wrote:
-> > > > On Wed, Nov 09, 2022 at 02:23:35PM -0800, Catherine Hoang wrote:
-> > > > > Add support for the fsuuid command to retrieve the UUID of a mounted
-> > > > > filesystem.
-> > > > > 
-> > > > > Signed-off-by: Catherine Hoang <catherine.hoang@oracle.com>
-> > > > > ---
-
-<snip to the good part>
-
-> > > > > diff --git a/spaceman/fsuuid.c b/spaceman/fsuuid.c
-> > > > > new file mode 100644
-> > > > > index 00000000..be12c1ad
-> > > > > --- /dev/null
-> > > > > +++ b/spaceman/fsuuid.c
-> > > > > @@ -0,0 +1,63 @@
-> > > > > +// SPDX-License-Identifier: GPL-2.0
-> > > > > +/*
-> > > > > + * Copyright (c) 2022 Oracle.
-> > > > > + * All Rights Reserved.
-> > > > > + */
-> > > > > +
-> > > > > +#include "libxfs.h"
-> > > > > +#include "libfrog/fsgeom.h"
-> > > > > +#include "libfrog/paths.h"
-> > > > > +#include "command.h"
-> > > > > +#include "init.h"
-> > > > > +#include "space.h"
-> > > > > +#include <sys/ioctl.h>
-> > > > > +
-> > > > > +#ifndef FS_IOC_GETFSUUID
-> > > > > +#define FS_IOC_GETFSUUID	_IOR('f', 44, struct fsuuid)
-> > > > > +#define UUID_SIZE 16
-> > > > > +struct fsuuid {
-> > > > > +    __u32   fsu_len;
-> > > > > +    __u32   fsu_flags;
-> > > > > +    __u8    fsu_uuid[];
-> > > > 
-> > > > This is a flex array   ^^ which has no size.  struct fsuuid therefore
-> > > > has a size of 8 bytes (i.e. enough to cover the two u32 fields) and no
-> > > > more.  It's assumed that the caller will allocate the memory for
-> > > > fsu_uuid...
-> > > > 
-> > > > > +};
-> > > > > +#endif
-> > > > > +
-> > > > > +static cmdinfo_t fsuuid_cmd;
-> > > > > +
-> > > > > +static int
-> > > > > +fsuuid_f(
-> > > > > +	int		argc,
-> > > > > +	char		**argv)
-> > > > > +{
-> > > > > +	struct fsuuid	fsuuid;
-> > > > > +	int		error;
-> > > > 
-> > > > ...which makes this usage a problem, because we've not reserved any
-> > > > space on the stack to hold the UUID.  The kernel will blindly assume
-> > > > that there are fsuuid.fsu_len bytes after fsuuid and write to them,
-> > > > which will clobber something on the stack.
-> > > > 
-> > > > If you're really unlucky, the C compiler will put the fsuuid right
-> > > > before the call frame, which is how stack smashing attacks work.  It
-> > > > might also lay out bp[] immediately afterwards, which will give you
-> > > > weird results as the unparse function overwrites its source buffer.  The
-> > > > C compiler controls the stack layout, which means this can go bad in
-> > > > subtle ways.
-> > > > 
-> > > > Either way, gcc complains about this (albeit in an opaque manner)...
-> > > > 
-> > > > In file included from ../include/xfs.h:9,
-> > > >                  from ../include/libxfs.h:15,
-> > > >                  from fsuuid.c:7:
-> > > > In function ‘platform_uuid_unparse’,
-> > > >     inlined from ‘fsuuid_f’ at fsuuid.c:45:3:
-> > > > ../include/xfs/linux.h:100:9: error: ‘uuid_unparse’ reading 16 bytes from a region of size 0 [-Werror=stringop-overread]
-> > > >   100 |         uuid_unparse(*uu, buffer);
-> > > >       |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-> > > > ../include/xfs/linux.h: In function ‘fsuuid_f’:
-> > > > ../include/xfs/linux.h:100:9: note: referencing argument 1 of type ‘const unsigned char *’
-> > > > In file included from ../include/xfs/linux.h:13,
-> > > >                  from ../include/xfs.h:9,
-> > > >                  from ../include/libxfs.h:15,
-> > > >                  from fsuuid.c:7:
-> > > > /usr/include/uuid/uuid.h:107:13: note: in a call to function ‘uuid_unparse’
-> > > >   107 | extern void uuid_unparse(const uuid_t uu, char *out);
-> > > >       |             ^~~~~~~~~~~~
-> > > > cc1: all warnings being treated as errors
-> > > > 
-> > > > ...so please allocate the struct fsuuid object dynamically.
-> > > 
-> > > So, follow common convention and you'll get it wrong, eh? That a
-> > > score of -4 on Rusty's API Design scale.
-> > > 
-> > > http://sweng.the-davies.net/Home/rustys-api-design-manifesto
-> > > 
-> > > Flex arrays in user APIs like this just look plain dangerous to me.
-> > > 
-> > > Really, this says that the FSUUID API should have a fixed length
-> > > buffer size defined in the API and the length used can be anything
-> > > up to the maximum.
-> > > 
-> > > We already have this being added for the ioctl API:
-> > > 
-> > > #define UUID_SIZE 16
-> > > 
-> > > So why isn't the API definition this:
-> > > 
-> > > struct fsuuid {
-> > >     __u32   fsu_len;
-> > >     __u32   fsu_flags;
-> > >     __u8    fsu_uuid[UUID_SIZE];
-> > > };
-> > > 
-> > > Or if we want to support larger ID structures:
-> > > 
-> > > #define MAX_FSUUID_SIZE 256
-> > > 
-> > > struct fsuuid {
-> > >     __u32   fsu_len;
-> > >     __u32   fsu_flags;
-> > >     __u8    fsu_uuid[MAX_FSUUID_SIZE];
-> > > };
-> > > 
-> > > Then the structure can be safely placed on the stack, which means
-> > > "the obvious use is (probably) the correct one" (a score of 7 on
-> > > Rusty's API Design scale). It also gives the kernel a fixed upper
-> > > bound that it can use to validate the incoming fsu_len variable
-> > > against...
-> > 
-> > Too late now, this already shipped in 6.0.  Changing the struct size
-> > would change the ioctl number, which is a totally new API.  This was
-> > already discussed back in July on fsdevel/api.
 > 
-> It is certainly not too late - if we are going to lift this to the
-> VFS, then we can simply make it a new ioctl. The horrible ext4 ioctl
-> can ber left to rot in ext4 and nobody else ever needs to care that
-> it exists.
+> Yes the memory consumption is going to increase but the question is
+> whether this is something that is a real problem. Is it really common to
+> have many vmas with a dedicated policy?
 
-You're wrong.  This was discussed **multiple times** this summer on
-the fsdevel and API lists.  You had plenty of opportunity to make these
-suggestions about the design, and yet you did not:
+Yes, it does not a realy problem.
 
-https://lore.kernel.org/linux-api/20220701201123.183468-1-bongiojp@gmail.com/
-https://lore.kernel.org/linux-api/20220719065551.154132-1-bongiojp@gmail.com/
-https://lore.kernel.org/linux-api/20220719234131.235187-1-bongiojp@gmail.com/
-https://lore.kernel.org/linux-api/20220721224422.438351-1-bongiojp@gmail.com/
+> 
+> What I am arguing here is that there are essentially 2 ways forward.
+> Either we continue to build up on top of the existing and arguably very
+> fragile code and make it even more subtle or follow a general pattern of
+> a proper reference counting (with usual tricks to reduce cache line
+> bouncing and similar issues). I do not really see why memory policies
+> should be any different and require very special treatment.
+> 
 
-Jeremy built the functionality and followed the customary process,
-sending four separate revisions for reviews.  He adapted his code based
-on our feedback about how to future-proof it by adding an explicit
-length parameter, and got it merged into ext4 in 6.0-rc1.
+I got it. It is rather subtle and easy to get wrong if we push forward
+with the existing way and it is a good opportunity to get from the
+existing subtle model. I will try that on next version.
 
-Now you want Catherine and I to tear down his work and initiate a design
-review of YET ANOTHER NEW IOCTL just so the API can hit this one design
-point you care about, and then convince Ted to go back and redo all the
-work that has already been done.  All this to extract 16 bytes from the
-kernel in a slightly different style than the existing XFS fsgeometry
-ioctl.
-
-This was /supposed/ to be a simple way for a less experienced staffer to
-gain some experience wiring up an existing ioctl.  And, well, I hope she
-doesn't take away that developing for Linux is institutionally broken
-and frustrating, because that's what I've taken away from the last 2+
-years of being here.
-
---D
-
-> -Dave.
-> -- 
-> Dave Chinner
-> david@fromorbit.com
+__
+Best Regards,
+Zhongkun
