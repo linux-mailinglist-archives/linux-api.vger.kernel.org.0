@@ -2,95 +2,258 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 97F9F634899
-	for <lists+linux-api@lfdr.de>; Tue, 22 Nov 2022 21:41:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6510E634B55
+	for <lists+linux-api@lfdr.de>; Wed, 23 Nov 2022 00:45:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234995AbiKVUlj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 22 Nov 2022 15:41:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46058 "EHLO
+        id S233625AbiKVXpX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 22 Nov 2022 18:45:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234569AbiKVUlB (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 22 Nov 2022 15:41:01 -0500
-Received: from smtpout.efficios.com (unknown [IPv6:2607:5300:203:b2ee::31e5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDBFB716E3;
-        Tue, 22 Nov 2022 12:39:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=efficios.com;
-        s=smtpout1; t=1669149597;
-        bh=O1N2y3vjljIZnKe9A0DWaJyuaE+DJOz1zqwzlJQB/j4=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=FH7kxxsZPNpCeWLHljPWd50s3fK1CsH4OXiUxDH0jqtzGiw0TUUBVWGDNuR+tQpct
-         rroSkpWJfrMBtTt8xT9zKWR/lqefUTomiiG+stVJdiEQvrX3bJI6RsfRWx7T2aZhSD
-         m/Jhj69J2E4Nkv7benyo6QmJxAk43hcbZaRUw1iSmeKuhvUZcMW1ckZrTFuZaZC6kA
-         iUMIk0m2QCc0mqNZths82FXge0o/YMfl5Cj6dU2olLZuXPIGPqS31M7w5wD4h3ntKX
-         XQORaOj+SPbuY1DXGDyub5sJAIhj6RZodCmsIkL6QlfX+h9iOF2udmmPFapgNLVpW1
-         /10GtKzySEgEQ==
-Received: from localhost.localdomain (192-222-180-24.qc.cable.ebox.net [192.222.180.24])
-        by smtpout.efficios.com (Postfix) with ESMTPSA id 4NGx2h5jgJzXLV;
-        Tue, 22 Nov 2022 15:39:56 -0500 (EST)
-From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        "Paul E . McKenney" <paulmck@kernel.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
-        linux-api@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
-        Florian Weimer <fw@deneb.enyo.de>, David.Laight@ACULAB.COM,
-        carlos@redhat.com, Peter Oskolkov <posk@posk.io>,
-        Alexander Mikhalitsyn <alexander@mihalicyn.com>,
-        Chris Kennelly <ckennelly@google.com>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Subject: [PATCH 30/30] tracing/rseq: Add mm_numa_cid field to rseq_update
-Date:   Tue, 22 Nov 2022 15:39:32 -0500
-Message-Id: <20221122203932.231377-31-mathieu.desnoyers@efficios.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221122203932.231377-1-mathieu.desnoyers@efficios.com>
-References: <20221122203932.231377-1-mathieu.desnoyers@efficios.com>
+        with ESMTP id S235065AbiKVXpV (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 22 Nov 2022 18:45:21 -0500
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 473E6C72C2
+        for <linux-api@vger.kernel.org>; Tue, 22 Nov 2022 15:45:20 -0800 (PST)
+Received: by mail-pf1-x432.google.com with SMTP id d192so15855692pfd.0
+        for <linux-api@vger.kernel.org>; Tue, 22 Nov 2022 15:45:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fromorbit-com.20210112.gappssmtp.com; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=4Br32V4f5RhJzAJZzqIlTw5MxWMCxMPceRuTf9fFBWs=;
+        b=LMp1DNYW9KAAMAhwIRp13A+UoP5f9oi+tOL9pTcPwVL3Hc6Ia0RKrsPyHf7sk3dYlL
+         v9YR+AZs0izub2IeIbLi9+6o8cIngufh1uDpzVlhQ/ZFDkXxqwXovqRsjKBm6NZFGvv6
+         pSeTyc8+Xrg5pYq9dVwahpyuRyB+A0L7WHBm9FYVIm3CSim0mFWLdFJcXn1W/Cirm8wU
+         4cx6I/5Z9/oLvxF/W/DNvYvSDm5Y1x5ZXSK3G4AXZe853DkbvzdSe2ugzOjJtso17frU
+         aC8o3HsIYiTKdAMhTgI75zsB1Xqbrkav8T2gO/YrQ38GZirJO2OPKZh8DErpWJLFpzvk
+         XPlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4Br32V4f5RhJzAJZzqIlTw5MxWMCxMPceRuTf9fFBWs=;
+        b=CiUraXH1vspIRmIaoP5FWgh2Y8Wk1pMsl/6k9e+N8mNuk+/V3jnuAndg0hYCoIL4oa
+         IiuQRJj+t8TSqDDfLo5RrjHIAkPD1R54Qd6Smdej1fk41/IkxTv5GtOWkz12zFfHLd7y
+         8C3cdfoFZY2fW4nq1uQuJASZuUy9ST3ronwsxJsd0/KyvnGnU4asnvPwYXHnrOXD0cN1
+         CTCX2A/u0O5oM+st3iyIB2ca0Vw2Ms4X9m6hzYDu8jFIjLeP5iKMRJSit4rOusrk9yzm
+         6qojfwlkcvXFYHOUQk8ZDg4CaRAqLKcMzqQ5OfgifrtR9SXa7cCKvezEVRCzwaNMOdh0
+         smQQ==
+X-Gm-Message-State: ANoB5pmt8oFK8r/o/FCLuLoAKiruR6PBrmEoZgtRgs4MCLZN+cm6b/e0
+        iOzHhI+hc6Ps14ed0sVmFwTDrw==
+X-Google-Smtp-Source: AA0mqf4vEA83Ja+O0Ci0KfXTX8Oj7a0KKnCvRMdSpSJjVAh65PF1JRO/J4lVuOvYHHckcCKBomIqGQ==
+X-Received: by 2002:a63:1626:0:b0:470:2c90:d89f with SMTP id w38-20020a631626000000b004702c90d89fmr7904405pgl.253.1669160719359;
+        Tue, 22 Nov 2022 15:45:19 -0800 (PST)
+Received: from dread.disaster.area (pa49-186-65-106.pa.vic.optusnet.com.au. [49.186.65.106])
+        by smtp.gmail.com with ESMTPSA id e126-20020a621e84000000b00573769811d6sm6800188pfe.44.2022.11.22.15.45.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Nov 2022 15:45:18 -0800 (PST)
+Received: from dave by dread.disaster.area with local (Exim 4.92.3)
+        (envelope-from <david@fromorbit.com>)
+        id 1oxcx1-00HS2f-47; Wed, 23 Nov 2022 10:45:15 +1100
+Date:   Wed, 23 Nov 2022 10:45:15 +1100
+From:   Dave Chinner <david@fromorbit.com>
+To:     "Darrick J. Wong" <djwong@kernel.org>
+Cc:     Catherine Hoang <catherine.hoang@oracle.com>,
+        linux-xfs@vger.kernel.org, linux-ext4 <linux-ext4@vger.kernel.org>,
+        Theodore Ts'o <tytso@mit.edu>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        linux-api@vger.kernel.org
+Subject: Re: [PATCH v1] xfs_spaceman: add fsuuid command
+Message-ID: <20221122234515.GT3600936@dread.disaster.area>
+References: <20221109222335.84920-1-catherine.hoang@oracle.com>
+ <Y3abjYmX//CF/ey0@magnolia>
+ <20221117215125.GH3600936@dread.disaster.area>
+ <Y3bKjm2vOwy/jV4Z@magnolia>
+ <20221121233357.GO3600936@dread.disaster.area>
+ <Y3xqhXjJpXosOPPH@magnolia>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RDNS_NONE,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+In-Reply-To: <Y3xqhXjJpXosOPPH@magnolia>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Add the mm_numa_cid field to the rseq_update event, allowing tracers to
-follow which mm_numa_cid is observed by user-space, and whether negative
-mm_numa_cid values are visible in case of internal scheduler
-implementation issues.
+On Mon, Nov 21, 2022 at 10:21:57PM -0800, Darrick J. Wong wrote:
+> [adding Ted, the ext4 list, fsdevel, and api, because why not?]
+> 
+> On Tue, Nov 22, 2022 at 10:33:57AM +1100, Dave Chinner wrote:
+> > On Thu, Nov 17, 2022 at 03:58:06PM -0800, Darrick J. Wong wrote:
+> > > On Fri, Nov 18, 2022 at 08:51:25AM +1100, Dave Chinner wrote:
+> > > > On Thu, Nov 17, 2022 at 12:37:33PM -0800, Darrick J. Wong wrote:
+> > > > > On Wed, Nov 09, 2022 at 02:23:35PM -0800, Catherine Hoang wrote:
+> > > > > > Add support for the fsuuid command to retrieve the UUID of a mounted
+> > > > > > filesystem.
+> > > > > > 
+> > > > > > Signed-off-by: Catherine Hoang <catherine.hoang@oracle.com>
+> > > > > > ---
+> 
+> <snip to the good part>
+> > > > > If you're really unlucky, the C compiler will put the fsuuid right
+> > > > > before the call frame, which is how stack smashing attacks work.  It
+> > > > > might also lay out bp[] immediately afterwards, which will give you
+> > > > > weird results as the unparse function overwrites its source buffer.  The
+> > > > > C compiler controls the stack layout, which means this can go bad in
+> > > > > subtle ways.
+> > > > > 
+> > > > > Either way, gcc complains about this (albeit in an opaque manner)...
+> > > > > 
+> > > > > In file included from ../include/xfs.h:9,
+> > > > >                  from ../include/libxfs.h:15,
+> > > > >                  from fsuuid.c:7:
+> > > > > In function ‘platform_uuid_unparse’,
+> > > > >     inlined from ‘fsuuid_f’ at fsuuid.c:45:3:
+> > > > > ../include/xfs/linux.h:100:9: error: ‘uuid_unparse’ reading 16 bytes from a region of size 0 [-Werror=stringop-overread]
+> > > > >   100 |         uuid_unparse(*uu, buffer);
+> > > > >       |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+> > > > > ../include/xfs/linux.h: In function ‘fsuuid_f’:
+> > > > > ../include/xfs/linux.h:100:9: note: referencing argument 1 of type ‘const unsigned char *’
+> > > > > In file included from ../include/xfs/linux.h:13,
+> > > > >                  from ../include/xfs.h:9,
+> > > > >                  from ../include/libxfs.h:15,
+> > > > >                  from fsuuid.c:7:
+> > > > > /usr/include/uuid/uuid.h:107:13: note: in a call to function ‘uuid_unparse’
+> > > > >   107 | extern void uuid_unparse(const uuid_t uu, char *out);
+> > > > >       |             ^~~~~~~~~~~~
+> > > > > cc1: all warnings being treated as errors
+> > > > > 
+> > > > > ...so please allocate the struct fsuuid object dynamically.
+> > > > 
+> > > > So, follow common convention and you'll get it wrong, eh? That a
+> > > > score of -4 on Rusty's API Design scale.
+> > > > 
+> > > > http://sweng.the-davies.net/Home/rustys-api-design-manifesto
+> > > > 
+> > > > Flex arrays in user APIs like this just look plain dangerous to me.
+> > > > 
+> > > > Really, this says that the FSUUID API should have a fixed length
+> > > > buffer size defined in the API and the length used can be anything
+> > > > up to the maximum.
+> > > > 
+> > > > We already have this being added for the ioctl API:
+> > > > 
+> > > > #define UUID_SIZE 16
+> > > > 
+> > > > So why isn't the API definition this:
+> > > > 
+> > > > struct fsuuid {
+> > > >     __u32   fsu_len;
+> > > >     __u32   fsu_flags;
+> > > >     __u8    fsu_uuid[UUID_SIZE];
+> > > > };
+> > > > 
+> > > > Or if we want to support larger ID structures:
+> > > > 
+> > > > #define MAX_FSUUID_SIZE 256
+> > > > 
+> > > > struct fsuuid {
+> > > >     __u32   fsu_len;
+> > > >     __u32   fsu_flags;
+> > > >     __u8    fsu_uuid[MAX_FSUUID_SIZE];
+> > > > };
+> > > > 
+> > > > Then the structure can be safely placed on the stack, which means
+> > > > "the obvious use is (probably) the correct one" (a score of 7 on
+> > > > Rusty's API Design scale). It also gives the kernel a fixed upper
+> > > > bound that it can use to validate the incoming fsu_len variable
+> > > > against...
+> > > 
+> > > Too late now, this already shipped in 6.0.  Changing the struct size
+> > > would change the ioctl number, which is a totally new API.  This was
+> > > already discussed back in July on fsdevel/api.
+> > 
+> > It is certainly not too late - if we are going to lift this to the
+> > VFS, then we can simply make it a new ioctl. The horrible ext4 ioctl
+> > can ber left to rot in ext4 and nobody else ever needs to care that
+> > it exists.
+> 
+> You're wrong.  This was discussed **multiple times** this summer on
+> the fsdevel and API lists.  You had plenty of opportunity to make these
+> suggestions about the design, and yet you did not:
+> 
+> https://lore.kernel.org/linux-api/20220701201123.183468-1-bongiojp@gmail.com/
+> https://lore.kernel.org/linux-api/20220719065551.154132-1-bongiojp@gmail.com/
+> https://lore.kernel.org/linux-api/20220719234131.235187-1-bongiojp@gmail.com/
+> https://lore.kernel.org/linux-api/20220721224422.438351-1-bongiojp@gmail.com/
 
-Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
----
- include/trace/events/rseq.h | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/include/trace/events/rseq.h b/include/trace/events/rseq.h
-index 823b47d1ba1e..95f33d2c0714 100644
---- a/include/trace/events/rseq.h
-+++ b/include/trace/events/rseq.h
-@@ -18,16 +18,18 @@ TRACE_EVENT(rseq_update,
- 		__field(s32, cpu_id)
- 		__field(s32, node_id)
- 		__field(s32, mm_cid)
-+		__field(s32, mm_numa_cid)
- 	),
- 
- 	TP_fast_assign(
- 		__entry->cpu_id = raw_smp_processor_id();
- 		__entry->node_id = cpu_to_node(__entry->cpu_id);
- 		__entry->mm_cid = task_mm_cid(t);
-+		__entry->mm_numa_cid = task_mm_numa_cid(t);
- 	),
- 
--	TP_printk("cpu_id=%d node_id=%d mm_cid=%d", __entry->cpu_id,
--		  __entry->node_id, __entry->mm_cid)
-+	TP_printk("cpu_id=%d node_id=%d mm_cid=%d mm_numa_cid=%d", __entry->cpu_id,
-+		  __entry->node_id, __entry->mm_cid,  __entry->mm_numa_cid)
- );
- 
- TRACE_EVENT(rseq_ip_fixup,
+There's good reason for that: this was posted and reviewed as *an
+EXT4 specific API*.  Why are you expecting XFS developers to closely
+review a patchset that was titled "Add ioctls to get/set the ext4
+superblock uuid."?
+
+There was -no reasons- for me to pay attention to it, and I have
+enough to keep up with without having to care about the minutae of
+what ext4 internal information is being exposing to userspace.
+
+However, now it's being proposed as a *generic VFS API*, and so it's
+now important enough for developers from other filesystems to look
+at this ioctl API.
+
+> Jeremy built the functionality and followed the customary process,
+> sending four separate revisions for reviews.  He adapted his code based
+> on our feedback about how to future-proof it by adding an explicit
+> length parameter, and got it merged into ext4 in 6.0-rc1.
+
+*As an EXT4 modification*, not a generic VFS ioctl.
+
+> Now you want Catherine and I to tear down his work and initiate a design
+> review of YET ANOTHER NEW IOCTL just so the API can hit this one design
+> point you care about, and then convince Ted to go back and redo all the
+> work that has already been done.  All this to extract 16 bytes from the
+> kernel in a slightly different style than the existing XFS fsgeometry
+> ioctl.
+
+I'm not asking you to tear anything down. Just leave the ext4 ioctl
+as it is currently defined and nothing existing breaks or needs
+reworking.
+
+All I'm asking is that instead of lifting the ext4 ioctl verbatim,
+you lift it with a fixed maximum size for the uuid data array to
+replace the flex array. It's a *trivial change to make*, and yes, I
+know that this means it's not the same as the ext4 ioctl.
+
+But, really, who cares that it will be a different ioctl? Nobody but
+ext4 utilities will be using the ext4 ioctl, and we expect generic
+block/fs utilities and applications to use the VFS definition of the
+ioctl, not the ext4 specific one.
+
+> This was /supposed/ to be a simple way for a less experienced staffer to
+> gain some experience wiring up an existing ioctl.  And, well, I hope she
+> doesn't take away that developing for Linux is institutionally broken
+> and frustrating, because that's what I've taken away from the last 2+
+> years of being here.
+
+When we lift stuff from filesystem specific scope (where few people
+care about API warts) to generic VFS scope that the whole world is
+expected to see, use and understand, you should expect a larger
+number of experienced developers to scrutinise it.  The wider scope
+of the API means the "acceptibility bar" is set higher.
+
+Just because the code change is simple, it doesn't mean the issues
+surrounding the code change are simple or straight forward. Just
+because it went through a review on the ext4 list it doesn't mean
+the API or implementation is flawless.
+
+The point I'm making is that lifting fs ioctl APIs verbatim is a
+*known broken process* that leads to future pain fixing all the
+problems inherited from the original fs specific API and
+implementation.  If we want to lift functionality to be generic VFS
+UAPI and at the time of lifting we find problems with the UAPI
+and/or implementation, then we need to fix the problems before we
+expose the new VFS API to the entire world.
+
+Repeat past mistakes, or learn from them. Your choice...
+
+-Dave.
 -- 
-2.25.1
-
+Dave Chinner
+david@fromorbit.com
