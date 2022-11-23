@@ -2,159 +2,167 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 71A876367F1
-	for <lists+linux-api@lfdr.de>; Wed, 23 Nov 2022 19:02:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C5448636A56
+	for <lists+linux-api@lfdr.de>; Wed, 23 Nov 2022 21:00:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239368AbiKWSCZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 23 Nov 2022 13:02:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53568 "EHLO
+        id S237696AbiKWT7M (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 23 Nov 2022 14:59:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49294 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239336AbiKWSCR (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 23 Nov 2022 13:02:17 -0500
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B69A2D741
-        for <linux-api@vger.kernel.org>; Wed, 23 Nov 2022 10:02:16 -0800 (PST)
-Received: by mail-pj1-x102c.google.com with SMTP id e7-20020a17090a77c700b00216928a3917so2788727pjs.4
-        for <linux-api@vger.kernel.org>; Wed, 23 Nov 2022 10:02:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=JBAHsDOjy5OO4Ngubx5UMoEA0/sDtPMwp6OMmJM5Kq8=;
-        b=j0pjNho9RlZm19Tehr3FVjo7Db8885B4Y7xkdDdUAoWctaEVu0QXpeH4dAhlT+H/66
-         rXShciLYPKXX/As5ej1NnFhKVYsgqZOAIM86zq/8g4IoL0rpFkAis4hyMIxH32ObpzTD
-         q12ac2q20Bq/175aKSlrDsis/kh1ZErXHlsfXaFF0vLM0VKl7Q/KOGrAwfHxRNQmXI/O
-         driosPsB+7yejIXs59Nh7GScXFt/2qGI69bVfBSTlUwjFNjy1R5omvxslKZApaKKy6Vb
-         bCz1WtnxHp4F2zgsQTYD/KhQpB2n22TuYLklkc67sIj+R3YF0oMYZg8xQcjMBvZBgqVR
-         chmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JBAHsDOjy5OO4Ngubx5UMoEA0/sDtPMwp6OMmJM5Kq8=;
-        b=iq7s6JzgFl3rYkrffqeSRtUt9yz3Obz+lHUxH8WSySE+7RoVtXfeqB6/X1X/0HVNFM
-         hb9daSMNXqT/QmhOf8fkhsaaDfaGyHzMuSezlPGmOuOp1Bca+loUzAToi0ACXOeu+wEl
-         d9HMqlceBu6jhA5XgVmbjV6cDGTMy2MyFCDcgtTO3ejr8M1ALEO24gQ13mWZz5d/CYVI
-         BMiLXapUeRALHlpKQPw0CgtXv14mMsyOvbbpNUbwOBMl2DIDZ+zkBlyTmk80fZcLHl+s
-         M5ED+p235teEoZ1IkVNFLpyCVJdw4NimIE7ed554PgWKbEKFNlcW7ANKOBNxX3Oz2UqF
-         Cr8w==
-X-Gm-Message-State: ANoB5pnFy4LIRFZhU3pVEoNSCWD2NVGfx3ufcFk+tdxGiQFO8AzaHGnI
-        pQSiAEr7EsqC6wlcoQz4JzUX/w==
-X-Google-Smtp-Source: AA0mqf4h/eDzvGfQmUc/ZjBSomm7vgT2Crg1NblOZpQoP8uNf60lMXpAkbUo70CvheBSDG5J9lpZAg==
-X-Received: by 2002:a17:902:da89:b0:189:8b2:b069 with SMTP id j9-20020a170902da8900b0018908b2b069mr10756414plx.13.1669226535720;
-        Wed, 23 Nov 2022 10:02:15 -0800 (PST)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
-        by smtp.gmail.com with ESMTPSA id w26-20020a63475a000000b00462612c2699sm11075143pgk.86.2022.11.23.10.02.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Nov 2022 10:02:15 -0800 (PST)
-Date:   Wed, 23 Nov 2022 18:02:11 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     Alex =?utf-8?B?QmVubu+/vWU=?= <alex.bennee@linaro.org>,
-        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v9 3/8] KVM: Add KVM_EXIT_MEMORY_FAULT exit
-Message-ID: <Y35gI0L8GMt9+OkK@google.com>
-References: <20221025151344.3784230-4-chao.p.peng@linux.intel.com>
- <87cz9o9mr8.fsf@linaro.org>
- <20221116031441.GA364614@chaop.bj.intel.com>
- <87mt8q90rw.fsf@linaro.org>
- <20221117134520.GD422408@chaop.bj.intel.com>
- <87a64p8vof.fsf@linaro.org>
- <20221118013201.GA456562@chaop.bj.intel.com>
- <87o7t475o7.fsf@linaro.org>
- <Y3er0M5Rpf1X97W/@google.com>
- <20221122095022.GA617784@chaop.bj.intel.com>
+        with ESMTP id S239936AbiKWT5z (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 23 Nov 2022 14:57:55 -0500
+Received: from sonic316-26.consmr.mail.ne1.yahoo.com (sonic316-26.consmr.mail.ne1.yahoo.com [66.163.187.152])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 315A3DF00
+        for <linux-api@vger.kernel.org>; Wed, 23 Nov 2022 11:57:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1669233470; bh=KGezVsV0Po7wkqsLTMkHH3Oi+nbFxChfwJVSfxR3dMA=; h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To; b=Ml6RS7b/q91w3NUyI9l+ulLb15yIe868ZH/FzDmVuIDMOklorbMYlTM7wocGkhQuRubK8HtvYX1I08q1oWSDaUZsW2W2t0iKqo62KF1G9THwRARNVImQVlHZpyqo1RRULgAwAgYeUnl/IPBfSn2b6rXHvVioxSlIe9gtKAVQ5naDoWTuw02dfx46MJmZauG5BK+Jt64YW2XkAuU4mSzmtO4vJ49JRtOq1MGqU0uNKQnBhVYqlSyti4I/PgnxUkIzHKVzrFlGz13GmomfpInGP8eDCZIY9lfLy1mHg7H+t/aIufEqbjY3ODCffl3HghDkVFP9VmvWlxjTsSg02Czd/Q==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1669233470; bh=iDdE/f5HexrxIf1Jz1p61NqQ3OaTQvJBYgQ9RSJ1nkK=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=LThMiHdfh4IsyOqVdNIeQVDoTR/XTrH284w1f8sNpKSzK6Chs2MyH3clfJpZcHsxWU8HXKWGuAdfL+aHVH41azJvHPnVWYETvIt/keK/wJAxIFYt9n2oyo7bRVc/0IEw7C/1Ix36C+3AaMs6JhQwsvG0WTDLXPmnCbaOQtH0VSVnjQvf31wLKES63kfVVzqJpoIKWt9P8Q5QS1yd7OrrIEhtbrMf6J4bJkCCq1yYEorhEY4QfjqpZnotgckuzs4WZTFa+bBw/NtZUSGuyhEh9inDf/U7hqX+ZGv0WNnGFaMK9FEnmRTl7Hu8kqAtZQ+CJeEKJzTGymf+xRHsSVZdxQ==
+X-YMail-OSG: LXWC9P0VM1nWqJx7OwjvahsCdES_Rxx6WP3D.XQDpyLHkLCoVI2yfQeg6IhsSLU
+ hCTZsD48CbhtZ_lI4eAjr4FGLvo3b4_xBQpwBN6ZB9liAkVE7CQSNpBaylwbBfIXX7McIrs99W78
+ Q5mHf.JoRx4v.vzhStp6kMUNjhSp2alhWyJaFOdxEpWjSxbIN_gFWF_WP8WavCXjrXxnaLJX5Pxu
+ cPzafRGQ69g66sAylgtqvK0FFdq6ZEl9Ur2Wc9DX54MhtTUeUG3DrKp9uvPdne.Hcado94pskFx9
+ R3Oz8GePtZXu_rTJ.5oObrTZNHiIa2xKCFaxDjzrfRZU5IVkKO44SNrFbNA5ZEWZKlRSVhKZNvO6
+ fcCpHWkuVVLSd7w7sBhzUnEdpnUyyj2ajaEmzd5Ik7skeAuEaMnjPk.UkrMyQGjm1k1b6KF6CkwH
+ UYkF_QCTYkJc7msc7JB1MUUYKawrf4TmQfJZ.AzQ59HQvB_T19A3cvpaWB.gBP9EvdplZ4.4FHV9
+ vGX4ER73zK.uwv0yaERFwYgzRSDaDK1tpOpPUPNwka7IDQ8qYlqbmA_2SFqmYJcZEha0rTwXQs4e
+ upLxQ3dB.GYUwNHsF1ehuaQ544TfCezf1coUffAYjsgGTmrnrBH0JgvJdCFBMIgtuG.BsADxjFJQ
+ IyOfrrVluWbJzg_yftG25rPQ4CQUB8WquGbM5HTls4u7bUy1D2.oykZCnvWOPvJFlDEmMrQcvtg2
+ kcNJjgVRm7dD8eACfflGRbz05YADPKSQnCuMns7gf.Ah_uOHQRP_wFnLmI8mQKZnXgrGvTeagAKp
+ wNqDcvSG76Uq9zj.qoL.9lNTVqLz.yNOfBbCupriX8NAtYafSFb2SrXs3OwrBD2EGG0JbXdo4uvv
+ 20yQADzTBN4ZVbMWv_UC2UPDJYpcpbDKAlfc8HhrcjIdarH6HGNwBcgPzKogAXvFX_GoWgf6pS3F
+ 9NC9j6F522Dy9DRkrCUzcencSP2JGF5uKfVcpzO1NdBJYqSu7.rNJ3fmzEn_b1WI_Smy4VPD1Gzu
+ gggdGbJcrilgOpz0TECLZRJfl7KLD6ch9AJnZNyPXHXdysJE9yBb3MRc45zunyEuK4R8VcwPKhn7
+ 2_WjvF8VI1hqpzHzglSIFmEqFK5QO85S4Wz_z8Ba4ls5UduovM4lYIiZmDHsBZCQtzjvQ_.ooKHK
+ SGfIGTcDbR9ig_.yQwOk3OnKhhr.hT6ozW1u763N4l9fPdc6i4d2JgfhOnUwereV.uey7Sb9TxpJ
+ BQnM5yR.ognjqJ6TBOXIqnzE4wj6.EbLrmVmMnBK.dcX32o2NpuYxKkBJNoz9AjgP78aGDs.k3SB
+ KqWcV4MInM8aOHNurXIUnatxUahnmyesT4Tnfb.Cew5EvkBjc8.u8Ro_xbnMaDqX7r06NonyEJa9
+ lWGMDlZ0PCuHJL1bLLBOdRsAKFc1WEZekB_EzE5B9kxIYDdjN1.ZdD2tkMthmpt0MZHmMPNdycsw
+ T.WIvbf.JfcujaAZOMybGXHdqoxjKtD1q1CnvpMuHDjG8SoHdwbGXNWIjNuErvqkNcx7zqsnO46R
+ DuIqRGIBoEbrpTz0YMp4ZKdcFgGAzKx3d05hI2AUR51_PWy_jwEr.Ff2NE2kYN1ZzSooKdGmRicQ
+ oWLa06LgMNOD0je53gdlM_D06WY3YbJfrNh4eU1o181nds3WyYBGQTnwNC39lkNfZCqi3SNFfeW9
+ spImseU.rLUS8Be_Z8lLaQkqYOHvL1_dwX_VSt1StLJd5HU5b58KeYLlUUTsIsqQvWMdBnnIFeU1
+ jCneWOHX9i8wkBFAwDyfAm4dlKcr3_42DWGx1Gzk9iLbSwPUbhpRaf15vVuh6HSYrzJwljyaas1x
+ ycUY8y3j4VdKqdN8zQqEX7iW7n_cylkJICRw5lTClNrN7pYUG5m1n4JEQn523BBKgs5DJNon5oT5
+ 3U6_jz6okzdcxZu1ozH8DyNhahxBiy6_jJ5wSUp4lw6yrSUdVvZkzS1mPXn2tepNmj2EeZsAPgps
+ 4bZmNL_JxT2_vPvGrFK_wLu2kOFk7Q098IQB3tLqE4HKU45DbJgj306_i.aWoUP9unjVhIbr3i_Z
+ jsgVdxrJF3KtHUN0I6gcs3rBxtgEAMx5aXWXDQi4TtpaPxBgZ4DAZz4M6sh1YGh3p6yUNvtPbpv.
+ cqcQk8TUtMWZCyxzhM7lAIcXXc7H1vifCSGrtgP9hJ09H3DNnOFjrkIFjXl2qsqRRsNl_fdFpCAx
+ a4VmAjnHvRUmCWbcKE9jEj5aA0dIqY2UmA5_ruUwmuEBx8VpFPrXDSug72shvgAE1lBtj3b99Nqn
+ 0Bxt981JGJpp.
+X-Sonic-MF: <casey@schaufler-ca.com>
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic316.consmr.mail.ne1.yahoo.com with HTTP; Wed, 23 Nov 2022 19:57:50 +0000
+Received: by hermes--production-gq1-579bc4bddd-hbm49 (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID dd0bf7e44b76ebf62a48c0cf31f93899;
+          Wed, 23 Nov 2022 19:57:48 +0000 (UTC)
+From:   Casey Schaufler <casey@schaufler-ca.com>
+To:     casey.schaufler@intel.com, paul@paul-moore.com,
+        linux-security-module@vger.kernel.org
+Cc:     casey@schaufler-ca.com, jmorris@namei.org, keescook@chromium.org,
+        john.johansen@canonical.com, penguin-kernel@i-love.sakura.ne.jp,
+        stephen.smalley.work@gmail.com, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, mic@digikod.net
+Subject: [PATCH v1 0/8] LSM: Two basic syscalls
+Date:   Wed, 23 Nov 2022 11:57:35 -0800
+Message-Id: <20221123195744.7738-1-casey@schaufler-ca.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221122095022.GA617784@chaop.bj.intel.com>
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+References: <20221123195744.7738-1-casey.ref@schaufler-ca.com>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Nov 22, 2022, Chao Peng wrote:
-> On Fri, Nov 18, 2022 at 03:59:12PM +0000, Sean Christopherson wrote:
-> > On Fri, Nov 18, 2022, Alex Benn?e wrote:
-> > > > We don't actually need a new bit, the opposite side of private is
-> > > > shared, i.e. flags with KVM_MEMORY_EXIT_FLAG_PRIVATE cleared expresses
-> > > > 'shared'.
-> > > 
-> > > If that is always true and we never expect a 3rd type of memory that is
-> > > fine. But given we are leaving room for expansion having an explicit bit
-> > > allows for that as well as making cases of forgetting to set the flags
-> > > more obvious.
-> > 
-> > Hrm, I'm on the fence.
-> > 
-> > A dedicated flag isn't strictly needed, e.g. even if we end up with 3+ types in
-> > this category, the baseline could always be "private".
-> 
-> The baseline for the current code is actually "shared".
+Add two system calls for the Linux Security Module ABI.
 
-Ah, right, the baseline needs to be "shared" so that legacy code doesn't end up
-with impossible states.
+lsm_self_attr() provides the security module specific attributes
+that have previously been visible in the /proc/self/attr directory.
+For each attribute that is set on the current process the system
+call will return an LSM identifier, an attribute identifier and
+the value of the attribute. The LSM and attribute identifier values
+are defined in include/uapi/linux/lsm.h
 
-> > I do like being explicit, and adding a PRIVATE flag costs KVM practically nothing
-> > to implement and maintain, but evetually we'll up with flags that are paired with
-> > an implicit state, e.g. see the many #PF error codes in x86.  In other words,
-> > inevitably KVM will need to define the default/base state of the access, at which
-> > point the base state for SHARED vs. PRIVATE is "undefined".  
-> 
-> Current memory conversion for confidential usage is bi-directional so we
-> already need both private and shared states and if we use one bit for
-> both "shared" and "private" then we will have to define the default
-> state, e.g, currently the default state is "shared" when we define
-> 
-> 	KVM_MEMORY_EXIT_FLAG_PRIVATE	(1 << 0)
+lsm_module_list() provides the LSM identifiers, in order, of the
+security modules that are active on the system. This has been
+available in the securityfs file /sys/kernel/security/lsm.
 
-...
+Patch 0001 changes the LSM registration from passing the name
+of the module to passing a lsm_id structure that contains the
+name of the module.
+Patch 0002 adds an LSM identifier number to the lsm_id structure.
+Patch 0003 adds an attribute identifier to the lsm_id.
+Patch 0004 adds the registered lsm_ids to a table.
+Patch 0005 changes security_[gs]etprocattr() to use LSM IDs instead
+of LSM names.
+Patch 0006 implements lsm_self_attr().
+Patch 0007 implements lsm_module_list().
+Patch 0008 wires up the two syscalls.
 
-> > So I would say if we add an explicit READ flag, then we might as well add an explicit
-> > PRIVATE flag too.  But if we omit PRIVATE, then we should omit READ too.
-> 
-> Since we assume the default state is shared, so we actually only need a
-> PRIVATE flag, e.g. there is no SHARED flag and will ignore the RWX for now.
+Casey Schaufler (8):
+  LSM: Identify modules by more than name
+  LSM: Add an LSM identifier for external use
+  LSM: Identify the process attributes for each module
+  LSM: Maintain a table of LSM attribute data
+  proc: Use lsmids instead of lsm names for attrs
+  LSM: lsm_self_attr syscall for LSM self attributes
+  LSM: Create lsm_module_list system call
+  lsm: wireup syscalls lsm_self_attr and lsm_module_list
 
-Yeah, I'm leading towards "shared" being the implied default state.  Ditto for
-"read" if/when we need to communicate write/execute information  E.g. for VMs
-that don't support guest private memory, the "shared" flag is in some ways
-nonsensical.  Worst case scenario, e.g. if we end up with variations of "shared",
-we'll need something like KVM_MEMORY_EXIT_FLAG_SHARED_RESTRICTIVE or whatever,
-but the basic "shared" default will still work.
+ arch/alpha/kernel/syscalls/syscall.tbl        |   2 +
+ arch/arm/tools/syscall.tbl                    |   2 +
+ arch/arm64/include/asm/unistd32.h             |   2 +
+ arch/ia64/kernel/syscalls/syscall.tbl         |   2 +
+ arch/m68k/kernel/syscalls/syscall.tbl         |   2 +
+ arch/microblaze/kernel/syscalls/syscall.tbl   |   2 +
+ arch/mips/kernel/syscalls/syscall_n32.tbl     |   2 +
+ arch/mips/kernel/syscalls/syscall_n64.tbl     |   2 +
+ arch/mips/kernel/syscalls/syscall_o32.tbl     |   2 +
+ arch/parisc/kernel/syscalls/syscall.tbl       |   2 +
+ arch/powerpc/kernel/syscalls/syscall.tbl      |   2 +
+ arch/s390/kernel/syscalls/syscall.tbl         |   2 +
+ arch/sh/kernel/syscalls/syscall.tbl           |   2 +
+ arch/sparc/kernel/syscalls/syscall.tbl        |   2 +
+ arch/x86/entry/syscalls/syscall_32.tbl        |   2 +
+ arch/x86/entry/syscalls/syscall_64.tbl        |   2 +
+ arch/xtensa/kernel/syscalls/syscall.tbl       |   2 +
+ fs/proc/base.c                                |  29 +--
+ fs/proc/internal.h                            |   2 +-
+ include/linux/lsm_hooks.h                     |  13 +-
+ include/linux/security.h                      |  28 ++-
+ include/linux/syscalls.h                      |   3 +
+ include/uapi/asm-generic/unistd.h             |   5 +-
+ include/uapi/linux/lsm.h                      |  67 ++++++
+ kernel/sys_ni.c                               |   4 +
+ security/Makefile                             |   1 +
+ security/apparmor/lsm.c                       |   9 +-
+ security/bpf/hooks.c                          |  13 +-
+ security/commoncap.c                          |   8 +-
+ security/landlock/cred.c                      |   2 +-
+ security/landlock/fs.c                        |   2 +-
+ security/landlock/ptrace.c                    |   2 +-
+ security/landlock/setup.c                     |   6 +
+ security/landlock/setup.h                     |   1 +
+ security/loadpin/loadpin.c                    |   9 +-
+ security/lockdown/lockdown.c                  |   8 +-
+ security/lsm_syscalls.c                       | 194 ++++++++++++++++++
+ security/safesetid/lsm.c                      |   9 +-
+ security/security.c                           |  37 +++-
+ security/selinux/hooks.c                      |  11 +-
+ security/smack/smack_lsm.c                    |   9 +-
+ security/tomoyo/tomoyo.c                      |   9 +-
+ security/yama/yama_lsm.c                      |   8 +-
+ .../arch/mips/entry/syscalls/syscall_n64.tbl  |   2 +
+ .../arch/powerpc/entry/syscalls/syscall.tbl   |   2 +
+ .../perf/arch/s390/entry/syscalls/syscall.tbl |   2 +
+ .../arch/x86/entry/syscalls/syscall_64.tbl    |   2 +
+ 47 files changed, 484 insertions(+), 47 deletions(-)
+ create mode 100644 include/uapi/linux/lsm.h
+ create mode 100644 security/lsm_syscalls.c
+
+
+base-commit: 247f34f7b80357943234f93f247a1ae6b6c3a740
+-- 
+2.37.3
+
