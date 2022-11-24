@@ -2,48 +2,47 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E75FC637930
-	for <lists+linux-api@lfdr.de>; Thu, 24 Nov 2022 13:48:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BBF20637939
+	for <lists+linux-api@lfdr.de>; Thu, 24 Nov 2022 13:49:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229648AbiKXMsQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 24 Nov 2022 07:48:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34078 "EHLO
+        id S229737AbiKXMtg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 24 Nov 2022 07:49:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34694 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229506AbiKXMsQ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 24 Nov 2022 07:48:16 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EA6A15FF2;
-        Thu, 24 Nov 2022 04:48:15 -0800 (PST)
+        with ESMTP id S229506AbiKXMtg (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 24 Nov 2022 07:49:36 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE8022A420;
+        Thu, 24 Nov 2022 04:49:34 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id ACD59B827C3;
-        Thu, 24 Nov 2022 12:48:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A9A5C433D6;
-        Thu, 24 Nov 2022 12:48:11 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
-        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="lwpiMWCe"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
-        t=1669294088;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=/iPOoMMmL4tvnQvG7VP2tfYPchuElz8eQWQJu8d7BG8=;
-        b=lwpiMWCeo8PJ+2goZDFh5g0EJGNIrVyYCTN5EE8uPQg1v76iQP9FKkGpopHAPbGJj+rykC
-        L1yZ956qoQgV6cJ5/8i9d1aY1dmAACW54StSUMZLM10rTVVSCgrfKD1JsiysQa0/657smN
-        yNWmX/WdMjZr+wwNSzPgcwypQkfXq4I=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 9d876d02 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-        Thu, 24 Nov 2022 12:48:08 +0000 (UTC)
-Date:   Thu, 24 Nov 2022 13:48:06 +0100
-From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
-To:     Florian Weimer <fweimer@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, patches@lists.linux.dev,
-        tglx@linutronix.de, linux-crypto@vger.kernel.org, x86@kernel.org,
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6B59D62111;
+        Thu, 24 Nov 2022 12:49:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E033AC433C1;
+        Thu, 24 Nov 2022 12:49:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1669294173;
+        bh=cY0zoRDBBqP3t4FgqnJqWRlOpTVPEPD40LQxnSFLXD4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=AAyWKZIRRxmldjMLNe4g1TIt/dn3auYo4I2AlIXGwLzFkcsgexSJ3DuPsyn1zzhM9
+         1nVGQ3VIiLxtrLwHWqAqXPPB1bGEIPtSJg23ODXIVfh7qPGVufYazyyJnVWn3iYgub
+         EXvh9r7+eqC2Glz2aJWPzNbhxb2dD54/8YAvtLFH1T7QEe8MnDTKDuq/6E0fgHohlu
+         Wo0bdNR+0CPShkYNEnQtxKVec9ym46Gev1N+vQ3e9SjUvYVDviLyTIpGETnd7679in
+         2mKMUDknZihL4Vd3XAw/pHlDlE0c4CaXXKlQw92O9Ozt+r9cV4FL4wBwUOL4PrfwHj
+         M4du5bKF6EgrA==
+Date:   Thu, 24 Nov 2022 13:49:27 +0100
+From:   Christian Brauner <brauner@kernel.org>
+To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc:     Florian Weimer <fweimer@redhat.com>, linux-kernel@vger.kernel.org,
+        patches@lists.linux.dev, tglx@linutronix.de,
+        linux-crypto@vger.kernel.org, x86@kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
-        Carlos O'Donell <carlos@redhat.com>, linux-api@vger.kernel.org
+        Carlos O'Donell <carlos@redhat.com>, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arnd.de>
 Subject: Re: [PATCH v6 1/3] random: add vgetrandom_alloc() syscall
-Message-ID: <Y39oBtR8t+XNPS0d@zx2c4.com>
+Message-ID: <20221124124927.argohuob2bslolbt@wittgenstein>
 References: <20221121152909.3414096-1-Jason@zx2c4.com>
  <20221121152909.3414096-2-Jason@zx2c4.com>
  <87v8n6lzh9.fsf@oldenburg.str.redhat.com>
@@ -56,17 +55,14 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 In-Reply-To: <Y39iisTmUO2AaKNs@zx2c4.com>
-X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
-
-Hey again,
 
 On Thu, Nov 24, 2022 at 01:24:42PM +0100, Jason A. Donenfeld wrote:
 > Hi Florian,
@@ -91,7 +87,7 @@ On Thu, Nov 24, 2022 at 01:24:42PM +0100, Jason A. Donenfeld wrote:
 > > >> >> > + * size of each one in bytes, and the address of the first state.
 > > >> >> > + */
 > > >> >> > +SYSCALL_DEFINE3(vgetrandom_alloc, unsigned long __user *, num,
-> > >> >> > +                unsigned long __user *, size_per_each, unsigned int, flags)
+> > >> >> > +		unsigned long __user *, size_per_each, unsigned int, flags)
 > > >> >> 
 > > >> >> I think you should make this __u64, so that you get a consistent
 > > >> >> userspace interface on all architectures, without the need for compat
@@ -104,6 +100,16 @@ On Thu, Nov 24, 2022 at 01:24:42PM +0100, Jason A. Donenfeld wrote:
 > > >> > to be shown otherwise. But AFAIK, that's not the way it's done.
 > > >> 
 > > >> See clone3 and struct clone_args.
+
+For system calls that take structs as arguments we use u64 in the struct
+for proper alignment so we can extend structs without regressing old
+kernels. We have a few of those extensible struct system calls.
+
+But we don't really have a lot system calls that pass u64 as a pointer
+outside of a structure so far. Neither as register and nor as pointer
+iirc. Passing them as a register arg is problematic because of 32bit
+arches. But passing as pointer should be fine but it is indeed uncommon.
+
 > > >
 > > > The struct is one thing. But actually, clone3 takes a `size_t`:
 > > >
@@ -121,36 +127,20 @@ On Thu, Nov 24, 2022 at 01:24:42PM +0100, Jason A. Donenfeld wrote:
 > I still am somewhat hesitant, though, because `size_t` is really the
 > "proper" type to be used. Maybe the compat syscall thing is just a
 > necessary evil?
+
+We try to avoid adding new compat-requiring syscalls like the plague
+usually. (At least for new syscalls that don't need to inherit behavior
+from earlier syscalls they are a revisions of.)
+
 > 
 > The other direction would be making this a u32, since 640k ought to be
 > enough for anybody and such, but maybe that'd be a mistake too.
-> 
-> So I'm not sure. Anybody else on the list with experience adding
-> syscalls have an opinion?
 
-Looks like set_mempolicy, get_mempoliy, and migrate_pages pass an
-unsigned long pointer and I don't see any compat stuff around it:
+I think making this a size_t is fine. We haven't traditionally used u32
+for sizes. All syscalls that pass structs versioned by size use size_t.
+So I would recommend to stick with that.
 
-    SYSCALL_DEFINE3(set_mempolicy, int, mode, const unsigned long __user *, nmask,
-                    unsigned long, maxnode)
-    
-    SYSCALL_DEFINE5(get_mempolicy, int __user *, policy,
-                    unsigned long __user *, nmask, unsigned long, maxnode,
-                    unsigned long, addr, unsigned long, flags)
-
-    SYSCALL_DEFINE4(migrate_pages, pid_t, pid, unsigned long, maxnode,
-                    const unsigned long __user *, old_nodes,
-                    const unsigned long __user *, new_nodes)
-     
-
-In contrast sched_setaffinity and get_robust_list take a unsigned long
-pointer and does have a compat wrapper:
-
-    SYSCALL_DEFINE3(sched_setaffinity, pid_t, pid, unsigned int, len,
-                    unsigned long __user *, user_mask_ptr)
-
-    SYSCALL_DEFINE3(get_robust_list, int, pid,
-                    struct robust_list_head __user * __user *, head_ptr,
-                    size_t __user *, len_ptr)
-
-Jason
+Alternatively, you could also introduce a simple struct versioned by
+size for this system call similar to mount_setatt() and clone3() and so
+on. This way you don't need to worry about future extensibilty. Just a
+thought.
