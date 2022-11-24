@@ -2,89 +2,126 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 921B5637826
-	for <lists+linux-api@lfdr.de>; Thu, 24 Nov 2022 12:55:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F8046378C7
+	for <lists+linux-api@lfdr.de>; Thu, 24 Nov 2022 13:24:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229589AbiKXLzb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 24 Nov 2022 06:55:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33704 "EHLO
+        id S229627AbiKXMYz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 24 Nov 2022 07:24:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38278 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229661AbiKXLz3 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 24 Nov 2022 06:55:29 -0500
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F6EBC5B62;
-        Thu, 24 Nov 2022 03:55:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1669290928; x=1700826928;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=55nH4LmzDK+5WNB9MoXsKRknvVrM2IQDWXw3Al5UU80=;
-  b=EDy6qYR8OiqLFY9zK45oL63khFfMVHFVedyC8cO4xaHg3udrXdxyeSU8
-   xQSjz1mnID1Q+wNM3flz+a9zk88mUh5AbRPCKaiUbJ0on0Ly1Y7YHlEsn
-   IyhBMbGj2MW0eaMmmL1f5HRQrWjvV0BZ1ATDNrHLDQf//H0TQu4blVmQy
-   XGS8N3UGxbigQNr/UFk7C9F4DZiAdJLCdxknozEXVNb+2y8Sj6/T+XCpP
-   5YnRIruMCKnwRccuUvbGkVFe9ypLrzBoXFO0YmUuS9g1XbgXrn8kLHs40
-   wiUt1QWhRWIU4BR2Mz8S9yP94mmEGBWIyCeQWt6Y0hkau1sA0u4LsEp+R
-   g==;
-X-IronPort-AV: E=Sophos;i="5.96,190,1665471600"; 
-   d="scan'208";a="124940786"
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa6.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 24 Nov 2022 04:55:27 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.12; Thu, 24 Nov 2022 04:55:23 -0700
-Received: from wendy (10.10.115.15) by chn-vm-ex03.mchp-main.com
- (10.10.85.151) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12 via Frontend
- Transport; Thu, 24 Nov 2022 04:55:20 -0700
-Date:   Thu, 24 Nov 2022 11:55:01 +0000
-From:   Conor Dooley <conor.dooley@microchip.com>
-To:     Samuel Ortiz <sameo@rivosinc.com>
-CC:     "Hongren (Zenithal) Zheng" <i@zenithal.me>,
-        Palmer Dabbelt <palmer@rivosinc.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Atish Patra <atishp@rivosinc.com>,
-        Anup Patel <anup@brainfault.org>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Kees Cook <keescook@chromium.org>, <linux-mm@kvack.org>,
-        <linux-riscv@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <linux-api@vger.kernel.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        <linux-man@vger.kernel.org>, Jiatai He <jiatai2021@iscas.ac.cn>,
-        Heiko Stuebner <heiko@sntech.de>
-Subject: Re: [PATCH v3 2/3] RISC-V: uapi: add HWCAP for Bitmanip/Scalar Crypto
-Message-ID: <Y39blUaC/jHiOYCk@wendy>
-References: <YqYz+xDsXr/tNaNu@Sun>
- <YqY0i22SdbHjB/MX@Sun>
- <Y385rS/5zDaDJ3Os@vermeer>
- <Y39AXYPFzSiBngwI@wendy>
- <Y39Lwp4rQc3Qkl0i@vermeer>
+        with ESMTP id S229635AbiKXMYx (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 24 Nov 2022 07:24:53 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C78CDA4C2;
+        Thu, 24 Nov 2022 04:24:50 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 4664FB827B4;
+        Thu, 24 Nov 2022 12:24:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BAB70C433D6;
+        Thu, 24 Nov 2022 12:24:46 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="JGWVBTcD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
+        t=1669292685;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=u0ToYp25wPFX9lKr587osK8ESpYUW83D9raMDL8k48s=;
+        b=JGWVBTcDTJQTPcR1b6+kAQPof0mmnFOt+hOXInEF3iax3poDPbOzH6+jgbZWuUZfrXbLVk
+        IrNylVziT2/4zhO29otTGBf0jawNDZ1db6WRZqr6WlPqz+OCth82xiR9nrkUaQC6ztaxRx
+        YHqmqiLUeIAgfYQMTAAr1SAQDHkx8ME=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 9ece93a0 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+        Thu, 24 Nov 2022 12:24:44 +0000 (UTC)
+Date:   Thu, 24 Nov 2022 13:24:42 +0100
+From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
+To:     Florian Weimer <fweimer@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+        tglx@linutronix.de, linux-crypto@vger.kernel.org, x86@kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
+        Carlos O'Donell <carlos@redhat.com>, linux-api@vger.kernel.org
+Subject: Re: [PATCH v6 1/3] random: add vgetrandom_alloc() syscall
+Message-ID: <Y39iisTmUO2AaKNs@zx2c4.com>
+References: <20221121152909.3414096-1-Jason@zx2c4.com>
+ <20221121152909.3414096-2-Jason@zx2c4.com>
+ <87v8n6lzh9.fsf@oldenburg.str.redhat.com>
+ <Y37DDX5RtiGsV6MO@zx2c4.com>
+ <87a64g7wks.fsf@oldenburg.str.redhat.com>
+ <Y39djiBSmgXfgWJv@zx2c4.com>
+ <87cz9c5z1f.fsf@oldenburg.str.redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Y39Lwp4rQc3Qkl0i@vermeer>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <87cz9c5z1f.fsf@oldenburg.str.redhat.com>
+X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Nov 24, 2022 at 11:47:30AM +0100, Samuel Ortiz wrote:
+Hi Florian,
 
-> Patch #1 is definitely needed regardless of which interface we pick for
-> exposing the ISA strings to userspace.
+On Thu, Nov 24, 2022 at 01:15:24PM +0100, Florian Weimer wrote:
+> * Jason A. Donenfeld:
+> 
+> > Hi Florian,
+> >
+> > On Thu, Nov 24, 2022 at 06:25:39AM +0100, Florian Weimer wrote:
+> >> * Jason A. Donenfeld:
+> >> 
+> >> > Hi Florian,
+> >> >
+> >> > On Wed, Nov 23, 2022 at 11:46:58AM +0100, Florian Weimer wrote:
+> >> >> * Jason A. Donenfeld:
+> >> >> 
+> >> >> > + * The vgetrandom() function in userspace requires an opaque state, which this
+> >> >> > + * function provides to userspace, by mapping a certain number of special pages
+> >> >> > + * into the calling process. It takes a hint as to the number of opaque states
+> >> >> > + * desired, and returns the number of opaque states actually allocated, the
+> >> >> > + * size of each one in bytes, and the address of the first state.
+> >> >> > + */
+> >> >> > +SYSCALL_DEFINE3(vgetrandom_alloc, unsigned long __user *, num,
+> >> >> > +		unsigned long __user *, size_per_each, unsigned int, flags)
+> >> >> 
+> >> >> I think you should make this __u64, so that you get a consistent
+> >> >> userspace interface on all architectures, without the need for compat
+> >> >> system calls.
+> >> >
+> >> > That would be quite unconventional. Most syscalls that take lengths do
+> >> > so with the native register size (`unsigned long`, `size_t`), rather
+> >> > than u64. If you can point to a recent trend away from this by
+> >> > indicating some commits that added new syscalls with u64, I'd be happy
+> >> > to be shown otherwise. But AFAIK, that's not the way it's done.
+> >> 
+> >> See clone3 and struct clone_args.
+> >
+> > The struct is one thing. But actually, clone3 takes a `size_t`:
+> >
+> >     SYSCALL_DEFINE2(clone3, struct clone_args __user *, uargs, size_t, size)
+> >
+> > I take from this that I too should use `size_t` rather than `unsigned
+> > long.` And it doesn't seem like there's any compat clone3.
+> 
+> But vgetrandom_alloc does not use unsigned long, but unsigned long *.
+> You need to look at the contents for struct clone_args for comparison.
 
-I took another look at #1, and I feel more confused about what
-constitutes canonical order than I did before! If you know better than
-I, and you probably do since you're interested in these 6 month old
-patches, some insight would be appreciated!
+Ah! I see what you mean; that's a good point. The usual register
+clearing thing isn't going to happen because these are addresses.
 
-Thanks,
-Conor.
+I still am somewhat hesitant, though, because `size_t` is really the
+"proper" type to be used. Maybe the compat syscall thing is just a
+necessary evil?
 
+The other direction would be making this a u32, since 640k ought to be
+enough for anybody and such, but maybe that'd be a mistake too.
+
+So I'm not sure. Anybody else on the list with experience adding
+syscalls have an opinion?
+
+Jason
