@@ -2,119 +2,121 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B45366379C9
-	for <lists+linux-api@lfdr.de>; Thu, 24 Nov 2022 14:18:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 15C59637DA3
+	for <lists+linux-api@lfdr.de>; Thu, 24 Nov 2022 17:30:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229611AbiKXNSb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 24 Nov 2022 08:18:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40822 "EHLO
+        id S229568AbiKXQan (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 24 Nov 2022 11:30:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32982 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229477AbiKXNS2 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 24 Nov 2022 08:18:28 -0500
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51CFD654EA;
-        Thu, 24 Nov 2022 05:18:27 -0800 (PST)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailout.west.internal (Postfix) with ESMTP id 2DE6F32009C6;
-        Thu, 24 Nov 2022 08:18:24 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
-  by compute3.internal (MEProxy); Thu, 24 Nov 2022 08:18:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm3; t=1669295903; x=1669382303; bh=4sKDJSN01P
-        eIAiXQHaFqrZQX8gqaur58q7xvYuCCrEw=; b=DY52+Je6rlB55h4gnvNU+KhxnG
-        +fF14yFdZ9YMTXe5RWTtb96nPdiXE9b7ZuQdIIAIjm6lYLqDt9kPoRLIOehaNBSo
-        uhqHJSd6MZkq3jxyzQe5d0cY8EgbXyc3ANDEmkwGlILJIdVXhjKEILq9eue1QYr+
-        SmrZEjlJMQt2div+xHqZ1xkJsUafpE5v/PkUxFF5mkPVw9rdk53Yfjgg7GaptpdQ
-        tDw0ppZyl7Sp6dcw0hrWsLHhWLcUSc4mg8Y55NLkUgmeY9aomx8hsYnS20YAcPus
-        NrJ0NIdALlEANOQ6t11fJppwBnfPmhQboDsSVbSjSnyI4jNOX36rh9HmbVXw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm1; t=1669295903; x=1669382303; bh=4sKDJSN01PeIAiXQHaFqrZQX8gqa
-        ur58q7xvYuCCrEw=; b=cHUsDg9USKksVIE/uaaxz8YGUoQJXPIPFXFBdKtr+8UR
-        F/M6SjrokoS65iGn6reMTGQxDxGUR0EuTTT8r+xwNZWpdXSGb27fy3FIfuJKhq1b
-        nIacplD12qe56DgdU0LqprZz22yJlLhjnuLw+0RQbZ6LGbGFD4oco+aIVAj1ujDF
-        KZGgYQsDcXVYdR83TXItpaY7vN5eh3UWLbAjZgv6CVUhUP6uC5HMwnfMJyZolwJ6
-        KpqKODvNXLYJ0F0rYpnyVz8Uy+jFUzOhM+/hK4eagtjChnMaUwjgW5kv2KW0QBfU
-        bdxfn2ii6N2So5jluJ3V9u4NXMGFZLCOeLcSjQNq+w==
-X-ME-Sender: <xms:H29_Y0Qq5JD6yf7CFoVYBOkq4svdhXxXMheSgqdh9Kh2pHUcmw7n_A>
-    <xme:H29_YxwzxeXEvIyaFxHj2_TaD74MHm40xVdSoHcCrlDTfeDAuq4zU-5b24e6j3aDx
-    9u6lbOzo-JZcW5M9E8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrieefgdehudcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
-    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
-    gvrhhnpeevhfffledtgeehfeffhfdtgedvheejtdfgkeeuvefgudffteettdekkeeufeeh
-    udenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
-    enucfrrghrrghmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:H29_Yx1DEl7KyReL2IQVQu5LvTUalRSn0otglnXihmI5wpkk7WVLgg>
-    <xmx:H29_Y4ANsr_zanA5MrUDVh5-lLct3tt5kaUB-3CShYkujPQwbZTuVw>
-    <xmx:H29_Y9iDNEUwoPSIyQ_DDFkOQha36lWb9DsYpFFkERE6Vv1Kny0rUQ>
-    <xmx:H29_Y-Us_IcDqiJyWRqnUuTp1dXhECKWovVznjJfYrYntzt8ZzEM0A>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 6A8E8B60086; Thu, 24 Nov 2022 08:18:23 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-1115-g8b801eadce-fm-20221102.001-g8b801ead
-Mime-Version: 1.0
-Message-Id: <7928bec7-4659-4b32-aad7-2300409ea670@app.fastmail.com>
-In-Reply-To: <Y39oBtR8t+XNPS0d@zx2c4.com>
+        with ESMTP id S229526AbiKXQal (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 24 Nov 2022 11:30:41 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EDE216FB29;
+        Thu, 24 Nov 2022 08:30:40 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id D3DFFB8287B;
+        Thu, 24 Nov 2022 16:30:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45C35C433C1;
+        Thu, 24 Nov 2022 16:30:36 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="GLM0uBfm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
+        t=1669307434;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=EzDoEvNDhRphmuoSNKNVxLbek8oLLix/b9dbHW5QtLs=;
+        b=GLM0uBfmyJutlyfrCPqlI3ap4XE52yP7cYHnWXQLh83VEssdyMGcsqspkq6b8Tu9mdbQIO
+        NwcVzP3GcuZ128HU52dJhFTjUij1LmkBMFTeSyk0FIaPs6JJA1lzBDbaLwpFa/R/9M/rxK
+        FH6gc0vEUWPKCBVX2XMy5Q1IkLY5vo4=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id a4fe9579 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+        Thu, 24 Nov 2022 16:30:33 +0000 (UTC)
+Date:   Thu, 24 Nov 2022 17:30:28 +0100
+From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
+To:     Florian Weimer <fweimer@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+        tglx@linutronix.de, linux-crypto@vger.kernel.org, x86@kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
+        Carlos O'Donell <carlos@redhat.com>, linux-api@vger.kernel.org
+Subject: Re: [PATCH v6 1/3] random: add vgetrandom_alloc() syscall
+Message-ID: <Y3+cJLBas5hRh7GU@zx2c4.com>
 References: <20221121152909.3414096-1-Jason@zx2c4.com>
  <20221121152909.3414096-2-Jason@zx2c4.com>
- <87v8n6lzh9.fsf@oldenburg.str.redhat.com> <Y37DDX5RtiGsV6MO@zx2c4.com>
- <87a64g7wks.fsf@oldenburg.str.redhat.com> <Y39djiBSmgXfgWJv@zx2c4.com>
- <87cz9c5z1f.fsf@oldenburg.str.redhat.com> <Y39iisTmUO2AaKNs@zx2c4.com>
- <Y39oBtR8t+XNPS0d@zx2c4.com>
-Date:   Thu, 24 Nov 2022 14:18:03 +0100
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Jason A . Donenfeld" <Jason@zx2c4.com>,
-        "Florian Weimer" <fweimer@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, patches@lists.linux.dev,
-        "Thomas Gleixner" <tglx@linutronix.de>,
-        linux-crypto@vger.kernel.org, x86@kernel.org,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        "Adhemerval Zanella Netto" <adhemerval.zanella@linaro.org>,
-        "Carlos O'Donell" <carlos@redhat.com>, linux-api@vger.kernel.org
-Subject: Re: [PATCH v6 1/3] random: add vgetrandom_alloc() syscall
-Content-Type: text/plain
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+ <87v8n6lzh9.fsf@oldenburg.str.redhat.com>
+ <Y37DDX5RtiGsV6MO@zx2c4.com>
+ <87a64g7wks.fsf@oldenburg.str.redhat.com>
+ <Y39djiBSmgXfgWJv@zx2c4.com>
+ <87cz9c5z1f.fsf@oldenburg.str.redhat.com>
+ <Y39iisTmUO2AaKNs@zx2c4.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <Y39iisTmUO2AaKNs@zx2c4.com>
+X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Nov 24, 2022, at 13:48, Jason A. Donenfeld wrote:
-> On Thu, Nov 24, 2022 at 01:24:42PM +0100, Jason A. Donenfeld wrote:
+On Thu, Nov 24, 2022 at 01:24:42PM +0100, Jason A. Donenfeld wrote:
+> Hi Florian,
+> 
+> On Thu, Nov 24, 2022 at 01:15:24PM +0100, Florian Weimer wrote:
+> > * Jason A. Donenfeld:
+> > 
+> > > Hi Florian,
+> > >
+> > > On Thu, Nov 24, 2022 at 06:25:39AM +0100, Florian Weimer wrote:
+> > >> * Jason A. Donenfeld:
+> > >> 
+> > >> > Hi Florian,
+> > >> >
+> > >> > On Wed, Nov 23, 2022 at 11:46:58AM +0100, Florian Weimer wrote:
+> > >> >> * Jason A. Donenfeld:
+> > >> >> 
+> > >> >> > + * The vgetrandom() function in userspace requires an opaque state, which this
+> > >> >> > + * function provides to userspace, by mapping a certain number of special pages
+> > >> >> > + * into the calling process. It takes a hint as to the number of opaque states
+> > >> >> > + * desired, and returns the number of opaque states actually allocated, the
+> > >> >> > + * size of each one in bytes, and the address of the first state.
+> > >> >> > + */
+> > >> >> > +SYSCALL_DEFINE3(vgetrandom_alloc, unsigned long __user *, num,
+> > >> >> > +		unsigned long __user *, size_per_each, unsigned int, flags)
+> > >> >> 
+> > >> >> I think you should make this __u64, so that you get a consistent
+> > >> >> userspace interface on all architectures, without the need for compat
+> > >> >> system calls.
+> > >> >
+> > >> > That would be quite unconventional. Most syscalls that take lengths do
+> > >> > so with the native register size (`unsigned long`, `size_t`), rather
+> > >> > than u64. If you can point to a recent trend away from this by
+> > >> > indicating some commits that added new syscalls with u64, I'd be happy
+> > >> > to be shown otherwise. But AFAIK, that's not the way it's done.
+> > >> 
+> > >> See clone3 and struct clone_args.
+> > >
+> > > The struct is one thing. But actually, clone3 takes a `size_t`:
+> > >
+> > >     SYSCALL_DEFINE2(clone3, struct clone_args __user *, uargs, size_t, size)
+> > >
+> > > I take from this that I too should use `size_t` rather than `unsigned
+> > > long.` And it doesn't seem like there's any compat clone3.
+> > 
+> > But vgetrandom_alloc does not use unsigned long, but unsigned long *.
+> > You need to look at the contents for struct clone_args for comparison.
+> 
+> The other direction would be making this a u32
 
-> Looks like set_mempolicy, get_mempoliy, and migrate_pages pass an
-> unsigned long pointer and I don't see any compat stuff around it:
->
->     SYSCALL_DEFINE3(set_mempolicy, int, mode, const unsigned long 
-> __user *, nmask,
->                     unsigned long, maxnode)
->    
->     SYSCALL_DEFINE5(get_mempolicy, int __user *, policy,
->                     unsigned long __user *, nmask, unsigned long, maxnode,
->                     unsigned long, addr, unsigned long, flags)
->
->     SYSCALL_DEFINE4(migrate_pages, pid_t, pid, unsigned long, maxnode,
->                     const unsigned long __user *, old_nodes,
->                     const unsigned long __user *, new_nodes)
+I think `unsigned int` is actually a sensible size for what these values
+should be. That eliminates the problem and potential bikeshed too. So
+I'll go with that for v+1.
 
-Compat handling for these is done all the way down in the
-pointer access:
-
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/mm/mempolicy.c#n1368
-
-This works here because it's a special bitmap but is not the
-best approach if you just have a pointer to a single value.
-
-       Arnd
+Jason
