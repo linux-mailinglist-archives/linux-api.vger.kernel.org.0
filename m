@@ -2,124 +2,108 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B0C4636FB3
-	for <lists+linux-api@lfdr.de>; Thu, 24 Nov 2022 02:18:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B70A76371D3
+	for <lists+linux-api@lfdr.de>; Thu, 24 Nov 2022 06:40:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229862AbiKXBSg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 23 Nov 2022 20:18:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51156 "EHLO
+        id S229526AbiKXFkq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 24 Nov 2022 00:40:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229916AbiKXBS3 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 23 Nov 2022 20:18:29 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EDC49C780;
-        Wed, 23 Nov 2022 17:18:28 -0800 (PST)
+        with ESMTP id S229505AbiKXFkp (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 24 Nov 2022 00:40:45 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF58FC4941;
+        Wed, 23 Nov 2022 21:40:44 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id AB25CB825F3;
-        Thu, 24 Nov 2022 01:18:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36F17C433C1;
-        Thu, 24 Nov 2022 01:18:24 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
-        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="Rkjvbp4O"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
-        t=1669252702;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=gHcu1Df+WYlCMCGuI6BqIh8yeKwpZ9M+Wp3aq3lKwHE=;
-        b=Rkjvbp4OfknxrLRcWSuU2xsVtBe8MKafVdnOuXwJmh2md+Mi08LlKnSIRnn9aeJwmERQH4
-        AFPVmUQvhTwlfyAPSrUi9xLksdXy5cS26M7wvTCOe2gkVMOGIIRigfYqR8OHqea1Ppq7th
-        BtppJZ7TwGD8BnGV6IwUuDZOeE0J5YM=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 99f0ec89 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-        Thu, 24 Nov 2022 01:18:22 +0000 (UTC)
-Date:   Thu, 24 Nov 2022 02:18:20 +0100
-From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
-To:     Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Cc:     linux-kernel@vger.kernel.org, patches@lists.linux.dev,
-        tglx@linutronix.de, linux-crypto@vger.kernel.org, x86@kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
-        Carlos O'Donell <carlos@redhat.com>,
-        Linux API <linux-api@vger.kernel.org>
-Subject: Re: [PATCH v6 2/3] random: introduce generic vDSO getrandom()
- implementation
-Message-ID: <Y37GXIQVvUvRac6D@zx2c4.com>
-References: <20221121152909.3414096-1-Jason@zx2c4.com>
- <20221121152909.3414096-3-Jason@zx2c4.com>
- <842fd97b-c958-7b0d-2c77-6927c7ab4d72@rasmusvillemoes.dk>
+        by ams.source.kernel.org (Postfix) with ESMTPS id 5D621B826CC;
+        Thu, 24 Nov 2022 05:40:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56E71C433D6;
+        Thu, 24 Nov 2022 05:40:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1669268442;
+        bh=lVoc1Z4nZLLeyRRN6vomWKFzXE4y5IGTZpcunzw755w=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=A9GBHKATK6mVEize809pwWWnocYATWta3UrknB5RElYWNN06Sif3dKgKpDWL7nlnD
+         3ewJCoBXC3+YW0NedjXyiPVoVA8I5/CnM72DjCYnELeY4XvsftlHnXmeOOBgvMo47z
+         jkFihmt18F0qs16MfnfYP2Pims3F1Ez2IXWYcQ+M=
+Date:   Thu, 24 Nov 2022 06:40:38 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Casey Schaufler <casey@schaufler-ca.com>
+Cc:     casey.schaufler@intel.com, paul@paul-moore.com,
+        linux-security-module@vger.kernel.org, jmorris@namei.org,
+        keescook@chromium.org, john.johansen@canonical.com,
+        penguin-kernel@i-love.sakura.ne.jp, stephen.smalley.work@gmail.com,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        mic@digikod.net
+Subject: Re: [PATCH v3 1/9] LSM: Identify modules by more than name
+Message-ID: <Y38D1s3uQ6zNORei@kroah.com>
+References: <20221123201552.7865-1-casey@schaufler-ca.com>
+ <20221123201552.7865-2-casey@schaufler-ca.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <842fd97b-c958-7b0d-2c77-6927c7ab4d72@rasmusvillemoes.dk>
-X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20221123201552.7865-2-casey@schaufler-ca.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Rasmus,
-
-On Wed, Nov 23, 2022 at 09:51:04AM +0100, Rasmus Villemoes wrote:
-> On 21/11/2022 16.29, Jason A. Donenfeld wrote:
+On Wed, Nov 23, 2022 at 12:15:44PM -0800, Casey Schaufler wrote:
+> Create a struct lsm_id to contain identifying information
+> about Linux Security Modules (LSMs). At inception this contains
+> the name of the module and an identifier associated with the
+> security module. Change the security_add_hooks() interface to
+> use this structure. Change the individual modules to maintain
+> their own struct lsm_id and pass it to security_add_hooks().
 > 
-> Cc += linux-api
+> The values are for LSM identifiers are defined in a new UAPI
+> header file linux/lsm.h. Each existing LSM has been updated to
+> include it's LSMID in the lsm_id.
 > 
-> > 
-> >       if (!new_block)
-> >         goto out;
-> >       new_cap = grnd_allocator.cap + num;
-> >       new_states = reallocarray(grnd_allocator.states, new_cap, sizeof(*grnd_allocator.states));
-> >       if (!new_states) {
-> >         munmap(new_block, num * size_per_each);
-> 
-> Hm. This does leak an implementation detail of vgetrandom_alloc(),
-> namely that it is based on mmap() of that size rounded up to page size.
-> Do we want to commit to this being the proper way of disposing of a
-> succesful vgetrandom_alloc(), or should there also be a
-> vgetrandom_free(void *states, long num, long size_per_each)?
+> The LSM ID values are sequential, with the oldest module
+> LSM_ID_CAPABILITY being the lowest value and the existing modules
+> numbered in the order they were included in the main line kernel.
+> This is an arbitrary convention for assigning the values, but
+> none better presents itself. The value 0 is defined as being invalid.
+> The values 1-99 are reserved for any special case uses which may
+> arise in the future.
 
-Yes, this is intentional, and this is exactly what I wanted to do. There
-are various wrappers of vm_mmap() throughout, mmap being one of them,
-and they typically then resort to munmap to unmap it. This is how
-userspace handles memory - maps, always maps. So I think doing that is
-fine and consistent.
+What would be a "special case" that deserves a lower number?
 
-However, your point about it relying on it being a rounded up size isn't
-correct. `munmap` will unmap the whole page if the size you pass lies
-within a page. So `num * size_of_each` will always do the right thing,
-without needing to have userspace code round anything up. (From the man
-page: "The  address addr must be a multiple of the page size (but length
-need not be). All pages containing a part of the indicated range are
-unmapped.") And as you can see in my example code, nothing is rounded
-up. So I don't know why you made that comment.
+> diff --git a/security/bpf/hooks.c b/security/bpf/hooks.c
+> index e5971fa74fd7..20983ae8d31f 100644
+> --- a/security/bpf/hooks.c
+> +++ b/security/bpf/hooks.c
+> @@ -5,6 +5,7 @@
+>   */
+>  #include <linux/lsm_hooks.h>
+>  #include <linux/bpf_lsm.h>
+> +#include <uapi/linux/lsm.h>
+>  
+>  static struct security_hook_list bpf_lsm_hooks[] __lsm_ro_after_init = {
+>  	#define LSM_HOOK(RET, DEFAULT, NAME, ...) \
+> @@ -15,9 +16,19 @@ static struct security_hook_list bpf_lsm_hooks[] __lsm_ro_after_init = {
+>  	LSM_HOOK_INIT(task_free, bpf_task_storage_free),
+>  };
+>  
+> +/*
+> + * slot has to be LSMBLOB_NEEDED because some of the hooks
+> + * supplied by this module require a slot.
+> + */
+> +struct lsm_id bpf_lsmid __lsm_ro_after_init = {
+> +	.lsm = "bpf",
+> +	.id = LSM_ID_BPF,
+> +};
 
-> And if so, what color should the bikeshed really have. I.e.,
+I do not understand this comment, what is LSMBLOB_NEEDED and how does
+that relate to the struct lsm_id?
 
-No color, thanks.
+thanks,
 
-> Also, should vgetrandom_alloc() take a void *hint argument that
-> would/could be passed through to mmap() to give userspace some control
-> over where the memory is located - possibly only in the future, i.e.
-> insist on it being NULL for now, but it could open the possibility for
-> adding e.g. VGRND_MAP_FIXED[_NOREPLACE] that would translate to the
-> corresponding MAP_ flags.
-
-I think adding more control is exactly what this is trying to avoid.
-It's very intentionally *not* a general allocator function, but
-something specific for vDSO getrandom(). However, it does already, in
-this very patchset here, take a (currently unused) flags argument, in
-case we have the need for later extension.
-
-In the meantime, however, I'm not very interested in complicating this
-interface into oblivion. Firstly, it ensures nothing will get done. But
-moreover, this interface needs to be somewhat future-proof, yes, but it
-does not need to be a general syscall; rather, it's a specific syscall
-for a specific task.
-
-Jason
+greg k-h
