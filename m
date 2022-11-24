@@ -2,108 +2,112 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B70A76371D3
-	for <lists+linux-api@lfdr.de>; Thu, 24 Nov 2022 06:40:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 862FE6374F3
+	for <lists+linux-api@lfdr.de>; Thu, 24 Nov 2022 10:19:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229526AbiKXFkq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 24 Nov 2022 00:40:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54540 "EHLO
+        id S230018AbiKXJTY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 24 Nov 2022 04:19:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229505AbiKXFkp (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 24 Nov 2022 00:40:45 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF58FC4941;
-        Wed, 23 Nov 2022 21:40:44 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 5D621B826CC;
-        Thu, 24 Nov 2022 05:40:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56E71C433D6;
-        Thu, 24 Nov 2022 05:40:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1669268442;
-        bh=lVoc1Z4nZLLeyRRN6vomWKFzXE4y5IGTZpcunzw755w=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=A9GBHKATK6mVEize809pwWWnocYATWta3UrknB5RElYWNN06Sif3dKgKpDWL7nlnD
-         3ewJCoBXC3+YW0NedjXyiPVoVA8I5/CnM72DjCYnELeY4XvsftlHnXmeOOBgvMo47z
-         jkFihmt18F0qs16MfnfYP2Pims3F1Ez2IXWYcQ+M=
-Date:   Thu, 24 Nov 2022 06:40:38 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Casey Schaufler <casey@schaufler-ca.com>
-Cc:     casey.schaufler@intel.com, paul@paul-moore.com,
-        linux-security-module@vger.kernel.org, jmorris@namei.org,
-        keescook@chromium.org, john.johansen@canonical.com,
-        penguin-kernel@i-love.sakura.ne.jp, stephen.smalley.work@gmail.com,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        mic@digikod.net
-Subject: Re: [PATCH v3 1/9] LSM: Identify modules by more than name
-Message-ID: <Y38D1s3uQ6zNORei@kroah.com>
-References: <20221123201552.7865-1-casey@schaufler-ca.com>
- <20221123201552.7865-2-casey@schaufler-ca.com>
+        with ESMTP id S230011AbiKXJTX (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 24 Nov 2022 04:19:23 -0500
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 283B4113FC8
+        for <linux-api@vger.kernel.org>; Thu, 24 Nov 2022 01:19:22 -0800 (PST)
+Received: by mail-wm1-x32c.google.com with SMTP id p13-20020a05600c468d00b003cf8859ed1bso796853wmo.1
+        for <linux-api@vger.kernel.org>; Thu, 24 Nov 2022 01:19:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=21RtI83U3AWt3cyeCJ2XmHc2ruDDyw09Go561vbFieg=;
+        b=7q/OaKPtQ4IeYxQHQaC4aOn7zrvJ3Yr8RQyWvwQwcRu0jouQ1mzKgLwVH1+4CtBlT0
+         WqqJ97pJd1e6ipFHKwm0vRnNnfYpGlLhc2UVYB6Y3U09PlrX4FMMxevbcWyLBOcWWvdL
+         YPv7ecnuSiy00N+7f+ChYRhSk6+HTph4f7mDMJbWkd6ugWorOzKjS6YqG0JAZHmStWk9
+         LcfhTIxE312OlgUaD+s8Rvw/FR0tfahl+821ZbxKeb7qg4IZqU93u76IUVMvn9sRUgy/
+         C7aBU3zL62yibHNI9wYEf0E3JQhpAIlj8kMyT9+IlFD31olty3dqCnVlvD1G4WzsbGzJ
+         Ccgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=21RtI83U3AWt3cyeCJ2XmHc2ruDDyw09Go561vbFieg=;
+        b=gJi5+T/7kCIE+6+I7mJc4UzcxgI+sPziPcqkLPGi9KKXhk27NASVgmpkVCW++wA2Iy
+         Jr2ztGiscySbUR6CicAJuDVulvf7NKLVUH4uQZMVc/6ExaoW33/eDdPwdXRUgQRBTAl9
+         /zwFXo1+UWI+yQ3QAMrfuQ2+fbdEIcon9Ew8p7g7t4F4/HJ1oMA4AStPY8rYXwHQ9oVE
+         X9RkWJmxe6w8hR185fmm7u194MFQFLWhbaX57VBWimegJvfeuFjbSaFadj+LpWmTXwHe
+         mw07FJX8qJQh9slGWZU4IUbLkmEffqehOflUzLRRJYaEkewkWP1o31EM49vxsm72brE/
+         O24Q==
+X-Gm-Message-State: ANoB5pkQyzyMgmXUr662o0xqko7pSCz2f0LCmM2WY+G/UEalwkKs7nwd
+        0yFznlZdVwL5EqVmBm+YwUPjxw==
+X-Google-Smtp-Source: AA0mqf44COThVTh8STo2F/PdfE1hAhOPrq1SYQrMQOFcuboOXsdNStHJxfmCn7TEZsRRJCXahEuHCw==
+X-Received: by 2002:a05:600c:3b04:b0:3cf:6fd8:95a4 with SMTP id m4-20020a05600c3b0400b003cf6fd895a4mr22693692wms.73.1669281560664;
+        Thu, 24 Nov 2022 01:19:20 -0800 (PST)
+Received: from vermeer ([145.224.92.100])
+        by smtp.gmail.com with ESMTPSA id b10-20020adfde0a000000b0022e57e66824sm898859wrm.99.2022.11.24.01.19.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Nov 2022 01:19:20 -0800 (PST)
+Date:   Thu, 24 Nov 2022 10:19:16 +0100
+From:   Samuel Ortiz <sameo@rivosinc.com>
+To:     "Hongren (Zenithal) Zheng" <i@zenithal.me>
+Cc:     Palmer Dabbelt <palmer@rivosinc.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Atish Patra <atishp@rivosinc.com>,
+        Anup Patel <anup@brainfault.org>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Kees Cook <keescook@chromium.org>, linux-mm@kvack.org,
+        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        linux-man@vger.kernel.org, Jiatai He <jiatai2021@iscas.ac.cn>,
+        Heiko Stuebner <heiko@sntech.de>, Conor.Dooley@microchip.com
+Subject: Re: [PATCH v3 1/3] RISC-V: add Bitmanip/Scalar Crypto parsing from DT
+Message-ID: <Y383FE6/w2sLd4I5@vermeer>
+References: <YqYz+xDsXr/tNaNu@Sun>
+ <YqY0aSngjI0Hc5d4@Sun>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221123201552.7865-2-casey@schaufler-ca.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <YqY0aSngjI0Hc5d4@Sun>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Nov 23, 2022 at 12:15:44PM -0800, Casey Schaufler wrote:
-> Create a struct lsm_id to contain identifying information
-> about Linux Security Modules (LSMs). At inception this contains
-> the name of the module and an identifier associated with the
-> security module. Change the security_add_hooks() interface to
-> use this structure. Change the individual modules to maintain
-> their own struct lsm_id and pass it to security_add_hooks().
+Hi,
+
+On Mon, Jun 13, 2022 at 02:46:01AM +0800, Hongren (Zenithal) Zheng wrote:
+> This patch parses Zb/Zk related string from DT and
+> output them in cpuinfo
 > 
-> The values are for LSM identifiers are defined in a new UAPI
-> header file linux/lsm.h. Each existing LSM has been updated to
-> include it's LSMID in the lsm_id.
+> One thing worth noting is that if DT provides zk,
+> all zbkb, zbkc, zbkx and zkn, zkr, zkt would be enabled.
 > 
-> The LSM ID values are sequential, with the oldest module
-> LSM_ID_CAPABILITY being the lowest value and the existing modules
-> numbered in the order they were included in the main line kernel.
-> This is an arbitrary convention for assigning the values, but
-> none better presents itself. The value 0 is defined as being invalid.
-> The values 1-99 are reserved for any special case uses which may
-> arise in the future.
+> Note that zk is a valid extension name and the current
+> DT binding spec allows this.
+> 
+> This patch also changes the logical id of
+> existing multi-letter extensions and adds a statement
+> that instead of logical id compatibility, the order
+> is needed.
+> 
+> There currently lacks a mechanism to merge them when
+> producing cpuinfo. Namely if you provide a riscv,isa
+> "rv64imafdc_zk_zks", the cpuinfo output would be
+> "rv64imafdc_zbkb_zbkc_zbkx_zknd_zkne_zknh_zkr_zksed
+> _zksh_zkt"
+> 
+> Tested-by: Jiatai He <jiatai2021@iscas.ac.cn>
+> Signed-off-by: Hongren (Zenithal) Zheng <i@zenithal.me>
+FWIW, after some rebasing:
 
-What would be a "special case" that deserves a lower number?
+Tested-by: Samuel Ortiz <sameo@rivosinc.com>
 
-> diff --git a/security/bpf/hooks.c b/security/bpf/hooks.c
-> index e5971fa74fd7..20983ae8d31f 100644
-> --- a/security/bpf/hooks.c
-> +++ b/security/bpf/hooks.c
-> @@ -5,6 +5,7 @@
->   */
->  #include <linux/lsm_hooks.h>
->  #include <linux/bpf_lsm.h>
-> +#include <uapi/linux/lsm.h>
->  
->  static struct security_hook_list bpf_lsm_hooks[] __lsm_ro_after_init = {
->  	#define LSM_HOOK(RET, DEFAULT, NAME, ...) \
-> @@ -15,9 +16,19 @@ static struct security_hook_list bpf_lsm_hooks[] __lsm_ro_after_init = {
->  	LSM_HOOK_INIT(task_free, bpf_task_storage_free),
->  };
->  
-> +/*
-> + * slot has to be LSMBLOB_NEEDED because some of the hooks
-> + * supplied by this module require a slot.
-> + */
-> +struct lsm_id bpf_lsmid __lsm_ro_after_init = {
-> +	.lsm = "bpf",
-> +	.id = LSM_ID_BPF,
-> +};
-
-I do not understand this comment, what is LSMBLOB_NEEDED and how does
-that relate to the struct lsm_id?
-
-thanks,
-
-greg k-h
+Cheers,
+Samuel.
