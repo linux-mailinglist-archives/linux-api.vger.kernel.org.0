@@ -2,175 +2,149 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D01C637ED4
-	for <lists+linux-api@lfdr.de>; Thu, 24 Nov 2022 19:09:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E24EA6384EC
+	for <lists+linux-api@lfdr.de>; Fri, 25 Nov 2022 09:02:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229846AbiKXSJs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 24 Nov 2022 13:09:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39622 "EHLO
+        id S229802AbiKYICg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 25 Nov 2022 03:02:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53790 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229569AbiKXSJr (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 24 Nov 2022 13:09:47 -0500
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EECC78E296
-        for <linux-api@vger.kernel.org>; Thu, 24 Nov 2022 10:09:44 -0800 (PST)
-Received: by mail-wr1-x430.google.com with SMTP id z4so3532211wrr.3
-        for <linux-api@vger.kernel.org>; Thu, 24 Nov 2022 10:09:44 -0800 (PST)
+        with ESMTP id S229645AbiKYICf (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 25 Nov 2022 03:02:35 -0500
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4569455B2
+        for <linux-api@vger.kernel.org>; Fri, 25 Nov 2022 00:02:33 -0800 (PST)
+Received: by mail-ed1-x533.google.com with SMTP id e13so5323567edj.7
+        for <linux-api@vger.kernel.org>; Fri, 25 Nov 2022 00:02:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=4j/3qr/essTH4o+9bQoOm2X2iPpGf3asbr9aUA3N9IA=;
-        b=QRjBan++vhp4SIL4Vu+DzdCCNXao+23zxmn9FfigQr+hfk1vazzX0CUFW+cwMyzbjT
-         0sptCE81q9kgZdoC19YsCqOVTco2Ba2k5+CmZhhmbj+wubJfeCv+jpDyVbV91692YMku
-         7Er8+XIiOrC1tfyeWB/WMTL/Tnq4jIOUh6MsikRo/nwwcKrWtblU0YRTvQt0/bbonQRy
-         teP6PqXz6mznnL8jv/wM9xMvA7D27PC4uAEHsWF1GKJBa2BSSc2WvzkvO0t/sd1Un9uG
-         b8BpxR/Al/oO2Tl8fHhQvBaZCoFejko0ceT/JYWth8vFdUKA/PfHoaLl/YttgiwHKiHM
-         0MtA==
+        d=rasmusvillemoes.dk; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=r47lxpAlmEVI5SZmOnV7ojQvY12OH1FcHXRnZ5IZQpg=;
+        b=FflgkK1IFiX6gJG48jUUG6HQ6UBNUIBr0KpQ0GUhFdGrrdAjteke3CjWbe0S8lQZ9s
+         8VMcLsaOcq55oo6sHEMXtV6g/RP/zZyFw+DLFPFM/qcZkM647nM4zwyVX4wPgKv9bm+2
+         9JDN83itAS2CbQ1fVYQDsC6G6+LSxRweHAlf0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4j/3qr/essTH4o+9bQoOm2X2iPpGf3asbr9aUA3N9IA=;
-        b=Md32uokZ0VmBQb51epiF8wHY6Es5/8uaQnJoAASNvSOlbbE3G0Va03SF/v8Clsc8np
-         MtSdrNXi/JTEAWmdK0i0wB82dhWuoyFM4ln4FCOZT08VuYhqQXQRRO0yZFmhQZDsTBqs
-         R/RSwX+SNavlxD2H4wYZG/vWK4No9p3YFHsts0rZqOpljt+WEO6eP93pbiryqttjHzyO
-         kRjPfwrCRwG+RQ6+rQgnbXgzXlWuo7wp73uUJeC0oyeUtfpERdzal2gW73ohP9m/hlEJ
-         KENNk5kumgEnZwoNxQKkec5JU6OnKiUnY3G9MXhdK3GtrvksDXCN6ulNGY59+ibx7egV
-         8G5A==
-X-Gm-Message-State: ANoB5pnaKmLrw1fYg99dGQ7zhHXPaiKkgSysStmnvoEyeWSpRytXw55x
-        0hBp9hffTToXbNx1lLtcc/IzFg==
-X-Google-Smtp-Source: AA0mqf4/0p/5wvPl1pNIqdjxSDbULR/ahbLRoS+EluN0du0FTfqfVlr96Lp8CIcSt3mTXhHtC5hkLQ==
-X-Received: by 2002:a5d:6389:0:b0:241:c5fe:f78a with SMTP id p9-20020a5d6389000000b00241c5fef78amr17181945wru.144.1669313383437;
-        Thu, 24 Nov 2022 10:09:43 -0800 (PST)
-Received: from vermeer ([145.224.92.100])
-        by smtp.gmail.com with ESMTPSA id fn27-20020a05600c689b00b003cf75213bb9sm6771615wmb.8.2022.11.24.10.09.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Nov 2022 10:09:43 -0800 (PST)
-Date:   Thu, 24 Nov 2022 19:09:39 +0100
-From:   Samuel Ortiz <sameo@rivosinc.com>
-To:     Conor Dooley <conor@kernel.org>
-Cc:     "Hongren (Zenithal) Zheng" <i@zenithal.me>,
-        Palmer Dabbelt <palmer@rivosinc.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Atish Patra <atishp@rivosinc.com>,
-        Anup Patel <anup@brainfault.org>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Kees Cook <keescook@chromium.org>, linux-mm@kvack.org,
-        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        linux-man@vger.kernel.org, Jiatai He <jiatai2021@iscas.ac.cn>,
-        Heiko Stuebner <heiko@sntech.de>
-Subject: Re: [PATCH v3 2/3] RISC-V: uapi: add HWCAP for Bitmanip/Scalar Crypto
-Message-ID: <Y3+zY8zU9I08eVVS@vermeer>
-References: <YqYz+xDsXr/tNaNu@Sun>
- <YqY0i22SdbHjB/MX@Sun>
- <Y385rS/5zDaDJ3Os@vermeer>
- <Y39AXYPFzSiBngwI@wendy>
- <Y39Lwp4rQc3Qkl0i@vermeer>
- <Y39blUaC/jHiOYCk@wendy>
- <Y3+mBAV8oxphjHcJ@vermeer>
- <c9ae9644-5cd0-29c2-a25c-bb497dfcb1c8@kernel.org>
- <Y3+rE6j/CzTpINi+@vermeer>
- <27d0de3e-1006-dd3a-0e91-ae8025ef8426@kernel.org>
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=r47lxpAlmEVI5SZmOnV7ojQvY12OH1FcHXRnZ5IZQpg=;
+        b=eaPUcoiENa6FUpnR5wYs21PtE+rzaXd7JX4tp1GRybeBhdk1E9HDI0hGzMSCoWVQpW
+         nN8VpzHuODpgSZyW/qOwKrb+A6zqMlYAWls9l3vAP6SIZSgxIWRbZJ7rK43ovVsUIRi7
+         fzKBmhTyI+oF3lAPjUe3i+xV5967HZX5S+czMpQsVvwpVADS6LhTBKR0MnRBqiGWHhFg
+         O2B+8ICvAAl0tgykhPiDjv5KpWl7zxI/V/zLeuY8AAS/EMhF8mkzIwg3NYIY7blWRAko
+         7HuemFwfBxiWsoB97A74FhZUy+8O6bSpJX408MgpljyUF11eZDAmmBQmEAousbOdYV8L
+         K4TQ==
+X-Gm-Message-State: ANoB5pnhWHSUZ2qGCvDHrv8TWzq1VMPG8wlxOb1lp/q5HlnDa2+dWmuP
+        m61fwBBNyEp3Oonx29TcYNGXdw==
+X-Google-Smtp-Source: AA0mqf5JN7k4JtsVSIurwKWsi38PwPudjjN/uj4c43SHFAYXYjnFk48jhsUZHvboHR1bLdw44Ozczw==
+X-Received: by 2002:aa7:d998:0:b0:463:a4a7:d3f1 with SMTP id u24-20020aa7d998000000b00463a4a7d3f1mr25798323eds.299.1669363351490;
+        Fri, 25 Nov 2022 00:02:31 -0800 (PST)
+Received: from [172.16.11.74] ([81.216.59.226])
+        by smtp.gmail.com with ESMTPSA id f15-20020a50fc8f000000b00462e1d8e914sm1466467edq.68.2022.11.25.00.02.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 25 Nov 2022 00:02:30 -0800 (PST)
+Message-ID: <5d7ff259-819e-df9f-1db3-271c263be9cd@rasmusvillemoes.dk>
+Date:   Fri, 25 Nov 2022 09:02:29 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <27d0de3e-1006-dd3a-0e91-ae8025ef8426@kernel.org>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v6 2/3] random: introduce generic vDSO getrandom()
+ implementation
+Content-Language: en-US, da
+To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc:     linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+        tglx@linutronix.de, linux-crypto@vger.kernel.org, x86@kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
+        Carlos O'Donell <carlos@redhat.com>,
+        Linux API <linux-api@vger.kernel.org>
+References: <20221121152909.3414096-1-Jason@zx2c4.com>
+ <20221121152909.3414096-3-Jason@zx2c4.com>
+ <842fd97b-c958-7b0d-2c77-6927c7ab4d72@rasmusvillemoes.dk>
+ <Y37GXIQVvUvRac6D@zx2c4.com>
+From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
+In-Reply-To: <Y37GXIQVvUvRac6D@zx2c4.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Nov 24, 2022 at 05:54:00PM +0000, Conor Dooley wrote:
-> On 24/11/2022 17:34, Samuel Ortiz wrote:
-> > On Thu, Nov 24, 2022 at 05:20:37PM +0000, Conor Dooley wrote:
-> >> On 24/11/2022 17:12, Samuel Ortiz wrote:
-> >>> [You don't often get email from sameo@rivosinc.com. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
-> >>>
-> >>> EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
-> >>>
-> >>> On Thu, Nov 24, 2022 at 11:55:01AM +0000, Conor Dooley wrote:
-> >>>> On Thu, Nov 24, 2022 at 11:47:30AM +0100, Samuel Ortiz wrote:
-> >>>>
-> >>>>> Patch #1 is definitely needed regardless of which interface we pick for
-> >>>>> exposing the ISA strings to userspace.
-> >>>>
-> >>>> I took another look at #1, and I feel more confused about what
-> >>>> constitutes canonical order than I did before! If you know better than
-> >>>> I, and you probably do since you're interested in these 6 month old
-> >>>> patches, some insight would be appreciated!
-> >>>
-> >>> Assuming we don't go with hwcap, I dont think the order of the
-> >>> riscv_isa_ext_id enum matters that much?
-> >>
-> >> The chief put it in canonical order so that's good enough for me!
-> >>
-> >>>
-> >>> iiuc we're building the cpuinfo string from the riscv_isa_ext_data
-> >>> array, and I think the current code is incorrect:
-> >>>
-> >>> static struct riscv_isa_ext_data isa_ext_arr[] = {
-> >>>     __RISCV_ISA_EXT_DATA(sscofpmf, RISCV_ISA_EXT_SSCOFPMF),
-> >>>     __RISCV_ISA_EXT_DATA(sstc, RISCV_ISA_EXT_SSTC),
-> >>>     __RISCV_ISA_EXT_DATA(svinval, RISCV_ISA_EXT_SVINVAL),
-> >>>     __RISCV_ISA_EXT_DATA(svpbmt, RISCV_ISA_EXT_SVPBMT),
-> >>>     __RISCV_ISA_EXT_DATA(zicbom, RISCV_ISA_EXT_ZICBOM),
-> >>>     __RISCV_ISA_EXT_DATA(zihintpause, RISCV_ISA_EXT_ZIHINTPAUSE),
-> >>>     __RISCV_ISA_EXT_DATA("", RISCV_ISA_EXT_MAX),
-> >>> };
-> >>>
-> >>> zicbom and zihintpause should come before supervisor level extensions.
-> >>> I'm going to send a patch for that.
-> >>
-> >> idk, Palmer explicitly re-ordered this:
-> >> https://lore.kernel.org/linux-riscv/20220920204518.10988-1-palmer@rivosinc.com/
-> >>
-> >> By my reading of the isa manual, what Palmer did is correct as
-> >> those are not "Additional Standard Extensions". /shrug
-> > 
-> > Hmm, by their name (Z[a-b]+) they are Additional Standard Extensions.
-> > What am I missing?
+On 24/11/2022 02.18, Jason A. Donenfeld wrote:
+> Hi Rasmus,
 > 
-> Right, and this is where I get confused. Zam and Ztso *are* Additional
-> Standard Extensions, I think we can agree on that one? For those
-> extensions:
-> \chapter{``Ztso'' Standard Extension for Total Store Ordering, v0.1}
-> \chapter{``Zam'' Standard Extension for Misaligned Atomics, v0.1}
+> On Wed, Nov 23, 2022 at 09:51:04AM +0100, Rasmus Villemoes wrote:
+>> On 21/11/2022 16.29, Jason A. Donenfeld wrote:
+>>
+>> Cc += linux-api
+>>
+>>>
+>>>       if (!new_block)
+>>>         goto out;
+>>>       new_cap = grnd_allocator.cap + num;
+>>>       new_states = reallocarray(grnd_allocator.states, new_cap, sizeof(*grnd_allocator.states));
+>>>       if (!new_states) {
+>>>         munmap(new_block, num * size_per_each);
+>>
+>> Hm. This does leak an implementation detail of vgetrandom_alloc(),
+>> namely that it is based on mmap() of that size rounded up to page size.
+>> Do we want to commit to this being the proper way of disposing of a
+>> succesful vgetrandom_alloc(), or should there also be a
+>> vgetrandom_free(void *states, long num, long size_per_each)?
 > 
-> They're also called out specifically in the table:
-> https://github.com/riscv/riscv-isa-manual/blob/master/src/naming.tex#L147
-> 
-> For Zihintpause however:
-> \chapter{``Zihintpause'' Pause Hint, Version 2.0}
-> 
-> See what I mean? I looked at the specs for the bitmanip stuff and for
-> crypto, which both never mention being standard.
+> Yes, this is intentional, and this is exactly what I wanted to do. There
+> are various wrappers of vm_mmap() throughout, mmap being one of them,
+> and they typically then resort to munmap to unmap it. This is how
+> userspace handles memory - maps, always maps. So I think doing that is
+> fine and consistent.
 
-I *think* this is because Zihintpause, bitmap and crypto are ratified
-but not yet part of an official spec (non-draft) release?
+OK. Perhaps for the benefit of future libc implementors drop a comment
+somewhere as to how to dealloc the blob.
 
+> However, your point about it relying on it being a rounded up size isn't
+> correct. `munmap` will unmap the whole page if the size you pass lies
+> within a page. So `num * size_of_each` will always do the right thing,
+> without needing to have userspace code round anything up. (From the man
+> page: "The  address addr must be a multiple of the page size (but length
+> need not be). 
 
-> That table has the caption:
-> > The table also defines the canonical order in which extension names
-> > must appear in the name string, with top-to-bottom in table
-> > indicating first-to-last in the name string. 
-> 
-> It only calls out Zicsr, Zifencei, Zam and Ztso are being permitted
-> before Sdef, but as I said I am not a specs person, so perhaps some
-> of the extensions in question are intended to go there but have not
-> yet been merged into the isa manual doc. Zihintpause *is* in the
-> isa manual though but not specifically called out.
-> 
-> Anyways, hopefully that at least helps with my line of thinking!
-It does, thanks. It's a little confusing, I agree.
+I know, and I never said userspace needed to round anything up.
 
-Cheers,
-Samuel.
+All pages containing a part of the indicated range are
+> unmapped.") And as you can see in my example code, nothing is rounded
+> up. So I don't know why you made that comment.
+
+I made that comment because it's clear from what this does that you get
+something back that is _at least_ num*size_per_each in size, but what is
+not clear is that the actual allocation is exactly and will always be
+that size rounded up to a page size (and no more), so that
+munmap(num*size_per_each), with its well-known and documented semantics,
+will DTRT.
+
+> I think adding more control is exactly what this is trying to avoid.
+> It's very intentionally *not* a general allocator function, but
+> something specific for vDSO getrandom(). However, it does already, in
+> this very patchset here, take a (currently unused) flags argument, in
+> case we have the need for later extension.
+
+OK.
+
+Perhaps you can spend a few more words on why this allocation _needs_ to
+be MAP_LOCKED? That seems somewhat of a policy thing imposed by the
+kernel, something that would be better left to the libc or distro or
+whatnot to request via a flag. I could imagine applications that
+currently run at the mlock limit start failing after a libc upgrade -
+which could of course be considered a libc problem, and perhaps it's too
+unlikely to worry about.
+
+Rasmus
+
