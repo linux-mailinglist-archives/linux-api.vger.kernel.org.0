@@ -2,139 +2,129 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DEA1963A8B9
-	for <lists+linux-api@lfdr.de>; Mon, 28 Nov 2022 13:49:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 810C963AA2A
+	for <lists+linux-api@lfdr.de>; Mon, 28 Nov 2022 14:55:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231158AbiK1MtV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 28 Nov 2022 07:49:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54014 "EHLO
+        id S231354AbiK1NzF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 28 Nov 2022 08:55:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51190 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230120AbiK1MtT (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 28 Nov 2022 07:49:19 -0500
-Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com [IPv6:2607:f8b0:4864:20::732])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC3176568
-        for <linux-api@vger.kernel.org>; Mon, 28 Nov 2022 04:49:12 -0800 (PST)
-Received: by mail-qk1-x732.google.com with SMTP id j26so7044291qki.10
-        for <linux-api@vger.kernel.org>; Mon, 28 Nov 2022 04:49:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:subject:user-agent
-         :references:in-reply-to:message-id:date:cc:to:from:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TGVmMJIaDzF+HZ9gyq+88LkwK1s7TvZ3LoSpvYVKuJs=;
-        b=Yc4mY6AvvR8J0FvilEHOp4YJztk5dej6+6PHrqtJwOKPe36IVOw6KUbOFPvxqaIUVL
-         EKFpogzvGm5EXh9TW/siBoniymJvMkxoq2s2dEzDKzySHox0B0xSAyWktDHmUzO51+5r
-         xBS2R51caFTcaZHv7tE2Is3GOhS4XFGMGdcni1OmAj9u7AIsdo2OBC6Zs3HQUO6jBJLv
-         WeR77C4rP7xgp7c/aFdK2MLoUKskkP98Mt6qMdHjTw7hhwDdYJ7y6jlJ5bHRt/CQ7ysK
-         65OhWflnpl2owcwtMU/s6jA0FNYtvL78Qc9INGOyriQqV3yzcPyXQWZS92FrOCZ0e3aP
-         rMug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:subject:user-agent
-         :references:in-reply-to:message-id:date:cc:to:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TGVmMJIaDzF+HZ9gyq+88LkwK1s7TvZ3LoSpvYVKuJs=;
-        b=58MivxJh2Xs1ckXYZh0ka2ipJRcS0fYX6iDU7UwsQjWaMOjWkmLVGZGf5NOa2aouLM
-         2GxAGBtUX6JJSvNeUp5Bq84+IxTWLAfVk7XaM5Qe5oI+r0qRA8Ho3XDLO0myn5y5e4jC
-         I4CAyzYbm+K79r8aqbalIrFXR7V5iFADkVnsESVqjQ3N9NNYbYloQQpStcW/Cz43s5Lk
-         GEmrGx5xQ5oW9W3R1RTj2XUgwFdhUM5epRE8ei5+GzN/hr9Xi0ZibPIoxUDD6wdeEVsw
-         wULgQx0O8ufrixga/LzcytcfvELvfG5IDSY+R+eqhPmC7qnER/AEBtZeekyYbFRs4Ypf
-         8+bQ==
-X-Gm-Message-State: ANoB5pllpUG3BoahdKEMn9Ug4I5P0u0qAfsXaUxxWq2RRIqiZKjJT8I/
-        /rQYiUyRYId6b0YeBU/+qH5H
-X-Google-Smtp-Source: AA0mqf4Ds2RG2gMvCRQqsJgfksVgiZ7yR5a4UThP2iPQ0CQqTIvFBEEQxZnN45hFk2rmk57REIkPQg==
-X-Received: by 2002:a37:9ad2:0:b0:6fc:3ccb:f0ea with SMTP id c201-20020a379ad2000000b006fc3ccbf0eamr19410302qke.669.1669639751623;
-        Mon, 28 Nov 2022 04:49:11 -0800 (PST)
-Received: from [192.168.68.74] (096-033-065-247.res.spectrum.com. [96.33.65.247])
-        by smtp.gmail.com with ESMTPSA id v2-20020ac873c2000000b003a57f822157sm6805786qtp.90.2022.11.28.04.49.10
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 28 Nov 2022 04:49:10 -0800 (PST)
-From:   Paul Moore <paul@paul-moore.com>
-To:     Greg KH <gregkh@linuxfoundation.org>
-CC:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        <casey.schaufler@intel.com>,
-        <linux-security-module@vger.kernel.org>, <jmorris@namei.org>,
-        <keescook@chromium.org>, <john.johansen@canonical.com>,
-        <penguin-kernel@i-love.sakura.ne.jp>,
-        <stephen.smalley.work@gmail.com>, <linux-kernel@vger.kernel.org>,
-        <linux-api@vger.kernel.org>
-Date:   Mon, 28 Nov 2022 07:49:11 -0500
-Message-ID: <184be48c558.28e3.85c95baa4474aabc7814e68940a78392@paul-moore.com>
-In-Reply-To: <Y4Rok2iAOekw/tSJ@kroah.com>
-References: <20221123201552.7865-1-casey@schaufler-ca.com>
- <20221123201552.7865-2-casey@schaufler-ca.com>
- <Y38D1s3uQ6zNORei@kroah.com>
- <463cb747-5bac-9e8e-b78e-1ff6a1b29142@digikod.net>
- <CAHC9VhR9h1GF6VGovp1+UB-vt+QNofjmecPwLqE3OviKQHRMcg@mail.gmail.com>
- <Y4Rok2iAOekw/tSJ@kroah.com>
-User-Agent: AquaMail/1.40.1 (build: 104001224)
-Subject: Re: [PATCH v3 1/9] LSM: Identify modules by more than name
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        with ESMTP id S231147AbiK1NzC (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 28 Nov 2022 08:55:02 -0500
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1DC8D66;
+        Mon, 28 Nov 2022 05:55:00 -0800 (PST)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailout.nyi.internal (Postfix) with ESMTP id 5A65B5C0175;
+        Mon, 28 Nov 2022 08:55:00 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute3.internal (MEProxy); Mon, 28 Nov 2022 08:55:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm3; t=1669643700; x=1669730100; bh=KQcpOA4V11
+        EXNrxS5nHlKDVdF9XDuHnhnKU0CEb1Oes=; b=oNyCR4OtmVBeFtiRZAUp6Ly3/0
+        49eqo8kBIYTm2G+DA9S3a8t4rYeBnPTT9iIt1PxJRxFBawR8+gxdAFoAHOvdV2ND
+        XCnuyUeyF7NFRNrZ08IQMxpORXpj8riuU4L5+6JuJ0Q7Hbu3kV84f/qxKOw+4j2+
+        xA6dxBtvnBh6CUbrTCwJJ58tvFPTAkJ64Waai18zwdR3tfJAQyh05yFVH9T7kLLh
+        oere6Le73Xul6vmrQa+3mPGLm52v0yAsj+hdKl30hixpraIPFIV8Q2lV8O94OKn1
+        nOJ/c78VTk1jAskPuMVK2jhot4LmkuRCLBN48W4sucerhQDc2IU4AO2DU+bg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm1; t=1669643700; x=1669730100; bh=KQcpOA4V11EXNrxS5nHlKDVdF9XD
+        uHnhnKU0CEb1Oes=; b=C4PCw4tt5+3rl7gaf8IhBxTQbzecepZ6NfbPkZAPOpvC
+        GBQfrNUx3aFGt+rAZzSbDT0FY6rT+Ph5jmvwBpls67HlpT0Bq28cU8zxRlY9CkIg
+        YrHIIqbtOcyFlyMyhsCHCYdcRB8p4n5BIrYqYgOILtoLYiafj3i8ltiSQ8hFWcwT
+        smn+Ovwts0DjhE2Yq8tm43G/re3vIIWpI1BZaJDtuIkwsploYqemH4WRTUN1tEMN
+        wRVeZo8inTu3tYsjRR8dPZcChJu4JJPLPsptgRtILfPSl1xrhCqExAjrTdfGqRau
+        6TopQ5m3Gopf6Dnm5C9v5KGbWwbDabKobsVUxxdo3A==
+X-ME-Sender: <xms:tL2EY8rtAfRYnl5O2c2v3hbhBzYmybGlrv7NESXuMgRX2YEIK4gUHw>
+    <xme:tL2EYyrXo0oc2JV8G5JfLySzxLsSAxmccOrb0U1pG38D4fthuh63R4rgyh5ETacYy
+    LvzzfrU3FiKCSKXc7Y>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrjedvgdehkecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
+    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
+    gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
+    ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
+    hnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:tL2EYxOxKrkP4qp07A8tuse86yXGL7QqpEcogYU_e3ripiDmUIrnCQ>
+    <xmx:tL2EYz7jqy4ACOKdgJRVWFB8crdOrLdYpi3dnjiHAbl-huQcYRI3ng>
+    <xmx:tL2EY745xcqCM79pfK40PtjTvPgOaFdR2nQntjZnfkcuYWE9CremXA>
+    <xmx:tL2EY4FPmIZPVvlRoFF1KWz1MGHZjRNkcD59bJFtKo9N_G1KyIjl5Q>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id 0A1FAB60086; Mon, 28 Nov 2022 08:54:59 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-1115-g8b801eadce-fm-20221102.001-g8b801ead
+Mime-Version: 1.0
+Message-Id: <8f25aa1e-cb42-4ef0-a1ff-93dcf8651213@app.fastmail.com>
+In-Reply-To: <Y4PF+pBlNZGfZ0sr@zx2c4.com>
+References: <20221124165536.1631325-1-Jason@zx2c4.com>
+ <20221124165536.1631325-2-Jason@zx2c4.com> <87bkouyd90.ffs@tglx>
+ <Y4PF+pBlNZGfZ0sr@zx2c4.com>
+Date:   Mon, 28 Nov 2022 14:54:39 +0100
+From:   "Arnd Bergmann" <arnd@arndb.de>
+To:     "Jason A . Donenfeld" <Jason@zx2c4.com>,
+        "Thomas Gleixner" <tglx@linutronix.de>
+Cc:     linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+        linux-crypto@vger.kernel.org, linux-api@vger.kernel.org,
+        x86@kernel.org, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        "Adhemerval Zanella Netto" <adhemerval.zanella@linaro.org>,
+        "Carlos O'Donell" <carlos@redhat.com>,
+        "Florian Weimer" <fweimer@redhat.com>,
+        "Christian Brauner" <brauner@kernel.org>
+Subject: Re: [PATCH v7 1/3] random: add vgetrandom_alloc() syscall
+Content-Type: text/plain
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On November 28, 2022 2:51:55 AM Greg KH <gregkh@linuxfoundation.org> wrote:
-
-> On Sun, Nov 27, 2022 at 10:48:53PM -0500, Paul Moore wrote:
->> On Fri, Nov 25, 2022 at 11:19 AM Micka=C3=ABl Sala=C3=BCn <mic@digikod.n=
-et> wrote:
->>> On 24/11/2022 06:40, Greg KH wrote:
->>>> On Wed, Nov 23, 2022 at 12:15:44PM -0800, Casey Schaufler wrote:
->>>>> Create a struct lsm_id to contain identifying information
->>>>> about Linux Security Modules (LSMs). At inception this contains
->>>>> the name of the module and an identifier associated with the
->>>>> security module. Change the security_add_hooks() interface to
->>>>> use this structure. Change the individual modules to maintain
->>>>> their own struct lsm_id and pass it to security_add_hooks().
->>>>>
->>>>> The values are for LSM identifiers are defined in a new UAPI
->>>>> header file linux/lsm.h. Each existing LSM has been updated to
->>>>> include it's LSMID in the lsm_id.
->>>>>
->>>>> The LSM ID values are sequential, with the oldest module
->>>>> LSM_ID_CAPABILITY being the lowest value and the existing modules
->>>>> numbered in the order they were included in the main line kernel.
->>>>> This is an arbitrary convention for assigning the values, but
->>>>> none better presents itself. The value 0 is defined as being invalid.
->>>>> The values 1-99 are reserved for any special case uses which may
->>>>> arise in the future.
->>>>
->>>> What would be a "special case" that deserves a lower number?
->>>
->>> I don't see any meaningful use case for these reserved numbers either.
->>> If there are some, let's put them now, otherwise we should start with 1=
-.
->>> Is it inspired by an existing UAPI?
->>> Reserving 0 as invalid is good though.
->>
->> I haven't finished reviewing this latest patchset, but I wanted to
->> comment on this quickly while I had a moment in front of a keyboard
->> ... I did explain my desire and reasoning for this in a previous
->> revision of this patchset and I still believe the
->> reserved-for-potential-future-use to be a valid reason so I'm going to
->> ask for this to remain.
+On Sun, Nov 27, 2022, at 21:18, Jason A. Donenfeld wrote:
+>> 
+>> config GENERIC_VDSO_RANDOM_WHATEVER
+>>        bool
+>>        select VGETRANDOM_ALLOC
+>> 
+>> This gives a clear Kconfig dependency instead of the random
+>> ADVISE_SYSCALLS select.
 >
-> Then that reasoning and explaination needs to be here in the changelog
-> so that we understand and have a chance to agree/disagree with that.
-> Otherwise we, and everyone else, are left to just be confused.
+> That's much better indeed. I was trying to straddle the two conventions
+> of `#define __ARCH_...` for syscalls and a Kconfig for vDSO functions,
+> but doing it all together as you've suggested is nicer.
 >
-> thanks,
->
-> greg k-h
+> I'll try to figure this out, though so far futzing around suggests there
+> might have to be both, because of unistd.h being a userspace header.
+> That is, include/uapi/asm-generic/unistd.h typically needs a `#if
+> __ARCH_WANT..., #define ...` in it. I'll give it a spin and you'll see
+> for v8. At the very least it should get rid of the more awkward
+> `select ADVISE_SYSCALLS if X86_64` part, and will better separate the
+> arch code from non-arch code.
 
-The patch author should have done that considering I made my comments on th=
-e last revision.
+I think you should not need an __ARCH_WANT_SYS_* symbol for this,
+the only place we actually need them for is the asm-generic/unistd.h
+header which is still used on a couple of architectures (I have
+an experimental series for replacing it with a generic syscall.tbl
+file, but it's not ready for 6.2). In most cases, the __ARCH_WANT_SYS_*
+symbols are only used for syscalls that are part of the table for
+old architectures but get skipped on newer targets that always had
+a replacement syscalls (e.g. getrlimit getting replaced by prlimit64)
 
---
-paul-moore.com
+I think we should just reserve the syscall number for all architectures
+right away and #define the __NR_* macro. libc will generally need
+a runtime check anyway, and defining it now avoids the problem of
+the tables getting out of sync.
 
+The Kconfig symbol is fine in this case.
 
+      Arnd
