@@ -2,126 +2,147 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 66FE663B37C
-	for <lists+linux-api@lfdr.de>; Mon, 28 Nov 2022 21:41:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 87DAE63B3CE
+	for <lists+linux-api@lfdr.de>; Mon, 28 Nov 2022 22:01:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229929AbiK1Ulv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 28 Nov 2022 15:41:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50992 "EHLO
+        id S233598AbiK1VBI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 28 Nov 2022 16:01:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233310AbiK1Ulu (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 28 Nov 2022 15:41:50 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34DBA614B;
-        Mon, 28 Nov 2022 12:41:49 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id DD679B80FEE;
-        Mon, 28 Nov 2022 20:41:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 175C2C43141;
-        Mon, 28 Nov 2022 20:41:46 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
-        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="SJg8wj4K"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
-        t=1669668103;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=D8JvkqslPVbF1sVkadwrc/dHj4sGZrwzWhDSPyXC0iA=;
-        b=SJg8wj4KRRLy9GYEMoYu0SdEW67lBhfEBgSjbS7Y5Ldh+fS6U2U9/FkdNSsNEOwiNHtkz+
-        sVISLnKzyPz/JOQ+9fHS8ReK3FKr3zPBD/cTq3WYi1UWFnMobHQe+BUx9qRz4Cv/NjcOul
-        ZCjbDNFsDLsLQ7hio4Yg3cZ3atcl/4I=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id f03cb47a (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-        Mon, 28 Nov 2022 20:41:42 +0000 (UTC)
-Received: by mail-ua1-f54.google.com with SMTP id x24so4315413uaf.4;
-        Mon, 28 Nov 2022 12:41:42 -0800 (PST)
-X-Gm-Message-State: ANoB5pkUysLhsiBhfMXLfR92/8EKPj75epFR6fn8EymTLZrEJqx9sjFs
-        0QvNudn1Psf2JwSyBrPwc9mtopLX4SKGpTdjQtY=
-X-Google-Smtp-Source: AA0mqf4UPjPrqMrKRlHIidUmjattarRbkI2y9HG3LAX9xwp/oLJ1brY9IeiJRTI7OlH2L1h0PSE8XR88ROmV6anlyfQ=
-X-Received: by 2002:ab0:3899:0:b0:419:1b4a:360b with SMTP id
- z25-20020ab03899000000b004191b4a360bmr5012971uav.102.1669668101214; Mon, 28
- Nov 2022 12:41:41 -0800 (PST)
+        with ESMTP id S232674AbiK1VBH (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 28 Nov 2022 16:01:07 -0500
+Received: from smtp-190b.mail.infomaniak.ch (smtp-190b.mail.infomaniak.ch [IPv6:2001:1600:3:17::190b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 423C01E718;
+        Mon, 28 Nov 2022 13:01:03 -0800 (PST)
+Received: from smtp-3-0001.mail.infomaniak.ch (unknown [10.4.36.108])
+        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4NLdDC66VQzMpnfG;
+        Mon, 28 Nov 2022 22:00:59 +0100 (CET)
+Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
+        by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4NLdDC0lNdzMppBY;
+        Mon, 28 Nov 2022 22:00:59 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
+        s=20191114; t=1669669259;
+        bh=/1ZK7U9AzdLPF2AzAv3gVXDTqS8e0Pql7sOQaGFCoj8=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=h5DVGB+sEU0SPVa/H8FPfV9BLrjIOopwRqVm7HVnryhfe6hS/lq9VbiReGQ1rP274
+         hfdpcSg1QNbQlEktf+unfFj9bc3X0/zjpqJDdbxnRO2gSgB8zLKQh9tP3c8wJ0oed/
+         8icgp58Dov6ZP3tzdkQw3VaLSx0A9QggznS98KfM=
+Message-ID: <6071d053-a4b4-61f0-06f6-f94e6ce1e6d6@digikod.net>
+Date:   Mon, 28 Nov 2022 22:00:58 +0100
 MIME-Version: 1.0
-References: <20221128111829.2477505-1-Jason@zx2c4.com> <20221128111829.2477505-4-Jason@zx2c4.com>
- <8f9326ba-f879-4b9e-9e5d-b65cad7cd726@app.fastmail.com> <Y4UKpP7/NOwPIkYe@zx2c4.com>
- <cd01e0b4-579f-48fc-995f-6e1acebd02af@app.fastmail.com> <CAHmME9rp+Nx_S8OgABzadc1+j_FrSRbUvGu2r9W_svrr+HMjSg@mail.gmail.com>
-In-Reply-To: <CAHmME9rp+Nx_S8OgABzadc1+j_FrSRbUvGu2r9W_svrr+HMjSg@mail.gmail.com>
-From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
-Date:   Mon, 28 Nov 2022 21:41:30 +0100
-X-Gmail-Original-Message-ID: <CAHmME9oP4whduVJD7LYpjFaS76yhxd3r1YXRfNhpRBw4QCQe3g@mail.gmail.com>
-Message-ID: <CAHmME9oP4whduVJD7LYpjFaS76yhxd3r1YXRfNhpRBw4QCQe3g@mail.gmail.com>
-Subject: Re: [PATCH v8 3/3] x86: vdso: Wire up getrandom() vDSO implementation
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     linux-kernel@vger.kernel.org, patches@lists.linux.dev,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-crypto@vger.kernel.org, linux-api@vger.kernel.org,
-        x86@kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
-        "Carlos O'Donell" <carlos@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Christian Brauner <brauner@kernel.org>,
-        Samuel Neves <sneves@dei.uc.pt>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: 
+Subject: Re: [PATCH v8 08/12] landlock: Implement TCP network hooks
+Content-Language: en-US
+To:     "Konstantin Meskhidze (A)" <konstantin.meskhidze@huawei.com>
+Cc:     willemdebruijn.kernel@gmail.com, gnoack3000@gmail.com,
+        linux-security-module@vger.kernel.org, netdev@vger.kernel.org,
+        netfilter-devel@vger.kernel.org, artem.kuzin@huawei.com,
+        linux-api@vger.kernel.org,
+        "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
+References: <20221021152644.155136-1-konstantin.meskhidze@huawei.com>
+ <20221021152644.155136-9-konstantin.meskhidze@huawei.com>
+ <3452964b-04d3-b297-92a1-1220e087323e@digikod.net>
+ <335a5372-e444-5deb-c04d-664cbc7cdc2e@huawei.com>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+In-Reply-To: <335a5372-e444-5deb-c04d-664cbc7cdc2e@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Infomaniak-Routing: alpha
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hey again,
+The previous commit provides an interface to theoretically restrict 
+network access (i.e. ruleset handled network accesses), but in fact this 
+is not enforced until this commit. I like this split but to avoid any 
+inconsistency, please squash this commit into the previous one: "7/12 
+landlock: Add network rules support"
+You should keep all the commit messages but maybe tweak them a bit.
 
-On Mon, Nov 28, 2022 at 9:02 PM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
->
-> Hi Arnd,
->
-> On Mon, Nov 28, 2022 at 8:57 PM Arnd Bergmann <arnd@arndb.de> wrote:
-> >
-> > On Mon, Nov 28, 2022, at 20:23, Jason A. Donenfeld wrote:
-> > > On Mon, Nov 28, 2022 at 08:18:12PM +0100, Arnd Bergmann wrote:
-> > >> On Mon, Nov 28, 2022, at 12:18, Jason A. Donenfeld wrote:
-> > >
-> > > That's more or less how v7 was, but Thomas thought the x86 stuff should
-> > > be separate. So for v8, the organization is:
-> > >
-> > > 1) generic syscall
-> > > 2) generic vdso
-> > > 3) x86 wiring
-> > >
-> > > The primary advantage is that future archs wanting to add this now can
-> > > just look at commit (3) only, and make a similar commit for that new
-> > > arch.
-> > >
-> > > If you think a different organization outweighs that advantage, can you
-> > > spell out what division of patches you want, and I'll do that for v9?
-> > > Or maybe this v8 is okay?
-> >
-> > My interest is that at the end of the series, all architectures
-> > are hooked up with the same syscall number, which avoids confusion
-> > and merge conflicts when we add the next syscall to all tables.
-> >
-> > How about one patch to add all the syscall table entries, and then
-> > have the x86 specific change just turn on the Kconfig symbol that
-> > actually enables the syscall?
->
-> Okay, I can split it that way. If I gather your meaning correctly:
->
-> 1) generic syscall C code
-> 2) #define __NR_... in asm-generic/unistd.h x86/.../unistd.h,
-> x86/.../syscall_64.tbl
-> 3) generic vdso C code
-> 4) hook up x86 vdso, and select the right Kconfig symbol to start
-> compiling the code
->
-> Is that what you have in mind? If so, I'll name (2) "arch: wire up
-> vgetrandom_alloc() syscall number".
 
-Well, I just did this, and it seems clean enough. The result is in:
-https://git.zx2c4.com/linux-rng/log/?h=vdso
-if you're curious to poke at it ahead of v9.
+On 28/11/2022 09:21, Konstantin Meskhidze (A) wrote:
+> 
+> 
+> 11/17/2022 9:43 PM, Mickaël Salaün пишет:
+>>
+>> On 21/10/2022 17:26, Konstantin Meskhidze wrote:
+>>> This patch adds support of socket_bind() and socket_connect() hooks.
+>>> It's possible to restrict binding and connecting of TCP sockets to
+>>> particular ports.
+>>
+>> Implement socket_bind() and socket_connect LSM hooks, which enable to
+>> restrict TCP socket binding and connection to specific ports.
+>>
+>     Ok. Thanks.
+>>
+>>>
+>>> Signed-off-by: Konstantin Meskhidze <konstantin.meskhidze@huawei.com>
+>>> ---
 
-Jason
+[...]
+
+>>> +static int hook_socket_connect(struct socket *sock, struct sockaddr *address,
+>>> +			       int addrlen)
+>>> +{
+>>> +	const struct landlock_ruleset *const dom =
+>>> +		landlock_get_current_domain();
+>>> +
+>>> +	if (!dom)
+>>> +		return 0;
+>>> +
+>>> +	/* Check if it's a TCP socket. */
+>>> +	if (sock->type != SOCK_STREAM)
+>>> +		return 0;
+>>> +
+>>> +	/* Check if the hook is AF_INET* socket's action. */
+>>> +	switch (address->sa_family) {
+>>> +	case AF_INET:
+>>> +#if IS_ENABLED(CONFIG_IPV6)
+>>> +	case AF_INET6:
+>>> +#endif
+>>> +		return check_socket_access(dom, get_port(address),
+>>> +					   LANDLOCK_ACCESS_NET_CONNECT_TCP);
+>>> +	case AF_UNSPEC: {
+>>> +		u16 i;
+>>
+>> You can move "i" after the "dom" declaration to remove the extra braces.
+>>
+>     Ok. Thanks.
+>>
+>>> +
+>>> +		/*
+>>> +		 * If just in a layer a mask supports connect access,
+>>> +		 * the socket_connect() hook with AF_UNSPEC family flag
+>>> +		 * must be banned. This prevents from disconnecting already
+>>> +		 * connected sockets.
+>>> +		 */
+>>> +		for (i = 0; i < dom->num_layers; i++) {
+>>> +			if (landlock_get_net_access_mask(dom, i) &
+>>> +			    LANDLOCK_ACCESS_NET_CONNECT_TCP)
+>>> +				return -EACCES;
+>>
+>> I'm wondering if this is the right error code for this case. EPERM may
+>> be more appropriate.
+> 
+>     Ok. Will be refactored.
+>>
+>> Thinking more about this case, I don't understand what is the rationale
+>> to deny such action. What would be the consequence to always allow
+>> connection with AF_UNSPEC (i.e. to disconnect a socket)?
+>>
+>     I thought we have come to a conclusion about connect(...AF_UNSPEC..)
+>    behaviour in the patchset V3:
+> https://lore.kernel.org/linux-security-module/19ad3a01-d76e-0e73-7833-99acd4afd97e@huawei.com/
+
+The conclusion was that AF_UNSPEC disconnects a socket, but I'm asking 
+if this is a security issue. I don't think it is more dangerous than a 
+new (unconnected) socket. Am I missing something? Which kind of rule 
+could be bypassed? What are we protecting against by restricting AF_UNSPEC?
+
+We could then reduce the hook codes to just:
+return current_check_access_socket(sock, address, LANDLOCK_ACCESS_NET_*);
