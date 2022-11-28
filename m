@@ -2,118 +2,190 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F2C063B2B5
-	for <lists+linux-api@lfdr.de>; Mon, 28 Nov 2022 21:03:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E426B63B310
+	for <lists+linux-api@lfdr.de>; Mon, 28 Nov 2022 21:26:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233506AbiK1UDL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 28 Nov 2022 15:03:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52372 "EHLO
+        id S233974AbiK1U0N (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 28 Nov 2022 15:26:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232966AbiK1UDL (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 28 Nov 2022 15:03:11 -0500
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B145C62DB;
-        Mon, 28 Nov 2022 12:03:06 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 03D76CE102D;
-        Mon, 28 Nov 2022 20:03:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6A21C4347C;
-        Mon, 28 Nov 2022 20:03:02 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
-        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="ANgoiN5/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
-        t=1669665779;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=3abNITP0dzAb4S+Ys/N4ktn79tvtLrAVp0KnndQQeQg=;
-        b=ANgoiN5/DzPsE7NInUnHVXjdtzboZOf/VjIBRG+BW3kDUneiTj7LQLt58UD7stOajqEl5g
-        CZ2WpjAd0YSOzB7rw/CAuMEAy8F2QnmOwvsj2h7Q8zDvkg15tVw2HUvK3+nCJ4Ey1DsAzG
-        2YDBQ+ItutUQCay0oOWJuPvUMg7C6dc=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 22aa6657 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-        Mon, 28 Nov 2022 20:02:59 +0000 (UTC)
-Received: by mail-vs1-f53.google.com with SMTP id i2so11784410vsc.1;
-        Mon, 28 Nov 2022 12:02:59 -0800 (PST)
-X-Gm-Message-State: ANoB5pmHMKENNlaOq8NbSpmrJuznVdxVGA8bLnFpUVc90U568J4RqGm0
-        g39Eip5Z9ScVWuoNwlQgdAJTOeH0z6nZZkEMOCA=
-X-Google-Smtp-Source: AA0mqf5cX87+Dzqv5dsvQPzXX+ACSAgn3+NnHk6t8bD7/9VXA7phYasi8Xi6M8nM7bGSqgRv5Mh405sAFnNKGR0AFK0=
-X-Received: by 2002:a67:f54e:0:b0:3b0:4e31:10f7 with SMTP id
- z14-20020a67f54e000000b003b04e3110f7mr19050387vsn.73.1669665778586; Mon, 28
- Nov 2022 12:02:58 -0800 (PST)
+        with ESMTP id S234046AbiK1U0M (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 28 Nov 2022 15:26:12 -0500
+Received: from smtp-bc0f.mail.infomaniak.ch (smtp-bc0f.mail.infomaniak.ch [IPv6:2001:1600:3:17::bc0f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2140219C33
+        for <linux-api@vger.kernel.org>; Mon, 28 Nov 2022 12:26:12 -0800 (PST)
+Received: from smtp-2-0001.mail.infomaniak.ch (unknown [10.5.36.108])
+        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4NLcS10MjxzMpnyP;
+        Mon, 28 Nov 2022 21:26:09 +0100 (CET)
+Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
+        by smtp-2-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4NLcS01sNRzMppfT;
+        Mon, 28 Nov 2022 21:26:08 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
+        s=20191114; t=1669667168;
+        bh=zsoORo6Emoc7NT2m5Eq078zHD35Y2de/BsGRdHteDto=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=MEcjvEEsbuEY0IAPiYehjM3f+tai3ClEGrWMTvUZwm2DYOC8dHkJdY/EtOFUG7uHv
+         +OdKYthI9xLEIU4AY4C2gvoWwkbkVvDU5uGcUnDgv9NDY1Am7o8CT1Pel5G0NJ2rZh
+         p25r83uTC2nkIt4EWwkolGZoCCVaPhiABx6KP5VU=
+Message-ID: <53a55630-c4db-a79d-7be5-dc6026f92673@digikod.net>
+Date:   Mon, 28 Nov 2022 21:26:07 +0100
 MIME-Version: 1.0
-References: <20221128111829.2477505-1-Jason@zx2c4.com> <20221128111829.2477505-4-Jason@zx2c4.com>
- <8f9326ba-f879-4b9e-9e5d-b65cad7cd726@app.fastmail.com> <Y4UKpP7/NOwPIkYe@zx2c4.com>
- <cd01e0b4-579f-48fc-995f-6e1acebd02af@app.fastmail.com>
-In-Reply-To: <cd01e0b4-579f-48fc-995f-6e1acebd02af@app.fastmail.com>
-From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
-Date:   Mon, 28 Nov 2022 21:02:47 +0100
-X-Gmail-Original-Message-ID: <CAHmME9rp+Nx_S8OgABzadc1+j_FrSRbUvGu2r9W_svrr+HMjSg@mail.gmail.com>
-Message-ID: <CAHmME9rp+Nx_S8OgABzadc1+j_FrSRbUvGu2r9W_svrr+HMjSg@mail.gmail.com>
-Subject: Re: [PATCH v8 3/3] x86: vdso: Wire up getrandom() vDSO implementation
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     linux-kernel@vger.kernel.org, patches@lists.linux.dev,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-crypto@vger.kernel.org, linux-api@vger.kernel.org,
-        x86@kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
-        "Carlos O'Donell" <carlos@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Christian Brauner <brauner@kernel.org>,
-        Samuel Neves <sneves@dei.uc.pt>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: 
+Subject: Re: [PATCH v8 07/12] landlock: Add network rules support
+Content-Language: en-US
+To:     "Konstantin Meskhidze (A)" <konstantin.meskhidze@huawei.com>
+Cc:     willemdebruijn.kernel@gmail.com, gnoack3000@gmail.com,
+        linux-security-module@vger.kernel.org, netdev@vger.kernel.org,
+        netfilter-devel@vger.kernel.org, artem.kuzin@huawei.com,
+        Linux API <linux-api@vger.kernel.org>,
+        "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
+References: <20221021152644.155136-1-konstantin.meskhidze@huawei.com>
+ <20221021152644.155136-8-konstantin.meskhidze@huawei.com>
+ <49391484-7401-e7c7-d909-3bd6bd024731@digikod.net>
+ <ec43e2a7-72b7-54d2-4e8f-0e6553419a9a@huawei.com>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+In-Reply-To: <ec43e2a7-72b7-54d2-4e8f-0e6553419a9a@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Infomaniak-Routing: alpha
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Arnd,
 
-On Mon, Nov 28, 2022 at 8:57 PM Arnd Bergmann <arnd@arndb.de> wrote:
->
-> On Mon, Nov 28, 2022, at 20:23, Jason A. Donenfeld wrote:
-> > On Mon, Nov 28, 2022 at 08:18:12PM +0100, Arnd Bergmann wrote:
-> >> On Mon, Nov 28, 2022, at 12:18, Jason A. Donenfeld wrote:
-> >
-> > That's more or less how v7 was, but Thomas thought the x86 stuff should
-> > be separate. So for v8, the organization is:
-> >
-> > 1) generic syscall
-> > 2) generic vdso
-> > 3) x86 wiring
-> >
-> > The primary advantage is that future archs wanting to add this now can
-> > just look at commit (3) only, and make a similar commit for that new
-> > arch.
-> >
-> > If you think a different organization outweighs that advantage, can you
-> > spell out what division of patches you want, and I'll do that for v9?
-> > Or maybe this v8 is okay?
->
-> My interest is that at the end of the series, all architectures
-> are hooked up with the same syscall number, which avoids confusion
-> and merge conflicts when we add the next syscall to all tables.
->
-> How about one patch to add all the syscall table entries, and then
-> have the x86 specific change just turn on the Kconfig symbol that
-> actually enables the syscall?
+On 28/11/2022 05:01, Konstantin Meskhidze (A) wrote:
+> 
+> 
+> 11/17/2022 9:43 PM, Mickaël Salaün пишет:
+>>
+>> On 21/10/2022 17:26, Konstantin Meskhidze wrote:
+>>> This commit adds network rules support in internal landlock functions
+>>> (presented in ruleset.c) and landlock_create_ruleset syscall.
+>>
+>> …in the ruleset management helpers and the landlock_create_ruleset syscall.
+>>
+>>
+>>> Refactors user space API to support network actions. Adds new network
+>>
+>> Refactor…
+>>
+>>> access flags, network rule and network attributes. Increments Landlock
+>>
+>> Increment…
+> 
+>     The commit's message will be fixed. Thank you!
+>>
+>>> ABI version.
+>>>
+>>> Signed-off-by: Konstantin Meskhidze <konstantin.meskhidze@huawei.com>
+>>> ---
+>>>
+>>> Changes since v7:
+>>> * Squashes commits.
+>>> * Increments ABI version to 4.
+>>> * Refactors commit message.
+>>> * Minor fixes.
+>>>
+>>> Changes since v6:
+>>> * Renames landlock_set_net_access_mask() to landlock_add_net_access_mask()
+>>>     because it OR values.
+>>> * Makes landlock_add_net_access_mask() more resilient incorrect values.
+>>> * Refactors landlock_get_net_access_mask().
+>>> * Renames LANDLOCK_MASK_SHIFT_NET to LANDLOCK_SHIFT_ACCESS_NET and use
+>>>     LANDLOCK_NUM_ACCESS_FS as value.
+>>> * Updates access_masks_t to u32 to support network access actions.
+>>> * Refactors landlock internal functions to support network actions with
+>>>     landlock_key/key_type/id types.
+>>>
+>>> Changes since v5:
+>>> * Gets rid of partial revert from landlock_add_rule
+>>> syscall.
+>>> * Formats code with clang-format-14.
+>>>
+>>> Changes since v4:
+>>> * Refactors landlock_create_ruleset() - splits ruleset and
+>>> masks checks.
+>>> * Refactors landlock_create_ruleset() and landlock mask
+>>> setters/getters to support two rule types.
+>>> * Refactors landlock_add_rule syscall add_rule_path_beneath
+>>> function by factoring out get_ruleset_from_fd() and
+>>> landlock_put_ruleset().
+>>>
+>>> Changes since v3:
+>>> * Splits commit.
+>>> * Adds network rule support for internal landlock functions.
+>>> * Adds set_mask and get_mask for network.
+>>> * Adds rb_root root_net_port.
+>>>
+>>> ---
+>>>    include/uapi/linux/landlock.h                | 49 ++++++++++++++
+>>>    security/landlock/limits.h                   |  6 +-
+>>>    security/landlock/ruleset.c                  | 55 ++++++++++++++--
+>>>    security/landlock/ruleset.h                  | 68 ++++++++++++++++----
+>>>    security/landlock/syscalls.c                 | 13 +++-
+>>>    tools/testing/selftests/landlock/base_test.c |  2 +-
+>>>    6 files changed, 170 insertions(+), 23 deletions(-)
+>>>
+>>> diff --git a/include/uapi/linux/landlock.h b/include/uapi/linux/landlock.h
+>>> index f3223f964691..096b683c6ff3 100644
+>>> --- a/include/uapi/linux/landlock.h
+>>> +++ b/include/uapi/linux/landlock.h
+>>> @@ -31,6 +31,13 @@ struct landlock_ruleset_attr {
+>>>    	 * this access right.
+>>>    	 */
+>>>    	__u64 handled_access_fs;
+>>> +
+>>> +	/**
+>>> +	 * @handled_access_net: Bitmask of actions (cf. `Network flags`_)
+>>> +	 * that is handled by this ruleset and should then be forbidden if no
+>>> +	 * rule explicitly allow them.
+>>> +	 */
+>>> +	__u64 handled_access_net;
+>>>    };
+>>>
+>>>    /*
+>>> @@ -54,6 +61,11 @@ enum landlock_rule_type {
+>>>    	 * landlock_path_beneath_attr .
+>>>    	 */
+>>>    	LANDLOCK_RULE_PATH_BENEATH = 1,
+>>> +	/**
+>>> +	 * @LANDLOCK_RULE_NET_SERVICE: Type of a &struct
+>>> +	 * landlock_net_service_attr .
+>>> +	 */
+>>> +	LANDLOCK_RULE_NET_SERVICE = 2,
+>>>    };
+>>>
+>>>    /**
+>>> @@ -79,6 +91,24 @@ struct landlock_path_beneath_attr {
+>>>    	 */
+>>>    } __attribute__((packed));
+>>>
+>>> +/**
+>>> + * struct landlock_net_service_attr - TCP subnet definition
+>>> + *
+>>> + * Argument of sys_landlock_add_rule().
+>>> + */
+>>> +struct landlock_net_service_attr {
+>>> +	/**
+>>> +	 * @allowed_access: Bitmask of allowed access network for services
+>>> +	 * (cf. `Network flags`_).
+>>> +	 */
+>>> +	__u64 allowed_access;
+>>> +	/**
+>>> +	 * @port: Network port.
+>>> +	 */
+>>> +	__u16 port;
+>>
+>>    From an UAPI point of view, I think the port field should be __be16, as
+>> for sockaddr_in->port and other network-related APIs. This will require
+>> some kernel changes to please sparse: make C=2 security/landlock/ must
+>> not print any warning.
+> 
+>     Is sparse a default checker?
 
-Okay, I can split it that way. If I gather your meaning correctly:
-
-1) generic syscall C code
-2) #define __NR_... in asm-generic/unistd.h x86/.../unistd.h,
-x86/.../syscall_64.tbl
-3) generic vdso C code
-4) hook up x86 vdso, and select the right Kconfig symbol to start
-compiling the code
-
-Is that what you have in mind? If so, I'll name (2) "arch: wire up
-vgetrandom_alloc() syscall number".
-
-Jason
+You should be able to easily install it with your Linux distro.
