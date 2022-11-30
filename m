@@ -2,64 +2,65 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 22AC363D2F1
-	for <lists+linux-api@lfdr.de>; Wed, 30 Nov 2022 11:13:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C0B1863D3B2
+	for <lists+linux-api@lfdr.de>; Wed, 30 Nov 2022 11:45:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234225AbiK3KN0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 30 Nov 2022 05:13:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42786 "EHLO
+        id S230260AbiK3Kpl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 30 Nov 2022 05:45:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232345AbiK3KNO (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 30 Nov 2022 05:13:14 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D954626115;
-        Wed, 30 Nov 2022 02:13:08 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0FA8D61AC1;
-        Wed, 30 Nov 2022 10:13:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A5A3C433D6;
-        Wed, 30 Nov 2022 10:13:05 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
-        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="DGe4Sg6E"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
-        t=1669803183;
+        with ESMTP id S231190AbiK3Kpi (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 30 Nov 2022 05:45:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F0AE5E3DA
+        for <linux-api@vger.kernel.org>; Wed, 30 Nov 2022 02:44:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1669805083;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=z5KI5VqdE2HlpGgQETwndCJAiSwaxm//4zOl9xpJ4S8=;
-        b=DGe4Sg6EMFRDuXK+3mXubUliwNKatSdYQ4syzXMR8t1iBD8BX96A8AVw+PCG4dHSuYLEgb
-        zQQJfKGJ5HqbCAc2+mguXc6WYO8Y8ZEMsj2U/F2iCZiy3bRMywQ8lxqXsvDFEqtbFYL+i1
-        bFlgyQ1y6D53hKrVM7xuNtqbINxs0KU=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id a89ed82a (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-        Wed, 30 Nov 2022 10:13:03 +0000 (UTC)
-Date:   Wed, 30 Nov 2022 11:12:57 +0100
-From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
-To:     Eric Biggers <ebiggers@kernel.org>
+        bh=QpiS+lqB9/nD3c7h6a4WkksXWdpwbKquOlt3y6VqM1A=;
+        b=dIaob4MGq02R5k0tcCPUleTfVYUdBEj/+D1P8+zz41m5KfDQB0eKH10KzY6M+y3ms82JzY
+        E6EjD6MDKsr6u3NaZkEUk5xp67+v/4kltW6W2ofObyp+89nxKWHeKdYavMPbmo3gpEB4xb
+        PLosjkPe9Lr+pYAZpgMiabVa22jP0OU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-253-0B0kZKdnMq6rQRzxcMBaLg-1; Wed, 30 Nov 2022 05:44:37 -0500
+X-MC-Unique: 0B0kZKdnMq6rQRzxcMBaLg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 519DE3C0F227;
+        Wed, 30 Nov 2022 10:44:36 +0000 (UTC)
+Received: from oldenburg.str.redhat.com (unknown [10.2.16.98])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id E5B642166B26;
+        Wed, 30 Nov 2022 10:44:33 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
 Cc:     linux-kernel@vger.kernel.org, patches@lists.linux.dev,
         tglx@linutronix.de, linux-crypto@vger.kernel.org,
         linux-api@vger.kernel.org, x86@kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
         Carlos O'Donell <carlos@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
         Arnd Bergmann <arnd@arndb.de>,
-        Christian Brauner <brauner@kernel.org>,
-        Samuel Neves <sneves@dei.uc.pt>
-Subject: Re: [PATCH v10 4/4] x86: vdso: Wire up getrandom() vDSO
+        Christian Brauner <brauner@kernel.org>
+Subject: Re: [PATCH v10 3/4] random: introduce generic vDSO getrandom()
  implementation
-Message-ID: <Y4csqTw5pY8W82Nh@zx2c4.com>
 References: <20221129210639.42233-1-Jason@zx2c4.com>
- <20221129210639.42233-5-Jason@zx2c4.com>
- <Y4bogxKW6MPoUfMA@sol.localdomain>
+        <20221129210639.42233-4-Jason@zx2c4.com>
+Date:   Wed, 30 Nov 2022 11:44:30 +0100
+In-Reply-To: <20221129210639.42233-4-Jason@zx2c4.com> (Jason A. Donenfeld's
+        message of "Tue, 29 Nov 2022 22:06:38 +0100")
+Message-ID: <878rjs7mcx.fsf@oldenburg.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Y4bogxKW6MPoUfMA@sol.localdomain>
-X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -67,47 +68,34 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Eric,
+* Jason A. Donenfeld:
 
-On Tue, Nov 29, 2022 at 09:22:11PM -0800, Eric Biggers wrote:
-> On Tue, Nov 29, 2022 at 10:06:39PM +0100, Jason A. Donenfeld wrote:
-> > diff --git a/arch/x86/entry/vdso/vgetrandom-chacha.S b/arch/x86/entry/vdso/vgetrandom-chacha.S
-> > new file mode 100644
-> > index 000000000000..91fbb7ac7af4
-> > --- /dev/null
-> > +++ b/arch/x86/entry/vdso/vgetrandom-chacha.S
-> > @@ -0,0 +1,177 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * Copyright (C) 2022 Jason A. Donenfeld <Jason@zx2c4.com>. All Rights Reserved.
-> > + */
-> > +
-> > +#include <linux/linkage.h>
-> > +#include <asm/frame.h>
-> > +
-> > +.section	.rodata.cst16.CONSTANTS, "aM", @progbits, 16
-> > +.align 16
-> > +CONSTANTS:	.octa 0x6b20657479622d323320646e61707865
-> > +.text
-> > +
-> > +/*
-> > + * Very basic SSE2 implementation of ChaCha20. Produces a given positive number
-> > + * of blocks of output with a nonce of 0, taking an input key and 8-byte
-> > + * counter. Importantly does not spill to the stack. Its arguments are:
-> > + *
-> > + *	rdi: output bytes
-> > + *	rsi: 32-byte key input
-> > + *	rdx: 8-byte counter input/output
-> > + *	rcx: number of 64-byte blocks to write to output
-> > + */
-> > +SYM_FUNC_START(__arch_chacha20_blocks_nostack)
-> 
-> How was this ChaCha20 implementation tested?
-> 
-> It really ought to have some sort of test.
+> diff --git a/include/vdso/datapage.h b/include/vdso/datapage.h
+> index 73eb622e7663..9ae4d76b36c7 100644
+> --- a/include/vdso/datapage.h
+> +++ b/include/vdso/datapage.h
+> @@ -109,6 +109,16 @@ struct vdso_data {
+>  	struct arch_vdso_data	arch_data;
+>  };
+>  
+> +/**
+> + * struct vdso_rng_data - vdso RNG state information
+> + * @generation:	a counter representing the number of RNG reseeds
+> + * @is_ready:	whether the RNG is initialized
+> + */
+> +struct vdso_rng_data {
+> +	unsigned long	generation;
+> +	bool		is_ready;
+> +};
+> +
 
-I've been comparing different output lengths with what libsodium
-produces. ARX, so no bigint stuff with carry bugs or whatever. I'll see
-if I can make a good test to add to one of the various suites for v11.
+I don't think you can use a type like long here.  The header says this:
 
-Jason
+ * vdso_data will be accessed by 64 bit and compat code at the same time
+ * so we should be careful before modifying this structure.
+
+So the ABI must be same for 32-bit and 64-bit mode, and long isn't.
+
+Thanks,
+Florian
+
