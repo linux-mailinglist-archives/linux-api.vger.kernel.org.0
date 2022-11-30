@@ -2,39 +2,39 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D167563CCAD
-	for <lists+linux-api@lfdr.de>; Wed, 30 Nov 2022 02:00:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F2BEB63CCB5
+	for <lists+linux-api@lfdr.de>; Wed, 30 Nov 2022 02:09:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230063AbiK3BAE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 29 Nov 2022 20:00:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57202 "EHLO
+        id S229845AbiK3BJX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 29 Nov 2022 20:09:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229641AbiK3BAD (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 29 Nov 2022 20:00:03 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AD14716D8;
-        Tue, 29 Nov 2022 17:00:02 -0800 (PST)
+        with ESMTP id S229667AbiK3BJW (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 29 Nov 2022 20:09:22 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A27661759;
+        Tue, 29 Nov 2022 17:09:21 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A50BA6198D;
-        Wed, 30 Nov 2022 01:00:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8047CC433D6;
-        Wed, 30 Nov 2022 00:59:59 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D5F2A6198A;
+        Wed, 30 Nov 2022 01:09:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9613C433C1;
+        Wed, 30 Nov 2022 01:09:18 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
-        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="VOgfVFkE"
+        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="fGFRUR+o"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
-        t=1669769997;
+        t=1669770556;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=AVZ0a4yNyl9QifKKmusGvNag1P4amfiAPAcNIjSeQF4=;
-        b=VOgfVFkEdcJzAi5A5PI7M4rG6AY+LXbxSA+jKovlt5vt+7vUd/h88Od+lK+AAe5/GhSlJj
-        Bf4VsRiKWQzGPFejPE6x8/K/9l/sV7asBnz6YJPYv6g8GMVbuwOYimxRFSibbBCKUz75iJ
-        C5B5Awo3oba23iKWgccliY87aJMuwYA=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 2b53e127 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-        Wed, 30 Nov 2022 00:59:57 +0000 (UTC)
-Date:   Wed, 30 Nov 2022 01:59:51 +0100
+        bh=S1si/cA8UcowkQYtlSOeleWUR5BllaZz4lBVZJERp9U=;
+        b=fGFRUR+oKPNieDw+p0j7LTBmeYOJw1nMQPx6bc/U7+M3ZyUwAWtjpc2i/RydnEet93kPQZ
+        hypbpJEFk4TJP3hFPj8vW5lmojo4doXEIsRKqvzGIxT4fiDyOFW7+3zRDM0tGFMEPD78Yj
+        Sf2jFZ8DrGlgtz/yrtJXuPiatuQPiCw=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 2bf40420 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+        Wed, 30 Nov 2022 01:09:15 +0000 (UTC)
+Date:   Wed, 30 Nov 2022 02:09:10 +0100
 From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
 To:     Thomas Gleixner <tglx@linutronix.de>
 Cc:     linux-kernel@vger.kernel.org, patches@lists.linux.dev,
@@ -45,15 +45,16 @@ Cc:     linux-kernel@vger.kernel.org, patches@lists.linux.dev,
         Florian Weimer <fweimer@redhat.com>,
         Arnd Bergmann <arnd@arndb.de>,
         Christian Brauner <brauner@kernel.org>
-Subject: Re: [PATCH v10 1/4] random: add vgetrandom_alloc() syscall
-Message-ID: <Y4arB7/zB8mRoapK@zx2c4.com>
+Subject: Re: [PATCH v10 3/4] random: introduce generic vDSO getrandom()
+ implementation
+Message-ID: <Y4atNgDqLL4KFubS@zx2c4.com>
 References: <20221129210639.42233-1-Jason@zx2c4.com>
- <20221129210639.42233-2-Jason@zx2c4.com>
- <87cz95v2q2.ffs@tglx>
+ <20221129210639.42233-4-Jason@zx2c4.com>
+ <87a649v0vr.ffs@tglx>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <87cz95v2q2.ffs@tglx>
+In-Reply-To: <87a649v0vr.ffs@tglx>
 X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
         RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -66,108 +67,100 @@ X-Mailing-List: linux-api@vger.kernel.org
 
 Hi Thomas,
 
-Thanks again for the big review. Comments inline below.
-
-On Tue, Nov 29, 2022 at 11:02:29PM +0100, Thomas Gleixner wrote:
+On Tue, Nov 29, 2022 at 11:42:16PM +0100, Thomas Gleixner wrote:
+> Jason!
+> 
+> On Tue, Nov 29 2022 at 22:06, Jason A. Donenfeld wrote:
 > > +/**
-> > + * vgetrandom_alloc - allocate opaque states for use with vDSO getrandom().
-> > + *
-> > + * @num: on input, a pointer to a suggested hint of how many states to
-> > + * allocate, and on output the number of states actually allocated.
-> > + *
-> > + * @size_per_each: the size of each state allocated, so that the caller can
-> > + * split up the returned allocation into individual states.
-> > + *
-> > + * @flags: currently always zero.
-> 
-> NIT!
-> 
-> I personally prefer and ask for it in stuff I maintain:
-> 
->  * @num:		On input, a pointer to a suggested hint of how many states to
->  *			allocate, and on output the number of states actually allocated.
->  *
->  * @size_per_each: 	The size of each state allocated, so that the caller can
->  * 			split up the returned allocation into individual states.
->  *
->  * @flags: 		Currently always zero.
-> 
-> But your turf :)
+> > + * struct vdso_rng_data - vdso RNG state information
+> > + * @generation:	a counter representing the number of RNG reseeds
 
-Hm. Caps and punctuation seem mostly missing in kernel/time/, though it
-is that way in some places, so I'll do it with caps and punctuation.
-Presumably that's the "newer" style you prefer, though I didn't look at
-the dates in git-blame to confirm that supposition.
+FYI, ever other struct in this file uses lower case and no punctuation,
+so I'll follow that for this one.
 
+> A counter
 > 
-> > + *
-> > + * The getrandom() vDSO function in userspace requires an opaque state, which
-> > + * this function allocates by mapping a certain number of special pages into
-> > + * the calling process. It takes a hint as to the number of opaque states
-> > + * desired, and provides the caller with the number of opaque states actually
-> > + * allocated, the size of each one in bytes, and the address of the first
-> > + * state.
+> > + * @is_ready:	whether the RNG is initialized
 > 
-> make W=1 rightfully complains about:
-> 
-> > +
-> 
-> drivers/char/random.c:182: warning: bad line: 
-> 
-> > + * Returns a pointer to the first state in the allocation.
-> 
-> I have serious doubts that this statement is correct.
+> Signals whether ...
 
-"Returns the address of the first state in the allocation" is better I
-guess.
+Ack.
 
-> and W=1 also complains rightfully here:
-> 
-> > +SYSCALL_DEFINE3(vgetrandom_alloc, unsigned int __user *, num,
-> > +		unsigned int __user *, size_per_each, unsigned int, flags)
-> 
-> drivers/char/random.c:188: warning: expecting prototype for vgetrandom_alloc(). Prototype was for sys_vgetrandom_alloc() instead
-
-Squinted at a lot of headers before realizing that's a kernel-doc
-warning. Fixed, thanks.
-
-> > +#ifndef _VDSO_GETRANDOM_H
-> > +#define _VDSO_GETRANDOM_H
-> > +
-> > +#include <crypto/chacha.h>
-> > +
-> > +struct vgetrandom_state {
-> > +	union {
-> > +		struct {
-> > +			u8 batch[CHACHA_BLOCK_SIZE * 3 / 2];
-> > +			u32 key[CHACHA_KEY_SIZE / sizeof(u32)];
-> > +		};
-> > +		u8 batch_key[CHACHA_BLOCK_SIZE * 2];
-> > +	};
-> > +	unsigned long generation;
-> > +	u8 pos;
-> > +	bool in_use;
+> > + */
+> > +struct vdso_rng_data {
+> > +	unsigned long	generation;
+> > +	bool		is_ready;
 > > +};
+> > +
+> > +
+> > +#define MEMCPY_AND_ZERO_SRC(type, dst, src, len) do { \
+> > +	while (len >= sizeof(type)) { \
+> > +		__put_unaligned_t(type, __get_unaligned_t(type, src), dst); \
+> > +		__put_unaligned_t(type, 0, src); \
+> > +		dst += sizeof(type); \
+> > +		src += sizeof(type); \
+> > +		len -= sizeof(type); \
+> > +	} \
+> > +} while (0)
 > 
-> Again, please make this properly tabular:
-> 
-> struct vgetrandom_state {
-> 	union {
-> 		struct {
-> 			u8	batch[CHACHA_BLOCK_SIZE * 3 / 2];
-> 			u32	key[CHACHA_KEY_SIZE / sizeof(u32)];
-> 		};
-> 		u8	batch_key[CHACHA_BLOCK_SIZE * 2];
-> 	};
-> 	unsigned long	generation;
-> 	u8		pos;
-> 	bool		in_use;
-> };
-> 
-> Plus some kernel doc which explains what this is about.
+> I'd appreciate it if you go back to the code I suggested to you and
+> compare and contrast it in terms of readability.
 
-Will do. Though, I'm going to move this to the vDSO commit, and for the
-syscall commit, which needs the struct to merely exist, I'll have no
-members in it. This should make review a bit easier.
+Ahh, you like to align your \. Okay, I'll do that. I also added a do {
+... } while (0) wrapper around it, but I think it makes sense to keep
+that so that there aren't stray semicolons.
+
+> > +/**
+> > + * __cvdso_getrandom_data - generic vDSO implementation of getrandom() syscall
+> > + * @rng_info:		describes state of kernel RNG, memory shared with kernel
+> > + * @buffer:		destination buffer to fill with random bytes
+> > + * @len:		size of @buffer in bytes
+> > + * @flags:		zero or more GRND_* flags
+> > + * @opaque_state:	a pointer to an opaque state area
+> 
+> NIT. Please start the explanations with an uppercase letter
+
+Okay. Will do everywhere in this patchset except for in vdso/datapage.h.
+
+ 
+> This one is odd:
+> 
+> > +	len = ret;
+> 
+> @ret is not modified after the initialization at the top of the
+> function:
+> 
+> > +	ssize_t ret = min_t(size_t, INT_MAX & PAGE_MASK /* = MAX_RW_COUNT */, len);
+> 
+> so I really had to go up a page and figure out what the story is.
+
+If the generation changes, and it's tried again, the whole random buffer
+is filled again, so that has to be reset. I'll leave a comment.
+
+> > +
+> > +	/* Since the batch was just refilled, set the position back to 0 to indicate a full batch. */
+> > +	state->pos = 0;
+> > +	goto more_batch;
+> 
+> Aside of the nitpicks above, thank you very much for making this
+> comprehensible.
+
+Thanks for nudging me in the right direction.
+
+> 
+> The comments are well done and appreciated and I'm pretty sure that this
+> part:
+> 
+> > +	in_use = READ_ONCE(state->in_use);
+> > +	if (unlikely(in_use))
+> > +		goto fallback_syscall;
+> > +	WRITE_ONCE(state->in_use, true);
+> 
+> was very much induced by writing those comments :)
+
+Well, not exactly, unfortunately. Adhemerval -- the glibc maintainer
+working on the libc side of this -- and I have been discussing signal
+handling craziness and lots of different schemes over the last week+,
+and this rather simple thing is the result of those conversations.
 
 Jason
