@@ -2,102 +2,99 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 040D763CEAB
-	for <lists+linux-api@lfdr.de>; Wed, 30 Nov 2022 06:22:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1405F63D12B
+	for <lists+linux-api@lfdr.de>; Wed, 30 Nov 2022 09:56:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233439AbiK3FWS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 30 Nov 2022 00:22:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34598 "EHLO
+        id S233449AbiK3I4X (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 30 Nov 2022 03:56:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58690 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233434AbiK3FWR (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 30 Nov 2022 00:22:17 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 972556B396;
-        Tue, 29 Nov 2022 21:22:16 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 57510B81A37;
-        Wed, 30 Nov 2022 05:22:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97AD5C433C1;
-        Wed, 30 Nov 2022 05:22:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1669785734;
-        bh=kp7WrFOhYksNbx5hSZrR0P6GQW+jjejcFItXGpMwjuI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=l7e4TcFRKI6SKCJ3Jo7T6DMMTmBLDYl7kgEuCaU3GL62v9QJ7pu3nkDOzsuUcPEbJ
-         I4gxpzy8q5hJKOPPEr2iRzHJ8I9C1YDUfPm/WVWs1tWsfhqryDfJqvQNbnhJyeuWlZ
-         54yT2zJ1bY7TVv4ZuQDHl/j7qRIcA6eoLNYV1Co50EImkOgTh/0vU0GwVvVMPD2BVb
-         n3o8OGXsJlTFg8WO3u1WHCNciibGiA9xA7EQxL/bKZZbfOxbxItLxbGpjckClwNm/2
-         tO3FJCfpbTCEtJ2Qo3d7rOTFnyNL7CUtHwAzIrQNcWnJ+ejjJ60fkfBWbzcUqLHeSQ
-         32xjL9vaYLEVg==
-Date:   Tue, 29 Nov 2022 21:22:11 -0800
-From:   Eric Biggers <ebiggers@kernel.org>
+        with ESMTP id S234719AbiK3I4V (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 30 Nov 2022 03:56:21 -0500
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DF922D1C0;
+        Wed, 30 Nov 2022 00:56:20 -0800 (PST)
+Received: by mail-qk1-f174.google.com with SMTP id v8so11740098qkg.12;
+        Wed, 30 Nov 2022 00:56:20 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BJTF4kLOKsfF/dL9+8uFkzScHFlje+C5R7BmCYFvyJ0=;
+        b=Bggi85dANmGplLHI8d34Dgfj18FvcTCEPCA8t9mCCMQutMdcBg93Y0mGIVOa+07OVf
+         7jmlqXXMxDkIqF6lwz+8r9yrMymuI62TeuriLD4mjemGsWj/XvGyBiEaZtNyGfOLBx/k
+         S8v4rZN9+Q/i93ZrIZTSb7rIInqdySJeJ1PhC+I51+d3UJ/bcoSWXU6K4zN56snU4rZ6
+         ltE7OGdWrvK/67N9MSCeuW0vuPXNGFOkvXimLg0bPhU1sDN2mhbCoC5XKDgdApPCQNnt
+         7YjeE8zAaC4dbVEGuIajXvFHcZykqmIWUQwsSiK4sFwEZhvAoCUqJrccALfCoEADis/M
+         ktmA==
+X-Gm-Message-State: ANoB5pkussaMlzLnF6W6m4El1GsL4hWVokw3sy936SGXUi/n5Hq0yYv4
+        zk5+7w1HlvYtfhxpfM5R+B0kAfPLlZZq3g==
+X-Google-Smtp-Source: AA0mqf5Vw2o9JEDz0NHR4Yom+ogiWhFov/5cANqq844D4rmQcI9tco9eHauzv/IjHGvMN5X2wd4CkQ==
+X-Received: by 2002:a05:620a:1292:b0:6fa:2b24:4456 with SMTP id w18-20020a05620a129200b006fa2b244456mr52818019qki.513.1669798579508;
+        Wed, 30 Nov 2022 00:56:19 -0800 (PST)
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
+        by smtp.gmail.com with ESMTPSA id bi6-20020a05620a318600b006fa16fe93bbsm728110qkb.15.2022.11.30.00.56.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 30 Nov 2022 00:56:18 -0800 (PST)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-3c090251d59so108761627b3.4;
+        Wed, 30 Nov 2022 00:56:17 -0800 (PST)
+X-Received: by 2002:a81:f80f:0:b0:38e:e541:d8ca with SMTP id
+ z15-20020a81f80f000000b0038ee541d8camr54658604ywm.283.1669798577394; Wed, 30
+ Nov 2022 00:56:17 -0800 (PST)
+MIME-Version: 1.0
+References: <20221129210639.42233-1-Jason@zx2c4.com> <20221129210639.42233-3-Jason@zx2c4.com>
+In-Reply-To: <20221129210639.42233-3-Jason@zx2c4.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 30 Nov 2022 09:56:06 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUGkhFu7X8eUMU1qqTOLKC=xsXWG2obPUeTwzyMGD8grw@mail.gmail.com>
+Message-ID: <CAMuHMdUGkhFu7X8eUMU1qqTOLKC=xsXWG2obPUeTwzyMGD8grw@mail.gmail.com>
+Subject: Re: [PATCH v10 2/4] arch: allocate vgetrandom_alloc() syscall number
 To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
 Cc:     linux-kernel@vger.kernel.org, patches@lists.linux.dev,
         tglx@linutronix.de, linux-crypto@vger.kernel.org,
         linux-api@vger.kernel.org, x86@kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
-        Carlos O'Donell <carlos@redhat.com>,
+        "Carlos O'Donell" <carlos@redhat.com>,
         Florian Weimer <fweimer@redhat.com>,
         Arnd Bergmann <arnd@arndb.de>,
-        Christian Brauner <brauner@kernel.org>,
-        Samuel Neves <sneves@dei.uc.pt>
-Subject: Re: [PATCH v10 4/4] x86: vdso: Wire up getrandom() vDSO
- implementation
-Message-ID: <Y4bogxKW6MPoUfMA@sol.localdomain>
-References: <20221129210639.42233-1-Jason@zx2c4.com>
- <20221129210639.42233-5-Jason@zx2c4.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221129210639.42233-5-Jason@zx2c4.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Christian Brauner <brauner@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Nov 29, 2022 at 10:06:39PM +0100, Jason A. Donenfeld wrote:
-> diff --git a/arch/x86/entry/vdso/vgetrandom-chacha.S b/arch/x86/entry/vdso/vgetrandom-chacha.S
-> new file mode 100644
-> index 000000000000..91fbb7ac7af4
-> --- /dev/null
-> +++ b/arch/x86/entry/vdso/vgetrandom-chacha.S
-> @@ -0,0 +1,177 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (C) 2022 Jason A. Donenfeld <Jason@zx2c4.com>. All Rights Reserved.
-> + */
-> +
-> +#include <linux/linkage.h>
-> +#include <asm/frame.h>
-> +
-> +.section	.rodata.cst16.CONSTANTS, "aM", @progbits, 16
-> +.align 16
-> +CONSTANTS:	.octa 0x6b20657479622d323320646e61707865
-> +.text
-> +
-> +/*
-> + * Very basic SSE2 implementation of ChaCha20. Produces a given positive number
-> + * of blocks of output with a nonce of 0, taking an input key and 8-byte
-> + * counter. Importantly does not spill to the stack. Its arguments are:
-> + *
-> + *	rdi: output bytes
-> + *	rsi: 32-byte key input
-> + *	rdx: 8-byte counter input/output
-> + *	rcx: number of 64-byte blocks to write to output
-> + */
-> +SYM_FUNC_START(__arch_chacha20_blocks_nostack)
+Hi Jason,
 
-How was this ChaCha20 implementation tested?
+On Tue, Nov 29, 2022 at 10:09 PM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+> Add vgetrandom_alloc() as syscall 451 (or 561 on alpha) by adding it to
+> all of the various syscall.tbl and unistd.h files.
+>
+> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
 
-It really ought to have some sort of test.
+Thanks for your patch!
 
-Wouldn't this be a good candidate for a KUnit test?
+What's the policy regarding adding syscall numbers for VDSO-related
+syscalls on architectures that do not support VDSOs yet?
 
-- Eric
+>  arch/m68k/kernel/syscalls/syscall.tbl               | 1 +
+
+Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
