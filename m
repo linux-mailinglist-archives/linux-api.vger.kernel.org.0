@@ -2,63 +2,59 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5526263E657
-	for <lists+linux-api@lfdr.de>; Thu,  1 Dec 2022 01:18:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 01D1D63E799
+	for <lists+linux-api@lfdr.de>; Thu,  1 Dec 2022 03:16:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230449AbiLAASW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 30 Nov 2022 19:18:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36570 "EHLO
+        id S229806AbiLACQf (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 30 Nov 2022 21:16:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49780 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230282AbiLAARQ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 30 Nov 2022 19:17:16 -0500
+        with ESMTP id S229784AbiLACQf (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 30 Nov 2022 21:16:35 -0500
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 657A9E28;
-        Wed, 30 Nov 2022 16:14:51 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C93F9C637;
+        Wed, 30 Nov 2022 18:16:33 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id EF88A61903;
-        Thu,  1 Dec 2022 00:14:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE745C433C1;
-        Thu,  1 Dec 2022 00:14:48 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id DDA1461E33;
+        Thu,  1 Dec 2022 02:16:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99982C433D6;
+        Thu,  1 Dec 2022 02:16:30 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
-        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="HwCb57zR"
+        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="W9BC4zgH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
-        t=1669853686;
+        t=1669860987;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=3Nv8gvPbFw2821E5AG4Xu9traJZGJZZdmyGaSwU8u28=;
-        b=HwCb57zRDfJMhZHRxFuuhpEJK5s4GnwI+cF/dzV+LWkJblAiPMn9DB7lPotvYjYVlXi6kJ
-        To2/DCIuACvOuxXEBdEU3P9OWFLJvHrQL3tyOSL3nyMd72gfWUiJFkiVOulM4ILJLkEt8Q
-        wbjWWb+SSKizvMtY70GWAZWzdOBPHqI=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 85359182 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-        Thu, 1 Dec 2022 00:14:45 +0000 (UTC)
-Date:   Thu, 1 Dec 2022 01:14:43 +0100
+        bh=u3FTOtZpdTZLy3/k78tZkT54sf8xZfaUw16L7xc/1go=;
+        b=W9BC4zgHnBzwICnH/96H72eXUR+/bnlmnKyNj58IytMW4u+R3rETOIp1hrjekTSMOU77Bt
+        SPWUBmYkAArZxIZarKQbdCW5TM6vPas2sTEbM9K4UCnTLM3AYldAIOeJUj5PYKP1G++C/b
+        bmfxZ1yb5uXK/F+TeQZpd9Q+KJO3FZ4=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id d009f39a (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+        Thu, 1 Dec 2022 02:16:27 +0000 (UTC)
+Date:   Thu, 1 Dec 2022 03:16:20 +0100
 From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
-To:     David Laight <David.Laight@ACULAB.COM>
-Cc:     'Thomas Gleixner' <tglx@linutronix.de>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "patches@lists.linux.dev" <patches@lists.linux.dev>,
-        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "x86@kernel.org" <x86@kernel.org>,
+To:     Florian Weimer <fweimer@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+        tglx@linutronix.de, linux-crypto@vger.kernel.org,
+        linux-api@vger.kernel.org, x86@kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
         Carlos O'Donell <carlos@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
         Arnd Bergmann <arnd@arndb.de>,
         Christian Brauner <brauner@kernel.org>
 Subject: Re: [PATCH v10 1/4] random: add vgetrandom_alloc() syscall
-Message-ID: <Y4fx87227hQfLrFq@zx2c4.com>
+Message-ID: <Y4gOdC8J+zzRsago@zx2c4.com>
 References: <20221129210639.42233-1-Jason@zx2c4.com>
  <20221129210639.42233-2-Jason@zx2c4.com>
- <87cz95v2q2.ffs@tglx>
- <310b91f650424d338e56794b8861a088@AcuMS.aculab.com>
+ <877czc7m0g.fsf@oldenburg.str.redhat.com>
+ <Y4d5SyU3akA9ZBaJ@zx2c4.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <310b91f650424d338e56794b8861a088@AcuMS.aculab.com>
+In-Reply-To: <Y4d5SyU3akA9ZBaJ@zx2c4.com>
 X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
         RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -69,27 +65,87 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Nov 30, 2022 at 10:39:38PM +0000, David Laight wrote:
-> > struct vgetrandom_state {
-> > 	union {
-> > 		struct {
-> > 			u8	batch[CHACHA_BLOCK_SIZE * 3 / 2];
-> > 			u32	key[CHACHA_KEY_SIZE / sizeof(u32)];
-> > 		};
-> > 		u8	batch_key[CHACHA_BLOCK_SIZE * 2];
-> > 	};
-> > 	unsigned long	generation;
-> > 	u8		pos;
-> > 	bool		in_use;
-> > };
-> > 
-> > Plus some kernel doc which explains what this is about.
+On Wed, Nov 30, 2022 at 04:39:55PM +0100, Jason A. Donenfeld wrote:
+> > Can userspace use the memory for something else if it's not passed to
+> > getrandom?
 > 
-> That structure looks horrid - especially for something shared
-> between entities.
-> The 'unsigned long' should be either u32 or u64.
+> I suspect the documentation answer here is, "no", even if technically it
+> might happen to work on this kernel or that kernel. I suppose this could
+> even be quasi-enforced by xoring the top bits with some vdso
+> compile-time constant, so you can't rely on being able to dereference
+> it yourself.
+> [...]
+> Then they're caught holding the bag? This doesn't seem much different
+> from userspace shooting themselves in general, like writing garbage into
+> the allocated states and then trying to use them. If this is something
+> you really, really are concerned about, then maybe my cheesy dumb xor
+> thing mentioned above would be a low effort mitigation here.
 
-This struct isn't shared. It's used only by user mode code.
-There may well be other issues with that long, though.
+I implemented a sample of this, below. I think this is a bit silly,
+though, and making this fully robust could take some effort. Overall, I
+don't think we should do this.
 
-Jason
+However, the more I think about the args thing from the last email,
+the more I like *that* idea. So I think I'll roll with that.
+
+But this cheesy pointer obfuscation thing here, meh. But here's what it
+could look like anyway:
+
+diff --git a/drivers/char/random.c b/drivers/char/random.c
+index 2aaeb48d11be..7aff45165ce5 100644
+--- a/drivers/char/random.c
++++ b/drivers/char/random.c
+@@ -228,7 +228,7 @@ SYSCALL_DEFINE2(vgetrandom_alloc, struct vgetrandom_alloc_args __user *, uargs,
+ 	if (args.flags & VGRA_DEALLOCATE) {
+ 		if (args.size_per_each != state_size || args.num > max_states || !args.states)
+ 			return -EINVAL;
+-		return vm_munmap(args.states, args.num * state_size);
++		return vm_munmap(args.states ^ VGETRANDOM_STATE_HI_TAINT, args.num * state_size);
+ 	}
+
+ 	/* These don't make sense as input values if allocating, so reject them. */
+@@ -249,7 +249,7 @@ SYSCALL_DEFINE2(vgetrandom_alloc, struct vgetrandom_alloc_args __user *, uargs,
+
+ 	args.num = num_states;
+ 	args.size_per_each = state_size;
+-	args.states = pages_addr;
++	args.states = pages_addr ^ VGETRANDOM_STATE_HI_TAINT;
+
+ 	ret = -EFAULT;
+ 	if (copy_to_user(uargs, &args, sizeof(args)))
+diff --git a/include/vdso/getrandom.h b/include/vdso/getrandom.h
+index cb624799a8e7..9a6aaf4d99d4 100644
+--- a/include/vdso/getrandom.h
++++ b/include/vdso/getrandom.h
+@@ -8,6 +8,7 @@
+
+ #include <crypto/chacha.h>
+ #include <vdso/limits.h>
++#include <linux/version.h>
+
+ /**
+  * struct vgetrandom_state - State used by vDSO getrandom() and allocated by vgetrandom_alloc().
+@@ -41,4 +42,10 @@ struct vgetrandom_state {
+ 	bool 			in_use;
+ };
+
++/* Be annoying by changing frequently enough. */
++#define VGETRANDOM_STATE_HI_TAINT ((unsigned long)(((LINUX_VERSION_CODE >> 16) + \
++				    (LINUX_VERSION_CODE >>  8) + (LINUX_VERSION_CODE >>  0) + \
++				    __GNUC__ + __GNUC_MINOR__ + __GNUC_PATCHLEVEL__) \
++				   & 0xff) << (BITS_PER_LONG - 8))
++
+ #endif /* _VDSO_GETRANDOM_H */
+diff --git a/lib/vdso/getrandom.c b/lib/vdso/getrandom.c
+index 9ca624756432..14cbd349186c 100644
+--- a/lib/vdso/getrandom.c
++++ b/lib/vdso/getrandom.c
+@@ -57,7 +57,7 @@ __cvdso_getrandom_data(const struct vdso_rng_data *rng_info, void *buffer, size_
+ 		       unsigned int flags, void *opaque_state)
+ {
+ 	ssize_t ret = min_t(size_t, INT_MAX & PAGE_MASK /* = MAX_RW_COUNT */, len);
+-	struct vgetrandom_state *state = opaque_state;
++	struct vgetrandom_state *state = (void *)((unsigned long)opaque_state ^ VGETRANDOM_STATE_HI_TAINT);
+ 	size_t batch_len, nblocks, orig_len = len;
+ 	unsigned long current_generation;
+ 	void *orig_buffer = buffer;
