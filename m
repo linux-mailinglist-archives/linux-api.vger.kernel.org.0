@@ -2,123 +2,129 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E2646407DD
-	for <lists+linux-api@lfdr.de>; Fri,  2 Dec 2022 14:44:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 70807640898
+	for <lists+linux-api@lfdr.de>; Fri,  2 Dec 2022 15:38:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232331AbiLBNok (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 2 Dec 2022 08:44:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47460 "EHLO
+        id S233140AbiLBOie (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 2 Dec 2022 09:38:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233420AbiLBNoi (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 2 Dec 2022 08:44:38 -0500
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D457DD78C4;
-        Fri,  2 Dec 2022 05:44:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1669988676; x=1701524676;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=skS3MR2BvQKKKmac1ZclTHHuTXnPM7lSX4PdHSON5iM=;
-  b=etrl713uP9zPN4Y7zzOnpu5bmc+dZ/UHIghKHo1yCxupTaAkrFTKUBaY
-   t4oc46tu8uZ8kkVhwqlV5wk7FYmCZTp4bn4DU0qR1fvvbnCoLMwOTcQwY
-   KyWPe1dM3gcRzgCwwsJW2Pvn8B36fT+vL8QwXI3zGWuGYWkSaKUDeJGmI
-   XcOKz0oM4NmX6dqQuXhEBmtqARggoMic/rL4G6ljl0i4ujXm+hJ6AetCw
-   yBSO/kCPQzE9EobLmy0B/Kk9u4MlqrjSReB22I6yUPeJVVAwP4nEtu4ue
-   1OhcApdKlizefoDn8GRmuom3izr80PksleDMf4MA10VloV3880DgajFx9
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10548"; a="317102462"
-X-IronPort-AV: E=Sophos;i="5.96,212,1665471600"; 
-   d="scan'208";a="317102462"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2022 05:44:35 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10548"; a="622704069"
-X-IronPort-AV: E=Sophos;i="5.96,212,1665471600"; 
-   d="scan'208";a="622704069"
-Received: from valeriya-mobl2.ger.corp.intel.com (HELO box.shutemov.name) ([10.251.211.234])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2022 05:44:23 -0800
-Received: by box.shutemov.name (Postfix, from userid 1000)
-        id EC5D610975F; Fri,  2 Dec 2022 16:44:19 +0300 (+03)
-Date:   Fri, 2 Dec 2022 16:44:19 +0300
-From:   "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     Vishal Annapurve <vannapurve@google.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
-        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
-        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
-        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
-        tabba@google.com, Michael Roth <michael.roth@amd.com>,
-        mhocko@suse.com, Muchun Song <songmuchun@bytedance.com>,
-        wei.w.wang@intel.com
-Subject: Re: [PATCH v9 1/8] mm: Introduce memfd_restricted system call to
- create restricted user memory
-Message-ID: <20221202134419.vjhqzuz5alv3v2ak@box.shutemov.name>
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-2-chao.p.peng@linux.intel.com>
- <CAGtprH9Qu==pohH9ZSTzX9rZWSO0QWJ9rGK6NRGaiDetWAPLYg@mail.gmail.com>
- <20221202064909.GA1070297@chaop.bj.intel.com>
+        with ESMTP id S232556AbiLBOid (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 2 Dec 2022 09:38:33 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18FA363BB9;
+        Fri,  2 Dec 2022 06:38:30 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id A20D6B82185;
+        Fri,  2 Dec 2022 14:38:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2219C433D6;
+        Fri,  2 Dec 2022 14:38:26 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="GmyxGuFQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
+        t=1669991904;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Sj3sV8ZF7V6ZxV0fZYVQwprsf9twVEkMvj7MCPVNWHc=;
+        b=GmyxGuFQp01uapUzRl7YaSjdjmIqqzsPUwKU6mQ2gE0BK8y2nZxasRl1JTs3QgLZb55mFN
+        Fh7cAQ+hjTkU8z+9E5aw7a8xbV2mPAHSTSf80vdda0JwxoPDcynQIaTOFSvdJts5qEyFki
+        ERZ91gFHRp8vMEyq8/qdSI41j4LOgOQ=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id ccdf8612 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+        Fri, 2 Dec 2022 14:38:24 +0000 (UTC)
+Date:   Fri, 2 Dec 2022 15:38:20 +0100
+From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
+To:     Florian Weimer <fweimer@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+        tglx@linutronix.de, linux-crypto@vger.kernel.org,
+        linux-api@vger.kernel.org, x86@kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
+        Carlos O'Donell <carlos@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Christian Brauner <brauner@kernel.org>
+Subject: Re: [PATCH v10 1/4] random: add vgetrandom_alloc() syscall
+Message-ID: <Y4oN3JDG4uH2+OUo@zx2c4.com>
+References: <20221129210639.42233-1-Jason@zx2c4.com>
+ <20221129210639.42233-2-Jason@zx2c4.com>
+ <877czc7m0g.fsf@oldenburg.str.redhat.com>
+ <Y4d5SyU3akA9ZBaJ@zx2c4.com>
+ <Y4eG9cUE28s0YpgO@zx2c4.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20221202064909.GA1070297@chaop.bj.intel.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <Y4eG9cUE28s0YpgO@zx2c4.com>
+X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Dec 02, 2022 at 02:49:09PM +0800, Chao Peng wrote:
-> On Thu, Dec 01, 2022 at 06:16:46PM -0800, Vishal Annapurve wrote:
-> > On Tue, Oct 25, 2022 at 8:18 AM Chao Peng <chao.p.peng@linux.intel.com> wrote:
-> > >
-> ...
-> > > +}
-> > > +
-> > > +SYSCALL_DEFINE1(memfd_restricted, unsigned int, flags)
-> > > +{
+On Wed, Nov 30, 2022 at 05:38:13PM +0100, Jason A. Donenfeld wrote:
+> On Wed, Nov 30, 2022 at 04:39:55PM +0100, Jason A. Donenfeld wrote:
+> > 2) Convert vgetrandom_alloc() into a clone3-style syscall, as Christian
+> >    suggested earlier, which might allow for a bit more overloading
+> >    capability. That would be a struct that looks like:
 > > 
-> > Looking at the underlying shmem implementation, there seems to be no
-> > way to enable transparent huge pages specifically for restricted memfd
-> > files.
+> >       struct vgetrandom_alloc_args {
+> > 	  __aligned_u64 flags;
+> >           __aligned_u64 states;
+> > 	  __aligned_u64 num;
+> > 	  __aligned_u64 size_of_each;
+> >       }
 > > 
-> > Michael discussed earlier about tweaking
-> > /sys/kernel/mm/transparent_hugepage/shmem_enabled setting to allow
-> > hugepages to be used while backing restricted memfd. Such a change
-> > will affect the rest of the shmem usecases as well. Even setting the
-> > shmem_enabled policy to "advise" wouldn't help unless file based
-> > advise for hugepage allocation is implemented.
+> >   - If flags is VGRA_ALLOCATE, states and size_of_each must be zero on
+> >     input, while num is the hint, as is the case now. On output, states,
+> >     size_of_each, and num are filled in.
+> > 
+> >   - If flags is VGRA_DEALLOCATE, states, size_of_each, and num must be as
+> >     they were originally, and then it deallocates.
+> > 
+> > I suppose (2) would alleviate your concerns entirely, without future
+> > uncertainty over what it'd be like to add special cases to munmap(). And
+> > it'd add a bit more future proofing to the syscall, depending on what we
+> > do.
+> > 
+> > So maybe I'm warming up to that approach a bit.
 > 
-> Had a look at fadvise() and looks it does not support HUGEPAGE for any
-> filesystem yet.
+> So I just did a little quick implementation to see what it'd feel like,
+> and actually, it's quite simple, and might address a lot of concerns all
+> at once. What do you think of the below? Documentation and such still
+> needs work obviously, but the bones should be there.
 
-Yes, I think fadvise() is the right direction here. The problem is similar
-to NUMA policy where existing APIs are focused around virtual memory
-addresses. We need to extend ABI to take fd+offset as input instead.
+Well, despite writing into the ether here, I continue to chase my tail
+around in circles over this. After Adhemerval expressed a sort of "meh"
+opinion to me on IRC around doing the clone3-like thing, I went down a
+mm rabbit hole and started looking at all the various ways memory is
+allocated in userspace and under what conditions and for what and why.
+Turns out there are a few drivers doing interesting things in this
+space.
 
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+The long and short of it is that:
+- All addresses involve maps and page tables.
+- Allocating is mapping, deallocating is unmapping, and there's no way
+  around that.
+- Memory that's "special" usually comes with special attributes or
+  operations on its vma.
+
+So, this makes me think that `munmap` is the fine *and correct* API for
+deallocation. It's what everything else uses, even "special" things. And
+it doesn't constrain us in the future in case this gets "registered"
+somehow, as Florian described it, because it's still attached to
+current->mm and will still always go through the same mapping APIs
+anyway.
+
+In light of that, I'm going to stick with the original API design, and
+not do the clone3() args struct thing and the VGRA_DEALLOCATE flag.
+However, I think it'd be a good idea to add an additional parameter of
+"unsigned long addr", which is enforced/reserved to be always 0 for now.
+This might prove useful for something together with the currently unused
+flags argument, sometime in the future.
+
+Jason
