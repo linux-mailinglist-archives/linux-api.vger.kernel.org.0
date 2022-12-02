@@ -2,41 +2,42 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 70807640898
-	for <lists+linux-api@lfdr.de>; Fri,  2 Dec 2022 15:38:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A87F640BF1
+	for <lists+linux-api@lfdr.de>; Fri,  2 Dec 2022 18:19:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233140AbiLBOie (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 2 Dec 2022 09:38:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40158 "EHLO
+        id S233987AbiLBRS4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 2 Dec 2022 12:18:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55616 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232556AbiLBOid (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 2 Dec 2022 09:38:33 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18FA363BB9;
-        Fri,  2 Dec 2022 06:38:30 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id A20D6B82185;
-        Fri,  2 Dec 2022 14:38:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2219C433D6;
-        Fri,  2 Dec 2022 14:38:26 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
-        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="GmyxGuFQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
-        t=1669991904;
+        with ESMTP id S234214AbiLBRSc (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 2 Dec 2022 12:18:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EB27EC832
+        for <linux-api@vger.kernel.org>; Fri,  2 Dec 2022 09:17:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1670001447;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=Sj3sV8ZF7V6ZxV0fZYVQwprsf9twVEkMvj7MCPVNWHc=;
-        b=GmyxGuFQp01uapUzRl7YaSjdjmIqqzsPUwKU6mQ2gE0BK8y2nZxasRl1JTs3QgLZb55mFN
-        Fh7cAQ+hjTkU8z+9E5aw7a8xbV2mPAHSTSf80vdda0JwxoPDcynQIaTOFSvdJts5qEyFki
-        ERZ91gFHRp8vMEyq8/qdSI41j4LOgOQ=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id ccdf8612 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-        Fri, 2 Dec 2022 14:38:24 +0000 (UTC)
-Date:   Fri, 2 Dec 2022 15:38:20 +0100
-From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
-To:     Florian Weimer <fweimer@redhat.com>
+        bh=9IxPEAqF9SN/Ec6+MrDMnr/2mkqvaWqnJM9SdEQtL8I=;
+        b=FSRh92eeCVqyh0PATew0doLqpWgklIn1PQiCxy4USj4g0jjVAUAvJm9qtYyrcLBGOvHtK6
+        J5GZuAD8vgI9tHzIYmCm+nRJwCmbYnIu5vhG4vOSLPUL8ME/oxrQAegcIpiVyhoTTYYNEL
+        11SnrsSk+wX64+hnf9Ms/9xfFATDDU4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-159-izNlqvCZOEqgJaFW-E2R4g-1; Fri, 02 Dec 2022 12:17:24 -0500
+X-MC-Unique: izNlqvCZOEqgJaFW-E2R4g-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 314193817971;
+        Fri,  2 Dec 2022 17:17:23 +0000 (UTC)
+Received: from oldenburg.str.redhat.com (unknown [10.2.16.87])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 1481D145454E;
+        Fri,  2 Dec 2022 17:17:20 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
 Cc:     linux-kernel@vger.kernel.org, patches@lists.linux.dev,
         tglx@linutronix.de, linux-crypto@vger.kernel.org,
         linux-api@vger.kernel.org, x86@kernel.org,
@@ -46,19 +47,20 @@ Cc:     linux-kernel@vger.kernel.org, patches@lists.linux.dev,
         Arnd Bergmann <arnd@arndb.de>,
         Christian Brauner <brauner@kernel.org>
 Subject: Re: [PATCH v10 1/4] random: add vgetrandom_alloc() syscall
-Message-ID: <Y4oN3JDG4uH2+OUo@zx2c4.com>
 References: <20221129210639.42233-1-Jason@zx2c4.com>
- <20221129210639.42233-2-Jason@zx2c4.com>
- <877czc7m0g.fsf@oldenburg.str.redhat.com>
- <Y4d5SyU3akA9ZBaJ@zx2c4.com>
- <Y4eG9cUE28s0YpgO@zx2c4.com>
+        <20221129210639.42233-2-Jason@zx2c4.com>
+        <877czc7m0g.fsf@oldenburg.str.redhat.com> <Y4d5SyU3akA9ZBaJ@zx2c4.com>
+Date:   Fri, 02 Dec 2022 18:17:17 +0100
+In-Reply-To: <Y4d5SyU3akA9ZBaJ@zx2c4.com> (Jason A. Donenfeld's message of
+        "Wed, 30 Nov 2022 16:39:55 +0100")
+Message-ID: <87v8mtpvxe.fsf@oldenburg.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Y4eG9cUE28s0YpgO@zx2c4.com>
-X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -66,65 +68,88 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Nov 30, 2022 at 05:38:13PM +0100, Jason A. Donenfeld wrote:
-> On Wed, Nov 30, 2022 at 04:39:55PM +0100, Jason A. Donenfeld wrote:
-> > 2) Convert vgetrandom_alloc() into a clone3-style syscall, as Christian
-> >    suggested earlier, which might allow for a bit more overloading
-> >    capability. That would be a struct that looks like:
-> > 
-> >       struct vgetrandom_alloc_args {
-> > 	  __aligned_u64 flags;
-> >           __aligned_u64 states;
-> > 	  __aligned_u64 num;
-> > 	  __aligned_u64 size_of_each;
-> >       }
-> > 
-> >   - If flags is VGRA_ALLOCATE, states and size_of_each must be zero on
-> >     input, while num is the hint, as is the case now. On output, states,
-> >     size_of_each, and num are filled in.
-> > 
-> >   - If flags is VGRA_DEALLOCATE, states, size_of_each, and num must be as
-> >     they were originally, and then it deallocates.
-> > 
-> > I suppose (2) would alleviate your concerns entirely, without future
-> > uncertainty over what it'd be like to add special cases to munmap(). And
-> > it'd add a bit more future proofing to the syscall, depending on what we
-> > do.
-> > 
-> > So maybe I'm warming up to that approach a bit.
-> 
-> So I just did a little quick implementation to see what it'd feel like,
-> and actually, it's quite simple, and might address a lot of concerns all
-> at once. What do you think of the below? Documentation and such still
-> needs work obviously, but the bones should be there.
+* Jason A. Donenfeld:
 
-Well, despite writing into the ether here, I continue to chase my tail
-around in circles over this. After Adhemerval expressed a sort of "meh"
-opinion to me on IRC around doing the clone3-like thing, I went down a
-mm rabbit hole and started looking at all the various ways memory is
-allocated in userspace and under what conditions and for what and why.
-Turns out there are a few drivers doing interesting things in this
-space.
+> I don't think zapping that memory is supported, or even a sensible thing
+> to do. In the first place, I don't think we should suggest that the user
+> can dereference that pointer, at all. In that sense, maybe it's best to
+> call it a "handle" or something similar (a "HANDLE"! a "HWND"? a "HRNG"?
 
-The long and short of it is that:
-- All addresses involve maps and page tables.
-- Allocating is mapping, deallocating is unmapping, and there's no way
-  around that.
-- Memory that's "special" usually comes with special attributes or
-  operations on its vma.
+Surely the caller has to carve up the allocation, so the returned
+pointer is not opaque at all.  From Adhemerval's glibc patch:
 
-So, this makes me think that `munmap` is the fine *and correct* API for
-deallocation. It's what everything else uses, even "special" things. And
-it doesn't constrain us in the future in case this gets "registered"
-somehow, as Florian described it, because it's still attached to
-current->mm and will still always go through the same mapping APIs
-anyway.
+      grnd_allocator.cap = new_cap;
+      grnd_allocator.states = new_states;
 
-In light of that, I'm going to stick with the original API design, and
-not do the clone3() args struct thing and the VGRA_DEALLOCATE flag.
-However, I think it'd be a good idea to add an additional parameter of
-"unsigned long addr", which is enforced/reserved to be always 0 for now.
-This might prove useful for something together with the currently unused
-flags argument, sometime in the future.
+      for (size_t i = 0; i < num; ++i)
+	{
+	  grnd_allocator.states[i] = new_block;
+	  new_block += size_per_each;
+	}
+      grnd_allocator.len = num;
+    }
 
-Jason
+That's the opposite of a handle, really.
+
+>> But it will constrain future
+>> evolution of the implementation because you can't add registration
+>> (retaining a reference to the passed-in area in getrandom) after the
+>> fact.  But I'm not sure if this is possible with the current interface,
+>> either.  Userspace has to make some assumptions about the life-cycle to
+>> avoid a memory leak on thread exit.
+>
+> It sounds like this is sort of a different angle on Rasmus' earlier
+> comment about how munmap leaks implementation details. Maybe there's
+> something to that after all? Or not? I see two approaches:
+>
+> 1) Keep munmap as the allocation function. If later on we do fancy
+>    registration and in-kernel state tracking, or add fancy protection
+>    flags, or whatever else, munmap should be able to identify these
+>    pages and carry out whatever special treatment is necessary.
+
+munmap is fine, but the interface needs to say how to use it, and what
+length to pass.
+
+>> > +	num_states = clamp_t(size_t, num_hint, 1, (SIZE_MAX & PAGE_MASK) / state_size);
+>> > +	alloc_size = PAGE_ALIGN(num_states * state_size);
+>> 
+>> Doesn't this waste space for one state if state_size happens to be a
+>> power of 2?  Why do this SIZE_MAX & PAGE_MASK thing at all?  Shouldn't
+>> it be PAGE_SIZE / state_size?
+>
+> The first line is a clamp. That fixes num_hint between 1 and the largest
+> number that when multiplied and rounded up won't overflow.
+>
+> So, if state_size is a power of two, let's say 256, and there's only one
+> state, here's what that looks like:
+>
+>     num_states = clamp(1, 1, (0xffffffff & (~(4096 - 1))) / 256 = 16777200) = 1
+>     alloc_size = PAGE_ALIGN(1 * 256) = 4096
+>
+> So that seems like it's working as intended, right? Or if not, maybe
+> it'd help to write out the digits you're concerned about?
+
+I think I was just confused.
+
+>> > +	if (put_user(alloc_size / state_size, num) || put_user(state_size, size_per_each))
+>> > +		return -EFAULT;
+>> > +
+>> > +	pages_addr = vm_mmap(NULL, 0, alloc_size, PROT_READ | PROT_WRITE,
+>> > +			     MAP_PRIVATE | MAP_ANONYMOUS | MAP_LOCKED, 0);
+>> 
+>> I think Rasmus has already raised questions about MAP_LOCKED.
+>> 
+>> I think the kernel cannot rely on it because userspace could call
+>> munlock on the allocation.
+>
+> Then they're caught holding the bag? This doesn't seem much different
+> from userspace shooting themselves in general, like writing garbage into
+> the allocated states and then trying to use them. If this is something
+> you really, really are concerned about, then maybe my cheesy dumb xor
+> thing mentioned above would be a low effort mitigation here.
+
+So the MAP_LOCKED is just there to prevent leakage to swap?
+
+Thanks,
+Florian
+
