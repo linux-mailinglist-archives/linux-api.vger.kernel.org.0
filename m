@@ -2,88 +2,56 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 721DB6400AD
-	for <lists+linux-api@lfdr.de>; Fri,  2 Dec 2022 07:53:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 850D2640758
+	for <lists+linux-api@lfdr.de>; Fri,  2 Dec 2022 14:01:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232410AbiLBGxp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 2 Dec 2022 01:53:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43738 "EHLO
+        id S233626AbiLBNBg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 2 Dec 2022 08:01:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232314AbiLBGxn (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 2 Dec 2022 01:53:43 -0500
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2254BB7C1;
-        Thu,  1 Dec 2022 22:53:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1669964022; x=1701500022;
-  h=date:from:to:cc:subject:message-id:reply-to:references:
-   mime-version:in-reply-to;
-  bh=hsL57ikcNVoLHdsSPb/2quBPJAcrsHQWRoxcjDJhwfk=;
-  b=eT0WFURXcMGeVYPNWIXxRON88XkgDgnK57MP8L9HBxKxsLmaAF3wJG7q
-   rnDKkrgZoX9TcVbQjFOyiHKO0gbbZ9fcMwwssDAXYyl0WJvN4OeI0hfn/
-   Kn0FuzeN0TDa37Lo4FaguVQsHPwL8t1p0mbouzgGyTeMfR+/WJw28w2b8
-   rh2r81QD8/4ACEi8dpcM54W2kVY5TcI1TPegcZnSzlgwg7wDRxmJr7X5t
-   P2v2sBsKA3vddkTIPlScUBDZCzecu1t1zNo639kpdVQMg7YY5Tl2lDL/u
-   KEf8CmRexAJLimiQPuCvaGZlDcib1wrhzm98hW6Vv0ekfUBtGpO0LdthQ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10548"; a="299253379"
-X-IronPort-AV: E=Sophos;i="5.96,210,1665471600"; 
-   d="scan'208";a="299253379"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2022 22:53:41 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10548"; a="708374082"
-X-IronPort-AV: E=Sophos;i="5.96,210,1665471600"; 
-   d="scan'208";a="708374082"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
-  by fmsmga008.fm.intel.com with ESMTP; 01 Dec 2022 22:53:30 -0800
-Date:   Fri, 2 Dec 2022 14:49:09 +0800
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     Vishal Annapurve <vannapurve@google.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v9 1/8] mm: Introduce memfd_restricted system call to
- create restricted user memory
-Message-ID: <20221202064909.GA1070297@chaop.bj.intel.com>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-2-chao.p.peng@linux.intel.com>
- <CAGtprH9Qu==pohH9ZSTzX9rZWSO0QWJ9rGK6NRGaiDetWAPLYg@mail.gmail.com>
+        with ESMTP id S233629AbiLBNBU (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 2 Dec 2022 08:01:20 -0500
+Received: from smtp-190b.mail.infomaniak.ch (smtp-190b.mail.infomaniak.ch [IPv6:2001:1600:3:17::190b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 670C3C463B
+        for <linux-api@vger.kernel.org>; Fri,  2 Dec 2022 05:01:19 -0800 (PST)
+Received: from smtp-2-0000.mail.infomaniak.ch (unknown [10.5.36.107])
+        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4NNtNp6mP5zMqKlk;
+        Fri,  2 Dec 2022 14:01:14 +0100 (CET)
+Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
+        by smtp-2-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4NNtNp0xYYzMpqYv;
+        Fri,  2 Dec 2022 14:01:13 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
+        s=20191114; t=1669986074;
+        bh=hGxmQcc2FUyTeeaD1Emw8ba7zKkRKPyLT6Wl3NGYjTE=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=sncHdMoZXQ4vjCnfUT8iKSnA5hAIfME0wl4+7FhzBzpNwvZY48SLikBw3Du2hj9Bw
+         eE7L6kqnz5Eme79r3S8gYRski8WrtgM9ZlliWMl4P0Lfsx7C3XgNG0mYZH5+tbpCMG
+         B1nvkCJxKcZTvZEpW6DgWqT8fkPX4DEtETSGKDmI=
+Message-ID: <200bd6ce-de44-7335-63d9-04c17b1b1cf9@digikod.net>
+Date:   Fri, 2 Dec 2022 14:01:13 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAGtprH9Qu==pohH9ZSTzX9rZWSO0QWJ9rGK6NRGaiDetWAPLYg@mail.gmail.com>
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+User-Agent: 
+Subject: Re: [PATCH v8 08/12] landlock: Implement TCP network hooks
+Content-Language: en-US
+To:     "Konstantin Meskhidze (A)" <konstantin.meskhidze@huawei.com>,
+        willemdebruijn.kernel@gmail.com
+Cc:     gnoack3000@gmail.com, linux-security-module@vger.kernel.org,
+        netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
+        artem.kuzin@huawei.com, linux-api@vger.kernel.org,
+        "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
+References: <20221021152644.155136-1-konstantin.meskhidze@huawei.com>
+ <20221021152644.155136-9-konstantin.meskhidze@huawei.com>
+ <3452964b-04d3-b297-92a1-1220e087323e@digikod.net>
+ <335a5372-e444-5deb-c04d-664cbc7cdc2e@huawei.com>
+ <6071d053-a4b4-61f0-06f6-f94e6ce1e6d6@digikod.net>
+ <56f9af17-f824-ff5d-7fee-8de0ae520cc2@huawei.com>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+In-Reply-To: <56f9af17-f824-ff5d-7fee-8de0ae520cc2@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Infomaniak-Routing: alpha
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -91,114 +59,159 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Dec 01, 2022 at 06:16:46PM -0800, Vishal Annapurve wrote:
-> On Tue, Oct 25, 2022 at 8:18 AM Chao Peng <chao.p.peng@linux.intel.com> wrote:
-> >
-...
-> > +}
-> > +
-> > +SYSCALL_DEFINE1(memfd_restricted, unsigned int, flags)
-> > +{
-> 
-> Looking at the underlying shmem implementation, there seems to be no
-> way to enable transparent huge pages specifically for restricted memfd
-> files.
-> 
-> Michael discussed earlier about tweaking
-> /sys/kernel/mm/transparent_hugepage/shmem_enabled setting to allow
-> hugepages to be used while backing restricted memfd. Such a change
-> will affect the rest of the shmem usecases as well. Even setting the
-> shmem_enabled policy to "advise" wouldn't help unless file based
-> advise for hugepage allocation is implemented.
 
-Had a look at fadvise() and looks it does not support HUGEPAGE for any
-filesystem yet.
+On 02/12/2022 04:13, Konstantin Meskhidze (A) wrote:
+> 
+> 
+> 11/29/2022 12:00 AM, Mickaël Salaün пишет:
+>> The previous commit provides an interface to theoretically restrict
+>> network access (i.e. ruleset handled network accesses), but in fact this
+>> is not enforced until this commit. I like this split but to avoid any
+>> inconsistency, please squash this commit into the previous one: "7/12
+>> landlock: Add network rules support"
+>> You should keep all the commit messages but maybe tweak them a bit.
+>>
+>     Ok. Will be squashed.
+>>
+>> On 28/11/2022 09:21, Konstantin Meskhidze (A) wrote:
+>>>
+>>>
+>>> 11/17/2022 9:43 PM, Mickaël Salaün пишет:
+>>>>
+>>>> On 21/10/2022 17:26, Konstantin Meskhidze wrote:
+>>>>> This patch adds support of socket_bind() and socket_connect() hooks.
+>>>>> It's possible to restrict binding and connecting of TCP sockets to
+>>>>> particular ports.
+>>>>
+>>>> Implement socket_bind() and socket_connect LSM hooks, which enable to
+>>>> restrict TCP socket binding and connection to specific ports.
+>>>>
+>>>      Ok. Thanks.
+>>>>
+>>>>>
+>>>>> Signed-off-by: Konstantin Meskhidze <konstantin.meskhidze@huawei.com>
+>>>>> ---
+>>
+>> [...]
+>>
+>>>>> +static int hook_socket_connect(struct socket *sock, struct sockaddr *address,
+>>>>> +			       int addrlen)
+>>>>> +{
+>>>>> +	const struct landlock_ruleset *const dom =
+>>>>> +		landlock_get_current_domain();
+>>>>> +
+>>>>> +	if (!dom)
+>>>>> +		return 0;
+>>>>> +
+>>>>> +	/* Check if it's a TCP socket. */
+>>>>> +	if (sock->type != SOCK_STREAM)
+>>>>> +		return 0;
+>>>>> +
+>>>>> +	/* Check if the hook is AF_INET* socket's action. */
+>>>>> +	switch (address->sa_family) {
+>>>>> +	case AF_INET:
+>>>>> +#if IS_ENABLED(CONFIG_IPV6)
+>>>>> +	case AF_INET6:
+>>>>> +#endif
+>>>>> +		return check_socket_access(dom, get_port(address),
+>>>>> +					   LANDLOCK_ACCESS_NET_CONNECT_TCP);
+>>>>> +	case AF_UNSPEC: {
+>>>>> +		u16 i;
+>>>>
+>>>> You can move "i" after the "dom" declaration to remove the extra braces.
+>>>>
+>>>      Ok. Thanks.
+>>>>
+>>>>> +
+>>>>> +		/*
+>>>>> +		 * If just in a layer a mask supports connect access,
+>>>>> +		 * the socket_connect() hook with AF_UNSPEC family flag
+>>>>> +		 * must be banned. This prevents from disconnecting already
+>>>>> +		 * connected sockets.
+>>>>> +		 */
+>>>>> +		for (i = 0; i < dom->num_layers; i++) {
+>>>>> +			if (landlock_get_net_access_mask(dom, i) &
+>>>>> +			    LANDLOCK_ACCESS_NET_CONNECT_TCP)
+>>>>> +				return -EACCES;
+>>>>
+>>>> I'm wondering if this is the right error code for this case. EPERM may
+>>>> be more appropriate.
+>>>
+>>>      Ok. Will be refactored.
+>>>>
+>>>> Thinking more about this case, I don't understand what is the rationale
+>>>> to deny such action. What would be the consequence to always allow
+>>>> connection with AF_UNSPEC (i.e. to disconnect a socket)?
+>>>>
+>>>      I thought we have come to a conclusion about connect(...AF_UNSPEC..)
+>>>     behaviour in the patchset V3:
+>>> https://lore.kernel.org/linux-security-module/19ad3a01-d76e-0e73-7833-99acd4afd97e@huawei.com/
+>>
+>> The conclusion was that AF_UNSPEC disconnects a socket, but I'm asking
+>> if this is a security issue. I don't think it is more dangerous than a
+>> new (unconnected) socket. Am I missing something? Which kind of rule
+>> could be bypassed? What are we protecting against by restricting AF_UNSPEC?
+> 
+> I just follow Willem de Bruijn concerns about this issue:
+> 
+> quote: "It is valid to pass an address with AF_UNSPEC to a PF_INET(6)
+> socket. And there are legitimate reasons to want to deny this. Such as
+> passing a connection to a unprivileged process and disallow it from
+> disconnect and opening a different new connection."
+> 
+> https://lore.kernel.org/linux-security-module/CA+FuTSf4EjgjBCCOiu-PHJcTMia41UkTh8QJ0+qdxL_J8445EA@mail.gmail.com/
+
+I agree with the fact that we want to deny this, but in this example the 
+new connection should still be restricted by the Landlock domain. Using 
+AF_UNSPEC on a connected socket should not make this socket allowed to 
+create any connection if the process is restricted with TCP_CONNECT. 
+Being allowed to close a connection should not be an issue, and any new 
+connection must be vetted by Landlock.
 
 > 
-> Does it make sense to provide a flag here to allow creating restricted
-> memfds backed possibly by huge pages to give a more granular control?
-
-We do have a unused 'flags' can be extended for such usage, but I would
-let Kirill have further look, perhaps need more discussions.
-
-Chao
 > 
-> > +       struct file *file, *restricted_file;
-> > +       int fd, err;
-> > +
-> > +       if (flags)
-> > +               return -EINVAL;
-> > +
-> > +       fd = get_unused_fd_flags(0);
-> > +       if (fd < 0)
-> > +               return fd;
-> > +
-> > +       file = shmem_file_setup("memfd:restrictedmem", 0, VM_NORESERVE);
-> > +       if (IS_ERR(file)) {
-> > +               err = PTR_ERR(file);
-> > +               goto err_fd;
-> > +       }
-> > +       file->f_mode |= FMODE_LSEEK | FMODE_PREAD | FMODE_PWRITE;
-> > +       file->f_flags |= O_LARGEFILE;
-> > +
-> > +       restricted_file = restrictedmem_file_create(file);
-> > +       if (IS_ERR(restricted_file)) {
-> > +               err = PTR_ERR(restricted_file);
-> > +               fput(file);
-> > +               goto err_fd;
-> > +       }
-> > +
-> > +       fd_install(fd, restricted_file);
-> > +       return fd;
-> > +err_fd:
-> > +       put_unused_fd(fd);
-> > +       return err;
-> > +}
-> > +
-> > +void restrictedmem_register_notifier(struct file *file,
-> > +                                    struct restrictedmem_notifier *notifier)
-> > +{
-> > +       struct restrictedmem_data *data = file->f_mapping->private_data;
-> > +
-> > +       mutex_lock(&data->lock);
-> > +       list_add(&notifier->list, &data->notifiers);
-> > +       mutex_unlock(&data->lock);
-> > +}
-> > +EXPORT_SYMBOL_GPL(restrictedmem_register_notifier);
-> > +
-> > +void restrictedmem_unregister_notifier(struct file *file,
-> > +                                      struct restrictedmem_notifier *notifier)
-> > +{
-> > +       struct restrictedmem_data *data = file->f_mapping->private_data;
-> > +
-> > +       mutex_lock(&data->lock);
-> > +       list_del(&notifier->list);
-> > +       mutex_unlock(&data->lock);
-> > +}
-> > +EXPORT_SYMBOL_GPL(restrictedmem_unregister_notifier);
-> > +
-> > +int restrictedmem_get_page(struct file *file, pgoff_t offset,
-> > +                          struct page **pagep, int *order)
-> > +{
-> > +       struct restrictedmem_data *data = file->f_mapping->private_data;
-> > +       struct file *memfd = data->memfd;
-> > +       struct page *page;
-> > +       int ret;
-> > +
-> > +       ret = shmem_getpage(file_inode(memfd), offset, &page, SGP_WRITE);
-> > +       if (ret)
-> > +               return ret;
-> > +
-> > +       *pagep = page;
-> > +       if (order)
-> > +               *order = thp_order(compound_head(page));
-> > +
-> > +       SetPageUptodate(page);
-> > +       unlock_page(page);
-> > +
-> > +       return 0;
-> > +}
-> > +EXPORT_SYMBOL_GPL(restrictedmem_get_page);
-> > --
-> > 2.25.1
-> >
+> quote: "The intended use-case is for a privileged process to open a
+> connection (i.e., bound and connected socket) and pass that to a
+> restricted process. The intent is for that process to only be allowed to
+> communicate over this pre-established channel.
+> 
+> In practice, it is able to disconnect (while staying bound) and
+> elevate its privileges to that of a listening server: ..."
+> 
+> https://lore.kernel.org/linux-security-module/CA+FuTScaoby-=xRKf_Dz3koSYHqrMN0cauCg4jMmy_nDxwPADA@mail.gmail.com/
+> 
+> Looks like it's a security issue here.
+
+It the provided example, if child_process() is restricted with 
+TCP_CONNECT and TCP_BIND, any call to connect() or bind() will return an 
+access error. listen() and accept() would work if the socket is bound, 
+which is the case here, and then implicitly allowed by the parent 
+process. I don' see any security issue. Am I missing something?
+
+In fact, connect with AF_UNSPEC should always be allowed to be 
+consistent with close(2), which is a way to drop privileges.
+
+
+What Willem said:
+> It would be good to also
+> ensure that a now-bound socket cannot call listen.
+
+This is not relevant for Landlock because the security model is to check 
+process's requests to get new accesses (e.g. create a new file 
+descriptor), but not to check passed accesses (e.g. inherited from a 
+parent process, or pass through a unix socket) which are delegated to 
+the sender/parent. The goal of a sandbox is to limit the set of new 
+access requested (to the kernel) from within this sandbox. All already 
+opened file descriptors were previously vetted by Landlock (and other 
+access control systems).
+
+> 
+>>
+>> We could then reduce the hook codes to just:
+>> return current_check_access_socket(sock, address, LANDLOCK_ACCESS_NET_*);
+>> .
+
+As for SELinux, the connect hook should first do this check (with an 
+appropriate comment):
+if (address->sa_family == AF_UNSPEC)
+	return 0;
