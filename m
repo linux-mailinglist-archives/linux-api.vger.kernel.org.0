@@ -2,50 +2,50 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6735F64134F
-	for <lists+linux-api@lfdr.de>; Sat,  3 Dec 2022 03:24:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A3383641353
+	for <lists+linux-api@lfdr.de>; Sat,  3 Dec 2022 03:25:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234309AbiLCCYr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 2 Dec 2022 21:24:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40670 "EHLO
+        id S235133AbiLCCZ3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 2 Dec 2022 21:25:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41014 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234944AbiLCCYq (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 2 Dec 2022 21:24:46 -0500
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76454D20A9
-        for <linux-api@vger.kernel.org>; Fri,  2 Dec 2022 18:24:44 -0800 (PST)
-Received: by mail-pf1-x435.google.com with SMTP id a14so2482474pfa.1
-        for <linux-api@vger.kernel.org>; Fri, 02 Dec 2022 18:24:44 -0800 (PST)
+        with ESMTP id S235125AbiLCCZ1 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 2 Dec 2022 21:25:27 -0500
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0808D20A9
+        for <linux-api@vger.kernel.org>; Fri,  2 Dec 2022 18:25:26 -0800 (PST)
+Received: by mail-pg1-x533.google.com with SMTP id s196so5838104pgs.3
+        for <linux-api@vger.kernel.org>; Fri, 02 Dec 2022 18:25:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=sycaKxrnAspMqyMU77ofh2U6+r7smc986YIDXo/lwrY=;
-        b=IZNU2dMUs6dvRCVJt3dLZHnp6oLw0v5rzZGKA6Kd8bm4NsBjo1K2kKghVQvOMP5i79
-         V5hckw+Ac+GOxd2xVatczR8mFDBRoQEA/NmtdC3AfnW+31NXeBuq84WimyN5Nqyd8TDC
-         +oYC0Sul0eoDxnpiV5qkpFYReUt5JMZM+klbA=
+        bh=Qe3Kot75P0ehlOAWJ+W2KaYDqgt2hyWIV3bO0GRxNwM=;
+        b=QWQVuu2sfyBztLQQwqQPFN02JvATwjtE5qID6YEDN+72UodsQlyHEPyGRaWgZFRTTR
+         uRnWK+9DpdqcQ25oen3icozFeCSxWxy6xZiD+z7PSYoGKo04INcqhg2+kviq+7In2pJR
+         YEAqcsASnvC7DF9yDgA3BOfeKmOiA1tv+CaRs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=sycaKxrnAspMqyMU77ofh2U6+r7smc986YIDXo/lwrY=;
-        b=Rq5q3x8iHyklBmkdt78ISAkxTm+JJucbNkO+0hyB6zb/VH5aAy8ySvsWVdfm5TNymA
-         DG6lsCv/jiIBoXjIecMpUy5XrhbCIwOdQc6MrhdeXev8UtanDNUSQ/qhHP0NSJUOUNEz
-         9Ry4b565o4ZMymgd/LGf2IvrP9v85Bysyc+m3Et2oxwLKdresD56uo/cy6wMjX50pVTY
-         3Y2kfW9B4va9rpFB4NUlJb69qsv4/jcu/TVNdX6g2GQjSQJHZR8nf1+CvTEhYZCw108E
-         llGcGnzmxOb/Fnc3ciRkOVVCGBCRFr5CPIRKfj3x0/OaVjLbvbTnmye0lOymIylH5ceG
-         2cPw==
-X-Gm-Message-State: ANoB5pl1SG9kPaHehY24DxBl/OyvNjlXqrLOHsonVDJBtjf2nfJ29sIi
-        JRjdWO7AZJYQGuZn3zLj69Ntzw==
-X-Google-Smtp-Source: AA0mqf6ecGDellGthenD6ceIHI53cmnvUC0Mod6jRuSERrc/xcY+2kDsyICXdTabTZG7Un5WGhNfAw==
-X-Received: by 2002:a63:1655:0:b0:478:4cf6:d01 with SMTP id 21-20020a631655000000b004784cf60d01mr17112608pgw.279.1670034283967;
-        Fri, 02 Dec 2022 18:24:43 -0800 (PST)
+        bh=Qe3Kot75P0ehlOAWJ+W2KaYDqgt2hyWIV3bO0GRxNwM=;
+        b=uaOd87ElWohrxOfxdpDa5pH/sxuFfxv1KehMVYMDJoHYCSIlA6y7qS8qtc7FjHCVps
+         0tFb0dweyAsrFyR6NrZ/0LPKIEOlm603w3tettoCAstb4jdkE9mYPsbzYhNDPygukRCM
+         V6mUlRU42XlLOs7kFVzuAlNu/T1ysAL6/xtzjKBsYLbRbwbGBXA8jSMtwx0plGrjl5s5
+         pShyUIK/U31jLU5ouzUKdfAsDlNbJM46A0oMpRC65aUkAXgOeaahR76ws7M5SxStG9Nx
+         oyNiFigGvBV88kfJg24N4Iodf73CIxy+D/HZSHVC3aFZZREDeofk0g9DkLKBq4uxnGgF
+         0Y6w==
+X-Gm-Message-State: ANoB5pknuTc2JicJ+U5qKwBr1yVADDAvAJ/o0lpbn8XymOdbfN9VzvnG
+        e7gDSOALvXYIeSFUZS9351p3CA==
+X-Google-Smtp-Source: AA0mqf4jgpifGJAXMClGoBCX78UAFNY/rPQyAwu9YUGBBvgEisZM5G6+77aK1xBoA4eCWNPz1o8blQ==
+X-Received: by 2002:a63:d946:0:b0:477:af25:38c8 with SMTP id e6-20020a63d946000000b00477af2538c8mr45480936pgj.392.1670034326231;
+        Fri, 02 Dec 2022 18:25:26 -0800 (PST)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id 74-20020a62164d000000b0056c0d129edfsm5718087pfw.121.2022.12.02.18.24.42
+        by smtp.gmail.com with ESMTPSA id 127-20020a620485000000b00576670cc16dsm1843999pfe.197.2022.12.02.18.25.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Dec 2022 18:24:43 -0800 (PST)
-Date:   Fri, 2 Dec 2022 18:24:42 -0800
+        Fri, 02 Dec 2022 18:25:25 -0800 (PST)
+Date:   Fri, 2 Dec 2022 18:25:25 -0800
 From:   Kees Cook <keescook@chromium.org>
 To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
 Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
@@ -73,17 +73,15 @@ Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
         John Allen <john.allen@amd.com>, kcc@google.com,
         eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
         dethoma@microsoft.com, akpm@linux-foundation.org,
-        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: Re: [PATCH v4 05/39] x86/fpu/xstate: Introduce CET MSR and XSAVES
- supervisor states
-Message-ID: <202212021824.8EE4948F9@keescook>
+        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com
+Subject: Re: [PATCH v4 06/39] x86/fpu: Add helper for modifying xstate
+Message-ID: <202212021825.4A1B632FD@keescook>
 References: <20221203003606.6838-1-rick.p.edgecombe@intel.com>
- <20221203003606.6838-6-rick.p.edgecombe@intel.com>
+ <20221203003606.6838-7-rick.p.edgecombe@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221203003606.6838-6-rick.p.edgecombe@intel.com>
+In-Reply-To: <20221203003606.6838-7-rick.p.edgecombe@intel.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
@@ -94,53 +92,32 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Dec 02, 2022 at 04:35:32PM -0800, Rick Edgecombe wrote:
-> From: Yu-cheng Yu <yu-cheng.yu@intel.com>
+On Fri, Dec 02, 2022 at 04:35:33PM -0800, Rick Edgecombe wrote:
+> Just like user xfeatures, supervisor xfeatures can be active in the
+> registers or present in the task FPU buffer. If the registers are
+> active, the registers can be modified directly. If the registers are
+> not active, the modification must be performed on the task FPU buffer.
 > 
-> Shadow stack register state can be managed with XSAVE. The registers
-> can logically be separated into two groups:
->         * Registers controlling user-mode operation
->         * Registers controlling kernel-mode operation
+> When the state is not active, the kernel could perform modifications
+> directly to the buffer. But in order for it to do that, it needs
+> to know where in the buffer the specific state it wants to modify is
+> located. Doing this is not robust against optimizations that compact
+> the FPU buffer, as each access would require computing where in the
+> buffer it is.
 > 
-> The architecture has two new XSAVE state components: one for each group
-> of those groups of registers. This lets an OS manage them separately if
-> it chooses. Future patches for host userspace and KVM guests will only
-> utilize the user-mode registers, so only configure XSAVE to save
-> user-mode registers. This state will add 16 bytes to the xsave buffer
-> size.
+> The easiest way to modify supervisor xfeature data is to force restore
+> the registers and write directly to the MSRs. Often times this is just fine
+> anyway as the registers need to be restored before returning to userspace.
+> Do this for now, leaving buffer writing optimizations for the future.
 > 
-> Future patches will use the user-mode XSAVE area to save guest user-mode
-> CET state. However, VMCS includes new fields for guest CET supervisor
-> states. KVM can use these to save and restore guest supervisor state, so
-> host supervisor XSAVE support is not required.
-> 
-> Adding this exacerbates the already unwieldy if statement in
-> check_xstate_against_struct() that handles warning about un-implemented
-> xfeatures. So refactor these check's by having XCHECK_SZ() set a bool when
-> it actually check's the xfeature. This ends up exceeding 80 chars, but was
-> better on balance than other options explored. Pass the bool as pointer to
-> make it clear that XCHECK_SZ() can change the variable.
-> 
-> While configuring user-mode XSAVE, clarify kernel-mode registers are not
-> managed by XSAVE by defining the xfeature in
-> XFEATURE_MASK_SUPERVISOR_UNSUPPORTED, like is done for XFEATURE_MASK_PT.
-> This serves more of a documentation as code purpose, and functionally,
-> only enables a few safety checks.
-> 
-> Both XSAVE state components are supervisor states, even the state
-> controlling user-mode operation. This is a departure from earlier features
-> like protection keys where the PKRU state is a normal user
-> (non-supervisor) state. Having the user state be supervisor-managed
-> ensures there is no direct, unprivileged access to it, making it harder
-> for an attacker to subvert CET.
-> 
-> To facilitate this privileged access, define the two user-mode CET MSRs,
-> and the bits defined in those MSRs relevant to future shadow stack
-> enablement patches.
+> Add a new function fpregs_lock_and_load() that can simultaneously call
+> fpregs_lock() and do this restore. Also perform some extra sanity
+> checks in this function since this will be used in non-fpu focused code.
 > 
 > Tested-by: Pengfei Xu <pengfei.xu@intel.com>
 > Tested-by: John Allen <john.allen@amd.com>
-> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> Suggested-by: Thomas Gleixner <tglx@linutronix.de>
+> Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
 
 Reviewed-by: Kees Cook <keescook@chromium.org>
 
