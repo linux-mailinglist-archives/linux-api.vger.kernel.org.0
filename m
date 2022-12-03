@@ -2,50 +2,50 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B024641363
-	for <lists+linux-api@lfdr.de>; Sat,  3 Dec 2022 03:31:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C0B0641368
+	for <lists+linux-api@lfdr.de>; Sat,  3 Dec 2022 03:31:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235013AbiLCCbQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 2 Dec 2022 21:31:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46700 "EHLO
+        id S235096AbiLCCbr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 2 Dec 2022 21:31:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234804AbiLCCbP (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 2 Dec 2022 21:31:15 -0500
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9622DE1192
-        for <linux-api@vger.kernel.org>; Fri,  2 Dec 2022 18:31:14 -0800 (PST)
-Received: by mail-pj1-x1033.google.com with SMTP id t17so6525024pjo.3
-        for <linux-api@vger.kernel.org>; Fri, 02 Dec 2022 18:31:14 -0800 (PST)
+        with ESMTP id S234986AbiLCCbq (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 2 Dec 2022 21:31:46 -0500
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AF2BE11A2
+        for <linux-api@vger.kernel.org>; Fri,  2 Dec 2022 18:31:45 -0800 (PST)
+Received: by mail-pg1-x536.google.com with SMTP id 136so5849581pga.1
+        for <linux-api@vger.kernel.org>; Fri, 02 Dec 2022 18:31:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=jNJdEKc96rBGuItANfeOJmqGPSpLhwEduadMg72X9+I=;
-        b=kXbx/zxPoqU2brUX0DUwi+fETzDpdoO6MchLW2gG+HaV3D/7RMyQboruFgqlHaf9l7
-         nKvHOB/M1V0b/np2bfytJHetMFVIxhQ/PsQdMLv1ulc+LQCiUetldzoa6QLpEPjA/FrA
-         HEUGEydrFepn5uv44DSxjg69QjmB/S+jEDqeI=
+        bh=sGqaY0xiVxHPg7cMRS547FM4Lr8dWUdA5dzrwiaKHuE=;
+        b=B5n0Iq7dEb+7UzBELfeGTVQdnAg0xgb38UHmaEjMy6ZmaexXPWrWjTcXsGGBFS7xK4
+         +NLs0EPjreK31tixZceDpn5Ri/yqjz2sbrRW1/V1C+q9m6/CZuUchOtiITC+dERTH4ls
+         RkTFsIgLPJ3ZZDSVerJJmGgyX35YrqVUWCBn0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=jNJdEKc96rBGuItANfeOJmqGPSpLhwEduadMg72X9+I=;
-        b=iCqCHDjN7eHDsGt5RJJcsQlKjFaSv+Zd8CU6hC588SbehpufFPrKB8J6g/2+15vFd1
-         T28YaO1Lxr9DbB2ST/SJzt0Q0r6frUsefx/Ul2NuHnKQFcjTuk9kW/7moxN9yme/q1pv
-         8TcJ4JLKO+prxglwd0zK4hAmeOn3u01/+nwRdIDJFBJ18b/ycDnmmlnuChTuQDkynfgO
-         4E8yY23VV4p0NmQldAMzSxgP9e9y1mh9alEc7FBLkwpduSAQd1SE082XSHxey4P4GLgg
-         Mjd0MuYXKMffQEaJgTXNwwMNPxfNSuW8WlV6v+KOdvnyPt5K+SPo4IkdhoJE1CmFLIJ8
-         oUhQ==
-X-Gm-Message-State: ANoB5pnFoC4furE3F0+OcL76vu2/M4HreOUkU047ax97oU5LTsfThTJE
-        eukyNwVocd7gp7isBE1gkVYSzQ==
-X-Google-Smtp-Source: AA0mqf57wxPc/IcFFwXPdN4t6wwPtuIbaiBBr+XKGhmHjfx+eusyVOWa3AYDyygGChHHhwdagn5RJA==
-X-Received: by 2002:a17:90a:fb50:b0:219:5e9:f260 with SMTP id iq16-20020a17090afb5000b0021905e9f260mr42436295pjb.16.1670034674099;
-        Fri, 02 Dec 2022 18:31:14 -0800 (PST)
+        bh=sGqaY0xiVxHPg7cMRS547FM4Lr8dWUdA5dzrwiaKHuE=;
+        b=tDZ65TVx8roRh1npIZJXqTX1tfcsmNxnJ3VB1+SIqH03NELk218KiP2jdg8Ecc3I2m
+         ffuPuYDjPz5F7XLm/Z9o/NUnv3y/xgXWDWPmzxt1rjRLSd91shKqDIQ4KuPjxu3I+ibf
+         YI8i2z0t5Red5T/OfxwRhCu+Om3y/m1OLaNejJDP8G4wu01r1kdYG+71lvL/zUY1CtOp
+         ZLA+7cOlc2a2pCmO8DyjasrMOzRCcu6vTZr7aYeUf+i2/UaJoPHK6mSpkJqR7XYmtafI
+         72ateIZxst/yp37w7ASxU5Jx5VSbp1iyZbkS1GMSIl3g7z+W2D/s3x9LYxevgFQfGvJn
+         As2A==
+X-Gm-Message-State: ANoB5pl6rHy1CIgcINSStWEy5KLVGFYQg9QklkDyU188YXXtEsGC1apo
+        MnN8FnekvTzOaCRkr59fZmYVxw==
+X-Google-Smtp-Source: AA0mqf7Zg+kWzNeYUsEZY2iFjYDIgYVkwmEwlhE8SBhV/Dqsgul2/43ostusGBEacXblZx3cwuwd5w==
+X-Received: by 2002:a63:4e20:0:b0:46f:4d37:e95c with SMTP id c32-20020a634e20000000b0046f4d37e95cmr47482506pgb.354.1670034704847;
+        Fri, 02 Dec 2022 18:31:44 -0800 (PST)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id x9-20020aa79a49000000b0056b9df2a15esm117188pfj.62.2022.12.02.18.31.13
+        by smtp.gmail.com with ESMTPSA id y14-20020a62640e000000b0056bb4bbfb9bsm2971706pfb.95.2022.12.02.18.31.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Dec 2022 18:31:13 -0800 (PST)
-Date:   Fri, 2 Dec 2022 18:31:12 -0800
+        Fri, 02 Dec 2022 18:31:44 -0800 (PST)
+Date:   Fri, 2 Dec 2022 18:31:43 -0800
 From:   Kees Cook <keescook@chromium.org>
 To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
 Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
@@ -75,76 +75,44 @@ Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
         dethoma@microsoft.com, akpm@linux-foundation.org,
         Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
         Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: Re: [PATCH v4 10/39] x86/mm: Introduce _PAGE_COW
-Message-ID: <202212021831.61BD0D9A5@keescook>
+Subject: Re: [PATCH v4 11/39] x86/mm: Update pte_modify for _PAGE_COW
+Message-ID: <202212021831.697AA89B7B@keescook>
 References: <20221203003606.6838-1-rick.p.edgecombe@intel.com>
- <20221203003606.6838-11-rick.p.edgecombe@intel.com>
+ <20221203003606.6838-12-rick.p.edgecombe@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221203003606.6838-11-rick.p.edgecombe@intel.com>
+In-Reply-To: <20221203003606.6838-12-rick.p.edgecombe@intel.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Dec 02, 2022 at 04:35:37PM -0800, Rick Edgecombe wrote:
-> Some OSes have a greater dependence on software available bits in PTEs than
-> Linux. That left the hardware architects looking for a way to represent a
-> new memory type (shadow stack) within the existing bits. They chose to
-> repurpose a lightly-used state: Write=0,Dirty=1. So in order to support
-> shadow stack memory, Linux should avoid creating memory with this PTE bit
-> combination unless it intends for it to be shadow stack.
+On Fri, Dec 02, 2022 at 04:35:38PM -0800, Rick Edgecombe wrote:
+> From: Yu-cheng Yu <yu-cheng.yu@intel.com>
 > 
-> The reason it's lightly used is that Dirty=1 is normally set by HW
-> _before_ a write. A write with a Write=0 PTE would typically only generate
-> a fault, not set Dirty=1. Hardware can (rarely) both set Dirty=1 *and*
-> generate the fault, resulting in a Write=0,Dirty=1 PTE. Hardware which
-> supports shadow stacks will no longer exhibit this oddity.
+> The Write=0,Dirty=1 PTE has been used to indicate copy-on-write pages.
+> However, newer x86 processors also regard a Write=0,Dirty=1 PTE as a
+> shadow stack page. In order to separate the two, the software-defined
+> _PAGE_DIRTY is changed to _PAGE_COW for the copy-on-write case, and
+> pte_*() are updated to do this.
 > 
-> So that leaves Write=0,Dirty=1 PTEs created in software. To achieve this,
-> in places where Linux normally creates Write=0,Dirty=1, it can use the
-> software-defined _PAGE_COW in place of the hardware _PAGE_DIRTY. In other
-> words, whenever Linux needs to create Write=0,Dirty=1, it instead creates
-> Write=0,Cow=1 except for shadow stack, which is Write=0,Dirty=1.
-> Further differentiated by VMA flags, these PTE bit combinations would be
-> set as follows for various types of memory:
+> pte_modify() takes a "raw" pgprot_t which was not necessarily created
+> with any of the existing PTE bit helpers. That means that it can return a
+> pte_t with Write=0,Dirty=1, a shadow stack PTE, when it did not intend to
+> create one.
 > 
-> (Write=0,Cow=1,Dirty=0):
->  - A modified, copy-on-write (COW) page. Previously when a typical
->    anonymous writable mapping was made COW via fork(), the kernel would
->    mark it Write=0,Dirty=1. Now it will instead use the Cow bit. This
->    happens in copy_present_pte().
->  - A R/O page that has been COW'ed. The user page is in a R/O VMA,
->    and get_user_pages(FOLL_FORCE) needs a writable copy. The page fault
->    handler creates a copy of the page and sets the new copy's PTE as
->    Write=0 and Cow=1.
->  - A shared shadow stack PTE. When a shadow stack page is being shared
->    among processes (this happens at fork()), its PTE is made Dirty=0, so
->    the next shadow stack access causes a fault, and the page is
->    duplicated and Dirty=1 is set again. This is the COW equivalent for
->    shadow stack pages, even though it's copy-on-access rather than
->    copy-on-write.
-> 
-> (Write=0,Cow=0,Dirty=1):
->  - A shadow stack PTE.
->  - A Cow PTE created when a processor without shadow stack support set
->    Dirty=1.
-> 
-> There are six bits left available to software in the 64-bit PTE after
-> consuming a bit for _PAGE_COW. No space is consumed in 32-bit kernels
-> because shadow stacks are not enabled there.
-> 
-> This is a prepratory patch. Changes to actually start marking _PAGE_COW
-> will follow once other pieces are in place.
+> However pte_modify() changes a PTE to 'newprot', but it doesn't use the
+> pte_*(). Modify it to also move _PAGE_DIRTY to _PAGE_COW. Apply the same
+> changes to pmd_modify().
 > 
 > Tested-by: Pengfei Xu <pengfei.xu@intel.com>
 > Tested-by: John Allen <john.allen@amd.com>
-> Co-developed-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 
 Reviewed-by: Kees Cook <keescook@chromium.org>
