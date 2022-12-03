@@ -2,50 +2,50 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DC5016413BF
-	for <lists+linux-api@lfdr.de>; Sat,  3 Dec 2022 03:52:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 18B746413C8
+	for <lists+linux-api@lfdr.de>; Sat,  3 Dec 2022 03:53:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235108AbiLCCwj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 2 Dec 2022 21:52:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42136 "EHLO
+        id S235088AbiLCCxF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 2 Dec 2022 21:53:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234995AbiLCCwi (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 2 Dec 2022 21:52:38 -0500
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53DBCB53
-        for <linux-api@vger.kernel.org>; Fri,  2 Dec 2022 18:52:34 -0800 (PST)
-Received: by mail-pj1-x1031.google.com with SMTP id b11so6570636pjp.2
-        for <linux-api@vger.kernel.org>; Fri, 02 Dec 2022 18:52:34 -0800 (PST)
+        with ESMTP id S235152AbiLCCxE (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 2 Dec 2022 21:53:04 -0500
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B7492A414
+        for <linux-api@vger.kernel.org>; Fri,  2 Dec 2022 18:53:01 -0800 (PST)
+Received: by mail-pg1-x52c.google.com with SMTP id 136so5875424pga.1
+        for <linux-api@vger.kernel.org>; Fri, 02 Dec 2022 18:53:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=J6Bi98oKuxFWgcdJnIttlj0hQxwkrhCnC895Z7MBrPA=;
-        b=G3PwPkklAW4vkncmaBzEMICopZp3Mv692M00zFs27IW9i/6mvm03dt//cegrsFawer
-         Uk/v7oR2bXRlYn6JZTG6VV3/FgAq9tdCv4VQqbEryYFq1Zryqks//J9vOxjCDvTajMSL
-         Cn3V/5fwZghyCOmIJ898KnniIOWpzz1R5ycFA=
+        bh=IdsbvopHdpWN4t4Xyy6LXgHJs384GWwdgMIM91slJ/E=;
+        b=XT2jmzsk2Vfm9w+DkN1Lz1Tjy71qjWPoao8qtRj3bZrZPfwXB1hyqIpn57pvB90/rq
+         63d7fOq2Mmf1kO+vR788ukxfPlAiT1KSgQZg9/z58zWQ7i9nFvKwjhfZPugl3zobOmso
+         EN1WafQcrekEIywXwOWjLrHS2LNPk4WBZLGxc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=J6Bi98oKuxFWgcdJnIttlj0hQxwkrhCnC895Z7MBrPA=;
-        b=AQBw500Oh6ujaIKbDUtdERmuFtwk5BrlNxBzrP8yhQBeuwlBIyGJLrOH3S83eya941
-         q02qyod70uzLEZ3hl1Cg2yArmIEDRX9qQcCrESV2sre+owYzrtW3gezWNaazHLc2OjNS
-         NNNlCx4CvXqKVYIbzIRkn5Lgn2R62IIk+nBxHquvJJ0C20IPBoXgBr3uKpWInjlCU4yp
-         egcz+1TGX5+posw27xnXaxORcTGDl9I2nDGGNBAPvPJblSeFaHBGKq3Z8oP5nkIKbx6+
-         /LQET3JEvkZxWNc5u6yD23tBfCWDxdQCfLBJI6oTgUPVzXgNu+B8n41+00Nwu5akXrCr
-         tyZQ==
-X-Gm-Message-State: ANoB5pmqb6KaA2fisuxPB12k3ZhGRRPJOgJQRSRygY3FqI0x8csY8V+p
-        hwxA0oOPJrej3PCeLChRQ52aZA==
-X-Google-Smtp-Source: AA0mqf7wuueuka+zZZhnHrTJv5Bs8Z9bgUPy37YEHYzhG6WAxqMTnTK9X0leDnFE/fsw8X1YGvoPwg==
-X-Received: by 2002:a17:90a:5d05:b0:219:57e:7790 with SMTP id s5-20020a17090a5d0500b00219057e7790mr43217497pji.3.1670035953807;
-        Fri, 02 Dec 2022 18:52:33 -0800 (PST)
+        bh=IdsbvopHdpWN4t4Xyy6LXgHJs384GWwdgMIM91slJ/E=;
+        b=EBca7FbNJShLzi6jC1hkJoMRWVvrz72zkfIVBUgF4FIBER6Ceb4nPytBja1NvVHV/S
+         uhecAT1OcQ1bJ2TOGPrkI7fPKF/SnF7JdQozmI/D7qbZoq3Izoch+TuVXkltfpUP2Xt1
+         tlcpdqA3l25F/Q8oceaOlD1S6YGt1mPWBIexU72ZgLIeJv+sFOdZ499Wxl15f013om1h
+         BRJ5BgpOEac2xsNnPvqvud4+XdXlJvBtGFqw3aD9Z/bcdIsRyG2IStWgZ2lpeMQik4if
+         Fa8sU2le/TPG4dxEu0zawReZrKsied/Eff6tyJvY3yGb/VxfTrkPJGFQA9LjyKkkSS1X
+         9oLQ==
+X-Gm-Message-State: ANoB5pldPtQng/HEqVtNpDORB/yNPCGlJIpESSRP1XPr73JqBkv9b/it
+        GGqM7OPzMvUhl3RgBbuuSK9DoQ==
+X-Google-Smtp-Source: AA0mqf6LVB3GIyJWeUGBPXDf0PbRYROGSN6hS1j62oC6woS8D14mopgLVA3lzwvQcDRjfAOqKPjecA==
+X-Received: by 2002:a05:6a00:1f10:b0:573:578b:e773 with SMTP id be16-20020a056a001f1000b00573578be773mr58396836pfb.11.1670035980821;
+        Fri, 02 Dec 2022 18:53:00 -0800 (PST)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id c194-20020a621ccb000000b0056d3b8f530csm5759664pfc.34.2022.12.02.18.52.33
+        by smtp.gmail.com with ESMTPSA id i20-20020a170902e49400b00168dadc7354sm6231569ple.78.2022.12.02.18.53.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Dec 2022 18:52:33 -0800 (PST)
-Date:   Fri, 2 Dec 2022 18:52:32 -0800
+        Fri, 02 Dec 2022 18:53:00 -0800 (PST)
+Date:   Fri, 2 Dec 2022 18:52:59 -0800
 From:   Kees Cook <keescook@chromium.org>
 To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
 Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
@@ -74,14 +74,14 @@ Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
         eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
         dethoma@microsoft.com, akpm@linux-foundation.org,
         Andrew.Cooper3@citrix.com, christina.schimpe@intel.com
-Subject: Re: [PATCH v4 31/39] x86/shstk: Support wrss for userspace
-Message-ID: <202212021852.88C57CF544@keescook>
+Subject: Re: [PATCH v4 32/39] x86: Expose thread features in /proc/$PID/status
+Message-ID: <202212021852.0EC80A46@keescook>
 References: <20221203003606.6838-1-rick.p.edgecombe@intel.com>
- <20221203003606.6838-32-rick.p.edgecombe@intel.com>
+ <20221203003606.6838-33-rick.p.edgecombe@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221203003606.6838-32-rick.p.edgecombe@intel.com>
+In-Reply-To: <20221203003606.6838-33-rick.p.edgecombe@intel.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
@@ -92,27 +92,20 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Dec 02, 2022 at 04:35:58PM -0800, Rick Edgecombe wrote:
-> For the current shadow stack implementation, shadow stacks contents can't
-> easily be provisioned with arbitrary data. This property helps apps
-> protect themselves better, but also restricts any potential apps that may
-> want to do exotic things at the expense of a little security.
+On Fri, Dec 02, 2022 at 04:35:59PM -0800, Rick Edgecombe wrote:
+> Applications and loaders can have logic to decide whether to enable
+> shadow stack. They usually don't report whether shadow stack has been
+> enabled or not, so there is no way to verify whether an application
+> actually is protected by shadow stack.
 > 
-> The x86 shadow stack feature introduces a new instruction, wrss, which
-> can be enabled to write directly to shadow stack permissioned memory from
-> userspace. Allow it to get enabled via the prctl interface.
+> Add two lines in /proc/$PID/status to report enabled and locked features.
 > 
-> Only enable the userspace wrss instruction, which allows writes to
-> userspace shadow stacks from userspace. Do not allow it to be enabled
-> independently of shadow stack, as HW does not support using WRSS when
-> shadow stack is disabled.
-> 
-> From a fault handler perspective, WRSS will behave very similar to WRUSS,
-> which is treated like a user access from a #PF err code perspective.
+> Since, this involves referring to arch specific defines in asm/prctl.h,
+> implement an arch breakout to emit the feature lines.
 > 
 > Tested-by: Pengfei Xu <pengfei.xu@intel.com>
 > Tested-by: John Allen <john.allen@amd.com>
-> Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
+> Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
 
 Reviewed-by: Kees Cook <keescook@chromium.org>
 
