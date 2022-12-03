@@ -2,50 +2,50 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 935C26413CE
-	for <lists+linux-api@lfdr.de>; Sat,  3 Dec 2022 03:55:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 99F1C6413D2
+	for <lists+linux-api@lfdr.de>; Sat,  3 Dec 2022 03:56:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233745AbiLCCzw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 2 Dec 2022 21:55:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46634 "EHLO
+        id S235043AbiLCC4a (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 2 Dec 2022 21:56:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46968 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235010AbiLCCzw (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 2 Dec 2022 21:55:52 -0500
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14551E8010
-        for <linux-api@vger.kernel.org>; Fri,  2 Dec 2022 18:55:51 -0800 (PST)
-Received: by mail-pf1-x42f.google.com with SMTP id c7so3179014pfc.12
-        for <linux-api@vger.kernel.org>; Fri, 02 Dec 2022 18:55:51 -0800 (PST)
+        with ESMTP id S234774AbiLCC43 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 2 Dec 2022 21:56:29 -0500
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 785124A5A1
+        for <linux-api@vger.kernel.org>; Fri,  2 Dec 2022 18:56:28 -0800 (PST)
+Received: by mail-pj1-x102e.google.com with SMTP id hd14-20020a17090b458e00b0021909875bccso7445941pjb.1
+        for <linux-api@vger.kernel.org>; Fri, 02 Dec 2022 18:56:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=n2U2r+2t7pkXJfqUVDBQCHb1t4+jJyTASRBi7nj2p/k=;
-        b=ATpOOq4FoL+4Yp2Dgf6WeXAC1dU8qOSQQP1qF3+pWOHUBvu3pwQfSKS7wGOII2ScCT
-         tTCMi9+GPdv9E7fhMUWl0xLvYy3xjMdMWswcNd9euLVaiLW2FflFl39Kh6ko7mGBUPDv
-         mu3Jx6n7d8C6bgEMDGlVI+2tfYAVEXVrGJtUI=
+        bh=tg9EUUtodmg3gzO5fuJCgAWvD6/vLGnjIJiAun4Wv1k=;
+        b=dVzAW/5PnjoZ12qC31fP/OIaS00ZFKjjcdlIUmoFH4nqs2oQXU84uYYZcR2U26j75i
+         lnWRKv4wFwfIfD1FKValEnoCUusu4OBsS1JkUWnNuD6ZjqEx7CnkNQVfq+pJTytFAtTd
+         dgTWMEIqYR5j5j25ehzviauGOZFFMVPS2Dhh8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=n2U2r+2t7pkXJfqUVDBQCHb1t4+jJyTASRBi7nj2p/k=;
-        b=pL1yUnaQAuDL/edTyxbSECI8LAn6VLCWvrmZ5gnqrrR2FaJ0nU96ovfwuXDvwoNFTQ
-         LKU55TdoX1fxt+tkMmCbNL61cTcOJ4ZApqYJNij6fzmemgdl2gXkZKp7UKV5n9sOMIrs
-         LVDLsnV8heooR5jJGrFAC5yRUzH3adBPP5nDjgPFePtgO42D6+LOvtKPQJ7VM9j+zLFB
-         KYzeTAhGfKCphfbDdILwpGKPbrA1MFf5pL1jfBgA94LYG+nsoh4khrvcQDPvWuFwT1ka
-         KRTHamw2xIgKeXR6bevh5bT+xZw/Ttid7P/k0kRyF2VKcfjPd8p96Cuq2+m+5k9XKtiq
-         E07Q==
-X-Gm-Message-State: ANoB5pl1X+9QChaXVbuyVnERWl1E+z7cWYDPQduatCONB/dtNEkUSSjL
-        mBrTw+g8qU5dLaF3GqLrzMkZ8Q==
-X-Google-Smtp-Source: AA0mqf5A1qERUjt/R+6TLTBviWIJ7Ee6ql5DOsOsuuxe2fjmgyBWCWRVOpwsDrrukXVaieWbRbMZWA==
-X-Received: by 2002:a05:6a00:21c8:b0:562:e0fb:3c79 with SMTP id t8-20020a056a0021c800b00562e0fb3c79mr54806230pfj.39.1670036150539;
-        Fri, 02 Dec 2022 18:55:50 -0800 (PST)
+        bh=tg9EUUtodmg3gzO5fuJCgAWvD6/vLGnjIJiAun4Wv1k=;
+        b=A4RK7f2i9dxFr5dvVCuhlW1cxHug7zVGk0GVm918JE/ygdW422eDkJG9Irfbo4TeAB
+         fq14lH8meuOQpm4jNydUNSH/sO/mMFiY+V238Yxo7dQ7VtCx2G6M6Xi2GB6dkxYVNjae
+         xfNW5t3s6zTBsLiO0T8I8QoWKc09NIKZuOlnzaZOs2FhCDQmH1ZqyZXneIv6SwQ8wk22
+         DW/EtuRLxpYqfnuPBGSumj7Lmv0x+1Mwe90ITLvy7xT1uVm8Q5mIequy/H8bSRuOzsJP
+         lZ502OoYfkMbeBxlVfqaHBgzdjnzJ+qU3NqO/qRNDheZYTeqEVtoWNd0OaMQnRulm3uF
+         lSbQ==
+X-Gm-Message-State: ANoB5plIeTP/XISGaapxwW0x3Cf+l+IRUtri0O1wrY+jWi44afV9DCkl
+        Abmhy2ZPVRGtfsUjlUBqTZIyxw==
+X-Google-Smtp-Source: AA0mqf4wVFTnC0RifpAPxFPsQcjIHmX2vnF/zqOn8r7PZSoadjwf+cAK/tzZY5B/v6Z6SG7U6oDVQQ==
+X-Received: by 2002:a17:902:ce90:b0:186:b46d:da5e with SMTP id f16-20020a170902ce9000b00186b46dda5emr56175295plg.92.1670036188007;
+        Fri, 02 Dec 2022 18:56:28 -0800 (PST)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id i17-20020a170902c95100b00189847cd4acsm6330926pla.237.2022.12.02.18.55.49
+        by smtp.gmail.com with ESMTPSA id k1-20020a170902c40100b0017e64da44c5sm6263310plk.203.2022.12.02.18.56.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Dec 2022 18:55:50 -0800 (PST)
-Date:   Fri, 2 Dec 2022 18:55:49 -0800
+        Fri, 02 Dec 2022 18:56:27 -0800 (PST)
+Date:   Fri, 2 Dec 2022 18:56:26 -0800
 From:   Kees Cook <keescook@chromium.org>
 To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
 Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
@@ -74,72 +74,36 @@ Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
         eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
         dethoma@microsoft.com, akpm@linux-foundation.org,
         Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: Re: [PATCH v4 37/39] x86: Add PTRACE interface for shadow stack
-Message-ID: <202212021855.41F90E2D9@keescook>
+        Mike Rapoport <rppt@linux.ibm.com>
+Subject: Re: [PATCH v4 38/39] x86/shstk: Add ARCH_SHSTK_UNLOCK
+Message-ID: <202212021856.603F800BC@keescook>
 References: <20221203003606.6838-1-rick.p.edgecombe@intel.com>
- <20221203003606.6838-38-rick.p.edgecombe@intel.com>
+ <20221203003606.6838-39-rick.p.edgecombe@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221203003606.6838-38-rick.p.edgecombe@intel.com>
+In-Reply-To: <20221203003606.6838-39-rick.p.edgecombe@intel.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Dec 02, 2022 at 04:36:04PM -0800, Rick Edgecombe wrote:
-> From: Yu-cheng Yu <yu-cheng.yu@intel.com>
+On Fri, Dec 02, 2022 at 04:36:05PM -0800, Rick Edgecombe wrote:
+> From: Mike Rapoport <rppt@linux.ibm.com>
 > 
-> Some applications (like GDB) would like to tweak shadow stack state via
-> ptrace. This allows for existing functionality to continue to work for
-> seized shadow stack applications. Provide an regset interface for
-> manipulating the shadow stack pointer (SSP).
-> 
-> There is already ptrace functionality for accessing xstate, but this
-> does not include supervisor xfeatures. So there is not a completely
-> clear place for where to put the shadow stack state. Adding it to the
-> user xfeatures regset would complicate that code, as it currently shares
-> logic with signals which should not have supervisor features.
-> 
-> Don't add a general supervisor xfeature regset like the user one,
-> because it is better to maintain flexibility for other supervisor
-> xfeatures to define their own interface. For example, an xfeature may
-> decide not to expose all of it's state to userspace, as is actually the
-> case for  shadow stack ptrace functionality. A lot of enum values remain
-> to be used, so just put it in dedicated shadow stack regset.
-> 
-> The only downside to not having a generic supervisor xfeature regset,
-> is that apps need to be enlightened of any new supervisor xfeature
-> exposed this way (i.e. they can't try to have generic save/restore
-> logic). But maybe that is a good thing, because they have to think
-> through each new xfeature instead of encountering issues when new a new
-> supervisor xfeature was added.
-> 
-> By adding a shadow stack regset, it also has the effect of including the
-> shadow stack state in a core dump, which could be useful for debugging.
-> 
-> The shadow stack specific xstate includes the SSP, and the shadow stack
-> and WRSS enablement status. Enabling shadow stack or wrss in the kernel
-> involves more than just flipping the bit. The kernel is made aware that
-> it has to do extra things when cloning or handling signals. That logic
-> is triggered off of separate feature enablement state kept in the task
-> struct. So the flipping on HW shadow stack enforcement without notifying
-> the kernel to change its behavior would severely limit what an application
-> could do without crashing, and the results would depend on kernel
-> internal implementation details. There is also no known use for controlling
-> this state via prtace today. So only expose the SSP, which is something
-> that userspace already has indirect control over.
+> Userspace loaders may lock features before a CRIU restore operation has
+> the chance to set them to whatever state is required by the process
+> being restored. Allow a way for CRIU to unlock features. Add it as an
+> arch_prctl() like the other shadow stack operations, but restrict it being
+> called by the ptrace arch_pctl() interface.
 > 
 > Tested-by: Pengfei Xu <pengfei.xu@intel.com>
 > Tested-by: John Allen <john.allen@amd.com>
-> Co-developed-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
-> Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
+> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
 
 Reviewed-by: Kees Cook <keescook@chromium.org>
 
