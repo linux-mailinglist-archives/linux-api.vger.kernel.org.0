@@ -2,50 +2,50 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A3383641353
-	for <lists+linux-api@lfdr.de>; Sat,  3 Dec 2022 03:25:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CFAA0641359
+	for <lists+linux-api@lfdr.de>; Sat,  3 Dec 2022 03:28:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235133AbiLCCZ3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 2 Dec 2022 21:25:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41014 "EHLO
+        id S235010AbiLCC2P (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 2 Dec 2022 21:28:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235125AbiLCCZ1 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 2 Dec 2022 21:25:27 -0500
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0808D20A9
-        for <linux-api@vger.kernel.org>; Fri,  2 Dec 2022 18:25:26 -0800 (PST)
-Received: by mail-pg1-x533.google.com with SMTP id s196so5838104pgs.3
-        for <linux-api@vger.kernel.org>; Fri, 02 Dec 2022 18:25:26 -0800 (PST)
+        with ESMTP id S235035AbiLCC2N (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 2 Dec 2022 21:28:13 -0500
+Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B2DB5A6CA
+        for <linux-api@vger.kernel.org>; Fri,  2 Dec 2022 18:28:11 -0800 (PST)
+Received: by mail-pg1-x52a.google.com with SMTP id 82so5878635pgc.0
+        for <linux-api@vger.kernel.org>; Fri, 02 Dec 2022 18:28:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Qe3Kot75P0ehlOAWJ+W2KaYDqgt2hyWIV3bO0GRxNwM=;
-        b=QWQVuu2sfyBztLQQwqQPFN02JvATwjtE5qID6YEDN+72UodsQlyHEPyGRaWgZFRTTR
-         uRnWK+9DpdqcQ25oen3icozFeCSxWxy6xZiD+z7PSYoGKo04INcqhg2+kviq+7In2pJR
-         YEAqcsASnvC7DF9yDgA3BOfeKmOiA1tv+CaRs=
+        bh=LOsmhWzvTaGod4c98WIAwoN6RgdbrhOpBfnKGq6TCqg=;
+        b=KvAsfhCwVbLiHtggx4tLU+VgpymrMDHEzjPfhgXtmVu/ofbJX5AhlXNCHmaTYn5KAp
+         Py5x3/L/SY0cp4KjKMqFdj0TT4KzaX71tq6XCmOX/+8/RjaXBtgpB9reg7zfFfOGC01V
+         ZHRTs9UAP5P1M8HT39RFsB1QQ8YFZtMDHhVdg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Qe3Kot75P0ehlOAWJ+W2KaYDqgt2hyWIV3bO0GRxNwM=;
-        b=uaOd87ElWohrxOfxdpDa5pH/sxuFfxv1KehMVYMDJoHYCSIlA6y7qS8qtc7FjHCVps
-         0tFb0dweyAsrFyR6NrZ/0LPKIEOlm603w3tettoCAstb4jdkE9mYPsbzYhNDPygukRCM
-         V6mUlRU42XlLOs7kFVzuAlNu/T1ysAL6/xtzjKBsYLbRbwbGBXA8jSMtwx0plGrjl5s5
-         pShyUIK/U31jLU5ouzUKdfAsDlNbJM46A0oMpRC65aUkAXgOeaahR76ws7M5SxStG9Nx
-         oyNiFigGvBV88kfJg24N4Iodf73CIxy+D/HZSHVC3aFZZREDeofk0g9DkLKBq4uxnGgF
-         0Y6w==
-X-Gm-Message-State: ANoB5pknuTc2JicJ+U5qKwBr1yVADDAvAJ/o0lpbn8XymOdbfN9VzvnG
-        e7gDSOALvXYIeSFUZS9351p3CA==
-X-Google-Smtp-Source: AA0mqf4jgpifGJAXMClGoBCX78UAFNY/rPQyAwu9YUGBBvgEisZM5G6+77aK1xBoA4eCWNPz1o8blQ==
-X-Received: by 2002:a63:d946:0:b0:477:af25:38c8 with SMTP id e6-20020a63d946000000b00477af2538c8mr45480936pgj.392.1670034326231;
-        Fri, 02 Dec 2022 18:25:26 -0800 (PST)
+        bh=LOsmhWzvTaGod4c98WIAwoN6RgdbrhOpBfnKGq6TCqg=;
+        b=Y8Uw2BlhCTSxIlK1tGOuAcHZgxGOTTskeh1/TvqA+ZgIn21BBtPdFzC4huTQ1PfL6d
+         rF0okXMcgF8ZYnT0Z75kf7Mp7hPfrzSNn8LflScsc3Qpoq+onsOQuk8lPQXVR2rmCzPl
+         nBLOSOwqSO1WKctvqVu2XuJNvvEJMrs47a8JhKhdOoUZ3S5IzD/2JVxUuYxZ4UJTqtnt
+         h0GXtWU5piMPF8IVpbktYfdcPe28r0xPgIcwn871eiUr26vyg95488Pbvi3q2pHrGLQJ
+         Rh1rAa5Xe9jWQ1wsf3QlI+xn9r27TX+NNDXQcc0dUV/QsxHd/ZxtLU1yUxldXd9JSUG/
+         Stbw==
+X-Gm-Message-State: ANoB5pm17Gmb33v/h4pJQJJRREnDUASjNrhPCSgIBy34cEkYwAgOzP9w
+        r6+nnPSF6nFn2tdK5C97IjI4vw==
+X-Google-Smtp-Source: AA0mqf5LGiNqlxi+OSZapMhWipQg4aQbiacQEOzN4PxP65c2T9P8s/SelBujWUq07q05VtM4ESiCWQ==
+X-Received: by 2002:a63:ce0e:0:b0:457:dced:8ba9 with SMTP id y14-20020a63ce0e000000b00457dced8ba9mr51658398pgf.221.1670034490505;
+        Fri, 02 Dec 2022 18:28:10 -0800 (PST)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id 127-20020a620485000000b00576670cc16dsm1843999pfe.197.2022.12.02.18.25.25
+        by smtp.gmail.com with ESMTPSA id w4-20020a634744000000b004786c63c21esm3602572pgk.42.2022.12.02.18.28.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Dec 2022 18:25:25 -0800 (PST)
-Date:   Fri, 2 Dec 2022 18:25:25 -0800
+        Fri, 02 Dec 2022 18:28:09 -0800 (PST)
+Date:   Fri, 2 Dec 2022 18:28:08 -0800
 From:   Kees Cook <keescook@chromium.org>
 To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
 Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
@@ -73,15 +73,17 @@ Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
         John Allen <john.allen@amd.com>, kcc@google.com,
         eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
         dethoma@microsoft.com, akpm@linux-foundation.org,
-        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com
-Subject: Re: [PATCH v4 06/39] x86/fpu: Add helper for modifying xstate
-Message-ID: <202212021825.4A1B632FD@keescook>
+        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>
+Subject: Re: [PATCH v4 07/39] x86: Add user control-protection fault handler
+Message-ID: <202212021827.03F637C9C9@keescook>
 References: <20221203003606.6838-1-rick.p.edgecombe@intel.com>
- <20221203003606.6838-7-rick.p.edgecombe@intel.com>
+ <20221203003606.6838-8-rick.p.edgecombe@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221203003606.6838-7-rick.p.edgecombe@intel.com>
+In-Reply-To: <20221203003606.6838-8-rick.p.edgecombe@intel.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
@@ -92,32 +94,35 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Dec 02, 2022 at 04:35:33PM -0800, Rick Edgecombe wrote:
-> Just like user xfeatures, supervisor xfeatures can be active in the
-> registers or present in the task FPU buffer. If the registers are
-> active, the registers can be modified directly. If the registers are
-> not active, the modification must be performed on the task FPU buffer.
+On Fri, Dec 02, 2022 at 04:35:34PM -0800, Rick Edgecombe wrote:
+> From: Yu-cheng Yu <yu-cheng.yu@intel.com>
 > 
-> When the state is not active, the kernel could perform modifications
-> directly to the buffer. But in order for it to do that, it needs
-> to know where in the buffer the specific state it wants to modify is
-> located. Doing this is not robust against optimizations that compact
-> the FPU buffer, as each access would require computing where in the
-> buffer it is.
+> A control-protection fault is triggered when a control-flow transfer
+> attempt violates Shadow Stack or Indirect Branch Tracking constraints.
+> For example, the return address for a RET instruction differs from the copy
+> on the shadow stack.
 > 
-> The easiest way to modify supervisor xfeature data is to force restore
-> the registers and write directly to the MSRs. Often times this is just fine
-> anyway as the registers need to be restored before returning to userspace.
-> Do this for now, leaving buffer writing optimizations for the future.
+> There already exists a control-protection fault handler for handling kernel
+> IBT. Refactor this fault handler into sparate user and kernel handlers,
+> like the page fault handler. Add a control-protection handler for usermode.
 > 
-> Add a new function fpregs_lock_and_load() that can simultaneously call
-> fpregs_lock() and do this restore. Also perform some extra sanity
-> checks in this function since this will be used in non-fpu focused code.
+> Keep the same behavior for the kernel side of the fault handler, except for
+> converting a BUG to a WARN in the case of a #CP happening when
+> !cpu_feature_enabled(). This unifies the behavior with the new shadow stack
+> code, and also prevents the kernel from crashing under this situation which
+> is potentially recoverable.
+> 
+> The control-protection fault handler works in a similar way as the general
+> protection fault handler. It provides the si_code SEGV_CPERR to the signal
+> handler.
 > 
 > Tested-by: Pengfei Xu <pengfei.xu@intel.com>
 > Tested-by: John Allen <john.allen@amd.com>
-> Suggested-by: Thomas Gleixner <tglx@linutronix.de>
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> Co-developed-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
 > Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
+
+This looks nice cleaner to me. Thanks!
 
 Reviewed-by: Kees Cook <keescook@chromium.org>
 
