@@ -2,50 +2,50 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 87AAA641371
-	for <lists+linux-api@lfdr.de>; Sat,  3 Dec 2022 03:33:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E6275641376
+	for <lists+linux-api@lfdr.de>; Sat,  3 Dec 2022 03:34:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235160AbiLCCdd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 2 Dec 2022 21:33:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50410 "EHLO
+        id S235175AbiLCCe3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 2 Dec 2022 21:34:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51938 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235012AbiLCCdc (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 2 Dec 2022 21:33:32 -0500
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D850D11D9
-        for <linux-api@vger.kernel.org>; Fri,  2 Dec 2022 18:33:29 -0800 (PST)
-Received: by mail-pj1-x1032.google.com with SMTP id q15so5495726pja.0
-        for <linux-api@vger.kernel.org>; Fri, 02 Dec 2022 18:33:29 -0800 (PST)
+        with ESMTP id S235205AbiLCCeZ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 2 Dec 2022 21:34:25 -0500
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9822F9E2C
+        for <linux-api@vger.kernel.org>; Fri,  2 Dec 2022 18:34:22 -0800 (PST)
+Received: by mail-pf1-x432.google.com with SMTP id w129so6537024pfb.5
+        for <linux-api@vger.kernel.org>; Fri, 02 Dec 2022 18:34:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=UQHpdcG0W3UOHn08MSLP1Hn9wMHJIZSaG2NLULB4U7o=;
-        b=E3bdGTvQFJOu55KJyamBSJ4T9NSqfMM5Csnbxgq36xtAGpgkHrj/bujWh1mOR7TYN8
-         w9hvOgwZSBtg9CIC6o64G1mfBhzL8E6UCAO5O3zJFxZgKtNAMkoa0XsW6kX7wn5wqlWs
-         OaqF8Uxv3zj9vtEdDaJG6lGtv3V4g96YLmq84=
+        bh=0ZO9EQfENAwfe5IE7Ju6A4A1JevIMxb0gNE4/cvCkwk=;
+        b=bZhPZLzaUJWjoiiQ0jtjANhKr0iyX1e0uNG49etJ1ffWLpKLJWwcXc84+guaypsl2A
+         PjNDYu6sq7/NhXTAN1lBIp+zdvO9hB7UzRhMwC5VpDg0Hre5BtWmGUPdPFbZzI3sRhRf
+         q4LqAwlrDWT2cQe+jeZ47UPoQQQDyEaLB+62w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UQHpdcG0W3UOHn08MSLP1Hn9wMHJIZSaG2NLULB4U7o=;
-        b=1LWsnTcnTJKPzYp7uDZzcwvSAQi3Yrc82Dy0e/9+xC8uTdvnlLGgDkDPV1UDuHc0XO
-         UbccGZMa0LuuzpPQAdKv0ntcIR01ODJoZlwrbneZivHz30gdgzRWvgXv2I0yEBKcbetG
-         POWIHF5hisjAU/RDhVrYzLWB/TuiGMoQUbbjt5cS+ooHRx6U5xpWo0a4e6C5No+cOsnG
-         bTjPupCJpKT2GX/TfoKTKujEvewEVw9db766euOMas3bp0UiUCEi0Ouzel6fCw1e1dxr
-         I/LV95QWjr20umR2uSsZ8j/6Ms81rLtidde2Sy3wyfgBC/9WbSUFbKARtSEGhS6A4Ywn
-         adOA==
-X-Gm-Message-State: ANoB5pnjQ7G5voiKZsPQVFNHY6MWPPjqiCfQ1oVJ/7RmA1fInk94PaV6
-        lTA5vuRUHHBJXAacglw/hdxayA==
-X-Google-Smtp-Source: AA0mqf4geVaa0a643GENg2McukE2oodkrSBYzsuzasDBLw/p2NXrif8eGSQbP+ryc5PiIYw/fBbkSQ==
-X-Received: by 2002:a17:90a:8b18:b0:219:1897:f72b with SMTP id y24-20020a17090a8b1800b002191897f72bmr36568022pjn.141.1670034808999;
-        Fri, 02 Dec 2022 18:33:28 -0800 (PST)
+        bh=0ZO9EQfENAwfe5IE7Ju6A4A1JevIMxb0gNE4/cvCkwk=;
+        b=oJ2p0yJOmJGPLWD0JTHwG1ih/e5l51hgFX1pLiH0rbYR2KzUzDrlhubqPGhQHVr4r6
+         S+3KCJ1Y9akZ/8Ru0TgNs1HNDPmbbxYTXRvveRSIkCEMVjoza7A1Zi5knUYdK1lycWwV
+         4YCYag0A8XuviXVYbcR91ZlHdyiMuw3brH6aBmiI3F80t/Xuql6umjmQd/XgDc5QiBwZ
+         lJb3/iPlLNA2BQSM6M1HcS/izjO6Oaea6SfRHJLQuaExkqMTvNiJviF0iibExXkhWoK7
+         GkZBhjM2MkliUoJCDt7t10kT45kqCylJqVrKHeT8LiBypIfHNmxNM4qby0yFF4TEVhTi
+         vw7w==
+X-Gm-Message-State: ANoB5pmdCllCdn/fZ9e0rfYlFhJgL/fZdyQxW/32YZGTRf21C47W9LQs
+        gxfsUHi1ndh6s8yzIqdipbTbKg==
+X-Google-Smtp-Source: AA0mqf4mKN6Zf9amKvtLE7G+OstIEuXv9ZvjBZH+Lsz+I5pkp/mARSH/gPpqWxQoI1ofPNBJm2wDiQ==
+X-Received: by 2002:aa7:9245:0:b0:571:3fb3:9b5f with SMTP id 5-20020aa79245000000b005713fb39b5fmr75199209pfp.86.1670034862394;
+        Fri, 02 Dec 2022 18:34:22 -0800 (PST)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id e68-20020a621e47000000b00574db8ca00fsm5706861pfe.185.2022.12.02.18.33.28
+        by smtp.gmail.com with ESMTPSA id ij19-20020a170902ab5300b0018685257c0dsm6213889plb.58.2022.12.02.18.34.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Dec 2022 18:33:28 -0800 (PST)
-Date:   Fri, 2 Dec 2022 18:33:27 -0800
+        Fri, 02 Dec 2022 18:34:22 -0800 (PST)
+Date:   Fri, 2 Dec 2022 18:34:21 -0800
 From:   Kees Cook <keescook@chromium.org>
 To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
 Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
@@ -75,14 +75,15 @@ Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
         dethoma@microsoft.com, akpm@linux-foundation.org,
         Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
         Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: Re: [PATCH v4 13/39] x86/mm: Start actually marking _PAGE_COW
-Message-ID: <202212021833.58C233E5@keescook>
+Subject: Re: [PATCH v4 15/39] mm: Introduce VM_SHADOW_STACK for shadow stack
+ memory
+Message-ID: <202212021834.DC29FAC1@keescook>
 References: <20221203003606.6838-1-rick.p.edgecombe@intel.com>
- <20221203003606.6838-14-rick.p.edgecombe@intel.com>
+ <20221203003606.6838-16-rick.p.edgecombe@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221203003606.6838-14-rick.p.edgecombe@intel.com>
+In-Reply-To: <20221203003606.6838-16-rick.p.edgecombe@intel.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
@@ -93,15 +94,21 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Dec 02, 2022 at 04:35:40PM -0800, Rick Edgecombe wrote:
-> The recently introduced _PAGE_COW should be used instead of the HW Dirty
-> bit whenever a PTE is Write=0, in order to not inadvertently create
-> shadow stack PTEs. Update pte_mk*() helpers to do this, and apply the same
-> changes to pmd and pud.
+On Fri, Dec 02, 2022 at 04:35:42PM -0800, Rick Edgecombe wrote:
+> From: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> 
+> The x86 Control-flow Enforcement Technology (CET) feature includes a new
+> type of memory called shadow stack. This shadow stack memory has some
+> unusual properties, which requires some core mm changes to function
+> properly.
+> 
+> A shadow stack PTE must be read-only and have _PAGE_DIRTY set. However,
+> read-only and Dirty PTEs also exist for copy-on-write (COW) pages. These
+> two cases are handled differently for page faults. Introduce
+> VM_SHADOW_STACK to track shadow stack VMAs.
 > 
 > Tested-by: Pengfei Xu <pengfei.xu@intel.com>
 > Tested-by: John Allen <john.allen@amd.com>
-> Co-developed-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 
 Reviewed-by: Kees Cook <keescook@chromium.org>
