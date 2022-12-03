@@ -2,56 +2,51 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A2CC1641519
-	for <lists+linux-api@lfdr.de>; Sat,  3 Dec 2022 09:58:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A39D9641996
+	for <lists+linux-api@lfdr.de>; Sat,  3 Dec 2022 23:50:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231281AbiLCI6P (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 3 Dec 2022 03:58:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46678 "EHLO
+        id S229539AbiLCWuO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 3 Dec 2022 17:50:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229872AbiLCI6O (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 3 Dec 2022 03:58:14 -0500
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC09E17AB0;
-        Sat,  3 Dec 2022 00:58:12 -0800 (PST)
-Received: by mail-pl1-x62d.google.com with SMTP id 4so6741398pli.0;
-        Sat, 03 Dec 2022 00:58:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/sadz1/CeqA5zMnNYCqP/lEzSjdg/kLkwU3QYovJoVo=;
-        b=TCH+a02ERdRFnTf642Vs6jq9crhRaRo1PkxlU1yySN11VeAP+j9DkZ/e3z5G/uoeVs
-         bOXCEs9OBEwem0ZKkvw6e6dmOY/iAHDTJqLxF//foTdrbbbqR/UqTJbNa45Rz86iZJ1R
-         ZT98xw8b7fqFWyQM2gjHgoumxJpOwE6xg0CX0U7h3UN66Ti2+nvlttY14rX3zqCrb5B/
-         Cf6iz0g2o4R2gKRPU1i6PhbrO3LuOXeXc/ADnGNxfFw17De1vpwVriU4QVvjKk8Ne5Bq
-         YwKibxAOf1SMhiAtO206DGehkxjJRZanOsHbiwQEds3kLa+H3Ti+2JKipcb0AVdMsR0E
-         75bA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/sadz1/CeqA5zMnNYCqP/lEzSjdg/kLkwU3QYovJoVo=;
-        b=ujDGxkvV+4THvn137bFSrM7s6HFnCHdd51PE1WvnSGlhMAJ3+bTxQzqSS3sxZb5axC
-         l9j/1TeD0jdwJW/6CChZ9HZiH0DvXtRLOEkoBYBLFFMXSwSDLeL+q4Mn2hi5DjfODEmc
-         GI+Ygvi42AFRK+Lt0kcwxJw6mcZQ5DfoIwdLi3nAfjZbCucrR9GClJi2OdJjkMix5JVd
-         Vr5gzhDX2gEgJCm39I/UrC+RV0MB9euBM424kCq+afVAIxepegtp4p5l+yiqh7S+kBnK
-         5AXav5b1013WT4m0AnMN9/7Q0AqU286g0Vt90OCJUpW59xXuq9BCcBC7+95e2ozY48zc
-         fgXg==
-X-Gm-Message-State: ANoB5pnPkTjDCuo6ldBxH4/u6JYAN3cQxju2XxU3xRe5yJNf50wWHdRq
-        i2+ylgDXwOvGUQ56A2Kgi4U=
-X-Google-Smtp-Source: AA0mqf557Tf4hQ3ox+4h4L3bKmykRUVeioIulyBl3fgPqFmNheBWGxzj30flo9/NXH+QYMoZKV/pzQ==
-X-Received: by 2002:a17:90a:a616:b0:219:6afd:24be with SMTP id c22-20020a17090aa61600b002196afd24bemr16172106pjq.0.1670057892468;
-        Sat, 03 Dec 2022 00:58:12 -0800 (PST)
-Received: from debian.me (subs03-180-214-233-30.three.co.id. [180.214.233.30])
-        by smtp.gmail.com with ESMTPSA id o8-20020a17090a420800b0020a7d076bfesm5848220pjg.2.2022.12.03.00.58.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Dec 2022 00:58:11 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
-        id 3CEE4104547; Sat,  3 Dec 2022 15:58:08 +0700 (WIB)
-Date:   Sat, 3 Dec 2022 15:58:07 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
+        with ESMTP id S229450AbiLCWuN (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 3 Dec 2022 17:50:13 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63A661C90C
+        for <linux-api@vger.kernel.org>; Sat,  3 Dec 2022 14:50:12 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id ECC2360C7B
+        for <linux-api@vger.kernel.org>; Sat,  3 Dec 2022 22:50:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 451EEC4347C
+        for <linux-api@vger.kernel.org>; Sat,  3 Dec 2022 22:50:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1670107811;
+        bh=dx6i/zBU0ZeE6IVzzhxnvcG/T5ZK/6cVLN8A6gKBAIg=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=hiZpKaTHtcLBdst55X3naUv/ClQHZ2BdUxGzuJRGTVMWhuCLxN913I0WbfEOw28LQ
+         ZX+DHCRTnE+lLS5czSOtX5Fgcay9LdjulUN0LK3X8eVMM6Q/b3NjnqmVr5QIkLtK4F
+         yCXadkL+rKLUlskBP3MZ9+hqukUAXq4R/A+8SWEYbOQu9HhEI7fEUSIhqqDDobrN7A
+         gH2phXjsOpPjjstuMQyDhwsp/nlkSzYnpXYox7KEhSsCnevvB3LjfWD9bb7KkvHROQ
+         btMlseOHA8ME9Splkm/iliED3Ymt/1xY59hLKqAON28JDb+8HR2BTJZrTFrlIKFExb
+         rjqv4bHAwt6DA==
+Received: by mail-ed1-f41.google.com with SMTP id a16so10937258edb.9
+        for <linux-api@vger.kernel.org>; Sat, 03 Dec 2022 14:50:11 -0800 (PST)
+X-Gm-Message-State: ANoB5pluiGDKHveU+Vvs+fVdCEOU+Nl8jZvgCXgDp2Zreq62rj7hJfbJ
+        Um/bNrFIRcUE/VwpqYumxtZRxckBUJUgsOsUF9coCQ==
+X-Google-Smtp-Source: AA0mqf6IMKgvOHkA5/c+9soSeuwZRc+52Mb9yRpznfgn0cMyx+TzFtyUF1PqLc7pfmdr25nJCy6wV1Whkg3Cmb9CDSY=
+X-Received: by 2002:a05:6402:3c1:b0:46b:2d74:d970 with SMTP id
+ t1-20020a05640203c100b0046b2d74d970mr26185821edw.138.1670107809384; Sat, 03
+ Dec 2022 14:50:09 -0800 (PST)
+MIME-Version: 1.0
+References: <20221203003606.6838-1-rick.p.edgecombe@intel.com> <20221203003606.6838-34-rick.p.edgecombe@intel.com>
+In-Reply-To: <20221203003606.6838-34-rick.p.edgecombe@intel.com>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Sat, 3 Dec 2022 14:49:34 -0800
+X-Gmail-Original-Message-ID: <CALCETrVMY4UadSrn3fTim5iCzPVf+XXnkyq57wjvnhVUNV1V5w@mail.gmail.com>
+Message-ID: <CALCETrVMY4UadSrn3fTim5iCzPVf+XXnkyq57wjvnhVUNV1V5w@mail.gmail.com>
+Subject: Re: [PATCH v4 33/39] x86: Prevent 32 bit operations for 64 bit shstk tasks
 To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
 Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -79,69 +74,30 @@ Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
         John Allen <john.allen@amd.com>, kcc@google.com,
         eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
         dethoma@microsoft.com, akpm@linux-foundation.org,
-        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: Re: [PATCH v4 01/39] Documentation/x86: Add CET shadow stack
- description
-Message-ID: <Y4sPn/EQgqQI/sSN@debian.me>
-References: <20221203003606.6838-1-rick.p.edgecombe@intel.com>
- <20221203003606.6838-2-rick.p.edgecombe@intel.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="4Y6TcVcN9xovNDyq"
-Content-Disposition: inline
-In-Reply-To: <20221203003606.6838-2-rick.p.edgecombe@intel.com>
-X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_SORBS_WEB,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Fri, Dec 2, 2022 at 4:44 PM Rick Edgecombe
+<rick.p.edgecombe@intel.com> wrote:
+>
 
---4Y6TcVcN9xovNDyq
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> So since 32 bit is not easy to support, and there are likely not many
+> users. More cleanly don't support 32 bit signals in a 64 bit address
+> space by not allowing 32 bit ABI signal handlers when shadow stack is
+> enabled. Do this by clearing any 32 bit ABI signal handlers when shadow
+> stack is enabled, and disallow any further 32 bit ABI signal handlers.
+> Also, return an error code for the clone operations when in a 32 bit
+> syscall.
+>
 
-On Fri, Dec 02, 2022 at 04:35:28PM -0800, Rick Edgecombe wrote:
-> +An application's CET capability is marked in its ELF note and can be ver=
-ified
-> +from readelf/llvm-readelf output:
-> +
-> +    readelf -n <application> | grep -a SHSTK
-> +        properties: x86 feature: SHSTK
-
-Shell commands should be inside literal code block (try double colon).
-Above is rendered as definition lists instead.
-
-> +The return values are as following:
-> +    On success, return 0. On error, errno can be::
-
-Drop indentation on the second line, or better yet, continue the line,
-like "... as following. On success, ..."
-
-Otherwise LGTM, thanks for review.=20
-
-In any case,
-
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---4Y6TcVcN9xovNDyq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY4sPlAAKCRD2uYlJVVFO
-oxZmAQCvIsfDFABxypzVEB2ZMvgJzikdcI86EKjquJjkppkMVgD+INIDFYBh7cJP
-AirZ9vPVfvl8ojgt9fx0uXFCNhiUvgA=
-=CHdF
------END PGP SIGNATURE-----
-
---4Y6TcVcN9xovNDyq--
+This seems unfortunate.  The result will be a highly incomprehensible
+crash.  Maybe instead deny enabling shadow stack in the first place?
+Or at least pr_warn_once if anything gets flushed.
