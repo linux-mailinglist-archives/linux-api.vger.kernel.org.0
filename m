@@ -2,563 +2,233 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 89365642158
-	for <lists+linux-api@lfdr.de>; Mon,  5 Dec 2022 03:02:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 38CC56421B2
+	for <lists+linux-api@lfdr.de>; Mon,  5 Dec 2022 03:55:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231246AbiLECCD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 4 Dec 2022 21:02:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49218 "EHLO
+        id S231206AbiLECza (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 4 Dec 2022 21:55:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48848 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231186AbiLECBu (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 4 Dec 2022 21:01:50 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20A6B13D44;
-        Sun,  4 Dec 2022 18:01:20 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 92051B80D3E;
-        Mon,  5 Dec 2022 02:01:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D98AEC433B5;
-        Mon,  5 Dec 2022 02:01:15 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
-        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="lgk30oEz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
-        t=1670205674;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Op3OGtpYFefv7wwJNL4oNw4HnNnPVWLlXugIoJjaoeE=;
-        b=lgk30oEzqJwvKqR9H7xC6MOYofPslyR/RCmXAr7q0+hdqpye/IPAvnxm8Hshw5spTX/RXx
-        WO0ySJ0RKoJRuwJojkXr4+Cn72poIp2PEaFfNd7z7lbaI92S1RFU0W0/+9wds2tR7gywMg
-        84uai49iJxvnMJfdGPhb5DhzwqbudEI=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 6310b718 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-        Mon, 5 Dec 2022 02:01:14 +0000 (UTC)
-From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
-To:     linux-kernel@vger.kernel.org, patches@lists.linux.dev,
-        tglx@linutronix.de
-Cc:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        linux-crypto@vger.kernel.org, linux-api@vger.kernel.org,
-        x86@kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
-        Carlos O'Donell <carlos@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Christian Brauner <brauner@kernel.org>,
-        Samuel Neves <sneves@dei.uc.pt>
-Subject: [PATCH v11 4/4] x86: vdso: Wire up getrandom() vDSO implementation
-Date:   Mon,  5 Dec 2022 03:00:46 +0100
-Message-Id: <20221205020046.1876356-5-Jason@zx2c4.com>
-In-Reply-To: <20221205020046.1876356-1-Jason@zx2c4.com>
-References: <20221205020046.1876356-1-Jason@zx2c4.com>
+        with ESMTP id S230307AbiLECz3 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 4 Dec 2022 21:55:29 -0500
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4551910578;
+        Sun,  4 Dec 2022 18:55:28 -0800 (PST)
+Received: from lhrpeml500004.china.huawei.com (unknown [172.18.147.206])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4NQSl62qfgz6883t;
+        Mon,  5 Dec 2022 10:52:34 +0800 (CST)
+Received: from [10.122.132.241] (10.122.132.241) by
+ lhrpeml500004.china.huawei.com (7.191.163.9) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.34; Mon, 5 Dec 2022 02:55:25 +0000
+Message-ID: <e1e81fc5-40af-8373-0def-926870691c0e@huawei.com>
+Date:   Mon, 5 Dec 2022 05:55:24 +0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.1
+Subject: Re: [PATCH v8 08/12] landlock: Implement TCP network hooks
+Content-Language: ru
+To:     =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>,
+        <willemdebruijn.kernel@gmail.com>
+CC:     <gnoack3000@gmail.com>, <linux-security-module@vger.kernel.org>,
+        <netdev@vger.kernel.org>, <netfilter-devel@vger.kernel.org>,
+        <artem.kuzin@huawei.com>, <linux-api@vger.kernel.org>,
+        "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
+References: <20221021152644.155136-1-konstantin.meskhidze@huawei.com>
+ <20221021152644.155136-9-konstantin.meskhidze@huawei.com>
+ <3452964b-04d3-b297-92a1-1220e087323e@digikod.net>
+ <335a5372-e444-5deb-c04d-664cbc7cdc2e@huawei.com>
+ <6071d053-a4b4-61f0-06f6-f94e6ce1e6d6@digikod.net>
+ <56f9af17-f824-ff5d-7fee-8de0ae520cc2@huawei.com>
+ <200bd6ce-de44-7335-63d9-04c17b1b1cf9@digikod.net>
+From:   "Konstantin Meskhidze (A)" <konstantin.meskhidze@huawei.com>
+In-Reply-To: <200bd6ce-de44-7335-63d9-04c17b1b1cf9@digikod.net>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Originating-IP: [10.122.132.241]
+X-ClientProxiedBy: lhrpeml100001.china.huawei.com (7.191.160.183) To
+ lhrpeml500004.china.huawei.com (7.191.163.9)
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hook up the generic vDSO implementation to the x86 vDSO data page. Since
-the existing vDSO infrastructure is heavily based on the timekeeping
-functionality, which works over arrays of bases, a new macro is
-introduced for vvars that are not arrays.
 
-The vDSO function requires a ChaCha20 implementation that does not write
-to the stack, yet can still do an entire ChaCha20 permutation, so
-provide this using SSE2, since this is userland code that must work on
-all x86-64 processors. There's a simple test for this code as well.
 
-Reviewed-by: Samuel Neves <sneves@dei.uc.pt> # for vgetrandom-chacha.S
-Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
----
- arch/x86/Kconfig                              |   1 +
- arch/x86/entry/vdso/Makefile                  |   3 +-
- arch/x86/entry/vdso/vdso.lds.S                |   2 +
- arch/x86/entry/vdso/vgetrandom-chacha.S       | 177 ++++++++++++++++++
- arch/x86/entry/vdso/vgetrandom.c              |  17 ++
- arch/x86/include/asm/vdso/getrandom.h         |  55 ++++++
- arch/x86/include/asm/vdso/vsyscall.h          |   2 +
- arch/x86/include/asm/vvar.h                   |  16 ++
- tools/testing/selftests/vDSO/.gitignore       |   1 +
- tools/testing/selftests/vDSO/Makefile         |   9 +
- .../testing/selftests/vDSO/vdso_test_chacha.c |  43 +++++
- 11 files changed, 325 insertions(+), 1 deletion(-)
- create mode 100644 arch/x86/entry/vdso/vgetrandom-chacha.S
- create mode 100644 arch/x86/entry/vdso/vgetrandom.c
- create mode 100644 arch/x86/include/asm/vdso/getrandom.h
- create mode 100644 tools/testing/selftests/vDSO/vdso_test_chacha.c
+12/2/2022 4:01 PM, Mickaël Salaün пишет:
+> 
+> On 02/12/2022 04:13, Konstantin Meskhidze (A) wrote:
+>> 
+>> 
+>> 11/29/2022 12:00 AM, Mickaël Salaün пишет:
+>>> The previous commit provides an interface to theoretically restrict
+>>> network access (i.e. ruleset handled network accesses), but in fact this
+>>> is not enforced until this commit. I like this split but to avoid any
+>>> inconsistency, please squash this commit into the previous one: "7/12
+>>> landlock: Add network rules support"
+>>> You should keep all the commit messages but maybe tweak them a bit.
+>>>
+>>     Ok. Will be squashed.
+>>>
+>>> On 28/11/2022 09:21, Konstantin Meskhidze (A) wrote:
+>>>>
+>>>>
+>>>> 11/17/2022 9:43 PM, Mickaël Salaün пишет:
+>>>>>
+>>>>> On 21/10/2022 17:26, Konstantin Meskhidze wrote:
+>>>>>> This patch adds support of socket_bind() and socket_connect() hooks.
+>>>>>> It's possible to restrict binding and connecting of TCP sockets to
+>>>>>> particular ports.
+>>>>>
+>>>>> Implement socket_bind() and socket_connect LSM hooks, which enable to
+>>>>> restrict TCP socket binding and connection to specific ports.
+>>>>>
+>>>>      Ok. Thanks.
+>>>>>
+>>>>>>
+>>>>>> Signed-off-by: Konstantin Meskhidze <konstantin.meskhidze@huawei.com>
+>>>>>> ---
+>>>
+>>> [...]
+>>>
+>>>>>> +static int hook_socket_connect(struct socket *sock, struct sockaddr *address,
+>>>>>> +			       int addrlen)
+>>>>>> +{
+>>>>>> +	const struct landlock_ruleset *const dom =
+>>>>>> +		landlock_get_current_domain();
+>>>>>> +
+>>>>>> +	if (!dom)
+>>>>>> +		return 0;
+>>>>>> +
+>>>>>> +	/* Check if it's a TCP socket. */
+>>>>>> +	if (sock->type != SOCK_STREAM)
+>>>>>> +		return 0;
+>>>>>> +
+>>>>>> +	/* Check if the hook is AF_INET* socket's action. */
+>>>>>> +	switch (address->sa_family) {
+>>>>>> +	case AF_INET:
+>>>>>> +#if IS_ENABLED(CONFIG_IPV6)
+>>>>>> +	case AF_INET6:
+>>>>>> +#endif
+>>>>>> +		return check_socket_access(dom, get_port(address),
+>>>>>> +					   LANDLOCK_ACCESS_NET_CONNECT_TCP);
+>>>>>> +	case AF_UNSPEC: {
+>>>>>> +		u16 i;
+>>>>>
+>>>>> You can move "i" after the "dom" declaration to remove the extra braces.
+>>>>>
+>>>>      Ok. Thanks.
+>>>>>
+>>>>>> +
+>>>>>> +		/*
+>>>>>> +		 * If just in a layer a mask supports connect access,
+>>>>>> +		 * the socket_connect() hook with AF_UNSPEC family flag
+>>>>>> +		 * must be banned. This prevents from disconnecting already
+>>>>>> +		 * connected sockets.
+>>>>>> +		 */
+>>>>>> +		for (i = 0; i < dom->num_layers; i++) {
+>>>>>> +			if (landlock_get_net_access_mask(dom, i) &
+>>>>>> +			    LANDLOCK_ACCESS_NET_CONNECT_TCP)
+>>>>>> +				return -EACCES;
+>>>>>
+>>>>> I'm wondering if this is the right error code for this case. EPERM may
+>>>>> be more appropriate.
+>>>>
+>>>>      Ok. Will be refactored.
+>>>>>
+>>>>> Thinking more about this case, I don't understand what is the rationale
+>>>>> to deny such action. What would be the consequence to always allow
+>>>>> connection with AF_UNSPEC (i.e. to disconnect a socket)?
+>>>>>
+>>>>      I thought we have come to a conclusion about connect(...AF_UNSPEC..)
+>>>>     behaviour in the patchset V3:
+>>>> https://lore.kernel.org/linux-security-module/19ad3a01-d76e-0e73-7833-99acd4afd97e@huawei.com/
+>>>
+>>> The conclusion was that AF_UNSPEC disconnects a socket, but I'm asking
+>>> if this is a security issue. I don't think it is more dangerous than a
+>>> new (unconnected) socket. Am I missing something? Which kind of rule
+>>> could be bypassed? What are we protecting against by restricting AF_UNSPEC?
+>> 
+>> I just follow Willem de Bruijn concerns about this issue:
+>> 
+>> quote: "It is valid to pass an address with AF_UNSPEC to a PF_INET(6)
+>> socket. And there are legitimate reasons to want to deny this. Such as
+>> passing a connection to a unprivileged process and disallow it from
+>> disconnect and opening a different new connection."
+>> 
+>> https://lore.kernel.org/linux-security-module/CA+FuTSf4EjgjBCCOiu-PHJcTMia41UkTh8QJ0+qdxL_J8445EA@mail.gmail.com/
+> 
+> I agree with the fact that we want to deny this, but in this example the
+> new connection should still be restricted by the Landlock domain. Using
+> AF_UNSPEC on a connected socket should not make this socket allowed to
+> create any connection if the process is restricted with TCP_CONNECT.
+> Being allowed to close a connection should not be an issue, and any new
+> connection must be vetted by Landlock.
+> 
 
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index 67745ceab0db..357148c4a3a4 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -269,6 +269,7 @@ config X86
- 	select HAVE_UNSTABLE_SCHED_CLOCK
- 	select HAVE_USER_RETURN_NOTIFIER
- 	select HAVE_GENERIC_VDSO
-+	select VDSO_GETRANDOM			if X86_64
- 	select HOTPLUG_SMT			if SMP
- 	select IRQ_FORCED_THREADING
- 	select NEED_PER_CPU_EMBED_FIRST_CHUNK
-diff --git a/arch/x86/entry/vdso/Makefile b/arch/x86/entry/vdso/Makefile
-index 3e88b9df8c8f..2de64e52236a 100644
---- a/arch/x86/entry/vdso/Makefile
-+++ b/arch/x86/entry/vdso/Makefile
-@@ -27,7 +27,7 @@ VDSO32-$(CONFIG_X86_32)		:= y
- VDSO32-$(CONFIG_IA32_EMULATION)	:= y
- 
- # files to link into the vdso
--vobjs-y := vdso-note.o vclock_gettime.o vgetcpu.o
-+vobjs-y := vdso-note.o vclock_gettime.o vgetcpu.o vgetrandom.o vgetrandom-chacha.o
- vobjs32-y := vdso32/note.o vdso32/system_call.o vdso32/sigreturn.o
- vobjs32-y += vdso32/vclock_gettime.o
- vobjs-$(CONFIG_X86_SGX)	+= vsgx.o
-@@ -104,6 +104,7 @@ CFLAGS_REMOVE_vclock_gettime.o = -pg
- CFLAGS_REMOVE_vdso32/vclock_gettime.o = -pg
- CFLAGS_REMOVE_vgetcpu.o = -pg
- CFLAGS_REMOVE_vsgx.o = -pg
-+CFLAGS_REMOVE_vgetrandom.o = -pg
- 
- #
- # X32 processes use x32 vDSO to access 64bit kernel data.
-diff --git a/arch/x86/entry/vdso/vdso.lds.S b/arch/x86/entry/vdso/vdso.lds.S
-index 4bf48462fca7..1919cc39277e 100644
---- a/arch/x86/entry/vdso/vdso.lds.S
-+++ b/arch/x86/entry/vdso/vdso.lds.S
-@@ -28,6 +28,8 @@ VERSION {
- 		clock_getres;
- 		__vdso_clock_getres;
- 		__vdso_sgx_enter_enclave;
-+		getrandom;
-+		__vdso_getrandom;
- 	local: *;
- 	};
- }
-diff --git a/arch/x86/entry/vdso/vgetrandom-chacha.S b/arch/x86/entry/vdso/vgetrandom-chacha.S
-new file mode 100644
-index 000000000000..91fbb7ac7af4
---- /dev/null
-+++ b/arch/x86/entry/vdso/vgetrandom-chacha.S
-@@ -0,0 +1,177 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2022 Jason A. Donenfeld <Jason@zx2c4.com>. All Rights Reserved.
-+ */
-+
-+#include <linux/linkage.h>
-+#include <asm/frame.h>
-+
-+.section	.rodata.cst16.CONSTANTS, "aM", @progbits, 16
-+.align 16
-+CONSTANTS:	.octa 0x6b20657479622d323320646e61707865
-+.text
-+
-+/*
-+ * Very basic SSE2 implementation of ChaCha20. Produces a given positive number
-+ * of blocks of output with a nonce of 0, taking an input key and 8-byte
-+ * counter. Importantly does not spill to the stack. Its arguments are:
-+ *
-+ *	rdi: output bytes
-+ *	rsi: 32-byte key input
-+ *	rdx: 8-byte counter input/output
-+ *	rcx: number of 64-byte blocks to write to output
-+ */
-+SYM_FUNC_START(__arch_chacha20_blocks_nostack)
-+
-+#define output  %rdi
-+#define key     %rsi
-+#define counter %rdx
-+#define nblocks %rcx
-+#define i       %al
-+#define state0  %xmm0
-+#define state1  %xmm1
-+#define state2  %xmm2
-+#define state3  %xmm3
-+#define copy0   %xmm4
-+#define copy1   %xmm5
-+#define copy2   %xmm6
-+#define copy3   %xmm7
-+#define temp    %xmm8
-+#define one     %xmm9
-+
-+	/* copy0 = "expand 32-byte k" */
-+	movaps		CONSTANTS(%rip),copy0
-+	/* copy1,copy2 = key */
-+	movups		0x00(key),copy1
-+	movups		0x10(key),copy2
-+	/* copy3 = counter || zero nonce */
-+	movq		0x00(counter),copy3
-+	/* one = 1 || 0 */
-+	movq		$1,%rax
-+	movq		%rax,one
-+
-+.Lblock:
-+	/* state0,state1,state2,state3 = copy0,copy1,copy2,copy3 */
-+	movdqa		copy0,state0
-+	movdqa		copy1,state1
-+	movdqa		copy2,state2
-+	movdqa		copy3,state3
-+
-+	movb		$10,i
-+.Lpermute:
-+	/* state0 += state1, state3 = rotl32(state3 ^ state0, 16) */
-+	paddd		state1,state0
-+	pxor		state0,state3
-+	movdqa		state3,temp
-+	pslld		$16,temp
-+	psrld		$16,state3
-+	por		temp,state3
-+
-+	/* state2 += state3, state1 = rotl32(state1 ^ state2, 12) */
-+	paddd		state3,state2
-+	pxor		state2,state1
-+	movdqa		state1,temp
-+	pslld		$12,temp
-+	psrld		$20,state1
-+	por		temp,state1
-+
-+	/* state0 += state1, state3 = rotl32(state3 ^ state0, 8) */
-+	paddd		state1,state0
-+	pxor		state0,state3
-+	movdqa		state3,temp
-+	pslld		$8,temp
-+	psrld		$24,state3
-+	por		temp,state3
-+
-+	/* state2 += state3, state1 = rotl32(state1 ^ state2, 7) */
-+	paddd		state3,state2
-+	pxor		state2,state1
-+	movdqa		state1,temp
-+	pslld		$7,temp
-+	psrld		$25,state1
-+	por		temp,state1
-+
-+	/* state1[0,1,2,3] = state1[0,3,2,1] */
-+	pshufd		$0x39,state1,state1
-+	/* state2[0,1,2,3] = state2[1,0,3,2] */
-+	pshufd		$0x4e,state2,state2
-+	/* state3[0,1,2,3] = state3[2,1,0,3] */
-+	pshufd		$0x93,state3,state3
-+
-+	/* state0 += state1, state3 = rotl32(state3 ^ state0, 16) */
-+	paddd		state1,state0
-+	pxor		state0,state3
-+	movdqa		state3,temp
-+	pslld		$16,temp
-+	psrld		$16,state3
-+	por		temp,state3
-+
-+	/* state2 += state3, state1 = rotl32(state1 ^ state2, 12) */
-+	paddd		state3,state2
-+	pxor		state2,state1
-+	movdqa		state1,temp
-+	pslld		$12,temp
-+	psrld		$20,state1
-+	por		temp,state1
-+
-+	/* state0 += state1, state3 = rotl32(state3 ^ state0, 8) */
-+	paddd		state1,state0
-+	pxor		state0,state3
-+	movdqa		state3,temp
-+	pslld		$8,temp
-+	psrld		$24,state3
-+	por		temp,state3
-+
-+	/* state2 += state3, state1 = rotl32(state1 ^ state2, 7) */
-+	paddd		state3,state2
-+	pxor		state2,state1
-+	movdqa		state1,temp
-+	pslld		$7,temp
-+	psrld		$25,state1
-+	por		temp,state1
-+
-+	/* state1[0,1,2,3] = state1[2,1,0,3] */
-+	pshufd		$0x93,state1,state1
-+	/* state2[0,1,2,3] = state2[1,0,3,2] */
-+	pshufd		$0x4e,state2,state2
-+	/* state3[0,1,2,3] = state3[0,3,2,1] */
-+	pshufd		$0x39,state3,state3
-+
-+	decb		i
-+	jnz		.Lpermute
-+
-+	/* output0 = state0 + copy0 */
-+	paddd		copy0,state0
-+	movups		state0,0x00(output)
-+	/* output1 = state1 + copy1 */
-+	paddd		copy1,state1
-+	movups		state1,0x10(output)
-+	/* output2 = state2 + copy2 */
-+	paddd		copy2,state2
-+	movups		state2,0x20(output)
-+	/* output3 = state3 + copy3 */
-+	paddd		copy3,state3
-+	movups		state3,0x30(output)
-+
-+	/* ++copy3.counter */
-+	paddq		one,copy3
-+
-+	/* output += 64, --nblocks */
-+	addq		$64,output
-+	decq		nblocks
-+	jnz		.Lblock
-+
-+	/* counter = copy3.counter */
-+	movq		copy3,0x00(counter)
-+
-+	/* Zero out the potentially sensitive regs, in case nothing uses these again. */
-+	pxor		state0,state0
-+	pxor		state1,state1
-+	pxor		state2,state2
-+	pxor		state3,state3
-+	pxor		copy1,copy1
-+	pxor		copy2,copy2
-+	pxor		temp,temp
-+
-+	ret
-+SYM_FUNC_END(__arch_chacha20_blocks_nostack)
-diff --git a/arch/x86/entry/vdso/vgetrandom.c b/arch/x86/entry/vdso/vgetrandom.c
-new file mode 100644
-index 000000000000..6045ded5da90
---- /dev/null
-+++ b/arch/x86/entry/vdso/vgetrandom.c
-@@ -0,0 +1,17 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (C) 2022 Jason A. Donenfeld <Jason@zx2c4.com>. All Rights Reserved.
-+ */
-+#include <linux/types.h>
-+
-+#include "../../../../lib/vdso/getrandom.c"
-+
-+ssize_t __vdso_getrandom(void *buffer, size_t len, unsigned int flags, void *state);
-+
-+ssize_t __vdso_getrandom(void *buffer, size_t len, unsigned int flags, void *state)
-+{
-+	return __cvdso_getrandom(buffer, len, flags, state);
-+}
-+
-+ssize_t getrandom(void *, size_t, unsigned int, void *)
-+	__attribute__((weak, alias("__vdso_getrandom")));
-diff --git a/arch/x86/include/asm/vdso/getrandom.h b/arch/x86/include/asm/vdso/getrandom.h
-new file mode 100644
-index 000000000000..46f99d735ae6
---- /dev/null
-+++ b/arch/x86/include/asm/vdso/getrandom.h
-@@ -0,0 +1,55 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright (C) 2022 Jason A. Donenfeld <Jason@zx2c4.com>. All Rights Reserved.
-+ */
-+#ifndef __ASM_VDSO_GETRANDOM_H
-+#define __ASM_VDSO_GETRANDOM_H
-+
-+#ifndef __ASSEMBLY__
-+
-+#include <asm/unistd.h>
-+#include <asm/vvar.h>
-+
-+/**
-+ * getrandom_syscall - Invoke the getrandom() syscall.
-+ * @buffer:	Destination buffer to fill with random bytes.
-+ * @len:	Size of @buffer in bytes.
-+ * @flags:	Zero or more GRND_* flags.
-+ * Returns the number of random bytes written to @buffer, or a negative value indicating an error.
-+ */
-+static __always_inline ssize_t getrandom_syscall(void *buffer, size_t len, unsigned int flags)
-+{
-+	long ret;
-+
-+	asm ("syscall" : "=a" (ret) :
-+	     "0" (__NR_getrandom), "D" (buffer), "S" (len), "d" (flags) :
-+	     "rcx", "r11", "memory");
-+
-+	return ret;
-+}
-+
-+#define __vdso_rng_data (VVAR(_vdso_rng_data))
-+
-+static __always_inline const struct vdso_rng_data *__arch_get_vdso_rng_data(void)
-+{
-+	if (__vdso_data->clock_mode == VDSO_CLOCKMODE_TIMENS)
-+		return (void *)&__vdso_rng_data + ((void *)&__timens_vdso_data - (void *)&__vdso_data);
-+	return &__vdso_rng_data;
-+}
-+
-+/**
-+ * __arch_chacha20_blocks_nostack - Generate ChaCha20 stream without using the stack.
-+ * @dst_bytes:	Destination buffer to hold @nblocks * 64 bytes of output.
-+ * @key:	32-byte input key.
-+ * @counter:	8-byte counter, read on input and updated on return.
-+ * @nblocks:	Number of blocks to generate.
-+ *
-+ * Generates a given positive number of blocks of ChaCha20 output with nonce=0, and does not write
-+ * to any stack or memory outside of the parameters passed to it, in order to mitigate stack data
-+ * leaking into forked child processes.
-+ */
-+extern void __arch_chacha20_blocks_nostack(u8 *dst_bytes, const u32 *key, u32 *counter, size_t nblocks);
-+
-+#endif /* !__ASSEMBLY__ */
-+
-+#endif /* __ASM_VDSO_GETRANDOM_H */
-diff --git a/arch/x86/include/asm/vdso/vsyscall.h b/arch/x86/include/asm/vdso/vsyscall.h
-index be199a9b2676..71c56586a22f 100644
---- a/arch/x86/include/asm/vdso/vsyscall.h
-+++ b/arch/x86/include/asm/vdso/vsyscall.h
-@@ -11,6 +11,8 @@
- #include <asm/vvar.h>
- 
- DEFINE_VVAR(struct vdso_data, _vdso_data);
-+DEFINE_VVAR_SINGLE(struct vdso_rng_data, _vdso_rng_data);
-+
- /*
-  * Update the vDSO data page to keep in sync with kernel timekeeping.
-  */
-diff --git a/arch/x86/include/asm/vvar.h b/arch/x86/include/asm/vvar.h
-index 183e98e49ab9..9d9af37f7cab 100644
---- a/arch/x86/include/asm/vvar.h
-+++ b/arch/x86/include/asm/vvar.h
-@@ -26,6 +26,8 @@
-  */
- #define DECLARE_VVAR(offset, type, name) \
- 	EMIT_VVAR(name, offset)
-+#define DECLARE_VVAR_SINGLE(offset, type, name) \
-+	EMIT_VVAR(name, offset)
- 
- #else
- 
-@@ -37,6 +39,10 @@ extern char __vvar_page;
- 	extern type timens_ ## name[CS_BASES]				\
- 	__attribute__((visibility("hidden")));				\
- 
-+#define DECLARE_VVAR_SINGLE(offset, type, name)				\
-+	extern type vvar_ ## name					\
-+	__attribute__((visibility("hidden")));				\
-+
- #define VVAR(name) (vvar_ ## name)
- #define TIMENS(name) (timens_ ## name)
- 
-@@ -44,12 +50,22 @@ extern char __vvar_page;
- 	type name[CS_BASES]						\
- 	__attribute__((section(".vvar_" #name), aligned(16))) __visible
- 
-+#define DEFINE_VVAR_SINGLE(type, name)					\
-+	type name							\
-+	__attribute__((section(".vvar_" #name), aligned(16))) __visible
-+
- #endif
- 
- /* DECLARE_VVAR(offset, type, name) */
- 
- DECLARE_VVAR(128, struct vdso_data, _vdso_data)
- 
-+#if !defined(_SINGLE_DATA)
-+#define _SINGLE_DATA
-+DECLARE_VVAR_SINGLE(640, struct vdso_rng_data, _vdso_rng_data)
-+#endif
-+
- #undef DECLARE_VVAR
-+#undef DECLARE_VVAR_SINGLE
- 
- #endif
-diff --git a/tools/testing/selftests/vDSO/.gitignore b/tools/testing/selftests/vDSO/.gitignore
-index 7dbfdec53f3d..30d5c8f0e5c7 100644
---- a/tools/testing/selftests/vDSO/.gitignore
-+++ b/tools/testing/selftests/vDSO/.gitignore
-@@ -7,3 +7,4 @@ vdso_test_gettimeofday
- vdso_test_getcpu
- vdso_standalone_test_x86
- vdso_test_getrandom
-+vdso_test_chacha
-diff --git a/tools/testing/selftests/vDSO/Makefile b/tools/testing/selftests/vDSO/Makefile
-index a33b4d200a32..1b9057974693 100644
---- a/tools/testing/selftests/vDSO/Makefile
-+++ b/tools/testing/selftests/vDSO/Makefile
-@@ -3,6 +3,7 @@ include ../lib.mk
- 
- uname_M := $(shell uname -m 2>/dev/null || echo not)
- ARCH ?= $(shell echo $(uname_M) | sed -e s/i.86/x86/ -e s/x86_64/x86/)
-+SODIUM := $(shell pkg-config --libs libsodium 2>/dev/null)
- 
- TEST_GEN_PROGS := $(OUTPUT)/vdso_test_gettimeofday $(OUTPUT)/vdso_test_getcpu
- TEST_GEN_PROGS += $(OUTPUT)/vdso_test_abi
-@@ -12,9 +13,15 @@ TEST_GEN_PROGS += $(OUTPUT)/vdso_standalone_test_x86
- endif
- TEST_GEN_PROGS += $(OUTPUT)/vdso_test_correctness
- TEST_GEN_PROGS += $(OUTPUT)/vdso_test_getrandom
-+ifeq ($(uname_M),x86_64)
-+ifneq ($(SODIUM),)
-+TEST_GEN_PROGS += $(OUTPUT)/vdso_test_chacha
-+endif
-+endif
- 
- CFLAGS := -std=gnu99
- CFLAGS_vdso_standalone_test_x86 := -nostdlib -fno-asynchronous-unwind-tables -fno-stack-protector
-+CFLAGS_vdso_test_chacha := $(SODIUM) -idirafter $(top_srcdir)/include -idirafter $(top_srcdir)/arch/$(ARCH)/include -D__ASSEMBLY__ -Wa,--noexecstack
- LDFLAGS_vdso_test_correctness := -ldl
- ifeq ($(CONFIG_X86_32),y)
- LDLIBS += -lgcc_s
-@@ -35,3 +42,5 @@ $(OUTPUT)/vdso_test_correctness: vdso_test_correctness.c
- 		-o $@ \
- 		$(LDFLAGS_vdso_test_correctness)
- $(OUTPUT)/vdso_test_getrandom: parse_vdso.c
-+$(OUTPUT)/vdso_test_chacha: CFLAGS += $(CFLAGS_vdso_test_chacha)
-+$(OUTPUT)/vdso_test_chacha: $(top_srcdir)/arch/$(ARCH)/entry/vdso/vgetrandom-chacha.S
-diff --git a/tools/testing/selftests/vDSO/vdso_test_chacha.c b/tools/testing/selftests/vDSO/vdso_test_chacha.c
-new file mode 100644
-index 000000000000..1c76aeb3de68
---- /dev/null
-+++ b/tools/testing/selftests/vDSO/vdso_test_chacha.c
-@@ -0,0 +1,43 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2022 Jason A. Donenfeld <Jason@zx2c4.com>. All Rights Reserved.
-+ */
-+
-+#include <sodium/crypto_stream_chacha20.h>
-+#include <sys/random.h>
-+#include <string.h>
-+#include <stdint.h>
-+#include "../kselftest.h"
-+
-+extern void __arch_chacha20_blocks_nostack(uint8_t *dst_bytes, const uint8_t *key, uint32_t *counter, size_t nblocks);
-+
-+int main(int argc, char *argv[])
-+{
-+	enum { TRIALS = 1000, BLOCKS = 128, BLOCK_SIZE = 64 };
-+	static const uint8_t nonce[8] = { 0 };
-+	uint32_t counter[2];
-+	uint8_t key[32];
-+	uint8_t output1[BLOCK_SIZE * BLOCKS], output2[BLOCK_SIZE * BLOCKS];
-+
-+	ksft_print_header();
-+	ksft_set_plan(1);
-+
-+	for (unsigned int trial; trial < TRIALS; ++trial) {
-+		if (getrandom(key, sizeof(key), 0) != sizeof(key)) {
-+			printf("getrandom() failed!\n");
-+			return KSFT_SKIP;
-+		}
-+		crypto_stream_chacha20(output1, sizeof(output1), nonce, key);
-+		for (unsigned int split = 0; split < BLOCKS; ++split) {
-+			memset(output2, 'X', sizeof(output2));
-+			memset(counter, 0, sizeof(counter));
-+			if (split)
-+				__arch_chacha20_blocks_nostack(output2, key, counter, split);
-+			__arch_chacha20_blocks_nostack(output2 + split * BLOCK_SIZE, key, counter, BLOCKS - split);
-+			if (memcmp(output1, output2, sizeof(output1)))
-+				return KSFT_FAIL;
-+		}
-+	}
-+	ksft_test_result_pass("chacha: PASS\n");
-+	return KSFT_PASS;
-+}
--- 
-2.38.1
+   You are right. This makes sense. Thanks for the comment.
+>> 
+>> 
+>> quote: "The intended use-case is for a privileged process to open a
+>> connection (i.e., bound and connected socket) and pass that to a
+>> restricted process. The intent is for that process to only be allowed to
+>> communicate over this pre-established channel.
+>> 
+>> In practice, it is able to disconnect (while staying bound) and
+>> elevate its privileges to that of a listening server: ..."
+>> 
+>> https://lore.kernel.org/linux-security-module/CA+FuTScaoby-=xRKf_Dz3koSYHqrMN0cauCg4jMmy_nDxwPADA@mail.gmail.com/
+>> 
+>> Looks like it's a security issue here.
+> 
+> It the provided example, if child_process() is restricted with
+> TCP_CONNECT and TCP_BIND, any call to connect() or bind() will return an
+> access error. listen() and accept() would work if the socket is bound,
+> which is the case here, and then implicitly allowed by the parent
+> process. I don' see any security issue. Am I missing something?
+> 
+> In fact, connect with AF_UNSPEC should always be allowed to be
+> consistent with close(2), which is a way to drop privileges.
+> 
 
+  It should be allowed with checking:
+"return check_socket_access(dom, get_port(address),
+                                  LANDLOCK_ACCESS_NET_CONNECT_TCP);
+> 
+> What Willem said:
+>> It would be good to also
+>> ensure that a now-bound socket cannot call listen.
+> 
+> This is not relevant for Landlock because the security model is to check
+> process's requests to get new accesses (e.g. create a new file
+> descriptor), but not to check passed accesses (e.g. inherited from a
+> parent process, or pass through a unix socket) which are delegated to
+> the sender/parent. The goal of a sandbox is to limit the set of new
+> access requested (to the kernel) from within this sandbox. All already
+> opened file descriptors were previously vetted by Landlock (and other
+> access control systems).
+
+    I got your point. Thanks.
+> 
+>> 
+>>>
+>>> We could then reduce the hook codes to just:
+>>> return current_check_access_socket(sock, address, LANDLOCK_ACCESS_NET_*);
+>>> .
+> 
+> As for SELinux, the connect hook should first do this check (with an
+> appropriate comment):
+> if (address->sa_family == AF_UNSPEC)
+> 	return 0;
+
+   In case of Landlock it looks like a landlocked process could connnect 
+to the ports it's not allowed to connect to.
+So we need just to return check_socket_access(dom, get_port(address),
+				   LANDLOCK_ACCESS_NET_CONNECT_TCP);
+I'm I correct? Did I miss something?
+> .
