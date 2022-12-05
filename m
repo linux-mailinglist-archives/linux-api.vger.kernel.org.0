@@ -2,57 +2,56 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F1CCB64255D
-	for <lists+linux-api@lfdr.de>; Mon,  5 Dec 2022 10:04:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9EA8F6425B8
+	for <lists+linux-api@lfdr.de>; Mon,  5 Dec 2022 10:24:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232458AbiLEJEz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 5 Dec 2022 04:04:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53402 "EHLO
+        id S230480AbiLEJYc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 5 Dec 2022 04:24:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44532 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231824AbiLEJEA (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 5 Dec 2022 04:04:00 -0500
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52052B3D
-        for <linux-api@vger.kernel.org>; Mon,  5 Dec 2022 01:03:50 -0800 (PST)
-Received: by mail-lf1-x130.google.com with SMTP id c1so17478954lfi.7
-        for <linux-api@vger.kernel.org>; Mon, 05 Dec 2022 01:03:50 -0800 (PST)
+        with ESMTP id S230307AbiLEJYa (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 5 Dec 2022 04:24:30 -0500
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 718F01741F
+        for <linux-api@vger.kernel.org>; Mon,  5 Dec 2022 01:24:28 -0800 (PST)
+Received: by mail-lf1-x12f.google.com with SMTP id s8so17571386lfc.8
+        for <linux-api@vger.kernel.org>; Mon, 05 Dec 2022 01:24:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=i44XG+9hSjN1C92SauZLYWQ5eRQnzskjLCXxsayBXqk=;
-        b=kLUaIyfDjo9uDZEMoxllqnOwzh0Ffynik+sIGR/qJJyMcTcTd8ut0BTLskjnpO83sL
-         1grwpiJ3wPw/bi8dHj7SHXKusNhBg06UYnB0DUqQiNBmZ+BjJcvXkx9GTXkbjobnQvHV
-         cNBKQZYJe8HrVUI4HiB/zksfSPtas3UdWWGTXO9sGpWGVD7BvwubrkgwZBs0dUvoav3f
-         T5fNwaUu9lYGYk9EOKm2pjX08J3u51nA1s+GCMHEfAjRkbVVmfPJ2NL1AjgOrIhJ7IsZ
-         hIO7hbR6QG2T7KIZdcVzOp3p1C5jBkGV+gkLK2D0A/H1KkTsrsZWnWNdjSlUMgo6Bqgu
-         GTHg==
+        bh=Owo0phbbJOrq6sWBiQ2bW5Gab2bMQcmAUmytHNbH9wo=;
+        b=CBfUM4ABoy4rHbnJbQWlgFZPr36WGkyWiutGX6w63I8DmF/IJiild6FcVSNN7OWJZ7
+         pXxUiVma9yq+PhDIrUun9M9Va0gKBpKxjzL4hSd+yyVkziX/hM+hdNnS2HrixHqWqr+w
+         9uPS+gbUSproyB0am3JO8sKBKWWHQ/lzz53ju3Q567AM4L0/1VsnFw7a7e+xLX5dqtAL
+         ltPfrvJFTtJCH5f/cWONsgU7aRsJDDYFPsxECnuUV1Upx768mYuIz8CszK1XiyhlQVRZ
+         mn1NjlqoOAVwrxhEaj2jBzLXfvyd3qLezPV3GfuypCofEI10LU/+uMeT5vEdTm2OxrYD
+         evrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=i44XG+9hSjN1C92SauZLYWQ5eRQnzskjLCXxsayBXqk=;
-        b=RqpnY8VBRRNCuMNrENVq7FDG2/nLCXCrrg/x/gj6YgrruG7+NiOnswQdDCHbNGNZsp
-         wW7I/Jz4lhytlBCmgFNUjFUPF2g0cLuFpBjx0G07YMFsPF8niEqjmyZ5QxRKmnEfqfNU
-         XUQUVNzVmMfNaDNzOkF0DK8Qkdf8NVu3yptxkmqqRL24YGgrNKYKHJy/mUCPH0EB1H+B
-         M5muM9T6Q9XgZLTePtXciGvrbknUCroI2pRKK+et2NIMD+B0JTqQ6MHrI3yWc0/bzdX4
-         T/T8AzIOth6E4q9Oisr9G1VSW1ZZEuTzBnKT4Ddqo2bIoSqy4tWvfkuNISh4eExLbdl9
-         E9VQ==
-X-Gm-Message-State: ANoB5pmjtZVG076G6Iq2zyNlCMobep3EImHXVS9TEX7xzrpn04bVaZ3k
-        LI0s7MapSDUDG1hNXHiDmsurt6h5ySkeoAMq+YP1cg==
-X-Google-Smtp-Source: AA0mqf6j46Z+eZ9hXs0IXh0pl4WrzxhZnFFlBpMbAM23gDLBqguQPPMz1gW5ctaSgLK5OkqdoG8DwtZm8a/v+BZdtzs=
-X-Received: by 2002:a05:6512:15a8:b0:4a6:3ed2:3717 with SMTP id
- bp40-20020a05651215a800b004a63ed23717mr22998482lfb.637.1670231028239; Mon, 05
- Dec 2022 01:03:48 -0800 (PST)
+        bh=Owo0phbbJOrq6sWBiQ2bW5Gab2bMQcmAUmytHNbH9wo=;
+        b=EqmBC4E4VNKfQVyCucXGBu8R5+X9PwXnYDAp+YBt3tN9Oj02k7fEsMcYdpmPuu7Cfy
+         INxu0xKyJsjLfPXG1eZhOagi0gQMMrYiX00J7vkghEsDa60nsacwisTVJq0un28UgFpb
+         73E8diS52NYjyEMys+8HjYnvcTl2JWM6OqDcq6u38EOijwfva176KwANbkfMh5QBsPDy
+         lVlEVm+xCGkWZe099TcW5uu5QGHw+wQkLW03NWBubaakpQmqHM/R4K916LVfH6USFm9O
+         yjkhZSpKrRioULIvbZNFmj6pcs75GkbLJ3ycx5a0jh7MAOdhUeDdV6gMcC1xnnbVYf76
+         vBSg==
+X-Gm-Message-State: ANoB5pmZPIrDsAzBfFVHV6p2mliYpnamMDnut6ORQeLbiVdo0yzkcQaS
+        aGYhzZMZm1zkS5FtxMcyebj2rTnjsYIGZARmnHzsQg==
+X-Google-Smtp-Source: AA0mqf7hmc7cmV5dRxw88/fxJnTLIThfoQtt0oTYjymTMQQZpTJzvpZeXdF6ZMUHCf5Dbxm0DrPC0sEiLurEnocH1bU=
+X-Received: by 2002:a05:6512:104e:b0:4b5:604a:5b24 with SMTP id
+ c14-20020a056512104e00b004b5604a5b24mr2898439lfb.550.1670232266434; Mon, 05
+ Dec 2022 01:24:26 -0800 (PST)
 MIME-Version: 1.0
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com> <20221202061347.1070246-4-chao.p.peng@linux.intel.com>
-In-Reply-To: <20221202061347.1070246-4-chao.p.peng@linux.intel.com>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com> <20221202061347.1070246-6-chao.p.peng@linux.intel.com>
+In-Reply-To: <20221202061347.1070246-6-chao.p.peng@linux.intel.com>
 From:   Fuad Tabba <tabba@google.com>
-Date:   Mon, 5 Dec 2022 09:03:11 +0000
-Message-ID: <CA+EHjTyuQSa9YKkGd1OqtEzobuf6Bcghwiz00aaL15ikz7J2Vw@mail.gmail.com>
-Subject: Re: [PATCH v10 3/9] KVM: Extend the memslot to support fd-based
- private memory
+Date:   Mon, 5 Dec 2022 09:23:49 +0000
+Message-ID: <CA+EHjTy5+Ke_7Uh72p--H9kGcE-PK4EVmp7ym6Q1-PO28u6CCQ@mail.gmail.com>
+Subject: Re: [PATCH v10 5/9] KVM: Use gfn instead of hva for mmu_notifier_retry
 To:     Chao Peng <chao.p.peng@linux.intel.com>
 Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
@@ -91,7 +90,7 @@ Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -101,347 +100,226 @@ X-Mailing-List: linux-api@vger.kernel.org
 
 Hi Chao,
 
-On Fri, Dec 2, 2022 at 6:18 AM Chao Peng <chao.p.peng@linux.intel.com> wrote:
+On Fri, Dec 2, 2022 at 6:19 AM Chao Peng <chao.p.peng@linux.intel.com> wrote:
 >
-> In memory encryption usage, guest memory may be encrypted with special
-> key and can be accessed only by the guest itself. We call such memory
-> private memory. It's valueless and sometimes can cause problem to allow
-> userspace to access guest private memory. This new KVM memslot extension
-> allows guest private memory being provided through a restrictedmem
-> backed file descriptor(fd) and userspace is restricted to access the
-> bookmarked memory in the fd.
+> Currently in mmu_notifier invalidate path, hva range is recorded and
+> then checked against by mmu_notifier_retry_hva() in the page fault
+> handling path. However, for the to be introduced private memory, a page
+> fault may not have a hva associated, checking gfn(gpa) makes more sense.
 >
-> This new extension, indicated by the new flag KVM_MEM_PRIVATE, adds two
-> additional KVM memslot fields restricted_fd/restricted_offset to allow
-> userspace to instruct KVM to provide guest memory through restricted_fd.
-> 'guest_phys_addr' is mapped at the restricted_offset of restricted_fd
-> and the size is 'memory_size'.
+> For existing hva based shared memory, gfn is expected to also work. The
+> only downside is when aliasing multiple gfns to a single hva, the
+> current algorithm of checking multiple ranges could result in a much
+> larger range being rejected. Such aliasing should be uncommon, so the
+> impact is expected small.
 >
-> The extended memslot can still have the userspace_addr(hva). When use, a
-> single memslot can maintain both private memory through restricted_fd
-> and shared memory through userspace_addr. Whether the private or shared
-> part is visible to guest is maintained by other KVM code.
->
-> A restrictedmem_notifier field is also added to the memslot structure to
-> allow the restricted_fd's backing store to notify KVM the memory change,
-> KVM then can invalidate its page table entries or handle memory errors.
->
-> Together with the change, a new config HAVE_KVM_RESTRICTED_MEM is added
-> and right now it is selected on X86_64 only.
->
-> To make future maintenance easy, internally use a binary compatible
-> alias struct kvm_user_mem_region to handle both the normal and the
-> '_ext' variants.
->
-> Co-developed-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
+> Suggested-by: Sean Christopherson <seanjc@google.com>
 > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> Reviewed-by: Fuad Tabba <tabba@google.com>
-> Tested-by: Fuad Tabba <tabba@google.com>
-
-V9 of this patch [*] had KVM_CAP_PRIVATE_MEM, but it's not in this
-patch series anymore. Any reason you removed it, or is it just an
-omission?
-
-[*] https://lore.kernel.org/linux-mm/20221025151344.3784230-3-chao.p.peng@linux.intel.com/
-
-Thanks,
-/fuad
-
 > ---
->  Documentation/virt/kvm/api.rst | 40 ++++++++++++++++++++++-----
->  arch/x86/kvm/Kconfig           |  2 ++
->  arch/x86/kvm/x86.c             |  2 +-
->  include/linux/kvm_host.h       |  8 ++++--
->  include/uapi/linux/kvm.h       | 28 +++++++++++++++++++
->  virt/kvm/Kconfig               |  3 +++
->  virt/kvm/kvm_main.c            | 49 ++++++++++++++++++++++++++++------
->  7 files changed, 114 insertions(+), 18 deletions(-)
+>  arch/x86/kvm/mmu/mmu.c   |  8 +++++---
+>  include/linux/kvm_host.h | 33 +++++++++++++++++++++------------
+>  virt/kvm/kvm_main.c      | 32 +++++++++++++++++++++++---------
+>  3 files changed, 49 insertions(+), 24 deletions(-)
 >
-> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-> index bb2f709c0900..99352170c130 100644
-> --- a/Documentation/virt/kvm/api.rst
-> +++ b/Documentation/virt/kvm/api.rst
-> @@ -1319,7 +1319,7 @@ yet and must be cleared on entry.
->  :Capability: KVM_CAP_USER_MEMORY
->  :Architectures: all
->  :Type: vm ioctl
-> -:Parameters: struct kvm_userspace_memory_region (in)
-> +:Parameters: struct kvm_userspace_memory_region(_ext) (in)
->  :Returns: 0 on success, -1 on error
+> diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
+> index 4736d7849c60..e2c70b5afa3e 100644
+> --- a/arch/x86/kvm/mmu/mmu.c
+> +++ b/arch/x86/kvm/mmu/mmu.c
+> @@ -4259,7 +4259,7 @@ static bool is_page_fault_stale(struct kvm_vcpu *vcpu,
+>                 return true;
 >
->  ::
-> @@ -1332,9 +1332,18 @@ yet and must be cleared on entry.
->         __u64 userspace_addr; /* start of the userspace allocated memory */
->    };
+>         return fault->slot &&
+> -              mmu_invalidate_retry_hva(vcpu->kvm, mmu_seq, fault->hva);
+> +              mmu_invalidate_retry_gfn(vcpu->kvm, mmu_seq, fault->gfn);
+>  }
 >
-> +  struct kvm_userspace_memory_region_ext {
-> +       struct kvm_userspace_memory_region region;
-> +       __u64 restricted_offset;
-> +       __u32 restricted_fd;
-> +       __u32 pad1;
-> +       __u64 pad2[14];
-> +  };
+>  static int direct_page_fault(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault)
+> @@ -6098,7 +6098,9 @@ void kvm_zap_gfn_range(struct kvm *kvm, gfn_t gfn_start, gfn_t gfn_end)
+>
+>         write_lock(&kvm->mmu_lock);
+>
+> -       kvm_mmu_invalidate_begin(kvm, gfn_start, gfn_end);
+> +       kvm_mmu_invalidate_begin(kvm);
 > +
->    /* for kvm_memory_region::flags */
->    #define KVM_MEM_LOG_DIRTY_PAGES      (1UL << 0)
->    #define KVM_MEM_READONLY     (1UL << 1)
-> +  #define KVM_MEM_PRIVATE              (1UL << 2)
+> +       kvm_mmu_invalidate_range_add(kvm, gfn_start, gfn_end);
 >
->  This ioctl allows the user to create, modify or delete a guest physical
->  memory slot.  Bits 0-15 of "slot" specify the slot id and this value
-> @@ -1365,12 +1374,29 @@ It is recommended that the lower 21 bits of guest_phys_addr and userspace_addr
->  be identical.  This allows large pages in the guest to be backed by large
->  pages in the host.
+>         flush = kvm_rmap_zap_gfn_range(kvm, gfn_start, gfn_end);
 >
-> -The flags field supports two flags: KVM_MEM_LOG_DIRTY_PAGES and
-> -KVM_MEM_READONLY.  The former can be set to instruct KVM to keep track of
-> -writes to memory within the slot.  See KVM_GET_DIRTY_LOG ioctl to know how to
-> -use it.  The latter can be set, if KVM_CAP_READONLY_MEM capability allows it,
-> -to make a new slot read-only.  In this case, writes to this memory will be
-> -posted to userspace as KVM_EXIT_MMIO exits.
-> +kvm_userspace_memory_region_ext struct includes all fields of
-> +kvm_userspace_memory_region struct, while also adds additional fields for some
-> +other features. See below description of flags field for more information.
-> +It's recommended to use kvm_userspace_memory_region_ext in new userspace code.
-> +
-> +The flags field supports following flags:
-> +
-> +- KVM_MEM_LOG_DIRTY_PAGES to instruct KVM to keep track of writes to memory
-> +  within the slot. For more details, see KVM_GET_DIRTY_LOG ioctl.
-> +
-> +- KVM_MEM_READONLY, if KVM_CAP_READONLY_MEM allows, to make a new slot
-> +  read-only. In this case, writes to this memory will be posted to userspace as
-> +  KVM_EXIT_MMIO exits.
-> +
-> +- KVM_MEM_PRIVATE, if KVM_MEMORY_ATTRIBUTE_PRIVATE is supported (see
-> +  KVM_GET_SUPPORTED_MEMORY_ATTRIBUTES ioctl), to indicate a new slot has private
-> +  memory backed by a file descriptor(fd) and userspace access to the fd may be
-> +  restricted. Userspace should use restricted_fd/restricted_offset in the
-> +  kvm_userspace_memory_region_ext to instruct KVM to provide private memory
-> +  to guest. Userspace should guarantee not to map the same host physical address
-> +  indicated by restricted_fd/restricted_offset to different guest physical
-> +  addresses within multiple memslots. Failed to do this may result undefined
-> +  behavior.
+> @@ -6112,7 +6114,7 @@ void kvm_zap_gfn_range(struct kvm *kvm, gfn_t gfn_start, gfn_t gfn_end)
+>                 kvm_flush_remote_tlbs_with_address(kvm, gfn_start,
+>                                                    gfn_end - gfn_start);
 >
->  When the KVM_CAP_SYNC_MMU capability is available, changes in the backing of
->  the memory region are automatically reflected into the guest.  For example, an
-> diff --git a/arch/x86/kvm/Kconfig b/arch/x86/kvm/Kconfig
-> index a8e379a3afee..690cb21010e7 100644
-> --- a/arch/x86/kvm/Kconfig
-> +++ b/arch/x86/kvm/Kconfig
-> @@ -50,6 +50,8 @@ config KVM
->         select INTERVAL_TREE
->         select HAVE_KVM_PM_NOTIFIER if PM
->         select HAVE_KVM_MEMORY_ATTRIBUTES
-> +       select HAVE_KVM_RESTRICTED_MEM if X86_64
-> +       select RESTRICTEDMEM if HAVE_KVM_RESTRICTED_MEM
->         help
->           Support hosting fully virtualized guest machines using hardware
->           virtualization extensions.  You will need a fairly recent
-> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-> index 7f850dfb4086..9a07380f8d3c 100644
-> --- a/arch/x86/kvm/x86.c
-> +++ b/arch/x86/kvm/x86.c
-> @@ -12224,7 +12224,7 @@ void __user * __x86_set_memory_region(struct kvm *kvm, int id, gpa_t gpa,
->         }
+> -       kvm_mmu_invalidate_end(kvm, gfn_start, gfn_end);
+> +       kvm_mmu_invalidate_end(kvm);
 >
->         for (i = 0; i < KVM_ADDRESS_SPACE_NUM; i++) {
-> -               struct kvm_userspace_memory_region m;
-> +               struct kvm_user_mem_region m;
->
->                 m.slot = id | (i << 16);
->                 m.flags = 0;
+>         write_unlock(&kvm->mmu_lock);
+>  }
 > diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-> index a784e2b06625..02347e386ea2 100644
+> index 02347e386ea2..3d69484d2704 100644
 > --- a/include/linux/kvm_host.h
 > +++ b/include/linux/kvm_host.h
-> @@ -44,6 +44,7 @@
+> @@ -787,8 +787,8 @@ struct kvm {
+>         struct mmu_notifier mmu_notifier;
+>         unsigned long mmu_invalidate_seq;
+>         long mmu_invalidate_in_progress;
+> -       unsigned long mmu_invalidate_range_start;
+> -       unsigned long mmu_invalidate_range_end;
+> +       gfn_t mmu_invalidate_range_start;
+> +       gfn_t mmu_invalidate_range_end;
+>  #endif
+>         struct list_head devices;
+>         u64 manual_dirty_log_protect;
+> @@ -1389,10 +1389,9 @@ void kvm_mmu_free_memory_cache(struct kvm_mmu_memory_cache *mc);
+>  void *kvm_mmu_memory_cache_alloc(struct kvm_mmu_memory_cache *mc);
+>  #endif
 >
->  #include <asm/kvm_host.h>
->  #include <linux/kvm_dirty_ring.h>
-> +#include <linux/restrictedmem.h>
+> -void kvm_mmu_invalidate_begin(struct kvm *kvm, unsigned long start,
+> -                             unsigned long end);
+> -void kvm_mmu_invalidate_end(struct kvm *kvm, unsigned long start,
+> -                           unsigned long end);
+> +void kvm_mmu_invalidate_begin(struct kvm *kvm);
+> +void kvm_mmu_invalidate_range_add(struct kvm *kvm, gfn_t start, gfn_t end);
+> +void kvm_mmu_invalidate_end(struct kvm *kvm);
 >
->  #ifndef KVM_MAX_VCPU_IDS
->  #define KVM_MAX_VCPU_IDS KVM_MAX_VCPUS
-> @@ -585,6 +586,9 @@ struct kvm_memory_slot {
->         u32 flags;
->         short id;
->         u16 as_id;
-> +       struct file *restricted_file;
-> +       loff_t restricted_offset;
-> +       struct restrictedmem_notifier notifier;
->  };
+>  long kvm_arch_dev_ioctl(struct file *filp,
+>                         unsigned int ioctl, unsigned long arg);
+> @@ -1963,9 +1962,9 @@ static inline int mmu_invalidate_retry(struct kvm *kvm, unsigned long mmu_seq)
+>         return 0;
+>  }
 >
->  static inline bool kvm_slot_dirty_track_enabled(const struct kvm_memory_slot *slot)
-> @@ -1123,9 +1127,9 @@ enum kvm_mr_change {
->  };
->
->  int kvm_set_memory_region(struct kvm *kvm,
-> -                         const struct kvm_userspace_memory_region *mem);
-> +                         const struct kvm_user_mem_region *mem);
->  int __kvm_set_memory_region(struct kvm *kvm,
-> -                           const struct kvm_userspace_memory_region *mem);
-> +                           const struct kvm_user_mem_region *mem);
->  void kvm_arch_free_memslot(struct kvm *kvm, struct kvm_memory_slot *slot);
->  void kvm_arch_memslots_updated(struct kvm *kvm, u64 gen);
->  int kvm_arch_prepare_memory_region(struct kvm *kvm,
-> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-> index 5d0941acb5bb..13bff963b8b0 100644
-> --- a/include/uapi/linux/kvm.h
-> +++ b/include/uapi/linux/kvm.h
-> @@ -103,6 +103,33 @@ struct kvm_userspace_memory_region {
->         __u64 userspace_addr; /* start of the userspace allocated memory */
->  };
->
-> +struct kvm_userspace_memory_region_ext {
-> +       struct kvm_userspace_memory_region region;
-> +       __u64 restricted_offset;
-> +       __u32 restricted_fd;
-> +       __u32 pad1;
-> +       __u64 pad2[14];
-> +};
+> -static inline int mmu_invalidate_retry_hva(struct kvm *kvm,
+> +static inline int mmu_invalidate_retry_gfn(struct kvm *kvm,
+>                                            unsigned long mmu_seq,
+> -                                          unsigned long hva)
+> +                                          gfn_t gfn)
+>  {
+>         lockdep_assert_held(&kvm->mmu_lock);
+>         /*
+> @@ -1974,10 +1973,20 @@ static inline int mmu_invalidate_retry_hva(struct kvm *kvm,
+>          * that might be being invalidated. Note that it may include some false
+
+nit: "might be" (or) "is being"
+
+>          * positives, due to shortcuts when handing concurrent invalidations.
+
+nit: handling
+
+>          */
+> -       if (unlikely(kvm->mmu_invalidate_in_progress) &&
+> -           hva >= kvm->mmu_invalidate_range_start &&
+> -           hva < kvm->mmu_invalidate_range_end)
+> -               return 1;
+> +       if (unlikely(kvm->mmu_invalidate_in_progress)) {
+> +               /*
+> +                * Dropping mmu_lock after bumping mmu_invalidate_in_progress
+> +                * but before updating the range is a KVM bug.
+> +                */
+> +               if (WARN_ON_ONCE(kvm->mmu_invalidate_range_start == INVALID_GPA ||
+> +                                kvm->mmu_invalidate_range_end == INVALID_GPA))
+
+INVALID_GPA is an x86-specific define in
+arch/x86/include/asm/kvm_host.h, so this doesn't build on other
+architectures. The obvious fix is to move it to
+include/linux/kvm_host.h.
+
+Cheers,
+/fuad
+
+> +                       return 1;
 > +
-> +#ifdef __KERNEL__
-> +/*
-> + * kvm_user_mem_region is a kernel-only alias of kvm_userspace_memory_region_ext
-> + * that "unpacks" kvm_userspace_memory_region so that KVM can directly access
-> + * all fields from the top-level "extended" region.
-> + */
-> +struct kvm_user_mem_region {
-> +       __u32 slot;
-> +       __u32 flags;
-> +       __u64 guest_phys_addr;
-> +       __u64 memory_size;
-> +       __u64 userspace_addr;
-> +       __u64 restricted_offset;
-> +       __u32 restricted_fd;
-> +       __u32 pad1;
-> +       __u64 pad2[14];
-> +};
-> +#endif
+> +               if (gfn >= kvm->mmu_invalidate_range_start &&
+> +                   gfn < kvm->mmu_invalidate_range_end)
+> +                       return 1;
+> +       }
 > +
->  /*
->   * The bit 0 ~ bit 15 of kvm_memory_region::flags are visible for userspace,
->   * other bits are reserved for kvm internal use which are defined in
-> @@ -110,6 +137,7 @@ struct kvm_userspace_memory_region {
->   */
->  #define KVM_MEM_LOG_DIRTY_PAGES        (1UL << 0)
->  #define KVM_MEM_READONLY       (1UL << 1)
-> +#define KVM_MEM_PRIVATE                (1UL << 2)
->
->  /* for KVM_IRQ_LINE */
->  struct kvm_irq_level {
-> diff --git a/virt/kvm/Kconfig b/virt/kvm/Kconfig
-> index effdea5dd4f0..d605545d6dd1 100644
-> --- a/virt/kvm/Kconfig
-> +++ b/virt/kvm/Kconfig
-> @@ -89,3 +89,6 @@ config KVM_XFER_TO_GUEST_WORK
->
->  config HAVE_KVM_PM_NOTIFIER
->         bool
-> +
-> +config HAVE_KVM_RESTRICTED_MEM
-> +       bool
+>         if (kvm->mmu_invalidate_seq != mmu_seq)
+>                 return 1;
+>         return 0;
 > diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> index 7f0f5e9f2406..b882eb2c76a2 100644
+> index b882eb2c76a2..ad55dfbc75d7 100644
 > --- a/virt/kvm/kvm_main.c
 > +++ b/virt/kvm/kvm_main.c
-> @@ -1532,7 +1532,7 @@ static void kvm_replace_memslot(struct kvm *kvm,
->         }
+> @@ -540,9 +540,7 @@ static void kvm_mmu_notifier_invalidate_range(struct mmu_notifier *mn,
+>
+>  typedef bool (*hva_handler_t)(struct kvm *kvm, struct kvm_gfn_range *range);
+>
+> -typedef void (*on_lock_fn_t)(struct kvm *kvm, unsigned long start,
+> -                            unsigned long end);
+> -
+> +typedef void (*on_lock_fn_t)(struct kvm *kvm);
+>  typedef void (*on_unlock_fn_t)(struct kvm *kvm);
+>
+>  struct kvm_hva_range {
+> @@ -628,7 +626,8 @@ static __always_inline int __kvm_handle_hva_range(struct kvm *kvm,
+>                                 locked = true;
+>                                 KVM_MMU_LOCK(kvm);
+>                                 if (!IS_KVM_NULL_FN(range->on_lock))
+> -                                       range->on_lock(kvm, range->start, range->end);
+> +                                       range->on_lock(kvm);
+> +
+>                                 if (IS_KVM_NULL_FN(range->handler))
+>                                         break;
+>                         }
+> @@ -715,8 +714,7 @@ static void kvm_mmu_notifier_change_pte(struct mmu_notifier *mn,
+>         kvm_handle_hva_range(mn, address, address + 1, pte, kvm_set_spte_gfn);
 >  }
 >
-> -static int check_memory_region_flags(const struct kvm_userspace_memory_region *mem)
-> +static int check_memory_region_flags(const struct kvm_user_mem_region *mem)
+> -void kvm_mmu_invalidate_begin(struct kvm *kvm, unsigned long start,
+> -                             unsigned long end)
+> +void kvm_mmu_invalidate_begin(struct kvm *kvm)
 >  {
->         u32 valid_flags = KVM_MEM_LOG_DIRTY_PAGES;
->
-> @@ -1934,7 +1934,7 @@ static bool kvm_check_memslot_overlap(struct kvm_memslots *slots, int id,
->   * Must be called holding kvm->slots_lock for write.
->   */
->  int __kvm_set_memory_region(struct kvm *kvm,
-> -                           const struct kvm_userspace_memory_region *mem)
-> +                           const struct kvm_user_mem_region *mem)
->  {
->         struct kvm_memory_slot *old, *new;
->         struct kvm_memslots *slots;
-> @@ -2038,7 +2038,7 @@ int __kvm_set_memory_region(struct kvm *kvm,
->  EXPORT_SYMBOL_GPL(__kvm_set_memory_region);
->
->  int kvm_set_memory_region(struct kvm *kvm,
-> -                         const struct kvm_userspace_memory_region *mem)
-> +                         const struct kvm_user_mem_region *mem)
->  {
->         int r;
->
-> @@ -2050,7 +2050,7 @@ int kvm_set_memory_region(struct kvm *kvm,
->  EXPORT_SYMBOL_GPL(kvm_set_memory_region);
->
->  static int kvm_vm_ioctl_set_memory_region(struct kvm *kvm,
-> -                                         struct kvm_userspace_memory_region *mem)
-> +                                         struct kvm_user_mem_region *mem)
->  {
->         if ((u16)mem->slot >= KVM_USER_MEM_SLOTS)
->                 return -EINVAL;
-> @@ -4698,6 +4698,33 @@ static int kvm_vm_ioctl_get_stats_fd(struct kvm *kvm)
->         return fd;
->  }
->
-> +#define SANITY_CHECK_MEM_REGION_FIELD(field)                                   \
-> +do {                                                                           \
-> +       BUILD_BUG_ON(offsetof(struct kvm_user_mem_region, field) !=             \
-> +                    offsetof(struct kvm_userspace_memory_region, field));      \
-> +       BUILD_BUG_ON(sizeof_field(struct kvm_user_mem_region, field) !=         \
-> +                    sizeof_field(struct kvm_userspace_memory_region, field));  \
-> +} while (0)
+>         /*
+>          * The count increase must become visible at unlock time as no
+> @@ -724,6 +722,17 @@ void kvm_mmu_invalidate_begin(struct kvm *kvm, unsigned long start,
+>          * count is also read inside the mmu_lock critical section.
+>          */
+>         kvm->mmu_invalidate_in_progress++;
 > +
-> +#define SANITY_CHECK_MEM_REGION_EXT_FIELD(field)                                       \
-> +do {                                                                                   \
-> +       BUILD_BUG_ON(offsetof(struct kvm_user_mem_region, field) !=                     \
-> +                    offsetof(struct kvm_userspace_memory_region_ext, field));          \
-> +       BUILD_BUG_ON(sizeof_field(struct kvm_user_mem_region, field) !=                 \
-> +                    sizeof_field(struct kvm_userspace_memory_region_ext, field));      \
-> +} while (0)
-> +
-> +static void kvm_sanity_check_user_mem_region_alias(void)
-> +{
-> +       SANITY_CHECK_MEM_REGION_FIELD(slot);
-> +       SANITY_CHECK_MEM_REGION_FIELD(flags);
-> +       SANITY_CHECK_MEM_REGION_FIELD(guest_phys_addr);
-> +       SANITY_CHECK_MEM_REGION_FIELD(memory_size);
-> +       SANITY_CHECK_MEM_REGION_FIELD(userspace_addr);
-> +       SANITY_CHECK_MEM_REGION_EXT_FIELD(restricted_offset);
-> +       SANITY_CHECK_MEM_REGION_EXT_FIELD(restricted_fd);
+> +       if (likely(kvm->mmu_invalidate_in_progress == 1)) {
+> +               kvm->mmu_invalidate_range_start = INVALID_GPA;
+> +               kvm->mmu_invalidate_range_end = INVALID_GPA;
+> +       }
 > +}
 > +
->  static long kvm_vm_ioctl(struct file *filp,
->                            unsigned int ioctl, unsigned long arg)
+> +void kvm_mmu_invalidate_range_add(struct kvm *kvm, gfn_t start, gfn_t end)
+> +{
+> +       WARN_ON_ONCE(!kvm->mmu_invalidate_in_progress);
+> +
+>         if (likely(kvm->mmu_invalidate_in_progress == 1)) {
+>                 kvm->mmu_invalidate_range_start = start;
+>                 kvm->mmu_invalidate_range_end = end;
+> @@ -744,6 +753,12 @@ void kvm_mmu_invalidate_begin(struct kvm *kvm, unsigned long start,
+>         }
+>  }
+>
+> +static bool kvm_mmu_unmap_gfn_range(struct kvm *kvm, struct kvm_gfn_range *range)
+> +{
+> +       kvm_mmu_invalidate_range_add(kvm, range->start, range->end);
+> +       return kvm_unmap_gfn_range(kvm, range);
+> +}
+> +
+>  static int kvm_mmu_notifier_invalidate_range_start(struct mmu_notifier *mn,
+>                                         const struct mmu_notifier_range *range)
 >  {
-> @@ -4721,14 +4748,20 @@ static long kvm_vm_ioctl(struct file *filp,
->                 break;
->         }
->         case KVM_SET_USER_MEMORY_REGION: {
-> -               struct kvm_userspace_memory_region kvm_userspace_mem;
-> +               struct kvm_user_mem_region mem;
-> +               unsigned long size = sizeof(struct kvm_userspace_memory_region);
-> +
-> +               kvm_sanity_check_user_mem_region_alias();
+> @@ -752,7 +767,7 @@ static int kvm_mmu_notifier_invalidate_range_start(struct mmu_notifier *mn,
+>                 .start          = range->start,
+>                 .end            = range->end,
+>                 .pte            = __pte(0),
+> -               .handler        = kvm_unmap_gfn_range,
+> +               .handler        = kvm_mmu_unmap_gfn_range,
+>                 .on_lock        = kvm_mmu_invalidate_begin,
+>                 .on_unlock      = kvm_arch_guest_memory_reclaimed,
+>                 .flush_on_ret   = true,
+> @@ -791,8 +806,7 @@ static int kvm_mmu_notifier_invalidate_range_start(struct mmu_notifier *mn,
+>         return 0;
+>  }
 >
->                 r = -EFAULT;
-> -               if (copy_from_user(&kvm_userspace_mem, argp,
-> -                                               sizeof(kvm_userspace_mem)))
-> +               if (copy_from_user(&mem, argp, size))
-> +                       goto out;
-> +
-> +               r = -EINVAL;
-> +               if (mem.flags & KVM_MEM_PRIVATE)
->                         goto out;
->
-> -               r = kvm_vm_ioctl_set_memory_region(kvm, &kvm_userspace_mem);
-> +               r = kvm_vm_ioctl_set_memory_region(kvm, &mem);
->                 break;
->         }
->         case KVM_GET_DIRTY_LOG: {
+> -void kvm_mmu_invalidate_end(struct kvm *kvm, unsigned long start,
+> -                           unsigned long end)
+> +void kvm_mmu_invalidate_end(struct kvm *kvm)
+>  {
+>         /*
+>          * This sequence increase will notify the kvm page fault that
 > --
 > 2.25.1
 >
