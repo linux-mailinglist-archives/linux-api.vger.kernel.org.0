@@ -2,201 +2,289 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 546256443B8
-	for <lists+linux-api@lfdr.de>; Tue,  6 Dec 2022 13:59:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C88506444A6
+	for <lists+linux-api@lfdr.de>; Tue,  6 Dec 2022 14:34:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235005AbiLFM7D (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 6 Dec 2022 07:59:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33674 "EHLO
+        id S234213AbiLFNel (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 6 Dec 2022 08:34:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235008AbiLFM6k (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 6 Dec 2022 07:58:40 -0500
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 468C4BF55;
-        Tue,  6 Dec 2022 04:58:04 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S232676AbiLFNek (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 6 Dec 2022 08:34:40 -0500
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D60EEBC36;
+        Tue,  6 Dec 2022 05:34:36 -0800 (PST)
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 01EF5CE19A1;
-        Tue,  6 Dec 2022 12:57:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A2BBC433C1;
-        Tue,  6 Dec 2022 12:57:52 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
-        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="oFzeBUMT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
-        t=1670331470;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 79BDE1FE58;
+        Tue,  6 Dec 2022 13:34:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1670333675; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=liPeNLw89LSsmfUf/XpEXJGiJ2gApcr7EO13bm4ZYks=;
-        b=oFzeBUMT5l1FnzbihzsK4Gs4lm23KIcxbKgVzPvG5IU+cbU8WJMWrTv3IFjEMwCTFVVri7
-        vOXWG1RSr8Q3p4RL+lcENAjtUXvZxak9eyyW/XacY0cHjeVmyxG5gYgLCdoGM9RzV2PGt5
-        qg2UsP6vW7bn+KNIDYUoKNFMEcHlYiw=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id f37b35d0 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-        Tue, 6 Dec 2022 12:57:49 +0000 (UTC)
-Date:   Tue, 6 Dec 2022 13:57:46 +0100
-From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
-To:     Florian Weimer <fweimer@redhat.com>
-Cc:     Jann Horn <jannh@google.com>, linux-kernel@vger.kernel.org,
-        patches@lists.linux.dev, tglx@linutronix.de,
-        linux-crypto@vger.kernel.org, linux-api@vger.kernel.org,
-        x86@kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
-        Carlos O'Donell <carlos@redhat.com>,
+        bh=dRjMqe9XUfWybRrbUF7GOm/XPQRxXJ5e2gntwceUOoI=;
+        b=rMUnPAsfEpWIJsbRvlnc4Kq8LUTLvMgy4L7RRJsI38/Pmp/I/IQPIER3EVlgM35dwn6gLF
+        9ZOffk1YPWciOp0dX967xPXIahIWRQ/5YzUUD9f2frz4WDMV5fLhJNjg4n1USKz1p0k6RD
+        nGflIZSZE9DevBpSu3wVbSjTUepE5JY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1670333675;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=dRjMqe9XUfWybRrbUF7GOm/XPQRxXJ5e2gntwceUOoI=;
+        b=bYBAhVZ4hM49gizquEVGwEMgfkUk376WJJmV6+Gbni2jnjdakO1jwryltaQqbVYP29g2vR
+        iDS88CFVOgK4GaAA==
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id 82E5D13326;
+        Tue,  6 Dec 2022 13:34:34 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap1.suse-dmz.suse.de with ESMTPSA
+        id /kz2H+pEj2MYBwAAGKfGzw
+        (envelope-from <farosas@suse.de>); Tue, 06 Dec 2022 13:34:34 +0000
+From:   Fabiano Rosas <farosas@suse.de>
+To:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org
+Cc:     Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         Arnd Bergmann <arnd@arndb.de>,
-        Christian Brauner <brauner@kernel.org>, linux-mm@kvack.org,
-        Liam.Howlett@oracle.com, akpm@linux-foundation.org, vbabka@suse.cz
-Subject: Re: [PATCH v11 1/4] random: add vgetrandom_alloc() syscall
-Message-ID: <Y488SnSlQALH9+Yk@zx2c4.com>
-References: <20221205020046.1876356-1-Jason@zx2c4.com>
- <20221205020046.1876356-2-Jason@zx2c4.com>
- <CAG48ez2R=Ov2Z9zn_W9+C3gHqOkPdQKAY=4SMWDUG=NfP=3eJw@mail.gmail.com>
- <Y45OWhyN+U975vIN@zx2c4.com>
- <87bkohpqdt.fsf@oldenburg.str.redhat.com>
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        Chao Peng <chao.p.peng@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>, tabba@google.com,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        wei.w.wang@intel.com
+Subject: Re: [PATCH v10 2/9] KVM: Introduce per-page memory attributes
+In-Reply-To: <20221202061347.1070246-3-chao.p.peng@linux.intel.com>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <20221202061347.1070246-3-chao.p.peng@linux.intel.com>
+Date:   Tue, 06 Dec 2022 10:34:32 -0300
+Message-ID: <877cz4ac5z.fsf@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <87bkohpqdt.fsf@oldenburg.str.redhat.com>
-X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Florian,
+Chao Peng <chao.p.peng@linux.intel.com> writes:
 
-On Mon, Dec 05, 2022 at 09:06:06PM +0100, Florian Weimer wrote:
-> * Jason A. Donenfeld:
-> 
-> > Hi Jann,
-> >
-> > On Mon, Dec 05, 2022 at 08:13:36PM +0100, Jann Horn wrote:
-> >> On Mon, Dec 5, 2022 at 3:01 AM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
-> >> > +       mm->def_flags |=
-> >> > +               /*
-> >> > +                * Don't allow state to be written to swap, to preserve forward secrecy.
-> >> > +                * This works in conjunction with MAP_LOCKED in do_mmap(), below, which
-> >> > +                * actually does the locking (and associated permission check and accounting).
-> >> > +                * Here, VM_LOCKONFAULT together with VM_NORESERVE simply make the mlocking
-> >> > +                * happen the first time it's actually used, the same as when calling
-> >> > +                * mlock2(MLOCK_ONFAULT) from userspace.
-> >> > +                */
-> >> > +               VM_LOCKONFAULT | VM_NORESERVE |
-> >> 
-> >> Have you checked the interaction with this line in dup_mmap()?
-> >> "tmp->vm_flags &= ~(VM_LOCKED | VM_LOCKONFAULT);"
-> >> 
-> >> As the mlock.2 manpage says, "Memory locks are not inherited by a
-> >> child created via fork(2)". I think the intention here is that the VMA
-> >> should stay unswappable after fork(), right?
-> >> 
-> >> Of course, trying to reserve more mlocked memory in fork() would also
-> >> be problematic...
-> >
-> > Thanks for pointing that out! Indeed that seems problematic.
-> > Fortunately, the use of WIPEONFORK at the same time as LOCKONFAULT means
-> > that memory doesn't actually need to be reserved in fork() itself. So
-> > something like the below seems correct and doable.
-> >
-> > Jason
-> >
-> > diff --git a/kernel/fork.c b/kernel/fork.c
-> > index ec57cae58ff1..cd53ffff615d 100644
-> > --- a/kernel/fork.c
-> > +++ b/kernel/fork.c
-> > @@ -656,7 +656,9 @@ static __latent_entropy int dup_mmap(struct mm_struct *mm,
-> >  			tmp->anon_vma = NULL;
-> >  		} else if (anon_vma_fork(tmp, mpnt))
-> >  			goto fail_nomem_anon_vma_fork;
-> > -		tmp->vm_flags &= ~(VM_LOCKED | VM_LOCKONFAULT);
-> > +		if ((tmp->vm_flags & (VM_LOCKONFAULT | VM_WIPEONFORK)) !=
-> > +		    (VM_LOCKONFAULT | VM_WIPEONFORK))
-> > +			tmp->vm_flags &= ~(VM_LOCKED | VM_LOCKONFAULT);
-> >  		file = tmp->vm_file;
-> >  		if (file) {
-> >  			struct address_space *mapping = file->f_mapping;
-> 
-> Still it's a bit concerning that calling getrandom (the libc function)
-> now apparently can kill the process if the system is under severe memory
-> pressure.  In many cases, that's okay, but we wouldn't want that for
-> PID 1, for example.  vm.overcommit_memory=2 mode is supposed to prevent
-> such crashes, and I think NORESERVE (not shown here) sidesteps that.
+> In confidential computing usages, whether a page is private or shared is
+> necessary information for KVM to perform operations like page fault
+> handling, page zapping etc. There are other potential use cases for
+> per-page memory attributes, e.g. to make memory read-only (or no-exec,
+> or exec-only, etc.) without having to modify memslots.
+>
+> Introduce two ioctls (advertised by KVM_CAP_MEMORY_ATTRIBUTES) to allow
+> userspace to operate on the per-page memory attributes.
+>   - KVM_SET_MEMORY_ATTRIBUTES to set the per-page memory attributes to
+>     a guest memory range.
+>   - KVM_GET_SUPPORTED_MEMORY_ATTRIBUTES to return the KVM supported
+>     memory attributes.
+>
+> KVM internally uses xarray to store the per-page memory attributes.
+>
+> Suggested-by: Sean Christopherson <seanjc@google.com>
+> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> Link: https://lore.kernel.org/all/Y2WB48kD0J4VGynX@google.com/
+> ---
+>  Documentation/virt/kvm/api.rst | 63 ++++++++++++++++++++++++++++
+>  arch/x86/kvm/Kconfig           |  1 +
+>  include/linux/kvm_host.h       |  3 ++
+>  include/uapi/linux/kvm.h       | 17 ++++++++
+>  virt/kvm/Kconfig               |  3 ++
+>  virt/kvm/kvm_main.c            | 76 ++++++++++++++++++++++++++++++++++
+>  6 files changed, 163 insertions(+)
+>
+> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+> index 5617bc4f899f..bb2f709c0900 100644
+> --- a/Documentation/virt/kvm/api.rst
+> +++ b/Documentation/virt/kvm/api.rst
+> @@ -5952,6 +5952,59 @@ delivery must be provided via the "reg_aen" struct.
+>  The "pad" and "reserved" fields may be used for future extensions and should be
+>  set to 0s by userspace.
+>  
+> +4.138 KVM_GET_SUPPORTED_MEMORY_ATTRIBUTES
+> +-----------------------------------------
+> +
+> +:Capability: KVM_CAP_MEMORY_ATTRIBUTES
+> +:Architectures: x86
+> +:Type: vm ioctl
+> +:Parameters: u64 memory attributes bitmask(out)
+> +:Returns: 0 on success, <0 on error
+> +
+> +Returns supported memory attributes bitmask. Supported memory attributes will
+> +have the corresponding bits set in u64 memory attributes bitmask.
+> +
+> +The following memory attributes are defined::
+> +
+> +  #define KVM_MEMORY_ATTRIBUTE_READ              (1ULL << 0)
+> +  #define KVM_MEMORY_ATTRIBUTE_WRITE             (1ULL << 1)
+> +  #define KVM_MEMORY_ATTRIBUTE_EXECUTE           (1ULL << 2)
+> +  #define KVM_MEMORY_ATTRIBUTE_PRIVATE           (1ULL << 3)
+> +
+> +4.139 KVM_SET_MEMORY_ATTRIBUTES
+> +-----------------------------------------
+> +
+> +:Capability: KVM_CAP_MEMORY_ATTRIBUTES
+> +:Architectures: x86
+> +:Type: vm ioctl
+> +:Parameters: struct kvm_memory_attributes(in/out)
+> +:Returns: 0 on success, <0 on error
+> +
+> +Sets memory attributes for pages in a guest memory range. Parameters are
+> +specified via the following structure::
+> +
+> +  struct kvm_memory_attributes {
+> +	__u64 address;
+> +	__u64 size;
+> +	__u64 attributes;
+> +	__u64 flags;
+> +  };
+> +
+> +The user sets the per-page memory attributes to a guest memory range indicated
+> +by address/size, and in return KVM adjusts address and size to reflect the
+> +actual pages of the memory range have been successfully set to the attributes.
 
-Right. Setting VM_NORESERVE this way sidesteps it. Passing MAP_NORESERVE
-to do_mmap() would make it respect vm.overcommit_memory=2, but then we'd
-face problems at fork() time, as Jann pointed out, when we might go down
-the path of trying to mlock memory from the fork() handler, and that
-seems not so desirable. But moreover, the overcommitment potentially
-makes the allocation scheme a lot simpler for libcs. Do any init daemons
-actually use vm.overcommit_memory=2? Is this actually something to care
-about?
+This wording could cause some confusion, what about a simpler:
 
-If this isn't something we really care about so much, then my little
-diff above should suffice, and this all remains very simple. I suspect
-that's the case, because there are several VMAs that get set with
-VM_NORESERVE already in the kernel.
+"reflect the range of pages that had its attributes successfully set"
 
-If this is something we need to care about, then perhaps it's worth
-rethinking the problem space from its basic goals:
+> +If the call returns 0, "address" is updated to the last successful address + 1
+> +and "size" is updated to the remaining address size that has not been set
+> +successfully.
 
-- This memory must not be written to swap. Even if we added some flag to
-  zero that part of swap when paging back in, that wouldn't cut it,
-  because it's often very hard to "truly" zero out disk writes (and
-  nobody wants to TRIM so often). (Rationale: forward secrecy.)
+"address + 1 page" or "subsequent page" perhaps.
 
-- It would be "nice" if untouched allocations didn't actually take
-  up any memory.
+In fact, wouldn't this all become simpler if size were number of pages instead?
 
-- This needs to be wiped on fork.
+> The user should check the return value as well as the size to
+> +decide if the operation succeeded for the whole range or not. The user may want
+> +to retry the operation with the returned address/size if the previous range was
+> +partially successful.
+> +
+> +Both address and size should be page aligned and the supported attributes can be
+> +retrieved with KVM_GET_SUPPORTED_MEMORY_ATTRIBUTES.
+> +
+> +The "flags" field may be used for future extensions and should be set to 0s.
+> +
 
-Complications thus far encountered:
+...
 
-- VM_LOCKED|VM_LOCKONFAULT isn't inherited by forks.
+> +static int kvm_vm_ioctl_set_mem_attributes(struct kvm *kvm,
+> +					   struct kvm_memory_attributes *attrs)
+> +{
+> +	gfn_t start, end;
+> +	unsigned long i;
+> +	void *entry;
+> +	u64 supported_attrs = kvm_supported_mem_attributes(kvm);
+> +
+> +	/* flags is currently not used. */
+> +	if (attrs->flags)
+> +		return -EINVAL;
+> +	if (attrs->attributes & ~supported_attrs)
+> +		return -EINVAL;
+> +	if (attrs->size == 0 || attrs->address + attrs->size < attrs->address)
+> +		return -EINVAL;
+> +	if (!PAGE_ALIGNED(attrs->address) || !PAGE_ALIGNED(attrs->size))
+> +		return -EINVAL;
+> +
+> +	start = attrs->address >> PAGE_SHIFT;
+> +	end = (attrs->address + attrs->size - 1 + PAGE_SIZE) >> PAGE_SHIFT;
 
-- You're worried about forcing VM_LOCKONFAULT (rightfully or wrongly,
-  as yet established).
+Here PAGE_SIZE and -1 cancel out.
 
-However, there are two useful characteristics of this series that we
-might be able to exploit in order to arrive at a solution:
+Consider using gpa_to_gfn as well.
 
-1) Due to being wiped during fork(), the code is already robust to
-   having the contents of those pages zeroed out midway through.
-
-2) In the absolute worst case of whatever contingency we're coding for,
-   we have the option to fallback to the getrandom() syscall, and
-   everything is fine.
-
-So, putting together the basic goals with the complications thus far
-encountered, and trying to make use of (1) and (2), what if we introduce
-a VM_DROPPABLE flag. The semantics would be:
-
-a) It never is written out to swap.
-b) No memory is pre-reserved / committed.
-c) Under memory pressure, mm can just drop the pages and make them zero.
-d) If there's not enough memory to service a page fault, it's not fatal,
-   and no signal is sent. Instead, writes are simply lost, and reads
-   return zero, as if the page was dropped.
-e) It is inherited by fork.
-f) The pages are zeroed on fork (like VM_WIPEONFORK).
-g) It doesn't count against the mlock budget, since nothing is locked.
-
-Then, as an emergent restriction, we require that each opaque_state
-never straddle two pages, by returning a rounded up size_per_each.
-
-What do you think of this plan? It's harder to implement, so I still
-would prefer the simpler diff I sent to Jann above. But if you're really
-convinced that disrespecting vm.overcommit_memory=2 is abominable, then
-maybe this more complicated plan could work. Plus, semantic (g) has its
-own advantages alone.
-
-I'm CC'ing linux-mm about this matter, as I'm sure they'll have
-something to contribute here. (And linux-mm@, if your reaction is "why
-do we need this syscall at all, can't userspace just bla bla bla bla",
-please read the cover letter of the series, this patch's commit message,
-and prior discussion on that topic, so we don't have to rehash that.)
-
-Jason
+> +
+> +	entry = attrs->attributes ? xa_mk_value(attrs->attributes) : NULL;
+> +
+> +	mutex_lock(&kvm->lock);
+> +	for (i = start; i < end; i++)
+> +		if (xa_err(xa_store(&kvm->mem_attr_array, i, entry,
+> +				    GFP_KERNEL_ACCOUNT)))
+> +			break;
+> +	mutex_unlock(&kvm->lock);
+> +
+> +	attrs->address = i << PAGE_SHIFT;
+> +	attrs->size = (end - i) << PAGE_SHIFT;
+> +
+> +	return 0;
+> +}
+> +#endif /* CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES */
+> +
+>  struct kvm_memory_slot *gfn_to_memslot(struct kvm *kvm, gfn_t gfn)
+>  {
+>  	return __gfn_to_memslot(kvm_memslots(kvm), gfn);
+> @@ -4459,6 +4508,9 @@ static long kvm_vm_ioctl_check_extension_generic(struct kvm *kvm, long arg)
+>  #ifdef CONFIG_HAVE_KVM_MSI
+>  	case KVM_CAP_SIGNAL_MSI:
+>  #endif
+> +#ifdef CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES
+> +	case KVM_CAP_MEMORY_ATTRIBUTES:
+> +#endif
+>  #ifdef CONFIG_HAVE_KVM_IRQFD
+>  	case KVM_CAP_IRQFD:
+>  	case KVM_CAP_IRQFD_RESAMPLE:
+> @@ -4804,6 +4856,30 @@ static long kvm_vm_ioctl(struct file *filp,
+>  		break;
+>  	}
+>  #endif /* CONFIG_HAVE_KVM_IRQ_ROUTING */
+> +#ifdef CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES
+> +	case KVM_GET_SUPPORTED_MEMORY_ATTRIBUTES: {
+> +		u64 attrs = kvm_supported_mem_attributes(kvm);
+> +
+> +		r = -EFAULT;
+> +		if (copy_to_user(argp, &attrs, sizeof(attrs)))
+> +			goto out;
+> +		r = 0;
+> +		break;
+> +	}
+> +	case KVM_SET_MEMORY_ATTRIBUTES: {
+> +		struct kvm_memory_attributes attrs;
+> +
+> +		r = -EFAULT;
+> +		if (copy_from_user(&attrs, argp, sizeof(attrs)))
+> +			goto out;
+> +
+> +		r = kvm_vm_ioctl_set_mem_attributes(kvm, &attrs);
+> +
+> +		if (!r && copy_to_user(argp, &attrs, sizeof(attrs)))
+> +			r = -EFAULT;
+> +		break;
+> +	}
+> +#endif /* CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES */
+>  	case KVM_CREATE_DEVICE: {
+>  		struct kvm_create_device cd;
