@@ -2,92 +2,85 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A1FAC646AA8
-	for <lists+linux-api@lfdr.de>; Thu,  8 Dec 2022 09:37:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ADA48646E20
+	for <lists+linux-api@lfdr.de>; Thu,  8 Dec 2022 12:11:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229915AbiLHIhZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 8 Dec 2022 03:37:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41990 "EHLO
+        id S229912AbiLHLLR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 8 Dec 2022 06:11:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43896 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229786AbiLHIhT (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 8 Dec 2022 03:37:19 -0500
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3078761BB1;
-        Thu,  8 Dec 2022 00:37:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1670488637; x=1702024637;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=mp8wMDnH+XvlgDi27JmuMhnOonriOi5aQPBcwc8cBlo=;
-  b=kyIWeA5d58X7lbTcAwJtGqHsBLOoZv9LE5uk8KxHQNSnwxkMX0mxh/ff
-   Yxgbcg5kkP7sauuW6C+MHGKS324V6YPNcTePd04X2r+n320xfaQOQn5RW
-   tNewBKzhh13nIlRV4d1LhnI5Z41ATrWqcFS67qTAlWdSPM4R9m0wTG/hZ
-   xrqumd5GzgH8GLnql7asl63xHU0OTqXUOXoSasRuO0HXNpEeexm0HzZsS
-   xQHz8gMCF1EgHwabZOk4avgZgE8+H6kPC+vTBRFKmjOsbcPsXsOVZbEF5
-   LZQtbn4FUqBCN1+vdorKtagDwRx4+MLHyeGNZIrtgms3h9dpBUKAQ42kI
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10554"; a="296808118"
-X-IronPort-AV: E=Sophos;i="5.96,227,1665471600"; 
-   d="scan'208";a="296808118"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2022 00:37:16 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10554"; a="710381311"
-X-IronPort-AV: E=Sophos;i="5.96,227,1665471600"; 
-   d="scan'208";a="710381311"
-Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.249.174.177]) ([10.249.174.177])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2022 00:37:05 -0800
-Message-ID: <cd950a78-5c5b-16ef-d0a6-ad2878af067e@intel.com>
-Date:   Thu, 8 Dec 2022 16:37:03 +0800
+        with ESMTP id S229524AbiLHLLA (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 8 Dec 2022 06:11:00 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3EF47F8BC;
+        Thu,  8 Dec 2022 03:10:11 -0800 (PST)
+Received: from zn.tnic (p200300ea9733e73d329c23fffea6a903.dip0.t-ipconnect.de [IPv6:2003:ea:9733:e73d:329c:23ff:fea6:a903])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 74ABC1EC0674;
+        Thu,  8 Dec 2022 12:10:10 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1670497810;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=Y/dlSQlwaW6qqeNkhgJdMiH59ouL4apa5gZVhWMRT4s=;
+        b=OIZbB3qKghdj4LPSM4aWEbdKWePHGUg9m/dkgnuGHHorlGvJt/6A/5MtjRDEkp/BYrnBwK
+        dhLIwBIRMimV1yafWmfJkl9EYOniXpgobWwReEQMDC2Zc7YirkrfR2w1WA/PGqhrg8VcMP
+        BCBqUTPb9r3BSNwJ+is8NjGnKjKjctw=
+Date:   Thu, 8 Dec 2022 12:10:10 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+Cc:     "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        "kcc@google.com" <kcc@google.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>, "oleg@redhat.com" <oleg@redhat.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "Schimpe, Christina" <christina.schimpe@intel.com>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>
+Subject: Re: [PATCH v4 03/39] x86/cpufeatures: Add CPU feature flags for
+ shadow stacks
+Message-ID: <Y5HGEtM6H/9svtFt@zn.tnic>
+References: <20221203003606.6838-1-rick.p.edgecombe@intel.com>
+ <20221203003606.6838-4-rick.p.edgecombe@intel.com>
+ <Y5ByYmOZ/x5BbS9o@zn.tnic>
+ <63ea77f5d14739f8184ea51a4df939a58b4764ab.camel@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.5.1
-Subject: Re: [PATCH v10 3/9] KVM: Extend the memslot to support fd-based
- private memory
-Content-Language: en-US
-To:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org
-Cc:     Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        wei.w.wang@intel.com
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-4-chao.p.peng@linux.intel.com>
-From:   Xiaoyao Li <xiaoyao.li@intel.com>
-In-Reply-To: <20221202061347.1070246-4-chao.p.peng@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,HK_RANDOM_ENVFROM,
-        HK_RANDOM_FROM,NICE_REPLY_A,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,SPF_NONE
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <63ea77f5d14739f8184ea51a4df939a58b4764ab.camel@intel.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -95,14 +88,30 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 12/2/2022 2:13 PM, Chao Peng wrote:
+On Wed, Dec 07, 2022 at 10:35:59PM +0000, Edgecombe, Rick P wrote:
+> Yes, the suggestion was to have one for kernel and one for user. But I
+> was also thinking about how KVM could hypothetically support shadow
+> stack in guests in the non !CONFIG_X86_USER_SHADOW_STACK case (it only
+> needs CET_U xsave support). So that configuration wouldn't expose
+> user_shstk and since KVM's guest feature support is retrieved
+> programmatically, it could be nice to have some hint for KVM users that
+> they could try. Maybe it's simpler to just tie KVM and host support
+> together though. I'll remove "shstk".
 
-..
+Hmm, I don't have a clear idea how guest shstk support should do so
+maybe this is all way off but yeah, if the host supports CET - the
+*hardware* feature - then you can use the same logic to support that in
+a VM.
 
-> Together with the change, a new config HAVE_KVM_RESTRICTED_MEM is added
-> and right now it is selected on X86_64 only.
-> 
+I.e., if the guest sees CET - i.e., HV has advertized it - then guest
+kernel behaves exactly the same as on the host.
 
- From the patch implementation, I have no idea why 
-HAVE_KVM_RESTRICTED_MEM is needed.
+But it is likely I'm missing something more involved...
 
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
