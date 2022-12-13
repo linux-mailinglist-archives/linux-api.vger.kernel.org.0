@@ -2,108 +2,124 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 86A3C64A926
-	for <lists+linux-api@lfdr.de>; Mon, 12 Dec 2022 22:02:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6AADC64B4B9
+	for <lists+linux-api@lfdr.de>; Tue, 13 Dec 2022 13:04:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233634AbiLLVCg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 12 Dec 2022 16:02:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41930 "EHLO
+        id S231421AbiLMMEe (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 13 Dec 2022 07:04:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54992 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233182AbiLLVCL (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 12 Dec 2022 16:02:11 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20CDB18E3F;
-        Mon, 12 Dec 2022 13:01:40 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9F32B6122B;
-        Mon, 12 Dec 2022 21:01:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B883C433EF;
-        Mon, 12 Dec 2022 21:01:37 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
-        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="ROzf0OEV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
-        t=1670878895;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=+33heWZqPNvN/OOyLci+aYXHO8pTl7ySUh12yfzj1hI=;
-        b=ROzf0OEVcwV9kZSenrrYUtosBdsEhtxY7C5PILTab3NuW9wgoBfEK7sg5PUW//W6yifT10
-        ENmm15ZqndAQutSnhGJelFw/OERj0DcstMOjf1WGns0U/WRd3zssrruw/4aQoaNXtR6aB3
-        zGr3RiiFUgrPUH0iNcctwVACAJvXiS4=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id b60ecb78 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-        Mon, 12 Dec 2022 21:01:35 +0000 (UTC)
-Date:   Mon, 12 Dec 2022 14:01:33 -0700
-From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
-To:     linux-kernel@vger.kernel.org, patches@lists.linux.dev,
-        tglx@linutronix.de
-Cc:     linux-crypto@vger.kernel.org, linux-api@vger.kernel.org,
-        x86@kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
-        Carlos O'Donell <carlos@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>, Jann Horn <jannh@google.com>,
-        Christian Brauner <brauner@kernel.org>, linux-mm@kvack.org
-Subject: Re: [PATCH RFC v12 2/6] x86: mm: Skip faulting instruction for
- VM_DROPPABLE faults
-Message-ID: <Y5eWrYSCmKBG3MVS@zx2c4.com>
-References: <20221212185347.1286824-1-Jason@zx2c4.com>
- <20221212185347.1286824-3-Jason@zx2c4.com>
+        with ESMTP id S235104AbiLMMEd (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 13 Dec 2022 07:04:33 -0500
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 116915FF7;
+        Tue, 13 Dec 2022 04:04:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1670933071; x=1702469071;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=Mmu9iz+w3ikTp4SbfrscqkeC55Id70T9EZSgNrTlufI=;
+  b=e967PJunPwWLSe4kiRQX43P+//IFrMIQ64q/15C+g0aLGJzx/UbPpVuM
+   NY9urI1m4MPM+buI+QuGwhlJj2EBnsAd6sFSirrwPVgQJZteBfp0ddnBM
+   rrpboGVQytpHpG5fNvUnz7O7Y/PPokyQFHhpY34nC+bJgAO8NiiYlKG1M
+   hgJZ5lJZ3+d/ieM+X9eanV+9Hr5s/htldCtZVsdv3hfUFwGoF8dD8YVwz
+   w17jzbgLU/MqpJOIKp1FlCWoNDAYzFVNSGr0GfqZmU3fVo3u2t5th9jYf
+   Uq7Z1SvjGBjQuziaJLHbol8UxDaFpMsLAesJMNu7VTGJS8IyzxeLEjDT8
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10559"; a="315751828"
+X-IronPort-AV: E=Sophos;i="5.96,241,1665471600"; 
+   d="scan'208";a="315751828"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2022 04:04:30 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10559"; a="598800801"
+X-IronPort-AV: E=Sophos;i="5.96,241,1665471600"; 
+   d="scan'208";a="598800801"
+Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.255.31.20]) ([10.255.31.20])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2022 04:04:17 -0800
+Message-ID: <4d736cc0-f249-6531-c0af-7093c2c2537f@intel.com>
+Date:   Tue, 13 Dec 2022 20:04:14 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20221212185347.1286824-3-Jason@zx2c4.com>
-X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.5.1
+Subject: Re: [PATCH v10 3/9] KVM: Extend the memslot to support fd-based
+ private memory
+Content-Language: en-US
+To:     Chao Peng <chao.p.peng@linux.intel.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>, tabba@google.com,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        wei.w.wang@intel.com
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <20221202061347.1070246-4-chao.p.peng@linux.intel.com>
+ <cd950a78-5c5b-16ef-d0a6-ad2878af067e@intel.com>
+ <20221208113003.GE1304936@chaop.bj.intel.com>
+From:   Xiaoyao Li <xiaoyao.li@intel.com>
+In-Reply-To: <20221208113003.GE1304936@chaop.bj.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,HK_RANDOM_ENVFROM,
+        HK_RANDOM_FROM,NICE_REPLY_A,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Dec 12, 2022 at 11:53:43AM -0700, Jason A. Donenfeld wrote:
-> +	if (fault & VM_FAULT_SKIP_INSN) {
-> +		u8 insn_buf[MAX_INSN_SIZE];
-> +		struct insn insn;
-> +		size_t len;
-> +
-> +		len = sizeof(insn_buf) - copy_from_user(insn_buf, (void *)regs->ip, sizeof(insn_buf));
-> +		if (!len)
-> +			return;
-> +
-> +		if (insn_decode(&insn, insn_buf, len, in_32bit_syscall() ? INSN_MODE_32 : INSN_MODE_64) < 0)
-> +			return;
-> +
-> +		regs->ip += insn.length;
-> +		return;
-> +	}
+On 12/8/2022 7:30 PM, Chao Peng wrote:
+> On Thu, Dec 08, 2022 at 04:37:03PM +0800, Xiaoyao Li wrote:
+>> On 12/2/2022 2:13 PM, Chao Peng wrote:
+>>
+>> ..
+>>
+>>> Together with the change, a new config HAVE_KVM_RESTRICTED_MEM is added
+>>> and right now it is selected on X86_64 only.
+>>>
+>>
+>>  From the patch implementation, I have no idea why HAVE_KVM_RESTRICTED_MEM is
+>> needed.
+> 
+> The reason is we want KVM further controls the feature enabling. An
+> opt-in CONFIG_RESTRICTEDMEM can cause problem if user sets that for
+> unsupported architectures.
 
-I just found umip.c, which does basically the same thing, but does it
-correctly. For v+1, the above snippet will instead do this:
+HAVE_KVM_RESTRICTED_MEM is not used in this patch. It's better to 
+introduce it in the patch that actually uses it.
 
-	if (fault & VM_FAULT_SKIP_INSN) {
-		u8 buf[MAX_INSN_SIZE];
-		struct insn insn;
-		int nr_copied;
+> Here is the original discussion:
+> https://lore.kernel.org/all/YkJLFu98hZOvTSrL@google.com/
+> 
+> Thanks,
+> Chao
 
-		nr_copied = insn_fetch_from_user(regs, buf);
-		if (nr_copied <= 0)
-			return;
-
-		if (!insn_decode_from_regs(&insn, regs, buf, nr_copied))
-			return;
-
-		regs->ip += insn.length;
-		return;
-	}
-
-Same thing, but those helpers do correct inspection of the environment
-and registers.
-
-Also, seeing this already being done in umip.c is heartening that the
-approach here isn't overly insane.
-
-Jason
