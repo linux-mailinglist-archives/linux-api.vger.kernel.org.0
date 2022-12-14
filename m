@@ -2,35 +2,41 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 375E764D24F
-	for <lists+linux-api@lfdr.de>; Wed, 14 Dec 2022 23:21:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F26DF64D322
+	for <lists+linux-api@lfdr.de>; Thu, 15 Dec 2022 00:16:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229715AbiLNWVw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 14 Dec 2022 17:21:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52762 "EHLO
+        id S229717AbiLNXQ3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 14 Dec 2022 18:16:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229749AbiLNWV2 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 14 Dec 2022 17:21:28 -0500
-Received: from smtpout.efficios.com (smtpout.efficios.com [167.114.26.122])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BA8F116E;
-        Wed, 14 Dec 2022 14:21:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=efficios.com;
-        s=smtpout1; t=1671056483;
-        bh=OwPacgMfzq+t+Js+BScNggpyccUTyftXnAv/AFiH6zw=;
-        h=From:To:Cc:Subject:Date:From;
-        b=GqNGuGANib8ov9H9kk3JHTVguBne0Fq6w32B7YeuElmDddZfC27OijEBZF7qvDIE9
-         AmvlSGspDuxrtk4kL/DETEYf/C7U7oYscCP0hWIZaIiIluj+uTGSnOQSqHWQ1KpZU0
-         /OXQkcNEx4e7kTGF9Jtj6Hb4W4E51/Aw/v91jLhyCupDRCTlO2FT4qbPjHW3PAFUFG
-         +1/O1ngi4uSX2uBoe4rS08zGUXzL2EQQZyoMidwsGjvstKyTvw8V4ujqxyfmhYPGX4
-         pKE2v8TtOdqEylTqOZVNW8tiw1+PXWERuLKuG4payC+03Xn1JD3N0vPYJJWTZQCLdJ
-         /iHSF+ynCAWSQ==
-Received: from localhost.localdomain (192-222-180-24.qc.cable.ebox.net [192.222.180.24])
-        by smtpout.efficios.com (Postfix) with ESMTPSA id 4NXVFb1fSJzbZs;
-        Wed, 14 Dec 2022 17:21:23 -0500 (EST)
-From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
+        with ESMTP id S229511AbiLNXQ2 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 14 Dec 2022 18:16:28 -0500
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 853702CC9B;
+        Wed, 14 Dec 2022 15:16:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=C4PlJ3Sy7zWtp1PRUv3TzmsgmH1qPuEi2ojtvvgE5Ao=; b=OrKgF8eNHEWDfiaSD2I6V6hj+H
+        BP/ZjuxCLXtd6cJzTazwX/1XnUHqYEV+bisGpK5c3q+6znFwNPIbbGsx/bjfKzhzqwEFhHVD8Q1wT
+        FsYWWJk5kU7zzVb21/+wrwwNgfiXQpEcKf60UWbYde1BJO3bsPglEG3niZLM+5zGjryzkj4JrU0Mm
+        JNYQYxzHWUcGKIqvgWjap/XA/UtFdSyZ+nU+hvPe7+Fi5AZCj01Bbhg2BqfbsYKyE1jY+CRePZC2i
+        sX8aqTk5/A9SCv9j6ihrvVzpaCibkvszVQH/HklNsIsFR0LiRRKNMfJNqUkGWd6STIrK+Z+8cf4/a
+        cLBPkwtA==;
+Received: from [2601:1c2:d80:3110::a2e7]
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1p5az9-004BzT-MS; Wed, 14 Dec 2022 23:16:23 +0000
+Message-ID: <7a2bbeed-59c2-024f-4778-3f4db3d7beaa@infradead.org>
+Date:   Wed, 14 Dec 2022 15:16:22 -0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [RFC PATCH] mm/mempolicy: Fix memory leak in
+ set_mempolicy_home_node system call
+To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Andrew Morton <akpm@linux-foundation.org>
 Cc:     linux-kernel@vger.kernel.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
         "Aneesh Kumar K . V" <aneesh.kumar@linux.ibm.com>,
         Ben Widawsky <ben.widawsky@intel.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
@@ -39,67 +45,74 @@ Cc:     linux-kernel@vger.kernel.org,
         Andrea Arcangeli <aarcange@redhat.com>,
         Mel Gorman <mgorman@techsingularity.net>,
         Mike Kravetz <mike.kravetz@oracle.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
         Vlastimil Babka <vbabka@suse.cz>,
         Andi Kleen <ak@linux.intel.com>,
         Dan Williams <dan.j.williams@intel.com>,
         Huang Ying <ying.huang@intel.com>, linux-api@vger.kernel.org,
         stable@vger.kernel.org
-Subject: [RFC PATCH] mm/mempolicy: Fix memory leak in set_mempolicy_home_node system call
-Date:   Wed, 14 Dec 2022 17:21:10 -0500
-Message-Id: <20221214222110.200487-1-mathieu.desnoyers@efficios.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20221214222110.200487-1-mathieu.desnoyers@efficios.com>
+Content-Language: en-US
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20221214222110.200487-1-mathieu.desnoyers@efficios.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-When encountering any vma in the range with policy other than MPOL_BIND
-or MPOL_PREFERRED_MANY, an error is returned without issuing a mpol_put
-on the policy just allocated with mpol_dup().
 
-This allows arbitrary users to leak kernel memory.
 
-Fixes: c6018b4b2549 ("mm/mempolicy: add set_mempolicy_home_node syscall")
-Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: Aneesh Kumar K.V <aneesh.kumar@linux.ibm.com>
-Cc: Ben Widawsky <ben.widawsky@intel.com>
-Cc: Dave Hansen <dave.hansen@linux.intel.com>
-Cc: Feng Tang <feng.tang@intel.com>
-Cc: Michal Hocko <mhocko@kernel.org>
-Cc: Andrea Arcangeli <aarcange@redhat.com>
-Cc: Mel Gorman <mgorman@techsingularity.net>
-Cc: Mike Kravetz <mike.kravetz@oracle.com>
-Cc: Randy Dunlap <rdunlap@infradead.org>
-Cc: Vlastimil Babka <vbabka@suse.cz>
-Cc: Andi Kleen <ak@linux.intel.com>
-Cc: Dan Williams <dan.j.williams@intel.com>
-Cc: Huang Ying <ying.huang@intel.com>
-Cc: <linux-api@vger.kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: stable@vger.kernel.org # 5.17+
----
- mm/mempolicy.c | 1 +
- 1 file changed, 1 insertion(+)
+On 12/14/22 14:21, Mathieu Desnoyers wrote:
+> When encountering any vma in the range with policy other than MPOL_BIND
+> or MPOL_PREFERRED_MANY, an error is returned without issuing a mpol_put
+> on the policy just allocated with mpol_dup().
+> 
+> This allows arbitrary users to leak kernel memory.
+> 
+> Fixes: c6018b4b2549 ("mm/mempolicy: add set_mempolicy_home_node syscall")
+> Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+> Cc: Aneesh Kumar K.V <aneesh.kumar@linux.ibm.com>
+> Cc: Ben Widawsky <ben.widawsky@intel.com>
+> Cc: Dave Hansen <dave.hansen@linux.intel.com>
+> Cc: Feng Tang <feng.tang@intel.com>
+> Cc: Michal Hocko <mhocko@kernel.org>
+> Cc: Andrea Arcangeli <aarcange@redhat.com>
+> Cc: Mel Gorman <mgorman@techsingularity.net>
+> Cc: Mike Kravetz <mike.kravetz@oracle.com>
+> Cc: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Vlastimil Babka <vbabka@suse.cz>
+> Cc: Andi Kleen <ak@linux.intel.com>
+> Cc: Dan Williams <dan.j.williams@intel.com>
+> Cc: Huang Ying <ying.huang@intel.com>
+> Cc: <linux-api@vger.kernel.org>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: stable@vger.kernel.org # 5.17+
 
-diff --git a/mm/mempolicy.c b/mm/mempolicy.c
-index 61aa9aedb728..02c8a712282f 100644
---- a/mm/mempolicy.c
-+++ b/mm/mempolicy.c
-@@ -1540,6 +1540,7 @@ SYSCALL_DEFINE4(set_mempolicy_home_node, unsigned long, start, unsigned long, le
- 		 * the home node for vmas we already updated before.
- 		 */
- 		if (new->mode != MPOL_BIND && new->mode != MPOL_PREFERRED_MANY) {
-+			mpol_put(new);
- 			err = -EOPNOTSUPP;
- 			break;
- 		}
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+
+> ---
+>  mm/mempolicy.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/mm/mempolicy.c b/mm/mempolicy.c
+> index 61aa9aedb728..02c8a712282f 100644
+> --- a/mm/mempolicy.c
+> +++ b/mm/mempolicy.c
+> @@ -1540,6 +1540,7 @@ SYSCALL_DEFINE4(set_mempolicy_home_node, unsigned long, start, unsigned long, le
+>  		 * the home node for vmas we already updated before.
+>  		 */
+>  		if (new->mode != MPOL_BIND && new->mode != MPOL_PREFERRED_MANY) {
+> +			mpol_put(new);
+>  			err = -EOPNOTSUPP;
+>  			break;
+>  		}
+
 -- 
-2.25.1
-
+~Randy
