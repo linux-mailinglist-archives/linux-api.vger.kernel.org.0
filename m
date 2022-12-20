@@ -2,119 +2,99 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 906626526D0
-	for <lists+linux-api@lfdr.de>; Tue, 20 Dec 2022 20:12:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 81E376527A2
+	for <lists+linux-api@lfdr.de>; Tue, 20 Dec 2022 21:13:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233983AbiLTTMH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 20 Dec 2022 14:12:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49880 "EHLO
+        id S234185AbiLTUNT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 20 Dec 2022 15:13:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49794 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229536AbiLTTMG (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 20 Dec 2022 14:12:06 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61037E006;
-        Tue, 20 Dec 2022 11:12:05 -0800 (PST)
-Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
+        with ESMTP id S234181AbiLTUNS (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 20 Dec 2022 15:13:18 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 211011D64E;
+        Tue, 20 Dec 2022 12:13:17 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 812AF1EC0518;
-        Tue, 20 Dec 2022 20:12:03 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1671563523;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=zottXoJ/NEKpHsW/kd7TgYecyr34sKhq/L0t7TIzFDc=;
-        b=Yht1hyw3SPwhLbr1jN7iM7vkbPRNoFAZnpsrsXf4hIVQnP9d6VPHdtXWUhkace+7M+Ikm+
-        I+9vCO1PbUle6DpXPFPyV4kfN0BR8EeUHgxRBlWc+s4GpQZqDSQ27I9Ev3850pVGZLuQzL
-        zZRkKeJdaxU00wQNnf9iSZVbCdRq7IQ=
-Date:   Tue, 20 Dec 2022 20:11:59 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
-Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A78AA6159F;
+        Tue, 20 Dec 2022 20:13:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2276C433EF;
+        Tue, 20 Dec 2022 20:13:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1671567196;
+        bh=Gv7ILarnqG6VXDv1zDoq4dXMcpli2fdU3fYWtrhD7CU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=BNIgEyD2b/kwnXbaR5eP2QBP6UOPAvQD/zXFajZWt6RT74gXhm2s6OW4N4KlIDYfC
+         Wxj/cb6C47OFZnLUTyNjRVTrtsstBCz34eSTcFuSh8xOdIJfvtKJ0/S3YG8qtuZO+h
+         LVw/GM01Blb4idgGSfUfT/5N9ejTRXvuE5Mw1vrfiD3+t4k4Xbat5lWBMHcLkl/46L
+         MZPNmMJsegfvf0rTSEXW5sH0CokCzOrUgUPmh+IzXUqga3I07y9uao2n9w8QT5IQiS
+         MZzetOEpR2Sv47PnKm1OJ3NaodmMfXpe4ekWd75YuDtjccDI1UPYcXzuqMblveH5rR
+         DHTVp2kedMNHw==
+Date:   Tue, 20 Dec 2022 20:13:14 +0000
+From:   Eric Biggers <ebiggers@kernel.org>
+To:     Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "patches@lists.linux.dev" <patches@lists.linux.dev>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "x86@kernel.org" <x86@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
+        Carlos O'Donell <carlos@redhat.com>,
         Florian Weimer <fweimer@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        John Allen <john.allen@amd.com>, kcc@google.com,
-        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
-        dethoma@microsoft.com, akpm@linux-foundation.org,
-        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH v4 08/39] x86/mm: Remove _PAGE_DIRTY from kernel RO pages
-Message-ID: <Y6II/4b/lF/w1gRk@zn.tnic>
-References: <20221203003606.6838-1-rick.p.edgecombe@intel.com>
- <20221203003606.6838-9-rick.p.edgecombe@intel.com>
+        Arnd Bergmann <arnd@arndb.de>, Jann Horn <jannh@google.com>,
+        Christian Brauner <brauner@kernel.org>,
+        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>
+Subject: Re: [PATCH v12 0/6] implement getrandom() in vDSO
+Message-ID: <Y6IXWltScF2CI1v3@gmail.com>
+References: <20221212185347.1286824-1-Jason@zx2c4.com>
+ <86cfa465-2485-ff24-16f5-9014e25a0e98@csgroup.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20221203003606.6838-9-rick.p.edgecombe@intel.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <86cfa465-2485-ff24-16f5-9014e25a0e98@csgroup.eu>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Just typos and spelling fixes:
-
-On Fri, Dec 02, 2022 at 04:35:35PM -0800, Rick Edgecombe wrote:
-> From: Yu-cheng Yu <yu-cheng.yu@intel.com>
+On Tue, Dec 20, 2022 at 05:17:52PM +0000, Christophe Leroy wrote:
+> Hi Jason,
 > 
-> New processors that support Shadow Stack regard Write=0,Dirty=1 PTEs as
-> shadow stack pages.
+> Le 12/12/2022 à 19:53, Jason A. Donenfeld a écrit :
+> > Changes v11->v12:
+> > ----------------
+> > - In order to avoid mlock()ing pages, and the related rlimit and fork
+> >    inheritance issues there, Introduce VM_DROPPABLE to prevent swapping
+> >    while meeting the cache-like requirements of vDSO getrandom().
+> > 
+> >    This has some tenticles in mm/ and arch/x86/ code, so I've marked the
+> >    two patches for that as still RFC, while the rest of the series is not
+> >    RFC.
+> > 
+> > - Mandate that opaque state blobs don't straddle page boundaries, so
+> >    that VM_DROPPABLE can work on page-level granularity rather than
+> >    allocation-level granularity.
+> > 
+> > - Add compiler barriers to vDSO getrandom() to prevent theoretical
+> >    reordering potential.
+> > 
+> > - Initialize the trials loop counter in the chacha test.
 > 
-> In normal cases, it can be helpful to create Write=1 PTEs as also Dirty=1
-> if HW dirty tracking is not needed, because if the Dirty bit is not already
-> set the CPU has to set Dirty=1 when it the memory gets written to. This
+> I would have liked to give it a try on powerpc, but the series 
+> conflicts. I tried both on v6.1 and on linus/master from now:
+> 
 
-s/it //
+Same here, I can't figure out how to apply this series.
 
-> creates addiontal work for the CPU.
+It would help if people always used the --base option to git format-patch...
 
-"additional"
-
-> So tradional wisdom was to simply set
-
-Unknown word [tradional] in commit message.
-Suggestions: ['traditional', ...
-
-> the Dirty bit whenever you didn't care about it. However, it was never
-> really very helpful for read only kernel memory.
-
-read-only
-
-> When CR4.CET=1 and IA32_S_CET.SH_STK_EN=1, some instructions can write to
-> such supervisor memory. The kernel does not set IA32_S_CET.SH_STK_EN, so
-> avoiding kernel Write=0,Dirty=1 memory is not strictly needed for any
-> functional reason. But having Write=0,Dirty=1 kernel memory doesn't have
-> any functional benefit either, so to reduce ambiguity between shadow stack
-> and regular Write=0 pages, removed Dirty=1 from any kernel Write=0 PTEs.
-
-s/removed/remove/
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+- Eric
