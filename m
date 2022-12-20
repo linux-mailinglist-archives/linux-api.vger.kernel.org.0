@@ -2,99 +2,93 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 81E376527A2
-	for <lists+linux-api@lfdr.de>; Tue, 20 Dec 2022 21:13:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B67C652852
+	for <lists+linux-api@lfdr.de>; Tue, 20 Dec 2022 22:21:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234185AbiLTUNT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 20 Dec 2022 15:13:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49794 "EHLO
+        id S229938AbiLTVVa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 20 Dec 2022 16:21:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48018 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234181AbiLTUNS (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 20 Dec 2022 15:13:18 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 211011D64E;
-        Tue, 20 Dec 2022 12:13:17 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        with ESMTP id S229757AbiLTVV2 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 20 Dec 2022 16:21:28 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B5C3F7F;
+        Tue, 20 Dec 2022 13:21:24 -0800 (PST)
+Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A78AA6159F;
-        Tue, 20 Dec 2022 20:13:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2276C433EF;
-        Tue, 20 Dec 2022 20:13:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1671567196;
-        bh=Gv7ILarnqG6VXDv1zDoq4dXMcpli2fdU3fYWtrhD7CU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=BNIgEyD2b/kwnXbaR5eP2QBP6UOPAvQD/zXFajZWt6RT74gXhm2s6OW4N4KlIDYfC
-         Wxj/cb6C47OFZnLUTyNjRVTrtsstBCz34eSTcFuSh8xOdIJfvtKJ0/S3YG8qtuZO+h
-         LVw/GM01Blb4idgGSfUfT/5N9ejTRXvuE5Mw1vrfiD3+t4k4Xbat5lWBMHcLkl/46L
-         MZPNmMJsegfvf0rTSEXW5sH0CokCzOrUgUPmh+IzXUqga3I07y9uao2n9w8QT5IQiS
-         MZzetOEpR2Sv47PnKm1OJ3NaodmMfXpe4ekWd75YuDtjccDI1UPYcXzuqMblveH5rR
-         DHTVp2kedMNHw==
-Date:   Tue, 20 Dec 2022 20:13:14 +0000
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "patches@lists.linux.dev" <patches@lists.linux.dev>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "x86@kernel.org" <x86@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
-        Carlos O'Donell <carlos@redhat.com>,
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 0D78E1EC0559;
+        Tue, 20 Dec 2022 22:21:23 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1671571283;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=QFmj/B+yx8Gxik3QNLUIZDA+guKCko1dH68H5VbvcTo=;
+        b=nC3seqdSGrf+2WvbtqyLrf2rMHV+0zdHQJyxkDgA7B0CZCZfvNdLHFP+vAb765WQFgRXoT
+        K7R/InozkEzGa/+2yYEPKbupawuQfiXpr4r7FvkNHYUelYTv1oryaA/tSga3Nfnzr7IZZb
+        lSqhP4XDehRraP1zWEpm2JuotYzWOXg=
+Date:   Tue, 20 Dec 2022 22:21:17 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
         Florian Weimer <fweimer@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>, Jann Horn <jannh@google.com>,
-        Christian Brauner <brauner@kernel.org>,
-        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>
-Subject: Re: [PATCH v12 0/6] implement getrandom() in vDSO
-Message-ID: <Y6IXWltScF2CI1v3@gmail.com>
-References: <20221212185347.1286824-1-Jason@zx2c4.com>
- <86cfa465-2485-ff24-16f5-9014e25a0e98@csgroup.eu>
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        John Allen <john.allen@amd.com>, kcc@google.com,
+        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
+        dethoma@microsoft.com, akpm@linux-foundation.org,
+        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>
+Subject: Re: [PATCH v4 07/39] x86: Add user control-protection fault handler
+Message-ID: <Y6InTbPwLLO1588Z@zn.tnic>
+References: <20221203003606.6838-1-rick.p.edgecombe@intel.com>
+ <20221203003606.6838-8-rick.p.edgecombe@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <86cfa465-2485-ff24-16f5-9014e25a0e98@csgroup.eu>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20221203003606.6838-8-rick.p.edgecombe@intel.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Dec 20, 2022 at 05:17:52PM +0000, Christophe Leroy wrote:
-> Hi Jason,
-> 
-> Le 12/12/2022 à 19:53, Jason A. Donenfeld a écrit :
-> > Changes v11->v12:
-> > ----------------
-> > - In order to avoid mlock()ing pages, and the related rlimit and fork
-> >    inheritance issues there, Introduce VM_DROPPABLE to prevent swapping
-> >    while meeting the cache-like requirements of vDSO getrandom().
-> > 
-> >    This has some tenticles in mm/ and arch/x86/ code, so I've marked the
-> >    two patches for that as still RFC, while the rest of the series is not
-> >    RFC.
-> > 
-> > - Mandate that opaque state blobs don't straddle page boundaries, so
-> >    that VM_DROPPABLE can work on page-level granularity rather than
-> >    allocation-level granularity.
-> > 
-> > - Add compiler barriers to vDSO getrandom() to prevent theoretical
-> >    reordering potential.
-> > 
-> > - Initialize the trials loop counter in the chacha test.
-> 
-> I would have liked to give it a try on powerpc, but the series 
-> conflicts. I tried both on v6.1 and on linus/master from now:
-> 
+On Fri, Dec 02, 2022 at 04:35:34PM -0800, Rick Edgecombe wrote:
+> Keep the same behavior for the kernel side of the fault handler, except for
+> converting a BUG to a WARN in the case of a #CP happening when
+> !cpu_feature_enabled().
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Same here, I can't figure out how to apply this series.
+Yeah, let's stick to plain english in the commit message pls, instead of
+pseudo code.
 
-It would help if people always used the --base option to git format-patch...
+Thx.
 
-- Eric
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
