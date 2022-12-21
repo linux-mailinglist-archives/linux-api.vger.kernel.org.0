@@ -2,128 +2,76 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F4D3653205
-	for <lists+linux-api@lfdr.de>; Wed, 21 Dec 2022 14:47:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 52F96653221
+	for <lists+linux-api@lfdr.de>; Wed, 21 Dec 2022 15:04:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232215AbiLUNrQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 21 Dec 2022 08:47:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45592 "EHLO
+        id S231154AbiLUOEd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 21 Dec 2022 09:04:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51244 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230072AbiLUNrP (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 21 Dec 2022 08:47:15 -0500
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0BE36475;
-        Wed, 21 Dec 2022 05:47:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1671630434; x=1703166434;
-  h=date:from:to:cc:subject:message-id:reply-to:references:
-   mime-version:in-reply-to;
-  bh=Ey/uI44qPCpd4ueyxtxDLkQhSghq6Fbj8dB2OhBP0No=;
-  b=Hta25vIZugyt08XE12XPlw8wi4ujV3wir82IZS9dfVva9Cgnwz9KC31f
-   ei5ocTRN2lF9EQU/d8dqZW4jc7lrGKFNdwTw3RUQh+zuWkI/m63+AFwRW
-   4I+TY2JNyVNzQB67IxQBnS8Kgl3CosleTrM4pUovIMXLKNxSCoP+3xrCA
-   ERQBCx8OG6yd8z+WCpRRmVQJUi+hDzEzKQJqYUQsgvpWL8he8TtaAVtdj
-   dfBM3PWzqKV6YbegjQ+TAdtKUZh3x4aO2yR0AQ9E6Qs9WGUh1PPnzdn1u
-   fn9up1uI31MzP3z7GTFB/13ku2WvXwL/4NptD6RS4YYVXbkur1vUb7L4J
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10567"; a="318568460"
-X-IronPort-AV: E=Sophos;i="5.96,262,1665471600"; 
-   d="scan'208";a="318568460"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2022 05:47:14 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10567"; a="651402272"
-X-IronPort-AV: E=Sophos;i="5.96,262,1665471600"; 
-   d="scan'208";a="651402272"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
-  by orsmga002.jf.intel.com with ESMTP; 21 Dec 2022 05:47:03 -0800
-Date:   Wed, 21 Dec 2022 21:42:46 +0800
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        wei.w.wang@intel.com
-Subject: Re: [PATCH v10 3/9] KVM: Extend the memslot to support fd-based
- private memory
-Message-ID: <20221221134246.GB1766136@chaop.bj.intel.com>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-4-chao.p.peng@linux.intel.com>
- <Y6B27MpZO8o1Asfe@zn.tnic>
- <20221220074318.GC1724933@chaop.bj.intel.com>
- <Y6GGoAVQGPyCaDnS@zn.tnic>
+        with ESMTP id S229694AbiLUOEb (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 21 Dec 2022 09:04:31 -0500
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D67E1C921;
+        Wed, 21 Dec 2022 06:04:29 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id E45F0CE1801;
+        Wed, 21 Dec 2022 14:04:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B314C433EF;
+        Wed, 21 Dec 2022 14:04:24 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="lagTYOtC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
+        t=1671631461;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=IGwYRqmYe1tulaCQh1AZycwBWtT5OF47TSgo9FHLK5I=;
+        b=lagTYOtCAGuSUYb+3GhNLPs3gh4BK/ut2Ty1C0Zx/sNDZM3HKgGiXpx98TDP1cPHAMtqLv
+        oAGcsn0dxWMuMfzdzx69weIAPh2P482PdMfkYbtTgVx2dppl2WcyBQlOxO5xiwZ63ZAEh1
+        fIqORygw+AM/2k3hIVRyob1MkEkdBHc=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 65bed60f (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+        Wed, 21 Dec 2022 14:04:21 +0000 (UTC)
+Date:   Wed, 21 Dec 2022 15:04:17 +0100
+From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
+To:     Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "patches@lists.linux.dev" <patches@lists.linux.dev>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "x86@kernel.org" <x86@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
+        Carlos O'Donell <carlos@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>, Jann Horn <jannh@google.com>,
+        Christian Brauner <brauner@kernel.org>,
+        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>
+Subject: Re: [PATCH v12 0/6] implement getrandom() in vDSO
+Message-ID: <Y6MSYWHl1dV2nFzK@zx2c4.com>
+References: <20221212185347.1286824-1-Jason@zx2c4.com>
+ <86cfa465-2485-ff24-16f5-9014e25a0e98@csgroup.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Y6GGoAVQGPyCaDnS@zn.tnic>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <86cfa465-2485-ff24-16f5-9014e25a0e98@csgroup.eu>
+X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Dec 20, 2022 at 10:55:44AM +0100, Borislav Petkov wrote:
-> On Tue, Dec 20, 2022 at 03:43:18PM +0800, Chao Peng wrote:
-> > RESTRICTEDMEM is needed by TDX_HOST, not TDX_GUEST.
-> 
-> Which basically means that RESTRICTEDMEM should simply depend on KVM.
-> Because you can't know upfront whether KVM will run a TDX guest or a SNP
-> guest and so on.
-> 
-> Which then means that RESTRICTEDMEM will practically end up always
-> enabled in KVM HV configs.
+On Tue, Dec 20, 2022 at 05:17:52PM +0000, Christophe Leroy wrote:
+> I would have liked to give it a try on powerpc, but the series 
+> conflicts. I tried both on v6.1 and on linus/master from now:
 
-That's right, CONFIG_RESTRICTEDMEM is always selected for supported KVM
-architectures (currently x86_64).
+I'll send a rebased v+1 shortly.
 
-> 
-> > The only reason to add another HAVE_KVM_RESTRICTED_MEM is some code only
-> > works for 64bit[*] and CONFIG_RESTRICTEDMEM is not sufficient to enforce
-> > that.
-> 
-> This is what I mean with "we have too many Kconfig items". :-\
-
-Yes I agree. One way to remove this is probably additionally checking
-CONFIG_64BIT instead.
-
-Thanks,
-Chao
-> 
-> -- 
-> Regards/Gruss,
->     Boris.
-> 
-> https://people.kernel.org/tglx/notes-about-netiquette
+Jason
