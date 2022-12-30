@@ -2,42 +2,42 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4878F659EF4
-	for <lists+linux-api@lfdr.de>; Sat, 31 Dec 2022 00:54:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AB663659EE5
+	for <lists+linux-api@lfdr.de>; Sat, 31 Dec 2022 00:54:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235832AbiL3Xyj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 30 Dec 2022 18:54:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50628 "EHLO
+        id S235609AbiL3Xxg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 30 Dec 2022 18:53:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49894 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235817AbiL3Xyf (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 30 Dec 2022 18:54:35 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D05DB1E3D3;
-        Fri, 30 Dec 2022 15:54:34 -0800 (PST)
+        with ESMTP id S235608AbiL3Xxe (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 30 Dec 2022 18:53:34 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48E9E1E3C3;
+        Fri, 30 Dec 2022 15:53:34 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6E96461C5B;
-        Fri, 30 Dec 2022 23:54:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF5EDC433D2;
-        Fri, 30 Dec 2022 23:54:33 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id EFA09B81DE0;
+        Fri, 30 Dec 2022 23:53:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F3CEC43392;
+        Fri, 30 Dec 2022 23:53:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1672444473;
-        bh=Us/J2beDbg7zaJmu/2DSsuF/lnWPPWk8P86/YJdCKYE=;
+        s=k20201202; t=1672444411;
+        bh=Rl5SwoFy18xfolYMtYCB6aH9T6OJCaLqHEoNpxvqv8Q=;
         h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=MQ/ZzJ4gA741tuxb4WrqZ1rqBehyN4kLiNpUGLCmfIUY/AiLhh9o4TnEGlKuX0Z48
-         DcRz/LMqrBJ7essq/zyAZRsXO730WHN5P9/oXOZ3Iz5WvRjPbWaGOBV2q01RRCaUiH
-         w/dz+HaLQh7XjL8KYXMohbSErVprl8n0hIS3eXjbD4RZDkvixSSbbWu68JCmzmL825
-         Jn6W43okbGSvwe91y++f5AAaYU39QH+eIYl9R700mNxJXLUU5pdT3EptqEnUFMmPxQ
-         n8/XOp1TGsKd6lgfHF6y+045wE3eipMC4sLUSpbNJIA3RQ8PUBgRWD6A2Yu0a2LQkX
-         UDS5SOgy3j1KQ==
-Subject: [PATCH 17/21] xfs: condense directories after an atomic swap
+        b=P0/wxArwOglTj3cMbDqwQs4+uAD/BAdx9r/wr4iwX+5LxP4BCZ+MBngjy0yn78B70
+         rNnrnjYwiIHCBUIP5BM7hs+CDtoqq6bvA+h9pXMh6VlPAU7CXWqN+1iN5P4P42tqAw
+         OW1RWzchfO1LWaQ91m7lAzDK0N4o7oaaN2Lq2HIChvHy33so6RbOtGbmhOrZJcVy96
+         AIKAbj3VoEWWRlOZTo+XiCJ5WBCA2A0iDT9Ti4RX5wPfcx2ZwcIliY4zctoqSGOXdn
+         Wxr/wsqnfsOIJXTvt4m4fnk1B8khCmFUVDKShwurLngWSh7k2Myxz8WSX1Otxeq+yn
+         RYFxapMi4lxdA==
+Subject: [PATCH 13/21] xfs: port xfs_swap_extent_forks to use xfs_swapext_req
 From:   "Darrick J. Wong" <djwong@kernel.org>
 To:     djwong@kernel.org
 Cc:     linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         linux-api@vger.kernel.org
 Date:   Fri, 30 Dec 2022 14:13:57 -0800
-Message-ID: <167243843771.699466.8963465782484534140.stgit@magnolia>
+Message-ID: <167243843712.699466.14764003951903637803.stgit@magnolia>
 In-Reply-To: <167243843494.699466.5163281976943635014.stgit@magnolia>
 References: <167243843494.699466.5163281976943635014.stgit@magnolia>
 User-Agent: StGit/0.19
@@ -55,98 +55,64 @@ X-Mailing-List: linux-api@vger.kernel.org
 
 From: Darrick J. Wong <djwong@kernel.org>
 
-The previous commit added a new swapext flag that enables us to perform
-post-swap processing on file2 once we're done swapping the extent maps.
-Now add this ability for directories.
-
-This isn't used anywhere right now, but we need to have the basic ondisk
-flags in place so that a future online directory repair feature can
-create salvaged dirents in a temporary directory and swap the data forks
-when ready.  If one file is in extents format and the other is inline,
-we will have to promote both to extents format to perform the swap.
-After the swap, we can try to condense the fixed directory down to
-inline format if possible.
+Port the old extent fork swapping function to take a xfs_swapext_req as
+input, which aligns it with the new fiexchange interface.
 
 Signed-off-by: Darrick J. Wong <djwong@kernel.org>
 ---
- fs/xfs/libxfs/xfs_swapext.c |   44 ++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 43 insertions(+), 1 deletion(-)
+ fs/xfs/xfs_bmap_util.c |   21 ++++++++++-----------
+ 1 file changed, 10 insertions(+), 11 deletions(-)
 
 
-diff --git a/fs/xfs/libxfs/xfs_swapext.c b/fs/xfs/libxfs/xfs_swapext.c
-index 6b5223e73692..a52f72a499f4 100644
---- a/fs/xfs/libxfs/xfs_swapext.c
-+++ b/fs/xfs/libxfs/xfs_swapext.c
-@@ -27,6 +27,8 @@
- #include "xfs_da_btree.h"
- #include "xfs_attr_leaf.h"
- #include "xfs_attr.h"
-+#include "xfs_dir2_priv.h"
-+#include "xfs_dir2.h"
- 
- struct kmem_cache	*xfs_swapext_intent_cache;
- 
-@@ -385,6 +387,42 @@ xfs_swapext_attr_to_sf(
- 	return xfs_attr3_leaf_to_shortform(bp, &args, forkoff);
- }
- 
-+/* Convert inode2's block dir fork back to shortform, if possible.. */
-+STATIC int
-+xfs_swapext_dir_to_sf(
-+	struct xfs_trans		*tp,
-+	struct xfs_swapext_intent	*sxi)
-+{
-+	struct xfs_da_args	args = {
-+		.dp		= sxi->sxi_ip2,
-+		.geo		= tp->t_mountp->m_dir_geo,
+diff --git a/fs/xfs/xfs_bmap_util.c b/fs/xfs/xfs_bmap_util.c
+index dbd95d86addb..9d6337a05544 100644
+--- a/fs/xfs/xfs_bmap_util.c
++++ b/fs/xfs/xfs_bmap_util.c
+@@ -1406,9 +1406,10 @@ xfs_swap_change_owner(
+ STATIC int
+ xfs_swap_extent_forks(
+ 	struct xfs_trans	**tpp,
+-	struct xfs_inode	*ip,
+-	struct xfs_inode	*tip)
++	struct xfs_swapext_req	*req)
+ {
++	struct xfs_inode	*ip = req->ip2;
++	struct xfs_inode	*tip = req->ip1;
+ 	xfs_filblks_t		aforkblks = 0;
+ 	xfs_filblks_t		taforkblks = 0;
+ 	xfs_extnum_t		junk;
+@@ -1556,6 +1557,11 @@ xfs_swap_extents(
+ 	struct xfs_inode	*tip,	/* tmp inode */
+ 	struct xfs_swapext	*sxp)
+ {
++	struct xfs_swapext_req	req = {
++		.ip1		= tip,
++		.ip2		= ip,
 +		.whichfork	= XFS_DATA_FORK,
-+		.trans		= tp,
 +	};
-+	struct xfs_dir2_sf_hdr	sfh;
-+	struct xfs_buf		*bp;
-+	bool			isblock;
-+	int			size;
-+	int			error;
-+
-+	error = xfs_dir2_isblock(&args, &isblock);
-+	if (error)
-+		return error;
-+
-+	if (!isblock)
-+		return 0;
-+
-+	error = xfs_dir3_block_read(tp, sxi->sxi_ip2, &bp);
-+	if (error)
-+		return error;
-+
-+	size = xfs_dir2_block_sfsize(sxi->sxi_ip2, bp->b_addr, &sfh);
-+	if (size > xfs_inode_data_fork_size(sxi->sxi_ip2))
-+		return 0;
-+
-+	return xfs_dir2_block_to_sf(&args, bp, size, &sfh);
-+}
-+
- static inline void
- xfs_swapext_clear_reflink(
- 	struct xfs_trans	*tp,
-@@ -407,6 +445,8 @@ xfs_swapext_do_postop_work(
- 
- 		if (sxi->sxi_flags & XFS_SWAP_EXT_ATTR_FORK)
- 			error = xfs_swapext_attr_to_sf(tp, sxi);
-+		else if (S_ISDIR(VFS_I(sxi->sxi_ip2)->i_mode))
-+			error = xfs_swapext_dir_to_sf(tp, sxi);
- 		sxi->sxi_flags &= ~XFS_SWAP_EXT_CVT_INO2_SF;
- 		if (error)
- 			return error;
-@@ -1061,7 +1101,9 @@ xfs_swapext(
- 	if (req->req_flags & XFS_SWAP_REQ_SET_SIZES)
- 		ASSERT(req->whichfork == XFS_DATA_FORK);
- 	if (req->req_flags & XFS_SWAP_REQ_CVT_INO2_SF)
--		ASSERT(req->whichfork == XFS_ATTR_FORK);
-+		ASSERT(req->whichfork == XFS_ATTR_FORK ||
-+		       (req->whichfork == XFS_DATA_FORK &&
-+			S_ISDIR(VFS_I(req->ip2)->i_mode)));
- 
- 	if (req->blockcount == 0)
- 		return;
+ 	struct xfs_mount	*mp = ip->i_mount;
+ 	struct xfs_trans	*tp;
+ 	struct xfs_bstat	*sbp = &sxp->sx_stat;
+@@ -1689,19 +1695,12 @@ xfs_swap_extents(
+ 	 * recovery is going to see the fork as owned by the swapped inode,
+ 	 * not the pre-swapped inodes.
+ 	 */
++	req.blockcount = XFS_B_TO_FSB(ip->i_mount, i_size_read(VFS_I(ip)));
+ 	if (xfs_has_rmapbt(mp)) {
+-		struct xfs_swapext_req	req = {
+-			.ip1		= tip,
+-			.ip2		= ip,
+-			.whichfork	= XFS_DATA_FORK,
+-			.blockcount	= XFS_B_TO_FSB(ip->i_mount,
+-						       i_size_read(VFS_I(ip))),
+-		};
+-
+ 		xfs_swapext(tp, &req);
+ 		error = xfs_defer_finish(&tp);
+ 	} else
+-		error = xfs_swap_extent_forks(&tp, ip, tip);
++		error = xfs_swap_extent_forks(&tp, &req);
+ 	if (error) {
+ 		trace_xfs_swap_extent_error(ip, error, _THIS_IP_);
+ 		goto out_trans_cancel;
 
