@@ -2,43 +2,43 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B00B0659EBF
-	for <lists+linux-api@lfdr.de>; Sat, 31 Dec 2022 00:51:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2166F659EC9
+	for <lists+linux-api@lfdr.de>; Sat, 31 Dec 2022 00:51:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235767AbiL3Xuq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 30 Dec 2022 18:50:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48430 "EHLO
+        id S235744AbiL3Xv3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 30 Dec 2022 18:51:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235775AbiL3Xun (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 30 Dec 2022 18:50:43 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7735E64FA;
-        Fri, 30 Dec 2022 15:50:41 -0800 (PST)
+        with ESMTP id S235530AbiL3Xv3 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 30 Dec 2022 18:51:29 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBB3D262A;
+        Fri, 30 Dec 2022 15:51:27 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B4B2160CF0;
-        Fri, 30 Dec 2022 23:50:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2070EC433D2;
-        Fri, 30 Dec 2022 23:50:40 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8826E61B98;
+        Fri, 30 Dec 2022 23:51:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF0D9C433D2;
+        Fri, 30 Dec 2022 23:51:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1672444240;
-        bh=LX6LX9jzrv4hOzAcW5tfZ0NpVPszEilNORfS20tNIpk=;
+        s=k20201202; t=1672444287;
+        bh=EY7L0C/1YQ2AVomIpr49dXSRG1X4cWxiGR+xoSKOoeU=;
         h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=KOqeJ4+82D6bnTmXLgn5n81Jlmihw9YKJL3DGJ6sLmPhYVh1ZgsVmePMyZ9IbNLrv
-         K8YXHrShBaJQnbX3N3rGnu9+wtcBz8hjFQFeSLdnq5rrVv9drkTadTfWu1QE92K7nq
-         +FyXspRx0wb0LkNdtTJTuj4oW7mEITF8XKFYy9SegKb1+HvifZF3XxXOgKV2eOuRAJ
-         PEtlrdhdV7EqNFXNZiHXOETvqt0vuTjZ+LfAnJm4aLyIk9JYbCqxWrjuO6hOCm9he8
-         +dP+d/jd90WM0waPQB1GQ/Ny+Awr/TvtVwVma0IwFVKC6fycCEdkNxCubE6ORa+xcN
-         3mt8kugKaFtoQ==
-Subject: [PATCH 02/21] xfs: create a new helper to return a file's allocation
- unit
+        b=V0OuBRTN/SBoKm4Iu04kXo+RKtX4B6+RhjRCV2F03kNT+s4ucBfHR1R0UE2wWQMyT
+         /SsUTJyLbNGnRj4ybqI+HT5yfzovb102NSQvNkgZeehr0BiCi8RcwmPjmrPWL6g2To
+         8Ag8C/qRg527zCKK7poDkSFkPYfWnFR/HhRuuV8aXAf63uLMFBlPE7+z0/0xjWv5Ne
+         v162//W4vRRn4Z+woGA98O4D4iNApQ3Fy180c24tn7oYZ31WlIPjs+groEK3AHPuvE
+         t4KBOZaDlonLj7cVMzsrxXgaO0U6aqvv/gDqRnTYy8hn9pwme7xcchLo28vWdUfl5m
+         ++BcovYWaEaiQ==
+Subject: [PATCH 05/21] xfs: create a log incompat flag for atomic extent
+ swapping
 From:   "Darrick J. Wong" <djwong@kernel.org>
 To:     djwong@kernel.org
 Cc:     linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         linux-api@vger.kernel.org
 Date:   Fri, 30 Dec 2022 14:13:55 -0800
-Message-ID: <167243843550.699466.10049718356899871040.stgit@magnolia>
+Message-ID: <167243843594.699466.3694791888640844542.stgit@magnolia>
 In-Reply-To: <167243843494.699466.5163281976943635014.stgit@magnolia>
 References: <167243843494.699466.5163281976943635014.stgit@magnolia>
 User-Agent: StGit/0.19
@@ -56,91 +56,93 @@ X-Mailing-List: linux-api@vger.kernel.org
 
 From: Darrick J. Wong <djwong@kernel.org>
 
-Create a new helper function to calculate the fundamental allocation
-unit (i.e. the smallest unit of space we can allocate) of a file.
-Things are going to get hairy with range-exchange on the realtime
-device, so prepare for this now.
+Create a log incompat flag so that we only attempt to process swap
+extent log items if the filesystem supports it, and a geometry flag to
+advertise support if it's present.
 
 Signed-off-by: Darrick J. Wong <djwong@kernel.org>
 ---
- fs/xfs/xfs_file.c  |   26 +++++++++-----------------
- fs/xfs/xfs_inode.c |   13 +++++++++++++
- fs/xfs/xfs_inode.h |    1 +
- 3 files changed, 23 insertions(+), 17 deletions(-)
+ fs/xfs/libxfs/xfs_format.h  |    1 +
+ fs/xfs/libxfs/xfs_fs.h      |    1 +
+ fs/xfs/libxfs/xfs_sb.c      |    3 +++
+ fs/xfs/libxfs/xfs_swapext.h |   24 ++++++++++++++++++++++++
+ 4 files changed, 29 insertions(+)
+ create mode 100644 fs/xfs/libxfs/xfs_swapext.h
 
 
-diff --git a/fs/xfs/xfs_file.c b/fs/xfs/xfs_file.c
-index c4bdadd8fa71..b382380656d7 100644
---- a/fs/xfs/xfs_file.c
-+++ b/fs/xfs/xfs_file.c
-@@ -44,27 +44,19 @@ xfs_is_falloc_aligned(
- 	loff_t			pos,
- 	long long int		len)
- {
--	struct xfs_mount	*mp = ip->i_mount;
--	uint64_t		mask;
-+	unsigned int		alloc_unit = xfs_inode_alloc_unitsize(ip);
+diff --git a/fs/xfs/libxfs/xfs_format.h b/fs/xfs/libxfs/xfs_format.h
+index 817adb36cb1e..1424976ec955 100644
+--- a/fs/xfs/libxfs/xfs_format.h
++++ b/fs/xfs/libxfs/xfs_format.h
+@@ -391,6 +391,7 @@ xfs_sb_has_incompat_feature(
+ }
  
--	if (XFS_IS_REALTIME_INODE(ip)) {
--		if (!is_power_of_2(mp->m_sb.sb_rextsize)) {
--			u64	rextbytes;
--			u32	mod;
-+	if (XFS_IS_REALTIME_INODE(ip) && !is_power_of_2(alloc_unit)) {
-+		u32	mod;
+ #define XFS_SB_FEAT_INCOMPAT_LOG_XATTRS   (1 << 0)	/* Delayed Attributes */
++#define XFS_SB_FEAT_INCOMPAT_LOG_SWAPEXT  (1U << 31)	/* file extent swap */
+ #define XFS_SB_FEAT_INCOMPAT_LOG_ALL \
+ 	(XFS_SB_FEAT_INCOMPAT_LOG_XATTRS)
+ #define XFS_SB_FEAT_INCOMPAT_LOG_UNKNOWN	~XFS_SB_FEAT_INCOMPAT_LOG_ALL
+diff --git a/fs/xfs/libxfs/xfs_fs.h b/fs/xfs/libxfs/xfs_fs.h
+index 210c17f5a16c..a39fd65e6ee0 100644
+--- a/fs/xfs/libxfs/xfs_fs.h
++++ b/fs/xfs/libxfs/xfs_fs.h
+@@ -239,6 +239,7 @@ typedef struct xfs_fsop_resblks {
+ #define XFS_FSOP_GEOM_FLAGS_BIGTIME	(1 << 21) /* 64-bit nsec timestamps */
+ #define XFS_FSOP_GEOM_FLAGS_INOBTCNT	(1 << 22) /* inobt btree counter */
+ #define XFS_FSOP_GEOM_FLAGS_NREXT64	(1 << 23) /* large extent counters */
++#define XFS_FSOP_GEOM_FLAGS_ATOMIC_SWAP	(1U << 31) /* atomic file extent swap */
  
--			rextbytes = XFS_FSB_TO_B(mp, mp->m_sb.sb_rextsize);
--			div_u64_rem(pos, rextbytes, &mod);
--			if (mod)
--				return false;
--			div_u64_rem(len, rextbytes, &mod);
--			return mod == 0;
--		}
--		mask = XFS_FSB_TO_B(mp, mp->m_sb.sb_rextsize) - 1;
--	} else {
--		mask = mp->m_sb.sb_blocksize - 1;
-+		div_u64_rem(pos, alloc_unit, &mod);
-+		if (mod)
-+			return false;
-+		div_u64_rem(len, alloc_unit, &mod);
-+		return mod == 0;
+ /*
+  * Minimum and maximum sizes need for growth checks.
+diff --git a/fs/xfs/libxfs/xfs_sb.c b/fs/xfs/libxfs/xfs_sb.c
+index b3e8ab247b28..5b6f5939fda1 100644
+--- a/fs/xfs/libxfs/xfs_sb.c
++++ b/fs/xfs/libxfs/xfs_sb.c
+@@ -25,6 +25,7 @@
+ #include "xfs_da_format.h"
+ #include "xfs_health.h"
+ #include "xfs_ag.h"
++#include "xfs_swapext.h"
+ 
+ /*
+  * Physical superblock buffer manipulations. Shared with libxfs in userspace.
+@@ -1197,6 +1198,8 @@ xfs_fs_geometry(
  	}
+ 	if (xfs_has_large_extent_counts(mp))
+ 		geo->flags |= XFS_FSOP_GEOM_FLAGS_NREXT64;
++	if (xfs_swapext_supported(mp))
++		geo->flags |= XFS_FSOP_GEOM_FLAGS_ATOMIC_SWAP;
+ 	geo->rtsectsize = sbp->sb_blocksize;
+ 	geo->dirblocksize = xfs_dir2_dirblock_bytes(sbp);
  
--	return !((pos | len) & mask);
-+	return !((pos | len) & (alloc_unit - 1));
- }
- 
- /*
-diff --git a/fs/xfs/xfs_inode.c b/fs/xfs/xfs_inode.c
-index b082222a9061..04ceafb936bc 100644
---- a/fs/xfs/xfs_inode.c
-+++ b/fs/xfs/xfs_inode.c
-@@ -3795,3 +3795,16 @@ xfs_inode_count_blocks(
- 	xfs_bmap_count_leaves(ifp, rblocks);
- 	*dblocks = ip->i_nblocks - *rblocks;
- }
+diff --git a/fs/xfs/libxfs/xfs_swapext.h b/fs/xfs/libxfs/xfs_swapext.h
+new file mode 100644
+index 000000000000..316323339d76
+--- /dev/null
++++ b/fs/xfs/libxfs/xfs_swapext.h
+@@ -0,0 +1,24 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/*
++ * Copyright (C) 2022 Oracle.  All Rights Reserved.
++ * Author: Darrick J. Wong <djwong@kernel.org>
++ */
++#ifndef __XFS_SWAPEXT_H_
++#define __XFS_SWAPEXT_H_ 1
 +
-+/* Returns the size of fundamental allocation unit for a file, in bytes. */
-+unsigned int
-+xfs_inode_alloc_unitsize(
-+	struct xfs_inode	*ip)
++/*
++ * Decide if this filesystem supports using log items to swap file extents and
++ * restart the operation if the system fails before the operation completes.
++ *
++ * This can be done to individual file extents by using the block mapping log
++ * intent items introduced with reflink and rmap; or to entire file ranges
++ * using swapext log intent items to track the overall progress across multiple
++ * extent mappings.  Realtime is not supported yet.
++ */
++static inline bool xfs_swapext_supported(struct xfs_mount *mp)
 +{
-+	unsigned int		blocks = 1;
-+
-+	if (XFS_IS_REALTIME_INODE(ip))
-+		blocks = ip->i_mount->m_sb.sb_rextsize;
-+
-+	return XFS_FSB_TO_B(ip->i_mount, blocks);
++	return (xfs_has_reflink(mp) || xfs_has_rmapbt(mp)) &&
++	       !xfs_has_realtime(mp);
 +}
-diff --git a/fs/xfs/xfs_inode.h b/fs/xfs/xfs_inode.h
-index 926e4dd566d0..4b01d078ace2 100644
---- a/fs/xfs/xfs_inode.h
-+++ b/fs/xfs/xfs_inode.h
-@@ -577,6 +577,7 @@ void xfs_iunlock2_io_mmap(struct xfs_inode *ip1, struct xfs_inode *ip2);
- 
- void xfs_inode_count_blocks(struct xfs_trans *tp, struct xfs_inode *ip,
- 		xfs_filblks_t *dblocks, xfs_filblks_t *rblocks);
-+unsigned int xfs_inode_alloc_unitsize(struct xfs_inode *ip);
- 
- /*
-  * Parameters for tracking bumplink and droplink operations.  The hook
++
++#endif /* __XFS_SWAPEXT_H_ */
 
