@@ -2,42 +2,42 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BB7F3659EDB
-	for <lists+linux-api@lfdr.de>; Sat, 31 Dec 2022 00:53:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E7FC659ED1
+	for <lists+linux-api@lfdr.de>; Sat, 31 Dec 2022 00:52:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235782AbiL3XxF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 30 Dec 2022 18:53:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49488 "EHLO
+        id S235826AbiL3XwQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 30 Dec 2022 18:52:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49098 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235783AbiL3XxE (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 30 Dec 2022 18:53:04 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38F4D1E3E2;
-        Fri, 30 Dec 2022 15:53:03 -0800 (PST)
+        with ESMTP id S235825AbiL3XwP (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 30 Dec 2022 18:52:15 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBBFE1E3C1;
+        Fri, 30 Dec 2022 15:52:14 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id D2649B80883;
-        Fri, 30 Dec 2022 23:53:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F9E1C433EF;
-        Fri, 30 Dec 2022 23:53:00 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 592F460CF0;
+        Fri, 30 Dec 2022 23:52:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7BE6C433EF;
+        Fri, 30 Dec 2022 23:52:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1672444380;
-        bh=6jDbZQzQFUtiKixlRWE6RAZepECmkaHvKDIqDs7AvPc=;
+        s=k20201202; t=1672444333;
+        bh=E36jUGCApd/U0WfGcZmj11kf51+yw1h25/Myy9ahPVo=;
         h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=YgGHsEf9Q5wDgVCzgcAYAdDIj4oRrnmG41tG+p1YQV1MnxMvuBKl+UDzrbpeZ6tWv
-         SS9nWTqKuSU8+jKuOshF/95S54PVT7nkTe3JfMD7ONB2gbzXBfR0zLvfE6xFjBKm2o
-         OmBvgyL/wuJnRSRB2gNWSerbF/G6US3PxGQR1CEVt9DE5bJgR0kXHrE6+FurLp2lOL
-         GgwDTtgBwwWfMJ4Ys3xENvl6+eruEAd6ZvtiCSvi2mh1A22jwcauKxq8kDQDT0hIOm
-         +qWcell0ca8QmYHeIsn5ymyxDiFTycEs2gQ3iK44VVxpGIRxbrhuNaiMzdfIrDO20N
-         CxE1JbFfUiL+g==
-Subject: [PATCH 11/21] xfs: port xfs_swap_extents_rmap to our new code
+        b=pXGO+oJSU+PQuz3FMghAu7cuZ9kMGOAvlXNYoyHBAGoFfOU2v7ztjtR8cdBMli48p
+         yRj/lfwhj/pElR9XqbRI5bPxhx3KWFDtE0VwBNbrfGAyHiY/4GdGC8hcRXB5LlcIVr
+         eqH/NpYJg2l4JqBhRhbyC67tg8oV4aC2hRVIkO84/LrhOFj8QBJbWlXD3+uNVRi/fw
+         ro8puXOpm+c1igxihyEPBxLVel0kBbv63G4Wj0X+ElMTImLoiPNlms0zrAI4PhCX/U
+         lF7tRDZMXo9EniyEtEXmQlumz8zVp6yUpYToUYc2MI2i6b2ISz1V6b3t/6Js30AwG8
+         VV/yYA1J2WiMw==
+Subject: [PATCH 08/21] xfs: enable xlog users to toggle atomic extent swapping
 From:   "Darrick J. Wong" <djwong@kernel.org>
 To:     djwong@kernel.org
 Cc:     linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         linux-api@vger.kernel.org
 Date:   Fri, 30 Dec 2022 14:13:56 -0800
-Message-ID: <167243843684.699466.18215544953813368074.stgit@magnolia>
+Message-ID: <167243843639.699466.9221823995188278604.stgit@magnolia>
 In-Reply-To: <167243843494.699466.5163281976943635014.stgit@magnolia>
 References: <167243843494.699466.5163281976943635014.stgit@magnolia>
 User-Agent: StGit/0.19
@@ -55,209 +55,89 @@ X-Mailing-List: linux-api@vger.kernel.org
 
 From: Darrick J. Wong <djwong@kernel.org>
 
-The inner loop of xfs_swap_extents_rmap does the same work as
-xfs_swapext_finish_one, so adapt it to use that.  Doing so has the side
-benefit that the older code path no longer wastes its time remapping
-shared extents.
-
-This forms the basis of the non-atomic swaprange implementation.
+Plumb the necessary bits into the xlog code so that higher level callers
+can enable the atomic extent swapping feature and have it clear
+automatically when possible.
 
 Signed-off-by: Darrick J. Wong <djwong@kernel.org>
 ---
- fs/xfs/xfs_bmap_util.c |  151 +++++-------------------------------------------
- fs/xfs/xfs_trace.h     |    5 --
- 2 files changed, 16 insertions(+), 140 deletions(-)
+ fs/xfs/xfs_log.c      |   13 +++++++++++++
+ fs/xfs/xfs_log.h      |    1 +
+ fs/xfs/xfs_log_priv.h |    1 +
+ 3 files changed, 15 insertions(+)
 
 
-diff --git a/fs/xfs/xfs_bmap_util.c b/fs/xfs/xfs_bmap_util.c
-index d587015aec0e..4d4696bf9b08 100644
---- a/fs/xfs/xfs_bmap_util.c
-+++ b/fs/xfs/xfs_bmap_util.c
-@@ -1360,138 +1360,6 @@ xfs_swap_extent_flush(
- 	return 0;
+diff --git a/fs/xfs/xfs_log.c b/fs/xfs/xfs_log.c
+index a0ef09addc84..37e85c1bb913 100644
+--- a/fs/xfs/xfs_log.c
++++ b/fs/xfs/xfs_log.c
+@@ -1501,11 +1501,17 @@ xlog_clear_incompat(
+ 	if (down_write_trylock(&log->l_incompat_xattrs))
+ 		incompat_mask |= XFS_SB_FEAT_INCOMPAT_LOG_XATTRS;
+ 
++	if (down_write_trylock(&log->l_incompat_swapext))
++		incompat_mask |= XFS_SB_FEAT_INCOMPAT_LOG_SWAPEXT;
++
+ 	if (!incompat_mask)
+ 		return;
+ 
+ 	xfs_clear_incompat_log_features(mp, incompat_mask);
+ 
++	if (incompat_mask & XFS_SB_FEAT_INCOMPAT_LOG_SWAPEXT)
++		up_write(&log->l_incompat_swapext);
++
+ 	if (incompat_mask & XFS_SB_FEAT_INCOMPAT_LOG_XATTRS)
+ 		up_write(&log->l_incompat_xattrs);
+ }
+@@ -1625,6 +1631,7 @@ xlog_alloc_log(
+ 	log->l_sectBBsize = 1 << log2_size;
+ 
+ 	init_rwsem(&log->l_incompat_xattrs);
++	init_rwsem(&log->l_incompat_swapext);
+ 
+ 	xlog_get_iclog_buffer_size(mp, log);
+ 
+@@ -3922,6 +3929,9 @@ xlog_use_incompat_feat(
+ 	case XLOG_INCOMPAT_FEAT_XATTRS:
+ 		down_read(&log->l_incompat_xattrs);
+ 		break;
++	case XLOG_INCOMPAT_FEAT_SWAPEXT:
++		down_read(&log->l_incompat_swapext);
++		break;
+ 	}
  }
  
--/*
-- * Move extents from one file to another, when rmap is enabled.
-- */
--STATIC int
--xfs_swap_extent_rmap(
--	struct xfs_trans		**tpp,
--	struct xfs_inode		*ip,
--	struct xfs_inode		*tip)
--{
--	struct xfs_trans		*tp = *tpp;
--	struct xfs_bmbt_irec		irec;
--	struct xfs_bmbt_irec		uirec;
--	struct xfs_bmbt_irec		tirec;
--	xfs_fileoff_t			offset_fsb;
--	xfs_fileoff_t			end_fsb;
--	xfs_filblks_t			count_fsb;
--	int				error;
--	xfs_filblks_t			ilen;
--	xfs_filblks_t			rlen;
--	int				nimaps;
--	uint64_t			tip_flags2;
--
--	/*
--	 * If the source file has shared blocks, we must flag the donor
--	 * file as having shared blocks so that we get the shared-block
--	 * rmap functions when we go to fix up the rmaps.  The flags
--	 * will be switch for reals later.
--	 */
--	tip_flags2 = tip->i_diflags2;
--	if (ip->i_diflags2 & XFS_DIFLAG2_REFLINK)
--		tip->i_diflags2 |= XFS_DIFLAG2_REFLINK;
--
--	offset_fsb = 0;
--	end_fsb = XFS_B_TO_FSB(ip->i_mount, i_size_read(VFS_I(ip)));
--	count_fsb = (xfs_filblks_t)(end_fsb - offset_fsb);
--
--	while (count_fsb) {
--		/* Read extent from the donor file */
--		nimaps = 1;
--		error = xfs_bmapi_read(tip, offset_fsb, count_fsb, &tirec,
--				&nimaps, 0);
--		if (error)
--			goto out;
--		ASSERT(nimaps == 1);
--		ASSERT(tirec.br_startblock != DELAYSTARTBLOCK);
--
--		trace_xfs_swap_extent_rmap_remap(tip, &tirec);
--		ilen = tirec.br_blockcount;
--
--		/* Unmap the old blocks in the source file. */
--		while (tirec.br_blockcount) {
--			ASSERT(tp->t_firstblock == NULLFSBLOCK);
--			trace_xfs_swap_extent_rmap_remap_piece(tip, &tirec);
--
--			/* Read extent from the source file */
--			nimaps = 1;
--			error = xfs_bmapi_read(ip, tirec.br_startoff,
--					tirec.br_blockcount, &irec,
--					&nimaps, 0);
--			if (error)
--				goto out;
--			ASSERT(nimaps == 1);
--			ASSERT(tirec.br_startoff == irec.br_startoff);
--			trace_xfs_swap_extent_rmap_remap_piece(ip, &irec);
--
--			/* Trim the extent. */
--			uirec = tirec;
--			uirec.br_blockcount = rlen = min_t(xfs_filblks_t,
--					tirec.br_blockcount,
--					irec.br_blockcount);
--			trace_xfs_swap_extent_rmap_remap_piece(tip, &uirec);
--
--			if (xfs_bmap_is_real_extent(&uirec)) {
--				error = xfs_iext_count_may_overflow(ip,
--						XFS_DATA_FORK,
--						XFS_IEXT_SWAP_RMAP_CNT);
--				if (error == -EFBIG)
--					error = xfs_iext_count_upgrade(tp, ip,
--							XFS_IEXT_SWAP_RMAP_CNT);
--				if (error)
--					goto out;
--			}
--
--			if (xfs_bmap_is_real_extent(&irec)) {
--				error = xfs_iext_count_may_overflow(tip,
--						XFS_DATA_FORK,
--						XFS_IEXT_SWAP_RMAP_CNT);
--				if (error == -EFBIG)
--					error = xfs_iext_count_upgrade(tp, ip,
--							XFS_IEXT_SWAP_RMAP_CNT);
--				if (error)
--					goto out;
--			}
--
--			/* Remove the mapping from the donor file. */
--			xfs_bmap_unmap_extent(tp, tip, XFS_DATA_FORK, &uirec);
--
--			/* Remove the mapping from the source file. */
--			xfs_bmap_unmap_extent(tp, ip, XFS_DATA_FORK, &irec);
--
--			/* Map the donor file's blocks into the source file. */
--			xfs_bmap_map_extent(tp, ip, XFS_DATA_FORK, &uirec);
--
--			/* Map the source file's blocks into the donor file. */
--			xfs_bmap_map_extent(tp, tip, XFS_DATA_FORK, &irec);
--
--			error = xfs_defer_finish(tpp);
--			tp = *tpp;
--			if (error)
--				goto out;
--
--			tirec.br_startoff += rlen;
--			if (tirec.br_startblock != HOLESTARTBLOCK &&
--			    tirec.br_startblock != DELAYSTARTBLOCK)
--				tirec.br_startblock += rlen;
--			tirec.br_blockcount -= rlen;
--		}
--
--		/* Roll on... */
--		count_fsb -= ilen;
--		offset_fsb += ilen;
--	}
--
--	tip->i_diflags2 = tip_flags2;
--	return 0;
--
--out:
--	trace_xfs_swap_extent_rmap_error(ip, error, _RET_IP_);
--	tip->i_diflags2 = tip_flags2;
--	return error;
--}
--
- /* Swap the extents of two files by swapping data forks. */
- STATIC int
- xfs_swap_extent_forks(
-@@ -1775,13 +1643,24 @@ xfs_swap_extents(
- 	src_log_flags = XFS_ILOG_CORE;
- 	target_log_flags = XFS_ILOG_CORE;
+@@ -3935,5 +3945,8 @@ xlog_drop_incompat_feat(
+ 	case XLOG_INCOMPAT_FEAT_XATTRS:
+ 		up_read(&log->l_incompat_xattrs);
+ 		break;
++	case XLOG_INCOMPAT_FEAT_SWAPEXT:
++		up_read(&log->l_incompat_swapext);
++		break;
+ 	}
+ }
+diff --git a/fs/xfs/xfs_log.h b/fs/xfs/xfs_log.h
+index d187f6445909..30bdbf8ee25c 100644
+--- a/fs/xfs/xfs_log.h
++++ b/fs/xfs/xfs_log.h
+@@ -161,6 +161,7 @@ bool	  xlog_force_shutdown(struct xlog *log, uint32_t shutdown_flags);
  
--	if (xfs_has_rmapbt(mp))
--		error = xfs_swap_extent_rmap(&tp, ip, tip);
--	else
-+	if (xfs_has_rmapbt(mp)) {
-+		struct xfs_swapext_req	req = {
-+			.ip1		= tip,
-+			.ip2		= ip,
-+			.whichfork	= XFS_DATA_FORK,
-+			.blockcount	= XFS_B_TO_FSB(ip->i_mount,
-+						       i_size_read(VFS_I(ip))),
-+		};
-+
-+		xfs_swapext(tp, &req);
-+		error = xfs_defer_finish(&tp);
-+	} else
- 		error = xfs_swap_extent_forks(tp, ip, tip, &src_log_flags,
- 				&target_log_flags);
--	if (error)
-+	if (error) {
-+		trace_xfs_swap_extent_error(ip, error, _THIS_IP_);
- 		goto out_trans_cancel;
-+	}
+ enum xlog_incompat_feat {
+ 	XLOG_INCOMPAT_FEAT_XATTRS = XFS_SB_FEAT_INCOMPAT_LOG_XATTRS,
++	XLOG_INCOMPAT_FEAT_SWAPEXT = XFS_SB_FEAT_INCOMPAT_LOG_SWAPEXT
+ };
  
- 	/* Do we have to swap reflink flags? */
- 	if ((ip->i_diflags2 & XFS_DIFLAG2_REFLINK) ^
-diff --git a/fs/xfs/xfs_trace.h b/fs/xfs/xfs_trace.h
-index 6841f04ee38d..b0ced76af3b9 100644
---- a/fs/xfs/xfs_trace.h
-+++ b/fs/xfs/xfs_trace.h
-@@ -3759,13 +3759,10 @@ DEFINE_INODE_ERROR_EVENT(xfs_reflink_end_cow_error);
+ void xlog_use_incompat_feat(struct xlog *log, enum xlog_incompat_feat what);
+diff --git a/fs/xfs/xfs_log_priv.h b/fs/xfs/xfs_log_priv.h
+index a13b5b6b744d..6cbee6996de5 100644
+--- a/fs/xfs/xfs_log_priv.h
++++ b/fs/xfs/xfs_log_priv.h
+@@ -448,6 +448,7 @@ struct xlog {
  
- DEFINE_INODE_IREC_EVENT(xfs_reflink_cancel_cow);
+ 	/* Users of log incompat features should take a read lock. */
+ 	struct rw_semaphore	l_incompat_xattrs;
++	struct rw_semaphore	l_incompat_swapext;
+ };
  
--/* rmap swapext tracepoints */
--DEFINE_INODE_IREC_EVENT(xfs_swap_extent_rmap_remap);
--DEFINE_INODE_IREC_EVENT(xfs_swap_extent_rmap_remap_piece);
--DEFINE_INODE_ERROR_EVENT(xfs_swap_extent_rmap_error);
- 
- /* swapext tracepoints */
- DEFINE_INODE_ERROR_EVENT(xfs_file_xchg_range_error);
-+DEFINE_INODE_ERROR_EVENT(xfs_swap_extent_error);
- DEFINE_INODE_IREC_EVENT(xfs_swapext_extent1);
- DEFINE_INODE_IREC_EVENT(xfs_swapext_extent2);
- DEFINE_ITRUNC_EVENT(xfs_swapext_update_inode_size);
+ /*
 
