@@ -2,900 +2,412 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 55230659356
-	for <lists+linux-api@lfdr.de>; Fri, 30 Dec 2022 00:39:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F540659DC2
+	for <lists+linux-api@lfdr.de>; Sat, 31 Dec 2022 00:06:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234253AbiL2Xi6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 29 Dec 2022 18:38:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46862 "EHLO
+        id S235604AbiL3XGP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 30 Dec 2022 18:06:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60326 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234296AbiL2Xif (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 29 Dec 2022 18:38:35 -0500
-Received: from sonic310-31.consmr.mail.ne1.yahoo.com (sonic310-31.consmr.mail.ne1.yahoo.com [66.163.186.212])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 342709FDC
-        for <linux-api@vger.kernel.org>; Thu, 29 Dec 2022 15:38:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1672357112; bh=TMEsHu4LlAJ0jeoKtnejUwfMeI4bpUXByg0YCSHhEkQ=; h=From:To:Cc:Subject:Date:In-Reply-To:References:From:Subject:Reply-To; b=DzWsG2UAgvZbB5Xa/ZzSg3Z8Y8GXtVWs2yq1Jbtb2EZnOFytLUg3v/+pjXZ2wINRv+f7ElbWM76Zh5aue/FXJvDwnphTG/9B8Ni0udk+Y9h9VvCT8/ipcLZ3OwnQ++faW3plxCdQYUQZbQOtL4HTiMgdALq3B8DPWWec47c9R68kzYFc1sD1J1lA52qLcCHx0Q3rjmBTd5ceLXeJ4yHEW2PtFet0ZIPhctdbTPG7vjja5VO2Y/sZ2k8TJ9K9DPfy4hVG5YsbvvG3FVqsOkSJ7HujX6MqV/KFJanY5Cswf27edKVdQcnFVRyrIxZomgloPe/0tmxdIxn3v3DHcp8jMA==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1672357112; bh=GH3Js6+VifG7f9b9HSWA9JswyIB6iSBJo2wC4y6utex=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=swh4JEATnCBuArJhSrtC5uoOKTFiwxyGMpNhEltSWVabK2Iw85zDCFxVfQZ4z7Um9LqAe0FrhzT4qCUsDCvED6aJK5vVcnZbqf1nh8bpmp2sLba/TcqSZjXOwrhC6pSjuc1WPe8qgdUM73GgjUV+cKl9uu0xvuiIys8LohcZFiemtViBhfYzUzzP04OXaLSOvK4xm9cB55cA5v+kPKlTyeQXINOFqPt+TurE97Ckq1rAynLNqCqS5ukRDROWh1OLwf3g1nx5NQuPbuoxHN/1zkcmCflds4JHL+Y6vog+gyr1eLFd+imbj5SD4aizWvnuJKufCRR6MrSO75CPCELI/Q==
-X-YMail-OSG: QfpDx8kVM1leyKB.V6XadyPH1cz6P_XTCoerHCrP1TsiLJcPsh.G3VTabsPISLE
- k_cr9xmkQjyZC5HQ1ZQ0lsGVAfPzIqIlL3.Drg868kpdziw9nbnd9aWipYm8vCycPWx1EHeHsduL
- ouOo43AtFvQwX8oYa2QzQghYfCVJKAHNQhJSDneSrYVisWS8TjUVoRUL6sSscUwSIlM3m_.DsnTN
- FqKNa.I2_FD8Crhka3IsWvqjA5fUGBdSekM_alzE7KWGQmZkN7q.Yx1G8uy6nlfv0FzlPKSSh6yt
- bnyJGBQRYzRiQllWbXm_GZscB.jaLE5.tZlI605vnFrZ_9ekWsz8c8op6CnD59Ug.TupVls0DEjs
- X5ynp962cEC5UU7k0_Y68Dpsb35evUMSK.BglTn6jxxzf2Sog9r4oCkJvMlfqFNbu8IKJgP5lM5f
- aAQLOX1wbxWB.A8UfGVgoulBx2Nb.p7rVMbXskAW4nwWmJj5Q2DZSqW1RmntWNXtiy4RsdYYfnC2
- _egKGcF1qaTqFetucehXp9WhugAf2I46jnSnLucQIUXTu9gFEZuoj.kurMTcfFJK0ekCx2SadKrF
- q7MV9KtOOPMeo8Oxzf501mzNAYKG8.qYpVYRtxVBaUmVgvj9_P8mYTTPpLRYQWo7Orwc9ubB84RB
- L_7nE4nV3Y5o_hzzxdLeeWEWJB81EOnXdKhAI1zC84By_OXBT8MW8ZV2a08uy81cN6pf9py3aY_p
- U2JBy_Si9DW.voOmgjP5IOrdND2ewCpDYBvuT.Hzd1KEVnPB7OuCEDE9y35ehJ2Qg5r2srjrCkCG
- aR3mZio5dzw4F4qMoDGISKxJL8vvbiggeiSUz_ukjpLr1uFH_.NrnnT0vCjoF5TqIxV8euBjgmrc
- taK8HDi0J9XqlhJ7dT_3f_d9gK_qwmub4jNxgF8Tg7LoRvklmqoAXFkmnAonPjJUBIOHUKHRH184
- Si_Rus2HLGW3VOH8iOkg12RBGtnP1JXyYmZlOwHh3tbRD6nrt6XXcrbi6naqQzGxnD8U5B37DsFF
- EkvziYs1hO4EibN.kzvGPQ1.FDtSfyDSuA8pu_Quqk5DB2IMaSh6sPwMw79pDTmE4JXtqri1qDJj
- qZf8JcnT3AZB_o55t9skR5mM1ZJ3iqvlRIJFpBT3h8DCSmp9TBdEBL.KOdHzLY1vBerlpQ7pbfZH
- XV7FJbRYjVnZ4Roqe1CCObxqe.SFDNzhP8eGFKRbaoDvF66pHa1N.3K.QATH8wleNUJXdAGIZ74t
- ESugkm0QpPg4R8Q6w9qKGkp1TqSJvV6gzchtTPmFH50q8Qxfv0Kv3GXZT7JuPGk5qvv38SV87Dz_
- QNYinY3TSHRJkEobQ54qwgRmnpyhhqqcxgO06sC817OUshGZxay9Q4bCFHmLyx7ZrJ8acJ1yCK_y
- 9PZ0XVO_gHgCHkZ9msqR7dpcjBo4CrL8LNVEmfYDu7xavnFUCbmHGg90ELyPwID138P3sHGLtbiK
- S1OIJZ_y9fuq0lsZY9hFSJqEQLDl.nq7DCYiOT5G1KCeo86pcx4c1ylH8b747jkqARPnXPDzVgkh
- _jvjoNKEMmEiELeTHh8f_R1K9863Tc8hBMg0pBgZd280ykXsviv0_yqcagYVOZSWowVbvDm8vpp2
- iaQGCJ.zVyMuXFuFzlUuN6rp405vaPN1UIfNsFh9J_IxZkHKxd4JY._lz3k_RO3LRVvMTcQ50GlD
- ktfhDofyR61zhbGIDX62rKrT1gbtipHGurVJ6H44tGf3k3PBWHKflS41_xHGVmg6iMZfc6le6X_E
- RMd6pNwzEw707wbdg6u_mP5hUcxwNh_2h1VKGI7AoBMlkdB6jE5W_YgI2hMf0jnLJMJRPzV8Mgxr
- jd2xXOkW83dexamB0yM0NhU1TsaOIRu3yhFQ3Fz.npmZi3kvl2FI5liPQhBDL6uireqwJMBNhjHK
- 70x9XVaZ1.PXPN1bnoM.19ro9DM.uiuknZq.ZyXG1NT5cXcEUM60ME9qiaahmp920RM_VHnrwj0m
- SFt6XN9rK6tMWKzF_JPRIqtXzKz2DRpW8dEWKdYCXcYkQY9xl6tglv6E5rvhSYaFo5LaupMdKLAW
- WpE2TZc_X5Cel..ArP0QcUUa8N4VfKeLu9Mnwa9v8P9gQr3hfoQ4bwh.CrRs_w0luP6uSI2ITwwp
- YK4m8G0.kT2xM3DaPvuSrgicJL8IxiwSQ67D2FBCMemKLg1h4895aiUm3EVL4vsLELc3FPr9NJkd
- DWjkfBWhdbeh3E4npYOTpPR3fXLJEo9sXjuyFo1IcjePrrNTE8MgdWNDJ3xaRwEDyt6FlNIy9FLW
- fw94ikIlwyM99utOa7s9U
-X-Sonic-MF: <casey@schaufler-ca.com>
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic310.consmr.mail.ne1.yahoo.com with HTTP; Thu, 29 Dec 2022 23:38:32 +0000
-Received: by hermes--production-gq1-d898c4779-kmgvg (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID c30ab77c0fba0515bdb50273bd82270d;
-          Thu, 29 Dec 2022 23:38:28 +0000 (UTC)
-From:   Casey Schaufler <casey@schaufler-ca.com>
-To:     casey.schaufler@intel.com, paul@paul-moore.com,
-        linux-security-module@vger.kernel.org
-Cc:     casey@schaufler-ca.com, jmorris@namei.org, keescook@chromium.org,
-        john.johansen@canonical.com, penguin-kernel@i-love.sakura.ne.jp,
-        stephen.smalley.work@gmail.com, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, mic@digikod.net
-Subject: [PATCH v4 8/8] LSM: selftests for Linux Security Module syscalls
-Date:   Thu, 29 Dec 2022 15:34:54 -0800
-Message-Id: <20221229233454.43880-9-casey@schaufler-ca.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221229233454.43880-1-casey@schaufler-ca.com>
-References: <20221229233454.43880-1-casey@schaufler-ca.com>
+        with ESMTP id S235580AbiL3XGP (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 30 Dec 2022 18:06:15 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CAF92DC7;
+        Fri, 30 Dec 2022 15:06:13 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 07B1AB81D94;
+        Fri, 30 Dec 2022 23:06:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B267CC433EF;
+        Fri, 30 Dec 2022 23:06:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1672441570;
+        bh=A/dgeAj+KxG6IlyPN8N6M36a0RDTL9s2/p9TFh9dtrc=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=PvCx4/gSHyIbFgcss6wvfxZTsQt9LuaLnZMiD1QyiY2goSydCJp210p/cwmR1YPQP
+         YMRRmyTmUBsdpu6VhcrZQRK6xVQ2P5gpwptVXXl1grdaVurNoZZdTQIBPQjVUbroD+
+         H14IR8lF7pQvVMvhQzkJKxiI6jjgqIpz1Dpng4l3WSHhFvuSkBh0TH4bKtvNrXA0K9
+         mz6CNND9YTMRKV9hjIdO3rD2DGoHHSqzBtbjBKH1rQgfdfOWFrtIn0TdsqRCS9lAFt
+         XyDZdkvDDzzy5JdSWizMVk8N6nQdQ3R+l4R6tZOd5Zv7a9F1JsOwNT2hMjxeSjb40g
+         li+rSusZiRifg==
+Subject: [PATCHSET v24.0 00/21] xfs: atomic file updates
+From:   "Darrick J. Wong" <djwong@kernel.org>
+To:     djwong@kernel.org
+Cc:     linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org
+Date:   Fri, 30 Dec 2022 14:13:55 -0800
+Message-ID: <167243843494.699466.5163281976943635014.stgit@magnolia>
+In-Reply-To: <Y69Unb7KRM5awJoV@magnolia>
+References: <Y69Unb7KRM5awJoV@magnolia>
+User-Agent: StGit/0.19
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Add selftests for the three system calls supporting the LSM
-infrastructure.
+Hi all,
 
-Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
+This series creates a new FIEXCHANGE_RANGE system call to exchange
+ranges of bytes between two files atomically.  This new functionality
+enables data storage programs to stage and commit file updates such that
+reader programs will see either the old contents or the new contents in
+their entirety, with no chance of torn writes.  A successful call
+completion guarantees that the new contents will be seen even if the
+system fails.
+
+The ability to swap extent mappings between files in this manner is
+critical to supporting online filesystem repair, which is built upon the
+strategy of constructing a clean copy of a damaged structure and
+committing the new structure into the metadata file atomically.
+
+User programs will be able to update files atomically by opening an
+O_TMPFILE, reflinking the source file to it, making whatever updates
+they want to make, and exchange the relevant ranges of the temp file
+with the original file.  If the updates are aligned with the file block
+size, a new (since v2) flag provides for exchanging only the written
+areas.  Callers can arrange for the update to be rejected if the
+original file has been changed.
+
+The intent behind this new userspace functionality is to enable atomic
+rewrites of arbitrary parts of individual files.  For years, application
+programmers wanting to ensure the atomicity of a file update had to
+write the changes to a new file in the same directory, fsync the new
+file, rename the new file on top of the old filename, and then fsync the
+directory.  People get it wrong all the time, and $fs hacks abound.
+Here is the proposed manual page:
+
+IOCTL-FIEXCHANGE_RANGE(Linux Programmer's ManIOCTL-FIEXCHANGE_RANGE(2)
+
+NAME
+       ioctl_fiexchange_range  - exchange the contents of parts of two
+       files
+
+SYNOPSIS
+       #include <sys/ioctl.h>
+       #include <linux/fiexchange.h>
+
+       int    ioctl(int     file2_fd,     FIEXCHANGE_RANGE,     struct
+       file_xchg_range *arg);
+
+DESCRIPTION
+       Given  a  range  of bytes in a first file file1_fd and a second
+       range of bytes in a second file  file2_fd,  this  ioctl(2)  ex‐
+       changes the contents of the two ranges.
+
+       Exchanges  are  atomic  with  regards to concurrent file opera‐
+       tions, so no userspace-level locks need to be taken  to  obtain
+       consistent  results.  Implementations must guarantee that read‐
+       ers see either the old contents or the new  contents  in  their
+       entirety, even if the system fails.
+
+       The exchange parameters are conveyed in a structure of the fol‐
+       lowing form:
+
+           struct file_xchg_range {
+               __s64    file1_fd;
+               __s64    file1_offset;
+               __s64    file2_offset;
+               __s64    length;
+
+               __u64    flags;
+
+               __s64    file2_ino;
+               __s64    file2_mtime;
+               __s64    file2_ctime;
+               __s32    file2_mtime_nsec;
+               __s32    file2_ctime_nsec;
+
+               __u64    pad[6];
+           };
+
+       The field pad must be zero.
+
+       The fields file1_fd, file1_offset, and length define the  first
+       range of bytes to be exchanged.
+
+       The fields file2_fd, file2_offset, and length define the second
+       range of bytes to be exchanged.
+
+       Both files must be from the same filesystem mount.  If the  two
+       file  descriptors represent the same file, the byte ranges must
+       not overlap.  Most  disk-based  filesystems  require  that  the
+       starts  of  both ranges must be aligned to the file block size.
+       If this is the case, the ends of the ranges  must  also  be  so
+       aligned unless the FILE_XCHG_RANGE_TO_EOF flag is set.
+
+       The field flags control the behavior of the exchange operation.
+
+           FILE_XCHG_RANGE_FILE2_FRESH
+                  Check  the  freshness  of file2_fd after locking the
+                  file but before exchanging the contents.   The  sup‐
+                  plied  file2_ino field must match file2's inode num‐
+                  ber, and the supplied file2_mtime, file2_mtime_nsec,
+                  file2_ctime,  and file2_ctime_nsec fields must match
+                  the modification time and change time of file2.   If
+                  they do not match, EBUSY will be returned.
+
+           FILE_XCHG_RANGE_TO_EOF
+                  Ignore  the length parameter.  All bytes in file1_fd
+                  from file1_offset to EOF are moved to file2_fd,  and
+                  file2's  size is set to (file2_offset+(file1_length-
+                  file1_offset)).  Meanwhile, all bytes in file2  from
+                  file2_offset  to  EOF are moved to file1 and file1's
+                  size   is   set   to    (file1_offset+(file2_length-
+                  file2_offset)).   This option is not compatible with
+                  FILE_XCHG_RANGE_FULL_FILES.
+
+           FILE_XCHG_RANGE_FSYNC
+                  Ensure that all modified in-core data in  both  file
+                  ranges  and  all  metadata updates pertaining to the
+                  exchange operation are flushed to persistent storage
+                  before  the  call  returns.  Opening either file de‐
+                  scriptor with O_SYNC or O_DSYNC will have  the  same
+                  effect.
+
+           FILE_XCHG_RANGE_SKIP_FILE1_HOLES
+                  Skip  sub-ranges  of  file1_fd that are known not to
+                  contain data.  This facility can be used  to  imple‐
+                  ment  atomic scatter-gather writes of any complexity
+                  for software-defined storage targets.
+
+           FILE_XCHG_RANGE_DRY_RUN
+                  Check the parameters and the feasibility of the  op‐
+                  eration, but do not change anything.
+
+           FILE_XCHG_RANGE_COMMIT
+                  This      flag      is      a     combination     of
+                  FILE_XCHG_RANGE_FILE2_FRESH |  FILE_XCHG_RANGE_FSYNC
+                  and  can  be  used  to commit changes to file2_fd to
+                  persistent storage if and  only  if  file2  has  not
+                  changed.
+
+           FILE_XCHG_RANGE_FULL_FILES
+                  Require that file1_offset and file2_offset are zero,
+                  and that the length field  matches  the  lengths  of
+                  both  files.   If  not, EDOM will be returned.  This
+                  option      is       not       compatible       with
+                  FILE_XCHG_RANGE_TO_EOF.
+
+           FILE_XCHG_RANGE_NONATOMIC
+                  This  flag  relaxes the requirement that readers see
+                  only the old contents or the new contents  in  their
+                  entirety.   If  the system fails before all modified
+                  in-core data and metadata updates are  persisted  to
+                  disk,  the contents of both file ranges after recov‐
+                  ery are not defined and may be a mix of both.
+
+                  Do not use this flag unless  the  contents  of  both
+                  ranges  are  known  to be identical and there are no
+                  other writers.
+
+RETURN VALUE
+       On error, -1 is returned, and errno is set to indicate the  er‐
+       ror.
+
+ERRORS
+       Error  codes can be one of, but are not limited to, the follow‐
+       ing:
+
+       EBADF  file1_fd is not open for reading and writing or is  open
+              for  append-only  writes;  or  file2_fd  is not open for
+              reading and writing or is open for append-only writes.
+
+       EBUSY  The inode number and timestamps supplied  do  not  match
+              file2_fd  and  FILE_XCHG_RANGE_FILE2_FRESH  was  set  in
+              flags.
+
+       EDOM   The ranges do not cover the entirety of both files,  and
+              FILE_XCHG_RANGE_FULL_FILES was set in flags.
+
+       EINVAL The  parameters  are  not correct for these files.  This
+              error can also appear if either file  descriptor  repre‐
+              sents  a device, FIFO, or socket.  Disk filesystems gen‐
+              erally require the offset and  length  arguments  to  be
+              aligned to the fundamental block sizes of both files.
+
+       EIO    An I/O error occurred.
+
+       EISDIR One of the files is a directory.
+
+       ENOMEM The  kernel  was unable to allocate sufficient memory to
+              perform the operation.
+
+       ENOSPC There is not enough free space  in  the  filesystem  ex‐
+              change the contents safely.
+
+       EOPNOTSUPP
+              The filesystem does not support exchanging bytes between
+              the two files.
+
+       EPERM  file1_fd or file2_fd are immutable.
+
+       ETXTBSY
+              One of the files is a swap file.
+
+       EUCLEAN
+              The filesystem is corrupt.
+
+       EXDEV  file1_fd and  file2_fd  are  not  on  the  same  mounted
+              filesystem.
+
+CONFORMING TO
+       This API is Linux-specific.
+
+USE CASES
+       Three use cases are imagined for this system call.
+
+       The  first  is a filesystem defragmenter, which copies the con‐
+       tents of a file into another file and wishes  to  exchange  the
+       space  mappings  of  the  two files, provided that the original
+       file has not changed.  The flags NONATOMIC and FILE2_FRESH  are
+       recommended for this application.
+
+       The  second is a data storage program that wants to commit non-
+       contiguous updates to a file atomically.  This can be  done  by
+       creating a temporary file, calling FICLONE(2) to share the con‐
+       tents, and staging the updates into the temporary file.  Either
+       of  the  FULL_FILES or TO_EOF flags are recommended, along with
+       FSYNC.  Depending on  the  application's  locking  design,  the
+       flags FILE2_FRESH or COMMIT may be applicable here.  The tempo‐
+       rary file can be deleted or punched out afterwards.
+
+       The third is a software-defined storage host (e.g. a disk juke‐
+       box)  which  implements an atomic scatter-gather write command.
+       Provided the exported disk's logical  block  size  matches  the
+       file's  allocation  unit  size,  this can be done by creating a
+       temporary file and writing the data at the appropriate offsets.
+       Use  this  call  with  the SKIP_HOLES flag to exchange only the
+       blocks involved in the write command.  The  use  of  the  FSYNC
+       flag is recommended here.  The temporary file should be deleted
+       or punched out completely before being reused to stage  another
+       write.
+
+NOTES
+       Some  filesystems may limit the amount of data or the number of
+       extents that can be exchanged in a single call.
+
+SEE ALSO
+       ioctl(2)
+
+Linux                         2022-12-31     IOCTL-FIEXCHANGE_RANGE(2)
+
+The reference implementation in XFS creates a new log incompat feature
+and log intent items to track high level progress of swapping ranges of
+two files and finish interrupted work if the system goes down.  Sample
+code can be found in the corresponding changes to xfs_io to exercise the
+use case mentioned above.
+
+Note that this function is /not/ the O_DIRECT atomic file writes concept
+that has also been floating around for years.  This RFC is constructed
+entirely in software, which means that there are no limitations other
+than the general filesystem limits.
+
+As a side note, the original motivation behind the kernel functionality
+is online repair of file-based metadata.  The atomic file swap is
+implemented as an atomic inode fork swap, which means that we can
+implement online reconstruction of extended attributes and directories
+by building a new one in another inode and atomically swap the contents.
+
+Subsequent patchsets adapt the online filesystem repair code to use
+atomic extent swapping.  This enables repair functions to construct a
+clean copy of a directory, xattr information, symbolic links, realtime
+bitmaps, and realtime summary information in a temporary inode.  If this
+completes successfully, the new contents can be swapped atomically into
+the inode being repaired.  This is essential to avoid making corruption
+problems worse if the system goes down in the middle of running repair.
+
+This patchset also ports the old XFS extent swap ioctl interface to use
+the new extent swap code.
+
+For userspace, this series also includes the userspace pieces needed to
+test the new functionality, and a sample implementation of atomic file
+updates.
+
+Question: Should we really bother with fsdevel bikeshedding?  Most
+filesystems cannot support this functionality, so we could keep it
+private to XFS for now.
+
+If you're going to start using this mess, you probably ought to just
+pull from my git trees, which are linked below.
+
+This is an extraordinary way to destroy everything.  Enjoy!
+Comments and questions are, as always, welcome.
+
+--D
+
+kernel git tree:
+https://git.kernel.org/cgit/linux/kernel/git/djwong/xfs-linux.git/log/?h=atomic-file-updates
+
+xfsprogs git tree:
+https://git.kernel.org/cgit/linux/kernel/git/djwong/xfsprogs-dev.git/log/?h=atomic-file-updates
+
+fstests git tree:
+https://git.kernel.org/cgit/linux/kernel/git/djwong/xfstests-dev.git/log/?h=atomic-file-updates
+
+xfsdocs git tree:
+https://git.kernel.org/cgit/linux/kernel/git/djwong/xfs-documentation.git/log/?h=atomic-file-updates
 ---
- tools/testing/selftests/Makefile              |   1 +
- tools/testing/selftests/lsm/Makefile          |  12 +
- tools/testing/selftests/lsm/config            |   2 +
- .../selftests/lsm/lsm_get_self_attr_test.c    | 268 ++++++++++++++
- .../selftests/lsm/lsm_module_list_test.c      | 149 ++++++++
- .../selftests/lsm/lsm_set_self_attr_test.c    | 328 ++++++++++++++++++
- 6 files changed, 760 insertions(+)
- create mode 100644 tools/testing/selftests/lsm/Makefile
- create mode 100644 tools/testing/selftests/lsm/config
- create mode 100644 tools/testing/selftests/lsm/lsm_get_self_attr_test.c
- create mode 100644 tools/testing/selftests/lsm/lsm_module_list_test.c
- create mode 100644 tools/testing/selftests/lsm/lsm_set_self_attr_test.c
-
-diff --git a/tools/testing/selftests/Makefile b/tools/testing/selftests/Makefile
-index 41b649452560..ea58c5018529 100644
---- a/tools/testing/selftests/Makefile
-+++ b/tools/testing/selftests/Makefile
-@@ -37,6 +37,7 @@ TARGETS += landlock
- TARGETS += lib
- TARGETS += livepatch
- TARGETS += lkdtm
-+TARGETS += lsm
- TARGETS += membarrier
- TARGETS += memfd
- TARGETS += memory-hotplug
-diff --git a/tools/testing/selftests/lsm/Makefile b/tools/testing/selftests/lsm/Makefile
-new file mode 100644
-index 000000000000..d567ea9756ea
---- /dev/null
-+++ b/tools/testing/selftests/lsm/Makefile
-@@ -0,0 +1,12 @@
-+# SPDX-License-Identifier: GPL-2.0
-+#
-+# First run: make -C ../../../.. headers_install
-+
-+CFLAGS += -Wall -O2 $(KHDR_INCLUDES)
-+
-+TEST_GEN_PROGS := lsm_get_self_attr_test lsm_module_list_test \
-+		  lsm_set_self_attr_test
-+
-+include ../lib.mk
-+
-+$(TEST_GEN_PROGS):
-diff --git a/tools/testing/selftests/lsm/config b/tools/testing/selftests/lsm/config
-new file mode 100644
-index 000000000000..afb887715f64
---- /dev/null
-+++ b/tools/testing/selftests/lsm/config
-@@ -0,0 +1,2 @@
-+CONFIG_SYSFS=y
-+CONFIG_SECURITY=y
-diff --git a/tools/testing/selftests/lsm/lsm_get_self_attr_test.c b/tools/testing/selftests/lsm/lsm_get_self_attr_test.c
-new file mode 100644
-index 000000000000..6f7f72c25cda
---- /dev/null
-+++ b/tools/testing/selftests/lsm/lsm_get_self_attr_test.c
-@@ -0,0 +1,268 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Linux Security Module infrastructure tests
-+ * Tests for the lsm_get_self_attr system call
-+ *
-+ * Copyright © 2022 Casey Schaufler <casey@schaufler-ca.com>
-+ * Copyright © 2022 Intel Corporation
-+ */
-+
-+#define _GNU_SOURCE
-+#include <linux/lsm.h>
-+#include <string.h>
-+#include <stdio.h>
-+#include <unistd.h>
-+#include <sys/types.h>
-+#include "../kselftest_harness.h"
-+
-+#define PROCATTR	"/proc/self/attr/"
-+
-+static int read_proc_attr(const char *attr, char *value, __kernel_size_t size)
-+{
-+	FILE *fp;
-+	int len;
-+	char *path;
-+
-+	len = strlen(PROCATTR) + strlen(attr) + 1;
-+	path = calloc(len, 1);
-+	if (path == NULL)
-+		return -1;
-+	sprintf(path, "%s%s", PROCATTR, attr);
-+
-+	fp = fopen(path, "r");
-+	free(path);
-+
-+	if (fp == NULL)
-+		return -1;
-+	if (fread(value, 1, size, fp) <= 0)
-+		return -1;
-+	fclose(fp);
-+
-+	path = strchr(value, '\n');
-+	if (path)
-+		*path = '\0';
-+
-+	return 0;
-+}
-+
-+static struct lsm_ctx *next_ctx(struct lsm_ctx *ctxp)
-+{
-+	void *vp;
-+
-+	vp = (void *)ctxp + sizeof(*ctxp) + ctxp->ctx_len;
-+	return (struct lsm_ctx *)vp;
-+}
-+
-+TEST(size_null_lsm_get_self_attr)
-+{
-+	const long page_size = sysconf(_SC_PAGESIZE);
-+	char *ctx = calloc(page_size, 1);
-+
-+	ASSERT_NE(NULL, ctx);
-+	ASSERT_EQ(-1, syscall(__NR_lsm_get_self_attr, ctx, NULL,
-+			      LSM_ATTR_CURRENT));
-+	ASSERT_EQ(EFAULT, errno);
-+
-+	free(ctx);
-+}
-+
-+TEST(ctx_null_lsm_get_self_attr)
-+{
-+	const long page_size = sysconf(_SC_PAGESIZE);
-+	__kernel_size_t size = page_size;
-+
-+	ASSERT_EQ(-1, syscall(__NR_lsm_get_self_attr, NULL, &size,
-+			      LSM_ATTR_CURRENT));
-+	ASSERT_EQ(EFAULT, errno);
-+	ASSERT_NE(1, size);
-+}
-+
-+TEST(size_too_small_lsm_get_self_attr)
-+{
-+	const long page_size = sysconf(_SC_PAGESIZE);
-+	char *ctx = calloc(page_size, 1);
-+	__kernel_size_t size = 1;
-+
-+	ASSERT_NE(NULL, ctx);
-+	ASSERT_EQ(-1, syscall(__NR_lsm_get_self_attr, ctx, &size,
-+			      LSM_ATTR_CURRENT));
-+	ASSERT_EQ(ERANGE, errno);
-+	ASSERT_NE(1, size);
-+
-+	free(ctx);
-+}
-+
-+TEST(flags_zero_lsm_get_self_attr)
-+{
-+	const long page_size = sysconf(_SC_PAGESIZE);
-+	char *ctx = calloc(page_size, 1);
-+	__kernel_size_t size = page_size;
-+
-+	ASSERT_NE(NULL, ctx);
-+	ASSERT_EQ(-1, syscall(__NR_lsm_get_self_attr, ctx, &size, 0));
-+	ASSERT_EQ(EINVAL, errno);
-+	ASSERT_EQ(page_size, size);
-+
-+	free(ctx);
-+}
-+
-+TEST(flags_overset_lsm_get_self_attr)
-+{
-+	const long page_size = sysconf(_SC_PAGESIZE);
-+	char *ctx = calloc(page_size, 1);
-+	__kernel_size_t size = page_size;
-+
-+	ASSERT_NE(NULL, ctx);
-+	ASSERT_EQ(-1, syscall(__NR_lsm_get_self_attr, ctx, &size,
-+			      LSM_ATTR_CURRENT | LSM_ATTR_PREV));
-+	ASSERT_EQ(EINVAL, errno);
-+	ASSERT_EQ(page_size, size);
-+
-+	free(ctx);
-+}
-+
-+TEST(basic_lsm_get_self_attr)
-+{
-+	const long page_size = sysconf(_SC_PAGESIZE);
-+	__kernel_size_t size = page_size;
-+	struct lsm_ctx *ctx = calloc(page_size, 1);
-+	struct lsm_ctx *tctx = NULL;
-+	__u32 *syscall_lsms = calloc(page_size, 1);
-+	char *attr = calloc(page_size, 1);
-+	int cnt_current = 0;
-+	int cnt_exec = 0;
-+	int cnt_fscreate = 0;
-+	int cnt_keycreate = 0;
-+	int cnt_prev = 0;
-+	int cnt_sockcreate = 0;
-+	int lsmcount;
-+	int count;
-+	int i;
-+
-+	ASSERT_NE(NULL, ctx);
-+	ASSERT_NE(NULL, syscall_lsms);
-+
-+	lsmcount = syscall(__NR_lsm_module_list, syscall_lsms, &size, 0);
-+	ASSERT_LE(1, lsmcount);
-+
-+	for (i = 0; i < lsmcount; i++) {
-+		switch (syscall_lsms[i]) {
-+		case LSM_ID_SELINUX:
-+			cnt_current++;
-+			cnt_exec++;
-+			cnt_fscreate++;
-+			cnt_keycreate++;
-+			cnt_prev++;
-+			cnt_sockcreate++;
-+			break;
-+		case LSM_ID_SMACK:
-+			cnt_current++;
-+			break;
-+		case LSM_ID_APPARMOR:
-+			cnt_current++;
-+			cnt_exec++;
-+			cnt_prev++;
-+			break;
-+		default:
-+			break;
-+		}
-+	}
-+
-+	if (cnt_current) {
-+		size = page_size;
-+		count = syscall(__NR_lsm_get_self_attr, ctx, &size,
-+				LSM_ATTR_CURRENT);
-+		ASSERT_EQ(cnt_current, count);
-+		tctx = ctx;
-+		ASSERT_EQ(0, read_proc_attr("current", attr, page_size));
-+		ASSERT_EQ(0, strcmp((char *)tctx->ctx, attr));
-+		for (i = 1; i < count; i++) {
-+			tctx = next_ctx(tctx);
-+			ASSERT_NE(0, strcmp((char *)tctx->ctx, attr));
-+		}
-+	}
-+	if (cnt_exec) {
-+		size = page_size;
-+		count = syscall(__NR_lsm_get_self_attr, ctx, &size,
-+				LSM_ATTR_EXEC);
-+		ASSERT_GE(cnt_exec, count);
-+		if (count > 0) {
-+			tctx = ctx;
-+			ASSERT_EQ(0, read_proc_attr("exec", attr, page_size));
-+			ASSERT_EQ(0, strcmp((char *)tctx->ctx, attr));
-+		}
-+		for (i = 1; i < count; i++) {
-+			tctx = next_ctx(tctx);
-+			ASSERT_NE(0, strcmp((char *)tctx->ctx, attr));
-+		}
-+	}
-+	if (cnt_fscreate) {
-+		size = page_size;
-+		count = syscall(__NR_lsm_get_self_attr, ctx, &size,
-+				LSM_ATTR_FSCREATE);
-+		ASSERT_GE(cnt_fscreate, count);
-+		if (count > 0) {
-+			tctx = ctx;
-+			ASSERT_EQ(0, read_proc_attr("fscreate", attr,
-+						    page_size));
-+			ASSERT_EQ(0, strcmp((char *)tctx->ctx, attr));
-+		}
-+		for (i = 1; i < count; i++) {
-+			tctx = next_ctx(tctx);
-+			ASSERT_NE(0, strcmp((char *)tctx->ctx, attr));
-+		}
-+	}
-+	if (cnt_keycreate) {
-+		size = page_size;
-+		count = syscall(__NR_lsm_get_self_attr, ctx, &size,
-+				LSM_ATTR_KEYCREATE);
-+		ASSERT_GE(cnt_keycreate, count);
-+		if (count > 0) {
-+			tctx = ctx;
-+			ASSERT_EQ(0, read_proc_attr("keycreate", attr,
-+						    page_size));
-+			ASSERT_EQ(0, strcmp((char *)tctx->ctx, attr));
-+		}
-+		for (i = 1; i < count; i++) {
-+			tctx = next_ctx(tctx);
-+			ASSERT_NE(0, strcmp((char *)tctx->ctx, attr));
-+		}
-+	}
-+	if (cnt_prev) {
-+		size = page_size;
-+		count = syscall(__NR_lsm_get_self_attr, ctx, &size,
-+				LSM_ATTR_PREV);
-+		ASSERT_GE(cnt_prev, count);
-+		if (count > 0) {
-+			tctx = ctx;
-+			ASSERT_EQ(0, read_proc_attr("prev", attr, page_size));
-+			ASSERT_EQ(0, strcmp((char *)tctx->ctx, attr));
-+			for (i = 1; i < count; i++) {
-+				tctx = next_ctx(tctx);
-+				ASSERT_NE(0, strcmp((char *)tctx->ctx, attr));
-+			}
-+		}
-+	}
-+	if (cnt_sockcreate) {
-+		size = page_size;
-+		count = syscall(__NR_lsm_get_self_attr, ctx, &size,
-+				LSM_ATTR_SOCKCREATE);
-+		ASSERT_GE(cnt_sockcreate, count);
-+		if (count > 0) {
-+			tctx = ctx;
-+			ASSERT_EQ(0, read_proc_attr("sockcreate", attr,
-+						    page_size));
-+			ASSERT_EQ(0, strcmp((char *)tctx->ctx, attr));
-+		}
-+		for (i = 1; i < count; i++) {
-+			tctx = next_ctx(tctx);
-+			ASSERT_NE(0, strcmp((char *)tctx->ctx, attr));
-+		}
-+	}
-+
-+	free(ctx);
-+	free(attr);
-+	free(syscall_lsms);
-+}
-+
-+TEST_HARNESS_MAIN
-diff --git a/tools/testing/selftests/lsm/lsm_module_list_test.c b/tools/testing/selftests/lsm/lsm_module_list_test.c
-new file mode 100644
-index 000000000000..c5675598b2a4
---- /dev/null
-+++ b/tools/testing/selftests/lsm/lsm_module_list_test.c
-@@ -0,0 +1,149 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Linux Security Module infrastructure tests
-+ * Tests for the lsm_module_list system call
-+ *
-+ * Copyright © 2022 Casey Schaufler <casey@schaufler-ca.com>
-+ * Copyright © 2022 Intel Corporation
-+ */
-+
-+#define _GNU_SOURCE
-+#include <linux/lsm.h>
-+#include <string.h>
-+#include <stdio.h>
-+#include <unistd.h>
-+#include <sys/types.h>
-+#include "../kselftest_harness.h"
-+
-+static int read_sysfs_lsms(char *lsms, __kernel_size_t size)
-+{
-+	FILE *fp;
-+
-+	fp = fopen("/sys/kernel/security/lsm", "r");
-+	if (fp == NULL)
-+		return -1;
-+	if (fread(lsms, 1, size, fp) <= 0)
-+		return -1;
-+	fclose(fp);
-+	return 0;
-+}
-+
-+TEST(size_null_lsm_module_list)
-+{
-+	const long page_size = sysconf(_SC_PAGESIZE);
-+	char *syscall_lsms = calloc(page_size, 1);
-+
-+	ASSERT_NE(NULL, syscall_lsms);
-+	ASSERT_EQ(-1, syscall(__NR_lsm_module_list, syscall_lsms, NULL, 0));
-+	ASSERT_EQ(EFAULT, errno);
-+
-+	free(syscall_lsms);
-+}
-+
-+TEST(ids_null_lsm_module_list)
-+{
-+	const long page_size = sysconf(_SC_PAGESIZE);
-+	__kernel_size_t size = page_size;
-+
-+	ASSERT_EQ(-1, syscall(__NR_lsm_module_list, NULL, &size, 0));
-+	ASSERT_EQ(EFAULT, errno);
-+	ASSERT_NE(1, size);
-+}
-+
-+TEST(size_too_small_lsm_module_list)
-+{
-+	const long page_size = sysconf(_SC_PAGESIZE);
-+	char *syscall_lsms = calloc(page_size, 1);
-+	__kernel_size_t size = 1;
-+
-+	ASSERT_NE(NULL, syscall_lsms);
-+	ASSERT_EQ(-1, syscall(__NR_lsm_module_list, syscall_lsms, &size, 0));
-+	ASSERT_EQ(E2BIG, errno);
-+	ASSERT_NE(1, size);
-+
-+	free(syscall_lsms);
-+}
-+
-+TEST(flags_set_lsm_module_list)
-+{
-+	const long page_size = sysconf(_SC_PAGESIZE);
-+	char *syscall_lsms = calloc(page_size, 1);
-+	__kernel_size_t size = page_size;
-+
-+	ASSERT_NE(NULL, syscall_lsms);
-+	ASSERT_EQ(-1, syscall(__NR_lsm_module_list, syscall_lsms, &size, 7));
-+	ASSERT_EQ(EINVAL, errno);
-+	ASSERT_EQ(page_size, size);
-+
-+	free(syscall_lsms);
-+}
-+
-+TEST(correct_lsm_module_list)
-+{
-+	const long page_size = sysconf(_SC_PAGESIZE);
-+	__kernel_size_t size = page_size;
-+	__u32 *syscall_lsms = calloc(page_size, 1);
-+	char *sysfs_lsms = calloc(page_size, 1);
-+	char *name;
-+	char *cp;
-+	int count;
-+	int i;
-+
-+	ASSERT_NE(NULL, sysfs_lsms);
-+	ASSERT_NE(NULL, syscall_lsms);
-+	ASSERT_EQ(0, read_sysfs_lsms(sysfs_lsms, page_size));
-+
-+	count = syscall(__NR_lsm_module_list, syscall_lsms, &size, 0);
-+	ASSERT_LE(1, count);
-+	cp = sysfs_lsms;
-+	for (i = 0; i < count; i++) {
-+		switch (syscall_lsms[i]) {
-+		case LSM_ID_CAPABILITY:
-+			name = "capability";
-+			break;
-+		case LSM_ID_SELINUX:
-+			name = "selinux";
-+			break;
-+		case LSM_ID_SMACK:
-+			name = "smack";
-+			break;
-+		case LSM_ID_TOMOYO:
-+			name = "tomoyo";
-+			break;
-+		case LSM_ID_IMA:
-+			name = "ima";
-+			break;
-+		case LSM_ID_APPARMOR:
-+			name = "apparmor";
-+			break;
-+		case LSM_ID_YAMA:
-+			name = "yama";
-+			break;
-+		case LSM_ID_LOADPIN:
-+			name = "loadpin";
-+			break;
-+		case LSM_ID_SAFESETID:
-+			name = "safesetid";
-+			break;
-+		case LSM_ID_LOCKDOWN:
-+			name = "lockdown";
-+			break;
-+		case LSM_ID_BPF:
-+			name = "bpf";
-+			break;
-+		case LSM_ID_LANDLOCK:
-+			name = "landlock";
-+			break;
-+		default:
-+			name = "INVALID";
-+			break;
-+		}
-+		ASSERT_EQ(0, strncmp(cp, name, strlen(name)));
-+		cp += strlen(name) + 1;
-+	}
-+
-+	free(sysfs_lsms);
-+	free(syscall_lsms);
-+}
-+
-+TEST_HARNESS_MAIN
-diff --git a/tools/testing/selftests/lsm/lsm_set_self_attr_test.c b/tools/testing/selftests/lsm/lsm_set_self_attr_test.c
-new file mode 100644
-index 000000000000..86f8a5952471
---- /dev/null
-+++ b/tools/testing/selftests/lsm/lsm_set_self_attr_test.c
-@@ -0,0 +1,328 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Linux Security Module infrastructure tests
-+ * Tests for the lsm_set_self_attr system call
-+ *
-+ * Copyright © 2022 Casey Schaufler <casey@schaufler-ca.com>
-+ * Copyright © 2022 Intel Corporation
-+ */
-+
-+#define _GNU_SOURCE
-+#include <linux/lsm.h>
-+#include <string.h>
-+#include <stdio.h>
-+#include <unistd.h>
-+#include <sys/types.h>
-+#include "../kselftest_harness.h"
-+
-+static struct lsm_ctx *next_ctx(struct lsm_ctx *tctx)
-+{
-+	void *vp;
-+
-+	vp = (void *)tctx + sizeof(*tctx) + tctx->ctx_len;
-+	return (struct lsm_ctx *)vp;
-+}
-+
-+TEST(ctx_null_lsm_set_self_attr)
-+{
-+	ASSERT_EQ(-1, syscall(__NR_lsm_set_self_attr, NULL, _SC_PAGESIZE,
-+			      LSM_ATTR_CURRENT));
-+	ASSERT_EQ(EFAULT, errno);
-+}
-+
-+TEST(size_too_small_lsm_set_self_attr)
-+{
-+	const long page_size = sysconf(_SC_PAGESIZE);
-+	struct lsm_ctx *ctx = calloc(page_size, 1);
-+	__kernel_size_t size = page_size;
-+
-+	ASSERT_NE(NULL, ctx);
-+	ASSERT_GE(1, syscall(__NR_lsm_get_self_attr, ctx, &size,
-+			     LSM_ATTR_CURRENT));
-+	ASSERT_EQ(-1, syscall(__NR_lsm_set_self_attr, ctx, 1,
-+			      LSM_ATTR_CURRENT));
-+	ASSERT_EQ(EINVAL, errno);
-+
-+	free(ctx);
-+}
-+
-+TEST(flags_zero_lsm_set_self_attr)
-+{
-+	const long page_size = sysconf(_SC_PAGESIZE);
-+	char *ctx = calloc(page_size, 1);
-+	__kernel_size_t size = page_size;
-+
-+	ASSERT_NE(NULL, ctx);
-+	ASSERT_GE(1, syscall(__NR_lsm_get_self_attr, ctx, &size,
-+			     LSM_ATTR_CURRENT));
-+	ASSERT_EQ(-1, syscall(__NR_lsm_set_self_attr, ctx, size, 0));
-+	ASSERT_EQ(EINVAL, errno);
-+
-+	free(ctx);
-+}
-+
-+TEST(flags_overset_lsm_set_self_attr)
-+{
-+	const long page_size = sysconf(_SC_PAGESIZE);
-+	char *ctx = calloc(page_size, 1);
-+	__kernel_size_t size = page_size;
-+	struct lsm_ctx *tctx = (struct lsm_ctx *)ctx;
-+
-+	ASSERT_NE(NULL, ctx);
-+	ASSERT_GE(1, syscall(__NR_lsm_get_self_attr, tctx, &size,
-+			     LSM_ATTR_CURRENT));
-+	ASSERT_EQ(-1, syscall(__NR_lsm_set_self_attr, tctx, size,
-+			      LSM_ATTR_CURRENT | LSM_ATTR_PREV));
-+	ASSERT_EQ(EINVAL, errno);
-+
-+	free(ctx);
-+}
-+
-+TEST(basic_lsm_set_self_attr)
-+{
-+	const long page_size = sysconf(_SC_PAGESIZE);
-+	__kernel_size_t size = page_size;
-+	struct lsm_ctx *ctx = calloc(page_size, 1);
-+	struct lsm_ctx *tctx;
-+	__u32 *syscall_lsms = calloc(page_size, 1);
-+	char *attr = calloc(page_size, 1);
-+	bool active_apparmor = false;
-+	bool active_selinux = false;
-+	bool active_smack = false;
-+	int cnt_current = 0;
-+	int cnt_exec = 0;
-+	int cnt_fscreate = 0;
-+	int cnt_keycreate = 0;
-+	int cnt_prev = 0;
-+	int cnt_sockcreate = 0;
-+	int lsmcount;
-+	int count;
-+	int rc;
-+	int i;
-+
-+	ASSERT_NE(NULL, ctx);
-+	ASSERT_NE(NULL, syscall_lsms);
-+
-+	lsmcount = syscall(__NR_lsm_module_list, syscall_lsms, &size, 0);
-+	ASSERT_LE(1, lsmcount);
-+
-+	for (i = 0; i < lsmcount; i++) {
-+		switch (syscall_lsms[i]) {
-+		case LSM_ID_SELINUX:
-+			active_selinux = true;
-+			cnt_current++;
-+			cnt_exec++;
-+			cnt_fscreate++;
-+			cnt_keycreate++;
-+			cnt_prev++;
-+			cnt_sockcreate++;
-+			break;
-+		case LSM_ID_SMACK:
-+			active_smack = true;
-+			cnt_current++;
-+			break;
-+		case LSM_ID_APPARMOR:
-+			active_apparmor = true;
-+			cnt_current++;
-+			cnt_exec++;
-+			cnt_prev++;
-+			break;
-+		default:
-+			break;
-+		}
-+	}
-+
-+	if (cnt_current) {
-+		size = page_size;
-+		count = syscall(__NR_lsm_get_self_attr, ctx, &size,
-+				LSM_ATTR_CURRENT);
-+		ASSERT_EQ(cnt_current, count);
-+		tctx = ctx;
-+
-+		for (i = 0; i < count; i++) {
-+			switch (tctx->id) {
-+			case LSM_ID_SELINUX:
-+				ASSERT_EQ(active_selinux, true);
-+				rc = syscall(__NR_lsm_set_self_attr, tctx, size,
-+					     LSM_ATTR_CURRENT);
-+				ASSERT_EQ(0, rc);
-+				tctx->ctx[0] = 'X';
-+				rc = syscall(__NR_lsm_set_self_attr, tctx, size,
-+					     LSM_ATTR_CURRENT);
-+				ASSERT_EQ(-1, rc);
-+				ASSERT_EQ(EINVAL, errno);
-+				break;
-+			case LSM_ID_SMACK:
-+				ASSERT_EQ(active_smack, true);
-+				rc = syscall(__NR_lsm_set_self_attr, tctx, size,
-+					     LSM_ATTR_CURRENT);
-+				ASSERT_EQ(-1, rc);
-+				ASSERT_EQ(EPERM, errno);
-+				break;
-+			case LSM_ID_APPARMOR:
-+				ASSERT_EQ(active_apparmor, true);
-+				rc = syscall(__NR_lsm_set_self_attr, tctx, size,
-+					     LSM_ATTR_CURRENT);
-+				ASSERT_EQ(-1, rc);
-+				ASSERT_EQ(EINVAL, errno);
-+				break;
-+			default:
-+			}
-+			tctx = next_ctx(tctx);
-+		}
-+	}
-+	if (cnt_exec) {
-+		size = page_size;
-+		count = syscall(__NR_lsm_get_self_attr, ctx, &size,
-+				LSM_ATTR_EXEC);
-+		ASSERT_GE(cnt_exec, count);
-+		tctx = ctx;
-+
-+		for (i = 0; i < count; i++) {
-+			switch (tctx->id) {
-+			case LSM_ID_SELINUX:
-+				ASSERT_EQ(active_selinux, true);
-+				rc = syscall(__NR_lsm_set_self_attr, tctx, size,
-+					     LSM_ATTR_EXEC);
-+				ASSERT_EQ(0, rc);
-+				tctx->ctx[0] = 'X';
-+				rc = syscall(__NR_lsm_set_self_attr, tctx, size,
-+					     LSM_ATTR_EXEC);
-+				ASSERT_EQ(-1, rc);
-+				ASSERT_EQ(EINVAL, errno);
-+				break;
-+			case LSM_ID_APPARMOR:
-+				ASSERT_EQ(active_apparmor, true);
-+				rc = syscall(__NR_lsm_set_self_attr, tctx, size,
-+					     LSM_ATTR_EXEC);
-+				ASSERT_EQ(-1, rc);
-+				ASSERT_EQ(EPERM, errno);
-+				break;
-+			default:
-+				break;
-+			}
-+			tctx = next_ctx(tctx);
-+		}
-+	}
-+	if (cnt_prev) {
-+		size = page_size;
-+		count = syscall(__NR_lsm_get_self_attr, ctx, &size,
-+				LSM_ATTR_PREV);
-+		ASSERT_GE(cnt_prev, count);
-+		tctx = ctx;
-+
-+		for (i = 0; i < count; i++) {
-+			switch (tctx->id) {
-+			case LSM_ID_SELINUX:
-+				ASSERT_EQ(active_selinux, true);
-+				rc = syscall(__NR_lsm_set_self_attr, tctx, size,
-+					     LSM_ATTR_PREV);
-+				ASSERT_EQ(-1, rc);
-+				ASSERT_EQ(EINVAL, errno);
-+				tctx->ctx[0] = 'X';
-+				rc = syscall(__NR_lsm_set_self_attr, tctx, size,
-+					     LSM_ATTR_PREV);
-+				ASSERT_EQ(-1, rc);
-+				ASSERT_EQ(EINVAL, errno);
-+				break;
-+			case LSM_ID_APPARMOR:
-+				ASSERT_EQ(active_apparmor, true);
-+				rc = syscall(__NR_lsm_set_self_attr, tctx, size,
-+					     LSM_ATTR_PREV);
-+				ASSERT_EQ(-1, rc);
-+				ASSERT_EQ(EPERM, errno);
-+				break;
-+			default:
-+				break;
-+			}
-+			tctx = next_ctx(tctx);
-+		}
-+	}
-+	if (cnt_fscreate) {
-+		size = page_size;
-+		count = syscall(__NR_lsm_get_self_attr, ctx, &size,
-+				LSM_ATTR_FSCREATE);
-+		ASSERT_GE(cnt_fscreate, count);
-+		tctx = ctx;
-+
-+		for (i = 0; i < count; i++) {
-+			switch (tctx->id) {
-+			case LSM_ID_SELINUX:
-+				ASSERT_EQ(active_selinux, true);
-+				rc = syscall(__NR_lsm_set_self_attr, tctx, size,
-+					     LSM_ATTR_FSCREATE);
-+				ASSERT_EQ(-1, rc);
-+				ASSERT_EQ(EINVAL, errno);
-+				tctx->ctx[0] = 'X';
-+				rc = syscall(__NR_lsm_set_self_attr, tctx, size,
-+					     LSM_ATTR_FSCREATE);
-+				ASSERT_EQ(-1, rc);
-+				ASSERT_EQ(EINVAL, errno);
-+				break;
-+			default:
-+				break;
-+			}
-+			tctx = next_ctx(tctx);
-+		}
-+	}
-+	if (cnt_keycreate) {
-+		size = page_size;
-+		count = syscall(__NR_lsm_get_self_attr, ctx, &size,
-+				LSM_ATTR_KEYCREATE);
-+		ASSERT_GE(cnt_keycreate, count);
-+		tctx = ctx;
-+
-+		for (i = 0; i < count; i++) {
-+			switch (tctx->id) {
-+			case LSM_ID_SELINUX:
-+				ASSERT_EQ(active_selinux, true);
-+				rc = syscall(__NR_lsm_set_self_attr, tctx, size,
-+					     LSM_ATTR_KEYCREATE);
-+				ASSERT_EQ(-1, rc);
-+				ASSERT_EQ(EINVAL, errno);
-+				tctx->ctx[0] = 'X';
-+				rc = syscall(__NR_lsm_set_self_attr, tctx, size,
-+					     LSM_ATTR_KEYCREATE);
-+				ASSERT_EQ(-1, rc);
-+				ASSERT_EQ(EINVAL, errno);
-+				break;
-+			default:
-+				break;
-+			}
-+			tctx = next_ctx(tctx);
-+		}
-+	}
-+	if (cnt_sockcreate) {
-+		size = page_size;
-+		count = syscall(__NR_lsm_get_self_attr, ctx, &size,
-+				LSM_ATTR_SOCKCREATE);
-+		ASSERT_GE(cnt_sockcreate, count);
-+		tctx = ctx;
-+
-+		for (i = 0; i < count; i++) {
-+			switch (tctx->id) {
-+			case LSM_ID_SELINUX:
-+				ASSERT_EQ(active_selinux, true);
-+				rc = syscall(__NR_lsm_set_self_attr, tctx, size,
-+					     LSM_ATTR_SOCKCREATE);
-+				ASSERT_EQ(-1, rc);
-+				ASSERT_EQ(EINVAL, errno);
-+				tctx->ctx[0] = 'X';
-+				rc = syscall(__NR_lsm_set_self_attr, tctx, size,
-+					     LSM_ATTR_SOCKCREATE);
-+				ASSERT_EQ(-1, rc);
-+				ASSERT_EQ(EINVAL, errno);
-+				break;
-+			default:
-+				break;
-+			}
-+			tctx = next_ctx(tctx);
-+		}
-+	}
-+
-+	free(ctx);
-+	free(attr);
-+	free(syscall_lsms);
-+}
-+
-+TEST_HARNESS_MAIN
--- 
-2.38.1
+ Documentation/filesystems/vfs.rst  |   16 
+ fs/ioctl.c                         |   27 +
+ fs/remap_range.c                   |  296 ++++++++
+ fs/xfs/Makefile                    |    3 
+ fs/xfs/libxfs/xfs_bmap.h           |    4 
+ fs/xfs/libxfs/xfs_defer.c          |    7 
+ fs/xfs/libxfs/xfs_defer.h          |    3 
+ fs/xfs/libxfs/xfs_errortag.h       |    4 
+ fs/xfs/libxfs/xfs_format.h         |   15 
+ fs/xfs/libxfs/xfs_fs.h             |    2 
+ fs/xfs/libxfs/xfs_log_format.h     |   80 ++
+ fs/xfs/libxfs/xfs_log_recover.h    |    2 
+ fs/xfs/libxfs/xfs_sb.c             |    3 
+ fs/xfs/libxfs/xfs_swapext.c        | 1258 ++++++++++++++++++++++++++++++++++++
+ fs/xfs/libxfs/xfs_swapext.h        |  170 +++++
+ fs/xfs/libxfs/xfs_symlink_remote.c |   47 +
+ fs/xfs/libxfs/xfs_symlink_remote.h |    1 
+ fs/xfs/libxfs/xfs_trans_space.h    |    4 
+ fs/xfs/xfs_bmap_util.c             |  620 ------------------
+ fs/xfs/xfs_bmap_util.h             |    3 
+ fs/xfs/xfs_error.c                 |    3 
+ fs/xfs/xfs_file.c                  |   94 ++-
+ fs/xfs/xfs_inode.c                 |   13 
+ fs/xfs/xfs_inode.h                 |    6 
+ fs/xfs/xfs_ioctl.c                 |  102 +--
+ fs/xfs/xfs_ioctl.h                 |    4 
+ fs/xfs/xfs_ioctl32.c               |   11 
+ fs/xfs/xfs_linux.h                 |    5 
+ fs/xfs/xfs_log.c                   |   47 +
+ fs/xfs/xfs_log.h                   |   10 
+ fs/xfs/xfs_log_priv.h              |    3 
+ fs/xfs/xfs_log_recover.c           |    5 
+ fs/xfs/xfs_mount.c                 |   11 
+ fs/xfs/xfs_mount.h                 |    7 
+ fs/xfs/xfs_rtalloc.c               |  136 ++++
+ fs/xfs/xfs_rtalloc.h               |    3 
+ fs/xfs/xfs_super.c                 |   19 +
+ fs/xfs/xfs_swapext_item.c          |  657 +++++++++++++++++++
+ fs/xfs/xfs_swapext_item.h          |   56 ++
+ fs/xfs/xfs_symlink.c               |   49 -
+ fs/xfs/xfs_trace.c                 |    2 
+ fs/xfs/xfs_trace.h                 |  351 ++++++++++
+ fs/xfs/xfs_xattr.c                 |    6 
+ fs/xfs/xfs_xchgrange.c             |  964 ++++++++++++++++++++++++++++
+ fs/xfs/xfs_xchgrange.h             |   40 +
+ include/linux/fs.h                 |   14 
+ include/uapi/linux/fiexchange.h    |  101 +++
+ 47 files changed, 4473 insertions(+), 811 deletions(-)
+ create mode 100644 fs/xfs/libxfs/xfs_swapext.c
+ create mode 100644 fs/xfs/libxfs/xfs_swapext.h
+ create mode 100644 fs/xfs/xfs_swapext_item.c
+ create mode 100644 fs/xfs/xfs_swapext_item.h
+ create mode 100644 fs/xfs/xfs_xchgrange.c
+ create mode 100644 fs/xfs/xfs_xchgrange.h
+ create mode 100644 include/uapi/linux/fiexchange.h
 
