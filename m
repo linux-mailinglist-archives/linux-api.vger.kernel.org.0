@@ -2,42 +2,42 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A134659ECB
-	for <lists+linux-api@lfdr.de>; Sat, 31 Dec 2022 00:51:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E303A659ED6
+	for <lists+linux-api@lfdr.de>; Sat, 31 Dec 2022 00:52:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235530AbiL3Xvq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 30 Dec 2022 18:51:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49028 "EHLO
+        id S235567AbiL3Xwc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 30 Dec 2022 18:52:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49130 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231164AbiL3Xvp (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 30 Dec 2022 18:51:45 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FF1F8FC2;
-        Fri, 30 Dec 2022 15:51:43 -0800 (PST)
+        with ESMTP id S235659AbiL3Xwc (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 30 Dec 2022 18:52:32 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 857CA10055;
+        Fri, 30 Dec 2022 15:52:30 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0F75F61B98;
-        Fri, 30 Dec 2022 23:51:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71633C433EF;
-        Fri, 30 Dec 2022 23:51:42 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 11C8F61B98;
+        Fri, 30 Dec 2022 23:52:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68146C433EF;
+        Fri, 30 Dec 2022 23:52:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1672444302;
-        bh=8w0KrGvFUuIxoZdeLwDguV5toFy9tFeYMYThtVUxXHE=;
+        s=k20201202; t=1672444349;
+        bh=NeqfzQouOBkOBZfwE9K4phTCrJafqp+G6WzpwGGIxVI=;
         h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=aijH4cJ4SdnCd9aU+BQo/VGGfs0U6q5JFcwD6j6jDNnGlmfoKl4ZfCxXCbnwhwT7u
-         8yjG1B32QAR8lQYMKS7fowoyhTQ+UTpmm6ciOFBO/vYnfox3m8SMSJjAEGMVCAa3cg
-         l6dWPogSST5t0ZUuIZE7l+zHuqArQl2ziA3xkb7GQS4E2Uciyx8E4av99duLz7HD6v
-         aGuzEEIu5TmWKD8H2LhoMOuVBxC8mvF5TPSQPUxxnexMNlb9/i2OVlcqIEQRXOYu5I
-         5wGWhJvHDfNHCEBQ7uMtvCLFhQtEvqmPwQMkPm4q99Sy+35tfNsmvzMYJg1RJ6PWGy
-         0kjEnyKD7Cj5g==
-Subject: [PATCH 06/21] xfs: introduce a swap-extent log intent item
+        b=U0bujZLLKi6ScJU9r2kO1NtF7YRCQiacr/XIDyLr5bCtjp+q1DVMtGj4kV57yIAE7
+         dXVJo6kNvP1plnKxA8q5ByoRwgFA5vyzTRFnjujgnYTPt31DCaVrW3+MhMqr9V1TGa
+         Ido+8ByA+BBLA0x0SZtU6W4Q/QrsIUi0sLLMV9jkV6G0qYCb2MotAC/Ko1XoZBdm1F
+         lVycU1HeCn3ejyn3urDedPUiCnWI8auUAAjcqKv1i8NeFVH3nFZeS/9NfUnx0DZXcP
+         HUuVXjwAxsH1jWZh12ah8jE32iF5rW4R/+SOweRHwSbGV7StacR26LcpIbdN+Nm+KJ
+         B6WEwz/RrhQrA==
+Subject: [PATCH 09/21] xfs: add a ->xchg_file_range handler
 From:   "Darrick J. Wong" <djwong@kernel.org>
 To:     djwong@kernel.org
 Cc:     linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         linux-api@vger.kernel.org
 Date:   Fri, 30 Dec 2022 14:13:56 -0800
-Message-ID: <167243843608.699466.6025805169564879348.stgit@magnolia>
+Message-ID: <167243843654.699466.3274644860168881046.stgit@magnolia>
 In-Reply-To: <167243843494.699466.5163281976943635014.stgit@magnolia>
 References: <167243843494.699466.5163281976943635014.stgit@magnolia>
 User-Agent: StGit/0.19
@@ -55,575 +55,719 @@ X-Mailing-List: linux-api@vger.kernel.org
 
 From: Darrick J. Wong <djwong@kernel.org>
 
-Introduce a new intent log item to handle swapping extents.
+Add a function to handle file range exchange requests from the vfs.
 
 Signed-off-by: Darrick J. Wong <djwong@kernel.org>
 ---
- fs/xfs/Makefile                 |    1 
- fs/xfs/libxfs/xfs_log_format.h  |   51 ++++++
- fs/xfs/libxfs/xfs_log_recover.h |    2 
- fs/xfs/xfs_log_recover.c        |    2 
- fs/xfs/xfs_super.c              |   19 ++
- fs/xfs/xfs_swapext_item.c       |  320 +++++++++++++++++++++++++++++++++++++++
- fs/xfs/xfs_swapext_item.h       |   56 +++++++
- 7 files changed, 448 insertions(+), 3 deletions(-)
- create mode 100644 fs/xfs/xfs_swapext_item.c
- create mode 100644 fs/xfs/xfs_swapext_item.h
+ fs/xfs/xfs_bmap_util.c |    1 
+ fs/xfs/xfs_file.c      |   70 +++++++++
+ fs/xfs/xfs_mount.h     |    5 +
+ fs/xfs/xfs_trace.c     |    1 
+ fs/xfs/xfs_trace.h     |  120 +++++++++++++++
+ fs/xfs/xfs_xchgrange.c |  375 ++++++++++++++++++++++++++++++++++++++++++++++++
+ fs/xfs/xfs_xchgrange.h |   23 +++
+ 7 files changed, 594 insertions(+), 1 deletion(-)
 
 
-diff --git a/fs/xfs/Makefile b/fs/xfs/Makefile
-index fc83759656c6..c5cb8cf6ffbb 100644
---- a/fs/xfs/Makefile
-+++ b/fs/xfs/Makefile
-@@ -109,6 +109,7 @@ xfs-y				+= xfs_log.o \
- 				   xfs_iunlink_item.o \
- 				   xfs_refcount_item.o \
- 				   xfs_rmap_item.o \
-+				   xfs_swapext_item.o \
- 				   xfs_log_recover.o \
- 				   xfs_trans_ail.o \
- 				   xfs_trans_buf.o
-diff --git a/fs/xfs/libxfs/xfs_log_format.h b/fs/xfs/libxfs/xfs_log_format.h
-index 367f536d9881..b105a5ef6644 100644
---- a/fs/xfs/libxfs/xfs_log_format.h
-+++ b/fs/xfs/libxfs/xfs_log_format.h
-@@ -117,8 +117,9 @@ struct xfs_unmount_log_format {
- #define XLOG_REG_TYPE_ATTRD_FORMAT	28
- #define XLOG_REG_TYPE_ATTR_NAME	29
- #define XLOG_REG_TYPE_ATTR_VALUE	30
--#define XLOG_REG_TYPE_MAX		30
--
-+#define XLOG_REG_TYPE_SXI_FORMAT	31
-+#define XLOG_REG_TYPE_SXD_FORMAT	32
-+#define XLOG_REG_TYPE_MAX		32
+diff --git a/fs/xfs/xfs_bmap_util.c b/fs/xfs/xfs_bmap_util.c
+index 8621534b749b..d587015aec0e 100644
+--- a/fs/xfs/xfs_bmap_util.c
++++ b/fs/xfs/xfs_bmap_util.c
+@@ -28,6 +28,7 @@
+ #include "xfs_icache.h"
+ #include "xfs_iomap.h"
+ #include "xfs_reflink.h"
++#include "xfs_swapext.h"
  
- /*
-  * Flags to log operation header
-@@ -243,6 +244,8 @@ typedef struct xfs_trans_header {
- #define	XFS_LI_BUD		0x1245
- #define	XFS_LI_ATTRI		0x1246  /* attr set/remove intent*/
- #define	XFS_LI_ATTRD		0x1247  /* attr set/remove done */
-+#define	XFS_LI_SXI		0x1248  /* extent swap intent */
-+#define	XFS_LI_SXD		0x1249  /* extent swap done */
+ /* Kernel only BMAP related definitions and functions */
  
- #define XFS_LI_TYPE_DESC \
- 	{ XFS_LI_EFI,		"XFS_LI_EFI" }, \
-@@ -260,7 +263,9 @@ typedef struct xfs_trans_header {
- 	{ XFS_LI_BUI,		"XFS_LI_BUI" }, \
- 	{ XFS_LI_BUD,		"XFS_LI_BUD" }, \
- 	{ XFS_LI_ATTRI,		"XFS_LI_ATTRI" }, \
--	{ XFS_LI_ATTRD,		"XFS_LI_ATTRD" }
-+	{ XFS_LI_ATTRD,		"XFS_LI_ATTRD" }, \
-+	{ XFS_LI_SXI,		"XFS_LI_SXI" }, \
-+	{ XFS_LI_SXD,		"XFS_LI_SXD" }
+diff --git a/fs/xfs/xfs_file.c b/fs/xfs/xfs_file.c
+index 78323574021c..b4629c8aa6b7 100644
+--- a/fs/xfs/xfs_file.c
++++ b/fs/xfs/xfs_file.c
+@@ -24,6 +24,7 @@
+ #include "xfs_pnfs.h"
+ #include "xfs_iomap.h"
+ #include "xfs_reflink.h"
++#include "xfs_xchgrange.h"
  
- /*
-  * Inode Log Item Format definitions.
-@@ -871,6 +876,46 @@ struct xfs_bud_log_format {
- 	uint64_t		bud_bui_id;	/* id of corresponding bui */
+ #include <linux/dax.h>
+ #include <linux/falloc.h>
+@@ -1150,6 +1151,74 @@ xfs_file_remap_range(
+ 	return remapped > 0 ? remapped : ret;
+ }
+ 
++STATIC int
++xfs_file_xchg_range(
++	struct file		*file1,
++	struct file		*file2,
++	struct file_xchg_range	*fxr)
++{
++	struct inode		*inode1 = file_inode(file1);
++	struct inode		*inode2 = file_inode(file2);
++	struct xfs_inode	*ip1 = XFS_I(inode1);
++	struct xfs_inode	*ip2 = XFS_I(inode2);
++	struct xfs_mount	*mp = ip1->i_mount;
++	unsigned int		priv_flags = 0;
++	bool			use_logging = false;
++	int			error;
++
++	if (xfs_is_shutdown(mp))
++		return -EIO;
++
++	/* Update cmtime if the fd/inode don't forbid it. */
++	if (likely(!(file1->f_mode & FMODE_NOCMTIME) && !IS_NOCMTIME(inode1)))
++		priv_flags |= XFS_XCHG_RANGE_UPD_CMTIME1;
++	if (likely(!(file2->f_mode & FMODE_NOCMTIME) && !IS_NOCMTIME(inode2)))
++		priv_flags |= XFS_XCHG_RANGE_UPD_CMTIME2;
++
++	/* Lock both files against IO */
++	error = xfs_ilock2_io_mmap(ip1, ip2);
++	if (error)
++		goto out_err;
++
++	/* Prepare and then exchange file contents. */
++	error = xfs_xchg_range_prep(file1, file2, fxr);
++	if (error)
++		goto out_unlock;
++
++	/* Get permission to use log-assisted file content swaps. */
++	error = xfs_xchg_range_grab_log_assist(mp,
++			!(fxr->flags & FILE_XCHG_RANGE_NONATOMIC),
++			&use_logging);
++	if (error)
++		goto out_unlock;
++	if (use_logging)
++		priv_flags |= XFS_XCHG_RANGE_LOGGED;
++
++	error = xfs_xchg_range(ip1, ip2, fxr, priv_flags);
++	if (error)
++		goto out_drop_feat;
++
++	/*
++	 * Finish the exchange by removing special file privileges like any
++	 * other file write would do.  This may involve turning on support for
++	 * logged xattrs if either file has security capabilities, which means
++	 * xfs_xchg_range_grab_log_assist before xfs_attr_grab_log_assist.
++	 */
++	error = generic_xchg_file_range_finish(file1, file2);
++	if (error)
++		goto out_drop_feat;
++
++out_drop_feat:
++	if (use_logging)
++		xfs_xchg_range_rele_log_assist(mp);
++out_unlock:
++	xfs_iunlock2_io_mmap(ip1, ip2);
++out_err:
++	if (error)
++		trace_xfs_file_xchg_range_error(ip2, error, _RET_IP_);
++	return error;
++}
++
+ STATIC int
+ xfs_file_open(
+ 	struct inode	*inode,
+@@ -1439,6 +1508,7 @@ const struct file_operations xfs_file_operations = {
+ 	.fallocate	= xfs_file_fallocate,
+ 	.fadvise	= xfs_file_fadvise,
+ 	.remap_file_range = xfs_file_remap_range,
++	.xchg_file_range = xfs_file_xchg_range,
  };
  
-+/*
-+ * SXI/SXD (extent swapping) log format definitions
-+ */
-+
-+struct xfs_swap_extent {
-+	uint64_t		sx_inode1;
-+	uint64_t		sx_inode2;
-+	uint64_t		sx_startoff1;
-+	uint64_t		sx_startoff2;
-+	uint64_t		sx_blockcount;
-+	uint64_t		sx_flags;
-+	int64_t			sx_isize1;
-+	int64_t			sx_isize2;
-+};
-+
-+#define XFS_SWAP_EXT_FLAGS		(0)
-+
-+#define XFS_SWAP_EXT_STRINGS
-+
-+/* This is the structure used to lay out an sxi log item in the log. */
-+struct xfs_sxi_log_format {
-+	uint16_t		sxi_type;	/* sxi log item type */
-+	uint16_t		sxi_size;	/* size of this item */
-+	uint32_t		__pad;		/* must be zero */
-+	uint64_t		sxi_id;		/* sxi identifier */
-+	struct xfs_swap_extent	sxi_extent;	/* extent to swap */
-+};
-+
-+/*
-+ * This is the structure used to lay out an sxd log item in the
-+ * log.  The sxd_extents array is a variable size array whose
-+ * size is given by sxd_nextents;
-+ */
-+struct xfs_sxd_log_format {
-+	uint16_t		sxd_type;	/* sxd log item type */
-+	uint16_t		sxd_size;	/* size of this item */
-+	uint32_t		__pad;
-+	uint64_t		sxd_sxi_id;	/* id of corresponding bui */
-+};
-+
- /*
-  * Dquot Log format definitions.
-  *
-diff --git a/fs/xfs/libxfs/xfs_log_recover.h b/fs/xfs/libxfs/xfs_log_recover.h
-index 2420865f3007..6162c93b5d38 100644
---- a/fs/xfs/libxfs/xfs_log_recover.h
-+++ b/fs/xfs/libxfs/xfs_log_recover.h
-@@ -74,6 +74,8 @@ extern const struct xlog_recover_item_ops xlog_cui_item_ops;
- extern const struct xlog_recover_item_ops xlog_cud_item_ops;
- extern const struct xlog_recover_item_ops xlog_attri_item_ops;
- extern const struct xlog_recover_item_ops xlog_attrd_item_ops;
-+extern const struct xlog_recover_item_ops xlog_sxi_item_ops;
-+extern const struct xlog_recover_item_ops xlog_sxd_item_ops;
+ const struct file_operations xfs_dir_file_operations = {
+diff --git a/fs/xfs/xfs_mount.h b/fs/xfs/xfs_mount.h
+index 7c48a2b70f6f..3b2601ab954d 100644
+--- a/fs/xfs/xfs_mount.h
++++ b/fs/xfs/xfs_mount.h
+@@ -399,6 +399,8 @@ __XFS_HAS_FEAT(nouuid, NOUUID)
+ #define XFS_OPSTATE_WARNED_SHRINK	8
+ /* Kernel has logged a warning about logged xattr updates being used. */
+ #define XFS_OPSTATE_WARNED_LARP		9
++/* Kernel has logged a warning about extent swapping being used on this fs. */
++#define XFS_OPSTATE_WARNED_SWAPEXT	10
+ 
+ #define __XFS_IS_OPSTATE(name, NAME) \
+ static inline bool xfs_is_ ## name (struct xfs_mount *mp) \
+@@ -438,7 +440,8 @@ xfs_should_warn(struct xfs_mount *mp, long nr)
+ 	{ (1UL << XFS_OPSTATE_BLOCKGC_ENABLED),		"blockgc" }, \
+ 	{ (1UL << XFS_OPSTATE_WARNED_SCRUB),		"wscrub" }, \
+ 	{ (1UL << XFS_OPSTATE_WARNED_SHRINK),		"wshrink" }, \
+-	{ (1UL << XFS_OPSTATE_WARNED_LARP),		"wlarp" }
++	{ (1UL << XFS_OPSTATE_WARNED_LARP),		"wlarp" }, \
++	{ (1UL << XFS_OPSTATE_WARNED_SWAPEXT),		"wswapext" }
  
  /*
-  * Macros, structures, prototypes for internal log manager use.
-diff --git a/fs/xfs/xfs_log_recover.c b/fs/xfs/xfs_log_recover.c
-index 81ce08c23306..006ceff1959d 100644
---- a/fs/xfs/xfs_log_recover.c
-+++ b/fs/xfs/xfs_log_recover.c
-@@ -1796,6 +1796,8 @@ static const struct xlog_recover_item_ops *xlog_recover_item_ops[] = {
- 	&xlog_bud_item_ops,
- 	&xlog_attri_item_ops,
- 	&xlog_attrd_item_ops,
-+	&xlog_sxi_item_ops,
-+	&xlog_sxd_item_ops,
- };
+  * Max and min values for mount-option defined I/O
+diff --git a/fs/xfs/xfs_trace.c b/fs/xfs/xfs_trace.c
+index b43b973f0e10..e38814f4380c 100644
+--- a/fs/xfs/xfs_trace.c
++++ b/fs/xfs/xfs_trace.c
+@@ -41,6 +41,7 @@
+ #include "xfs_btree_mem.h"
+ #include "xfs_bmap.h"
+ #include "xfs_swapext.h"
++#include "xfs_xchgrange.h"
  
- static const struct xlog_recover_item_ops *
-diff --git a/fs/xfs/xfs_super.c b/fs/xfs/xfs_super.c
-index a16d4d1b35d0..4cf26611f46f 100644
---- a/fs/xfs/xfs_super.c
-+++ b/fs/xfs/xfs_super.c
-@@ -42,6 +42,7 @@
- #include "xfs_xattr.h"
- #include "xfs_iunlink_item.h"
- #include "scrub/rcbag_btree.h"
-+#include "xfs_swapext_item.h"
- 
- #include <linux/magic.h>
- #include <linux/fs_context.h>
-@@ -2122,8 +2123,24 @@ xfs_init_caches(void)
- 	if (!xfs_iunlink_cache)
- 		goto out_destroy_attri_cache;
- 
-+	xfs_sxd_cache = kmem_cache_create("xfs_sxd_item",
-+					 sizeof(struct xfs_sxd_log_item),
-+					 0, 0, NULL);
-+	if (!xfs_sxd_cache)
-+		goto out_destroy_iul_cache;
+ /*
+  * We include this last to have the helpers above available for the trace
+diff --git a/fs/xfs/xfs_trace.h b/fs/xfs/xfs_trace.h
+index 9ebaa5ffe504..6841f04ee38d 100644
+--- a/fs/xfs/xfs_trace.h
++++ b/fs/xfs/xfs_trace.h
+@@ -3763,10 +3763,130 @@ DEFINE_INODE_IREC_EVENT(xfs_reflink_cancel_cow);
+ DEFINE_INODE_IREC_EVENT(xfs_swap_extent_rmap_remap);
+ DEFINE_INODE_IREC_EVENT(xfs_swap_extent_rmap_remap_piece);
+ DEFINE_INODE_ERROR_EVENT(xfs_swap_extent_rmap_error);
 +
-+	xfs_sxi_cache = kmem_cache_create("xfs_sxi_item",
-+					 sizeof(struct xfs_sxi_log_item),
-+					 0, 0, NULL);
-+	if (!xfs_sxi_cache)
-+		goto out_destroy_sxd_cache;
-+
- 	return 0;
++/* swapext tracepoints */
++DEFINE_INODE_ERROR_EVENT(xfs_file_xchg_range_error);
+ DEFINE_INODE_IREC_EVENT(xfs_swapext_extent1);
+ DEFINE_INODE_IREC_EVENT(xfs_swapext_extent2);
+ DEFINE_ITRUNC_EVENT(xfs_swapext_update_inode_size);
  
-+ out_destroy_sxd_cache:
-+	kmem_cache_destroy(xfs_sxd_cache);
-+ out_destroy_iul_cache:
-+	kmem_cache_destroy(xfs_iunlink_cache);
-  out_destroy_attri_cache:
- 	kmem_cache_destroy(xfs_attri_cache);
-  out_destroy_attrd_cache:
-@@ -2180,6 +2197,8 @@ xfs_destroy_caches(void)
- 	 * destroy caches.
- 	 */
- 	rcu_barrier();
-+	kmem_cache_destroy(xfs_sxd_cache);
-+	kmem_cache_destroy(xfs_sxi_cache);
- 	kmem_cache_destroy(xfs_iunlink_cache);
- 	kmem_cache_destroy(xfs_attri_cache);
- 	kmem_cache_destroy(xfs_attrd_cache);
-diff --git a/fs/xfs/xfs_swapext_item.c b/fs/xfs/xfs_swapext_item.c
-new file mode 100644
-index 000000000000..ea4a3a8de7e3
---- /dev/null
-+++ b/fs/xfs/xfs_swapext_item.c
-@@ -0,0 +1,320 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Copyright (C) 2022 Oracle.  All Rights Reserved.
-+ * Author: Darrick J. Wong <djwong@kernel.org>
-+ */
-+#include "xfs.h"
-+#include "xfs_fs.h"
-+#include "xfs_format.h"
-+#include "xfs_log_format.h"
-+#include "xfs_trans_resv.h"
-+#include "xfs_bit.h"
-+#include "xfs_shared.h"
-+#include "xfs_mount.h"
-+#include "xfs_defer.h"
-+#include "xfs_inode.h"
-+#include "xfs_trans.h"
-+#include "xfs_trans_priv.h"
-+#include "xfs_swapext_item.h"
-+#include "xfs_log.h"
-+#include "xfs_bmap.h"
++#define FIEXCHANGE_FLAGS_STRS \
++	{ FILE_XCHG_RANGE_NONATOMIC,		"NONATOMIC" }, \
++	{ FILE_XCHG_RANGE_FILE2_FRESH,		"F2_FRESH" }, \
++	{ FILE_XCHG_RANGE_FULL_FILES,		"FULL" }, \
++	{ FILE_XCHG_RANGE_TO_EOF,		"TO_EOF" }, \
++	{ FILE_XCHG_RANGE_FSYNC	,		"FSYNC" }, \
++	{ FILE_XCHG_RANGE_DRY_RUN,		"DRY_RUN" }, \
++	{ FILE_XCHG_RANGE_SKIP_FILE1_HOLES,	"SKIP_F1_HOLES" }
++
++/* file exchange-range tracepoint class */
++DECLARE_EVENT_CLASS(xfs_xchg_range_class,
++	TP_PROTO(struct xfs_inode *ip1, const struct file_xchg_range *fxr,
++		 struct xfs_inode *ip2, unsigned int xchg_flags),
++	TP_ARGS(ip1, fxr, ip2, xchg_flags),
++	TP_STRUCT__entry(
++		__field(dev_t, dev)
++		__field(xfs_ino_t, ip1_ino)
++		__field(loff_t, ip1_isize)
++		__field(loff_t, ip1_disize)
++		__field(xfs_ino_t, ip2_ino)
++		__field(loff_t, ip2_isize)
++		__field(loff_t, ip2_disize)
++
++		__field(loff_t, file1_offset)
++		__field(loff_t, file2_offset)
++		__field(unsigned long long, length)
++		__field(unsigned long long, vflags)
++		__field(unsigned int, xflags)
++	),
++	TP_fast_assign(
++		__entry->dev = VFS_I(ip1)->i_sb->s_dev;
++		__entry->ip1_ino = ip1->i_ino;
++		__entry->ip1_isize = VFS_I(ip1)->i_size;
++		__entry->ip1_disize = ip1->i_disk_size;
++		__entry->ip2_ino = ip2->i_ino;
++		__entry->ip2_isize = VFS_I(ip2)->i_size;
++		__entry->ip2_disize = ip2->i_disk_size;
++
++		__entry->file1_offset = fxr->file1_offset;
++		__entry->file2_offset = fxr->file2_offset;
++		__entry->length = fxr->length;
++		__entry->vflags = fxr->flags;
++		__entry->xflags = xchg_flags;
++	),
++	TP_printk("dev %d:%d vfs_flags %s xchg_flags %s bytecount 0x%llx "
++		  "ino1 0x%llx isize 0x%llx disize 0x%llx pos 0x%llx -> "
++		  "ino2 0x%llx isize 0x%llx disize 0x%llx pos 0x%llx",
++		  MAJOR(__entry->dev), MINOR(__entry->dev),
++		   __print_flags(__entry->vflags, "|", FIEXCHANGE_FLAGS_STRS),
++		   __print_flags(__entry->xflags, "|", XCHG_RANGE_FLAGS_STRS),
++		  __entry->length,
++		  __entry->ip1_ino,
++		  __entry->ip1_isize,
++		  __entry->ip1_disize,
++		  __entry->file1_offset,
++		  __entry->ip2_ino,
++		  __entry->ip2_isize,
++		  __entry->ip2_disize,
++		  __entry->file2_offset)
++)
++
++#define DEFINE_XCHG_RANGE_EVENT(name)	\
++DEFINE_EVENT(xfs_xchg_range_class, name,	\
++	TP_PROTO(struct xfs_inode *ip1, const struct file_xchg_range *fxr, \
++		 struct xfs_inode *ip2, unsigned int xchg_flags), \
++	TP_ARGS(ip1, fxr, ip2, xchg_flags))
++DEFINE_XCHG_RANGE_EVENT(xfs_xchg_range_prep);
++DEFINE_XCHG_RANGE_EVENT(xfs_xchg_range_flush);
++DEFINE_XCHG_RANGE_EVENT(xfs_xchg_range);
++
++TRACE_EVENT(xfs_xchg_range_freshness,
++	TP_PROTO(struct xfs_inode *ip2, const struct file_xchg_range *fxr),
++	TP_ARGS(ip2, fxr),
++	TP_STRUCT__entry(
++		__field(dev_t, dev)
++		__field(xfs_ino_t, ip2_ino)
++		__field(long long, ip2_mtime)
++		__field(long long, ip2_ctime)
++		__field(int, ip2_mtime_nsec)
++		__field(int, ip2_ctime_nsec)
++
++		__field(xfs_ino_t, file2_ino)
++		__field(long long, file2_mtime)
++		__field(long long, file2_ctime)
++		__field(int, file2_mtime_nsec)
++		__field(int, file2_ctime_nsec)
++	),
++	TP_fast_assign(
++		__entry->dev = VFS_I(ip2)->i_sb->s_dev;
++		__entry->ip2_ino = ip2->i_ino;
++		__entry->ip2_mtime = VFS_I(ip2)->i_mtime.tv_sec;
++		__entry->ip2_ctime = VFS_I(ip2)->i_ctime.tv_sec;
++		__entry->ip2_mtime_nsec = VFS_I(ip2)->i_mtime.tv_nsec;
++		__entry->ip2_ctime_nsec = VFS_I(ip2)->i_ctime.tv_nsec;
++
++		__entry->file2_ino = fxr->file2_ino;
++		__entry->file2_mtime = fxr->file2_mtime;
++		__entry->file2_ctime = fxr->file2_ctime;
++		__entry->file2_mtime_nsec = fxr->file2_mtime_nsec;
++		__entry->file2_ctime_nsec = fxr->file2_ctime_nsec;
++	),
++	TP_printk("dev %d:%d "
++		  "ino 0x%llx mtime %lld:%d ctime %lld:%d -> "
++		  "file 0x%llx mtime %lld:%d ctime %lld:%d",
++		  MAJOR(__entry->dev), MINOR(__entry->dev),
++		  __entry->ip2_ino,
++		  __entry->ip2_mtime,
++		  __entry->ip2_mtime_nsec,
++		  __entry->ip2_ctime,
++		  __entry->ip2_ctime_nsec,
++		  __entry->file2_ino,
++		  __entry->file2_mtime,
++		  __entry->file2_mtime_nsec,
++		  __entry->file2_ctime,
++		  __entry->file2_ctime_nsec)
++);
++
+ /* fsmap traces */
+ DECLARE_EVENT_CLASS(xfs_fsmap_class,
+ 	TP_PROTO(struct xfs_mount *mp, u32 keydev, xfs_agnumber_t agno,
+diff --git a/fs/xfs/xfs_xchgrange.c b/fs/xfs/xfs_xchgrange.c
+index 0dba5078c9f7..9966938134c0 100644
+--- a/fs/xfs/xfs_xchgrange.c
++++ b/fs/xfs/xfs_xchgrange.c
+@@ -13,8 +13,15 @@
+ #include "xfs_defer.h"
+ #include "xfs_inode.h"
+ #include "xfs_trans.h"
++#include "xfs_quota.h"
++#include "xfs_bmap_util.h"
++#include "xfs_reflink.h"
++#include "xfs_trace.h"
+ #include "xfs_swapext.h"
+ #include "xfs_xchgrange.h"
++#include "xfs_sb.h"
 +#include "xfs_icache.h"
-+#include "xfs_trans_space.h"
-+#include "xfs_error.h"
-+#include "xfs_log_priv.h"
-+#include "xfs_log_recover.h"
++#include "xfs_log.h"
+ 
+ /* Lock (and optionally join) two inodes for a file range exchange. */
+ void
+@@ -63,3 +70,371 @@ xfs_xchg_range_estimate(
+ 	xfs_xchg_range_iunlock(req->ip1, req->ip2);
+ 	return error;
+ }
 +
-+struct kmem_cache	*xfs_sxi_cache;
-+struct kmem_cache	*xfs_sxd_cache;
-+
-+static const struct xfs_item_ops xfs_sxi_item_ops;
-+
-+static inline struct xfs_sxi_log_item *SXI_ITEM(struct xfs_log_item *lip)
++/* Prepare two files to have their data exchanged. */
++int
++xfs_xchg_range_prep(
++	struct file		*file1,
++	struct file		*file2,
++	struct file_xchg_range	*fxr)
 +{
-+	return container_of(lip, struct xfs_sxi_log_item, sxi_item);
-+}
++	struct xfs_inode	*ip1 = XFS_I(file_inode(file1));
++	struct xfs_inode	*ip2 = XFS_I(file_inode(file2));
++	int			error;
 +
-+STATIC void
-+xfs_sxi_item_free(
-+	struct xfs_sxi_log_item	*sxi_lip)
-+{
-+	kmem_free(sxi_lip->sxi_item.li_lv_shadow);
-+	kmem_cache_free(xfs_sxi_cache, sxi_lip);
-+}
++	trace_xfs_xchg_range_prep(ip1, fxr, ip2, 0);
 +
-+/*
-+ * Freeing the SXI requires that we remove it from the AIL if it has already
-+ * been placed there. However, the SXI may not yet have been placed in the AIL
-+ * when called by xfs_sxi_release() from SXD processing due to the ordering of
-+ * committed vs unpin operations in bulk insert operations. Hence the reference
-+ * count to ensure only the last caller frees the SXI.
-+ */
-+STATIC void
-+xfs_sxi_release(
-+	struct xfs_sxi_log_item	*sxi_lip)
-+{
-+	ASSERT(atomic_read(&sxi_lip->sxi_refcount) > 0);
-+	if (atomic_dec_and_test(&sxi_lip->sxi_refcount)) {
-+		xfs_trans_ail_delete(&sxi_lip->sxi_item, SHUTDOWN_LOG_IO_ERROR);
-+		xfs_sxi_item_free(sxi_lip);
++	/* Verify both files are either real-time or non-realtime */
++	if (XFS_IS_REALTIME_INODE(ip1) != XFS_IS_REALTIME_INODE(ip2))
++		return -EINVAL;
++
++	/*
++	 * The alignment checks in the VFS helpers cannot deal with allocation
++	 * units that are not powers of 2.  This can happen with the realtime
++	 * volume if the extent size is set.  Note that alignment checks are
++	 * skipped if FULL_FILES is set.
++	 */
++	if (!(fxr->flags & FILE_XCHG_RANGE_FULL_FILES) &&
++	    !is_power_of_2(xfs_inode_alloc_unitsize(ip2)))
++		return -EOPNOTSUPP;
++
++	error = generic_xchg_file_range_prep(file1, file2, fxr,
++			xfs_inode_alloc_unitsize(ip2));
++	if (error || fxr->length == 0)
++		return error;
++
++	/* Attach dquots to both inodes before changing block maps. */
++	error = xfs_qm_dqattach(ip2);
++	if (error)
++		return error;
++	error = xfs_qm_dqattach(ip1);
++	if (error)
++		return error;
++
++	trace_xfs_xchg_range_flush(ip1, fxr, ip2, 0);
++
++	/* Flush the relevant ranges of both files. */
++	error = xfs_flush_unmap_range(ip2, fxr->file2_offset, fxr->length);
++	if (error)
++		return error;
++	error = xfs_flush_unmap_range(ip1, fxr->file1_offset, fxr->length);
++	if (error)
++		return error;
++
++	/*
++	 * Cancel CoW fork preallocations for the ranges of both files.  The
++	 * prep function should have flushed all the dirty data, so the only
++	 * extents remaining should be speculative.
++	 */
++	if (xfs_inode_has_cow_data(ip1)) {
++		error = xfs_reflink_cancel_cow_range(ip1, fxr->file1_offset,
++				fxr->length, true);
++		if (error)
++			return error;
 +	}
++
++	if (xfs_inode_has_cow_data(ip2)) {
++		error = xfs_reflink_cancel_cow_range(ip2, fxr->file2_offset,
++				fxr->length, true);
++		if (error)
++			return error;
++	}
++
++	return 0;
 +}
 +
++#define QRETRY_IP1	(0x1)
++#define QRETRY_IP2	(0x2)
 +
-+STATIC void
-+xfs_sxi_item_size(
-+	struct xfs_log_item	*lip,
-+	int			*nvecs,
-+	int			*nbytes)
++/*
++ * Obtain a quota reservation to make sure we don't hit EDQUOT.  We can skip
++ * this if quota enforcement is disabled or if both inodes' dquots are the
++ * same.  The qretry structure must be initialized to zeroes before the first
++ * call to this function.
++ */
++STATIC int
++xfs_xchg_range_reserve_quota(
++	struct xfs_trans		*tp,
++	const struct xfs_swapext_req	*req,
++	unsigned int			*qretry)
 +{
-+	*nvecs += 1;
-+	*nbytes += sizeof(struct xfs_sxi_log_format);
++	int64_t				ddelta, rdelta;
++	int				ip1_error = 0;
++	int				error;
++
++	/*
++	 * Don't bother with a quota reservation if we're not enforcing them
++	 * or the two inodes have the same dquots.
++	 */
++	if (!XFS_IS_QUOTA_ON(tp->t_mountp) || req->ip1 == req->ip2 ||
++	    (req->ip1->i_udquot == req->ip2->i_udquot &&
++	     req->ip1->i_gdquot == req->ip2->i_gdquot &&
++	     req->ip1->i_pdquot == req->ip2->i_pdquot))
++		return 0;
++
++	*qretry = 0;
++
++	/*
++	 * For each file, compute the net gain in the number of regular blocks
++	 * that will be mapped into that file and reserve that much quota.  The
++	 * quota counts must be able to absorb at least that much space.
++	 */
++	ddelta = req->ip2_bcount - req->ip1_bcount;
++	rdelta = req->ip2_rtbcount - req->ip1_rtbcount;
++	if (ddelta > 0 || rdelta > 0) {
++		error = xfs_trans_reserve_quota_nblks(tp, req->ip1,
++				ddelta > 0 ? ddelta : 0,
++				rdelta > 0 ? rdelta : 0,
++				false);
++		if (error == -EDQUOT || error == -ENOSPC) {
++			/*
++			 * Save this error and see what happens if we try to
++			 * reserve quota for ip2.  Then report both.
++			 */
++			*qretry |= QRETRY_IP1;
++			ip1_error = error;
++			error = 0;
++		}
++		if (error)
++			return error;
++	}
++	if (ddelta < 0 || rdelta < 0) {
++		error = xfs_trans_reserve_quota_nblks(tp, req->ip2,
++				ddelta < 0 ? -ddelta : 0,
++				rdelta < 0 ? -rdelta : 0,
++				false);
++		if (error == -EDQUOT || error == -ENOSPC)
++			*qretry |= QRETRY_IP2;
++		if (error)
++			return error;
++	}
++	if (ip1_error)
++		return ip1_error;
++
++	/*
++	 * For each file, forcibly reserve the gross gain in mapped blocks so
++	 * that we don't trip over any quota block reservation assertions.
++	 * We must reserve the gross gain because the quota code subtracts from
++	 * bcount the number of blocks that we unmap; it does not add that
++	 * quantity back to the quota block reservation.
++	 */
++	error = xfs_trans_reserve_quota_nblks(tp, req->ip1, req->ip1_bcount,
++			req->ip1_rtbcount, true);
++	if (error)
++		return error;
++
++	return xfs_trans_reserve_quota_nblks(tp, req->ip2, req->ip2_bcount,
++			req->ip2_rtbcount, true);
 +}
 +
 +/*
-+ * This is called to fill in the vector of log iovecs for the given sxi log
-+ * item. We use only 1 iovec, and we point that at the sxi_log_format structure
-+ * embedded in the sxi item.
++ * Get permission to use log-assisted atomic exchange of file extents.
++ *
++ * Callers must hold the IOLOCK and MMAPLOCK of both files.  They must not be
++ * running any transactions or hold any ILOCKS.  If @use_logging is set after a
++ * successful return, callers must call xfs_xchg_range_rele_log_assist after
++ * the exchange is completed.
 + */
-+STATIC void
-+xfs_sxi_item_format(
-+	struct xfs_log_item	*lip,
-+	struct xfs_log_vec	*lv)
++int
++xfs_xchg_range_grab_log_assist(
++	struct xfs_mount	*mp,
++	bool			force,
++	bool			*use_logging)
 +{
-+	struct xfs_sxi_log_item	*sxi_lip = SXI_ITEM(lip);
-+	struct xfs_log_iovec	*vecp = NULL;
++	int			error = 0;
 +
-+	sxi_lip->sxi_format.sxi_type = XFS_LI_SXI;
-+	sxi_lip->sxi_format.sxi_size = 1;
++	/*
++	 * Protect ourselves from an idle log clearing the atomic swapext
++	 * log incompat feature bit.
++	 */
++	xlog_use_incompat_feat(mp->m_log, XLOG_INCOMPAT_FEAT_SWAPEXT);
++	*use_logging = true;
 +
-+	xlog_copy_iovec(lv, &vecp, XLOG_REG_TYPE_SXI_FORMAT,
-+			&sxi_lip->sxi_format,
-+			sizeof(struct xfs_sxi_log_format));
++	/*
++	 * If log-assisted swapping is already enabled, the caller can use the
++	 * log assisted swap functions with the log-incompat reference we got.
++	 */
++	if (xfs_sb_version_haslogswapext(&mp->m_sb))
++		return 0;
++
++	/*
++	 * If the caller doesn't /require/ log-assisted swapping, drop the
++	 * log-incompat feature protection and exit.  The caller cannot use
++	 * log assisted swapping.
++	 */
++	if (!force)
++		goto drop_incompat;
++
++	/*
++	 * Caller requires log-assisted swapping but the fs feature set isn't
++	 * rich enough to support it.  Bail out.
++	 */
++	if (!xfs_swapext_supported(mp)) {
++		error = -EOPNOTSUPP;
++		goto drop_incompat;
++	}
++
++	error = xfs_add_incompat_log_feature(mp,
++			XFS_SB_FEAT_INCOMPAT_LOG_SWAPEXT);
++	if (error)
++		goto drop_incompat;
++
++	xfs_warn_mount(mp, XFS_OPSTATE_WARNED_SWAPEXT,
++ "EXPERIMENTAL atomic file range swap feature in use. Use at your own risk!");
++
++	return 0;
++drop_incompat:
++	xlog_drop_incompat_feat(mp->m_log, XLOG_INCOMPAT_FEAT_SWAPEXT);
++	*use_logging = false;
++	return error;
 +}
 +
-+/*
-+ * The unpin operation is the last place an SXI is manipulated in the log. It
-+ * is either inserted in the AIL or aborted in the event of a log I/O error. In
-+ * either case, the SXI transaction has been successfully committed to make it
-+ * this far. Therefore, we expect whoever committed the SXI to either construct
-+ * and commit the SXD or drop the SXD's reference in the event of error. Simply
-+ * drop the log's SXI reference now that the log is done with it.
-+ */
-+STATIC void
-+xfs_sxi_item_unpin(
-+	struct xfs_log_item	*lip,
-+	int			remove)
-+{
-+	struct xfs_sxi_log_item	*sxi_lip = SXI_ITEM(lip);
-+
-+	xfs_sxi_release(sxi_lip);
-+}
-+
-+/*
-+ * The SXI has been either committed or aborted if the transaction has been
-+ * cancelled. If the transaction was cancelled, an SXD isn't going to be
-+ * constructed and thus we free the SXI here directly.
-+ */
-+STATIC void
-+xfs_sxi_item_release(
-+	struct xfs_log_item	*lip)
-+{
-+	xfs_sxi_release(SXI_ITEM(lip));
-+}
-+
-+/* Allocate and initialize an sxi item with the given number of extents. */
-+STATIC struct xfs_sxi_log_item *
-+xfs_sxi_init(
++/* Release permission to use log-assisted extent swapping. */
++void
++xfs_xchg_range_rele_log_assist(
 +	struct xfs_mount	*mp)
-+
 +{
-+	struct xfs_sxi_log_item	*sxi_lip;
-+
-+	sxi_lip = kmem_cache_zalloc(xfs_sxi_cache, GFP_KERNEL | __GFP_NOFAIL);
-+
-+	xfs_log_item_init(mp, &sxi_lip->sxi_item, XFS_LI_SXI, &xfs_sxi_item_ops);
-+	sxi_lip->sxi_format.sxi_id = (uintptr_t)(void *)sxi_lip;
-+	atomic_set(&sxi_lip->sxi_refcount, 2);
-+
-+	return sxi_lip;
++	xlog_drop_incompat_feat(mp->m_log, XLOG_INCOMPAT_FEAT_SWAPEXT);
 +}
 +
-+static inline struct xfs_sxd_log_item *SXD_ITEM(struct xfs_log_item *lip)
++/* Exchange the contents of two files. */
++int
++xfs_xchg_range(
++	struct xfs_inode		*ip1,
++	struct xfs_inode		*ip2,
++	const struct file_xchg_range	*fxr,
++	unsigned int			xchg_flags)
 +{
-+	return container_of(lip, struct xfs_sxd_log_item, sxd_item);
-+}
++	struct xfs_mount		*mp = ip1->i_mount;
++	struct xfs_swapext_req		req = {
++		.ip1			= ip1,
++		.ip2			= ip2,
++		.whichfork		= XFS_DATA_FORK,
++		.startoff1		= XFS_B_TO_FSBT(mp, fxr->file1_offset),
++		.startoff2		= XFS_B_TO_FSBT(mp, fxr->file2_offset),
++		.blockcount		= XFS_B_TO_FSB(mp, fxr->length),
++	};
++	struct xfs_trans		*tp;
++	unsigned int			qretry;
++	bool				retried = false;
++	int				error;
 +
-+STATIC void
-+xfs_sxd_item_size(
-+	struct xfs_log_item	*lip,
-+	int			*nvecs,
-+	int			*nbytes)
-+{
-+	*nvecs += 1;
-+	*nbytes += sizeof(struct xfs_sxd_log_format);
-+}
++	trace_xfs_xchg_range(ip1, fxr, ip2, xchg_flags);
 +
-+/*
-+ * This is called to fill in the vector of log iovecs for the given sxd log
-+ * item. We use only 1 iovec, and we point that at the sxd_log_format structure
-+ * embedded in the sxd item.
-+ */
-+STATIC void
-+xfs_sxd_item_format(
-+	struct xfs_log_item	*lip,
-+	struct xfs_log_vec	*lv)
-+{
-+	struct xfs_sxd_log_item	*sxd_lip = SXD_ITEM(lip);
-+	struct xfs_log_iovec	*vecp = NULL;
++	/*
++	 * This function only supports using log intent items (SXI items if
++	 * atomic exchange is required, or BUI items if not) to exchange file
++	 * data.  The legacy whole-fork swap will be ported in a later patch.
++	 */
++	if (!(xchg_flags & XFS_XCHG_RANGE_LOGGED) && !xfs_swapext_supported(mp))
++		return -EOPNOTSUPP;
 +
-+	sxd_lip->sxd_format.sxd_type = XFS_LI_SXD;
-+	sxd_lip->sxd_format.sxd_size = 1;
++	if (fxr->flags & FILE_XCHG_RANGE_TO_EOF)
++		req.req_flags |= XFS_SWAP_REQ_SET_SIZES;
++	if (fxr->flags & FILE_XCHG_RANGE_SKIP_FILE1_HOLES)
++		req.req_flags |= XFS_SWAP_REQ_SKIP_INO1_HOLES;
++	if (xchg_flags & XFS_XCHG_RANGE_LOGGED)
++		req.req_flags |= XFS_SWAP_REQ_LOGGED;
 +
-+	xlog_copy_iovec(lv, &vecp, XLOG_REG_TYPE_SXD_FORMAT, &sxd_lip->sxd_format,
-+			sizeof(struct xfs_sxd_log_format));
-+}
++	error = xfs_xchg_range_estimate(&req);
++	if (error)
++		return error;
 +
-+/*
-+ * The SXD is either committed or aborted if the transaction is cancelled. If
-+ * the transaction is cancelled, drop our reference to the SXI and free the
-+ * SXD.
-+ */
-+STATIC void
-+xfs_sxd_item_release(
-+	struct xfs_log_item	*lip)
-+{
-+	struct xfs_sxd_log_item	*sxd_lip = SXD_ITEM(lip);
++retry:
++	/* Allocate the transaction, lock the inodes, and join them. */
++	error = xfs_trans_alloc(mp, &M_RES(mp)->tr_write, req.resblks, 0,
++			XFS_TRANS_RES_FDBLKS, &tp);
++	if (error)
++		return error;
 +
-+	kmem_free(sxd_lip->sxd_item.li_lv_shadow);
-+	xfs_sxi_release(sxd_lip->sxd_intent_log_item);
-+	kmem_cache_free(xfs_sxd_cache, sxd_lip);
-+}
++	xfs_xchg_range_ilock(tp, ip1, ip2);
 +
-+static struct xfs_log_item *
-+xfs_sxd_item_intent(
-+	struct xfs_log_item	*lip)
-+{
-+	return &SXD_ITEM(lip)->sxd_intent_log_item->sxi_item;
-+}
++	trace_xfs_swap_extent_before(ip2, 0);
++	trace_xfs_swap_extent_before(ip1, 1);
 +
-+static const struct xfs_item_ops xfs_sxd_item_ops = {
-+	.flags		= XFS_ITEM_RELEASE_WHEN_COMMITTED |
-+			  XFS_ITEM_INTENT_DONE,
-+	.iop_size	= xfs_sxd_item_size,
-+	.iop_format	= xfs_sxd_item_format,
-+	.iop_release	= xfs_sxd_item_release,
-+	.iop_intent	= xfs_sxd_item_intent,
-+};
++	if (fxr->flags & FILE_XCHG_RANGE_FILE2_FRESH)
++		trace_xfs_xchg_range_freshness(ip2, fxr);
 +
-+/* Process a swapext update intent item that was recovered from the log. */
-+STATIC int
-+xfs_sxi_item_recover(
-+	struct xfs_log_item	*lip,
-+	struct list_head	*capture_list)
-+{
-+	return -EFSCORRUPTED;
-+}
++	/*
++	 * Now that we've excluded all other inode metadata changes by taking
++	 * the ILOCK, repeat the freshness check.
++	 */
++	error = generic_xchg_file_range_check_fresh(VFS_I(ip2), fxr);
++	if (error)
++		goto out_trans_cancel;
 +
-+STATIC bool
-+xfs_sxi_item_match(
-+	struct xfs_log_item	*lip,
-+	uint64_t		intent_id)
-+{
-+	return SXI_ITEM(lip)->sxi_format.sxi_id == intent_id;
-+}
++	error = xfs_swapext_check_extents(mp, &req);
++	if (error)
++		goto out_trans_cancel;
 +
-+/* Relog an intent item to push the log tail forward. */
-+static struct xfs_log_item *
-+xfs_sxi_item_relog(
-+	struct xfs_log_item	*intent,
-+	struct xfs_trans	*tp)
-+{
-+	ASSERT(0);
-+	return NULL;
-+}
++	/*
++	 * Reserve ourselves some quota if any of them are in enforcing mode.
++	 * In theory we only need enough to satisfy the change in the number
++	 * of blocks between the two ranges being remapped.
++	 */
++	error = xfs_xchg_range_reserve_quota(tp, &req, &qretry);
++	if ((error == -EDQUOT || error == -ENOSPC) && !retried) {
++		xfs_trans_cancel(tp);
++		xfs_xchg_range_iunlock(ip1, ip2);
++		if (qretry & QRETRY_IP1)
++			xfs_blockgc_free_quota(ip1, 0);
++		if (qretry & QRETRY_IP2)
++			xfs_blockgc_free_quota(ip2, 0);
++		retried = true;
++		goto retry;
++	}
++	if (error)
++		goto out_trans_cancel;
 +
-+static const struct xfs_item_ops xfs_sxi_item_ops = {
-+	.flags		= XFS_ITEM_INTENT,
-+	.iop_size	= xfs_sxi_item_size,
-+	.iop_format	= xfs_sxi_item_format,
-+	.iop_unpin	= xfs_sxi_item_unpin,
-+	.iop_release	= xfs_sxi_item_release,
-+	.iop_recover	= xfs_sxi_item_recover,
-+	.iop_match	= xfs_sxi_item_match,
-+	.iop_relog	= xfs_sxi_item_relog,
-+};
++	/* If we got this far on a dry run, all parameters are ok. */
++	if (fxr->flags & FILE_XCHG_RANGE_DRY_RUN)
++		goto out_trans_cancel;
 +
-+/*
-+ * This routine is called to create an in-core extent swapext update item from
-+ * the sxi format structure which was logged on disk.  It allocates an in-core
-+ * sxi, copies the extents from the format structure into it, and adds the sxi
-+ * to the AIL with the given LSN.
-+ */
-+STATIC int
-+xlog_recover_sxi_commit_pass2(
-+	struct xlog			*log,
-+	struct list_head		*buffer_list,
-+	struct xlog_recover_item	*item,
-+	xfs_lsn_t			lsn)
-+{
-+	struct xfs_mount		*mp = log->l_mp;
-+	struct xfs_sxi_log_item		*sxi_lip;
-+	struct xfs_sxi_log_format	*sxi_formatp;
-+	size_t				len;
++	/* Update the mtime and ctime of both files. */
++	if (xchg_flags & XFS_XCHG_RANGE_UPD_CMTIME1)
++		xfs_trans_ichgtime(tp, ip1,
++				XFS_ICHGTIME_MOD | XFS_ICHGTIME_CHG);
++	if (xchg_flags & XFS_XCHG_RANGE_UPD_CMTIME2)
++		xfs_trans_ichgtime(tp, ip2,
++				XFS_ICHGTIME_MOD | XFS_ICHGTIME_CHG);
 +
-+	sxi_formatp = item->ri_buf[0].i_addr;
++	xfs_swapext(tp, &req);
 +
-+	if (sxi_formatp->__pad != 0) {
-+		XFS_ERROR_REPORT(__func__, XFS_ERRLEVEL_LOW, log->l_mp);
-+		return -EFSCORRUPTED;
++	/*
++	 * Force the log to persist metadata updates if the caller or the
++	 * administrator requires this.  The VFS prep function already flushed
++	 * the relevant parts of the page cache.
++	 */
++	if (xfs_has_wsync(mp) || (fxr->flags & FILE_XCHG_RANGE_FSYNC))
++		xfs_trans_set_sync(tp);
++
++	error = xfs_trans_commit(tp);
++
++	trace_xfs_swap_extent_after(ip2, 0);
++	trace_xfs_swap_extent_after(ip1, 1);
++
++	if (error)
++		goto out_unlock;
++
++	/*
++	 * If the caller wanted us to exchange the contents of two complete
++	 * files of unequal length, exchange the incore sizes now.  This should
++	 * be safe because we flushed both files' page caches, moved all the
++	 * extents, and updated the ondisk sizes.
++	 */
++	if (fxr->flags & FILE_XCHG_RANGE_TO_EOF) {
++		loff_t	temp;
++
++		temp = i_size_read(VFS_I(ip2));
++		i_size_write(VFS_I(ip2), i_size_read(VFS_I(ip1)));
++		i_size_write(VFS_I(ip1), temp);
 +	}
 +
-+	len = sizeof(struct xfs_sxi_log_format);
-+	if (item->ri_buf[0].i_len != len) {
-+		XFS_ERROR_REPORT(__func__, XFS_ERRLEVEL_LOW, log->l_mp);
-+		return -EFSCORRUPTED;
-+	}
++out_unlock:
++	xfs_xchg_range_iunlock(ip1, ip2);
++	return error;
 +
-+	sxi_lip = xfs_sxi_init(mp);
-+	memcpy(&sxi_lip->sxi_format, sxi_formatp, len);
-+
-+	xfs_trans_ail_insert(log->l_ailp, &sxi_lip->sxi_item, lsn);
-+	xfs_sxi_release(sxi_lip);
-+	return 0;
++out_trans_cancel:
++	xfs_trans_cancel(tp);
++	goto out_unlock;
 +}
+diff --git a/fs/xfs/xfs_xchgrange.h b/fs/xfs/xfs_xchgrange.h
+index 89320a354efa..a0e64408784a 100644
+--- a/fs/xfs/xfs_xchgrange.h
++++ b/fs/xfs/xfs_xchgrange.h
+@@ -14,4 +14,27 @@ void xfs_xchg_range_iunlock(struct xfs_inode *ip1, struct xfs_inode *ip2);
+ 
+ int xfs_xchg_range_estimate(struct xfs_swapext_req *req);
+ 
++int xfs_xchg_range_grab_log_assist(struct xfs_mount *mp, bool force,
++		bool *use_logging);
++void xfs_xchg_range_rele_log_assist(struct xfs_mount *mp);
 +
-+const struct xlog_recover_item_ops xlog_sxi_item_ops = {
-+	.item_type		= XFS_LI_SXI,
-+	.commit_pass2		= xlog_recover_sxi_commit_pass2,
-+};
++/* Caller has permission to use log intent items for the exchange operation. */
++#define XFS_XCHG_RANGE_LOGGED		(1U << 0)
 +
-+/*
-+ * This routine is called when an SXD format structure is found in a committed
-+ * transaction in the log. Its purpose is to cancel the corresponding SXI if it
-+ * was still in the log. To do this it searches the AIL for the SXI with an id
-+ * equal to that in the SXD format structure. If we find it we drop the SXD
-+ * reference, which removes the SXI from the AIL and frees it.
-+ */
-+STATIC int
-+xlog_recover_sxd_commit_pass2(
-+	struct xlog			*log,
-+	struct list_head		*buffer_list,
-+	struct xlog_recover_item	*item,
-+	xfs_lsn_t			lsn)
-+{
-+	struct xfs_sxd_log_format	*sxd_formatp;
++/* Update ip1's change and mod time. */
++#define XFS_XCHG_RANGE_UPD_CMTIME1	(1U << 1)
 +
-+	sxd_formatp = item->ri_buf[0].i_addr;
-+	if (item->ri_buf[0].i_len != sizeof(struct xfs_sxd_log_format)) {
-+		XFS_ERROR_REPORT(__func__, XFS_ERRLEVEL_LOW, log->l_mp);
-+		return -EFSCORRUPTED;
-+	}
++/* Update ip2's change and mod time. */
++#define XFS_XCHG_RANGE_UPD_CMTIME2	(1U << 2)
 +
-+	xlog_recover_release_intent(log, XFS_LI_SXI, sxd_formatp->sxd_sxi_id);
-+	return 0;
-+}
++#define XCHG_RANGE_FLAGS_STRS \
++	{ XFS_XCHG_RANGE_LOGGED,		"LOGGED" }, \
++	{ XFS_XCHG_RANGE_UPD_CMTIME1,		"UPD_CMTIME1" }, \
++	{ XFS_XCHG_RANGE_UPD_CMTIME2,		"UPD_CMTIME2" }
 +
-+const struct xlog_recover_item_ops xlog_sxd_item_ops = {
-+	.item_type		= XFS_LI_SXD,
-+	.commit_pass2		= xlog_recover_sxd_commit_pass2,
-+};
-diff --git a/fs/xfs/xfs_swapext_item.h b/fs/xfs/xfs_swapext_item.h
-new file mode 100644
-index 000000000000..e3cb59692e50
---- /dev/null
-+++ b/fs/xfs/xfs_swapext_item.h
-@@ -0,0 +1,56 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+/*
-+ * Copyright (C) 2022 Oracle.  All Rights Reserved.
-+ * Author: Darrick J. Wong <djwong@kernel.org>
-+ */
-+#ifndef	__XFS_SWAPEXT_ITEM_H__
-+#define	__XFS_SWAPEXT_ITEM_H__
++int xfs_xchg_range(struct xfs_inode *ip1, struct xfs_inode *ip2,
++		const struct file_xchg_range *fxr, unsigned int xchg_flags);
++int xfs_xchg_range_prep(struct file *file1, struct file *file2,
++		struct file_xchg_range *fxr);
 +
-+/*
-+ * The extent swapping intent item help us perform atomic extent swaps between
-+ * two inode forks.  It does this by tracking the range of logical offsets that
-+ * still need to be swapped, and relogs as progress happens.
-+ *
-+ * *I items should be recorded in the *first* of a series of rolled
-+ * transactions, and the *D items should be recorded in the same transaction
-+ * that records the associated bmbt updates.
-+ *
-+ * Should the system crash after the commit of the first transaction but
-+ * before the commit of the final transaction in a series, log recovery will
-+ * use the redo information recorded by the intent items to replay the
-+ * rest of the extent swaps.
-+ */
-+
-+/* kernel only SXI/SXD definitions */
-+
-+struct xfs_mount;
-+struct kmem_cache;
-+
-+/*
-+ * This is the "swapext update intent" log item.  It is used to log the fact
-+ * that we are swapping extents between two files.  It is used in conjunction
-+ * with the "swapext update done" log item described below.
-+ *
-+ * These log items follow the same rules as struct xfs_efi_log_item; see the
-+ * comments about that structure (in xfs_extfree_item.h) for more details.
-+ */
-+struct xfs_sxi_log_item {
-+	struct xfs_log_item		sxi_item;
-+	atomic_t			sxi_refcount;
-+	struct xfs_sxi_log_format	sxi_format;
-+};
-+
-+/*
-+ * This is the "swapext update done" log item.  It is used to log the fact that
-+ * some extent swapping mentioned in an earlier sxi item have been performed.
-+ */
-+struct xfs_sxd_log_item {
-+	struct xfs_log_item		sxd_item;
-+	struct xfs_sxi_log_item		*sxd_intent_log_item;
-+	struct xfs_sxd_log_format	sxd_format;
-+};
-+
-+extern struct kmem_cache	*xfs_sxi_cache;
-+extern struct kmem_cache	*xfs_sxd_cache;
-+
-+#endif	/* __XFS_SWAPEXT_ITEM_H__ */
+ #endif /* __XFS_XCHGRANGE_H__ */
 
