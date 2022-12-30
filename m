@@ -2,42 +2,42 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BA1A8659EF8
-	for <lists+linux-api@lfdr.de>; Sat, 31 Dec 2022 00:55:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A735659EE6
+	for <lists+linux-api@lfdr.de>; Sat, 31 Dec 2022 00:54:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235810AbiL3Xyw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 30 Dec 2022 18:54:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50642 "EHLO
+        id S235803AbiL3XyV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 30 Dec 2022 18:54:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50480 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235819AbiL3Xyv (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 30 Dec 2022 18:54:51 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63E8E1E3DE;
-        Fri, 30 Dec 2022 15:54:50 -0800 (PST)
+        with ESMTP id S235661AbiL3XyU (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 30 Dec 2022 18:54:20 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52C0B1DF3A;
+        Fri, 30 Dec 2022 15:54:19 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id F36A861C55;
-        Fri, 30 Dec 2022 23:54:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EDBFC433EF;
-        Fri, 30 Dec 2022 23:54:49 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E3EA461C63;
+        Fri, 30 Dec 2022 23:54:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55BE6C433EF;
+        Fri, 30 Dec 2022 23:54:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1672444489;
-        bh=J8c/a8Xy6EPxYjsODvsxgmlH0Y5nZNdU7B5T9VqmxJQ=;
+        s=k20201202; t=1672444458;
+        bh=9ClwFWQXTUDSfnYX0ax6pVW/z2nuo6SRg62Gf8aE69U=;
         h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=jlYnV4t3nOEUJnWmn+BMi0pgTn2+njS6b5gFp/Y2oSvhgiOItdgtuRKW9utgbrVpy
-         iTtSrA4H6hodCQjwNeyKwikB9BNpNn7axokIYz1fIgcwcyDS6+stoohuCz3+q9p4h/
-         bqwqFR0mknP/iaVMUR2YiJXkBePGfgSliFUsqBfYIhTBFlYSV+3XS1eGnllPn/kFHt
-         YlOwr9yAqRv62WxEytddXDPlEe7YUgCzu9piywTw1CqfKpU30RbDQBlnbL9HAKvC2+
-         HDuc2UNhz0+repYSlU7xw8zPiRWpJHiynyc5aXEGicxtUwwECZt9O3kns1xick07Y1
-         ybsy9FoFxfJrA==
-Subject: [PATCH 18/21] xfs: condense symbolic links after an atomic swap
+        b=ZtPeJDC1/2UEplRtXWlw9hygW3WJyPQc1pEA6oKArBwS6aceSOwCM0hZiwCji2xmB
+         5EL+qKYycTseyWnSYytUmcNJlkhD8k5tEcwN0bXdGCTqFqa7YRkfwE2JshoDetJ2bI
+         HZ7i16PFsf+2fbt0/R/nmbjD2xF9vyUohrV4p8mN431mwr6awBUXczphBQrqDJqAmz
+         XwWn6Yia8+jQPx3f98aEBqe92QwTQfqDhwkBRxgl50gpqjOMSnQWA6kjh2PaYyYUr/
+         y5H8+Y5fvLEmcseVRFjqN1zTzWPcGvi9czy5v9CIBqFoNPg05TIFW7qWTA/9z5cJUW
+         BFIe6p2rzvKSA==
+Subject: [PATCH 16/21] xfs: condense extended attributes after an atomic swap
 From:   "Darrick J. Wong" <djwong@kernel.org>
 To:     djwong@kernel.org
 Cc:     linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         linux-api@vger.kernel.org
 Date:   Fri, 30 Dec 2022 14:13:57 -0800
-Message-ID: <167243843786.699466.11515465917822251289.stgit@magnolia>
+Message-ID: <167243843757.699466.12904802285567328629.stgit@magnolia>
 In-Reply-To: <167243843494.699466.5163281976943635014.stgit@magnolia>
 References: <167243843494.699466.5163281976943635014.stgit@magnolia>
 User-Agent: StGit/0.19
@@ -55,246 +55,180 @@ X-Mailing-List: linux-api@vger.kernel.org
 
 From: Darrick J. Wong <djwong@kernel.org>
 
-The previous commit added a new swapext flag that enables us to perform
-post-swap processing on file2 once we're done swapping the extent maps.
-Now add this ability for symlinks.
+Add a new swapext flag that enables us to perform post-swap processing
+on file2 once we're done swapping the extent maps.  If we were swapping
+the extended attributes, we want to be able to convert file2's attr fork
+from block to inline format.
 
 This isn't used anywhere right now, but we need to have the basic ondisk
-flags in place so that a future online symlink repair feature can
-salvage the remote target in a temporary link and swap the data forks
-when ready.  If one file is in extents format and the other is inline,
-we will have to promote both to extents format to perform the swap.
-After the swap, we can try to condense the fixed symlink down to inline
+flags in place so that a future online xattr repair feature can create
+salvaged attrs in a temporary file and swap the attr forks when ready.
+If one file is in extents format and the other is inline, we will have to
+promote both to extents format to perform the swap.  After the swap, we
+can try to condense the fixed file's attr fork back down to inline
 format if possible.
 
 Signed-off-by: Darrick J. Wong <djwong@kernel.org>
 ---
- fs/xfs/libxfs/xfs_swapext.c        |   48 +++++++++++++++++++++++++++++++++++
- fs/xfs/libxfs/xfs_symlink_remote.c |   47 +++++++++++++++++++++++++++++++++++
- fs/xfs/libxfs/xfs_symlink_remote.h |    1 +
- fs/xfs/xfs_symlink.c               |   49 ++++--------------------------------
- 4 files changed, 101 insertions(+), 44 deletions(-)
+ fs/xfs/libxfs/xfs_log_format.h |    9 +++++--
+ fs/xfs/libxfs/xfs_swapext.c    |   51 +++++++++++++++++++++++++++++++++++++++-
+ fs/xfs/libxfs/xfs_swapext.h    |    9 +++++--
+ 3 files changed, 64 insertions(+), 5 deletions(-)
 
 
+diff --git a/fs/xfs/libxfs/xfs_log_format.h b/fs/xfs/libxfs/xfs_log_format.h
+index 65a84fdefe56..378201a70028 100644
+--- a/fs/xfs/libxfs/xfs_log_format.h
++++ b/fs/xfs/libxfs/xfs_log_format.h
+@@ -906,18 +906,23 @@ struct xfs_swap_extent {
+ /* Clear the reflink flag from inode2 after the operation. */
+ #define XFS_SWAP_EXT_CLEAR_INO2_REFLINK	(1ULL << 4)
+ 
++/* Try to convert inode2 from block to short format at the end, if possible. */
++#define XFS_SWAP_EXT_CVT_INO2_SF	(1ULL << 5)
++
+ #define XFS_SWAP_EXT_FLAGS		(XFS_SWAP_EXT_ATTR_FORK | \
+ 					 XFS_SWAP_EXT_SET_SIZES | \
+ 					 XFS_SWAP_EXT_SKIP_INO1_HOLES | \
+ 					 XFS_SWAP_EXT_CLEAR_INO1_REFLINK | \
+-					 XFS_SWAP_EXT_CLEAR_INO2_REFLINK)
++					 XFS_SWAP_EXT_CLEAR_INO2_REFLINK | \
++					 XFS_SWAP_EXT_CVT_INO2_SF)
+ 
+ #define XFS_SWAP_EXT_STRINGS \
+ 	{ XFS_SWAP_EXT_ATTR_FORK,		"ATTRFORK" }, \
+ 	{ XFS_SWAP_EXT_SET_SIZES,		"SETSIZES" }, \
+ 	{ XFS_SWAP_EXT_SKIP_INO1_HOLES,		"SKIP_INO1_HOLES" }, \
+ 	{ XFS_SWAP_EXT_CLEAR_INO1_REFLINK,	"CLEAR_INO1_REFLINK" }, \
+-	{ XFS_SWAP_EXT_CLEAR_INO2_REFLINK,	"CLEAR_INO2_REFLINK" }
++	{ XFS_SWAP_EXT_CLEAR_INO2_REFLINK,	"CLEAR_INO2_REFLINK" }, \
++	{ XFS_SWAP_EXT_CVT_INO2_SF,		"CVT_INO2_SF" }
+ 
+ /* This is the structure used to lay out an sxi log item in the log. */
+ struct xfs_sxi_log_format {
 diff --git a/fs/xfs/libxfs/xfs_swapext.c b/fs/xfs/libxfs/xfs_swapext.c
-index a52f72a499f4..b27ceeb93a16 100644
+index 227a08ac5d4b..6b5223e73692 100644
 --- a/fs/xfs/libxfs/xfs_swapext.c
 +++ b/fs/xfs/libxfs/xfs_swapext.c
-@@ -29,6 +29,7 @@
- #include "xfs_attr.h"
- #include "xfs_dir2_priv.h"
- #include "xfs_dir2.h"
-+#include "xfs_symlink_remote.h"
+@@ -23,6 +23,10 @@
+ #include "xfs_error.h"
+ #include "xfs_errortag.h"
+ #include "xfs_health.h"
++#include "xfs_da_format.h"
++#include "xfs_da_btree.h"
++#include "xfs_attr_leaf.h"
++#include "xfs_attr.h"
  
  struct kmem_cache	*xfs_swapext_intent_cache;
  
-@@ -423,6 +424,48 @@ xfs_swapext_dir_to_sf(
- 	return xfs_dir2_block_to_sf(&args, bp, size, &sfh);
+@@ -121,7 +125,8 @@ static inline bool
+ sxi_has_postop_work(const struct xfs_swapext_intent *sxi)
+ {
+ 	return sxi->sxi_flags & (XFS_SWAP_EXT_CLEAR_INO1_REFLINK |
+-				 XFS_SWAP_EXT_CLEAR_INO2_REFLINK);
++				 XFS_SWAP_EXT_CLEAR_INO2_REFLINK |
++				 XFS_SWAP_EXT_CVT_INO2_SF);
  }
  
-+/* Convert inode2's remote symlink target back to shortform, if possible. */
+ static inline void
+@@ -350,6 +355,36 @@ xfs_swapext_exchange_mappings(
+ 	sxi_advance(sxi, irec1);
+ }
+ 
++/* Convert inode2's leaf attr fork back to shortform, if possible.. */
 +STATIC int
-+xfs_swapext_link_to_sf(
++xfs_swapext_attr_to_sf(
 +	struct xfs_trans		*tp,
 +	struct xfs_swapext_intent	*sxi)
 +{
-+	struct xfs_inode		*ip = sxi->sxi_ip2;
-+	struct xfs_ifork		*ifp = xfs_ifork_ptr(ip, XFS_DATA_FORK);
-+	char				*buf;
-+	int				error;
++	struct xfs_da_args	args = {
++		.dp		= sxi->sxi_ip2,
++		.geo		= tp->t_mountp->m_attr_geo,
++		.whichfork	= XFS_ATTR_FORK,
++		.trans		= tp,
++	};
++	struct xfs_buf		*bp;
++	int			forkoff;
++	int			error;
 +
-+	if (ifp->if_format == XFS_DINODE_FMT_LOCAL ||
-+	    ip->i_disk_size > xfs_inode_data_fork_size(ip))
++	if (!xfs_attr_is_leaf(sxi->sxi_ip2))
 +		return 0;
 +
-+	/* Read the current symlink target into a buffer. */
-+	buf = kmem_alloc(ip->i_disk_size + 1, KM_NOFS);
-+	if (!buf) {
-+		ASSERT(0);
-+		return -ENOMEM;
-+	}
-+
-+	error = xfs_symlink_remote_read(ip, buf);
++	error = xfs_attr3_leaf_read(tp, sxi->sxi_ip2, 0, &bp);
 +	if (error)
-+		goto free;
++		return error;
 +
-+	/* Remove the blocks. */
-+	error = xfs_symlink_remote_truncate(tp, ip);
-+	if (error)
-+		goto free;
++	forkoff = xfs_attr_shortform_allfit(bp, sxi->sxi_ip2);
++	if (forkoff == 0)
++		return 0;
 +
-+	/* Convert fork to local format and log our changes. */
-+	xfs_idestroy_fork(ifp);
-+	ifp->if_bytes = 0;
-+	ifp->if_format = XFS_DINODE_FMT_LOCAL;
-+	xfs_init_local_fork(ip, XFS_DATA_FORK, buf, ip->i_disk_size);
-+	xfs_trans_log_inode(tp, ip, XFS_ILOG_DDATA | XFS_ILOG_CORE);
-+free:
-+	kmem_free(buf);
-+	return error;
++	return xfs_attr3_leaf_to_shortform(bp, &args, forkoff);
 +}
 +
  static inline void
  xfs_swapext_clear_reflink(
  	struct xfs_trans	*tp,
-@@ -447,6 +490,8 @@ xfs_swapext_do_postop_work(
- 			error = xfs_swapext_attr_to_sf(tp, sxi);
- 		else if (S_ISDIR(VFS_I(sxi->sxi_ip2)->i_mode))
- 			error = xfs_swapext_dir_to_sf(tp, sxi);
-+		else if (S_ISLNK(VFS_I(sxi->sxi_ip2)->i_mode))
-+			error = xfs_swapext_link_to_sf(tp, sxi);
- 		sxi->sxi_flags &= ~XFS_SWAP_EXT_CVT_INO2_SF;
- 		if (error)
- 			return error;
-@@ -1103,7 +1148,8 @@ xfs_swapext(
- 	if (req->req_flags & XFS_SWAP_REQ_CVT_INO2_SF)
- 		ASSERT(req->whichfork == XFS_ATTR_FORK ||
- 		       (req->whichfork == XFS_DATA_FORK &&
--			S_ISDIR(VFS_I(req->ip2)->i_mode)));
-+			(S_ISDIR(VFS_I(req->ip2)->i_mode) ||
-+			 S_ISLNK(VFS_I(req->ip2)->i_mode))));
+@@ -367,6 +402,16 @@ xfs_swapext_do_postop_work(
+ 	struct xfs_trans		*tp,
+ 	struct xfs_swapext_intent	*sxi)
+ {
++	if (sxi->sxi_flags & XFS_SWAP_EXT_CVT_INO2_SF) {
++		int			error = 0;
++
++		if (sxi->sxi_flags & XFS_SWAP_EXT_ATTR_FORK)
++			error = xfs_swapext_attr_to_sf(tp, sxi);
++		sxi->sxi_flags &= ~XFS_SWAP_EXT_CVT_INO2_SF;
++		if (error)
++			return error;
++	}
++
+ 	if (sxi->sxi_flags & XFS_SWAP_EXT_CLEAR_INO1_REFLINK) {
+ 		xfs_swapext_clear_reflink(tp, sxi->sxi_ip1);
+ 		sxi->sxi_flags &= ~XFS_SWAP_EXT_CLEAR_INO1_REFLINK;
+@@ -794,6 +839,8 @@ xfs_swapext_init_intent(
+ 
+ 	if (req->req_flags & XFS_SWAP_REQ_SKIP_INO1_HOLES)
+ 		sxi->sxi_flags |= XFS_SWAP_EXT_SKIP_INO1_HOLES;
++	if (req->req_flags & XFS_SWAP_REQ_CVT_INO2_SF)
++		sxi->sxi_flags |= XFS_SWAP_EXT_CVT_INO2_SF;
+ 
+ 	if (req->req_flags & XFS_SWAP_REQ_LOGGED)
+ 		sxi->sxi_op_flags |= XFS_SWAP_EXT_OP_LOGGED;
+@@ -1013,6 +1060,8 @@ xfs_swapext(
+ 	ASSERT(!(req->req_flags & ~XFS_SWAP_REQ_FLAGS));
+ 	if (req->req_flags & XFS_SWAP_REQ_SET_SIZES)
+ 		ASSERT(req->whichfork == XFS_DATA_FORK);
++	if (req->req_flags & XFS_SWAP_REQ_CVT_INO2_SF)
++		ASSERT(req->whichfork == XFS_ATTR_FORK);
  
  	if (req->blockcount == 0)
  		return;
-diff --git a/fs/xfs/libxfs/xfs_symlink_remote.c b/fs/xfs/libxfs/xfs_symlink_remote.c
-index 5261f15ea2ed..b48dcb893a2a 100644
---- a/fs/xfs/libxfs/xfs_symlink_remote.c
-+++ b/fs/xfs/libxfs/xfs_symlink_remote.c
-@@ -391,3 +391,50 @@ xfs_symlink_write_target(
- 	ASSERT(pathlen == 0);
- 	return 0;
- }
-+
-+/* Remove all the blocks from a symlink and invalidate buffers. */
-+int
-+xfs_symlink_remote_truncate(
-+	struct xfs_trans	*tp,
-+	struct xfs_inode	*ip)
-+{
-+	struct xfs_bmbt_irec	mval[XFS_SYMLINK_MAPS];
-+	struct xfs_mount	*mp = tp->t_mountp;
-+	struct xfs_buf		*bp;
-+	int			nmaps = XFS_SYMLINK_MAPS;
-+	int			done = 0;
-+	int			i;
-+	int			error;
-+
-+	/* Read mappings and invalidate buffers. */
-+	error = xfs_bmapi_read(ip, 0, XFS_MAX_FILEOFF, mval, &nmaps, 0);
-+	if (error)
-+		return error;
-+
-+	for (i = 0; i < nmaps; i++) {
-+		if (!xfs_bmap_is_real_extent(&mval[i]))
-+			break;
-+
-+		error = xfs_trans_get_buf(tp, mp->m_ddev_targp,
-+				XFS_FSB_TO_DADDR(mp, mval[i].br_startblock),
-+				XFS_FSB_TO_BB(mp, mval[i].br_blockcount), 0,
-+				&bp);
-+		if (error)
-+			return error;
-+
-+		xfs_trans_binval(tp, bp);
-+	}
-+
-+	/* Unmap the remote blocks. */
-+	error = xfs_bunmapi(tp, ip, 0, XFS_MAX_FILEOFF, 0, nmaps, &done);
-+	if (error)
-+		return error;
-+	if (!done) {
-+		ASSERT(done);
-+		xfs_inode_mark_sick(ip, XFS_SICK_INO_SYMLINK);
-+		return -EFSCORRUPTED;
-+	}
-+
-+	xfs_trans_log_inode(tp, ip, XFS_ILOG_CORE);
-+	return 0;
-+}
-diff --git a/fs/xfs/libxfs/xfs_symlink_remote.h b/fs/xfs/libxfs/xfs_symlink_remote.h
-index d81461c06b6b..05eb9c3937d9 100644
---- a/fs/xfs/libxfs/xfs_symlink_remote.h
-+++ b/fs/xfs/libxfs/xfs_symlink_remote.h
-@@ -23,5 +23,6 @@ int xfs_symlink_remote_read(struct xfs_inode *ip, char *link);
- int xfs_symlink_write_target(struct xfs_trans *tp, struct xfs_inode *ip,
- 		const char *target_path, int pathlen, xfs_fsblock_t fs_blocks,
- 		uint resblks);
-+int xfs_symlink_remote_truncate(struct xfs_trans *tp, struct xfs_inode *ip);
+diff --git a/fs/xfs/libxfs/xfs_swapext.h b/fs/xfs/libxfs/xfs_swapext.h
+index 1987897ddc25..6b610fea150a 100644
+--- a/fs/xfs/libxfs/xfs_swapext.h
++++ b/fs/xfs/libxfs/xfs_swapext.h
+@@ -126,16 +126,21 @@ struct xfs_swapext_req {
+ /* Files need to be upgraded to have large extent counts. */
+ #define XFS_SWAP_REQ_NREXT64		(1U << 3)
  
- #endif /* __XFS_SYMLINK_REMOTE_H */
-diff --git a/fs/xfs/xfs_symlink.c b/fs/xfs/xfs_symlink.c
-index 548d9116e0c5..8cf69ca4bd7c 100644
---- a/fs/xfs/xfs_symlink.c
-+++ b/fs/xfs/xfs_symlink.c
-@@ -250,19 +250,12 @@ xfs_symlink(
-  */
- STATIC int
- xfs_inactive_symlink_rmt(
--	struct xfs_inode *ip)
-+	struct xfs_inode	*ip)
- {
--	struct xfs_buf	*bp;
--	int		done;
--	int		error;
--	int		i;
--	xfs_mount_t	*mp;
--	xfs_bmbt_irec_t	mval[XFS_SYMLINK_MAPS];
--	int		nmaps;
--	int		size;
--	xfs_trans_t	*tp;
-+	struct xfs_mount	*mp = ip->i_mount;
-+	struct xfs_trans	*tp;
-+	int			error;
- 
--	mp = ip->i_mount;
- 	ASSERT(!xfs_need_iread_extents(&ip->i_df));
- 	/*
- 	 * We're freeing a symlink that has some
-@@ -286,44 +279,14 @@ xfs_inactive_symlink_rmt(
- 	 * locked for the second transaction.  In the error paths we need it
- 	 * held so the cancel won't rele it, see below.
- 	 */
--	size = (int)ip->i_disk_size;
- 	ip->i_disk_size = 0;
- 	VFS_I(ip)->i_mode = (VFS_I(ip)->i_mode & ~S_IFMT) | S_IFREG;
- 	xfs_trans_log_inode(tp, ip, XFS_ILOG_CORE);
--	/*
--	 * Find the block(s) so we can inval and unmap them.
--	 */
--	done = 0;
--	nmaps = ARRAY_SIZE(mval);
--	error = xfs_bmapi_read(ip, 0, xfs_symlink_blocks(mp, size),
--				mval, &nmaps, 0);
--	if (error)
--		goto error_trans_cancel;
--	/*
--	 * Invalidate the block(s). No validation is done.
--	 */
--	for (i = 0; i < nmaps; i++) {
--		error = xfs_trans_get_buf(tp, mp->m_ddev_targp,
--				XFS_FSB_TO_DADDR(mp, mval[i].br_startblock),
--				XFS_FSB_TO_BB(mp, mval[i].br_blockcount), 0,
--				&bp);
--		if (error)
--			goto error_trans_cancel;
--		xfs_trans_binval(tp, bp);
--	}
--	/*
--	 * Unmap the dead block(s) to the dfops.
--	 */
--	error = xfs_bunmapi(tp, ip, 0, size, 0, nmaps, &done);
++/* Try to convert inode2's fork to local format, if possible. */
++#define XFS_SWAP_REQ_CVT_INO2_SF	(1U << 4)
 +
-+	error = xfs_symlink_remote_truncate(tp, ip);
- 	if (error)
- 		goto error_trans_cancel;
--	ASSERT(done);
+ #define XFS_SWAP_REQ_FLAGS		(XFS_SWAP_REQ_LOGGED | \
+ 					 XFS_SWAP_REQ_SET_SIZES | \
+ 					 XFS_SWAP_REQ_SKIP_INO1_HOLES | \
+-					 XFS_SWAP_REQ_NREXT64)
++					 XFS_SWAP_REQ_NREXT64 | \
++					 XFS_SWAP_REQ_CVT_INO2_SF)
  
--	/*
--	 * Commit the transaction. This first logs the EFI and the inode, then
--	 * rolls and commits the transaction that frees the extents.
--	 */
--	xfs_trans_log_inode(tp, ip, XFS_ILOG_CORE);
- 	error = xfs_trans_commit(tp);
- 	if (error) {
- 		ASSERT(xfs_is_shutdown(mp));
+ #define XFS_SWAP_REQ_STRINGS \
+ 	{ XFS_SWAP_REQ_LOGGED,			"LOGGED" }, \
+ 	{ XFS_SWAP_REQ_SET_SIZES,		"SETSIZES" }, \
+ 	{ XFS_SWAP_REQ_SKIP_INO1_HOLES,		"SKIP_INO1_HOLES" }, \
+-	{ XFS_SWAP_REQ_NREXT64,			"NREXT64" }
++	{ XFS_SWAP_REQ_NREXT64,			"NREXT64" }, \
++	{ XFS_SWAP_REQ_CVT_INO2_SF,		"CVT_INO2_SF" }
+ 
+ unsigned int xfs_swapext_reflink_prep(const struct xfs_swapext_req *req);
+ void xfs_swapext_reflink_finish(struct xfs_trans *tp,
 
