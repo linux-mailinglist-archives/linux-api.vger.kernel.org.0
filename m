@@ -2,66 +2,66 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D744065C7F0
-	for <lists+linux-api@lfdr.de>; Tue,  3 Jan 2023 21:16:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A3A3265C811
+	for <lists+linux-api@lfdr.de>; Tue,  3 Jan 2023 21:27:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233834AbjACUQX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 3 Jan 2023 15:16:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48508 "EHLO
+        id S238360AbjACU1E (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 3 Jan 2023 15:27:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52804 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238157AbjACUQV (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 3 Jan 2023 15:16:21 -0500
-Received: from mail-vs1-xe2d.google.com (mail-vs1-xe2d.google.com [IPv6:2607:f8b0:4864:20::e2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B0CD2AF8
-        for <linux-api@vger.kernel.org>; Tue,  3 Jan 2023 12:16:17 -0800 (PST)
-Received: by mail-vs1-xe2d.google.com with SMTP id a66so32909289vsa.6
-        for <linux-api@vger.kernel.org>; Tue, 03 Jan 2023 12:16:17 -0800 (PST)
+        with ESMTP id S238730AbjACU0o (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 3 Jan 2023 15:26:44 -0500
+Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com [IPv6:2607:f8b0:4864:20::833])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D551814D3A
+        for <linux-api@vger.kernel.org>; Tue,  3 Jan 2023 12:26:17 -0800 (PST)
+Received: by mail-qt1-x833.google.com with SMTP id s9so25471485qtx.6
+        for <linux-api@vger.kernel.org>; Tue, 03 Jan 2023 12:26:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linux-foundation.org; s=google;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=HTnuIAJdCSnqOgUCfI1VegmgFYxeW1ngR0BDNyHkGf0=;
-        b=DokQ/BEIgEpL/ia17Z2x8+os3L6Iix7X3VYwgY2oWHbqXrXltMNtHkuxWFNC0TiQoL
-         cBgZVKREYRgoskXuojqZ3A1XLXXW46nqyABZQqesu1jY6qAYwaNx5oLjtODVhfjUliU3
-         eVndN+o81O0zIOd96+Ti2/uGI99RMfL7MdUR0=
+        bh=mWQdhtHM3K1oyggbO+2dMJUZwBODavvxc7yTyFJ0lYI=;
+        b=YDVCUDbgAeW0hVhs/g4JjH8kmsFuPnrsSO3rAzaQ8238JVlCpbbDmM/of5LDiFQ3ZR
+         LsAhZ7OQBiszg4rGxhyYNLNLxWf8NjQaNJc7Q3pNZtyzmOdKo7YOKp1HwocTpMcHw08J
+         Lp1wNe7fgslKvAudNAcF7WhpB5/QExxKAzdR8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=HTnuIAJdCSnqOgUCfI1VegmgFYxeW1ngR0BDNyHkGf0=;
-        b=RVWCeA2iE+zBS+0HE74PIVcuRHkryVLenhkDqfgO4d1tAiddvAvM4go3xS4hJMQYIj
-         Uoe9zN1cAP7c6saufB2vzs0volUlfDl5UvcAV539CGZqhq90uhehRH4JvemGUwlNMo62
-         9NQnVbP+uOsw3L9TgB6jUQUiAgA0St+tXDSuPujSPWwL+MHKWfI1zzT83PNemg+VEnQb
-         jNWPtW04IJM2rACh6i9b2Kusaua1q9fiDQ2WVUjq3moMQ0tYWclkAGaaUJKZqGcSnPM4
-         mKRJ9SOyFtbzfKXM8KN0YRvskRW0ivCWz4l5FgJI36PoopvdQ5A3aO0EOYHohlpxKEzw
-         hobg==
-X-Gm-Message-State: AFqh2kr8gBmdjlg/MAmjMsNgKCxmBDhksmszrAPCx0k2uwtSGAkT6cMr
-        JQUlrvsBv/fs/G7hjR9IjJnG0JhZB9afokj0
-X-Google-Smtp-Source: AMrXdXuqQRLXKvtyhy4bK2tNprWfni3PcmOKZTceNRJKAKpEbqGpv+NYPC+bztYqswio6HZhUoidoA==
-X-Received: by 2002:a67:c21d:0:b0:3ce:871e:1a2e with SMTP id i29-20020a67c21d000000b003ce871e1a2emr4763938vsj.23.1672776976018;
-        Tue, 03 Jan 2023 12:16:16 -0800 (PST)
+        bh=mWQdhtHM3K1oyggbO+2dMJUZwBODavvxc7yTyFJ0lYI=;
+        b=VZska6yi1AtpwGY24ookPRNwc0DePDXb8FLwx+ejzR6JMgRTzu0gTqFnDgrqR7kPbS
+         rP/epvDWyn+YA7l0LEMQ5NXrA6v1fC/Jl4SuNAOXUmA7AlWd0HPN7ZwD2O5rB63xvIzt
+         fCZ75WwkbxchPbcO7Pr2jbzjCIwSWGF+16x8xR8mgZhjPKup83GVwzMWPbyKVI8VaMek
+         GiCNZg0T/rImgNDmDL62q//Bit/ysC9hGVfQzHYAztIzKhbiMVJV7wjDYdfouLwoFymo
+         srNpcg7fyIA2D5Yoqy/W5yoQodET8Rx1TYowPlNjXmSebPfIChBWGNaA6oO6y/v5NGEF
+         KuKw==
+X-Gm-Message-State: AFqh2kqEzJAngCNkTNGGD10u1QpiHKVu8JpM83k/X5O21w7zwJbMmVnx
+        oATwqeyhPlCyOYvJ86uVICqV/X9gl5fNhE5z
+X-Google-Smtp-Source: AMrXdXsYuHmnsqJyKJijuGNGwZi4v23DWcFLPvFOJSj+jsEay82nY3FxXr4wTNiL7lWtrAsntKFhTw==
+X-Received: by 2002:ac8:1e19:0:b0:3a7:242:501 with SMTP id n25-20020ac81e19000000b003a702420501mr67141533qtl.46.1672777576737;
+        Tue, 03 Jan 2023 12:26:16 -0800 (PST)
 Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com. [209.85.222.175])
-        by smtp.gmail.com with ESMTPSA id u2-20020a37ab02000000b006fc92cf4703sm22152684qke.132.2023.01.03.12.16.13
+        by smtp.gmail.com with ESMTPSA id t29-20020a37ea1d000000b006fc40dafaa2sm22621319qkj.8.2023.01.03.12.26.15
         for <linux-api@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Jan 2023 12:16:13 -0800 (PST)
-Received: by mail-qk1-f175.google.com with SMTP id p12so15358432qkm.0
-        for <linux-api@vger.kernel.org>; Tue, 03 Jan 2023 12:16:13 -0800 (PST)
-X-Received: by 2002:ae9:ef49:0:b0:6fe:d4a6:dcef with SMTP id
- d70-20020ae9ef49000000b006fed4a6dcefmr2045085qkg.594.1672776973189; Tue, 03
- Jan 2023 12:16:13 -0800 (PST)
+        Tue, 03 Jan 2023 12:26:15 -0800 (PST)
+Received: by mail-qk1-f175.google.com with SMTP id pe2so15363471qkn.1
+        for <linux-api@vger.kernel.org>; Tue, 03 Jan 2023 12:26:15 -0800 (PST)
+X-Received: by 2002:a05:620a:1379:b0:6fc:c48b:8eab with SMTP id
+ d25-20020a05620a137900b006fcc48b8eabmr1659307qkl.216.1672777574921; Tue, 03
+ Jan 2023 12:26:14 -0800 (PST)
 MIME-Version: 1.0
 References: <20230101162910.710293-1-Jason@zx2c4.com> <20230101162910.710293-3-Jason@zx2c4.com>
  <Y7QIg/hAIk7eZE42@gmail.com> <CALCETrWdw5kxrtr4M7AkKYDOJEE1cU1wENWgmgOxn0rEJz4y3w@mail.gmail.com>
  <CAHk-=wg_6Uhkjy12Vq_hN6rQqGRP2nE15rkgiAo6Qay5aOeigg@mail.gmail.com>
  <Y7SDgtXayQCy6xT6@zx2c4.com> <CAHk-=whQdWFw+0eGttxsWBHZg1+uh=0MhxXYtvJGX4t9P1MgNw@mail.gmail.com>
- <Y7SJ+/axonTK0Fir@zx2c4.com>
-In-Reply-To: <Y7SJ+/axonTK0Fir@zx2c4.com>
+ <Y7SJ+/axonTK0Fir@zx2c4.com> <CAHk-=wi4gshfKjbhEO_xZdVb9ztXf0iuv5kKhxtvAHf2HzTmng@mail.gmail.com>
+In-Reply-To: <CAHk-=wi4gshfKjbhEO_xZdVb9ztXf0iuv5kKhxtvAHf2HzTmng@mail.gmail.com>
 From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Tue, 3 Jan 2023 12:15:57 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wi4gshfKjbhEO_xZdVb9ztXf0iuv5kKhxtvAHf2HzTmng@mail.gmail.com>
-Message-ID: <CAHk-=wi4gshfKjbhEO_xZdVb9ztXf0iuv5kKhxtvAHf2HzTmng@mail.gmail.com>
+Date:   Tue, 3 Jan 2023 12:25:59 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wg4SRHF6AhYDcgyokN2BMjra91Ns4h9wWPachhf-x3=xQ@mail.gmail.com>
+Message-ID: <CAHk-=wg4SRHF6AhYDcgyokN2BMjra91Ns4h9wWPachhf-x3=xQ@mail.gmail.com>
 Subject: Re: [PATCH v14 2/7] mm: add VM_DROPPABLE for designating always
  lazily freeable mappings
 To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
@@ -86,16 +86,38 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Jan 3, 2023 at 12:03 PM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+On Tue, Jan 3, 2023 at 12:15 PM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
 >
-> That buffering cannot be done safely currently
+> On Tue, Jan 3, 2023 at 12:03 PM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+> >
+> > That buffering cannot be done safely currently
+>
+> .. again, this is "your semantics" (the (b) in my humbug list), not
+> necessarily reality for anybody else.
 
-.. again, this is "your semantics" (the (b) in my humbug list), not
-necessarily reality for anybody else.
+Just to make an example: fork() is already problematic for something
+as fundamental as <stdio.h>.
 
-I'm NAK'ing making invasive changes to the VM for something this
-specialized. I really believe that the people who have this issue are
-*so* few and far between that they can deal with the VM forking and
-reseeding issues quite well on their own.
+That doesn't mean that we do a special fork-safe stdio.h
+infrastructure in the kernel. It just means that people have to do
+things like fflush(NULL) (or use variations of setbuf() and friends)
+when they deal with fork() and stdio interactions.
+
+The random number generator really isn't that different. Periodic
+reseeding isn't something stdio has to deal with, but having a
+timestamp in user space library and forcing a re-seed isn't unheard of
+in other contexts.
+
+You don't even need anything as fancy as an actual timer, because it
+doesn't need *active* flushing, just a "oh, it's been too long since
+we read the random data, let's do it again".
+
+And yes, I bet it would be a good idea to have an actual library for
+this that handles (and *documents*) these kinds of issues - exactly
+like a <stdio.h>, just for randomness.
+
+I just don't think it should be involved in the kernel - again exactly
+like <stdio.h>.
 
             Linus
