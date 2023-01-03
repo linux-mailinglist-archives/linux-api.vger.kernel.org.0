@@ -2,165 +2,170 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A5F665C86B
-	for <lists+linux-api@lfdr.de>; Tue,  3 Jan 2023 21:52:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D73665CA2D
+	for <lists+linux-api@lfdr.de>; Wed,  4 Jan 2023 00:06:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230372AbjACUwY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 3 Jan 2023 15:52:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38740 "EHLO
+        id S233670AbjACXGp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 3 Jan 2023 18:06:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230480AbjACUwW (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 3 Jan 2023 15:52:22 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEA09FD33
-        for <linux-api@vger.kernel.org>; Tue,  3 Jan 2023 12:52:21 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5584B614A8
-        for <linux-api@vger.kernel.org>; Tue,  3 Jan 2023 20:52:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE32BC433EF
-        for <linux-api@vger.kernel.org>; Tue,  3 Jan 2023 20:52:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1672779140;
-        bh=xs5A+nMiaJ/Zy5xE1gzTZdyLZdx/SjaaBqXGHdvbWO4=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=IViIz6XhLna+IMieFjX0kFayYqlTjoK4+UskVhEDdMhHOndGCCTRyqPaAieL8owHT
-         pQXfK+agxm0x3tTTeVx7yC+pwtxkji9bgIkV37m1k0+Ga6fXMCDxXcJtWbKSVOncSO
-         dYo1bfTvjn6nVQAxcu5xgNJ+b/aiBEzVsrnfffA4R19DIxLqWzoAE3SuKKm2gld83q
-         FqiFd9fplaWqc5DpIYzb0Y6uvms1SQ5FN9SKFpHLPdE3ZA9nNiZMXBdDGD2De9aLuu
-         2JwzNU83DTalxqv9ivLGHCDGxKNWIdW7DOp/VAZvcdtZmzadzDcvm9IP/0fE1zywnC
-         TkheMl1WauzXg==
-Received: by mail-ej1-f51.google.com with SMTP id u9so77249485ejo.0
-        for <linux-api@vger.kernel.org>; Tue, 03 Jan 2023 12:52:20 -0800 (PST)
-X-Gm-Message-State: AFqh2koE9bxhpY63rQjcS2VV5naOOlbr5AM7bF/x/4ICmifGyw3+t9hj
-        +WEwqwydnwQLcdLbQeqhR6EcUokTPc0LIZqixeC5DA==
-X-Google-Smtp-Source: AMrXdXtJn4wvVsf0Gv6tOxeEuC/2g3dPY5tqpzGUE+LHAvoe7SJkKjKb2Tii9tUOZsU2wwA8B5p3fjKCk0JZwPbcZjk=
-X-Received: by 2002:a17:906:9155:b0:81a:c468:4421 with SMTP id
- y21-20020a170906915500b0081ac4684421mr5049277ejw.149.1672779138998; Tue, 03
- Jan 2023 12:52:18 -0800 (PST)
+        with ESMTP id S233712AbjACXGn (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 3 Jan 2023 18:06:43 -0500
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F35B1140FC
+        for <linux-api@vger.kernel.org>; Tue,  3 Jan 2023 15:06:41 -0800 (PST)
+Received: by mail-pl1-x62b.google.com with SMTP id c6so1000327pls.4
+        for <linux-api@vger.kernel.org>; Tue, 03 Jan 2023 15:06:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=wms9vJRG39Hnpaj8L9AdTUEiKoOujl8Zc1PlfJpuAvc=;
+        b=h9725tfa5hdVaq1HRKMg38pT3bnSdsZu1gYJxnR5d5+gbg52PuYQIv5wBFlDJhO9bS
+         mI84Q+hhI20dHQcSkgxSkQf4wP4qmQP1LNIFkAq/VomPx4jdE8OPYacqy/eeBE+fylf/
+         swL/aH5bYQ07AmejSAYJHcZh07QDgP5xrRt6bm8Q1etUwfrKAFos+bdLOE5+JE6PBi3U
+         sFDQ9Dps9Lxs/yyXs3jQijpfnjXJqK66rKL3UJSPZwrJDKJketPNn4qX/18FtXZzHbno
+         RPLBoKWopziiN34rcQN0qmYINuJwWj5jMTrSB3yTnXpqqbcBJ6htLtlQbhw4piMR+QeH
+         MFPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wms9vJRG39Hnpaj8L9AdTUEiKoOujl8Zc1PlfJpuAvc=;
+        b=Lq4DlKZmDH7+3h2F8YxeEuxmkXVn8xntCQBbJu7iwaysLKZ5ylEZWMrwuI7tPLoH3k
+         L91l6Z/8zHXfX6zfhOEyJ2m9hnyT/FeBJ4vJ+tl7BHcvziC/YrULgUdaR8xuzehv3AtH
+         bgGA2b8BAJPhWDvJKNQWnkuzY1eqtzFaxSqMKAZaQBAecsXH+5xeJKNcm3rUwbmyoBuc
+         5oPlTPPslBvVdFgCcOvH02tV4YB3mtBpzT/nFSqwyl8QIcVqgLTofC6ubA7zQ59m5HT1
+         6+AqPDx4GaJvho/if24YXPGxmiWFIf7NDJrCwysWQKJlqgGFUUZ3iG5AnX3ZhXlLvnxB
+         QEJQ==
+X-Gm-Message-State: AFqh2krn+tXk7CyZPc2Te4yL0QjX6h3FvIAWoD1UBc+OMXEOvK35NvLi
+        WOJe/gYjP25Yuc2phEltUGTb8A==
+X-Google-Smtp-Source: AMrXdXv0hPqADj10or2SDVYag+quux5jra8KVSiEDlbg50PLMvdP+6Y7KrZdfBMvhypOkMi3Sz3H1g==
+X-Received: by 2002:a05:6a20:2a9f:b0:a4:efde:2ed8 with SMTP id v31-20020a056a202a9f00b000a4efde2ed8mr5044243pzh.0.1672787201272;
+        Tue, 03 Jan 2023 15:06:41 -0800 (PST)
+Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
+        by smtp.gmail.com with ESMTPSA id b27-20020aa7951b000000b00580c8a15d13sm19479380pfp.11.2023.01.03.15.06.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Jan 2023 15:06:40 -0800 (PST)
+Date:   Tue, 3 Jan 2023 23:06:37 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     "Wang, Wei W" <wei.w.wang@intel.com>
+Cc:     Chao Peng <chao.p.peng@linux.intel.com>,
+        "Qiang, Chenyi" <chenyi.qiang@intel.com>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Miaohe Lin <linmiaohe@huawei.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "Nakajima, Jun" <jun.nakajima@intel.com>,
+        "Hansen, Dave" <dave.hansen@intel.com>,
+        "ak@linux.intel.com" <ak@linux.intel.com>,
+        "david@redhat.com" <david@redhat.com>,
+        "aarcange@redhat.com" <aarcange@redhat.com>,
+        "ddutile@redhat.com" <ddutile@redhat.com>,
+        "dhildenb@redhat.com" <dhildenb@redhat.com>,
+        Quentin Perret <qperret@google.com>,
+        "tabba@google.com" <tabba@google.com>,
+        Michael Roth <michael.roth@amd.com>,
+        "Hocko, Michal" <mhocko@suse.com>
+Subject: Re: [PATCH v10 2/9] KVM: Introduce per-page memory attributes
+Message-ID: <Y7S0/VYsy4aWjfQ+@google.com>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <20221202061347.1070246-3-chao.p.peng@linux.intel.com>
+ <1c9bbaa5-eea3-351e-d6a0-cfbc32115c82@intel.com>
+ <20230103013948.GA2178318@chaop.bj.intel.com>
+ <DS0PR11MB63738AE206ADE5EB00D8838BDCF49@DS0PR11MB6373.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-References: <20230101162910.710293-1-Jason@zx2c4.com> <20230101162910.710293-3-Jason@zx2c4.com>
- <Y7QIg/hAIk7eZE42@gmail.com> <CALCETrWdw5kxrtr4M7AkKYDOJEE1cU1wENWgmgOxn0rEJz4y3w@mail.gmail.com>
- <Y7R8Zq6sIKAIprtr@zx2c4.com>
-In-Reply-To: <Y7R8Zq6sIKAIprtr@zx2c4.com>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Tue, 3 Jan 2023 12:52:07 -0800
-X-Gmail-Original-Message-ID: <CALCETrXaHPZMNx7g2NS9-5ShG3i74615W7gKQ2tmr4xpvgTBkA@mail.gmail.com>
-Message-ID: <CALCETrXaHPZMNx7g2NS9-5ShG3i74615W7gKQ2tmr4xpvgTBkA@mail.gmail.com>
-Subject: Re: [PATCH v14 2/7] mm: add VM_DROPPABLE for designating always
- lazily freeable mappings
-To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc:     Andy Lutomirski <luto@kernel.org>, Ingo Molnar <mingo@kernel.org>,
-        linux-kernel@vger.kernel.org, patches@lists.linux.dev,
-        tglx@linutronix.de, linux-crypto@vger.kernel.org,
-        linux-api@vger.kernel.org, x86@kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
-        "Carlos O'Donell" <carlos@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>, Jann Horn <jannh@google.com>,
-        Christian Brauner <brauner@kernel.org>, linux-mm@kvack.org,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DS0PR11MB63738AE206ADE5EB00D8838BDCF49@DS0PR11MB6373.namprd11.prod.outlook.com>
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Jan 3, 2023 at 11:06 AM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
->
-> Hi Andy,
->
-> Thanks for your constructive suggestions.
->
-> On Tue, Jan 03, 2023 at 10:36:01AM -0800, Andy Lutomirski wrote:
-> > > > c) If there's not enough memory to service a page fault, it's not fatal,
-> > > >    and no signal is sent. Instead, writes are simply lost.
-> >
-> > This just seems massively overcomplicated to me.  If there isn't
-> > enough memory to fault in a page of code, we don't have some magic
-> > instruction emulator in the kernel.  We either OOM or we wait for
-> > memory to show up.
->
-> Before addressing the other parts of your email, I thought I'd touch on
-> this. Quoting from the email I just wrote Ingo:
->
-> | *However* - if your big objection to this patch is that the instruction
-> | skipping is problematic, we could actually punt that part. The result
-> | will be that userspace just retries the memory write and the fault
-> | happens again, and eventually it succeeds. From a perspective of
-> | vgetrandom(), that's perhaps worse -- with this v14 patchset, it'll
-> | immediately fallback to the syscall under memory pressure -- but you
-> | could argue that nobody really cares about performance at that point
-> | anyway, and so just retrying the fault until it succeeds is a less
-> | complex behavior that would be just fine.
-> |
-> | Let me know if you think that'd be an acceptable compromise, and I'll
-> | roll it into v15. As a preview, it pretty much amounts to dropping 3/7
-> | and editing the commit message in this 2/7 patch.
->
-> IOW, I think the main ideas of the patch work just fine without "point
-> c" with the instruction skipping. Instead, waiting/retrying could
-> potentially work. So, okay, it seems like the two of you both hate the
-> instruction decoder stuff, so I'll plan on working that part in, in one
-> way or another, for v15.
->
-> > On Tue, Jan 3, 2023 at 2:50 AM Ingo Molnar <mingo@kernel.org> wrote:
-> > > > The vDSO getrandom() implementation works with a buffer allocated with a
-> > > > new system call that has certain requirements:
-> > > >
-> > > > - It shouldn't be written to core dumps.
-> > > >   * Easy: VM_DONTDUMP.
-> > > > - It should be zeroed on fork.
-> > > >   * Easy: VM_WIPEONFORK.
-> >
-> > I have a rather different suggestion: make a special mapping.  Jason,
-> > you're trying to shoehorn all kinds of bizarre behavior into the core
-> > mm, and none of that seems to me to belong to the core mm.  Instead,
-> > have an actual special mapping with callbacks that does the right
-> > thing.  No fancy VM flags.
->
-> Oooo! I like this. Avoiding adding VM_* flags would indeed be nice.
-> I had seen things that I thought looked in this direction with the shmem
-> API, but when I got into the details, it looked like this was meant for
-> something else and couldn't address most of what I wanted here.
->
-> If you say this is possible, I'll look again to see if I can figure it
-> out. Though, if you have some API name at the top of your head, you
-> might save me some code squinting time.
+On Tue, Jan 03, 2023, Wang, Wei W wrote:
+> On Tuesday, January 3, 2023 9:40 AM, Chao Peng wrote:
+> > > Because guest memory defaults to private, and now this patch stores
+> > > the attributes with KVM_MEMORY_ATTRIBUTE_PRIVATE instead of
+> > _SHARED,
+> > > it would bring more KVM_EXIT_MEMORY_FAULT exits at the beginning of
+> > > boot time. Maybe it can be optimized somehow in other places? e.g. set
+> > > mem attr in advance.
+> > 
+> > KVM defaults to 'shared' because this ioctl can also be potentially used by
+> > normal VMs and 'shared' sounds a value meaningful for both normal VMs and
+> > confidential VMs. 
+> 
+> Do you mean a normal VM could have pages marked private? What's the usage?
+> (If all the pages are just marked shared for normal VMs, then why do we need it)
 
-Look for _install_special_mapping().
+No, there are potential use cases for per-page attribute/permissions, e.g. to
+make select pages read-only, exec-only, no-exec, etc...
 
---Andy
+> > As for more KVM_EXIT_MEMORY_FAULT exits during the
+> > booting time, yes, setting all memory to 'private' for confidential VMs through
+> > this ioctl in userspace before guest launch is an approach for KVM userspace to
+> > 'override' the KVM default and reduce the number of implicit conversions.
+> 
+> Most pages of a confidential VM are likely to be private pages. It seems more efficient
+> (and not difficult to check vm_type) to have KVM defaults to "private" for confidential VMs
+> and defaults to "shared" for normal VMs.
 
-> > Want to mlock it?  No, don't do that -- that's absurd.  Just arrange
-> > so that, if it gets evicted, it's not written out anywhere.  And when
-> > it gets faulted back in it does the right thing -- see above.
->
-> Presumably mlock calls are redirected to some function pointer so I can
-> just return EINTR?
+If done right, the default shouldn't matter all that much for efficiency.  KVM
+needs to be able to effeciently track large ranges regardless of the default,
+otherwise the memory overhead and the presumably cost of lookups will be painful.
+E.g. converting a 1GiB chunk to shared should ideally require one entry, not 256k
+entries.
 
-Or just don't worry about it.  If someone mlocks() it, that's their
-problem.  The point is that no one needs to.
+Looks like that behavior was changed in v8 in response to feedback[*] that doing
+xa_store_range() on a subset of an existing range (entry) would overwrite the
+entire existing range (entry), not just the smaller subset.  xa_store_range() does
+appear to be too simplistic for this use case, but looking at __filemap_add_folio(),
+splitting an existing entry isn't super complex.
 
->
-> > Zero on fork?  I'm sure that's manageable with a special mapping.  If
-> > not, you can add a new vm operation or similar to make it work.  (Kind
-> > of like how we extended special mappings to get mremap right a couple
-> > years go.)  But maybe you don't want to *zero* it on fork and you want
-> > to do something more intelligent.  Fine -- you control ->fault!
->
-> Doing something more intelligent would be an interesting development, I
-> guess... But, before I think about that, all mapping have flags;
-> couldn't I *still* set VM_WIPEONFORK on the special mapping? Or does the
-> API you have in mind not work that way? (Side note: I also want
-> VM_DONTDUMP to work.)
+Using xa_store() for the very initial implementation is ok, and probably a good
+idea since it's more obviously correct and will give us a bisection point.  But
+we definitely want a more performant implementation sooner than later.  The hardest
+part will likely be merging existing entries, but that can be done separately too,
+and is probably lower priority.
 
-You really want unmap (the pages, not the vma) on fork, not wipe on
-fork.  It'll be VM_SHARED, and I'm not sure what VM_WIPEONFORK |
-VM_SHARED does.
+E.g. (1) use xa_store() and always track at 4KiB granularity, (2) support storing
+metadata in multi-index entries, and finally (3) support merging adjacent entries
+with identical values.
+
+[*] https://lore.kernel.org/all/CAGtprH9xyw6bt4=RBWF6-v2CSpabOCpKq5rPz+e-9co7EisoVQ@mail.gmail.com
