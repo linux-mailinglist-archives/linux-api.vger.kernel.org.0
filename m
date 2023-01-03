@@ -2,169 +2,237 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BF0265BE68
-	for <lists+linux-api@lfdr.de>; Tue,  3 Jan 2023 11:50:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 40C1B65C00C
+	for <lists+linux-api@lfdr.de>; Tue,  3 Jan 2023 13:42:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233251AbjACKuu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 3 Jan 2023 05:50:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39168 "EHLO
+        id S233156AbjACMmF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 3 Jan 2023 07:42:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232731AbjACKus (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 3 Jan 2023 05:50:48 -0500
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55862199;
-        Tue,  3 Jan 2023 02:50:47 -0800 (PST)
-Received: by mail-ej1-x62a.google.com with SMTP id fc4so72591294ejc.12;
-        Tue, 03 Jan 2023 02:50:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IkatKLJ3qYUKGORjBOFQcSqkI25EQPSR3fb3zK2nRZ4=;
-        b=iWv5WTf9UYUuf08z/VB2JfMIE2Vf/mX8RiJQCXh8o+R7kTpPjQtiY2DfPkxIsy3e1a
-         iYO78jxMxb/OWEJRoxhW7QA2CNeEs0/XBRslGsuvgpHq64xTuBJaw6IK2ibAz6FRMsmy
-         WZbjY0u9VFC8NSi/DIETtu1jzJeNtxZ8fxsUjj7Rv88UjLTQxBF2VB3lrJOibB6qUNSX
-         JHgikcIgm8z7OMovght+ngiurPmA08t6bWkotxpNQYwiC8kv+MQGPgOCTVita7HptoHA
-         9EKMQA4GqgNQ16jP5+TuW/P71kBjHVzwAAP3DQjwPVt2WfqO4oJUi4qCrpz0M9r3UyUM
-         Q32w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IkatKLJ3qYUKGORjBOFQcSqkI25EQPSR3fb3zK2nRZ4=;
-        b=mPfDLLEgXl60XpzPTZf9B5EDMxdc/JFGrSE+4I888PVAvvmbU4Xa1pDQpDcBugSpbE
-         6dELeogZl4PHYV6v1ELpjQOjRIln0IZW7ZTSlcuZdVE8DbV7V1qqYAPU7hgWl5I4QSYG
-         yn9i1H/L8Fb32XaKclw8JVe2LmxjL8iUE/Gi9MZkvAKieRowXuUqOIPb5eu97mCbsCbB
-         IqZpG8ukfrZjU/YQctHOBJSjbS5K4+kRLnn67cR0UnbJwUCBT5PZudikFOmymgZM7Wln
-         OhXgQHGtsCRN7irA0n4mVsevcg9bdwmr2WLj/oCzy+akDM6Wz883EG3+JInYWSWBik1z
-         ac+g==
-X-Gm-Message-State: AFqh2koVDR/Pt227Sc9EKZZeeqw/r++3SlOEA4HKpqh+JSzlY9fMsuCW
-        PcnTjHO0O4OO/JPNYtTL2ow=
-X-Google-Smtp-Source: AMrXdXsqrbLRQvWkdEnkoyrRn7PkXm7IBeuwAzwJNn66HH7AqMNyRJOiDOPxeMEZTTvwvguSTVcNMw==
-X-Received: by 2002:a17:906:7fc2:b0:838:9c66:cd2f with SMTP id r2-20020a1709067fc200b008389c66cd2fmr35132067ejs.74.1672743045865;
-        Tue, 03 Jan 2023 02:50:45 -0800 (PST)
-Received: from gmail.com (1F2EF380.nat.pool.telekom.hu. [31.46.243.128])
-        by smtp.gmail.com with ESMTPSA id jg34-20020a170907972200b0084cb8589523sm3545273ejc.139.2023.01.03.02.50.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Jan 2023 02:50:45 -0800 (PST)
-Sender: Ingo Molnar <mingo.kernel.org@gmail.com>
-Date:   Tue, 3 Jan 2023 11:50:43 +0100
-From:   Ingo Molnar <mingo@kernel.org>
-To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc:     linux-kernel@vger.kernel.org, patches@lists.linux.dev,
-        tglx@linutronix.de, linux-crypto@vger.kernel.org,
-        linux-api@vger.kernel.org, x86@kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
-        Carlos O'Donell <carlos@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>, Jann Horn <jannh@google.com>,
-        Christian Brauner <brauner@kernel.org>, linux-mm@kvack.org,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [PATCH v14 2/7] mm: add VM_DROPPABLE for designating always
- lazily freeable mappings
-Message-ID: <Y7QIg/hAIk7eZE42@gmail.com>
-References: <20230101162910.710293-1-Jason@zx2c4.com>
- <20230101162910.710293-3-Jason@zx2c4.com>
+        with ESMTP id S230437AbjACMmE (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 3 Jan 2023 07:42:04 -0500
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73AC89FD3;
+        Tue,  3 Jan 2023 04:42:03 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 2390D671AC;
+        Tue,  3 Jan 2023 12:42:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1672749722; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=pTRmPLN+nKDxpkvAuy7xPSj+P5EUaykcz/bu6SdbF0o=;
+        b=gGorrRDau2nrUcCwnX8wbC7EN9jCz8eEPUV/e/66YNbDy15+B96B7v6eDHuv8KlU5byjMy
+        IkeQvcaTZ4GBJIWnRymFXp5NTMwvcGMdUg6gP8wJfiR1vEafV4JUIluIKO2f4hCn33VJKW
+        OZTxz++wX6FNhylZKDz0G2m2ndshblM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1672749722;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=pTRmPLN+nKDxpkvAuy7xPSj+P5EUaykcz/bu6SdbF0o=;
+        b=osD1MW9Rp24AQxdfGkeuER8PF8qI1TxQbQPYHisjuff44K9ufUJwbC0hxa4YHJ3XGtDwhG
+        wc7NwZkZ/vtuXxDg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0F5211392B;
+        Tue,  3 Jan 2023 12:42:02 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id f1ewA5oitGN9DgAAMHmgww
+        (envelope-from <jack@suse.cz>); Tue, 03 Jan 2023 12:42:02 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+        id 7D9B8A0742; Tue,  3 Jan 2023 13:42:01 +0100 (CET)
+Date:   Tue, 3 Jan 2023 13:42:01 +0100
+From:   Jan Kara <jack@suse.cz>
+To:     Richard Guy Briggs <rgb@redhat.com>
+Cc:     Jan Kara <jack@suse.cz>,
+        Linux-Audit Mailing List <linux-audit@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        Paul Moore <paul@paul-moore.com>,
+        Eric Paris <eparis@parisplace.org>,
+        Steve Grubb <sgrubb@redhat.com>,
+        Amir Goldstein <amir73il@gmail.com>
+Subject: Re: [PATCH v5 2/3] fanotify: define struct members to hold response
+ decision context
+Message-ID: <20230103124201.iopasddbtb6vi362@quack3>
+References: <cover.1670606054.git.rgb@redhat.com>
+ <45da8423b9b1e8fc7abd68cd2269acff8cf9022a.1670606054.git.rgb@redhat.com>
+ <20221216164342.ojcbdifdmafq5njw@quack3>
+ <Y6TCWe4/nR957pFh@madcap2.tricolour.ca>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230101162910.710293-3-Jason@zx2c4.com>
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+In-Reply-To: <Y6TCWe4/nR957pFh@madcap2.tricolour.ca>
+X-Spam-Status: No, score=-3.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_SOFTFAIL autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Thu 22-12-22 15:47:21, Richard Guy Briggs wrote:
+> On 2022-12-16 17:43, Jan Kara wrote:
+> > On Mon 12-12-22 09:06:10, Richard Guy Briggs wrote:
+> > > This patch adds a flag, FAN_INFO and an extensible buffer to provide
+> > > additional information about response decisions.  The buffer contains
+> > > one or more headers defining the information type and the length of the
+> > > following information.  The patch defines one additional information
+> > > type, FAN_RESPONSE_INFO_AUDIT_RULE, to audit a rule number.  This will
+> > > allow for the creation of other information types in the future if other
+> > > users of the API identify different needs.
+> > > 
+> > > Suggested-by: Steve Grubb <sgrubb@redhat.com>
+> > > Link: https://lore.kernel.org/r/2745105.e9J7NaK4W3@x2
+> > > Suggested-by: Jan Kara <jack@suse.cz>
+> > > Link: https://lore.kernel.org/r/20201001101219.GE17860@quack2.suse.cz
+> > > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
+> > 
+> > Thanks for the patches. They look very good to me. Just two nits below. I
+> > can do the small updates on commit if there would be no other changes. But
+> > I'd like to get some review from audit guys for patch 3/3 before I commit
+> > this.
+> 
+> I'd prefer to send a followup patch based on your recommendations rather
+> than have you modify it.  It does save some back and forth though...
 
-* Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+OK, since there are updates to patch 3 as well, I agree this is a better
+way forward.
 
-> The vDSO getrandom() implementation works with a buffer allocated with a
-> new system call that has certain requirements:
+> > > diff --git a/fs/notify/fanotify/fanotify_user.c b/fs/notify/fanotify/fanotify_user.c
+> > > index caa1211bac8c..cf3584351e00 100644
+> > > --- a/fs/notify/fanotify/fanotify_user.c
+> > > +++ b/fs/notify/fanotify/fanotify_user.c
+> > > @@ -283,19 +283,44 @@ static int create_fd(struct fsnotify_group *group, const struct path *path,
+> > >  	return client_fd;
+> > >  }
+> > >  
+> > > +static int process_access_response_info(int fd, const char __user *info, size_t info_len,
+> > > +					struct fanotify_response_info_audit_rule *friar)
+> > 
+> > I prefer to keep lines within 80 columns, unless there is really good
+> > reason (like with strings) to have them longer.
 > 
-> - It shouldn't be written to core dumps.
->   * Easy: VM_DONTDUMP.
-> - It should be zeroed on fork.
->   * Easy: VM_WIPEONFORK.
-> 
-> - It shouldn't be written to swap.
->   * Uh-oh: mlock is rlimited.
->   * Uh-oh: mlock isn't inherited by forks.
-> 
-> - It shouldn't reserve actual memory, but it also shouldn't crash when
->   page faulting in memory if none is available
->   * Uh-oh: MAP_NORESERVE respects vm.overcommit_memory=2.
->   * Uh-oh: VM_NORESERVE means segfaults.
-> 
-> It turns out that the vDSO getrandom() function has three really nice
-> characteristics that we can exploit to solve this problem:
-> 
-> 1) Due to being wiped during fork(), the vDSO code is already robust to
->    having the contents of the pages it reads zeroed out midway through
->    the function's execution.
-> 
-> 2) In the absolute worst case of whatever contingency we're coding for,
->    we have the option to fallback to the getrandom() syscall, and
->    everything is fine.
-> 
-> 3) The buffers the function uses are only ever useful for a maximum of
->    60 seconds -- a sort of cache, rather than a long term allocation.
-> 
-> These characteristics mean that we can introduce VM_DROPPABLE, which
-> has the following semantics:
-> 
-> a) It never is written out to swap.
-> b) Under memory pressure, mm can just drop the pages (so that they're
->    zero when read back again).
-> c) If there's not enough memory to service a page fault, it's not fatal,
->    and no signal is sent. Instead, writes are simply lost.
-> d) It is inherited by fork.
-> e) It doesn't count against the mlock budget, since nothing is locked.
-> 
-> This is fairly simple to implement, with the one snag that we have to
-> use 64-bit VM_* flags, but this shouldn't be a problem, since the only
-> consumers will probably be 64-bit anyway.
-> 
-> This way, allocations used by vDSO getrandom() can use:
-> 
->     VM_DROPPABLE | VM_DONTDUMP | VM_WIPEONFORK | VM_NORESERVE
-> 
-> And there will be no problem with OOMing, crashing on overcommitment,
-> using memory when not in use, not wiping on fork(), coredumps, or
-> writing out to swap.
-> 
-> At the moment, rather than skipping writes on OOM, the fault handler
-> just returns to userspace, and the instruction is retried. This isn't
-> terrible, but it's not quite what is intended. The actual instruction
-> skipping has to be implemented arch-by-arch, but so does this whole
-> vDSO series, so that's fine. The following commit addresses it for x86.
+> Sure.  In this case, it buys us little since the last line is lined up
+> with the arguments openning bracket and it one long struct name unless I
+> unalign that argument and back up the indent by one.
 
-Yeah, so VM_DROPPABLE adds a whole lot of complexity, corner cases, per 
-arch low level work and rarely tested functionality (seriously, whose 
-desktop system touches swap these days?), just so we can add a few pages of 
-per thread vDSO data of a quirky type that in 99.999% of cases won't ever 
-be 'dropped' from under the functionality that is using it and will thus 
-bitrot fast?
+Yeah, that's what I'd generally do.
 
-The maintainability baby is being thrown out with the bath water IMO ...
+> > BTW, why do you call the info structure 'friar'? I feel some language twist
+> > escapes me ;)
+> 
+> Fanotify_Response_Info_Audit_Rule, it is a pronounceable word, and
+> besides they have a long reputation for making good beer.  :-D
 
-And we want to add more complexity to a facility people desperately want to 
-trust *more*? [RNG]
+Aha, ok :) Thanks for explanation.
 
-What's wrong with making mlock() more usable? Or just saying that "yeah, 
-the vDSO can allocate a few more permanent pages outside of existing 
-rlimits & mlock budgets"?
+> > > +{
+> > > +	if (fd == FAN_NOFD)
+> > > +		return -ENOENT;
+> > 
+> > I would not test 'fd' in this function at all. After all it is not part of
+> > the response info structure and you do check it in
+> > process_access_response() anyway.
+> 
+> I wrestled with that.  I was even tempted to swallow the following fd
+> check too, but the flow would not have made as much sense for the
+> non-INFO case.
+> 
+> My understanding from Amir was that FAN_NOFD was only to be sent in in
+> conjuction with FAN_INFO to test if a newer kernel was present.
 
-The rest of the series looks fine to me, but this special one of a kind 
-VM_DROPPABLE is just way over-engineered cornercase functionality that 
-pushes us well past the maintenance_overhead<->complexity trade-off sweet spot ...
+Yes, that is correct. But we not only want to check that FAN_INFO flag is
+understood (as you do in your patch) but also whether a particular response
+type is understood (which you don't verify for FAN_NOFD). Currently, there
+is only one response type (FAN_RESPONSE_INFO_AUDIT_RULE) but if there are
+more in the future we need old kernels to refuse new response types even
+for FAN_NOFD case.
 
-Thanks,
+> I presumed that if FAN_NOFD was present without FAN_INFO that was an
+> invalid input to an old kernel.
 
-	Ingo
+Yes, that is correct and I agree the conditions I've suggested below are
+wrong in that regard and need a bit of tweaking. Thanks for catching it.
+
+> > > +
+> > > +	if (info_len != sizeof(*friar))
+> > > +		return -EINVAL;
+> > > +
+> > > +	if (copy_from_user(friar, info, sizeof(*friar)))
+> > > +		return -EFAULT;
+> > > +
+> > > +	if (friar->hdr.type != FAN_RESPONSE_INFO_AUDIT_RULE)
+> > > +		return -EINVAL;
+> > > +	if (friar->hdr.pad != 0)
+> > > +		return -EINVAL;
+> > > +	if (friar->hdr.len != sizeof(*friar))
+> > > +		return -EINVAL;
+> > > +
+> > > +	return info_len;
+> > > +}
+> > > +
+> > 
+> > ...
+> > 
+> > > @@ -327,10 +359,18 @@ static int process_access_response(struct fsnotify_group *group,
+> > >  		return -EINVAL;
+> > >  	}
+> > >  
+> > > -	if (fd < 0)
+> > > +	if ((response & FAN_AUDIT) && !FAN_GROUP_FLAG(group, FAN_ENABLE_AUDIT))
+> > >  		return -EINVAL;
+> > >  
+> > > -	if ((response & FAN_AUDIT) && !FAN_GROUP_FLAG(group, FAN_ENABLE_AUDIT))
+> > > +	if (response & FAN_INFO) {
+> > > +		ret = process_access_response_info(fd, info, info_len, &friar);
+> > > +		if (ret < 0)
+> > > +			return ret;
+> > > +	} else {
+> > > +		ret = 0;
+> > > +	}
+> > > +
+> > > +	if (fd < 0)
+> > >  		return -EINVAL;
+> > 
+> > And here I'd do:
+> > 
+> > 	if (fd == FAN_NOFD)
+> > 		return 0;
+> > 	if (fd < 0)
+> > 		return -EINVAL;
+> > 
+> > As we talked in previous revisions we'd specialcase FAN_NOFD to just verify
+> > extra info is understood by the kernel so that application writing fanotify
+> > responses has a way to check which information it can provide to the
+> > kernel.
+> 
+> The reason for including it in process_access_response_info() is to make
+> sure that it is included in the FAN_INFO case to detect this extension.
+> If it were included here
+
+I see what you're getting at now. So the condition
+
+ 	if (fd == FAN_NOFD)
+ 		return 0;
+
+needs to be moved into 
+
+	if (response & FAN_INFO)
+
+branch after process_access_response_info(). I still prefer to keep it
+outside of the process_access_response_info() function itself as it looks
+more logical to me. Does it address your concerns?
+
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
