@@ -2,41 +2,57 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1149B65C2A8
-	for <lists+linux-api@lfdr.de>; Tue,  3 Jan 2023 16:02:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A20665C483
+	for <lists+linux-api@lfdr.de>; Tue,  3 Jan 2023 18:04:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230323AbjACPBc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 3 Jan 2023 10:01:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38766 "EHLO
+        id S238128AbjACRCx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 3 Jan 2023 12:02:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233197AbjACPBb (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 3 Jan 2023 10:01:31 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FDEE6257;
-        Tue,  3 Jan 2023 07:01:30 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 34056B80F9D;
-        Tue,  3 Jan 2023 15:01:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32045C433EF;
-        Tue,  3 Jan 2023 15:01:26 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
-        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="ZEU+QTFd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
-        t=1672758083;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=1Wi9ZRVeh3Pac9gdkou/v2cNOa31fCafYfyWUT3Kr3k=;
-        b=ZEU+QTFdcn8/wM4uwmRXY0iTfeJnw462+uvwVijCHAYTRzMEM9X/fGwuq4H0hB0+vdAWUN
-        0SpQRZa9aIrwhFWWESP/keVgBqliMvdVcIE7ybqRBGR/tZoWvuQL52s0/l/9CZfvo6pWQl
-        HrwsOL4AmDFm2NFf1S0OS9Y2pYyvu4s=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id f7395740 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-        Tue, 3 Jan 2023 15:01:23 +0000 (UTC)
-Date:   Tue, 3 Jan 2023 16:01:20 +0100
-From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
-To:     Ingo Molnar <mingo@kernel.org>
+        with ESMTP id S238455AbjACRCO (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 3 Jan 2023 12:02:14 -0500
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67C2710A5;
+        Tue,  3 Jan 2023 09:00:54 -0800 (PST)
+Received: by mail-ed1-x52d.google.com with SMTP id z11so28861470ede.1;
+        Tue, 03 Jan 2023 09:00:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9XGF/oHYkE2lnb+e6AM2YoeOvVTcCohPHHsm6JMBYZU=;
+        b=JDnCpKyYZH9ch/oXO9ePdMr6nXo6+0cW9i508hhjlh5zT44nCdfAggvBsb9VuWsgF3
+         pm7qz9lvpzvNIDdnZ9rJHOeOwiYK7PcIkFW1Gwa8q/fwah8DGmsKuPGGCxvJgNGMF+3I
+         wkfn1AF+Oj0zsjmJnnjuFUlHdu5RDBopb6hQLhxL+uRnDZEmL8VvCEWWFhzSt6G94Kua
+         SLN8u2wr98j/CzArKxSPgzhT0xP9cKSG/qRfu0SVKiD/TyBjqjM/zB/Hz/0McDHCH1WS
+         Qpwo72f4apurBO+drAOl1SEAm40lNuCIXq2wji+g4uWYU4Lp3iAhY1y0KseaA7OzfDc2
+         SeWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9XGF/oHYkE2lnb+e6AM2YoeOvVTcCohPHHsm6JMBYZU=;
+        b=hHdo7pO7CV4fKLdCkoVqV6R7ir5h1qPiyj7sEDK1s/2QOnEfqJ5SkoHzlln7Ry+q66
+         GbRSAZ3zFaDmIXVifZ7QRX8HmA05FAi54z04bvDLbLX62KeYggGrVhwa+BZaUJmfl+Vn
+         o+EacIqU8/NBI21jaulGAC0TrK3QOTISIdDCychtLWsw+gV3pcV19ig3nGX8VZr3U+SM
+         5xKBA2PdbsKvrSN6KjWgQk7HZm0Yt9ez7FCw5veG5pTFiLeNaXEvyjmpFNzFcdehPcpb
+         iXIvGjXinvfvKh7WHswY2u8LtT2kkdKBwgHS++vTiJkvmzqsj9rZrI5c3Rl2xPTJ8h1H
+         iGJw==
+X-Gm-Message-State: AFqh2ko1q8gzobAmVq7VnukQBE/kmOO5oposgrLgS8MUUOMMmAuxeBDz
+        OzzWBJ0N4c0BG/O8tFb3qrQ=
+X-Google-Smtp-Source: AMrXdXtSYbu5hBJ16foCqcNUSZci2xbRQgMPpDknr2ME3NpvEQ7R5l7mS/T8utPIRP3G+YPQUXMw6Q==
+X-Received: by 2002:a05:6402:1f89:b0:47b:16c7:492c with SMTP id c9-20020a0564021f8900b0047b16c7492cmr43128963edc.25.1672765252973;
+        Tue, 03 Jan 2023 09:00:52 -0800 (PST)
+Received: from gmail.com (1F2EF380.nat.pool.telekom.hu. [31.46.243.128])
+        by smtp.gmail.com with ESMTPSA id da14-20020a056402176e00b0048b4e2aaba0sm5018870edb.34.2023.01.03.09.00.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Jan 2023 09:00:52 -0800 (PST)
+Sender: Ingo Molnar <mingo.kernel.org@gmail.com>
+Date:   Tue, 3 Jan 2023 18:00:46 +0100
+From:   Ingo Molnar <mingo@kernel.org>
+To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
 Cc:     linux-kernel@vger.kernel.org, patches@lists.linux.dev,
         tglx@linutronix.de, linux-crypto@vger.kernel.org,
         linux-api@vger.kernel.org, x86@kernel.org,
@@ -45,145 +61,63 @@ Cc:     linux-kernel@vger.kernel.org, patches@lists.linux.dev,
         Carlos O'Donell <carlos@redhat.com>,
         Florian Weimer <fweimer@redhat.com>,
         Arnd Bergmann <arnd@arndb.de>, Jann Horn <jannh@google.com>,
-        Christian Brauner <brauner@kernel.org>, linux-mm@kvack.org,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [PATCH v14 2/7] mm: add VM_DROPPABLE for designating always
- lazily freeable mappings
-Message-ID: <Y7RDQLEvlLM0o4cp@zx2c4.com>
+        Christian Brauner <brauner@kernel.org>
+Subject: Re: [PATCH v14 1/7] x86: lib: Separate instruction decoder MMIO type
+ from MMIO trace
+Message-ID: <Y7RfPnyK/25pxpKs@gmail.com>
 References: <20230101162910.710293-1-Jason@zx2c4.com>
- <20230101162910.710293-3-Jason@zx2c4.com>
- <Y7QIg/hAIk7eZE42@gmail.com>
+ <20230101162910.710293-2-Jason@zx2c4.com>
+ <Y7QELo9etPM8Tpx5@gmail.com>
+ <Y7RA3bmko0AjO8hQ@zx2c4.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y7QIg/hAIk7eZE42@gmail.com>
-X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <Y7RA3bmko0AjO8hQ@zx2c4.com>
+X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Jan 03, 2023 at 11:50:43AM +0100, Ingo Molnar wrote:
+
+* Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+
+> On Tue, Jan 03, 2023 at 11:32:14AM +0100, Ingo Molnar wrote:
+> > 
+> > * Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+> > 
+> > > Both mmiotrace.h and insn-eval.h define various MMIO_ enum constants.
+> > > Rename the insn ones to have a INSN_ prefix, so that the headers can be
+> > > used from the same source file.
+> > > 
+> > > Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> > > ---
+> > >  arch/x86/coco/tdx/tdx.c          | 26 +++++++++++++-------------
+> > >  arch/x86/include/asm/insn-eval.h | 18 +++++++++---------
+> > >  arch/x86/kernel/sev.c            | 18 +++++++++---------
+> > >  arch/x86/lib/insn-eval.c         | 20 ++++++++++----------
+> > >  4 files changed, 41 insertions(+), 41 deletions(-)
+> > 
+> > FYI, I've applied this fix to tip:x86/asm, as the fix for the namespace 
+> > clash makes sense independently of the vDSO getrandom feature.
 > 
-> * Jason A. Donenfeld <Jason@zx2c4.com> wrote:
-> 
-> > The vDSO getrandom() implementation works with a buffer allocated with a
-> > new system call that has certain requirements:
-> > 
-> > - It shouldn't be written to core dumps.
-> >   * Easy: VM_DONTDUMP.
-> > - It should be zeroed on fork.
-> >   * Easy: VM_WIPEONFORK.
-> > 
-> > - It shouldn't be written to swap.
-> >   * Uh-oh: mlock is rlimited.
-> >   * Uh-oh: mlock isn't inherited by forks.
-> > 
-> > - It shouldn't reserve actual memory, but it also shouldn't crash when
-> >   page faulting in memory if none is available
-> >   * Uh-oh: MAP_NORESERVE respects vm.overcommit_memory=2.
-> >   * Uh-oh: VM_NORESERVE means segfaults.
-> > 
-> > It turns out that the vDSO getrandom() function has three really nice
-> > characteristics that we can exploit to solve this problem:
-> > 
-> > 1) Due to being wiped during fork(), the vDSO code is already robust to
-> >    having the contents of the pages it reads zeroed out midway through
-> >    the function's execution.
-> > 
-> > 2) In the absolute worst case of whatever contingency we're coding for,
-> >    we have the option to fallback to the getrandom() syscall, and
-> >    everything is fine.
-> > 
-> > 3) The buffers the function uses are only ever useful for a maximum of
-> >    60 seconds -- a sort of cache, rather than a long term allocation.
-> > 
-> > These characteristics mean that we can introduce VM_DROPPABLE, which
-> > has the following semantics:
-> > 
-> > a) It never is written out to swap.
-> > b) Under memory pressure, mm can just drop the pages (so that they're
-> >    zero when read back again).
-> > c) If there's not enough memory to service a page fault, it's not fatal,
-> >    and no signal is sent. Instead, writes are simply lost.
-> > d) It is inherited by fork.
-> > e) It doesn't count against the mlock budget, since nothing is locked.
-> > 
-> > This is fairly simple to implement, with the one snag that we have to
-> > use 64-bit VM_* flags, but this shouldn't be a problem, since the only
-> > consumers will probably be 64-bit anyway.
-> > 
-> > This way, allocations used by vDSO getrandom() can use:
-> > 
-> >     VM_DROPPABLE | VM_DONTDUMP | VM_WIPEONFORK | VM_NORESERVE
-> > 
-> > And there will be no problem with OOMing, crashing on overcommitment,
-> > using memory when not in use, not wiping on fork(), coredumps, or
-> > writing out to swap.
-> > 
-> > At the moment, rather than skipping writes on OOM, the fault handler
-> > just returns to userspace, and the instruction is retried. This isn't
-> > terrible, but it's not quite what is intended. The actual instruction
-> > skipping has to be implemented arch-by-arch, but so does this whole
-> > vDSO series, so that's fine. The following commit addresses it for x86.
-> 
-> Yeah, so VM_DROPPABLE adds a whole lot of complexity, corner cases, per 
-> arch low level work and rarely tested functionality (seriously, whose 
-> desktop system touches swap these days?), just so we can add a few pages of 
-> per thread vDSO data of a quirky type that in 99.999% of cases won't ever 
-> be 'dropped' from under the functionality that is using it and will thus 
-> bitrot fast?
+> I guess you missed the conversation with Borislav yesterday about that.
+> He mentioned that I'd just take it through random.git when this whole
+> series goes in.
 
-It sounds like you've misunderstood the issue.
+Please base your tree off on tip:x86/asm then (or pull it in) - it only 
+includes this patch and another trivial patch at:
 
-Firstly, the arch work is +19 lines (in the vdso branch of random.git).
-That's very small and basic. Don't misrepresent it just to make a point.
+   a0e3aa8fe6cb ("x86/insn: Avoid namespace clash by separating instruction decoder MMIO type from MMIO trace type")
 
-Secondly, and more importantly, swapping this data is *not* permissible.
-It doesn't matter if you think that certain systems don't use swap
-anyway (you're wrong though regardless -- desktops will swap things
-pretty regularly). It simply must *not* be swapped under any
-circumstances. It's not that swapping is simply undesirable; it's
-absolutely catastrophic. Do you understand that distinction?
+We often modify these files - roughly ~4 commits to arch/x86/kernel/sev.c 
+alone per cycle on average - and it would be better to avoid conflicts 
+here.
 
-If so, then if you don't like this solution, perhaps you could mention
-something that accomplishes the goals in the commit message.
+Thanks,
 
-> The maintainability baby is being thrown out with the bath water IMO ...
-
-Really? Are you sure this isn't just a matter of you not having written
-it yourself or something? The commit is pretty short and basic. All the
-actual internals for this kind of thing are already in present. The
-commit just pipes it through.
-
-> And we want to add more complexity to a facility people desperately want to 
-> trust *more*? [RNG]
-
-That seems like a ridiculous rhetorical leap.
-
-> What's wrong with making mlock() more usable? Or just saying that "yeah, 
-> the vDSO can allocate a few more permanent pages outside of existing 
-> rlimits & mlock budgets"?
-
-Did you actually read the commit message?
-
-And now you're suggesting a rlimit backdoor? And adding more cases for
-fork() to fail or block? That sounds terrible.
-
-> The rest of the series looks fine to me, but this special one of a kind 
-> VM_DROPPABLE is just way over-engineered cornercase functionality that 
-> pushes us well past the maintenance_overhead<->complexity trade-off sweet spot ...
-
-I think you should reevaluate that judgement. Consider the actual
-problem. I think if you look at it carefully you'll see that this is a
-pretty straight forward solution. It's deliberately not over-engineered.
-It uses existing facilities and just does the plumbing in the right way
-to make it work. It's really not that complicated.
-
-The commit is +38, -4. The commit message has more lines than that.
-
-Jason
+	Ingo
