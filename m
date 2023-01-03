@@ -2,68 +2,83 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4BDF465C7CC
-	for <lists+linux-api@lfdr.de>; Tue,  3 Jan 2023 21:03:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D744065C7F0
+	for <lists+linux-api@lfdr.de>; Tue,  3 Jan 2023 21:16:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231446AbjACUDR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 3 Jan 2023 15:03:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45208 "EHLO
+        id S233834AbjACUQX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 3 Jan 2023 15:16:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48508 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230488AbjACUDQ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 3 Jan 2023 15:03:16 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 737BD6244;
-        Tue,  3 Jan 2023 12:03:15 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id ECB5C614B4;
-        Tue,  3 Jan 2023 20:03:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FC1AC433EF;
-        Tue,  3 Jan 2023 20:03:12 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
-        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="XVatXkuo"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
-        t=1672776190;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=ZdGBYtenf9KxXkGsFOfF/k2UzSaOBjlov7xbIEO1hqo=;
-        b=XVatXkuoV0uGA2AaTjRQihENTEl8P/ghrbSfd+C52hahB6oZ3eSLyNshSJamr1HuVuUgO0
-        8garo777KMimsXexIpTlMxIpPKCNXANL7cp3WG5cMav2S3Ga3r9HKBjmkXVDnSOvXfdnwM
-        QLN9+/SNe7BjC5yoNesisS2nMDH+uiI=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id eb8698a6 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-        Tue, 3 Jan 2023 20:03:10 +0000 (UTC)
-Date:   Tue, 3 Jan 2023 21:03:07 +0100
-From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
+        with ESMTP id S238157AbjACUQV (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 3 Jan 2023 15:16:21 -0500
+Received: from mail-vs1-xe2d.google.com (mail-vs1-xe2d.google.com [IPv6:2607:f8b0:4864:20::e2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B0CD2AF8
+        for <linux-api@vger.kernel.org>; Tue,  3 Jan 2023 12:16:17 -0800 (PST)
+Received: by mail-vs1-xe2d.google.com with SMTP id a66so32909289vsa.6
+        for <linux-api@vger.kernel.org>; Tue, 03 Jan 2023 12:16:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=HTnuIAJdCSnqOgUCfI1VegmgFYxeW1ngR0BDNyHkGf0=;
+        b=DokQ/BEIgEpL/ia17Z2x8+os3L6Iix7X3VYwgY2oWHbqXrXltMNtHkuxWFNC0TiQoL
+         cBgZVKREYRgoskXuojqZ3A1XLXXW46nqyABZQqesu1jY6qAYwaNx5oLjtODVhfjUliU3
+         eVndN+o81O0zIOd96+Ti2/uGI99RMfL7MdUR0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HTnuIAJdCSnqOgUCfI1VegmgFYxeW1ngR0BDNyHkGf0=;
+        b=RVWCeA2iE+zBS+0HE74PIVcuRHkryVLenhkDqfgO4d1tAiddvAvM4go3xS4hJMQYIj
+         Uoe9zN1cAP7c6saufB2vzs0volUlfDl5UvcAV539CGZqhq90uhehRH4JvemGUwlNMo62
+         9NQnVbP+uOsw3L9TgB6jUQUiAgA0St+tXDSuPujSPWwL+MHKWfI1zzT83PNemg+VEnQb
+         jNWPtW04IJM2rACh6i9b2Kusaua1q9fiDQ2WVUjq3moMQ0tYWclkAGaaUJKZqGcSnPM4
+         mKRJ9SOyFtbzfKXM8KN0YRvskRW0ivCWz4l5FgJI36PoopvdQ5A3aO0EOYHohlpxKEzw
+         hobg==
+X-Gm-Message-State: AFqh2kr8gBmdjlg/MAmjMsNgKCxmBDhksmszrAPCx0k2uwtSGAkT6cMr
+        JQUlrvsBv/fs/G7hjR9IjJnG0JhZB9afokj0
+X-Google-Smtp-Source: AMrXdXuqQRLXKvtyhy4bK2tNprWfni3PcmOKZTceNRJKAKpEbqGpv+NYPC+bztYqswio6HZhUoidoA==
+X-Received: by 2002:a67:c21d:0:b0:3ce:871e:1a2e with SMTP id i29-20020a67c21d000000b003ce871e1a2emr4763938vsj.23.1672776976018;
+        Tue, 03 Jan 2023 12:16:16 -0800 (PST)
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com. [209.85.222.175])
+        by smtp.gmail.com with ESMTPSA id u2-20020a37ab02000000b006fc92cf4703sm22152684qke.132.2023.01.03.12.16.13
+        for <linux-api@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Jan 2023 12:16:13 -0800 (PST)
+Received: by mail-qk1-f175.google.com with SMTP id p12so15358432qkm.0
+        for <linux-api@vger.kernel.org>; Tue, 03 Jan 2023 12:16:13 -0800 (PST)
+X-Received: by 2002:ae9:ef49:0:b0:6fe:d4a6:dcef with SMTP id
+ d70-20020ae9ef49000000b006fed4a6dcefmr2045085qkg.594.1672776973189; Tue, 03
+ Jan 2023 12:16:13 -0800 (PST)
+MIME-Version: 1.0
+References: <20230101162910.710293-1-Jason@zx2c4.com> <20230101162910.710293-3-Jason@zx2c4.com>
+ <Y7QIg/hAIk7eZE42@gmail.com> <CALCETrWdw5kxrtr4M7AkKYDOJEE1cU1wENWgmgOxn0rEJz4y3w@mail.gmail.com>
+ <CAHk-=wg_6Uhkjy12Vq_hN6rQqGRP2nE15rkgiAo6Qay5aOeigg@mail.gmail.com>
+ <Y7SDgtXayQCy6xT6@zx2c4.com> <CAHk-=whQdWFw+0eGttxsWBHZg1+uh=0MhxXYtvJGX4t9P1MgNw@mail.gmail.com>
+ <Y7SJ+/axonTK0Fir@zx2c4.com>
+In-Reply-To: <Y7SJ+/axonTK0Fir@zx2c4.com>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Tue, 3 Jan 2023 12:15:57 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wi4gshfKjbhEO_xZdVb9ztXf0iuv5kKhxtvAHf2HzTmng@mail.gmail.com>
+Message-ID: <CAHk-=wi4gshfKjbhEO_xZdVb9ztXf0iuv5kKhxtvAHf2HzTmng@mail.gmail.com>
+Subject: Re: [PATCH v14 2/7] mm: add VM_DROPPABLE for designating always
+ lazily freeable mappings
+To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
 Cc:     Andy Lutomirski <luto@kernel.org>, Ingo Molnar <mingo@kernel.org>,
         linux-kernel@vger.kernel.org, patches@lists.linux.dev,
         tglx@linutronix.de, linux-crypto@vger.kernel.org,
         linux-api@vger.kernel.org, x86@kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
-        Carlos O'Donell <carlos@redhat.com>,
+        "Carlos O'Donell" <carlos@redhat.com>,
         Florian Weimer <fweimer@redhat.com>,
         Arnd Bergmann <arnd@arndb.de>, Jann Horn <jannh@google.com>,
         Christian Brauner <brauner@kernel.org>, linux-mm@kvack.org
-Subject: Re: [PATCH v14 2/7] mm: add VM_DROPPABLE for designating always
- lazily freeable mappings
-Message-ID: <Y7SJ+/axonTK0Fir@zx2c4.com>
-References: <20230101162910.710293-1-Jason@zx2c4.com>
- <20230101162910.710293-3-Jason@zx2c4.com>
- <Y7QIg/hAIk7eZE42@gmail.com>
- <CALCETrWdw5kxrtr4M7AkKYDOJEE1cU1wENWgmgOxn0rEJz4y3w@mail.gmail.com>
- <CAHk-=wg_6Uhkjy12Vq_hN6rQqGRP2nE15rkgiAo6Qay5aOeigg@mail.gmail.com>
- <Y7SDgtXayQCy6xT6@zx2c4.com>
- <CAHk-=whQdWFw+0eGttxsWBHZg1+uh=0MhxXYtvJGX4t9P1MgNw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAHk-=whQdWFw+0eGttxsWBHZg1+uh=0MhxXYtvJGX4t9P1MgNw@mail.gmail.com>
-X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -71,44 +86,16 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Linus,
+On Tue, Jan 3, 2023 at 12:03 PM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+>
+> That buffering cannot be done safely currently
 
-On Tue, Jan 03, 2023 at 11:54:35AM -0800, Linus Torvalds wrote:
-> So 99% of the time, the solution really is just "getrandom()",
-> generally with the usual buffering ("read more than you need, so that
-> you don't do it all the time").\
+.. again, this is "your semantics" (the (b) in my humbug list), not
+necessarily reality for anybody else.
 
-That buffering cannot be done safely currently -- VM forks, reseeding
-semantics, and so forth. Again, discussed in the cover letter of the
-patch if you'd like to engage with those ideas.
+I'm NAK'ing making invasive changes to the VM for something this
+specialized. I really believe that the people who have this issue are
+*so* few and far between that they can deal with the VM forking and
+reseeding issues quite well on their own.
 
-> just using your own rng in user space entirely.
-
-This is the thing that isn't quite safe.
-
-> Let me guess: the people you talked to who were excited about this are
-> mainly just library people?
-
-No, actually. Mainly people deploying production network-facing things
-that need a lot of randomness often. e.g. CBC nonces in TLS, or random
-sequence numbers in UDP-based protocols.
-
-> So when you say that this isn't about micro-optimizations, I really
-> say "humbug". It's *clearly* about micro-optimization of an area that
-> very few people care about, since the alternative is just our existing
-> "getrandom()" that is not at all horribly slow.
-
-The alternative is what people currently do, which is attempt to
-implement a userspace RNG, which cannot be done safely. Again, -->
-cover letter.
-
-> Because the people who actually *use* the random numbers and are *so*
-> performance-critical about them already have their own per-thread
-> buffers or what-not
-
-...which are not safe.
-
-Anyway, if you're NACK'ing the whole getrandom() vDSO project, just
-please outright say so, so I don't spend another 14 revisions in vain.
-
-Jason
+            Linus
