@@ -2,79 +2,83 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8199C65DCA1
-	for <lists+linux-api@lfdr.de>; Wed,  4 Jan 2023 20:20:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 533DD65DCA4
+	for <lists+linux-api@lfdr.de>; Wed,  4 Jan 2023 20:21:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235099AbjADTUb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 4 Jan 2023 14:20:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60942 "EHLO
+        id S235023AbjADTVH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 4 Jan 2023 14:21:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239824AbjADTUa (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 4 Jan 2023 14:20:30 -0500
-X-Greylist: delayed 336 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 04 Jan 2023 11:20:28 PST
-Received: from albireo.enyo.de (albireo.enyo.de [37.24.231.21])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD9301C41E;
-        Wed,  4 Jan 2023 11:20:28 -0800 (PST)
-Received: from [172.17.203.2] (port=49315 helo=deneb.enyo.de)
-        by albireo.enyo.de ([172.17.140.2]) with esmtps (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-        id 1pD9Dn-007RCJ-8t; Wed, 04 Jan 2023 19:14:43 +0000
-Received: from fw by deneb.enyo.de with local (Exim 4.94.2)
-        (envelope-from <fw@deneb.enyo.de>)
-        id 1pD9Dm-000OQS-RT; Wed, 04 Jan 2023 20:14:42 +0100
-From:   Florian Weimer <fw@deneb.enyo.de>
-To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        with ESMTP id S233421AbjADTVG (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 4 Jan 2023 14:21:06 -0500
+Received: from smtpout.efficios.com (unknown [IPv6:2607:5300:203:b2ee::31e5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C23B24F;
+        Wed,  4 Jan 2023 11:21:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=efficios.com;
+        s=smtpout1; t=1672860060;
+        bh=EkluNBVpVWqQAv87WSQmghkcqC2q2Qy6C1sH75HStM8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=uHpzNIkexlMwMW6tcNulYBdFNfgt/LIfn/2hxHwEPbcvX0EY0xNxNtx4nytz3So3I
+         eA4+dqiTbDQVdhd/5EhS+4kZS8AtpXJffodZopOxaRaFj3FT/oFc5P2rlQCU1x4/2G
+         CT50Dnc7FAsOeq+2T4Rv7mvTMfa6ugO8kX0sGDfg8+ZPOr/94ClKDjO5WytRyNlZvE
+         OyziHvhheM8LLwjdeAx0OoHWRa2guPOmWACMe6l0kzsOI8bzgmI8EdSmWnJ8pGjEa3
+         OISba1sr4BVI6b4KNdf+TWbjKplAKoJIySKWR+KSJonxNseLadt0ct+/Wc+NVEgfZo
+         eg5JQL5oa8ZMQ==
+Received: from localhost.localdomain (192-222-180-24.qc.cable.ebox.net [192.222.180.24])
+        by smtpout.efficios.com (Postfix) with ESMTPSA id 4NnKFm4PWhzf6q;
+        Wed,  4 Jan 2023 14:21:00 -0500 (EST)
+From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
         "Paul E . McKenney" <paulmck@kernel.org>,
         Boqun Feng <boqun.feng@gmail.com>,
         "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
         linux-api@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
-        David.Laight@ACULAB.COM, carlos@redhat.com,
-        Peter Oskolkov <posk@posk.io>,
+        Florian Weimer <fw@deneb.enyo.de>, David.Laight@ACULAB.COM,
+        carlos@redhat.com, Peter Oskolkov <posk@posk.io>,
         Alexander Mikhalitsyn <alexander@mihalicyn.com>,
-        Chris Kennelly <ckennelly@google.com>
-Subject: Re: [PATCH 05/30] selftests/rseq: Use ELF auxiliary vector for
- extensible rseq
-References: <20221122203932.231377-1-mathieu.desnoyers@efficios.com>
-        <20221122203932.231377-6-mathieu.desnoyers@efficios.com>
-Date:   Wed, 04 Jan 2023 20:14:42 +0100
-In-Reply-To: <20221122203932.231377-6-mathieu.desnoyers@efficios.com> (Mathieu
-        Desnoyers's message of "Tue, 22 Nov 2022 15:39:07 -0500")
-Message-ID: <87a62yun6l.fsf@mid.deneb.enyo.de>
+        Chris Kennelly <ckennelly@google.com>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Nathan Chancellor <nathan@kernel.org>
+Subject: [RFC PATCH tip] rseq: Fix: Increase AT_VECTOR_SIZE_BASE to match rseq auxvec entries
+Date:   Wed,  4 Jan 2023 14:20:54 -0500
+Message-Id: <20230104192054.34046-1-mathieu.desnoyers@efficios.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RDNS_NONE,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-* Mathieu Desnoyers:
+Two new auxiliary vector entries are introduced for rseq without
+matching increment of the AT_VECTOR_SIZE_BASE, which causes failures
+with CONFIG_HARDENED_USERCOPY=y.
 
-> +static
-> +unsigned int get_rseq_feature_size(void)
-> +{
-> +	unsigned long auxv_rseq_feature_size, auxv_rseq_align;
-> +
-> +	auxv_rseq_align = getauxval(AT_RSEQ_ALIGN);
-> +	assert(!auxv_rseq_align || auxv_rseq_align <= RSEQ_THREAD_AREA_ALLOC_SIZE);
-> +
-> +	auxv_rseq_feature_size = getauxval(AT_RSEQ_FEATURE_SIZE);
-> +	assert(!auxv_rseq_feature_size || auxv_rseq_feature_size <= RSEQ_THREAD_AREA_ALLOC_SIZE);
-> +	if (auxv_rseq_feature_size)
-> +		return auxv_rseq_feature_size;
-> +	else
-> +		return ORIG_RSEQ_FEATURE_SIZE;
-> +}
+Reported-by: Nathan Chancellor <nathan@kernel.org>
+Link: https://lore.kernel.org/r/Y7XJKZhuU9VJZQ11@dev-arch.thelio-3990X
+Fixes: 317c8194e6ae ("rseq: Introduce feature size and alignment ELF auxiliary vector entries")
+Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+---
+ include/linux/auxvec.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Do you intend to use the auxiliary vector as the userspace handshake
-for glibc-managed rseq, too?  I don't think it works if the kernel
-overtakes glibc.  Or is there some other approach shown in the series
-that I missed?
+diff --git a/include/linux/auxvec.h b/include/linux/auxvec.h
+index f68d0ec2d740..407f7005e6d6 100644
+--- a/include/linux/auxvec.h
++++ b/include/linux/auxvec.h
+@@ -4,6 +4,6 @@
+ 
+ #include <uapi/linux/auxvec.h>
+ 
+-#define AT_VECTOR_SIZE_BASE 20 /* NEW_AUX_ENT entries in auxiliary table */
++#define AT_VECTOR_SIZE_BASE 22 /* NEW_AUX_ENT entries in auxiliary table */
+   /* number of "#define AT_.*" above, minus {AT_NULL, AT_IGNORE, AT_NOTELF} */
+ #endif /* _LINUX_AUXVEC_H */
+-- 
+2.25.1
 
-Maybe we should just skip the existing padding and use it only for
-some vaguely kernel-internal purpose (say through a vDSO helper), so
-that it is less of an issue how to communicate the presence of these
-fields to userspace.
