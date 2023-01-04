@@ -2,155 +2,120 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 73D6665DD19
-	for <lists+linux-api@lfdr.de>; Wed,  4 Jan 2023 20:50:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B08F665DDA9
+	for <lists+linux-api@lfdr.de>; Wed,  4 Jan 2023 21:26:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235040AbjADTuz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 4 Jan 2023 14:50:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50170 "EHLO
+        id S235198AbjADU0I (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 4 Jan 2023 15:26:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235418AbjADTuy (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 4 Jan 2023 14:50:54 -0500
-Received: from smtpout.efficios.com (smtpout.efficios.com [167.114.26.122])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EC94BE3C;
-        Wed,  4 Jan 2023 11:50:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=efficios.com;
-        s=smtpout1; t=1672861852;
-        bh=48nRR4yDM2of4G0U/5nAQS3/E1gw47c30wKkGr9FPZc=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=CvaFhL5g+bj1DcTsofyvlHksYq8rhrI0SSKOd3YKHXAk/Q8mWx8U6ckt/yLwN+wJ3
-         afGTPirFeyZJjCmYO+kFudV9HEBxL5pHEpCxnFVIB/miChm7d4/e5zF0VylmSH1Olp
-         Al2eRYYbN76doHoiOwU2zC6V1TS514G8eqEooXBgyz+knxYbI5flz3AfZLyXuEhhWV
-         0Wv6TCWRfiPE1d+n7KfKaEeGtWeoq4xC/tVFB2jC4Qef6ddYmpHbhKdHDSty7hRxjN
-         IUDWCP2IauyZD66tVlGb0DfJqwgSZ1G7hGXp7qLYmlorpAU1pxwFnKMTzgg5RgELp7
-         7XoVBd44D/iBw==
-Received: from [172.16.0.101] (192-222-180-24.qc.cable.ebox.net [192.222.180.24])
-        by smtpout.efficios.com (Postfix) with ESMTPSA id 4NnKwC6psmzfw4;
-        Wed,  4 Jan 2023 14:50:51 -0500 (EST)
-Message-ID: <cce499bf-6083-558d-5431-9ceab05a98d6@efficios.com>
-Date:   Wed, 4 Jan 2023 14:51:22 -0500
+        with ESMTP id S235279AbjADU0G (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 4 Jan 2023 15:26:06 -0500
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C115210B41;
+        Wed,  4 Jan 2023 12:26:04 -0800 (PST)
+Received: by mail-ej1-x634.google.com with SMTP id tz12so85431851ejc.9;
+        Wed, 04 Jan 2023 12:26:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0nsiYCj7E7B/biignvWJEgK9zv09wv8jx0ObzuZD7BA=;
+        b=fJo+QzADxBj8/jQzpQWRnaynpQlqiQTaU8QRE0zlmtiZtHSDcIvUYgewPOiKgZNZTe
+         /yRGQZvqwnny1JWPcL1tclqzX0QV5ufBq8bti84ktBySJJEGiRypr3Kkq4TOyKLp6AXD
+         mfMt7OPZ64ktLHIucPvlMzAaH52uZBe0AD7iAWOEY4Iow+ySDaLfa8dHyU36aK37Vc3F
+         dTRI+AYLnjue07kLuxOAdUchHCm74+vc9J0xsrL+a4Coml52gdkW3ScywY02wLj7yxtF
+         L4dEStUENFQcp9YA/7ExVOXgTkvX80J2DTlQSkAAqAK6G5ZHNL1NlNrXkTonCP1bXbIM
+         2eHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0nsiYCj7E7B/biignvWJEgK9zv09wv8jx0ObzuZD7BA=;
+        b=NXC6x0m1Eth6BviJ3yCqXJOI7KF4rZXxSfhYbP72SdoI+GQHg1oAkMhjI/CoG2LXK+
+         nGo4Az9FWFtf6RYEbj+LqYjJ3Ox+vrrE3+hRQtvFyTRX7ChHQRjVX9rA8zfDDj1vRTjs
+         cOfn8ol64gn5OIfa3Y55Pmqz104ulGBktuwWOifMCuz596Jy2ejQTkgba76QWgjzJTce
+         SNI6fEHA8EHcptLlP2Te6BbvJ+o702aY1JxU/Yhv3wBAiakIYgK5/58qaahVlhBHSKG1
+         IPllS32LdEPgvoai+wLJQitTCEohaf1eqKDop5/W0KrojoSatxN/hSDK7XXFUy2JSt00
+         0Mmw==
+X-Gm-Message-State: AFqh2kqhRfExQAiZkfpJwgSc4vfkv+2OZmEQjq/Uz3gMclR1zzB+d7iK
+        u/WvoaM0qpF1MDaH4t/aVVQ=
+X-Google-Smtp-Source: AMrXdXv39pIwvzSW1JK083DyvEaIimvX/j6XZ5/7LzVNcY31rmnGqXtGzu/G8SSUDyZANJn3v1+kpw==
+X-Received: by 2002:a17:907:80ce:b0:7c1:26b9:c556 with SMTP id io14-20020a17090780ce00b007c126b9c556mr44908907ejc.15.1672863963331;
+        Wed, 04 Jan 2023 12:26:03 -0800 (PST)
+Received: from gmail.com (1F2EF380.nat.pool.telekom.hu. [31.46.243.128])
+        by smtp.gmail.com with ESMTPSA id l9-20020a1709060cc900b007c0f2d051f4sm15462557ejh.203.2023.01.04.12.26.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Jan 2023 12:26:02 -0800 (PST)
+Sender: Ingo Molnar <mingo.kernel.org@gmail.com>
+Date:   Wed, 4 Jan 2023 21:25:59 +0100
+From:   Ingo Molnar <mingo@kernel.org>
+To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc:     Borislav Petkov <bp@alien8.de>, linux-kernel@vger.kernel.org,
+        patches@lists.linux.dev, tglx@linutronix.de,
+        linux-crypto@vger.kernel.org, linux-api@vger.kernel.org,
+        x86@kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
+        Carlos O'Donell <carlos@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>, Jann Horn <jannh@google.com>,
+        Christian Brauner <brauner@kernel.org>
+Subject: Re: [PATCH v14 1/7] x86: lib: Separate instruction decoder MMIO type
+ from MMIO trace
+Message-ID: <Y7Xg19H39FqTwyEL@gmail.com>
+References: <20230101162910.710293-1-Jason@zx2c4.com>
+ <20230101162910.710293-2-Jason@zx2c4.com>
+ <Y7QELo9etPM8Tpx5@gmail.com>
+ <Y7RA3bmko0AjO8hQ@zx2c4.com>
+ <Y7RfPnyK/25pxpKs@gmail.com>
+ <Y7RmDVI/ScoeBO2a@zn.tnic>
+ <CAHmME9ohJ3JZNjkxuA0KjFW0LLQksgQP5f8bfrogd3+GmLrpKw@mail.gmail.com>
+ <Y7RqQNH0OuiYCDeE@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH 05/30] selftests/rseq: Use ELF auxiliary vector for
- extensible rseq
-Content-Language: en-US
-To:     Florian Weimer <fw@deneb.enyo.de>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        "Paul E . McKenney" <paulmck@kernel.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
-        linux-api@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
-        David.Laight@ACULAB.COM, carlos@redhat.com,
-        Peter Oskolkov <posk@posk.io>,
-        Alexander Mikhalitsyn <alexander@mihalicyn.com>,
-        Chris Kennelly <ckennelly@google.com>
-References: <20221122203932.231377-1-mathieu.desnoyers@efficios.com>
- <20221122203932.231377-6-mathieu.desnoyers@efficios.com>
- <87a62yun6l.fsf@mid.deneb.enyo.de>
-From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-In-Reply-To: <87a62yun6l.fsf@mid.deneb.enyo.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y7RqQNH0OuiYCDeE@gmail.com>
+X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 2023-01-04 14:14, Florian Weimer wrote:
-> * Mathieu Desnoyers:
-> 
->> +static
->> +unsigned int get_rseq_feature_size(void)
->> +{
->> +	unsigned long auxv_rseq_feature_size, auxv_rseq_align;
->> +
->> +	auxv_rseq_align = getauxval(AT_RSEQ_ALIGN);
->> +	assert(!auxv_rseq_align || auxv_rseq_align <= RSEQ_THREAD_AREA_ALLOC_SIZE);
->> +
->> +	auxv_rseq_feature_size = getauxval(AT_RSEQ_FEATURE_SIZE);
->> +	assert(!auxv_rseq_feature_size || auxv_rseq_feature_size <= RSEQ_THREAD_AREA_ALLOC_SIZE);
->> +	if (auxv_rseq_feature_size)
->> +		return auxv_rseq_feature_size;
->> +	else
->> +		return ORIG_RSEQ_FEATURE_SIZE;
->> +}
-> 
-> Do you intend to use the auxiliary vector as the userspace handshake
-> for glibc-managed rseq, too?
 
-Yes.
-
-I don't think it works if the kernel
-> overtakes glibc.  Or is there some other approach shown in the series
-> that I missed?
-
-The handshake I am proposing is as follows:
-
-1- libc init:
-
-issues getauxval(AT_RSEQ_FEATURE_SIZE) to learn the rseq feature size supported
-by the Linux kernel. It can be either:
-
-a) getauxval(AT_RSEQ_FEATURE_SIZE) == 0, errno=ENOENT: pre-6.3 kernel or CONFIG_RSEQ=n.
-
-Need to issue the rseq system call to figure out if rseq is implemented/available or not.
-If rseq is indeed implemented, use a __rseq_size=32.
-
-b) getauxval(AT_RSEQ_FEATURE_SIZE) > 0:
-
-The kernel exposes its supported rseq feature size. libc either needs to register rseq with a rseq_len
-of 32-byte (original size), or with a rseq_len larger than 32 bytes with enough space to hold all
-features.
-
-2- Now about applications (and libc) use of rseq fields:
-
-Using both __rseq_size (from libc) and the result of getauxval(AT_RSEQ_FEATURE_SIZE),
-a rseq user can figure which rseq fields can indeed be used. The important part is
-how get_rseq_feature_size() is called in the rseq selftests:
-
-
-                 rseq_feature_size = get_rseq_feature_size();
-                 if (rseq_feature_size > rseq_size)
-                         rseq_feature_size = rseq_size;
-
-which basically sets rseq_feature_size to the feature size exposed by the kernel, except
-if libc's __rseq_size is smaller than the feature size exposed by the kernel, in which case
-it will truncate the rseq_feature_size to __rseq_size.
-
-This allows rseq users to know which feature set is supported by the kernel and for which
-libc has allocated enough space.
-
-The only thing here is that rseq users cannot rely on libc's __rseq_size symbol to get the
-feature size. But considering that this is a contract between the kernel and the rseq user
-(libc is mostly just there to allocate per-thread memory), I don't think it's a concern to
-request users to query getauxval(AT_RSEQ_FEATURE_SIZE) in addition to load __rseq_size.
+* Ingo Molnar <mingo@kernel.org> wrote:
 
 > 
-> Maybe we should just skip the existing padding and use it only for
-> some vaguely kernel-internal purpose (say through a vDSO helper), so
-> that it is less of an issue how to communicate the presence of these
-> fields to userspace.
+> * Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+> 
+> > On Tue, Jan 3, 2023 at 6:29 PM Borislav Petkov <bp@alien8.de> wrote:
+> > >
+> > > On Tue, Jan 03, 2023 at 06:00:46PM +0100, Ingo Molnar wrote:
+> > > > > I guess you missed the conversation with Borislav yesterday about that.
+> > > > > He mentioned that I'd just take it through random.git when this whole
+> > > > > series goes in.
+> > > >
+> > > > Please base your tree off on tip:x86/asm then (or pull it in) - it only
+> > >
+> > > My idea was a lot simpler: avoid the tree inter-dependency by us acking this
+> > > patch so that it can go through the random.git tree.
+> > 
+> > Indeed I would prefer this.
+> > 
+> > Or... just put this in 6.2 because it's trivial anyway? Heck, even mark 
+> > it as stable@ so make future backporting easier. Then it'll meet tip's 
+> > urgent criteria.
+> 
+> Yeah - that's sensible too, it does fix a header namespace bug - I've put 
+> it into tip:x86/urgent.
 
-The fact that libc's __rseq_size is included the original struct rseq padding is unfortunate,
-but I really see this as a purely userspace ABI concern, which should not dictate the layout
-of the kernel ABI exposed to user-space, especially given that all the information required to
-allow rseq users to know which fields can be used is readily available by combining the value
-loaded from __rseq_size and the result of getauxval(AT_RSEQ_FEATURE_SIZE).
-
-Thoughts ?
+This namespace clash fix is now upstream as of 512dee0c00ad & later kernels.
 
 Thanks,
 
-Mathieu
-
--- 
-Mathieu Desnoyers
-EfficiOS Inc.
-https://www.efficios.com
-
+	Ingo
