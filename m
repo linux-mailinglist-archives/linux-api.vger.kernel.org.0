@@ -2,152 +2,142 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7CBCD66020D
-	for <lists+linux-api@lfdr.de>; Fri,  6 Jan 2023 15:25:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A278566070C
+	for <lists+linux-api@lfdr.de>; Fri,  6 Jan 2023 20:22:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234766AbjAFOZc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 6 Jan 2023 09:25:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60152 "EHLO
+        id S234565AbjAFTWo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 6 Jan 2023 14:22:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55780 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234693AbjAFOZ2 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 6 Jan 2023 09:25:28 -0500
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36C857BDCA;
-        Fri,  6 Jan 2023 06:25:27 -0800 (PST)
-Received: by mail-pf1-f181.google.com with SMTP id z7so1131153pfq.13;
-        Fri, 06 Jan 2023 06:25:27 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZnhpvIy2ZsoQIvjxqkh6LV97wMF7pwAzJclzOI/EkUA=;
-        b=gJpZEqK8J9iUXg6/NaMcM7g+hrm6Idxwqlmg2b1oNBbzs6/lK/Loxi/Aw5Qxq0QDSL
-         Wzp5ZdvcMC4ujm8MnXlIKhlnF8ZUjqHI9TH5AiZQCCNsNoap4tu6GunKKk2qjR9HqW4u
-         J8ghWWq4JwmMmYkbOBsS0ok57pIMsqzoE1eL+gu9TQ/GvYMfgTCZ3WS8K0VTnen/BsOz
-         IOFqTOn25Q3HJoK9P6IJtl2knqLE86CIWndu/O6NDO83G/uhQPltF5L8o531fSzkeM2g
-         9oT9VV09XCANxxPLCJrBuhnGbPQxclXN1S079dOK5hzQ5PI8+k39fAOhRvDnuH1PoWTf
-         dWsw==
-X-Gm-Message-State: AFqh2koRrzxuFn0EPfhR9C0HyGBKOJMf9T2VMmVWRQZn8W0lbSysSCzL
-        x34QhEVBo7gsiSewxncoEuIKxMqnO4m9/mggJlY=
-X-Google-Smtp-Source: AMrXdXupE8sC+Y3fGN3ty9aij7GdI5lL4SimVP4vcqOWquE7YENA7c1nv0MwPYafQUD94503z2yComXmE17v1S9TlPc=
-X-Received: by 2002:a63:2106:0:b0:483:f80c:cdf3 with SMTP id
- h6-20020a632106000000b00483f80ccdf3mr2608100pgh.70.1673015126142; Fri, 06 Jan
- 2023 06:25:26 -0800 (PST)
+        with ESMTP id S235773AbjAFTWm (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 6 Jan 2023 14:22:42 -0500
+Received: from smtp-8fa9.mail.infomaniak.ch (smtp-8fa9.mail.infomaniak.ch [IPv6:2001:1600:3:17::8fa9])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21D2573E37
+        for <linux-api@vger.kernel.org>; Fri,  6 Jan 2023 11:22:41 -0800 (PST)
+Received: from smtp-2-0001.mail.infomaniak.ch (unknown [10.5.36.108])
+        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4NpYBh6TpjzMr6M3;
+        Fri,  6 Jan 2023 20:22:36 +0100 (CET)
+Received: from unknown by smtp-2-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4NpYBg6kwJzMppKr;
+        Fri,  6 Jan 2023 20:22:35 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
+        s=20191114; t=1673032956;
+        bh=6OCpciQuYs/fuH7eKfax3wZFytmN21aeZpdhduiqY0c=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=XH9Zr+q6eH9CLaHWF81v8o5NvIjUwf3EZMSx1Lz71eC/zHSarCFa5KGEzipW9jN0u
+         hiynpCclKr/dxtVtdfy8mWXAPMGv5S9jPIpXNpBRFaiiA9AWfxSRUcIxDoZfunfSVy
+         0G3Yic5RoCwPuys8FoslWtvdD+C6zE0bdR7vJzmE=
+Message-ID: <47fedda8-a13c-b62f-251f-b62508964bb0@digikod.net>
+Date:   Fri, 6 Jan 2023 20:22:35 +0100
 MIME-Version: 1.0
-References: <20230106042844.give.885-kees@kernel.org> <CAG48ez0Jg9Eeh=RWpYh=sKhzukE3Sza2RKMmNs8o0FrHU0dj9w@mail.gmail.com>
-In-Reply-To: <CAG48ez0Jg9Eeh=RWpYh=sKhzukE3Sza2RKMmNs8o0FrHU0dj9w@mail.gmail.com>
-From:   Vincent MAILHOL <mailhol.vincent@wanadoo.fr>
-Date:   Fri, 6 Jan 2023 23:25:14 +0900
-Message-ID: <CAMZ6RqJXnUBxqyCFRaLxELjnvGzn9NoiePV2RVwBzAZRGH_Qmg@mail.gmail.com>
-Subject: Re: [PATCH v3] ethtool: Replace 0-length array with flexible array
-To:     Jann Horn <jannh@google.com>
-Cc:     Kees Cook <keescook@chromium.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-        kernel test robot <lkp@intel.com>,
-        Oleksij Rempel <linux@rempel-privat.de>,
-        Sean Anderson <sean.anderson@seco.com>,
-        Alexandru Tachici <alexandru.tachici@analog.com>,
-        Amit Cohen <amcohen@nvidia.com>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-hardening@vger.kernel.org,
-        Linux API <linux-api@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+User-Agent: 
+Subject: Re: [PATCH v8 07/12] landlock: Add network rules support
+Content-Language: en-US
+To:     "Konstantin Meskhidze (A)" <konstantin.meskhidze@huawei.com>,
+        linux-sparse@vger.kernel.org
+Cc:     willemdebruijn.kernel@gmail.com, gnoack3000@gmail.com,
+        linux-security-module@vger.kernel.org, netdev@vger.kernel.org,
+        netfilter-devel@vger.kernel.org, artem.kuzin@huawei.com,
+        Linux API <linux-api@vger.kernel.org>,
+        "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
+References: <20221021152644.155136-1-konstantin.meskhidze@huawei.com>
+ <20221021152644.155136-8-konstantin.meskhidze@huawei.com>
+ <49391484-7401-e7c7-d909-3bd6bd024731@digikod.net>
+ <9a6ea6ac-525d-e058-5867-0794a99b19a3@huawei.com>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+In-Reply-To: <9a6ea6ac-525d-e058-5867-0794a99b19a3@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Infomaniak-Routing: alpha
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri. 6 Jan 2023 at 22:19, Jann Horn <jannh@google.com> wrote:
-> On Fri, Jan 6, 2023 at 5:28 AM Kees Cook <keescook@chromium.org> wrote:
-> > Zero-length arrays are deprecated[1]. Replace struct ethtool_rxnfc's
-> > "rule_locs" 0-length array with a flexible array. Detected with GCC 13,
-> > using -fstrict-flex-arrays=3:
-> >
-> > net/ethtool/common.c: In function 'ethtool_get_max_rxnfc_channel':
-> > net/ethtool/common.c:558:55: warning: array subscript i is outside array bounds of '__u32[0]' {aka 'unsigned int[]'} [-Warray-bounds=]
-> >   558 |                         .fs.location = info->rule_locs[i],
-> >       |                                        ~~~~~~~~~~~~~~~^~~
-> > In file included from include/linux/ethtool.h:19,
-> >                  from include/uapi/linux/ethtool_netlink.h:12,
-> >                  from include/linux/ethtool_netlink.h:6,
-> >                  from net/ethtool/common.c:3:
-> > include/uapi/linux/ethtool.h:1186:41: note: while referencing
-> > 'rule_locs'
-> >  1186 |         __u32                           rule_locs[0];
-> >       |                                         ^~~~~~~~~
-> >
-> > [1] https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays
-> >
-> > Cc: "David S. Miller" <davem@davemloft.net>
-> > Cc: Jakub Kicinski <kuba@kernel.org>
-> > Cc: Andrew Lunn <andrew@lunn.ch>
-> > Cc: kernel test robot <lkp@intel.com>
-> > Cc: Oleksij Rempel <linux@rempel-privat.de>
-> > Cc: Sean Anderson <sean.anderson@seco.com>
-> > Cc: Alexandru Tachici <alexandru.tachici@analog.com>
-> > Cc: Amit Cohen <amcohen@nvidia.com>
-> > Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-> > Cc: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-> > Cc: netdev@vger.kernel.org
-> > Signed-off-by: Kees Cook <keescook@chromium.org>
-> > ---
-> > v3: don't use helper (vincent)
-> > v2: https://lore.kernel.org/lkml/20230105233420.gonna.036-kees@kernel.org
-> > ---
-> >  include/uapi/linux/ethtool.h | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/include/uapi/linux/ethtool.h b/include/uapi/linux/ethtool.h
-> > index 58e587ba0450..3135fa0ba9a4 100644
-> > --- a/include/uapi/linux/ethtool.h
-> > +++ b/include/uapi/linux/ethtool.h
-> > @@ -1183,7 +1183,7 @@ struct ethtool_rxnfc {
-> >                 __u32                   rule_cnt;
-> >                 __u32                   rss_context;
-> >         };
-> > -       __u32                           rule_locs[0];
-> > +       __u32                           rule_locs[];
->
-> Stupid question: Is this syntax allowed in UAPI headers despite not
-> being part of standard C90 or C++? Are we relying on all C/C++
-> compilers for pre-C99 having gcc/clang extensions?
 
-The [0] isn't part of the C90 standard either. So having to choose
-between [0] and [], the latter is the most portable nowadays.
+On 04/01/2023 12:41, Konstantin Meskhidze (A) wrote:
+> 
+> 
+> 11/17/2022 9:43 PM, Mickaël Salaün пишет:
 
-If I do a bit of speleology, I can see that C99 flexible array members
-were used as early as v2.6.19 (released in November 2006):
+[...]
 
-  https://elixir.bootlin.com/linux/v2.6.19/source/include/linux/usb/audio.h#L36
+>>>    /**
+>>> @@ -79,6 +91,24 @@ struct landlock_path_beneath_attr {
+>>>    	 */
+>>>    } __attribute__((packed));
+>>>
+>>> +/**
+>>> + * struct landlock_net_service_attr - TCP subnet definition
+>>> + *
+>>> + * Argument of sys_landlock_add_rule().
+>>> + */
+>>> +struct landlock_net_service_attr {
+>>> +	/**
+>>> +	 * @allowed_access: Bitmask of allowed access network for services
+>>> +	 * (cf. `Network flags`_).
+>>> +	 */
+>>> +	__u64 allowed_access;
+>>> +	/**
+>>> +	 * @port: Network port.
+>>> +	 */
+>>> +	__u16 port;
+>>
+>>    From an UAPI point of view, I think the port field should be __be16, as
+>> for sockaddr_in->port and other network-related APIs. This will require
+>> some kernel changes to please sparse: make C=2 security/landlock/ must
+>> not print any warning.
+> 
+>     I have this errors trying to launch sparse checking:
+> 
+>     DESCEND objtool
+>     DESCEND bpf/resolve_btfids
+>     CALL    scripts/checksyscalls.sh
+>     CHK     kernel/kheaders_data.tar.xz
+>     CC      security/landlock/setup.o
+>     CHECK   security/landlock/setup.c
+> ./include/asm-generic/rwonce.h:67:16: error: typename in expression
+> ./include/asm-generic/rwonce.h:67:16: error: Expected ) in function call
+> ./include/asm-generic/rwonce.h:67:16: error: got :
+> ./include/linux/list.h:292:16: error: typename in expression
+> ./include/linux/list.h:292:16: error: Expected ) in function call
+> ./include/linux/list.h:292:16: error: got :
+> 
+> ....
+> 
+> ./include/linux/seqlock.h:682:16: error: Expected ) in function call
+> ./include/linux/seqlock.h:682:16: error: got :
+> ./include/linux/seqlock.h:695:16: error: typename in expression
+> ./include/linux/seqlock.h:695:16: error: Expected ) in function call
+> ./include/linux/seqlock.h:695:16: error: too many errors
+> Segmentation fault (core dumped)
+> make[3]: *** [scripts/Makefile.build:250: security/landlock/setup.o]
+> Error 139
+> make[3]: *** Deleting file 'security/landlock/setup.o'
+> make[3]: *** Waiting for unfinished jobs....
+> Segmentation fault (core dumped)
+> make[3]: *** [scripts/Makefile.build:250: security/landlock/syscalls.o]
+> Error 139
+> make[3]: *** Deleting file 'security/landlock/syscalls.o'
+> make[2]: *** [scripts/Makefile.build:502: security/landlock] Error 2
+> make[1]: *** [scripts/Makefile.build:502: security] Error 2
+> make[1]: *** Waiting for unfinished jobs....
+> make: *** [Makefile:1994: .] Error 2
 
-This is prior to the include/linux and include/uapi/linux split, but
-believe me, this usb/audio.h file is indeed part of the uapi.
-So, yes, using C99 flexible array members in the UAPI is de facto
-allowed because it was used for the last 16 years.
-
-An interesting sub question would be:
-
-  What are the minimum compiler requirements to build a program using
-the Linux UAPI?
-
-And, after research, I could not find the answer. The requirements to
-build the kernel are well documented:
-
-  https://docs.kernel.org/process/changes.html#changes
-
-But no clue for the uapi. I guess that at one point in 2006, people
-decided that it was time to set the minimum requirement to C99. Maybe
-this matches the end of life of the latest pre-C99 GCC version? The
-detailed answer must be hidden somewhere on lkml.
+I don't know about this error. Did you follow the documentation?
+https://docs.kernel.org/dev-tools/sparse.html#getting-sparse
 
 
-Yours sincerely,
-Vincent Mailhol
+
+>>
+>> Using big-endian values as keys (casted to uintptr_t, not strictly
+>> __be16) in the rb-tree should not be an issue because there is no port
+>> range ordering (for now).
+>>
+>> A dedicated test should check that endianness is correct, e.g. by using
+>> different port encoding. This should include passing and failing tests,
+>> but they should work on all architectures (i.e. big or little endian).
