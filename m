@@ -2,238 +2,139 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 88E3A660721
-	for <lists+linux-api@lfdr.de>; Fri,  6 Jan 2023 20:30:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DB0526607FF
+	for <lists+linux-api@lfdr.de>; Fri,  6 Jan 2023 21:16:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231801AbjAFTaM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 6 Jan 2023 14:30:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59708 "EHLO
+        id S236659AbjAFUQV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 6 Jan 2023 15:16:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231335AbjAFTaL (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 6 Jan 2023 14:30:11 -0500
-X-Greylist: delayed 451 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 06 Jan 2023 11:30:09 PST
-Received: from smtp-8fae.mail.infomaniak.ch (smtp-8fae.mail.infomaniak.ch [83.166.143.174])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F075945673
-        for <linux-api@vger.kernel.org>; Fri,  6 Jan 2023 11:30:09 -0800 (PST)
-Received: from smtp-2-0000.mail.infomaniak.ch (unknown [10.5.36.107])
-        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4NpYML4MhWzMr9RW;
-        Fri,  6 Jan 2023 20:30:06 +0100 (CET)
-Received: from unknown by smtp-2-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4NpYMK5v7LzMq1SD;
-        Fri,  6 Jan 2023 20:30:05 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
-        s=20191114; t=1673033406;
-        bh=8m+V9XjVRq7eOpHMDURvUdsB7aE8b7bVPr2IcgzFoj0=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=JcDVDgO6SAv65XudXuIZZS6CGoVlqo3/OdXPVT8bTbPv3mhQWOindU3hEajVHum7+
-         yH9QTSUGgZCU7B2V3dlYg5l7XSpTWgbno99nyzo2QpwZQjGImFz9Y15kHJMly+6j12
-         yaAr3PDTLMHjvpFRnacEyUp0hAx6LDAAXT7G5M+8=
-Message-ID: <ec54eb66-ed9f-035c-1301-644f93873e5f@digikod.net>
-Date:   Fri, 6 Jan 2023 20:30:05 +0100
+        with ESMTP id S234603AbjAFUP4 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 6 Jan 2023 15:15:56 -0500
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15FD682F5C
+        for <linux-api@vger.kernel.org>; Fri,  6 Jan 2023 12:14:29 -0800 (PST)
+Received: by mail-pl1-x630.google.com with SMTP id jl4so2782445plb.8
+        for <linux-api@vger.kernel.org>; Fri, 06 Jan 2023 12:14:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=euU3G/ya0gtqqY9FQvfGrmCYDfDSO1DRx03jpA8QOoU=;
+        b=DxpJV32juCIC7h57KYTRrjCuSAEKETG43oBjZgf71yvmAQHb0L6DqYb1TF0bUPTUta
+         zq/0lgACacdY+WTeXku5JZ3Y1TAbuKWHPO8sa/cyKEk48X+V8Ut3URpj3vxBHM867N28
+         dEqxrQbhpBIzPD95jnlH21RK+ftUvSSFMAtOc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=euU3G/ya0gtqqY9FQvfGrmCYDfDSO1DRx03jpA8QOoU=;
+        b=X6owkmsYmHmVkOQKhRsPfyBUOTedNoqc+gpGC/yQaPDOQuJD2wsf8aIin09AUTKWsD
+         3/lVsGLo5jcQ7bgMWOrCyQUSM1bi3kNLzSAM8kl6vYjLeX2XKeiKVxpLfX1BWz1FTK1q
+         iEo2gRQzXkL/l13hNxQcCDckQQZUPE2P593hrWB7yzX3B5JWOSK/rLK5G4G00XLeRVra
+         di0/Cd1My5zxPMhAgoAcDS3+BWwfAd2udslpcwY/FRpHUcUkwAk38iZTxq95+dPWmvXE
+         UW367NcLCHML2GOoSFBKtZOIfMRfOwe+dhEiFZtKA5nWJRdEbIbC2cnp02I5t6VQUimW
+         c/rw==
+X-Gm-Message-State: AFqh2kq3A1rAUS9MwsMFYpCqtT0V7mAS5piQvCY412j7hXU5PsVjI52e
+        q4CPCbTelzUQax0GRWGGFcTAOg==
+X-Google-Smtp-Source: AMrXdXtkvQ+XpEzmJFaUJ0JVX00yVP9flnzGcmoU0MwhgVx2K6M1UpjXmeQnvV8L4me6P8O7LDJT/A==
+X-Received: by 2002:a05:6a20:3d26:b0:a7:8c43:d669 with SMTP id y38-20020a056a203d2600b000a78c43d669mr74101910pzi.51.1673036019131;
+        Fri, 06 Jan 2023 12:13:39 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id e2-20020a170902784200b0019309be03e7sm1347726pln.66.2023.01.06.12.13.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Jan 2023 12:13:38 -0800 (PST)
+Date:   Fri, 6 Jan 2023 12:13:37 -0800
+From:   Kees Cook <keescook@chromium.org>
+To:     Vincent MAILHOL <mailhol.vincent@wanadoo.fr>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Jann Horn <jannh@google.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+        kernel test robot <lkp@intel.com>,
+        Oleksij Rempel <linux@rempel-privat.de>,
+        Sean Anderson <sean.anderson@seco.com>,
+        Alexandru Tachici <alexandru.tachici@analog.com>,
+        Amit Cohen <amcohen@nvidia.com>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-hardening@vger.kernel.org,
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: minimum compiler for Linux UAPI (was Re: [PATCH v3] ethtool:
+ Replace 0-length array with flexible array)
+Message-ID: <202301061209.4EA0C177@keescook>
+References: <20230106042844.give.885-kees@kernel.org>
+ <CAG48ez0Jg9Eeh=RWpYh=sKhzukE3Sza2RKMmNs8o0FrHU0dj9w@mail.gmail.com>
+ <CAMZ6RqJXnUBxqyCFRaLxELjnvGzn9NoiePV2RVwBzAZRGH_Qmg@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: 
-Subject: Re: [PATCH v8 08/12] landlock: Implement TCP network hooks
-Content-Language: en-US
-To:     "Konstantin Meskhidze (A)" <konstantin.meskhidze@huawei.com>,
-        netdev@vger.kernel.org, linux-api@vger.kernel.org,
-        "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
-Cc:     willemdebruijn.kernel@gmail.com, gnoack3000@gmail.com,
-        linux-security-module@vger.kernel.org,
-        netfilter-devel@vger.kernel.org, artem.kuzin@huawei.com
-References: <20221021152644.155136-1-konstantin.meskhidze@huawei.com>
- <20221021152644.155136-9-konstantin.meskhidze@huawei.com>
- <3452964b-04d3-b297-92a1-1220e087323e@digikod.net>
- <258ba4aa-6b12-abda-75b9-ffa196fba683@huawei.com>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-In-Reply-To: <258ba4aa-6b12-abda-75b9-ffa196fba683@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Infomaniak-Routing: alpha
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMZ6RqJXnUBxqyCFRaLxELjnvGzn9NoiePV2RVwBzAZRGH_Qmg@mail.gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Fri, Jan 06, 2023 at 11:25:14PM +0900, Vincent MAILHOL wrote:
+> On Fri. 6 Jan 2023 at 22:19, Jann Horn <jannh@google.com> wrote:
+> > On Fri, Jan 6, 2023 at 5:28 AM Kees Cook <keescook@chromium.org> wrote:
+> > > Zero-length arrays are deprecated[1]. Replace struct ethtool_rxnfc's
+> > > "rule_locs" 0-length array with a flexible array. Detected with GCC 13,
+> > > using -fstrict-flex-arrays=3:
+> [...]
+> > > diff --git a/include/uapi/linux/ethtool.h b/include/uapi/linux/ethtool.h
+> > > index 58e587ba0450..3135fa0ba9a4 100644
+> > > --- a/include/uapi/linux/ethtool.h
+> > > +++ b/include/uapi/linux/ethtool.h
+> > > @@ -1183,7 +1183,7 @@ struct ethtool_rxnfc {
+> > >                 __u32                   rule_cnt;
+> > >                 __u32                   rss_context;
+> > >         };
+> > > -       __u32                           rule_locs[0];
+> > > +       __u32                           rule_locs[];
+> >
+> > Stupid question: Is this syntax allowed in UAPI headers despite not
+> > being part of standard C90 or C++? Are we relying on all C/C++
+> > compilers for pre-C99 having gcc/clang extensions?
+> 
+> The [0] isn't part of the C90 standard either. So having to choose
+> between [0] and [], the latter is the most portable nowadays.
+> 
+> If I do a bit of speleology, I can see that C99 flexible array members
+> were used as early as v2.6.19 (released in November 2006):
+> 
+>   https://elixir.bootlin.com/linux/v2.6.19/source/include/linux/usb/audio.h#L36
+> 
+> This is prior to the include/linux and include/uapi/linux split, but
+> believe me, this usb/audio.h file is indeed part of the uapi.
+> So, yes, using C99 flexible array members in the UAPI is de facto
+> allowed because it was used for the last 16 years.
+> 
+> An interesting sub question would be:
+> 
+>   What are the minimum compiler requirements to build a program using
+> the Linux UAPI?
 
-On 05/01/2023 09:57, Konstantin Meskhidze (A) wrote:
-> 
-> 
-> 11/17/2022 9:43 PM, Mickaël Salaün пишет:
->>
->> On 21/10/2022 17:26, Konstantin Meskhidze wrote:
->>> This patch adds support of socket_bind() and socket_connect() hooks.
->>> It's possible to restrict binding and connecting of TCP sockets to
->>> particular ports.
->>
->> Implement socket_bind() and socket_connect LSM hooks, which enable to
->> restrict TCP socket binding and connection to specific ports.
->>
->>
->>>
->>> Signed-off-by: Konstantin Meskhidze <konstantin.meskhidze@huawei.com>
->>> ---
->>>
->>> Changes since v7:
->>> * Minor fixes.
->>> * Refactors commit message.
->>>
->>> Changes since v6:
->>> * Updates copyright.
->>> * Refactors landlock_append_net_rule() and check_socket_access()
->>>     functions with landlock_id type.
->>>
->>> Changes since v5:
->>> * Fixes some logic errors.
->>> * Formats code with clang-format-14.
->>>
->>> Changes since v4:
->>> * Factors out CONFIG_INET into make file.
->>> * Refactors check_socket_access().
->>> * Adds helper get_port().
->>> * Adds CONFIG_IPV6 in get_port(), hook_socket_bind/connect
->>> functions to support AF_INET6 family.
->>> * Adds AF_UNSPEC family support in hook_socket_bind/connect
->>> functions.
->>> * Refactors add_rule_net_service() and landlock_add_rule
->>> syscall to support network rule inserting.
->>> * Refactors init_layer_masks() to support network rules.
->>>
->>> Changes since v3:
->>> * Splits commit.
->>> * Adds SECURITY_NETWORK in config.
->>> * Adds IS_ENABLED(CONFIG_INET) if a kernel has no INET configuration.
->>> * Adds hook_socket_bind and hook_socket_connect hooks.
->>>
->>> ---
->>>    security/landlock/Kconfig    |   1 +
->>>    security/landlock/Makefile   |   2 +
->>>    security/landlock/net.c      | 164 +++++++++++++++++++++++++++++++++++
->>>    security/landlock/net.h      |  26 ++++++
->>>    security/landlock/setup.c    |   2 +
->>>    security/landlock/syscalls.c |  59 ++++++++++++-
->>>    6 files changed, 251 insertions(+), 3 deletions(-)
->>>    create mode 100644 security/landlock/net.c
->>>    create mode 100644 security/landlock/net.h
->>>
->>> diff --git a/security/landlock/Kconfig b/security/landlock/Kconfig
->>> index 8e33c4e8ffb8..10c099097533 100644
->>> --- a/security/landlock/Kconfig
->>> +++ b/security/landlock/Kconfig
->>> @@ -3,6 +3,7 @@
->>>    config SECURITY_LANDLOCK
->>>    	bool "Landlock support"
->>>    	depends on SECURITY && !ARCH_EPHEMERAL_INODES
->>> +	select SECURITY_NETWORK
->>>    	select SECURITY_PATH
->>>    	help
->>>    	  Landlock is a sandboxing mechanism that enables processes to restrict
->>> diff --git a/security/landlock/Makefile b/security/landlock/Makefile
->>> index 7bbd2f413b3e..53d3c92ae22e 100644
->>> --- a/security/landlock/Makefile
->>> +++ b/security/landlock/Makefile
->>> @@ -2,3 +2,5 @@ obj-$(CONFIG_SECURITY_LANDLOCK) := landlock.o
->>>
->>>    landlock-y := setup.o syscalls.o object.o ruleset.o \
->>>    	cred.o ptrace.o fs.o
->>> +
->>> +landlock-$(CONFIG_INET) += net.o
->>> \ No newline at end of file
->>> diff --git a/security/landlock/net.c b/security/landlock/net.c
->>> new file mode 100644
->>> index 000000000000..39e8a156a1f4
->>> --- /dev/null
->>> +++ b/security/landlock/net.c
->>> @@ -0,0 +1,164 @@
->>> +// SPDX-License-Identifier: GPL-2.0-only
->>> +/*
->>> + * Landlock LSM - Network management and hooks
->>> + *
->>> + * Copyright © 2022 Huawei Tech. Co., Ltd.
->>> + * Copyright © 2022 Microsoft Corporation
->>> + */
->>> +
->>> +#include <linux/in.h>
->>> +#include <linux/net.h>
->>> +#include <linux/socket.h>
->>> +#include <net/ipv6.h>
->>> +
->>> +#include "common.h"
->>> +#include "cred.h"
->>> +#include "limits.h"
->>> +#include "net.h"
->>> +#include "ruleset.h"
->>> +
->>> +int landlock_append_net_rule(struct landlock_ruleset *const ruleset,
->>> +			     const u16 port, access_mask_t access_rights)
->>> +{
->>> +	int err;
->>> +	const struct landlock_id id = {
->>> +		.key.data = port,
->>> +		.type = LANDLOCK_KEY_NET_PORT,
->>> +	};
->>> +	BUILD_BUG_ON(sizeof(port) > sizeof(id.key.data));
->>> +
->>> +	/* Transforms relative access rights to absolute ones. */
->>> +	access_rights |= LANDLOCK_MASK_ACCESS_NET &
->>> +			 ~landlock_get_net_access_mask(ruleset, 0);
->>> +
->>> +	mutex_lock(&ruleset->lock);
->>> +	err = landlock_insert_rule(ruleset, id, access_rights);
->>> +	mutex_unlock(&ruleset->lock);
->>> +
->>> +	return err;
->>> +}
->>> +
->>> +static int check_socket_access(const struct landlock_ruleset *const domain,
->>> +			       u16 port, access_mask_t access_request)
->>> +{
->>> +	bool allowed = false;
->>> +	layer_mask_t layer_masks[LANDLOCK_NUM_ACCESS_NET] = {};
->>> +	const struct landlock_rule *rule;
->>> +	access_mask_t handled_access;
->>> +	const struct landlock_id id = {
->>> +		.key.data = port,
->>> +		.type = LANDLOCK_KEY_NET_PORT,
->>> +	};
->>> +
->>> +	if (WARN_ON_ONCE(!domain))
->>> +		return 0;
->>> +	if (WARN_ON_ONCE(domain->num_layers < 1))
->>> +		return -EACCES;
->>> +
->>> +	rule = landlock_find_rule(domain, id);
->>> +	handled_access = init_layer_masks(domain, access_request, &layer_masks,
->>> +					  LANDLOCK_KEY_NET_PORT);
->>> +	allowed = unmask_layers(rule, handled_access, &layer_masks,
->>> +				ARRAY_SIZE(layer_masks));
->>> +
->>> +	return allowed ? 0 : -EACCES;
->>> +}
->>> +
->>> +static u16 get_port(const struct sockaddr *const address)
->>
->> get_port() should return a __be16 type. This enables to avoid converting
->> port when checking a rule.
-> 
->     In this case a user must do a coverting port into __be16:
-> 
->     struct landlock_net_service_attr net_service = {
->                   .allowed_access = LANDLOCK_ACCESS_NET_BIND_TCP,
-> 
->                   .port = htons(sock_port),
->           };
->    I think that a user should not think about this conversion cause it
-> makes UAPI more complex to use. Lets do this under kernel's hood and let
-> it as it is now -> u16 port.
-> 
-> What do you think?
+You're right -- we haven't explicitly documented this. C99 seems like
+the defacto minimum, though.
 
-BE and LE conversions may be error prone without strong typing, but the 
-current Linux network UAPI uses this convention (see related syscalls), 
-so developers already use htons() in their applications. I think it is 
-less hazardous to use the same convention. It would be nice to have the 
-point of view of network and API folks though.
+> And, after research, I could not find the answer. The requirements to
+> build the kernel are well documented:
+> 
+>   https://docs.kernel.org/process/changes.html#changes
+> 
+> But no clue for the uapi. I guess that at one point in 2006, people
+> decided that it was time to set the minimum requirement to C99. Maybe
+> this matches the end of life of the latest pre-C99 GCC version? The
+> detailed answer must be hidden somewhere on lkml.
+
+I would make the argument that the requirements for building Linux UAPI
+should match that of building the kernel...
+
+-- 
+Kees Cook
