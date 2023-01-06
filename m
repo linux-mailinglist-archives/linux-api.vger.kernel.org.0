@@ -2,139 +2,151 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DB0526607FF
-	for <lists+linux-api@lfdr.de>; Fri,  6 Jan 2023 21:16:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 88883660885
+	for <lists+linux-api@lfdr.de>; Fri,  6 Jan 2023 21:54:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236659AbjAFUQV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 6 Jan 2023 15:16:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56572 "EHLO
+        id S234049AbjAFUyT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 6 Jan 2023 15:54:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47468 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234603AbjAFUP4 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 6 Jan 2023 15:15:56 -0500
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15FD682F5C
-        for <linux-api@vger.kernel.org>; Fri,  6 Jan 2023 12:14:29 -0800 (PST)
-Received: by mail-pl1-x630.google.com with SMTP id jl4so2782445plb.8
-        for <linux-api@vger.kernel.org>; Fri, 06 Jan 2023 12:14:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=euU3G/ya0gtqqY9FQvfGrmCYDfDSO1DRx03jpA8QOoU=;
-        b=DxpJV32juCIC7h57KYTRrjCuSAEKETG43oBjZgf71yvmAQHb0L6DqYb1TF0bUPTUta
-         zq/0lgACacdY+WTeXku5JZ3Y1TAbuKWHPO8sa/cyKEk48X+V8Ut3URpj3vxBHM867N28
-         dEqxrQbhpBIzPD95jnlH21RK+ftUvSSFMAtOc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=euU3G/ya0gtqqY9FQvfGrmCYDfDSO1DRx03jpA8QOoU=;
-        b=X6owkmsYmHmVkOQKhRsPfyBUOTedNoqc+gpGC/yQaPDOQuJD2wsf8aIin09AUTKWsD
-         3/lVsGLo5jcQ7bgMWOrCyQUSM1bi3kNLzSAM8kl6vYjLeX2XKeiKVxpLfX1BWz1FTK1q
-         iEo2gRQzXkL/l13hNxQcCDckQQZUPE2P593hrWB7yzX3B5JWOSK/rLK5G4G00XLeRVra
-         di0/Cd1My5zxPMhAgoAcDS3+BWwfAd2udslpcwY/FRpHUcUkwAk38iZTxq95+dPWmvXE
-         UW367NcLCHML2GOoSFBKtZOIfMRfOwe+dhEiFZtKA5nWJRdEbIbC2cnp02I5t6VQUimW
-         c/rw==
-X-Gm-Message-State: AFqh2kq3A1rAUS9MwsMFYpCqtT0V7mAS5piQvCY412j7hXU5PsVjI52e
-        q4CPCbTelzUQax0GRWGGFcTAOg==
-X-Google-Smtp-Source: AMrXdXtkvQ+XpEzmJFaUJ0JVX00yVP9flnzGcmoU0MwhgVx2K6M1UpjXmeQnvV8L4me6P8O7LDJT/A==
-X-Received: by 2002:a05:6a20:3d26:b0:a7:8c43:d669 with SMTP id y38-20020a056a203d2600b000a78c43d669mr74101910pzi.51.1673036019131;
-        Fri, 06 Jan 2023 12:13:39 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id e2-20020a170902784200b0019309be03e7sm1347726pln.66.2023.01.06.12.13.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Jan 2023 12:13:38 -0800 (PST)
-Date:   Fri, 6 Jan 2023 12:13:37 -0800
-From:   Kees Cook <keescook@chromium.org>
-To:     Vincent MAILHOL <mailhol.vincent@wanadoo.fr>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Jann Horn <jannh@google.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-        kernel test robot <lkp@intel.com>,
-        Oleksij Rempel <linux@rempel-privat.de>,
-        Sean Anderson <sean.anderson@seco.com>,
-        Alexandru Tachici <alexandru.tachici@analog.com>,
-        Amit Cohen <amcohen@nvidia.com>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-hardening@vger.kernel.org,
-        Linux API <linux-api@vger.kernel.org>
-Subject: Re: minimum compiler for Linux UAPI (was Re: [PATCH v3] ethtool:
- Replace 0-length array with flexible array)
-Message-ID: <202301061209.4EA0C177@keescook>
-References: <20230106042844.give.885-kees@kernel.org>
- <CAG48ez0Jg9Eeh=RWpYh=sKhzukE3Sza2RKMmNs8o0FrHU0dj9w@mail.gmail.com>
- <CAMZ6RqJXnUBxqyCFRaLxELjnvGzn9NoiePV2RVwBzAZRGH_Qmg@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMZ6RqJXnUBxqyCFRaLxELjnvGzn9NoiePV2RVwBzAZRGH_Qmg@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        with ESMTP id S235962AbjAFUyG (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 6 Jan 2023 15:54:06 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 786A36346;
+        Fri,  6 Jan 2023 12:54:05 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0DD6461F71;
+        Fri,  6 Jan 2023 20:54:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A220DC433D2;
+        Fri,  6 Jan 2023 20:54:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1673038444;
+        bh=2XFVyFO90sv15IXbHfuoR96vEeg0uVA9f6scATbkw5I=;
+        h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
+        b=mHfJQe+ghzVdgZxSVelgm1jSG5vA5KgBsk91CsnOdE6+vYEnKP07FXxBqc+wIWjNc
+         /ney0ntA5oVoXHpljLmbG/ptlT/69CqOGDRiBfs67lVR/GpQtfA4SFKxt6Hqv2BrBx
+         /Zil7U7xTEbnwogsadNwFzIvOXp6M8oDMMmGpSRt/t2pBweXijPjNQBXjJ4Hz0fpTX
+         qSPyHb2Bu6mdIo6QJC/HJCYTeL5tzoccdmge+vm1oc6K4rSnBht9HhRe3PbU0FE3ZW
+         aP0OkfFtzOACThVhMDHKsjFKc34/bLpq9aJjwF+moBB4D8aQh33Cwmke0C/NvktWH2
+         FqeZFd7BC2/Uw==
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailauth.nyi.internal (Postfix) with ESMTP id 798D327C0054;
+        Fri,  6 Jan 2023 15:54:02 -0500 (EST)
+Received: from imap48 ([10.202.2.98])
+  by compute3.internal (MEProxy); Fri, 06 Jan 2023 15:54:02 -0500
+X-ME-Sender: <xms:aYq4Y-HpRJ9B9KVZyG6iVEM6s8NDCETv5X-KrsUs5WE5OYU3DXhsxw>
+    <xme:aYq4Y_XW2bsYUXDLlsowJxX4un9TnJD8ALkVdygkeHk166HmYyfqqNhrlDRbmSbZ8
+    fRUS-pwOvmyKPYVEqw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrkedtgddugedvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehn
+    ugihucfnuhhtohhmihhrshhkihdfuceolhhuthhosehkvghrnhgvlhdrohhrgheqnecugg
+    ftrfgrthhtvghrnhepvdfhuedvtdfhudffhfekkefftefghfeltdelgeffteehueegjeff
+    udehgfetiefhnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+    homheprghnugihodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduudeiudek
+    heeifedvqddvieefudeiiedtkedqlhhuthhopeepkhgvrhhnvghlrdhorhhgsehlihhnuh
+    igrdhluhhtohdruhhs
+X-ME-Proxy: <xmx:aYq4Y4L8HErcX2HRlQKr0dw1B7SrsvMkRW9QTjnonJuhU-hAl0LKqw>
+    <xmx:aYq4Y4G772EnhzgLQ69UtH1UMRr7vy4DshAEEJ42s6kcmdGFJQp3YQ>
+    <xmx:aYq4Y0WAuAq2TWSCMZ7Wx8xq4jkY6HXE77C4c58bGSdFK0VwRwDZKw>
+    <xmx:aoq4Y5VRPXbo6ksg6EpyLzGFFIiWUfS8hsisPDiECVffoznwvBoMwg>
+Feedback-ID: ieff94742:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id AC89E31A03FD; Fri,  6 Jan 2023 15:54:01 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-1185-g841157300a-fm-20221208.002-g84115730
+Mime-Version: 1.0
+Message-Id: <f36f19ee-5bff-4cd0-b9a9-0fe987cf6d38@app.fastmail.com>
+In-Reply-To: <CAHk-=wiO4rp8oVmj6i6vvC97gNePLN-SxhSK=UozA88G6nxBGQ@mail.gmail.com>
+References: <20230101162910.710293-3-Jason@zx2c4.com>
+ <Y7QIg/hAIk7eZE42@gmail.com>
+ <CALCETrWdw5kxrtr4M7AkKYDOJEE1cU1wENWgmgOxn0rEJz4y3w@mail.gmail.com>
+ <CAHk-=wg_6Uhkjy12Vq_hN6rQqGRP2nE15rkgiAo6Qay5aOeigg@mail.gmail.com>
+ <Y7SDgtXayQCy6xT6@zx2c4.com>
+ <CAHk-=whQdWFw+0eGttxsWBHZg1+uh=0MhxXYtvJGX4t9P1MgNw@mail.gmail.com>
+ <Y7SJ+/axonTK0Fir@zx2c4.com>
+ <CAHk-=wi4gshfKjbhEO_xZdVb9ztXf0iuv5kKhxtvAHf2HzTmng@mail.gmail.com>
+ <Y7STv9+p248zr+0a@zx2c4.com>
+ <10302240-51ec-0854-2c86-16752d67a9be@opteya.com>
+ <Y7dV1lVUYjqs8fh0@zx2c4.com>
+ <CAHk-=wijEC_oDzfUajhmp=ZVnzMTXgjxHEcxAfaHiNQm4iAcqA@mail.gmail.com>
+ <CAHk-=wiO4rp8oVmj6i6vvC97gNePLN-SxhSK=UozA88G6nxBGQ@mail.gmail.com>
+Date:   Fri, 06 Jan 2023 12:53:41 -0800
+From:   "Andy Lutomirski" <luto@kernel.org>
+To:     "Linus Torvalds" <torvalds@linux-foundation.org>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc:     "Yann Droneaud" <ydroneaud@opteya.com>,
+        "Ingo Molnar" <mingo@kernel.org>,
+        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
+        patches@lists.linux.dev, "Thomas Gleixner" <tglx@linutronix.de>,
+        "Linux Crypto Mailing List" <linux-crypto@vger.kernel.org>,
+        "Linux API" <linux-api@vger.kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        "Adhemerval Zanella Netto" <adhemerval.zanella@linaro.org>,
+        "Carlos O'Donell" <carlos@redhat.com>,
+        "Florian Weimer" <fweimer@redhat.com>,
+        "Arnd Bergmann" <arnd@arndb.de>, "Jann Horn" <jannh@google.com>,
+        "Christian Brauner" <brauner@kernel.org>, linux-mm@kvack.org
+Subject: Re: [PATCH v14 2/7] mm: add VM_DROPPABLE for designating always lazily
+ freeable mappings
+Content-Type: text/plain
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Jan 06, 2023 at 11:25:14PM +0900, Vincent MAILHOL wrote:
-> On Fri. 6 Jan 2023 at 22:19, Jann Horn <jannh@google.com> wrote:
-> > On Fri, Jan 6, 2023 at 5:28 AM Kees Cook <keescook@chromium.org> wrote:
-> > > Zero-length arrays are deprecated[1]. Replace struct ethtool_rxnfc's
-> > > "rule_locs" 0-length array with a flexible array. Detected with GCC 13,
-> > > using -fstrict-flex-arrays=3:
-> [...]
-> > > diff --git a/include/uapi/linux/ethtool.h b/include/uapi/linux/ethtool.h
-> > > index 58e587ba0450..3135fa0ba9a4 100644
-> > > --- a/include/uapi/linux/ethtool.h
-> > > +++ b/include/uapi/linux/ethtool.h
-> > > @@ -1183,7 +1183,7 @@ struct ethtool_rxnfc {
-> > >                 __u32                   rule_cnt;
-> > >                 __u32                   rss_context;
-> > >         };
-> > > -       __u32                           rule_locs[0];
-> > > +       __u32                           rule_locs[];
-> >
-> > Stupid question: Is this syntax allowed in UAPI headers despite not
-> > being part of standard C90 or C++? Are we relying on all C/C++
-> > compilers for pre-C99 having gcc/clang extensions?
-> 
-> The [0] isn't part of the C90 standard either. So having to choose
-> between [0] and [], the latter is the most portable nowadays.
-> 
-> If I do a bit of speleology, I can see that C99 flexible array members
-> were used as early as v2.6.19 (released in November 2006):
-> 
->   https://elixir.bootlin.com/linux/v2.6.19/source/include/linux/usb/audio.h#L36
-> 
-> This is prior to the include/linux and include/uapi/linux split, but
-> believe me, this usb/audio.h file is indeed part of the uapi.
-> So, yes, using C99 flexible array members in the UAPI is de facto
-> allowed because it was used for the last 16 years.
-> 
-> An interesting sub question would be:
-> 
->   What are the minimum compiler requirements to build a program using
-> the Linux UAPI?
 
-You're right -- we haven't explicitly documented this. C99 seems like
-the defacto minimum, though.
 
-> And, after research, I could not find the answer. The requirements to
-> build the kernel are well documented:
-> 
->   https://docs.kernel.org/process/changes.html#changes
-> 
-> But no clue for the uapi. I guess that at one point in 2006, people
-> decided that it was time to set the minimum requirement to C99. Maybe
-> this matches the end of life of the latest pre-C99 GCC version? The
-> detailed answer must be hidden somewhere on lkml.
+On Thu, Jan 5, 2023, at 6:08 PM, Linus Torvalds wrote:
+> On Thu, Jan 5, 2023 at 5:02 PM Linus Torvalds
+> <torvalds@linux-foundation.org> wrote:
+>>
+>> None of what you ask for is for any kind of real security, it's all
+>> just crazy "but I want to feel the warm and fuzzies and take shortcuts
+>> elsewhere, and push my pain onto other people".
+>
+> Actually, let me maybe soften that a bit and say that it's
+> "convenience features". It might make some things more _convenient_ to
+> do, exactly because it might allow other parts to do short-cuts.
+>
+> But because it's a convenience-feature, it had also better either be
+> (a) really easy and clear to do in the kernel and (b) have
+> sufficiently *wide* convenience so that it doesn't end up being one of
+> those "corner case things we have to maintain forever and nobody
+> uses".
+>
+> And I think VM_DROPPABLE matches (a), and would be fine if it had some
+> other non-made-up use (although honestly, we should solve the 32-bit
+> problem first - ignoring it isn't fine for anything that is supposed
+> to be widely useful).
+>
+> We *have* talked about features kind of like it before, for people
+> doing basically caches in user space that they can re-create on demand
+> and are ok with just going away under memory pressure.
+>
+> But those people almost invariably want dropped pages to cause a
+> SIGSEGV or SIGBUS, not to come back as zeroes.
+>
+> So you were insulting when you said kernel people don't care about
+> security issues.  And I'm just telling you that's not true, but it
+> *is* 100% true that kernel people are often really fed up with
+> security people who have their blinders on, focus on some small thing,
+> and think nothing else ever matters.
+>
+> So yes, the way to get something like VM_DROPPABLE accepted is to
+> remove the blinders, and have it be something more widely useful, and
+> not be a "for made up bad code".
 
-I would make the argument that the requirements for building Linux UAPI
-should match that of building the kernel...
+I'm going to suggest a very very different approach: fix secret storage in memory for real.  That is, don't lock "super secret sensitive stuff" into memory, and don't wipe it either.  *Encrypt* it.
 
--- 
-Kees Cook
+This boils down to implementing proper encrypted swap support, which is not conceptually that difficult.  The kernel already has identifiers (mapping, offset, etc) for every page in swap and already stores some metadata.  Using that as part of a cryptographic operation seems conceptually fairly straightforward.
+
+And a nice implementation of this could be on by default, and the kernel could even tell userspace that it's on, and then userspace could just stop worrying about this particular issue.
