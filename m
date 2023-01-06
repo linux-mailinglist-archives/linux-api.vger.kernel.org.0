@@ -2,151 +2,129 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 88883660885
-	for <lists+linux-api@lfdr.de>; Fri,  6 Jan 2023 21:54:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E10866088F
+	for <lists+linux-api@lfdr.de>; Fri,  6 Jan 2023 21:58:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234049AbjAFUyT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 6 Jan 2023 15:54:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47468 "EHLO
+        id S236172AbjAFU6c (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 6 Jan 2023 15:58:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49344 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235962AbjAFUyG (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 6 Jan 2023 15:54:06 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 786A36346;
-        Fri,  6 Jan 2023 12:54:05 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0DD6461F71;
-        Fri,  6 Jan 2023 20:54:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A220DC433D2;
-        Fri,  6 Jan 2023 20:54:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1673038444;
-        bh=2XFVyFO90sv15IXbHfuoR96vEeg0uVA9f6scATbkw5I=;
-        h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
-        b=mHfJQe+ghzVdgZxSVelgm1jSG5vA5KgBsk91CsnOdE6+vYEnKP07FXxBqc+wIWjNc
-         /ney0ntA5oVoXHpljLmbG/ptlT/69CqOGDRiBfs67lVR/GpQtfA4SFKxt6Hqv2BrBx
-         /Zil7U7xTEbnwogsadNwFzIvOXp6M8oDMMmGpSRt/t2pBweXijPjNQBXjJ4Hz0fpTX
-         qSPyHb2Bu6mdIo6QJC/HJCYTeL5tzoccdmge+vm1oc6K4rSnBht9HhRe3PbU0FE3ZW
-         aP0OkfFtzOACThVhMDHKsjFKc34/bLpq9aJjwF+moBB4D8aQh33Cwmke0C/NvktWH2
-         FqeZFd7BC2/Uw==
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailauth.nyi.internal (Postfix) with ESMTP id 798D327C0054;
-        Fri,  6 Jan 2023 15:54:02 -0500 (EST)
-Received: from imap48 ([10.202.2.98])
-  by compute3.internal (MEProxy); Fri, 06 Jan 2023 15:54:02 -0500
-X-ME-Sender: <xms:aYq4Y-HpRJ9B9KVZyG6iVEM6s8NDCETv5X-KrsUs5WE5OYU3DXhsxw>
-    <xme:aYq4Y_XW2bsYUXDLlsowJxX4un9TnJD8ALkVdygkeHk166HmYyfqqNhrlDRbmSbZ8
-    fRUS-pwOvmyKPYVEqw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrkedtgddugedvucetufdoteggodetrfdotf
+        with ESMTP id S235962AbjAFU61 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 6 Jan 2023 15:58:27 -0500
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EE8C73E21;
+        Fri,  6 Jan 2023 12:58:26 -0800 (PST)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+        by mailout.nyi.internal (Postfix) with ESMTP id 14E165C00FF;
+        Fri,  6 Jan 2023 15:58:24 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute6.internal (MEProxy); Fri, 06 Jan 2023 15:58:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm2; t=1673038704; x=1673125104; bh=asiYST5Ghw
+        xvQTVw1LJKwe5e2Vz+ZHE03cHN4ukynt4=; b=bCw5+cCEaGZbkn79Md3n/s+2JR
+        jZSktKXnrbP2k2QNO/DtQ+6Gwf7M8V79PgGXQ+Uwi501+VljT1lAVzngKKcyIG3c
+        bukY+sByr4LYTrNSDqdhs03LmiHl5eN4inMKMUx2/yGRVNZY0evvjduiUhiDQyPL
+        JWHZ/BZ+5JQK6ed9tW3dB0bYDix1HiVroiWIxmiC+FdGfgiBwSxVJPCVT0EkV5Ya
+        Fb7NokNkpLusu2g64Yk1srsbGnGg69FufTmb88LYJ3KL+berWdwKNp/MJGf7OLuU
+        vjGOg+RBLYY5rYX1oMefRdBdBQBs9c3kA7pSjb943evbq46atF9D/+VeW6yg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm2; t=1673038704; x=1673125104; bh=asiYST5GhwxvQTVw1LJKwe5e2Vz+
+        ZHE03cHN4ukynt4=; b=DG00yeM+19g/2hGS1FyWu9dJSrr4+kDzcyS9goTqNyiB
+        fq3BuSyZWkU6RsJVlcw3ae1qIdwneyYM46Ttbr+siDwR3iuEk20Cl0X9F8kQIzFs
+        epbxucBryVCmcZLmsCbAufiSDVsVQsb+kyicsbJC40Ssgrn65M/rW0haGlgv3gFt
+        st5GHDonyN0lv05B0KDO6gA5KDA1Sujd7WGD//8mHNJOvxIVF0avSXO3bclr8hId
+        +2oe33Xh6i2y0N9k3i8CsJNK5GUzgWUfQmHXhHkMfg8I6QIgP44l78J70514LA8w
+        6vhvykNk8r/xVQ7Mml83ROqOC4wb6QanXcqSQOtuBA==
+X-ME-Sender: <xms:bou4Y1Cbo-Wq1Ukal6g9tFmIV9Hhu8vHeaXqlJEYryVYDLGYODQB0A>
+    <xme:bou4Yzgd6Zlp4ugKYU9VMX2XVqBm21jrloQiB1vGsig5aZqvc09i_ouBza77Z35Dv
+    um6Jrqxrry8inBuvTQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrkedtgddugeefucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehn
-    ugihucfnuhhtohhmihhrshhkihdfuceolhhuthhosehkvghrnhgvlhdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepvdfhuedvtdfhudffhfekkefftefghfeltdelgeffteehueegjeff
-    udehgfetiefhnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homheprghnugihodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduudeiudek
-    heeifedvqddvieefudeiiedtkedqlhhuthhopeepkhgvrhhnvghlrdhorhhgsehlihhnuh
-    igrdhluhhtohdruhhs
-X-ME-Proxy: <xmx:aYq4Y4L8HErcX2HRlQKr0dw1B7SrsvMkRW9QTjnonJuhU-hAl0LKqw>
-    <xmx:aYq4Y4G772EnhzgLQ69UtH1UMRr7vy4DshAEEJ42s6kcmdGFJQp3YQ>
-    <xmx:aYq4Y0WAuAq2TWSCMZ7Wx8xq4jkY6HXE77C4c58bGSdFK0VwRwDZKw>
-    <xmx:aoq4Y5VRPXbo6ksg6EpyLzGFFIiWUfS8hsisPDiECVffoznwvBoMwg>
-Feedback-ID: ieff94742:Fastmail
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepvefhffeltdegheeffffhtdegvdehjedtgfekueevgfduffettedtkeekueef
+    hedunecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
+    dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:bou4YwkZgm-tBVfTgr0hD7-8hM3Eiau_tTSUat8Dz3XFTJhuWwI_VA>
+    <xmx:bou4Y_wqEoTDKxKfOBIAsq_2o5uFybmlL66MCnGcfJZT6PQjdVfyQg>
+    <xmx:bou4Y6R57vIL8B-eJIH1WWnCGA9BrjQ05cVx-xPijQWYDPaqDB_VOQ>
+    <xmx:cIu4Y0DFZvH3dukMWRmM8x1xBocb0kNNJ8zfbZCAS24Xl65d9Fr6kA>
+Feedback-ID: i56a14606:Fastmail
 Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id AC89E31A03FD; Fri,  6 Jan 2023 15:54:01 -0500 (EST)
+        id 58F17B60086; Fri,  6 Jan 2023 15:58:22 -0500 (EST)
 X-Mailer: MessagingEngine.com Webmail Interface
 User-Agent: Cyrus-JMAP/3.7.0-alpha0-1185-g841157300a-fm-20221208.002-g84115730
 Mime-Version: 1.0
-Message-Id: <f36f19ee-5bff-4cd0-b9a9-0fe987cf6d38@app.fastmail.com>
-In-Reply-To: <CAHk-=wiO4rp8oVmj6i6vvC97gNePLN-SxhSK=UozA88G6nxBGQ@mail.gmail.com>
-References: <20230101162910.710293-3-Jason@zx2c4.com>
- <Y7QIg/hAIk7eZE42@gmail.com>
- <CALCETrWdw5kxrtr4M7AkKYDOJEE1cU1wENWgmgOxn0rEJz4y3w@mail.gmail.com>
- <CAHk-=wg_6Uhkjy12Vq_hN6rQqGRP2nE15rkgiAo6Qay5aOeigg@mail.gmail.com>
- <Y7SDgtXayQCy6xT6@zx2c4.com>
- <CAHk-=whQdWFw+0eGttxsWBHZg1+uh=0MhxXYtvJGX4t9P1MgNw@mail.gmail.com>
- <Y7SJ+/axonTK0Fir@zx2c4.com>
- <CAHk-=wi4gshfKjbhEO_xZdVb9ztXf0iuv5kKhxtvAHf2HzTmng@mail.gmail.com>
- <Y7STv9+p248zr+0a@zx2c4.com>
- <10302240-51ec-0854-2c86-16752d67a9be@opteya.com>
- <Y7dV1lVUYjqs8fh0@zx2c4.com>
- <CAHk-=wijEC_oDzfUajhmp=ZVnzMTXgjxHEcxAfaHiNQm4iAcqA@mail.gmail.com>
- <CAHk-=wiO4rp8oVmj6i6vvC97gNePLN-SxhSK=UozA88G6nxBGQ@mail.gmail.com>
-Date:   Fri, 06 Jan 2023 12:53:41 -0800
-From:   "Andy Lutomirski" <luto@kernel.org>
-To:     "Linus Torvalds" <torvalds@linux-foundation.org>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc:     "Yann Droneaud" <ydroneaud@opteya.com>,
-        "Ingo Molnar" <mingo@kernel.org>,
-        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
-        patches@lists.linux.dev, "Thomas Gleixner" <tglx@linutronix.de>,
-        "Linux Crypto Mailing List" <linux-crypto@vger.kernel.org>,
-        "Linux API" <linux-api@vger.kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        "Adhemerval Zanella Netto" <adhemerval.zanella@linaro.org>,
-        "Carlos O'Donell" <carlos@redhat.com>,
-        "Florian Weimer" <fweimer@redhat.com>,
-        "Arnd Bergmann" <arnd@arndb.de>, "Jann Horn" <jannh@google.com>,
-        "Christian Brauner" <brauner@kernel.org>, linux-mm@kvack.org
-Subject: Re: [PATCH v14 2/7] mm: add VM_DROPPABLE for designating always lazily
- freeable mappings
+Message-Id: <d60047d0-5b0c-4c1e-b656-b7cbc236b23c@app.fastmail.com>
+In-Reply-To: <202301061209.4EA0C177@keescook>
+References: <20230106042844.give.885-kees@kernel.org>
+ <CAG48ez0Jg9Eeh=RWpYh=sKhzukE3Sza2RKMmNs8o0FrHU0dj9w@mail.gmail.com>
+ <CAMZ6RqJXnUBxqyCFRaLxELjnvGzn9NoiePV2RVwBzAZRGH_Qmg@mail.gmail.com>
+ <202301061209.4EA0C177@keescook>
+Date:   Fri, 06 Jan 2023 21:58:02 +0100
+From:   "Arnd Bergmann" <arnd@arndb.de>
+To:     "Kees Cook" <keescook@chromium.org>,
+        "Vincent MAILHOL" <mailhol.vincent@wanadoo.fr>
+Cc:     "Jann Horn" <jannh@google.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        "Jakub Kicinski" <kuba@kernel.org>, "Andrew Lunn" <andrew@lunn.ch>,
+        "kernel test robot" <lkp@intel.com>,
+        "Oleksij Rempel" <linux@rempel-privat.de>,
+        "Sean Anderson" <sean.anderson@seco.com>,
+        "Alexandru Tachici" <alexandru.tachici@analog.com>,
+        "Amit Cohen" <amcohen@nvidia.com>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Netdev <netdev@vger.kernel.org>, linux-kernel@vger.kernel.org,
+        linux-hardening@vger.kernel.org,
+        "Linux API" <linux-api@vger.kernel.org>
+Subject: Re: minimum compiler for Linux UAPI (was Re: [PATCH v3] ethtool: Replace
+ 0-length array with flexible array)
 Content-Type: text/plain
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Fri, Jan 6, 2023, at 21:13, Kees Cook wrote:
+> On Fri, Jan 06, 2023 at 11:25:14PM +0900, Vincent MAILHOL wrote:
+>> On Fri. 6 Jan 2023 at 22:19, Jann Horn <jannh@google.com> wrote:
+>> 
+>>   What are the minimum compiler requirements to build a program using
+>> the Linux UAPI?
+>
+> You're right -- we haven't explicitly documented this. C99 seems like
+> the defacto minimum, though.
+>
+>> And, after research, I could not find the answer. The requirements to
+>> build the kernel are well documented:
+>> 
+>>   https://docs.kernel.org/process/changes.html#changes
+>> 
+>> But no clue for the uapi. I guess that at one point in 2006, people
+>> decided that it was time to set the minimum requirement to C99. Maybe
+>> this matches the end of life of the latest pre-C99 GCC version? The
+>> detailed answer must be hidden somewhere on lkml.
+>
+> I would make the argument that the requirements for building Linux UAPI
+> should match that of building the kernel...
 
+I think it's a bit more nuanced than that: glibc does not require
+C99 but does include some kernel headers from generic library
+headers, so I would not make the assumption that it's always
+safe to use C99 features. On the other hand, Linux specific
+device drivers whose header is only really used from one
+application are free to make assumptions about the toolchain.
 
-On Thu, Jan 5, 2023, at 6:08 PM, Linus Torvalds wrote:
-> On Thu, Jan 5, 2023 at 5:02 PM Linus Torvalds
-> <torvalds@linux-foundation.org> wrote:
->>
->> None of what you ask for is for any kind of real security, it's all
->> just crazy "but I want to feel the warm and fuzzies and take shortcuts
->> elsewhere, and push my pain onto other people".
->
-> Actually, let me maybe soften that a bit and say that it's
-> "convenience features". It might make some things more _convenient_ to
-> do, exactly because it might allow other parts to do short-cuts.
->
-> But because it's a convenience-feature, it had also better either be
-> (a) really easy and clear to do in the kernel and (b) have
-> sufficiently *wide* convenience so that it doesn't end up being one of
-> those "corner case things we have to maintain forever and nobody
-> uses".
->
-> And I think VM_DROPPABLE matches (a), and would be fine if it had some
-> other non-made-up use (although honestly, we should solve the 32-bit
-> problem first - ignoring it isn't fine for anything that is supposed
-> to be widely useful).
->
-> We *have* talked about features kind of like it before, for people
-> doing basically caches in user space that they can re-create on demand
-> and are ok with just going away under memory pressure.
->
-> But those people almost invariably want dropped pages to cause a
-> SIGSEGV or SIGBUS, not to come back as zeroes.
->
-> So you were insulting when you said kernel people don't care about
-> security issues.  And I'm just telling you that's not true, but it
-> *is* 100% true that kernel people are often really fed up with
-> security people who have their blinders on, focus on some small thing,
-> and think nothing else ever matters.
->
-> So yes, the way to get something like VM_DROPPABLE accepted is to
-> remove the blinders, and have it be something more widely useful, and
-> not be a "for made up bad code".
-
-I'm going to suggest a very very different approach: fix secret storage in memory for real.  That is, don't lock "super secret sensitive stuff" into memory, and don't wipe it either.  *Encrypt* it.
-
-This boils down to implementing proper encrypted swap support, which is not conceptually that difficult.  The kernel already has identifiers (mapping, offset, etc) for every page in swap and already stores some metadata.  Using that as part of a cryptographic operation seems conceptually fairly straightforward.
-
-And a nice implementation of this could be on by default, and the kernel could even tell userspace that it's on, and then userspace could just stop worrying about this particular issue.
+      Arnd
