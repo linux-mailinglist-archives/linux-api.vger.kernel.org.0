@@ -2,94 +2,90 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E10866088F
-	for <lists+linux-api@lfdr.de>; Fri,  6 Jan 2023 21:58:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 91F8366089F
+	for <lists+linux-api@lfdr.de>; Fri,  6 Jan 2023 22:11:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236172AbjAFU6c (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 6 Jan 2023 15:58:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49344 "EHLO
+        id S236078AbjAFVLJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 6 Jan 2023 16:11:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235962AbjAFU61 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 6 Jan 2023 15:58:27 -0500
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EE8C73E21;
-        Fri,  6 Jan 2023 12:58:26 -0800 (PST)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailout.nyi.internal (Postfix) with ESMTP id 14E165C00FF;
-        Fri,  6 Jan 2023 15:58:24 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Fri, 06 Jan 2023 15:58:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm2; t=1673038704; x=1673125104; bh=asiYST5Ghw
-        xvQTVw1LJKwe5e2Vz+ZHE03cHN4ukynt4=; b=bCw5+cCEaGZbkn79Md3n/s+2JR
-        jZSktKXnrbP2k2QNO/DtQ+6Gwf7M8V79PgGXQ+Uwi501+VljT1lAVzngKKcyIG3c
-        bukY+sByr4LYTrNSDqdhs03LmiHl5eN4inMKMUx2/yGRVNZY0evvjduiUhiDQyPL
-        JWHZ/BZ+5JQK6ed9tW3dB0bYDix1HiVroiWIxmiC+FdGfgiBwSxVJPCVT0EkV5Ya
-        Fb7NokNkpLusu2g64Yk1srsbGnGg69FufTmb88LYJ3KL+berWdwKNp/MJGf7OLuU
-        vjGOg+RBLYY5rYX1oMefRdBdBQBs9c3kA7pSjb943evbq46atF9D/+VeW6yg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm2; t=1673038704; x=1673125104; bh=asiYST5GhwxvQTVw1LJKwe5e2Vz+
-        ZHE03cHN4ukynt4=; b=DG00yeM+19g/2hGS1FyWu9dJSrr4+kDzcyS9goTqNyiB
-        fq3BuSyZWkU6RsJVlcw3ae1qIdwneyYM46Ttbr+siDwR3iuEk20Cl0X9F8kQIzFs
-        epbxucBryVCmcZLmsCbAufiSDVsVQsb+kyicsbJC40Ssgrn65M/rW0haGlgv3gFt
-        st5GHDonyN0lv05B0KDO6gA5KDA1Sujd7WGD//8mHNJOvxIVF0avSXO3bclr8hId
-        +2oe33Xh6i2y0N9k3i8CsJNK5GUzgWUfQmHXhHkMfg8I6QIgP44l78J70514LA8w
-        6vhvykNk8r/xVQ7Mml83ROqOC4wb6QanXcqSQOtuBA==
-X-ME-Sender: <xms:bou4Y1Cbo-Wq1Ukal6g9tFmIV9Hhu8vHeaXqlJEYryVYDLGYODQB0A>
-    <xme:bou4Yzgd6Zlp4ugKYU9VMX2XVqBm21jrloQiB1vGsig5aZqvc09i_ouBza77Z35Dv
-    um6Jrqxrry8inBuvTQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrkedtgddugeefucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepvefhffeltdegheeffffhtdegvdehjedtgfekueevgfduffettedtkeekueef
-    hedunecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
-    dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:bou4YwkZgm-tBVfTgr0hD7-8hM3Eiau_tTSUat8Dz3XFTJhuWwI_VA>
-    <xmx:bou4Y_wqEoTDKxKfOBIAsq_2o5uFybmlL66MCnGcfJZT6PQjdVfyQg>
-    <xmx:bou4Y6R57vIL8B-eJIH1WWnCGA9BrjQ05cVx-xPijQWYDPaqDB_VOQ>
-    <xmx:cIu4Y0DFZvH3dukMWRmM8x1xBocb0kNNJ8zfbZCAS24Xl65d9Fr6kA>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 58F17B60086; Fri,  6 Jan 2023 15:58:22 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-1185-g841157300a-fm-20221208.002-g84115730
-Mime-Version: 1.0
-Message-Id: <d60047d0-5b0c-4c1e-b656-b7cbc236b23c@app.fastmail.com>
-In-Reply-To: <202301061209.4EA0C177@keescook>
-References: <20230106042844.give.885-kees@kernel.org>
- <CAG48ez0Jg9Eeh=RWpYh=sKhzukE3Sza2RKMmNs8o0FrHU0dj9w@mail.gmail.com>
- <CAMZ6RqJXnUBxqyCFRaLxELjnvGzn9NoiePV2RVwBzAZRGH_Qmg@mail.gmail.com>
- <202301061209.4EA0C177@keescook>
-Date:   Fri, 06 Jan 2023 21:58:02 +0100
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Kees Cook" <keescook@chromium.org>,
-        "Vincent MAILHOL" <mailhol.vincent@wanadoo.fr>
-Cc:     "Jann Horn" <jannh@google.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        "Jakub Kicinski" <kuba@kernel.org>, "Andrew Lunn" <andrew@lunn.ch>,
-        "kernel test robot" <lkp@intel.com>,
-        "Oleksij Rempel" <linux@rempel-privat.de>,
-        "Sean Anderson" <sean.anderson@seco.com>,
-        "Alexandru Tachici" <alexandru.tachici@analog.com>,
-        "Amit Cohen" <amcohen@nvidia.com>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Netdev <netdev@vger.kernel.org>, linux-kernel@vger.kernel.org,
-        linux-hardening@vger.kernel.org,
-        "Linux API" <linux-api@vger.kernel.org>
-Subject: Re: minimum compiler for Linux UAPI (was Re: [PATCH v3] ethtool: Replace
- 0-length array with flexible array)
-Content-Type: text/plain
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        with ESMTP id S229752AbjAFVLH (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 6 Jan 2023 16:11:07 -0500
+Received: from mail-vs1-xe2d.google.com (mail-vs1-xe2d.google.com [IPv6:2607:f8b0:4864:20::e2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDF167F46D
+        for <linux-api@vger.kernel.org>; Fri,  6 Jan 2023 13:11:03 -0800 (PST)
+Received: by mail-vs1-xe2d.google.com with SMTP id i188so2769078vsi.8
+        for <linux-api@vger.kernel.org>; Fri, 06 Jan 2023 13:11:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=6TxHKlwJQCLSbYZxgdJdZSJ5mNfa7xbEinv+9m+b8dU=;
+        b=JkoJF2oW8oodyFdhhEZiE+zCQjJRSe8qbnBn4Ts4FFiwa0sekyPhwMSBKHbEAYUHQ3
+         r06xF755O1aHQhg/uNyi+N/5KDBJ+uaAZmpigEg23rzOQ2HcFrMDLG9jJMUNcJHfKiAj
+         dE34EO7JXggOKr+Oq4bXZx2m6WRZXthUX8U5I=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6TxHKlwJQCLSbYZxgdJdZSJ5mNfa7xbEinv+9m+b8dU=;
+        b=m6KHdqo/0o3FqIu26O7RzE2U2QeKeCpdCGfdr5RKNpD3ESFgvZuWCE3GwhAGx1nT2j
+         admRgXS8Sk3YzYxAeUdxoggXkcoE0EdGRX/HxHmsT6ArwVCgz9D6uAsqmd1QJW6+1O4x
+         Agbkni6z3U+ncT3mpesSBfUHzFIpQIc6TLjSTL5PfLmIjZMAa11RHcHHo1SZtOVwIYwa
+         Y2xunQVjZay2VKXlww2DDFnuwXM1N1lFfVASpA/naTiTh5T+Hy9VydW/TMDcPbOcDvUR
+         H3s9N+PJEsN2apPleeIR9hHuQ5dLgri0zQ7Egulz/jZrNDKkq89She+QSbzc/+BRFARq
+         4+0g==
+X-Gm-Message-State: AFqh2ko06sFu05ddgD+oOOy+08a5xzzDYP96oEDheeNqG8RfEJcf+3sm
+        vE/OsnFEQnVZHSYU3w1htd8nLXZh8UqMOQCd
+X-Google-Smtp-Source: AMrXdXvLf8oAubY3WtrlPHpQYDdL9DD+RP6f3pt3LuytvUiS1qAqlR1BrGM5IAIgPyTjjMkI9UJCAA==
+X-Received: by 2002:a67:edd4:0:b0:3b5:3eaa:bb0c with SMTP id e20-20020a67edd4000000b003b53eaabb0cmr24053131vsp.0.1673039462675;
+        Fri, 06 Jan 2023 13:11:02 -0800 (PST)
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com. [209.85.222.177])
+        by smtp.gmail.com with ESMTPSA id u15-20020a05620a454f00b006ce76811a07sm1120129qkp.75.2023.01.06.13.11.01
+        for <linux-api@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 06 Jan 2023 13:11:01 -0800 (PST)
+Received: by mail-qk1-f177.google.com with SMTP id pe2so1351117qkn.1
+        for <linux-api@vger.kernel.org>; Fri, 06 Jan 2023 13:11:01 -0800 (PST)
+X-Received: by 2002:a05:620a:4720:b0:6ff:cbda:a128 with SMTP id
+ bs32-20020a05620a472000b006ffcbdaa128mr2770302qkb.697.1673039460720; Fri, 06
+ Jan 2023 13:11:00 -0800 (PST)
+MIME-Version: 1.0
+References: <20230101162910.710293-3-Jason@zx2c4.com> <Y7QIg/hAIk7eZE42@gmail.com>
+ <CALCETrWdw5kxrtr4M7AkKYDOJEE1cU1wENWgmgOxn0rEJz4y3w@mail.gmail.com>
+ <CAHk-=wg_6Uhkjy12Vq_hN6rQqGRP2nE15rkgiAo6Qay5aOeigg@mail.gmail.com>
+ <Y7SDgtXayQCy6xT6@zx2c4.com> <CAHk-=whQdWFw+0eGttxsWBHZg1+uh=0MhxXYtvJGX4t9P1MgNw@mail.gmail.com>
+ <Y7SJ+/axonTK0Fir@zx2c4.com> <CAHk-=wi4gshfKjbhEO_xZdVb9ztXf0iuv5kKhxtvAHf2HzTmng@mail.gmail.com>
+ <Y7STv9+p248zr+0a@zx2c4.com> <10302240-51ec-0854-2c86-16752d67a9be@opteya.com>
+ <Y7dV1lVUYjqs8fh0@zx2c4.com> <CAHk-=wijEC_oDzfUajhmp=ZVnzMTXgjxHEcxAfaHiNQm4iAcqA@mail.gmail.com>
+ <CAHk-=wiO4rp8oVmj6i6vvC97gNePLN-SxhSK=UozA88G6nxBGQ@mail.gmail.com> <f36f19ee-5bff-4cd0-b9a9-0fe987cf6d38@app.fastmail.com>
+In-Reply-To: <f36f19ee-5bff-4cd0-b9a9-0fe987cf6d38@app.fastmail.com>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Fri, 6 Jan 2023 13:10:44 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wgLWcKq2AdrTmTOxJKn6w4oEpEGdipWAah5Xad5-Yii6Q@mail.gmail.com>
+Message-ID: <CAHk-=wgLWcKq2AdrTmTOxJKn6w4oEpEGdipWAah5Xad5-Yii6Q@mail.gmail.com>
+Subject: Re: [PATCH v14 2/7] mm: add VM_DROPPABLE for designating always
+ lazily freeable mappings
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        Yann Droneaud <ydroneaud@opteya.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        patches@lists.linux.dev, Thomas Gleixner <tglx@linutronix.de>,
+        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
+        "Carlos O'Donell" <carlos@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>, Jann Horn <jannh@google.com>,
+        Christian Brauner <brauner@kernel.org>, linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -97,34 +93,16 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Jan 6, 2023, at 21:13, Kees Cook wrote:
-> On Fri, Jan 06, 2023 at 11:25:14PM +0900, Vincent MAILHOL wrote:
->> On Fri. 6 Jan 2023 at 22:19, Jann Horn <jannh@google.com> wrote:
->> 
->>   What are the minimum compiler requirements to build a program using
->> the Linux UAPI?
+On Fri, Jan 6, 2023 at 12:54 PM Andy Lutomirski <luto@kernel.org> wrote:
 >
-> You're right -- we haven't explicitly documented this. C99 seems like
-> the defacto minimum, though.
->
->> And, after research, I could not find the answer. The requirements to
->> build the kernel are well documented:
->> 
->>   https://docs.kernel.org/process/changes.html#changes
->> 
->> But no clue for the uapi. I guess that at one point in 2006, people
->> decided that it was time to set the minimum requirement to C99. Maybe
->> this matches the end of life of the latest pre-C99 GCC version? The
->> detailed answer must be hidden somewhere on lkml.
->
-> I would make the argument that the requirements for building Linux UAPI
-> should match that of building the kernel...
+> I'm going to suggest a very very different approach: fix secret
+> storage in memory for real. That is, don't lock "super secret
+> sensitive stuff" into memory, and don't wipe it either. *Encrypt* it.
 
-I think it's a bit more nuanced than that: glibc does not require
-C99 but does include some kernel headers from generic library
-headers, so I would not make the assumption that it's always
-safe to use C99 features. On the other hand, Linux specific
-device drivers whose header is only really used from one
-application are free to make assumptions about the toolchain.
+I don't think you're wrong, but people will complain about key
+management, and worry about that part instead.
 
-      Arnd
+Honestly, this is what SGX and CPU enclaves is _supposed_ to all do
+for you, but then nobody uses it for various reasons.
+
+               Linus
