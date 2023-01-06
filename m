@@ -2,156 +2,164 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D60D165F99E
-	for <lists+linux-api@lfdr.de>; Fri,  6 Jan 2023 03:42:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 299AF65FAA1
+	for <lists+linux-api@lfdr.de>; Fri,  6 Jan 2023 05:18:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229653AbjAFCml (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 5 Jan 2023 21:42:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47460 "EHLO
+        id S231318AbjAFESP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 5 Jan 2023 23:18:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229643AbjAFCmj (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 5 Jan 2023 21:42:39 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7E1165AD0;
-        Thu,  5 Jan 2023 18:42:38 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 83B1AB81C3E;
-        Fri,  6 Jan 2023 02:42:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48C6DC433D2;
-        Fri,  6 Jan 2023 02:42:34 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
-        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="ny+dCxXQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
-        t=1672972951;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=g1mMlBEGSH2yJeXHfEJcLsexhlCzf0SSwDSRSbPe6+4=;
-        b=ny+dCxXQ/0DuBUk+XJHzeaUeqT3EVGKAl2Rr/lYLEYrmHIJQ+MtDOg153v2IZImUWbtoig
-        lBdmtGmPSXabTgE1Eq9qNkpvwrBAw3PPVOtNlibVP70ZIK94iVKC6HLt5FtPyDCWJ1UkN5
-        W85ewNz9OiZziXXdzYUzyDzqup9d0c4=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 71928115 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-        Fri, 6 Jan 2023 02:42:31 +0000 (UTC)
-Date:   Fri, 6 Jan 2023 03:42:28 +0100
-From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Yann Droneaud <ydroneaud@opteya.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Ingo Molnar <mingo@kernel.org>, linux-kernel@vger.kernel.org,
-        patches@lists.linux.dev, tglx@linutronix.de,
-        linux-crypto@vger.kernel.org, linux-api@vger.kernel.org,
-        x86@kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
-        Carlos O'Donell <carlos@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>, Jann Horn <jannh@google.com>,
-        Christian Brauner <brauner@kernel.org>, linux-mm@kvack.org
-Subject: Re: [PATCH v14 2/7] mm: add VM_DROPPABLE for designating always
- lazily freeable mappings
-Message-ID: <Y7eKlGDHyfHLRDuE@zx2c4.com>
-References: <CAHk-=wg_6Uhkjy12Vq_hN6rQqGRP2nE15rkgiAo6Qay5aOeigg@mail.gmail.com>
- <Y7SDgtXayQCy6xT6@zx2c4.com>
- <CAHk-=whQdWFw+0eGttxsWBHZg1+uh=0MhxXYtvJGX4t9P1MgNw@mail.gmail.com>
- <Y7SJ+/axonTK0Fir@zx2c4.com>
- <CAHk-=wi4gshfKjbhEO_xZdVb9ztXf0iuv5kKhxtvAHf2HzTmng@mail.gmail.com>
- <Y7STv9+p248zr+0a@zx2c4.com>
- <10302240-51ec-0854-2c86-16752d67a9be@opteya.com>
- <Y7dV1lVUYjqs8fh0@zx2c4.com>
- <CAHk-=wijEC_oDzfUajhmp=ZVnzMTXgjxHEcxAfaHiNQm4iAcqA@mail.gmail.com>
- <CAHk-=wiO4rp8oVmj6i6vvC97gNePLN-SxhSK=UozA88G6nxBGQ@mail.gmail.com>
+        with ESMTP id S229881AbjAFESN (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 5 Jan 2023 23:18:13 -0500
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15D38192A3;
+        Thu,  5 Jan 2023 20:18:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1672978690; x=1704514690;
+  h=date:from:to:cc:subject:message-id:reply-to:references:
+   mime-version:in-reply-to;
+  bh=EJ99zGke5SZh6gZ65kHYJO251QjbQMEaDGPaMs8wAzE=;
+  b=CbyG3GC4YLer1neUAZaMNGD4HLhevcUQpVGMfx/4qZ+7m0Ss4TPfVan4
+   8CdnjIgoeUDebp9BWWG9PZ50eFi4rS/DFKffhsF846AMO1XalTrKQqfjl
+   XYEGTef7mSY8R1vWKvKrlWILixPI2U7Z6+BRfLTleJM7bMDGpZ3fKz8TY
+   XypYjTs2zuL3CLCX2h+bG3lIoF7G5dOPYyWfCXht/+0grr0l5y9b0YlVG
+   G+ZtnkKvHOu3OjvlR7Bo/Yv0ruUWPiJYjaiWg04f2FSlMEEDL7ZyGXjkt
+   HDHTbD28MsdolLD1f7hoGMfgDNY6TeyisTmCC8iIN9VDKasBQM6JIjTp1
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10581"; a="323651270"
+X-IronPort-AV: E=Sophos;i="5.96,304,1665471600"; 
+   d="scan'208";a="323651270"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2023 20:18:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10581"; a="744504828"
+X-IronPort-AV: E=Sophos;i="5.96,304,1665471600"; 
+   d="scan'208";a="744504828"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+  by FMSMGA003.fm.intel.com with ESMTP; 05 Jan 2023 20:17:58 -0800
+Date:   Fri, 6 Jan 2023 12:13:46 +0800
+From:   Chao Peng <chao.p.peng@linux.intel.com>
+To:     Vishal Annapurve <vannapurve@google.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>, tabba@google.com,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        wei.w.wang@intel.com
+Subject: Re: [PATCH v10 9/9] KVM: Enable and expose KVM_MEM_PRIVATE
+Message-ID: <20230106041346.GA2288017@chaop.bj.intel.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <20221202061347.1070246-10-chao.p.peng@linux.intel.com>
+ <CAGtprH_pbSo1HeEFUEB6ZZxm-=NEw+nLZ6ZVvr76=9BeX=AHPA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAHk-=wiO4rp8oVmj6i6vvC97gNePLN-SxhSK=UozA88G6nxBGQ@mail.gmail.com>
-X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <CAGtprH_pbSo1HeEFUEB6ZZxm-=NEw+nLZ6ZVvr76=9BeX=AHPA@mail.gmail.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jan 05, 2023 at 06:08:28PM -0800, Linus Torvalds wrote:
-> (although honestly, we should solve the 32-bit
-> problem first - ignoring it isn't fine for anything that is supposed
-> to be widely useful).
-
-Yea, the 64-bit aspect of that patch is pretty gnarly. I would hope that
-if converting the field to be 64-bit everywhere, the compiler would
-still generate good code for most cases, when testing against
-common-case constant bit masks that are half unset, but I didn't look
-into it. Indeed if this is to become something real, that'd be a
-worthwhile pre-requisite project.
-
-> And I think VM_DROPPABLE matches (a), and would be fine if it had some
-> other non-made-up use (although honestly, we should solve the 32-bit
-> problem first - ignoring it isn't fine for anything that is supposed
-> to be widely useful).
+On Thu, Jan 05, 2023 at 12:38:30PM -0800, Vishal Annapurve wrote:
+> On Thu, Dec 1, 2022 at 10:20 PM Chao Peng <chao.p.peng@linux.intel.com> wrote:
+> >
+> > +#ifdef CONFIG_HAVE_KVM_RESTRICTED_MEM
+> > +static bool restrictedmem_range_is_valid(struct kvm_memory_slot *slot,
+> > +                                        pgoff_t start, pgoff_t end,
+> > +                                        gfn_t *gfn_start, gfn_t *gfn_end)
+> > +{
+> > +       unsigned long base_pgoff = slot->restricted_offset >> PAGE_SHIFT;
+> > +
+> > +       if (start > base_pgoff)
+> > +               *gfn_start = slot->base_gfn + start - base_pgoff;
 > 
-> We *have* talked about features kind of like it before, for people
-> doing basically caches in user space that they can re-create on demand
-> and are ok with just going away under memory pressure.
+> There should be a check for overflow here in case start is a very big
+> value. Additional check can look like:
+> if (start >= base_pgoff + slot->npages)
+>        return false;
 > 
-> But those people almost invariably want dropped pages to cause a
-> SIGSEGV or SIGBUS, not to come back as zeroes.
-
-Yea it seems intuitively like that would be a useful thing. Rather than
-trying to heuristically monitor memory pressure from inside
-uncoordinated userspace apps, just have the kernel nuke pages when it
-makes sense to do.
-
-The thing is -- and this is what I was trying to express to Yann --
-while I have some theoretical notion of how it /might/ be useful, that's
-mainly just a guess from me. But one could run around discussing the
-idea with actual potential users of it, and see if anyone's eyes light
-up. And then once, for example, the Chrome renderer team is clamoring
-for it, then hey, there'd be a good use that wouldn't be bound up with
-security models not everybody cares about.
-
-> So you were insulting when you said kernel people don't care about
-> security issues.  And I'm just telling you that's not true, but it
-
-Maybe you read that without looking at the end of the sentence which
-read: ", assuming that the concerns are unreal or niche or paranoid or
-whatever." Because the email you sent in response pretty much described
-the concerns as either unreal or niche. So I didn't mean to be
-insulting. I actually think we agree with each other on the nature of
-your position.
-
-> *is* 100% true that kernel people are often really fed up with
-> security people who have their blinders on, focus on some small thing,
-> and think nothing else ever matters.
+> > +       else
+> > +               *gfn_start = slot->base_gfn;
+> > +
+> > +       if (end < base_pgoff + slot->npages)
+> > +               *gfn_end = slot->base_gfn + end - base_pgoff;
 > 
-> So yes, the way to get something like VM_DROPPABLE accepted is to
-> remove the blinders, and have it be something more widely useful, and
-> not be a "for made up bad code".
+> If "end" is smaller than base_pgoff, this can cause overflow and
+> return the range as valid. There should be additional check:
+> if (end < base_pgoff)
+>          return false;
 
-I get this part. Either the implementation is trivial/convenient/
-unintrusive/unnoticeable, or it really needs to be motivated by
-something you find compelling and preferably has wide application. No
-objection from me there.
+Thanks! Both are good catches. The improved code:
 
-If you ignore the instruction decoder part, though -- which I mentioned
-to Ingo could be nixed anyway -- my initial estimation of this patch
-here was that it wasn't /that/ bad, being +32/-3, and I didn't buy the
-arguments that it'd be rarely used code paths and that nobody OOMs and
-nobody swaps, because it doesn't match my own experience of seeing
-OOMing regularly and the fact that if this is in glibc, it'll wind up
-being used. So the initial arguments against it were not compelling.
+static bool restrictedmem_range_is_valid(struct kvm_memory_slot *slot,
+					 pgoff_t start, pgoff_t end,
+					 gfn_t *gfn_start, gfn_t *gfn_end)
+{
+	unsigned long base_pgoff = slot->restricted_offset >> PAGE_SHIFT;
 
-But then you and others elaborated that VM_* flags really ought to be
-for general things, and that as a matter of taste and cleanliness,
-sticking things into the *core* of mm/ is just really a sensitive thing
-not to be done lightly and without a really compelling reason. And so I
-also get that.
+	if (start >= base_pgoff + slot->npages)
+		return false;
+	else if (start <= base_pgoff)
+		*gfn_start = slot->base_gfn;
+	else
+		*gfn_start = start - base_pgoff + slot->base_gfn;
 
-So, I'm playing around with other technical solutions to the mlock()
-limitation thing that started all of this (amidst other things in my
-end-of-the-year backlog), and I'll post results if I can get something
-working.
+	if (end <= base_pgoff)
+		return false;
+	else if (end >= base_pgoff + slot->npages)
+		*gfn_end = slot->base_gfn + slot->npages;
+	else
+		*gfn_end = end - base_pgoff + slot->base_gfn;
 
-Jason
+	if (*gfn_start >= *gfn_end)
+		return false;
+
+	return true;
+}
+
+Thanks,
+Chao
+> 
+> 
+> > +       else
+> > +               *gfn_end = slot->base_gfn + slot->npages;
+> > +
+> > +       if (*gfn_start >= *gfn_end)
+> > +               return false;
+> > +
+> > +       return true;
+> > +}
+> > +
