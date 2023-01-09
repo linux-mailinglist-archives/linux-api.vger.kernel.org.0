@@ -2,145 +2,89 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BEA03662364
-	for <lists+linux-api@lfdr.de>; Mon,  9 Jan 2023 11:42:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B3B866245D
+	for <lists+linux-api@lfdr.de>; Mon,  9 Jan 2023 12:40:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236938AbjAIKl4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 9 Jan 2023 05:41:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51842 "EHLO
+        id S236835AbjAILj7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 9 Jan 2023 06:39:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55372 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237111AbjAIKls (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 9 Jan 2023 05:41:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BA7E186F1
-        for <linux-api@vger.kernel.org>; Mon,  9 Jan 2023 02:34:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1673260457;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Gp01bbHImBb9jQ++aTa7ksC+hJELx0J0kuwwfn5XG7k=;
-        b=aG1t4uu1Ul8qF9mja9Rr9MI8vtaCYNTato74bCIajzqOn8Q7g8cVnebwd80XiDCNUkWX60
-        4uKF6Aius0150PiuWHNoQrFVuaA4sMTywMaqeVWaIyx3wblMcZsVRQeLHd6JVPstxa/rl1
-        DBGA6SLnM4xahEIovXl8QYzwzb3cdQk=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-192-6lJLLzdVMhu3P5ythx0hnw-1; Mon, 09 Jan 2023 05:34:14 -0500
-X-MC-Unique: 6lJLLzdVMhu3P5ythx0hnw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E9F9E1C09044;
-        Mon,  9 Jan 2023 10:34:13 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (unknown [10.2.16.32])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 08EA240C2064;
-        Mon,  9 Jan 2023 10:34:10 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Ingo Molnar <mingo@kernel.org>, linux-kernel@vger.kernel.org,
-        patches@lists.linux.dev, tglx@linutronix.de,
-        linux-crypto@vger.kernel.org, linux-api@vger.kernel.org,
-        x86@kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
-        "Carlos O'Donell" <carlos@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>, Jann Horn <jannh@google.com>,
-        Christian Brauner <brauner@kernel.org>, linux-mm@kvack.org,
-        mlichvar@redhat.com
-Subject: Re: [PATCH v14 2/7] mm: add VM_DROPPABLE for designating always
- lazily freeable mappings
-References: <20230101162910.710293-1-Jason@zx2c4.com>
-        <20230101162910.710293-3-Jason@zx2c4.com> <Y7QIg/hAIk7eZE42@gmail.com>
-        <CALCETrWdw5kxrtr4M7AkKYDOJEE1cU1wENWgmgOxn0rEJz4y3w@mail.gmail.com>
-        <CAHk-=wg_6Uhkjy12Vq_hN6rQqGRP2nE15rkgiAo6Qay5aOeigg@mail.gmail.com>
-        <Y7SDgtXayQCy6xT6@zx2c4.com>
-        <CAHk-=whQdWFw+0eGttxsWBHZg1+uh=0MhxXYtvJGX4t9P1MgNw@mail.gmail.com>
-Date:   Mon, 09 Jan 2023 11:34:09 +0100
-In-Reply-To: <CAHk-=whQdWFw+0eGttxsWBHZg1+uh=0MhxXYtvJGX4t9P1MgNw@mail.gmail.com>
-        (Linus Torvalds's message of "Tue, 3 Jan 2023 11:54:35 -0800")
-Message-ID: <874jt0kndq.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+        with ESMTP id S236907AbjAILjn (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 9 Jan 2023 06:39:43 -0500
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45B9B38A9;
+        Mon,  9 Jan 2023 03:39:41 -0800 (PST)
+Received: from lhrpeml500004.china.huawei.com (unknown [172.18.147.206])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4NrBgP5gzTz67lcR;
+        Mon,  9 Jan 2023 19:34:41 +0800 (CST)
+Received: from [10.123.123.126] (10.123.123.126) by
+ lhrpeml500004.china.huawei.com (7.191.163.9) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.34; Mon, 9 Jan 2023 11:39:37 +0000
+Message-ID: <0dab9d74-6a41-9cf3-58fb-9fbb265efdd0@huawei.com>
+Date:   Mon, 9 Jan 2023 14:39:36 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.1
+Subject: Re: [PATCH v8 07/12] landlock: Add network rules support
+Content-Language: ru
+To:     Dan Carpenter <error27@gmail.com>
+CC:     =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>,
+        <linux-sparse@vger.kernel.org>, <willemdebruijn.kernel@gmail.com>,
+        <gnoack3000@gmail.com>, <linux-security-module@vger.kernel.org>,
+        <netdev@vger.kernel.org>, <netfilter-devel@vger.kernel.org>,
+        <artem.kuzin@huawei.com>, Linux API <linux-api@vger.kernel.org>,
+        "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
+References: <20221021152644.155136-1-konstantin.meskhidze@huawei.com>
+ <20221021152644.155136-8-konstantin.meskhidze@huawei.com>
+ <49391484-7401-e7c7-d909-3bd6bd024731@digikod.net>
+ <9a6ea6ac-525d-e058-5867-0794a99b19a3@huawei.com>
+ <47fedda8-a13c-b62f-251f-b62508964bb0@digikod.net>
+ <4aa29433-e7f9-f225-5bdf-c80638c936e8@huawei.com> <Y7vXSAGHf08p2Zbm@kadam>
+ <af0d7337-3a92-5eca-7d7c-cc09d5713589@huawei.com> <Y7vqdgvxQVNvu6AY@kadam>
+From:   "Konstantin Meskhidze (A)" <konstantin.meskhidze@huawei.com>
+In-Reply-To: <Y7vqdgvxQVNvu6AY@kadam>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.123.123.126]
+X-ClientProxiedBy: lhrpeml500006.china.huawei.com (7.191.161.198) To
+ lhrpeml500004.china.huawei.com (7.191.163.9)
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-* Linus Torvalds:
 
-> On Tue, Jan 3, 2023 at 11:35 AM Jason A. Donenfeld <Jason@zx2c4.com> wrot=
-e:
->>
->> I don't think this is about micro-optimization. Rather, userspace RNGs
->> aren't really possible in a safe way at the moment.
->
-> "Bah, humbug", to quote a modern-time philosopher.
->
-> It's humbug simply because it makes two assumptions that aren't even vali=
-d:
->
->  (a) that you have to do it in user space in the first place
->
->  (b) that you care about the particular semantics that you are looking for
->
-> The thing is, you can just do getrandom(). It's what people already
-> do. Problem solved.
 
-We are currently doing this in glibc for our arc4random implementation,
-after Jason opposed userspace buffering.  If chrony is recompiled
-against the glibc version of arc4random (instead of its OpenBSD compat
-version, which uses userspace buffering), the result is a 25% drop in
-NTP packet response rate:
+1/9/2023 1:20 PM, Dan Carpenter пишет:
+> On Mon, Jan 09, 2023 at 12:26:52PM +0300, Konstantin Meskhidze (A) wrote:
+>> 
+>> 
+>> 1/9/2023 11:58 AM, Dan Carpenter пишет:
+>> > These warnings seem like something I have seen before.  Maybe it was an
+>> > issue with _Generic() support?
+>> > 
+>> > Are you really sure you're running the latest git version of Sparse?
+>> > 
+>> > I tested this patch with the latest version of Sparse on my system and
+>> > it worked fine.
+>> 
+>>  Hi Dan,
+>> 
+>>  git is on the master branch now - hash ce1a6720 (dated 27 June 2022)
+>> 
+>>  Is this correct version?
+> 
+> Yes, that's correct.  What is your .config?
 
-| The new arc4random using getrandom() seems to have a significant
-| impact on performance of chronyd operating as an NTP server. On an
-| Intel E3-1220 CPU, I see that the maximum number of requests per
-| second dropped by about 25%. That would be an issue for some public
-| NTP servers.
-
-arc4random is too slow
-<https://sourceware.org/bugzilla/show_bug.cgi?id=3D29437>
-
-This is *not* =E2=80=9Carc4random is 25% slower=E2=80=9D, it is the measure=
-d overall
-impact on server performance.
-
-Historically, the solution space for getrandom and arc4random are
-slightly different.  The backronym is =E2=80=9CA Replacement Call For rando=
-m=E2=80=9D,
-i.e., you should be able to use arc4random without worrying about
-performance.  I don't expect cryptographic libraries to turn to
-arc4random to implement their random number generators, and that
-programmers that use low-level OpenSSL primitives (for example) keep
-calling RAND_bytes instead of arc4random because it is available to
-them.
-
-We did these changes on the glibc side because Jason sounded very
-confident that he's able to deliver vDSO acceleration for getrandom.  If
-that fails to materialize, we'll just have to add back userspace
-buffering in glibc.  At least we can get process fork protection via
-MADV_WIPEONFORK, solving a real problem with the usual arc4random compat
-implementation.  (The OpenBSD mechanism for this is slightly different.)
-We won't get VM fork protection or forward secrecy against ptrace.  But
-the latter is rather speculative anyway because if you can do ptrace
-once, you can likely do ptrace twice, the first time patching the
-process to remove forward secrecy.  There is a real gap for VM forks,
-but I'm not sure how much that matters in practice.  Live migration has
-to be implemented in such a way that this isn't observable (otherwise
-TCP connections etc. would break), and long-term keys probably shouldn't
-be generated under virtualization anyway.
-
-Thanks,
-Florian
-
+   What parameters do I need to check in .config?
+> 
+> regards,
+> dan carpenter
+> 
+> .
