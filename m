@@ -2,58 +2,58 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F242066105C
-	for <lists+linux-api@lfdr.de>; Sat,  7 Jan 2023 18:07:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CF098661DEE
+	for <lists+linux-api@lfdr.de>; Mon,  9 Jan 2023 05:38:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232007AbjAGRHp convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Sat, 7 Jan 2023 12:07:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59822 "EHLO
+        id S233746AbjAIEit convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Sun, 8 Jan 2023 23:38:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229542AbjAGRHo (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 7 Jan 2023 12:07:44 -0500
-Received: from mail.krjc.kg (unknown [212.112.113.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBD0641647
-        for <linux-api@vger.kernel.org>; Sat,  7 Jan 2023 09:07:43 -0800 (PST)
+        with ESMTP id S236626AbjAIEiY (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 8 Jan 2023 23:38:24 -0500
+X-Greylist: delayed 3542 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 08 Jan 2023 20:34:38 PST
+Received: from mail.kv.npu.gov.ua (h15.195-230-133.ukrpack.net [195.230.133.15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32F281181E
+        for <linux-api@vger.kernel.org>; Sun,  8 Jan 2023 20:34:37 -0800 (PST)
 Received: from localhost (localhost [127.0.0.1])
-        by mail.krjc.kg (Postfix) with ESMTP id BAE26B25C34;
-        Sat,  7 Jan 2023 10:19:39 +0600 (+06)
-Received: from mail.krjc.kg ([127.0.0.1])
-        by localhost (mail.krjc.kg [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id PzfWriqQ2IUQ; Sat,  7 Jan 2023 10:19:32 +0600 (+06)
+        by mail.kv.npu.gov.ua (Postfix) with ESMTP id 907366BB3E;
+        Mon,  9 Jan 2023 05:12:23 +0200 (EET)
+Received: from mail.kv.npu.gov.ua ([127.0.0.1])
+        by localhost (mail.kv.npu.gov.ua [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id wk0q_wH871h4; Mon,  9 Jan 2023 05:12:23 +0200 (EET)
 Received: from localhost (localhost [127.0.0.1])
-        by mail.krjc.kg (Postfix) with ESMTP id EC7766F5009;
-        Sat,  7 Jan 2023 02:09:42 +0600 (+06)
-X-Virus-Scanned: amavisd-new at krjc.kg
-Received: from mail.krjc.kg ([127.0.0.1])
-        by localhost (mail.krjc.kg [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id MK2JUBMfYYFa; Sat,  7 Jan 2023 02:09:42 +0600 (+06)
-Received: from [192.168.100.202] (unknown [217.21.116.220])
-        by mail.krjc.kg (Postfix) with ESMTPSA id E08406F500B;
-        Fri,  6 Jan 2023 19:18:18 +0600 (+06)
-Content-Type: text/plain; charset="utf-8"
+        by mail.kv.npu.gov.ua (Postfix) with ESMTP id 5445E6BB3F;
+        Mon,  9 Jan 2023 05:12:23 +0200 (EET)
+X-Virus-Scanned: amavisd-new at kv.npu.gov.ua
+Received: from mail.kv.npu.gov.ua ([127.0.0.1])
+        by localhost (mail.kv.npu.gov.ua [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id YzQvvRmGRtKw; Mon,  9 Jan 2023 05:12:23 +0200 (EET)
+Received: from THEATRE89KLM.home (216-131-111-21.fra.as62651.net [216.131.111.21])
+        by mail.kv.npu.gov.ua (Postfix) with ESMTPSA id 70F976BB3E;
+        Mon,  9 Jan 2023 05:12:21 +0200 (EET)
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8BIT
 Content-Description: Mail message body
-Subject: rahaline annetus
-To:     Recipients <Mr.Stefano@mail.krjc.kg>
-From:   Mr.Stefano@mail.krjc.kg, Pessina@mail.krjc.kg, test@mail.krjc.kg
-Date:   Fri, 06 Jan 2023 16:18:12 +0300
-Reply-To: stefanopessia755@hotmail.com
-Message-Id: <20230106131818.E08406F500B@mail.krjc.kg>
-X-Spam-Status: No, score=3.2 required=5.0 tests=BAYES_50,
-        FREEMAIL_FORGED_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,MAY_BE_FORGED,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_PDS_TO_EQ_FROM_NAME
+Subject: Re:
+To:     Recipients <barch01@kv.npu.gov.ua>
+From:   "MacKenzie Scott" <barch01@kv.npu.gov.ua>
+Date:   Mon, 09 Jan 2023 11:12:11 +0800
+Reply-To: mackenziescott@kitchensetpalembang.com
+Message-Id: <20230109031221.70F976BB3E@mail.kv.npu.gov.ua>
+X-Spam-Status: No, score=4.7 required=5.0 tests=BAYES_99,BAYES_999,
+        LOTS_OF_MONEY,PDS_RDNS_DYNAMIC_FP,RDNS_DYNAMIC,SPF_HELO_NONE,SPF_PASS
         autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ***
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Summa 500 000,00 € on teile annetanud STEFANO PESSINA. Lisateabe saamiseks võtke palun tagasi aadressil stefanopessia755@hotmail.com
+Hello dearest one, 
+                          
+I'm MacKenzie Scott Ex-wife of Amazon CEO and founder, I'm donating $ 4 billion Dollars to charities, individuals, colleges across the Globe from Scott's foundation, to provide immediate support to people suffering economically from COVID-19 pandemic and you're one of the lucky winners, i have a donation grant worth $100,800,000.00 Dollars for you, you can contact me for more information if you're interested.
 
-
-
-
-The sum of €500,000.00 has been donated to you by STEFANO PESSINA. Kindly get back for more info via stefanopessia755@hotmail.com
+Regards,
+MacKenzie Scott.
