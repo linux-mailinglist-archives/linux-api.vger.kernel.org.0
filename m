@@ -2,257 +2,105 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A7AD6625BA
-	for <lists+linux-api@lfdr.de>; Mon,  9 Jan 2023 13:38:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C603D6628A7
+	for <lists+linux-api@lfdr.de>; Mon,  9 Jan 2023 15:36:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233434AbjAIMiz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 9 Jan 2023 07:38:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34748 "EHLO
+        id S229455AbjAIOgx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 9 Jan 2023 09:36:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60148 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234065AbjAIMiz (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 9 Jan 2023 07:38:55 -0500
-Received: from smtp-1909.mail.infomaniak.ch (smtp-1909.mail.infomaniak.ch [IPv6:2001:1600:3:17::1909])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F172715835
-        for <linux-api@vger.kernel.org>; Mon,  9 Jan 2023 04:38:53 -0800 (PST)
-Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
-        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4NrD5Q0S5szMqPPp;
-        Mon,  9 Jan 2023 13:38:50 +0100 (CET)
-Received: from unknown by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4NrD5P2FVvz56x;
-        Mon,  9 Jan 2023 13:38:49 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
-        s=20191114; t=1673267929;
-        bh=DAq3H/PfK63E2FyFaJJLogrLzdC0URy2vyo3srDWRWQ=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=HL7jnvWf6nqIxDrcmuzRrpRf8xW7iIZ21iLIdMJDGM1umIbo7rJhETntwXRrsO4c4
-         9HQIpZrt7rF5ydvfRpcOq27o4l6V7QGz/8pF5aqh5tWu9mBurD1GBjH5nlyprtx6Mb
-         fD0Nswl4ZFEznNQgNb8T+2TFA65kaeSAj7J57hos=
-Message-ID: <ae75cb3c-2b08-2260-041a-36ee643996ad@digikod.net>
-Date:   Mon, 9 Jan 2023 13:38:48 +0100
+        with ESMTP id S229694AbjAIOgx (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 9 Jan 2023 09:36:53 -0500
+Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com [IPv6:2607:f8b0:4864:20::833])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90CA817E10
+        for <linux-api@vger.kernel.org>; Mon,  9 Jan 2023 06:36:51 -0800 (PST)
+Received: by mail-qt1-x833.google.com with SMTP id z12so7919780qtv.5
+        for <linux-api@vger.kernel.org>; Mon, 09 Jan 2023 06:36:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=+Yy00juT6YLJ5oWGMT9Wza1I0KabYl3KuXLE2Ym30r8=;
+        b=hqu1WUIKQ7nelxjitmtslt7P2HWICJ6UQhItkE1DxGc9pYkqGv2Z3jzXfiUQ7oN+jD
+         woMH988I6TyAfP/DcKz8zY/EqQvJsbpUwPmosnHsPhhtYjp/+7T4/iB5/v0fZx5jhews
+         EgJ65v8od4MS0eHGmvOkk88QhVj1ogj0TwlYA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+Yy00juT6YLJ5oWGMT9Wza1I0KabYl3KuXLE2Ym30r8=;
+        b=oAViEiUnsWWaFkucnadXlVLlNWWhUxKhyRndUZ6nbYXVfoNkRwcWfpW6RN4JW+J8OR
+         ETtswGl2zELFA9LkaNAiJr2AuNH0t/IvxVs2BtSwkovfLC2Clp/09Sis1GN3fj9kKw+l
+         RopEmuWwrGGxI3joTTFMVS9U9DcEqUSb/TLN6W4wxwYQgr3dApGVA6lM0LS3AWTHDWkP
+         xOfopgnJ0c0m9u62RmsO8TD6kIeuLeiNQwutzi4zrJnxssPpdbiEedUrAPzvG//lSvB3
+         bCnB3dxfjhw/CyvgtLMZ23w5wt6NL7Sm8T0SVjoiGfJfAsjYSXNygPompYPpHZuoPHve
+         iJ3Q==
+X-Gm-Message-State: AFqh2krZeEWl5wOANHYnuMoP84HeM2CBCcQqAnrClt+AOiQm96+32TvC
+        Ycdb2QGEEG46N7+Tf+sN6UoKsNBtCyGZogzSCAM=
+X-Google-Smtp-Source: AMrXdXtnx02dqcFJGoDNbrvRuDBcnxRooVPK71Vf5nySLBPMXiNuRx/gtbQLIctltgAP2R6V/ZhTSA==
+X-Received: by 2002:a05:622a:488b:b0:3a9:9cbb:7cdf with SMTP id fc11-20020a05622a488b00b003a99cbb7cdfmr101227696qtb.40.1673275010554;
+        Mon, 09 Jan 2023 06:36:50 -0800 (PST)
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com. [209.85.160.172])
+        by smtp.gmail.com with ESMTPSA id he34-20020a05622a602200b00399fe4aac3esm16770qtb.50.2023.01.09.06.36.50
+        for <linux-api@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 09 Jan 2023 06:36:50 -0800 (PST)
+Received: by mail-qt1-f172.google.com with SMTP id c7so7879698qtw.8
+        for <linux-api@vger.kernel.org>; Mon, 09 Jan 2023 06:36:50 -0800 (PST)
+X-Received: by 2002:ae9:ef49:0:b0:6fe:d4a6:dcef with SMTP id
+ d70-20020ae9ef49000000b006fed4a6dcefmr3220519qkg.594.1673274554214; Mon, 09
+ Jan 2023 06:29:14 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: 
-Subject: Re: [PATCH v8 08/12] landlock: Implement TCP network hooks
-Content-Language: en-US
-To:     "Konstantin Meskhidze (A)" <konstantin.meskhidze@huawei.com>,
-        netdev@vger.kernel.org, linux-api@vger.kernel.org,
-        "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
-Cc:     willemdebruijn.kernel@gmail.com, gnoack3000@gmail.com,
-        linux-security-module@vger.kernel.org,
-        netfilter-devel@vger.kernel.org, artem.kuzin@huawei.com
-References: <20221021152644.155136-1-konstantin.meskhidze@huawei.com>
- <20221021152644.155136-9-konstantin.meskhidze@huawei.com>
- <3452964b-04d3-b297-92a1-1220e087323e@digikod.net>
- <258ba4aa-6b12-abda-75b9-ffa196fba683@huawei.com>
- <ec54eb66-ed9f-035c-1301-644f93873e5f@digikod.net>
- <38f4e2ac-0cd4-e205-bff1-a859e0855731@huawei.com>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-In-Reply-To: <38f4e2ac-0cd4-e205-bff1-a859e0855731@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Infomaniak-Routing: alpha
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+References: <20230101162910.710293-1-Jason@zx2c4.com> <20230101162910.710293-3-Jason@zx2c4.com>
+ <Y7QIg/hAIk7eZE42@gmail.com> <CALCETrWdw5kxrtr4M7AkKYDOJEE1cU1wENWgmgOxn0rEJz4y3w@mail.gmail.com>
+ <CAHk-=wg_6Uhkjy12Vq_hN6rQqGRP2nE15rkgiAo6Qay5aOeigg@mail.gmail.com>
+ <Y7SDgtXayQCy6xT6@zx2c4.com> <CAHk-=whQdWFw+0eGttxsWBHZg1+uh=0MhxXYtvJGX4t9P1MgNw@mail.gmail.com>
+ <874jt0kndq.fsf@oldenburg.str.redhat.com>
+In-Reply-To: <874jt0kndq.fsf@oldenburg.str.redhat.com>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Mon, 9 Jan 2023 08:28:58 -0600
+X-Gmail-Original-Message-ID: <CAHk-=wg7vMC2VmSBdVw7EKV+7UDiftQEg3L+3Rc0rcjjfsvs5A@mail.gmail.com>
+Message-ID: <CAHk-=wg7vMC2VmSBdVw7EKV+7UDiftQEg3L+3Rc0rcjjfsvs5A@mail.gmail.com>
+Subject: Re: [PATCH v14 2/7] mm: add VM_DROPPABLE for designating always
+ lazily freeable mappings
+To:     Florian Weimer <fweimer@redhat.com>
+Cc:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Ingo Molnar <mingo@kernel.org>, linux-kernel@vger.kernel.org,
+        patches@lists.linux.dev, tglx@linutronix.de,
+        linux-crypto@vger.kernel.org, linux-api@vger.kernel.org,
+        x86@kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
+        "Carlos O'Donell" <carlos@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>, Jann Horn <jannh@google.com>,
+        Christian Brauner <brauner@kernel.org>, linux-mm@kvack.org,
+        mlichvar@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Mon, Jan 9, 2023 at 4:34 AM Florian Weimer <fweimer@redhat.com> wrote:
+>
+> We did these changes on the glibc side because Jason sounded very
+> confident that he's able to deliver vDSO acceleration for getrandom.  If
+> that fails to materialize, we'll just have to add back userspace
+> buffering in glibc.
 
-On 09/01/2023 09:07, Konstantin Meskhidze (A) wrote:
-> 
-> 
-> 1/6/2023 10:30 PM, Mickaël Salaün пишет:
->>
->> On 05/01/2023 09:57, Konstantin Meskhidze (A) wrote:
->>>
->>>
->>> 11/17/2022 9:43 PM, Mickaël Salaün пишет:
->>>>
->>>> On 21/10/2022 17:26, Konstantin Meskhidze wrote:
->>>>> This patch adds support of socket_bind() and socket_connect() hooks.
->>>>> It's possible to restrict binding and connecting of TCP sockets to
->>>>> particular ports.
->>>>
->>>> Implement socket_bind() and socket_connect LSM hooks, which enable to
->>>> restrict TCP socket binding and connection to specific ports.
->>>>
->>>>
->>>>>
->>>>> Signed-off-by: Konstantin Meskhidze <konstantin.meskhidze@huawei.com>
->>>>> ---
->>>>>
->>>>> Changes since v7:
->>>>> * Minor fixes.
->>>>> * Refactors commit message.
->>>>>
->>>>> Changes since v6:
->>>>> * Updates copyright.
->>>>> * Refactors landlock_append_net_rule() and check_socket_access()
->>>>>      functions with landlock_id type.
->>>>>
->>>>> Changes since v5:
->>>>> * Fixes some logic errors.
->>>>> * Formats code with clang-format-14.
->>>>>
->>>>> Changes since v4:
->>>>> * Factors out CONFIG_INET into make file.
->>>>> * Refactors check_socket_access().
->>>>> * Adds helper get_port().
->>>>> * Adds CONFIG_IPV6 in get_port(), hook_socket_bind/connect
->>>>> functions to support AF_INET6 family.
->>>>> * Adds AF_UNSPEC family support in hook_socket_bind/connect
->>>>> functions.
->>>>> * Refactors add_rule_net_service() and landlock_add_rule
->>>>> syscall to support network rule inserting.
->>>>> * Refactors init_layer_masks() to support network rules.
->>>>>
->>>>> Changes since v3:
->>>>> * Splits commit.
->>>>> * Adds SECURITY_NETWORK in config.
->>>>> * Adds IS_ENABLED(CONFIG_INET) if a kernel has no INET configuration.
->>>>> * Adds hook_socket_bind and hook_socket_connect hooks.
->>>>>
->>>>> ---
->>>>>     security/landlock/Kconfig    |   1 +
->>>>>     security/landlock/Makefile   |   2 +
->>>>>     security/landlock/net.c      | 164 +++++++++++++++++++++++++++++++++++
->>>>>     security/landlock/net.h      |  26 ++++++
->>>>>     security/landlock/setup.c    |   2 +
->>>>>     security/landlock/syscalls.c |  59 ++++++++++++-
->>>>>     6 files changed, 251 insertions(+), 3 deletions(-)
->>>>>     create mode 100644 security/landlock/net.c
->>>>>     create mode 100644 security/landlock/net.h
->>>>>
->>>>> diff --git a/security/landlock/Kconfig b/security/landlock/Kconfig
->>>>> index 8e33c4e8ffb8..10c099097533 100644
->>>>> --- a/security/landlock/Kconfig
->>>>> +++ b/security/landlock/Kconfig
->>>>> @@ -3,6 +3,7 @@
->>>>>     config SECURITY_LANDLOCK
->>>>>     	bool "Landlock support"
->>>>>     	depends on SECURITY && !ARCH_EPHEMERAL_INODES
->>>>> +	select SECURITY_NETWORK
->>>>>     	select SECURITY_PATH
->>>>>     	help
->>>>>     	  Landlock is a sandboxing mechanism that enables processes to restrict
->>>>> diff --git a/security/landlock/Makefile b/security/landlock/Makefile
->>>>> index 7bbd2f413b3e..53d3c92ae22e 100644
->>>>> --- a/security/landlock/Makefile
->>>>> +++ b/security/landlock/Makefile
->>>>> @@ -2,3 +2,5 @@ obj-$(CONFIG_SECURITY_LANDLOCK) := landlock.o
->>>>>
->>>>>     landlock-y := setup.o syscalls.o object.o ruleset.o \
->>>>>     	cred.o ptrace.o fs.o
->>>>> +
->>>>> +landlock-$(CONFIG_INET) += net.o
->>>>> \ No newline at end of file
->>>>> diff --git a/security/landlock/net.c b/security/landlock/net.c
->>>>> new file mode 100644
->>>>> index 000000000000..39e8a156a1f4
->>>>> --- /dev/null
->>>>> +++ b/security/landlock/net.c
->>>>> @@ -0,0 +1,164 @@
->>>>> +// SPDX-License-Identifier: GPL-2.0-only
->>>>> +/*
->>>>> + * Landlock LSM - Network management and hooks
->>>>> + *
->>>>> + * Copyright © 2022 Huawei Tech. Co., Ltd.
->>>>> + * Copyright © 2022 Microsoft Corporation
->>>>> + */
->>>>> +
->>>>> +#include <linux/in.h>
->>>>> +#include <linux/net.h>
->>>>> +#include <linux/socket.h>
->>>>> +#include <net/ipv6.h>
->>>>> +
->>>>> +#include "common.h"
->>>>> +#include "cred.h"
->>>>> +#include "limits.h"
->>>>> +#include "net.h"
->>>>> +#include "ruleset.h"
->>>>> +
->>>>> +int landlock_append_net_rule(struct landlock_ruleset *const ruleset,
->>>>> +			     const u16 port, access_mask_t access_rights)
->>>>> +{
->>>>> +	int err;
->>>>> +	const struct landlock_id id = {
->>>>> +		.key.data = port,
->>>>> +		.type = LANDLOCK_KEY_NET_PORT,
->>>>> +	};
->>>>> +	BUILD_BUG_ON(sizeof(port) > sizeof(id.key.data));
->>>>> +
->>>>> +	/* Transforms relative access rights to absolute ones. */
->>>>> +	access_rights |= LANDLOCK_MASK_ACCESS_NET &
->>>>> +			 ~landlock_get_net_access_mask(ruleset, 0);
->>>>> +
->>>>> +	mutex_lock(&ruleset->lock);
->>>>> +	err = landlock_insert_rule(ruleset, id, access_rights);
->>>>> +	mutex_unlock(&ruleset->lock);
->>>>> +
->>>>> +	return err;
->>>>> +}
->>>>> +
->>>>> +static int check_socket_access(const struct landlock_ruleset *const domain,
->>>>> +			       u16 port, access_mask_t access_request)
->>>>> +{
->>>>> +	bool allowed = false;
->>>>> +	layer_mask_t layer_masks[LANDLOCK_NUM_ACCESS_NET] = {};
->>>>> +	const struct landlock_rule *rule;
->>>>> +	access_mask_t handled_access;
->>>>> +	const struct landlock_id id = {
->>>>> +		.key.data = port,
->>>>> +		.type = LANDLOCK_KEY_NET_PORT,
->>>>> +	};
->>>>> +
->>>>> +	if (WARN_ON_ONCE(!domain))
->>>>> +		return 0;
->>>>> +	if (WARN_ON_ONCE(domain->num_layers < 1))
->>>>> +		return -EACCES;
->>>>> +
->>>>> +	rule = landlock_find_rule(domain, id);
->>>>> +	handled_access = init_layer_masks(domain, access_request, &layer_masks,
->>>>> +					  LANDLOCK_KEY_NET_PORT);
->>>>> +	allowed = unmask_layers(rule, handled_access, &layer_masks,
->>>>> +				ARRAY_SIZE(layer_masks));
->>>>> +
->>>>> +	return allowed ? 0 : -EACCES;
->>>>> +}
->>>>> +
->>>>> +static u16 get_port(const struct sockaddr *const address)
->>>>
->>>> get_port() should return a __be16 type. This enables to avoid converting
->>>> port when checking a rule.
->>>
->>>      In this case a user must do a coverting port into __be16:
->>>
->>>      struct landlock_net_service_attr net_service = {
->>>                    .allowed_access = LANDLOCK_ACCESS_NET_BIND_TCP,
->>>
->>>                    .port = htons(sock_port),
->>>            };
->>>     I think that a user should not think about this conversion cause it
->>> makes UAPI more complex to use. Lets do this under kernel's hood and let
->>> it as it is now -> u16 port.
->>>
->>> What do you think?
->>
->> BE and LE conversions may be error prone without strong typing, but the
->> current Linux network UAPI uses this convention (see related syscalls),
->> so developers already use htons() in their applications. I think it is
->> less hazardous to use the same convention. It would be nice to have the
->> point of view of network and API folks though.
-> 
->     Ok. Thanks. Let ports be in BE format like in network packets.
-> 
->     What should a selftest with port conversion be like?
-> 
->     1. Set a port with a Landlock rule with no conversion. get an error
-> wit bind/connect actions.
->     2. Convert a port with htons(sock_port). get no error.
-> 
->     What do you think?
+My whole argument has been that user-space buffering is the sane thing
+to do. Most definitely for something like glibc.
 
-Right, you can do both on a LE architecture (that must be checked in the 
-test or it should be skipped), test with a port value that has different 
-representation in LE and BE.
+The number of people who go "oh, no, my buffer or randomness could be
+exposed by insert-odd-situation-here" is approximately zero, and then
+the onus should be on *them* to do something special.
+
+Because *they* are special. Precious little snowflake special.
+
+             Linus
