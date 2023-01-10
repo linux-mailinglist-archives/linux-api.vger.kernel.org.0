@@ -2,244 +2,265 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AC1206637AE
-	for <lists+linux-api@lfdr.de>; Tue, 10 Jan 2023 04:09:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1603A66384E
+	for <lists+linux-api@lfdr.de>; Tue, 10 Jan 2023 05:45:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236966AbjAJDJI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 9 Jan 2023 22:09:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43150 "EHLO
+        id S229600AbjAJEpU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 9 Jan 2023 23:45:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39896 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235434AbjAJDJB (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 9 Jan 2023 22:09:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64A471147A
-        for <linux-api@vger.kernel.org>; Mon,  9 Jan 2023 19:08:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1673320091;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=zUXSaju3UPzIvAC6Of9JSQqq9SpOu4cYG4J3V6EbO2k=;
-        b=W6UAK8v0CJ8ORjHAaq8Du16Me7TCAijxCwF+LOF8s9Ufe0ASv3XBASt71mCGQViMGhisMM
-        Dx+Ny4uUtxqp9Gu6zcJ++zjDcSEsUy0ZPoEP8JRz+vW9KXzx2S1Ud/0p07qSjsuNnDd8aZ
-        FR1UV5swMP3dMzCISyGhBeg0eM2C4UI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-608-fMQdw4GlOKeewiKddYad9w-1; Mon, 09 Jan 2023 22:08:08 -0500
-X-MC-Unique: fMQdw4GlOKeewiKddYad9w-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0E22F810C29;
-        Tue, 10 Jan 2023 03:08:08 +0000 (UTC)
-Received: from madcap2.tricolour.ca (ovpn-0-3.rdu2.redhat.com [10.22.0.3])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id A6DCB492B00;
-        Tue, 10 Jan 2023 03:08:06 +0000 (UTC)
-Date:   Mon, 9 Jan 2023 22:08:04 -0500
-From:   Richard Guy Briggs <rgb@redhat.com>
-To:     Steve Grubb <sgrubb@redhat.com>
-Cc:     Linux-Audit Mailing List <linux-audit@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        Paul Moore <paul@paul-moore.com>,
-        Eric Paris <eparis@parisplace.org>, Jan Kara <jack@suse.cz>,
-        Amir Goldstein <amir73il@gmail.com>
-Subject: Re: [PATCH v5 3/3] fanotify,audit: Allow audit to use the full
- permission event response
-Message-ID: <Y7zWlFbrrNcfGauJ@madcap2.tricolour.ca>
-References: <cover.1670606054.git.rgb@redhat.com>
- <79fcf72ea442eeede53ed5e6de567f8df8ef7d83.1670606054.git.rgb@redhat.com>
- <3211441.aeNJFYEL58@x2>
+        with ESMTP id S229526AbjAJEpR (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 9 Jan 2023 23:45:17 -0500
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 113033D1E4;
+        Mon,  9 Jan 2023 20:45:13 -0800 (PST)
+Received: from lhrpeml500004.china.huawei.com (unknown [172.18.147.201])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4NrdS80s5yz67L0F;
+        Tue, 10 Jan 2023 12:41:28 +0800 (CST)
+Received: from [10.123.123.126] (10.123.123.126) by
+ lhrpeml500004.china.huawei.com (7.191.163.9) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.34; Tue, 10 Jan 2023 04:45:10 +0000
+Message-ID: <f67a9dc0-2f41-8848-3539-6fd981fd150d@huawei.com>
+Date:   Tue, 10 Jan 2023 07:45:09 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3211441.aeNJFYEL58@x2>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.1
+Subject: Re: [PATCH v8 08/12] landlock: Implement TCP network hooks
+Content-Language: ru
+To:     =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>,
+        <netdev@vger.kernel.org>, <linux-api@vger.kernel.org>,
+        "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
+CC:     <willemdebruijn.kernel@gmail.com>, <gnoack3000@gmail.com>,
+        <linux-security-module@vger.kernel.org>,
+        <netfilter-devel@vger.kernel.org>, <artem.kuzin@huawei.com>
+References: <20221021152644.155136-1-konstantin.meskhidze@huawei.com>
+ <20221021152644.155136-9-konstantin.meskhidze@huawei.com>
+ <3452964b-04d3-b297-92a1-1220e087323e@digikod.net>
+ <258ba4aa-6b12-abda-75b9-ffa196fba683@huawei.com>
+ <ec54eb66-ed9f-035c-1301-644f93873e5f@digikod.net>
+ <38f4e2ac-0cd4-e205-bff1-a859e0855731@huawei.com>
+ <ae75cb3c-2b08-2260-041a-36ee643996ad@digikod.net>
+From:   "Konstantin Meskhidze (A)" <konstantin.meskhidze@huawei.com>
+In-Reply-To: <ae75cb3c-2b08-2260-041a-36ee643996ad@digikod.net>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.123.123.126]
+X-ClientProxiedBy: lhrpeml100006.china.huawei.com (7.191.160.224) To
+ lhrpeml500004.china.huawei.com (7.191.163.9)
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 2023-01-09 19:06, Steve Grubb wrote:
-> Hello,
-> 
-> Sorry to take so long. Holidays and kernel build problems. However, I have 
-> built a kernel with these patches. I only have 2 comments. When I use an 
-> application that expected the old API, meaning it simply does:
-> 
->         response.fd = metadata->fd;
->         response.response = reply;
->         close(metadata->fd);
->         write(fd, &response, sizeof(struct fanotify_response));
-> 
-> I get access denials. Every time. If the program is using the new API and 
-> sets FAN_INFO, then it works as expected. I'll do some more testing but I 
-> think there is something wrong in the compatibility path.
 
-I'll have a closer look, because this wasn't the intended behaviour.
 
-> On Monday, December 12, 2022 9:06:11 AM EST Richard Guy Briggs wrote:
-> > This patch passes the full response so that the audit function can use all
-> > of it. The audit function was updated to log the additional information in
-> > the AUDIT_FANOTIFY record.
+1/9/2023 3:38 PM, Mickaël Salaün пишет:
 > 
-> What I'm seeing is:
+> On 09/01/2023 09:07, Konstantin Meskhidze (A) wrote:
+>> 
+>> 
+>> 1/6/2023 10:30 PM, Mickaël Salaün пишет:
+>>>
+>>> On 05/01/2023 09:57, Konstantin Meskhidze (A) wrote:
+>>>>
+>>>>
+>>>> 11/17/2022 9:43 PM, Mickaël Salaün пишет:
+>>>>>
+>>>>> On 21/10/2022 17:26, Konstantin Meskhidze wrote:
+>>>>>> This patch adds support of socket_bind() and socket_connect() hooks.
+>>>>>> It's possible to restrict binding and connecting of TCP sockets to
+>>>>>> particular ports.
+>>>>>
+>>>>> Implement socket_bind() and socket_connect LSM hooks, which enable to
+>>>>> restrict TCP socket binding and connection to specific ports.
+>>>>>
+>>>>>
+>>>>>>
+>>>>>> Signed-off-by: Konstantin Meskhidze <konstantin.meskhidze@huawei.com>
+>>>>>> ---
+>>>>>>
+>>>>>> Changes since v7:
+>>>>>> * Minor fixes.
+>>>>>> * Refactors commit message.
+>>>>>>
+>>>>>> Changes since v6:
+>>>>>> * Updates copyright.
+>>>>>> * Refactors landlock_append_net_rule() and check_socket_access()
+>>>>>>      functions with landlock_id type.
+>>>>>>
+>>>>>> Changes since v5:
+>>>>>> * Fixes some logic errors.
+>>>>>> * Formats code with clang-format-14.
+>>>>>>
+>>>>>> Changes since v4:
+>>>>>> * Factors out CONFIG_INET into make file.
+>>>>>> * Refactors check_socket_access().
+>>>>>> * Adds helper get_port().
+>>>>>> * Adds CONFIG_IPV6 in get_port(), hook_socket_bind/connect
+>>>>>> functions to support AF_INET6 family.
+>>>>>> * Adds AF_UNSPEC family support in hook_socket_bind/connect
+>>>>>> functions.
+>>>>>> * Refactors add_rule_net_service() and landlock_add_rule
+>>>>>> syscall to support network rule inserting.
+>>>>>> * Refactors init_layer_masks() to support network rules.
+>>>>>>
+>>>>>> Changes since v3:
+>>>>>> * Splits commit.
+>>>>>> * Adds SECURITY_NETWORK in config.
+>>>>>> * Adds IS_ENABLED(CONFIG_INET) if a kernel has no INET configuration.
+>>>>>> * Adds hook_socket_bind and hook_socket_connect hooks.
+>>>>>>
+>>>>>> ---
+>>>>>>     security/landlock/Kconfig    |   1 +
+>>>>>>     security/landlock/Makefile   |   2 +
+>>>>>>     security/landlock/net.c      | 164 +++++++++++++++++++++++++++++++++++
+>>>>>>     security/landlock/net.h      |  26 ++++++
+>>>>>>     security/landlock/setup.c    |   2 +
+>>>>>>     security/landlock/syscalls.c |  59 ++++++++++++-
+>>>>>>     6 files changed, 251 insertions(+), 3 deletions(-)
+>>>>>>     create mode 100644 security/landlock/net.c
+>>>>>>     create mode 100644 security/landlock/net.h
+>>>>>>
+>>>>>> diff --git a/security/landlock/Kconfig b/security/landlock/Kconfig
+>>>>>> index 8e33c4e8ffb8..10c099097533 100644
+>>>>>> --- a/security/landlock/Kconfig
+>>>>>> +++ b/security/landlock/Kconfig
+>>>>>> @@ -3,6 +3,7 @@
+>>>>>>     config SECURITY_LANDLOCK
+>>>>>>     	bool "Landlock support"
+>>>>>>     	depends on SECURITY && !ARCH_EPHEMERAL_INODES
+>>>>>> +	select SECURITY_NETWORK
+>>>>>>     	select SECURITY_PATH
+>>>>>>     	help
+>>>>>>     	  Landlock is a sandboxing mechanism that enables processes to restrict
+>>>>>> diff --git a/security/landlock/Makefile b/security/landlock/Makefile
+>>>>>> index 7bbd2f413b3e..53d3c92ae22e 100644
+>>>>>> --- a/security/landlock/Makefile
+>>>>>> +++ b/security/landlock/Makefile
+>>>>>> @@ -2,3 +2,5 @@ obj-$(CONFIG_SECURITY_LANDLOCK) := landlock.o
+>>>>>>
+>>>>>>     landlock-y := setup.o syscalls.o object.o ruleset.o \
+>>>>>>     	cred.o ptrace.o fs.o
+>>>>>> +
+>>>>>> +landlock-$(CONFIG_INET) += net.o
+>>>>>> \ No newline at end of file
+>>>>>> diff --git a/security/landlock/net.c b/security/landlock/net.c
+>>>>>> new file mode 100644
+>>>>>> index 000000000000..39e8a156a1f4
+>>>>>> --- /dev/null
+>>>>>> +++ b/security/landlock/net.c
+>>>>>> @@ -0,0 +1,164 @@
+>>>>>> +// SPDX-License-Identifier: GPL-2.0-only
+>>>>>> +/*
+>>>>>> + * Landlock LSM - Network management and hooks
+>>>>>> + *
+>>>>>> + * Copyright © 2022 Huawei Tech. Co., Ltd.
+>>>>>> + * Copyright © 2022 Microsoft Corporation
+>>>>>> + */
+>>>>>> +
+>>>>>> +#include <linux/in.h>
+>>>>>> +#include <linux/net.h>
+>>>>>> +#include <linux/socket.h>
+>>>>>> +#include <net/ipv6.h>
+>>>>>> +
+>>>>>> +#include "common.h"
+>>>>>> +#include "cred.h"
+>>>>>> +#include "limits.h"
+>>>>>> +#include "net.h"
+>>>>>> +#include "ruleset.h"
+>>>>>> +
+>>>>>> +int landlock_append_net_rule(struct landlock_ruleset *const ruleset,
+>>>>>> +			     const u16 port, access_mask_t access_rights)
+>>>>>> +{
+>>>>>> +	int err;
+>>>>>> +	const struct landlock_id id = {
+>>>>>> +		.key.data = port,
+>>>>>> +		.type = LANDLOCK_KEY_NET_PORT,
+>>>>>> +	};
+>>>>>> +	BUILD_BUG_ON(sizeof(port) > sizeof(id.key.data));
+>>>>>> +
+>>>>>> +	/* Transforms relative access rights to absolute ones. */
+>>>>>> +	access_rights |= LANDLOCK_MASK_ACCESS_NET &
+>>>>>> +			 ~landlock_get_net_access_mask(ruleset, 0);
+>>>>>> +
+>>>>>> +	mutex_lock(&ruleset->lock);
+>>>>>> +	err = landlock_insert_rule(ruleset, id, access_rights);
+>>>>>> +	mutex_unlock(&ruleset->lock);
+>>>>>> +
+>>>>>> +	return err;
+>>>>>> +}
+>>>>>> +
+>>>>>> +static int check_socket_access(const struct landlock_ruleset *const domain,
+>>>>>> +			       u16 port, access_mask_t access_request)
+>>>>>> +{
+>>>>>> +	bool allowed = false;
+>>>>>> +	layer_mask_t layer_masks[LANDLOCK_NUM_ACCESS_NET] = {};
+>>>>>> +	const struct landlock_rule *rule;
+>>>>>> +	access_mask_t handled_access;
+>>>>>> +	const struct landlock_id id = {
+>>>>>> +		.key.data = port,
+>>>>>> +		.type = LANDLOCK_KEY_NET_PORT,
+>>>>>> +	};
+>>>>>> +
+>>>>>> +	if (WARN_ON_ONCE(!domain))
+>>>>>> +		return 0;
+>>>>>> +	if (WARN_ON_ONCE(domain->num_layers < 1))
+>>>>>> +		return -EACCES;
+>>>>>> +
+>>>>>> +	rule = landlock_find_rule(domain, id);
+>>>>>> +	handled_access = init_layer_masks(domain, access_request, &layer_masks,
+>>>>>> +					  LANDLOCK_KEY_NET_PORT);
+>>>>>> +	allowed = unmask_layers(rule, handled_access, &layer_masks,
+>>>>>> +				ARRAY_SIZE(layer_masks));
+>>>>>> +
+>>>>>> +	return allowed ? 0 : -EACCES;
+>>>>>> +}
+>>>>>> +
+>>>>>> +static u16 get_port(const struct sockaddr *const address)
+>>>>>
+>>>>> get_port() should return a __be16 type. This enables to avoid converting
+>>>>> port when checking a rule.
+>>>>
+>>>>      In this case a user must do a coverting port into __be16:
+>>>>
+>>>>      struct landlock_net_service_attr net_service = {
+>>>>                    .allowed_access = LANDLOCK_ACCESS_NET_BIND_TCP,
+>>>>
+>>>>                    .port = htons(sock_port),
+>>>>            };
+>>>>     I think that a user should not think about this conversion cause it
+>>>> makes UAPI more complex to use. Lets do this under kernel's hood and let
+>>>> it as it is now -> u16 port.
+>>>>
+>>>> What do you think?
+>>>
+>>> BE and LE conversions may be error prone without strong typing, but the
+>>> current Linux network UAPI uses this convention (see related syscalls),
+>>> so developers already use htons() in their applications. I think it is
+>>> less hazardous to use the same convention. It would be nice to have the
+>>> point of view of network and API folks though.
+>> 
+>>     Ok. Thanks. Let ports be in BE format like in network packets.
+>> 
+>>     What should a selftest with port conversion be like?
+>> 
+>>     1. Set a port with a Landlock rule with no conversion. get an error
+>> wit bind/connect actions.
+>>     2. Convert a port with htons(sock_port). get no error.
+>> 
+>>     What do you think?
 > 
-> type=FANOTIFY msg=audit(01/09/2023 18:43:16.306:366) : resp=deny fan_type=1 
-> fan_info=313300000000000000000000 subj_trust=0 obj_trust=0
-> 
-> Where fan_info was supposed to be 13 decimal. More below...
+> Right, you can do both on a LE architecture (that must be checked in the
+> test or it should be skipped), test with a port value that has different
+> representation in LE and BE.
 
-Well, it *is* 13 decimal, expressed as a hex-encoded string as was
-requested for future-proofing, albeit longer than necessary...
-
-> > Currently the only type of fanotify info that is defined is an audit
-> > rule number, but convert it to hex encoding to future-proof the field.
-> > Hex encoding suggested by Paul Moore <paul@paul-moore.com>.
-> > 
-> > Sample records:
-> >   type=FANOTIFY msg=audit(1600385147.372:590): resp=2 fan_type=1
-> > fan_info=3137 subj_trust=3 obj_trust=5 type=FANOTIFY
-> > msg=audit(1659730979.839:284): resp=1 fan_type=0 fan_info=3F subj_trust=2
-> > obj_trust=2
-> > 
-> > Suggested-by: Steve Grubb <sgrubb@redhat.com>
-> > Link: https://lore.kernel.org/r/3075502.aeNJFYEL58@x2
-> > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
-> > ---
-> >  fs/notify/fanotify/fanotify.c |  3 ++-
-> >  include/linux/audit.h         |  9 +++++----
-> >  kernel/auditsc.c              | 25 ++++++++++++++++++++++---
-> >  3 files changed, 29 insertions(+), 8 deletions(-)
-> > 
-> > diff --git a/fs/notify/fanotify/fanotify.c b/fs/notify/fanotify/fanotify.c
-> > index 24ec1d66d5a8..29bdd99b29fa 100644
-> > --- a/fs/notify/fanotify/fanotify.c
-> > +++ b/fs/notify/fanotify/fanotify.c
-> > @@ -273,7 +273,8 @@ static int fanotify_get_response(struct fsnotify_group
-> > *group,
-> > 
-> >  	/* Check if the response should be audited */
-> >  	if (event->response & FAN_AUDIT)
-> > -		audit_fanotify(event->response & ~FAN_AUDIT);
-> > +		audit_fanotify(event->response & ~FAN_AUDIT,
-> > +			       &event->audit_rule);
-> > 
-> >  	pr_debug("%s: group=%p event=%p about to return ret=%d\n", __func__,
-> >  		 group, event, ret);
-> > diff --git a/include/linux/audit.h b/include/linux/audit.h
-> > index d6b7d0c7ce43..31086a72e32a 100644
-> > --- a/include/linux/audit.h
-> > +++ b/include/linux/audit.h
-> > @@ -14,6 +14,7 @@
-> >  #include <linux/audit_arch.h>
-> >  #include <uapi/linux/audit.h>
-> >  #include <uapi/linux/netfilter/nf_tables.h>
-> > +#include <uapi/linux/fanotify.h>
-> > 
-> >  #define AUDIT_INO_UNSET ((unsigned long)-1)
-> >  #define AUDIT_DEV_UNSET ((dev_t)-1)
-> > @@ -416,7 +417,7 @@ extern void __audit_log_capset(const struct cred *new,
-> > const struct cred *old); extern void __audit_mmap_fd(int fd, int flags);
-> >  extern void __audit_openat2_how(struct open_how *how);
-> >  extern void __audit_log_kern_module(char *name);
-> > -extern void __audit_fanotify(u32 response);
-> > +extern void __audit_fanotify(u32 response, struct
-> > fanotify_response_info_audit_rule *friar); extern void
-> > __audit_tk_injoffset(struct timespec64 offset);
-> >  extern void __audit_ntp_log(const struct audit_ntp_data *ad);
-> >  extern void __audit_log_nfcfg(const char *name, u8 af, unsigned int
-> > nentries, @@ -523,10 +524,10 @@ static inline void
-> > audit_log_kern_module(char *name) __audit_log_kern_module(name);
-> >  }
-> > 
-> > -static inline void audit_fanotify(u32 response)
-> > +static inline void audit_fanotify(u32 response, struct
-> > fanotify_response_info_audit_rule *friar) {
-> >  	if (!audit_dummy_context())
-> > -		__audit_fanotify(response);
-> > +		__audit_fanotify(response, friar);
-> >  }
-> > 
-> >  static inline void audit_tk_injoffset(struct timespec64 offset)
-> > @@ -679,7 +680,7 @@ static inline void audit_log_kern_module(char *name)
-> >  {
-> >  }
-> > 
-> > -static inline void audit_fanotify(u32 response)
-> > +static inline void audit_fanotify(u32 response, struct
-> > fanotify_response_info_audit_rule *friar) { }
-> > 
-> >  static inline void audit_tk_injoffset(struct timespec64 offset)
-> > diff --git a/kernel/auditsc.c b/kernel/auditsc.c
-> > index d1fb821de104..8d523066d81f 100644
-> > --- a/kernel/auditsc.c
-> > +++ b/kernel/auditsc.c
-> > @@ -64,6 +64,7 @@
-> >  #include <uapi/linux/limits.h>
-> >  #include <uapi/linux/netfilter/nf_tables.h>
-> >  #include <uapi/linux/openat2.h> // struct open_how
-> > +#include <uapi/linux/fanotify.h>
-> > 
-> >  #include "audit.h"
-> > 
-> > @@ -2877,10 +2878,28 @@ void __audit_log_kern_module(char *name)
-> >  	context->type = AUDIT_KERN_MODULE;
-> >  }
-> > 
-> > -void __audit_fanotify(u32 response)
-> > +void __audit_fanotify(u32 response, struct
-> > fanotify_response_info_audit_rule *friar) {
-> > -	audit_log(audit_context(), GFP_KERNEL,
-> > -		AUDIT_FANOTIFY,	"resp=%u", response);
-> > +	struct audit_context *ctx = audit_context();
-> > +	struct audit_buffer *ab;
-> > +	char numbuf[12];
-> > +
-> > +	if (friar->hdr.type == FAN_RESPONSE_INFO_NONE) {
-> > +		audit_log(audit_context(), GFP_KERNEL, AUDIT_FANOTIFY,
-> > +			  "resp=%u fan_type=%u fan_info=3F subj_trust=2 
-> obj_trust=2",
-> > +			  response, FAN_RESPONSE_INFO_NONE);
-> > +		return;
-> > +	}
-> > +	ab = audit_log_start(ctx, GFP_KERNEL, AUDIT_FANOTIFY);
-> > +	if (ab) {
-> > +		audit_log_format(ab, "resp=%u fan_type=%u fan_info=",
-> > +				 response, friar->hdr.type);
-> > +		snprintf(numbuf, sizeof(numbuf), "%u", friar->rule_number);
-> > +		audit_log_n_hex(ab, numbuf, sizeof(numbuf));
-> 
-> I don't think it needs to be converted to ascii and then hexencoded. As Paul 
-> said, probably %X is all we need here.
-> 
-> -Steve
-> 
-> 
-> > +		audit_log_format(ab, " subj_trust=%u obj_trust=%u",
-> > +				 friar->subj_trust, friar->obj_trust);
-> > +		audit_log_end(ab);
-> > +	}
-> >  }
-> > 
-> >  void __audit_tk_injoffset(struct timespec64 offset)
-> 
-> 
-> 
-> 
-
-- RGB
-
---
-Richard Guy Briggs <rgb@redhat.com>
-Sr. S/W Engineer, Kernel Security, Base Operating Systems
-Remote, Ottawa, Red Hat Canada
-IRC: rgb, SunRaycer
-Voice: +1.647.777.2635, Internal: (81) 32635
-
+   Do you mean to check architecture in a test first and then port 
+representaton? What about BE architectures? My current VM is X86-64 
+architecture a LE one. I can test just it now.
+> .
