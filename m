@@ -2,150 +2,139 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2514166654F
-	for <lists+linux-api@lfdr.de>; Wed, 11 Jan 2023 22:09:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 053B5666626
+	for <lists+linux-api@lfdr.de>; Wed, 11 Jan 2023 23:23:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229476AbjAKVJL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 11 Jan 2023 16:09:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33252 "EHLO
+        id S236026AbjAKWXf (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 11 Jan 2023 17:23:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234429AbjAKVIY (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 11 Jan 2023 16:08:24 -0500
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92D1A3FC84
-        for <linux-api@vger.kernel.org>; Wed, 11 Jan 2023 13:07:56 -0800 (PST)
-Received: by mail-pg1-x532.google.com with SMTP id h192so11409668pgc.7
-        for <linux-api@vger.kernel.org>; Wed, 11 Jan 2023 13:07:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=NKA7LHbWkU/8uEBxGN30Hlf6bRn1CeHLZXrUPmworgc=;
-        b=YTWKn86KW4x9YIu2uafO07bEbTWPUAYLZAXyoGtZy/TGSDvE6wAicpswdP1o+auAIh
-         HJ+f9FuLbRQVqNSUfTmG5N3/DxZ5vrYN06dgVhn2/b62GbC4KwJDCjx38SGaR/+9oBfR
-         m048K7zPe8w+9smfql2kO/QZeQbFS29Xex8ODOAld1orFR/3AejLnqzThDR3ejV/dFFl
-         cffqrO0rkpjvdAb8sFIiudEXvXE/Cs8B9WOe98SylAZyTJMQDPLdP002IgtwMsbmbXFx
-         srf2Jjid2Anwe3++xKzQ5MM0nvxaNeWLmVXoibMb9zq3LpbaL5SDGoUhu1PeZgFx4cn7
-         Qh2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NKA7LHbWkU/8uEBxGN30Hlf6bRn1CeHLZXrUPmworgc=;
-        b=cWoVjBg4sRoQKD9bBi2VMxIr9/UIq9EiWbVZPGKZdkJ7u/dqzrlP6s2G/wOBKk+w/9
-         JVO9L8Ae/J41TwFgcF2Osc403AUVd+kNvr6tpq+V25ODiE2EyJG2DHIdhNiKtsIDuRE9
-         5qOz0otitqo/3IUr2IKoNky2tqmj5ZmyYnmJkSDR/6FNjQ0KjBfIo8aF8Y2ktofgPNKR
-         d/rXlW+I9EFlaxwh+MFQ5NyGrALjQtYcgwQC10hH2NVbTAxbjAOD3Mq9jzx2WnZb7aq4
-         mGCl0zDCuog1nfQ/YMt37byoUO+14Y47m4n4wddgr4Cmz37ZRBLdJqIt0853K/Zz/AAC
-         DKGA==
-X-Gm-Message-State: AFqh2koMfcfCRWwVgjL+NkHAjsTEcBdvKDiWqY6QY8tgulTENTxKsmAk
-        yuZDa7je5kNBm/5uJM/6G4hfve6TMTLlRGfGOXre
-X-Google-Smtp-Source: AMrXdXt0bj4jdytGJ4plzWTsJ+IVWBeKmA0w9dDcNsRRMHju9Xsvs60/JpLNKiY2Xi07XKEV7BCWlHI/+wxxDKTxrE0=
-X-Received: by 2002:a63:e20b:0:b0:479:2109:506 with SMTP id
- q11-20020a63e20b000000b0047921090506mr4153612pgh.92.1673471276090; Wed, 11
- Jan 2023 13:07:56 -0800 (PST)
+        with ESMTP id S236068AbjAKWX1 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 11 Jan 2023 17:23:27 -0500
+Received: from smtpout.efficios.com (smtpout.efficios.com [167.114.26.122])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0031D431A6;
+        Wed, 11 Jan 2023 14:23:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=efficios.com;
+        s=smtpout1; t=1673475805;
+        bh=1Oxpyw0xOs6/7W8Tuvd1QWxZNFxc0oTmNh4yGrJ47L0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ahLgkiB5IQ5QRVqLfHoeZAVd/D9rkVuFxvdtTNVcpj+nX3+Rzvw9sNQfLAFLHAfuC
+         fx2epI4w+DJKuXv6m4KR7SNDMY4qMZkhSzNmwfHDp9UqNnqPC07Z+ESFd62ySxl27x
+         1wDae6L32WANYrSWVuQ5r5f0bvZJC1zbqZBt+qAO6TYRifgM/TovLMfKe8NlW3HsLj
+         fGxSA7BZCmBpd8/UoA5TukoL0tLQap1kgsp3nWKpTHdr1PKfLtKXSds8I04INn6pf9
+         2Ku8+BOZMXNrPpCwYL7CdG4HKbEZoiMxoIHB2d2PRE0F6GcbbuI2DJ91Zc50i/9/Ua
+         ZUhqiJZIJYa4A==
+Received: from localhost (192-222-180-24.qc.cable.ebox.net [192.222.180.24])
+        by smtpout.efficios.com (Postfix) with ESMTPSA id 4Nshz073rzzgWG;
+        Wed, 11 Jan 2023 17:23:24 -0500 (EST)
+Date:   Wed, 11 Jan 2023 17:23:56 -0500
+From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc:     linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+        tglx@linutronix.de, linux-crypto@vger.kernel.org,
+        linux-api@vger.kernel.org, x86@kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
+        Carlos O'Donell <carlos@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>, Jann Horn <jannh@google.com>,
+        Christian Brauner <brauner@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>
+Subject: Re: [PATCH v14 0/7] implement getrandom() in vDSO
+Message-ID: <Y782/D2WZJRR8SHY@localhost>
+References: <20230101162910.710293-1-Jason@zx2c4.com>
 MIME-Version: 1.0
-References: <20230109180717.58855-1-casey@schaufler-ca.com> <20230109180717.58855-6-casey@schaufler-ca.com>
-In-Reply-To: <20230109180717.58855-6-casey@schaufler-ca.com>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Wed, 11 Jan 2023 16:07:45 -0500
-Message-ID: <CAHC9VhTFRXdRZnnORw-fU4Wo84HMUMw8+JTTJvc4+pv8YELBHw@mail.gmail.com>
-Subject: Re: [PATCH v5 5/8] LSM: Create lsm_module_list system call
-To:     Casey Schaufler <casey@schaufler-ca.com>
-Cc:     casey.schaufler@intel.com, linux-security-module@vger.kernel.org,
-        jmorris@namei.org, keescook@chromium.org,
-        john.johansen@canonical.com, penguin-kernel@i-love.sakura.ne.jp,
-        stephen.smalley.work@gmail.com, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, mic@digikod.net
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230101162910.710293-1-Jason@zx2c4.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Jan 9, 2023 at 1:09 PM Casey Schaufler <casey@schaufler-ca.com> wrote:
+On 01-Jan-2023 05:29:03 PM, Jason A. Donenfeld wrote:
+[...]
+> Two statements:
+> 
+>   1) Userspace wants faster cryptographically secure random numbers of
+>      arbitrary size, big or small.
+> 
+>   2) Userspace is currently unable to safely roll its own RNG with the
+>      same security profile as getrandom().
 >
-> Create a system call to report the list of Linux Security Modules
-> that are active on the system. The list is provided as an array
-> of LSM ID numbers.
->
-> The calling application can use this list determine what LSM
-> specific actions it might take. That might include chosing an
-> output format, determining required privilege or bypassing
-> security module specific behavior.
->
-> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
-> ---
->  Documentation/userspace-api/lsm.rst |  3 +++
->  include/linux/syscalls.h            |  1 +
->  kernel/sys_ni.c                     |  1 +
->  security/lsm_syscalls.c             | 41 +++++++++++++++++++++++++++++
->  4 files changed, 46 insertions(+)
+[...]
+> API-wise, the vDSO gains this function:
+> 
+>   ssize_t vgetrandom(void *buffer, size_t len, unsigned int flags, void *opaque_state);
+> 
+> The return value and the first 3 arguments are the same as ordinary
+> getrandom(), while the last argument is a pointer to some state
+> allocated with vgetrandom_alloc(), explained below. Were all four
+> arguments passed to the getrandom syscall, nothing different would
+> happen, and the functions would have the exact same behavior.
+> 
+> Then, we introduce a new syscall:
+> 
+>   void *vgetrandom_alloc(unsigned int *num, unsigned int *size_per_each,
+>                          unsigned long addr, unsigned int flags);
+> 
+> This takes a hinted number of opaque states in `num`, and returns a
+> pointer to an array of opaque states, the number actually allocated back
+> in `num`, and the size in bytes of each one in `size_per_each`, enabling
+> a libc to slice up the returned array into a state per each thread. (The
+> `flags` and `addr` arguments, as well as the `*size_per_each` input
+> value, are reserved for the future and are forced to be zero for now.)
+> 
+> Libc is expected to allocate a chunk of these on first use, and then
+> dole them out to threads as they're created, allocating more when
+> needed. The returned address of the first state may be passed to
+> munmap(2) with a length of `num * size_per_each`, in order to deallocate
+> the memory.
+> 
+> We very intentionally do *not* leave state allocation up to the caller
+> of vgetrandom, but provide vgetrandom_alloc for that allocation. There
+> are too many weird things that can go wrong, and it's important that
+> vDSO does not provide too generic of a mechanism. It's not going to
+> store its state in just any old memory address. It'll do it only in ones
+> it allocates.
 
-...
+[...]
 
-> diff --git a/security/lsm_syscalls.c b/security/lsm_syscalls.c
-> index 55e8bf61ac8a..92af1fcaa654 100644
-> --- a/security/lsm_syscalls.c
-> +++ b/security/lsm_syscalls.c
-> @@ -180,3 +180,44 @@ SYSCALL_DEFINE3(lsm_get_self_attr,
->         kfree(final);
->         return rc;
->  }
-> +
-> +/**
-> + * sys_lsm_module_list - Return a list of the active security modules
-> + * @ids: the LSM module ids
-> + * @size: size of @ids, updated on return
-> + * @flags: reserved for future use, must be zero
-> + *
-> + * Returns a list of the active LSM ids. On success this function
-> + * returns the number of @ids array elements. This value may be zero
-> + * if there are no LSMs active. If @size is insufficient to contain
-> + * the return data -E2BIG is returned and @size is set to the minimum
-> + * required size. In all other cases a negative value indicating the
-> + * error is returned.
-> + */
-> +SYSCALL_DEFINE3(lsm_module_list,
-> +               u32 __user *, ids,
-> +               size_t __user *, size,
-> +               u64, flags)
-> +{
-> +       size_t total_size = lsm_active_cnt * sizeof(*ids);
-> +       size_t usize;
-> +       int i;
-> +
-> +       if (flags)
-> +               return -EINVAL;
-> +
-> +       if (get_user(usize, size))
-> +               return -EFAULT;
-> +
-> +       if (put_user(total_size, size) != 0)
-> +               return -EFAULT;
-> +
-> +       if (usize < total_size)
-> +               return -E2BIG;
-> +
-> +       for (i = 0; i < lsm_active_cnt; i++)
-> +               if (put_user(lsm_idlist[i]->id, ids++))
-> +                       return -EFAULT;
-> +
-> +       return lsm_active_cnt;
-> +}
+Have you considered extending rseq(2) per-thread "struct rseq" with an
+additional "prng_seed" pointer field, which would point to a per-thread
+memory area accessible both from userspace (at address
+__builtin_thread_pointer() + __rseq_offset) and from kernel's
+return-to-userspace rseq notification code (which can handle page
+faults) ?
 
-Similar to my comments in 4/8, I would probably create a new LSM hook
-for this syscall so that the lsm_ctx is passed through the LSM layer
-directly to the target LSM:
+This way, the kernel can update its content when returning to userspace
+if an update is needed since the last update.
 
-  int security_sys_setselfattr(u64 attr, struct lsm_ctx __user *ctx,
-size_t len);
+Would that be sufficient as prng seed for your security requirements ?
 
---
-paul-moore.com
+Implementation-wise, the semantic of the prng_seed could be entirely
+internal to a vgetrandom vDSO implementation, but the allocation of the
+memory holding this seed would be the responsibility of libc.
+
+libc could query the size required by the kernel for this prng seed with
+a new getauxval(3) entry, e.g. AT_RSEQ_PRNG_SIZE. By doing so, libc
+would only allocate as much memory as needed by the kernel vDSO
+implementation.
+
+This would remove the need for any kind of vgetrandom_alloc system call
+and all its associated complexity.
+
+Thoughts ?
+
+Thanks,
+
+Mathieu
+
+-- 
+Mathieu Desnoyers
+EfficiOS Inc.
+http://www.efficios.com
