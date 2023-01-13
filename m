@@ -2,157 +2,227 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7130166862D
-	for <lists+linux-api@lfdr.de>; Thu, 12 Jan 2023 22:51:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 66C7E668873
+	for <lists+linux-api@lfdr.de>; Fri, 13 Jan 2023 01:32:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240448AbjALVvN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 12 Jan 2023 16:51:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40730 "EHLO
+        id S232588AbjAMAcq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 12 Jan 2023 19:32:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239173AbjALVtV (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 12 Jan 2023 16:49:21 -0500
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB5FD2DFA
-        for <linux-api@vger.kernel.org>; Thu, 12 Jan 2023 13:43:33 -0800 (PST)
-Received: by mail-pg1-x52d.google.com with SMTP id 78so13699976pgb.8
-        for <linux-api@vger.kernel.org>; Thu, 12 Jan 2023 13:43:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=y7Ge98iYbW9+59PEfzNDi44Q4iiB25ayX+9FCzJG+KU=;
-        b=Q/xxU0FH2OQWU8NojejcIMTAZqTBGgnHKZ3vy49w9Wjey5NCdcq4R5vsd3oIzrZKIs
-         4oEKE1TfnoEQmnnZxQaNN7YuXnG/XysEgaFLicZP6O85YnQtOEMumDb+zVK8DVls1Zan
-         5WtVdrhJFM+tYohljO2p2WvBUVq1LWppCowMh++wekm7I0oLVMDVE2R2TawboCRLqLV/
-         zOffdpmVq37ARuXMeSk0c+EiD7NId+BPACpvI2AXHkWuKLezPYzhCpTTKlPTZlWrTmcO
-         8bkZTZC83urnoYPmvHvPBk1GCuKCsIEbg+f8vilZEVydMa4Ond8OeBUF2OpDX37MLKwj
-         13Yw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=y7Ge98iYbW9+59PEfzNDi44Q4iiB25ayX+9FCzJG+KU=;
-        b=xbrAdV2859HIijAFXQ4Bcs47Hcagwwlrb4k9vtpLAQa92NAkRupme+XbR42IwyKM46
-         5iNZ5sVUKx92Hi54aPTunYvrYBio9v/jie/EwJPvELXxpmE3GoB90pJRQa0qZ6SnpVZa
-         rC4Xpn97QbnQY/x6wv4PBCvXYJ/pswmGoS2//fQsUJ431W5LUTR68K8uztFDGepMKixZ
-         YNZ/7DfaSeP40N8FHnuVVqndh65+vcFPrEmgJ8fGleT4iWxuEE6ADFbTDnzIVDRyqE4M
-         KGtSEkBd66Y7iHt8dm/qcfpS8nCUqFszp3FjrQ2DeWl1ypL6wXQPIAcHH10doTpiXtYV
-         dImw==
-X-Gm-Message-State: AFqh2krATA3xi9vVrM8ukO+vWmRljudyBuyA4u4UUJWfP4isaGC8OSa4
-        d7aeBijT3XZQzIS/YcCSjWk+0jmnM30CAfkIB6wK
-X-Google-Smtp-Source: AMrXdXsTWCOAsf593kAuk5vXk8SWPCprApE2bQ7G/HYv2nPn+uRJkEj48Tbck/WjVnesf8n2/A8D05yOLKYpIvoEQ80=
-X-Received: by 2002:a62:158f:0:b0:588:e66e:4f05 with SMTP id
- 137-20020a62158f000000b00588e66e4f05mr1367513pfv.23.1673559813139; Thu, 12
- Jan 2023 13:43:33 -0800 (PST)
+        with ESMTP id S232215AbjAMAcp (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 12 Jan 2023 19:32:45 -0500
+Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 718E960CC0;
+        Thu, 12 Jan 2023 16:32:43 -0800 (PST)
+Date:   Fri, 13 Jan 2023 00:32:31 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=n8pjl.ca;
+        s=protonmail; t=1673569960; x=1673829160;
+        bh=QX+nECwZN3I0sjACQskWunwGexAVyvI38tBRthUZqi8=;
+        h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+         Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+         Message-ID:BIMI-Selector;
+        b=5KEj8O1+DGoKU+C2si1N1Giub5/toyi24R26iaYxIFkLMkpVPn4XKOI78HMGmYRHo
+         zmJOUXI+9ZbEQf6NrdDN+gVejG9ZDq28X8n8kIcVBFbAhBpHQxuD0GneKtqXhqCOD5
+         O5MJIz8lFIlhW69TpRA9Plsbh1v2k+gPCX+8u3uBsnNFfAWnGki4Nw1/wjRqG7pWQB
+         0BMbVyJHEbA8bqTNuvf8gOC6CGUAKMyS6MQ8Jt/tzrJORiHyKkShoRzhEGrZ40k1YR
+         egR9KfaG+fIhqSejvzJlUpLot6yiWdEMnB9Pb3squKMILtobi1xjFcFueGd5yQ1Ym0
+         zBvn/puqVxSEg==
+To:     Yann Droneaud <ydroneaud@opteya.com>
+From:   Peter Lafreniere <peter@n8pjl.ca>
+Cc:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        Theodore Ts'o <tytso@mit.edu>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>, x86@kernel.org,
+        linux-crypto@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Florian Weimer <fweimer@redhat.com>,
+        Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
+        Carlos O'Donell <carlos@redhat.com>
+Subject: Re: [RFC PATCH 1/4] random: introduce getrandom() GRND_TIMESTAMP
+Message-ID: <u63qVsNp7euFAjiS_EUypV5P87i6gOl1BLX8cU8LQ7oHkzQVUxncjJhMb_4ybS574fV_buYZwDJDGFnFdREaQu44daEX7Pvednf-CXtPcJ0=@n8pjl.ca>
+In-Reply-To: <d890f9d03c2da1eef7bdf47e5b6f3d0b7e1afb3f.1673539719.git.ydroneaud@opteya.com>
+References: <cover.1673539719.git.ydroneaud@opteya.com> <d890f9d03c2da1eef7bdf47e5b6f3d0b7e1afb3f.1673539719.git.ydroneaud@opteya.com>
+Feedback-ID: 53133685:user:proton
 MIME-Version: 1.0
-References: <20230109180717.58855-1-casey@schaufler-ca.com>
- <20230109180717.58855-6-casey@schaufler-ca.com> <CAHC9VhTFRXdRZnnORw-fU4Wo84HMUMw8+JTTJvc4+pv8YELBHw@mail.gmail.com>
- <8b345948-5b9d-37f9-16df-6d632af41477@schaufler-ca.com>
-In-Reply-To: <8b345948-5b9d-37f9-16df-6d632af41477@schaufler-ca.com>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Thu, 12 Jan 2023 16:43:22 -0500
-Message-ID: <CAHC9VhQn0QxYW7wZ4H14AYNMik0AnojB6qmTCn2Swkep956WMg@mail.gmail.com>
-Subject: Re: [PATCH v5 5/8] LSM: Create lsm_module_list system call
-To:     Casey Schaufler <casey@schaufler-ca.com>
-Cc:     casey.schaufler@intel.com, linux-security-module@vger.kernel.org,
-        jmorris@namei.org, keescook@chromium.org,
-        john.johansen@canonical.com, penguin-kernel@i-love.sakura.ne.jp,
-        stephen.smalley.work@gmail.com, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, mic@digikod.net
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Jan 11, 2023 at 8:39 PM Casey Schaufler <casey@schaufler-ca.com> wrote:
-> On 1/11/2023 1:07 PM, Paul Moore wrote:
-> > On Mon, Jan 9, 2023 at 1:09 PM Casey Schaufler <casey@schaufler-ca.com> wrote:
-> >> Create a system call to report the list of Linux Security Modules
-> >> that are active on the system. The list is provided as an array
-> >> of LSM ID numbers.
-> >>
-> >> The calling application can use this list determine what LSM
-> >> specific actions it might take. That might include chosing an
-> >> output format, determining required privilege or bypassing
-> >> security module specific behavior.
-> >>
-> >> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
-> >> ---
-> >>  Documentation/userspace-api/lsm.rst |  3 +++
-> >>  include/linux/syscalls.h            |  1 +
-> >>  kernel/sys_ni.c                     |  1 +
-> >>  security/lsm_syscalls.c             | 41 +++++++++++++++++++++++++++++
-> >>  4 files changed, 46 insertions(+)
-> > ..
-> >
-> >> diff --git a/security/lsm_syscalls.c b/security/lsm_syscalls.c
-> >> index 55e8bf61ac8a..92af1fcaa654 100644
-> >> --- a/security/lsm_syscalls.c
-> >> +++ b/security/lsm_syscalls.c
-> >> @@ -180,3 +180,44 @@ SYSCALL_DEFINE3(lsm_get_self_attr,
-> >>         kfree(final);
-> >>         return rc;
-> >>  }
-> >> +
-> >> +/**
-> >> + * sys_lsm_module_list - Return a list of the active security modules
-> >> + * @ids: the LSM module ids
-> >> + * @size: size of @ids, updated on return
-> >> + * @flags: reserved for future use, must be zero
-> >> + *
-> >> + * Returns a list of the active LSM ids. On success this function
-> >> + * returns the number of @ids array elements. This value may be zero
-> >> + * if there are no LSMs active. If @size is insufficient to contain
-> >> + * the return data -E2BIG is returned and @size is set to the minimum
-> >> + * required size. In all other cases a negative value indicating the
-> >> + * error is returned.
-> >> + */
-> >> +SYSCALL_DEFINE3(lsm_module_list,
-> >> +               u32 __user *, ids,
-> >> +               size_t __user *, size,
-> >> +               u64, flags)
-> >> +{
-> >> +       size_t total_size = lsm_active_cnt * sizeof(*ids);
-> >> +       size_t usize;
-> >> +       int i;
-> >> +
-> >> +       if (flags)
-> >> +               return -EINVAL;
-> >> +
-> >> +       if (get_user(usize, size))
-> >> +               return -EFAULT;
-> >> +
-> >> +       if (put_user(total_size, size) != 0)
-> >> +               return -EFAULT;
-> >> +
-> >> +       if (usize < total_size)
-> >> +               return -E2BIG;
-> >> +
-> >> +       for (i = 0; i < lsm_active_cnt; i++)
-> >> +               if (put_user(lsm_idlist[i]->id, ids++))
-> >> +                       return -EFAULT;
-> >> +
-> >> +       return lsm_active_cnt;
-> >> +}
-> > Similar to my comments in 4/8, I would probably create a new LSM hook
-> > for this syscall so that the lsm_ctx is passed through the LSM layer
-> > directly to the target LSM:
-> >
-> >   int security_sys_setselfattr(u64 attr, struct lsm_ctx __user *ctx,
-> > size_t len);
+[...]
+
+>GRND_TIMESTAMP allows userspace to ask the kernel if previous
+>"timestamp" has changed as the result of an event that
+>triggered kernel CSPRNG reseed, and to update the "timestamp".
+
+>In case the "timestamp" hasn't changed, userspace CSPRNG can
+>consume a slice of its buffered random stream.
+
+>If it has changed, remaining userspace buffered random values
+>should be discarded. Userspace should call getrandom() to fill
+>and/or generate its buffer with updated seed.
+>It's advised to test again the "timestamp" to deal with the
+>race condition, where the kernel reseed just after the call
+>to getrandom() to get entropy.
+
+This second check is the 'safe thing' to do, but if you're that
+worried about race conditions then this api is useless. You can't
+ignore the inherent TOCTOU problem with the GRND_TIMESTAMP calls.
+
+That said, the race condition is so tiny that the added overhead
+of a third syscall (without vDSO support) starts to negate the
+value in buffering the random numbers (not to mention adding
+significant latency to every nth arc4random() call, for example).
+
+IMO, for callers that cannot accept the risk, the getrandom(,,0)
+option is the perfect alternative.
+
+[...]
+
+>+static ssize_t get_random_timestamp(char __user *ubuf, size_t len, unsign=
+ed int flags)
+>+{
+>+=09u64 ts;
+>+
+>+=09/* other combination not supported */
+>+=09if (WARN(flags !=3D GRND_TIMESTAMP, "GRND_TIMESTAMP cannot be used wit=
+h other flags"))
+>+=09=09return -EINVAL;
+
+If userspace messes up the flags then it's the problem of the
+caller. Why clutter the logs in that case?
+
+At the very least this should be WARN_ONCE() to avoid log spam.
+
+>+=09/* shorter structure not supported */
+>+=09if (len < sizeof(ts))
+>+=09=09return -EINVAL;
+
+This should be sizeof(u64) to match the vDSO patch and to avoid
+having to change this condition if ts becomes larger.
+
+>+
+>+=09if (copy_from_user(&ts, ubuf, sizeof(ts)))
+>+=09=09return -EFAULT;
+>+
+>+=09/* longer structure supported, only if 0-padded,
+>+=09   timestamp might be extended in the future with more fields */
+>+=09if (len > sizeof(ts)) {
+>+=09=09char __user *p =3D ubuf + sizeof(ts);
+>+=09=09size_t l =3D len - sizeof(ts);
+>+
+>+=09=09while (l) {
+>+=09=09=09char b;
+>+
+>+=09=09=09if (get_user(b, p++))
+>+=09=09=09=09return -EFAULT;
+>+
+>+=09=09=09if (b)
+>+=09=09=09=09return -EINVAL;
+>+=09=09}
+>+=09}
+>+
+>+=09if (!get_random_timestamp_update(&ts, READ_ONCE(base_crng.generation))=
+)
+>+=09=09return 0;
+>+
+>+=09if (copy_to_user(ubuf, &ts, sizeof(ts)))
+>+=09=09return -EFAULT;
+>+
+>+=09return sizeof(ts);
+>+}
+>+
+> SYSCALL_DEFINE3(getrandom, char __user *, ubuf, size_t, len, unsigned int=
+, flags)
+> {
+> =09struct iov_iter iter;
+> =09struct iovec iov;
+> =09int ret;
 >
-> That seems like a whole lot of work when you can just look it up
-> in an existing table.
+>-=09if (flags & ~(GRND_NONBLOCK | GRND_RANDOM | GRND_INSECURE))
+>+=09if (flags & ~(GRND_NONBLOCK | GRND_RANDOM | GRND_INSECURE | GRND_TIMES=
+TAMP))
+> =09=09return -EINVAL;
+>
+>+=09if (unlikely(flags & GRND_TIMESTAMP))
+>+=09=09return get_random_timestamp(ubuf, len, flags);
+>+
 
-D'oh!  Sorry, this comment was intended for patch 6/8, the
-lsm_set_self_attr() syscall patch.  I agree, it would be very silly to
-have a dedicated hook for lsm_module_list() :)
+I'd remove the unlikely(). I don't like to assume usage patterns.
 
--- 
-paul-moore.com
+> =09/*
+> =09 * Requesting insecure and blocking randomness at the same time makes
+> =09 * no sense.
+>diff --git a/include/linux/random.h b/include/linux/random.h
+>index b0a940af4fff..bc219b5a96a5 100644
+>--- a/include/linux/random.h
+>+++ b/include/linux/random.h
+>@@ -161,4 +161,35 @@ int random_online_cpu(unsigned int cpu);
+> extern const struct file_operations random_fops, urandom_fops;
+> #endif
+>
+>+/*
+>+ * get_random_timestamp_update()
+>+ *
+>+ * @generation: current CRNG generation (from base_crng.generation
+>+ *              or _vdso_rng_data.generation)
+>+ *
+>+ * Return: timestamp size if previous timestamp is expired and is updated=
+,
+>+ *         0 if not expired (and not updated)
+>+ */
+>+static inline bool get_random_timestamp_update(u64 *user_ts,
+>+=09=09=09=09=09       u64 generation)
+>+{
+>+=09u64 ts;
+>+
+>+=09/* base_crng.generation is never ULONG_MAX,
+>+=09 * OTOH userspace will initialize its timestamp
+>+=09 * to 0, so inverting base_crng.generation ensure
+>+=09 * first call to getrandom(,,GRND_TIMESTAMP) will
+>+=09 * update
+>+=09 */
+
+Rather than assuming that the timestamp will start zero-initilized,
+expect it to be uninitilized. Either way the code works.
+
+>+=09ts =3D ~generation;
+>+
+>+=09/* not expired ? no refresh suggested */
+>+=09if (*user_ts =3D=3D ts)
+>+=09=09return false;
+>+
+>+=09*user_ts =3D ts;
+>+
+>+=09return true;
+>+}
+>+
+
+Not that it matters much, but you could make generation a u64* that
+gets dereferenced by get_random_timestamp_update(). It's cleaner for
+the caller, barely changes this function, and will get inlined anyway.
+I might just be imposing my personal style in this case though.
+
+After a cursory skimming of the rest of the series I think that this
+is a worthwhile direction to pursue. Jason's series is growing bulky
+and this provides the needed slimming while solving the root problem.
+
+The only thing I see immediately is the TOCTOU problem and the extra
+steps needed to guarantee forward secrecy.
+
+I should mention that I'm not a security or rng expert at all.
+
+Cheers,
+Peter Lafreniere
+<peter@n8pjl.ca>
+
+
