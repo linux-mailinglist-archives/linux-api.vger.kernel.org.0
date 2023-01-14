@@ -2,53 +2,53 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6050266A74F
-	for <lists+linux-api@lfdr.de>; Sat, 14 Jan 2023 01:01:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E066E66A7C1
+	for <lists+linux-api@lfdr.de>; Sat, 14 Jan 2023 01:43:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230088AbjANABJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 13 Jan 2023 19:01:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49938 "EHLO
+        id S231379AbjANAnA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 13 Jan 2023 19:43:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229883AbjANABH (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 13 Jan 2023 19:01:07 -0500
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E20548CD1F
-        for <linux-api@vger.kernel.org>; Fri, 13 Jan 2023 16:01:05 -0800 (PST)
-Received: by mail-pl1-x631.google.com with SMTP id k18so953457pll.5
-        for <linux-api@vger.kernel.org>; Fri, 13 Jan 2023 16:01:05 -0800 (PST)
+        with ESMTP id S229509AbjANAmk (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 13 Jan 2023 19:42:40 -0500
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78934A7B45
+        for <linux-api@vger.kernel.org>; Fri, 13 Jan 2023 16:38:21 -0800 (PST)
+Received: by mail-pj1-x102a.google.com with SMTP id w4-20020a17090ac98400b002186f5d7a4cso28628046pjt.0
+        for <linux-api@vger.kernel.org>; Fri, 13 Jan 2023 16:38:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=pnZMr3msysr3F7hQXLH7AQBYvEUMLHsk9nNkCMpDY14=;
-        b=AKE7gl1eiHLqGoN0SnyVqNEPplEIwVO+riNAN02PwmozMjE2L10QCVf4rXYqWYXwrc
-         nM+dfsbEmjg4aU4wDbXk81gsNGcxDwcFMrhjKV0dxv5tgPv5HRD69rmvva17U2MwBylu
-         ox8qjH1cD99q2HmCdnSQ0OAN2PKSiP6XIZtUS7wpznd/WxqipSgn4SXTj5GoK28DsB/h
-         /h+/U8gm5nSazzO1cze9VAQXTqkUirpJW7NcMgscsM2IWWic/84oK1838Dl2K3mrzzcM
-         +5+ItvAPTnRvsTbhTQfUPMUE3qPaOrcvkhrQopsnh/lwNWCnC0CJndMiYCyxUMoXegK5
-         gjIw==
+        bh=MgBnQ26ItOkyYKiu1oV6JX0ska5GpfEn/0b8SeFBGOs=;
+        b=fZz4bsSG6rplxu+/+bbAGu03TpfBRqzSERj11fI9gPC3YiJL/UeAPW98CKZYKTN7Ws
+         j53XSFyQZNUTcXaOijVfFvsqXEfJGx6cLcfKMLjiLO/bW7eqi7LulykqxZENOBL1WwJN
+         RayxBQjRABfgAcBUTV5MtEdBlwhGdejOfhp+6x1ylwnSaQw5/5CItg/TVLAvnSFoGFQD
+         lbGhWsb6A9IEcn0SbTi5gMac6RtBt94MErdTeqH8q/FrYZ43WZq9AALzNfaHFxf2mxJm
+         5DgARQXIRLPhEsnlbzOh8dlw4D9+iPLKzKCIvdG2Ml019sB1Ej5N2/v0hQswCEcOzBeL
+         65NA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=pnZMr3msysr3F7hQXLH7AQBYvEUMLHsk9nNkCMpDY14=;
-        b=S1qpU6fcTnYkuAm3Adwkzy4dNunCEuwgiE9k0ftC34Dvhalu+rCvAMqZJnal3x9zMV
-         5ewgEnUvOk5bije67qcm1f/x8j5YRm6XZ/6zWw7v3obM8HUOSX5iFhIrGaV+WR0zLsGL
-         MbhKrpg16Tig0pEq8GCpqvA5qOjZqj3IwrlPv+nx9KLqnAjRJO1JwhZRskczWKUlraRB
-         EtndXaYjQ3O8ZniqkuTq0PObUFWNxiFky8p9KyApVTQHihY+0PhE/Ts7q4VZZdbXTz/8
-         OGjoWnp7XEajGUWlN2swt1Moii6tTYkgrKMkBqT7QsGi1d3w6FtHfYcO5YTcsr1wlcMe
-         gJTw==
-X-Gm-Message-State: AFqh2kpeQu5MkGcRTNGPD7X9uDzPBLQHsMCj/doSOt4FF6hcOFKO/MDe
-        wJbLmo7Ma5DDh2V5QfPIBQzxgw==
-X-Google-Smtp-Source: AMrXdXvNkNwg47euRwsow9ZzGgWEDAGEi69lwgz85sCYleqYo1kdNQOKNRaLha4U2UlUoVuWv9B/fQ==
-X-Received: by 2002:a17:902:c409:b0:194:6d3c:38a5 with SMTP id k9-20020a170902c40900b001946d3c38a5mr516748plk.1.1673654465280;
-        Fri, 13 Jan 2023 16:01:05 -0800 (PST)
+        bh=MgBnQ26ItOkyYKiu1oV6JX0ska5GpfEn/0b8SeFBGOs=;
+        b=mEKkUkTxNjqXXWos7RFZrQiMooEczW7OUHDq8d30Jp3ozy4LXOieYB+05TVJnD20Sd
+         v/uhOhgw6AB3IuQ8xw3e6Q8wdNvfIPQR5uMEg86o7KroNvVa5DxmstDKvxfn62EEfSGJ
+         oOo0/qLs4RLKKFYH70MybfGXISjjxtENxylBZ9IT6+vNlEQv7rzHQNx+CEcdj0T9Teab
+         yiiMH30thPTvakEOfifnwNhC5vPgxoXuvXvl6vnQ2mYYO0TAM4BMDBdJELAUWKUpedsK
+         zIZxf3P4mhG9xdB3YdP3XE2Rd0mEEX+cOh6yNrOqG09kWOKBmSKHa+Y4E47glHdU/qpN
+         uZKA==
+X-Gm-Message-State: AFqh2kqjkuIpLZpwL/hOSdWE8qq/c0CQi5gjvtSjNtOv6lpzB71cUWLJ
+        d+DQxDkzX2ozRy4tULjykYaJ4A==
+X-Google-Smtp-Source: AMrXdXvO5lr0leGyzGM7js7Dp/RGVdcEkNK6lyE8EJsgzKqjTO8ro2/W2YgLE7h5m81d74tyNSIgGA==
+X-Received: by 2002:a05:6a20:1394:b0:b5:a970:8d5a with SMTP id w20-20020a056a20139400b000b5a9708d5amr2026776pzh.0.1673656683660;
+        Fri, 13 Jan 2023 16:38:03 -0800 (PST)
 Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
-        by smtp.gmail.com with ESMTPSA id k7-20020a170902760700b00192bf7eaf28sm14649057pll.286.2023.01.13.16.01.04
+        by smtp.gmail.com with ESMTPSA id d12-20020a634f0c000000b0047829d1b8eesm9871303pgb.31.2023.01.13.16.38.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Jan 2023 16:01:04 -0800 (PST)
-Date:   Sat, 14 Jan 2023 00:01:01 +0000
+        Fri, 13 Jan 2023 16:38:03 -0800 (PST)
+Date:   Sat, 14 Jan 2023 00:37:59 +0000
 From:   Sean Christopherson <seanjc@google.com>
 To:     Chao Peng <chao.p.peng@linux.intel.com>
 Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -83,14 +83,13 @@ Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
         Quentin Perret <qperret@google.com>, tabba@google.com,
         Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
         wei.w.wang@intel.com
-Subject: Re: [PATCH v10 9/9] KVM: Enable and expose KVM_MEM_PRIVATE
-Message-ID: <Y8HwvTik/2avrCOU@google.com>
+Subject: Re: [PATCH v10 0/9] KVM: mm: fd-based approach for supporting KVM
+Message-ID: <Y8H5Z3e4hZkFxAVS@google.com>
 References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-10-chao.p.peng@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221202061347.1070246-10-chao.p.peng@linux.intel.com>
+In-Reply-To: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
 X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
@@ -103,76 +102,52 @@ List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
 On Fri, Dec 02, 2022, Chao Peng wrote:
-> @@ -10357,6 +10364,12 @@ static int vcpu_enter_guest(struct kvm_vcpu *vcpu)
->  
->  		if (kvm_check_request(KVM_REQ_UPDATE_CPU_DIRTY_LOGGING, vcpu))
->  			static_call(kvm_x86_update_cpu_dirty_logging)(vcpu);
-> +
-> +		if (kvm_check_request(KVM_REQ_MEMORY_MCE, vcpu)) {
-> +			vcpu->run->exit_reason = KVM_EXIT_SHUTDOWN;
+> This patch series implements KVM guest private memory for confidential
+> computing scenarios like Intel TDX[1]. If a TDX host accesses
+> TDX-protected guest memory, machine check can happen which can further
+> crash the running host system, this is terrible for multi-tenant
+> configurations. The host accesses include those from KVM userspace like
+> QEMU. This series addresses KVM userspace induced crash by introducing
+> new mm and KVM interfaces so KVM userspace can still manage guest memory
+> via a fd-based approach, but it can never access the guest memory
+> content.
+> 
+> The patch series touches both core mm and KVM code. I appreciate
+> Andrew/Hugh and Paolo/Sean can review and pick these patches. Any other
+> reviews are always welcome.
+>   - 01: mm change, target for mm tree
+>   - 02-09: KVM change, target for KVM tree
 
-Synthesizing triple fault shutdown is not the right approach.  Even with TDX's
-MCE "architecture" (heavy sarcasm), it's possible that host userspace and the
-guest have a paravirt interface for handling memory errors without killing the
-host.
+A version with all of my feedback, plus reworked versions of Vishal's selftest,
+is available here:
 
-> +			r = 0;
-> +			goto out;
-> +		}
->  	}
+  git@github.com:sean-jc/linux.git x86/upm_base_support
 
+It compiles and passes the selftest, but it's otherwise barely tested.  There are
+a few todos (2 I think?) and many of the commits need changelogs, i.e. it's still
+a WIP.
 
-> @@ -1982,6 +2112,10 @@ int __kvm_set_memory_region(struct kvm *kvm,
->  	     !access_ok((void __user *)(unsigned long)mem->userspace_addr,
->  			mem->memory_size))
->  		return -EINVAL;
-> +	if (mem->flags & KVM_MEM_PRIVATE &&
-> +		(mem->restricted_offset & (PAGE_SIZE - 1) ||
+As for next steps, can you (handwaving all of the TDX folks) take a look at what
+I pushed and see if there's anything horrifically broken, and that it still works
+for TDX?
 
-Align indentation.
+Fuad (and pKVM folks) same ask for you with respect to pKVM.  Absolutely no rush
+(and I mean that).
 
-> +		 mem->restricted_offset > U64_MAX - mem->memory_size))
+On my side, the two things on my mind are (a) tests and (b) downstream dependencies
+(SEV and TDX).  For tests, I want to build a lists of tests that are required for
+merging so that the criteria for merging are clear, and so that if the list is large
+(haven't thought much yet), the work of writing and running tests can be distributed.
 
-Strongly prefer to use similar logic to existing code that detects wraps:
+Regarding downstream dependencies, before this lands, I want to pull in all the
+TDX and SNP series and see how everything fits together.  Specifically, I want to
+make sure that we don't end up with a uAPI that necessitates ugly code, and that we
+don't miss an opportunity to make things simpler.  The patches in the SNP series to
+add "legacy" SEV support for UPM in particular made me slightly rethink some minor
+details.  Nothing remotely major, but something that needs attention since it'll
+be uAPI.
 
-		mem->restricted_offset + mem->memory_size < mem->restricted_offset
+I'm off Monday, so it'll be at least Tuesday before I make any more progress on
+my side.
 
-This is also where I'd like to add the "gfn is aligned to offset" check, though
-my brain is too fried to figure that out right now.
-
-> +		return -EINVAL;
->  	if (as_id >= KVM_ADDRESS_SPACE_NUM || id >= KVM_MEM_SLOTS_NUM)
->  		return -EINVAL;
->  	if (mem->guest_phys_addr + mem->memory_size < mem->guest_phys_addr)
-> @@ -2020,6 +2154,9 @@ int __kvm_set_memory_region(struct kvm *kvm,
->  		if ((kvm->nr_memslot_pages + npages) < kvm->nr_memslot_pages)
->  			return -EINVAL;
->  	} else { /* Modify an existing slot. */
-> +		/* Private memslots are immutable, they can only be deleted. */
-
-I'm 99% certain I suggested this, but if we're going to make these memslots
-immutable, then we should straight up disallow dirty logging, otherwise we'll
-end up with a bizarre uAPI.
-
-> +		if (mem->flags & KVM_MEM_PRIVATE)
-> +			return -EINVAL;
->  		if ((mem->userspace_addr != old->userspace_addr) ||
->  		    (npages != old->npages) ||
->  		    ((mem->flags ^ old->flags) & KVM_MEM_READONLY))
-> @@ -2048,10 +2185,28 @@ int __kvm_set_memory_region(struct kvm *kvm,
->  	new->npages = npages;
->  	new->flags = mem->flags;
->  	new->userspace_addr = mem->userspace_addr;
-> +	if (mem->flags & KVM_MEM_PRIVATE) {
-> +		new->restricted_file = fget(mem->restricted_fd);
-> +		if (!new->restricted_file ||
-> +		    !file_is_restrictedmem(new->restricted_file)) {
-> +			r = -EINVAL;
-> +			goto out;
-> +		}
-> +		new->restricted_offset = mem->restricted_offset;
-> +	}
-> +
-> +	new->kvm = kvm;
-
-Set this above, just so that the code flows better.
+Thanks!
