@@ -2,98 +2,64 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E066E66A7C1
-	for <lists+linux-api@lfdr.de>; Sat, 14 Jan 2023 01:43:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 12F8066A8E2
+	for <lists+linux-api@lfdr.de>; Sat, 14 Jan 2023 04:16:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231379AbjANAnA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 13 Jan 2023 19:43:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43406 "EHLO
+        id S229909AbjANDQv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 13 Jan 2023 22:16:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59052 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229509AbjANAmk (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 13 Jan 2023 19:42:40 -0500
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78934A7B45
-        for <linux-api@vger.kernel.org>; Fri, 13 Jan 2023 16:38:21 -0800 (PST)
-Received: by mail-pj1-x102a.google.com with SMTP id w4-20020a17090ac98400b002186f5d7a4cso28628046pjt.0
-        for <linux-api@vger.kernel.org>; Fri, 13 Jan 2023 16:38:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=MgBnQ26ItOkyYKiu1oV6JX0ska5GpfEn/0b8SeFBGOs=;
-        b=fZz4bsSG6rplxu+/+bbAGu03TpfBRqzSERj11fI9gPC3YiJL/UeAPW98CKZYKTN7Ws
-         j53XSFyQZNUTcXaOijVfFvsqXEfJGx6cLcfKMLjiLO/bW7eqi7LulykqxZENOBL1WwJN
-         RayxBQjRABfgAcBUTV5MtEdBlwhGdejOfhp+6x1ylwnSaQw5/5CItg/TVLAvnSFoGFQD
-         lbGhWsb6A9IEcn0SbTi5gMac6RtBt94MErdTeqH8q/FrYZ43WZq9AALzNfaHFxf2mxJm
-         5DgARQXIRLPhEsnlbzOh8dlw4D9+iPLKzKCIvdG2Ml019sB1Ej5N2/v0hQswCEcOzBeL
-         65NA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MgBnQ26ItOkyYKiu1oV6JX0ska5GpfEn/0b8SeFBGOs=;
-        b=mEKkUkTxNjqXXWos7RFZrQiMooEczW7OUHDq8d30Jp3ozy4LXOieYB+05TVJnD20Sd
-         v/uhOhgw6AB3IuQ8xw3e6Q8wdNvfIPQR5uMEg86o7KroNvVa5DxmstDKvxfn62EEfSGJ
-         oOo0/qLs4RLKKFYH70MybfGXISjjxtENxylBZ9IT6+vNlEQv7rzHQNx+CEcdj0T9Teab
-         yiiMH30thPTvakEOfifnwNhC5vPgxoXuvXvl6vnQ2mYYO0TAM4BMDBdJELAUWKUpedsK
-         zIZxf3P4mhG9xdB3YdP3XE2Rd0mEEX+cOh6yNrOqG09kWOKBmSKHa+Y4E47glHdU/qpN
-         uZKA==
-X-Gm-Message-State: AFqh2kqjkuIpLZpwL/hOSdWE8qq/c0CQi5gjvtSjNtOv6lpzB71cUWLJ
-        d+DQxDkzX2ozRy4tULjykYaJ4A==
-X-Google-Smtp-Source: AMrXdXvO5lr0leGyzGM7js7Dp/RGVdcEkNK6lyE8EJsgzKqjTO8ro2/W2YgLE7h5m81d74tyNSIgGA==
-X-Received: by 2002:a05:6a20:1394:b0:b5:a970:8d5a with SMTP id w20-20020a056a20139400b000b5a9708d5amr2026776pzh.0.1673656683660;
-        Fri, 13 Jan 2023 16:38:03 -0800 (PST)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
-        by smtp.gmail.com with ESMTPSA id d12-20020a634f0c000000b0047829d1b8eesm9871303pgb.31.2023.01.13.16.38.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Jan 2023 16:38:03 -0800 (PST)
-Date:   Sat, 14 Jan 2023 00:37:59 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
+        with ESMTP id S229510AbjANDQt (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 13 Jan 2023 22:16:49 -0500
+X-Greylist: delayed 3234 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 13 Jan 2023 19:16:48 PST
+Received: from mail.zytor.com (unknown [IPv6:2607:7c80:54:3::138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACC65B2E
+        for <linux-api@vger.kernel.org>; Fri, 13 Jan 2023 19:16:48 -0800 (PST)
+Received: from [IPV6:2601:646:8600:40c1:5967:deb4:a714:2940] ([IPv6:2601:646:8600:40c1:5967:deb4:a714:2940])
+        (authenticated bits=0)
+        by mail.zytor.com (8.17.1/8.17.1) with ESMTPSA id 30E2MVvU2813069
+        (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+        Fri, 13 Jan 2023 18:22:32 -0800
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 30E2MVvU2813069
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+        s=2023010601; t=1673662954;
+        bh=KJ0MZzQf9nWc/obRK9dCTOC8sETJ1kHQc75kDMqlTBA=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=cRRm4dYbxsq/napYdd6xvhdJPhYBBTgvvGCl5dMR0yZHP5i923R/3VDa+DROd60Jt
+         pVdcGhluvg+8P7sH/bF9whe9UCT5l0zNTB1svMwvwctHkCDGgMr/ndhtxAAk92rvaD
+         G9GhkoIQTyPVFzUkYEgo0vtLSVLzIls/uVdViCo2c/nKpIWb9C5PCl3YrJX9Vfslx5
+         gCwZYm8Fo3zLXhMubFRjo/81xWNF+4Xchk1LJ5ydDGD/DuWr1olJzJLK6eG/60VJFx
+         FigTINyjp94lsHXR86iImeQ7YvB9Dp9EUqT0h0ddAujw4FNWc2B/HOvZ9S9l90Afyi
+         JNAbqQk+IUiNA==
+Message-ID: <585ddb35-adc5-f5cf-4db3-27571f394108@zytor.com>
+Date:   Fri, 13 Jan 2023 18:22:26 -0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [RFC PATCH 0/4] random: a simple vDSO mechanism for reseeding
+ userspace CSPRNGs
+Content-Language: en-US
+To:     Yann Droneaud <ydroneaud@opteya.com>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc:     "Theodore Ts'o" <tytso@mit.edu>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        wei.w.wang@intel.com
-Subject: Re: [PATCH v10 0/9] KVM: mm: fd-based approach for supporting KVM
-Message-ID: <Y8H5Z3e4hZkFxAVS@google.com>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>, x86@kernel.org,
+        linux-crypto@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Florian Weimer <fweimer@redhat.com>,
+        Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
+        "Carlos O'Donell" <carlos@redhat.com>
+References: <CAHmME9oXB8=jUz98tv6k1xS+ELaRmgartoT6go_1axhH1L-HJg@mail.gmail.com>
+ <cover.1673539719.git.ydroneaud@opteya.com>
+ <ae35afa5b824dc76c5ded98efcabc117e6dd3d70@opteya.com>
+From:   "H. Peter Anvin" <hpa@zytor.com>
+In-Reply-To: <ae35afa5b824dc76c5ded98efcabc117e6dd3d70@opteya.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_INVALID,
+        DKIM_SIGNED,NICE_REPLY_A,SPF_HELO_PASS,SPF_PASS autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -101,53 +67,66 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Dec 02, 2022, Chao Peng wrote:
-> This patch series implements KVM guest private memory for confidential
-> computing scenarios like Intel TDX[1]. If a TDX host accesses
-> TDX-protected guest memory, machine check can happen which can further
-> crash the running host system, this is terrible for multi-tenant
-> configurations. The host accesses include those from KVM userspace like
-> QEMU. This series addresses KVM userspace induced crash by introducing
-> new mm and KVM interfaces so KVM userspace can still manage guest memory
-> via a fd-based approach, but it can never access the guest memory
-> content.
+On 1/12/23 11:55, Yann Droneaud wrote:
+> Hi
 > 
-> The patch series touches both core mm and KVM code. I appreciate
-> Andrew/Hugh and Paolo/Sean can review and pick these patches. Any other
-> reviews are always welcome.
->   - 01: mm change, target for mm tree
->   - 02-09: KVM change, target for KVM tree
+> 12 janvier 2023 à 18:07 "Jason A. Donenfeld" <Jason@zx2c4.com> a écrit:
+>   
+>> Sorry Yann, but I'm not interested in this approach, and I don't think
+>> reviewing the details of it are a good allocation of time. I don't
+>> want to lock the kernel into having specific reseeding semantics that
+>> are a contract with userspace, which is what this approach does.
+> 
+> This patch adds a mean for the kernel to tell userspace: between the
+> last time you call us with getrandom(timestamp,, GRND_TIMESTAMP),
+> something happened that trigger an update to the opaque cookie given
+> to getrandom(timestamp, GRND_TIMESTAMP). When such update happen,
+> userspace is advised to discard buffered random data and retry.
+> 
+> The meaning of the timestamp cookie is up to the kernel, and can be
+> changed anytime. Userspace is not expected to read the content of this
+> blob. Userspace only acts on the length returned by getrandom(,, GRND_TIMESTAMP):
+>   -1 : not supported
+>    0 : cookie not updated, no need to discard buffered data
+>   >0 : cookie updated, userspace should discard buffered data
+> 
+> For the cookie, I've used a single u64, but two u64 could be a better start,
+> providing room for implementing improved behavior in future kernel versions.
+> 
+>> Please just let me iterate on my original patchset for a little bit,
+>> without adding more junk to the already overly large conversation.
+> 
+> I like the simplicity of my so called "junk". It's streamlined, doesn't
+> require a new syscall, doesn't require a new copy of ChaCha20 code.
+> 
+> I'm sorry it doesn't fit your expectations.
+> 
 
-A version with all of my feedback, plus reworked versions of Vishal's selftest,
-is available here:
+Why would anything more than a 64-bit counter be ever necessary? It only 
+needs to be incremented.
 
-  git@github.com:sean-jc/linux.git x86/upm_base_support
+Let user space manage keeping track of the cookie matching its own 
+buffers. You do NOT want this to be stateful, because that's just 
+begging for multiple libraries to step on each other.
 
-It compiles and passes the selftest, but it's otherwise barely tested.  There are
-a few todos (2 I think?) and many of the commits need changelogs, i.e. it's still
-a WIP.
+Export the cookie from the vdso and volià, a very cheap check around any 
+user space randomness buffer will work:
 
-As for next steps, can you (handwaving all of the TDX folks) take a look at what
-I pushed and see if there's anything horrifically broken, and that it still works
-for TDX?
+	static clone_cookie_t last_cookie;
+	clone_cookie_t this_cookie;
 
-Fuad (and pKVM folks) same ask for you with respect to pKVM.  Absolutely no rush
-(and I mean that).
+	this_cookie = get_clone_cookie();
+	do {
+		while (this_cookie != last_cookie) {
+			last_cookie = this_cookie;
+			reinit_randomness();
+			this_cookie = get_clone_cookie();
+		}
 
-On my side, the two things on my mind are (a) tests and (b) downstream dependencies
-(SEV and TDX).  For tests, I want to build a lists of tests that are required for
-merging so that the criteria for merging are clear, and so that if the list is large
-(haven't thought much yet), the work of writing and running tests can be distributed.
+		extract_randomness_from_buffer();
+		this_cookie = get_clone_cookie();
+	} while (this_cookie != last_cookie);
 
-Regarding downstream dependencies, before this lands, I want to pull in all the
-TDX and SNP series and see how everything fits together.  Specifically, I want to
-make sure that we don't end up with a uAPI that necessitates ugly code, and that we
-don't miss an opportunity to make things simpler.  The patches in the SNP series to
-add "legacy" SEV support for UPM in particular made me slightly rethink some minor
-details.  Nothing remotely major, but something that needs attention since it'll
-be uAPI.
+	last_cookie = this_cookie;
 
-I'm off Monday, so it'll be at least Tuesday before I make any more progress on
-my side.
-
-Thanks!
+	-hpa
