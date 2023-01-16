@@ -2,148 +2,83 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E9C3566CFC9
-	for <lists+linux-api@lfdr.de>; Mon, 16 Jan 2023 20:50:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 729F966D04D
+	for <lists+linux-api@lfdr.de>; Mon, 16 Jan 2023 21:39:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232546AbjAPTuA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 16 Jan 2023 14:50:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53350 "EHLO
+        id S230183AbjAPUjN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 16 Jan 2023 15:39:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42440 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232793AbjAPTt5 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 16 Jan 2023 14:49:57 -0500
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CF132C67A
-        for <linux-api@vger.kernel.org>; Mon, 16 Jan 2023 11:49:56 -0800 (PST)
-Received: by mail-pj1-x1031.google.com with SMTP id dw9so28692027pjb.5
-        for <linux-api@vger.kernel.org>; Mon, 16 Jan 2023 11:49:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20210112.gappssmtp.com; s=20210112;
-        h=to:in-reply-to:cc:references:message-id:date:subject:mime-version
-         :from:content-transfer-encoding:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=8wZvvACyBelhwyC9g77by0DEIkBqZpn0ZmXIgfmKr4s=;
-        b=0oC65SyRHbWDjj7xp6Z5i5H7PKj9V2uYPsPQ3OqlQp+3vN9gFAdP/sq3xkLwsvLRVS
-         McB8d3MpJc4v96EUA9wf/iM2TqR0GJ15g374T+k2oOetyyQWWe5sV0KcuuaI0T3DQ1mO
-         aPo1gjrVrlEsQNgjfwYbOonw+vgLoONw5oTLv4ZFnSeIM3jDuEFozpyQ+5pp9VxbxTEU
-         dIzgulr11qkfeUnYqXz7AVpJZ1KN2zDbCism7+gww5+ygd5mNP3cDh4X7duKjhUMeg4A
-         9+k+ruW9Y/N4jDkPQkNzvGey+mDbzzVDdaQJV7geBcMly8kcUZWwPTWhv8f4ZnhHKrtJ
-         2IIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:in-reply-to:cc:references:message-id:date:subject:mime-version
-         :from:content-transfer-encoding:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8wZvvACyBelhwyC9g77by0DEIkBqZpn0ZmXIgfmKr4s=;
-        b=Ax/FKeqyEKNYdpzi2XV7Q7wag9sLDSVtS2ltuN2m9oBvDpheVrgsCSExCbbSeZmWSV
-         edXwJCfKp3MKznT4d4MPcFF4T4s8Hv6ralndf4RfLiDUWQNag1FHPwnhWw7C/m0zHGa6
-         X3shFsgjkSqUD75ObhhyzSNg04pUxRx1jmQ8pqI4oEMZc6nvBScU6po1+UPmMcv8T3Mv
-         BdVT7CkAfOOkhDDEDwLNsXICDWRsim6sGm1WToEsknBIHdeQGgl4Y8rW4WiZoR6esH2v
-         uX/YxwL6+UU4RAwx9MBA0cNRSnyC3VNbEMdTYSL8Nh5xY1qXP6qwIVcrrJjFj6lBVbjt
-         C1NA==
-X-Gm-Message-State: AFqh2komp/p2EeAIRqvIrPOlyFsNYnF8puuxj5ui2v9u+8h1lQRrrUSX
-        6pwKxSSpuU79/tUf2yjGOSwG9gtvcJc20Rqi
-X-Google-Smtp-Source: AMrXdXtpS9tGPFZxJo7zJbNIiuX5+Bt+X5f0IpuEJBuXVCAC2ooHDIHjJz3wEm9Fj9oNuS3cd0YJAA==
-X-Received: by 2002:a05:6a20:1710:b0:b8:499d:7c99 with SMTP id bn16-20020a056a20171000b000b8499d7c99mr180334pzb.0.1673898596098;
-        Mon, 16 Jan 2023 11:49:56 -0800 (PST)
-Received: from smtpclient.apple ([2601:646:c200:522:b469:4533:dab3:1cd4])
-        by smtp.gmail.com with ESMTPSA id p5-20020a170902bd0500b0019248880f75sm19686244pls.77.2023.01.16.11.49.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Jan 2023 11:49:54 -0800 (PST)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From:   Andy Lutomirski <luto@amacapital.net>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [RFC PATCH 0/4] random: a simple vDSO mechanism for reseeding userspace CSPRNGs
-Date:   Mon, 16 Jan 2023 11:49:42 -0800
-Message-Id: <15F7D57C-8CC6-4CAE-8B7E-6F480B5F4133@amacapital.net>
-References: <585ddb35-adc5-f5cf-4db3-27571f394108@zytor.com>
-Cc:     Yann Droneaud <ydroneaud@opteya.com>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        Theodore Ts'o <tytso@mit.edu>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>, x86@kernel.org,
-        linux-crypto@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Florian Weimer <fweimer@redhat.com>,
-        Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
-        Carlos O'Donell <carlos@redhat.com>
-In-Reply-To: <585ddb35-adc5-f5cf-4db3-27571f394108@zytor.com>
-To:     "H. Peter Anvin" <hpa@zytor.com>
-X-Mailer: iPhone Mail (20C65)
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        with ESMTP id S230503AbjAPUjM (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 16 Jan 2023 15:39:12 -0500
+Received: from smtpout.efficios.com (smtpout.efficios.com [167.114.26.122])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B08A2A9B6;
+        Mon, 16 Jan 2023 12:39:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=efficios.com;
+        s=smtpout1; t=1673901550;
+        bh=LcUa09Y7snyF9Tz76Q52RwDF+8IvPy9A4+2h3Egsjn8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=e3lYJcnnJy9W1oPMBk30oU2TQ8PkvkvBxOO3xZM3OCDvp363T2Zu/B1LLT7H33cX1
+         UyE6KdUc9/eHkVpyQwDYVSBt/vzfOWYxfZW/ZOHUG83hZMUzjzDx2VVj1cogZTlsYa
+         sMLYBuhDvF+FQdPwtJJzql2K1KNWIEA5SKjXpLWfcgcHFSjpnyofb60gHCor16pIKL
+         rFbrPTsQWQu91TMu0Gzfj+eIDU7AelDzk/QE1RjjvQzLA6UFnZYu60ObkJyJOQ2sBj
+         +inJxSJaypiajkt6baH6/zfDIprqkwzySVgd/8P0rl2c/TzwAfBaU0RFCgiad9maQe
+         ZEibhKU5op/zg==
+Received: from localhost.localdomain (192-222-180-24.qc.cable.ebox.net [192.222.180.24])
+        by smtpout.efficios.com (Postfix) with ESMTPSA id 4NwkQQ1MMvzgjs;
+        Mon, 16 Jan 2023 15:39:10 -0500 (EST)
+From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
+        linux-api@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
+        Florian Weimer <fw@deneb.enyo.de>, David.Laight@ACULAB.COM,
+        carlos@redhat.com, Peter Oskolkov <posk@posk.io>,
+        Alexander Mikhalitsyn <alexander@mihalicyn.com>,
+        Chris Kennelly <ckennelly@google.com>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        kernel test robot <lkp@intel.com>
+Subject: [RFC PATCH tip 1/2] rseq selftests: Fix: use KHDR_INCLUDES for kernel headers
+Date:   Mon, 16 Jan 2023 15:39:03 -0500
+Message-Id: <20230116203904.214010-1-mathieu.desnoyers@efficios.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+Use $(KHDR_INCLUDES) as lookup path for kernel headers. This prevents
+building against kernel headers from the build environment in scenarios
+where kernel headers are installed into a specific output directory
+(O=...).
 
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+---
+ tools/testing/selftests/rseq/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> On Jan 13, 2023, at 7:16 PM, H. Peter Anvin <hpa@zytor.com> wrote:
->=20
-> =EF=BB=BFOn 1/12/23 11:55, Yann Droneaud wrote:
->> Hi
->> 12 janvier 2023 =C3=A0 18:07 "Jason A. Donenfeld" <Jason@zx2c4.com> a =C3=
-=A9crit:
->> =20
->>> Sorry Yann, but I'm not interested in this approach, and I don't think
->>> reviewing the details of it are a good allocation of time. I don't
->>> want to lock the kernel into having specific reseeding semantics that
->>> are a contract with userspace, which is what this approach does.
->> This patch adds a mean for the kernel to tell userspace: between the
->> last time you call us with getrandom(timestamp,, GRND_TIMESTAMP),
->> something happened that trigger an update to the opaque cookie given
->> to getrandom(timestamp, GRND_TIMESTAMP). When such update happen,
->> userspace is advised to discard buffered random data and retry.
->> The meaning of the timestamp cookie is up to the kernel, and can be
->> changed anytime. Userspace is not expected to read the content of this
->> blob. Userspace only acts on the length returned by getrandom(,, GRND_TIM=
-ESTAMP):
->>  -1 : not supported
->>   0 : cookie not updated, no need to discard buffered data
->>  >0 : cookie updated, userspace should discard buffered data
->> For the cookie, I've used a single u64, but two u64 could be a better sta=
-rt,
->> providing room for implementing improved behavior in future kernel versio=
-ns.
->>> Please just let me iterate on my original patchset for a little bit,
->>> without adding more junk to the already overly large conversation.
->> I like the simplicity of my so called "junk". It's streamlined, doesn't
->> require a new syscall, doesn't require a new copy of ChaCha20 code.
->> I'm sorry it doesn't fit your expectations.
->=20
-> Why would anything more than a 64-bit counter be ever necessary? It only n=
-eeds to be incremented.
+diff --git a/tools/testing/selftests/rseq/Makefile b/tools/testing/selftests/rseq/Makefile
+index 82a52810a649..b357ba24af06 100644
+--- a/tools/testing/selftests/rseq/Makefile
++++ b/tools/testing/selftests/rseq/Makefile
+@@ -4,7 +4,7 @@ ifneq ($(shell $(CC) --version 2>&1 | head -n 1 | grep clang),)
+ CLANG_FLAGS += -no-integrated-as
+ endif
+ 
+-CFLAGS += -O2 -Wall -g -I./ -I../../../../usr/include/ -L$(OUTPUT) -Wl,-rpath=./ \
++CFLAGS += -O2 -Wall -g -I./ $(KHDR_INCLUDES) -L$(OUTPUT) -Wl,-rpath=./ \
+ 	  $(CLANG_FLAGS)
+ LDLIBS += -lpthread -ldl
+ 
+-- 
+2.25.1
 
-This is completely broken with CRIU or, for that matter, with VM forking.
-
->=20
-> Let user space manage keeping track of the cookie matching its own buffers=
-. You do NOT want this to be stateful, because that's just begging for multi=
-ple libraries to step on each other.
->=20
-> Export the cookie from the vdso and voli=C3=A0, a very cheap check around a=
-ny user space randomness buffer will work:
->=20
->    static clone_cookie_t last_cookie;
->    clone_cookie_t this_cookie;
->=20
->    this_cookie =3D get_clone_cookie();
->    do {
->        while (this_cookie !=3D last_cookie) {
->            last_cookie =3D this_cookie;
->            reinit_randomness();
->            this_cookie =3D get_clone_cookie();
->        }
->=20
->        extract_randomness_from_buffer();
->        this_cookie =3D get_clone_cookie();
->    } while (this_cookie !=3D last_cookie);
->=20
->    last_cookie =3D this_cookie;
->=20
->    -hpa
