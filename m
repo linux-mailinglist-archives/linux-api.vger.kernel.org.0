@@ -2,180 +2,148 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 204D566C06F
-	for <lists+linux-api@lfdr.de>; Mon, 16 Jan 2023 14:58:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E9C3566CFC9
+	for <lists+linux-api@lfdr.de>; Mon, 16 Jan 2023 20:50:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231316AbjAPN6U (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 16 Jan 2023 08:58:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39476 "EHLO
+        id S232546AbjAPTuA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 16 Jan 2023 14:50:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231343AbjAPN5q (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 16 Jan 2023 08:57:46 -0500
-X-Greylist: delayed 416 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 16 Jan 2023 05:55:50 PST
-Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com [64.147.123.27])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3D2A21A09;
-        Mon, 16 Jan 2023 05:55:50 -0800 (PST)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailnew.west.internal (Postfix) with ESMTP id 53BD12B067C9;
-        Mon, 16 Jan 2023 08:48:50 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Mon, 16 Jan 2023 08:48:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
-         h=cc:cc:content-type:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm1; t=1673876929; x=1673884129; bh=LV
-        IuqcNr+BEv3OVovuvPG4rkUA8Se79qo5nrRkoOk/4=; b=hzqSbnXXHX1g+A0/Ds
-        g4Hdrbl+duGXBSNIacSKQ5cZs2CG5PwGXwtiLLZN/D1xVeIKrrYvQPopYIBziUJH
-        gPXBXhBUjHNeNMXfFIzjHp9Pa1dA8lHudIk2RRGqQyo5jwy1ShZ4AnyiC5tk/r40
-        2tP/6afRYdUyPyv6NJCiu8ZeWYIveuXlAhsIdCZ8VNMSLGsrMkWlNB0yWBFfdsq6
-        D0/u+OuX/k+7NZQW0WeGyV4H/UWm1LOPuec8xME1t0TXJ/AZQz1MvhmIEgnm+7EF
-        HgksJGu3O2yE/ei+qxkLuy8wmzA3Nh8veigRKWprNSGQ1Et7bGymXkWwi85bBVe8
-        FFYg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; t=1673876929; x=1673884129; bh=LVIuqcNr+BEv3OVovuvPG4rkUA8S
-        e79qo5nrRkoOk/4=; b=bO+dUcGv+jEMy/lCF06LmFFcOFpJPrpvFNPqUv8hbFss
-        wijIsi3XbIRQOiPx3CYSoIfNJ+kMvVXBvkEcXHbu1ioBlsHUVUcnCfsu0WNhjbCw
-        g3xs8nJHkgJ8jePTUFPUALiOCs0E7rFIZKG2Hl749XrYY5YejpkedmN4Ug2y+F/5
-        UHyZFHbQatARsDjhWIKNsnEOUPbI+YhNeGdQ3px8ojanRDzOkO73gtJ9xxLgQ8hu
-        um9K6q4z+hqC80ODYxw9kWYok0RENuF6rPlsUfzn13P45Peo7LfMmqClWZ6ejfXk
-        f2bHJYrO6/QBvd8rDNTeGDZ9OJ4iL6BoykAGpaRgpw==
-X-ME-Sender: <xms:v1XFY8yLZJzPRKyHnwQL_FJgKaTbKqv-N_O6nu2jz8ifd771a6fyKw>
-    <xme:v1XFYwTqbvz09EIDgf_GuyW5XD82H6IQoSkDyKH7_8YTfJVbomZ8uc7dDjRyZlo5n
-    doZ4X-PSAOWYvogkJw>
-X-ME-Received: <xmr:v1XFY-WTiUwzYZ7NxRzNy44NRpoNKITddppclahQMJaSNJKW0wzVBJZHc91kQIVONmJFfQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddtgedgheeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesthdttddttddtvdenucfhrhhomhepfdfmihhr
-    ihhllhcutedrucfuhhhuthgvmhhovhdfuceokhhirhhilhhlsehshhhuthgvmhhovhdrnh
-    grmhgvqeenucggtffrrghtthgvrhhnpefhieeghfdtfeehtdeftdehgfehuddtvdeuheet
-    tddtheejueekjeegueeivdektdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
-    epmhgrihhlfhhrohhmpehkihhrihhllhesshhhuhhtvghmohhvrdhnrghmvg
-X-ME-Proxy: <xmx:v1XFY6gic2M9Pzyndm04VV1xQRBxde6OVFDFcyBRxOb3rjvvtTtXCA>
-    <xmx:v1XFY-B1TKgHRHRV1sisOhg5fm8GczU6f9FE6jwSH4_J4JzxwEAPmw>
-    <xmx:v1XFY7IM3MVsig37x5YeGF4QCi0BKrQP0E6iOgeW5J0tq_D9jUtaYA>
-    <xmx:wVXFY8pmuU6BstNTCPoiKUslSX2k9Xgz3r8eQqfxFEh-u3NMNdCd8i2rHAo>
-Feedback-ID: ie3994620:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 16 Jan 2023 08:48:46 -0500 (EST)
-Received: by box.shutemov.name (Postfix, from userid 1000)
-        id 3ECD8109792; Mon, 16 Jan 2023 16:48:45 +0300 (+03)
-Date:   Mon, 16 Jan 2023 16:48:45 +0300
-From:   "Kirill A. Shutemov" <kirill@shutemov.name>
-To:     Sean Christopherson <seanjc@google.com>
-Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
+        with ESMTP id S232793AbjAPTt5 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 16 Jan 2023 14:49:57 -0500
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CF132C67A
+        for <linux-api@vger.kernel.org>; Mon, 16 Jan 2023 11:49:56 -0800 (PST)
+Received: by mail-pj1-x1031.google.com with SMTP id dw9so28692027pjb.5
+        for <linux-api@vger.kernel.org>; Mon, 16 Jan 2023 11:49:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amacapital-net.20210112.gappssmtp.com; s=20210112;
+        h=to:in-reply-to:cc:references:message-id:date:subject:mime-version
+         :from:content-transfer-encoding:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8wZvvACyBelhwyC9g77by0DEIkBqZpn0ZmXIgfmKr4s=;
+        b=0oC65SyRHbWDjj7xp6Z5i5H7PKj9V2uYPsPQ3OqlQp+3vN9gFAdP/sq3xkLwsvLRVS
+         McB8d3MpJc4v96EUA9wf/iM2TqR0GJ15g374T+k2oOetyyQWWe5sV0KcuuaI0T3DQ1mO
+         aPo1gjrVrlEsQNgjfwYbOonw+vgLoONw5oTLv4ZFnSeIM3jDuEFozpyQ+5pp9VxbxTEU
+         dIzgulr11qkfeUnYqXz7AVpJZ1KN2zDbCism7+gww5+ygd5mNP3cDh4X7duKjhUMeg4A
+         9+k+ruW9Y/N4jDkPQkNzvGey+mDbzzVDdaQJV7geBcMly8kcUZWwPTWhv8f4ZnhHKrtJ
+         2IIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:in-reply-to:cc:references:message-id:date:subject:mime-version
+         :from:content-transfer-encoding:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8wZvvACyBelhwyC9g77by0DEIkBqZpn0ZmXIgfmKr4s=;
+        b=Ax/FKeqyEKNYdpzi2XV7Q7wag9sLDSVtS2ltuN2m9oBvDpheVrgsCSExCbbSeZmWSV
+         edXwJCfKp3MKznT4d4MPcFF4T4s8Hv6ralndf4RfLiDUWQNag1FHPwnhWw7C/m0zHGa6
+         X3shFsgjkSqUD75ObhhyzSNg04pUxRx1jmQ8pqI4oEMZc6nvBScU6po1+UPmMcv8T3Mv
+         BdVT7CkAfOOkhDDEDwLNsXICDWRsim6sGm1WToEsknBIHdeQGgl4Y8rW4WiZoR6esH2v
+         uX/YxwL6+UU4RAwx9MBA0cNRSnyC3VNbEMdTYSL8Nh5xY1qXP6qwIVcrrJjFj6lBVbjt
+         C1NA==
+X-Gm-Message-State: AFqh2komp/p2EeAIRqvIrPOlyFsNYnF8puuxj5ui2v9u+8h1lQRrrUSX
+        6pwKxSSpuU79/tUf2yjGOSwG9gtvcJc20Rqi
+X-Google-Smtp-Source: AMrXdXtpS9tGPFZxJo7zJbNIiuX5+Bt+X5f0IpuEJBuXVCAC2ooHDIHjJz3wEm9Fj9oNuS3cd0YJAA==
+X-Received: by 2002:a05:6a20:1710:b0:b8:499d:7c99 with SMTP id bn16-20020a056a20171000b000b8499d7c99mr180334pzb.0.1673898596098;
+        Mon, 16 Jan 2023 11:49:56 -0800 (PST)
+Received: from smtpclient.apple ([2601:646:c200:522:b469:4533:dab3:1cd4])
+        by smtp.gmail.com with ESMTPSA id p5-20020a170902bd0500b0019248880f75sm19686244pls.77.2023.01.16.11.49.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 16 Jan 2023 11:49:54 -0800 (PST)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+From:   Andy Lutomirski <luto@amacapital.net>
+Mime-Version: 1.0 (1.0)
+Subject: Re: [RFC PATCH 0/4] random: a simple vDSO mechanism for reseeding userspace CSPRNGs
+Date:   Mon, 16 Jan 2023 11:49:42 -0800
+Message-Id: <15F7D57C-8CC6-4CAE-8B7E-6F480B5F4133@amacapital.net>
+References: <585ddb35-adc5-f5cf-4db3-27571f394108@zytor.com>
+Cc:     Yann Droneaud <ydroneaud@opteya.com>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        Theodore Ts'o <tytso@mit.edu>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        wei.w.wang@intel.com
-Subject: Re: [PATCH v10 0/9] KVM: mm: fd-based approach for supporting KVM
-Message-ID: <20230116134845.vboraky2nd56szos@box.shutemov.name>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <Y8H5Z3e4hZkFxAVS@google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y8H5Z3e4hZkFxAVS@google.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>, x86@kernel.org,
+        linux-crypto@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Florian Weimer <fweimer@redhat.com>,
+        Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
+        Carlos O'Donell <carlos@redhat.com>
+In-Reply-To: <585ddb35-adc5-f5cf-4db3-27571f394108@zytor.com>
+To:     "H. Peter Anvin" <hpa@zytor.com>
+X-Mailer: iPhone Mail (20C65)
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sat, Jan 14, 2023 at 12:37:59AM +0000, Sean Christopherson wrote:
-> On Fri, Dec 02, 2022, Chao Peng wrote:
-> > This patch series implements KVM guest private memory for confidential
-> > computing scenarios like Intel TDX[1]. If a TDX host accesses
-> > TDX-protected guest memory, machine check can happen which can further
-> > crash the running host system, this is terrible for multi-tenant
-> > configurations. The host accesses include those from KVM userspace like
-> > QEMU. This series addresses KVM userspace induced crash by introducing
-> > new mm and KVM interfaces so KVM userspace can still manage guest memory
-> > via a fd-based approach, but it can never access the guest memory
-> > content.
-> > 
-> > The patch series touches both core mm and KVM code. I appreciate
-> > Andrew/Hugh and Paolo/Sean can review and pick these patches. Any other
-> > reviews are always welcome.
-> >   - 01: mm change, target for mm tree
-> >   - 02-09: KVM change, target for KVM tree
-> 
-> A version with all of my feedback, plus reworked versions of Vishal's selftest,
-> is available here:
-> 
->   git@github.com:sean-jc/linux.git x86/upm_base_support
-> 
-> It compiles and passes the selftest, but it's otherwise barely tested.  There are
-> a few todos (2 I think?) and many of the commits need changelogs, i.e. it's still
-> a WIP.
-> 
-> As for next steps, can you (handwaving all of the TDX folks) take a look at what
-> I pushed and see if there's anything horrifically broken, and that it still works
-> for TDX?
 
-Minor build fix:
 
-diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
-index 6eb5336ccc65..4a9e9fa2552a 100644
---- a/arch/x86/kvm/mmu/mmu.c
-+++ b/arch/x86/kvm/mmu/mmu.c
-@@ -7211,8 +7211,8 @@ void kvm_arch_set_memory_attributes(struct kvm *kvm,
- 	int level;
- 	bool mixed;
- 
--	lockdep_assert_held_write(kvm->mmu_lock);
--	lockdep_assert_held(kvm->slots_lock);
-+	lockdep_assert_held_write(&kvm->mmu_lock);
-+	lockdep_assert_held(&kvm->slots_lock);
- 
- 	/*
- 	 * KVM x86 currently only supports KVM_MEMORY_ATTRIBUTE_PRIVATE, skip
-diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-index 467916943c73..4ef60ba7eb1d 100644
---- a/include/linux/kvm_host.h
-+++ b/include/linux/kvm_host.h
-@@ -2304,7 +2304,7 @@ static inline void kvm_account_pgtable_pages(void *virt, int nr)
- #ifdef CONFIG_KVM_GENERIC_MEMORY_ATTRIBUTES
- static inline unsigned long kvm_get_memory_attributes(struct kvm *kvm, gfn_t gfn)
- {
--	lockdep_assert_held(kvm->mmu_lock);
-+	lockdep_assert_held(&kvm->mmu_lock);
- 
- 	return xa_to_value(xa_load(&kvm->mem_attr_array, gfn));
- }
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+> On Jan 13, 2023, at 7:16 PM, H. Peter Anvin <hpa@zytor.com> wrote:
+>=20
+> =EF=BB=BFOn 1/12/23 11:55, Yann Droneaud wrote:
+>> Hi
+>> 12 janvier 2023 =C3=A0 18:07 "Jason A. Donenfeld" <Jason@zx2c4.com> a =C3=
+=A9crit:
+>> =20
+>>> Sorry Yann, but I'm not interested in this approach, and I don't think
+>>> reviewing the details of it are a good allocation of time. I don't
+>>> want to lock the kernel into having specific reseeding semantics that
+>>> are a contract with userspace, which is what this approach does.
+>> This patch adds a mean for the kernel to tell userspace: between the
+>> last time you call us with getrandom(timestamp,, GRND_TIMESTAMP),
+>> something happened that trigger an update to the opaque cookie given
+>> to getrandom(timestamp, GRND_TIMESTAMP). When such update happen,
+>> userspace is advised to discard buffered random data and retry.
+>> The meaning of the timestamp cookie is up to the kernel, and can be
+>> changed anytime. Userspace is not expected to read the content of this
+>> blob. Userspace only acts on the length returned by getrandom(,, GRND_TIM=
+ESTAMP):
+>>  -1 : not supported
+>>   0 : cookie not updated, no need to discard buffered data
+>>  >0 : cookie updated, userspace should discard buffered data
+>> For the cookie, I've used a single u64, but two u64 could be a better sta=
+rt,
+>> providing room for implementing improved behavior in future kernel versio=
+ns.
+>>> Please just let me iterate on my original patchset for a little bit,
+>>> without adding more junk to the already overly large conversation.
+>> I like the simplicity of my so called "junk". It's streamlined, doesn't
+>> require a new syscall, doesn't require a new copy of ChaCha20 code.
+>> I'm sorry it doesn't fit your expectations.
+>=20
+> Why would anything more than a 64-bit counter be ever necessary? It only n=
+eeds to be incremented.
+
+This is completely broken with CRIU or, for that matter, with VM forking.
+
+>=20
+> Let user space manage keeping track of the cookie matching its own buffers=
+. You do NOT want this to be stateful, because that's just begging for multi=
+ple libraries to step on each other.
+>=20
+> Export the cookie from the vdso and voli=C3=A0, a very cheap check around a=
+ny user space randomness buffer will work:
+>=20
+>    static clone_cookie_t last_cookie;
+>    clone_cookie_t this_cookie;
+>=20
+>    this_cookie =3D get_clone_cookie();
+>    do {
+>        while (this_cookie !=3D last_cookie) {
+>            last_cookie =3D this_cookie;
+>            reinit_randomness();
+>            this_cookie =3D get_clone_cookie();
+>        }
+>=20
+>        extract_randomness_from_buffer();
+>        this_cookie =3D get_clone_cookie();
+>    } while (this_cookie !=3D last_cookie);
+>=20
+>    last_cookie =3D this_cookie;
+>=20
+>    -hpa
