@@ -2,101 +2,67 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 64EAC66E839
-	for <lists+linux-api@lfdr.de>; Tue, 17 Jan 2023 22:13:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AF36066E88F
+	for <lists+linux-api@lfdr.de>; Tue, 17 Jan 2023 22:38:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229585AbjAQVNj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 17 Jan 2023 16:13:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40496 "EHLO
+        id S229732AbjAQVi2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 17 Jan 2023 16:38:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229662AbjAQVMm (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 17 Jan 2023 16:12:42 -0500
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A24E14A21E
-        for <linux-api@vger.kernel.org>; Tue, 17 Jan 2023 11:36:03 -0800 (PST)
-Received: by mail-pl1-x632.google.com with SMTP id g23so19001986plq.12
-        for <linux-api@vger.kernel.org>; Tue, 17 Jan 2023 11:36:03 -0800 (PST)
+        with ESMTP id S229878AbjAQVgz (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 17 Jan 2023 16:36:55 -0500
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D8CA4ED17;
+        Tue, 17 Jan 2023 12:00:01 -0800 (PST)
+Received: by mail-pj1-x102b.google.com with SMTP id dw9so32093423pjb.5;
+        Tue, 17 Jan 2023 12:00:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/Y/+6b+/J99MLnqP/RvN51sj3DHWazl0lw52Vf0WKHU=;
-        b=mO/P06835gXK/fd1eBgp4cGBD2kC3K+6imr5T+2jtDjdUBhDC2ZA6VrIPZfU/f9xjC
-         IEFaPiulMS/0ZqDbxbtw2cJsM7Tc3tGTV1WEaKwKEM7/onV7W8gwNEZgbjFg1D9VPFPt
-         zOrBnI+uh6uL/yAkjlKRTpwIo5mbtRcjK3EEpUEcbJ7VVRL/gSQAf4SQnwHxKqHb/sTQ
-         MXdsYhc4zLlGvKOCRi98eQbAPaNpu9G8SHim8g88Gvn8/JWvst4ReoqQ54dQnmQu9Cx8
-         q4mO4VJKRFbwHLXOegE1kYwL9GcvTKshaR6/+a9qCY329OuOlMsj+GHmm1PrfY3+znUl
-         l0+g==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BAp2EKRgDOs4iHu5RgRGiM7hj51I7MR1ml/nzO8MP4Y=;
+        b=TOJ8RxU1vwAH9vUn0euq3FQj/Ko+Ps6G451wmItbBTJwNZIh6LhUtdPsoVJSs0jJmN
+         E++sVFWu8N5cQK/hWcfV4gZ3UFtYPf1iENHvutRMZ8x4iVWqvQa623NyMSTsbjCTbm0m
+         LkQE6jrSyccNSO8IwDaBgmW7GbgB5/Zlf2eiUbFCqttibCX8KJ+NnYWNCDAMFPYVmPZo
+         hGcItV2ERpgx3OaZ6mUwBjR2Esu4oOFrV+2Fn0X9oOln1IBrEfPuO+N7okuHRjid5pqJ
+         F2C7f87DiDhwI1PbUKzgpZ69kRah8uiC+teomRT5g06H4TPAe3D6UqwHjFqPsWrb8lSa
+         YsBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/Y/+6b+/J99MLnqP/RvN51sj3DHWazl0lw52Vf0WKHU=;
-        b=V27/YtcNjHeb9SLUc7l2GOOgFkXADToNi4s46OOW3LR0ozleRjQY+CxK2U3rmRcOG8
-         erAM1bEsNTRDR+yYu1szwVR5wxg9o++CjiIBNhB7CVj1DOT8+BsPP8mLjaEhxJR6QSbb
-         jdhIiDLP92yVsa/OsL2AWAMWvuFMgAWak4dz3YjQriXLLOtfILeQzqVC6y+C67hTpA98
-         j+YEphURAlOUGoNpGEPK6A59zgz30lcwKyqJupkIaDQ/J8uH5VuR6PpF0qld97xMZgSg
-         6YtaPgEQrCkwARla2pXtGQhA6lwPt5MSSNRhSMachUx0LXIB3eYxTG76PL05X3HLDv1Z
-         k8Uw==
-X-Gm-Message-State: AFqh2kpSwaSM6DSNjtiAqz7bQqIO2tXxFtUfGjh3PCZZSvdq21/TsCMV
-        G5e7vhPcNFE47TfABvnybM9PRJf7oMoDG9CL
-X-Google-Smtp-Source: AMrXdXu1hk8ysrAGJplB4OjNB7xeVQaqK5fZ7KwLIxI5L/arUaD+5uicI01yTWHuGz/H+vtFbMLBdw==
-X-Received: by 2002:a05:6a20:93a4:b0:b8:e33c:f160 with SMTP id x36-20020a056a2093a400b000b8e33cf160mr178599pzh.0.1673984162308;
-        Tue, 17 Jan 2023 11:36:02 -0800 (PST)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
-        by smtp.gmail.com with ESMTPSA id t1-20020a63d241000000b004c974bb9a4esm5296842pgi.83.2023.01.17.11.36.01
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BAp2EKRgDOs4iHu5RgRGiM7hj51I7MR1ml/nzO8MP4Y=;
+        b=R9XnpMEsE79n5/vyLWaP0PMYdNGHSTS0bYR0AiEizaioY2s3ZCf4+u/pInpQX0J1yQ
+         7TNfCX/V+9Apnhx/8ENiEBe3N102l9YNL7TMMU8oBhu2ymnLb303Dv2NvfG6HiPOjm7f
+         5J/FzdtnPGF/A0x8/9CvL8E99mBaTpWujxmFZXiJ2aH30DMf5wWYS5EI+9lqn0lnk4Hw
+         pC8Y89afVDvpmsdNd1OtLXLI3JRA5y3D8+6wUvqUtcV3Fcs0a2gIQHpcKgIaHkTg28Wg
+         qSxKoT5P9NC56GMShGXCYn8/zbGYydjUpP7Vlkj2Ty4RoCn1W1qP1O/gtItT1Wf/EyZ2
+         v6DA==
+X-Gm-Message-State: AFqh2kqTl+BUxK7sdiDzH/UCS2kzKBOCYeyCdGay5QQOcrDzgPMAqFe0
+        INFYbqR3RLZDCgxo6D694iY=
+X-Google-Smtp-Source: AMrXdXvvggDDhjlW7v4AlJLAyjNAccQgvIcdv518lelDzuRFDWb9hH+YlAMKmJ8S9B/QfRF1xEp8Nw==
+X-Received: by 2002:a17:902:eb8b:b0:194:6103:1e18 with SMTP id q11-20020a170902eb8b00b0019461031e18mr4792977plg.65.1673985600774;
+        Tue, 17 Jan 2023 12:00:00 -0800 (PST)
+Received: from localhost (fwdproxy-prn-014.fbsv.net. [2a03:2880:ff:e::face:b00c])
+        by smtp.gmail.com with ESMTPSA id i1-20020a17090332c100b0019462aa090bsm1681766plr.284.2023.01.17.12.00.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Jan 2023 11:36:01 -0800 (PST)
-Date:   Tue, 17 Jan 2023 19:35:58 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        wei.w.wang@intel.com
-Subject: Re: [PATCH v10 9/9] KVM: Enable and expose KVM_MEM_PRIVATE
-Message-ID: <Y8b4nsMJm+4Hr/e0@google.com>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-10-chao.p.peng@linux.intel.com>
- <Y8HwvTik/2avrCOU@google.com>
- <20230117131251.GC273037@chaop.bj.intel.com>
+        Tue, 17 Jan 2023 12:00:00 -0800 (PST)
+From:   Nhat Pham <nphamcs@gmail.com>
+To:     akpm@linux-foundation.org
+Cc:     hannes@cmpxchg.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, bfoster@redhat.com,
+        willy@infradead.org, linux-api@vger.kernel.org,
+        kernel-team@meta.com
+Subject: [PATCH v6 0/3] cachestat: a new syscall for page cache state of files
+Date:   Tue, 17 Jan 2023 11:59:56 -0800
+Message-Id: <20230117195959.29768-1-nphamcs@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230117131251.GC273037@chaop.bj.intel.com>
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -104,186 +70,124 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Jan 17, 2023, Chao Peng wrote:
-> On Sat, Jan 14, 2023 at 12:01:01AM +0000, Sean Christopherson wrote:
-> > On Fri, Dec 02, 2022, Chao Peng wrote:
-> > > @@ -10357,6 +10364,12 @@ static int vcpu_enter_guest(struct kvm_vcpu *vcpu)
-> > >  
-> > >  		if (kvm_check_request(KVM_REQ_UPDATE_CPU_DIRTY_LOGGING, vcpu))
-> > >  			static_call(kvm_x86_update_cpu_dirty_logging)(vcpu);
-> > > +
-> > > +		if (kvm_check_request(KVM_REQ_MEMORY_MCE, vcpu)) {
-> > > +			vcpu->run->exit_reason = KVM_EXIT_SHUTDOWN;
-> > 
-> > Synthesizing triple fault shutdown is not the right approach.  Even with TDX's
-> > MCE "architecture" (heavy sarcasm), it's possible that host userspace and the
-> > guest have a paravirt interface for handling memory errors without killing the
-> > host.
-> 
-> Agree shutdown is not the correct choice. I see you made below change:
-> 
-> send_sig_mceerr(BUS_MCEERR_AR, (void __user *)hva, PAGE_SHIFT, current)
-> 
-> The MCE may happen in any thread than KVM thread, sending siginal to
-> 'current' thread may not be the expected behavior.
+Changelog:
+v6:
+  * Add a missing fdput() (suggested by Brian Foster) (patch 2)
+  * Replace cstat_size with cstat_version (suggested by Brian Foster)
+    (patch 2)
+  * Add conditional resched to the xas walk. (suggested by Hillf Danton) 
+    (patch 2)
+v5:
+  * Separate first patch into its own series.
+    (suggested by Andrew Morton)
+  * Expose filemap_cachestat() to non-syscall usage
+    (patch 2) (suggested by Brian Foster).
+  * Fix some build errors from last version.
+    (patch 2)
+  * Explain eviction and recent eviction in the draft man page and
+    documentation (suggested by Andrew Morton).
+    (patch 2)
+v4:
+  * Refactor cachestat and move it to mm/filemap.c (patch 3)
+    (suggested by Brian Foster)
+  * Remove redundant checks (!folio, access_ok)
+    (patch 3) (suggested by Matthew Wilcox and Al Viro)
+  * Fix a bug in handling multipages folio.
+    (patch 3) (suggested by Matthew Wilcox)
+  * Add a selftest for shmem files, which can be used to test huge
+    pages (patch 4) (suggested by Johannes Weiner)
+v3:
+  * Fix some minor formatting issues and build errors.
+  * Add the new syscall entry to missing architecture syscall tables.
+    (patch 3).
+  * Add flags argument for the syscall. (patch 3).
+  * Clean up the recency refactoring (patch 2) (suggested by Yu Zhao)
+  * Add the new Kconfig (CONFIG_CACHESTAT) to disable the syscall.
+    (patch 3) (suggested by Josh Triplett)
+v2:
+  * len == 0 means query to EOF. len < 0 is invalid.
+    (patch 3) (suggested by Brian Foster)
+  * Make cachestat extensible by adding the `cstat_size` argument in the
+    syscall (patch 3)
 
-This is already true today, e.g. a #MC in memory that is mapped into the guest can
-be triggered by a host access.  Hrm, but in this case we actually have a KVM
-instance, and we know that the #MC is relevant to the KVM instance, so I agree
-that signaling 'current' is kludgy.
+There is currently no good way to query the page cache state of large
+file sets and directory trees. There is mincore(), but it scales poorly:
+the kernel writes out a lot of bitmap data that userspace has to
+aggregate, when the user really doesn not care about per-page information
+in that case. The user also needs to mmap and unmap each file as it goes
+along, which can be quite slow as well.
 
->  Also how userspace can tell is the MCE on the shared page or private page?
->  Do we care?
+This series of patches introduces a new system call, cachestat, that
+summarizes the page cache statistics (number of cached pages, dirty
+pages, pages marked for writeback, evicted pages etc.) of a file, in a
+specified range of bytes. It also include a selftest suite that tests some
+typical usage
 
-We care.  I was originally thinking we could require userspace to keep track of
-things, but that's quite prescriptive and flawed, e.g. could race with conversions.
+This interface is inspired by past discussion and concerns with fincore,
+which has a similar design (and as a result, issues) as mincore.
+Relevant links:
 
-One option would be to KVM_EXIT_MEMORY_FAULT, and then wire up a generic (not x86
-specific) KVM request to exit to userspace, e.g.
+https://lkml.indiana.edu/hypermail/linux/kernel/1302.1/04207.html
+https://lkml.indiana.edu/hypermail/linux/kernel/1302.1/04209.html
 
-		/* KVM_EXIT_MEMORY_FAULT */
-		struct {
-#define KVM_MEMORY_EXIT_FLAG_PRIVATE	(1ULL << 3)
-#define KVM_MEMORY_EXIT_FLAG_HW_ERROR	(1ULL << 4)
-			__u64 flags;
-			__u64 gpa;
-			__u64 size;
-		} memory;
+For comparison with mincore, I ran both syscalls on a 2TB sparse file:
 
-But I'm not sure that's the correct approach.  It kinda feels like we're reinventing
-the wheel.  It seems like restrictedmem_get_page() _must_ be able to reject attempts
-to get a poisoned page, i.e. restrictedmem_get_page() should yield KVM_PFN_ERR_HWPOISON.
-Assuming that's the case, then I believe KVM simply needs to zap SPTEs in response
-to an error notification in order to force vCPUs to fault on the poisoned page.
+Using mincore:
+real    0m37.510s
+user    0m2.934s
+sys     0m34.558s
 
-> > > +		return -EINVAL;
-> > >  	if (as_id >= KVM_ADDRESS_SPACE_NUM || id >= KVM_MEM_SLOTS_NUM)
-> > >  		return -EINVAL;
-> > >  	if (mem->guest_phys_addr + mem->memory_size < mem->guest_phys_addr)
-> > > @@ -2020,6 +2154,9 @@ int __kvm_set_memory_region(struct kvm *kvm,
-> > >  		if ((kvm->nr_memslot_pages + npages) < kvm->nr_memslot_pages)
-> > >  			return -EINVAL;
-> > >  	} else { /* Modify an existing slot. */
-> > > +		/* Private memslots are immutable, they can only be deleted. */
-> > 
-> > I'm 99% certain I suggested this, but if we're going to make these memslots
-> > immutable, then we should straight up disallow dirty logging, otherwise we'll
-> > end up with a bizarre uAPI.
-> 
-> But in my mind dirty logging will be needed in the very short time, when
-> live migration gets supported?
+Using cachestat:
+real    0m0.009s
+user    0m0.000s
+sys     0m0.009s
 
-Ya, but if/when live migration support is added, private memslots will no longer
-be immutable as userspace will want to enable dirty logging only when a VM is
-being migrated, i.e. something will need to change.
+This series should be applied on top of:
 
-Given that it looks like we have clear line of sight to SEV+UPM guests, my
-preference would be to allow toggling dirty logging from the get-go.  It doesn't
-necessarily have to be in the first patch, e.g. KVM could initially reject
-KVM_MEM_LOG_DIRTY_PAGES + KVM_MEM_PRIVATE and then add support separately to make
-the series easier to review, test, and bisect.
+workingset: fix confusion around eviction vs refault container
+https://lkml.org/lkml/2023/1/4/1066
 
-static int check_memory_region_flags(struct kvm *kvm,
-				     const struct kvm_userspace_memory_region2 *mem)
-{
-	u32 valid_flags = KVM_MEM_LOG_DIRTY_PAGES;
+This series consist of 3 patches:
 
-	if (kvm_arch_has_private_mem(kvm) &&
-	    ~(mem->flags & KVM_MEM_LOG_DIRTY_PAGES))
-		valid_flags |= KVM_MEM_PRIVATE;
+Nhat Pham (3):
+  workingset: refactor LRU refault to expose refault recency check
+  cachestat: implement cachestat syscall
+  selftests: Add selftests for cachestat
+
+ MAINTAINERS                                   |   7 +
+ arch/alpha/kernel/syscalls/syscall.tbl        |   1 +
+ arch/arm/tools/syscall.tbl                    |   1 +
+ arch/ia64/kernel/syscalls/syscall.tbl         |   1 +
+ arch/m68k/kernel/syscalls/syscall.tbl         |   1 +
+ arch/microblaze/kernel/syscalls/syscall.tbl   |   1 +
+ arch/parisc/kernel/syscalls/syscall.tbl       |   1 +
+ arch/powerpc/kernel/syscalls/syscall.tbl      |   1 +
+ arch/s390/kernel/syscalls/syscall.tbl         |   1 +
+ arch/sh/kernel/syscalls/syscall.tbl           |   1 +
+ arch/sparc/kernel/syscalls/syscall.tbl        |   1 +
+ arch/x86/entry/syscalls/syscall_32.tbl        |   1 +
+ arch/x86/entry/syscalls/syscall_64.tbl        |   1 +
+ arch/xtensa/kernel/syscalls/syscall.tbl       |   1 +
+ include/linux/fs.h                            |   3 +
+ include/linux/swap.h                          |   1 +
+ include/linux/syscalls.h                      |   4 +
+ include/uapi/asm-generic/unistd.h             |   5 +-
+ include/uapi/linux/mman.h                     |   9 +
+ init/Kconfig                                  |  10 +
+ kernel/sys_ni.c                               |   1 +
+ mm/filemap.c                                  | 154 +++++++++++
+ mm/workingset.c                               | 129 ++++++---
+ tools/testing/selftests/Makefile              |   1 +
+ tools/testing/selftests/cachestat/.gitignore  |   2 +
+ tools/testing/selftests/cachestat/Makefile    |   8 +
+ .../selftests/cachestat/test_cachestat.c      | 260 ++++++++++++++++++
+ 27 files changed, 568 insertions(+), 39 deletions(-)
+ create mode 100644 tools/testing/selftests/cachestat/.gitignore
+ create mode 100644 tools/testing/selftests/cachestat/Makefile
+ create mode 100644 tools/testing/selftests/cachestat/test_cachestat.c
 
 
-	...
-}
-
-> > > +		if (mem->flags & KVM_MEM_PRIVATE)
-> > > +			return -EINVAL;
-> > >  		if ((mem->userspace_addr != old->userspace_addr) ||
-> > >  		    (npages != old->npages) ||
-> > >  		    ((mem->flags ^ old->flags) & KVM_MEM_READONLY))
-> > > @@ -2048,10 +2185,28 @@ int __kvm_set_memory_region(struct kvm *kvm,
-> > >  	new->npages = npages;
-> > >  	new->flags = mem->flags;
-> > >  	new->userspace_addr = mem->userspace_addr;
-> > > +	if (mem->flags & KVM_MEM_PRIVATE) {
-> > > +		new->restricted_file = fget(mem->restricted_fd);
-> > > +		if (!new->restricted_file ||
-> > > +		    !file_is_restrictedmem(new->restricted_file)) {
-> > > +			r = -EINVAL;
-> > > +			goto out;
-> > > +		}
-> > > +		new->restricted_offset = mem->restricted_offset;
-> 
-> I see you changed slot->restricted_offset type from loff_t to gfn_t and
-> used pgoff_t when doing the restrictedmem_bind/unbind(). Using page
-> index is reasonable KVM internally and sounds simpler than loff_t. But
-> we also need initialize it to page index here as well as changes in
-> another two cases. This is needed when restricted_offset != 0.
-
-Oof.  I'm pretty sure I completely missed that loff_t is used for byte offsets,
-whereas pgoff_t is a frame index. 
-
-Given that the restrictmem APIs take pgoff_t, I definitely think it makes sense
-to the index, but I'm very tempted to store pgoff_t instead of gfn_t, and name
-the field "index" to help connect the dots to the rest of kernel, where "pgoff_t index"
-is quite common.
-
-And looking at those bits again, we should wrap all of the restrictedmem fields
-with CONFIG_KVM_PRIVATE_MEM.  It'll require minor tweaks to __kvm_set_memory_region(),
-but I think will yield cleaner code (and internal APIs) overall.
-
-And wrap the three fields in an anonymous struct?  E.g. this is a little more
-versbose (restrictedmem instead restricted), but at first glance it doesn't seem
-to cause widespared line length issues.
-
-#ifdef CONFIG_KVM_PRIVATE_MEM
-	struct {
-		struct file *file;
-		pgoff_t index;
-		struct restrictedmem_notifier notifier;
-	} restrictedmem;
-#endif
-
-> diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-> index 547b92215002..49e375e78f30 100644
-> --- a/include/linux/kvm_host.h
-> +++ b/include/linux/kvm_host.h
-> @@ -2364,8 +2364,7 @@ static inline int kvm_restricted_mem_get_pfn(struct kvm_memory_slot *slot,
->                                              gfn_t gfn, kvm_pfn_t *pfn,
->                                              int *order)
->  {
-> -       pgoff_t index = gfn - slot->base_gfn +
-> -                       (slot->restricted_offset >> PAGE_SHIFT);
-> +       pgoff_t index = gfn - slot->base_gfn + slot->restricted_offset;
->         struct page *page;
->         int ret;
->  
-> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> index 01db35ddd5b3..7439bdcb0d04 100644
-> --- a/virt/kvm/kvm_main.c
-> +++ b/virt/kvm/kvm_main.c
-> @@ -935,7 +935,7 @@ static bool restrictedmem_range_is_valid(struct kvm_memory_slot *slot,
->                                          pgoff_t start, pgoff_t end,
->                                          gfn_t *gfn_start, gfn_t *gfn_end)
->  {
-> -       unsigned long base_pgoff = slot->restricted_offset >> PAGE_SHIFT;
-> +       unsigned long base_pgoff = slot->restricted_offset;
->  
->         if (start > base_pgoff)
->                 *gfn_start = slot->base_gfn + start - base_pgoff;
-> @@ -2275,7 +2275,7 @@ int __kvm_set_memory_region(struct kvm *kvm,
->                         r = -EINVAL;
->                         goto out;
->                 }
-> -               new->restricted_offset = mem->restricted_offset;
-> +               new->restricted_offset = mem->restricted_offset >> PAGE_SHIFT;
->         }
->  
->         r = kvm_set_memslot(kvm, old, new, change);
-> 
-> Chao
-> > > +	}
-> > > +
-> > > +	new->kvm = kvm;
-> > 
-> > Set this above, just so that the code flows better.
+base-commit: 1440f576022887004f719883acb094e7e0dd4944
+prerequisite-patch-id: 171a43d333e1b267ce14188a5beaea2f313787fb
+-- 
+2.30.2
