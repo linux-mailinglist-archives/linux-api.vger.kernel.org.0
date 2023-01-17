@@ -2,70 +2,59 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F358866E893
-	for <lists+linux-api@lfdr.de>; Tue, 17 Jan 2023 22:39:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BA64670D3A
+	for <lists+linux-api@lfdr.de>; Wed, 18 Jan 2023 00:24:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229774AbjAQVia (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 17 Jan 2023 16:38:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54440 "EHLO
+        id S229513AbjAQXYP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 17 Jan 2023 18:24:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45322 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229895AbjAQVgz (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 17 Jan 2023 16:36:55 -0500
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5ED1F1BAD3;
-        Tue, 17 Jan 2023 12:00:15 -0800 (PST)
-Received: by mail-pl1-x636.google.com with SMTP id p24so34631691plw.11;
-        Tue, 17 Jan 2023 12:00:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OaOZQvWhqFGfMeSz4AFcJuI7rpVT7E7rM49XqO7Em38=;
-        b=HNk1t5geYxZUBRdjZ0SqtD+4givjGmCWUJlfv08yqi/RbwXADrjG6zSwXcPy5IdZvB
-         Jut2oWQCIH/8Firu7DAVWKdln0NrDO3y1usX9vFcYejSCoB+taQGBNPxlU5cz6mcapJu
-         JJhYSzwVzea8sth8DNY/xbTE0NZfzAwHMu9UhUEEJPPE3KU/TDAf2BLljdf/Mq+TvoGT
-         tbBhe+BeEUKUiVUqRNGQPDSW6w8fWwdClsmrFTOVpMcCcnHm9mAzjkPc4bmP2t9n84uY
-         10gYjW3YaQphCM/wG/jPtD11Y3SkDOs9ZIiTTU0gnaEJPCLUnBx7At9vPzikyxbo4B62
-         laeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OaOZQvWhqFGfMeSz4AFcJuI7rpVT7E7rM49XqO7Em38=;
-        b=XQkoACIOcE2vlCovd+RtyivfYkTc2/DZ4PESjMUj5L383dQBPyUm8sqqy614H1rNlR
-         tAj70jF7IK2sK+3PACHFma+vBhG0rvPjM7QCL9YokRBYHsNBJESIJgUHUI3sPlbefu5P
-         b4s/2/EQ49C8vllkHc6ZNZMc9Aw9kz5Q5MoiNHLdMXBqNDqLtje6oWq7cJ6074RAlarP
-         yermqgNOReVXBGzFKQFf4zHtu2Iqi3FbnQPQwv83LhegGhq3gMCuUtHNyal1yw91QI7d
-         kMn+2fiYvrh93Y9Y1TKnsLSiSDNnei5N3oljfcChqGOSj32kE8vBTC/1PB0QzT6+1pOk
-         AYIA==
-X-Gm-Message-State: AFqh2krr7alihodPEyJZEuddcEBVC/kx+FEJM3aGrl9uKxqibszGuZNM
-        nrtKMN8fNFANR+TY/iXtPvI=
-X-Google-Smtp-Source: AMrXdXvOpo4sFO++TFPpPhGEYiSachbNbxG3BW69unObKCWuL0LUt5811XrfTPJZx9lp0zJ5cWC0bQ==
-X-Received: by 2002:a05:6a21:7890:b0:b8:827c:42bd with SMTP id bf16-20020a056a21789000b000b8827c42bdmr5199470pzc.17.1673985614738;
-        Tue, 17 Jan 2023 12:00:14 -0800 (PST)
-Received: from localhost (fwdproxy-prn-022.fbsv.net. [2a03:2880:ff:16::face:b00c])
-        by smtp.gmail.com with ESMTPSA id h18-20020a656392000000b0046b1dabf9a8sm17676764pgv.70.2023.01.17.12.00.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Jan 2023 12:00:14 -0800 (PST)
-From:   Nhat Pham <nphamcs@gmail.com>
-To:     akpm@linux-foundation.org
-Cc:     hannes@cmpxchg.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, bfoster@redhat.com,
-        willy@infradead.org, linux-api@vger.kernel.org,
-        kernel-team@meta.com
-Subject: [PATCH v6 3/3] selftests: Add selftests for cachestat
-Date:   Tue, 17 Jan 2023 11:59:59 -0800
-Message-Id: <20230117195959.29768-4-nphamcs@gmail.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230117195959.29768-1-nphamcs@gmail.com>
-References: <20230117195959.29768-1-nphamcs@gmail.com>
+        with ESMTP id S229854AbjAQXXx (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 17 Jan 2023 18:23:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A095F6D36C
+        for <linux-api@vger.kernel.org>; Tue, 17 Jan 2023 13:14:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1673990062;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=BLiSOjNb0xDOzALeAyTD+mR9sLdYm4aLnwXALKfDdxk=;
+        b=N+kwymQd5LkoAZX8fi7tFQx4+/5Q4KGh9lJvuiVQI7zD6C8Z+yIkHr8T7cqBzwyJ4QvdCH
+        ABp/zKFozLX8J9YRV6eSFlE41VgTXJAwNiiU94TApZYBToMzMGw+JI8BEgR5bbXMy6Lb0W
+        GXTOtTZ2fMw+Yr89wOlw0EjJwp1y5go=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-118-j3vvkZ7oNiyvg7oiQl3fyQ-1; Tue, 17 Jan 2023 16:14:19 -0500
+X-MC-Unique: j3vvkZ7oNiyvg7oiQl3fyQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0389680D180;
+        Tue, 17 Jan 2023 21:14:19 +0000 (UTC)
+Received: from madcap2.tricolour.com (ovpn-0-3.rdu2.redhat.com [10.22.0.3])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 84C2EC15BAD;
+        Tue, 17 Jan 2023 21:14:17 +0000 (UTC)
+From:   Richard Guy Briggs <rgb@redhat.com>
+To:     Linux-Audit Mailing List <linux-audit@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
+Cc:     Paul Moore <paul@paul-moore.com>,
+        Eric Paris <eparis@parisplace.org>,
+        Steve Grubb <sgrubb@redhat.com>,
+        Richard Guy Briggs <rgb@redhat.com>, Jan Kara <jack@suse.cz>,
+        Amir Goldstein <amir73il@gmail.com>
+Subject: [PATCH v6 0/3] fanotify: Allow user space to pass back additional audit info
+Date:   Tue, 17 Jan 2023 16:14:04 -0500
+Message-Id: <cover.1673989212.git.rgb@redhat.com>
 MIME-Version: 1.0
+Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -73,339 +62,118 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Test cachestat on a newly created file, /dev/ files, and /proc/ files.
-Also test on a shmem file (which can also be tested with huge pages
-since tmpfs supports huge pages).
+The Fanotify API can be used for access control by requesting permission
+event notification. The user space tooling that uses it may have a
+complicated policy that inherently contains additional context for the
+decision. If this information were available in the audit trail, policy
+writers can close the loop on debugging policy. Also, if this additional
+information were available, it would enable the creation of tools that
+can suggest changes to the policy similar to how audit2allow can help
+refine labeled security.
 
-Signed-off-by: Nhat Pham <nphamcs@gmail.com>
----
- MAINTAINERS                                   |   7 +
- tools/testing/selftests/Makefile              |   1 +
- tools/testing/selftests/cachestat/.gitignore  |   2 +
- tools/testing/selftests/cachestat/Makefile    |   8 +
- .../selftests/cachestat/test_cachestat.c      | 260 ++++++++++++++++++
- 5 files changed, 278 insertions(+)
- create mode 100644 tools/testing/selftests/cachestat/.gitignore
- create mode 100644 tools/testing/selftests/cachestat/Makefile
- create mode 100644 tools/testing/selftests/cachestat/test_cachestat.c
+This patchset defines a new flag (FAN_INFO) and new extensions that
+define additional information which are appended after the response
+structure returned from user space on a permission event.  The appended
+information is organized with headers containing a type and size that
+can be delegated to interested subsystems.  One new information type is
+defined to audit the triggering rule number.  
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a198da986146..792a866353ec 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4552,6 +4552,13 @@ S:	Supported
- F:	Documentation/filesystems/caching/cachefiles.rst
- F:	fs/cachefiles/
- 
-+CACHESTAT: PAGE CACHE STATS FOR A FILE
-+M:	Nhat Pham <nphamcs@gmail.com>
-+M:	Johannes Weiner <hannes@cmpxchg.org>
-+L:	linux-mm@kvack.org
-+S:	Maintained
-+F:	tools/testing/selftests/cachestat/test_cachestat.c
-+
- CADENCE MIPI-CSI2 BRIDGES
- M:	Maxime Ripard <mripard@kernel.org>
- L:	linux-media@vger.kernel.org
-diff --git a/tools/testing/selftests/Makefile b/tools/testing/selftests/Makefile
-index 0464b2c6c1e4..3cad0b38c5c2 100644
---- a/tools/testing/selftests/Makefile
-+++ b/tools/testing/selftests/Makefile
-@@ -4,6 +4,7 @@ TARGETS += amd-pstate
- TARGETS += arm64
- TARGETS += bpf
- TARGETS += breakpoints
-+TARGETS += cachestat
- TARGETS += capabilities
- TARGETS += cgroup
- TARGETS += clone3
-diff --git a/tools/testing/selftests/cachestat/.gitignore b/tools/testing/selftests/cachestat/.gitignore
-new file mode 100644
-index 000000000000..d6c30b43a4bb
---- /dev/null
-+++ b/tools/testing/selftests/cachestat/.gitignore
-@@ -0,0 +1,2 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+test_cachestat
-diff --git a/tools/testing/selftests/cachestat/Makefile b/tools/testing/selftests/cachestat/Makefile
-new file mode 100644
-index 000000000000..fca73aaa7d14
---- /dev/null
-+++ b/tools/testing/selftests/cachestat/Makefile
-@@ -0,0 +1,8 @@
-+# SPDX-License-Identifier: GPL-2.0
-+TEST_GEN_PROGS := test_cachestat
-+
-+CFLAGS += $(KHDR_INCLUDES)
-+CFLAGS += -Wall
-+CFLAGS += -lrt
-+
-+include ../lib.mk
-diff --git a/tools/testing/selftests/cachestat/test_cachestat.c b/tools/testing/selftests/cachestat/test_cachestat.c
-new file mode 100644
-index 000000000000..dc2894028eee
---- /dev/null
-+++ b/tools/testing/selftests/cachestat/test_cachestat.c
-@@ -0,0 +1,260 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#define _GNU_SOURCE
-+
-+#include <stdio.h>
-+#include <stdbool.h>
-+#include <linux/kernel.h>
-+#include <linux/mman.h>
-+#include <sys/mman.h>
-+#include <sys/shm.h>
-+#include <sys/syscall.h>
-+#include <unistd.h>
-+#include <string.h>
-+#include <fcntl.h>
-+#include <errno.h>
-+
-+#include "../kselftest.h"
-+
-+static const char * const dev_files[] = {
-+	"/dev/zero", "/dev/null", "/dev/urandom",
-+	"/proc/version", "/proc"
-+};
-+static const int cachestat_nr = 451;
-+static const int cstat_version = 1; /* first version */
-+
-+void print_cachestat(struct cachestat *cs)
-+{
-+	ksft_print_msg(
-+	"Using cachestat: Cached: %lu, Dirty: %lu, Writeback: %lu, Evicted: %lu, Recently Evicted: %lu\n",
-+	cs->nr_cache, cs->nr_dirty, cs->nr_writeback,
-+	cs->nr_evicted, cs->nr_recently_evicted);
-+}
-+
-+bool write_exactly(int fd, size_t filesize)
-+{
-+	char data[filesize];
-+	bool ret = true;
-+	int random_fd = open("/dev/urandom", O_RDONLY);
-+
-+	if (random_fd < 0) {
-+		ksft_print_msg("Unable to access urandom.\n");
-+		ret = false;
-+		goto out;
-+	} else {
-+		int remained = filesize;
-+		char *cursor = data;
-+
-+		while (remained) {
-+			ssize_t read_len = read(random_fd, cursor, remained);
-+
-+			if (read_len <= 0) {
-+				ksft_print_msg("Unable to read from urandom.\n");
-+				ret = false;
-+				goto close_random_fd;
-+			}
-+
-+			remained -= read_len;
-+			cursor += read_len;
-+		}
-+
-+		/* write random data to fd */
-+		remained = filesize;
-+		cursor = data;
-+		while (remained) {
-+			ssize_t write_len = write(fd, cursor, remained);
-+
-+			if (write_len <= 0) {
-+				ksft_print_msg("Unable write random data to file.\n");
-+				ret = false;
-+				goto close_random_fd;
-+			}
-+
-+			remained -= write_len;
-+			cursor += write_len;
-+		}
-+	}
-+
-+close_random_fd:
-+	close(random_fd);
-+out:
-+	return ret;
-+}
-+
-+/*
-+ * Open/create the file at filename, (optionally) write random data to it
-+ * (exactly num_pages), then test the cachestat syscall on this file.
-+ *
-+ * If test_fsync == true, fsync the file, then check the number of dirty
-+ * pages.
-+ */
-+bool test_cachestat(const char *filename, bool write_random, bool create,
-+		bool test_fsync, unsigned long num_pages, int open_flags,
-+		mode_t open_mode)
-+{
-+	size_t PS = sysconf(_SC_PAGESIZE);
-+	int filesize = num_pages * PS;
-+	bool ret = true;
-+	long syscall_ret;
-+	struct cachestat cs;
-+
-+	int fd = open(filename, open_flags, open_mode);
-+
-+	if (fd == -1) {
-+		ksft_print_msg("Unable to create/open file.\n");
-+		goto out;
-+	} else {
-+		ksft_print_msg("Create/open %s\n", filename);
-+	}
-+
-+	if (write_random) {
-+		if (!write_exactly(fd, filesize)) {
-+			ksft_print_msg("Unable to access urandom.\n");
-+			ret = false;
-+			goto out1;
-+		}
-+	}
-+
-+	syscall_ret = syscall(cachestat_nr, fd, 0, filesize,
-+		cstat_version, &cs, 0);
-+
-+	ksft_print_msg("Cachestat call returned %ld\n", syscall_ret);
-+
-+	if (syscall_ret) {
-+		ksft_print_msg("Cachestat returned non-zero.\n");
-+		ret = false;
-+		goto out1;
-+
-+	} else {
-+		print_cachestat(&cs);
-+
-+		if (write_random) {
-+			if (cs.nr_cache + cs.nr_evicted != num_pages) {
-+				ksft_print_msg(
-+					"Total number of cached and evicted pages is off.\n");
-+				ret = false;
-+			}
-+		}
-+	}
-+
-+	if (test_fsync) {
-+		if (fsync(fd)) {
-+			ksft_print_msg("fsync fails.\n");
-+			ret = false;
-+		} else {
-+			syscall_ret = syscall(cachestat_nr, fd, 0, filesize,
-+				cstat_version, &cs, 0);
-+
-+			ksft_print_msg("Cachestat call (after fsync) returned %ld\n",
-+				syscall_ret);
-+
-+			if (!syscall_ret) {
-+				print_cachestat(&cs);
-+
-+				if (cs.nr_dirty) {
-+					ret = false;
-+					ksft_print_msg(
-+						"Number of dirty should be zero after fsync.\n");
-+				}
-+			} else {
-+				ksft_print_msg("Cachestat (after fsync) returned non-zero.\n");
-+				ret = false;
-+				goto out1;
-+			}
-+		}
-+	}
-+
-+out1:
-+	close(fd);
-+
-+	if (create)
-+		remove(filename);
-+out:
-+	return ret;
-+}
-+
-+bool test_cachestat_shmem(void)
-+{
-+	size_t PS = sysconf(_SC_PAGESIZE);
-+	size_t filesize = PS * 512 * 2; /* 2 2MB huge pages */
-+	int syscall_ret;
-+	off_t off = PS;
-+	size_t compute_len = PS * 512;
-+	char *filename = "tmpshmcstat";
-+	struct cachestat cs;
-+	bool ret = true;
-+	unsigned long num_pages = compute_len / PS;
-+	int fd = shm_open(filename, O_CREAT | O_RDWR, 0600);
-+
-+	if (fd < 0) {
-+		ksft_print_msg("Unable to create shmem file.\n");
-+		ret = false;
-+		goto out;
-+	}
-+
-+	if (ftruncate(fd, filesize)) {
-+		ksft_print_msg("Unable to trucate shmem file.\n");
-+		ret = false;
-+		goto close_fd;
-+	}
-+
-+	if (!write_exactly(fd, filesize)) {
-+		ksft_print_msg("Unable to write to shmem file.\n");
-+		ret = false;
-+		goto close_fd;
-+	}
-+
-+	syscall_ret = syscall(cachestat_nr, fd, off, compute_len,
-+		cstat_version, &cs, 0);
-+
-+	if (syscall_ret) {
-+		ksft_print_msg("Cachestat returned non-zero.\n");
-+		ret = false;
-+		goto close_fd;
-+	} else {
-+		print_cachestat(&cs);
-+		if (cs.nr_cache + cs.nr_evicted != num_pages) {
-+			ksft_print_msg(
-+				"Total number of cached and evicted pages is off.\n");
-+			ret = false;
-+		}
-+	}
-+
-+close_fd:
-+	shm_unlink(filename);
-+out:
-+	return ret;
-+}
-+
-+int main(void)
-+{
-+	int ret = 0;
-+
-+	for (int i = 0; i < 5; i++) {
-+		const char *dev_filename = dev_files[i];
-+
-+		if (test_cachestat(dev_filename, false, false, false,
-+			4, O_RDONLY, 0400))
-+			ksft_test_result_pass("cachestat works with %s\n", dev_filename);
-+		else {
-+			ksft_test_result_fail("cachestat fails with %s\n", dev_filename);
-+			ret = 1;
-+		}
-+	}
-+
-+	if (test_cachestat("tmpfilecachestat", true, true,
-+		true, 4, O_CREAT | O_RDWR, 0400 | 0600))
-+		ksft_test_result_pass("cachestat works with a normal file\n");
-+	else {
-+		ksft_test_result_fail("cachestat fails with normal file\n");
-+		ret = 1;
-+	}
-+
-+	if (test_cachestat_shmem())
-+		ksft_test_result_pass("cachestat works with a shmem file\n");
-+	else {
-+		ksft_test_result_fail("cachestat fails with a shmem file\n");
-+		ret = 1;
-+	}
-+
-+	return ret;
-+}
+A newer kernel will work with an older userspace and an older kernel
+will behave as expected and reject a newer userspace, leaving it up to
+the newer userspace to test appropriately and adapt as necessary.  This
+is done by providing a a fully-formed FAN_INFO extension but setting the
+fd to FAN_NOFD.  On a capable kernel, it will succeed but issue no audit
+record, whereas on an older kernel it will fail.
+
+The audit function was updated to log the additional information in the
+AUDIT_FANOTIFY record. The following are examples of the new record
+format:
+  type=FANOTIFY msg=audit(1600385147.372:590): resp=2 fan_type=1 fan_info=3137 subj_trust=3 obj_trust=5
+  type=FANOTIFY msg=audit(1659730979.839:284): resp=1 fan_type=0 fan_info=3F subj_trust=? obj_trust=?
+
+changelog:
+v1:
+- first version by Steve Grubb <sgrubb@redhat.com>
+Link: https://lore.kernel.org/r/2042449.irdbgypaU6@x2
+
+v2:
+- enhancements suggested by Jan Kara <jack@suse.cz>
+- 1/3 change %d to %u in pr_debug
+- 2/3 change response from __u32 to __u16
+- mod struct fanotify_response and fanotify_perm_event add extra_info_type, extra_info_buf
+- extra_info_buf size max FANOTIFY_MAX_RESPONSE_EXTRA_LEN, add struct fanotify_response_audit_rule
+- extend debug statements
+- remove unneeded macros
+- [internal] change interface to finish_permission_event() and process_access_response()
+- 3/3 update format of extra information
+- [internal] change interface to audit_fanotify()
+- change ctx_type= to fan_type=
+Link: https://lore.kernel.org/r/cover.1651174324.git.rgb@redhat.com
+
+v3:
+- 1/3 switch {,__}audit_fanotify() from uint to u32
+- 2/3 re-add fanotify_get_response switch case FAN_DENY: to avoid unnecessary churn
+- add FAN_EXTRA flag to indicate more info and break with old kernel
+- change response from u16 to u32 to avoid endian issues
+- change extra_info_buf to union
+- move low-cost fd check earlier
+- change FAN_RESPONSE_INFO_AUDIT_NONE to FAN_RESPONSE_INFO_NONE
+- switch to u32 for internal and __u32 for uapi
+Link: https://lore.kernel.org/all/cover.1652730821.git.rgb@redhat.com
+
+v4:
+- scrap FAN_INVALID_RESPONSE_MASK in favour of original to catch invalid response == 0
+- introduce FANOTIFY_RESPONSE_* macros
+- uapi: remove union
+- keep original struct fanotify_response, add fan_info infra starting with audit reason
+- uapi add struct fanotify_response_info_header{type/pad/len} and struct fanotify_response_info_audit_rule{hdr/rule}
+- rename fan_ctx= to fan_info=, FAN_EXTRA to FAN_INFO
+- change event struct from type/buf to len/buf
+- enable multiple info extensions in one message
+- hex encode fan_info in __audit_fanotify()
+- record type FANOTIFY extended to "type=FANOTIFY msg=audit(1659730979.839:284): resp=1 fan_type=0 fan_info=3F"                                                                                                                     
+Link: https://lore.kernel.org/all/cover.1659996830.git.rgb@redhat.com
+
+v5:
+- fixed warnings in p2/4 and p3/4 found by <lkp@intel.com>
+- restore original behaviour for !FAN_INFO case and fanotify_get_response()
+- rename member audit_rule to rule_number
+- eliminate memory leak of info_buf on failure (no longer dynamic)
+- rename buf:info, count:info_len, c:remain, ib:infop
+- fix pr_debug
+- return -ENOENT on FAN_INFO and fd==FAN_NOFD to signal new kernel
+- fanotify_write() remove redundant size check
+- add u32 subj_trust obj_trust fields with unknown value "2"
+- split out to helper process_access_response_info()
+- restore finish_permission_event() response_struct to u32
+- assume and enforce one rule to audit, pass struct directly to __audit_fanotify()
+- change fanotify_perm_event struct to union hdr/audir_rule
+- add vspace to fanotify_write() and process_access_response_info()
+- squash 3/4 with 4/4
+- fix v3 and v4 links
+Link: https://lore.kernel.org/all/cover.1670606054.git.rgb@redhat.com
+
+v6:
+- simplify __audit_fanotify() from audit_log_format/audit_log_n_hex to audit_log/%X
+- add comment to clarify {subj,obj}_trust values
+- remove fd processing from process_access_response_info()
+- return info_len immediately from process_access_response() on FAN_NOFD after process_access_response_info()
+Link: https://lore.kernel.org/all/cover.1673989212.git.rgb@redhat.com
+
+Richard Guy Briggs (3):
+  fanotify: Ensure consistent variable type for response
+  fanotify: define struct members to hold response decision context
+  fanotify,audit: Allow audit to use the full permission event response
+
+ fs/notify/fanotify/fanotify.c      |  8 ++-
+ fs/notify/fanotify/fanotify.h      |  6 +-
+ fs/notify/fanotify/fanotify_user.c | 88 ++++++++++++++++++++++--------
+ include/linux/audit.h              |  9 +--
+ include/linux/fanotify.h           |  5 ++
+ include/uapi/linux/fanotify.h      | 30 +++++++++-
+ kernel/auditsc.c                   | 16 +++++-
+ 7 files changed, 129 insertions(+), 33 deletions(-)
+
 -- 
-2.30.2
+2.27.0
+
