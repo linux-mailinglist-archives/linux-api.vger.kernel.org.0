@@ -2,174 +2,139 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2038866D828
-	for <lists+linux-api@lfdr.de>; Tue, 17 Jan 2023 09:27:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E1F066D851
+	for <lists+linux-api@lfdr.de>; Tue, 17 Jan 2023 09:36:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235927AbjAQI13 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 17 Jan 2023 03:27:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40014 "EHLO
+        id S236127AbjAQIgr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 17 Jan 2023 03:36:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45032 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235811AbjAQI11 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 17 Jan 2023 03:27:27 -0500
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 098A610C4;
-        Tue, 17 Jan 2023 00:27:25 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 8821E38128;
-        Tue, 17 Jan 2023 08:27:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1673944044; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=0iuG7PkMYKf7+8R4JHptOHZGwCBSRhIIXJ2tXnim9Ps=;
-        b=NXJX/oGHZg/1ODfYgWCcmn+0wwahKQ7zQkXRd5DSD1mFUmbxeTWNWJ9JynfiA54gY3gsgT
-        A0jT5X2CV4slDvfBntHDytf0JyN4M8tUzCO97VNpwARYJEmqu/iB5PS1eqm8ihKjP+yROz
-        TGVleYHmmK6G0PLGwP9ur+XbG7/8n+o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1673944044;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=0iuG7PkMYKf7+8R4JHptOHZGwCBSRhIIXJ2tXnim9Ps=;
-        b=m+2JALH66lcQBqsBJFp+2YpheI9qlODjz1YCYeTugQ4orbs17m1hlVFr2Am4CoUB9w94VU
-        E6i84SCD+FBiemCA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 796E11390C;
-        Tue, 17 Jan 2023 08:27:24 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id 4aCKHexbxmNxVQAAMHmgww
-        (envelope-from <jack@suse.cz>); Tue, 17 Jan 2023 08:27:24 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-        id BDF5FA06B2; Tue, 17 Jan 2023 09:27:23 +0100 (CET)
-Date:   Tue, 17 Jan 2023 09:27:23 +0100
-From:   Jan Kara <jack@suse.cz>
-To:     Richard Guy Briggs <rgb@redhat.com>
-Cc:     Jan Kara <jack@suse.cz>,
-        Linux-Audit Mailing List <linux-audit@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        Paul Moore <paul@paul-moore.com>,
-        Eric Paris <eparis@parisplace.org>,
-        Steve Grubb <sgrubb@redhat.com>,
-        Amir Goldstein <amir73il@gmail.com>
-Subject: Re: [PATCH v5 2/3] fanotify: define struct members to hold response
- decision context
-Message-ID: <20230117082723.7g3ig6ernoslt7ub@quack3>
-References: <cover.1670606054.git.rgb@redhat.com>
- <45da8423b9b1e8fc7abd68cd2269acff8cf9022a.1670606054.git.rgb@redhat.com>
- <20221216164342.ojcbdifdmafq5njw@quack3>
- <Y6TCWe4/nR957pFh@madcap2.tricolour.ca>
- <20230103124201.iopasddbtb6vi362@quack3>
- <Y8W2tcXFoUajzojc@madcap2.tricolour.ca>
+        with ESMTP id S235754AbjAQIgK (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 17 Jan 2023 03:36:10 -0500
+Received: from mail.zytor.com (unknown [IPv6:2607:7c80:54:3::138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BE3D2ED77;
+        Tue, 17 Jan 2023 00:35:48 -0800 (PST)
+Received: from [127.0.0.1] ([73.223.250.219])
+        (authenticated bits=0)
+        by mail.zytor.com (8.17.1/8.17.1) with ESMTPSA id 30H8Z9BS4127953
+        (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+        Tue, 17 Jan 2023 00:35:09 -0800
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 30H8Z9BS4127953
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+        s=2023010601; t=1673944511;
+        bh=vqQlJ3TrrAtDYO6yWi6ppwxx2A6H0krCYOzj335kUj4=;
+        h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+        b=Q0Zb6XImYJwgch3/y8/gj/iQy9mgf7QT/iSdmIKSriM+2/nAC2TuyC1G91P2mhUr7
+         CAxvc/oP5+kT1XT/vmEu6jd8lvuYY0Zvlhfgf+k7bliLwON53gTId8AVpgEhK8xVOZ
+         o2KJTQwLS3N9h7TFYJjmUI7gt8bZ8gVH8gyDvkMvViMyY8MacGfN6x1MagIHXQsHTf
+         IysA8W12o4ShQJ+18Men1u5F1HaJ+OwvQcri3RifCqrGDwK4PJvSOgFkQIY/FcrF41
+         k+DdNsB9xKtOdiVxF2krhhDx4M9bNRoxnQEGvaBUkrj5/t8Go/VxRNTnMZuWLXm4DI
+         kGHiTfwiX1H/Q==
+Date:   Tue, 17 Jan 2023 00:35:06 -0800
+From:   "H. Peter Anvin" <hpa@zytor.com>
+To:     Andy Lutomirski <luto@amacapital.net>
+CC:     Yann Droneaud <ydroneaud@opteya.com>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        "Theodore Ts'o" <tytso@mit.edu>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>, x86@kernel.org,
+        linux-crypto@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Florian Weimer <fweimer@redhat.com>,
+        Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
+        "Carlos O'Donell" <carlos@redhat.com>
+Subject: =?US-ASCII?Q?Re=3A_=5BRFC_PATCH_0/4=5D_random=3A_a_simple_vDSO?= =?US-ASCII?Q?_mechanism_for_reseeding_userspace_CSPRNGs?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <15F7D57C-8CC6-4CAE-8B7E-6F480B5F4133@amacapital.net>
+References: <585ddb35-adc5-f5cf-4db3-27571f394108@zytor.com> <15F7D57C-8CC6-4CAE-8B7E-6F480B5F4133@amacapital.net>
+Message-ID: <34C12E41-1914-4C93-8635-F3FDBADA1EBE@zytor.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y8W2tcXFoUajzojc@madcap2.tricolour.ca>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_INVALID,
+        DKIM_SIGNED,SPF_HELO_PASS,SPF_PASS autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon 16-01-23 15:42:29, Richard Guy Briggs wrote:
-> On 2023-01-03 13:42, Jan Kara wrote:
-> > On Thu 22-12-22 15:47:21, Richard Guy Briggs wrote:
-> > > > > +
-> > > > > +	if (info_len != sizeof(*friar))
-> > > > > +		return -EINVAL;
-> > > > > +
-> > > > > +	if (copy_from_user(friar, info, sizeof(*friar)))
-> > > > > +		return -EFAULT;
-> > > > > +
-> > > > > +	if (friar->hdr.type != FAN_RESPONSE_INFO_AUDIT_RULE)
-> > > > > +		return -EINVAL;
-> > > > > +	if (friar->hdr.pad != 0)
-> > > > > +		return -EINVAL;
-> > > > > +	if (friar->hdr.len != sizeof(*friar))
-> > > > > +		return -EINVAL;
-> > > > > +
-> > > > > +	return info_len;
-> > > > > +}
-> > > > > +
-> > > > 
-> > > > ...
-> > > > 
-> > > > > @@ -327,10 +359,18 @@ static int process_access_response(struct fsnotify_group *group,
-> > > > >  		return -EINVAL;
-> > > > >  	}
-> > > > >  
-> > > > > -	if (fd < 0)
-> > > > > +	if ((response & FAN_AUDIT) && !FAN_GROUP_FLAG(group, FAN_ENABLE_AUDIT))
-> > > > >  		return -EINVAL;
-> > > > >  
-> > > > > -	if ((response & FAN_AUDIT) && !FAN_GROUP_FLAG(group, FAN_ENABLE_AUDIT))
-> > > > > +	if (response & FAN_INFO) {
-> > > > > +		ret = process_access_response_info(fd, info, info_len, &friar);
-> > > > > +		if (ret < 0)
-> > > > > +			return ret;
-> > > > > +	} else {
-> > > > > +		ret = 0;
-> > > > > +	}
-> > > > > +
-> > > > > +	if (fd < 0)
-> > > > >  		return -EINVAL;
-> > > > 
-> > > > And here I'd do:
-> > > > 
-> > > > 	if (fd == FAN_NOFD)
-> > > > 		return 0;
-> > > > 	if (fd < 0)
-> > > > 		return -EINVAL;
-> > > > 
-> > > > As we talked in previous revisions we'd specialcase FAN_NOFD to just verify
-> > > > extra info is understood by the kernel so that application writing fanotify
-> > > > responses has a way to check which information it can provide to the
-> > > > kernel.
-> > > 
-> > > The reason for including it in process_access_response_info() is to make
-> > > sure that it is included in the FAN_INFO case to detect this extension.
-> > > If it were included here
-> > 
-> > I see what you're getting at now. So the condition
-> > 
-> >  	if (fd == FAN_NOFD)
-> >  		return 0;
-> > 
-> > needs to be moved into 
-> > 
-> > 	if (response & FAN_INFO)
-> > 
-> > branch after process_access_response_info(). I still prefer to keep it
-> > outside of the process_access_response_info() function itself as it looks
-> > more logical to me. Does it address your concerns?
-> 
-> Ok.  Note that this does not return zero to userspace, since this
-> function's return value is added to the size of the struct
-> fanotify_response when there is no error.
+On January 16, 2023 11:49:42 AM PST, Andy Lutomirski <luto@amacapital=2Enet=
+> wrote:
+>
+>
+>> On Jan 13, 2023, at 7:16 PM, H=2E Peter Anvin <hpa@zytor=2Ecom> wrote:
+>>=20
+>> =EF=BB=BFOn 1/12/23 11:55, Yann Droneaud wrote:
+>>> Hi
+>>> 12 janvier 2023 =C3=A0 18:07 "Jason A=2E Donenfeld" <Jason@zx2c4=2Ecom=
+> a =C3=A9crit:
+>>> =20
+>>>> Sorry Yann, but I'm not interested in this approach, and I don't thin=
+k
+>>>> reviewing the details of it are a good allocation of time=2E I don't
+>>>> want to lock the kernel into having specific reseeding semantics that
+>>>> are a contract with userspace, which is what this approach does=2E
+>>> This patch adds a mean for the kernel to tell userspace: between the
+>>> last time you call us with getrandom(timestamp,, GRND_TIMESTAMP),
+>>> something happened that trigger an update to the opaque cookie given
+>>> to getrandom(timestamp, GRND_TIMESTAMP)=2E When such update happen,
+>>> userspace is advised to discard buffered random data and retry=2E
+>>> The meaning of the timestamp cookie is up to the kernel, and can be
+>>> changed anytime=2E Userspace is not expected to read the content of th=
+is
+>>> blob=2E Userspace only acts on the length returned by getrandom(,, GRN=
+D_TIMESTAMP):
+>>>  -1 : not supported
+>>>   0 : cookie not updated, no need to discard buffered data
+>>>  >0 : cookie updated, userspace should discard buffered data
+>>> For the cookie, I've used a single u64, but two u64 could be a better =
+start,
+>>> providing room for implementing improved behavior in future kernel ver=
+sions=2E
+>>>> Please just let me iterate on my original patchset for a little bit,
+>>>> without adding more junk to the already overly large conversation=2E
+>>> I like the simplicity of my so called "junk"=2E It's streamlined, does=
+n't
+>>> require a new syscall, doesn't require a new copy of ChaCha20 code=2E
+>>> I'm sorry it doesn't fit your expectations=2E
+>>=20
+>> Why would anything more than a 64-bit counter be ever necessary? It onl=
+y needs to be incremented=2E
+>
+>This is completely broken with CRIU or, for that matter, with VM forking=
+=2E
+>
+>>=20
+>> Let user space manage keeping track of the cookie matching its own buff=
+ers=2E You do NOT want this to be stateful, because that's just begging for=
+ multiple libraries to step on each other=2E
+>>=20
+>> Export the cookie from the vdso and voli=C3=A0, a very cheap check arou=
+nd any user space randomness buffer will work:
+>>=20
+>>    static clone_cookie_t last_cookie;
+>>    clone_cookie_t this_cookie;
+>>=20
+>>    this_cookie =3D get_clone_cookie();
+>>    do {
+>>        while (this_cookie !=3D last_cookie) {
+>>            last_cookie =3D this_cookie;
+>>            reinit_randomness();
+>>            this_cookie =3D get_clone_cookie();
+>>        }
+>>=20
+>>        extract_randomness_from_buffer();
+>>        this_cookie =3D get_clone_cookie();
+>>    } while (this_cookie !=3D last_cookie);
+>>=20
+>>    last_cookie =3D this_cookie;
+>>=20
+>>    -hpa
+>
 
-Right, good point. 0 is not a good return value in this case.
-
-> For that reason, I think it makes more sense to return -ENOENT, or some
-> other unused error code that fits, unless you think it is acceptable to
-> return sizeof(struct fanotify_response) when FAN_INFO is set to indicate
-> this.
-
-Yeah, my intention was to indicate "success" to userspace so I'd like to
-return whatever we return for the case when struct fanotify_response is
-accepted for a normal file descriptor - looks like info_len is the right
-value. Thanks!
-
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+For those you would randomize the counter=2E
