@@ -2,184 +2,145 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 611C7670D44
-	for <lists+linux-api@lfdr.de>; Wed, 18 Jan 2023 00:24:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EC694671709
+	for <lists+linux-api@lfdr.de>; Wed, 18 Jan 2023 10:06:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229953AbjAQXYe (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 17 Jan 2023 18:24:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44016 "EHLO
+        id S229893AbjARJGO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 18 Jan 2023 04:06:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35798 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229910AbjAQXX5 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 17 Jan 2023 18:23:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61E8E6D37A
-        for <linux-api@vger.kernel.org>; Tue, 17 Jan 2023 13:14:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1673990069;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=snFi/akkKHKx1wGUO+qbDamH+rl7T1sUZRXWgan5xUM=;
-        b=eDNOk/NnJ40H2Keds5PVBX7ZNslma5r7+zmDAWcQ65pbKd4JQyu8h7WBPMf/KQ3/8ZbEtI
-        jwu0WRPR07hX0S/C93IskhuGnJbDhB8+oFBHEQwU7ui5eO7M/7GJHMqvkS3TuvMuYogxQc
-        SF9LBo2xbXLrJLP6SNh9wD4SHjvsCto=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-645-deYXeml2PF-FRHVDYXCu6A-1; Tue, 17 Jan 2023 16:14:24 -0500
-X-MC-Unique: deYXeml2PF-FRHVDYXCu6A-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DD0228533DA;
-        Tue, 17 Jan 2023 21:14:23 +0000 (UTC)
-Received: from madcap2.tricolour.com (ovpn-0-3.rdu2.redhat.com [10.22.0.3])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 7C85AC15BAD;
-        Tue, 17 Jan 2023 21:14:22 +0000 (UTC)
-From:   Richard Guy Briggs <rgb@redhat.com>
-To:     Linux-Audit Mailing List <linux-audit@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
-Cc:     Paul Moore <paul@paul-moore.com>,
-        Eric Paris <eparis@parisplace.org>,
-        Steve Grubb <sgrubb@redhat.com>,
-        Richard Guy Briggs <rgb@redhat.com>, Jan Kara <jack@suse.cz>,
-        Amir Goldstein <amir73il@gmail.com>
-Subject: [PATCH v6 3/3] fanotify,audit: Allow audit to use the full permission event response
-Date:   Tue, 17 Jan 2023 16:14:07 -0500
-Message-Id: <82aba376bfbb9927ab7146e8e2dee8d844a31dc2.1673989212.git.rgb@redhat.com>
-In-Reply-To: <cover.1673989212.git.rgb@redhat.com>
-References: <cover.1673989212.git.rgb@redhat.com>
+        with ESMTP id S229838AbjARJEg (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 18 Jan 2023 04:04:36 -0500
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 755523E0AD;
+        Wed, 18 Jan 2023 00:24:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674030281; x=1705566281;
+  h=date:from:to:cc:subject:message-id:reply-to:references:
+   mime-version:in-reply-to;
+  bh=mSO4PAMhEZisTll2SVfi2Yx3pBS6smLK7Q3mTuJU1oA=;
+  b=Xw5pozIH/dQFwvoJIvMdSKyZ69PKHC2soxXvHTqfxtxwVSDqkyWEtCfA
+   ipGSRm2hIIZxS3oQ0xiNx/l29EfDF1SJH2L97GChoGaKd4BctU+oeVRUY
+   mUCOuNP14slRIsR4Hj//w1ykPHkYYqcp/OSYQjkn88KBcUKnzF2WmwSg9
+   UvuvxkDlrQ3StY+f+L2CBO3aOOGhsSscfNh87yrxPEghYjw2hsYy0c8il
+   EVbziUgGqb67ahXJKBgpRh0kvRORM8lu95w5HrCHcjq78znw31sEQ/LbM
+   vNJTrUZ0qH8DrEEqOaAjHLKFW284bfJstu4HG1wGECFDEyjd43slXQpe5
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="323620012"
+X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; 
+   d="scan'208";a="323620012"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 00:24:40 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="722997271"
+X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; 
+   d="scan'208";a="722997271"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.105])
+  by fmsmga008.fm.intel.com with ESMTP; 18 Jan 2023 00:24:28 -0800
+Date:   Wed, 18 Jan 2023 16:16:41 +0800
+From:   Chao Peng <chao.p.peng@linux.intel.com>
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>, tabba@google.com,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        wei.w.wang@intel.com
+Subject: Re: [PATCH v10 1/9] mm: Introduce memfd_restricted system call to
+ create restricted user memory
+Message-ID: <20230118081641.GA303785@chaop.bj.intel.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <20221202061347.1070246-2-chao.p.peng@linux.intel.com>
+ <Y8HTITl1+Oe0H7Gd@google.com>
+ <20230117124107.GA273037@chaop.bj.intel.com>
+ <Y8bOB7VuVIsxoMcn@google.com>
 MIME-Version: 1.0
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y8bOB7VuVIsxoMcn@google.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-This patch passes the full response so that the audit function can use all
-of it. The audit function was updated to log the additional information in
-the AUDIT_FANOTIFY record.
+On Tue, Jan 17, 2023 at 04:34:15PM +0000, Sean Christopherson wrote:
+> On Tue, Jan 17, 2023, Chao Peng wrote:
+> > On Fri, Jan 13, 2023 at 09:54:41PM +0000, Sean Christopherson wrote:
+> > > > +	list_for_each_entry(notifier, &data->notifiers, list) {
+> > > > +		notifier->ops->invalidate_start(notifier, start, end);
+> > > 
+> > > Two major design issues that we overlooked long ago:
+> > > 
+> > >   1. Blindly invoking notifiers will not scale.  E.g. if userspace configures a
+> > >      VM with a large number of convertible memslots that are all backed by a
+> > >      single large restrictedmem instance, then converting a single page will
+> > >      result in a linear walk through all memslots.  I don't expect anyone to
+> > >      actually do something silly like that, but I also never expected there to be
+> > >      a legitimate usecase for thousands of memslots.
+> > > 
+> > >   2. This approach fails to provide the ability for KVM to ensure a guest has
+> > >      exclusive access to a page.  As discussed in the past, the kernel can rely
+> > >      on hardware (and maybe ARM's pKVM implementation?) for those guarantees, but
+> > >      only for SNP and TDX VMs.  For VMs where userspace is trusted to some extent,
+> > >      e.g. SEV, there is value in ensuring a 1:1 association.
+> > > 
+> > >      And probably more importantly, relying on hardware for SNP and TDX yields a
+> > >      poor ABI and complicates KVM's internals.  If the kernel doesn't guarantee a
+> > >      page is exclusive to a guest, i.e. if userspace can hand out the same page
+> > >      from a restrictedmem instance to multiple VMs, then failure will occur only
+> > >      when KVM tries to assign the page to the second VM.  That will happen deep
+> > >      in KVM, which means KVM needs to gracefully handle such errors, and it means
+> > >      that KVM's ABI effectively allows plumbing garbage into its memslots.
+> > 
+> > It may not be a valid usage, but in my TDX environment I do meet below
+> > issue.
+> > 
+> > kvm_set_user_memory AddrSpace#0 Slot#0 flags=0x4 gpa=0x0 size=0x80000000 ua=0x7fe1ebfff000 ret=0
+> > kvm_set_user_memory AddrSpace#0 Slot#1 flags=0x4 gpa=0xffc00000 size=0x400000 ua=0x7fe271579000 ret=0
+> > kvm_set_user_memory AddrSpace#0 Slot#2 flags=0x4 gpa=0xfeda0000 size=0x20000 ua=0x7fe1ec09f000 ret=-22
+> > 
+> > Slot#2('SMRAM') is actually an alias into system memory(Slot#0) in QEMU
+> > and slot#2 fails due to below exclusive check.
+> > 
+> > Currently I changed QEMU code to mark these alias slots as shared
+> > instead of private but I'm not 100% confident this is correct fix.
+> 
+> That's a QEMU bug of sorts.  SMM is mutually exclusive with TDX, QEMU shouldn't
+> be configuring SMRAM (or any SMM memslots for that matter) for TDX guests.
 
-Currently the only type of fanotify info that is defined is an audit
-rule number, but convert it to hex encoding to future-proof the field.
-Hex encoding suggested by Paul Moore <paul@paul-moore.com>.
+Thanks for the confirmation. As long as we only bind one notifier for
+each address, using xarray does make things simple.
 
-The {subj,obj}_trust values are {0,1,2}, corresponding to no, yes, unknown.
-
-Sample records:
-  type=FANOTIFY msg=audit(1600385147.372:590): resp=2 fan_type=1 fan_info=3137 subj_trust=3 obj_trust=5
-  type=FANOTIFY msg=audit(1659730979.839:284): resp=1 fan_type=0 fan_info=3F subj_trust=2 obj_trust=2
-
-Suggested-by: Steve Grubb <sgrubb@redhat.com>
-Link: https://lore.kernel.org/r/3075502.aeNJFYEL58@x2
-Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
----
- fs/notify/fanotify/fanotify.c |  3 ++-
- include/linux/audit.h         |  9 +++++----
- kernel/auditsc.c              | 16 +++++++++++++---
- 3 files changed, 20 insertions(+), 8 deletions(-)
-
-diff --git a/fs/notify/fanotify/fanotify.c b/fs/notify/fanotify/fanotify.c
-index 24ec1d66d5a8..29bdd99b29fa 100644
---- a/fs/notify/fanotify/fanotify.c
-+++ b/fs/notify/fanotify/fanotify.c
-@@ -273,7 +273,8 @@ static int fanotify_get_response(struct fsnotify_group *group,
- 
- 	/* Check if the response should be audited */
- 	if (event->response & FAN_AUDIT)
--		audit_fanotify(event->response & ~FAN_AUDIT);
-+		audit_fanotify(event->response & ~FAN_AUDIT,
-+			       &event->audit_rule);
- 
- 	pr_debug("%s: group=%p event=%p about to return ret=%d\n", __func__,
- 		 group, event, ret);
-diff --git a/include/linux/audit.h b/include/linux/audit.h
-index d6b7d0c7ce43..31086a72e32a 100644
---- a/include/linux/audit.h
-+++ b/include/linux/audit.h
-@@ -14,6 +14,7 @@
- #include <linux/audit_arch.h>
- #include <uapi/linux/audit.h>
- #include <uapi/linux/netfilter/nf_tables.h>
-+#include <uapi/linux/fanotify.h>
- 
- #define AUDIT_INO_UNSET ((unsigned long)-1)
- #define AUDIT_DEV_UNSET ((dev_t)-1)
-@@ -416,7 +417,7 @@ extern void __audit_log_capset(const struct cred *new, const struct cred *old);
- extern void __audit_mmap_fd(int fd, int flags);
- extern void __audit_openat2_how(struct open_how *how);
- extern void __audit_log_kern_module(char *name);
--extern void __audit_fanotify(u32 response);
-+extern void __audit_fanotify(u32 response, struct fanotify_response_info_audit_rule *friar);
- extern void __audit_tk_injoffset(struct timespec64 offset);
- extern void __audit_ntp_log(const struct audit_ntp_data *ad);
- extern void __audit_log_nfcfg(const char *name, u8 af, unsigned int nentries,
-@@ -523,10 +524,10 @@ static inline void audit_log_kern_module(char *name)
- 		__audit_log_kern_module(name);
- }
- 
--static inline void audit_fanotify(u32 response)
-+static inline void audit_fanotify(u32 response, struct fanotify_response_info_audit_rule *friar)
- {
- 	if (!audit_dummy_context())
--		__audit_fanotify(response);
-+		__audit_fanotify(response, friar);
- }
- 
- static inline void audit_tk_injoffset(struct timespec64 offset)
-@@ -679,7 +680,7 @@ static inline void audit_log_kern_module(char *name)
- {
- }
- 
--static inline void audit_fanotify(u32 response)
-+static inline void audit_fanotify(u32 response, struct fanotify_response_info_audit_rule *friar)
- { }
- 
- static inline void audit_tk_injoffset(struct timespec64 offset)
-diff --git a/kernel/auditsc.c b/kernel/auditsc.c
-index d1fb821de104..3133c4175c15 100644
---- a/kernel/auditsc.c
-+++ b/kernel/auditsc.c
-@@ -64,6 +64,7 @@
- #include <uapi/linux/limits.h>
- #include <uapi/linux/netfilter/nf_tables.h>
- #include <uapi/linux/openat2.h> // struct open_how
-+#include <uapi/linux/fanotify.h>
- 
- #include "audit.h"
- 
-@@ -2877,10 +2878,19 @@ void __audit_log_kern_module(char *name)
- 	context->type = AUDIT_KERN_MODULE;
- }
- 
--void __audit_fanotify(u32 response)
-+void __audit_fanotify(u32 response, struct fanotify_response_info_audit_rule *friar)
- {
--	audit_log(audit_context(), GFP_KERNEL,
--		AUDIT_FANOTIFY,	"resp=%u", response);
-+	/* {subj,obj}_trust values are {0,1,2}: no,yes,unknown */
-+	if (friar->hdr.type == FAN_RESPONSE_INFO_NONE) {
-+		audit_log(audit_context(), GFP_KERNEL, AUDIT_FANOTIFY,
-+			  "resp=%u fan_type=%u fan_info=3F subj_trust=2 obj_trust=2",
-+			  response, FAN_RESPONSE_INFO_NONE);
-+		return;
-+	}
-+	audit_log(audit_context(), GFP_KERNEL, AUDIT_FANOTIFY,
-+		  "resp=%u fan_type=%u fan_info=%X subj_trust=%u obj_trust=%u",
-+		  response, friar->hdr.type, friar->rule_number,
-+		  friar->subj_trust, friar->obj_trust);
- }
- 
- void __audit_tk_injoffset(struct timespec64 offset)
--- 
-2.27.0
-
+Chao
