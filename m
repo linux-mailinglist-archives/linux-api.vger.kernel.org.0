@@ -2,123 +2,167 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 593DB6736A1
-	for <lists+linux-api@lfdr.de>; Thu, 19 Jan 2023 12:19:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1420B673D70
+	for <lists+linux-api@lfdr.de>; Thu, 19 Jan 2023 16:25:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229724AbjASLTy convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Thu, 19 Jan 2023 06:19:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60084 "EHLO
+        id S230121AbjASPZU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 19 Jan 2023 10:25:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33102 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230341AbjASLTo (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 19 Jan 2023 06:19:44 -0500
-Received: from ouvsmtp1.octopuce.fr (ouvsmtp1.octopuce.fr [194.36.166.50])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2BC16DB13;
-        Thu, 19 Jan 2023 03:19:37 -0800 (PST)
-Received: from panel.vitry.ouvaton.coop (unknown [194.36.166.20])
-        by ouvsmtp1.octopuce.fr (Postfix) with ESMTPS id 7E630F7;
-        Thu, 19 Jan 2023 12:19:35 +0100 (CET)
-Received: from sm.ouvaton.coop (ouvadm.octopuce.fr [194.36.166.2])
-        by panel.vitry.ouvaton.coop (Postfix) with ESMTPSA id 3554A5E1D6F;
-        Thu, 19 Jan 2023 12:19:35 +0100 (CET)
+        with ESMTP id S230059AbjASPZQ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 19 Jan 2023 10:25:16 -0500
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FF8A81009
+        for <linux-api@vger.kernel.org>; Thu, 19 Jan 2023 07:25:13 -0800 (PST)
+Received: by mail-pj1-x102c.google.com with SMTP id m3-20020a17090a414300b00229ef93c5b0so1418386pjg.2
+        for <linux-api@vger.kernel.org>; Thu, 19 Jan 2023 07:25:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=u3x+gqjTmgbestDAk4Awmq54vOdmydIW5Pid7KApIj0=;
+        b=mBCVF1D4CCb5Ux/a0sTklFD5Mi8L9pIXDGbMCkJlimD4PHSACap2p25+kVgwBgrsIq
+         EvdnQ1DJdyozyD6i/NGQ9LHUxMYOj57ZDAvsSBtrXrWSIG9rE81ZQPLMflUW9tlr3kaQ
+         W5HhRhzDrOZXVo2eJJX+pBBPi5F1VgqXmlz+Dn+5py/XCqnPsdSKBwTESeGVpPIz964i
+         Y7hB+IGNBYCrP1QuYyMwMmClI1OOCW3cnNMzXyQEA2j3fMpJV5G+s3nKt4FHhRG/KAkL
+         4FVfZGb2GwNGLwVQhykEPhQCdeJbS7eHn+w6UX0yqcdlwsdurSpSSE/duLw9iP7/BBnl
+         1UDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=u3x+gqjTmgbestDAk4Awmq54vOdmydIW5Pid7KApIj0=;
+        b=o3rChJvYU98o21LQftoJ9q7yoNlOX1G6QwixZXMT9/LuyRcJgNlIMZlD+lkmgvagp/
+         39OV4sgkGsd/zVCswHlP0ywlRZgyiXPBgVfrAuz30+B3LNegO8g6+iGoUn1Ydb/X3sVp
+         FM5KiuDvEmXy1t8x22wKROYTIYNAkzpb8ToIlgt+otzi79KzRg2ai8/QF/KBLdLrzL+y
+         cIM/yYTLjEg9CqRbg0v3KjLbxap7PH34ceYdsY0aqowJ+11wdYqDYV9uWoXMVReuovpv
+         aQtJF2K2Lt2xTiCtrVJzdATcF7rz02vRm1sYKBAq6Gf4zmnPY1Tb66cFuZ54BG2XcWXH
+         DMPw==
+X-Gm-Message-State: AFqh2krxdjBLGIRpTjOU8g4NaS2LNPjjYSe3Kll9bNVE3FvCVUMm3oqn
+        aBK5atpo0FOnoGhoys/9OETBug==
+X-Google-Smtp-Source: AMrXdXuFbwGpoS/BOsR3GLdQjSETsa46BfhBRwIB416u+GXbq71Q0+uUKVzOwXl/a9TU4tZ66S2N/Q==
+X-Received: by 2002:a05:6a20:ce43:b0:b8:c3c0:e7f7 with SMTP id id3-20020a056a20ce4300b000b8c3c0e7f7mr1187627pzb.1.1674141912349;
+        Thu, 19 Jan 2023 07:25:12 -0800 (PST)
+Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
+        by smtp.gmail.com with ESMTPSA id z16-20020a170903019000b001945339354asm5530181plg.197.2023.01.19.07.25.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Jan 2023 07:25:11 -0800 (PST)
+Date:   Thu, 19 Jan 2023 15:25:08 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Isaku Yamahata <isaku.yamahata@gmail.com>
+Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>, tabba@google.com,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        wei.w.wang@intel.com
+Subject: Re: [PATCH v10 0/9] KVM: mm: fd-based approach for supporting KVM
+Message-ID: <Y8lg1G2lRIrI/hld@google.com>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <Y8H5Z3e4hZkFxAVS@google.com>
+ <20230119111308.GC2976263@ls.amr.corp.intel.com>
 MIME-Version: 1.0
-Date:   Thu, 19 Jan 2023 11:19:34 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8BIT
-From:   "Yann Droneaud" <ydroneaud@opteya.com>
-Message-ID: <954f693d29923cfc538adacddb53acf84d767475@opteya.com>
-Subject: Re: [RFC PATCH 0/4] random: a simple vDSO mechanism for reseeding
- userspace CSPRNGs
-To:     "Andy Lutomirski" <luto@amacapital.net>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc:     "Theodore Ts'o" <tytso@mit.edu>,
-        "Thomas Gleixner" <tglx@linutronix.de>,
-        "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
-        "Dave Hansen" <dave.hansen@linux.intel.com>,
-        "Andy Lutomirski" <luto@kernel.org>,
-        "Vincenzo Frascino" <vincenzo.frascino@arm.com>, x86@kernel.org,
-        linux-crypto@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        "Florian Weimer" <fweimer@redhat.com>,
-        "Adhemerval Zanella Netto" <adhemerval.zanella@linaro.org>,
-        "Carlos O'Donell" <carlos@redhat.com>
-In-Reply-To: <15F7D57C-8CC6-4CAE-8B7E-6F480B5F4133@amacapital.net>
-References: <15F7D57C-8CC6-4CAE-8B7E-6F480B5F4133@amacapital.net>
- <585ddb35-adc5-f5cf-4db3-27571f394108@zytor.com>
-X-Originating-IP: 10.0.20.16
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230119111308.GC2976263@ls.amr.corp.intel.com>
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi,
-
-16 janvier 2023 à 20:50 "Andy Lutomirski" <luto@amacapital.net> a écrit:
-> > On Jan 13, 2023, at 7:16 PM, H. Peter Anvin <hpa@zytor.com> wrote:  
-> >  On 1/12/23 11:55, Yann Droneaud wrote:
-> > >  12 janvier 2023 à 18:07 "Jason A. Donenfeld" <Jason@zx2c4.com> a écrit:
-> > > 
-> > 
-> >  Sorry Yann, but I'm not interested in this approach, and I don't think
-> >  reviewing the details of it are a good allocation of time. I don't
-> >  want to lock the kernel into having specific reseeding semantics that
-> >  are a contract with userspace, which is what this approach does.
-> > 
-> > > 
-> > > This patch adds a mean for the kernel to tell userspace: between the
-> > >  last time you call us with getrandom(timestamp,, GRND_TIMESTAMP),
-> > >  something happened that trigger an update to the opaque cookie given
-> > >  to getrandom(timestamp, GRND_TIMESTAMP). When such update happen,
-> > >  userspace is advised to discard buffered random data and retry.
-> > >  The meaning of the timestamp cookie is up to the kernel, and can be
-> > >  changed anytime. Userspace is not expected to read the content of this
-> > >  blob. Userspace only acts on the length returned by getrandom(,, GRND_TIMESTAMP):
-> > >  -1 : not supported
-> > >  0 : cookie not updated, no need to discard buffered data
-> > >  >0 : cookie updated, userspace should discard buffered data
-> > >  For the cookie, I've used a single u64, but two u64 could be a better start,
-> > >  providing room for implementing improved behavior in future kernel versions.
-> > > 
-> > 
-> >  Please just let me iterate on my original patchset for a little bit,
-> >  without adding more junk to the already overly large conversation.
-> > 
-> > > 
-> > > I like the simplicity of my so called "junk". It's streamlined, doesn't
-> > >  require a new syscall, doesn't require a new copy of ChaCha20 code.
-> > >  I'm sorry it doesn't fit your expectations.
-> > > 
-> > 
-> >  
-> >  Why would anything more than a 64-bit counter be ever necessary? It only needs to be incremented.
-> > 
+On Thu, Jan 19, 2023, Isaku Yamahata wrote:
+> On Sat, Jan 14, 2023 at 12:37:59AM +0000,
+> Sean Christopherson <seanjc@google.com> wrote:
 > 
-> This is completely broken with CRIU or, for that matter, with VM forking.
->
+> > On Fri, Dec 02, 2022, Chao Peng wrote:
+> > > This patch series implements KVM guest private memory for confidential
+> > > computing scenarios like Intel TDX[1]. If a TDX host accesses
+> > > TDX-protected guest memory, machine check can happen which can further
+> > > crash the running host system, this is terrible for multi-tenant
+> > > configurations. The host accesses include those from KVM userspace like
+> > > QEMU. This series addresses KVM userspace induced crash by introducing
+> > > new mm and KVM interfaces so KVM userspace can still manage guest memory
+> > > via a fd-based approach, but it can never access the guest memory
+> > > content.
+> > > 
+> > > The patch series touches both core mm and KVM code. I appreciate
+> > > Andrew/Hugh and Paolo/Sean can review and pick these patches. Any other
+> > > reviews are always welcome.
+> > >   - 01: mm change, target for mm tree
+> > >   - 02-09: KVM change, target for KVM tree
+> > 
+> > A version with all of my feedback, plus reworked versions of Vishal's selftest,
+> > is available here:
+> > 
+> >   git@github.com:sean-jc/linux.git x86/upm_base_support
+> > 
+> > It compiles and passes the selftest, but it's otherwise barely tested.  There are
+> > a few todos (2 I think?) and many of the commits need changelogs, i.e. it's still
+> > a WIP.
+> > 
+> > As for next steps, can you (handwaving all of the TDX folks) take a look at what
+> > I pushed and see if there's anything horrifically broken, and that it still works
+> > for TDX?
+> > 
+> > Fuad (and pKVM folks) same ask for you with respect to pKVM.  Absolutely no rush
+> > (and I mean that).
+> > 
+> > On my side, the two things on my mind are (a) tests and (b) downstream dependencies
+> > (SEV and TDX).  For tests, I want to build a lists of tests that are required for
+> > merging so that the criteria for merging are clear, and so that if the list is large
+> > (haven't thought much yet), the work of writing and running tests can be distributed.
+> > 
+> > Regarding downstream dependencies, before this lands, I want to pull in all the
+> > TDX and SNP series and see how everything fits together.  Specifically, I want to
+> > make sure that we don't end up with a uAPI that necessitates ugly code, and that we
+> > don't miss an opportunity to make things simpler.  The patches in the SNP series to
+> > add "legacy" SEV support for UPM in particular made me slightly rethink some minor
+> > details.  Nothing remotely major, but something that needs attention since it'll
+> > be uAPI.
+> 
+> Although I'm still debuging with TDX KVM, I needed the following.
+> kvm_faultin_pfn() is called without mmu_lock held.  the race to change
+> private/shared is handled by mmu_seq.  Maybe dedicated function only for
+> kvm_faultin_pfn().
 
-Which raise the question of the support of CRIU with Jason's vDSO proposal.
+Gah, you're not on the other thread where this was discussed[*].  Simply deleting
+the lockdep assertion is safe, for guest types that rely on the attributes to
+define shared vs. private, KVM rechecks the attributes under the protection of
+mmu_seq.
 
-AFAIK CRIU handle vDSO[1] by interposing symbols so that, on restore, the process
-will call the interposed functions, which will resolve the new vDSO's functions.
+I'll get a fixed version pushed out today.
 
-vgetrandom_alloc() would have been called before the checkpoint, allocating one
-opaque state of size x. After the restore, the vDSO's getrandom() would be given
-this opaque state, expecting it having size y. As the content of the opaque state
-should have been cleared per MADV_WIPEONFORK, there's nothing in the state that
-could help vDSO's getrandom() to achieve backward compatibility.
-
-I think backward compatibility can be achieved by adding an opaque state size
-argument to vDSO's getrandom().
-
-What to think Jason ?
-
-[1] https://criu.org/Vdso
-
-Regards.
-
--- 
-Yann Droneaud
-OPTEYA
+[*] https://lore.kernel.org/all/Y8gpl+LwSuSgBFks@google.com
