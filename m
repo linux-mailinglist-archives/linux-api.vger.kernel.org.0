@@ -2,50 +2,50 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0FF79674848
-	for <lists+linux-api@lfdr.de>; Fri, 20 Jan 2023 01:50:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A77FC674854
+	for <lists+linux-api@lfdr.de>; Fri, 20 Jan 2023 01:52:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229504AbjATAua (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 19 Jan 2023 19:50:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52698 "EHLO
+        id S229739AbjATAwu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 19 Jan 2023 19:52:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54324 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229463AbjATAu3 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 19 Jan 2023 19:50:29 -0500
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D3582F7B9
-        for <linux-api@vger.kernel.org>; Thu, 19 Jan 2023 16:50:27 -0800 (PST)
-Received: by mail-pl1-x630.google.com with SMTP id d9so3949794pll.9
-        for <linux-api@vger.kernel.org>; Thu, 19 Jan 2023 16:50:27 -0800 (PST)
+        with ESMTP id S229450AbjATAws (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 19 Jan 2023 19:52:48 -0500
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB9A695182
+        for <linux-api@vger.kernel.org>; Thu, 19 Jan 2023 16:52:46 -0800 (PST)
+Received: by mail-pj1-x102f.google.com with SMTP id s13-20020a17090a6e4d00b0022900843652so7606117pjm.1
+        for <linux-api@vger.kernel.org>; Thu, 19 Jan 2023 16:52:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=R2aEPPbfB/worS45EAxatPQssMYjlVb1o5H9g9LucF0=;
-        b=lZ5Lch+fy2oLgIdUAA75L9S48vEREC8i/frZUS5ItPKxp3Pld370+Dr1dRugVzsT+M
-         7heNk7KiSyRSOUwU7RFFj47VfbQhnuJAgSEyvRD0fgxnkBfzNE5EOjIorGzYdWbr52z4
-         4rmF4UPJPe8tgvkNN/exAf+u0UyWvpPid5+ig=
+        bh=1C2ctxswyAGed+VsNkOxUKGn6gRJyI8cRWlSvVIO/8Q=;
+        b=i+VgjtzVxyiavJTmAvH09Qn7ZzhTFpMqXoIJacerr3JSNd/f+ZgcETHvMZ8j9a/qHg
+         6cxIJ0s7hH18e7a5dd5Fz6rmK+w1pd9b3oNgvthM3x9srmt9IMNRq8lGgu8hfUgwFYpx
+         43+n9VMuUcLoXUU4rM6GSmnSC5UaHbnsDlq8E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=R2aEPPbfB/worS45EAxatPQssMYjlVb1o5H9g9LucF0=;
-        b=l0EbX8X6RN9zrVT9s3WrjGWy0lU4KOhwXPMGvQ1KQnl6jRTrIxeYyHw/e0v2JYD3HK
-         BVjGq25FbM56Dql1R/w+nSd4H//XrVkS2TYG3VqSEhxX3RH83h8MAUQzQK2XV2B1z3LL
-         uebZ+JV/Ngn5D2DuAeSngXN90DH7f08KIqgzIJfBVrD52hudr7nxe1A24Euza6fTQn7d
-         aCz6NSG6a0xqmZ5mmIgTdQuaAksPdnuECwRmuZghefaNRStyco+chspMuewUmi5302lD
-         epxnv2UIad26bYqY1Z0qR+yDh5BwUGcoqbMXCC8bjetWlRZUUjxES3AWa9ctbQzaS0Yc
-         I+Gg==
-X-Gm-Message-State: AFqh2kootANpI/Q6IZkvSs6GGBLIscCcw1Rq/LQqMFCXnbtbSUIB7eyD
-        335Wp2NdLoj0CWB7VrQmrKjFnQ==
-X-Google-Smtp-Source: AMrXdXtc7roB+w/tCl6tJQ9aF1cdAEg63HAhbectzk8kGPfsJ3hnUhD7/rAtxmwtE0GL8Q/xUmc13g==
-X-Received: by 2002:a17:90a:71c3:b0:229:77f:6d2f with SMTP id m3-20020a17090a71c300b00229077f6d2fmr13141866pjs.44.1674175826738;
-        Thu, 19 Jan 2023 16:50:26 -0800 (PST)
+        bh=1C2ctxswyAGed+VsNkOxUKGn6gRJyI8cRWlSvVIO/8Q=;
+        b=3lhmUOT8OlVeUaS/1J0j2Wft/qCh4SmPZ2eAwvWK0TLGE4e757mPFCVGOqXHYJN+Js
+         Ird+OiP+ihxxvnLoPSPw4bWWMzX2BWq8wQW+91JyjvQdUB+loqc9UwRUVYkNIsHIp9d9
+         MM2lsI3t30HaZsy9sEZm5fEUwTfyGFGopn8SkTcQD2eaxwJswYtMbvb3XeMNr2MIP2WZ
+         c8XFJ9afyx2u3/vBuZqv+LpTGpnvgAhoIxGPo93a0dv1OvANq5386GeZFWAmzvYbyBL6
+         SNdBga/LrIhK4udYB7etnTP60YvhY61xmJ9i4g66yL4/cAZidL9xz6B6Bmrs7twLWEWt
+         TJtA==
+X-Gm-Message-State: AFqh2kqdKa0GW74MkNj2kIknEgbUVVmwoV3nBm5qg/T49qViRACZbWVb
+        +fV6eB8xnWCVSZIR430lN4ntqw==
+X-Google-Smtp-Source: AMrXdXsDu2HwbCVFC9JsEmeSgASgPieeUX36pana6UedcUBOEOfYByTAr8XSuHo9hlfLcW6XCZ0Ifw==
+X-Received: by 2002:a17:902:9a97:b0:193:2a8c:28cb with SMTP id w23-20020a1709029a9700b001932a8c28cbmr13298362plp.21.1674175966284;
+        Thu, 19 Jan 2023 16:52:46 -0800 (PST)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id mt19-20020a17090b231300b0022704cc03ebsm238569pjb.41.2023.01.19.16.50.26
+        by smtp.gmail.com with ESMTPSA id i11-20020a170902c94b00b00194ac38bc86sm5757193pla.131.2023.01.19.16.52.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Jan 2023 16:50:26 -0800 (PST)
-Date:   Thu, 19 Jan 2023 16:50:25 -0800
+        Thu, 19 Jan 2023 16:52:45 -0800 (PST)
+Date:   Thu, 19 Jan 2023 16:52:45 -0800
 From:   Kees Cook <keescook@chromium.org>
 To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
 Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
@@ -75,15 +75,15 @@ Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
         dethoma@microsoft.com, akpm@linux-foundation.org,
         Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
         Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>
-Subject: Re: [PATCH v5 07/39] x86: Add user control-protection fault handler
-Message-ID: <202301191649.5283D6C@keescook>
+        Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH v5 08/39] x86/mm: Remove _PAGE_DIRTY from kernel RO pages
+Message-ID: <202301191652.57B10DA48@keescook>
 References: <20230119212317.8324-1-rick.p.edgecombe@intel.com>
- <20230119212317.8324-8-rick.p.edgecombe@intel.com>
+ <20230119212317.8324-9-rick.p.edgecombe@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230119212317.8324-8-rick.p.edgecombe@intel.com>
+In-Reply-To: <20230119212317.8324-9-rick.p.edgecombe@intel.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
@@ -94,41 +94,29 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jan 19, 2023 at 01:22:45PM -0800, Rick Edgecombe wrote:
+On Thu, Jan 19, 2023 at 01:22:46PM -0800, Rick Edgecombe wrote:
 > From: Yu-cheng Yu <yu-cheng.yu@intel.com>
 > 
-> A control-protection fault is triggered when a control-flow transfer
-> attempt violates Shadow Stack or Indirect Branch Tracking constraints.
-> For example, the return address for a RET instruction differs from the copy
-> on the shadow stack.
+> New processors that support Shadow Stack regard Write=0,Dirty=1 PTEs as
+> shadow stack pages.
 > 
-> There already exists a control-protection fault handler for handling kernel
-> IBT faults. Refactor this fault handler into separate user and kernel
-> handlers, like the page fault handler. Add a control-protection handler
-> for usermode. To avoid ifdeffery, put them both in a new file cet.c, which
-> is compiled in the case of either of the two CET features supported in the
-> kernel: kernel IBT or user mode shadow stack. Move some static inline
-> functions from traps.c into a header so they can be used in cet.c.
+> In normal cases, it can be helpful to create Write=1 PTEs as also Dirty=1
+> if HW dirty tracking is not needed, because if the Dirty bit is not already
+> set the CPU has to set Dirty=1 when the memory gets written to. This
+> creates additional work for the CPU. So traditional wisdom was to simply
+> set the Dirty bit whenever you didn't care about it. However, it was never
+> really very helpful for read-only kernel memory.
 > 
-> Opportunistically fix a comment in the kernel IBT part of the fault
-> handler that is on the end of the line instead of preceding it.
-> 
-> Keep the same behavior for the kernel side of the fault handler, except for
-> converting a BUG to a WARN in the case of a #CP happening when the feature
-> is missing. This unifies the behavior with the new shadow stack code, and
-> also prevents the kernel from crashing under this situation which is
-> potentially recoverable.
-> 
-> The control-protection fault handler works in a similar way as the general
-> protection fault handler. It provides the si_code SEGV_CPERR to the signal
-> handler.
+> When CR4.CET=1 and IA32_S_CET.SH_STK_EN=1, some instructions can write to
+> such supervisor memory. The kernel does not set IA32_S_CET.SH_STK_EN, so
+> avoiding kernel Write=0,Dirty=1 memory is not strictly needed for any
+> functional reason. But having Write=0,Dirty=1 kernel memory doesn't have
+> any functional benefit either, so to reduce ambiguity between shadow stack
+> and regular Write=0 pages, remove Dirty=1 from any kernel Write=0 PTEs.
 > 
 > Tested-by: Pengfei Xu <pengfei.xu@intel.com>
 > Tested-by: John Allen <john.allen@amd.com>
 > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-
-This diff would have been a bit easier to review if the file move was
-separate from the addition of the handler, but regardless:
 
 Reviewed-by: Kees Cook <keescook@chromium.org>
 
