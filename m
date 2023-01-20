@@ -2,66 +2,145 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E825675B5E
-	for <lists+linux-api@lfdr.de>; Fri, 20 Jan 2023 18:30:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A7886675BF2
+	for <lists+linux-api@lfdr.de>; Fri, 20 Jan 2023 18:48:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229672AbjATRaP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 20 Jan 2023 12:30:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44386 "EHLO
+        id S230355AbjATRsy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 20 Jan 2023 12:48:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38590 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229587AbjATRaP (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 20 Jan 2023 12:30:15 -0500
-Received: from mail-qv1-xf2d.google.com (mail-qv1-xf2d.google.com [IPv6:2607:f8b0:4864:20::f2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36D43DBE4;
-        Fri, 20 Jan 2023 09:29:58 -0800 (PST)
-Received: by mail-qv1-xf2d.google.com with SMTP id e19so1050628qvw.13;
-        Fri, 20 Jan 2023 09:29:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=jDf3LZYSGD10CXbLn9VSOx3el1JLvQsxMhmvdG1KmzM=;
-        b=NHHYwI5DI1KfNqdGYj10G+aJzDOMKGHgxZ86Lp7KvwyzMt9nT9rT0FHXzQLDoo5rOF
-         apnQybKHZGsBPM0PVQ3yEOcrjEF3ypSwyrz9Ao/Ed5mRArCsbQPr/mjuCtYird3JCuCS
-         1Dlq3bZTFf3sm4naj3wEjav+dMJf5bsSwRzHSutmN5Nzs8MqbFok2cS04ot2ue7h1R0k
-         d8HqZ3n6IrGxHgPwXt4zIn4G8KRmAdwYhcI5tbUy9W4B6vjQ/XpJLEmQKG+LC9tiBrBR
-         Z4chUen79vt4fRAO0uT4zK5oyV3FnK9uLyYZ+tzCx3n1cX+IopLs0fmBBFg2HBfwX9kh
-         bcdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jDf3LZYSGD10CXbLn9VSOx3el1JLvQsxMhmvdG1KmzM=;
-        b=jeSZm7aaNXKH34XOvri4xMMpkKZRAQBDfEG3CYK4qRV6Xq1OkPH6xmfEKZmfr+Jzjx
-         jBUCoOY5y57r4l6HQwLM/aF59OuZXHPLpo2JvMELOSVP8BTbTv8Vl57mZIqJo+IYg80x
-         M56bLFN1fwr9sOvdKmIK+CEpQyMORrxZyngDF9DMmYHvAO05XHpIUO47+E6XH8KL8KWd
-         qTJ3mDL6abEukJepYkR1PpAJF+gZ/UNdXnjNvPFcI6HyaJCwrm5fTNI6/mhOpq9e/oHx
-         h+KgeGHCih+VCV7HUg9cHkUBD/WBsnCmgZ48xNVnqud3f7Q/E/S1jvNiEBRjYZoadjdd
-         VXlQ==
-X-Gm-Message-State: AFqh2krgQ6iSFltn3NeVT4JuL6eQ4heH7+3lQRutLVkk+nczLDsAARb+
-        pzW88SpABC1iASKBOQUEQZD1yRhsXqUuujanu4aUidQcceM/ZA==
-X-Google-Smtp-Source: AMrXdXs9I7hLGgERQ16Om2J3BW2CeFc8fhwM0XSdIRTwGoxG/U59jw1HSZUzuOao5T9AKXE55MYvOCC+ol2cDQRXQ9k=
-X-Received: by 2002:ad4:4f25:0:b0:535:664b:7713 with SMTP id
- fc5-20020ad44f25000000b00535664b7713mr88354qvb.8.1674235797174; Fri, 20 Jan
- 2023 09:29:57 -0800 (PST)
+        with ESMTP id S229911AbjATRst (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 20 Jan 2023 12:48:49 -0500
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2084.outbound.protection.outlook.com [40.107.102.84])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FCA86FD10;
+        Fri, 20 Jan 2023 09:48:36 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dbFUiC49x/OJ30zYJ7iq2zM5H0+0xysg2Hv+KixjHQQVtc95vdYyKyCfgUFbDnBFqsvd54WPyzxwEDSZe+JSVg+9vMaewr1JWcCEwEcaYavN1pya69y3ppeHX2axsaSy77oZTY/lXfIUI1de/YTGEci+SUOFwiP3buR+eveotGvDbbeJpqyXwHzgGV+oVVCXRFeTbwNwqNqH5RAsZuKiosRtBO0cnnTzABG0cZbi6vepqVz894TaM7l1uq7lWbOIwPGmqMA1iQ8rs3Qv72O/J8251BeIk1plMUpEfeNi/CH/sGeaXwC34ffwt9eHZNSwLndfQDtKXBNXE8CwqGH0nA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DezuBQ3WveODtuy7UruZjCHwcuP6jyUKWJu6mpJaBFg=;
+ b=ZrVV4WbDJLc6txYhSsqMbfKx2HX6a6DmJRwEn5txDnZPVoXapD/N9MciWaiiT8ZAHltUoponuxvOHod0A8TDHbcWVn4/bDJBdVqxWjGmureptlL9bgf1ZbFviStAuhYYURFfmh2SjNzCClARNpPLrVoPFMLz30dbwVG5cHtUjcxbrzppHSD5uwnHf0AeMsdt+QyV3r6p5PHtrj0RSE7+KaGByzRQDTZP1M8sYzjKspd62Me0bByWU8E1i/dTbEUNUCBXxUGdRrzG1AletCYUD24bJh9pqtvq2YxH54XcQ+0V8lN7GlXHtlrv4qokNTXEzYeIzKcnjMqxea1ab+NGdg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DezuBQ3WveODtuy7UruZjCHwcuP6jyUKWJu6mpJaBFg=;
+ b=D6yGKeFgb6p23OJLZzLG9WOcVQAqxNkkkRuO7LKWeu9Fw1GNGqebslP4UHXt53YqMqhCZUkCwxL+xS64cRh/gicb2Sz3E+JdOvbEaiUssehtVgkxjA/CxlOU1oBTXHHiuQcvMyo8nxRNYrtuZ6xuA5ZU4N9V69alFOizjkFaIHo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BL1PR12MB5995.namprd12.prod.outlook.com (2603:10b6:208:39b::20)
+ by PH7PR12MB8108.namprd12.prod.outlook.com (2603:10b6:510:2bc::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.25; Fri, 20 Jan
+ 2023 17:48:33 +0000
+Received: from BL1PR12MB5995.namprd12.prod.outlook.com
+ ([fe80::cb0c:2b31:6f3f:12a6]) by BL1PR12MB5995.namprd12.prod.outlook.com
+ ([fe80::cb0c:2b31:6f3f:12a6%8]) with mapi id 15.20.6002.027; Fri, 20 Jan 2023
+ 17:48:33 +0000
+Message-ID: <eeb060d5-4a90-ee92-91c3-af94a57a2859@amd.com>
+Date:   Fri, 20 Jan 2023 11:48:25 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v5 00/39] Shadow stacks for userspace
+To:     Rick Edgecombe <rick.p.edgecombe@intel.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        kcc@google.com, eranian@google.com, rppt@kernel.org,
+        jamorris@linux.microsoft.com, dethoma@microsoft.com,
+        akpm@linux-foundation.org, Andrew.Cooper3@citrix.com,
+        christina.schimpe@intel.com
+References: <20230119212317.8324-1-rick.p.edgecombe@intel.com>
+Content-Language: en-US
+From:   John Allen <john.allen@amd.com>
+In-Reply-To: <20230119212317.8324-1-rick.p.edgecombe@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YT3PR01CA0005.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:86::25) To BL1PR12MB5995.namprd12.prod.outlook.com
+ (2603:10b6:208:39b::20)
 MIME-Version: 1.0
-References: <20230117195959.29768-1-nphamcs@gmail.com> <20230117195959.29768-2-nphamcs@gmail.com>
- <Y8qmaqpAFko+gI3h@bfoster>
-In-Reply-To: <Y8qmaqpAFko+gI3h@bfoster>
-From:   Nhat Pham <nphamcs@gmail.com>
-Date:   Fri, 20 Jan 2023 09:29:46 -0800
-Message-ID: <CAKEwX=OS-ra+hVQ=ZF1ZcUdKPEjh3+KJJNC6Cmwkudk8FY9TiQ@mail.gmail.com>
-Subject: Re: [PATCH v6 1/3] workingset: refactor LRU refault to expose refault
- recency check
-To:     Brian Foster <bfoster@redhat.com>
-Cc:     akpm@linux-foundation.org, hannes@cmpxchg.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, willy@infradead.org,
-        linux-api@vger.kernel.org, kernel-team@meta.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5995:EE_|PH7PR12MB8108:EE_
+X-MS-Office365-Filtering-Correlation-Id: b8465f3c-eb16-42c7-ac34-08dafb0e8c8b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: /k5sLPtKY0EFFl0idm0QzkYOFFJxQ8vJ55SrthoULcPGHMkorOi0bD+dIOFzyaV4aAPk0+M1P5zAy2IyEJVgJYw1NWuXVZNudDL8Bg4np1idrUdwS1dPZVmYQF6EfBAdUXRBLyp3EqcKU7HDFpj9MAF4TKaVQXu5bGciSI57zq51dBXxKnYQ22xnNc6ytrzl69vlh/q5amE3yj4Cg/SC4bw3LVw7G/AcVTgf+EsVLr9C5z7xRBq1eAtK0jeVhNaebhMm1WLE6euLhhC2y8QsGpm+imqg6/6/kbEUV6JlAq+nMSN/+gVfIG1VD9RTV2ZoFIgnwyfxlafG3xybo5E2jDjAm0pTJVnagJVKNQzk3iG9xKZxWL6RlsGxPT6AOieoFV2AGhq38LDjvMandofDDahevJwZ9PpEIQ1ul7W+9NqaZdXke5P7OKqPGkLZaWjaCyM1YFHlVrI75OAXSU0cOyzbwNdR/8ZIe1Dzl87IjmSizbsmE1RIZf3rmRv7DeEzwDfz+S0V+06cnqoitGETyFMT/RxZP4J5m7Qa00TTpTNSobHLtBxu9X1WVA/yEPYYbJspgb43ZwcZcdQTx76qyfE3EODddUXvpkB0/fN6hrR5qVvSzC4naGUVS6uvIJQ0nkYvEh8xLJ8UMahTOe4XCmJ99JSbKL+KoTsgMUXpW513Gdr+3xF9Ip9V5bwlg9vAChTkvEHQ10Q1HyDELIrlk8LLaSrM9e8RqeQFJEzxmoOYCCyVtXl8U+q/xt1GATCsondKx+WpgdAZ/EW4OTC93MsNQb/xD1OOUObikBskVEc=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5995.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(136003)(376002)(39860400002)(396003)(366004)(346002)(451199015)(186003)(6666004)(6512007)(31686004)(478600001)(26005)(38100700002)(110136005)(2616005)(6506007)(316002)(8676002)(966005)(6486002)(53546011)(66476007)(66946007)(66556008)(41300700001)(8936002)(83380400001)(2906002)(5660300002)(7406005)(44832011)(7416002)(36756003)(86362001)(31696002)(921005)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cDNaVXhNaWtmYnZTVUtXN2R5L1lyWEpHTVRkcFBpMmNMRlRWL09HUUx2RlFm?=
+ =?utf-8?B?bFNwTisweUUrdWFDSGVjQnhTN0UvTjBLSnIvdWVXWlg2RXBxUThzUEdIMDNZ?=
+ =?utf-8?B?MkNObzV2TjgxdTVLYjNIT3FOeUlzQ2dZTEk4L2ZaOEMrYkVCY2d0MlI1azh3?=
+ =?utf-8?B?MjRDcTJvN2NwN0tmWERqY0x3Ykk1R3BzRFloYmxKMFdMZXNWcGFzbm1EMDZp?=
+ =?utf-8?B?UStxNU1FT2k5a212bVhhQ2FoNk5mS0swR2IxeVVtRUpjb1FmU29BTHdWaVhV?=
+ =?utf-8?B?Nk1HeWhqTUVNNVgreVhwemY1SUh5QVpkb0Y4V0FlUk5LUzMzdHlRcWtIRGk2?=
+ =?utf-8?B?amdJejBXREFNTkJkMWNtVWNqR0oyMjJnV2VWMEZWa2MxS004Yml4MkxDMEM0?=
+ =?utf-8?B?MVlzM3hqdVVKQUhRcGplZE54bUROUzZpa01VWFlZNHIwRGI2UmJZWGZXMFZi?=
+ =?utf-8?B?N3oxbFRqRFdPeWU5emJBLzZtSEU4cDZZS09uU3hNcWltSHFYSmtmRkhTZkJk?=
+ =?utf-8?B?eDVlaStxSVlMa3BXTnFVcVNHVDBmcHdqL1U4VXc4b0xObHFibGtNdDVlR2Iv?=
+ =?utf-8?B?Wm9Ta0IxNk1jZ0ZhUFlzMnBHR0ZqNDRLaXIwcVJPZWJEV01EUUtrWURUZ2dO?=
+ =?utf-8?B?THhFYW1ZR0ZiSXg4akxnVkxTZlV5U0xVZUZUd2x5NTl3MHE1ajJuUHdCalRS?=
+ =?utf-8?B?QnBJenpUUnJWTUpxakQwdk40QVdJbk0xQnlrSG5wd2VlUUVIL3hGZDljK2tw?=
+ =?utf-8?B?eTExZW5pWjRpbWk4SVU2d3dzSndFVFd6WGRUQXNmQjRJdjRmaG5MeUlzYVE4?=
+ =?utf-8?B?MjR2TkN3YXI4ZHk2Yk5SZU1KNjhrN01ZZHhLVjI2bjEwNWVFWWRiQ0NyRExz?=
+ =?utf-8?B?cmtxYmNtWGUvVXRBWmtkR0pCVG1kZWtCb2o5cmVBM3ZhMWJraGJUQW1ydmlB?=
+ =?utf-8?B?S0VLd0luQUFpMUNKSThHUWRzekNsS1dxU3lVVFhWT3lzRTRLUmdBbS95RmVN?=
+ =?utf-8?B?Q2xOQkxVVE1EWitqZFdCYXcvckZ0TFhtWnlubUlGbEE2aTJ6TjlFT1ZXZ0dz?=
+ =?utf-8?B?ei9JMnZ3b1hMbm1lTzFyZU1ET2xFaDNjeXlCWm4vVDBENWtiREN2YUtzZzM3?=
+ =?utf-8?B?ZU9nc2RBZ3BOQnpYL0NoYTd4ZWJ1dENlYmlaNThFeElpNWVxVytaSFEvTnNW?=
+ =?utf-8?B?SGJDWmduaDlMZ0tSNnhGdkNiNWVGQ1VUeSt3eTF0QmJFV3JkQTFSV0hXSzRz?=
+ =?utf-8?B?a0lxRk1WTU5BYVQ4cmExR3ZhR1pUU2ltYTI5TG5haFBSblZnTE9KemJyYmVW?=
+ =?utf-8?B?OVUxZEM1SS9UUXpnYnZha28weGk1ellab1BmSXl4OHlMNFJ6cTU2K3ExM3hE?=
+ =?utf-8?B?dEQwaVBpRU0zRVQ2MisyNnkxbUtrR2lzc2krRnVmMEJDLzFWYWhvN1d0Y080?=
+ =?utf-8?B?WnpjVGpqZXBPMWJEZ1h2Z0FBOFI4TmYrRmt4T0hvL2o1UHY3WmwxaG5NeGZP?=
+ =?utf-8?B?bHJrSjd2S2RnTkJiSVVxV3VCSjBmeExkcGJvK2xnQXpSSWl4U0FZdVFRaEt3?=
+ =?utf-8?B?eGg2Q2FMMjJ5MFpCNE9kZVZFWlAwaURYRUdCNTFrTUNNcTNoSE44b1VwV09B?=
+ =?utf-8?B?eXgrTXJCazhIdmozYVlxNmxHcFFyYWZ6b1JrcStaellQS2pGTHltWmc1WTlt?=
+ =?utf-8?B?TzM0VU04OEN6ZHo4YXl0Ky9ZVVFzNjltcjNNSFNiRVJ4dHU5blBaQmFIZEVO?=
+ =?utf-8?B?dWtHQ0VaRkpzOFl0LzdQY1Y3RGl5ZVRlczY4eTlMdG5iWkpKS09ia1JPSGl1?=
+ =?utf-8?B?ekltT3diUERWeWpIZjZGRnp4R2paRWJWOFpQb0ttNlI2MHJYbmVMWFJJbWlF?=
+ =?utf-8?B?ajdPemRvc3o2eCtKdzZyZC91Wko3ZytPU1A1YXlESytzYWVMWlVjbkRRVFZu?=
+ =?utf-8?B?SUVvbTVaQlBDZ244TXZhUGkva2p5M01md3JXYUdUUnV1RkFpcVRlbThTUVpx?=
+ =?utf-8?B?dVVMWUFQTXQzTTR2WVlZWmJiY0dONldmSkFHVzBhL1hacUpkSGhzeFZuKy8r?=
+ =?utf-8?B?WHlBamhOZ2QzRHZpRmpxdndlVGViU3g3TU5sTEJtaktoZzBENzRBZEd5ekZh?=
+ =?utf-8?Q?JF00rPd5FiPCocWcYhqMmd1th?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b8465f3c-eb16-42c7-ac34-08dafb0e8c8b
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5995.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2023 17:48:33.5079
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: OxzbH0TSmJQ7uHZFw9DcWzpTfUEIvCTVjzR5ZWJJMCFmL2qGwyq/1FGGmSdnh8PxZvrldF32HXMYG2Bqz+6ZGA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB8108
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -69,323 +148,40 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
- On Fri, Jan 20, 2023 at 6:33 AM Brian Foster <bfoster@redhat.com> wrote:
->
-> On Tue, Jan 17, 2023 at 11:59:57AM -0800, Nhat Pham wrote:
-> > In preparation for computing recently evicted pages in cachestat,
-> > refactor workingset_refault and lru_gen_refault to expose a helper
-> > function that would test if an evicted page is recently evicted.
-> >
-> > Signed-off-by: Nhat Pham <nphamcs@gmail.com>
-> > ---
->
-> Hi Nhat,
->
-> I'm not terribly familiar with the workingset management code, but a few
-> thoughts now that I've stared at it a bit...
->
-> >  include/linux/swap.h |   1 +
-> >  mm/workingset.c      | 129 ++++++++++++++++++++++++++++++-------------
-> >  2 files changed, 92 insertions(+), 38 deletions(-)
-> >
-> > diff --git a/include/linux/swap.h b/include/linux/swap.h
-> > index a18cf4b7c724..dae6f6f955eb 100644
-> > --- a/include/linux/swap.h
-> > +++ b/include/linux/swap.h
-> > @@ -361,6 +361,7 @@ static inline void folio_set_swap_entry(struct folio *folio, swp_entry_t entry)
-> >  }
-> >
-> >  /* linux/mm/workingset.c */
-> > +bool workingset_test_recent(void *shadow, bool file, bool *workingset);
-> >  void workingset_age_nonresident(struct lruvec *lruvec, unsigned long nr_pages);
-> >  void *workingset_eviction(struct folio *folio, struct mem_cgroup *target_memcg);
-> >  void workingset_refault(struct folio *folio, void *shadow);
-> > diff --git a/mm/workingset.c b/mm/workingset.c
-> > index 79585d55c45d..006482c4e0bd 100644
-> > --- a/mm/workingset.c
-> > +++ b/mm/workingset.c
-> > @@ -244,6 +244,33 @@ static void *lru_gen_eviction(struct folio *folio)
-> >       return pack_shadow(mem_cgroup_id(memcg), pgdat, token, refs);
-> >  }
-> >
-> > +/*
-> > + * Test if the folio is recently evicted.
-> > + *
-> > + * As a side effect, also populates the references with
-> > + * values unpacked from the shadow of the evicted folio.
-> > + */
-> > +static bool lru_gen_test_recent(void *shadow, bool file, bool *workingset)
-> > +{
-> > +     struct mem_cgroup *eviction_memcg;
-> > +     struct lruvec *lruvec;
-> > +     struct lru_gen_struct *lrugen;
-> > +     unsigned long min_seq;
-> > +
->
-> Extra whitespace looks a bit funny here.
->
-> > +     int memcgid;
-> > +     struct pglist_data *pgdat;
-> > +     unsigned long token;
-> > +
-> > +     unpack_shadow(shadow, &memcgid, &pgdat, &token, workingset);
-> > +     eviction_memcg = mem_cgroup_from_id(memcgid);
-> > +
-> > +     lruvec = mem_cgroup_lruvec(eviction_memcg, pgdat);
-> > +     lrugen = &lruvec->lrugen;
-> > +
-> > +     min_seq = READ_ONCE(lrugen->min_seq[file]);
-> > +     return !((token >> LRU_REFS_WIDTH) != (min_seq & (EVICTION_MASK >> LRU_REFS_WIDTH)));
->
-> I think this might be more readable without the double negative.
+On 1/19/23 3:22 PM, Rick Edgecombe wrote:
+> I left tested-by tags in place per discussion with testers. Testers, please
+> retest.
 
-Hmm indeed. I was just making sure that I did not mess up Yu's
-original logic here (by just wrapping it in a parentheses and
-negate the whole thing), but if I understand it correctly it's just
-an equality check. I'll fix it in the next version to make it cleaner.
+Re-tested on my AMD system (Dell PowerEdge R6515 w/ EPYC 7713) and it looks
+like everything is still working properly.
 
->
-> Also it looks like this logic is pulled from lru_gen_refault(). Any
-> reason the caller isn't refactored to use this helper, similar to how
-> workingset_refault() is modified? It seems like a potential landmine to
-> duplicate the logic here for cachestat purposes and somewhere else for
-> actual workingset management.
+The selftests seem to run cleanly:
 
-In V2, it is actually refactored analogously as well - but we had a discussion
-about it here:
+[INFO]	new_ssp = 7ff19be0dff8, *new_ssp = 7ff19be0e001
+[INFO]	changing ssp from 7ff19c7f1ff0 to 7ff19be0dff8
+[INFO]	ssp is now 7ff19be0e000
+[OK]	Shadow stack pivot
+[OK]	Shadow stack faults
+[INFO]	Corrupting shadow stack
+[INFO]	Generated shadow stack violation successfully
+[OK]	Shadow stack violation test
+[INFO]	Gup read -> shstk access success
+[INFO]	Gup write -> shstk access success
+[INFO]	Violation from normal write
+[INFO]	Gup read -> write access success
+[INFO]	Violation from normal write
+[INFO]	Gup write -> write access success
+[INFO]	Cow gup write -> write access success
+[OK]	Shadow gup test
+[INFO]	Violation from shstk access
+[OK]	mprotect() test
+[OK]	Userfaultfd test
+[OK]	32 bit test
 
-https://lkml.org/lkml/2022/12/5/1321
+Additionally, I could see the control protection messages in dmesg when
+running the shstk violation test from here:
+https://gitlab.com/cet-software/cet-smoke-test
 
->
-> > +}
-> > +
-> >  static void lru_gen_refault(struct folio *folio, void *shadow)
-> >  {
-> >       int hist, tier, refs;
-> > @@ -306,6 +333,11 @@ static void *lru_gen_eviction(struct folio *folio)
-> >       return NULL;
-> >  }
-> >
-> > +static bool lru_gen_test_recent(void *shadow, bool file, bool *workingset)
-> > +{
-> > +     return true;
-> > +}
->
-> I guess this is a no-op for !MGLRU but given the context (i.e. special
-> treatment for "recent" refaults), perhaps false is a more sane default?
+ld-linux-x86-64[99764] control protection ip:401139 sp:7fff025507d8 ssp:7f186e017fd8 error:1(near ret) in shstk1[401000+1000]
 
-Hmm, fair point. Let me fix that in the next version.
-
->
-> > +
-> >  static void lru_gen_refault(struct folio *folio, void *shadow)
-> >  {
-> >  }
-> > @@ -373,40 +405,31 @@ void *workingset_eviction(struct folio *folio, struct mem_cgroup *target_memcg)
-> >                               folio_test_workingset(folio));
-> >  }
-> >
-> > -/**
-> > - * workingset_refault - Evaluate the refault of a previously evicted folio.
-> > - * @folio: The freshly allocated replacement folio.
-> > - * @shadow: Shadow entry of the evicted folio.
-> > +/*
-> > + * Test if the folio is recently evicted by checking if
-> > + * refault distance of shadow exceeds workingset size.
-> >   *
-> > - * Calculates and evaluates the refault distance of the previously
-> > - * evicted folio in the context of the node and the memcg whose memory
-> > - * pressure caused the eviction.
-> > + * As a side effect, populate workingset with the value
-> > + * unpacked from shadow.
-> >   */
-> > -void workingset_refault(struct folio *folio, void *shadow)
-> > +bool workingset_test_recent(void *shadow, bool file, bool *workingset)
-> >  {
-> > -     bool file = folio_is_file_lru(folio);
-> >       struct mem_cgroup *eviction_memcg;
-> >       struct lruvec *eviction_lruvec;
-> >       unsigned long refault_distance;
-> >       unsigned long workingset_size;
-> > -     struct pglist_data *pgdat;
-> > -     struct mem_cgroup *memcg;
-> > -     unsigned long eviction;
-> > -     struct lruvec *lruvec;
-> >       unsigned long refault;
-> > -     bool workingset;
-> > +
-> >       int memcgid;
-> > -     long nr;
-> > +     struct pglist_data *pgdat;
-> > +     unsigned long eviction;
-> >
-> > -     if (lru_gen_enabled()) {
-> > -             lru_gen_refault(folio, shadow);
-> > -             return;
-> > -     }
-> > +     if (lru_gen_enabled())
-> > +             return lru_gen_test_recent(shadow, file, workingset);
->
-> Hmm.. so this function is only called by workingset_refault() when
-> lru_gen_enabled() == false, otherwise it calls into lru_gen_refault(),
-> which as noted above duplicates some of the recency logic.
->
-> I'm assuming this lru_gen_test_recent() call is so filemap_cachestat()
-> can just call workingset_test_recent(). That seems reasonable, but makes
-> me wonder...
-
-You're right. It's a bit clunky...
-
->
-> >
-> > -     unpack_shadow(shadow, &memcgid, &pgdat, &eviction, &workingset);
-> > +     unpack_shadow(shadow, &memcgid, &pgdat, &eviction, workingset);
-> >       eviction <<= bucket_order;
-> >
-> > -     rcu_read_lock();
-> >       /*
-> >        * Look up the memcg associated with the stored ID. It might
-> >        * have been deleted since the folio's eviction.
-> > @@ -425,7 +448,8 @@ void workingset_refault(struct folio *folio, void *shadow)
-> >        */
-> >       eviction_memcg = mem_cgroup_from_id(memcgid);
-> >       if (!mem_cgroup_disabled() && !eviction_memcg)
-> > -             goto out;
-> > +             return false;
-> > +
-> >       eviction_lruvec = mem_cgroup_lruvec(eviction_memcg, pgdat);
-> >       refault = atomic_long_read(&eviction_lruvec->nonresident_age);
-> >
-> > @@ -447,21 +471,6 @@ void workingset_refault(struct folio *folio, void *shadow)
-> >        */
-> >       refault_distance = (refault - eviction) & EVICTION_MASK;
-> >
-> > -     /*
-> > -      * The activation decision for this folio is made at the level
-> > -      * where the eviction occurred, as that is where the LRU order
-> > -      * during folio reclaim is being determined.
-> > -      *
-> > -      * However, the cgroup that will own the folio is the one that
-> > -      * is actually experiencing the refault event.
-> > -      */
-> > -     nr = folio_nr_pages(folio);
-> > -     memcg = folio_memcg(folio);
-> > -     pgdat = folio_pgdat(folio);
-> > -     lruvec = mem_cgroup_lruvec(memcg, pgdat);
-> > -
-> > -     mod_lruvec_state(lruvec, WORKINGSET_REFAULT_BASE + file, nr);
-> > -
-> >       mem_cgroup_flush_stats_delayed();
-> >       /*
-> >        * Compare the distance to the existing workingset size. We
-> > @@ -483,8 +492,51 @@ void workingset_refault(struct folio *folio, void *shadow)
-> >                                                    NR_INACTIVE_ANON);
-> >               }
-> >       }
-> > -     if (refault_distance > workingset_size)
-> > +
-> > +     return refault_distance <= workingset_size;
-> > +}
-> > +
-> > +/**
-> > + * workingset_refault - Evaluate the refault of a previously evicted folio.
-> > + * @folio: The freshly allocated replacement folio.
-> > + * @shadow: Shadow entry of the evicted folio.
-> > + *
-> > + * Calculates and evaluates the refault distance of the previously
-> > + * evicted folio in the context of the node and the memcg whose memory
-> > + * pressure caused the eviction.
-> > + */
-> > +void workingset_refault(struct folio *folio, void *shadow)
-> > +{
-> > +     bool file = folio_is_file_lru(folio);
-> > +     struct pglist_data *pgdat;
-> > +     struct mem_cgroup *memcg;
-> > +     struct lruvec *lruvec;
-> > +     bool workingset;
-> > +     long nr;
-> > +
-> > +     if (lru_gen_enabled()) {
-> > +             lru_gen_refault(folio, shadow);
-> > +             return;
-> > +     }
->
-> ... if perhaps this should call workingset_test_recent() a bit earlier,
-> since it also covers the lru_gen_*() case..? That may or may not be
-> cleaner. It _seems like_ it might produce a bit more consistent logic,
-> but just a thought and I could easily be missing details.
-
-Hmm you mean before/in place of the lru_gen_refault call?
-workingset_test_recent only covers lru_gen_test_recent,
-not the rest of the logic of lru_gen_refault I believe.
-
-
->
-> > +
-> > +     rcu_read_lock();
-> > +
-> > +     nr = folio_nr_pages(folio);
-> > +     memcg = folio_memcg(folio);
-> > +     pgdat = folio_pgdat(folio);
-> > +     lruvec = mem_cgroup_lruvec(memcg, pgdat);
-> > +
-> > +     if (!workingset_test_recent(shadow, file, &workingset)) {
-> > +             /*
-> > +              * The activation decision for this folio is made at the level
-> > +              * where the eviction occurred, as that is where the LRU order
-> > +              * during folio reclaim is being determined.
-> > +              *
-> > +              * However, the cgroup that will own the folio is the one that
-> > +              * is actually experiencing the refault event.
-> > +              */
->
-> IIUC, this comment is explaining the difference between using the
-> eviction lru (based on the shadow entry) to calculate recency vs. the
-> lru for the current folio to process the refault. If so, perhaps it
-> should go right above the workingset_test_recent() call? (Then the if
-> braces could go away as well..).
-
-You're right! I think it should go above `nr = folio_nr_pages(folio);` call.
-
->
-> >               goto out;
-> > +     }
-> >
-> >       folio_set_active(folio);
-> >       workingset_age_nonresident(lruvec, nr);
-> > @@ -498,6 +550,7 @@ void workingset_refault(struct folio *folio, void *shadow)
-> >               mod_lruvec_state(lruvec, WORKINGSET_RESTORE_BASE + file, nr);
-> >       }
-> >  out:
-> > +     mod_lruvec_state(lruvec, WORKINGSET_REFAULT_BASE + file, nr);
->
-> Why not just leave this up earlier in the function (i.e. before the
-> recency check) as it was originally?
-
-Let me double check, but I think this is a relic from the old (and incorrect)
-version of workingset code.
-
-Originally, mod_lruvec_state uses the lruvec computed from a variable
-(pgdat) that was unpacked from the shadow. So this mod_lruvec_state
-has to go after the unpack_shadow call (which has been moved inside
-of workingset_test_recent).
-
-This is actually wrong - we actually want the pgdat from the folio. It
-has been fixed in a separate patch:
-
-https://lore.kernel.org/all/20230104222944.2380117-1-nphamcs@gmail.com/T/#u
-
-But I didn't update it here. Let me stare at it a bit more to make sure,
-and then fix it in the next version. It should not change the behavior,
-but it should be cleaner.
-
->
-> Brian
->
-> >       rcu_read_unlock();
-> >  }
-> >
-> > --
-> > 2.30.2
-> >
->
+Tested-by: John Allen <john.allen@amd.com>
