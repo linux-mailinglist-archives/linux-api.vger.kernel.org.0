@@ -2,67 +2,99 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 87AE0675D3B
-	for <lists+linux-api@lfdr.de>; Fri, 20 Jan 2023 19:59:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F07E6675DD9
+	for <lists+linux-api@lfdr.de>; Fri, 20 Jan 2023 20:20:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229616AbjATS7L (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 20 Jan 2023 13:59:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34580 "EHLO
+        id S229471AbjATTUU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 20 Jan 2023 14:20:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229746AbjATS7K (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 20 Jan 2023 13:59:10 -0500
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D05A875A0D
-        for <linux-api@vger.kernel.org>; Fri, 20 Jan 2023 10:59:04 -0800 (PST)
-Received: by mail-pj1-x102f.google.com with SMTP id lp10so3046752pjb.4
-        for <linux-api@vger.kernel.org>; Fri, 20 Jan 2023 10:59:04 -0800 (PST)
+        with ESMTP id S229714AbjATTUT (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 20 Jan 2023 14:20:19 -0500
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C32057AF06
+        for <linux-api@vger.kernel.org>; Fri, 20 Jan 2023 11:20:17 -0800 (PST)
+Received: by mail-pf1-x433.google.com with SMTP id i1so4729976pfk.3
+        for <linux-api@vger.kernel.org>; Fri, 20 Jan 2023 11:20:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=vGi7Fd7MCMNA1QbBTQeJ0YgM+KM/Q0j6YdyrOcqHQyg=;
-        b=ViH4SFAYoJcKC3JvCi+t/v1dJudaXxAaoV4xT+2F3ReKac3Fodcu0WsiO+d9lZtKIe
-         onk0aFZu1AFUSjl+23eZPaneXHe64JzGmdkMFTTeDRf9KxthsIfCuO8QjlFH5q/uCk5L
-         yGtzcFS+r+aIAmhbwTd5BfN0RWA1DGpjYj2U7cZGuwcUTpeAqWUTnLu/q0JR6M+eiQzV
-         b/lX+eYxUV4af4KjioSy+LP1p82H6LZm8H2pmOc/we5nMxEYgZHmDAgRZD+Jrc3WymfY
-         98ZzUGR7AQRCtRXBYU17T2XS2JrWFaUZszT8lqs3b4VuMRB15uNaYUClbyEnSVqcvfLw
-         oaZg==
+        d=chromium.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=jGyt6CUdmtm2ioRKnF8I31iR5Kv2QPHBMLPFSaYDNiY=;
+        b=Uu5CA7ojWufnZge0bmJujGF0GkpDKBVBcpU8xWM4Q0rxz/aT0RAyOpA1DHBDMPbVFN
+         tqUjNMfa3Aif+GgOpT8Q+nf25/sXFy7XS5A1bpe7NXC9AG09PWDFNgVwd3N4AL4mEvjv
+         uK6rJDTix7y5/wRAdoMLSZqftlfVqyVo6OkYU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vGi7Fd7MCMNA1QbBTQeJ0YgM+KM/Q0j6YdyrOcqHQyg=;
-        b=z3wQv6FSZKf8VqrShDFO0wcVkvQhmFaFr8tgkC8lQpIvWifvyGmsXBlA9vzUkp0cWX
-         6d+6HBvMPrBtO14ikfAOwpfjnPlb7Jm5rJ3iT+gYddtdLNF3ubO8BizjqGnBxf/BxXEz
-         By0KiD6EeESNgCYgNbc1NDjHZNrxPKtWHbIq26Lt2y6kGVV28cpPV6AP5vjtJQiQCA5+
-         p9NnJVBGrZqw4JHSabk1mWloFF6uhwNWKJrT7S6Ul5euPDY/aHNJFtdHjLKpQaavw+IH
-         hrWRWdk1Xl+fUKHQ07ERRxUFT2CvC6w+MD09fOyV9uh5jv3YCrjnxA1LO8CllPkVDHTc
-         1w/w==
-X-Gm-Message-State: AFqh2kqmpDR+C2/C0TbxIDQJefJ+gJ5B3wFSYHz1t8G4QGegQ05d2/0v
-        PaoRow1tA4jhh0T57MV7kRU+Peoba+dg8MPfHvG1
-X-Google-Smtp-Source: AMrXdXv1EvsSKj6cBEZSgfojuR+NDh6GI91jSVXXXVvUq1XUrgEqDaNqOzBTs/FIVGle64jfvZ5hUS6q9GmG9EWAy7I=
-X-Received: by 2002:a17:90a:c784:b0:227:202b:8eaa with SMTP id
- gn4-20020a17090ac78400b00227202b8eaamr1704350pjb.147.1674241144111; Fri, 20
- Jan 2023 10:59:04 -0800 (PST)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jGyt6CUdmtm2ioRKnF8I31iR5Kv2QPHBMLPFSaYDNiY=;
+        b=hScxS3iPGuiDgSvbxkLFjk95A1RS8f4TFZ9YpErXeRBYR7hlg0lgqUpqR8ZWbwYubL
+         bUAasjKuPhOOOkh7F6B0REZMcIsVY9Wred57b6Su+a/Wii3MudTVTN5fGjqFq89Igg3c
+         p1SWHV9cuqKMDa+6SaD+wiiNsSQe91mjjXRnM2nhaT6mIe3t5LYM0ObeG551BZZaZn4+
+         RF+va0lpAJk6/Cpg0BwIQ2ssofJzdVNK7yAMs+G2cQEOND6sA1IeTkCx84S+eBhqZpCw
+         7aPp3Y0A3jtEP/xeBa/G+13KX4yQkoCZlNL376Bvz2xCtt6FItgj/IAwcvNqxWj4X6Vx
+         sEAg==
+X-Gm-Message-State: AFqh2kqtb5TVI0PnPe599m1r2njhzLfNF/e5MU6v1GNLjG85m1YWAUnV
+        g46acVsqBdmRF8EAYdp+uUTGTw==
+X-Google-Smtp-Source: AMrXdXuyTIAN7HmAtV4HD1P3My5ps1sTBJQbBVFpT8W/R685exOGUTBZBi+w0yjPJR+F6KcbCZ6lsg==
+X-Received: by 2002:a05:6a00:3025:b0:58d:a683:bb2f with SMTP id ay37-20020a056a00302500b0058da683bb2fmr18456253pfb.23.1674242417297;
+        Fri, 20 Jan 2023 11:20:17 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id 3-20020a621503000000b00581c741f95csm24490646pfv.46.2023.01.20.11.19.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Jan 2023 11:19:50 -0800 (PST)
+Date:   Fri, 20 Jan 2023 11:19:36 -0800
+From:   Kees Cook <keescook@chromium.org>
+To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+Cc:     "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        "kcc@google.com" <kcc@google.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "bp@alien8.de" <bp@alien8.de>, "oleg@redhat.com" <oleg@redhat.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "pavel@ucw.cz" <pavel@ucw.cz>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "Schimpe, Christina" <christina.schimpe@intel.com>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>
+Subject: Re: [PATCH v5 00/39] Shadow stacks for userspace
+Message-ID: <202301201118.6A55DE336@keescook>
+References: <20230119212317.8324-1-rick.p.edgecombe@intel.com>
+ <20230119142602.97b24f3cdba75f20f97786d3@linux-foundation.org>
+ <b6d88208b987c9cbbdb194b344d2a537dbd76914.camel@intel.com>
 MIME-Version: 1.0
-References: <cover.1673989212.git.rgb@redhat.com> <82aba376bfbb9927ab7146e8e2dee8d844a31dc2.1673989212.git.rgb@redhat.com>
-In-Reply-To: <82aba376bfbb9927ab7146e8e2dee8d844a31dc2.1673989212.git.rgb@redhat.com>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Fri, 20 Jan 2023 13:58:53 -0500
-Message-ID: <CAHC9VhTgesdmF3-+oP-EYuNZ-8LKXGPYuSffVst_Wca5Oj0EAQ@mail.gmail.com>
-Subject: Re: [PATCH v6 3/3] fanotify,audit: Allow audit to use the full
- permission event response
-To:     Richard Guy Briggs <rgb@redhat.com>
-Cc:     Linux-Audit Mailing List <linux-audit@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        Eric Paris <eparis@parisplace.org>,
-        Steve Grubb <sgrubb@redhat.com>, Jan Kara <jack@suse.cz>,
-        Amir Goldstein <amir73il@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b6d88208b987c9cbbdb194b344d2a537dbd76914.camel@intel.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -71,78 +103,26 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Jan 17, 2023 at 4:14 PM Richard Guy Briggs <rgb@redhat.com> wrote:
->
-> This patch passes the full response so that the audit function can use all
-> of it. The audit function was updated to log the additional information in
-> the AUDIT_FANOTIFY record.
->
-> Currently the only type of fanotify info that is defined is an audit
-> rule number, but convert it to hex encoding to future-proof the field.
-> Hex encoding suggested by Paul Moore <paul@paul-moore.com>.
->
-> The {subj,obj}_trust values are {0,1,2}, corresponding to no, yes, unknown.
->
-> Sample records:
->   type=FANOTIFY msg=audit(1600385147.372:590): resp=2 fan_type=1 fan_info=3137 subj_trust=3 obj_trust=5
->   type=FANOTIFY msg=audit(1659730979.839:284): resp=1 fan_type=0 fan_info=3F subj_trust=2 obj_trust=2
->
-> Suggested-by: Steve Grubb <sgrubb@redhat.com>
-> Link: https://lore.kernel.org/r/3075502.aeNJFYEL58@x2
-> Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
-> ---
->  fs/notify/fanotify/fanotify.c |  3 ++-
->  include/linux/audit.h         |  9 +++++----
->  kernel/auditsc.c              | 16 +++++++++++++---
->  3 files changed, 20 insertions(+), 8 deletions(-)
+On Fri, Jan 20, 2023 at 05:27:30PM +0000, Edgecombe, Rick P wrote:
+> On Thu, 2023-01-19 at 14:26 -0800, Andrew Morton wrote:
+> > On Thu, 19 Jan 2023 13:22:38 -0800 Rick Edgecombe <
+> > rick.p.edgecombe@intel.com> wrote:
+> > 
+> > > SHSTK
+> > 
+> > Sounds like me trying to swear in Russian while drunk.
+> > 
+> > Is there any chance of s/shstk/shadow_stack/g?
+> 
+> I'm fine with the name change. I think shstk got debated and picked
+> early in the history of the series before I got involved. "shstk" is
+> nice and short, but it's not completely clear what it is unless you
+> already know about shadow stack. So there is a tradeoff of clarity and
+> line length/wrapping. Does anyone else have any strong opinions?
 
-...
-
-> diff --git a/kernel/auditsc.c b/kernel/auditsc.c
-> index d1fb821de104..3133c4175c15 100644
-> --- a/kernel/auditsc.c
-> +++ b/kernel/auditsc.c
-> @@ -2877,10 +2878,19 @@ void __audit_log_kern_module(char *name)
->         context->type = AUDIT_KERN_MODULE;
->  }
->
-> -void __audit_fanotify(u32 response)
-> +void __audit_fanotify(u32 response, struct fanotify_response_info_audit_rule *friar)
->  {
-> -       audit_log(audit_context(), GFP_KERNEL,
-> -               AUDIT_FANOTIFY, "resp=%u", response);
-> +       /* {subj,obj}_trust values are {0,1,2}: no,yes,unknown */
-> +       if (friar->hdr.type == FAN_RESPONSE_INFO_NONE) {
-> +               audit_log(audit_context(), GFP_KERNEL, AUDIT_FANOTIFY,
-> +                         "resp=%u fan_type=%u fan_info=3F subj_trust=2 obj_trust=2",
-> +                         response, FAN_RESPONSE_INFO_NONE);
-> +               return;
-> +       }
-> +       audit_log(audit_context(), GFP_KERNEL, AUDIT_FANOTIFY,
-> +                 "resp=%u fan_type=%u fan_info=%X subj_trust=%u obj_trust=%u",
-> +                 response, friar->hdr.type, friar->rule_number,
-> +                 friar->subj_trust, friar->obj_trust);
->  }
-
-The only thing that comes to mind might be to convert the if-return
-into a switch statement to make it a bit cleaner and easier to patch
-in the future, but that is soooo far removed from any real concern
-that I debated even mentioning it.  I only bring it up in case the
-"3F" discussion results in a respin, and even then I'm not going to
-hold my ACK over something as silly as a if-return vs switch.
-
-For clarity, this is what I was thinking:
-
-void __audit_fanontify(...)
-{
-  switch (type) {
-  case FAN_RESPONSE_INFO_NONE:
-    audit_log(...);
-    break;
-  default:
-    audit_log(...);
-  }
-}
+I prefer SHSTK because it specifically means x86's hardware shadow
+stack from CET. Lots of things can (and have) implemented things called
+"shadow stack".
 
 -- 
-paul-moore.com
+Kees Cook
