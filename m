@@ -2,145 +2,65 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A7886675BF2
-	for <lists+linux-api@lfdr.de>; Fri, 20 Jan 2023 18:48:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D98A675CB5
+	for <lists+linux-api@lfdr.de>; Fri, 20 Jan 2023 19:27:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230355AbjATRsy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 20 Jan 2023 12:48:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38590 "EHLO
+        id S229926AbjATS1S (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 20 Jan 2023 13:27:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229911AbjATRst (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 20 Jan 2023 12:48:49 -0500
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2084.outbound.protection.outlook.com [40.107.102.84])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FCA86FD10;
-        Fri, 20 Jan 2023 09:48:36 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dbFUiC49x/OJ30zYJ7iq2zM5H0+0xysg2Hv+KixjHQQVtc95vdYyKyCfgUFbDnBFqsvd54WPyzxwEDSZe+JSVg+9vMaewr1JWcCEwEcaYavN1pya69y3ppeHX2axsaSy77oZTY/lXfIUI1de/YTGEci+SUOFwiP3buR+eveotGvDbbeJpqyXwHzgGV+oVVCXRFeTbwNwqNqH5RAsZuKiosRtBO0cnnTzABG0cZbi6vepqVz894TaM7l1uq7lWbOIwPGmqMA1iQ8rs3Qv72O/J8251BeIk1plMUpEfeNi/CH/sGeaXwC34ffwt9eHZNSwLndfQDtKXBNXE8CwqGH0nA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DezuBQ3WveODtuy7UruZjCHwcuP6jyUKWJu6mpJaBFg=;
- b=ZrVV4WbDJLc6txYhSsqMbfKx2HX6a6DmJRwEn5txDnZPVoXapD/N9MciWaiiT8ZAHltUoponuxvOHod0A8TDHbcWVn4/bDJBdVqxWjGmureptlL9bgf1ZbFviStAuhYYURFfmh2SjNzCClARNpPLrVoPFMLz30dbwVG5cHtUjcxbrzppHSD5uwnHf0AeMsdt+QyV3r6p5PHtrj0RSE7+KaGByzRQDTZP1M8sYzjKspd62Me0bByWU8E1i/dTbEUNUCBXxUGdRrzG1AletCYUD24bJh9pqtvq2YxH54XcQ+0V8lN7GlXHtlrv4qokNTXEzYeIzKcnjMqxea1ab+NGdg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DezuBQ3WveODtuy7UruZjCHwcuP6jyUKWJu6mpJaBFg=;
- b=D6yGKeFgb6p23OJLZzLG9WOcVQAqxNkkkRuO7LKWeu9Fw1GNGqebslP4UHXt53YqMqhCZUkCwxL+xS64cRh/gicb2Sz3E+JdOvbEaiUssehtVgkxjA/CxlOU1oBTXHHiuQcvMyo8nxRNYrtuZ6xuA5ZU4N9V69alFOizjkFaIHo=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BL1PR12MB5995.namprd12.prod.outlook.com (2603:10b6:208:39b::20)
- by PH7PR12MB8108.namprd12.prod.outlook.com (2603:10b6:510:2bc::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.25; Fri, 20 Jan
- 2023 17:48:33 +0000
-Received: from BL1PR12MB5995.namprd12.prod.outlook.com
- ([fe80::cb0c:2b31:6f3f:12a6]) by BL1PR12MB5995.namprd12.prod.outlook.com
- ([fe80::cb0c:2b31:6f3f:12a6%8]) with mapi id 15.20.6002.027; Fri, 20 Jan 2023
- 17:48:33 +0000
-Message-ID: <eeb060d5-4a90-ee92-91c3-af94a57a2859@amd.com>
-Date:   Fri, 20 Jan 2023 11:48:25 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v5 00/39] Shadow stacks for userspace
-To:     Rick Edgecombe <rick.p.edgecombe@intel.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        kcc@google.com, eranian@google.com, rppt@kernel.org,
-        jamorris@linux.microsoft.com, dethoma@microsoft.com,
-        akpm@linux-foundation.org, Andrew.Cooper3@citrix.com,
-        christina.schimpe@intel.com
-References: <20230119212317.8324-1-rick.p.edgecombe@intel.com>
-Content-Language: en-US
-From:   John Allen <john.allen@amd.com>
-In-Reply-To: <20230119212317.8324-1-rick.p.edgecombe@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YT3PR01CA0005.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:86::25) To BL1PR12MB5995.namprd12.prod.outlook.com
- (2603:10b6:208:39b::20)
+        with ESMTP id S229824AbjATS1R (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 20 Jan 2023 13:27:17 -0500
+Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com [IPv6:2607:f8b0:4864:20::729])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C54107CCE7;
+        Fri, 20 Jan 2023 10:27:10 -0800 (PST)
+Received: by mail-qk1-x729.google.com with SMTP id i28so3342555qkl.6;
+        Fri, 20 Jan 2023 10:27:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=xHL87ld3fhJK3FBOZCvDaUreZbi4ooyG7eGSrOm7Go4=;
+        b=IfDIWfPYYKZcdJ/me74bxWUAH2vcXwJrlwkrFCHwD1h0/SNAMx2Iha4XORYmPF4kWP
+         GrFZKshnR+dYpV/MFvMcsPg1vq4TUHC3nCqyNKXwwLCaDHZ6Zl/d4FN0lFHFUASHF6QC
+         U6G3O0yeyVkXGC3hAtXYytKj0lV2TemqD6rkyvXWGKKDjzP7p2zyL8jVHcycYMY6nTl6
+         qT6TzSCo42NEVPcOjZLhTALGEMkb//7y8dCuG9883qrZ8sJDDyid6ydpnr/j6Z5LMHGa
+         ilQM64Eb71VGvwKCVXoNXyaAVa8Gyvdm1H0sgDQ5tN7UZitBrUe9R4YtWbf2ikI8vzer
+         a9bA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xHL87ld3fhJK3FBOZCvDaUreZbi4ooyG7eGSrOm7Go4=;
+        b=2X6vNH+kqjeShNrAE/qcG9qtObD1k5a0W04jKL8eHrglygtgwb69pMdreQWbTs2OCa
+         TiawPLuIF13JHGWasih/GkMbu16TMPzH6/DkLBzvjwsGG1AN4WJZ980UGhQD7WdiUCzg
+         osYNAKULd0nonIXLcfJvD3QuVxhz/7Pj2tcFQRotoJGBztqnkWN+bOL6b3FfAwr9RJMJ
+         129kZd1PCr5SVoy/m1OnfTOadtt10hw0i9SzzJp6nZmPneLl9NvAbrKSesfd+HFW6zPa
+         5ZcY+eqZW+op1QFTpECXsTjz5NpVcXPDiAY/WioIdwEhOBvpiaEmGVf7TST3yucqHuFv
+         bGaA==
+X-Gm-Message-State: AFqh2krXwtI/gktP6WxVNMW/mzbLOANozg2vnr9S/8fvghHmGWXPdle0
+        Ls3qwSBYfl0P9eA2JuV93kUlBvmXKq+iGH63P/w=
+X-Google-Smtp-Source: AMrXdXtVScLglh0AJAAZrefEor8FTpbarQnSKKCQfgpuv9vDdBSoJVYiHs0dBsef6ADhG9FAQyJ4vuA0bohQjy6kD+4=
+X-Received: by 2002:a05:620a:1657:b0:709:1d0e:aee3 with SMTP id
+ c23-20020a05620a165700b007091d0eaee3mr143054qko.587.1674239229612; Fri, 20
+ Jan 2023 10:27:09 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5995:EE_|PH7PR12MB8108:EE_
-X-MS-Office365-Filtering-Correlation-Id: b8465f3c-eb16-42c7-ac34-08dafb0e8c8b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /k5sLPtKY0EFFl0idm0QzkYOFFJxQ8vJ55SrthoULcPGHMkorOi0bD+dIOFzyaV4aAPk0+M1P5zAy2IyEJVgJYw1NWuXVZNudDL8Bg4np1idrUdwS1dPZVmYQF6EfBAdUXRBLyp3EqcKU7HDFpj9MAF4TKaVQXu5bGciSI57zq51dBXxKnYQ22xnNc6ytrzl69vlh/q5amE3yj4Cg/SC4bw3LVw7G/AcVTgf+EsVLr9C5z7xRBq1eAtK0jeVhNaebhMm1WLE6euLhhC2y8QsGpm+imqg6/6/kbEUV6JlAq+nMSN/+gVfIG1VD9RTV2ZoFIgnwyfxlafG3xybo5E2jDjAm0pTJVnagJVKNQzk3iG9xKZxWL6RlsGxPT6AOieoFV2AGhq38LDjvMandofDDahevJwZ9PpEIQ1ul7W+9NqaZdXke5P7OKqPGkLZaWjaCyM1YFHlVrI75OAXSU0cOyzbwNdR/8ZIe1Dzl87IjmSizbsmE1RIZf3rmRv7DeEzwDfz+S0V+06cnqoitGETyFMT/RxZP4J5m7Qa00TTpTNSobHLtBxu9X1WVA/yEPYYbJspgb43ZwcZcdQTx76qyfE3EODddUXvpkB0/fN6hrR5qVvSzC4naGUVS6uvIJQ0nkYvEh8xLJ8UMahTOe4XCmJ99JSbKL+KoTsgMUXpW513Gdr+3xF9Ip9V5bwlg9vAChTkvEHQ10Q1HyDELIrlk8LLaSrM9e8RqeQFJEzxmoOYCCyVtXl8U+q/xt1GATCsondKx+WpgdAZ/EW4OTC93MsNQb/xD1OOUObikBskVEc=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5995.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(136003)(376002)(39860400002)(396003)(366004)(346002)(451199015)(186003)(6666004)(6512007)(31686004)(478600001)(26005)(38100700002)(110136005)(2616005)(6506007)(316002)(8676002)(966005)(6486002)(53546011)(66476007)(66946007)(66556008)(41300700001)(8936002)(83380400001)(2906002)(5660300002)(7406005)(44832011)(7416002)(36756003)(86362001)(31696002)(921005)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cDNaVXhNaWtmYnZTVUtXN2R5L1lyWEpHTVRkcFBpMmNMRlRWL09HUUx2RlFm?=
- =?utf-8?B?bFNwTisweUUrdWFDSGVjQnhTN0UvTjBLSnIvdWVXWlg2RXBxUThzUEdIMDNZ?=
- =?utf-8?B?MkNObzV2TjgxdTVLYjNIT3FOeUlzQ2dZTEk4L2ZaOEMrYkVCY2d0MlI1azh3?=
- =?utf-8?B?MjRDcTJvN2NwN0tmWERqY0x3Ykk1R3BzRFloYmxKMFdMZXNWcGFzbm1EMDZp?=
- =?utf-8?B?UStxNU1FT2k5a212bVhhQ2FoNk5mS0swR2IxeVVtRUpjb1FmU29BTHdWaVhV?=
- =?utf-8?B?Nk1HeWhqTUVNNVgreVhwemY1SUh5QVpkb0Y4V0FlUk5LUzMzdHlRcWtIRGk2?=
- =?utf-8?B?amdJejBXREFNTkJkMWNtVWNqR0oyMjJnV2VWMEZWa2MxS004Yml4MkxDMEM0?=
- =?utf-8?B?MVlzM3hqdVVKQUhRcGplZE54bUROUzZpa01VWFlZNHIwRGI2UmJZWGZXMFZi?=
- =?utf-8?B?N3oxbFRqRFdPeWU5emJBLzZtSEU4cDZZS09uU3hNcWltSHFYSmtmRkhTZkJk?=
- =?utf-8?B?eDVlaStxSVlMa3BXTnFVcVNHVDBmcHdqL1U4VXc4b0xObHFibGtNdDVlR2Iv?=
- =?utf-8?B?Wm9Ta0IxNk1jZ0ZhUFlzMnBHR0ZqNDRLaXIwcVJPZWJEV01EUUtrWURUZ2dO?=
- =?utf-8?B?THhFYW1ZR0ZiSXg4akxnVkxTZlV5U0xVZUZUd2x5NTl3MHE1ajJuUHdCalRS?=
- =?utf-8?B?QnBJenpUUnJWTUpxakQwdk40QVdJbk0xQnlrSG5wd2VlUUVIL3hGZDljK2tw?=
- =?utf-8?B?eTExZW5pWjRpbWk4SVU2d3dzSndFVFd6WGRUQXNmQjRJdjRmaG5MeUlzYVE4?=
- =?utf-8?B?MjR2TkN3YXI4ZHk2Yk5SZU1KNjhrN01ZZHhLVjI2bjEwNWVFWWRiQ0NyRExz?=
- =?utf-8?B?cmtxYmNtWGUvVXRBWmtkR0pCVG1kZWtCb2o5cmVBM3ZhMWJraGJUQW1ydmlB?=
- =?utf-8?B?S0VLd0luQUFpMUNKSThHUWRzekNsS1dxU3lVVFhWT3lzRTRLUmdBbS95RmVN?=
- =?utf-8?B?Q2xOQkxVVE1EWitqZFdCYXcvckZ0TFhtWnlubUlGbEE2aTJ6TjlFT1ZXZ0dz?=
- =?utf-8?B?ei9JMnZ3b1hMbm1lTzFyZU1ET2xFaDNjeXlCWm4vVDBENWtiREN2YUtzZzM3?=
- =?utf-8?B?ZU9nc2RBZ3BOQnpYL0NoYTd4ZWJ1dENlYmlaNThFeElpNWVxVytaSFEvTnNW?=
- =?utf-8?B?SGJDWmduaDlMZ0tSNnhGdkNiNWVGQ1VUeSt3eTF0QmJFV3JkQTFSV0hXSzRz?=
- =?utf-8?B?a0lxRk1WTU5BYVQ4cmExR3ZhR1pUU2ltYTI5TG5haFBSblZnTE9KemJyYmVW?=
- =?utf-8?B?OVUxZEM1SS9UUXpnYnZha28weGk1ellab1BmSXl4OHlMNFJ6cTU2K3ExM3hE?=
- =?utf-8?B?dEQwaVBpRU0zRVQ2MisyNnkxbUtrR2lzc2krRnVmMEJDLzFWYWhvN1d0Y080?=
- =?utf-8?B?WnpjVGpqZXBPMWJEZ1h2Z0FBOFI4TmYrRmt4T0hvL2o1UHY3WmwxaG5NeGZP?=
- =?utf-8?B?bHJrSjd2S2RnTkJiSVVxV3VCSjBmeExkcGJvK2xnQXpSSWl4U0FZdVFRaEt3?=
- =?utf-8?B?eGg2Q2FMMjJ5MFpCNE9kZVZFWlAwaURYRUdCNTFrTUNNcTNoSE44b1VwV09B?=
- =?utf-8?B?eXgrTXJCazhIdmozYVlxNmxHcFFyYWZ6b1JrcStaellQS2pGTHltWmc1WTlt?=
- =?utf-8?B?TzM0VU04OEN6ZHo4YXl0Ky9ZVVFzNjltcjNNSFNiRVJ4dHU5blBaQmFIZEVO?=
- =?utf-8?B?dWtHQ0VaRkpzOFl0LzdQY1Y3RGl5ZVRlczY4eTlMdG5iWkpKS09ia1JPSGl1?=
- =?utf-8?B?ekltT3diUERWeWpIZjZGRnp4R2paRWJWOFpQb0ttNlI2MHJYbmVMWFJJbWlF?=
- =?utf-8?B?ajdPemRvc3o2eCtKdzZyZC91Wko3ZytPU1A1YXlESytzYWVMWlVjbkRRVFZu?=
- =?utf-8?B?SUVvbTVaQlBDZ244TXZhUGkva2p5M01md3JXYUdUUnV1RkFpcVRlbThTUVpx?=
- =?utf-8?B?dVVMWUFQTXQzTTR2WVlZWmJiY0dONldmSkFHVzBhL1hacUpkSGhzeFZuKy8r?=
- =?utf-8?B?WHlBamhOZ2QzRHZpRmpxdndlVGViU3g3TU5sTEJtaktoZzBENzRBZEd5ekZh?=
- =?utf-8?Q?JF00rPd5FiPCocWcYhqMmd1th?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b8465f3c-eb16-42c7-ac34-08dafb0e8c8b
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5995.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2023 17:48:33.5079
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OxzbH0TSmJQ7uHZFw9DcWzpTfUEIvCTVjzR5ZWJJMCFmL2qGwyq/1FGGmSdnh8PxZvrldF32HXMYG2Bqz+6ZGA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB8108
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+References: <20230117195959.29768-1-nphamcs@gmail.com> <20230117195959.29768-3-nphamcs@gmail.com>
+ <Y8qm69bYnzZk+Vni@bfoster>
+In-Reply-To: <Y8qm69bYnzZk+Vni@bfoster>
+From:   Nhat Pham <nphamcs@gmail.com>
+Date:   Fri, 20 Jan 2023 10:26:54 -0800
+Message-ID: <CAKEwX=Pse=f=9d6mHM6vZ3PvT4=0UfUiA8eK2_T0vcgu3Wwbkg@mail.gmail.com>
+Subject: Re: [PATCH v6 2/3] cachestat: implement cachestat syscall
+To:     Brian Foster <bfoster@redhat.com>
+Cc:     akpm@linux-foundation.org, hannes@cmpxchg.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, willy@infradead.org,
+        linux-api@vger.kernel.org, kernel-team@meta.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -148,40 +68,528 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 1/19/23 3:22 PM, Rick Edgecombe wrote:
-> I left tested-by tags in place per discussion with testers. Testers, please
-> retest.
-
-Re-tested on my AMD system (Dell PowerEdge R6515 w/ EPYC 7713) and it looks
-like everything is still working properly.
-
-The selftests seem to run cleanly:
-
-[INFO]	new_ssp = 7ff19be0dff8, *new_ssp = 7ff19be0e001
-[INFO]	changing ssp from 7ff19c7f1ff0 to 7ff19be0dff8
-[INFO]	ssp is now 7ff19be0e000
-[OK]	Shadow stack pivot
-[OK]	Shadow stack faults
-[INFO]	Corrupting shadow stack
-[INFO]	Generated shadow stack violation successfully
-[OK]	Shadow stack violation test
-[INFO]	Gup read -> shstk access success
-[INFO]	Gup write -> shstk access success
-[INFO]	Violation from normal write
-[INFO]	Gup read -> write access success
-[INFO]	Violation from normal write
-[INFO]	Gup write -> write access success
-[INFO]	Cow gup write -> write access success
-[OK]	Shadow gup test
-[INFO]	Violation from shstk access
-[OK]	mprotect() test
-[OK]	Userfaultfd test
-[OK]	32 bit test
-
-Additionally, I could see the control protection messages in dmesg when
-running the shstk violation test from here:
-https://gitlab.com/cet-software/cet-smoke-test
-
-ld-linux-x86-64[99764] control protection ip:401139 sp:7fff025507d8 ssp:7f186e017fd8 error:1(near ret) in shstk1[401000+1000]
-
-Tested-by: John Allen <john.allen@amd.com>
+On Fri, Jan 20, 2023 at 6:35 AM Brian Foster <bfoster@redhat.com> wrote:
+>
+> On Tue, Jan 17, 2023 at 11:59:58AM -0800, Nhat Pham wrote:
+> > There is currently no good way to query the page cache state of large
+> > file sets and directory trees. There is mincore(), but it scales poorly:
+> > the kernel writes out a lot of bitmap data that userspace has to
+> > aggregate, when the user really doesn not care about per-page
+> > information in that case. The user also needs to mmap and unmap each
+> > file as it goes along, which can be quite slow as well.
+> >
+> > This patch implements a new syscall that queries cache state of a file
+> > and summarizes the number of cached pages, number of dirty pages, number
+> > of pages marked for writeback, number of (recently) evicted pages, etc.
+> > in a given range.
+> >
+> > NAME
+> >     cachestat - query the page cache statistics of a file.
+> >
+> > SYNOPSIS
+> >     #include <sys/mman.h>
+> >
+> >     struct cachestat {
+> >         __u64 nr_cache;
+> >         __u64 nr_dirty;
+> >         __u64 nr_writeback;
+> >         __u64 nr_evicted;
+> >         __u64 nr_recently_evicted;
+> >     };
+> >
+> >     int cachestat(unsigned int fd, off_t off, size_t len,
+> >           unsigned int cstat_version, struct cachestat *cstat,
+> >           unsigned int flags);
+> >
+> > DESCRIPTION
+> >     cachestat() queries the number of cached pages, number of dirty
+> >     pages, number of pages marked for writeback, number of evicted
+> >     pages, number of recently evicted pages, in the bytes range given by
+> >     `off` and `len`.
+> >
+> >     An evicted page is a page that is previously in the page cache but
+> >     has been evicted since. A page is recently evicted if its last
+> >     eviction was recent enough that its reentry to the cache would
+> >     indicate that it is actively being used by the system, and that
+> >     there is memory pressure on the system.
+> >
+> >     These values are returned in a cachestat struct, whose address is
+> >     given by the `cstat` argument.
+> >
+> >     The `off` and `len` arguments must be non-negative integers. If
+> >     `len` > 0, the queried range is [`off`, `off` + `len`]. If `len` ==
+> >     0, we will query in the range from `off` to the end of the file.
+> >
+> >     `cstat_version` is an unsigned integer indicating the specific
+> >     version of the cachestat struct. It must be at least 1, and does
+> >     not exceed the latest version number (which is currently 1). For
+> >     now, user should just pass 1.
+> >
+>
+> Still not sure about this vs. just requiring the structure size to match
+> (and maybe padding it), but perhaps linux-api can comment on the best
+> way to future proof.
+>
+> I'm not the person to ack a syscall regardless, but since I've had
+> various previous comments on this patch and no further issues stand out
+> to me:
+>
+> Reviewed-by: Brian Foster <bfoster@redhat.com>
+Thanks for the review and feedback, Brian!
+>
+> >     The `flags` argument is unused for now, but is included for future
+> >     extensibility. User should pass 0 (i.e no flag specified).
+> >
+> > RETURN VALUE
+> >     On success, cachestat returns 0. On error, -1 is returned, and errno
+> >     is set to indicate the error.
+> >
+> > ERRORS
+> >     EFAULT cstat points to an invalid address.
+> >
+> >     EINVAL invalid `cstat_version` or `flags`
+> >
+> >     EBADF  invalid file descriptor.
+> >
+> > Signed-off-by: Nhat Pham <nphamcs@gmail.com>
+> > ---
+> >  arch/alpha/kernel/syscalls/syscall.tbl      |   1 +
+> >  arch/arm/tools/syscall.tbl                  |   1 +
+> >  arch/ia64/kernel/syscalls/syscall.tbl       |   1 +
+> >  arch/m68k/kernel/syscalls/syscall.tbl       |   1 +
+> >  arch/microblaze/kernel/syscalls/syscall.tbl |   1 +
+> >  arch/parisc/kernel/syscalls/syscall.tbl     |   1 +
+> >  arch/powerpc/kernel/syscalls/syscall.tbl    |   1 +
+> >  arch/s390/kernel/syscalls/syscall.tbl       |   1 +
+> >  arch/sh/kernel/syscalls/syscall.tbl         |   1 +
+> >  arch/sparc/kernel/syscalls/syscall.tbl      |   1 +
+> >  arch/x86/entry/syscalls/syscall_32.tbl      |   1 +
+> >  arch/x86/entry/syscalls/syscall_64.tbl      |   1 +
+> >  arch/xtensa/kernel/syscalls/syscall.tbl     |   1 +
+> >  include/linux/fs.h                          |   3 +
+> >  include/linux/syscalls.h                    |   4 +
+> >  include/uapi/asm-generic/unistd.h           |   5 +-
+> >  include/uapi/linux/mman.h                   |   9 ++
+> >  init/Kconfig                                |  10 ++
+> >  kernel/sys_ni.c                             |   1 +
+> >  mm/filemap.c                                | 154 ++++++++++++++++++++
+> >  20 files changed, 198 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/arch/alpha/kernel/syscalls/syscall.tbl b/arch/alpha/kernel/syscalls/syscall.tbl
+> > index 8ebacf37a8cf..1f13995d00d7 100644
+> > --- a/arch/alpha/kernel/syscalls/syscall.tbl
+> > +++ b/arch/alpha/kernel/syscalls/syscall.tbl
+> > @@ -490,3 +490,4 @@
+> >  558  common  process_mrelease                sys_process_mrelease
+> >  559  common  futex_waitv                     sys_futex_waitv
+> >  560  common  set_mempolicy_home_node         sys_ni_syscall
+> > +561  common  cachestat                       sys_cachestat
+> > diff --git a/arch/arm/tools/syscall.tbl b/arch/arm/tools/syscall.tbl
+> > index ac964612d8b0..8ebed8a13874 100644
+> > --- a/arch/arm/tools/syscall.tbl
+> > +++ b/arch/arm/tools/syscall.tbl
+> > @@ -464,3 +464,4 @@
+> >  448  common  process_mrelease                sys_process_mrelease
+> >  449  common  futex_waitv                     sys_futex_waitv
+> >  450  common  set_mempolicy_home_node         sys_set_mempolicy_home_node
+> > +451  common  cachestat                       sys_cachestat
+> > diff --git a/arch/ia64/kernel/syscalls/syscall.tbl b/arch/ia64/kernel/syscalls/syscall.tbl
+> > index 72c929d9902b..f8c74ffeeefb 100644
+> > --- a/arch/ia64/kernel/syscalls/syscall.tbl
+> > +++ b/arch/ia64/kernel/syscalls/syscall.tbl
+> > @@ -371,3 +371,4 @@
+> >  448  common  process_mrelease                sys_process_mrelease
+> >  449  common  futex_waitv                     sys_futex_waitv
+> >  450  common  set_mempolicy_home_node         sys_set_mempolicy_home_node
+> > +451  common  cachestat                       sys_cachestat
+> > diff --git a/arch/m68k/kernel/syscalls/syscall.tbl b/arch/m68k/kernel/syscalls/syscall.tbl
+> > index b1f3940bc298..4f504783371f 100644
+> > --- a/arch/m68k/kernel/syscalls/syscall.tbl
+> > +++ b/arch/m68k/kernel/syscalls/syscall.tbl
+> > @@ -450,3 +450,4 @@
+> >  448  common  process_mrelease                sys_process_mrelease
+> >  449  common  futex_waitv                     sys_futex_waitv
+> >  450  common  set_mempolicy_home_node         sys_set_mempolicy_home_node
+> > +451  common  cachestat                       sys_cachestat
+> > diff --git a/arch/microblaze/kernel/syscalls/syscall.tbl b/arch/microblaze/kernel/syscalls/syscall.tbl
+> > index 820145e47350..858d22bf275c 100644
+> > --- a/arch/microblaze/kernel/syscalls/syscall.tbl
+> > +++ b/arch/microblaze/kernel/syscalls/syscall.tbl
+> > @@ -456,3 +456,4 @@
+> >  448  common  process_mrelease                sys_process_mrelease
+> >  449  common  futex_waitv                     sys_futex_waitv
+> >  450  common  set_mempolicy_home_node         sys_set_mempolicy_home_node
+> > +451  common  cachestat                       sys_cachestat
+> > diff --git a/arch/parisc/kernel/syscalls/syscall.tbl b/arch/parisc/kernel/syscalls/syscall.tbl
+> > index 8a99c998da9b..7c84a72306d1 100644
+> > --- a/arch/parisc/kernel/syscalls/syscall.tbl
+> > +++ b/arch/parisc/kernel/syscalls/syscall.tbl
+> > @@ -448,3 +448,4 @@
+> >  448  common  process_mrelease                sys_process_mrelease
+> >  449  common  futex_waitv                     sys_futex_waitv
+> >  450  common  set_mempolicy_home_node         sys_set_mempolicy_home_node
+> > +451  common  cachestat                       sys_cachestat
+> > diff --git a/arch/powerpc/kernel/syscalls/syscall.tbl b/arch/powerpc/kernel/syscalls/syscall.tbl
+> > index 2bca64f96164..937460f0a8ec 100644
+> > --- a/arch/powerpc/kernel/syscalls/syscall.tbl
+> > +++ b/arch/powerpc/kernel/syscalls/syscall.tbl
+> > @@ -530,3 +530,4 @@
+> >  448  common  process_mrelease                sys_process_mrelease
+> >  449  common  futex_waitv                     sys_futex_waitv
+> >  450  nospu   set_mempolicy_home_node         sys_set_mempolicy_home_node
+> > +451  common  cachestat                       sys_cachestat
+> > diff --git a/arch/s390/kernel/syscalls/syscall.tbl b/arch/s390/kernel/syscalls/syscall.tbl
+> > index 799147658dee..7df0329d46cb 100644
+> > --- a/arch/s390/kernel/syscalls/syscall.tbl
+> > +++ b/arch/s390/kernel/syscalls/syscall.tbl
+> > @@ -453,3 +453,4 @@
+> >  448  common  process_mrelease        sys_process_mrelease            sys_process_mrelease
+> >  449  common  futex_waitv             sys_futex_waitv                 sys_futex_waitv
+> >  450  common  set_mempolicy_home_node sys_set_mempolicy_home_node     sys_set_mempolicy_home_node
+> > +451  common  cachestat               sys_cachestat                   sys_cachestat
+> > diff --git a/arch/sh/kernel/syscalls/syscall.tbl b/arch/sh/kernel/syscalls/syscall.tbl
+> > index 2de85c977f54..97377e8c5025 100644
+> > --- a/arch/sh/kernel/syscalls/syscall.tbl
+> > +++ b/arch/sh/kernel/syscalls/syscall.tbl
+> > @@ -453,3 +453,4 @@
+> >  448  common  process_mrelease                sys_process_mrelease
+> >  449  common  futex_waitv                     sys_futex_waitv
+> >  450  common  set_mempolicy_home_node         sys_set_mempolicy_home_node
+> > +451  common  cachestat                       sys_cachestat
+> > diff --git a/arch/sparc/kernel/syscalls/syscall.tbl b/arch/sparc/kernel/syscalls/syscall.tbl
+> > index 4398cc6fb68d..faa835f3c54a 100644
+> > --- a/arch/sparc/kernel/syscalls/syscall.tbl
+> > +++ b/arch/sparc/kernel/syscalls/syscall.tbl
+> > @@ -496,3 +496,4 @@
+> >  448  common  process_mrelease                sys_process_mrelease
+> >  449  common  futex_waitv                     sys_futex_waitv
+> >  450  common  set_mempolicy_home_node         sys_set_mempolicy_home_node
+> > +451  common  cachestat                       sys_cachestat
+> > diff --git a/arch/x86/entry/syscalls/syscall_32.tbl b/arch/x86/entry/syscalls/syscall_32.tbl
+> > index 320480a8db4f..bc0a3c941b35 100644
+> > --- a/arch/x86/entry/syscalls/syscall_32.tbl
+> > +++ b/arch/x86/entry/syscalls/syscall_32.tbl
+> > @@ -455,3 +455,4 @@
+> >  448  i386    process_mrelease        sys_process_mrelease
+> >  449  i386    futex_waitv             sys_futex_waitv
+> >  450  i386    set_mempolicy_home_node         sys_set_mempolicy_home_node
+> > +451  i386    cachestat               sys_cachestat
+> > diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
+> > index c84d12608cd2..227538b0ce80 100644
+> > --- a/arch/x86/entry/syscalls/syscall_64.tbl
+> > +++ b/arch/x86/entry/syscalls/syscall_64.tbl
+> > @@ -372,6 +372,7 @@
+> >  448  common  process_mrelease        sys_process_mrelease
+> >  449  common  futex_waitv             sys_futex_waitv
+> >  450  common  set_mempolicy_home_node sys_set_mempolicy_home_node
+> > +451  common  cachestat               sys_cachestat
+> >
+> >  #
+> >  # Due to a historical design error, certain syscalls are numbered differently
+> > diff --git a/arch/xtensa/kernel/syscalls/syscall.tbl b/arch/xtensa/kernel/syscalls/syscall.tbl
+> > index 52c94ab5c205..2b69c3c035b6 100644
+> > --- a/arch/xtensa/kernel/syscalls/syscall.tbl
+> > +++ b/arch/xtensa/kernel/syscalls/syscall.tbl
+> > @@ -421,3 +421,4 @@
+> >  448  common  process_mrelease                sys_process_mrelease
+> >  449  common  futex_waitv                     sys_futex_waitv
+> >  450  common  set_mempolicy_home_node         sys_set_mempolicy_home_node
+> > +451  common  cachestat                       sys_cachestat
+> > diff --git a/include/linux/fs.h b/include/linux/fs.h
+> > index e654435f1651..83300f1491e7 100644
+> > --- a/include/linux/fs.h
+> > +++ b/include/linux/fs.h
+> > @@ -75,6 +75,7 @@ struct fs_context;
+> >  struct fs_parameter_spec;
+> >  struct fileattr;
+> >  struct iomap_ops;
+> > +struct cachestat;
+> >
+> >  extern void __init inode_init(void);
+> >  extern void __init inode_init_early(void);
+> > @@ -830,6 +831,8 @@ void filemap_invalidate_lock_two(struct address_space *mapping1,
+> >                                struct address_space *mapping2);
+> >  void filemap_invalidate_unlock_two(struct address_space *mapping1,
+> >                                  struct address_space *mapping2);
+> > +void filemap_cachestat(struct address_space *mapping, pgoff_t first_index,
+> > +             pgoff_t last_index, struct cachestat *cs);
+> >
+> >
+> >  /*
+> > diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+> > index a34b0f9a9972..d3fe6ba8eb38 100644
+> > --- a/include/linux/syscalls.h
+> > +++ b/include/linux/syscalls.h
+> > @@ -72,6 +72,7 @@ struct open_how;
+> >  struct mount_attr;
+> >  struct landlock_ruleset_attr;
+> >  enum landlock_rule_type;
+> > +struct cachestat;
+> >
+> >  #include <linux/types.h>
+> >  #include <linux/aio_abi.h>
+> > @@ -1056,6 +1057,9 @@ asmlinkage long sys_memfd_secret(unsigned int flags);
+> >  asmlinkage long sys_set_mempolicy_home_node(unsigned long start, unsigned long len,
+> >                                           unsigned long home_node,
+> >                                           unsigned long flags);
+> > +asmlinkage long sys_cachestat(unsigned int fd, off_t off, size_t len,
+> > +             unsigned int cstat_version, struct cachestat __user *cstat,
+> > +             unsigned int flags);
+> >
+> >  /*
+> >   * Architecture-specific system calls
+> > diff --git a/include/uapi/asm-generic/unistd.h b/include/uapi/asm-generic/unistd.h
+> > index 45fa180cc56a..cd639fae9086 100644
+> > --- a/include/uapi/asm-generic/unistd.h
+> > +++ b/include/uapi/asm-generic/unistd.h
+> > @@ -886,8 +886,11 @@ __SYSCALL(__NR_futex_waitv, sys_futex_waitv)
+> >  #define __NR_set_mempolicy_home_node 450
+> >  __SYSCALL(__NR_set_mempolicy_home_node, sys_set_mempolicy_home_node)
+> >
+> > +#define __NR_cachestat 451
+> > +__SYSCALL(__NR_cachestat, sys_cachestat)
+> > +
+> >  #undef __NR_syscalls
+> > -#define __NR_syscalls 451
+> > +#define __NR_syscalls 452
+> >
+> >  /*
+> >   * 32 bit systems traditionally used different
+> > diff --git a/include/uapi/linux/mman.h b/include/uapi/linux/mman.h
+> > index f55bc680b5b0..fe03ed0b7587 100644
+> > --- a/include/uapi/linux/mman.h
+> > +++ b/include/uapi/linux/mman.h
+> > @@ -4,6 +4,7 @@
+> >
+> >  #include <asm/mman.h>
+> >  #include <asm-generic/hugetlb_encode.h>
+> > +#include <linux/types.h>
+> >
+> >  #define MREMAP_MAYMOVE               1
+> >  #define MREMAP_FIXED         2
+> > @@ -41,4 +42,12 @@
+> >  #define MAP_HUGE_2GB HUGETLB_FLAG_ENCODE_2GB
+> >  #define MAP_HUGE_16GB        HUGETLB_FLAG_ENCODE_16GB
+> >
+> > +struct cachestat {
+> > +     __u64 nr_cache;
+> > +     __u64 nr_dirty;
+> > +     __u64 nr_writeback;
+> > +     __u64 nr_evicted;
+> > +     __u64 nr_recently_evicted;
+> > +};
+> > +
+> >  #endif /* _UAPI_LINUX_MMAN_H */
+> > diff --git a/init/Kconfig b/init/Kconfig
+> > index 694f7c160c9c..da96ac29af1d 100644
+> > --- a/init/Kconfig
+> > +++ b/init/Kconfig
+> > @@ -1798,6 +1798,16 @@ config RSEQ
+> >
+> >         If unsure, say Y.
+> >
+> > +config CACHESTAT_SYSCALL
+> > +     bool "Enable cachestat() system call" if EXPERT
+> > +     default y
+> > +     help
+> > +       Enable the cachestat system call, which queries the page cache
+> > +       statistics of a file (number of cached pages, dirty pages,
+> > +       pages marked for writeback, (recently) evicted pages).
+> > +
+> > +       If unsure say Y here.
+> > +
+> >  config DEBUG_RSEQ
+> >       default n
+> >       bool "Enabled debugging of rseq() system call" if EXPERT
+> > diff --git a/kernel/sys_ni.c b/kernel/sys_ni.c
+> > index 860b2dcf3ac4..04bfb1e4d377 100644
+> > --- a/kernel/sys_ni.c
+> > +++ b/kernel/sys_ni.c
+> > @@ -299,6 +299,7 @@ COND_SYSCALL(set_mempolicy);
+> >  COND_SYSCALL(migrate_pages);
+> >  COND_SYSCALL(move_pages);
+> >  COND_SYSCALL(set_mempolicy_home_node);
+> > +COND_SYSCALL(cachestat);
+> >
+> >  COND_SYSCALL(perf_event_open);
+> >  COND_SYSCALL(accept4);
+> > diff --git a/mm/filemap.c b/mm/filemap.c
+> > index 08341616ae7a..0305eaf5b3f5 100644
+> > --- a/mm/filemap.c
+> > +++ b/mm/filemap.c
+> > @@ -22,6 +22,7 @@
+> >  #include <linux/mm.h>
+> >  #include <linux/swap.h>
+> >  #include <linux/swapops.h>
+> > +#include <linux/syscalls.h>
+> >  #include <linux/mman.h>
+> >  #include <linux/pagemap.h>
+> >  #include <linux/file.h>
+> > @@ -55,6 +56,13 @@
+> >  #include <linux/buffer_head.h> /* for try_to_free_buffers */
+> >
+> >  #include <asm/mman.h>
+> > +#include <uapi/linux/mman.h>
+> > +
+> > +#include "swap.h"
+> > +
+> > +#ifdef CONFIG_CACHESTAT_SYSCALL
+> > +#define LATEST_CACHESTAT_VERSION     1
+> > +#endif
+> >
+> >  /*
+> >   * Shared mappings implemented 30.11.1994. It's not fully working yet,
+> > @@ -3949,3 +3957,149 @@ bool filemap_release_folio(struct folio *folio, gfp_t gfp)
+> >       return try_to_free_buffers(folio);
+> >  }
+> >  EXPORT_SYMBOL(filemap_release_folio);
+> > +
+> > +/**
+> > + * filemap_cachestat() - compute the page cache statistics of a mapping
+> > + * @mapping: The mapping to compute the statistics for.
+> > + * @first_index:     The starting page cache index.
+> > + * @last_index:      The final page index (inclusive).
+> > + * @cs:      the cachestat struct to write the result to.
+> > + *
+> > + * This will query the page cache statistics of a mapping in the
+> > + * page range of [first_index, last_index] (inclusive). The statistics
+> > + * queried include: number of dirty pages, number of pages marked for
+> > + * writeback, and the number of (recently) evicted pages.
+> > + */
+> > +void filemap_cachestat(struct address_space *mapping, pgoff_t first_index,
+> > +             pgoff_t last_index, struct cachestat *cs)
+> > +{
+> > +     XA_STATE(xas, &mapping->i_pages, first_index);
+> > +     struct folio *folio;
+> > +
+> > +     rcu_read_lock();
+> > +     xas_for_each(&xas, folio, last_index) {
+> > +             unsigned long nr_pages;
+> > +             pgoff_t folio_first_index, folio_last_index;
+> > +
+> > +             if (xas_retry(&xas, folio))
+> > +                     continue;
+> > +
+> > +             nr_pages = folio_nr_pages(folio);
+> > +             folio_first_index = folio_pgoff(folio);
+> > +             folio_last_index = folio_first_index + nr_pages - 1;
+> > +
+> > +             /* Folios might straddle the range boundaries, only count covered subpages */
+> > +             if (folio_first_index < first_index)
+> > +                     nr_pages -= first_index - folio_first_index;
+> > +
+> > +             if (folio_last_index > last_index)
+> > +                     nr_pages -= folio_last_index - last_index;
+> > +
+> > +             if (xa_is_value(folio)) {
+> > +                     /* page is evicted */
+> > +                     void *shadow = (void *)folio;
+> > +                     bool workingset; /* not used */
+> > +
+> > +                     cs->nr_evicted += nr_pages;
+> > +
+> > +#ifdef CONFIG_SWAP /* implies CONFIG_MMU */
+> > +                     if (shmem_mapping(mapping)) {
+> > +                             /* shmem file - in swap cache */
+> > +                             swp_entry_t swp = radix_to_swp_entry(folio);
+> > +
+> > +                             shadow = get_shadow_from_swap_cache(swp);
+> > +                     }
+> > +#endif
+> > +                     if (workingset_test_recent(shadow, true, &workingset))
+> > +                             cs->nr_recently_evicted += nr_pages;
+> > +
+> > +                     goto resched;
+> > +             }
+> > +
+> > +             /* page is in cache */
+> > +             cs->nr_cache += nr_pages;
+> > +
+> > +             if (folio_test_dirty(folio))
+> > +                     cs->nr_dirty += nr_pages;
+> > +
+> > +             if (folio_test_writeback(folio))
+> > +                     cs->nr_writeback += nr_pages;
+> > +
+> > +resched:
+> > +             if (need_resched()) {
+> > +                     xas_pause(&xas);
+> > +                     cond_resched_rcu();
+> > +             }
+> > +     }
+> > +     rcu_read_unlock();
+> > +}
+> > +EXPORT_SYMBOL(filemap_cachestat);
+> > +
+> > +#ifdef CONFIG_CACHESTAT_SYSCALL
+> > +/*
+> > + * The cachestat(5) system call.
+> > + *
+> > + * cachestat() returns the page cache statistics of a file in the
+> > + * bytes range specified by `off` and `len`: number of cached pages,
+> > + * number of dirty pages, number of pages marked for writeback,
+> > + * number of evicted pages, and number of recently evicted pages.
+> > + *
+> > + * An evicted page is a page that is previously in the page cache
+> > + * but has been evicted since. A page is recently evicted if its last
+> > + * eviction was recent enough that its reentry to the cache would
+> > + * indicate that it is actively being used by the system, and that
+> > + * there is memory pressure on the system.
+> > + *
+> > + * `off` and `len` must be non-negative integers. If `len` > 0,
+> > + * the queried range is [`off`, `off` + `len`]. If `len` == 0,
+> > + * we will query in the range from `off` to the end of the file.
+> > + *
+> > + * `cstat_version` is an unsigned integer indicating the specific version
+> > + * of the cachestat struct. It must be at least 1, and does not exceed the
+> > + * latest version number (which is currently 1). For now, user should
+> > + * just pass 1.
+> > + *
+> > + * The `flags` argument is unused for now, but is included for future
+> > + * extensibility. User should pass 0 (i.e no flag specified).
+> > + *
+> > + * Because the status of a page can change after cachestat() checks it
+> > + * but before it returns to the application, the returned values may
+> > + * contain stale information.
+> > + *
+> > + * return values:
+> > + *  zero    - success
+> > + *  -EFAULT - cstat points to an illegal address
+> > + *  -EINVAL - invalid arguments
+> > + *  -EBADF   - invalid file descriptor
+> > + */
+> > +SYSCALL_DEFINE6(cachestat, unsigned int, fd, off_t, off, size_t, len,
+> > +             unsigned int, cstat_version, struct cachestat __user *, cstat,
+> > +             unsigned int, flags)
+> > +{
+> > +     struct fd f = fdget(fd);
+> > +     struct address_space *mapping;
+> > +     struct cachestat cs;
+> > +     pgoff_t first_index = off >> PAGE_SHIFT;
+> > +     pgoff_t last_index =
+> > +             len == 0 ? ULONG_MAX : (off + len - 1) >> PAGE_SHIFT;
+> > +
+> > +     if (!f.file)
+> > +             return -EBADF;
+> > +
+> > +     if (off < 0 || flags != 0 || cstat_version < 1 ||
+> > +                     cstat_version > LATEST_CACHESTAT_VERSION) {
+> > +             fdput(f);
+> > +             return -EINVAL;
+> > +     }
+> > +
+> > +     memset(&cs, 0, sizeof(struct cachestat));
+> > +     mapping = f.file->f_mapping;
+> > +     filemap_cachestat(mapping, first_index, last_index, &cs);
+> > +     fdput(f);
+> > +
+> > +     if (copy_to_user(cstat, &cs, sizeof(struct cachestat)))
+> > +             return -EFAULT;
+> > +
+> > +     return 0;
+> > +}
+> > +#endif /* CONFIG_CACHESTAT_SYSCALL */
+> > --
+> > 2.30.2
+> >
+>
