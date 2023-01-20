@@ -2,444 +2,147 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B3A9675D29
-	for <lists+linux-api@lfdr.de>; Fri, 20 Jan 2023 19:55:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 87AE0675D3B
+	for <lists+linux-api@lfdr.de>; Fri, 20 Jan 2023 19:59:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229738AbjATSzx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 20 Jan 2023 13:55:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59146 "EHLO
+        id S229616AbjATS7L (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 20 Jan 2023 13:59:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229585AbjATSzx (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 20 Jan 2023 13:55:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7242A5142C
-        for <linux-api@vger.kernel.org>; Fri, 20 Jan 2023 10:55:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1674240906;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=sqtLy8LFU2ShlTyW2nCrLlvJIJXJxq4JoxBlQ32G8ZI=;
-        b=N2FuA/pqmpxGyNi1ORiCuqaWY/uzJP7lzkkMNERGjN12C4tiL6sHP8eCGQ/s3Vf1RudvsC
-        8UxO3eSdtoHlsw9ZjjQFQVKNrbR3BPWM7k54GKt9s8J8Gfc+8Ju5iV2Nx17uqh3m73W7cy
-        6zIcAl3fAEk9gEzFp1z/PuAZq8F6UEQ=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-648---vAeYtxNG6HER7iZ8eQ2A-1; Fri, 20 Jan 2023 13:55:05 -0500
-X-MC-Unique: --vAeYtxNG6HER7iZ8eQ2A-1
-Received: by mail-qk1-f199.google.com with SMTP id az16-20020a05620a171000b00709129a745eso1703062qkb.8
-        for <linux-api@vger.kernel.org>; Fri, 20 Jan 2023 10:55:05 -0800 (PST)
+        with ESMTP id S229746AbjATS7K (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 20 Jan 2023 13:59:10 -0500
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D05A875A0D
+        for <linux-api@vger.kernel.org>; Fri, 20 Jan 2023 10:59:04 -0800 (PST)
+Received: by mail-pj1-x102f.google.com with SMTP id lp10so3046752pjb.4
+        for <linux-api@vger.kernel.org>; Fri, 20 Jan 2023 10:59:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=vGi7Fd7MCMNA1QbBTQeJ0YgM+KM/Q0j6YdyrOcqHQyg=;
+        b=ViH4SFAYoJcKC3JvCi+t/v1dJudaXxAaoV4xT+2F3ReKac3Fodcu0WsiO+d9lZtKIe
+         onk0aFZu1AFUSjl+23eZPaneXHe64JzGmdkMFTTeDRf9KxthsIfCuO8QjlFH5q/uCk5L
+         yGtzcFS+r+aIAmhbwTd5BfN0RWA1DGpjYj2U7cZGuwcUTpeAqWUTnLu/q0JR6M+eiQzV
+         b/lX+eYxUV4af4KjioSy+LP1p82H6LZm8H2pmOc/we5nMxEYgZHmDAgRZD+Jrc3WymfY
+         98ZzUGR7AQRCtRXBYU17T2XS2JrWFaUZszT8lqs3b4VuMRB15uNaYUClbyEnSVqcvfLw
+         oaZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sqtLy8LFU2ShlTyW2nCrLlvJIJXJxq4JoxBlQ32G8ZI=;
-        b=HuzLFE67jlOOAlFAsqxHpXFGDXUTn6ydNx4aCkzH+b1gE7brH6gBdZJO31tRm5+4NZ
-         WTnaNBdfWDUqa9gJnQl9/W6ndHbHgav4Gk21widJNpGNal9VKDSmhR2pVT97sD95ED+P
-         IUuX52cohVSYiiclT1l8HSJnfOeVORjlt8jRMMP2Jm8W/M3/ZcZIT1Jw1yjj5eF2DswS
-         0GTTTI/zA7Z+FXhsf8MpvpWYKH6OrcmeJJlt69gzTu61Qfj9SMev3TM2OvS5MuhA6kxz
-         /MbO1Ngzy/yGuncTg4acQ/rBS2O4G/c4esg3jR6H64iD77yOR9A35cXCZ1UQbTt9+Fut
-         UOQg==
-X-Gm-Message-State: AFqh2kpndsziKwh5QExpCGpD9sq0jJaOKU8+kWKxKVC8m2Ua/GHQpxG+
-        GJgV9aqNx8U5LV18LUVn/5bP8J2TXki+p4rAtBZcVdZtzhLKkllR0u5tRiaKydNssKoPqc5ANJo
-        zgPUVWQnEJCM8VCKmhRoA
-X-Received: by 2002:ad4:5d6b:0:b0:536:85cf:a265 with SMTP id fn11-20020ad45d6b000000b0053685cfa265mr4327535qvb.14.1674240904770;
-        Fri, 20 Jan 2023 10:55:04 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXt5IKM6L+xCx5smLqvz2Y9RKOBk9TyvrMbzdPHNMnclLi+3cNiN+nwYyWE8L0kJRzj9bf57UA==
-X-Received: by 2002:ad4:5d6b:0:b0:536:85cf:a265 with SMTP id fn11-20020ad45d6b000000b0053685cfa265mr4327483qvb.14.1674240904358;
-        Fri, 20 Jan 2023 10:55:04 -0800 (PST)
-Received: from bfoster (c-24-61-119-116.hsd1.ma.comcast.net. [24.61.119.116])
-        by smtp.gmail.com with ESMTPSA id w6-20020a05620a424600b00705be892191sm22137097qko.56.2023.01.20.10.55.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Jan 2023 10:55:03 -0800 (PST)
-Date:   Fri, 20 Jan 2023 13:56:06 -0500
-From:   Brian Foster <bfoster@redhat.com>
-To:     Nhat Pham <nphamcs@gmail.com>
-Cc:     akpm@linux-foundation.org, hannes@cmpxchg.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, willy@infradead.org,
-        linux-api@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH v6 1/3] workingset: refactor LRU refault to expose
- refault recency check
-Message-ID: <Y8rjxjdUA7ZEk632@bfoster>
-References: <20230117195959.29768-1-nphamcs@gmail.com>
- <20230117195959.29768-2-nphamcs@gmail.com>
- <Y8qmaqpAFko+gI3h@bfoster>
- <CAKEwX=OS-ra+hVQ=ZF1ZcUdKPEjh3+KJJNC6Cmwkudk8FY9TiQ@mail.gmail.com>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vGi7Fd7MCMNA1QbBTQeJ0YgM+KM/Q0j6YdyrOcqHQyg=;
+        b=z3wQv6FSZKf8VqrShDFO0wcVkvQhmFaFr8tgkC8lQpIvWifvyGmsXBlA9vzUkp0cWX
+         6d+6HBvMPrBtO14ikfAOwpfjnPlb7Jm5rJ3iT+gYddtdLNF3ubO8BizjqGnBxf/BxXEz
+         By0KiD6EeESNgCYgNbc1NDjHZNrxPKtWHbIq26Lt2y6kGVV28cpPV6AP5vjtJQiQCA5+
+         p9NnJVBGrZqw4JHSabk1mWloFF6uhwNWKJrT7S6Ul5euPDY/aHNJFtdHjLKpQaavw+IH
+         hrWRWdk1Xl+fUKHQ07ERRxUFT2CvC6w+MD09fOyV9uh5jv3YCrjnxA1LO8CllPkVDHTc
+         1w/w==
+X-Gm-Message-State: AFqh2kqmpDR+C2/C0TbxIDQJefJ+gJ5B3wFSYHz1t8G4QGegQ05d2/0v
+        PaoRow1tA4jhh0T57MV7kRU+Peoba+dg8MPfHvG1
+X-Google-Smtp-Source: AMrXdXv1EvsSKj6cBEZSgfojuR+NDh6GI91jSVXXXVvUq1XUrgEqDaNqOzBTs/FIVGle64jfvZ5hUS6q9GmG9EWAy7I=
+X-Received: by 2002:a17:90a:c784:b0:227:202b:8eaa with SMTP id
+ gn4-20020a17090ac78400b00227202b8eaamr1704350pjb.147.1674241144111; Fri, 20
+ Jan 2023 10:59:04 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAKEwX=OS-ra+hVQ=ZF1ZcUdKPEjh3+KJJNC6Cmwkudk8FY9TiQ@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <cover.1673989212.git.rgb@redhat.com> <82aba376bfbb9927ab7146e8e2dee8d844a31dc2.1673989212.git.rgb@redhat.com>
+In-Reply-To: <82aba376bfbb9927ab7146e8e2dee8d844a31dc2.1673989212.git.rgb@redhat.com>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Fri, 20 Jan 2023 13:58:53 -0500
+Message-ID: <CAHC9VhTgesdmF3-+oP-EYuNZ-8LKXGPYuSffVst_Wca5Oj0EAQ@mail.gmail.com>
+Subject: Re: [PATCH v6 3/3] fanotify,audit: Allow audit to use the full
+ permission event response
+To:     Richard Guy Briggs <rgb@redhat.com>
+Cc:     Linux-Audit Mailing List <linux-audit@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        Eric Paris <eparis@parisplace.org>,
+        Steve Grubb <sgrubb@redhat.com>, Jan Kara <jack@suse.cz>,
+        Amir Goldstein <amir73il@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Jan 20, 2023 at 09:29:46AM -0800, Nhat Pham wrote:
->  On Fri, Jan 20, 2023 at 6:33 AM Brian Foster <bfoster@redhat.com> wrote:
-> >
-> > On Tue, Jan 17, 2023 at 11:59:57AM -0800, Nhat Pham wrote:
-> > > In preparation for computing recently evicted pages in cachestat,
-> > > refactor workingset_refault and lru_gen_refault to expose a helper
-> > > function that would test if an evicted page is recently evicted.
-> > >
-> > > Signed-off-by: Nhat Pham <nphamcs@gmail.com>
-> > > ---
-> >
-> > Hi Nhat,
-> >
-> > I'm not terribly familiar with the workingset management code, but a few
-> > thoughts now that I've stared at it a bit...
-> >
-> > >  include/linux/swap.h |   1 +
-> > >  mm/workingset.c      | 129 ++++++++++++++++++++++++++++++-------------
-> > >  2 files changed, 92 insertions(+), 38 deletions(-)
-> > >
-> > > diff --git a/include/linux/swap.h b/include/linux/swap.h
-> > > index a18cf4b7c724..dae6f6f955eb 100644
-> > > --- a/include/linux/swap.h
-> > > +++ b/include/linux/swap.h
-> > > @@ -361,6 +361,7 @@ static inline void folio_set_swap_entry(struct folio *folio, swp_entry_t entry)
-> > >  }
-> > >
-> > >  /* linux/mm/workingset.c */
-> > > +bool workingset_test_recent(void *shadow, bool file, bool *workingset);
-> > >  void workingset_age_nonresident(struct lruvec *lruvec, unsigned long nr_pages);
-> > >  void *workingset_eviction(struct folio *folio, struct mem_cgroup *target_memcg);
-> > >  void workingset_refault(struct folio *folio, void *shadow);
-> > > diff --git a/mm/workingset.c b/mm/workingset.c
-> > > index 79585d55c45d..006482c4e0bd 100644
-> > > --- a/mm/workingset.c
-> > > +++ b/mm/workingset.c
-> > > @@ -244,6 +244,33 @@ static void *lru_gen_eviction(struct folio *folio)
-> > >       return pack_shadow(mem_cgroup_id(memcg), pgdat, token, refs);
-> > >  }
-> > >
-> > > +/*
-> > > + * Test if the folio is recently evicted.
-> > > + *
-> > > + * As a side effect, also populates the references with
-> > > + * values unpacked from the shadow of the evicted folio.
-> > > + */
-> > > +static bool lru_gen_test_recent(void *shadow, bool file, bool *workingset)
-> > > +{
-> > > +     struct mem_cgroup *eviction_memcg;
-> > > +     struct lruvec *lruvec;
-> > > +     struct lru_gen_struct *lrugen;
-> > > +     unsigned long min_seq;
-> > > +
-> >
-> > Extra whitespace looks a bit funny here.
-> >
-> > > +     int memcgid;
-> > > +     struct pglist_data *pgdat;
-> > > +     unsigned long token;
-> > > +
-> > > +     unpack_shadow(shadow, &memcgid, &pgdat, &token, workingset);
-> > > +     eviction_memcg = mem_cgroup_from_id(memcgid);
-> > > +
-> > > +     lruvec = mem_cgroup_lruvec(eviction_memcg, pgdat);
-> > > +     lrugen = &lruvec->lrugen;
-> > > +
-> > > +     min_seq = READ_ONCE(lrugen->min_seq[file]);
-> > > +     return !((token >> LRU_REFS_WIDTH) != (min_seq & (EVICTION_MASK >> LRU_REFS_WIDTH)));
-> >
-> > I think this might be more readable without the double negative.
-> 
-> Hmm indeed. I was just making sure that I did not mess up Yu's
-> original logic here (by just wrapping it in a parentheses and
-> negate the whole thing), but if I understand it correctly it's just
-> an equality check. I'll fix it in the next version to make it cleaner.
-> 
-> >
-> > Also it looks like this logic is pulled from lru_gen_refault(). Any
-> > reason the caller isn't refactored to use this helper, similar to how
-> > workingset_refault() is modified? It seems like a potential landmine to
-> > duplicate the logic here for cachestat purposes and somewhere else for
-> > actual workingset management.
-> 
-> In V2, it is actually refactored analogously as well - but we had a discussion
-> about it here:
-> 
-> https://lkml.org/lkml/2022/12/5/1321
-> 
+On Tue, Jan 17, 2023 at 4:14 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+>
+> This patch passes the full response so that the audit function can use all
+> of it. The audit function was updated to log the additional information in
+> the AUDIT_FANOTIFY record.
+>
+> Currently the only type of fanotify info that is defined is an audit
+> rule number, but convert it to hex encoding to future-proof the field.
+> Hex encoding suggested by Paul Moore <paul@paul-moore.com>.
+>
+> The {subj,obj}_trust values are {0,1,2}, corresponding to no, yes, unknown.
+>
+> Sample records:
+>   type=FANOTIFY msg=audit(1600385147.372:590): resp=2 fan_type=1 fan_info=3137 subj_trust=3 obj_trust=5
+>   type=FANOTIFY msg=audit(1659730979.839:284): resp=1 fan_type=0 fan_info=3F subj_trust=2 obj_trust=2
+>
+> Suggested-by: Steve Grubb <sgrubb@redhat.com>
+> Link: https://lore.kernel.org/r/3075502.aeNJFYEL58@x2
+> Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
+> ---
+>  fs/notify/fanotify/fanotify.c |  3 ++-
+>  include/linux/audit.h         |  9 +++++----
+>  kernel/auditsc.c              | 16 +++++++++++++---
+>  3 files changed, 20 insertions(+), 8 deletions(-)
 
-Yeah, sorry.. replied to Johannes.
+...
 
-> >
-> > > +}
-> > > +
-> > >  static void lru_gen_refault(struct folio *folio, void *shadow)
-> > >  {
-> > >       int hist, tier, refs;
-> > > @@ -306,6 +333,11 @@ static void *lru_gen_eviction(struct folio *folio)
-> > >       return NULL;
-> > >  }
-> > >
-> > > +static bool lru_gen_test_recent(void *shadow, bool file, bool *workingset)
-> > > +{
-> > > +     return true;
-> > > +}
-> >
-> > I guess this is a no-op for !MGLRU but given the context (i.e. special
-> > treatment for "recent" refaults), perhaps false is a more sane default?
-> 
-> Hmm, fair point. Let me fix that in the next version.
-> 
-> >
-> > > +
-> > >  static void lru_gen_refault(struct folio *folio, void *shadow)
-> > >  {
-> > >  }
-> > > @@ -373,40 +405,31 @@ void *workingset_eviction(struct folio *folio, struct mem_cgroup *target_memcg)
-> > >                               folio_test_workingset(folio));
-> > >  }
-> > >
-> > > -/**
-> > > - * workingset_refault - Evaluate the refault of a previously evicted folio.
-> > > - * @folio: The freshly allocated replacement folio.
-> > > - * @shadow: Shadow entry of the evicted folio.
-> > > +/*
-> > > + * Test if the folio is recently evicted by checking if
-> > > + * refault distance of shadow exceeds workingset size.
-> > >   *
-> > > - * Calculates and evaluates the refault distance of the previously
-> > > - * evicted folio in the context of the node and the memcg whose memory
-> > > - * pressure caused the eviction.
-> > > + * As a side effect, populate workingset with the value
-> > > + * unpacked from shadow.
-> > >   */
-> > > -void workingset_refault(struct folio *folio, void *shadow)
-> > > +bool workingset_test_recent(void *shadow, bool file, bool *workingset)
-> > >  {
-> > > -     bool file = folio_is_file_lru(folio);
-> > >       struct mem_cgroup *eviction_memcg;
-> > >       struct lruvec *eviction_lruvec;
-> > >       unsigned long refault_distance;
-> > >       unsigned long workingset_size;
-> > > -     struct pglist_data *pgdat;
-> > > -     struct mem_cgroup *memcg;
-> > > -     unsigned long eviction;
-> > > -     struct lruvec *lruvec;
-> > >       unsigned long refault;
-> > > -     bool workingset;
-> > > +
-> > >       int memcgid;
-> > > -     long nr;
-> > > +     struct pglist_data *pgdat;
-> > > +     unsigned long eviction;
-> > >
-> > > -     if (lru_gen_enabled()) {
-> > > -             lru_gen_refault(folio, shadow);
-> > > -             return;
-> > > -     }
-> > > +     if (lru_gen_enabled())
-> > > +             return lru_gen_test_recent(shadow, file, workingset);
-> >
-> > Hmm.. so this function is only called by workingset_refault() when
-> > lru_gen_enabled() == false, otherwise it calls into lru_gen_refault(),
-> > which as noted above duplicates some of the recency logic.
-> >
-> > I'm assuming this lru_gen_test_recent() call is so filemap_cachestat()
-> > can just call workingset_test_recent(). That seems reasonable, but makes
-> > me wonder...
-> 
-> You're right. It's a bit clunky...
-> 
-> >
-> > >
-> > > -     unpack_shadow(shadow, &memcgid, &pgdat, &eviction, &workingset);
-> > > +     unpack_shadow(shadow, &memcgid, &pgdat, &eviction, workingset);
-> > >       eviction <<= bucket_order;
-> > >
-> > > -     rcu_read_lock();
-> > >       /*
-> > >        * Look up the memcg associated with the stored ID. It might
-> > >        * have been deleted since the folio's eviction.
-> > > @@ -425,7 +448,8 @@ void workingset_refault(struct folio *folio, void *shadow)
-> > >        */
-> > >       eviction_memcg = mem_cgroup_from_id(memcgid);
-> > >       if (!mem_cgroup_disabled() && !eviction_memcg)
-> > > -             goto out;
-> > > +             return false;
-> > > +
-> > >       eviction_lruvec = mem_cgroup_lruvec(eviction_memcg, pgdat);
-> > >       refault = atomic_long_read(&eviction_lruvec->nonresident_age);
-> > >
-> > > @@ -447,21 +471,6 @@ void workingset_refault(struct folio *folio, void *shadow)
-> > >        */
-> > >       refault_distance = (refault - eviction) & EVICTION_MASK;
-> > >
-> > > -     /*
-> > > -      * The activation decision for this folio is made at the level
-> > > -      * where the eviction occurred, as that is where the LRU order
-> > > -      * during folio reclaim is being determined.
-> > > -      *
-> > > -      * However, the cgroup that will own the folio is the one that
-> > > -      * is actually experiencing the refault event.
-> > > -      */
-> > > -     nr = folio_nr_pages(folio);
-> > > -     memcg = folio_memcg(folio);
-> > > -     pgdat = folio_pgdat(folio);
-> > > -     lruvec = mem_cgroup_lruvec(memcg, pgdat);
-> > > -
-> > > -     mod_lruvec_state(lruvec, WORKINGSET_REFAULT_BASE + file, nr);
-> > > -
-> > >       mem_cgroup_flush_stats_delayed();
-> > >       /*
-> > >        * Compare the distance to the existing workingset size. We
-> > > @@ -483,8 +492,51 @@ void workingset_refault(struct folio *folio, void *shadow)
-> > >                                                    NR_INACTIVE_ANON);
-> > >               }
-> > >       }
-> > > -     if (refault_distance > workingset_size)
-> > > +
-> > > +     return refault_distance <= workingset_size;
-> > > +}
-> > > +
-> > > +/**
-> > > + * workingset_refault - Evaluate the refault of a previously evicted folio.
-> > > + * @folio: The freshly allocated replacement folio.
-> > > + * @shadow: Shadow entry of the evicted folio.
-> > > + *
-> > > + * Calculates and evaluates the refault distance of the previously
-> > > + * evicted folio in the context of the node and the memcg whose memory
-> > > + * pressure caused the eviction.
-> > > + */
-> > > +void workingset_refault(struct folio *folio, void *shadow)
-> > > +{
-> > > +     bool file = folio_is_file_lru(folio);
-> > > +     struct pglist_data *pgdat;
-> > > +     struct mem_cgroup *memcg;
-> > > +     struct lruvec *lruvec;
-> > > +     bool workingset;
-> > > +     long nr;
-> > > +
-> > > +     if (lru_gen_enabled()) {
-> > > +             lru_gen_refault(folio, shadow);
-> > > +             return;
-> > > +     }
-> >
-> > ... if perhaps this should call workingset_test_recent() a bit earlier,
-> > since it also covers the lru_gen_*() case..? That may or may not be
-> > cleaner. It _seems like_ it might produce a bit more consistent logic,
-> > but just a thought and I could easily be missing details.
-> 
-> Hmm you mean before/in place of the lru_gen_refault call?
-> workingset_test_recent only covers lru_gen_test_recent,
-> not the rest of the logic of lru_gen_refault I believe.
-> 
+> diff --git a/kernel/auditsc.c b/kernel/auditsc.c
+> index d1fb821de104..3133c4175c15 100644
+> --- a/kernel/auditsc.c
+> +++ b/kernel/auditsc.c
+> @@ -2877,10 +2878,19 @@ void __audit_log_kern_module(char *name)
+>         context->type = AUDIT_KERN_MODULE;
+>  }
+>
+> -void __audit_fanotify(u32 response)
+> +void __audit_fanotify(u32 response, struct fanotify_response_info_audit_rule *friar)
+>  {
+> -       audit_log(audit_context(), GFP_KERNEL,
+> -               AUDIT_FANOTIFY, "resp=%u", response);
+> +       /* {subj,obj}_trust values are {0,1,2}: no,yes,unknown */
+> +       if (friar->hdr.type == FAN_RESPONSE_INFO_NONE) {
+> +               audit_log(audit_context(), GFP_KERNEL, AUDIT_FANOTIFY,
+> +                         "resp=%u fan_type=%u fan_info=3F subj_trust=2 obj_trust=2",
+> +                         response, FAN_RESPONSE_INFO_NONE);
+> +               return;
+> +       }
+> +       audit_log(audit_context(), GFP_KERNEL, AUDIT_FANOTIFY,
+> +                 "resp=%u fan_type=%u fan_info=%X subj_trust=%u obj_trust=%u",
+> +                 response, friar->hdr.type, friar->rule_number,
+> +                 friar->subj_trust, friar->obj_trust);
+>  }
 
-When reading through the code I got the impression that if
-workingset_test_recent() -> lru_gen_test_recent() returned false, then
-lru_gen_refault() didn't really do anything. I.e., the token/min_seq
-check fails and it skips out to the end of the function. That had me
-wondering whether workingset_refault() could just skip out of either
-mode if workingset_test_recent() returns false (since it calls
-lru_gen_test_recent()), but that may not work. Specifically I'm not sure
-about that mod_lruvec_state()) call (discussed below) for the MGLRU
-case. If that call is correct as is for !MGLRU, maybe it could be made
-conditional based on lru_gen_enabled()..?
+The only thing that comes to mind might be to convert the if-return
+into a switch statement to make it a bit cleaner and easier to patch
+in the future, but that is soooo far removed from any real concern
+that I debated even mentioning it.  I only bring it up in case the
+"3F" discussion results in a respin, and even then I'm not going to
+hold my ACK over something as silly as a if-return vs switch.
 
-I guess what I was trying to get at here is that you've created this
-nice workingset_test_recent() helper to cover both modes for
-filemap_cachestat(), so it would be nice if it could be used in that way
-in the core workingset code as well. :)
+For clarity, this is what I was thinking:
 
-I suppose yet another option could be to skip the lru_gen_test_recent()
-check in workingset_test_recent() and instead call it from
-lru_gen_refault(), but then I guess you'd have to open code both checks
-in the filemap_cachestat() call, which sounds kind of ugly..
+void __audit_fanontify(...)
+{
+  switch (type) {
+  case FAN_RESPONSE_INFO_NONE:
+    audit_log(...);
+    break;
+  default:
+    audit_log(...);
+  }
+}
 
-> 
-> >
-> > > +
-> > > +     rcu_read_lock();
-> > > +
-> > > +     nr = folio_nr_pages(folio);
-> > > +     memcg = folio_memcg(folio);
-> > > +     pgdat = folio_pgdat(folio);
-> > > +     lruvec = mem_cgroup_lruvec(memcg, pgdat);
-> > > +
-> > > +     if (!workingset_test_recent(shadow, file, &workingset)) {
-> > > +             /*
-> > > +              * The activation decision for this folio is made at the level
-> > > +              * where the eviction occurred, as that is where the LRU order
-> > > +              * during folio reclaim is being determined.
-> > > +              *
-> > > +              * However, the cgroup that will own the folio is the one that
-> > > +              * is actually experiencing the refault event.
-> > > +              */
-> >
-> > IIUC, this comment is explaining the difference between using the
-> > eviction lru (based on the shadow entry) to calculate recency vs. the
-> > lru for the current folio to process the refault. If so, perhaps it
-> > should go right above the workingset_test_recent() call? (Then the if
-> > braces could go away as well..).
-> 
-> You're right! I think it should go above `nr = folio_nr_pages(folio);` call.
-> 
-
-Sounds good.
-
-> >
-> > >               goto out;
-> > > +     }
-> > >
-> > >       folio_set_active(folio);
-> > >       workingset_age_nonresident(lruvec, nr);
-> > > @@ -498,6 +550,7 @@ void workingset_refault(struct folio *folio, void *shadow)
-> > >               mod_lruvec_state(lruvec, WORKINGSET_RESTORE_BASE + file, nr);
-> > >       }
-> > >  out:
-> > > +     mod_lruvec_state(lruvec, WORKINGSET_REFAULT_BASE + file, nr);
-> >
-> > Why not just leave this up earlier in the function (i.e. before the
-> > recency check) as it was originally?
-> 
-> Let me double check, but I think this is a relic from the old (and incorrect)
-> version of workingset code.
-> 
-> Originally, mod_lruvec_state uses the lruvec computed from a variable
-> (pgdat) that was unpacked from the shadow. So this mod_lruvec_state
-> has to go after the unpack_shadow call (which has been moved inside
-> of workingset_test_recent).
-> 
-> This is actually wrong - we actually want the pgdat from the folio. It
-> has been fixed in a separate patch:
-> 
-> https://lore.kernel.org/all/20230104222944.2380117-1-nphamcs@gmail.com/T/#u
-> 
-
-Yep, I had applied this series on top of that one..
-
-> But I didn't update it here. Let me stare at it a bit more to make sure,
-> and then fix it in the next version. It should not change the behavior,
-> but it should be cleaner.
-> 
-
-Sounds good. FWIW it looked like the logic hadn't changed with this
-series so I just assumed it was correct, just possibly moved around
-unnecessarily. I'll try to make more sense of it in the next version.
-Thanks.
-
-Brian
-
-> >
-> > Brian
-> >
-> > >       rcu_read_unlock();
-> > >  }
-> > >
-> > > --
-> > > 2.30.2
-> > >
-> >
-> 
-
+-- 
+paul-moore.com
