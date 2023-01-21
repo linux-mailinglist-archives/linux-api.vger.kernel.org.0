@@ -2,170 +2,109 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BD5D6761B4
-	for <lists+linux-api@lfdr.de>; Sat, 21 Jan 2023 00:43:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 499C2676384
+	for <lists+linux-api@lfdr.de>; Sat, 21 Jan 2023 04:44:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229843AbjATXnA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 20 Jan 2023 18:43:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39106 "EHLO
+        id S229484AbjAUDor (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 20 Jan 2023 22:44:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229761AbjATXnA (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 20 Jan 2023 18:43:00 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 356B7DBE6;
-        Fri, 20 Jan 2023 15:42:55 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 729F7620E7;
-        Fri, 20 Jan 2023 23:42:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 448D0C433D2;
-        Fri, 20 Jan 2023 23:42:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1674258174;
-        bh=jOiDj1nTgDbA+vCo7Om5n16foMSR0Jzva+bUM8XvgWE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Ylp+WtdDSbUV9qYxCK/NhYNvqZKwU6kso6L95frHoTxvaQK4UPPibKrCB1i0HLzmT
-         ZKIqndsDqyR7Dw/XOo9dxa8HTWnJ/IMYETqnqN6CEQ4FYE/FyaFb7s7zv41BIghyoY
-         Gc4AxZYV0IB7R0SP6RJLkachyQPACiAAqsj6xLx5AselcF9UR4clPmRr9XG9IHJF4e
-         WAUbkOeNUQI7NVt+z5Uy8+nR/33vH9oeYh0alW/N0ee1oLcGWG2gR1+tmrAL9f8FYG
-         4qvzPPqW4R0mcsJC5R4rRhegVnuNxZzsdVxJFdHLdmAe6PXbGdzyhNiZQFiD8k6X+L
-         i90qVnaJiD1qg==
-Date:   Fri, 20 Jan 2023 23:42:51 +0000
-From:   Jarkko Sakkinen <jarkko@kernel.org>
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     Sean Christopherson <seanjc@google.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        wei.w.wang@intel.com
-Subject: Re: [PATCH v10 3/9] KVM: Extend the memslot to support fd-based
- private memory
-Message-ID: <Y8sm+8JJo8VUsUBo@kernel.org>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-4-chao.p.peng@linux.intel.com>
- <Y7azFdnnGAdGPqmv@kernel.org>
- <20230106094000.GA2297836@chaop.bj.intel.com>
- <Y7xrtf9FCuYRYm1q@google.com>
- <20230110091432.GA2441264@chaop.bj.intel.com>
+        with ESMTP id S229744AbjAUDom (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 20 Jan 2023 22:44:42 -0500
+Received: from mail-vs1-xe34.google.com (mail-vs1-xe34.google.com [IPv6:2607:f8b0:4864:20::e34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E543D4F378
+        for <linux-api@vger.kernel.org>; Fri, 20 Jan 2023 19:44:32 -0800 (PST)
+Received: by mail-vs1-xe34.google.com with SMTP id q125so7770373vsb.0
+        for <linux-api@vger.kernel.org>; Fri, 20 Jan 2023 19:44:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=i+Q3NrGpoV7GTe996deDPMHtEIxVtagrWegu0XOvq8M=;
+        b=jEb/UjRtJOQEVO6iBKcBXyG0PWPILL+xdZ3LKRQ2jB3uds9nER53CGZQfJaUQkxWN6
+         yX9UuASVggOc2lP63XLBQUd/UY/vUJnhwewKj6Y7ZcSubrEa1HRpr89WQ6bqXnmocE4T
+         QTxkhXGduOWPtALVkfMhiWeR5rPQMFvNCdQuRK4UUfp6wDnd/DzWeh9T5GYflZriMsn2
+         vJ2CuUeQtFFccnST5Cg2wpTgwiSoCHUWm5x+sUd0/utPop/U75nGh+X5JunMPs0Ze2Ic
+         /eXCdyRgSCh001lPMZBaOEIPTtaiVUikm2YAebgsGtSUmTSl20ZiZEhzOlOPzpM6imzG
+         i3GQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=i+Q3NrGpoV7GTe996deDPMHtEIxVtagrWegu0XOvq8M=;
+        b=fGY5OmWBMIml7X9FgCJlspeT/cvhv1g3AeNWMtbNkqEJtTBrObcuQYXeYUy8BKjp2r
+         hrTLxpVLymu5ff8Mz91gHF7CpCIWtk9PqXhr+4ODjRJfSe29L6J7n+dN9YZS+3/LasIJ
+         Rtu+cknhD3s9blpJgoLF5aC0OlF4PAJzQFl4TTWEMe2si5wLzlE91E/QnLaNxUS8X66P
+         YPxMCNYL5mhwPDHr40gNPNvQM9kyc3VcmW0tVBySxNxoCVjonUhT0g65bRKMpsNBgJ4Z
+         mCpbmYDmf2/o6ZQl2SwCJeXxdBkaeXhIYCD6P4TfpLR6OB+QhqgQ2r35SkmG9IymM+Jp
+         zTEw==
+X-Gm-Message-State: AFqh2koM8MDJ8vfLNOQOrFjZ40ZZSkLiRdHPZcpWD5P17t7MaG7IYret
+        nOlMoETAdVZNTuNC+Ky52PNY1obtmdpkVDidMSclTQ==
+X-Google-Smtp-Source: AMrXdXtvPZMjN5JFsFrMAa4NboPBAbiuJwVDzcdTGkr/+iM1QBYFkb6OdCvT312SR9yaXrnhP1PcsBitL6RSTT9L0XM=
+X-Received: by 2002:a67:c387:0:b0:3d2:3577:2d05 with SMTP id
+ s7-20020a67c387000000b003d235772d05mr2208218vsj.9.1674272671893; Fri, 20 Jan
+ 2023 19:44:31 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230110091432.GA2441264@chaop.bj.intel.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20230117195959.29768-1-nphamcs@gmail.com> <20230117195959.29768-2-nphamcs@gmail.com>
+ <Y8qmaqpAFko+gI3h@bfoster> <Y8rA4C6qnT5InHGc@cmpxchg.org>
+In-Reply-To: <Y8rA4C6qnT5InHGc@cmpxchg.org>
+From:   Yu Zhao <yuzhao@google.com>
+Date:   Fri, 20 Jan 2023 20:43:55 -0700
+Message-ID: <CAOUHufYYMDxHPFEAKaXbvse8bjSVJp51hmHBG+3u9mTTstjFow@mail.gmail.com>
+Subject: Re: [PATCH v6 1/3] workingset: refactor LRU refault to expose refault
+ recency check
+To:     Johannes Weiner <hannes@cmpxchg.org>
+Cc:     Brian Foster <bfoster@redhat.com>, Nhat Pham <nphamcs@gmail.com>,
+        akpm@linux-foundation.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, willy@infradead.org,
+        linux-api@vger.kernel.org, kernel-team@meta.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Jan 10, 2023 at 05:14:32PM +0800, Chao Peng wrote:
-> On Mon, Jan 09, 2023 at 07:32:05PM +0000, Sean Christopherson wrote:
-> > On Fri, Jan 06, 2023, Chao Peng wrote:
-> > > On Thu, Jan 05, 2023 at 11:23:01AM +0000, Jarkko Sakkinen wrote:
-> > > > On Fri, Dec 02, 2022 at 02:13:41PM +0800, Chao Peng wrote:
-> > > > > To make future maintenance easy, internally use a binary compatible
-> > > > > alias struct kvm_user_mem_region to handle both the normal and the
-> > > > > '_ext' variants.
-> > > > 
-> > > > Feels bit hacky IMHO, and more like a completely new feature than
-> > > > an extension.
-> > > > 
-> > > > Why not just add a new ioctl? The commit message does not address
-> > > > the most essential design here.
-> > > 
-> > > Yes, people can always choose to add a new ioctl for this kind of change
-> > > and the balance point here is we want to also avoid 'too many ioctls' if
-> > > the functionalities are similar.  The '_ext' variant reuses all the
-> > > existing fields in the 'normal' variant and most importantly KVM
-> > > internally can reuse most of the code. I certainly can add some words in
-> > > the commit message to explain this design choice.
-> > 
-> > After seeing the userspace side of this, I agree with Jarkko; overloading
-> > KVM_SET_USER_MEMORY_REGION is a hack.  E.g. the size validation ends up being
-> > bogus, and userspace ends up abusing unions or implementing kvm_user_mem_region
-> > itself.
-> 
-> How is the size validation being bogus? I don't quite follow. Then we
-> will use kvm_userspace_memory_region2 as the KVM internal alias, right?
-> I see similar examples use different functions to handle different
-> versions but it does look easier if we use alias for this function.
-> 
-> > 
-> > It feels absolutely ridiculous, but I think the best option is to do:
-> > 
-> > #define KVM_SET_USER_MEMORY_REGION2 _IOW(KVMIO, 0x49, \
-> > 					 struct kvm_userspace_memory_region2)
-> 
-> Just interesting, is 0x49 a safe number we can use? 
-> 
-> > 
-> > /* for KVM_SET_USER_MEMORY_REGION2 */
-> > struct kvm_user_mem_region2 {
-> > 	__u32 slot;
-> > 	__u32 flags;
-> > 	__u64 guest_phys_addr;
-> > 	__u64 memory_size;
-> > 	__u64 userspace_addr;
-> > 	__u64 restricted_offset;
-> > 	__u32 restricted_fd;
-> > 	__u32 pad1;
-> > 	__u64 pad2[14];
-> > }
-> > 
-> > And it's consistent with other KVM ioctls(), e.g. KVM_SET_CPUID2.
-> 
-> Okay, agree from KVM userspace API perspective this is more consistent
-> with similar existing examples. I see several of them.
-> 
-> I think we will also need a CAP_KVM_SET_USER_MEMORY_REGION2 for this new
-> ioctl.
+On Fri, Jan 20, 2023 at 9:26 AM Johannes Weiner <hannes@cmpxchg.org> wrote:
+>
+> On Fri, Jan 20, 2023 at 09:34:18AM -0500, Brian Foster wrote:
+> > On Tue, Jan 17, 2023 at 11:59:57AM -0800, Nhat Pham wrote:
+> > > +   int memcgid;
+> > > +   struct pglist_data *pgdat;
+> > > +   unsigned long token;
+> > > +
+> > > +   unpack_shadow(shadow, &memcgid, &pgdat, &token, workingset);
+> > > +   eviction_memcg = mem_cgroup_from_id(memcgid);
+> > > +
+> > > +   lruvec = mem_cgroup_lruvec(eviction_memcg, pgdat);
+> > > +   lrugen = &lruvec->lrugen;
+> > > +
+> > > +   min_seq = READ_ONCE(lrugen->min_seq[file]);
+> > > +   return !((token >> LRU_REFS_WIDTH) != (min_seq & (EVICTION_MASK >> LRU_REFS_WIDTH)));
+> >
+> > I think this might be more readable without the double negative.
+> >
+> > Also it looks like this logic is pulled from lru_gen_refault(). Any
+> > reason the caller isn't refactored to use this helper, similar to how
+> > workingset_refault() is modified? It seems like a potential landmine to
+> > duplicate the logic here for cachestat purposes and somewhere else for
+> > actual workingset management.
+>
+> The initial version was refactored. Yu explicitly requested it be
+> duplicated [1] to cut down on some boiler plate.
+>
+> I have to agree with Brian on this one, though. The factored version
+> is better for maintenance than duplicating the core logic here. Even
+> if it ends up a bit more boiler plate - it's harder to screw that up,
+> and easier to catch at compile time, than the duplicates diverging.
+>
+> [1] https://lore.kernel.org/lkml/CAOUHufZKTqoD2rFwrX9-eCknBmeWqP88rZ7X7A_5KHHbGBUP=A@mail.gmail.com/
 
-The current API in the patch set is trivial for C user space but for
-any other more "constrained" language such as Rust a new ioctl would be
-easier to adapt.
-
-> > 
-> > Regarding the userspace side of things, please include Vishal's selftests in v11,
-> > it's impossible to properly review the uAPI changes without seeing the userspace
-> > side of things.  I'm in the process of reviewing Vishal's v2[*], I'll try to
-> > massage it into a set of patches that you can incorporate into your series.
-> 
-> Previously I included Vishal's selftests in the github repo, but not
-> include them in this patch series. It's OK for me to incorporate them
-> directly into this series and review together if Vishal is fine.
-> 
-> Chao
-> > 
-> > [*] https://lore.kernel.org/all/20221205232341.4131240-1-vannapurve@google.com
-
-BR, Jarkko
+No objections to either way. I'll take a look at the final version and
+we are good as long as it works as intended.
