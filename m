@@ -2,62 +2,62 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5948667773F
-	for <lists+linux-api@lfdr.de>; Mon, 23 Jan 2023 10:17:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 77241677767
+	for <lists+linux-api@lfdr.de>; Mon, 23 Jan 2023 10:29:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231797AbjAWJRk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 23 Jan 2023 04:17:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55626 "EHLO
+        id S229514AbjAWJ3O (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 23 Jan 2023 04:29:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34062 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231800AbjAWJRc (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 23 Jan 2023 04:17:32 -0500
+        with ESMTP id S231819AbjAWJ3N (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 23 Jan 2023 04:29:13 -0500
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1FD36E83
-        for <linux-api@vger.kernel.org>; Mon, 23 Jan 2023 01:16:43 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C37418B1D
+        for <linux-api@vger.kernel.org>; Mon, 23 Jan 2023 01:28:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1674465403;
+        s=mimecast20190719; t=1674466108;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=k8JcC6eIt+iMfSq8qeJsa8sN2OBxI65CeQDKnD44YXg=;
-        b=AYBf8vU+Xd7/EoOazxC8CWHn+8OgsIE6PrFgpnKQk21C50K6H0SIY5ZE/kbLcklQOwHAkg
-        J3sfC9nfJAwOCxd3NPcTf/gNWnIduNcgPC37RPjOZFRlnguy39cLtn1KVAho2X1N2i3wcj
-        e+q+LVwtjUcrPMRyusP6Eu07u8zXqPo=
+        bh=BrIFJvTmapK03tMxp/EwcaTsAgwZAa+tcZ42A86+Ees=;
+        b=QjwAbzyUNFnlQ9za3+Rkq99srmhiunAPMQYnky5oqLA3ICH9SaUVh/8KE540Ld+r51OaS1
+        /BlVeN9lx2LKM/NJoH0foxX9wnLvtMFtczItWpQCuEdF5LSaxitlVIqcmgcFP/Kx3K23qQ
+        tCrHG3xyhK43WqcgmHZuhNU1tWPwxGs=
 Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
  [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-581-_7ZnevH_NFCEUn4LwBBZPg-1; Mon, 23 Jan 2023 04:16:41 -0500
-X-MC-Unique: _7ZnevH_NFCEUn4LwBBZPg-1
-Received: by mail-wm1-f71.google.com with SMTP id 9-20020a05600c228900b003daf72fc827so7180842wmf.9
-        for <linux-api@vger.kernel.org>; Mon, 23 Jan 2023 01:16:41 -0800 (PST)
+ us-mta-487-EOvwoHFFO9qpvkADoCC_4g-1; Mon, 23 Jan 2023 04:28:27 -0500
+X-MC-Unique: EOvwoHFFO9qpvkADoCC_4g-1
+Received: by mail-wm1-f71.google.com with SMTP id z22-20020a7bc7d6000000b003daf671f7b2so2628277wmk.9
+        for <linux-api@vger.kernel.org>; Mon, 23 Jan 2023 01:28:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:organization:from:references
          :cc:to:content-language:subject:user-agent:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=k8JcC6eIt+iMfSq8qeJsa8sN2OBxI65CeQDKnD44YXg=;
-        b=aIAkAff3Rtg/7l0l2Yb73+WcLGkN/fKs0Dp3IJzMNmimQTqstHSca+TT9N64LXPm2P
-         XAJrw2/g8DRF021LQ27Fm92JFdRHtCr1mDFyWGCVc2dpqKnZsqm+7MvaB2bv7cSYCEZI
-         htAWv6aXF4kLL3ALtMrALurOTJDONF7/yRcOpLXNK9+K0G05xn+GaTlO5oNmHE4yehNR
-         /8VtUatGLvW6+hhbd+7SLZJRWl6BF2iFO9Bs9uqZVeippeFZToeyfkMLVrRZdbdoZJlt
-         YghQrow9NPPhdLTC/bc7mrsTI0TR62ifqY1+IkklwmqlNPWBn9/BOChYys71msKCZ2Hf
-         Wa+Q==
-X-Gm-Message-State: AFqh2kpdrL/Nw+MWFUWIBog8BXoXbMEXULbLinXUXVr4AxTDTSQQhjEv
-        r0oC9hvVwJgLgosZ+ATMn3l9HMDrlZG3Eqh9GXgGBg6jqJCu3omxiiGSdm3VXfaedeMkUUlu/26
-        LpcuxgvUGJJVRJXPnC7HZ
-X-Received: by 2002:a05:600c:1c86:b0:3da:fa75:ce58 with SMTP id k6-20020a05600c1c8600b003dafa75ce58mr26719047wms.21.1674465400506;
-        Mon, 23 Jan 2023 01:16:40 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXuupSrdeuharN/DJudQsmcwvHAen3BCVSbfnv8VMnK/LetCsRFdTz9vm9krb5wqXvP+aX6kLg==
-X-Received: by 2002:a05:600c:1c86:b0:3da:fa75:ce58 with SMTP id k6-20020a05600c1c8600b003dafa75ce58mr26718979wms.21.1674465400042;
-        Mon, 23 Jan 2023 01:16:40 -0800 (PST)
+        bh=BrIFJvTmapK03tMxp/EwcaTsAgwZAa+tcZ42A86+Ees=;
+        b=6hx/kFvTEVLCEirSok2JLE48zisNsKTUHWfBzvictm0BHgICUXWKYAcdQnchWf+Zpy
+         1osSCtrJ4j5Pf8UpZgwK1Oiak7MycKl2b6DXFiu1dAV4aULlUGR2nB5E11GcazQvM/ng
+         +WBAAmnxp97LM0kb6Jpx2yCrrT6eVhijPEz0CSuOFViPxW/0bEZTqqYGeiz5WhCBCBTB
+         KRZv6SaMITfh56H3aaQRHS8xBM0ToJYMd8Udc6iSmbDPsB8wJCms5drC+T51LLJQRZow
+         2jt1GnRp+Kk2znYxy3Luvtk8K+2gsdiArtoKNPHGr6bofej5zDlBAjQr5Ua5mn2zmAWa
+         pZ8w==
+X-Gm-Message-State: AFqh2kpweITXb3pcyg5bPNQq52PEPdlxgvDDIdY4FeiYcpWv4yUnQc2x
+        Y2DfqjQ5IeuOS9PY5GkKvQTB3IBgxC6d2awLjXGWbsyYt6U8Lpq4DPP9XaoJwQvmUi85qSN+RGt
+        4jXPPcvNINVCpA25uARO4
+X-Received: by 2002:a05:600c:4b9a:b0:3da:fcdc:cafd with SMTP id e26-20020a05600c4b9a00b003dafcdccafdmr22698473wmp.13.1674466105746;
+        Mon, 23 Jan 2023 01:28:25 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXs/vdJO4rUgmUUDJGfJogv0+NRnslbNv9uG5arGuXj/93En31RKOdaZ76Y8MzQdaM5yO+HgXg==
+X-Received: by 2002:a05:600c:4b9a:b0:3da:fcdc:cafd with SMTP id e26-20020a05600c4b9a00b003dafcdccafdmr22698448wmp.13.1674466105328;
+        Mon, 23 Jan 2023 01:28:25 -0800 (PST)
 Received: from ?IPV6:2003:cb:c704:1100:65a0:c03a:142a:f914? (p200300cbc704110065a0c03a142af914.dip0.t-ipconnect.de. [2003:cb:c704:1100:65a0:c03a:142a:f914])
-        by smtp.gmail.com with ESMTPSA id bi13-20020a05600c3d8d00b003daf98d7e35sm10026313wmb.14.2023.01.23.01.16.38
+        by smtp.gmail.com with ESMTPSA id b10-20020a05600c4e0a00b003db0cab0844sm10235533wmq.40.2023.01.23.01.28.23
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Jan 2023 01:16:39 -0800 (PST)
-Message-ID: <5ddbd710-1b4d-71ed-8dfe-928449a6f635@redhat.com>
-Date:   Mon, 23 Jan 2023 10:16:37 +0100
+        Mon, 23 Jan 2023 01:28:24 -0800 (PST)
+Message-ID: <634aa365-1f51-8684-24ae-3b68aba1e12a@redhat.com>
+Date:   Mon, 23 Jan 2023 10:28:23 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
@@ -102,7 +102,7 @@ Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
         RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -212,138 +212,20 @@ On 19.01.23 22:22, Rick Edgecombe wrote:
 > + * take a PTE marked conventionally COW (Dirty=1) and transition it to the
 > + * shadow stack compatible version of COW (Cow=1).
 > + */
-> +static inline pte_t pte_mkcow(pte_t pte)
-> +{
-> +	if (!cpu_feature_enabled(X86_FEATURE_USER_SHSTK))
-> +		return pte;
-> +
-> +	pte = pte_clear_flags(pte, _PAGE_DIRTY);
-> +	return pte_set_flags(pte, _PAGE_COW);
-> +}
-> +
-> +static inline pte_t pte_clear_cow(pte_t pte)
-> +{
-> +	/*
-> +	 * _PAGE_COW is unnecessary on !X86_FEATURE_USER_SHSTK kernels, since
-> +	 * the HW dirty bit can be used without creating shadow stack memory.
-> +	 * See the _PAGE_COW definition for more details.
-> +	 */
-> +	if (!cpu_feature_enabled(X86_FEATURE_USER_SHSTK))
-> +		return pte;
-> +
-> +	/*
-> +	 * PTE is getting copied-on-write, so it will be dirtied
-> +	 * if writable, or made shadow stack if shadow stack and
-> +	 * being copied on access. Set the dirty bit for both
-> +	 * cases.
-> +	 */
-> +	pte = pte_set_flags(pte, _PAGE_DIRTY);
-> +	return pte_clear_flags(pte, _PAGE_COW);
-> +}
-> +
->   #ifdef CONFIG_HAVE_ARCH_USERFAULTFD_WP
->   static inline int pte_uffd_wp(pte_t pte)
->   {
-> @@ -413,6 +451,26 @@ static inline pmd_t pmd_clear_flags(pmd_t pmd, pmdval_t clear)
->   	return native_make_pmd(v & ~clear);
->   }
->   
-> +/* See comments above pte_mkcow() */
-> +static inline pmd_t pmd_mkcow(pmd_t pmd)
-> +{
-> +	if (!cpu_feature_enabled(X86_FEATURE_USER_SHSTK))
-> +		return pmd;
-> +
-> +	pmd = pmd_clear_flags(pmd, _PAGE_DIRTY);
-> +	return pmd_set_flags(pmd, _PAGE_COW);
-> +}
-> +
-> +/* See comments above pte_mkcow() */
-> +static inline pmd_t pmd_clear_cow(pmd_t pmd)
-> +{
-> +	if (!cpu_feature_enabled(X86_FEATURE_USER_SHSTK))
-> +		return pmd;
-> +
-> +	pmd = pmd_set_flags(pmd, _PAGE_DIRTY);
-> +	return pmd_clear_flags(pmd, _PAGE_COW);
-> +}
-> +
->   #ifdef CONFIG_HAVE_ARCH_USERFAULTFD_WP
->   static inline int pmd_uffd_wp(pmd_t pmd)
->   {
-> @@ -484,6 +542,26 @@ static inline pud_t pud_clear_flags(pud_t pud, pudval_t clear)
->   	return native_make_pud(v & ~clear);
->   }
->   
-> +/* See comments above pte_mkcow() */
-> +static inline pud_t pud_mkcow(pud_t pud)
-> +{
-> +	if (!cpu_feature_enabled(X86_FEATURE_USER_SHSTK))
-> +		return pud;
-> +
-> +	pud = pud_clear_flags(pud, _PAGE_DIRTY);
-> +	return pud_set_flags(pud, _PAGE_COW);
-> +}
-> +
-> +/* See comments above pte_mkcow() */
-> +static inline pud_t pud_clear_cow(pud_t pud)
-> +{
-> +	if (!cpu_feature_enabled(X86_FEATURE_USER_SHSTK))
-> +		return pud;
-> +
-> +	pud = pud_set_flags(pud, _PAGE_DIRTY);
-> +	return pud_clear_flags(pud, _PAGE_COW);
-> +}
-> +
->   static inline pud_t pud_mkold(pud_t pud)
->   {
->   	return pud_clear_flags(pud, _PAGE_ACCESSED);
-> diff --git a/arch/x86/include/asm/pgtable_types.h b/arch/x86/include/asm/pgtable_types.h
-> index 0646ad00178b..5c3f942865d9 100644
-> --- a/arch/x86/include/asm/pgtable_types.h
-> +++ b/arch/x86/include/asm/pgtable_types.h
-> @@ -21,7 +21,8 @@
->   #define _PAGE_BIT_SOFTW2	10	/* " */
->   #define _PAGE_BIT_SOFTW3	11	/* " */
->   #define _PAGE_BIT_PAT_LARGE	12	/* On 2MB or 1GB pages */
-> -#define _PAGE_BIT_SOFTW4	58	/* available for programmer */
-> +#define _PAGE_BIT_SOFTW4	57	/* available for programmer */
-> +#define _PAGE_BIT_SOFTW5	58	/* available for programmer */
->   #define _PAGE_BIT_PKEY_BIT0	59	/* Protection Keys, bit 1/4 */
->   #define _PAGE_BIT_PKEY_BIT1	60	/* Protection Keys, bit 2/4 */
->   #define _PAGE_BIT_PKEY_BIT2	61	/* Protection Keys, bit 3/4 */
-> @@ -34,6 +35,15 @@
->   #define _PAGE_BIT_SOFT_DIRTY	_PAGE_BIT_SOFTW3 /* software dirty tracking */
->   #define _PAGE_BIT_DEVMAP	_PAGE_BIT_SOFTW4
->   
-> +/*
-> + * Indicates a copy-on-write page.
-> + */
-> +#ifdef CONFIG_X86_USER_SHADOW_STACK
-> +#define _PAGE_BIT_COW		_PAGE_BIT_SOFTW5 /* copy-on-write */
-> +#else
-> +#define _PAGE_BIT_COW		0
-> +#endif
-> +
->   /* If _PAGE_BIT_PRESENT is clear, we use these: */
->   /* - if the user mapped it with PROT_NONE; pte_present gives true */
->   #define _PAGE_BIT_PROTNONE	_PAGE_BIT_GLOBAL
-> @@ -117,6 +127,40 @@
->   #define _PAGE_SOFTW4	(_AT(pteval_t, 0))
->   #endif
->   
-> +/*
-> + * The hardware requires shadow stack to be read-only and Dirty.
-> + * _PAGE_COW is a software-only bit used to separate copy-on-write PTEs
-> + * from shadow stack PTEs:
 
-Is that really required?
+TBH, I find that all highly confusing.
 
-For anon pages, we have PG_anon_exclusive, that can tell you whether the 
-page is "certainly exclusive" (now cow necessary) vs. "maybe shared" 
-(cow maybe necessary).
+Dirty=1,Write=0 does not indicate a COW page reliably. You could have 
+both, false negatives and false positives.
 
-Why isn't that sufficient to make the same decisions here?
+False negative: fork() on a clean anon page.
+
+False positives: wrpotect() of a dirty anon page.
+
+
+I wonder if it really has to be that complicated: what you really want 
+to achieve is to disallow "Dirty=1,Write=0" if it's not a shadow stack 
+page, correct?
 
 -- 
 Thanks,
