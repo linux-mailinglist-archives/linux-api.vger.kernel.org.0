@@ -2,102 +2,67 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 76BC0678D66
-	for <lists+linux-api@lfdr.de>; Tue, 24 Jan 2023 02:28:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 816C5678E03
+	for <lists+linux-api@lfdr.de>; Tue, 24 Jan 2023 03:11:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232026AbjAXB16 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 23 Jan 2023 20:27:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54072 "EHLO
+        id S229717AbjAXCLW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 23 Jan 2023 21:11:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41674 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231610AbjAXB15 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 23 Jan 2023 20:27:57 -0500
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 397DF12F11
-        for <linux-api@vger.kernel.org>; Mon, 23 Jan 2023 17:27:55 -0800 (PST)
-Received: by mail-pf1-x430.google.com with SMTP id 207so10205282pfv.5
-        for <linux-api@vger.kernel.org>; Mon, 23 Jan 2023 17:27:55 -0800 (PST)
+        with ESMTP id S229603AbjAXCLV (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 23 Jan 2023 21:11:21 -0500
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1ABE61A972;
+        Mon, 23 Jan 2023 18:11:20 -0800 (PST)
+Received: by mail-pf1-x436.google.com with SMTP id s3so10237361pfd.12;
+        Mon, 23 Jan 2023 18:11:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8F6hRIomZ2nfgoOl9vt+Mda6mTJjuiQ/nB/OzAXwDSI=;
-        b=H0wzig6HSgCdkJfbnchvpXtWngdQg2CyHZkhgdpFw+HuZ2/LaO4BJx1ZZJ+RRoILq8
-         GuT7pIND31DaoY+FiJSBILYhipQMPqJ7CZUOuz7x71s515bfTFYymuOqj76dpZGGPe0R
-         roYrZDSWF8NxOve8Pxp7cvCd6BZ0axXo2A8t3B8iw98G/r8Tkcv0kcruglI/OT22oEey
-         j/0uWp0hdocKI/BmP7HVj2M7QFhthg3W7d8Q1vm0Us4lX+kWe4jn02BGZ4yej5UdNIiy
-         ekteTmqXj33t26Jyf+JF3RUpU48Qj5o/y07idXkF5Ho4kjJsXeyVErd+MUZWegqHYXVp
-         q16Q==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=SCGlc7mWURATKW4pBp/mMbnvAjkNxvQ5RvlFZ+5SXrA=;
+        b=Q2OJ7E/ovDJZRJ1/WrC7I1yuDO3Hb6jh2iai0Os4K2WdyHqq0h1cH5JrkPYY0LyrTY
+         7pubiTyoZItmkh0TVFAVAGmXnvHqYco6E/bJ9SAJWFGJV+UzGBvkYmb/zpo5/BffZziZ
+         JaUWdDXTBbvbtQ1aNpDtvOl58OyifVwiKon0KX67c66ujtxL6CwZEzUbjnw8bOnoGm74
+         8k3YxA5iHDZF2LERPK0k7Ti8XPJH2AN7w1s1gLDWa+ggmjT+8d+vp02GVoi90UC4ndJK
+         Op15iN5zK7IgomVvrth+xB+TALm5s/EdbhomubldZ9LTG+Ta/mwoayP7RSJmJgZfUz5E
+         2wOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8F6hRIomZ2nfgoOl9vt+Mda6mTJjuiQ/nB/OzAXwDSI=;
-        b=wZW+J9H/al9qbTsL80PCn1xQ8uhkw0bwq19RFHr1Yk8G+r4Pbhv2xwzLyhFu/5P3ZL
-         WLpWBWh2u689mcDBhubUJr0HAagb6/QWYWSdLNz3zQ1nzk77jiJDeMqNjFfUspPh9jDd
-         MAkCQ3BRThEHYns08WzWxiXXPbDx1feXgGsW34piC85iicZegPXIWlzVLvProRgRN4uZ
-         jIBkIfuVbymKhl2PjHogwtw+qpALkj7AFZtM+yoKtBk9E0BZnFnGmmdZZGJ0r9p7V8YB
-         waigdbgym9v+tIGR8cXErwSk6BD+6wRKoOemCcz/yUNiQJB8VheAV4+UH7e2vkKXwD+D
-         Zb0w==
-X-Gm-Message-State: AO0yUKWusXPL7fQrdpxqILpeD+C4YY32Ge4eiK99Aq5sSFWQkeM9O2zr
-        t4Z97RJ8oIl0bZ9I4JCc9BmhZw==
-X-Google-Smtp-Source: AK7set8oWHW5as5U3Q0r97O5m1dlnRFyFLOsa36pUh2yIP/6nFcX7lH+DqOSXyUNOJ1I4yEcn6HIvg==
-X-Received: by 2002:a05:6a00:b55:b0:576:9252:d06 with SMTP id p21-20020a056a000b5500b0057692520d06mr19319pfo.0.1674523674434;
-        Mon, 23 Jan 2023 17:27:54 -0800 (PST)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
-        by smtp.gmail.com with ESMTPSA id a28-20020aa78e9c000000b00582bdaab584sm238831pfr.81.2023.01.23.17.27.53
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SCGlc7mWURATKW4pBp/mMbnvAjkNxvQ5RvlFZ+5SXrA=;
+        b=HdoAp+Bsx8vX5e7L8B2/r9SndAnGIMZ1YvqooPkKTaZa1SEE4H9C1Y0bAy1VIzG6X/
+         SugfrlWNJRSxcO1yxnYrPlofjqZ6Y+EwoMQSIwIz2SOL43ymQYJUMlqaU1gY1yEmpIAD
+         78ezb0om4i33vKsEP9WTWnfT/hXWr35aIKIVyaNxb+xYHQlvA3qEAJLX8aH/4TAY6ExT
+         2ewr2saCJ62t2CR4RotMzMkzQel2Njx5kr1NCmKgiQkZPAUVX9iObdAOA5S5h9PoVOLy
+         gm5+zD+b2yUMbXi5vjGyKi9y0AgE11adv0UB7mpsQI+de0VKro+QZUA//ORBwPtvtwwq
+         uNaw==
+X-Gm-Message-State: AFqh2koL26myySOIutpFUDCbfD6r+NxQ9XeuOVCjvjU0fj7y9gOq4EEV
+        21JOxHY+CnPGg7mqG6zVx2k=
+X-Google-Smtp-Source: AMrXdXssaRcK8VwNrNmgxgUxK3PVNJ9Gzeiag04Vn7nr3eYgvMh+HvBnpxQv18Cho9tj1oOKoXLqNQ==
+X-Received: by 2002:a62:e406:0:b0:581:7430:aba with SMTP id r6-20020a62e406000000b0058174300abamr28478685pfh.10.1674526279369;
+        Mon, 23 Jan 2023 18:11:19 -0800 (PST)
+Received: from localhost (fwdproxy-prn-020.fbsv.net. [2a03:2880:ff:14::face:b00c])
+        by smtp.gmail.com with ESMTPSA id z67-20020a626546000000b0058bacd6c4e8sm254143pfb.207.2023.01.23.18.11.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Jan 2023 17:27:53 -0800 (PST)
-Date:   Tue, 24 Jan 2023 01:27:50 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Isaku Yamahata <isaku.yamahata@gmail.com>
-Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        wei.w.wang@intel.com
-Subject: Re: [PATCH v10 0/9] KVM: mm: fd-based approach for supporting KVM
-Message-ID: <Y880FiYF7YCtsw/i@google.com>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <Y8H5Z3e4hZkFxAVS@google.com>
- <20230119111308.GC2976263@ls.amr.corp.intel.com>
- <Y8lg1G2lRIrI/hld@google.com>
- <20230119223704.GD2976263@ls.amr.corp.intel.com>
+        Mon, 23 Jan 2023 18:11:18 -0800 (PST)
+From:   Nhat Pham <nphamcs@gmail.com>
+To:     akpm@linux-foundation.org
+Cc:     hannes@cmpxchg.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, bfoster@redhat.com,
+        willy@infradead.org, linux-api@vger.kernel.org,
+        kernel-team@meta.com
+Subject: [PATCH v7 0/3] cachestat: a new syscall for page cache state of files
+Date:   Mon, 23 Jan 2023 18:11:15 -0800
+Message-Id: <20230124021118.154078-1-nphamcs@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230119223704.GD2976263@ls.amr.corp.intel.com>
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -105,91 +70,128 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jan 19, 2023, Isaku Yamahata wrote:
-> On Thu, Jan 19, 2023 at 03:25:08PM +0000,
-> Sean Christopherson <seanjc@google.com> wrote:
-> 
-> > On Thu, Jan 19, 2023, Isaku Yamahata wrote:
-> > > On Sat, Jan 14, 2023 at 12:37:59AM +0000,
-> > > Sean Christopherson <seanjc@google.com> wrote:
-> > > 
-> > > > On Fri, Dec 02, 2022, Chao Peng wrote:
-> > > > > This patch series implements KVM guest private memory for confidential
-> > > > > computing scenarios like Intel TDX[1]. If a TDX host accesses
-> > > > > TDX-protected guest memory, machine check can happen which can further
-> > > > > crash the running host system, this is terrible for multi-tenant
-> > > > > configurations. The host accesses include those from KVM userspace like
-> > > > > QEMU. This series addresses KVM userspace induced crash by introducing
-> > > > > new mm and KVM interfaces so KVM userspace can still manage guest memory
-> > > > > via a fd-based approach, but it can never access the guest memory
-> > > > > content.
-> > > > > 
-> > > > > The patch series touches both core mm and KVM code. I appreciate
-> > > > > Andrew/Hugh and Paolo/Sean can review and pick these patches. Any other
-> > > > > reviews are always welcome.
-> > > > >   - 01: mm change, target for mm tree
-> > > > >   - 02-09: KVM change, target for KVM tree
-> > > > 
-> > > > A version with all of my feedback, plus reworked versions of Vishal's selftest,
-> > > > is available here:
-> > > > 
-> > > >   git@github.com:sean-jc/linux.git x86/upm_base_support
-> > > > 
-> > > > It compiles and passes the selftest, but it's otherwise barely tested.  There are
-> > > > a few todos (2 I think?) and many of the commits need changelogs, i.e. it's still
-> > > > a WIP.
-> > > > 
-> > > > As for next steps, can you (handwaving all of the TDX folks) take a look at what
-> > > > I pushed and see if there's anything horrifically broken, and that it still works
-> > > > for TDX?
-> > > > 
-> > > > Fuad (and pKVM folks) same ask for you with respect to pKVM.  Absolutely no rush
-> > > > (and I mean that).
-> > > > 
-> > > > On my side, the two things on my mind are (a) tests and (b) downstream dependencies
-> > > > (SEV and TDX).  For tests, I want to build a lists of tests that are required for
-> > > > merging so that the criteria for merging are clear, and so that if the list is large
-> > > > (haven't thought much yet), the work of writing and running tests can be distributed.
-> > > > 
-> > > > Regarding downstream dependencies, before this lands, I want to pull in all the
-> > > > TDX and SNP series and see how everything fits together.  Specifically, I want to
-> > > > make sure that we don't end up with a uAPI that necessitates ugly code, and that we
-> > > > don't miss an opportunity to make things simpler.  The patches in the SNP series to
-> > > > add "legacy" SEV support for UPM in particular made me slightly rethink some minor
-> > > > details.  Nothing remotely major, but something that needs attention since it'll
-> > > > be uAPI.
-> > > 
-> > > Although I'm still debuging with TDX KVM, I needed the following.
-> > > kvm_faultin_pfn() is called without mmu_lock held.  the race to change
-> > > private/shared is handled by mmu_seq.  Maybe dedicated function only for
-> > > kvm_faultin_pfn().
-> > 
-> > Gah, you're not on the other thread where this was discussed[*].  Simply deleting
-> > the lockdep assertion is safe, for guest types that rely on the attributes to
-> > define shared vs. private, KVM rechecks the attributes under the protection of
-> > mmu_seq.
-> > 
-> > I'll get a fixed version pushed out today.
-> > 
-> > [*] https://lore.kernel.org/all/Y8gpl+LwSuSgBFks@google.com
-> 
-> Now I have tdx kvm working. I've uploaded at the followings.
-> It's rebased to v6.2-rc3.
->         git@github.com:yamahata/linux.git tdx/upm
->         git@github.com:yamahata/qemu.git tdx/upm
+Changelog:
+v7:
+  * Fix and use lru_gen_test_recent (suggested by Brian Foster)
+    (patch 2)
+  * Small formatting and organizational fixes
+v6:
+  * Add a missing fdput() (suggested by Brian Foster) (patch 2)
+  * Replace cstat_size with cstat_version (suggested by Brian Foster)
+    (patch 2)
+  * Add conditional resched to the xas walk. (suggested by Hillf Danton) 
+    (patch 2)
+v5:
+  * Separate first patch into its own series.
+    (suggested by Andrew Morton)
+  * Expose filemap_cachestat() to non-syscall usage
+    (patch 2) (suggested by Brian Foster).
+  * Fix some build errors from last version.
+    (patch 2)
+  * Explain eviction and recent eviction in the draft man page and
+    documentation (suggested by Andrew Morton).
+    (patch 2)
+v4:
+  * Refactor cachestat and move it to mm/filemap.c (patch 3)
+    (suggested by Brian Foster)
+  * Remove redundant checks (!folio, access_ok)
+    (patch 3) (suggested by Matthew Wilcox and Al Viro)
+  * Fix a bug in handling multipages folio.
+    (patch 3) (suggested by Matthew Wilcox)
+  * Add a selftest for shmem files, which can be used to test huge
+    pages (patch 4) (suggested by Johannes Weiner)
+v3:
+  * Fix some minor formatting issues and build errors.
+  * Add the new syscall entry to missing architecture syscall tables.
+    (patch 3).
+  * Add flags argument for the syscall. (patch 3).
+  * Clean up the recency refactoring (patch 2) (suggested by Yu Zhao)
+  * Add the new Kconfig (CONFIG_CACHESTAT) to disable the syscall.
+    (patch 3) (suggested by Josh Triplett)
+v2:
+  * len == 0 means query to EOF. len < 0 is invalid.
+    (patch 3) (suggested by Brian Foster)
+  * Make cachestat extensible by adding the `cstat_size` argument in the
+    syscall (patch 3)
 
-And I finally got a working, building version updated and pushed out (again to):
+There is currently no good way to query the page cache state of large
+file sets and directory trees. There is mincore(), but it scales poorly:
+the kernel writes out a lot of bitmap data that userspace has to
+aggregate, when the user really doesn not care about per-page information
+in that case. The user also needs to mmap and unmap each file as it goes
+along, which can be quite slow as well.
 
-  git@github.com:sean-jc/linux.git x86/upm_base_support
+This series of patches introduces a new system call, cachestat, that
+summarizes the page cache statistics (number of cached pages, dirty
+pages, pages marked for writeback, evicted pages etc.) of a file, in a
+specified range of bytes. It also include a selftest suite that tests some
+typical usage
 
-Took longer than expected to get the memslot restrictions sussed out.  I'm done
-working on the code for now, my plan is to come back to it+TDX+SNP in 2-3 weeks
-to resolves any remaining todos (that no one else tackles) and to do the whole
-"merge the world" excersise.
+This interface is inspired by past discussion and concerns with fincore,
+which has a similar design (and as a result, issues) as mincore.
+Relevant links:
 
-> kvm_mmu_do_page_fault() needs the following change.
-> kvm_mem_is_private() queries mem_attr_array.  kvm_faultin_pfn() also uses
-> kvm_mem_is_private(). So the shared-private check in kvm_faultin_pfn() doesn't
-> make sense. This change would belong to TDX KVM patches, though.
+https://lkml.indiana.edu/hypermail/linux/kernel/1302.1/04207.html
+https://lkml.indiana.edu/hypermail/linux/kernel/1302.1/04209.html
 
-Yeah, SNP needs similar treatment.  Sorting that out is high up on the todo list.
+For comparison with mincore, I ran both syscalls on a 2TB sparse file:
+
+Using mincore:
+real    0m37.510s
+user    0m2.934s
+sys     0m34.558s
+
+Using cachestat:
+real    0m0.009s
+user    0m0.000s
+sys     0m0.009s
+
+This series should be applied on top of:
+
+workingset: fix confusion around eviction vs refault container
+https://lkml.org/lkml/2023/1/4/1066
+
+This series consist of 3 patches:
+
+Nhat Pham (3):
+  workingset: refactor LRU refault to expose refault recency check
+  cachestat: implement cachestat syscall
+  selftests: Add selftests for cachestat
+
+ MAINTAINERS                                   |   7 +
+ arch/alpha/kernel/syscalls/syscall.tbl        |   1 +
+ arch/arm/tools/syscall.tbl                    |   1 +
+ arch/ia64/kernel/syscalls/syscall.tbl         |   1 +
+ arch/m68k/kernel/syscalls/syscall.tbl         |   1 +
+ arch/microblaze/kernel/syscalls/syscall.tbl   |   1 +
+ arch/parisc/kernel/syscalls/syscall.tbl       |   1 +
+ arch/powerpc/kernel/syscalls/syscall.tbl      |   1 +
+ arch/s390/kernel/syscalls/syscall.tbl         |   1 +
+ arch/sh/kernel/syscalls/syscall.tbl           |   1 +
+ arch/sparc/kernel/syscalls/syscall.tbl        |   1 +
+ arch/x86/entry/syscalls/syscall_32.tbl        |   1 +
+ arch/x86/entry/syscalls/syscall_64.tbl        |   1 +
+ arch/xtensa/kernel/syscalls/syscall.tbl       |   1 +
+ include/linux/fs.h                            |   3 +
+ include/linux/swap.h                          |   1 +
+ include/linux/syscalls.h                      |   4 +
+ include/uapi/asm-generic/unistd.h             |   5 +-
+ include/uapi/linux/mman.h                     |   9 +
+ init/Kconfig                                  |  10 +
+ kernel/sys_ni.c                               |   1 +
+ mm/filemap.c                                  | 154 +++++++++++
+ mm/workingset.c                               | 142 ++++++----
+ tools/testing/selftests/Makefile              |   1 +
+ tools/testing/selftests/cachestat/.gitignore  |   2 +
+ tools/testing/selftests/cachestat/Makefile    |   8 +
+ .../selftests/cachestat/test_cachestat.c      | 260 ++++++++++++++++++
+ 27 files changed, 573 insertions(+), 47 deletions(-)
+ create mode 100644 tools/testing/selftests/cachestat/.gitignore
+ create mode 100644 tools/testing/selftests/cachestat/Makefile
+ create mode 100644 tools/testing/selftests/cachestat/test_cachestat.c
+
+
+base-commit: 1440f576022887004f719883acb094e7e0dd4944
+prerequisite-patch-id: 171a43d333e1b267ce14188a5beaea2f313787fb
+-- 
+2.30.2
