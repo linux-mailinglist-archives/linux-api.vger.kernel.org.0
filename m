@@ -2,410 +2,143 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A27FA678E09
-	for <lists+linux-api@lfdr.de>; Tue, 24 Jan 2023 03:11:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 15D89679145
+	for <lists+linux-api@lfdr.de>; Tue, 24 Jan 2023 07:49:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232166AbjAXCLb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 23 Jan 2023 21:11:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41742 "EHLO
+        id S231544AbjAXGts (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 24 Jan 2023 01:49:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34010 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232010AbjAXCLY (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 23 Jan 2023 21:11:24 -0500
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CCE31EFE5;
-        Mon, 23 Jan 2023 18:11:23 -0800 (PST)
-Received: by mail-pf1-x436.google.com with SMTP id w2so10231096pfc.11;
-        Mon, 23 Jan 2023 18:11:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OaOZQvWhqFGfMeSz4AFcJuI7rpVT7E7rM49XqO7Em38=;
-        b=qolPgDzV6WTMmEI6CTfee/XNnVeFwSycBdR6sxa3RDTKsFEDFbfMDpf1yuiHkUoB0W
-         qCAwE42zut1UXqmTkksmHh7anIagLJcUdajFLA2QC2PYIw7xbyYuvxoK/6F+f/4wqGaI
-         YKyROuufnspTUugUqFdGDlv806xubBy0D0UGkfDDKKg0GW4KLgCL4ahV8fQduxJQlJPu
-         WTDFRZwSuWONdLpOdHCOiIa4oLlPgBmgXQSG87O7gLMHf0Rztwdlwj/s3xSZB9V2URG1
-         rQ82yD4/PYKQw/+d9rMXUMQQK5gCTvKbZhUZ9K4PVgk+VtNkM0VjEr/hMyLXaoDHdDNF
-         tfjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OaOZQvWhqFGfMeSz4AFcJuI7rpVT7E7rM49XqO7Em38=;
-        b=hvRnAZt6Cqa+w6qvyUr4dIFqaypDTOMYTbw1ps8WJ8yf5yq2FF9vpFE60Zk7fLIaVi
-         YMf7fJDB+QX5yNhTKCfKfHHX2EkXztbE1cn6KFisL9Lms4EaBfdhsrF10T/3pXI4CF/r
-         INSBxLxV9Eyiqp/8NV3eeJDmAWkXgzqTPfKQVvBXwDGD3vwSdcpS5KS/OFriNpq3WY7O
-         Jng8JJDRSHyJ7yRJ8cTYt4X33lU5bAnumVCGbvsxmYYD3xDSerbgZVD/F5h7Yn/fDkWP
-         pZtUcQif8vycrnlac6IXF2qj8hGqpy2QrSPbVMNvEbWgqTH53lg9qLM34LikVgewoqnT
-         nSsQ==
-X-Gm-Message-State: AFqh2kreCNIy9jCKT7vjuRaEih19P0O/gO4A5SS1yg96fk6EsCYzmVrf
-        EHMdxno6vqAgEMTNUGB+vRM=
-X-Google-Smtp-Source: AMrXdXvmznlWSyCEdUPu/4HGztouGzRHNa2KB7pdYIy6UE4wCwA8w9Q4jMeoYnMU36XGxYsXHQbg+Q==
-X-Received: by 2002:a62:79d2:0:b0:582:b089:d9be with SMTP id u201-20020a6279d2000000b00582b089d9bemr27995513pfc.13.1674526282605;
-        Mon, 23 Jan 2023 18:11:22 -0800 (PST)
-Received: from localhost (fwdproxy-prn-021.fbsv.net. [2a03:2880:ff:15::face:b00c])
-        by smtp.gmail.com with ESMTPSA id w1-20020aa78581000000b0058a666aea32sm276555pfn.147.2023.01.23.18.11.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Jan 2023 18:11:22 -0800 (PST)
-From:   Nhat Pham <nphamcs@gmail.com>
-To:     akpm@linux-foundation.org
-Cc:     hannes@cmpxchg.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, bfoster@redhat.com,
-        willy@infradead.org, linux-api@vger.kernel.org,
+        with ESMTP id S232947AbjAXGtr (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 24 Jan 2023 01:49:47 -0500
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80206166C0;
+        Mon, 23 Jan 2023 22:49:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674542986; x=1706078986;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=n9X5M2Ffay588usGJyjJIiPY/GxCh6U0rf1vzfy0lEY=;
+  b=eP//zdmNncjYBpjB8cWmHEJF7xYRyvub2apcQYQztIwDzZN1xTtT8nT7
+   /qw9Pxf6gzoex7lnvDHm2QMumA0mZqDhxVlzZZtM624KxCF/yNDq7LpFg
+   VH2j8OhOBKNMKPwVH1jOEpEEXV0tktkhojWs3NlhrwZV+8wACDi5As0WY
+   QDLF7seMSu3QBj+Xh4XcWCy19uxGykmSf5pli/lVoUpOLa27K7Xso0VN/
+   ivDn+qftWJ9mEVm0wKZO3YuwGdCMMvpoSF7EztxGgh2oziJg5gxAg9a7B
+   1HSQfjsv2y7A8DjujQGVGTc+rIgJ4ohb9clFxtwFFwYHvINSyg7YlH76l
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="323930766"
+X-IronPort-AV: E=Sophos;i="5.97,241,1669104000"; 
+   d="scan'208";a="323930766"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 22:49:46 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="990758621"
+X-IronPort-AV: E=Sophos;i="5.97,241,1669104000"; 
+   d="scan'208";a="990758621"
+Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 23 Jan 2023 22:49:43 -0800
+Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pKD7m-0006DQ-2E;
+        Tue, 24 Jan 2023 06:49:42 +0000
+Date:   Tue, 24 Jan 2023 14:49:00 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Nhat Pham <nphamcs@gmail.com>, akpm@linux-foundation.org
+Cc:     oe-kbuild-all@lists.linux.dev, hannes@cmpxchg.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        bfoster@redhat.com, willy@infradead.org, linux-api@vger.kernel.org,
         kernel-team@meta.com
-Subject: [PATCH v7 3/3] selftests: Add selftests for cachestat
-Date:   Mon, 23 Jan 2023 18:11:18 -0800
-Message-Id: <20230124021118.154078-4-nphamcs@gmail.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230124021118.154078-1-nphamcs@gmail.com>
-References: <20230124021118.154078-1-nphamcs@gmail.com>
+Subject: Re: [PATCH v7 2/3] cachestat: implement cachestat syscall
+Message-ID: <202301241402.CeUdAtDh-lkp@intel.com>
+References: <20230124021118.154078-3-nphamcs@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230124021118.154078-3-nphamcs@gmail.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Test cachestat on a newly created file, /dev/ files, and /proc/ files.
-Also test on a shmem file (which can also be tested with huge pages
-since tmpfs supports huge pages).
+Hi Nhat,
 
-Signed-off-by: Nhat Pham <nphamcs@gmail.com>
----
- MAINTAINERS                                   |   7 +
- tools/testing/selftests/Makefile              |   1 +
- tools/testing/selftests/cachestat/.gitignore  |   2 +
- tools/testing/selftests/cachestat/Makefile    |   8 +
- .../selftests/cachestat/test_cachestat.c      | 260 ++++++++++++++++++
- 5 files changed, 278 insertions(+)
- create mode 100644 tools/testing/selftests/cachestat/.gitignore
- create mode 100644 tools/testing/selftests/cachestat/Makefile
- create mode 100644 tools/testing/selftests/cachestat/test_cachestat.c
+Thank you for the patch! Perhaps something to improve:
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a198da986146..792a866353ec 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4552,6 +4552,13 @@ S:	Supported
- F:	Documentation/filesystems/caching/cachefiles.rst
- F:	fs/cachefiles/
- 
-+CACHESTAT: PAGE CACHE STATS FOR A FILE
-+M:	Nhat Pham <nphamcs@gmail.com>
-+M:	Johannes Weiner <hannes@cmpxchg.org>
-+L:	linux-mm@kvack.org
-+S:	Maintained
-+F:	tools/testing/selftests/cachestat/test_cachestat.c
-+
- CADENCE MIPI-CSI2 BRIDGES
- M:	Maxime Ripard <mripard@kernel.org>
- L:	linux-media@vger.kernel.org
-diff --git a/tools/testing/selftests/Makefile b/tools/testing/selftests/Makefile
-index 0464b2c6c1e4..3cad0b38c5c2 100644
---- a/tools/testing/selftests/Makefile
-+++ b/tools/testing/selftests/Makefile
-@@ -4,6 +4,7 @@ TARGETS += amd-pstate
- TARGETS += arm64
- TARGETS += bpf
- TARGETS += breakpoints
-+TARGETS += cachestat
- TARGETS += capabilities
- TARGETS += cgroup
- TARGETS += clone3
-diff --git a/tools/testing/selftests/cachestat/.gitignore b/tools/testing/selftests/cachestat/.gitignore
-new file mode 100644
-index 000000000000..d6c30b43a4bb
---- /dev/null
-+++ b/tools/testing/selftests/cachestat/.gitignore
-@@ -0,0 +1,2 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+test_cachestat
-diff --git a/tools/testing/selftests/cachestat/Makefile b/tools/testing/selftests/cachestat/Makefile
-new file mode 100644
-index 000000000000..fca73aaa7d14
---- /dev/null
-+++ b/tools/testing/selftests/cachestat/Makefile
-@@ -0,0 +1,8 @@
-+# SPDX-License-Identifier: GPL-2.0
-+TEST_GEN_PROGS := test_cachestat
-+
-+CFLAGS += $(KHDR_INCLUDES)
-+CFLAGS += -Wall
-+CFLAGS += -lrt
-+
-+include ../lib.mk
-diff --git a/tools/testing/selftests/cachestat/test_cachestat.c b/tools/testing/selftests/cachestat/test_cachestat.c
-new file mode 100644
-index 000000000000..dc2894028eee
---- /dev/null
-+++ b/tools/testing/selftests/cachestat/test_cachestat.c
-@@ -0,0 +1,260 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#define _GNU_SOURCE
-+
-+#include <stdio.h>
-+#include <stdbool.h>
-+#include <linux/kernel.h>
-+#include <linux/mman.h>
-+#include <sys/mman.h>
-+#include <sys/shm.h>
-+#include <sys/syscall.h>
-+#include <unistd.h>
-+#include <string.h>
-+#include <fcntl.h>
-+#include <errno.h>
-+
-+#include "../kselftest.h"
-+
-+static const char * const dev_files[] = {
-+	"/dev/zero", "/dev/null", "/dev/urandom",
-+	"/proc/version", "/proc"
-+};
-+static const int cachestat_nr = 451;
-+static const int cstat_version = 1; /* first version */
-+
-+void print_cachestat(struct cachestat *cs)
-+{
-+	ksft_print_msg(
-+	"Using cachestat: Cached: %lu, Dirty: %lu, Writeback: %lu, Evicted: %lu, Recently Evicted: %lu\n",
-+	cs->nr_cache, cs->nr_dirty, cs->nr_writeback,
-+	cs->nr_evicted, cs->nr_recently_evicted);
-+}
-+
-+bool write_exactly(int fd, size_t filesize)
-+{
-+	char data[filesize];
-+	bool ret = true;
-+	int random_fd = open("/dev/urandom", O_RDONLY);
-+
-+	if (random_fd < 0) {
-+		ksft_print_msg("Unable to access urandom.\n");
-+		ret = false;
-+		goto out;
-+	} else {
-+		int remained = filesize;
-+		char *cursor = data;
-+
-+		while (remained) {
-+			ssize_t read_len = read(random_fd, cursor, remained);
-+
-+			if (read_len <= 0) {
-+				ksft_print_msg("Unable to read from urandom.\n");
-+				ret = false;
-+				goto close_random_fd;
-+			}
-+
-+			remained -= read_len;
-+			cursor += read_len;
-+		}
-+
-+		/* write random data to fd */
-+		remained = filesize;
-+		cursor = data;
-+		while (remained) {
-+			ssize_t write_len = write(fd, cursor, remained);
-+
-+			if (write_len <= 0) {
-+				ksft_print_msg("Unable write random data to file.\n");
-+				ret = false;
-+				goto close_random_fd;
-+			}
-+
-+			remained -= write_len;
-+			cursor += write_len;
-+		}
-+	}
-+
-+close_random_fd:
-+	close(random_fd);
-+out:
-+	return ret;
-+}
-+
-+/*
-+ * Open/create the file at filename, (optionally) write random data to it
-+ * (exactly num_pages), then test the cachestat syscall on this file.
-+ *
-+ * If test_fsync == true, fsync the file, then check the number of dirty
-+ * pages.
-+ */
-+bool test_cachestat(const char *filename, bool write_random, bool create,
-+		bool test_fsync, unsigned long num_pages, int open_flags,
-+		mode_t open_mode)
-+{
-+	size_t PS = sysconf(_SC_PAGESIZE);
-+	int filesize = num_pages * PS;
-+	bool ret = true;
-+	long syscall_ret;
-+	struct cachestat cs;
-+
-+	int fd = open(filename, open_flags, open_mode);
-+
-+	if (fd == -1) {
-+		ksft_print_msg("Unable to create/open file.\n");
-+		goto out;
-+	} else {
-+		ksft_print_msg("Create/open %s\n", filename);
-+	}
-+
-+	if (write_random) {
-+		if (!write_exactly(fd, filesize)) {
-+			ksft_print_msg("Unable to access urandom.\n");
-+			ret = false;
-+			goto out1;
-+		}
-+	}
-+
-+	syscall_ret = syscall(cachestat_nr, fd, 0, filesize,
-+		cstat_version, &cs, 0);
-+
-+	ksft_print_msg("Cachestat call returned %ld\n", syscall_ret);
-+
-+	if (syscall_ret) {
-+		ksft_print_msg("Cachestat returned non-zero.\n");
-+		ret = false;
-+		goto out1;
-+
-+	} else {
-+		print_cachestat(&cs);
-+
-+		if (write_random) {
-+			if (cs.nr_cache + cs.nr_evicted != num_pages) {
-+				ksft_print_msg(
-+					"Total number of cached and evicted pages is off.\n");
-+				ret = false;
-+			}
-+		}
-+	}
-+
-+	if (test_fsync) {
-+		if (fsync(fd)) {
-+			ksft_print_msg("fsync fails.\n");
-+			ret = false;
-+		} else {
-+			syscall_ret = syscall(cachestat_nr, fd, 0, filesize,
-+				cstat_version, &cs, 0);
-+
-+			ksft_print_msg("Cachestat call (after fsync) returned %ld\n",
-+				syscall_ret);
-+
-+			if (!syscall_ret) {
-+				print_cachestat(&cs);
-+
-+				if (cs.nr_dirty) {
-+					ret = false;
-+					ksft_print_msg(
-+						"Number of dirty should be zero after fsync.\n");
-+				}
-+			} else {
-+				ksft_print_msg("Cachestat (after fsync) returned non-zero.\n");
-+				ret = false;
-+				goto out1;
-+			}
-+		}
-+	}
-+
-+out1:
-+	close(fd);
-+
-+	if (create)
-+		remove(filename);
-+out:
-+	return ret;
-+}
-+
-+bool test_cachestat_shmem(void)
-+{
-+	size_t PS = sysconf(_SC_PAGESIZE);
-+	size_t filesize = PS * 512 * 2; /* 2 2MB huge pages */
-+	int syscall_ret;
-+	off_t off = PS;
-+	size_t compute_len = PS * 512;
-+	char *filename = "tmpshmcstat";
-+	struct cachestat cs;
-+	bool ret = true;
-+	unsigned long num_pages = compute_len / PS;
-+	int fd = shm_open(filename, O_CREAT | O_RDWR, 0600);
-+
-+	if (fd < 0) {
-+		ksft_print_msg("Unable to create shmem file.\n");
-+		ret = false;
-+		goto out;
-+	}
-+
-+	if (ftruncate(fd, filesize)) {
-+		ksft_print_msg("Unable to trucate shmem file.\n");
-+		ret = false;
-+		goto close_fd;
-+	}
-+
-+	if (!write_exactly(fd, filesize)) {
-+		ksft_print_msg("Unable to write to shmem file.\n");
-+		ret = false;
-+		goto close_fd;
-+	}
-+
-+	syscall_ret = syscall(cachestat_nr, fd, off, compute_len,
-+		cstat_version, &cs, 0);
-+
-+	if (syscall_ret) {
-+		ksft_print_msg("Cachestat returned non-zero.\n");
-+		ret = false;
-+		goto close_fd;
-+	} else {
-+		print_cachestat(&cs);
-+		if (cs.nr_cache + cs.nr_evicted != num_pages) {
-+			ksft_print_msg(
-+				"Total number of cached and evicted pages is off.\n");
-+			ret = false;
-+		}
-+	}
-+
-+close_fd:
-+	shm_unlink(filename);
-+out:
-+	return ret;
-+}
-+
-+int main(void)
-+{
-+	int ret = 0;
-+
-+	for (int i = 0; i < 5; i++) {
-+		const char *dev_filename = dev_files[i];
-+
-+		if (test_cachestat(dev_filename, false, false, false,
-+			4, O_RDONLY, 0400))
-+			ksft_test_result_pass("cachestat works with %s\n", dev_filename);
-+		else {
-+			ksft_test_result_fail("cachestat fails with %s\n", dev_filename);
-+			ret = 1;
-+		}
-+	}
-+
-+	if (test_cachestat("tmpfilecachestat", true, true,
-+		true, 4, O_CREAT | O_RDWR, 0400 | 0600))
-+		ksft_test_result_pass("cachestat works with a normal file\n");
-+	else {
-+		ksft_test_result_fail("cachestat fails with normal file\n");
-+		ret = 1;
-+	}
-+
-+	if (test_cachestat_shmem())
-+		ksft_test_result_pass("cachestat works with a shmem file\n");
-+	else {
-+		ksft_test_result_fail("cachestat fails with a shmem file\n");
-+		ret = 1;
-+	}
-+
-+	return ret;
-+}
+[auto build test WARNING on 1440f576022887004f719883acb094e7e0dd4944]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nhat-Pham/workingset-refactor-LRU-refault-to-expose-refault-recency-check/20230124-101311
+base:   1440f576022887004f719883acb094e7e0dd4944
+patch link:    https://lore.kernel.org/r/20230124021118.154078-3-nphamcs%40gmail.com
+patch subject: [PATCH v7 2/3] cachestat: implement cachestat syscall
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230124/202301241402.CeUdAtDh-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/f902a360bb453bd6885cd89d4f9ad4a40205fd15
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Nhat-Pham/workingset-refactor-LRU-refault-to-expose-refault-recency-check/20230124-101311
+        git checkout f902a360bb453bd6885cd89d4f9ad4a40205fd15
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips prepare
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+>> <stdin>:1565:2: warning: #warning syscall cachestat not implemented [-Wcpp]
+--
+>> <stdin>:1565:2: warning: #warning syscall cachestat not implemented [-Wcpp]
+--
+   scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+   scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+   scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+   arch/mips/kernel/asm-offsets.c:26:6: warning: no previous prototype for 'output_ptreg_defines' [-Wmissing-prototypes]
+      26 | void output_ptreg_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~
+   arch/mips/kernel/asm-offsets.c:78:6: warning: no previous prototype for 'output_task_defines' [-Wmissing-prototypes]
+      78 | void output_task_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~
+   arch/mips/kernel/asm-offsets.c:92:6: warning: no previous prototype for 'output_thread_info_defines' [-Wmissing-prototypes]
+      92 | void output_thread_info_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/mips/kernel/asm-offsets.c:108:6: warning: no previous prototype for 'output_thread_defines' [-Wmissing-prototypes]
+     108 | void output_thread_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   arch/mips/kernel/asm-offsets.c:136:6: warning: no previous prototype for 'output_thread_fpu_defines' [-Wmissing-prototypes]
+     136 | void output_thread_fpu_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/mips/kernel/asm-offsets.c:179:6: warning: no previous prototype for 'output_mm_defines' [-Wmissing-prototypes]
+     179 | void output_mm_defines(void)
+         |      ^~~~~~~~~~~~~~~~~
+   arch/mips/kernel/asm-offsets.c:213:6: warning: no previous prototype for 'output_sc_defines' [-Wmissing-prototypes]
+     213 | void output_sc_defines(void)
+         |      ^~~~~~~~~~~~~~~~~
+   arch/mips/kernel/asm-offsets.c:248:6: warning: no previous prototype for 'output_signal_defined' [-Wmissing-prototypes]
+     248 | void output_signal_defined(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   arch/mips/kernel/asm-offsets.c:315:6: warning: no previous prototype for 'output_pbe_defines' [-Wmissing-prototypes]
+     315 | void output_pbe_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~
+   arch/mips/kernel/asm-offsets.c:327:6: warning: no previous prototype for 'output_pm_defines' [-Wmissing-prototypes]
+     327 | void output_pm_defines(void)
+         |      ^~~~~~~~~~~~~~~~~
+   arch/mips/kernel/asm-offsets.c:341:6: warning: no previous prototype for 'output_kvm_defines' [-Wmissing-prototypes]
+     341 | void output_kvm_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~
+   arch/mips/kernel/asm-offsets.c:385:6: warning: no previous prototype for 'output_cps_defines' [-Wmissing-prototypes]
+     385 | void output_cps_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~
+>> <stdin>:1565:2: warning: #warning syscall cachestat not implemented [-Wcpp]
+
 -- 
-2.30.2
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
