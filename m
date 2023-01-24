@@ -2,209 +2,170 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E1F1D679254
-	for <lists+linux-api@lfdr.de>; Tue, 24 Jan 2023 08:53:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D22C67991D
+	for <lists+linux-api@lfdr.de>; Tue, 24 Jan 2023 14:19:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231510AbjAXHxl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 24 Jan 2023 02:53:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33876 "EHLO
+        id S233448AbjAXNTs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 24 Jan 2023 08:19:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48874 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231749AbjAXHxk (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 24 Jan 2023 02:53:40 -0500
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB23844A9;
-        Mon, 23 Jan 2023 23:53:38 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id E57DA1F889;
-        Tue, 24 Jan 2023 07:53:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1674546816; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ruXNUJNdlgxTcKpGQIIryFyEkOXceoGZmlzFPRxeoas=;
-        b=KBZy/6rf1TQ67g44L7GTiJ8oSbfhPfVBczpwAWnzfsUxhfC2iuCIk6qk9LBZzqbdqHS9ij
-        Xo/ephBOmafeSayjs7c5/FPCJUSd2Msf8a1NMzxX8FC7m33OJCMAr4kwrcZhMcXrY5NeLZ
-        PTRszq6e6uAR3JoT+NAAk5grhZN/cnk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1674546816;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ruXNUJNdlgxTcKpGQIIryFyEkOXceoGZmlzFPRxeoas=;
-        b=5qR8OroDRbnLzHCA3YaBwq02hXFJllZS99kT3/fzfEAfh1RBI9ipdG1fjVOHFRLXyqtRUK
-        okE5lPcauQAR8tCA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CA32C139FB;
-        Tue, 24 Jan 2023 07:53:35 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id E4c3MH+Oz2OlHgAAMHmgww
-        (envelope-from <vbabka@suse.cz>); Tue, 24 Jan 2023 07:53:35 +0000
-Message-ID: <8ac234a3-9dc3-3ebf-309a-b4a6bcb72d2d@suse.cz>
-Date:   Tue, 24 Jan 2023 08:51:43 +0100
+        with ESMTP id S233643AbjAXNTp (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 24 Jan 2023 08:19:45 -0500
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E27AF761;
+        Tue, 24 Jan 2023 05:19:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674566360; x=1706102360;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=JOdCk0DiV45l316tFtpeTfnFpjQvJyYgP2HBIHZN350=;
+  b=W2QhIZqc+hr3o4pgocmEF6mOiuPjECwHBmlwwu4XTTkv72i3AKZ96fTU
+   dYk8/JOX12R9+tna0kHt6+07NDRskT0OVoHAlirx9uJQmS2ZCK0564X9e
+   AYNCn4kQNNv+r8pfrSm/vFNharFKwrfKgxki4atHsfE2fVnVkVLNVOSMO
+   ZmfZySXAMhU0lrzjYnc0xVdeQ1JLKjjgbnNOsl4bI9E25HuyO9khF2pWK
+   BEt5ZZKM1sB1bs7cfa/K+1csK1bWV98mVGKwu/+FJlxqh03NjUy0gjoh5
+   Gb5F4ksAfbmzUqypfjWMEnVgSExncvgVnfmYWAef41t8Elpt7pmJTML0a
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="314191244"
+X-IronPort-AV: E=Sophos;i="5.97,242,1669104000"; 
+   d="scan'208";a="314191244"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 05:19:00 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="725468695"
+X-IronPort-AV: E=Sophos;i="5.97,242,1669104000"; 
+   d="scan'208";a="725468695"
+Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 24 Jan 2023 05:18:57 -0800
+Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pKJCS-0006VE-2H;
+        Tue, 24 Jan 2023 13:18:56 +0000
+Date:   Tue, 24 Jan 2023 21:18:11 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Nhat Pham <nphamcs@gmail.com>, akpm@linux-foundation.org
+Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+        hannes@cmpxchg.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, bfoster@redhat.com,
+        willy@infradead.org, linux-api@vger.kernel.org,
+        kernel-team@meta.com
+Subject: Re: [PATCH v7 2/3] cachestat: implement cachestat syscall
+Message-ID: <202301242133.cLyYLZH6-lkp@intel.com>
+References: <20230124021118.154078-3-nphamcs@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v10 1/9] mm: Introduce memfd_restricted system call to
- create restricted user memory
-Content-Language: en-US
-To:     Sean Christopherson <seanjc@google.com>,
-        "Huang, Kai" <kai.huang@intel.com>
-Cc:     "chao.p.peng@linux.intel.com" <chao.p.peng@linux.intel.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "jmattson@google.com" <jmattson@google.com>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "ak@linux.intel.com" <ak@linux.intel.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "Hocko, Michal" <mhocko@suse.com>,
-        "tabba@google.com" <tabba@google.com>,
-        "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
-        "david@redhat.com" <david@redhat.com>,
-        "michael.roth@amd.com" <michael.roth@amd.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "dhildenb@redhat.com" <dhildenb@redhat.com>,
-        "bfields@fieldses.org" <bfields@fieldses.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "x86@kernel.org" <x86@kernel.org>, "bp@alien8.de" <bp@alien8.de>,
-        "ddutile@redhat.com" <ddutile@redhat.com>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "shuah@kernel.org" <shuah@kernel.org>,
-        "vkuznets@redhat.com" <vkuznets@redhat.com>,
-        "naoya.horiguchi@nec.com" <naoya.horiguchi@nec.com>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "qperret@google.com" <qperret@google.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "pbonzini@redhat.com" <pbonzini@redhat.com>,
-        "Annapurve, Vishal" <vannapurve@google.com>,
-        "mail@maciej.szmigiero.name" <mail@maciej.szmigiero.name>,
-        "wanpengli@tencent.com" <wanpengli@tencent.com>,
-        "yu.c.zhang@linux.intel.com" <yu.c.zhang@linux.intel.com>,
-        "hughd@google.com" <hughd@google.com>,
-        "aarcange@redhat.com" <aarcange@redhat.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "Nakajima, Jun" <jun.nakajima@intel.com>,
-        "jlayton@kernel.org" <jlayton@kernel.org>,
-        "joro@8bytes.org" <joro@8bytes.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "Wang, Wei W" <wei.w.wang@intel.com>,
-        "steven.price@arm.com" <steven.price@arm.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "Hansen, Dave" <dave.hansen@intel.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "linmiaohe@huawei.com" <linmiaohe@huawei.com>
-References: <20221202061347.1070246-2-chao.p.peng@linux.intel.com>
- <5c6e2e516f19b0a030eae9bf073d555c57ca1f21.camel@intel.com>
- <20221219075313.GB1691829@chaop.bj.intel.com>
- <deba096c85e41c3a15d122f2159986a74b16770f.camel@intel.com>
- <20221220072228.GA1724933@chaop.bj.intel.com>
- <126046ce506df070d57e6fe5ab9c92cdaf4cf9b7.camel@intel.com>
- <20221221133905.GA1766136@chaop.bj.intel.com>
- <b898e28d7fd7182e5d069646f84b650c748d9ca2.camel@intel.com>
- <010a330c-a4d5-9c1a-3212-f9107d1c5f4e@suse.cz>
- <0959c72ec635688f4b6c1b516815f79f52543b31.camel@intel.com>
- <Y88aX+MIZeteDQju@google.com>
-From:   Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <Y88aX+MIZeteDQju@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-5.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230124021118.154078-3-nphamcs@gmail.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 1/24/23 00:38, Sean Christopherson wrote:
-> On Mon, Jan 23, 2023, Huang, Kai wrote:
->> On Mon, 2023-01-23 at 15:03 +0100, Vlastimil Babka wrote:
->>> On 12/22/22 01:37, Huang, Kai wrote:
->>>>>> I argue that this page pinning (or page migration prevention) is not
->>>>>> tied to where the page comes from, instead related to how the page will
->>>>>> be used. Whether the page is restrictedmem backed or GUP() backed, once
->>>>>> it's used by current version of TDX then the page pinning is needed. So
->>>>>> such page migration prevention is really TDX thing, even not KVM generic
->>>>>> thing (that's why I think we don't need change the existing logic of
->>>>>> kvm_release_pfn_clean()). 
->>>>>>
->>>> This essentially boils down to who "owns" page migration handling, and sadly,
->>>> page migration is kinda "owned" by the core-kernel, i.e. KVM cannot handle page
->>>> migration by itself -- it's just a passive receiver.
->>>>
->>>> For normal pages, page migration is totally done by the core-kernel (i.e. it
->>>> unmaps page from VMA, allocates a new page, and uses migrate_pape() or a_ops-
->>>>> migrate_page() to actually migrate the page).
->>>> In the sense of TDX, conceptually it should be done in the same way. The more
->>>> important thing is: yes KVM can use get_page() to prevent page migration, but
->>>> when KVM wants to support it, KVM cannot just remove get_page(), as the core-
->>>> kernel will still just do migrate_page() which won't work for TDX (given
->>>> restricted_memfd doesn't have a_ops->migrate_page() implemented).
->>>>
->>>> So I think the restricted_memfd filesystem should own page migration handling,
->>>> (i.e. by implementing a_ops->migrate_page() to either just reject page migration
->>>> or somehow support it).
->>>
->>> While this thread seems to be settled on refcounts already, 
->>>
->>
->> I am not sure but will let Sean/Paolo to decide.
-> 
-> My preference is whatever is most performant without being hideous :-)
-> 
->>> just wanted
->>> to point out that it wouldn't be ideal to prevent migrations by
->>> a_ops->migrate_page() rejecting them. It would mean cputime wasted (i.e.
->>> by memory compaction) by isolating the pages for migration and then
->>> releasing them after the callback rejects it (at least we wouldn't waste
->>> time creating and undoing migration entries in the userspace page tables
->>> as there's no mmap). Elevated refcount on the other hand is detected
->>> very early in compaction so no isolation is attempted, so from that
->>> aspect it's optimal.
->>
->> I am probably missing something,
-> 
-> Heh, me too, I could have sworn that using refcounts was the least efficient way
-> to block migration.
+Hi Nhat,
 
-Well I admit that due to my experience with it, I do mostly consider
-migration through memory compaction POV, which is a significant user of
-migration on random pages that's not requested by userspace actions on
-specific ranges.
+Thank you for the patch! Perhaps something to improve:
 
-And compaction has in isolate_migratepages_block():
+[auto build test WARNING on 1440f576022887004f719883acb094e7e0dd4944]
 
-/*
- * Migration will fail if an anonymous page is pinned in memory,
- * so avoid taking lru_lock and isolating it unnecessarily in an
- * admittedly racy check.
- */
-mapping = page_mapping(page);
-if (!mapping && page_count(page) > page_mapcount(page))
-        goto isolate_fail;
+url:    https://github.com/intel-lab-lkp/linux/commits/Nhat-Pham/workingset-refactor-LRU-refault-to-expose-refault-recency-check/20230124-101311
+base:   1440f576022887004f719883acb094e7e0dd4944
+patch link:    https://lore.kernel.org/r/20230124021118.154078-3-nphamcs%40gmail.com
+patch subject: [PATCH v7 2/3] cachestat: implement cachestat syscall
+config: mips-randconfig-r006-20230123 (https://download.01.org/0day-ci/archive/20230124/202301242133.cLyYLZH6-lkp@intel.com/config)
+compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install mips cross compiling tool for clang build
+        # apt-get install binutils-mipsel-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/f902a360bb453bd6885cd89d4f9ad4a40205fd15
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Nhat-Pham/workingset-refactor-LRU-refault-to-expose-refault-recency-check/20230124-101311
+        git checkout f902a360bb453bd6885cd89d4f9ad4a40205fd15
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips prepare
 
-so that prevents migration of pages with elevated refcount very early,
-before they are even isolated, so before migrate_pages() is called.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
 
-But it's true there are other sources of "random pages migration" - numa
-balancing, demotion in lieu of reclaim... and I'm not sure if all have
-such early check too.
+All warnings (new ones prefixed by >>):
 
-Anyway, whatever is decided to be a better way than elevated refcounts,
-would ideally be checked before isolation as well, as that's the most
-efficient way.
+>> <stdin>:1565:2: warning: syscall cachestat not implemented [-W#warnings]
+   #warning syscall cachestat not implemented
+    ^
+   1 warning generated.
+--
+>> <stdin>:1565:2: warning: syscall cachestat not implemented [-W#warnings]
+   #warning syscall cachestat not implemented
+    ^
+   1 warning generated.
+--
+   scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+   scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+   scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+   arch/mips/kernel/asm-offsets.c:26:6: warning: no previous prototype for function 'output_ptreg_defines' [-Wmissing-prototypes]
+   void output_ptreg_defines(void)
+        ^
+   arch/mips/kernel/asm-offsets.c:26:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void output_ptreg_defines(void)
+   ^
+   static 
+   arch/mips/kernel/asm-offsets.c:78:6: warning: no previous prototype for function 'output_task_defines' [-Wmissing-prototypes]
+   void output_task_defines(void)
+        ^
+   arch/mips/kernel/asm-offsets.c:78:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void output_task_defines(void)
+   ^
+   static 
+   arch/mips/kernel/asm-offsets.c:92:6: warning: no previous prototype for function 'output_thread_info_defines' [-Wmissing-prototypes]
+   void output_thread_info_defines(void)
+        ^
+   arch/mips/kernel/asm-offsets.c:92:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void output_thread_info_defines(void)
+   ^
+   static 
+   arch/mips/kernel/asm-offsets.c:108:6: warning: no previous prototype for function 'output_thread_defines' [-Wmissing-prototypes]
+   void output_thread_defines(void)
+        ^
+   arch/mips/kernel/asm-offsets.c:108:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void output_thread_defines(void)
+   ^
+   static 
+   arch/mips/kernel/asm-offsets.c:179:6: warning: no previous prototype for function 'output_mm_defines' [-Wmissing-prototypes]
+   void output_mm_defines(void)
+        ^
+   arch/mips/kernel/asm-offsets.c:179:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void output_mm_defines(void)
+   ^
+   static 
+   arch/mips/kernel/asm-offsets.c:213:6: warning: no previous prototype for function 'output_sc_defines' [-Wmissing-prototypes]
+   void output_sc_defines(void)
+        ^
+   arch/mips/kernel/asm-offsets.c:213:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void output_sc_defines(void)
+   ^
+   static 
+   arch/mips/kernel/asm-offsets.c:248:6: warning: no previous prototype for function 'output_signal_defined' [-Wmissing-prototypes]
+   void output_signal_defined(void)
+        ^
+   arch/mips/kernel/asm-offsets.c:248:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void output_signal_defined(void)
+   ^
+   static 
+   7 warnings generated.
+>> <stdin>:1565:2: warning: syscall cachestat not implemented [-W#warnings]
+   #warning syscall cachestat not implemented
+    ^
+   1 warning generated.
 
->> but IIUC the checking of refcount happens at very last stage of page migration too 
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
