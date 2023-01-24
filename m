@@ -2,95 +2,94 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E190A679E9A
-	for <lists+linux-api@lfdr.de>; Tue, 24 Jan 2023 17:27:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C84B2679EA0
+	for <lists+linux-api@lfdr.de>; Tue, 24 Jan 2023 17:29:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231593AbjAXQ1c (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 24 Jan 2023 11:27:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58796 "EHLO
+        id S233858AbjAXQ3X (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 24 Jan 2023 11:29:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233165AbjAXQ1b (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 24 Jan 2023 11:27:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45AC02691
-        for <linux-api@vger.kernel.org>; Tue, 24 Jan 2023 08:26:49 -0800 (PST)
+        with ESMTP id S234133AbjAXQ3P (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 24 Jan 2023 11:29:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7729559D3
+        for <linux-api@vger.kernel.org>; Tue, 24 Jan 2023 08:28:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1674577608;
+        s=mimecast20190719; t=1674577708;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=i7Pw8HLyonCZeA68egrmyo7nTJgPIzxf4MWuoam80Xs=;
-        b=Ft4y85zMq2WhjpISQQYHr3FkOgjqBXSoX+O0ExdeDbBjV1k4tg6VU1Doj7E/xYlptJvoO3
-        yPgHE4pXXomlPTCvVHW2RV+0rgeRMCkG+QuQuluXpnrcBammWSuxjkw66dpqoWAaD+nOtD
-        7cvOkjzg04LTorkn4lunz7m1dFthmqY=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=ySlJVrmItDOerr+H1CEk6K2XPX97r28SzTHxaNzIPCg=;
+        b=idv7JaA+Vx8gaDNNpKTSfu5nMIdSAkoCc9qNZxmVjZgzJ8lNxXmg3BaIiOrexcYSVpF6B9
+        Yy8SPbab4pfhBDAl9EXon2iHBPLCcJseIW8vHjW1X0Lz15G1iGpMmegz1xXY+zZg0dPf+1
+        B51vyfTu8zU33wK3jkKGaWjKNsyp/04=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-184-ai12ucPhPzCelu1YQeYq0A-1; Tue, 24 Jan 2023 11:26:47 -0500
-X-MC-Unique: ai12ucPhPzCelu1YQeYq0A-1
-Received: by mail-wr1-f71.google.com with SMTP id y2-20020adfee02000000b002bfb44f286dso267409wrn.11
-        for <linux-api@vger.kernel.org>; Tue, 24 Jan 2023 08:26:47 -0800 (PST)
+ us-mta-581-IpoiBojvNkKu17RZaBXjOQ-1; Tue, 24 Jan 2023 11:28:27 -0500
+X-MC-Unique: IpoiBojvNkKu17RZaBXjOQ-1
+Received: by mail-wm1-f70.google.com with SMTP id l19-20020a05600c1d1300b003dc13fc9e42so1078075wms.3
+        for <linux-api@vger.kernel.org>; Tue, 24 Jan 2023 08:28:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:organization:from:references
          :cc:to:content-language:subject:user-agent:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=i7Pw8HLyonCZeA68egrmyo7nTJgPIzxf4MWuoam80Xs=;
-        b=ltceD6bdqiUwNKnVMzLlniRlILVDoglDpLmM8fWrUCGtMc0bB3u1Cqq1oz5fUYDKzM
-         Zw+/mXY/ncXNwhbKpMM49+z5wKLm6DfbsZ6MoAaJ/s1ytcqgv9uk41vSKeeScabmPWx6
-         K44TbQJ5NuI6Gk0WCkAaOYCUeHql6HfEARZs2sIcy3wLmEgU4C5LU8imCNF1XjLLGl08
-         FD8yH2+GJR/sGBOg9gHc9Gv3mEXtCjRlzJ9lZ5mILx1itC7TRTGmF1fgJIGc4Rl7zb25
-         c+VXlqD6SceJ2/y48CA0X41/H5qLXpnWR7nNraHxQo/lLQcLto5hOMFJtGyOZButebH+
-         AWeA==
-X-Gm-Message-State: AFqh2krfoFRIGIyGarM59VYPF/ODdIbCl3L/V5qdl9OWfvuTGC1tyQ5v
-        ZkyJ+M98XVsQTk+tQAkN9iY0rKGwNT7iSuun2+c+S9drOJven63j5acoB6q88LxJ7J9EoitDPsy
-        8vaoS5kPrQuDJ8CgblBrH
-X-Received: by 2002:a05:6000:10c6:b0:2bd:e33e:c04b with SMTP id b6-20020a05600010c600b002bde33ec04bmr23891398wrx.22.1674577606154;
-        Tue, 24 Jan 2023 08:26:46 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtQ9TD2bnXMPy82nhP127kncrzx3y56M6S5Ht8LsvTwDvmKsGRFx5R/aF94Ts9iBIA/bwn/sg==
-X-Received: by 2002:a05:6000:10c6:b0:2bd:e33e:c04b with SMTP id b6-20020a05600010c600b002bde33ec04bmr23891359wrx.22.1674577605843;
-        Tue, 24 Jan 2023 08:26:45 -0800 (PST)
+        bh=ySlJVrmItDOerr+H1CEk6K2XPX97r28SzTHxaNzIPCg=;
+        b=FwJPQzOlsCcrepU6F30aAbEVK87fS/3/1Kb0CjYgZQpbiClvv8E0rDq0zZ0XMBKekj
+         bx99tDPWs7AzNb3cOp7/ksFGJOpZ6Gl8awqcdA6D/gLX253a6X5474hWagSX5RwY/F9x
+         a1ZcexoO3lg3vhM31DSir3KWPW0Cz1K9agTKp0TNl+9eAuxHSVwya6nPhAXVaVvBjEAK
+         g/yGManlHsnwBFF6uP2onNMsJhDY0hAQzhGxLILLLOMa2bFVJEPkPE2J9RpSDGVevmS3
+         PTT13AEwkR64EnuV1/JWM+uX+I24X5VbjLwQxLOI7DT0CagtbHjRZPb0w9KVdfAIHlbm
+         CtZA==
+X-Gm-Message-State: AFqh2kp2N7pl5LVQmkS3iF3lhEA4zEs+jxy3FI4aL2FpEh5m1fDedxHq
+        IRvR78AAyq/nqolJqA/0uNTniOHqhgyNaZrGAb3rH9nWqce6FkuMyVxojoYfNQCcVg8JFtvpjah
+        9AKx5kUTLEUkw9AjI1vJI
+X-Received: by 2002:adf:df10:0:b0:26a:3eee:dde4 with SMTP id y16-20020adfdf10000000b0026a3eeedde4mr23657059wrl.8.1674577706142;
+        Tue, 24 Jan 2023 08:28:26 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXv9Sv+gszxHCBZj/Xm9GV3TOnkrQ2UmBhTzEl1d7Z6kmqZ7MMwUJonsHw8WPEvQXnKOrfZd7Q==
+X-Received: by 2002:adf:df10:0:b0:26a:3eee:dde4 with SMTP id y16-20020adfdf10000000b0026a3eeedde4mr23657025wrl.8.1674577705812;
+        Tue, 24 Jan 2023 08:28:25 -0800 (PST)
 Received: from ?IPV6:2003:cb:c707:9d00:9303:90ce:6dcb:2bc9? (p200300cbc7079d00930390ce6dcb2bc9.dip0.t-ipconnect.de. [2003:cb:c707:9d00:9303:90ce:6dcb:2bc9])
-        by smtp.gmail.com with ESMTPSA id t16-20020a5d49d0000000b002bfb0c5527esm1691618wrs.109.2023.01.24.08.26.43
+        by smtp.gmail.com with ESMTPSA id bv17-20020a0560001f1100b002be2f18938csm2248680wrb.41.2023.01.24.08.28.23
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Jan 2023 08:26:45 -0800 (PST)
-Message-ID: <fd741ac9-8214-a375-00b2-a652a7ef27ea@redhat.com>
-Date:   Tue, 24 Jan 2023 17:26:43 +0100
+        Tue, 24 Jan 2023 08:28:25 -0800 (PST)
+Message-ID: <c45ea1da-1531-8c33-f060-c06225a413da@redhat.com>
+Date:   Tue, 24 Jan 2023 17:28:22 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [PATCH v5 23/39] mm: Don't allow write GUPs to shadow stack
- memory
+Subject: Re: [PATCH v5 10/39] x86/mm: Introduce _PAGE_COW
 Content-Language: en-US
 To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
-        "fweimer@redhat.com" <fweimer@redhat.com>
-Cc:     "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "bsingharora@gmail.com" <bsingharora@gmail.com>,
         "hpa@zytor.com" <hpa@zytor.com>,
         "Syromiatnikov, Eugene" <esyr@redhat.com>,
         "peterz@infradead.org" <peterz@infradead.org>,
         "rdunlap@infradead.org" <rdunlap@infradead.org>,
         "keescook@chromium.org" <keescook@chromium.org>,
         "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "Eranian, Stephane" <eranian@google.com>,
         "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "Eranian, Stephane" <eranian@google.com>,
         "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
         "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
         "jannh@google.com" <jannh@google.com>,
         "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        "kcc@google.com" <kcc@google.com>,
         "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "bp@alien8.de" <bp@alien8.de>, "oleg@redhat.com" <oleg@redhat.com>,
+        "kcc@google.com" <kcc@google.com>, "pavel@ucw.cz" <pavel@ucw.cz>,
+        "oleg@redhat.com" <oleg@redhat.com>,
         "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "pavel@ucw.cz" <pavel@ucw.cz>,
+        "bp@alien8.de" <bp@alien8.de>,
         "Lutomirski, Andy" <luto@kernel.org>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
         "arnd@arndb.de" <arnd@arndb.de>,
         "tglx@linutronix.de" <tglx@linutronix.de>,
         "Schimpe, Christina" <christina.schimpe@intel.com>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
         "x86@kernel.org" <x86@kernel.org>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
         "Yang, Weijiang" <weijiang.yang@intel.com>,
         "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
         "john.allen@amd.com" <john.allen@amd.com>,
@@ -102,14 +101,14 @@ Cc:     "bsingharora@gmail.com" <bsingharora@gmail.com>,
         "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
         "gorcunov@gmail.com" <gorcunov@gmail.com>,
         "akpm@linux-foundation.org" <akpm@linux-foundation.org>
+Cc:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
 References: <20230119212317.8324-1-rick.p.edgecombe@intel.com>
- <20230119212317.8324-24-rick.p.edgecombe@intel.com>
- <aa973c0f-5d90-36df-01b2-db9d9182910e@redhat.com>
- <87fsc1il73.fsf@oldenburg.str.redhat.com>
- <c6dc94eb193634fa27e1715ab2978a3ce4b6c544.camel@intel.com>
+ <20230119212317.8324-11-rick.p.edgecombe@intel.com>
+ <634aa365-1f51-8684-24ae-3b68aba1e12a@redhat.com>
+ <bbc4f4df98ec798ae15e5daa6b5ceab41bcc66f9.camel@intel.com>
 From:   David Hildenbrand <david@redhat.com>
 Organization: Red Hat
-In-Reply-To: <c6dc94eb193634fa27e1715ab2978a3ce4b6c544.camel@intel.com>
+In-Reply-To: <bbc4f4df98ec798ae15e5daa6b5ceab41bcc66f9.camel@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -122,59 +121,55 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 23.01.23 21:46, Edgecombe, Rick P wrote:
-> On Mon, 2023-01-23 at 11:45 +0100, Florian Weimer wrote:
->> * David Hildenbrand:
->>
->>> On 19.01.23 22:23, Rick Edgecombe wrote:
->>>> The x86 Control-flow Enforcement Technology (CET) feature
->>>> includes a new
->>>> type of memory called shadow stack. This shadow stack memory has
->>>> some
->>>> unusual properties, which requires some core mm changes to
->>>> function
->>>> properly.
->>>> Shadow stack memory is writable only in very specific, controlled
->>>> ways.
->>>> However, since it is writable, the kernel treats it as such. As a
->>>> result
->>>> there remain many ways for userspace to trigger the kernel to
->>>> write to
->>>> shadow stack's via get_user_pages(, FOLL_WRITE) operations. To
->>>> make this a
->>>> little less exposed, block writable GUPs for shadow stack VMAs.
->>>> Still allow FOLL_FORCE to write through shadow stack protections,
->>>> as
->>>> it
->>>> does for read-only protections.
->>>
->>> So an app can simply modify the shadow stack itself by writing to
->>> /proc/self/mem ?
->>>
->>> Is that really intended? Looks like security hole to me at first
->>> sight, but maybe I am missing something important.
->>
->> Isn't it possible to overwrite GOT pointers using the same vector?
->> So I think it's merely reflecting the status quo.
+On 23.01.23 21:56, Edgecombe, Rick P wrote:
+> Trying to answer both questions to this patch on this one.
 > 
-> There was some debate on this. /proc/self/mem can currently write
-> through read-only memory which protects executable code. So should
-> shadow stack get separate rules? Is ROP a worry when you can overwrite
-> executable code?
+> On Mon, 2023-01-23 at 10:28 +0100, David Hildenbrand wrote:
+>>> +/*
+>>> + * Normally COW memory can result in Dirty=1,Write=0 PTEs. But in
+>>> the case
+>>> + * of X86_FEATURE_USER_SHSTK, the software COW bit is used, since
+>>> the
+>>> + * Dirty=1,Write=0 will result in the memory being treated as
+>>> shadow stack
+>>> + * by the HW. So when creating COW memory, a software bit is used
+>>> + * _PAGE_BIT_COW. The following functions pte_mkcow() and
+>>> pte_clear_cow()
+>>> + * take a PTE marked conventionally COW (Dirty=1) and transition
+>>> it to the
+>>> + * shadow stack compatible version of COW (Cow=1).
+>>> + */
+>>
+>> TBH, I find that all highly confusing.
+>>
+>> Dirty=1,Write=0 does not indicate a COW page reliably. You could
+>> have
+>> both, false negatives and false positives.
+>>
+>> False negative: fork() on a clean anon page.
+>>
+>> False positives: wrpotect() of a dirty anon page.
+>>
+>>
+>> I wonder if it really has to be that complicated: what you really
+>> want
+>> to achieve is to disallow "Dirty=1,Write=0" if it's not a shadow
+>> stack
+>> page, correct?
 > 
+> The other thing is to save that the PTE is/was Dirty=1 somewhere (for
+> non-shadow stack memory). A slightly different but related thing. But
+> losing that information would would introduce differences for
+> pte_dirty() between when shadow stack was enabled or not. GUP/COW
+> doesn't need this anymore but there are lots of other places it gets
+> checked.
+> 
+> Perhaps following your GUP changes, _PAGE_COW is just now the wrong
+> name for it. _PAGE_SAVED_DIRTY maybe?
 
-The question is, if there is reasonable debugging reason to keep it. I 
-assume if a debugger would adjust the ordinary stack, it would have to 
-adjust the shadow stack as well (oh my ...). So it sounds reasonable to 
-have it in theory at least ... not sure when debugger would support 
-that, but maybe they already do.
-
-> The consensus seemed to lean towards not making special rules for this
-> case, and there was some discussion that /proc/self/mem should maybe be
-> hardened generally.
-
-I agree with that. It's a debugging mechanism that a process can abuse 
-to do nasty stuff to its memory that it maybe shouldn't be able to do ...
+It goes into the direction of my other proposal/idea, yes. Not sure if 
+_PAGE_SAVED_DIRTY would currently mimic what's happening here ... 
+_PAGE_COW is certainly wrong and misleading.
 
 -- 
 Thanks,
