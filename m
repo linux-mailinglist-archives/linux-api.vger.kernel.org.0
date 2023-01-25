@@ -2,203 +2,134 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 32C1A67B2D3
-	for <lists+linux-api@lfdr.de>; Wed, 25 Jan 2023 14:01:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0166A67B5D0
+	for <lists+linux-api@lfdr.de>; Wed, 25 Jan 2023 16:23:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235045AbjAYNB0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 25 Jan 2023 08:01:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43702 "EHLO
+        id S235352AbjAYPXd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 25 Jan 2023 10:23:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47608 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232999AbjAYNBZ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 25 Jan 2023 08:01:25 -0500
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com [66.111.4.230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D19712064;
-        Wed, 25 Jan 2023 05:01:22 -0800 (PST)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 6D5F8581DCF;
-        Wed, 25 Jan 2023 07:53:28 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Wed, 25 Jan 2023 07:53:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
-         h=cc:cc:content-type:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm1; t=1674651208; x=1674658408; bh=4+
-        WTh2wxYnUegwTOEldoemeAGUATx2lachXfcnNgrRM=; b=rW63RSV1s6p/5iI23s
-        pPb3Yev73vywbEK2l+K+UINyN0wq/ycFBZaIek7/rkZOTLRNsrb0bR8ni0tCGKby
-        EHkp3vTR7w59Cpw8IPpHzmtvU/PAFIfoRD4vaV/obIMlj05qa0x0RAP2GeD852oI
-        ql2jJRikMcmoNxIvJmcP7Y2F4bop+DZRBWkTHAJ76vxDVBlc2G1W0ri4zWEjF47W
-        RNJyjY1rMDCHnYAKtmDJut0wQz71Qi2dD1xllshO9o7KofTMflb45iXB1p9qfcp5
-        4SQQayRWg5q076nLUgQgb8PIAPhLi5FkrHBJEv3jQavuT8nd6Rl0xsJ+kfBWIN0h
-        5v+g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; t=1674651208; x=1674658408; bh=4+WTh2wxYnUegwTOEldoemeAGUAT
-        x2lachXfcnNgrRM=; b=nMswIvhy39T0VwYZ++ke/f29wffPClGz2z3gerpeHY/P
-        veXiiALrTIG/Tq9iBnbIj1PjWFh/FIo+58pZWDG6X1UIpGokb3bWoMHiLtdDhXvK
-        7o1HZ0CYempwzfVV2O7x73la0cJpLaWtgAH5HWaHiJocgmAeMgBmgq83HcWq7Ffd
-        xvNnslwVO7SP3TDfN3BfKw3R3so/jjjZlzOtsjm8FsMi5As2hPcsHhGyN4/OiZIK
-        LX495GAPtTfvbAzlrws4yqPcGPUor/eUCjtIKv9eZOOb+PPPEZC7I6bP5Noa2dFF
-        yaaaeBAAMwBnWn3TsiT6GRQTzvIVT0bmyhlBeCVDHw==
-X-ME-Sender: <xms:RSbRY0TA1r4YQIZjOVqLRPcMjJJroxY05TIFzvdQrmh3afSbh6tl0A>
-    <xme:RSbRYxwR07Buzc1-9g4iscFNJklm3cZWzy2UjM9A9nop7GWGvW8iVknU2UCQDhQZs
-    1jR5u6ldOQ0FQDh9ho>
-X-ME-Received: <xmr:RSbRYx3JbfBe5NnwBX2dniGaNNSfnmu1-cBMXGWYcGd0-PPhiHZ3gt9pmNtJln1bG9KsoA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddvvddggeehucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesthdttddttddtvdenucfhrhhomhepfdfmihhr
-    ihhllhcutedrucfuhhhuthgvmhhovhdfuceokhhirhhilhhlsehshhhuthgvmhhovhdrnh
-    grmhgvqeenucggtffrrghtthgvrhhnpeetvdehffelffeiveeikeduffetudeuheeiiefg
-    ueduvdevtdejhedvhfffffehfeenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuve
-    hluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepkhhirhhilhhl
-    sehshhhuthgvmhhovhdrnhgrmhgv
-X-ME-Proxy: <xmx:RSbRY4AbDtPzxiU39td1Iki7uLF6-jp-3aOZzfoZGyoDTIrf9RfLeA>
-    <xmx:RSbRY9h5-h-9JQGeknGeWaqQNuf4_aCfT7IpAqbyOUSGtA1M0YIPFw>
-    <xmx:RSbRY0qNJMsSbCQasoVfsWkaEgxvOFJLjZxj4oEPBCIybrVRiUPRqg>
-    <xmx:SCbRY7GTBtI4J-Eaiys6yGJBW86fFTQIdmIVpm3Ln5Wgc4JKyv-GBA>
-Feedback-ID: ie3994620:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 25 Jan 2023 07:53:24 -0500 (EST)
-Received: by box.shutemov.name (Postfix, from userid 1000)
-        id 83A27104985; Wed, 25 Jan 2023 15:53:21 +0300 (+03)
-Date:   Wed, 25 Jan 2023 15:53:21 +0300
-From:   "Kirill A. Shutemov" <kirill@shutemov.name>
-To:     Sean Christopherson <seanjc@google.com>
-Cc:     Liam Merwick <liam.merwick@oracle.com>,
-        Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        wei.w.wang@intel.com
-Subject: Re: [PATCH v10 0/9] KVM: mm: fd-based approach for supporting KVM
-Message-ID: <20230125125321.yvsivupbbaqkb7a5@box.shutemov.name>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <Y8H5Z3e4hZkFxAVS@google.com>
- <48953bf2-cee9-f818-dc50-5fb5b9b410bf@oracle.com>
- <Y9B1yiRR8DpANAEo@google.com>
+        with ESMTP id S235203AbjAYPXc (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 25 Jan 2023 10:23:32 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D4AD367CF;
+        Wed, 25 Jan 2023 07:23:31 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id EC56D60ACA;
+        Wed, 25 Jan 2023 15:23:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2951BC433D2;
+        Wed, 25 Jan 2023 15:23:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674660210;
+        bh=n0tElQWhc562jr5djK4tbNXbksESM0fB5VT7n9Ly9wI=;
+        h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+        b=m+9tXk/DTy7ifoyPec9EcyhpTAAqJrxu4qHW6Q2bg0O6TTABR7F5ox3b4OfXin6md
+         57FM+xKSno9XHmivVCSUxotkFpmge5Vt/izlLctl/58yz+Naixw6uchInoU3DKMQZ2
+         I566mi60QW2bgUkCakrEs4Rnyb8JbKDeilhm7x+yZsIr6hVirawYH/rKwh10/53Qx/
+         /PC9wC8iiiwJP59J+tx7q4VA6yPYCRhtWyNHXtI+EN5Yn3wYJVI059L/kbo8cCp9B4
+         0okvWfIz/Mx9sD/QwKVJTzeyqaCgyLcKp4qQK7NL3VYNZ2ARBRAXoIKMO9P8galWAg
+         SMd/rfHjqC30Q==
+Date:   Wed, 25 Jan 2023 07:23:27 -0800
+From:   Kees Cook <kees@kernel.org>
+To:     David Hildenbrand <david@redhat.com>,
+        "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
+        "fweimer@redhat.com" <fweimer@redhat.com>
+CC:     "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        "kcc@google.com" <kcc@google.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
+        "oleg@redhat.com" <oleg@redhat.com>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "Schimpe, Christina" <christina.schimpe@intel.com>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v5_23/39=5D_mm=3A_Don=27t_allo?= =?US-ASCII?Q?w_write_GUPs_to_shadow_stack_memory?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <716d9e97-b08f-eb0f-101a-be6eaf36f184@redhat.com>
+References: <20230119212317.8324-1-rick.p.edgecombe@intel.com> <20230119212317.8324-24-rick.p.edgecombe@intel.com> <aa973c0f-5d90-36df-01b2-db9d9182910e@redhat.com> <87fsc1il73.fsf@oldenburg.str.redhat.com> <c6dc94eb193634fa27e1715ab2978a3ce4b6c544.camel@intel.com> <fd741ac9-8214-a375-00b2-a652a7ef27ea@redhat.com> <6adfa0b5c38a9362f819fcc364e02c37d99a7f4a.camel@intel.com> <5B29D7A0-385A-41E8-AA56-EF726E6906BF@kernel.org> <19ff6ea3b96d027defb548fb6b7f89de17905a4b.camel@intel.com> <716d9e97-b08f-eb0f-101a-be6eaf36f184@redhat.com>
+Message-ID: <E857CF98-EEB2-4F83-8305-0A52B463A661@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y9B1yiRR8DpANAEo@google.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Jan 25, 2023 at 12:20:26AM +0000, Sean Christopherson wrote:
-> On Tue, Jan 24, 2023, Liam Merwick wrote:
-> > On 14/01/2023 00:37, Sean Christopherson wrote:
-> > > On Fri, Dec 02, 2022, Chao Peng wrote:
-> > > > This patch series implements KVM guest private memory for confidential
-> > > > computing scenarios like Intel TDX[1]. If a TDX host accesses
-> > > > TDX-protected guest memory, machine check can happen which can further
-> > > > crash the running host system, this is terrible for multi-tenant
-> > > > configurations. The host accesses include those from KVM userspace like
-> > > > QEMU. This series addresses KVM userspace induced crash by introducing
-> > > > new mm and KVM interfaces so KVM userspace can still manage guest memory
-> > > > via a fd-based approach, but it can never access the guest memory
-> > > > content.
-> > > > 
-> > > > The patch series touches both core mm and KVM code. I appreciate
-> > > > Andrew/Hugh and Paolo/Sean can review and pick these patches. Any other
-> > > > reviews are always welcome.
-> > > >    - 01: mm change, target for mm tree
-> > > >    - 02-09: KVM change, target for KVM tree
-> > > 
-> > > A version with all of my feedback, plus reworked versions of Vishal's selftest,
-> > > is available here:
-> > > 
-> > >    git@github.com:sean-jc/linux.git x86/upm_base_support
-> > > 
-> > > It compiles and passes the selftest, but it's otherwise barely tested.  There are
-> > > a few todos (2 I think?) and many of the commits need changelogs, i.e. it's still
-> > > a WIP.
-> > > 
-> > 
-> > When running LTP (https://github.com/linux-test-project/ltp) on the v10
-> > bits (and also with Sean's branch above) I encounter the following NULL
-> > pointer dereference with testcases/kernel/syscalls/madvise/madvise01
-> > (100% reproducible).
-> > 
-> > It appears that in restrictedmem_error_page() inode->i_mapping->private_data
-> > is NULL
-> > in the list_for_each_entry_safe(inode, next, &sb->s_inodes, i_sb_list)
-> > but I don't know why.
-> 
-> Kirill, can you take a look?  Or pass the buck to someone who can? :-)
+On January 25, 2023 1:29:20 AM PST, David Hildenbrand <david@redhat=2Ecom> =
+wrote:
+>On 25=2E01=2E23 00:41, Edgecombe, Rick P wrote:
+>> On Tue, 2023-01-24 at 15:08 -0800, Kees Cook wrote:
+>>>> GDB support for shadow stack is queued up for whenever the kernel
+>>>> interface settles=2E I believe it just uses ptrace, and not this
+>>>> proc=2E
+>>>> But yea ptrace poke will still need to use FOLL_FORCE and be able
+>>>> to
+>>>> write through shadow stacks=2E
+>>>=20
+>>> I'd prefer to avoid adding more FOLL_FORCE if we can=2E If gdb can do
+>>> stack manipulations through a ptrace interface then let's leave off
+>>> FOLL_FORCE=2E
+>>=20
+>> Ptrace and /proc/self/mem both use FOLL_FORCE=2E I think ptrace will
+>> always need it or something like it for debugging=2E
+>>=20
+>> To jog your memory, this series doesn't change what uses FOLL_FORCE=2E =
+It
+>> just sets the shadow stack rules to be the same as read-only memory=2E =
+So
+>> even though shadow stack memory is sort of writable, it's a bit more
+>> locked down and FOLL_FORCE is required to write to it with GUP=2E
+>>=20
+>> If we just remove FOLL_FORCE from /proc/self/mem, something will
+>> probably break right? How do we do this? Some sort of opt-in?
+>
+>I don't think removing that is an option=2E It's another debug interface =
+that has been allowing such access for ever =2E=2E=2E
+>
+>Blocking /proc/self/mem access completely for selected processes might be=
+ the better alternative=2E
+>
 
-The patch below should help.
+Yeah, this would be nice=2E Kind of like being undumpable or no_new_privs=
+=2E
 
-diff --git a/mm/restrictedmem.c b/mm/restrictedmem.c
-index 15c52301eeb9..39ada985c7c0 100644
---- a/mm/restrictedmem.c
-+++ b/mm/restrictedmem.c
-@@ -307,14 +307,29 @@ void restrictedmem_error_page(struct page *page, struct address_space *mapping)
- 
- 	spin_lock(&sb->s_inode_list_lock);
- 	list_for_each_entry_safe(inode, next, &sb->s_inodes, i_sb_list) {
--		struct restrictedmem *rm = inode->i_mapping->private_data;
- 		struct restrictedmem_notifier *notifier;
--		struct file *memfd = rm->memfd;
-+		struct restrictedmem *rm;
- 		unsigned long index;
-+		struct file *memfd;
- 
--		if (memfd->f_mapping != mapping)
-+		if (atomic_read(&inode->i_count))
- 			continue;
- 
-+		spin_lock(&inode->i_lock);
-+		if (inode->i_state & (I_NEW | I_FREEING | I_WILL_FREE)) {
-+			spin_unlock(&inode->i_lock);
-+			continue;
-+		}
-+
-+		rm = inode->i_mapping->private_data;
-+		memfd = rm->memfd;
-+
-+		if (memfd->f_mapping != mapping) {
-+			spin_unlock(&inode->i_lock);
-+			continue;
-+		}
-+		spin_unlock(&inode->i_lock);
-+
- 		xa_for_each_range(&rm->bindings, index, notifier, start, end)
- 			notifier->ops->error(notifier, start, end);
- 		break;
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+
+
+--=20
+Kees Cook
