@@ -2,164 +2,203 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 80EB267ADDA
-	for <lists+linux-api@lfdr.de>; Wed, 25 Jan 2023 10:30:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 32C1A67B2D3
+	for <lists+linux-api@lfdr.de>; Wed, 25 Jan 2023 14:01:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235254AbjAYJaO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 25 Jan 2023 04:30:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45496 "EHLO
+        id S235045AbjAYNB0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 25 Jan 2023 08:01:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235255AbjAYJaM (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 25 Jan 2023 04:30:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7FA31557B
-        for <linux-api@vger.kernel.org>; Wed, 25 Jan 2023 01:29:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1674638966;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=TjE3MFK73jMeqX5iFxpax2sxTvtsTUXIevN9S/ssTM8=;
-        b=MdfeAVd3cJnm06ZWA/dGVxx7f5vej/UODe5o+gDd2U31uQyxgnG5f4R8GY5hx3VxSAzvVA
-        +LiBkAD/h0GcIbT1xbsQgNayLqYW4+tam2AjmAafmbW5NfjeX7PDV7nznmRMTihQY7XfG1
-        zFTVf29Ub0wN2t7QczFDhRAOybnAjwk=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-576-9vRcgllVNzqa_BN-h3HcgA-1; Wed, 25 Jan 2023 04:29:24 -0500
-X-MC-Unique: 9vRcgllVNzqa_BN-h3HcgA-1
-Received: by mail-wr1-f71.google.com with SMTP id v20-20020adfc5d4000000b002bdfcdb4c51so3016761wrg.9
-        for <linux-api@vger.kernel.org>; Wed, 25 Jan 2023 01:29:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TjE3MFK73jMeqX5iFxpax2sxTvtsTUXIevN9S/ssTM8=;
-        b=ZZObdWyRAU9j6cPlBWoFMR2adWcVIHzomiPLFxHgWblx/kbEZKt8Mp0S6IGxMsE92C
-         SRYoXtB3fg5Vtkzw0gza1zQtWgLdSrAq53h7AiiMWM6vtn9EgL4YeSL4aA9Z+ji+aN5W
-         l6EP31qe0Y1+o/liJBxHZu7V74sPS7yVBsWXkSLzvvNI1LHGOYjQPjJh8FYm/BH7g88x
-         ocO3LPwsnmygZUtEBKi9lQcR/cAkNlHkpl+8c5ldzNW7kYvMHnTwjTBfX/Onyq2X6J1I
-         vNTDeReSz0+96hLKZiQs3eiQh3vBw2egkpQ3oCuWBnwg1qnF8Uf7Bmd0nu1zXnZfMr64
-         +/Dw==
-X-Gm-Message-State: AFqh2koUMdLe/GY6GkcEmSZPCJtiQs0SN621NoDJR6TqFfVo7W9hzNHG
-        8rZNMFtIRUCIAyzw+CG6m17ZVq7Rg0+V94TsASZSAttH/xIAlCD2PXxCQNy/CPss5vpZSvCROI9
-        qOrCpeh2okKO/ur2CJvXR
-X-Received: by 2002:adf:fb86:0:b0:2b6:7876:3cd4 with SMTP id a6-20020adffb86000000b002b678763cd4mr25258767wrr.16.1674638963422;
-        Wed, 25 Jan 2023 01:29:23 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsLivmPABRiZvHHfGmnyR69nY5+HViCF4rvX0glv7Y5M6gJXrX848D3l9+TwkCsYm87blrEGw==
-X-Received: by 2002:adf:fb86:0:b0:2b6:7876:3cd4 with SMTP id a6-20020adffb86000000b002b678763cd4mr25258727wrr.16.1674638963093;
-        Wed, 25 Jan 2023 01:29:23 -0800 (PST)
-Received: from ?IPV6:2003:cb:c705:4c00:486:38e2:8ff8:a135? (p200300cbc7054c00048638e28ff8a135.dip0.t-ipconnect.de. [2003:cb:c705:4c00:486:38e2:8ff8:a135])
-        by smtp.gmail.com with ESMTPSA id d9-20020adff2c9000000b002be34f87a34sm4166170wrp.1.2023.01.25.01.29.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Jan 2023 01:29:22 -0800 (PST)
-Message-ID: <716d9e97-b08f-eb0f-101a-be6eaf36f184@redhat.com>
-Date:   Wed, 25 Jan 2023 10:29:20 +0100
+        with ESMTP id S232999AbjAYNBZ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 25 Jan 2023 08:01:25 -0500
+Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com [66.111.4.230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D19712064;
+        Wed, 25 Jan 2023 05:01:22 -0800 (PST)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 6D5F8581DCF;
+        Wed, 25 Jan 2023 07:53:28 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Wed, 25 Jan 2023 07:53:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
+         h=cc:cc:content-type:date:date:from:from:in-reply-to
+        :in-reply-to:message-id:mime-version:references:reply-to:sender
+        :subject:subject:to:to; s=fm1; t=1674651208; x=1674658408; bh=4+
+        WTh2wxYnUegwTOEldoemeAGUATx2lachXfcnNgrRM=; b=rW63RSV1s6p/5iI23s
+        pPb3Yev73vywbEK2l+K+UINyN0wq/ycFBZaIek7/rkZOTLRNsrb0bR8ni0tCGKby
+        EHkp3vTR7w59Cpw8IPpHzmtvU/PAFIfoRD4vaV/obIMlj05qa0x0RAP2GeD852oI
+        ql2jJRikMcmoNxIvJmcP7Y2F4bop+DZRBWkTHAJ76vxDVBlc2G1W0ri4zWEjF47W
+        RNJyjY1rMDCHnYAKtmDJut0wQz71Qi2dD1xllshO9o7KofTMflb45iXB1p9qfcp5
+        4SQQayRWg5q076nLUgQgb8PIAPhLi5FkrHBJEv3jQavuT8nd6Rl0xsJ+kfBWIN0h
+        5v+g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm3; t=1674651208; x=1674658408; bh=4+WTh2wxYnUegwTOEldoemeAGUAT
+        x2lachXfcnNgrRM=; b=nMswIvhy39T0VwYZ++ke/f29wffPClGz2z3gerpeHY/P
+        veXiiALrTIG/Tq9iBnbIj1PjWFh/FIo+58pZWDG6X1UIpGokb3bWoMHiLtdDhXvK
+        7o1HZ0CYempwzfVV2O7x73la0cJpLaWtgAH5HWaHiJocgmAeMgBmgq83HcWq7Ffd
+        xvNnslwVO7SP3TDfN3BfKw3R3so/jjjZlzOtsjm8FsMi5As2hPcsHhGyN4/OiZIK
+        LX495GAPtTfvbAzlrws4yqPcGPUor/eUCjtIKv9eZOOb+PPPEZC7I6bP5Noa2dFF
+        yaaaeBAAMwBnWn3TsiT6GRQTzvIVT0bmyhlBeCVDHw==
+X-ME-Sender: <xms:RSbRY0TA1r4YQIZjOVqLRPcMjJJroxY05TIFzvdQrmh3afSbh6tl0A>
+    <xme:RSbRYxwR07Buzc1-9g4iscFNJklm3cZWzy2UjM9A9nop7GWGvW8iVknU2UCQDhQZs
+    1jR5u6ldOQ0FQDh9ho>
+X-ME-Received: <xmr:RSbRYx3JbfBe5NnwBX2dniGaNNSfnmu1-cBMXGWYcGd0-PPhiHZ3gt9pmNtJln1bG9KsoA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddvvddggeehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesthdttddttddtvdenucfhrhhomhepfdfmihhr
+    ihhllhcutedrucfuhhhuthgvmhhovhdfuceokhhirhhilhhlsehshhhuthgvmhhovhdrnh
+    grmhgvqeenucggtffrrghtthgvrhhnpeetvdehffelffeiveeikeduffetudeuheeiiefg
+    ueduvdevtdejhedvhfffffehfeenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuve
+    hluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepkhhirhhilhhl
+    sehshhhuthgvmhhovhdrnhgrmhgv
+X-ME-Proxy: <xmx:RSbRY4AbDtPzxiU39td1Iki7uLF6-jp-3aOZzfoZGyoDTIrf9RfLeA>
+    <xmx:RSbRY9h5-h-9JQGeknGeWaqQNuf4_aCfT7IpAqbyOUSGtA1M0YIPFw>
+    <xmx:RSbRY0qNJMsSbCQasoVfsWkaEgxvOFJLjZxj4oEPBCIybrVRiUPRqg>
+    <xmx:SCbRY7GTBtI4J-Eaiys6yGJBW86fFTQIdmIVpm3Ln5Wgc4JKyv-GBA>
+Feedback-ID: ie3994620:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 25 Jan 2023 07:53:24 -0500 (EST)
+Received: by box.shutemov.name (Postfix, from userid 1000)
+        id 83A27104985; Wed, 25 Jan 2023 15:53:21 +0300 (+03)
+Date:   Wed, 25 Jan 2023 15:53:21 +0300
+From:   "Kirill A. Shutemov" <kirill@shutemov.name>
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     Liam Merwick <liam.merwick@oracle.com>,
+        Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>, tabba@google.com,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        wei.w.wang@intel.com
+Subject: Re: [PATCH v10 0/9] KVM: mm: fd-based approach for supporting KVM
+Message-ID: <20230125125321.yvsivupbbaqkb7a5@box.shutemov.name>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <Y8H5Z3e4hZkFxAVS@google.com>
+ <48953bf2-cee9-f818-dc50-5fb5b9b410bf@oracle.com>
+ <Y9B1yiRR8DpANAEo@google.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v5 23/39] mm: Don't allow write GUPs to shadow stack
- memory
-Content-Language: en-US
-To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "kees@kernel.org" <kees@kernel.org>
-Cc:     "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "Eranian, Stephane" <eranian@google.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        "kcc@google.com" <kcc@google.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
-        "oleg@redhat.com" <oleg@redhat.com>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "Schimpe, Christina" <christina.schimpe@intel.com>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "pavel@ucw.cz" <pavel@ucw.cz>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>
-References: <20230119212317.8324-1-rick.p.edgecombe@intel.com>
- <20230119212317.8324-24-rick.p.edgecombe@intel.com>
- <aa973c0f-5d90-36df-01b2-db9d9182910e@redhat.com>
- <87fsc1il73.fsf@oldenburg.str.redhat.com>
- <c6dc94eb193634fa27e1715ab2978a3ce4b6c544.camel@intel.com>
- <fd741ac9-8214-a375-00b2-a652a7ef27ea@redhat.com>
- <6adfa0b5c38a9362f819fcc364e02c37d99a7f4a.camel@intel.com>
- <5B29D7A0-385A-41E8-AA56-EF726E6906BF@kernel.org>
- <19ff6ea3b96d027defb548fb6b7f89de17905a4b.camel@intel.com>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <19ff6ea3b96d027defb548fb6b7f89de17905a4b.camel@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y9B1yiRR8DpANAEo@google.com>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 25.01.23 00:41, Edgecombe, Rick P wrote:
-> On Tue, 2023-01-24 at 15:08 -0800, Kees Cook wrote:
->>> GDB support for shadow stack is queued up for whenever the kernel
->>> interface settles. I believe it just uses ptrace, and not this
->>> proc.
->>> But yea ptrace poke will still need to use FOLL_FORCE and be able
->>> to
->>> write through shadow stacks.
->>
->> I'd prefer to avoid adding more FOLL_FORCE if we can. If gdb can do
->> stack manipulations through a ptrace interface then let's leave off
->> FOLL_FORCE.
+On Wed, Jan 25, 2023 at 12:20:26AM +0000, Sean Christopherson wrote:
+> On Tue, Jan 24, 2023, Liam Merwick wrote:
+> > On 14/01/2023 00:37, Sean Christopherson wrote:
+> > > On Fri, Dec 02, 2022, Chao Peng wrote:
+> > > > This patch series implements KVM guest private memory for confidential
+> > > > computing scenarios like Intel TDX[1]. If a TDX host accesses
+> > > > TDX-protected guest memory, machine check can happen which can further
+> > > > crash the running host system, this is terrible for multi-tenant
+> > > > configurations. The host accesses include those from KVM userspace like
+> > > > QEMU. This series addresses KVM userspace induced crash by introducing
+> > > > new mm and KVM interfaces so KVM userspace can still manage guest memory
+> > > > via a fd-based approach, but it can never access the guest memory
+> > > > content.
+> > > > 
+> > > > The patch series touches both core mm and KVM code. I appreciate
+> > > > Andrew/Hugh and Paolo/Sean can review and pick these patches. Any other
+> > > > reviews are always welcome.
+> > > >    - 01: mm change, target for mm tree
+> > > >    - 02-09: KVM change, target for KVM tree
+> > > 
+> > > A version with all of my feedback, plus reworked versions of Vishal's selftest,
+> > > is available here:
+> > > 
+> > >    git@github.com:sean-jc/linux.git x86/upm_base_support
+> > > 
+> > > It compiles and passes the selftest, but it's otherwise barely tested.  There are
+> > > a few todos (2 I think?) and many of the commits need changelogs, i.e. it's still
+> > > a WIP.
+> > > 
+> > 
+> > When running LTP (https://github.com/linux-test-project/ltp) on the v10
+> > bits (and also with Sean's branch above) I encounter the following NULL
+> > pointer dereference with testcases/kernel/syscalls/madvise/madvise01
+> > (100% reproducible).
+> > 
+> > It appears that in restrictedmem_error_page() inode->i_mapping->private_data
+> > is NULL
+> > in the list_for_each_entry_safe(inode, next, &sb->s_inodes, i_sb_list)
+> > but I don't know why.
 > 
-> Ptrace and /proc/self/mem both use FOLL_FORCE. I think ptrace will
-> always need it or something like it for debugging.
-> 
-> To jog your memory, this series doesn't change what uses FOLL_FORCE. It
-> just sets the shadow stack rules to be the same as read-only memory. So
-> even though shadow stack memory is sort of writable, it's a bit more
-> locked down and FOLL_FORCE is required to write to it with GUP.
-> 
-> If we just remove FOLL_FORCE from /proc/self/mem, something will
-> probably break right? How do we do this? Some sort of opt-in?
+> Kirill, can you take a look?  Or pass the buck to someone who can? :-)
 
-I don't think removing that is an option. It's another debug interface 
-that has been allowing such access for ever ...
+The patch below should help.
 
-Blocking /proc/self/mem access completely for selected processes might 
-be the better alternative.
-
+diff --git a/mm/restrictedmem.c b/mm/restrictedmem.c
+index 15c52301eeb9..39ada985c7c0 100644
+--- a/mm/restrictedmem.c
++++ b/mm/restrictedmem.c
+@@ -307,14 +307,29 @@ void restrictedmem_error_page(struct page *page, struct address_space *mapping)
+ 
+ 	spin_lock(&sb->s_inode_list_lock);
+ 	list_for_each_entry_safe(inode, next, &sb->s_inodes, i_sb_list) {
+-		struct restrictedmem *rm = inode->i_mapping->private_data;
+ 		struct restrictedmem_notifier *notifier;
+-		struct file *memfd = rm->memfd;
++		struct restrictedmem *rm;
+ 		unsigned long index;
++		struct file *memfd;
+ 
+-		if (memfd->f_mapping != mapping)
++		if (atomic_read(&inode->i_count))
+ 			continue;
+ 
++		spin_lock(&inode->i_lock);
++		if (inode->i_state & (I_NEW | I_FREEING | I_WILL_FREE)) {
++			spin_unlock(&inode->i_lock);
++			continue;
++		}
++
++		rm = inode->i_mapping->private_data;
++		memfd = rm->memfd;
++
++		if (memfd->f_mapping != mapping) {
++			spin_unlock(&inode->i_lock);
++			continue;
++		}
++		spin_unlock(&inode->i_lock);
++
+ 		xa_for_each_range(&rm->bindings, index, notifier, start, end)
+ 			notifier->ops->error(notifier, start, end);
+ 		break;
 -- 
-Thanks,
-
-David / dhildenb
-
+  Kiryl Shutsemau / Kirill A. Shutemov
