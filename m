@@ -2,321 +2,224 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B789967C66D
-	for <lists+linux-api@lfdr.de>; Thu, 26 Jan 2023 09:58:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ECD3E67D2B2
+	for <lists+linux-api@lfdr.de>; Thu, 26 Jan 2023 18:08:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236232AbjAZI6U (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 26 Jan 2023 03:58:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46050 "EHLO
+        id S229550AbjAZRIu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 26 Jan 2023 12:08:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46106 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233264AbjAZI6T (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 26 Jan 2023 03:58:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23F1845BFA
-        for <linux-api@vger.kernel.org>; Thu, 26 Jan 2023 00:57:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1674723453;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=tQ5XpzdLsChe3LFjvdvQNZo+jEFVqgRJCqtyNbGXTwY=;
-        b=cSCVG6vzjXsqVShUa47EFEYp1JLp41EMSEDVzTviaXJAitec6LBTiF7SL1R+nSFX92eHJk
-        sfWQ4A4zN2JhOTwDDurnJEqrIKAYq8LBAcPLxdHkAYiIk97YUXa0Oy4eLs98ar+0Kn+GAo
-        2HGb6bR12x/ZS09LHRDLuAR0Fvhbx1w=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-672-Jt1k1DrhN4uxN9nLp7n7NA-1; Thu, 26 Jan 2023 03:57:31 -0500
-X-MC-Unique: Jt1k1DrhN4uxN9nLp7n7NA-1
-Received: by mail-wm1-f71.google.com with SMTP id ay38-20020a05600c1e2600b003da7c41fafcso2512065wmb.7
-        for <linux-api@vger.kernel.org>; Thu, 26 Jan 2023 00:57:31 -0800 (PST)
+        with ESMTP id S232142AbjAZRIs (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 26 Jan 2023 12:08:48 -0500
+Received: from mail-qv1-xf35.google.com (mail-qv1-xf35.google.com [IPv6:2607:f8b0:4864:20::f35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D14804C07;
+        Thu, 26 Jan 2023 09:08:43 -0800 (PST)
+Received: by mail-qv1-xf35.google.com with SMTP id r14so1917235qvx.4;
+        Thu, 26 Jan 2023 09:08:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=2Xa2N7Ivh7dt7l8G2gaP7xy0D45O0idREEQejp58kyY=;
+        b=KfXi+HE0YksbS0l42GwHifDlm23mRKMFrrSURr01IMR9ArF9XRysIljCM8DlydjnNB
+         jWk451dIU3wOuikcys5ESTKA0b9trbFzqZ8ctw9/LAiHXC2ovf+bgxGnrJvyMCkVo7pm
+         p+m0eAO09K8UUADuOnT3LNe1N3tV+kbNhTVU9oAEJSoTLrvrqaqQkPlUvX4L23iG6mL7
+         WCwSs8869xpjn7aU7i48PXtb2vJiex7Eq8YHQuj6DpvbR+76r/ufI1zqDAiB+vkoiNGm
+         /O5VpClS83TEoxvHMI13G+enmGJzGQWvBo7YAlKzljWsmHvy3SLeBldTrTv2WFPn9qbR
+         ZHIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:subject:organization:from
-         :references:cc:to:content-language:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=tQ5XpzdLsChe3LFjvdvQNZo+jEFVqgRJCqtyNbGXTwY=;
-        b=60Y4pK2Jg4pB5/PiLyFer4MKDTdbZtPaXXNQ8GOHMy8xeWZp7rJ/z5dNSpsAd2NTSM
-         s6gopBBv8H9cvqabefQfWkpvytymOXKCKzO9U0sAdquNBKlOv5qbOojDmnU4S/vJT9eD
-         ZxY+lmJEOlPOjLHedIK97HCLK+PlXrQldbKOI2b5FMi5ug3PKvvCpEPawP8CQk0HKXNZ
-         n5/DNTIF0COVZfoASvHALLN1VWVVnOo9gG/G1eGwy9Kj8Y/bM8yXH2uZqiVgdqpkklRs
-         uEUviPk3iEVylg1xBNR0ZFNwgb88rlKB7ArueSQXlr00J5Sto6YNCf/i1WYP8vXQUxes
-         bDcA==
-X-Gm-Message-State: AFqh2kpkrDB8sZBZtsiLvEKP5LtlrqcGUiJJJmYg+g+USy/yoqir3z5e
-        71jOypKdBTmu1cDSQBVeZWaSM3ACO/DeW5+r1eOTFAPLEGX2rXcVwR59HFF9nIMmt9XZH6tKnl7
-        Bkm3vJx7SyzveMaJGA10A
-X-Received: by 2002:a05:6000:549:b0:2be:184a:5d5c with SMTP id b9-20020a056000054900b002be184a5d5cmr26794285wrf.59.1674723450377;
-        Thu, 26 Jan 2023 00:57:30 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXurqrEs2CtvJH0g9Njs93dDFdHIy3kXW9E9qnzN9h2evMNKxU2yos9hVfmcwU773eh+jNEA6g==
-X-Received: by 2002:a05:6000:549:b0:2be:184a:5d5c with SMTP id b9-20020a056000054900b002be184a5d5cmr26794251wrf.59.1674723449956;
-        Thu, 26 Jan 2023 00:57:29 -0800 (PST)
-Received: from ?IPV6:2a09:80c0:192:0:5dac:bf3d:c41:c3e7? ([2a09:80c0:192:0:5dac:bf3d:c41:c3e7])
-        by smtp.gmail.com with ESMTPSA id p6-20020a5d48c6000000b002bfc0558ecdsm651607wrs.113.2023.01.26.00.57.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Jan 2023 00:57:29 -0800 (PST)
-Message-ID: <79e0a85e-1ec4-e359-649d-618ca79c36f7@redhat.com>
-Date:   Thu, 26 Jan 2023 09:57:27 +0100
+        bh=2Xa2N7Ivh7dt7l8G2gaP7xy0D45O0idREEQejp58kyY=;
+        b=YBF40unknytdJsbiVqe5KD5H9tvKb2W5srUnoEWW+isowJBQ4RNx5gnCdyIM1l+/UX
+         ZA9b9x8SsHhyudGhxIyUU3fWAcK4vBymBg5Z9dP4s2kDW8BlszZY2HvuBjekocnN7fuZ
+         L8IN5bNsXMETKyaL9jDmihD9wUWyTOj7PeHqpyB9HOnGGIcRfnPsjO4B+mfoDR824Fna
+         ZTXEWnbGnTEh1+J+/N5Vr/DwtW7/BRTCMB1rjVu2Vw570RNcwTwYJ7cs2YtBswfNKph9
+         r0vmaCqX2C2fPgr+8MNX3CDxzcbcJwUdHbJ1Di7xFenw8t7PVRGaimCskuFODO5Ezznr
+         8SyQ==
+X-Gm-Message-State: AFqh2kreImARwBtB6Wny1HypvQh4eFw9snZHH5D9hbxQfwrrWsyyqGEm
+        vJfsnSzMfxPfdoh51H2OsoNWyVz7OXQfyK47rchqxI0cQOU=
+X-Google-Smtp-Source: AMrXdXt5QJSbsB4oqgWPTVg7geEsV9QGTheG7aGVF0OlUCn9aTsqx0JJmb888T1MXJzJIEX1JUvM3Fq0Lbajb0G3lrw=
+X-Received: by 2002:a05:6214:5f82:b0:534:252f:b091 with SMTP id
+ ls2-20020a0562145f8200b00534252fb091mr1660515qvb.130.1674752922880; Thu, 26
+ Jan 2023 09:08:42 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Content-Language: en-US
-To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
-        "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "Eranian, Stephane" <eranian@google.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        "kcc@google.com" <kcc@google.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "pavel@ucw.cz" <pavel@ucw.cz>, "oleg@redhat.com" <oleg@redhat.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "Schimpe, Christina" <christina.schimpe@intel.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>
-Cc:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-References: <20230119212317.8324-1-rick.p.edgecombe@intel.com>
- <20230119212317.8324-19-rick.p.edgecombe@intel.com>
- <7f63d13d-7940-afb6-8b25-26fdf3804e00@redhat.com>
- <50cf64932507ba60639eca28692e7df285bcc0a7.camel@intel.com>
- <1327c608-1473-af4f-d962-c24f04f3952c@redhat.com>
- <8c3820ae1448de4baffe7c476b4b5d9ba0a309ff.camel@intel.com>
- <4d224020-f26f-60a4-c7ab-721a024c7a6d@redhat.com>
- <dd06b54291ad5721da392a42f2d8e5636301ffef.camel@intel.com>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v5 18/39] mm: Handle faultless write upgrades for shstk
-In-Reply-To: <dd06b54291ad5721da392a42f2d8e5636301ffef.camel@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+References: <20230124021118.154078-1-nphamcs@gmail.com> <20230124021118.154078-2-nphamcs@gmail.com>
+ <CAOUHufYz+FmxQ8yoocbV8LP05HGU=cRoqJE1-bQa0KyLofJYhQ@mail.gmail.com>
+In-Reply-To: <CAOUHufYz+FmxQ8yoocbV8LP05HGU=cRoqJE1-bQa0KyLofJYhQ@mail.gmail.com>
+From:   Nhat Pham <nphamcs@gmail.com>
+Date:   Thu, 26 Jan 2023 09:08:32 -0800
+Message-ID: <CAKEwX=PWs2iPG4zgLAw2M=PVsewAf35hsY2qu7K_pHkvHR=iTQ@mail.gmail.com>
+Subject: Re: [PATCH v7 1/3] workingset: refactor LRU refault to expose refault
+ recency check
+To:     Yu Zhao <yuzhao@google.com>
+Cc:     akpm@linux-foundation.org, hannes@cmpxchg.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, bfoster@redhat.com,
+        willy@infradead.org, linux-api@vger.kernel.org,
+        kernel-team@meta.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 25.01.23 19:43, Edgecombe, Rick P wrote:
-> On Wed, 2023-01-25 at 10:27 +0100, David Hildenbrand wrote:
->>>> Roughly speaking: if we abstract it that way and get all of the
->>>> "how
->>>> to
->>>> set it writable now?" out of core-MM, it not only is cleaner and
->>>> less
->>>> error prone, it might even allow other architectures that
->>>> implement
->>>> something comparable (e.g., using a dedicated HW bit) to actually
->>>> reuse
->>>> some of that work. Otherwise most of that "shstk" is really just
->>>> x86
->>>> specific ...
->>>>
->>>> I guess the only cases we have to special case would be page
->>>> pinning
->>>> code where pte_write() would indicate that the PTE is writable
->>>> (well,
->>>> it
->>>> is, just not by "ordinary CPU instruction" context directly): but
->>>> you
->>>> do
->>>> that already, so ... :)
->>>>
->>>> Sorry for stumbling over that this late, I only started looking
->>>> into
->>>> this when you CCed me on that one patch.
->>>
->>> Sorry for not calling more attention to it earlier. Appreciate your
->>> comments.
->>>
->>> Previously versions of this series had changed some of these
->>> pte_mkwrite() calls to maybe_mkwrite(), which of course takes a
->>> vma.
->>> This way an x86 implementation could use the VM_SHADOW_STACK vma
->>> flag
->>> to decide between pte_mkwrite() and pte_mkwrite_shstk(). The
->>> feedback
->>> was that in some of these code paths "maybe" isn't really an
->>> option, it
->>> *needs* to make it writable. Even though the logic was the same,
->>> the
->>> name of the function made it look wrong.
->>>
->>> But another option could be to change pte_mkwrite() to take a vma.
->>> This
->>> would save using another software bit on x86, but instead requires
->>> a
->>> small change to each arch's pte_mkwrite().
->>
->> I played with that idea shortly as well, but discarded it. I was not
->> able to convince myself that it wouldn't be required to pass in the
->> VMA
->> as well for things like pte_dirty(), pte_mkdirty(), pte_write(), ...
->> which would end up fairly ugly (or even impossible in thing slike
->> GUP-fast).
->>
->> For example, I wonder how we'd be handling stuff like do_numa_page()
->> cleanly correctly, where we use pte_modify() + pte_mkwrite(), and
->> either
->> call might set the PTE writable and maintain dirty bit ...
-> 
-> pte_modify() is handled like this currently:
-> 
-> https://lore.kernel.org/lkml/20230119212317.8324-12-rick.p.edgecombe@intel.com/
-> 
-> There has been a couple iterations on that. The current solution is to
-> do the Dirty->SavedDirty fixup if needed after the new prots are added.
-> 
-> Of course pte_modify() can't know whether you are are attempting to
-> create a shadow stack PTE with the prot you are passing in. But the
-> callers today explicitly call pte_mkwrite() after filling in the other
-> bits with pte_modify().
+On Wed, Jan 25, 2023 at 1:13 PM Yu Zhao <yuzhao@google.com> wrote:
+>
+> On Mon, Jan 23, 2023 at 7:11 PM Nhat Pham <nphamcs@gmail.com> wrote:
+> >
+> > In preparation for computing recently evicted pages in cachestat,
+> > refactor workingset_refault and lru_gen_refault to expose a helper
+> > function that would test if an evicted page is recently evicted.
+> >
+> > Signed-off-by: Nhat Pham <nphamcs@gmail.com>
+> > ---
+> >  include/linux/swap.h |   1 +
+> >  mm/workingset.c      | 142 +++++++++++++++++++++++++++++--------------
+> >  2 files changed, 97 insertions(+), 46 deletions(-)
+> >
+> > diff --git a/include/linux/swap.h b/include/linux/swap.h
+> > index a18cf4b7c724..dae6f6f955eb 100644
+> > --- a/include/linux/swap.h
+> > +++ b/include/linux/swap.h
+> > @@ -361,6 +361,7 @@ static inline void folio_set_swap_entry(struct folio *folio, swp_entry_t entry)
+> >  }
+> >
+> >  /* linux/mm/workingset.c */
+> > +bool workingset_test_recent(void *shadow, bool file, bool *workingset);
+> >  void workingset_age_nonresident(struct lruvec *lruvec, unsigned long nr_pages);
+> >  void *workingset_eviction(struct folio *folio, struct mem_cgroup *target_memcg);
+> >  void workingset_refault(struct folio *folio, void *shadow);
+> > diff --git a/mm/workingset.c b/mm/workingset.c
+> > index 79585d55c45d..2f2d94867366 100644
+> > --- a/mm/workingset.c
+> > +++ b/mm/workingset.c
+> > @@ -244,6 +244,30 @@ static void *lru_gen_eviction(struct folio *folio)
+> >         return pack_shadow(mem_cgroup_id(memcg), pgdat, token, refs);
+> >  }
+> >
+> > +/*
+> > + * Test if the folio is recently evicted.
+> > + *
+> > + * As a side effect, also populates the references with
+> > + * values unpacked from the shadow of the evicted folio.
+> > + */
+> > +static bool lru_gen_test_recent(void *shadow, bool file, int *memcgid,
+> > +               struct pglist_data **pgdat, unsigned long *token, bool *workingset)
+> > +{
+> > +       struct mem_cgroup *eviction_memcg;
+> > +       struct lruvec *lruvec;
+> > +       struct lru_gen_struct *lrugen;
+> > +       unsigned long min_seq;
+> > +
+> > +       unpack_shadow(shadow, memcgid, pgdat, token, workingset);
+> > +       eviction_memcg = mem_cgroup_from_id(*memcgid);
+> > +
+> > +       lruvec = mem_cgroup_lruvec(eviction_memcg, *pgdat);
+> > +       lrugen = &lruvec->lrugen;
+> > +
+> > +       min_seq = READ_ONCE(lrugen->min_seq[file]);
+> > +       return (*token >> LRU_REFS_WIDTH) == (min_seq & (EVICTION_MASK >> LRU_REFS_WIDTH));
+> > +}
+> > +
+> >  static void lru_gen_refault(struct folio *folio, void *shadow)
+> >  {
+> >         int hist, tier, refs;
+> > @@ -258,23 +282,22 @@ static void lru_gen_refault(struct folio *folio, void *shadow)
+> >         int type = folio_is_file_lru(folio);
+> >         int delta = folio_nr_pages(folio);
+> >
+> > -       unpack_shadow(shadow, &memcg_id, &pgdat, &token, &workingset);
+> > -
+> > -       if (pgdat != folio_pgdat(folio))
+> > -               return;
+> > -
+> >         rcu_read_lock();
+> >
+> > +       if (!lru_gen_test_recent(shadow, type, &memcg_id, &pgdat, &token,
+> > +                       &workingset))
+> > +               goto unlock;
+> > +
+> >         memcg = folio_memcg_rcu(folio);
+> >         if (memcg_id != mem_cgroup_id(memcg))
+> >                 goto unlock;
+> >
+> > +       if (pgdat != folio_pgdat(folio))
+> > +               return;
+> > +
+> >         lruvec = mem_cgroup_lruvec(memcg, pgdat);
+> >         lrugen = &lruvec->lrugen;
+> > -
+> >         min_seq = READ_ONCE(lrugen->min_seq[type]);
+> > -       if ((token >> LRU_REFS_WIDTH) != (min_seq & (EVICTION_MASK >> LRU_REFS_WIDTH)))
+> > -               goto unlock;
+> >
+> >         hist = lru_hist_from_seq(min_seq);
+> >         /* see the comment in folio_lru_refs() */
+> > @@ -306,6 +329,12 @@ static void *lru_gen_eviction(struct folio *folio)
+> >         return NULL;
+> >  }
+> >
+> > +static bool lru_gen_test_recent(void *shadow, bool file, int *memcgid,
+> > +               struct pglist_data **pgdat, unsigned long *token, bool *workingset)
+> > +{
+> > +       return false;
+> > +}
+> > +
+> >  static void lru_gen_refault(struct folio *folio, void *shadow)
+> >  {
+> >  }
+> > @@ -373,40 +402,31 @@ void *workingset_eviction(struct folio *folio, struct mem_cgroup *target_memcg)
+> >                                 folio_test_workingset(folio));
+> >  }
+> >
+> > -/**
+> > - * workingset_refault - Evaluate the refault of a previously evicted folio.
+> > - * @folio: The freshly allocated replacement folio.
+> > - * @shadow: Shadow entry of the evicted folio.
+> > +/*
+> > + * Test if the folio is recently evicted by checking if
+> > + * refault distance of shadow exceeds workingset size.
+> >   *
+> > - * Calculates and evaluates the refault distance of the previously
+> > - * evicted folio in the context of the node and the memcg whose memory
+> > - * pressure caused the eviction.
+> > + * As a side effect, populate workingset with the value
+> > + * unpacked from shadow.
+> >   */
+> > -void workingset_refault(struct folio *folio, void *shadow)
+> > +bool workingset_test_recent(void *shadow, bool file, bool *workingset)
+> >  {
+> > -       bool file = folio_is_file_lru(folio);
+> >         struct mem_cgroup *eviction_memcg;
+> >         struct lruvec *eviction_lruvec;
+> >         unsigned long refault_distance;
+> >         unsigned long workingset_size;
+> > -       struct pglist_data *pgdat;
+> > -       struct mem_cgroup *memcg;
+> > -       unsigned long eviction;
+> > -       struct lruvec *lruvec;
+> >         unsigned long refault;
+> > -       bool workingset;
+> >         int memcgid;
+> > -       long nr;
+> > +       struct pglist_data *pgdat;
+> > +       unsigned long eviction;
+> >
+> > -       if (lru_gen_enabled()) {
+> > -               lru_gen_refault(folio, shadow);
+> > -               return;
+> > -       }
+> > +       if (lru_gen_enabled())
+> > +               lru_gen_test_recent(shadow, file, &memcgid, &pgdat, &eviction,
+> > +                       workingset);
+>
+> Missing "return", which was correctly handled in your v2, btw.
 
-See below on my MAP_PRIVATE vs. MAP_SHARED comment.
-
-> Today this patch causes the pte_mkwrite() to be
-> skipped and another fault may be required in the mprotect() and numa
-> cases, but if we change pte_mkwrite() to take a VMA we can just make it
-> shadow stack to start.
-> 
-> It might be worth mentioning, there was a suggestion in the past to try
-> to have the shadow stack bits come out of vm_get_page_prot(), but MM
-> code would then try to map the zero page as (shadow stack) writable
-> when there was a normal (non-shadow stack) read access. So I had to
-> abandon that approach and rely on explicit calls to pte_mkwrite/shstk()
-> to make it shadow stack.
-
-Thanks, do you have a pointer?
-
-> 
->>
->> Having that said, maybe it could work with only a single saved-dirty
->> bit
->> and passing in the VMA for pte_mkwrite() only.
->>
->> pte_wrprotect() would detect "writable=0,dirty=1" and move the dirty
->> bit
->> to the soft-dirty bit instead, resulting in
->> "writable=0,dirty=0,saved-dirty=1",
->>
->> pte_dirty() would return dirty==1||saved-dirty==1.
->>
->> pte_mkdirty() would set either set dirty=1 or saved-dirty=1,
->> depending
->> on the writable bit.
->>
->> pte_mkclean() would clean both bits.
->>
->> pte_write() would detect "writable == 1 || (writable==0 && dirty==1)"
->>
->> pte_mkwrite() would act according to the VMA, and in addition, merge
->> the
->> saved-dirty bit into the dirty bit.
->>
->> pte_modify() and mk_pte() .... would require more thought ...
-> 
-> Not sure I'm following what the mk_pte() problem would be. You mean if
-> Write=0,Dirty=1 is manually added to the prot?
-> 
-> Shouldn't people generally use the pte_mkwrite() helpers unless they
-> are drawing from a prot that was already created with the helpers or
-> vm_get_page_prot()?
-
-pte_mkwrite() is mostly only used (except for writenotify ...) for 
-MAP_PRIVATE memory ("COW-able"). For MAP_SHARED memory, 
-vma->vm_page_prot in a VM_WRITE mapping already contains the write 
-permissions. pte_mkwrite() is not necessary (again, unless writenotify 
-is active).
-
-I assume shstk VMAs don't apply to MAP_SHARED VMAs, which is why you 
-didn't stumble over that issue yet? Because I don't see how it could 
-work with MAP_SHARED VMAs.
-
-
-The other thing I had in mind was that we have to make sure that we're 
-not accidentally setting "Write=0,Dirty=1" in mk_pte() / pte_modify().
-
-Assume we had a "Write=1,Dirty=1" PTE, and we effectively wrprotect 
-using pte_modify(), we have to make sure to move the dirty bit to the 
-saved_dirty bit.
-
-> I think they can't manually create prot's from bits
-> in core mm code, right? And x86 arch code already has to be aware of
-> shadow stack. It's a bit of an assumption I guess, but I think maybe
-> not too crazy of one?
-
-I think that's true. Arch code is supposed to deal with that IIRC.
-
-> 
->>
->>
->> Further, ptep_modify_prot_commit() might have to be adjusted to
->> properly
->> flush in all relevant cases IIRC.
-> 
-> Sorry, I'm not following. Can you elaborate? There is an adjustment
-> made in pte_flags_need_flush().
-
-Note that I did not fully review all bits of this patch set, just 
-throwing out what was on my mind. If already handled, great.
-
-> 
->>
->>>
->>> x86's pte_mkwrite() would then be pretty close to maybe_mkwrite(),
->>> but
->>> maybe it could additionally warn if the vma is not writable. It
->>> also
->>> seems more aligned with your changes to stop taking hints from PTE
->>> bits
->>> and just look at the VMA? (I'm thinking about the dropping of the
->>> dirty
->>> check in GUP and dropping pte_saved_write())
->>
->> The soft-shstk bit wouldn't be a hint, it would be logically
->> changing
->> the "type" of the PTE such that any other PTE functions can do the
->> right
->> thing without having to consume the VMA.
-> 
-> Yea, true.
-> 
-> Thanks for your comments and ideas here, I'll give the:
-> pte_t pte_mkwrite(struct vm_area_struct *vma, pte_t pte)
-> ...solution a try.
-
-Good!
-
--- 
-Thanks,
-
-David / dhildenb
-
+Oops copy-paste hazard. I'll fix this...
