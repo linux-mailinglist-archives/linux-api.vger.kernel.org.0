@@ -2,82 +2,125 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9501267E9F5
-	for <lists+linux-api@lfdr.de>; Fri, 27 Jan 2023 16:48:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 786EE67EA85
+	for <lists+linux-api@lfdr.de>; Fri, 27 Jan 2023 17:13:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232664AbjA0PsK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 27 Jan 2023 10:48:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45172 "EHLO
+        id S232431AbjA0QNV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 27 Jan 2023 11:13:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233513AbjA0PsF (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 27 Jan 2023 10:48:05 -0500
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1D40658B;
-        Fri, 27 Jan 2023 07:47:47 -0800 (PST)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailout.nyi.internal (Postfix) with ESMTP id 5FFD65C0148;
-        Fri, 27 Jan 2023 10:46:58 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Fri, 27 Jan 2023 10:46:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm2; t=1674834418; x=1674920818; bh=tqkwOkU426
-        Ma4OELw419T18bSnd7LNn3wn4cQLkxLOc=; b=KcWQcIix0NpAKy1hsvfJeOSBir
-        MqKxQu0uvvDB4BL52vCuIFDSa7pvUsS3Z0DI8CnXp820xV5gg+ItdSl1Takr10+a
-        6+iiwId841lND18sbe2YisDde/DCnNz1R00ZCJbpYyNxIEX3Vn8TlmOPCUSrSwTB
-        IHyKHBz/2XhiotS/K0ukcyOcMSaE5Q85fAQbRpmDLJw0Mc60Nu8E/rOu0DbQEhBl
-        h+Z/25+FQ/l0pgd4SHL7F01YgLLeeayHEWT8vXaV8/h/ONhyrTdkEx91rP0CQSeN
-        K3V+1lashw4s7/iFISlmWixXM0jxNkcoHXESRG8yOBFVkdjW4+SzXRwlRVRA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; t=1674834418; x=1674920818; bh=tqkwOkU426Ma4OELw419T18bSnd7
-        LNn3wn4cQLkxLOc=; b=N6tCpjiAX10QjsR0kozskUb5S8CVnP8p6MbLRAnF1hUB
-        CO6mYQ3jw5tM1JJMUC76qxdJcV1qJwFBnwMfz71zNkRc7Z7nC5s5kcjerSHfn7jI
-        J4mNzYWfRrsTH+5olwK/3g8aJd1zxpfLv4zggtH+JnOwMAbUQpdv/GLSzPr7ftsV
-        z6MFiANsGc6NXMt+Znsi0N+dSBAO9VqJtEcXEttBAcV9/207UfrpcxxWo9sUWN3O
-        kaKnBOyiganr2mB6JAUcYXgFU7z2WTuGCNZnDYibJ7Z/DsjN4/xuJKs/7WMLeCOE
-        CMv4VYwAIK9xfZvOWqQ0aWbYCeCtj6E5aL4gAX+ZRg==
-X-ME-Sender: <xms:8fHTY90IqVMT7669I9Tcc9Viu1956S6u4w_aZ0SLxlBqRdX1VJD33A>
-    <xme:8fHTY0FwoZbHXE21VvWNVhw7dcJp1pY64yJay3Is9c4UDL0rmMKucLMGMKO5fza2D
-    TlAYI7wQlgFGNyLhKQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddviedgjeelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpefofgggkfgjfhffhffvvefutgesth
-    dtredtreertdenucfhrhhomhepfdetrhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnuges
-    rghrnhgusgdruggvqeenucggtffrrghtthgvrhhnpeffheeugeetiefhgeethfejgfdtue
-    fggeejleehjeeutefhfeeggefhkedtkeetffenucevlhhushhtvghrufhiiigvpedtnecu
-    rfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:8vHTY96J4_5ITgnJQcOyZ7d5OJfeJVp3qfGFg8oKTanL3gQVrtpqmA>
-    <xmx:8vHTY62TStYzTraxzNxDWRqKkUJBgem_UB7DaG90JAJn4F-nur0J3Q>
-    <xmx:8vHTYwETLqSMhIiuefcFze8O08FFi_7v3CsqFZlMTYfgZRCRZuaG4g>
-    <xmx:8vHTY15fjh-ALKJ2R5SRRFL6j1A58ed-6WkiXFdSgSoZuJTJLoxXvA>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id E780EB60086; Fri, 27 Jan 2023 10:46:57 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-85-gd6d859e0cf-fm-20230116.001-gd6d859e0
-Mime-Version: 1.0
-Message-Id: <54c8ecbd-1d6e-40f1-af30-7efd04c63a7e@app.fastmail.com>
-In-Reply-To: <20230126175356.1582123-3-nphamcs@gmail.com>
-References: <20230126175356.1582123-1-nphamcs@gmail.com>
- <20230126175356.1582123-3-nphamcs@gmail.com>
-Date:   Fri, 27 Jan 2023 16:46:38 +0100
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Nhat Pham" <nphamcs@gmail.com>,
-        "Andrew Morton" <akpm@linux-foundation.org>
-Cc:     "Johannes Weiner" <hannes@cmpxchg.org>, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, bfoster@redhat.com,
-        "Matthew Wilcox" <willy@infradead.org>, linux-api@vger.kernel.org,
-        kernel-team@meta.com
-Subject: Re: [PATCH v8 2/3] cachestat: implement cachestat syscall
-Content-Type: text/plain
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
+        with ESMTP id S234662AbjA0QNS (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 27 Jan 2023 11:13:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A29F816AC5
+        for <linux-api@vger.kernel.org>; Fri, 27 Jan 2023 08:12:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1674835951;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=SwogfK/xLNDHbbwXO1sIym9vY9/jCFhsud5wbKcvQaU=;
+        b=VQY+4WHbQi7pnhM70etyDU7oclNq0RNKxaG0F4q0DZsMbm7gwUTefW7ZAcsiR9PFnFBlKc
+        bJJ8/ZlytYJHMN9Nq1eFqNHs1UoVsJUhyqPe8IX2tyiUshjze9d2nCMyOMUE7jCNl1m0pW
+        L4wyLLKx5UQiJSXw+LDsYTrRv9+l2no=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-84-K65LXsrlPhmnqx1rXbkJ6w-1; Fri, 27 Jan 2023 11:12:30 -0500
+X-MC-Unique: K65LXsrlPhmnqx1rXbkJ6w-1
+Received: by mail-wr1-f72.google.com with SMTP id by12-20020a056000098c00b002bfb325c0edso886240wrb.10
+        for <linux-api@vger.kernel.org>; Fri, 27 Jan 2023 08:12:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SwogfK/xLNDHbbwXO1sIym9vY9/jCFhsud5wbKcvQaU=;
+        b=6C97exWTcyiigUDn48UyfIEMgEOY1XXJYZgWOBbD2jechmVxj63j7YkzFTSnWbnIjB
+         dj3soix4+q1HGx/VcwODjk2TBvYMC15hn3kwYAap1ihSIn0UUwlqN51cvwlmGbNfkHpu
+         hVkcHdhueTWcRBXFB+9VblAZMqyxayiwKvrYEVBCMnFet+pQNaJFksjytgnVYeO135Mu
+         MCP8SBBxk05K0ctCSwf7uGqBpYQo3XrozCB9zaODqQ+jVWJRxVY1DOZt6zWYaO+ZxTz+
+         7vl0vqqgCsZso8lUUBX7cYP/9fkEObmfnUOVfny56PNJAyDotTuT/lwF/oB0mSZsdV7Y
+         Nahw==
+X-Gm-Message-State: AO0yUKXOadm3oi1DhFjxzmZyBcqf+C06gb+RS+x5X9KbIDkTl4rcttX6
+        9WgecHu2C4IH5mwUCzpHe6WNj55lKitBHbhY0VTLIMwkAzpDE7pmmgFpWAKFkpwIwGV/TJyy8f4
+        u5VmpBCNfQiU+3JlGgfYL
+X-Received: by 2002:a05:6000:1f05:b0:2bf:bc38:17c1 with SMTP id bv5-20020a0560001f0500b002bfbc3817c1mr9332005wrb.4.1674835949249;
+        Fri, 27 Jan 2023 08:12:29 -0800 (PST)
+X-Google-Smtp-Source: AK7set9xHxRFMELkql7GhWmWFY9SeZNG8Y1DmSr6SFxhFl3Z+1haelg4X8dDIm2uqRediNz9/rRjDw==
+X-Received: by 2002:a05:6000:1f05:b0:2bf:bc38:17c1 with SMTP id bv5-20020a0560001f0500b002bfbc3817c1mr9331981wrb.4.1674835948989;
+        Fri, 27 Jan 2023 08:12:28 -0800 (PST)
+Received: from ?IPV6:2003:d8:2f16:1800:a9b4:1776:c5d9:1d9a? (p200300d82f161800a9b41776c5d91d9a.dip0.t-ipconnect.de. [2003:d8:2f16:1800:a9b4:1776:c5d9:1d9a])
+        by smtp.gmail.com with ESMTPSA id e21-20020a5d5955000000b002b57bae7174sm4283915wri.5.2023.01.27.08.12.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 27 Jan 2023 08:12:28 -0800 (PST)
+Message-ID: <f4b62ed9-21a9-4b23-567e-51b339a643ac@redhat.com>
+Date:   Fri, 27 Jan 2023 17:12:26 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v5 18/39] mm: Handle faultless write upgrades for shstk
+Content-Language: en-US
+To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
+        "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        "kcc@google.com" <kcc@google.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>, "oleg@redhat.com" <oleg@redhat.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "Schimpe, Christina" <christina.schimpe@intel.com>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>
+Cc:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+References: <20230119212317.8324-1-rick.p.edgecombe@intel.com>
+ <20230119212317.8324-19-rick.p.edgecombe@intel.com>
+ <7f63d13d-7940-afb6-8b25-26fdf3804e00@redhat.com>
+ <50cf64932507ba60639eca28692e7df285bcc0a7.camel@intel.com>
+ <1327c608-1473-af4f-d962-c24f04f3952c@redhat.com>
+ <8c3820ae1448de4baffe7c476b4b5d9ba0a309ff.camel@intel.com>
+ <4d224020-f26f-60a4-c7ab-721a024c7a6d@redhat.com>
+ <dd06b54291ad5721da392a42f2d8e5636301ffef.camel@intel.com>
+ <899d8f3baaf45b896cf335dec2143cd0969a2d8a.camel@intel.com>
+ <ad7d94dd-f0aa-bf21-38c3-58ef1e9e46dc@redhat.com>
+ <27b141c06c37da78afca7214ec7efeaf730162d9.camel@intel.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <27b141c06c37da78afca7214ec7efeaf730162d9.camel@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -85,38 +128,68 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jan 26, 2023, at 18:53, Nhat Pham wrote:
->
-> SYNOPSIS
->     #include <sys/mman.h>
->
->     struct cachestat {
->         __u64 nr_cache;
->         __u64 nr_dirty;
->         __u64 nr_writeback;
->         __u64 nr_evicted;
->         __u64 nr_recently_evicted;
->     };
->
->     int cachestat(unsigned int fd, off_t off, size_t len,
->           unsigned int cstat_version, struct cachestat *cstat,
->           unsigned int flags);
+On 26.01.23 21:19, Edgecombe, Rick P wrote:
+> On Thu, 2023-01-26 at 09:46 +0100, David Hildenbrand wrote:
+>> On 26.01.23 01:59, Edgecombe, Rick P wrote:
+>>> On Wed, 2023-01-25 at 10:43 -0800, Rick Edgecombe wrote:
+>>>> Thanks for your comments and ideas here, I'll give the:
+>>>> pte_t pte_mkwrite(struct vm_area_struct *vma, pte_t pte)
+>>>> ...solution a try.
+>>>
+>>> Well, it turns out there are some pte_mkwrite() callers in other
+>>> arch's
+>>> that operate on kernel memory and don't have a VMA. So it needed a
+>>> new
+>>
+>> Why not pass in NULL as VMA then and document the semantics? The
+>> less
+>> similarly named but slightly different functions, the better :)
+> 
+> Hmm. The x86 and generic versions should probably have the same
+> semantics, so then if you pass a NULL, it would do a regular
+> pte_mkwrite() I guess?
+> 
+> I see another benefit of requiring the vma argument, such that raw
+> pte_mkwrite()s are less likely to appear in core MM code. But I think
+> the NULL is awkward because it's not obvious, to me at least, what the
+> implications of that should be.
+> 
+> So it will be confusing to read in the NULL cases for the other archs.
+> We also have some warnings to catch miss cases in the PTE tear down
+> code, so the scenario of new code accidentally marking shadow stack
+> PTEs as writable is not totally unchecked.
+> 
+> The three functions that do slightly different things are:
+> 
+> pte_mkwrite():
+> Makes a PTE conventionally writable, only takes a PTE. Very clear that
+> it is a low level helper and what it does.
+> 
+> maybe_mkwrite():
+> Might make a PTE writable if the VMA allows it.
+> 
+> pte_mkwrite_vma():
+> Makes a PTE writable in a specific way depending on the VMA
+> 
+> I wonder if the name pte_mkwrite_vma() is maybe just not clear enough.
+> It takes a VMA, yes, but what does it do with it?
+> 
+> What if it was called pte_mkwrite_type() instead? Some arch's have
+> additional types of writable memory and this function creates them. Of
+> course they also have the normal type of writable memory, and
+> pte_mkwrite() creates that like usual. Doesn't it seem more readable?
 
-Is this "off_t off" argument intentionally limited to the old
-32-bit type on 32-bit architectures? Unfortunately I fear 
-there are no good options to pass an offset here:
+The issue is, the more variants we provide the easier it is to make 
+mistakes and introduce new buggy code.
 
-- if you make it a 32-bit type, this breaks calling it from
-  normal userspace that defines off_t as a 64-bit type
+It's tempting to simply use pte_mkwrite() and call it a day, where 
+people actually should use pte_mkwrite_vma().
 
-- if you change it to a 64-bit loff_t, there are three
-  separate calling conventions for 64-bit, 32-bit with
-  aligned register pairs and other 32-bit, plus you
-  exceed the usual limit of six system call arguments
+Then, they at least have to investigate what to do about the second VMA 
+parameter.
 
-A separate problem may be the cstat_version argument, usually
-we don't use interface versions but instead use a new
-system call number if something changes in an incompatible
-way.
+-- 
+Thanks,
 
-       Arnd
+David / dhildenb
+
