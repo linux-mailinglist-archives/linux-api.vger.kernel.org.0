@@ -2,127 +2,146 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2241667EEFF
-	for <lists+linux-api@lfdr.de>; Fri, 27 Jan 2023 20:59:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2613867EF11
+	for <lists+linux-api@lfdr.de>; Fri, 27 Jan 2023 21:03:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232770AbjA0T7m (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 27 Jan 2023 14:59:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43746 "EHLO
+        id S233313AbjA0UC5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 27 Jan 2023 15:02:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43360 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232691AbjA0T71 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 27 Jan 2023 14:59:27 -0500
-Received: from mail-oa1-x34.google.com (mail-oa1-x34.google.com [IPv6:2001:4860:4864:20::34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A5A68CC4E
-        for <linux-api@vger.kernel.org>; Fri, 27 Jan 2023 11:57:34 -0800 (PST)
-Received: by mail-oa1-x34.google.com with SMTP id 586e51a60fabf-15ff0a1f735so7927245fac.5
-        for <linux-api@vger.kernel.org>; Fri, 27 Jan 2023 11:57:34 -0800 (PST)
+        with ESMTP id S231743AbjA0UCi (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 27 Jan 2023 15:02:38 -0500
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A5908E481
+        for <linux-api@vger.kernel.org>; Fri, 27 Jan 2023 12:00:50 -0800 (PST)
+Received: by mail-pl1-x62a.google.com with SMTP id p24so6065424plw.11
+        for <linux-api@vger.kernel.org>; Fri, 27 Jan 2023 12:00:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg-org.20210112.gappssmtp.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=hGtGk71zGBq3lMRp+2nfXAsNyIB3Tg451dHzgKe0ygE=;
-        b=rTRZgCEMqxDZZQtwYBIxe7lMvanr0HPHINPBJy8mn24Gt2Vwi0hKR19YjCcCwHKhR+
-         qCU75K0sN7Pselifv3VWsdAinNXtC4RuieESziPMvtfOd3G4GXSuJ9TNTi3oIYgbQwK6
-         SuzG/Nm5344HbwGnc+IIA3hiVC8MQwY3Ciuf+iHOmtvUljDIkFqEkGEA1B51Pj6emsFO
-         KtEFE6ivAI2UBCdkmhyJB40bYnk7DmY//9OnAIdRK9xE8nN4X05AZcf/o4JqclOoqbVz
-         zda8KmpKo7+GOhd2S21wHZcyAZUo/Pak9x1LPxRsl6D1ZVO+W3+LtQTYKtYWa8bXDI5x
-         Ib2w==
+        d=paul-moore.com; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=am+vlnLsg0XsWPedwqTMfueZR+oGnG7UWNBHwR8AcYc=;
+        b=Q0U8C4RtPDRpzAiibd2GVE0E00+3tsbOeaPeNHaMiolmsmk9YV+x/VYoBGp+R5j2L8
+         +lc5XAHQMvX8YDrGROEibXrLzof6cGPZpgv+q3LsrVMN3BMnfa48T1BokWA3LIMH0aI0
+         wP1RJonGnMGPsEJ2H8MBmmF7ZZbqx7Pu6e6cGlhSsr4qXkaxhYmAqCDfarmNVHLNcK82
+         ozQ4gaksTPaJmsZN17hEU2/Hfpk0Fu2DoXPZM0M9GfaLb1GEAkEvV0Dnjr8WyOW/TIS4
+         3dqCV71phS8pxZ+H/QcAw6Boxoo8/ZdHvHiwWEGMsZyWSa36bv/ntULg6yNA7bJsj8Gn
+         O+Uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hGtGk71zGBq3lMRp+2nfXAsNyIB3Tg451dHzgKe0ygE=;
-        b=UEZjhByU4Ci6MSMvgF6+ho6Gh2y80qpU1Qcu0jb1vCWrbKkDmNJKnfKHl/e6Q8Y09v
-         cZZJlLA0G1a/imcRfDeAil+5IHcqwZJ99rNPN0uPvV0n2rfoOtn8UbkvcuGDGeYmX+WC
-         wX3pWmSkA4NUymbYI0Gs5kZ2f5IYJx80M41dM3UULzSPWEsQ9m5KbWYqMq96NABOmb4B
-         PFCFC0OgON3EQzow+y7WgWS345ciO8rJlREYlrWPTYiGG5gKD10F2DZ0NSp0rvuF6I+t
-         t8syHk+wop3dkaJkeiv6FPjR/6cX/Eiu/d3RfhoFyiByi0xLJ39YiLprXufKEXyHdYLj
-         7zsA==
-X-Gm-Message-State: AO0yUKW7cTSXYZyJm5yjiEUQ5j25WzRjvKw7V++Q51uy93MeMuZn7a4o
-        YDHTAu5Zo8b9tWQipVL2mAfG8COrqgzn22qJ
-X-Google-Smtp-Source: AK7set9mH6lkfiOCeI5h7s8FdfEmtzefaanv+gMBh4QOE+JctEJatgpymLRSdS/YrdbWNxuNwgwWqg==
-X-Received: by 2002:a05:622a:1181:b0:3b8:2e36:9d24 with SMTP id m1-20020a05622a118100b003b82e369d24mr2655604qtk.50.1674848789969;
-        Fri, 27 Jan 2023 11:46:29 -0800 (PST)
-Received: from localhost ([2620:10d:c091:480::1:c833])
-        by smtp.gmail.com with ESMTPSA id y8-20020ac87048000000b003b5bc7a4512sm3290836qtm.26.2023.01.27.11.46.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Jan 2023 11:46:29 -0800 (PST)
-Date:   Fri, 27 Jan 2023 14:46:28 -0500
-From:   Johannes Weiner <hannes@cmpxchg.org>
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Nhat Pham <nphamcs@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, bfoster@redhat.com,
-        Matthew Wilcox <willy@infradead.org>,
-        linux-api@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH v8 2/3] cachestat: implement cachestat syscall
-Message-ID: <Y9QqFJUFo1RAbIqP@cmpxchg.org>
-References: <20230126175356.1582123-1-nphamcs@gmail.com>
- <20230126175356.1582123-3-nphamcs@gmail.com>
- <54c8ecbd-1d6e-40f1-af30-7efd04c63a7e@app.fastmail.com>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=am+vlnLsg0XsWPedwqTMfueZR+oGnG7UWNBHwR8AcYc=;
+        b=25IAqwOgkXfMVC8sq2tSkxp/rKrKGkHFmSODhch0sfPznA//JZ7YRmRNgJlbrWjZGo
+         BcyXfx6iYOKQv/wmLbpJlQh0vjy04FObB+rHtgINlKJddvD20GMIl1C+1knNoQr7wdXd
+         1dPmmJ07DpwfU4Dr2VpAciPbseis47CGv8enltMLEMBqQj6VPVPzX0wfWzR8EzH8SANb
+         WjqLmfJJwsuDoYEDxN3e9oOqD7dra0JUa7RB10bfzeGgVxuWzP1m19OTdaxwBF0TFbPG
+         ULlG1nWjT668+3RUhExEORR9SaY1aogMXpp1c9VFGdJfnc9F7cQyKXnevwObvkpingUL
+         e2RQ==
+X-Gm-Message-State: AFqh2krs5TLR0yWJCuVQbZIieiwsxrbEP1wPGxfuUnCrRboJKks72mmM
+        hhiJeyFCM0FVJvPf13sZj6Asle5D+euc+WH53lRQ
+X-Google-Smtp-Source: AMrXdXtgDZu6IiaCLCwfyX/1peJyGjLyCaHOG29QZFCt9RV37pAXcnEo7stUTPwkGz0Tc+B2pfdv256KSKwS87gRKSQ=
+X-Received: by 2002:a17:90b:3903:b0:225:de08:b714 with SMTP id
+ ob3-20020a17090b390300b00225de08b714mr4950213pjb.193.1674849648652; Fri, 27
+ Jan 2023 12:00:48 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <54c8ecbd-1d6e-40f1-af30-7efd04c63a7e@app.fastmail.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <cover.1673989212.git.rgb@redhat.com> <82aba376bfbb9927ab7146e8e2dee8d844a31dc2.1673989212.git.rgb@redhat.com>
+ <5680172.DvuYhMxLoT@x2> <CAHC9VhQbSCxmSbLFJZidAr952uHt-KktfRRJN3Lr+uDSCzHtfQ@mail.gmail.com>
+ <Y9Gn4YmKFBot/R4l@madcap2.tricolour.ca>
+In-Reply-To: <Y9Gn4YmKFBot/R4l@madcap2.tricolour.ca>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Fri, 27 Jan 2023 15:00:37 -0500
+Message-ID: <CAHC9VhRWDD6Tk6AEmgoobBkcVKRYbVOte7-F0TGJD2dRk7NKxw@mail.gmail.com>
+Subject: Re: [PATCH v6 3/3] fanotify,audit: Allow audit to use the full
+ permission event response
+To:     Richard Guy Briggs <rgb@redhat.com>
+Cc:     Steve Grubb <sgrubb@redhat.com>,
+        Linux-Audit Mailing List <linux-audit@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        Eric Paris <eparis@parisplace.org>, Jan Kara <jack@suse.cz>,
+        Amir Goldstein <amir73il@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Jan 27, 2023 at 04:46:38PM +0100, Arnd Bergmann wrote:
-> On Thu, Jan 26, 2023, at 18:53, Nhat Pham wrote:
+On Wed, Jan 25, 2023 at 5:06 PM Richard Guy Briggs <rgb@redhat.com> wrote:
+> On 2023-01-20 13:52, Paul Moore wrote:
+> > On Wed, Jan 18, 2023 at 1:34 PM Steve Grubb <sgrubb@redhat.com> wrote:
+> > > Hello Richard,
+> > >
+> > > I built a new kernel and tested this with old and new user space. It is
+> > > working as advertised. The only thing I'm wondering about is why we have 3F
+> > > as the default value when no additional info was sent? Would it be better to
+> > > just make it 0?
 > >
-> > SYNOPSIS
-> >     #include <sys/mman.h>
+> > ...
 > >
-> >     struct cachestat {
-> >         __u64 nr_cache;
-> >         __u64 nr_dirty;
-> >         __u64 nr_writeback;
-> >         __u64 nr_evicted;
-> >         __u64 nr_recently_evicted;
-> >     };
+> > > On Tuesday, January 17, 2023 4:14:07 PM EST Richard Guy Briggs wrote:
+> > > > diff --git a/kernel/auditsc.c b/kernel/auditsc.c
+> > > > index d1fb821de104..3133c4175c15 100644
+> > > > --- a/kernel/auditsc.c
+> > > > +++ b/kernel/auditsc.c
+> > > > @@ -2877,10 +2878,19 @@ void __audit_log_kern_module(char *name)
+> > > >       context->type = AUDIT_KERN_MODULE;
+> > > >  }
+> > > >
+> > > > -void __audit_fanotify(u32 response)
+> > > > +void __audit_fanotify(u32 response, struct
+> > > > fanotify_response_info_audit_rule *friar) {
+> > > > -     audit_log(audit_context(), GFP_KERNEL,
+> > > > -             AUDIT_FANOTIFY, "resp=%u", response);
+> > > > +     /* {subj,obj}_trust values are {0,1,2}: no,yes,unknown */
+> > > > +     if (friar->hdr.type == FAN_RESPONSE_INFO_NONE) {
+> > > > +             audit_log(audit_context(), GFP_KERNEL, AUDIT_FANOTIFY,
+> > > > +                       "resp=%u fan_type=%u fan_info=3F subj_trust=2
+> > > obj_trust=2",
+> > > > +                       response, FAN_RESPONSE_INFO_NONE);
+> > > > +             return;
+> > > > +     }
 > >
-> >     int cachestat(unsigned int fd, off_t off, size_t len,
-> >           unsigned int cstat_version, struct cachestat *cstat,
-> >           unsigned int flags);
-> 
-> Is this "off_t off" argument intentionally limited to the old
-> 32-bit type on 32-bit architectures? Unfortunately I fear 
-> there are no good options to pass an offset here:
-> 
-> - if you make it a 32-bit type, this breaks calling it from
->   normal userspace that defines off_t as a 64-bit type
-> 
-> - if you change it to a 64-bit loff_t, there are three
->   separate calling conventions for 64-bit, 32-bit with
->   aligned register pairs and other 32-bit, plus you
->   exceed the usual limit of six system call arguments
+> > (I'm working under the assumption that the "fan_info=3F" in the record
+> > above is what Steve was referring to in his comment.)
+> >
+> > I vaguely recall Richard commenting on this in the past, although
+> > maybe not ... my thought is that the "3F" is simply the hex encoded
+> > "?" character in ASCII ('man 7 ascii' is your friend).  I suppose the
+> > question is what to do in the FAN_RESPONSE_INFO_NONE case.
+> >
+> > Historically when we had a missing field we would follow the "field=?"
+> > pattern, but I don't recall doing that for a field which was
+> > potentially hex encoded, is there an existing case where we use "?"
+> > for a field that is hex encoded?  If so, we can swap out the "3F" for
+> > a more obvious "?".
+>
+> I was presuming encoding the zero: "30"
 
-That's a good point, thanks for raising it, Arnd.
+I'm sorry, but you've lost me here.
 
-> A separate problem may be the cstat_version argument, usually
-> we don't use interface versions but instead use a new
-> system call number if something changes in an incompatible
-> way.
+> > However, another option might be to simply output the current
+> > AUDIT_FANOTIFY record format in the FAN_RESPONSE_INFO_NONE case, e.g.
+> > only "resp=%u".  This is a little against the usual guidance of
+> > "fields should not disappear from a record", but considering that
+> > userspace will always need to support the original resp-only format
+> > for compatibility reasons this may be an option.
+>
+> I don't have a strong opinion.
 
-I suppose from a userspace POV, a version argument vs calling a
-separate syscall doesn't make much of a difference. So going with
-loff_t and dropping cstat_version seems like a sensible way forward.
+I'm not sure I care too much either.  I will admit that the "3F" seems
+to be bordering on the "bit too clever" side of things, but it's easy
+to argue it is in keeping with the general idea of using "?" to denote
+absent/unknown fields.
 
-As an added bonus, versioning the syscall itself means the signature
-can change in v2. This allows dropping the unused flags arg for now.
+As Steve was the one who raised the question in this latest round, and
+he knows his userspace tools the best, it seems wise to get his input
+on this.
 
-That would leave it at:
-
-  int cachestat(unsigned int, loff_t, size_t len, struct cachestat *cstat);
-
-and should we ever require extensions - new fields, flags - they would
-come through a new cachestat2().
-
-Would anybody have objections to that?
+-- 
+paul-moore.com
