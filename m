@@ -2,156 +2,142 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A17C67EF6C
-	for <lists+linux-api@lfdr.de>; Fri, 27 Jan 2023 21:18:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B58F67EF8D
+	for <lists+linux-api@lfdr.de>; Fri, 27 Jan 2023 21:30:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230513AbjA0USf (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 27 Jan 2023 15:18:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34456 "EHLO
+        id S229464AbjA0UaL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 27 Jan 2023 15:30:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40610 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229702AbjA0USe (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 27 Jan 2023 15:18:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1308840EC
-        for <linux-api@vger.kernel.org>; Fri, 27 Jan 2023 12:17:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1674850667;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=oLsww4nMT853aLsRUstJw7Wj+WfXpD2FfDEM08ruJd4=;
-        b=Y+s37APEHbhPgIbwv8WYCesKp4vP6DJTwKpeG3osZP5BpifD8pDwDuvL8MoNiWA8Q5ZGkQ
-        X3J4eDyOqOzT1wUmphAyKebYyuskGnwyhAT2MBkYMTo4Hkw6AgAnRI1fW101oQ1Ar7Sse/
-        Ov6eokWpwgkgwymcszdLEKzxuwGOarI=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-231-WmTIcNZyMNiL4Bo4k-7h-g-1; Fri, 27 Jan 2023 15:17:43 -0500
-X-MC-Unique: WmTIcNZyMNiL4Bo4k-7h-g-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 852063806703;
-        Fri, 27 Jan 2023 20:17:42 +0000 (UTC)
-Received: from x2.localnet (unknown [10.22.33.250])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 172D214171BE;
-        Fri, 27 Jan 2023 20:17:42 +0000 (UTC)
-From:   Steve Grubb <sgrubb@redhat.com>
-To:     Richard Guy Briggs <rgb@redhat.com>,
-        Paul Moore <paul@paul-moore.com>
-Cc:     Linux-Audit Mailing List <linux-audit@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        Eric Paris <eparis@parisplace.org>, Jan Kara <jack@suse.cz>,
-        Amir Goldstein <amir73il@gmail.com>
-Subject: Re: [PATCH v6 3/3] fanotify,audit: Allow audit to use the full permission
- event response
-Date:   Fri, 27 Jan 2023 15:17:41 -0500
-Message-ID: <12154220.O9o76ZdvQC@x2>
-Organization: Red Hat
-In-Reply-To: <CAHC9VhRWDD6Tk6AEmgoobBkcVKRYbVOte7-F0TGJD2dRk7NKxw@mail.gmail.com>
-References: <cover.1673989212.git.rgb@redhat.com> <Y9Gn4YmKFBot/R4l@madcap2.tricolour.ca>
- <CAHC9VhRWDD6Tk6AEmgoobBkcVKRYbVOte7-F0TGJD2dRk7NKxw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        with ESMTP id S229498AbjA0UaK (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 27 Jan 2023 15:30:10 -0500
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5A52206A5;
+        Fri, 27 Jan 2023 12:30:08 -0800 (PST)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+        by mailout.nyi.internal (Postfix) with ESMTP id 5ED415C01A8;
+        Fri, 27 Jan 2023 15:30:08 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute6.internal (MEProxy); Fri, 27 Jan 2023 15:30:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm2; t=1674851408; x=1674937808; bh=nsKMujgHaL
+        Y06Z60XDpE/49QHk0wefW3Lo/F1Xp7zUM=; b=HYmH0QcR3/psxkBhw/EvTML6hq
+        0Pd/OBAtd8I19c/COnq5q+qaLRSSB1T1IpY0ChCtx5uMrN+ORzFynxWf2CrioiKC
+        ITaJWEPjNs9lrnGrN/66KSqrVlBjbnAXQl1TFIRaqjljM9SWhh5Fwcest3HMZwCL
+        l/PxWiKD3oUQAXk/vcJQXe8qjV1AGgXX7hzsgzgusJSN6yQ8735ZugCC7Xt8jqwa
+        zik/nhOUACV2FCT9CqbLAaKWWPxf/NprfbVX4sdvLqJhuI4O5PYGMO5cXSF/ip0P
+        1TJuwA9yKi1AeqkbVw5YjeqFe8Pq96a/MjB1dAim9w9UTT0DumbxEvGWdH3A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm3; t=1674851408; x=1674937808; bh=nsKMujgHaLY06Z60XDpE/49QHk0w
+        efW3Lo/F1Xp7zUM=; b=YMo8npnV8lH5He9UCVqTG4ts1Mfe7ZkfgOOYZ8NTxhkA
+        FBIGM7ncQeToyt8tRxwBYTy2Tam83W6RY/v9TSx1sDxBvy1BaV9HDxBuTsrs4SV/
+        jkpmq+FnyXo01fD4DDAiUUprCTDaE364HyslOTvZgdsmKVIUxmWsthCs9FKRcvY8
+        b0j81RMWpMwR4QqjKRmlUyDazvhVoRlR7qevhjXSPs+DtLKZ12eS+r1FS/ZTbCPV
+        MkyOYqKYgvz6eUEYrrvYBIAS/SLr4n6JABW0iAz2z67uv9q9OjoqRqGSMeuxsCww
+        7IdirA2qTAYj5h+1dGcY8u5I6Hz+bCVw6xKG/Tneiw==
+X-ME-Sender: <xms:TzTUY7a5he62X8_DiACFANlDWvI_mZnN3XJZRjEycIROxv3UCw9buw>
+    <xme:TzTUY6ayhwNOzWWsPriSpWoAZUcPMZag95wP4eRgm4jWFzsajY0lAcxOIV080FiL0
+    PblneE9lHlQdkrpjvE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddviedgudefkecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecunecujfgurhepofgfggfkjghffffhvfevufgtse
+    httdertderredtnecuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgu
+    segrrhhnuggsrdguvgeqnecuggftrfgrthhtvghrnhepffehueegteeihfegtefhjefgtd
+    eugfegjeelheejueethfefgeeghfektdekteffnecuvehluhhsthgvrhfuihiivgeptden
+    ucfrrghrrghmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:TzTUY9-MsAfMXPAywJB44obE0aKvvX7qPe9kd_8anLBQ8SpOIAaZaA>
+    <xmx:TzTUYxrBM2kWzENul7yOifAcobq9u8OWXvMOxtv4tee_NGGjIQuhrA>
+    <xmx:TzTUY2pYwhZ8MNGUD2PAVbkJr4BkuhKVmfqfWSATBrgoM7FnDsIlxw>
+    <xmx:UDTUY3f4TK20d-Kx9TwBMk1Zf2Wl07FObxn4C_PxaXtkjwelTvTNBg>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id AE676B60086; Fri, 27 Jan 2023 15:30:07 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-85-gd6d859e0cf-fm-20230116.001-gd6d859e0
+Mime-Version: 1.0
+Message-Id: <12e9afc8-cec4-4fce-ad81-09790cbe3938@app.fastmail.com>
+In-Reply-To: <Y9QqFJUFo1RAbIqP@cmpxchg.org>
+References: <20230126175356.1582123-1-nphamcs@gmail.com>
+ <20230126175356.1582123-3-nphamcs@gmail.com>
+ <54c8ecbd-1d6e-40f1-af30-7efd04c63a7e@app.fastmail.com>
+ <Y9QqFJUFo1RAbIqP@cmpxchg.org>
+Date:   Fri, 27 Jan 2023 21:29:47 +0100
+From:   "Arnd Bergmann" <arnd@arndb.de>
+To:     "Johannes Weiner" <hannes@cmpxchg.org>
+Cc:     "Nhat Pham" <nphamcs@gmail.com>,
+        "Andrew Morton" <akpm@linux-foundation.org>, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, bfoster@redhat.com,
+        "Matthew Wilcox" <willy@infradead.org>, linux-api@vger.kernel.org,
+        kernel-team@meta.com
+Subject: Re: [PATCH v8 2/3] cachestat: implement cachestat syscall
+Content-Type: text/plain
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Friday, January 27, 2023 3:00:37 PM EST Paul Moore wrote:
-> On Wed, Jan 25, 2023 at 5:06 PM Richard Guy Briggs <rgb@redhat.com> wrote:
-> > On 2023-01-20 13:52, Paul Moore wrote:
-> > > On Wed, Jan 18, 2023 at 1:34 PM Steve Grubb <sgrubb@redhat.com> wrote:
-> > > > Hello Richard,
-> > > > 
-> > > > I built a new kernel and tested this with old and new user space. It
-> > > > is
-> > > > working as advertised. The only thing I'm wondering about is why we
-> > > > have 3F as the default value when no additional info was sent? Would
-> > > > it be better to just make it 0?
-> > > 
-> > > ...
-> > > 
-> > > > On Tuesday, January 17, 2023 4:14:07 PM EST Richard Guy Briggs wrote:
-> > > > > diff --git a/kernel/auditsc.c b/kernel/auditsc.c
-> > > > > index d1fb821de104..3133c4175c15 100644
-> > > > > --- a/kernel/auditsc.c
-> > > > > +++ b/kernel/auditsc.c
-> > > > > @@ -2877,10 +2878,19 @@ void __audit_log_kern_module(char *name)
-> > > > > 
-> > > > >       context->type = AUDIT_KERN_MODULE;
-> > > > >  
-> > > > >  }
-> > > > > 
-> > > > > -void __audit_fanotify(u32 response)
-> > > > > +void __audit_fanotify(u32 response, struct
-> > > > > fanotify_response_info_audit_rule *friar) {
-> > > > > -     audit_log(audit_context(), GFP_KERNEL,
-> > > > > -             AUDIT_FANOTIFY, "resp=%u", response);
-> > > > > +     /* {subj,obj}_trust values are {0,1,2}: no,yes,unknown */
-> > > > > +     if (friar->hdr.type == FAN_RESPONSE_INFO_NONE) {
-> > > > > +             audit_log(audit_context(), GFP_KERNEL,
-> > > > > AUDIT_FANOTIFY,
-> > > > > +                       "resp=%u fan_type=%u fan_info=3F
-> > > > > subj_trust=2
-> > > > 
-> > > > obj_trust=2",
-> > > > 
-> > > > > +                       response, FAN_RESPONSE_INFO_NONE);
-> > > > > +             return;
-> > > > > +     }
-> > > 
-> > > (I'm working under the assumption that the "fan_info=3F" in the record
-> > > above is what Steve was referring to in his comment.)
-> > > 
-> > > I vaguely recall Richard commenting on this in the past, although
-> > > maybe not ... my thought is that the "3F" is simply the hex encoded
-> > > "?" character in ASCII ('man 7 ascii' is your friend).  I suppose the
-> > > question is what to do in the FAN_RESPONSE_INFO_NONE case.
-> > > 
-> > > Historically when we had a missing field we would follow the "field=?"
-> > > pattern, but I don't recall doing that for a field which was
-> > > potentially hex encoded, is there an existing case where we use "?"
-> > > for a field that is hex encoded?  If so, we can swap out the "3F" for
-> > > a more obvious "?".
-> > 
-> > I was presuming encoding the zero: "30"
-> 
-> I'm sorry, but you've lost me here.
-> 
-> > > However, another option might be to simply output the current
-> > > AUDIT_FANOTIFY record format in the FAN_RESPONSE_INFO_NONE case, e.g.
-> > > only "resp=%u".  This is a little against the usual guidance of
-> > > "fields should not disappear from a record", but considering that
-> > > userspace will always need to support the original resp-only format
-> > > for compatibility reasons this may be an option.
-> > 
-> > I don't have a strong opinion.
-> 
-> I'm not sure I care too much either.  I will admit that the "3F" seems
-> to be bordering on the "bit too clever" side of things, but it's easy
-> to argue it is in keeping with the general idea of using "?" to denote
-> absent/unknown fields.
+On Fri, Jan 27, 2023, at 20:46, Johannes Weiner wrote:
+> On Fri, Jan 27, 2023 at 04:46:38PM +0100, Arnd Bergmann wrote:
+>> 
+>> - if you make it a 32-bit type, this breaks calling it from
+>>   normal userspace that defines off_t as a 64-bit type
+>> 
+>> - if you change it to a 64-bit loff_t, there are three
+>>   separate calling conventions for 64-bit, 32-bit with
+>>   aligned register pairs and other 32-bit, plus you
+>>   exceed the usual limit of six system call arguments
+>
+> That's a good point, thanks for raising it, Arnd.
+>
+>> A separate problem may be the cstat_version argument, usually
+>> we don't use interface versions but instead use a new
+>> system call number if something changes in an incompatible
+>> way.
+>
+> I suppose from a userspace POV, a version argument vs calling a
+> separate syscall doesn't make much of a difference. So going with
+> loff_t and dropping cstat_version seems like a sensible way forward.
+>
+> As an added bonus, versioning the syscall itself means the signature
+> can change in v2. This allows dropping the unused flags arg for now.
+>
+> That would leave it at:
+>
+>   int cachestat(unsigned int, loff_t, size_t len, struct cachestat *cstat);
 
-The translation will be from %X to %u. In that case, someone might think 63 
-has some meaning. It would be better to leave it as 0 so there's less to 
-explain.
+There is still a problem of incompatible calling conventions:
+on architectures that require even/odd register pairs, this would
+end up like
 
--Steve
+int cachestat(unsigned int, long unused, u32 off_low, u32 off_high,
+              size_t len, struct cachestat *cstat);
 
-> As Steve was the one who raised the question in this latest round, and
-> he knows his userspace tools the best, it seems wise to get his input
-> on this.
+A more portable way to do this would be to pass the offset by
+reference, but that makes it a bit awkward in userspace.
 
+Or the arguments could be rearranged to put the low/high argument
+pair first/second, third/fourth or fifth/sixth argument, at least
+on the kernel ABI to avoid having another situation like
+sys_arm_fadvise64_64.
 
+> and should we ever require extensions - new fields, flags - they would
+> come through a new cachestat2().
+>
+> Would anybody have objections to that?
 
+If there is room for another argument, I would keep the 'flags'
+as a way for extending in a compatible way, that is pretty standard
+now, just not flags plus version.
 
+      Arnd
