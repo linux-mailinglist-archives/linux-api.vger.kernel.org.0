@@ -2,188 +2,127 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C71A67EAB5
-	for <lists+linux-api@lfdr.de>; Fri, 27 Jan 2023 17:20:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2241667EEFF
+	for <lists+linux-api@lfdr.de>; Fri, 27 Jan 2023 20:59:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234793AbjA0QU6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 27 Jan 2023 11:20:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47884 "EHLO
+        id S232770AbjA0T7m (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 27 Jan 2023 14:59:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43746 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233079AbjA0QUx (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 27 Jan 2023 11:20:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 148E944BEC
-        for <linux-api@vger.kernel.org>; Fri, 27 Jan 2023 08:20:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1674836404;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=QQC+GA2acrVBeLgoGs0vfKE8KELNAReQCZ4cMvGb/2s=;
-        b=IRwgJWrKT5g5mjfzEQ98ui2rsIlaOcMjHZphHuNcabUBC3MFUgBQ+oM/1f8d8sA5j9WcxX
-        XTo/K5ea0hlh9MSgWMH1w+bkZJJBnGeyKxocXkhp9NuhwOC7Z/1lDPotpCu4ZaUwttR1ot
-        o5UoNMI6VSAq9Lx6zBLIUwk9Cw2jqps=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-284-PvLmj7sINkOTbLrzyZn8-Q-1; Fri, 27 Jan 2023 11:20:02 -0500
-X-MC-Unique: PvLmj7sINkOTbLrzyZn8-Q-1
-Received: by mail-wm1-f70.google.com with SMTP id l19-20020a05600c1d1300b003dc13fc9e42so3036905wms.3
-        for <linux-api@vger.kernel.org>; Fri, 27 Jan 2023 08:20:02 -0800 (PST)
+        with ESMTP id S232691AbjA0T71 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 27 Jan 2023 14:59:27 -0500
+Received: from mail-oa1-x34.google.com (mail-oa1-x34.google.com [IPv6:2001:4860:4864:20::34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A5A68CC4E
+        for <linux-api@vger.kernel.org>; Fri, 27 Jan 2023 11:57:34 -0800 (PST)
+Received: by mail-oa1-x34.google.com with SMTP id 586e51a60fabf-15ff0a1f735so7927245fac.5
+        for <linux-api@vger.kernel.org>; Fri, 27 Jan 2023 11:57:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cmpxchg-org.20210112.gappssmtp.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=hGtGk71zGBq3lMRp+2nfXAsNyIB3Tg451dHzgKe0ygE=;
+        b=rTRZgCEMqxDZZQtwYBIxe7lMvanr0HPHINPBJy8mn24Gt2Vwi0hKR19YjCcCwHKhR+
+         qCU75K0sN7Pselifv3VWsdAinNXtC4RuieESziPMvtfOd3G4GXSuJ9TNTi3oIYgbQwK6
+         SuzG/Nm5344HbwGnc+IIA3hiVC8MQwY3Ciuf+iHOmtvUljDIkFqEkGEA1B51Pj6emsFO
+         KtEFE6ivAI2UBCdkmhyJB40bYnk7DmY//9OnAIdRK9xE8nN4X05AZcf/o4JqclOoqbVz
+         zda8KmpKo7+GOhd2S21wHZcyAZUo/Pak9x1LPxRsl6D1ZVO+W3+LtQTYKtYWa8bXDI5x
+         Ib2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:subject:organization:from
-         :references:cc:to:content-language:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QQC+GA2acrVBeLgoGs0vfKE8KELNAReQCZ4cMvGb/2s=;
-        b=LvJI7yoGcMHLUu1bQSZZBKwgkDEAbBjy2X26/doJvl7K4671+QMaawBN47t87SP/Kd
-         x4p3sWiatlG3m9IvGmDB6ndFvQmeC2GrdWHLRy4PSCxYVJrCW+xRGPaym7GX96oinUdn
-         tzuZF9PwhI5jDsf67hKS0cc6R/bAgjExjmg4h617oWh9DT7DaYnVAcr+FL7+ITQwaei9
-         juFN5XjoRdv/xsmiDUUBM5NXiLdtUedtdm2S0TzuoWCEgrqRr98CAKIuJJB+WJOiOfyK
-         bALLHAN/Q0IAM0cfF8JhdhfCXydbuBYGJL4fS3s+ivSB/YzhWIKHmLLindsT+azypUFg
-         cd2A==
-X-Gm-Message-State: AFqh2kp1bgsXuSoc5TRIkrCkNp5pZ37sDTKd/UwmfSrfH/bxKw4783LY
-        1XjJ9MHD2qB/aA4DwJyEEkpCvpBBDtao4pC2OxZHQhamAnZgwGv9P98rIJa3Ym8N/jRgWNh2qJ0
-        O/f41TVccMa3UoXIW0gf8
-X-Received: by 2002:a05:600c:54d0:b0:3da:f9c9:cec9 with SMTP id iw16-20020a05600c54d000b003daf9c9cec9mr40473666wmb.1.1674836401764;
-        Fri, 27 Jan 2023 08:20:01 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvvcS/R7Lu9IpyYbItqDsPLR6yhYqQH7DSpvxyzPtIpO1WxqsHHYvBoFeUij0ZOWcXGc/xzYA==
-X-Received: by 2002:a05:600c:54d0:b0:3da:f9c9:cec9 with SMTP id iw16-20020a05600c54d000b003daf9c9cec9mr40473649wmb.1.1674836401472;
-        Fri, 27 Jan 2023 08:20:01 -0800 (PST)
-Received: from ?IPV6:2003:d8:2f16:1800:a9b4:1776:c5d9:1d9a? (p200300d82f161800a9b41776c5d91d9a.dip0.t-ipconnect.de. [2003:d8:2f16:1800:a9b4:1776:c5d9:1d9a])
-        by smtp.gmail.com with ESMTPSA id k18-20020a05600c081200b003dc3a6f9447sm2446245wmp.32.2023.01.27.08.19.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 27 Jan 2023 08:20:00 -0800 (PST)
-Message-ID: <349bbece-485c-4898-4583-b8f588f8322f@redhat.com>
-Date:   Fri, 27 Jan 2023 17:19:59 +0100
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hGtGk71zGBq3lMRp+2nfXAsNyIB3Tg451dHzgKe0ygE=;
+        b=UEZjhByU4Ci6MSMvgF6+ho6Gh2y80qpU1Qcu0jb1vCWrbKkDmNJKnfKHl/e6Q8Y09v
+         cZZJlLA0G1a/imcRfDeAil+5IHcqwZJ99rNPN0uPvV0n2rfoOtn8UbkvcuGDGeYmX+WC
+         wX3pWmSkA4NUymbYI0Gs5kZ2f5IYJx80M41dM3UULzSPWEsQ9m5KbWYqMq96NABOmb4B
+         PFCFC0OgON3EQzow+y7WgWS345ciO8rJlREYlrWPTYiGG5gKD10F2DZ0NSp0rvuF6I+t
+         t8syHk+wop3dkaJkeiv6FPjR/6cX/Eiu/d3RfhoFyiByi0xLJ39YiLprXufKEXyHdYLj
+         7zsA==
+X-Gm-Message-State: AO0yUKW7cTSXYZyJm5yjiEUQ5j25WzRjvKw7V++Q51uy93MeMuZn7a4o
+        YDHTAu5Zo8b9tWQipVL2mAfG8COrqgzn22qJ
+X-Google-Smtp-Source: AK7set9mH6lkfiOCeI5h7s8FdfEmtzefaanv+gMBh4QOE+JctEJatgpymLRSdS/YrdbWNxuNwgwWqg==
+X-Received: by 2002:a05:622a:1181:b0:3b8:2e36:9d24 with SMTP id m1-20020a05622a118100b003b82e369d24mr2655604qtk.50.1674848789969;
+        Fri, 27 Jan 2023 11:46:29 -0800 (PST)
+Received: from localhost ([2620:10d:c091:480::1:c833])
+        by smtp.gmail.com with ESMTPSA id y8-20020ac87048000000b003b5bc7a4512sm3290836qtm.26.2023.01.27.11.46.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Jan 2023 11:46:29 -0800 (PST)
+Date:   Fri, 27 Jan 2023 14:46:28 -0500
+From:   Johannes Weiner <hannes@cmpxchg.org>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Nhat Pham <nphamcs@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, bfoster@redhat.com,
+        Matthew Wilcox <willy@infradead.org>,
+        linux-api@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH v8 2/3] cachestat: implement cachestat syscall
+Message-ID: <Y9QqFJUFo1RAbIqP@cmpxchg.org>
+References: <20230126175356.1582123-1-nphamcs@gmail.com>
+ <20230126175356.1582123-3-nphamcs@gmail.com>
+ <54c8ecbd-1d6e-40f1-af30-7efd04c63a7e@app.fastmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Content-Language: en-US
-To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
-        "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "Eranian, Stephane" <eranian@google.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        "kcc@google.com" <kcc@google.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "pavel@ucw.cz" <pavel@ucw.cz>, "oleg@redhat.com" <oleg@redhat.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "Schimpe, Christina" <christina.schimpe@intel.com>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>
-Cc:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-References: <20230119212317.8324-1-rick.p.edgecombe@intel.com>
- <20230119212317.8324-19-rick.p.edgecombe@intel.com>
- <7f63d13d-7940-afb6-8b25-26fdf3804e00@redhat.com>
- <50cf64932507ba60639eca28692e7df285bcc0a7.camel@intel.com>
- <1327c608-1473-af4f-d962-c24f04f3952c@redhat.com>
- <8c3820ae1448de4baffe7c476b4b5d9ba0a309ff.camel@intel.com>
- <4d224020-f26f-60a4-c7ab-721a024c7a6d@redhat.com>
- <dd06b54291ad5721da392a42f2d8e5636301ffef.camel@intel.com>
- <79e0a85e-1ec4-e359-649d-618ca79c36f7@redhat.com>
- <4ebbdd643853ff02c930baee817ba6f515595224.camel@intel.com>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v5 18/39] mm: Handle faultless write upgrades for shstk
-In-Reply-To: <4ebbdd643853ff02c930baee817ba6f515595224.camel@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <54c8ecbd-1d6e-40f1-af30-7efd04c63a7e@app.fastmail.com>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Fri, Jan 27, 2023 at 04:46:38PM +0100, Arnd Bergmann wrote:
+> On Thu, Jan 26, 2023, at 18:53, Nhat Pham wrote:
+> >
+> > SYNOPSIS
+> >     #include <sys/mman.h>
+> >
+> >     struct cachestat {
+> >         __u64 nr_cache;
+> >         __u64 nr_dirty;
+> >         __u64 nr_writeback;
+> >         __u64 nr_evicted;
+> >         __u64 nr_recently_evicted;
+> >     };
+> >
+> >     int cachestat(unsigned int fd, off_t off, size_t len,
+> >           unsigned int cstat_version, struct cachestat *cstat,
+> >           unsigned int flags);
 > 
-> Now shadow stack memory creation is tightly controlled. Either created
-> via special syscall or automatically with a new thread.
-
-Good, it would be valuable to document that somewhere ("Neve rapplies to 
-VM_SHARED|VM_MAYSHARE VMAs").
-
-[...]
-
->>
->> The other thing I had in mind was that we have to make sure that
->> we're
->> not accidentally setting "Write=0,Dirty=1" in mk_pte() /
->> pte_modify().
->>
->> Assume we had a "Write=1,Dirty=1" PTE, and we effectively wrprotect
->> using pte_modify(), we have to make sure to move the dirty bit to
->> the
->> saved_dirty bit.
+> Is this "off_t off" argument intentionally limited to the old
+> 32-bit type on 32-bit architectures? Unfortunately I fear 
+> there are no good options to pass an offset here:
 > 
-> For the mk_pte() case, I don't think a Write=0,Dirty=1 prot could come
-> from anywhere. I guess the MAP_SHARED case is a little less bounded. We
-> could maybe add a warning for this case.
-
-Right, Write=0,Dirty=1  shouldn't apply at that point if shstk are 
-always wrprotected as default.
-
+> - if you make it a 32-bit type, this breaks calling it from
+>   normal userspace that defines off_t as a 64-bit type
 > 
-> For the pte_modify() case, this does happen. There are two scenarios
-> considered:
-> 1. A Write=0,Dirty=0 PTE is made dirty. This can't happen today as
-> Dirty is filtered via _PAGE_CHG_MASK. Basically pte_modify() doesn't
-> support it.
+> - if you change it to a 64-bit loff_t, there are three
+>   separate calling conventions for 64-bit, 32-bit with
+>   aligned register pairs and other 32-bit, plus you
+>   exceed the usual limit of six system call arguments
 
-It should simply set the saved_dirty bit I guess. But I don't think 
-pte_modify() is actually supposed to set PTEs dirty (primary goal is to 
-change protection IIRC).
+That's a good point, thanks for raising it, Arnd.
 
-> 2. A Write=1,Dirty=1 PTE gets write protected. This does happen because
-> the Write=0 prot comes from protection_map, and pte_modify() would
-> leave the Dirty=1 bit alone. The main case I know of is mprotect(). It
-> is handled by changes to pte_modify() by doing the Dirty->SoftDirty
-> fixup if needed.
+> A separate problem may be the cstat_version argument, usually
+> we don't use interface versions but instead use a new
+> system call number if something changes in an incompatible
+> way.
 
-Right, we'd have to move the dirty bit to the saved_dirty bit. (we have 
-to handle soft-dirty, too, whenever setting the PTE dirty -- either via 
-the dirty bit or via the saved_dirty bit)
+I suppose from a userspace POV, a version argument vs calling a
+separate syscall doesn't make much of a difference. So going with
+loff_t and dropping cstat_version seems like a sensible way forward.
 
-> 
-> So pte_modify()s job should not be too tricky. What you can't do with
-> it though, is create shadow stack PTEs. But it is ok for our uses
-> because of the explicit mkwrite().
+As an added bonus, versioning the syscall itself means the signature
+can change in v2. This allows dropping the unused flags arg for now.
 
-I think you are correct.
+That would leave it at:
 
--- 
-Thanks,
+  int cachestat(unsigned int, loff_t, size_t len, struct cachestat *cstat);
 
-David / dhildenb
+and should we ever require extensions - new fields, flags - they would
+come through a new cachestat2().
 
+Would anybody have objections to that?
