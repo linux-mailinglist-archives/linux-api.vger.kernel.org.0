@@ -2,150 +2,145 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C27E67F87F
-	for <lists+linux-api@lfdr.de>; Sat, 28 Jan 2023 15:09:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E7B9F67FED1
+	for <lists+linux-api@lfdr.de>; Sun, 29 Jan 2023 13:12:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234716AbjA1OJJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 28 Jan 2023 09:09:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53668 "EHLO
+        id S229769AbjA2MMM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 29 Jan 2023 07:12:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231181AbjA1OJI (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 28 Jan 2023 09:09:08 -0500
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 549303AB2;
-        Sat, 28 Jan 2023 06:09:07 -0800 (PST)
+        with ESMTP id S229519AbjA2MML (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 29 Jan 2023 07:12:11 -0500
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A171713527;
+        Sun, 29 Jan 2023 04:12:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674914947; x=1706450947;
-  h=date:from:to:cc:subject:message-id:reply-to:references:
+  t=1674994330; x=1706530330;
+  h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=jGLKHUiTup0wR3d32S/+noCZxMpThHkENbyPsFWyI2U=;
-  b=hGwlUhaGk4Z3yhFpVFhRkF23YVgK6WYNy+8ykWxxLqPozBhYUuM/HKQh
-   TbwqLe7akLVT0AW/cfxxmRWgHDVj9khl/IYUr7YwvIf23TSDnHyl5v6nX
-   Ein1ypv9Budyw0o3npCbyegSTAdH0ExWClGYLHz+yW0p1KIkxHzOzk67d
-   5YPvRYOFW8fAsdP8zIU1OZqQYhLf7UwuQzLSeLS0f5uBJB+PxcNye42d5
-   uyjwLk5LPYF/kMbelXhV581ApRzBo/oPWYC6hN/O9RBSmLmguEO3XijVo
-   ixhL3sSUUoVuwJbXV+yLWhZSKvjNvKxEK2v/XRftXhgu2IC3V/IjgS36n
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="328579180"
-X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="328579180"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 06:08:27 -0800
+  bh=In6EFK3n5kPcdfNi3Fdf65JlIPPEIT4F0GieQf6G1sI=;
+  b=cqvtb697SoWSZCTPJxiJ/d5jhoBe/t3rU1m1PUjIWdBZJv0Tmyy+PzTB
+   c7b/olL1AbaeUQNiEZR1CCYURqDwd9ayoYAVB6QyrBj4MQLgSoRC2pj+J
+   0uRRDpRc+vEFR8BeUahvTe25ml+oyejeG0aAt08Ycgwb1C+SCZd6FdyUN
+   nZv1Lkh4JlNsZnnyYqdk+9YPp/JWKAHk3Qov97rg0fZEKdfRSoShZd/8h
+   AAlV3VxiAOn0c7y+R4pLD0tvpQCI+KwW2Dz0uZqRFclAu3L5dLLsLx0TN
+   /idBnbscmUs9vAB6kpTkkx/BWCmqAzDKKPOLo5H3887aIoSjKsPMZuu3J
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="413610273"
+X-IronPort-AV: E=Sophos;i="5.97,256,1669104000"; 
+   d="scan'208";a="413610273"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2023 04:12:10 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="663602794"
-X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="663602794"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.105])
-  by orsmga002.jf.intel.com with ESMTP; 28 Jan 2023 06:08:15 -0800
-Date:   Sat, 28 Jan 2023 22:00:30 +0800
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     Sean Christopherson <seanjc@google.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        wei.w.wang@intel.com
-Subject: Re: [PATCH v10 9/9] KVM: Enable and expose KVM_MEM_PRIVATE
-Message-ID: <20230128140030.GB700688@chaop.bj.intel.com>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-10-chao.p.peng@linux.intel.com>
- <Y8HwvTik/2avrCOU@google.com>
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="752515787"
+X-IronPort-AV: E=Sophos;i="5.97,256,1669104000"; 
+   d="scan'208";a="752515787"
+Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 29 Jan 2023 04:12:07 -0800
+Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pM6XW-0002n6-2B;
+        Sun, 29 Jan 2023 12:12:06 +0000
+Date:   Sun, 29 Jan 2023 20:11:25 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Nhat Pham <nphamcs@gmail.com>, akpm@linux-foundation.org
+Cc:     oe-kbuild-all@lists.linux.dev, hannes@cmpxchg.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        bfoster@redhat.com, willy@infradead.org, linux-api@vger.kernel.org,
+        kernel-team@meta.com
+Subject: Re: [PATCH v8 2/3] cachestat: implement cachestat syscall
+Message-ID: <202301292044.JVAnbg9W-lkp@intel.com>
+References: <20230126175356.1582123-3-nphamcs@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y8HwvTik/2avrCOU@google.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20230126175356.1582123-3-nphamcs@gmail.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sat, Jan 14, 2023 at 12:01:01AM +0000, Sean Christopherson wrote:
-> On Fri, Dec 02, 2022, Chao Peng wrote:
-... 
-> Strongly prefer to use similar logic to existing code that detects wraps:
-> 
-> 		mem->restricted_offset + mem->memory_size < mem->restricted_offset
-> 
-> This is also where I'd like to add the "gfn is aligned to offset" check, though
-> my brain is too fried to figure that out right now.
+Hi Nhat,
 
-Used count_trailing_zeros() for this TODO, unsure we have other better
-approach.
+Thank you for the patch! Perhaps something to improve:
 
-diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-index afc8c26fa652..fd34c5f7cd2f 100644
---- a/virt/kvm/kvm_main.c
-+++ b/virt/kvm/kvm_main.c
-@@ -56,6 +56,7 @@
- #include <asm/processor.h>
- #include <asm/ioctl.h>
- #include <linux/uaccess.h>
-+#include <linux/count_zeros.h>
- 
- #include "coalesced_mmio.h"
- #include "async_pf.h"
-@@ -2087,6 +2088,19 @@ static bool kvm_check_memslot_overlap(struct kvm_memslots *slots, int id,
- 	return false;
- }
- 
-+/*
-+ * Return true when ALIGNMENT(offset) >= ALIGNMENT(gpa).
-+ */
-+static bool kvm_check_rmem_offset_alignment(u64 offset, u64 gpa)
-+{
-+	if (!offset)
-+		return true;
-+	if (!gpa)
-+		return false;
-+
-+	return !!(count_trailing_zeros(offset) >= count_trailing_zeros(gpa));
-+}
-+
- /*
-  * Allocate some memory and give it an address in the guest physical address
-  * space.
-@@ -2128,7 +2142,8 @@ int __kvm_set_memory_region(struct kvm *kvm,
- 	if (mem->flags & KVM_MEM_PRIVATE &&
- 	    (mem->restrictedmem_offset & (PAGE_SIZE - 1) ||
- 	     mem->restrictedmem_offset + mem->memory_size < mem->restrictedmem_offset ||
--	     0 /* TODO: require gfn be aligned with restricted offset */))
-+	     !kvm_check_rmem_offset_alignment(mem->restrictedmem_offset,
-+					      mem->guest_phys_addr)))
- 		return -EINVAL;
- 	if (as_id >= kvm_arch_nr_memslot_as_ids(kvm) || id >= KVM_MEM_SLOTS_NUM)
- 		return -EINVAL;
+[auto build test WARNING on 1440f576022887004f719883acb094e7e0dd4944]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Nhat-Pham/workingset-refactor-LRU-refault-to-expose-refault-recency-check/20230128-171134
+base:   1440f576022887004f719883acb094e7e0dd4944
+patch link:    https://lore.kernel.org/r/20230126175356.1582123-3-nphamcs%40gmail.com
+patch subject: [PATCH v8 2/3] cachestat: implement cachestat syscall
+config: s390-randconfig-s051-20230129 (https://download.01.org/0day-ci/archive/20230129/202301292044.JVAnbg9W-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.1.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/a05ffdcecfe9ac147066fb8472e6fb75491d0eed
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Nhat-Pham/workingset-refactor-LRU-refault-to-expose-refault-recency-check/20230128-171134
+        git checkout a05ffdcecfe9ac147066fb8472e6fb75491d0eed
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=s390 SHELL=/bin/bash
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+
+sparse warnings: (new ones prefixed by >>)
+>> mm/filemap.c:4075:1: sparse: sparse: Using plain integer as NULL pointer
+>> mm/filemap.c:4075:1: sparse: sparse: Using plain integer as NULL pointer
+   mm/filemap.c:1416:17: sparse: sparse: context imbalance in 'migration_entry_wait_on_locked' - unexpected unlock
+
+vim +4075 mm/filemap.c
+
+  4037	
+  4038	#ifdef CONFIG_CACHESTAT_SYSCALL
+  4039	/*
+  4040	 * The cachestat(5) system call.
+  4041	 *
+  4042	 * cachestat() returns the page cache statistics of a file in the
+  4043	 * bytes range specified by `off` and `len`: number of cached pages,
+  4044	 * number of dirty pages, number of pages marked for writeback,
+  4045	 * number of evicted pages, and number of recently evicted pages.
+  4046	 *
+  4047	 * An evicted page is a page that is previously in the page cache
+  4048	 * but has been evicted since. A page is recently evicted if its last
+  4049	 * eviction was recent enough that its reentry to the cache would
+  4050	 * indicate that it is actively being used by the system, and that
+  4051	 * there is memory pressure on the system.
+  4052	 *
+  4053	 * `off` and `len` must be non-negative integers. If `len` > 0,
+  4054	 * the queried range is [`off`, `off` + `len`]. If `len` == 0,
+  4055	 * we will query in the range from `off` to the end of the file.
+  4056	 *
+  4057	 * `cstat_version` is an unsigned integer indicating the specific version
+  4058	 * of the cachestat struct. It must be at least 1, and does not exceed the
+  4059	 * latest version number (which is currently 1). For now, user should
+  4060	 * just pass 1.
+  4061	 *
+  4062	 * The `flags` argument is unused for now, but is included for future
+  4063	 * extensibility. User should pass 0 (i.e no flag specified).
+  4064	 *
+  4065	 * Because the status of a page can change after cachestat() checks it
+  4066	 * but before it returns to the application, the returned values may
+  4067	 * contain stale information.
+  4068	 *
+  4069	 * return values:
+  4070	 *  zero    - success
+  4071	 *  -EFAULT - cstat points to an illegal address
+  4072	 *  -EINVAL - invalid arguments
+  4073	 *  -EBADF	- invalid file descriptor
+  4074	 */
+> 4075	SYSCALL_DEFINE6(cachestat, unsigned int, fd, off_t, off, size_t, len,
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
