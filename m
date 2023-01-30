@@ -2,145 +2,148 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E7B9F67FED1
-	for <lists+linux-api@lfdr.de>; Sun, 29 Jan 2023 13:12:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A8BD680597
+	for <lists+linux-api@lfdr.de>; Mon, 30 Jan 2023 06:26:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229769AbjA2MMM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 29 Jan 2023 07:12:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60566 "EHLO
+        id S235549AbjA3F0o (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 30 Jan 2023 00:26:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58250 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229519AbjA2MML (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 29 Jan 2023 07:12:11 -0500
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A171713527;
-        Sun, 29 Jan 2023 04:12:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674994330; x=1706530330;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=In6EFK3n5kPcdfNi3Fdf65JlIPPEIT4F0GieQf6G1sI=;
-  b=cqvtb697SoWSZCTPJxiJ/d5jhoBe/t3rU1m1PUjIWdBZJv0Tmyy+PzTB
-   c7b/olL1AbaeUQNiEZR1CCYURqDwd9ayoYAVB6QyrBj4MQLgSoRC2pj+J
-   0uRRDpRc+vEFR8BeUahvTe25ml+oyejeG0aAt08Ycgwb1C+SCZd6FdyUN
-   nZv1Lkh4JlNsZnnyYqdk+9YPp/JWKAHk3Qov97rg0fZEKdfRSoShZd/8h
-   AAlV3VxiAOn0c7y+R4pLD0tvpQCI+KwW2Dz0uZqRFclAu3L5dLLsLx0TN
-   /idBnbscmUs9vAB6kpTkkx/BWCmqAzDKKPOLo5H3887aIoSjKsPMZuu3J
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="413610273"
-X-IronPort-AV: E=Sophos;i="5.97,256,1669104000"; 
-   d="scan'208";a="413610273"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2023 04:12:10 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="752515787"
-X-IronPort-AV: E=Sophos;i="5.97,256,1669104000"; 
-   d="scan'208";a="752515787"
-Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 29 Jan 2023 04:12:07 -0800
-Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pM6XW-0002n6-2B;
-        Sun, 29 Jan 2023 12:12:06 +0000
-Date:   Sun, 29 Jan 2023 20:11:25 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Nhat Pham <nphamcs@gmail.com>, akpm@linux-foundation.org
-Cc:     oe-kbuild-all@lists.linux.dev, hannes@cmpxchg.org,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        bfoster@redhat.com, willy@infradead.org, linux-api@vger.kernel.org,
-        kernel-team@meta.com
-Subject: Re: [PATCH v8 2/3] cachestat: implement cachestat syscall
-Message-ID: <202301292044.JVAnbg9W-lkp@intel.com>
-References: <20230126175356.1582123-3-nphamcs@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230126175356.1582123-3-nphamcs@gmail.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S235631AbjA3F0k (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 30 Jan 2023 00:26:40 -0500
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BE6024498
+        for <linux-api@vger.kernel.org>; Sun, 29 Jan 2023 21:26:35 -0800 (PST)
+Received: by mail-yb1-xb49.google.com with SMTP id i17-20020a25bc11000000b007b59a5b74aaso11739697ybh.7
+        for <linux-api@vger.kernel.org>; Sun, 29 Jan 2023 21:26:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=b/vIkIPl5nRj/3hPy3c/U0PXxxrhFi67btaNOzIv4hA=;
+        b=D7SxTMVpdE8OPU4Q8lhHRcsgMpDnY1lwmr2KK3l7i/bP6j+o5A3rsWdRpR2th82Tw7
+         3Na5KNK1Stogf6axURA9XxIaCe3/IFgJehhOLeBTGm9/p382ok+02Xo2ovXAwG+kGbvD
+         BmYmXY5hlLXG+XKrP7NNkk58y3fUL7ev3IABImxVQG/7/RdSHdFyuSpnpPb537H0OIPo
+         ixo6e9FQ/K1A5UG1StdJkIVOHUhcREtuoRy1Ik+eIze4N8mllpTjrSq6abcsckZ7nOZ/
+         sLroSxpo5sn2CdacRJ1G0xOA8ivhouUqU9Hqwci7GILS79bIuTqIG+D9QA2CHtpK2oXX
+         ScUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=b/vIkIPl5nRj/3hPy3c/U0PXxxrhFi67btaNOzIv4hA=;
+        b=i4nabPf4wct6PpeIyn1hV3fCNnV0caZKEh4s3jHXarDS3/18tyIhXzrAopDKgwxJqQ
+         g6l/e8UhAT5uwKDFNHRHg2Kkwf713buA+60DfycBGjQPB9JbBPO5y4I+jwFmyzkXd8gg
+         JTJ+JWXMwM1SjBMvgUfLEe4xOmnthPu3wAyFGZwYCilDHqiOtOGS26bdDittdYAXk6Wc
+         C99phcJNB5fzbAL90xOMOSqXIm7CMjQ2VbprALYc+q15yI9kYSj/13e7HMv3PXXkijHM
+         cC0fZxtmKlinvJz6ROIATSd3wNWZebhFaom8kAPgb1fqzHyEt+MzgOxR7gpkDpCyG28O
+         hRvw==
+X-Gm-Message-State: AO0yUKW7T9K6EF4zkuYlsf+ujTNZB306tXuKmUuvcRwv9+B0wrkXQVKF
+        l6mVKRNEQ1zTQPl4Q7Hmf8WM7iDEX3zRwjL45g==
+X-Google-Smtp-Source: AK7set+JlXdd4+lvDMPsWLbQWxCgCdL1TWQEwkw9Zl36rvKxocVcw2BCVuEm0lbxbrZEdORCPWSOnhc/TSAGSF3Dag==
+X-Received: from ackerleytng-cloudtop-sg.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:b30])
+ (user=ackerleytng job=sendgmr) by 2002:a81:77d6:0:b0:506:348b:88a2 with SMTP
+ id s205-20020a8177d6000000b00506348b88a2mr3119463ywc.400.1675056394197; Sun,
+ 29 Jan 2023 21:26:34 -0800 (PST)
+Date:   Mon, 30 Jan 2023 05:26:29 +0000
+In-Reply-To: <20221202061347.1070246-2-chao.p.peng@linux.intel.com> (message
+ from Chao Peng on Fri,  2 Dec 2022 14:13:39 +0800)
+Mime-Version: 1.0
+Message-ID: <diqzzga0fv96.fsf@ackerleytng-cloudtop-sg.c.googlers.com>
+Subject: Re: [PATCH v10 1/9] mm: Introduce memfd_restricted system call to
+ create restricted user memory
+From:   Ackerley Tng <ackerleytng@google.com>
+To:     Chao Peng <chao.p.peng@linux.intel.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        pbonzini@redhat.com, corbet@lwn.net, seanjc@google.com,
+        vkuznets@redhat.com, wanpengli@tencent.com, jmattson@google.com,
+        joro@8bytes.org, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, arnd@arndb.de, naoya.horiguchi@nec.com,
+        linmiaohe@huawei.com, x86@kernel.org, hpa@zytor.com,
+        hughd@google.com, jlayton@kernel.org, bfields@fieldses.org,
+        akpm@linux-foundation.org, shuah@kernel.org, rppt@kernel.org,
+        steven.price@arm.com, mail@maciej.szmigiero.name, vbabka@suse.cz,
+        vannapurve@google.com, yu.c.zhang@linux.intel.com,
+        chao.p.peng@linux.intel.com, kirill.shutemov@linux.intel.com,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com, qperret@google.com,
+        tabba@google.com, michael.roth@amd.com, mhocko@suse.com,
+        wei.w.wang@intel.com
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Nhat,
 
-Thank you for the patch! Perhaps something to improve:
+> +static int restrictedmem_getattr(struct user_namespace *mnt_userns,
+> +				 const struct path *path, struct kstat *stat,
+> +				 u32 request_mask, unsigned int query_flags)
+> +{
+> +	struct inode *inode = d_inode(path->dentry);
+> +	struct restrictedmem_data *data = inode->i_mapping->private_data;
+> +	struct file *memfd = data->memfd;
+> +
+> +	return memfd->f_inode->i_op->getattr(mnt_userns, path, stat,
+> +					     request_mask, query_flags);
 
-[auto build test WARNING on 1440f576022887004f719883acb094e7e0dd4944]
+Instead of calling shmem's getattr() with path, we should be using the
+the memfd's path.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Nhat-Pham/workingset-refactor-LRU-refault-to-expose-refault-recency-check/20230128-171134
-base:   1440f576022887004f719883acb094e7e0dd4944
-patch link:    https://lore.kernel.org/r/20230126175356.1582123-3-nphamcs%40gmail.com
-patch subject: [PATCH v8 2/3] cachestat: implement cachestat syscall
-config: s390-randconfig-s051-20230129 (https://download.01.org/0day-ci/archive/20230129/202301292044.JVAnbg9W-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.1.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/a05ffdcecfe9ac147066fb8472e6fb75491d0eed
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Nhat-Pham/workingset-refactor-LRU-refault-to-expose-refault-recency-check/20230128-171134
-        git checkout a05ffdcecfe9ac147066fb8472e6fb75491d0eed
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=s390 SHELL=/bin/bash
+Otherwise, shmem's getattr() will use restrictedmem's inode instead of
+shmem's inode. The private fields will be of the wrong type, and the
+host will crash when shmem_is_huge() does SHMEM_SB(inode->i_sb)->huge),
+since inode->i_sb->s_fs_info is NULL for the restrictedmem's superblock.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
+Here's the patch:
 
-sparse warnings: (new ones prefixed by >>)
->> mm/filemap.c:4075:1: sparse: sparse: Using plain integer as NULL pointer
->> mm/filemap.c:4075:1: sparse: sparse: Using plain integer as NULL pointer
-   mm/filemap.c:1416:17: sparse: sparse: context imbalance in 'migration_entry_wait_on_locked' - unexpected unlock
+diff --git a/mm/restrictedmem.c b/mm/restrictedmem.c
+index 37191cd9eed1..06b72d593bd8 100644
+--- a/mm/restrictedmem.c
++++ b/mm/restrictedmem.c
+@@ -84,7 +84,7 @@ static int restrictedmem_getattr(struct user_namespace  
+*mnt_userns,
+  	struct restrictedmem *rm = inode->i_mapping->private_data;
+  	struct file *memfd = rm->memfd;
 
-vim +4075 mm/filemap.c
+-	return memfd->f_inode->i_op->getattr(mnt_userns, path, stat,
++	return memfd->f_inode->i_op->getattr(mnt_userns, &memfd->f_path, stat,
+  					     request_mask, query_flags);
+  }
 
-  4037	
-  4038	#ifdef CONFIG_CACHESTAT_SYSCALL
-  4039	/*
-  4040	 * The cachestat(5) system call.
-  4041	 *
-  4042	 * cachestat() returns the page cache statistics of a file in the
-  4043	 * bytes range specified by `off` and `len`: number of cached pages,
-  4044	 * number of dirty pages, number of pages marked for writeback,
-  4045	 * number of evicted pages, and number of recently evicted pages.
-  4046	 *
-  4047	 * An evicted page is a page that is previously in the page cache
-  4048	 * but has been evicted since. A page is recently evicted if its last
-  4049	 * eviction was recent enough that its reentry to the cache would
-  4050	 * indicate that it is actively being used by the system, and that
-  4051	 * there is memory pressure on the system.
-  4052	 *
-  4053	 * `off` and `len` must be non-negative integers. If `len` > 0,
-  4054	 * the queried range is [`off`, `off` + `len`]. If `len` == 0,
-  4055	 * we will query in the range from `off` to the end of the file.
-  4056	 *
-  4057	 * `cstat_version` is an unsigned integer indicating the specific version
-  4058	 * of the cachestat struct. It must be at least 1, and does not exceed the
-  4059	 * latest version number (which is currently 1). For now, user should
-  4060	 * just pass 1.
-  4061	 *
-  4062	 * The `flags` argument is unused for now, but is included for future
-  4063	 * extensibility. User should pass 0 (i.e no flag specified).
-  4064	 *
-  4065	 * Because the status of a page can change after cachestat() checks it
-  4066	 * but before it returns to the application, the returned values may
-  4067	 * contain stale information.
-  4068	 *
-  4069	 * return values:
-  4070	 *  zero    - success
-  4071	 *  -EFAULT - cstat points to an illegal address
-  4072	 *  -EINVAL - invalid arguments
-  4073	 *  -EBADF	- invalid file descriptor
-  4074	 */
-> 4075	SYSCALL_DEFINE6(cachestat, unsigned int, fd, off_t, off, size_t, len,
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+> +}
+> +
+> +static int restrictedmem_setattr(struct user_namespace *mnt_userns,
+> +				 struct dentry *dentry, struct iattr *attr)
+> +{
+> +	struct inode *inode = d_inode(dentry);
+> +	struct restrictedmem_data *data = inode->i_mapping->private_data;
+> +	struct file *memfd = data->memfd;
+> +	int ret;
+> +
+> +	if (attr->ia_valid & ATTR_SIZE) {
+> +		if (memfd->f_inode->i_size)
+> +			return -EPERM;
+> +
+> +		if (!PAGE_ALIGNED(attr->ia_size))
+> +			return -EINVAL;
+> +	}
+> +
+> +	ret = memfd->f_inode->i_op->setattr(mnt_userns,
+> +					    file_dentry(memfd), attr);
+> +	return ret;
+> +}
+> +
+> +static const struct inode_operations restrictedmem_iops = {
+> +	.getattr = restrictedmem_getattr,
+> +	.setattr = restrictedmem_setattr,
+> +};
