@@ -2,186 +2,136 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CF9F68A4C7
-	for <lists+linux-api@lfdr.de>; Fri,  3 Feb 2023 22:37:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DF7C68A5DB
+	for <lists+linux-api@lfdr.de>; Fri,  3 Feb 2023 23:13:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233657AbjBCVhN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 3 Feb 2023 16:37:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41390 "EHLO
+        id S233688AbjBCWNU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 3 Feb 2023 17:13:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36166 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233297AbjBCVhM (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 3 Feb 2023 16:37:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75CACA7ED7
-        for <linux-api@vger.kernel.org>; Fri,  3 Feb 2023 13:35:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1675460145;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=WTWZ2Ef2CfyxEGVxp7yzT3b+CQOijHFN2HB2ijuK9AA=;
-        b=DucWH364pwOChSzp+F1mZeWD5xT/f76WF+vFZo+gamXSlfPkLNPeEgp6unlezE/iuHT8Rv
-        nc1tlANAfgCbGToWL/HD19m9M5IwNYohpT8jmqUfQ1dEwTKw010PKpaR6AxqW9siy/Q0Hp
-        odhSAvdw+MiyDgDPYgHmhByfR3ESmxU=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-13-dddXBdJWPGu1O0UyFFjw0w-1; Fri, 03 Feb 2023 16:35:42 -0500
-X-MC-Unique: dddXBdJWPGu1O0UyFFjw0w-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4AF533815F77;
-        Fri,  3 Feb 2023 21:35:41 +0000 (UTC)
-Received: from madcap2.tricolour.com (unknown [10.22.50.7])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 65280400F756;
-        Fri,  3 Feb 2023 21:35:39 +0000 (UTC)
-From:   Richard Guy Briggs <rgb@redhat.com>
-To:     Linux-Audit Mailing List <linux-audit@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
-Cc:     Paul Moore <paul@paul-moore.com>,
-        Eric Paris <eparis@parisplace.org>,
-        Steve Grubb <sgrubb@redhat.com>,
-        Richard Guy Briggs <rgb@redhat.com>, Jan Kara <jack@suse.cz>,
-        Amir Goldstein <amir73il@gmail.com>
-Subject: [PATCH v7 3/3] fanotify,audit: Allow audit to use the full permission event response
-Date:   Fri,  3 Feb 2023 16:35:16 -0500
-Message-Id: <bcb6d552e517b8751ece153e516d8b073459069c.1675373475.git.rgb@redhat.com>
-In-Reply-To: <cover.1675373475.git.rgb@redhat.com>
-References: <cover.1675373475.git.rgb@redhat.com>
+        with ESMTP id S233294AbjBCWNF (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 3 Feb 2023 17:13:05 -0500
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB12DB3DC7;
+        Fri,  3 Feb 2023 14:11:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675462295; x=1706998295;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ri+6trqWrGO9FpKX3vOAcmBQPzepGLw5hNd4peqwtMI=;
+  b=G4ygPJGXGe85Cw0CMZ/cxI/dbIUL6DvmNSQwtqvXklB/KX/P5BRFBcvD
+   4msRvO+5auFOg1q7NhCmcMCKWMX7lCzLT8SCtg2OxBrs35murUWK9Sozy
+   l+xLu2HmHUYsMFF12v9Zzf6NAzOr30O+D3Qe3HQcyHueaisRyw6zudDz0
+   y+X/brWuLjzpeTCol5AjX28ZTlKkyWnNJDI/PbDSkW8ysMnReuQslXqA5
+   WVOawazV1x9HBKxAZ0SFxd5od+bJxB9FDzVBc9YApWhYtUxWVWcNP9TgM
+   fodzMk0744Fg1OQ13G7zHh792UfOlMTkagYxxbChzpXaL1gMua7dwBHkU
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="330158925"
+X-IronPort-AV: E=Sophos;i="5.97,271,1669104000"; 
+   d="scan'208";a="330158925"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2023 14:11:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="729401023"
+X-IronPort-AV: E=Sophos;i="5.97,271,1669104000"; 
+   d="scan'208";a="729401023"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 03 Feb 2023 14:11:18 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pO4H8-0000nF-0g;
+        Fri, 03 Feb 2023 22:11:18 +0000
+Date:   Sat, 4 Feb 2023 06:10:56 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Nhat Pham <nphamcs@gmail.com>, akpm@linux-foundation.org
+Cc:     oe-kbuild-all@lists.linux.dev, hannes@cmpxchg.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        bfoster@redhat.com, willy@infradead.org, linux-api@vger.kernel.org,
+        kernel-team@meta.com
+Subject: Re: [PATCH v9 2/3] cachestat: implement cachestat syscall
+Message-ID: <202302040546.JHm5vnYB-lkp@intel.com>
+References: <20230203190413.2559707-3-nphamcs@gmail.com>
 MIME-Version: 1.0
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230203190413.2559707-3-nphamcs@gmail.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-This patch passes the full response so that the audit function can use all
-of it. The audit function was updated to log the additional information in
-the AUDIT_FANOTIFY record.
+Hi Nhat,
 
-Currently the only type of fanotify info that is defined is an audit
-rule number, but convert it to hex encoding to future-proof the field.
-Hex encoding suggested by Paul Moore <paul@paul-moore.com>.
+Thank you for the patch! Perhaps something to improve:
 
-The {subj,obj}_trust values are {0,1,2}, corresponding to no, yes, unknown.
+[auto build test WARNING on 1440f576022887004f719883acb094e7e0dd4944]
 
-Sample records:
-  type=FANOTIFY msg=audit(1600385147.372:590): resp=2 fan_type=1 fan_info=3137 subj_trust=3 obj_trust=5
-  type=FANOTIFY msg=audit(1659730979.839:284): resp=1 fan_type=0 fan_info=0 subj_trust=2 obj_trust=2
+url:    https://github.com/intel-lab-lkp/linux/commits/Nhat-Pham/workingset-refactor-LRU-refault-to-expose-refault-recency-check/20230204-030455
+base:   1440f576022887004f719883acb094e7e0dd4944
+patch link:    https://lore.kernel.org/r/20230203190413.2559707-3-nphamcs%40gmail.com
+patch subject: [PATCH v9 2/3] cachestat: implement cachestat syscall
+config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20230204/202302040546.JHm5vnYB-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/49a57ed71ac2c005231660c85c3f30c4b47d8b7b
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Nhat-Pham/workingset-refactor-LRU-refault-to-expose-refault-recency-check/20230204-030455
+        git checkout 49a57ed71ac2c005231660c85c3f30c4b47d8b7b
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
-Suggested-by: Steve Grubb <sgrubb@redhat.com>
-Link: https://lore.kernel.org/r/3075502.aeNJFYEL58@x2
-Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
----
- fs/notify/fanotify/fanotify.c |  3 ++-
- include/linux/audit.h         |  9 +++++----
- kernel/auditsc.c              | 18 +++++++++++++++---
- 3 files changed, 22 insertions(+), 8 deletions(-)
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
 
-diff --git a/fs/notify/fanotify/fanotify.c b/fs/notify/fanotify/fanotify.c
-index 24ec1d66d5a8..29bdd99b29fa 100644
---- a/fs/notify/fanotify/fanotify.c
-+++ b/fs/notify/fanotify/fanotify.c
-@@ -273,7 +273,8 @@ static int fanotify_get_response(struct fsnotify_group *group,
- 
- 	/* Check if the response should be audited */
- 	if (event->response & FAN_AUDIT)
--		audit_fanotify(event->response & ~FAN_AUDIT);
-+		audit_fanotify(event->response & ~FAN_AUDIT,
-+			       &event->audit_rule);
- 
- 	pr_debug("%s: group=%p event=%p about to return ret=%d\n", __func__,
- 		 group, event, ret);
-diff --git a/include/linux/audit.h b/include/linux/audit.h
-index d6b7d0c7ce43..31086a72e32a 100644
---- a/include/linux/audit.h
-+++ b/include/linux/audit.h
-@@ -14,6 +14,7 @@
- #include <linux/audit_arch.h>
- #include <uapi/linux/audit.h>
- #include <uapi/linux/netfilter/nf_tables.h>
-+#include <uapi/linux/fanotify.h>
- 
- #define AUDIT_INO_UNSET ((unsigned long)-1)
- #define AUDIT_DEV_UNSET ((dev_t)-1)
-@@ -416,7 +417,7 @@ extern void __audit_log_capset(const struct cred *new, const struct cred *old);
- extern void __audit_mmap_fd(int fd, int flags);
- extern void __audit_openat2_how(struct open_how *how);
- extern void __audit_log_kern_module(char *name);
--extern void __audit_fanotify(u32 response);
-+extern void __audit_fanotify(u32 response, struct fanotify_response_info_audit_rule *friar);
- extern void __audit_tk_injoffset(struct timespec64 offset);
- extern void __audit_ntp_log(const struct audit_ntp_data *ad);
- extern void __audit_log_nfcfg(const char *name, u8 af, unsigned int nentries,
-@@ -523,10 +524,10 @@ static inline void audit_log_kern_module(char *name)
- 		__audit_log_kern_module(name);
- }
- 
--static inline void audit_fanotify(u32 response)
-+static inline void audit_fanotify(u32 response, struct fanotify_response_info_audit_rule *friar)
- {
- 	if (!audit_dummy_context())
--		__audit_fanotify(response);
-+		__audit_fanotify(response, friar);
- }
- 
- static inline void audit_tk_injoffset(struct timespec64 offset)
-@@ -679,7 +680,7 @@ static inline void audit_log_kern_module(char *name)
- {
- }
- 
--static inline void audit_fanotify(u32 response)
-+static inline void audit_fanotify(u32 response, struct fanotify_response_info_audit_rule *friar)
- { }
- 
- static inline void audit_tk_injoffset(struct timespec64 offset)
-diff --git a/kernel/auditsc.c b/kernel/auditsc.c
-index d1fb821de104..5a5994659b44 100644
---- a/kernel/auditsc.c
-+++ b/kernel/auditsc.c
-@@ -64,6 +64,7 @@
- #include <uapi/linux/limits.h>
- #include <uapi/linux/netfilter/nf_tables.h>
- #include <uapi/linux/openat2.h> // struct open_how
-+#include <uapi/linux/fanotify.h>
- 
- #include "audit.h"
- 
-@@ -2877,10 +2878,21 @@ void __audit_log_kern_module(char *name)
- 	context->type = AUDIT_KERN_MODULE;
- }
- 
--void __audit_fanotify(u32 response)
-+void __audit_fanotify(u32 response, struct fanotify_response_info_audit_rule *friar)
- {
--	audit_log(audit_context(), GFP_KERNEL,
--		AUDIT_FANOTIFY,	"resp=%u", response);
-+	/* {subj,obj}_trust values are {0,1,2}: no,yes,unknown */
-+	switch (friar->hdr.type) {
-+	case FAN_RESPONSE_INFO_NONE:
-+		audit_log(audit_context(), GFP_KERNEL, AUDIT_FANOTIFY,
-+			  "resp=%u fan_type=%u fan_info=0 subj_trust=2 obj_trust=2",
-+			  response, FAN_RESPONSE_INFO_NONE);
-+		break;
-+	case FAN_RESPONSE_INFO_AUDIT_RULE:
-+		audit_log(audit_context(), GFP_KERNEL, AUDIT_FANOTIFY,
-+			  "resp=%u fan_type=%u fan_info=%X subj_trust=%u obj_trust=%u",
-+			  response, friar->hdr.type, friar->rule_number,
-+			  friar->subj_trust, friar->obj_trust);
-+	}
- }
- 
- void __audit_tk_injoffset(struct timespec64 offset)
+All warnings (new ones prefixed by >>):
+
+>> mm/filemap.c:4035:6: warning: no previous prototype for 'ksys_cachestat' [-Wmissing-prototypes]
+    4035 | long ksys_cachestat(unsigned int fd, loff_t off, size_t len,
+         |      ^~~~~~~~~~~~~~
+
+
+vim +/ksys_cachestat +4035 mm/filemap.c
+
+  4033	
+  4034	#ifdef CONFIG_CACHESTAT_SYSCALL
+> 4035	long ksys_cachestat(unsigned int fd, loff_t off, size_t len,
+  4036			struct cachestat __user *cstat, unsigned int flags)
+  4037	{
+  4038		struct fd f = fdget(fd);
+  4039		struct address_space *mapping;
+  4040		struct cachestat cs;
+  4041		pgoff_t first_index = off >> PAGE_SHIFT;
+  4042		pgoff_t last_index =
+  4043			len == 0 ? ULONG_MAX : (off + len - 1) >> PAGE_SHIFT;
+  4044	
+  4045		if (!f.file)
+  4046			return -EBADF;
+  4047	
+  4048		if (off < 0 || flags != 0) {
+  4049			fdput(f);
+  4050			return -EINVAL;
+  4051		}
+  4052	
+  4053		memset(&cs, 0, sizeof(struct cachestat));
+  4054		mapping = f.file->f_mapping;
+  4055		filemap_cachestat(mapping, first_index, last_index, &cs);
+  4056		fdput(f);
+  4057	
+  4058		if (copy_to_user(cstat, &cs, sizeof(struct cachestat)))
+  4059			return -EFAULT;
+  4060	
+  4061		return 0;
+  4062	}
+  4063	
+
 -- 
-2.27.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
