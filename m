@@ -2,159 +2,150 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 901E368B1E9
-	for <lists+linux-api@lfdr.de>; Sun,  5 Feb 2023 22:17:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BF2BE68B208
+	for <lists+linux-api@lfdr.de>; Sun,  5 Feb 2023 22:55:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229538AbjBEVRg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 5 Feb 2023 16:17:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35004 "EHLO
+        id S229644AbjBEVza (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 5 Feb 2023 16:55:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42028 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229457AbjBEVRg (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 5 Feb 2023 16:17:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F08AD166DB
-        for <linux-api@vger.kernel.org>; Sun,  5 Feb 2023 13:16:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1675631812;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=ZdO+ViRX7h8F4005kAi6tep18hwJGDJ/MJnCF/B1SDA=;
-        b=iXGiiwKNeZaTJEa5QIMgm/mxfWFJj0/fbvyLw96R+fjoM0cbVEC0OGR6qUCEYZBwqYpXfF
-        8QQLy5DyWFaxFYHOz9m4jkSClXCEIX6TfiQkvPkitksY+oe8AdvHgdQUdfnazsWVqZZJV5
-        ssVy3UePkKk3W17uaFmgAcl8gMPl03o=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-263-9ZAFg5I_Pc-cgoD8nFr3lA-1; Sun, 05 Feb 2023 16:16:49 -0500
-X-MC-Unique: 9ZAFg5I_Pc-cgoD8nFr3lA-1
-Received: by mail-ej1-f71.google.com with SMTP id vq12-20020a170907a4cc00b00896db1c78aaso1735895ejc.9
-        for <linux-api@vger.kernel.org>; Sun, 05 Feb 2023 13:16:49 -0800 (PST)
+        with ESMTP id S229457AbjBEVza (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 5 Feb 2023 16:55:30 -0500
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E71441817F;
+        Sun,  5 Feb 2023 13:55:28 -0800 (PST)
+Received: by mail-qv1-f51.google.com with SMTP id mm5so1759240qvb.12;
+        Sun, 05 Feb 2023 13:55:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZdO+ViRX7h8F4005kAi6tep18hwJGDJ/MJnCF/B1SDA=;
-        b=6+w9NuubTomea18Ow37ZahXvZNJ/vs8Fnd2hwZqjv0lTpxLAYl45sOupftYWMAmmfv
-         8RNrAICwtHb/0d5qrCgpKiwCM8BVb4gQahiBZCeF4AsXRDlmvefmi0oHOvnMR6sdO41J
-         QhTEuBHUA9BGSPSrnib64CFZeKE6WcKQyB8RRaKcVzP++TgDE/RV8S5NOVN3zrA2y/pV
-         4BrPHDL81WRzRQdU5O2ML//XfhFEM0T4fi9pISztIcOCobOeH7C8CTKTnmZ58FYfYXQX
-         a75O2SgUjc+LWHX8eod2C8hLegW3RPgszU70De+ItNTmcG9rfU2Qnj5mztDY6+3mmSRh
-         7kkw==
-X-Gm-Message-State: AO0yUKVjZoYGo1Kg8GaOEv1pTRWztNotVgPjmPfuXqTtNcHO8XP42pM7
-        8m98Qj5knXS+B2ArW1ukNLOtaiVCnxlHeEXPnAxYmWlJT12R7uQA4lk63hr2kbBpBXOjEId5GTc
-        OZMdjNw9OEUz55U9Fs49u
-X-Received: by 2002:a17:906:bc8d:b0:88a:a335:4921 with SMTP id lv13-20020a170906bc8d00b0088aa3354921mr18919912ejb.56.1675631808302;
-        Sun, 05 Feb 2023 13:16:48 -0800 (PST)
-X-Google-Smtp-Source: AK7set9BfKumG1AxyoKv3bIgiBbEiPC/KdmTTJT0gVtglQpcPr8KcESbvxU/PMNdhQT3alMCtqpKuA==
-X-Received: by 2002:a17:906:bc8d:b0:88a:a335:4921 with SMTP id lv13-20020a170906bc8d00b0088aa3354921mr18919886ejb.56.1675631807942;
-        Sun, 05 Feb 2023 13:16:47 -0800 (PST)
-Received: from alrua-x1.borgediget.toke.dk ([45.145.92.2])
-        by smtp.gmail.com with ESMTPSA id pj23-20020a170906d79700b0086d70b9c023sm4567847ejb.63.2023.02.05.13.16.47
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=sd8GC4S22QIGy6feHXloJMiVPEVvynjDdix1hqFzPBQ=;
+        b=FBPRfps8T2YhacRgXSQbPDYzv20vRSufktKfPZMrGnRkACFBqj5si2gODM69mQtePW
+         iETPZbJENpiDqNpgXxoc7x8Lfx1MBe5VhzOXaF6MwarBbVgwJN1Nz6Dq7+i6OedbGvJy
+         jvgyVhIXwDqxZPrJesujS8JAekc1/5CRqsCNQpBA4WG52ZqsnJWos4mt1hbgqdvzmJVz
+         NkT4K8BrR7m7Xi6KFnY6fqU6Ade+gUmAFGIFX5Q0FnNdWx/bJxsL1FqyeqbdBjty+U4v
+         Mr2nlvNDfErMKjmNjBaMHg3yv3siingu03n7TfK/f0Pkb1Bx6ZGMsKkk0klhqtDS5drL
+         MPbw==
+X-Gm-Message-State: AO0yUKVpKCHsDZh+RnrarZKgqi/POjpeDOywUJKCOuvv5LtY5eUFLZ0f
+        gJ5WXcLoxKxEhQ6/y9AMDhRoNAd+v/sR4W+B
+X-Google-Smtp-Source: AK7set9i/PApkfhWFCZNLKgGP+t0zfCW5GxPpLn/Ps+2pE/hqkK7fO1lRr69WHxpSZX83VXjWeBYcw==
+X-Received: by 2002:a0c:c48f:0:b0:53c:e0cb:67ad with SMTP id u15-20020a0cc48f000000b0053ce0cb67admr20628431qvi.43.1675634127869;
+        Sun, 05 Feb 2023 13:55:27 -0800 (PST)
+Received: from maniforge.lan ([2620:10d:c091:480::1:8625])
+        by smtp.gmail.com with ESMTPSA id b16-20020a05620a04f000b00705cef9b84asm6023118qkh.131.2023.02.05.13.55.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Feb 2023 13:16:47 -0800 (PST)
-Received: by alrua-x1.borgediget.toke.dk (Postfix, from userid 1000)
-        id 0546A9730E2; Sun,  5 Feb 2023 22:16:45 +0100 (CET)
-From:   Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
-To:     Cong Wang <xiyou.wangcong@gmail.com>,
-        David Vernet <void@manifault.com>
+        Sun, 05 Feb 2023 13:55:27 -0800 (PST)
+Date:   Sun, 5 Feb 2023 15:55:29 -0600
+From:   David Vernet <void@manifault.com>
+To:     Cong Wang <xiyou.wangcong@gmail.com>
 Cc:     bpf@vger.kernel.org, ast@kernel.org, daniel@iogearbox.net,
         andrii@kernel.org, martin.lau@linux.dev, song@kernel.org,
         yhs@meta.com, john.fastabend@gmail.com, kpsingh@kernel.org,
         sdf@google.com, haoluo@google.com, jolsa@kernel.org,
-        linux-kernel@vger.kernel.org, kernel-team@meta.com, corbet@lwn.net,
-        linux-doc@vger.kernel.org, brouer@redhat.com, bagasdotme@gmail.com,
-        linux-api@vger.kernel.org
+        linux-kernel@vger.kernel.org, kernel-team@meta.com,
+        toke@redhat.com, corbet@lwn.net, linux-doc@vger.kernel.org,
+        brouer@redhat.com, bagasdotme@gmail.com, linux-api@vger.kernel.org
 Subject: Re: [PATCH bpf-next v3] bpf/docs: Document kfunc lifecycle /
  stability expectations
-In-Reply-To: <Y+AUm8cikB6m978j@pop-os.localdomain>
+Message-ID: <Y+Al0QKpeTK2XGyV@maniforge.lan>
 References: <20230203155727.793518-1-void@manifault.com>
  <20230203155727.793518-2-void@manifault.com>
  <Y+AUm8cikB6m978j@pop-os.localdomain>
-X-Clacks-Overhead: GNU Terry Pratchett
-Date:   Sun, 05 Feb 2023 22:16:45 +0100
-Message-ID: <87mt5rdd8i.fsf@toke.dk>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y+AUm8cikB6m978j@pop-os.localdomain>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Cong Wang <xiyou.wangcong@gmail.com> writes:
-
+On Sun, Feb 05, 2023 at 12:42:03PM -0800, Cong Wang wrote:
 > On Fri, Feb 03, 2023 at 09:57:27AM -0600, David Vernet wrote:
->> BPF kernel <-> kernel API stability has been discussed at length over
->> the last several weeks and months. Now that we've largely aligned over
->> kfuncs being the way forward, and BPF helpers being considered
->> functionally frozen, it's time to document the expectations for kfunc
->> lifecycles and stability so that everyone (BPF users, kfunc developers,
->> and maintainers) are all aligned, and have a crystal-clear understanding
->> of the expectations surrounding kfuncs.
->> 
->> To do that, this patch adds that documentation to the main kfuncs
->> documentation page via a new 'kfunc lifecycle expectations' section. The
->> patch describes how decisions are made in the kernel regarding whether
->> to include, keep, deprecate, or change / remove a kfunc. As described
->> very overtly in the patch itself, but likely worth highlighting here:
->> 
->> "kfunc stability" does not mean, nor ever will mean, "BPF APIs may block
->> development elsewhere in the kernel".
->> 
->> Rather, the intention and expectation is for kfuncs to be treated like
->> EXPORT_SYMBOL_GPL symbols in the kernel. The goal is for kfuncs to be a
->> safe and valuable option for maintainers and kfunc developers to extend
->> the kernel, without tying anyone's hands, or imposing any kind of
->> restrictions on maintainers in the same way that UAPI changes do.
->
+> > BPF kernel <-> kernel API stability has been discussed at length over
+> > the last several weeks and months. Now that we've largely aligned over
+> > kfuncs being the way forward, and BPF helpers being considered
+> > functionally frozen, it's time to document the expectations for kfunc
+> > lifecycles and stability so that everyone (BPF users, kfunc developers,
+> > and maintainers) are all aligned, and have a crystal-clear understanding
+> > of the expectations surrounding kfuncs.
+> > 
+> > To do that, this patch adds that documentation to the main kfuncs
+> > documentation page via a new 'kfunc lifecycle expectations' section. The
+> > patch describes how decisions are made in the kernel regarding whether
+> > to include, keep, deprecate, or change / remove a kfunc. As described
+> > very overtly in the patch itself, but likely worth highlighting here:
+> > 
+> > "kfunc stability" does not mean, nor ever will mean, "BPF APIs may block
+> > development elsewhere in the kernel".
+> > 
+> > Rather, the intention and expectation is for kfuncs to be treated like
+> > EXPORT_SYMBOL_GPL symbols in the kernel. The goal is for kfuncs to be a
+> > safe and valuable option for maintainers and kfunc developers to extend
+> > the kernel, without tying anyone's hands, or imposing any kind of
+> > restrictions on maintainers in the same way that UAPI changes do.
+> 
 > I think they are still different, kernel modules are still considered as
 > a part of kernel development, while eBPF code is not that supposed to be
 > kernel development, at least much further. Treating them alike is
 > misleading, IMHO.
 
-If you read the actual documentation text added to kfuncs.rst this
-difference is indeed called out. But you're right that "treated like" in
-the commit message is probably a bit strong.
+I'm not following. How is a BPF program not kernel development?
 
->> In addition to the 'kfunc lifecycle expectations' section, this patch
->> also adds documentation for a new KF_DEPRECATED kfunc flag which kfunc
->> authors or maintainers can choose to add to kfuncs if and when they
->> decide to deprecate them. Note that as described in the patch itself, a
->> kfunc need not be deprecated before being changed or removed -- this
->> flag is simply provided as an available deprecation mechanism for those
->> that want to provide a deprecation story / timeline to their users.
->> When necessary, kfuncs may be changed or removed to accommodate changes
->> elsewhere in the kernel without any deprecation at all.
->
+> > 
+> > In addition to the 'kfunc lifecycle expectations' section, this patch
+> > also adds documentation for a new KF_DEPRECATED kfunc flag which kfunc
+> > authors or maintainers can choose to add to kfuncs if and when they
+> > decide to deprecate them. Note that as described in the patch itself, a
+> > kfunc need not be deprecated before being changed or removed -- this
+> > flag is simply provided as an available deprecation mechanism for those
+> > that want to provide a deprecation story / timeline to their users.
+> > When necessary, kfuncs may be changed or removed to accommodate changes
+> > elsewhere in the kernel without any deprecation at all.
+> 
 > This fundamentally contradicts with Compile-Once-Run-Everywhere
 > https://facebookmicrosites.github.io/bpf/blog/2020/02/19/bpf-portability-and-co-re.html
+
+Sorry, but again, I'm not following your point. What exactly about this
+"fundamentally contradicts" with CO-RE? Please elaborate if you're going
+to claim that something is a fundamental contradiction.
+
 > Could you add some clarification for this too? Especically how we could
 > respect CO-RE meanwhile deprecating kfuncs?
 
-Well, CO-RE doesn't work for kfuncs, currently, so... :)
+I don't know what you mean by "respecting CO-RE". You can compile a BPF
+program that calls a kfunc and invoke it on differents, as long as
+whatever kernel you're running on provides that kfunc with the same BTF
+encoding. This is no different than e.g. accessing a struct element on
+two kernel versions.
 
-What do you mean "respect CO-RE", though? CO-RE is a tool to make BPF
-programs more portable, so not sure how one would "respect" that?
+Also, CO-RE doesn't provide any ironclad guarantees either. If you
+access a struct element in a BPF program, and then a kernel version
+removes that element from the struct, that BPF program will fail to load
+on that kernel.
 
 > BTW, not related to compatibility, but still kfuncs related confusion,
 > it also contradicts with Documentation/bpf/bpf_design_QA.rst:
->
+> 
 > "
 > Q: Can BPF functionality such as new program or map types, new
 > helpers, etc be added out of kernel module code?
->
+> 
 > A: NO.
+
+Agreed, we should improve the QA to mention that you can load kfuncs
+from a module -- thanks for pointing that out!
+
 > "
->
-> The conntrack kfuncs like bpf_skb_ct_alloc() reside in a kernel
-> module.
-
-Yup, good point, we should update that. I'll send a patch...
-
--Toke
-
+> 
+> The conntrack kfuncs like bpf_skb_ct_alloc() reside in a kernel module.
+> 
+> Thanks!
