@@ -2,105 +2,109 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 13A6568A982
-	for <lists+linux-api@lfdr.de>; Sat,  4 Feb 2023 11:38:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B44868AF28
+	for <lists+linux-api@lfdr.de>; Sun,  5 Feb 2023 10:56:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232554AbjBDKiH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 4 Feb 2023 05:38:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55718 "EHLO
+        id S229488AbjBEJ4I (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 5 Feb 2023 04:56:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230139AbjBDKiG (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 4 Feb 2023 05:38:06 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E5584EC5;
-        Sat,  4 Feb 2023 02:38:04 -0800 (PST)
-Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 4AA7A1EC06C0;
-        Sat,  4 Feb 2023 11:38:03 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1675507083;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=5JyAU/JLXXFTtWRREUsOU6epWY/XYVNcnOAGJNFiKwQ=;
-        b=KfT0Mprsz3GxEPCAHwdg1TWJdHhDGdprVbR1LinIpkwcnWj7jDEX1DKTHH+u78Piqgl1Hx
-        amVRkuP4FWCjAxkPyivEHudk+yPMYUX/52dgOi4wIoog5yCgYHAU80iTBlhSGQ7LLjjQlA
-        wL++YKYAZeBiZt7LZf4JQ7+tBM7fhtY=
-Date:   Sat, 4 Feb 2023 11:37:58 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-Cc:     "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
-        "Eranian, Stephane" <eranian@google.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        "kcc@google.com" <kcc@google.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "pavel@ucw.cz" <pavel@ucw.cz>, "oleg@redhat.com" <oleg@redhat.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "Schimpe, Christina" <christina.schimpe@intel.com>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "mtk.manpages@gmail.com" <mtk.manpages@gmail.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>
-Subject: Re: [PATCH v5 07/39] x86: Add user control-protection fault handler
-Message-ID: <Y941hjKMMUA+KB0p@zn.tnic>
-References: <20230119212317.8324-1-rick.p.edgecombe@intel.com>
- <20230119212317.8324-8-rick.p.edgecombe@intel.com>
- <Y91b2x8pSFtmB+w6@zn.tnic>
- <393a03d063dee5831af93ca67636df75a76481c3.camel@intel.com>
- <Y91kFGVFe6QlHKmi@zn.tnic>
- <828f1b3154227c06ac1787961016464a4c116cc2.camel@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <828f1b3154227c06ac1787961016464a4c116cc2.camel@intel.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S229461AbjBEJ4H (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 5 Feb 2023 04:56:07 -0500
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED5D21E292;
+        Sun,  5 Feb 2023 01:56:01 -0800 (PST)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+        by mailout.west.internal (Postfix) with ESMTP id 019DA32000CC;
+        Sun,  5 Feb 2023 04:55:58 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute6.internal (MEProxy); Sun, 05 Feb 2023 04:55:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm3; t=1675590958; x=1675677358; bh=IfnK616YIR
+        qy87UD2TtxtShT/uMOi2eIt6iskw/90R4=; b=tlOrqmIIpcN0PiYS60DC7MHHeT
+        J+uINRCytwTA8maMW6d0O4aha9DxnZ7f+f+wE45CPLJMb2gV1+Bn38IRH1c5GJB7
+        vhssxsznyEe0FmuAbhSEP9xdpdPoLJIqtWmCgDUC5XPZliG0Tbk4E0dLtxpAj4RG
+        wrwwyZwW07ZO5hZQOAMbgA7g05hiSic1og5Yrer5TByi7f76EnDtaWnD2pVHcn9g
+        guaCNpk/jTJO5M7LNmOXIXzMTmKdYck5hkfPYCCkhlcB/vEMmGwHJxuapmOVD9y+
+        SINI8MywCVcjE8gUyoWACPu+u0H5keB/XAUXdrKpsAoxzOcLH2hklGNdwdAA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm3; t=1675590958; x=1675677358; bh=IfnK616YIRqy87UD2TtxtShT/uMO
+        i2eIt6iskw/90R4=; b=MAMoCKgeBnHRLYyWdji9sY2G96cuh3YfoMVyfM00fv7D
+        +QRQyGKp5ku7Mt6PRjRHSNSUAG1EMU2LTbrVzdc59+FyFb4yQcFqS0xGv1zc2wf3
+        VxABmtk/ubMlDPeD4xYw7DzR+S6gGQSzya53SsZZFezNZbpXnVgv6EaKJn8R+eOV
+        d945gz98yqHD3bH0IhXKOLjfKo/FyKZZosZyFaJCZ+CILh0Xb/nS5YhsZYCb02Kf
+        /ms3J3UDd6PLP+4QfmU9NLHCTWErs+nYLx5B7yERaHX8VpOBzjvfn3EPvUH+t12E
+        lAjZUI4E7ihsDOt31tio+mLa3D3r0Lq4dWNpbfPBKw==
+X-ME-Sender: <xms:Ln3fY2u0-TX3YgzL3FNoonR-ZJiXJCSONy-jN3qscPg4Qep-6668ZQ>
+    <xme:Ln3fY7cPBLgxeUaNBzfeS5len6gEIjPi2v-ACSY2wvzQlk_fOYIzLDqQ8Io64o9BE
+    8nF7XETMtZ3JgIuEV4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudeggedguddtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefofgggkfgjfhffhffvvefutgesth
+    dtredtreertdenucfhrhhomhepfdetrhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnuges
+    rghrnhgusgdruggvqeenucggtffrrghtthgvrhhnpeffheeugeetiefhgeethfejgfdtue
+    fggeejleehjeeutefhfeeggefhkedtkeetffenucevlhhushhtvghrufhiiigvpedtnecu
+    rfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:Ln3fYxxz7SUxh5naEkC0KjeRwGyKWc5wngazzV-ocdvu9a4dInIjxw>
+    <xmx:Ln3fYxOXOCbwi8VwEjfj8kjdKdft03KQp3SfL8kKaz8Di-0vW-H2MA>
+    <xmx:Ln3fY28pmxncMZOvGNzbT4gvTVO9FJj0DdmZH7tZNVMSuUm1u824FA>
+    <xmx:Ln3fY2wKuTPdaasxyGHzbU2OTtMxlMRz2UrAmKXBVkMVk1f_afwCMQ>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id 06039B60089; Sun,  5 Feb 2023 04:55:58 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-107-g82c3c54364-fm-20230131.002-g82c3c543
+Mime-Version: 1.0
+Message-Id: <834254e6-a9c2-440c-9c67-fc5fa5ca43bc@app.fastmail.com>
+In-Reply-To: <20230203190413.2559707-3-nphamcs@gmail.com>
+References: <20230203190413.2559707-1-nphamcs@gmail.com>
+ <20230203190413.2559707-3-nphamcs@gmail.com>
+Date:   Sun, 05 Feb 2023 10:55:38 +0100
+From:   "Arnd Bergmann" <arnd@arndb.de>
+To:     "Nhat Pham" <nphamcs@gmail.com>,
+        "Andrew Morton" <akpm@linux-foundation.org>
+Cc:     "Johannes Weiner" <hannes@cmpxchg.org>, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, bfoster@redhat.com,
+        "Matthew Wilcox" <willy@infradead.org>, linux-api@vger.kernel.org,
+        kernel-team@meta.com
+Subject: Re: [PATCH v9 2/3] cachestat: implement cachestat syscall
+Content-Type: text/plain
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Feb 03, 2023 at 11:01:42PM +0000, Edgecombe, Rick P wrote:
-> Since this path is only for exceptions coming from userspace, I think
-> it should be valid either way. It can't be during a task switch.
-> I can swap the lines if it looks odd, but unless I'm wrong about the
-> 'current' validity I think it's negligibly better as is because it is
-> preemptible for as long as possible.
+On Fri, Feb 3, 2023, at 20:04, Nhat Pham wrote:
 
-Nah, all good. I was confused here. Sorry for the noise.
+> +SYSCALL_DEFINE5(cachestat, unsigned int, fd, loff_t, off, size_t, len,
+> +		struct cachestat __user *, cstat, unsigned int, flags)
+> +{
+> +	return ksys_cachestat(fd, off, len, cstat, flags);
+> +}
+> +
+> +#ifdef CONFIG_COMPAT
+> +COMPAT_SYSCALL_DEFINE6(cachestat, unsigned int, fd, 
+> compat_arg_u64_dual(off),
+> +		size_t, len, struct cachestat __user *, cstat, unsigned int, flags)
+> +{
+> +	return ksys_cachestat(fd, compat_arg_u64_glue(off), len, cstat, 
+> flags);
+> +}
 
--- 
-Regards/Gruss,
-    Boris.
+This still looks wrong to me, as this compat definition does not match
+the native variant on architectures that require 64-bit arguments to
+be passed in aligned register pairs, such as arm, mips or ppc, but
+not x86, s390 or riscv.
 
-https://people.kernel.org/tglx/notes-about-netiquette
+     Arnd
