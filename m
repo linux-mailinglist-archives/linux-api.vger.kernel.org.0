@@ -2,170 +2,189 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EF2B96907BE
-	for <lists+linux-api@lfdr.de>; Thu,  9 Feb 2023 12:51:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 62B37690B12
+	for <lists+linux-api@lfdr.de>; Thu,  9 Feb 2023 14:56:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229694AbjBILvT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 9 Feb 2023 06:51:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54630 "EHLO
+        id S229687AbjBIN4L (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 9 Feb 2023 08:56:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55660 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229843AbjBILuo (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 9 Feb 2023 06:50:44 -0500
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 468FF5AB0F
-        for <linux-api@vger.kernel.org>; Thu,  9 Feb 2023 03:37:32 -0800 (PST)
-Received: by mail-lj1-x230.google.com with SMTP id h4so1721225lja.2
-        for <linux-api@vger.kernel.org>; Thu, 09 Feb 2023 03:37:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gN5dmIKNiTeuwb/3TvmDWzfH1BwGxtn7YPjkX4NxKgo=;
-        b=N1a2K6KqYxkNBfNNdZk1zWrrpSnrtKQTdw0K8qC6sbrnuleoaTBhY2+YjebvTfU08k
-         fGcKceMiyw8nnekShPLp7eG12Po4zvEdpy5kbGUrIDcuoagKRU3ryR9lOgm8oZcDExSr
-         taeWcKcc2KBRiGXGft7vImb88wy18ZRCM6NiF2GPtObRj1kT8Hdvv/tbxmf7cJE5v7WA
-         VTp7RBEF282iQqmiDm+TxgQ2Tks2UGGRwl03lM3ArpwZaJaDFkMQBb03blPqZvYoaQxS
-         Jx6Wllzmmyo9q06fjyX4wReOZWzYEC0MeiHl/HhyjDtBMhQW6NC0sx46Gl0fFfcXuNqH
-         /6SA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gN5dmIKNiTeuwb/3TvmDWzfH1BwGxtn7YPjkX4NxKgo=;
-        b=mE+50ax//QBODQdLb82Jbf6QTwGvv1iqqLZfxsLfV9HYCQvr8lmgZFBFugulfm6hok
-         BIaSMJ3TW+XPhoyCb8jBDMtSlRTqGu/c3CyEhrvn+GcYw4gciyUD4HES+YQ1YNReS4kL
-         OIKn1qmkis6jNaqOQLTSBpeQm02Ps+a347wHrpt3KE7eJ9gMz9wLROyPnSCeJAvF0MS6
-         aKlEZySEZleR+uyUf2NjQcIvtfcSIJBNUmRkEt1X2pffl3c4rHK/GmtzCPl+thOS4ymw
-         nVySsmjgxLpFPea3ZDCiM4l/mE1G2120WzXVKbG8bUzbYlUc7dllNsM6HZH3xFHZrgHu
-         E8Rw==
-X-Gm-Message-State: AO0yUKWKSs77K83xLYN8TtdXfVnH0QIYnoXNewRVuoCTJeKekoiUc0Ci
-        Tnuxpx6Kes36ndC01+V/xBfhhoQZDfrVaa9sLGHMtA==
-X-Google-Smtp-Source: AK7set+L0OW3rn1staXflxpNU94CdVo17mvAyMohGACHZ3A24K+HoDQCWPu5p031s/Er2aF2ZbvvgkWsXuhdOkQnbv8=
-X-Received: by 2002:a2e:8e28:0:b0:28a:a1d3:572f with SMTP id
- r8-20020a2e8e28000000b0028aa1d3572fmr1794667ljk.20.1675942650395; Thu, 09 Feb
- 2023 03:37:30 -0800 (PST)
+        with ESMTP id S229658AbjBIN4K (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 9 Feb 2023 08:56:10 -0500
+Received: from hr2.samba.org (hr2.samba.org [IPv6:2a01:4f8:192:486::2:0])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E80B15BA75;
+        Thu,  9 Feb 2023 05:56:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=samba.org;
+        s=42; h=Cc:From:To:Date:Message-ID;
+        bh=dKtYu+JDvoYPo88QxjhqydMNl2n2n4GvLT2+LdSLEZE=; b=RSJ/HI3WV2J0cJ04J79ShIlxbS
+        CSkr+mcyNOLK0gj3CsBY+ygHhIGc23/ca63ckazjFkBcuXhRxoah8M8UBQdeAmQKKZ+28b/3/+QjJ
+        M89tanyKc2WD9Qj9VrF+13gBSfEf2LEFArQlvp9lqajdjBZH70XK8Nyi5rgREufnn4RcEMJ2V1b+9
+        rbF630HSORVyZlLfvftWN7+QTaSRNz3Nf0jt9Zgzo5+fPYwpPZZe6JAQB+sendYRYFWqOMoD4md2r
+        LesyeMZK81AfOvoo8BnwooncaFxkDqexx+nQ5eaLpzJ1b1sDBEN2mJ+imhWKQEX0rF/jjd8NrHWDG
+        pVLSuF2upXe+idrWJbIFHPboVpDYmynYVTgxQiApWGow5oWA/UxiMh5g0CMHzmDGgHDYGnzWn6Ktj
+        xHSykF8JENccQsFA87iOB3mdE4sxshmdL9ECTdDvIL0e36k6J3EwCdxiEIUF/ZWMfG7gEs+deKEAe
+        IYdtGfEWpFK/pCFg3kfYxGTl;
+Received: from [127.0.0.2] (localhost [127.0.0.1])
+        by hr2.samba.org with esmtpsa (TLS1.3:ECDHE_SECP256R1__ECDSA_SECP256R1_SHA256__CHACHA20_POLY1305:256)
+        (Exim)
+        id 1pQ7P7-00Cops-4s; Thu, 09 Feb 2023 13:56:01 +0000
+Message-ID: <0cfd9f02-dea7-90e2-e932-c8129b6013c7@samba.org>
+Date:   Thu, 9 Feb 2023 14:55:59 +0100
 MIME-Version: 1.0
-References: <mhng-9e6b4607-6bea-411c-b843-916c1e0798ee@palmerdabbelt-glaptop>
- <182c1d4e-a117-79d6-4dd1-8e3c8a447b4a@ghiti.fr> <CACT4Y+YYAfTafFk7DE0B=qQFgkPXS7492AhBdY_CP1WdB8CGfA@mail.gmail.com>
-In-Reply-To: <CACT4Y+YYAfTafFk7DE0B=qQFgkPXS7492AhBdY_CP1WdB8CGfA@mail.gmail.com>
-From:   Dmitry Vyukov <dvyukov@google.com>
-Date:   Thu, 9 Feb 2023 12:37:17 +0100
-Message-ID: <CACT4Y+Y1s2iE3OF8WHwb7F2crRjgnFCWQfoFvs3d-KgHpMLeKg@mail.gmail.com>
-Subject: Re: [PATCH] riscv: Bump COMMAND_LINE_SIZE value to 1024
-To:     Alex Ghiti <alex@ghiti.fr>
-Cc:     Palmer Dabbelt <palmer@dabbelt.com>, macro@orcam.me.uk,
-        david.abdurachmanov@gmail.com,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        linux-api@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Content-Language: en-US
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+From:   Stefan Metzmacher <metze@samba.org>
+Cc:     linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API Mailing List <linux-api@vger.kernel.org>,
+        io-uring <io-uring@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Samba Technical <samba-technical@lists.samba.org>
+Subject: copy on write for splice() from file to pipe?
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, 10 Nov 2022 at 22:01, Dmitry Vyukov <dvyukov@google.com> wrote:
->
-> On Mon, 21 Jun 2021 at 00:11, Alex Ghiti <alex@ghiti.fr> wrote:
-> >
-> > Hi Palmer,
-> >
-> > Le 23/04/2021 =C3=A0 04:57, Palmer Dabbelt a =C3=A9crit :
-> > > On Fri, 02 Apr 2021 11:33:30 PDT (-0700), macro@orcam.me.uk wrote:
-> > >> On Fri, 2 Apr 2021, David Abdurachmanov wrote:
-> > >>
-> > >>> > > >  This macro is exported as a part of the user API so it must
-> > >>> not depend on
-> > >>> > > > Kconfig.  Also changing it (rather than say adding
-> > >>> COMMAND_LINE_SIZE_V2 or
-> > >>> > > > switching to an entirely new data object that has its dimensi=
-on
-> > >>> set in a
-> > >>> > > > different way) requires careful evaluation as external binari=
-es
-> > >>> have and
-> > >>> > > > will have the value it expands to compiled in, so it's a part
-> > >>> of the ABI
-> > >>> > > > too.
-> > >>> > >
-> > >>> > > Thanks, I didn't realize this was part of the user BI.  In that
-> > >>> case we
-> > >>> > > really can't chage it, so we'll have to sort out some other way
-> > >>> do fix
-> > >>> > > whatever is going on.
-> > >>> > >
-> > >>> > > I've dropped this from fixes.
-> > >>> >
-> > >>> > Does increasing COMMAND_LINE_SIZE break user-space binaries? I wo=
-uld
-> > >>> > expect it to work the same way as adding new enum values, or addi=
-ng
-> > >>> > fields at the end of versioned structs, etc.
-> > >>> > I would assume the old bootloaders/etc will only support up to th=
-e
-> > >>> > old, smaller max command line size, while the kernel will support
-> > >>> > larger command line size, which is fine.
-> > >>> > However, if something copies /proc/cmdline into a fixed-size buff=
-er
-> > >>> > and expects that to work, that will break... that's quite unfortu=
-nate
-> > >>> > user-space code... is it what we afraid of?
-> > >>> >
-> > >>> > Alternatively, could expose the same COMMAND_LINE_SIZE, but inter=
-nally
-> > >>> > support a larger command line?
-> > >>>
-> > >>> Looking at kernel commit history I see PowerPC switched from 512 to
-> > >>> 2048, and I don't see complaints about the ABI on the mailing list.
-> > >>>
-> > >>> If COMMAND_LINE_SIZE is used by user space applications and we
-> > >>> increase it there shouldn't be problems. I would expect things to
-> > >>> work, but just get truncated boot args? That is the application wil=
-l
-> > >>> continue only to look at the initial 512 chars.
-> > >>
-> > >>  The macro is in an include/uapi header, so it's exported to the use=
-rland
-> > >> and a part of the user API.  I don't know what the consequences are =
-for
-> > >> the RISC-V port specifically, but it has raised my attention, and I =
-think
-> > >> it has to be investigated.
-> > >>
-> > >>  Perhaps it's OK to change it after all, but you'd have to go throug=
-h
-> > >> known/potential users of this macro.  I guess there shouldn't be tha=
-t
-> > >> many
-> > >> of them.
-> > >>
-> > >>  In any case it cannot depend on Kconfig, because the userland won't=
- have
-> > >> access to the configuration, and then presumably wants to handle any=
- and
-> > >> all.
-> > >
-> > > It kind of feels to me like COMMAND_LINE_SIZE shouldn't have been par=
-t
-> > > of the UABI to begin with.  I sent a patch to remove it from the
-> > > asm-generic UABI, let's see if anyone knows of a reason it should be =
-UABI:
-> > >
-> > > https://lore.kernel.org/linux-arch/20210423025545.313965-1-palmer@dab=
-belt.com/T/#u
-> >
-> > Arnd seemed to agree with you about removing COMMAND_LINE_SIZE from the
-> > UABI, any progress on your side?
->
-> Was this ever merged? Don't see this even in linux-next.
+Hi Linus and others,
 
-Ping. Still an issue at least for syzbot.
+as written in a private mail before, I'm currently trying to
+make use of IORING_OP_SPLICE in order to get zero copy support
+in Samba.
+
+The most important use cases are 8 Mbytes reads and writes to
+files. where "memcpy" (at the lowest end copy_user_enhanced_fast_string())
+is the obvious performance killer.
+
+I have a prototype that offers really great performance
+avoiding "memcpy" by using splice() (in order to get async IORING_OP_SPLICE).
+
+So we have two cases:
+
+1. network -> socket -> splice -> pipe -> splice -> file -> storage
+
+2. storage -> file -> splice -> pipe -> splice -> socket -> network
+
+With 1. I guess everything can work reliable, once
+the pages are created/filled in the socket receive buffer
+they are used exclusively and they won't be shared on
+the way to the file. Which means we can be sure that
+data arrives unmodified in the file(system).
+
+But with 2. there's a problem, as the pages from the file,
+which are spliced into the pipe are still shared without
+copy on write with the file(system). It means writes to the file
+after the first splice modify the content of the spliced pages!
+So the content may change uncontrolled before it reaches the network!
+I created a little example that demonstrates the problem (see below),
+it gives the following output:
+
+> open(O_TMPFILE) => ffd[3]
+> pwrite(count=PIPE_BUF,ofs=PIPE_BUF) 0x1f sret[4096]
+> pipe() => ret[0]
+> splice(count=PIPE_BUF*2,ofs=0) sret[8192]
+> pwrite(count=PIPE_BUF,ofs=0) 0xf0 sret[4096]
+> pwrite(count=PIPE_BUF,ofs=PIPE_BUF) 0xf0 sret[4096]
+> read(from_pipe, count=PIPE_BUF) sret[4096]
+> memcmp() at ofs=0, expecting 0x00 => ret[240]
+> memcmp() at ofs=0, checking for 0xf0 => ret[0]
+> read(from_pipe, count=PIPE_BUF) sret[4096]
+> memcmp() at ofs=PIPE_BUF, expecting 0x1f => ret[209]
+> memcmp() at ofs=PIPE_BUF, checking for 0xf0 => ret[0]
+
+After reading from the pipe we get the values we have written to
+the file instead of the values we had at the time of splice.
+
+For things like web servers, which mostly serve static content, this
+isn't a problem, but it is for Samba, when reads and writes may happen within
+microseconds, before the content is pushed to the network.
+
+I'm wondering if there's a possible way out of this, maybe triggered by a new
+flag passed to splice.
+
+I looked through the code and noticed the existence of IOMAP_F_SHARED.
+Maybe the splice from the page cache to the pipe could set IOMAP_F_SHARED,
+while incrementing the refcount and the network driver could remove it again
+when the refcount reaches 1 again.
+
+Is there any other way we could archive something like this?
+
+In addition and/or as alternative I was thinking about a flag to
+preadv2() (and IORING_OP_READV) to indicate the use of something
+like async_memcpy(), instead of doing the copy via the cpu.
+That in combination with IORING_OP_SENDMSG_ZC would avoid "memcpy"
+on the cpu.
+
+Any hints, remarks and prototype patches are highly welcome.
+
+Thanks!
+metze
+
+#define _GNU_SOURCE         /* See feature_test_macros(7) */
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <limits.h>
+
+int main(void)
+{
+	int ffd;
+	int pfds[2];
+	char buf [PIPE_BUF] = {0, };
+	char buf2 [PIPE_BUF] = {0, };
+	ssize_t sret;
+	int ret;
+	off_t ofs;
+
+	memset(buf, 0x1f, PIPE_BUF);
+
+	ffd = open("/tmp/", O_RDWR | O_TMPFILE, S_IRUSR | S_IWUSR);
+	printf("open(O_TMPFILE) => ffd[%d]\n", ffd);
+
+	sret = pwrite(ffd, buf, PIPE_BUF, PIPE_BUF);
+	printf("pwrite(count=PIPE_BUF,ofs=PIPE_BUF) 0x1f sret[%zd]\n", sret);
+
+	ret = pipe(pfds);
+	printf("pipe() => ret[%d]\n", ret);
+
+	ofs = 0;
+	sret = splice(ffd, &ofs, pfds[1], NULL, PIPE_BUF*2, 0);
+	printf("splice(count=PIPE_BUF*2,ofs=0) sret[%zd]\n", sret);
+
+	memset(buf, 0xf0, PIPE_BUF);
+
+	sret = pwrite(ffd, buf, PIPE_BUF, 0);
+	printf("pwrite(count=PIPE_BUF,ofs=0) 0xf0 sret[%zd]\n", sret);
+	sret = pwrite(ffd, buf, PIPE_BUF, PIPE_BUF);
+	printf("pwrite(count=PIPE_BUF,ofs=PIPE_BUF) 0xf0 sret[%zd]\n", sret);
+
+	sret = read(pfds[0], buf, PIPE_BUF);
+	printf("read(from_pipe, count=PIPE_BUF) sret[%zd]\n", sret);
+
+	memset(buf2, 0x00, PIPE_BUF);
+	ret = memcmp(buf, buf2, PIPE_BUF);
+	printf("memcmp() at ofs=0, expecting 0x00 => ret[%d]\n", ret);
+	memset(buf2, 0xf0, PIPE_BUF);
+	ret = memcmp(buf, buf2, PIPE_BUF);
+	printf("memcmp() at ofs=0, checking for 0xf0 => ret[%d]\n", ret);
+
+	sret = read(pfds[0], buf, PIPE_BUF);
+	printf("read(from_pipe, count=PIPE_BUF) sret[%zd]\n", sret);
+
+	memset(buf2, 0x1f, PIPE_BUF);
+	ret = memcmp(buf, buf2, PIPE_BUF);
+	printf("memcmp() at ofs=PIPE_BUF, expecting 0x1f => ret[%d]\n", ret);
+	memset(buf2, 0xf0, PIPE_BUF);
+	ret = memcmp(buf, buf2, PIPE_BUF);
+	printf("memcmp() at ofs=PIPE_BUF, checking for 0xf0 => ret[%d]\n", ret);
+	return 0;
+}
