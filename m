@@ -2,105 +2,118 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 69D54692845
-	for <lists+linux-api@lfdr.de>; Fri, 10 Feb 2023 21:27:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AB394692851
+	for <lists+linux-api@lfdr.de>; Fri, 10 Feb 2023 21:32:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233763AbjBJU11 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 10 Feb 2023 15:27:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33194 "EHLO
+        id S233775AbjBJUcG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 10 Feb 2023 15:32:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233693AbjBJU1Z (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 10 Feb 2023 15:27:25 -0500
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20D0D3C28
-        for <linux-api@vger.kernel.org>; Fri, 10 Feb 2023 12:27:21 -0800 (PST)
-Received: by mail-ej1-x62a.google.com with SMTP id qw12so18871401ejc.2
-        for <linux-api@vger.kernel.org>; Fri, 10 Feb 2023 12:27:21 -0800 (PST)
+        with ESMTP id S233192AbjBJUcG (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 10 Feb 2023 15:32:06 -0500
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB2AA23C60
+        for <linux-api@vger.kernel.org>; Fri, 10 Feb 2023 12:32:04 -0800 (PST)
+Received: by mail-pj1-x102f.google.com with SMTP id e10-20020a17090a630a00b0022bedd66e6dso11151319pjj.1
+        for <linux-api@vger.kernel.org>; Fri, 10 Feb 2023 12:32:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZamuEXhcVKZ56iZ3/bDfyhF3ja60Eault4YAmV7SNAQ=;
-        b=TsQKwX+1pP22FCPs56/vCyqzRlBYKeuKP+V+HcYEmqly8S8QflkfYnflBEP5lT6H5b
-         F5OqDGoPLeri/hXpHRWaa+8lQPdUE2328dZc2DlNg611cY7QRaeODNzYeLtGw62oGpye
-         2d9QF4GSiwH6uplYVACzSv0yvdtDNJX7mh9+w=
+        d=kernel-dk.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=TNGC2gVkur39N/z2BGm7FqvHrhN7MB6Kvr8/zKYBd54=;
+        b=ggqXtIq5KlvW4+bzHNM7jlAyPY0z+p8Jo7a8W5Rwk3QnaHJBZJYKrMboQklL4ZGFrv
+         doeD+gsAKuhGs6CO8+lmAhnM5DM5DY8zlKWhmcpxPJ18NtE30dQFnad21m2dFAXsZCAc
+         IWwmpfvczOUhuSrW5mcQ/18/WZ9Ewfltyt6cA8gE2QkAtzx5AfbrCOqS0Urw0unKmbqf
+         z2UYJcIBpB1tl7pg9rgtQlmG09i0W8p/w0a+VlN2yHKqCtKNN4uKxuDsYhjky/Drgn64
+         wdXVTkTZdehl/wP+SsMIOApp8GzW7OugxlIx+sFuTAFkMOuvey8XbdArw4uvJHVbYz/i
+         Lcww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZamuEXhcVKZ56iZ3/bDfyhF3ja60Eault4YAmV7SNAQ=;
-        b=3fcqsmDXyTncC/AjZdm6miq5v41MFhUa/gZDvBXoBk/PVHXizC10U6cNf0qyhpecQe
-         zjcaIbWAMMfISKO7t0mYJEKGnZenm6VWQnHAmR3g2uLAtvNZUHDfBj2WgkalL2E+/bkE
-         4QTHB3FkSQeP6/hG0+kJgR1cjpFnO0XGOy7O0BIRPH+6VA3OuhA4FIHU2JVMrJsv2jXd
-         jVj0jpcKh03zqcMWmZc46cQMYUiBleo/qYBvJxCsfzXmRAR3LiSjaj2BTE8wB+ECgmPi
-         L+FPToBRpM2ESjaWs+z/aUk/FIFHAXksupgrrbgxuzJbGyoxFbIL7Cdc9lMyehUGK028
-         gjQQ==
-X-Gm-Message-State: AO0yUKWJkANPERaZlbBSiNehhlGQtg9ITDo/lsKkC72DViv0clZeaaxi
-        PP0gLajck2Kzx1tnByUAeya0OfkzBbypnt3b59g=
-X-Google-Smtp-Source: AK7set92FkCdW39nnmta83HQKzirHhK7BVFMx6RqsmDNUqSUPjavwEQaBv6IpxsVTaRZT/vZEZnkUA==
-X-Received: by 2002:a17:907:6d29:b0:7c1:6e08:4c20 with SMTP id sa41-20020a1709076d2900b007c16e084c20mr21730379ejc.7.1676060839257;
-        Fri, 10 Feb 2023 12:27:19 -0800 (PST)
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com. [209.85.218.45])
-        by smtp.gmail.com with ESMTPSA id f15-20020a170906560f00b007add62dafbasm2827327ejq.157.2023.02.10.12.27.18
-        for <linux-api@vger.kernel.org>
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TNGC2gVkur39N/z2BGm7FqvHrhN7MB6Kvr8/zKYBd54=;
+        b=wrUmICL8ZyF/w5kLC1RN0egQgh+v0/aI4j0gJxdrzdiAW99/gIMeYmZgD/WqLH4CUg
+         J7aGwHcFc4LJLk6nlm5TaG0SCDoJIrKmsRkQL1k2xEQWNs45dU4PCWdCdKLj85XCeH9x
+         6i7kx1UqWKYLcN/bYAXi//pMBKr8BhuHNPaEAe3v8ajL26fDXJW0+z9xyhR/cbqJ5KZu
+         5shJ199lcwK7r3UxnKw32PNI3kS0LtMThPHr/AweXbo8TzGnnia2EK0MrlTk0CR6w2BV
+         faGlkCY0W5aAHANJ4USOMsYAstoigTQYqHKNiej6V/CvCL5dZMdOHAvd1GP8TzMJMQ49
+         AciA==
+X-Gm-Message-State: AO0yUKUckn+i+ZuyfyeBoUGdDS8yHcj9RGVRCeG2tJ1SfgnI4M11cX9K
+        E177GwAQko3wd+U2CSCqoALVkQ==
+X-Google-Smtp-Source: AK7set/R7DRDye2KopX4VXsYABJedGTdp+oIlslYijdw2jgktzMAsQBFaHyYZ8x0PhoUd6tBAQ0VEQ==
+X-Received: by 2002:a17:902:d2c3:b0:19a:7217:32af with SMTP id n3-20020a170902d2c300b0019a721732afmr3770005plc.5.1676061124414;
+        Fri, 10 Feb 2023 12:32:04 -0800 (PST)
+Received: from [192.168.1.136] ([198.8.77.157])
+        by smtp.gmail.com with ESMTPSA id d23-20020a170902b71700b001933b4b1a49sm2701300pls.183.2023.02.10.12.32.03
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Feb 2023 12:27:18 -0800 (PST)
-Received: by mail-ej1-f45.google.com with SMTP id rp23so18800464ejb.7
-        for <linux-api@vger.kernel.org>; Fri, 10 Feb 2023 12:27:18 -0800 (PST)
-X-Received: by 2002:a17:906:9381:b0:878:8061:e114 with SMTP id
- l1-20020a170906938100b008788061e114mr1469478ejx.0.1676060838145; Fri, 10 Feb
- 2023 12:27:18 -0800 (PST)
+        Fri, 10 Feb 2023 12:32:03 -0800 (PST)
+Message-ID: <1dd85095-c18c-ed3e-38b7-02f4d13d9bd6@kernel.dk>
+Date:   Fri, 10 Feb 2023 13:32:02 -0700
 MIME-Version: 1.0
-References: <0cfd9f02-dea7-90e2-e932-c8129b6013c7@samba.org>
- <CAHk-=wj8rthcQ9gQbvkMzeFt0iymq+CuOzmidx3Pm29Lg+W0gg@mail.gmail.com>
- <20230210021603.GA2825702@dread.disaster.area> <20230210040626.GB2825702@dread.disaster.area>
- <Y+XLuYh+kC+4wTRi@casper.infradead.org> <20230210065747.GD2825702@dread.disaster.area>
- <CALCETrWjJisipSJA7tPu+h6B2gs3m+g0yPhZ4z+Atod+WOMkZg@mail.gmail.com>
- <CAHk-=wj66F6CdJUAAjqigXMBy7gHquFMzPNAwKCgkrb2mF6U7w@mail.gmail.com>
- <CALCETrU-9Wcb_zCsVWr24V=uCA0+c6x359UkJBOBgkbq+UHAMA@mail.gmail.com>
- <CAHk-=wjQZWMeQ9OgXDNepf+TLijqj0Lm0dXWwWzDcbz6o7yy_g@mail.gmail.com>
- <CALCETrWuRHWh5XFn8M8qx5z0FXAGHH=ysb+c6J+cqbYyTAHvhw@mail.gmail.com>
- <CAHk-=wjuXvF1cA=gJod=-6k4ypbEmOczFFDKriUpOVKy9dTJWQ@mail.gmail.com> <CALCETrUXYts5BRZKb25MVaWPk2mz34fKSqCR++SM382kSYLnJw@mail.gmail.com>
-In-Reply-To: <CALCETrUXYts5BRZKb25MVaWPk2mz34fKSqCR++SM382kSYLnJw@mail.gmail.com>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Fri, 10 Feb 2023 12:27:01 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wgA=rB=7M_Fe3n9UkoW_7dqdUT2D=yb94=6GiGXEuAHDA@mail.gmail.com>
-Message-ID: <CAHk-=wgA=rB=7M_Fe3n9UkoW_7dqdUT2D=yb94=6GiGXEuAHDA@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
 Subject: Re: copy on write for splice() from file to pipe?
-To:     Andy Lutomirski <luto@kernel.org>
+Content-Language: en-US
+To:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Andy Lutomirski <luto@kernel.org>
 Cc:     Dave Chinner <david@fromorbit.com>,
         Matthew Wilcox <willy@infradead.org>,
         Stefan Metzmacher <metze@samba.org>,
-        Jens Axboe <axboe@kernel.dk>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>,
         Linux API Mailing List <linux-api@vger.kernel.org>,
         io-uring <io-uring@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         Al Viro <viro@zeniv.linux.org.uk>,
         Samba Technical <samba-technical@lists.samba.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+References: <0cfd9f02-dea7-90e2-e932-c8129b6013c7@samba.org>
+ <CAHk-=wj8rthcQ9gQbvkMzeFt0iymq+CuOzmidx3Pm29Lg+W0gg@mail.gmail.com>
+ <20230210021603.GA2825702@dread.disaster.area>
+ <20230210040626.GB2825702@dread.disaster.area>
+ <Y+XLuYh+kC+4wTRi@casper.infradead.org>
+ <20230210065747.GD2825702@dread.disaster.area>
+ <CALCETrWjJisipSJA7tPu+h6B2gs3m+g0yPhZ4z+Atod+WOMkZg@mail.gmail.com>
+ <CAHk-=wj66F6CdJUAAjqigXMBy7gHquFMzPNAwKCgkrb2mF6U7w@mail.gmail.com>
+ <CALCETrU-9Wcb_zCsVWr24V=uCA0+c6x359UkJBOBgkbq+UHAMA@mail.gmail.com>
+ <CAHk-=wjQZWMeQ9OgXDNepf+TLijqj0Lm0dXWwWzDcbz6o7yy_g@mail.gmail.com>
+ <CALCETrWuRHWh5XFn8M8qx5z0FXAGHH=ysb+c6J+cqbYyTAHvhw@mail.gmail.com>
+ <CAHk-=wjuXvF1cA=gJod=-6k4ypbEmOczFFDKriUpOVKy9dTJWQ@mail.gmail.com>
+ <CALCETrUXYts5BRZKb25MVaWPk2mz34fKSqCR++SM382kSYLnJw@mail.gmail.com>
+ <CAHk-=wgA=rB=7M_Fe3n9UkoW_7dqdUT2D=yb94=6GiGXEuAHDA@mail.gmail.com>
+From:   Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <CAHk-=wgA=rB=7M_Fe3n9UkoW_7dqdUT2D=yb94=6GiGXEuAHDA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Feb 10, 2023 at 11:56 AM Andy Lutomirski <luto@kernel.org> wrote:
->
-> i think this is almost exactly what Jeremy and Stefan are asking for
-> re: notification when the system is done with a zero-copy send:
+On 2/10/23 1:27 PM, Linus Torvalds wrote:
+> On Fri, Feb 10, 2023 at 11:56 AM Andy Lutomirski <luto@kernel.org> wrote:
+>>
+>> i think this is almost exactly what Jeremy and Stefan are asking for
+>> re: notification when the system is done with a zero-copy send:
+> 
+> Yeah, right now it's all just "incremented page counts", I think.
+> 
+> Even the pipe code itself doesn't know about writes that have already
+> been done, but that are pending elsewhere.
+> 
+> You'd have to ask the target file descriptor itself about "how much do
+> you have pending" or something.
 
-Yeah, right now it's all just "incremented page counts", I think.
+No, we very much do have that for io_uring zerocopy sends, which was in
+the bit below you snipped from the reply. It'll tell you when data has
+been sent out, and when the data has been acked. Or what am I missing
+here? Late to this thread, and there's a ton of stuff go to through.
 
-Even the pipe code itself doesn't know about writes that have already
-been done, but that are pending elsewhere.
+-- 
+Jens Axboe
 
-You'd have to ask the target file descriptor itself about "how much do
-you have pending" or something.
 
-           Linus
