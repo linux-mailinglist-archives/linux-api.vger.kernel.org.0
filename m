@@ -2,152 +2,222 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 314B96915B6
-	for <lists+linux-api@lfdr.de>; Fri, 10 Feb 2023 01:41:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 65992691695
+	for <lists+linux-api@lfdr.de>; Fri, 10 Feb 2023 03:16:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229827AbjBJAlK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 9 Feb 2023 19:41:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36054 "EHLO
+        id S229890AbjBJCQN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 9 Feb 2023 21:16:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231138AbjBJAk4 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 9 Feb 2023 19:40:56 -0500
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34C336D8CD
-        for <linux-api@vger.kernel.org>; Thu,  9 Feb 2023 16:40:37 -0800 (PST)
-Received: by mail-pj1-f43.google.com with SMTP id j1so3733032pjd.0
-        for <linux-api@vger.kernel.org>; Thu, 09 Feb 2023 16:40:37 -0800 (PST)
+        with ESMTP id S230167AbjBJCQM (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 9 Feb 2023 21:16:12 -0500
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 832676F8C5
+        for <linux-api@vger.kernel.org>; Thu,  9 Feb 2023 18:16:07 -0800 (PST)
+Received: by mail-pl1-x635.google.com with SMTP id r8so5063733pls.2
+        for <linux-api@vger.kernel.org>; Thu, 09 Feb 2023 18:16:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
+        d=fromorbit-com.20210112.gappssmtp.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=W7YPU86kRh43fh/B9xA9EKXQH40cZnkadx8AsjXbI3M=;
-        b=n02O/fL0+7AmXTmeiZ+eZ9d5ZT/GiXiS4usm8YWkyYIOPv66XejcWTG/tLJzS4ejkM
-         ovnmjNf+/V4WMPR5hJhke3vD4GplhYtvL9vEmYS6rKRFRInOWY36YmcSGRlRlXtIqk2x
-         zyyYNZ5RPe7YC1b4z/lhTrlqaQI8TZd/6fcFdDffIo1BEQ/N3P7wZXdRNFCaaVDVEmaC
-         k7EM7JL4YwRd8/j1fpMwi0Sv19KAavj/Z3Lox3YCddOW/BESEhsEfDKnGobVr1uu+fRI
-         IcumcKWqHnYFfcFoEuc9ODLNMlqMcGwYmuqo7O/bx2Pw8Bf2iZVjEA7+bSDnR5xz4m5D
-         EuCw==
+        bh=bmdsJe5VjS6cGWRPCrFBEnJ1Stz+m8nOHf+xEJbc8Ro=;
+        b=J8IifK/DvnXJNvhWBvQbcKdHIoBmbbPZ9GmygmQqrNwBSb1pD/HNZOZeiWQSwCoPci
+         NP3OTrWJb/g+vFhmEllum5yKYw4HmSuTpSf7i55JPj2Otjj8Ztgyi8fAQxheouAVG5gr
+         feUmWCgQKTCr0LdxXWejJcCO5GBTd8ROY77qtZY0Fa02CnRZBNcoPEAQeGO7e2TtM9Yj
+         8HlgeD73o8w0RL3OTbBGYNgFkV2ABhQP1834I5JNDAQmI5VJyB6at/AfhIBmtmrZ5zt7
+         LFe2GAliMmn6fR9D5GkGQJU5ayikMCd3K9h34G22YIj2ial/gBGc15dVfeAuO9Woi5dM
+         NBhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=W7YPU86kRh43fh/B9xA9EKXQH40cZnkadx8AsjXbI3M=;
-        b=gRnBVqNpS7aAvVQX73hPYSHh9nPh04AEXSMKRcw65kFzKtSiaelJKiaUYyBjEBEwjh
-         G5PnOWwHk1rgxzqVqMuIThgWuFgeC/DyGevm0Sgt+oxaoELNsWuFqU+Dl3PqxomTnd5Q
-         IguUxH2K7VU4y3FdXtmOn7vYZdOSI8qXxGqL0/9kNhJdhV2mi2IrtApGaOb1/t5lhZ9+
-         MSk8SzE3is3YqcQsRuWYK7MuJQijFP5hS7kT9qxzQYqcbCuWal8UaRlcO1dSew51QDSa
-         Ewh0kCS3RIEYdLm+Y0QBVUI1MdsobvkepZs9I/HmNKLE4ftE0/fbTO8CPxqrdrI7LLxM
-         e0wQ==
-X-Gm-Message-State: AO0yUKUDvs0G8C2NhVmsxjTwCpBcmADGFJxy4EeNDFLZCbOrIkzs5nkm
-        fKHNp5usksT0/anvJ8K3a8J+nQ==
-X-Google-Smtp-Source: AK7set/11E4jpVghRlgOmElBR2Eplp/YT9s1l5QVxf/giHCfieVdfEaQkx8Mgi5PszE54dGY0TW/bw==
-X-Received: by 2002:a17:902:e551:b0:19a:6cd2:a658 with SMTP id n17-20020a170902e55100b0019a6cd2a658mr34785plf.7.1675989335399;
-        Thu, 09 Feb 2023 16:35:35 -0800 (PST)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
-        by smtp.gmail.com with ESMTPSA id a11-20020a1709027e4b00b00189b2b8dbedsm2069302pln.228.2023.02.09.16.35.34
+        bh=bmdsJe5VjS6cGWRPCrFBEnJ1Stz+m8nOHf+xEJbc8Ro=;
+        b=j0I/maLVOYDVezucLJpJJ/bfZhbcdohUrHf/iTj/Qf3StFm8pgaeDx4V8zN9SXJXd6
+         nNIPCJG0+8XqgCO1qrOoSHh3xgspNlACS6sumzSopzQvYrzHqtAc4l4R6YkmtsOXMwSa
+         8vGoVxyseIGPQQduAI/DOxtYRQnPEwuXzlKUeSqa/Ib2mKtKdyHVreksCobKEw9qvyGt
+         ayXJ3rLAReaf23Hvqzt14tTmvZ4q/iCifNZTmyZXIOFhhnGgnIT0ZKwUBq8KUJZ38jDr
+         3otzUb35pbdEg1kRi+VneplPe2i2qNGTvhKXAUWEuVWWuRzb56HU+pyLNxpVbHJ+/Cz7
+         eH3Q==
+X-Gm-Message-State: AO0yUKWbaA5xiXMpGrXHMN0L2FUkGPZm1XzT9rv2CFmJ1eROw0KDaNjN
+        hYaTCD54N1QRdd4QfIvEslwvLA==
+X-Google-Smtp-Source: AK7set/5M4194uBmFaxqcnUSG3dAq8TXSG1+LxNlv7e9evS+gIEFmcux2K3a5fEecC8rDIi5Jlct7Q==
+X-Received: by 2002:a17:902:6b81:b0:199:bcb:3dae with SMTP id p1-20020a1709026b8100b001990bcb3daemr10334823plk.56.1675995366933;
+        Thu, 09 Feb 2023 18:16:06 -0800 (PST)
+Received: from dread.disaster.area (pa49-181-4-128.pa.nsw.optusnet.com.au. [49.181.4.128])
+        by smtp.gmail.com with ESMTPSA id i5-20020a170902eb4500b00199080af237sm2197368pli.115.2023.02.09.18.16.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Feb 2023 16:35:34 -0800 (PST)
-Date:   Fri, 10 Feb 2023 00:35:30 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Isaku Yamahata <isaku.yamahata@gmail.com>
-Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        wei.w.wang@intel.com
-Subject: Re: [PATCH v10 2/9] KVM: Introduce per-page memory attributes
-Message-ID: <Y+WRUriIoan/XChx@google.com>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-3-chao.p.peng@linux.intel.com>
- <20230209072529.GB4175971@ls.amr.corp.intel.com>
+        Thu, 09 Feb 2023 18:16:06 -0800 (PST)
+Received: from dave by dread.disaster.area with local (Exim 4.92.3)
+        (envelope-from <david@fromorbit.com>)
+        id 1pQIxH-00DSdE-UH; Fri, 10 Feb 2023 13:16:03 +1100
+Date:   Fri, 10 Feb 2023 13:16:03 +1100
+From:   Dave Chinner <david@fromorbit.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Stefan Metzmacher <metze@samba.org>, Jens Axboe <axboe@kernel.dk>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API Mailing List <linux-api@vger.kernel.org>,
+        io-uring <io-uring@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Samba Technical <samba-technical@lists.samba.org>
+Subject: Re: copy on write for splice() from file to pipe?
+Message-ID: <20230210021603.GA2825702@dread.disaster.area>
+References: <0cfd9f02-dea7-90e2-e932-c8129b6013c7@samba.org>
+ <CAHk-=wj8rthcQ9gQbvkMzeFt0iymq+CuOzmidx3Pm29Lg+W0gg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230209072529.GB4175971@ls.amr.corp.intel.com>
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL,
-        USER_IN_DEF_SPF_WL autolearn=unavailable autolearn_force=no
-        version=3.4.6
+In-Reply-To: <CAHk-=wj8rthcQ9gQbvkMzeFt0iymq+CuOzmidx3Pm29Lg+W0gg@mail.gmail.com>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Feb 08, 2023, Isaku Yamahata wrote:
-> On Fri, Dec 02, 2022 at 02:13:40PM +0800,
-> Chao Peng <chao.p.peng@linux.intel.com> wrote:
+On Thu, Feb 09, 2023 at 08:41:02AM -0800, Linus Torvalds wrote:
+> Adding Jens, because he's one of the main splice people. You do seem
+> to be stepping on his work ;)
 > 
-> > +static int kvm_vm_ioctl_set_mem_attributes(struct kvm *kvm,
-> > +					   struct kvm_memory_attributes *attrs)
-> > +{
-> > +	gfn_t start, end;
-> > +	unsigned long i;
-> > +	void *entry;
-> > +	u64 supported_attrs = kvm_supported_mem_attributes(kvm);
-> > +
-> > +	/* flags is currently not used. */
-> > +	if (attrs->flags)
-> > +		return -EINVAL;
-> > +	if (attrs->attributes & ~supported_attrs)
-> > +		return -EINVAL;
-> > +	if (attrs->size == 0 || attrs->address + attrs->size < attrs->address)
-> > +		return -EINVAL;
-> > +	if (!PAGE_ALIGNED(attrs->address) || !PAGE_ALIGNED(attrs->size))
-> > +		return -EINVAL;
-> > +
-> > +	start = attrs->address >> PAGE_SHIFT;
-> > +	end = (attrs->address + attrs->size - 1 + PAGE_SIZE) >> PAGE_SHIFT;
-> > +
-> > +	entry = attrs->attributes ? xa_mk_value(attrs->attributes) : NULL;
-> > +
-> > +	mutex_lock(&kvm->lock);
-> > +	for (i = start; i < end; i++)
-> > +		if (xa_err(xa_store(&kvm->mem_attr_array, i, entry,
-> > +				    GFP_KERNEL_ACCOUNT)))
-> > +			break;
-> > +	mutex_unlock(&kvm->lock);
-> > +
-> > +	attrs->address = i << PAGE_SHIFT;
-> > +	attrs->size = (end - i) << PAGE_SHIFT;
-> > +
-> > +	return 0;
-> > +}
-> > +#endif /* CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES */
-> > +
+> Jens, see
 > 
-> If memslot isn't private, it should return error if private attribute is set.
+>   https://lore.kernel.org/lkml/0cfd9f02-dea7-90e2-e932-c8129b6013c7@samba.org
+> 
+> On Thu, Feb 9, 2023 at 5:56 AM Stefan Metzmacher <metze@samba.org> wrote:
+> >
+> > So we have two cases:
+> >
+> > 1. network -> socket -> splice -> pipe -> splice -> file -> storage
+> >
+> > 2. storage -> file -> splice -> pipe -> splice -> socket -> network
+> >
+> > With 1. I guess everything can work reliable [..]
+> >
+> > But with 2. there's a problem, as the pages from the file,
+> > which are spliced into the pipe are still shared without
+> > copy on write with the file(system).
+> 
+> Well, honestly, that's really the whole point of splice. It was
+> designed to be a way to share the storage data without having to go
+> through a copy.
+> 
+> > I'm wondering if there's a possible way out of this, maybe triggered by a new
+> > flag passed to splice.
+> 
+> Not really.
+> 
+> So basically, you cannot do "copy on write" on a page cache page,
+> because that breaks sharing.
+> 
+> You *want* the sharing to break, but that's because you're violating
+> what splice() was for, but think about all the cases where somebody is
+> just using mmap() and expects to see the file changes.
+> 
+> You also aren't thinking of the case where the page is already mapped
+> writably, and user processes may be changing the data at any time.
+> 
+> > I looked through the code and noticed the existence of IOMAP_F_SHARED.
+> 
+> Yeah, no. That's a hacky filesystem thing. It's not even a flag in
+> anything core like 'struct page', it's just entirely internal to the
+> filesystem itself.
 
-Why?  I'd rather keep the two things separate.  If we enforce this sort of thing
-at KVM_SET_MEMORY_ATTRIBUTES, then we also have to enforce it at
-KVM_SET_USER_MEMORY_REGION.
+It's the mechanism that the filesystem uses to tell the generic
+write IO path that the filesystem needs to allocate a new COW extent
+in the backing store because it can't write to the original extent.
+i.e. it's not allowed to overwrite in place.
+
+It's no different to the VM_SHARED flag in the vma so the generic
+page fault path knows if it has to allocate a new COW page to take
+place on a write fault because it can't write to the original page.
+i.e. it's not allowed to overwrite in place.
+
+So by the same measure, VM_SHARED is a "hacky mm thing". It's not
+even a flag in anything core like 'struct page', it's just entirely
+internal to the mm subsystem itself.
+
+COW is COW is COW no matter which layer implements. :/
+
+> > Is there any other way we could archive something like this?
+> 
+> I suspect you simply want to copy it at splice time, rather than push
+> the page itself into the pipe as we do in copy_page_to_iter_pipe().
+> 
+> Because the whole point of zero-copy really is that zero copy. And the
+> whole point of splice() was to *not* complicate the rest of the system
+> over-much, while allowing special cases.
+> 
+> Linux is not the heap of bad ideas that is Hurd that does various
+> versioning etc, and that made copy-on-write a first-class citizen
+> because it uses the concept of "immutable mapped data" for reads and
+> writes.
+> 
+> Now, I do see a couple of possible alternatives to "just create a stable copy".
+> 
+> For example, we very much have the notion of "confirm buffer data
+> before copying". It's used for things like "I started the IO on the
+> page, but the IO failed with an error, so even though I gave you a
+> splice buffer, it turns out you can't use it".
+> 
+> And I do wonder if we could introduce a notion of "optimistic splice",
+> where the splice works exactly the way it does now (you get a page
+> reference), but the "confirm" phase could check whether something has
+> changed in that mapping (using the file versioning or whatever - I'm
+> hand-waving) and simply fail the confirm.
+> 
+> That would mean that the "splice to socket" part would fail in your
+> chain, and you'd have to re-try it. But then the onus would be on
+> *you* as a splicer, not on the rest of the system to fix up your
+> special case.
+> 
+> That idea sounds fairly far out there, and complicated and maybe not
+> usable. So I'm just throwing it out as a "let's try to think of
+> alternative solutions".
+
+Oh, that's sounds like an exact analogy to the new IOMAP_F_STALE
+flag and the validity cookie we have in the iomap write path code.
+The iomap contains cached, unserialised information, and the
+filesystem side mapping it is derived from can change asynchronously
+(e.g. by IO completion doing unwritten extent conversion). Hence the
+cached iomap can become stale, and that's a data corruption vector.
+
+The validity cookie is created when the iomap is built, and it is
+passed to a filesystem callback when a folio is locked for copy-in.
+This allows the IO path to detect that the filesystem side extent
+map has changed during the write() operations before we modify the
+contents of the folio. It is done under the locked folio so that the
+validation is atomic w.r.t. the modification to the folio contents
+we are about to perform.
+
+On detection of a cookie mismatch, the write operation then sets the
+IOMAP_F_STALE flag, backs out of the write to that page and ends the
+write to the iomap. The iomap infrastructure then remaps the file
+range from the offset of the folio at which the iomap change was
+detected.  The write the proceeds with the new, up to date iomap....
+
+We have had a similar "is the cached iomap still valid?" mechanism
+on the writeback side of the page cache for years. The details are
+slightly different, though I plan to move that code to use the same
+IOMAP_F_STALE infrastructure in the near future because it
+simplifies the writeback context wrapper shenanigans an awful lot.
+And it helps make it explicit that iomaps are cached/shadowed
+state, not the canonical source of reality.
+
+Applying the same principle it to multiply referenced cached page
+contents will be more complex. I suspect we might be able to
+leverage inode->i_version or ctime as the "data changed" cookie as
+they are both supposed to change on every explicit user data
+modification made to an inode. However, I think most of the
+complexity would be in requiring spliced pages to travel in some
+kind of container that holds the necessary verification
+information....
+
+Cheers,
+
+Dave.
+-- 
+Dave Chinner
+david@fromorbit.com
