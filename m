@@ -2,120 +2,119 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D4DE692A8F
-	for <lists+linux-api@lfdr.de>; Fri, 10 Feb 2023 23:51:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5FD81692DCE
+	for <lists+linux-api@lfdr.de>; Sat, 11 Feb 2023 04:20:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229572AbjBJWvy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 10 Feb 2023 17:51:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46146 "EHLO
+        id S230032AbjBKDUc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 10 Feb 2023 22:20:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36480 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229483AbjBJWvx (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 10 Feb 2023 17:51:53 -0500
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8817011EB7
-        for <linux-api@vger.kernel.org>; Fri, 10 Feb 2023 14:51:51 -0800 (PST)
-Received: by mail-pj1-x1035.google.com with SMTP id a8-20020a17090a6d8800b002336b48f653so5574214pjk.3
-        for <linux-api@vger.kernel.org>; Fri, 10 Feb 2023 14:51:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=R4N26B9VGGTnqC3xqOaxRLSDi0f2Dt0eKjIQvb/X62o=;
-        b=u5HRO63gAcA4nfusNIOQSq65f86ZTJ3MqNvxRzAX5W+R22e0AtrfGMumqSuVrq1lF9
-         NsFXM7VxYdTkvyXmirDO3xIUpW+ewcW65e2UkdwGOQJ9YYAwpFCJYyHSbkZWApVHEZGE
-         trnv6AWqvv6dHFaEgCi4hVQIt+kM56QLFx8gqLW0NWJFYOuOwB8G583A//zD1Sai/c7C
-         Yv8iBj0gA1lfIgrL3ID5Im4XMbfR6eu3isQI3hqYm8g51dYY/9UgnTVjXvGyKAjaFsRq
-         qoIJ6191tOa8qIoM1uzUoaYGc2WROgSeZ+8ShxrfdZMyZQIyFSeReusVE5uiSq1tUukg
-         zUbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=R4N26B9VGGTnqC3xqOaxRLSDi0f2Dt0eKjIQvb/X62o=;
-        b=Ubwllaxz6LSb4XUJlRstoS6mP3qNlLyctk871G9E17heiBfvAKwTJMqf3N3A+ncMVU
-         1hz+GLSpyeVIqBbY+qqBqRxolDccCUkXliyyxO4Mz3iU2lIaoOt0AzsZQBZJ0BxMhD5F
-         Is3GVIQchV+07JVp04Ks3G6eXPZ6H5+RCOsD/4t8VOueLF5nGacS4z4Dd6PoxxsB4rnC
-         sKl72aQibwHfn3icmzI3XWofMd9D6PHj3MRmVuwbeIwpr+NzuwLoC9wxrGchj3GeQvg0
-         e7E3lW0XEfNKd9D4nFRUGFgCSQeIDHmkq7JNaQUo7mvtoSYe2DtvSqVtSIoYUIGh+sBQ
-         zbLg==
-X-Gm-Message-State: AO0yUKUzV0ThUxddR7A+ZGscHV6aBUxFTld5PtLrwW2trGhD74nkHOXC
-        lX2xp4iF6I/jJ/5iVYDLb0gT9A==
-X-Google-Smtp-Source: AK7set/0HEQG/FQ9H218VpRyJjXTjhHzpcw6zsWsYqjqsJHruBzZv/lO8Nfnn1XVxrZ0jfTCujLcLQ==
-X-Received: by 2002:a05:6a20:7f8e:b0:be:cd93:66cd with SMTP id d14-20020a056a207f8e00b000becd9366cdmr18769759pzj.2.1676069510837;
-        Fri, 10 Feb 2023 14:51:50 -0800 (PST)
-Received: from [192.168.1.136] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id z29-20020a63b91d000000b0047899d0d62csm3439655pge.52.2023.02.10.14.51.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Feb 2023 14:51:50 -0800 (PST)
-Message-ID: <c395bf68-108e-1674-1a1c-4cb26178d87c@kernel.dk>
-Date:   Fri, 10 Feb 2023 15:51:49 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: copy on write for splice() from file to pipe?
-Content-Language: en-US
-To:     David Laight <David.Laight@ACULAB.COM>,
-        'Linus Torvalds' <torvalds@linux-foundation.org>,
-        Dave Chinner <david@fromorbit.com>
-Cc:     Stefan Metzmacher <metze@samba.org>,
+        with ESMTP id S229999AbjBKDUM (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 10 Feb 2023 22:20:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0451F85B04
+        for <linux-api@vger.kernel.org>; Fri, 10 Feb 2023 19:18:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1676085535;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=fUy/CuYrWJP2Bt4Lb/Dgly0Z7KbcxY16FRGX/OI4RVI=;
+        b=FgIUUup6g6DYbJP0BFZeHn/VQHAMv5yf8VRhgm4CA+NNgunT3QgBs5tXe8InQ4//d0uq3O
+        xnyy5jYO/Ub4Uruj67wqod8MEMuQtSRb44RUxgMwzyFhMxOTJOhuGh8Ybrh5p+OU2d3T92
+        Zu2yPFvPVJEF1xAf5Sleih/OzwetfoY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-465-1ACS6fHSOc6JBoGHdLfIUA-1; Fri, 10 Feb 2023 22:18:51 -0500
+X-MC-Unique: 1ACS6fHSOc6JBoGHdLfIUA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D9DB21C0514F;
+        Sat, 11 Feb 2023 03:18:50 +0000 (UTC)
+Received: from T590 (ovpn-8-18.pek2.redhat.com [10.72.8.18])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 580F3400DFA1;
+        Sat, 11 Feb 2023 03:18:42 +0000 (UTC)
+Date:   Sat, 11 Feb 2023 11:18:38 +0800
+From:   Ming Lei <ming.lei@redhat.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Jens Axboe <axboe@kernel.dk>, Andy Lutomirski <luto@kernel.org>,
+        Dave Chinner <david@fromorbit.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Stefan Metzmacher <metze@samba.org>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>,
         Linux API Mailing List <linux-api@vger.kernel.org>,
         io-uring <io-uring@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         Al Viro <viro@zeniv.linux.org.uk>,
-        Samba Technical <samba-technical@lists.samba.org>
-References: <0cfd9f02-dea7-90e2-e932-c8129b6013c7@samba.org>
- <CAHk-=wj8rthcQ9gQbvkMzeFt0iymq+CuOzmidx3Pm29Lg+W0gg@mail.gmail.com>
- <20230210021603.GA2825702@dread.disaster.area>
- <20230210040626.GB2825702@dread.disaster.area>
- <CAHk-=wip9xx367bfCV8xaF9Oaw4DZ6edF9Ojv10XoxJ-iUBwhA@mail.gmail.com>
- <20230210061953.GC2825702@dread.disaster.area>
- <CAHk-=wj6jd0JWtxO0JvjYUgKfnGEj4BzPVOfY+4_=-0iiGh0tw@mail.gmail.com>
- <304d5286b6364da48a2bb1125155b7e5@AcuMS.aculab.com>
-From:   Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <304d5286b6364da48a2bb1125155b7e5@AcuMS.aculab.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        Samba Technical <samba-technical@lists.samba.org>,
+        ming.lei@redhat.com
+Subject: Re: copy on write for splice() from file to pipe?
+Message-ID: <Y+cJDnnMuirSjO3E@T590>
+References: <CAHk-=wgA=rB=7M_Fe3n9UkoW_7dqdUT2D=yb94=6GiGXEuAHDA@mail.gmail.com>
+ <1dd85095-c18c-ed3e-38b7-02f4d13d9bd6@kernel.dk>
+ <CAHk-=wiszt6btMPeT5UFcS=0=EVr=0injTR75KsvN8WetwQwkA@mail.gmail.com>
+ <fe8252bd-17bd-850d-dcd0-d799443681e9@kernel.dk>
+ <CAHk-=wiJ0QKKiORkVr8n345sPp=aHbrLTLu6CQ-S0XqWJ-kJ1A@mail.gmail.com>
+ <7a2e5b7f-c213-09ff-ef35-d6c2967b31a7@kernel.dk>
+ <CALCETrVx4cj7KrhaevtFN19rf=A6kauFTr7UPzQVage0MsBLrg@mail.gmail.com>
+ <b44783e6-3da2-85dd-a482-5d9aeb018e9c@kernel.dk>
+ <2bb12591-9d24-6b26-178f-05e939bf3251@kernel.dk>
+ <CAHk-=wjzqrD5wrfeaU390bXEEBY2JF-oKmFN4fREzgyXsbQRTQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wjzqrD5wrfeaU390bXEEBY2JF-oKmFN4fREzgyXsbQRTQ@mail.gmail.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 2/10/23 3:41?PM, David Laight wrote:
-> From: Linus Torvalds
->> Sent: 10 February 2023 17:24
-> ...
->> And when it comes to networking, in general things like TCP checksums
->> etc should be ok even with data that isn't stable.  When doing things
->> by hand, networking should always use the "copy-and-checksum"
->> functions that do the checksum while copying (so even if the source
->> data changes, the checksum is going to be the checksum for the data
->> that was copied).
->>
->> And in many (most?) smarter network cards, the card itself does the
->> checksum, again on the data as it is transferred from memory.
->>
->> So it's not like "networking needs a stable source" is some really
->> _fundamental_ requirement for things like that to work.
+On Fri, Feb 10, 2023 at 02:08:35PM -0800, Linus Torvalds wrote:
+> On Fri, Feb 10, 2023 at 1:51 PM Jens Axboe <axboe@kernel.dk> wrote:
+> >
+> > Speaking of splice/io_uring, Ming posted this today:
+> >
+> > https://lore.kernel.org/io-uring/20230210153212.733006-1-ming.lei@redhat.com/
 > 
-> It is also worth remembering that TCP needs to be able
-> to retransmit the data and a much later time.
-> So the application must not change the data until it has
-> been acked by the remote system.
+> Ugh. Some of that is really ugly. Both 'ignore_sig' and
+> 'ack_page_consuming' just look wrong. Pure random special cases.
+> 
+> And that 'ignore_sig' is particularly ugly, since the only thing that
+> sets it also sets SPLICE_F_NONBLOCK.
+> 
+> And the *only* thing that actually then checks that field is
+> 'splice_from_pipe_next()', where there are exactly two
+> signal_pending() checks that it adds to, and
+> 
+>  (a) the first one is to protect from endless loops
+> 
+>  (b) the second one is irrelevant when  SPLICE_F_NONBLOCK is set
+> 
+> So honestly, just NAK on that series.
+> 
+> I think that instead of 'ignore_sig' (which shouldn't exist), that
+> first 'signal_pending()' check in splice_from_pipe_next() should just
+> be changed into a 'fatal_signal_pending()'.
 
-This has been covered, and:
+Good point, here the signal is often from task_work_add() called by
+io_uring.
 
-> I don't think io_uring has any way to indicate anything
-> other than 'the data has been accepted by the socket'.
+> 
+> But that 'ack_page_consuming' thing looks even more disgusting, and
+> since I'm not sure why it even exists, I don't know what it's doing
+> wrong.
 
-This is wrong and has also been covered.
+The motivation is for confirming that if the produced buffer can be used
+for READ or WRITE. Another way could be to add PIPE_BUF_FLAG_MAY_READ[WRITE].
 
--- 
-Jens Axboe
+thanks,
+Ming
 
