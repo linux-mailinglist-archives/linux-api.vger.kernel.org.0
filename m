@@ -2,135 +2,160 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AAF91694E9A
-	for <lists+linux-api@lfdr.de>; Mon, 13 Feb 2023 19:01:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DBA669550E
+	for <lists+linux-api@lfdr.de>; Tue, 14 Feb 2023 00:53:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230419AbjBMSBw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 13 Feb 2023 13:01:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45016 "EHLO
+        id S229819AbjBMXxw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 13 Feb 2023 18:53:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230430AbjBMSBt (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 13 Feb 2023 13:01:49 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29EBA166C8
-        for <linux-api@vger.kernel.org>; Mon, 13 Feb 2023 10:01:43 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7D21D61224
-        for <linux-api@vger.kernel.org>; Mon, 13 Feb 2023 18:01:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9572C4339E
-        for <linux-api@vger.kernel.org>; Mon, 13 Feb 2023 18:01:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1676311301;
-        bh=hUhMtFd+L7kU2UfBGgkzPSaKO2S0M+fHeGGsoULquzs=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=mJhto6ulcvsXEIAxzLZBgi5DE3HQnOQsI6Gk46sWL0sVxD7q5fL0cJnuqYKwEOSwH
-         QM7RwPx/lHR3+uyZ1gUqbKoMlYlXH4Q8JGioqsLnmew3IrN5fyl8Gquc8B9gwz+y0X
-         sAQ2pQWGRj8Ir0w66U53uiit6AirOHpcMDPAxpBsp+cpWDUEmcmWjWo9j42RmX7L+U
-         dq1XejB2AnDNpbQFriMv9O0m/hhta5a5/LG0l+CIw/O6jIVwa+0qCiSAKlrcv6LfA3
-         k83v2zHTBSZO//0FhTyuF7H8NpwnOMTUrCA5KTVzGQZw21Me8uigMyWLNbBGJpQErq
-         dhowz+ufACTIA==
-Received: by mail-ed1-f52.google.com with SMTP id fj20so14116532edb.1
-        for <linux-api@vger.kernel.org>; Mon, 13 Feb 2023 10:01:41 -0800 (PST)
-X-Gm-Message-State: AO0yUKXG0WVCbqs4FJjUZZKtEYlgVQ8UGlFLQDgujMRI2anpbzRc5jBB
-        mZ77NcFJh35YufIPUJMSmr0xyIm5vSMR7HtTP3m2pQ==
-X-Google-Smtp-Source: AK7set9UjffZ8cIv9LXOfN7BXhlzgG3TlnmR1bNpfFvkCexf/s6su8bQqb/Qcrsj/09g6AsCSSy+hLqepFw/ZDipxP4=
-X-Received: by 2002:a50:ba8d:0:b0:4ab:1c64:a9ed with SMTP id
- x13-20020a50ba8d000000b004ab1c64a9edmr5213538ede.2.1676311300124; Mon, 13 Feb
- 2023 10:01:40 -0800 (PST)
+        with ESMTP id S229489AbjBMXxv (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 13 Feb 2023 18:53:51 -0500
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCCB01A5;
+        Mon, 13 Feb 2023 15:53:46 -0800 (PST)
+Received: by mail-pl1-x62d.google.com with SMTP id e17so6429579plg.12;
+        Mon, 13 Feb 2023 15:53:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=oN12p0IDxvmorHBGQ7GzjlWOyGaJlkT0wNKpNtRNPE8=;
+        b=C91FV0IHIHySQTRkb86+GocwXDr8WlYgQiYnUNZd1Ke1PWzwc0Ui3swRKoM/EMugmd
+         mtDyIYfBfzKVpqk3ZurWfE4C06NJuP7sWx9xClULK72fPaRyTgD475XUP5w0R0lmJSxg
+         fqPMDhOQ1CLyvdP8vm+bEyoR42WnbkStnrKpQAmZxWuxcmJUuRvcyRi1Rk+aqkGEy+qK
+         F0pLZENP3TbitJijIx7cS7NuofTEJwgwDOkN5GYMW48d2+LHtiHhs30rOQ3tZSv01O8e
+         FB7gFZ7JbhxL0Pno8NSgZttpMsmCG6pRRBkbmMYW6rJKC8Z6IMP2dpIC+LDTcFZNOFFC
+         kxfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oN12p0IDxvmorHBGQ7GzjlWOyGaJlkT0wNKpNtRNPE8=;
+        b=xqNZuHMNxgT99rZWQQNnw8wpOg3qzosHQmhZyYVbFtaloz/QbEWRZQyZOt/2ErBMOz
+         8t3kfPaDYJUdJ37k7GsB3xZs8f+eDrNHSM8Gv/YCTpK3WTMNZgncvKZ6rDm7W0q/IejL
+         BOSbGmo0Fh5DE4zAy+4eX5xdxrH6AYACL6+xRsXSXaiimR4EP5zS0j6c/K6Iwg2ChBLg
+         qrri3JdwhGCVRqc12fFVIguPSnyle0fENkqkDSu9yG5tUunx9JE0RGiw1rdWHUizYJHA
+         LtdG0Itct4B8WC97y5w/d7X55xveuFUsCk3o173VB3Nw33n/RL+++mGn+XNuw55gFOm6
+         YcCQ==
+X-Gm-Message-State: AO0yUKVAPg73vouIYrCh0i7evYzmSJbBHtaXlCzgo8wRh07CMSl3SbM2
+        /P1rocIvc9ugnjVxXzMxRIU=
+X-Google-Smtp-Source: AK7set/amp4VFmNZkQNRNmMa3hykvI7jc+MqhCv8WD2YyR0i7BGfBFGLnLeucu0LFmUtyzTRowTMiQ==
+X-Received: by 2002:a05:6a20:12c7:b0:c3:161a:b954 with SMTP id v7-20020a056a2012c700b000c3161ab954mr391641pzg.44.1676332425999;
+        Mon, 13 Feb 2023 15:53:45 -0800 (PST)
+Received: from localhost ([192.55.54.55])
+        by smtp.gmail.com with ESMTPSA id z20-20020aa791d4000000b0058e08796e98sm8406145pfa.196.2023.02.13.15.53.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Feb 2023 15:53:45 -0800 (PST)
+Date:   Mon, 13 Feb 2023 15:53:43 -0800
+From:   Isaku Yamahata <isaku.yamahata@gmail.com>
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     Isaku Yamahata <isaku.yamahata@gmail.com>,
+        Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>, tabba@google.com,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        wei.w.wang@intel.com
+Subject: Re: [PATCH v10 2/9] KVM: Introduce per-page memory attributes
+Message-ID: <20230213235343.GC4175971@ls.amr.corp.intel.com>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <20221202061347.1070246-3-chao.p.peng@linux.intel.com>
+ <20230209072529.GB4175971@ls.amr.corp.intel.com>
+ <Y+WRUriIoan/XChx@google.com>
 MIME-Version: 1.0
-References: <20230210061953.GC2825702@dread.disaster.area> <Y+oCBnz2nLtXrz7O@gondor.apana.org.au>
-In-Reply-To: <Y+oCBnz2nLtXrz7O@gondor.apana.org.au>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Mon, 13 Feb 2023 10:01:27 -0800
-X-Gmail-Original-Message-ID: <CALCETrXKkZw3ojpmTftur1_-dEi6BOo9Q0cems_jgabntNFYig@mail.gmail.com>
-Message-ID: <CALCETrXKkZw3ojpmTftur1_-dEi6BOo9Q0cems_jgabntNFYig@mail.gmail.com>
-Subject: Re: copy on write for splice() from file to pipe?
-To:     Herbert Xu <herbert@gondor.apana.org.au>
-Cc:     Dave Chinner <david@fromorbit.com>, torvalds@linux-foundation.org,
-        metze@samba.org, axboe@kernel.dk, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org, io-uring@vger.kernel.org,
-        linux-kernel@vger.kernel.org, viro@zeniv.linux.org.uk,
-        samba-technical@lists.samba.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <Y+WRUriIoan/XChx@google.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Feb 13, 2023 at 1:45 AM Herbert Xu <herbert@gondor.apana.org.au> wrote:
->
-> Dave Chinner <david@fromorbit.com> wrote:
-> >
-> > IOWs, the application does not care if the data changes whilst they
-> > are in transport attached to the pipe - it only cares that the
-> > contents are stable once they have been delivered and are now wholly
-> > owned by the network stack IO path so that the OTW encodings
-> > (checksum, encryption, whatever) done within the network IO path
-> > don't get compromised.
->
-> Is this even a real problem? The network stack doesn't care at
-> all if you modify the pages while it's being processed.  All the
-> things you've mentioned (checksum, encryption, etc.) will be
-> self-consistent on the wire.
->
-> Even when actual hardware offload is involved it's hard to see how
-> things could possibly go wrong unless the hardware was going out of
-> its way to do the wrong thing by fetching from memory twice.
->
+On Fri, Feb 10, 2023 at 12:35:30AM +0000,
+Sean Christopherson <seanjc@google.com> wrote:
 
-There's a difference between "kernel speaks TCP (or whatever)
-correctly" and "kernel does what the application needs it to do".
-When I write programs that send data on the network, I want the kernel
-to send the data that I asked it to send.  As a silly but obvious
-example, suppose I have two threads, and all I/O is blocking
-(O_NONBLOCK is not set, etc):
+> On Wed, Feb 08, 2023, Isaku Yamahata wrote:
+> > On Fri, Dec 02, 2022 at 02:13:40PM +0800,
+> > Chao Peng <chao.p.peng@linux.intel.com> wrote:
+> > 
+> > > +static int kvm_vm_ioctl_set_mem_attributes(struct kvm *kvm,
+> > > +					   struct kvm_memory_attributes *attrs)
+> > > +{
+> > > +	gfn_t start, end;
+> > > +	unsigned long i;
+> > > +	void *entry;
+> > > +	u64 supported_attrs = kvm_supported_mem_attributes(kvm);
+> > > +
+> > > +	/* flags is currently not used. */
+> > > +	if (attrs->flags)
+> > > +		return -EINVAL;
+> > > +	if (attrs->attributes & ~supported_attrs)
+> > > +		return -EINVAL;
+> > > +	if (attrs->size == 0 || attrs->address + attrs->size < attrs->address)
+> > > +		return -EINVAL;
+> > > +	if (!PAGE_ALIGNED(attrs->address) || !PAGE_ALIGNED(attrs->size))
+> > > +		return -EINVAL;
+> > > +
+> > > +	start = attrs->address >> PAGE_SHIFT;
+> > > +	end = (attrs->address + attrs->size - 1 + PAGE_SIZE) >> PAGE_SHIFT;
+> > > +
+> > > +	entry = attrs->attributes ? xa_mk_value(attrs->attributes) : NULL;
+> > > +
+> > > +	mutex_lock(&kvm->lock);
+> > > +	for (i = start; i < end; i++)
+> > > +		if (xa_err(xa_store(&kvm->mem_attr_array, i, entry,
+> > > +				    GFP_KERNEL_ACCOUNT)))
+> > > +			break;
+> > > +	mutex_unlock(&kvm->lock);
+> > > +
+> > > +	attrs->address = i << PAGE_SHIFT;
+> > > +	attrs->size = (end - i) << PAGE_SHIFT;
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +#endif /* CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES */
+> > > +
+> > 
+> > If memslot isn't private, it should return error if private attribute is set.
+> 
+> Why?  I'd rather keep the two things separate.  If we enforce this sort of thing
+> at KVM_SET_MEMORY_ATTRIBUTES, then we also have to enforce it at
+> KVM_SET_USER_MEMORY_REGION.
 
-char buffer[1024] = "A";
-
-Thread A:
-send(fd, buffer, 1, 0);
-
-Thread B:
-mb();
-buffer[0] = 'B';
-mb();
-
-
-Obviously, there are three possible valid outcomes: Thread A can go
-first (send returns before B changes the buffer), and 'A' gets sent.
-Thread B can go first (the buffer is changed before send() starts),
-and 'B' gets sent.  Or both can run concurrently, in which case the
-data sent is indeterminate.
-
-But it is not valid for send() to return, then the buffer to change,
-and 'B' to get sent, just like:
-
-char foo[] = "A";
-send(fd, foo, 1, 0);
-foo[0] = 'B';
-
-must send 'A', not 'B'.
-
-The trouble with splice() is that there is no clear point at which the
-splice is complete and the data being sent is committed.  I don't
-think user applications need the data committed particularly quickly,
-but I do think it needs to be committed "eventually* and there needs
-to be a point at which the application knows it's been committed.
-Right now, if a user program does:
-
-Write 'A' to a file
-splice that file to a pipe
-splice that pipe to a socket
-... wait until when? ...
-Write 'B' to a file
-
-There is nothing the user program can wait for to make sure that 'A'
-gets sent, but saying that the kernel speaks TCP correctly without
-solving this problem doesn't actually solve the problem.
+For device assignment via shared GPA, non-private memory slot needs to be
+allowed.
+-- 
+Isaku Yamahata <isaku.yamahata@gmail.com>
