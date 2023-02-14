@@ -2,136 +2,157 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 85494696C51
-	for <lists+linux-api@lfdr.de>; Tue, 14 Feb 2023 19:06:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 76862696C61
+	for <lists+linux-api@lfdr.de>; Tue, 14 Feb 2023 19:07:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233125AbjBNSGV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 14 Feb 2023 13:06:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36558 "EHLO
+        id S233297AbjBNSHu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 14 Feb 2023 13:07:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229739AbjBNSGU (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 14 Feb 2023 13:06:20 -0500
-Received: from sonic307-15.consmr.mail.ne1.yahoo.com (sonic307-15.consmr.mail.ne1.yahoo.com [66.163.190.38])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99A692E0D3
-        for <linux-api@vger.kernel.org>; Tue, 14 Feb 2023 10:06:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1676397974; bh=wCH+u0/LEXEQVzu9z2jNCUPlBtz//wct/yPPKwav+5Q=; h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To; b=bP+xfHfhuYQJRyLuoE48GpngBVCFdKrZQgF/rLARvSLQhKViP43F34yX324EmC1eNicqFMLfElczlWB9NnyhDx+XrL4swKQuU3Ks7EZXHbBBxTEGTUyc9oKqprpB2QrpV1jKCLCKNmZBjdRAFgglLfGVUgPn0Sl6qLW7sxvnWZD2gXIejYeQE26M0WuB+ZADbYZ9MLWehw/WVKm9eal4SQ3emcLIGvnQI3ECFyCMaeM+iLRgSNwqtBxUw4C4gLhhqGiqGPyvmYVzdflnwOim82PKLlKT0GVSHgQPNzUsZhTbZtNgD47DdXwqvOf1Yt+hSmoNKdsl5XvDMeD1P7eXfA==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1676397974; bh=pRnv4rRzLSflbq7aRPuTHbPdafdCACJponBogYLgFgA=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=Fju46XvmivpzLWgUZBwetjlBQUlYr7xEHeyDIOW2NKt5sUAdY/qWuYL5Fc+tw7dTGSEZD4vWy6dnbSvmBhsz8+t594RxpGRPuYY4FJZOwIn2rkfH94Ahl3H/b4EkSL8GAzhId4cKKL0PIo3fqaHHF51P09kp1tkkSTdRtFNuxFUO4km00JoQxUHl7PYaYQWfc/9KbaJfRjBDNWigN0W0wI7QpjkNNgEgmGD+tNWIS0TKmX8bUfu+FIIzzrWuhSD+uVSElTDqWJG5uy1P0RSglQ/q07YvzCNwu9/IHpLjyj0CVKm1HLNSALT3Sm3BaDjoI12ndXy8HDWfrci1VhLuvg==
-X-YMail-OSG: PI4V1kIVM1mPgP.ugV.egUTt7LD4EG6sN5S6uPi6F.LamxL7aCrp4EakMEdgkc1
- dPCcFVvdKJd44Iss8sY_avoxfO9slbeWYa8n4UCl8MWw89B44mZtgNacH6o0XrRaOCxAqe3g97S.
- cf6UqIsiR0eWR7mhm2C9J9RDkeO4lLUhS.8GvlTzOXfSh.jb6_oKZuTJhpu18hVms8lTRSsh3cYC
- bRBe9zzmmT9KMyF5XgFKCrtRPneqYEWwh0ZKPCeE32BD6bVp6nbDpxjgXWFP0ZPUwafAUPMCwTTA
- q1cRhvBjh4o6FLcuCATi3Ds33N8zFTKhOWnG5VvLg.SoeVxEmxDc4PTxsG4GLy7gx9fJ7E.hLA3d
- XK8ifRZ898pXc9ikcEl07v.D3JVDw_YCXMngJsNMxcYYcqo.usKOPXCi9kB_m.q2tZ023WzEnZYV
- 8l33GmGRXwHnksq2ghKq2xwDW090tt.MU9pnAPAow5jxj8XcvEBWL4xbdgour6_f.0NW48bNPulU
- XyaxlZyhUnzS5P2EoOzT9KtwmRnqhAQHsCOfZO8G7QCgpfFCo.m83YcvqWCaT9ZRxOY5A6_GO3iT
- xmcCUSruJIsHzoEM5GXORAVtZa72317KLiebBJaKte8i6Av2e0SyBDs_qg9xzxVSIZ9d7HesEfnK
- 7XaK5oGt24CtLIfSF2SheUCbmzOLrg8o9Vsawv3siuNz1S89PJ7Guq2B7WZGlzVtBRZoKpw60J8x
- QTLS0tVj5yCICHc5Yb9xuQ5G7ImYznbEc0kZAh4t8g63Pk.ve9Wy4gAafXonSpXgivfEO8UPuyoh
- WIhZ.eUOzXzgrlraDD7K_o4Gqys0GZS2VmkaRd954H2XkvZCqS0gha93xlEgFWVNkPaWwqo6lOb6
- YXhrfVAaZx_7B.RCFn0Cx07LhynXnYM_T5cQiiLXrlaebDzJoiwWsaPT4Ht.Z.CEBwiLb1jhsW22
- RzZ5J6nLeSMXXIMMB0fthOAyuj2iRXljk.R9I9D7.MkuGqRK91JSnbaa.zDl_B1GYd0Q3KzuWZcf
- Gxckc4L.fechTsjAhNnFwXFdR9ac4ghXiKTveQutuaW6P.EiJNgkFUPo4HwmUC5DWEabfo.hWN2M
- f8crWOu9GvcWFxB8gft3WCQA8VPTcbzRGEm8CCZpQrdst0G.rA2fSjus_MsuF.I9bolSqbaLLL1L
- 6532gxIk_vpnFDAL4ZYW2H40NOQ9l9VBxCbyvxxDtaHq3adZKteNyIZfBIV8ZZYKoUAJlapnOJov
- i4snJL6j9VszMZvvRWPZzkwxvKS83MHIz8kcisLXO40KkMzg9xWMkwTdGubYxg1ncm4Lycmlt1J1
- cEa8AyEMTfoeFpjvRPAy0UVwLd8q0vb1h52XJYmBtKZJdmoEn7UF7DOIB45XUJCxx9ycCdxkTe4Z
- _uRsodEtMqN3iS4741a7eCEgqk9OsdmZrlMJkwWSJXo4gyuunp.9UBhY9YciEBhWamF4apgILbcW
- qdqS9jgVRl.GaX_v0ok6Vh5.8scRrVzuX8XZPVsR35XPFJUBxEsGxUY.FBzeORsMGxeqV_Ut3fqf
- RHzpfdIHm5cRLoPtcaKdstsLSkoLcQP.iGbliyjDxsFTdQh8G6Dy3Cke2zdcnkHxjA3aBMlv9f0x
- CLDQVCKpg99lVJYw7iue.H7BLq_sn.LTMv.fBnXAe8t8I5ZPhLDC0LP2uwuGrStjFdhH3pnKVW_G
- o3EDeulIzYQO8a7zrW9ZWRQwaRDUIxNJ.5TpvIsP7IpdjA5MhQJ1U_54MSHFmlqqEQswUUM2FdVH
- fJdD3yAnCzxuQCFdY.n3lZb8OlnhFNaIjh6aPYB32tcJoifaDVRIqOjdnnBraZ_gbOkJJ7k2Sqmn
- XXb77MgWkictWXAVCrJg6vVpcM39v5FQqqwDlPneLgLPZL0U6WnM_UaUhwU8mYDf5zIEpvnju0i4
- MaK_93sFqWd4XoYurBJ5x2uGo16.yjDxBsAXZCEbk5uSYsRekVBCySYdXC.Kjv1UmibogJ2P.EEz
- j3pCmWRxW9yVfP8_Nl9B4WsMwgjhKMiGbHABsle1B.JQYqz_ENwKCdwzxWmaNzbTaIOXWIwD9ug_
- 76YPKb5u1GpBvMIlntloxnHdcXY6bxFAGVK.tNOyphSypi4uZWzqL2.dxUbXrB5Y1Ju6Djdp0hBc
- V7gsGAS0CKr_nrfMwYCHh3Zo81iSAkcmQrAWFhr6Ayb1dsp.kz367_oeKribhLtA61aAFk1R5NgY
- jZwDbsKRaTOZ.jbBzVnfSxiiasjtFOq4VxQ--
-X-Sonic-MF: <casey@schaufler-ca.com>
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic307.consmr.mail.ne1.yahoo.com with HTTP; Tue, 14 Feb 2023 18:06:14 +0000
-Received: by hermes--production-gq1-655ddccc9-j6kw5 (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 73003d98f66f93508a520a49ba284bc8;
-          Tue, 14 Feb 2023 18:06:10 +0000 (UTC)
-Message-ID: <5b334b57-3fcf-9cfa-7745-5f6895be9768@schaufler-ca.com>
-Date:   Tue, 14 Feb 2023 10:06:09 -0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v5 4/8] LSM: lsm_get_self_attr syscall for LSM self
- attributes
-Content-Language: en-US
-To:     =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>,
-        casey.schaufler@intel.com, paul@paul-moore.com,
-        linux-security-module@vger.kernel.org
-Cc:     jmorris@namei.org, keescook@chromium.org,
-        john.johansen@canonical.com, penguin-kernel@i-love.sakura.ne.jp,
-        stephen.smalley.work@gmail.com, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, casey@schaufler-ca.com
-References: <20230109180717.58855-1-casey@schaufler-ca.com>
- <20230109180717.58855-5-casey@schaufler-ca.com>
- <3977d478-cb41-832b-7b5e-73dd247f267d@digikod.net>
-From:   Casey Schaufler <casey@schaufler-ca.com>
-In-Reply-To: <3977d478-cb41-832b-7b5e-73dd247f267d@digikod.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Mailer: WebService/1.1.21183 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S233281AbjBNSHs (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 14 Feb 2023 13:07:48 -0500
+Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 780FD2FCED
+        for <linux-api@vger.kernel.org>; Tue, 14 Feb 2023 10:07:30 -0800 (PST)
+Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-4bdeb1bbeafso166371317b3.4
+        for <linux-api@vger.kernel.org>; Tue, 14 Feb 2023 10:07:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=wX05IVkHj3QBCA1mIon81shk3MJEJQ/4hz193u4oHCc=;
+        b=Dt+QCXEL/j2OVlYZG+8qwoo88m8d8gSqPp1DJoQ+IGJpPuoZGZ7SYYDdYB8+yJ3eDl
+         jeP6IZHDHerpXSU/A3lwaLOqhRFKoFsgEci4P2KArqSNVmooBA2C7+kM9EYWXXJTyLae
+         Xg1dZ+EziJ8yGcFploTgi9FMPrPslHsMYXReHQVo9CBAaIj0P6zc7wVMCM6iWLSQwSfv
+         rIpX9OdI9ocknhGSMghX+77PCRzZY4cpQYWxW05GrdrgU5xkG+PmVmF6RvgPoyIDvsRh
+         kG8ONtGxcufDvuzLkSW/HaWjLqmZO3eUfiS87W6x7qkvY49eByyFST1j571DlgUotIiS
+         /nZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wX05IVkHj3QBCA1mIon81shk3MJEJQ/4hz193u4oHCc=;
+        b=O3xm7SN7rzRur5ow5iqwc8FmJvUjYfmaThJZxc9LPrhh6/Uo45w7FiIr7TKjm3yNEm
+         710Lcedeu4C7wLnQKtXrAfrUTqhxY8GH6P6mYhHsPZSN0dt8d+HtAbwglagEOdUbQWhw
+         9ZG0WUyN6+nTmLqgljOdlmAq/pQ71p33vNAXS9V2ZJ5AjAx2D7C6NnVoizzMQiYVrnEw
+         CVZEK8ck6Kk/jT93gBU3wd7UVZmXGAwluy0csp6Ucchto987ZP+UjbpgGxA8hBkdMcf9
+         tU1IglgTtJG/55XlVCuHfbAWdLtx0QPJcfhWs7k20f90yiU6TeIRJtxFiojT5bVZgY0W
+         quZw==
+X-Gm-Message-State: AO0yUKUaf5/gHVacvAJ+uNYKNTrFBvlXlvxMJ2A/HcpgSeFuEQ0lPYiI
+        bMv7+sfy5li8AwG3mykfGdqa6ChKAm4=
+X-Google-Smtp-Source: AK7set+EI7pNBbm5Gukj5zYQbLZVnpf4V0D4zMPyPaLWe/aBZALXoW94wxCwwjPKImE/Ubi3qEmpRmHjMf0=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a81:dd0a:0:b0:52a:9490:4f66 with SMTP id
+ e10-20020a81dd0a000000b0052a94904f66mr350779ywn.56.1676398049608; Tue, 14 Feb
+ 2023 10:07:29 -0800 (PST)
+Date:   Tue, 14 Feb 2023 10:07:28 -0800
+In-Reply-To: <20230213235343.GC4175971@ls.amr.corp.intel.com>
+Mime-Version: 1.0
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <20221202061347.1070246-3-chao.p.peng@linux.intel.com> <20230209072529.GB4175971@ls.amr.corp.intel.com>
+ <Y+WRUriIoan/XChx@google.com> <20230213235343.GC4175971@ls.amr.corp.intel.com>
+Message-ID: <Y+vN4L3N6f3fFlgA@google.com>
+Subject: Re: [PATCH v10 2/9] KVM: Introduce per-page memory attributes
+From:   Sean Christopherson <seanjc@google.com>
+To:     Isaku Yamahata <isaku.yamahata@gmail.com>
+Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>, tabba@google.com,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        wei.w.wang@intel.com
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 2/14/2023 9:41 AM, Mickaël Salaün wrote:
->
-> On 09/01/2023 19:07, Casey Schaufler wrote:
->> Create a system call lsm_get_self_attr() to provide the security
->> module maintained attributes of the current process. Historically
->> these attributes have been exposed to user space via entries in
->> procfs under /proc/self/attr.
->>
->> Attributes are provided as a collection of lsm_ctx structures
->> which are placed into a user supplied buffer. Each structure
->> identifys the size of the attribute, and the attribute value.
->> The format of the attribute value is defined by the security
->> module, but will always be \0 terminated. The ctx_len value
->> will always be strlen(ctx)+1.
->>
->>          ---------------------------
->>          | __u32 id                |
->>          ---------------------------
->>          | __u64 flags             |
->>          ---------------------------
->>          | __kernel_size_t ctx_len |
->>          ---------------------------
->>          | __u8 ctx[ctx_len]       |
->>          ---------------------------
->>          | __u32 id                |
->>          ---------------------------
->>          | __u64 flags             |
->>          ---------------------------
->>          | __kernel_size_t ctx_len |
->>          ---------------------------
->>          | __u8 ctx[ctx_len]       |
->>          ---------------------------
->>
->> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
->> ---
->>   Documentation/userspace-api/lsm.rst |   9 ++
->>   include/linux/syscalls.h            |   3 +
->>   include/uapi/linux/lsm.h            |  21 ++++
->>   kernel/sys_ni.c                     |   3 +
->>   security/Makefile                   |   1 +
->>   security/lsm_syscalls.c             | 182 ++++++++++++++++++++++++++++
->>   6 files changed, 219 insertions(+)
->>   create mode 100644 security/lsm_syscalls.c
->
-> For new files (e.g. lsm_syscalls.c), it would be nice to auto-format
-> them with clang-format. It helps maintenance by keeping a consistent
-> style across commits, which should also help backports, and it avoids
-> nitpicking on style issues.
+On Mon, Feb 13, 2023, Isaku Yamahata wrote:
+> On Fri, Feb 10, 2023 at 12:35:30AM +0000,
+> Sean Christopherson <seanjc@google.com> wrote:
+> 
+> > On Wed, Feb 08, 2023, Isaku Yamahata wrote:
+> > > On Fri, Dec 02, 2022 at 02:13:40PM +0800,
+> > > Chao Peng <chao.p.peng@linux.intel.com> wrote:
+> > > 
+> > > > +static int kvm_vm_ioctl_set_mem_attributes(struct kvm *kvm,
+> > > > +					   struct kvm_memory_attributes *attrs)
+> > > > +{
+> > > > +	gfn_t start, end;
+> > > > +	unsigned long i;
+> > > > +	void *entry;
+> > > > +	u64 supported_attrs = kvm_supported_mem_attributes(kvm);
+> > > > +
+> > > > +	/* flags is currently not used. */
+> > > > +	if (attrs->flags)
+> > > > +		return -EINVAL;
+> > > > +	if (attrs->attributes & ~supported_attrs)
+> > > > +		return -EINVAL;
+> > > > +	if (attrs->size == 0 || attrs->address + attrs->size < attrs->address)
+> > > > +		return -EINVAL;
+> > > > +	if (!PAGE_ALIGNED(attrs->address) || !PAGE_ALIGNED(attrs->size))
+> > > > +		return -EINVAL;
+> > > > +
+> > > > +	start = attrs->address >> PAGE_SHIFT;
+> > > > +	end = (attrs->address + attrs->size - 1 + PAGE_SIZE) >> PAGE_SHIFT;
+> > > > +
+> > > > +	entry = attrs->attributes ? xa_mk_value(attrs->attributes) : NULL;
+> > > > +
+> > > > +	mutex_lock(&kvm->lock);
+> > > > +	for (i = start; i < end; i++)
+> > > > +		if (xa_err(xa_store(&kvm->mem_attr_array, i, entry,
+> > > > +				    GFP_KERNEL_ACCOUNT)))
+> > > > +			break;
+> > > > +	mutex_unlock(&kvm->lock);
+> > > > +
+> > > > +	attrs->address = i << PAGE_SHIFT;
+> > > > +	attrs->size = (end - i) << PAGE_SHIFT;
+> > > > +
+> > > > +	return 0;
+> > > > +}
+> > > > +#endif /* CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES */
+> > > > +
+> > > 
+> > > If memslot isn't private, it should return error if private attribute is set.
+> > 
+> > Why?  I'd rather keep the two things separate.  If we enforce this sort of thing
+> > at KVM_SET_MEMORY_ATTRIBUTES, then we also have to enforce it at
+> > KVM_SET_USER_MEMORY_REGION.
+> 
+> For device assignment via shared GPA, non-private memory slot needs to be
+> allowed.
 
-Good idea.
-
-
+That doesn't say anything about why setting attributes needs to poke into the
+memslot.  The page fault path already kicks out to userspace if there's a
+discrepancy between the attributes and the memslot, why is that insufficient?
