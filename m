@@ -2,65 +2,110 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E31A695E8E
-	for <lists+linux-api@lfdr.de>; Tue, 14 Feb 2023 10:11:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 46B07696A66
+	for <lists+linux-api@lfdr.de>; Tue, 14 Feb 2023 17:54:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231843AbjBNJLv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 14 Feb 2023 04:11:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46474 "EHLO
+        id S232798AbjBNQyy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 14 Feb 2023 11:54:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48578 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232332AbjBNJL3 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 14 Feb 2023 04:11:29 -0500
-Received: from mail.workercentrum.pl (mail.workercentrum.pl [51.89.166.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D34D252B0
-        for <linux-api@vger.kernel.org>; Tue, 14 Feb 2023 01:09:52 -0800 (PST)
-Received: by mail.workercentrum.pl (Postfix, from userid 1002)
-        id D8280AF102; Fri, 10 Feb 2023 09:15:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=workercentrum.pl;
-        s=mail; t=1676021076;
-        bh=DQrvNxV4sbMtkGDNj/C7a2f11q8dNrBm5UPp1jE5GkY=;
-        h=Date:From:To:Subject:From;
-        b=JrU1t4k2cRMtbFAq6znDxXY8UHG3l9MYTnmkPWXNN/6JpWZawLmF1J+sUomho4DfP
-         q0darHTf1izfUjYx37fYKwuAdTUtxvCQ0hf1SXQqETS36Fn11xQOgji9ADTgU0VLyK
-         EGbvSpQ7ubmmY6lctCq+yV6sJVDo+rFUsJJ2B/GhHPulAqdHbEUEbBhooRvs44KwWQ
-         5bh34NvO2+adjt1N0kB05I+2lhLl8pSd6KRKUgW+x2ztKmaU/+fSELA5NbXTPeaT4P
-         YvycF4ThQzcYOwV7suQ7ClbYJIXT+PVeJ7UVaCM/43hc42IKea9cuTDk3wL4H2Rxtw
-         ypZZ7PlzhEYlQ==
-Received: by mail.workercentrum.pl for <linux-api@vger.kernel.org>; Fri, 10 Feb 2023 09:15:51 GMT
-Message-ID: <20230210074500-0.1.7d.lzst.0.zo5asztof4@workercentrum.pl>
-Date:   Fri, 10 Feb 2023 09:15:51 GMT
-From:   "Piotr Werner" <piotr.werner@workercentrum.pl>
-To:     <linux-api@vger.kernel.org>
-Subject: Panele fotowaltaiczne
-X-Mailer: mail.workercentrum.pl
+        with ESMTP id S232714AbjBNQys (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 14 Feb 2023 11:54:48 -0500
+X-Greylist: delayed 395 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 14 Feb 2023 08:54:46 PST
+Received: from smtp-190c.mail.infomaniak.ch (smtp-190c.mail.infomaniak.ch [IPv6:2001:1600:4:17::190c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B156E4EE3
+        for <linux-api@vger.kernel.org>; Tue, 14 Feb 2023 08:54:46 -0800 (PST)
+Received: from smtp-2-0001.mail.infomaniak.ch (unknown [10.5.36.108])
+        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4PGRwT0VT7zMqdTZ;
+        Tue, 14 Feb 2023 17:48:09 +0100 (CET)
+Received: from unknown by smtp-2-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4PGRwP613lzMrY8P;
+        Tue, 14 Feb 2023 17:48:05 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
+        s=20191114; t=1676393288;
+        bh=StyQV5VlfkbUqiAvO0zOrs/9byjjPFA4+fUSOycYmmE=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=1/F48u5CG0IsU99YnekoUmb0RzF7DmvDMzBOukyFkT6iIJhdfpZmTt71ylV0xLMF7
+         K8IhQ8TUc/LZ4Bpb8nN8nk5YnxzoIsT93HzI1QjaKfBkYrmTDveT2QHfb6BlyqnwS4
+         TNaemjyBVXrPwG1xleOajIUz73mJQrjML+N2qesE=
+Message-ID: <b25a6279-2531-4711-1876-b181fce4acbe@digikod.net>
+Date:   Tue, 14 Feb 2023 17:48:05 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=3.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_SBL_CSS,SPF_HELO_NONE,
-        SPF_PASS,URIBL_CSS_A,URIBL_DBL_SPAM autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Level: ***
+User-Agent: 
+Subject: Re: [PATCH v5 4/8] LSM: lsm_get_self_attr syscall for LSM self
+ attributes
+Content-Language: en-US
+To:     Paul Moore <paul@paul-moore.com>, Arnd Bergmann <arnd@arndb.de>
+Cc:     Casey Schaufler <casey@schaufler-ca.com>,
+        casey.schaufler@intel.com, linux-security-module@vger.kernel.org,
+        jmorris@namei.org, Kees Cook <keescook@chromium.org>,
+        john.johansen@canonical.com,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        stephen.smalley.work@gmail.com, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org
+References: <20230109180717.58855-1-casey@schaufler-ca.com>
+ <20230109180717.58855-5-casey@schaufler-ca.com>
+ <f8dca9d2-6e5e-4584-88b3-f71f62988dab@app.fastmail.com>
+ <CAHC9VhRRRo9V-q8jT7AbSh1eTPGN7OmxP9hrPz=GTPQa80RjCg@mail.gmail.com>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+In-Reply-To: <CAHC9VhRRRo9V-q8jT7AbSh1eTPGN7OmxP9hrPz=GTPQa80RjCg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Infomaniak-Routing: alpha
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Dzie=C5=84 dobry,
 
-Jeste=C5=9Bmy firm=C4=85 z wieloletnim do=C5=9Bwiadczeniem, kt=C3=B3ra sp=
-rawnie przygotuje dla Pa=C5=84stwa ofert=C4=99 i wszelkie formalno=C5=9Bc=
-i. Sam monta=C5=BC zaplanujemy na wiosn=C4=99.
+On 12/01/2023 22:39, Paul Moore wrote:
+> On Thu, Jan 12, 2023 at 9:40 AM Arnd Bergmann <arnd@arndb.de> wrote:
+>> On Mon, Jan 9, 2023, at 19:07, Casey Schaufler wrote:
+>>> +/**
+>>> + * struct lsm_ctx - LSM context
+>>> + * @id: the LSM id number, see LSM_ID_XXX
+>>> + * @flags: context specifier and LSM specific flags
+>>> + * @ctx_len: the size of @ctx
+>>> + * @ctx: the LSM context, a nul terminated string
+>>> + *
+>>> + * @ctx in a nul terminated string.
+>>> + *   (strlen(@ctx) < @ctx_len) is always true.
+>>> + *   (strlen(@ctx) == @ctx_len + 1) is not guaranteed.
+>>> + */
+>>> +struct lsm_ctx {
+>>> +     __u32           id;
+There is a hole here for 64-bit architectures.
 
-O samych plusach fotowoltaiki czy pompach ciep=C5=82a na pewno ju=C5=BC P=
-a=C5=84stwo s=C5=82yszeli, dlatego teraz prosimy o zostawienie kontaktu, =
-aby nasz specjalista m=C3=B3g=C5=82 przedstawi=C4=87 ofert=C4=99 zgodn=C4=
-=85 z Waszymi potrzebami.
+>>> +     __u64           flags;
+>>> +     __kernel_size_t ctx_len;
 
-Kiedy mogliby=C5=9Bmy z Pa=C5=84stwem um=C3=B3wi=C4=87 si=C4=99 na rozmow=
-=C4=99 w celu zbadania potrzeb?
+This is an architecture-related size, which makes the struct size 
+different according to architectures. We should avoid that.
 
+>>> +     __u8            ctx[];
+>>> +};
 
-Pozdrawiam,
-Piotr Werner
+I suggest packing this struct.
+
+>>
+>> I think this should be changed to be the same layout on
+>> all architectures regardless of __u64 alignment and
+>> sizeof(__kernel_size_t) differences, to avoid the need
+>> for compat syscalls and explicit clearing of the
+>> internal padding.
+>>
+>> Maybe just use __u64 fields for all three integers?
+> 
+> I have no problem with that ... the ctx[] field is variable length
+> anyway so keeping it as a __u8 should be fine.
+> 
+
+For Landlock, we make sure the UAPI structs don't contain holes,  are 
+packed, and have the same size for all architectures. We can check that 
+with pahole but for strong guarantee I suggest the same build check as 
+for Landlock's build_check_abi(): 
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/security/landlock/syscalls.c#n68
+We don't need to use 64-bit fields everywhere.
