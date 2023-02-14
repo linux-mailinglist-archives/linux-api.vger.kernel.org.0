@@ -2,52 +2,49 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 46B07696A66
-	for <lists+linux-api@lfdr.de>; Tue, 14 Feb 2023 17:54:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D966D696C00
+	for <lists+linux-api@lfdr.de>; Tue, 14 Feb 2023 18:49:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232798AbjBNQyy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 14 Feb 2023 11:54:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48578 "EHLO
+        id S229514AbjBNRtk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 14 Feb 2023 12:49:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50148 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232714AbjBNQys (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 14 Feb 2023 11:54:48 -0500
-X-Greylist: delayed 395 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 14 Feb 2023 08:54:46 PST
-Received: from smtp-190c.mail.infomaniak.ch (smtp-190c.mail.infomaniak.ch [IPv6:2001:1600:4:17::190c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B156E4EE3
-        for <linux-api@vger.kernel.org>; Tue, 14 Feb 2023 08:54:46 -0800 (PST)
-Received: from smtp-2-0001.mail.infomaniak.ch (unknown [10.5.36.108])
-        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4PGRwT0VT7zMqdTZ;
-        Tue, 14 Feb 2023 17:48:09 +0100 (CET)
-Received: from unknown by smtp-2-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4PGRwP613lzMrY8P;
-        Tue, 14 Feb 2023 17:48:05 +0100 (CET)
+        with ESMTP id S233135AbjBNRtj (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 14 Feb 2023 12:49:39 -0500
+X-Greylist: delayed 500 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 14 Feb 2023 09:49:32 PST
+Received: from smtp-190b.mail.infomaniak.ch (smtp-190b.mail.infomaniak.ch [IPv6:2001:1600:3:17::190b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D871728234
+        for <linux-api@vger.kernel.org>; Tue, 14 Feb 2023 09:49:32 -0800 (PST)
+Received: from smtp-2-0000.mail.infomaniak.ch (unknown [10.5.36.107])
+        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4PGT5c6MkxzMqqNP;
+        Tue, 14 Feb 2023 18:41:08 +0100 (CET)
+Received: from unknown by smtp-2-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4PGT5b6DFLzMs4GY;
+        Tue, 14 Feb 2023 18:41:07 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
-        s=20191114; t=1676393288;
-        bh=StyQV5VlfkbUqiAvO0zOrs/9byjjPFA4+fUSOycYmmE=;
+        s=20191114; t=1676396468;
+        bh=CW77+OpiO7YTRCJgB+UFdsaJXkh6BiQFaJbuB8LdzHM=;
         h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=1/F48u5CG0IsU99YnekoUmb0RzF7DmvDMzBOukyFkT6iIJhdfpZmTt71ylV0xLMF7
-         K8IhQ8TUc/LZ4Bpb8nN8nk5YnxzoIsT93HzI1QjaKfBkYrmTDveT2QHfb6BlyqnwS4
-         TNaemjyBVXrPwG1xleOajIUz73mJQrjML+N2qesE=
-Message-ID: <b25a6279-2531-4711-1876-b181fce4acbe@digikod.net>
-Date:   Tue, 14 Feb 2023 17:48:05 +0100
+        b=o6ygYeJZPTpFzRuhTu/3CHHNFQ6iEsk8b9oJn30qItF18Gr/8dQZyt9B0J15d+1tw
+         KcueINTwRCeL5qm5KW6rMGU2trusVa0wpR/bvC2M9gOcUK19Y3m/PGOvmpSU9eDdEm
+         VEDXnNSNaaUTtD0dDA3ETmxsK5RvmvURyIE0uCtw=
+Message-ID: <3977d478-cb41-832b-7b5e-73dd247f267d@digikod.net>
+Date:   Tue, 14 Feb 2023 18:41:07 +0100
 MIME-Version: 1.0
 User-Agent: 
 Subject: Re: [PATCH v5 4/8] LSM: lsm_get_self_attr syscall for LSM self
  attributes
 Content-Language: en-US
-To:     Paul Moore <paul@paul-moore.com>, Arnd Bergmann <arnd@arndb.de>
-Cc:     Casey Schaufler <casey@schaufler-ca.com>,
-        casey.schaufler@intel.com, linux-security-module@vger.kernel.org,
-        jmorris@namei.org, Kees Cook <keescook@chromium.org>,
-        john.johansen@canonical.com,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+To:     Casey Schaufler <casey@schaufler-ca.com>,
+        casey.schaufler@intel.com, paul@paul-moore.com,
+        linux-security-module@vger.kernel.org
+Cc:     jmorris@namei.org, keescook@chromium.org,
+        john.johansen@canonical.com, penguin-kernel@i-love.sakura.ne.jp,
         stephen.smalley.work@gmail.com, linux-kernel@vger.kernel.org,
         linux-api@vger.kernel.org
 References: <20230109180717.58855-1-casey@schaufler-ca.com>
  <20230109180717.58855-5-casey@schaufler-ca.com>
- <f8dca9d2-6e5e-4584-88b3-f71f62988dab@app.fastmail.com>
- <CAHC9VhRRRo9V-q8jT7AbSh1eTPGN7OmxP9hrPz=GTPQa80RjCg@mail.gmail.com>
 From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-In-Reply-To: <CAHC9VhRRRo9V-q8jT7AbSh1eTPGN7OmxP9hrPz=GTPQa80RjCg@mail.gmail.com>
+In-Reply-To: <20230109180717.58855-5-casey@schaufler-ca.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Infomaniak-Routing: alpha
@@ -61,51 +58,49 @@ List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
 
-On 12/01/2023 22:39, Paul Moore wrote:
-> On Thu, Jan 12, 2023 at 9:40 AM Arnd Bergmann <arnd@arndb.de> wrote:
->> On Mon, Jan 9, 2023, at 19:07, Casey Schaufler wrote:
->>> +/**
->>> + * struct lsm_ctx - LSM context
->>> + * @id: the LSM id number, see LSM_ID_XXX
->>> + * @flags: context specifier and LSM specific flags
->>> + * @ctx_len: the size of @ctx
->>> + * @ctx: the LSM context, a nul terminated string
->>> + *
->>> + * @ctx in a nul terminated string.
->>> + *   (strlen(@ctx) < @ctx_len) is always true.
->>> + *   (strlen(@ctx) == @ctx_len + 1) is not guaranteed.
->>> + */
->>> +struct lsm_ctx {
->>> +     __u32           id;
-There is a hole here for 64-bit architectures.
-
->>> +     __u64           flags;
->>> +     __kernel_size_t ctx_len;
-
-This is an architecture-related size, which makes the struct size 
-different according to architectures. We should avoid that.
-
->>> +     __u8            ctx[];
->>> +};
-
-I suggest packing this struct.
-
->>
->> I think this should be changed to be the same layout on
->> all architectures regardless of __u64 alignment and
->> sizeof(__kernel_size_t) differences, to avoid the need
->> for compat syscalls and explicit clearing of the
->> internal padding.
->>
->> Maybe just use __u64 fields for all three integers?
+On 09/01/2023 19:07, Casey Schaufler wrote:
+> Create a system call lsm_get_self_attr() to provide the security
+> module maintained attributes of the current process. Historically
+> these attributes have been exposed to user space via entries in
+> procfs under /proc/self/attr.
 > 
-> I have no problem with that ... the ctx[] field is variable length
-> anyway so keeping it as a __u8 should be fine.
+> Attributes are provided as a collection of lsm_ctx structures
+> which are placed into a user supplied buffer. Each structure
+> identifys the size of the attribute, and the attribute value.
+> The format of the attribute value is defined by the security
+> module, but will always be \0 terminated. The ctx_len value
+> will always be strlen(ctx)+1.
 > 
+>          ---------------------------
+>          | __u32 id                |
+>          ---------------------------
+>          | __u64 flags             |
+>          ---------------------------
+>          | __kernel_size_t ctx_len |
+>          ---------------------------
+>          | __u8 ctx[ctx_len]       |
+>          ---------------------------
+>          | __u32 id                |
+>          ---------------------------
+>          | __u64 flags             |
+>          ---------------------------
+>          | __kernel_size_t ctx_len |
+>          ---------------------------
+>          | __u8 ctx[ctx_len]       |
+>          ---------------------------
+> 
+> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
+> ---
+>   Documentation/userspace-api/lsm.rst |   9 ++
+>   include/linux/syscalls.h            |   3 +
+>   include/uapi/linux/lsm.h            |  21 ++++
+>   kernel/sys_ni.c                     |   3 +
+>   security/Makefile                   |   1 +
+>   security/lsm_syscalls.c             | 182 ++++++++++++++++++++++++++++
+>   6 files changed, 219 insertions(+)
+>   create mode 100644 security/lsm_syscalls.c
 
-For Landlock, we make sure the UAPI structs don't contain holes,  are 
-packed, and have the same size for all architectures. We can check that 
-with pahole but for strong guarantee I suggest the same build check as 
-for Landlock's build_check_abi(): 
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/security/landlock/syscalls.c#n68
-We don't need to use 64-bit fields everywhere.
+For new files (e.g. lsm_syscalls.c), it would be nice to auto-format 
+them with clang-format. It helps maintenance by keeping a consistent 
+style across commits, which should also help backports, and it avoids 
+nitpicking on style issues.
