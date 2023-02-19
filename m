@@ -2,406 +2,195 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B50869BEEB
-	for <lists+linux-api@lfdr.de>; Sun, 19 Feb 2023 08:34:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DCCE69BFDC
+	for <lists+linux-api@lfdr.de>; Sun, 19 Feb 2023 10:48:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229673AbjBSHeM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 19 Feb 2023 02:34:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41508 "EHLO
+        id S230175AbjBSJsK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 19 Feb 2023 04:48:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43422 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229711AbjBSHeI (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 19 Feb 2023 02:34:08 -0500
-Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com [IPv6:2001:4860:4864:20::36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CDB112BF2;
-        Sat, 18 Feb 2023 23:33:46 -0800 (PST)
-Received: by mail-oa1-x36.google.com with SMTP id 586e51a60fabf-171dc4abbf8so17393fac.4;
-        Sat, 18 Feb 2023 23:33:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=A6ekRPQWIOO9h97zjQvvrZJ6rFQp5B1ODkwvrN46IL8=;
-        b=VIXw+j/9K0ueRJ3XZk56qe8QOL0Cmpp7GG1nfaoqd3mrwXvQjCOiuvqI3MWGdIsqPh
-         NaQSgSHqheGO1jZax3FsreUoTTAOxducCXCHLU9jQ1cnIjpNfQxt3HsFKsigcuIdyN3Y
-         +9YWSZPcHl0mF+YL7hl2tQ35jopvi/ziMoQxKbIO7pHLy9syY3n4EDs0LsO2UAUkDTwN
-         uG7VPb4moTRdlVk93TwqFHZU1f9QlzzuW2Y+BjvqunA5mn3GKnxB3ishhVrg4z1YNkFD
-         /T8V5EU+PYcLGlt8OQeA+DQDK9MxHrY5tRy4KkGmItFO0ftXjFIOeHG2GLQdWaSb9onW
-         oxKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=A6ekRPQWIOO9h97zjQvvrZJ6rFQp5B1ODkwvrN46IL8=;
-        b=v0TwhSFUWY9WbDk1ZYebh2X29JrgjD1U4xmzUb3wcHfwedWMgjmcBbdxIqymW6p2aE
-         iCYNlyEZ7JcRX8XjbHXtZvtM0Vy1yCris8Z9wtZ6jSZrOpYMMReIA+p66lvhMuYiUe6d
-         s4Kk8D7k6RK0Usr+xGxJ8iKUVfVAMDGiILtG/sqYfrwgF7x7jZSoExVjBnAuQzqSrddL
-         n9PLaxwskGr9BjtroH85WVToZbc/pcUbh7WyzuUKsZnNRT79fF7CBrwgb8hDAO3n8JRp
-         UIBS9oLnTXBwyA2hl7DNLxamHOVgaO9pDLDDjA0Jdv7sCWhRpyf9FLStbf0Hog/jVgih
-         Ueqw==
-X-Gm-Message-State: AO0yUKVk04AAOqPGHK2qQdWUpW2mjMtM1zq7dtNJrfTTp1ug8wM0w/bj
-        shchG1EIF3cdxYHhlzdXjQg=
-X-Google-Smtp-Source: AK7set/euVT54/mP9eiDg5UqVSwppotAHlDPyulAeUH1zq9S122GwNodRLkwuxHh1XZXG6+8OX1bNA==
-X-Received: by 2002:a05:6870:a693:b0:16e:8556:41e4 with SMTP id i19-20020a056870a69300b0016e855641e4mr6822908oam.3.1676792025333;
-        Sat, 18 Feb 2023 23:33:45 -0800 (PST)
-Received: from localhost (227.sub-174-197-65.myvzw.com. [174.197.65.227])
-        by smtp.gmail.com with ESMTPSA id r8-20020a056870624800b0016b7fe3be05sm3412107oak.39.2023.02.18.23.33.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Feb 2023 23:33:45 -0800 (PST)
-From:   Nhat Pham <nphamcs@gmail.com>
-To:     akpm@linux-foundation.org
-Cc:     hannes@cmpxchg.org, linux-mm@kvack.org,
+        with ESMTP id S230162AbjBSJsH (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 19 Feb 2023 04:48:07 -0500
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40A7012F24;
+        Sun, 19 Feb 2023 01:47:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1676800051; x=1708336051;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xhcCnf0cNcsotIr4PN51gmS8bzJYzvKjq4kiT2RhNfs=;
+  b=nBAd4fUX0OXafPILtHDzCYboWaCHqkNSDHqBs1oYdbs0/y1NfH2QQd+l
+   27HXK+kz6jYF8erBka3rzVnb1Djtyjqgc166nyeire+ucFeLJHmTR0cNX
+   0Ze3ZhiEV80g8wOinfCajApjL2LJ3VPgbri6D5SopkoP/AjEriOZftU+m
+   /8d4zasu+sOyQRodgy2K3OSrGU+ZtNwD+GvUAB3IWP+lqTewc696sincw
+   CS/9K08zWrZVJOFA2Kae1kpUowl79UU/n1b0LEHlnKryktVaVYDxCfu5X
+   aomO2choHU0H6BZXMtuMQ+8dvfmFS8CH6bRjHMiZS8MK4MDIt7ANXvdCu
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="311867310"
+X-IronPort-AV: E=Sophos;i="5.97,310,1669104000"; 
+   d="scan'208";a="311867310"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2023 01:45:37 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="759872251"
+X-IronPort-AV: E=Sophos;i="5.97,310,1669104000"; 
+   d="scan'208";a="759872251"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 19 Feb 2023 01:45:34 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pTgGD-000DEd-0n;
+        Sun, 19 Feb 2023 09:45:33 +0000
+Date:   Sun, 19 Feb 2023 17:44:59 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Nhat Pham <nphamcs@gmail.com>, akpm@linux-foundation.org
+Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+        hannes@cmpxchg.org, linux-mm@kvack.org,
         linux-kernel@vger.kernel.org, bfoster@redhat.com,
         willy@infradead.org, arnd@arndb.de, linux-api@vger.kernel.org,
         kernel-team@meta.com
-Subject: [PATCH v10 3/3] selftests: Add selftests for cachestat
-Date:   Sat, 18 Feb 2023 23:33:18 -0800
-Message-Id: <20230219073318.366189-4-nphamcs@gmail.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230219073318.366189-1-nphamcs@gmail.com>
-References: <20230219073318.366189-1-nphamcs@gmail.com>
+Subject: Re: [PATCH v10 2/3] cachestat: implement cachestat syscall
+Message-ID: <202302191728.rXGLcydi-lkp@intel.com>
+References: <20230219073318.366189-3-nphamcs@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230219073318.366189-3-nphamcs@gmail.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_PASS,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Test cachestat on a newly created file, /dev/ files, and /proc/ files.
-Also test on a shmem file (which can also be tested with huge pages
-since tmpfs supports huge pages).
+Hi Nhat,
 
-Signed-off-by: Nhat Pham <nphamcs@gmail.com>
----
- MAINTAINERS                                   |   7 +
- tools/testing/selftests/Makefile              |   1 +
- tools/testing/selftests/cachestat/.gitignore  |   2 +
- tools/testing/selftests/cachestat/Makefile    |   8 +
- .../selftests/cachestat/test_cachestat.c      | 256 ++++++++++++++++++
- 5 files changed, 274 insertions(+)
- create mode 100644 tools/testing/selftests/cachestat/.gitignore
- create mode 100644 tools/testing/selftests/cachestat/Makefile
- create mode 100644 tools/testing/selftests/cachestat/test_cachestat.c
+Thank you for the patch! Perhaps something to improve:
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a198da986146..792a866353ec 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4552,6 +4552,13 @@ S:	Supported
- F:	Documentation/filesystems/caching/cachefiles.rst
- F:	fs/cachefiles/
+[auto build test WARNING on 1440f576022887004f719883acb094e7e0dd4944]
 
-+CACHESTAT: PAGE CACHE STATS FOR A FILE
-+M:	Nhat Pham <nphamcs@gmail.com>
-+M:	Johannes Weiner <hannes@cmpxchg.org>
-+L:	linux-mm@kvack.org
-+S:	Maintained
-+F:	tools/testing/selftests/cachestat/test_cachestat.c
-+
- CADENCE MIPI-CSI2 BRIDGES
- M:	Maxime Ripard <mripard@kernel.org>
- L:	linux-media@vger.kernel.org
-diff --git a/tools/testing/selftests/Makefile b/tools/testing/selftests/Makefile
-index 0464b2c6c1e4..3cad0b38c5c2 100644
---- a/tools/testing/selftests/Makefile
-+++ b/tools/testing/selftests/Makefile
-@@ -4,6 +4,7 @@ TARGETS += amd-pstate
- TARGETS += arm64
- TARGETS += bpf
- TARGETS += breakpoints
-+TARGETS += cachestat
- TARGETS += capabilities
- TARGETS += cgroup
- TARGETS += clone3
-diff --git a/tools/testing/selftests/cachestat/.gitignore b/tools/testing/selftests/cachestat/.gitignore
-new file mode 100644
-index 000000000000..d6c30b43a4bb
---- /dev/null
-+++ b/tools/testing/selftests/cachestat/.gitignore
-@@ -0,0 +1,2 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+test_cachestat
-diff --git a/tools/testing/selftests/cachestat/Makefile b/tools/testing/selftests/cachestat/Makefile
-new file mode 100644
-index 000000000000..fca73aaa7d14
---- /dev/null
-+++ b/tools/testing/selftests/cachestat/Makefile
-@@ -0,0 +1,8 @@
-+# SPDX-License-Identifier: GPL-2.0
-+TEST_GEN_PROGS := test_cachestat
-+
-+CFLAGS += $(KHDR_INCLUDES)
-+CFLAGS += -Wall
-+CFLAGS += -lrt
-+
-+include ../lib.mk
-diff --git a/tools/testing/selftests/cachestat/test_cachestat.c b/tools/testing/selftests/cachestat/test_cachestat.c
-new file mode 100644
-index 000000000000..5d0fe5ae62f1
---- /dev/null
-+++ b/tools/testing/selftests/cachestat/test_cachestat.c
-@@ -0,0 +1,256 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#define _GNU_SOURCE
-+
-+#include <stdio.h>
-+#include <stdbool.h>
-+#include <linux/kernel.h>
-+#include <linux/mman.h>
-+#include <sys/mman.h>
-+#include <sys/shm.h>
-+#include <sys/syscall.h>
-+#include <unistd.h>
-+#include <string.h>
-+#include <fcntl.h>
-+#include <errno.h>
-+
-+#include "../kselftest.h"
-+
-+static const char * const dev_files[] = {
-+	"/dev/zero", "/dev/null", "/dev/urandom",
-+	"/proc/version", "/proc"
-+};
-+static const int cachestat_nr = 451;
-+
-+void print_cachestat(struct cachestat *cs)
-+{
-+	ksft_print_msg(
-+	"Using cachestat: Cached: %lu, Dirty: %lu, Writeback: %lu, Evicted: %lu, Recently Evicted: %lu\n",
-+	cs->nr_cache, cs->nr_dirty, cs->nr_writeback,
-+	cs->nr_evicted, cs->nr_recently_evicted);
-+}
-+
-+bool write_exactly(int fd, size_t filesize)
-+{
-+	char data[filesize];
-+	bool ret = true;
-+	int random_fd = open("/dev/urandom", O_RDONLY);
-+
-+	if (random_fd < 0) {
-+		ksft_print_msg("Unable to access urandom.\n");
-+		ret = false;
-+		goto out;
-+	} else {
-+		int remained = filesize;
-+		char *cursor = data;
-+
-+		while (remained) {
-+			ssize_t read_len = read(random_fd, cursor, remained);
-+
-+			if (read_len <= 0) {
-+				ksft_print_msg("Unable to read from urandom.\n");
-+				ret = false;
-+				goto close_random_fd;
-+			}
-+
-+			remained -= read_len;
-+			cursor += read_len;
-+		}
-+
-+		/* write random data to fd */
-+		remained = filesize;
-+		cursor = data;
-+		while (remained) {
-+			ssize_t write_len = write(fd, cursor, remained);
-+
-+			if (write_len <= 0) {
-+				ksft_print_msg("Unable write random data to file.\n");
-+				ret = false;
-+				goto close_random_fd;
-+			}
-+
-+			remained -= write_len;
-+			cursor += write_len;
-+		}
-+	}
-+
-+close_random_fd:
-+	close(random_fd);
-+out:
-+	return ret;
-+}
-+
-+/*
-+ * Open/create the file at filename, (optionally) write random data to it
-+ * (exactly num_pages), then test the cachestat syscall on this file.
-+ *
-+ * If test_fsync == true, fsync the file, then check the number of dirty
-+ * pages.
-+ */
-+bool test_cachestat(const char *filename, bool write_random, bool create,
-+		bool test_fsync, unsigned long num_pages, int open_flags,
-+		mode_t open_mode)
-+{
-+	size_t PS = sysconf(_SC_PAGESIZE);
-+	int filesize = num_pages * PS;
-+	bool ret = true;
-+	long syscall_ret;
-+	struct cachestat cs;
-+
-+	int fd = open(filename, open_flags, open_mode);
-+
-+	if (fd == -1) {
-+		ksft_print_msg("Unable to create/open file.\n");
-+		goto out;
-+	} else {
-+		ksft_print_msg("Create/open %s\n", filename);
-+	}
-+
-+	if (write_random) {
-+		if (!write_exactly(fd, filesize)) {
-+			ksft_print_msg("Unable to access urandom.\n");
-+			ret = false;
-+			goto out1;
-+		}
-+	}
-+
-+	syscall_ret = syscall(cachestat_nr, fd, filesize, 0, &cs, 0);
-+
-+	ksft_print_msg("Cachestat call returned %ld\n", syscall_ret);
-+
-+	if (syscall_ret) {
-+		ksft_print_msg("Cachestat returned non-zero.\n");
-+		ret = false;
-+		goto out1;
-+
-+	} else {
-+		print_cachestat(&cs);
-+
-+		if (write_random) {
-+			if (cs.nr_cache + cs.nr_evicted != num_pages) {
-+				ksft_print_msg(
-+					"Total number of cached and evicted pages is off.\n");
-+				ret = false;
-+			}
-+		}
-+	}
-+
-+	if (test_fsync) {
-+		if (fsync(fd)) {
-+			ksft_print_msg("fsync fails.\n");
-+			ret = false;
-+		} else {
-+			syscall_ret = syscall(cachestat_nr, fd, filesize, 0, &cs, 0);
-+
-+			ksft_print_msg("Cachestat call (after fsync) returned %ld\n",
-+				syscall_ret);
-+
-+			if (!syscall_ret) {
-+				print_cachestat(&cs);
-+
-+				if (cs.nr_dirty) {
-+					ret = false;
-+					ksft_print_msg(
-+						"Number of dirty should be zero after fsync.\n");
-+				}
-+			} else {
-+				ksft_print_msg("Cachestat (after fsync) returned non-zero.\n");
-+				ret = false;
-+				goto out1;
-+			}
-+		}
-+	}
-+
-+out1:
-+	close(fd);
-+
-+	if (create)
-+		remove(filename);
-+out:
-+	return ret;
-+}
-+
-+bool test_cachestat_shmem(void)
-+{
-+	size_t PS = sysconf(_SC_PAGESIZE);
-+	size_t filesize = PS * 512 * 2; /* 2 2MB huge pages */
-+	int syscall_ret;
-+	off_t off = PS;
-+	size_t compute_len = PS * 512;
-+	char *filename = "tmpshmcstat";
-+	struct cachestat cs;
-+	bool ret = true;
-+	unsigned long num_pages = compute_len / PS;
-+	int fd = shm_open(filename, O_CREAT | O_RDWR, 0600);
-+
-+	if (fd < 0) {
-+		ksft_print_msg("Unable to create shmem file.\n");
-+		ret = false;
-+		goto out;
-+	}
-+
-+	if (ftruncate(fd, filesize)) {
-+		ksft_print_msg("Unable to trucate shmem file.\n");
-+		ret = false;
-+		goto close_fd;
-+	}
-+
-+	if (!write_exactly(fd, filesize)) {
-+		ksft_print_msg("Unable to write to shmem file.\n");
-+		ret = false;
-+		goto close_fd;
-+	}
-+
-+	syscall_ret = syscall(cachestat_nr, fd, compute_len, off, &cs, 0);
-+
-+	if (syscall_ret) {
-+		ksft_print_msg("Cachestat returned non-zero.\n");
-+		ret = false;
-+		goto close_fd;
-+	} else {
-+		print_cachestat(&cs);
-+		if (cs.nr_cache + cs.nr_evicted != num_pages) {
-+			ksft_print_msg(
-+				"Total number of cached and evicted pages is off.\n");
-+			ret = false;
-+		}
-+	}
-+
-+close_fd:
-+	shm_unlink(filename);
-+out:
-+	return ret;
-+}
-+
-+int main(void)
-+{
-+	int ret = 0;
-+
-+	for (int i = 0; i < 5; i++) {
-+		const char *dev_filename = dev_files[i];
-+
-+		if (test_cachestat(dev_filename, false, false, false,
-+			4, O_RDONLY, 0400))
-+			ksft_test_result_pass("cachestat works with %s\n", dev_filename);
-+		else {
-+			ksft_test_result_fail("cachestat fails with %s\n", dev_filename);
-+			ret = 1;
-+		}
-+	}
-+
-+	if (test_cachestat("tmpfilecachestat", true, true,
-+		true, 4, O_CREAT | O_RDWR, 0400 | 0600))
-+		ksft_test_result_pass("cachestat works with a normal file\n");
-+	else {
-+		ksft_test_result_fail("cachestat fails with normal file\n");
-+		ret = 1;
-+	}
-+
-+	if (test_cachestat_shmem())
-+		ksft_test_result_pass("cachestat works with a shmem file\n");
-+	else {
-+		ksft_test_result_fail("cachestat fails with a shmem file\n");
-+		ret = 1;
-+	}
-+
-+	return ret;
-+}
---
-2.39.1
+url:    https://github.com/intel-lab-lkp/linux/commits/Nhat-Pham/workingset-refactor-LRU-refault-to-expose-refault-recency-check/20230219-153500
+base:   1440f576022887004f719883acb094e7e0dd4944
+patch link:    https://lore.kernel.org/r/20230219073318.366189-3-nphamcs%40gmail.com
+patch subject: [PATCH v10 2/3] cachestat: implement cachestat syscall
+config: hexagon-randconfig-r014-20230219 (https://download.01.org/0day-ci/archive/20230219/202302191728.rXGLcydi-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/d691a3b4a696ab20c9c5fe86c624e9e36814523c
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Nhat-Pham/workingset-refactor-LRU-refault-to-expose-refault-recency-check/20230219-153500
+        git checkout d691a3b4a696ab20c9c5fe86c624e9e36814523c
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302191728.rXGLcydi-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from mm/filemap.c:20:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from mm/filemap.c:20:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from mm/filemap.c:20:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+>> mm/filemap.c:4035:6: warning: no previous prototype for function 'ksys_cachestat' [-Wmissing-prototypes]
+   long ksys_cachestat(unsigned int fd, size_t len, loff_t off,
+        ^
+   mm/filemap.c:4035:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   long ksys_cachestat(unsigned int fd, size_t len, loff_t off,
+   ^
+   static 
+   7 warnings generated.
+
+
+vim +/ksys_cachestat +4035 mm/filemap.c
+
+  4033	
+  4034	#ifdef CONFIG_CACHESTAT_SYSCALL
+> 4035	long ksys_cachestat(unsigned int fd, size_t len, loff_t off,
+  4036			struct cachestat __user *cstat, unsigned int flags)
+  4037	{
+  4038		struct fd f = fdget(fd);
+  4039		struct address_space *mapping;
+  4040		struct cachestat cs;
+  4041		pgoff_t first_index = off >> PAGE_SHIFT;
+  4042		pgoff_t last_index =
+  4043			len == 0 ? ULONG_MAX : (off + len - 1) >> PAGE_SHIFT;
+  4044	
+  4045		if (!f.file)
+  4046			return -EBADF;
+  4047	
+  4048		if (off < 0 || flags != 0) {
+  4049			fdput(f);
+  4050			return -EINVAL;
+  4051		}
+  4052	
+  4053		memset(&cs, 0, sizeof(struct cachestat));
+  4054		mapping = f.file->f_mapping;
+  4055		filemap_cachestat(mapping, first_index, last_index, &cs);
+  4056		fdput(f);
+  4057	
+  4058		if (copy_to_user(cstat, &cs, sizeof(struct cachestat)))
+  4059			return -EFAULT;
+  4060	
+  4061		return 0;
+  4062	}
+  4063	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
