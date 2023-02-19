@@ -2,194 +2,199 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BB01E69BD13
-	for <lists+linux-api@lfdr.de>; Sat, 18 Feb 2023 22:23:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CAF1869BEE5
+	for <lists+linux-api@lfdr.de>; Sun, 19 Feb 2023 08:33:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230121AbjBRVXe (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 18 Feb 2023 16:23:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49786 "EHLO
+        id S229472AbjBSHd2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 19 Feb 2023 02:33:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41180 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230125AbjBRVWw (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 18 Feb 2023 16:22:52 -0500
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0126C1B32C;
-        Sat, 18 Feb 2023 13:19:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676755171; x=1708291171;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references;
-  bh=ubqwcNNiyY5+cprOn2ju85ofUOiPXcRDQntgWmd5we0=;
-  b=AM5FxVSmXKeji3D1SaGTdUFSUintLQLKf2IbregECXxnxmkv/K45vM93
-   PTOpfkUJhDuVsLytxgxL9BsmBNPi3VmhB81cUWZ8h8LQFf5z4Gc+x2KW1
-   4GyZwFsx5WiuTZOrQJBCyBadipFxYml2DkeTTmcEIi6ILR8/Sj1+lGpGb
-   YKDFWiFo5AvvTCVtBPEZkANL9e/BRsZRA2hlYS+R4iDY+SN0LIx6AM+h2
-   JEzjazkftnwkRLQD6AmqQX2EBwfkgiDxDK+G3t8B6ZtQofeRqD5+iaDwQ
-   C2C9lFAHK0rNP0iD0wIBvA1ZybQmef52fdyFeBPowt/8krWFIdO/odr75
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="418427982"
-X-IronPort-AV: E=Sophos;i="5.97,309,1669104000"; 
-   d="scan'208";a="418427982"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2023 13:16:30 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="664241768"
-X-IronPort-AV: E=Sophos;i="5.97,309,1669104000"; 
-   d="scan'208";a="664241768"
-Received: from adityava-mobl1.amr.corp.intel.com (HELO rpedgeco-desk.amr.corp.intel.com) ([10.209.80.223])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2023 13:16:30 -0800
-From:   Rick Edgecombe <rick.p.edgecombe@intel.com>
-To:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        John Allen <john.allen@amd.com>, kcc@google.com,
-        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
-        dethoma@microsoft.com, akpm@linux-foundation.org,
-        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
-        david@redhat.com, debug@rivosinc.com
-Cc:     rick.p.edgecombe@intel.com
-Subject: [PATCH v6 41/41] x86/shstk: Add ARCH_SHSTK_STATUS
-Date:   Sat, 18 Feb 2023 13:14:33 -0800
-Message-Id: <20230218211433.26859-42-rick.p.edgecombe@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20230218211433.26859-1-rick.p.edgecombe@intel.com>
-References: <20230218211433.26859-1-rick.p.edgecombe@intel.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S229436AbjBSHd1 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 19 Feb 2023 02:33:27 -0500
+Received: from mail-oa1-x2d.google.com (mail-oa1-x2d.google.com [IPv6:2001:4860:4864:20::2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81FB2FF09;
+        Sat, 18 Feb 2023 23:33:26 -0800 (PST)
+Received: by mail-oa1-x2d.google.com with SMTP id 586e51a60fabf-171d57fcba3so403549fac.11;
+        Sat, 18 Feb 2023 23:33:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YkLqesT26PDlQjhQXn4IlepRpuZlcVw6wZTGqd23uOM=;
+        b=KlBzoXu6leOvXsbKZEE/DdXu2JAdlx5qnLIElF3EN/8yJL7saLK+07QI4MkvwlZ0iI
+         r1wNrUXB/thUpranTfqVv1QaB67ma3+o9NgU7GYn+DG9XkJlJZzKdlQ+8MizoMzT+WmO
+         UYlXde/iRVSx6TaigtZDpvctklvxP32qZbEkEGKz6AL/Am0JkkKc9WSDfdrv31VSGkcn
+         bOSI6uDxAUIvdutQFAQycdGtWc/AL0MCn6u6zttbXdVqG0ZFICsru0+8sNcXchq+Wk89
+         i1zieOJiB6UlQzNvC1p+5bCW0X2CkwQ99Bp+nkYc/P1kOdZ6AY6iDL2aHN/t/zeSETlJ
+         3EjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YkLqesT26PDlQjhQXn4IlepRpuZlcVw6wZTGqd23uOM=;
+        b=QTYSFDjOxECKhMc080mQbd4oPpKixPv7y2DEJi9G2Y5y7lnT7irO71RtXFhp/jehg3
+         MAJEiXvkKWgY04SkD1iw8UDTPcECQaSNmWAEnJjjLLQOa1YlhZq804hUSKgz/FmjoSiJ
+         +I9o0r7kj1gMyeyF2Wjs62+UBt0lBxader6GAIwZ6Bn7znoUE1vRK5KPWpA/CHEAFHSQ
+         pxcs9W+NGam9Ek2u7+CKRtnzINjCNuMFVYB8rJKiMBJgPbDbkAo4qsFYBSpDKzgxpmC8
+         u8rv49y2xMFAHmtEvz0eRDt2Sd5p7YMHEXPSY6Hg6aIdKbve7rHsckmolWslVRGEgbnX
+         Cq5A==
+X-Gm-Message-State: AO0yUKWyq8phTtPKCFFMKLV2PyjMAmG0OOkFVMOnDvEKbjp6v13+Q/cA
+        agXV8yGvz9bvOMPD6xDJoT8=
+X-Google-Smtp-Source: AK7set/aNuIVedOzWF1NbBuhIitn6w3joEyjQQTw3I5a5T4DIpsqPLy8GASC15+FjFc7lLA1E1E0tA==
+X-Received: by 2002:a05:6870:d287:b0:171:9a7c:c32b with SMTP id d7-20020a056870d28700b001719a7cc32bmr2333227oae.8.1676792005533;
+        Sat, 18 Feb 2023 23:33:25 -0800 (PST)
+Received: from localhost (227.sub-174-197-65.myvzw.com. [174.197.65.227])
+        by smtp.gmail.com with ESMTPSA id t1-20020a05687044c100b00163b85ef1bfsm3434565oai.35.2023.02.18.23.33.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 18 Feb 2023 23:33:25 -0800 (PST)
+From:   Nhat Pham <nphamcs@gmail.com>
+To:     akpm@linux-foundation.org
+Cc:     hannes@cmpxchg.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, bfoster@redhat.com,
+        willy@infradead.org, arnd@arndb.de, linux-api@vger.kernel.org,
+        kernel-team@meta.com
+Subject: [PATCH v10 0/3] cachestat: a new syscall for page cache state of files
+Date:   Sat, 18 Feb 2023 23:33:15 -0800
+Message-Id: <20230219073318.366189-1-nphamcs@gmail.com>
+X-Mailer: git-send-email 2.39.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-CRIU and GDB need to get the current shadow stack and WRSS enablement
-status. This information is already available via /proc/pid/status, but
-this is inconvenient for CRIU because it involves parsing the text output
-in an area of the code where this is difficult. Provide a status
-arch_prctl(), ARCH_SHSTK_STATUS for retrieving the status. Have arg2 be a
-userspace address, and make the new arch_prctl simply copy the features
-out to userspace.
-
-Tested-by: Pengfei Xu <pengfei.xu@intel.com>
-Reviewed-by: Kees Cook <keescook@chromium.org>
-Suggested-by: Mike Rapoport <rppt@kernel.org>
-Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
-
----
+Changelog:
+v10:
+  * Reorder the arguments for archs with alignment requirements.
+    (patch 2) (suggested by Arnd Bergmann)
+v9:
+  * Remove syscall from all the architectures syscall table except x86
+    (patch 2)
+  * API change: handle different cases for offset and add compat syscall.
+    (patch 2) (suggested by Johannes Weiner and Arnd Bergmann)
+v8:
+  * Add syscall to mips syscall tables (detected by kernel test robot)
+    (patch 2)
+  * Add a missing return (suggested by Yu Zhao) (patch 2)
+v7:
+  * Fix and use lru_gen_test_recent (suggested by Brian Foster)
+    (patch 2)
+  * Small formatting and organizational fixes
+v6:
+  * Add a missing fdput() (suggested by Brian Foster) (patch 2)
+  * Replace cstat_size with cstat_version (suggested by Brian Foster)
+    (patch 2)
+  * Add conditional resched to the xas walk. (suggested by Hillf Danton)
+    (patch 2)
 v5:
- - Fix typo in commit log
-
+  * Separate first patch into its own series.
+    (suggested by Andrew Morton)
+  * Expose filemap_cachestat() to non-syscall usage
+    (patch 2) (suggested by Brian Foster).
+  * Fix some build errors from last version.
+    (patch 2)
+  * Explain eviction and recent eviction in the draft man page and
+    documentation (suggested by Andrew Morton).
+    (patch 2)
 v4:
- - New patch
----
- Documentation/x86/shstk.rst       | 6 ++++++
- arch/x86/include/asm/shstk.h      | 2 +-
- arch/x86/include/uapi/asm/prctl.h | 1 +
- arch/x86/kernel/process_64.c      | 1 +
- arch/x86/kernel/shstk.c           | 8 +++++++-
- 5 files changed, 16 insertions(+), 2 deletions(-)
+  * Refactor cachestat and move it to mm/filemap.c (patch 3)
+    (suggested by Brian Foster)
+  * Remove redundant checks (!folio, access_ok)
+    (patch 3) (suggested by Matthew Wilcox and Al Viro)
+  * Fix a bug in handling multipages folio.
+    (patch 3) (suggested by Matthew Wilcox)
+  * Add a selftest for shmem files, which can be used to test huge
+    pages (patch 4) (suggested by Johannes Weiner)
+v3:
+  * Fix some minor formatting issues and build errors.
+  * Add the new syscall entry to missing architecture syscall tables.
+    (patch 3).
+  * Add flags argument for the syscall. (patch 3).
+  * Clean up the recency refactoring (patch 2) (suggested by Yu Zhao)
+  * Add the new Kconfig (CONFIG_CACHESTAT) to disable the syscall.
+    (patch 3) (suggested by Josh Triplett)
+v2:
+  * len == 0 means query to EOF. len < 0 is invalid.
+    (patch 3) (suggested by Brian Foster)
+  * Make cachestat extensible by adding the `cstat_size` argument in the
+    syscall (patch 3)
 
-diff --git a/Documentation/x86/shstk.rst b/Documentation/x86/shstk.rst
-index e8ed5fc0f7ae..7f4af798794e 100644
---- a/Documentation/x86/shstk.rst
-+++ b/Documentation/x86/shstk.rst
-@@ -77,6 +77,11 @@ arch_prctl(ARCH_SHSTK_UNLOCK, unsigned long features)
-     Unlock features. 'features' is a mask of all features to unlock. All
-     bits set are processed, unset bits are ignored. Only works via ptrace.
- 
-+arch_prctl(ARCH_SHSTK_STATUS, unsigned long addr)
-+    Copy the currently enabled features to the address passed in addr. The
-+    features are described using the bits passed into the others in
-+    'features'.
-+
- The return values are as follows. On success, return 0. On error, errno can
- be::
- 
-@@ -84,6 +89,7 @@ be::
-         -ENOTSUPP if the feature is not supported by the hardware or
-          kernel.
-         -EINVAL arguments (non existing feature, etc)
-+        -EFAULT if could not copy information back to userspace
- 
- The feature's bits supported are::
- 
-diff --git a/arch/x86/include/asm/shstk.h b/arch/x86/include/asm/shstk.h
-index acee68d30a07..be9267897211 100644
---- a/arch/x86/include/asm/shstk.h
-+++ b/arch/x86/include/asm/shstk.h
-@@ -14,7 +14,7 @@ struct thread_shstk {
- 	u64	size;
- };
- 
--long shstk_prctl(struct task_struct *task, int option, unsigned long features);
-+long shstk_prctl(struct task_struct *task, int option, unsigned long arg2);
- void reset_thread_features(void);
- int shstk_alloc_thread_stack(struct task_struct *p, unsigned long clone_flags,
- 			     unsigned long stack_size,
-diff --git a/arch/x86/include/uapi/asm/prctl.h b/arch/x86/include/uapi/asm/prctl.h
-index 200efbbe5809..1b85bc876c2d 100644
---- a/arch/x86/include/uapi/asm/prctl.h
-+++ b/arch/x86/include/uapi/asm/prctl.h
-@@ -26,6 +26,7 @@
- #define ARCH_SHSTK_DISABLE		0x5002
- #define ARCH_SHSTK_LOCK			0x5003
- #define ARCH_SHSTK_UNLOCK		0x5004
-+#define ARCH_SHSTK_STATUS		0x5005
- 
- /* ARCH_SHSTK_ features bits */
- #define ARCH_SHSTK_SHSTK		(1ULL <<  0)
-diff --git a/arch/x86/kernel/process_64.c b/arch/x86/kernel/process_64.c
-index d368854fa9c4..dde43caf196e 100644
---- a/arch/x86/kernel/process_64.c
-+++ b/arch/x86/kernel/process_64.c
-@@ -836,6 +836,7 @@ long do_arch_prctl_64(struct task_struct *task, int option, unsigned long arg2)
- 	case ARCH_SHSTK_DISABLE:
- 	case ARCH_SHSTK_LOCK:
- 	case ARCH_SHSTK_UNLOCK:
-+	case ARCH_SHSTK_STATUS:
- 		return shstk_prctl(task, option, arg2);
- 	default:
- 		ret = -EINVAL;
-diff --git a/arch/x86/kernel/shstk.c b/arch/x86/kernel/shstk.c
-index 3197ff824809..4069d5bbbe8c 100644
---- a/arch/x86/kernel/shstk.c
-+++ b/arch/x86/kernel/shstk.c
-@@ -444,8 +444,14 @@ SYSCALL_DEFINE3(map_shadow_stack, unsigned long, addr, unsigned long, size, unsi
- 	return alloc_shstk(addr, aligned_size, size, set_tok);
- }
- 
--long shstk_prctl(struct task_struct *task, int option, unsigned long features)
-+long shstk_prctl(struct task_struct *task, int option, unsigned long arg2)
- {
-+	unsigned long features = arg2;
-+
-+	if (option == ARCH_SHSTK_STATUS) {
-+		return put_user(task->thread.features, (unsigned long __user *)arg2);
-+	}
-+
- 	if (option == ARCH_SHSTK_LOCK) {
- 		task->thread.features_locked |= features;
- 		return 0;
--- 
-2.17.1
+There is currently no good way to query the page cache state of large
+file sets and directory trees. There is mincore(), but it scales poorly:
+the kernel writes out a lot of bitmap data that userspace has to
+aggregate, when the user really doesn not care about per-page information
+in that case. The user also needs to mmap and unmap each file as it goes
+along, which can be quite slow as well.
 
+This series of patches introduces a new system call, cachestat, that
+summarizes the page cache statistics (number of cached pages, dirty
+pages, pages marked for writeback, evicted pages etc.) of a file, in a
+specified range of bytes. It also include a selftest suite that tests some
+typical usage. Currently, the syscall is only wired in for x86
+architecture.
+
+This interface is inspired by past discussion and concerns with fincore,
+which has a similar design (and as a result, issues) as mincore.
+Relevant links:
+
+https://lkml.indiana.edu/hypermail/linux/kernel/1302.1/04207.html
+https://lkml.indiana.edu/hypermail/linux/kernel/1302.1/04209.html
+
+For comparison with mincore, I ran both syscalls on a 2TB sparse file:
+
+Using mincore:
+real    0m37.510s
+user    0m2.934s
+sys     0m34.558s
+
+Using cachestat:
+real    0m0.009s
+user    0m0.000s
+sys     0m0.009s
+
+This series should be applied on top of:
+
+workingset: fix confusion around eviction vs refault container
+https://lkml.org/lkml/2023/1/4/1066
+
+This series consist of 3 patches:
+
+Nhat Pham (3):
+  workingset: refactor LRU refault to expose refault recency check
+  cachestat: implement cachestat syscall
+  selftests: Add selftests for cachestat
+
+ MAINTAINERS                                   |   7 +
+ arch/x86/entry/syscalls/syscall_32.tbl        |   1 +
+ arch/x86/entry/syscalls/syscall_64.tbl        |   1 +
+ include/linux/compat.h                        |   4 +-
+ include/linux/fs.h                            |   3 +
+ include/linux/swap.h                          |   1 +
+ include/linux/syscalls.h                      |   3 +
+ include/uapi/asm-generic/unistd.h             |   5 +-
+ include/uapi/linux/mman.h                     |   9 +
+ init/Kconfig                                  |  10 +
+ kernel/sys_ni.c                               |   1 +
+ mm/filemap.c                                  | 158 +++++++++++
+ mm/workingset.c                               | 142 ++++++----
+ tools/testing/selftests/Makefile              |   1 +
+ tools/testing/selftests/cachestat/.gitignore  |   2 +
+ tools/testing/selftests/cachestat/Makefile    |   8 +
+ .../selftests/cachestat/test_cachestat.c      | 256 ++++++++++++++++++
+ 17 files changed, 564 insertions(+), 48 deletions(-)
+ create mode 100644 tools/testing/selftests/cachestat/.gitignore
+ create mode 100644 tools/testing/selftests/cachestat/Makefile
+ create mode 100644 tools/testing/selftests/cachestat/test_cachestat.c
+
+
+base-commit: 1440f576022887004f719883acb094e7e0dd4944
+prerequisite-patch-id: 171a43d333e1b267ce14188a5beaea2f313787fb
+--
+2.39.1
