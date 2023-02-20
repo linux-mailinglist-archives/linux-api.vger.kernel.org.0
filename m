@@ -2,70 +2,47 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CF4F469CB86
-	for <lists+linux-api@lfdr.de>; Mon, 20 Feb 2023 13:59:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E46D69D4F5
+	for <lists+linux-api@lfdr.de>; Mon, 20 Feb 2023 21:24:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231781AbjBTM7g (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 20 Feb 2023 07:59:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48300 "EHLO
+        id S232892AbjBTUYe (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 20 Feb 2023 15:24:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45298 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231655AbjBTM7f (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 20 Feb 2023 07:59:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64A8D4C03
-        for <linux-api@vger.kernel.org>; Mon, 20 Feb 2023 04:58:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1676897923;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=5AKvjdo8vNmSKS+z7HPo/X/JWX/EOdQCIVgjr3Q6aZc=;
-        b=MPpQr/fPELoz3eGJgrQzS337HzUUrUmSJtXHwe0/VI0tHFNqsSA0+2hlELGkZqR7P9JaEa
-        N9JB3jK8D9iycXFr9PUUT+d4xgziSXUKF/73673UHaxBGtH/z1fhNA3L8bKe4ADex9zZF0
-        EjJWL2QaU5fHMlAT540H5RmbN8Aqo7w=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-554-BeePJjnXOHiIyAbtqO4Tqw-1; Mon, 20 Feb 2023 07:58:42 -0500
-X-MC-Unique: BeePJjnXOHiIyAbtqO4Tqw-1
-Received: by mail-wr1-f71.google.com with SMTP id n14-20020a5d67ce000000b002bfc2f61048so398815wrw.23
-        for <linux-api@vger.kernel.org>; Mon, 20 Feb 2023 04:58:42 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5AKvjdo8vNmSKS+z7HPo/X/JWX/EOdQCIVgjr3Q6aZc=;
-        b=bvqT3m/h1IodH6ftyvdIOQbVAqI7jr786FMa8wOIAOVGwJWyGt/AYTih7PNh/u27FV
-         3ClyLQSfoyGRi3dRTF4qmwja/ytjW9aEPJiZnJKkpIjJnArneqftX9Dbr5YA3gv/Zp+O
-         pBMPmdX3I3n7y0M789Ap2uhJ4dLPfoS+GIsH7LBzN5foTxTlFsHSDIVBjbpIUX/nrqRd
-         8WYk9Fula/ui+FRkRpAD4ryFYLlFCVtrRJjuPRqupiy5kxhcVDxKDNNfML3UrBw8Dvl4
-         n0MOtreCk9gY3A3ICrkKfW/cDDP07JBkNAzBiB29PtrLXWI9IECEjOpqH0196NcpPJ9Y
-         nI6w==
-X-Gm-Message-State: AO0yUKUnVBlrIFsqCeu5Hqt0GTf38pFJHlOrXr/pAcLOC/OayrxPeBlc
-        /nqtI2I+XWtZBIGBTOC+cliNqMmWyOUhIya1uxfm1pYmBnEooy2exENjnSjRJMIgFUClSTCRQLt
-        5MCCXOSZXTLp30bAzFYx0
-X-Received: by 2002:a05:6000:1866:b0:2c4:669:fda4 with SMTP id d6-20020a056000186600b002c40669fda4mr629382wri.0.1676897921376;
-        Mon, 20 Feb 2023 04:58:41 -0800 (PST)
-X-Google-Smtp-Source: AK7set/e+EH7H8iOfIcBc3Hls/umJBU/aGvav4lBivPqpX1AbbE4EERHr1HRg6ifH06VjqfdXoHU7w==
-X-Received: by 2002:a05:6000:1866:b0:2c4:669:fda4 with SMTP id d6-20020a056000186600b002c40669fda4mr629366wri.0.1676897921034;
-        Mon, 20 Feb 2023 04:58:41 -0800 (PST)
-Received: from ?IPV6:2003:cb:c705:8300:e519:4218:a8b5:5bec? (p200300cbc7058300e5194218a8b55bec.dip0.t-ipconnect.de. [2003:cb:c705:8300:e519:4218:a8b5:5bec])
-        by smtp.gmail.com with ESMTPSA id z3-20020adff1c3000000b002c559def236sm76762wro.57.2023.02.20.04.58.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Feb 2023 04:58:40 -0800 (PST)
-Message-ID: <6ccc8d30-336a-12af-1179-5dc4eca3048d@redhat.com>
-Date:   Mon, 20 Feb 2023 13:58:38 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.2
-Subject: Re: [PATCH v6 22/41] mm/mmap: Add shadow stack pages to memory
- accounting
-Content-Language: en-US
-To:     Rick Edgecombe <rick.p.edgecombe@intel.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>,
+        with ESMTP id S232874AbjBTUYb (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 20 Feb 2023 15:24:31 -0500
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2062e.outbound.protection.outlook.com [IPv6:2a01:111:f400:7e88::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17B732005A;
+        Mon, 20 Feb 2023 12:24:12 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MFwkzyqDJwSs+SniBWksmymVjih8ijaCUgqzX2wFOgwrzbmMLqXqiSKLV1VwVKiDco3g+DKDoXYk3rTLaz0OkJBlbLK+KAsx9IFPS85X7C6GajV3msghajOyiulEsN9GLHbO43xAWlFVP96rr2nG89ID8n+JuIsoKMmUoXkFVdZZ95eLU3WX2ZPEprvtNshnBrJZeLqWTveKAXqykhK13Ljp/VES42SlkXkhY/K05lQY4c6Vl4ukgrtusTwuABPEUYlYxBIR9iy/+F8p4yfd2PjhYKJVu05xWWAqBMqsgahIkG47YB+1rsvkTDNLB64KFF7tBGT3dQP8bIHeNep/+w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=FSarqJTVS/+y9QRSYpb2Ud58dGIJVpE1p861D3UckX8=;
+ b=LQ6dzScpmEMAUIbOcSzG9ccQjbQuLU4RcRMxt4Ii7T93BexcKzk9u+0dUbzOROx5fdqdIikdMagKcLz48Q9QBq7LG3LgD3SNU+N+rxoxblAejzfN+46Ic0QceRceD/1eEeK5Bz94OuD8xLXeq7I1u+Do42fZpj4q8UUDbPle8RIYb+ZP2s/LEaQpPrppJp6hER3v3ae8q303TsZOiWA5RTAwa3hqFcLP4NeAmoqDz5KTpM7zUXJvGaFK7VLXRPNlT4zYkMA/VOEnMOe/LZ/BuTEHWa8EQw9ag62LrnoQdTJ/Dhp/VYCGRivltxupXIzxgwqsU5gluzZo6dltmgvSvQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FSarqJTVS/+y9QRSYpb2Ud58dGIJVpE1p861D3UckX8=;
+ b=uJlVyWDAcPS3yEwzOuffNRRTfqwjsnvY+YCZKnajKp+1lr11it6iKfjs+N9hzfzzWNvzceLib1kLncP/ry5edmJLoZ+1IXCvEAGlOR9yu8TpQkjPSFdpTRjAQq5PotJnnYm8OO6MoKmsGDMHF5WwFfWn5HNCXN9D5D28TNTufxE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BL1PR12MB5995.namprd12.prod.outlook.com (2603:10b6:208:39b::20)
+ by PH8PR12MB6844.namprd12.prod.outlook.com (2603:10b6:510:1cb::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.19; Mon, 20 Feb
+ 2023 20:22:50 +0000
+Received: from BL1PR12MB5995.namprd12.prod.outlook.com
+ ([fe80::de95:3582:8274:ff60]) by BL1PR12MB5995.namprd12.prod.outlook.com
+ ([fe80::de95:3582:8274:ff60%2]) with mapi id 15.20.6111.020; Mon, 20 Feb 2023
+ 20:22:50 +0000
+Date:   Mon, 20 Feb 2023 14:22:36 -0600
+From:   John Allen <john.allen@amd.com>
+To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-mm@kvack.org,
@@ -88,80 +65,110 @@ To:     Rick Edgecombe <rick.p.edgecombe@intel.com>, x86@kernel.org,
         Randy Dunlap <rdunlap@infradead.org>,
         Weijiang Yang <weijiang.yang@intel.com>,
         "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        John Allen <john.allen@amd.com>, kcc@google.com,
-        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
-        dethoma@microsoft.com, akpm@linux-foundation.org,
-        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
-        debug@rivosinc.com
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+        kcc@google.com, eranian@google.com, rppt@kernel.org,
+        jamorris@linux.microsoft.com, dethoma@microsoft.com,
+        akpm@linux-foundation.org, Andrew.Cooper3@citrix.com,
+        christina.schimpe@intel.com, david@redhat.com, debug@rivosinc.com
+Subject: Re: [PATCH v6 00/41] Shadow stacks for userspace
+Message-ID: <Y/PWjCAxKcahq98B@johallen-workstation>
 References: <20230218211433.26859-1-rick.p.edgecombe@intel.com>
- <20230218211433.26859-23-rick.p.edgecombe@intel.com>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20230218211433.26859-23-rick.p.edgecombe@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230218211433.26859-1-rick.p.edgecombe@intel.com>
+X-ClientProxiedBy: YT3PR01CA0040.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:82::26) To BL1PR12MB5995.namprd12.prod.outlook.com
+ (2603:10b6:208:39b::20)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5995:EE_|PH8PR12MB6844:EE_
+X-MS-Office365-Filtering-Correlation-Id: d39b6967-481f-4a29-6be1-08db13803cc0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: HAXGmPAOo/wKEDOC9b/4rj6lF5I7xRiE6kkhnTqSze23Z9Pj8W9aQIZE0eSD5LG1XAyFN7y4Q1Km3JGcardeENL26UaKxfmChoY/gmIURtEz6SFDC5A7azpfacrL6jqE9LrxnbH2MXcojw3woZtvC0jPA22d/hBUslgQZ0c+Rd7KEaZ/94oufLt+axOgTY1N5X8ASeUO8dwXY9G/CxKhsQFQvhv4WI5vrQfICt0pQ3kf1MKMZOp++ocw3PJ/3lkdEoKv5pSxHezCjjM5A39Ws4hk5q6xMQqHzJXay15c8V8xCgD22T8R6Kgy5T62ER+KeXz24h5br+ah/h+58rRJrhs4fS3t7BHJnJqIMqhBqkOoptgkrKrTvUFKuKNdJl4kSKTCRO7fAvUTJmVxA2flqo9qqOzlGtZ/DMW2bPtfnKW8lFMIaD/icFvxqRaV6/F1SkVVtqoZso0EcIuiy2yKt9nfjcP2OHGHybPMvJgP6ISu1xHNzqR4sn0x0r2A/h41JOsNT+WemkvVNRaK8HGEAtWWGeY57bcYPtuPdgcVZd1COScq2O5wt+dVkZLdrkC7f9abITDUlu19iwuCfC0VroIGeWiI0d9e2On+aArUUunyD6HhJQgcuZD6H4hNJNio
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5995.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(7916004)(4636009)(396003)(136003)(39860400002)(376002)(366004)(346002)(451199018)(8936002)(966005)(478600001)(2906002)(7416002)(5660300002)(7406005)(44832011)(6486002)(6916009)(66476007)(66946007)(8676002)(4326008)(54906003)(316002)(66556008)(6666004)(83380400001)(26005)(186003)(6512007)(86362001)(9686003)(6506007)(41300700001)(38100700002)(33716001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?WtO3ZG/aw9tze9o+on2vmGykZ3t8y7XechOrWDOxCih1b79Ds0UrtfXMpTRU?=
+ =?us-ascii?Q?cQimVAUiae2Z7wW3aoJRFJOIKqpKT2jpCqBWuS/DznJE1B0IbxUe1dZjBIWK?=
+ =?us-ascii?Q?FJuqiMw6Y4Q6WFECdRUlJq2VsIkKp3+uT32uedD2hBGQ8u2mnIJP/ozTEX/W?=
+ =?us-ascii?Q?a9SwHniMD6a5bZqqxRRNdklVBL5dTJh+TRpFR6EO4Yc8HKOxefhIdauWUgq7?=
+ =?us-ascii?Q?U0c1mt6+vBhyZZMDGhY6Ji21AV2y8Ijg4IHOmdZLLxlNXXILngIMfd6WEK2e?=
+ =?us-ascii?Q?obyTlaqtVGEf+OB8MsehHg+SkKdw8/OffGZnorOtCYb7WHzrj0AODdHTlr/b?=
+ =?us-ascii?Q?mLWhDy7bokwgska0Rc2th8e4R+a7D7C58o+N8LCGURiJlZbi05pB6U1TjrZH?=
+ =?us-ascii?Q?afG2Y6tjHREQeD6x0Zos9rQLgEwWWM1ZjukKoM2asjo0kFVIUcYDyRtjWK3Q?=
+ =?us-ascii?Q?0MLzGcH/99UuTi/k5q3MUpGb964yvop930dNWMVPZo9Xc3OgnAgCW/dAJmxn?=
+ =?us-ascii?Q?9G29NkLP1E8T9l43MOqL+RmNGW96kYC0JWSS5i2gO+8+olDKrO9CAa3xN8+G?=
+ =?us-ascii?Q?5LGYUSbR/gemsgRj+EcFG1+4fWRLtyXtQFp4jElZRfe5sNCyQM0v1YvHw52/?=
+ =?us-ascii?Q?5RiBRpBk9ZiyCNplVrEk0vG+B+AJ1+eKvmYMcwf3HXGMArhFgg+jXQRBB6oA?=
+ =?us-ascii?Q?tOb56fNJt1ilyGZN1PoFyec9PEDcMD1/RrAxQIYyoW/WXGVow+vfD66sF7E0?=
+ =?us-ascii?Q?egEWftDkHVoHZacoET00DCtJMIFW4FoF47FIBkWHQyIl3L9447Rc4ZtbWh79?=
+ =?us-ascii?Q?xNnOrzstiX+CX4eaV5p/aw7NbzmaIw1oC8gk5Ruq+HidRk6a4P0VzjNJxI6x?=
+ =?us-ascii?Q?fvs7/f2Ft5mmQmJpF+h4gZpAoAIXemVJOoGwTA0XDyNIURBd4AgXE4b8WhGN?=
+ =?us-ascii?Q?yVLX18WawL8FxiYQ5ktcI117Xjdp+gFDDjMttgyefnfOwX4MrfC+Plpc/5uR?=
+ =?us-ascii?Q?2klHD5yCI6ewuySYL1J0Jc5E8VRF/tXtVTVgPIsYMlwU/Wz+h3NsMHFIncwp?=
+ =?us-ascii?Q?67J+hYKeRFS7Ha0ITVDOjusBtVYZLa3s3KB8laGoR+vuKCiX66TcGBCwxkcs?=
+ =?us-ascii?Q?XjGHCeg3UdRsiMKB0ooBm4qWoudDvT5hsX07HVbS9uhKzrQ9F3fT51MiD5jJ?=
+ =?us-ascii?Q?4gbFyWXZY9LnfYmuZcbzAjfI7Q9k508AHii0qNKf5IP/J8CkjjmvweeXxnCr?=
+ =?us-ascii?Q?gOiX9K59XmDdTVHouPPRJvJ5G8moZoBIZa8ZkAQwbV+nWs21ZlsmG+g8NGKc?=
+ =?us-ascii?Q?sEIVB82SMchrtREEGGl7j5vDVW3XWH1k/A2ZiDeRt5ICjVjA5Sp7rT8m5xp6?=
+ =?us-ascii?Q?Cf9N6VN5OjDX3apU+gAW2TI2ab3mf5gsC93tTx5WDF7fN+uo5l28DFLxNr/P?=
+ =?us-ascii?Q?z9231pKKSO7cZ5hXCNu47OLaDkRE8ttgFMhp2E8bN0/bsmBOOQOPH67hoF0w?=
+ =?us-ascii?Q?+ZWryv7QO+AuLezewZ89SBiS5kTewkPN03jWaO/YOXDg54BgfVQgOApcsHDR?=
+ =?us-ascii?Q?JaUjI0+jrMUf2X8Xk4PzQBll0yPp6phxJDCbS5E3?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d39b6967-481f-4a29-6be1-08db13803cc0
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5995.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2023 20:22:50.1086
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 40oL4zPkGHpjXKldGC/2oEFCMZCpGMxDk4bHeDwNUVpDjdXnh1u+hIuztGYeAbhVooqRppegKDUzJZNxZ6cr3g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6844
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,SPF_HELO_PASS,
+        SPF_NONE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 18.02.23 22:14, Rick Edgecombe wrote:
-> From: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> 
-> The x86 Control-flow Enforcement Technology (CET) feature includes a new
-> type of memory called shadow stack. This shadow stack memory has some
-> unusual properties, which requires some core mm changes to function
-> properly.
-> 
-> Account shadow stack pages to stack memory.
-> 
-> Reviewed-by: Kees Cook <keescook@chromium.org>
-> Tested-by: Pengfei Xu <pengfei.xu@intel.com>
-> Tested-by: John Allen <john.allen@amd.com>
-> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> Co-developed-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
-> Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
-> Cc: Kees Cook <keescook@chromium.org>
-> 
-> ---
-> v3:
->   - Remove unneeded VM_SHADOW_STACK check in accountable_mapping()
->     (Kirill)
-> 
-> v2:
->   - Remove is_shadow_stack_mapping() and just change it to directly bitwise
->     and VM_SHADOW_STACK.
-> 
-> Yu-cheng v26:
->   - Remove redundant #ifdef CONFIG_MMU.
-> 
-> Yu-cheng v25:
->   - Remove #ifdef CONFIG_ARCH_HAS_SHADOW_STACK for is_shadow_stack_mapping().
-> ---
->   mm/mmap.c | 2 ++
->   1 file changed, 2 insertions(+)
-> 
-> diff --git a/mm/mmap.c b/mm/mmap.c
-> index 425a9349e610..9f85596cce31 100644
-> --- a/mm/mmap.c
-> +++ b/mm/mmap.c
-> @@ -3290,6 +3290,8 @@ void vm_stat_account(struct mm_struct *mm, vm_flags_t flags, long npages)
->   		mm->exec_vm += npages;
->   	else if (is_stack_mapping(flags))
->   		mm->stack_vm += npages;
-> +	else if (flags & VM_SHADOW_STACK)
-> +		mm->stack_vm += npages;
+On Sat, Feb 18, 2023 at 01:13:52PM -0800, Rick Edgecombe wrote:
+> I left tested-by tags in place per discussion with testers. Testers, please
+> retest.
 
-Why not modify is_stack_mapping() ?
+v6 is still working well on my AMD system (Dell PowerEdge
+R6515 w/ EPYC 7713).
 
--- 
-Thanks,
+The selftests run cleanly:
 
-David / dhildenb
+[INFO]  new_ssp = 7f53069ffff8, *new_ssp = 7f5306a00001
+[INFO]  changing ssp from 7f53071ffff0 to 7f53069ffff8
+[INFO]  ssp is now 7f5306a00000
+[OK]    Shadow stack pivot
+[OK]    Shadow stack faults
+[INFO]  Corrupting shadow stack
+[INFO]  Generated shadow stack violation successfully
+[OK]    Shadow stack violation test
+[INFO]  Gup read -> shstk access success
+[INFO]  Gup write -> shstk access success
+[INFO]  Violation from normal write
+[INFO]  Gup read -> write access success
+[INFO]  Violation from normal write
+[INFO]  Gup write -> write access success
+[INFO]  Cow gup write -> write access success
+[OK]    Shadow gup test
+[INFO]  Violation from shstk access
+[OK]    mprotect() test
+[OK]    Userfaultfd test
+[OK]    32 bit test
 
+And I can see the control protection messages in dmesg when
+running the shstk violation test from here:
+https://gitlab.com/cet-software/cet-smoke-test
+
+ld-linux-x86-64[51598] control protection ip:401139 sp:7ffd68b1b7c8 ssp:7fb433578fd8 error:1(near ret) in shstk1[401000+1000]
+
+Tested-by: John Allen <john.allen@amd.com>
