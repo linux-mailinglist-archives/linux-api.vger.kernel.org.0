@@ -2,138 +2,187 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F9CD69DC64
-	for <lists+linux-api@lfdr.de>; Tue, 21 Feb 2023 09:49:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ABE5369E02F
+	for <lists+linux-api@lfdr.de>; Tue, 21 Feb 2023 13:20:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232613AbjBUItO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 21 Feb 2023 03:49:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38928 "EHLO
+        id S234756AbjBUMUG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 21 Feb 2023 07:20:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233762AbjBUItO (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 21 Feb 2023 03:49:14 -0500
-Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com [IPv6:2607:f8b0:4864:20::72e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8D0D234E6;
-        Tue, 21 Feb 2023 00:49:12 -0800 (PST)
-Received: by mail-qk1-x72e.google.com with SMTP id h17so514442qka.11;
-        Tue, 21 Feb 2023 00:49:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=wJTfMbj3kGNnK1JU4uoKAn7SrV5lBQ6hVKEJS0vCxoI=;
-        b=Bqg/aM/IFmI0qVOd2/CGhR0Xytmmr3xKb+/LYy0LImlJx3XcLV4PelQxa25cVs9adf
-         bmpYOjsHSBTOgeH0rUE5anZIz5oAg9CVy90hMXGZ/YxMaLQwU9t1xZSc//EUUYIcWHna
-         YvIszHxP2dhQwZMU0oxUxJfjqu1kkzUA/OEgJ81iRgfn4FP2TbKcUs2/w00zIXX7CIor
-         5GyV64R8qnW14Mhdf7tq0EFcnWLZR+jK1+7QuvX7N4WFHBQrffkP70xjXHJzzd561v1X
-         J2GchTaK+NmreWGaKfELFboXg0yu5K+NPetd1n+eY46qFMxoinkAgMU5wkhyEolEvV2A
-         8ysg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wJTfMbj3kGNnK1JU4uoKAn7SrV5lBQ6hVKEJS0vCxoI=;
-        b=niVz+15yNNZkcYZq2zQW6dkNEFBpj4tkEsajbWSrx0pTT44TQdLGmiq8aM680v2H+Y
-         siAoI2GNuCBE8PKAOUnYsXWGfbkJ4ssuP+csdi28DLdGAnpHAhIKpaFxiUZqcFgDI67G
-         I7Cwg+UDQ6nLIXmcZVl+UkuiGCVlC6vrVHAqC4FvqXJV+WCVONSBOoI/4bRoajGaeTQJ
-         uhDcMo3PQrcwX00QvEb4p5IXD/oqwqMqL/W2YddnzMfHaC4wkZzEDAd+4/EG87+RAMGZ
-         oN7ruO9n0mkLgD/BK5FKfYsR9eV4yJfhd/HQSQ0TovXpS7oyq7Cbvlw4DwQ+WEaC4OuM
-         zKYg==
-X-Gm-Message-State: AO0yUKXL1vVTc8gbCD3uoQiuCwVan7M0sN3RCZ1j0b2T7GTpQRMSoyFw
-        KXb0PSLXQhmUFmhLhqYzxmSuKMBn2f0SzLBPTdg=
-X-Google-Smtp-Source: AK7set/rSUhxo3ewnvZBvtzLapNPE97O8LKPSnmQmOIGb1kxtIGRKkTUZD2aipJroPFBNTw9cfd9OyZ/HsTXfTOHUqA=
-X-Received: by 2002:a05:620a:2092:b0:733:4e2d:7834 with SMTP id
- e18-20020a05620a209200b007334e2d7834mr305494qka.4.1676969351705; Tue, 21 Feb
- 2023 00:49:11 -0800 (PST)
+        with ESMTP id S234267AbjBUMUE (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 21 Feb 2023 07:20:04 -0500
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73788298FB;
+        Tue, 21 Feb 2023 04:19:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1676981979; x=1708517979;
+  h=date:from:to:cc:subject:message-id:reply-to:references:
+   mime-version:in-reply-to;
+  bh=rNp1uu81FPNgOnZRpB88mbF0GVkK0krzknn+hkCEz0w=;
+  b=ky4+DfEmHijY+TsNIKQ/6ZIY75zcG1IX82m1I20l3iA4dy2gV0fis//W
+   J8r78r++jjJC4aFUjdNbsw/+NsCmf5joNSJuORUxKR0Q49cKdkEUsuw9B
+   ZJCxTqpt1jPJIUoE/KnNYxsHRulAt4hxSWB48OJn4wUqe9SnsnWloAadg
+   F4dsp1MsislcvI+/SKheGhgG5MyzyYiRR2Xa+8oLXajguWG+4LGUzRusg
+   iw418CG0J4RdeLwNN1qKv7SD009uOAnMhH1+kSjXBL3nO6MjRtkcDgVUZ
+   488MgEAZIAvJdaFgzq3shtjOdk2Dq9twq0ugaIAXrdkf4EOpLkMXNpBMU
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="316337822"
+X-IronPort-AV: E=Sophos;i="5.97,315,1669104000"; 
+   d="scan'208";a="316337822"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2023 04:19:26 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="917165304"
+X-IronPort-AV: E=Sophos;i="5.97,315,1669104000"; 
+   d="scan'208";a="917165304"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.105])
+  by fmsmga006.fm.intel.com with ESMTP; 21 Feb 2023 04:19:16 -0800
+Date:   Tue, 21 Feb 2023 20:11:35 +0800
+From:   Chao Peng <chao.p.peng@linux.intel.com>
+To:     Michael Roth <michael.roth@amd.com>
+Cc:     Sean Christopherson <seanjc@google.com>,
+        Isaku Yamahata <isaku.yamahata@gmail.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>, tabba@google.com,
+        mhocko@suse.com, wei.w.wang@intel.com
+Subject: Re: [PATCH v10 0/9] KVM: mm: fd-based approach for supporting KVM
+Message-ID: <20230221121135.GA1595130@chaop.bj.intel.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <Y8H5Z3e4hZkFxAVS@google.com>
+ <20230119111308.GC2976263@ls.amr.corp.intel.com>
+ <Y8lg1G2lRIrI/hld@google.com>
+ <20230119223704.GD2976263@ls.amr.corp.intel.com>
+ <Y880FiYF7YCtsw/i@google.com>
+ <20230213130102.two7q3kkcf254uof@amd.com>
 MIME-Version: 1.0
-References: <20230219073318.366189-1-nphamcs@gmail.com> <20230219073318.366189-2-nphamcs@gmail.com>
- <Y/IQlWdD1NvcUROv@casper.infradead.org>
-In-Reply-To: <Y/IQlWdD1NvcUROv@casper.infradead.org>
-From:   Nhat Pham <nphamcs@gmail.com>
-Date:   Tue, 21 Feb 2023 00:49:00 -0800
-Message-ID: <CAKEwX=NfD-57zAgXBoCVFVHu_TDbbnng3piZTu7iGjALpj=Tug@mail.gmail.com>
-Subject: Re: [PATCH v10 1/3] workingset: refactor LRU refault to expose
- refault recency check
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     akpm@linux-foundation.org, hannes@cmpxchg.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, bfoster@redhat.com, arnd@arndb.de,
-        linux-api@vger.kernel.org, kernel-team@meta.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230213130102.two7q3kkcf254uof@amd.com>
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sun, Feb 19, 2023 at 4:05 AM Matthew Wilcox <willy@infradead.org> wrote:
->
-> On Sat, Feb 18, 2023 at 11:33:16PM -0800, Nhat Pham wrote:
-> > +++ b/mm/workingset.c
-> > @@ -244,6 +244,30 @@ static void *lru_gen_eviction(struct folio *folio)
-> >       return pack_shadow(mem_cgroup_id(memcg), pgdat, token, refs);
-> >  }
-> >
-> > +/*
-> > + * Test if the folio is recently evicted.
-> > + *
-> > + * As a side effect, also populates the references with
-> > + * values unpacked from the shadow of the evicted folio.
-> > + */
->
-> I find this comment hard to understand.  First it talks about "the
-> folio", but it doesn't pass a folio.  Then it talks about "the
-> references", but I don't have any idea what those are either.
->
-> I think what you mean is,
->
->  * Test if the shadow entry is for a folio which was recently evicted.
->  * Fills in @memcgid, @pgdat, @token and @workingset with values
->  * extracted from the shadow entry.
+> Hi Sean,
+> 
+> We've rebased the SEV+SNP support onto your updated UPM base support
+> tree and things seem to be working okay, but we needed some fixups on
+> top of the base support get things working, along with 1 workaround
+> for an issue that hasn't been root-caused yet:
+> 
+>   https://github.com/mdroth/linux/commits/upmv10b-host-snp-v8-wip
+> 
+>   *stash (upm_base_support): mm: restrictedmem: Kirill's pinning implementation
+>   *workaround (use_base_support): mm: restrictedmem: loosen exclusivity check
 
-I'll fix this comment in the next version. Thanks for the suggestion!
+What I'm seeing is Slot#3 gets added first and then deleted. When it's
+gets added, Slot#0 already has the same range bound to restrictedmem so
+trigger the exclusive check. This check is exactly the current code for.
 
->
-> > +static bool lru_gen_test_recent(void *shadow, bool file, int *memcgid,
-> > +             struct pglist_data **pgdat, unsigned long *token, bool *workingset)
-> > +{
-> > +     struct mem_cgroup *eviction_memcg;
-> > +     struct lruvec *lruvec;
-> > +     struct lru_gen_struct *lrugen;
-> > +     unsigned long min_seq;
-> > +
-> > +     unpack_shadow(shadow, memcgid, pgdat, token, workingset);
-> > +     eviction_memcg = mem_cgroup_from_id(*memcgid);
-> > +
-> > +     lruvec = mem_cgroup_lruvec(eviction_memcg, *pgdat);
-> > +     lrugen = &lruvec->lrugen;
-> > +
-> > +     min_seq = READ_ONCE(lrugen->min_seq[file]);
-> > +     return (*token >> LRU_REFS_WIDTH) == (min_seq & (EVICTION_MASK >> LRU_REFS_WIDTH));
-> > +}
->
-> [...]
->
-> > +/*
-> > + * Test if the folio is recently evicted by checking if
-> > + * refault distance of shadow exceeds workingset size.
-> >   *
-> > - * Calculates and evaluates the refault distance of the previously
-> > - * evicted folio in the context of the node and the memcg whose memory
-> > - * pressure caused the eviction.
-> > + * As a side effect, populate workingset with the value
-> > + * unpacked from shadow.
-> >   */
->
-> 1. Shouldn't this be kernel-doc?
+>   *fixup (upm_base_support): KVM: use inclusive ranges for restrictedmem binding/unbinding
+>   *fixup (upm_base_support): mm: restrictedmem: use inclusive ranges for issuing invalidations
 
-Hmm good point...
+As many kernel APIs treat 'end' as exclusive, I would rather keep using
+exclusive 'end' for these APIs(restrictedmem_bind/restrictedmem_unbind
+and notifier callbacks) but fix it internally in the restrictedmem. E.g.
+all the places where xarray API needs a 'last'/'max' we use 'end - 1'.
+See below for the change.
 
-> 2. Again, don't use the term "side effect" here.  It's just one of
-> the things that the function _does_.
->
+>   *fixup (upm_base_support): KVM: fix restrictedmem GFN range calculations
 
-I'll fix this! Thanks for pointing it out.
+Subtracting slot->restrictedmem.index for start/end in
+restrictedmem_get_gfn_range() is the correct fix.
+
+>   *fixup (upm_base_support): KVM: selftests: CoCo compilation fixes
+> 
+> We plan to post an updated RFC for v8 soon, but also wanted to share
+> the staging tree in case you end up looking at the UPM integration aspects
+> before then.
+> 
+> -Mike
+
+This is the restrictedmem fix to solve 'end' being stored and checked in xarray:
+
+--- a/mm/restrictedmem.c
++++ b/mm/restrictedmem.c
+@@ -46,12 +46,12 @@ static long restrictedmem_punch_hole(struct restrictedmem *rm, int mode,
+         */
+        down_read(&rm->lock);
+ 
+-       xa_for_each_range(&rm->bindings, index, notifier, start, end)
++       xa_for_each_range(&rm->bindings, index, notifier, start, end - 1)
+                notifier->ops->invalidate_start(notifier, start, end);
+ 
+        ret = memfd->f_op->fallocate(memfd, mode, offset, len);
+ 
+-       xa_for_each_range(&rm->bindings, index, notifier, start, end)
++       xa_for_each_range(&rm->bindings, index, notifier, start, end - 1)
+                notifier->ops->invalidate_end(notifier, start, end);
+ 
+        up_read(&rm->lock);
+@@ -224,7 +224,7 @@ static int restricted_error_remove_page(struct address_space *mapping,
+                }
+                spin_unlock(&inode->i_lock);
+ 
+-               xa_for_each_range(&rm->bindings, index, notifier, start, end)
++               xa_for_each_range(&rm->bindings, index, notifier, start, end - 1)
+                        notifier->ops->error(notifier, start, end);
+                break;
+        }
+@@ -301,11 +301,12 @@ int restrictedmem_bind(struct file *file, pgoff_t start, pgoff_t end,
+                if (exclusive != rm->exclusive)
+                        goto out_unlock;
+ 
+-               if (exclusive && xa_find(&rm->bindings, &start, end, XA_PRESENT))
++               if (exclusive &&
++                   xa_find(&rm->bindings, &start, end - 1, XA_PRESENT))
+                        goto out_unlock;
+        }
+ 
+-       xa_store_range(&rm->bindings, start, end, notifier, GFP_KERNEL);
++       xa_store_range(&rm->bindings, start, end - 1, notifier, GFP_KERNEL);
+        rm->exclusive = exclusive;
+        ret = 0;
+ out_unlock:
+@@ -320,7 +321,7 @@ void restrictedmem_unbind(struct file *file, pgoff_t start, pgoff_t end,
+        struct restrictedmem *rm = file->f_mapping->private_data;
+ 
+        down_write(&rm->lock);
+-       xa_store_range(&rm->bindings, start, end, NULL, GFP_KERNEL);
++       xa_store_range(&rm->bindings, start, end - 1, NULL, GFP_KERNEL);
+        synchronize_rcu();
+        up_write(&rm->lock);
+ }
