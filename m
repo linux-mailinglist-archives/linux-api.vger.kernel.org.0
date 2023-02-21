@@ -2,67 +2,68 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F67E69DBF2
-	for <lists+linux-api@lfdr.de>; Tue, 21 Feb 2023 09:32:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 294F669DC2D
+	for <lists+linux-api@lfdr.de>; Tue, 21 Feb 2023 09:37:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233715AbjBUIcD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 21 Feb 2023 03:32:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47392 "EHLO
+        id S233601AbjBUIhj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 21 Feb 2023 03:37:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53306 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233713AbjBUIcC (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 21 Feb 2023 03:32:02 -0500
+        with ESMTP id S233791AbjBUIhe (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 21 Feb 2023 03:37:34 -0500
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E1A323865
-        for <linux-api@vger.kernel.org>; Tue, 21 Feb 2023 00:31:16 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABE1F241E5
+        for <linux-api@vger.kernel.org>; Tue, 21 Feb 2023 00:36:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1676968275;
+        s=mimecast20190719; t=1676968481;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=kCboO0D4l0fCcmSpxKOmwRfVm5IgZzSNbPLhAcKwBhQ=;
-        b=YJzcZx/BYTWMyJ7vp9Ob1cUCbqQiZE6gYxhE8I/ebO0OZxILgEy3wLFuxb3CFf9+RMsdc+
-        kCDMPaSpl6zGwnwJvqJ/2u4qpf5tRlS/eBcm7qQ8JTMr38Z9T6BFfaRXGREcAGQaPejLGv
-        IyI+SLgOfWZryCjkHePs085IgCdSGUE=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=s3hA7io5oEGOw3xKaHyd+KsM6je8a9BDLLtnwSNoTqc=;
+        b=GtvOw71B/sdc67NR8XisOqariHMAhHWxiWTJVzcXx6qp4/JY0zNUrcyvZk61XCqoMDsGrI
+        53Q4ibc3t4wq6DZufYV7T7Glcz0mWVIksbadTIX4EboTRbD5xhxgYdteENVsBxzqhwe7/0
+        XZDRpRpDk3sISiwPyEKAw9JFnWOR0Eg=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-410-_HCq2ULHMUaOMvBiLqiBfA-1; Tue, 21 Feb 2023 03:31:14 -0500
-X-MC-Unique: _HCq2ULHMUaOMvBiLqiBfA-1
-Received: by mail-wm1-f69.google.com with SMTP id s18-20020a7bc392000000b003deaf780ab6so1557839wmj.4
-        for <linux-api@vger.kernel.org>; Tue, 21 Feb 2023 00:31:14 -0800 (PST)
+ us-mta-556-cd_I_um7M129rTgZNV150w-1; Tue, 21 Feb 2023 03:34:40 -0500
+X-MC-Unique: cd_I_um7M129rTgZNV150w-1
+Received: by mail-wr1-f69.google.com with SMTP id d14-20020adfa34e000000b002bfc062eaa8so676950wrb.20
+        for <linux-api@vger.kernel.org>; Tue, 21 Feb 2023 00:34:39 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:organization:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kCboO0D4l0fCcmSpxKOmwRfVm5IgZzSNbPLhAcKwBhQ=;
-        b=mn9A0WZ7875gqqybdI24seRxHksyZN+86Js/6pO13+IVmWC0hAX+RaW8Qg4Ie0h0vm
-         OvptE/TgdkQHpOGAq1NGYvP7nlpT89f4GUk/rYAa0kuRbzkpkb45Av19O1W1eNAvKXEy
-         /3yrR7IjrlEIwPXsNmduVf2pgwB215MwEO0gMaOD+n/iMtW2X31fad/gCXRvKQ2fmxPW
-         4KUTJnJZ5OpTuiqyRFz3EX4OxPL2iT0tFyxsfzTl3HUP6deAbNkUnS6Dg0X6+j1S9fYS
-         Kl2D4tHreWE4H7NZXfTk8JrUgIDp+zKT7QBrjD0hrh7awoFtUeaGcbOI4oe14fO2al9X
-         W0Hg==
-X-Gm-Message-State: AO0yUKU3kxlzk0zPw3XXEPmKTUwfvRSKoe22vz1Qb2DMs21xh5EZDpHm
-        4xlEGkP0fWZwhdoJ/xNM0bG8xUT4EHW6rDpHnvVbpVKoJ1WBaYwjPD4GALIyW8ia/S6I1HnlvC/
-        tfYLK2kqCGaGSxNaA4x7H
-X-Received: by 2002:a05:600c:1f06:b0:3dc:3b29:7a4 with SMTP id bd6-20020a05600c1f0600b003dc3b2907a4mr3260161wmb.0.1676968273151;
-        Tue, 21 Feb 2023 00:31:13 -0800 (PST)
-X-Google-Smtp-Source: AK7set+0r8eJK1vTBbYZl8FFEvRCCuV3a2A3iN25xytv7tuI4shMZpsPvaSTp+HX4M0GCokqILTrPQ==
-X-Received: by 2002:a05:600c:1f06:b0:3dc:3b29:7a4 with SMTP id bd6-20020a05600c1f0600b003dc3b2907a4mr3260139wmb.0.1676968272718;
-        Tue, 21 Feb 2023 00:31:12 -0800 (PST)
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=s3hA7io5oEGOw3xKaHyd+KsM6je8a9BDLLtnwSNoTqc=;
+        b=bpTr1IR7amHFKdeNgafqzaLoaUuGvNlEAtVMzR5sZtOyeJCqztrPa3c7KO4S6K53c7
+         +Uml1YiVinPBzttURVORomhSw8KvljSg31XGBxeIP4IPgtXEmOUxqdUl9D/A8V0nETsd
+         pYeRnLAqu226qYRbaYk8o50KW4LWk2OkmBm/Eqgj21QldCI9T8RVMHp2Q9+ooXgPFZai
+         0GKzvRdUhKLy//V3MYeBIAlyf9AaCCbwve9hYWaVx078TxzpvehA7lizQ7terbTgUmsu
+         7c3GxrO1Cz0rUOqrxHnCviG4MXtBm0pXkgCb5Wa9tALYBZqb4gT9pyQ0FhEl9AUrS9mH
+         rCaA==
+X-Gm-Message-State: AO0yUKXOFhuKBFE2m1nRA+urOcBzLpZtZLRYtChhNEX39H8YeUazaCXc
+        mBWArWFTvXrQMWRk4fYXTk8U/Torus3L3iDcKWKtuEDu37GZFXDxpyeY8coIsfGccwPF14oVt3F
+        3mwFtd0pIX4w98ThgSn87
+X-Received: by 2002:adf:f883:0:b0:2c7:3f9:7053 with SMTP id u3-20020adff883000000b002c703f97053mr1601046wrp.52.1676968478704;
+        Tue, 21 Feb 2023 00:34:38 -0800 (PST)
+X-Google-Smtp-Source: AK7set/VzopSRLbEFNZlfiqKhL0ooGf/sc8yqRhmWuymXLlPTJDz78LKcQjIJ00MRvJ21tbfpizkTg==
+X-Received: by 2002:adf:f883:0:b0:2c7:3f9:7053 with SMTP id u3-20020adff883000000b002c703f97053mr1601006wrp.52.1676968478294;
+        Tue, 21 Feb 2023 00:34:38 -0800 (PST)
 Received: from ?IPV6:2003:cb:c707:4800:aecc:dadb:40a8:ce81? (p200300cbc7074800aeccdadb40a8ce81.dip0.t-ipconnect.de. [2003:cb:c707:4800:aecc:dadb:40a8:ce81])
-        by smtp.gmail.com with ESMTPSA id 26-20020a05600c229a00b003dc49e0132asm3583198wmf.1.2023.02.21.00.31.10
+        by smtp.gmail.com with ESMTPSA id a15-20020adffb8f000000b002c3f03d8851sm3539769wrr.16.2023.02.21.00.34.36
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Feb 2023 00:31:12 -0800 (PST)
-Message-ID: <c2db1af6-972c-2aef-2732-d37c41c310a1@redhat.com>
-Date:   Tue, 21 Feb 2023 09:31:10 +0100
+        Tue, 21 Feb 2023 00:34:37 -0800 (PST)
+Message-ID: <ef855af5-6a77-55d4-6e54-1e83d2e112a0@redhat.com>
+Date:   Tue, 21 Feb 2023 09:34:35 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.2
-Subject: Re: [PATCH v6 22/41] mm/mmap: Add shadow stack pages to memory
- accounting
+Subject: Re: [PATCH v6 18/41] mm: Introduce VM_SHADOW_STACK for shadow stack
+ memory
+Content-Language: en-US
 To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
         "bsingharora@gmail.com" <bsingharora@gmail.com>,
         "hpa@zytor.com" <hpa@zytor.com>,
@@ -104,13 +105,12 @@ To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
         "akpm@linux-foundation.org" <akpm@linux-foundation.org>
 Cc:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
 References: <20230218211433.26859-1-rick.p.edgecombe@intel.com>
- <20230218211433.26859-23-rick.p.edgecombe@intel.com>
- <6ccc8d30-336a-12af-1179-5dc4eca3048d@redhat.com>
- <8bd58778e062bb9526c905c5573a2ee20cb41eef.camel@intel.com>
-Content-Language: en-US
+ <20230218211433.26859-19-rick.p.edgecombe@intel.com>
+ <366c0af9-850f-24b1-3133-976fa92c51e2@redhat.com>
+ <9e25a24f3783f3960e2c1e5e68a6c6fdf3d89442.camel@intel.com>
 From:   David Hildenbrand <david@redhat.com>
 Organization: Red Hat
-In-Reply-To: <8bd58778e062bb9526c905c5573a2ee20cb41eef.camel@intel.com>
+In-Reply-To: <9e25a24f3783f3960e2c1e5e68a6c6fdf3d89442.camel@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -123,8 +123,8 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 20.02.23 23:44, Edgecombe, Rick P wrote:
-> On Mon, 2023-02-20 at 13:58 +0100, David Hildenbrand wrote:
+On 20.02.23 23:08, Edgecombe, Rick P wrote:
+> On Mon, 2023-02-20 at 13:56 +0100, David Hildenbrand wrote:
 >> On 18.02.23 22:14, Rick Edgecombe wrote:
 >>> From: Yu-cheng Yu <yu-cheng.yu@intel.com>
 >>>
@@ -135,67 +135,60 @@ On 20.02.23 23:44, Edgecombe, Rick P wrote:
 >>> unusual properties, which requires some core mm changes to function
 >>> properly.
 >>>
->>> Account shadow stack pages to stack memory.
->>>
->>> Reviewed-by: Kees Cook <keescook@chromium.org>
->>> Tested-by: Pengfei Xu <pengfei.xu@intel.com>
->>> Tested-by: John Allen <john.allen@amd.com>
->>> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
->>> Co-developed-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
->>> Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
->>> Cc: Kees Cook <keescook@chromium.org>
->>>
->>> ---
->>> v3:
->>>     - Remove unneeded VM_SHADOW_STACK check in accountable_mapping()
->>>       (Kirill)
->>>
->>> v2:
->>>     - Remove is_shadow_stack_mapping() and just change it to
->>> directly bitwise
->>>       and VM_SHADOW_STACK.
->>>
->>> Yu-cheng v26:
->>>     - Remove redundant #ifdef CONFIG_MMU.
->>>
->>> Yu-cheng v25:
->>>     - Remove #ifdef CONFIG_ARCH_HAS_SHADOW_STACK for
->>> is_shadow_stack_mapping().
->>> ---
->>>     mm/mmap.c | 2 ++
->>>     1 file changed, 2 insertions(+)
->>>
->>> diff --git a/mm/mmap.c b/mm/mmap.c
->>> index 425a9349e610..9f85596cce31 100644
->>> --- a/mm/mmap.c
->>> +++ b/mm/mmap.c
->>> @@ -3290,6 +3290,8 @@ void vm_stat_account(struct mm_struct *mm,
->>> vm_flags_t flags, long npages)
->>>                 mm->exec_vm += npages;
->>>         else if (is_stack_mapping(flags))
->>>                 mm->stack_vm += npages;
->>> +     else if (flags & VM_SHADOW_STACK)
->>> +             mm->stack_vm += npages;
+>>> A shadow stack PTE must be read-only and have _PAGE_DIRTY set.
+>>> However,
+>>> read-only and Dirty PTEs also exist for copy-on-write (COW) pages.
+>>> These
+>>> two cases are handled differently for page faults. Introduce
+>>> VM_SHADOW_STACK to track shadow stack VMAs.
 >>
->> Why not modify is_stack_mapping() ?
+>> I suggest simplifying and abstracting that description.
+>>
+>> "New hardware extensions implement support for shadow stack memory,
+>> such
+>> as x86 Control-flow Enforcement Technology (CET). Let's add a new VM
+>> flag to identify these areas, for example, to be used to properly
+>> indicate shadow stack PTEs to the hardware."
 > 
-> It kind of sticks out a little in this conditional, but
-> is_stack_mapping() has this comment:
-> /*
->   * Stack area - automatically grows in one direction
->   *
->   * VM_GROWSUP / VM_GROWSDOWN VMAs are always private anonymous:
->   * do_mmap() forbids all other combinations.
->   */
-> 
-> Shadow stack don't grow, so it doesn't quite fit. There used to be an
-> is_shadow_stack_mapping(), but it was removed because all that was
-> needed (for the time being) was the simple bitwise AND:
-> 
-> https://lore.kernel.org/lkml/804adbac-61e6-0fd2-f726-5735fb290199@intel.com/
+> Ah yea, that top blurb was added to all the non-x86 arch patches after
+> some feedback from Andrew Morton. He had said basically (in some more
+> colorful language) that the changelogs (at the time) were written
+> assuming the reader knows what a shadow stack is.
 
-As there is only a single user of is_stack_mapping(), I'd simply have 
-adjusted the doc of is_stack_mapping() to include shadow stacks.
+Okay. It's a bit repetitive, though.
+
+Ideally, we'd just explain it in the cover letter in detail and 
+Andrews's script would include the cover letter in the first commit. 
+IIRC, that's what usually happens.
+
+> 
+> So it might be worth keeping a little more info in the log?
+
+Copying the same paragraph into each commit is IMHO a bit repetitive. 
+But these are just my 2 cents.
+
+[...]
+
+>> Should we abstract this to CONFIG_ARCH_USER_SHADOW_STACK, seeing
+>> that
+>> other architectures might similarly need it?
+> 
+> There was an ARCH_HAS_SHADOW_STACK but it got removed following this
+> discussion:
+> 
+> https://lore.kernel.org/lkml/d09e952d8ae696f687f0787dfeb7be7699c02913.camel@intel.com/
+> 
+> Now we have this new RFC for riscv as potentially a second
+> implementation. But it is still very early, and I'm not sure anyone
+> knows exactly what the similarities will be in a mature version. So I
+> think it would be better to refactor in an ARCH_HAS_SHADOW_STACK later
+> (and similar abstractions) once that series is more mature and we have
+> an idea of what pieces will be shared. I don't have a problem in
+> principle with an ARCH config, just don't think we should do it yet.
+
+Okay, easy to factor out later.
+
+Acked-by: David Hildenbrand <david@redhat.com>
 
 -- 
 Thanks,
