@@ -2,66 +2,49 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 32B7369F0EB
-	for <lists+linux-api@lfdr.de>; Wed, 22 Feb 2023 10:06:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 12C4169FA13
+	for <lists+linux-api@lfdr.de>; Wed, 22 Feb 2023 18:24:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231495AbjBVJGN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 22 Feb 2023 04:06:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53070 "EHLO
+        id S231748AbjBVRYZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 22 Feb 2023 12:24:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39484 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231590AbjBVJGK (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 22 Feb 2023 04:06:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7880B83EA
-        for <linux-api@vger.kernel.org>; Wed, 22 Feb 2023 01:05:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1677056723;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=9LjUQ9O0HnvcxKh2XAsUTz7YC8LaZ/FmXdZBrCkpK+Q=;
-        b=XR9b0fi9KvAiaDE5BTpc8TIOo/qeHDi/6bFhI2uNFW5uWGqpkfgvQAMrEKbV0W/KPpWkN3
-        9IniZuquw6W2gHT+DX86O89ZNADBkd0SalosCPceq+edugj7/xobyiZfJQ2Sqvkvshwhdb
-        RzzLiGVMmu8xLawJ6umYmi7w8Q02jEQ=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-424-miACzYTGO9qbPy3B9wGhQA-1; Wed, 22 Feb 2023 04:05:22 -0500
-X-MC-Unique: miACzYTGO9qbPy3B9wGhQA-1
-Received: by mail-wr1-f69.google.com with SMTP id bt1-20020a056000080100b002c557db0e0fso1555113wrb.11
-        for <linux-api@vger.kernel.org>; Wed, 22 Feb 2023 01:05:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:subject:organization:from
-         :content-language:references:cc:to:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9LjUQ9O0HnvcxKh2XAsUTz7YC8LaZ/FmXdZBrCkpK+Q=;
-        b=OnLX0vAo6IIjTgpvQi602YmuKNS2vKz/LE/Jut0PDTeA8Y9CwCiqM1W4jtTASriv+u
-         nSSqqfsDILaIoSmYH+QMU7cIdbD4fZCoYeZZ/Z4Lf/NB+yIWjlXqG+26sfe+ZHrO7GDn
-         Q8fdL16LN/wyDDOYvnxxjEE1s9N5W/iUHkr6OurtKOG4f+DOJGbnYuy3mKMWfwX262vd
-         rRewFmL3B1MbBRHWtxD1jTBX2Uox31uiOK5HCDEMcyjha9/sJU7MPoGO1Lf8ASkRamed
-         tmI3hcofoUzu2PZ+raBnjfgAxobvBO8JscIACUhQb37vMl5auKc3Xqqajw+ro2VwAuTy
-         uNSQ==
-X-Gm-Message-State: AO0yUKXPXShYQsXiTIVDq2XC+nt4EeySi+ZW3RGvdSYVmUS/AQPpGQ5F
-        Tcb8SQNy41EOHPc5h58TAAwZkLKJVG9l4o3beNOx6OOXfrNkSR0PhvMQfqroLcruD/rwdcWhjTM
-        WkNwuR/4rwW3aLO8J4DI6
-X-Received: by 2002:a05:600c:80f:b0:3db:fc3:6de4 with SMTP id k15-20020a05600c080f00b003db0fc36de4mr5069702wmp.35.1677056721237;
-        Wed, 22 Feb 2023 01:05:21 -0800 (PST)
-X-Google-Smtp-Source: AK7set9SGBIryzMFukKmMVx5ow2JjCNOU/7I00r/woNcU3wsCpyUfsO529XXrVJjBQAVq81y0YSzRQ==
-X-Received: by 2002:a05:600c:80f:b0:3db:fc3:6de4 with SMTP id k15-20020a05600c080f00b003db0fc36de4mr5069668wmp.35.1677056720798;
-        Wed, 22 Feb 2023 01:05:20 -0800 (PST)
-Received: from ?IPV6:2003:cb:c704:a100:95ad:6325:131:6b1d? (p200300cbc704a10095ad632501316b1d.dip0.t-ipconnect.de. [2003:cb:c704:a100:95ad:6325:131:6b1d])
-        by smtp.gmail.com with ESMTPSA id c22-20020a7bc856000000b003e01493b136sm7194166wml.43.2023.02.22.01.05.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Feb 2023 01:05:20 -0800 (PST)
-Message-ID: <52f001ef-a409-4f33-f28f-02e806ef305a@redhat.com>
-Date:   Wed, 22 Feb 2023 10:05:18 +0100
+        with ESMTP id S232097AbjBVRYY (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 22 Feb 2023 12:24:24 -0500
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEB8E392A1;
+        Wed, 22 Feb 2023 09:24:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677086653; x=1708622653;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=jpKYWzPJiotn2GFQC2lVUcC/mIszPtwMm3RSKsW81ZE=;
+  b=RWtznhT8GSmcwamG3QlD6sdp4hNa180PRf1H6DqHMiPXVUShbLXSjGFt
+   9SKz4/wVmVv1Ls4+n6Z6weN7fYEIuIkc+fgOtL52osX3n1ITv226A7oai
+   DUZ8wIcv7FxbMxyr7tcIFNak610l4H75aerBTrRoCAOXkxIZIan40Conz
+   ojUophBIaoHTTsPlackbVhk4V7dMH1cbPfoIMEZjukuvVhG1smCqHdMJU
+   vWUyc09BNEPyuoZexqE/lVKV7Ts+2qWPyXYCNwW2fP58LzVKNmANVtlXx
+   +8GaB6eLeHN63i1Cs2NROYCQfZD88NGasJtPy18Dppf7maRX0xRpvbUi9
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="332988958"
+X-IronPort-AV: E=Sophos;i="5.97,319,1669104000"; 
+   d="scan'208";a="332988958"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2023 09:23:54 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="815006664"
+X-IronPort-AV: E=Sophos;i="5.97,319,1669104000"; 
+   d="scan'208";a="815006664"
+Received: from tzinser-mobl.amr.corp.intel.com (HELO [10.209.49.182]) ([10.209.49.182])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2023 09:23:52 -0800
+Message-ID: <74b91f3e-17f7-6d89-a7d1-7373101bf8b7@intel.com>
+Date:   Wed, 22 Feb 2023 09:23:51 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.2
-To:     Dave Hansen <dave.hansen@intel.com>,
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v6 14/41] x86/mm: Introduce _PAGE_SAVED_DIRTY
+Content-Language: en-US
+To:     David Hildenbrand <david@redhat.com>,
         "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
         "bsingharora@gmail.com" <bsingharora@gmail.com>,
         "hpa@zytor.com" <hpa@zytor.com>,
@@ -108,51 +91,26 @@ References: <20230218211433.26859-1-rick.p.edgecombe@intel.com>
  <6f19d7c7ad9f61fa8f6c9bd09d24524dbe17463f.camel@intel.com>
  <6e1201f5-da25-6040-8230-c84856221838@redhat.com>
  <273414f5-2a7c-3cc0-dc27-d07baaa5787b@intel.com>
-Content-Language: en-US
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v6 14/41] x86/mm: Introduce _PAGE_SAVED_DIRTY
-In-Reply-To: <273414f5-2a7c-3cc0-dc27-d07baaa5787b@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ <52f001ef-a409-4f33-f28f-02e806ef305a@redhat.com>
+From:   Dave Hansen <dave.hansen@intel.com>
+In-Reply-To: <52f001ef-a409-4f33-f28f-02e806ef305a@redhat.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 21.02.23 21:13, Dave Hansen wrote:
-> On 2/21/23 00:38, David Hildenbrand wrote:> Sure, for my taste this is
-> (1) too repetitive (2) too verbose (3) to
->> specialized. But whatever x86 maintainers prefer.
-> 
-> At this point, I'm not going to be too nitpicky.  I personally think we
-> need to get _something_ merged.  We can then nitpick it to death once
-> its in the tree.
+On 2/22/23 01:05, David Hildenbrand wrote:
+> This series wasn't in -next and we're in the merge window. Is the plan
+> to still include it into this merge window?
 
-Yes, but ... do we have to rush right now?
+No way.  It's 6.4 material at the earliest.
 
-This series wasn't in -next and we're in the merge window. Is the plan 
-to still include it into this merge window?
-
-Also, I think concise patch descriptions and comments are not 
-necessarily nitpicking like "please rename that variable".
-
-> 
-> So I prefer whatever will move the set along. ;)
-
-If the plan is to merge it in the next merge window (which I suspect, 
-but I might be wrong), I suggest including it in -next fairly soonish, 
-and in the meantime, polish the remaining bits.
-
-Knowing the plan would be good ;)
-
--- 
-Thanks,
-
-David / dhildenb
-
+I'm just saying to Rick not to worry _too_ much about earlier feedback
+from me if folks have more recent review feedback.
