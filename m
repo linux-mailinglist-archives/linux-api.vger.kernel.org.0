@@ -2,88 +2,66 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A71E56A0EF5
-	for <lists+linux-api@lfdr.de>; Thu, 23 Feb 2023 18:59:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 733FD6A11DC
+	for <lists+linux-api@lfdr.de>; Thu, 23 Feb 2023 22:20:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229491AbjBWR7Y (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 23 Feb 2023 12:59:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42106 "EHLO
+        id S229717AbjBWVUd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 23 Feb 2023 16:20:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34294 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229477AbjBWR7X (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 23 Feb 2023 12:59:23 -0500
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4D3E36FC1;
-        Thu, 23 Feb 2023 09:59:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677175162; x=1708711162;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=g4+ynOkSEK3P6nC1cIBaJt3jXwbd+LdI1vrUVa6yvN8=;
-  b=ZBCYLciAc/Vjzwd487cyuESd0nZrhbISV467cJQNuE4KmATJ2Ess41A2
-   hwDcQJi1wUNkhBoStfJXLd6LNyfrDrlh1+9yk7xZP243+e72dDYxQL4/5
-   UXKsXnh8vzpRdlDozFQg3sQMCCpt/42Cd1vANlFrXnWtw1EiIKz8JetaG
-   VMeSI7jyWGPe2ZJOTTWkZW0tTAzmy1TSNqHyuBI12lS7WXYdf88lXR/px
-   A7WmX5ocRQdre7tW3NcNd0Kx+GhijL1pa2LBilWy/ROYP/uSmJGdaaKUF
-   qrgqzcFQjSrMXYJW/ohVNmHcAuafePEKR9C4FevO1AiYsJ/69V/zFvEdG
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="331957196"
-X-IronPort-AV: E=Sophos;i="5.97,322,1669104000"; 
-   d="scan'208";a="331957196"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2023 09:59:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="918101496"
-X-IronPort-AV: E=Sophos;i="5.97,322,1669104000"; 
-   d="scan'208";a="918101496"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by fmsmga006.fm.intel.com with ESMTP; 23 Feb 2023 09:59:20 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Thu, 23 Feb 2023 09:59:20 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Thu, 23 Feb 2023 09:59:20 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Thu, 23 Feb 2023 09:59:20 -0800
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.172)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Thu, 23 Feb 2023 09:59:19 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lgqPrmLwgSTmQvUeiAnmkES+0aAiX7DmCzb6hJ1yz66hfDl+3778XUQIHFab/6fElgpqmkfArgJ2vCE+toBooSeZYnEG4KDGfWKmZo4xAcZNXnWrtOM1k5tuyAeJP2jMyIV/M6GsMpXIJrOexKFVxAkxmQck7U91M9uTgGGMX9A3z4sfxtXd0+82eVLq/fdHjnZgnHU+RUunpHI2jzHF5iWBAODDQ/3Z8lZrQay6PzyUqi5AjxSztE+ALFdXG6DiEpf0Dqki0AraWw37Dl0dQWlLsF+x+40mAVze3C2h1KVwO5qDTFtHzaB8DQBxoukba9F+/L71XsnVkAhToSucqA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=g4+ynOkSEK3P6nC1cIBaJt3jXwbd+LdI1vrUVa6yvN8=;
- b=Ao2q4nDeeuFQ8ALWh81qKYlnuUvtX459Qoe3Yvi7+09WVMNG4WYz1Izm+BAfI4k1gbCpTqxVL9fn8itqnqdXYbBI04TFCcaa4DoL0MJj5Abexsucx4e2Gw76XRk+8QoMTZ7QO8O6IFUSmHDIXqTYpJKBBLi9lgx0q1Q8lH3CFQrD6bJ2P4LgKe083ckdBD4T6C78oFrwFuNeI55Yq1aRB0FTLkNpVkkv6nsRsDFYSq2Uqb7gy+Y7iHZq2606Q/lMI1h7VhogUxezOYY2wf9PnB7CJKD1UPUwiWc3ZWRv2HRmQZ/qbvLDJrEdM26KCyml4vON/byJT/R7U7899D22Tw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from MWHPR11MB1392.namprd11.prod.outlook.com (2603:10b6:300:24::14)
- by IA1PR11MB6322.namprd11.prod.outlook.com (2603:10b6:208:38a::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.21; Thu, 23 Feb
- 2023 17:59:17 +0000
-Received: from MWHPR11MB1392.namprd11.prod.outlook.com
- ([fe80::d41f:9f07:ed56:a536]) by MWHPR11MB1392.namprd11.prod.outlook.com
- ([fe80::d41f:9f07:ed56:a536%3]) with mapi id 15.20.6134.021; Thu, 23 Feb 2023
- 17:59:17 +0000
-From:   "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-To:     "hca@linux.ibm.com" <hca@linux.ibm.com>
-CC:     "david@redhat.com" <david@redhat.com>,
+        with ESMTP id S229705AbjBWVUc (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 23 Feb 2023 16:20:32 -0500
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67D505D47B
+        for <linux-api@vger.kernel.org>; Thu, 23 Feb 2023 13:20:21 -0800 (PST)
+Received: by mail-ed1-x52d.google.com with SMTP id da10so48502723edb.3
+        for <linux-api@vger.kernel.org>; Thu, 23 Feb 2023 13:20:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=OGNK+81UETaPn0jcsEtslOWqhVdogFDF7Oyic4eRMC0=;
+        b=dZ0PmdnqNzzjl4gyodTo7Zb17UgRMZptHwXLBomZ/AvWARR5ZPd6XaTkwjBxJFuGaT
+         H0F3qnuxv3chDjD33jmtByO/Il4zihwWqNRj/EEYnB9Er7lIZ8MGu+au2KIEm8IkqdMt
+         WfEamdrk6xp1+wq8oDc1jQF3iNhV3+/x/+qKI21/MbCuhRW6FiaAU6cN2nBTZzvkDg9m
+         J0h8xSdbeOsGBxBQoM5VmCu+Xj2Pn3BiMhr9jxIsxQrgeI9plEFpVFpjTVHQqDV2PQ9P
+         IGrsG1Wtc/Y6sEBGu7yxprbHh6Ygufryb07uAYG0eTFXjd75azPNJX+kgrT9eVceeION
+         FccQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OGNK+81UETaPn0jcsEtslOWqhVdogFDF7Oyic4eRMC0=;
+        b=VtL8zRZyymXwY5DUYfKsPrhWyktGbdU4SPLnK96JKTMce2pQsSAZz4Zd6QZQLOQgyY
+         7X8KZz2OfaO5LfFCqtGK/wuNi4ogyoFUpRquyVv/ft4sfFn4QLxdb4Ymp+tWbh8oycsL
+         XW8fivQfCvQsyX+xJ2bpSrlHziFd1Svu15C9uav5pupktx6A80No+KW1xOXhrjpvrOHm
+         Lq9TsbuMumWRZAHrGvr34bRU5mJzSUj7NXNrQQ12U8Leq0y5WWxJxFAHsLp/9DJMM2iB
+         HhoF8DvbwI8b1QJ4JnUVmSBJJDeaz9kNCYJ+IyuywFUPbz0XcCreLdOhUedttGZgphr2
+         nPhw==
+X-Gm-Message-State: AO0yUKX39BROsOxxRm/U6Lu6ARWfyZhqQ4h36Q8Ig0dgVQASIgUjcjkv
+        2++l6P9AI6GKJc+Mo1+g67YrVObgc3dWSDP88FQjsg==
+X-Google-Smtp-Source: AK7set+KUUdbnyo5JRRHrV1ozmg6AbjBaYX0SdvoC+Bros6cRT/lBPSqwRJvMri7bJe/UlGznB+3heSzYzD8bnfAmKI=
+X-Received: by 2002:a17:907:2b09:b0:8b1:cd2e:177a with SMTP id
+ gc9-20020a1709072b0900b008b1cd2e177amr10778294ejc.6.1677187219479; Thu, 23
+ Feb 2023 13:20:19 -0800 (PST)
+MIME-Version: 1.0
+References: <20230218211433.26859-1-rick.p.edgecombe@intel.com>
+ <20230218211433.26859-34-rick.p.edgecombe@intel.com> <20230223000340.GB945966@debug.ba.rivosinc.com>
+ <49a151d5a704487d541e421699cf798c87a80ca5.camel@intel.com>
+In-Reply-To: <49a151d5a704487d541e421699cf798c87a80ca5.camel@intel.com>
+From:   Deepak Gupta <debug@rivosinc.com>
+Date:   Thu, 23 Feb 2023 13:20:06 -0800
+Message-ID: <CAKC1njSXDY_NUxLdrbJbF6zGaP4aifAh3g1ku0E5RkAxK4tqLA@mail.gmail.com>
+Subject: Re: [PATCH v6 33/41] x86/shstk: Introduce map_shadow_stack syscall
+To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+Cc:     "david@redhat.com" <david@redhat.com>,
         "bsingharora@gmail.com" <bsingharora@gmail.com>,
         "hpa@zytor.com" <hpa@zytor.com>,
         "Syromiatnikov, Eugene" <esyr@redhat.com>,
         "peterz@infradead.org" <peterz@infradead.org>,
         "rdunlap@infradead.org" <rdunlap@infradead.org>,
         "keescook@chromium.org" <keescook@chromium.org>,
-        "gor@linux.ibm.com" <gor@linux.ibm.com>,
         "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
         "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
         "Eranian, Stephane" <eranian@google.com>,
@@ -105,107 +83,171 @@ CC:     "david@redhat.com" <david@redhat.com>,
         "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
         "x86@kernel.org" <x86@kernel.org>,
         "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "debug@rivosinc.com" <debug@rivosinc.com>,
-        "agordeev@linux.ibm.com" <agordeev@linux.ibm.com>,
         "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
         "john.allen@amd.com" <john.allen@amd.com>,
         "rppt@kernel.org" <rppt@kernel.org>,
         "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
-        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
         "mingo@redhat.com" <mingo@redhat.com>,
-        "gerald.schaefer@linux.ibm.com" <gerald.schaefer@linux.ibm.com>,
         "corbet@lwn.net" <corbet@lwn.net>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
         "gorcunov@gmail.com" <gorcunov@gmail.com>,
         "akpm@linux-foundation.org" <akpm@linux-foundation.org>
-Subject: Re: [PATCH v6 12/41] s390/mm: Introduce pmd_mkwrite_kernel()
-Thread-Topic: [PATCH v6 12/41] s390/mm: Introduce pmd_mkwrite_kernel()
-Thread-Index: AQHZQ9490xkYOGVnNUGxP685zSCNI67cePaAgABgYoA=
-Date:   Thu, 23 Feb 2023 17:59:16 +0000
-Message-ID: <9125cb75914eba24d730e617b9b8a8869f772a33.camel@intel.com>
-References: <20230218211433.26859-1-rick.p.edgecombe@intel.com>
-         <20230218211433.26859-13-rick.p.edgecombe@intel.com>
-         <Y/dYmcHQXP63ONeL@osiris>
-In-Reply-To: <Y/dYmcHQXP63ONeL@osiris>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MWHPR11MB1392:EE_|IA1PR11MB6322:EE_
-x-ms-office365-filtering-correlation-id: 9dc30949-7a19-4341-e9f8-08db15c7addf
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: /hHaA50AsvcPbU/u3jflGvzeoWlL71hX5acZy2eHxz4wnNxBLVtDwNuZqclAAz3rS5Tp2GkMb/wjiYOw3hDiwkjhDlRd6s5mvJNj4ynsiasRRyIT9ld7jHkHDdUGGUJAn9MYVQmvaebLSBsNbL0zXwHiPTqvIqN5vK3synp68H9AlTwYaiyDALxCkfkloz/TBghTB7c+SRhPFlF9IodQ99XmRfac2TjWhXw62+7k3kbC/2ukJ8hFeVHGqzcl0uwrlxQ5xtk8VsIoO5UB4QSt1ubv/kWZ3rUzZ7rtq9OkLp3b3Kq5wGIEvKS9GWf9tKxb9XloJ1ikeeCVsirRQU8nXa7dMgu1GOEaEYeSP6VJB5z115ETDiblgxvuySMlduMox1h+LFyI/VkOjl6H8O/QJy8ZxWEHFT+sks+EPJcUj0bC79kSniGti7Z5h3fZhWVTsO+wJhvF59yczqbTYfb3qTCAP6CnvSj5mzNFvi2W+lFktY3Wi762OcMYKLetXFDOHO37HasQbnsISlbWN7d4WJeQcAzVyJhHHDmPL9Xu8vEPj6mxLVLwHnI8VpZXa/lz4detGZOE6PgVlKhkNRFz8vLRr5bChcfSZPqDIzyBOy783PHmxjZQL79VyxG+iICBY5ev2zl/jfG6RJjmBHO5t96F9Q/rRnTVs5jRDBuO6Vgx8qijM7xai5a6IZ7xL+laB4FYYjpYNosFMoJIMPozXkYMqGyUMPLz+gQV1rs9hE4=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR11MB1392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(346002)(39860400002)(136003)(396003)(376002)(366004)(451199018)(558084003)(36756003)(54906003)(478600001)(8936002)(64756008)(5660300002)(6486002)(7416002)(91956017)(316002)(7406005)(66446008)(66476007)(2906002)(66556008)(76116006)(66946007)(41300700001)(4326008)(71200400001)(38100700002)(122000001)(6916009)(82960400001)(8676002)(38070700005)(2616005)(86362001)(6512007)(186003)(6506007)(26005)(99106002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Q21BbzZyazZaR3B2d3NTZFBXZFgwb3dDTFNYUG4rUHQxYW9UbDJCU0tCRXla?=
- =?utf-8?B?b2VrMFBoNVlVczAzUTNROENqN0ZUbUdZMTRWRXBKS28vVDJFUU9CQXhOclJJ?=
- =?utf-8?B?OW5WcjdsK0J0bTRjSGJHR3lJRHB4N1pJZndDOUlmVGN2NE9EbEhvckd2VHlK?=
- =?utf-8?B?VE9xWVFTcE16YklLS05aNjFpTVh5QUpyWlNNWGJMYlBGUTdpZzdIME5obFVw?=
- =?utf-8?B?ZS9oQWNNbGw5d1RMU3hCc1BmUTI5ankrMEJXc2V2RjR6NFozNnFGbnRaY0FU?=
- =?utf-8?B?ek9RN2s0Mnk0VUlmUEpnd0VMbVVkS3NzVDErQUJ5OFI3ZUxnMjhOcjhnNTVk?=
- =?utf-8?B?SXJ5QXV2UTQzS05oRVhxWSs4SnFaVGxHNDBJOHRKdGxsNHVJQjI2L29CZkZY?=
- =?utf-8?B?Sjc1NWlTVDQ0N29IU0V5d2VYZVdVaXlhaGtEMEo2UVpXY2FuMFFGTTFQaUEx?=
- =?utf-8?B?RnNEMmlpRVNPdUpZU0liYXpxVmNlUGhTYS9NN0RTSUp5V0J4bm1UeENmK0JC?=
- =?utf-8?B?SHpsM1M1UUEyMHdZNWJTa0FiVzJYRzRhTzgvV3BDalJQM2NKTzYvblRKVnpP?=
- =?utf-8?B?d1k5enJOcUx2UzBJU3N1RDJ0alJvQnhyckFYekcvOWxya0N5bmNBYWtHSG02?=
- =?utf-8?B?eHBkR3hkS3RvR0YxS1YwcytIU3pqWlpLbDVmRGRycTBaNG5Kc2s4aGFYbnNR?=
- =?utf-8?B?dFhyNExLNC80cFNiNkdlQnlMcVBTSmRlNnN4U0Jkb2FPNmFyVGdRR1l5TzY1?=
- =?utf-8?B?THYyaitqYWFCRmUvWi9VOWIvT0RxcVJhdmhWcUhXQ2sxRVE3RnJ5RzFjdk9q?=
- =?utf-8?B?L0gyZmhJd01BdWtCUDRyRzJoMXZmUGNaVll1VXd4SUdmMnNlL0xPVGRYM3dr?=
- =?utf-8?B?T1VOZEZvNEJhVitqRFB2cnR0bUV4bUJMK1RsSm85OFJmbHN2YU1KTjFEWjdq?=
- =?utf-8?B?V1hnQzJ6NExDSmhPS1pKSlBLVHlQNWMwMkwxdHE4bmc0eVBqSG9ybTRNZENS?=
- =?utf-8?B?cjJDRzZqa0E5d0k2bkhQajdhQUszbTEzVTlQMkxRMm5EY3Nnc003RU85TVkx?=
- =?utf-8?B?bzE3V2VEQVNySnZiTE9sNnRGVWFJODZLaHIzSXRTWjEwUThXU2lOT1U4L3dT?=
- =?utf-8?B?ZjkvWG0vNUhUR2RVYTQweS9vZmI3ZlBJcEhjK2hQL0dYRHVwclY1UVY0elR5?=
- =?utf-8?B?cU5PSHBxV0xwb2xWNEttSE8wU1JJYncwNDVvTnpMODUrblV6Q21TNHplV1hB?=
- =?utf-8?B?TXhxY2JDVDIyMkRxMVpDaUhyM1A1VTFmVmdVNXladUF5MWNveUx5MEJlUFds?=
- =?utf-8?B?T1JVdnNKcjVyeWZyWmlGbHZIOWhLTHB3WFRDSHJzV3EvRUF4cUNzQTIxd0Ey?=
- =?utf-8?B?dFdMbWZFTUtXVVhOOStaY3hUVkJ4aDdFNVdGVEIwWDJiUklndU5Mck50YlJG?=
- =?utf-8?B?YVgyVVNwVDhSQml0VXJRK2VyeGxlRTR3MFRmYmdkNlFuMjNIMW1wMURwV1Jr?=
- =?utf-8?B?T1RMdWN5cEVXNXJaWkZXUUJKcW95SWJCcXJ3aHNmK0ZJcitZM2VCTlg4RzRu?=
- =?utf-8?B?Yk54QzB2Yk45bm0zM1l2cDBHc0RTa2NRcGUrWE5ielAzSkRyc2JPb3l3TjlO?=
- =?utf-8?B?K0g5bnJEdG85TDdkRmxFM1pwbUZyYXFVU3hCUjFBVjhPalBNQVVYRlJ6cXJ5?=
- =?utf-8?B?RkkwU0pMcjcyamhBZE1pVE5zczZMQnN1OW5hdzlJR0YzMitDSVI4YXBFbzVT?=
- =?utf-8?B?dXMwTW5VY0lhWGJ4ZFVKbnRXT2JNN2k0S0FWWk1ybVovcnM3a0Y1RSt3eFNo?=
- =?utf-8?B?RFhxM2lZa3c1UUtTckRWbGd2QnRpRnJuTUp1ZDgxN0NFS3AxaXh2aXV6bGRQ?=
- =?utf-8?B?ZXp6Tm9yREw5NkdqblAwTGtNNXRuSDc5SVVYUGFiNGZnNlNwczJTb0dEa1Fq?=
- =?utf-8?B?WUZjRGp2TGpoQk1SQ2JDV3dXZVVubk95aU9iS1FxN2Z5OGl6bmg5SnMvUHpZ?=
- =?utf-8?B?ZEJYR3JaRVlnZXBRc2oxU2hiRFJVZ3NsR3dIZzVvYTlFUURIVjlaRWhFbVAx?=
- =?utf-8?B?SWp2L29qTWtlZmhtT1dKRVcyb1JmSmU1RDFuTExrdVFnNzVsRFAxUHh5UjVi?=
- =?utf-8?B?WFR4d2pwbVRCT1gzMTUycDVJUUFFbjg3WG44dUgwNDRjUytuL2QzcTFDb1VL?=
- =?utf-8?Q?bWaxgVokjN8v8tnbOa+ul2g=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <D935DD0E46569449B3792C8EF67DED88@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR11MB1392.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9dc30949-7a19-4341-e9f8-08db15c7addf
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Feb 2023 17:59:16.2240
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Lu/vg35S3pYfyNlcP5tmgzLeIPYBPiSKoc7qvDGsVSTButPCs6mVpGcwxn9Zac6im/CX3FQDpV/86I+Y67OGe2q5TJm7j0xwIjnu2RGRH7o=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB6322
-X-OriginatorOrg: intel.com
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-T24gVGh1LCAyMDIzLTAyLTIzIGF0IDEzOjE0ICswMTAwLCBIZWlrbyBDYXJzdGVucyB3cm90ZToN
-Cj4gQWNrZWQtYnk6IEhlaWtvIENhcnN0ZW5zIDxoY2FAbGludXguaWJtLmNvbT4NCg0KVGhhbmtz
-IQ0K
+On Wed, Feb 22, 2023 at 5:11 PM Edgecombe, Rick P
+<rick.p.edgecombe@intel.com> wrote:
+>
+> On Wed, 2023-02-22 at 16:03 -0800, Deepak Gupta wrote:
+> > On Sat, Feb 18, 2023 at 01:14:25PM -0800, Rick Edgecombe wrote:
+> > > When operating with shadow stacks enabled, the kernel will
+> > > automatically
+> > > allocate shadow stacks for new threads, however in some cases
+> > > userspace
+> > > will need additional shadow stacks. The main example of this is the
+> > > ucontext family of functions, which require userspace allocating
+> > > and
+> > > pivoting to userspace managed stacks.
+> > >
+> > > Unlike most other user memory permissions, shadow stacks need to be
+> > > provisioned with special data in order to be useful. They need to
+> > > be setup
+> > > with a restore token so that userspace can pivot to them via the
+> > > RSTORSSP
+> > > instruction. But, the security design of shadow stack's is that
+> > > they
+> > > should not be written to except in limited circumstances. This
+> > > presents a
+> > > problem for userspace, as to how userspace can provision this
+> > > special
+> > > data, without allowing for the shadow stack to be generally
+> > > writable.
+> > >
+> > > Previously, a new PROT_SHADOW_STACK was attempted, which could be
+> > > mprotect()ed from RW permissions after the data was provisioned.
+> > > This was
+> > > found to not be secure enough, as other thread's could write to the
+> > > shadow stack during the writable window.
+> > >
+> > > The kernel can use a special instruction, WRUSS, to write directly
+> > > to
+> > > userspace shadow stacks. So the solution can be that memory can be
+> > > mapped
+> > > as shadow stack permissions from the beginning (never generally
+> > > writable
+> > > in userspace), and the kernel itself can write the restore token.
+> > >
+> > > First, a new madvise() flag was explored, which could operate on
+> > > the
+> > > PROT_SHADOW_STACK memory. This had a couple downsides:
+> > > 1. Extra checks were needed in mprotect() to prevent writable
+> > > memory from
+> > >    ever becoming PROT_SHADOW_STACK.
+> > > 2. Extra checks/vma state were needed in the new madvise() to
+> > > prevent
+> > >    restore tokens being written into the middle of pre-used shadow
+> > > stacks.
+> > >    It is ideal to prevent restore tokens being added at arbitrary
+> > >    locations, so the check was to make sure the shadow stack had
+> > > never been
+> > >    written to.
+> > > 3. It stood out from the rest of the madvise flags, as more of
+> > > direct
+> > >    action than a hint at future desired behavior.
+> > >
+> > > So rather than repurpose two existing syscalls (mmap, madvise) that
+> > > don't
+> > > quite fit, just implement a new map_shadow_stack syscall to allow
+> > > userspace to map and setup new shadow stacks in one step. While
+> > > ucontext
+> > > is the primary motivator, userspace may have other unforeseen
+> > > reasons to
+> > > setup it's own shadow stacks using the WRSS instruction. Towards
+> > > this
+> > > provide a flag so that stacks can be optionally setup securely for
+> > > the
+> > > common case of ucontext without enabling WRSS. Or potentially have
+> > > the
+> > > kernel set up the shadow stack in some new way.
+> >
+> > Was following ever attempted?
+> >
+> > void *shstk = mmap(0, size, PROT_SHADOWSTACK, ...);
+> > - limit PROT_SHADOWSTACK protection flag to only mmap (and thus
+> > mprotect can't
+> >    convert memory from shadow stack to non-shadow stack type or vice
+> > versa)
+> > - limit PROT_SHADOWSTACK protection flag to anonymous memory only.
+> > - top level mmap handler to put a token at the base using WRUSS if
+> > prot == PROT_SHADOWSTACK
+> >
+> > You essentially would get shadow stack manufacturing with existing
+> > (single) syscall.
+> > Acting a bit selfish here, this allows other architectures as well to
+> > re-use this and
+> > do their own implementation of mapping and placing the token at the
+> > base.
+>
+> Yes, I looked at it. You end up with a pile of checks and hooks added
+> to mmap() and various other places as you outline. We also now have the
+> MAP_ABOVE4G limitation for x86 shadow stack that would need checking
+> for too. It's not exactly a clean fit. Then, callers would have to pass
+> special x86 flags in anyway.
+
+riscv has mechanisms using which a 32bit app can run on 64bit kernel.
+So technically if there are 32bit and 64bit code in address space,
+MAP_ABOVE4G could be useful.
+Although I am not sure (or aware of) if there are such requirement
+from app/developers yet (to guarantee address mapping above 4G)
+
+But I see this as orthogonal to memory protection flags.
+
+>
+> It doesn't seem like the complexity of the checks is worth saving the
+> tiny syscall. Is there some reason why riscv can't use the same syscall
+> stub? It doesn't need to live forever in x86 code. Not sure what the
+> savings are for riscv of the mmap+checks approach are either...
+
+I don't see a lot of extra complexity here.
+If `mprotect` and friends don't know about `PROT_SHADOWSTACK`, they'll
+just fail by default (which is desired)
+
+It's only `mmap` that needs to be enlightened. And it can just pass
+`VMA_SHADOW_STACK` to `do_mmap` if input is `PROT_SHADOWSTACK`.
+
+Adding a syscall just for mapping shadow stack is weird when it can be
+solved with existing system calls.
+As you say in your response below, it would be good to have such a
+syscall which serve larger purposes (e.g. provisioning special
+security-type memory)
+
+arm64's memory tagging is one such example. Not exactly security-type
+memory (but eventual application is security for this feature) .
+It adds extra meaning to virtual addresses (i.e. an address has tags).
+arm64 went about using a protection flag `PROT_MTE` instead of a
+special system call.
+
+Being said that since this patch has gone through multiple revisions
+and I am new to the party. If others dont have issues on this special
+system call,
+I think it's fine then. In case of riscv I can choose to use this
+mechanism or go via arm's route to define PROT_SHADOWSTACK which is
+arch specific.
+
+>
+> I did wonder if there could be some sort of more general syscall for
+> mapping and provisioning special security-type memory. But we probably
+> need a few more non-shadow stack examples to get an idea of what that
+> would look like.
+
+As I mentioned memory tagging and thus PROT_MTE is already such a use
+case which uses `mmap/mprotect` protection flags to designate special
+meaning to a virtual address.
