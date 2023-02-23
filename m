@@ -2,131 +2,225 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 977A56A08E9
-	for <lists+linux-api@lfdr.de>; Thu, 23 Feb 2023 13:50:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EE9926A090E
+	for <lists+linux-api@lfdr.de>; Thu, 23 Feb 2023 13:56:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233883AbjBWMuT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 23 Feb 2023 07:50:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45834 "EHLO
+        id S233346AbjBWM4m (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 23 Feb 2023 07:56:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51274 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233289AbjBWMuR (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 23 Feb 2023 07:50:17 -0500
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5647148E3B;
-        Thu, 23 Feb 2023 04:50:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677156604; x=1708692604;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=eASNSwL36ptZ/4xtIdgPWLQrNC65cNYiYtDWNhiD6Og=;
-  b=dFKv4g3nj7P4q5j3ca3KYLo6aX8qSzB/NhlJO2B3hFv6HBctLCmgPKJO
-   jAE74YYHP8myHsBJgNScB9eT5TejRczc1MB2OHZFyBg3CpXRu8k3LwQXt
-   6oiNl5AjQ036rlCceOxJtLRAAJY2kAYDPWj7U2VloFqJ4v8ECUmI7DH1R
-   h+Vs6gM2ysUudI1qw5j4yivEdo7l63rx2zua8wEGMOXKgVR4Is4TiU0gf
-   5o2HVftdDdV/ZsEZpUBPRqya6C+Wad7JEomzZlq0JyrOlPy7fh578FaJx
-   J+RZT9xOhI4g9u+5ZrdttD31oigcEpKfRcYrDn+2Ylb8QI01Z+y4BIEcu
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="335407719"
-X-IronPort-AV: E=Sophos;i="5.97,320,1669104000"; 
-   d="scan'208";a="335407719"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2023 04:50:03 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="741259700"
-X-IronPort-AV: E=Sophos;i="5.97,320,1669104000"; 
-   d="scan'208";a="741259700"
-Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 23 Feb 2023 04:50:00 -0800
-Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pVB2t-0001L7-2c;
-        Thu, 23 Feb 2023 12:49:59 +0000
-Date:   Thu, 23 Feb 2023 20:49:52 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Casey Schaufler <casey@schaufler-ca.com>, paul@paul-moore.com,
-        linux-security-module@vger.kernel.org
-Cc:     oe-kbuild-all@lists.linux.dev, jmorris@namei.org,
-        keescook@chromium.org, john.johansen@canonical.com,
-        penguin-kernel@i-love.sakura.ne.jp, stephen.smalley.work@gmail.com,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        mic@digikod.net
-Subject: Re: [PATCH v6 04/11] LSM: syscalls for current process attributes
-Message-ID: <202302232007.dcqfhRnw-lkp@intel.com>
-References: <20230222200838.8149-5-casey@schaufler-ca.com>
+        with ESMTP id S233811AbjBWM4l (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 23 Feb 2023 07:56:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D36A5192B
+        for <linux-api@vger.kernel.org>; Thu, 23 Feb 2023 04:55:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1677156952;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=PT6kgDTp7/GY4ysTzhnQOlEbU8Ib9XDdtbwXVzEvIDI=;
+        b=OyZwUgfiTSQb0oXyy4q+khFNd1z0Q2i1Zaa/fy/c4JFYJIbrhpLMdaistzrRWMAHSlgSm2
+        sxXdDkeA3bbdjwRR4GRS+u5ForDEzZYridcXGWyOeON7srpF3WBR7UmYbNnyVpq3HAfoeL
+        ZHLQa0KRmYVMUS3oN1PVXWNQX7SEfWQ=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-640-f_Wb-GGbM3CW3XUSDhO5dw-1; Thu, 23 Feb 2023 07:55:51 -0500
+X-MC-Unique: f_Wb-GGbM3CW3XUSDhO5dw-1
+Received: by mail-wr1-f72.google.com with SMTP id n4-20020a5d5984000000b002c3b562d76cso2428318wri.12
+        for <linux-api@vger.kernel.org>; Thu, 23 Feb 2023 04:55:51 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:subject:organization:from
+         :references:cc:to:content-language:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PT6kgDTp7/GY4ysTzhnQOlEbU8Ib9XDdtbwXVzEvIDI=;
+        b=rFLZ+rAA/BbIQpHvNjbH0+9AoscmPpuz6F89H8pdsgqaQXAAj6lbbuNbsucUVRJg/V
+         k1+ZfmDOL3Rs9qgPKOtrpdsLdLYQ31XA9Y77Mm0VJbMoCPIS/64veuCktBYI70+K/Y+R
+         iqf+sWdP+WNZG9uaueJDqf9FbvfhfBHtMPnchTakv39xm3vj1/oZHoguBg+eTyiXDxo5
+         e01Rwid6vVJQ4OHOaIfevxP0+9DBQ5n4p4vqQEWUT0FtImPjBevD09Pc+/eU9cX3Iunk
+         hvKe0BWP44QmG7rBXvykGQCexxH/AL/TFKAsGNORIVkdtAkOALTkZoyVV+YPr/P3UzXQ
+         tD3Q==
+X-Gm-Message-State: AO0yUKVvL/EgJcIke1raFRsoy2lTKBnTjfjhBVRaPF0/YtaDzF/f6m2K
+        fTn5396uMhYydrv6+6NInQZIueyuK0rZYV5VcItHvxioqbnv1STdh3RBQloCR3AYwXet2mTmXV+
+        bxh4/wRiE7OzyMOY5FJa2
+X-Received: by 2002:a05:600c:13d4:b0:3ea:dbdd:66e1 with SMTP id e20-20020a05600c13d400b003eadbdd66e1mr129171wmg.28.1677156950089;
+        Thu, 23 Feb 2023 04:55:50 -0800 (PST)
+X-Google-Smtp-Source: AK7set+z4Zckn4kGh4RDzbT5i3WSb5X8+Y/ga4x3DBVsKlX44yNblYKhzFO6jE19EiwrBNHiOOrHYg==
+X-Received: by 2002:a05:600c:13d4:b0:3ea:dbdd:66e1 with SMTP id e20-20020a05600c13d400b003eadbdd66e1mr129131wmg.28.1677156949645;
+        Thu, 23 Feb 2023 04:55:49 -0800 (PST)
+Received: from ?IPV6:2a09:80c0:192:0:5dac:bf3d:c41:c3e7? ([2a09:80c0:192:0:5dac:bf3d:c41:c3e7])
+        by smtp.gmail.com with ESMTPSA id m3-20020a05600c4f4300b003df5be8987esm4390794wmq.20.2023.02.23.04.55.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 23 Feb 2023 04:55:49 -0800 (PST)
+Message-ID: <2905adaa-97f8-912d-5d23-bee92eb4483e@redhat.com>
+Date:   Thu, 23 Feb 2023 13:55:47 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230222200838.8149-5-casey@schaufler-ca.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.2
+Content-Language: en-US
+To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
+        "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "kcc@google.com" <kcc@google.com>, "pavel@ucw.cz" <pavel@ucw.cz>,
+        "oleg@redhat.com" <oleg@redhat.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "Schimpe, Christina" <christina.schimpe@intel.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "debug@rivosinc.com" <debug@rivosinc.com>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>
+Cc:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+References: <20230218211433.26859-1-rick.p.edgecombe@intel.com>
+ <20230218211433.26859-20-rick.p.edgecombe@intel.com>
+ <458b3d39-ddce-c0f2-fe80-4e0cc5b101bd@redhat.com>
+ <c67f511516d2f28385bbe079b7d7d40f136adb27.camel@intel.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH v6 19/41] x86/mm: Check shadow stack page fault errors
+In-Reply-To: <c67f511516d2f28385bbe079b7d7d40f136adb27.camel@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Casey,
+On 23.02.23 00:07, Edgecombe, Rick P wrote:
+> On Mon, 2023-02-20 at 13:57 +0100, David Hildenbrand wrote:
+>>>     
+>>> +     /*
+>>> +      * When a page becomes COW it changes from a shadow stack
+>>> permission
+>>> +      * page (Write=0,Dirty=1) to (Write=0,Dirty=0,SavedDirty=1),
+>>> which is simply
+>>> +      * read-only to the CPU. When shadow stack is enabled, a RET
+>>> would
+>>> +      * normally pop the shadow stack by reading it with a "shadow
+>>> stack
+>>> +      * read" access. However, in the COW case the shadow stack
+>>> memory does
+>>> +      * not have shadow stack permissions, it is read-only. So it
+>>> will
+>>> +      * generate a fault.
+>>> +      *
+>>> +      * For conventionally writable pages, a read can be serviced
+>>> with a
+>>> +      * read only PTE, and COW would not have to happen. But for
+>>> shadow
+>>> +      * stack, there isn't the concept of read-only shadow stack
+>>> memory.
+>>> +      * If it is shadow stack permission, it can be modified via
+>>> CALL and
+>>> +      * RET instructions. So COW needs to happen before any memory
+>>> can be
+>>> +      * mapped with shadow stack permissions.
+>>> +      *
+>>> +      * Shadow stack accesses (read or write) need to be serviced
+>>> with
+>>> +      * shadow stack permission memory, so in the case of a shadow
+>>> stack
+>>> +      * read access, treat it as a WRITE fault so both COW will
+>>> happen and
+>>> +      * the write fault path will tickle maybe_mkwrite() and map
+>>> the memory
+>>> +      * shadow stack.
+>>> +      */
+>>
+>> Again, I suggest dropping all details about COW from this comment
+>> and
+>> from the patch description. It's just one such case that can happen.
+> 
+> Hi David,
 
-I love your patch! Perhaps something to improve:
+Hi Rick,
 
-[auto build test WARNING on tip/perf/core]
-[also build test WARNING on acme/perf/core shuah-kselftest/next shuah-kselftest/fixes v6.2]
-[cannot apply to linus/master next-20230223]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> I was just trying to edit this one to drop COW details, but I think in
+> this case, one of the major reasons for the code *is* actually COW. We
+> are not working around the whole inadvertent shadow stack memory piece
+> here, but something else: Making sure shadow stack memory is faulted in
+> and doing COW if required to make this possible. I came up with this,
+> does it seem better?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Casey-Schaufler/LSM-Maintain-a-table-of-LSM-attribute-data/20230223-050902
-patch link:    https://lore.kernel.org/r/20230222200838.8149-5-casey%40schaufler-ca.com
-patch subject: [PATCH v6 04/11] LSM: syscalls for current process attributes
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20230223/202302232007.dcqfhRnw-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/04ba82c1bd629c2114ad851b4723d6e8b0f9d08f
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Casey-Schaufler/LSM-Maintain-a-table-of-LSM-attribute-data/20230223-050902
-        git checkout 04ba82c1bd629c2114ad851b4723d6e8b0f9d08f
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+Regarding the fault handling I completely agree. We have to treat a read 
+like a write event. And as read-only shadow stack PTEs don't exist, we 
+have to tell the MM to create a writable one for us.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302232007.dcqfhRnw-lkp@intel.com/
+> 
+> 
+> /*
+>   * For conventionally writable pages, a read can be serviced with a
+>   *
+> read only PTE. But for shadow stack, there isn't a concept of
+>   * read-
+> only shadow stack memory. If it a PTE has the shadow stack
+>   *
+> permission, it can be modified via CALL and RET instructions. So
+>   * core
+> MM needs to fault in a writable PTE and do things it already
+>   * does for
+> write faults.
+>   *
+>   * Shadow stack accesses (read or write) need to be
+> serviced with
+>   * shadow stack permission memory, so in the case of a
+> shadow stack
+>   * read access, treat it as a WRITE fault so both any
+> required COW will
+>   * happen and the write fault path will tickle
+> maybe_mkwrite() and map
+>   * the memory shadow stack.
+>   */
 
-All warnings (new ones prefixed by >>):
+That sounds good! I'd rewrite the last part slightly.
 
->> security/lsm_syscalls.c:61:5: warning: no previous prototype for 'lsm_name_to_attr' [-Wmissing-prototypes]
-      61 | u64 lsm_name_to_attr(const char *name)
-         |     ^~~~~~~~~~~~~~~~
-
-
-vim +/lsm_name_to_attr +61 security/lsm_syscalls.c
-
-    51	
-    52	/**
-    53	 * lsm_name_to_attr - map an LSM attribute name to its ID
-    54	 * @name: name of the attribute
-    55	 *
-    56	 * Look the given @name up in the table of know attribute names.
-    57	 *
-    58	 * Returns the LSM attribute value associated with @name, or 0 if
-    59	 * there is no mapping.
-    60	 */
-  > 61	u64 lsm_name_to_attr(const char *name)
-    62	{
-    63		int i;
-    64	
-    65		for (i = 0; i < ARRAY_SIZE(lsm_attr_names); i++)
-    66			if (!strcmp(name, lsm_attr_names[i].name))
-    67				return lsm_attr_names[i].attrs;
-    68		return 0;
-    69	}
-    70	
+"
+Shadow stack accesses (read or write) need to be serviced with
+shadow stack permission memory, which always include write permissions. 
+So in the case of a shadow stack read access, treat it as a WRITE fault. 
+This will make sure that MM will prepare everything (e.g., break COW) 
+such that maybe_mkwrite() can create a proper shadow stack PTE.
+"
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Thanks,
+
+David / dhildenb
+
