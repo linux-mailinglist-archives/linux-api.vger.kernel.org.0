@@ -2,225 +2,146 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EE9926A090E
-	for <lists+linux-api@lfdr.de>; Thu, 23 Feb 2023 13:56:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 466CC6A0B22
+	for <lists+linux-api@lfdr.de>; Thu, 23 Feb 2023 14:48:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233346AbjBWM4m (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 23 Feb 2023 07:56:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51274 "EHLO
+        id S234417AbjBWNsX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 23 Feb 2023 08:48:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233811AbjBWM4l (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 23 Feb 2023 07:56:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D36A5192B
-        for <linux-api@vger.kernel.org>; Thu, 23 Feb 2023 04:55:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1677156952;
+        with ESMTP id S234272AbjBWNsS (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 23 Feb 2023 08:48:18 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A88CD1EBDC;
+        Thu, 23 Feb 2023 05:47:58 -0800 (PST)
+Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 669341EC06C0;
+        Thu, 23 Feb 2023 14:47:55 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1677160075;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=PT6kgDTp7/GY4ysTzhnQOlEbU8Ib9XDdtbwXVzEvIDI=;
-        b=OyZwUgfiTSQb0oXyy4q+khFNd1z0Q2i1Zaa/fy/c4JFYJIbrhpLMdaistzrRWMAHSlgSm2
-        sxXdDkeA3bbdjwRR4GRS+u5ForDEzZYridcXGWyOeON7srpF3WBR7UmYbNnyVpq3HAfoeL
-        ZHLQa0KRmYVMUS3oN1PVXWNQX7SEfWQ=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-640-f_Wb-GGbM3CW3XUSDhO5dw-1; Thu, 23 Feb 2023 07:55:51 -0500
-X-MC-Unique: f_Wb-GGbM3CW3XUSDhO5dw-1
-Received: by mail-wr1-f72.google.com with SMTP id n4-20020a5d5984000000b002c3b562d76cso2428318wri.12
-        for <linux-api@vger.kernel.org>; Thu, 23 Feb 2023 04:55:51 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:subject:organization:from
-         :references:cc:to:content-language:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PT6kgDTp7/GY4ysTzhnQOlEbU8Ib9XDdtbwXVzEvIDI=;
-        b=rFLZ+rAA/BbIQpHvNjbH0+9AoscmPpuz6F89H8pdsgqaQXAAj6lbbuNbsucUVRJg/V
-         k1+ZfmDOL3Rs9qgPKOtrpdsLdLYQ31XA9Y77Mm0VJbMoCPIS/64veuCktBYI70+K/Y+R
-         iqf+sWdP+WNZG9uaueJDqf9FbvfhfBHtMPnchTakv39xm3vj1/oZHoguBg+eTyiXDxo5
-         e01Rwid6vVJQ4OHOaIfevxP0+9DBQ5n4p4vqQEWUT0FtImPjBevD09Pc+/eU9cX3Iunk
-         hvKe0BWP44QmG7rBXvykGQCexxH/AL/TFKAsGNORIVkdtAkOALTkZoyVV+YPr/P3UzXQ
-         tD3Q==
-X-Gm-Message-State: AO0yUKVvL/EgJcIke1raFRsoy2lTKBnTjfjhBVRaPF0/YtaDzF/f6m2K
-        fTn5396uMhYydrv6+6NInQZIueyuK0rZYV5VcItHvxioqbnv1STdh3RBQloCR3AYwXet2mTmXV+
-        bxh4/wRiE7OzyMOY5FJa2
-X-Received: by 2002:a05:600c:13d4:b0:3ea:dbdd:66e1 with SMTP id e20-20020a05600c13d400b003eadbdd66e1mr129171wmg.28.1677156950089;
-        Thu, 23 Feb 2023 04:55:50 -0800 (PST)
-X-Google-Smtp-Source: AK7set+z4Zckn4kGh4RDzbT5i3WSb5X8+Y/ga4x3DBVsKlX44yNblYKhzFO6jE19EiwrBNHiOOrHYg==
-X-Received: by 2002:a05:600c:13d4:b0:3ea:dbdd:66e1 with SMTP id e20-20020a05600c13d400b003eadbdd66e1mr129131wmg.28.1677156949645;
-        Thu, 23 Feb 2023 04:55:49 -0800 (PST)
-Received: from ?IPV6:2a09:80c0:192:0:5dac:bf3d:c41:c3e7? ([2a09:80c0:192:0:5dac:bf3d:c41:c3e7])
-        by smtp.gmail.com with ESMTPSA id m3-20020a05600c4f4300b003df5be8987esm4390794wmq.20.2023.02.23.04.55.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Feb 2023 04:55:49 -0800 (PST)
-Message-ID: <2905adaa-97f8-912d-5d23-bee92eb4483e@redhat.com>
-Date:   Thu, 23 Feb 2023 13:55:47 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.2
-Content-Language: en-US
-To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
-        "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "Eranian, Stephane" <eranian@google.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "kcc@google.com" <kcc@google.com>, "pavel@ucw.cz" <pavel@ucw.cz>,
-        "oleg@redhat.com" <oleg@redhat.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "Schimpe, Christina" <christina.schimpe@intel.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "debug@rivosinc.com" <debug@rivosinc.com>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>
-Cc:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=hO7XAwGHrh7jFk3tHCK0hu6b1iYy4OafzVQ/2u7pgt0=;
+        b=XfrOb7PSES+S6B9eQEkNsjlZRHVF4TWjOqGoeG4O4dPJLEYmxc8q1Ehl5tvde40+rpKH68
+        3wN/883J0piBys3sMxNwuV9jX8TKi5vKKbjvvJPUrReZ+bzfj4BeS2P9fQiRfrIHpbz3Bl
+        1WIZQ+6CUY+TxMk/R6vjW/NeYUVVxE8=
+Date:   Thu, 23 Feb 2023 14:47:51 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        John Allen <john.allen@amd.com>, kcc@google.com,
+        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
+        dethoma@microsoft.com, akpm@linux-foundation.org,
+        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
+        david@redhat.com, debug@rivosinc.com,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: Re: [PATCH v6 37/41] selftests/x86: Add shadow stack test
+Message-ID: <Y/duhySUieqUWoGX@zn.tnic>
 References: <20230218211433.26859-1-rick.p.edgecombe@intel.com>
- <20230218211433.26859-20-rick.p.edgecombe@intel.com>
- <458b3d39-ddce-c0f2-fe80-4e0cc5b101bd@redhat.com>
- <c67f511516d2f28385bbe079b7d7d40f136adb27.camel@intel.com>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v6 19/41] x86/mm: Check shadow stack page fault errors
-In-Reply-To: <c67f511516d2f28385bbe079b7d7d40f136adb27.camel@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+ <20230218211433.26859-38-rick.p.edgecombe@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230218211433.26859-38-rick.p.edgecombe@intel.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 23.02.23 00:07, Edgecombe, Rick P wrote:
-> On Mon, 2023-02-20 at 13:57 +0100, David Hildenbrand wrote:
->>>     
->>> +     /*
->>> +      * When a page becomes COW it changes from a shadow stack
->>> permission
->>> +      * page (Write=0,Dirty=1) to (Write=0,Dirty=0,SavedDirty=1),
->>> which is simply
->>> +      * read-only to the CPU. When shadow stack is enabled, a RET
->>> would
->>> +      * normally pop the shadow stack by reading it with a "shadow
->>> stack
->>> +      * read" access. However, in the COW case the shadow stack
->>> memory does
->>> +      * not have shadow stack permissions, it is read-only. So it
->>> will
->>> +      * generate a fault.
->>> +      *
->>> +      * For conventionally writable pages, a read can be serviced
->>> with a
->>> +      * read only PTE, and COW would not have to happen. But for
->>> shadow
->>> +      * stack, there isn't the concept of read-only shadow stack
->>> memory.
->>> +      * If it is shadow stack permission, it can be modified via
->>> CALL and
->>> +      * RET instructions. So COW needs to happen before any memory
->>> can be
->>> +      * mapped with shadow stack permissions.
->>> +      *
->>> +      * Shadow stack accesses (read or write) need to be serviced
->>> with
->>> +      * shadow stack permission memory, so in the case of a shadow
->>> stack
->>> +      * read access, treat it as a WRITE fault so both COW will
->>> happen and
->>> +      * the write fault path will tickle maybe_mkwrite() and map
->>> the memory
->>> +      * shadow stack.
->>> +      */
->>
->> Again, I suggest dropping all details about COW from this comment
->> and
->> from the patch description. It's just one such case that can happen.
-> 
-> Hi David,
+On Sat, Feb 18, 2023 at 01:14:29PM -0800, Rick Edgecombe wrote:
+> Since this test exercises a recently added syscall manually, it needs
+> to find the automatically created __NR_foo defines. Per the selftest
+> documentation, KHDR_INCLUDES can be used to help the selftest Makefile's
 
-Hi Rick,
+Well, why don't you make it easier for the user of this to not have to
+jump through hoops to get the test built?
 
-> 
-> I was just trying to edit this one to drop COW details, but I think in
-> this case, one of the major reasons for the code *is* actually COW. We
-> are not working around the whole inadvertent shadow stack memory piece
-> here, but something else: Making sure shadow stack memory is faulted in
-> and doing COW if required to make this possible. I came up with this,
-> does it seem better?
+IOW, something like the below ontop.
 
-Regarding the fault handling I completely agree. We have to treat a read 
-like a write event. And as read-only shadow stack PTEs don't exist, we 
-have to tell the MM to create a writable one for us.
+It works if I do
 
-> 
-> 
-> /*
->   * For conventionally writable pages, a read can be serviced with a
->   *
-> read only PTE. But for shadow stack, there isn't a concept of
->   * read-
-> only shadow stack memory. If it a PTE has the shadow stack
->   *
-> permission, it can be modified via CALL and RET instructions. So
->   * core
-> MM needs to fault in a writable PTE and do things it already
->   * does for
-> write faults.
->   *
->   * Shadow stack accesses (read or write) need to be
-> serviced with
->   * shadow stack permission memory, so in the case of a
-> shadow stack
->   * read access, treat it as a WRITE fault so both any
-> required COW will
->   * happen and the write fault path will tickle
-> maybe_mkwrite() and map
->   * the memory shadow stack.
->   */
+$ make -j<num> test_shadow_stack_64
 
-That sounds good! I'd rewrite the last part slightly.
+It would only need to be fixed to work when you do
 
-"
-Shadow stack accesses (read or write) need to be serviced with
-shadow stack permission memory, which always include write permissions. 
-So in the case of a shadow stack read access, treat it as a WRITE fault. 
-This will make sure that MM will prepare everything (e.g., break COW) 
-such that maybe_mkwrite() can create a proper shadow stack PTE.
-"
+$ make -j<num>
+
+without arguments as then make does a parallel build.
+
+I guess something like
+
+ifneq ($(filter test_shadow_stack_64, $(MAKECMDGOALS)),)
+.NOTPARALLEL:
+endif
+
+needs to happen but I'm not sure...
+
+Thx.
+
+diff --git a/tools/testing/selftests/x86/Makefile b/tools/testing/selftests/x86/Makefile
+index a5c5ee73052a..9287dc7c0263 100644
+--- a/tools/testing/selftests/x86/Makefile
++++ b/tools/testing/selftests/x86/Makefile
+@@ -14,6 +14,10 @@ top_srcdir ?= ../../..
+ abs_srctree := $(shell cd $(top_srcdir) && pwd)
+ KHDR_INCLUDES := -isystem ${abs_srctree}/usr/include
+ 
++test_shadow_stack_64: test_shadow_stack.c helpers.h
++	cd $(top_srcdir) && $(MAKE) headers
++	$(CC) -m64 -o $@ $(CFLAGS) $(EXTRA_CFLAGS) $(KHDR_INCLUDES) $^ -lrt -ldl
++
+ TARGETS_C_BOTHBITS := single_step_syscall sysret_ss_attrs syscall_nt test_mremap_vdso \
+ 			check_initial_reg_state sigreturn iopl ioperm \
+ 			test_vsyscall mov_ss_trap \
+@@ -22,7 +26,7 @@ TARGETS_C_32BIT_ONLY := entry_from_vm86 test_syscall_vdso unwind_vdso \
+ 			test_FCMOV test_FCOMI test_FISTTP \
+ 			vdso_restorer
+ TARGETS_C_64BIT_ONLY := fsgsbase sysret_rip syscall_numbering \
+-			corrupt_xstate_header amx test_shadow_stack
++			corrupt_xstate_header amx
+ # Some selftests require 32bit support enabled also on 64bit systems
+ TARGETS_C_32BIT_NEEDED := ldt_gdt ptrace_syscall
+ 
+@@ -38,7 +42,7 @@ BINARIES_64 := $(TARGETS_C_64BIT_ALL:%=%_64)
+ BINARIES_32 := $(patsubst %,$(OUTPUT)/%,$(BINARIES_32))
+ BINARIES_64 := $(patsubst %,$(OUTPUT)/%,$(BINARIES_64))
+ 
+-CFLAGS := -O2 -g -std=gnu99 -pthread -Wall $(KHDR_INCLUDES)
++CFLAGS := -O2 -g -std=gnu99 -pthread -Wall
+ 
+ # call32_from_64 in thunks.S uses absolute addresses.
+ ifeq ($(CAN_BUILD_WITH_NOPIE),1)
 
 -- 
-Thanks,
+Regards/Gruss,
+    Boris.
 
-David / dhildenb
-
+https://people.kernel.org/tglx/notes-about-netiquette
