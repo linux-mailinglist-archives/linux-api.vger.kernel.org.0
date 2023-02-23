@@ -2,65 +2,65 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 594DE6A03E9
-	for <lists+linux-api@lfdr.de>; Thu, 23 Feb 2023 09:35:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 855F56A05DC
+	for <lists+linux-api@lfdr.de>; Thu, 23 Feb 2023 11:19:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233660AbjBWIfS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 23 Feb 2023 03:35:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60208 "EHLO
+        id S233296AbjBWKTU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 23 Feb 2023 05:19:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51684 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229745AbjBWIfN (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 23 Feb 2023 03:35:13 -0500
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27F054DBE8;
-        Thu, 23 Feb 2023 00:34:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677141268; x=1708677268;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0TEY6K3RfV2UZzUTFc+AYlryF+jA5jYmqCHAV1IjsI4=;
-  b=VxL3FI/tN2+sxiBMa5B1fS0KpkFzrsQldxqit5pFCztUZdnJq8mFpZ80
-   RaqBOIJvOhyQiNzgM9N7MC6JWHOvMbDYdVIjAzVxKnGSDCRdYWbw+PRfn
-   ISqE180RKECNSpgm4uK+yjdhFYsvA/d0guQ+dQr/3HF7UowtjCuE5NJ9d
-   jeX7cFhKP97tSvcckxqNc749eu1DDsAMxxsyucnyTiiqOokX4KGXqyxGz
-   zscgSdBliHqTuow1QgUVjNrFj1MZ9+GmrXIczIn4S8BBKH9on4tOrimQQ
-   pKGFvgLWOq/wacmNiOIsKQUobmkmungFinrJlD3CXaQRIxdp6RUTSkbdd
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="316880071"
-X-IronPort-AV: E=Sophos;i="5.97,320,1669104000"; 
-   d="scan'208";a="316880071"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2023 00:32:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="796221789"
-X-IronPort-AV: E=Sophos;i="5.97,320,1669104000"; 
-   d="scan'208";a="796221789"
-Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 23 Feb 2023 00:32:53 -0800
-Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pV724-0001B3-32;
-        Thu, 23 Feb 2023 08:32:52 +0000
-Date:   Thu, 23 Feb 2023 16:32:14 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Casey Schaufler <casey@schaufler-ca.com>, paul@paul-moore.com,
-        linux-security-module@vger.kernel.org
-Cc:     oe-kbuild-all@lists.linux.dev, jmorris@namei.org,
-        keescook@chromium.org, john.johansen@canonical.com,
-        penguin-kernel@i-love.sakura.ne.jp, stephen.smalley.work@gmail.com,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        mic@digikod.net
-Subject: Re: [PATCH v6 04/11] LSM: syscalls for current process attributes
-Message-ID: <202302231639.YHlfovm7-lkp@intel.com>
-References: <20230222200838.8149-5-casey@schaufler-ca.com>
+        with ESMTP id S233472AbjBWKTT (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 23 Feb 2023 05:19:19 -0500
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1F253D928;
+        Thu, 23 Feb 2023 02:19:18 -0800 (PST)
+Received: by mail-qt1-f182.google.com with SMTP id w42so10208601qtc.2;
+        Thu, 23 Feb 2023 02:19:18 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hiSyPZd76dU3y97iocP4+7J5nmKEdq6xDxkhc6e2U4Y=;
+        b=u8gh4vv4cQRT8kDj07i4Z0lgvsGsFjbAhUWJU0dUaGRG7FafUkfqr4CUaEsRwnqNVB
+         eVtKU7mlJi/xgWX8/oV5/loPmhr0eJqmJZb6yXDwe5qVcJFi77Ih68hbADbOc0gvOkM/
+         4aAUMYw3Nnjs4Rt+5+8TYCUzQVhvNfa44uQ6b/ahcfKdjZTVPrmoowvNoHDF10e/RSM9
+         2vOCn10XIdXVCDq6U9igkXKCLfhuqKAXl79i0I4fukhWCbkSxT2nqAm4cU7UXgMhFhyO
+         u5rThj8CaVu3uEl1n+kI822Id/1WeAoF3J+szSa02FPhsdrg9AJT4+yGdThSlUejCwO7
+         dVvg==
+X-Gm-Message-State: AO0yUKXuCCV/xRbUIOPz3zP/zwjiFoCXegMx9GUBpfT55r61C4chk/dv
+        zNGs+ebtv4Z1Rxk0OWGKFc0UMAWLapIU1LqD
+X-Google-Smtp-Source: AK7set9BvN12U2VTr2A/DbFOyw8HOlA5kjuiB3JeItJS0423kx0DOtMCBUzi5XLzL97F31WJvFW1HQ==
+X-Received: by 2002:a05:622a:10:b0:3b8:4325:7610 with SMTP id x16-20020a05622a001000b003b843257610mr20623938qtw.67.1677147557715;
+        Thu, 23 Feb 2023 02:19:17 -0800 (PST)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
+        by smtp.gmail.com with ESMTPSA id a8-20020ac81088000000b003bd1a464346sm2931127qtj.9.2023.02.23.02.19.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 23 Feb 2023 02:19:16 -0800 (PST)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-536cd8f6034so145891047b3.10;
+        Thu, 23 Feb 2023 02:19:16 -0800 (PST)
+X-Received: by 2002:a81:ae0c:0:b0:52e:cacb:d7c4 with SMTP id
+ m12-20020a81ae0c000000b0052ecacbd7c4mr1883570ywh.5.1677147556298; Thu, 23 Feb
+ 2023 02:19:16 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230222200838.8149-5-casey@schaufler-ca.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+References: <20230222200838.8149-1-casey@schaufler-ca.com> <20230222200838.8149-7-casey@schaufler-ca.com>
+In-Reply-To: <20230222200838.8149-7-casey@schaufler-ca.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 23 Feb 2023 11:19:02 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWGVmdTD5vZW1ObsCsXSxDnYp6WvFtfpKQKPCdHfu7Zvw@mail.gmail.com>
+Message-ID: <CAMuHMdWGVmdTD5vZW1ObsCsXSxDnYp6WvFtfpKQKPCdHfu7Zvw@mail.gmail.com>
+Subject: Re: [PATCH v6 06/11] LSM: wireup Linux Security Module syscalls
+To:     Casey Schaufler <casey@schaufler-ca.com>
+Cc:     paul@paul-moore.com, linux-security-module@vger.kernel.org,
+        jmorris@namei.org, keescook@chromium.org,
+        john.johansen@canonical.com, penguin-kernel@i-love.sakura.ne.jp,
+        stephen.smalley.work@gmail.com, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, mic@digikod.net
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -69,76 +69,28 @@ X-Mailing-List: linux-api@vger.kernel.org
 
 Hi Casey,
 
-I love your patch! Yet something to improve:
+On Wed, Feb 22, 2023 at 9:18 PM Casey Schaufler <casey@schaufler-ca.com> wrote:
+> Wireup lsm_get_self_attr, lsm_set_self_attr and lsm_module_list
+> system calls.
+>
+> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
 
-[auto build test ERROR on tip/perf/core]
-[also build test ERROR on acme/perf/core shuah-kselftest/next shuah-kselftest/fixes v6.2]
-[cannot apply to linus/master next-20230223]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Thanks for your patch!
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Casey-Schaufler/LSM-Maintain-a-table-of-LSM-attribute-data/20230223-050902
-patch link:    https://lore.kernel.org/r/20230222200838.8149-5-casey%40schaufler-ca.com
-patch subject: [PATCH v6 04/11] LSM: syscalls for current process attributes
-config: powerpc-allnoconfig (https://download.01.org/0day-ci/archive/20230223/202302231639.YHlfovm7-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/04ba82c1bd629c2114ad851b4723d6e8b0f9d08f
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Casey-Schaufler/LSM-Maintain-a-table-of-LSM-attribute-data/20230223-050902
-        git checkout 04ba82c1bd629c2114ad851b4723d6e8b0f9d08f
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash arch/powerpc/kernel/
+>  arch/m68k/kernel/syscalls/syscall.tbl               |  3 +++
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302231639.YHlfovm7-lkp@intel.com/
+Please collect tags given, and add them when reposting.
+I'm providing my
+Acked-by: Geert Uytterhoeven <geert@linux-m68k.org> [m68k]
+for the third time.
 
-All errors (new ones prefixed by >>):
+Gr{oetje,eeting}s,
 
-   In file included from include/linux/perf_event.h:62,
-                    from include/linux/trace_events.h:10,
-                    from include/trace/syscall.h:7,
-                    from include/linux/syscalls.h:89,
-                    from arch/powerpc/kernel/syscalls.c:19:
-   include/linux/security.h:1356:1: error: expected identifier or '(' before '{' token
-    1356 | {
-         | ^
-   include/linux/security.h:1363:1: error: expected identifier or '(' before '{' token
-    1363 | {
-         | ^
->> include/linux/security.h:1353:19: error: 'security_getselfattr' declared 'static' but never defined [-Werror=unused-function]
-    1353 | static inline int security_getselfattr(u64 __user attr,
-         |                   ^~~~~~~~~~~~~~~~~~~~
->> include/linux/security.h:1360:19: error: 'security_setselfattr' declared 'static' but never defined [-Werror=unused-function]
-    1360 | static inline int security_setselfattr(u64 __user attr,
-         |                   ^~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
-
-
-vim +1353 include/linux/security.h
-
-  1352	
-> 1353	static inline int security_getselfattr(u64 __user attr,
-  1354					       struct lsm_ctx __user *ctx,
-  1355					       size_t __user *size);
-  1356	{
-  1357		return -EINVAL;
-  1358	}
-  1359	
-> 1360	static inline int security_setselfattr(u64 __user attr,
-  1361					       struct lsm_ctx __user *ctx,
-  1362					       size_t __user size);
-  1363	{
-  1364		return -EINVAL;
-  1365	}
-  1366	
+                        Geert
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
