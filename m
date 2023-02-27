@@ -2,659 +2,290 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6395C6A4BCA
-	for <lists+linux-api@lfdr.de>; Mon, 27 Feb 2023 20:56:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 71B4F6A4E05
+	for <lists+linux-api@lfdr.de>; Mon, 27 Feb 2023 23:31:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229592AbjB0T4W (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 27 Feb 2023 14:56:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44034 "EHLO
+        id S229984AbjB0Wb2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 27 Feb 2023 17:31:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37446 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229722AbjB0T4U (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 27 Feb 2023 14:56:20 -0500
-Received: from smtpout.efficios.com (unknown [IPv6:2607:5300:203:b2ee::31e5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C7B528228;
-        Mon, 27 Feb 2023 11:56:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=efficios.com;
-        s=smtpout1; t=1677527760;
-        bh=fXYROZGirFu0E0AGmq0fzni7M06Y4AiSWJRUr/O6j+c=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=KhqXyu0pQHy5r/KjC7iCSrgQcxGm7IaODadv79/BwbzEBDWmsC9DO6IlSYQkJIIUa
-         mlkOLmQ8zIWbCUXgMN/QcNpzf4NXD0472sTe/gZcqr0TquRYfBg1XiOI6FO4T2tFLh
-         WK8Kop0kMhlDkOBfrFCZf/Bkaem3ZGqRPMaOsftvnxWpFKppwtNAdy5yLud5MrLSE5
-         S//sSxkriIC+WJp9W8YXr9N+O75ut7o3hd3BVStJmqOI+nIOg2TK0l0sMh9gP/q482
-         nJwbO2kPwX2PzQ9MegicBgtWweUz4zT4gXooZ895R8bHNoei1fzUqWFMdpDIUcWbz5
-         Xd5kAU6Ou6dSA==
-Received: from [172.16.0.188] (192-222-180-24.qc.cable.ebox.net [192.222.180.24])
-        by smtpout.efficios.com (Postfix) with ESMTPSA id 4PQWTD46q0znd8;
-        Mon, 27 Feb 2023 14:56:00 -0500 (EST)
-Message-ID: <c9c6de36-ee6c-d633-0023-8723bf83007a@efficios.com>
-Date:   Mon, 27 Feb 2023 14:56:03 -0500
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v2] rseq.2: New man page for the rseq(2) API
-Content-Language: en-US
-To:     Alex Colomar <alx.manpages@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        "linux-man @ vger . kernel . org" <linux-man@vger.kernel.org>,
+        with ESMTP id S229882AbjB0Wb1 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 27 Feb 2023 17:31:27 -0500
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C84025BBA;
+        Mon, 27 Feb 2023 14:31:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677537086; x=1709073086;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=wgxjh9QgD3JL/mbNIdl6volkZkIB/jWnSXcuFGCrqwg=;
+  b=CY3GFHSKn2onDY6JzsM1AC1wf7tGcSGSgBaetbbYbg2cBsyyBwrFv7EA
+   1uobanq6HIisq/xL6ZVhi0p9UcE1W2B7Iu6ZsnuIC7RE+FbtVhsAGpl61
+   CegWNlZL7X+Z1tQ5kAsi9Jcu8BE52n3H1Vbtfn6vADGeb7B+M5x2Yd92s
+   M3oHUkgakpl5Y+rk4nQyUQAvsMoQTG2/9xTFNBdOqnfnvlWt0gFETwCn2
+   FrAWHQxt4iVlyv2SxkrSWLan7C+Ovoa5sCgSfiJ/t8AUQoT39dMYaREhU
+   79r75Rc6eq36SvL4ad/2JXyrgHjRSICyHq5oz1xyHYkbA3uWX0xoI5L0f
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="313656974"
+X-IronPort-AV: E=Sophos;i="5.98,220,1673942400"; 
+   d="scan'208";a="313656974"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2023 14:31:07 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="848024329"
+X-IronPort-AV: E=Sophos;i="5.98,220,1673942400"; 
+   d="scan'208";a="848024329"
+Received: from leonqu-mobl1.amr.corp.intel.com (HELO rpedgeco-desk.amr.corp.intel.com) ([10.209.72.19])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2023 14:31:06 -0800
+From:   Rick Edgecombe <rick.p.edgecombe@intel.com>
+To:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
         Peter Zijlstra <peterz@infradead.org>,
-        "Paul E . McKenney" <paulmck@kernel.org>,
-        Boqun Feng <boqun.feng@gmail.com>
-References: <20230215190858.958935-1-mathieu.desnoyers@efficios.com>
- <b59894e3-5a5e-0463-68ff-7dab0b3c5892@gmail.com>
-From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-In-Reply-To: <b59894e3-5a5e-0463-68ff-7dab0b3c5892@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+        Randy Dunlap <rdunlap@infradead.org>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        John Allen <john.allen@amd.com>, kcc@google.com,
+        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
+        dethoma@microsoft.com, akpm@linux-foundation.org,
+        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
+        david@redhat.com, debug@rivosinc.com
+Cc:     rick.p.edgecombe@intel.com
+Subject: [PATCH v7 00/41] Shadow stacks for userspace
+Date:   Mon, 27 Feb 2023 14:29:16 -0800
+Message-Id: <20230227222957.24501-1-rick.p.edgecombe@intel.com>
+X-Mailer: git-send-email 2.17.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RDNS_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_PASS,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 2023-02-24 19:36, Alex Colomar wrote:
-> Hi Mathieu,
-> 
-> On 2/15/23 20:08, Mathieu Desnoyers wrote:
->> Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
->> ---
->>   man2/rseq.2 | 461 ++++++++++++++++++++++++++++++++++++++++++++++++++++
->>   1 file changed, 461 insertions(+)
->>   create mode 100644 man2/rseq.2
->>
->> diff --git a/man2/rseq.2 b/man2/rseq.2
->> new file mode 100644
->> index 000000000..1a7e4a893
->> --- /dev/null
->> +++ b/man2/rseq.2
->> @@ -0,0 +1,461 @@
->> +.\" Copyright 2015-2023 Mathieu Desnoyers 
->> <mathieu.desnoyers@efficios.com>
->> +.\"
->> +.\" SPDX-License-Identifier: Linux-man-pages-copyleft
->> +.\"
->> +.TH rseq 2 (date) "Linux man-pages (unreleased)"
->> +.SH NAME
->> +rseq \- restartable sequences system call
->> +.SH LIBRARY
->> +Standard C library
->> +.RI ( libc ", " \-lc )
->> +.SH SYNOPSIS
->> +.nf
->> +.PP
->> +.BR "#include <linux/rseq.h>" "       /* Definition of " RSEQ_* " 
->> constants */"
->> +.BR "#include <sys/syscall.h>" "      /* Definition of " SYS_* " 
->> constants */"
->> +.B #include <unistd.h>
->> +.PP
->> +.BI "int syscall(SYS_rseq, struct rseq *" rseq ", uint32_t " rseq_len ,
->> +.BI "            int " flags ", uint32_t " sig );
->> +.fi
->> +.PP
->> +.IR Note :
->> +glibc provides no wrapper for
->> +.BR rseq (),
->> +necessitating the use of
->> +.BR syscall (2).
->> +.SH DESCRIPTION
->> +The
->> +.BR rseq ()
->> +ABI accelerates specific user-space operations by registering a
->> +per-thread data structure shared between kernel and userspace.
-> 
-> s/userspace/user space/
+Hi,
 
-ok
+This series implements Shadow Stacks for userspace using x86's Control-flow 
+Enforcement Technology (CET). CET consists of two related security features: 
+shadow stacks and indirect branch tracking. This series implements just the 
+shadow stack part of this feature, and just for userspace.
 
-> 
->> +This data structure can be read from or written to by user-space to skip
-> 
-> s/user-space/user space/
+The main use case for shadow stack is providing protection against return 
+oriented programming attacks. It works by maintaining a secondary (shadow) 
+stack using a special memory type that has protections against modification. 
+When executing a CALL instruction, the processor pushes the return address to 
+both the normal stack and to the special permission shadow stack. Upon RET, 
+the processor pops the shadow stack copy and compares it to the normal stack 
+copy. For more details, see the coverletter from v1 [0].
 
-ok
+The changes for this version are some more cleanup of comment and commit log
+verbiage, and small refactor in the memory accounting patch. There was also
+some feedback from David Hildenbrand about adding GUP tests for the
+!FOLL_FORCE case. This is currently planned for a fast follow on patch.
 
-> 
->> +otherwise expensive system calls.
->> +.PP
->> +A restartable sequence is a sequence of instructions
->> +guaranteed to be executed atomically with respect to
->> +other threads and signal handlers on the current CPU.
->> +If its execution does not complete atomically,
->> +the kernel changes the execution flow by jumping to an abort handler
->> +defined by user-space for that restartable sequence.
-> 
-> s/user-space/user space/
-
-ok
-
-> 
->> +.PP
->> +Using restartable sequences requires to register a
->> +.BR rseq ()
->> +ABI per-thread data structure
->> +.RI ( "struct rseq" )
->> +through the
->> +.BR rseq ()
->> +system call.
->> +Only one
->> +.BR rseq ()
->> +ABI can be registered per thread,
->> +so user-space libraries and applications must follow a user-space ABI
->> +defining how to share this resource.
->> +The ABI defining how to share this resource between applications and
->> +libraries is defined by the C library.
-> 
-> Do you mean the standard C library (libc),
-> or just an unspecified library?
-
-What I mean here is that we expect the C library to implement this ABI.
-
-Currently the GNU C library implements it, and other C libraries are 
-expected to follow.
-
-AFAIK this is not part of the standard C library specification though, 
-so I suspect this falls under implementation-defined extension of 
-specific C libraries ? Not sure how to phrase this accurately.
-
-> 
->> +Allocation of the per-thread
->> +.BR rseq ()
->> +ABI and its registration to the kernel is handled by glibc since version
-> 
-> We say glibc 2.35 instead of version 2.35, so that it's easier to grep.
-> Also, they should be connected by a single space in source code for the 
-> same reason.
-> 
-> See commit b324e17d3208c940622ab192609b836928d5aa8d.
-
-Updated:
-
-Support for allocation of the per-thread
-.BR rseq ()
-ABI and its registration to the kernel is available since glibc 2.35.
-
-> 
->> +2.35.
->> +.PP
->> +The
->> +.BR rseq ()
->> +ABI per-thread data structure contains a
->> +.I rseq_cs
->> +field which points to the currently executing critical section.
->> +For each thread, a single rseq critical section can run at any given
->> +point.
-> 
-> Please have another look regarding semantic newlines.  I'd prefer 
-> breaking after commas, for example.
-
-ok. Searched for ", " within the manual page and fixed a few spots where 
-it makes more sense to insert a newline there.
-
-> 
->> +Each critical section needs to be implemented in assembly.
->> +.PP
->> +The
->> +.BR rseq ()
->> +ABI accelerates user-space operations on per-cpu data by defining a
->> +shared data structure ABI between each user-space thread and the kernel.
->> +.PP
->> +It allows user-space to perform update operations on per-cpu data
->> +without requiring heavy-weight atomic operations.
->> +.PP
->> +The term CPU used in this documentation refers to a hardware execution
->> +context.
->> +For instance, each CPU number returned by
->> +.BR sched_getcpu ()
->> +is a CPU.
->> +The current CPU means to the CPU on which the registered thread is
-> 
-> s/means to/means/?
-
-ok
-
-> 
->> +running.
->> +.PP
->> +Restartable sequences are atomic with respect to preemption (making it
->> +atomic with respect to other threads running on the same CPU),
->> +as well as signal delivery (user-space execution contexts nested over
->> +the same thread).
->> +They either complete atomically with respect to preemption on the
->> +current CPU and signal delivery, or they are aborted.
->> +.PP
->> +Restartable sequences are suited for update operations on per-cpu data.
->> +.PP
->> +Restartable sequences can be used on data structures shared between 
->> threads
->> +within a process,
->> +and on data structures shared between threads across different
->> +processes.
->> +.PP
->> +Some examples of operations that can be accelerated or improved by 
->> this ABI:
->> +.IP \(bu 3
-> 
-> Please use \[bu] instead of \(bu.
-
-ok
-
->> +Memory allocator per-cpu free-lists,
->> +.IP \(bu 3
->> +Querying the current CPU number,
->> +.IP \(bu 3
->> +Incrementing per-CPU counters,
->> +.IP \(bu 3
->> +Modifying data protected by per-CPU spinlocks,
->> +.IP \(bu 3
->> +Inserting/removing elements in per-CPU linked-lists,
->> +.IP \(bu 3
->> +Writing/reading per-CPU ring buffers content.
->> +.IP \(bu 3
->> +Accurately reading performance monitoring unit counters with respect to
->> +thread migration.
->> +.PP
->> +Restartable sequences must not perform system calls.
->> +Doing so may result in termination of the process by a segmentation
->> +fault.
->> +.PP
->> +The
->> +.I rseq
->> +argument is a pointer to the thread-local
->> +.I struct rseq
->> +to be shared between kernel and user-space.
->> +.PP
->> +The structure
->> +.I struct rseq
->> +is an extensible structure.
->> +Additional feature fields can be added in future kernel versions.
->> +Its layout is as follows:
->> +.TP
->> +.B Structure alignment
-> 
-> s/.B //
-
-OK, I'll remove the ".B " for each of those items.
-
-> 
->> +This structure is aligned on either 32-byte boundary,
->> +or on the alignment value returned by
->> +.IR getauxval ()
->> +invoked with
->> +.B AT_RSEQ_ALIGN
->> +if the structure size differs from 32 bytes.
->> +.TP
->> +.B Structure size
->> +This structure size needs to be at least 32 bytes.
->> +It can be either 32 bytes,
->> +or it needs to be large enough to hold the result of
->> +.IR getauxval ()
->> +invoked with
->> +.BR AT_RSEQ_FEATURE_SIZE .
-> 
-> Maybe?:
-> 
-> .I getauxval(AT_RSEQ_FEATURE_SIZE)
-> 
-
-I suspect we want:
-
-.IR getauxval(AT_RSEQ_FEATURE_SIZE) .
-
-To keep the punctuation.
-
-And change the part about AT_RSEQ_ALIGN above in a similar fashion.
-
->> +Its size is passed as parameter to the
->> +.BR rseq ()
->> +system call.
->> +.in +4n
->> +.IP
->> +.EX
->> +#include <linux/rseq.h>
->> +
->> +struct rseq {
->> +    __u32 cpu_id_start;
->> +    __u32 cpu_id;
->> +    union {
->> +        /* ... */
->> +    } rseq_cs;
->> +    __u32 flags;
->> +    __u32 node_id;
->> +    __u32 mm_cid;
->> +} __attribute__((aligned(32)));
->> +.EE
->> +.in
->> +.TP
->> +.B Fields
->> +.RS
->> +.TP
->> +.I cpu_id_start
->> +Always-updated value of the CPU number on which the registered thread is
->> +running.
->> +Initialized by user-space to 0,
->> +updated by the kernel for threads registered with
->> +.BR rseq ().
->> +Its value is 0 when
->> +.BR rseq ()
->> +is not registered.
->> +Its value should always be confirmed by reading the
->> +.I cpu_id
->> +field before user-space performs any side-effect
->> +(e.g. storing to memory).
->> +.IP
->> +Because it is initialized to 0,
->> +this field can be loaded by user-space and
->> +used to index per-cpu data structures
->> +without having to check whether its value is within valid bounds.
->> +.IP
->> +For user-space applications executed on a kernel without
->> +.BR rseq ()
->> +support,
->> +the cpu_id_start field stays initialized at 0.
->> +It is therefore valid to use it as an offset in per-cpu data structures,
->> +and only validate whether it's actually the current CPU number by
->> +comparing it with the cpu_id field within the rseq critical section.
->> +If the kernel does not provide
->> +.BR rseq ()
->> +support, that cpu_id field stays initialized at -1,
->> +so the comparison always fails, as intended.
->> +.IP
->> +This field should only be read by the thread which registered this data
->> +structure.
->> +Aligned on 32-bit.
->> +.IP
->> +It is up to user space to implement a fall-back mechanism for 
->> scenarios where
->> +.BR rseq ()
->> +is not available.
->> +.TP
->> +.I cpu_id
->> +Always-updated value of the CPU number on which the registered thread is
->> +running.
->> +Initialized by user-space to -1,
->> +updated by the kernel for threads registered with
->> +.BR rseq ().
->> +.IP
->> +This field should only be read by the thread which registered this data
->> +structure.
->> +Aligned on 32-bit.
->> +.TP
->> +.I rseq_cs
->> +The rseq_cs field is a pointer to a
->> +.IR "struct rseq_cs" .
->> +Is is NULL when no rseq assembly block critical section is active for
->> +the registered thread.
->> +Setting it to point to a critical section descriptor
->> +.RI ( "struct rseq_cs")
->> +marks the beginning of the critical section.
->> +.IP
->> +Initialized by user-space to NULL.
->> +.IP
->> +Updated by user-space, which sets the address of the currently
->> +active rseq_cs at the beginning of assembly instruction sequence
-> 
-> rseq_cs and other identifiers should be in italics (.I).
-
-ok
-
-> 
->> +block,
->> +and set to NULL by the kernel when it restarts an assembly instruction
->> +sequence block,
->> +as well as when the kernel detects that it is preempting or delivering a
->> +signal outside of the range targeted by the rseq_cs.
->> +Also needs to be set to NULL by user-space before reclaiming memory that
->> +contains the targeted
->> +.IR "struct rseq_cs" .
->> +.IP
->> +Read and set by the kernel.
->> +.IP
->> +This field should only be updated by the thread which registered this
->> +data structure.
->> +Aligned on 64-bit.
->> +.TP
->> +.I flags
->> +Flags indicating the restart behavior for the registered thread.
->> +This is mainly used for debugging purposes.
->> +Can be a combination of:
->> +.RS
->> +.TP
->> +.B RSEQ_CS_FLAG_NO_RESTART_ON_PREEMPT
->> +Inhibit instruction sequence block restart on preemption for this
->> +thread.
->> +This flag is deprecated since Linux 6.1.
->> +.TP
->> +.B RSEQ_CS_FLAG_NO_RESTART_ON_SIGNAL
->> +Inhibit instruction sequence block restart on signal delivery for this
->> +thread.
->> +This flag is deprecated since Linux 6.1.
->> +.TP
->> +.B RSEQ_CS_FLAG_NO_RESTART_ON_MIGRATE
->> +Inhibit instruction sequence block restart on migration for this thread.
->> +This flag is deprecated since Linux 6.1.
->> +.RE
->> +.IP
->> +Initialized by user-space, used by the kernel.
->> +.TP
->> +.I node_id
->> +Always-updated value of the current NUMA node ID.
->> +.IP
->> +Initialized by user-space to 0.
->> +.IP
->> +Updated by the kernel.
->> +Read by user-space with single-copy atomicity semantics.
->> +This field should only be read by the thread which registered
->> +this data structure.
->> +Aligned on 32-bit.
->> +.TP
->> +.I mm_cid
->> +Contains the current thread's concurrency ID
->> +(allocated uniquely within a memory map).
->> +.IP
->> +Updated by the kernel.
->> +Read by user-space with single-copy atomicity semantics.
-> 
-> s/user-space/user space/
-
-ok
-
-> 
->> +This field should only be read by the thread which registered this data
->> +structure.
->> +Aligned on 32-bit.
->> +.IP
->> +This concurrency ID is within the possible cpus range,
->> +and is temporarily (and uniquely) assigned while threads are actively
->> +running within a memory map.
->> +If a memory map has fewer threads than cores,
->> +or is limited to run on few cores concurrently through sched affinity or
->> +cgroup cpusets,
->> +the concurrency IDs will be values close to 0,
->> +thus allowing efficient use of user-space memory for per-cpu data
->> +structures.
->> +.RE
->> +.PP
->> +The layout of
->> +.I struct rseq_cs
->> +version 0 is as follows:
->> +.TP
->> +.B Structure alignment
->> +This structure is aligned on 32-byte boundary.
->> +.TP
->> +.B Structure size
->> +This structure has a fixed size of 32 bytes.
->> +.in +4n
->> +.IP
-> 
-> Please use .IP then .in, not reversed (for consistency, since that's the 
-> order documented in man-pages(7)).
-> 
-
-ok
+Previous version [1].
 
 Thanks,
+Rick
 
-Mathieu
 
-> 
-> Thanks,
-> 
-> Alex
-> 
->> +.EX
->> +#include <linux/rseq.h>
->> +
->> +struct rseq_cs {
->> +    __u32   version;
->> +    __u32   flags;
->> +    __u64   start_ip;
->> +    __u64   post_commit_offset;
->> +    __u64   abort_ip;
->> +} __attribute__((aligned(32)));
->> +.EE
->> +.in
->> +.TP
->> +.B Fields
->> +.RS
->> +.TP
->> +.I version
->> +Version of this structure.
->> +Should be initialized to 0.
->> +.TP
->> +.I flags
->> +.RS
->> +Flags indicating the restart behavior of this structure.
->> +Can be a combination of:
->> +.TP
->> +.B RSEQ_CS_FLAG_NO_RESTART_ON_PREEMPT
->> +Inhibit instruction sequence block restart on preemption for this
->> +critical section.
->> +This flag is deprecated since Linux 6.1.
->> +.TP
->> +.B RSEQ_CS_FLAG_NO_RESTART_ON_SIGNAL
->> +Inhibit instruction sequence block restart on signal delivery for this
->> +critical section.
->> +This flag is deprecated since Linux 6.1.
->> +.TP
->> +.B RSEQ_CS_FLAG_NO_RESTART_ON_MIGRATE
->> +Inhibit instruction sequence block restart on migration for this
->> +critical section.
->> +This flag is deprecated since Linux 6.1.
->> +.RE
->> +.TP
->> +.I start_ip
->> +Instruction pointer address of the first instruction of the sequence of
->> +consecutive assembly instructions.
->> +.TP
->> +.I post_commit_offset
->> +Offset (from start_ip address) of the address after the last instruction
->> +of the sequence of consecutive assembly instructions.
->> +.TP
->> +.I abort_ip
->> +Instruction pointer address where to move the execution flow in case of
->> +abort of the sequence of consecutive assembly instructions.
->> +.RE
->> +.PP
->> +The
->> +.I rseq_len
->> +argument is the size of the
->> +.I struct rseq
->> +to register.
->> +.PP
->> +The
->> +.I flags
->> +argument is 0 for registration, and
->> +.B RSEQ_FLAG_UNREGISTER
->> +for unregistration.
->> +.PP
->> +The
->> +.I sig
->> +argument is the 32-bit signature to be expected before the abort
->> +handler code.
->> +.PP
->> +A single library per process should keep the
->> +.I struct rseq
->> +in a per-thread data structure.
->> +The
->> +.I cpu_id
->> +field should be initialized to -1, and the
->> +.I cpu_id_start
->> +field should be initialized to a possible CPU value (typically 0).
->> +.PP
->> +Each thread is responsible for registering and unregistering its
->> +.IR "struct rseq" .
->> +No more than one
->> +.I struct rseq
->> +address can be registered per thread at a given time.
->> +.PP
->> +Reclaim of
->> +.I struct rseq
->> +object's memory must only be done after either an explicit rseq
->> +unregistration is performed or after the thread exits.
->> +.PP
->> +In a typical usage scenario, the thread registering the
->> +.I struct rseq
->> +will be performing loads and stores from/to that structure.
->> +It is however also allowed to read that structure from other threads.
->> +The
->> +.I struct rseq
->> +field updates performed by the kernel provide relaxed atomicity
->> +semantics (atomic store, without memory ordering),
->> +which guarantee that other threads performing relaxed atomic reads
->> +(atomic load, without memory ordering) of the cpu number fields will
->> +always observe a consistent value.
->> +.SH RETURN VALUE
->> +A return value of 0 indicates success.
->> +On error, \-1 is returned, and
->> +.I errno
->> +is set appropriately.
->> +.SH ERRORS
->> +.TP
->> +.B EINVAL
->> +Either
->> +.I flags
->> +contains an invalid value, or
->> +.I rseq
->> +contains an address which is not appropriately aligned, or
->> +.I rseq_len
->> +contains an incorrect size.
->> +.TP
->> +.B ENOSYS
->> +The
->> +.BR rseq ()
->> +system call is not implemented by this kernel.
->> +.TP
->> +.B EFAULT
->> +.I rseq
->> +is an invalid address.
->> +.TP
->> +.B EBUSY
->> +Restartable sequence is already registered for this thread.
->> +.TP
->> +.B EPERM
->> +The
->> +.I sig
->> +argument on unregistration does not match the signature received
->> +on registration.
->> +.SH VERSIONS
->> +The
->> +.BR rseq ()
->> +system call was added in Linux 4.18.
->> +.SH STANDARDS
->> +.BR rseq ()
->> +is Linux-specific.
->> +.SH SEE ALSO
->> +.BR sched_getcpu (3) ,
->> +.BR membarrier (2) ,
->> +.BR getauxval (3)
-> 
+[0] https://lore.kernel.org/lkml/20220130211838.8382-1-rick.p.edgecombe@intel.com/
+[1] https://lore.kernel.org/lkml/20230218211433.26859-1-rick.p.edgecombe@intel.com/
+
+Kirill A. Shutemov (1):
+  x86: Introduce userspace API for shadow stack
+
+Mike Rapoport (1):
+  x86/shstk: Add ARCH_SHSTK_UNLOCK
+
+Rick Edgecombe (19):
+  x86/fpu: Add helper for modifying xstate
+  x86: Move control protection handler to separate file
+  mm: Introduce pte_mkwrite_kernel()
+  s390/mm: Introduce pmd_mkwrite_kernel()
+  mm: Make pte_mkwrite() take a VMA
+  x86/mm: Introduce _PAGE_SAVED_DIRTY
+  x86/mm: Start actually marking _PAGE_SAVED_DIRTY
+  x86/mm: Teach pte_mkwrite() about stack memory
+  mm: Don't allow write GUPs to shadow stack memory
+  x86/mm: Introduce MAP_ABOVE4G
+  mm: Warn on shadow stack memory in wrong vma
+  x86/mm: Warn if create Write=0,Dirty=1 with raw prot
+  x86/shstk: Introduce map_shadow_stack syscall
+  x86/shstk: Support WRSS for userspace
+  x86: Expose thread features in /proc/$PID/status
+  x86/shstk: Wire in shadow stack interface
+  selftests/x86: Add shadow stack test
+  x86/fpu: Add helper for initing features
+  x86/shstk: Add ARCH_SHSTK_STATUS
+
+Yu-cheng Yu (20):
+  Documentation/x86: Add CET shadow stack description
+  x86/shstk: Add Kconfig option for shadow stack
+  x86/cpufeatures: Add CPU feature flags for shadow stacks
+  x86/cpufeatures: Enable CET CR4 bit for shadow stack
+  x86/fpu/xstate: Introduce CET MSR and XSAVES supervisor states
+  x86/shstk: Add user control-protection fault handler
+  x86/mm: Remove _PAGE_DIRTY from kernel RO pages
+  x86/mm: Move pmd_write(), pud_write() up in the file
+  x86/mm: Update ptep/pmdp_set_wrprotect() for _PAGE_SAVED_DIRTY
+  mm: Move VM_UFFD_MINOR_BIT from 37 to 38
+  mm: Introduce VM_SHADOW_STACK for shadow stack memory
+  x86/mm: Check shadow stack page fault errors
+  mm: Add guard pages around a shadow stack.
+  mm/mmap: Add shadow stack pages to memory accounting
+  mm: Re-introduce vm_flags to do_mmap()
+  x86/shstk: Add user-mode shadow stack support
+  x86/shstk: Handle thread shadow stack
+  x86/shstk: Introduce routines modifying shstk
+  x86/shstk: Handle signals for shadow stack
+  x86: Add PTRACE interface for shadow stack
+
+ Documentation/filesystems/proc.rst            |   1 +
+ Documentation/mm/arch_pgtable_helpers.rst     |   9 +-
+ Documentation/x86/index.rst                   |   1 +
+ Documentation/x86/shstk.rst                   | 176 +++++
+ arch/alpha/include/asm/pgtable.h              |   6 +-
+ arch/arc/include/asm/hugepage.h               |   2 +-
+ arch/arc/include/asm/pgtable-bits-arcv2.h     |   7 +-
+ arch/arm/include/asm/pgtable-3level.h         |   7 +-
+ arch/arm/include/asm/pgtable.h                |   2 +-
+ arch/arm/kernel/signal.c                      |   2 +-
+ arch/arm64/include/asm/pgtable.h              |   9 +-
+ arch/arm64/kernel/signal.c                    |   2 +-
+ arch/arm64/kernel/signal32.c                  |   2 +-
+ arch/arm64/mm/trans_pgd.c                     |   4 +-
+ arch/csky/include/asm/pgtable.h               |   2 +-
+ arch/hexagon/include/asm/pgtable.h            |   2 +-
+ arch/ia64/include/asm/pgtable.h               |   2 +-
+ arch/loongarch/include/asm/pgtable.h          |   4 +-
+ arch/m68k/include/asm/mcf_pgtable.h           |   2 +-
+ arch/m68k/include/asm/motorola_pgtable.h      |   6 +-
+ arch/m68k/include/asm/sun3_pgtable.h          |   6 +-
+ arch/microblaze/include/asm/pgtable.h         |   2 +-
+ arch/mips/include/asm/pgtable.h               |   6 +-
+ arch/nios2/include/asm/pgtable.h              |   2 +-
+ arch/openrisc/include/asm/pgtable.h           |   2 +-
+ arch/parisc/include/asm/pgtable.h             |   6 +-
+ arch/powerpc/include/asm/book3s/32/pgtable.h  |   2 +-
+ arch/powerpc/include/asm/book3s/64/pgtable.h  |   4 +-
+ arch/powerpc/include/asm/nohash/32/pgtable.h  |   2 +-
+ arch/powerpc/include/asm/nohash/32/pte-8xx.h  |   2 +-
+ arch/powerpc/include/asm/nohash/64/pgtable.h  |   2 +-
+ arch/riscv/include/asm/pgtable.h              |   6 +-
+ arch/s390/include/asm/hugetlb.h               |   4 +-
+ arch/s390/include/asm/pgtable.h               |  14 +-
+ arch/s390/mm/pageattr.c                       |   4 +-
+ arch/sh/include/asm/pgtable_32.h              |  10 +-
+ arch/sparc/include/asm/pgtable_32.h           |   2 +-
+ arch/sparc/include/asm/pgtable_64.h           |   6 +-
+ arch/sparc/kernel/signal32.c                  |   2 +-
+ arch/sparc/kernel/signal_64.c                 |   2 +-
+ arch/um/include/asm/pgtable.h                 |   2 +-
+ arch/x86/Kconfig                              |  24 +
+ arch/x86/Kconfig.assembler                    |   5 +
+ arch/x86/entry/syscalls/syscall_64.tbl        |   1 +
+ arch/x86/include/asm/cpufeatures.h            |   2 +
+ arch/x86/include/asm/disabled-features.h      |  16 +-
+ arch/x86/include/asm/fpu/api.h                |   9 +
+ arch/x86/include/asm/fpu/regset.h             |   7 +-
+ arch/x86/include/asm/fpu/sched.h              |   3 +-
+ arch/x86/include/asm/fpu/types.h              |  16 +-
+ arch/x86/include/asm/fpu/xstate.h             |   6 +-
+ arch/x86/include/asm/idtentry.h               |   2 +-
+ arch/x86/include/asm/mmu_context.h            |   2 +
+ arch/x86/include/asm/msr.h                    |  11 +
+ arch/x86/include/asm/pgtable.h                | 322 +++++++-
+ arch/x86/include/asm/pgtable_types.h          |  56 +-
+ arch/x86/include/asm/processor.h              |   8 +
+ arch/x86/include/asm/shstk.h                  |  40 +
+ arch/x86/include/asm/special_insns.h          |  13 +
+ arch/x86/include/asm/tlbflush.h               |   3 +-
+ arch/x86/include/asm/trap_pf.h                |   2 +
+ arch/x86/include/asm/traps.h                  |  12 +
+ arch/x86/include/uapi/asm/mman.h              |   4 +
+ arch/x86/include/uapi/asm/prctl.h             |  12 +
+ arch/x86/kernel/Makefile                      |   4 +
+ arch/x86/kernel/cet.c                         | 152 ++++
+ arch/x86/kernel/cpu/common.c                  |  35 +-
+ arch/x86/kernel/cpu/cpuid-deps.c              |   1 +
+ arch/x86/kernel/cpu/proc.c                    |  23 +
+ arch/x86/kernel/fpu/core.c                    |  59 +-
+ arch/x86/kernel/fpu/regset.c                  |  86 +++
+ arch/x86/kernel/fpu/xstate.c                  | 148 ++--
+ arch/x86/kernel/fpu/xstate.h                  |   6 +
+ arch/x86/kernel/idt.c                         |   2 +-
+ arch/x86/kernel/process.c                     |  18 +-
+ arch/x86/kernel/process_64.c                  |   9 +-
+ arch/x86/kernel/ptrace.c                      |  12 +
+ arch/x86/kernel/shstk.c                       | 491 +++++++++++++
+ arch/x86/kernel/signal.c                      |   1 +
+ arch/x86/kernel/signal_32.c                   |   2 +-
+ arch/x86/kernel/signal_64.c                   |   8 +-
+ arch/x86/kernel/sys_x86_64.c                  |   6 +-
+ arch/x86/kernel/traps.c                       |  87 ---
+ arch/x86/mm/fault.c                           |  31 +
+ arch/x86/mm/pat/set_memory.c                  |   4 +-
+ arch/x86/mm/pgtable.c                         |  38 +
+ arch/x86/xen/enlighten_pv.c                   |   2 +-
+ arch/x86/xen/mmu_pv.c                         |   2 +-
+ arch/x86/xen/xen-asm.S                        |   2 +-
+ arch/xtensa/include/asm/pgtable.h             |   2 +-
+ fs/aio.c                                      |   2 +-
+ fs/proc/array.c                               |   6 +
+ fs/proc/task_mmu.c                            |   3 +
+ include/asm-generic/hugetlb.h                 |   4 +-
+ include/linux/mm.h                            |  46 +-
+ include/linux/mman.h                          |   4 +
+ include/linux/pgtable.h                       |  14 +
+ include/linux/proc_fs.h                       |   2 +
+ include/linux/syscalls.h                      |   1 +
+ include/uapi/asm-generic/siginfo.h            |   3 +-
+ include/uapi/asm-generic/unistd.h             |   2 +-
+ include/uapi/linux/elf.h                      |   2 +
+ ipc/shm.c                                     |   2 +-
+ kernel/sys_ni.c                               |   1 +
+ mm/debug_vm_pgtable.c                         |  16 +-
+ mm/gup.c                                      |   2 +-
+ mm/huge_memory.c                              |   7 +-
+ mm/hugetlb.c                                  |   4 +-
+ mm/internal.h                                 |   8 +-
+ mm/memory.c                                   |   5 +-
+ mm/migrate_device.c                           |   2 +-
+ mm/mmap.c                                     |  10 +-
+ mm/mprotect.c                                 |   2 +-
+ mm/nommu.c                                    |   4 +-
+ mm/userfaultfd.c                              |   2 +-
+ mm/util.c                                     |   2 +-
+ tools/testing/selftests/x86/Makefile          |   2 +-
+ .../testing/selftests/x86/test_shadow_stack.c | 695 ++++++++++++++++++
+ 118 files changed, 2669 insertions(+), 327 deletions(-)
+ create mode 100644 Documentation/x86/shstk.rst
+ create mode 100644 arch/x86/include/asm/shstk.h
+ create mode 100644 arch/x86/kernel/cet.c
+ create mode 100644 arch/x86/kernel/shstk.c
+ create mode 100644 tools/testing/selftests/x86/test_shadow_stack.c
 
 -- 
-Mathieu Desnoyers
-EfficiOS Inc.
-https://www.efficios.com
+2.17.1
 
