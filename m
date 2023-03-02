@@ -2,104 +2,101 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E88936A79DD
-	for <lists+linux-api@lfdr.de>; Thu,  2 Mar 2023 04:17:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F3CF6A8204
+	for <lists+linux-api@lfdr.de>; Thu,  2 Mar 2023 13:20:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229608AbjCBDRT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 1 Mar 2023 22:17:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33010 "EHLO
+        id S229800AbjCBMUC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 2 Mar 2023 07:20:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229496AbjCBDRR (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 1 Mar 2023 22:17:17 -0500
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B0964FA9F
-        for <linux-api@vger.kernel.org>; Wed,  1 Mar 2023 19:17:16 -0800 (PST)
-Received: by mail-pl1-x62c.google.com with SMTP id a2so5751327plm.4
-        for <linux-api@vger.kernel.org>; Wed, 01 Mar 2023 19:17:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dabbelt-com.20210112.gappssmtp.com; s=20210112; t=1677727036;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Yy8ScGXaPSZXR051KFshbh6rpME2gALKfyyYjKgrOsY=;
-        b=1Fjb1Ol7oyLqZePeb695gZAWNtlosNuUTHqTxxBczo/bwNsajQZ3gXYBbUqqyBGcCs
-         Ll5Ny1mgiMzGgATsdQTmchHzetb9I0JwA8PpRaYGw3/A6L46QFVfdpOPJFj9ctQ65OK1
-         8O1h8N6pYgzLtxrOlXGs5+KNdOf7N+gnG3b+wGWC1ifpnuUZqVnfQwWlphqMahuwSL+/
-         5LBrbVsKhqj0n6VcRvkh39rmW1c5/jA3ulK6ysyYlLBYWSZ64Pe+GCo5gxF7BWjgPivS
-         aI6lGqJruNSWZlJxgdBIuZ1pAVTxEfyMnkq6gs5btO6Sxp1aPQZrm4U2swNf6BpPbzsU
-         6Q4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677727036;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Yy8ScGXaPSZXR051KFshbh6rpME2gALKfyyYjKgrOsY=;
-        b=VhtcrPynhagIPBy7PeBp3h93UYQDlEXuyDt4woM4V3l7MaBFY8O+uuolgX3dsx+NoJ
-         atj3lTWI7RKbh7HOiTA9dAHf+LeFyzKhpHXN806KuHeiM+kxp5Lxbyl1nzaqHlet0ELg
-         4CjBMQw/4YK8qmJ0STtZKcOyVSHs57ISleQjh8AodTSab+NhtzZ4FmljpVGaw08L8LMu
-         c8DbKmGcgdWtYMrxDsa2U3AcDQVkxs7E8+LHDTc+Cre+mndMGMWX289xil142JjZZQx6
-         3SMVdD6mbcCVCcesX1MfYy2mYlksizBZic77mwzso5jUc8rprt/LoBkvfOoxjpDbOLSa
-         iEgw==
-X-Gm-Message-State: AO0yUKXdzLdwo9RqQ7u32A8ZJUw8ktHvvMR5E7gVY9ecnENmBdks8Vtc
-        x1se4v1dcvW/8iAZe8cchJxgfA==
-X-Google-Smtp-Source: AK7set86iSrspYl9o5QA4dvohEJpeugUFFE2LdL8HMA1D0E7CvP+4EY0c6yOV5XVN8vGyzkrQJiagw==
-X-Received: by 2002:a17:90b:1d12:b0:238:e9:8994 with SMTP id on18-20020a17090b1d1200b0023800e98994mr10162686pjb.0.1677727035890;
-        Wed, 01 Mar 2023 19:17:15 -0800 (PST)
-Received: from localhost ([50.221.140.188])
-        by smtp.gmail.com with ESMTPSA id v14-20020a17090a6b0e00b00233b5d6b4b5sm471042pjj.16.2023.03.01.19.17.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Mar 2023 19:17:15 -0800 (PST)
-Date:   Wed, 01 Mar 2023 19:17:15 -0800 (PST)
-X-Google-Original-Date: Wed, 01 Mar 2023 18:50:05 PST (-0800)
-Subject:     Re: [PATCH] riscv: Bump COMMAND_LINE_SIZE value to 1024
-In-Reply-To: <20210316193420.904-1-alex@ghiti.fr>
-CC:     Paul Walmsley <paul.walmsley@sifive.com>, dvyukov@google.com,
-        linux-api@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-kernel@vger.kernel.org, alex@ghiti.fr
-From:   Palmer Dabbelt <palmer@dabbelt.com>
-To:     alex@ghiti.fr, Arnd Bergmann <arnd@arndb.de>
-Message-ID: <mhng-b5f934ff-a9bb-4c2b-9ba6-3ab68312077a@palmer-ri-x1c9a>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        with ESMTP id S229449AbjCBMUB (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 2 Mar 2023 07:20:01 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9D9835256;
+        Thu,  2 Mar 2023 04:19:59 -0800 (PST)
+Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id E292B1EC04F0;
+        Thu,  2 Mar 2023 13:19:57 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1677759598;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=EXqRPO+1UJ/Jugo4uZb8s1y5eA/PT9L+UzCFhY6JB88=;
+        b=BDkuvwlB34QQjIUo59EDVmj7oKCVncxfi5b5gZ5JgkhU3aIBDgDeTmJNn7jbJHW3znTvCf
+        YFoHuKLNQrQyliq8pTOmjR9MRkIeF/W/wjuynsx9rHark059JR7Yp19Rw8Aocd30uUMCn6
+        EDHphDviZmnnExDRi0VvwD18ImB95dQ=
+Date:   Thu, 2 Mar 2023 13:19:52 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        John Allen <john.allen@amd.com>, kcc@google.com,
+        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
+        dethoma@microsoft.com, akpm@linux-foundation.org,
+        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
+        david@redhat.com, debug@rivosinc.com, linux-alpha@vger.kernel.org,
+        linux-snps-arc@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
+        linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
+        loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+        Michal Simek <monstr@monstr.eu>,
+        Dinh Nguyen <dinguyen@kernel.org>, linux-mips@vger.kernel.org,
+        linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+        sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
+        xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v7 13/41] mm: Make pte_mkwrite() take a VMA
+Message-ID: <ZACUaN0NRNXMwkT2@zn.tnic>
+References: <20230227222957.24501-1-rick.p.edgecombe@intel.com>
+ <20230227222957.24501-14-rick.p.edgecombe@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230227222957.24501-14-rick.p.edgecombe@intel.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, 16 Mar 2021 12:34:20 PDT (-0700), alex@ghiti.fr wrote:
-> Increase COMMAND_LINE_SIZE as the current default value is too low
-> for syzbot kernel command line.
->
-> Reported-by: Dmitry Vyukov <dvyukov@google.com>
-> Signed-off-by: Alexandre Ghiti <alex@ghiti.fr>
-> ---
->  arch/riscv/include/uapi/asm/setup.h | 8 ++++++++
->  1 file changed, 8 insertions(+)
->  create mode 100644 arch/riscv/include/uapi/asm/setup.h
->
-> diff --git a/arch/riscv/include/uapi/asm/setup.h b/arch/riscv/include/uapi/asm/setup.h
-> new file mode 100644
-> index 000000000000..66b13a522880
-> --- /dev/null
-> +++ b/arch/riscv/include/uapi/asm/setup.h
-> @@ -0,0 +1,8 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only WITH Linux-syscall-note */
-> +
-> +#ifndef _UAPI_ASM_RISCV_SETUP_H
-> +#define _UAPI_ASM_RISCV_SETUP_H
-> +
-> +#define COMMAND_LINE_SIZE	1024
-> +
-> +#endif /* _UAPI_ASM_RISCV_SETUP_H */
+On Mon, Feb 27, 2023 at 02:29:29PM -0800, Rick Edgecombe wrote:
+> [0] https://lore.kernel.org/lkml/0e29a2d0-08d8-bcd6-ff26-4bea0e4037b0@redhat.com/#t
 
-This is now back on for-next, with some commit text explaining why it's 
-not a uABI change as per Arnd's message 
-<https://lore.kernel.org/linux-riscv/874b8076-b0d1-4aaa-bcd8-05d523060152@app.fastmail.com/#t>.  
-I intend on sending this one for 6.3 as syzkaller depends on it.
+I guess that sub-thread about how you arrived at this "pass a VMA"
+decision should be in the Link tag. But that's for the committer, I'd
+say.
 
-Thanks!
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
