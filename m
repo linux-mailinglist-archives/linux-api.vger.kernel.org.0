@@ -2,103 +2,104 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 638EE6A7391
-	for <lists+linux-api@lfdr.de>; Wed,  1 Mar 2023 19:37:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E88936A79DD
+	for <lists+linux-api@lfdr.de>; Thu,  2 Mar 2023 04:17:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229610AbjCAShi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 1 Mar 2023 13:37:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44150 "EHLO
+        id S229608AbjCBDRT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 1 Mar 2023 22:17:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33010 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229942AbjCAShg (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 1 Mar 2023 13:37:36 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC9584BEB8;
-        Wed,  1 Mar 2023 10:37:35 -0800 (PST)
-Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 1E8B11EC0646;
-        Wed,  1 Mar 2023 19:37:34 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1677695854;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=V8Chn3LIBeGG0/sAH93QDwwo29G77tNYXy7qniV+jXU=;
-        b=SGGN9DN03DrpwPveCt3WCnPFPQ1cC3Ehe99YhGYiymiDZVvyFueqYwNqOmMkh8jgdfyybb
-        QtwXBh1SG89BjSiQ6muS6YqI3H2cwgPnTHn2T0XcN+ap6Cr5Px8y1pIMHHHjqapbgm1L2f
-        /YePcK9UOE9QqFYPo2DM9r/ezNaCEgE=
-Date:   Wed, 1 Mar 2023 19:37:29 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-Cc:     "david@redhat.com" <david@redhat.com>,
-        "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "Eranian, Stephane" <eranian@google.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        "kcc@google.com" <kcc@google.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "pavel@ucw.cz" <pavel@ucw.cz>, "oleg@redhat.com" <oleg@redhat.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "Schimpe, Christina" <christina.schimpe@intel.com>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "debug@rivosinc.com" <debug@rivosinc.com>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "mtk.manpages@gmail.com" <mtk.manpages@gmail.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>
-Subject: Re: [PATCH v7 08/41] x86/shstk: Add user control-protection fault
- handler
-Message-ID: <Y/+badQ048ZmRBpy@zn.tnic>
-References: <20230227222957.24501-1-rick.p.edgecombe@intel.com>
- <20230227222957.24501-9-rick.p.edgecombe@intel.com>
- <Y/+UEdolvD1U+tGw@zn.tnic>
- <0dc30a3fc7eeb83289317590cb95a1ed0bed3520.camel@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <0dc30a3fc7eeb83289317590cb95a1ed0bed3520.camel@intel.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S229496AbjCBDRR (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 1 Mar 2023 22:17:17 -0500
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B0964FA9F
+        for <linux-api@vger.kernel.org>; Wed,  1 Mar 2023 19:17:16 -0800 (PST)
+Received: by mail-pl1-x62c.google.com with SMTP id a2so5751327plm.4
+        for <linux-api@vger.kernel.org>; Wed, 01 Mar 2023 19:17:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dabbelt-com.20210112.gappssmtp.com; s=20210112; t=1677727036;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Yy8ScGXaPSZXR051KFshbh6rpME2gALKfyyYjKgrOsY=;
+        b=1Fjb1Ol7oyLqZePeb695gZAWNtlosNuUTHqTxxBczo/bwNsajQZ3gXYBbUqqyBGcCs
+         Ll5Ny1mgiMzGgATsdQTmchHzetb9I0JwA8PpRaYGw3/A6L46QFVfdpOPJFj9ctQ65OK1
+         8O1h8N6pYgzLtxrOlXGs5+KNdOf7N+gnG3b+wGWC1ifpnuUZqVnfQwWlphqMahuwSL+/
+         5LBrbVsKhqj0n6VcRvkh39rmW1c5/jA3ulK6ysyYlLBYWSZ64Pe+GCo5gxF7BWjgPivS
+         aI6lGqJruNSWZlJxgdBIuZ1pAVTxEfyMnkq6gs5btO6Sxp1aPQZrm4U2swNf6BpPbzsU
+         6Q4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1677727036;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Yy8ScGXaPSZXR051KFshbh6rpME2gALKfyyYjKgrOsY=;
+        b=VhtcrPynhagIPBy7PeBp3h93UYQDlEXuyDt4woM4V3l7MaBFY8O+uuolgX3dsx+NoJ
+         atj3lTWI7RKbh7HOiTA9dAHf+LeFyzKhpHXN806KuHeiM+kxp5Lxbyl1nzaqHlet0ELg
+         4CjBMQw/4YK8qmJ0STtZKcOyVSHs57ISleQjh8AodTSab+NhtzZ4FmljpVGaw08L8LMu
+         c8DbKmGcgdWtYMrxDsa2U3AcDQVkxs7E8+LHDTc+Cre+mndMGMWX289xil142JjZZQx6
+         3SMVdD6mbcCVCcesX1MfYy2mYlksizBZic77mwzso5jUc8rprt/LoBkvfOoxjpDbOLSa
+         iEgw==
+X-Gm-Message-State: AO0yUKXdzLdwo9RqQ7u32A8ZJUw8ktHvvMR5E7gVY9ecnENmBdks8Vtc
+        x1se4v1dcvW/8iAZe8cchJxgfA==
+X-Google-Smtp-Source: AK7set86iSrspYl9o5QA4dvohEJpeugUFFE2LdL8HMA1D0E7CvP+4EY0c6yOV5XVN8vGyzkrQJiagw==
+X-Received: by 2002:a17:90b:1d12:b0:238:e9:8994 with SMTP id on18-20020a17090b1d1200b0023800e98994mr10162686pjb.0.1677727035890;
+        Wed, 01 Mar 2023 19:17:15 -0800 (PST)
+Received: from localhost ([50.221.140.188])
+        by smtp.gmail.com with ESMTPSA id v14-20020a17090a6b0e00b00233b5d6b4b5sm471042pjj.16.2023.03.01.19.17.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Mar 2023 19:17:15 -0800 (PST)
+Date:   Wed, 01 Mar 2023 19:17:15 -0800 (PST)
+X-Google-Original-Date: Wed, 01 Mar 2023 18:50:05 PST (-0800)
+Subject:     Re: [PATCH] riscv: Bump COMMAND_LINE_SIZE value to 1024
+In-Reply-To: <20210316193420.904-1-alex@ghiti.fr>
+CC:     Paul Walmsley <paul.walmsley@sifive.com>, dvyukov@google.com,
+        linux-api@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-kernel@vger.kernel.org, alex@ghiti.fr
+From:   Palmer Dabbelt <palmer@dabbelt.com>
+To:     alex@ghiti.fr, Arnd Bergmann <arnd@arndb.de>
+Message-ID: <mhng-b5f934ff-a9bb-4c2b-9ba6-3ab68312077a@palmer-ri-x1c9a>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Mar 01, 2023 at 06:14:44PM +0000, Edgecombe, Rick P wrote:
-> Do you want me to add it to this one or a separate one?
+On Tue, 16 Mar 2021 12:34:20 PDT (-0700), alex@ghiti.fr wrote:
+> Increase COMMAND_LINE_SIZE as the current default value is too low
+> for syzbot kernel command line.
+>
+> Reported-by: Dmitry Vyukov <dvyukov@google.com>
+> Signed-off-by: Alexandre Ghiti <alex@ghiti.fr>
+> ---
+>  arch/riscv/include/uapi/asm/setup.h | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+>  create mode 100644 arch/riscv/include/uapi/asm/setup.h
+>
+> diff --git a/arch/riscv/include/uapi/asm/setup.h b/arch/riscv/include/uapi/asm/setup.h
+> new file mode 100644
+> index 000000000000..66b13a522880
+> --- /dev/null
+> +++ b/arch/riscv/include/uapi/asm/setup.h
+> @@ -0,0 +1,8 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only WITH Linux-syscall-note */
+> +
+> +#ifndef _UAPI_ASM_RISCV_SETUP_H
+> +#define _UAPI_ASM_RISCV_SETUP_H
+> +
+> +#define COMMAND_LINE_SIZE	1024
+> +
+> +#endif /* _UAPI_ASM_RISCV_SETUP_H */
 
-Don't bother. I'll fix it up myself in the future, if I notice it again.
-No need to disturb the set just for that.
+This is now back on for-next, with some commit text explaining why it's 
+not a uABI change as per Arnd's message 
+<https://lore.kernel.org/linux-riscv/874b8076-b0d1-4aaa-bcd8-05d523060152@app.fastmail.com/#t>.  
+I intend on sending this one for 6.3 as syzkaller depends on it.
 
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Thanks!
