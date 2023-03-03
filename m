@@ -2,95 +2,114 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D1FF76A9166
-	for <lists+linux-api@lfdr.de>; Fri,  3 Mar 2023 08:03:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AA07B6A98F8
+	for <lists+linux-api@lfdr.de>; Fri,  3 Mar 2023 15:00:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229500AbjCCHDp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 3 Mar 2023 02:03:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38842 "EHLO
+        id S230334AbjCCOAa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 3 Mar 2023 09:00:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43560 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229482AbjCCHDo (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 3 Mar 2023 02:03:44 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7942B10403;
-        Thu,  2 Mar 2023 23:03:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-        Sender:Reply-To:Content-ID:Content-Description;
-        bh=/5WuhsRDIv/UuTU95tT5UESTyEJuE6jSQoLAmCreiRM=; b=BEh2bMP9VZ5HvOBAZKQFo9TxZl
-        GWB9buvFTr/SNNnBAYV5RKgjZUPt1RlmR1MnmxsLqcd7NksUtXxSKH3pH0djkohdm4Nhj5mT2qjzL
-        YIqPMoUSQrXvO9Znoz1O6Oc4Wb6jTmJHwJ/C3sDudvVYBlirKrQQ1Fo/UuPqhz+hm1X2yM/lOTrd4
-        tXyVoFdh7Onnnc20CeFdN6H0BFicfgPa7/l4PMVXAeES3jEH2AObQeLWgf/hayxx+GGUQZiMPBM2m
-        h1COHu5tOheOcup5Ox0q8wQiQE3iS2Dlu7o4LzTm7+vrmdLcM2d07Y+qVymAu2CZ8bR+yuyE0teL3
-        4pMh4Ymw==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pXzS4-002wvW-7l; Fri, 03 Mar 2023 07:03:36 +0000
-Date:   Fri, 3 Mar 2023 07:03:36 +0000
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Nhat Pham <nphamcs@gmail.com>
-Cc:     akpm@linux-foundation.org, hannes@cmpxchg.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, bfoster@redhat.com, arnd@arndb.de,
-        linux-api@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH v10 2/3] cachestat: implement cachestat syscall
-Message-ID: <ZAGbyM8xnLKC/2uX@casper.infradead.org>
-References: <20230219073318.366189-1-nphamcs@gmail.com>
- <20230219073318.366189-3-nphamcs@gmail.com>
- <Y/IUTiL03C9OOSFx@casper.infradead.org>
- <CAKEwX=M7HSzSF6GZ_Nv26FQv_j+5UD9FQ_v3CL4=a1q5epyvPA@mail.gmail.com>
+        with ESMTP id S231138AbjCCOA3 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 3 Mar 2023 09:00:29 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BD335C13B;
+        Fri,  3 Mar 2023 06:00:28 -0800 (PST)
+Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 242C31EC0657;
+        Fri,  3 Mar 2023 15:00:27 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1677852027;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=qnYHVDGtQv3jnmqIeyy8ite/fQyg2MBE/ckQjSbBpNM=;
+        b=YlRhGsYyfadQXHimloeHMfYzHgPMt4rRKJ5ZJpz3f7rZXiR4DcSs61vbGpJcRD7wubIbgn
+        Cy5sYRTCmvgOgF2q8BIUBY0oGyQjXPUVKD2axEEDzT4EdiJfZum0kFSwUDEeQjb4kIYCi9
+        dwYF79zrOj6nrFa4wG5FeRtKoWY9ZUM=
+Date:   Fri, 3 Mar 2023 15:00:22 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        John Allen <john.allen@amd.com>, kcc@google.com,
+        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
+        dethoma@microsoft.com, akpm@linux-foundation.org,
+        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
+        david@redhat.com, debug@rivosinc.com,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: Re: [PATCH v7 19/41] x86/mm: Check shadow stack page fault errors
+Message-ID: <ZAH9dhFGtbR5J8j+@zn.tnic>
+References: <20230227222957.24501-1-rick.p.edgecombe@intel.com>
+ <20230227222957.24501-20-rick.p.edgecombe@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAKEwX=M7HSzSF6GZ_Nv26FQv_j+5UD9FQ_v3CL4=a1q5epyvPA@mail.gmail.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20230227222957.24501-20-rick.p.edgecombe@intel.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Mar 02, 2023 at 10:55:48PM -0800, Nhat Pham wrote:
-> On Sun, Feb 19, 2023 at 4:21 AM Matthew Wilcox <willy@infradead.org> wrote:
-> > > +/**
-> > > + * filemap_cachestat() - compute the page cache statistics of a mapping
-> > > + * @mapping: The mapping to compute the statistics for.
-> > > + * @first_index:     The starting page cache index.
-> > > + * @last_index:      The final page index (inclusive).
-> > > + * @cs:      the cachestat struct to write the result to.
-> > > + *
-> > > + * This will query the page cache statistics of a mapping in the
-> > > + * page range of [first_index, last_index] (inclusive). The statistics
-> > > + * queried include: number of dirty pages, number of pages marked for
-> > > + * writeback, and the number of (recently) evicted pages.
-> > > + */
-> >
-> > Do we care that this isn't going to work for hugetlbfs?
-> 
-> I ran a quick test using hugetlbfs. It looks like the current
-> implementation is treating it in accordance to the multi-page
-> folio case we discussed earlier, i.e:
-> 
-> - Returned number of "pages" is in terms of the number of
-> base/small pages (i.e 512 dirty pages instead of 1 dirty
-> huge page etc.)
-> - If we touch one byte in the huge page, it would report the
-> entire huge page as dirty, but again in terms of the underlying
-> pages.
-> 
-> Is this what you have in mind, or is there another edge
-> case that I'm missing...?
+On Mon, Feb 27, 2023 at 02:29:35PM -0800, Rick Edgecombe wrote:
+> @@ -1310,6 +1324,23 @@ void do_user_addr_fault(struct pt_regs *regs,
+>  
+>  	perf_sw_event(PERF_COUNT_SW_PAGE_FAULTS, 1, regs, address);
+>  
+> +	/*
+> +	 * For conventionally writable pages, a read can be serviced with a
+> +	 * read only PTE. But for shadow stack, there isn't a concept of
+> +	 * read-only shadow stack memory. If it a PTE has the shadow stack
 
-Hugetlbfs indexes its pages by hugepage number rather than by smallpage
-number.  Imagine you have a 2MB folio at offset 4MB into the file.
-Filesystems other than hugetlbfs store it at indices 1024-1535.
-hugetlbfs stores it at index 2.
+s/it //
 
-So your report probably seems to work, but if you ask it about a
-range, you might be surprised by how wide that range will cover for
-hugetlbfs.
+> +	 * permission, it can be modified via CALL and RET instructions. So
+> +	 * core MM needs to fault in a writable PTE and do things it already
+> +	 * does for write faults.
+> +	 *
+> +	 * Shadow stack accesses (read or write) need to be serviced with
+> +	 * shadow stack permission memory, which always include write
+> +	 * permissions. So in the case of a shadow stack read access, treat it
+> +	 * as a WRITE fault. This will make sure that MM will prepare
+> +	 * everything (e.g., break COW) such that maybe_mkwrite() can create a
+> +	 * proper shadow stack PTE.
+> +	 */
+> +	if (error_code & X86_PF_SHSTK)
+> +		flags |= FAULT_FLAG_WRITE;
+>  	if (error_code & X86_PF_WRITE)
+>  		flags |= FAULT_FLAG_WRITE;
+>  	if (error_code & X86_PF_INSTR)
+> -- 
+> 2.17.1
+> 
 
-I know Sidhartha is working on fixing that, but I'm not sure if what he
-has is working yet.
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
