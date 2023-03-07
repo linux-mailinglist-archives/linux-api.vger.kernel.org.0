@@ -2,58 +2,58 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 565086AE7FB
-	for <lists+linux-api@lfdr.de>; Tue,  7 Mar 2023 18:11:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D62CC6AE8B3
+	for <lists+linux-api@lfdr.de>; Tue,  7 Mar 2023 18:18:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230428AbjCGRL3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 7 Mar 2023 12:11:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50872 "EHLO
+        id S231217AbjCGRSf (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 7 Mar 2023 12:18:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59458 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229952AbjCGRLG (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 7 Mar 2023 12:11:06 -0500
-Received: from sonic305-27.consmr.mail.ne1.yahoo.com (sonic305-27.consmr.mail.ne1.yahoo.com [66.163.185.153])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EEA352905
-        for <linux-api@vger.kernel.org>; Tue,  7 Mar 2023 09:05:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1678208683; bh=uR2F0m82Txt7jj5W6ahAE2trH56gb8/GQQ8y01ywGVI=; h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To; b=gdV6JS2793dIyNChmuaMmpcZGaUO2sJxq2ZTPKQktbkAG+yZrm/dmkngMnrwMQ0YtuRERlOFfKz/VfHltNEE78fg6FvWV8hQDlmcDEM63lvVtODXkKEzdW7jeoiBzdwjroa9lyrmCLSGXU9LwZOZQf0EEgUCCYbZBAelgJEYO3G+VVU2GGIOf7lqHy1pDmHVEO3ljGLg9GbGy7BioVh3Ht8Bg9QymnBkWcumk9vLc0rbgSLHar0QS+vfPxf87yqehRBwtUgBQ7K4BPnFXNUY/ara7UgYVg24Geo7MyK6vmjGywpnwNBXGeT2yCZSVREolkkQr6JYxLJ8gcnm+L8vbA==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1678208683; bh=16nbO0UsJ1g7V93berTg8WDk+BSIUpjaG05Og7qwPVH=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=jV1oHRhLaeTvYlwhtk7fhjSLgkr/eH2HjMYBIYmqAom9BA/aPFEcts2vDejQJwbTX53wMlfz7cptsbEqbYn8U6rADPdz8tLFuXTwxWU9Kf7AagWQhAfUYKkbFnpLsp3NPFj5E6ur7a9Xdz5lX1U69+CL02iazMHAFEZNS4bZyLSH2brlyGw6GA38usG5bcVWUULnpaa5xp04J551EIRnOfMOhYJLJHNGQwnlsGMEJX1Zo5fvu1BRIaEj+Gy/yQmEHjxVycx1rSDcO68NuXb4T76XsJRBsTKRAlOeRgi1PzNYc4kJnW2rjWz1lEDlq+IjMElH68UujSw2ali/VzU91g==
-X-YMail-OSG: lzF61z8VM1nSzBKHxLyjBu4nif2__edNEHSj6fqiRpoDIkDmtEtzT0TPCyLPWc7
- JNv1o5fOXWi_PXFT1hortEzUYL6RXfWZ44DgJ5GuT.UIg_av1h.ID7h7Cym2QIwY.Q8_yiR_OCnS
- 7WMgZLPoV6SMUMcC.aY5jd5iZSfv2K.f.syrgveFY4B.KROLFvWKd1lbGyKpiRvJqEYnTAxgKHlQ
- KzrTuNwtNqIikWZE1VPHotwPC.n8zZ8pDcQ_dhmqWQ6xHnMr2uHdwe4r6SSr5bs296Rx2UOJdhjY
- tEPUbUvP6bg0xi7QSuPEUyQSewjlWNCdUjFOSso77SSMab420XhzibyAZF2C_dAu7LxVt6ghQ58E
- rmek6pcqJH5kz0lxNvH3NaDJVa3fOrMFBQ_CKgR.rXzQR04ZlRa.CeS.K9duecCmUc4v97fN.S4c
- A_spmJZfkrG_gV1VPhjvkxwKQHnckBEtlEd2dMHPUVZR5SulP6QP1TpTyIurbbWr4HBqf_zxW.qI
- 5c_t1ftzup_FK4NEiYhrnl2isH9IhVGjVABfNQnp9E41dgS8KdOS24UIGtObaI3fCWr.aijI1ax.
- 3KRRMh8PdT64MJ3Le3KiYjVCm95JTeUnmIsCyilr4Eac_hWTBiIRyHsxRnO_Y.FprQRvW16m5Pa.
- eMJwVWLd4tjNnCvKxG5XFF52BrOtqUnnoBIlPHi6yPa1Fb.CJFzF4_dxQDDQLupy2eEzIJLOfODj
- G3nBDUPWUGe2ztUdqUEL4uShQSIarRZSDEX1wCayGk7xWMzhJS9qk7iA3VEuixDCye05ETOyMBgs
- 3ldSAh_alOrSUc9ikoiz8r4H8Hla3YMxu3HK9QL8R3de5LnY8BFQhMpXK5WCyHXWBTMh2J761c1.
- fmg7m9uN.JJQnkX3uwLV.u79EVnn87TrL4KkGh.bV03Xu.rk_bg2Cn9TSlEBy7OyEdWOAhmcIlfE
- k_pd2DyuDLKrluVluPR1.1w0uGYJTtYC7YOCtWUh5OPaBPNuT41DwhUUkjaF9.EC0psMjWZ3qFxx
- snjnmBb.C61PtEGVFb6SkPfkCnG2UmWk8oAuFq2yG6i3X6pKfcwtrE49_69.BtNz0T398oUeU77i
- ICexa0.LyZjNuNFIHDnzJ0AVmKJCJGyIFHKTBMsee.Gm.Y8T7pesyTuEY3JoXJbf8OMOrpe2GLSL
- zGWQZZgMvxkSMJ6tTFrKbowgsE6hn.nHa9q0POlOlKTaVsAqV_tQGfLLipEKCM0nrSgdQ4i4zlIw
- lMKxxL0iQIQ8RcwA2y5pcrTfpZ2bXWiH4lxP6ujd24K2.VGZMjWvL38Wse1s6GQrPigcG1UbB9.x
- a_HEDzOo8zgnCCICAiFuo5hcGm8Iq3_TABbgTqqQ0kbTkc83cSzQoyKRUO3qTXOtUBM6GQSVhRDW
- I8e1LifUX.sS_m7kSkpAQp7XgfOMlYc4kSNQlQA9wEa0.aI6hQN7Xb8rvvVtLsXIOVgJEE9naXFU
- rt0kOwWSHTFzIxNCekbNVaEu1Er9aFz8AYICOibBS_cHmC9tT8bOglWDkyDQJm3u1G3Tk0A63ROW
- l9evRGkz2zY_7TqvaC2KOSi4GBg0TVsTrk1ws49Qi0KEocl4Flp4cCxEN_NE4QAckUaOfihEmn4T
- OxOTdZED.fvMPW1_Y76oKUSTZQ5HsacyeN0kb0Rubqb47n_2wMlQTzSKizw1ugJQWV7DtIAsiN5N
- 4LeOb.UefcRyu.H0JqguIzZfLwbz1RhQbEXzCh1d656_.F0tye7EOTNejpEVnWJrT_nrZW1qbsfV
- fgLrksCXqDtuuJx0WnnCU_GQbQXyX3MRebRqcd5sxfP863wQFEgDoZDdoFYM6nBXCJm4HMzM0Ssz
- X4WWIpDE6_IBKgNS5kp8EhrDZRX6ubTCiV1fK8Ng9BEPS6Pu1Xz2g2B94yUjCBtk8huF0DG6Yj40
- AhBNQTKyD70yXMCRwsNCxWTeBD9Ezy3pDh9sdNizOJwStkc5dQrOX_wLpZcCKYNjsGjgy98pK9sS
- VnmLMOogqeELeFwq2WvjMsVV9iaOuDb8b8uJon10nO32VelObQYQEFtgKAQW63KxVd01ypf5UCwn
- THuyhbvZpSDGWam.JpFnNXDnHOf2HoRTEkN26d0KE_skZALv906FcYDvzCzOtnEYQWmDMZG2UGew
- M5uXDI9UD06_EjMmtd5hqCaunLi3o8oDJP2oVT69_3yCd3dIQo2luVPpUvjL6mCj9Ygn4OllOiR9
- QrEuT944F_o3LoFSJwVcgTyHanuSI2go3RflJcBAA0pqSBukEJPg1G7lpwxH0ghnKS_GWsY87JfU
- PRqyFS3tZE7x5Avca_UA-
+        with ESMTP id S230142AbjCGRSM (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 7 Mar 2023 12:18:12 -0500
+Received: from sonic303-27.consmr.mail.ne1.yahoo.com (sonic303-27.consmr.mail.ne1.yahoo.com [66.163.188.153])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A16CF94A42
+        for <linux-api@vger.kernel.org>; Tue,  7 Mar 2023 09:13:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1678209231; bh=uZ18eq+KE68358mnuCeXuV/vvinw/K9wC8rXpWJAgzk=; h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To; b=qaYOAVMkNAhDXRUxJTW3PR09BRTcrumaZY3Wvw7wYaRO9eCqp+5O3z2vPiIJQG/tWRHdqviP0mbfDameMyttUyIrYdqz57/SpvBzBbZqskPhVtS2VlJkvl+zl5kz1g/dt3QqauEVjtmILHhWVyakTCRVrksgb7uYgFgeVED+C8jkvGsRvLseReNV9STO0HLBo8Uc8uLaF7C9JFzyJCiSo06QFuW8eFfNgJ8H7vfToJQ+ScZLVUn2kbAguftwM7iXM0X5bw2HjBn3/xXCn7NroESNYTOY11TPKLFSz4wUH5P/iKIVP95PcnoSzHma2Onz29Z+m6n+EiP4bN/DYxxmQA==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1678209231; bh=A/nx8p+cIlbaC8I2Bkszlxcodwtw8xUlfc5U+zY12nc=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=gEU/AG9mCqnzgqnsu3xuw97uj+6zIzy5+4eyNL4V6MHBxW9cJ2oQDpRom6V7UuVVT/iOf88IWAHzAAZTz9qKkxW/+CQzGHjLCv4P6EFDfm609wHtaVUD92geATK8dW363yoGkDnoIdUjS5vXfA+HFnhBomitm5ZZ+5f546qPR4amuH/aEhoWrksVC67YBDY4nPlLpc7sr2+s94cGjkvwwUQxB1cBuJOSYTberY2B8t5bnpuS8e1KeVocnw1vOzAV5O5bmlu58Ie/9DGfMM4SGWulTpj0f3U2T0D2f2bC22gLTSOQbFVQM4s3N2SkOgvETkT1aIuzGAeFmvMXPXjUFQ==
+X-YMail-OSG: M6R9XRwVM1k_DWJCIKAtsK7u_P4H8o7YVo4CwYeFAwgscohJglT4atCq1JQL2Ia
+ HJGMHOf43FBzIbNQAd4CGEMBnJ9BC0sRbL7UZIEuarkscSrST2m03P8V3wnN8kFyDrWjGro1.O6e
+ xWJcXoujpmyYTXY4swhxnRjLpjKDcNIzIO.GPSgByH6vFrGTURTlfvhiFuh8fDUYYWC76L6tXVEs
+ I9qIgGyXsiUSU4CTuThbMA.pZ5o4jRtRrNvmHyPLFigMloH.5kPftgllcHGgQCY7Up9vYBmubs_q
+ Szqemma6RC9.nPfe8EwOzCeK6h1z.Yz2KpUNLXsp6qGS5jLoa8dEvdktQ1OB1FYJS34dp2ibCbWR
+ kvShQa7eFr1Ovrdcr40gDsUmIfilbd.c4TEDFSrcI_zoMgc_srG.b7boOJFX2JHPFagAxPAhKKYT
+ _wEMRNbRa1C_YWjpZo.knQTdg8R.SUInN87BGOSaKXwYxIEXhc80WYGFArvNyK4gED3R6GiBHUEv
+ 3gfMUpmbZrgzivjZmB03MHFJJ1w6JGdB3GTAwgnf4haXLO8P.FXD4FfFBg51mfaz9V88mLrFl3tz
+ afAjyOeE5TeaGMVv44bB3oA0sPn0H8thvag_RzIBA8HgYk.Os.P0DDibH80B7yDJWCyWG_hSurtr
+ 21lUUwxDDxg_CRVZgoNI_U6.NS4sO5Ls1Ik3RXRk_Gddrkeat5gT4MNo_zXxs0ahi935zhNo4LdL
+ sdVmQaq_pGAtACWCBzg.yIix0qGZb1YAeh6iQLBHftl.8nq3yqtHEXcGz50DgGw2qv9Za52Y05NL
+ 4UjLILbfpoTAoqIPOqfU.M15uIHdl4MIhpauUrPQk7VLaXGdchAt18_vEI8kQqMfaZIIez5vNK7H
+ huLYLb0UrkS.lqi6jkG15plpoJtfIZpsgkl8OsYfmnooX1RwxruZAwplcF_kw_rtqzNDo_rXdIiz
+ yuhjszoDtlN6MwO_LrhdZGtFAuSEfvYmcxajAyp2fD_Gm2qNUTM81mM9_rjuPpfUFcxitt1Zwt3N
+ X8eDkWG5fBzTQDn__6snY97jxR_qY6_UBfupu8Z4dDpBk2W8kdqgiZtBpB1eqxP3WIkrG.YNnKGY
+ gX5AiJiREWGJBOv7DnPHycMHpeVR7LuIHz7ZWh2F.SDFF3BwBMyBv8AhhXFN7hlJS.ASGoG410pm
+ HcRHxqg57v7Sn6_kPANGVoNPqg_2nBmYy1yu.wqyTFOx5G2jtWY8POB1fmxkiJ2WwYIWVg3zEcTA
+ BWU.GUZmfv9xBavgPTBHhufTIyfS5wJHf53x4EkB0QF87oJQYwaZ7HPD0rrvkynI7BZh7.ZQ38n0
+ SpJKh98PI7.dp2r9cHxjWKejm7cyBmwVUyUC_lvpy_Q5qzVCfj9rC3rGuCmFTpPohvTocJMphd5A
+ mPYJ0I3eLdCuqM1E8Ssg.60gYsW743Tdxg3kN3coPEANxOSsiU1j55UTdO8wKtA7QncSL1Rtx5tY
+ FnCcwRpoGt49kQ2aD1_UUOnUGhGyBqJljN3W05PKuoemC41jsF9OETZ0mdwIQhkv82ZXCfWnMn1U
+ mZlfJU9IIpsDx8sij8uNk9.cvnI07rcDy.FJop8uCFr4dPBDt.7HwlpotlZviKH079x48fZza3QT
+ ZHmYvEgjg2QvdajaW0xNNpiJr_SLK5Qwcmpa.s2pQOTRx_g9IUv0SG6wfJXyARSQrhNSMlMuB4Vk
+ KL18L8jhHI0BdTsv9uQNQ.mGNhphfAHkApCTJ_3oumuMqr79pxEadlS28QosMTvQiCBg9BCwcnFU
+ xP267eXvqlLgNilToA4EiGmWGaORW4btt7P3zi7rKQzvB0EqACMC3THjx3UTi9nQOxHR2lRyL9bb
+ 1WZunhUBtmCqCQpmBnYh05ewUoqLeBnTkkq4AUYXG2XGrSDWQe6oQNPnGU2GR7JgTvJbkSbN9R8s
+ D4ennHpg_Alzg3bWR7YCyKPgFFike0Gbgdkehi6NmD4cTT6HlGjwHESb5uvueLp0.cy.zHjvXKdS
+ y2Judqid.xrBFu23tKH4p.7ilLgn9PRc_0eWppv0yf9ZaovPNPdU.VdYBn4lxPV6TT_l9xSq4obp
+ vd.vJ8U275ant3VAOZNlJ6H2dV79hay8RNMWXpU9SbTmPHZfND7ix6c_dd8taCtHgppQWH0apUBV
+ iEScS_a7f1b2iq2.sCna_cJ.8FmWrv6hgEInUTnPrcpNt9MBWAu0d65XPDV3s.9IzDUj5eraVFJt
+ I33TMPZunmfZn3_giq3DAfJJPuxni0LnBp5b0DlnLVMfRsTZhkb_ys1L9VPpaaPk5NeOpwJm1.ma
+ Fms7WXQ4n9HibJ1kg9UM-
 X-Sonic-MF: <casey@schaufler-ca.com>
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic305.consmr.mail.ne1.yahoo.com with HTTP; Tue, 7 Mar 2023 17:04:43 +0000
-Received: by hermes--production-ne1-7688d778d7-xvwfp (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 1d16e37e4f17304c84cf9568ec9bd587;
-          Tue, 07 Mar 2023 17:04:42 +0000 (UTC)
-Message-ID: <382d4c90-f237-bb8b-65d3-6d22ae893f9e@schaufler-ca.com>
-Date:   Tue, 7 Mar 2023 09:04:41 -0800
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic303.consmr.mail.ne1.yahoo.com with HTTP; Tue, 7 Mar 2023 17:13:51 +0000
+Received: by hermes--production-ne1-7688d778d7-l5k5m (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 2ada3e063c3db3053feeb0e87bb880c6;
+          Tue, 07 Mar 2023 17:13:49 +0000 (UTC)
+Message-ID: <c5a11d40-9081-dfad-3d5a-7d46ba764dd5@schaufler-ca.com>
+Date:   Tue, 7 Mar 2023 09:13:48 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
@@ -74,8 +74,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Mailer: WebService/1.1.21284 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        DKIM_VALID,NICE_REPLY_A,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -85,6 +85,15 @@ X-Mailing-List: linux-api@vger.kernel.org
 On 3/7/2023 3:56 AM, Mickaël Salaün wrote:
 > Let's say an LSM need to pass a file descriptor instead of a text
 > value. Would that be possible or would it need to use another interface?
+
+You could use this interface. LSM_ATTR_MAGICFD would have a
+ctx_len = sizeof(fd) and the value in ctx. The underlying
+plumbing is another matter entirely. It's likely you'd need
+to provide more information in the ctx than the fd, but I
+couldn't say what it would be, and I won't speculate.
+
+I would not advocate such a use, as I am not now nor have
+ever been a fan of passed file descriptors.
 
 >
 >
