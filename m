@@ -2,484 +2,268 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DF4CC6AF5A9
-	for <lists+linux-api@lfdr.de>; Tue,  7 Mar 2023 20:28:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4ECAC6AF5F4
+	for <lists+linux-api@lfdr.de>; Tue,  7 Mar 2023 20:42:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234053AbjCGT22 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 7 Mar 2023 14:28:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33680 "EHLO
+        id S233299AbjCGTmV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 7 Mar 2023 14:42:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234159AbjCGT2J (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 7 Mar 2023 14:28:09 -0500
-Received: from mail-pj1-x104a.google.com (mail-pj1-x104a.google.com [IPv6:2607:f8b0:4864:20::104a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37E81B5FEE
-        for <linux-api@vger.kernel.org>; Tue,  7 Mar 2023 11:14:10 -0800 (PST)
-Received: by mail-pj1-x104a.google.com with SMTP id pl10-20020a17090b268a00b00239ed042afcso8524445pjb.4
-        for <linux-api@vger.kernel.org>; Tue, 07 Mar 2023 11:14:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112; t=1678216446;
-        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Wt+tMy1RH9zC84sq0to0cY0x7+Xv2yMTzgsmC8ZQ7cM=;
-        b=D+BRUMlsQmhPM7Km19r0cwtSovSQv0WAERIfkRDuEbsEadkI29Rz8sSQqIRpfAPEa/
-         uCEsFKnPst88VAZKSkPZjffh5S3WZTxUmNU4Xw/KSiy4soV/n0dJgIrEl9OXSPbIfQQK
-         KLOBXvGg6LH2ugOhFB2E2wpPrpDgxCLKWf0LPJlLMfhxqqsHvu6JPcw14TUVTqqyGFlZ
-         BGsXgEkUEMCjAYmlzNQrRRX203Kz1uOE6SMPxmDIVc7khBpDDg6yCWpgZR7rxAtYpjv/
-         SqkEiQXtopyaQBB3xjjHp9QzaFJ66vn2U3nSuUXKNCqd3tZoY5qhFiJPfWWt4zAY4ldo
-         w8FQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678216446;
-        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Wt+tMy1RH9zC84sq0to0cY0x7+Xv2yMTzgsmC8ZQ7cM=;
-        b=xwVNkMnf8jx3YCytY24CYvpehNuaea24tPnW5arfMSO3MDJegzWvhR2RiyHcQFI+w1
-         Jh+qw976ZkvLzR2ZRF07QCpu2cwGZM6dvFqa2kNiT+fOUdN3pJhOaIFZNF+mbCLQPTBW
-         KsB9g6jYZzMApAzqxPGotJNj0fzKaKgwIvoDrD0SdM+qF66COKv67np8Sf8aePgwXIjq
-         iMxQMBs6A1uqQQjF8twIpXMmiQ0VnCmdsLAsrmVYuCKbJ4neUpQtAMhguyD3sQ03L2b2
-         8qdntVF0nZth4XDaKgW+yd5hBZ/cEQLjSiOgXhJz5NKcWK/130hMAv0ChdvoNQRAWnbG
-         5qXQ==
-X-Gm-Message-State: AO0yUKW0BTCYbHB+HbzCcRVyt0K8Waxftd9lytbtHbSPxTovHyln9eZf
-        2s296qNBBog3Sl0kiS1wvnXZRNnUDbk3Ekf0bg==
-X-Google-Smtp-Source: AK7set9XmMrWXZ6mpUlbpcFneSpuxawFmXBvqn5A78lIM65RH9bBDorwkD1ukffGVS/euOjwrQaunWK8N4egR11Vkw==
-X-Received: from ackerleytng-cloudtop.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:1f5f])
- (user=ackerleytng job=sendgmr) by 2002:a17:90a:8e83:b0:237:1fe0:b151 with
- SMTP id f3-20020a17090a8e8300b002371fe0b151mr5483530pjo.8.1678216446569; Tue,
- 07 Mar 2023 11:14:06 -0800 (PST)
-Date:   Tue, 07 Mar 2023 19:14:05 +0000
-In-Reply-To: <20221202061347.1070246-10-chao.p.peng@linux.intel.com> (message
- from Chao Peng on Fri,  2 Dec 2022 14:13:47 +0800)
-Mime-Version: 1.0
-Message-ID: <diqzcz5kz85e.fsf@ackerleytng-cloudtop.c.googlers.com>
-Subject: Re: [PATCH v10 9/9] KVM: Enable and expose KVM_MEM_PRIVATE
-From:   Ackerley Tng <ackerleytng@google.com>
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        pbonzini@redhat.com, corbet@lwn.net, seanjc@google.com,
-        vkuznets@redhat.com, wanpengli@tencent.com, jmattson@google.com,
-        joro@8bytes.org, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, arnd@arndb.de, naoya.horiguchi@nec.com,
-        linmiaohe@huawei.com, x86@kernel.org, hpa@zytor.com,
-        hughd@google.com, jlayton@kernel.org, bfields@fieldses.org,
-        akpm@linux-foundation.org, shuah@kernel.org, rppt@kernel.org,
-        steven.price@arm.com, mail@maciej.szmigiero.name, vbabka@suse.cz,
-        vannapurve@google.com, yu.c.zhang@linux.intel.com,
-        chao.p.peng@linux.intel.com, kirill.shutemov@linux.intel.com,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com, qperret@google.com,
-        tabba@google.com, michael.roth@amd.com, mhocko@suse.com,
-        wei.w.wang@intel.com
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
-X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        with ESMTP id S233838AbjCGTlp (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 7 Mar 2023 14:41:45 -0500
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC7D8AD010;
+        Tue,  7 Mar 2023 11:28:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678217327; x=1709753327;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=o5x4qVav8xPaeplG5M/+TO1baMp4gRCSsS9rn7nwblY=;
+  b=Y4KMuI/NggJ+9y9AOuGybwAByMVkIfxAXC6bvxwcU3pa1oOMVa+2m/yr
+   s4uK/o6pw+0WFD9IHte5gBwvzL+37sJNYnDG2WeZSv0HLObrgaFyf1W15
+   uYPhh8y3N65KiYkxXzjbfjESS7xmumwFXS6X9TJ6s2UR5jIDXRzLo68Te
+   s+ssImBrLktbCMWmGxwA7v3ZY1zDl5dXK6+BisBVpuPzdDgndZTzo6sW4
+   eK+XRNSGjLcJ7W8IpSdtvEX3+1wnbauFUP+pK+GwVJq1neOTONNS4HXqp
+   LehqzymYhhp7R91UM9ut2lshVPqdr1xWFpUk82CcoirZb29P/MGb9PSDG
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="319779720"
+X-IronPort-AV: E=Sophos;i="5.98,241,1673942400"; 
+   d="scan'208";a="319779720"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2023 11:28:47 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="819889816"
+X-IronPort-AV: E=Sophos;i="5.98,241,1673942400"; 
+   d="scan'208";a="819889816"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+  by fmsmga001.fm.intel.com with ESMTP; 07 Mar 2023 11:28:46 -0800
+Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Tue, 7 Mar 2023 11:28:45 -0800
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21 via Frontend Transport; Tue, 7 Mar 2023 11:28:45 -0800
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.177)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.21; Tue, 7 Mar 2023 11:28:45 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Lqx2ckziUb5u73xLmdc8p/GUpA8Hwfc5+g8mTRHmI4cv+uDrQ5ze2XjwYiy2kaZdk0iyN6eY76KEE5TP1+nhtouFuZ0MgTaB/4nEhJO6cXhBMqJgFdyTF0eyw60ThpN9YGR8Fplr+PNTBk2eXVTaGosMRKn1sZ2GzSGhhmbMWtRkqA2bk28V2GvY6Rf2xQhCN+Wfb+ZGXPf8YmjNufQzjutrA2wUAetVA6Q0vb56wmh9H3pXsnsTLX+5tsrzliyXdYrl254uTrYiA7LqjC4qabAEi8968F+FOGZsphuuqb8SppNeovOjgSHM4NNhfIfbII+4aYPxrKkqELfe6BPjuw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=n5b/uwk2KQFamXRGMywffoyYxUMTw0DhrANUfCiOebs=;
+ b=P2xURpqGGYliyBZWUWUHEInrAu7U1O8AqaHxe9iYmPNMJq6xvSzbxuRL2gOJ1VNHMNilYip2jhSCaOPz5vLmUMfEhaUnZD8W17bFaaLzparsclhy6WEiomsnD/Y9sRtV8Sg1O9tFgMf0JFE5M32c/r/c/iOccjwZydhWjP6/5zvoIIKEx822jddcN0lURkwhxU8x+fcI1gVs62P3hs4YhZQpe9Ct9Y2frNGGL+76rBagVLZJXZx5pG4HV45OQVmXtO3WjQ4qseU3Q1Rimyq8X+e9RZqMFo0HsquJcQ0blFuRb8fY6j41h2z5HBeN367LqCZlAvwmO0JpspwNnZHNpg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH0PR11MB4855.namprd11.prod.outlook.com (2603:10b6:510:41::12)
+ by IA1PR11MB6171.namprd11.prod.outlook.com (2603:10b6:208:3e9::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.29; Tue, 7 Mar
+ 2023 19:28:43 +0000
+Received: from PH0PR11MB4855.namprd11.prod.outlook.com
+ ([fe80::e002:4146:dfae:ba77]) by PH0PR11MB4855.namprd11.prod.outlook.com
+ ([fe80::e002:4146:dfae:ba77%3]) with mapi id 15.20.6156.029; Tue, 7 Mar 2023
+ 19:28:42 +0000
+Message-ID: <50a96bb9-113a-cb06-919c-f544f6b59493@intel.com>
+Date:   Tue, 7 Mar 2023 11:28:39 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: selftests: sigaltstack: sas # exit=1 - # Bail out! SP is not on
+ sigaltstack - on clang build
+Content-Language: en-US
+To:     Naresh Kamboju <naresh.kamboju@linaro.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>, <linux-api@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        <lkft-triage@lists.linaro.org>
+CC:     Shuah Khan <shuah@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Len Brown" <len.brown@intel.com>, Borislav Petkov <bp@suse.de>,
+        Stas Sergeev <stsp@list.ru>, Arnd Bergmann <arnd@arndb.de>,
+        Anders Roxell <anders.roxell@linaro.org>
+References: <CA+G9fYsi3OOu7yCsMutpzKDnBMAzJBCPimBp86LhGBa0eCnEpA@mail.gmail.com>
+From:   "Chang S. Bae" <chang.seok.bae@intel.com>
+In-Reply-To: <CA+G9fYsi3OOu7yCsMutpzKDnBMAzJBCPimBp86LhGBa0eCnEpA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR03CA0022.namprd03.prod.outlook.com
+ (2603:10b6:303:8f::27) To PH0PR11MB4855.namprd11.prod.outlook.com
+ (2603:10b6:510:41::12)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR11MB4855:EE_|IA1PR11MB6171:EE_
+X-MS-Office365-Filtering-Correlation-Id: cd43c213-df25-4fe9-0440-08db1f422944
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: h3q29H5CGQhtPyUtHVeIQqlvwmSlnuFy13yQt847rSE92Ke28pV1qwDmpL3/ULvsNmJdtWB/e1CqhaqrdWdO5l3OYbGYpjMpWLPRGHxrOOVxFRQAutV5em0jxFYs0vPcGFJqJHs6EnVGhz0hnDFHTp3VFq58cNcoxKkBrvJvVzCVU0FhO6rlTT1J8dlFLqjfNyvTISpxSxWCeE7Brsz6NzE+e0T5/mswWxezC6SnHwDhczlqJ6SQ/qk3+FZ5Qa7au2sZvLqgB3yHHN+ZVN+lsLu7/JJdxFn5ZLw1wwZ5dW8pU1aYBCsKlfG9990Ie4Zo1kv5tkyNt0R2nZb+tNIRZ5ML7dMWuabkUOofneXT6AwGEGLJYAIPx2ZdDCehBOIAYuPWc6hVAWQjPyCLV//OWEczHAqvWkLRkjZlW/csvO7BCqUM3k4KhjXtHduXnsG6zWXVMFI+mJKkpj4GqakX5AL8DrkwzCYgcNp7LQnLBnhTr09dqzDn/maJy/wJV9nXgnmaiBUIr6Vr4xLauVrXtyCDjn41TSa8UD8vbAar/tddUDpjX8Rwg/0hW8Ry6pqphWL9Dym4KL6Zyl/7e8DLveGvO1W8nWMUyGiciFFBTwAIMOVzmi4jhP8SQa5KkHkw026eKBObbqxqHwleCCr9L/0MiT85Lwbmf+33lR92dNuQEY+PGsRoDFaUT4lpBrZgfW6jVgNc3J4mMmB89bm5ltiIsMip/1l7M3+v/PO8KOw=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB4855.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(136003)(366004)(396003)(346002)(39860400002)(376002)(451199018)(66556008)(66476007)(66946007)(4326008)(8676002)(2616005)(6666004)(31696002)(36756003)(6486002)(7416002)(5660300002)(316002)(86362001)(83380400001)(110136005)(54906003)(8936002)(478600001)(38100700002)(186003)(2906002)(82960400001)(41300700001)(31686004)(6506007)(53546011)(26005)(6512007)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?d1dwL1dnVDV3MmZNQXM1ZFVEK2s1RmxXQW55dnZzR3dwZjh3T1hraHJNRXdN?=
+ =?utf-8?B?UkpqTE5ibjkreUdldktZRDk1ejkyOVVrU1B0ZVZNd3k4U20zNEdKTUJaRUo2?=
+ =?utf-8?B?ZHhlY2g5WkQweWxLclFjSjI2SXRDSCt4N0dvTVVJL0xtY2Iwa29lVGkvQ2I0?=
+ =?utf-8?B?RndLN2NxV2t1Sko4cXczNWZIQzVpbDZYOTJzNEVaUWNhb0dMOG1KL21NMEN4?=
+ =?utf-8?B?MmI2UENIdHl5WFRXZFJPeWtHTUJQSWhJSEVwc0s2dWg4ZG9oL3ZiaUZ2WW50?=
+ =?utf-8?B?UllleXVGTXNKZ3JRNEE5MklXQjdpc3dHczE4TnZyYVZQNGpMUFV0OHI1eVdI?=
+ =?utf-8?B?M3ZYdGV2WHlMRWpLd2hnaG85OTR1V0FUazh0RGlKNHh3c1hQYVM1M1FwaEFv?=
+ =?utf-8?B?Wm5lNGZadUJaQUhMczlYK2FPREFNWUZxRTIrekE3czFJYzNqMFNsazEyQm03?=
+ =?utf-8?B?elp4UnQ2bm5pMnBpdmxrcytlbVZyUkc5WTZFNTh6TXRUR2VoV0k3ejFrbzd5?=
+ =?utf-8?B?U2UrckJPNkp6aWhvNW82cEN2L0l5U3QwT2ZGTWszQXhkbzdqVnJteWU5UVI0?=
+ =?utf-8?B?by9aVlNYeFk0cm0yTnQwZTZOYURIVzc1bTV1MEF4N0hzMWlldXZkd3IzVUd5?=
+ =?utf-8?B?NC9NS0VYNFJFNVF1ckVESHJyaG41T2UzNTRObzB3N2JCakJQOGcvLzV4TW1l?=
+ =?utf-8?B?VUtBMWFNbnZrNkQ1d0x5RnRxdE1QdytoRzlhS3pSVUFMTlV3VGZQYmJoNGVV?=
+ =?utf-8?B?SUo5ZEFZZ09ZOXJwWmM5dUJBQ0o5ZnVmcm1UajF0b1Q3c3JZdWVaN3dKRmNj?=
+ =?utf-8?B?NTB3Rzc0Qkh3cjExaE52QSt1eG9xWVF6L2VEaUhHQjBkMVNmNWgvN24xTTR2?=
+ =?utf-8?B?WmpPSnQvUEdNWGlGQ3FzV2gyakJZM04zL0NKa3JLMDBxZzNCcUo1V2s5VDBw?=
+ =?utf-8?B?elFpZTcrbFdGcUJ4OTZMY21IeStNbjJvQVlOcGF2QTdueld5bEJ5d1QvOWw0?=
+ =?utf-8?B?UjhRNnZ5eXBkSGFZMFkwQXZuQnVlSzJQUG03ZG5HS2xRZmFjOG5VVU9HRk53?=
+ =?utf-8?B?NTZwUmtBRFlROFJGRHV4NWZWazZuaURqYlBuM2tkWHlFU0ZZdmFwZTg3N2tj?=
+ =?utf-8?B?TG9ab1BGcjRhVkIxZlBCVE5JbmJoamdGMEJ4aGxCL25Sd1cxaTc3MkVJY201?=
+ =?utf-8?B?dlRhck83emVDeXJDREszQS9FblU3TlJBSnYrSk5tY1JYZVNjcFdPOGhvUUlI?=
+ =?utf-8?B?Z0RsaWx4b3QrS0N5Tk0vUkRPQW5aZFFuUWpHQm9DcFdHYjJZOXBIZUN3SExo?=
+ =?utf-8?B?S1NONjRQLzg0emV2REV0Y0ZrY2pERXpRZ0ZEajVtM1p6bnVXSjB1WWlZc3JD?=
+ =?utf-8?B?Z0xBbGFKeHpGUnRSWTlZL1owcWFrZ3NlNUtHcWpHSHV5aUhUZEpIYzFabXlq?=
+ =?utf-8?B?cXU0d3NsODRHYzAvU3hDSUtaWlYvcGpzMkpYdEVLNC9zZG9QN2oxNmIwOE9Y?=
+ =?utf-8?B?OHNwVnZlclYxVXpaZ2JDQUJwL09wTkR1NjVwdzhNLzAxYkR2aG1wYW84N3Vv?=
+ =?utf-8?B?eU5Ed2pKeW5IWm1vZjhLRCtZV0FqUVpiS1N6a2xBZXk3RnRTeitoZ1pIWDFR?=
+ =?utf-8?B?T1pZUGJHb29xRTlrWjJ0ODh6YXVIWjBTM3RCbkRFUCtmb21lS0JFeFBxZjMz?=
+ =?utf-8?B?a2x1QmpldUZ2U1R2ajF3RGYxUGVGNTdFUi9VMDFCWWhUVHB0dURKUm9HTXZS?=
+ =?utf-8?B?RVJPeWpXSVZLQ2p0dEVrUGNpSHhOdlBXRysrSWtIeFBQMlg1R25CLzZYdHhQ?=
+ =?utf-8?B?ejJMWHh3OXNYdmlBT2RqcS9FVVlBMEhoWm5DbndDcnVsaEZSdWYrUmkrME1y?=
+ =?utf-8?B?QmRUenYwTFFCVWsrcitPdTZMeDQ4b2J0eDVOeTFHMGJWODZRVFpXSCtuYUxa?=
+ =?utf-8?B?WXd0VFdyVjVpeFY5cVhVcHhjVDlBS2k4azUya2k2WTQycHBmclNqY0NJWlNW?=
+ =?utf-8?B?MnIzSHNsTVRKWjc5TUx6Wkp5cGtDaUZaVllmMFFRUmhmbklCTXZ2RUlDeHht?=
+ =?utf-8?B?YkVscWJUdDBnRnBISnpkQWVTY3lISGZoYlVYM1ZZV2Z4M3M4ZEdlZzkxWU9v?=
+ =?utf-8?B?eTVRNDBhZ0tZaUJib3BiREdaQmhXOU1xa3pXRDk1cWMxS3RSb0tPU3o4Mzlh?=
+ =?utf-8?B?NkE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: cd43c213-df25-4fe9-0440-08db1f422944
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB4855.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Mar 2023 19:28:42.6026
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 20LyCwNNnXo0lkyQJ0JR58p4lOUgQ4jwu7iETayLF2lUBva5F9KnPnTuNEu+0vWG/OTxKyb/25r+8FUJit6ABya2Pjjo0Bm/YReG5vy/TEc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB6171
+X-OriginatorOrg: intel.com
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Chao Peng <chao.p.peng@linux.intel.com> writes:
+On 3/6/2023 10:57 PM, Naresh Kamboju wrote:
+> kselftest: sigaltstack built with clang-16 getting failed but passed with
+> gcc-12 build. Please find more details about test logs on clang-16 and
+> gcc-12 and steps to reproduce locally on your machine by using tuxrun.
+> 
+> Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
+> 
+> Test log:
+> ----------
+> 
+> Linux version 6.3.0-rc1-next-20230307 (tuxmake@tuxmake) (Debian clang
+> version 16.0.0 (++20230228093516+60692a66ced6-1~exp1~20230228093525.41),
+> Debian LLD 16.0.0) #1 SMP PREEMPT @1678159722
+> ...
+> kselftest: Running tests in sigaltstack
+> TAP version 13
+> 1..1
+> # selftests: sigaltstack: sas
+> # # [NOTE] the stack size is 21104
+> # TAP version 13
+> # 1..3
+> # ok 1 Initial sigaltstack state was SS_DISABLE
+> # Bail out! SP is not on sigaltstack
+> # # Planned tests != run tests (3 != 1)
+> # # Totals: pass:1 fail:0 xfail:0 xpass:0 skip:0 error:0
+> not ok 1 selftests: sigaltstack: sas # exit=1
+<snip>
 
-> Register/unregister private memslot to fd-based memory backing store
-> restrictedmem and implement the callbacks for restrictedmem_notifier:
->    - invalidate_start()/invalidate_end() to zap the existing memory
->      mappings in the KVM page table.
->    - error() to request KVM_REQ_MEMORY_MCE and later exit to userspace
->      with KVM_EXIT_SHUTDOWN.
+> Linux version 6.3.0-rc1-next-20230307 (tuxmake@tuxmake)
+> (aarch64-linux-gnu-gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils
+> for Debian) 2.40) #1 SMP PREEMPT @1678159736
+> ...
+> kselftest: Running tests in sigaltstack
+> TAP version 13
+> 1..1
+> # selftests: sigaltstack: sas
+> # # [NOTE] the stack size is 50080
+> # TAP version 13
+> # 1..3
+> # ok 1 Initial sigaltstack state was SS_DISABLE
+> # # [RUN] signal USR1
+> # ok 2 sigaltstack is disabled in sighandler
+> # # [RUN] switched to user ctx
+> # # [RUN] signal USR2
+> # # [OK] Stack preserved
+> # ok 3 sigaltstack is still SS_AUTODISARM after signal
+> # # Totals: pass:3 fail:0 xfail:0 xpass:0 skip:0 error:0
+> ok 1 selftests: sigaltstack: sas
 
-> Expose KVM_MEM_PRIVATE for memslot and KVM_MEMORY_ATTRIBUTE_PRIVATE for
-> KVM_GET_SUPPORTED_MEMORY_ATTRIBUTES to userspace but either are
-> controlled by kvm_arch_has_private_mem() which should be rewritten by
-> architecture code.
+At glance, the log shows the altstack size difference between LLVM and GCC.
 
-Could we perhaps rename KVM_MEM_PRIVATE to KVM_MEM_PROTECTED, to be in
-line with KVM_X86_PROTECTED_VM?
+But, when I tried with the LLVM that I have,
 
-I feel that a memslot that has the KVM_MEM_PRIVATE flag need not always
-be private; It can sometimes be providing memory that is shared and
-also accessible from the host.
+     $ clang --version
+     clang version 13.0.0 ...
 
-KVM_MEMORY_ATTRIBUTE_PRIVATE is fine as-is because this flag is set when
-the guest memory is meant to be backed by private memory.
+it failed only with this compiler:
 
-KVM_MEMORY_EXIT_FLAG_PRIVATE is also okay because the flag is used to
-indicate when the memory error is caused by a private access (as opposed
-to a shared access).
+     $ rm sas;clang -o sas sas.c;./sas
+     # [NOTE]        the stack size is 8192
+     TAP version 13
+     1..3
+     ok 1 Initial sigaltstack state was SS_DISABLE
+     Bail out! SP is not on sigaltstack
+     # Planned tests != run tests (3 != 1)
+     # Totals: pass:1 fail:0 xfail:0 xpass:0 skip:0 error:0
 
-kvm_slot_can_be_private() could perhaps be renamed kvm_is_protected_slot()?
+     $ rm sas;gcc -o sas sas.c;./sas
+     # [NOTE]        the stack size is 8192
+     TAP version 13
+     1..3
+     ok 1 Initial sigaltstack state was SS_DISABLE
+     # [RUN] signal USR1
+     ok 2 sigaltstack is disabled in sighandler
+     # [RUN] switched to user ctx
+     # [RUN] signal USR2
+     # [OK]  Stack preserved
+     ok 3 sigaltstack is still SS_AUTODISARM after signal
+     # Totals: pass:3 fail:0 xfail:0 xpass:0 skip:0 error:0
 
+The same is true with some old versions -- e.g. the one that came with 
+commit 0c49ad415512 ("tools/testing/selftests/sigaltstack/sas.c: improve 
+output of sigaltstack testcase"):
 
-> Co-developed-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> Reviewed-by: Fuad Tabba <tabba@google.com>
-> ---
->   arch/x86/include/asm/kvm_host.h |   1 +
->   arch/x86/kvm/x86.c              |  13 +++
->   include/linux/kvm_host.h        |   3 +
->   virt/kvm/kvm_main.c             | 179 +++++++++++++++++++++++++++++++-
->   4 files changed, 191 insertions(+), 5 deletions(-)
+     $ rm sas;clang -o sas sas.c;./sas
+     [OK]    Initial sigaltstack state was SS_DISABLE
+     [FAIL]  SP is not on sigaltstack
 
-> diff --git a/arch/x86/include/asm/kvm_host.h  
-> b/arch/x86/include/asm/kvm_host.h
-> index 7772ab37ac89..27ef31133352 100644
-> --- a/arch/x86/include/asm/kvm_host.h
-> +++ b/arch/x86/include/asm/kvm_host.h
-> @@ -114,6 +114,7 @@
->   	KVM_ARCH_REQ_FLAGS(31, KVM_REQUEST_WAIT | KVM_REQUEST_NO_WAKEUP)
->   #define KVM_REQ_HV_TLB_FLUSH \
->   	KVM_ARCH_REQ_FLAGS(32, KVM_REQUEST_WAIT | KVM_REQUEST_NO_WAKEUP)
-> +#define KVM_REQ_MEMORY_MCE		KVM_ARCH_REQ(33)
+     $ rm sas;gcc -o sas sas.c;./sas
+     [OK]    Initial sigaltstack state was SS_DISABLE
+     [RUN]   signal USR1
+     [OK]    sigaltstack is disabled in sighandler
+     [RUN]   switched to user ctx
+     [RUN]   signal USR2
+     [OK]    Stack preserved
+     [OK]    sigaltstack is still SS_AUTODISARM after signal
+     [OK]    Test passed
 
->   #define CR0_RESERVED_BITS                                               \
->   	(~(unsigned long)(X86_CR0_PE | X86_CR0_MP | X86_CR0_EM | X86_CR0_TS \
-> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-> index 5aefcff614d2..c67e22f3e2ee 100644
-> --- a/arch/x86/kvm/x86.c
-> +++ b/arch/x86/kvm/x86.c
-> @@ -6587,6 +6587,13 @@ int kvm_arch_pm_notifier(struct kvm *kvm, unsigned  
-> long state)
->   }
->   #endif /* CONFIG_HAVE_KVM_PM_NOTIFIER */
+So, this test failure appears to have been there for a while. I think 
+the LLVM folks need to take a look at it.
 
-> +#ifdef CONFIG_HAVE_KVM_RESTRICTED_MEM
-> +void kvm_arch_memory_mce(struct kvm *kvm)
-> +{
-> +	kvm_make_all_cpus_request(kvm, KVM_REQ_MEMORY_MCE);
-> +}
-> +#endif
-> +
->   static int kvm_vm_ioctl_get_clock(struct kvm *kvm, void __user *argp)
->   {
->   	struct kvm_clock_data data = { 0 };
-> @@ -10357,6 +10364,12 @@ static int vcpu_enter_guest(struct kvm_vcpu  
-> *vcpu)
-
->   		if (kvm_check_request(KVM_REQ_UPDATE_CPU_DIRTY_LOGGING, vcpu))
->   			static_call(kvm_x86_update_cpu_dirty_logging)(vcpu);
-> +
-> +		if (kvm_check_request(KVM_REQ_MEMORY_MCE, vcpu)) {
-> +			vcpu->run->exit_reason = KVM_EXIT_SHUTDOWN;
-> +			r = 0;
-> +			goto out;
-> +		}
->   	}
-
->   	if (kvm_check_request(KVM_REQ_EVENT, vcpu) || req_int_win ||
-> diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-> index 153842bb33df..f032d878e034 100644
-> --- a/include/linux/kvm_host.h
-> +++ b/include/linux/kvm_host.h
-> @@ -590,6 +590,7 @@ struct kvm_memory_slot {
->   	struct file *restricted_file;
->   	loff_t restricted_offset;
->   	struct restrictedmem_notifier notifier;
-> +	struct kvm *kvm;
->   };
-
->   static inline bool kvm_slot_can_be_private(const struct kvm_memory_slot  
-> *slot)
-> @@ -2363,6 +2364,8 @@ static inline int kvm_restricted_mem_get_pfn(struct  
-> kvm_memory_slot *slot,
->   	*pfn = page_to_pfn(page);
->   	return ret;
->   }
-> +
-> +void kvm_arch_memory_mce(struct kvm *kvm);
->   #endif /* CONFIG_HAVE_KVM_RESTRICTED_MEM */
-
->   #endif
-> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> index e107afea32f0..ac835fc77273 100644
-> --- a/virt/kvm/kvm_main.c
-> +++ b/virt/kvm/kvm_main.c
-> @@ -936,6 +936,121 @@ static int kvm_init_mmu_notifier(struct kvm *kvm)
-
->   #endif /* CONFIG_MMU_NOTIFIER && KVM_ARCH_WANT_MMU_NOTIFIER */
-
-> +#ifdef CONFIG_HAVE_KVM_RESTRICTED_MEM
-> +static bool restrictedmem_range_is_valid(struct kvm_memory_slot *slot,
-> +					 pgoff_t start, pgoff_t end,
-> +					 gfn_t *gfn_start, gfn_t *gfn_end)
-> +{
-> +	unsigned long base_pgoff = slot->restricted_offset >> PAGE_SHIFT;
-> +
-> +	if (start > base_pgoff)
-> +		*gfn_start = slot->base_gfn + start - base_pgoff;
-> +	else
-> +		*gfn_start = slot->base_gfn;
-> +
-> +	if (end < base_pgoff + slot->npages)
-> +		*gfn_end = slot->base_gfn + end - base_pgoff;
-> +	else
-> +		*gfn_end = slot->base_gfn + slot->npages;
-> +
-> +	if (*gfn_start >= *gfn_end)
-> +		return false;
-> +
-> +	return true;
-> +}
-> +
-> +static void kvm_restrictedmem_invalidate_begin(struct  
-> restrictedmem_notifier *notifier,
-> +					       pgoff_t start, pgoff_t end)
-> +{
-> +	struct kvm_memory_slot *slot = container_of(notifier,
-> +						    struct kvm_memory_slot,
-> +						    notifier);
-> +	struct kvm *kvm = slot->kvm;
-> +	gfn_t gfn_start, gfn_end;
-> +	struct kvm_gfn_range gfn_range;
-> +	int idx;
-> +
-> +	if (!restrictedmem_range_is_valid(slot, start, end,
-> +					  &gfn_start, &gfn_end))
-> +		return;
-> +
-> +	gfn_range.start = gfn_start;
-> +	gfn_range.end = gfn_end;
-> +	gfn_range.slot = slot;
-> +	gfn_range.pte = __pte(0);
-> +	gfn_range.may_block = true;
-> +
-> +	idx = srcu_read_lock(&kvm->srcu);
-> +	KVM_MMU_LOCK(kvm);
-> +
-> +	kvm_mmu_invalidate_begin(kvm);
-> +	kvm_mmu_invalidate_range_add(kvm, gfn_start, gfn_end);
-> +	if (kvm_unmap_gfn_range(kvm, &gfn_range))
-> +		kvm_flush_remote_tlbs(kvm);
-> +
-> +	KVM_MMU_UNLOCK(kvm);
-> +	srcu_read_unlock(&kvm->srcu, idx);
-> +}
-> +
-> +static void kvm_restrictedmem_invalidate_end(struct  
-> restrictedmem_notifier *notifier,
-> +					     pgoff_t start, pgoff_t end)
-> +{
-> +	struct kvm_memory_slot *slot = container_of(notifier,
-> +						    struct kvm_memory_slot,
-> +						    notifier);
-> +	struct kvm *kvm = slot->kvm;
-> +	gfn_t gfn_start, gfn_end;
-> +
-> +	if (!restrictedmem_range_is_valid(slot, start, end,
-> +					  &gfn_start, &gfn_end))
-> +		return;
-> +
-> +	KVM_MMU_LOCK(kvm);
-> +	kvm_mmu_invalidate_end(kvm);
-> +	KVM_MMU_UNLOCK(kvm);
-> +}
-> +
-> +static void kvm_restrictedmem_error(struct restrictedmem_notifier  
-> *notifier,
-> +				    pgoff_t start, pgoff_t end)
-> +{
-> +	struct kvm_memory_slot *slot = container_of(notifier,
-> +						    struct kvm_memory_slot,
-> +						    notifier);
-> +	kvm_arch_memory_mce(slot->kvm);
-> +}
-> +
-> +static struct restrictedmem_notifier_ops kvm_restrictedmem_notifier_ops  
-> = {
-> +	.invalidate_start = kvm_restrictedmem_invalidate_begin,
-> +	.invalidate_end = kvm_restrictedmem_invalidate_end,
-> +	.error = kvm_restrictedmem_error,
-> +};
-> +
-> +static inline void kvm_restrictedmem_register(struct kvm_memory_slot  
-> *slot)
-> +{
-> +	slot->notifier.ops = &kvm_restrictedmem_notifier_ops;
-> +	restrictedmem_register_notifier(slot->restricted_file, &slot->notifier);
-> +}
-> +
-> +static inline void kvm_restrictedmem_unregister(struct kvm_memory_slot  
-> *slot)
-> +{
-> +	restrictedmem_unregister_notifier(slot->restricted_file,
-> +					  &slot->notifier);
-> +}
-> +
-> +#else /* !CONFIG_HAVE_KVM_RESTRICTED_MEM */
-> +
-> +static inline void kvm_restrictedmem_register(struct kvm_memory_slot  
-> *slot)
-> +{
-> +	WARN_ON_ONCE(1);
-> +}
-> +
-> +static inline void kvm_restrictedmem_unregister(struct kvm_memory_slot  
-> *slot)
-> +{
-> +	WARN_ON_ONCE(1);
-> +}
-> +
-> +#endif /* CONFIG_HAVE_KVM_RESTRICTED_MEM */
-> +
->   #ifdef CONFIG_HAVE_KVM_PM_NOTIFIER
->   static int kvm_pm_notifier_call(struct notifier_block *bl,
->   				unsigned long state,
-> @@ -980,6 +1095,11 @@ static void kvm_destroy_dirty_bitmap(struct  
-> kvm_memory_slot *memslot)
->   /* This does not remove the slot from struct kvm_memslots data  
-> structures */
->   static void kvm_free_memslot(struct kvm *kvm, struct kvm_memory_slot  
-> *slot)
->   {
-> +	if (slot->flags & KVM_MEM_PRIVATE) {
-> +		kvm_restrictedmem_unregister(slot);
-> +		fput(slot->restricted_file);
-> +	}
-> +
->   	kvm_destroy_dirty_bitmap(slot);
-
->   	kvm_arch_free_memslot(kvm, slot);
-> @@ -1551,10 +1671,14 @@ static void kvm_replace_memslot(struct kvm *kvm,
->   	}
->   }
-
-> -static int check_memory_region_flags(const struct kvm_user_mem_region  
-> *mem)
-> +static int check_memory_region_flags(struct kvm *kvm,
-> +				     const struct kvm_user_mem_region *mem)
->   {
->   	u32 valid_flags = KVM_MEM_LOG_DIRTY_PAGES;
-
-> +	if (kvm_arch_has_private_mem(kvm))
-> +		valid_flags |= KVM_MEM_PRIVATE;
-> +
->   #ifdef __KVM_HAVE_READONLY_MEM
->   	valid_flags |= KVM_MEM_READONLY;
->   #endif
-> @@ -1630,6 +1754,9 @@ static int kvm_prepare_memory_region(struct kvm  
-> *kvm,
->   {
->   	int r;
-
-> +	if (change == KVM_MR_CREATE && new->flags & KVM_MEM_PRIVATE)
-> +		kvm_restrictedmem_register(new);
-> +
->   	/*
->   	 * If dirty logging is disabled, nullify the bitmap; the old bitmap
->   	 * will be freed on "commit".  If logging is enabled in both old and
-> @@ -1658,6 +1785,9 @@ static int kvm_prepare_memory_region(struct kvm  
-> *kvm,
->   	if (r && new && new->dirty_bitmap && (!old || !old->dirty_bitmap))
->   		kvm_destroy_dirty_bitmap(new);
-
-> +	if (r && change == KVM_MR_CREATE && new->flags & KVM_MEM_PRIVATE)
-> +		kvm_restrictedmem_unregister(new);
-> +
->   	return r;
->   }
-
-> @@ -1963,7 +2093,7 @@ int __kvm_set_memory_region(struct kvm *kvm,
->   	int as_id, id;
->   	int r;
-
-> -	r = check_memory_region_flags(mem);
-> +	r = check_memory_region_flags(kvm, mem);
->   	if (r)
->   		return r;
-
-> @@ -1982,6 +2112,10 @@ int __kvm_set_memory_region(struct kvm *kvm,
->   	     !access_ok((void __user *)(unsigned long)mem->userspace_addr,
->   			mem->memory_size))
->   		return -EINVAL;
-> +	if (mem->flags & KVM_MEM_PRIVATE &&
-> +		(mem->restricted_offset & (PAGE_SIZE - 1) ||
-> +		 mem->restricted_offset > U64_MAX - mem->memory_size))
-> +		return -EINVAL;
->   	if (as_id >= KVM_ADDRESS_SPACE_NUM || id >= KVM_MEM_SLOTS_NUM)
->   		return -EINVAL;
->   	if (mem->guest_phys_addr + mem->memory_size < mem->guest_phys_addr)
-> @@ -2020,6 +2154,9 @@ int __kvm_set_memory_region(struct kvm *kvm,
->   		if ((kvm->nr_memslot_pages + npages) < kvm->nr_memslot_pages)
->   			return -EINVAL;
->   	} else { /* Modify an existing slot. */
-> +		/* Private memslots are immutable, they can only be deleted. */
-> +		if (mem->flags & KVM_MEM_PRIVATE)
-> +			return -EINVAL;
->   		if ((mem->userspace_addr != old->userspace_addr) ||
->   		    (npages != old->npages) ||
->   		    ((mem->flags ^ old->flags) & KVM_MEM_READONLY))
-> @@ -2048,10 +2185,28 @@ int __kvm_set_memory_region(struct kvm *kvm,
->   	new->npages = npages;
->   	new->flags = mem->flags;
->   	new->userspace_addr = mem->userspace_addr;
-> +	if (mem->flags & KVM_MEM_PRIVATE) {
-> +		new->restricted_file = fget(mem->restricted_fd);
-> +		if (!new->restricted_file ||
-> +		    !file_is_restrictedmem(new->restricted_file)) {
-> +			r = -EINVAL;
-> +			goto out;
-> +		}
-> +		new->restricted_offset = mem->restricted_offset;
-> +	}
-> +
-> +	new->kvm = kvm;
-
->   	r = kvm_set_memslot(kvm, old, new, change);
->   	if (r)
-> -		kfree(new);
-> +		goto out;
-> +
-> +	return 0;
-> +
-> +out:
-> +	if (new->restricted_file)
-> +		fput(new->restricted_file);
-> +	kfree(new);
->   	return r;
->   }
->   EXPORT_SYMBOL_GPL(__kvm_set_memory_region);
-> @@ -2351,6 +2506,8 @@ static int kvm_vm_ioctl_clear_dirty_log(struct kvm  
-> *kvm,
->   #ifdef CONFIG_HAVE_KVM_MEMORY_ATTRIBUTES
->   static u64 kvm_supported_mem_attributes(struct kvm *kvm)
->   {
-> +	if (kvm_arch_has_private_mem(kvm))
-> +		return KVM_MEMORY_ATTRIBUTE_PRIVATE;
->   	return 0;
->   }
-
-> @@ -4822,16 +4979,28 @@ static long kvm_vm_ioctl(struct file *filp,
->   	}
->   	case KVM_SET_USER_MEMORY_REGION: {
->   		struct kvm_user_mem_region mem;
-> -		unsigned long size = sizeof(struct kvm_userspace_memory_region);
-> +		unsigned int flags_offset = offsetof(typeof(mem), flags);
-> +		unsigned long size;
-> +		u32 flags;
-
->   		kvm_sanity_check_user_mem_region_alias();
-
-> +		memset(&mem, 0, sizeof(mem));
-> +
->   		r = -EFAULT;
-> +		if (get_user(flags, (u32 __user *)(argp + flags_offset)))
-> +			goto out;
-> +
-> +		if (flags & KVM_MEM_PRIVATE)
-> +			size = sizeof(struct kvm_userspace_memory_region_ext);
-> +		else
-> +			size = sizeof(struct kvm_userspace_memory_region);
-> +
->   		if (copy_from_user(&mem, argp, size))
->   			goto out;
-
->   		r = -EINVAL;
-> -		if (mem.flags & KVM_MEM_PRIVATE)
-> +		if ((flags ^ mem.flags) & KVM_MEM_PRIVATE)
->   			goto out;
-
->   		r = kvm_vm_ioctl_set_memory_region(kvm, &mem);
+Thanks,
+Chang
