@@ -2,91 +2,196 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 602A46ADD01
-	for <lists+linux-api@lfdr.de>; Tue,  7 Mar 2023 12:12:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 611ED6ADD84
+	for <lists+linux-api@lfdr.de>; Tue,  7 Mar 2023 12:35:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230061AbjCGLMZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 7 Mar 2023 06:12:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60724 "EHLO
+        id S230476AbjCGLe7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 7 Mar 2023 06:34:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35160 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231258AbjCGLLn (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 7 Mar 2023 06:11:43 -0500
-Received: from mail.ettrick.pl (mail.ettrick.pl [141.94.21.111])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4C544BEAE
-        for <linux-api@vger.kernel.org>; Tue,  7 Mar 2023 03:10:31 -0800 (PST)
-Received: by mail.ettrick.pl (Postfix, from userid 1002)
-        id 6DDB8A558C; Mon,  6 Mar 2023 09:01:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ettrick.pl; s=mail;
-        t=1678093332; bh=KHux3km3Civcx5ChslOYQZwQRBjoJa4kWJfGcMIuN6w=;
-        h=Date:From:To:Subject:From;
-        b=oronQ4X0+vQCA5gnmOKPPyy3FyhvysHHmVbonnrTASOgYG9JDXaGYdEWVh0NrbB0I
-         VDS7lermOVQSjEaYi6dZ0O0oiLXHT7mx66I5CUS/uUgqcg4KvwAmjSV2sCQoE0TTPP
-         IHPiuCE1MPH1hmdUPbo5EopU7HXCHxhV41L/k1M26GFCbI0AKuCp9swlg9Q/l0rUO1
-         0nySaNan0GKBrlG00AXsbw+ql2keCdwg3ffAIuRVqil75eZjwYnRPR7dZRB6pxKZ4G
-         9IXmnPY1QU1s4sheNVGjnUVXm0prYgyVnhdhuFzzS1v8gnagOoKciHg2uMDKuI4Lj6
-         8D/kt02F8htGA==
-Received: by mail.ettrick.pl for <linux-api@vger.kernel.org>; Mon,  6 Mar 2023 09:00:53 GMT
-Message-ID: <20230306074500-0.1.97.36ypj.0.d7l5k9p29w@ettrick.pl>
-Date:   Mon,  6 Mar 2023 09:00:53 GMT
-From:   "Norbert Karecki" <norbert.karecki@ettrick.pl>
-To:     <linux-api@vger.kernel.org>
-Subject: Fotowoltaika - nowe warunki
-X-Mailer: mail.ettrick.pl
+        with ESMTP id S230408AbjCGLel (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 7 Mar 2023 06:34:41 -0500
+Received: from smtp-bc0f.mail.infomaniak.ch (smtp-bc0f.mail.infomaniak.ch [IPv6:2001:1600:3:17::bc0f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 941D848E33
+        for <linux-api@vger.kernel.org>; Tue,  7 Mar 2023 03:33:35 -0800 (PST)
+Received: from smtp-2-0001.mail.infomaniak.ch (unknown [10.5.36.108])
+        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4PWCxm3GfKzMrLKv;
+        Tue,  7 Mar 2023 12:33:32 +0100 (CET)
+Received: from unknown by smtp-2-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4PWCxk2dGMzMsF6k;
+        Tue,  7 Mar 2023 12:33:30 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
+        s=20191114; t=1678188812;
+        bh=pCML9nu7R/npDpAM9amdFGrWk9nZdMBQ+LSX0iUteFc=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=w+b5AAJMx6m57HZHWwFOGZVzqTiTftc/35JByv0pR4HWpctkFSisHv2F5/vRnKbFK
+         JVHykUJ2dWwuU7bU2t37rkGdXmnNdjKbRT72TX13Jj2WeXqALnb/euYvSG8pY1z7Xx
+         1AkJtYe7Y1s6aTmCnFpdo97hSdlV5Nc0KI1Zo7SQ=
+Message-ID: <1ca41f67-ffa1-56c2-b4ee-f5deece95130@digikod.net>
+Date:   Tue, 7 Mar 2023 12:33:29 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: Yes, score=5.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_SBL_CSS,SPF_HELO_NONE,
-        SPF_PASS,URIBL_ABUSE_SURBL,URIBL_BLOCKED,URIBL_CSS_A,URIBL_DBL_SPAM
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: *  1.2 URIBL_ABUSE_SURBL Contains an URL listed in the ABUSE SURBL
-        *      blocklist
-        *      [URIs: ettrick.pl]
-        *  0.0 URIBL_BLOCKED ADMINISTRATOR NOTICE: The query to URIBL was
-        *      blocked.  See
-        *      http://wiki.apache.org/spamassassin/DnsBlocklists#dnsbl-block
-        *      for more information.
-        *      [URIs: ettrick.pl]
-        *  2.5 URIBL_DBL_SPAM Contains a spam URL listed in the Spamhaus DBL
-        *      blocklist
-        *      [URIs: ettrick.pl]
-        *  3.3 RCVD_IN_SBL_CSS RBL: Received via a relay in Spamhaus SBL-CSS
-        *      [141.94.21.111 listed in zen.spamhaus.org]
-        *  0.1 URIBL_CSS_A Contains URL's A record listed in the Spamhaus CSS
-        *      blocklist
-        *      [URIs: ettrick.pl]
-        * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-        *      [score: 0.0000]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-X-Spam-Level: *****
+User-Agent: 
+Subject: Re: [PATCH v6 05/11] LSM: Create lsm_module_list system call
+Content-Language: en-US
+To:     Casey Schaufler <casey@schaufler-ca.com>, paul@paul-moore.com,
+        linux-security-module@vger.kernel.org
+Cc:     jmorris@namei.org, keescook@chromium.org,
+        john.johansen@canonical.com, penguin-kernel@i-love.sakura.ne.jp,
+        stephen.smalley.work@gmail.com, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org
+References: <20230222200838.8149-1-casey@schaufler-ca.com>
+ <20230222200838.8149-6-casey@schaufler-ca.com>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+In-Reply-To: <20230222200838.8149-6-casey@schaufler-ca.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Infomaniak-Routing: alpha
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Dzie=C5=84 dobry,
 
-chcia=C5=82bym poinformowa=C4=87, i=C5=BC mog=C4=85 Pa=C5=84stwo uzyska=C4=
-=87 dofinansowanie na systemy fotowoltaiczne w ramach nowej edycji progra=
-mu M=C3=B3j Pr=C4=85d.
+On 22/02/2023 21:08, Casey Schaufler wrote:
+> Create a system call to report the list of Linux Security Modules
+> that are active on the system. The list is provided as an array
+> of LSM ID numbers.
+> 
+> The calling application can use this list determine what LSM
+> specific actions it might take. That might include chosing an
 
-Program zapewnia 6000 z=C5=82 dofinansowania na instalacj=C4=99 paneli i =
-16 000 z=C5=82 na magazyn energii, ni=C5=BCsze cen pr=C4=85du i mo=C5=BCl=
-iwo=C5=9B=C4=87 odliczenia koszt=C3=B3w zwi=C4=85zanych z instalacj=C4=85=
- fotowoltaiki w ramach rozliczenia PIT (tzw. ulga termomodernizacyjna).
+"choosing"
 
-Czy s=C4=85 Pa=C5=84stwo otwarci na wst=C4=99pn=C4=85 rozmow=C4=99 w tym =
-temacie?
+> output format, determining required privilege or bypassing
+> security module specific behavior.
+> 
+> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
+> ---
+>   Documentation/userspace-api/lsm.rst |  3 ++
+>   include/linux/syscalls.h            |  1 +
+>   kernel/sys_ni.c                     |  1 +
+>   security/lsm_syscalls.c             | 43 ++++++++++++++++++++++++++++-
+>   4 files changed, 47 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/userspace-api/lsm.rst b/Documentation/userspace-api/lsm.rst
+> index b45e402302b3..ecdf1acd15b1 100644
+> --- a/Documentation/userspace-api/lsm.rst
+> +++ b/Documentation/userspace-api/lsm.rst
+> @@ -63,6 +63,9 @@ Get the specified security attributes of the current process
+>   .. kernel-doc:: security/lsm_syscalls.c
+>       :identifiers: sys_lsm_get_self_attr
+>   
+> +.. kernel-doc:: security/lsm_syscalls.c
+> +    :identifiers: sys_lsm_module_list
+> +
+>   Additional documentation
+>   ========================
+>   
+> diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+> index 1ef2a3de8ae0..9c947022a411 100644
+> --- a/include/linux/syscalls.h
+> +++ b/include/linux/syscalls.h
+> @@ -1062,6 +1062,7 @@ asmlinkage long sys_set_mempolicy_home_node(unsigned long start, unsigned long l
+>   asmlinkage long sys_lsm_get_self_attr(struct lsm_ctx *ctx, size_t *size,
+>   				      __u64 flags);
+>   asmlinkage long sys_lsm_set_self_attr(struct lsm_ctx *ctx, __u64 flags);
+> +asmlinkage long sys_lsm_module_list(u64 *ids, size_t *size, int flags);
+>   
+>   /*
+>    * Architecture-specific system calls
+> diff --git a/kernel/sys_ni.c b/kernel/sys_ni.c
+> index d03c78ef1562..32784e271fa5 100644
+> --- a/kernel/sys_ni.c
+> +++ b/kernel/sys_ni.c
+> @@ -265,6 +265,7 @@ COND_SYSCALL(mremap);
+>   /* security/lsm_syscalls.c */
+>   COND_SYSCALL(lsm_get_self_attr);
+>   COND_SYSCALL(lsm_set_self_attr);
+> +COND_SYSCALL(lsm_module_list);
+>   
+>   /* security/keys/keyctl.c */
+>   COND_SYSCALL(add_key);
+> diff --git a/security/lsm_syscalls.c b/security/lsm_syscalls.c
+> index b89c4e7d009e..ccd3b236670b 100644
+> --- a/security/lsm_syscalls.c
+> +++ b/security/lsm_syscalls.c
+> @@ -19,7 +19,7 @@
+>   
+>   struct attrs_map {
+>   	char *name;
+> -	int attrs;
+> +	u64 attrs;
+
+Why do we need this change in this patch?
 
 
-Pozdrawiam,
-Norbert Karecki
+>   };
+>   
+>   static const struct attrs_map lsm_attr_names[] = {
+> @@ -102,3 +102,44 @@ SYSCALL_DEFINE3(lsm_get_self_attr, struct lsm_ctx __user *, ctx,
+>   {
+>   	return security_getselfattr(flags, ctx, size);
+>   }
+> +
+> +/**
+> + * sys_lsm_module_list - Return a list of the active security modules
+> + * @ids: the LSM module ids
+> + * @size: size of @ids, updated on return
+> + * @flags: reserved for future use, must be zero
+> + *
+> + * Returns a list of the active LSM ids. On success this function
+> + * returns the number of @ids array elements. This value may be zero
+> + * if there are no LSMs active. If @size is insufficient to contain
+> + * the return data -E2BIG is returned and @size is set to the minimum
+> + * required size. In all other cases a negative value indicating the
+> + * error is returned.
+> + */
+> +SYSCALL_DEFINE3(lsm_module_list,
+
+The name of this syscall differ from the two others: there is not "get" 
+verb. What about "lsm_get_modules" or "lsm_list_modules"?
+
+
+> +		u64 __user *, ids,
+> +		size_t __user *, size,
+> +		u64, flags)
+
+As Arnd said, flags should be a u32.
+
+> +{
+> +	size_t total_size = lsm_active_cnt * sizeof(*ids);
+> +	size_t usize;
+> +	int i;
+> +
+> +	if (flags)
+> +		return -EINVAL;
+> +
+> +	if (get_user(usize, size))
+> +		return -EFAULT;
+
+I'm not a fan of using the same pointer to read and write. This avoid 
+using const pointers and differentiate between input and output values. 
+I suggest using a dedicated argument for each.
+
+
+> +
+> +	if (put_user(total_size, size) != 0)
+> +		return -EFAULT;
+> +
+> +	if (usize < total_size)
+> +		return -E2BIG;
+> +
+> +	for (i = 0; i < lsm_active_cnt; i++)
+> +		if (put_user(lsm_idlist[i]->id, ids++))
+
+I'm not sure about it, but it may be better to put the complete list of 
+IDs at once. Is it better to set the size before or after?
+
+
+> +			return -EFAULT;
+> +
+> +	return lsm_active_cnt;
+> +}
