@@ -2,169 +2,117 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A771A6AD7E3
-	for <lists+linux-api@lfdr.de>; Tue,  7 Mar 2023 07:59:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ECA036ADC07
+	for <lists+linux-api@lfdr.de>; Tue,  7 Mar 2023 11:33:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230269AbjCGG7Q (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 7 Mar 2023 01:59:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59100 "EHLO
+        id S230258AbjCGKdf (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 7 Mar 2023 05:33:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43204 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231206AbjCGG6o (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 7 Mar 2023 01:58:44 -0500
-Received: from mail-ua1-x92f.google.com (mail-ua1-x92f.google.com [IPv6:2607:f8b0:4864:20::92f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F28E2126F2
-        for <linux-api@vger.kernel.org>; Mon,  6 Mar 2023 22:58:03 -0800 (PST)
-Received: by mail-ua1-x92f.google.com with SMTP id f17so8203199uax.7
-        for <linux-api@vger.kernel.org>; Mon, 06 Mar 2023 22:58:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1678172282;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=xOri0YYJ5NS7U4H0ruVU6CafbE/ITr9yJ4TlL7q9GiY=;
-        b=rS9ocLjAyDNsMzHxEEUtWJn0sCkfTJilYqFPwnSDGDMX1r2911VQ0aQrcgCyISF2Bq
-         H8yi+F9FYTHsgsIZWpRmYuvQH4AQcMwCRpQAlvbKOWMlWVJ/hqiRQ7bMW8yCVxVQhQYI
-         9EAueeNy5NhoviOzdJ3YvcZBkEvQFRaJXz7pLvTDLBA5X/O8uI7wZ4YsvOCxvziofQqz
-         xE41elcmnlX9Ml8iG6Ol3lAWiPBpxQ+m7mlNbb5PS27E0X3Ef95r5dbpZWWMBBAmQSY9
-         njR+R8vr7fdnPRyyzkkI6X6sfcYCsJao8QFbjkwXWXJWqNAInvChth6vnD41vjWXtYZA
-         VN9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678172282;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=xOri0YYJ5NS7U4H0ruVU6CafbE/ITr9yJ4TlL7q9GiY=;
-        b=GgZrXiZlDiHYm2xAdvq3QbVtdvz7eMEiVsaNwlIGGbAmIM3ikGxLf/wbAHxjEvZdFv
-         CvtKo7MijpC+qWZ9ZVTUyTbEh30XP5AXNXr2DuirFtOGnnpzMkREBIS5AQ4yCsmsnxJj
-         rSBzchgj618an5eKRIboRvgmQ7ekauzY4NN1o3ThXfgfyzHp1wtZIqf31EXivhU+fILs
-         dtW6s60/NuoCabx9WmvEf1nuloDjC4OvCr/y7iJ9p0AlXjDaKuObHYSBVQr9aIBykeXS
-         yzQlIs44UZH57lSEmPbE/+07vJ7+GGth2jVa3NgWknZJmvR6ORpFx5MqqyXRloaXhqUe
-         Vliw==
-X-Gm-Message-State: AO0yUKU83+WbRE0g26H7AnnuwrEEET5L43gdHWzVOY/I7IlOg8OvqIg0
-        DcO68HSy8EI8vMqYZ+k69KIp7tRwMWG7rGjUfXx/Bw==
-X-Google-Smtp-Source: AK7set8mVP90VI6DxUik+GetZvSOY6Z/jAzDuPXzSe7I8eD1DkNrgnghlHMmkECl2xkTVaKGdLse2WheabYxsO3RQ+8=
-X-Received: by 2002:a1f:cec4:0:b0:40e:fee9:667a with SMTP id
- e187-20020a1fcec4000000b0040efee9667amr8624630vkg.3.1678172281936; Mon, 06
- Mar 2023 22:58:01 -0800 (PST)
+        with ESMTP id S230189AbjCGKdF (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 7 Mar 2023 05:33:05 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D7AA72A6;
+        Tue,  7 Mar 2023 02:32:57 -0800 (PST)
+Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id D9B1F1EC0683;
+        Tue,  7 Mar 2023 11:32:55 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1678185175;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=TSaRNnuYPMpqfKbVyvY5NfwUuBAd5KNTO4zFjqwOrxs=;
+        b=L1XBCtD23na6R3E13elS6V0ZP5T2POm9e9hiV/ka1IMvkPwbFMAaKSQRD70gxI+wvR11FF
+        roVJC30ow7iteUYrsOIzCJ2K4IwqmiCNeCZ4S7YrnBe99Ta9WPZTuwVAKPjZAHFH6BfcSS
+        dQ3+Z1erhtgZDIYxF6Y1uAhTxiZbhgc=
+Date:   Tue, 7 Mar 2023 11:32:51 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+Cc:     "david@redhat.com" <david@redhat.com>,
+        "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        "kcc@google.com" <kcc@google.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>, "oleg@redhat.com" <oleg@redhat.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "Schimpe, Christina" <christina.schimpe@intel.com>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "debug@rivosinc.com" <debug@rivosinc.com>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>
+Subject: Re: [PATCH v7 21/41] mm: Add guard pages around a shadow stack.
+Message-ID: <20230307103251.GAZAcS0zpon573Ox3N@fat_crate.local>
+References: <20230227222957.24501-1-rick.p.edgecombe@intel.com>
+ <20230227222957.24501-22-rick.p.edgecombe@intel.com>
+ <ZAWfZcJLXUfNt1Fs@zn.tnic>
+ <f91bbe94b51c0855da921a770685aa17c06c8beb.camel@intel.com>
 MIME-Version: 1.0
-From:   Naresh Kamboju <naresh.kamboju@linaro.org>
-Date:   Tue, 7 Mar 2023 12:27:51 +0530
-Message-ID: <CA+G9fYsi3OOu7yCsMutpzKDnBMAzJBCPimBp86LhGBa0eCnEpA@mail.gmail.com>
-Subject: selftests: sigaltstack: sas # exit=1 - # Bail out! SP is not on
- sigaltstack - on clang build
-To:     "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>, linux-api@vger.kernel.org,
-        open list <linux-kernel@vger.kernel.org>,
-        lkft-triage@lists.linaro.org
-Cc:     Shuah Khan <shuah@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Chang S. Bae" <chang.seok.bae@intel.com>,
-        Len Brown <len.brown@intel.com>, Borislav Petkov <bp@suse.de>,
-        Stas Sergeev <stsp@list.ru>, Arnd Bergmann <arnd@arndb.de>,
-        Anders Roxell <anders.roxell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <f91bbe94b51c0855da921a770685aa17c06c8beb.camel@intel.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-kselftest: sigaltstack built with clang-16 getting failed but passed with
-gcc-12 build. Please find more details about test logs on clang-16 and
-gcc-12 and steps to reproduce locally on your machine by using tuxrun.
+On Tue, Mar 07, 2023 at 01:29:50AM +0000, Edgecombe, Rick P wrote:
+> On Mon, 2023-03-06 at 09:08 +0100, Borislav Petkov wrote:
+> > Just typos:
+> 
+> All seem reasonable to me. Thanks. 
+> 
+> For using the log verbiage for the comment, it is quite big. Does
+> something like this seem reasonable?
 
-Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
+Yeah, it does. I wouldn't want to lose that explanation in a commit
+message.
 
-Test log:
-----------
+However, this special aspect pertains to the shstk implementation in x86
+but the code is generic mm and such arch-specific comments are kinda
+unfitting there.
 
-Linux version 6.3.0-rc1-next-20230307 (tuxmake@tuxmake) (Debian clang
-version 16.0.0 (++20230228093516+60692a66ced6-1~exp1~20230228093525.41),
-Debian LLD 16.0.0) #1 SMP PREEMPT @1678159722
-...
-kselftest: Running tests in sigaltstack
-TAP version 13
-1..1
-# selftests: sigaltstack: sas
-# # [NOTE] the stack size is 21104
-# TAP version 13
-# 1..3
-# ok 1 Initial sigaltstack state was SS_DISABLE
-# Bail out! SP is not on sigaltstack
-# # Planned tests != run tests (3 != 1)
-# # Totals: pass:1 fail:0 xfail:0 xpass:0 skip:0 error:0
-not ok 1 selftests: sigaltstack: sas # exit=1
+I wonder if it would be better if you could stick that explanation
+somewhere in arch/x86/ and only refer to it in a short comment above
+VM_SHADOW_STACK check in stack_guard_start_gap()...
 
-Links,
-  qemu-x86_64:
-  - https://qa-reports.linaro.org/lkft/linux-next-master/build/next-20230307/testrun/15303778/suite/kselftest-sigaltstack/test/sigaltstack_sas/details/
+Thx.
 
-  qemu-arm64:
-  - https://qa-reports.linaro.org/lkft/linux-next-master/build/next-20230307/testrun/15302557/suite/kselftest-sigaltstack/tests/
-  - https://qa-reports.linaro.org/lkft/linux-next-master/build/next-20230307/testrun/15302557/suite/kselftest-sigaltstack/test/sigaltstack_sas/log
+-- 
+Regards/Gruss,
+    Boris.
 
-kselftest: sigaltstack built with gcc-12 getting pass.
-
-Test log:
----------
-Linux version 6.3.0-rc1-next-20230307 (tuxmake@tuxmake)
-(aarch64-linux-gnu-gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils
-for Debian) 2.40) #1 SMP PREEMPT @1678159736
-...
-kselftest: Running tests in sigaltstack
-TAP version 13
-1..1
-# selftests: sigaltstack: sas
-# # [NOTE] the stack size is 50080
-# TAP version 13
-# 1..3
-# ok 1 Initial sigaltstack state was SS_DISABLE
-# # [RUN] signal USR1
-# ok 2 sigaltstack is disabled in sighandler
-# # [RUN] switched to user ctx
-# # [RUN] signal USR2
-# # [OK] Stack preserved
-# ok 3 sigaltstack is still SS_AUTODISARM after signal
-# # Totals: pass:3 fail:0 xfail:0 xpass:0 skip:0 error:0
-ok 1 selftests: sigaltstack: sas
-
-Links,
- qemu-x86_64:
-   - https://qa-reports.linaro.org/lkft/linux-next-master/build/next-20230307/testrun/15303751/suite/kselftest-sigaltstack/tests/
-
- qemu-arm64:
-  - https://qa-reports.linaro.org/lkft/linux-next-master/build/next-20230307/testrun/15302458/suite/kselftest-sigaltstack/tests/
-  - https://qa-reports.linaro.org/lkft/linux-next-master/build/next-20230307/testrun/15302458/suite/kselftest-sigaltstack/test/sigaltstack_sas/log
-
-
-
-Steps to reproduce:
---------------
-
-# To install tuxrun on your system globally:
-# sudo pip3 install -U tuxrun==0.37.2
-#
-# See https://tuxrun.org/ for complete documentation.
-
-tuxrun  \
- --runtime podman  \
- --device qemu-x86_64  \
- --boot-args rw  \
- --kernel https://storage.tuxsuite.com/public/linaro/lkft/builds/2MfXLbLsvBufVn1MrsnXVZ133Bf/bzImage
- \
- --modules https://storage.tuxsuite.com/public/linaro/lkft/builds/2MfXLbLsvBufVn1MrsnXVZ133Bf/modules.tar.xz
- \
- --rootfs https://storage.tuxboot.com/debian/bookworm/amd64/rootfs.ext4.xz  \
- --parameters SKIPFILE=skipfile-lkft.yaml  \
- --parameters KSELFTEST=https://storage.tuxsuite.com/public/linaro/lkft/builds/2MfXLbLsvBufVn1MrsnXVZ133Bf/kselftest.tar.xz
- \
- --image docker.io/lavasoftware/lava-dispatcher:2023.01.0020.gc1598238f  \
- --tests kselftest-sigaltstack  \
- --timeouts boot=15
-
-
---
-Linaro LKFT
-https://lkft.linaro.org
+https://people.kernel.org/tglx/notes-about-netiquette
