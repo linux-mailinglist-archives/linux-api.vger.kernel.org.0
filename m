@@ -2,79 +2,72 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DDE516AFAE5
-	for <lists+linux-api@lfdr.de>; Wed,  8 Mar 2023 01:13:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 94EA06AFD47
+	for <lists+linux-api@lfdr.de>; Wed,  8 Mar 2023 04:14:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229685AbjCHANa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 7 Mar 2023 19:13:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58772 "EHLO
+        id S229886AbjCHDO2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 7 Mar 2023 22:14:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43844 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229551AbjCHAN3 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 7 Mar 2023 19:13:29 -0500
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07BA1521DF
-        for <linux-api@vger.kernel.org>; Tue,  7 Mar 2023 16:13:27 -0800 (PST)
-Received: by mail-yb1-xb4a.google.com with SMTP id a137-20020a25ca8f000000b0091b90b20cd9so15801369ybg.6
-        for <linux-api@vger.kernel.org>; Tue, 07 Mar 2023 16:13:26 -0800 (PST)
+        with ESMTP id S229614AbjCHDOZ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 7 Mar 2023 22:14:25 -0500
+Received: from mail-ua1-x92a.google.com (mail-ua1-x92a.google.com [IPv6:2607:f8b0:4864:20::92a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9967E9475D
+        for <linux-api@vger.kernel.org>; Tue,  7 Mar 2023 19:14:23 -0800 (PST)
+Received: by mail-ua1-x92a.google.com with SMTP id d12so10344298uak.10
+        for <linux-api@vger.kernel.org>; Tue, 07 Mar 2023 19:14:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112; t=1678234406;
-        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=mmMlzzjnms9LP64W1EI4s9J2Aar/VS+/OpXG4YzMt1g=;
-        b=DQipY5o6kwt2urMmc3ga0lGBCwLobU1Ifep42NoUNsZIX8Td2En8TfxAl5sbGzyNBB
-         LIWsf3t77LSuCc0pGvjcZjIWULi+KlePCMmeN/QbMHXhC1Ixa4kOh+7152WsxGf2VC2d
-         Ms1xKb6gHNm+/4O8RDcSjT+AzBbqUzpwW93RRiqm6+BJSL4+2HqKul5reyJxS2qUjQVn
-         TjBmoEh1iNCS+lDVRczhTC0nw7EmFFlXj/fUYAlIAjyVh4kOpH9EZLnti4uHp00WyheW
-         Vcv6eAX7BJrGIniLd7INUu4OdKbDatMzJF7cbOv0xYoxbaZDVLO31xC6G1jgMlMxSBxo
-         JYtg==
+        d=linaro.org; s=google; t=1678245262;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=mVQyhGIjzGLxG0mBx3cK6dRChw0rYjuOJl9Yewk2Iic=;
+        b=k2gCpJqtOzFfNKBru2PISKZD5J7z/Yd8lvw5EmCazQhKxv951ImyV7L3NY94ZtyCnT
+         XlxiliDpvy4zQPN9gVWADWQP7tDBdwjJuNvCZ2+XAT45zuDKT240p7SrcdphGj1EG/sr
+         cHKErcHfCqD7beV+QhGxxEYMMsQv+D06LV22WwO1g1Vx3LNTgZKQP4N7ji8NstSt/Y5p
+         bG04eoOSnSHDdBczkNtcs10ldfpxmbt2EQdYgDccH2g/0B1UpADqUEuRKWW/KompCjBt
+         icToITfI5eqZpLmpR70MnQ0x3FSUxn181JvMG0/hqFQF0M3oBvV88UonpZOhrybYr/cp
+         5ldw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678234406;
-        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mmMlzzjnms9LP64W1EI4s9J2Aar/VS+/OpXG4YzMt1g=;
-        b=Lbbi8U6hMOOgFg7+lq1KJTMcclwt+Tu1r5CLc7zYSitocIyD5cDrFmeQc0kS9u6rUf
-         pCd1JJ23eBHpvR3IaNDL/YXWgEb8HNj+eQF8H3yzaAos65dpWgpOc0nr1gU0VBk+qpI9
-         yssG07b/o55YdYIyCi1Uy5LfYytWZj44aIQWeedg+e/y40/tZpcsyiqMjFzEuqk965OJ
-         Z5gSjQRqFO1xaUtdPRve6ntnNb0uYMLHcMDTmOWuLPlbA/s+AR0/9K1t0pv1JyIk763f
-         k80xJR0VgQV1mMRyHeZVsyemsaGCbDszzYxs5TpzyFmPYEWH9qQDseqQalr1+0BZTcLr
-         CQ8g==
-X-Gm-Message-State: AO0yUKXPz6Kq69fnRn7H6PFy5zwjDLIhZsqV3L6pwna0vR9pm7z/LkJt
-        gFSOUSCmRcQARwJkPF3wCFw2whqO0wJ+BAhgmw==
-X-Google-Smtp-Source: AK7set9fM9oqHN6RTfjUl1adN2jlRFEqmkZWFcTMizE5EgbRXDHz1eOesgkblPkKuD6/cVScAGsGMu92G3PJwAt7ew==
-X-Received: from ackerleytng-cloudtop.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:1f5f])
- (user=ackerleytng job=sendgmr) by 2002:a05:6902:145:b0:ac2:a7a7:23c3 with
- SMTP id p5-20020a056902014500b00ac2a7a723c3mr5937614ybh.12.1678234406173;
- Tue, 07 Mar 2023 16:13:26 -0800 (PST)
-Date:   Wed, 08 Mar 2023 00:13:24 +0000
-In-Reply-To: <20230128140030.GB700688@chaop.bj.intel.com> (message from Chao
- Peng on Sat, 28 Jan 2023 22:00:30 +0800)
-Mime-Version: 1.0
-Message-ID: <diqz5ybc3xsr.fsf@ackerleytng-cloudtop.c.googlers.com>
-Subject: Re: [PATCH v10 9/9] KVM: Enable and expose KVM_MEM_PRIVATE
-From:   Ackerley Tng <ackerleytng@google.com>
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     seanjc@google.com, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, pbonzini@redhat.com, corbet@lwn.net,
-        vkuznets@redhat.com, wanpengli@tencent.com, jmattson@google.com,
-        joro@8bytes.org, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, arnd@arndb.de, naoya.horiguchi@nec.com,
-        linmiaohe@huawei.com, x86@kernel.org, hpa@zytor.com,
-        hughd@google.com, jlayton@kernel.org, bfields@fieldses.org,
-        akpm@linux-foundation.org, shuah@kernel.org, rppt@kernel.org,
-        steven.price@arm.com, mail@maciej.szmigiero.name, vbabka@suse.cz,
-        vannapurve@google.com, yu.c.zhang@linux.intel.com,
-        kirill.shutemov@linux.intel.com, luto@kernel.org,
-        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
-        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
-        dhildenb@redhat.com, qperret@google.com, tabba@google.com,
-        michael.roth@amd.com, mhocko@suse.com, wei.w.wang@intel.com
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
-X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=ham
+        d=1e100.net; s=20210112; t=1678245262;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mVQyhGIjzGLxG0mBx3cK6dRChw0rYjuOJl9Yewk2Iic=;
+        b=BrBatKYzGwpwhVIGVQXf8/JhGqdHDyR+jReO3sj2Ela5AK1rHEfWIBO/22J2eEpTzw
+         hNYPgaUI4QOslr4NCR/EV1oOztkzmN+o32KiMJgMM++V9EGqZ2yt1EQuHQ9NqFT0/TGk
+         1LAEtLSfBhTTdOg1eH59ctCm45sU0plDO3pm1D05r+rUtC+qB6EDbqN7KfUWBJTqMi+j
+         O8hMnahNAAPlWyw1YIofrcmQkjo7z7dcUgTr7rN8F6PPrAlY0jpFISiXAAWcBNoEkgqP
+         G5boMsqLreQ7ogsMC82zrdC2+lxEWbZnhhISCFvSY1MM2t6VqQsxCgsaWY83TZUp0G3o
+         tCAQ==
+X-Gm-Message-State: AO0yUKWI9XfeCeaTBcx7RBR1xrJUQrhzpnfUzqFYMzmfPF8HuiZ8Fac/
+        kylAUGTm93NuT8dNtRL57ji4cva4sHb0Pfve8htu3g==
+X-Google-Smtp-Source: AK7set/0/9etugk4EWZ98upUdsyc4nR6XB+TVtxbVyTOH/Lpo635BbFq4IcB7zz/qJzVU9FvaVcfJAH/EldwKai1paA=
+X-Received: by 2002:a9f:3149:0:b0:68b:923a:d6f4 with SMTP id
+ n9-20020a9f3149000000b0068b923ad6f4mr10765290uab.2.1678245262385; Tue, 07 Mar
+ 2023 19:14:22 -0800 (PST)
+MIME-Version: 1.0
+References: <CA+G9fYsi3OOu7yCsMutpzKDnBMAzJBCPimBp86LhGBa0eCnEpA@mail.gmail.com>
+ <50a96bb9-113a-cb06-919c-f544f6b59493@intel.com>
+In-Reply-To: <50a96bb9-113a-cb06-919c-f544f6b59493@intel.com>
+From:   Naresh Kamboju <naresh.kamboju@linaro.org>
+Date:   Wed, 8 Mar 2023 08:44:11 +0530
+Message-ID: <CA+G9fYtDtUbKr-Kf_ZVF0z_xLsP3_2MVsMrvHmvV1UemXbfe3g@mail.gmail.com>
+Subject: Re: selftests: sigaltstack: sas # exit=1 - # Bail out! SP is not on
+ sigaltstack - on clang build
+To:     "Chang S. Bae" <chang.seok.bae@intel.com>, llvm@lists.linux.dev
+Cc:     "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>, linux-api@vger.kernel.org,
+        open list <linux-kernel@vger.kernel.org>,
+        lkft-triage@lists.linaro.org, Shuah Khan <shuah@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Len Brown <len.brown@intel.com>, Borislav Petkov <bp@suse.de>,
+        Stas Sergeev <stsp@list.ru>, Arnd Bergmann <arnd@arndb.de>,
+        Anders Roxell <anders.roxell@linaro.org>,
+        Nathan Chancellor <nathan@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -82,77 +75,110 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Chao Peng <chao.p.peng@linux.intel.com> writes:
++ LLVM
 
-> On Sat, Jan 14, 2023 at 12:01:01AM +0000, Sean Christopherson wrote:
->> On Fri, Dec 02, 2022, Chao Peng wrote:
-> ...
->> Strongly prefer to use similar logic to existing code that detects wraps:
-
->> 		mem->restricted_offset + mem->memory_size < mem->restricted_offset
-
->> This is also where I'd like to add the "gfn is aligned to offset" check,  
->> though
->> my brain is too fried to figure that out right now.
-
-> Used count_trailing_zeros() for this TODO, unsure we have other better
-> approach.
-
-> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> index afc8c26fa652..fd34c5f7cd2f 100644
-> --- a/virt/kvm/kvm_main.c
-> +++ b/virt/kvm/kvm_main.c
-> @@ -56,6 +56,7 @@
->   #include <asm/processor.h>
->   #include <asm/ioctl.h>
->   #include <linux/uaccess.h>
-> +#include <linux/count_zeros.h>
-
->   #include "coalesced_mmio.h"
->   #include "async_pf.h"
-> @@ -2087,6 +2088,19 @@ static bool kvm_check_memslot_overlap(struct  
-> kvm_memslots *slots, int id,
->   	return false;
->   }
-
-> +/*
-> + * Return true when ALIGNMENT(offset) >= ALIGNMENT(gpa).
-> + */
-> +static bool kvm_check_rmem_offset_alignment(u64 offset, u64 gpa)
-> +{
-> +	if (!offset)
-> +		return true;
-> +	if (!gpa)
-> +		return false;
-> +
-> +	return !!(count_trailing_zeros(offset) >= count_trailing_zeros(gpa));
-
-Perhaps we could do something like
-
-#define lowest_set_bit(val) (val & -val)
-
-and use
-
-return lowest_set_bit(offset) >= lowest_set_bit(gpa);
-
-Please help me to understand: why must ALIGNMENT(offset) >=
-ALIGNMENT(gpa)? Why is it not sufficient to have both gpa and offset be
-aligned to PAGE_SIZE?
-
-> +}
-> +
->   /*
->    * Allocate some memory and give it an address in the guest physical  
-> address
->    * space.
-> @@ -2128,7 +2142,8 @@ int __kvm_set_memory_region(struct kvm *kvm,
->   	if (mem->flags & KVM_MEM_PRIVATE &&
->   	    (mem->restrictedmem_offset & (PAGE_SIZE - 1) ||
->   	     mem->restrictedmem_offset + mem->memory_size <  
-> mem->restrictedmem_offset ||
-> -	     0 /* TODO: require gfn be aligned with restricted offset */))
-> +	     !kvm_check_rmem_offset_alignment(mem->restrictedmem_offset,
-> +					      mem->guest_phys_addr)))
->   		return -EINVAL;
->   	if (as_id >= kvm_arch_nr_memslot_as_ids(kvm) || id >= KVM_MEM_SLOTS_NUM)
->   		return -EINVAL;
+On Wed, 8 Mar 2023 at 00:58, Chang S. Bae <chang.seok.bae@intel.com> wrote:
+>
+> On 3/6/2023 10:57 PM, Naresh Kamboju wrote:
+> > kselftest: sigaltstack built with clang-16 getting failed but passed with
+> > gcc-12 build. Please find more details about test logs on clang-16 and
+> > gcc-12 and steps to reproduce locally on your machine by using tuxrun.
+> >
+> > Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
+> >
+> > Test log:
+> > ----------
+> >
+> > Linux version 6.3.0-rc1-next-20230307 (tuxmake@tuxmake) (Debian clang
+> > version 16.0.0 (++20230228093516+60692a66ced6-1~exp1~20230228093525.41),
+> > Debian LLD 16.0.0) #1 SMP PREEMPT @1678159722
+> > ...
+> > kselftest: Running tests in sigaltstack
+> > TAP version 13
+> > 1..1
+> > # selftests: sigaltstack: sas
+> > # # [NOTE] the stack size is 21104
+> > # TAP version 13
+> > # 1..3
+> > # ok 1 Initial sigaltstack state was SS_DISABLE
+> > # Bail out! SP is not on sigaltstack
+> > # # Planned tests != run tests (3 != 1)
+> > # # Totals: pass:1 fail:0 xfail:0 xpass:0 skip:0 error:0
+> > not ok 1 selftests: sigaltstack: sas # exit=1
+> <snip>
+>
+> > Linux version 6.3.0-rc1-next-20230307 (tuxmake@tuxmake)
+> > (aarch64-linux-gnu-gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils
+> > for Debian) 2.40) #1 SMP PREEMPT @1678159736
+> > ...
+> > kselftest: Running tests in sigaltstack
+> > TAP version 13
+> > 1..1
+> > # selftests: sigaltstack: sas
+> > # # [NOTE] the stack size is 50080
+> > # TAP version 13
+> > # 1..3
+> > # ok 1 Initial sigaltstack state was SS_DISABLE
+> > # # [RUN] signal USR1
+> > # ok 2 sigaltstack is disabled in sighandler
+> > # # [RUN] switched to user ctx
+> > # # [RUN] signal USR2
+> > # # [OK] Stack preserved
+> > # ok 3 sigaltstack is still SS_AUTODISARM after signal
+> > # # Totals: pass:3 fail:0 xfail:0 xpass:0 skip:0 error:0
+> > ok 1 selftests: sigaltstack: sas
+>
+> At glance, the log shows the altstack size difference between LLVM and GCC.
+>
+> But, when I tried with the LLVM that I have,
+>
+>      $ clang --version
+>      clang version 13.0.0 ...
+>
+> it failed only with this compiler:
+>
+>      $ rm sas;clang -o sas sas.c;./sas
+>      # [NOTE]        the stack size is 8192
+>      TAP version 13
+>      1..3
+>      ok 1 Initial sigaltstack state was SS_DISABLE
+>      Bail out! SP is not on sigaltstack
+>      # Planned tests != run tests (3 != 1)
+>      # Totals: pass:1 fail:0 xfail:0 xpass:0 skip:0 error:0
+>
+>      $ rm sas;gcc -o sas sas.c;./sas
+>      # [NOTE]        the stack size is 8192
+>      TAP version 13
+>      1..3
+>      ok 1 Initial sigaltstack state was SS_DISABLE
+>      # [RUN] signal USR1
+>      ok 2 sigaltstack is disabled in sighandler
+>      # [RUN] switched to user ctx
+>      # [RUN] signal USR2
+>      # [OK]  Stack preserved
+>      ok 3 sigaltstack is still SS_AUTODISARM after signal
+>      # Totals: pass:3 fail:0 xfail:0 xpass:0 skip:0 error:0
+>
+> The same is true with some old versions -- e.g. the one that came with
+> commit 0c49ad415512 ("tools/testing/selftests/sigaltstack/sas.c: improve
+> output of sigaltstack testcase"):
+>
+>      $ rm sas;clang -o sas sas.c;./sas
+>      [OK]    Initial sigaltstack state was SS_DISABLE
+>      [FAIL]  SP is not on sigaltstack
+>
+>      $ rm sas;gcc -o sas sas.c;./sas
+>      [OK]    Initial sigaltstack state was SS_DISABLE
+>      [RUN]   signal USR1
+>      [OK]    sigaltstack is disabled in sighandler
+>      [RUN]   switched to user ctx
+>      [RUN]   signal USR2
+>      [OK]    Stack preserved
+>      [OK]    sigaltstack is still SS_AUTODISARM after signal
+>      [OK]    Test passed
+>
+> So, this test failure appears to have been there for a while. I think
+> the LLVM folks need to take a look at it.
+>
+> Thanks,
+> Chang
