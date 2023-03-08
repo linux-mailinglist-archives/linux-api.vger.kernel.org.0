@@ -2,58 +2,58 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C95656AF6B1
-	for <lists+linux-api@lfdr.de>; Tue,  7 Mar 2023 21:27:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DDE516AFAE5
+	for <lists+linux-api@lfdr.de>; Wed,  8 Mar 2023 01:13:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229798AbjCGU1f (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 7 Mar 2023 15:27:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44374 "EHLO
+        id S229685AbjCHANa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 7 Mar 2023 19:13:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230018AbjCGU1c (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 7 Mar 2023 15:27:32 -0500
-Received: from mail-pj1-x1049.google.com (mail-pj1-x1049.google.com [IPv6:2607:f8b0:4864:20::1049])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC38458B5C
-        for <linux-api@vger.kernel.org>; Tue,  7 Mar 2023 12:27:30 -0800 (PST)
-Received: by mail-pj1-x1049.google.com with SMTP id d3-20020a17090acd0300b00237659aae8dso8616536pju.1
-        for <linux-api@vger.kernel.org>; Tue, 07 Mar 2023 12:27:30 -0800 (PST)
+        with ESMTP id S229551AbjCHAN3 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 7 Mar 2023 19:13:29 -0500
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07BA1521DF
+        for <linux-api@vger.kernel.org>; Tue,  7 Mar 2023 16:13:27 -0800 (PST)
+Received: by mail-yb1-xb4a.google.com with SMTP id a137-20020a25ca8f000000b0091b90b20cd9so15801369ybg.6
+        for <linux-api@vger.kernel.org>; Tue, 07 Mar 2023 16:13:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112; t=1678220850;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=WGcASroMdccxdn62Jjtjh8PVnJGDXhBcjr99ONuCvY4=;
-        b=OwwLfDPKljzAkPvlj0S/FrolNQFkMYhVCSYaPZA6BhlyFeubRSg3vonk6akM+nwgAx
-         dcS6vYx/LWgfF4nSPN+n5wRbJl1+oX04X/RQuea86YN+QKQuGEhXA8GHTKbpJNljgVbg
-         1tgLB7KavCS6Q8io76xaUiHKm29QSamSGbG7VBUDlQZNg7fOcC8uJ1SLfFlvvf38+NHp
-         H0+zdtAOsLWl91QdOI5eJY+EmcNzqsXqCw01IvZ9IrObznTsFWqkSsLtumj8X2Gb549e
-         mgTJkRz7STcC9OGGE966xqlp75dxFmI9JO9DcpLgaboo61ZXNHLGYkcot+ahXB1p5gKf
-         Im0w==
+        d=google.com; s=20210112; t=1678234406;
+        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=mmMlzzjnms9LP64W1EI4s9J2Aar/VS+/OpXG4YzMt1g=;
+        b=DQipY5o6kwt2urMmc3ga0lGBCwLobU1Ifep42NoUNsZIX8Td2En8TfxAl5sbGzyNBB
+         LIWsf3t77LSuCc0pGvjcZjIWULi+KlePCMmeN/QbMHXhC1Ixa4kOh+7152WsxGf2VC2d
+         Ms1xKb6gHNm+/4O8RDcSjT+AzBbqUzpwW93RRiqm6+BJSL4+2HqKul5reyJxS2qUjQVn
+         TjBmoEh1iNCS+lDVRczhTC0nw7EmFFlXj/fUYAlIAjyVh4kOpH9EZLnti4uHp00WyheW
+         Vcv6eAX7BJrGIniLd7INUu4OdKbDatMzJF7cbOv0xYoxbaZDVLO31xC6G1jgMlMxSBxo
+         JYtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678220850;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WGcASroMdccxdn62Jjtjh8PVnJGDXhBcjr99ONuCvY4=;
-        b=mJLXWKOKRia9NqUche5v9CTj/4QEQLJjyZXsRAE9nUKUesnLGMpCMhpE2He4IYn9dC
-         r472285OPdFVOKPqgkEudpBls9j5czBvUBVQ/ZF/WM95pS+I2kJ6l22d6qtIPjouUI4n
-         gvKwdL9h3P3pNRmhyxiLiSYyL5nD54EILkS1qQt8RLP91zNGu4RuWqM6J4A0pCaBnrDa
-         1sxX0pvb6UsmmL30EE8ttO60cuhvnT08y1tqSfKlLs0nwU4dzvZPRVT440+tmdyFVhtO
-         JpRBaX9B0CGUteQmC/HHXndBv8FVRflHaK09QSPy3FkxFA+jS9f9kbXFjudPJtuyAfSU
-         sJKQ==
-X-Gm-Message-State: AO0yUKVO6I3fWnxb6DBUfqvgaZAIQbVX55nHcngJD8UlZUXycumgHFXx
-        IbOr4T+22r9MKU8uQYYGEaMngWbj7s8=
-X-Google-Smtp-Source: AK7set9n+PBGh5X4bHcHssSmlZaRESH4dUDPeHJTAkKKGP+YbNHu8+uM5MNsGFpRsbe7uC0L5WQKdFmMJ3c=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a63:2948:0:b0:503:7bcd:9806 with SMTP id
- bu8-20020a632948000000b005037bcd9806mr5442294pgb.4.1678220850029; Tue, 07 Mar
- 2023 12:27:30 -0800 (PST)
-Date:   Tue, 7 Mar 2023 12:27:28 -0800
-In-Reply-To: <diqzcz5kz85e.fsf@ackerleytng-cloudtop.c.googlers.com>
+        d=1e100.net; s=20210112; t=1678234406;
+        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mmMlzzjnms9LP64W1EI4s9J2Aar/VS+/OpXG4YzMt1g=;
+        b=Lbbi8U6hMOOgFg7+lq1KJTMcclwt+Tu1r5CLc7zYSitocIyD5cDrFmeQc0kS9u6rUf
+         pCd1JJ23eBHpvR3IaNDL/YXWgEb8HNj+eQF8H3yzaAos65dpWgpOc0nr1gU0VBk+qpI9
+         yssG07b/o55YdYIyCi1Uy5LfYytWZj44aIQWeedg+e/y40/tZpcsyiqMjFzEuqk965OJ
+         Z5gSjQRqFO1xaUtdPRve6ntnNb0uYMLHcMDTmOWuLPlbA/s+AR0/9K1t0pv1JyIk763f
+         k80xJR0VgQV1mMRyHeZVsyemsaGCbDszzYxs5TpzyFmPYEWH9qQDseqQalr1+0BZTcLr
+         CQ8g==
+X-Gm-Message-State: AO0yUKXPz6Kq69fnRn7H6PFy5zwjDLIhZsqV3L6pwna0vR9pm7z/LkJt
+        gFSOUSCmRcQARwJkPF3wCFw2whqO0wJ+BAhgmw==
+X-Google-Smtp-Source: AK7set9fM9oqHN6RTfjUl1adN2jlRFEqmkZWFcTMizE5EgbRXDHz1eOesgkblPkKuD6/cVScAGsGMu92G3PJwAt7ew==
+X-Received: from ackerleytng-cloudtop.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:1f5f])
+ (user=ackerleytng job=sendgmr) by 2002:a05:6902:145:b0:ac2:a7a7:23c3 with
+ SMTP id p5-20020a056902014500b00ac2a7a723c3mr5937614ybh.12.1678234406173;
+ Tue, 07 Mar 2023 16:13:26 -0800 (PST)
+Date:   Wed, 08 Mar 2023 00:13:24 +0000
+In-Reply-To: <20230128140030.GB700688@chaop.bj.intel.com> (message from Chao
+ Peng on Sat, 28 Jan 2023 22:00:30 +0800)
 Mime-Version: 1.0
-References: <20221202061347.1070246-10-chao.p.peng@linux.intel.com> <diqzcz5kz85e.fsf@ackerleytng-cloudtop.c.googlers.com>
-Message-ID: <ZAeeMA9pPYwFiuaX@google.com>
+Message-ID: <diqz5ybc3xsr.fsf@ackerleytng-cloudtop.c.googlers.com>
 Subject: Re: [PATCH v10 9/9] KVM: Enable and expose KVM_MEM_PRIVATE
-From:   Sean Christopherson <seanjc@google.com>
-To:     Ackerley Tng <ackerleytng@google.com>
-Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+From:   Ackerley Tng <ackerleytng@google.com>
+To:     Chao Peng <chao.p.peng@linux.intel.com>
+Cc:     seanjc@google.com, kvm@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
         linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
@@ -71,10 +71,10 @@ Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
         david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
         dhildenb@redhat.com, qperret@google.com, tabba@google.com,
         michael.roth@amd.com, mhocko@suse.com, wei.w.wang@intel.com
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=unavailable
+        SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -82,45 +82,77 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Please trim your replies so that readers don't need to scan through a hundred or
-so lines of quotes just to confirm there's nothing there.
+Chao Peng <chao.p.peng@linux.intel.com> writes:
 
-On Tue, Mar 07, 2023, Ackerley Tng wrote:
-> Chao Peng <chao.p.peng@linux.intel.com> writes:
-> 
-> > Register/unregister private memslot to fd-based memory backing store
-> > restrictedmem and implement the callbacks for restrictedmem_notifier:
-> >    - invalidate_start()/invalidate_end() to zap the existing memory
-> >      mappings in the KVM page table.
-> >    - error() to request KVM_REQ_MEMORY_MCE and later exit to userspace
-> >      with KVM_EXIT_SHUTDOWN.
-> 
-> > Expose KVM_MEM_PRIVATE for memslot and KVM_MEMORY_ATTRIBUTE_PRIVATE for
-> > KVM_GET_SUPPORTED_MEMORY_ATTRIBUTES to userspace but either are
-> > controlled by kvm_arch_has_private_mem() which should be rewritten by
-> > architecture code.
-> 
-> Could we perhaps rename KVM_MEM_PRIVATE to KVM_MEM_PROTECTED, to be in
-> line with KVM_X86_PROTECTED_VM?
-> 
-> I feel that a memslot that has the KVM_MEM_PRIVATE flag need not always
-> be private; It can sometimes be providing memory that is shared and
-> also accessible from the host.
-> 
-> KVM_MEMORY_ATTRIBUTE_PRIVATE is fine as-is because this flag is set when
-> the guest memory is meant to be backed by private memory.
-> 
-> KVM_MEMORY_EXIT_FLAG_PRIVATE is also okay because the flag is used to
-> indicate when the memory error is caused by a private access (as opposed
-> to a shared access).
-> 
-> kvm_slot_can_be_private() could perhaps be renamed kvm_is_protected_slot()?
+> On Sat, Jan 14, 2023 at 12:01:01AM +0000, Sean Christopherson wrote:
+>> On Fri, Dec 02, 2022, Chao Peng wrote:
+> ...
+>> Strongly prefer to use similar logic to existing code that detects wraps:
 
-No to this suggestion.  I agree that KVM_MEM_PRIVATE is a bad name, but
-kvm_is_protected_slot() is just as wrong.  The _only_ thing that the flag controls
-is whether whether or not the memslot has an fd that is bound to restricted memory.
-The memslot itself is not protected in any way, and if the entire memslot is mapped
-shared, then the data backed by the memslot isn't protected either.
+>> 		mem->restricted_offset + mem->memory_size < mem->restricted_offset
 
-What about KVM_MEM_CAN_BE_PRIVATE?  KVM_MEM_PRIVATIZABLE is more succinct, but
-AFAICT that's a made up word, and IMO is unnecessarily fancy.
+>> This is also where I'd like to add the "gfn is aligned to offset" check,  
+>> though
+>> my brain is too fried to figure that out right now.
+
+> Used count_trailing_zeros() for this TODO, unsure we have other better
+> approach.
+
+> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+> index afc8c26fa652..fd34c5f7cd2f 100644
+> --- a/virt/kvm/kvm_main.c
+> +++ b/virt/kvm/kvm_main.c
+> @@ -56,6 +56,7 @@
+>   #include <asm/processor.h>
+>   #include <asm/ioctl.h>
+>   #include <linux/uaccess.h>
+> +#include <linux/count_zeros.h>
+
+>   #include "coalesced_mmio.h"
+>   #include "async_pf.h"
+> @@ -2087,6 +2088,19 @@ static bool kvm_check_memslot_overlap(struct  
+> kvm_memslots *slots, int id,
+>   	return false;
+>   }
+
+> +/*
+> + * Return true when ALIGNMENT(offset) >= ALIGNMENT(gpa).
+> + */
+> +static bool kvm_check_rmem_offset_alignment(u64 offset, u64 gpa)
+> +{
+> +	if (!offset)
+> +		return true;
+> +	if (!gpa)
+> +		return false;
+> +
+> +	return !!(count_trailing_zeros(offset) >= count_trailing_zeros(gpa));
+
+Perhaps we could do something like
+
+#define lowest_set_bit(val) (val & -val)
+
+and use
+
+return lowest_set_bit(offset) >= lowest_set_bit(gpa);
+
+Please help me to understand: why must ALIGNMENT(offset) >=
+ALIGNMENT(gpa)? Why is it not sufficient to have both gpa and offset be
+aligned to PAGE_SIZE?
+
+> +}
+> +
+>   /*
+>    * Allocate some memory and give it an address in the guest physical  
+> address
+>    * space.
+> @@ -2128,7 +2142,8 @@ int __kvm_set_memory_region(struct kvm *kvm,
+>   	if (mem->flags & KVM_MEM_PRIVATE &&
+>   	    (mem->restrictedmem_offset & (PAGE_SIZE - 1) ||
+>   	     mem->restrictedmem_offset + mem->memory_size <  
+> mem->restrictedmem_offset ||
+> -	     0 /* TODO: require gfn be aligned with restricted offset */))
+> +	     !kvm_check_rmem_offset_alignment(mem->restrictedmem_offset,
+> +					      mem->guest_phys_addr)))
+>   		return -EINVAL;
+>   	if (as_id >= kvm_arch_nr_memslot_as_ids(kvm) || id >= KVM_MEM_SLOTS_NUM)
+>   		return -EINVAL;
