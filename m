@@ -2,84 +2,71 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6316B6B2674
-	for <lists+linux-api@lfdr.de>; Thu,  9 Mar 2023 15:14:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 395506B2B4A
+	for <lists+linux-api@lfdr.de>; Thu,  9 Mar 2023 17:57:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231690AbjCIOOK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 9 Mar 2023 09:14:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48376 "EHLO
+        id S230372AbjCIQ4z (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 9 Mar 2023 11:56:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49724 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231699AbjCIONz (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 9 Mar 2023 09:13:55 -0500
+        with ESMTP id S230444AbjCIQ4a (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 9 Mar 2023 11:56:30 -0500
 Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 550531ADCF;
-        Thu,  9 Mar 2023 06:12:36 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D6BE3BDA5;
+        Thu,  9 Mar 2023 08:48:47 -0800 (PST)
 Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id DBDBE1EC06C0;
-        Thu,  9 Mar 2023 15:12:33 +0100 (CET)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id B22151EC0464;
+        Thu,  9 Mar 2023 17:48:45 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1678371153;
+        t=1678380525;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=w2fyPKd/3AyQO0vRIYAONySJuiNLLI9cVCZnriSsS1Y=;
-        b=daTlHMXWbU7km2++Pqh1oYE/nsYUwrFU5fXZAkkWykVSRndcnEPsQVIjbBxgSOZO1YC0BR
-        6UsZoKQ7vh+Hyd4HmhRuLraKwnWiCZMKlmf1iY9ezyPRnbOPeO9bzBsWJ/F8t4tRgCvm4g
-        Ol1SfaLsjAlGQdngAX8UoQnSwNF0pb4=
-Date:   Thu, 9 Mar 2023 15:12:29 +0100
+        bh=y9fgVkJaonsv4Fq61FCxxoW1/dZqwLtrdhcT+JC/0gI=;
+        b=oLq0+xRxpNxRF+7gFw40PrZBhMfN77YRoJympjw43zS4MFdGKCzTRi2By/ji9HJjNc7h7U
+        O4mLJEfDttVF77nmvJWKyLxI3QXpfxZpZ0BF59AdTDPitGajtBIoCGPq1vS/PbRvDVzRYR
+        muTbKHWIQuzKGhFAr+6/DSiudLrczeE=
+Date:   Thu, 9 Mar 2023 17:48:42 +0100
 From:   Borislav Petkov <bp@alien8.de>
-To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-Cc:     "david@redhat.com" <david@redhat.com>,
-        "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "Eranian, Stephane" <eranian@google.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        "kcc@google.com" <kcc@google.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "pavel@ucw.cz" <pavel@ucw.cz>, "oleg@redhat.com" <oleg@redhat.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "Schimpe, Christina" <christina.schimpe@intel.com>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "debug@rivosinc.com" <debug@rivosinc.com>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>
-Subject: Re: [PATCH v7 30/41] x86/shstk: Handle thread shadow stack
-Message-ID: <ZAnpTYV55gbdROxx@zn.tnic>
+To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        John Allen <john.allen@amd.com>, kcc@google.com,
+        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
+        dethoma@microsoft.com, akpm@linux-foundation.org,
+        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
+        david@redhat.com, debug@rivosinc.com,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: Re: [PATCH v7 31/41] x86/shstk: Introduce routines modifying shstk
+Message-ID: <ZAoN6tGi8kzgcLrK@zn.tnic>
 References: <20230227222957.24501-1-rick.p.edgecombe@intel.com>
- <20230227222957.24501-31-rick.p.edgecombe@intel.com>
- <ZAipCNBCtPA2bcck@zn.tnic>
- <d4d472e2e44787eccfbcc693bdf338370013f8a9.camel@intel.com>
+ <20230227222957.24501-32-rick.p.edgecombe@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <d4d472e2e44787eccfbcc693bdf338370013f8a9.camel@intel.com>
+In-Reply-To: <20230227222957.24501-32-rick.p.edgecombe@intel.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -89,90 +76,88 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Mar 08, 2023 at 08:03:17PM +0000, Edgecombe, Rick P wrote:
+On Mon, Feb 27, 2023 at 02:29:47PM -0800, Rick Edgecombe wrote:
+> From: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> 
+> Shadow stacks are normally written to via CALL/RET or specific CET
+				       ^
+				       indirectly.
 
-Btw,
+> instructions like RSTORSSP/SAVEPREVSSP. However during some Linux
+> operations the kernel will need to write to directly using the ring-0 only
 
-pls try to trim your replies as I need ot scroll through pages of quoted
-text to find the response.
+"However, sometimes the kernel will need to..."
 
-> Sure. Sometimes people tell me to only ifdef out whole functions to
-> make it easier to read. I suppose in this case it's not hard to see.
+> WRUSS instruction.
+> 
+> A shadow stack restore token marks a restore point of the shadow stack, and
+> the address in a token must point directly above the token, which is within
+> the same shadow stack. This is distinctively different from other pointers
+> on the shadow stack, since those pointers point to executable code area.
+> 
+> Introduce token setup and verify routines. Also introduce WRUSS, which is
+> a kernel-mode instruction but writes directly to user shadow stack.
+> 
+> In future patches that enable shadow stack to work with signals, the kernel
+> will need something to denote the point in the stack where sigreturn may be
+> called. This will prevent attackers calling sigreturn at arbitrary places
+> in the stack, in order to help prevent SROP attacks.
+> 
+> To do this, something that can only be written by the kernel needs to be
+> placed on the shadow stack. This can be accomplished by setting bit 63 in
+> the frame written to the shadow stack. Userspace return addresses can't
+> have this bit set as it is in the kernel range. It is also can't be a
 
-Yeah, the less ifdeffery we have, the better.
+s/is //
 
-> If the default SSP value logic is too hidden, what about some clearer
-> code and comments, like this?
+> valid restore token.
 
-The problem with this function is that it needs to return three things:
+...
 
-* success:
- ** 0
- or
- ** shadow stack address
-* failure: due to allocation.
+> diff --git a/arch/x86/include/asm/special_insns.h b/arch/x86/include/asm/special_insns.h
+> index de48d1389936..d6cd9344f6c7 100644
+> --- a/arch/x86/include/asm/special_insns.h
+> +++ b/arch/x86/include/asm/special_insns.h
+> @@ -202,6 +202,19 @@ static inline void clwb(volatile void *__p)
+>  		: [pax] "a" (p));
+>  }
+>  
+> +#ifdef CONFIG_X86_USER_SHADOW_STACK
+> +static inline int write_user_shstk_64(u64 __user *addr, u64 val)
+> +{
+> +	asm_volatile_goto("1: wrussq %[val], (%[addr])\n"
+> +			  _ASM_EXTABLE(1b, %l[fail])
+> +			  :: [addr] "r" (addr), [val] "r" (val)
+> +			  :: fail);
+> +	return 0;
+> +fail:
+> +	return -EFAULT;
 
-How about this below instead? (totally untested ofc):
+Nice!
 
-diff --git a/arch/x86/kernel/process.c b/arch/x86/kernel/process.c
-index bf703f53fa49..6e323d4e32fc 100644
---- a/arch/x86/kernel/process.c
-+++ b/arch/x86/kernel/process.c
-@@ -142,7 +142,7 @@ int copy_thread(struct task_struct *p, const struct kernel_clone_args *args)
- 	struct inactive_task_frame *frame;
- 	struct fork_frame *fork_frame;
- 	struct pt_regs *childregs;
--	unsigned long shstk_addr = 0;
-+	unsigned long shstk_addr;
- 	int ret = 0;
- 
- 	childregs = task_pt_regs(p);
-@@ -178,10 +178,9 @@ int copy_thread(struct task_struct *p, const struct kernel_clone_args *args)
- #endif
- 
- 	/* Allocate a new shadow stack for pthread if needed */
--	ret = shstk_alloc_thread_stack(p, clone_flags, args->stack_size,
--				       &shstk_addr);
--	if (ret)
--		return ret;
-+	shstk_addr = shstk_alloc_thread_stack(p, clone_flags, args->stack_size);
-+	if (IS_ERR_VALUE(shstk_addr))
-+		return PTR_ERR((void *)shstk_addr);
- 
- 	fpu_clone(p, clone_flags, args->fn, shstk_addr);
- 
-diff --git a/arch/x86/kernel/shstk.c b/arch/x86/kernel/shstk.c
-index 13c02747386f..b1668b499e9a 100644
---- a/arch/x86/kernel/shstk.c
-+++ b/arch/x86/kernel/shstk.c
-@@ -157,8 +157,8 @@ void reset_thread_features(void)
- 	current->thread.features_locked = 0;
- }
- 
--int shstk_alloc_thread_stack(struct task_struct *tsk, unsigned long clone_flags,
--			     unsigned long stack_size, unsigned long *shstk_addr)
-+unsigned long shstk_alloc_thread_stack(struct task_struct *tsk, unsigned long clone_flags,
-+				       unsigned long stack_size)
- {
- 	struct thread_shstk *shstk = &tsk->thread.shstk;
- 	unsigned long addr, size;
-@@ -180,14 +180,12 @@ int shstk_alloc_thread_stack(struct task_struct *tsk, unsigned long clone_flags,
- 	size = adjust_shstk_size(stack_size);
- 	addr = alloc_shstk(size);
- 	if (IS_ERR_VALUE(addr))
--		return PTR_ERR((void *)addr);
-+		return addr;
- 
- 	shstk->base = addr;
- 	shstk->size = size;
- 
--	*shstk_addr = addr + size;
--
--	return 0;
-+	return addr + size;
- }
- 
- static unsigned long get_user_shstk_addr(void)
+> +}
+> +#endif /* CONFIG_X86_USER_SHADOW_STACK */
+> +
+>  #define nop() asm volatile ("nop")
+>  
+>  static inline void serialize(void)
+
+...
+
+> +static int put_shstk_data(u64 __user *addr, u64 data)
+> +{
+> +	if (WARN_ON_ONCE(data & BIT(63)))
+
+Dunno, maybe something like:
+
+/*
+ * A comment explaining what that is...
+ */
+#define SHSTK_SIGRETURN_TOKEN	BIT_ULL(63)
+
+or so?
+
+And use that instead of that magical bit 63.
 
 -- 
 Regards/Gruss,
