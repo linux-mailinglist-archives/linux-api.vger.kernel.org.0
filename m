@@ -2,117 +2,153 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 205866B2BED
-	for <lists+linux-api@lfdr.de>; Thu,  9 Mar 2023 18:22:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B854C6B2D36
+	for <lists+linux-api@lfdr.de>; Thu,  9 Mar 2023 19:55:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229968AbjCIRWq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 9 Mar 2023 12:22:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39816 "EHLO
+        id S230019AbjCISzT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 9 Mar 2023 13:55:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229645AbjCIRWX (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 9 Mar 2023 12:22:23 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C54FE4DE19;
-        Thu,  9 Mar 2023 09:22:22 -0800 (PST)
-Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 2FD5D1EC0464;
-        Thu,  9 Mar 2023 18:22:21 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1678382541;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=mxv9hEC3xowLTmvmFVJurKfIxwFTtqwG2eF4dqYJzWc=;
-        b=SK49obZgItT4Z5F3IIn6l60sHQMPZCT+du0YhfY9UfATb/zpIqFvtvH+kn+QPGjKeW7vHm
-        OMnvXPq8cXcj1VFAvaOS04ntDNUniOpg3bqjvWg+IjDikuPn2mi/I3mooKSXKwKxsamuD5
-        CyiyC/avKhASdDT2vhJNEDITZCO5Yis=
-Date:   Thu, 9 Mar 2023 18:22:16 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-Cc:     "david@redhat.com" <david@redhat.com>,
-        "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "Eranian, Stephane" <eranian@google.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        "kcc@google.com" <kcc@google.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "pavel@ucw.cz" <pavel@ucw.cz>, "oleg@redhat.com" <oleg@redhat.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "Schimpe, Christina" <christina.schimpe@intel.com>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "debug@rivosinc.com" <debug@rivosinc.com>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>
-Subject: Re: [PATCH v7 31/41] x86/shstk: Introduce routines modifying shstk
-Message-ID: <20230309172216.GHZAoVyHoTqLG+YKB4@fat_crate.local>
+        with ESMTP id S229453AbjCISzS (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 9 Mar 2023 13:55:18 -0500
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD53F1043E
+        for <linux-api@vger.kernel.org>; Thu,  9 Mar 2023 10:55:16 -0800 (PST)
+Received: by mail-pf1-x42d.google.com with SMTP id c10so2109648pfv.13
+        for <linux-api@vger.kernel.org>; Thu, 09 Mar 2023 10:55:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1678388116;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=0KFB3WZvPj45QQFE1vG91JPQ7IHpeNLpOum3l/eyO9A=;
+        b=h59h3vE4/2ufFxQJ24xAYjQ7i6vDw3EWfYwoHOQUniZZgxYCC2dAvg7O9KNg4qB/+x
+         fNJ+NOnKKj1iQLTXTBqPzpcXhTK+/9SZ4MkSEIoIFNjGV0kCAr3BEIU2xsm3C7FEdj+A
+         T/XxUJI3yE96YUHGXzcl3NneJzDNKNf8d0TBlXmFWBCT0+wU0kagQR3JnRr+dN6ZvhYN
+         8ReN8Ny1kOTBj0tXalrMuP3uRpkMMjxpE0gkZDV/sAcpMYA3kPTsJ7iYuY5BqM2aCYS+
+         svz0XeMNtQEIWJet0C8FJZktTq3PE9u9q7hGuQL4WdFUgol4tP6+KITMRimE5edYQDc8
+         dhTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678388116;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0KFB3WZvPj45QQFE1vG91JPQ7IHpeNLpOum3l/eyO9A=;
+        b=zYHRUUfuIYoO/RLu+Y+JSsIJrf/Ug85rZ4tTvy2JhZtXCNZYZW0pcQM/GeblzTizKA
+         bP6aPYr0XyZH7v6D1MSDdTPno7LtcY8upU2nhA6ua+9iA58wFYrADKUVO+J8xCmI5Sbq
+         D21sgXkv96Odu64mrgtNQci8Biw+qMn1O8dvjNoqyOYKYB+ngXdTOND2JAsvztLFQzle
+         3bNnSnvoMSop8hrqQMwKkAlRVbEKugsxhG09a8GoA6dxZwVhNBA/tWCuSt//l4a/yndJ
+         UuIvps3mWPPB6Q5rdM5ab5OVWGLZKO97A86XtW4bjJ8jGOMR82Lu28WtqmvgYFQAwXZx
+         kqoA==
+X-Gm-Message-State: AO0yUKVYRyirPNszGMuvYqlyiBpzr5Vjz0vgpxZl3ELQIonl75PVwn/m
+        qgdCns5UHl2iP5I9c7NT6UJ2MA==
+X-Google-Smtp-Source: AK7set/1H5/0frCN8PzNRC2CTwJPM7bfZzkBZoC0SUtpBiwsmBbJNbV+PGyPeJ21Szf11t5mXLGWBQ==
+X-Received: by 2002:a62:7b0c:0:b0:61d:e8bb:1cb0 with SMTP id w12-20020a627b0c000000b0061de8bb1cb0mr4545332pfc.1.1678388115841;
+        Thu, 09 Mar 2023 10:55:15 -0800 (PST)
+Received: from debug.ba.rivosinc.com ([66.220.2.162])
+        by smtp.gmail.com with ESMTPSA id i2-20020aa787c2000000b005b34d81b010sm11804401pfo.91.2023.03.09.10.55.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Mar 2023 10:55:15 -0800 (PST)
+Date:   Thu, 9 Mar 2023 10:55:11 -0800
+From:   Deepak Gupta <debug@rivosinc.com>
+To:     Szabolcs Nagy <szabolcs.nagy@arm.com>
+Cc:     Rick Edgecombe <rick.p.edgecombe@intel.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        John Allen <john.allen@amd.com>, kcc@google.com,
+        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
+        dethoma@microsoft.com, akpm@linux-foundation.org,
+        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
+        david@redhat.com, nd@arm.com, al.grant@arm.com
+Subject: Re: [PATCH v7 33/41] x86/shstk: Introduce map_shadow_stack syscall
+Message-ID: <20230309185511.GA1964069@debug.ba.rivosinc.com>
 References: <20230227222957.24501-1-rick.p.edgecombe@intel.com>
- <20230227222957.24501-32-rick.p.edgecombe@intel.com>
- <ZAoN6tGi8kzgcLrK@zn.tnic>
- <c42747e7c67027423940e17b6fc248db945e6d63.camel@intel.com>
+ <20230227222957.24501-34-rick.p.edgecombe@intel.com>
+ <ZADbP7HvyPHuwUY9@arm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <c42747e7c67027423940e17b6fc248db945e6d63.camel@intel.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <ZADbP7HvyPHuwUY9@arm.com>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Mar 09, 2023 at 05:03:26PM +0000, Edgecombe, Rick P wrote:
-> On Thu, 2023-03-09 at 17:48 +0100, Borislav Petkov wrote:
-> > On Mon, Feb 27, 2023 at 02:29:47PM -0800, Rick Edgecombe wrote:
-> > > From: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> > > 
-> > > Shadow stacks are normally written to via CALL/RET or specific CET
-> > 
-> >                                        ^
-> >                                        indirectly.
-> 
-> Dunno here, RSTORSSP/SAVEPREVSSP are kind of direct.
-> 
-> > 
-> > > instructions like RSTORSSP/SAVEPREVSSP. However during some Linux
-> > > operations the kernel will need to write to directly using the
-						  ^^^^^^^^^
+On Thu, Mar 02, 2023 at 05:22:07PM +0000, Szabolcs Nagy wrote:
+>The 02/27/2023 14:29, Rick Edgecombe wrote:
+>> Previously, a new PROT_SHADOW_STACK was attempted,
+>...
+>> So rather than repurpose two existing syscalls (mmap, madvise) that don't
+>> quite fit, just implement a new map_shadow_stack syscall to allow
+>> userspace to map and setup new shadow stacks in one step. While ucontext
+>> is the primary motivator, userspace may have other unforeseen reasons to
+>> setup it's own shadow stacks using the WRSS instruction. Towards this
+>> provide a flag so that stacks can be optionally setup securely for the
+>> common case of ucontext without enabling WRSS. Or potentially have the
+>> kernel set up the shadow stack in some new way.
+>...
+>> The following example demonstrates how to create a new shadow stack with
+>> map_shadow_stack:
+>> void *shstk = map_shadow_stack(addr, stack_size, SHADOW_STACK_SET_TOKEN);
+>
+>i think
+>
+>mmap(addr, size, PROT_READ, MAP_ANON|MAP_SHADOW_STACK, -1, 0);
+>
+>could do the same with less disruption to users (new syscalls
+>are harder to deal with than new flags). it would do the
+>guard page and initial token setup too (there is no flag for
+>it but could be squeezed in).
 
-Yes, I was trying to make the contrast more obvious because you say
-"directly" here.
+Discussion on this topic in v6
+https://lore.kernel.org/all/20230223000340.GB945966@debug.ba.rivosinc.com/
 
-But not too important.
+Again I know earlier CET patches had protection flag and somehow due to pushback
+on mailing list, it was adopted to go for special syscall because no one else
+had shadow stack.
 
--- 
-Regards/Gruss,
-    Boris.
+Seeing a response from Szabolcs, I am assuming arm4 would also want to follow
+using mmap to manufacture shadow stack. For reference RFC patches for risc-v shadow stack,
+use a new protection flag = PROT_SHADOWSTACK.
+https://lore.kernel.org/lkml/20230213045351.3945824-1-debug@rivosinc.com/
 
-https://people.kernel.org/tglx/notes-about-netiquette
+I know earlier discussion had been that we let this go and do a re-factor later as other
+arch support trickle in. But as I thought more on this and I think it may just be
+messy from user mode point of view as well to have cognition of two different ways of
+creating shadow stack. One would be special syscall (in current libc) and another `mmap`
+(whenever future re-factor happens)
+
+If it's not too late, it would be more wise to take `mmap`
+approach rather than special `syscall` approach.
+
+
+>
+>most of the mmap features need not be available (EINVAL) when
+>MAP_SHADOW_STACK is specified.
+>
+>the main drawback is running out of mmap flags so extension
+>is limited. (but the new syscall has limitations too).
