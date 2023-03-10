@@ -2,88 +2,70 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F2BC6B3E2E
-	for <lists+linux-api@lfdr.de>; Fri, 10 Mar 2023 12:41:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CBFB76B4C8B
+	for <lists+linux-api@lfdr.de>; Fri, 10 Mar 2023 17:16:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229639AbjCJLlp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 10 Mar 2023 06:41:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41218 "EHLO
+        id S231715AbjCJQQr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 10 Mar 2023 11:16:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51236 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231148AbjCJLlM (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 10 Mar 2023 06:41:12 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1659324712;
-        Fri, 10 Mar 2023 03:41:02 -0800 (PST)
+        with ESMTP id S234614AbjCJQQB (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 10 Mar 2023 11:16:01 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A65F66D0F;
+        Fri, 10 Mar 2023 08:11:28 -0800 (PST)
 Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 1E8241EC0505;
-        Fri, 10 Mar 2023 12:41:01 +0100 (CET)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 32E441EC0554;
+        Fri, 10 Mar 2023 17:11:26 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1678448461;
+        t=1678464686;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=aKpednaPACF1732v54TE1hryNVD7OhQPM/LLNaZm8es=;
-        b=PkyOcRMZ+D8wX8CPrudIUxN7r3RAUM2G5EaHyz4Wkhd43r68Wqa8HFM4QXt1TMzCBdFu7n
-        y++yFwAg6tFulnPDx5FJKV3NYcyRQINJpFEgTQpcCmPAiVIFg/71JqrhsNydRvTJKb26s8
-        vo0fFTAD6LwoT9NlYYQGVnvx7iTdbn8=
-Date:   Fri, 10 Mar 2023 12:40:55 +0100
+        bh=SghMXOAoohlbIS9JDR4dT2QIcRHFiPilO4AsVNWRpQk=;
+        b=rDzJnDqN2QVo9NC5XgnbGL49tbfsrIRwB6KlCMgIVB/xJXpoymdJuRIbvDcTTKtDGPad8G
+        ZdjG8kjOEtJOoPnx9/z2HikmIFMBXy7Fb7SPLJStSCEbZ7Klr0zwVrX0cOhd8aH5s57Mfm
+        a6cmZ9TNb2I9zvzGH86qQpwh5rZqHo0=
+Date:   Fri, 10 Mar 2023 17:11:19 +0100
 From:   Borislav Petkov <bp@alien8.de>
-To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-Cc:     "joao@overdrivepizza.com" <joao@overdrivepizza.com>,
-        "david@redhat.com" <david@redhat.com>,
-        "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "Eranian, Stephane" <eranian@google.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        "kcc@google.com" <kcc@google.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "pavel@ucw.cz" <pavel@ucw.cz>, "oleg@redhat.com" <oleg@redhat.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "Schimpe, Christina" <christina.schimpe@intel.com>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "debug@rivosinc.com" <debug@rivosinc.com>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>
-Subject: Re: [PATCH v7 28/41] x86: Introduce userspace API for shadow stack
-Message-ID: <20230310114055.GAZAsXR8cc3gLAZ8c0@fat_crate.local>
+To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        John Allen <john.allen@amd.com>, kcc@google.com,
+        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
+        dethoma@microsoft.com, akpm@linux-foundation.org,
+        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
+        david@redhat.com, debug@rivosinc.com
+Subject: Re: [PATCH v7 33/41] x86/shstk: Introduce map_shadow_stack syscall
+Message-ID: <ZAtWp76svXxvQl94@zn.tnic>
 References: <20230227222957.24501-1-rick.p.edgecombe@intel.com>
- <20230227222957.24501-29-rick.p.edgecombe@intel.com>
- <ZAhjLAIm91rJ2Lpr@zn.tnic>
- <9e00b2a3d988f7b24d274a108d31f5f0096eeaae.camel@intel.com>
- <20230309125739.GCZAnXw5T1dfzwtqh8@fat_crate.local>
- <a4dd415ac908450b09b9abbd4421a9132b3c34cc.camel@intel.com>
- <20230309235152.GBZApxGNnXLvkGXCet@fat_crate.local>
- <e83ee9fc1a6e98cab62b681de7209598394df911.camel@intel.com>
+ <20230227222957.24501-34-rick.p.edgecombe@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <e83ee9fc1a6e98cab62b681de7209598394df911.camel@intel.com>
+In-Reply-To: <20230227222957.24501-34-rick.p.edgecombe@intel.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
         URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
@@ -93,71 +75,118 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Mar 10, 2023 at 01:13:42AM +0000, Edgecombe, Rick P wrote:
-> See "x86: Expose thread features in /proc/$PID/status" for the patch.
-> We could emit something in dmesg I guess? The logic would be:
+On Mon, Feb 27, 2023 at 02:29:49PM -0800, Rick Edgecombe wrote:
+> When operating with shadow stacks enabled, the kernel will automatically
+> allocate shadow stacks for new threads, however in some cases userspace
+> will need additional shadow stacks. The main example of this is the
+> ucontext family of functions, which require userspace allocating and
+> pivoting to userspace managed stacks.
+> 
+> Unlike most other user memory permissions, shadow stacks need to be
+> provisioned with special data in order to be useful. They need to be setup
+> with a restore token so that userspace can pivot to them via the RSTORSSP
+> instruction. But, the security design of shadow stack's is that they
 
-dmesg is just flaky: ring buffer can get overwritten, users don't see
-it, ...
+"stacks"
 
-> The compatibility problems are totally the mess in this whole thing.
-> When you try to look at a "permissive" mode that actually works it gets
-> even more complex. Joao and I have been banging our heads on that
-> problem for months.
+> should not be written to except in limited circumstances. This presents a
+> problem for userspace, as to how userspace can provision this special
+> data, without allowing for the shadow stack to be generally writable.
+> 
+> Previously, a new PROT_SHADOW_STACK was attempted, which could be
+> mprotect()ed from RW permissions after the data was provisioned. This was
+> found to not be secure enough, as other thread's could write to the
 
-Oh yeah, I'm soo NOT jealous. :-\
+"threads"
 
-> But there are some expected users of this that say: we compile and
-> check our known set of binaries, we won't get any surprises. So it's
-> more of a distro problem.
+> shadow stack during the writable window.
+> 
+> The kernel can use a special instruction, WRUSS, to write directly to
+> userspace shadow stacks. So the solution can be that memory can be mapped
+> as shadow stack permissions from the beginning (never generally writable
+> in userspace), and the kernel itself can write the restore token.
+> 
+> First, a new madvise() flag was explored, which could operate on the
+> PROT_SHADOW_STACK memory. This had a couple downsides:
+					     ^
+					     of
 
-I'm guessing what will happen here is that distros will gradually enable
-shstk and once it is ubiquitous, there will be no reason to disable it
-at all.
 
-> You mean a late loaded dlopen()ed DSO? The enabling logic can't know
-> this will happen ahead of time.
+> 1. Extra checks were needed in mprotect() to prevent writable memory from
+>    ever becoming PROT_SHADOW_STACK.
+> 2. Extra checks/vma state were needed in the new madvise() to prevent
+>    restore tokens being written into the middle of pre-used shadow stacks.
+>    It is ideal to prevent restore tokens being added at arbitrary
+>    locations, so the check was to make sure the shadow stack had never been
+>    written to.
+> 3. It stood out from the rest of the madvise flags, as more of direct
+>    action than a hint at future desired behavior.
+> 
+> So rather than repurpose two existing syscalls (mmap, madvise) that don't
+> quite fit, just implement a new map_shadow_stack syscall to allow
+> userspace to map and setup new shadow stacks in one step. While ucontext
+> is the primary motivator, userspace may have other unforeseen reasons to
+> setup it's own shadow stacks using the WRSS instruction. Towards this
 
-No, I meant the case where you start with shstk enabled and later
-disable it when some lib does not support it.
+"its"
 
-From now on that whole process is marked as "cannot use shstk anymore"
-and any other shared object that tries to use shstk simply doesn't get
-it.
+> provide a flag so that stacks can be optionally setup securely for the
+> common case of ucontext without enabling WRSS. Or potentially have the
+> kernel set up the shadow stack in some new way.
+> 
+> The following example demonstrates how to create a new shadow stack with
+> map_shadow_stack:
+> void *shstk = map_shadow_stack(addr, stack_size, SHADOW_STACK_SET_TOKEN);
 
-But meh, this makes the situation even more convoluted as the stuff that
-has loaded before the first shstk-not-supporting lib, already uses
-shstk.
+...
 
-So you have half and half.
+> diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
+> index c84d12608cd2..f65c671ce3b1 100644
+> --- a/arch/x86/entry/syscalls/syscall_64.tbl
+> +++ b/arch/x86/entry/syscalls/syscall_64.tbl
+> @@ -372,6 +372,7 @@
+>  448	common	process_mrelease	sys_process_mrelease
+>  449	common	futex_waitv		sys_futex_waitv
+>  450	common	set_mempolicy_home_node	sys_set_mempolicy_home_node
+> +451	64	map_shadow_stack	sys_map_shadow_stack
 
-What a mess.
+Yeah, this'll need a manpage too, I presume. But later.
 
-> I hope non-permissive mode is the standard usage eventually.
+> +SYSCALL_DEFINE3(map_shadow_stack, unsigned long, addr, unsigned long, size, unsigned int, flags)
+> +{
+> +	bool set_tok = flags & SHADOW_STACK_SET_TOKEN;
+> +	unsigned long aligned_size;
+> +
+> +	if (!cpu_feature_enabled(X86_FEATURE_USER_SHSTK))
+> +		return -EOPNOTSUPP;
+> +
+> +	if (flags & ~SHADOW_STACK_SET_TOKEN)
+> +		return -EINVAL;
+> +
+> +	/* If there isn't space for a token */
+> +	if (set_tok && size < 8)
+> +		return -EINVAL;
+> +
+> +	if (addr && addr <= 0xFFFFFFFF)
 
-Yah.
+			< SZ_4G
 
-> I think if you trust your libc, glibc could implement this in userspace
-> too. It would be useful even as as testing override.
+> +		return -EINVAL;
 
-No, you cannot trust any userspace. And there are other libc's beside
-glibc.
+Can we use distinct negative retvals in each case so that it is clear to
+userspace where it fails, *if* it fails?
 
-This should be a kernel parameter. I'm not saying we should do it now
-but we should do it at some point.
-
-So that user Boris again, he installs his new shiny distro, he checks
-that all the use cases and software he uses there is already
-shstk-enabled and then he goes and builds the kernel with
-
-	CONFIG_X86_USER_SHADOW_STACK_STRICT=y
-
-or supplies a cmdline param and from now on, nothing can run without
-shstk. No checking, no trusting, no nothing.
-
-We fail any thread creation which doesn't init shstk.
-
-Thx.
+> +	/*
+> +	 * An overflow would result in attempting to write the restore token
+> +	 * to the wrong location. Not catastrophic, but just return the right
+> +	 * error code and block it.
+> +	 */
+> +	aligned_size = PAGE_ALIGN(size);
+> +	if (aligned_size < size)
+> +		return -EOVERFLOW;
+> +
+> +	return alloc_shstk(addr, aligned_size, size, set_tok);
+> +}
 
 -- 
 Regards/Gruss,
