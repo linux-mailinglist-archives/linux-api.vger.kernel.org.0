@@ -2,233 +2,131 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D3816B7329
-	for <lists+linux-api@lfdr.de>; Mon, 13 Mar 2023 10:50:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E072E6B751F
+	for <lists+linux-api@lfdr.de>; Mon, 13 Mar 2023 12:03:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231268AbjCMJux (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 13 Mar 2023 05:50:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57806 "EHLO
+        id S229862AbjCMLDr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 13 Mar 2023 07:03:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38450 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230348AbjCMJus (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 13 Mar 2023 05:50:48 -0400
-Received: from mail-vs1-xe31.google.com (mail-vs1-xe31.google.com [IPv6:2607:f8b0:4864:20::e31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CE8137F2E
-        for <linux-api@vger.kernel.org>; Mon, 13 Mar 2023 02:50:34 -0700 (PDT)
-Received: by mail-vs1-xe31.google.com with SMTP id by13so10451393vsb.3
-        for <linux-api@vger.kernel.org>; Mon, 13 Mar 2023 02:50:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1678701033;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=0thsfBhKWc4p+EFtaKanDgEsWWKR0LrE3hmVfPf/OgA=;
-        b=Nh3RFuZOS7PVy3YaLzs4wUqwSvbWILuwB1hJqMBUNlYfPJIJj0zyfp/uPCULg/m4EP
-         cqfSzk7J07ROlJY+CgXgJ9SA/d2UhU+SB9CH7/Vsi4zPtHA/uw8bsTx9msC26QFZTEjg
-         cjwPyfaCN1kofIEo4p1lK73Czbl8KDoh8E8Mv5bsDcd+XZmM5uhZBVaiK4iqCM4qIotm
-         H4XWhxHhHg/QBEEoanIOrMFkdY/6QEohAMJsfAFdBIwYisZTl/8to5SWEjR20CkqDa6/
-         K5wb/8kMzvf3pJdhplZY8F2MugRXqANUDWe4MmA9rl53Z15aAKkzefgjEsiN++DD7Iku
-         dSHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678701033;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0thsfBhKWc4p+EFtaKanDgEsWWKR0LrE3hmVfPf/OgA=;
-        b=XcJBsDCHCbIMRggwkJ4LzitANHax6/+ntkIuFIvViT8Scn0Xe8PHzng0jOc/HS/ILS
-         3syj72skkuEVXsyy2iM2XFMpUYcMxITK8rUuAmx8oIhu839vElRpNMzC3J9MrVTSsBkr
-         nazbLcnxD/MoL2xMY53/MR4wtLgeCOVFAb/zpVZuTgs9KKXzXJauO6cp4wnJXbFOhI88
-         532i3IQJrBn9T0II8ANRl7EN21ZMP4M0uW7CS5cNkAubDyMOAEHHMGEfKvw6vTc7QREw
-         kSDrsfKcLanAixVOfAkOv5dzWBxJbWHH6BMMF2NT9r3TYxkHospaDY58ki+kmbnAvvUD
-         KbHA==
-X-Gm-Message-State: AO0yUKXN6SnTpip6CG2EHvfmtsgZ5hvfcXctcW+0iEiRZn6VBq6CEgCq
-        PBSD9Uz4AyQ7nmTFnhCnhmm61AU8K/82DOE4rqPVaGb52s+YM/ahaWY=
-X-Google-Smtp-Source: AK7set/M8gEYQsVx0+WWXfj/bSZ1YioVzkOVkLFio9jFik9aJjbtJBiBoSSNstXJXQmtGgiZ+KicAEYxmQSMf6GCZXs=
-X-Received: by 2002:a67:1005:0:b0:425:8e57:7bfd with SMTP id
- 5-20020a671005000000b004258e577bfdmr1261928vsq.3.1678701033388; Mon, 13 Mar
- 2023 02:50:33 -0700 (PDT)
+        with ESMTP id S229877AbjCMLDo (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 13 Mar 2023 07:03:44 -0400
+Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFD0F13D4D;
+        Mon, 13 Mar 2023 04:03:41 -0700 (PDT)
+Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 6AA151EC04DA;
+        Mon, 13 Mar 2023 12:03:40 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1678705420;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=LtyOPOOWBs+hlc/CXfZFBydFPquT6KOjs11AJIp5x3s=;
+        b=W5NtNYHASJ8ymhQ56TWX2poWPntiPfwL0Jm6wgZu5FXtkL/4BQxiKuEYXM0MfJy1z/wVrb
+        OEDBwqThoSqO6S+EXw2mqWVI1Rv1oESm2+3HriA30+euNEv/+eH6cPWSUaXB0bF/8X1zzO
+        ypXqNIiVPvf2YY7M5mSGiC/7KcmacAE=
+Date:   Mon, 13 Mar 2023 12:03:35 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+Cc:     "david@redhat.com" <david@redhat.com>,
+        "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        "kcc@google.com" <kcc@google.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>, "oleg@redhat.com" <oleg@redhat.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "Schimpe, Christina" <christina.schimpe@intel.com>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "debug@rivosinc.com" <debug@rivosinc.com>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>
+Subject: Re: [PATCH v7 38/41] x86/fpu: Add helper for initing features
+Message-ID: <20230313110335.GAZA8DB6PNSMGOGHpw@fat_crate.local>
+References: <20230227222957.24501-1-rick.p.edgecombe@intel.com>
+ <20230227222957.24501-39-rick.p.edgecombe@intel.com>
+ <ZAx6Egh6U5SCZEby@zn.tnic>
+ <3385eaf888f4178607ce4621ae2103d08ba79994.camel@intel.com>
 MIME-Version: 1.0
-References: <20230308195933.806917-1-ndesaulniers@google.com>
-In-Reply-To: <20230308195933.806917-1-ndesaulniers@google.com>
-From:   Naresh Kamboju <naresh.kamboju@linaro.org>
-Date:   Mon, 13 Mar 2023 15:20:22 +0530
-Message-ID: <CA+G9fYtTL+y-ZYeZXKHbVg9XiYVeHE-RaAjaRHTT+EfXO924cA@mail.gmail.com>
-Subject: Re: [PATCH] selftests: sigaltstack: fix -Wuninitialized
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Shuah Khan <shuah@kernel.org>,
-        Linux Kernel Functional Testing <lkft@linaro.org>,
-        KERNEL SELFTEST FRAMEWORK <linux-kselftest@vger.kernel.org>,
-        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-        lkft-triage@lists.linaro.org, Thomas Gleixner <tglx@linutronix.de>,
-        "Chang S. Bae" <chang.seok.bae@intel.com>,
-        Len Brown <len.brown@intel.com>, Borislav Petkov <bp@suse.de>,
-        Stas Sergeev <stsp@list.ru>, Arnd Bergmann <arnd@arndb.de>,
-        Anders Roxell <anders.roxell@linaro.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Nathan Chancellor <nathan@kernel.org>, llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <3385eaf888f4178607ce4621ae2103d08ba79994.camel@intel.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, 9 Mar 2023 at 01:29, Nick Desaulniers <ndesaulniers@google.com> wrote:
->
-> Building sigaltstack with clang via:
-> $ ARCH=x86 make LLVM=1 -C tools/testing/selftests/sigaltstack/
->
-> produces the following warning:
->   warning: variable 'sp' is uninitialized when used here [-Wuninitialized]
->   if (sp < (unsigned long)sstack ||
->       ^~
->
-> Clang expects these to be declared at global scope; we've fixed this in
-> the kernel proper by using the macro `current_stack_pointer`. This is
-> defined in different headers for different target architectures, so just
-> create a new header that defines the arch-specific register names for
-> the stack pointer register, and define it for more targets (at least the
-> ones that support current_stack_pointer/ARCH_HAS_CURRENT_STACK_POINTER).
->
-> Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
-> Link: https://lore.kernel.org/lkml/CA+G9fYsi3OOu7yCsMutpzKDnBMAzJBCPimBp86LhGBa0eCnEpA@mail.gmail.com/
-> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+On Mon, Mar 13, 2023 at 02:45:08AM +0000, Edgecombe, Rick P wrote:
+> These two are from the existing code. Basically they get extracted into
+> a new function.
 
-Build and boot tested with clang-16 and tested sigaltstack
-on arm64, armv7, FVP, x86_64 and i386 [1] & [2].
-These tests were performed at Linaro test farm by Anders
-with the help of tuxplan / tuxmake and tuxrun.
+I know but you can fix them while at it.
 
-Tested-by: Linux Kernel Functional Testing <lkft@linaro.org>
-Tested-by:  Anders Roxell <anders.roxell@linaro.org>
+> I did it up, and it makes the caller code cleaner. But I'm not sure
+> what to think of it. Is this not mixing two operations together? Today
+> get_xsave_addr() pretty much just gets a buffer offset with some
+> checks. Now it would compute the offset and also silently go off and
+> changes the buffer.
 
+Ok, so why don't you write the call site this way instead:
 
-Build log:
--------
-clang --target=aarch64-linux-gnu -fintegrated-as
--Werror=unknown-warning-option -Werror=ignored-optimization-argument
--Werror=option-ignored -Werror=unused-command-line-argument
---target=aarch64-linux-gnu -fintegrated-as -Wall     sas.c  -o
-/home/tuxbuild/.cache/tuxmake/builds/1/build/kselftest/sigaltstack/sas
+        cetregs = get_xsave_addr(xsave, XFEATURE_CET_USER);
+        if (!cetregs) {
+		if (xfeature_saved(xsave, XFEATURE_CET_USER)) {
+			WARN("something's wrong with this buffer")
+			return ...;
+		}
 
-Test log:
-----------
+		/* Not saved, initialize it */
+		init_xfeature(xsave, XFEATURE_CET_USER));
+	}
 
-Linux version 6.3.0-rc1-next-20230310 (tuxmake@tuxmake) (Debian clang
-version 16.0.0 (++20230228093516+60692a66ced6-1~exp1~20230228093525.41),
-Debian LLD 16.0.0) #1 SMP PREEMPT @1678519789
-...
+	cetregs = get_xsave_addr(xsave, XFEATURE_CET_USER);
+	if (!cetregs) {
+		WARN_ON("WTF")
+                return -ENODEV;
+	}
 
-[   56.327569] kselftest: Running tests in sigaltstack
-TAP version 13
-1..1
-# selftests: sigaltstack: sas
-# # [NOTE] the stack size is 26400
-# TAP version 13
-# 1..3
-# ok 1 Initial sigaltstack state was SS_DISABLE
-# # [RUN] signal USR1
-# ok 2 sigaltstack is disabled in sighandler
-# # [RUN] switched to user ctx
-# # [RUN] signal USR2
-# # [OK] Stack preserved
-# ok 3 sigaltstack is still SS_AUTODISARM after signal
-# # Totals: pass:3 fail:0 xfail:0 xpass:0 skip:0 error:0
-ok 1 selftests: sigaltstack: sas
+Now it is clear what happens and it is a common code pattern of trying
+to get something and initializing it if it wasn't initialized yet, and
+then retrying...
 
-Details of test log links provided [3].
+Hmm?
 
-> ---
-> Cc: Naresh Kamboju <naresh.kamboju@linaro.org>
-> Cc: KERNEL SELFTEST FRAMEWORK <linux-kselftest@vger.kernel.org>
-> Cc: linux-api@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: lkft-triage@lists.linaro.org
-> Cc: Shuah Khan <shuah@kernel.org>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: "Chang S. Bae" <chang.seok.bae@intel.com>
-> Cc: Len Brown <len.brown@intel.com>
-> Cc: Borislav Petkov <bp@suse.de>
-> Cc: Stas Sergeev <stsp@list.ru>
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: Anders Roxell <anders.roxell@linaro.org>
-> Cc: Andy Lutomirski <luto@kernel.org>
-> Cc: Kees Cook <keescook@chromium.org>
-> Cc: Nathan Chancellor <nathan@kernel.org>
-> Cc: llvm@lists.linux.dev
-> ---
->  .../sigaltstack/current_stack_pointer.h       | 23 +++++++++++++++++++
->  tools/testing/selftests/sigaltstack/sas.c     |  7 +-----
->  2 files changed, 24 insertions(+), 6 deletions(-)
->  create mode 100644 tools/testing/selftests/sigaltstack/current_stack_pointer.h
->
-> diff --git a/tools/testing/selftests/sigaltstack/current_stack_pointer.h b/tools/testing/selftests/sigaltstack/current_stack_pointer.h
-> new file mode 100644
-> index 000000000000..ea9bdf3a90b1
-> --- /dev/null
-> +++ b/tools/testing/selftests/sigaltstack/current_stack_pointer.h
-> @@ -0,0 +1,23 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +
-> +#if __alpha__
-> +register unsigned long sp asm("$30");
-> +#elif __arm__ || __aarch64__ || __csky__ || __m68k__ || __mips__ || __riscv
-> +register unsigned long sp asm("sp");
-> +#elif __i386__
-> +register unsigned long sp asm("esp");
-> +#elif __loongarch64
-> +register unsigned long sp asm("$sp");
-> +#elif __ppc__
-> +register unsigned long sp asm("r1");
-> +#elif __s390x__
-> +register unsigned long sp asm("%15");
-> +#elif __sh__
-> +register unsigned long sp asm("r15");
-> +#elif __x86_64__
-> +register unsigned long sp asm("rsp");
-> +#elif __XTENSA__
-> +register unsigned long sp asm("a1");
-> +#else
-> +#error "implement current_stack_pointer equivalent"
-> +#endif
-> diff --git a/tools/testing/selftests/sigaltstack/sas.c b/tools/testing/selftests/sigaltstack/sas.c
-> index c53b070755b6..98d37cb744fb 100644
-> --- a/tools/testing/selftests/sigaltstack/sas.c
-> +++ b/tools/testing/selftests/sigaltstack/sas.c
-> @@ -20,6 +20,7 @@
->  #include <sys/auxv.h>
->
->  #include "../kselftest.h"
-> +#include "current_stack_pointer.h"
->
->  #ifndef SS_AUTODISARM
->  #define SS_AUTODISARM  (1U << 31)
-> @@ -46,12 +47,6 @@ void my_usr1(int sig, siginfo_t *si, void *u)
->         stack_t stk;
->         struct stk_data *p;
->
-> -#if __s390x__
-> -       register unsigned long sp asm("%15");
-> -#else
-> -       register unsigned long sp asm("sp");
-> -#endif
-> -
->         if (sp < (unsigned long)sstack ||
->                         sp >= (unsigned long)sstack + stack_size) {
->                 ksft_exit_fail_msg("SP is not on sigaltstack\n");
-> --
-> 2.40.0.rc0.216.gc4246ad0f0-goog
+-- 
+Regards/Gruss,
+    Boris.
 
-log link:
------
-[1] https://qa-reports.linaro.org/~anders.roxell/linux-mainline-patches/build/lore_kernel_org_linux-kselftest_20230308195933_806917-1-ndesaulniers_google_com/?failures_only=false#!?filter-tests=kselftest-sigaltstack&details=#test-results
-[2] https://qa-reports.linaro.org/~anders.roxell/linux-mainline-patches/build/lore_kernel_org_linux-kselftest_20230308195933_806917-1-ndesaulniers_google_com/testrun/15468761/suite/kselftest-sigaltstack/test/sigaltstack_sas/log
-[3] https://tuxapi.tuxsuite.com/v1/groups/linaro/projects/anders/tests/2MrJ2e4bDCC4iZjIrnRqmnE7KfC
-
-
---
-Linaro LKFT
-https://lkft.linaro.org
+https://people.kernel.org/tglx/notes-about-netiquette
