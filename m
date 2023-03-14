@@ -2,157 +2,172 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D61966B8BD6
-	for <lists+linux-api@lfdr.de>; Tue, 14 Mar 2023 08:19:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A6EC6BA1B0
+	for <lists+linux-api@lfdr.de>; Tue, 14 Mar 2023 23:00:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229605AbjCNHT4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 14 Mar 2023 03:19:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57092 "EHLO
+        id S231124AbjCNWAn (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 14 Mar 2023 18:00:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230242AbjCNHTx (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 14 Mar 2023 03:19:53 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9DDB19C68;
-        Tue, 14 Mar 2023 00:19:50 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 5ACB9B81887;
-        Tue, 14 Mar 2023 07:19:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18B34C433EF;
-        Tue, 14 Mar 2023 07:19:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1678778388;
-        bh=rEcwpr6ZTgtGaQrka2qK+7yPmKYXTmYdMJswZJ4beXE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Xc+htRg4jwkaQ1NdwL15ZlqUDMviGCnMWy9asoPgzTkQsycHYyOuxImk+2fwxRjJg
-         ANSpQgtaUXSm5JxSsOEx18+zhZX4fFXLwaw89hdRjNu+43fhg7cT2exl6XR/v50yQx
-         PVdG/eSVNK9EXDfcDdUf3czRPirAefJxegCSQo0VUSKps7q9gqtPs+f87B4YaMdsgM
-         pnULmDVF+F93AQhI8H5MAQdQAK2mCfBbSxV6ARQ0lKbuqqyuK7HcPID8wRiIB/R/S1
-         ksVWWlmvLvg/6n6asn34itV+OVlWruZdWD4KY/wTe8Y6R7U2VUCKtue6AvIarS974i
-         U01UkRTpXIeng==
-Date:   Tue, 14 Mar 2023 09:19:25 +0200
-From:   Mike Rapoport <rppt@kernel.org>
-To:     Deepak Gupta <debug@rivosinc.com>
-Cc:     Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        John Allen <john.allen@amd.com>, kcc@google.com,
-        eranian@google.com, jamorris@linux.microsoft.com,
-        dethoma@microsoft.com, akpm@linux-foundation.org,
-        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
-        david@redhat.com, nd@arm.com, al.grant@arm.com
-Subject: Re: [PATCH v7 33/41] x86/shstk: Introduce map_shadow_stack syscall
-Message-ID: <ZBAf/QI42hcVQ4Uq@kernel.org>
-References: <20230227222957.24501-1-rick.p.edgecombe@intel.com>
- <20230227222957.24501-34-rick.p.edgecombe@intel.com>
- <ZADbP7HvyPHuwUY9@arm.com>
- <20230309185511.GA1964069@debug.ba.rivosinc.com>
+        with ESMTP id S230140AbjCNWAl (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 14 Mar 2023 18:00:41 -0400
+Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com [IPv6:2607:f8b0:4864:20::b33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A0882124
+        for <linux-api@vger.kernel.org>; Tue, 14 Mar 2023 15:00:40 -0700 (PDT)
+Received: by mail-yb1-xb33.google.com with SMTP id j7so6475931ybg.4
+        for <linux-api@vger.kernel.org>; Tue, 14 Mar 2023 15:00:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1678831239;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=maagjvDsBJlC+y9OhD63kuSqb+IWdYfP9/wCJDIkyks=;
+        b=HhGszPtBXTd6nPQVL9vB5aTyWQNhCOqmEp/KKZGUKmpYxEi5ZtWDX1KwK7bZZ91YN8
+         q0xwcVdvRHNBlo/QO6YxGPANCiqIS2wtH9jV8YJMe+3ugvfFYIRncyhopRjyFscaR1tP
+         YlEkhEAEUqFUTHzvoIIl7YDh9e0MWZJD0ensv249en/+lu0JZb8z5qzbc3fM93kfYI8R
+         sdLqWD21Lny5Vx9KzrcO4uvl0uaGtItx91lwGnWUAjHQAAXUQUmwZPmwPJU/DmocQoZj
+         xDgcMBfkiXTKVQvyW0DvKIf43vWY3cTJOGK/wFGNBUAcbH5m97KCTwM9IVOAdxdoVrl4
+         /ceg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678831239;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=maagjvDsBJlC+y9OhD63kuSqb+IWdYfP9/wCJDIkyks=;
+        b=O2u45pikAQ5tEu7cZjTLasn/VFc87urMSkqzI17pw3j/dvJaGRdvZk5UJJQL3WdQjC
+         VyAJ/v/fQBdjK5Ruiael8zrS621Vt0VT88wl1DrHhZwPWYf3O+pI5rEKbC89GQPZcAco
+         1K4sy1eQHnR+xDexyxp2g4WTQ5wlOsllYZs32MgFY91RE/8xHdqXy3E/z/y4FVNPfEx5
+         K2aA1mx8OTfRTjAzW/BpAbuOVMU1/fiKOqulyxJ8pFUahcQphk4AW7RbbFW7DOo9vzZL
+         B4ChkfHddRnE9UAjW3N6OUkYiF5EyzFgVFPemNsTITLpK49eZjlQm20sXLAGIBPf2BqJ
+         WQ1g==
+X-Gm-Message-State: AO0yUKXmO+yFKILOlPu7YhpTZG0+1taHRu3mjCqIrOQnIQ+8UxWUlPyZ
+        hwdzorvheI9tOXe+T7y2Fzb+sore7Zc9xVmqmt2V
+X-Google-Smtp-Source: AK7set+ZREPOoMw6DajSAew8APbcgVxrnpt18SXhM1+x+1D3I0fnsbj8wn8d+56OfafS/HPeV85zW24B5umwryYa+58=
+X-Received: by 2002:a5b:f03:0:b0:a74:87b0:4090 with SMTP id
+ x3-20020a5b0f03000000b00a7487b04090mr17422431ybr.3.1678831238977; Tue, 14 Mar
+ 2023 15:00:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230309185511.GA1964069@debug.ba.rivosinc.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20230222200838.8149-1-casey@schaufler-ca.com> <20230222200838.8149-5-casey@schaufler-ca.com>
+ <405ff748-dea0-794b-fa58-18b0a4703587@digikod.net> <a504f6e7-9c67-461c-6e0e-ae6d50623613@schaufler-ca.com>
+In-Reply-To: <a504f6e7-9c67-461c-6e0e-ae6d50623613@schaufler-ca.com>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Tue, 14 Mar 2023 18:00:28 -0400
+Message-ID: <CAHC9VhStiDVn4_m5ye=T4sndK80VtzWmxBnsBFspyj41hDL+bQ@mail.gmail.com>
+Subject: Re: [PATCH v6 04/11] LSM: syscalls for current process attributes
+To:     Casey Schaufler <casey@schaufler-ca.com>
+Cc:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>,
+        linux-security-module@vger.kernel.org, jmorris@namei.org,
+        keescook@chromium.org, john.johansen@canonical.com,
+        penguin-kernel@i-love.sakura.ne.jp, stephen.smalley.work@gmail.com,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi,
+On Wed, Mar 8, 2023 at 9:30=E2=80=AFPM Casey Schaufler <casey@schaufler-ca.=
+com> wrote:
+> On 3/7/2023 3:51 AM, Micka=C3=ABl Sala=C3=BCn wrote:
+> >
+> > On 22/02/2023 21:08, Casey Schaufler wrote:
+> >> Create a system call lsm_get_self_attr() to provide the security
+> >> module maintained attributes of the current process.
+> >> Create a system call lsm_set_self_attr() to set a security
+> >> module maintained attribute of the current process.
+> >> Historically these attributes have been exposed to user space via
+> >> entries in procfs under /proc/self/attr.
+> >>
+> >> The attribute value is provided in a lsm_ctx structure. The structure
+> >> identifys the size of the attribute, and the attribute value. The form=
+at
+> >> of the attribute value is defined by the security module. A flags fiel=
+d
+> >> is included for LSM specific information. It is currently unused and
+> >> must
+> >> be 0. The total size of the data, including the lsm_ctx structure and
+> >> any
+> >> padding, is maintained as well.
+> >>
+> >> struct lsm_ctx {
+> >>          __u64   id;
+> >>          __u64   flags;
+> >>          __u64   len;
+> >>          __u64   ctx_len;
+> >>          __u8    ctx[];
+> >> };
+> >>
+> >> Two new LSM hooks are used to interface with the LSMs.
+> >> security_getselfattr() collects the lsm_ctx values from the
+> >> LSMs that support the hook, accounting for space requirements.
+> >> security_setselfattr() identifies which LSM the attribute is
+> >> intended for and passes it along.
+> >>
+> >> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
+> >> ---
+> >>   Documentation/userspace-api/lsm.rst |  15 ++++
+> >>   include/linux/lsm_hook_defs.h       |   4 ++
+> >>   include/linux/lsm_hooks.h           |   9 +++
+> >>   include/linux/security.h            |  19 +++++
+> >>   include/linux/syscalls.h            |   4 ++
+> >>   include/uapi/linux/lsm.h            |  33 +++++++++
+> >>   kernel/sys_ni.c                     |   4 ++
+> >>   security/Makefile                   |   1 +
+> >>   security/lsm_syscalls.c             | 104 ++++++++++++++++++++++++++=
+++
+> >>   security/security.c                 |  82 ++++++++++++++++++++++
+> >>   10 files changed, 275 insertions(+)
+> >>   create mode 100644 security/lsm_syscalls.c
+> >>
+> >
+> > [...]
+> >
+> >> +/**
+> >> + * security_setselfattr - Set an LSM attribute on the current process=
+.
+> >> + * @attr: which attribute to return
+> >> + * @ctx: the user-space source for the information
+> >> + * @size: the size of the data
+> >> + *
+> >> + * Set an LSM attribute for the current process. The LSM, attribute
+> >> + * and new value are included in @ctx.
+> >> + *
+> >> + * Returns 0 on seccess, an LSM specific value on failure.
+> >> + */
+> >> +int security_setselfattr(u64 __user attr, struct lsm_ctx __user *ctx,
+> >> +             size_t __user size)
+> >> +{
+> >> +    struct security_hook_list *hp;
+> >> +    struct lsm_ctx lctx;
+> >> +
+> >> +    if (size < sizeof(*ctx))
+> >
+> > If the lsm_ctx struct could grow in the future, we should check the
+> > size of the struct to the last field for compatibility reasons, see
+> > Landlock's copy_min_struct_from_user().
+>
+> Because the lsm_ctx structure ends with the variable length context there=
+'s
+> no way to append new fields to it. The structure can't grow.
 
-On Thu, Mar 09, 2023 at 10:55:11AM -0800, Deepak Gupta wrote:
-> On Thu, Mar 02, 2023 at 05:22:07PM +0000, Szabolcs Nagy wrote:
-> > The 02/27/2023 14:29, Rick Edgecombe wrote:
-> > > Previously, a new PROT_SHADOW_STACK was attempted,
-> > ...
-> > > So rather than repurpose two existing syscalls (mmap, madvise) that don't
-> > > quite fit, just implement a new map_shadow_stack syscall to allow
-> > > userspace to map and setup new shadow stacks in one step. While ucontext
-> > > is the primary motivator, userspace may have other unforeseen reasons to
-> > > setup it's own shadow stacks using the WRSS instruction. Towards this
-> > > provide a flag so that stacks can be optionally setup securely for the
-> > > common case of ucontext without enabling WRSS. Or potentially have the
-> > > kernel set up the shadow stack in some new way.
-> > ...
-> > > The following example demonstrates how to create a new shadow stack with
-> > > map_shadow_stack:
-> > > void *shstk = map_shadow_stack(addr, stack_size, SHADOW_STACK_SET_TOKEN);
-> > 
-> > i think
-> > 
-> > mmap(addr, size, PROT_READ, MAP_ANON|MAP_SHADOW_STACK, -1, 0);
-> > 
-> > could do the same with less disruption to users (new syscalls
-> > are harder to deal with than new flags). it would do the
-> > guard page and initial token setup too (there is no flag for
-> > it but could be squeezed in).
-> 
-> Discussion on this topic in v6
-> https://lore.kernel.org/all/20230223000340.GB945966@debug.ba.rivosinc.com/
-> 
-> Again I know earlier CET patches had protection flag and somehow due to pushback
-> on mailing list, it was adopted to go for special syscall because no one else
-> had shadow stack.
-> 
-> Seeing a response from Szabolcs, I am assuming arm4 would also want to follow
-> using mmap to manufacture shadow stack. For reference RFC patches for risc-v shadow stack,
-> use a new protection flag = PROT_SHADOWSTACK.
-> https://lore.kernel.org/lkml/20230213045351.3945824-1-debug@rivosinc.com/
-> 
-> I know earlier discussion had been that we let this go and do a re-factor later as other
-> arch support trickle in. But as I thought more on this and I think it may just be
-> messy from user mode point of view as well to have cognition of two different ways of
-> creating shadow stack. One would be special syscall (in current libc) and another `mmap`
-> (whenever future re-factor happens)
-> 
-> If it's not too late, it would be more wise to take `mmap`
-> approach rather than special `syscall` approach.
- 
-I disagree. 
+The lsm_ctx can grow; that was one of the reasons for having both a
+@len and @ctx_len field in the struct, the other being padding.  Of
+course any LSM wanting to place information beyond the end of @ctx
+will need to indicate that with a bit in the @flags field.
 
-Having shadow stack flags for mmap() adds unnecessary complexity to the
-core-mm, while having a dedicated syscall hides all the details in the
-architecture specific code.
+Having said that, there are probably other ways to pass other data via
+a lsm_ctx struct, e.g. binary @ctx values, but I don't think we want
+to rule anything out at this point.
 
-Another reason to use a dedicated system call allows for better
-extensibility if/when we'd need to update the way shadow stack VMA is
-created.
+Also, as a reminder, just because we *can* do something, doesn't mean
+we will do something.  Any LSM that wants to pass something other than
+a string @ctx value will face a *lot* of scrutiny.
 
-As for the userspace convenience, it is anyway required to add special
-code for creating the shadow stack and it wouldn't matter if that code
-would use mmap(NEW_FLAG) or map_shadow_stack().
-
-> > most of the mmap features need not be available (EINVAL) when
-> > MAP_SHADOW_STACK is specified.
-> > 
-> > the main drawback is running out of mmap flags so extension
-> > is limited. (but the new syscall has limitations too).
-
--- 
-Sincerely yours,
-Mike.
+--=20
+paul-moore.com
