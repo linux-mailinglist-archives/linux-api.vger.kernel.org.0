@@ -2,85 +2,70 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 05DE66BAFE6
-	for <lists+linux-api@lfdr.de>; Wed, 15 Mar 2023 13:08:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A5A8E6BBA88
+	for <lists+linux-api@lfdr.de>; Wed, 15 Mar 2023 18:09:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229556AbjCOMIU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 15 Mar 2023 08:08:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56530 "EHLO
+        id S231707AbjCORJk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 15 Mar 2023 13:09:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35966 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230205AbjCOMIR (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 15 Mar 2023 08:08:17 -0400
-Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73A83222C3;
-        Wed, 15 Mar 2023 05:07:35 -0700 (PDT)
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32FBSuMY029989;
-        Wed, 15 Mar 2023 12:07:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
- from : reply-to : to : cc : date : in-reply-to : references : content-type
- : mime-version : content-transfer-encoding; s=pp1;
- bh=5gFL/nxSnjkVO4MBThs2A5kD6yMxkINEPE6ry3QkYlg=;
- b=szDok60mVjzc0H5jH7aKLBf9kciQHVb4JYVU4OR8YLTUXoYQh3zb2NijRNeMAYF+Z+c6
- nv+veyUMghHcNES5d7QfFB/Hpj/wOjqKYSbJJUCtf2j/LxY4EhjSyAbBYVzs3v/B6HtL
- OrHBI1DFZjazYoXDdZOoGWY5yVJacPKZnEXV1TQkyL7BxmBorqs53iAEn3jbxSGPyLvN
- uLlyeb6ChJjJWZJ9AP+O5IZV01jj14wzc+MUD36XPwSislNPCdXHZd08swOxtiCA9fBH
- 1+4oLIeoNMl29OGx04IGp96dcOUiCG1G/zLKyLTNmntnz1s01/FfKMorNopDBF+CPb2Y TA== 
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com [169.55.91.170])
-        by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3pbbmyuby5-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 15 Mar 2023 12:07:12 +0000
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
-        by ppma02wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32FAN7VQ026430;
-        Wed, 15 Mar 2023 12:07:12 GMT
-Received: from smtprelay02.dal12v.mail.ibm.com ([9.208.130.97])
-        by ppma02wdc.us.ibm.com (PPS) with ESMTPS id 3pb29ru1w1-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 15 Mar 2023 12:07:12 +0000
-Received: from smtpav01.dal12v.mail.ibm.com (smtpav01.dal12v.mail.ibm.com [10.241.53.100])
-        by smtprelay02.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 32FC7BTe34800234
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 15 Mar 2023 12:07:11 GMT
-Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id B1B6358552;
-        Wed, 15 Mar 2023 11:49:00 +0000 (GMT)
-Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id D3D9B5854C;
-        Wed, 15 Mar 2023 11:48:59 +0000 (GMT)
-Received: from lingrow.int.hansenpartnership.com (unknown [9.211.76.184])
-        by smtpav01.dal12v.mail.ibm.com (Postfix) with ESMTP;
-        Wed, 15 Mar 2023 11:48:59 +0000 (GMT)
-Message-ID: <0be9002bbc7feea0bfd0dc8ad2dccc52bbf34834.camel@linux.ibm.com>
-Subject: Re: [PATCH for-next] scsi: Implement host state statistics
-From:   James Bottomley <jejb@linux.ibm.com>
-Reply-To: jejb@linux.ibm.com
-To:     Greg KH <gregkh@linuxfoundation.org>,
-        "Seymour, Shane M" <shane.seymour@hpe.com>
-Cc:     "Martin K. Petersen" <martin.petersen@oracle.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>
-Date:   Wed, 15 Mar 2023 07:48:58 -0400
-In-Reply-To: <ZBFnYwtr+2bfjvcY@kroah.com>
-References: <DM4PR84MB1373DCD07EABD28D88129C50FDBF9@DM4PR84MB1373.NAMPRD84.PROD.OUTLOOK.COM>
-         <ZBFnYwtr+2bfjvcY@kroah.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 
+        with ESMTP id S230212AbjCORJj (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 15 Mar 2023 13:09:39 -0400
+Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BBCC166F2
+        for <linux-api@vger.kernel.org>; Wed, 15 Mar 2023 10:09:36 -0700 (PDT)
+Received: by mail-qt1-x82d.google.com with SMTP id c18so16973707qte.5
+        for <linux-api@vger.kernel.org>; Wed, 15 Mar 2023 10:09:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cmpxchg-org.20210112.gappssmtp.com; s=20210112; t=1678900176;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=2u/hv+4L5KWt+yxxObl0PU58hsBZGPZ5ydDwTbcNAY4=;
+        b=OJcM421Yu9irppO33iKhVaS56EdzqHIGXpiEqQSktHFFf1BGsZ/qi0RSVsSEDRj74E
+         mLppOO0rrrdTl+h42R4Ff8/zKMpLpT9KCxtBuTt2PXvjslrQrFxpL9IqZgL+EGIPON5E
+         pdJ4r1QrT5DZ2pOJ0VkgLQfsItkqYQ0owQ1pGcdMh1cVkLxclzx7YBUCMrhvefGdnOC9
+         ihnpk4ErKubkw3g9BhOl12O5cc36aaroxliMNjRrBhGnDg2XYpri17GTnJrrMmWfhMLj
+         cpzY3cyciYzwFlO8SXVpXS5RbPR4WljRc/fWvqxMpVgGHY6zWZojMiY4dFDoby8YnZIB
+         Lpqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678900176;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2u/hv+4L5KWt+yxxObl0PU58hsBZGPZ5ydDwTbcNAY4=;
+        b=Maa4LDByX/OYDJeRP0XisyA2xGcRYzNU0TVJS/fh0T0z1JSwfZ2GNHoxdfD+CUX9e4
+         3XaquxYyN+eR6dj1l20dToTlqV7DyIVgfCMM+HzbY3spK0Ef0DLXEqyvwEnQMkSUQrtB
+         ZP7+QlAPz27KBDqdz0YBVg2rGwQ824PzVwLETt8It4VjLJOgs6S2pHxsYEdl2/wFfDo9
+         zFN2KWIFJduNeHA5LAF4EoUV99AnWpu61XWAsZJn8Y0TKF53PpEqeAx5UJNflYxaUyDP
+         Xd5r+YBFlP/RJjASS3n0EFJ6i2dnmGUUmqSGi7SEaIo6629AJNNdaxIuREIYibVxCzdl
+         /r8w==
+X-Gm-Message-State: AO0yUKV/Fx7qSWoHE5Zp0/PbTOGVuiPlhfA3VK9q9y++rAYbil6ofL5s
+        6JueDV/ckSM6aH01F0HhTm++3w==
+X-Google-Smtp-Source: AK7set+lRsaObCn+ZgF11fgL9DZNL3NUt7U2STF/fjpMDMlXzzDQryX15MIPJUmFhMoE/z2CSL4taA==
+X-Received: by 2002:a05:622a:1a88:b0:3b8:588c:40e9 with SMTP id s8-20020a05622a1a8800b003b8588c40e9mr1090682qtc.19.1678900175736;
+        Wed, 15 Mar 2023 10:09:35 -0700 (PDT)
+Received: from localhost (2603-7000-0c01-2716-8f57-5681-ccd3-4a2e.res6.spectrum.com. [2603:7000:c01:2716:8f57:5681:ccd3:4a2e])
+        by smtp.gmail.com with ESMTPSA id 185-20020a3706c2000000b0071f0d0aaef7sm4157265qkg.80.2023.03.15.10.09.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Mar 2023 10:09:35 -0700 (PDT)
+Date:   Wed, 15 Mar 2023 13:09:34 -0400
+From:   Johannes Weiner <hannes@cmpxchg.org>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Nhat Pham <nphamcs@gmail.com>, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, bfoster@redhat.com,
+        willy@infradead.org, arnd@arndb.de, linux-api@vger.kernel.org,
+        andres@anarazel.de, kernel-team@meta.com
+Subject: Re: [PATCH v11 0/3] cachestat: a new syscall for page cache state of
+ files
+Message-ID: <20230315170934.GA97793@cmpxchg.org>
+References: <20230308032748.609510-1-nphamcs@gmail.com>
+ <20230314160041.960ede03d5f5ff3dbb3e3fd0@linux-foundation.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: m5IiWuspWVXFrK3jAlNjAPRD88u9mn-W
-X-Proofpoint-ORIG-GUID: m5IiWuspWVXFrK3jAlNjAPRD88u9mn-W
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-15_06,2023-03-15_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0
- priorityscore=1501 spamscore=0 suspectscore=0 adultscore=0 impostorscore=0
- malwarescore=0 mlxscore=0 mlxlogscore=895 clxscore=1011 phishscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2302240000 definitions=main-2303150104
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230314160041.960ede03d5f5ff3dbb3e3fd0@linux-foundation.org>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -88,38 +73,132 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, 2023-03-15 at 07:36 +0100, Greg KH wrote:
-> On Wed, Mar 15, 2023 at 06:08:19AM +0000, Seymour, Shane M wrote:
-> > The following patch implements host state statistics via sysfs. The
-> > intent is to allow user space to see the state changes and be able
-> > to report when a host changes state. The files do not separate out
-> > the time spent into each state but only into three:
+Hi Andrew,
+
+On Tue, Mar 14, 2023 at 04:00:41PM -0700, Andrew Morton wrote:
+> On Tue,  7 Mar 2023 19:27:45 -0800 Nhat Pham <nphamcs@gmail.com> wrote:
 > 
-> Why does userspace care about these things at all?
-
-This is the most important question: Why are times spent in various
-states and transition counts important?  Is this some kind of
-predictive failure system, or is it simply logging? If it's logging,
-wouldn't you get better information if we output state changes as they
-occur then they'd appear as timestamped entries in the syslog from
-which all these statistics could be deduced?
-
->   What tool needs them and what can userspace do with the
-> information?
-> > 
-[...]
-> > A (GPLv2) program called hostmond will be released in a few months
-> > that will monitor these interfaces and report (local host only via
-> > syslog(3C)) when hosts change state.
+> > There is currently no good way to query the page cache state of large
+> > file sets and directory trees. There is mincore(), but it scales poorly:
+> > the kernel writes out a lot of bitmap data that userspace has to
+> > aggregate, when the user really doesn not care about per-page information
+> > in that case. The user also needs to mmap and unmap each file as it goes
+> > along, which can be quite slow as well.
 > 
-> We kind of need to see this before the kernel changes can be accepted
-> for obvious reasons, what is preventing that from happening now?
+> A while ago I asked about the security implications - could cachestat()
+> be used to figure out what parts of a file another user is reading. 
+> This also applies to mincore(), but cachestat() newly permits user A to
+> work out which parts of a file user B has *written* to.
 
-I don't think that's a requirement.  The whole point of sysfs is it's
-user readable, so we don't need a tool to make use of its entries.  On
-the other hand if this tool can help elucidate the use case for these
-statistics, then publishing it now would be useful to help everyone
-else understand why this is useful.
+The caller of cachestat() must have the file open for reading. If they
+can read the contents that B has written, is the fact that they can
+see dirty state really a concern?
 
-James
+Nhat and I were discussing this offlist at the time, but weren't
+creative enough to come up with an abuse scenario.
 
+> I don't recall seeing a response to this, and there is no discussion in
+> the changelogs.
+
+It might have drowned in the noise, but he did reply:
+
+https://lore.kernel.org/lkml/CAKEwX=Ppf=WbOuV2Rh3+V8ohOYXo=CnfSu9qqSh-DpVvfy2nhA@mail.gmail.com/
+
+> Secondly, I'm not seeing description of any use cases.  OK, it's faster
+> and better than mincore(), but who cares?  In other words, what
+> end-user value compels us to add this feature to Linux?
+
+Years ago there was a thread about adding dirty bits to mincore(), I
+don't know if you remember this:
+
+https://lkml.org/lkml/2013/2/10/162
+
+In that thread, Rusty described a usecase of maintaining a journaling
+file alongside a main file. The idea for testing the dirty state isn't
+to call sync but to see whether the journal needs to be updated.
+
+The efficiency of mincore() was touched on too. Andres Freund (CC'd,
+hopefully I got the email address right) mentioned that Postgres has a
+usecase for deciding whether to do an index scan or query tables
+directly, based on whether the index is cached. Postgres works with
+files rather than memory regions, and Andres mentioned that the index
+could be quite large. The consensus was that having to go through
+mmap(), and getting a bytemap representing each page when all you need
+is a summary for the queried range, was too painful in practice.
+
+Most recently, the database team at Meta reached out to us and asked
+about the ability to query dirty state again. The motivation for this
+was twofold. One was simply visibility into the writeback algorithm,
+i.e. trying to figure out what it's doing when investigating
+performance problems.
+
+The second usecase they brought up was to advise writeback from
+userspace to manage the tradeoff between integrity and IO utilization:
+if IO capacity is available, sync more frequently; if not, let the
+work batch up. Blindly syncing through the file in chunks doesn't work
+because you don't know in advance how much IO they'll end up doing (or
+how much they've done, afterwards.) So it's difficult to build an
+algorithm that will reasonably pace through sparsely dirtied regions
+without the risk of overwhelming the IO device on dense ones. And it's
+not straight-forward to do this from the kernel, since it doesn't know
+the IO headroom the application needs for reading (which is dynamic).
+
+The page cache is often the biggest memory consumer, and so the kernel
+heuristics that manage it have a big impact on performance. We have a
+rich interface to augment those heuristics with fadvise and the sync
+family, but it's not a stretch to say that it's difficult to use them
+if you cannot get good insights into what the other hand is doing.
+
+Another query we get almost monthly is service owners trying to
+understand where their memory is going and what's causing unexpected
+pressure on a host. They see the cache in vmstat, but between a
+complex application, shared libraries or a runtime (jvm, hhvm etc.)
+and a myriad of host management agents, there is so much going on on
+the machine that it's hard to find out who is touching which
+files. When it comes to disk usage, the kernel provides the ability to
+quickly stat entire filesystem subtrees and drill down with tools like
+du. It sure would be useful to have the same for memory usage.
+
+Our current cache interface is seriously lacking in that regard.
+
+It would be great to have a stable, canonical and versatile interface
+to inspect what the cache is doing. One that blends in with the
+broader VFS and buffered IO interface: an easy to discover, easy to
+use syscall (not an obscure tracepoint or fcntl or a drgn script); an
+fd instead of a vma; a VFS-based permission model; efficient handling
+of the wide range of file sizes that exist in the real world.
+
+cachestat() fits that bill.
+
+> >    struct cachestat {
+> >	        __u64 nr_cache;
+> >	        __u64 nr_dirty;
+> >	        __u64 nr_writeback;
+> >	        __u64 nr_evicted;
+> >	        __u64 nr_recently_evicted;
+> >    };
+> 
+> And these fields are really getting into the weedy details of internal
+> kernel implementation.  Bear in mind that we must support this API for
+> ever.
+> 
+> Particularly the "evicted" things.  The workingset code was implemented
+> eight years ago, which is actually relatively recent.  It could be that
+> eight years from now it will have been removed and possibly replaced
+> workingset with something else.  Then what do we do?
+
+;) I'm definitely biased here, but I don't think it's realistic that
+we'd ever go back to a cache that doesn't maintain *some* form of
+non-residency information.
+
+We now have two reclaim implementations that rely on it at its
+core. And psi is designed around the concept of initial faults vs
+refaults; that's an ABI we have to maintain indefinitely anyway, and
+is widely used for OOM killing and load shedding in datacenters, on
+Android, by all systemd-based installations etc.
+
+It seems unlikely that this is a fluke. But even if I'm completely
+wrong about that, I think we have options that wouldn't spell the end
+of the world. We could report 0 for those fields and be perfectly
+backward compatible. There is a flags field that allows versioning of
+struct cachestat, too.
