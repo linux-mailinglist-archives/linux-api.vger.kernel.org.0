@@ -2,157 +2,73 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 664FC6BBFF1
-	for <lists+linux-api@lfdr.de>; Wed, 15 Mar 2023 23:42:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ABF6B6BC004
+	for <lists+linux-api@lfdr.de>; Wed, 15 Mar 2023 23:47:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232207AbjCOWmE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 15 Mar 2023 18:42:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60880 "EHLO
+        id S232574AbjCOWrb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 15 Mar 2023 18:47:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39066 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232267AbjCOWmC (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 15 Mar 2023 18:42:02 -0400
-Received: from mx0b-002e3701.pphosted.com (mx0b-002e3701.pphosted.com [148.163.143.35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE0C358C3E;
-        Wed, 15 Mar 2023 15:41:53 -0700 (PDT)
-Received: from pps.filterd (m0134425.ppops.net [127.0.0.1])
-        by mx0b-002e3701.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32FLc2hM032165;
-        Wed, 15 Mar 2023 22:41:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hpe.com; h=from : to : cc : subject
- : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pps0720;
- bh=lCyOE6e1FFKtH4XTBkgDlMFR1aBI/F58taXRP3vxYTQ=;
- b=VpVZqwbLk2tLH9uwZoy+bhN/Ajs9RGSy0a8pzqRflC0JHX1EN1Ue9I8sooqAjgITFK5h
- Bzx1IFRNkKl3Y2gLBatsn+YRFaN+MwO3rAiVPN9Smy0q4jOGoxVhHs2ppbvlTGAxGiy8
- w6WvosQyL1luu/FQku+BYsPMVnhwTkmohWjmrs39y12lAF+tYg0YiV7NzxXPDenoCt70
- hmg7fn0UOti1gZAQROCyhYNQJPiCqCB/vQOXjBZjqec01EEE3dqe6vQcmocjeJcKA2jl
- Ug9M8b5rarUm+u3PLW6FJr3z+DBjG4o7qxRddZ3bxz7uniGE5YxjPD2UC9Ztqcwi19Od NA== 
-Received: from p1lg14879.it.hpe.com (p1lg14879.it.hpe.com [16.230.97.200])
-        by mx0b-002e3701.pphosted.com (PPS) with ESMTPS id 3pbp3x0b90-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 15 Mar 2023 22:41:50 +0000
-Received: from p1wg14923.americas.hpqcorp.net (unknown [10.119.18.111])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by p1lg14879.it.hpe.com (Postfix) with ESMTPS id 1FFDE1308E;
-        Wed, 15 Mar 2023 22:41:39 +0000 (UTC)
-Received: from p1wg14928.americas.hpqcorp.net (10.119.18.116) by
- p1wg14923.americas.hpqcorp.net (10.119.18.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Wed, 15 Mar 2023 10:41:38 -1200
-Received: from p1wg14926.americas.hpqcorp.net (10.119.18.115) by
- p1wg14928.americas.hpqcorp.net (10.119.18.116) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Wed, 15 Mar 2023 10:41:38 -1200
-Received: from p1wg14919.americas.hpqcorp.net (16.230.19.122) by
- p1wg14926.americas.hpqcorp.net (10.119.18.115) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36
- via Frontend Transport; Wed, 15 Mar 2023 10:41:38 -1200
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (192.58.206.38)
- by edge.it.hpe.com (16.230.19.122) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Wed, 15 Mar 2023 10:41:37 -1200
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UL8tJt8YfuelK3I6GrUZd/5CMRJv3EHrEUmw3GxgJ3yBpx5CnI4HYeT5DGydAgztPVE8JvPxpuQZxmuiILkMHz2oZFkfGb/2+fejmb7vqMbxh1dQvGLuPgY6oFnGf2jj427oJ0WiL4lz4cQl8BGurduzHJ7ZNA5OCMfecj5PY76eUN3tDUoeeBIHIDtx/I/WKSVk4jThYiPMTJdsseMFKJ701Jy68DRuWXozN6UVyoFV/498cuX1NSNoJzDsDxefmnF6u90uTYMFzasJDwoSLFgWm2tN1B0Jr+ziOZa8tE2rkCU7zMD6H98BsrjmYTHdo6kGMb42mUjNjknA6p4kGQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lCyOE6e1FFKtH4XTBkgDlMFR1aBI/F58taXRP3vxYTQ=;
- b=kLFHcv7x7YRCp6jzt7pHG4X9RM2v571MntaccaX5G4plmFt4VVxRdwCmBQ7RNsS2mSHUvQMgxUxbq71C2FiXx8BnPWm462q6nIt3Y5egBqcrHccwKYtfwYTiU2x1F51pZTgDu5t9HO0GRoagMI6tP1K7aFXBfOm2vdZ5bSygI6600DTynVMc20AwMkY7qydg2MHAx+PI2K3/7auhStm7O5KblrPWnJzIHo3f8W++37TqvJ4xAYQ3/RbwGOkQOHYlj4AulGDs4zru0nInvpdGcQ6hjwdxvzPrR1yrZxPkoc22ykBDmhM803e5PHkKncV4q21zSKCdjykOt/uKvUkErA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=hpe.com; dmarc=pass action=none header.from=hpe.com; dkim=pass
- header.d=hpe.com; arc=none
-Received: from DM4PR84MB1373.NAMPRD84.PROD.OUTLOOK.COM (2603:10b6:8:48::7) by
- MW4PR84MB1659.NAMPRD84.PROD.OUTLOOK.COM (2603:10b6:303:1a6::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.26; Wed, 15 Mar
- 2023 22:41:28 +0000
-Received: from DM4PR84MB1373.NAMPRD84.PROD.OUTLOOK.COM
- ([fe80::7040:7ebe:4715:31fe]) by DM4PR84MB1373.NAMPRD84.PROD.OUTLOOK.COM
- ([fe80::7040:7ebe:4715:31fe%7]) with mapi id 15.20.6178.026; Wed, 15 Mar 2023
- 22:41:28 +0000
-From:   "Seymour, Shane M" <shane.seymour@hpe.com>
-To:     Greg KH <gregkh@linuxfoundation.org>
-CC:     "Martin K. Petersen" <martin.petersen@oracle.com>,
-        "jejb@linux.ibm.com" <jejb@linux.ibm.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>
-Subject: RE: [PATCH for-next] scsi: Implement host state statistics
-Thread-Topic: [PATCH for-next] scsi: Implement host state statistics
-Thread-Index: AdlW08zNHKI7PyClSKC1+KomWCdnWgANKaCAACDMkHA=
-Date:   Wed, 15 Mar 2023 22:41:28 +0000
-Message-ID: <DM4PR84MB13737BE099BF599DF83617DBFDBF9@DM4PR84MB1373.NAMPRD84.PROD.OUTLOOK.COM>
-References: <DM4PR84MB1373DCD07EABD28D88129C50FDBF9@DM4PR84MB1373.NAMPRD84.PROD.OUTLOOK.COM>
- <ZBFnYwtr+2bfjvcY@kroah.com>
-In-Reply-To: <ZBFnYwtr+2bfjvcY@kroah.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM4PR84MB1373:EE_|MW4PR84MB1659:EE_
-x-ms-office365-filtering-correlation-id: 06c6e308-3bd4-4109-9ae2-08db25a66a74
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: fiBwaWfnIlDNWg5tJOJ+itUpHvuu8D5wpnGKEAjszyDXmh+tz9jt4MTWkWr3qAxaMZk/CSE2Ld4DQLQeCfm4LR+QUVKVPgIZySiB+8kAmBSvlDZlu+a0gVw3aQwxypXzWUCDVHFvjb5KHG+WeOy2oEUrljPscJl+pwOgkL93ADKjNP++wJI5Enzx8QDmOH+UlKQI8UeXrPa8vDE9moTf9jK9fTsv8A4F0FJksT6Rb/afdPDPWc7qeRGhQDPgm+BX5lxyFDfyb9TEeh37zve5Owpqvi8Eo2cK/GqBhCXuYkdymTpUm0mgf6IX3InsvioehDkibVdTu15dy3zEbFW1fM0qSWXClbSPcRlgplQ0T3MFVd4WqOE56tbFYLIrxvQo0olkKYR1ypBjtFpuiXkhOFfjqzBGne6O4iFzt7/2DDAICZhRmCzQRG5H0IgmoJIpG6268aUO6BRPptsyVTRgvR1xx/LfoLW3mTy6Lc/Nn/a5N3TuNPomUt3HqtbgCrkD0GasIwj73NLeUqySFG9b4+aXKq17uasLRFeEL8VIqtMwA02O1R+BPaXVF3q/aIvQH/A2aWaK+BjVUWCM13CS5pJh18R3WHHHpSrjwkpKZpiYgZiScD9gTbO3A5Ag9wKtk0qsBLctyKytsENN5d5oC4YTCV5jCAmDM54bTdy2SjTnvOTovhOSv9Gs/QplLmFH/U53ZbQykIoAA0heYeU6eQ==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR84MB1373.NAMPRD84.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230025)(39860400002)(396003)(346002)(376002)(366004)(136003)(451199018)(7696005)(26005)(6506007)(5660300002)(82960400001)(38100700002)(66476007)(66556008)(66946007)(6916009)(66446008)(478600001)(76116006)(122000001)(64756008)(9686003)(316002)(33656002)(8676002)(54906003)(186003)(4326008)(41300700001)(8936002)(38070700005)(71200400001)(86362001)(83380400001)(52536014)(2906002)(55016003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?YoU3D+EQlTZRw+GeTcEbKMtoWMFVCjUsloos6y+WACzgZ8bYMkSpi95R+kW0?=
- =?us-ascii?Q?XRZABEUy7B6B325Y1vPOKzvqHXRQAsJNqqDwM9oqoVq3ABNAN32TcC2dyL9i?=
- =?us-ascii?Q?UtyyH0HOzi0jLKTAOxG5V9AYE3aSmsla/Rknxqhr3Wn7k1u7oWvXUnRUjNfx?=
- =?us-ascii?Q?TANntG2t1aWHgmGpLWejlJPFg1zgTzRsT/TmpB4S5zklsNY2pJ8S8mBOSuoB?=
- =?us-ascii?Q?bKPdJc+LH5ICAS0i357O50bLlOva/vtnFqAzRAWObFGcd8W/w+SchGxVrgmK?=
- =?us-ascii?Q?QDsnkHlrWxNeWqrXp0q9buWZ3Ja6jkL7KJnvz7qlacIE1aG1z6AsHh1uVaba?=
- =?us-ascii?Q?WS51GtPC4sFBW7oZrUtRIDysXQTAO29Pk13l0HdIeDvnlilTcxtOX/8wtYpC?=
- =?us-ascii?Q?JF1s0C+oEP1Ka0koMu+hbxkYgjUtRN50JNoJEuOEPZO+c4+P5rOHUstfWxeA?=
- =?us-ascii?Q?yGgbMARfNUwv0FK9nig61JSzOSTAsJxR+sAU5x3e99fmBgflNdmQIQm6qV/3?=
- =?us-ascii?Q?8348UnaRGsoRNv9QoTPHr2t/8FeRpjTrzGkum74EObqd4U4iv28u1eNkx1Za?=
- =?us-ascii?Q?FLBkM4JatynUZPF9vFmtvPFa0DVjKd3ekDKr580zuUhuQJPB6ezzEMn7gWNW?=
- =?us-ascii?Q?RiFJVDQRzeTkgk48EBwn5KpBeKVMlFJd9/aw0uIAzWXGAO1+h3fD9MQNp9qv?=
- =?us-ascii?Q?hp/F2OB3V5vjQf65NmvsPY6AUEwMPOHls/qDQTgK8xzYkUBL2mGq2GMQ3EG6?=
- =?us-ascii?Q?T5zBZkuu9oMMGRL+DLNBZN7Whgm2AhWideE019LOSsvyLjSW+GjDwDgeBcsv?=
- =?us-ascii?Q?oy9urrhlfpOkFKWlYVGqmQLiVYnIt0qQnM/GhhT9my3msnqEQaS7KvGZ0pcY?=
- =?us-ascii?Q?B65QZum3drLw5zgsaM6noJgsb/pS1gzLpu1Rx7xvlo6l0HHu8rvZzOmwrJQz?=
- =?us-ascii?Q?Ub3SwAwCcaztKh9zTMOVVZzpkqHtEEXDF3lco8Npbh6aA+zQKoUKZhqxUcuY?=
- =?us-ascii?Q?DtscQmufi2ACF/qj/y4P4uyTnEPNHac0Ao3gAtWTkYJsK0ji+vzmzrp9iOBP?=
- =?us-ascii?Q?WB86kkuYLBWlq9Syz9MP5cx8ZQFc8j7NsJA0Td2OSdDcY6c7zL6WxjbHA7B/?=
- =?us-ascii?Q?PcyLXbBgX/StxBpp7Uoyr0IvnP/UhYBROKxwf8MVi0UvXxl18jmCH7i526Kz?=
- =?us-ascii?Q?M3HBw/QH+VGEqFuLJCHKD5ExbGryL6/PzyeQblmvq5XNWt4hgHs4r7SlRz1G?=
- =?us-ascii?Q?4CI1URm85DHxH+GUFdlM8W9OUzQinD5CHqbhMpnQ8TPRN/R3U/Fi140x/HXg?=
- =?us-ascii?Q?UVgpyKo/093drWhcq0+rJJ838tFitFKmv7pE3ZnWEfKk4Rq2d2XhWYAMcdRx?=
- =?us-ascii?Q?3bC3umot0RjeMq6AY3cL0Mq+jTpWPnoZIIctexepNXqClL/Qu0aZWkDGpJKq?=
- =?us-ascii?Q?syxd9i0OptdHr8uV4EYG9tLRNHsDNRVS7iUysV+TzI4lAAfHCQ7HfjhVYER0?=
- =?us-ascii?Q?UkznLN8h4hSGH+n8PO28eRJgDcJSf0V+0CfZU4WW0y2puYLP2uWXdv3l06eR?=
- =?us-ascii?Q?hWCg62QA2j9/ovu+iALG5VnHjx6AfATR9DSLnY/v?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S232474AbjCOWrS (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 15 Mar 2023 18:47:18 -0400
+Received: from sonic313-15.consmr.mail.ne1.yahoo.com (sonic313-15.consmr.mail.ne1.yahoo.com [66.163.185.38])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB25C1E5DA
+        for <linux-api@vger.kernel.org>; Wed, 15 Mar 2023 15:47:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1678920432; bh=hqLxQ4FWwbjlveCRO+9/+fSo9XdwYZ4nASM8wmlD7tw=; h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To; b=dXG2MVvoMRnNH2GJrQmLvuahE6GOaz87uSuFIEjqrNcQEx45uKQ6Cf5IpL4+HyOWUlRn9QoJwZQFQhZhySXctmtNXW57e9uJkZlyoMZ5XF1XiRvB+H8MGQY7VsQ1mUY2egb+kdhYjVqX8Vap84kxLvOS9AgttqGcc+joCXAS2f6Jo/ORZzP8luPSS8JizeSRR0TaVanPJ8vXgZ8gMuPr8omgtrXwC7iPUIX1faU64iSY47N2W7gPDmGe9BQ/UaaVeC1HunSAofsWrbamNWqZxluGgaqs7flT6bJdQ91wslL2fqRmmmvVEUVlJVlfH9vxkK6/1plh2NEwLwjRfF+SzA==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1678920432; bh=QnuWlcKPzNVdljOl5S1yDqLuIN/hi23aiLncCZzP3g9=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=EnFxBCEtYHPcTJzrUT63WiJe43zWeaK5sEiSbJRvXzyvoHfTlimUuuHSg3q+36d1UvlMXBgAvAi0OsUgU6YVYaanrJLNJPUw5ItW96kthkFQHKnVELrDda84BfR9wH3fphf5ox5g5rbGFO9H4w+r4gcBT0NNUZHQf2VuEhPtCB/3OPrcO3kzCbh7CxknDUZxP56CayFRrEt1ViAOTmhbtcjN/Kw4lno8FaS7CWklrp2LwrM55QHDxGIjjA+UhO+BR1OR17wgH5EwnF0DMHUBWYQKNeA0XK2pt4NhBTZtLqPaE4LGjSlnI/Bjd5pQJwZwWBdwoWCM+qx04q7JvdQhjA==
+X-YMail-OSG: l7n.hGUVM1k0j2smTkPtrQ0ImAE2OBxa2FghX9kRoS6unbXTFdIM0vL.DFItabE
+ dB1mtoz.W1IwJEy2EDiGWCMbpLeKEfuVyIBl4DbLimJVDKohgmQiZrv2.FtR.AW4LRJrYWMeIUNa
+ LikMULSfqtwKX0DAT9jvejtk7KHezx7cHemVFxcj86LvX4FVhUQxVBCd2z9sjzazuX0JssEElABU
+ VUHxzpko8U32o4gh_zcRa3uknHv5Vd9MvKm8aLNyFt0LnqLXL11IfIESgu5eGTZ37yyF1_l8dZ2i
+ rRM7AitYoz4ogwI0NzNnk6bQO8KhINIVeUNw3WEKs6Cs_mgynoiWZv2gLPQV4egPIraNZ8NvnI_F
+ NtYOAfvwp4PB9j29kD_LVT77EW974dcVvmVqDgDFfTtYlY_Nc_8IkWxCoWfrxVjb_cIqbRMn0jkX
+ TONDjJVVtLLQhCkEyCksHlQJlQb7E8JUNz3QRqcqFqwYd7urVVII5DNfwEgV6fpGx8TYPqW2mcbr
+ GB1lTtTI3qGC98nPXa2J0iTiNrCHOMllxOLn_XwL8vJDZjWY8Z8R4DxzYdNwIHLlmXVpXRoIqLWk
+ G6pvDFaorZ2P6B2QMaALoJ.qrf8k3o214F65.0qKUVvvE1rIqxbHaxAWJD2FTetUouUXafRVdFTn
+ RVZx7C_guPEoAzJ_9Ay825zDyrrXcPLWrwXaYToQRUDh8g8vvtl_ZSyXcV0ibRV2SjBAZ7fP_b0z
+ 5TxGvUKup49zYb2QqCobTkMhLxP4eQcroco1L7ZrbcQQUkCgD7WMJp_O0NfFyNTwx2pPpCLlu0I9
+ HlgDgEyRgxmQsujdP1LoYAHzrGnxj1v77WW8OjTDR6nsykJZKaOn.9qdTqDNCCCE9q9Dq5SxyYPV
+ Z7BrIkJTZHhV31S.RCMSOlL_9XOzCbblJb1OWVouMCa6_n9i6hlfkEkoWz530AAiI58.COHeO7RB
+ aGUe3Jb_FneIRBR2uj4hcVMzimGdbzZN3YNwjHP.KRTVGXAyxSri5MIbAfCP5yxXoiWJhl1plQ1l
+ 8z_4LTTjXPCDisWOsg.Emr.KbtmN_qq.EtpQdu1ah5wFxRmMA8J5WickGxgf64yAKtUOJ7Mla6NA
+ Xho3LVHeCXd2fNwy8Kc50PL4WOHMRGQqrDMWtXvNJJotQKt1an_7G2ZrmQIA3WEFkQ9CdN4x76xQ
+ 7ZipJ0wedDc3_b5Kz2WxznZQKMcINcorOrojGa7oa4XwKfN_sAcYzwE5AymcBmazLKQJ4NuvTCO2
+ laBNN._lRcwCWvq_eBNLWuApYV_.1LIuFtS.vmOvJ36uHaid8sKJSrdKwqshmkUyNJErgGyKM0z4
+ GdOegguIMCa_430XtEL9Qx6LIxNkbUyIaY23Yase3ud16jUEnx1TlpY2Pn3fEHthk.fjQ0_1aGWX
+ cSgEVRUVxZuvmIV811IfjnwOMlj9BDpwlYMXkp6TBTmcd.GQdmXnQEtGM_Z9VeuqkS0VIkVqWu8N
+ X1qbJrD34DbBO3YzUBU6eFZjlNWe5wezsPP5DgOPuZlIylCVoBaLeCb30ZRW9vDW3AXbkqgNe.FI
+ zduDK880okL2MyQeQ7FBSHGJeTiDwdnA6MSC_iWqVkdmyJYSfqp842e7JFFOiGchH9nSD9rCFh1B
+ v0c47dvv.gghKBW_GZM1tdt1KhERK8bcjEvoSM.iMGpe3AFed_7bIa_JWZE7oesT9CQVSHrN312r
+ 7FQZf2GhRswZotPkHQtiXOzyzHNLH_zYAB_cRky4VXsrdoDWSKfjWSEETDjJvn1nbRlKrlUhIc3G
+ 5WmYX6P2mENEnYPucJsAcRWrZLvtAsiZQCUsYCx3BJcyv8pI4MXhBb_zSf64q0tFqXKIiYF6CLy8
+ EBkBleTcJdGcGZY_eOFXYZe__uEWVlymiFQDrH9SrYUVwjKyRK_WKatHH7g10HQvO6OdyydAkGN6
+ Fcs9V1jXO7DnixLAfxIhAbGJAz6HUTHr9nAKj4FnAbFCCk_..faFjFkADbuabqjyLYRbSCCHyVQS
+ 9WOHDOamatnIcwXPIB5oYCyXJA1JBuKh5yY5ynDYDHjxOAVUordrudG_75OsuGWEJ.DI0wbEjXLm
+ SYwNTtuuO0RfU2tgx7u0ompzpWwMbgVDPcMC_7NJvrRDIqzum7L7x7SLcTJZer3Cj.cO9O15b2kV
+ lugmf2Nca8AAVZ0AoazbHpVHdPsY_b.Zy8kiPK2dEh8l2u8GSjDC42Hq8COR9rh6Q6K0MRR6Irqt
+ XX5qL7U.Iam_lHXF4_JZ8sGo39RHjPmGhA5.4e01LJ8YmyUKoqleER1ZJb8zdbDXo_B8PiV8cd3k
+ 7y2TucyemqQvC
+X-Sonic-MF: <casey@schaufler-ca.com>
+X-Sonic-ID: ae3fde3a-1c6f-469f-8de5-13c60be5ac0a
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic313.consmr.mail.ne1.yahoo.com with HTTP; Wed, 15 Mar 2023 22:47:12 +0000
+Received: by hermes--production-ne1-759c9b8c64-7lgm5 (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID a598a9259311ec92faa24ca803c3eea5;
+          Wed, 15 Mar 2023 22:47:07 +0000 (UTC)
+From:   Casey Schaufler <casey@schaufler-ca.com>
+To:     casey@schaufler-ca.com, paul@paul-moore.com,
+        linux-security-module@vger.kernel.org
+Cc:     jmorris@namei.org, keescook@chromium.org,
+        john.johansen@canonical.com, penguin-kernel@i-love.sakura.ne.jp,
+        stephen.smalley.work@gmail.com, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, mic@digikod.net
+Subject: [PATCH v7 00/11] LSM: Three basic syscalls
+Date:   Wed, 15 Mar 2023 15:46:53 -0700
+Message-Id: <20230315224704.2672-1-casey@schaufler-ca.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR84MB1373.NAMPRD84.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 06c6e308-3bd4-4109-9ae2-08db25a66a74
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Mar 2023 22:41:28.3257
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 105b2061-b669-4b31-92ac-24d304d195dc
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: P96b7sLCfGzyLER9p2zM+YH5PVTPGbBrjCbTRkDeQocMsmEQvphuRAnNf8b5p6Q+zcQwYYAiMovV4FbdWAcOVA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR84MB1659
-X-OriginatorOrg: hpe.com
-X-Proofpoint-GUID: MxvndzKBbCT9GMbkUm8sIHeAeGGdowR-
-X-Proofpoint-ORIG-GUID: MxvndzKBbCT9GMbkUm8sIHeAeGGdowR-
-X-HPE-SCL: -1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-15_12,2023-03-15_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=651
- suspectscore=0 bulkscore=0 phishscore=0 malwarescore=0 lowpriorityscore=0
- spamscore=0 clxscore=1011 adultscore=0 impostorscore=0 priorityscore=1501
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303150001 definitions=main-2303150185
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham
+Content-Transfer-Encoding: 8bit
+References: <20230315224704.2672-1-casey.ref@schaufler-ca.com>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -160,72 +76,179 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-> On Wed, Mar 15, 2023 at 06:08:19AM +0000, Seymour, Shane M wrote:
-> > The following patch implements host state statistics via sysfs. The int=
-ent
-> > is to allow user space to see the state changes and be able to report w=
-hen
-> > a host changes state. The files do not separate out the time spent into
-> > each state but only into three:
->=20
-> Why does userspace care about these things at all?  What tool needs them
-> and what can userspace do with the information?
->=20
+Add three system calls for the Linux Security Module ABI.
 
-In enterprise setups you may a significant number of LUNs presented to a
-system (100s to 1000s) via a single HBA (usually via FC). Having a HBA goin=
-g
-into error handling causes issues. Every time a host goes into SCSI EH all
-I/O to that host is blocked until SCSI EH completes. That means waiting for
-every I/O to either complete or timeout before starting any recovery
-processing.
+lsm_get_self_attr() provides the security module specific attributes
+that have previously been visible in the /proc/self/attr directory.
+For each security module that uses the specified attribute on the
+current process the system call will return an LSM identifier and
+the value of the attribute. The LSM and attribute identifier values
+are defined in include/uapi/linux/lsm.h
 
-At this time there is no way for anything outside of the kernel to know if =
-a
-HBA is having any issues. The cause of those issues can vary significantly,
-just two examples:
+LSM identifiers are simple integers and reflect the order in which
+the LSM was added to the mainline kernel. This is a convention, not
+a promise of the API. LSM identifiers below the value of 100 are
+reserved for unspecified future uses. That could include information
+about the security infrastructure itself, or about how multiple LSMs
+might interact with each other.
 
-1) Storage end point issues
-2) SAN issues (e.g. laser transmit power at any point in the SAN)
+A new LSM hook security_getselfattr() is introduced to get the
+required information from the security modules. This is similar
+to the existing security_getprocattr() hook, but specifies the
+format in which string data is returned and requires the module
+to put the information into a userspace destination.
 
-My experience with downstream distros is that nobody seems to notice the
-noise that SCSI EH produces (LUN, device, bus, host resets) and we see it
-when we get a vmcore and have to try and work out what caused an I/O hang.
+lsm_set_self_attr() changes the specified LSM attribute. Only one
+attribute can be changed at a time, and then only if the specified
+security module allows the change.
 
-I wanted to be more proactive in warning users that you've got a potential
-storage issue you need to look at. It won't help when you have a sudden
-massive issue but if you have an issue that is slowly getting worse over
-a period of time you will at least get some warning.
+A new LSM hook security_setselfattr() is introduced to set the
+required information in the security modules. This is similar
+to the existing security_setprocattr() hook, but specifies the
+format in which string data is presented and requires the module
+to get the information from a userspace destination.
 
-> >
-> > A (GPLv2) program called hostmond will be released in a few months that
-> > will monitor these interfaces and report (local host only via syslog(3C=
-))
-> > when hosts change state.
->=20
-> We kind of need to see this before the kernel changes can be accepted
-> for obvious reasons, what is preventing that from happening now?
+lsm_list_modules() provides the LSM identifiers, in order, of the
+security modules that are active on the system. This has been
+available in the securityfs file /sys/kernel/security/lsm.
 
-If you don't mind I'll answer this in my reply to James' email soon since
-he commented about this.
+Patch 0001 changes the LSM registration from passing the name
+of the module to passing a lsm_id structure that contains the
+name of the module, an LSM identifier number and an attribute
+identifier.
+Patch 0002 adds the registered lsm_ids to a table.
+Patch 0003 changes security_[gs]etprocattr() to use LSM IDs instead
+of LSM names.
+Patch 0004 implements lsm_get_self_attr() and lsm_set_self_attr().
+New LSM hooks security_getselfattr() and security_setselfattr() are
+defined.
+Patch 0005 implements lsm_list_modules().
+Patch 0006 wires up the syscalls.
+Patch 0007 implements helper functions to make it easier for
+security modules to use lsm_ctx structures.
+Patch 0008 provides the Smack implementation for [gs]etselfattr().
+Patch 0009 provides the AppArmor implementation for [gs]etselfattr().
+Patch 0010 provides the SELinux implementation for [gs]etselfattr().
+Patch 0011 implements selftests for the three new syscalls.
 
->=20
-> Please always use sysfs_emit() instead of the crazy scnprintf() for
-> sysfs entries.
+https://github.com/cschaufler/lsm-stacking.git#lsm-syscalls-6.3-rc2-a
 
-No problem I can make that change.
+v7: Pass the attribute desired to lsm_[gs]et_self_attr in its own
+    parameter rather than encoding it in the flags.
+    Change the flags parameters to u32.
+    Don't shortcut out of calling LSM specific code in the
+    infrastructure, let the LSM report that doesn't support an
+    attribute instead. With that it is not necessary to maintain
+    a set of supported attributes in the lsm_id structure.
+    Fix a typing error.
+v6: Switch from reusing security_[gs]procattr() to using new
+    security_[gs]selfattr() hooks. Use explicit sized data types
+    in the lsm_ctx structure.
 
->=20
-> u32 is a kernel type, not uint32_t please, but I don't know what the
-> scsi layer is used to.
+v5: Correct syscall parameter data types.
 
-No problem I can make that change.
+v4: Restore "reserved" LSM ID values. Add explaination.
+    Squash patches that introduce fields in lsm_id.
+    Correct a wireup error.
 
->=20
-> thanks,
->=20
-> greg k-h
+v3: Add lsm_set_self_attr().
+    Rename lsm_self_attr() to lsm_get_self_attr().
+    Provide the values only for a specifed attribute in
+    lsm_get_self_attr().
+    Add selftests for the three new syscalls.
+    Correct some parameter checking.
 
-Thank you for your willingness to provide feedback.
+v2: Use user-interface safe data types.
+    Remove "reserved" LSM ID values.
+    Improve kerneldoc comments
+    Include copyright dates
+    Use more descriptive name for LSM counter
+    Add documentation
+    Correct wireup errors
 
-Shane
+Casey Schaufler (11):
+  LSM: Identify modules by more than name
+  LSM: Maintain a table of LSM attribute data
+  proc: Use lsmids instead of lsm names for attrs
+  LSM: syscalls for current process attributes
+  LSM: Create lsm_list_modules system call
+  LSM: wireup Linux Security Module syscalls
+  LSM: Helpers for attribute names and filling an lsm_ctx
+  Smack: implement setselfattr and getselfattr hooks
+  AppArmor: Add selfattr hooks
+  SELinux: Add selfattr hooks
+  LSM: selftests for Linux Security Module syscalls
+
+ Documentation/userspace-api/index.rst         |   1 +
+ Documentation/userspace-api/lsm.rst           |  73 +++++
+ MAINTAINERS                                   |   1 +
+ arch/alpha/kernel/syscalls/syscall.tbl        |   3 +
+ arch/arm/tools/syscall.tbl                    |   3 +
+ arch/arm64/include/asm/unistd.h               |   2 +-
+ arch/arm64/include/asm/unistd32.h             |   6 +
+ arch/ia64/kernel/syscalls/syscall.tbl         |   3 +
+ arch/m68k/kernel/syscalls/syscall.tbl         |   3 +
+ arch/microblaze/kernel/syscalls/syscall.tbl   |   3 +
+ arch/mips/kernel/syscalls/syscall_n32.tbl     |   3 +
+ arch/mips/kernel/syscalls/syscall_n64.tbl     |   3 +
+ arch/mips/kernel/syscalls/syscall_o32.tbl     |   3 +
+ arch/parisc/kernel/syscalls/syscall.tbl       |   3 +
+ arch/powerpc/kernel/syscalls/syscall.tbl      |   3 +
+ arch/s390/kernel/syscalls/syscall.tbl         |   3 +
+ arch/sh/kernel/syscalls/syscall.tbl           |   3 +
+ arch/sparc/kernel/syscalls/syscall.tbl        |   3 +
+ arch/x86/entry/syscalls/syscall_32.tbl        |   3 +
+ arch/x86/entry/syscalls/syscall_64.tbl        |   3 +
+ arch/xtensa/kernel/syscalls/syscall.tbl       |   3 +
+ fs/proc/base.c                                |  29 +-
+ fs/proc/internal.h                            |   2 +-
+ include/linux/lsm_hook_defs.h                 |   4 +
+ include/linux/lsm_hooks.h                     |  27 +-
+ include/linux/security.h                      |  45 ++-
+ include/linux/syscalls.h                      |   6 +
+ include/uapi/asm-generic/unistd.h             |  11 +-
+ include/uapi/linux/lsm.h                      |  86 ++++++
+ kernel/sys_ni.c                               |   5 +
+ security/Makefile                             |   1 +
+ security/apparmor/include/procattr.h          |   2 +-
+ security/apparmor/lsm.c                       | 104 ++++++-
+ security/apparmor/procattr.c                  |  11 +-
+ security/bpf/hooks.c                          |   9 +-
+ security/commoncap.c                          |   8 +-
+ security/landlock/cred.c                      |   2 +-
+ security/landlock/fs.c                        |   2 +-
+ security/landlock/ptrace.c                    |   2 +-
+ security/landlock/setup.c                     |   6 +
+ security/landlock/setup.h                     |   1 +
+ security/loadpin/loadpin.c                    |   9 +-
+ security/lockdown/lockdown.c                  |   8 +-
+ security/lsm_syscalls.c                       | 145 ++++++++++
+ security/safesetid/lsm.c                      |   9 +-
+ security/security.c                           | 191 +++++++++++--
+ security/selinux/hooks.c                      | 156 ++++++++--
+ security/smack/smack_lsm.c                    | 113 +++++++-
+ security/tomoyo/tomoyo.c                      |   9 +-
+ security/yama/yama_lsm.c                      |   8 +-
+ .../arch/mips/entry/syscalls/syscall_n64.tbl  |   3 +
+ .../arch/powerpc/entry/syscalls/syscall.tbl   |   3 +
+ .../perf/arch/s390/entry/syscalls/syscall.tbl |   3 +
+ .../arch/x86/entry/syscalls/syscall_64.tbl    |   3 +
+ tools/testing/selftests/Makefile              |   1 +
+ tools/testing/selftests/lsm/Makefile          |  12 +
+ tools/testing/selftests/lsm/config            |   2 +
+ .../selftests/lsm/lsm_get_self_attr_test.c    | 268 ++++++++++++++++++
+ .../selftests/lsm/lsm_list_modules_test.c     | 149 ++++++++++
+ .../selftests/lsm/lsm_set_self_attr_test.c    |  70 +++++
+ 60 files changed, 1555 insertions(+), 101 deletions(-)
+ create mode 100644 Documentation/userspace-api/lsm.rst
+ create mode 100644 include/uapi/linux/lsm.h
+ create mode 100644 security/lsm_syscalls.c
+ create mode 100644 tools/testing/selftests/lsm/Makefile
+ create mode 100644 tools/testing/selftests/lsm/config
+ create mode 100644 tools/testing/selftests/lsm/lsm_get_self_attr_test.c
+ create mode 100644 tools/testing/selftests/lsm/lsm_list_modules_test.c
+ create mode 100644 tools/testing/selftests/lsm/lsm_set_self_attr_test.c
+
+-- 
+2.39.2
+
