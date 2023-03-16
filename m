@@ -2,80 +2,77 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F36376BC2CF
-	for <lists+linux-api@lfdr.de>; Thu, 16 Mar 2023 01:33:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 223736BC607
+	for <lists+linux-api@lfdr.de>; Thu, 16 Mar 2023 07:19:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233207AbjCPAdS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 15 Mar 2023 20:33:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35710 "EHLO
+        id S229648AbjCPGTH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 16 Mar 2023 02:19:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57966 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233350AbjCPAcG (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 15 Mar 2023 20:32:06 -0400
-Received: from mail-pf1-x44a.google.com (mail-pf1-x44a.google.com [IPv6:2607:f8b0:4864:20::44a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 375519EF76
-        for <linux-api@vger.kernel.org>; Wed, 15 Mar 2023 17:31:36 -0700 (PDT)
-Received: by mail-pf1-x44a.google.com with SMTP id m9-20020a056a00164900b0062300619e03so164419pfc.18
-        for <linux-api@vger.kernel.org>; Wed, 15 Mar 2023 17:31:36 -0700 (PDT)
+        with ESMTP id S229562AbjCPGTG (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 16 Mar 2023 02:19:06 -0400
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3542524495;
+        Wed, 15 Mar 2023 23:19:04 -0700 (PDT)
+Received: by mail-wm1-x334.google.com with SMTP id p23-20020a05600c1d9700b003ead4835046so2937603wms.0;
+        Wed, 15 Mar 2023 23:19:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112; t=1678926692;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=YxU1hhaZ4SyfL9lxoIcMNBPPAq0yfPS0xuipesTDclo=;
-        b=W0G3AmVBhmaEPW1mzeOzfktEstHk/ayT4Fca4WpYB+uqnQXqFONecZpHfNEM3EVkI8
-         dMoU+aBolGRnKrvqkSWbCeJFkilUlbcTqWcVH0y2O7kmHEk9EOK0BEV0KFKuPFrnCkbs
-         QOotzJYDWHJggJes5/KIvM96osSnaCvae3qKB3LUHRBB+uNwEOmmHmd8zvTbRGoEVjUL
-         rVFdyBsTEprlo4ciiWa3+M8yKhD16Tn+oY0bqfI0h7Rz5RgpgT08FQynab2lujb51lp7
-         x7X7TlFctPEGFqxyshGyufJ1XL1Zen+FPj5jvwOG/5BAnYWpY1i72h9z5SjlNs7jYsNa
-         hwdw==
+        d=gmail.com; s=20210112; t=1678947542;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=zyHrcqWFBSWtab8SyKab5TDPo3snngThO+lUfc1u9tg=;
+        b=Y0udMzUjNYRY3D9xa1szjfCJ/kBb1OvwCugmuXDbDInMLfjgIajtcRU5hu/SuSpl2a
+         2uua8BGlj78j7+FDOoIwGEMS0n244gWrDqZZX586THKdjxc4mT61zusv4KYt0ExCbnt0
+         /IiBCHp3qUdKJNBWGGm20hObjgC1N0k7MY9A2jV1Xz0ww1+IjvfSDaI1ThDAOcUTA18X
+         rQ13ZbRRtkppzOjS++pE/e9tSZqGsOC4uZlOHzxB4uuhdQI6QNnyAz+OxVfIFkyCrQRu
+         X6kV6JFzNAiBYC52a3rETgqUF4Am0IRXQgRHI8n2kCsrrhNrfc6I6420DaaD+X8BLq8J
+         KINg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678926692;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YxU1hhaZ4SyfL9lxoIcMNBPPAq0yfPS0xuipesTDclo=;
-        b=3MeZ9Tx/gJTjtztCuL8KpTdcpITzqONGh+sFmpabp1Nt6bHMdxXh7pU1evKV0GI90G
-         RZqqW3c89LAJx2/Cl0Efe6rT4f+++zDjTchBmF6MzwMVpekEWBSc8LTJf9UplWAQ64Oe
-         Wv/EqKxpMwXtXMLFyPoiC5x7ObDB3PIRnR93gTLGyABn9Ami0159eJWvLf6b8aqeiTZc
-         r34HAwnp60GSaKVYNPwQgWdnxrkFTuX8hxy2/1+DgvEF/6LUadwa6kCdDRX62RzbHbBn
-         iAQ9d4iCG9A9tzW5E6qzJU02/emwcsC1bRKxRXz6MY6CDHoOahWgmcdIJQS65FBjuTqy
-         4Yog==
-X-Gm-Message-State: AO0yUKVyuP77qNTxusmaRd6Zg29GHxg5oIy7M71LqIRc6CQ/557kI7ZA
-        hanp3yFUfHU2K7e3UQFQ9xSE7Avqst8yVbOW+A==
-X-Google-Smtp-Source: AK7set/r1L80ZGqvN1Jqjj7ZwUbt+f+1AOqGwiuE9AJvattpTxM2ZIa1Wyqx7LP6pavKwLlYqhK3jR4rdgiNHjRokg==
-X-Received: from ackerleytng-cloudtop.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:1f5f])
- (user=ackerleytng job=sendgmr) by 2002:a65:530d:0:b0:502:fd12:83ce with SMTP
- id m13-20020a65530d000000b00502fd1283cemr347381pgq.5.1678926691968; Wed, 15
- Mar 2023 17:31:31 -0700 (PDT)
-Date:   Thu, 16 Mar 2023 00:31:03 +0000
-In-Reply-To: <cover.1678926164.git.ackerleytng@google.com>
-Mime-Version: 1.0
-References: <cover.1678926164.git.ackerleytng@google.com>
-X-Mailer: git-send-email 2.40.0.rc2.332.ga46443480c-goog
-Message-ID: <90aaa4ab85fa5e3d5641793e2a4873282eb16556.1678926164.git.ackerleytng@google.com>
-Subject: [RFC PATCH 10/10] KVM: selftests: Test KVM exit behavior for private memory/access
-From:   Ackerley Tng <ackerleytng@google.com>
-To:     kvm@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, qemu-devel@nongnu.org
-Cc:     aarcange@redhat.com, ak@linux.intel.com, akpm@linux-foundation.org,
-        arnd@arndb.de, bfields@fieldses.org, bp@alien8.de,
-        chao.p.peng@linux.intel.com, corbet@lwn.net, dave.hansen@intel.com,
-        david@redhat.com, ddutile@redhat.com, dhildenb@redhat.com,
-        hpa@zytor.com, hughd@google.com, jlayton@kernel.org,
-        jmattson@google.com, joro@8bytes.org, jun.nakajima@intel.com,
-        kirill.shutemov@linux.intel.com, linmiaohe@huawei.com,
-        luto@kernel.org, mail@maciej.szmigiero.name, mhocko@suse.com,
-        michael.roth@amd.com, mingo@redhat.com, naoya.horiguchi@nec.com,
-        pbonzini@redhat.com, qperret@google.com, rppt@kernel.org,
-        seanjc@google.com, shuah@kernel.org, steven.price@arm.com,
-        tabba@google.com, tglx@linutronix.de, vannapurve@google.com,
-        vbabka@suse.cz, vkuznets@redhat.com, wanpengli@tencent.com,
-        wei.w.wang@intel.com, x86@kernel.org, yu.c.zhang@linux.intel.com,
-        Ackerley Tng <ackerleytng@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=ham
+        d=1e100.net; s=20210112; t=1678947542;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=zyHrcqWFBSWtab8SyKab5TDPo3snngThO+lUfc1u9tg=;
+        b=h9VYsySPMv1oTCWJHqjvP4LOCKYnS1poHkJuIXEVoLtDWHn4Mf3arhJZCv/JRLu0LP
+         vn1ZFYt7KZfjE9JKPYV7j2TY0yDbEZS/YyoAaaW+VLau0HVCYzkn9UXo0D8rMDme0GWr
+         QedULSPRoGBLQGzqLJ+UeCr00Z7Zax9yIS4xDeQSWCDUW0x60D88J3DgExFxNVaYW9cT
+         AzGqdNKIYsfVYj9NMj7OgKkH01+8uOM2xAvBWn3AKXG+hO+vz1AZ3lX0s9a2KsuaOkJ7
+         A8ifKN7EtP8PFC++4va6oRQHUOl3DmlTsgvElbG0fPSyeXZ7x9NhYLh0Ga58x2UJ8TIe
+         Lb+A==
+X-Gm-Message-State: AO0yUKWyOAeokCkKQ/G2PoUqAnPihbEwiaSOuvlK84tKPZgp7Jhhe8pJ
+        /m7aBzpWyIGH0AUkU91H0Ow=
+X-Google-Smtp-Source: AK7set98a3L+TiNLZM4xwZq0+axqv9h8VsLrqd+dK9AYkrlIHU//dD3OT1dCizqdClO8BQOLwmShnQ==
+X-Received: by 2002:a05:600c:4fd6:b0:3ed:3e72:3566 with SMTP id o22-20020a05600c4fd600b003ed3e723566mr2535883wmq.39.1678947542552;
+        Wed, 15 Mar 2023 23:19:02 -0700 (PDT)
+Received: from localhost ([2a02:168:633b:1:7c09:9c3b:256e:8ba1])
+        by smtp.gmail.com with ESMTPSA id iz11-20020a05600c554b00b003ed201ddef2sm4019793wmb.2.2023.03.15.23.19.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Mar 2023 23:19:02 -0700 (PDT)
+Date:   Thu, 16 Mar 2023 07:19:00 +0100
+From:   =?iso-8859-1?Q?G=FCnther?= Noack <gnoack3000@gmail.com>
+To:     =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
+Cc:     Shervin Oloumi <enlightened@chromium.org>,
+        linux-security-module@vger.kernel.org, jorgelo@chromium.org,
+        keescook@chromium.org, groeck@chromium.org, jeffxu@chromium.org,
+        allenwebb@chromium.org, Adrian Reber <areber@redhat.com>,
+        criu@openvz.org, Linux API <linux-api@vger.kernel.org>,
+        Jann Horn <jannh@google.com>,
+        Christian Brauner <brauner@kernel.org>
+Subject: Re: [PATCH 0/1] process attribute support for Landlock
+Message-ID: <20230316.17835bf118d5@gnoack.org>
+References: <20230302185257.850681-1-enlightened@chromium.org>
+ <247f3194-2dd2-1414-0a4d-6e41addf5e64@digikod.net>
+ <CAMb9sTir8Gde=DwZ9LnW2Hq7YmSZ13u_aX8AyR=JEQWGBhCvAQ@mail.gmail.com>
+ <ce44fc98-1234-fa53-5067-cd624866f44a@digikod.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ce44fc98-1234-fa53-5067-cd624866f44a@digikod.net>
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -83,163 +80,76 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-"Testing private access when memslot gets deleted" tests the behavior
-of KVM when a private memslot gets deleted while the VM is using the
-private memslot. When KVM looks up the deleted (slot = NULL) memslot,
-KVM should exit to userspace with KVM_EXIT_MEMORY_FAULT.
+Hi!
 
-In the second test, upon a private access to non-private memslot, KVM
-should also exit to userspace with KVM_EXIT_MEMORY_FAULT.
+On Wed, Mar 15, 2023 at 10:56:03AM +0100, Mickaël Salaün wrote:
+> On 08/03/2023 23:25, Shervin Oloumi wrote:
+> > Thanks all for the feedback. This is in reply to Mickaël, but should
+> > answer Günther's questions as well.
+> > 
+> > > It would help to know exactly what are your needs short term, and long
+> > > term. As Günther is wondering, what about nested sandboxing?
+> > 
+> > Our plan is to use the "landlocked" process attribute defined in the
+> > patch to determine the sandbox state of the system processes and send
+> > information to our metrics server regarding Landlock coverage. For
+> > example, the percentage of processes on the system that are sandboxed
+> > using Landlock.
+> > 
+> > Given that we use Landlock in a very specific and controlled way, we
+> > are not concerned about the inheritance behavior and nested policies,
+> > at least for the use case of metrics. When daemons are launched in
+> > ChromiumOS, they have a pre-defined sandboxing configuration that
+> > dictates whether Landlock should be applied or not. So this attribute
+> > would help us verify that the processes running on devices in the wild
+> > indeed have the general sandboxing state that we expect and the
+> > reality matches our expectation.
+> > 
+> > Long-term, it would be useful to learn more information about domains
+> > and policies through the process attribute interface, but we do not
+> > currently have a need for that, apart from maybe doing troubleshooting
+> > when defining Landlock rules for system daemons.
+> 
+> OK, it makes sense.
 
-Signed-off-by: Ackerley Tng <ackerleytng@google.com>
----
- tools/testing/selftests/kvm/Makefile          |   1 +
- .../kvm/x86_64/private_mem_kvm_exits_test.c   | 124 ++++++++++++++++++
- 2 files changed, 125 insertions(+)
- create mode 100644 tools/testing/selftests/kvm/x86_64/private_mem_kvm_exits_test.c
+Fair enough.  I missed the fact that this was about the OS rather than
+the browser.
 
-diff --git a/tools/testing/selftests/kvm/Makefile b/tools/testing/selftests/kvm/Makefile
-index bafee3c43b2e..0ad588852a1d 100644
---- a/tools/testing/selftests/kvm/Makefile
-+++ b/tools/testing/selftests/kvm/Makefile
-@@ -80,6 +80,7 @@ TEST_GEN_PROGS_x86_64 += x86_64/nested_exceptions_test
- TEST_GEN_PROGS_x86_64 += x86_64/platform_info_test
- TEST_GEN_PROGS_x86_64 += x86_64/pmu_event_filter_test
- TEST_GEN_PROGS_x86_64 += x86_64/private_mem_conversions_test
-+TEST_GEN_PROGS_x86_64 += x86_64/private_mem_kvm_exits_test
- TEST_GEN_PROGS_x86_64 += x86_64/set_boot_cpu_id
- TEST_GEN_PROGS_x86_64 += x86_64/set_sregs_test
- TEST_GEN_PROGS_x86_64 += x86_64/smaller_maxphyaddr_emulation_test
-diff --git a/tools/testing/selftests/kvm/x86_64/private_mem_kvm_exits_test.c b/tools/testing/selftests/kvm/x86_64/private_mem_kvm_exits_test.c
-new file mode 100644
-index 000000000000..c8667dfbbf0a
---- /dev/null
-+++ b/tools/testing/selftests/kvm/x86_64/private_mem_kvm_exits_test.c
-@@ -0,0 +1,124 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (C) 2022, Google LLC.
-+ */
-+#include "kvm_util_base.h"
-+#include <linux/kvm.h>
-+#include <pthread.h>
-+#include <stdint.h>
-+#include "kvm_util.h"
-+#include "processor.h"
-+#include "test_util.h"
-+
-+/* Arbitrarily selected to avoid overlaps with anything else */
-+#define EXITS_TEST_GVA 0xc0000000
-+#define EXITS_TEST_GPA EXITS_TEST_GVA
-+#define EXITS_TEST_NPAGES 1
-+#define EXITS_TEST_SIZE (EXITS_TEST_NPAGES * PAGE_SIZE)
-+#define EXITS_TEST_SLOT 10
-+
-+static uint64_t guest_repeatedly_read(void)
-+{
-+	volatile uint64_t value;
-+
-+	while (true)
-+		value = *((uint64_t *) EXITS_TEST_GVA);
-+
-+	return value;
-+}
-+
-+static uint32_t run_vcpu_get_exit_reason(struct kvm_vcpu *vcpu)
-+{
-+	vcpu_run(vcpu);
-+
-+	return vcpu->run->exit_reason;
-+}
-+
-+const struct vm_shape protected_vm_shape = {
-+	.mode = VM_MODE_DEFAULT,
-+	.type = KVM_X86_PROTECTED_VM,
-+};
-+
-+static void test_private_access_memslot_deleted(void)
-+{
-+	struct kvm_vm *vm;
-+	struct kvm_vcpu *vcpu;
-+	pthread_t vm_thread;
-+	void *thread_return;
-+	uint32_t exit_reason;
-+
-+	vm = vm_create_shape_with_one_vcpu(protected_vm_shape, &vcpu,
-+					   guest_repeatedly_read);
-+
-+	vm_userspace_mem_region_add(vm, VM_MEM_SRC_ANONYMOUS,
-+				    EXITS_TEST_GPA, EXITS_TEST_SLOT,
-+				    EXITS_TEST_NPAGES,
-+				    KVM_MEM_PRIVATE);
-+
-+	virt_map(vm, EXITS_TEST_GVA, EXITS_TEST_GPA, EXITS_TEST_NPAGES);
-+
-+	/* Request to access page privately */
-+	vm_mem_map_shared_or_private(vm, EXITS_TEST_GPA, EXITS_TEST_SIZE, false);
-+
-+	pr_info("Testing private access when memslot gets deleted\n");
-+
-+	pthread_create(&vm_thread, NULL,
-+		       (void *(*)(void *))run_vcpu_get_exit_reason,
-+		       (void *)vcpu);
-+
-+	vm_mem_region_delete(vm, EXITS_TEST_SLOT);
-+
-+	pthread_join(vm_thread, &thread_return);
-+	exit_reason = (uint32_t)(uint64_t)thread_return;
-+
-+	ASSERT_EQ(exit_reason, KVM_EXIT_MEMORY_FAULT);
-+	ASSERT_EQ(vcpu->run->memory.flags, KVM_MEMORY_EXIT_FLAG_PRIVATE);
-+	ASSERT_EQ(vcpu->run->memory.gpa, EXITS_TEST_GPA);
-+	ASSERT_EQ(vcpu->run->memory.size, EXITS_TEST_SIZE);
-+
-+	pr_info("\t ... PASSED\n");
-+
-+	kvm_vm_free(vm);
-+}
-+
-+static void test_private_access_memslot_not_private(void)
-+{
-+	struct kvm_vm *vm;
-+	struct kvm_vcpu *vcpu;
-+	uint32_t exit_reason;
-+
-+	vm = vm_create_shape_with_one_vcpu(protected_vm_shape, &vcpu,
-+					   guest_repeatedly_read);
-+
-+	/* Add a non-private memslot (flags = 0) */
-+	vm_userspace_mem_region_add(vm, VM_MEM_SRC_ANONYMOUS,
-+				    EXITS_TEST_GPA, EXITS_TEST_SLOT,
-+				    EXITS_TEST_NPAGES, 0);
-+
-+	virt_map(vm, EXITS_TEST_GVA, EXITS_TEST_GPA, EXITS_TEST_NPAGES);
-+
-+	/* Request to access page privately */
-+	vm_set_memory_attributes(vm, EXITS_TEST_GPA, EXITS_TEST_SIZE,
-+				 KVM_MEMORY_ATTRIBUTE_PRIVATE);
-+
-+	pr_info("Testing private access to non-private memslot\n");
-+
-+	exit_reason = run_vcpu_get_exit_reason(vcpu);
-+
-+	ASSERT_EQ(exit_reason, KVM_EXIT_MEMORY_FAULT);
-+	ASSERT_EQ(vcpu->run->memory.flags, KVM_MEMORY_EXIT_FLAG_PRIVATE);
-+	ASSERT_EQ(vcpu->run->memory.gpa, EXITS_TEST_GPA);
-+	ASSERT_EQ(vcpu->run->memory.size, EXITS_TEST_SIZE);
-+
-+	pr_info("\t ... PASSED\n");
-+
-+	kvm_vm_free(vm);
-+}
-+
-+int main(int argc, char *argv[])
-+{
-+	TEST_REQUIRE(kvm_check_cap(KVM_CAP_VM_TYPES) & BIT(KVM_X86_PROTECTED_VM));
-+
-+	test_private_access_memslot_deleted();
-+	test_private_access_memslot_not_private();
-+}
--- 
-2.40.0.rc2.332.ga46443480c-goog
+Still, out of curiosity: Hypothetically, if you were to expose the
+number of stacked Landlock policies instead of the boolean in that
+place -- would there be any drawbacks to that which I'm overlooking?
 
+It seems to me, superficially, that the implementation should be
+similarly simple, it would be useful in more cases where Landlock
+users do not have control over the full OS, and I can't currently see
+any cases where having a number instead of a boolean would complicate
+the usage from userspace?  Am I missing something?
+
+(But in any case, the boolean is also fine I think.)
+
+
+> > > Here are the guiding principles I think would make sense:
+> > > 1. A sandboxed thread shall not be able to directly know if it is
+> > > sandbox nor get any specific information from it's restrictions. The
+> > > reason for this principle is to avoid applications to simply jump to
+> > > conclusions (and change behavior) if they see that they are sandboxed
+> > > with Landlock, instead of trying to access resources and falling back
+> > > accordingly. A thread should only be able to inspect its
+> > > own/children/nested domains.
+
+(Small remark:
+
+Doing anything differently depending on whether and how you are
+landlocked is definitely an antipattern which we should not encourage.
+But I'm not sure whether we can hide the fact very easily.
+
+It's already possible for a thread to detect whether it is landlocked,
+by using this hack: Create a new thread and then in that thread count
+how many additional sandboxes you can stack on top.
+
+If you have knowledge about what Landlock configuration you are
+looking for, it will be even easier to detect.
+
+I hope noone takes the above example as inspiration.)
+
+–Günther
