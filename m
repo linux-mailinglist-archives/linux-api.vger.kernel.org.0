@@ -2,66 +2,80 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CA6F96C25A1
-	for <lists+linux-api@lfdr.de>; Tue, 21 Mar 2023 00:31:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D5DE26C3B75
+	for <lists+linux-api@lfdr.de>; Tue, 21 Mar 2023 21:16:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229867AbjCTXbN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 20 Mar 2023 19:31:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51164 "EHLO
+        id S229778AbjCUUP6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 21 Mar 2023 16:15:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55538 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229971AbjCTXbL (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 20 Mar 2023 19:31:11 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BFFC26C25;
-        Mon, 20 Mar 2023 16:31:09 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 3FF31B8118D;
-        Mon, 20 Mar 2023 23:31:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4535DC433D2;
-        Mon, 20 Mar 2023 23:31:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1679355067;
-        bh=NpFdQAbBRLTzFJaY6HfR2sUNYDD/ylY5ktsWdjJaH4k=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=ox5K5g5ZANNdo0lkAPFnjS9r0JQjy4+EJzhHIGxUoFoYBzLmGTQaVjSD6yRgvGfbJ
-         CRP1QBb9dnxGnH9kMIWwrOQD84tjER3q1/aPKLwG3igEIrDbrTws5tMx2wyTjPFnyv
-         X3LFe9ae3gusd7zp61KuzUIvQBUbnJkeYbBU/Umh+VC8+eaJBSVAc/FPS0PFS8vOiM
-         QUkDrs/c3Vh0GRN+hnHBEQkp3G83I1U4R1cPUEKd+/w5ntfRAfOXfde5men8yB3o4O
-         tznkh2aHhSgUSBrCOK8zUOCWcQvZt8UGxEHP8Tfb2RsNh/KsRKMFQ3dqEqr7p0Ic4f
-         IZgru2eef6PfQ==
-Message-ID: <155a112f-c6e7-57a0-b8bd-6b3bde85d685@kernel.org>
-Date:   Mon, 20 Mar 2023 17:30:15 -0600
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH] selftests: sigaltstack: fix -Wuninitialized
-Content-Language: en-US
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Linux Kernel Functional Testing <lkft@linaro.org>,
-        KERNEL SELFTEST FRAMEWORK <linux-kselftest@vger.kernel.org>,
-        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-        lkft-triage@lists.linaro.org, Thomas Gleixner <tglx@linutronix.de>,
-        "Chang S. Bae" <chang.seok.bae@intel.com>,
-        Len Brown <len.brown@intel.com>, Borislav Petkov <bp@suse.de>,
-        Stas Sergeev <stsp@list.ru>, Arnd Bergmann <arnd@arndb.de>,
-        Anders Roxell <anders.roxell@linaro.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Nathan Chancellor <nathan@kernel.org>, llvm@lists.linux.dev,
-        Naresh Kamboju <naresh.kamboju@linaro.org>,
-        Shuah Khan <skhan@linuxfoundation.org>
-References: <20230308195933.806917-1-ndesaulniers@google.com>
- <CA+G9fYtTL+y-ZYeZXKHbVg9XiYVeHE-RaAjaRHTT+EfXO924cA@mail.gmail.com>
- <CAKwvOdnM9WjxHY_uw_0nyhGTZDuQ+730NrX2sgw9cBLkrhF8oA@mail.gmail.com>
-From:   shuah <shuah@kernel.org>
-In-Reply-To: <CAKwvOdnM9WjxHY_uw_0nyhGTZDuQ+730NrX2sgw9cBLkrhF8oA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        with ESMTP id S229788AbjCUUP5 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 21 Mar 2023 16:15:57 -0400
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE6EE584B4
+        for <linux-api@vger.kernel.org>; Tue, 21 Mar 2023 13:15:44 -0700 (PDT)
+Received: by mail-yb1-xb4a.google.com with SMTP id e186-20020a2537c3000000b00b72501acf50so86090yba.20
+        for <linux-api@vger.kernel.org>; Tue, 21 Mar 2023 13:15:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112; t=1679429742;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=e2RhtQenWH6Mmh2njKfsOonde6iRcUbhqsfef2trssA=;
+        b=dnKqgSgEzV+DXuBj2wvXDWtPBqMuV2pwg2Ct8dJ2rJdc95M/lMmTlgUP2dyyQzQZCx
+         Iq/GSx8zfNi6cjpPXlkvFiOhBlsMCmXfLOq2dWRkj0Zbu4B9VrBzE1cjAeJDG4LmIiwg
+         a9p667GlxYr1b3vFk56oQTORyucJI5+lnS4aHOLrWZKn48LKgZbwlngGZRNrH23IiQia
+         BTjGsvcRLxI3EBaHYPgl4POvKLFsuX54uyRRVU32IC2UmWI9FBGXUcJ03hDcw7BY7FEu
+         rCQmjrE3DmckWD6OUpMbPS8UMoHoyUpzCmWhtOkP6a7Lv2e0ND7qGYcbxH/6oa0I4dOE
+         4qTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679429742;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=e2RhtQenWH6Mmh2njKfsOonde6iRcUbhqsfef2trssA=;
+        b=3/M3kyHL3NooxOTUh/EKg3oFZSIw3z/y488TQ3vO5N1FyxdoPMYBykMGu6j+tYolPq
+         8YPznLCD3XhdzgGbYXvP/kKc01zZvkaxPdQumku5xrVBrBl1UA1eerl2l7HYbLZ9Kp3Z
+         0/q3PYG1ztDfOocoeMZkarg3tAqq8bZ14We5tTE9mZmhcnZAXFmrjSJl6vXUbJWPhbny
+         /5lOpHISH6fCLgHm2/ZuScl8HDlhDIbRiDdkdziN1qcudF9/q/rxO5VrkzAFd8viu2Ze
+         3okqnzfIdJDV8NcrEtCCxIaVqSYEBIivGa8g80C/k6KH3kuVCby2e5rAHCfbcqubvjII
+         zw4A==
+X-Gm-Message-State: AO0yUKUyPyc1owqmH8pcDpGcV/6gS1ISaKICvLNvfci5Hi/EpRWrWezu
+        xBLPYtrjCejEvxFR8rkavUJ0NnAgVws+Rh9G9g==
+X-Google-Smtp-Source: AK7set/rS/BOrm2SUEMWHr+PlfeqSewwcb3Q0X8SWpfhSHb/ZXYj5MKa4Pc4uyKe/dNqM06Z778BYQX2stVtaLtYJQ==
+X-Received: from ackerleytng-cloudtop.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:1f5f])
+ (user=ackerleytng job=sendgmr) by 2002:a05:690c:d88:b0:544:bbd2:74be with
+ SMTP id da8-20020a05690c0d8800b00544bbd274bemr11229418ywb.4.1679429742690;
+ Tue, 21 Mar 2023 13:15:42 -0700 (PDT)
+Date:   Tue, 21 Mar 2023 20:15:31 +0000
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.40.0.rc2.332.ga46443480c-goog
+Message-ID: <cover.1679428901.git.ackerleytng@google.com>
+Subject: [RFC PATCH v2 0/2] Providing mount in memfd_restricted() syscall
+From:   Ackerley Tng <ackerleytng@google.com>
+To:     kvm@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, qemu-devel@nongnu.org
+Cc:     aarcange@redhat.com, ak@linux.intel.com, akpm@linux-foundation.org,
+        arnd@arndb.de, bfields@fieldses.org, bp@alien8.de,
+        chao.p.peng@linux.intel.com, corbet@lwn.net, dave.hansen@intel.com,
+        david@redhat.com, ddutile@redhat.com, dhildenb@redhat.com,
+        hpa@zytor.com, hughd@google.com, jlayton@kernel.org,
+        jmattson@google.com, joro@8bytes.org, jun.nakajima@intel.com,
+        kirill.shutemov@linux.intel.com, linmiaohe@huawei.com,
+        luto@kernel.org, mail@maciej.szmigiero.name, mhocko@suse.com,
+        michael.roth@amd.com, mingo@redhat.com, naoya.horiguchi@nec.com,
+        pbonzini@redhat.com, qperret@google.com, rppt@kernel.org,
+        seanjc@google.com, shuah@kernel.org, steven.price@arm.com,
+        tabba@google.com, tglx@linutronix.de, vannapurve@google.com,
+        vbabka@suse.cz, vkuznets@redhat.com, wanpengli@tencent.com,
+        wei.w.wang@intel.com, x86@kernel.org, yu.c.zhang@linux.intel.com,
+        Ackerley Tng <ackerleytng@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -69,18 +83,73 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 3/20/23 12:41, Nick Desaulniers wrote:
-> Hi Shuah,
-> Did this get picked up? Just checking it doesn't fall through the cracks.
-> EOM
-> 
+Hello,
 
-Thanks for the ping. Now applied Applied to linux-kselftest fixes
-branch for rc4.
+This patchset builds upon the memfd_restricted() system call that was
+discussed in the 'KVM: mm: fd-based approach for supporting KVM' patch
+series, at
+https://lore.kernel.org/lkml/20221202061347.1070246-1-chao.p.peng@linux.int=
+el.com/T/#m7e944d7892afdd1d62a03a287bd488c56e377b0c
 
-Somehow this one didn't show up in my inbox and responses made it
-fine. I have to check what's happening to emails on my end.
+The tree can be found at:
+https://github.com/googleprodkernel/linux-cc/tree/restrictedmem-provide-mou=
+nt-fd
 
-thanks,
--- Shuah
+In this patchset, a modification to the memfd_restricted() syscall is
+proposed, which allows userspace to provide a mount, on which the
+restrictedmem file will be created and returned from the
+memfd_restricted().
 
+Allowing userspace to provide a mount allows userspace to control
+various memory binding policies via tmpfs mount options, such as
+Transparent HugePage memory allocation policy through
+'huge=3Dalways/never' and NUMA memory allocation policy through
+'mpol=3Dlocal/bind:*'.
+
+Changes since RFCv1:
++ Use fd to represent mount instead of path string, as Kirill
+  suggested. I believe using fds makes this syscall interface more
+  aligned with the other syscalls like fsopen(), fsconfig(), and
+  fsmount() in terms of using and passing around fds
++ Remove unused variable char *orig_shmem_enabled from selftests
+
+Dependencies:
++ Sean's iteration of the =E2=80=98KVM: mm: fd-based approach for supportin=
+g
+  KVM=E2=80=99 patch series at
+  https://github.com/sean-jc/linux/tree/x86/upm_base_support
++ Proposed fixes for these issues mentioned on the mailing list:
+    + https://lore.kernel.org/lkml/diqzzga0fv96.fsf@ackerleytng-cloudtop-sg=
+.c.googlers.com/
+
+Links to earlier patch series:
++ RFC v1:
+  https://lore.kernel.org/lkml/cover.1676507663.git.ackerleytng@google.com/=
+T/
+
+Ackerley Tng (2):
+  mm: restrictedmem: Allow userspace to specify mount for
+    memfd_restricted
+  selftests: restrictedmem: Check hugepage-ness of shmem file backing
+    restrictedmem fd
+
+ include/linux/syscalls.h                      |   2 +-
+ include/uapi/linux/restrictedmem.h            |   8 +
+ mm/restrictedmem.c                            |  63 ++-
+ tools/testing/selftests/Makefile              |   1 +
+ .../selftests/restrictedmem/.gitignore        |   3 +
+ .../testing/selftests/restrictedmem/Makefile  |  15 +
+ .../testing/selftests/restrictedmem/common.c  |   9 +
+ .../testing/selftests/restrictedmem/common.h  |   8 +
+ .../restrictedmem_hugepage_test.c             | 459 ++++++++++++++++++
+ 9 files changed, 561 insertions(+), 7 deletions(-)
+ create mode 100644 include/uapi/linux/restrictedmem.h
+ create mode 100644 tools/testing/selftests/restrictedmem/.gitignore
+ create mode 100644 tools/testing/selftests/restrictedmem/Makefile
+ create mode 100644 tools/testing/selftests/restrictedmem/common.c
+ create mode 100644 tools/testing/selftests/restrictedmem/common.h
+ create mode 100644 tools/testing/selftests/restrictedmem/restrictedmem_hug=
+epage_test.c
+
+--
+2.40.0.rc2.332.ga46443480c-goog
