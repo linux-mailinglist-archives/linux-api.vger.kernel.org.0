@@ -2,231 +2,258 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 907886C5B77
-	for <lists+linux-api@lfdr.de>; Thu, 23 Mar 2023 01:41:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 187E16C5BD8
+	for <lists+linux-api@lfdr.de>; Thu, 23 Mar 2023 02:28:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229995AbjCWAli (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 22 Mar 2023 20:41:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34486 "EHLO
+        id S229873AbjCWB2C (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 22 Mar 2023 21:28:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229766AbjCWAlg (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 22 Mar 2023 20:41:36 -0400
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC6A8E385;
-        Wed, 22 Mar 2023 17:41:33 -0700 (PDT)
-Received: by mail-pj1-x1036.google.com with SMTP id o6-20020a17090a9f8600b0023f32869993so372749pjp.1;
-        Wed, 22 Mar 2023 17:41:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679532093;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Nli6dQUADXkCT93kaRog0dXznCLZzv1eET9HwLL1Hk0=;
-        b=EgHbbrk1aauBVwgIaxEGTuMprK1xZNCus6XfsR6fTEbDOFj+ziwreVSGEj/LVGbLgt
-         fpWHEknmI6xPnkL3vhPFM8JUBHK+9DFF2XRnJm2G899AmfDNW5psqAw0j1PgntSJmXKs
-         OaBchepVlSLISwFFVP/DMUdk/Vy9A9+2NtoMqDw7qbw/4InBCaIA9A3AP5CMb7a5rMlP
-         Z0yQiLGinRUrkZV0SfLN2APGES4i35hk6ePSUkjZaTVtkPG1YyZ7rgYx5oJQOyuw/E6b
-         H3NTfoUnIpteFYPhEQmsJE48AKcWflqd9VeHjIWIlcgh99q5GI8HZWlel8dFjcqwWv1A
-         0Qlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679532093;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Nli6dQUADXkCT93kaRog0dXznCLZzv1eET9HwLL1Hk0=;
-        b=JfkUflkQdfvr7FPi0yJElQA20VKaU0BkVtFgJGrDQXC7ylTBZrSNMfluzjIrvVdNrt
-         9kH9Aqj/sTpp1lGvf7i/TqL4pgMY0cWTWPjqdMBKFgBBVLAwFyQWXp6ZQdjYFnr56s4c
-         MBIHaFFf4Kz0RzlQFBBD8M/waJRAQf1A7Gf6i6GuxNvO78Fv0UB7ozxYwCSBo3FJkzX9
-         eim4h43IzzvRI4+ZPwCbZYDZgYUbJy6VSu93HbSvh40bRTXc4IrJHZ95q7wUnJWbQHMw
-         gPZldMHC6GvDwRhM8zIkS/p1JjQff0jYD/DTb0af31An3qTpe13TigXlrnnU8rQjeb0B
-         dfhg==
-X-Gm-Message-State: AO0yUKXLWFBmrtjIQJFBO9Hakacsui4P/ZeZrKKAP90R+HmHk+pab1po
-        QNDK1vLpEHBsLnDjIA4bAT0=
-X-Google-Smtp-Source: AK7set8gXt+r3vrcFcNCwocuZTBvWUUZ3nPNYHgXD8Mgde+9UJkFIYJ5dt0UG9U5gaW437O/xM/diQ==
-X-Received: by 2002:a17:90b:384b:b0:23d:5196:eca8 with SMTP id nl11-20020a17090b384b00b0023d5196eca8mr6076318pjb.20.1679532093114;
-        Wed, 22 Mar 2023 17:41:33 -0700 (PDT)
-Received: from localhost ([192.55.54.55])
-        by smtp.gmail.com with ESMTPSA id q61-20020a17090a17c300b00233db0db3dfsm123775pja.7.2023.03.22.17.41.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Mar 2023 17:41:32 -0700 (PDT)
-Date:   Wed, 22 Mar 2023 17:41:31 -0700
-From:   Isaku Yamahata <isaku.yamahata@gmail.com>
+        with ESMTP id S229436AbjCWB2B (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 22 Mar 2023 21:28:01 -0400
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2052.outbound.protection.outlook.com [40.107.244.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EE681B5;
+        Wed, 22 Mar 2023 18:27:59 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Dx8Z0uObm40mi3yuk8K1nHaWFE2bo2nQI5GSk0uc7gLBY4D3afw91ZeTr73O2YUoTlib3SbvfirkMfuwrjn3zCAXunElunospOORb46L3KShcdDU1hoUdTfoA7SoH8PVYZsNak4XvmFyAvKN+HGSBQeizWRZ7C4NHUrHOnEOCppMwEJg9yxq/s6l8d6bD0znNPajX/LAj6vzlczZlJPwW8ybfXgDD9tGX9M605RACOCd7vYfbErkd8nByyH+HrNFXVZ2z4HXgLJPYNdpHzowkH+85+e55xFeOL1Gb7r6qqCgUO/VsDUd+voJ2CS+Z33H/wjHGLRGUFJS2AFuEgYiiQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Jx0LCcrl0zhtbGtyYthgXkwmDL7Ey5uollXMP76ypVQ=;
+ b=ISOIssF6qWEsvwMPt/nal2OHvseWPNezvQtyMejinG5aaRCluWoImar2FvQIqAI+bXPMpMkuY0WrMNB4R1WOPON7/VNBcek6m9WZtkqTzMyi6aJFa6yBnY59ZiP4EgBWHg4HlwY8ZN90S8w6BAJgooAOJnmfzA+Hn43+45kb+gr1NlivK+1nac0x62efuTA9788tPeUtAUdOWX3mIvSifpY0t3FZfJCqxAxfRodxzZviByTiPVa6npOqMW0gWXzvzi3xCd6AeLBlFbHzIedkl4/ocI70oMGPslUEdMxrOvWeJazHBK8KlCXfuqFsclfnEQCDm3Y4AEguQwMaMT79eQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Jx0LCcrl0zhtbGtyYthgXkwmDL7Ey5uollXMP76ypVQ=;
+ b=pa8dn0jsDfbm9tpQREmymVcwoTNcI8YYC4qm+zy6vCpsBTijJ2acWva7hbfqpzyj6UTahvanAgSa2CHY3wwK37dileayrx4aA6acoMg77L5JfHC28kOy7W8faj9w6px/kdwVRHV7sUM6YmQQAQrXQplja+0/LGlE/X/iWN7FUlM=
+Received: from MN2PR15CA0059.namprd15.prod.outlook.com (2603:10b6:208:237::28)
+ by SA0PR12MB4463.namprd12.prod.outlook.com (2603:10b6:806:92::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.38; Thu, 23 Mar
+ 2023 01:27:56 +0000
+Received: from BL02EPF0000EE3C.namprd05.prod.outlook.com
+ (2603:10b6:208:237:cafe::f1) by MN2PR15CA0059.outlook.office365.com
+ (2603:10b6:208:237::28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.37 via Frontend
+ Transport; Thu, 23 Mar 2023 01:27:56 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BL02EPF0000EE3C.mail.protection.outlook.com (10.167.241.132) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6178.30 via Frontend Transport; Thu, 23 Mar 2023 01:27:54 +0000
+Received: from localhost (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Wed, 22 Mar
+ 2023 20:27:54 -0500
+Date:   Wed, 22 Mar 2023 20:27:37 -0500
+From:   Michael Roth <michael.roth@amd.com>
 To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     Ackerley Tng <ackerleytng@google.com>, seanjc@google.com,
-        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        pbonzini@redhat.com, corbet@lwn.net, vkuznets@redhat.com,
-        wanpengli@tencent.com, jmattson@google.com, joro@8bytes.org,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, arnd@arndb.de,
-        naoya.horiguchi@nec.com, linmiaohe@huawei.com, x86@kernel.org,
-        hpa@zytor.com, hughd@google.com, jlayton@kernel.org,
-        bfields@fieldses.org, akpm@linux-foundation.org, shuah@kernel.org,
-        rppt@kernel.org, steven.price@arm.com, mail@maciej.szmigiero.name,
-        vbabka@suse.cz, vannapurve@google.com, yu.c.zhang@linux.intel.com,
-        kirill.shutemov@linux.intel.com, luto@kernel.org,
-        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
-        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
-        dhildenb@redhat.com, qperret@google.com, tabba@google.com,
-        michael.roth@amd.com, mhocko@suse.com, wei.w.wang@intel.com,
-        isaku.yamahata@gmail.com
-Subject: Re: [PATCH v10 9/9] KVM: Enable and expose KVM_MEM_PRIVATE
-Message-ID: <20230323004131.GA214881@ls.amr.corp.intel.com>
-References: <20230128140030.GB700688@chaop.bj.intel.com>
- <diqz5ybc3xsr.fsf@ackerleytng-cloudtop.c.googlers.com>
- <20230308074026.GA2183207@chaop.bj.intel.com>
+CC:     Sean Christopherson <seanjc@google.com>,
+        Isaku Yamahata <isaku.yamahata@gmail.com>,
+        <kvm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-mm@kvack.org>, <linux-fsdevel@vger.kernel.org>,
+        <linux-arch@vger.kernel.org>, <linux-api@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <qemu-devel@nongnu.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Miaohe Lin <linmiaohe@huawei.com>, <x86@kernel.org>,
+        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        <luto@kernel.org>, <jun.nakajima@intel.com>,
+        <dave.hansen@intel.com>, <ak@linux.intel.com>, <david@redhat.com>,
+        <aarcange@redhat.com>, <ddutile@redhat.com>, <dhildenb@redhat.com>,
+        Quentin Perret <qperret@google.com>, <tabba@google.com>,
+        <mhocko@suse.com>, <wei.w.wang@intel.com>
+Subject: Re: [PATCH v10 0/9] KVM: mm: fd-based approach for supporting KVM
+Message-ID: <20230323012737.7vn4ynsbfz7c2ch4@amd.com>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <Y8H5Z3e4hZkFxAVS@google.com>
+ <20230119111308.GC2976263@ls.amr.corp.intel.com>
+ <Y8lg1G2lRIrI/hld@google.com>
+ <20230119223704.GD2976263@ls.amr.corp.intel.com>
+ <Y880FiYF7YCtsw/i@google.com>
+ <20230213130102.two7q3kkcf254uof@amd.com>
+ <20230221121135.GA1595130@chaop.bj.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20230308074026.GA2183207@chaop.bj.intel.com>
+In-Reply-To: <20230221121135.GA1595130@chaop.bj.intel.com>
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL02EPF0000EE3C:EE_|SA0PR12MB4463:EE_
+X-MS-Office365-Filtering-Correlation-Id: 62866689-2cda-4b67-8414-08db2b3dd3c3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: LMAXdBDFqtDpIFu82ZPHqUkd4fl7aS4dBZQjtL/hw6oW3BaJcSWalbXjEJJre0jRwXcOI4cEd45XlDjpTRAmX8qhXYZPMNxe1HUUn5LIUd/9cBFCz0Anc2TR+O6K26xEpy6AT94syR4zQpvxoFzLtmMwCy97e/zAyKPX8YTr9e4H25rwOzwIjAxZqCLSXMVEDbBz/RacrPMbvcem2DvkzBuo8ETuOEOxBfY6y6eh3Lz5EiFEBoBJ6wycIxHp9b9D9xrrshnOYs+4AhzvylzKLo/zwLrC6dlONWVizJFEGGLE6vlm1X68vEgi6xxwEc/f3GUx3MoBQgfh3JsQO5Ft1EUJwb/YfZE8axCmfItrOh6gddG+qinxFRDnTHfh9TWdHa1ue5C2l7/RbEKsaEV7M3qyWEwqmcKk7hgvq9znDIUvASCcqaxUqpi2SGkqDVYYaSlzCFS9C988vxI8bXnFTDnL+i3zjncqom92OuZRI0yKv4zhC1620iEGMLDpDVGW+oPMjJdyFoYYlEoax8ikci6WaFwcgkY3anGH2IbP5BWQMLpnKTNzSXvaH1l0H4yZtsvko6h7CYqPlOyg7vVc0eRWUAGfjMXP9g4RD1PAtQzuV4myf4A2SFd9zPoAiHiuExt+HM739KerY92e5IZFRd5uOQfzz4oYyFvdq8I56vDyRjsn6DrvEYY3XuZ7FSOnS3MwjCMj313DmL8+3cNMTi9/Y3dRSk3YO2Ff+9dlVuM=
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230025)(4636009)(39860400002)(396003)(376002)(136003)(346002)(451199018)(46966006)(36840700001)(40470700004)(1076003)(26005)(82310400005)(336012)(6666004)(36756003)(426003)(47076005)(40460700003)(16526019)(186003)(40480700001)(316002)(81166007)(2906002)(356005)(54906003)(41300700001)(36860700001)(8936002)(8676002)(4326008)(6916009)(70586007)(70206006)(2616005)(44832011)(82740400003)(7416002)(7406005)(5660300002)(83380400001)(966005)(86362001)(478600001)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2023 01:27:54.7925
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 62866689-2cda-4b67-8414-08db2b3dd3c3
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BL02EPF0000EE3C.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4463
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Mar 08, 2023 at 03:40:26PM +0800,
-Chao Peng <chao.p.peng@linux.intel.com> wrote:
-
-> On Wed, Mar 08, 2023 at 12:13:24AM +0000, Ackerley Tng wrote:
-> > Chao Peng <chao.p.peng@linux.intel.com> writes:
+On Tue, Feb 21, 2023 at 08:11:35PM +0800, Chao Peng wrote:
+> > Hi Sean,
 > > 
-> > > On Sat, Jan 14, 2023 at 12:01:01AM +0000, Sean Christopherson wrote:
-> > > > On Fri, Dec 02, 2022, Chao Peng wrote:
-> > > ...
-> > > > Strongly prefer to use similar logic to existing code that detects wraps:
+> > We've rebased the SEV+SNP support onto your updated UPM base support
+> > tree and things seem to be working okay, but we needed some fixups on
+> > top of the base support get things working, along with 1 workaround
+> > for an issue that hasn't been root-caused yet:
 > > 
-> > > > 		mem->restricted_offset + mem->memory_size < mem->restricted_offset
+> >   https://github.com/mdroth/linux/commits/upmv10b-host-snp-v8-wip
 > > 
-> > > > This is also where I'd like to add the "gfn is aligned to offset"
-> > > > check, though
-> > > > my brain is too fried to figure that out right now.
+> >   *stash (upm_base_support): mm: restrictedmem: Kirill's pinning implementation
+> >   *workaround (use_base_support): mm: restrictedmem: loosen exclusivity check
+> 
+> What I'm seeing is Slot#3 gets added first and then deleted. When it's
+> gets added, Slot#0 already has the same range bound to restrictedmem so
+> trigger the exclusive check. This check is exactly the current code for.
+
+With the following change in QEMU, we no longer trigger this check:
+
+  diff --git a/hw/pci-host/q35.c b/hw/pci-host/q35.c
+  index 20da121374..849b5de469 100644
+  --- a/hw/pci-host/q35.c
+  +++ b/hw/pci-host/q35.c
+  @@ -588,9 +588,9 @@ static void mch_realize(PCIDevice *d, Error **errp)
+       memory_region_init_alias(&mch->open_high_smram, OBJECT(mch), "smram-open-high",
+                                mch->ram_memory, MCH_HOST_BRIDGE_SMRAM_C_BASE,
+                                MCH_HOST_BRIDGE_SMRAM_C_SIZE);
+  +    memory_region_set_enabled(&mch->open_high_smram, false);
+       memory_region_add_subregion_overlap(mch->system_memory, 0xfeda0000,
+                                           &mch->open_high_smram, 1);
+  -    memory_region_set_enabled(&mch->open_high_smram, false);
+
+I'm not sure if QEMU is actually doing something wrong here though or if
+this check is putting tighter restrictions on userspace than what was
+expected before. Will look into it more.
+
+> 
+> >   *fixup (upm_base_support): KVM: use inclusive ranges for restrictedmem binding/unbinding
+> >   *fixup (upm_base_support): mm: restrictedmem: use inclusive ranges for issuing invalidations
+> 
+> As many kernel APIs treat 'end' as exclusive, I would rather keep using
+> exclusive 'end' for these APIs(restrictedmem_bind/restrictedmem_unbind
+> and notifier callbacks) but fix it internally in the restrictedmem. E.g.
+> all the places where xarray API needs a 'last'/'max' we use 'end - 1'.
+> See below for the change.
+
+Yes I did feel like I was fighting the kernel a bit on that; your
+suggestion seems like it would be a better fit.
+
+> 
+> >   *fixup (upm_base_support): KVM: fix restrictedmem GFN range calculations
+> 
+> Subtracting slot->restrictedmem.index for start/end in
+> restrictedmem_get_gfn_range() is the correct fix.
+> 
+> >   *fixup (upm_base_support): KVM: selftests: CoCo compilation fixes
 > > 
-> > > Used count_trailing_zeros() for this TODO, unsure we have other better
-> > > approach.
+> > We plan to post an updated RFC for v8 soon, but also wanted to share
+> > the staging tree in case you end up looking at the UPM integration aspects
+> > before then.
 > > 
-> > > diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> > > index afc8c26fa652..fd34c5f7cd2f 100644
-> > > --- a/virt/kvm/kvm_main.c
-> > > +++ b/virt/kvm/kvm_main.c
-> > > @@ -56,6 +56,7 @@
-> > >   #include <asm/processor.h>
-> > >   #include <asm/ioctl.h>
-> > >   #include <linux/uaccess.h>
-> > > +#include <linux/count_zeros.h>
-> > 
-> > >   #include "coalesced_mmio.h"
-> > >   #include "async_pf.h"
-> > > @@ -2087,6 +2088,19 @@ static bool kvm_check_memslot_overlap(struct
-> > > kvm_memslots *slots, int id,
-> > >   	return false;
-> > >   }
-> > 
-> > > +/*
-> > > + * Return true when ALIGNMENT(offset) >= ALIGNMENT(gpa).
-> > > + */
-> > > +static bool kvm_check_rmem_offset_alignment(u64 offset, u64 gpa)
-> > > +{
-> > > +	if (!offset)
-> > > +		return true;
-> > > +	if (!gpa)
-> > > +		return false;
-> > > +
-> > > +	return !!(count_trailing_zeros(offset) >= count_trailing_zeros(gpa));
+> > -Mike
+> 
+> This is the restrictedmem fix to solve 'end' being stored and checked in xarray:
 
-This check doesn't work expected. For example, offset = 2GB, gpa=4GB
-this check fails.
-I come up with the following.
+Looks good.
 
-From ec87e25082f0497431b732702fae82c6a05071bf Mon Sep 17 00:00:00 2001
-Message-Id: <ec87e25082f0497431b732702fae82c6a05071bf.1679531995.git.isaku.yamahata@intel.com>
-From: Isaku Yamahata <isaku.yamahata@intel.com>
-Date: Wed, 22 Mar 2023 15:32:56 -0700
-Subject: [PATCH] KVM: Relax alignment check for restricted mem
+Thanks!
 
-kvm_check_rmem_offset_alignment() only checks based on offset alignment
-and GPA alignment.  However, the actual alignment for offset depends
-on architecture.  For x86 case, it can be 1G, 2M or 4K.  So even if
-GPA is aligned for 1G+, only 1G-alignment is required for offset.
+-Mike
 
-Without this patch, gpa=4G, offset=2G results in failure of memory slot
-creation.
-
-Fixes: edc8814b2c77 ("KVM: Require gfn be aligned with restricted offset")
-Signed-off-by: Isaku Yamahata <isaku.yamahata@intel.com>
----
- arch/x86/include/asm/kvm_host.h | 15 +++++++++++++++
- virt/kvm/kvm_main.c             |  9 ++++++++-
- 2 files changed, 23 insertions(+), 1 deletion(-)
-
-diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
-index 88e11dd3afde..03af44650f24 100644
---- a/arch/x86/include/asm/kvm_host.h
-+++ b/arch/x86/include/asm/kvm_host.h
-@@ -16,6 +16,7 @@
- #include <linux/irq_work.h>
- #include <linux/irq.h>
- #include <linux/workqueue.h>
-+#include <linux/count_zeros.h>
- 
- #include <linux/kvm.h>
- #include <linux/kvm_para.h>
-@@ -143,6 +144,20 @@
- #define KVM_HPAGE_MASK(x)	(~(KVM_HPAGE_SIZE(x) - 1))
- #define KVM_PAGES_PER_HPAGE(x)	(KVM_HPAGE_SIZE(x) / PAGE_SIZE)
- 
-+#define kvm_arch_required_alignment	kvm_arch_required_alignment
-+static inline int kvm_arch_required_alignment(u64 gpa)
-+{
-+	int zeros = count_trailing_zeros(gpa);
-+
-+	WARN_ON_ONCE(!PAGE_ALIGNED(gpa));
-+	if (zeros >= KVM_HPAGE_SHIFT(PG_LEVEL_1G))
-+		return KVM_HPAGE_SHIFT(PG_LEVEL_1G);
-+	else if (zeros >= KVM_HPAGE_SHIFT(PG_LEVEL_2M))
-+		return KVM_HPAGE_SHIFT(PG_LEVEL_2M);
-+
-+	return PAGE_SHIFT;
-+}
-+
- #define KVM_MEMSLOT_PAGES_TO_MMU_PAGES_RATIO 50
- #define KVM_MIN_ALLOC_MMU_PAGES 64UL
- #define KVM_MMU_HASH_SHIFT 12
-diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-index c9c4eef457b0..f4ff96171d24 100644
---- a/virt/kvm/kvm_main.c
-+++ b/virt/kvm/kvm_main.c
-@@ -2113,6 +2113,13 @@ static bool kvm_check_memslot_overlap(struct kvm_memslots *slots, int id,
- 	return false;
- }
- 
-+#ifndef kvm_arch_required_alignment
-+__weak int kvm_arch_required_alignment(u64 gpa)
-+{
-+	return PAGE_SHIFT
-+}
-+#endif
-+
- /*
-  * Return true when ALIGNMENT(offset) >= ALIGNMENT(gpa).
-  */
-@@ -2123,7 +2130,7 @@ static bool kvm_check_rmem_offset_alignment(u64 offset, u64 gpa)
- 	if (!gpa)
- 		return false;
- 
--	return !!(count_trailing_zeros(offset) >= count_trailing_zeros(gpa));
-+	return !!(count_trailing_zeros(offset) >= kvm_arch_required_alignment(gpa));
- }
- 
- /*
--- 
-2.25.1
-
-
-
--- 
-Isaku Yamahata <isaku.yamahata@gmail.com>
+> 
+> --- a/mm/restrictedmem.c
+> +++ b/mm/restrictedmem.c
+> @@ -46,12 +46,12 @@ static long restrictedmem_punch_hole(struct restrictedmem *rm, int mode,
+>          */
+>         down_read(&rm->lock);
+>  
+> -       xa_for_each_range(&rm->bindings, index, notifier, start, end)
+> +       xa_for_each_range(&rm->bindings, index, notifier, start, end - 1)
+>                 notifier->ops->invalidate_start(notifier, start, end);
+>  
+>         ret = memfd->f_op->fallocate(memfd, mode, offset, len);
+>  
+> -       xa_for_each_range(&rm->bindings, index, notifier, start, end)
+> +       xa_for_each_range(&rm->bindings, index, notifier, start, end - 1)
+>                 notifier->ops->invalidate_end(notifier, start, end);
+>  
+>         up_read(&rm->lock);
+> @@ -224,7 +224,7 @@ static int restricted_error_remove_page(struct address_space *mapping,
+>                 }
+>                 spin_unlock(&inode->i_lock);
+>  
+> -               xa_for_each_range(&rm->bindings, index, notifier, start, end)
+> +               xa_for_each_range(&rm->bindings, index, notifier, start, end - 1)
+>                         notifier->ops->error(notifier, start, end);
+>                 break;
+>         }
+> @@ -301,11 +301,12 @@ int restrictedmem_bind(struct file *file, pgoff_t start, pgoff_t end,
+>                 if (exclusive != rm->exclusive)
+>                         goto out_unlock;
+>  
+> -               if (exclusive && xa_find(&rm->bindings, &start, end, XA_PRESENT))
+> +               if (exclusive &&
+> +                   xa_find(&rm->bindings, &start, end - 1, XA_PRESENT))
+>                         goto out_unlock;
+>         }
+>  
+> -       xa_store_range(&rm->bindings, start, end, notifier, GFP_KERNEL);
+> +       xa_store_range(&rm->bindings, start, end - 1, notifier, GFP_KERNEL);
+>         rm->exclusive = exclusive;
+>         ret = 0;
+>  out_unlock:
+> @@ -320,7 +321,7 @@ void restrictedmem_unbind(struct file *file, pgoff_t start, pgoff_t end,
+>         struct restrictedmem *rm = file->f_mapping->private_data;
+>  
+>         down_write(&rm->lock);
+> -       xa_store_range(&rm->bindings, start, end, NULL, GFP_KERNEL);
+> +       xa_store_range(&rm->bindings, start, end - 1, NULL, GFP_KERNEL);
+>         synchronize_rcu();
+>         up_write(&rm->lock);
+>  }
