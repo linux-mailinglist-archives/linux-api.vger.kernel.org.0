@@ -2,79 +2,67 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D2DA6CBCD7
-	for <lists+linux-api@lfdr.de>; Tue, 28 Mar 2023 12:49:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DAD86CF87C
+	for <lists+linux-api@lfdr.de>; Thu, 30 Mar 2023 03:10:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231374AbjC1KtN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 28 Mar 2023 06:49:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53092 "EHLO
+        id S229753AbjC3BKf (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 29 Mar 2023 21:10:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36738 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232502AbjC1KtM (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 28 Mar 2023 06:49:12 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BA6A1BC0;
-        Tue, 28 Mar 2023 03:49:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680000550; x=1711536550;
-  h=date:from:to:cc:subject:message-id:reply-to:references:
-   mime-version:in-reply-to;
-  bh=AseN6rlr5gwMYM5zhMJq+cjPxZAZKyFMZLKoTjj2S7w=;
-  b=RUVD9MEmst1jITrfZs9/DT/PV0vpczqs7TuvEXdFcSBeNBtA1QtZtSBH
-   qc2ws/fqgP85SX9IMZydBcISwuvlcAnbjl4MrqTcR9pXfydNGZPwg+SdO
-   4r/UA/LT2U59icVUOuPhf/syfYSOteovi51yhUN43wW/FjmzWBdLS0Ccb
-   24jYxM+QttAgeGaUvJqmjLHr9ISN4UHLKd5nupKb1UwUiMpUyo9StDVAD
-   izlO/1hFMBp7ZUnPPSVrgu1uCuctztbjpUS79jg9D/cEpoMY7EDglbP5+
-   x6geM7JCzPwk/EAp1dxCpsUXCtpS22GTmP2fHgYa7HA9pNyy+k0A1oXUl
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="403144893"
-X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; 
-   d="scan'208";a="403144893"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 03:48:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="794757674"
-X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; 
-   d="scan'208";a="794757674"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.105])
-  by fmsmga002.fm.intel.com with ESMTP; 28 Mar 2023 03:48:42 -0700
-Date:   Tue, 28 Mar 2023 18:41:08 +0800
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     Xiaoyao Li <xiaoyao.li@intel.com>
-Cc:     Isaku Yamahata <isaku.yamahata@gmail.com>,
-        Ackerley Tng <ackerleytng@google.com>, seanjc@google.com,
-        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        pbonzini@redhat.com, corbet@lwn.net, vkuznets@redhat.com,
-        wanpengli@tencent.com, jmattson@google.com, joro@8bytes.org,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, arnd@arndb.de,
-        naoya.horiguchi@nec.com, linmiaohe@huawei.com, x86@kernel.org,
-        hpa@zytor.com, hughd@google.com, jlayton@kernel.org,
-        bfields@fieldses.org, akpm@linux-foundation.org, shuah@kernel.org,
-        rppt@kernel.org, steven.price@arm.com, mail@maciej.szmigiero.name,
-        vbabka@suse.cz, vannapurve@google.com, yu.c.zhang@linux.intel.com,
-        kirill.shutemov@linux.intel.com, luto@kernel.org,
-        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
-        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
-        dhildenb@redhat.com, qperret@google.com, tabba@google.com,
-        michael.roth@amd.com, mhocko@suse.com, wei.w.wang@intel.com
-Subject: Re: [PATCH v10 9/9] KVM: Enable and expose KVM_MEM_PRIVATE
-Message-ID: <20230328104108.GB2909606@chaop.bj.intel.com>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-References: <20230128140030.GB700688@chaop.bj.intel.com>
- <diqz5ybc3xsr.fsf@ackerleytng-cloudtop.c.googlers.com>
- <20230308074026.GA2183207@chaop.bj.intel.com>
- <20230323004131.GA214881@ls.amr.corp.intel.com>
- <20230324021029.GA2774613@chaop.bj.intel.com>
- <6cf365a3-dddc-8b74-4d74-04666fbeb53d@intel.com>
+        with ESMTP id S229607AbjC3BKe (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 29 Mar 2023 21:10:34 -0400
+Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com [IPv6:2607:f8b0:4864:20::b2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78F5F5590
+        for <linux-api@vger.kernel.org>; Wed, 29 Mar 2023 18:10:28 -0700 (PDT)
+Received: by mail-yb1-xb2c.google.com with SMTP id k17so21659865ybm.11
+        for <linux-api@vger.kernel.org>; Wed, 29 Mar 2023 18:10:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1680138627;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0SGh3fZWr7hGlmOJJyEOV+nHbXyUtBvRhIDq9a23Cf8=;
+        b=bmTUyijVn1l5Flp50doP9tPK+ixFjShRWiQyZM/Z5EPAuv6t3tWyTSPK7SH7Ywn6TJ
+         ofpimuXBl8593gBSB4VG8NvpOa/x2sqXARQK7N+iqUMtqTUr0PDGVlvzlhBNWXBP/cWm
+         kSnyDU9lH59nY8zlkBHtV3EYvU8x/2DZnmummRNE5xT27AW0lMWEutv7p3rZIDSO+Qk+
+         CnnqZJnu6NT/7qqI504i/SksAnqSD4GjZEyY1EuibJTdwEsOeZZwOic4gc45la6y3Poz
+         5g8Uy8XPHkeicYBTnkTpn4porfisuodnF125fBmozroANNnp6HVnjPg1synrSVBbU3HK
+         rccg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680138627;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0SGh3fZWr7hGlmOJJyEOV+nHbXyUtBvRhIDq9a23Cf8=;
+        b=5sJ3LnqzaWkoVsX9Wg4yhwt/T/W21MkNOK4gftWnQLH+xy2J6uRYJaBzvdQwqqwflX
+         IrWYz58f8xZ1TfJolp/PTJQpsZIlXxSWtXCCKH1qW3/9NB//1ax41ETtdJrtdf+QHKIP
+         ZSDLNxUYJeJBrCYMtZ36zDGKaqerVkBR2MHeHJKm/E6k5J2U4n6ncIaDW9htDVxhcB6L
+         UtoYktUBRw8Uwiu7F+oWsJ5oDPfvmWt/ewIYrDXEE2gl+MP4JCRvgDJflXC9IVGQs10D
+         MLeeJnG4HViw+gArDnJQnliMG663Ggkzu9PRaiejUlgCyG1EZxWIy6bnyoFakDOGZnOI
+         owJw==
+X-Gm-Message-State: AAQBX9f9votw0LbsILz3rBYamOwgnBYhdwN5CECsxoVXz4SgeVg5JhDF
+        eF07nm8dvYHXZDLxnCrhJtYSwS/Y6vxwNJg+/0fe
+X-Google-Smtp-Source: AKy350Z/cQ952yf9ZDOWZown0C3FWIiWHZiMhKCaOLerWDAR4sqXen8YH7/P0OZwdzzR7iZBQF6gbXJJO2/73tXA4rg=
+X-Received: by 2002:a05:6902:102a:b0:b71:f49f:8d22 with SMTP id
+ x10-20020a056902102a00b00b71f49f8d22mr11290085ybt.3.1680138627424; Wed, 29
+ Mar 2023 18:10:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6cf365a3-dddc-8b74-4d74-04666fbeb53d@intel.com>
-X-Spam-Status: No, score=-2.4 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE
+References: <20230315224704.2672-1-casey@schaufler-ca.com> <20230315224704.2672-2-casey@schaufler-ca.com>
+In-Reply-To: <20230315224704.2672-2-casey@schaufler-ca.com>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Wed, 29 Mar 2023 21:10:16 -0400
+Message-ID: <CAHC9VhTdiKi99Hx1OVDQkG3DEf_V_LV0DhB8n2=BoyH7r69TCQ@mail.gmail.com>
+Subject: Re: [PATCH v7 01/11] LSM: Identify modules by more than name
+To:     Casey Schaufler <casey@schaufler-ca.com>
+Cc:     linux-security-module@vger.kernel.org, jmorris@namei.org,
+        keescook@chromium.org, john.johansen@canonical.com,
+        penguin-kernel@i-love.sakura.ne.jp, stephen.smalley.work@gmail.com,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        mic@digikod.net
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -82,194 +70,157 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Mar 24, 2023 at 10:29:25AM +0800, Xiaoyao Li wrote:
-> On 3/24/2023 10:10 AM, Chao Peng wrote:
-> > On Wed, Mar 22, 2023 at 05:41:31PM -0700, Isaku Yamahata wrote:
-> > > On Wed, Mar 08, 2023 at 03:40:26PM +0800,
-> > > Chao Peng <chao.p.peng@linux.intel.com> wrote:
-> > > 
-> > > > On Wed, Mar 08, 2023 at 12:13:24AM +0000, Ackerley Tng wrote:
-> > > > > Chao Peng <chao.p.peng@linux.intel.com> writes:
-> > > > > 
-> > > > > > On Sat, Jan 14, 2023 at 12:01:01AM +0000, Sean Christopherson wrote:
-> > > > > > > On Fri, Dec 02, 2022, Chao Peng wrote:
-> > > > > > ...
-> > > > > > > Strongly prefer to use similar logic to existing code that detects wraps:
-> > > > > 
-> > > > > > > 		mem->restricted_offset + mem->memory_size < mem->restricted_offset
-> > > > > 
-> > > > > > > This is also where I'd like to add the "gfn is aligned to offset"
-> > > > > > > check, though
-> > > > > > > my brain is too fried to figure that out right now.
-> > > > > 
-> > > > > > Used count_trailing_zeros() for this TODO, unsure we have other better
-> > > > > > approach.
-> > > > > 
-> > > > > > diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> > > > > > index afc8c26fa652..fd34c5f7cd2f 100644
-> > > > > > --- a/virt/kvm/kvm_main.c
-> > > > > > +++ b/virt/kvm/kvm_main.c
-> > > > > > @@ -56,6 +56,7 @@
-> > > > > >    #include <asm/processor.h>
-> > > > > >    #include <asm/ioctl.h>
-> > > > > >    #include <linux/uaccess.h>
-> > > > > > +#include <linux/count_zeros.h>
-> > > > > 
-> > > > > >    #include "coalesced_mmio.h"
-> > > > > >    #include "async_pf.h"
-> > > > > > @@ -2087,6 +2088,19 @@ static bool kvm_check_memslot_overlap(struct
-> > > > > > kvm_memslots *slots, int id,
-> > > > > >    	return false;
-> > > > > >    }
-> > > > > 
-> > > > > > +/*
-> > > > > > + * Return true when ALIGNMENT(offset) >= ALIGNMENT(gpa).
-> > > > > > + */
-> > > > > > +static bool kvm_check_rmem_offset_alignment(u64 offset, u64 gpa)
-> > > > > > +{
-> > > > > > +	if (!offset)
-> > > > > > +		return true;
-> > > > > > +	if (!gpa)
-> > > > > > +		return false;
-> > > > > > +
-> > > > > > +	return !!(count_trailing_zeros(offset) >= count_trailing_zeros(gpa));
-> > > 
-> > > This check doesn't work expected. For example, offset = 2GB, gpa=4GB
-> > > this check fails.
-> > 
-> > This case is expected to fail as Sean initially suggested[*]:
-> >    I would rather reject memslot if the gfn has lesser alignment than
-> >    the offset. I'm totally ok with this approach _if_ there's a use case.
-> >    Until such a use case presents itself, I would rather be conservative
-> >    from a uAPI perspective.
-> > 
-> > I understand that we put tighter restriction on this but if you see such
-> > restriction is really a big issue for real usage, instead of a
-> > theoretical problem, then we can loosen the check here. But at that time
-> > below code is kind of x86 specific and may need improve.
-> > 
-> > BTW, in latest code, I replaced count_trailing_zeros() with fls64():
-> >    return !!(fls64(offset) >= fls64(gpa));
-> 
-> wouldn't it be !!(ffs64(offset) <= ffs64(gpa)) ?
+On Wed, Mar 15, 2023 at 6:47=E2=80=AFPM Casey Schaufler <casey@schaufler-ca=
+.com> wrote:
+>
+> Create a struct lsm_id to contain identifying information
+> about Linux Security Modules (LSMs). At inception this contains
+> the name of the module, an identifier associated with the security
+> module and an integer member "attrs" which identifies the API
+> related data associated with each security module. The initial set
+> of features maps to information that has traditionaly been available
+> in /proc/self/attr. They are documented in a new userspace-api file.
+> Change the security_add_hooks() interface to use this structure.
+> Change the individual modules to maintain their own struct lsm_id
+> and pass it to security_add_hooks().
+>
+> The values are for LSM identifiers are defined in a new UAPI
+> header file linux/lsm.h. Each existing LSM has been updated to
+> include it's LSMID in the lsm_id.
+>
+> The LSM ID values are sequential, with the oldest module
+> LSM_ID_CAPABILITY being the lowest value and the existing modules
+> numbered in the order they were included in the main line kernel.
+> This is an arbitrary convention for assigning the values, but
+> none better presents itself. The value 0 is defined as being invalid.
+> The values 1-99 are reserved for any special case uses which may
+> arise in the future. This may include attributes of the LSM
+> infrastructure itself, possibly related to namespacing or network
+> attribute management. A special range is identified for such attributes
+> to help reduce confusion for developers unfamiliar with LSMs.
+>
+> LSM attribute values are defined for the attributes presented by
+> modules that are available today. As with the LSM IDs, The value 0
+> is defined as being invalid. The values 1-99 are reserved for any
+> special case uses which may arise in the future.
+>
+> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
+> Cc: linux-security-module <linux-security-module@vger.kernel.org>
+> ---
+>  Documentation/userspace-api/index.rst |  1 +
+>  Documentation/userspace-api/lsm.rst   | 55 +++++++++++++++++++++++++++
+>  MAINTAINERS                           |  1 +
+>  include/linux/lsm_hooks.h             | 18 ++++++++-
+>  include/uapi/linux/lsm.h              | 53 ++++++++++++++++++++++++++
+>  security/apparmor/lsm.c               |  8 +++-
+>  security/bpf/hooks.c                  |  9 ++++-
+>  security/commoncap.c                  |  8 +++-
+>  security/landlock/cred.c              |  2 +-
+>  security/landlock/fs.c                |  2 +-
+>  security/landlock/ptrace.c            |  2 +-
+>  security/landlock/setup.c             |  6 +++
+>  security/landlock/setup.h             |  1 +
+>  security/loadpin/loadpin.c            |  9 ++++-
+>  security/lockdown/lockdown.c          |  8 +++-
+>  security/safesetid/lsm.c              |  9 ++++-
+>  security/security.c                   | 12 +++---
+>  security/selinux/hooks.c              |  9 ++++-
+>  security/smack/smack_lsm.c            |  8 +++-
+>  security/tomoyo/tomoyo.c              |  9 ++++-
+>  security/yama/yama_lsm.c              |  8 +++-
+>  21 files changed, 217 insertions(+), 21 deletions(-)
+>  create mode 100644 Documentation/userspace-api/lsm.rst
+>  create mode 100644 include/uapi/linux/lsm.h
 
-As the function document explains, here we want to return true when
-ALIGNMENT(offset) >= ALIGNMENT(gpa), so '>=' is what we need.
+...
 
-It's worthy clarifying that in Sean's original suggestion he actually
-mentioned the opposite. He said 'reject memslot if the gfn has lesser
-alignment than the offset', but I wonder this is his purpose, since
-if ALIGNMENT(offset) < ALIGNMENT(gpa), we wouldn't be possible to map
-the page as largepage. Consider we have below config:
+> diff --git a/include/linux/lsm_hooks.h b/include/linux/lsm_hooks.h
+> index 6e156d2acffc..32285ce65419 100644
+> --- a/include/linux/lsm_hooks.h
+> +++ b/include/linux/lsm_hooks.h
+> @@ -1665,6 +1665,20 @@ struct security_hook_heads {
+>         #undef LSM_HOOK
+>  } __randomize_layout;
+>
+> +/**
+> + * struct lsm_id - Identify a Linux Security Module.
+> + * @lsm: name of the LSM, must be approved by the LSM maintainers
+> + * @id: LSM ID number from uapi/linux/lsm.h
+> + * @attrs: which attributes this LSM supports
+> + *
+> + * Contains the information that identifies the LSM.
+> + */
+> +struct lsm_id {
+> +       const u8        *lsm;
+> +       u64             id;
+> +       u64             attrs;
+> +};
 
-  gpa=2M, offset=1M
+I would either start setting the 'attrs' field values in the LSMs when
+their 'lsm_id' struct is defined or I would leave it out of this patch
+and add it later in the patchset when it is used.
 
-In this case KVM tries to map gpa at 2M as 2M hugepage but the physical
-page at the offset(1M) in private_fd cannot provide the 2M page due to
-misalignment.
+> diff --git a/include/uapi/linux/lsm.h b/include/uapi/linux/lsm.h
+> new file mode 100644
+> index 000000000000..aa3e01867739
+> --- /dev/null
+> +++ b/include/uapi/linux/lsm.h
+> @@ -0,0 +1,53 @@
+> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+> +/*
+> + * Linux Security Modules (LSM) - User space API
+> + *
+> + * Copyright (C) 2022 Casey Schaufler <casey@schaufler-ca.com>
+> + * Copyright (C) 2022 Intel Corporation
+> + */
+> +
+> +#ifndef _UAPI_LINUX_LSM_H
+> +#define _UAPI_LINUX_LSM_H
+> +
+> +/*
+> + * ID tokens to identify Linux Security Modules (LSMs)
+> + *
+> + * These token values are used to uniquely identify specific LSMs
+> + * in the kernel as well as in the kernel's LSM userspace API.
+> + *
+> + * A value of zero/0 is considered undefined and should not be used
+> + * outside the kernel. Values 1-99 are reserved for potential
+> + * future use.
+> + */
+> +#define LSM_ID_UNDEF           0
+> +#define LSM_ID_CAPABILITY      100
+> +#define LSM_ID_SELINUX         101
+> +#define LSM_ID_SMACK           102
+> +#define LSM_ID_TOMOYO          103
+> +#define LSM_ID_IMA             104
+> +#define LSM_ID_APPARMOR                105
+> +#define LSM_ID_YAMA            106
+> +#define LSM_ID_LOADPIN         107
+> +#define LSM_ID_SAFESETID       108
+> +#define LSM_ID_LOCKDOWN                109
+> +#define LSM_ID_BPF             110
+> +#define LSM_ID_LANDLOCK                111
+> +
+> +/*
+> + * LSM_ATTR_XXX definitions identify different LSM attributes
+> + * which are used in the kernel's LSM userspace API. Support
+> + * for these attributes vary across the different LSMs. None
+> + * are required.
+> + *
+> + * A value of zero/0 is considered undefined and should not be used
+> + * outside the kernel. Values 1-99 are reserved for potential
+> + * future use.
+> + */
+> +#define LSM_ATTR_CURRENT       100
+> +#define LSM_ATTR_EXEC          101
+> +#define LSM_ATTR_FSCREATE      102
+> +#define LSM_ATTR_KEYCREATE     103
+> +#define LSM_ATTR_PREV          104
+> +#define LSM_ATTR_SOCKCREATE    105
 
-But as we discussed in the off-list thread, here we do find a real use
-case indicating this check is too strict. i.e. QEMU immediately fails
-when launch a guest > 2G memory. For this case QEMU splits guest memory
-space into two slots:
+We might as well add a LSM_ATTR_UNDEF for zero/0.
 
-  Slot#1(ram_below_4G): gpa=0x0, offset=0x0, size=2G
-  Slot#2(ram_above_4G): gpa=4G,  offset=2G,  size=totalsize-2G
+> +#endif /* _UAPI_LINUX_LSM_H */
 
-This strict alignment check fails for slot#2 because offset(2G) has less
-alignment than gpa(4G). To allow this, one solution can revert to my
-previous change in kvm_alloc_memslot_metadata() to disallow hugepage
-only when the offset/gpa are not aligned to related page size.
-
-Sean, How do you think?
-
-Chao
-> 
-> > [*] https://lore.kernel.org/all/Y8HldeHBrw+OOZVm@google.com/
-> > 
-> > Chao
-> > > I come up with the following.
-> > > 
-> > > >From ec87e25082f0497431b732702fae82c6a05071bf Mon Sep 17 00:00:00 2001
-> > > Message-Id: <ec87e25082f0497431b732702fae82c6a05071bf.1679531995.git.isaku.yamahata@intel.com>
-> > > From: Isaku Yamahata <isaku.yamahata@intel.com>
-> > > Date: Wed, 22 Mar 2023 15:32:56 -0700
-> > > Subject: [PATCH] KVM: Relax alignment check for restricted mem
-> > > 
-> > > kvm_check_rmem_offset_alignment() only checks based on offset alignment
-> > > and GPA alignment.  However, the actual alignment for offset depends
-> > > on architecture.  For x86 case, it can be 1G, 2M or 4K.  So even if
-> > > GPA is aligned for 1G+, only 1G-alignment is required for offset.
-> > > 
-> > > Without this patch, gpa=4G, offset=2G results in failure of memory slot
-> > > creation.
-> > > 
-> > > Fixes: edc8814b2c77 ("KVM: Require gfn be aligned with restricted offset")
-> > > Signed-off-by: Isaku Yamahata <isaku.yamahata@intel.com>
-> > > ---
-> > >   arch/x86/include/asm/kvm_host.h | 15 +++++++++++++++
-> > >   virt/kvm/kvm_main.c             |  9 ++++++++-
-> > >   2 files changed, 23 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
-> > > index 88e11dd3afde..03af44650f24 100644
-> > > --- a/arch/x86/include/asm/kvm_host.h
-> > > +++ b/arch/x86/include/asm/kvm_host.h
-> > > @@ -16,6 +16,7 @@
-> > >   #include <linux/irq_work.h>
-> > >   #include <linux/irq.h>
-> > >   #include <linux/workqueue.h>
-> > > +#include <linux/count_zeros.h>
-> > >   #include <linux/kvm.h>
-> > >   #include <linux/kvm_para.h>
-> > > @@ -143,6 +144,20 @@
-> > >   #define KVM_HPAGE_MASK(x)	(~(KVM_HPAGE_SIZE(x) - 1))
-> > >   #define KVM_PAGES_PER_HPAGE(x)	(KVM_HPAGE_SIZE(x) / PAGE_SIZE)
-> > > +#define kvm_arch_required_alignment	kvm_arch_required_alignment
-> > > +static inline int kvm_arch_required_alignment(u64 gpa)
-> > > +{
-> > > +	int zeros = count_trailing_zeros(gpa);
-> > > +
-> > > +	WARN_ON_ONCE(!PAGE_ALIGNED(gpa));
-> > > +	if (zeros >= KVM_HPAGE_SHIFT(PG_LEVEL_1G))
-> > > +		return KVM_HPAGE_SHIFT(PG_LEVEL_1G);
-> > > +	else if (zeros >= KVM_HPAGE_SHIFT(PG_LEVEL_2M))
-> > > +		return KVM_HPAGE_SHIFT(PG_LEVEL_2M);
-> > > +
-> > > +	return PAGE_SHIFT;
-> > > +}
-> > > +
-> > >   #define KVM_MEMSLOT_PAGES_TO_MMU_PAGES_RATIO 50
-> > >   #define KVM_MIN_ALLOC_MMU_PAGES 64UL
-> > >   #define KVM_MMU_HASH_SHIFT 12
-> > > diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> > > index c9c4eef457b0..f4ff96171d24 100644
-> > > --- a/virt/kvm/kvm_main.c
-> > > +++ b/virt/kvm/kvm_main.c
-> > > @@ -2113,6 +2113,13 @@ static bool kvm_check_memslot_overlap(struct kvm_memslots *slots, int id,
-> > >   	return false;
-> > >   }
-> > > +#ifndef kvm_arch_required_alignment
-> > > +__weak int kvm_arch_required_alignment(u64 gpa)
-> > > +{
-> > > +	return PAGE_SHIFT
-> > > +}
-> > > +#endif
-> > > +
-> > >   /*
-> > >    * Return true when ALIGNMENT(offset) >= ALIGNMENT(gpa).
-> > >    */
-> > > @@ -2123,7 +2130,7 @@ static bool kvm_check_rmem_offset_alignment(u64 offset, u64 gpa)
-> > >   	if (!gpa)
-> > >   		return false;
-> > > -	return !!(count_trailing_zeros(offset) >= count_trailing_zeros(gpa));
-> > > +	return !!(count_trailing_zeros(offset) >= kvm_arch_required_alignment(gpa));
-> > >   }
-> > >   /*
-> > > -- 
-> > > 2.25.1
-> > > 
-> > > 
-> > > 
-> > > -- 
-> > > Isaku Yamahata <isaku.yamahata@gmail.com>
+--
+paul-moore.com
