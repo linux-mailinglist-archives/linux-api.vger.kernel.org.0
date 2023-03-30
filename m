@@ -2,58 +2,58 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 94B186D12F1
-	for <lists+linux-api@lfdr.de>; Fri, 31 Mar 2023 01:22:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5507E6D134D
+	for <lists+linux-api@lfdr.de>; Fri, 31 Mar 2023 01:29:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230456AbjC3XWt (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 30 Mar 2023 19:22:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45838 "EHLO
+        id S231533AbjC3X3U (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 30 Mar 2023 19:29:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230081AbjC3XWs (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 30 Mar 2023 19:22:48 -0400
-Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECD6910A82
-        for <linux-api@vger.kernel.org>; Thu, 30 Mar 2023 16:22:46 -0700 (PDT)
-Received: by mail-yb1-xb30.google.com with SMTP id p203so25528825ybb.13
-        for <linux-api@vger.kernel.org>; Thu, 30 Mar 2023 16:22:46 -0700 (PDT)
+        with ESMTP id S231601AbjC3X3I (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 30 Mar 2023 19:29:08 -0400
+Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1B2512BE4
+        for <linux-api@vger.kernel.org>; Thu, 30 Mar 2023 16:28:44 -0700 (PDT)
+Received: by mail-yb1-xb2a.google.com with SMTP id z83so25592869ybb.2
+        for <linux-api@vger.kernel.org>; Thu, 30 Mar 2023 16:28:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1680218566;
+        d=paul-moore.com; s=google; t=1680218915;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BMhDdox3W6ZIpkSlsW/BA/8XmIJaV3zHEa/CJlMiH7M=;
-        b=J76GzjE5TC+pSOYCnZvNrSwZ6X6nysFTbLxIX+36/1Jj8YkzgsyxWXhttdD+ND9jRD
-         111BroVdHtD4lXOTuT6/WnO718jwyhlplePid3M0LMNuLIlY/yRgyQ/bQW+/c/yZD/r8
-         NLku3KwJzd+r9ESePy4ckt5AG6o4N513/ISD2I5UF42PIzZ0YUO9SGSsIu0j+fCspYtz
-         ERizQa32z+NonKjzYZOPvWtUf+WUlNP67qtTdmZqRwgxVGp5LiQtk0svTx04kMjj0PPQ
-         OlhbI4U5sBWL7fDx0oB3masRv/FMd4Cn6+Dtw00cEVwIwlQDa5hTF/o5BUhp/aYcuCYm
-         r8Jg==
+        bh=A3qDFqYlzMY39DpBJCz3fFVstIQismbY/XL88bC6N5Y=;
+        b=UQmICd6EXGXvRyObWEMxhbOxki8UR0CbKRLKyHFsqP2c1B0Y6XoY7QZR5YBvOxJQom
+         EJM/mU684qPiHTU0Dh4vncs0CFu0pRFlyoGMbGp8U7jyUb5NPx7EC+jlMyYPN92PksrF
+         TfVDTi7CopzDgKk5yytYwqFdrm5K1RlTNgoOYjI5W/UuL1/xLgY7ZZFgDJECStcMkJWR
+         QThvJCp6C4W2HouW6jucjJTXyvQUGitAdjHh0wyhxrwaoBZuUbmyQhTXHnzqcKfDNDRB
+         uMQvN9rNwC5iNF4vDin/2B3k+yFK8ngzPgANNvViRIdjV7pjbf/39HA/HUC38Bg11gLz
+         NxuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680218566;
+        d=1e100.net; s=20210112; t=1680218915;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=BMhDdox3W6ZIpkSlsW/BA/8XmIJaV3zHEa/CJlMiH7M=;
-        b=ozaMhHlYfOiRyIRT+egnvtZ+DyrEbetTGAUjgNgAxhXllhTG4RysRGCqkthgHM9ip/
-         U4yYhjJDaEugU9MBpbrQOCB94xdSKys73L+5+wSFKUupBjv3UZ/YNJrXq07vyY1KDr7d
-         AgDJDYjqC72r3KoYjcSeYqvNKufYSjdoqo6xAQVjOt7cIPVhfxpLTydEHVWb8exeGJFw
-         EVvTikfqAVk3Ea6qqiQiWOB4jPDYddgEjI7AEh8T5J+bD0Ijov67GhJ5vJmeO3n93yKK
-         Fqlzk6pr1q3fxFXBGr3jVMwluYkAe4NLs+ZsYAtyO40D6pqKkc4AqbGNHq0/CkE7YbmN
-         +0Zg==
-X-Gm-Message-State: AAQBX9f3BAw13F13Z3Ow6Abg42VciWF+eGxQSi1rpRveCfbBD5plBI6H
-        ZAKiS7D8N9nAEDEss6sdBjGLBouFONm9ZPYZ53JA
-X-Google-Smtp-Source: AKy350aq24t2w2OhIGe2kGoA2xukhf/xqmX4JD/k57QmXbMzxfViay53AQkkHh6S0hxO52L1pgS/CuorGsEqBVw46to=
-X-Received: by 2002:a05:6902:72e:b0:b6c:f26c:e5ab with SMTP id
- l14-20020a056902072e00b00b6cf26ce5abmr17352852ybt.3.1680218565951; Thu, 30
- Mar 2023 16:22:45 -0700 (PDT)
+        bh=A3qDFqYlzMY39DpBJCz3fFVstIQismbY/XL88bC6N5Y=;
+        b=ZpVTvi4gaSBLc8D3PwBN2JHowh867WGhPvIwZRVtRBFCfwoNEtpf/zF9n7PpmZyqjq
+         TEwO1UBQ6TAKZQlKWZV4GP2C3dEJg2aKnBqUNeZZQDmzGHVEjWTUeeIW70PrfHKHMeTx
+         nhiBncJ8ZIRsnGAknehdSuvxKu5mpzp4OA2pDQ/Ev1kaW60RqoAYUe9IJ0LJqEArw23O
+         JRLgzMmMsjwpP1UUZ1z+wIGAwLu67fVYG33sj9US0gC8WTIbTKQArKLgRkfSHiyBijha
+         ea5ar4sdDSVDL8JIeK3WgVEQlPZxtku57RBNtbrjrn8I/9yArA9/h5KlI9JAVSHA4zYg
+         kC+Q==
+X-Gm-Message-State: AAQBX9dISX+zFxoF7pFEchwNLQn7pYC9zNx1F0UNDcWIdBGtYiwUy4cf
+        ieNdv+o5Zg6tMPjBKJU3Feb+0gmfR9/GjM2O5dD4
+X-Google-Smtp-Source: AKy350bAByAu2U4yJTd5j+tf5f2sReiTnrCAPantsLnhpfA88T4dH5EmL4dUb0hSt/fut5A5x2NhPCcDgvbFVyoJfrM=
+X-Received: by 2002:a25:344:0:b0:b27:4632:f651 with SMTP id
+ 65-20020a250344000000b00b274632f651mr12362193ybd.3.1680218914733; Thu, 30 Mar
+ 2023 16:28:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230315224704.2672-1-casey@schaufler-ca.com> <20230315224704.2672-5-casey@schaufler-ca.com>
- <CAHC9VhRuKqaYD=WCzuuk4=+qFSvCjCEMEsPjAh9pQe-=LyMthA@mail.gmail.com> <6cbbe6eb-d808-7a99-9ca9-43f816b99833@schaufler-ca.com>
-In-Reply-To: <6cbbe6eb-d808-7a99-9ca9-43f816b99833@schaufler-ca.com>
+References: <20230315224704.2672-1-casey@schaufler-ca.com> <20230315224704.2672-8-casey@schaufler-ca.com>
+ <CAHC9VhT9j78jC66xv-pV1iPmgEK6=fHddFVaAS8Qmm_WyYMypQ@mail.gmail.com> <c79a66f4-53c0-66f5-4539-4994365aa656@schaufler-ca.com>
+In-Reply-To: <c79a66f4-53c0-66f5-4539-4994365aa656@schaufler-ca.com>
 From:   Paul Moore <paul@paul-moore.com>
-Date:   Thu, 30 Mar 2023 19:22:34 -0400
-Message-ID: <CAHC9VhSoecHCmuxCeiTvYxjRb+D=jw4TXyYs5P9hnXOjjGGDQQ@mail.gmail.com>
-Subject: Re: [PATCH v7 04/11] LSM: syscalls for current process attributes
+Date:   Thu, 30 Mar 2023 19:28:24 -0400
+Message-ID: <CAHC9VhRVru1xK3SPp80cUX-jtVzpqhtieZ-RABjwJ8xi3GGm9Q@mail.gmail.com>
+Subject: Re: [PATCH v7 07/11] LSM: Helpers for attribute names and filling an lsm_ctx
 To:     Casey Schaufler <casey@schaufler-ca.com>
 Cc:     linux-security-module@vger.kernel.org, jmorris@namei.org,
         keescook@chromium.org, john.johansen@canonical.com,
@@ -71,194 +71,142 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Mar 30, 2023 at 4:00=E2=80=AFPM Casey Schaufler <casey@schaufler-ca=
+On Thu, Mar 30, 2023 at 4:42=E2=80=AFPM Casey Schaufler <casey@schaufler-ca=
 .com> wrote:
-> On 3/29/2023 6:12 PM, Paul Moore wrote:
-> > On Wed, Mar 15, 2023 at 6:48=E2=80=AFPM Casey Schaufler <casey@schaufle=
+> On 3/29/2023 6:13 PM, Paul Moore wrote:
+> > On Wed, Mar 15, 2023 at 6:50=E2=80=AFPM Casey Schaufler <casey@schaufle=
 r-ca.com> wrote:
-> >> Create a system call lsm_get_self_attr() to provide the security
-> >> module maintained attributes of the current process.
-> >> Create a system call lsm_set_self_attr() to set a security
-> >> module maintained attribute of the current process.
-> >> Historically these attributes have been exposed to user space via
-> >> entries in procfs under /proc/self/attr.
+> >> Add lsm_name_to_attr(), which translates a text string to a
+> >> LSM_ATTR value if one is available.
 > >>
-> >> The attribute value is provided in a lsm_ctx structure. The structure
-> >> identifys the size of the attribute, and the attribute value. The form=
-at
-> > "identifies"
-> >
-> >> of the attribute value is defined by the security module. A flags fiel=
-d
-> >> is included for LSM specific information. It is currently unused and m=
-ust
-> >> be 0. The total size of the data, including the lsm_ctx structure and =
-any
-> >> padding, is maintained as well.
+> >> Add lsm_fill_user_ctx(), which fills a struct lsm_ctx, including
+> >> the trailing attribute value.
 > >>
-> >> struct lsm_ctx {
-> >>         __u64   id;
-> >>         __u64   flags;
-> >>         __u64   len;
-> >>         __u64   ctx_len;
-> >>         __u8    ctx[];
-> >> };
-> >>
-> >> Two new LSM hooks are used to interface with the LSMs.
-> >> security_getselfattr() collects the lsm_ctx values from the
-> >> LSMs that support the hook, accounting for space requirements.
-> >> security_setselfattr() identifies which LSM the attribute is
-> >> intended for and passes it along.
+> >> All are used in module specific components of LSM system calls.
 > >>
 > >> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
 > >> ---
-> >>  Documentation/userspace-api/lsm.rst | 15 +++++
-> >>  include/linux/lsm_hook_defs.h       |  4 ++
-> >>  include/linux/lsm_hooks.h           |  9 +++
-> >>  include/linux/security.h            | 19 ++++++
-> >>  include/linux/syscalls.h            |  5 ++
-> >>  include/uapi/linux/lsm.h            | 33 ++++++++++
-> >>  kernel/sys_ni.c                     |  4 ++
-> >>  security/Makefile                   |  1 +
-> >>  security/lsm_syscalls.c             | 55 ++++++++++++++++
-> >>  security/security.c                 | 97 ++++++++++++++++++++++++++++=
+> >>  include/linux/security.h | 13 ++++++++++
+> >>  security/lsm_syscalls.c  | 51 +++++++++++++++++++++++++++++++++++++++=
 +
-> >>  10 files changed, 242 insertions(+)
-> >>  create mode 100644 security/lsm_syscalls.c
-
-...
-
-> >> +       int count =3D 0;
-> >> +       int rc;
+> >>  security/security.c      | 31 ++++++++++++++++++++++++
+> >>  3 files changed, 95 insertions(+)
+> > ..
+> >
+> >> diff --git a/security/lsm_syscalls.c b/security/lsm_syscalls.c
+> >> index 6efbe244d304..55d849ad5d6e 100644
+> >> --- a/security/lsm_syscalls.c
+> >> +++ b/security/lsm_syscalls.c
+> >> @@ -17,6 +17,57 @@
+> >>  #include <linux/lsm_hooks.h>
+> >>  #include <uapi/linux/lsm.h>
+> >>
+> >> +struct attr_map {
+> >> +       char *name;
+> >> +       u64 attr;
+> >> +};
 > >> +
-> >> +       if (attr =3D=3D 0)
-> >> +               return -EINVAL;
-> >> +       if (flags !=3D 0)
-> >> +               return -EINVAL;
-> >> +       if (size =3D=3D NULL)
-> >> +               return -EINVAL;
-> >> +       if (get_user(left, size))
-> >> +               return -EFAULT;
-> >> +
-> >> +       hlist_for_each_entry(hp, &security_hook_heads.getselfattr, lis=
-t) {
-> >> +               this =3D left;
-> >> +               if (base)
-> >> +                       ctx =3D (struct lsm_ctx __user *)(base + total=
-);
-> > Pointer math on void pointers always makes me nervous.  Why not set
-> > @base's type to a 'u8' just to remove any concerns?
->
-> I can do that. I made it a void pointer to reflect the notion that
-> the attributes aren't necessarily strings. Making it a u8 may suggest tha=
-t
-> the data is a string to some developers.
-
-That's a fair concern, but there is plenty of precedence of binary
-blobs being stored in 'unsigned char' arrays to make it easier to
-pluck data out at random byte offsets.
-
-> >> +               rc =3D hp->hook.getselfattr(attr, ctx, &this, flags);
-> >> +               switch (rc) {
-> >> +               case -EOPNOTSUPP:
-> >> +                       rc =3D 0;
-> >> +                       continue;
-> >> +               case -E2BIG:
-> >> +                       istoobig =3D true;
-> >> +                       left =3D 0;
-> >> +                       break;
-> >> +               case 0:
-> >> +                       left -=3D this;
-> >> +                       break;
-> >> +               default:
-> >> +                       return rc;
-> > I think the @getselfattr hook should behave similarly to the
-> > associated syscall, returning a non-negative number should indicate
-> > that @rc entries have been added to the @ctx array.  Right now all the
-> > LSMs would just be adding one entry to the array, but we might as well
-> > code this up to be flexible.
->
-> Yes, some LSM may decide to have multiple "contexts".
->
-> >> +               }
-> >> +               total +=3D this;
-> >> +               count++;
-> >> +       }
-> >> +       if (count =3D=3D 0)
-> >> +               return LSM_RET_DEFAULT(getselfattr);
-> >> +       if (put_user(total, size))
-> >> +               return -EFAULT;
-> >> +       if (rc)
-> >> +               return rc;
-> > Is the 'if (rc)' check needed here?  Shouldn't the switch-statement
-> > after the hook catch everything that this check would catch?
->
-> It's necessary because of BPF, which doesn't follow the LSM rules.
-
-I thought if it made it this far in the function the LSM, BPF or not,
-would still have gone through the switch statement above which would
-have returned early if the the value was something other than one of
-the accepted return codes ... right?
-
-> >> +       if (istoobig)
-> >> +               return -E2BIG;
-> >> +       return count;
-> >> +}
+> >> +static const struct attr_map lsm_attr_names[] =3D {
+> >> +       {
+> >> +               .name =3D "current",
+> >> +               .attr =3D LSM_ATTR_CURRENT,
+> >> +       },
+> >> +       {
+> >> +               .name =3D "exec",
+> >> +               .attr =3D LSM_ATTR_EXEC,
+> >> +       },
+> >> +       {
+> >> +               .name =3D "fscreate",
+> >> +               .attr =3D LSM_ATTR_FSCREATE,
+> >> +       },
+> >> +       {
+> >> +               .name =3D "keycreate",
+> >> +               .attr =3D LSM_ATTR_KEYCREATE,
+> >> +       },
+> >> +       {
+> >> +               .name =3D "prev",
+> >> +               .attr =3D LSM_ATTR_PREV,
+> >> +       },
+> >> +       {
+> >> +               .name =3D "sockcreate",
+> >> +               .attr =3D LSM_ATTR_SOCKCREATE,
+> >> +       },
+> >> +};
 > >> +
 > >> +/**
-> >> + * security_setselfattr - Set an LSM attribute on the current process=
-.
-> >> + * @attr: which attribute to set
-> >> + * @ctx: the user-space source for the information
-> >> + * @size: the size of the data
-> >> + * @flags: reserved for future use, must be 0
+> >> + * lsm_name_to_attr - map an LSM attribute name to its ID
+> >> + * @name: name of the attribute
 > >> + *
-> >> + * Set an LSM attribute for the current process. The LSM, attribute
-> >> + * and new value are included in @ctx.
+> >> + * Look the given @name up in the table of know attribute names.
 > >> + *
-> >> + * Returns 0 on success, an LSM specific value on failure.
+> >> + * Returns the LSM attribute value associated with @name, or 0 if
+> >> + * there is no mapping.
 > >> + */
-> >> +int security_setselfattr(unsigned int __user attr, struct lsm_ctx __u=
-ser *ctx,
-> >> +                        size_t __user size, u32 __user flags)
+> >> +u64 lsm_name_to_attr(const char *name)
 > >> +{
-> >> +       struct security_hook_list *hp;
-> >> +       struct lsm_ctx lctx;
-> > Shouldn't we check @attr for valid values and return -EINVAL if bogus?
->
-> Sure.
->
-> >> +       if (flags !=3D 0)
-> >> +               return -EINVAL;
-> >> +       if (size < sizeof(*ctx))
-> >> +               return -EINVAL;
-> > If we're only going to support on 'lsm_ctx' entry in this function we
-> > should verify that the 'len' and 'ctx_len' fields are sane.  Although
-> > more on this below ...
->
-> The LSM is going to have to do its own version of sanity checking. Having
-> sanity checking here as well seems excessive.
-
-Yes, the LSM will probably need to do some checks, but we can safely
-do the length checking here so we might as well do it simply so every
-LSM doesn't have to duplicate the length checks.
-
-> >> +       if (copy_from_user(&lctx, ctx, sizeof(*ctx)))
-> >> +               return -EFAULT;
+> >> +       int i;
 > >> +
-> >> +       hlist_for_each_entry(hp, &security_hook_heads.setselfattr, lis=
-t)
-> >> +               if ((hp->lsmid->id) =3D=3D lctx.id)
-> >> +                       return hp->hook.setselfattr(attr, ctx, size, f=
-lags);
-> > Can anyone think of any good reason why we shouldn't support setting
-> > multiple LSMs in one call, similar to what we do with
-> > security_getselfattr()?  It seems like it might be a nice thing to
-> > have ...
+> >> +       for (i =3D 0; i < ARRAY_SIZE(lsm_attr_names); i++)
+> >> +               if (!strcmp(name, lsm_attr_names[i].name))
+> >> +                       return lsm_attr_names[i].attr;
+> > I'm pretty sure this is the only place where @lsm_attr_names is used,
+> > right?  If true, when coupled with the idea that these syscalls are
+> > going to close the door on new LSM attributes in procfs I think we can
+> > just put the mapping directly in this function via a series of
+> > if-statements.
 >
-> If you're setting the context for multiple LSMs ...
+> Ick. You're not wrong, but the hard coded if-statement approach goes
+> against all sorts of coding principles. I'll do it, but I can't say I
+> like it.
 
-See my follow-up to my original reply sent earlier today.
+If it helps any, I understand and am sympathetic.  I guess I've gotten
+to that point where in addition to "code elegance", I'm also very
+concerned about defending against "code abuse", and something like an
+nicely defined mapping array is ripe for someone to come along and use
+that to justify further use of the attribute string names in some
+other function/API.
+
+If you want to stick with the array - I have no problem with that -
+make it local to lsm_name_to_attr().
+
+> >> +/**
+> >> + * lsm_fill_user_ctx - Fill a user space lsm_ctx structure
+> >> + * @ctx: an LSM context to be filled
+> >> + * @context: the new context value
+> >> + * @context_size: the size of the new context value
+> >> + * @id: LSM id
+> >> + * @flags: LSM defined flags
+> >> + *
+> >> + * Fill all of the fields in a user space lsm_ctx structure.
+> >> + * Caller is assumed to have verified that @ctx has enough space
+> >> + * for @context.
+> >> + * Returns 0 on success, -EFAULT on a copyout error.
+> >> + */
+> >> +int lsm_fill_user_ctx(struct lsm_ctx __user *ctx, void *context,
+> >> +                     size_t context_size, u64 id, u64 flags)
+> >> +{
+> >> +       struct lsm_ctx local;
+> >> +       void __user *vc =3D ctx;
+> >> +
+> >> +       local.id =3D id;
+> >> +       local.flags =3D flags;
+> >> +       local.ctx_len =3D context_size;
+> >> +       local.len =3D context_size + sizeof(local);
+> >> +       vc +=3D sizeof(local);
+> > See my prior comments about void pointer math.
+> >
+> >> +       if (copy_to_user(ctx, &local, sizeof(local)))
+> >> +               return -EFAULT;
+> >> +       if (context_size > 0 && copy_to_user(vc, context, context_size=
+))
+> >> +               return -EFAULT;
+> > Should we handle the padding in this function?
+>
+> This function fills in a lsm_ctx. The padding, if any, is in addition to
+> the lsm_ctx, not part of it.
+
+Okay, so where is the padding managed?  I may have missed it, but I
+don't recall seeing it anywhere in this patchset ...
 
 --=20
 paul-moore.com
