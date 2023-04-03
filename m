@@ -2,156 +2,61 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DED396D2BEC
-	for <lists+linux-api@lfdr.de>; Sat,  1 Apr 2023 01:57:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 87A1A6D3BE5
+	for <lists+linux-api@lfdr.de>; Mon,  3 Apr 2023 04:45:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233405AbjCaX5G (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 31 Mar 2023 19:57:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36138 "EHLO
+        id S231189AbjDCCpK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 2 Apr 2023 22:45:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58236 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233475AbjCaX4p (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 31 Mar 2023 19:56:45 -0400
-Received: from mail-pf1-x44a.google.com (mail-pf1-x44a.google.com [IPv6:2607:f8b0:4864:20::44a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76A7B1CBAE
-        for <linux-api@vger.kernel.org>; Fri, 31 Mar 2023 16:56:12 -0700 (PDT)
-Received: by mail-pf1-x44a.google.com with SMTP id w135-20020a62828d000000b0062c4eb40ddeso9567249pfd.3
-        for <linux-api@vger.kernel.org>; Fri, 31 Mar 2023 16:56:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112; t=1680306972;
-        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=sG6q4pkZb1PQl0aPgzbGY4ON8LGmvMRz4r7etWkMq4s=;
-        b=WIuiZiUmBrkp2YhuCurDCgSkBZEc7Z5OqkyPiskiC1yk+Wn7xr3OVMZ6bTJT2jChGU
-         gYB3NqXz1dSf2AK0Vo7H04PmxQ2u6f2sPigBZplbEjbqCCL6kOJu6i9T+PAkceBzrlJK
-         WdiA7iiJbAefAXUQlwEUCSWtlz4NyYo/TCW/dIFBgPN/OjRvLI9C9dzcKG2rYvPRaJgR
-         eledUJCSJqGBcVI+cf/4W7IKSTdWIRYbNu9Q8zMLaAw28LCuE9DmDJwYjnijOfTNWhW2
-         /dZLVFsSEyDqcwzoQeov9nRjWgfWRhWwoN1voUhGP/RLTxMxylIl+dFWMDFWmYA60zlX
-         wzcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680306972;
-        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=sG6q4pkZb1PQl0aPgzbGY4ON8LGmvMRz4r7etWkMq4s=;
-        b=RPuSlMEjEJom8tqhLSYmN7C/qbshLywB1qy1L2MeC+rl8eCEG952q1Cr2QO35IJCFz
-         H+053bkqbRlZpD3BrMDYfGiBuPa3wcvZ4VEq3z1L+Ag7V1OZ75/ycctko1wvmftVPs9N
-         lEkWJdlQ2Ogprjy9CigjDfd9o72Mz8d8VHlttE09kAdh0dRqppZkH4YBmn3Jaso04CwZ
-         EqijRezNpO/ELe3IRcweQvYIUJOXWnolTJa3J928qeXLeEMaXM0pxfS2ukfI5bOqqWuU
-         0giBBCnKSCqIF53VUJj/QXZmjfLgFov2ajRNzAorHl8p+N4mJkvolV4+dbtLPI1w1UNH
-         TMUw==
-X-Gm-Message-State: AAQBX9dFBNlokoc87bFMhT04aq2Bs6q32C1JJIfeXjwfxOY5BInT/WTQ
-        xOKeS0IqevURmDxvWqhSa0lsoQozaJre9ykebQ==
-X-Google-Smtp-Source: AKy350bwo4gDmt6qvVmklscGtMe+0GABAuLYyXXB8b22LaSZK6d4xB1fPVTRAuoUYPissJnWP1PA7ngfyjHOn7h8gg==
-X-Received: from ackerleytng-cloudtop.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:1f5f])
- (user=ackerleytng job=sendgmr) by 2002:a63:c042:0:b0:513:1281:2796 with SMTP
- id z2-20020a63c042000000b0051312812796mr8266653pgi.11.1680306971953; Fri, 31
- Mar 2023 16:56:11 -0700 (PDT)
-Date:   Fri, 31 Mar 2023 23:56:10 +0000
-In-Reply-To: <20230322111951.vfrm2xf4o5kmtte6@wittgenstein> (message from
- Christian Brauner on Wed, 22 Mar 2023 12:19:51 +0100)
-Mime-Version: 1.0
-Message-ID: <diqzmt3sqxut.fsf@ackerleytng-cloudtop.c.googlers.com>
-Subject: Re: [RFC PATCH v2 1/2] mm: restrictedmem: Allow userspace to specify
- mount for memfd_restricted
-From:   Ackerley Tng <ackerleytng@google.com>
-To:     Christian Brauner <brauner@kernel.org>
-Cc:     kvm@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, qemu-devel@nongnu.org, aarcange@redhat.com,
-        ak@linux.intel.com, akpm@linux-foundation.org, arnd@arndb.de,
-        bfields@fieldses.org, bp@alien8.de, chao.p.peng@linux.intel.com,
-        corbet@lwn.net, dave.hansen@intel.com, david@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com, hpa@zytor.com,
-        hughd@google.com, jlayton@kernel.org, jmattson@google.com,
-        joro@8bytes.org, jun.nakajima@intel.com,
-        kirill.shutemov@linux.intel.com, linmiaohe@huawei.com,
-        luto@kernel.org, mail@maciej.szmigiero.name, mhocko@suse.com,
-        michael.roth@amd.com, mingo@redhat.com, naoya.horiguchi@nec.com,
-        pbonzini@redhat.com, qperret@google.com, rppt@kernel.org,
-        seanjc@google.com, shuah@kernel.org, steven.price@arm.com,
-        tabba@google.com, tglx@linutronix.de, vannapurve@google.com,
-        vbabka@suse.cz, vkuznets@redhat.com, wanpengli@tencent.com,
-        wei.w.wang@intel.com, x86@kernel.org, yu.c.zhang@linux.intel.com
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
-X-Spam-Status: No, score=-7.7 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        with ESMTP id S230090AbjDCCpJ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 2 Apr 2023 22:45:09 -0400
+X-Greylist: delayed 510 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 02 Apr 2023 19:45:08 PDT
+Received: from bolin (unknown [IPv6:2001:19f0:b001:f83:5400:4ff:fe1a:5b71])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51880B759
+        for <linux-api@vger.kernel.org>; Sun,  2 Apr 2023 19:45:08 -0700 (PDT)
+Received: by bolin (Postfix, from userid 1000)
+        id E0D9E1777C2; Mon,  3 Apr 2023 02:31:35 +0000 (UTC)
+From:   Levo D <l-asm@mail9fcb1a.bolinlang.com>
+To:     <linux-api@vger.kernel.org>
+Subject: API/syscall to alleviate page/memory problem when quickly accessing memory?
+X-Mailer: mail (GNU Mailutils 3.10)
+Message-Id: <20230403023135.E0D9E1777C2@bolin>
+Date:   Mon,  3 Apr 2023 02:31:35 +0000 (UTC)
+X-Spam-Status: No, score=1.3 required=5.0 tests=FSL_HELO_NON_FQDN_1,
+        HELO_NO_DOMAIN,RDNS_NONE,SPF_NONE autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Christian Brauner <brauner@kernel.org> writes:
+I optimized and profile my program to a point that it seems like it's spending more time in kernel than in userspace (likely not true but I'll explain).
 
-> On Tue, Mar 21, 2023 at 08:15:32PM +0000, Ackerley Tng wrote:
->> By default, the backing shmem file for a restrictedmem fd is created
->> on shmem's kernel space mount.
+Here's one run. I spawn many threads (6 at minimum, more depending on flags). As you can see more than half of the total time is in sys. Is the kernel running on multiple cores simultaneously to give my program pages?
 
->> ...
+real	0m0.954s
+user	0m6.442s
+sys 	0m0.607s
 
-Thanks for reviewing this patch!
+The test below is using -test-flags which gets me these numbers, sys is 51% of total time
 
-
-> This looks like you can just pass in some tmpfs fd and you just use it
-> to identify the mnt and then you create a restricted memfd area in that
-> instance. So if I did:
-
-> mount -t tmpfs tmpfs /mnt
-> mknod /mnt/bla c 0 0
-> fd = open("/mnt/bla")
-> memfd_restricted(fd)
-
-> then it would create a memfd restricted entry in the tmpfs instance
-> using the arbitrary dummy device node to infer the tmpfs instance.
-
-> Looking at the older thread briefly and the cover letter. Afaict, the
-> new mount api shouldn't figure into the design of this. fsopen() returns
-> fds referencing a VFS-internal fs_context object. They can't be used to
-> create or lookup files or identify mounts. The mount doesn't exist at
-> that time. Not even a superblock might exist at the time before
-> fsconfig(FSCONFIG_CMD_CREATE).
-
-> When fsmount() is called after superblock setup then it's similar to any
-> other fd from open() or open_tree() or whatever (glossing over some
-> details that are irrelevant here). Difference is that open_tree() and
-> fsmount() would refer to the root of a mount.
-
-This is correct, memfd_restricted() needs an fd returned from fsmount()
-and not fsopen(). Usage examples of this new parameter in
-memfd_restricted() are available in selftests.
+real	0m0.733s
+user	0m3.476s
+sys 	0m0.378s
 
 
-> At first I wondered why this doesn't just use standard *at() semantics
-> but I guess the restricted memfd is unlinked and doesn't show up in the
-> tmpfs instance.
+perf record -F 5000 ./myapp -test-flags shows me 61% of the app is in my biggest function and 6% is in `clear_page_rep`. When I record cache misses using `perf record -F 5000 --call-graph=fp -e cache-misses ./myapp -test-flags` I can see that
 
-> So if you go down that route then I would suggest to enforce that the
-> provided fd refer to the root of a tmpfs mount. IOW, it can't just be an
-> arbitrary file descriptor in a tmpfs instance. That seems cleaner to me:
+clear_page_rep takes 40%
+clear_huge_page takes 1.2%
+My big function self is 8%, while total is 25.5%. the remaining is mostly asm_exc_page_fault (12%) and asm_sysvec_apic_timer_interrupt (2.7%)
+That's about 56% (of all misses and waiting) in the kernel
 
-> sb = f_path->mnt->mnt_sb;
-> sb->s_magic == TMPFS_MAGIC && f_path->mnt->mnt_root == sb->s_root
+I believe if I can reduce work being done in the kernel and have pages be ready before I fault I'll have less cache misses in my large function and I could be significantly faster. I measured how long my large function takes in single threaded compared to multi. Multithreaded at minimum is 1.5x slower to 2x slower. I spawn 1 thread per core (I'm testing on a zen2, it has 6cores with 12threads, spawning more than 6 threads slow the program down). Each thread is using <100MB.
 
-> and has much tigher semantics than just allowing any kind of fd.
-
-Thanks for your suggestion, I've tightened the semantics as you
-suggested. memfd_restricted() now only accepts fds representing the root
-of the mount.
+Is there an API I should look into? What can I do here?
 
 
-> Another wrinkly I find odd but that's for you to judge is that this
-> bypasses the permission model of the tmpfs instance. IOW, as long as you
-> have a handle to the root of a tmpfs mount you can just create
-> restricted memfds in there. So if I provided a completely sandboxed
-> service - running in a user namespace or whatever - with an fd to the
-> host's tmpfs instance they can just create restricted memfds in there no
-> questions asked.
-
-> Maybe that's fine but it's certainly something to spell out and think
-> about the implications.
-
-Thanks for pointing this out! I added a permissions check in RFC v3, and
-clarified the permissions model (please see patch 1 of 2):
-https://lore.kernel.org/lkml/cover.1680306489.git.ackerleytng@google.com/
