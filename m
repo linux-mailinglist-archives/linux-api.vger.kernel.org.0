@@ -2,125 +2,316 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E8406D3D58
-	for <lists+linux-api@lfdr.de>; Mon,  3 Apr 2023 08:31:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B3F16D3EDD
+	for <lists+linux-api@lfdr.de>; Mon,  3 Apr 2023 10:23:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230463AbjDCGbD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 3 Apr 2023 02:31:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43356 "EHLO
+        id S231741AbjDCIXR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 3 Apr 2023 04:23:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230053AbjDCGbC (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 3 Apr 2023 02:31:02 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68BC5172B
-        for <linux-api@vger.kernel.org>; Sun,  2 Apr 2023 23:31:01 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 086ED1FDA6;
-        Mon,  3 Apr 2023 06:31:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1680503460; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-         mime-version:mime-version:content-type:content-type:
+        with ESMTP id S231738AbjDCIXM (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 3 Apr 2023 04:23:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07916F74E
+        for <linux-api@vger.kernel.org>; Mon,  3 Apr 2023 01:21:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1680510114;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=Sy5Nsnny2b+0IMTAD4AI1U20Acezs0lAUJhSAJ6V30I=;
-        b=xwHI98HXPheq4/p1if2z+wJyMJ+I3pcFmJTj/4auLZ5HRUZG4UZHnPlJW9kUTms8eLGEil
-        ecwiQxvl3BFaffLg/cV6cqOqkP69uID4H0kTvOPPAfNACNA7MjM6I7TqP7mZw6uHtJsLFx
-        hDAGMMSdbn8zM2VQcfFaEYaY7/cKfc0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1680503460;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Sy5Nsnny2b+0IMTAD4AI1U20Acezs0lAUJhSAJ6V30I=;
-        b=kLC5MxY7imIM2hWimDGJWbPcFhZhFgnvpMK7954tXrB7SdeQXSmsPnNnlFw3SAbSg1MFFD
-        uMoyawBAO70PU9Ag==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E97291331A;
-        Mon,  3 Apr 2023 06:30:59 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id X5DrN6NyKmQKBAAAMHmgww
-        (envelope-from <vbabka@suse.cz>); Mon, 03 Apr 2023 06:30:59 +0000
-Message-ID: <9d9456f8-3072-1621-a80d-b51dd1fc33a4@suse.cz>
-Date:   Mon, 3 Apr 2023 08:30:59 +0200
+        bh=jQzDBAQKeqgfsxxyrlkQCm/LEl+p6ixMadQZXFxQxwQ=;
+        b=El3TnhDUXHt8UTsZ2QAB/RhQPlaWpCAu51LnLK6yiNzx73uiU5Rr14linVCmbKk8t2hxls
+        MPPCq5NaqZhI10E6Y2TXUiQTkBqH//8ywjJ8HKJKhw/+46PfRU9T5LqQf1Ma7k4415DflK
+        cymZPGXQmeHmTBrmGRPg0+FzC35Dw4g=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-510-dCAPqgAlM6qkfO8qezUTDQ-1; Mon, 03 Apr 2023 04:21:52 -0400
+X-MC-Unique: dCAPqgAlM6qkfO8qezUTDQ-1
+Received: by mail-wm1-f72.google.com with SMTP id v7-20020a05600c470700b003ef6ebfa99fso11157695wmo.8
+        for <linux-api@vger.kernel.org>; Mon, 03 Apr 2023 01:21:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680510111;
+        h=content-transfer-encoding:in-reply-to:subject:organization:from
+         :references:cc:to:content-language:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jQzDBAQKeqgfsxxyrlkQCm/LEl+p6ixMadQZXFxQxwQ=;
+        b=TOgUbNEw5ujKhoegZvrWNcblfdWsyo7BJlEVu//QukB62RTFZ+YfVZ+eFETIDxKn2h
+         3Mza6puW5DTliFO3qCdCG0V7aLkSd3/kvEEXaHVg3Yd1FxuwtwrGPoM/RQVB6SG9A52D
+         kCO7Ur9FsQxzgMmYKG0xjzyc3GbLIrdmodijMXg2oVFu7MWUaJjPwdTplj3vQY5Xdzju
+         WpVb+1nRMYJslHHCTXk6xOntwQUZzCvG4C+EZqwqkhKg/qr2H4c+Gw4kIaGIZYQ39wxO
+         29GjoebzoAUfdusK+URLhzDqLQWVAX+ykY+fYByPQ6vBr+EvoSBXGz1MZFXpUwJGxSHn
+         pP8w==
+X-Gm-Message-State: AO0yUKWNIJ35L47mmj+vu8m+0Uk6c2ktRIGLLP8pKyLa9yCcMR3+Xz5q
+        nJ0C1kchIX5FXN3Nx7rb6YyIy/zEVgg/9m8CkyME9Osi6/DThqp3tUBAwjwiVeS3xedqX/Ikrhq
+        yg9kIwhtDf/PisDu3ZWw1
+X-Received: by 2002:a05:600c:20d:b0:3ee:672d:caae with SMTP id 13-20020a05600c020d00b003ee672dcaaemr26843818wmi.36.1680510111657;
+        Mon, 03 Apr 2023 01:21:51 -0700 (PDT)
+X-Google-Smtp-Source: AK7set/AgkVl4NRObZrwop/hyYIrLuclF7oALAw2adBku9J1XTbgT5nDnZVWZTlkdOAVCBUc2F54wA==
+X-Received: by 2002:a05:600c:20d:b0:3ee:672d:caae with SMTP id 13-20020a05600c020d00b003ee672dcaaemr26843772wmi.36.1680510111270;
+        Mon, 03 Apr 2023 01:21:51 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c702:5e00:8e78:71f3:6243:77f0? (p200300cbc7025e008e7871f3624377f0.dip0.t-ipconnect.de. [2003:cb:c702:5e00:8e78:71f3:6243:77f0])
+        by smtp.gmail.com with ESMTPSA id c2-20020adfe702000000b002d6f285c0a2sm9135348wrm.42.2023.04.03.01.21.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 03 Apr 2023 01:21:50 -0700 (PDT)
+Message-ID: <f0232380-4171-f4d3-f1a6-07993e551b46@redhat.com>
+Date:   Mon, 3 Apr 2023 10:21:48 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: API/syscall to alleviate page/memory problem when quickly
- accessing memory?
-To:     Levo D <l-asm@mail9fcb1a.bolinlang.com>, linux-api@vger.kernel.org,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>
-References: <20230403023135.E0D9E1777C2@bolin>
+ Thunderbird/102.9.1
 Content-Language: en-US
-From:   Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <20230403023135.E0D9E1777C2@bolin>
-Content-Type: text/plain; charset=UTF-8
+To:     Ackerley Tng <ackerleytng@google.com>, kvm@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        qemu-devel@nongnu.org
+Cc:     aarcange@redhat.com, ak@linux.intel.com, akpm@linux-foundation.org,
+        arnd@arndb.de, bfields@fieldses.org, bp@alien8.de,
+        chao.p.peng@linux.intel.com, corbet@lwn.net, dave.hansen@intel.com,
+        ddutile@redhat.com, dhildenb@redhat.com, hpa@zytor.com,
+        hughd@google.com, jlayton@kernel.org, jmattson@google.com,
+        joro@8bytes.org, jun.nakajima@intel.com,
+        kirill.shutemov@linux.intel.com, linmiaohe@huawei.com,
+        luto@kernel.org, mail@maciej.szmigiero.name, mhocko@suse.com,
+        michael.roth@amd.com, mingo@redhat.com, naoya.horiguchi@nec.com,
+        pbonzini@redhat.com, qperret@google.com, rppt@kernel.org,
+        seanjc@google.com, shuah@kernel.org, steven.price@arm.com,
+        tabba@google.com, tglx@linutronix.de, vannapurve@google.com,
+        vbabka@suse.cz, vkuznets@redhat.com, wanpengli@tencent.com,
+        wei.w.wang@intel.com, x86@kernel.org, yu.c.zhang@linux.intel.com
+References: <cover.1680306489.git.ackerleytng@google.com>
+ <592ebd9e33a906ba026d56dc68f42d691706f865.1680306489.git.ackerleytng@google.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [RFC PATCH v3 1/2] mm: restrictedmem: Allow userspace to specify
+ mount for memfd_restricted
+In-Reply-To: <592ebd9e33a906ba026d56dc68f42d691706f865.1680306489.git.ackerleytng@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-2.6 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 4/3/23 04:31, Levo D wrote:
-> I optimized and profile my program to a point that it seems like it's spending more time in kernel than in userspace (likely not true but I'll explain).
+On 01.04.23 01:50, Ackerley Tng wrote:
+> By default, the backing shmem file for a restrictedmem fd is created
+> on shmem's kernel space mount.
 > 
-> Here's one run. I spawn many threads (6 at minimum, more depending on flags). As you can see more than half of the total time is in sys. Is the kernel running on multiple cores simultaneously to give my program pages?
+> With this patch, an optional tmpfs mount can be specified via an fd,
+> which will be used as the mountpoint for backing the shmem file
+> associated with a restrictedmem fd.
 > 
-> real	0m0.954s
-> user	0m6.442s
-> sys 	0m0.607s
+> This will help restrictedmem fds inherit the properties of the
+> provided tmpfs mounts, for example, hugepage allocation hints, NUMA
+> binding hints, etc.
 > 
-> The test below is using -test-flags which gets me these numbers, sys is 51% of total time
+> Permissions for the fd passed to memfd_restricted() is modeled after
+> the openat() syscall, since both of these allow creation of a file
+> upon a mount/directory.
 > 
-> real	0m0.733s
-> user	0m3.476s
-> sys 	0m0.378s
+> Permission to reference the mount the fd represents is checked upon fd
+> creation by other syscalls (e.g. fsmount(), open(), or open_tree(),
+> etc) and any process that can present memfd_restricted() with a valid
+> fd is expected to have obtained permission to use the mount
+> represented by the fd. This behavior is intended to parallel that of
+> the openat() syscall.
 > 
+> memfd_restricted() will check that the tmpfs superblock is
+> writable, and that the mount is also writable, before attempting to
+> create a restrictedmem file on the mount.
 > 
-> perf record -F 5000 ./myapp -test-flags shows me 61% of the app is in my biggest function and 6% is in `clear_page_rep`. When I record cache misses using `perf record -F 5000 --call-graph=fp -e cache-misses ./myapp -test-flags` I can see that
+> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
+> ---
+>   include/linux/syscalls.h           |  2 +-
+>   include/uapi/linux/restrictedmem.h |  8 ++++
+>   mm/restrictedmem.c                 | 74 +++++++++++++++++++++++++++---
+>   3 files changed, 77 insertions(+), 7 deletions(-)
+>   create mode 100644 include/uapi/linux/restrictedmem.h
 > 
-> clear_page_rep takes 40%
-> clear_huge_page takes 1.2%
-> My big function self is 8%, while total is 25.5%. the remaining is mostly asm_exc_page_fault (12%) and asm_sysvec_apic_timer_interrupt (2.7%)
-> That's about 56% (of all misses and waiting) in the kernel
+> diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+> index f9e9e0c820c5..a23c4c385cd3 100644
+> --- a/include/linux/syscalls.h
+> +++ b/include/linux/syscalls.h
+> @@ -1056,7 +1056,7 @@ asmlinkage long sys_memfd_secret(unsigned int flags);
+>   asmlinkage long sys_set_mempolicy_home_node(unsigned long start, unsigned long len,
+>   					    unsigned long home_node,
+>   					    unsigned long flags);
+> -asmlinkage long sys_memfd_restricted(unsigned int flags);
+> +asmlinkage long sys_memfd_restricted(unsigned int flags, int mount_fd);
 > 
-> I believe if I can reduce work being done in the kernel
+>   /*
+>    * Architecture-specific system calls
+> diff --git a/include/uapi/linux/restrictedmem.h b/include/uapi/linux/restrictedmem.h
+> new file mode 100644
+> index 000000000000..22d6f2285f6d
+> --- /dev/null
+> +++ b/include/uapi/linux/restrictedmem.h
+> @@ -0,0 +1,8 @@
+> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+> +#ifndef _UAPI_LINUX_RESTRICTEDMEM_H
+> +#define _UAPI_LINUX_RESTRICTEDMEM_H
+> +
+> +/* flags for memfd_restricted */
+> +#define RMFD_USERMNT		0x0001U
 
-That's not possible, the kernel must clear the pages before giving them to a
-process, for security reasons.
+I wonder if we can come up with a more expressive prefix than RMFD. 
+Sounds more like "rm fd" ;) Maybe it should better match the 
+"memfd_restricted" syscall name, like "MEMFD_RSTD_USERMNT".
 
-> and have pages be ready before I fault
 
-That it possible if you use MAP_POPULATE flag of mmap(). Or just write once
-in each page before starting your large function to pre-fault it.
+> +
+> +#endif /* _UAPI_LINUX_RESTRICTEDMEM_H */
+> diff --git a/mm/restrictedmem.c b/mm/restrictedmem.c
+> index c5d869d8c2d8..f7b62364a31a 100644
+> --- a/mm/restrictedmem.c
+> +++ b/mm/restrictedmem.c
+> @@ -1,11 +1,12 @@
+>   // SPDX-License-Identifier: GPL-2.0
+> -#include "linux/sbitmap.h"
 
-In that case it may also make sense not to measure time of your whole
-program execution, but only between initialization (including the
-pre-faulting) and cleanup. The whole runtime already seems very short to
-profit from further optimizations if the init/cleanup is involved each time.
-If the runtime of "large function" is important because it would be run many
-times in practice, then it could also make sense to keep the initialized
-process running and reusing the allocated memory instead of repeated
-executions of new processes that include the free and reallocation costs.
+Looks like an unrelated change?
 
-> I'll have less cache misses in my large function and I could be significantly faster. I measured how long my large function takes in single threaded compared to multi. Multithreaded at minimum is 1.5x slower to 2x slower. I spawn 1 thread per core (I'm testing on a zen2, it has 6cores with 12threads, spawning more than 6 threads slow the program down). Each thread is using <100MB.
-
-This seems to be more about how hyperthreading (SMT) doesn't always really
-results in speed ups, so that's about the CPU vs workload rather than kernel.
-
-> Is there an API I should look into? What can I do here?
+> +#include <linux/namei.h>
+>   #include <linux/pagemap.h>
+>   #include <linux/pseudo_fs.h>
+>   #include <linux/shmem_fs.h>
+>   #include <linux/syscalls.h>
+>   #include <uapi/linux/falloc.h>
+>   #include <uapi/linux/magic.h>
+> +#include <uapi/linux/restrictedmem.h>
+>   #include <linux/restrictedmem.h>
 > 
+>   struct restrictedmem {
+> @@ -189,19 +190,20 @@ static struct file *restrictedmem_file_create(struct file *memfd)
+>   	return file;
+>   }
 > 
+> -SYSCALL_DEFINE1(memfd_restricted, unsigned int, flags)
+> +static int restrictedmem_create(struct vfsmount *mount)
+>   {
+>   	struct file *file, *restricted_file;
+>   	int fd, err;
+> 
+> -	if (flags)
+> -		return -EINVAL;
+> -
+>   	fd = get_unused_fd_flags(0);
+>   	if (fd < 0)
+>   		return fd;
+> 
+> -	file = shmem_file_setup("memfd:restrictedmem", 0, VM_NORESERVE);
+> +	if (mount)
+> +		file = shmem_file_setup_with_mnt(mount, "memfd:restrictedmem", 0, VM_NORESERVE);
+> +	else
+> +		file = shmem_file_setup("memfd:restrictedmem", 0, VM_NORESERVE);
+> +
+>   	if (IS_ERR(file)) {
+>   		err = PTR_ERR(file);
+>   		goto err_fd;
+> @@ -223,6 +225,66 @@ SYSCALL_DEFINE1(memfd_restricted, unsigned int, flags)
+>   	return err;
+>   }
+> 
+> +static bool is_shmem_mount(struct vfsmount *mnt)
+> +{
+> +	return mnt && mnt->mnt_sb && mnt->mnt_sb->s_magic == TMPFS_MAGIC;
+> +}
+> +
+> +static bool is_mount_root(struct file *file)
+> +{
+> +	return file->f_path.dentry == file->f_path.mnt->mnt_root;
+> +}
+
+I'd inline at least that function, pretty self-explaining.
+
+> +
+> +static int restrictedmem_create_on_user_mount(int mount_fd)
+> +{
+> +	int ret;
+> +	struct fd f;
+> +	struct vfsmount *mnt;
+> +
+> +	f = fdget_raw(mount_fd);
+> +	if (!f.file)
+> +		return -EBADF;
+> +
+> +	ret = -EINVAL;
+> +	if (!is_mount_root(f.file))
+> +		goto out;
+> +
+> +	mnt = f.file->f_path.mnt;
+> +	if (!is_shmem_mount(mnt))
+> +		goto out;
+> +
+> +	ret = file_permission(f.file, MAY_WRITE | MAY_EXEC);
+> +	if (ret)
+> +		goto out;
+> +
+> +	ret = mnt_want_write(mnt);
+> +	if (unlikely(ret))
+> +		goto out;
+> +
+> +	ret = restrictedmem_create(mnt);
+> +
+> +	mnt_drop_write(mnt);
+> +out:
+> +	fdput(f);
+> +
+> +	return ret;
+> +}
+> +
+> +SYSCALL_DEFINE2(memfd_restricted, unsigned int, flags, int, mount_fd)
+> +{
+> +	if (flags & ~RMFD_USERMNT)
+> +		return -EINVAL;
+> +
+> +	if (flags == RMFD_USERMNT) {
+> +		if (mount_fd < 0)
+> +			return -EINVAL;
+> +
+> +		return restrictedmem_create_on_user_mount(mount_fd);
+> +	} else {
+> +		return restrictedmem_create(NULL);
+> +	}
+
+
+You can drop the else case:
+
+if (flags == RMFD_USERMNT) {
+	...
+	return restrictedmem_create_on_user_mount(mount_fd);
+}
+return restrictedmem_create(NULL);
+
+
+I do wonder if you want to properly check for a flag instead of 
+comparing values. Results in a more natural way to deal with flags:
+
+if (flags & RMFD_USERMNT) {
+
+}
+
+> +}
+> +
+>   int restrictedmem_bind(struct file *file, pgoff_t start, pgoff_t end,
+>   		       struct restrictedmem_notifier *notifier, bool exclusive)
+>   {
+
+The "memfd_restricted" vs. "restrictedmem" terminology is a bit 
+unfortunate, but not your fault here.
+
+
+I'm not a FS person, but it does look good to me.
+
+-- 
+Thanks,
+
+David / dhildenb
 
