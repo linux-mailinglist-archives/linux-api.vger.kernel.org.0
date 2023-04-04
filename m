@@ -2,69 +2,37 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 66DEE6D5ACA
-	for <lists+linux-api@lfdr.de>; Tue,  4 Apr 2023 10:25:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9466B6D6402
+	for <lists+linux-api@lfdr.de>; Tue,  4 Apr 2023 15:54:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234233AbjDDIZY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 4 Apr 2023 04:25:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60330 "EHLO
+        id S235728AbjDDNxw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 4 Apr 2023 09:53:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234188AbjDDIZQ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 4 Apr 2023 04:25:16 -0400
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com [66.111.4.224])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC8CD19B6;
-        Tue,  4 Apr 2023 01:25:13 -0700 (PDT)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 1357F582072;
-        Tue,  4 Apr 2023 04:25:13 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Tue, 04 Apr 2023 04:25:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
-         h=cc:cc:content-type:content-type:date:date:from:from
-        :in-reply-to:in-reply-to:message-id:mime-version:references
-        :reply-to:sender:subject:subject:to:to; s=fm1; t=1680596713; x=
-        1680603913; bh=ucaJdjXCvIGCze6KDfbsPlFe2n6TgL3UUQGpg9tF7po=; b=I
-        DSiBq2VrNCBC6QDxMURGV8kNtJO9gautIsomo38gXtIcakYN8v07Vw2OYXsSxfn/
-        aME2qwMeJzDNTlSp3qzI9uRMEP3f+Py0rAVeAXat7UyeKEzqp3FPlm0aIf9IsYjU
-        VJMXwkd4SeUH00xSxDFBjlctr/KE/jVpLD7/h5Z7c2HZosqmXl8ah69koYjVKfMT
-        EKGrhBzG7kgvGD167S1ZyDIT9zruuzRj0k6xLwq1xP8PbiKquj2w/Trgcl4nMdZn
-        pEn9oeVAmcytzq5luBhkXUbiTk4DEACjFw2INXfbGWz9X3yl0QxMdplcJtecGdDv
-        w/IPQCjLyN72kjsv7QPJA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:content-type:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm2; t=1680596713; x=1680603913; bh=ucaJdjXCvIGCz
-        e6KDfbsPlFe2n6TgL3UUQGpg9tF7po=; b=KxjPvdshfxbt2/6hFUHYrRjGmYUQI
-        AacryrBkFC92hJLW6LUXwVPG8eoE6c9/ToxcviVUPXwT9n6U9KUtitW12VQTgEPM
-        dtWOhdv0rYR6MoluiNosghIZDNR9g+Xn7iMiDrGkNh+VsX9uFKovlLDYM4XsFMtn
-        BxmQ+xNwM/IVoJHAXQenfwwYITbs+6mK6YhZpuLJlps+FR2JJDBBaN5137529WCO
-        G6WozEo2zY2g0o+poTxy+XKEesh2njzFQJghOtV/BlkD90rQ1c1qkjfLVq8/8Nsj
-        cZR1ZPsKHFr0W0XueC5rcVZqlM9mpJNRHSnNgFCxUbirqS4tT4YcQT3vw==
-X-ME-Sender: <xms:594rZFsDdlfX3C3UBbehL30vE9YfyLf7XUtU0hKYnmKgT4UOtgLOcQ>
-    <xme:594rZOdLHY59ptztN9KpTQEq7XwkbjmkQqY0vzVa_GylWcd_Y6rxwruI_4HTO2_s5
-    2qQMdMxhutCwm-0Qlc>
-X-ME-Received: <xmr:594rZIwz_xb5yM2dG1h_WtLjuLqY2FJ1LNGUP70yWmzAIeKm4ZHovzbraDlUXc3NCuzxBQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdeiledgtdefucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesthdttddttddtvdenucfhrhhomhepfdfmihhr
-    ihhllhcutedrucfuhhhuthgvmhhovhdfuceokhhirhhilhhlsehshhhuthgvmhhovhdrnh
-    grmhgvqeenucggtffrrghtthgvrhhnpefhieeghfdtfeehtdeftdehgfehuddtvdeuheet
-    tddtheejueekjeegueeivdektdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
-    epmhgrihhlfhhrohhmpehkihhrihhllhesshhhuhhtvghmohhvrdhnrghmvg
-X-ME-Proxy: <xmx:594rZMMm7ERGOuRf6j0KEPnsIaOnJLLIAtNtQtvW9Kw28ObNyP2O4w>
-    <xmx:594rZF93Z5UZUB6gYgYG8-jATfACy8p3b0q_hraVNF4DpZz1KDIypw>
-    <xmx:594rZMXJx4DaW1I1BdTCKFNDqbrKkl3kR0g6UZ4xsMVfMaN14WwR3w>
-    <xmx:6d4rZEDiAVOUK62NR-3AI4m0fzW6ULVpFZqPWyawWzV3iixQHl6osw>
-Feedback-ID: ie3994620:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 4 Apr 2023 04:25:10 -0400 (EDT)
-Received: by box.shutemov.name (Postfix, from userid 1000)
-        id 5730E10CC3C; Tue,  4 Apr 2023 11:25:07 +0300 (+03)
-Date:   Tue, 4 Apr 2023 11:25:07 +0300
-From:   "Kirill A. Shutemov" <kirill@shutemov.name>
+        with ESMTP id S235742AbjDDNxk (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 4 Apr 2023 09:53:40 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B72574224;
+        Tue,  4 Apr 2023 06:53:28 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4159E61FF6;
+        Tue,  4 Apr 2023 13:53:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01718C4339B;
+        Tue,  4 Apr 2023 13:53:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1680616407;
+        bh=/XmQ33Vz5rwMvBxocOUTIIX51AasQPq8MBzmwbLl0tM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=j3pvbEx+ZOhkZUE1LhdjIxby9njBvyhGGDw8XHNztZL/HYm+7Hxi7G2yVH87tLGXc
+         8CnD+aWL0pEfl8K8eEelOm98QkGvx9t82yLNNIDbeUQbrNgrgJfn5szL4qfacmifzK
+         rPf45WV4a2jbZGv1xNcqWD6pLaJXwrjXc0olsbyf9BBEd2EZkpozWqX1cpZJ+N/H4B
+         DgcmwjDTRFPqxMyHwoKOds6qUcJuJA5u8+/FD/+XXp0LvwfGWk4fHYFr/UhTWZm0gV
+         fPQ9esbG+NnpA8lDyV4zQGiCjpZvv+DaqXProbhEGTYkWTuiPCv+24pkuCN8MpR4Xn
+         uVKJnk0xDg9EA==
+Date:   Tue, 4 Apr 2023 15:53:13 +0200
+From:   Christian Brauner <brauner@kernel.org>
 To:     Ackerley Tng <ackerleytng@google.com>
 Cc:     kvm@vger.kernel.org, linux-api@vger.kernel.org,
         linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
@@ -86,16 +54,16 @@ Cc:     kvm@vger.kernel.org, linux-api@vger.kernel.org,
         wei.w.wang@intel.com, x86@kernel.org, yu.c.zhang@linux.intel.com
 Subject: Re: [RFC PATCH v3 1/2] mm: restrictedmem: Allow userspace to specify
  mount for memfd_restricted
-Message-ID: <20230404082507.sbyfahwc4gdupmya@box.shutemov.name>
+Message-ID: <20230404-amnesty-untying-01de932d4945@brauner>
 References: <cover.1680306489.git.ackerleytng@google.com>
  <592ebd9e33a906ba026d56dc68f42d691706f865.1680306489.git.ackerleytng@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 In-Reply-To: <592ebd9e33a906ba026d56dc68f42d691706f865.1680306489.git.ackerleytng@google.com>
-X-Spam-Status: No, score=-0.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-5.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
+        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -196,6 +164,13 @@ On Fri, Mar 31, 2023 at 11:50:39PM +0000, Ackerley Tng wrote:
 > -		return -EINVAL;
 > -
 >  	fd = get_unused_fd_flags(0);
+
+Any reasons the file descriptors aren't O_CLOEXEC by default? I don't
+see any reasons why we should introduce new fdtypes that aren't
+O_CLOEXEC by default. The "don't mix-and-match" train has already left
+the station anyway as we do have seccomp noitifer fds and pidfds both of
+which are O_CLOEXEC by default.
+
 >  	if (fd < 0)
 >  		return fd;
 > 
@@ -215,11 +190,29 @@ On Fri, Mar 31, 2023 at 11:50:39PM +0000, Ackerley Tng wrote:
 > +static bool is_shmem_mount(struct vfsmount *mnt)
 > +{
 > +	return mnt && mnt->mnt_sb && mnt->mnt_sb->s_magic == TMPFS_MAGIC;
+
+This can just be if (mnt->mnt_sb->s_magic == TMPFS_MAGIC).
+
 > +}
 > +
 > +static bool is_mount_root(struct file *file)
 > +{
 > +	return file->f_path.dentry == file->f_path.mnt->mnt_root;
+
+mount -t tmpfs tmpfs /mnt
+touch /mnt/bla
+touch /mnt/ble
+mount --bind /mnt/bla /mnt/ble
+fd = open("/mnt/ble")
+fd_restricted = memfd_restricted(fd)
+
+IOW, this doesn't restrict it to the tmpfs root. It only restricts it to
+paths that refer to the root of any tmpfs mount. To exclude bind-mounts
+that aren't bind-mounts of the whole filesystem you want:
+
+path->dentry == path->mnt->mnt_root && 
+path->mnt->mnt_root == path->mnt->mnt_sb->s_root
+
 > +}
 > +
 > +static int restrictedmem_create_on_user_mount(int mount_fd)
@@ -242,7 +235,10 @@ On Fri, Mar 31, 2023 at 11:50:39PM +0000, Ackerley Tng wrote:
 > +
 > +	ret = file_permission(f.file, MAY_WRITE | MAY_EXEC);
 
-Why MAY_EXEC?
+With the current semantics you're asking whether you have write
+permissions on the /mnt/ble file in order to get answer to the question
+whether you're allowed to create an unlinked restricted memory file.
+That doesn't make much sense afaict.
 
 > +	if (ret)
 > +		goto out;
@@ -259,10 +255,6 @@ Why MAY_EXEC?
 > +
 > +	return ret;
 > +}
-
-We need review from fs folks. Look mostly sensible, but I have no
-experience in fs.
-
 > +
 > +SYSCALL_DEFINE2(memfd_restricted, unsigned int, flags, int, mount_fd)
 > +{
@@ -270,6 +262,11 @@ experience in fs.
 > +		return -EINVAL;
 > +
 > +	if (flags == RMFD_USERMNT) {
+
+Why do you even need this flag? It seems that @mount_fd being < 0 is
+sufficient to indicate that a new restricted memory fd is supposed to be
+created in the system instance.
+
 > +		if (mount_fd < 0)
 > +			return -EINVAL;
 > +
@@ -277,24 +274,42 @@ experience in fs.
 > +	} else {
 > +		return restrictedmem_create(NULL);
 > +	}
-
-Maybe restructure with single restrictedmem_create() call?
-
-	struct vfsmount *mnt = NULL;
-
-	if (flags == RMFD_USERMNT) {
-		...
-		mnt = ...();
-	}
-
-	return restrictedmem_create(mnt);
 > +}
-> +
->  int restrictedmem_bind(struct file *file, pgoff_t start, pgoff_t end,
->  		       struct restrictedmem_notifier *notifier, bool exclusive)
->  {
-> --
-> 2.40.0.348.gf938b09366-goog
 
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+I have to say that I'm very confused by all of this the more I look at it.
+
+Effectively memfd restricted functions as a wrapper filesystem around
+the tmpfs filesystem. This is basically a weird overlay filesystem.
+You're allocating tmpfs files that you stash in restrictedmem files. 
+I have to say that this seems very hacky. I didn't get this at all at
+first.
+
+So what does the caller get if they call statx() on a restricted memfd?
+Do they get the device number of the tmpfs mount and the inode numbers
+of the tmpfs mount? Because it looks like they would:
+
+static int restrictedmem_getattr(struct user_namespace *mnt_userns,
+				 const struct path *path, struct kstat *stat,
+				 u32 request_mask, unsigned int query_flags)
+{
+	struct inode *inode = d_inode(path->dentry);
+	struct restrictedmem *rm = inode->i_mapping->private_data;
+	struct file *memfd = rm->memfd;
+
+	return memfd->f_inode->i_op->getattr(mnt_userns, path, stat,
+					     request_mask, query_flags);
+
+That @memfd would be a struct file allocated in a tmpfs instance, no? So
+you'd be calling the inode operation of the tmpfs file meaning that
+struct kstat will be filled up with the info from the tmpfs instance.
+
+But then if I call statfs() and check the fstype I would get
+RESTRICTEDMEM_MAGIC, no? This is... unorthodox?
+
+I'm honestly puzzled and this sounds really strange. There must be a
+better way to implement all of this.
+
+Shouldn't you try and make this a part of tmpfs proper? Make a really
+separate filesystem and add a memfs library that both tmpfs and
+restrictedmemfs can use? Add a mount option to tmpfs that makes it a
+restricted tmpfs?
