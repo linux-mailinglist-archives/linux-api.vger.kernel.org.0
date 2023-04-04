@@ -2,83 +2,99 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 524436D50E4
-	for <lists+linux-api@lfdr.de>; Mon,  3 Apr 2023 20:44:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 66DEE6D5ACA
+	for <lists+linux-api@lfdr.de>; Tue,  4 Apr 2023 10:25:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233350AbjDCSo3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 3 Apr 2023 14:44:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51726 "EHLO
+        id S234233AbjDDIZY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 4 Apr 2023 04:25:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233097AbjDCSo2 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 3 Apr 2023 14:44:28 -0400
-Received: from sonic303-9.consmr.mail.bf2.yahoo.com (sonic303-9.consmr.mail.bf2.yahoo.com [74.6.131.48])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68490188
-        for <linux-api@vger.kernel.org>; Mon,  3 Apr 2023 11:44:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1680547465; bh=wpTgHGzfxkxOToAdK3NH6iOJYYle5WxajOZcS2SxIyE=; h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To; b=tpT66Cewjt9Y05Jgi7/zmlADeqwvYqDhHJjeGxAqxwHc8JvfKA118GUZVmcVAWPVa6fmtYZkkoOC+BDC2McYlYuEvgnmp8WE9wTOXatNxNf3OI4Dkurneru7X1Jc+V9rNvFehVHZcNtrA2Ue+PWxTv7u/DH3v4j0jTVtTcxI4JxYRkdK0Bpc0GK66BVTxnWQv6cNOrM6vGYUsgyusgLMdAwiqHkmV437YO4yXmE+smAHopquMKIMHXzn0vxu1zPG/6lLiF6rFHTj6Nof2saeASNt+zNlaHfeXwelcYOhmciqWfbNUnECpnAuIVjohawHDucpKa2j2lrw2f4YwuOGBg==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1680547465; bh=weML0vgos2N+cZDhJvpdcfj8gLXA+nbvoOSW59qb9cP=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=qgCdBELbC+KOEyQ4JS+U8ykZdeSCZHhKtUH0eXQhEqXoB8gDx/gcjZuTxXHlFJ+MH+BQl+S6EbefsPyVMjI1MtL0ibuxAGqL7KZQOJi/haI/vxjWzVh1n5WGCYzPEA19h26+aK462gHFB+hZjbyoyj0RNyfhQ150vM3TeW4WJsMQrstAdLZdZ1Yeo1nozRnoKVFssz2XAtVNZK+MaWxQ6MDHvqZuZV254rnaVbvk0hXfP9jIRIt72ACV9gPeju3xdQCEGdEJJOu/QAXGP12xyf0AEJ2BFjgdM16QMolNUQNcu7OImKjozrPZ/BVM9HUbZLaajjv4uTJY2CSDVVT6lg==
-X-YMail-OSG: 0LwdmCsVM1mTKreM.P2XqpeuybfQI6rpIJMq6S9k.JBWMqPxa93zORXEoMGO3xz
- YTb12fFd_yRalPh7UUgTPrBT6QUDSMs1XLfb6lCToAN0EbDMO8e5drSNZFNJ_bE4.4dtK_7jkkWv
- bHwaHCJZuXSZ_hihf.bfOfzg1wnXAJYQ_l0UUvf1LktQVndmutG9ZM8pRbk7TjdFDV_BFp4HW29v
- XYpcCUeo1xB.cvQr0i4GwXwGVjIR9PR8imygg1wTRY0qrXNmeWV6AYAk8ioHfqmzkuXd17gTgnnO
- jBM..AbhmwY01dBrll1FKwOKAsWwWvnFyV40JWf39YhHqVQj06s.KkviY7RyGOrwRAP2sQfc.Zg1
- dbxo1KPbs_9EMXkc1P2mV1Y3o6cLNszEjP2.cZkyaFjtgpyo.o0pay3FfPgv1weT1GcfjNa0GA6c
- cgmgkFBEy5RSw6r3hmJ2Kuo69T5Fg8KmSTm8OliO20CUqGcoMChY12gyybhnWhWy7HnlymAjiAWS
- Nm604H243n2onDPnS0saNaOwcUTmdy6eDvi2T0L9PAjHG8eUfmwS1cTxjofCj.VDarIq64qmq4Aq
- 7KoKfh8jYGH2D50__SgrE57V3EW6L66j0dz6y1LB4XelGf6EBvp2UW7zkhDTJc6guZCG_WvL2Ey5
- xanxKJvNkHrEYffJ28iRfph7EzyzzxlWaBdMUNXRGILcXP65F1onLIqTWPLwjjuy2Q5j5x3ko9RK
- 0MGm1s5x_mGBEBmc2G27DQGj7T6CmbgKRY3Uo_Fifg_V7g5c.oToa31aC_nri0e1EpOvJanWJ29U
- 4OLKnoWOcfKyWQu_LkPvsvQ527Mlt2jNbqe19tM9pdl7wIvky7enE.TNBBDMjvHepbQ4w1nqH3Xb
- YeIAJPFyfThK2MjAdiA_UMqFN34wmNCNR7NDsorcl4g4zsova0v4QbWWdT.iF7lcU20QvsM1dUQf
- 1wsNQvJxnaXZX1ZK1LSd7_2abtvEhu5HiRLObtIsYZ39HuiUY_ld4Lkdf5JZP7.ksy5tfyE3YbiS
- vUmjo9hF4Dg25eKQl7Txno_uKH9rqkip.77X9gad5Oo8EC8Yhh1rylSJ0sIuByliVdNkV67cGBei
- cTlEIc4P7_9X_e91oHvw0gh6sTzGl0yvnX_v83PxU5fykNRgsgfkwbiKa4Z_PURmk_XA5F8ojm.7
- iz6K1ta1E1_HHgbOXJpr8AcQ2Eq5dE7GqQ64P3AtYRHfRDIsTemUwhMXDcZRUXdgmN0w5Ze4Aadf
- bzpPdyo2pF3XKSoRdb5FTmAux6S4gn8KCQW2UDHG.1T_fE6bX5yRJGylf4UzJW_BOUqDBcQeftM3
- R8L2eECuead_CBEBm_Dly5.zGkSR8elNvWCA0knL9UO_Py2xYAbx0KpHWu_zLdroyTErD9Ja8P6H
- XmaMI2O4i5Zgxg1EbulUbof4Z.cuG8RrLvaYvOGX4wakTVE4kRboKfrxI05GOXJdr_rZ7vtBTb4Q
- XF4k9mCm6UxAOemvbb2KIJ7hBKkxcdljxlsMN4gULFiVSOxX.Oi6.RPMBEcQzD4DmeMETsANk3SZ
- pvV0R.pSPCyEWN2VEvbIHlDcEQm6uSs.pA0y3jMdUOqGry7cVhGBZX.b7Dj2gmm_k59wKk571jhi
- U6mE18Y.TshTLX3emhr1h3962zQmEN6zqwvqWM1YHaZgD9q9ScmKcNb0_Bi8WkSxKqsDaXR35HbF
- 4_YwbVn0r4Zh8AXE_IphmFF02FzfBlj2_ejNlnOBZHBmSpNKhNfGczcEmbhcdWRH8wzn50SUVnS1
- uzvj1tEZhpouuU5UtGomd3KP7ECxV4I4forB9lsCxBIbGAH8emtmuJzWZmnma7d4i27QdgNgkbiQ
- Ctfv.5UZMBx1oeUihThLDWYtYK.DIr0Jq.wTUzEhHR7vJHiAAAsV5v5txx_3_mrSpcbmgcFN1S_q
- PPtZvQFrR59eCpZqA1sPhOpB0mAbsK_97PH.9LMPHTsI8PzAGQCqNyD47WpOCx0d1waoj12g3M3_
- uHU3cJQKTgNSetLlNjlItfj.Uafqf_w97YGqwsYM9VbS2gUXvILn.fDVRGOl205zuqNLlDOUI4e3
- 90GyocrZvJ9VpqxDZrPb5IAYWMlePyiJtL4qixOtekY5j0LAz6Fi2o3JsQuH1daVa4G_XENrXFxh
- ONzJQSW2pnJGAZG7u7ZBYW8CNvqNlRge1sIgMGiyv5zHm5NdowQMwhpEfVPynkjvGdEugdSZD60o
- tKiyZrF5a7Ut34bE7TsKuh9wi1Dw1v_0boYrGUG.SACGPWYskU7CBHDziy4RyB0N2KkiuONytoc2
- M.Smao1jvV96hMHwXfw--
-X-Sonic-MF: <casey@schaufler-ca.com>
-X-Sonic-ID: 7b5a653f-deae-4fe6-ad1b-625f8db54753
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic303.consmr.mail.bf2.yahoo.com with HTTP; Mon, 3 Apr 2023 18:44:25 +0000
-Received: by hermes--production-bf1-5f9df5c5c4-dxcv9 (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID af00eb186ab4bd0725e08329263794c3;
-          Mon, 03 Apr 2023 18:33:53 +0000 (UTC)
-Message-ID: <186c5de2-a07c-7401-bf8e-863defaff5ba@schaufler-ca.com>
-Date:   Mon, 3 Apr 2023 11:33:51 -0700
+        with ESMTP id S234188AbjDDIZQ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 4 Apr 2023 04:25:16 -0400
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com [66.111.4.224])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC8CD19B6;
+        Tue,  4 Apr 2023 01:25:13 -0700 (PDT)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 1357F582072;
+        Tue,  4 Apr 2023 04:25:13 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Tue, 04 Apr 2023 04:25:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
+         h=cc:cc:content-type:content-type:date:date:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to; s=fm1; t=1680596713; x=
+        1680603913; bh=ucaJdjXCvIGCze6KDfbsPlFe2n6TgL3UUQGpg9tF7po=; b=I
+        DSiBq2VrNCBC6QDxMURGV8kNtJO9gautIsomo38gXtIcakYN8v07Vw2OYXsSxfn/
+        aME2qwMeJzDNTlSp3qzI9uRMEP3f+Py0rAVeAXat7UyeKEzqp3FPlm0aIf9IsYjU
+        VJMXwkd4SeUH00xSxDFBjlctr/KE/jVpLD7/h5Z7c2HZosqmXl8ah69koYjVKfMT
+        EKGrhBzG7kgvGD167S1ZyDIT9zruuzRj0k6xLwq1xP8PbiKquj2w/Trgcl4nMdZn
+        pEn9oeVAmcytzq5luBhkXUbiTk4DEACjFw2INXfbGWz9X3yl0QxMdplcJtecGdDv
+        w/IPQCjLyN72kjsv7QPJA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:content-type:date:date
+        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm2; t=1680596713; x=1680603913; bh=ucaJdjXCvIGCz
+        e6KDfbsPlFe2n6TgL3UUQGpg9tF7po=; b=KxjPvdshfxbt2/6hFUHYrRjGmYUQI
+        AacryrBkFC92hJLW6LUXwVPG8eoE6c9/ToxcviVUPXwT9n6U9KUtitW12VQTgEPM
+        dtWOhdv0rYR6MoluiNosghIZDNR9g+Xn7iMiDrGkNh+VsX9uFKovlLDYM4XsFMtn
+        BxmQ+xNwM/IVoJHAXQenfwwYITbs+6mK6YhZpuLJlps+FR2JJDBBaN5137529WCO
+        G6WozEo2zY2g0o+poTxy+XKEesh2njzFQJghOtV/BlkD90rQ1c1qkjfLVq8/8Nsj
+        cZR1ZPsKHFr0W0XueC5rcVZqlM9mpJNRHSnNgFCxUbirqS4tT4YcQT3vw==
+X-ME-Sender: <xms:594rZFsDdlfX3C3UBbehL30vE9YfyLf7XUtU0hKYnmKgT4UOtgLOcQ>
+    <xme:594rZOdLHY59ptztN9KpTQEq7XwkbjmkQqY0vzVa_GylWcd_Y6rxwruI_4HTO2_s5
+    2qQMdMxhutCwm-0Qlc>
+X-ME-Received: <xmr:594rZIwz_xb5yM2dG1h_WtLjuLqY2FJ1LNGUP70yWmzAIeKm4ZHovzbraDlUXc3NCuzxBQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdeiledgtdefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesthdttddttddtvdenucfhrhhomhepfdfmihhr
+    ihhllhcutedrucfuhhhuthgvmhhovhdfuceokhhirhhilhhlsehshhhuthgvmhhovhdrnh
+    grmhgvqeenucggtffrrghtthgvrhhnpefhieeghfdtfeehtdeftdehgfehuddtvdeuheet
+    tddtheejueekjeegueeivdektdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
+    epmhgrihhlfhhrohhmpehkihhrihhllhesshhhuhhtvghmohhvrdhnrghmvg
+X-ME-Proxy: <xmx:594rZMMm7ERGOuRf6j0KEPnsIaOnJLLIAtNtQtvW9Kw28ObNyP2O4w>
+    <xmx:594rZF93Z5UZUB6gYgYG8-jATfACy8p3b0q_hraVNF4DpZz1KDIypw>
+    <xmx:594rZMXJx4DaW1I1BdTCKFNDqbrKkl3kR0g6UZ4xsMVfMaN14WwR3w>
+    <xmx:6d4rZEDiAVOUK62NR-3AI4m0fzW6ULVpFZqPWyawWzV3iixQHl6osw>
+Feedback-ID: ie3994620:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 4 Apr 2023 04:25:10 -0400 (EDT)
+Received: by box.shutemov.name (Postfix, from userid 1000)
+        id 5730E10CC3C; Tue,  4 Apr 2023 11:25:07 +0300 (+03)
+Date:   Tue, 4 Apr 2023 11:25:07 +0300
+From:   "Kirill A. Shutemov" <kirill@shutemov.name>
+To:     Ackerley Tng <ackerleytng@google.com>
+Cc:     kvm@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, qemu-devel@nongnu.org, aarcange@redhat.com,
+        ak@linux.intel.com, akpm@linux-foundation.org, arnd@arndb.de,
+        bfields@fieldses.org, bp@alien8.de, chao.p.peng@linux.intel.com,
+        corbet@lwn.net, dave.hansen@intel.com, david@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com, hpa@zytor.com,
+        hughd@google.com, jlayton@kernel.org, jmattson@google.com,
+        joro@8bytes.org, jun.nakajima@intel.com,
+        kirill.shutemov@linux.intel.com, linmiaohe@huawei.com,
+        luto@kernel.org, mail@maciej.szmigiero.name, mhocko@suse.com,
+        michael.roth@amd.com, mingo@redhat.com, naoya.horiguchi@nec.com,
+        pbonzini@redhat.com, qperret@google.com, rppt@kernel.org,
+        seanjc@google.com, shuah@kernel.org, steven.price@arm.com,
+        tabba@google.com, tglx@linutronix.de, vannapurve@google.com,
+        vbabka@suse.cz, vkuznets@redhat.com, wanpengli@tencent.com,
+        wei.w.wang@intel.com, x86@kernel.org, yu.c.zhang@linux.intel.com
+Subject: Re: [RFC PATCH v3 1/2] mm: restrictedmem: Allow userspace to specify
+ mount for memfd_restricted
+Message-ID: <20230404082507.sbyfahwc4gdupmya@box.shutemov.name>
+References: <cover.1680306489.git.ackerleytng@google.com>
+ <592ebd9e33a906ba026d56dc68f42d691706f865.1680306489.git.ackerleytng@google.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH v7 07/11] LSM: Helpers for attribute names and filling an
- lsm_ctx
-Content-Language: en-US
-To:     =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>,
-        paul@paul-moore.com, linux-security-module@vger.kernel.org
-Cc:     jmorris@namei.org, keescook@chromium.org,
-        john.johansen@canonical.com, penguin-kernel@i-love.sakura.ne.jp,
-        stephen.smalley.work@gmail.com, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, Casey Schaufler <casey@schaufler-ca.com>
-References: <20230315224704.2672-1-casey@schaufler-ca.com>
- <20230315224704.2672-8-casey@schaufler-ca.com>
- <544a4809-1a79-9dd7-61a5-5fce1f4a5f10@digikod.net>
- <bbd6abb7-7443-0f34-788b-0e441dc5afee@schaufler-ca.com>
- <6af85c04-0388-026a-e4ee-08d9aad6b86a@digikod.net>
-From:   Casey Schaufler <casey@schaufler-ca.com>
-In-Reply-To: <6af85c04-0388-026a-e4ee-08d9aad6b86a@digikod.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Mailer: WebService/1.1.21284 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
-X-Spam-Status: No, score=-1.3 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <592ebd9e33a906ba026d56dc68f42d691706f865.1680306489.git.ackerleytng@google.com>
+X-Spam-Status: No, score=-0.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,SPF_PASS
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -86,97 +102,199 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 4/3/2023 11:06 AM, Mickaël Salaün wrote:
->
-> On 03/04/2023 20:03, Casey Schaufler wrote:
->> On 4/3/2023 2:47 AM, Mickaël Salaün wrote:
->>>
->>> On 15/03/2023 23:47, Casey Schaufler wrote:
->>>> Add lsm_name_to_attr(), which translates a text string to a
->>>> LSM_ATTR value if one is available.
->>>>
->>>> Add lsm_fill_user_ctx(), which fills a struct lsm_ctx, including
->>>> the trailing attribute value.
->>>>
->>>> All are used in module specific components of LSM system calls.
->>>>
->>>> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
->>>> ---
->>>>    include/linux/security.h | 13 ++++++++++
->>>>    security/lsm_syscalls.c  | 51
->>>> ++++++++++++++++++++++++++++++++++++++++
->>>>    security/security.c      | 31 ++++++++++++++++++++++++
->>>>    3 files changed, 95 insertions(+)
->>>
->>> [...]
->>>
->>>> diff --git a/security/security.c b/security/security.c
->>>> index 2c57fe28c4f7..f7b814a3940c 100644
->>>> --- a/security/security.c
->>>> +++ b/security/security.c
->>>> @@ -753,6 +753,37 @@ static int lsm_superblock_alloc(struct
->>>> super_block *sb)
->>>>        return 0;
->>>>    }
->>>>    +/**
->>>> + * lsm_fill_user_ctx - Fill a user space lsm_ctx structure
->>>> + * @ctx: an LSM context to be filled
->>>> + * @context: the new context value
->>>> + * @context_size: the size of the new context value
->>>> + * @id: LSM id
->>>> + * @flags: LSM defined flags
->>>> + *
->>>> + * Fill all of the fields in a user space lsm_ctx structure.
->>>> + * Caller is assumed to have verified that @ctx has enough space
->>>> + * for @context.
->>>> + * Returns 0 on success, -EFAULT on a copyout error.
->>>> + */
->>>> +int lsm_fill_user_ctx(struct lsm_ctx __user *ctx, void *context,
->>>> +              size_t context_size, u64 id, u64 flags)
->>>> +{
->>>> +    struct lsm_ctx local;
->>>> +    void __user *vc = ctx;
->>>> +
->>>> +    local.id = id;
->>>> +    local.flags = flags;
->>>> +    local.ctx_len = context_size;
->>>> +    local.len = context_size + sizeof(local);
->>>> +    vc += sizeof(local);
->>>> +    if (copy_to_user(ctx, &local, sizeof(local)))
->>>> +        return -EFAULT;
->>>> +    if (context_size > 0 && copy_to_user(vc, context, context_size))
->>>> +        return -EFAULT;
->>>
->>> Can we do a single copy_to_user() call?
->>
->> It would be possible, but would require allocating memory and copying
->> the context. I don't see that as an improvement.
->>
->>> That would avoid inconsistent user space data, could speed up a bit
->>> the operation, and make the code easier to understand. To use the
->>> stack, we need to know the maximum size of context_size for all use
->>> cases, which seems reasonable and can be checked at build time (on
->>> each LSM side, and potentially with specific context type passed as
->>> enum instead of context_size) and run time (for this generic helper).
->>
->> Knowning the maximum size of attributes for all LSMs and hard coding
->> that here would make maintaining this code really painful.
->
-> Hmm, I forgot about variable-length strings, but maybe a reasonable
-> common maximum size (that could fit on the stack) could be found?
+On Fri, Mar 31, 2023 at 11:50:39PM +0000, Ackerley Tng wrote:
+> By default, the backing shmem file for a restrictedmem fd is created
+> on shmem's kernel space mount.
+> 
+> With this patch, an optional tmpfs mount can be specified via an fd,
+> which will be used as the mountpoint for backing the shmem file
+> associated with a restrictedmem fd.
+> 
+> This will help restrictedmem fds inherit the properties of the
+> provided tmpfs mounts, for example, hugepage allocation hints, NUMA
+> binding hints, etc.
+> 
+> Permissions for the fd passed to memfd_restricted() is modeled after
+> the openat() syscall, since both of these allow creation of a file
+> upon a mount/directory.
+> 
+> Permission to reference the mount the fd represents is checked upon fd
+> creation by other syscalls (e.g. fsmount(), open(), or open_tree(),
+> etc) and any process that can present memfd_restricted() with a valid
+> fd is expected to have obtained permission to use the mount
+> represented by the fd. This behavior is intended to parallel that of
+> the openat() syscall.
+> 
+> memfd_restricted() will check that the tmpfs superblock is
+> writable, and that the mount is also writable, before attempting to
+> create a restrictedmem file on the mount.
+> 
+> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
+> ---
+>  include/linux/syscalls.h           |  2 +-
+>  include/uapi/linux/restrictedmem.h |  8 ++++
+>  mm/restrictedmem.c                 | 74 +++++++++++++++++++++++++++---
+>  3 files changed, 77 insertions(+), 7 deletions(-)
+>  create mode 100644 include/uapi/linux/restrictedmem.h
+> 
+> diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+> index f9e9e0c820c5..a23c4c385cd3 100644
+> --- a/include/linux/syscalls.h
+> +++ b/include/linux/syscalls.h
+> @@ -1056,7 +1056,7 @@ asmlinkage long sys_memfd_secret(unsigned int flags);
+>  asmlinkage long sys_set_mempolicy_home_node(unsigned long start, unsigned long len,
+>  					    unsigned long home_node,
+>  					    unsigned long flags);
+> -asmlinkage long sys_memfd_restricted(unsigned int flags);
+> +asmlinkage long sys_memfd_restricted(unsigned int flags, int mount_fd);
+> 
+>  /*
+>   * Architecture-specific system calls
+> diff --git a/include/uapi/linux/restrictedmem.h b/include/uapi/linux/restrictedmem.h
+> new file mode 100644
+> index 000000000000..22d6f2285f6d
+> --- /dev/null
+> +++ b/include/uapi/linux/restrictedmem.h
+> @@ -0,0 +1,8 @@
+> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+> +#ifndef _UAPI_LINUX_RESTRICTEDMEM_H
+> +#define _UAPI_LINUX_RESTRICTEDMEM_H
+> +
+> +/* flags for memfd_restricted */
+> +#define RMFD_USERMNT		0x0001U
+> +
+> +#endif /* _UAPI_LINUX_RESTRICTEDMEM_H */
+> diff --git a/mm/restrictedmem.c b/mm/restrictedmem.c
+> index c5d869d8c2d8..f7b62364a31a 100644
+> --- a/mm/restrictedmem.c
+> +++ b/mm/restrictedmem.c
+> @@ -1,11 +1,12 @@
+>  // SPDX-License-Identifier: GPL-2.0
+> -#include "linux/sbitmap.h"
+> +#include <linux/namei.h>
+>  #include <linux/pagemap.h>
+>  #include <linux/pseudo_fs.h>
+>  #include <linux/shmem_fs.h>
+>  #include <linux/syscalls.h>
+>  #include <uapi/linux/falloc.h>
+>  #include <uapi/linux/magic.h>
+> +#include <uapi/linux/restrictedmem.h>
+>  #include <linux/restrictedmem.h>
+> 
+>  struct restrictedmem {
+> @@ -189,19 +190,20 @@ static struct file *restrictedmem_file_create(struct file *memfd)
+>  	return file;
+>  }
+> 
+> -SYSCALL_DEFINE1(memfd_restricted, unsigned int, flags)
+> +static int restrictedmem_create(struct vfsmount *mount)
+>  {
+>  	struct file *file, *restricted_file;
+>  	int fd, err;
+> 
+> -	if (flags)
+> -		return -EINVAL;
+> -
+>  	fd = get_unused_fd_flags(0);
+>  	if (fd < 0)
+>  		return fd;
+> 
+> -	file = shmem_file_setup("memfd:restrictedmem", 0, VM_NORESERVE);
+> +	if (mount)
+> +		file = shmem_file_setup_with_mnt(mount, "memfd:restrictedmem", 0, VM_NORESERVE);
+> +	else
+> +		file = shmem_file_setup("memfd:restrictedmem", 0, VM_NORESERVE);
+> +
+>  	if (IS_ERR(file)) {
+>  		err = PTR_ERR(file);
+>  		goto err_fd;
+> @@ -223,6 +225,66 @@ SYSCALL_DEFINE1(memfd_restricted, unsigned int, flags)
+>  	return err;
+>  }
+> 
+> +static bool is_shmem_mount(struct vfsmount *mnt)
+> +{
+> +	return mnt && mnt->mnt_sb && mnt->mnt_sb->s_magic == TMPFS_MAGIC;
+> +}
+> +
+> +static bool is_mount_root(struct file *file)
+> +{
+> +	return file->f_path.dentry == file->f_path.mnt->mnt_root;
+> +}
+> +
+> +static int restrictedmem_create_on_user_mount(int mount_fd)
+> +{
+> +	int ret;
+> +	struct fd f;
+> +	struct vfsmount *mnt;
+> +
+> +	f = fdget_raw(mount_fd);
+> +	if (!f.file)
+> +		return -EBADF;
+> +
+> +	ret = -EINVAL;
+> +	if (!is_mount_root(f.file))
+> +		goto out;
+> +
+> +	mnt = f.file->f_path.mnt;
+> +	if (!is_shmem_mount(mnt))
+> +		goto out;
+> +
+> +	ret = file_permission(f.file, MAY_WRITE | MAY_EXEC);
 
-Putting a maximum size limit on LSM attributes just to reduce the
-number of copy_to_user() calls in this helper function does not make
-a whole lot of sense to me.
+Why MAY_EXEC?
 
->
->>
->>>
->>>
->>>> +    return 0;
->>>> +}
->>>> +
->>>>    /*
->>>>     * The default value of the LSM hook is defined in
->>>> linux/lsm_hook_defs.h and
->>>>     * can be accessed with:
+> +	if (ret)
+> +		goto out;
+> +
+> +	ret = mnt_want_write(mnt);
+> +	if (unlikely(ret))
+> +		goto out;
+> +
+> +	ret = restrictedmem_create(mnt);
+> +
+> +	mnt_drop_write(mnt);
+> +out:
+> +	fdput(f);
+> +
+> +	return ret;
+> +}
+
+We need review from fs folks. Look mostly sensible, but I have no
+experience in fs.
+
+> +
+> +SYSCALL_DEFINE2(memfd_restricted, unsigned int, flags, int, mount_fd)
+> +{
+> +	if (flags & ~RMFD_USERMNT)
+> +		return -EINVAL;
+> +
+> +	if (flags == RMFD_USERMNT) {
+> +		if (mount_fd < 0)
+> +			return -EINVAL;
+> +
+> +		return restrictedmem_create_on_user_mount(mount_fd);
+> +	} else {
+> +		return restrictedmem_create(NULL);
+> +	}
+
+Maybe restructure with single restrictedmem_create() call?
+
+	struct vfsmount *mnt = NULL;
+
+	if (flags == RMFD_USERMNT) {
+		...
+		mnt = ...();
+	}
+
+	return restrictedmem_create(mnt);
+> +}
+> +
+>  int restrictedmem_bind(struct file *file, pgoff_t start, pgoff_t end,
+>  		       struct restrictedmem_notifier *notifier, bool exclusive)
+>  {
+> --
+> 2.40.0.348.gf938b09366-goog
+
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
