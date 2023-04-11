@@ -2,253 +2,259 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 783D96DDB0B
-	for <lists+linux-api@lfdr.de>; Tue, 11 Apr 2023 14:40:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BCCA36DE036
+	for <lists+linux-api@lfdr.de>; Tue, 11 Apr 2023 17:59:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230045AbjDKMkq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 11 Apr 2023 08:40:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35070 "EHLO
+        id S230223AbjDKP7m (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 11 Apr 2023 11:59:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229652AbjDKMkp (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 11 Apr 2023 08:40:45 -0400
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B407792;
-        Tue, 11 Apr 2023 05:40:43 -0700 (PDT)
-Received: by mail-wm1-x333.google.com with SMTP id v14-20020a05600c470e00b003f06520825fso9499557wmo.0;
-        Tue, 11 Apr 2023 05:40:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1681216842; x=1683808842;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=+9eULK5T/AR038Lb9fVHHOrciM7+eUNTM+3elsNko2A=;
-        b=Tez97/llUBH1dM+UV3pBlIHE2H+NAM6fQV3H8t8T8IpiupqD6bdewrJXYHVq8A8kvs
-         5zMOJl6QeIpo55ji9KIkWkQhF26hwvs5CzXCid8GxPtotqdfWocpHQTP3P/535t+zspa
-         j/GxA4/rjHlGB0ulK8vKTaABQiAJRmU8f+5ouy0MNVz38kHp52dXbDvy1Nys61d8X6kO
-         EKqHDiW8MULSnZz0rWnxOb/OjoLmQ6vtk1Fl/KXbgRWY/J9v3WjYSaNdVIJ//GAo9tN6
-         b+m6SXvfNnXAm1J73eZDfTbOGOglS8MtA4E5DnVZ2Ohuc3M+k/1pSSRiEptFhfT3JyzV
-         bu7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681216842; x=1683808842;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+9eULK5T/AR038Lb9fVHHOrciM7+eUNTM+3elsNko2A=;
-        b=oUbApvxK8pPAObrJCrNEzlPLVhwdkwr2ljssLvWvqLdu3Op68e2uTJGM2yI4WDDmM8
-         GjrOL3H63XuI4wQOgHVbx7gGuUi6oOyDB86ybi75us3h36hTQ/O5Y77eaMh1EujopZG7
-         1juPVfp5DxC3czHA+snBriDfkR7vebqTxn1K7vKzn8+JR54NnA0gvyT835x7IazdsyW8
-         axtitsBkw0CUhMM2NILM6rqIVAPK7YrtRs/X8caXmA7uJlWIJTjyjHlIp95aeRuKGBLC
-         QDKLn1vp3pJrZAf8xA1ubjtlrpNL2LrdhgNaKEcJZAjrw3tLdxyU5sGMGQ+ZClopJ5uh
-         Td0Q==
-X-Gm-Message-State: AAQBX9efpfESuj509XcvsvXwahybuenREal9pYMKBav+hDnERz+lFthP
-        cfyjhL8F80C2HM1HUqqiXi0=
-X-Google-Smtp-Source: AKy350b9hMGRmjtzXRMYjnVO8SvNNk1dw8TBb/GLj/b+hulyWBosiUBD0Fuih2r9ZEwMrISewSplbA==
-X-Received: by 2002:a7b:c4cd:0:b0:3ef:732e:2d5a with SMTP id g13-20020a7bc4cd000000b003ef732e2d5amr1941449wmk.34.1681216841799;
-        Tue, 11 Apr 2023 05:40:41 -0700 (PDT)
-Received: from amir-ThinkPad-T480.lan ([5.29.249.86])
-        by smtp.gmail.com with ESMTPSA id b2-20020a05600c4e0200b003f04057bf1bsm20543769wmq.18.2023.04.11.05.40.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Apr 2023 05:40:41 -0700 (PDT)
-From:   Amir Goldstein <amir73il@gmail.com>
-To:     Jan Kara <jack@suse.cz>
-Cc:     Matthew Bobrowski <repnop@google.com>,
-        Christian Brauner <brauner@kernel.org>,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
-Subject: [RFC][PATCH] fanotify: Enable FAN_REPORT_FID on more filesystem types
-Date:   Tue, 11 Apr 2023 15:40:37 +0300
-Message-Id: <20230411124037.1629654-1-amir73il@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        with ESMTP id S230507AbjDKP7g (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 11 Apr 2023 11:59:36 -0400
+Received: from sonic317-38.consmr.mail.ne1.yahoo.com (sonic317-38.consmr.mail.ne1.yahoo.com [66.163.184.49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0983A59FA
+        for <linux-api@vger.kernel.org>; Tue, 11 Apr 2023 08:59:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1681228770; bh=cNPBlBcQEWEFPAd6JwE+/jlTATsJ+XtuLDahnpFZ6N0=; h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To; b=cv/tFG9hTQtUaUPfg695VzWqKpKCxyNT9i45hN9AmJ4NYonWBiB3egkgtnFKIBj/LbnC3Horalb6AqcKwVv9e87CWGxjSDikHokUv8rk+oMVgSlIuZSelqsFtXXm2D3uu2uzx1SLYVAwsCZfjvt90263dmCAVfWsIzkCxeHnXJOklB/4eSo1WgHovKmcuxXHtM4XY/MjPi1Fu5To0Oq2Xjykdxnbx37iX84LBnRgloFSYhPvK2D7VnOLcL0NqND8jhZQLLwnoczBKGC9sbSsz/e/Gsu7josqFXMl6y76Oz5SkSTlNqkXfQusXsrjSdpYap1hhuDfAyBsdxo5Kwehig==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1681228770; bh=uN9E5JRe3NbyDcki+x+wQZPtkwQ+id1+mKyzqDppqX5=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=DpQ9tMAynPhGItFp2/Kwe6JCMCfFMu7kfFM2JIt857DFvduOYk7GDj2tZlLhTHEKlAXDQEP3K72GQSt2eMHJV+ner7KZJP+GmhEg3QzRbZ/DdYh4+8KFLJN0X0k+5+mQDgGwgoOxZsoMNO470CUX2KzKowcudrmqDNCZdreKXkBr+nZsJ8oYClpVlw5XRV1C0HXqflYa4yCwINFXGy+I36VT7/WN2k9wI143A0c1XYPPbW69cBhawq4PWGLELfHIottYyqQgeQWlGXoDefMV1SJVNHlty1+ueO7+YHDyr/MtCRBqn36Ed+PpuaYkNaPSSirhpwEsdy9YNPrlLyCVCA==
+X-YMail-OSG: KnG4LPgVM1l2oe.eb525KVCDJoLLByKwNtmRPNxZ3kdR2UrVtQAlo9e5dsaVRQ.
+ MrQtpqLZTozfHOYGfJ6CmR25MP2w6eMXAuv3aKdEmVcmV0zOvTjrn4chEw0n9xBYgytSdguVsBOt
+ pJhgrWtnIG4mdml2_YLS0RBr7rH99RfPiUTlYONWk5gsDSZ6ns7E2tYyPhiAvOWpblxhzfmloLpI
+ A1fRz78sE.LBz3gGrtWuej8SnWTSdy5S1lATqtVyh6gokRior9sG8c_gJ1ovlb8aozAZ5EJKuIYy
+ BEab5QbC4V7801K_QzUfEnBBZi2wmY9LaMzzuIsPXMLgYCp_EEtsQClCm1BnG5DEdRdfMnIxNHDE
+ LAY7vhf7BPUvkiIY3TLz7Lcp3HRA9a2pqya50H8CYdJoYtZibMPsm0Pu2j7wmnMGY94g10ugK22a
+ nryYk3FhWncauuBe.70b5iMs8UnU202odGp4q5KujHcc1_.vaqViwIhOTxvvjd1DX0MQQvt48bcm
+ wkctKUmoU71jkEPJ6tJASTv3mEgZUk4G1X.nlTsmO0mVRr87ADsYI77upDEEme45_bh4EPWBaniN
+ mdNs7CLvOBusPC1PDU7QkeyT9di1wBaSo989odm3Ys3OfkzOf4DKJ50pkVctpdCOS47.BTHim0zC
+ WPHWutLyojNyz6QL19PAe06i1fbgjuTnS8MrEoN.spWarkbtCC3OzHJSOvA68LIwfE2WSeZpNPtx
+ UPLY0L8XsVZeGKZbxRgdzXD2IPPDtt94_dOfrHuX6RA4JpV36MdSuAn2dTRnAfiRtWzT0YZBGGNH
+ ohgkypLjHFsD71LcttcMVRJrfjwTmB0o96A048EwaOIyeRKrtXX4_sMAQws8QJqbilWLZ.7jkCQN
+ SD9HMPWudRA.lENwVv9K3Kd1n4Db4N84XWsitvIys2SYCOZnmgO1Of.jpa4nHUpNcji64e7XFeqH
+ aHHF5n49vb2NUAW6wE3d8R99cbISfdnCqrxyV3nKc3_VlC6lPpg8E8gtvrOSfzJLc_KxA.1xiXPB
+ mtKTM.drJndyj.ftepOlgwKJxbCDOs52UjzZVy6O5Jh6vFWngPKek4OgJ2NiVqwu4HlZmaDQCCIB
+ q2drSQXWpU05TXg1FYMIe9oZ.chvGcBB_NhDsoatPqQEO3HTtVJf8CW5dB9B57.m5dwbNTbBMA_.
+ hC_.cqDfJ2nsd0Ayb_Mm91XaZ3iJUYA60pktT8vMxXHJDH.uXwuff4sWs16FHK3sbhZw17gpg_gH
+ Ozop9jhB3KMCORNNcGNnLAvT2jx4yTdipQ0rIj7XqHcwvwNFUu7nAKvy2wpjNZrpCagBOquXv0nV
+ ri3OsTFnwc8JWsrQna6w2KrfngUNGaCLGUnhPeuweIPiam1I3ZlqEAARL00ZOkPiodMoh3eyRczM
+ Be.LLDmA1LU5G7tJrLFRmfxoL2tNhevbutqlJS1AostdNE4FIqQFfQZrGokKPJaUFwPgBBdpZ.Dz
+ _UjUdCzAhKwJcJTPmLGiRVMxFwzwNl4GGVv0QV19zwTDGFtgLygk.gzPTVD3d5lKIStpb7VZUFLz
+ RRJn6xWhrjGWECQO0yhfH7.CKDkxsthC2KfkMfP3BZ6hHMWIhVAaXHb6IRd77y3bPuA65_HPzXtK
+ _3PVHv0lLfhrAMuBd584phg9cFuucSX8dvGcNC_mLTXKZAnqmL__9GNx_hpnImekZHChFAVCg9Mz
+ GSZUWR7nYyGU376PPwai3l2IEZJUcDnHJqBYip9Tpw.zEkFELLbXBxam_OhXhY8j7uPzoJcIA2Vf
+ uFVoks.rRthG3P8mKiV5Tkf9TC4O46UBjslSvbd5de9dy1k5Hh8CTOmg66_1i8YoLF2wWMu75zJQ
+ c2Xcsl5hoPZpGBgQIer_7rjR4bX4N6wlAW9l0TS9mawRSCMkiappf4p0imzdFvuFNUb0CG7fnhQV
+ xPYJVlIIsZBv5xijDqdIF1UACA._4z1QBfMld.O3MaZvTrJiLkMzX4IkFBpNEnS2zlQCSMYP24C.
+ K8.8XPTMF8HIzcfQX.zPRYNjuacFiKqf0JDAdpIWWxVFmJMZO0Y9nuX3Pkq_ZwJw30ph5SFXFRFd
+ yObx7xGC_YOf7Jf8KSM0gRcEx_t8T_drzsg28J.77ZhzQwHWvPAm1IN9QRHK0Vwva0BFFbiFXgTO
+ b6Gtkn2HuCZath7iSWAy6YJJHtyjoaz712KR1gqUARjJD0weROPekps_sZK93fwYH5Jv_e1pbLJw
+ FtJIUdb22ZXj2.p3rRQ2OgIfSJQ9KxRPqaz6cvJRT2ovjKjxp1OKr8Id8La3VMdUfLz7ce.BfwXz
+ 8S42nPix2
+X-Sonic-MF: <casey@schaufler-ca.com>
+X-Sonic-ID: b726709a-3f78-4bad-8320-6c0227b354f1
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic317.consmr.mail.ne1.yahoo.com with HTTP; Tue, 11 Apr 2023 15:59:30 +0000
+Received: by hermes--production-bf1-5f9df5c5c4-84ds6 (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID bb1a3f7a7b49e6371e007077b829a9fe;
+          Tue, 11 Apr 2023 15:59:26 +0000 (UTC)
+From:   Casey Schaufler <casey@schaufler-ca.com>
+To:     casey@schaufler-ca.com, paul@paul-moore.com,
+        linux-security-module@vger.kernel.org
+Cc:     jmorris@namei.org, keescook@chromium.org,
+        john.johansen@canonical.com, penguin-kernel@i-love.sakura.ne.jp,
+        stephen.smalley.work@gmail.com, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, mic@digikod.net
+Subject: [PATCH v8 00/11] LSM: Three basic syscalls
+Date:   Tue, 11 Apr 2023 08:59:10 -0700
+Message-Id: <20230411155921.14716-1-casey@schaufler-ca.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+References: <20230411155921.14716-1-casey.ref@schaufler-ca.com>
+X-Spam-Status: No, score=0.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-If kernel supports FAN_REPORT_ANY_FID, use this flag to allow testing
-also filesystems that do not support fsid or NFS file handles (e.g. fuse).
+Add three system calls for the Linux Security Module ABI.
 
-Signed-off-by: Amir Goldstein <amir73il@gmail.com>
----
+lsm_get_self_attr() provides the security module specific attributes
+that have previously been visible in the /proc/self/attr directory.
+For each security module that uses the specified attribute on the
+current process the system call will return an LSM identifier and
+the value of the attribute. The LSM and attribute identifier values
+are defined in include/uapi/linux/lsm.h
 
-Jan,
+LSM identifiers are simple integers and reflect the order in which
+the LSM was added to the mainline kernel. This is a convention, not
+a promise of the API. LSM identifiers below the value of 100 are
+reserved for unspecified future uses. That could include information
+about the security infrastructure itself, or about how multiple LSMs
+might interact with each other.
 
-I wanted to run an idea by you.
+A new LSM hook security_getselfattr() is introduced to get the
+required information from the security modules. This is similar
+to the existing security_getprocattr() hook, but specifies the
+format in which string data is returned and requires the module
+to put the information into a userspace destination.
 
-My motivation is to close functional gaps between fanotify and inotify.
+lsm_set_self_attr() changes the specified LSM attribute. Only one
+attribute can be changed at a time, and then only if the specified
+security module allows the change.
 
-One of the largest gaps right now is that FAN_REPORT_FID is limited
-to a subset of local filesystems.
+A new LSM hook security_setselfattr() is introduced to set the
+required information in the security modules. This is similar
+to the existing security_setprocattr() hook, but specifies the
+format in which string data is presented and requires the module
+to get the information from a userspace destination.
 
-The idea is to report fid's that are "good enough" and that there
-is no need to require that fid's can be used by open_by_handle_at()
-because that is a non-requirement for most use cases, unpriv listener
-in particular.
+lsm_list_modules() provides the LSM identifiers, in order, of the
+security modules that are active on the system. This has been
+available in the securityfs file /sys/kernel/security/lsm.
 
-I chose a rather generic name for the flag to opt-in for "good enough"
-fid's.  At first, I was going to make those fid's self describing the
-fact that they are not NFS file handles, but in the name of simplicity
-to the API, I decided that this is not needed.
+Patch 0001 changes the LSM registration from passing the name
+of the module to passing a lsm_id structure that contains the
+name of the module, an LSM identifier number and an attribute
+identifier.
+Patch 0002 adds the registered lsm_ids to a table.
+Patch 0003 changes security_[gs]etprocattr() to use LSM IDs instead
+of LSM names.
+Patch 0004 implements lsm_get_self_attr() and lsm_set_self_attr().
+New LSM hooks security_getselfattr() and security_setselfattr() are
+defined.
+Patch 0005 implements lsm_list_modules().
+Patch 0006 wires up the syscalls.
+Patch 0007 implements helper functions to make it easier for
+security modules to use lsm_ctx structures.
+Patch 0008 provides the Smack implementation for [gs]etselfattr().
+Patch 0009 provides the AppArmor implementation for [gs]etselfattr().
+Patch 0010 provides the SELinux implementation for [gs]etselfattr().
+Patch 0011 implements selftests for the three new syscalls.
 
-The patch below is from the LTP test [1] that verifies reported fid's.
-I am posting it because I think that the function fanotify_get_fid()
-demonstrates well, how a would-be fanotify library could be used to get
-a canonical fid.
+https://github.com/cschaufler/lsm-stacking.git#lsm-syscalls-6.3-rc2-a
 
-That would-be routine can easily return the source of the fid values
-for a given filesystem and that information is constant for all objects
-on a given filesystem instance.
+v8: Allow an LSM to provide more than one instance of an attribute,
+    even though none of the existing modules do so.
+    Pad the data returned by lsm_get_self_attr() to the size of
+    the struct lsm_ctx.
+    Change some displeasing varilable names.
+v7: Pass the attribute desired to lsm_[gs]et_self_attr in its own
+    parameter rather than encoding it in the flags.
+    Change the flags parameters to u32.
+    Don't shortcut out of calling LSM specific code in the
+    infrastructure, let the LSM report that doesn't support an
+    attribute instead. With that it is not necessary to maintain
+    a set of supported attributes in the lsm_id structure.
+    Fix a typing error.
+v6: Switch from reusing security_[gs]procattr() to using new
+    security_[gs]selfattr() hooks. Use explicit sized data types
+    in the lsm_ctx structure.
 
-The choise to encode an actual file_handle of type FILEID_INO64 may
-seem controversial at first, but it simplifies things so much, that I
-grew very fond of it.
+v5: Correct syscall parameter data types.
 
-The LTP patch also demonstrated how terribly trivial it would be to
-adapt any existing fanotify programs to support any fs.
+v4: Restore "reserved" LSM ID values. Add explaination.
+    Squash patches that introduce fields in lsm_id.
+    Correct a wireup error.
 
-Kernel patches [2] are pretty simple IMO and
-man page patch [3] demonstrates that the API changes are minimal.
+v3: Add lsm_set_self_attr().
+    Rename lsm_self_attr() to lsm_get_self_attr().
+    Provide the values only for a specifed attribute in
+    lsm_get_self_attr().
+    Add selftests for the three new syscalls.
+    Correct some parameter checking.
 
-Thoughts?
+v2: Use user-interface safe data types.
+    Remove "reserved" LSM ID values.
+    Improve kerneldoc comments
+    Include copyright dates
+    Use more descriptive name for LSM counter
+    Add documentation
+    Correct wireup errors
 
-Amir.
 
-P.S.: Apropos closing gaps to inotify, I have WIP patches to add
-      FAN_UNMOUNT and possibly FAN_IGNORED events.
+Casey Schaufler (11):
+  LSM: Identify modules by more than name
+  LSM: Maintain a table of LSM attribute data
+  proc: Use lsmids instead of lsm names for attrs
+  LSM: syscalls for current process attributes
+  LSM: Create lsm_list_modules system call
+  LSM: wireup Linux Security Module syscalls
+  LSM: Helpers for attribute names and filling an lsm_ctx
+  Smack: implement setselfattr and getselfattr hooks
+  AppArmor: Add selfattr hooks
+  SELinux: Add selfattr hooks
+  LSM: selftests for Linux Security Module syscalls
 
-[1] https://github.com/amir73il/ltp/commits/fan_report_any_fid
-[2] https://github.com/amir73il/linux/commits/fan_report_any_fid
-[3] https://github.com/amir73il/man-pages/commits/fan_report_any_fid
+ Documentation/userspace-api/index.rst         |   1 +
+ Documentation/userspace-api/lsm.rst           |  73 +++++
+ MAINTAINERS                                   |   1 +
+ arch/alpha/kernel/syscalls/syscall.tbl        |   3 +
+ arch/arm/tools/syscall.tbl                    |   3 +
+ arch/arm64/include/asm/unistd.h               |   2 +-
+ arch/arm64/include/asm/unistd32.h             |   6 +
+ arch/ia64/kernel/syscalls/syscall.tbl         |   3 +
+ arch/m68k/kernel/syscalls/syscall.tbl         |   3 +
+ arch/microblaze/kernel/syscalls/syscall.tbl   |   3 +
+ arch/mips/kernel/syscalls/syscall_n32.tbl     |   3 +
+ arch/mips/kernel/syscalls/syscall_n64.tbl     |   3 +
+ arch/mips/kernel/syscalls/syscall_o32.tbl     |   3 +
+ arch/parisc/kernel/syscalls/syscall.tbl       |   3 +
+ arch/powerpc/kernel/syscalls/syscall.tbl      |   3 +
+ arch/s390/kernel/syscalls/syscall.tbl         |   3 +
+ arch/sh/kernel/syscalls/syscall.tbl           |   3 +
+ arch/sparc/kernel/syscalls/syscall.tbl        |   3 +
+ arch/x86/entry/syscalls/syscall_32.tbl        |   3 +
+ arch/x86/entry/syscalls/syscall_64.tbl        |   3 +
+ arch/xtensa/kernel/syscalls/syscall.tbl       |   3 +
+ fs/proc/base.c                                |  29 +-
+ fs/proc/internal.h                            |   2 +-
+ include/linux/lsm_hook_defs.h                 |   4 +
+ include/linux/lsm_hooks.h                     |  25 +-
+ include/linux/security.h                      |  45 ++-
+ include/linux/syscalls.h                      |   6 +
+ include/uapi/asm-generic/unistd.h             |  11 +-
+ include/uapi/linux/lsm.h                      |  84 ++++++
+ kernel/sys_ni.c                               |   5 +
+ security/Makefile                             |   1 +
+ security/apparmor/include/procattr.h          |   2 +-
+ security/apparmor/lsm.c                       | 104 ++++++-
+ security/apparmor/procattr.c                  |  11 +-
+ security/bpf/hooks.c                          |   9 +-
+ security/commoncap.c                          |   8 +-
+ security/landlock/cred.c                      |   2 +-
+ security/landlock/fs.c                        |   2 +-
+ security/landlock/ptrace.c                    |   2 +-
+ security/landlock/setup.c                     |   6 +
+ security/landlock/setup.h                     |   1 +
+ security/loadpin/loadpin.c                    |   9 +-
+ security/lockdown/lockdown.c                  |   8 +-
+ security/lsm_syscalls.c                       | 118 ++++++++
+ security/safesetid/lsm.c                      |   9 +-
+ security/security.c                           | 208 ++++++++++++--
+ security/selinux/hooks.c                      | 162 +++++++++--
+ security/smack/smack_lsm.c                    | 113 +++++++-
+ security/tomoyo/tomoyo.c                      |   9 +-
+ security/yama/yama_lsm.c                      |   8 +-
+ .../arch/mips/entry/syscalls/syscall_n64.tbl  |   3 +
+ .../arch/powerpc/entry/syscalls/syscall.tbl   |   3 +
+ .../perf/arch/s390/entry/syscalls/syscall.tbl |   3 +
+ .../arch/x86/entry/syscalls/syscall_64.tbl    |   3 +
+ tools/testing/selftests/Makefile              |   1 +
+ tools/testing/selftests/lsm/Makefile          |  12 +
+ tools/testing/selftests/lsm/config            |   2 +
+ .../selftests/lsm/lsm_get_self_attr_test.c    | 268 ++++++++++++++++++
+ .../selftests/lsm/lsm_list_modules_test.c     | 149 ++++++++++
+ .../selftests/lsm/lsm_set_self_attr_test.c    |  70 +++++
+ 60 files changed, 1547 insertions(+), 101 deletions(-)
+ create mode 100644 Documentation/userspace-api/lsm.rst
+ create mode 100644 include/uapi/linux/lsm.h
+ create mode 100644 security/lsm_syscalls.c
+ create mode 100644 tools/testing/selftests/lsm/Makefile
+ create mode 100644 tools/testing/selftests/lsm/config
+ create mode 100644 tools/testing/selftests/lsm/lsm_get_self_attr_test.c
+ create mode 100644 tools/testing/selftests/lsm/lsm_list_modules_test.c
+ create mode 100644 tools/testing/selftests/lsm/lsm_set_self_attr_test.c
 
- include/lapi/fanotify.h                       |  3 ++
- testcases/kernel/syscalls/fanotify/fanotify.h | 32 +++++++++++++++----
- .../kernel/syscalls/fanotify/fanotify13.c     | 16 +++++++---
- 3 files changed, 41 insertions(+), 10 deletions(-)
-
-diff --git a/include/lapi/fanotify.h b/include/lapi/fanotify.h
-index 4bd1a113c..511b35bbd 100644
---- a/include/lapi/fanotify.h
-+++ b/include/lapi/fanotify.h
-@@ -32,6 +32,9 @@
- #define FAN_REPORT_DFID_NAME_TARGET (FAN_REPORT_DFID_NAME | \
- 				     FAN_REPORT_FID | FAN_REPORT_TARGET_FID)
- #endif
-+#ifndef FAN_REPORT_ANY_FID
-+#define FAN_REPORT_ANY_FID	0x00002000
-+#endif
- 
- /* Non-uapi convenience macros */
- #ifndef FAN_REPORT_DFID_NAME_FID
-diff --git a/testcases/kernel/syscalls/fanotify/fanotify.h b/testcases/kernel/syscalls/fanotify/fanotify.h
-index 51078103e..b02295138 100644
---- a/testcases/kernel/syscalls/fanotify/fanotify.h
-+++ b/testcases/kernel/syscalls/fanotify/fanotify.h
-@@ -72,6 +72,10 @@ static inline int safe_fanotify_mark(const char *file, const int lineno,
- #define MAX_HANDLE_SZ		128
- #endif
- 
-+#ifndef FILEID_INO64
-+#define FILEID_INO64		0x80
-+#endif
-+
- /*
-  * Helper function used to obtain fsid and file_handle for a given path.
-  * Used by test files correlated to FAN_REPORT_FID functionality.
-@@ -80,21 +84,37 @@ static inline void fanotify_get_fid(const char *path, __kernel_fsid_t *fsid,
- 				    struct file_handle *handle)
- {
- 	int mount_id;
-+	struct statx stx;
- 	struct statfs stats;
- 
-+	if (statx(AT_FDCWD, path, 0, 0, &stx) == -1)
-+		tst_brk(TBROK | TERRNO,
-+			"statx(%s, ...) failed", path);
- 	if (statfs(path, &stats) == -1)
- 		tst_brk(TBROK | TERRNO,
- 			"statfs(%s, ...) failed", path);
- 	memcpy(fsid, &stats.f_fsid, sizeof(stats.f_fsid));
- 
-+	if (!fsid->val[0] && !fsid->val[1]) {
-+		/* Fallback to fsid encoded from stx_dev */
-+		fsid->val[0] = stx.stx_dev_major;
-+		fsid->val[1] = stx.stx_dev_minor;
-+	}
-+
- 	if (name_to_handle_at(AT_FDCWD, path, handle, &mount_id, 0) == -1) {
--		if (errno == EOPNOTSUPP) {
--			tst_brk(TCONF,
--				"filesystem %s does not support file handles",
--				tst_device->fs_type);
-+		if (errno != EOPNOTSUPP) {
-+			tst_brk(TBROK | TERRNO,
-+				"name_to_handle_at(AT_FDCWD, %s, ...) failed", path);
- 		}
--		tst_brk(TBROK | TERRNO,
--			"name_to_handle_at(AT_FDCWD, %s, ...) failed", path);
-+
-+		tst_res(TINFO,
-+			"filesystem %s does not support file handles - using ino as fid",
-+			tst_device->fs_type);
-+
-+		/* Fallback to fid encoded from stx_ino */
-+		handle->handle_type = FILEID_INO64;
-+		handle->handle_bytes = sizeof(stx.stx_ino);
-+		memcpy(handle->f_handle, (void *)&stx.stx_ino, sizeof(stx.stx_ino));
- 	}
- }
- 
-diff --git a/testcases/kernel/syscalls/fanotify/fanotify13.c b/testcases/kernel/syscalls/fanotify/fanotify13.c
-index c3daaf3a2..e50ad0f75 100644
---- a/testcases/kernel/syscalls/fanotify/fanotify13.c
-+++ b/testcases/kernel/syscalls/fanotify/fanotify13.c
-@@ -90,6 +90,7 @@ static struct test_case_t {
- 
- static int nofid_fd;
- static int fanotify_fd;
-+static int fanotify_init_flags;
- static int filesystem_mark_unsupported;
- static char events_buf[BUF_SIZE];
- static struct event_t event_set[EVENT_MAX];
-@@ -143,15 +144,16 @@ static void do_test(unsigned int number)
- 	struct fanotify_mark_type *mark = &tc->mark;
- 
- 	tst_res(TINFO,
--		"Test #%d: FAN_REPORT_FID with mark flag: %s",
--		number, mark->name);
-+		"Test #%d: %s with mark flag: %s", number,
-+		(fanotify_init_flags & FAN_REPORT_ANY_FID) ?
-+			"FAN_REPORT_ANY_FID" : "FAN_REPORT_FID", mark->name);
- 
- 	if (filesystem_mark_unsupported && mark->flag & FAN_MARK_FILESYSTEM) {
- 		tst_res(TCONF, "FAN_MARK_FILESYSTEM not supported in kernel?");
- 		return;
- 	}
- 
--	fanotify_fd = SAFE_FANOTIFY_INIT(FAN_CLASS_NOTIF | FAN_REPORT_FID, O_RDONLY);
-+	fanotify_fd = SAFE_FANOTIFY_INIT(FAN_CLASS_NOTIF | fanotify_init_flags, O_RDONLY);
- 
- 	/*
- 	 * Place marks on a set of objects and setup the expected masks
-@@ -261,7 +263,13 @@ out:
- 
- static void do_setup(void)
- {
--	REQUIRE_FANOTIFY_INIT_FLAGS_SUPPORTED_ON_FS(FAN_REPORT_FID, MOUNT_PATH);
-+	/* Try FAN_REPORT_ANY_FID */
-+	fanotify_init_flags = FAN_REPORT_FID | FAN_REPORT_ANY_FID;
-+	if (fanotify_init_flags_supported_on_fs(fanotify_init_flags, MOUNT_PATH)) {
-+		/* Fallback to FAN_REPORT_FID */
-+		fanotify_init_flags = FAN_REPORT_FID;
-+		REQUIRE_FANOTIFY_INIT_FLAGS_SUPPORTED_ON_FS(fanotify_init_flags, MOUNT_PATH);
-+	}
- 
- 	filesystem_mark_unsupported = fanotify_mark_supported_by_kernel(FAN_MARK_FILESYSTEM);
- 
 -- 
-2.34.1
+2.39.2
 
