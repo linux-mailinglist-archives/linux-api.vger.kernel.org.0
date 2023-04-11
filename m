@@ -2,266 +2,165 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9DEE36DCE78
-	for <lists+linux-api@lfdr.de>; Tue, 11 Apr 2023 02:32:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 81C226DCF3C
+	for <lists+linux-api@lfdr.de>; Tue, 11 Apr 2023 03:29:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229733AbjDKAcL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 10 Apr 2023 20:32:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36266 "EHLO
+        id S229808AbjDKB3j (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 10 Apr 2023 21:29:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35392 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229671AbjDKAcL (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 10 Apr 2023 20:32:11 -0400
-Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38BE826A1
-        for <linux-api@vger.kernel.org>; Mon, 10 Apr 2023 17:32:09 -0700 (PDT)
-Received: by mail-yb1-xb2b.google.com with SMTP id u13so6527435ybu.5
-        for <linux-api@vger.kernel.org>; Mon, 10 Apr 2023 17:32:09 -0700 (PDT)
+        with ESMTP id S229618AbjDKB3i (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 10 Apr 2023 21:29:38 -0400
+Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AC84E73
+        for <linux-api@vger.kernel.org>; Mon, 10 Apr 2023 18:29:37 -0700 (PDT)
+Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-54c23fab905so112911407b3.14
+        for <linux-api@vger.kernel.org>; Mon, 10 Apr 2023 18:29:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1681173128; x=1683765128;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WWQ9G0NQhiUwUGFObFakqkMlVOJbAJgQnb6NV+yeJ6o=;
-        b=LnOn76YoPjARpgeLfjyyqLMfbKqpjPxWKqUZ5fmBcwsbTUQ8fJgEoXqqDVhFwS9C8m
-         L3/j/U8JEPqK5yYKItEQ5ErdpcHVo0r9s6jUBbbG6+kVILDpsT9+Xy/GkDkfHpldVAwv
-         mLz9aYENpe4aPO0q1K+VJ6HTIR7Z9CjHImSRuv5T85VtJtzdnK6Odwgl8+O57yMUvgLA
-         1uUbgPtNx6yHFR8otgxpJxjWWsdxSM8r9hVxS+2V50OcRtFAkjEAZzmaVncOoteCe1Vb
-         Y8G/QgFCBg5YAAxwQrgO9vWAwEWMfESmIR1SXkjNvnU48bpO+GKgmh9cyUFZKP72D+1I
-         OOGQ==
+        d=google.com; s=20210112; t=1681176576;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=u35FXb24rxXsoG0aCEe4m7ddoHISWHWt5V4ebjSzsz4=;
+        b=o2tU5lXa5GgaaWuGTbd5bbvKtG3z3RSme5Cet24inDTS7nOrViJmL/iq51gozQkU0w
+         fSc14g51lyAN7EZ2W2YdqFHXsQ6fhtJt3Ww8txhLuuaqZ7otipQp1kY2GirbtpvPd8tz
+         qOFtr4vKJdNigycQsXduABdE6Mx/1K8btlYWEfUtLHRYy5H01FBzkck2ffnGkGbDsNsT
+         ZbsMLLNEojFf+Yy7PynOmDitIMxxEZiFMr4qBeOETiKphih3BdTfUf4XHIT8Qtk4z1z+
+         d9h/ldEYXKqGvPbthLo+j90zJo0SUaeonPgvSapyQgn4pLlBWcLiJxpQI3QivbmMF29i
+         8afA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681173128; x=1683765128;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WWQ9G0NQhiUwUGFObFakqkMlVOJbAJgQnb6NV+yeJ6o=;
-        b=Y22Pu6AvJ0rIJHzX10Gu4z/QONc6E4xvmaJeYF3bT52rXNHdKuVED/VhVR+OOUkTDb
-         06qE2oxgGcx64ZffWQCq3D+jc2K9m7poXp+Tr1sINv5R5VGARY0kyZETKYWj4Hy5c13v
-         4tSM1uKdTrxRuwixqJkh4Ghv2WkvOx7C4c0KsV7dnaQM3IgZTAaNDS0iw8m/61gybvRW
-         pKQtFZLs9ILexwP3/AUsHLt8npB06eiOa4JurnKKx87aGc40CYfiNKLw7PnKjMCHc8lz
-         422zxCTl/68DEwBaCKy05E3UEJPJx/+NfRqzjcs9VkgpYiP2KQcykFm1labRLARNyK0Y
-         Nr0w==
-X-Gm-Message-State: AAQBX9cjh11SV4t4VT/AlMEYTaU+A8a4UGfGRz/wrw6RMzcAht2SPvgr
-        22im98ud8eoZKSQ+S7uUY6/ZGLzKqCahOqgk+YsT
-X-Google-Smtp-Source: AKy350bKOGBpKXG92fJ6JEROfwpmoGw5IaydqkouD3+4eDyGSvV8Qa7RGgIwuVn9kudcZSex+znUZioOY8F3Jmv4GOI=
-X-Received: by 2002:a25:e0c5:0:b0:b8b:fd23:5028 with SMTP id
- x188-20020a25e0c5000000b00b8bfd235028mr353362ybg.3.1681173128224; Mon, 10 Apr
- 2023 17:32:08 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230315224704.2672-1-casey@schaufler-ca.com> <20230315224704.2672-5-casey@schaufler-ca.com>
- <b63f1957-d3d5-28f9-fd27-c0e629456a9f@digikod.net>
-In-Reply-To: <b63f1957-d3d5-28f9-fd27-c0e629456a9f@digikod.net>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Mon, 10 Apr 2023 20:31:57 -0400
-Message-ID: <CAHC9VhR8aNaDqjuv-K3VB7nG3jA+yBB0Ai8n0sCj46sDnx-mXw@mail.gmail.com>
-Subject: Re: [PATCH v7 04/11] LSM: syscalls for current process attributes
-To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
-Cc:     Casey Schaufler <casey@schaufler-ca.com>,
-        linux-security-module@vger.kernel.org, jmorris@namei.org,
-        keescook@chromium.org, john.johansen@canonical.com,
-        penguin-kernel@i-love.sakura.ne.jp, stephen.smalley.work@gmail.com,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
+        d=1e100.net; s=20210112; t=1681176576;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=u35FXb24rxXsoG0aCEe4m7ddoHISWHWt5V4ebjSzsz4=;
+        b=M6XgENQgDPSme1EFeZgLcFuwc5391eQrHiwVKdU5uZFGA40VwNVccruGYGx7K758SV
+         OzEgYtFMYJilMposKm/0wj5EGQ1O9hD8njup4ulCSPaSzqe70BkZoAgssdOcLy269r1T
+         ap8S4v2bTzd3Dq1QLbydJ4cJ1tmfmxKT0RYdyVl3teWBZVCcc4UTMlCW6vKknmWeBXCD
+         f/35D/pE2vcK2lwPrFYMXr/jepjx03pffOKxMJkuu0qf8pUh13kRQrJnJuhf4y+8b9Oa
+         salUzlwffwI+bTsfwndRH5wtH5zH7w6bTt/d6QDGO/Bj8qnLuVi2j4Ddxu2tZk54E6RC
+         vqnw==
+X-Gm-Message-State: AAQBX9fHMNvMlO9LyE7unSPXvETJMxsQzzJlNTJjkbm//fq2Aqu0LZLL
+        15duQmKRAE7D7felOFcpzNEeGQEKovjszhqaqA==
+X-Google-Smtp-Source: AKy350avHjLsg9mTzZAWYFqY+XYZP5h/AOkdol2OZ6k0pfwzqyIYSmwhwrM4doSRB7oAHOnKfLu7oA90tp2KCOA+fw==
+X-Received: from ackerleytng-cloudtop.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:1f5f])
+ (user=ackerleytng job=sendgmr) by 2002:a05:690c:1:b0:544:bbd2:74be with SMTP
+ id bc1-20020a05690c000100b00544bbd274bemr8286702ywb.4.1681176576562; Mon, 10
+ Apr 2023 18:29:36 -0700 (PDT)
+Date:   Tue, 11 Apr 2023 01:29:31 +0000
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.40.0.577.gac1e443424-goog
+Message-ID: <cover.1681176340.git.ackerleytng@google.com>
+Subject: [RFC PATCH v4 0/2] Providing mount in memfd_restricted() syscall
+From:   Ackerley Tng <ackerleytng@google.com>
+To:     kvm@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, qemu-devel@nongnu.org
+Cc:     aarcange@redhat.com, ak@linux.intel.com, akpm@linux-foundation.org,
+        arnd@arndb.de, bfields@fieldses.org, bp@alien8.de,
+        chao.p.peng@linux.intel.com, corbet@lwn.net, dave.hansen@intel.com,
+        david@redhat.com, ddutile@redhat.com, dhildenb@redhat.com,
+        hpa@zytor.com, hughd@google.com, jlayton@kernel.org,
+        jmattson@google.com, joro@8bytes.org, jun.nakajima@intel.com,
+        kirill.shutemov@linux.intel.com, linmiaohe@huawei.com,
+        luto@kernel.org, mail@maciej.szmigiero.name, mhocko@suse.com,
+        michael.roth@amd.com, mingo@redhat.com, naoya.horiguchi@nec.com,
+        pbonzini@redhat.com, qperret@google.com, rppt@kernel.org,
+        seanjc@google.com, shuah@kernel.org, steven.price@arm.com,
+        tabba@google.com, tglx@linutronix.de, vannapurve@google.com,
+        vbabka@suse.cz, vkuznets@redhat.com, wanpengli@tencent.com,
+        wei.w.wang@intel.com, x86@kernel.org, yu.c.zhang@linux.intel.com,
+        Ackerley Tng <ackerleytng@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.7 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Apr 3, 2023 at 8:04=E2=80=AFAM Micka=C3=ABl Sala=C3=BCn <mic@digiko=
-d.net> wrote:
-> On 15/03/2023 23:46, Casey Schaufler wrote:
-> > Create a system call lsm_get_self_attr() to provide the security
-> > module maintained attributes of the current process.
-> > Create a system call lsm_set_self_attr() to set a security
-> > module maintained attribute of the current process.
-> > Historically these attributes have been exposed to user space via
-> > entries in procfs under /proc/self/attr.
-> >
-> > The attribute value is provided in a lsm_ctx structure. The structure
-> > identifys the size of the attribute, and the attribute value. The forma=
-t
-> > of the attribute value is defined by the security module. A flags field
-> > is included for LSM specific information. It is currently unused and mu=
-st
-> > be 0. The total size of the data, including the lsm_ctx structure and a=
-ny
-> > padding, is maintained as well.
-> >
-> > struct lsm_ctx {
-> >          __u64   id;
-> >          __u64   flags;
-> >          __u64   len;
-> >          __u64   ctx_len;
-> >          __u8    ctx[];
-> > };
-> >
-> > Two new LSM hooks are used to interface with the LSMs.
-> > security_getselfattr() collects the lsm_ctx values from the
-> > LSMs that support the hook, accounting for space requirements.
-> > security_setselfattr() identifies which LSM the attribute is
-> > intended for and passes it along.
-> >
-> > Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
-> > ---
-> >   Documentation/userspace-api/lsm.rst | 15 +++++
-> >   include/linux/lsm_hook_defs.h       |  4 ++
-> >   include/linux/lsm_hooks.h           |  9 +++
-> >   include/linux/security.h            | 19 ++++++
-> >   include/linux/syscalls.h            |  5 ++
-> >   include/uapi/linux/lsm.h            | 33 ++++++++++
-> >   kernel/sys_ni.c                     |  4 ++
-> >   security/Makefile                   |  1 +
-> >   security/lsm_syscalls.c             | 55 ++++++++++++++++
-> >   security/security.c                 | 97 ++++++++++++++++++++++++++++=
-+
-> >   10 files changed, 242 insertions(+)
-> >   create mode 100644 security/lsm_syscalls.c
->
-> [...]
->
-> > diff --git a/security/lsm_syscalls.c b/security/lsm_syscalls.c
-> > new file mode 100644
-> > index 000000000000..feee31600219
-> > --- /dev/null
-> > +++ b/security/lsm_syscalls.c
-> > @@ -0,0 +1,55 @@
-> > +// SPDX-License-Identifier: GPL-2.0-only
-> > +/*
-> > + * System calls implementing the Linux Security Module API.
-> > + *
-> > + *  Copyright (C) 2022 Casey Schaufler <casey@schaufler-ca.com>
-> > + *  Copyright (C) 2022 Intel Corporation
-> > + */
-> > +
-> > +#include <asm/current.h>
-> > +#include <linux/compiler_types.h>
-> > +#include <linux/err.h>
-> > +#include <linux/errno.h>
-> > +#include <linux/security.h>
-> > +#include <linux/stddef.h>
-> > +#include <linux/syscalls.h>
-> > +#include <linux/types.h>
-> > +#include <linux/lsm_hooks.h>
-> > +#include <uapi/linux/lsm.h>
-> > +
-> > +/**
-> > + * sys_lsm_set_self_attr - Set current task's security module attribut=
-e
-> > + * @attr: which attribute to set
-> > + * @ctx: the LSM contexts
-> > + * @size: size of @ctx
-> > + * @flags: reserved for future use
-> > + *
-> > + * Sets the calling task's LSM context. On success this function
-> > + * returns 0. If the attribute specified cannot be set a negative
-> > + * value indicating the reason for the error is returned.
->
-> Do you think it is really worth it to implement syscalls that can get
-> and set attributes to several LSMs at the same time, instead of one at a
-> time?
+Hello,
 
-As mentioned elsewhere, the "set" operations pretty much have to be
-one LSM at a time; the error handling is almost impossible otherwise.
+This patchset builds upon the memfd_restricted() system call that was
+discussed in the 'KVM: mm: fd-based approach for supporting KVM' patch
+series, at
+https://lore.kernel.org/lkml/20221202061347.1070246-1-chao.p.peng@linux.int=
+el.com/T/
 
-However, it would be possible to have a single LSM "get" operation.
-We could do this with the proposed lsm_get_self_attr() syscall and a
-flag to indicate that only a single LSM's attribute information is
-being requested, and that the desired LSM is indicated by the
-lsm_ctx::id field (populated by the userspace caller).  I'm imagining
-something like this:
+The tree can be found at:
+https://github.com/googleprodkernel/linux-cc/tree/restrictedmem-provide-mou=
+nt-fd-rfc-v4
 
-  lsm_ctx->id =3D LSM_ID_MYFAVORITELSM;
-  lsm_get_self_attr(LSM_ATTR_CURRENT,
-                    lsm_ctx, &lsm_ctx_size, LSM_FLG_SINGLE);
+In this patchset, a modification to the memfd_restricted() syscall is
+proposed, which allows userspace to provide a mount, on which the
+restrictedmem file will be created and returned from the
+memfd_restricted().
 
-> LSM-specific tools don't care about other LSMs.
+Allowing userspace to provide a mount allows userspace to control
+various memory binding policies via tmpfs mount options, such as
+Transparent HugePage memory allocation policy through
+'huge=3Dalways/never' and NUMA memory allocation policy through
+'mpol=3Dlocal/bind:*'.
 
-That's why they are called "LSM-specific tools" ;)  I think it is a
-reasonable request to provide optimizations for that, the
-discussion/example above, but I think we also want to support tools
-which are LSM "aware" but don't need to be made specific to any one
-particular LSM.  Thankfully, I think we can do both.
+Changes since RFCv3:
++ Added check to ensure that bind mounts must be bind mounts of the
+  whole filesystem
++ Removed inappropriate check on fd=E2=80=99s permissions as Christian
+  suggested
++ Renamed RMFD_USERMNT to MEMFD_RSTD_USERMNT as David suggested
++ Added selftest to check that bind mounts must be bind mounts of the
+  whole filesystem
 
-> I still think it
-> would be much simpler (for kernel and user space) to pass an LSM ID to
-> both syscalls. This would avoid dealing with variable arrays of variable
-> element lengths, to both get or set attributes.
+Changes since RFCv2:
++ Tightened semantics to accept only fds of the root of a tmpfs mount,
+  as Christian suggested
++ Added permissions check on the inode represented by the fd to guard
+  against creation of restrictedmem files on read-only tmpfs
+  filesystems or mounts
++ Renamed RMFD_TMPFILE to RMFD_USERMNT to better represent providing a
+  userspace mount to create a restrictedmem file on
++ Updated selftests for tighter semantics and added selftests to check
+  for permissions
 
-I think we should support "get" operations that support getting an
-attribute from multiple LSMs, but I'm perfectly fine with also
-supporting a single LSM "get" operation as described in the example
-above.
+Changes since RFCv1:
++ Use fd to represent mount instead of path string, as Kirill
+  suggested. I believe using fds makes this syscall interface more
+  aligned with the other syscalls like fsopen(), fsconfig(), and
+  fsmount() in terms of using and passing around fds
++ Remove unused variable char *orig_shmem_enabled from selftests
 
-> Furthermore, considering the hypotetical LSM_ATTR_MAGICFD that was
-> previously talked about, getting an unknown number of file descriptor
-> doesn't look good neither.
+Dependencies:
++ Chao=E2=80=99s work on UPM, at
+  https://github.com/chao-p/linux/commits/privmem-v11.5
 
-We are already in a place where not all LSMs support all of the
-attributes, and we handle that.  If you are concerned about a specific
-LSM returning some additional, or "richer", attribute data, the
-syscall does support that; it is just a matter of the userspace caller
-being able to understand the LSM-specific data ... which is true for
-even the simple/standard case.
+Links to earlier patch series:
++ RFC v3: https://lore.kernel.org/lkml/cover.1680306489.git.ackerleytng@goo=
+gle.com/T/
++ RFC v2: https://lore.kernel.org/lkml/cover.1679428901.git.ackerleytng@goo=
+gle.com/T/
++ RFC v1: https://lore.kernel.org/lkml/cover.1676507663.git.ackerleytng@goo=
+gle.com/T/
 
-> > + */
-> > +SYSCALL_DEFINE4(lsm_set_self_attr, unsigned int, attr, struct lsm_ctx =
-__user *,
-> > +             ctx, size_t __user, size, u32, flags)
-> > +{
-> > +     return security_setselfattr(attr, ctx, size, flags);
-> > +}
-> > +
-> > +/**
-> > + * sys_lsm_get_self_attr - Return current task's security module attri=
-butes
-> > + * @attr: which attribute to set
->
-> attribute to *get*
->
-> > + * @ctx: the LSM contexts
-> > + * @size: size of @ctx, updated on return
->
-> I suggest to use a dedicated argument to read the allocated size, and
-> another to write the actual/written size.
+Ackerley Tng (2):
+  mm: restrictedmem: Allow userspace to specify mount for
+    memfd_restricted
+  selftests: restrictedmem: Check memfd_restricted()'s handling of
+    provided userspace mount
 
-Can you elaborate on this?  There is plenty of precedence for this approach=
-.
+ include/linux/syscalls.h                      |   2 +-
+ include/uapi/linux/restrictedmem.h            |   8 +
+ mm/restrictedmem.c                            |  73 ++-
+ tools/testing/selftests/mm/.gitignore         |   1 +
+ tools/testing/selftests/mm/Makefile           |   1 +
+ .../selftests/mm/memfd_restricted_usermnt.c   | 529 ++++++++++++++++++
+ tools/testing/selftests/mm/run_vmtests.sh     |   3 +
+ 7 files changed, 611 insertions(+), 6 deletions(-)
+ create mode 100644 include/uapi/linux/restrictedmem.h
+ create mode 100644 tools/testing/selftests/mm/memfd_restricted_usermnt.c
 
-> This would not be required with an LSM ID passed to the syscall because
-> attribute sizes should be known by user space, and there is no need to
-> help them probe this information.
-
-No.  As we move forward, and LSMs potentially introduce additional
-attribute information/types/etc., there will be cases where the kernel
-could need more buffer space than userspace would realize.  Keeping
-the length flexible allows this, with the extra information ignored by
-"legacy" userspace, and utilized by "new" userspace.
-
-> > + * @flags: reserved for future use
-> > + *
-> > + * Returns the calling task's LSM contexts. On success this
-> > + * function returns the number of @ctx array elements. This value
-> > + * may be zero if there are no LSM contexts assigned. If @size is
-> > + * insufficient to contain the return data -E2BIG is returned and
-> > + * @size is set to the minimum required size.
->
-> Doing something (updating a buffer) even when returning an error doesn't
-> look right.
-
-We could zero the buffer on error/E2BIG if that is a concern, but
-unfortunately due the nature of the LSM it is not possible to safely
-(no races) determine the size of the buffer before populating it.
-
-> These sizes should be well-known to user space and part of
-> the ABI/UAPI.
-
-That may be true for specific LSMs at this point in time, but I
-believe it would be a serious mistake to impose that constraint on
-these syscalls.
-
---=20
-paul-moore.com
+--
+2.40.0.577.gac1e443424-goog
