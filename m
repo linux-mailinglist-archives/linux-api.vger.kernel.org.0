@@ -2,52 +2,53 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 554296DF803
-	for <lists+linux-api@lfdr.de>; Wed, 12 Apr 2023 16:07:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AE1756DF80B
+	for <lists+linux-api@lfdr.de>; Wed, 12 Apr 2023 16:11:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231167AbjDLOHs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 12 Apr 2023 10:07:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38732 "EHLO
+        id S229536AbjDLOLK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 12 Apr 2023 10:11:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41128 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231270AbjDLOHq (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Apr 2023 10:07:46 -0400
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFC6B7AA5
-        for <linux-api@vger.kernel.org>; Wed, 12 Apr 2023 07:07:20 -0700 (PDT)
-Received: by mail-pl1-x633.google.com with SMTP id p17so351240pla.3
-        for <linux-api@vger.kernel.org>; Wed, 12 Apr 2023 07:07:20 -0700 (PDT)
+        with ESMTP id S229517AbjDLOLJ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Apr 2023 10:11:09 -0400
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 935AB213F
+        for <linux-api@vger.kernel.org>; Wed, 12 Apr 2023 07:11:08 -0700 (PDT)
+Received: by mail-pj1-x1031.google.com with SMTP id v9so16943092pjk.0
+        for <linux-api@vger.kernel.org>; Wed, 12 Apr 2023 07:11:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1681308440;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ezr0Pa2G5CPCejRpgTKWLJ2fU/GGW7Xz3oIM+nnVa98=;
-        b=RUfxf6kD6IVsna+AcdeGpsOuyFBveZCvq4fj5TUDZEDOJMqYKtchhmzLkACtgRjcoG
-         c0nrY2rl7Jpm6mc9ZXCH7XpVnXkhQfAfisiZ6Q37g31KcI5eAclqRq0msdxE6vgM/P45
-         cdt6u3/iHu/QmUG9QPGq5X0oVet0CBytzJF0SMywaFud+I6Sao1MeFWBRHd6r/QlYysH
-         Ex3SZ1TNSlbeb110UJuhky/8YxGowIYvNxfyWc/iS6bkGkXoYmjKiFCgC/roxlytfFFL
-         PAzLy2MWPeGu1FWblrPfZGPiuqCrXQXxMl+jZGrZL0xQnHVt1ezlNytEn6Pb99sKTvBF
-         tLsw==
+        d=bytedance.com; s=google; t=1681308668;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/08sgLNHl+fvsLpz2QvFxww3IWnM9URQXV0BTGByAnM=;
+        b=ah3FfTCwtmlj6FL1p8yzw2jYC7yFw0+4YehGEEbWBum7kI6Rd8emsG3gTnRLPIDlzh
+         ATgUdGcX4JxsAU42Ffd9/mElLT1w8zU8H/mkPAnLKxngubSiYHWJMjyc6BnmshadOED1
+         LZRA0eOhn+4dYVysVIEjabVJqL7TfXQi4aW/yK5TwlI6V/GsuIqGPPVchpGQD6LGlPuA
+         XyFSWOr6h00KIKAOv2ek3wwmT02wxHTToefvZLeXFZAMqdN8GEAmtubIAZcQMmiGqZ7R
+         IjkMW4IB3+IzCJYsfTEj/31H02aplIOF8P5doPfLi6S/Tqk3AdLW2ZOz6rI2P4JmHPkR
+         rHIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681308440;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ezr0Pa2G5CPCejRpgTKWLJ2fU/GGW7Xz3oIM+nnVa98=;
-        b=U4/6gfrK+uAUPmZrFL9JndT6qAeirlanKttOYx0d39Ms9YGceyJvoMw80VhmNTyYQU
-         blM3s9D8ZKQXSW6JOHH4+6hVXWJ73vyQHi66ZlZDXqjcNtHMwjr4l9fj1M1ZKNjFEsCE
-         tUOspNZPhEuMAykoCBOgsmLCZSyM5bKlYZuqvB9SdvLSuAdL9EhHNTfwTr8PYUFqBPlP
-         u9+znBxGHSf35KIswuMqPwcG7nJgPT8YhMyLs+l5wMzS0kM7unC9nitXdhXedJzY6pec
-         aA8Fe4mhT1pe1nPoiVq8q5YDYOhGPahmXnHkzfSP5/ISRenCLfaksQtsma3HiyynL/qO
-         g6YQ==
-X-Gm-Message-State: AAQBX9doo8IiaJnZFuaKCYvKIDnZn5mRZiHJPDG/CnJmdJ7MeBXz7kk7
-        MrHmcySXT8/qgGYaj5/OFvHwsg==
-X-Google-Smtp-Source: AKy350aoVZivfdOILzQNFOY/Kl0qh9fiQnQGPIoXOeaWxhUQeXzRzX7ejWwCul5FRJunZAWmCLAiSg==
-X-Received: by 2002:a05:6a20:7a90:b0:da:f525:e629 with SMTP id u16-20020a056a207a9000b000daf525e629mr19924239pzh.53.1681308439909;
-        Wed, 12 Apr 2023 07:07:19 -0700 (PDT)
-Received: from C02FT5A6MD6R.lan ([111.201.131.102])
-        by smtp.gmail.com with ESMTPSA id f9-20020a63de09000000b00502e6bfedc0sm10473613pgg.0.2023.04.12.07.07.15
+        d=1e100.net; s=20210112; t=1681308668;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/08sgLNHl+fvsLpz2QvFxww3IWnM9URQXV0BTGByAnM=;
+        b=5bRcajMFxWn8nmJ6rtt509kBeFRtOKa2nw6oAfUiJQwsOX4XdwyPNR20nLAe4IZgLN
+         dj2PzF1bgY1yXVAGuExOcVroexvyZbAsTpUy2HGiqucxFT1PTWpm13aKemCKOOf+05f2
+         4xSFMmnVQek4C8eZ6362fc0UIlgkXIeysbjlqWahIVrrfR8OIwOa2UdCC+eGJcVo5UT2
+         aRlrAMKuCGgwxGlnRnLFmcMZ6nFm+aKT6pNYqHvcNVOd+/jCm9WLMjlCd/6k9tZQsnrJ
+         0K5ODSVsqKIJAnmazl5wdsmTLFINCD3sFYDayHBdHidLEjGDAF1eteejiZdDOBCsJKms
+         OTbA==
+X-Gm-Message-State: AAQBX9faUav4TdGd5EPJm/w1Iu9rJKMr8BgGKgG4+zQ5DDTgvSLhyHql
+        8axM7Dm54oYPwtkyVmd+RDNdsQ==
+X-Google-Smtp-Source: AKy350YdZubU5x7WHR5Ra7lyb5gK5DZdvAGIACucw2eA1QSl4JVAZfxjZzWbzpgx+BaceamCCqKDzw==
+X-Received: by 2002:a17:90b:1d04:b0:23d:3913:bc26 with SMTP id on4-20020a17090b1d0400b0023d3913bc26mr21902907pjb.2.1681308667917;
+        Wed, 12 Apr 2023 07:11:07 -0700 (PDT)
+Received: from localhost.localdomain ([139.177.225.253])
+        by smtp.gmail.com with ESMTPSA id gz2-20020a17090b0ec200b00246aa8b0e8csm1503359pjb.55.2023.04.12.07.11.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Apr 2023 07:07:19 -0700 (PDT)
+        Wed, 12 Apr 2023 07:11:07 -0700 (PDT)
 From:   Gang Li <ligang.bdlg@bytedance.com>
 To:     John Hubbard <jhubbard@nvidia.com>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -63,94 +64,83 @@ To:     John Hubbard <jhubbard@nvidia.com>,
 Cc:     linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
         Gang Li <ligang.bdlg@bytedance.com>
-Subject: [PATCH v6 0/2] sched/numa: add per-process numa_balancing
-Date:   Wed, 12 Apr 2023 22:06:58 +0800
-Message-Id: <20230412140701.58337-1-ligang.bdlg@bytedance.com>
+Subject: [PATCH v6 1/2] sched/numa: use static_branch_inc/dec for sched_numa_balancing
+Date:   Wed, 12 Apr 2023 22:10:52 +0800
+Message-Id: <20230412141053.59498-1-ligang.bdlg@bytedance.com>
 X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20230412140701.58337-1-ligang.bdlg@bytedance.com>
+References: <20230412140701.58337-1-ligang.bdlg@bytedance.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-# Introduce
-Add PR_NUMA_BALANCING in prctl.
+per-process numa balancing use static_branch_inc/dec() to count
+how many enables in sched_numa_balancing. So here must be converted
+to inc/dec too.
 
-A large number of page faults will cause performance loss when numa
-balancing is performing. Thus those processes which care about worst-case
-performance need numa balancing disabled. Others, on the contrary, allow a
-temporary performance loss in exchange for higher average performance, so
-enable numa balancing is better for them.
+Cc: linux-api@vger.kernel.org
+Signed-off-by: Gang Li <ligang.bdlg@bytedance.com>
+Acked-by: John Hubbard <jhubbard@nvidia.com>
+---
+ kernel/sched/core.c | 26 +++++++++++++-------------
+ 1 file changed, 13 insertions(+), 13 deletions(-)
 
-Numa balancing can only be controlled globally by
-/proc/sys/kernel/numa_balancing. Due to the above case, we want to
-disable/enable numa_balancing per-process instead.
-
-Set per-process numa balancing:
-	prctl(PR_NUMA_BALANCING, PR_SET_NUMA_BALANCING_DISABLE); //disable
-	prctl(PR_NUMA_BALANCING, PR_SET_NUMA_BALANCING_ENABLE);  //enable
-	prctl(PR_NUMA_BALANCING, PR_SET_NUMA_BALANCING_DEFAULT); //follow global
-Get numa_balancing state:
-	prctl(PR_NUMA_BALANCING, PR_GET_NUMA_BALANCING, &ret);
-	cat /proc/<pid>/status | grep NumaB_mode
-
-# Unixbench
-This is overhead of this patch, not performance improvement.
-+-------------------+----------+
-|       NAME        | OVERHEAD |
-+-------------------+----------+
-| Pipe_Throughput   |  0.98%   |
-| Context_Switching | -0.96%   |
-| Process_Creation  |  1.18%   |
-+-------------------+----------+
-
-# Changes
-Changes in v6:
-- rebase on top of next-20230411
-- run Unixbench on physical machine
-- acked by John Hubbard <jhubbard@nvidia.com>
-
-Changes in v5:
-- replace numab_enabled with numa_balancing_mode (Peter Zijlstra)
-- make numa_balancing_enabled and numa_balancing_mode inline (Peter Zijlstra)
-- use static_branch_inc/dec instead of static_branch_enable/disable (Peter Zijlstra)
-- delete CONFIG_NUMA_BALANCING in task_tick_fair (Peter Zijlstra)
-- reword commit, use imperative mood (Bagas Sanjaya)
-- Unixbench overhead result
-
-Changes in v4:
-- code clean: add wrapper function `numa_balancing_enabled`
-
-Changes in v3:
-- Fix compile error.
-
-Changes in v2:
-- Now PR_NUMA_BALANCING support three states: enabled, disabled, default.
-  enabled and disabled will ignore global setting, and default will follow
-  global setting.
-
-Gang Li (2):
-  sched/numa: use static_branch_inc/dec for sched_numa_balancing
-  sched/numa: add per-process numa_balancing
-
- Documentation/filesystems/proc.rst   |  2 ++
- fs/proc/task_mmu.c                   | 20 ++++++++++++
- include/linux/mm_types.h             |  3 ++
- include/linux/sched/numa_balancing.h | 45 ++++++++++++++++++++++++++
- include/uapi/linux/prctl.h           |  8 +++++
- kernel/fork.c                        |  4 +++
- kernel/sched/core.c                  | 26 +++++++--------
- kernel/sched/fair.c                  |  9 +++---
- kernel/sys.c                         | 47 ++++++++++++++++++++++++++++
- mm/mprotect.c                        |  6 ++--
- 10 files changed, 151 insertions(+), 19 deletions(-)
-
+diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+index 94be4eebfa53..99cc1d5821a1 100644
+--- a/kernel/sched/core.c
++++ b/kernel/sched/core.c
+@@ -4501,21 +4501,15 @@ DEFINE_STATIC_KEY_FALSE(sched_numa_balancing);
+ 
+ int sysctl_numa_balancing_mode;
+ 
+-static void __set_numabalancing_state(bool enabled)
+-{
+-	if (enabled)
+-		static_branch_enable(&sched_numa_balancing);
+-	else
+-		static_branch_disable(&sched_numa_balancing);
+-}
+-
+ void set_numabalancing_state(bool enabled)
+ {
+-	if (enabled)
++	if (enabled) {
+ 		sysctl_numa_balancing_mode = NUMA_BALANCING_NORMAL;
+-	else
++		static_branch_enable(&sched_numa_balancing);
++	} else {
+ 		sysctl_numa_balancing_mode = NUMA_BALANCING_DISABLED;
+-	__set_numabalancing_state(enabled);
++		static_branch_disable(&sched_numa_balancing);
++	}
+ }
+ 
+ #ifdef CONFIG_PROC_SYSCTL
+@@ -4549,8 +4543,14 @@ static int sysctl_numa_balancing(struct ctl_table *table, int write,
+ 		if (!(sysctl_numa_balancing_mode & NUMA_BALANCING_MEMORY_TIERING) &&
+ 		    (state & NUMA_BALANCING_MEMORY_TIERING))
+ 			reset_memory_tiering();
+-		sysctl_numa_balancing_mode = state;
+-		__set_numabalancing_state(state);
++		if (sysctl_numa_balancing_mode != state) {
++			if (state == NUMA_BALANCING_DISABLED)
++				static_branch_dec(&sched_numa_balancing);
++			else if (sysctl_numa_balancing_mode == NUMA_BALANCING_DISABLED)
++				static_branch_inc(&sched_numa_balancing);
++
++			sysctl_numa_balancing_mode = state;
++		}
+ 	}
+ 	return err;
+ }
 -- 
 2.20.1
 
