@@ -2,220 +2,154 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 66E146DF159
-	for <lists+linux-api@lfdr.de>; Wed, 12 Apr 2023 12:00:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 121D56DF27E
+	for <lists+linux-api@lfdr.de>; Wed, 12 Apr 2023 13:04:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229802AbjDLKAQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 12 Apr 2023 06:00:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45902 "EHLO
+        id S229632AbjDLLEO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 12 Apr 2023 07:04:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57986 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229773AbjDLKAP (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Apr 2023 06:00:15 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67DE572A3;
-        Wed, 12 Apr 2023 03:00:07 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 044DD62D44;
-        Wed, 12 Apr 2023 10:00:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00809C4339B;
-        Wed, 12 Apr 2023 09:59:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1681293606;
-        bh=OUD03e+7Iy4QMxz3xJBYzLJlFWfJDEAkzkfLMPair6A=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=crNVkqcxHCCYL80wSlDenZejktN87UpM/8LK4etPla1ppaaBuuLGirFySD+9BC8KA
-         rok+vJxk0HE5dOvhmCScfvmfwOePw1RpVNIHWcNtjR8/OdKMSLM8epGate+sVgwibT
-         5g+HJMDJAqTuD4tNXDMa0mdfzwpVYJP21+59Ok0BLQ7p83MVc5+U2FahQ/OrlB3E0c
-         3+nXL8j94+wzyND696UMlIfan6ehWljHDgvm/lA3rvxTNr5GvpkPZqTGm9cngV+VsN
-         CJD1pJXthpF+iTotF1i6mXyGtz8SKPgaEU1iVG4BxB/UHaVj28tiyTa6p0gZEsOF59
-         p48RQwfvtj8oA==
-Date:   Wed, 12 Apr 2023 11:59:52 +0200
-From:   Christian Brauner <brauner@kernel.org>
-To:     Ackerley Tng <ackerleytng@google.com>
-Cc:     kvm@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, qemu-devel@nongnu.org, aarcange@redhat.com,
-        ak@linux.intel.com, akpm@linux-foundation.org, arnd@arndb.de,
-        bfields@fieldses.org, bp@alien8.de, chao.p.peng@linux.intel.com,
-        corbet@lwn.net, dave.hansen@intel.com, david@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com, hpa@zytor.com,
-        hughd@google.com, jlayton@kernel.org, jmattson@google.com,
-        joro@8bytes.org, jun.nakajima@intel.com,
-        kirill.shutemov@linux.intel.com, linmiaohe@huawei.com,
-        luto@kernel.org, mail@maciej.szmigiero.name, mhocko@suse.com,
-        michael.roth@amd.com, mingo@redhat.com, naoya.horiguchi@nec.com,
-        pbonzini@redhat.com, qperret@google.com, rppt@kernel.org,
-        seanjc@google.com, shuah@kernel.org, steven.price@arm.com,
-        tabba@google.com, tglx@linutronix.de, vannapurve@google.com,
-        vbabka@suse.cz, vkuznets@redhat.com, wanpengli@tencent.com,
-        wei.w.wang@intel.com, x86@kernel.org, yu.c.zhang@linux.intel.com
-Subject: Re: [RFC PATCH v3 1/2] mm: restrictedmem: Allow userspace to specify
- mount for memfd_restricted
-Message-ID: <20230412-kurzweilig-unsummen-3c1136f7f437@brauner>
-References: <20230404-engraved-rumble-d871e0403f3b@brauner>
- <diqzlej60z57.fsf@ackerleytng-cloudtop.c.googlers.com>
+        with ESMTP id S229481AbjDLLEM (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Apr 2023 07:04:12 -0400
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73E1A65B0;
+        Wed, 12 Apr 2023 04:04:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1681297451; x=1712833451;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=wASHHa1jhQxtW4fY4VimABiJjIV6Yy6QxwIyZkdzWYc=;
+  b=SP8LDdt/XfSlqOOeLVrHmavi5iCor6rOjZIlAH46ar1C/05Jl7MKlxfB
+   AULwLXHdpkXd4mVb8q2Rf4s7ftJ8N7L1kHVzEKM6v0BdBWX9HJqBjA3uK
+   VE87yxhlaXl70uAta5WWjwbR5DUqC2ixo4m/yL0AU6Wd0BCSS9ksHefBV
+   hEWgWMwsWCr4XKRyerlE4a1i6fwKo1u3LXfkhWWTh8qmXmDHRqjQQjnzy
+   eTw+8o0UrR8qO88zEQjWLgik2OU9B6kjXWoAsxhuRW4uuxgS4lZ39u7Xe
+   Ah+r++x0wbAyCLF3jEIKZYVpory/uTzNkPBfkYlzfffWn4K+UXp17BrwB
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="324226419"
+X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; 
+   d="scan'208";a="324226419"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2023 04:04:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="753488981"
+X-IronPort-AV: E=Sophos;i="5.98,339,1673942400"; 
+   d="scan'208";a="753488981"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 12 Apr 2023 04:04:07 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pmYGk-000XeF-1Z;
+        Wed, 12 Apr 2023 11:04:06 +0000
+Date:   Wed, 12 Apr 2023 19:03:56 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Casey Schaufler <casey@schaufler-ca.com>, paul@paul-moore.com,
+        linux-security-module@vger.kernel.org
+Cc:     oe-kbuild-all@lists.linux.dev, jmorris@namei.org,
+        keescook@chromium.org, john.johansen@canonical.com,
+        penguin-kernel@i-love.sakura.ne.jp, stephen.smalley.work@gmail.com,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        mic@digikod.net
+Subject: Re: [PATCH v8 04/11] LSM: syscalls for current process attributes
+Message-ID: <202304121843.QWCxhPE9-lkp@intel.com>
+References: <20230411155921.14716-5-casey@schaufler-ca.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <diqzlej60z57.fsf@ackerleytng-cloudtop.c.googlers.com>
+In-Reply-To: <20230411155921.14716-5-casey@schaufler-ca.com>
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Apr 05, 2023 at 09:58:44PM +0000, Ackerley Tng wrote:
-> 
-> Thanks again for your review!
-> 
-> Christian Brauner <brauner@kernel.org> writes:
-> > On Tue, Apr 04, 2023 at 03:53:13PM +0200, Christian Brauner wrote:
-> > > On Fri, Mar 31, 2023 at 11:50:39PM +0000, Ackerley Tng wrote:
-> > > >
-> > > > ...
-> > > >
-> > > > -SYSCALL_DEFINE1(memfd_restricted, unsigned int, flags)
-> > > > +static int restrictedmem_create(struct vfsmount *mount)
-> > > >  {
-> > > >  	struct file *file, *restricted_file;
-> > > >  	int fd, err;
-> > > >
-> > > > -	if (flags)
-> > > > -		return -EINVAL;
-> > > > -
-> > > >  	fd = get_unused_fd_flags(0);
-> 
-> > > Any reasons the file descriptors aren't O_CLOEXEC by default? I don't
-> > > see any reasons why we should introduce new fdtypes that aren't
-> > > O_CLOEXEC by default. The "don't mix-and-match" train has already left
-> > > the station anyway as we do have seccomp noitifer fds and pidfds both of
-> > > which are O_CLOEXEC by default.
-> 
-> 
-> Thanks for pointing this out. I agree with using O_CLOEXEC, but didn’t
-> notice this before. Let us discuss this under the original series at
-> [1].
-> 
-> > > >  	if (fd < 0)
-> > > >  		return fd;
-> > > >
-> > > > -	file = shmem_file_setup("memfd:restrictedmem", 0, VM_NORESERVE);
-> > > > +	if (mount)
-> > > > +		file = shmem_file_setup_with_mnt(mount, "memfd:restrictedmem",
-> > > 0, VM_NORESERVE);
-> > > > +	else
-> > > > +		file = shmem_file_setup("memfd:restrictedmem", 0, VM_NORESERVE);
-> > > > +
-> > > >  	if (IS_ERR(file)) {
-> > > >  		err = PTR_ERR(file);
-> > > >  		goto err_fd;
-> > > > @@ -223,6 +225,66 @@ SYSCALL_DEFINE1(memfd_restricted, unsigned
-> > > int, flags)
-> > > >  	return err;
-> > > >  }
-> > > >
-> > > > +static bool is_shmem_mount(struct vfsmount *mnt)
-> > > > +{
-> > > > +	return mnt && mnt->mnt_sb && mnt->mnt_sb->s_magic == TMPFS_MAGIC;
-> 
-> > > This can just be if (mnt->mnt_sb->s_magic == TMPFS_MAGIC).
-> 
-> 
-> Will simplify this in the next revision.
-> 
-> > > > +}
-> > > > +
-> > > > +static bool is_mount_root(struct file *file)
-> > > > +{
-> > > > +	return file->f_path.dentry == file->f_path.mnt->mnt_root;
-> 
-> > > mount -t tmpfs tmpfs /mnt
-> > > touch /mnt/bla
-> > > touch /mnt/ble
-> > > mount --bind /mnt/bla /mnt/ble
-> > > fd = open("/mnt/ble")
-> > > fd_restricted = memfd_restricted(fd)
-> 
-> > > IOW, this doesn't restrict it to the tmpfs root. It only restricts it to
-> > > paths that refer to the root of any tmpfs mount. To exclude bind-mounts
-> > > that aren't bind-mounts of the whole filesystem you want:
-> 
-> > > path->dentry == path->mnt->mnt_root &&
-> > > path->mnt->mnt_root == path->mnt->mnt_sb->s_root
-> 
-> 
-> Will adopt this in the next revision and add a selftest to check
-> this. Thanks for pointing this out!
-> 
-> > > > +}
-> > > > +
-> > > > +static int restrictedmem_create_on_user_mount(int mount_fd)
-> > > > +{
-> > > > +	int ret;
-> > > > +	struct fd f;
-> > > > +	struct vfsmount *mnt;
-> > > > +
-> > > > +	f = fdget_raw(mount_fd);
-> > > > +	if (!f.file)
-> > > > +		return -EBADF;
-> > > > +
-> > > > +	ret = -EINVAL;
-> > > > +	if (!is_mount_root(f.file))
-> > > > +		goto out;
-> > > > +
-> > > > +	mnt = f.file->f_path.mnt;
-> > > > +	if (!is_shmem_mount(mnt))
-> > > > +		goto out;
-> > > > +
-> > > > +	ret = file_permission(f.file, MAY_WRITE | MAY_EXEC);
-> 
-> > > With the current semantics you're asking whether you have write
-> > > permissions on the /mnt/ble file in order to get answer to the question
-> > > whether you're allowed to create an unlinked restricted memory file.
-> > > That doesn't make much sense afaict.
-> 
-> 
-> That's true. Since mnt_want_write() already checks for write permissions
-> and this syscall creates an unlinked file on the mount, we don't have to
-> check permissions on the file then. Will remove this in the next
-> revision!
-> 
-> > > > +	if (ret)
-> > > > +		goto out;
-> > > > +
-> > > > +	ret = mnt_want_write(mnt);
-> > > > +	if (unlikely(ret))
-> > > > +		goto out;
-> > > > +
-> > > > +	ret = restrictedmem_create(mnt);
-> > > > +
-> > > > +	mnt_drop_write(mnt);
-> > > > +out:
-> > > > +	fdput(f);
-> > > > +
-> > > > +	return ret;
-> > > > +}
-> > > > +
-> > > > +SYSCALL_DEFINE2(memfd_restricted, unsigned int, flags, int, mount_fd)
-> > > > +{
-> > > > +	if (flags & ~RMFD_USERMNT)
-> > > > +		return -EINVAL;
-> > > > +
-> > > > +	if (flags == RMFD_USERMNT) {
-> 
-> > > Why do you even need this flag? It seems that @mount_fd being < 0 is
-> > > sufficient to indicate that a new restricted memory fd is supposed to be
-> > > created in the system instance.
-> 
-> 
-> I'm hoping to have this patch series merged after Chao's patch series
-> introduces the memfd_restricted() syscall [1].
+Hi Casey,
 
-I'm curious, is there an LSFMM session for this?
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tip/perf/core]
+[also build test ERROR on acme/perf/core shuah-kselftest/next shuah-kselftest/fixes linus/master v6.3-rc6]
+[cannot apply to next-20230412]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Casey-Schaufler/LSM-Maintain-a-table-of-LSM-attribute-data/20230412-005929
+patch link:    https://lore.kernel.org/r/20230411155921.14716-5-casey%40schaufler-ca.com
+patch subject: [PATCH v8 04/11] LSM: syscalls for current process attributes
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20230412/202304121843.QWCxhPE9-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/0308dbcd345400b5ded1e1721045c6941979c7a6
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Casey-Schaufler/LSM-Maintain-a-table-of-LSM-attribute-data/20230412-005929
+        git checkout 0308dbcd345400b5ded1e1721045c6941979c7a6
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304121843.QWCxhPE9-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from security/lsm_syscalls.c:15:
+>> include/linux/syscalls.h:243:25: error: conflicting types for 'sys_lsm_set_self_attr'; have 'long int(unsigned int,  struct lsm_ctx *, size_t,  u32)' {aka 'long int(unsigned int,  struct lsm_ctx *, unsigned int,  unsigned int)'}
+     243 |         asmlinkage long sys##name(__MAP(x,__SC_DECL,__VA_ARGS__))       \
+         |                         ^~~
+   include/linux/syscalls.h:229:9: note: in expansion of macro '__SYSCALL_DEFINEx'
+     229 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:221:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+     221 | #define SYSCALL_DEFINE4(name, ...) SYSCALL_DEFINEx(4, _##name, __VA_ARGS__)
+         |                                    ^~~~~~~~~~~~~~~
+   security/lsm_syscalls.c:31:1: note: in expansion of macro 'SYSCALL_DEFINE4'
+      31 | SYSCALL_DEFINE4(lsm_set_self_attr, unsigned int, attr, struct lsm_ctx __user *,
+         | ^~~~~~~~~~~~~~~
+   include/linux/syscalls.h:1064:17: note: previous declaration of 'sys_lsm_set_self_attr' with type 'long int(unsigned int,  struct lsm_ctx *, __u32)' {aka 'long int(unsigned int,  struct lsm_ctx *, unsigned int)'}
+    1064 | asmlinkage long sys_lsm_set_self_attr(unsigned int attr, struct lsm_ctx *ctx,
+         |                 ^~~~~~~~~~~~~~~~~~~~~
+
+
+vim +243 include/linux/syscalls.h
+
+1bd21c6c21e848 Dominik Brodowski   2018-04-05  232  
+e145242ea0df6b Dominik Brodowski   2018-04-09  233  /*
+e145242ea0df6b Dominik Brodowski   2018-04-09  234   * The asmlinkage stub is aliased to a function named __se_sys_*() which
+e145242ea0df6b Dominik Brodowski   2018-04-09  235   * sign-extends 32-bit ints to longs whenever needed. The actual work is
+e145242ea0df6b Dominik Brodowski   2018-04-09  236   * done within __do_sys_*().
+e145242ea0df6b Dominik Brodowski   2018-04-09  237   */
+1bd21c6c21e848 Dominik Brodowski   2018-04-05  238  #ifndef __SYSCALL_DEFINEx
+bed1ffca022cc8 Frederic Weisbecker 2009-03-13  239  #define __SYSCALL_DEFINEx(x, name, ...)					\
+bee20031772af3 Arnd Bergmann       2018-06-19  240  	__diag_push();							\
+bee20031772af3 Arnd Bergmann       2018-06-19  241  	__diag_ignore(GCC, 8, "-Wattribute-alias",			\
+bee20031772af3 Arnd Bergmann       2018-06-19  242  		      "Type aliasing is used to sanitize syscall arguments");\
+83460ec8dcac14 Andi Kleen          2013-11-12 @243  	asmlinkage long sys##name(__MAP(x,__SC_DECL,__VA_ARGS__))	\
+e145242ea0df6b Dominik Brodowski   2018-04-09  244  		__attribute__((alias(__stringify(__se_sys##name))));	\
+c9a211951c7c79 Howard McLauchlan   2018-03-21  245  	ALLOW_ERROR_INJECTION(sys##name, ERRNO);			\
+e145242ea0df6b Dominik Brodowski   2018-04-09  246  	static inline long __do_sys##name(__MAP(x,__SC_DECL,__VA_ARGS__));\
+e145242ea0df6b Dominik Brodowski   2018-04-09  247  	asmlinkage long __se_sys##name(__MAP(x,__SC_LONG,__VA_ARGS__));	\
+e145242ea0df6b Dominik Brodowski   2018-04-09  248  	asmlinkage long __se_sys##name(__MAP(x,__SC_LONG,__VA_ARGS__))	\
+1a94bc34768e46 Heiko Carstens      2009-01-14  249  	{								\
+e145242ea0df6b Dominik Brodowski   2018-04-09  250  		long ret = __do_sys##name(__MAP(x,__SC_CAST,__VA_ARGS__));\
+07fe6e00f6cca6 Al Viro             2013-01-21  251  		__MAP(x,__SC_TEST,__VA_ARGS__);				\
+2cf0966683430b Al Viro             2013-01-21  252  		__PROTECT(x, ret,__MAP(x,__SC_ARGS,__VA_ARGS__));	\
+2cf0966683430b Al Viro             2013-01-21  253  		return ret;						\
+1a94bc34768e46 Heiko Carstens      2009-01-14  254  	}								\
+bee20031772af3 Arnd Bergmann       2018-06-19  255  	__diag_pop();							\
+e145242ea0df6b Dominik Brodowski   2018-04-09  256  	static inline long __do_sys##name(__MAP(x,__SC_DECL,__VA_ARGS__))
+1bd21c6c21e848 Dominik Brodowski   2018-04-05  257  #endif /* __SYSCALL_DEFINEx */
+1a94bc34768e46 Heiko Carstens      2009-01-14  258  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
