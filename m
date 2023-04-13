@@ -2,77 +2,77 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 61D9E6E17BA
-	for <lists+linux-api@lfdr.de>; Fri, 14 Apr 2023 00:53:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F8E86E17DD
+	for <lists+linux-api@lfdr.de>; Fri, 14 Apr 2023 01:07:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230392AbjDMWxg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 13 Apr 2023 18:53:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35856 "EHLO
+        id S229668AbjDMXHd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 13 Apr 2023 19:07:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41100 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229924AbjDMWx3 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 13 Apr 2023 18:53:29 -0400
-Received: from mail-pj1-x1049.google.com (mail-pj1-x1049.google.com [IPv6:2607:f8b0:4864:20::1049])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2E9E1BEA
-        for <linux-api@vger.kernel.org>; Thu, 13 Apr 2023 15:53:24 -0700 (PDT)
-Received: by mail-pj1-x1049.google.com with SMTP id i60-20020a17090a3dc200b002472fdb21c3so281876pjc.5
-        for <linux-api@vger.kernel.org>; Thu, 13 Apr 2023 15:53:24 -0700 (PDT)
+        with ESMTP id S229924AbjDMXHb (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 13 Apr 2023 19:07:31 -0400
+Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 369AB10D1
+        for <linux-api@vger.kernel.org>; Thu, 13 Apr 2023 16:07:29 -0700 (PDT)
+Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-54fba72c1adso41253547b3.18
+        for <linux-api@vger.kernel.org>; Thu, 13 Apr 2023 16:07:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1681426404; x=1684018404;
-        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=z8guo045Q+5eAEwhfUr30hz0PJkqMwxW7HV3gxeLbUM=;
-        b=Rjwp4Xdm6ZLaEPgG8cQHjLF9ituKkBuE4Kg1flS/uBoAlJ5LElw7Yfif+urjga4Z1k
-         Id9XGYBIPjUILBU5HRcXu81p8pDXA/u7T7lfZ53bFi0pGFkAASoZMc1FKWQlhEzWj7g7
-         M8ApiMQugbqBdsiM2beP1Zmsfm7UP5aAC4H3s81SX9hYygeAlfdJWkF78OhRMgmv5bOY
-         YVoHszS0N47VwRyOsgUt/J/+QeiNlvAv36oX5BxahWlc22nXKEGI9AqKs9w9dhKamSyI
-         7JyyYvDzq5fdoA1a6pagi9+JsHhlJPaWALPTL0IkyyyP5IWH3eftfLt0+7o6zZeS826/
-         vf/Q==
+        d=google.com; s=20221208; t=1681427248; x=1684019248;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=m0eoChJ3C+wX0j/cXmxt8QdAgHqIaCqFV7218jkkfFU=;
+        b=cUBnq6doIYuLvUGVyiYaA7jpkgVtHOtimIKcwt2fzUEGbTagC+SbFxwzie3YwQBvoi
+         2tvxYDlX35dBRsyJ0dqJ0imqCLe7ogS8WTyC7A5vLzXCTzi2nfvrTc7VxeigvLRuypoj
+         d9zWu9lsiLRAeEcyRqF2vB0H2fEa6JEL4FKRXo81NT0wlQUQMuRZJC6/qqZxiWVlFuvs
+         rCpdS64PxIo7V8SajS2etdSOROdKTmlVD4sBgXB1W2FZSMb7wXUNI2yqiz+J9cWyF9eb
+         0i6PytQOESujv8I6M/6hszVyOyKaqVF3BjpcBY+b2iw09H2OLHz5o/ci5kucUCGLlxuh
+         5zxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681426404; x=1684018404;
-        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=z8guo045Q+5eAEwhfUr30hz0PJkqMwxW7HV3gxeLbUM=;
-        b=jD0MYBCfO5uibAVhT7LEZQP+sJoQjVHn5bI0exaklbtA3MaMVWCQwc3lz++bPwhwt2
-         VbjdHak79siST8RcYZt3cOxDYD8xM+MYCYlCArrPTFu25WOj3lmKVjmeRU/fQ+qIIpv/
-         GIcjhBPWGjzQhvOKIXk/j91yzxUDw1em7R9s6eKquSnBFauzkTZhCKorKI4Ugv0fGis/
-         aU/IEJpTxCZoUSg68jTw1ND8U4GPJiGIbAKcQXZFySWpPj2fYn3TxcPFcByRnWbgnJzi
-         f3QvoLAUWWH+OtWpSyig5n3DhsQLVByeLnBNpqgJtCvu8wBtgFV4sfoOamWmz5+S0Wol
-         oTBQ==
-X-Gm-Message-State: AAQBX9cF/bbZpHqDYnxDTPTX3drRZK76sDwGBrfFq05EthxFV01mujWj
-        s7Pig7h4Krh7uBkpY837kDGm1aricBqD0JSjmQ==
-X-Google-Smtp-Source: AKy350ZDf9SfJRuS6hlT3xzlEOA5lECkBtR1nsxMCxij1QGPtfZHXE7tqJcIaT1y2UkRtOi3D6c9Q8ilUDsupR7kxA==
-X-Received: from ackerleytng-cloudtop.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:1f5f])
- (user=ackerleytng job=sendgmr) by 2002:a17:90a:3ea7:b0:246:f5c3:576 with SMTP
- id k36-20020a17090a3ea700b00246f5c30576mr979461pjc.6.1681426404283; Thu, 13
- Apr 2023 15:53:24 -0700 (PDT)
-Date:   Thu, 13 Apr 2023 22:53:22 +0000
-In-Reply-To: <20230412-kurzweilig-unsummen-3c1136f7f437@brauner> (message from
- Christian Brauner on Wed, 12 Apr 2023 11:59:52 +0200)
+        d=1e100.net; s=20221208; t=1681427248; x=1684019248;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=m0eoChJ3C+wX0j/cXmxt8QdAgHqIaCqFV7218jkkfFU=;
+        b=KRjZMUPigdoIzaQ7zGVs69T5D/K9JDbXA7397wbP/eKyBAFonvqNs6YTtSi9Z+LUtV
+         1jpohRKiWtQLaZx9OsvsNoQ002WuBEdAooqrg7mJ89ol6csMMm4n9Rx9e7Tai8s9sfvs
+         k3TNeloavceB5zuAr8kST3gj3gku2C5Lq+HiU9sfdUijSCOlPH+80306lH8f9mSb8MMJ
+         3qRCuxrRgpGfYfpze5LyScaVlSIYMCPjW7HULSmYgitk98NevksyF9wUu7L749phQwGB
+         bmfrXjpAP35t6ya17+QY13SDQAkkufvILjqLD/dzmS1JWy/HBpYxFbQQ0E+Jts1778UL
+         XRYA==
+X-Gm-Message-State: AAQBX9dQdEnouS4LQp66ryzG+mi4npL04TlbkyJU0Z1xXuAEz9kLwIfE
+        xZsl+u5Vw+noZc7RQDdtDjxmJC6+v3A=
+X-Google-Smtp-Source: AKy350amwDqyJa+LlzM7biYAI+3i1mkieCfxZS836tmzptZ4SOWRoy5g8JqAYQ9+zKy/xdEKWNYlO5mXB8A=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a25:d0d6:0:b0:b8f:559f:bd49 with SMTP id
+ h205-20020a25d0d6000000b00b8f559fbd49mr2479865ybg.6.1681427247867; Thu, 13
+ Apr 2023 16:07:27 -0700 (PDT)
+Date:   Thu, 13 Apr 2023 23:07:26 +0000
+In-Reply-To: <diqzedono0m5.fsf@ackerleytng-cloudtop.c.googlers.com>
 Mime-Version: 1.0
-Message-ID: <diqzedono0m5.fsf@ackerleytng-cloudtop.c.googlers.com>
+References: <20230412-kurzweilig-unsummen-3c1136f7f437@brauner> <diqzedono0m5.fsf@ackerleytng-cloudtop.c.googlers.com>
+Message-ID: <ZDiLLih4XHUCCwFY@google.com>
 Subject: Re: [RFC PATCH v3 1/2] mm: restrictedmem: Allow userspace to specify
  mount for memfd_restricted
-From:   Ackerley Tng <ackerleytng@google.com>
-To:     Christian Brauner <brauner@kernel.org>
-Cc:     kvm@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, qemu-devel@nongnu.org, aarcange@redhat.com,
-        ak@linux.intel.com, akpm@linux-foundation.org, arnd@arndb.de,
-        bfields@fieldses.org, bp@alien8.de, chao.p.peng@linux.intel.com,
-        corbet@lwn.net, dave.hansen@intel.com, david@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com, hpa@zytor.com,
-        hughd@google.com, jlayton@kernel.org, jmattson@google.com,
-        joro@8bytes.org, jun.nakajima@intel.com,
-        kirill.shutemov@linux.intel.com, linmiaohe@huawei.com,
-        luto@kernel.org, mail@maciej.szmigiero.name, mhocko@suse.com,
-        michael.roth@amd.com, mingo@redhat.com, naoya.horiguchi@nec.com,
-        pbonzini@redhat.com, qperret@google.com, rppt@kernel.org,
-        seanjc@google.com, shuah@kernel.org, steven.price@arm.com,
+From:   Sean Christopherson <seanjc@google.com>
+To:     Ackerley Tng <ackerleytng@google.com>
+Cc:     Christian Brauner <brauner@kernel.org>, kvm@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        qemu-devel@nongnu.org, aarcange@redhat.com, ak@linux.intel.com,
+        akpm@linux-foundation.org, arnd@arndb.de, bfields@fieldses.org,
+        bp@alien8.de, chao.p.peng@linux.intel.com, corbet@lwn.net,
+        dave.hansen@intel.com, david@redhat.com, ddutile@redhat.com,
+        dhildenb@redhat.com, hpa@zytor.com, hughd@google.com,
+        jlayton@kernel.org, jmattson@google.com, joro@8bytes.org,
+        jun.nakajima@intel.com, kirill.shutemov@linux.intel.com,
+        linmiaohe@huawei.com, luto@kernel.org, mail@maciej.szmigiero.name,
+        mhocko@suse.com, michael.roth@amd.com, mingo@redhat.com,
+        naoya.horiguchi@nec.com, pbonzini@redhat.com, qperret@google.com,
+        rppt@kernel.org, shuah@kernel.org, steven.price@arm.com,
         tabba@google.com, tglx@linutronix.de, vannapurve@google.com,
         vbabka@suse.cz, vkuznets@redhat.com, wanpengli@tencent.com,
         wei.w.wang@intel.com, x86@kernel.org, yu.c.zhang@linux.intel.com
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+Content-Type: text/plain; charset="us-ascii"
 X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=unavailable
@@ -83,21 +83,11 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Christian Brauner <brauner@kernel.org> writes:
+On Thu, Apr 13, 2023, Ackerley Tng wrote:
+> Christian Brauner <brauner@kernel.org> writes:
+> > I'm curious, is there an LSFMM session for this?
+> 
+> As far as I know, there is no LSFMM session for this.
 
-> On Wed, Apr 05, 2023 at 09:58:44PM +0000, Ackerley Tng wrote:
-
->> ...
-
->> > > Why do you even need this flag? It seems that @mount_fd being < 0 is
->> > > sufficient to indicate that a new restricted memory fd is supposed  
->> to be
->> > > created in the system instance.
-
-
->> I'm hoping to have this patch series merged after Chao's patch series
->> introduces the memfd_restricted() syscall [1].
-
-> I'm curious, is there an LSFMM session for this?
-
-As far as I know, there is no LSFMM session for this.
+Correct, no LSFMM session.  In hindsight, that's obviously something we should
+have pursued :-(
