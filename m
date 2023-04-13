@@ -2,63 +2,61 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B54CB6E019B
-	for <lists+linux-api@lfdr.de>; Thu, 13 Apr 2023 00:01:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E43C6E037B
+	for <lists+linux-api@lfdr.de>; Thu, 13 Apr 2023 03:07:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229931AbjDLWBq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 12 Apr 2023 18:01:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51956 "EHLO
+        id S229441AbjDMBHd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 12 Apr 2023 21:07:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229939AbjDLWBp (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Apr 2023 18:01:45 -0400
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 426C761BF
-        for <linux-api@vger.kernel.org>; Wed, 12 Apr 2023 15:01:43 -0700 (PDT)
-Received: by mail-yb1-xb49.google.com with SMTP id 132-20020a250c8a000000b00b8f4e12dd57so1949268ybm.1
-        for <linux-api@vger.kernel.org>; Wed, 12 Apr 2023 15:01:43 -0700 (PDT)
+        with ESMTP id S229753AbjDMBHc (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Apr 2023 21:07:32 -0400
+Received: from mail-pg1-x549.google.com (mail-pg1-x549.google.com [IPv6:2607:f8b0:4864:20::549])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E8F165AB
+        for <linux-api@vger.kernel.org>; Wed, 12 Apr 2023 18:07:31 -0700 (PDT)
+Received: by mail-pg1-x549.google.com with SMTP id i63-20020a638742000000b0050bdffd4995so5617049pge.16
+        for <linux-api@vger.kernel.org>; Wed, 12 Apr 2023 18:07:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1681336902; x=1683928902;
+        d=google.com; s=20221208; t=1681348050; x=1683940050;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=FXF6AhQnwp1n/IhYSnfZVqcASsRtZ9yL6mJXzW8Mi9w=;
-        b=itcYyHsTjH+BWioeMOzHRsDUxYxnEou8ifBndkBXI6TNX5xq/HUkT1AyyhCCB+jlgg
-         3qhGiIFyP5GPmeAb9F/cGYLL0T6ndH4Anu3KiFTJ2zgUv7rYRpICAgBSTO4SmMWQG2dj
-         4lYV/RthfLCJMCgdpXeycR2egix1Qp8q862Y6ehJoE8Zrk7VpCCp7zEkzxGBY8nv1lJY
-         RZQCmJ4imt199cSg173cMIapT9cfLep+3yZW0B5b36RF/xqQ9iUnS4egjGE1JSQeu6db
-         gbh/vWlrrOQUF9lx8wSU9AC22JYq+cM0a/46K9zgrM+CGG4alQS9oe5dHDfglVggicdO
-         Y9Wg==
+        bh=EBLbhNm3fsRbkajEjRmINqzacPrnC3sWkejBQFnfCeY=;
+        b=l81F5p/zxISuNsOTdPBgLBjqThC2vDQDK5Uw+271tLolnlAHCMjlZe8AeG/jf3nOrx
+         ExWxIQK7CKtblDvJ8H3VSzPnmPuqB/YeLXauyGbc5MYvJjSXVvNUPEsSQLuxsR77moKZ
+         UlTepofDb02LxLShDY5FjB4dpGfEQe3unZKqgtyJNvz/0ht5ta0+OYjQykpOh/ft4xiY
+         iCpoKLuH+PMrGysZjyKXtcxmXgl9ury1l15XbUM9kGssTvMz69Uh47nolIPDiQg/ZLYy
+         kWyCbb4PMZcJ8WgWH7QKSQOInzUxQhQDlNJXdkLhsMb661/+oYSUbCYk/vgAZ5pUqK7f
+         uA9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681336902; x=1683928902;
+        d=1e100.net; s=20221208; t=1681348050; x=1683940050;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FXF6AhQnwp1n/IhYSnfZVqcASsRtZ9yL6mJXzW8Mi9w=;
-        b=eB0a0CoNyaPda5Svg8L7xyPoYcL+djf7d9D0B7sbmnPNW3zLsnOsbhSa2sjtVEf11o
-         PVB7D6iMLCy3LAeLLg4xq2ct/+81oX4Zn2bLVQzXnP75m7DJQ0XY20Uq3OBWHkv12lad
-         mZl3itla1IsanjT0wVEJ8pxvtfSKcsxoiN0P5tfRDQuT1GPXcCQoorzMhTkumjSvhUdU
-         4+NnkNhe7GZS4nOdUmZIRF7p6ErGuBv0d/+ILT8SZLCPPqgtrpPsBI+69x9q5NozklWL
-         6IOWmQze8+MWk/R9D8iwFHuyIMIQbqPT+6RrAJ9pfNwpe9H7+myYoXJSUDXTJ7k5muVY
-         15mQ==
-X-Gm-Message-State: AAQBX9e5bK6OpHV0IemZD+AA10woQkRF4t+5X61MysFXg6rTZZ37gCSN
-        cH2YJB9zjHUczT6C1Qf5oUXdUplA0Gc=
-X-Google-Smtp-Source: AKy350artxVLouCy5UXXqGRd6vaUaGCzjJlbptUimGvT0630mPFw3RBlFaQsm42qDt42zFcnXgHxxlmRTKU=
+        bh=EBLbhNm3fsRbkajEjRmINqzacPrnC3sWkejBQFnfCeY=;
+        b=jg2kGSBvrgHXgouvTrydMI4+bhRIav8qZQ5Y3+ceEeD2+cWE13oJM5YFqfCOeGwlyE
+         x5vuKkwvjXbtrl/ePeBkOX9ZVvJTLc9MnlHvd9sQym3CSxsnR7n8VGykbkfzVyoASyZU
+         9gefPFINTnqrcdhCydfbSnSJClasDOdA+XKuyDRkyueohM9zZDmsZ+zIEiuSR1V3GO33
+         4QyRsht+F8RNBxhEym+8Eu0pZ+gbtA9RbVgC7Av7I7pE0ERMW6tSLyBb+ko1Sl7YRTB0
+         iAyJnu6q/5mLsJdzHmlfI4sNUsa9g2BoseoiQSjPP1fAeo8hyuJr91BDgAJlNYzFeVY/
+         DwvA==
+X-Gm-Message-State: AAQBX9cCcFxZXwGMsrMDfPYH0P+Pb85pPuse3GKIgYVCvAl+qJ5PuJH5
+        fV4/XYr1O+Pb5JiF6VwQwWZIFAlEf38=
+X-Google-Smtp-Source: AKy350Yi++EiqbAHiD3SnOi84M+UlU1LyPdYHPeuc+OePAq+A1CU6oZwmUR77MLD4jcxJ/2tHyPNMvmLNLU=
 X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a25:cc07:0:b0:b8b:fe5f:2eaa with SMTP id
- l7-20020a25cc07000000b00b8bfe5f2eaamr43241ybf.2.1681336902548; Wed, 12 Apr
- 2023 15:01:42 -0700 (PDT)
-Date:   Wed, 12 Apr 2023 15:01:41 -0700
-In-Reply-To: <20230323012737.7vn4ynsbfz7c2ch4@amd.com>
+ (user=seanjc job=sendgmr) by 2002:a17:902:d413:b0:19a:7f9c:66e3 with SMTP id
+ b19-20020a170902d41300b0019a7f9c66e3mr13167ple.5.1681348050454; Wed, 12 Apr
+ 2023 18:07:30 -0700 (PDT)
+Date:   Wed, 12 Apr 2023 18:07:28 -0700
+In-Reply-To: <20230125125321.yvsivupbbaqkb7a5@box.shutemov.name>
 Mime-Version: 1.0
 References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <Y8H5Z3e4hZkFxAVS@google.com> <20230119111308.GC2976263@ls.amr.corp.intel.com>
- <Y8lg1G2lRIrI/hld@google.com> <20230119223704.GD2976263@ls.amr.corp.intel.com>
- <Y880FiYF7YCtsw/i@google.com> <20230213130102.two7q3kkcf254uof@amd.com>
- <20230221121135.GA1595130@chaop.bj.intel.com> <20230323012737.7vn4ynsbfz7c2ch4@amd.com>
-Message-ID: <ZDcqRY6UMmpyf/so@google.com>
+ <Y8H5Z3e4hZkFxAVS@google.com> <48953bf2-cee9-f818-dc50-5fb5b9b410bf@oracle.com>
+ <Y9B1yiRR8DpANAEo@google.com> <20230125125321.yvsivupbbaqkb7a5@box.shutemov.name>
+Message-ID: <ZDdV0Fh7nDEnY/eW@google.com>
 Subject: Re: [PATCH v10 0/9] KVM: mm: fd-based approach for supporting KVM
 From:   Sean Christopherson <seanjc@google.com>
-To:     Michael Roth <michael.roth@amd.com>
-Cc:     Chao Peng <chao.p.peng@linux.intel.com>,
-        Isaku Yamahata <isaku.yamahata@gmail.com>, kvm@vger.kernel.org,
+To:     "Kirill A. Shutemov" <kirill@shutemov.name>
+Cc:     Liam Merwick <liam.merwick@oracle.com>,
+        Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
         linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
@@ -88,7 +86,8 @@ Cc:     Chao Peng <chao.p.peng@linux.intel.com>,
         ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
         ddutile@redhat.com, dhildenb@redhat.com,
         Quentin Perret <qperret@google.com>, tabba@google.com,
-        mhocko@suse.com, wei.w.wang@intel.com
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        wei.w.wang@intel.com
 Content-Type: text/plain; charset="us-ascii"
 X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
@@ -100,18 +99,72 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Mar 22, 2023, Michael Roth wrote:
-> On Tue, Feb 21, 2023 at 08:11:35PM +0800, Chao Peng wrote:
-> > >   *fixup (upm_base_support): KVM: use inclusive ranges for restrictedmem binding/unbinding
-> > >   *fixup (upm_base_support): mm: restrictedmem: use inclusive ranges for issuing invalidations
+On Wed, Jan 25, 2023, Kirill A. Shutemov wrote:
+> On Wed, Jan 25, 2023 at 12:20:26AM +0000, Sean Christopherson wrote:
+> > On Tue, Jan 24, 2023, Liam Merwick wrote:
+> > > On 14/01/2023 00:37, Sean Christopherson wrote:
+> > > > On Fri, Dec 02, 2022, Chao Peng wrote:
+> > > > > This patch series implements KVM guest private memory for confidential
+> > > > > computing scenarios like Intel TDX[1]. If a TDX host accesses
+> > > > > TDX-protected guest memory, machine check can happen which can further
+> > > > > crash the running host system, this is terrible for multi-tenant
+> > > > > configurations. The host accesses include those from KVM userspace like
+> > > > > QEMU. This series addresses KVM userspace induced crash by introducing
+> > > > > new mm and KVM interfaces so KVM userspace can still manage guest memory
+> > > > > via a fd-based approach, but it can never access the guest memory
+> > > > > content.
+> > > > > 
+> > > > > The patch series touches both core mm and KVM code. I appreciate
+> > > > > Andrew/Hugh and Paolo/Sean can review and pick these patches. Any other
+> > > > > reviews are always welcome.
+> > > > >    - 01: mm change, target for mm tree
+> > > > >    - 02-09: KVM change, target for KVM tree
+> > > > 
+> > > > A version with all of my feedback, plus reworked versions of Vishal's selftest,
+> > > > is available here:
+> > > > 
+> > > >    git@github.com:sean-jc/linux.git x86/upm_base_support
+> > > > 
+> > > > It compiles and passes the selftest, but it's otherwise barely tested.  There are
+> > > > a few todos (2 I think?) and many of the commits need changelogs, i.e. it's still
+> > > > a WIP.
+> > > > 
+> > > 
+> > > When running LTP (https://github.com/linux-test-project/ltp) on the v10
+> > > bits (and also with Sean's branch above) I encounter the following NULL
+> > > pointer dereference with testcases/kernel/syscalls/madvise/madvise01
+> > > (100% reproducible).
+> > > 
+> > > It appears that in restrictedmem_error_page()
+> > > inode->i_mapping->private_data is NULL in the
+> > > list_for_each_entry_safe(inode, next, &sb->s_inodes, i_sb_list) but I
+> > > don't know why.
 > > 
-> > As many kernel APIs treat 'end' as exclusive, I would rather keep using
-> > exclusive 'end' for these APIs(restrictedmem_bind/restrictedmem_unbind
-> > and notifier callbacks) but fix it internally in the restrictedmem. E.g.
-> > all the places where xarray API needs a 'last'/'max' we use 'end - 1'.
-> > See below for the change.
+> > Kirill, can you take a look?  Or pass the buck to someone who can? :-)
 > 
-> Yes I did feel like I was fighting the kernel a bit on that; your
-> suggestion seems like it would be a better fit.
+> The patch below should help.
+> 
+> diff --git a/mm/restrictedmem.c b/mm/restrictedmem.c
+> index 15c52301eeb9..39ada985c7c0 100644
+> --- a/mm/restrictedmem.c
+> +++ b/mm/restrictedmem.c
+> @@ -307,14 +307,29 @@ void restrictedmem_error_page(struct page *page, struct address_space *mapping)
+>  
+>  	spin_lock(&sb->s_inode_list_lock);
+>  	list_for_each_entry_safe(inode, next, &sb->s_inodes, i_sb_list) {
+> -		struct restrictedmem *rm = inode->i_mapping->private_data;
+>  		struct restrictedmem_notifier *notifier;
+> -		struct file *memfd = rm->memfd;
+> +		struct restrictedmem *rm;
+>  		unsigned long index;
+> +		struct file *memfd;
+>  
+> -		if (memfd->f_mapping != mapping)
+> +		if (atomic_read(&inode->i_count))
 
-Comically belated +1, XArray is the odd one here.
+Kirill, should this be
+
+		if (!atomic_read(&inode->i_count))
+			continue;
+
+i.e. skip unreferenced inodes, not skip referenced inodes?
