@@ -2,112 +2,124 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B25876E2945
-	for <lists+linux-api@lfdr.de>; Fri, 14 Apr 2023 19:24:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BAEB6E2A0D
+	for <lists+linux-api@lfdr.de>; Fri, 14 Apr 2023 20:29:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229846AbjDNRYy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 14 Apr 2023 13:24:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46936 "EHLO
+        id S229829AbjDNS3T (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 14 Apr 2023 14:29:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230304AbjDNRYk (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 14 Apr 2023 13:24:40 -0400
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03522B775
-        for <linux-api@vger.kernel.org>; Fri, 14 Apr 2023 10:24:23 -0700 (PDT)
-Received: by mail-yb1-xb4a.google.com with SMTP id 85-20020a250d58000000b00b8f380b2bccso9867337ybn.14
-        for <linux-api@vger.kernel.org>; Fri, 14 Apr 2023 10:24:22 -0700 (PDT)
+        with ESMTP id S229749AbjDNS3T (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 14 Apr 2023 14:29:19 -0400
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB0C710F1;
+        Fri, 14 Apr 2023 11:29:17 -0700 (PDT)
+Received: by mail-wm1-x335.google.com with SMTP id q5so10836588wmo.4;
+        Fri, 14 Apr 2023 11:29:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1681493062; x=1684085062;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1suTIWWaXvrjwoXvee3hiPz1nCSIoJ8zBj0cMHmSI7Y=;
-        b=ikLyr+8Xr+H5vM/bYsln0btIfSDwhlyv3SopCKg3euLB29KjQafs0AtMmmr4T9EIfJ
-         vIPC9xf1NxKqXFWckbIj0WVo4SgvKsPOQl1cOwpgB/XV40BLqns/ryvTGzxH0hPTIol7
-         xarcJ0GqxJFOJTIObBYAoUoAUl0iAOmFpm7/8rkUekiKozgid1NlTMyN45x5pS33IxKE
-         d8HkpLc19gk/5O6gbpIr0ZptEhH2xIi2xu1OHofuLnINm9CQonnrWxwWMzsJ6C8Y+skF
-         MUVvqijzMdtqQ30NGAKrF5+eZpQbbmVeMtcc7lOWf3BPP1QJqZGJHkM9DCvCxyboG1b4
-         logA==
+        d=gmail.com; s=20221208; t=1681496956; x=1684088956;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cX1u0ZEPT5XtSD35z6oKMXgZGWYVVdgbWzPUN8ao3YQ=;
+        b=M+zTyq87LhHLQIAEPGCYLypxEs4IkQ+1rScm7foI3Mt1gBtznNjovndHDHBtw3DBwU
+         L2ELXfJwxWJgyO7NtpL+U2vCGR1ilOODVWVG8L+BIPdNZOXFLDWTHczTqijm9LhCxXI+
+         ZqVxzdIppQWU5Q1ge7SSkoeFO7ZUOY2S0D1sJ/lkaz367arv8yiNAqKpCBQ76vSYh3H9
+         TZX4DFfaKYPstmzFbNSjN/dfuyCsR8AQPhW7Bc88wWEXL2T7Swlud81eYnamUJWJuiM9
+         wdcGF22Yrn8MJ6D4ck8Enp/hUPHnJxTetCG0gHmbglUERWy00p3Jb962VayXFPW8c0i+
+         gYNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681493062; x=1684085062;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1suTIWWaXvrjwoXvee3hiPz1nCSIoJ8zBj0cMHmSI7Y=;
-        b=N88EA8LwmGKFLfNmganoWXZfmWyTTnxE+BXgKO2QpXrAWFizrHp08fOPjBiovmZm3C
-         pctNG3+c9pQ8doLeOPJVHV2hV3idytNs7vnLCuNIfltTlgR0NWiUNHl5EToACAgbPvVK
-         AJYK/0Jjy5U5cJFVHK6VZFqjsdu5UzjP8ahsVAToW6Z88IwZaBp26PMpVqBUAaUAQb1S
-         58lZ6sgixYF2IXIe1eApys1gZx9Zbn8h7sokchM9K/tDO6F3VtDhcro3GU+tTRloXhG/
-         u8Rp8FhC5mX7MRKEMVCfQNPsthtOxFrTCZFMA9jUKhTyW2u2yuImiyOLbrzqVc9EgnzL
-         0dUg==
-X-Gm-Message-State: AAQBX9fnVKhQDGWJMZsP0jLeni5ynEs6eEylWwbZgDr80V4PQAS3ykM4
-        MaOPAIfeSvtQDFYWlXonFQsh4DB7Hcw=
-X-Google-Smtp-Source: AKy350bMntOiUpabNyzZrQez/ekmQ/pO8bA95EPMaEz7NgDSS6qOH/7lua5qHB9B+z+FW4OM+ZLtRc32bN4=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a81:b621:0:b0:54c:bf7:1853 with SMTP id
- u33-20020a81b621000000b0054c0bf71853mr4241791ywh.6.1681493062225; Fri, 14 Apr
- 2023 10:24:22 -0700 (PDT)
-Date:   Fri, 14 Apr 2023 17:24:20 +0000
-In-Reply-To: <ZDjzpKL9Omcox991@dhcp22.suse.cz>
-Mime-Version: 1.0
-References: <cover.1681430907.git.ackerleytng@google.com> <ZDjzpKL9Omcox991@dhcp22.suse.cz>
-Message-ID: <ZDmMRAZYgLJ+x4l9@google.com>
-Subject: Re: [RFC PATCH 0/6] Setting memory policy for restrictedmem file
-From:   Sean Christopherson <seanjc@google.com>
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     Ackerley Tng <ackerleytng@google.com>, kvm@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        qemu-devel@nongnu.org, aarcange@redhat.com, ak@linux.intel.com,
-        akpm@linux-foundation.org, arnd@arndb.de, bfields@fieldses.org,
-        bp@alien8.de, chao.p.peng@linux.intel.com, corbet@lwn.net,
-        dave.hansen@intel.com, david@redhat.com, ddutile@redhat.com,
-        dhildenb@redhat.com, hpa@zytor.com, hughd@google.com,
-        jlayton@kernel.org, jmattson@google.com, joro@8bytes.org,
-        jun.nakajima@intel.com, kirill.shutemov@linux.intel.com,
-        linmiaohe@huawei.com, luto@kernel.org, mail@maciej.szmigiero.name,
-        michael.roth@amd.com, mingo@redhat.com, naoya.horiguchi@nec.com,
-        pbonzini@redhat.com, qperret@google.com, rppt@kernel.org,
-        shuah@kernel.org, steven.price@arm.com, tabba@google.com,
-        tglx@linutronix.de, vannapurve@google.com, vbabka@suse.cz,
-        vkuznets@redhat.com, wanpengli@tencent.com, wei.w.wang@intel.com,
-        x86@kernel.org, yu.c.zhang@linux.intel.com, muchun.song@linux.dev,
-        feng.tang@intel.com, brgerst@gmail.com, rdunlap@infradead.org,
-        masahiroy@kernel.org, mailhol.vincent@wanadoo.fr
-Content-Type: text/plain; charset="us-ascii"
-X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        d=1e100.net; s=20221208; t=1681496956; x=1684088956;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cX1u0ZEPT5XtSD35z6oKMXgZGWYVVdgbWzPUN8ao3YQ=;
+        b=J/AA7+yyDoGjguRIb6EK3fKFGE8h7lW+vKhtzsOAsU/Sa6Dff2NZEpIoQks9RuvCTs
+         wsL+zssf2qgJD2ft/qjhTgf5ZRnwmvF93AbetBOUCGOX/9ctF5yxqLVDibYX5OhpnnUb
+         VKhlgEGSZrJL4ya5Jh5l7YYIbwPzpYOqP5GaVTqs7VPe+pd2FjmT+t1rWRfIFBwOXAiG
+         SBk9yvnA9ZnbLA3V7d1TmWyPBwiLNRtf+sTXdk20TC6NlIC6J6jC+t4EQjuhKX7WH3F7
+         0C2COBb5MctNgHHtn1VOOidEHRW3sN62JHPAeiawCoc6A4X+OI5dFp36juxnGk09xXj/
+         F2AA==
+X-Gm-Message-State: AAQBX9cUNsFoEoIPAuVZ6tx5BQomAlW4FV1eQ8hhuSvcYev9v91BrhcH
+        x1+Y5q7ohA5R64MPmEMwoek=
+X-Google-Smtp-Source: AKy350ZpsqCt7GZ/0VOo0Byyvl7EdawQwlAPJWPmUswNMWKJb1qgJ5eFM7qnV+3JXrAz/lRERzP04A==
+X-Received: by 2002:a1c:6a05:0:b0:3ee:42fd:7768 with SMTP id f5-20020a1c6a05000000b003ee42fd7768mr4918514wmc.1.1681496956274;
+        Fri, 14 Apr 2023 11:29:16 -0700 (PDT)
+Received: from amir-ThinkPad-T480.lan ([5.29.249.86])
+        by smtp.gmail.com with ESMTPSA id m9-20020a05600c160900b003f0b1c4f229sm1780487wmn.28.2023.04.14.11.29.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Apr 2023 11:29:15 -0700 (PDT)
+From:   Amir Goldstein <amir73il@gmail.com>
+To:     Jan Kara <jack@suse.cz>
+Cc:     Matthew Bobrowski <repnop@google.com>,
+        Christian Brauner <brauner@kernel.org>,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
+Subject: [RFC][PATCH 0/2] Monitoring unmounted fs with fanotify
+Date:   Fri, 14 Apr 2023 21:29:01 +0300
+Message-Id: <20230414182903.1852019-1-amir73il@gmail.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Apr 14, 2023, Michal Hocko wrote:
-> On Fri 14-04-23 00:11:49, Ackerley Tng wrote:
-> > 3. A more generic fbind(): it seems like this new functionality is
-> >    really only needed for restrictedmem files, hence a separate,
-> >    specific syscall was proposed to avoid complexities with handling
-> >    conflicting policies that may be specified via other syscalls like
-> >    mbind()
-> 
-> I do not think it is a good idea to make the syscall restrict mem
-> specific.
+Jan,
 
-+1.  IMO, any uAPI that isn't directly related to the fundamental properties of
-restricted memory, i.e. isn't truly unique to restrictedmem, should be added as
-generic fd-based uAPI.
+Followup on my quest to close the gap with inotify functionality,
+here is a proposal for FAN_UNMOUNT event.
 
-> History shows that users are much more creative when it comes
-> to usecases than us. I do understand that the nature of restricted
-> memory is that it is not mapable but memory policies without a mapping
-> are a reasonable concept in genereal. After all this just tells where
-> the memory should be allocated from. Do we need to implement that for
-> any other fs? No, you can safely return EINVAL for anything but
-> memfd_restricted fd for now but you shouldn't limit usecases upfront.
+I have had many design questions about this:
+1) Should we also report FAN_UNMOUNT for marked inodes and sb
+   on sb shutdown (same as IN_UNMOUNT)?
+2) Should we also report FAN_UNMOUNT on sb mark for any unmounts
+   of that sb?
+3) Should we report also the fid of the mount root? and if we do...
+4) Should we report/consider FAN_ONDIR filter?
 
-I would even go a step further and say that we should seriously reconsider the
-design/implemenation of memfd_restricted() if a generic fbind() needs explicit
-handling from the restricted memory code.  One of the goals with memfd_restricted()
-is to rely on the underlying backing store to handle all of the "normal" behaviors.
+All of the questions above I answered "not unless somebody requests"
+in this first RFC.
+
+Specifically, I did get a request for an unmount event for containers
+use case.
+
+I have also had doubts regarding the info records.
+I decided that reporting fsid and mntid is minimum, but couldn't
+decide if they were better of in a single MNTID record or seprate
+records.
+
+I went with separate records, because:
+a) FAN_FS_ERROR has set a precendent of separate fid record with
+   fsid and empty fid, so I followed this precendent
+b) MNTID record we may want to add later with FAN_REPORT_MNTID
+   to all the path events, so better that it is independent
+
+There is test for the proposed API extention [1].
+
+Thoughts?
+
+Thanks,
+Amir.
+
+[1] https://github.com/amir73il/ltp/commits/fan_unmount
+
+Amir Goldstein (2):
+  fanotify: add support for FAN_UNMOUNT event
+  fanotify: report mntid info record with FAN_UNMOUNT events
+
+ fs/notify/fanotify/fanotify.c      | 45 +++++++++++++++++++-------
+ fs/notify/fanotify/fanotify.h      | 26 +++++++++++++--
+ fs/notify/fanotify/fanotify_user.c | 52 ++++++++++++++++++++++++++++--
+ include/linux/fanotify.h           |  3 +-
+ include/linux/fsnotify.h           | 16 +++++++++
+ include/uapi/linux/fanotify.h      | 11 +++++++
+ 6 files changed, 135 insertions(+), 18 deletions(-)
+
+-- 
+2.34.1
+
