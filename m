@@ -2,194 +2,112 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ED7006E1CB4
-	for <lists+linux-api@lfdr.de>; Fri, 14 Apr 2023 08:33:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B25876E2945
+	for <lists+linux-api@lfdr.de>; Fri, 14 Apr 2023 19:24:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229958AbjDNGdR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 14 Apr 2023 02:33:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34794 "EHLO
+        id S229846AbjDNRYy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 14 Apr 2023 13:24:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230033AbjDNGdP (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 14 Apr 2023 02:33:15 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A60E8525A;
-        Thu, 13 Apr 2023 23:33:10 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id D8AEF1FD94;
-        Fri, 14 Apr 2023 06:33:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1681453988; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=xslQPF17zT9apx+cU2US+PpxMshzU35IKYkk2wpIDLg=;
-        b=DJN+y564b8swWIzIhMyoJZmTzvSqa6m/5QtSbnrPb54+xfDbvOpGA38sWt+1Iy8fdfPh8j
-        /+hfnbGVW18WolgOUyQInIsmtDRk1oPV2dCNEN5y/6IV7iJSpAtkQDgSz9Z+XWZ5eKGQbL
-        /2OIoGOXmGQ9yUAigxFE1FWMOYCh4zM=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B0322139FC;
-        Fri, 14 Apr 2023 06:33:08 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id YpWfKqTzOGQiNgAAMHmgww
-        (envelope-from <mhocko@suse.com>); Fri, 14 Apr 2023 06:33:08 +0000
-Date:   Fri, 14 Apr 2023 08:33:08 +0200
-From:   Michal Hocko <mhocko@suse.com>
-To:     Ackerley Tng <ackerleytng@google.com>
-Cc:     kvm@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, qemu-devel@nongnu.org, aarcange@redhat.com,
-        ak@linux.intel.com, akpm@linux-foundation.org, arnd@arndb.de,
-        bfields@fieldses.org, bp@alien8.de, chao.p.peng@linux.intel.com,
-        corbet@lwn.net, dave.hansen@intel.com, david@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com, hpa@zytor.com,
-        hughd@google.com, jlayton@kernel.org, jmattson@google.com,
-        joro@8bytes.org, jun.nakajima@intel.com,
-        kirill.shutemov@linux.intel.com, linmiaohe@huawei.com,
-        luto@kernel.org, mail@maciej.szmigiero.name, michael.roth@amd.com,
-        mingo@redhat.com, naoya.horiguchi@nec.com, pbonzini@redhat.com,
-        qperret@google.com, rppt@kernel.org, seanjc@google.com,
+        with ESMTP id S230304AbjDNRYk (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 14 Apr 2023 13:24:40 -0400
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03522B775
+        for <linux-api@vger.kernel.org>; Fri, 14 Apr 2023 10:24:23 -0700 (PDT)
+Received: by mail-yb1-xb4a.google.com with SMTP id 85-20020a250d58000000b00b8f380b2bccso9867337ybn.14
+        for <linux-api@vger.kernel.org>; Fri, 14 Apr 2023 10:24:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1681493062; x=1684085062;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=1suTIWWaXvrjwoXvee3hiPz1nCSIoJ8zBj0cMHmSI7Y=;
+        b=ikLyr+8Xr+H5vM/bYsln0btIfSDwhlyv3SopCKg3euLB29KjQafs0AtMmmr4T9EIfJ
+         vIPC9xf1NxKqXFWckbIj0WVo4SgvKsPOQl1cOwpgB/XV40BLqns/ryvTGzxH0hPTIol7
+         xarcJ0GqxJFOJTIObBYAoUoAUl0iAOmFpm7/8rkUekiKozgid1NlTMyN45x5pS33IxKE
+         d8HkpLc19gk/5O6gbpIr0ZptEhH2xIi2xu1OHofuLnINm9CQonnrWxwWMzsJ6C8Y+skF
+         MUVvqijzMdtqQ30NGAKrF5+eZpQbbmVeMtcc7lOWf3BPP1QJqZGJHkM9DCvCxyboG1b4
+         logA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681493062; x=1684085062;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=1suTIWWaXvrjwoXvee3hiPz1nCSIoJ8zBj0cMHmSI7Y=;
+        b=N88EA8LwmGKFLfNmganoWXZfmWyTTnxE+BXgKO2QpXrAWFizrHp08fOPjBiovmZm3C
+         pctNG3+c9pQ8doLeOPJVHV2hV3idytNs7vnLCuNIfltTlgR0NWiUNHl5EToACAgbPvVK
+         AJYK/0Jjy5U5cJFVHK6VZFqjsdu5UzjP8ahsVAToW6Z88IwZaBp26PMpVqBUAaUAQb1S
+         58lZ6sgixYF2IXIe1eApys1gZx9Zbn8h7sokchM9K/tDO6F3VtDhcro3GU+tTRloXhG/
+         u8Rp8FhC5mX7MRKEMVCfQNPsthtOxFrTCZFMA9jUKhTyW2u2yuImiyOLbrzqVc9EgnzL
+         0dUg==
+X-Gm-Message-State: AAQBX9fnVKhQDGWJMZsP0jLeni5ynEs6eEylWwbZgDr80V4PQAS3ykM4
+        MaOPAIfeSvtQDFYWlXonFQsh4DB7Hcw=
+X-Google-Smtp-Source: AKy350bMntOiUpabNyzZrQez/ekmQ/pO8bA95EPMaEz7NgDSS6qOH/7lua5qHB9B+z+FW4OM+ZLtRc32bN4=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a81:b621:0:b0:54c:bf7:1853 with SMTP id
+ u33-20020a81b621000000b0054c0bf71853mr4241791ywh.6.1681493062225; Fri, 14 Apr
+ 2023 10:24:22 -0700 (PDT)
+Date:   Fri, 14 Apr 2023 17:24:20 +0000
+In-Reply-To: <ZDjzpKL9Omcox991@dhcp22.suse.cz>
+Mime-Version: 1.0
+References: <cover.1681430907.git.ackerleytng@google.com> <ZDjzpKL9Omcox991@dhcp22.suse.cz>
+Message-ID: <ZDmMRAZYgLJ+x4l9@google.com>
+Subject: Re: [RFC PATCH 0/6] Setting memory policy for restrictedmem file
+From:   Sean Christopherson <seanjc@google.com>
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     Ackerley Tng <ackerleytng@google.com>, kvm@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        qemu-devel@nongnu.org, aarcange@redhat.com, ak@linux.intel.com,
+        akpm@linux-foundation.org, arnd@arndb.de, bfields@fieldses.org,
+        bp@alien8.de, chao.p.peng@linux.intel.com, corbet@lwn.net,
+        dave.hansen@intel.com, david@redhat.com, ddutile@redhat.com,
+        dhildenb@redhat.com, hpa@zytor.com, hughd@google.com,
+        jlayton@kernel.org, jmattson@google.com, joro@8bytes.org,
+        jun.nakajima@intel.com, kirill.shutemov@linux.intel.com,
+        linmiaohe@huawei.com, luto@kernel.org, mail@maciej.szmigiero.name,
+        michael.roth@amd.com, mingo@redhat.com, naoya.horiguchi@nec.com,
+        pbonzini@redhat.com, qperret@google.com, rppt@kernel.org,
         shuah@kernel.org, steven.price@arm.com, tabba@google.com,
         tglx@linutronix.de, vannapurve@google.com, vbabka@suse.cz,
         vkuznets@redhat.com, wanpengli@tencent.com, wei.w.wang@intel.com,
         x86@kernel.org, yu.c.zhang@linux.intel.com, muchun.song@linux.dev,
         feng.tang@intel.com, brgerst@gmail.com, rdunlap@infradead.org,
         masahiroy@kernel.org, mailhol.vincent@wanadoo.fr
-Subject: Re: [RFC PATCH 0/6] Setting memory policy for restrictedmem file
-Message-ID: <ZDjzpKL9Omcox991@dhcp22.suse.cz>
-References: <cover.1681430907.git.ackerleytng@google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <cover.1681430907.git.ackerleytng@google.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri 14-04-23 00:11:49, Ackerley Tng wrote:
-> Hello,
+On Fri, Apr 14, 2023, Michal Hocko wrote:
+> On Fri 14-04-23 00:11:49, Ackerley Tng wrote:
+> > 3. A more generic fbind(): it seems like this new functionality is
+> >    really only needed for restrictedmem files, hence a separate,
+> >    specific syscall was proposed to avoid complexities with handling
+> >    conflicting policies that may be specified via other syscalls like
+> >    mbind()
 > 
-> This patchset builds upon the memfd_restricted() system call that was
-> discussed in the 'KVM: mm: fd-based approach for supporting KVM' patch
-> series [1].
-> 
-> The tree can be found at:
-> https://github.com/googleprodkernel/linux-cc/tree/restrictedmem-set-memory-policy
-> 
-> In this patchset, a new syscall is introduced, which allows userspace
-> to set the memory policy (e.g. NUMA bindings) for a restrictedmem
-> file, to the granularity of offsets within the file.
-> 
-> The offset/length tuple is termed a file_range which is passed to the
-> kernel via a pointer to get around the limit of 6 arguments for a
-> syscall.
-> 
-> The following other approaches were also considered:
-> 
-> 1. Pre-configuring a mount with a memory policy and providing that
->    mount to memfd_restricted() as proposed at [2].
->     + Pro: It allows choice of a specific backing mount with custom
->       memory policy configurations
->     + Con: Will need to create an entire new mount just to set memory
->       policy for a restrictedmem file; files on the same mount cannot
->       have different memory policies.
+> I do not think it is a good idea to make the syscall restrict mem
+> specific.
 
-Could you expand on this some more please? How many restricted
-files/mounts do we expect? My understanding was that this would be
-essentially a backing store for guest memory so it would scale with the
-number of guests.
++1.  IMO, any uAPI that isn't directly related to the fundamental properties of
+restricted memory, i.e. isn't truly unique to restrictedmem, should be added as
+generic fd-based uAPI.
 
-> 2. Passing memory policy to the memfd_restricted() syscall at creation time.
->     + Pro: Only need to make a single syscall to create a file with a
->       given memory policy
->     + Con: At creation time, the kernel doesn’t know the size of the
->       restrictedmem file. Given that memory policy is stored in the
->       inode based on ranges (start, end), it is awkward for the kernel
->       to store the memory policy and then add hooks to set the memory
->       policy when allocation is done.
-> 
-> 3. A more generic fbind(): it seems like this new functionality is
->    really only needed for restrictedmem files, hence a separate,
->    specific syscall was proposed to avoid complexities with handling
->    conflicting policies that may be specified via other syscalls like
->    mbind()
+> History shows that users are much more creative when it comes
+> to usecases than us. I do understand that the nature of restricted
+> memory is that it is not mapable but memory policies without a mapping
+> are a reasonable concept in genereal. After all this just tells where
+> the memory should be allocated from. Do we need to implement that for
+> any other fs? No, you can safely return EINVAL for anything but
+> memfd_restricted fd for now but you shouldn't limit usecases upfront.
 
-I do not think it is a good idea to make the syscall restrict mem
-specific. History shows that users are much more creative when it comes
-to usecases than us. I do understand that the nature of restricted
-memory is that it is not mapable but memory policies without a mapping
-are a reasonable concept in genereal. After all this just tells where
-the memory should be allocated from. Do we need to implement that for
-any other fs? No, you can safely return EINVAL for anything but
-memfd_restricted fd for now but you shouldn't limit usecases upfront.
-
-> 
-> TODOs
-
-How do you query a policy for the specific fd? Are there any plans to
-add a syscall for that as well but you just wait for the direction for
-the set method?
-
-> + Return -EINVAL if file_range is not within the size of the file and
->   tests for this
-> 
-> Dependencies:
-> 
-> + Chao’s work on UPM [3]
-> 
-> [1] https://lore.kernel.org/lkml/20221202061347.1070246-1-chao.p.peng@linux.intel.com/T/
-> [2] https://lore.kernel.org/lkml/cover.1681176340.git.ackerleytng@google.com/T/
-> [3] https://github.com/chao-p/linux/commits/privmem-v11.5
-> 
-> ---
-> 
-> Ackerley Tng (6):
->   mm: shmem: Refactor out shmem_shared_policy() function
->   mm: mempolicy: Refactor out mpol_init_from_nodemask
->   mm: mempolicy: Refactor out __mpol_set_shared_policy()
->   mm: mempolicy: Add and expose mpol_create
->   mm: restrictedmem: Add memfd_restricted_bind() syscall
->   selftests: mm: Add selftest for memfd_restricted_bind()
-> 
->  arch/x86/entry/syscalls/syscall_32.tbl        |   1 +
->  arch/x86/entry/syscalls/syscall_64.tbl        |   1 +
->  include/linux/mempolicy.h                     |   4 +
->  include/linux/shmem_fs.h                      |   7 +
->  include/linux/syscalls.h                      |   5 +
->  include/uapi/asm-generic/unistd.h             |   5 +-
->  include/uapi/linux/mempolicy.h                |   7 +-
->  kernel/sys_ni.c                               |   1 +
->  mm/mempolicy.c                                | 100 ++++++++++---
->  mm/restrictedmem.c                            |  75 ++++++++++
->  mm/shmem.c                                    |  10 +-
->  scripts/checksyscalls.sh                      |   1 +
->  tools/testing/selftests/mm/.gitignore         |   1 +
->  tools/testing/selftests/mm/Makefile           |   8 +
->  .../selftests/mm/memfd_restricted_bind.c      | 139 ++++++++++++++++++
->  .../mm/restrictedmem_testmod/Makefile         |  21 +++
->  .../restrictedmem_testmod.c                   |  89 +++++++++++
->  tools/testing/selftests/mm/run_vmtests.sh     |   6 +
->  18 files changed, 454 insertions(+), 27 deletions(-)
->  create mode 100644 tools/testing/selftests/mm/memfd_restricted_bind.c
->  create mode 100644 tools/testing/selftests/mm/restrictedmem_testmod/Makefile
->  create mode 100644 tools/testing/selftests/mm/restrictedmem_testmod/restrictedmem_testmod.c
-> 
-> --
-> 2.40.0.634.g4ca3ef3211-goog
-
--- 
-Michal Hocko
-SUSE Labs
+I would even go a step further and say that we should seriously reconsider the
+design/implemenation of memfd_restricted() if a generic fbind() needs explicit
+handling from the restricted memory code.  One of the goals with memfd_restricted()
+is to rely on the underlying backing store to handle all of the "normal" behaviors.
