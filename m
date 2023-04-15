@@ -2,54 +2,55 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 360FE6E2CCD
-	for <lists+linux-api@lfdr.de>; Sat, 15 Apr 2023 01:26:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 764266E2DC2
+	for <lists+linux-api@lfdr.de>; Sat, 15 Apr 2023 02:06:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229568AbjDNX04 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 14 Apr 2023 19:26:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45530 "EHLO
+        id S229729AbjDOAGL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 14 Apr 2023 20:06:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44256 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229996AbjDNX0w (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 14 Apr 2023 19:26:52 -0400
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A9D66A4B
-        for <linux-api@vger.kernel.org>; Fri, 14 Apr 2023 16:26:43 -0700 (PDT)
-Received: by mail-yb1-xb4a.google.com with SMTP id c193-20020a25c0ca000000b00b868826cdfeso38587614ybf.0
-        for <linux-api@vger.kernel.org>; Fri, 14 Apr 2023 16:26:43 -0700 (PDT)
+        with ESMTP id S229653AbjDOAGJ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 14 Apr 2023 20:06:09 -0400
+Received: from mail-pl1-x64a.google.com (mail-pl1-x64a.google.com [IPv6:2607:f8b0:4864:20::64a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3CC755AF
+        for <linux-api@vger.kernel.org>; Fri, 14 Apr 2023 17:06:07 -0700 (PDT)
+Received: by mail-pl1-x64a.google.com with SMTP id n3-20020a170903110300b001a50ede5078so12037306plh.8
+        for <linux-api@vger.kernel.org>; Fri, 14 Apr 2023 17:06:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1681514802; x=1684106802;
+        d=google.com; s=20221208; t=1681517167; x=1684109167;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9+CdS/YAmA5S1F/LB6OGsrwDYAK7DxTDkVw+gfhAepA=;
-        b=X6xqig1KGe44JWfGobl88i68LvH8fuxeySMJifqRsYyD6UTHZ7QOjIguBlvCRg96oh
-         WXZfrnDdhsEwDT29I8rCw6tpWoA2VDlVT/hcuKKgo7Ei+dZTDumyfXXSJIV4h3HvvTtQ
-         M/jF1u45Ld3m/t0bapwufNcZVEpiU7GNEn4IS7RZqLJ4IxYziW/+em7ZbxmEzFPl0h5u
-         ngGOBHl0NKqHdVAxdirGtinyrWG0TxNmTOjSO/BOzHuWHKnZ8WRNCgK0XWrX2vqO8QKz
-         a23RkYq2JbNyZXdSKRuH9aUC5ut9ZsgPw7GVcbkGfAu+Z6WUUklAn4WnntF4rDnomDVB
-         fbkg==
+        bh=27SavXWsOz2fFOmzF4nHb+ZNB/DHHSIE/WtD2FW1frE=;
+        b=B6rYc8U7DGbKYNVYius6Nr1xFvfOgiOlW1pJgKmS1NVqaLzVhoraHcl1dTphDfkPeJ
+         VC5xCv4i9COcEmzeOrD7NEAO9JflKku7ibWDLxlUZ7QUcBWfleeW76yKHqP1vsjsIBmS
+         xOBlD3he/x1UVQg1EYc85ePh47AslSrznw1re6kKlcbBm07C50pD2jDiYbewN+qZWOeG
+         EnLYD2OvDfZ5pDFaBqAkHKIhzuWoraoXAEemxILSM5u/iZ8A2ZqHiRuKc9YACWyOhPPn
+         KTvKxPW2ojdNtXyipa/8Ht7nOBbNdsa/g4dO2xbQne+AS2SegO8N4SXpGOfagfMUjir5
+         TCzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681514802; x=1684106802;
+        d=1e100.net; s=20221208; t=1681517167; x=1684109167;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9+CdS/YAmA5S1F/LB6OGsrwDYAK7DxTDkVw+gfhAepA=;
-        b=kGMAiTO29nWWDiY/khOZ5A7raThc2Ykxh6oUu4VxbleTQhncTWqJhdy0VLoTbYRt7m
-         7eUztxiSjtR1IWB9JWp4AllLCzxDByFDlRQ5UpnPQxBgD20bSF+YYU2M1HOIL8lakeFt
-         rl7VMFFdnPpoJqXcz4LJC9g9Lb7836XlW5VHZ6iBTb9g1vwhdoW4H5Xc3MtqX/t4lsCC
-         YUBTqnMAgp5r9OTYh8JFL4/D5Uma4Veh9bFbNdATNN2DJw+YUb8JP7T2Cwj7ln8AYuNM
-         HtOTw5TO86jJkgbZe/56bhr4xWmisDmAXzJXR6HIUcqXhgXFVwWU8qD99IiNt7AvYvs1
-         FxZQ==
-X-Gm-Message-State: AAQBX9cMydUfzKZMOJ9K1no9evsQzfi86n4J1TQiNqfOxo5mHxvtJSEP
-        4pDPKcnxxSYyTJaNA8icKFAJOtpIDho=
-X-Google-Smtp-Source: AKy350bfBVGyb8j5M296HHMJlDF+8v2QV+6OwIFFK8rNd9KmApATUdcntOjhB2WH/vHF6B11161fuLNJq1Q=
+        bh=27SavXWsOz2fFOmzF4nHb+ZNB/DHHSIE/WtD2FW1frE=;
+        b=doIpiDY7VUp0VW330A7gluBdgRGXv8L/Gbt7RZfQf9HglRv/z9K2TOgi+psB+e4qCa
+         78LmCh8FLYWIc+TFLUh5PHrZJBdg253lw9Sy46Tjj8zaeSw7mg1F++JdzxvzCKyV3AEV
+         WJfM9nDViS1dLj/MVs8OhJ+Dc6dqwcBSetCjpPhtdWHeWfKfoJ+UoKSUVHzn6Cr2hBAl
+         1RnFds8Iz6+WbPWMEj0pCWSC4CVH79szf5dCDdj2EpRv4ewdSNm2xLlSBSflGnshR8Tk
+         oabA383VDDkWsseXjFTk00mf1dd6PBTaZ9fkYt8a+o1MNfGtqnXDdN3b1Jy7VVyZQ3vL
+         6SxA==
+X-Gm-Message-State: AAQBX9c1MH1MQhMNDKWOVaQAzlgIqSSvyS/aqsmQoGVBVx+q/lxbk6pL
+        xWCRQpkzfbeiYlFLpest9UYb+sQkrTg=
+X-Google-Smtp-Source: AKy350aWKg8kIKC0roeA72FaEe4HTb/wQtFuJp2chTATT/qvNt2jfzRorHJiQbnz3aOgwdrTNO7tZU5ONkg=
 X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a0d:ec47:0:b0:54e:e490:d190 with SMTP id
- r7-20020a0dec47000000b0054ee490d190mr4836875ywn.4.1681514802680; Fri, 14 Apr
- 2023 16:26:42 -0700 (PDT)
-Date:   Fri, 14 Apr 2023 16:26:41 -0700
-In-Reply-To: <diqzbkjqnl6t.fsf@ackerleytng-cloudtop.c.googlers.com>
+ (user=seanjc job=sendgmr) by 2002:a17:90a:9c3:b0:246:f8f7:f568 with SMTP id
+ 61-20020a17090a09c300b00246f8f7f568mr2063266pjo.0.1681517167336; Fri, 14 Apr
+ 2023 17:06:07 -0700 (PDT)
+Date:   Fri, 14 Apr 2023 17:06:06 -0700
+In-Reply-To: <ZDnhMQ2aoVYh6Qr2@google.com>
 Mime-Version: 1.0
 References: <ZDiCG/7OgDI0SwMR@google.com> <diqzbkjqnl6t.fsf@ackerleytng-cloudtop.c.googlers.com>
-Message-ID: <ZDnhMQ2aoVYh6Qr2@google.com>
+ <ZDnhMQ2aoVYh6Qr2@google.com>
+Message-ID: <ZDnqbqykWot4+617@google.com>
 Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
  guest private memory
 From:   Sean Christopherson <seanjc@google.com>
@@ -84,151 +85,22 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Apr 14, 2023, Ackerley Tng wrote:
-> Sean Christopherson <seanjc@google.com> writes:
+On Fri, Apr 14, 2023, Sean Christopherson wrote:
+> On Fri, Apr 14, 2023, Ackerley Tng wrote:
+> > Sean Christopherson <seanjc@google.com> writes:
+> > > 	if (WARN_ON_ONCE(file->private_data)) {
+> > > 		err = -EEXIST;
+> > > 		goto err_fd;
+> > > 	}
+> > 
+> > Did you intend this as a check that the backing filesystem isn't using
+> > the private_data field in the mapping?
+> >
+> > I think you meant file->f_mapping->private_data.
 > 
-> > On Thu, Apr 13, 2023, Christian Brauner wrote:
-> > > * by a mount option to tmpfs that makes it act
-> > >    in this restricted manner then you don't need an ioctl() and can get
-> > >    away with regular open calls. Such a tmpfs instance would only create
-> > >    regular, restricted memfds.
-> 
-> > I'd prefer to not go this route, becuase IIUC, it would require relatively
-> > invasive changes to shmem code, and IIUC would require similar changes to
-> > other support backings in the future, e.g. hugetlbfs?  And as above, I
-> > don't think any of the potential use cases need restrictedmem to be a
-> > uniquely identifiable mount.
-> 
-> FWIW, I'm starting to look at extending restrictedmem to hugetlbfs and
-> the separation that the current implementation has is very helpful. Also
-> helps that hugetlbfs and tmpfs are structured similarly, I guess.
-> 
-> > One of the goals (hopefully not a pipe dream) is to design restrictmem in
-> > such a way that extending it to support other backing types isn't terribly
-> > difficult.  In case it's not obvious, most of us working on this stuff
-> > aren't filesystems experts, and many of us aren't mm experts either.  The
-> > more we (KVM folks for the most part) can leverage existing code to do the
-> > heavy lifting, the better.
-> 
-> > After giving myself a bit of a crash course in file systems, would
-> > something like the below have any chance of (a) working, (b) getting
-> > merged, and (c) being maintainable?
-> 
-> > The idea is similar to a stacking filesystem, but instead of stacking,
-> > restrictedmem hijacks a f_ops and a_ops to create a lightweight shim around
-> > tmpfs.  There are undoubtedly issues and edge cases, I'm just looking for a
-> > quick "yes, this might be doable" or a "no, that's absolutely bonkers,
-> > don't try it".
-> 
-> Not an FS expert by any means, but I did think of approaching it this
-> way as well!
-> 
-> "Hijacking" perhaps gives this approach a bit of a negative connotation.
+> Ya, sounds right.  I should have added disclaimers that (a) I wrote this quite
+> quickly and (b) it's compile tested only at this point.
 
-Heh, commandeer then.
+FWIW, here's a very lightly tested version that doesn't explode on a basic selftest.
 
-> I thought this is pretty close to subclassing (as in Object
-> Oriented Programming). When some methods (e.g. fallocate) are called,
-> restrictedmem does some work, and calls the same method in the
-> superclass.
-> 
-> The existing restrictedmem code is a more like instantiating an shmem
-> object and keeping that object as a field within the restrictedmem
-> object.
-> 
-> Some (maybe small) issues I can think of now:
-> 
-> (1)
-> 
-> One difficulty with this approach is that other functions may make
-> assumptions about private_data being of a certain type, or functions may
-> use private_data.
-> 
-> I checked and IIUC neither shmem nor hugetlbfs use the private_data
-> field in the inode's i_mapping (also file's f_mapping).
-> 
-> But there's fs/buffer.c which uses private_data, although those
-> functions seem to be used by FSes like ext4 and fat, not memory-backed
-> FSes.
-> 
-> We can probably fix this if any backing filesystems of restrictedmem,
-> like tmpfs and future ones use private_data.
-
-Ya, if we go the route of poking into f_ops and stuff, I would want to add
-WARN_ON_ONCE() hardening of everything that restrictemem wants to "commandeer" ;-)
-
-> > static int restrictedmem_file_create(struct file *file)
-> > {
-> > 	struct address_space *mapping = file->f_mapping;
-> > 	struct restrictedmem *rm;
-> 
-> > 	rm = kzalloc(sizeof(*rm), GFP_KERNEL);
-> > 	if (!rm)
-> > 		return -ENOMEM;
-> 
-> > 	rm->backing_f_ops = file->f_op;
-> > 	rm->backing_a_ops = mapping->a_ops;
-> > 	rm->file = file;
-> 
-> We don't really need to do this, since rm->file is already the same as
-> file, we could just pass the file itself when it's needed
-
-Aha!  I was working on getting rid of it, but forgot to go back and do another
-pass.
-
-> > 	init_rwsem(&rm->lock);
-> > 	xa_init(&rm->bindings);
-> 
-> > 	file->f_flags |= O_LARGEFILE;
-> 
-> > 	file->f_op = &restrictedmem_fops;
-> > 	mapping->a_ops = &restrictedmem_aops;
-> 
-> I think we probably have to override inode_operations as well, because
-> otherwise other methods would become available to a restrictedmem file
-> (like link, unlink, mkdir, tmpfile). Or maybe that's a feature instead
-> of a bug.
-
-I think we want those?  What we want to restrict are operations that require
-read/write/execute access to the file, everything else should be ok. fallocate()
-is a special case because restrictmem needs to tell KVM to unmap the memory when
-a hole is punched.  I assume ->setattr() needs similar treatment to handle
-ftruncate()?
-
-I'd love to hear Christian's input on this aspect of things.
-
-> > 	if (WARN_ON_ONCE(file->private_data)) {
-> > 		err = -EEXIST;
-> > 		goto err_fd;
-> > 	}
-> 
-> Did you intend this as a check that the backing filesystem isn't using
-> the private_data field in the mapping?
->
-> I think you meant file->f_mapping->private_data.
-
-Ya, sounds right.  I should have added disclaimers that (a) I wrote this quite
-quickly and (b) it's compile tested only at this point.
-
-> On this note, we will probably have to fix things whenever any backing
-> filesystems need the private_data field.
-
-Yep.
-
-> > 	f = fdget_raw(mount_fd);
-> > 	if (!f.file)
-> > 		return -EBADF;
-
-...
-
-> > 	/*
-> > 	 * The filesystem must be mounted no-execute, executing from guest
-> > 	 * private memory in the host is nonsensical and unsafe.
-> > 	 */
-> > 	if (!(mnt->mnt_sb->s_iflags & SB_I_NOEXEC))
-> > 		goto out;
-
-Looking at this more closely, I don't think we need to require NOEXEC, things like
-like execve() should get squashed by virtue of not providing any read/write
-implementations.  And dropping my misguided NOEXEC requirement means there's no
-reason to disallow using the kernel internal mount.
+https://github.com/sean-jc/linux/tree/x86/upm_base_support
