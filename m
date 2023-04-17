@@ -2,52 +2,92 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ADD926E447E
-	for <lists+linux-api@lfdr.de>; Mon, 17 Apr 2023 11:57:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A5CE6E4BC7
+	for <lists+linux-api@lfdr.de>; Mon, 17 Apr 2023 16:45:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229802AbjDQJ5q (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 17 Apr 2023 05:57:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59808 "EHLO
+        id S230085AbjDQOpf (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 17 Apr 2023 10:45:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40332 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229458AbjDQJ5p (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 17 Apr 2023 05:57:45 -0400
-Received: from xry111.site (xry111.site [89.208.246.23])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70525659D;
-        Mon, 17 Apr 2023 02:57:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xry111.site;
-        s=default; t=1681725043;
-        bh=O/cKAdPP1ntH7IK9e/3cclJfPJoYfiCKYcnR1FDS28c=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=E5ZnmxxoCi42LLMmO5z0FR3DlqAoAY5yiajei+fCHQX57j4JBVZRuMDZiTncJykyh
-         MqkIeXj9QPaMbH2TEpJA+cyEtEDz72q/MhY7nble68s8WYuOCo6UfpWh6gtX/oQqyZ
-         EjNGC9LdHmSREBfn9zK60G0/Qx4weomdm7z9QWL4=
-Received: from localhost.localdomain (xry111.site [IPv6:2001:470:683e::1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature ECDSA (P-384) server-digest SHA384)
-        (Client did not present a certificate)
-        (Authenticated sender: xry111@xry111.site)
-        by xry111.site (Postfix) with ESMTPSA id 2A3F865C4E;
-        Mon, 17 Apr 2023 05:50:42 -0400 (EDT)
-Message-ID: <f54abfae989023fcfdabb4e9800a66847c357b85.camel@xry111.site>
-Subject: Re: [PATCH 0/2] LoongArch: Make bounds-checking instructions useful
-From:   Xi Ruoyao <xry111@xry111.site>
-To:     WANG Xuerui <kernel@xen0n.name>, loongarch@lists.linux.dev
-Cc:     WANG Xuerui <git@xen0n.name>, Huacai Chen <chenhuacai@kernel.org>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Arnd Bergmann <arnd@arndb.de>, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Mon, 17 Apr 2023 17:50:40 +0800
-In-Reply-To: <6ca642a9-62a6-00e5-39ac-f14ef36f6bdb@xen0n.name>
-References: <20230416173326.3995295-1-kernel@xen0n.name>
-         <e593541e7995cc46359da3dd4eb3a69094e969e2.camel@xry111.site>
-         <6ca642a9-62a6-00e5-39ac-f14ef36f6bdb@xen0n.name>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.0 
+        with ESMTP id S230012AbjDQOpe (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 17 Apr 2023 10:45:34 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2502D59F6;
+        Mon, 17 Apr 2023 07:45:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1681742731; x=1713278731;
+  h=date:from:to:cc:subject:message-id:reply-to:references:
+   mime-version:in-reply-to;
+  bh=Ujpr3tfLBQ0cnHPJjNO9yDhomrzTInArxSoyy0XPMmc=;
+  b=RFxYA9mb3N958xjqlZWK7p5vwflz9NWJmTk/zFuMm2UlLd13ZRXVQtFd
+   z0vzigqicm867zaD9XAfsoT5bNIXsc9NBJlAUmq9l7/sBQd/xEuWaJ3xu
+   gEvJez25ZKJnyv7zcXtZYyp8dM5Ng8SFdfoqn1RHBSRhRH/qs+U22tTsL
+   D/VWLNTPchgJhQy4sSm59lHUmCrZpO0yN3W1ONGCUhy5Z1/dn/N6jGTuW
+   xJcH82CCuioRZ/Y+pWEY+cFYzlxpP+PLppDJ9GyAcP/kbmz5zC9kX0yew
+   /++/tudcI1yaSzLJHU5fKl3X/JkHFTVyaqSvMPVBQXkCdVob06uGDSFAs
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="329079961"
+X-IronPort-AV: E=Sophos;i="5.99,204,1677571200"; 
+   d="scan'208";a="329079961"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2023 07:45:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="780101935"
+X-IronPort-AV: E=Sophos;i="5.99,204,1677571200"; 
+   d="scan'208";a="780101935"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.105])
+  by FMSMGA003.fm.intel.com with ESMTP; 17 Apr 2023 07:45:16 -0700
+Date:   Mon, 17 Apr 2023 22:37:47 +0800
+From:   Chao Peng <chao.p.peng@linux.intel.com>
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     Isaku Yamahata <isaku.yamahata@gmail.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>, tabba@google.com,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        wei.w.wang@intel.com
+Subject: Re: [PATCH v10 0/9] KVM: mm: fd-based approach for supporting KVM
+Message-ID: <20230417143747.GA3639898@chaop.bj.intel.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <Y8H5Z3e4hZkFxAVS@google.com>
+ <20230119111308.GC2976263@ls.amr.corp.intel.com>
+ <Y8lg1G2lRIrI/hld@google.com>
+ <20230119223704.GD2976263@ls.amr.corp.intel.com>
+ <Y880FiYF7YCtsw/i@google.com>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y880FiYF7YCtsw/i@google.com>
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -55,113 +95,107 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, 2023-04-17 at 15:54 +0800, WANG Xuerui wrote:
-> On 2023/4/17 14:47, Xi Ruoyao wrote:
-> > On Mon, 2023-04-17 at 01:33 +0800, WANG Xuerui wrote:
-> > > From: WANG Xuerui <git@xen0n.name>
-> > >=20
-> > > Hi,
-> > >=20
-> > > The LoongArch-64 base architecture is capable of performing
-> > > bounds-checking either before memory accesses or alone, with speciali=
-zed
-> > > instructions generating BCEs (bounds-checking error) in case of faile=
-d
-> > > assertions (ISA manual Volume 1, Sections 2.2.6.1 [1] and 2.2.10.3 [2=
-]).
-> > > This could be useful for managed runtimes, but the exception is not
-> > > being handled so far, resulting in SIGSYSes in these cases, which is
-> > > incorrect and warrants a fix in itself.
-> > >=20
-> > > During experimentation, it was discovered that there is already UAPI =
-for
-> > > expressing such semantics: SIGSEGV with si_code=3DSEGV_BNDERR. This w=
-as
-> > > originally added for Intel MPX, and there is currently no user (!) af=
-ter
-> > > the removal of MPX support a few years ago. Although the semantics is
-> > > not a 1:1 match to that of LoongArch, still it is better than
-> > > alternatives such as SIGTRAP or SIGBUS of BUS_OBJERR kind, due to bei=
-ng
-> > > able to convey both the value that failed assertion and the bound val=
-ue.
-> > >=20
-> > > This patch series implements just this approach: translating BCEs int=
-o
-> > > SIGSEGVs with si_code=3DSEGV_BNDERR, si_value set to the offending va=
-lue,
-> > > and si_lower and si_upper set to resemble a range with both lower and
-> > > upper bound while in fact there is only one.
-> > >=20
-> > > The instructions are not currently used anywhere yet in the fledgling
-> > > LoongArch ecosystem, so it's not very urgent and we could take the ti=
-me
-> > > to figure out the best way forward (should SEGV_BNDERR turn out not
-> > > suitable).
-> >=20
-> > I don't think these instructions can be used in any systematic way
-> > within a Linux userspace in 2023.=C2=A0 IMO they should not exist in
-> > LoongArch at all because they have all the same disadvantages of Intel
-> > MPX; MPX has been removed by Intel in 2019, and LoongArch is designed
-> > after 2019.
->=20
-> Well, the difference is IMO significant enough to make LoongArch=20
-> bounds-checking more useful, at least for certain use cases. For=20
-> example, the bounds were a separate register bank in Intel MPX, but in
-> LoongArch they are just values in GPRs. This fits naturally into=20
-> JIT-ting or other managed runtimes (e.g. Go) whose slice indexing ops=20
-> already bounds-check with a temporary register per bound anyway, so it's=
-=20
-> just a matter of this snippet (or something like it)
->=20
-> - calculate element address
-> - if address < base: goto fail
-> - load/calculate upper bound
-> - if address >=3D upper bound: goto fail
-> - access memory
->=20
-> becoming
->=20
-> - calculate element address
-> - asrtgt address, base - 1
-> - load/calculate upper bound
-> - {ld,st}le address, upper bound
->=20
-> then in SIGSEGV handler, check PC to associate the signal back with the=
-=20
-> exact access op;
+On Tue, Jan 24, 2023 at 01:27:50AM +0000, Sean Christopherson wrote:
+> On Thu, Jan 19, 2023, Isaku Yamahata wrote:
+> > On Thu, Jan 19, 2023 at 03:25:08PM +0000,
+> > Sean Christopherson <seanjc@google.com> wrote:
+> > 
+> > > On Thu, Jan 19, 2023, Isaku Yamahata wrote:
+> > > > On Sat, Jan 14, 2023 at 12:37:59AM +0000,
+> > > > Sean Christopherson <seanjc@google.com> wrote:
+> > > > 
+> > > > > On Fri, Dec 02, 2022, Chao Peng wrote:
+> > > > > > This patch series implements KVM guest private memory for confidential
+> > > > > > computing scenarios like Intel TDX[1]. If a TDX host accesses
+> > > > > > TDX-protected guest memory, machine check can happen which can further
+> > > > > > crash the running host system, this is terrible for multi-tenant
+> > > > > > configurations. The host accesses include those from KVM userspace like
+> > > > > > QEMU. This series addresses KVM userspace induced crash by introducing
+> > > > > > new mm and KVM interfaces so KVM userspace can still manage guest memory
+> > > > > > via a fd-based approach, but it can never access the guest memory
+> > > > > > content.
+> > > > > > 
+> > > > > > The patch series touches both core mm and KVM code. I appreciate
+> > > > > > Andrew/Hugh and Paolo/Sean can review and pick these patches. Any other
+> > > > > > reviews are always welcome.
+> > > > > >   - 01: mm change, target for mm tree
+> > > > > >   - 02-09: KVM change, target for KVM tree
+> > > > > 
+> > > > > A version with all of my feedback, plus reworked versions of Vishal's selftest,
+> > > > > is available here:
+> > > > > 
+> > > > >   git@github.com:sean-jc/linux.git x86/upm_base_support
+> > > > > 
+> > > > > It compiles and passes the selftest, but it's otherwise barely tested.  There are
+> > > > > a few todos (2 I think?) and many of the commits need changelogs, i.e. it's still
+> > > > > a WIP.
+> > > > > 
+> > > > > As for next steps, can you (handwaving all of the TDX folks) take a look at what
+> > > > > I pushed and see if there's anything horrifically broken, and that it still works
+> > > > > for TDX?
+> > > > > 
+> > > > > Fuad (and pKVM folks) same ask for you with respect to pKVM.  Absolutely no rush
+> > > > > (and I mean that).
+> > > > > 
+> > > > > On my side, the two things on my mind are (a) tests and (b) downstream dependencies
+> > > > > (SEV and TDX).  For tests, I want to build a lists of tests that are required for
+> > > > > merging so that the criteria for merging are clear, and so that if the list is large
+> > > > > (haven't thought much yet), the work of writing and running tests can be distributed.
+> > > > > 
+> > > > > Regarding downstream dependencies, before this lands, I want to pull in all the
+> > > > > TDX and SNP series and see how everything fits together.  Specifically, I want to
+> > > > > make sure that we don't end up with a uAPI that necessitates ugly code, and that we
+> > > > > don't miss an opportunity to make things simpler.  The patches in the SNP series to
+> > > > > add "legacy" SEV support for UPM in particular made me slightly rethink some minor
+> > > > > details.  Nothing remotely major, but something that needs attention since it'll
+> > > > > be uAPI.
+> > > > 
+> > > > Although I'm still debuging with TDX KVM, I needed the following.
+> > > > kvm_faultin_pfn() is called without mmu_lock held.  the race to change
+> > > > private/shared is handled by mmu_seq.  Maybe dedicated function only for
+> > > > kvm_faultin_pfn().
+> > > 
+> > > Gah, you're not on the other thread where this was discussed[*].  Simply deleting
+> > > the lockdep assertion is safe, for guest types that rely on the attributes to
+> > > define shared vs. private, KVM rechecks the attributes under the protection of
+> > > mmu_seq.
+> > > 
+> > > I'll get a fixed version pushed out today.
+> > > 
+> > > [*] https://lore.kernel.org/all/Y8gpl+LwSuSgBFks@google.com
+> > 
+> > Now I have tdx kvm working. I've uploaded at the followings.
+> > It's rebased to v6.2-rc3.
+> >         git@github.com:yamahata/linux.git tdx/upm
+> >         git@github.com:yamahata/qemu.git tdx/upm
+> 
+> And I finally got a working, building version updated and pushed out (again to):
+> 
+>   git@github.com:sean-jc/linux.git x86/upm_base_support
+> 
+> Took longer than expected to get the memslot restrictions sussed out.  I'm done
+> working on the code for now, my plan is to come back to it+TDX+SNP in 2-3 weeks
+> to resolves any remaining todos (that no one else tackles) and to do the whole
+> "merge the world" excersise.
 
-I remember using the signal handler for "usual" error handling can be a
-very bad idea but I can't remember where I've read about it.  Is there
-any managed environments doing so in practice?
+Hi Sean,
 
-If we redefine new_ldle/new_stle as "if [[likely]] the address is in-
-bound, do the load/store and skip the next instruction; otherwise do
-nothing", we can say:
+In case you started working on the code again, I have a branch [1]
+originally planned as v11 candidate which I believe I addressed all the
+discussions we had for v10 except the very latest one [2] and integrated
+all the newly added selftests from Ackerley and myself. The branch was
+based on your original upm_base_support and then rebased to your
+kvm-x86/mmu head. Feel free to take anything you think useful( most of
+them are trivial things but also some fixes for bugs).
 
-blt        address, base, 1f
-new_ldle.d rd, address, upperbound
-1:b        panic_oob_access
-xor        rd, rd, 42 // use rd to do something
+[1] https://github.com/chao-p/linux/commits/privmem-v11.6
+[2] https://lore.kernel.org/all/20230413160405.h6ov2yl6l3i7mvsj@box.shutemov.name/
 
-This is more versatile, and useful for building a loop as well:
-
-or            a0, r0, r0
-0:new_ldle.d  t1, t0, t2
-b             1f
-add.d         a0, t1, a0
-add.d         t0, t0, 8
-b             0b
-1:bl          do_something_with_the_sum
-
-Yes it's "non-RISC", but at least more RISC than the current ldle: if
-you want a trap anyway you can say
-
-blt        address, base, 1f
-new_ldle.d rd, address, upperbound
-1:break    {a code defined for OOB}
-xor        rd, rd, 42 // use rd
-
---=20
-Xi Ruoyao <xry111@xry111.site>
-School of Aerospace Science and Technology, Xidian University
+Chao
+> 
+> > kvm_mmu_do_page_fault() needs the following change.
+> > kvm_mem_is_private() queries mem_attr_array.  kvm_faultin_pfn() also uses
+> > kvm_mem_is_private(). So the shared-private check in kvm_faultin_pfn() doesn't
+> > make sense. This change would belong to TDX KVM patches, though.
+> 
+> Yeah, SNP needs similar treatment.  Sorting that out is high up on the todo list.
