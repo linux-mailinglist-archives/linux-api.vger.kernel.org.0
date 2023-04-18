@@ -2,63 +2,64 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8ABC86E6F66
-	for <lists+linux-api@lfdr.de>; Wed, 19 Apr 2023 00:34:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 039B26E6F8E
+	for <lists+linux-api@lfdr.de>; Wed, 19 Apr 2023 00:43:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232218AbjDRWeT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 18 Apr 2023 18:34:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57620 "EHLO
+        id S232396AbjDRWnW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 18 Apr 2023 18:43:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35030 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229940AbjDRWeS (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 18 Apr 2023 18:34:18 -0400
-Received: from sonic307-16.consmr.mail.ne1.yahoo.com (sonic307-16.consmr.mail.ne1.yahoo.com [66.163.190.39])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D30CE40C9
-        for <linux-api@vger.kernel.org>; Tue, 18 Apr 2023 15:34:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1681857255; bh=JGyo6apYPiGSMudiokyK9sWE7nWevsztQxXGHF+lHd4=; h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To; b=tTkBViITtOunQ7sPoIGZb7w5/W/A6Lg/6iIrMoJpj4BPvQujVyMdxrnJxugJsbAYy9Dez1pHBV2oGwCR+I6Qzs2MXPHLmc20xBI2dY81SbB0RZ286csdN1QNMa1kD4jMBtxahmjaI/hmRHivp5AoWu/pao/4Ddn/ldB3Ue3PQA7DQM5xQ20wSXjKDS5R+ltZj+RtStVzlwHVY2Lr9cvir9zhL6HO5fXvEeJ7hGYmSVcLQ9Z9ZGa+RK5tz4tQuxn7Zv00mJff0JvuPseqITbHOXuAxCvaxPEF0i7QkWeUQBZU68g1xq7SFJGeV/MaTLBHaIrkSnxqMO3p1Bp/MZOJiA==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1681857255; bh=Hc4eMqTDSPFU7QKxQEO+rukFDu1y2dIm99jZIwfF3I3=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=JYJMS1ReqzCWu6lO0D1RLdDBn5QiGJxxYAk610JHwTxZafWAkwjx++VczR1VQInh2/6E/rZaVX5L+yxoYMRggY0pFvBySEsZhrN4zXClRdU0PudEOnrv0xQiyJYbTs8Ve4t9g2dENp+TGnghuc7kGG+rStTmk/l1yvaoayU11rRrBeNuNe16B/Zk7mPlmjEC5NXK9nXCNeOSxoNHH6jfVMjpijMI+ZgraLYxKq+QsYuNcW5VlksX1eV87dkv7Z//f3Z8/v5uPixGe56P2mA+FrwdkcOpcTdZ0kGu1aiAFAwME934oogssj080IpeBWsxiLI2bzSZJBgOBfsNrjd5WA==
-X-YMail-OSG: yg6JgrYVM1lQdNBszxHPQr77pat9lNhnrJSVYxOmJAHfNOrS1Svx95yKDYqs1Nx
- srM4RBCvXHSayFf6MVmucjsyIjb4deMestmLO10N4jmf7Jetl7ydlXMvBbZB.XxA6aUaKBFFO.jI
- xdtQ.WOcQ.EbqFlEe_4_GPWPvbUHDowYAMp0afI5sUD7fxTWNm9duNTVxYgaPmqveei.XIDuEg5u
- IejEcCCBS6izOkTZbZXea8sKsA53w8x1T6JUTPeCUa7wExhcppm7qyodjSJFu7RFpEYhcRNDmttK
- fvDrqpR9EVa2TUYynIxLy5w_wfYjP5eKudVAISefJrDQITD_piSN52VGAb62Z2iHv.F7G23A0swv
- d.1mwT_Ue_Dh3iw0fJkhsMSlJsa5VxFQdMufkqkW1iO0o34fpOU7pTkYJWd791b_LGChUxqMDRiD
- XlfC2U3FDowIX8KNMDjEwI4uG_s2Ct6AZxtscarEm7vrSGzIhbpFbzus_SiP42Yd9FHSfKzqx6dx
- v1h7qHun82VlGzQmv7Ga5MNi0Q.wIPOr8vDY7nh0OnvKyHIltgm9b0rObahHRoqmPrJYlsQjsCdM
- nZmby6NKa1PiyfJYFSUDQtuG0tAYLicGqIHmqMdICtailFll5xq_9QEtzOQT3HVCTLOYpKJ2ue8v
- 9G_NVLE6zVpAvCHpl3LYjzswHpRxKoz3sQEuaNAI6AI0_d0yBArBtm8e8W6vgqiT0603L.XkvJCc
- 9oaUIZJLBfoy9ktBPzPAW4qIzP2aANSOMRku4GG4SBQ5KpVVcbUVV3pDUqJRCk6pvmWyAc4w02vX
- PgRPiA4u5E.LS800mxE_f2CTuj2T4uEg.b3AHbhRfEJmZrxFbqeGVUzNE3Z8uUzw8fybMT.gW.6N
- D33m3FFJRk_k4cyIPjwOJeYTEFehsZZfceagDVG_XRd8uCmLltUV70yfJ1pIORdI2ysikkSyNu9l
- gVkZ8WOh.sNCrG9iYjnXabE1WwXGeRrIkM01rj8b4RClUWt9RW65EaALL.7.D0tG7zfqNW.ZZYMW
- lfS2RImaRbwPIt6Ef6Q68vaAu_VW1b85rQfbN72_qc88WsKtKfTCzz_c4LuMXChg0iQdtD5ReRN2
- 6MohyP..u8D8QiJnS0ZkPSCQTo0kH3zoQbfXJ3JNGDkp.uyqZRNcHQ.UobREDoy1SPF9cZv1FvdL
- BaTNujpoQvvwqGyVrCSi6U7X7ctSqK_FrGkqcsvWjPxNY2AQ75Okoo5iStbsJgEPAf_zIXcL8S_b
- XMuYaEXQXGaeiOjDquubYvWeaaZGCmVKdCadGRpELeuX9H1wjkEDZyDN1PF3c0T.wvZO5D.3FOW.
- UAko5gq_v0J51jCCSV8Rqg3SKODIaIoVGVic_Eyw6YApA6u1crkMZQzns.x1bZAh4uKk_5.D0XzY
- F7P8PF_AnrGBi2jDhu8sxRLuMCSVW0HOnMVwhkGZkylNeyGTn4waCCFbK841zm4MATYktjNvZXR5
- 8gtr_wEXYS2dKMGdhjFRll2nckTLfJcNqndNXzvLuUgrlNi0eW8cof2oCP4FlbimB7Hb_aI8lTFA
- lrq.12ifYENz2i2e_maXroX1Qd2SWm7.UaTioB.TSVyOndkEF_0a6ug3EXyf_6bTc5.TyFtWCv_Q
- nu0orMheE6sZQ_Eitj.d2RYzYmAd6VSG.hGHD0esD2vKC3eq5KFzIu.y.ykKQG0uIR1tOTQxgaw5
- Opj2QJR.UWL5.29yqGLZkvfbiMv08yo_P0dN0jB9JjcO7WMvacV0rI4EbAXmo3GAys7ABWiOne__
- izcLksqLehRBAf3ebPD2ZhN3u1MzuRF8Duan33_WFQWn3fZPVP0NOdBDuKslpJxfOQy2KccmiSm2
- m9yPkgg8YUKlHygL109NOHQYrumh.B4USLKNWnzMwlU9Yir6giuic6PaI9BSCKjCJ9eUr7N.w4gI
- 0pX1J1k1sKc6woU_mko_ydrFQdZVF8ws003Tbrb5tUPp6EPmjjr7hsnrxwJk7wlpVGsbRJ.t2LYQ
- ntUrDVL2Y6KgjUfBCNz_rKIUahYSIb9oX.UasfttlyLNZNnuQg.gQxJkXLmEGQlese3cjAI9LeVK
- DT4sUFmikS4YxwS8yOjVJZiLi1q4oqARmvhcvrRrMztQTK2eUno_pFwIyHC0kTx2YXLip0JHHgB9
- M0RMMS4AMisVGVHvQuSbeAKQxYyzGgHrjNGNaUEgKj2p2xYmglvy4EnuMM0.jZvFFREYMghaecCy
- dr.e6mOAILBwR5PmnNGiWF0Bf0sjtkwZTDpSsXgo7Jbvc2SdbKoi53FE8HbjcjGsoMUyGRXBO.Ul
- QjdV2ZPo31A--
+        with ESMTP id S231532AbjDRWnU (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 18 Apr 2023 18:43:20 -0400
+Received: from sonic317-39.consmr.mail.ne1.yahoo.com (sonic317-39.consmr.mail.ne1.yahoo.com [66.163.184.50])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7494319A
+        for <linux-api@vger.kernel.org>; Tue, 18 Apr 2023 15:43:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1681857799; bh=99HhJLRwh8Hho3O2rjyKF4DLGn7Hth4J30r1JP4kmH0=; h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To; b=P21b5byI9DQvuyQKZDwXvFQH0az2JGoocGSN9BEplsR+STlQTZCpF7uJW/ns9zXQNfHX8fOnBmRF0w4Bjr8F6O2h8WX3PWkOXkJ/G5nzcKvX3SZz3l+0hCb1NfpvihF5U0CT3e7drO3ekE7YrNugaMxUQYN3H6P2eqi0FqTXFVXL9OGYWBtHFANGi+TsuchQzJhJ0gE56vYr3oZJWItpgM5yO1QBI1Cguit50OqPDRUamYYj4fnURMXPQk9PtJJjNd8gyAZ/d+MuwlRhX9KbGzyuhd3gq+vCSjmqpk3ln5d3WiF97/3SLdfXsiCyI7XgwX1XnqFAzpTWH5tzQpnUKw==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1681857799; bh=kTfCzIWxOzsxjgqzKrmVsbF0pgTls8y+Zd+asxqncwT=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=SEB1Ey2vOrcO8iTiP6dGqQKcYD4aVUCa99Hv/bRyTObePwdYlq0BkltFaU7s1rZJtY6Uom4BlJOn2L1pn3n6RPTP9fiFjvEvevdQi5t23vAeu2VEcTkhQDnGQm3klbGuQE8AF6tEEmfjFSQFVxBm3RGi2LY5kwYKlufBWZ55asEPITPYv1aTFdPcn+llCrF1/gVFTkDTzsj2p1XpbVcVcLS7DS8uD7I+pDL1ZwtTfUMRAf2/jhWOJr7n+jhvMIWWTojhUKulgn9N7ZOXzBIftK+FXjsSo7gFWYQyvLhPbrdMvdOlsjh3aPGGrwFNQ2ZJBerQBxvKOEvPaDpigmx/qQ==
+X-YMail-OSG: JgMWmI8VM1mfyMq6BZyX3sL_jfCucU6jUe4jl7AxlIU5yfDl0CVbejYnfj3oxjp
+ j1m5XTSlwsTtEXYF5Axk2tt.wkZk7itDgQGD7Txih_BliC.LaRaJ_TK58LutL.2TC95.b_4i4_KK
+ bWPoctuNwWS5E4CQ2l7aV_8VPiiE5PO06S9Tttjbjw6FwkFSog71UoPHjBXYEKYzdx_zhr4BNxWa
+ 8TbgiFY58DLG3XLT47dRdG06V_CmHSVzDu7n8JNdVAX6QcUZCE_mBBvsqQoItZI1Nu8uKei_OU2D
+ BH_h41_s5Foh5VZpSFBkbKWNPKZFNGp6_7CXrtgN6SUkkFfeoq0zjsi6g4hliSbMoo.ozNgg1Xso
+ wI0g33uB2bss.ejRzOLzkNYLBerTn6YceP1OTo2yGEBD6pbkRUTaivU32Yu_.BwhpnMm3cqCPuif
+ P5mCvlWYbLJaFTLRRRGH26WWLeH8jiJ1n3V8eFHrAkcxIjKVmtrmJVzDUPnrWxdvyX5eFrotj0Vk
+ qXjD5Rh7I55yz5lCe9LHcI3Kun3vqwCVLjSPKMHq41_SxAVNGBmSSwH8lVcVWos7RN9V6cCFSE4B
+ xd8p2CdBCtrPX0wBS_H4DQWzVQGeSGiU3OnN0snGx0AyjBuKQOGVbRYDDhhIcmwGm67hFYrglSOu
+ 770xqiTVuciFcBe7r_5GAcpQ5iQbbOPtIaUlcdzsRCX2Gr9Mp8cse5UxFLG3x5msJFblquXd3N6D
+ FO1cl7ru7MW94CbQo.T7zvHXIutP76abASIIJ4FoHR674GW0Peuf21NCVJX4OyX96VGyLoJRWdaM
+ ogBxrePZzpLAGhzgZavIkm2SoUpAPfryPG0WjD_Ugol2NOThLoRLBL2WLCyG6ZvKc_FqfDlWq8_7
+ sBruAX1kBmgKVyC9fUNiG2.cbNoJKI2XP9NMv_OCH7SV8d0nYX7_ck6SyD5j4j9GVMdZvfV3HAjb
+ avGOhO1tNka0znyra65fYg4lvTY8.48pUlS4JUMsMtCccXwczbI06LSFvbkFXNO6O0zBa_QO1wBW
+ YIstfxGtzszT0rDhfgI1acsJAs9SWlKxGGbdK_I2WeMCZ31h1Pt5HsMYnvpd8qyT3TsuTShCvoLF
+ SyF7RW_vWsaCm_rwfHaKJsQ4GSzSWmIO2WepkNs8ycO5g9BOaHX2RWFTgMkUyioFaGJGPktfZq.j
+ jGWOo536mtUqg8Tyc6MwVafksFJH4XAF1xU30hw_DY36aGYNAqnnOqGQXrgCbkrmAwvz9RPgDxBM
+ WOn.kKEJYEPWBeMHhq9.D6cZlCRlMGB0U3d5LsZsSlLcOx8lLsKpejSmJITY0qBbgdw4vssQrEYU
+ vGvY6Q3KCDqiUOAhqRaVGLDgsB8TMDfI61K9QOIu5XBn0Uybl5nwhTEF2qS2GiGsmFMKQhyj.9pL
+ XomYjikzdd8tD_4ng58_5IPuk8lZpQlnHFoqZDjVQPXcspQJsZa21KEI_kO_8Aywcz5jPT0wOIIx
+ NBeBTveXIRwLQBtBuaBSpAk_.TXgrFaoTp9cjpQfFFFZsE8xVuw2KCIRY5A9rA0RTt4.y.n.rj6A
+ 0bFpGX.19xv88T7yjvxwOe95_MWU1EU5x_XaK7_VLTRQp3OTr3BkmhZu.JsXYXtfQo70g3JQHoCZ
+ lYYcUTNpbyQPLCpVXEUF3m.kJaCeeusqRtLon5bTlSixk0OYnH5sZylDbRUET..t3evgBWtVkDvY
+ Zn_Al3mltmgP7osraEAnUAW2onbmRluDvbGtZkKw5oxWcQGnyxYLxXTIfQdALZUCKCa1U6gdR1Ac
+ VSmUNMKrd2TyZCadmvdFvYzo1qi5RPXdlcbg2ZLgH7W7KmVSCPTiWeHZCLKm67kRnv5bk75Fjg_J
+ now27Ht.5xlEGEpwiqNhQTbXLjCYWpL0dwxQONPYZZkDqLQVA.U3UmbNGwCiQckTkbCvyuShaxtp
+ 4WWPkiMfchU3psaZ..x5msAQeOo0g_tlPQsevTx33T_c6tcVoVoyeTEjKoIaIn3XGmLLwBbpYo8G
+ Wonxz8V4ufGWCxi9xTMcdTavPKXN9fzO32PBvZFYsSnkWo2BFajboguN.U.O5P29QrpHkJ9R5e41
+ enQWoFScBvjdcaRB.nHP6B6hdt9h0SJAGwyodmb8aURYyq3xzJ_FoBNFmqkfHXgk2qgwOokBJZUs
+ Dh4UZkl6XKT11v3VHEVvMcb8TBLJEpimHgiT4Ajmo8k7yivPC6ekfLRRWN9mJUPRprA6FdfdfY0D
+ qNOQO4yARtxrh0jQtrMFwXmlZ0A7sFy.G3wIuwkWl3fUPkunOizv.kDpxrXqFL2m9ZxHTX.IbKwN
+ OrWzrV4z13Gg-
 X-Sonic-MF: <casey@schaufler-ca.com>
-X-Sonic-ID: bf72be51-c9d6-4989-9fc1-077dae8489aa
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic307.consmr.mail.ne1.yahoo.com with HTTP; Tue, 18 Apr 2023 22:34:15 +0000
-Received: by hermes--production-bf1-5f9df5c5c4-5d8pl (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 8df9cfeaa30a726e1a994a50b769cc8a;
-          Tue, 18 Apr 2023 22:34:10 +0000 (UTC)
-Message-ID: <5f7ee090-1708-c5ac-d194-1cc5c69487a6@schaufler-ca.com>
-Date:   Tue, 18 Apr 2023 15:34:07 -0700
+X-Sonic-ID: 9c752ce9-aa1e-416e-b6b2-b824f4fceecb
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic317.consmr.mail.ne1.yahoo.com with HTTP; Tue, 18 Apr 2023 22:43:19 +0000
+Received: by hermes--production-bf1-5f9df5c5c4-qlh82 (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID fb36ea868971b779f8f3b665cdb69ec9;
+          Tue, 18 Apr 2023 22:43:17 +0000 (UTC)
+Message-ID: <5acc0c6c-0ef6-bc92-0af9-dc33d8a21afa@schaufler-ca.com>
+Date:   Tue, 18 Apr 2023 15:43:14 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH v8 04/11] LSM: syscalls for current process attributes
+Subject: Re: [PATCH v8 07/11] LSM: Helpers for attribute names and filling an
+ lsm_ctx
 Content-Language: en-US
 To:     Paul Moore <paul@paul-moore.com>
 Cc:     linux-security-module@vger.kernel.org, jmorris@namei.org,
@@ -67,262 +68,192 @@ Cc:     linux-security-module@vger.kernel.org, jmorris@namei.org,
         linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
         mic@digikod.net, Casey Schaufler <casey@schaufler-ca.com>
 References: <20230411155921.14716-1-casey@schaufler-ca.com>
- <20230411155921.14716-5-casey@schaufler-ca.com>
- <CAHC9VhQHxEzv9bQJQzTiSQZvGiMO86+HizRtaR=2LW=KwsDvfg@mail.gmail.com>
+ <20230411155921.14716-8-casey@schaufler-ca.com>
+ <CAHC9VhTX-JnS11Ywfwf2aTvh1J3KBdsfCp3k1C=8WyLcgRNDig@mail.gmail.com>
 From:   Casey Schaufler <casey@schaufler-ca.com>
-In-Reply-To: <CAHC9VhQHxEzv9bQJQzTiSQZvGiMO86+HizRtaR=2LW=KwsDvfg@mail.gmail.com>
+In-Reply-To: <CAHC9VhTX-JnS11Ywfwf2aTvh1J3KBdsfCp3k1C=8WyLcgRNDig@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Mailer: WebService/1.1.21365 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
 X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 4/18/2023 2:49 PM, Paul Moore wrote:
-
-> On Tue, Apr 11, 2023 at 12:01 PM Casey Schaufler <casey@schaufler-ca.com> wrote:
->> Create a system call lsm_get_self_attr() to provide the security
->> module maintained attributes of the current process.
->> Create a system call lsm_set_self_attr() to set a security
->> module maintained attribute of the current process.
->> Historically these attributes have been exposed to user space via
->> entries in procfs under /proc/self/attr.
+On 4/18/2023 2:51 PM, Paul Moore wrote:
+> On Tue, Apr 11, 2023 at 12:02 PM Casey Schaufler <casey@schaufler-ca.com> wrote:
+>> Add lsm_name_to_attr(), which translates a text string to a
+>> LSM_ATTR value if one is available.
 >>
->> The attribute value is provided in a lsm_ctx structure. The structure
->> identifies the size of the attribute, and the attribute value. The format
->> of the attribute value is defined by the security module. A flags field
->> is included for LSM specific information. It is currently unused and must
->> be 0. The total size of the data, including the lsm_ctx structure and any
->> padding, is maintained as well.
+>> Add lsm_fill_user_ctx(), which fills a struct lsm_ctx, including
+>> the trailing attribute value. The .len value is padded to a multiple
+>> of the size of the structure for alignment.
 >>
->> struct lsm_ctx {
->>         __u64   id;
->>         __u64   flags;
->>         __u64   len;
->>         __u64   ctx_len;
->>         __u8    ctx[];
->> };
->>
->> Two new LSM hooks are used to interface with the LSMs.
->> security_getselfattr() collects the lsm_ctx values from the
->> LSMs that support the hook, accounting for space requirements.
->> security_setselfattr() identifies which LSM the attribute is
->> intended for and passes it along.
+>> All are used in module specific components of LSM system calls.
 >>
 >> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
 >> ---
->>  Documentation/userspace-api/lsm.rst | 15 +++++
->>  include/linux/lsm_hook_defs.h       |  4 ++
->>  include/linux/lsm_hooks.h           |  9 +++
->>  include/linux/security.h            | 19 ++++++
->>  include/linux/syscalls.h            |  5 ++
->>  include/uapi/linux/lsm.h            | 30 +++++++++
->>  kernel/sys_ni.c                     |  4 ++
->>  security/Makefile                   |  1 +
->>  security/lsm_syscalls.c             | 55 ++++++++++++++++
->>  security/security.c                 | 98 +++++++++++++++++++++++++++++
->>  10 files changed, 240 insertions(+)
->>  create mode 100644 security/lsm_syscalls.c
+>>  include/linux/security.h | 13 +++++++++++
+>>  security/lsm_syscalls.c  | 24 ++++++++++++++++++++
+>>  security/security.c      | 48 ++++++++++++++++++++++++++++++++++++++++
+>>  3 files changed, 85 insertions(+)
 > ..
 >
->> diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
->> index 33a0ee3bcb2e..97487d66dca9 100644
->> --- a/include/linux/syscalls.h
->> +++ b/include/linux/syscalls.h
->> @@ -71,6 +71,7 @@ struct clone_args;
->>  struct open_how;
->>  struct mount_attr;
->>  struct landlock_ruleset_attr;
->> +struct lsm_ctx;
->>  enum landlock_rule_type;
+>> diff --git a/security/lsm_syscalls.c b/security/lsm_syscalls.c
+>> index 6efbe244d304..67106f642422 100644
+>> --- a/security/lsm_syscalls.c
+>> +++ b/security/lsm_syscalls.c
+>> @@ -17,6 +17,30 @@
+>>  #include <linux/lsm_hooks.h>
+>>  #include <uapi/linux/lsm.h>
 >>
->>  #include <linux/types.h>
->> @@ -1058,6 +1059,10 @@ asmlinkage long sys_memfd_secret(unsigned int flags);
->>  asmlinkage long sys_set_mempolicy_home_node(unsigned long start, unsigned long len,
->>                                             unsigned long home_node,
->>                                             unsigned long flags);
->> +asmlinkage long sys_lsm_get_self_attr(unsigned int attr, struct lsm_ctx *ctx,
->> +                                     size_t *size, __u32 flags);
->> +asmlinkage long sys_lsm_set_self_attr(unsigned int attr, struct lsm_ctx *ctx,
->> +                                     __u32 flags);
-> As pointed out by the kernel test robot, the above declaration is
-> missing the @size parameter.
-
-Yup.
-
->> diff --git a/include/uapi/linux/lsm.h b/include/uapi/linux/lsm.h
->> index f27c9a9cc376..b10dfab8a4d9 100644
->> --- a/include/uapi/linux/lsm.h
->> +++ b/include/uapi/linux/lsm.h
->> @@ -9,6 +9,36 @@
->> #ifndef _UAPI_LINUX_LSM_H
->> #define _UAPI_LINUX_LSM_H
->>
->> +#include <linux/types.h>
->> +#include <linux/unistd.h>
->> +
 >> +/**
->> + * struct lsm_ctx - LSM context information
->> + * @id: the LSM id number, see LSM_ID_XXX
->> + * @flags: LSM specific flags
->> + * @len: length of the lsm_ctx struct, @ctx and any other data or padding
->> + * @ctx_len: the size of @ctx
->> + * @ctx: the LSM context value
+>> + * lsm_name_to_attr - map an LSM attribute name to its ID
+>> + * @name: name of the attribute
 >> + *
->> + * The @len field MUST be equal to the size of the lsm_ctx struct
->> + * plus any additional padding and/or data placed after @ctx.
->> + *
->> + * In all cases @ctx_len MUST be equal to the length of @ctx.
->> + * If @ctx is a string value it should be nul terminated with
->> + * @ctx_len equal to `strlen(@ctx) + 1`.  Binary values are
->> + * supported.
->> + *
->> + * The @flags and @ctx fields SHOULD only be interpreted by the
->> + * LSM specified by @id; they MUST be set to zero/0 when not used.
+>> + * Returns the LSM attribute value associated with @name, or 0 if
+>> + * there is no mapping.
 >> + */
->> +struct lsm_ctx {
->> +       __u64   id;
->> +       __u64   flags;
->> +       __u64   len;
->> +       __u64   ctx_len;
->> +       __u8    ctx[];
->> +};
-> Sorry, style nitpick since this needs to be respun anyway for the
-> syscalls.h fix at the very least ... I *really* dislike when variable
-> declarations, and field declarations in the case composite variables,
-> are aligned with the vertically neighboring declarations; just use a
-> single space please:
+>> +u64 lsm_name_to_attr(const char *name)
+>> +{
+>> +       if (!strcmp(name, "current"))
+>> +               return LSM_ATTR_CURRENT;
+>> +       if (!strcmp(name, "exec"))
+>> +               return LSM_ATTR_EXEC;
+>> +       if (!strcmp(name, "fscreate"))
+>> +               return LSM_ATTR_FSCREATE;
+>> +       if (!strcmp(name, "keycreate"))
+>> +               return LSM_ATTR_KEYCREATE;
+>> +       if (!strcmp(name, "prev"))
+>> +               return LSM_ATTR_PREV;
+>> +       if (!strcmp(name, "sockcreate"))
+>> +               return LSM_ATTR_SOCKCREATE;
+>> +       return 0;
+>> +}
+> Thank you :)
 
-I'll do it, but the tab after type has been accepted for forever.
-As an aside, I pulled out my 1978 K&R to prove my point and discovered
-that it isn't consistent regarding this style.
+It didn't hurt all that badly.
 
->   struct lsm_ctx {
->   <tab>__u64 id;
->   <tab>__u64 flags;
->   <tab>__u64 len;
->   <tab>__u64 ctx_len;
->   <tab>__u8 ctx[];
->   }
 >
+>>  /**
+>>   * sys_lsm_set_self_attr - Set current task's security module attribute
+>>   * @attr: which attribute to set
 >> diff --git a/security/security.c b/security/security.c
->> index 38ca0e646cac..bfe9a1a426b2 100644
+>> index bfe9a1a426b2..453f3ff591ec 100644
 >> --- a/security/security.c
 >> +++ b/security/security.c
->> @@ -2167,6 +2167,104 @@ void security_d_instantiate(struct dentry *dentry, struct inode *inode)
+>> @@ -752,6 +752,54 @@ static int lsm_superblock_alloc(struct super_block *sb)
+>>         return 0;
 >>  }
->>  EXPORT_SYMBOL(security_d_instantiate);
 >>
 >> +/**
->> + * security_getselfattr - Read an LSM attribute of the current process.
->> + * @attr: which attribute to return
->> + * @ctx: the user-space destination for the information, or NULL
->> + * @size: the size of space available to receive the data
->> + * @flags: reserved for future use, must be 0
+>> + * lsm_fill_user_ctx - Fill a user space lsm_ctx structure
+>> + * @ctx: an LSM context to be filled
+>> + * @context: the new context value
+>> + * @context_size: the size of the new context value
+>> + * @id: LSM id
+>> + * @flags: LSM defined flags
 >> + *
->> + * Returns the number of attributes found on success, negative value
->> + * on error. @size is reset to the total size of the data.
->> + * If @size is insufficient to contain the data -E2BIG is returned.
+>> + * Fill all of the fields in a user space lsm_ctx structure.
+>> + * Caller is assumed to have verified that @ctx has enough space
+>> + * for @context.
+>> + *
+>> + * The total length is padded to an integral number of lsm_ctx.
+> Considering that lsm_ctx is variable length I'm not sure that makes a
+> lot of sense, how about we pad the total length so that the @ctx entry
+> is a multiple of 64-bits?
+
+64 is fine.
+
+>   If needed we can always change this later
+> as the lsm_ctx struct is inherently variable in length and userspace
+> will need to deal with the buffer regardless of alignment.
+>
+>> + * Returns 0 on success, -EFAULT on a copyout error.
 >> + */
->> +int security_getselfattr(unsigned int __user attr, struct lsm_ctx __user *ctx,
->> +                        size_t __user *size, u32 __user flags)
+>> +int lsm_fill_user_ctx(struct lsm_ctx __user *ctx, void *context,
+>> +                     size_t context_size, u64 id, u64 flags)
 >> +{
->> +       struct security_hook_list *hp;
->> +       u8 __user *base = (u8 __user *)ctx;
->> +       size_t total = 0;
->> +       size_t entrysize;
->> +       size_t left;
->> +       bool toobig = false;
->> +       int count = 0;
->> +       int rc;
+>> +       struct lsm_ctx *lctx;
+>> +       size_t locallen;
+>> +       u8 *composite;
+>> +       int rc = 0;
 >> +
->> +       if (attr == 0)
->> +               return -EINVAL;
->> +       if (flags)
->> +               return -EINVAL;
-> I like Mickaël's idea of supporting a flag (LSM_FLG_SINGLE?) which
-> allows one to request a single LSM's attribute.
+>> +       locallen = sizeof(*ctx);
+>> +       if (context_size)
+>> +               locallen += sizeof(*ctx) * ((context_size / sizeof(*ctx)) + 1);
+> It seems cleaner to use the kernel's ALIGN() macro:
 
-I don't, but I'll incorporate it.
+Indeed. I'll do it.
 
->   I don't think that
-> support has to be part of this initial patchset, but I do think it
-> would be good to have it in the same PR that goes up to Linus during
-> the merge window.
-
-As this patch set is intended to be what goes to Linus (isn't it?)
-I'll put it in.
-
->   If that's not something you want to do, let me know
-> and I'll write up a quick patch on top of this patchset.
 >
->> +       if (size == NULL)
->> +               return -EINVAL;
->> +       if (get_user(left, size))
->> +               return -EFAULT;
+>   /* ensure the lsm_ctx length is a multiple of 64-bits */
+>   locallen = ALIGN(sizeof(*ctx) + context_size, 8);
+>   lctx = kzalloc(locallen, GFP_KERNEL)
+>   if (!lctx)
+>     return -ENOMEM;
+>
+>> +       composite = kzalloc(locallen, GFP_KERNEL);
+>> +       if (composite == NULL)
+>> +               return -ENOMEM;
 >> +
->> +       hlist_for_each_entry(hp, &security_hook_heads.getselfattr, list) {
->> +               entrysize = left;
->> +               if (base)
->> +                       ctx = (struct lsm_ctx __user *)(base + total);
->> +               rc = hp->hook.getselfattr(attr, ctx, &entrysize, flags);
->> +               if (rc == -EOPNOTSUPP) {
->> +                       rc = 0;
->> +                       continue;
->> +               }
->> +               if (rc == -E2BIG) {
->> +                       toobig = true;
->> +                       left = 0;
->> +                       break;
-> It just occurred to me while reading this that we stop calculating the
-> potential lsm_ctx size after we hit the first LSM where we go beyond
-> the size given, `rc == -E2BIG`.  I realize that the required size may
-> change between calls to lsm_get_self_attr(2), but it seems like we
-> should at least run through all the LSMs and total up the required
-> buffer size, no?
-
-The "break" should be a "continue". Artifact of an earlier version
-that had a switch statement. Fix forthcoming.
-
->
-> I may have missed something in the snippet below, but I think the code
-> change should be pretty minor:
->
->   if (rc == -EOPNOTSUPP) {
->     rc = 0;
->     continue;
->   } else if (rc == -E2BIG) {
->     toobig = true;
->     base = NULL;
->   } else if (rc < 0) {
->     return rc;
->   }
->   left = (toobig ? 0 : left - entrysize);
->   total += entrysize;
->
->   count += rc;
->
->> +               }
->> +               if (rc < 0)
->> +                       return rc;
+>> +       lctx = (struct lsm_ctx *)composite;
+>> +       lctx->id = id;
+>> +       lctx->flags = flags;
+>> +       lctx->ctx_len = context_size;
+>> +       lctx->len = locallen;
 >> +
->> +               left -= entrysize;
->> +               total += entrysize;
->> +               count += rc;
->> +       }
->> +       if (count == 0)
->> +               return LSM_RET_DEFAULT(getselfattr);
->> +       if (put_user(total, size))
->> +               return -EFAULT;
->> +       if (toobig)
->> +               return -E2BIG;
->> +       return count;
+>> +       memcpy(composite + sizeof(*lctx), context, context_size);
+> Is there a problem with doing `memcpy(lctx->ctx, context,
+> context_size)` in place of the memcpy above?
+
+Nope.
+
+>   That is easier to read
+> and we can get rid of @composite.
+
+Point.
+
+>> +       if (copy_to_user(ctx, composite, locallen))
+>> +               rc = -EFAULT;
+>> +
+>> +       kfree(composite);
+>> +
+>> +       return rc;
 >> +}
+> I understand Mickaël asked you to do a single copy_to_user(), but I'm
+> not sure it is worth it if we have to add a temporary buffer
+> allocation like that.  How about something like below (v7 with some
+> tweaks/padding)?  You could be a bit more clever with the memset if
+> you want, I was just typing this up quickly ...
+
+I prefer two copies to the allocation myself. I'll incorporate this.
+
+>
+> int lsm_fill_user_ctx(...)
+> {
+>   struct lsm_ctx lctx;
+>
+>   /* ensure the lctx length is a multiple of 64-bits */
+>   lctx.len = ALIGN(sizeof(lctx) + context_size, 8);
+>
+>   lctx.id = id;
+>   lctx.flags = flags;
+>   lctx.ctx_len = context_size;
+>
+>   memset(ctx, 0, lctx.len);
+>   if (copy_to_user(ctx, &lctx, sizeof(lctx))
+>     return -EFAULT;
+>   if (copy_to_user(&ctx[1], context, context_size)
+>     return -EFAULT;
+>
+>   return 0;
+> }
+>
 > --
 > paul-moore.com
