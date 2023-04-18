@@ -2,258 +2,274 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 039B26E6F8E
-	for <lists+linux-api@lfdr.de>; Wed, 19 Apr 2023 00:43:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 97DAA6E6FFF
+	for <lists+linux-api@lfdr.de>; Wed, 19 Apr 2023 01:40:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232396AbjDRWnW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 18 Apr 2023 18:43:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35030 "EHLO
+        id S231748AbjDRXko (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 18 Apr 2023 19:40:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231532AbjDRWnU (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 18 Apr 2023 18:43:20 -0400
-Received: from sonic317-39.consmr.mail.ne1.yahoo.com (sonic317-39.consmr.mail.ne1.yahoo.com [66.163.184.50])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7494319A
-        for <linux-api@vger.kernel.org>; Tue, 18 Apr 2023 15:43:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1681857799; bh=99HhJLRwh8Hho3O2rjyKF4DLGn7Hth4J30r1JP4kmH0=; h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To; b=P21b5byI9DQvuyQKZDwXvFQH0az2JGoocGSN9BEplsR+STlQTZCpF7uJW/ns9zXQNfHX8fOnBmRF0w4Bjr8F6O2h8WX3PWkOXkJ/G5nzcKvX3SZz3l+0hCb1NfpvihF5U0CT3e7drO3ekE7YrNugaMxUQYN3H6P2eqi0FqTXFVXL9OGYWBtHFANGi+TsuchQzJhJ0gE56vYr3oZJWItpgM5yO1QBI1Cguit50OqPDRUamYYj4fnURMXPQk9PtJJjNd8gyAZ/d+MuwlRhX9KbGzyuhd3gq+vCSjmqpk3ln5d3WiF97/3SLdfXsiCyI7XgwX1XnqFAzpTWH5tzQpnUKw==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1681857799; bh=kTfCzIWxOzsxjgqzKrmVsbF0pgTls8y+Zd+asxqncwT=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=SEB1Ey2vOrcO8iTiP6dGqQKcYD4aVUCa99Hv/bRyTObePwdYlq0BkltFaU7s1rZJtY6Uom4BlJOn2L1pn3n6RPTP9fiFjvEvevdQi5t23vAeu2VEcTkhQDnGQm3klbGuQE8AF6tEEmfjFSQFVxBm3RGi2LY5kwYKlufBWZ55asEPITPYv1aTFdPcn+llCrF1/gVFTkDTzsj2p1XpbVcVcLS7DS8uD7I+pDL1ZwtTfUMRAf2/jhWOJr7n+jhvMIWWTojhUKulgn9N7ZOXzBIftK+FXjsSo7gFWYQyvLhPbrdMvdOlsjh3aPGGrwFNQ2ZJBerQBxvKOEvPaDpigmx/qQ==
-X-YMail-OSG: JgMWmI8VM1mfyMq6BZyX3sL_jfCucU6jUe4jl7AxlIU5yfDl0CVbejYnfj3oxjp
- j1m5XTSlwsTtEXYF5Axk2tt.wkZk7itDgQGD7Txih_BliC.LaRaJ_TK58LutL.2TC95.b_4i4_KK
- bWPoctuNwWS5E4CQ2l7aV_8VPiiE5PO06S9Tttjbjw6FwkFSog71UoPHjBXYEKYzdx_zhr4BNxWa
- 8TbgiFY58DLG3XLT47dRdG06V_CmHSVzDu7n8JNdVAX6QcUZCE_mBBvsqQoItZI1Nu8uKei_OU2D
- BH_h41_s5Foh5VZpSFBkbKWNPKZFNGp6_7CXrtgN6SUkkFfeoq0zjsi6g4hliSbMoo.ozNgg1Xso
- wI0g33uB2bss.ejRzOLzkNYLBerTn6YceP1OTo2yGEBD6pbkRUTaivU32Yu_.BwhpnMm3cqCPuif
- P5mCvlWYbLJaFTLRRRGH26WWLeH8jiJ1n3V8eFHrAkcxIjKVmtrmJVzDUPnrWxdvyX5eFrotj0Vk
- qXjD5Rh7I55yz5lCe9LHcI3Kun3vqwCVLjSPKMHq41_SxAVNGBmSSwH8lVcVWos7RN9V6cCFSE4B
- xd8p2CdBCtrPX0wBS_H4DQWzVQGeSGiU3OnN0snGx0AyjBuKQOGVbRYDDhhIcmwGm67hFYrglSOu
- 770xqiTVuciFcBe7r_5GAcpQ5iQbbOPtIaUlcdzsRCX2Gr9Mp8cse5UxFLG3x5msJFblquXd3N6D
- FO1cl7ru7MW94CbQo.T7zvHXIutP76abASIIJ4FoHR674GW0Peuf21NCVJX4OyX96VGyLoJRWdaM
- ogBxrePZzpLAGhzgZavIkm2SoUpAPfryPG0WjD_Ugol2NOThLoRLBL2WLCyG6ZvKc_FqfDlWq8_7
- sBruAX1kBmgKVyC9fUNiG2.cbNoJKI2XP9NMv_OCH7SV8d0nYX7_ck6SyD5j4j9GVMdZvfV3HAjb
- avGOhO1tNka0znyra65fYg4lvTY8.48pUlS4JUMsMtCccXwczbI06LSFvbkFXNO6O0zBa_QO1wBW
- YIstfxGtzszT0rDhfgI1acsJAs9SWlKxGGbdK_I2WeMCZ31h1Pt5HsMYnvpd8qyT3TsuTShCvoLF
- SyF7RW_vWsaCm_rwfHaKJsQ4GSzSWmIO2WepkNs8ycO5g9BOaHX2RWFTgMkUyioFaGJGPktfZq.j
- jGWOo536mtUqg8Tyc6MwVafksFJH4XAF1xU30hw_DY36aGYNAqnnOqGQXrgCbkrmAwvz9RPgDxBM
- WOn.kKEJYEPWBeMHhq9.D6cZlCRlMGB0U3d5LsZsSlLcOx8lLsKpejSmJITY0qBbgdw4vssQrEYU
- vGvY6Q3KCDqiUOAhqRaVGLDgsB8TMDfI61K9QOIu5XBn0Uybl5nwhTEF2qS2GiGsmFMKQhyj.9pL
- XomYjikzdd8tD_4ng58_5IPuk8lZpQlnHFoqZDjVQPXcspQJsZa21KEI_kO_8Aywcz5jPT0wOIIx
- NBeBTveXIRwLQBtBuaBSpAk_.TXgrFaoTp9cjpQfFFFZsE8xVuw2KCIRY5A9rA0RTt4.y.n.rj6A
- 0bFpGX.19xv88T7yjvxwOe95_MWU1EU5x_XaK7_VLTRQp3OTr3BkmhZu.JsXYXtfQo70g3JQHoCZ
- lYYcUTNpbyQPLCpVXEUF3m.kJaCeeusqRtLon5bTlSixk0OYnH5sZylDbRUET..t3evgBWtVkDvY
- Zn_Al3mltmgP7osraEAnUAW2onbmRluDvbGtZkKw5oxWcQGnyxYLxXTIfQdALZUCKCa1U6gdR1Ac
- VSmUNMKrd2TyZCadmvdFvYzo1qi5RPXdlcbg2ZLgH7W7KmVSCPTiWeHZCLKm67kRnv5bk75Fjg_J
- now27Ht.5xlEGEpwiqNhQTbXLjCYWpL0dwxQONPYZZkDqLQVA.U3UmbNGwCiQckTkbCvyuShaxtp
- 4WWPkiMfchU3psaZ..x5msAQeOo0g_tlPQsevTx33T_c6tcVoVoyeTEjKoIaIn3XGmLLwBbpYo8G
- Wonxz8V4ufGWCxi9xTMcdTavPKXN9fzO32PBvZFYsSnkWo2BFajboguN.U.O5P29QrpHkJ9R5e41
- enQWoFScBvjdcaRB.nHP6B6hdt9h0SJAGwyodmb8aURYyq3xzJ_FoBNFmqkfHXgk2qgwOokBJZUs
- Dh4UZkl6XKT11v3VHEVvMcb8TBLJEpimHgiT4Ajmo8k7yivPC6ekfLRRWN9mJUPRprA6FdfdfY0D
- qNOQO4yARtxrh0jQtrMFwXmlZ0A7sFy.G3wIuwkWl3fUPkunOizv.kDpxrXqFL2m9ZxHTX.IbKwN
- OrWzrV4z13Gg-
-X-Sonic-MF: <casey@schaufler-ca.com>
-X-Sonic-ID: 9c752ce9-aa1e-416e-b6b2-b824f4fceecb
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic317.consmr.mail.ne1.yahoo.com with HTTP; Tue, 18 Apr 2023 22:43:19 +0000
-Received: by hermes--production-bf1-5f9df5c5c4-qlh82 (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID fb36ea868971b779f8f3b665cdb69ec9;
-          Tue, 18 Apr 2023 22:43:17 +0000 (UTC)
-Message-ID: <5acc0c6c-0ef6-bc92-0af9-dc33d8a21afa@schaufler-ca.com>
-Date:   Tue, 18 Apr 2023 15:43:14 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v8 07/11] LSM: Helpers for attribute names and filling an
- lsm_ctx
-Content-Language: en-US
-To:     Paul Moore <paul@paul-moore.com>
-Cc:     linux-security-module@vger.kernel.org, jmorris@namei.org,
-        keescook@chromium.org, john.johansen@canonical.com,
-        penguin-kernel@i-love.sakura.ne.jp, stephen.smalley.work@gmail.com,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        mic@digikod.net, Casey Schaufler <casey@schaufler-ca.com>
-References: <20230411155921.14716-1-casey@schaufler-ca.com>
- <20230411155921.14716-8-casey@schaufler-ca.com>
- <CAHC9VhTX-JnS11Ywfwf2aTvh1J3KBdsfCp3k1C=8WyLcgRNDig@mail.gmail.com>
-From:   Casey Schaufler <casey@schaufler-ca.com>
-In-Reply-To: <CAHC9VhTX-JnS11Ywfwf2aTvh1J3KBdsfCp3k1C=8WyLcgRNDig@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Mailer: WebService/1.1.21365 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
-X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S231646AbjDRXk2 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 18 Apr 2023 19:40:28 -0400
+Received: from mail-pl1-x64a.google.com (mail-pl1-x64a.google.com [IPv6:2607:f8b0:4864:20::64a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 695C014449
+        for <linux-api@vger.kernel.org>; Tue, 18 Apr 2023 16:38:34 -0700 (PDT)
+Received: by mail-pl1-x64a.google.com with SMTP id d9443c01a7336-1a52649285bso18696395ad.0
+        for <linux-api@vger.kernel.org>; Tue, 18 Apr 2023 16:38:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1681861114; x=1684453114;
+        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=KZZcbhEIXep3CsDuGt1XX4NDaxpUgfaEfLEdZFPghSQ=;
+        b=hm9bDIHJQIeAjh+0Wi4XwWxk5FEWf9SU2iifaVaFm2SHEQi+MfvRomA6hNFQPypblO
+         ajskHfJ21yXbKIgYGAkYYUqP0Ygv5283TmzvvXkvGPLvNGcY8IspXO87zRQLxoMgm7+A
+         44LeeK44/TjVVWr4ejNfVV1NjMwkMAjVBZwnQccmKfvNgc/rCXeLfUDkrNJrLDo+aM/k
+         5pFpnDDsiw5EE9Dzm//Lga2qY9q3z+kEsegm3Xv/EsUZ8FyYGeSCyJOZ49dURNwlnL2q
+         Y5lq2y1JVNHacWD2DjdNMHYSACvPNhgvLrByCLzQkYOtXAP0CIMW0LotNLXFCHIJamQv
+         WJuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681861114; x=1684453114;
+        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=KZZcbhEIXep3CsDuGt1XX4NDaxpUgfaEfLEdZFPghSQ=;
+        b=GriTjDowPqCwDut6Vj+4Ww5haJin2tGF0Y/pR42ezMWpbDPj4tMp4/26Ch7nqN5b2o
+         oBDOu34rBkYbzrerZujOsXZRyR2ACCHKk153td5PQEzMaH/tn/nHZStoeWpPEj5SHmnM
+         RSEV4MfXW7h+sOTN4BFy+OnX/ATxL9btowsAg3PBTEOIUVae2FBrFq4td89JPiOlmH3N
+         C8KdQMSjzbJFn8mRKnFOId48DNL6KiPjIt9zTPALBCFFJ4/hKhQj22JRi8yTEAzRTVAa
+         Q8fcFss9MepFI2N6e+QNUl0RVWR/BHul9vnQrN25HbgCPRe1HUwNP0ttmjxsbgNH5I4Q
+         HDSQ==
+X-Gm-Message-State: AAQBX9chhQfM0BSiqEHmcGsD6mWTs5EPhVH4r0ioyNfltxOumwpaPZAd
+        kRtvw3Z3/iBNPFSNs8WHSWcMfwxbTBDadq0ALw==
+X-Google-Smtp-Source: AKy350Y4yrZy3jVvN3wQp7+RZBqQNJ9wdfC4ADrLjc4RYHgu0a5KoOvNA6U3D5YLtIMfO6ES8yW87Yjz2s2FcMbRug==
+X-Received: from ackerleytng-cloudtop.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:1f5f])
+ (user=ackerleytng job=sendgmr) by 2002:a17:903:41c5:b0:19a:7bd4:5b0d with
+ SMTP id u5-20020a17090341c500b0019a7bd45b0dmr1394106ple.8.1681861113900; Tue,
+ 18 Apr 2023 16:38:33 -0700 (PDT)
+Date:   Tue, 18 Apr 2023 23:38:32 +0000
+In-Reply-To: <ZDnAuGKrCO2wgjlG@google.com> (message from Sean Christopherson
+ on Fri, 14 Apr 2023 14:08:08 -0700)
+Mime-Version: 1.0
+Message-ID: <diqz354w92x3.fsf@ackerleytng-cloudtop.c.googlers.com>
+Subject: Re: [PATCH v10 9/9] KVM: Enable and expose KVM_MEM_PRIVATE
+From:   Ackerley Tng <ackerleytng@google.com>
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     chao.p.peng@linux.intel.com, xiaoyao.li@intel.com,
+        isaku.yamahata@gmail.com, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, pbonzini@redhat.com, corbet@lwn.net,
+        vkuznets@redhat.com, wanpengli@tencent.com, jmattson@google.com,
+        joro@8bytes.org, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, arnd@arndb.de, naoya.horiguchi@nec.com,
+        linmiaohe@huawei.com, x86@kernel.org, hpa@zytor.com,
+        hughd@google.com, jlayton@kernel.org, bfields@fieldses.org,
+        akpm@linux-foundation.org, shuah@kernel.org, rppt@kernel.org,
+        steven.price@arm.com, mail@maciej.szmigiero.name, vbabka@suse.cz,
+        vannapurve@google.com, yu.c.zhang@linux.intel.com,
+        kirill.shutemov@linux.intel.com, luto@kernel.org,
+        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
+        dhildenb@redhat.com, qperret@google.com, tabba@google.com,
+        michael.roth@amd.com, mhocko@suse.com, wei.w.wang@intel.com
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 4/18/2023 2:51 PM, Paul Moore wrote:
-> On Tue, Apr 11, 2023 at 12:02 PM Casey Schaufler <casey@schaufler-ca.com> wrote:
->> Add lsm_name_to_attr(), which translates a text string to a
->> LSM_ATTR value if one is available.
->>
->> Add lsm_fill_user_ctx(), which fills a struct lsm_ctx, including
->> the trailing attribute value. The .len value is padded to a multiple
->> of the size of the structure for alignment.
->>
->> All are used in module specific components of LSM system calls.
->>
->> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
->> ---
->>  include/linux/security.h | 13 +++++++++++
->>  security/lsm_syscalls.c  | 24 ++++++++++++++++++++
->>  security/security.c      | 48 ++++++++++++++++++++++++++++++++++++++++
->>  3 files changed, 85 insertions(+)
-> ..
->
->> diff --git a/security/lsm_syscalls.c b/security/lsm_syscalls.c
->> index 6efbe244d304..67106f642422 100644
->> --- a/security/lsm_syscalls.c
->> +++ b/security/lsm_syscalls.c
->> @@ -17,6 +17,30 @@
->>  #include <linux/lsm_hooks.h>
->>  #include <uapi/linux/lsm.h>
->>
->> +/**
->> + * lsm_name_to_attr - map an LSM attribute name to its ID
->> + * @name: name of the attribute
->> + *
->> + * Returns the LSM attribute value associated with @name, or 0 if
->> + * there is no mapping.
->> + */
->> +u64 lsm_name_to_attr(const char *name)
->> +{
->> +       if (!strcmp(name, "current"))
->> +               return LSM_ATTR_CURRENT;
->> +       if (!strcmp(name, "exec"))
->> +               return LSM_ATTR_EXEC;
->> +       if (!strcmp(name, "fscreate"))
->> +               return LSM_ATTR_FSCREATE;
->> +       if (!strcmp(name, "keycreate"))
->> +               return LSM_ATTR_KEYCREATE;
->> +       if (!strcmp(name, "prev"))
->> +               return LSM_ATTR_PREV;
->> +       if (!strcmp(name, "sockcreate"))
->> +               return LSM_ATTR_SOCKCREATE;
->> +       return 0;
->> +}
-> Thank you :)
+Sean Christopherson <seanjc@google.com> writes:
 
-It didn't hurt all that badly.
+> On Tue, Mar 28, 2023, Chao Peng wrote:
+>> On Fri, Mar 24, 2023 at 10:29:25AM +0800, Xiaoyao Li wrote:
+>> > On 3/24/2023 10:10 AM, Chao Peng wrote:
+>> > > On Wed, Mar 22, 2023 at 05:41:31PM -0700, Isaku Yamahata wrote:
+>> > > > On Wed, Mar 08, 2023 at 03:40:26PM +0800,
+>> > > > Chao Peng <chao.p.peng@linux.intel.com> wrote:
+>> > > >
+>> > > > > On Wed, Mar 08, 2023 at 12:13:24AM +0000, Ackerley Tng wrote:
+>> > > > > > Chao Peng <chao.p.peng@linux.intel.com> writes:
+>> > > > > >
+>> > > > > > > On Sat, Jan 14, 2023 at 12:01:01AM +0000, Sean  
+>> Christopherson wrote:
+>> > > > > > > > On Fri, Dec 02, 2022, Chao Peng wrote:
+>> > > > > > > +static bool kvm_check_rmem_offset_alignment(u64 offset, u64  
+>> gpa)
+>> > > > > > > +{
+>> > > > > > > +	if (!offset)
+>> > > > > > > +		return true;
+>> > > > > > > +	if (!gpa)
+>> > > > > > > +		return false;
+>> > > > > > > +
+>> > > > > > > +	return !!(count_trailing_zeros(offset) >=  
+>> count_trailing_zeros(gpa));
+>> > > >
+>> > > > This check doesn't work expected. For example, offset = 2GB,  
+>> gpa=4GB
+>> > > > this check fails.
+>> > >
+>> > > This case is expected to fail as Sean initially suggested[*]:
+>> > >    I would rather reject memslot if the gfn has lesser alignment than
+>> > >    the offset. I'm totally ok with this approach _if_ there's a use  
+>> case.
+>> > >    Until such a use case presents itself, I would rather be  
+>> conservative
+>> > >    from a uAPI perspective.
+>> > >
+>> > > I understand that we put tighter restriction on this but if you see  
+>> such
+>> > > restriction is really a big issue for real usage, instead of a
+>> > > theoretical problem, then we can loosen the check here. But at that  
+>> time
+>> > > below code is kind of x86 specific and may need improve.
+>> > >
+>> > > BTW, in latest code, I replaced count_trailing_zeros() with fls64():
+>> > >    return !!(fls64(offset) >= fls64(gpa));
+>> >
+>> > wouldn't it be !!(ffs64(offset) <= ffs64(gpa)) ?
 
->
->>  /**
->>   * sys_lsm_set_self_attr - Set current task's security module attribute
->>   * @attr: which attribute to set
->> diff --git a/security/security.c b/security/security.c
->> index bfe9a1a426b2..453f3ff591ec 100644
->> --- a/security/security.c
->> +++ b/security/security.c
->> @@ -752,6 +752,54 @@ static int lsm_superblock_alloc(struct super_block *sb)
->>         return 0;
->>  }
->>
->> +/**
->> + * lsm_fill_user_ctx - Fill a user space lsm_ctx structure
->> + * @ctx: an LSM context to be filled
->> + * @context: the new context value
->> + * @context_size: the size of the new context value
->> + * @id: LSM id
->> + * @flags: LSM defined flags
->> + *
->> + * Fill all of the fields in a user space lsm_ctx structure.
->> + * Caller is assumed to have verified that @ctx has enough space
->> + * for @context.
->> + *
->> + * The total length is padded to an integral number of lsm_ctx.
-> Considering that lsm_ctx is variable length I'm not sure that makes a
-> lot of sense, how about we pad the total length so that the @ctx entry
-> is a multiple of 64-bits?
+>> As the function document explains, here we want to return true when
+>> ALIGNMENT(offset) >= ALIGNMENT(gpa), so '>=' is what we need.
 
-64 is fine.
+>> It's worthy clarifying that in Sean's original suggestion he actually
+>> mentioned the opposite. He said 'reject memslot if the gfn has lesser
+>> alignment than the offset', but I wonder this is his purpose, since
+>> if ALIGNMENT(offset) < ALIGNMENT(gpa), we wouldn't be possible to map
+>> the page as largepage. Consider we have below config:
 
->   If needed we can always change this later
-> as the lsm_ctx struct is inherently variable in length and userspace
-> will need to deal with the buffer regardless of alignment.
->
->> + * Returns 0 on success, -EFAULT on a copyout error.
->> + */
->> +int lsm_fill_user_ctx(struct lsm_ctx __user *ctx, void *context,
->> +                     size_t context_size, u64 id, u64 flags)
->> +{
->> +       struct lsm_ctx *lctx;
->> +       size_t locallen;
->> +       u8 *composite;
->> +       int rc = 0;
->> +
->> +       locallen = sizeof(*ctx);
->> +       if (context_size)
->> +               locallen += sizeof(*ctx) * ((context_size / sizeof(*ctx)) + 1);
-> It seems cleaner to use the kernel's ALIGN() macro:
+>>    gpa=2M, offset=1M
 
-Indeed. I'll do it.
+>> In this case KVM tries to map gpa at 2M as 2M hugepage but the physical
+>> page at the offset(1M) in private_fd cannot provide the 2M page due to
+>> misalignment.
 
->
->   /* ensure the lsm_ctx length is a multiple of 64-bits */
->   locallen = ALIGN(sizeof(*ctx) + context_size, 8);
->   lctx = kzalloc(locallen, GFP_KERNEL)
->   if (!lctx)
->     return -ENOMEM;
->
->> +       composite = kzalloc(locallen, GFP_KERNEL);
->> +       if (composite == NULL)
->> +               return -ENOMEM;
->> +
->> +       lctx = (struct lsm_ctx *)composite;
->> +       lctx->id = id;
->> +       lctx->flags = flags;
->> +       lctx->ctx_len = context_size;
->> +       lctx->len = locallen;
->> +
->> +       memcpy(composite + sizeof(*lctx), context, context_size);
-> Is there a problem with doing `memcpy(lctx->ctx, context,
-> context_size)` in place of the memcpy above?
+>> But as we discussed in the off-list thread, here we do find a real use
+>> case indicating this check is too strict. i.e. QEMU immediately fails
+>> when launch a guest > 2G memory. For this case QEMU splits guest memory
+>> space into two slots:
 
-Nope.
+>>    Slot#1(ram_below_4G): gpa=0x0, offset=0x0, size=2G
+>>    Slot#2(ram_above_4G): gpa=4G,  offset=2G,  size=totalsize-2G
 
->   That is easier to read
-> and we can get rid of @composite.
+>> This strict alignment check fails for slot#2 because offset(2G) has less
+>> alignment than gpa(4G). To allow this, one solution can revert to my
+>> previous change in kvm_alloc_memslot_metadata() to disallow hugepage
+>> only when the offset/gpa are not aligned to related page size.
 
-Point.
+>> Sean, How do you think?
 
->> +       if (copy_to_user(ctx, composite, locallen))
->> +               rc = -EFAULT;
->> +
->> +       kfree(composite);
->> +
->> +       return rc;
->> +}
-> I understand Mickaël asked you to do a single copy_to_user(), but I'm
-> not sure it is worth it if we have to add a temporary buffer
-> allocation like that.  How about something like below (v7 with some
-> tweaks/padding)?  You could be a bit more clever with the memset if
-> you want, I was just typing this up quickly ...
+> I agree, a pure alignment check is too restrictive, and not really what I  
+> intended
+> despite past me literally saying that's what I wanted :-)  I think I may  
+> have also
+> inverted the "less alignment" statement, but luckily I believe that ends  
+> up being
+> a moot point.
 
-I prefer two copies to the allocation myself. I'll incorporate this.
+> The goal is to avoid having to juggle scenarios where KVM wants to create  
+> a hugepage,
+> but restrictedmem can't provide one because of a misaligned file offset.   
+> I think
+> the rule we want is that the offset must be aligned to the largest page  
+> size allowed
+> by the memslot _size_.  E.g. on x86, if the memslot size is >=1GiB then  
+> the offset
+> must be 1GiB or beter, ditto for >=2MiB and >=4KiB (ignoring that 4KiB is  
+> already a
+> requirement).
 
->
-> int lsm_fill_user_ctx(...)
-> {
->   struct lsm_ctx lctx;
->
->   /* ensure the lctx length is a multiple of 64-bits */
->   lctx.len = ALIGN(sizeof(lctx) + context_size, 8);
->
->   lctx.id = id;
->   lctx.flags = flags;
->   lctx.ctx_len = context_size;
->
->   memset(ctx, 0, lctx.len);
->   if (copy_to_user(ctx, &lctx, sizeof(lctx))
->     return -EFAULT;
->   if (copy_to_user(&ctx[1], context, context_size)
->     return -EFAULT;
->
->   return 0;
-> }
->
-> --
-> paul-moore.com
+> We could loosen that to say the largest size allowed by the memslot, but  
+> I don't
+> think that's worth the effort unless it's trivially easy to implement in  
+> code,
+> e.g. KVM could technically allow a 4KiB aligned offset if the memslot is  
+> 2MiB
+> sized but only 4KiB aligned on the GPA.  I doubt there's a real use case  
+> for such
+> a memslot, so I want to disallow that unless it's super easy to implement.
+
+Checking my understanding here about why we need this alignment check:
+
+When KVM requests a page from restrictedmem, KVM will provide an offset
+into the file in terms of 4K pages.
+
+When shmem is configured to use hugepages, shmem_get_folio() will round
+the requested offset down to the nearest hugepage-aligned boundary in
+shmem_alloc_hugefolio().
+
+Example of problematic configuration provided to
+KVM_SET_USER_MEMORY_REGION2:
+
++ shmem configured to use 1GB pages
++ restrictedmem_offset provided to KVM_SET_USER_MEMORY_REGION2: 0x4000
++ memory_size provided in KVM_SET_USER_MEMORY_REGION2: 1GB
++ KVM requests offset (pgoff_t) 0x8, which translates to offset 0x8000
+
+restrictedmem_get_page() and shmem_get_folio() returns the page for
+offset 0x0 in the file, since rounding down 0x8000 to the nearest 1GB is
+0x0. This is allocating outside the range that KVM is supposed to use,
+since the parameters provided in KVM_SET_USER_MEMORY_REGION2 is only
+supposed to be offset 0x4000 to (0x4000 + 1GB = 0x40004000) in the file.
+
+IIUC shmem will actually just round down (0x4000 rounded down to nearest
+1GB will be 0x0) and allocate without checking bounds, so if offset 0x0
+to 0x4000 in the file were supposed to be used by something else, there
+might be issues.
+
+Hence, this alignment check ensures that rounding down of any offsets
+provided by KVM (based on page size configured in the backing file
+provided) to restrictedmem_get_page() must not go below the offset
+provided to KVM_SET_USER_MEMORY_REGION2.
+
+Enforcing alignment of restrictedmem_offset based on the currently-set
+page size in the backing file (i.e. shmem) may not be effective, since
+the size of the pages in the backing file can be adjusted to a larger
+size after KVM_SET_USER_MEMORY_REGION2 succeeds. With that, we may still
+end up allocating outside the range that KVM was provided with.
+
+Hence, to be safe, we should check alignment to the max page size across
+all backing filesystems, so the constraint is
+
+     rounding down restrictedmem_offset to
+     min(max page size across all backing filesystems,
+         max page size that fits in memory_size) == restrictedmem_offset
+
+which is the same check as
+
+     restrictedmem_offset must be aligned to min(max page size across all
+     backing filesystems, max page size that fits in memory_size)
+
+which can safely reduce to
+
+     restrictedmem_offset must be aligned to max page size that fits in
+     memory_size
+
+since "max page size that fits in memory_size" is probably <= to "max
+page size across all backing filesystems", and if it's larger, it'll
+just be a tighter constraint.
+
+If the above understanding is correct:
+
++ We must enforce this in the KVM_SET_USER_MEMORY_REGION2 handler, since
+   IIUC shmem will just round down and allocate without checking bounds.
+
+     + I think this is okay because holes in the restrictedmem file (in
+       terms of offset) made to accommodate this constraint don't cost us
+       anything anyway(?) Are they just arbitrary offsets in a file? In
+       our case, this file is usually a new and empty file.
+
+     + In the case of migration of a restrictedmem file between two KVM
+       VMs, this constraint would cause a problem is if the largest
+       possible page size on the destination machine is larger than that
+       of the source machine. In that case, we might have to move the
+       data in the file to a different offset (a separate problem).
+
++ On this note, it seems like there is no check for when the range is
+   smaller than the allocated page? Like if the range provided is 4KB in
+   size, but shmem is then configured to use a 1GB page, will we end up
+   allocating past the end of the range?
