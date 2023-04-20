@@ -2,260 +2,209 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 187196E8522
-	for <lists+linux-api@lfdr.de>; Thu, 20 Apr 2023 00:44:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A88166E86FC
+	for <lists+linux-api@lfdr.de>; Thu, 20 Apr 2023 02:51:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232996AbjDSWoU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 19 Apr 2023 18:44:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44960 "EHLO
+        id S232996AbjDTAvB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 19 Apr 2023 20:51:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48750 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231872AbjDSWoT (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 19 Apr 2023 18:44:19 -0400
-Received: from sonic307-16.consmr.mail.ne1.yahoo.com (sonic307-16.consmr.mail.ne1.yahoo.com [66.163.190.39])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57BCE55B7
-        for <linux-api@vger.kernel.org>; Wed, 19 Apr 2023 15:43:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1681944194; bh=aSold790iIFBdC8z4K+bYyXd6pqgIE8gjXw+bOy50tI=; h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To; b=B/cP7IIwF5RVu8HdDhqOXtNn9L4W69IaJCXAAD8vILz89TBbDJbwZOgMFv/pemg72wyCpXNV6+2/+PB9JC5bialXeWfEJZz24ms+vlb0sQXxYR3YMb8Ete9XzsPx9mVW4dyOBXUeIPImCSb54iK7jknsLCnMqRiI4ndbNOjBNtqE9rLEhjj/6E9loFBv0Q46UKVVDYwIamJR6W9VSoo8q4W56WmrhEhaKNvJ4lPaxSKfu+D0NvHVpb38x3DCidGCy7jUb+Idkn3uid50lYIBblU53/QSBbtH2VsfkfN8AhmwIQKZn7cf0vfVa7mZEaEP7ksXKVAf4qVzFdnFh/bnAQ==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1681944194; bh=9t805hxmp5GryljUfjvdGQKm/tWvMXQAWst++qzxQHv=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=V0B7FnlOGZy0DW+dKVy5eBc3G/t9fqtg58jSoW4fQ8JFnVsG/FAirPoHXAzs60upVwCbPY7TFaJxSnAVb9CDY34kFxxS07RdGLM9VEa/8IW8xqZNJdJANPuhYDLGiFaLHKwu43i3Xo92vCRPEKk2UJOjfajWkCo3emqRbcwZpWBE9rSVSlngmM9MvFJ4zeyltKkQm5kPR9Y8Z43n0LpoqItm6zpewWGvKItvhJjFMPcDm3cwa2OZmx8Cr1JLEJ66AykaMgCtUkzAqX4I43z+x9/qEIYOFnR4bqwxh3deqwrtfy8SWTA+wBEAIdQyUeGkVtaVyk9dGxYNY6toUPyWKQ==
-X-YMail-OSG: WAmE6TUVM1nuSeBfV_IcibnQZnRaewdcD9OKlw2SZsT9YZ8QhtH_Ztt07XO7_Dj
- 3cuhXBlZWLY4HnBAwALciM6Sd7UyAGVkz46waOJct0HbPDH0e55NWo_54ol23BCS7nNgfO5zXAwE
- 5SJOvqiIs7NLIwmpLDyeR0fL9sF_vuw8OmfvIK6_KT7Difoh92A77VnkFbqDudW2MTR6wU2Yxeqm
- dLLxThBGwRS3H17hmuTIrkYo31ZYSNCkbJaRUQX0GdrMXVuER6SdsQTZN2GBwalP7X1wkUM2m9lW
- g6.66XyaNw_rPbda7BEoF606QoKW1kstDCNHF8xAgXfxaTQchrHzSeXqmkTZsPdfDJOeTFeq1Hb1
- 5I1WeCdsJ2GrktOtr3pK4zCFekroQsxBgphZUo4eMhhZEUyysmUNR.WlFkm.dmRVrQkot.8YJ6mr
- DuHMNs.KGFnxG4oz4mcuxfjJjupYtEW_nyp883KUg3Z7WqoyI_md3WW3hY6WYjlgYelXvedwJy4s
- PZDDJwGPUqOIvMG4quEqkO47Sg1chZ0cFKoswI.b2h8NJwdIFEfld0pTF6jkOvV_dopExN8ooiEF
- kHIgcYIjD__i1eD5G9DHS3uHY3Wu.x8xCNptMOvBUvcE3_9Vtgbtqfz9EbsUWVE6RY1KYocghep0
- AOMtfWHl1.VWCjGML72T.toEE_gH9ygXeRag1LaOEVbQD.6L4QaGZpLZ6mo2ASajWA_l7dubzDw_
- jxpBeTc8eIT5ANM0zYCs3bRWHN5lF3wRwkrj5K6.qKcAlQLpRV5UjrWJ46w0fqjVu29Qr9lBDz4e
- GzlKxuyV1tRERKE.My2PYTy7p3hbrO_KXf8RUigENH6dZWnvM7qrDGtxDPRisUWObS3NJ2sxOa.g
- nGVqh_KLXy_5ExCud4v4ZOXL.VC1vdN6Q.JkzfmD_nFQy5uWRjXxMOpfrd2naT3oi2ObW03i6lko
- cch12D6SEKKphtwbg91Ynd9il1L2gCTDqorS63Qpm.gxR_FHDTkjVeEySAD7wRCm5j6yyFNqhOEl
- ltAuQWnxLqMBGdTJVjm4iAQjRNOfYKBRdzhasQhHfyL8rPBAqbusYNeQ420rcWLzgtynsUGtL55H
- 0z8wVinlN5QDIC5UsobnWI4_N5JILlG3cFSHENGBSQJtIAoPqFQ.7fAKrGlJ0xia3WY..ck8G1wK
- 8HosnqORofLtpcYwqL8gLxsT0MZa.I3z6VQvEUeDfAMe_jZu5dGMs04s8_9BW3fJ4.hNAWBn3bCL
- Ls6soTT8ZmO4EfY0IyjD7Bx4SMizO4lIt1u9wOTMJ0mA3MZUdNwyJ3mIpGxKqSoKZMDc303T7_GJ
- CKWgf5uWepkzOWmXX5.IFxCJ6HDu45n6FsVRYETjj2s9sFbe5mW.uB20xvso8GSvBFzzZAhFbI_S
- V4VO2QjgKfzQsBYfgsGn43sBEb0aQNRDZQbh.zWq7xJ.5xyp5qgj4cUy3KgbjtAHmMVSpfgBSAXv
- S0Xa7Wq2hflqcFsd8FfgFGi.JSassOJ5J1r7lnKDgTv5DvrwwTOdgc8VxKScgyh98LEdB94nJMrm
- .Sp6HQP3ITTrN_MBtsGcyVwwsaRiZhLOviJOymzln87G_3gJUSlXD6iejI6Wf1fdbfwMPNKlnYAh
- xyIKjAWc_HJFZAlp53CJtIC6vtIRQ.IqPcGLNkoe98PPgtu5DfHc5SHTtw6b7TT70MaZFeyFqf4J
- tr.mLFh.VcY0cKJgHvMh3hLbh_XAQuTg186_OoQjj0ZBdAf3V6Lq3_lokv5VkLHDsc_NL3QHpf5I
- KVfHeLuOZgl2pejQpO3_.2rPOzUcq97pDRZqhH6JohHxM_lPgkwKGQK.oSStE_RMhh0jofl.82xH
- kLYgHUsK46zUuJp61Phe8OMxliJiOoJg3GBgzqACmCJ9RUYoB3OuE17fH13_7lThB6W1P1aHx3HN
- sC.F75q3XcZEYkkQr8a4MEeQl7TgGBYFDnrlNhjkd2bq8HzCocXi2xoxAqRDGb75h2JK_.3Iq1F0
- Kq4s7ZD5F12Jdw853rwAG8KD7pKtvcIKppQJDURTW1GwChimA8FOgW2TBGOdOcqaKI9yXleNcRR3
- IGPHdS5w2eesC3pocAIX3p1w86KnVBlyhSVAxpLbskkxl_uBxdTIBgSW3AXux62JmTA2d4dBs.N6
- KBvh5qmegp4kmXUXCRdKbG0IulhZ8DzQ_KDRYE9tgAHrylxnKLE9vbB7COEH0SLepdFe2PMMgi7.
- 7Kc9F8X4IVmoz_Uc3M2NwaaVB.l9O8TsvV4aFqopnOwuRzeDdB5DY8LJR6g4PZItMnzmKGfHJoXp
- 5CqSm3sLqv_Y-
-X-Sonic-MF: <casey@schaufler-ca.com>
-X-Sonic-ID: 34405ddd-e74d-4453-9a33-fb61d41c6ac2
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic307.consmr.mail.ne1.yahoo.com with HTTP; Wed, 19 Apr 2023 22:43:14 +0000
-Received: by hermes--production-bf1-5f9df5c5c4-p5s6l (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID d7e3d8c07fd19407715f678c13c2aa39;
-          Wed, 19 Apr 2023 22:19:52 +0000 (UTC)
-Message-ID: <4894d787-9849-91e0-7fa8-566dc42dd85e@schaufler-ca.com>
-Date:   Wed, 19 Apr 2023 15:19:49 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v8 07/11] LSM: Helpers for attribute names and filling an
- lsm_ctx
-Content-Language: en-US
-To:     Paul Moore <paul@paul-moore.com>
-Cc:     linux-security-module@vger.kernel.org, jmorris@namei.org,
-        keescook@chromium.org, john.johansen@canonical.com,
-        penguin-kernel@i-love.sakura.ne.jp, stephen.smalley.work@gmail.com,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        mic@digikod.net, Casey Schaufler <casey@schaufler-ca.com>
-References: <20230411155921.14716-1-casey@schaufler-ca.com>
- <20230411155921.14716-8-casey@schaufler-ca.com>
- <CAHC9VhTX-JnS11Ywfwf2aTvh1J3KBdsfCp3k1C=8WyLcgRNDig@mail.gmail.com>
- <5acc0c6c-0ef6-bc92-0af9-dc33d8a21afa@schaufler-ca.com>
-From:   Casey Schaufler <casey@schaufler-ca.com>
-In-Reply-To: <5acc0c6c-0ef6-bc92-0af9-dc33d8a21afa@schaufler-ca.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Mailer: WebService/1.1.21365 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
-X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        with ESMTP id S232999AbjDTAud (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 19 Apr 2023 20:50:33 -0400
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 034597A87
+        for <linux-api@vger.kernel.org>; Wed, 19 Apr 2023 17:50:08 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id 188-20020a250ac5000000b00b9265c9a5e9so978602ybk.11
+        for <linux-api@vger.kernel.org>; Wed, 19 Apr 2023 17:50:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1681951797; x=1684543797;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=WElRL1S1A/l6yYWkPjKb60TbLP43vB7Va3vAhnMHy4o=;
+        b=0KQvDXHLR89BVxU2oI9O1ZusFid2YKHOcipULiVP6+PSDHwriZYqd2A06zVvzb+5zg
+         +1pAM1zXlSNPZvINL7u8jaguPJCIxfMpOP+rF/bo3e7YipW5A5h9Z1uQ5Ne2aQDNcW6c
+         EcQXFII0XVCoUfr19ADWbM/w1kzMojqRNFL4dpL0bA9tYUhTVMdjBXnH0ldjTdoS4rfS
+         B4qULmS58/9Ub/zlvy0EPJx+IEG/RXiTWy5ry2WStJSaH5TR16lXIzvnkE2V+5Qqr+ic
+         KCotEARF8eci5Ax95+I+ZNzK3NrfAcOPUHTnTLXEbEOQev6PRHk+rxhdkpcXFMAn0sKn
+         YqLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681951797; x=1684543797;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=WElRL1S1A/l6yYWkPjKb60TbLP43vB7Va3vAhnMHy4o=;
+        b=eF4gxO7XaWCgRyjYWRehTRjGPgWPGIHbYdmN4tpyIXzpIxN4nrVwLIfwuH3ugkcVHz
+         k3EnyV6p7ciqyuFoA5fhFNXcMVSFdaUg83BzcTpzyLN/DuUtzyoc3D/Clo/4fZYpnVCJ
+         4LZVgXKDpsX8vWC+SZNVAjMYqQsf5RYcNPyhb9KP5b2AyHQW3UCMMwNQQD/3yMeoKkjH
+         pT9AvEtIZEVgJL2Qiz7oToRzTE5k3hES9hx47pRFSov4bbvmTbKMG2csj4YJvZ8P13pf
+         AVIeOQTiy2vSk0s2u08JapOZHDuR6fwi2RnEfBChlm7M6H3H5dozCMz2JIBoRcpeDXpO
+         +tCw==
+X-Gm-Message-State: AAQBX9eAO+2kh4h0pAlvnCHOUzdAzdMx02jSv4n2o5PG9UyXMHV8j8Dq
+        pfFA+VxVXk3KSzzDwxPaedkZmWR6NSo=
+X-Google-Smtp-Source: AKy350ZW3QSDcu1b4uay718+0UKdCoR5698g0B4gA8e9kbzHBPJ0H7w91zco9M9KgDo6hSqXOcwRuk93omk=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a25:d24c:0:b0:b95:460c:1776 with SMTP id
+ j73-20020a25d24c000000b00b95460c1776mr766347ybg.13.1681951797267; Wed, 19 Apr
+ 2023 17:49:57 -0700 (PDT)
+Date:   Wed, 19 Apr 2023 17:49:55 -0700
+In-Reply-To: <20230418-anfallen-irdisch-6993a61be10b@brauner>
+Mime-Version: 1.0
+References: <20220818132421.6xmjqduempmxnnu2@box> <diqzlej60z57.fsf@ackerleytng-cloudtop.c.googlers.com>
+ <20221202061347.1070246-2-chao.p.peng@linux.intel.com> <20230413-anlegen-ergibt-cbefffe0b3de@brauner>
+ <ZDiCG/7OgDI0SwMR@google.com> <20230418-anfallen-irdisch-6993a61be10b@brauner>
+Message-ID: <ZECMM9bjgGRdyXRy@google.com>
+Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+From:   Sean Christopherson <seanjc@google.com>
+To:     Christian Brauner <brauner@kernel.org>
+Cc:     "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Ackerley Tng <ackerleytng@google.com>,
+        Chao Peng <chao.p.peng@linux.intel.com>,
+        Hugh Dickins <hughd@google.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        linux-kselftest@vger.kernel.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
+        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
+        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>,
+        Pankaj Gupta <pankaj.gupta@amd.com>,
+        linux-arch@vger.kernel.org, arnd@arndb.de, linmiaohe@huawei.com,
+        naoya.horiguchi@nec.com, tabba@google.com, wei.w.wang@intel.com
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 4/18/2023 3:43 PM, Casey Schaufler wrote:
-> On 4/18/2023 2:51 PM, Paul Moore wrote:
->> On Tue, Apr 11, 2023 at 12:02 PM Casey Schaufler <casey@schaufler-ca.com> wrote:
->>> Add lsm_name_to_attr(), which translates a text string to a
->>> LSM_ATTR value if one is available.
->>>
->>> Add lsm_fill_user_ctx(), which fills a struct lsm_ctx, including
->>> the trailing attribute value. The .len value is padded to a multiple
->>> of the size of the structure for alignment.
->>>
->>> All are used in module specific components of LSM system calls.
->>>
->>> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
->>> ---
->>>  include/linux/security.h | 13 +++++++++++
->>>  security/lsm_syscalls.c  | 24 ++++++++++++++++++++
->>>  security/security.c      | 48 ++++++++++++++++++++++++++++++++++++++++
->>>  3 files changed, 85 insertions(+)
->> ..
->>
->>> diff --git a/security/lsm_syscalls.c b/security/lsm_syscalls.c
->>> index 6efbe244d304..67106f642422 100644
->>> --- a/security/lsm_syscalls.c
->>> +++ b/security/lsm_syscalls.c
->>> @@ -17,6 +17,30 @@
->>>  #include <linux/lsm_hooks.h>
->>>  #include <uapi/linux/lsm.h>
->>>
->>> +/**
->>> + * lsm_name_to_attr - map an LSM attribute name to its ID
->>> + * @name: name of the attribute
->>> + *
->>> + * Returns the LSM attribute value associated with @name, or 0 if
->>> + * there is no mapping.
->>> + */
->>> +u64 lsm_name_to_attr(const char *name)
->>> +{
->>> +       if (!strcmp(name, "current"))
->>> +               return LSM_ATTR_CURRENT;
->>> +       if (!strcmp(name, "exec"))
->>> +               return LSM_ATTR_EXEC;
->>> +       if (!strcmp(name, "fscreate"))
->>> +               return LSM_ATTR_FSCREATE;
->>> +       if (!strcmp(name, "keycreate"))
->>> +               return LSM_ATTR_KEYCREATE;
->>> +       if (!strcmp(name, "prev"))
->>> +               return LSM_ATTR_PREV;
->>> +       if (!strcmp(name, "sockcreate"))
->>> +               return LSM_ATTR_SOCKCREATE;
->>> +       return 0;
->>> +}
->> Thank you :)
-> It didn't hurt all that badly.
->
->>>  /**
->>>   * sys_lsm_set_self_attr - Set current task's security module attribute
->>>   * @attr: which attribute to set
->>> diff --git a/security/security.c b/security/security.c
->>> index bfe9a1a426b2..453f3ff591ec 100644
->>> --- a/security/security.c
->>> +++ b/security/security.c
->>> @@ -752,6 +752,54 @@ static int lsm_superblock_alloc(struct super_block *sb)
->>>         return 0;
->>>  }
->>>
->>> +/**
->>> + * lsm_fill_user_ctx - Fill a user space lsm_ctx structure
->>> + * @ctx: an LSM context to be filled
->>> + * @context: the new context value
->>> + * @context_size: the size of the new context value
->>> + * @id: LSM id
->>> + * @flags: LSM defined flags
->>> + *
->>> + * Fill all of the fields in a user space lsm_ctx structure.
->>> + * Caller is assumed to have verified that @ctx has enough space
->>> + * for @context.
->>> + *
->>> + * The total length is padded to an integral number of lsm_ctx.
->> Considering that lsm_ctx is variable length I'm not sure that makes a
->> lot of sense, how about we pad the total length so that the @ctx entry
->> is a multiple of 64-bits?
-> 64 is fine.
->
->>   If needed we can always change this later
->> as the lsm_ctx struct is inherently variable in length and userspace
->> will need to deal with the buffer regardless of alignment.
->>
->>> + * Returns 0 on success, -EFAULT on a copyout error.
->>> + */
->>> +int lsm_fill_user_ctx(struct lsm_ctx __user *ctx, void *context,
->>> +                     size_t context_size, u64 id, u64 flags)
->>> +{
->>> +       struct lsm_ctx *lctx;
->>> +       size_t locallen;
->>> +       u8 *composite;
->>> +       int rc = 0;
->>> +
->>> +       locallen = sizeof(*ctx);
->>> +       if (context_size)
->>> +               locallen += sizeof(*ctx) * ((context_size / sizeof(*ctx)) + 1);
->> It seems cleaner to use the kernel's ALIGN() macro:
-> Indeed. I'll do it.
->
->>   /* ensure the lsm_ctx length is a multiple of 64-bits */
->>   locallen = ALIGN(sizeof(*ctx) + context_size, 8);
->>   lctx = kzalloc(locallen, GFP_KERNEL)
->>   if (!lctx)
->>     return -ENOMEM;
->>
->>> +       composite = kzalloc(locallen, GFP_KERNEL);
->>> +       if (composite == NULL)
->>> +               return -ENOMEM;
->>> +
->>> +       lctx = (struct lsm_ctx *)composite;
->>> +       lctx->id = id;
->>> +       lctx->flags = flags;
->>> +       lctx->ctx_len = context_size;
->>> +       lctx->len = locallen;
->>> +
->>> +       memcpy(composite + sizeof(*lctx), context, context_size);
->> Is there a problem with doing `memcpy(lctx->ctx, context,
->> context_size)` in place of the memcpy above?
-> Nope.
->
->>   That is easier to read
->> and we can get rid of @composite.
-> Point.
->
->>> +       if (copy_to_user(ctx, composite, locallen))
->>> +               rc = -EFAULT;
->>> +
->>> +       kfree(composite);
->>> +
->>> +       return rc;
->>> +}
->> I understand Mickaël asked you to do a single copy_to_user(), but I'm
->> not sure it is worth it if we have to add a temporary buffer
->> allocation like that.  How about something like below (v7 with some
->> tweaks/padding)?  You could be a bit more clever with the memset if
->> you want, I was just typing this up quickly ...
-> I prefer two copies to the allocation myself. I'll incorporate this.
+On Wed, Apr 19, 2023, Christian Brauner wrote:
+> On Thu, Apr 13, 2023 at 03:28:43PM -0700, Sean Christopherson wrote:
+> > > But if you want to preserve the inode number and device number of the
+> > > relevant tmpfs instance but still report memfd restricted as your
+> > > filesystem type
+> > 
+> > Unless I missed something along the way, reporting memfd_restricted as a distinct
+> > filesystem is very much a non-goal.  AFAIK it's purely a side effect of the
+> > proposed implementation.
+> 
+> In the current implementation you would have to put in effort to fake
+> this. For example, you would need to also implement ->statfs
+> super_operation where you'd need to fill in the details of the tmpfs
+> instance. At that point all that memfd_restricted fs code that you've
+> written is nothing but deadweight, I would reckon.
 
-After further review ...
+After digging a bit, I suspect the main reason Kirill implemented an overlay to
+inode_operations was to prevent modifying the file size via ->setattr().  Relying
+on shmem_setattr() to unmap entries in KVM's MMU wouldn't work because, by design,
+the memory can't be mmap()'d into host userspace. 
 
-The tweaks required for padding aren't as clean as all that, and memset()
-isn't going to work for __user memory. I'm having trouble coming up with a
-way to deal with the padding that doesn't require either allocation or a
-third copy_to_user(). The inclusion of padding makes the kzalloc() and
-single copy_to_user() pretty attractive. 
+	if (attr->ia_valid & ATTR_SIZE) {
+		if (memfd->f_inode->i_size)
+			return -EPERM;
 
->
->> int lsm_fill_user_ctx(...)
->> {
->>   struct lsm_ctx lctx;
->>
->>   /* ensure the lctx length is a multiple of 64-bits */
->>   lctx.len = ALIGN(sizeof(lctx) + context_size, 8);
->>
->>   lctx.id = id;
->>   lctx.flags = flags;
->>   lctx.ctx_len = context_size;
->>
->>   memset(ctx, 0, lctx.len);
->>   if (copy_to_user(ctx, &lctx, sizeof(lctx))
->>     return -EFAULT;
->>   if (copy_to_user(&ctx[1], context, context_size)
->>     return -EFAULT;
->>
->>   return 0;
->> }
->>
->> --
->> paul-moore.com
+		if (!PAGE_ALIGNED(attr->ia_size))
+			return -EINVAL;	
+	}
+
+But I think we can solve this particular problem by using F_SEAL_{GROW,SHRINK} or
+SHMEM_LONGPIN.  For a variety of reasons, I'm leaning more and more toward making
+this a KVM ioctl() instead of a dedicated syscall, at which point we can be both
+more flexible and more draconian, e.g. let userspace provide the file size at the
+time of creation, but make the size immutable, at least by default.
+
+> > After giving myself a bit of a crash course in file systems, would something like
+> > the below have any chance of (a) working, (b) getting merged, and (c) being
+> > maintainable?
+> > 
+> > The idea is similar to a stacking filesystem, but instead of stacking, restrictedmem
+> > hijacks a f_ops and a_ops to create a lightweight shim around tmpfs.  There are
+> > undoubtedly issues and edge cases, I'm just looking for a quick "yes, this might
+> > be doable" or a "no, that's absolutely bonkers, don't try it".
+> 
+> Maybe, but I think it's weird.
+
+Yeah, agreed.
+
+> _Replacing_ f_ops isn't something that's unprecedented. It happens everytime
+> a character device is opened (see fs/char_dev.c:chrdev_open()). And debugfs
+> does a similar (much more involved) thing where it replaces it's proxy f_ops
+> with the relevant subsystem's f_ops. The difference is that in both cases the
+> replace happens at ->open() time; and the replace is done once. Afterwards
+> only the newly added f_ops are relevant.
+> 
+> In your case you'd be keeping two sets of {f,a}_ops; one usable by
+> userspace and another only usable by in-kernel consumers. And there are
+> some concerns (non-exhaustive list), I think:
+> 
+> * {f,a}_ops weren't designed for this. IOW, one set of {f,a}_ops is
+>   authoritative per @file and it is left to the individual subsystems to
+>   maintain driver specific ops (see the sunrpc stuff or sockets).
+> * lifetime management for the two sets of {f,a}_ops: If the ops belong
+>   to a module then you need to make sure that the module can't get
+>   unloaded while you're using the fops. Might not be a concern in this
+>   case.
+
+Ah, whereas I assume the owner of inode_operations is pinned by ??? (dentry?)
+holding a reference to the inode?
+
+> * brittleness: Not all f_ops for example deal with userspace
+>   functionality some deal with cleanup when the file is closed like
+>   ->release(). So it's delicate to override that functionality with
+>   custom f_ops. Restricted memfds could easily forget to cleanup
+>   resources.
+> * Potential for confusion why there's two sets of {f,a}_ops.
+> * f_ops specifically are generic across a vast amount of consumers and
+>   are subject to change. If memfd_restricted() has specific requirements
+>   because of this weird double-use they won't be taken into account.
+> 
+> I find this hard to navigate tbh and it feels like taking a shortcut to
+> avoid building a proper api.
+
+Agreed.  At the very least, it would be better to take an explicit dependency on
+whatever APIs are being used instead of somewhat blindly bouncing through ->fallocate().
+I think that gives us a clearer path to getting something merged too, as we'll
+need Acks on making specific functions visible, i.e. will give MM maintainers
+something concrete to react too.
+
+> If you only care about a specific set of operations specific to memfd
+> restricte that needs to be available to in-kernel consumers, I wonder if you
+> shouldn't just go one step further then your proposal below and build a
+> dedicated minimal ops api.
+
+This is actually very doable for shmem.  Unless I'm missing something, because
+our use case doesn't allow mmap(), swap, or migration, a good chunk of
+shmem_fallocate() is simply irrelevant.  The result is only ~100 lines of code,
+and quite straightforward.
+
+My biggest concern, outside of missing a detail in shmem, is adding support for
+HugeTLBFS, which is likely going to be requested/needed sooner than later.  At a
+glance, hugetlbfs_fallocate() is quite a bit more complex, i.e. not something I'm
+keen to duplicate.  But that's also a future problem to some extent, as it's
+purely kernel internals; the uAPI side of things doesn't seem like it'll be messy
+at all.
+
+Thanks again!
