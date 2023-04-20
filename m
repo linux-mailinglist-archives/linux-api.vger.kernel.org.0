@@ -2,55 +2,70 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 25E456E8EA3
-	for <lists+linux-api@lfdr.de>; Thu, 20 Apr 2023 11:53:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CA5B26E957A
+	for <lists+linux-api@lfdr.de>; Thu, 20 Apr 2023 15:12:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233989AbjDTJxr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 20 Apr 2023 05:53:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39282 "EHLO
+        id S231451AbjDTNMU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 20 Apr 2023 09:12:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234231AbjDTJxZ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 20 Apr 2023 05:53:25 -0400
-Received: from mailbox.box.xen0n.name (mail.xen0n.name [115.28.160.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 076B52717;
-        Thu, 20 Apr 2023 02:53:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xen0n.name; s=mail;
-        t=1681983530; bh=+IEVt5W9F0gjxAaC4CllqBec7+yRAyjXDwEBBi0y8+M=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=usEAZtEEU3n9mOTxx+ZUxBLWk99loHpiSBTFL9yhxw3KE9eW12LIzdg4670yCPuS1
-         /52r1KjVe0+VITEjluDv8S7y8cExxm7e/cXx6BGMGxySXgX7SMOxrE/bCHaT15dBbi
-         KK92eCmk6846WYZGlroUmJ//Rf5dxGPUFvZzn0uc=
-Received: from [100.100.33.167] (unknown [220.248.53.61])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        with ESMTP id S231341AbjDTNMS (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 20 Apr 2023 09:12:18 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 126AB7282;
+        Thu, 20 Apr 2023 06:12:09 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 01FA2600D4;
-        Thu, 20 Apr 2023 17:38:49 +0800 (CST)
-Message-ID: <2e8d357d-e006-bda8-3711-dcbafbd4c53e@xen0n.name>
-Date:   Thu, 20 Apr 2023 17:38:49 +0800
+        by smtp-out2.suse.de (Postfix) with ESMTPS id B8BDA1FD82;
+        Thu, 20 Apr 2023 13:12:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1681996327; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=sq4vXLjGvNJIh9WF/ieSrWzNeyU6iFQIDxDHXrfF0Ao=;
+        b=LSBHR9EvI0HbmH3MrPE8vA2eypg1L8l9jdiI0x+3lE6gYmwS7w5QYiNCuxKPfCvDxG9Ig3
+        WP8+iNcICezGBs/7gcIBo91LYalRHCgT2gJiQJHMfZ1quy7KXe6sg2XEBqyGB/gxWe90um
+        WABp+aAU0AO/AcHvuawpxJzGj/SySiw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1681996327;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=sq4vXLjGvNJIh9WF/ieSrWzNeyU6iFQIDxDHXrfF0Ao=;
+        b=tp1k2eO2tbiYKsj9oA/HFl3WQXNGXe+3NvmFjkHe5N+kHXx1Ln8WGIkoZo3FB6hNxPkaDz
+        fETlXTqwDs2sLUCg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AB5381333C;
+        Thu, 20 Apr 2023 13:12:07 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id 1andKSc6QWTbEwAAMHmgww
+        (envelope-from <jack@suse.cz>); Thu, 20 Apr 2023 13:12:07 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+        id 44F76A0729; Thu, 20 Apr 2023 15:12:07 +0200 (CEST)
+Date:   Thu, 20 Apr 2023 15:12:07 +0200
+From:   Jan Kara <jack@suse.cz>
+To:     Amir Goldstein <amir73il@gmail.com>
+Cc:     Jan Kara <jack@suse.cz>, Matthew Bobrowski <repnop@google.com>,
+        Christian Brauner <brauner@kernel.org>,
+        Lennart Poettering <lennart@poettering.net>,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
+Subject: Re: [RFC][PATCH] fanotify: support watching filesystems and mounts
+ inside userns
+Message-ID: <20230420131207.dligsga5spbiptje@quack3>
+References: <20230416060722.1912831-1-amir73il@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.10.0
-Subject: Re: [PATCH 0/2] LoongArch: Make bounds-checking instructions useful
-Content-Language: en-US
-To:     Huacai Chen <chenhuacai@kernel.org>, Xi Ruoyao <xry111@xry111.site>
-Cc:     loongarch@lists.linux.dev, WANG Xuerui <git@xen0n.name>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Arnd Bergmann <arnd@arndb.de>, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230416173326.3995295-1-kernel@xen0n.name>
- <e593541e7995cc46359da3dd4eb3a69094e969e2.camel@xry111.site>
- <6ca642a9-62a6-00e5-39ac-f14ef36f6bdb@xen0n.name>
- <f54abfae989023fcfdabb4e9800a66847c357b85.camel@xry111.site>
- <CAAhV-H7zTjSsz=e+0r-9Z0KOF-Gxr-chXnVgWo+4eNA1ptWw1g@mail.gmail.com>
-From:   WANG Xuerui <kernel@xen0n.name>
-In-Reply-To: <CAAhV-H7zTjSsz=e+0r-9Z0KOF-Gxr-chXnVgWo+4eNA1ptWw1g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230416060722.1912831-1-amir73il@gmail.com>
+X-Spam-Status: No, score=-3.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_SOFTFAIL,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -58,20 +73,72 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 2023/4/20 16:36, Huacai Chen wrote:
-> Hi, Xuerui,
+On Sun 16-04-23 09:07:22, Amir Goldstein wrote:
+> An unprivileged user is allowed to create an fanotify group and add
+> inode marks, but not filesystem and mount marks.
 > 
-> I hope V2 can be applied cleanly without the patch series "LoongArch:
-> Better backtraces", thanks.
+> Add limited support for setting up filesystem and mount marks by an
+> unprivileged user under the following conditions:
+> 
+> 1.   User has CAP_SYS_ADMIN in the user ns where the group was created
+> 2.a. User has CAP_SYS_ADMIN in the user ns where the filesystem was
+>      mounted (implies FS_USERNS_MOUNT)
+>   OR (in case setting up a mark mount)
+> 2.b. User has CAP_SYS_ADMIN in the user ns attached to an idmapped mount
+> 
+> Signed-off-by: Amir Goldstein <amir73il@gmail.com>
 
-I believe it's already the case (just try; I've moved the BADV printing 
-for BCE into the better backtraces series before sending this).
+The patch looks good to me. Just two comments below. 
 
-I'm only waiting for comments from the other UAPI maintainers on the CC 
-list.
+> Christian,
+> 
+> You can find this patch, along with FAN_UNMOUNT patches on my github [3].
+> Please confirm that this meets your needs for watching container mounts.
+> 
+> [3] https://github.com/amir73il/linux/commits/fan_unmount
 
+Yeah, it would be good to get ack from Christian that the model you propose
+works for him.
+
+> diff --git a/fs/notify/fanotify/fanotify_user.c b/fs/notify/fanotify/fanotify_user.c
+> index db3b79b8e901..2c3e123aee14 100644
+> --- a/fs/notify/fanotify/fanotify_user.c
+> +++ b/fs/notify/fanotify/fanotify_user.c
+> @@ -1238,6 +1238,7 @@ static struct fsnotify_mark *fanotify_add_new_mark(struct fsnotify_group *group,
+>  	 * A group with FAN_UNLIMITED_MARKS does not contribute to mark count
+>  	 * in the limited groups account.
+>  	 */
+> +	BUILD_BUG_ON(!(FANOTIFY_ADMIN_INIT_FLAGS & FAN_UNLIMITED_MARKS));
+>  	if (!FAN_GROUP_FLAG(group, FAN_UNLIMITED_MARKS) &&
+>  	    !inc_ucount(ucounts->ns, ucounts->uid, UCOUNT_FANOTIFY_MARKS))
+>  		return ERR_PTR(-ENOSPC);
+...
+> @@ -1557,21 +1559,13 @@ SYSCALL_DEFINE2(fanotify_init, unsigned int, flags, unsigned int, event_f_flags)
+>  		goto out_destroy_group;
+>  	}
+>  
+> +	BUILD_BUG_ON(!(FANOTIFY_ADMIN_INIT_FLAGS & FAN_UNLIMITED_QUEUE));
+>  	if (flags & FAN_UNLIMITED_QUEUE) {
+> -		fd = -EPERM;
+> -		if (!capable(CAP_SYS_ADMIN))
+> -			goto out_destroy_group;
+>  		group->max_events = UINT_MAX;
+>  	} else {
+>  		group->max_events = fanotify_max_queued_events;
+>  	}
+>  
+> -	if (flags & FAN_UNLIMITED_MARKS) {
+> -		fd = -EPERM;
+> -		if (!capable(CAP_SYS_ADMIN))
+> -			goto out_destroy_group;
+> -	}
+> -
+
+Perhaps this hunk (plus the BUILD_BUG_ON hunk above) should go into a
+separate patch with a proper changelog?  I was scratching my head over it
+for a while until I've realized it's unrelated cleanup of dead code.
+
+							Honza
 -- 
-WANG "xen0n" Xuerui
-
-Linux/LoongArch mailing list: https://lore.kernel.org/loongarch/
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
