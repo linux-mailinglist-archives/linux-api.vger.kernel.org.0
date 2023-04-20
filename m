@@ -2,209 +2,216 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A88166E86FC
-	for <lists+linux-api@lfdr.de>; Thu, 20 Apr 2023 02:51:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 777756E8A34
+	for <lists+linux-api@lfdr.de>; Thu, 20 Apr 2023 08:13:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232996AbjDTAvB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 19 Apr 2023 20:51:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48750 "EHLO
+        id S230385AbjDTGNG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 20 Apr 2023 02:13:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232999AbjDTAud (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 19 Apr 2023 20:50:33 -0400
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 034597A87
-        for <linux-api@vger.kernel.org>; Wed, 19 Apr 2023 17:50:08 -0700 (PDT)
-Received: by mail-yb1-xb49.google.com with SMTP id 188-20020a250ac5000000b00b9265c9a5e9so978602ybk.11
-        for <linux-api@vger.kernel.org>; Wed, 19 Apr 2023 17:50:07 -0700 (PDT)
+        with ESMTP id S231860AbjDTGNF (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 20 Apr 2023 02:13:05 -0400
+Received: from mail-vk1-xa2f.google.com (mail-vk1-xa2f.google.com [IPv6:2607:f8b0:4864:20::a2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78C4846A5;
+        Wed, 19 Apr 2023 23:13:04 -0700 (PDT)
+Received: by mail-vk1-xa2f.google.com with SMTP id 71dfb90a1353d-44048c2de31so170351e0c.0;
+        Wed, 19 Apr 2023 23:13:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1681951797; x=1684543797;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=WElRL1S1A/l6yYWkPjKb60TbLP43vB7Va3vAhnMHy4o=;
-        b=0KQvDXHLR89BVxU2oI9O1ZusFid2YKHOcipULiVP6+PSDHwriZYqd2A06zVvzb+5zg
-         +1pAM1zXlSNPZvINL7u8jaguPJCIxfMpOP+rF/bo3e7YipW5A5h9Z1uQ5Ne2aQDNcW6c
-         EcQXFII0XVCoUfr19ADWbM/w1kzMojqRNFL4dpL0bA9tYUhTVMdjBXnH0ldjTdoS4rfS
-         B4qULmS58/9Ub/zlvy0EPJx+IEG/RXiTWy5ry2WStJSaH5TR16lXIzvnkE2V+5Qqr+ic
-         KCotEARF8eci5Ax95+I+ZNzK3NrfAcOPUHTnTLXEbEOQev6PRHk+rxhdkpcXFMAn0sKn
-         YqLA==
+        d=gmail.com; s=20221208; t=1681971183; x=1684563183;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PBJtHUl3WWXKQhLJMTuHgqqfjlIWf5tHymiO1bzFmxI=;
+        b=sIXTGCdSZJ0VDuteowLQt+J4N8RRAuFSKfN2WOhhbAsJqOqMt7PvcsS7HvPDd/+/Wz
+         b+CrC+E3g7p6OgFM3KJzXjjFRjQLkdkeJZt7Ai9RYDsXpTo2XdB95rZFLTJ5Na2fGU08
+         yq4vPrnXfrRsouKbkoCbyLRK6HHRNY8+mZ/lB/93ohsNnGSq7GjaMcFAEJ/pQmJINdPQ
+         pfPZq/+u901tTl8N/iMEv5EWr2UpnXsWKpahAmBb8VJ+pHUENfk2rwyZnKhNsO7udi30
+         c3sSXNinRi4mYbMmvb5vM4hFSI/dgvjW66FPLVCVP0nQTmAsj+O6bnkibdE509YVNRI2
+         kAJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681951797; x=1684543797;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WElRL1S1A/l6yYWkPjKb60TbLP43vB7Va3vAhnMHy4o=;
-        b=eF4gxO7XaWCgRyjYWRehTRjGPgWPGIHbYdmN4tpyIXzpIxN4nrVwLIfwuH3ugkcVHz
-         k3EnyV6p7ciqyuFoA5fhFNXcMVSFdaUg83BzcTpzyLN/DuUtzyoc3D/Clo/4fZYpnVCJ
-         4LZVgXKDpsX8vWC+SZNVAjMYqQsf5RYcNPyhb9KP5b2AyHQW3UCMMwNQQD/3yMeoKkjH
-         pT9AvEtIZEVgJL2Qiz7oToRzTE5k3hES9hx47pRFSov4bbvmTbKMG2csj4YJvZ8P13pf
-         AVIeOQTiy2vSk0s2u08JapOZHDuR6fwi2RnEfBChlm7M6H3H5dozCMz2JIBoRcpeDXpO
-         +tCw==
-X-Gm-Message-State: AAQBX9eAO+2kh4h0pAlvnCHOUzdAzdMx02jSv4n2o5PG9UyXMHV8j8Dq
-        pfFA+VxVXk3KSzzDwxPaedkZmWR6NSo=
-X-Google-Smtp-Source: AKy350ZW3QSDcu1b4uay718+0UKdCoR5698g0B4gA8e9kbzHBPJ0H7w91zco9M9KgDo6hSqXOcwRuk93omk=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a25:d24c:0:b0:b95:460c:1776 with SMTP id
- j73-20020a25d24c000000b00b95460c1776mr766347ybg.13.1681951797267; Wed, 19 Apr
- 2023 17:49:57 -0700 (PDT)
-Date:   Wed, 19 Apr 2023 17:49:55 -0700
-In-Reply-To: <20230418-anfallen-irdisch-6993a61be10b@brauner>
-Mime-Version: 1.0
-References: <20220818132421.6xmjqduempmxnnu2@box> <diqzlej60z57.fsf@ackerleytng-cloudtop.c.googlers.com>
- <20221202061347.1070246-2-chao.p.peng@linux.intel.com> <20230413-anlegen-ergibt-cbefffe0b3de@brauner>
- <ZDiCG/7OgDI0SwMR@google.com> <20230418-anfallen-irdisch-6993a61be10b@brauner>
-Message-ID: <ZECMM9bjgGRdyXRy@google.com>
-Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-From:   Sean Christopherson <seanjc@google.com>
+        d=1e100.net; s=20221208; t=1681971183; x=1684563183;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=PBJtHUl3WWXKQhLJMTuHgqqfjlIWf5tHymiO1bzFmxI=;
+        b=MnPtHSGGfnwQoRvBravjy1dloULfpAP+r54Kf9j/KN2YrY1Dk5B6S6NC5e0NjNPv92
+         fNjuyIj854I7q8hpBDeWyVSJiobXUEXqmieqDVLGG2b7u59Q8vCcvHlx5JIIlDFThVx+
+         sScas0qbBKXl8F9iyUTEHVyOWv1tFZOiGhDZKdx1zuR01gIoPxKemHxpe+tJqUGfF8nS
+         59ae1n3i4BqwKd6l5ZZ4lRFy54Xd+g9HpxL1tNvO4q1ovuYKVRjTus6KKmIBTxGZBWoR
+         6ckV8obWYBo37uTRwAE8qFe32g8v2m7JBwwsIVyz7Ib7XHkveYsaWZYf2qWIkkwaqUkQ
+         AOlw==
+X-Gm-Message-State: AAQBX9e6UyqqfZkcp4gklSJRZTNuysQpZpcNoAyevR+iDs0UdDJOSpco
+        me/NWmSFrn0oMdvdAV2OjRxqphDoPopZlfRl6dSF0a2g3p0=
+X-Google-Smtp-Source: AKy350YKu3sdNcj1YMw9OXYB1/PGoawX7KuJccVyHva4G1i75Ic4ZlZfxiUOrqIVDBKPuE+avRjQsMlY33vOjeu4ZRg=
+X-Received: by 2002:a67:e049:0:b0:42c:9397:429 with SMTP id
+ n9-20020a67e049000000b0042c93970429mr411637vsl.0.1681971183411; Wed, 19 Apr
+ 2023 23:13:03 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230414182903.1852019-1-amir73il@gmail.com> <20230418-diesmal-heimlaufen-ba2f2d1e1938@brauner>
+ <CAOQ4uxj5UwDhV7XxWZ-Os+fzM=_N1DDWHpjmt6UnHr96EDriMw@mail.gmail.com>
+ <20230418-absegnen-sputen-11212a0615c7@brauner> <CAOQ4uxgM2x93UKcJ5D5tfoTt8s0ChTrEheTGqTcndGoyGwS=7w@mail.gmail.com>
+ <20230419-besungen-filzen-adad4a1f3247@brauner>
+In-Reply-To: <20230419-besungen-filzen-adad4a1f3247@brauner>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Thu, 20 Apr 2023 09:12:52 +0300
+Message-ID: <CAOQ4uxgPsxtNHgvETTUyYrguPmOBOK=jzRHgfivSDbbNPnzL2w@mail.gmail.com>
+Subject: Re: [RFC][PATCH 0/2] Monitoring unmounted fs with fanotify
 To:     Christian Brauner <brauner@kernel.org>
-Cc:     "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Ackerley Tng <ackerleytng@google.com>,
-        Chao Peng <chao.p.peng@linux.intel.com>,
-        Hugh Dickins <hughd@google.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+Cc:     Jan Kara <jack@suse.cz>, Matthew Bobrowski <repnop@google.com>,
         linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        linux-kselftest@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
-        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
-        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
-        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>,
-        Pankaj Gupta <pankaj.gupta@amd.com>,
-        linux-arch@vger.kernel.org, arnd@arndb.de, linmiaohe@huawei.com,
-        naoya.horiguchi@nec.com, tabba@google.com, wei.w.wang@intel.com
-Content-Type: text/plain; charset="us-ascii"
-X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        Miklos Szeredi <miklos@szeredi.hu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Apr 19, 2023, Christian Brauner wrote:
-> On Thu, Apr 13, 2023 at 03:28:43PM -0700, Sean Christopherson wrote:
-> > > But if you want to preserve the inode number and device number of the
-> > > relevant tmpfs instance but still report memfd restricted as your
-> > > filesystem type
-> > 
-> > Unless I missed something along the way, reporting memfd_restricted as a distinct
-> > filesystem is very much a non-goal.  AFAIK it's purely a side effect of the
-> > proposed implementation.
-> 
-> In the current implementation you would have to put in effort to fake
-> this. For example, you would need to also implement ->statfs
-> super_operation where you'd need to fill in the details of the tmpfs
-> instance. At that point all that memfd_restricted fs code that you've
-> written is nothing but deadweight, I would reckon.
+On Wed, Apr 19, 2023 at 8:19=E2=80=AFPM Christian Brauner <brauner@kernel.o=
+rg> wrote:
+>
+> On Tue, Apr 18, 2023 at 06:20:22PM +0300, Amir Goldstein wrote:
+> > On Tue, Apr 18, 2023 at 5:12=E2=80=AFPM Christian Brauner <brauner@kern=
+el.org> wrote:
+> > >
+> > > On Tue, Apr 18, 2023 at 04:56:40PM +0300, Amir Goldstein wrote:
+> > > > On Tue, Apr 18, 2023 at 4:33=E2=80=AFPM Christian Brauner <brauner@=
+kernel.org> wrote:
 
-After digging a bit, I suspect the main reason Kirill implemented an overlay to
-inode_operations was to prevent modifying the file size via ->setattr().  Relying
-on shmem_setattr() to unmap entries in KVM's MMU wouldn't work because, by design,
-the memory can't be mmap()'d into host userspace. 
+[...]
 
-	if (attr->ia_valid & ATTR_SIZE) {
-		if (memfd->f_inode->i_size)
-			return -EPERM;
+> > > > Just thought of another reason:
+> > > >  c) FAN_UNMOUNT does not need to require FAN_REPORT_FID
+> > > >      so it does not depend on filesystem having a valid f_fsid nor
+> > > >      exports_ops. In case of "pseudo" fs, FAN_UNMOUNT can report
+> > > >      only MNTID record (I will amend the patch with this minor chan=
+ge).
+> > >
+> > > I see some pseudo fses generate f_fsid, e.g., tmpfs in mm/shmem.c
+> >
+> > tmpfs is not "pseudo" in my eyes, because it implements a great deal of=
+ the
+> > vfs interfaces, including export_ops.
+>
+> The term "pseudo" is somewhat well-defined though, no? It really just
+> means that there's no backing device associated with it. So for example,
+> anything that uses get_tree_nodev() including tmpfs. If erofs is
+> compiled with fscache support it's even a pseudo fs (TIL).
+>
 
-		if (!PAGE_ALIGNED(attr->ia_size))
-			return -EINVAL;	
-	}
+Ok, "pseudo fs" is an ambiguous term.
 
-But I think we can solve this particular problem by using F_SEAL_{GROW,SHRINK} or
-SHMEM_LONGPIN.  For a variety of reasons, I'm leaning more and more toward making
-this a KVM ioctl() instead of a dedicated syscall, at which point we can be both
-more flexible and more draconian, e.g. let userspace provide the file size at the
-time of creation, but make the size immutable, at least by default.
+For the sake of this discussion, let's refer to fs that use get_tree_nodev(=
+)
+"non-disk fs".
 
-> > After giving myself a bit of a crash course in file systems, would something like
-> > the below have any chance of (a) working, (b) getting merged, and (c) being
-> > maintainable?
-> > 
-> > The idea is similar to a stacking filesystem, but instead of stacking, restrictedmem
-> > hijacks a f_ops and a_ops to create a lightweight shim around tmpfs.  There are
-> > undoubtedly issues and edge cases, I'm just looking for a quick "yes, this might
-> > be doable" or a "no, that's absolutely bonkers, don't try it".
-> 
-> Maybe, but I think it's weird.
+But as far as fsnotify is concerned, tmpfs is equivalent to xfs, because
+all of the changes are made by users via vfs.
 
-Yeah, agreed.
+Let's call fs where changes can occur not via vfs "remote fs", those
+include the network fs and some "internal fs" like the kernfs class of fs
+and the "simple fs" class of fs (i.e. simple_fill_super).
 
-> _Replacing_ f_ops isn't something that's unprecedented. It happens everytime
-> a character device is opened (see fs/char_dev.c:chrdev_open()). And debugfs
-> does a similar (much more involved) thing where it replaces it's proxy f_ops
-> with the relevant subsystem's f_ops. The difference is that in both cases the
-> replace happens at ->open() time; and the replace is done once. Afterwards
-> only the newly added f_ops are relevant.
-> 
-> In your case you'd be keeping two sets of {f,a}_ops; one usable by
-> userspace and another only usable by in-kernel consumers. And there are
-> some concerns (non-exhaustive list), I think:
-> 
-> * {f,a}_ops weren't designed for this. IOW, one set of {f,a}_ops is
->   authoritative per @file and it is left to the individual subsystems to
->   maintain driver specific ops (see the sunrpc stuff or sockets).
-> * lifetime management for the two sets of {f,a}_ops: If the ops belong
->   to a module then you need to make sure that the module can't get
->   unloaded while you're using the fops. Might not be a concern in this
->   case.
+With all the remote fs, the behavior of fsnotify is (and has always been)
+undefined, that is, you can use inotify to subscribe for events and you
+never know what you will get when changes are not made via vfs.
 
-Ah, whereas I assume the owner of inode_operations is pinned by ??? (dentry?)
-holding a reference to the inode?
+Some people (hypothetical) may expect to watch nsfs for dying ns
+and may be disappointed to find out that they do not get the desired
+IN_DELETE event.
 
-> * brittleness: Not all f_ops for example deal with userspace
->   functionality some deal with cleanup when the file is closed like
->   ->release(). So it's delicate to override that functionality with
->   custom f_ops. Restricted memfds could easily forget to cleanup
->   resources.
-> * Potential for confusion why there's two sets of {f,a}_ops.
-> * f_ops specifically are generic across a vast amount of consumers and
->   are subject to change. If memfd_restricted() has specific requirements
->   because of this weird double-use they won't be taken into account.
-> 
-> I find this hard to navigate tbh and it feels like taking a shortcut to
-> avoid building a proper api.
+We have had lengthy discussions about remote fs change notifications
+with no clear decisions of the best API for them:
+https://lore.kernel.org/linux-fsdevel/20211025204634.2517-1-iangelak@redhat=
+.com/
 
-Agreed.  At the very least, it would be better to take an explicit dependency on
-whatever APIs are being used instead of somewhat blindly bouncing through ->fallocate().
-I think that gives us a clearer path to getting something merged too, as we'll
-need Acks on making specific functions visible, i.e. will give MM maintainers
-something concrete to react too.
+> >
+> > and also I fixed its f_fsid recently:
+> > 59cda49ecf6c shmem: allow reporting fanotify events with file handles o=
+n tmpfs
+>
+> Well thank you for that this has been very useful in userspace already
+> I've been told.
+>
+> >
+> > > At the risk of putting my foot in my mouth, what's stopping us from
+> > > making them all support f_fsid?
+> >
+> > Nothing much. Jan had the same opinion [1].
+>
+> I think that's what we should try to do without having thought too much
+> about potential edge-cases.
+>
+> >
+> > We could do either:
+> > 1. use uuid_to_fsid() in vfs_statfs() if fs has set s_uuid and not set =
+f_fsid
+> > 2. use s_dev as f_fsid in vfs_statfs() if fs did not set f_fsid nor s_u=
+uid
+> > 3. randomize s_uuid for simple fs (like tmpfs)
+> > 4. any combination of the above and more
+> >
+> > Note that we will also need to decide what to do with
+> > name_to_handle_at() for those pseudo fs.
+>
+> Doing it on the fly during vfs_statfs() feels a bit messy and could
+> cause bugs. One should never underestimate the possibility that there's
+> some fs that somehow would get into trouble because of odd behavior.
+>
+> So switching each fs over to generate a s_uuid seems the prudent thing
+> to do. Doing it the hard way also forces us to make sure that each
+> filesystem can deal with this.
+>
+> It seems that for pseudo fses we can just allocate a new s_uuid for each
+> instance. So each tmpfs instance - like your patch did - would just get
+> a new s_uuid.
+>
+> For kernel internal filesystems - mostly those that use init_pseudo -
+> the s_uuid would remain stable until the next reboot when it is
+> regenerated.
+>
 
-> If you only care about a specific set of operations specific to memfd
-> restricte that needs to be available to in-kernel consumers, I wonder if you
-> shouldn't just go one step further then your proposal below and build a
-> dedicated minimal ops api.
+I am fine with opt-in for every fs as long as we do not duplicate
+boilerplate code.
+An FS_ flag could be a simple way to opt-in for this generic behavior.
 
-This is actually very doable for shmem.  Unless I'm missing something, because
-our use case doesn't allow mmap(), swap, or migration, a good chunk of
-shmem_fallocate() is simply irrelevant.  The result is only ~100 lines of code,
-and quite straightforward.
+> Looking around just a little there's some block-backed fses like fat
+> that have an f_fsid but no s_uuid. So if we give those s_uuid then it'll
+> mean that the f_fsid isn't generated based on the s_uuid. That should be
+> ok though and shouldn't matter to userspace.
+>
+> Afterwards we could probably lift the ext4 and xfs specific ioctls to
+> retrieve the s_uuid into a generic ioctl to allow userspace to get the
+> s_uuid.
+>
+> That's my thinking without having crawled to all possible corner
+> cases... Also needs documenting that s_uuid is not optional anymore and
+> explain the difference between pseudo and device-backed fses. I hope
+> that's not completely naive...
+>
 
-My biggest concern, outside of missing a detail in shmem, is adding support for
-HugeTLBFS, which is likely going to be requested/needed sooner than later.  At a
-glance, hugetlbfs_fallocate() is quite a bit more complex, i.e. not something I'm
-keen to duplicate.  But that's also a future problem to some extent, as it's
-purely kernel internals; the uAPI side of things doesn't seem like it'll be messy
-at all.
+I don't think that the dichotomy of device-backed vs. pseudo is enough
+to describe the situation.
 
-Thanks again!
+I think what needs to be better documented and annotated is what type
+of fsnotify services can be expected to work on a given fs.
+
+Jan has already introduced FS_DISALLOW_NOTIFY_PERM to opt-out
+of permission events (for procfs).
+
+Perhaps this could be generalized to s_type->fs_notify_supported_events
+or s_type->fs_notify_supported_features.
+
+For example, if an fs opts-in to FAN_REPORT_FID, then it gets an auto
+allocated s_uuid and f_fsid if it did not fill them in fill_super and in st=
+atfs
+and it gets a default implementation for encoding file handles from ino/gen=
+.
+
+Thanks,
+Amir.
