@@ -2,52 +2,52 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 122706EB225
-	for <lists+linux-api@lfdr.de>; Fri, 21 Apr 2023 21:15:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E9A56EB230
+	for <lists+linux-api@lfdr.de>; Fri, 21 Apr 2023 21:20:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231950AbjDUTPX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 21 Apr 2023 15:15:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39426 "EHLO
+        id S233551AbjDUTU0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 21 Apr 2023 15:20:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42146 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233504AbjDUTPJ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 21 Apr 2023 15:15:09 -0400
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B3D249E0
-        for <linux-api@vger.kernel.org>; Fri, 21 Apr 2023 12:14:38 -0700 (PDT)
-Received: by mail-pf1-x42b.google.com with SMTP id d2e1a72fcca58-63d4595d60fso16361716b3a.0
-        for <linux-api@vger.kernel.org>; Fri, 21 Apr 2023 12:14:38 -0700 (PDT)
+        with ESMTP id S233544AbjDUTUZ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 21 Apr 2023 15:20:25 -0400
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 631CA1BC2
+        for <linux-api@vger.kernel.org>; Fri, 21 Apr 2023 12:20:24 -0700 (PDT)
+Received: by mail-pf1-x433.google.com with SMTP id d2e1a72fcca58-63b5c4c76aaso1934837b3a.2
+        for <linux-api@vger.kernel.org>; Fri, 21 Apr 2023 12:20:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1682104478; x=1684696478;
+        d=chromium.org; s=google; t=1682104824; x=1684696824;
         h=in-reply-to:content-disposition:mime-version:references:subject:cc
          :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=jEgvnbrmc3TuMJvfDzFRQ8r7bac/zec/QDnNR+fUu8o=;
-        b=XaoLIVvhAeXIoGslsijhHTqvr5OalUonOX+tyIs6Ddonyz6IfPbZONBCCPmwbOnIal
-         +48DAhCUPm2K5TjUujQxz0rWUwr9B9Ln+ubWLI5Yq5o5+7yyaPX6w7Dx1youqzZpcpEn
-         tjtdehYOl/YFN6y8LIVKV7KUt5Op3re6w+ojw=
+        bh=q+NQzP2tJ7rAQ8ZwhNRj+/Iv7lweoLqnetptjsQBlDk=;
+        b=nIpyEKKUOGJ/119aoueRuScXCTc1Ig3nO8YmaHHwiRTMRqBiPZzNWSsBu5m27QLZ+t
+         QU8wvks/tNZc7eRtHh97LpNaKGfuFFGy0I2f0sDCz8b3yhLQM8r4cqWbbW/HiA0ie1od
+         Vg2ssWxKLz/GQej/zBRy6yfRZkIxyU4TsBdCE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682104478; x=1684696478;
+        d=1e100.net; s=20221208; t=1682104824; x=1684696824;
         h=in-reply-to:content-disposition:mime-version:references:subject:cc
          :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=jEgvnbrmc3TuMJvfDzFRQ8r7bac/zec/QDnNR+fUu8o=;
-        b=NVv+l1YbRF/P4aSZAv7Hl4Z7e2ava7C2vuPCkJneXMhO6PV/RFXFUe+VxNtZO/8vvG
-         oJMnXqFTL0Y2uGY79+GjLg6xFQDq7d3LyrS3Z35ve3Ns4h0ngeL2e9A193/0pVjRGQyj
-         crOE22kZSvsYizBOOCJb8bdCnUMopdSJFFznEQthar7jF9FnrJTx9vLqgLerA8a+/cHf
-         lrYzAKKZMZ6DFN45XWLBI1kknY5AybKHWWEXkyWLoyIJCGxX4i/1CdqM0Qw373/MG5md
-         1sqYi5S6/lyOS6uviE0yglWBBC2g7/iM1QyKvoqdlMtQdVa3SI80tAwZyTtv7OyMLtBb
-         DwFg==
-X-Gm-Message-State: AAQBX9fjVPbhYGP9yIVfQRtmLRR5nxUhNFdSnx0o/CufcDRefWvSvuRb
-        fgUDXktlusKklKDtHRNSQMhzlA==
-X-Google-Smtp-Source: AKy350Y1f+YAGYXv9LimfavyX8lKVpE9VjmW53qYwi1ozA+66yPdlwNXJo3fUaJrly4Ejdz2PSnCZw==
-X-Received: by 2002:a17:903:24f:b0:1a6:4032:ef2 with SMTP id j15-20020a170903024f00b001a640320ef2mr6485460plh.28.1682104477975;
-        Fri, 21 Apr 2023 12:14:37 -0700 (PDT)
+        bh=q+NQzP2tJ7rAQ8ZwhNRj+/Iv7lweoLqnetptjsQBlDk=;
+        b=J7GUv6n7M82Rwzu6/SLOayHQ9dnZuE5X3I9RpeuXt7wa6y38h9GYwxphRVrhRzF25L
+         u2/W1s8+VzP0V9ixl9JrjzrDKog/Jo5tv4bDk/n0WOYyj/p+aa5HasavYq2ZPdC5lkzc
+         5ENsMsPWyfHcDJixB1T50QbXakB15E/Vh1V+cGTgRHFZSvwv9f0aLXrhwvMH0o1PbnEf
+         EQ2ENhYoobXMM6QzveBUQ4yGcUeylDsklonQp13iSqTs1UKFMTSpPVUkHTX+48Y3Kr0R
+         ip8KP5nA0OQeC5yOcS7EqUdow/ltr3w608BC/zQaOZy7HDTP+SSbWvZdLePbvnKpwfTT
+         R6lQ==
+X-Gm-Message-State: AAQBX9cElJdbsg65Z3qk0/X97q4dbz37ibzTbPWJRXfCzdiuCRkU1LiB
+        CmfMNJqpt0Zkfj96PJfTcKp2Dw==
+X-Google-Smtp-Source: AKy350bP6V0MjdL2cITxoqg6I10ZLQCL7sM+r8X09UUQI7wENI6RKuAcbpAT25p79w4V1zQZm426Xg==
+X-Received: by 2002:a05:6a00:1589:b0:63d:3a99:f9e0 with SMTP id u9-20020a056a00158900b0063d3a99f9e0mr7934979pfk.28.1682104823765;
+        Fri, 21 Apr 2023 12:20:23 -0700 (PDT)
 Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id e9-20020a170902744900b001a656784229sm3039333plt.211.2023.04.21.12.14.37
+        by smtp.gmail.com with ESMTPSA id u25-20020a62d459000000b0063d3801d196sm3278628pfl.23.2023.04.21.12.20.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Apr 2023 12:14:37 -0700 (PDT)
-Message-ID: <6442e09d.170a0220.86574.6e1e@mx.google.com>
-X-Google-Original-Message-ID: <202304211210.@keescook>
-Date:   Fri, 21 Apr 2023 12:14:36 -0700
+        Fri, 21 Apr 2023 12:20:23 -0700 (PDT)
+Message-ID: <6442e1f7.620a0220.b44ce.7a42@mx.google.com>
+X-Google-Original-Message-ID: <202304211216.@keescook>
+Date:   Fri, 21 Apr 2023 12:20:22 -0700
 From:   Kees Cook <keescook@chromium.org>
 To:     Casey Schaufler <casey@schaufler-ca.com>
 Cc:     paul@paul-moore.com, linux-security-module@vger.kernel.org,
@@ -55,13 +55,13 @@ Cc:     paul@paul-moore.com, linux-security-module@vger.kernel.org,
         penguin-kernel@i-love.sakura.ne.jp, stephen.smalley.work@gmail.com,
         linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
         mic@digikod.net
-Subject: Re: [PATCH v9 01/11] LSM: Identify modules by more than name
+Subject: Re: [PATCH v9 02/11] LSM: Maintain a table of LSM attribute data
 References: <20230421174259.2458-1-casey@schaufler-ca.com>
- <20230421174259.2458-2-casey@schaufler-ca.com>
+ <20230421174259.2458-3-casey@schaufler-ca.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230421174259.2458-2-casey@schaufler-ca.com>
+In-Reply-To: <20230421174259.2458-3-casey@schaufler-ca.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
@@ -72,65 +72,47 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Apr 21, 2023 at 10:42:49AM -0700, Casey Schaufler wrote:
-> Create a struct lsm_id to contain identifying information
-> about Linux Security Modules (LSMs). At inception this contains
-> the name of the module, an identifier associated with the security
-> module and an integer member "attrs" which identifies the API
-> related data associated with each security module. The initial set
-> of features maps to information that has traditionaly been available
-> in /proc/self/attr. They are documented in a new userspace-api file.
-> Change the security_add_hooks() interface to use this structure.
-> Change the individual modules to maintain their own struct lsm_id
-> and pass it to security_add_hooks().
+On Fri, Apr 21, 2023 at 10:42:50AM -0700, Casey Schaufler wrote:
+> As LSMs are registered add their lsm_id pointers to a table.
+> This will be used later for attribute reporting.
 > 
-> The values are for LSM identifiers are defined in a new UAPI
-> header file linux/lsm.h. Each existing LSM has been updated to
-> include it's LSMID in the lsm_id.
-> 
-> The LSM ID values are sequential, with the oldest module
-> LSM_ID_CAPABILITY being the lowest value and the existing modules
-> numbered in the order they were included in the main line kernel.
-> This is an arbitrary convention for assigning the values, but
-> none better presents itself. The value 0 is defined as being invalid.
-> The values 1-99 are reserved for any special case uses which may
-> arise in the future. This may include attributes of the LSM
-> infrastructure itself, possibly related to namespacing or network
-> attribute management. A special range is identified for such attributes
-> to help reduce confusion for developers unfamiliar with LSMs.
-> 
-> LSM attribute values are defined for the attributes presented by
-> modules that are available today. As with the LSM IDs, The value 0
-> is defined as being invalid. The values 1-99 are reserved for any
-> special case uses which may arise in the future.
+> Determine the number of possible security modules based on
+> their respective CONFIG options. This allows the number to be
+> known at build time. This allows data structures and tables
+> to use the constant.
 > 
 > Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
-> Cc: linux-security-module <linux-security-module@vger.kernel.org>
 
 Reviewed-by: Kees Cook <keescook@chromium.org>
 
-Some nit-picks below...
+Nit below...
 
 > [...]
-> +/**
-> + * struct lsm_id - Identify a Linux Security Module.
-> + * @lsm: name of the LSM, must be approved by the LSM maintainers
-> + * @id: LSM ID number from uapi/linux/lsm.h
-> + *
-> + * Contains the information that identifies the LSM.
-> + */
-> +struct lsm_id {
-> +	const u8	*lsm;
+> @@ -513,6 +531,15 @@ void __init security_add_hooks(struct security_hook_list *hooks, int count,
+>  {
+>  	int i;
+>  
+> +	if (lsm_active_cnt >= LSM_COUNT)
+> +		panic("%s Too many LSMs registered.\n", __func__);
+> +	/*
+> +	 * A security module may call security_add_hooks() more
+> +	 * than once. Landlock is one such case.
+> +	 */
+> +	if (lsm_active_cnt == 0 || lsm_idlist[lsm_active_cnt - 1] != lsmid)
+> +		lsm_idlist[lsm_active_cnt++] = lsmid;
+> +
 
-Since this is a %NUL-terminated string, I'd keep the convention of
-leaving this as "char", and perhaps even const. And "name" or "lsm_name"
-seems more descriptive:
+I find this logic hard to parse. I think this might be better, since
+lsm_idlist will be entirely initialized to LSM_UNDEF, yes?
 
-	const char *const name;
+	/*
+	 * A security module may call security_add_hooks() more
+	 * than once during initialization, and LSM initialization
+	 * is serialized. Landlock is one such case.
+	 */
+	if (lsm_idlist[lsm_active_cnt] != lsmid)
+		lsm_idlist[lsm_active_cnt++] = lsmid;
 
-> +	u64		id;
-
-if this is "id", "name" makes sense above.
 
 -- 
 Kees Cook
