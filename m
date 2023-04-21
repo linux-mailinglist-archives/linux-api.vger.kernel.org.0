@@ -2,67 +2,67 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5DAB16EB254
-	for <lists+linux-api@lfdr.de>; Fri, 21 Apr 2023 21:38:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E115D6EB26A
+	for <lists+linux-api@lfdr.de>; Fri, 21 Apr 2023 21:46:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233561AbjDUTio (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 21 Apr 2023 15:38:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50396 "EHLO
+        id S233199AbjDUTqz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 21 Apr 2023 15:46:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53026 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229656AbjDUTin (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 21 Apr 2023 15:38:43 -0400
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2DB22702
-        for <linux-api@vger.kernel.org>; Fri, 21 Apr 2023 12:38:41 -0700 (PDT)
-Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-1a686260adcso28154145ad.0
-        for <linux-api@vger.kernel.org>; Fri, 21 Apr 2023 12:38:41 -0700 (PDT)
+        with ESMTP id S229543AbjDUTqy (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 21 Apr 2023 15:46:54 -0400
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4556319A1
+        for <linux-api@vger.kernel.org>; Fri, 21 Apr 2023 12:46:53 -0700 (PDT)
+Received: by mail-pf1-x42e.google.com with SMTP id d2e1a72fcca58-63b5fca48bcso2309113b3a.0
+        for <linux-api@vger.kernel.org>; Fri, 21 Apr 2023 12:46:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1682105921; x=1684697921;
+        d=chromium.org; s=google; t=1682106413; x=1684698413;
         h=in-reply-to:content-disposition:mime-version:references:subject:cc
          :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=PxXQ+D8Pkaph99A6al2RDXs7bG5gkRFhfZgwGF4wYvE=;
-        b=GiMmLe1sjlCmCoc1pgVNOWYWw8FvBNlPV622rv+M0T5Tlf34uZLwu3sJYsAve8IU+i
-         k8QzRcpkjwzHtVBIqqmR5egwBT+Z4DeCzoPxOX3M9mn2rsKiRbxVXV2e5jpyEWwb7E/J
-         Iu6liw05mPoh1QoaPJE5E1co2ET6dCkracvIs=
+        bh=GWJ1G4KIGJZHUPonaz/BvWE3RJa28JgHMAwPZpSHSy4=;
+        b=kgIejzwv2XgumhZFygCgW4eeWN5RZVcB6z9ZCdjLBr5PQl8kdEKHoP5xDh+cOnAY9N
+         QBxxIxVX1tq8fIhuRf4brfHqNpawuo1dkwhLSH6cbUjejqcVQz3haQt/C3MiM5f3R2+D
+         05W07QuifK15I60q/HWY3UOFWkkc1vzB3gJm0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682105921; x=1684697921;
+        d=1e100.net; s=20221208; t=1682106413; x=1684698413;
         h=in-reply-to:content-disposition:mime-version:references:subject:cc
          :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=PxXQ+D8Pkaph99A6al2RDXs7bG5gkRFhfZgwGF4wYvE=;
-        b=MDIhh4V5i32onI4MOvNSuvwFY/6ZNv9vT7GJSH9HXAtEvXGOpWPBoY/aKqc5Wg2x7N
-         T99atAiXji4FNcXIIEg8nNn7PqWlomog0vedI8E9c/dCG69kwH7O7rVqEsvZYOpyGE1h
-         AndNCSZborYtXH39qz3C53PpAMwDJq863IY0qtecVx1DEabJLuqqj/uYt9EJSt88uZ8F
-         RlSJRcs1a995oyPG/2feDPJdHIuQqHOIrsKjjt/FzCUVpSJB4sJVo5C33fSJ1DFrN4rI
-         vj6wmaru2S2xz1NrMvxXBLC5spBp5kxxIVTHzp0aJVi2wYHPWvLh4weixIs4BotG5TPq
-         +Ogg==
-X-Gm-Message-State: AAQBX9dNiH3us0kSG+EnZkTeQobICkqS6rVIvmsQkYVYGCt3QtwhLepm
-        Px2n12jBGfWBEDNr4LRzdEEMaQ==
-X-Google-Smtp-Source: AKy350bT27YPbLT0jehhGpZQfIuRO27PeJRL1FZAIZKkOtlY3DgAtQDG+XFh640pJIVkRMqwCU7AcA==
-X-Received: by 2002:a17:903:120d:b0:1a6:9289:6b with SMTP id l13-20020a170903120d00b001a69289006bmr6979869plh.30.1682105921399;
-        Fri, 21 Apr 2023 12:38:41 -0700 (PDT)
+        bh=GWJ1G4KIGJZHUPonaz/BvWE3RJa28JgHMAwPZpSHSy4=;
+        b=apjNDTNcxqHRUG3WlChSyplDLqUls+yVXtbiC/AEy1RkMAiwVq1ua7ud3THYL7Fq/W
+         CCA828JgqbKRPvcYTiMv4Gz6FdE3X8im1LibA2+AN3imlX2ZmSMmfsuTbghj1t3eKqPJ
+         afKoNRLseiRq5qPudJcTVPbwfjJW3TXA7TXgIc59MFN94ZmCdJVuoy8LCs1iL/iRrs9V
+         hZGGV9TgxWMBx4tTvy1wWqZf8K6WqXaVMG+2hnlfIr9L7P9gd+jwQscAv9cc7Zh8sjO4
+         HJ8ZNYSpFCFHfA/un+7LCmntZlZKKtJCt447IChhKf3L5orzi15BlPsK8+c4LnXs7Mc9
+         dqVw==
+X-Gm-Message-State: AAQBX9dqp8Ouojr/G45ck0OOBNys/5HJl9Co6sd6WCtRICZFcYZq8Frq
+        YW10HO6EyvfUrc5qCa568TLJPA==
+X-Google-Smtp-Source: AKy350bQEYOYVWnsAwD8pg3hzyMjDL7X+FAY8Lgny8p0sII36RnZCyLj6W72YiyvBcENN+YMKc1yOg==
+X-Received: by 2002:a17:902:c74a:b0:1a5:a1b:bbd8 with SMTP id q10-20020a170902c74a00b001a50a1bbbd8mr5135894plq.45.1682106412705;
+        Fri, 21 Apr 2023 12:46:52 -0700 (PDT)
 Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id w13-20020a1709027b8d00b0019edc1b421asm3061222pll.163.2023.04.21.12.38.40
+        by smtp.gmail.com with ESMTPSA id n20-20020a170902969400b001a6e9d170b8sm2893676plp.265.2023.04.21.12.46.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Apr 2023 12:38:41 -0700 (PDT)
-Message-ID: <6442e641.170a0220.1153c.6bb5@mx.google.com>
-X-Google-Original-Message-ID: <202304211238.@keescook>
-Date:   Fri, 21 Apr 2023 12:38:40 -0700
+        Fri, 21 Apr 2023 12:46:52 -0700 (PDT)
+Message-ID: <6442e82c.170a0220.ac293.63bf@mx.google.com>
+X-Google-Original-Message-ID: <202304211239.@keescook>
+Date:   Fri, 21 Apr 2023 12:46:51 -0700
 From:   Kees Cook <keescook@chromium.org>
 To:     Casey Schaufler <casey@schaufler-ca.com>
 Cc:     paul@paul-moore.com, linux-security-module@vger.kernel.org,
         jmorris@namei.org, john.johansen@canonical.com,
         penguin-kernel@i-love.sakura.ne.jp, stephen.smalley.work@gmail.com,
         linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        mic@digikod.net, Geert Uytterhoeven <geert@linux-m68k.org>,
-        Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH v9 06/11] LSM: wireup Linux Security Module syscalls
+        mic@digikod.net
+Subject: Re: [PATCH v9 07/11] LSM: Helpers for attribute names and filling an
+ lsm_ctx
 References: <20230421174259.2458-1-casey@schaufler-ca.com>
- <20230421174259.2458-7-casey@schaufler-ca.com>
+ <20230421174259.2458-8-casey@schaufler-ca.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230421174259.2458-7-casey@schaufler-ca.com>
+In-Reply-To: <20230421174259.2458-8-casey@schaufler-ca.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
@@ -73,13 +73,186 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Apr 21, 2023 at 10:42:54AM -0700, Casey Schaufler wrote:
-> Wireup lsm_get_self_attr, lsm_set_self_attr and lsm_list_modules
-> system calls.
+On Fri, Apr 21, 2023 at 10:42:55AM -0700, Casey Schaufler wrote:
+> Add lsm_name_to_attr(), which translates a text string to a
+> LSM_ATTR value if one is available.
+> 
+> Add lsm_fill_user_ctx(), which fills a struct lsm_ctx, including
+> the trailing attribute value. The .len value is padded to a multiple
+> of 64 bits
+> 
+> All are used in module specific components of LSM system calls.
 > 
 > Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
+> ---
+>  include/linux/security.h | 13 ++++++++++++
+>  security/lsm_syscalls.c  | 24 ++++++++++++++++++++++
+>  security/security.c      | 43 ++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 80 insertions(+)
+> 
+> diff --git a/include/linux/security.h b/include/linux/security.h
+> index f7292890b6a2..c96fb56159e3 100644
+> --- a/include/linux/security.h
+> +++ b/include/linux/security.h
+> @@ -263,6 +263,7 @@ int unregister_blocking_lsm_notifier(struct notifier_block *nb);
+>  /* prototypes */
+>  extern int security_init(void);
+>  extern int early_security_init(void);
+> +extern u64 lsm_name_to_attr(const char *name);
+>  
+>  /* Security operations */
+>  int security_binder_set_context_mgr(const struct cred *mgr);
+> @@ -491,6 +492,8 @@ int security_inode_notifysecctx(struct inode *inode, void *ctx, u32 ctxlen);
+>  int security_inode_setsecctx(struct dentry *dentry, void *ctx, u32 ctxlen);
+>  int security_inode_getsecctx(struct inode *inode, void **ctx, u32 *ctxlen);
+>  int security_locked_down(enum lockdown_reason what);
+> +int lsm_fill_user_ctx(struct lsm_ctx __user *ctx, void *context,
+> +		      size_t context_size, u64 id, u64 flags);
+>  #else /* CONFIG_SECURITY */
+>  
+>  static inline int call_blocking_lsm_notifier(enum lsm_event event, void *data)
+> @@ -508,6 +511,11 @@ static inline  int unregister_blocking_lsm_notifier(struct notifier_block *nb)
+>  	return 0;
+>  }
+>  
+> +static inline u64 lsm_name_to_attr(const char *name)
+> +{
+> +	return 0;
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
+I think this should return LSM_ATTR_UNDEF instead of literal 0.
+
+> +}
+> +
+>  static inline void security_free_mnt_opts(void **mnt_opts)
+>  {
+>  }
+> @@ -1420,6 +1428,11 @@ static inline int security_locked_down(enum lockdown_reason what)
+>  {
+>  	return 0;
+>  }
+> +static inline int lsm_fill_user_ctx(struct lsm_ctx __user *ctx, void *context,
+> +				    size_t context_size, u64 id, u64 flags)
+> +{
+> +	return 0;
+
+Shouldn't this either error or fill in an empty context?
+
+> +}
+>  #endif	/* CONFIG_SECURITY */
+>  
+>  #if defined(CONFIG_SECURITY) && defined(CONFIG_WATCH_QUEUE)
+> diff --git a/security/lsm_syscalls.c b/security/lsm_syscalls.c
+> index 6efbe244d304..67106f642422 100644
+> --- a/security/lsm_syscalls.c
+> +++ b/security/lsm_syscalls.c
+> @@ -17,6 +17,30 @@
+>  #include <linux/lsm_hooks.h>
+>  #include <uapi/linux/lsm.h>
+>  
+> +/**
+> + * lsm_name_to_attr - map an LSM attribute name to its ID
+> + * @name: name of the attribute
+> + *
+> + * Returns the LSM attribute value associated with @name, or 0 if
+> + * there is no mapping.
+> + */
+> +u64 lsm_name_to_attr(const char *name)
+> +{
+> +	if (!strcmp(name, "current"))
+> +		return LSM_ATTR_CURRENT;
+> +	if (!strcmp(name, "exec"))
+> +		return LSM_ATTR_EXEC;
+> +	if (!strcmp(name, "fscreate"))
+> +		return LSM_ATTR_FSCREATE;
+> +	if (!strcmp(name, "keycreate"))
+> +		return LSM_ATTR_KEYCREATE;
+> +	if (!strcmp(name, "prev"))
+> +		return LSM_ATTR_PREV;
+> +	if (!strcmp(name, "sockcreate"))
+> +		return LSM_ATTR_SOCKCREATE;
+> +	return 0;
+
+LSM_ATTR_UNDEF again?
+
+> +}
+> +
+>  /**
+>   * sys_lsm_set_self_attr - Set current task's security module attribute
+>   * @attr: which attribute to set
+> diff --git a/security/security.c b/security/security.c
+> index bc3f166b4bff..759f3d977d2e 100644
+> --- a/security/security.c
+> +++ b/security/security.c
+> @@ -752,6 +752,49 @@ static int lsm_superblock_alloc(struct super_block *sb)
+>  	return 0;
+>  }
+>  
+> +/**
+> + * lsm_fill_user_ctx - Fill a user space lsm_ctx structure
+> + * @ctx: an LSM context to be filled
+> + * @context: the new context value
+> + * @context_size: the size of the new context value
+> + * @id: LSM id
+> + * @flags: LSM defined flags
+> + *
+> + * Fill all of the fields in a user space lsm_ctx structure.
+> + * Caller is assumed to have verified that @ctx has enough space
+> + * for @context.
+> + *
+> + * The total length is padded to a multiple of 64 bits.
+
+Why?
+
+> + *
+> + * Returns 0 on success, -EFAULT on a copyout error, -ENOMEM
+> + * if memory can't be allocated.
+> + */
+> +int lsm_fill_user_ctx(struct lsm_ctx __user *ctx, void *context,
+> +		      size_t context_size, u64 id, u64 flags)
+> +{
+> +	struct lsm_ctx *lctx;
+> +	size_t locallen = ALIGN(context_size + sizeof(*lctx), 8);
+
+Instead of the open-coded addition, since you're dealing with a flexible
+array structure:
+
+	size_t locallen = ALIGN(struct_size(lctx, ctx, context_size), 8);
+
+> +	int rc = 0;
+> +
+> +	lctx = kzalloc(locallen, GFP_KERNEL);
+> +	if (lctx == NULL)
+> +		return -ENOMEM;
+> +
+> +	lctx->id = id;
+> +	lctx->flags = flags;
+> +	lctx->ctx_len = context_size;
+> +	lctx->len = locallen;
+> +
+> +	memcpy(&lctx[1], context, context_size);
+
+Eek, no: there is no "second struct lsm_ctx" -- this may trip memcpy
+overflow checks under certain conditions. You're wanting to copy to
+the flexible array at the end, so this should be explicitly performed so
+the compiler knows what's going on:
+
+	memcpy(lctx->ctx, context, context_size);
+
+> +
+> +	if (copy_to_user(ctx, lctx, locallen))
+> +		rc = -EFAULT;
+> +
+> +	kfree(lctx);
+> +
+> +	return rc;
+> +}
+> +
+>  /*
+>   * The default value of the LSM hook is defined in linux/lsm_hook_defs.h and
+>   * can be accessed with:
+> -- 
+> 2.39.2
+> 
 
 -- 
 Kees Cook
