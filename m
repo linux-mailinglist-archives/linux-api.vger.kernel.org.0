@@ -2,114 +2,102 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EE166EBA80
-	for <lists+linux-api@lfdr.de>; Sat, 22 Apr 2023 18:59:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A05F6EBAC6
+	for <lists+linux-api@lfdr.de>; Sat, 22 Apr 2023 19:57:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229574AbjDVQ7z (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 22 Apr 2023 12:59:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58250 "EHLO
+        id S229574AbjDVR5T (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 22 Apr 2023 13:57:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44252 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229508AbjDVQ7y (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 22 Apr 2023 12:59:54 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64DD12696;
-        Sat, 22 Apr 2023 09:59:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682182793; x=1713718793;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZS4KU5+dce0YnhegEVKh13hC9j+klWPpmY7iHHIWemE=;
-  b=ntVn7qJliD/FiCWjMc/oxa7fx+8DCUVe4c6I4Hp7NJ3zbUAcyc8yTmz4
-   Vt2/YJ02E8X1tySzKO1i6FG/Ix4beo1J30XhUcEbfasPrZVlvtOFZKkCa
-   JZEkjpfX+eTBsmuZyPYkjk6L1e6fDxeRXOh6idQGhqhFvgdoYuqIx3l/b
-   vVYymruaNzY4cIif4W26VEdirpXzJsp/9TLgs5BZE+hWyKfyYR//MhI0H
-   c0y+w52N79/Dv5WHV/lqZvztXUYJYEbz7DXwsNZSanE+j4L9SfK3L6vRd
-   /v5dAa8/FqzAIKWRcMRWXsxeSVlYUG4U2lfmSDFFDHHpxV9+2qkRR+C1S
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="326504316"
-X-IronPort-AV: E=Sophos;i="5.99,218,1677571200"; 
-   d="scan'208";a="326504316"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2023 09:59:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10688"; a="670024662"
-X-IronPort-AV: E=Sophos;i="5.99,218,1677571200"; 
-   d="scan'208";a="670024662"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 22 Apr 2023 09:59:49 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pqGaT-000hPU-0W;
-        Sat, 22 Apr 2023 16:59:49 +0000
-Date:   Sun, 23 Apr 2023 00:59:14 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Casey Schaufler <casey@schaufler-ca.com>, paul@paul-moore.com,
-        linux-security-module@vger.kernel.org
-Cc:     oe-kbuild-all@lists.linux.dev, jmorris@namei.org,
-        keescook@chromium.org, john.johansen@canonical.com,
-        penguin-kernel@i-love.sakura.ne.jp, stephen.smalley.work@gmail.com,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        mic@digikod.net
-Subject: Re: [PATCH v9 04/11] LSM: syscalls for current process attributes
-Message-ID: <202304230040.qjeOFf1q-lkp@intel.com>
-References: <20230421174259.2458-5-casey@schaufler-ca.com>
+        with ESMTP id S229510AbjDVR5T (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 22 Apr 2023 13:57:19 -0400
+Received: from mailbox.box.xen0n.name (mail.xen0n.name [115.28.160.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE92C1FF6;
+        Sat, 22 Apr 2023 10:57:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xen0n.name; s=mail;
+        t=1682186234; bh=Av45NfRoNWrmwrDlg/7iwNEk5cNcTXe/Apg381TE9cc=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Fz3ZgnjO3hS4PjxTm80vD2yKCWd/OhZHTccXsoeXvyYk49q27YYpqPCX6h087K4Ux
+         bj4CNpZBPvl4ssChpsidAIzxGTTVBAja4Scox2QrJ3FK1GEgM8Yrpd/OIS9fxYINAn
+         b/P1BkV3UjmEJX0MZvlAuB/z7DMNCX704gJA+2NA=
+Received: from ld50.lan (unknown [101.228.138.124])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 0F92F600BD;
+        Sun, 23 Apr 2023 01:57:13 +0800 (CST)
+From:   WANG Xuerui <kernel@xen0n.name>
+To:     loongarch@lists.linux.dev
+Cc:     WANG Xuerui <git@xen0n.name>, Huacai Chen <chenhuacai@kernel.org>,
+        Xi Ruoyao <xry111@xry111.site>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Arnd Bergmann <arnd@arndb.de>, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/2] LoongArch: Make bounds-checking instructions useful
+Date:   Sun, 23 Apr 2023 01:57:03 +0800
+Message-Id: <20230422175705.3444561-1-kernel@xen0n.name>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230421174259.2458-5-casey@schaufler-ca.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Casey,
+From: WANG Xuerui <git@xen0n.name>
 
-kernel test robot noticed the following build warnings:
+Hi,
 
-[auto build test WARNING on tip/perf/core]
-[also build test WARNING on acme/perf/core shuah-kselftest/next shuah-kselftest/fixes linus/master v6.3-rc7]
-[cannot apply to next-20230421]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+The LoongArch-64 base architecture is capable of performing
+bounds-checking either before memory accesses or alone, with specialized
+instructions generating BCEs (bounds-checking error) in case of failed
+assertions (ISA manual Volume 1, Sections 2.2.6.1 [1] and 2.2.10.3 [2]).
+This could be useful for managed runtimes, but the exception is not
+being handled so far, resulting in SIGSYSes in these cases, which is
+incorrect and warrants a fix in itself.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Casey-Schaufler/LSM-Maintain-a-table-of-LSM-attribute-data/20230422-024331
-base:   tip/perf/core
-patch link:    https://lore.kernel.org/r/20230421174259.2458-5-casey%40schaufler-ca.com
-patch subject: [PATCH v9 04/11] LSM: syscalls for current process attributes
-reproduce:
-        # https://github.com/intel-lab-lkp/linux/commit/78ea54cc31d7bd9e5a5c7fe8cf34fba9516fde95
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Casey-Schaufler/LSM-Maintain-a-table-of-LSM-attribute-data/20230422-024331
-        git checkout 78ea54cc31d7bd9e5a5c7fe8cf34fba9516fde95
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+During experimentation, it was discovered that there is already UAPI for
+expressing such semantics: SIGSEGV with si_code=SEGV_BNDERR. This was
+originally added for Intel MPX, and there is currently no user (!) after
+the removal of MPX support a few years ago. Although the semantics is
+not a 1:1 match to that of LoongArch, still it is better than
+alternatives such as SIGTRAP or SIGBUS of BUS_OBJERR kind, due to being
+able to convey both the value that failed assertion and the bound value.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304230040.qjeOFf1q-lkp@intel.com/
+This patch series implements just this approach: translating BCEs into
+SIGSEGVs with si_code=SEGV_BNDERR, si_value set to the offending value,
+and si_lower and si_upper set to resemble a range with both lower and
+upper bound while in fact there is only one.
 
-All warnings (new ones prefixed by >>):
+The instructions are not currently used anywhere yet in the fledgling
+LoongArch ecosystem, so it's not very urgent and we could take the time
+to figure out the best way forward (should SEGV_BNDERR turn out not
+suitable).
 
->> Documentation/userspace-api/lsm.rst:61: WARNING: Title underline too short.
+[1]: https://loongson.github.io/LoongArch-Documentation/LoongArch-Vol1-EN.html#bound-check-memory-access-instructions
+[2]: https://loongson.github.io/LoongArch-Documentation/LoongArch-Vol1-EN.html#_asrtlegt_d
 
-vim +61 Documentation/userspace-api/lsm.rst
+Changes since v1:
 
-    56	
-    57	.. kernel-doc:: security/lsm_syscalls.c
-    58	    :identifiers: sys_lsm_set_self_attr
-    59	
-    60	Get the specified security attributes of the current process
-  > 61	--------------------------------------------------
-    62	
+- rebased on top of current loongarch-next
+- removed code related to the kprobe notifier mechanism
+
+WANG Xuerui (2):
+  LoongArch: Add opcodes of bounds-checking instructions
+  LoongArch: Relay BCE exceptions to userland as SIGSEGVs with
+    si_code=SEGV_BNDERR
+
+ arch/loongarch/include/asm/inst.h | 26 ++++++++
+ arch/loongarch/kernel/genex.S     |  1 +
+ arch/loongarch/kernel/traps.c     | 99 +++++++++++++++++++++++++++++++
+ 3 files changed, 126 insertions(+)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+2.40.0
+
