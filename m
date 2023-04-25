@@ -2,70 +2,80 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E9D06EE267
-	for <lists+linux-api@lfdr.de>; Tue, 25 Apr 2023 15:01:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5AE046EEA77
+	for <lists+linux-api@lfdr.de>; Wed, 26 Apr 2023 01:01:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234069AbjDYNBk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 25 Apr 2023 09:01:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34726 "EHLO
+        id S236279AbjDYXBL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 25 Apr 2023 19:01:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233936AbjDYNBb (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 25 Apr 2023 09:01:31 -0400
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAFE6D312;
-        Tue, 25 Apr 2023 06:01:22 -0700 (PDT)
-Received: by mail-wr1-x434.google.com with SMTP id ffacd0b85a97d-2f3fe12de15so3467207f8f.3;
-        Tue, 25 Apr 2023 06:01:22 -0700 (PDT)
+        with ESMTP id S229995AbjDYXBJ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 25 Apr 2023 19:01:09 -0400
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8AECB219
+        for <linux-api@vger.kernel.org>; Tue, 25 Apr 2023 16:01:06 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id 3f1490d57ef6-b92309d84c1so31328320276.1
+        for <linux-api@vger.kernel.org>; Tue, 25 Apr 2023 16:01:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682427681; x=1685019681;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=H1TOXMWuoQkvRdhBuoYArqNMO3EmKDW7kZ7IbV/tCJU=;
-        b=WyIWIQ97OpGHkoKqBzG1aUJg+1xShHnHZlOsEwGUZpMR43VuICkIdDUjxFu/zUmqrT
-         YM6/EAusONMFYpI3VtjLGRSdZ8gPfsezHaItywzHBlnC0WRzAoOZ/zpjw0OTtWYfiWfQ
-         67aOYQQxli2+KJSB9jFL8XV54cGuhd/0hkCxyeyg7C+rIxTwgrjTkx2JKlfj7Ap16cVc
-         y0rPjIwhwK8mtXjuOXsDk7COFOL7cNhg48NAyC0SEiDH+cHwQDr6ijiYR6wd3uUKMeLP
-         W4f68SYgD+eb3JkUM46EWMa9KhfEpW+Tv4QXv8R5CARi9azDAMxJl9aMFOSb3El2XXzr
-         654A==
+        d=google.com; s=20221208; t=1682463666; x=1685055666;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=FCfgX459C+HvVh2FD7e7JZg40F1mOAMJVuhQWLHla/0=;
+        b=C4AljZcb5zSEki65YN1EEhXpKoY2+BQjkZw0lA37fbXw5J94rINcczlcHQKioosXoz
+         QYJO7B3PQHsCBBmLZHmB2bdJerRvszbD8Z0QkB4l66SvwAArYTtc7JH15w/nYT/SE5u5
+         vwm/eMEJk1TY+eEPX82hBLbrKJ9kTJikXcAr57e2kixe1dolatDoyNrc44iwLTBRVolO
+         bfADSu5kj9Pbljxty8CvVBHkrXGW31eBuRDxicojfWBD4NefEdirxSFfQsz+fSqmBEth
+         Qzgwwtz8KWzAJnphFlQcihCJZ0/hpd4K50BVsMO7BpnBpVR4VQKe84Z8OdOHhFvQF7fh
+         tpww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682427681; x=1685019681;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=H1TOXMWuoQkvRdhBuoYArqNMO3EmKDW7kZ7IbV/tCJU=;
-        b=XFfNOuFO+BzsayOcndol12h1qCRvxQR4XjpVpcpAZQYmIziBdQ2rBH5R/2QMdLHn7G
-         54rPBN3ZU+gtcp+V+PD9EEIzMfUohWSxv9zHummuud9irL7zmfit1jWfPrz+d6Bynrqd
-         1Q/UZNRvMouIareMRiRGm6pjHtz2fyQl/6Jq67Ii1cijd7d14To3Hlbm0VyTr9QA0mnV
-         OrzJKeUK0IEuxk/HlbIKKEeR0dMAiHIJbLVe2c1idREei1gJ/4JI5UgeU8XJu3QeKf8Q
-         98r+Zvsyn+ImeOgKFpJDh9pHNoBNpU4KbVnnbPTVSBpLLW3InEPBMtDjuP2+CqGqw2X1
-         PLjQ==
-X-Gm-Message-State: AAQBX9eos3voyRpGvTEVy0wkVwvzWTj5Hn5eLsTWbLdZfcdHFQ2TgyDt
-        ntg2UBhhR/kc5Ixcd4tU5tjUq5QevVk=
-X-Google-Smtp-Source: AKy350aMleWStRw+wvupNdJdGiarcUd5O4OGYZ3jUcCjrodh8ovgHoOwKveqhq8jq7tzEw0ymPTnwg==
-X-Received: by 2002:a5d:4b45:0:b0:2f4:9956:e828 with SMTP id w5-20020a5d4b45000000b002f49956e828mr12045313wrs.18.1682427680609;
-        Tue, 25 Apr 2023 06:01:20 -0700 (PDT)
-Received: from amir-ThinkPad-T480.lan ([5.29.249.86])
-        by smtp.gmail.com with ESMTPSA id s1-20020adff801000000b00300aee6c9cesm13103447wrp.20.2023.04.25.06.01.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Apr 2023 06:01:20 -0700 (PDT)
-From:   Amir Goldstein <amir73il@gmail.com>
-To:     Jan Kara <jack@suse.cz>
-Cc:     Christian Brauner <brauner@kernel.org>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        linux-unionfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org
-Subject: [RFC][PATCH 4/4] fanotify: support reporting non-decodeable file handles
-Date:   Tue, 25 Apr 2023 16:01:05 +0300
-Message-Id: <20230425130105.2606684-5-amir73il@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230425130105.2606684-1-amir73il@gmail.com>
-References: <20230425130105.2606684-1-amir73il@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        d=1e100.net; s=20221208; t=1682463666; x=1685055666;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=FCfgX459C+HvVh2FD7e7JZg40F1mOAMJVuhQWLHla/0=;
+        b=CNucl2K+jfjsk71uB3BoZcEEzRJVYOOfeoyM6vbOivAotQkYIj76WVoz9JurO8uAsb
+         yc3AGQjbrvdYSenfrV5EA19GcP0FfeC2uk3lvFnLhiNO8boLqwXDYdDAyoRpJCXgULHM
+         z3nm2xzKyHuziQgWhoR1pkdMnCJvaBNFGU8HKzWpgQzjEcc+1hgFJFWCZEQIxRy/IPcu
+         vA6iwjZ9c7Z7i7PoVswRZXZd7X7n97g2TbztSM/HTUt6Hd1vtCT1CrJACbm4WC0/WlOz
+         54rny2qGKAhCoHu5lFLGTkYhWy1duqtBtQi5WsVL5IlhMIWuEiX+yFP4epU5VrANv1R0
+         DPOg==
+X-Gm-Message-State: AC+VfDw2sZg3MVcrViopJphLQGjxZq+Wn3V6Re1yqDq/dDx+kBhdruD3
+        9xhxUC2kt3Weyp/NKeTz1dXnubHPWGI=
+X-Google-Smtp-Source: ACHHUZ7zn8PbJQ/UuE69mi5lwaIaGdUdtx9hP2cvpdZFHM9mCc7INsMunl92AGHkpHAOjQl1AWoM2QO/O/0=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a05:690c:986:b0:54c:15ad:11e4 with SMTP id
+ ce6-20020a05690c098600b0054c15ad11e4mr342131ywb.0.1682463665939; Tue, 25 Apr
+ 2023 16:01:05 -0700 (PDT)
+Date:   Tue, 25 Apr 2023 16:01:04 -0700
+In-Reply-To: <diqz354w92x3.fsf@ackerleytng-cloudtop.c.googlers.com>
+Mime-Version: 1.0
+References: <ZDnAuGKrCO2wgjlG@google.com> <diqz354w92x3.fsf@ackerleytng-cloudtop.c.googlers.com>
+Message-ID: <ZEhbsHqBapHtdrg7@google.com>
+Subject: Re: [PATCH v10 9/9] KVM: Enable and expose KVM_MEM_PRIVATE
+From:   Sean Christopherson <seanjc@google.com>
+To:     Ackerley Tng <ackerleytng@google.com>
+Cc:     chao.p.peng@linux.intel.com, xiaoyao.li@intel.com,
+        isaku.yamahata@gmail.com, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, pbonzini@redhat.com, corbet@lwn.net,
+        vkuznets@redhat.com, wanpengli@tencent.com, jmattson@google.com,
+        joro@8bytes.org, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, arnd@arndb.de, naoya.horiguchi@nec.com,
+        linmiaohe@huawei.com, x86@kernel.org, hpa@zytor.com,
+        hughd@google.com, jlayton@kernel.org, bfields@fieldses.org,
+        akpm@linux-foundation.org, shuah@kernel.org, rppt@kernel.org,
+        steven.price@arm.com, mail@maciej.szmigiero.name, vbabka@suse.cz,
+        vannapurve@google.com, yu.c.zhang@linux.intel.com,
+        kirill.shutemov@linux.intel.com, luto@kernel.org,
+        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
+        dhildenb@redhat.com, qperret@google.com, tabba@google.com,
+        michael.roth@amd.com, mhocko@suse.com, wei.w.wang@intel.com
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -73,63 +83,129 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-fanotify users do not always need to decode the file handles reported
-with FAN_REPORT_FID.
+On Tue, Apr 18, 2023, Ackerley Tng wrote:
+> Sean Christopherson <seanjc@google.com> writes:
+> > I agree, a pure alignment check is too restrictive, and not really what I
+> > intended despite past me literally saying that's what I wanted :-)  I think
+> > I may have also inverted the "less alignment" statement, but luckily I
+> > believe that ends up being a moot point.
+> 
+> > The goal is to avoid having to juggle scenarios where KVM wants to create a
+> > hugepage, but restrictedmem can't provide one because of a misaligned file
+> > offset.  I think the rule we want is that the offset must be aligned to the
+> > largest page size allowed by the memslot _size_.  E.g. on x86, if the
+> > memslot size is >=1GiB then the offset must be 1GiB or beter, ditto for
+> > >=2MiB and >=4KiB (ignoring that 4KiB is already a requirement).
+> 
+> > We could loosen that to say the largest size allowed by the memslot, but I
+> > don't think that's worth the effort unless it's trivially easy to implement
+> > in code, e.g. KVM could technically allow a 4KiB aligned offset if the
+> > memslot is 2MiB sized but only 4KiB aligned on the GPA.  I doubt there's a
+> > real use case for such a memslot, so I want to disallow that unless it's
+> > super easy to implement.
+> 
+> Checking my understanding here about why we need this alignment check:
+> 
+> When KVM requests a page from restrictedmem, KVM will provide an offset
+> into the file in terms of 4K pages.
+> 
+> When shmem is configured to use hugepages, shmem_get_folio() will round
+> the requested offset down to the nearest hugepage-aligned boundary in
+> shmem_alloc_hugefolio().
+> 
+> Example of problematic configuration provided to
+> KVM_SET_USER_MEMORY_REGION2:
+> 
+> + shmem configured to use 1GB pages
+> + restrictedmem_offset provided to KVM_SET_USER_MEMORY_REGION2: 0x4000
+> + memory_size provided in KVM_SET_USER_MEMORY_REGION2: 1GB
+> + KVM requests offset (pgoff_t) 0x8, which translates to offset 0x8000
+> 
+> restrictedmem_get_page() and shmem_get_folio() returns the page for
+> offset 0x0 in the file, since rounding down 0x8000 to the nearest 1GB is
+> 0x0. This is allocating outside the range that KVM is supposed to use,
+> since the parameters provided in KVM_SET_USER_MEMORY_REGION2 is only
+> supposed to be offset 0x4000 to (0x4000 + 1GB = 0x40004000) in the file.
+> 
+> IIUC shmem will actually just round down (0x4000 rounded down to nearest
+> 1GB will be 0x0) and allocate without checking bounds, so if offset 0x0
+> to 0x4000 in the file were supposed to be used by something else, there
+> might be issues.
+> 
+> Hence, this alignment check ensures that rounding down of any offsets
+> provided by KVM (based on page size configured in the backing file
+> provided) to restrictedmem_get_page() must not go below the offset
+> provided to KVM_SET_USER_MEMORY_REGION2.
+> 
+> Enforcing alignment of restrictedmem_offset based on the currently-set
+> page size in the backing file (i.e. shmem) may not be effective, since
+> the size of the pages in the backing file can be adjusted to a larger
+> size after KVM_SET_USER_MEMORY_REGION2 succeeds. With that, we may still
+> end up allocating outside the range that KVM was provided with.
+> 
+> Hence, to be safe, we should check alignment to the max page size across
+> all backing filesystems, so the constraint is
+> 
+>     rounding down restrictedmem_offset to
+>     min(max page size across all backing filesystems,
+>         max page size that fits in memory_size) == restrictedmem_offset
+> 
+> which is the same check as
+> 
+>     restrictedmem_offset must be aligned to min(max page size across all
+>     backing filesystems, max page size that fits in memory_size)
+> 
+> which can safely reduce to
+> 
+>     restrictedmem_offset must be aligned to max page size that fits in
+>     memory_size
+> 
+> since "max page size that fits in memory_size" is probably <= to "max
+> page size across all backing filesystems", and if it's larger, it'll
+> just be a tighter constraint.
 
-Relax the restriction that filesystem needs to support NFS export and
-allow reporting file handles from filesystems that only support ecoding
-unique file handles.
+Yes?  The alignment check isn't strictly required, KVM _could_ deal with the above
+scenario, it's just a lot simpler and safer for KVM if the file offset needs to
+be sanely aligned.
 
-For such filesystems, users will have to use the AT_HANDLE_FID of
-name_to_handle_at(2) if they want to compare the object in path to the
-object fid reported in an event.
+> If the above understanding is correct:
+> 
+> + We must enforce this in the KVM_SET_USER_MEMORY_REGION2 handler, since
+>   IIUC shmem will just round down and allocate without checking bounds.
+> 
+>     + I think this is okay because holes in the restrictedmem file (in
+>       terms of offset) made to accommodate this constraint don't cost us
+>       anything anyway(?) Are they just arbitrary offsets in a file? In
+>       our case, this file is usually a new and empty file.
+> 
+>     + In the case of migration of a restrictedmem file between two KVM
+>       VMs, this constraint would cause a problem is if the largest
+>       possible page size on the destination machine is larger than that
+>       of the source machine. In that case, we might have to move the
+>       data in the file to a different offset (a separate problem).
 
-Signed-off-by: Amir Goldstein <amir73il@gmail.com>
----
- fs/notify/fanotify/fanotify.c      | 4 ++--
- fs/notify/fanotify/fanotify_user.c | 6 ++----
- 2 files changed, 4 insertions(+), 6 deletions(-)
+Hmm, I was thinking this would be a non-issue because the check would be tied to
+the max page _possible_ page size irrespective of hardware support, but that would
+be problematic if KVM ever supports 512GiB pages.  I'm not sure that speculatively
+requiring super huge memslots to be 512GiB aligned is sensible.
 
-diff --git a/fs/notify/fanotify/fanotify.c b/fs/notify/fanotify/fanotify.c
-index d1a49f5b6e6d..d2bbf1445a9e 100644
---- a/fs/notify/fanotify/fanotify.c
-+++ b/fs/notify/fanotify/fanotify.c
-@@ -380,7 +380,7 @@ static int fanotify_encode_fh_len(struct inode *inode)
- 	if (!inode)
- 		return 0;
- 
--	exportfs_encode_inode_fh(inode, NULL, &dwords, NULL, 0);
-+	exportfs_encode_fid(inode, NULL, &dwords);
- 	fh_len = dwords << 2;
- 
- 	/*
-@@ -443,7 +443,7 @@ static int fanotify_encode_fh(struct fanotify_fh *fh, struct inode *inode,
- 	}
- 
- 	dwords = fh_len >> 2;
--	type = exportfs_encode_inode_fh(inode, buf, &dwords, NULL, 0);
-+	type = exportfs_encode_fid(inode, buf, &dwords);
- 	err = -EINVAL;
- 	if (!type || type == FILEID_INVALID || fh_len != dwords << 2)
- 		goto out_err;
-diff --git a/fs/notify/fanotify/fanotify_user.c b/fs/notify/fanotify/fanotify_user.c
-index 8f430bfad487..a5af84cbb30d 100644
---- a/fs/notify/fanotify/fanotify_user.c
-+++ b/fs/notify/fanotify/fanotify_user.c
-@@ -1586,11 +1586,9 @@ static int fanotify_test_fid(struct dentry *dentry)
- 	 * We need to make sure that the file system supports at least
- 	 * encoding a file handle so user can use name_to_handle_at() to
- 	 * compare fid returned with event to the file handle of watched
--	 * objects. However, name_to_handle_at() requires that the
--	 * filesystem also supports decoding file handles.
-+	 * objects, but it does not need to support decoding file handles.
- 	 */
--	if (!dentry->d_sb->s_export_op ||
--	    !dentry->d_sb->s_export_op->fh_to_dentry)
-+	if (!dentry->d_sb->s_export_op)
- 		return -EOPNOTSUPP;
- 
- 	return 0;
--- 
-2.34.1
+Aha!  If we go with a KVM ioctl(), a clean way around this is tie the alignment
+requirement to the memfd flags, e.g. if userspace requests the memfd to be backed
+by PMD hugepages, then the memslot offset needs to be 2MiB aligned on x86.  That
+will continue to work if (big if) KVM supports 512GiB pages because the "legacy"
+memfd would still be capped at 2MiB pages.
 
+Architectures that support variable hugepage sizes might need to do something
+else, but I don't think that possibility affects what x86 can/can't do.
+
+> + On this note, it seems like there is no check for when the range is
+>   smaller than the allocated page? Like if the range provided is 4KB in
+>   size, but shmem is then configured to use a 1GB page, will we end up
+>   allocating past the end of the range?
+
+No, KVM already gracefully handles situations like this.  Well, x86 does, I assume
+other architectures do too :-)
+
+As above, the intent of the extra restriction is so that KVM doen't need even more
+weird code (read: math) to gracefully handle the new edge cases that would come with
+fd-only memslots.
