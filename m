@@ -2,80 +2,81 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5AE046EEA77
-	for <lists+linux-api@lfdr.de>; Wed, 26 Apr 2023 01:01:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0007E6EEBCB
+	for <lists+linux-api@lfdr.de>; Wed, 26 Apr 2023 03:12:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236279AbjDYXBL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 25 Apr 2023 19:01:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32932 "EHLO
+        id S238177AbjDZBMV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 25 Apr 2023 21:12:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37054 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229995AbjDYXBJ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 25 Apr 2023 19:01:09 -0400
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8AECB219
-        for <linux-api@vger.kernel.org>; Tue, 25 Apr 2023 16:01:06 -0700 (PDT)
-Received: by mail-yb1-xb49.google.com with SMTP id 3f1490d57ef6-b92309d84c1so31328320276.1
-        for <linux-api@vger.kernel.org>; Tue, 25 Apr 2023 16:01:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1682463666; x=1685055666;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=FCfgX459C+HvVh2FD7e7JZg40F1mOAMJVuhQWLHla/0=;
-        b=C4AljZcb5zSEki65YN1EEhXpKoY2+BQjkZw0lA37fbXw5J94rINcczlcHQKioosXoz
-         QYJO7B3PQHsCBBmLZHmB2bdJerRvszbD8Z0QkB4l66SvwAArYTtc7JH15w/nYT/SE5u5
-         vwm/eMEJk1TY+eEPX82hBLbrKJ9kTJikXcAr57e2kixe1dolatDoyNrc44iwLTBRVolO
-         bfADSu5kj9Pbljxty8CvVBHkrXGW31eBuRDxicojfWBD4NefEdirxSFfQsz+fSqmBEth
-         Qzgwwtz8KWzAJnphFlQcihCJZ0/hpd4K50BVsMO7BpnBpVR4VQKe84Z8OdOHhFvQF7fh
-         tpww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682463666; x=1685055666;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FCfgX459C+HvVh2FD7e7JZg40F1mOAMJVuhQWLHla/0=;
-        b=CNucl2K+jfjsk71uB3BoZcEEzRJVYOOfeoyM6vbOivAotQkYIj76WVoz9JurO8uAsb
-         yc3AGQjbrvdYSenfrV5EA19GcP0FfeC2uk3lvFnLhiNO8boLqwXDYdDAyoRpJCXgULHM
-         z3nm2xzKyHuziQgWhoR1pkdMnCJvaBNFGU8HKzWpgQzjEcc+1hgFJFWCZEQIxRy/IPcu
-         vA6iwjZ9c7Z7i7PoVswRZXZd7X7n97g2TbztSM/HTUt6Hd1vtCT1CrJACbm4WC0/WlOz
-         54rny2qGKAhCoHu5lFLGTkYhWy1duqtBtQi5WsVL5IlhMIWuEiX+yFP4epU5VrANv1R0
-         DPOg==
-X-Gm-Message-State: AC+VfDw2sZg3MVcrViopJphLQGjxZq+Wn3V6Re1yqDq/dDx+kBhdruD3
-        9xhxUC2kt3Weyp/NKeTz1dXnubHPWGI=
-X-Google-Smtp-Source: ACHHUZ7zn8PbJQ/UuE69mi5lwaIaGdUdtx9hP2cvpdZFHM9mCc7INsMunl92AGHkpHAOjQl1AWoM2QO/O/0=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a05:690c:986:b0:54c:15ad:11e4 with SMTP id
- ce6-20020a05690c098600b0054c15ad11e4mr342131ywb.0.1682463665939; Tue, 25 Apr
- 2023 16:01:05 -0700 (PDT)
-Date:   Tue, 25 Apr 2023 16:01:04 -0700
-In-Reply-To: <diqz354w92x3.fsf@ackerleytng-cloudtop.c.googlers.com>
-Mime-Version: 1.0
-References: <ZDnAuGKrCO2wgjlG@google.com> <diqz354w92x3.fsf@ackerleytng-cloudtop.c.googlers.com>
-Message-ID: <ZEhbsHqBapHtdrg7@google.com>
-Subject: Re: [PATCH v10 9/9] KVM: Enable and expose KVM_MEM_PRIVATE
-From:   Sean Christopherson <seanjc@google.com>
-To:     Ackerley Tng <ackerleytng@google.com>
-Cc:     chao.p.peng@linux.intel.com, xiaoyao.li@intel.com,
-        isaku.yamahata@gmail.com, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, pbonzini@redhat.com, corbet@lwn.net,
-        vkuznets@redhat.com, wanpengli@tencent.com, jmattson@google.com,
-        joro@8bytes.org, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, arnd@arndb.de, naoya.horiguchi@nec.com,
-        linmiaohe@huawei.com, x86@kernel.org, hpa@zytor.com,
-        hughd@google.com, jlayton@kernel.org, bfields@fieldses.org,
-        akpm@linux-foundation.org, shuah@kernel.org, rppt@kernel.org,
-        steven.price@arm.com, mail@maciej.szmigiero.name, vbabka@suse.cz,
-        vannapurve@google.com, yu.c.zhang@linux.intel.com,
-        kirill.shutemov@linux.intel.com, luto@kernel.org,
-        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
-        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
-        dhildenb@redhat.com, qperret@google.com, tabba@google.com,
-        michael.roth@amd.com, mhocko@suse.com, wei.w.wang@intel.com
-Content-Type: text/plain; charset="us-ascii"
-X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL
+        with ESMTP id S237880AbjDZBMU (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 25 Apr 2023 21:12:20 -0400
+Received: from sonic311-31.consmr.mail.ne1.yahoo.com (sonic311-31.consmr.mail.ne1.yahoo.com [66.163.188.212])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57D0CB217
+        for <linux-api@vger.kernel.org>; Tue, 25 Apr 2023 18:12:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1682471537; bh=WVQ7+xsU/a7vH371TQzXOruRke609WaJUcbp0hxdrsE=; h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To; b=XJ91Aov9XIYiuIPUIZ6CynnYyfXHYM/vhOx/Bbou1WHuWhFKlnAYZ7hme1+yfTupzZsFNUs1a/SBm1PYV/k4GLDUHwaHAM1Qo2/Zbhqo7tJtOiTBPn7dCMl79l7PosIIYCpxodvQHXbHrwIBcgEVwZiXtHWH3GCJmxjfYVNX1w0xFbh2iWUHtGLLYhvy3jNIc8CUHAd7lkep+w1uxH+kPcB7ItJR8n4g7rcAvGqAYj9fxaml54TxvD9hq5Qy8xJxTKaelClKRTBIKfiaXUw/DiK4k7zV0fhpqchqjXQhKrMX1yW3XLOSpBPMTI7rWzjlL3JWtruMu70scwZtGbIE+Q==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1682471537; bh=xjPhYyqs5Y1n4cx9STsBj/d8DKr+nhqcgnm9PlBUO4a=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=a3s+Fp9m7jFGfFtbuie1mVctqQEE9J8H4Hb84tb+YhwojzrVaHhOLvSKcK86msb7xCgPyt96ZEQjRI4jSWL663B0pDxzIF59N9SL1JpQL7cEBm8yK6rqZwMrTVuR4K2T3qHkdYx0r8XqAIQWn8euSBdLgtAlAfb4sUu9CDvnvp8wmY+J0ITOOm616dZFGouOg/FdtpIMMS0kSVa4iRx6m1gxK5oCM775l4rQ+KUc9l5EKLxBrQQuoT+hLnjaWvtMUg1H80B1OZPN42OfZAxN4qNGm2sNHeQ7sHk7BJWGxIbQKrZA4Ykj3QstbUmwBx52KAyp/ORv1Z7EZ0n5wooNXA==
+X-YMail-OSG: id.v4RUVM1nOpzlFCDQrY6gpmMfrZsfH9dxHOVq6AUbXZkwXM8owajJopcWK0h1
+ jvxQU7NSDOwHyWaMYURl0ZCxKAui0mfyofIFsTT7KEcbvfpfQpzmTfrVioY.5w_iCnWuEM.qAKfI
+ J_dIuAYasT8fEqRc17HbwcmtoHtRkAHlGlLZgKFUueYEju6qxjy0kSiGjiDEdz.Vq4UUlyTukDAm
+ fs1j2d4M5cP7eIIGpmctk1EagYc8VfgmYEUKq3ZCy2IWNnz9lvXzmvEyLcSe9loiw_6oJQ8dsFtz
+ DTMOHDlGG3O9j9dO7ggk97Cti4cz0tq.ZWuuhSNZJyjbgfNaw_V2xUf9CgkwN_NRgtewxipDs2wG
+ AxXqf9hKIMyi1B9L8UA3bjIe0rdhx_mc7lCy9b_jSNZGmvOVHxyoeej86XmF7ljvBxoGtc25ZnS4
+ xA3WbDI7z6uKGZVp_3Aiu6fARY_zeekeldtqiKw.REV6DCxvz7cd8ffTYhaJCEWOryYrF_XT36cQ
+ tHS6CJK0jFrDlOk_i1gqqA3_tOtUoR.V7Z6oAQy94lzM86eviK4G4aPatj2bIr.MhHAoTHIVdiFa
+ gAgXskjf7CKRRYAGEdiPNdeS5lzTch2PqBGIaKiRzeDm5af7mMeyaQLn39rHzBO7FwDQprfhddHB
+ EcgwFCWU8wCWLoC4Y8JVbh2zlP6SnwSJ7U8L.idyc2Tnxqs62EE6oi.2.kO7vM.D.tfEVMWccPO_
+ _tZQjglww.FbUUheLmxClsWlVGa21SK6Bwjm5Csfxp55vRql.mHvFLKb2YsyWeqi7pzDYVlRIQJg
+ ri3GjssW9Jf5bBwlZKshd8FKqCgr3PHdyrec96FZm1h4jQJO4OXZ01hb1g3ETRSDSIhukjuSVT1Q
+ gyghPhK.ka5R8mY_X5MtR4Izo.4oaCy1NaKb_WKQfcrv3Oem2TBPKmHxwYzV4XjUMYWtfixPXWb3
+ 4iRTM_RYk7buBb6HdEICN3hETwgIP.R6BS81lpn1iOeWXn2AJSfL5KDAIgN4VQ2T7GZV56YbH1a_
+ FwgI5ghrHnj2Rtky8lvXsZ8faCLoFluuxeKQ3dgxDTIdOPUq9oSFUzQLUEoslINiIyKEdOU0Ufjh
+ ismIY7.8_i4VEn4VNehFGUONNvVvC8u0JpmsCuc3ispSeF5rPSOJNueVLgCt3H7coGTy4hjEcN4h
+ BelO7DWvbiejx6NjktB0WGU3vHCi0FLc8nnjeL.CQf._u3D_2nvZXSPyQ0wQLPtGHybcwKEJZRN.
+ qww4C0JZP0qlmi8iq5O4AOzGcYrb68nzgvrirySAYXeuOvtV88FnAKb4e4HCMVOcqNL1kqDGeyIE
+ ouHO0Qe8uuL3p598CKCC4UlD662Vtm0PY02ve.MfWzoM0ctN2DFUkWEyJoVNcGyDTiyJHpGFnmN3
+ sdNLKeDTjdM9sw3H.te7yrbfIk_9jW0V5LPupcLRKtX9ujTDdyzS56H1S7YWtogTehAqaTFnN9tU
+ dEMfC1e7JOg.isvwufbADlIvD_HZ.Vry7t2N5vXKGHviYMY8Cs21btQeBFZmT0oySP7VJobK_ycg
+ YiKoc3gJLtYWSzntm4q5RdJXi0nE3YBYUVePJ8NseH0YuNg4uniZHCqmlWCJpDXksxdqXRgOYAQa
+ yLJ9zwzCEmo3NkB5HZuSPHds88jLM8tw3G.jbMC15cgPi608HMznPIOidITzvP4sOkaXKiCm0GGN
+ UW06Vb02gqv10yAWyfQC2t4t5ALcuC06.g.7.jbHEZTTjKrZHyz4uglbfmiRZIWaDikaSDTPDMZa
+ R.Z47s_Mbefg1jkbJ5icNCZt6qmTmM0DDVxe1l9kpKsMQj62yDrnGwr6BHhWdjSxCs7tgq61JVO9
+ gAeRcBjagMPIRotcb7.ptt.zyBoit7e8wtUBtotPzueMW2Ad3NtsV7aCPjmk6IpnzGMMQchPImIk
+ rB55UcBfi.AfKi_MYV6YRyZFeWzwL6ArIYLqmGzxsob4fF4k73bzgZQ7vJ4HQuEXQdZ0ZchEBqGY
+ evkhvgsZCBx6_AsI9Rk1Npb4HCipoWVFc90U04jS9KGpmsyCovdLCb5Fwiceix7rX_rkFbKkgMwa
+ JLP7iXn2WegLUlNN.HlqVKVWmf.3RIPbeBqgCH6Zph9kM.pNLZJzRaLU282MDK8CO.m9FLppD93o
+ bhJPr8nexuiEqK5gJGtfMenYxuuBDCgvHg4aI5aPJpGC6vakilRf5ZuTTZBJm76CBq12jMkk2OQa
+ P1ortgLPQidIfwzSx7HWlZ6haumK17KOawk2FwdvUIC2VyC6LgnReN8s4o2cxcWpVKlZl_E7kEE5
+ 8ww--
+X-Sonic-MF: <casey@schaufler-ca.com>
+X-Sonic-ID: 520e5f10-4ebf-4cfc-9b6f-514cb7ec018e
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic311.consmr.mail.ne1.yahoo.com with HTTP; Wed, 26 Apr 2023 01:12:17 +0000
+Received: by hermes--production-bf1-5f9df5c5c4-n84wh (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 9bdb229305104c8c6e501579f3d4ce44;
+          Wed, 26 Apr 2023 01:12:13 +0000 (UTC)
+Message-ID: <96d9704d-058a-39f9-d27d-6f31ceb5cc95@schaufler-ca.com>
+Date:   Tue, 25 Apr 2023 18:12:09 -0700
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v9 04/11] LSM: syscalls for current process attributes
+Content-Language: en-US
+To:     Kees Cook <keescook@chromium.org>
+Cc:     paul@paul-moore.com, linux-security-module@vger.kernel.org,
+        jmorris@namei.org, john.johansen@canonical.com,
+        penguin-kernel@i-love.sakura.ne.jp, stephen.smalley.work@gmail.com,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        mic@digikod.net, Casey Schaufler <casey@schaufler-ca.com>
+References: <20230421174259.2458-1-casey@schaufler-ca.com>
+ <20230421174259.2458-5-casey@schaufler-ca.com>
+ <6442e5b1.170a0220.9215c.16b7@mx.google.com>
+From:   Casey Schaufler <casey@schaufler-ca.com>
+In-Reply-To: <6442e5b1.170a0220.9215c.16b7@mx.google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Mailer: WebService/1.1.21417 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
+X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -83,129 +84,471 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Apr 18, 2023, Ackerley Tng wrote:
-> Sean Christopherson <seanjc@google.com> writes:
-> > I agree, a pure alignment check is too restrictive, and not really what I
-> > intended despite past me literally saying that's what I wanted :-)  I think
-> > I may have also inverted the "less alignment" statement, but luckily I
-> > believe that ends up being a moot point.
-> 
-> > The goal is to avoid having to juggle scenarios where KVM wants to create a
-> > hugepage, but restrictedmem can't provide one because of a misaligned file
-> > offset.  I think the rule we want is that the offset must be aligned to the
-> > largest page size allowed by the memslot _size_.  E.g. on x86, if the
-> > memslot size is >=1GiB then the offset must be 1GiB or beter, ditto for
-> > >=2MiB and >=4KiB (ignoring that 4KiB is already a requirement).
-> 
-> > We could loosen that to say the largest size allowed by the memslot, but I
-> > don't think that's worth the effort unless it's trivially easy to implement
-> > in code, e.g. KVM could technically allow a 4KiB aligned offset if the
-> > memslot is 2MiB sized but only 4KiB aligned on the GPA.  I doubt there's a
-> > real use case for such a memslot, so I want to disallow that unless it's
-> > super easy to implement.
-> 
-> Checking my understanding here about why we need this alignment check:
-> 
-> When KVM requests a page from restrictedmem, KVM will provide an offset
-> into the file in terms of 4K pages.
-> 
-> When shmem is configured to use hugepages, shmem_get_folio() will round
-> the requested offset down to the nearest hugepage-aligned boundary in
-> shmem_alloc_hugefolio().
-> 
-> Example of problematic configuration provided to
-> KVM_SET_USER_MEMORY_REGION2:
-> 
-> + shmem configured to use 1GB pages
-> + restrictedmem_offset provided to KVM_SET_USER_MEMORY_REGION2: 0x4000
-> + memory_size provided in KVM_SET_USER_MEMORY_REGION2: 1GB
-> + KVM requests offset (pgoff_t) 0x8, which translates to offset 0x8000
-> 
-> restrictedmem_get_page() and shmem_get_folio() returns the page for
-> offset 0x0 in the file, since rounding down 0x8000 to the nearest 1GB is
-> 0x0. This is allocating outside the range that KVM is supposed to use,
-> since the parameters provided in KVM_SET_USER_MEMORY_REGION2 is only
-> supposed to be offset 0x4000 to (0x4000 + 1GB = 0x40004000) in the file.
-> 
-> IIUC shmem will actually just round down (0x4000 rounded down to nearest
-> 1GB will be 0x0) and allocate without checking bounds, so if offset 0x0
-> to 0x4000 in the file were supposed to be used by something else, there
-> might be issues.
-> 
-> Hence, this alignment check ensures that rounding down of any offsets
-> provided by KVM (based on page size configured in the backing file
-> provided) to restrictedmem_get_page() must not go below the offset
-> provided to KVM_SET_USER_MEMORY_REGION2.
-> 
-> Enforcing alignment of restrictedmem_offset based on the currently-set
-> page size in the backing file (i.e. shmem) may not be effective, since
-> the size of the pages in the backing file can be adjusted to a larger
-> size after KVM_SET_USER_MEMORY_REGION2 succeeds. With that, we may still
-> end up allocating outside the range that KVM was provided with.
-> 
-> Hence, to be safe, we should check alignment to the max page size across
-> all backing filesystems, so the constraint is
-> 
->     rounding down restrictedmem_offset to
->     min(max page size across all backing filesystems,
->         max page size that fits in memory_size) == restrictedmem_offset
-> 
-> which is the same check as
-> 
->     restrictedmem_offset must be aligned to min(max page size across all
->     backing filesystems, max page size that fits in memory_size)
-> 
-> which can safely reduce to
-> 
->     restrictedmem_offset must be aligned to max page size that fits in
->     memory_size
-> 
-> since "max page size that fits in memory_size" is probably <= to "max
-> page size across all backing filesystems", and if it's larger, it'll
-> just be a tighter constraint.
+On 4/21/2023 12:36 PM, Kees Cook wrote:
+> On Fri, Apr 21, 2023 at 10:42:52AM -0700, Casey Schaufler wrote:
+>> Create a system call lsm_get_self_attr() to provide the security
+>> module maintained attributes of the current process.
+>> Create a system call lsm_set_self_attr() to set a security
+>> module maintained attribute of the current process.
+>> Historically these attributes have been exposed to user space via
+>> entries in procfs under /proc/self/attr.
+>>
+>> The attribute value is provided in a lsm_ctx structure. The structure
+>> identifies the size of the attribute, and the attribute value. The format
+>> of the attribute value is defined by the security module. A flags field
+>> is included for LSM specific information. It is currently unused and must
+>> be 0. The total size of the data, including the lsm_ctx structure and any
+>> padding, is maintained as well.
+>>
+>> struct lsm_ctx {
+>>         __u64 id;
+>>         __u64 flags;
+>>         __u64 len;
+>>         __u64 ctx_len;
+>>         __u8 ctx[];
+>> };
+>>
+>> Two new LSM hooks are used to interface with the LSMs.
+>> security_getselfattr() collects the lsm_ctx values from the
+>> LSMs that support the hook, accounting for space requirements.
+>> security_setselfattr() identifies which LSM the attribute is
+>> intended for and passes it along.
+>>
+>> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+>
+> Nits/questions below...
+>
+>> ---
+>>  Documentation/userspace-api/lsm.rst |  15 ++++
+>>  include/linux/lsm_hook_defs.h       |   4 +
+>>  include/linux/lsm_hooks.h           |   9 +++
+>>  include/linux/security.h            |  19 +++++
+>>  include/linux/syscalls.h            |   5 ++
+>>  include/uapi/linux/lsm.h            |  36 +++++++++
+>>  kernel/sys_ni.c                     |   4 +
+>>  security/Makefile                   |   1 +
+>>  security/lsm_syscalls.c             |  55 ++++++++++++++
+>>  security/security.c                 | 110 ++++++++++++++++++++++++++++
+>>  10 files changed, 258 insertions(+)
+>>  create mode 100644 security/lsm_syscalls.c
+>>
+>> diff --git a/Documentation/userspace-api/lsm.rst b/Documentation/userspace-api/lsm.rst
+>> index 6ddf5506110b..b45e402302b3 100644
+>> --- a/Documentation/userspace-api/lsm.rst
+>> +++ b/Documentation/userspace-api/lsm.rst
+>> @@ -48,6 +48,21 @@ creating socket objects.
+>>  The proc filesystem provides this value in ``/proc/self/attr/sockcreate``.
+>>  This is supported by the SELinux security module.
+>>  
+>> +Kernel interface
+>> +================
+>> +
+>> +Set a security attribute of the current process
+>> +--------------------------------------------------
+>> +
+>> +.. kernel-doc:: security/lsm_syscalls.c
+>> +    :identifiers: sys_lsm_set_self_attr
+>> +
+>> +Get the specified security attributes of the current process
+>> +--------------------------------------------------
+>> +
+>> +.. kernel-doc:: security/lsm_syscalls.c
+>> +    :identifiers: sys_lsm_get_self_attr
+>> +
+>>  Additional documentation
+>>  ========================
+>>  
+>> diff --git a/include/linux/lsm_hook_defs.h b/include/linux/lsm_hook_defs.h
+>> index 094b76dc7164..7177d9554f4a 100644
+>> --- a/include/linux/lsm_hook_defs.h
+>> +++ b/include/linux/lsm_hook_defs.h
+>> @@ -261,6 +261,10 @@ LSM_HOOK(int, 0, sem_semop, struct kern_ipc_perm *perm, struct sembuf *sops,
+>>  LSM_HOOK(int, 0, netlink_send, struct sock *sk, struct sk_buff *skb)
+>>  LSM_HOOK(void, LSM_RET_VOID, d_instantiate, struct dentry *dentry,
+>>  	 struct inode *inode)
+>> +LSM_HOOK(int, -EOPNOTSUPP, getselfattr, unsigned int __user attr,
+>> +	 struct lsm_ctx __user *ctx, size_t *size, u32 __user flags)
+>> +LSM_HOOK(int, -EOPNOTSUPP, setselfattr, unsigned int __user attr,
+>> +	 struct lsm_ctx __user *ctx, size_t size, u32 __user flags)
+>>  LSM_HOOK(int, -EINVAL, getprocattr, struct task_struct *p, const char *name,
+>>  	 char **value)
+>>  LSM_HOOK(int, -EINVAL, setprocattr, const char *name, void *value, size_t size)
+>> diff --git a/include/linux/lsm_hooks.h b/include/linux/lsm_hooks.h
+>> index 8e6ba0a9896e..ed38ad5eb444 100644
+>> --- a/include/linux/lsm_hooks.h
+>> +++ b/include/linux/lsm_hooks.h
+>> @@ -25,6 +25,7 @@
+>>  #ifndef __LINUX_LSM_HOOKS_H
+>>  #define __LINUX_LSM_HOOKS_H
+>>  
+>> +#include <uapi/linux/lsm.h>
+>>  #include <linux/security.h>
+>>  #include <linux/init.h>
+>>  #include <linux/rculist.h>
+>> @@ -503,6 +504,14 @@
+>>   *	and writing the xattrs as this hook is merely a filter.
+>>   * @d_instantiate:
+>>   *	Fill in @inode security information for a @dentry if allowed.
+>> + * @getselfattr:
+>> + *	Read attribute @attr for the current process and store it into @ctx.
+>> + *	Return 0 on success, -EOPNOTSUPP if the attribute is not supported,
+>> + *	or another negative value otherwise.
+>> + * @setselfattr:
+>> + *	Set attribute @attr for the current process.
+>> + *	Return 0 on success, -EOPNOTSUPP if the attribute is not supported,
+>> + *	or another negative value otherwise.
+>>   * @getprocattr:
+>>   *	Read attribute @name for process @p and store it into @value if allowed.
+>>   *	Return the length of @value on success, a negative value otherwise.
+>> diff --git a/include/linux/security.h b/include/linux/security.h
+>> index 8faed81fc3b4..f7292890b6a2 100644
+>> --- a/include/linux/security.h
+>> +++ b/include/linux/security.h
+>> @@ -60,6 +60,7 @@ struct fs_parameter;
+>>  enum fs_value_type;
+>>  struct watch;
+>>  struct watch_notification;
+>> +struct lsm_ctx;
+>>  
+>>  /* Default (no) options for the capable function */
+>>  #define CAP_OPT_NONE 0x0
+>> @@ -473,6 +474,10 @@ int security_sem_semctl(struct kern_ipc_perm *sma, int cmd);
+>>  int security_sem_semop(struct kern_ipc_perm *sma, struct sembuf *sops,
+>>  			unsigned nsops, int alter);
+>>  void security_d_instantiate(struct dentry *dentry, struct inode *inode);
+>> +int security_getselfattr(unsigned int __user attr, struct lsm_ctx __user *ctx,
+> Scalar values aren't marked with "__user": this is for address space
+> markings (i.e. only on pointers).
+>
+>> +			 size_t __user *size, u32 __user flags);
+>> +int security_setselfattr(unsigned int __user attr, struct lsm_ctx __user *ctx,
+>> +			 size_t __user size, u32 __user flags);
+>>  int security_getprocattr(struct task_struct *p, int lsmid, const char *name,
+>>  			 char **value);
+>>  int security_setprocattr(int lsmid, const char *name, void *value, size_t size);
+>> @@ -1343,6 +1348,20 @@ static inline void security_d_instantiate(struct dentry *dentry,
+>>  					  struct inode *inode)
+>>  { }
+>>  
+>> +static inline int security_getselfattr(unsigned int __user attr,
+>> +				       struct lsm_ctx __user *ctx,
+>> +				       size_t __user *size, u32 __user flags)
+>> +{
+>> +	return -EOPNOTSUPP;
+>> +}
+>> +
+>> +static inline int security_setselfattr(unsigned int __user attr,
+>> +				       struct lsm_ctx __user *ctx,
+>> +				       size_t __user size, u32 __user flags)
+>> +{
+>> +	return -EOPNOTSUPP;
+>> +}
+>> +
+>>  static inline int security_getprocattr(struct task_struct *p, int lsmid,
+>>  				       const char *name, char **value)
+>>  {
+>> diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+>> index 33a0ee3bcb2e..9a94c31bf6b6 100644
+>> --- a/include/linux/syscalls.h
+>> +++ b/include/linux/syscalls.h
+>> @@ -71,6 +71,7 @@ struct clone_args;
+>>  struct open_how;
+>>  struct mount_attr;
+>>  struct landlock_ruleset_attr;
+>> +struct lsm_ctx;
+>>  enum landlock_rule_type;
+>>  
+>>  #include <linux/types.h>
+>> @@ -1058,6 +1059,10 @@ asmlinkage long sys_memfd_secret(unsigned int flags);
+>>  asmlinkage long sys_set_mempolicy_home_node(unsigned long start, unsigned long len,
+>>  					    unsigned long home_node,
+>>  					    unsigned long flags);
+>> +asmlinkage long sys_lsm_get_self_attr(unsigned int attr, struct lsm_ctx *ctx,
+>> +				      size_t *size, __u32 flags);
+>> +asmlinkage long sys_lsm_set_self_attr(unsigned int attr, struct lsm_ctx *ctx,
+>> +				      size_t size, __u32 flags);
+> It'd be nice if these syscalls could stick to the "verionable" syscall
+> conventions (like openat2) as much as possible. Is "flags" needed here
+> if we this is only ever going to be 1 LSM at a time?
 
-Yes?  The alignment check isn't strictly required, KVM _could_ deal with the above
-scenario, it's just a lot simpler and safer for KVM if the file offset needs to
-be sanely aligned.
+Consider a future LSM that allows you to edit an attribute. Viable flags
+might be LSM_FLAG_ADD_TO_ATTRIBUTE, LSM_FLAG_DELETE_FROM_ATTRIBUTE,
+LSM_FLAG_REPLACE_ATTRIBUTE, LSM_FLAG_SET_ONLY_IF_EMPTY, and so forth.
+This could be useful in an Bell & LaPadula implementation, adding or
+removing categories on the fly. OK, no B&L would really allow that, but
+The point should be clear.
 
-> If the above understanding is correct:
-> 
-> + We must enforce this in the KVM_SET_USER_MEMORY_REGION2 handler, since
->   IIUC shmem will just round down and allocate without checking bounds.
-> 
->     + I think this is okay because holes in the restrictedmem file (in
->       terms of offset) made to accommodate this constraint don't cost us
->       anything anyway(?) Are they just arbitrary offsets in a file? In
->       our case, this file is usually a new and empty file.
-> 
->     + In the case of migration of a restrictedmem file between two KVM
->       VMs, this constraint would cause a problem is if the largest
->       possible page size on the destination machine is larger than that
->       of the source machine. In that case, we might have to move the
->       data in the file to a different offset (a separate problem).
+>>  
+>>  /*
+>>   * Architecture-specific system calls
+>> diff --git a/include/uapi/linux/lsm.h b/include/uapi/linux/lsm.h
+>> index f27c9a9cc376..eeda59a77c02 100644
+>> --- a/include/uapi/linux/lsm.h
+>> +++ b/include/uapi/linux/lsm.h
+>> @@ -9,6 +9,36 @@
+>>  #ifndef _UAPI_LINUX_LSM_H
+>>  #define _UAPI_LINUX_LSM_H
+>>  
+>> +#include <linux/types.h>
+>> +#include <linux/unistd.h>
+>> +
+>> +/**
+>> + * struct lsm_ctx - LSM context information
+>> + * @id: the LSM id number, see LSM_ID_XXX
+>> + * @flags: LSM specific flags
+>> + * @len: length of the lsm_ctx struct, @ctx and any other data or padding
+>> + * @ctx_len: the size of @ctx
+>> + * @ctx: the LSM context value
+>> + *
+>> + * The @len field MUST be equal to the size of the lsm_ctx struct
+>> + * plus any additional padding and/or data placed after @ctx.
+>> + *
+>> + * In all cases @ctx_len MUST be equal to the length of @ctx.
+>> + * If @ctx is a string value it should be nul terminated with
+>> + * @ctx_len equal to `strlen(@ctx) + 1`.  Binary values are
+>> + * supported.
+>> + *
+>> + * The @flags and @ctx fields SHOULD only be interpreted by the
+>> + * LSM specified by @id; they MUST be set to zero/0 when not used.
+>> + */
+>> +struct lsm_ctx {
+>> +	__u64 id;
+>> +	__u64 flags;
+>> +	__u64 len;
+>> +	__u64 ctx_len;
+>> +	__u8 ctx[];
+>> +};
+>> +
+>>  /*
+>>   * ID tokens to identify Linux Security Modules (LSMs)
+>>   *
+>> @@ -51,4 +81,10 @@
+>>  #define LSM_ATTR_PREV		104
+>>  #define LSM_ATTR_SOCKCREATE	105
+>>  
+>> +/*
+>> + * LSM_FLAG_XXX definitions identify special handling instructions
+>> + * for the API.
+>> + */
+>> +#define LSM_FLAG_SINGLE	0x0001
+>> +
+>>  #endif /* _UAPI_LINUX_LSM_H */
+>> diff --git a/kernel/sys_ni.c b/kernel/sys_ni.c
+>> index 860b2dcf3ac4..d03c78ef1562 100644
+>> --- a/kernel/sys_ni.c
+>> +++ b/kernel/sys_ni.c
+>> @@ -262,6 +262,10 @@ COND_SYSCALL_COMPAT(recvmsg);
+>>  /* mm/nommu.c, also with MMU */
+>>  COND_SYSCALL(mremap);
+>>  
+>> +/* security/lsm_syscalls.c */
+>> +COND_SYSCALL(lsm_get_self_attr);
+>> +COND_SYSCALL(lsm_set_self_attr);
+>> +
+>>  /* security/keys/keyctl.c */
+>>  COND_SYSCALL(add_key);
+>>  COND_SYSCALL(request_key);
+>> diff --git a/security/Makefile b/security/Makefile
+>> index 18121f8f85cd..59f238490665 100644
+>> --- a/security/Makefile
+>> +++ b/security/Makefile
+>> @@ -7,6 +7,7 @@ obj-$(CONFIG_KEYS)			+= keys/
+>>  
+>>  # always enable default capabilities
+>>  obj-y					+= commoncap.o
+>> +obj-$(CONFIG_SECURITY) 			+= lsm_syscalls.o
+>>  obj-$(CONFIG_MMU)			+= min_addr.o
+>>  
+>>  # Object file lists
+>> diff --git a/security/lsm_syscalls.c b/security/lsm_syscalls.c
+>> new file mode 100644
+>> index 000000000000..feee31600219
+>> --- /dev/null
+>> +++ b/security/lsm_syscalls.c
+>> @@ -0,0 +1,55 @@
+>> +// SPDX-License-Identifier: GPL-2.0-only
+>> +/*
+>> + * System calls implementing the Linux Security Module API.
+>> + *
+>> + *  Copyright (C) 2022 Casey Schaufler <casey@schaufler-ca.com>
+>> + *  Copyright (C) 2022 Intel Corporation
+>> + */
+>> +
+>> +#include <asm/current.h>
+>> +#include <linux/compiler_types.h>
+>> +#include <linux/err.h>
+>> +#include <linux/errno.h>
+>> +#include <linux/security.h>
+>> +#include <linux/stddef.h>
+>> +#include <linux/syscalls.h>
+>> +#include <linux/types.h>
+>> +#include <linux/lsm_hooks.h>
+>> +#include <uapi/linux/lsm.h>
+>> +
+>> +/**
+>> + * sys_lsm_set_self_attr - Set current task's security module attribute
+>> + * @attr: which attribute to set
+>> + * @ctx: the LSM contexts
+>> + * @size: size of @ctx
+>> + * @flags: reserved for future use
+>> + *
+>> + * Sets the calling task's LSM context. On success this function
+>> + * returns 0. If the attribute specified cannot be set a negative
+>> + * value indicating the reason for the error is returned.
+>> + */
+>> +SYSCALL_DEFINE4(lsm_set_self_attr, unsigned int, attr, struct lsm_ctx __user *,
+>> +		ctx, size_t __user, size, u32, flags)
+>> +{
+>> +	return security_setselfattr(attr, ctx, size, flags);
+>> +}
+>> +
+>> +/**
+>> + * sys_lsm_get_self_attr - Return current task's security module attributes
+>> + * @attr: which attribute to set
+>> + * @ctx: the LSM contexts
+>> + * @size: size of @ctx, updated on return
+>> + * @flags: reserved for future use
+>> + *
+>> + * Returns the calling task's LSM contexts. On success this
+>> + * function returns the number of @ctx array elements. This value
+>> + * may be zero if there are no LSM contexts assigned. If @size is
+>> + * insufficient to contain the return data -E2BIG is returned and
+>> + * @size is set to the minimum required size. In all other cases
+>> + * a negative value indicating the error is returned.
+>> + */
+>> +SYSCALL_DEFINE4(lsm_get_self_attr, unsigned int, attr, struct lsm_ctx __user *,
+>> +		ctx, size_t __user *, size, u32, flags)
+>> +{
+>> +	return security_getselfattr(attr, ctx, size, flags);
+>> +}
+>> diff --git a/security/security.c b/security/security.c
+>> index 38ca0e646cac..bc3f166b4bff 100644
+>> --- a/security/security.c
+>> +++ b/security/security.c
+>> @@ -2167,6 +2167,116 @@ void security_d_instantiate(struct dentry *dentry, struct inode *inode)
+>>  }
+>>  EXPORT_SYMBOL(security_d_instantiate);
+>>  
+>> +/**
+>> + * security_getselfattr - Read an LSM attribute of the current process.
+>> + * @attr: which attribute to return
+>> + * @ctx: the user-space destination for the information, or NULL
+>> + * @size: the size of space available to receive the data
+>> + * @flags: special handling options. LSM_FLAG_SINGLE indicates that only
+>> + * attributes associated with the LSM identified in the passed @ctx be
+>> + * reported
+>> + *
+>> + * Returns the number of attributes found on success, negative value
+>> + * on error. @size is reset to the total size of the data.
+>> + * If @size is insufficient to contain the data -E2BIG is returned.
+>> + */
+>> +int security_getselfattr(unsigned int __user attr, struct lsm_ctx __user *ctx,
+>> +			 size_t __user *size, u32 __user flags)
+>> +{
+>> +	struct security_hook_list *hp;
+>> +	struct lsm_ctx lctx = { .id = LSM_ID_UNDEF, };
+>> +	u8 __user *base = (u8 __user *)ctx;
+>> +	size_t total = 0;
+>> +	size_t entrysize;
+>> +	size_t left;
+>> +	bool toobig = false;
+>> +	int count = 0;
+>> +	int rc;
+>> +
+>> +	if (attr == 0)
+>> +		return -EINVAL;
+>> +	if (size == NULL)
+>> +		return -EINVAL;
+>> +	if (get_user(left, size))
+>> +		return -EFAULT;
+>> +
+>> +	if ((flags & LSM_FLAG_SINGLE) == LSM_FLAG_SINGLE) {
+>> +		if (copy_from_user(&lctx, ctx, sizeof(*ctx)))
+>> +			return -EFAULT;
+>> +		if (lctx.id == LSM_ID_UNDEF)
+>> +			return -EINVAL;
+>> +	} else if (flags) {
+>> +		return -EINVAL;
+>> +	}
+> Can this use copy_struct_from_user() instead? It would be nice to reuse
+> that here.
 
-Hmm, I was thinking this would be a non-issue because the check would be tied to
-the max page _possible_ page size irrespective of hardware support, but that would
-be problematic if KVM ever supports 512GiB pages.  I'm not sure that speculatively
-requiring super huge memslots to be 512GiB aligned is sensible.
+Yes. Missed that one.
 
-Aha!  If we go with a KVM ioctl(), a clean way around this is tie the alignment
-requirement to the memfd flags, e.g. if userspace requests the memfd to be backed
-by PMD hugepages, then the memslot offset needs to be 2MiB aligned on x86.  That
-will continue to work if (big if) KVM supports 512GiB pages because the "legacy"
-memfd would still be capped at 2MiB pages.
-
-Architectures that support variable hugepage sizes might need to do something
-else, but I don't think that possibility affects what x86 can/can't do.
-
-> + On this note, it seems like there is no check for when the range is
->   smaller than the allocated page? Like if the range provided is 4KB in
->   size, but shmem is then configured to use a 1GB page, will we end up
->   allocating past the end of the range?
-
-No, KVM already gracefully handles situations like this.  Well, x86 does, I assume
-other architectures do too :-)
-
-As above, the intent of the extra restriction is so that KVM doen't need even more
-weird code (read: math) to gracefully handle the new edge cases that would come with
-fd-only memslots.
+>
+>> +
+>> +	hlist_for_each_entry(hp, &security_hook_heads.getselfattr, list) {
+>> +		if (lctx.id != LSM_ID_UNDEF && lctx.id != hp->lsmid->id)
+>> +			continue;
+>> +		entrysize = left;
+>> +		if (base)
+>> +			ctx = (struct lsm_ctx __user *)(base + total);
+>> +		rc = hp->hook.getselfattr(attr, ctx, &entrysize, flags);
+>> +		if (rc == -EOPNOTSUPP) {
+>> +			rc = 0;
+>> +			continue;
+>> +		}
+>> +		if (rc == -E2BIG) {
+>> +			toobig = true;
+>> +			left = 0;
+>> +			continue;
+>> +		}
+>> +		if (rc < 0)
+>> +			return rc;
+>> +
+>> +		left -= entrysize;
+>> +		total += entrysize;
+>> +		count += rc;
+>> +	}
+>> +	if (put_user(total, size))
+>> +		return -EFAULT;
+>> +	if (toobig)
+>> +		return -E2BIG;
+>> +	if (count == 0)
+>> +		return LSM_RET_DEFAULT(getselfattr);
+>> +	return count;
+>> +}
+>> +
+>> +/**
+>> + * security_setselfattr - Set an LSM attribute on the current process.
+>> + * @attr: which attribute to set
+>> + * @ctx: the user-space source for the information
+>> + * @size: the size of the data
+>> + * @flags: reserved for future use, must be 0
+>> + *
+>> + * Set an LSM attribute for the current process. The LSM, attribute
+>> + * and new value are included in @ctx.
+>> + *
+>> + * Returns 0 on success, -EINVAL if the input is inconsistent, -EFAULT
+>> + * if the user buffer is inaccessible or an LSM specific failure.
+>> + */
+>> +int security_setselfattr(unsigned int __user attr, struct lsm_ctx __user *ctx,
+>> +			 size_t __user size, u32 __user flags)
+>> +{
+>> +	struct security_hook_list *hp;
+>> +	struct lsm_ctx lctx;
+>> +
+>> +	if (flags)
+>> +		return -EINVAL;
+>> +	if (size < sizeof(*ctx))
+>> +		return -EINVAL;
+>> +	if (copy_from_user(&lctx, ctx, sizeof(*ctx)))
+>> +		return -EFAULT;
+>> +	if (size < lctx.len || size < lctx.ctx_len + sizeof(ctx) ||
+>> +	    lctx.len < lctx.ctx_len + sizeof(ctx))
+>> +		return -EINVAL;
+>> +
+>> +	hlist_for_each_entry(hp, &security_hook_heads.setselfattr, list)
+>> +		if ((hp->lsmid->id) == lctx.id)
+>> +			return hp->hook.setselfattr(attr, ctx, size, flags);
+>> +
+>> +	return LSM_RET_DEFAULT(setselfattr);
+>> +}
+>> +
+>>  int security_getprocattr(struct task_struct *p, int lsmid, const char *name,
+>>  			 char **value)
+>>  {
+>> -- 
+>> 2.39.2
+>>
