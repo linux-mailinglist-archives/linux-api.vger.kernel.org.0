@@ -2,129 +2,157 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E17E6F0867
-	for <lists+linux-api@lfdr.de>; Thu, 27 Apr 2023 17:31:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 43ADB6F08C3
+	for <lists+linux-api@lfdr.de>; Thu, 27 Apr 2023 17:52:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243881AbjD0Pbt (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 27 Apr 2023 11:31:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54784 "EHLO
+        id S244255AbjD0PwQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 27 Apr 2023 11:52:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38528 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243772AbjD0Pbs (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 27 Apr 2023 11:31:48 -0400
-Received: from sonic305-27.consmr.mail.ne1.yahoo.com (sonic305-27.consmr.mail.ne1.yahoo.com [66.163.185.153])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB868C0
-        for <linux-api@vger.kernel.org>; Thu, 27 Apr 2023 08:31:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1682609505; bh=LLUumwE/USPAEw5xI40HJcdqlVWuORilp2k3JOcjz1g=; h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To; b=Mhb9kRH2HZVWjPe4JypPaesnW3edsWUVoAn+/ru5EOshA6J4W13M8cE6rf2vn5KxZyVfv9gZi7MJJJdBNMJ1bl3tgIpGE70VSMgSUB1bfyx5x1A1m2pZAG7kG+hGVKx4w7z7zWll5Atypuqy4IcBKrZoPjZdSY/S8wPa0Ff21jqYopTstQzvfi1FWxoaAb04q1dH265mrdr8LqFAZjSMFjM1LsTMG6UGZZrJjiYx3FPA/QgjF9dQJkfn5kAwdysos/y1EX/v6/5vXfMLg7YSYf8eUg4dhpspilSyUO93yaIM99zdZFsli5Yf49pOjeHgswSpcPRHl6+5cHy6cXBsMA==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1682609505; bh=JJraOksP8YchFB0Qj0jBTPbn4FAWcGvFRQm3x+vFcmY=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=JtXXi87XUr1yEpG36XWALNlCB+ecbOuXqGIGofoqoaSa6KfHdgeHzP94LyYsLCWakmjuqFkxH+5+FHP2WARbhHH+vB0h0o3n3Vs5weVUn+eHrP8+nFAjfN3GydwCRcvBNAXBESU/2U7ABmY8P0mk8/rHMkGy2teeRBB7aZXp1FLG98uZQwles6uTLka95OmrKBWbbuE3R73nE4Vtin9DhDmdOkE8Qb6kDuKDqCiXaIqNHE5vlhqzOMjNfObREr0jXnCU8tCB1jXiIRc755cD4vfo0jryloIm1fle8eSpaY0DGS/WT+qCHY30XeAT3SkoNLm9nSGbCiIixy06cddJYw==
-X-YMail-OSG: 7Bc6bwEVM1lU9OnOJ.NaBXv7oZINBpGEV19ozyrDLG43VMtDx1mgD5yL9cqc2jB
- TqmxNid7dRarlrgxdOCTK7k9XpyG_37bQ8Sn5yOdS6AkhpNfqpixzIyR2PjkVEzBrNZ9d4Nk8DSs
- aXjSRAlB2aLjuy2SZHvTjBkJTOTk_Zkk3oe_dwYv3XrR1QcPItIGG_iljVBjV7wznVeZ4B8Rsxui
- shy5Zz8AF4h_StgpSN7NY8isebNRGZd7D.yvlSoEJFiUhMa8V1nP_rbeOVvKaiXu_X6OIad8NCaA
- alZaHzqevE81FRciz3nVFqh63QBDqCINwjzpLuEe18rDQdIjfRvXod0LdCzhWSwffQaIRPplQO0Y
- FesFpNUYCWBpdBV73dH2I_Yqvk0WMkJHKc.jKHD97FfJurrdZQdH6wViTK88ekvuJq9oeSl29aym
- .Wk2Mm0ICEMmhic45wxkx4YIMaNf3h_mNyfm3vQEZigFNS.Zu7ObBIjzWpJ.TYD3IatxCmntUazT
- 4XlBfy8VFkx6rfDp.H.kgxRXZhHI4BDpCUEUrSuTgVrPK6pWlCeJDTM7lSRXFtvxNvLBWDzms628
- 0osVORoBMLEbMwni3WTmNgNLCHgRiEuPzRnDo44wDcaSYZvafqDLzW8sqBpl6fJ1dOF_w4zM5bId
- CaRdE8DQ7OrwaZydKf8DH7hpb2yt4MfpE_nhY7skFT_10y5DZvFJsqnlfznn0y645FDrTfWvfFZf
- 22vA.caunTZKFnqlyrgnzGNs85KnzgxOck6TFy5RIwAyJZV88vOElDKmJEJyOzP0Uin70rW9ZPQd
- IW6sRR_YkZASvC7C95f9v4nuus.CJe1V40tr5PvkystHwdR9MGdUWRTXwGYo3agsbQfR.BpR1R2C
- EPwiZuYN4XcuhMulL.1YTFnQ5E.wdyoxngP.j_MjaxuoeYwlbpOmpdO4bQVbIBXH8mOqDlNH85F6
- CJ_23TvDR5VCncCpvH7TJ0UpbbNmxHnZj_49q3pXJNsMy442BK6S2IJpHO2wUjY1WZiYSGVYzIlH
- chtkegVqmJrI9tUyzAgh11J2n4_.Q5fsPTkEaS58mEMeyCSoGg_9Rmg0Q_vLv8tkcXXYiQ4aSSz_
- 89UqfaBtS2eEKV.OoEQIRjrnGg0AsSzX_9ahcbAjtE200JdBe0jODPelPSea8fzUlNzNdwQvchOl
- B9jFNeiUkfDHqbSNUNZKGcep7hDgEswePwhsAu0lVn.UPuOk_HDnD5C5mpROLVC3JN95xImj7Aib
- xx5A4Ztg5SK1Tu62u_NsWDWoAB_al8c1ECU3EQOVs652dnIesxJPlrL_RxjNe.gibgNQyR6jSuAr
- 9yT6PwoNmqFnpSVpMC092nZkw8rTtl5Ah6B.krg1ARTcptNXfIxHYnO.v2mbrs_NkXuVYjuYDmY0
- K5us8mUQCZyaWEwIzc5OqWSWiP4KMLTaOQ6JTPklE0IdgEIM30576G0P8fk1rvkq_kq4GPuP.Cd6
- FzqbS9seLlXqTairJ3HbwqlRICyhugqTozPRQiWiK9N6Y6SfHqzBrxEZOYsBpT78jMpm.pGlogG0
- QwBWqie7iQrwoP3TCYuT3W98vtpQE7GNnkCMsr9MxYwDJRRe01dwWapSkrQLkdaEYGiH1Hsn76q0
- mZRS7M0Dx1HdklgkbZpECyXcRZI_On2MVWs86uNb0nUEAqrbPf5SwDg8SUlDaM8UURo0._AqFSEO
- lSi2tWMEsVq3NXevk4rXI1SSF1DTcrKTqnR_OBJPTljogCyckNcrGDE3fB6.7NqkEtU_PoIVbQjf
- yJF3M1jhfmuXkdh.9uCXaIJ9eiIDbs8p2fYk1dIZNYJctE5QFW9ibynKnac6Vzj1tIFy5IXtLJr0
- DvNtk_bCaj0OROlN_t8NehR1fGuF1LRtetNHxPsmtw35JscA1fO_50YVBuhx8Yy9yVWUtT5ExiH9
- fUY_Ih9D8OYmgpqb1x_DyJfzNX3J8RLVOLUNlNGkmkynCllXvQNU0rIC2xWMA98_lpxe9gSQnnje
- ePMeKeWe_9ywjKZOAtT5Cs28kYiaBeLCRDXDIOCZTwbXFV64.J1zS12_.YtywBo03pyO4MeDbdn5
- 9rHqkudkQDGXi9okac.NaBkxu4lisCR9.9OPwh_rZYH9Rl60oXJE_VVMPdMwoNWaHbNTJ6xIYnOx
- PA5NvsyDB4tAeiXgI0PI5cjymb8dAt0IKeGuIO3XOm54hKQ_V7GnfzMk9FB0vJn95nCxL3bHa.7j
- J4UEGGFjshVYi1iCAVdltWzRF_Ryhsc.R9HIh7GAI6_r4pvCGYqVOJh5RUgHFb8mnBR6Y85HWOvR
- lz3k-
-X-Sonic-MF: <casey@schaufler-ca.com>
-X-Sonic-ID: 7b403dfc-5119-483c-b029-38ffd09e7fb8
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic305.consmr.mail.ne1.yahoo.com with HTTP; Thu, 27 Apr 2023 15:31:45 +0000
-Received: by hermes--production-bf1-5f9df5c5c4-t7bzr (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 1e2f07faefe03c7672f3f4ce25c50e68;
-          Thu, 27 Apr 2023 15:31:43 +0000 (UTC)
-Message-ID: <aa69bd39-3574-ac5e-b63a-af4ab10b0018@schaufler-ca.com>
-Date:   Thu, 27 Apr 2023 08:31:39 -0700
+        with ESMTP id S244252AbjD0PwP (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 27 Apr 2023 11:52:15 -0400
+Received: from mail-ua1-x933.google.com (mail-ua1-x933.google.com [IPv6:2607:f8b0:4864:20::933])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C8D6CD;
+        Thu, 27 Apr 2023 08:52:14 -0700 (PDT)
+Received: by mail-ua1-x933.google.com with SMTP id a1e0cc1a2514c-77aad9ad986so4320724241.0;
+        Thu, 27 Apr 2023 08:52:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1682610733; x=1685202733;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xpbQCFCKqPtR+q35gYvKi307a8K/CfDKJnmDxnws/e0=;
+        b=V9IlPrFxE75wX4NqAufm6Y6nRzlPCwRjtXEO+2kSSxX8SyFpb2Losmck1WNcpOg8SS
+         q52eK2lzxfISYp/76EnJ9T7bJOjP8OzbRKl23lrM9vz/38e1Jd6RkQwgP9aR4p5vclia
+         Q5cMw6ZbgWU+eybIQa8LW1R5pN1bxvxIJ/EEN+Ha2Etmur3A+pbac4i1+VdPOqW4cL06
+         ZcvRhR/peMbg4TZkG5A5noErqfa19KSR6YtLo729ko8W08AsfdPA5PDilDSXa4ORjwKu
+         hKhyYI+lv0IrrRQvL6y3i1VdRdbcHVL9HdOGqIPguvjPdK66a7tBLzN3dcZ8JdXTW9xf
+         3MOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682610733; x=1685202733;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xpbQCFCKqPtR+q35gYvKi307a8K/CfDKJnmDxnws/e0=;
+        b=MKgPy0RiD0mPKEODN8oQFFJyZTYhdXtM8Fz25SDzs+wA1njYhGxLAQ3mcq28ciCNMI
+         oI1CKUu70iMEu4Y8JRv0uikfFj67ceiHDSZeejRTazxQaT/NJR+jVELa649c3cfV4jqZ
+         ME7Y69qMHQFC2GIOrtczWA5RrAr4KNZKzq1u698TB9PtP/gAv8qim8W2xLZrOBnJaYrb
+         hEslulgAPhRUZGckmnFZFa/feQXO7mkJ1DKWaQ82oiLUOKXMMRJNbuPHzy3KFAduD9Ha
+         FV5aI6kiSvLTYEZQ9iaL/3ccqqYqomTT6QUi/TqoXAGVpRBuQuL+EMizD72+pWgaE+dk
+         hp5w==
+X-Gm-Message-State: AC+VfDz+QycKvuO4+cJ5dxLRS/VOs0wKt9OgJw5klRlRSGEPDaCt0f82
+        58QzhpI06Je7ufx0oaC4H/NPkCSdc4xUUn/fY7+dbjQGO5o=
+X-Google-Smtp-Source: ACHHUZ5oJ4ySPKlN/gBKXSuk/9STUGVRqRVxBKNHPjhwTDBPPnq8P7t3uqF3+u3MG3IOq73ZsvtBak/sAgkJ9g67s6U=
+X-Received: by 2002:a05:6102:390c:b0:42e:3aa5:3369 with SMTP id
+ e12-20020a056102390c00b0042e3aa53369mr3484438vsu.5.1682610733585; Thu, 27 Apr
+ 2023 08:52:13 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v9 02/11] LSM: Maintain a table of LSM attribute data
-Content-Language: en-US
-To:     Kees Cook <keescook@chromium.org>
-Cc:     paul@paul-moore.com, linux-security-module@vger.kernel.org,
-        jmorris@namei.org, john.johansen@canonical.com,
-        penguin-kernel@i-love.sakura.ne.jp, stephen.smalley.work@gmail.com,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        mic@digikod.net, Casey Schaufler <casey@schaufler-ca.com>
-References: <20230421174259.2458-1-casey@schaufler-ca.com>
- <20230421174259.2458-3-casey@schaufler-ca.com>
- <6442e1f7.620a0220.b44ce.7a42@mx.google.com>
-From:   Casey Schaufler <casey@schaufler-ca.com>
-In-Reply-To: <6442e1f7.620a0220.b44ce.7a42@mx.google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Mailer: WebService/1.1.21417 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
-X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+References: <20230425130105.2606684-1-amir73il@gmail.com> <dafbff6baa201b8af862ee3faf7fe948d2a026ab.camel@kernel.org>
+In-Reply-To: <dafbff6baa201b8af862ee3faf7fe948d2a026ab.camel@kernel.org>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Thu, 27 Apr 2023 18:52:02 +0300
+Message-ID: <CAOQ4uxjR0cdjW1Pr1DWAn+dkTd3SbV7CUqeGRh2FeDVBGAdtRw@mail.gmail.com>
+Subject: Re: [RFC][PATCH 0/4] Prepare for supporting more filesystems with fanotify
+To:     Jeff Layton <jlayton@kernel.org>
+Cc:     Jan Kara <jack@suse.cz>, Christian Brauner <brauner@kernel.org>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        linux-unionfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 4/21/2023 12:20 PM, Kees Cook wrote:
-> On Fri, Apr 21, 2023 at 10:42:50AM -0700, Casey Schaufler wrote:
->> As LSMs are registered add their lsm_id pointers to a table.
->> This will be used later for attribute reporting.
->>
->> Determine the number of possible security modules based on
->> their respective CONFIG options. This allows the number to be
->> known at build time. This allows data structures and tables
->> to use the constant.
->>
->> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
-> Reviewed-by: Kees Cook <keescook@chromium.org>
+On Thu, Apr 27, 2023 at 6:13=E2=80=AFPM Jeff Layton <jlayton@kernel.org> wr=
+ote:
 >
-> Nit below...
+> On Tue, 2023-04-25 at 16:01 +0300, Amir Goldstein wrote:
+> > Jan,
+> >
+> > Following up on the FAN_REPORT_ANY_FID proposal [1], here is a shot at =
+an
+> > alternative proposal to seamlessly support more filesystems.
+> >
+> > While fanotify relaxes the requirements for filesystems to support
+> > reporting fid to require only the ->encode_fh() operation, there are
+> > currently no new filesystems that meet the relaxed requirements.
+> >
+> > I will shortly post patches that allow overlayfs to meet the new
+> > requirements with default overlay configurations.
+> >
+> > The overlay and vfs/fanotify patch sets are completely independent.
+> > The are both available on my github branch [2] and there is a simple
+> > LTP test variant that tests reporting fid from overlayfs [3], which
+> > also demonstrates the minor UAPI change of name_to_handle_at(2) for
+> > requesting a non-decodeable file handle by userspace.
+> >
+> > Thanks,
+> > Amir.
+> >
+> > [1] https://lore.kernel.org/linux-fsdevel/20230417162721.ouzs33oh6mb7vt=
+ft@quack3/
+> > [2] https://github.com/amir73il/linux/commits/exportfs_encode_fid
+> > [3] https://github.com/amir73il/ltp/commits/exportfs_encode_fid
+> >
+> > Amir Goldstein (4):
+> >   exportfs: change connectable argument to bit flags
+> >   exportfs: add explicit flag to request non-decodeable file handles
+> >   exportfs: allow exporting non-decodeable file handles to userspace
+> >   fanotify: support reporting non-decodeable file handles
+> >
+> >  Documentation/filesystems/nfs/exporting.rst |  4 +--
+> >  fs/exportfs/expfs.c                         | 29 ++++++++++++++++++---
+> >  fs/fhandle.c                                | 20 ++++++++------
+> >  fs/nfsd/nfsfh.c                             |  5 ++--
+> >  fs/notify/fanotify/fanotify.c               |  4 +--
+> >  fs/notify/fanotify/fanotify_user.c          |  6 ++---
+> >  fs/notify/fdinfo.c                          |  2 +-
+> >  include/linux/exportfs.h                    | 18 ++++++++++---
+> >  include/uapi/linux/fcntl.h                  |  5 ++++
+> >  9 files changed, 67 insertions(+), 26 deletions(-)
+> >
 >
->> [...]
->> @@ -513,6 +531,15 @@ void __init security_add_hooks(struct security_hook_list *hooks, int count,
->>  {
->>  	int i;
->>  
->> +	if (lsm_active_cnt >= LSM_COUNT)
->> +		panic("%s Too many LSMs registered.\n", __func__);
->> +	/*
->> +	 * A security module may call security_add_hooks() more
->> +	 * than once. Landlock is one such case.
->> +	 */
->> +	if (lsm_active_cnt == 0 || lsm_idlist[lsm_active_cnt - 1] != lsmid)
->> +		lsm_idlist[lsm_active_cnt++] = lsmid;
->> +
-> I find this logic hard to parse. I think this might be better, since
-> lsm_idlist will be entirely initialized to LSM_UNDEF, yes?
+> This set looks fairly benign to me, so ACK on the general concept.
+
+Thanks!
+
 >
-> 	/*
-> 	 * A security module may call security_add_hooks() more
-> 	 * than once during initialization, and LSM initialization
-> 	 * is serialized. Landlock is one such case.
-> 	 */
-> 	if (lsm_idlist[lsm_active_cnt] != lsmid)
-> 		lsm_idlist[lsm_active_cnt++] = lsmid;
+> I am starting to dislike how the AT_* flags are turning into a bunch of
+> flags that only have meanings on certain syscalls. I don't see a cleaner
+> way to handle it though.
 
-This code won't do the job. lsm_active_count indexes the first unset
-entry, not the last set entry.
+Yeh, it's not great.
 
+There is also a way to extend the existing API with:
 
+Perhstruct file_handle {
+        unsigned int handle_bytes:8;
+        unsigned int handle_flags:24;
+        int handle_type;
+        unsigned char f_handle[];
+};
+
+AFAICT, this is guaranteed to be backward compat
+with old kernels and old applications.
+
+It also may not be a bad idea that the handle_flags could
+be used to request specific fh properties (FID) and can also
+describe the properties of the returned fh (i.e. non-decodeable)
+that could also be respected by open_by_handle_at().
+
+For backward compact, kernel will only set handle_flags in
+response if new flags were set in the request.
+
+Do you consider this extension better than AT_HANDLE_FID
+or worse? At least it is an API change that is contained within the
+exportfs subsystem, without polluting the AT_ flags global namespace.
+
+Thanks,
+Amir.
