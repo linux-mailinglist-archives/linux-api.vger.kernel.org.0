@@ -2,110 +2,119 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 538306F005F
-	for <lists+linux-api@lfdr.de>; Thu, 27 Apr 2023 07:18:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B210B6F0525
+	for <lists+linux-api@lfdr.de>; Thu, 27 Apr 2023 13:48:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242131AbjD0FS2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 27 Apr 2023 01:18:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46832 "EHLO
+        id S243492AbjD0Lsx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 27 Apr 2023 07:48:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233414AbjD0FS1 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 27 Apr 2023 01:18:27 -0400
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 839D51FCE
-        for <linux-api@vger.kernel.org>; Wed, 26 Apr 2023 22:18:00 -0700 (PDT)
-Received: by mail-pf1-x433.google.com with SMTP id d2e1a72fcca58-63b64a32fd2so10101297b3a.2
-        for <linux-api@vger.kernel.org>; Wed, 26 Apr 2023 22:18:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1682572680; x=1685164680;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=GMaPzJXWrSlkjaxg9I3D2+BQ3FkGijEWz0HmGH4ctBg=;
-        b=K8Ar7FjGTpx9OUTYuvFL8WOi2JYgRtANCY+k0zhV++uZlFYfg1dv2kzq6tPqv4V++e
-         ohR6AHy7h2lfsx104z40E8MmhPD7vAtzVo93Id0EeA2ndo4QgWycBGroBI6FCC0nR5WZ
-         1H3nrbYRRwa9yww+/GwXkMDJeYxz0zLPsGiFlH+Pqh1Q5ajqQ/Ll7yDnAbhKJ/agGr2d
-         7vau+aJ7N4K1IJz7io/UzmQfMEkl1uRsHnVh8dGIZdvaRpxloPhDyij3sklcPpblRAA8
-         hMK9F6dnjYNup9A9M0Eo6OFqxlOl7BmvqxzEnWkWIOPPKDV+tld31O1Om7XBqgD3naLd
-         KgZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682572680; x=1685164680;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GMaPzJXWrSlkjaxg9I3D2+BQ3FkGijEWz0HmGH4ctBg=;
-        b=Qch19uPh/DnK/Exyz4Poi5wS/ULedNfwElWVZXAvFV23cWHe0pbxMq0QrjU5u9OpMV
-         28iDSye8c/ajtAIW9INhLCyhkSgYYhLxmHvCHuxc0y3ICmxiI96PErFuCcGJbguXIbsE
-         ybTyXIEGx/dmbswkJrkYMbwt30PvN5e6WnogAk6VUG75UHw9LlRpTQLV9P465w+giXFV
-         hA9JTa9pCwNJCxmYYX9N1s0uLbbPG4OwuKP7ikZb0+dfFgPq66K3wV+rpLOvnqNuwjm7
-         WGfZF5fREpnSOmYxjavj9Yaap2is85zBRooDMPCzUPSXptzWqxmUAhBtGtbiQ1aq2Dsk
-         SxUg==
-X-Gm-Message-State: AC+VfDyZRNm7B0TjdKUpdxPVlfvmu69Xz9z07657bWgiPIvmj8eSYcsm
-        hSYM1zsTreRa7Vj6bSdkFwiaXg==
-X-Google-Smtp-Source: ACHHUZ6dMpsvHqTKYBR1bclPnIJa3Hb0cd8DQ0u1EuX8+QOryRHNOKFNSfUKpJmSLfW2IWk6sObczw==
-X-Received: by 2002:a05:6a21:3945:b0:ee:d553:5cee with SMTP id ac5-20020a056a21394500b000eed5535ceemr407699pzc.16.1682572680001;
-        Wed, 26 Apr 2023 22:18:00 -0700 (PDT)
-Received: from [10.2.117.253] ([61.213.176.6])
-        by smtp.gmail.com with ESMTPSA id w68-20020a636247000000b00520f4ecd71esm10529815pgb.93.2023.04.26.22.17.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Apr 2023 22:17:59 -0700 (PDT)
-Message-ID: <9ba3577b-0098-86da-ff2e-636cb5a8ae1a@bytedance.com>
-Date:   Thu, 27 Apr 2023 13:17:52 +0800
+        with ESMTP id S242961AbjD0Lsw (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 27 Apr 2023 07:48:52 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC89FA8;
+        Thu, 27 Apr 2023 04:48:51 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 5709321AED;
+        Thu, 27 Apr 2023 11:48:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1682596130; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=9pShv+zjTWSRAZ+oHqUB7CbDWUj57qhhbL44EosO+l4=;
+        b=clSFyKuyskXNCr4ylgVN0cfWefDtMgVHJ8w/QZqtoItFWC3zkS0RGfE01gyV4fCkKH9yK8
+        +xkSGVH5eRIyMeVjHABYQ8IMJWJbUlQRHUr1iAvnXS1T/RBhvOEVt8vylnz/PEm1Flu0ut
+        bwpCCJyOkoopL9E2QVxt7OVCUocypbU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1682596130;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=9pShv+zjTWSRAZ+oHqUB7CbDWUj57qhhbL44EosO+l4=;
+        b=98dWMwrzz8mIUciuXQbPUCemjR4t7zJ20i6vELna9tv3vzHgKQGxarYWJfGR9MzLpTXJfH
+        cc+IHpmerGe3mJDA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 483FA138F9;
+        Thu, 27 Apr 2023 11:48:50 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id xJShESJhSmTdQAAAMHmgww
+        (envelope-from <jack@suse.cz>); Thu, 27 Apr 2023 11:48:50 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+        id D2C95A0729; Thu, 27 Apr 2023 13:48:49 +0200 (CEST)
+Date:   Thu, 27 Apr 2023 13:48:49 +0200
+From:   Jan Kara <jack@suse.cz>
+To:     Amir Goldstein <amir73il@gmail.com>
+Cc:     Jan Kara <jack@suse.cz>, Christian Brauner <brauner@kernel.org>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        linux-unionfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org
+Subject: Re: [RFC][PATCH 4/4] fanotify: support reporting non-decodeable file
+ handles
+Message-ID: <20230427114849.cv3kzxk7rvxpohjc@quack3>
+References: <20230425130105.2606684-1-amir73il@gmail.com>
+ <20230425130105.2606684-5-amir73il@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.10.0
-Subject: Re: [PATCH v6 0/2] sched/numa: add per-process numa_balancing
-Content-Language: en-US
-To:     Peter Zijlstra <peterz@infradead.org>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Mel Gorman <mgorman@suse.de>
-Cc:     linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        John Hubbard <jhubbard@nvidia.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Valentin Schneider <vschneid@redhat.com>
-References: <20230412140701.58337-1-ligang.bdlg@bytedance.com>
-From:   Gang Li <ligang.bdlg@bytedance.com>
-In-Reply-To: <20230412140701.58337-1-ligang.bdlg@bytedance.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230425130105.2606684-5-amir73il@gmail.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi,
-
-Looks like there are no objections or comments. Do you have any ideas?
-
-Can we merge this patch in the next merge window.
-
-Thanks!
-
-On 2023/4/12 22:06, Gang Li wrote:
-> # Introduce
-> Add PR_NUMA_BALANCING in prctl.
+On Tue 25-04-23 16:01:05, Amir Goldstein wrote:
+> fanotify users do not always need to decode the file handles reported
+> with FAN_REPORT_FID.
 > 
-> A large number of page faults will cause performance loss when numa
-> balancing is performing. Thus those processes which care about worst-case
-> performance need numa balancing disabled. Others, on the contrary, allow a
-> temporary performance loss in exchange for higher average performance, so
-> enable numa balancing is better for them.
+> Relax the restriction that filesystem needs to support NFS export and
+> allow reporting file handles from filesystems that only support ecoding
+> unique file handles.
 > 
-> Numa balancing can only be controlled globally by
-> /proc/sys/kernel/numa_balancing. Due to the above case, we want to
-> disable/enable numa_balancing per-process instead.
+> For such filesystems, users will have to use the AT_HANDLE_FID of
+> name_to_handle_at(2) if they want to compare the object in path to the
+> object fid reported in an event.
 > 
+> Signed-off-by: Amir Goldstein <amir73il@gmail.com>
+...
+> diff --git a/fs/notify/fanotify/fanotify_user.c b/fs/notify/fanotify/fanotify_user.c
+> index 8f430bfad487..a5af84cbb30d 100644
+> --- a/fs/notify/fanotify/fanotify_user.c
+> +++ b/fs/notify/fanotify/fanotify_user.c
+> @@ -1586,11 +1586,9 @@ static int fanotify_test_fid(struct dentry *dentry)
+>  	 * We need to make sure that the file system supports at least
+>  	 * encoding a file handle so user can use name_to_handle_at() to
+>  	 * compare fid returned with event to the file handle of watched
+> -	 * objects. However, name_to_handle_at() requires that the
+> -	 * filesystem also supports decoding file handles.
+> +	 * objects, but it does not need to support decoding file handles.
+>  	 */
+> -	if (!dentry->d_sb->s_export_op ||
+> -	    !dentry->d_sb->s_export_op->fh_to_dentry)
+> +	if (!dentry->d_sb->s_export_op)
+>  		return -EOPNOTSUPP;
+
+So AFAICS the only thing you require is that s_export_op is set to
+*something* as exportfs_encode_inode_fh() can deal with NULL ->encode_fh
+just fine without any filesystem cooperation. What is the reasoning behind
+the dentry->d_sb->s_export_op check? Is there an implicit expectation that
+if s_export_op is set to something, the filesystem has sensible
+i_generation? Or is it just a caution that you don't want the functionality
+to be enabled for unexpected filesystems? In either case it would be good
+to capture the reasoning either in a comment or the changelog...
+
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
