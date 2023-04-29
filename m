@@ -2,650 +2,308 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DAA8C6F1F9A
-	for <lists+linux-api@lfdr.de>; Fri, 28 Apr 2023 22:39:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5AD606F21D4
+	for <lists+linux-api@lfdr.de>; Sat, 29 Apr 2023 03:06:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346731AbjD1Uja (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 28 Apr 2023 16:39:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59258 "EHLO
+        id S1347206AbjD2BGz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 28 Apr 2023 21:06:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346701AbjD1UjV (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 28 Apr 2023 16:39:21 -0400
-Received: from sonic307-15.consmr.mail.ne1.yahoo.com (sonic307-15.consmr.mail.ne1.yahoo.com [66.163.190.38])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B5C830C2
-        for <linux-api@vger.kernel.org>; Fri, 28 Apr 2023 13:39:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1682714356; bh=Fp9lrVtrNVicSx7kowMCBpHDobGKxquDxegaCSkzu8A=; h=From:To:Cc:Subject:Date:In-Reply-To:References:From:Subject:Reply-To; b=DWh4W5dqX9dh/Cxms7m2IETPuiC3mwsPS1Sb2apROnvtyl+ZhLzwNN2VZAHB2HqlqFwenHkRmEFHWDA1SpG2xwvsBrWY0HZhDQLiP+0NnKsB3GjWkE7wA0evkmGOktomF8NHcHGHlVgMb+PygECP/NjuTu8nEptxkV9mXFPouyNz/ObfMrhW6kq/XuLza4DEx/Hd0VGrdkQ7YmwfmxYXfjdjbDsdgR5jtXdtU81ELObsrss4VEqjruO5qMEJbUXffO1WDwVoeBgg1Q/rUQjHWyA1QKl29hu9KYiz02oXvzHACtfNhBMAqKD6tDLcDxMa/0kTBJbPUiTvcskrnJf1Fw==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1682714356; bh=WBAEw8xIiVh6yMXjjVz3UohskO15Hn2Whbz4fRZfldQ=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=feCFo4pTQxE2uMENoEMtUG9HQJFkofZ32Wjob2oWILJEsBa1v6zIYvTBWepXaYmUuIfatcCNsSrUIo6HTUpkZhz/cLb8JZX7Y18JzAjmLtODVSY2aX6/ISXRMiR0xwjijhGWcnrskP0Y+8ZbbEmktbexyIg/KASEsrH7itX4v0LQnAsIcICzsITuSL8XdOTXA/QNfAsQLR9JdAr2uprGWaoAOKpc1ZQOZvoRNLUGWh2Uag29u+kWKJOWqMmhxD79Q1J+UP1FJDygwl4bmUu6cDCBRZJukqcE26l1Vg1TNA+FBomSYPcWllBGPcTlF645Fk/SGUeFhsjiw8lGDiEejw==
-X-YMail-OSG: PhVyqqsVM1ksKYRdXmfff2h0AX1Qw4uNUiek.zhW.nvDuZCgyhqljpq1ZNNgvrP
- JFjfeeu6.iHibELWTAI0K8Ildkno.TMVvkf0HvJZSZiW3oESLEYNbjh8ewvDQ0TCmyOk0g3MzPAV
- A8_idLVYKqdxG5dVIkow_E4B8KSU.VTrm.hhRZzYNongYYP1CWkMwIWd3EJVZmOi90y2yuHc_9YN
- aWHRUvDLEiJkkkbF_OVekU0Pr_yE7r9hqfuKkES7s044rIqzx.yWDIxdr0BL8boXWMGm8G0jtvnH
- p.OcjpsFPmONBemQwWnomJsuLOxiwcfuwTiQ4vX7r3iqSA5n2DWh79GOX3jbR9.y.hEWMvWLT7YI
- WCh7ofRk_.AAF_4r1RwuT7JCvd5XaJV.vz63xZD6sAT.AufPyo.VeCEv4Ftm1p_G.F_nwK40voJ6
- OEgZrBB2edzZm78jpZ6XxNSysJr4WzG0UsdGBYmJJkhOfXPDPPXZzOaf9wCJwqE5E5X0bYvekMAk
- Bx19iN.T8JtD3NddIwZ406OsfInLr.FHkDffKAfPmWwl5qkSj3Q6KnEG5P0Iy6rV0cercc690T6G
- B5c7KIycOMmSV9tKZauTJQc1DisOKK_.piRL83yjkTuExEa_sOB9DkuOizEjwfFQWOWUScgL5Y4R
- ohu5Hx8mGBQaDki4pjLA6UfhY_aAkfOZBA1KzDPbN4qaXva.8sE6Ik7R6CBPmOJjS6S_nyXflTfV
- yi9EOQ9Fxn7q6Cra1rtyFrVV_7B8jHoHhvUsYMtpdCexQvGSb5HFu3BYvTWTag2wxAaPY0bbYRc7
- jUG1EHF20MUdYSEGRihT8e0Cbrf0jYxSDMsj.rnsoZ.pzy7afiC6mtjqohYWugHbhKktG8vfZZH.
- eQqwkd2_TnJ3x4HdpvjFvgrd_kMf0INti5SANMldhMCRobjZb1WRUBHdH3.iA0niu9Qm8kPE1Ytq
- Eg4vP251n4aCmvSg4vbHU4jSBInUxKFw4zRQ2NUXEcQdFJnbd9kzBYae.tC3liuJN5tmv3fHtqAJ
- lXPKIerDu2.ziIjwf.5Z3gOWgFVRT1UWCI4g7gBLSZeeg.qg_kStdlv139sdLoDgIPMLr.jgYIfb
- w5bQ32d5yPpeBoVW9zgVbeB4FhnfxdAHVhMmb9YRtdNn93md.qyDfDjmrqRH396QYp3kApqe1Zpw
- v6qIhqbsJRAu05Dkn.6blNMmnoulZr1CpNahz2qb7p8ml4NW6G3s8NnZiiJb8tl9Gytj.zWebXTH
- IdaE04dBx2882bGbgsC4k.oFLRcbTpn84zfx1og6Mtgavaq3EkQPIK6y6HAKz27k3s62j1FU3qzz
- Ojg0OcuKQLsF8j2JoAhH0W6PeCeq_plBI7AX06tmlMkgYK7EtKknUhkDttMNq5U_yYGfG45RaJOv
- 0aKY3E7Ny8FgRVWHM5JzNgq57ons7.ltO8UuRlkqB.n0ZVr5eVJGoGrWNljd78biATO7D6.pnQhc
- 1SdAhEF5IWqe22pTPnJMV_VcdhUjX1OLgnlnr8Ecdh5N2.fiJ3rx6bvVob6fafDN4X1wpbSS6xm_
- pJF5fdFntHjBhE73MhdLFVDOMVaLOT..8cXtjftgUMjgUPeyNZEqy2OWR5.hyqw053HEhPsr5Yev
- TRF3PwwbAjQhCQucUK61sRV6UsB8cqkn.lv6k3qgXhZnVJpyojW1k9ZBnOQARcCxKwuQPe5BJvZe
- yjxN6DYqDuBt26pby7bQiQzcbLjTq1KbD9VUB1elCE6eiZWiifO8gbVq75bl4QnqWdK_q7Tur4p5
- Ov.1ex4LaCD.nycYmx0y3Zas73vooCjCbyhCM90VYIOg1E1qS3xdrH65DwPKg.06x5jM7swU5iFq
- m8gtIq4u2LuCQaHlq_jsw6L0hRZwi9tc5r05.vsy2ladSvZwf3n1kv3HCONazBrXLzcu2D.CTiWO
- Qvyavg2yUd8_.UB6IJFauNK1JxZUbOE.eGx5ggzyv6X.3OPFmksPJreUukzyELpW.izYJ95yycIN
- gnmqxuCzdbA7JXXNeK2FM_zJny7sWXCVCzLVI.Ryij_vnyoh4s7eMDGpBviaiaLOtZVOS5z_MaxU
- IEoL_Nh36IcbGl0E53W4_Q7jH7IUOIMMgkRxF16N_K5pXkLrdbELc3qw3inTtlZ1x7Vz5AwYqwbS
- jOSUW8R0OsTRM.otw7vwe0oQuqCVboASC1xLAgIgTddsEEMUco1w27CUVDkKYDjL5bvwV3MqdvUB
- jOeeLgq2vbHkcVgwYDHq6k8s0MC2bGwaD1mXyH4rmJU.t44V7QoQmI7hyJcRkL4aJlQzP7nQVhsS
- dGlOytDt_Hs.aMQzZ7OauNlJNeMOx2Q--
-X-Sonic-MF: <casey@schaufler-ca.com>
-X-Sonic-ID: aa2c239d-22b6-4f6c-bfe6-9c0ee50c93ec
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic307.consmr.mail.ne1.yahoo.com with HTTP; Fri, 28 Apr 2023 20:39:16 +0000
-Received: by hermes--production-bf1-5f9df5c5c4-wvm2h (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 7872f02abf9ba03acc5bf1902aa8c755;
-          Fri, 28 Apr 2023 20:39:15 +0000 (UTC)
-From:   Casey Schaufler <casey@schaufler-ca.com>
-To:     casey@schaufler-ca.com, paul@paul-moore.com,
+        with ESMTP id S229848AbjD2BGy (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 28 Apr 2023 21:06:54 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 331D41BE6;
+        Fri, 28 Apr 2023 18:06:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1682730413; x=1714266413;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PlWSoSdqq8TFR6+EZL1jyxd/pZTMFH5V0NmPcGL7Ed0=;
+  b=KNoOK4PoZhggldOZ7F82OGMzEcK7cY/EAOWSYdpUI6SM33jto+dyr6ES
+   oI+7knFw1tGCaX9CKRdh6S1dnGTHk6OuBRsY47oczvhqFG8Tamg8Gdv2F
+   JzkGWHkxxrSdFe2mzduiYPHFf+ih79gZC4wBB00ZH0l/wr5j6PvX90ebq
+   V/hbTQCbVB/PaoEXkBADLTlvsTIwzVo4x2POjg0lnlW+THqmbKYfWgxgz
+   HX6QPJ7MggYr3JIWdVcp4vP6MNZ2rs8KmYcBqNyiYqM1LXLHAmR7lDbMu
+   2R/xMQqSF2ztPkqKsi+tXvuNfO8SqiQj43X+psRHt6qEJtircZL+S+CDf
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="411004446"
+X-IronPort-AV: E=Sophos;i="5.99,235,1677571200"; 
+   d="scan'208";a="411004446"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2023 18:06:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="839066003"
+X-IronPort-AV: E=Sophos;i="5.99,235,1677571200"; 
+   d="scan'208";a="839066003"
+Received: from lkp-server01.sh.intel.com (HELO 5bad9d2b7fcb) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 28 Apr 2023 18:06:49 -0700
+Received: from kbuild by 5bad9d2b7fcb with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1psZ32-0000mf-1B;
+        Sat, 29 Apr 2023 01:06:48 +0000
+Date:   Sat, 29 Apr 2023 09:06:08 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Casey Schaufler <casey@schaufler-ca.com>, paul@paul-moore.com,
         linux-security-module@vger.kernel.org
-Cc:     jmorris@namei.org, keescook@chromium.org,
-        john.johansen@canonical.com, penguin-kernel@i-love.sakura.ne.jp,
-        stephen.smalley.work@gmail.com, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, mic@digikod.net
-Subject: [PATCH v10 11/11] LSM: selftests for Linux Security Module syscalls
-Date:   Fri, 28 Apr 2023 13:34:17 -0700
-Message-Id: <20230428203417.159874-12-casey@schaufler-ca.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230428203417.159874-1-casey@schaufler-ca.com>
-References: <20230428203417.159874-1-casey@schaufler-ca.com>
+Cc:     oe-kbuild-all@lists.linux.dev, jmorris@namei.org,
+        keescook@chromium.org, john.johansen@canonical.com,
+        penguin-kernel@i-love.sakura.ne.jp, stephen.smalley.work@gmail.com,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        mic@digikod.net
+Subject: Re: [PATCH v10 07/11] LSM: Helpers for attribute names and filling
+ lsm_ctx
+Message-ID: <202304290847.WxviiKLP-lkp@intel.com>
+References: <20230428203417.159874-8-casey@schaufler-ca.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230428203417.159874-8-casey@schaufler-ca.com>
+X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Add selftests for the three system calls supporting the LSM
-infrastructure.
+Hi Casey,
 
-Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
----
- tools/testing/selftests/Makefile              |   1 +
- tools/testing/selftests/lsm/Makefile          |  12 +
- tools/testing/selftests/lsm/config            |   2 +
- .../selftests/lsm/lsm_get_self_attr_test.c    | 270 ++++++++++++++++++
- .../selftests/lsm/lsm_list_modules_test.c     | 153 ++++++++++
- .../selftests/lsm/lsm_set_self_attr_test.c    |  70 +++++
- 6 files changed, 508 insertions(+)
- create mode 100644 tools/testing/selftests/lsm/Makefile
- create mode 100644 tools/testing/selftests/lsm/config
- create mode 100644 tools/testing/selftests/lsm/lsm_get_self_attr_test.c
- create mode 100644 tools/testing/selftests/lsm/lsm_list_modules_test.c
- create mode 100644 tools/testing/selftests/lsm/lsm_set_self_attr_test.c
+kernel test robot noticed the following build errors:
 
-diff --git a/tools/testing/selftests/Makefile b/tools/testing/selftests/Makefile
-index 13a6837a0c6b..b18d133a1141 100644
---- a/tools/testing/selftests/Makefile
-+++ b/tools/testing/selftests/Makefile
-@@ -38,6 +38,7 @@ TARGETS += landlock
- TARGETS += lib
- TARGETS += livepatch
- TARGETS += lkdtm
-+TARGETS += lsm
- TARGETS += membarrier
- TARGETS += memfd
- TARGETS += memory-hotplug
-diff --git a/tools/testing/selftests/lsm/Makefile b/tools/testing/selftests/lsm/Makefile
-new file mode 100644
-index 000000000000..f39a75212b78
---- /dev/null
-+++ b/tools/testing/selftests/lsm/Makefile
-@@ -0,0 +1,12 @@
-+# SPDX-License-Identifier: GPL-2.0
-+#
-+# First run: make -C ../../../.. headers_install
-+
-+CFLAGS += -Wall -O2 $(KHDR_INCLUDES)
-+
-+TEST_GEN_PROGS := lsm_get_self_attr_test lsm_list_modules_test \
-+		  lsm_set_self_attr_test
-+
-+include ../lib.mk
-+
-+$(TEST_GEN_PROGS):
-diff --git a/tools/testing/selftests/lsm/config b/tools/testing/selftests/lsm/config
-new file mode 100644
-index 000000000000..afb887715f64
---- /dev/null
-+++ b/tools/testing/selftests/lsm/config
-@@ -0,0 +1,2 @@
-+CONFIG_SYSFS=y
-+CONFIG_SECURITY=y
-diff --git a/tools/testing/selftests/lsm/lsm_get_self_attr_test.c b/tools/testing/selftests/lsm/lsm_get_self_attr_test.c
-new file mode 100644
-index 000000000000..a62524b17bf7
---- /dev/null
-+++ b/tools/testing/selftests/lsm/lsm_get_self_attr_test.c
-@@ -0,0 +1,270 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Linux Security Module infrastructure tests
-+ * Tests for the lsm_get_self_attr system call
-+ *
-+ * Copyright © 2022 Casey Schaufler <casey@schaufler-ca.com>
-+ * Copyright © 2022 Intel Corporation
-+ */
-+
-+#define _GNU_SOURCE
-+#include <linux/lsm.h>
-+#include <fcntl.h>
-+#include <string.h>
-+#include <stdio.h>
-+#include <unistd.h>
-+#include <sys/types.h>
-+#include "../kselftest_harness.h"
-+
-+#define PROCATTR	"/proc/self/attr/"
-+
-+static int read_proc_attr(const char *attr, char *value, __kernel_size_t size)
-+{
-+	int fd;
-+	int len;
-+	char *path;
-+
-+	len = strlen(PROCATTR) + strlen(attr) + 1;
-+	path = calloc(len, 1);
-+	if (path == NULL)
-+		return -1;
-+	sprintf(path, "%s%s", PROCATTR, attr);
-+
-+	fd = open(path, O_RDONLY);
-+	free(path);
-+
-+	if (fd < 0)
-+		return -1;
-+	len = read(fd, value, size);
-+	if (len <= 0)
-+		return -1;
-+	close(fd);
-+
-+	path = strchr(value, '\n');
-+	if (path)
-+		*path = '\0';
-+
-+	return 0;
-+}
-+
-+static struct lsm_ctx *next_ctx(struct lsm_ctx *ctxp)
-+{
-+	void *vp;
-+
-+	vp = (void *)ctxp + sizeof(*ctxp) + ctxp->ctx_len;
-+	return (struct lsm_ctx *)vp;
-+}
-+
-+TEST(size_null_lsm_get_self_attr)
-+{
-+	const long page_size = sysconf(_SC_PAGESIZE);
-+	char *ctx = calloc(page_size, 1);
-+
-+	ASSERT_NE(NULL, ctx);
-+	errno = 0;
-+	ASSERT_EQ(-1, syscall(__NR_lsm_get_self_attr, LSM_ATTR_CURRENT, ctx,
-+			      NULL, 0));
-+	ASSERT_EQ(EINVAL, errno);
-+
-+	free(ctx);
-+}
-+
-+TEST(ctx_null_lsm_get_self_attr)
-+{
-+	const long page_size = sysconf(_SC_PAGESIZE);
-+	__kernel_size_t size = page_size;
-+
-+	ASSERT_NE(-1, syscall(__NR_lsm_get_self_attr, LSM_ATTR_CURRENT, NULL,
-+			      &size, 0));
-+	ASSERT_NE(1, size);
-+}
-+
-+TEST(size_too_small_lsm_get_self_attr)
-+{
-+	const long page_size = sysconf(_SC_PAGESIZE);
-+	char *ctx = calloc(page_size, 1);
-+	__kernel_size_t size = 1;
-+
-+	ASSERT_NE(NULL, ctx);
-+	errno = 0;
-+	ASSERT_EQ(-1, syscall(__NR_lsm_get_self_attr, LSM_ATTR_CURRENT, ctx,
-+			      &size, 0));
-+	ASSERT_EQ(E2BIG, errno);
-+	ASSERT_NE(1, size);
-+
-+	free(ctx);
-+}
-+
-+TEST(flags_zero_lsm_get_self_attr)
-+{
-+	const long page_size = sysconf(_SC_PAGESIZE);
-+	char *ctx = calloc(page_size, 1);
-+	__kernel_size_t size = page_size;
-+
-+	ASSERT_NE(NULL, ctx);
-+	errno = 0;
-+	ASSERT_EQ(-1, syscall(__NR_lsm_get_self_attr, LSM_ATTR_CURRENT, ctx,
-+			      &size, 1));
-+	ASSERT_EQ(EINVAL, errno);
-+	ASSERT_EQ(page_size, size);
-+
-+	free(ctx);
-+}
-+
-+TEST(flags_overset_lsm_get_self_attr)
-+{
-+	const long page_size = sysconf(_SC_PAGESIZE);
-+	char *ctx = calloc(page_size, 1);
-+	__kernel_size_t size = page_size;
-+
-+	ASSERT_NE(NULL, ctx);
-+	errno = 0;
-+	ASSERT_EQ(-1, syscall(__NR_lsm_get_self_attr,
-+			      LSM_ATTR_CURRENT | LSM_ATTR_PREV, ctx, &size, 0));
-+	ASSERT_EQ(EOPNOTSUPP, errno);
-+
-+	free(ctx);
-+}
-+
-+TEST(basic_lsm_get_self_attr)
-+{
-+	const long page_size = sysconf(_SC_PAGESIZE);
-+	__kernel_size_t size = page_size;
-+	struct lsm_ctx *ctx = calloc(page_size, 1);
-+	struct lsm_ctx *tctx = NULL;
-+	__u64 *syscall_lsms = calloc(page_size, 1);
-+	char *attr = calloc(page_size, 1);
-+	int cnt_current = 0;
-+	int cnt_exec = 0;
-+	int cnt_fscreate = 0;
-+	int cnt_keycreate = 0;
-+	int cnt_prev = 0;
-+	int cnt_sockcreate = 0;
-+	int lsmcount;
-+	int count;
-+	int i;
-+
-+	ASSERT_NE(NULL, ctx);
-+	ASSERT_NE(NULL, syscall_lsms);
-+
-+	lsmcount = syscall(__NR_lsm_list_modules, syscall_lsms, &size, 0);
-+	ASSERT_LE(1, lsmcount);
-+
-+	for (i = 0; i < lsmcount; i++) {
-+		switch (syscall_lsms[i]) {
-+		case LSM_ID_SELINUX:
-+			cnt_current++;
-+			cnt_exec++;
-+			cnt_fscreate++;
-+			cnt_keycreate++;
-+			cnt_prev++;
-+			cnt_sockcreate++;
-+			break;
-+		case LSM_ID_SMACK:
-+			cnt_current++;
-+			break;
-+		case LSM_ID_APPARMOR:
-+			cnt_current++;
-+			cnt_exec++;
-+			cnt_prev++;
-+			break;
-+		default:
-+			break;
-+		}
-+	}
-+
-+	if (cnt_current) {
-+		size = page_size;
-+		count = syscall(__NR_lsm_get_self_attr, LSM_ATTR_CURRENT, ctx,
-+				&size, 0);
-+		ASSERT_EQ(cnt_current, count);
-+		tctx = ctx;
-+		ASSERT_EQ(0, read_proc_attr("current", attr, page_size));
-+		ASSERT_EQ(0, strcmp((char *)tctx->ctx, attr));
-+		for (i = 1; i < count; i++) {
-+			tctx = next_ctx(tctx);
-+			ASSERT_NE(0, strcmp((char *)tctx->ctx, attr));
-+		}
-+	}
-+	if (cnt_exec) {
-+		size = page_size;
-+		count = syscall(__NR_lsm_get_self_attr, LSM_ATTR_EXEC, ctx,
-+				&size, 0);
-+		ASSERT_GE(cnt_exec, count);
-+		if (count > 0) {
-+			tctx = ctx;
-+			if (read_proc_attr("exec", attr, page_size) == 0)
-+				ASSERT_EQ(0, strcmp((char *)tctx->ctx, attr));
-+		}
-+		for (i = 1; i < count; i++) {
-+			tctx = next_ctx(tctx);
-+			ASSERT_NE(0, strcmp((char *)tctx->ctx, attr));
-+		}
-+	}
-+	if (cnt_fscreate) {
-+		size = page_size;
-+		count = syscall(__NR_lsm_get_self_attr, LSM_ATTR_FSCREATE, ctx,
-+				&size, 0);
-+		ASSERT_GE(cnt_fscreate, count);
-+		if (count > 0) {
-+			tctx = ctx;
-+			if (read_proc_attr("fscreate", attr, page_size) == 0)
-+				ASSERT_EQ(0, strcmp((char *)tctx->ctx, attr));
-+		}
-+		for (i = 1; i < count; i++) {
-+			tctx = next_ctx(tctx);
-+			ASSERT_NE(0, strcmp((char *)tctx->ctx, attr));
-+		}
-+	}
-+	if (cnt_keycreate) {
-+		size = page_size;
-+		count = syscall(__NR_lsm_get_self_attr, LSM_ATTR_KEYCREATE, ctx,
-+				&size, 0);
-+		ASSERT_GE(cnt_keycreate, count);
-+		if (count > 0) {
-+			tctx = ctx;
-+			if (read_proc_attr("keycreate", attr, page_size) == 0)
-+				ASSERT_EQ(0, strcmp((char *)tctx->ctx, attr));
-+		}
-+		for (i = 1; i < count; i++) {
-+			tctx = next_ctx(tctx);
-+			ASSERT_NE(0, strcmp((char *)tctx->ctx, attr));
-+		}
-+	}
-+	if (cnt_prev) {
-+		size = page_size;
-+		count = syscall(__NR_lsm_get_self_attr, LSM_ATTR_PREV, ctx,
-+				&size, 0);
-+		ASSERT_GE(cnt_prev, count);
-+		if (count > 0) {
-+			tctx = ctx;
-+			ASSERT_EQ(0, read_proc_attr("prev", attr, page_size));
-+			ASSERT_EQ(0, strcmp((char *)tctx->ctx, attr));
-+			for (i = 1; i < count; i++) {
-+				tctx = next_ctx(tctx);
-+				ASSERT_NE(0, strcmp((char *)tctx->ctx, attr));
-+			}
-+		}
-+	}
-+	if (cnt_sockcreate) {
-+		size = page_size;
-+		count = syscall(__NR_lsm_get_self_attr, LSM_ATTR_SOCKCREATE,
-+				ctx, &size, 0);
-+		ASSERT_GE(cnt_sockcreate, count);
-+		if (count > 0) {
-+			tctx = ctx;
-+			if (read_proc_attr("sockcreate", attr, page_size) == 0)
-+				ASSERT_EQ(0, strcmp((char *)tctx->ctx, attr));
-+		}
-+		for (i = 1; i < count; i++) {
-+			tctx = next_ctx(tctx);
-+			ASSERT_NE(0, strcmp((char *)tctx->ctx, attr));
-+		}
-+	}
-+
-+	free(ctx);
-+	free(attr);
-+	free(syscall_lsms);
-+}
-+
-+TEST_HARNESS_MAIN
-diff --git a/tools/testing/selftests/lsm/lsm_list_modules_test.c b/tools/testing/selftests/lsm/lsm_list_modules_test.c
-new file mode 100644
-index 000000000000..871d516a7d7d
---- /dev/null
-+++ b/tools/testing/selftests/lsm/lsm_list_modules_test.c
-@@ -0,0 +1,153 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Linux Security Module infrastructure tests
-+ * Tests for the lsm_list_modules system call
-+ *
-+ * Copyright © 2022 Casey Schaufler <casey@schaufler-ca.com>
-+ * Copyright © 2022 Intel Corporation
-+ */
-+
-+#define _GNU_SOURCE
-+#include <linux/lsm.h>
-+#include <string.h>
-+#include <stdio.h>
-+#include <unistd.h>
-+#include <sys/types.h>
-+#include "../kselftest_harness.h"
-+
-+static int read_sysfs_lsms(char *lsms, __kernel_size_t size)
-+{
-+	FILE *fp;
-+
-+	fp = fopen("/sys/kernel/security/lsm", "r");
-+	if (fp == NULL)
-+		return -1;
-+	if (fread(lsms, 1, size, fp) <= 0)
-+		return -1;
-+	fclose(fp);
-+	return 0;
-+}
-+
-+TEST(size_null_lsm_list_modules)
-+{
-+	const long page_size = sysconf(_SC_PAGESIZE);
-+	char *syscall_lsms = calloc(page_size, 1);
-+
-+	ASSERT_NE(NULL, syscall_lsms);
-+	errno = 0;
-+	ASSERT_EQ(-1, syscall(__NR_lsm_list_modules, syscall_lsms, NULL, 0));
-+	ASSERT_EQ(EFAULT, errno);
-+
-+	free(syscall_lsms);
-+}
-+
-+TEST(ids_null_lsm_list_modules)
-+{
-+	const long page_size = sysconf(_SC_PAGESIZE);
-+	__kernel_size_t size = page_size;
-+
-+	errno = 0;
-+	ASSERT_EQ(-1, syscall(__NR_lsm_list_modules, NULL, &size, 0));
-+	ASSERT_EQ(EFAULT, errno);
-+	ASSERT_NE(1, size);
-+}
-+
-+TEST(size_too_small_lsm_list_modules)
-+{
-+	const long page_size = sysconf(_SC_PAGESIZE);
-+	char *syscall_lsms = calloc(page_size, 1);
-+	__kernel_size_t size = 1;
-+
-+	ASSERT_NE(NULL, syscall_lsms);
-+	errno = 0;
-+	ASSERT_EQ(-1, syscall(__NR_lsm_list_modules, syscall_lsms, &size, 0));
-+	ASSERT_EQ(E2BIG, errno);
-+	ASSERT_NE(1, size);
-+
-+	free(syscall_lsms);
-+}
-+
-+TEST(flags_set_lsm_list_modules)
-+{
-+	const long page_size = sysconf(_SC_PAGESIZE);
-+	char *syscall_lsms = calloc(page_size, 1);
-+	__kernel_size_t size = page_size;
-+
-+	ASSERT_NE(NULL, syscall_lsms);
-+	errno = 0;
-+	ASSERT_EQ(-1, syscall(__NR_lsm_list_modules, syscall_lsms, &size, 7));
-+	ASSERT_EQ(EINVAL, errno);
-+	ASSERT_EQ(page_size, size);
-+
-+	free(syscall_lsms);
-+}
-+
-+TEST(correct_lsm_list_modules)
-+{
-+	const long page_size = sysconf(_SC_PAGESIZE);
-+	__kernel_size_t size = page_size;
-+	__u64 *syscall_lsms = calloc(page_size, 1);
-+	char *sysfs_lsms = calloc(page_size, 1);
-+	char *name;
-+	char *cp;
-+	int count;
-+	int i;
-+
-+	ASSERT_NE(NULL, sysfs_lsms);
-+	ASSERT_NE(NULL, syscall_lsms);
-+	ASSERT_EQ(0, read_sysfs_lsms(sysfs_lsms, page_size));
-+
-+	count = syscall(__NR_lsm_list_modules, syscall_lsms, &size, 0);
-+	ASSERT_LE(1, count);
-+	cp = sysfs_lsms;
-+	for (i = 0; i < count; i++) {
-+		switch (syscall_lsms[i]) {
-+		case LSM_ID_CAPABILITY:
-+			name = "capability";
-+			break;
-+		case LSM_ID_SELINUX:
-+			name = "selinux";
-+			break;
-+		case LSM_ID_SMACK:
-+			name = "smack";
-+			break;
-+		case LSM_ID_TOMOYO:
-+			name = "tomoyo";
-+			break;
-+		case LSM_ID_IMA:
-+			name = "ima";
-+			break;
-+		case LSM_ID_APPARMOR:
-+			name = "apparmor";
-+			break;
-+		case LSM_ID_YAMA:
-+			name = "yama";
-+			break;
-+		case LSM_ID_LOADPIN:
-+			name = "loadpin";
-+			break;
-+		case LSM_ID_SAFESETID:
-+			name = "safesetid";
-+			break;
-+		case LSM_ID_LOCKDOWN:
-+			name = "lockdown";
-+			break;
-+		case LSM_ID_BPF:
-+			name = "bpf";
-+			break;
-+		case LSM_ID_LANDLOCK:
-+			name = "landlock";
-+			break;
-+		default:
-+			name = "INVALID";
-+			break;
-+		}
-+		ASSERT_EQ(0, strncmp(cp, name, strlen(name)));
-+		cp += strlen(name) + 1;
-+	}
-+
-+	free(sysfs_lsms);
-+	free(syscall_lsms);
-+}
-+
-+TEST_HARNESS_MAIN
-diff --git a/tools/testing/selftests/lsm/lsm_set_self_attr_test.c b/tools/testing/selftests/lsm/lsm_set_self_attr_test.c
-new file mode 100644
-index 000000000000..ca538a703168
---- /dev/null
-+++ b/tools/testing/selftests/lsm/lsm_set_self_attr_test.c
-@@ -0,0 +1,70 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Linux Security Module infrastructure tests
-+ * Tests for the lsm_set_self_attr system call
-+ *
-+ * Copyright © 2022 Casey Schaufler <casey@schaufler-ca.com>
-+ * Copyright © 2022 Intel Corporation
-+ */
-+
-+#define _GNU_SOURCE
-+#include <linux/lsm.h>
-+#include <string.h>
-+#include <stdio.h>
-+#include <unistd.h>
-+#include <sys/types.h>
-+#include "../kselftest_harness.h"
-+
-+TEST(ctx_null_lsm_set_self_attr)
-+{
-+	ASSERT_EQ(-1, syscall(__NR_lsm_set_self_attr, LSM_ATTR_CURRENT, NULL,
-+			      sizeof(struct lsm_ctx), 0));
-+}
-+
-+TEST(size_too_small_lsm_set_self_attr)
-+{
-+	const long page_size = sysconf(_SC_PAGESIZE);
-+	struct lsm_ctx *ctx = calloc(page_size, 1);
-+	__kernel_size_t size = page_size;
-+
-+	ASSERT_NE(NULL, ctx);
-+	ASSERT_GE(1, syscall(__NR_lsm_get_self_attr, LSM_ATTR_CURRENT, ctx,
-+			     &size, 0));
-+	ASSERT_EQ(-1, syscall(__NR_lsm_set_self_attr, LSM_ATTR_CURRENT, ctx, 1,
-+			      0));
-+
-+	free(ctx);
-+}
-+
-+TEST(flags_zero_lsm_set_self_attr)
-+{
-+	const long page_size = sysconf(_SC_PAGESIZE);
-+	char *ctx = calloc(page_size, 1);
-+	__kernel_size_t size = page_size;
-+
-+	ASSERT_NE(NULL, ctx);
-+	ASSERT_GE(1, syscall(__NR_lsm_get_self_attr, LSM_ATTR_CURRENT, ctx,
-+			     &size, 0));
-+	ASSERT_EQ(-1, syscall(__NR_lsm_set_self_attr, LSM_ATTR_CURRENT, ctx,
-+			      size, 1));
-+
-+	free(ctx);
-+}
-+
-+TEST(flags_overset_lsm_set_self_attr)
-+{
-+	const long page_size = sysconf(_SC_PAGESIZE);
-+	char *ctx = calloc(page_size, 1);
-+	__kernel_size_t size = page_size;
-+	struct lsm_ctx *tctx = (struct lsm_ctx *)ctx;
-+
-+	ASSERT_NE(NULL, ctx);
-+	ASSERT_GE(1, syscall(__NR_lsm_get_self_attr, LSM_ATTR_CURRENT, tctx,
-+			     &size, 0));
-+	ASSERT_EQ(-1, syscall(__NR_lsm_set_self_attr,
-+			      LSM_ATTR_CURRENT | LSM_ATTR_PREV, tctx, size, 0));
-+
-+	free(ctx);
-+}
-+
-+TEST_HARNESS_MAIN
+[auto build test ERROR on tip/perf/core]
+[also build test ERROR on acme/perf/core shuah-kselftest/next shuah-kselftest/fixes v6.3]
+[cannot apply to linus/master next-20230428]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Casey-Schaufler/LSM-Maintain-a-table-of-LSM-attribute-data/20230429-053458
+base:   tip/perf/core
+patch link:    https://lore.kernel.org/r/20230428203417.159874-8-casey%40schaufler-ca.com
+patch subject: [PATCH v10 07/11] LSM: Helpers for attribute names and filling lsm_ctx
+config: um-i386_defconfig (https://download.01.org/0day-ci/archive/20230429/202304290847.WxviiKLP-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/9830f4776196e33bee604b8ce3339177f8fd37f8
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Casey-Schaufler/LSM-Maintain-a-table-of-LSM-attribute-data/20230429-053458
+        git checkout 9830f4776196e33bee604b8ce3339177f8fd37f8
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=um SUBARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=um SUBARCH=i386 SHELL=/bin/bash
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304290847.WxviiKLP-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from include/linux/perf_event.h:62,
+                    from include/linux/trace_events.h:10,
+                    from include/trace/syscall.h:7,
+                    from include/linux/syscalls.h:89,
+                    from init/main.c:21:
+   include/linux/security.h: In function 'lsm_name_to_attr':
+>> include/linux/security.h:516:16: error: 'LSM_ATTR_UNDEF' undeclared (first use in this function)
+     516 |         return LSM_ATTR_UNDEF;
+         |                ^~~~~~~~~~~~~~
+   include/linux/security.h:516:16: note: each undeclared identifier is reported only once for each function it appears in
+   init/main.c: At top level:
+   init/main.c:775:20: warning: no previous prototype for 'arch_post_acpi_subsys_init' [-Wmissing-prototypes]
+     775 | void __init __weak arch_post_acpi_subsys_init(void) { }
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   init/main.c:787:20: warning: no previous prototype for 'mem_encrypt_init' [-Wmissing-prototypes]
+     787 | void __init __weak mem_encrypt_init(void) { }
+         |                    ^~~~~~~~~~~~~~~~
+   init/main.c:789:20: warning: no previous prototype for 'poking_init' [-Wmissing-prototypes]
+     789 | void __init __weak poking_init(void) { }
+         |                    ^~~~~~~~~~~
+--
+   In file included from init/do_mounts.c:9:
+   include/linux/security.h: In function 'lsm_name_to_attr':
+>> include/linux/security.h:516:16: error: 'LSM_ATTR_UNDEF' undeclared (first use in this function)
+     516 |         return LSM_ATTR_UNDEF;
+         |                ^~~~~~~~~~~~~~
+   include/linux/security.h:516:16: note: each undeclared identifier is reported only once for each function it appears in
+--
+   In file included from include/net/scm.h:8,
+                    from include/linux/netlink.h:9,
+                    from include/uapi/linux/neighbour.h:6,
+                    from include/linux/netdevice.h:46,
+                    from include/uapi/linux/if_arp.h:27,
+                    from include/linux/if_arp.h:23,
+                    from arch/um/drivers/slirp_kern.c:6:
+   include/linux/security.h: In function 'lsm_name_to_attr':
+>> include/linux/security.h:516:16: error: 'LSM_ATTR_UNDEF' undeclared (first use in this function)
+     516 |         return LSM_ATTR_UNDEF;
+         |                ^~~~~~~~~~~~~~
+   include/linux/security.h:516:16: note: each undeclared identifier is reported only once for each function it appears in
+   arch/um/drivers/slirp_kern.c: At top level:
+   arch/um/drivers/slirp_kern.c:18:6: warning: no previous prototype for 'slirp_init' [-Wmissing-prototypes]
+      18 | void slirp_init(struct net_device *dev, void *data)
+         |      ^~~~~~~~~~
+--
+   In file included from include/linux/perf_event.h:62,
+                    from include/linux/trace_events.h:10,
+                    from include/trace/syscall.h:7,
+                    from include/linux/syscalls.h:89,
+                    from arch/x86/um/tls_32.c:8:
+   include/linux/security.h: In function 'lsm_name_to_attr':
+>> include/linux/security.h:516:16: error: 'LSM_ATTR_UNDEF' undeclared (first use in this function)
+     516 |         return LSM_ATTR_UNDEF;
+         |                ^~~~~~~~~~~~~~
+   include/linux/security.h:516:16: note: each undeclared identifier is reported only once for each function it appears in
+   arch/x86/um/tls_32.c: At top level:
+   arch/x86/um/tls_32.c:23:5: warning: no previous prototype for 'do_set_thread_area' [-Wmissing-prototypes]
+      23 | int do_set_thread_area(struct user_desc *info)
+         |     ^~~~~~~~~~~~~~~~~~
+   arch/x86/um/tls_32.c:39:5: warning: no previous prototype for 'do_get_thread_area' [-Wmissing-prototypes]
+      39 | int do_get_thread_area(struct user_desc *info)
+         |     ^~~~~~~~~~~~~~~~~~
+   arch/x86/um/tls_32.c:184:5: warning: no previous prototype for 'arch_switch_tls' [-Wmissing-prototypes]
+     184 | int arch_switch_tls(struct task_struct *to)
+         |     ^~~~~~~~~~~~~~~
+--
+   In file included from kernel/fork.c:51:
+   include/linux/security.h: In function 'lsm_name_to_attr':
+>> include/linux/security.h:516:16: error: 'LSM_ATTR_UNDEF' undeclared (first use in this function)
+     516 |         return LSM_ATTR_UNDEF;
+         |                ^~~~~~~~~~~~~~
+   include/linux/security.h:516:16: note: each undeclared identifier is reported only once for each function it appears in
+   kernel/fork.c: At top level:
+   kernel/fork.c:162:13: warning: no previous prototype for 'arch_release_task_struct' [-Wmissing-prototypes]
+     162 | void __weak arch_release_task_struct(struct task_struct *tsk)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/fork.c:859:20: warning: no previous prototype for 'arch_task_cache_init' [-Wmissing-prototypes]
+     859 | void __init __weak arch_task_cache_init(void) { }
+         |                    ^~~~~~~~~~~~~~~~~~~~
+   kernel/fork.c:954:12: warning: no previous prototype for 'arch_dup_task_struct' [-Wmissing-prototypes]
+     954 | int __weak arch_dup_task_struct(struct task_struct *dst,
+         |            ^~~~~~~~~~~~~~~~~~~~
+--
+   In file included from include/linux/perf_event.h:62,
+                    from include/linux/trace_events.h:10,
+                    from include/trace/syscall.h:7,
+                    from include/linux/syscalls.h:89,
+                    from kernel/exit.c:42:
+   include/linux/security.h: In function 'lsm_name_to_attr':
+>> include/linux/security.h:516:16: error: 'LSM_ATTR_UNDEF' undeclared (first use in this function)
+     516 |         return LSM_ATTR_UNDEF;
+         |                ^~~~~~~~~~~~~~
+   include/linux/security.h:516:16: note: each undeclared identifier is reported only once for each function it appears in
+   kernel/exit.c: At top level:
+   kernel/exit.c:1915:32: warning: no previous prototype for 'abort' [-Wmissing-prototypes]
+    1915 | __weak __function_aligned void abort(void)
+         |                                ^~~~~
+--
+   In file included from include/net/scm.h:8,
+                    from include/linux/netlink.h:9,
+                    from include/uapi/linux/neighbour.h:6,
+                    from include/linux/netdevice.h:46,
+                    from include/linux/if_vlan.h:10,
+                    from include/linux/filter.h:21,
+                    from kernel/kallsyms.c:25:
+   include/linux/security.h: In function 'lsm_name_to_attr':
+>> include/linux/security.h:516:16: error: 'LSM_ATTR_UNDEF' undeclared (first use in this function)
+     516 |         return LSM_ATTR_UNDEF;
+         |                ^~~~~~~~~~~~~~
+   include/linux/security.h:516:16: note: each undeclared identifier is reported only once for each function it appears in
+   kernel/kallsyms.c: At top level:
+   kernel/kallsyms.c:663:12: warning: no previous prototype for 'arch_get_kallsym' [-Wmissing-prototypes]
+     663 | int __weak arch_get_kallsym(unsigned int symnum, unsigned long *value,
+         |            ^~~~~~~~~~~~~~~~
+--
+   In file included from include/linux/fs_context.h:14,
+                    from include/linux/pseudo_fs.h:4,
+                    from fs/pipe.c:17:
+   include/linux/security.h: In function 'lsm_name_to_attr':
+>> include/linux/security.h:516:16: error: 'LSM_ATTR_UNDEF' undeclared (first use in this function)
+     516 |         return LSM_ATTR_UNDEF;
+         |                ^~~~~~~~~~~~~~
+   include/linux/security.h:516:16: note: each undeclared identifier is reported only once for each function it appears in
+   fs/pipe.c: At top level:
+   fs/pipe.c:757:15: warning: no previous prototype for 'account_pipe_buffers' [-Wmissing-prototypes]
+     757 | unsigned long account_pipe_buffers(struct user_struct *user,
+         |               ^~~~~~~~~~~~~~~~~~~~
+   fs/pipe.c:763:6: warning: no previous prototype for 'too_many_pipe_buffers_soft' [-Wmissing-prototypes]
+     763 | bool too_many_pipe_buffers_soft(unsigned long user_bufs)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/pipe.c:770:6: warning: no previous prototype for 'too_many_pipe_buffers_hard' [-Wmissing-prototypes]
+     770 | bool too_many_pipe_buffers_hard(unsigned long user_bufs)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/pipe.c:777:6: warning: no previous prototype for 'pipe_is_unprivileged_user' [-Wmissing-prototypes]
+     777 | bool pipe_is_unprivileged_user(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/pipe.c:1253:5: warning: no previous prototype for 'pipe_resize_ring' [-Wmissing-prototypes]
+    1253 | int pipe_resize_ring(struct pipe_inode_info *pipe, unsigned int nr_slots)
+         |     ^~~~~~~~~~~~~~~~
+--
+   In file included from include/linux/perf_event.h:62,
+                    from include/linux/trace_events.h:10,
+                    from include/trace/syscall.h:7,
+                    from include/linux/syscalls.h:89,
+                    from fs/d_path.c:2:
+   include/linux/security.h: In function 'lsm_name_to_attr':
+>> include/linux/security.h:516:16: error: 'LSM_ATTR_UNDEF' undeclared (first use in this function)
+     516 |         return LSM_ATTR_UNDEF;
+         |                ^~~~~~~~~~~~~~
+   include/linux/security.h:516:16: note: each undeclared identifier is reported only once for each function it appears in
+   fs/d_path.c: At top level:
+   fs/d_path.c:317:7: warning: no previous prototype for 'simple_dname' [-Wmissing-prototypes]
+     317 | char *simple_dname(struct dentry *dentry, char *buffer, int buflen)
+         |       ^~~~~~~~~~~~
+--
+   In file included from include/net/scm.h:8,
+                    from include/linux/netlink.h:9,
+                    from include/uapi/linux/neighbour.h:6,
+                    from include/linux/netdevice.h:46,
+                    from include/net/sock.h:46,
+                    from include/linux/tcp.h:19,
+                    from include/linux/ipv6.h:93,
+                    from include/net/addrconf.h:52,
+                    from lib/vsprintf.c:40:
+   include/linux/security.h: In function 'lsm_name_to_attr':
+>> include/linux/security.h:516:16: error: 'LSM_ATTR_UNDEF' undeclared (first use in this function)
+     516 |         return LSM_ATTR_UNDEF;
+         |                ^~~~~~~~~~~~~~
+   include/linux/security.h:516:16: note: each undeclared identifier is reported only once for each function it appears in
+   lib/vsprintf.c: In function 'va_format':
+   lib/vsprintf.c:1681:9: warning: function 'va_format' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+    1681 |         buf += vsnprintf(buf, end > buf ? end - buf : 0, va_fmt->fmt, va);
+         |         ^~~
+--
+   In file included from include/net/scm.h:8,
+                    from include/linux/netlink.h:9,
+                    from include/uapi/linux/neighbour.h:6,
+                    from include/linux/netdevice.h:46,
+                    from include/net/sock.h:46,
+                    from include/linux/bpf-cgroup.h:11,
+                    from net/socket.c:55:
+   include/linux/security.h: In function 'lsm_name_to_attr':
+>> include/linux/security.h:516:16: error: 'LSM_ATTR_UNDEF' undeclared (first use in this function)
+     516 |         return LSM_ATTR_UNDEF;
+         |                ^~~~~~~~~~~~~~
+   include/linux/security.h:516:16: note: each undeclared identifier is reported only once for each function it appears in
+   net/socket.c: In function '__sys_getsockopt':
+   net/socket.c:2297:13: warning: variable 'max_optlen' set but not used [-Wunused-but-set-variable]
+    2297 |         int max_optlen;
+         |             ^~~~~~~~~~
+..
+
+
+vim +/LSM_ATTR_UNDEF +516 include/linux/security.h
+
+   513	
+   514	static inline u64 lsm_name_to_attr(const char *name)
+   515	{
+ > 516		return LSM_ATTR_UNDEF;
+   517	}
+   518	
+
 -- 
-2.39.2
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
