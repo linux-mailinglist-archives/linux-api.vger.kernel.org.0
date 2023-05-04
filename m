@@ -2,142 +2,187 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 87E466F6A26
-	for <lists+linux-api@lfdr.de>; Thu,  4 May 2023 13:38:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9CC9E6F70D2
+	for <lists+linux-api@lfdr.de>; Thu,  4 May 2023 19:26:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230293AbjEDLiA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 4 May 2023 07:38:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54536 "EHLO
+        id S229463AbjEDR01 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Thu, 4 May 2023 13:26:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230311AbjEDLhy (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 4 May 2023 07:37:54 -0400
-Received: from mail-vs1-xe36.google.com (mail-vs1-xe36.google.com [IPv6:2607:f8b0:4864:20::e36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA6CA4200;
-        Thu,  4 May 2023 04:37:50 -0700 (PDT)
-Received: by mail-vs1-xe36.google.com with SMTP id ada2fe7eead31-430556f35ebso99680137.3;
-        Thu, 04 May 2023 04:37:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683200270; x=1685792270;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=arLbA3HNdyw+twAm+vIkZFygVCLFMYZpLtNy6xlyP2A=;
-        b=MusRBuIPuKzhY3ZOXC/kEwn/biFqb+f/fhEGrG75D0huT12YiE1j0OrfWYdzXJf8Vk
-         aBTZ7JhIPCIYQitUr7R+5jpAGvurCKM2YRwUu0gPzpAOPgM+gn6HMSWqtiulWnSaJcbX
-         mZQFPUoy4bGzKQpaAGEaGAk3PrmxQyTNBCKz7MQ5MEHyHPFMHGEN4de1P1Ayy0QeGgOE
-         G46IKI6zqPvUDkwAmzcLyScDQPfFMUYfNvNaafySat3MQAS1zH2ayT80UEK1pjNaOOzI
-         Q7Ssd3lLO8uEqCb9uZ1DzmCyssOHyXSpOy7TscLqFbVOEGqMB0KpotGOF5vgCdxF27oC
-         twtw==
+        with ESMTP id S229449AbjEDR00 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 4 May 2023 13:26:26 -0400
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76AD1449C;
+        Thu,  4 May 2023 10:26:25 -0700 (PDT)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-55a44a2637bso10475227b3.2;
+        Thu, 04 May 2023 10:26:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683200270; x=1685792270;
+        d=1e100.net; s=20221208; t=1683221184; x=1685813184;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=arLbA3HNdyw+twAm+vIkZFygVCLFMYZpLtNy6xlyP2A=;
-        b=YRrHhkdRfrat+GyCQ1Sc4kxGP/Y7wnW94G2fAn1LB0Qfy3orHcwMJFMuOd4ieAHuls
-         8yezGHmDSlgq2VVXdSrj0b6BmRxnKJejAjUnWpVlQ1RjHDDwt4oj1wfod0p4PTlHFLqM
-         5TIsADY80y45khz88x9iQTXdQwY6NOH9ZJmqRXPd5gatXvQKKsV0m66sGjYr+yig2ISp
-         FKdeGS0A9Dg5m5VLY1KC7ZTlwsdcGkrf1h/GtI5fqDW9ZB3lxZn7TRfSRDxJ7LCY2yEX
-         wLzQm273nU48MDwxgcs2S6L1lv0TD4rMqXm1PGTgRFSACOsxp5g/D4LwTVuHaO9wPQ+O
-         lmuQ==
-X-Gm-Message-State: AC+VfDzwF4JFtFIeEtxdfYBbDwMrCCC79OFKQS1uKYMG3/jzidMhd8cE
-        j3e3gmqdfumgNlrp2RPOzx7fGT+0sZd57ufqRZg=
-X-Google-Smtp-Source: ACHHUZ4AFI8iwYTRO1EDDmzfftusChrWK+GNqtbaCP+VrvYKMD0KMyF7asvBDZjEaxQBlpzQpQEhctWbes56ONTAbrM=
-X-Received: by 2002:a67:b349:0:b0:426:4773:963 with SMTP id
- b9-20020a67b349000000b0042647730963mr3176916vsm.34.1683200269879; Thu, 04 May
- 2023 04:37:49 -0700 (PDT)
+        bh=3rnIRd9cvXtgtMC0ZOKTG1aj8pR1h+8CjVNfvekskoI=;
+        b=hhF/QmnrdYxeA532+SQ4SaTc8OPLBt+bHBiUo6zQkHpUEWjgfIg6IMIgE9RyBk1FvN
+         M6n2FvdPL5bMMhELOctbp1kwpBDEFiUEMeiSpPKT3D/+lswcxfbpu5U2VSZFl5vEb5tS
+         BiG8SzwywSpOm6aOn40ERN7S0gMLPY2raahVMBm0wNdIU/DBaXdqLQM/TlkFH29l73kV
+         i8mjIGJgygTJaSJHXmwnBGkqIplFteJ6/Slj+ErF6x3hk1n9fOKvi7CS2lT40gXHvjnZ
+         mAGrHv3ngCn8V5mTgEGTS+j38fCiAfYg51uZ1tpzdSfKIG/vUd0vRDSNPevC6xwCFvCK
+         2Fyw==
+X-Gm-Message-State: AC+VfDxldtCWJUhPhiVKWDUT+vnbM+bCsLMrhy5awNdAnSn4qHkGQ7FW
+        GA+xk0/o88ByqCM1nVzp3B3kXIdAc3uYOg==
+X-Google-Smtp-Source: ACHHUZ4vYY7SkCmBy6UlJO4C++XMn+OLhxvsmkJ6vShevVhBtUib6RTtkjKdp1tf3nf00T72WC+QOQ==
+X-Received: by 2002:a0d:d40f:0:b0:55a:5dce:aa19 with SMTP id w15-20020a0dd40f000000b0055a5dceaa19mr3323271ywd.51.1683221184444;
+        Thu, 04 May 2023 10:26:24 -0700 (PDT)
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com. [209.85.219.170])
+        by smtp.gmail.com with ESMTPSA id z11-20020a81c20b000000b0055d6c72731esm703255ywc.144.2023.05.04.10.26.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 04 May 2023 10:26:23 -0700 (PDT)
+Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-b9ef06cb784so1045906276.0;
+        Thu, 04 May 2023 10:26:23 -0700 (PDT)
+X-Received: by 2002:a25:dd07:0:b0:b8f:227a:b080 with SMTP id
+ u7-20020a25dd07000000b00b8f227ab080mr724998ybg.18.1683221183312; Thu, 04 May
+ 2023 10:26:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230502124817.3070545-1-amir73il@gmail.com> <20230502124817.3070545-4-amir73il@gmail.com>
- <20230503172314.kptbcaluwd6xiamz@quack3> <20230504-unruhen-lauftraining-d676c7702fea@brauner>
-In-Reply-To: <20230504-unruhen-lauftraining-d676c7702fea@brauner>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Thu, 4 May 2023 14:37:38 +0300
-Message-ID: <CAOQ4uxh4Kij7fMyFOMgdnZee5_HcHc9RYTNxvLTBtD-JxpCZwQ@mail.gmail.com>
-Subject: Re: [PATCH v2 3/4] exportfs: allow exporting non-decodeable file
- handles to userspace
-To:     Christian Brauner <brauner@kernel.org>
-Cc:     Jan Kara <jack@suse.cz>, Miklos Szeredi <miklos@szeredi.hu>,
-        Jeff Layton <jlayton@kernel.org>,
-        Chuck Lever <chuck.lever@oracle.com>,
-        linux-fsdevel@vger.kernel.org, linux-unionfs@vger.kernel.org,
-        linux-nfs@vger.kernel.org, linux-api@vger.kernel.org,
-        Al Viro <viro@zeniv.linux.org.uk>
+References: <20230503013608.2431726-1-nphamcs@gmail.com> <20230503013608.2431726-3-nphamcs@gmail.com>
+In-Reply-To: <20230503013608.2431726-3-nphamcs@gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 4 May 2023 19:26:11 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWUtb_A-uhXrBg6kC9L2zbC_q3m8oCZoq80ZSJvk6mUAA@mail.gmail.com>
+Message-ID: <CAMuHMdWUtb_A-uhXrBg6kC9L2zbC_q3m8oCZoq80ZSJvk6mUAA@mail.gmail.com>
+Subject: Re: [PATCH v13 2/3] cachestat: implement cachestat syscall
+To:     Nhat Pham <nphamcs@gmail.com>
+Cc:     akpm@linux-foundation.org, hannes@cmpxchg.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, bfoster@redhat.com,
+        willy@infradead.org, linux-api@vger.kernel.org,
+        kernel-team@meta.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, May 4, 2023 at 2:19=E2=80=AFPM Christian Brauner <brauner@kernel.or=
-g> wrote:
->
-> On Wed, May 03, 2023 at 07:23:14PM +0200, Jan Kara wrote:
-> > On Tue 02-05-23 15:48:16, Amir Goldstein wrote:
-> > > Some userspace programs use st_ino as a unique object identifier, eve=
-n
-> > > though inode numbers may be recycable.
-> > >
-> > > This issue has been addressed for NFS export long ago using the expor=
-tfs
-> > > file handle API and the unique file handle identifiers are also expor=
-ted
-> > > to userspace via name_to_handle_at(2).
-> > >
-> > > fanotify also uses file handles to identify objects in events, but on=
-ly
-> > > for filesystems that support NFS export.
-> > >
-> > > Relax the requirement for NFS export support and allow more filesyste=
-ms
-> > > to export a unique object identifier via name_to_handle_at(2) with th=
-e
-> > > flag AT_HANDLE_FID.
-> > >
-> > > A file handle requested with the AT_HANDLE_FID flag, may or may not b=
-e
-> > > usable as an argument to open_by_handle_at(2).
-> > >
-> > > To allow filesystems to opt-in to supporting AT_HANDLE_FID, a struct
-> > > export_operations is required, but even an empty struct is sufficient
-> > > for encoding FIDs.
-> >
-> > Christian (or Al), are you OK with sparing one AT_ flag for this
-> > functionality? Otherwise the patch series looks fine to me so I'd like =
-to
-> > queue it into my tree. Thanks!
->
-> At first it looked like there are reasons to complain about this on the
-> grounds that this seems like a flag only for a single system call. But
-> another look at include/uapi/linux/fcntl.h reveals that oh well, the
-> AT_* flag namespace already contains system call specific flags.
->
-> The overloading of AT_EACCESS and AT_REMOVEDIR as 0x200 is especially
-> creative since it doesn't even use an infix like the statx specific
-> flags.
->
-> Long story short, since there's already overloading of the flag
-> namespace happening it wouldn't be unprecedent or in any way wrong if
-> this patch just reused the 0x200 value as well.
->
+Hi Nhat,
 
-I had considered this myself as well...
-Couldn't decide if this was ugly or not.
-Obviously, I do not mind which value the flag gets.
-
-> In fact, it might come in handy since it would mean that we have the bit
-> you're using right now free for a flag that is meaningful for multiple
-> system calls. So something to consider but you can just change that
-> in-tree as far as I'm concerned.
+On Wed, May 3, 2023 at 3:38 AM Nhat Pham <nphamcs@gmail.com> wrote:
+> There is currently no good way to query the page cache state of large
+> file sets and directory trees. There is mincore(), but it scales poorly:
+> the kernel writes out a lot of bitmap data that userspace has to
+> aggregate, when the user really doesn not care about per-page
+> information in that case. The user also needs to mmap and unmap each
+> file as it goes along, which can be quite slow as well.
 >
-> All this amounts to a long-winded,
+> Some use cases where this information could come in handy:
+>   * Allowing database to decide whether to perform an index scan or
+>     direct table queries based on the in-memory cache state of the
+>     index.
+>   * Visibility into the writeback algorithm, for performance issues
+>     diagnostic.
+>   * Workload-aware writeback pacing: estimating IO fulfilled by page
+>     cache (and IO to be done) within a range of a file, allowing for
+>     more frequent syncing when and where there is IO capacity, and
+>     batching when there is not.
+>   * Computing memory usage of large files/directory trees, analogous to
+>     the du tool for disk usage.
 >
-> Acked-by: Christian Brauner <brauner@kernel.org>
+> More information about these use cases could be found in the following
+> thread:
+>
+> https://lore.kernel.org/lkml/20230315170934.GA97793@cmpxchg.org/
+>
+> This patch implements a new syscall that queries cache state of a file
+> and summarizes the number of cached pages, number of dirty pages, number
+> of pages marked for writeback, number of (recently) evicted pages, etc.
+> in a given range. Currently, the syscall is only wired in for x86
+> architecture.
+>
+> NAME
+>     cachestat - query the page cache statistics of a file.
+>
+> SYNOPSIS
+>     #include <sys/mman.h>
+>
+>     struct cachestat_range {
+>         __u64 off;
+>         __u64 len;
+>     };
+>
+>     struct cachestat {
+>         __u64 nr_cache;
+>         __u64 nr_dirty;
+>         __u64 nr_writeback;
+>         __u64 nr_evicted;
+>         __u64 nr_recently_evicted;
+>     };
+>
+>     int cachestat(unsigned int fd, struct cachestat_range *cstat_range,
+>         struct cachestat *cstat, unsigned int flags);
+>
+> DESCRIPTION
+>     cachestat() queries the number of cached pages, number of dirty
+>     pages, number of pages marked for writeback, number of evicted
+>     pages, number of recently evicted pages, in the bytes range given by
+>     `off` and `len`.
+>
+>     An evicted page is a page that is previously in the page cache but
+>     has been evicted since. A page is recently evicted if its last
+>     eviction was recent enough that its reentry to the cache would
+>     indicate that it is actively being used by the system, and that
+>     there is memory pressure on the system.
+>
+>     These values are returned in a cachestat struct, whose address is
+>     given by the `cstat` argument.
+>
+>     The `off` and `len` arguments must be non-negative integers. If
+>     `len` > 0, the queried range is [`off`, `off` + `len`]. If `len` ==
+>     0, we will query in the range from `off` to the end of the file.
+>
+>     The `flags` argument is unused for now, but is included for future
+>     extensibility. User should pass 0 (i.e no flag specified).
+>
+>     Currently, hugetlbfs is not supported.
+>
+>     Because the status of a page can change after cachestat() checks it
+>     but before it returns to the application, the returned values may
+>     contain stale information.
+>
+> RETURN VALUE
+>     On success, cachestat returns 0. On error, -1 is returned, and errno
+>     is set to indicate the error.
+>
+> ERRORS
+>     EFAULT cstat or cstat_args points to an invalid address.
+>
+>     EINVAL invalid flags.
+>
+>     EBADF  invalid file descriptor.
+>
+>     EOPNOTSUPP file descriptor is of a hugetlbfs file
+>
+> Signed-off-by: Nhat Pham <nphamcs@gmail.com>
+> ---
+>  arch/x86/entry/syscalls/syscall_32.tbl |   1 +
+>  arch/x86/entry/syscalls/syscall_64.tbl |   1 +
 
-Thanks,
-Amir.
+This should be wired up on each and every architecture.
+Currently we're getting
+
+    <stdin>:1567:2: warning: #warning syscall cachestat not implemented [-Wcpp]
+
+in linux-next for all the missing architectures.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
