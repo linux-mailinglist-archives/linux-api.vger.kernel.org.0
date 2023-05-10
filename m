@@ -2,238 +2,124 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 46F266FE4B0
-	for <lists+linux-api@lfdr.de>; Wed, 10 May 2023 21:58:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C3C606FE80D
+	for <lists+linux-api@lfdr.de>; Thu, 11 May 2023 01:21:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230035AbjEJT6L (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 10 May 2023 15:58:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39818 "EHLO
+        id S236175AbjEJXVH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 10 May 2023 19:21:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42256 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229521AbjEJT6K (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 10 May 2023 15:58:10 -0400
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28C0944B0;
-        Wed, 10 May 2023 12:58:08 -0700 (PDT)
-Received: by mail-pj1-x102d.google.com with SMTP id 98e67ed59e1d1-250175762b8so6631574a91.1;
-        Wed, 10 May 2023 12:58:08 -0700 (PDT)
+        with ESMTP id S231468AbjEJXVG (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 10 May 2023 19:21:06 -0400
+Received: from mail-qv1-xf2b.google.com (mail-qv1-xf2b.google.com [IPv6:2607:f8b0:4864:20::f2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CAA9211C;
+        Wed, 10 May 2023 16:21:05 -0700 (PDT)
+Received: by mail-qv1-xf2b.google.com with SMTP id 6a1803df08f44-61a80fcc4c9so36487956d6.2;
+        Wed, 10 May 2023 16:21:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683748687; x=1686340687;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=vrx8jUkYApu9SW/+pw7TCUy5jAaSOx8fwCfGK3LodVQ=;
-        b=cNfvtEg/+MJREEIXc8i2FMKkB0WQkc8kpFbwpZNegWdKFWhI58Qu/5Dl6RY7rgClL4
-         ZbYJQlMaYc0ZZ4jAT4kdrCSxEfW+oyjRgQfhHQslvIttyNP5nQZeoJBIIUhewaZckeSp
-         z8hazt7Ua+tZUeFQuzfskcMu+XGsjLGkjQh287f04HkoakF+uOYzSwLzxZ9SMJO4cnPQ
-         3Y3JRXTLDBR13s7sYYCbFO9CMg+P65shwNk0pyrlFSa1gBBrYKcfrOjOq7Lt8PMrNl3B
-         v5V21g/ZbP1FhaLsWju2CINDJaf9dRcGpqievi+vxLnE2g5yf5n+B1HL7WvJugoJcZz7
-         /qvw==
+        d=gmail.com; s=20221208; t=1683760864; x=1686352864;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ffPJ36adGh8uykiqGm+Ey1/eCjuKTv/sqWzbZCfRdDI=;
+        b=S7hOLkYVCWVG5PMBbtuHycDhHI6kEnt0fLdUg3EwKYSCqk5sITaFuUBnhndWwjCCCa
+         pLNWcTIvvkJ/2mm81GmcMnLtYqNqh/GJ2hNiBNk89WWf1iKmYTOzDu3FbzuZZ7JcUyAN
+         yDdI65FSMjnyuzruMDSPp0QKNlT+/pps1oKcw7hUWwUx8OaYW1eoQaRfCzJXCD12GsAx
+         IqJH6XuF9RHpLOiSpuDWASCMnXFtYNcgezk7PzSBpVOrPpdAVt6oPZNMhKjsa5Ng8tTB
+         mZWgIXzmwikA87tOQtCfbsCFgmwI3qEA1bPpe+NEtUwu7BxxbSC4khqqn2OMpTpvJG6A
+         DGDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683748687; x=1686340687;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vrx8jUkYApu9SW/+pw7TCUy5jAaSOx8fwCfGK3LodVQ=;
-        b=Q6P5Lpsr4Qo+zT5AIN7cN4klDIewOu3TWrUNs9PEeyT4U+p3h53w89AxW/rLtkfvZi
-         5I9vyUluLBBT6jP/M3V/dDW0qdAgQ9DwRKDktcO3CSNS9BpfDS6MqnvQ6Kdzgvjl935v
-         pCkpVzGFztdf81/NnekEe9glVgvKhlq+lizOCwoItMWFvJ4wsk9rHSgYzJc7ok6UVWBc
-         tXxHXtk20kCeb9Q44TYP+8p0S7qdrOCUUDPpxbGf+6cAxlN6PdKjaABzml8YyjHR3Lva
-         nXqZw0u/tAG2xACTKfIBIpap6fIyVjtu+/RCaTrjkrwsLH2yaqqsnoj+RuxPsPeOc8km
-         o/3w==
-X-Gm-Message-State: AC+VfDxbvcpCPnhPAXBp7Xt6DTOmwCvUVOO5YT1j0w6uUHMJKPEUVJHD
-        pN+KAhzzACpJz1NZUslnBoA=
-X-Google-Smtp-Source: ACHHUZ5hK9VGUuyMmTnmAQ9kmEZlouRZGOv1NQBM2ITyyig1tB1tBZEus8BNk0FQqRn/fXp2f9PNIw==
-X-Received: by 2002:a17:90b:b85:b0:24b:a5b6:e866 with SMTP id bd5-20020a17090b0b8500b0024ba5b6e866mr19822621pjb.24.1683748687406;
-        Wed, 10 May 2023 12:58:07 -0700 (PDT)
-Received: from localhost (fwdproxy-prn-118.fbsv.net. [2a03:2880:ff:76::face:b00c])
-        by smtp.gmail.com with ESMTPSA id 191-20020a6305c8000000b004e28be19d1csm3601518pgf.32.2023.05.10.12.58.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 May 2023 12:58:07 -0700 (PDT)
-From:   Nhat Pham <nphamcs@gmail.com>
-To:     akpm@linux-foundation.org
-Cc:     linux-mm@kvack.org, linux-api@vger.kernel.org,
-        kernel-team@meta.com, linux-arch@vger.kernel.org,
-        hannes@cmpxchg.org, richard.henderson@linaro.org,
-        ink@jurassic.park.msu.ru, mattst88@gmail.com,
-        linux@armlinux.org.uk, geert@linux-m68k.org, monstr@monstr.eu,
-        tsbogend@alpha.franken.de, James.Bottomley@HansenPartnership.com,
-        deller@gmx.de, mpe@ellerman.id.au, npiggin@gmail.com,
-        christophe.leroy@csgroup.eu, hca@linux.ibm.com, gor@linux.ibm.com,
-        agordeev@linux.ibm.com, borntraeger@linux.ibm.com,
-        svens@linux.ibm.com, ysato@users.sourceforge.jp, dalias@libc.org,
-        glaubitz@physik.fu-berlin.de, davem@davemloft.net,
-        chris@zankel.net, jcmvbkbc@gmail.com, linux-alpha@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-ia64@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
-        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org
-Subject: [PATCH] cachestat: wire up cachestat for other architectures
-Date:   Wed, 10 May 2023 12:58:06 -0700
-Message-Id: <20230510195806.2902878-1-nphamcs@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20221208; t=1683760864; x=1686352864;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ffPJ36adGh8uykiqGm+Ey1/eCjuKTv/sqWzbZCfRdDI=;
+        b=DkuM02agDnJYhActst5jXJgpNIiM8RKJ8Ix8Ou+zZm0/LBQCjqm5Nnw/0oOESfKGng
+         MBUqWvpl3dUI+CndOVeOmz8MFegGPNQKIL5/C/4yBKVnCqkju3G9sT+inub+2faCtVBj
+         GQxKf0Y826GqpCBBHpwqk+VJe1IHRoYH7fDMl25mAV5I+a81j8+3NW7F2XITylpR9Qrd
+         V9WHhLT9JZurpWm4RQUi8d2K/z2yHjcdzCUe3KIfer0bGSC2oJDgRcgz754j1voOtzdy
+         3UivOT0BFaDEs4IVY5NChHHaYZpO+s1IwopJJSHAYSKoaXt+JOsSYNvHnsfZbTUWOmce
+         hQpw==
+X-Gm-Message-State: AC+VfDyaVJ3kQDKkHxMZX5Li1Lk2cfTTR5/pUSaRGwcMuDBKyafCEQJr
+        /JdVrvWi3jeT4ege58ayfwA0WxocU9i+pUmW2+0=
+X-Google-Smtp-Source: ACHHUZ4gHR0jLRERlyyoSMGNLDZmc4Z3jce3P/QKFAGW6LFV3wUi+CM2p/kktGAEkyx3iK1sdOc4WZwCkopCwaXOGOY=
+X-Received: by 2002:a05:6214:c46:b0:621:45b2:3370 with SMTP id
+ r6-20020a0562140c4600b0062145b23370mr8196366qvj.31.1683760864576; Wed, 10 May
+ 2023 16:21:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230503013608.2431726-1-nphamcs@gmail.com> <20230503013608.2431726-3-nphamcs@gmail.com>
+ <CAMuHMdWUtb_A-uhXrBg6kC9L2zbC_q3m8oCZoq80ZSJvk6mUAA@mail.gmail.com>
+ <20230505133426.d70a6599d9a729496b68a70c@linux-foundation.org> <315e7ec2-169c-4c4b-93df-485380bc0852@app.fastmail.com>
+In-Reply-To: <315e7ec2-169c-4c4b-93df-485380bc0852@app.fastmail.com>
+From:   Nhat Pham <nphamcs@gmail.com>
+Date:   Wed, 10 May 2023 16:20:53 -0700
+Message-ID: <CAKEwX=NW=sHAkQQw3TPA5tK9O+MC9AwX05=Wp8DRFbRZ4w-JAg@mail.gmail.com>
+Subject: Re: [PATCH v13 2/3] cachestat: implement cachestat syscall
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Johannes Weiner <hannes@cmpxchg.org>, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, bfoster@redhat.com,
+        Matthew Wilcox <willy@infradead.org>,
+        linux-api@vger.kernel.org, kernel-team@meta.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-cachestat is previously only wired in for x86 (and architectures using
-the generic unistd.h table):
+On Sat, May 6, 2023 at 10:35=E2=80=AFAM Arnd Bergmann <arnd@arndb.de> wrote=
+:
+>
+> On Fri, May 5, 2023, at 22:34, Andrew Morton wrote:
+> > On Thu, 4 May 2023 19:26:11 +0200 Geert Uytterhoeven
+> > <geert@linux-m68k.org> wrote:
+> >
+> >> >  arch/x86/entry/syscalls/syscall_32.tbl |   1 +
+> >> >  arch/x86/entry/syscalls/syscall_64.tbl |   1 +
+> >>
+> >> This should be wired up on each and every architecture.
+> >> Currently we're getting
+> >>
+> >>     <stdin>:1567:2: warning: #warning syscall cachestat not implemente=
+d [-Wcpp]
+> >>
+> >> in linux-next for all the missing architectures.
+> >
+> > Is that wise?  We risk adding a syscall to an architecture without the
+> > arch maintainers and testers even knowing about it.
+> >
+> > The compile-time nag is there to inform the arch maintainers that a new
+> > syscall is available and that they should wire it up, run the selftest
+> > and then ship the code if they're happy with the result.
+>
+> The usual approach is for the author of a new syscall to
+> include a patch with all the architecture specific changes
+> and Cc the architecture maintainers for that.
+>
+> Note that half the architectures get the entry from
+> include/uapi/asm-generic/unistd.h, so adding it there
+> does not necessarily trigger adding each maintainer
+> from scripts/get_maintainer.pl.
+>
+> The only real risk in adding a new syscall is passing __u64
+> register arguments that behave differently across
+> architectures, or using pointers to data structures that
+> require a compat handler on some architectures. I watch out
+> for those as they get sent to me or the linux-arch list,
+> and this one is fine.
+>
+>      Arnd
 
-https://lore.kernel.org/lkml/20230503013608.2431726-1-nphamcs@gmail.com/
+I took a stab at wiring the new syscall in this follow-up patch:
 
-This patch wires cachestat in for all the other architectures.
+https://lore.kernel.org/lkml/20230510195806.2902878-1-nphamcs@gmail.com/
 
-Signed-off-by: Nhat Pham <nphamcs@gmail.com>
----
- arch/alpha/kernel/syscalls/syscall.tbl      | 1 +
- arch/arm/tools/syscall.tbl                  | 1 +
- arch/ia64/kernel/syscalls/syscall.tbl       | 1 +
- arch/m68k/kernel/syscalls/syscall.tbl       | 1 +
- arch/microblaze/kernel/syscalls/syscall.tbl | 1 +
- arch/mips/kernel/syscalls/syscall_n32.tbl   | 1 +
- arch/mips/kernel/syscalls/syscall_n64.tbl   | 1 +
- arch/mips/kernel/syscalls/syscall_o32.tbl   | 1 +
- arch/parisc/kernel/syscalls/syscall.tbl     | 1 +
- arch/powerpc/kernel/syscalls/syscall.tbl    | 1 +
- arch/s390/kernel/syscalls/syscall.tbl       | 1 +
- arch/sh/kernel/syscalls/syscall.tbl         | 1 +
- arch/sparc/kernel/syscalls/syscall.tbl      | 1 +
- arch/xtensa/kernel/syscalls/syscall.tbl     | 1 +
- 14 files changed, 14 insertions(+)
-
-diff --git a/arch/alpha/kernel/syscalls/syscall.tbl b/arch/alpha/kernel/syscalls/syscall.tbl
-index 8ebacf37a8cf..1f13995d00d7 100644
---- a/arch/alpha/kernel/syscalls/syscall.tbl
-+++ b/arch/alpha/kernel/syscalls/syscall.tbl
-@@ -490,3 +490,4 @@
- 558	common	process_mrelease		sys_process_mrelease
- 559	common  futex_waitv                     sys_futex_waitv
- 560	common	set_mempolicy_home_node		sys_ni_syscall
-+561	common	cachestat			sys_cachestat
-diff --git a/arch/arm/tools/syscall.tbl b/arch/arm/tools/syscall.tbl
-index ac964612d8b0..8ebed8a13874 100644
---- a/arch/arm/tools/syscall.tbl
-+++ b/arch/arm/tools/syscall.tbl
-@@ -464,3 +464,4 @@
- 448	common	process_mrelease		sys_process_mrelease
- 449	common	futex_waitv			sys_futex_waitv
- 450	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
-+451	common	cachestat			sys_cachestat
-diff --git a/arch/ia64/kernel/syscalls/syscall.tbl b/arch/ia64/kernel/syscalls/syscall.tbl
-index 72c929d9902b..f8c74ffeeefb 100644
---- a/arch/ia64/kernel/syscalls/syscall.tbl
-+++ b/arch/ia64/kernel/syscalls/syscall.tbl
-@@ -371,3 +371,4 @@
- 448	common	process_mrelease		sys_process_mrelease
- 449	common  futex_waitv                     sys_futex_waitv
- 450	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
-+451	common	cachestat			sys_cachestat
-diff --git a/arch/m68k/kernel/syscalls/syscall.tbl b/arch/m68k/kernel/syscalls/syscall.tbl
-index b1f3940bc298..4f504783371f 100644
---- a/arch/m68k/kernel/syscalls/syscall.tbl
-+++ b/arch/m68k/kernel/syscalls/syscall.tbl
-@@ -450,3 +450,4 @@
- 448	common	process_mrelease		sys_process_mrelease
- 449	common  futex_waitv                     sys_futex_waitv
- 450	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
-+451	common	cachestat			sys_cachestat
-diff --git a/arch/microblaze/kernel/syscalls/syscall.tbl b/arch/microblaze/kernel/syscalls/syscall.tbl
-index 820145e47350..858d22bf275c 100644
---- a/arch/microblaze/kernel/syscalls/syscall.tbl
-+++ b/arch/microblaze/kernel/syscalls/syscall.tbl
-@@ -456,3 +456,4 @@
- 448	common	process_mrelease		sys_process_mrelease
- 449	common  futex_waitv                     sys_futex_waitv
- 450	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
-+451	common	cachestat			sys_cachestat
-diff --git a/arch/mips/kernel/syscalls/syscall_n32.tbl b/arch/mips/kernel/syscalls/syscall_n32.tbl
-index 253ff994ed2e..1976317d4e8b 100644
---- a/arch/mips/kernel/syscalls/syscall_n32.tbl
-+++ b/arch/mips/kernel/syscalls/syscall_n32.tbl
-@@ -389,3 +389,4 @@
- 448	n32	process_mrelease		sys_process_mrelease
- 449	n32	futex_waitv			sys_futex_waitv
- 450	n32	set_mempolicy_home_node		sys_set_mempolicy_home_node
-+451	n32	cachestat			sys_cachestat
-diff --git a/arch/mips/kernel/syscalls/syscall_n64.tbl b/arch/mips/kernel/syscalls/syscall_n64.tbl
-index 3f1886ad9d80..cfda2511badf 100644
---- a/arch/mips/kernel/syscalls/syscall_n64.tbl
-+++ b/arch/mips/kernel/syscalls/syscall_n64.tbl
-@@ -365,3 +365,4 @@
- 448	n64	process_mrelease		sys_process_mrelease
- 449	n64	futex_waitv			sys_futex_waitv
- 450	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
-+451	n64	cachestat			sys_cachestat
-diff --git a/arch/mips/kernel/syscalls/syscall_o32.tbl b/arch/mips/kernel/syscalls/syscall_o32.tbl
-index 8f243e35a7b2..7692234c3768 100644
---- a/arch/mips/kernel/syscalls/syscall_o32.tbl
-+++ b/arch/mips/kernel/syscalls/syscall_o32.tbl
-@@ -438,3 +438,4 @@
- 448	o32	process_mrelease		sys_process_mrelease
- 449	o32	futex_waitv			sys_futex_waitv
- 450	o32	set_mempolicy_home_node		sys_set_mempolicy_home_node
-+451	o32	cachestat			sys_cachestat
-diff --git a/arch/parisc/kernel/syscalls/syscall.tbl b/arch/parisc/kernel/syscalls/syscall.tbl
-index 0e42fceb2d5e..3c71fad78318 100644
---- a/arch/parisc/kernel/syscalls/syscall.tbl
-+++ b/arch/parisc/kernel/syscalls/syscall.tbl
-@@ -448,3 +448,4 @@
- 448	common	process_mrelease		sys_process_mrelease
- 449	common	futex_waitv			sys_futex_waitv
- 450	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
-+451	common	cachestat			sys_cachestat
-diff --git a/arch/powerpc/kernel/syscalls/syscall.tbl b/arch/powerpc/kernel/syscalls/syscall.tbl
-index a0be127475b1..8c0b08b7a80e 100644
---- a/arch/powerpc/kernel/syscalls/syscall.tbl
-+++ b/arch/powerpc/kernel/syscalls/syscall.tbl
-@@ -537,3 +537,4 @@
- 448	common	process_mrelease		sys_process_mrelease
- 449	common  futex_waitv                     sys_futex_waitv
- 450 	nospu	set_mempolicy_home_node		sys_set_mempolicy_home_node
-+451	common	cachestat			sys_cachestat
-diff --git a/arch/s390/kernel/syscalls/syscall.tbl b/arch/s390/kernel/syscalls/syscall.tbl
-index 799147658dee..7df0329d46cb 100644
---- a/arch/s390/kernel/syscalls/syscall.tbl
-+++ b/arch/s390/kernel/syscalls/syscall.tbl
-@@ -453,3 +453,4 @@
- 448  common	process_mrelease	sys_process_mrelease		sys_process_mrelease
- 449  common	futex_waitv		sys_futex_waitv			sys_futex_waitv
- 450  common	set_mempolicy_home_node	sys_set_mempolicy_home_node	sys_set_mempolicy_home_node
-+451  common	cachestat		sys_cachestat			sys_cachestat
-diff --git a/arch/sh/kernel/syscalls/syscall.tbl b/arch/sh/kernel/syscalls/syscall.tbl
-index 2de85c977f54..97377e8c5025 100644
---- a/arch/sh/kernel/syscalls/syscall.tbl
-+++ b/arch/sh/kernel/syscalls/syscall.tbl
-@@ -453,3 +453,4 @@
- 448	common	process_mrelease		sys_process_mrelease
- 449	common  futex_waitv                     sys_futex_waitv
- 450	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
-+451	common	cachestat			sys_cachestat
-diff --git a/arch/sparc/kernel/syscalls/syscall.tbl b/arch/sparc/kernel/syscalls/syscall.tbl
-index 4398cc6fb68d..faa835f3c54a 100644
---- a/arch/sparc/kernel/syscalls/syscall.tbl
-+++ b/arch/sparc/kernel/syscalls/syscall.tbl
-@@ -496,3 +496,4 @@
- 448	common	process_mrelease		sys_process_mrelease
- 449	common  futex_waitv                     sys_futex_waitv
- 450	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
-+451	common	cachestat			sys_cachestat
-diff --git a/arch/xtensa/kernel/syscalls/syscall.tbl b/arch/xtensa/kernel/syscalls/syscall.tbl
-index 52c94ab5c205..2b69c3c035b6 100644
---- a/arch/xtensa/kernel/syscalls/syscall.tbl
-+++ b/arch/xtensa/kernel/syscalls/syscall.tbl
-@@ -421,3 +421,4 @@
- 448	common	process_mrelease		sys_process_mrelease
- 449	common  futex_waitv                     sys_futex_waitv
- 450	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
-+451	common	cachestat			sys_cachestat
--- 
-2.34.1
-
+Let me know if I missed something! Review and/or suggestion
+is very much appreciated.
