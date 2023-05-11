@@ -2,123 +2,116 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C3EB6FF5A2
-	for <lists+linux-api@lfdr.de>; Thu, 11 May 2023 17:18:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D9A16FF85E
+	for <lists+linux-api@lfdr.de>; Thu, 11 May 2023 19:26:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238454AbjEKPRy convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Thu, 11 May 2023 11:17:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41856 "EHLO
+        id S238642AbjEKR0m (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 11 May 2023 13:26:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57302 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237687AbjEKPRy (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 11 May 2023 11:17:54 -0400
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 280D81BE9;
-        Thu, 11 May 2023 08:17:53 -0700 (PDT)
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-4f13bfe257aso9857608e87.3;
-        Thu, 11 May 2023 08:17:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683818269; x=1686410269;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        with ESMTP id S230102AbjEKR0l (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 11 May 2023 13:26:41 -0400
+Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC760E5D
+        for <linux-api@vger.kernel.org>; Thu, 11 May 2023 10:26:39 -0700 (PDT)
+Received: by mail-ej1-x642.google.com with SMTP id a640c23a62f3a-966400ee79aso1157717766b.0
+        for <linux-api@vger.kernel.org>; Thu, 11 May 2023 10:26:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683825998; x=1686417998;
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=LeLJUnaY4RpSv7Fr2RyuafyTEGCbWOy7/KdXYyNynDE=;
-        b=ge1gtwjXlKoKZXr/qIp5om/sZLzkRVaPZoKEd+n/64npGC8ZAgJXmeZVOU9dCKyBrL
-         qRdx47yk2qLkmuRxh7eGifrT9eaVecmor5q11BXhaJ2bvcs2dcUrTtB9J2UrAnUaSrfr
-         YbUKSyF/XomYjC09/9GV50LGxkwISrvHUx6/n18DsSSDmqjum5v0TifpJ89ok5HERmi/
-         5VCFJLvV/eF7sI3GJkM3A9B+TgJyqP23zpjIZ3VTvmZ83MlALpNi2IbddO5v7j0sbKYM
-         kx6ftYs353keXixBF8zPyAKnbpK9wYbU/CCJqYSUuLCJ5Nfo/fOSGrm2u/PAwjoHCy7t
-         14EQ==
-X-Gm-Message-State: AC+VfDw3E+dBcf13s+NtbICSOnmyeQnwg/5pHUe0fxHRj9igKjkPYGNK
-        Usk7crOITmi4b4Fvx/ms8naUz7SDKeB2elkP
-X-Google-Smtp-Source: ACHHUZ7AtAYYjTZZBBifPPhnRdvlQJmGftR5qufjOvI46W5MJZJ2S/CxxxUalX7TfpD2oh6B80cmDg==
-X-Received: by 2002:ac2:5930:0:b0:4e9:74a8:134c with SMTP id v16-20020ac25930000000b004e974a8134cmr2779767lfi.43.1683818268565;
-        Thu, 11 May 2023 08:17:48 -0700 (PDT)
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com. [209.85.167.51])
-        by smtp.gmail.com with ESMTPSA id o21-20020ac24355000000b004dda87ecae3sm1125543lfl.246.2023.05.11.08.17.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 May 2023 08:17:47 -0700 (PDT)
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-4f2676d62a2so1729691e87.0;
-        Thu, 11 May 2023 08:17:46 -0700 (PDT)
-X-Received: by 2002:ac2:4c13:0:b0:4f2:22bf:fe98 with SMTP id
- t19-20020ac24c13000000b004f222bffe98mr2776652lfq.37.1683818265953; Thu, 11
- May 2023 08:17:45 -0700 (PDT)
+        bh=uP9gY2ig7661BNo9d6NrRtc/h1Kpn5dWShHq/4pbz/4=;
+        b=Grnvil76PcNoOxwzxMpMBfPoZbX+rnx2mjjnpR5zblzOde/9v0Tpvjt7ofQPvvAXXD
+         inJ1aINkkGhZ/Ys03i+Ijg5T9OUc5wrKtJKrVr9aWelynK0UZqTbyuo1dScGrGlo0fDL
+         GmkQX2icVcOmdogAk5+VeClt6t+j0h89i3VfR5rYZOXJFukXDn8uLtNGn9DUKrLRE1P3
+         edQ7ByvlNU53b+rES3auUn4TXtzjPm4T7HrZq1/jwzlJWaKKFEviW4x8n8YbWnDIqKBs
+         S9uxR3GKMOYXMrVUI+OIQA49Yw5J5klbfAN5LUanjHaecmBfIqIfW/Q2Q0YshNif4cCb
+         veTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683825998; x=1686417998;
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=uP9gY2ig7661BNo9d6NrRtc/h1Kpn5dWShHq/4pbz/4=;
+        b=VHHHio5hf3VKt8svPU9MTjVdZXwKlpNKKIfkHcufBtO1xy7cssl6eAanDdZzah/jhN
+         ORCUUy/AIYnHaTFWFt6Z10p+QQc9Ze+RuzdEXasHne8cL1zdzXvyufq4vRgWEc9lYYG6
+         M8q9CZcUMfsvft1Ec7spVeS9hf+hXFp1464tQBBZFjrlYND4HSYmEm/JXKqk77A7U/YD
+         7Z1SY4TUrQHffeK2mSgnEWdGtnPqbTI9Y8oJSqItx57z4KnffA4BJkPGBQ2dwnlhsYQy
+         TsV/8xFMTwmxmxxD9Qh33nfmzOvF0hgi6a15vFnjC86sstHl7OaLkHBnut6Zwp9Pdr+m
+         MD4Q==
+X-Gm-Message-State: AC+VfDy4KuNtIHruAZnHPvLTJju7g7NCNy2YsWluP8K/0dJnhltWZfEO
+        e7sBMOrNMr5OH8bw2OMM9xupY77y6woxuCkwpEY=
+X-Google-Smtp-Source: ACHHUZ7f0mYUlhkmfqFOa7upgF3+P9haIqFzcQiaDvEE7sLdXrepLdsjEQXj85Vedo+/8g25qQEmx2pHu6PWK0EAtSA=
+X-Received: by 2002:a17:907:94c3:b0:969:e7da:fca0 with SMTP id
+ dn3-20020a17090794c300b00969e7dafca0mr11018637ejc.8.1683825998275; Thu, 11
+ May 2023 10:26:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230511150802.737477-1-cgzones@googlemail.com>
-In-Reply-To: <20230511150802.737477-1-cgzones@googlemail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 11 May 2023 17:17:29 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVa69s3g0z6qgayzNx=jT6Ko2RNeZehru0SbzYH8VwkfQ@mail.gmail.com>
-Message-ID: <CAMuHMdVa69s3g0z6qgayzNx=jT6Ko2RNeZehru0SbzYH8VwkfQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v2] fs/xattr: add *at family syscalls
-To:     =?UTF-8?Q?Christian_G=C3=B6ttsche?= <cgzones@googlemail.com>
-Cc:     x86@kernel.org, linux-alpha@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-ia64@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
-        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, audit@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-security-module@vger.kernel.org, selinux@vger.kernel.org,
-        Nhat Pham <nphamcs@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>
+Received: by 2002:a98:af89:0:b0:1c5:4782:3dff with HTTP; Thu, 11 May 2023
+ 10:26:37 -0700 (PDT)
+Reply-To: mrsubhashmejia30@aol.com
+From:   "Mr. Subhash Mejia." <kmyriamgrace@gmail.com>
+Date:   Thu, 11 May 2023 17:26:37 +0000
+Message-ID: <CAMGn9=Y=McgUKVZ28fVDd0mDVScV8T62zeV=mz13Uh9wjVjFPg@mail.gmail.com>
+Subject: Hello Greetings,
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: Yes, score=7.4 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_HK_NAME_FM_MR_MRS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM,UNDISC_MONEY
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2a00:1450:4864:20:0:0:0:642 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.4925]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [kmyriamgrace[at]gmail.com]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [mrsubhashmejia30[at]aol.com]
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  0.0 T_HK_NAME_FM_MR_MRS No description available.
+        *  2.7 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+        *  2.9 UNDISC_MONEY Undisclosed recipients + money/fraud signs
+X-Spam-Level: *******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Christian,
+Hello Greetings,
 
-On Thu, May 11, 2023 at 5:10 PM Christian Göttsche
-<cgzones@googlemail.com> wrote:
-> Add the four syscalls setxattrat(), getxattrat(), listxattrat() and
-> removexattrat().  Those can be used to operate on extended attributes,
-> especially security related ones, either relative to a pinned directory
-> or on a file descriptor without read access, avoiding a
-> /proc/<pid>/fd/<fd> detour, requiring a mounted procfs.
->
-> One use case will be setfiles(8) setting SELinux file contexts
-> ("security.selinux") without race conditions.
->
-> Add XATTR flags to the private namespace of AT_* flags.
->
-> Use the do_{name}at() pattern from fs/open.c.
->
-> Use a single flag parameter for extended attribute flags (currently
-> XATTR_CREATE and XATTR_REPLACE) and *at() flags to not exceed six
-> syscall arguments in setxattrat().
->
-> Previous approach ("f*xattr: allow O_PATH descriptors"): https://lore.kernel.org/all/20220607153139.35588-1-cgzones@googlemail.com/
-> v1 discussion: https://lore.kernel.org/all/20220830152858.14866-2-cgzones@googlemail.com/
->
-> Signed-off-by: Christian Göttsche <cgzones@googlemail.com>
+My name is Mr.Subhash Mejia,a Native of Sanso Community in
+Morila-Sikasso region of Republic Of Mali, a French speaking West
+African Country. I am a member of the said Community and the Head of
+sales, marketing, advertising, communication and sourcing agent for
+the Gold Bars.
 
-Thanks for your patch!
+My community  have kilos of Gold bars for immediate delivery to any
+buyer refinery.
 
-The syscall numbers conflict with those used in "[PATCH] cachestat:
-wire up cachestat for other architectures", so this needs some
-synchronization.
-https://lore.kernel.org/linux-sh/20230510195806.2902878-1-nphamcs@gmail.com
+Specifications of our gold dore bars are 22,23 Carats and Purity of
+96% Minimum. Origin is Republic of Mali.
 
->  arch/m68k/kernel/syscalls/syscall.tbl       |   4 +
+Our best prices will be made available on the offer based on the options.
+I will be hoping to hearing from you again.Then you can contact me with my email
+addres;[mrsubhashmejia30@aol.com]
 
-For m68k:
-Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
 
-Gr{oetje,eeting}s,
+Thanks and Have a nice day
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Mr. Subhash Mejia.
