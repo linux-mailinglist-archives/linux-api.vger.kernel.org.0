@@ -2,63 +2,76 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A8A26FFA23
-	for <lists+linux-api@lfdr.de>; Thu, 11 May 2023 21:33:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4306E6FFA2B
+	for <lists+linux-api@lfdr.de>; Thu, 11 May 2023 21:34:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238953AbjEKTdU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 11 May 2023 15:33:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52534 "EHLO
+        id S239161AbjEKTeg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 11 May 2023 15:34:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232629AbjEKTdS (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 11 May 2023 15:33:18 -0400
-Received: from mail-qv1-xf2b.google.com (mail-qv1-xf2b.google.com [IPv6:2607:f8b0:4864:20::f2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59ACD5276;
-        Thu, 11 May 2023 12:33:17 -0700 (PDT)
-Received: by mail-qv1-xf2b.google.com with SMTP id 6a1803df08f44-6216a09ec38so4071926d6.3;
-        Thu, 11 May 2023 12:33:17 -0700 (PDT)
+        with ESMTP id S232629AbjEKTef (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 11 May 2023 15:34:35 -0400
+Received: from mail-qv1-xf31.google.com (mail-qv1-xf31.google.com [IPv6:2607:f8b0:4864:20::f31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2C1F59D0;
+        Thu, 11 May 2023 12:34:34 -0700 (PDT)
+Received: by mail-qv1-xf31.google.com with SMTP id 6a1803df08f44-619be7d7211so42158626d6.3;
+        Thu, 11 May 2023 12:34:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683833596; x=1686425596;
+        d=gmail.com; s=20221208; t=1683833674; x=1686425674;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FSA86mvKjfheKvURQS7z/DOXYz4IyLlqu826nykCzL4=;
-        b=AUpPwwIngqgmaT+f8mDnb2GaSJ3QJ6vZASOYU30I24wMRxIiRH+jCIbzsuhWabxNZY
-         8skj9uzmrikgJBxFo0ROQfhP4Z84uV8Otp9jgjU6uKZOGNnTkYG5Fr4KKHriQpu2/oys
-         VbBPiHWMlMO8iI4ALv05ND8RYOYe/tELZ0rZaAizQcwSGoQu03dgPkmWk9/pXWK/V/85
-         +ox7dkWdnNCnK0dm2oIH6vHoHiQPMttITqT4ibj13pKvFWjD0VVIDnPFcBm6FTKYlSsD
-         xWVJ0Oxe7o6IUC7vyChNq4uvBT241U2CzRE4Atw5O/KLdDNkptWxbI/nZ4f6QHAMrbbY
-         QkEQ==
+        bh=OkRg4aBIGd+Ujeyjhqn0VJEzJVlq0iY77Z11k0mAFFM=;
+        b=D8VOr21Fczrl0K1COf0x4Ck7WHMsRogiYEEbrY2VpNny+n3MR+tJuDH09I9YAsS652
+         swT6GvFknXTnMBZPWlOxHk2u05+SeKUhRFMH/ZtDMNfuFTmqhV28jtrPoFuIwQ/bqAzu
+         JEHJCZ22+ejNPu9sQ5B4mFAObz8laeWoYTSRIa0MiOnPq0OszLg5zmMrWPnpqMS2qlwN
+         5gjqnyxgdjPUMVEd0f/03my+5DYNfTma/sJ3vnrs+cTqKEwezFl9LOtEmPAD5vfhXfNX
+         JrpZrTJ+uj1uIfEyrp6lAwR5J8sidiziH5Wld/lDfUFxzbjgvyiL15VatExShfnoJdEm
+         /ImQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683833596; x=1686425596;
+        d=1e100.net; s=20221208; t=1683833674; x=1686425674;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=FSA86mvKjfheKvURQS7z/DOXYz4IyLlqu826nykCzL4=;
-        b=D/lm09lnoEgJJ11tW++p/xMXDXV8ufk0xKJpdhU5bB03qXc4aNyS20RFmhNVXDUPJM
-         Dxkl20rX9VmjR+RS4/xIJFwYQ/q3+NNNOsCOy7ni7A1LoOJkForpMqC6govXbjME2Ljn
-         y+w6XFtmUbM3qjwzVnxHWmpAD203dRrMFHp24BOmDMYL3JpOCqS9ZbIinKeUjsN2hbLM
-         yYGyEt0IscnKnZyKS9To2t3lSkVZ7MdqMTtgBOasZyG1GpQUz4moClX0ytBXDOCadk03
-         eSDIW31PyAkcYPPzb5qdOo+XEAUovk1mDXdFcl1wC2AzDiwxmFhXtc3NMIuHTWWxj79v
-         fvxA==
-X-Gm-Message-State: AC+VfDyK7hgwlhuRoGCy0yHElyiv6cgPGo8ibQlN0VCNBjqoBNX5saBE
-        h/kvlsRZftk4kCfCMU77gfQ4j6sI4+UWpzDLVSk=
-X-Google-Smtp-Source: ACHHUZ536w4s+o3K4sVhGJ32SpnObxsxbPReebI2cHtdx2hwXQdKHnKoiQGc6To+IHtoZ3d19ryv8Gu3DSJ7koSibXw=
-X-Received: by 2002:a05:6214:c63:b0:5cc:e059:efa3 with SMTP id
- t3-20020a0562140c6300b005cce059efa3mr33601587qvj.23.1683833596286; Thu, 11
- May 2023 12:33:16 -0700 (PDT)
+        bh=OkRg4aBIGd+Ujeyjhqn0VJEzJVlq0iY77Z11k0mAFFM=;
+        b=I+e0iSK5LM2XRHfR9+c8Jb9mN0NXDz/nBDRNymh9Jue2t28UrKxRqYi2LAE/un8HXU
+         l/OOq8L0LY8OQVbmwAoWH/BaM0Ae7AY9L0YOjjmHDWt730qnBQmLmnym9oZ0iBbXqNd4
+         gVWJ/+zsy+LxKr+tRpoHswUe1SZbbfIEoedYAQpdDDuJhDQ9bPUD+tQZOHpUrKSAnejI
+         9u0b9DBVMJn0eyhNC8EAk9eFmoxMjQNvibNIGd9h2L1Z5YH86xENlUi8nWwFAHrkiOJK
+         PSsMWFQ6fFXlQaVDIh+PXUezizXqkF3zz0KM+XkAcsoqlQlFCMJuRs4XbetYVKblN/5h
+         jOmQ==
+X-Gm-Message-State: AC+VfDzTm74CQfiyLWsMkFQ3vTps7tfH1fUU0rEwsZ8jQoJJSlcyDrj/
+        Q3nS9z5o1ebkDUsZdHKTVKEx7Y1ZNHkeOKrul8Y=
+X-Google-Smtp-Source: ACHHUZ6FKXu0op+KxzAVHeFuNCXe2D1xFAp09jFVR7D1aeGdyycJWyp3G5ZLoEExaajX1pb4elh/5/+JF1DIDbKGBFc=
+X-Received: by 2002:ad4:5dec:0:b0:5a1:6212:93be with SMTP id
+ jn12-20020ad45dec000000b005a1621293bemr33993641qvb.29.1683833673901; Thu, 11
+ May 2023 12:34:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230503013608.2431726-1-nphamcs@gmail.com> <20230503013608.2431726-4-nphamcs@gmail.com>
- <877ctfa6yv.fsf@mail.lhotse>
-In-Reply-To: <877ctfa6yv.fsf@mail.lhotse>
+References: <20230510195806.2902878-1-nphamcs@gmail.com> <874joja6vz.fsf@mail.lhotse>
+In-Reply-To: <874joja6vz.fsf@mail.lhotse>
 From:   Nhat Pham <nphamcs@gmail.com>
-Date:   Thu, 11 May 2023 12:33:05 -0700
-Message-ID: <CAKEwX=MX+2Y-Qt5xSS_DF66X6aqrkOAUVi2vSt68K4y1_s4Lqw@mail.gmail.com>
-Subject: Re: [PATCH v13 3/3] selftests: Add selftests for cachestat
+Date:   Thu, 11 May 2023 12:34:23 -0700
+Message-ID: <CAKEwX=OHMaUzEG9hoMz20m9DnyFD4xC78KiNV1Qu0bUhkrYhAA@mail.gmail.com>
+Subject: Re: [PATCH] cachestat: wire up cachestat for other architectures
 To:     Michael Ellerman <mpe@ellerman.id.au>
-Cc:     akpm@linux-foundation.org, hannes@cmpxchg.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, bfoster@redhat.com,
-        willy@infradead.org, linux-api@vger.kernel.org,
-        kernel-team@meta.com, linuxppc-dev@lists.ozlabs.org
+Cc:     akpm@linux-foundation.org, linux-mm@kvack.org,
+        linux-api@vger.kernel.org, kernel-team@meta.com,
+        linux-arch@vger.kernel.org, hannes@cmpxchg.org,
+        richard.henderson@linaro.org, ink@jurassic.park.msu.ru,
+        mattst88@gmail.com, linux@armlinux.org.uk, geert@linux-m68k.org,
+        monstr@monstr.eu, tsbogend@alpha.franken.de,
+        James.Bottomley@hansenpartnership.com, deller@gmx.de,
+        npiggin@gmail.com, christophe.leroy@csgroup.eu, hca@linux.ibm.com,
+        gor@linux.ibm.com, agordeev@linux.ibm.com,
+        borntraeger@linux.ibm.com, svens@linux.ibm.com,
+        ysato@users.sourceforge.jp, dalias@libc.org,
+        glaubitz@physik.fu-berlin.de, davem@davemloft.net,
+        chris@zankel.net, jcmvbkbc@gmail.com, linux-alpha@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-ia64@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
+        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -71,174 +84,39 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, May 10, 2023 at 8:21=E2=80=AFPM Michael Ellerman <mpe@ellerman.id.a=
+On Wed, May 10, 2023 at 8:23=E2=80=AFPM Michael Ellerman <mpe@ellerman.id.a=
 u> wrote:
 >
 > Nhat Pham <nphamcs@gmail.com> writes:
-> > Test cachestat on a newly created file, /dev/ files, and /proc/ files.
-> > Also test on a shmem file (which can also be tested with huge pages
-> > since tmpfs supports huge pages).
+> > cachestat is previously only wired in for x86 (and architectures using
+> > the generic unistd.h table):
+> >
+> > https://lore.kernel.org/lkml/20230503013608.2431726-1-nphamcs@gmail.com=
+/
+> >
+> > This patch wires cachestat in for all the other architectures.
 > >
 > > Signed-off-by: Nhat Pham <nphamcs@gmail.com>
-> ...
-> > diff --git a/tools/testing/selftests/cachestat/test_cachestat.c b/tools=
-/testing/selftests/cachestat/test_cachestat.c
-> > new file mode 100644
-> > index 000000000000..c3823b809c25
-> > --- /dev/null
-> > +++ b/tools/testing/selftests/cachestat/test_cachestat.c
-> > @@ -0,0 +1,258 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +#define _GNU_SOURCE
-> > +
-> > +#include <stdio.h>
-> > +#include <stdbool.h>
-> > +#include <linux/kernel.h>
-> > +#include <linux/mman.h>
-> > +#include <sys/mman.h>
-> > +#include <sys/shm.h>
-> > +#include <sys/syscall.h>
-> > +#include <unistd.h>
-> > +#include <string.h>
-> > +#include <fcntl.h>
-> > +#include <errno.h>
-> > +
-> > +#include "../kselftest.h"
-> > +
-> > +static const char * const dev_files[] =3D {
-> > +     "/dev/zero", "/dev/null", "/dev/urandom",
-> > +     "/proc/version", "/proc"
-> > +};
-> > +static const int cachestat_nr =3D 451;
-> > +
-> > +void print_cachestat(struct cachestat *cs)
-> > +{
-> > +     ksft_print_msg(
-> > +     "Using cachestat: Cached: %lu, Dirty: %lu, Writeback: %lu, Evicte=
-d: %lu, Recently Evicted: %lu\n",
-> > +     cs->nr_cache, cs->nr_dirty, cs->nr_writeback,
-> > +     cs->nr_evicted, cs->nr_recently_evicted);
-> > +}
-> > +
-> > +bool write_exactly(int fd, size_t filesize)
-> > +{
-> > +     char data[filesize];
+> > ---
+> >  arch/alpha/kernel/syscalls/syscall.tbl      | 1 +
+> >  arch/arm/tools/syscall.tbl                  | 1 +
+> >  arch/ia64/kernel/syscalls/syscall.tbl       | 1 +
+> >  arch/m68k/kernel/syscalls/syscall.tbl       | 1 +
+> >  arch/microblaze/kernel/syscalls/syscall.tbl | 1 +
+> >  arch/mips/kernel/syscalls/syscall_n32.tbl   | 1 +
+> >  arch/mips/kernel/syscalls/syscall_n64.tbl   | 1 +
+> >  arch/mips/kernel/syscalls/syscall_o32.tbl   | 1 +
+> >  arch/parisc/kernel/syscalls/syscall.tbl     | 1 +
+> >  arch/powerpc/kernel/syscalls/syscall.tbl    | 1 +
 >
-> On kernels with 64K pages (powerpc at least), this tries to allocate
-> 64MB on the stack which segfaults.
+> With the change to the selftest (see my other mail), I tested this on
+> powerpc and all tests pass.
+
+Saw the change you proposed, Michael! It looks good to me.
+Thanks for helping me make the selftest suite more robust :)
+
 >
-> Allocating data with malloc avoids the problem and allows the test to
-> pass.
+> Tested-by: Michael Ellerman <mpe@ellerman.id.au> (powerpc)
 >
-> Looks like this commit is still in mm-unstable, so maybe Andrew can
-> squash the incremental diff below in, if it looks OK to you. The diff is
-> a bit big because I unindented the body of the function.
 >
 > cheers
->
->
-> diff --git a/tools/testing/selftests/cachestat/test_cachestat.c b/tools/t=
-esting/selftests/cachestat/test_cachestat.c
-> index 9be2262e5c17..54d09b820ed4 100644
-> --- a/tools/testing/selftests/cachestat/test_cachestat.c
-> +++ b/tools/testing/selftests/cachestat/test_cachestat.c
-> @@ -31,48 +31,59 @@ void print_cachestat(struct cachestat *cs)
->
->  bool write_exactly(int fd, size_t filesize)
->  {
-> -       char data[filesize];
-> -       bool ret =3D true;
->         int random_fd =3D open("/dev/urandom", O_RDONLY);
-> +       char *cursor, *data;
-> +       int remained;
-> +       bool ret;
->
->         if (random_fd < 0) {
->                 ksft_print_msg("Unable to access urandom.\n");
->                 ret =3D false;
->                 goto out;
-> -       } else {
-> -               int remained =3D filesize;
-> -               char *cursor =3D data;
-> +       }
->
-> -               while (remained) {
-> -                       ssize_t read_len =3D read(random_fd, cursor, rema=
-ined);
-> +       data =3D malloc(filesize);
-> +       if (!data) {
-> +               ksft_print_msg("Unable to allocate data.\n");
-> +               ret =3D false;
-> +               goto close_random_fd;
-> +       }
->
-> -                       if (read_len <=3D 0) {
-> -                               ksft_print_msg("Unable to read from urand=
-om.\n");
-> -                               ret =3D false;
-> -                               goto close_random_fd;
-> -                       }
-> +       remained =3D filesize;
-> +       cursor =3D data;
->
-> -                       remained -=3D read_len;
-> -                       cursor +=3D read_len;
-> +       while (remained) {
-> +               ssize_t read_len =3D read(random_fd, cursor, remained);
-> +
-> +               if (read_len <=3D 0) {
-> +                       ksft_print_msg("Unable to read from urandom.\n");
-> +                       ret =3D false;
-> +                       goto out_free_data;
->                 }
->
-> -               /* write random data to fd */
-> -               remained =3D filesize;
-> -               cursor =3D data;
-> -               while (remained) {
-> -                       ssize_t write_len =3D write(fd, cursor, remained)=
-;
-> +               remained -=3D read_len;
-> +               cursor +=3D read_len;
-> +       }
->
-> -                       if (write_len <=3D 0) {
-> -                               ksft_print_msg("Unable write random data =
-to file.\n");
-> -                               ret =3D false;
-> -                               goto close_random_fd;
-> -                       }
-> +       /* write random data to fd */
-> +       remained =3D filesize;
-> +       cursor =3D data;
-> +       while (remained) {
-> +               ssize_t write_len =3D write(fd, cursor, remained);
->
-> -                       remained -=3D write_len;
-> -                       cursor +=3D write_len;
-> +               if (write_len <=3D 0) {
-> +                       ksft_print_msg("Unable write random data to file.=
-\n");
-> +                       ret =3D false;
-> +                       goto out_free_data;
->                 }
-> +
-> +               remained -=3D write_len;
-> +               cursor +=3D write_len;
->         }
->
-> +       ret =3D true;
-> +out_free_data:
-> +       free(data);
->  close_random_fd:
->         close(random_fd);
->  out:
->
-
-Oh this is nice! I had to make a similar fix in another test
-of mine, but forgot about it in this context.
-
-LGTM. For verification, I have applied the diff and test on
-my own local setup. Things still pass.
-
-Acked-by: Nhat Pham <nphamcs@gmail.com>
