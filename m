@@ -2,101 +2,165 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0759470117E
-	for <lists+linux-api@lfdr.de>; Fri, 12 May 2023 23:48:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C36B0702A8F
+	for <lists+linux-api@lfdr.de>; Mon, 15 May 2023 12:34:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239375AbjELVsE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 12 May 2023 17:48:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35480 "EHLO
+        id S241135AbjEOKeK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 15 May 2023 06:34:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60452 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239602AbjELVsD (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 12 May 2023 17:48:03 -0400
-Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com [IPv6:2607:f8b0:4864:20::736])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6BAF658E;
-        Fri, 12 May 2023 14:48:02 -0700 (PDT)
-Received: by mail-qk1-x736.google.com with SMTP id af79cd13be357-7577ef2fa31so2084258485a.0;
-        Fri, 12 May 2023 14:48:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683928082; x=1686520082;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ktA0DPNP5CNQIjFJf+YrLVaDtly7+JfQEYIY1aBuK2A=;
-        b=EpptMN9+Uga6hAcxAo2XzkvGGde8U7iZgqSZwup4gFk7ua2rwfBFWm657rBr2tzbl8
-         alDpTk4rP4SwxS0++WAmPE4FdQWVm4/enEJ2mQ3J7ahbm+q5NhFo7RUTs7wUOrscZMox
-         45eupQg0KhJwmEmfQY80h//uPbuUrGvgy+2S/kMV3ur3MjhthaKdkBj5g/zXWCaAa42F
-         nlBJ5ENELKGgHvDXJ6O1MgCI5TkNz2MkLRmOh4ivwQL0KVMfgjcXf0CAUWx2Kaefsg2L
-         rPMZHV59fzGHCt/miNVdcAi7XITRfBOYPKnI+nTBEP2ciUF+hg8YN/lZWQD5Nj0f53m5
-         YpxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683928082; x=1686520082;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ktA0DPNP5CNQIjFJf+YrLVaDtly7+JfQEYIY1aBuK2A=;
-        b=i36IYFiU0ytePZ7pcIjov0x2AkeeuPbz7ORnwIOzT1owKwqt7rCp1nCSkJYqRTktgw
-         S8PmdJIdpLOD6jK+FQp9ojTYZoeAuEn6XFqZyV4zS19CqXvPrCr2txjNvHPwaq9DFlQj
-         l35lZy43rS7Q6mR46qgznqXKMLu0JZctdIIsQrQJYVCFgnUn+RQf5IBIsbrmzneEgObD
-         hubIOgho6mndHB+e0nSCNY4c0gsC8jGFFF3HyQ6jXszlhtM71pZBYZiXoIwnt8Qhwsdx
-         Fdq7pCPNFieRf/nj1UYY6aO2T84VW8/40lPlzgmbl/9hAhrhzjGF63ebv9nEm22qRPrN
-         pKcA==
-X-Gm-Message-State: AC+VfDxTMalHDRjfBc3zmUPIwk3ztahqCC0qpNWpSVdHqsM2xUv2Jdxh
-        nuDrxA55bvMJik5eP5FkJpB/K4Xh3ylpg8eZFGk=
-X-Google-Smtp-Source: ACHHUZ6Ds4tgg3tY2HwzC7rc3PEkzb8YK+RMc5PzxH8b2x7aIR5D0EBt3CAybWSjFJTCM+nRvm71yFLpXl19En8supA=
-X-Received: by 2002:a05:6214:519a:b0:621:65de:f600 with SMTP id
- kl26-20020a056214519a00b0062165def600mr10970695qvb.1.1683928081711; Fri, 12
- May 2023 14:48:01 -0700 (PDT)
+        with ESMTP id S241074AbjEOKeB (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 15 May 2023 06:34:01 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90E22E6E;
+        Mon, 15 May 2023 03:33:57 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2B2F861767;
+        Mon, 15 May 2023 10:33:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1595CC433EF;
+        Mon, 15 May 2023 10:33:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1684146836;
+        bh=5tmSZMTrH48otorY7sLrXC7yV0twLhRBW3UaH6lhA84=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=E1Y6ZR0WzHfeBpvPqw70ZdEnLQQpgWKdvoQLpVhX+5wJVudUhLnJbQKQ2L7d8drrx
+         vaba6Sv7UUva6cY/90vupd2i0jeWyJImmPki/eVyWS/qSMa4zlGwG45Onyby+LYuxz
+         t4v6jVxMQtxbDLB5kD152NTGCQXYVQ9LjsNZS98+cpJ/IHA1JmLip8tRBk9o0W7UFS
+         +hXPahVEsUNYeokdYRgs4mMcHkNUFNQTsItXvcYkTMceYm84h1teCoroif0s3h9uPe
+         sqWkX5W99uvKpXcxOHqVsL+ray+oaNU/T2ud44pu1HOLF41InFyVvhMR9XVkRjPq03
+         36vFVPrZNiVOw==
+Date:   Mon, 15 May 2023 12:33:47 +0200
+From:   Christian Brauner <brauner@kernel.org>
+To:     Christian =?utf-8?B?R8O2dHRzY2hl?= <cgzones@googlemail.com>
+Cc:     x86@kernel.org, linux-alpha@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-ia64@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
+        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, audit@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-security-module@vger.kernel.org, selinux@vger.kernel.org,
+        amir73il@gmail.com, Jan Kara <jack@suse.cz>, jlayton@kernel.org,
+        cyphar@cyphar.com, Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [RFC PATCH v2] fs/xattr: add *at family syscalls
+Message-ID: <20230515-kopfgeld-umkurven-f27be4b68a26@brauner>
+References: <20230511150802.737477-1-cgzones@googlemail.com>
 MIME-Version: 1.0
-References: <20230510195806.2902878-1-nphamcs@gmail.com> <20230511092843.3896327-1-nphamcs@gmail.com>
- <ZF4YEjiTOeu3jx+5@arm.com> <20230512141510.20075825899e3c869c5358ca@linux-foundation.org>
-In-Reply-To: <20230512141510.20075825899e3c869c5358ca@linux-foundation.org>
-From:   Nhat Pham <nphamcs@gmail.com>
-Date:   Fri, 12 May 2023 14:47:50 -0700
-Message-ID: <CAKEwX=P2VW_UfdxgLfYGOq1Bho+AtHt5pci+A7r95qJSSAEFtg@mail.gmail.com>
-Subject: Re: [PATCH] arm64: wire up cachestat for arm64
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        linux-api@vger.kernel.org, kernel-team@meta.com,
-        linux-arch@vger.kernel.org, hannes@cmpxchg.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, arnd@arndb.de, will@kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230511150802.737477-1-cgzones@googlemail.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, May 12, 2023 at 2:15=E2=80=AFPM Andrew Morton <akpm@linux-foundatio=
-n.org> wrote:
->
-> On Fri, 12 May 2023 11:42:26 +0100 Catalin Marinas <catalin.marinas@arm.c=
-om> wrote:
->
-> > On Thu, May 11, 2023 at 02:28:43AM -0700, Nhat Pham wrote:
-> > > cachestat is a new syscall that was previously wired in for most
-> > > architectures:
-> > >
-> > > https://lore.kernel.org/lkml/20230503013608.2431726-1-nphamcs@gmail.c=
-om/
-> > > https://lore.kernel.org/linux-mm/20230510195806.2902878-1-nphamcs@gma=
-il.com/
-> > >
-> > > However, those patches miss arm64, which has its own syscall table in=
- arch/arm64.
-> > > This patch wires cachestat in for arm64.
-> >
-> > You may want to clarify that this is for compat support on arm64,
-> > otherwise native support uses the generic syscall numbers already.
->
-> Thanks, I updated the changelog thusly.  Note that this patch is
-> transitory - it will be squashed into "cachestat: wire up cachestat for
-> other architectures".
+On Thu, May 11, 2023 at 05:08:02PM +0200, Christian Göttsche wrote:
+> Add the four syscalls setxattrat(), getxattrat(), listxattrat() and
+> removexattrat().  Those can be used to operate on extended attributes,
+> especially security related ones, either relative to a pinned directory
+> or on a file descriptor without read access, avoiding a
+> /proc/<pid>/fd/<fd> detour, requiring a mounted procfs.
+> 
+> One use case will be setfiles(8) setting SELinux file contexts
+> ("security.selinux") without race conditions.
+> 
+> Add XATTR flags to the private namespace of AT_* flags.
+> 
+> Use the do_{name}at() pattern from fs/open.c.
+> 
+> Use a single flag parameter for extended attribute flags (currently
+> XATTR_CREATE and XATTR_REPLACE) and *at() flags to not exceed six
+> syscall arguments in setxattrat().
+> 
+> Previous approach ("f*xattr: allow O_PATH descriptors"): https://lore.kernel.org/all/20220607153139.35588-1-cgzones@googlemail.com/
+> v1 discussion: https://lore.kernel.org/all/20220830152858.14866-2-cgzones@googlemail.com/
+> 
+> Signed-off-by: Christian Göttsche <cgzones@googlemail.com>
+> CC: x86@kernel.org
+> CC: linux-alpha@vger.kernel.org
+> CC: linux-kernel@vger.kernel.org
+> CC: linux-arm-kernel@lists.infradead.org
+> CC: linux-ia64@vger.kernel.org
+> CC: linux-m68k@lists.linux-m68k.org
+> CC: linux-mips@vger.kernel.org
+> CC: linux-parisc@vger.kernel.org
+> CC: linuxppc-dev@lists.ozlabs.org
+> CC: linux-s390@vger.kernel.org
+> CC: linux-sh@vger.kernel.org
+> CC: sparclinux@vger.kernel.org
+> CC: linux-fsdevel@vger.kernel.org
+> CC: audit@vger.kernel.org
+> CC: linux-arch@vger.kernel.org
+> CC: linux-api@vger.kernel.org
+> CC: linux-security-module@vger.kernel.org
+> CC: selinux@vger.kernel.org
+> ---
 
-It's my expectation too - it makes sense to squash it to the other patch.
-Thanks, Andrew!
+Fwiw, your header doesn't let me see who the mail was directly sent to
+so I'm only able to reply to lists which is a bit pointless...
+
+> v2:
+>   - squash syscall introduction and wire up commits
+>   - add AT_XATTR_CREATE and AT_XATTR_REPLACE constants
+
+> +#define AT_XATTR_CREATE	        0x1	/* setxattrat(2): set value, fail if attr already exists */
+> +#define AT_XATTR_REPLACE	0x2	/* setxattrat(2): set value, fail if attr does not exist */
+
+We really shouldn't waste any AT_* flags for this. Otherwise we'll run
+out of them rather quickly. Two weeks ago we added another AT_* flag
+which is up for merging for v6.5 iirc and I've glimpsed another AT_*
+flag proposal in one of the talks at last weeks Vancouver conference
+extravaganza.
+
+Even if we reuse 0x200 for AT_XATTR_CREATE (like we did for AT_EACCESS
+and AT_REMOVEDIR) we still need another bit for AT_XATTR_REPLACE.
+
+Plus, this is really ugly since AT_XATTR_{CREATE,REPLACE} really isn't
+in any way related to lookup and we're mixing it in with lookup
+modifying flags.
+
+So my proposal for {g,s}etxattrat() would be:
+
+struct xattr_args {
+        __aligned_u64 value;
+        __u32 size;
+        __u32 cmd;
+};
+
+So everything's nicely 64bit aligned in the struct. Use the @cmd member
+to set either XATTR_REPLACE or XATTR_CREATE and treat it as a proper
+enum and not as a flag argument like the old calls did.
+
+So then we'd have:
+
+setxattrat(int dfd, const char *path, const char __user *name,
+           struct xattr_args __user *args, size_t size, unsigned int flags)
+getxattrat(int dfd, const char *path, const char __user *name,
+           struct xattr_args __user *args, size_t size, unsigned int flags)
+
+The current in-kernel struct xattr_ctx would be renamed to struct
+kernel_xattr_args and then we do the usual copy_struct_from_user()
+dance:
+
+struct xattr_args args;
+err = copy_struct_from_user(&args, sizeof(args), uargs, usize);
+
+and then go on to handle value/size for setxattrat()/getxattrat()
+accordingly.
+
+getxattr()/setxattr() aren't meaningfully filterable by seccomp already
+so there's not point in not using a struct.
+
+If that isn't very appealing then another option is to add a new flag
+namespace just for setxattrat() similar to fspick() and move_mount()
+duplicating the needed lookup modifying flags.
+Thoughts?
