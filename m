@@ -2,250 +2,266 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D827708A66
-	for <lists+linux-api@lfdr.de>; Thu, 18 May 2023 23:26:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1FB2B708AB9
+	for <lists+linux-api@lfdr.de>; Thu, 18 May 2023 23:50:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230240AbjERV0t (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 18 May 2023 17:26:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46032 "EHLO
+        id S229579AbjERVuO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 18 May 2023 17:50:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230210AbjERV0s (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 18 May 2023 17:26:48 -0400
-Received: from sonic309-27.consmr.mail.ne1.yahoo.com (sonic309-27.consmr.mail.ne1.yahoo.com [66.163.184.153])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29B23F5
-        for <linux-api@vger.kernel.org>; Thu, 18 May 2023 14:26:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1684445206; bh=8B9ZJRvku4+3DdS6LUvbPMtAT0ZmPuMkfq5Lg560Igw=; h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To; b=UaW99pZJOiboIs7tcTI61j91iYM9j7clGiYlCCuQd87gd0/Hm98P0doUPrF8+eGiakNyM2oCtIbnWjIl5mS0Am+KCHq8LVPYXBSDVjno1EYnpGlr0GbNozS9rKzp9kY2AGI5JaCZN9BPXaW5IflGkqx4Mr055xP2czlWoOsFlRQaJExwNyCz0NMrJ6phcB2itB6Ph+//pqglNExxjyWu/jZpJRMEksFftnVz5f3dSLpOphYNc0HjqzQ9AWjCkjv1TWqMWPw1XAE/uL8TG78YYGGSmHVIEFL6x6oJ5WRpYMk6HYiP/r7BFLMXBlmHIkV2KbVZ6cAiRrkS5FNR/wne7g==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1684445206; bh=isJczNXLaMjCuMpvR1R+IXoKX+h4YWk+rRzSEMP5FPO=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=MB4JNPVsOyZBQj7FMeNc5dWQUS0jEujOft22abD2pArmP96ckupmmYKV89DmbESMxGZzOJAL01FQsb9lGnKG3OiwdoOz4Q8ZmcG5wfUQbsei6LJYVziNwH6j6gzJ8Pe+PF3uqXD3PvDGB8Bnys3Twgu8o2mo702Ast/PzG6ZomNu27ZCUFYtg1nRBwypS+dPv0IRD8JS0CO7jtqQteUu+3BV2UHvtPmulTCm8AxhlYfsIeVxqPehC6v1XUFjWDvk7eRAvabPOfhjF8VXskNgxorBVaiEYt6qNft5D3eIyZyriq4RBhRBWCRPxgyVaSQ9xm0GlDo8plJClgYKplaYDA==
-X-YMail-OSG: ._LI9UQVM1k9XPXFTNDrrLxtFo2SnWOAcPlbSYJt3tWzznEQ0XAGleoEpM4YHd1
- YvN4SEeGr_grBFPvU_jCM_rW3oZAJksGOnurWEg_mJuKQ1Fh5bzArt7mxGnKi5..JrgM5XR95BtL
- l4GwESJqT5nvZ5EyeNWSzdQQEZFWdE51wiBSlZrGdEF3LpVpCxSbqOEKIIZHad7aan.dfvEsDD8I
- 9t43GQ_SKike08anE8EKF.Zw3oU4wWss4leF4ZmoehW6uaU1f0qIjU1J2CXPRAFMPafTTzrJajkb
- wLalxF9OB1lPLBqxHoMKQJ5JSuyGeELtOoL5sPsKXZDzoouzgeatUA_izFjAPeslra8i8tbA3t90
- 81.gSBnXNLp_CN1qkZEQqnva0dfvoSIUwzD5DdjCjZmWhLlbIWEW1dRBV.YqLCwlyhlOtWJ_wM9S
- beFwY3EcwfQfvLl8WDeV1.WtM3jOkLuZXOazGKD8t8uQ.tXYCaHmbGej9Fsg8hLrfHHyx7xcGfTE
- 5.7Gx8SMExgT4JvSItGNi4lcWyxG618VHmAmAhD0gfHpzlgcA1U1rl9jOGwb8kQwdzc488lztf.S
- JXjOoYHrltIKrKUW_H1lw.njYw2JsdSGtth2aEtTwnD8C3EUE0I06cRmXCJlIAsuhasuqb0O2FJA
- 2lbVpQudAroxVkckIcwL2H.mD9G94DY72PslTJyGBcme1PCHyv.ryDA.tuF8JzxajmKDzfpCb786
- cCmrTOaJVAd1PUpCcMo0h0.pko5bBpUUpv5txmsImr.5g_fL.hu0PIXRgIOKDTKvzjtSDbj638aI
- wzzNXAtfzp3Y_QuOqpS.KTJXL58gbL.xN23uPwp_RvUUGThpIJ4WdXVgQbRy8eqTRR4Mu84LC7AY
- aD.ZKUbNI_YsCmx4EVNPsKtvCGZGQv28oStVmQPSZw1UGQ4mMd4ExkNQPT9S1e5CJ3.4mZuuWbEG
- 8nfQzH7vdObANqWh1rL3r5UJufryvp0GQQeL2k4hsIeOr8N1fWfvHS1JzpIf3ZuEfbWY6CkyaIBv
- OUeXGAN.QhHwLP_OCEwAn.0KstuWWHDJE73xU5f_XAC3vIFxqa.6IiDWsdFeCJkFpeKHAODJPj7R
- KitfPgyqdOKIIn.B2srInXswTRGvMiRUI8PtLC8JQqiDVN4J91b8gHWEpc5hhhXkRPbWpXrgK7T4
- B.5JGMQ0pbuTtUvxoDYdH2Jx8z30dXdACYHTBD3IBYK86c1H2WVr80kjIdl5TO5vYg072CQjSh4B
- tGvzOVKcqcioLkzqYsGojXKj5_97k6ZEzn8MOjrp4FHVsOdOY9V3VbDJlE.rh0EjBTGOyrD34pEx
- uINWBAr3cx0OgoQF7eFON5RWbujuzRCPkBhdjZzRh6Tz4gSFTZbE_ih5bxTbrAz_OB8nWmd4BHmK
- oOzyKnh_wOjKJfL3rFPoqJS3b_waAdIeNfDPtKTbsEn_3EooBHrMWWaL6IEc5IjU0qkUA6H9aHS0
- AxKgdLkPZXSqUV388lkYMvdPwMM135jMLwn6CCW6yCaj69DZRKtbHG.PTeSlq2Sp_jFwMgw2onKs
- HtiduemNRBMyeNQEyfbml3Cq2UJ22ZgiHPw80mR14oSKWeRKG1_jSfP8LSuDwFbV1tuPeFyoicF_
- .9CfPBlorS5olIvzw1DqMS4MdIwfyuZVDlFaDqRxdWuAMKE0WAC9Iz706qpQy9u5xTPKZlnk8Dwn
- ltJvjusMf938WcT5DhiOIxxykRF7K2rIp8yCItKZftkLplhsmF502DVazepMGeoZ8Ke6.lqXlCOF
- Dv5qorY9HnKJ1VBTWgLM0S9B6OKR3gWMKzxAr1AQrU_JXHr9S6d7K8lJRqlmMjegYUOVtu6wBCns
- 8knFa_TUTRncLUo8FzSE4nY_VPujIjbNvogR1zmBsA_otQ8WgBYotV61RXhezTTLLOW91t9meJAF
- Ru6hKZqbgZwCn1cnqOAmszTzpJJc3Ehe9xrhj_rWVRydnZMfSRCp_qv5UXAW4_suj0LAj3DM1kmy
- x1VtrP2aT8Bwkkx6klOaVpVPFpnatTmIP5cnB3sOcvKMFlV3TfBIKcizLI0YN8mflKLPzJ3KFR2Z
- t01CIuEh9wKZ.WdRW6dzIUPSYroM.9jIllb9iqOTqN_NCSw9l_xV0CpYuZiYiFZg2rqpzzO9QwFg
- .FuHCQZDD_p.Dwey.MY__Vb9ZB7QF49a7tcxnngSeEGhag8v9um7oQ2JoOmWzMAE3ARVRusUQcPa
- AYA4STxf.umtU1sXSBTJrPnu.S9VFAb_fvdxNkIL0crDlDXFfOZ9fUDwX1W4ja.GicLS0UgfIIfz
- AWcN1fRfXHg--
-X-Sonic-MF: <casey@schaufler-ca.com>
-X-Sonic-ID: 0c729d1d-a627-43c7-ae17-4b2558945fa1
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic309.consmr.mail.ne1.yahoo.com with HTTP; Thu, 18 May 2023 21:26:46 +0000
-Received: by hermes--production-gq1-6db989bfb-bkq9d (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 39bd191eef4300165fee30aa24f26e69;
-          Thu, 18 May 2023 21:26:43 +0000 (UTC)
-Message-ID: <a42875a0-d4c5-e2ac-d115-d4222e229f7d@schaufler-ca.com>
-Date:   Thu, 18 May 2023 14:26:40 -0700
+        with ESMTP id S229456AbjERVuN (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 18 May 2023 17:50:13 -0400
+Received: from mail-qv1-xf2f.google.com (mail-qv1-xf2f.google.com [IPv6:2607:f8b0:4864:20::f2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5016318D;
+        Thu, 18 May 2023 14:50:12 -0700 (PDT)
+Received: by mail-qv1-xf2f.google.com with SMTP id 6a1803df08f44-61b58779b93so23265936d6.0;
+        Thu, 18 May 2023 14:50:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1684446611; x=1687038611;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:feedback-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=n/OOEUuiCNBKdd9zMbn4KjwkaAOTRthUNUVRcur4ZwI=;
+        b=iVPTGelyaQvulIYchtlqJtiru7b5+iJ4aroWFy1//Kn+Ytac0/PVYN9smOvMdih5h5
+         kH0Qx4EIHgLF5JMBn1HBq7BfIL/pHbisWL2opvSN/x9rfwqPUa1xP8pneO53Gp8iDbrX
+         VwB8eAD/s1P/wMAZgrNi9I0MJ+oB8x1wgjzgWrf3eWbpy7tB+xxpCES3cY5th7Hbiktt
+         h4NAK9DrQiGwsmgqdLt0DeODZg9COfGFUSPsd720evv/kOv/V+9OuSvxxIIPol/rQf6r
+         +KQBVXxoXDiH5U0LXVeaPdt1QszHU5M2nuQO6m/cRZ9idvCuG42D5ywogWRk36flmbyK
+         vwLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684446611; x=1687038611;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:feedback-id:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=n/OOEUuiCNBKdd9zMbn4KjwkaAOTRthUNUVRcur4ZwI=;
+        b=O0xNOtPMGylkedgrewnq5O0ZDf4Pah1CCIBOYzfuRSzu1LKEn1ZTbnzy9PkkitKLKL
+         6GwOL6jm40/ilNoHpHfOTOp8dDMQPYRFkfoqcs3vo6li2jsSluKdu9mZFkc40/gDMudp
+         APlNG2WQG8RS8JtmiqKJS2n/eENq1gHLfddGMs/iu8HsRNNNkz1mQD/YaBmP4UbiYnn2
+         ZZJW/Dnn4GMuZ1i+PQeXyKqS3u3dky6i4THGAC9VyuAXTDrci3Nthrh3EVLmB1CgTHb0
+         zZqZoFF9XkBGiEaewyTYzbby4o2g1QVFeFRCQD+WfJ4UdiTqjaF65YQ6BXJpfUFnpziz
+         OIfw==
+X-Gm-Message-State: AC+VfDyzlfO5rxYshtGIn6Eos3SHTK0v301fPfHpLYYs7Vd5JOLfcqZh
+        X4zaWeQ3yqnb2qwltVvYu0M=
+X-Google-Smtp-Source: ACHHUZ5zGM/5wdpd7/eJvnvjX2dZLc1zy8U7oQzS60iygPq36k1FP8MONKTWdI70eSTu4kr0s38vIg==
+X-Received: by 2002:a05:6214:d02:b0:61b:5afc:d4be with SMTP id 2-20020a0562140d0200b0061b5afcd4bemr1051113qvh.7.1684446611289;
+        Thu, 18 May 2023 14:50:11 -0700 (PDT)
+Received: from auth1-smtp.messagingengine.com (auth1-smtp.messagingengine.com. [66.111.4.227])
+        by smtp.gmail.com with ESMTPSA id h11-20020a0cedab000000b0061ac0b43a16sm809880qvr.103.2023.05.18.14.50.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 May 2023 14:50:10 -0700 (PDT)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailauth.nyi.internal (Postfix) with ESMTP id E2AC927C005B;
+        Thu, 18 May 2023 17:50:09 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute1.internal (MEProxy); Thu, 18 May 2023 17:50:09 -0400
+X-ME-Sender: <xms:j51mZIekthRM44pWdpOPIBUusHncGShmVjoSzE7iUOgyZc9LnGRJrA>
+    <xme:j51mZKNz_-9wNRq1Th9mk4a2YQkDbSkh7FeSHG7WMZtycfyxfL1yPc1JQgZEZrRtC
+    ymgItnrjjCWjcmShQ>
+X-ME-Received: <xmr:j51mZJgGTZ31bC6OM36mPxyFgGSidHVmGIPaAc_ojFObBMe3ucZ1MZPChaw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeeigedgtdegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepuehoqhhu
+    nhcuhfgvnhhguceosghoqhhunhdrfhgvnhhgsehgmhgrihhlrdgtohhmqeenucggtffrrg
+    htthgvrhhnpeehudfgudffffetuedtvdehueevledvhfelleeivedtgeeuhfegueeviedu
+    ffeivdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    gsohhquhhnodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdeiledvgeehtdei
+    gedqudejjeekheehhedvqdgsohhquhhnrdhfvghngheppehgmhgrihhlrdgtohhmsehfih
+    igmhgvrdhnrghmvg
+X-ME-Proxy: <xmx:j51mZN_Ku1YAR3kEjZlKobH8u_j_SjQLmfkgZILrTkdByfq-Pzpn8Q>
+    <xmx:j51mZEt_EUqGpofAfHOjKaA-QxYBLYSSOmoHJr3GFFIE7RR5RarX2w>
+    <xmx:j51mZEEx2yUoyDUwmp80FdQwbPRz179X1AuUh5DqYcM88cSRWfPScg>
+    <xmx:kZ1mZEeO0xdrvqGSMGLQJ-t81zXSPr0_Nkd3kpgMODw2UwA-MFozXg>
+Feedback-ID: iad51458e:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 18 May 2023 17:50:07 -0400 (EDT)
+Date:   Thu, 18 May 2023 14:49:40 -0700
+From:   Boqun Feng <boqun.feng@gmail.com>
+To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
+        linux-api@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
+        Florian Weimer <fw@deneb.enyo.de>, David.Laight@aculab.com,
+        carlos@redhat.com, Peter Oskolkov <posk@posk.io>,
+        Alexander Mikhalitsyn <alexander@mihalicyn.com>,
+        Chris Kennelly <ckennelly@google.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Davidlohr Bueso <dave@stgolabs.net>,
+        =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+        libc-alpha@sourceware.org, Steven Rostedt <rostedt@goodmis.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Florian Weimer <fweimer@redhat.com>
+Subject: Re: [RFC PATCH 1/4] rseq: Add sched_state field to struct rseq
+Message-ID: <ZGaddGcHw7nJE+Gh@boqun-archlinux>
+References: <20230517152654.7193-1-mathieu.desnoyers@efficios.com>
+ <20230517152654.7193-2-mathieu.desnoyers@efficios.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2] lsm: adds process attribute getter for Landlock
-Content-Language: en-US
-To:     Shervin Oloumi <enlightened@chromium.org>, mic@digikod.net
-Cc:     linux-security-module@vger.kernel.org, jorgelo@chromium.org,
-        keescook@chromium.org, groeck@chromium.org, jeffxu@chromium.org,
-        allenwebb@chromium.org, gnoack3000@gmail.com, areber@redhat.com,
-        criu@openvz.org, linux-api@vger.kernel.org, jannh@google.com,
-        brauner@kernel.org, Casey Schaufler <casey@schaufler-ca.com>
-References: <ce44fc98-1234-fa53-5067-cd624866f44a@digikod.net>
- <20230518204549.3139044-1-enlightened@chromium.org>
-From:   Casey Schaufler <casey@schaufler-ca.com>
-In-Reply-To: <20230518204549.3139044-1-enlightened@chromium.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Mailer: WebService/1.1.21471 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
-X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230517152654.7193-2-mathieu.desnoyers@efficios.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 5/18/2023 1:45 PM, Shervin Oloumi wrote:
-> Adds a new getprocattr hook function to the Landlock LSM, which tracks
-> the landlocked state of the process. This is invoked when user-space
-> reads /proc/[pid]/attr/domain
-
-Please don't add a Landlock specific entry directly in the attr/
-directory. Add it only to attr/landlock.
-
-Also be aware that the LSM maintainer (Paul Moore) wants to move
-away from the /proc/.../attr interfaces in favor of a new system call,
-which is in review.
-
->  to determine whether a given process is
-> sand-boxed using Landlock. When the target process is not sand-boxed,
-> the result is "none", otherwise the result is empty, as we still need to
-> decide what kind of domain information is best to provide in "domain".
-
-Unless it's too late, you should consider using a term other than "domain".
-Domain is used in many contexts already, and your use could be confused
-with any number of those.
-
->
-> The hook function also performs an access check. The request is rejected
-> if the tracing process is the same as the target process, or if the
-> tracing process domain is not an ancestor to the target process domain.
->
-> Adds a new directory for landlock under the process attribute
-> filesystem, and defines "domain" as a read-only process attribute entry
-> for landlock.
->
-> Signed-off-by: Shervin Oloumi <enlightened@chromium.org>
+On Wed, May 17, 2023 at 11:26:51AM -0400, Mathieu Desnoyers wrote:
+> Expose the "on-cpu" state for each thread through struct rseq to allow
+> adaptative mutexes to decide more accurately between busy-waiting and
+> calling sys_futex() to release the CPU, based on the on-cpu state of the
+> mutex owner.
+> 
+> It is only provided as an optimization hint, because there is no
+> guarantee that the page containing this field is in the page cache, and
+> therefore the scheduler may very well fail to clear the on-cpu state on
+> preemption. This is expected to be rare though, and is resolved as soon
+> as the task returns to user-space.
+> 
+> The goal is to improve use-cases where the duration of the critical
+> sections for a given lock follows a multi-modal distribution, preventing
+> statistical guesses from doing a good job at choosing between busy-wait
+> and futex wait behavior.
+> 
+> Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+> Cc: Peter Zijlstra (Intel) <peterz@infradead.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Steven Rostedt (Google) <rostedt@goodmis.org>
+> Cc: Carlos O'Donell <carlos@redhat.com>
+> Cc: Florian Weimer <fweimer@redhat.com>
+> Cc: libc-alpha@sourceware.org
 > ---
->  fs/proc/base.c             | 11 +++++++++++
->  security/landlock/fs.c     | 38 ++++++++++++++++++++++++++++++++++++++
->  security/landlock/fs.h     |  1 +
->  security/landlock/ptrace.c |  4 ++--
->  security/landlock/ptrace.h |  3 +++
->  5 files changed, 55 insertions(+), 2 deletions(-)
->
-> diff --git a/fs/proc/base.c b/fs/proc/base.c
-> index 9e479d7d202b..b257ea704666 100644
-> --- a/fs/proc/base.c
-> +++ b/fs/proc/base.c
-> @@ -2851,6 +2851,13 @@ static const struct pid_entry apparmor_attr_dir_stuff[] = {
->  LSM_DIR_OPS(apparmor);
->  #endif
->  
-> +#ifdef CONFIG_SECURITY_LANDLOCK
-> +static const struct pid_entry landlock_attr_dir_stuff[] = {
-> +	ATTR("landlock", "domain", 0444),
-> +};
-> +LSM_DIR_OPS(landlock);
-> +#endif
-> +
->  static const struct pid_entry attr_dir_stuff[] = {
->  	ATTR(NULL, "current",		0666),
->  	ATTR(NULL, "prev",		0444),
-> @@ -2866,6 +2873,10 @@ static const struct pid_entry attr_dir_stuff[] = {
->  	DIR("apparmor",			0555,
->  	    proc_apparmor_attr_dir_inode_ops, proc_apparmor_attr_dir_ops),
->  #endif
-> +#ifdef CONFIG_SECURITY_LANDLOCK
-> +	DIR("landlock",                  0555,
-> +	    proc_landlock_attr_dir_inode_ops, proc_landlock_attr_dir_ops),
-> +#endif
->  };
->  
->  static int proc_attr_dir_readdir(struct file *file, struct dir_context *ctx)
-> diff --git a/security/landlock/fs.c b/security/landlock/fs.c
-> index adcea0fe7e68..2f8b0837a0fd 100644
-> --- a/security/landlock/fs.c
-> +++ b/security/landlock/fs.c
-> @@ -1280,6 +1280,42 @@ static int hook_file_truncate(struct file *const file)
->  	return -EACCES;
+>  include/linux/sched.h     | 12 ++++++++++++
+>  include/uapi/linux/rseq.h | 17 +++++++++++++++++
+>  kernel/rseq.c             | 14 ++++++++++++++
+>  3 files changed, 43 insertions(+)
+> 
+> diff --git a/include/linux/sched.h b/include/linux/sched.h
+> index eed5d65b8d1f..c7e9248134c1 100644
+> --- a/include/linux/sched.h
+> +++ b/include/linux/sched.h
+> @@ -2351,11 +2351,20 @@ static inline void rseq_signal_deliver(struct ksignal *ksig,
+>  	rseq_handle_notify_resume(ksig, regs);
 >  }
 >  
-> +/* process attribute interfaces */
+> +void __rseq_set_sched_state(struct task_struct *t, unsigned int state);
 > +
-> +/**
-> + * landlock_getprocattr - Landlock process attribute getter
-> + * @task: the object task
-> + * @name: the name of the attribute in /proc/.../attr
-> + * @value: where to put the result
-> + *
-> + * Performs access checks and writes any applicable results to value
-> + *
-> + * Returns the length of the result inside value or an error code
-> + */
-> +static int landlock_getprocattr(struct task_struct *task, const char *name,
-> +				char **value)
+> +static inline void rseq_set_sched_state(struct task_struct *t, unsigned int state)
 > +{
-> +	char *val = "";
-> +	int slen;
-> +
-> +	// If the tracing process is landlocked, ensure its domain is an
-> +	// ancestor to the target process domain.
-
-Please read the kernel style documentation. "//" comments are
-not used in the kernel.
-
-> +	if (landlocked(current))
-> +		if (current == task || !task_is_scoped(current, task))
-> +			return -EACCES;
-> +
-> +	// The only supported attribute is "domain".
-> +	if (strcmp(name, "domain") != 0)
-> +		return -EINVAL;
-> +
-> +	if (!landlocked(task))
-> +		val = "none";
-> +
-> +	slen = strlen(val);
-> +	*value = val;
-> +	return slen;
+> +	if (t->rseq)
+> +		__rseq_set_sched_state(t, state);
 > +}
 > +
->  static struct security_hook_list landlock_hooks[] __lsm_ro_after_init = {
->  	LSM_HOOK_INIT(inode_free_security, hook_inode_free_security),
->  
-> @@ -1302,6 +1338,8 @@ static struct security_hook_list landlock_hooks[] __lsm_ro_after_init = {
->  	LSM_HOOK_INIT(file_alloc_security, hook_file_alloc_security),
->  	LSM_HOOK_INIT(file_open, hook_file_open),
->  	LSM_HOOK_INIT(file_truncate, hook_file_truncate),
-> +
-> +	LSM_HOOK_INIT(getprocattr, landlock_getprocattr),
->  };
->  
->  __init void landlock_add_fs_hooks(void)
-> diff --git a/security/landlock/fs.h b/security/landlock/fs.h
-> index 488e4813680a..64145e8b5537 100644
-> --- a/security/landlock/fs.h
-> +++ b/security/landlock/fs.h
-> @@ -13,6 +13,7 @@
->  #include <linux/init.h>
->  #include <linux/rcupdate.h>
->  
-> +#include "ptrace.h"
->  #include "ruleset.h"
->  #include "setup.h"
->  
-> diff --git a/security/landlock/ptrace.c b/security/landlock/ptrace.c
-> index 4c5b9cd71286..de943f0f3899 100644
-> --- a/security/landlock/ptrace.c
-> +++ b/security/landlock/ptrace.c
-> @@ -47,8 +47,8 @@ static bool domain_scope_le(const struct landlock_ruleset *const parent,
->  	return false;
+>  /* rseq_preempt() requires preemption to be disabled. */
+>  static inline void rseq_preempt(struct task_struct *t)
+>  {
+>  	__set_bit(RSEQ_EVENT_PREEMPT_BIT, &t->rseq_event_mask);
+>  	rseq_set_notify_resume(t);
+> +	rseq_set_sched_state(t, 0);
 >  }
 >  
-> -static bool task_is_scoped(const struct task_struct *const parent,
-> -			   const struct task_struct *const child)
-> +const bool task_is_scoped(const struct task_struct *const parent,
-> +			  const struct task_struct *const child)
+>  /* rseq_migrate() requires preemption to be disabled. */
+> @@ -2405,6 +2414,9 @@ static inline void rseq_signal_deliver(struct ksignal *ksig,
+>  				       struct pt_regs *regs)
 >  {
->  	bool is_scoped;
->  	const struct landlock_ruleset *dom_parent, *dom_child;
-> diff --git a/security/landlock/ptrace.h b/security/landlock/ptrace.h
-> index 265b220ae3bf..c6eb08951fc1 100644
-> --- a/security/landlock/ptrace.h
-> +++ b/security/landlock/ptrace.h
-> @@ -11,4 +11,7 @@
+>  }
+> +static inline void rseq_set_sched_state(struct task_struct *t, unsigned int state)
+> +{
+> +}
+>  static inline void rseq_preempt(struct task_struct *t)
+>  {
+>  }
+> diff --git a/include/uapi/linux/rseq.h b/include/uapi/linux/rseq.h
+> index c233aae5eac9..c6d8537e23ca 100644
+> --- a/include/uapi/linux/rseq.h
+> +++ b/include/uapi/linux/rseq.h
+> @@ -37,6 +37,13 @@ enum rseq_cs_flags {
+>  		(1U << RSEQ_CS_FLAG_NO_RESTART_ON_MIGRATE_BIT),
+>  };
 >  
->  __init void landlock_add_ptrace_hooks(void);
->  
-> +const bool task_is_scoped(const struct task_struct *const parent,
-> +			  const struct task_struct *const child);
+> +enum rseq_sched_state {
+> +	/*
+> +	 * Task is currently running on a CPU if bit is set.
+> +	 */
+> +	RSEQ_SCHED_STATE_ON_CPU		= (1U << 0),
+> +};
 > +
->  #endif /* _SECURITY_LANDLOCK_PTRACE_H */
+>  /*
+>   * struct rseq_cs is aligned on 4 * 8 bytes to ensure it is always
+>   * contained within a single cache-line. It is usually declared as
+> @@ -148,6 +155,16 @@ struct rseq {
+>  	 */
+>  	__u32 mm_cid;
+>  
+> +	/*
+> +	 * Restartable sequences sched_state field. Updated by the kernel. Read
+> +	 * by user-space with single-copy atomicity semantics. This fields can
+> +	 * be read by any userspace thread. Aligned on 32-bit. Contains a
+
+Maybe this is a premature optimization, but since most of the time the
+bit would be read by another thread, does it make sense putting the
+"sched_state" into a different cache line to avoid false sharing?
+
+Also We could have a "sched_state_local" and "sched_state_remote" for
+different usages (local reads vs remote reads).
+
+Regards,
+Boqun
+
+> +	 * bitmask of enum rseq_sched_state. This field is provided as a hint
+> +	 * by the scheduler, and requires that the page holding struct rseq is
+> +	 * faulted-in for the state update to be performed by the scheduler.
+> +	 */
+> +	__u32 sched_state;
+> +
+>  	/*
+>  	 * Flexible array member at end of structure, after last feature field.
+>  	 */
+> diff --git a/kernel/rseq.c b/kernel/rseq.c
+> index 9de6e35fe679..b2eb3bbaa9ef 100644
+> --- a/kernel/rseq.c
+> +++ b/kernel/rseq.c
+> @@ -91,6 +91,7 @@ static int rseq_update_cpu_node_id(struct task_struct *t)
+>  	u32 cpu_id = raw_smp_processor_id();
+>  	u32 node_id = cpu_to_node(cpu_id);
+>  	u32 mm_cid = task_mm_cid(t);
+> +	u32 sched_state = RSEQ_SCHED_STATE_ON_CPU;
+>  
+>  	WARN_ON_ONCE((int) mm_cid < 0);
+>  	if (!user_write_access_begin(rseq, t->rseq_len))
+> @@ -99,6 +100,7 @@ static int rseq_update_cpu_node_id(struct task_struct *t)
+>  	unsafe_put_user(cpu_id, &rseq->cpu_id, efault_end);
+>  	unsafe_put_user(node_id, &rseq->node_id, efault_end);
+>  	unsafe_put_user(mm_cid, &rseq->mm_cid, efault_end);
+> +	unsafe_put_user(sched_state, &rseq->sched_state, efault_end);
+>  	/*
+>  	 * Additional feature fields added after ORIG_RSEQ_SIZE
+>  	 * need to be conditionally updated only if
+> @@ -339,6 +341,18 @@ void __rseq_handle_notify_resume(struct ksignal *ksig, struct pt_regs *regs)
+>  	force_sigsegv(sig);
+>  }
+>  
+> +/*
+> + * Attempt to update rseq scheduler state.
+> + */
+> +void __rseq_set_sched_state(struct task_struct *t, unsigned int state)
+> +{
+> +	if (unlikely(t->flags & PF_EXITING))
+> +		return;
+> +	pagefault_disable();
+> +	(void) put_user(state, &t->rseq->sched_state);
+> +	pagefault_enable();
+> +}
+> +
+>  #ifdef CONFIG_DEBUG_RSEQ
+>  
+>  /*
+> -- 
+> 2.25.1
+> 
