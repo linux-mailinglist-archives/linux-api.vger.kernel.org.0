@@ -2,60 +2,39 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4189570E249
-	for <lists+linux-api@lfdr.de>; Tue, 23 May 2023 18:49:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C19D270E338
+	for <lists+linux-api@lfdr.de>; Tue, 23 May 2023 19:46:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237630AbjEWQdC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 23 May 2023 12:33:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45148 "EHLO
+        id S237244AbjEWRaS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 23 May 2023 13:30:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234390AbjEWQdB (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 23 May 2023 12:33:01 -0400
-Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com [IPv6:2607:f8b0:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACE6A192;
-        Tue, 23 May 2023 09:32:55 -0700 (PDT)
-Received: by mail-ot1-x334.google.com with SMTP id 46e09a7af769-6af6b6837acso2284903a34.1;
-        Tue, 23 May 2023 09:32:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684859574; x=1687451574;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gPezlvdKhV+coJaauiTgwhI+5Pzq8mi1EoTAVT+O2ts=;
-        b=lVNeG+5Eyg9uJXCOL/rNQ6fySKIAPy/y9LvgrHrpZica5FHk0YiiV6ALtlDQHu3fZa
-         oq+v+FzZmArma8i5i95WxN5ufCjpW4sEA4SymafCkw1ypAXTac3CSYn1vvHMyheNvWiF
-         dv69+QGNWjIsmy/2yytJNuJTJILsXgEH9Q7htfd7E9g7Z63ZNnZSuab0Cr5hpVDbElzK
-         i5HMpDhXNFsOk/VLxtAalVvPBW7dafxKTav0bUEKhGgHlg14yEkZaG7b5XP0BP+yMnqW
-         E3Qo1RKFDPyzmuYLj9EKsvzg39D7A+kM1dogbMXkgIBGkMMaFaUZImKjC0lwclrktiJj
-         lDTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684859574; x=1687451574;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gPezlvdKhV+coJaauiTgwhI+5Pzq8mi1EoTAVT+O2ts=;
-        b=C2LBbtPIYr78v1UAmTNsXKWuzmG0K8Sz75RgsKDvz8ui2tMw1fv3CJegh8UAJVHpNi
-         vAupZMFpOX+tgUWrKPQgzHh8mttnbezAHm+sOx5GExdyRr7JxP1RKTpB8/2fenC9Bigo
-         malqoMRY04NKh9inhMAFIUqFHiWTOCp808UC1bzjBqESMz/JSRk0eVPc9si7l5ZioZOn
-         Sseynz8i9WZxIEJBxduXzLJfiNmQcspBLVX6CgT+meYVNl98uoE2vJujx/Xjzt0KBi/F
-         RAdbf5f11z4bdXZCQTXf3/DV3dU8sPntz9YT9uKUuW5qfhVO2Xm9i3j0vv27sjbs/i0/
-         0cmA==
-X-Gm-Message-State: AC+VfDzM1TMC3uHbFDwoIJ1HThIRXBnB/cZWtnHFf7KN/j4tivDvrzWL
-        UBMNsbF8bgYIW5ssPpTniEiJXp/pEKY2RPHGMQg=
-X-Google-Smtp-Source: ACHHUZ7agrWpvbSwDULewkv3+90ipL/mriVjj2Uo2kBIiVTM37EaF7RgSxdtRpG+ZXoGAvRSFmZrjP9k79UbMEZ7nXU=
-X-Received: by 2002:a54:4003:0:b0:398:349:aa8d with SMTP id
- x3-20020a544003000000b003980349aa8dmr4578796oie.28.1684859574251; Tue, 23 May
- 2023 09:32:54 -0700 (PDT)
+        with ESMTP id S238200AbjEWRaR (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 23 May 2023 13:30:17 -0400
+Received: from smtpout.efficios.com (smtpout.efficios.com [167.114.26.122])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63FC2CA;
+        Tue, 23 May 2023 10:30:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=efficios.com;
+        s=smtpout1; t=1684863008;
+        bh=yJD3V+XKnuW7qcW9kbIcITyLh2Ag4ia05ODFERJV1PQ=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=QZ5cUxpkb5fkT0Ee+/2qZd+avvLRM5YcnyH7aM5T9zugt7GpkMFe9b6g39fWCPOQh
+         If3LDG3c8Cvb33UcQSC1vq411FQ1X/pDsuJOBkjJLecM4ag/TU5mYhCcUnpRx4zsYf
+         QNnMdc/fvmHwUbmca3TA6gOYIQOwPJ+3h5o4cq7IR3KpYnIv2RBMb5nOYEOUVL0ztm
+         dQlAgoMegAxP2gZS+leCl9XUQ3BY74IqDsOT3JuwJh1N/MyGqJeipDSQRXzFuT738c
+         j861cpVKrbrZbocHKJwppQPSEFnRAG3L24dgzcKZkPXV7l5noP8sXLvNiLcuRv1huV
+         c8MjGxdQ41O/w==
+Received: from [172.16.0.117] (192-222-143-198.qc.cable.ebox.net [192.222.143.198])
+        by smtpout.efficios.com (Postfix) with ESMTPSA id 4QQhCg5qqkz13TT;
+        Tue, 23 May 2023 13:30:07 -0400 (EDT)
+Message-ID: <21f3d5e4-44ba-65de-5180-f059c145deef@efficios.com>
+Date:   Tue, 23 May 2023 13:30:09 -0400
 MIME-Version: 1.0
-References: <20230517152654.7193-1-mathieu.desnoyers@efficios.com>
- <20230517152654.7193-2-mathieu.desnoyers@efficios.com> <CAFUsyfJ49mE+7p1ywEHetRHqr=DWY7aiFYzfva9Mtqp3_XYncg@mail.gmail.com>
- <cdac8821-a298-aced-8084-8da3ba64a1be@efficios.com>
-In-Reply-To: <cdac8821-a298-aced-8084-8da3ba64a1be@efficios.com>
-From:   Noah Goldstein <goldstein.w.n@gmail.com>
-Date:   Tue, 23 May 2023 11:32:40 -0500
-Message-ID: <CAFUsyf+L6JF=pZ6QstQhdGGPVM7e7ML2a5LEbzmP6sTs3cwJng@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
 Subject: Re: [RFC PATCH 1/4] rseq: Add sched_state field to struct rseq
-To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Content-Language: en-US
+To:     Noah Goldstein <goldstein.w.n@gmail.com>
 Cc:     Peter Zijlstra <peterz@infradead.org>,
         linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
         "Paul E . McKenney" <paulmck@kernel.org>,
@@ -69,144 +48,171 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         Ingo Molnar <mingo@redhat.com>,
         Darren Hart <dvhart@infradead.org>,
         Davidlohr Bueso <dave@stgolabs.net>,
-        =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
+        =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>,
         libc-alpha@sourceware.org, Steven Rostedt <rostedt@goodmis.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Florian Weimer <fweimer@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+References: <20230517152654.7193-1-mathieu.desnoyers@efficios.com>
+ <20230517152654.7193-2-mathieu.desnoyers@efficios.com>
+ <CAFUsyfJ49mE+7p1ywEHetRHqr=DWY7aiFYzfva9Mtqp3_XYncg@mail.gmail.com>
+ <cdac8821-a298-aced-8084-8da3ba64a1be@efficios.com>
+ <CAFUsyf+L6JF=pZ6QstQhdGGPVM7e7ML2a5LEbzmP6sTs3cwJng@mail.gmail.com>
+From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+In-Reply-To: <CAFUsyf+L6JF=pZ6QstQhdGGPVM7e7ML2a5LEbzmP6sTs3cwJng@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, May 23, 2023 at 7:49=E2=80=AFAM Mathieu Desnoyers
-<mathieu.desnoyers@efficios.com> wrote:
->
-> On 2023-05-19 16:51, Noah Goldstein wrote:
-> > On Wed, May 17, 2023 at 10:28=E2=80=AFAM Mathieu Desnoyers via Libc-alp=
-ha
-> > <libc-alpha@sourceware.org> wrote:
-> >>
-> >> Expose the "on-cpu" state for each thread through struct rseq to allow
-> >> adaptative mutexes to decide more accurately between busy-waiting and
-> >> calling sys_futex() to release the CPU, based on the on-cpu state of t=
-he
-> >> mutex owner.
-> >>
-> >> It is only provided as an optimization hint, because there is no
-> >> guarantee that the page containing this field is in the page cache, an=
-d
-> >> therefore the scheduler may very well fail to clear the on-cpu state o=
-n
-> >> preemption. This is expected to be rare though, and is resolved as soo=
-n
-> >> as the task returns to user-space.
-> >>
-> >> The goal is to improve use-cases where the duration of the critical
-> >> sections for a given lock follows a multi-modal distribution, preventi=
-ng
-> >> statistical guesses from doing a good job at choosing between busy-wai=
-t
-> >> and futex wait behavior.
-> >>
-> >> Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-> >> Cc: Peter Zijlstra (Intel) <peterz@infradead.org>
-> >> Cc: Jonathan Corbet <corbet@lwn.net>
-> >> Cc: Steven Rostedt (Google) <rostedt@goodmis.org>
-> >> Cc: Carlos O'Donell <carlos@redhat.com>
-> >> Cc: Florian Weimer <fweimer@redhat.com>
-> >> Cc: libc-alpha@sourceware.org
-> >> ---
-> >>   include/linux/sched.h     | 12 ++++++++++++
-> >>   include/uapi/linux/rseq.h | 17 +++++++++++++++++
-> >>   kernel/rseq.c             | 14 ++++++++++++++
-> >>   3 files changed, 43 insertions(+)
-> >>
-> >> diff --git a/include/linux/sched.h b/include/linux/sched.h
-> >> index eed5d65b8d1f..c7e9248134c1 100644
-> >> --- a/include/linux/sched.h
-> >> +++ b/include/linux/sched.h
-> >> @@ -2351,11 +2351,20 @@ static inline void rseq_signal_deliver(struct =
-ksignal *ksig,
-> >>          rseq_handle_notify_resume(ksig, regs);
-> >>   }
-> >>
-> >> +void __rseq_set_sched_state(struct task_struct *t, unsigned int state=
-);
-> >> +
-> >> +static inline void rseq_set_sched_state(struct task_struct *t, unsign=
-ed int state)
-> >> +{
-> >> +       if (t->rseq)
-> >> +               __rseq_set_sched_state(t, state);
-> >> +}
-> >> +
-> >>   /* rseq_preempt() requires preemption to be disabled. */
-> >>   static inline void rseq_preempt(struct task_struct *t)
-> >>   {
-> >>          __set_bit(RSEQ_EVENT_PREEMPT_BIT, &t->rseq_event_mask);
-> >>          rseq_set_notify_resume(t);
-> >> +       rseq_set_sched_state(t, 0);
-> >
-> > Should rseq_migrate also be made to update the cpu_id of the new core?
-> > I imagine the usage of this will be something along the lines of:
-> >
-> > if(!on_cpu(mutex->owner_rseq_struct) &&
-> >     cpu(mutex->owner_rseq_struct) =3D=3D this_threads_cpu)
-> >     // goto futex
-> >
-> > So I would think updating on migrate would be useful as well.
->
-> I don't think we want to act differently based on the cpu on which the
-> owner is queued.
->
-> If the mutex owner is not on-cpu, and queued on the same cpu as the
-> current thread, we indeed want to call sys_futex WAIT.
->
-> If the mutex owner is not on-cpu, but queued on a different cpu than the
-> current thread, we *still* want to call sys_futex WAIT, because
-> busy-waiting for a thread which is queued but not currently running is
-> wasteful.
->
-I think this is less clear. In some cases sure but not always. Going
-to the futex
-has more latency that userland waits, and if the system is not busy (other =
-than
-the one process) most likely less latency that yield. Also going to the fut=
-ex
-requires a syscall on unlock.
+On 2023-05-23 12:32, Noah Goldstein wrote:
+> On Tue, May 23, 2023 at 7:49 AM Mathieu Desnoyers
+> <mathieu.desnoyers@efficios.com> wrote:
+>>
+>> On 2023-05-19 16:51, Noah Goldstein wrote:
+>>> On Wed, May 17, 2023 at 10:28 AM Mathieu Desnoyers via Libc-alpha
+>>> <libc-alpha@sourceware.org> wrote:
+>>>>
+>>>> Expose the "on-cpu" state for each thread through struct rseq to allow
+>>>> adaptative mutexes to decide more accurately between busy-waiting and
+>>>> calling sys_futex() to release the CPU, based on the on-cpu state of the
+>>>> mutex owner.
+>>>>
+>>>> It is only provided as an optimization hint, because there is no
+>>>> guarantee that the page containing this field is in the page cache, and
+>>>> therefore the scheduler may very well fail to clear the on-cpu state on
+>>>> preemption. This is expected to be rare though, and is resolved as soon
+>>>> as the task returns to user-space.
+>>>>
+>>>> The goal is to improve use-cases where the duration of the critical
+>>>> sections for a given lock follows a multi-modal distribution, preventing
+>>>> statistical guesses from doing a good job at choosing between busy-wait
+>>>> and futex wait behavior.
+>>>>
+>>>> Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+>>>> Cc: Peter Zijlstra (Intel) <peterz@infradead.org>
+>>>> Cc: Jonathan Corbet <corbet@lwn.net>
+>>>> Cc: Steven Rostedt (Google) <rostedt@goodmis.org>
+>>>> Cc: Carlos O'Donell <carlos@redhat.com>
+>>>> Cc: Florian Weimer <fweimer@redhat.com>
+>>>> Cc: libc-alpha@sourceware.org
+>>>> ---
+>>>>    include/linux/sched.h     | 12 ++++++++++++
+>>>>    include/uapi/linux/rseq.h | 17 +++++++++++++++++
+>>>>    kernel/rseq.c             | 14 ++++++++++++++
+>>>>    3 files changed, 43 insertions(+)
+>>>>
+>>>> diff --git a/include/linux/sched.h b/include/linux/sched.h
+>>>> index eed5d65b8d1f..c7e9248134c1 100644
+>>>> --- a/include/linux/sched.h
+>>>> +++ b/include/linux/sched.h
+>>>> @@ -2351,11 +2351,20 @@ static inline void rseq_signal_deliver(struct ksignal *ksig,
+>>>>           rseq_handle_notify_resume(ksig, regs);
+>>>>    }
+>>>>
+>>>> +void __rseq_set_sched_state(struct task_struct *t, unsigned int state);
+>>>> +
+>>>> +static inline void rseq_set_sched_state(struct task_struct *t, unsigned int state)
+>>>> +{
+>>>> +       if (t->rseq)
+>>>> +               __rseq_set_sched_state(t, state);
+>>>> +}
+>>>> +
+>>>>    /* rseq_preempt() requires preemption to be disabled. */
+>>>>    static inline void rseq_preempt(struct task_struct *t)
+>>>>    {
+>>>>           __set_bit(RSEQ_EVENT_PREEMPT_BIT, &t->rseq_event_mask);
+>>>>           rseq_set_notify_resume(t);
+>>>> +       rseq_set_sched_state(t, 0);
+>>>
+>>> Should rseq_migrate also be made to update the cpu_id of the new core?
+>>> I imagine the usage of this will be something along the lines of:
+>>>
+>>> if(!on_cpu(mutex->owner_rseq_struct) &&
+>>>      cpu(mutex->owner_rseq_struct) == this_threads_cpu)
+>>>      // goto futex
+>>>
+>>> So I would think updating on migrate would be useful as well.
+>>
+>> I don't think we want to act differently based on the cpu on which the
+>> owner is queued.
+>>
+>> If the mutex owner is not on-cpu, and queued on the same cpu as the
+>> current thread, we indeed want to call sys_futex WAIT.
+>>
+>> If the mutex owner is not on-cpu, but queued on a different cpu than the
+>> current thread, we *still* want to call sys_futex WAIT, because
+>> busy-waiting for a thread which is queued but not currently running is
+>> wasteful.
+>>
+> I think this is less clear. In some cases sure but not always. Going
+> to the futex
+> has more latency that userland waits, and if the system is not busy (other than
+> the one process) most likely less latency that yield. Also going to the futex
+> requires a syscall on unlock.
+> 
+> For example if the critical section is expected to be very small, it
+> would be easy
+> to imagine the lock be better implemented with:
+> while(is_locked)
+>    if (owner->on_cpu || owner->cpu != my_cpu)
+>      exponential backoff
+>    else
+>      yield
+> 
+> Its not that "just go to futex" doesn't ever make sense, but I don't
+> think its fair
+> to say that *always* the case.
+> 
+> Looking at the kernel code, it doesn't seem to be a particularly high cost to
+> keep the CPU field updated during migration so seems like a why not
+> kind of question.
 
-For example if the critical section is expected to be very small, it
-would be easy
-to imagine the lock be better implemented with:
-while(is_locked)
-  if (owner->on_cpu || owner->cpu !=3D my_cpu)
-    exponential backoff
-  else
-    yield
+We already have the owner rseq_abi cpu_id field populated on every 
+return-to-userspace. I wonder if it's really relevant that migration 
+populates an updated value in this field immediately ? It's another case 
+where this would be provided as a hint updated only if the struct rseq 
+is in the page cache, because AFAIU the scheduler migration path cannot 
+take a page fault.
 
-Its not that "just go to futex" doesn't ever make sense, but I don't
-think its fair
-to say that *always* the case.
+Also, if a thread bounces around many runqueues before being scheduled 
+again, we would be adding those useless stores to the rseq_abi structure 
+at each migration between runqueues.
 
-Looking at the kernel code, it doesn't seem to be a particularly high cost =
-to
-keep the CPU field updated during migration so seems like a why not
-kind of question.
-> Or am I missing something ?
->
-> Thanks,
->
-> Mathieu
->
-> --
-> Mathieu Desnoyers
-> EfficiOS Inc.
-> https://www.efficios.com
->
+Given this would add some complexity to the scheduler migration code, I 
+would want to see metrics/benchmarks showing that it indeed improves 
+real-world use-cases before adding this to the rseq ABI.
+
+It's not only a question of added lines of code as of today, but also a 
+question of added userspace ABI guarantees which can prevent future 
+scheduler optimizations. I'm *very* careful about keeping those to a 
+strict minimum, which I hope Peter Zijlstra appreciates.
+
+Thanks,
+
+Mathieu
+
+
+>> Or am I missing something ?
+>>
+>> Thanks,
+>>
+>> Mathieu
+>>
+>> --
+>> Mathieu Desnoyers
+>> EfficiOS Inc.
+>> https://www.efficios.com
+>>
+
+-- 
+Mathieu Desnoyers
+EfficiOS Inc.
+https://www.efficios.com
+
