@@ -2,303 +2,148 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 06A5A70DED1
-	for <lists+linux-api@lfdr.de>; Tue, 23 May 2023 16:11:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B87D570DF12
+	for <lists+linux-api@lfdr.de>; Tue, 23 May 2023 16:20:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237244AbjEWOLr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 23 May 2023 10:11:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47696 "EHLO
+        id S236726AbjEWOTs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 23 May 2023 10:19:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237107AbjEWOL2 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 23 May 2023 10:11:28 -0400
-Received: from smtpout.efficios.com (smtpout.efficios.com [167.114.26.122])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 782E6118;
-        Tue, 23 May 2023 07:10:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=efficios.com;
-        s=smtpout1; t=1684851033;
-        bh=PDHlcbL/ejRZ6x1/yL0bJ5WxIRJfwNls+CNLgnDmnoc=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=CqOxg9u7+LhkH/4oJBHp8uQ6loDLQkuRwGE7kR8nuFhALbOo3p//YQhVB5GHYUf5C
-         yqpgAoNf50tTrCWflYlTjPYY+l/ntso4hGewgyjsUo0KrnU55cem672vwdB4rL7tcg
-         qdv+zJNA8EfKwNGBRh4wnZKaqhsaaosjSViNLTdqAUPPFl+UhBMhbjIfDtKyycVoOM
-         eYAsA+3+qdQzBdjxUBzdiee1LFJj1RvPUUeKSSXXyKYFWOdDV+CKMD9XAJwBEK1Lkh
-         xRwbHCqkT4+9FT663T9+/3VOguij/tQ0RWOiTi4Jr0OMiD8Ynx4hM0DD77OGIA337G
-         sw+87KXXQMPFQ==
-Received: from [172.16.0.117] (192-222-143-198.qc.cable.ebox.net [192.222.143.198])
-        by smtpout.efficios.com (Postfix) with ESMTPSA id 4QQbnN6J69z13My;
-        Tue, 23 May 2023 10:10:32 -0400 (EDT)
-Message-ID: <18286958-df67-f5c8-157a-9b0e8764a299@efficios.com>
-Date:   Tue, 23 May 2023 10:10:40 -0400
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [RFC PATCH 1/4] rseq: Add sched_state field to struct rseq
-Content-Language: en-US
-To:     Boqun Feng <boqun.feng@gmail.com>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        "Paul E . McKenney" <paulmck@kernel.org>,
-        "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
-        linux-api@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
-        Florian Weimer <fw@deneb.enyo.de>, David.Laight@aculab.com,
-        carlos@redhat.com, Peter Oskolkov <posk@posk.io>,
-        Alexander Mikhalitsyn <alexander@mihalicyn.com>,
-        Chris Kennelly <ckennelly@google.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Davidlohr Bueso <dave@stgolabs.net>,
-        =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>,
-        libc-alpha@sourceware.org, Steven Rostedt <rostedt@goodmis.org>,
+        with ESMTP id S237107AbjEWOTr (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 23 May 2023 10:19:47 -0400
+Received: from mail-pl1-x64a.google.com (mail-pl1-x64a.google.com [IPv6:2607:f8b0:4864:20::64a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26A7CE9
+        for <linux-api@vger.kernel.org>; Tue, 23 May 2023 07:19:45 -0700 (PDT)
+Received: by mail-pl1-x64a.google.com with SMTP id d9443c01a7336-1ae8a684f70so22280975ad.2
+        for <linux-api@vger.kernel.org>; Tue, 23 May 2023 07:19:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1684851584; x=1687443584;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=YJTOtttasiWLDEUcufe2rn3c2B61VJIjpPGMO/P/Yds=;
+        b=brwx0PSOMA0wdDk4Q3ZV6Zhimz9MGX1rc3oTrPLZdLDxR99oxRU+kgTiRQZeIUGp/B
+         dyf6U+6YZAZ0UTzApeHQKfgEnBhOiOJ/qXVvQ9J1F3RjGUiuExrD9+BmRrRlbu21nlVD
+         Wx38qijldoSLQu16rAmMxw27fIDqOXmDcc7YNTYCcS5xe37Q9LSgSZUY1x8lcrA4BzR8
+         Gn6XlWuegWj0mDFi1OGEJ901Pjqo4OoenFzAOsc9erWa0V37gRvkLtOzMhqrjLYhuzgg
+         EJnTJnwVBYHzHNPBMQ/b1Fhyc00bJU+3iH49CfEJT1yRwLmSMHit03ZKsytirD36EFwd
+         gllQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684851584; x=1687443584;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YJTOtttasiWLDEUcufe2rn3c2B61VJIjpPGMO/P/Yds=;
+        b=E5dkNv5I5HaG7usg56YzBXhixic/KykCP0ZOQWze3RVsRke3J6xFUWEpfhPr0fx0Hy
+         HGags1UGvy35pM97Rpf+0dvObJ9LCyNcD3kXZ15th1gR4ES1P72e2RToaNGGYkhn6UgB
+         yJvTNJIrmtDwaAgHR7+myUZmhfGmKtlJC5yhQQit3J7yu6a/sYVxSnEIbez+BZ38wDpj
+         RqNAGhFZYdJBhxASb/0/K4AHO/jlWg/Vw7uBMYa0Ta7/TWa921DQ84Lvqsq2Kfd5N1Z7
+         zsGsgjYAWi/BuLnp2MHF27YEl3vIVReJVCjHyja/N5Pkx2ZHyiAo/YpNWtHYuMCQ2sYN
+         sqyQ==
+X-Gm-Message-State: AC+VfDwpzMlHpGeqkOqmbUGvbMDGwC0YX/ZoE91I9TFBgbZM9RE4BnCB
+        j/Ri0EbQMkJnwt4YHJa3ycJG1vgA19U=
+X-Google-Smtp-Source: ACHHUZ7XDfHM+pb9CMgdhxQCTf7TNLGglKW4K4aM789UbMGnxCZDh8BKaFM+lAod2VMVzlBmEBluGi8tvqw=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a17:902:eb11:b0:1a1:b318:2776 with SMTP id
+ l17-20020a170902eb1100b001a1b3182776mr3427854plb.0.1684851584603; Tue, 23 May
+ 2023 07:19:44 -0700 (PDT)
+Date:   Tue, 23 May 2023 07:19:43 -0700
+In-Reply-To: <ZGxo9ylqYI8JXjGn@li-a450e7cc-27df-11b2-a85c-b5a9ac31e8ef.ibm.com>
+Mime-Version: 1.0
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <20220706082016.2603916-9-chao.p.peng@linux.intel.com> <ZGxo9ylqYI8JXjGn@li-a450e7cc-27df-11b2-a85c-b5a9ac31e8ef.ibm.com>
+Message-ID: <ZGzLf4zgxpBjghaF@google.com>
+Subject: Re: [PATCH v7 08/14] KVM: Rename mmu_notifier_*
+From:   Sean Christopherson <seanjc@google.com>
+To:     Kautuk Consul <kconsul@linux.vnet.ibm.com>
+Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        linux-kselftest@vger.kernel.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Florian Weimer <fweimer@redhat.com>
-References: <20230517152654.7193-1-mathieu.desnoyers@efficios.com>
- <20230517152654.7193-2-mathieu.desnoyers@efficios.com>
- <ZGaddGcHw7nJE+Gh@boqun-archlinux>
- <06ee47e0-99e0-4b6a-ab67-239fccf2777d@efficios.com>
- <ZGevZxOjJLMO9zlM@boqun-archlinux>
-From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-In-Reply-To: <ZGevZxOjJLMO9zlM@boqun-archlinux>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 2023-05-19 13:18, Boqun Feng wrote:
-[...]
+On Tue, May 23, 2023, Kautuk Consul wrote:
+> On 2022-07-06 16:20:10, Chao Peng wrote:
+> > diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+> > index e9153b54e2a4..c262ebb168a7 100644
+> > --- a/include/linux/kvm_host.h
+> > +++ b/include/linux/kvm_host.h
+> > @@ -765,10 +765,10 @@ struct kvm {
+> >  
+> >  #if defined(CONFIG_MMU_NOTIFIER) && defined(KVM_ARCH_WANT_MMU_NOTIFIER)
+> >  	struct mmu_notifier mmu_notifier;
+> > -	unsigned long mmu_notifier_seq;
+> > -	long mmu_notifier_count;
+> > -	gfn_t mmu_notifier_range_start;
+> > -	gfn_t mmu_notifier_range_end;
+> > +	unsigned long mmu_updating_seq;
+> > +	long mmu_updating_count;
 > 
-> The case in my mind is the opposite direction: the loads from other
-> threads delay the stores to rseq_cs on the current thread, which I
-> assume are usually a fast path. For example:
+> Can we convert mmu_updating_seq and mmu_updating_count to atomic_t ?
 
-Yes, OK, you are correct. And I just validated on my end that busy-waiting
-repeatedly loading from a cache line does slow down the concurrent stores
-to other variables on that cache line significantly (at least on my
-Intel(R) Core(TM) i7-8650U). Small reproducer provided at the end of
-this email. Results:
+Heh, can we?  Yes.  Should we?  No.
 
-compudj@thinkos:~/test$ time ./test-cacheline -d
-thread id : 140242706274048, pid 16940
-thread id : 140242697881344, pid 16940
+> I see that not all accesses to these are under the kvm->mmu_lock
+> spinlock.
 
-real	0m4.145s
-user	0m8.289s
-sys	0m0.000s
+Ya, working as intended.  Ignoring gfn_to_pfn_cache for the moment, all accesses
+to mmu_invalidate_in_progress (was mmu_notifier_count / mmu_updating_count above)
+are done under mmu_lock.  And for for mmu_notifier_seq (mmu_updating_seq above),
+all writes and some reads are done under mmu_lock.  The only reads that are done
+outside of mmu_lock are the initial snapshots of the sequence number.
 
-compudj@thinkos:~/test$ time ./test-cacheline -s
-thread id : 139741482387200, pid 16950
-thread id : 139741473994496, pid 16950
+gfn_to_pfn_cache uses a different locking scheme, the comments in
+mmu_notifier_retry_cache() do a good job explaining the ordering.
 
-real	0m4.573s
-user	0m9.147s
-sys	0m0.000s
+> This will also remove the need for putting separate smp_wmb() and
+> smp_rmb() memory barriers while accessing these structure members.
 
+No, the memory barriers aren't there to provide any kind of atomicity.  The barriers
+exist to ensure that stores and loads to/from the sequence and invalidate in-progress
+counts are ordered relative to the invalidation (stores to counts) and creation (loads)
+of SPTEs.  Making the counts atomic changes nothing because atomic operations don't
+guarantee the necessary ordering.
 
-> 
-> 	CPU 1				CPU 2
-> 
-> 	lock(foo); // holding a lock
-> 	rseq_start():
-> 	  <CPU 1 own the cache line exclusively>
-> 	  				lock(foo):
-> 					  <fail to get foo>
-> 					  <check whether the lock owner is on CPU>
-> 					  <cache line becames shared>
-> 	  ->rseq_cs = .. // Need to invalidate the cache line on other CPU
-> 
-> But as you mentioned, there is only one updater here (the current
-> thread), so maybe it doesn't matter... but since it's a userspace ABI,
-> so I cannot help thinking "what if there is another bit that has a
-> different usage pattern introduced in the future", so..
-
-Yes, however we have to be careful about how we introduce this considering
-that the rseq feature extensions are "append only" to the structure feature
-size exported by the kernel to userspace through getauxval(3).
-
-So if we decide that we create a big hole right in the middle of the rseq_abi
-for cacheline alignment, that's a possibility, but we'd really be wasting an
-entire cacheline for a single bit.
-
-Another possibility would be to add a level of indirection: we could have a field
-in struct rseq which is either a pointer or offset from the thread_pointer() to
-the on-cpu bit, which would sit in a different cache line. It would be up to
-glibc to allocate space for it, possibly at the end of the rseq_abi field.
-
-> 
->> Note that the heavy cache-line bouncing in my test-case happens on the lock
->> structure (cmpxchg expecting NULL, setting the current thread rseq_get_abi()
->> pointer on success). There are probably better ways to implement that part,
->> it is currently just a simple prototype showcasing the approach.
->>
-> 
-> Yeah.. that's a little strange, I guess you can just read the lock
-> owner's rseq_abi, for example:
-> 
-> 	rseq_lock_slowpath() {
-> 		struct rseq_abi *other_rseq = lock->owner;
-> 
-> 		if (RSEQ_ACCESS_ONCE(other_rseq->sched_state)) {
-> 			...
-> 		}
-> 	}
-
-Yes, I don't think the load of the owner pointer needs to be part of the
-cmpxchg per se. It could be done from a load on the slow-path.
-
-This way we would not require that the owner id and the lock state be the
-same content, and this would allow much more freedom for the fast-path
-semantic.
-
-Thanks,
-
-Mathieu
-
-> 
-> ?
-> 
-> Regards,
-> Boqun
-> 
->> Thanks,
->>
->> Mathieu
->>
->> -- 
->> Mathieu Desnoyers
->> EfficiOS Inc.
->> https://www.efficios.com
->>
-
-Reproducer:
-
-/*
-  * cacheline testing (exclusive vs shared store speed)
-  *
-  * build with gcc -O2 -pthread -o test-cacheline test-cacheline.c
-  *
-  * Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-  * License: MIT
-  */
-
-#include <stdio.h>
-#include <pthread.h>
-#include <stdlib.h>
-#include <sys/types.h>
-#include <unistd.h>
-#include <rseq/rseq.h>
-
-#define NR_THREADS 2
-
-struct test {
-	int a;
-	int b;
-} __attribute__((aligned(256)));
-
-enum testcase {
-	TEST_SAME_CACHELINE,
-	TEST_OTHER_CACHELINE,
-};
-
-static enum testcase testcase;
-static int test_stop, test_go;
-static struct test test, test2;
-
-static
-void *testthread(void *arg)
-{
-	long nr = (long)arg;
-
-         printf("thread id : %lu, pid %lu\n", pthread_self(), getpid());
-
-	__atomic_add_fetch(&test_go, 1, __ATOMIC_RELAXED);
-	while (RSEQ_READ_ONCE(test_go) < NR_THREADS)
-		rseq_barrier();
-	if (nr == 0) {
-		switch (testcase) {
-		case TEST_SAME_CACHELINE:
-			while (!RSEQ_READ_ONCE(test_stop))
-				(void) RSEQ_READ_ONCE(test.a);
-			break;
-		case TEST_OTHER_CACHELINE:
-			while (!RSEQ_READ_ONCE(test_stop))
-				(void) RSEQ_READ_ONCE(test2.a);
-			break;
-		}
-	} else if (nr == 1) {
-		unsigned long long i;
-
-		for (i = 0; i < 16000000000UL; i++)
-			RSEQ_WRITE_ONCE(test.b, i);
-		RSEQ_WRITE_ONCE(test_stop, 1);
-	}
-         return ((void*)0);
-}
-
-static
-void show_usage(char **argv)
-{
-	fprintf(stderr, "Usage: %s <OPTIONS>\n", argv[0]);
-	fprintf(stderr, "OPTIONS:\n");
-	fprintf(stderr, "	[-s] Same cacheline\n");
-	fprintf(stderr, "	[-d] Different cacheline\n");
-}
-
-static
-int parse_args(int argc, char **argv)
-{
-	if (argc != 2 || argv[1][0] != '-') {
-		show_usage(argv);
-		return -1;
-	}
-	switch (argv[1][1]) {
-	case 's':
-		testcase = TEST_SAME_CACHELINE;
-		break;
-	case 'd':
-		testcase = TEST_OTHER_CACHELINE;
-		break;
-	default:
-		show_usage(argv);
-		return -1;
-	}
-	return 0;
-}
-
-int main(int argc, char **argv)
-{
-         pthread_t testid[NR_THREADS];
-         void *tret;
-         int i, err;
-
-	if (parse_args(argc, argv))
-		exit(1);
-
-         for (i = 0; i < NR_THREADS; i++) {
-                 err = pthread_create(&testid[i], NULL, testthread,
-                         (void *)(long)i);
-                 if (err != 0)
-                         exit(1);
-         }
-
-         for (i = 0; i < NR_THREADS; i++) {
-                 err = pthread_join(testid[i], &tret);
-                 if (err != 0)
-                         exit(1);
-         }
-
-         return 0;
-}
-
-
-
--- 
-Mathieu Desnoyers
-EfficiOS Inc.
-https://www.efficios.com
-
+E.g. when handling a page fault, KVM snapshots the sequence outside of mmu_lock
+_before_ touching any state that is involved in resolving the host pfn, e.g. primary
+MMU state (VMAs, host page tables, etc.).   After the page fault task acquires
+mmu_lock, KVM checks that there are no in-progress invalidations and that the sequence
+count is the same.  This ensures that if there is a concurrent page fault and
+invalidation event, the page fault task will either acquire mmu_lock and create SPTEs
+_before_ the invalidation is processed, or the page fault task will observe either an
+elevated mmu_invalidate_in_progress or a different sequence count, and thus retry the
+page fault, if the page fault task acquires mmu_lock after the invalidation event.
