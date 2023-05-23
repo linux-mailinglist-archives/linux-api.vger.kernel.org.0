@@ -2,43 +2,42 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B5FE370DCF0
-	for <lists+linux-api@lfdr.de>; Tue, 23 May 2023 14:49:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 06A5A70DED1
+	for <lists+linux-api@lfdr.de>; Tue, 23 May 2023 16:11:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230306AbjEWMt3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 23 May 2023 08:49:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38588 "EHLO
+        id S237244AbjEWOLr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 23 May 2023 10:11:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233843AbjEWMt2 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 23 May 2023 08:49:28 -0400
-Received: from smtpout.efficios.com (unknown [IPv6:2607:5300:203:b2ee::31e5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76A0DDD;
-        Tue, 23 May 2023 05:49:25 -0700 (PDT)
+        with ESMTP id S237107AbjEWOL2 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 23 May 2023 10:11:28 -0400
+Received: from smtpout.efficios.com (smtpout.efficios.com [167.114.26.122])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 782E6118;
+        Tue, 23 May 2023 07:10:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=efficios.com;
-        s=smtpout1; t=1684846164;
-        bh=kqceX5raYeRpBbahySDfiWhprDVkugQ30VzTL3JtJHI=;
+        s=smtpout1; t=1684851033;
+        bh=PDHlcbL/ejRZ6x1/yL0bJ5WxIRJfwNls+CNLgnDmnoc=;
         h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=maaFn5bqaA9UiQCHRR3RVWDL86mZEIb1Gre8vZHAOY099bOQrRyXY4bZSVhOnH7Yw
-         58OwEQD0tJ8XfJyhs5IxKsh/NAedwlDvtqWR6RqzkulFy4VWC4/V0zF4BpPDYYjL/s
-         i9KSqJppSVm3vbgfF6Is+EZidbAGIhDYloH+r+WyyqcSt++QgNRaZQf7jJNoQomCvf
-         pnbuaIYavya2q81VyJpQsktj74bZYQSZcAyPdP2zw7my13xKJNwZCsD39KTg+6zUTo
-         oopFQfPwEQMSe9+eMZNLU3WEoyjB+i/khEe47uut/AioWohRpDP5f0YtcnwGMeP6D/
-         HL7HTI0FCXdAQ==
+        b=CqOxg9u7+LhkH/4oJBHp8uQ6loDLQkuRwGE7kR8nuFhALbOo3p//YQhVB5GHYUf5C
+         yqpgAoNf50tTrCWflYlTjPYY+l/ntso4hGewgyjsUo0KrnU55cem672vwdB4rL7tcg
+         qdv+zJNA8EfKwNGBRh4wnZKaqhsaaosjSViNLTdqAUPPFl+UhBMhbjIfDtKyycVoOM
+         eYAsA+3+qdQzBdjxUBzdiee1LFJj1RvPUUeKSSXXyKYFWOdDV+CKMD9XAJwBEK1Lkh
+         xRwbHCqkT4+9FT663T9+/3VOguij/tQ0RWOiTi4Jr0OMiD8Ynx4hM0DD77OGIA337G
+         sw+87KXXQMPFQ==
 Received: from [172.16.0.117] (192-222-143-198.qc.cable.ebox.net [192.222.143.198])
-        by smtpout.efficios.com (Postfix) with ESMTPSA id 4QQYzl3zpSz13Kp;
-        Tue, 23 May 2023 08:49:23 -0400 (EDT)
-Message-ID: <cdac8821-a298-aced-8084-8da3ba64a1be@efficios.com>
-Date:   Tue, 23 May 2023 08:49:33 -0400
+        by smtpout.efficios.com (Postfix) with ESMTPSA id 4QQbnN6J69z13My;
+        Tue, 23 May 2023 10:10:32 -0400 (EDT)
+Message-ID: <18286958-df67-f5c8-157a-9b0e8764a299@efficios.com>
+Date:   Tue, 23 May 2023 10:10:40 -0400
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
 Subject: Re: [RFC PATCH 1/4] rseq: Add sched_state field to struct rseq
 Content-Language: en-US
-To:     Noah Goldstein <goldstein.w.n@gmail.com>
+To:     Boqun Feng <boqun.feng@gmail.com>
 Cc:     Peter Zijlstra <peterz@infradead.org>,
         linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
         "Paul E . McKenney" <paulmck@kernel.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
         "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
         linux-api@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
         Florian Weimer <fw@deneb.enyo.de>, David.Laight@aculab.com,
@@ -54,14 +53,16 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         Florian Weimer <fweimer@redhat.com>
 References: <20230517152654.7193-1-mathieu.desnoyers@efficios.com>
  <20230517152654.7193-2-mathieu.desnoyers@efficios.com>
- <CAFUsyfJ49mE+7p1ywEHetRHqr=DWY7aiFYzfva9Mtqp3_XYncg@mail.gmail.com>
+ <ZGaddGcHw7nJE+Gh@boqun-archlinux>
+ <06ee47e0-99e0-4b6a-ab67-239fccf2777d@efficios.com>
+ <ZGevZxOjJLMO9zlM@boqun-archlinux>
 From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-In-Reply-To: <CAFUsyfJ49mE+7p1ywEHetRHqr=DWY7aiFYzfva9Mtqp3_XYncg@mail.gmail.com>
+In-Reply-To: <ZGevZxOjJLMO9zlM@boqun-archlinux>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RDNS_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -69,87 +70,232 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 2023-05-19 16:51, Noah Goldstein wrote:
-> On Wed, May 17, 2023 at 10:28 AM Mathieu Desnoyers via Libc-alpha
-> <libc-alpha@sourceware.org> wrote:
->>
->> Expose the "on-cpu" state for each thread through struct rseq to allow
->> adaptative mutexes to decide more accurately between busy-waiting and
->> calling sys_futex() to release the CPU, based on the on-cpu state of the
->> mutex owner.
->>
->> It is only provided as an optimization hint, because there is no
->> guarantee that the page containing this field is in the page cache, and
->> therefore the scheduler may very well fail to clear the on-cpu state on
->> preemption. This is expected to be rare though, and is resolved as soon
->> as the task returns to user-space.
->>
->> The goal is to improve use-cases where the duration of the critical
->> sections for a given lock follows a multi-modal distribution, preventing
->> statistical guesses from doing a good job at choosing between busy-wait
->> and futex wait behavior.
->>
->> Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
->> Cc: Peter Zijlstra (Intel) <peterz@infradead.org>
->> Cc: Jonathan Corbet <corbet@lwn.net>
->> Cc: Steven Rostedt (Google) <rostedt@goodmis.org>
->> Cc: Carlos O'Donell <carlos@redhat.com>
->> Cc: Florian Weimer <fweimer@redhat.com>
->> Cc: libc-alpha@sourceware.org
->> ---
->>   include/linux/sched.h     | 12 ++++++++++++
->>   include/uapi/linux/rseq.h | 17 +++++++++++++++++
->>   kernel/rseq.c             | 14 ++++++++++++++
->>   3 files changed, 43 insertions(+)
->>
->> diff --git a/include/linux/sched.h b/include/linux/sched.h
->> index eed5d65b8d1f..c7e9248134c1 100644
->> --- a/include/linux/sched.h
->> +++ b/include/linux/sched.h
->> @@ -2351,11 +2351,20 @@ static inline void rseq_signal_deliver(struct ksignal *ksig,
->>          rseq_handle_notify_resume(ksig, regs);
->>   }
->>
->> +void __rseq_set_sched_state(struct task_struct *t, unsigned int state);
->> +
->> +static inline void rseq_set_sched_state(struct task_struct *t, unsigned int state)
->> +{
->> +       if (t->rseq)
->> +               __rseq_set_sched_state(t, state);
->> +}
->> +
->>   /* rseq_preempt() requires preemption to be disabled. */
->>   static inline void rseq_preempt(struct task_struct *t)
->>   {
->>          __set_bit(RSEQ_EVENT_PREEMPT_BIT, &t->rseq_event_mask);
->>          rseq_set_notify_resume(t);
->> +       rseq_set_sched_state(t, 0);
+On 2023-05-19 13:18, Boqun Feng wrote:
+[...]
 > 
-> Should rseq_migrate also be made to update the cpu_id of the new core?
-> I imagine the usage of this will be something along the lines of:
+> The case in my mind is the opposite direction: the loads from other
+> threads delay the stores to rseq_cs on the current thread, which I
+> assume are usually a fast path. For example:
+
+Yes, OK, you are correct. And I just validated on my end that busy-waiting
+repeatedly loading from a cache line does slow down the concurrent stores
+to other variables on that cache line significantly (at least on my
+Intel(R) Core(TM) i7-8650U). Small reproducer provided at the end of
+this email. Results:
+
+compudj@thinkos:~/test$ time ./test-cacheline -d
+thread id : 140242706274048, pid 16940
+thread id : 140242697881344, pid 16940
+
+real	0m4.145s
+user	0m8.289s
+sys	0m0.000s
+
+compudj@thinkos:~/test$ time ./test-cacheline -s
+thread id : 139741482387200, pid 16950
+thread id : 139741473994496, pid 16950
+
+real	0m4.573s
+user	0m9.147s
+sys	0m0.000s
+
+
 > 
-> if(!on_cpu(mutex->owner_rseq_struct) &&
->     cpu(mutex->owner_rseq_struct) == this_threads_cpu)
->     // goto futex
+> 	CPU 1				CPU 2
 > 
-> So I would think updating on migrate would be useful as well.
+> 	lock(foo); // holding a lock
+> 	rseq_start():
+> 	  <CPU 1 own the cache line exclusively>
+> 	  				lock(foo):
+> 					  <fail to get foo>
+> 					  <check whether the lock owner is on CPU>
+> 					  <cache line becames shared>
+> 	  ->rseq_cs = .. // Need to invalidate the cache line on other CPU
+> 
+> But as you mentioned, there is only one updater here (the current
+> thread), so maybe it doesn't matter... but since it's a userspace ABI,
+> so I cannot help thinking "what if there is another bit that has a
+> different usage pattern introduced in the future", so..
 
-I don't think we want to act differently based on the cpu on which the 
-owner is queued.
+Yes, however we have to be careful about how we introduce this considering
+that the rseq feature extensions are "append only" to the structure feature
+size exported by the kernel to userspace through getauxval(3).
 
-If the mutex owner is not on-cpu, and queued on the same cpu as the 
-current thread, we indeed want to call sys_futex WAIT.
+So if we decide that we create a big hole right in the middle of the rseq_abi
+for cacheline alignment, that's a possibility, but we'd really be wasting an
+entire cacheline for a single bit.
 
-If the mutex owner is not on-cpu, but queued on a different cpu than the 
-current thread, we *still* want to call sys_futex WAIT, because 
-busy-waiting for a thread which is queued but not currently running is 
-wasteful.
+Another possibility would be to add a level of indirection: we could have a field
+in struct rseq which is either a pointer or offset from the thread_pointer() to
+the on-cpu bit, which would sit in a different cache line. It would be up to
+glibc to allocate space for it, possibly at the end of the rseq_abi field.
 
-Or am I missing something ?
+> 
+>> Note that the heavy cache-line bouncing in my test-case happens on the lock
+>> structure (cmpxchg expecting NULL, setting the current thread rseq_get_abi()
+>> pointer on success). There are probably better ways to implement that part,
+>> it is currently just a simple prototype showcasing the approach.
+>>
+> 
+> Yeah.. that's a little strange, I guess you can just read the lock
+> owner's rseq_abi, for example:
+> 
+> 	rseq_lock_slowpath() {
+> 		struct rseq_abi *other_rseq = lock->owner;
+> 
+> 		if (RSEQ_ACCESS_ONCE(other_rseq->sched_state)) {
+> 			...
+> 		}
+> 	}
+
+Yes, I don't think the load of the owner pointer needs to be part of the
+cmpxchg per se. It could be done from a load on the slow-path.
+
+This way we would not require that the owner id and the lock state be the
+same content, and this would allow much more freedom for the fast-path
+semantic.
 
 Thanks,
 
 Mathieu
+
+> 
+> ?
+> 
+> Regards,
+> Boqun
+> 
+>> Thanks,
+>>
+>> Mathieu
+>>
+>> -- 
+>> Mathieu Desnoyers
+>> EfficiOS Inc.
+>> https://www.efficios.com
+>>
+
+Reproducer:
+
+/*
+  * cacheline testing (exclusive vs shared store speed)
+  *
+  * build with gcc -O2 -pthread -o test-cacheline test-cacheline.c
+  *
+  * Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+  * License: MIT
+  */
+
+#include <stdio.h>
+#include <pthread.h>
+#include <stdlib.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <rseq/rseq.h>
+
+#define NR_THREADS 2
+
+struct test {
+	int a;
+	int b;
+} __attribute__((aligned(256)));
+
+enum testcase {
+	TEST_SAME_CACHELINE,
+	TEST_OTHER_CACHELINE,
+};
+
+static enum testcase testcase;
+static int test_stop, test_go;
+static struct test test, test2;
+
+static
+void *testthread(void *arg)
+{
+	long nr = (long)arg;
+
+         printf("thread id : %lu, pid %lu\n", pthread_self(), getpid());
+
+	__atomic_add_fetch(&test_go, 1, __ATOMIC_RELAXED);
+	while (RSEQ_READ_ONCE(test_go) < NR_THREADS)
+		rseq_barrier();
+	if (nr == 0) {
+		switch (testcase) {
+		case TEST_SAME_CACHELINE:
+			while (!RSEQ_READ_ONCE(test_stop))
+				(void) RSEQ_READ_ONCE(test.a);
+			break;
+		case TEST_OTHER_CACHELINE:
+			while (!RSEQ_READ_ONCE(test_stop))
+				(void) RSEQ_READ_ONCE(test2.a);
+			break;
+		}
+	} else if (nr == 1) {
+		unsigned long long i;
+
+		for (i = 0; i < 16000000000UL; i++)
+			RSEQ_WRITE_ONCE(test.b, i);
+		RSEQ_WRITE_ONCE(test_stop, 1);
+	}
+         return ((void*)0);
+}
+
+static
+void show_usage(char **argv)
+{
+	fprintf(stderr, "Usage: %s <OPTIONS>\n", argv[0]);
+	fprintf(stderr, "OPTIONS:\n");
+	fprintf(stderr, "	[-s] Same cacheline\n");
+	fprintf(stderr, "	[-d] Different cacheline\n");
+}
+
+static
+int parse_args(int argc, char **argv)
+{
+	if (argc != 2 || argv[1][0] != '-') {
+		show_usage(argv);
+		return -1;
+	}
+	switch (argv[1][1]) {
+	case 's':
+		testcase = TEST_SAME_CACHELINE;
+		break;
+	case 'd':
+		testcase = TEST_OTHER_CACHELINE;
+		break;
+	default:
+		show_usage(argv);
+		return -1;
+	}
+	return 0;
+}
+
+int main(int argc, char **argv)
+{
+         pthread_t testid[NR_THREADS];
+         void *tret;
+         int i, err;
+
+	if (parse_args(argc, argv))
+		exit(1);
+
+         for (i = 0; i < NR_THREADS; i++) {
+                 err = pthread_create(&testid[i], NULL, testthread,
+                         (void *)(long)i);
+                 if (err != 0)
+                         exit(1);
+         }
+
+         for (i = 0; i < NR_THREADS; i++) {
+                 err = pthread_join(testid[i], &tret);
+                 if (err != 0)
+                         exit(1);
+         }
+
+         return 0;
+}
+
+
 
 -- 
 Mathieu Desnoyers
