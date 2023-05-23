@@ -2,131 +2,211 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FEF570E096
-	for <lists+linux-api@lfdr.de>; Tue, 23 May 2023 17:33:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4189570E249
+	for <lists+linux-api@lfdr.de>; Tue, 23 May 2023 18:49:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237038AbjEWPdQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 23 May 2023 11:33:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39898 "EHLO
+        id S237630AbjEWQdC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 23 May 2023 12:33:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45148 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237142AbjEWPdP (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 23 May 2023 11:33:15 -0400
-Received: from sonic303-27.consmr.mail.ne1.yahoo.com (sonic303-27.consmr.mail.ne1.yahoo.com [66.163.188.153])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03B98E49
-        for <linux-api@vger.kernel.org>; Tue, 23 May 2023 08:32:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1684855967; bh=1f3aHwhNdjZ75ghTtX+iCA0FZ0Vt2Uea6ELbiy8gdsE=; h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To; b=n2Zz24lvNQrSoOZxxktVjlaaz6aKj8lTwiCpBbKAzmZO4f39Kl5LPpCxHIGGM/LFPw9iiiwvPHmDlJriFWG2ZROONXJBgLKiQ3bhWHraKnL4I/QViiXsxpL7iwxLAx8Q6nnZOiJmW4Tsk95HUBOGQfAqjyNs/xRJjaDRvzEFWmdKR6HZnO4Orox/0QD4DNBKcrGfvnuDRiPkIR2bWw8E2ld5K6OYMqbJcOibYmO0FZDw1hKmEBcs/2hzztpXDl9M9iKyn0AJA6K8DED4MRYE7leIanBxs6BtAuwByZyTXf8XYhquhFao7cbMku45UlOA/H0tYflpm8tLidctGc5Wow==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1684855967; bh=7NTr6pbjvTBr6DsbfBG4+EtWndeqiUDPrk6Ae/CsNG5=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=qDE7a60xqob7KvSVk9IN9bfuFUePdgAfib2PLNIz7kyRg2ruoll8X/FbZ58mUvgBspPgvJRyLx4u3MAU7LVg/SyraHlrGOCSSU++qbDCyGomqqbTIeyu8PIgemh+QSL9y4BU6hR9PqSVjsKpePjlkikX9DRl8h8eHiPbp/ZlQet9PHzFNTm/tf/cgt78eMSr0FEEH8DWKsO1jG+sX7o8MNVurCgmoMMhFe3r2P4ozQzPB8YZfZN0uWALMX3Il15oELF5Ygjw900pI+6mQ27x1aetNP5mSm6MkLnKvPq4AHCvW44mX9IDMFryHKDXXj8oKXDTeLps1UOOyos90IjHZA==
-X-YMail-OSG: nc_xqasVM1m3c_epD7ZR3_zZbIAbeAsVDPJ15V1K.anln.cmbM3_W5.8GAlpyTY
- zUaVpFCxxi2wOANHuAk.J2QRiI9USXi9V.xCP0ipySVchZk2LcFNqQqCKwVxrJohacltDCgu_UN1
- UirY8K6ETiJhyer52qEv1aQa1suv.1HFHqCEhnZ8r1JDfotRPRpM9_1goaszxksNenK62HY4SbdT
- kSwdFRQ6GwzpTth_qXNOf_IklcfsMCSz98vK0Zc_WuYz39L4azGh4gzMRywWCScdj4sPTdSAEf2W
- JGsXNK5bNTt13sz0BzTsWWn_pq3kcwQpQXQQcPAyO6hoxrNAAHzT8.3ILHCCyVCgCUZoh.pUlD0Y
- bjb3erOuM9u.grYf6PCQtMWa.1YS1Xr.AP_wAtORycluFkJs9wigA0SMPde.HXR9XSNDuNdoMrn0
- LuppJPigkHm5X6kz68lpTcbhw4eWKZs8fEXlJkBuLmuE9hVSCKfgfbIpLsZ4x6J8.tptG.9vpWQS
- sNwHBxj7LOcdF.avOmz7xrsv0raS6V.pSvgvoauRw9ESavIN0pyFCYltBosGcI4qXHzAJ_tDja9l
- QiTk7_2bkgwIile0W3i_CBWPGtIK92PTwek1sXGVB0NUPgEcUvuj.Pi3RRSXIhb4tdI1087XzciK
- QQR1oerO.oUqVTD5HzxOQmWFTWwKOJANBN6N2rlYcYGTdK2GpAsQe1gmnZpxgqj5sP5Y55p3Sbip
- 3.9Dhy6WpFqvjsvRbM626Cs7hGPuWVpb72axpR4d1zsixCd0eEwwuf7QSpOcnje6gT5xhwxr9A13
- t7XU0X2aIcIdrLFf0VqXQ4W6To26gMp0tF8UXR8IYZXOiOy9aJpX0Aif7qi4GAJ3LWybF2RKdLar
- wg4BCK3Vda0h0tTCrgWADE0IUw1rkxBq37heMxqU9i_6rkIdR05HUryEvUAp3UXxupYaZMlJJkMi
- Mud89arQC4fTnYwDBDMaHOPn7jGsUiSA3yj7QrZ9i35udYGCa6WPS35EpI26oNLw.SQryxMfnZt1
- 0SD3Pmaa9X5oBgpHQNAAfn0d5EB1vaf5K7W_7ky5f5qEeDC9RZa_QkohUb3j2q4L4z8QIXzTuL0r
- AUAdwBNKe4ZLskZzxVdKjrdsrJNjBYQJVHDNiSS_8Nrpp59U02AbduJKCtIFDRaoH2xehpGj8dkY
- 5Nk79HAZbZArUt90biDCBHgQIg0jKI6YN1n4nbFTPaiTTL7KW52u4W7sCtNLoHIaqW0GdaXcJEoq
- v6ZE10p6ye.lZ2FDHNFWucvA.x.RMf0PxjJYpp8eknfyOWuC4NFERyu4VddEuTDLmgJr4yJZRpz_
- Gdcv.DRUbZ7OfjnJuk3Ib5ZPGXLfdGj1huLLp_pekv3q81IiYQuFf03_tTMMjWJRyBbEECcqJX02
- SmyjrNlyD5F2Sg2RAz7NbgKGyG8WSjiZvCtD89K1pvJOi2m8sNhtZeIqDspNDFncSepE0s5DzjJ6
- n_CIIlHnl9jlwdNWsgXZqvm5aMciS2vcqdzBBjIMILRBB9t4SSr0Sr0IJEVDYa.ksib52cI6ZSGD
- WnsRyAsPYW0XGKFZCawo4t50s6fvgq.wpZ_YnsqqQx0U.4LMs9suQyHS_FvI2fqSAlmO9kczeHI7
- GIiTUTxPgS9RsQ8vDu9n4FMFFgRKuUXzrgS07_IzMMW73ekU04os__Untqn4gcVi_U.dUvy8D.X4
- E6bL5HlYhw6pnCm2qOxPaR3AG8zbRX4T_lLSIASgZ84tGdmE.X2xQ.lCUw.tKyiR1DzvIjnpY8OP
- uLcWrKLD5jVDH65RUD_1vTTX3rx8ySpM3QCBuJbvf.RhXtuu0HM_b4RI63zBZayfq4tJU5onKslO
- YgIfvbo_yR2luFDifdUDw18Y6KP9hPnLNlNeqbFEGYoqAaMSU5ZXrYoPF2K2_d85uADHaO4EIwV2
- hnsAXXBG28ITZna5kg60v_Dgc9zXOygibqCpvQs2vdrYdKAKzAnh.ey6WVSoqIBc3VH5osN0CRcq
- 3dn_B_6HXPbgMcy0m9qsMkTisRF09K9AHGOXCUwpEWquWjOarzRzJbzBG2LDDwVsqy0uN2nNaRp_
- jPJ3iFIN8PTiWNO3aFNFAtqO9ZaEcRCHYfQN2yd1_hiZGVgXdaiQgltE3Hlra5yeu.GNmf_dn.24
- xNkd254qeBin33ys2ShSyyWpoj4C8Y4koRNU70SDcufj6A7n_8ck7IYapGKeI2BS.3lSjsTVJ6xw
- h34sa4XWBq6p7yJWcjYYj52MRDxyz7YwBGtVVNJf1..yI6bJ8xbtBgdl7FZLtgn1ff5rgPyK3VQu
- cqYOe5F0loaUlwBs-
-X-Sonic-MF: <casey@schaufler-ca.com>
-X-Sonic-ID: a6154ef0-3d33-4756-a144-8c7286e799cd
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic303.consmr.mail.ne1.yahoo.com with HTTP; Tue, 23 May 2023 15:32:47 +0000
-Received: by hermes--production-gq1-6db989bfb-4sk72 (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 01446d56d8ca61a461636b84143f2f0b;
-          Tue, 23 May 2023 15:32:42 +0000 (UTC)
-Message-ID: <7b8688f5-20bc-8130-2341-ff56bb365d5a@schaufler-ca.com>
-Date:   Tue, 23 May 2023 08:32:40 -0700
+        with ESMTP id S234390AbjEWQdB (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 23 May 2023 12:33:01 -0400
+Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com [IPv6:2607:f8b0:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACE6A192;
+        Tue, 23 May 2023 09:32:55 -0700 (PDT)
+Received: by mail-ot1-x334.google.com with SMTP id 46e09a7af769-6af6b6837acso2284903a34.1;
+        Tue, 23 May 2023 09:32:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1684859574; x=1687451574;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gPezlvdKhV+coJaauiTgwhI+5Pzq8mi1EoTAVT+O2ts=;
+        b=lVNeG+5Eyg9uJXCOL/rNQ6fySKIAPy/y9LvgrHrpZica5FHk0YiiV6ALtlDQHu3fZa
+         oq+v+FzZmArma8i5i95WxN5ufCjpW4sEA4SymafCkw1ypAXTac3CSYn1vvHMyheNvWiF
+         dv69+QGNWjIsmy/2yytJNuJTJILsXgEH9Q7htfd7E9g7Z63ZNnZSuab0Cr5hpVDbElzK
+         i5HMpDhXNFsOk/VLxtAalVvPBW7dafxKTav0bUEKhGgHlg14yEkZaG7b5XP0BP+yMnqW
+         E3Qo1RKFDPyzmuYLj9EKsvzg39D7A+kM1dogbMXkgIBGkMMaFaUZImKjC0lwclrktiJj
+         lDTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684859574; x=1687451574;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gPezlvdKhV+coJaauiTgwhI+5Pzq8mi1EoTAVT+O2ts=;
+        b=C2LBbtPIYr78v1UAmTNsXKWuzmG0K8Sz75RgsKDvz8ui2tMw1fv3CJegh8UAJVHpNi
+         vAupZMFpOX+tgUWrKPQgzHh8mttnbezAHm+sOx5GExdyRr7JxP1RKTpB8/2fenC9Bigo
+         malqoMRY04NKh9inhMAFIUqFHiWTOCp808UC1bzjBqESMz/JSRk0eVPc9si7l5ZioZOn
+         Sseynz8i9WZxIEJBxduXzLJfiNmQcspBLVX6CgT+meYVNl98uoE2vJujx/Xjzt0KBi/F
+         RAdbf5f11z4bdXZCQTXf3/DV3dU8sPntz9YT9uKUuW5qfhVO2Xm9i3j0vv27sjbs/i0/
+         0cmA==
+X-Gm-Message-State: AC+VfDzM1TMC3uHbFDwoIJ1HThIRXBnB/cZWtnHFf7KN/j4tivDvrzWL
+        UBMNsbF8bgYIW5ssPpTniEiJXp/pEKY2RPHGMQg=
+X-Google-Smtp-Source: ACHHUZ7agrWpvbSwDULewkv3+90ipL/mriVjj2Uo2kBIiVTM37EaF7RgSxdtRpG+ZXoGAvRSFmZrjP9k79UbMEZ7nXU=
+X-Received: by 2002:a54:4003:0:b0:398:349:aa8d with SMTP id
+ x3-20020a544003000000b003980349aa8dmr4578796oie.28.1684859574251; Tue, 23 May
+ 2023 09:32:54 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2] lsm: adds process attribute getter for Landlock
-Content-Language: en-US
-To:     Jeff Xu <jeffxu@chromium.org>, Paul Moore <paul@paul-moore.com>
-Cc:     Shervin Oloumi <enlightened@chromium.org>, mic@digikod.net,
-        linux-security-module@vger.kernel.org, jorgelo@chromium.org,
-        keescook@chromium.org, groeck@chromium.org, allenwebb@chromium.org,
-        gnoack3000@gmail.com, areber@redhat.com, criu@openvz.org,
-        linux-api@vger.kernel.org, jannh@google.com, brauner@kernel.org,
-        Casey Schaufler <casey@schaufler-ca.com>
-References: <ce44fc98-1234-fa53-5067-cd624866f44a@digikod.net>
- <20230518204549.3139044-1-enlightened@chromium.org>
- <a42875a0-d4c5-e2ac-d115-d4222e229f7d@schaufler-ca.com>
- <CAHC9VhTq0RgQ6xj86_BkZuAwy4kGy6eC8NVKFroEASNXP3uBxQ@mail.gmail.com>
- <CABi2SkX0cqOMPeuw8CD28Q6UZihi0Hh7GT=dTmxaG-T_rayPfQ@mail.gmail.com>
-From:   Casey Schaufler <casey@schaufler-ca.com>
-In-Reply-To: <CABi2SkX0cqOMPeuw8CD28Q6UZihi0Hh7GT=dTmxaG-T_rayPfQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Mailer: WebService/1.1.21495 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,NICE_REPLY_A,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=unavailable
-        autolearn_force=no version=3.4.6
+References: <20230517152654.7193-1-mathieu.desnoyers@efficios.com>
+ <20230517152654.7193-2-mathieu.desnoyers@efficios.com> <CAFUsyfJ49mE+7p1ywEHetRHqr=DWY7aiFYzfva9Mtqp3_XYncg@mail.gmail.com>
+ <cdac8821-a298-aced-8084-8da3ba64a1be@efficios.com>
+In-Reply-To: <cdac8821-a298-aced-8084-8da3ba64a1be@efficios.com>
+From:   Noah Goldstein <goldstein.w.n@gmail.com>
+Date:   Tue, 23 May 2023 11:32:40 -0500
+Message-ID: <CAFUsyf+L6JF=pZ6QstQhdGGPVM7e7ML2a5LEbzmP6sTs3cwJng@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/4] rseq: Add sched_state field to struct rseq
+To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
+        linux-api@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
+        Florian Weimer <fw@deneb.enyo.de>, David.Laight@aculab.com,
+        carlos@redhat.com, Peter Oskolkov <posk@posk.io>,
+        Alexander Mikhalitsyn <alexander@mihalicyn.com>,
+        Chris Kennelly <ckennelly@google.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Davidlohr Bueso <dave@stgolabs.net>,
+        =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
+        libc-alpha@sourceware.org, Steven Rostedt <rostedt@goodmis.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Florian Weimer <fweimer@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-
-On 5/22/2023 11:13 PM, Jeff Xu wrote:
-> On Mon, May 22, 2023 at 12:56 PM Paul Moore <paul@paul-moore.com> wrote:
->> On Thu, May 18, 2023 at 5:26 PM Casey Schaufler <casey@schaufler-ca.com> wrote:
->>> On 5/18/2023 1:45 PM, Shervin Oloumi wrote:
->>>> Adds a new getprocattr hook function to the Landlock LSM, which tracks
->>>> the landlocked state of the process. This is invoked when user-space
->>>> reads /proc/[pid]/attr/domain
->>> Please don't add a Landlock specific entry directly in the attr/
->>> directory. Add it only to attr/landlock.
->>>
->>> Also be aware that the LSM maintainer (Paul Moore) wants to move
->>> away from the /proc/.../attr interfaces in favor of a new system call,
->>> which is in review.
->> What Casey said above.
->>
->> There is still some uncertainty around timing, and if we're perfectly
->> honest, acceptance of the new syscalls at the Linus level, but yes, I
->> would very much like to see the LSM infrastructure move away from
->> procfs and towards a syscall API.  Part of the reasoning is that the
->> current procfs API is ill-suited to handle the multiple, stacked LSMs
->> and the other part being the complexity of procfs in a namespaced
->> system.  If the syscall API is ultimately rejected, we will need to
->> revisit the idea of a procfs API, but even then I think we'll need to
->> make some changes to the current approach.
->>
->> As I believe we are in the latter stages of review for the syscall
->> API, perhaps you could take a look and ensure that the current
->> proposed API works for what you are envisioning with Landlock?
->>
-> Which review/patch to look for the proposed API ?
-
-https://lore.kernel.org/lkml/20230428203417.159874-3-casey@schaufler-ca.com/T/
-
-
-> I guess ChromeOS will need to backport to 5.10 when the proposal is accepted.
+On Tue, May 23, 2023 at 7:49=E2=80=AFAM Mathieu Desnoyers
+<mathieu.desnoyers@efficios.com> wrote:
 >
-> Thanks
-> -Jeff
+> On 2023-05-19 16:51, Noah Goldstein wrote:
+> > On Wed, May 17, 2023 at 10:28=E2=80=AFAM Mathieu Desnoyers via Libc-alp=
+ha
+> > <libc-alpha@sourceware.org> wrote:
+> >>
+> >> Expose the "on-cpu" state for each thread through struct rseq to allow
+> >> adaptative mutexes to decide more accurately between busy-waiting and
+> >> calling sys_futex() to release the CPU, based on the on-cpu state of t=
+he
+> >> mutex owner.
+> >>
+> >> It is only provided as an optimization hint, because there is no
+> >> guarantee that the page containing this field is in the page cache, an=
+d
+> >> therefore the scheduler may very well fail to clear the on-cpu state o=
+n
+> >> preemption. This is expected to be rare though, and is resolved as soo=
+n
+> >> as the task returns to user-space.
+> >>
+> >> The goal is to improve use-cases where the duration of the critical
+> >> sections for a given lock follows a multi-modal distribution, preventi=
+ng
+> >> statistical guesses from doing a good job at choosing between busy-wai=
+t
+> >> and futex wait behavior.
+> >>
+> >> Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+> >> Cc: Peter Zijlstra (Intel) <peterz@infradead.org>
+> >> Cc: Jonathan Corbet <corbet@lwn.net>
+> >> Cc: Steven Rostedt (Google) <rostedt@goodmis.org>
+> >> Cc: Carlos O'Donell <carlos@redhat.com>
+> >> Cc: Florian Weimer <fweimer@redhat.com>
+> >> Cc: libc-alpha@sourceware.org
+> >> ---
+> >>   include/linux/sched.h     | 12 ++++++++++++
+> >>   include/uapi/linux/rseq.h | 17 +++++++++++++++++
+> >>   kernel/rseq.c             | 14 ++++++++++++++
+> >>   3 files changed, 43 insertions(+)
+> >>
+> >> diff --git a/include/linux/sched.h b/include/linux/sched.h
+> >> index eed5d65b8d1f..c7e9248134c1 100644
+> >> --- a/include/linux/sched.h
+> >> +++ b/include/linux/sched.h
+> >> @@ -2351,11 +2351,20 @@ static inline void rseq_signal_deliver(struct =
+ksignal *ksig,
+> >>          rseq_handle_notify_resume(ksig, regs);
+> >>   }
+> >>
+> >> +void __rseq_set_sched_state(struct task_struct *t, unsigned int state=
+);
+> >> +
+> >> +static inline void rseq_set_sched_state(struct task_struct *t, unsign=
+ed int state)
+> >> +{
+> >> +       if (t->rseq)
+> >> +               __rseq_set_sched_state(t, state);
+> >> +}
+> >> +
+> >>   /* rseq_preempt() requires preemption to be disabled. */
+> >>   static inline void rseq_preempt(struct task_struct *t)
+> >>   {
+> >>          __set_bit(RSEQ_EVENT_PREEMPT_BIT, &t->rseq_event_mask);
+> >>          rseq_set_notify_resume(t);
+> >> +       rseq_set_sched_state(t, 0);
+> >
+> > Should rseq_migrate also be made to update the cpu_id of the new core?
+> > I imagine the usage of this will be something along the lines of:
+> >
+> > if(!on_cpu(mutex->owner_rseq_struct) &&
+> >     cpu(mutex->owner_rseq_struct) =3D=3D this_threads_cpu)
+> >     // goto futex
+> >
+> > So I would think updating on migrate would be useful as well.
 >
+> I don't think we want to act differently based on the cpu on which the
+> owner is queued.
 >
->> --
->> paul-moore.com
+> If the mutex owner is not on-cpu, and queued on the same cpu as the
+> current thread, we indeed want to call sys_futex WAIT.
+>
+> If the mutex owner is not on-cpu, but queued on a different cpu than the
+> current thread, we *still* want to call sys_futex WAIT, because
+> busy-waiting for a thread which is queued but not currently running is
+> wasteful.
+>
+I think this is less clear. In some cases sure but not always. Going
+to the futex
+has more latency that userland waits, and if the system is not busy (other =
+than
+the one process) most likely less latency that yield. Also going to the fut=
+ex
+requires a syscall on unlock.
+
+For example if the critical section is expected to be very small, it
+would be easy
+to imagine the lock be better implemented with:
+while(is_locked)
+  if (owner->on_cpu || owner->cpu !=3D my_cpu)
+    exponential backoff
+  else
+    yield
+
+Its not that "just go to futex" doesn't ever make sense, but I don't
+think its fair
+to say that *always* the case.
+
+Looking at the kernel code, it doesn't seem to be a particularly high cost =
+to
+keep the CPU field updated during migration so seems like a why not
+kind of question.
+> Or am I missing something ?
+>
+> Thanks,
+>
+> Mathieu
+>
+> --
+> Mathieu Desnoyers
+> EfficiOS Inc.
+> https://www.efficios.com
+>
