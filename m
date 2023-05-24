@@ -2,42 +2,60 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A8ECF70FF4F
-	for <lists+linux-api@lfdr.de>; Wed, 24 May 2023 22:35:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 202E571001E
+	for <lists+linux-api@lfdr.de>; Wed, 24 May 2023 23:39:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229912AbjEXUe7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 24 May 2023 16:34:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41478 "EHLO
+        id S235823AbjEXVjz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 24 May 2023 17:39:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236149AbjEXUev (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 24 May 2023 16:34:51 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9628E1AC;
-        Wed, 24 May 2023 13:34:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=xfybRCqfmly451via0zB+H/Q+AApSu2iaDmN5fGZ/x4=; b=IgXiGZt/AjIkZyk47M6JmzSETo
-        5JvYqmTY0S/6CNcf6rOgIUGkx8fCELILrDrVXemYkb5BPYKAn0HI2Y6XB5K+3xzooX2AKsZSw2rzz
-        mh9MKJ/BLQiIqzzeKOeINobvgbeJqtrrw702L1m+480O4PgbeQxZTVHsPTxFOgTQXwjhkEFw9ES3j
-        jYrlmoMd2O6KMc0tFDq7r+mdPcC6sbWD0mdmLQKvSrN/CRbmjwjlImLpNC1DyVuMY2O6L3UPugOJF
-        IUkQyLOL6dwpJlAiac2Dvj+LDhnldubALNgI54EHmr7EPEHVm08LfHTcHZ65apsu3c2zLqTuflfCR
-        76pcnqHw==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1q1vAx-00BWOr-Uz; Wed, 24 May 2023 20:33:40 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id AD8D830013F;
-        Wed, 24 May 2023 22:33:36 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id D6F5F20A78733; Wed, 24 May 2023 22:33:36 +0200 (CEST)
-Date:   Wed, 24 May 2023 22:33:36 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Sean Christopherson <seanjc@google.com>
+        with ESMTP id S231736AbjEXVjy (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 24 May 2023 17:39:54 -0400
+Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 250F5FC
+        for <linux-api@vger.kernel.org>; Wed, 24 May 2023 14:39:53 -0700 (PDT)
+Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-564f529a663so16597327b3.1
+        for <linux-api@vger.kernel.org>; Wed, 24 May 2023 14:39:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1684964392; x=1687556392;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=u+lTI9LGfJCIeH9eUZOS37jnh9XivOrfiNHxwExkkPU=;
+        b=1OM2n6A6XJR4jj8vE2JD/qVka6KhOa37sATKkJGdtzfw5ejGSX46cgRyM3KxfTglOD
+         0RNiltYW0aqpSJK1ylM7pyVuNywmw3i8GLhqy6D8KbpUnlsiq///5XlVQOyARTMakL95
+         sruDKzgA0kJWIRgwdNf60tHMZ2lnfSldT/PHutYtTTub50wqJp62S52UJsWvKQ7jpGPj
+         JBND0HA8P6pXYHkEPXwT4zPgdYSplBBE7ttHpAHPL1RPyn6nSmxfEos2auwOVntQ9sEN
+         x6n9gU3Z0Y/wI8zE55ONSW8DBiSo/6ReRvhBCmqYQEuA2BiS/6yDjqxNIpbAGpQ1wAiT
+         KtGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684964392; x=1687556392;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=u+lTI9LGfJCIeH9eUZOS37jnh9XivOrfiNHxwExkkPU=;
+        b=QD+nj1QPY2MP36XKdnS+g5ISgC3UxJ2Z/pAkd4kTr3mQeWU8V0QDjtKt1nlaucs1TH
+         0SoXuw59gRtgBW7kwrcF0eVZN2CUMHY3AIL8FYwIfYUqEugDuUyC1r8YHL95Zl6mpkWs
+         er9bdFNpJOLj0Nxam715LuDT5VOWgJnY4qZ8VB5o8/LpTHhVPBDu9EAPPG4mLwasWvjZ
+         FHIuF2kIXAfDRGNe/jMCfS9Ta3nCNu/hzf2Ng6+mjIwpcttbX3lU8DEJ1EEV0+FLoisZ
+         0vBQ5EJtUVQgrQbnkdNr4mm8SaONvFM36HIAuH4Pj+lGVtrQKSvuWQEoKuIzD51IYx0O
+         1+zA==
+X-Gm-Message-State: AC+VfDztbezhz/sbAfqNy4ply8Df+Sxh1ORKkHIwbHhbSGJLmGPtJ0Pg
+        Mp8OFRS4zJc0AdmQUBBAoXeWwSHoZCI=
+X-Google-Smtp-Source: ACHHUZ4gGkG32f/WDPDY+8DnC86QiU6Z2uyq9N2VVLscH3WfhLiakxSPFeyk8pWCaiTnq1AgYyU2vpbztC4=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a81:ae14:0:b0:561:8bfb:feb1 with SMTP id
+ m20-20020a81ae14000000b005618bfbfeb1mr12005442ywh.10.1684964392193; Wed, 24
+ May 2023 14:39:52 -0700 (PDT)
+Date:   Wed, 24 May 2023 14:39:50 -0700
+In-Reply-To: <20230524203336.GC3447678@hirez.programming.kicks-ass.net>
+Mime-Version: 1.0
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <20220706082016.2603916-9-chao.p.peng@linux.intel.com> <ZGxo9ylqYI8JXjGn@li-a450e7cc-27df-11b2-a85c-b5a9ac31e8ef.ibm.com>
+ <ZGzLf4zgxpBjghaF@google.com> <ZG2qv9sWl2RUnGqd@li-a450e7cc-27df-11b2-a85c-b5a9ac31e8ef.ibm.com>
+ <ZG5wg3VbG4rCYrfk@google.com> <20230524203336.GC3447678@hirez.programming.kicks-ass.net>
+Message-ID: <ZG6EJoXbduApRsgV@google.com>
+Subject: Re: [PATCH v7 08/14] KVM: Rename mmu_notifier_*
+From:   Sean Christopherson <seanjc@google.com>
+To:     Peter Zijlstra <peterz@infradead.org>
 Cc:     Kautuk Consul <kconsul@linux.vnet.ibm.com>,
         Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-mm@kvack.org,
@@ -70,51 +88,51 @@ Cc:     Kautuk Consul <kconsul@linux.vnet.ibm.com>,
         Quentin Perret <qperret@google.com>,
         Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
         Muchun Song <songmuchun@bytedance.com>
-Subject: Re: [PATCH v7 08/14] KVM: Rename mmu_notifier_*
-Message-ID: <20230524203336.GC3447678@hirez.programming.kicks-ass.net>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <20220706082016.2603916-9-chao.p.peng@linux.intel.com>
- <ZGxo9ylqYI8JXjGn@li-a450e7cc-27df-11b2-a85c-b5a9ac31e8ef.ibm.com>
- <ZGzLf4zgxpBjghaF@google.com>
- <ZG2qv9sWl2RUnGqd@li-a450e7cc-27df-11b2-a85c-b5a9ac31e8ef.ibm.com>
- <ZG5wg3VbG4rCYrfk@google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZG5wg3VbG4rCYrfk@google.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, May 24, 2023 at 01:16:03PM -0700, Sean Christopherson wrote:
-
-> Atomics aren't memory barriers on all architectures, e.g. see the various
-> definitions of smp_mb__after_atomic().
+On Wed, May 24, 2023, Peter Zijlstra wrote:
+> On Wed, May 24, 2023 at 01:16:03PM -0700, Sean Christopherson wrote:
+> > Of course, the only accesses outside of mmu_lock are reads, so on x86 that
+> > "atomic" access is just a READ_ONCE() load, but that's not the case for all
+> > architectures.
 > 
-> Even if atomic operations did provide barriers, using an atomic would be overkill
-> and a net negative.  On strongly ordered architectures like x86, memory barriers are
-> just compiler barriers, whereas atomics may be more expensive. 
+> This is true on *all* archs. atomic_set() and atomic_read() are no more
+> and no less than WRITE_ONCE() / READ_ONCE().
 
-Not quite, smp_{r,w}mb() and smp_mb__{before,after}_atomic() are
-compiler barriers on the TSO archs, but smp_mb() very much isn't. TSO
-still allows stores to be delayed vs later loads (iow it doesn't pretend
-to hide the store buffer).
+Ah, I take it s390's handcoded assembly routines are just a paranoid equivalents
+and not truly special?  "l" and "st" do sound quite generic...
 
-> Of course, the only
-> accesses outside of mmu_lock are reads, so on x86 that "atomic" access is just a
-> READ_ONCE() load, but that's not the case for all architectures.
+  commit 7657e41a0bd16c9d8b3cefe8fd5d6ac3c25ae4bf
+  Author: Heiko Carstens <hca@linux.ibm.com>
+  Date:   Thu Feb 17 13:13:58 2011 +0100
 
-This is true on *all* archs. atomic_set() and atomic_read() are no more
-and no less than WRITE_ONCE() / READ_ONCE().
+    [S390] atomic: use inline asm
+    
+    Use inline assemblies for atomic_read/set(). This way there shouldn't
+    be any questions or subtle volatile semantics left.
 
-> Anyways, the point is that atomics and memory barriers are different things that
-> serve different purposes.
+static inline int __atomic_read(const atomic_t *v)
+{
+	int c;
 
-This is true; esp. on the weakly ordered architectures where atomics do
-not naturally imply any ordering.
+	asm volatile(
+		"	l	%0,%1\n"
+		: "=d" (c) : "R" (v->counter));
+	return c;
+}
+
+static inline void __atomic_set(atomic_t *v, int i)
+{
+	asm volatile(
+		"	st	%1,%0\n"
+		: "=R" (v->counter) : "d" (i));
+}
