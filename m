@@ -2,88 +2,51 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CA51E711103
-	for <lists+linux-api@lfdr.de>; Thu, 25 May 2023 18:30:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 141B3711B49
+	for <lists+linux-api@lfdr.de>; Fri, 26 May 2023 02:34:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231491AbjEYQaP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 25 May 2023 12:30:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40320 "EHLO
+        id S234550AbjEZAep (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 25 May 2023 20:34:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42676 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231451AbjEYQaO (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 25 May 2023 12:30:14 -0400
-Received: from sonic309-27.consmr.mail.ne1.yahoo.com (sonic309-27.consmr.mail.ne1.yahoo.com [66.163.184.153])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72CD6E6A
-        for <linux-api@vger.kernel.org>; Thu, 25 May 2023 09:29:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1685032117; bh=l24o/qZYPVsTdpLHbBO+tWrD6HMJA4puWzSK8ypba9M=; h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To; b=QgFHlBvzuwsZF5ie+WmSCWbYdw0mWmRz7os1GgkQriIRDYjWZJbgWi9uu/ZzSclUmNXhrSLMXP7ZAALo6OtrxCb7jUrNIYg1dHj+jcZZMrWP/qJOA5/I8wUSaOHyBVQsIE+r2gfwz76ieeiA5jZY2j5YvG4YVxU55sPqnrk0JR3r/OXfrIsnbPDE/V+pUbrRPG5fy6+LN3PAQCd63fSwNJeNblUzWB096EoJ7+ARqWLZyoan2Qx8Hwovwm6SARZwu1yF1RbcWZI/RaJNbEDKFLopuhHmHGaYPqyJclg67iakzWSmnsF9ANmbNqjQWAr72G1zF+w4bS+g9zruu4InuQ==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1685032117; bh=k/cr0IjcZadDtB49i4URWmIpoa8uaQYuvM22/a2e/bW=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=umP3+wKMN/pqsCUa99f18nJhpjgjqjF9T658zWfUk5uR1RYCM/QrSfrY6c/kyJHmcUFGd5MMhUa/APJmuKwHD9mL8jmvGpybjAlo/t5RL5sFlBIUr3IDzsBuHd4k6JS4wN1NOWCNli58gyGqHrxm4LaMEotRU7EgYsfws0CCqceQzye/00DXAHv9yiMl9KMhMmKF2KZRX09U/A9VR6jT9kOriIn5BD34SZuBEcQvMtn10/GlUhdsKfhfAayLZccvQpaIZlTL7Ivh9fjpntNoK0juDncKavfyf+D1Zii5XvTRCy76pbJ9gx+cq1aDDpyWpw0A24bzhu4pBy2wV3Ia6A==
-X-YMail-OSG: urHBNzMVM1kI2KSPFU3PCWu7l2A_rcbx1XzOiNVOmyiigznejw4fIrgtJhXysM6
- wYJyqq_9fLCfGUg2t0qtbi_COwxLWbxzQFxN.hBuDwZknEFmpexjUIzuEzPMeJWl9xeKKRWEpkrd
- ZE_0vQvT.i9mZ7nRB0JNWwvlfVm7x39GBG4kyvHllA4ZrY7TFvWtXaxUgMt5gcZhPt6MdFFl2ipf
- QZ66a3seiQQfvQSW4PoQRwwT8.yfMaYP8f0lFSR1KxlEGJyrmiaScfbRJ3XzSqmRMHQj2h4bjl93
- ROlD2Fipp0YVDhtb32qVGYFfug.2AkqlMClHyqsYfe5.1nOZsW0TrNPrOmuBP2vLpJ6cjFg3Y304
- DP79rgkCG9TO4n_LglnrR2EQYJRxbGg61vnEsNIl7FJ.lNUGnnbnMeuxUmxqhiSSzVOurq9TvU.v
- dPbyGkmykRI4MKJqQqITFbVX73ECzMUEcRf7ZuX6Fje15Jz95OQoD_vHjDTiDivKLH0RXduqc7vq
- K9BXQln1xIavoKIOyGB1tRVHBSQdymwOvqoXxFtFMIlP4YHEfLMW9AdmBq6V_hKBojF8azUOOuNS
- 374ZWucC1QZYgNQihl.qOcuynx5xRSTbMCfUenAXfvI98TVmrGn.w1ieHQ6LAkagpuE9gfmC9dcN
- HKobDPR1IY_5VCt_ezrxK7zD04aswlxnuI3gj4FgbWmk2oRFhmIaFl1zYHdERmq3GX5J_LdSdAXL
- Rm3VbxwiYRH03qLMlgiHFfz_vHFQo2eQm.ZQDGeehquiRSOckFDZwnMP5dBm4Ou5g4MlOQUYrBed
- qWr9GN.PtVWs4uzxE9fJXQiG5g0NT2wiTIMTxP52CX5ubbqXyWRi0n6kZiluLX0sNTTF7T_zY6nH
- vT4okzQZ0qhh.1wkXtW.NyLVadMVhEpDSPY1xYJCX5yI9L4W7oWanUMi2wmhhGJRhV_ZxyXlYryU
- aMT10zIIE2Jb9FI2A6KBV1GSE44FLQRT0iw2.eDgbV9IaD2OWXkJFcQhTnGYZ_OfXzzDLK9NAuJU
- HSv1xGh8RCDBhCzIK7HzmHe.k1Q.FjG8keMu6uwRM3CQq6bUX4LdtNvqlOFG4b7hpKgdwd9UFsVC
- V3XTqL_i0lcJm0aEZhtRI1HucbFYR0nuq3gyU8d6HavRQ3TuRW_525WA0BpYUnd5ChU6PV7kwU8n
- h03DbdWmQgBb05XXLF.th1o7RqG7RH2oGiiwznPWTap48ViqM7gbWrRZkrzjxKAc1IX.8MqQ63LM
- toP3HiDGj0YxUWKAQH5169wm_wtKGOcbzxajpdMkE3ShJdqdwruHHReo1UVKrdB8ouWiJvR2hyxU
- Uo.MzDg3zerVH7WHsDAyRWKQEMW8CYrlm8dURv5kKfo1UEXWcnnT2noPBbpFDmzQiwqjbQ8NsnZe
- JQJE5wN2uktSHFp_9AD.eVF4v5CY37VM8UFeDrmWZjVRLqxpZoo7OCpKYAkcsrD0cbHx4Cdm8wcQ
- riQUQj12kRejOIOUnBwnAZOECiCj38wLmWOZp71_EZvgU3x0TGfKpVySJ14h4d05D5zAPWUeESO8
- oc0MOOLmJf5V4iN30Hn6BlyAWjcbEKzowbCQEGXM8HRGAm6aALjbmmQ4ayTkw3928azz9gsRF6_n
- DaBg8OKIibFTH8NpTo_FvXY8TCO9qGUb2rUj1HfsJoa7PV_58564MqNrSglkAJnKEsnlQ0mZk7KD
- feJZnWkfVxAcSjXsuf_UtsDbiy1_aP39wqWoSiGCr7PYxebLnxFiiHTgI8hir3MAdjh.GSbRxfhP
- hBsfnsfNkPwzoFJfEDiEwViuyF_zjdDjViPoiumPE4819_yA6vYsqObyf6Jdsr_160TQSPG90M2o
- q4.nYeZLzXqhwkbXiPb8BgAHk5SraPFmIhDvQ02QwqTkecOHV3Hq9WVWz_Y6Sc_GLkoYKB4XH8Fm
- 3gAXCuQHkbQ7lMY3iSUTSJ687V1jmZ5UYFTT8bIf2sQnYWGsvfNEgMPs8zcr.rc_wwHFMmyDGVwl
- r4brB61.2zcuaKjR8jvGUL4L92Gx8a4_RG8V7_vUwEU_p5SnO4nN3yWlfe36LJTfpdIbCV7qFPmR
- .Bb7c7O5fpPwjTmShJ6ukb5hDo_GjI6.vnuzCHlo6.W1GPldeUififcOCUS5UEJ7e7p6g3NF0EBR
- 4LHPbZMZ9zbOfCypShl8QJFLIzQ3_OUk_elav95Rm50jf4HWN.Q9wlpgwyNXOkMvucfekLXzy3O4
- 1Dtc16LruWHDGCBrSTtzQ2B4BwG3F1t.mBU7aEy664ze0FBWs5miGSeY76U_zh5mLWvVZlsuIhgz
- XYXOXWXA4zu4-
-X-Sonic-MF: <casey@schaufler-ca.com>
-X-Sonic-ID: 1c207c0a-8127-4861-8712-622a7af3df7a
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic309.consmr.mail.ne1.yahoo.com with HTTP; Thu, 25 May 2023 16:28:37 +0000
-Received: by hermes--production-gq1-6db989bfb-7p67n (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID b082792b4f5488b0518e45c4d63fda79;
-          Thu, 25 May 2023 16:28:31 +0000 (UTC)
-Message-ID: <aa2e3c9c-eac4-237d-02d0-4574f602563d@schaufler-ca.com>
-Date:   Thu, 25 May 2023 09:28:29 -0700
+        with ESMTP id S229523AbjEZAeo (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 25 May 2023 20:34:44 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09AC9EE;
+        Thu, 25 May 2023 17:34:41 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 887D664B87;
+        Fri, 26 May 2023 00:34:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5BA6C433D2;
+        Fri, 26 May 2023 00:34:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1685061280;
+        bh=pThcT/gVFDD+oe1z3veqbeVr23+qaplW2ddOcvR9898=;
+        h=Date:Subject:From:To:Cc:In-Reply-To:References:From;
+        b=il4i2f9EoHZsrsvAdyc1SuDZvTCJ63DyoQ21tRiSD6aFjxpL4aJaMNs5Hra2I4bF4
+         s7b28DTBYSdwaQ7MytTMYSfE4t7wAzvOFv+9AF39Q02IR/j/RG55+7R2b/6OHUMwJo
+         mtN3kZ1De2BMSmQnuW97iJrc3nnV52SXLrX0LRvtQld682wCcW1YhEXXE5mtf/KEw+
+         FvXsDiTpgUR0TFm3mHrpF9Ho4XvIit+fx3S/3fAgmCcYo/mrO5Ag6gjSwuigKaK9OD
+         EgR/EACwdoGj2WEy3ZRJADSQRKlks+0x7wLazFWk5Ru0Fxtn+Pj+mCce8gAxkxYYyA
+         GSiTwLL3fmaPg==
+Date:   Thu, 25 May 2023 17:34:39 -0700
+Subject: [PATCHSET v25.0 00/25] xfs: atomic file updates
+From:   "Darrick J. Wong" <djwong@kernel.org>
+To:     djwong@kernel.org
+Cc:     linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org
+Message-ID: <168506064947.3734442.7654653738998941813.stgit@frogsfrogsfrogs>
+In-Reply-To: <20230526000020.GJ11620@frogsfrogsfrogs>
+References: <20230526000020.GJ11620@frogsfrogsfrogs>
+User-Agent: StGit/0.19
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2] lsm: adds process attribute getter for Landlock
-Content-Language: en-US
-To:     =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>,
-        Paul Moore <paul@paul-moore.com>, Jeff Xu <jeffxu@chromium.org>
-Cc:     Shervin Oloumi <enlightened@chromium.org>,
-        linux-security-module@vger.kernel.org, jorgelo@chromium.org,
-        keescook@chromium.org, groeck@chromium.org, allenwebb@chromium.org,
-        gnoack3000@gmail.com, areber@redhat.com, criu@openvz.org,
-        linux-api@vger.kernel.org, jannh@google.com, brauner@kernel.org,
-        Casey Schaufler <casey@schaufler-ca.com>
-References: <ce44fc98-1234-fa53-5067-cd624866f44a@digikod.net>
- <20230518204549.3139044-1-enlightened@chromium.org>
- <a42875a0-d4c5-e2ac-d115-d4222e229f7d@schaufler-ca.com>
- <CAHC9VhTq0RgQ6xj86_BkZuAwy4kGy6eC8NVKFroEASNXP3uBxQ@mail.gmail.com>
- <CABi2SkX0cqOMPeuw8CD28Q6UZihi0Hh7GT=dTmxaG-T_rayPfQ@mail.gmail.com>
- <CAHC9VhRD8kfkHr2gfFp10txdDwE0NGSJQd08bRojeJKiKtqq6Q@mail.gmail.com>
- <1225a567-4ff5-462e-0db6-1a88a748d787@digikod.net>
- <b4825033-471c-ba32-530f-b0235356d55b@digikod.net>
-From:   Casey Schaufler <casey@schaufler-ca.com>
-In-Reply-To: <b4825033-471c-ba32-530f-b0235356d55b@digikod.net>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Mailer: WebService/1.1.21495 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -91,88 +54,364 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 5/24/2023 9:02 AM, Mickaël Salaün wrote:
->
-> On 24/05/2023 17:38, Mickaël Salaün wrote:
->>
->> On 23/05/2023 23:12, Paul Moore wrote:
->>> On Tue, May 23, 2023 at 2:13 AM Jeff Xu <jeffxu@chromium.org> wrote:
->>>> On Mon, May 22, 2023 at 12:56 PM Paul Moore <paul@paul-moore.com>
->>>> wrote:
->>>>> On Thu, May 18, 2023 at 5:26 PM Casey Schaufler
->>>>> <casey@schaufler-ca.com> wrote:
->>>>>> On 5/18/2023 1:45 PM, Shervin Oloumi wrote:
->>>>>>> Adds a new getprocattr hook function to the Landlock LSM, which
->>>>>>> tracks
->>>>>>> the landlocked state of the process. This is invoked when
->>>>>>> user-space
->>>>>>> reads /proc/[pid]/attr/domain
->>>>>>
->>>>>> Please don't add a Landlock specific entry directly in the attr/
->>>>>> directory. Add it only to attr/landlock.
->>>>>>
->>>>>> Also be aware that the LSM maintainer (Paul Moore) wants to move
->>>>>> away from the /proc/.../attr interfaces in favor of a new system
->>>>>> call,
->>>>>> which is in review.
->>>>>
->>>>> What Casey said above.
->>>>>
->>>>> There is still some uncertainty around timing, and if we're perfectly
->>>>> honest, acceptance of the new syscalls at the Linus level, but yes, I
->>>>> would very much like to see the LSM infrastructure move away from
->>>>> procfs and towards a syscall API.  Part of the reasoning is that the
->>>>> current procfs API is ill-suited to handle the multiple, stacked LSMs
->>>>> and the other part being the complexity of procfs in a namespaced
->>>>> system.  If the syscall API is ultimately rejected, we will need to
->>>>> revisit the idea of a procfs API, but even then I think we'll need to
->>>>> make some changes to the current approach.
->>>>>
->>>>> As I believe we are in the latter stages of review for the syscall
->>>>> API, perhaps you could take a look and ensure that the current
->>>>> proposed API works for what you are envisioning with Landlock?
->>
->> I agree, and since the LSM syscalls are almost ready that should not
->> change much the timing. In fact, extending these syscalls might be
->> easier than tweaking the current procfs/attr API for Landlock specific
->> requirements (e.g. scoped visibility). We should ensure that these
->> syscalls would be a good fit to return file descriptors, but in the
->> short term we only need to know if a process is landlocked or not, so a
->> raw return value (0 or -errno) will be enough.
->>
->> Mentioning in the LSM syscalls patch series that they may deal with (and
->> return) file descriptors could help API reviewers though.
->
-> It should be kept in mind that the current LSM syscalls only deal with
-> the calling task, whereas the goal of this Landlock patch series is to
-> inspect other tasks. A new LSM syscall would need to be created to
-> handle pidfd e.g., named lsm_get_proc_attr() or lsm_get_pid_attr().
+Hi all,
 
-I think it would be lsm_get_pid_attr(). Yes, it's the obvious next step.
+This series creates a new FIEXCHANGE_RANGE system call to exchange
+ranges of bytes between two files atomically.  This new functionality
+enables data storage programs to stage and commit file updates such that
+reader programs will see either the old contents or the new contents in
+their entirety, with no chance of torn writes.  A successful call
+completion guarantees that the new contents will be seen even if the
+system fails.
 
->
-> I'm not sure if this should be a generic LSM syscall or a Landlock
-> syscall though. I have plan to handle processes other than the caller
-> (e.g. to restrict an existing process hierarchy), so thinking about a
-> Landlock-specific syscall could make sense.
->
-> To summarize, creating a new LSM syscall to deal with pidfd and to get
-> LSM process "status/attr" looks OK. However, Landlock-specific
-> syscalls to deal with Landlock specificities (e.g. ruleset or domain
-> file descriptor) make more sense.
->
-> Having one LSM-generic syscall to get minimal Landlock attributes
-> (i.e. mainly to know if a process is sandboxed), and another
-> Landlock-specific syscall to do more things (e.g. get the domain file
-> descriptor, restrict a task) seems reasonable. The second one would
-> overlap with the first one though. What do you think?
+The ability to swap extent mappings between files in this manner is
+critical to supporting online filesystem repair, which is built upon the
+strategy of constructing a clean copy of a damaged structure and
+committing the new structure into the metadata file atomically.
 
-I find it difficult to think of a file descriptor as an attribute of
-a process. To my (somewhat unorthodox) thinking a file descriptor is
-a name for an object, not an attribute of the object. You can't access
-an object by its attributes, but you can by its name. An attribute is
-a description of the object. I'm perfectly happy with lsm_get_pid_attr()
-returning an attribute that is a file descriptor if it describes the
-process in some way, but not as a substitute for opening /proc/42.
+User programs will be able to update files atomically by opening an
+O_TMPFILE, reflinking the source file to it, making whatever updates
+they want to make, and exchange the relevant ranges of the temp file
+with the original file.  If the updates are aligned with the file block
+size, a new (since v2) flag provides for exchanging only the written
+areas.  Callers can arrange for the update to be rejected if the
+original file has been changed.
 
+The intent behind this new userspace functionality is to enable atomic
+rewrites of arbitrary parts of individual files.  For years, application
+programmers wanting to ensure the atomicity of a file update had to
+write the changes to a new file in the same directory, fsync the new
+file, rename the new file on top of the old filename, and then fsync the
+directory.  People get it wrong all the time, and $fs hacks abound.
+Here is the proposed manual page:
+
+IOCTL-FIEXCHANGE_RANGE(Linux Programmer's ManIOCTL-FIEXCHANGE_RANGE(2)
+
+NAME
+       ioctl_fiexchange_range  - exchange the contents of parts of two
+       files
+
+SYNOPSIS
+       #include <sys/ioctl.h>
+       #include <linux/fiexchange.h>
+
+       int    ioctl(int     file2_fd,     FIEXCHANGE_RANGE,     struct
+       file_xchg_range *arg);
+
+DESCRIPTION
+       Given  a  range  of bytes in a first file file1_fd and a second
+       range of bytes in a second file  file2_fd,  this  ioctl(2)  ex‐
+       changes the contents of the two ranges.
+
+       Exchanges  are  atomic  with  regards to concurrent file opera‐
+       tions, so no userspace-level locks need to be taken  to  obtain
+       consistent  results.  Implementations must guarantee that read‐
+       ers see either the old contents or the new  contents  in  their
+       entirety, even if the system fails.
+
+       The exchange parameters are conveyed in a structure of the fol‐
+       lowing form:
+
+           struct file_xchg_range {
+               __s64    file1_fd;
+               __s64    file1_offset;
+               __s64    file2_offset;
+               __s64    length;
+
+               __u64    flags;
+
+               __s64    file2_ino;
+               __s64    file2_mtime;
+               __s64    file2_ctime;
+               __s32    file2_mtime_nsec;
+               __s32    file2_ctime_nsec;
+
+               __u64    pad[6];
+           };
+
+       The field pad must be zero.
+
+       The fields file1_fd, file1_offset, and length define the  first
+       range of bytes to be exchanged.
+
+       The fields file2_fd, file2_offset, and length define the second
+       range of bytes to be exchanged.
+
+       Both files must be from the same filesystem mount.  If the  two
+       file  descriptors represent the same file, the byte ranges must
+       not overlap.  Most  disk-based  filesystems  require  that  the
+       starts  of  both ranges must be aligned to the file block size.
+       If this is the case, the ends of the ranges  must  also  be  so
+       aligned unless the FILE_XCHG_RANGE_TO_EOF flag is set.
+
+       The field flags control the behavior of the exchange operation.
+
+           FILE_XCHG_RANGE_FILE2_FRESH
+                  Check  the  freshness  of file2_fd after locking the
+                  file but before exchanging the contents.   The  sup‐
+                  plied  file2_ino field must match file2's inode num‐
+                  ber, and the supplied file2_mtime, file2_mtime_nsec,
+                  file2_ctime,  and file2_ctime_nsec fields must match
+                  the modification time and change time of file2.   If
+                  they do not match, EBUSY will be returned.
+
+           FILE_XCHG_RANGE_TO_EOF
+                  Ignore  the length parameter.  All bytes in file1_fd
+                  from file1_offset to EOF are moved to file2_fd,  and
+                  file2's  size is set to (file2_offset+(file1_length-
+                  file1_offset)).  Meanwhile, all bytes in file2  from
+                  file2_offset  to  EOF are moved to file1 and file1's
+                  size   is   set   to    (file1_offset+(file2_length-
+                  file2_offset)).   This option is not compatible with
+                  FILE_XCHG_RANGE_FULL_FILES.
+
+           FILE_XCHG_RANGE_FSYNC
+                  Ensure that all modified in-core data in  both  file
+                  ranges  and  all  metadata updates pertaining to the
+                  exchange operation are flushed to persistent storage
+                  before  the  call  returns.  Opening either file de‐
+                  scriptor with O_SYNC or O_DSYNC will have  the  same
+                  effect.
+
+           FILE_XCHG_RANGE_SKIP_FILE1_HOLES
+                  Skip  sub-ranges  of  file1_fd that are known not to
+                  contain data.  This facility can be used  to  imple‐
+                  ment  atomic scatter-gather writes of any complexity
+                  for software-defined storage targets.
+
+           FILE_XCHG_RANGE_DRY_RUN
+                  Check the parameters and the feasibility of the  op‐
+                  eration, but do not change anything.
+
+           FILE_XCHG_RANGE_COMMIT
+                  This      flag      is      a     combination     of
+                  FILE_XCHG_RANGE_FILE2_FRESH |  FILE_XCHG_RANGE_FSYNC
+                  and  can  be  used  to commit changes to file2_fd to
+                  persistent storage if and  only  if  file2  has  not
+                  changed.
+
+           FILE_XCHG_RANGE_FULL_FILES
+                  Require that file1_offset and file2_offset are zero,
+                  and that the length field  matches  the  lengths  of
+                  both  files.   If  not, EDOM will be returned.  This
+                  option      is       not       compatible       with
+                  FILE_XCHG_RANGE_TO_EOF.
+
+           FILE_XCHG_RANGE_NONATOMIC
+                  This  flag  relaxes the requirement that readers see
+                  only the old contents or the new contents  in  their
+                  entirety.   If  the system fails before all modified
+                  in-core data and metadata updates are  persisted  to
+                  disk,  the contents of both file ranges after recov‐
+                  ery are not defined and may be a mix of both.
+
+                  Do not use this flag unless  the  contents  of  both
+                  ranges  are  known  to be identical and there are no
+                  other writers.
+
+RETURN VALUE
+       On error, -1 is returned, and errno is set to indicate the  er‐
+       ror.
+
+ERRORS
+       Error  codes can be one of, but are not limited to, the follow‐
+       ing:
+
+       EBADF  file1_fd is not open for reading and writing or is  open
+              for  append-only  writes;  or  file2_fd  is not open for
+              reading and writing or is open for append-only writes.
+
+       EBUSY  The inode number and timestamps supplied  do  not  match
+              file2_fd  and  FILE_XCHG_RANGE_FILE2_FRESH  was  set  in
+              flags.
+
+       EDOM   The ranges do not cover the entirety of both files,  and
+              FILE_XCHG_RANGE_FULL_FILES was set in flags.
+
+       EINVAL The  parameters  are  not correct for these files.  This
+              error can also appear if either file  descriptor  repre‐
+              sents  a device, FIFO, or socket.  Disk filesystems gen‐
+              erally require the offset and  length  arguments  to  be
+              aligned to the fundamental block sizes of both files.
+
+       EIO    An I/O error occurred.
+
+       EISDIR One of the files is a directory.
+
+       ENOMEM The  kernel  was unable to allocate sufficient memory to
+              perform the operation.
+
+       ENOSPC There is not enough free space  in  the  filesystem  ex‐
+              change the contents safely.
+
+       EOPNOTSUPP
+              The filesystem does not support exchanging bytes between
+              the two files.
+
+       EPERM  file1_fd or file2_fd are immutable.
+
+       ETXTBSY
+              One of the files is a swap file.
+
+       EUCLEAN
+              The filesystem is corrupt.
+
+       EXDEV  file1_fd and  file2_fd  are  not  on  the  same  mounted
+              filesystem.
+
+CONFORMING TO
+       This API is Linux-specific.
+
+USE CASES
+       Three use cases are imagined for this system call.
+
+       The  first  is a filesystem defragmenter, which copies the con‐
+       tents of a file into another file and wishes  to  exchange  the
+       space  mappings  of  the  two files, provided that the original
+       file has not changed.  The flags NONATOMIC and FILE2_FRESH  are
+       recommended for this application.
+
+       The  second is a data storage program that wants to commit non-
+       contiguous updates to a file atomically.  This can be  done  by
+       creating a temporary file, calling FICLONE(2) to share the con‐
+       tents, and staging the updates into the temporary file.  Either
+       of  the  FULL_FILES or TO_EOF flags are recommended, along with
+       FSYNC.  Depending on  the  application's  locking  design,  the
+       flags FILE2_FRESH or COMMIT may be applicable here.  The tempo‐
+       rary file can be deleted or punched out afterwards.
+
+       The third is a software-defined storage host (e.g. a disk juke‐
+       box)  which  implements an atomic scatter-gather write command.
+       Provided the exported disk's logical  block  size  matches  the
+       file's  allocation  unit  size,  this can be done by creating a
+       temporary file and writing the data at the appropriate offsets.
+       Use  this  call  with  the SKIP_HOLES flag to exchange only the
+       blocks involved in the write command.  The  use  of  the  FSYNC
+       flag is recommended here.  The temporary file should be deleted
+       or punched out completely before being reused to stage  another
+       write.
+
+NOTES
+       Some  filesystems may limit the amount of data or the number of
+       extents that can be exchanged in a single call.
+
+SEE ALSO
+       ioctl(2)
+
+Linux                         2022-12-31     IOCTL-FIEXCHANGE_RANGE(2)
+
+The reference implementation in XFS creates a new log incompat feature
+and log intent items to track high level progress of swapping ranges of
+two files and finish interrupted work if the system goes down.  Sample
+code can be found in the corresponding changes to xfs_io to exercise the
+use case mentioned above.
+
+Note that this function is /not/ the O_DIRECT atomic file writes concept
+that has also been floating around for years.  This RFC is constructed
+entirely in software, which means that there are no limitations other
+than the general filesystem limits.
+
+As a side note, the original motivation behind the kernel functionality
+is online repair of file-based metadata.  The atomic file swap is
+implemented as an atomic inode fork swap, which means that we can
+implement online reconstruction of extended attributes and directories
+by building a new one in another inode and atomically swap the contents.
+
+Subsequent patchsets adapt the online filesystem repair code to use
+atomic extent swapping.  This enables repair functions to construct a
+clean copy of a directory, xattr information, symbolic links, realtime
+bitmaps, and realtime summary information in a temporary inode.  If this
+completes successfully, the new contents can be swapped atomically into
+the inode being repaired.  This is essential to avoid making corruption
+problems worse if the system goes down in the middle of running repair.
+
+This patchset also ports the old XFS extent swap ioctl interface to use
+the new extent swap code.
+
+For userspace, this series also includes the userspace pieces needed to
+test the new functionality, and a sample implementation of atomic file
+updates.
+
+Question: Should we really bother with fsdevel bikeshedding?  Most
+filesystems cannot support this functionality, so we could keep it
+private to XFS for now.
+
+If you're going to start using this mess, you probably ought to just
+pull from my git trees, which are linked below.
+
+This is an extraordinary way to destroy everything.  Enjoy!
+Comments and questions are, as always, welcome.
+
+--D
+
+kernel git tree:
+https://git.kernel.org/cgit/linux/kernel/git/djwong/xfs-linux.git/log/?h=atomic-file-updates
+
+xfsprogs git tree:
+https://git.kernel.org/cgit/linux/kernel/git/djwong/xfsprogs-dev.git/log/?h=atomic-file-updates
+
+fstests git tree:
+https://git.kernel.org/cgit/linux/kernel/git/djwong/xfstests-dev.git/log/?h=atomic-file-updates
+
+xfsdocs git tree:
+https://git.kernel.org/cgit/linux/kernel/git/djwong/xfs-documentation.git/log/?h=atomic-file-updates
+---
+ fs/read_write.c                    |    2 
+ fs/remap_range.c                   |    4 
+ fs/xfs/Makefile                    |    3 
+ fs/xfs/libxfs/xfs_bmap.h           |    2 
+ fs/xfs/libxfs/xfs_defer.c          |    7 
+ fs/xfs/libxfs/xfs_defer.h          |    3 
+ fs/xfs/libxfs/xfs_errortag.h       |    4 
+ fs/xfs/libxfs/xfs_format.h         |   15 
+ fs/xfs/libxfs/xfs_fs.h             |    2 
+ fs/xfs/libxfs/xfs_fs_staging.h     |  107 +++
+ fs/xfs/libxfs/xfs_log_format.h     |   83 ++
+ fs/xfs/libxfs/xfs_log_recover.h    |    2 
+ fs/xfs/libxfs/xfs_sb.c             |    3 
+ fs/xfs/libxfs/xfs_swapext.c        | 1331 +++++++++++++++++++++++++++++++++++
+ fs/xfs/libxfs/xfs_swapext.h        |  173 +++++
+ fs/xfs/libxfs/xfs_symlink_remote.c |   47 +
+ fs/xfs/libxfs/xfs_symlink_remote.h |    1 
+ fs/xfs/libxfs/xfs_trans_space.h    |    4 
+ fs/xfs/xfs_bmap_util.c             |  620 ----------------
+ fs/xfs/xfs_bmap_util.h             |    3 
+ fs/xfs/xfs_error.c                 |    3 
+ fs/xfs/xfs_file.c                  |   88 --
+ fs/xfs/xfs_file.h                  |   15 
+ fs/xfs/xfs_inode.c                 |   75 ++
+ fs/xfs/xfs_inode.h                 |   12 
+ fs/xfs/xfs_ioctl.c                 |  133 ++--
+ fs/xfs/xfs_ioctl.h                 |    4 
+ fs/xfs/xfs_ioctl32.c               |   11 
+ fs/xfs/xfs_iops.c                  |    1 
+ fs/xfs/xfs_iops.h                  |    7 
+ fs/xfs/xfs_linux.h                 |    6 
+ fs/xfs/xfs_log.c                   |   47 +
+ fs/xfs/xfs_log.h                   |   10 
+ fs/xfs/xfs_log_priv.h              |    3 
+ fs/xfs/xfs_log_recover.c           |    5 
+ fs/xfs/xfs_mount.c                 |   11 
+ fs/xfs/xfs_mount.h                 |    7 
+ fs/xfs/xfs_rtalloc.c               |  159 ++++
+ fs/xfs/xfs_rtalloc.h               |    3 
+ fs/xfs/xfs_super.c                 |   19 +
+ fs/xfs/xfs_swapext_item.c          |  657 +++++++++++++++++
+ fs/xfs/xfs_swapext_item.h          |   56 +
+ fs/xfs/xfs_symlink.c               |   49 -
+ fs/xfs/xfs_trace.c                 |    2 
+ fs/xfs/xfs_trace.h                 |  352 +++++++++
+ fs/xfs/xfs_xattr.c                 |    6 
+ fs/xfs/xfs_xchgrange.c             | 1364 ++++++++++++++++++++++++++++++++++++
+ fs/xfs/xfs_xchgrange.h             |   56 +
+ include/linux/fs.h                 |    1 
+ 49 files changed, 4696 insertions(+), 882 deletions(-)
+ create mode 100644 fs/xfs/libxfs/xfs_fs_staging.h
+ create mode 100644 fs/xfs/libxfs/xfs_swapext.c
+ create mode 100644 fs/xfs/libxfs/xfs_swapext.h
+ create mode 100644 fs/xfs/xfs_file.h
+ create mode 100644 fs/xfs/xfs_swapext_item.c
+ create mode 100644 fs/xfs/xfs_swapext_item.h
+ create mode 100644 fs/xfs/xfs_xchgrange.c
+ create mode 100644 fs/xfs/xfs_xchgrange.h
 
