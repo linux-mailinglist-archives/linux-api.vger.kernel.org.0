@@ -2,184 +2,121 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E9B9E716BE6
-	for <lists+linux-api@lfdr.de>; Tue, 30 May 2023 20:06:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CACC7716D1A
+	for <lists+linux-api@lfdr.de>; Tue, 30 May 2023 21:05:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231702AbjE3SGO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 30 May 2023 14:06:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47756 "EHLO
+        id S233297AbjE3TFN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 30 May 2023 15:05:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47826 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232814AbjE3SGM (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 30 May 2023 14:06:12 -0400
-Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com [IPv6:2001:4860:4864:20::31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09A488F
-        for <linux-api@vger.kernel.org>; Tue, 30 May 2023 11:06:11 -0700 (PDT)
-Received: by mail-oa1-x31.google.com with SMTP id 586e51a60fabf-19a427d7b57so2258274fac.2
-        for <linux-api@vger.kernel.org>; Tue, 30 May 2023 11:06:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1685469970; x=1688061970;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=p7WRh4ii68vVijZcHEibAPvhm7wB3t2DgvK1gWdbP0w=;
-        b=SR6CZIAZ5SrMXVefyj6q4AWjVzk+3nx5ztjEYVIDzHaQlSWPlZLLJS3fKnd20JH3af
-         XgTNLL0sKfPaQHVad3CXjU9BxRXsrG1DsnWejL5KS5V95z6R5dH7MsxnXhJlk/1ztLRh
-         eWK2KR/Mer2KgvCMxN8lVOTO0jKfjrdKUqPT4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685469970; x=1688061970;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=p7WRh4ii68vVijZcHEibAPvhm7wB3t2DgvK1gWdbP0w=;
-        b=GOKcJzgR/j/eGID01eh4zVSKR4CeHBIHJZ/BQ91J8crqYFxNBeJYZMn9UX9crod1YM
-         iRGJCmsd2we82x8aCUdRsKRG1EgdxEjtHItn5PwzOIkW3aPum6P/5cBrwBNvtlvQB9N3
-         AXUUlNegU6L7+kj35kWp57Xj8gERkl6pfbacJFisj5xguitBLvcy4oY9CiflZNIcRlLJ
-         3yChMHAfH+PVfREtCBTLKn2lcwLNP5dJnRmMNPrkWaDKMhzCNj5idMl+1/tYHtaKn3ny
-         5jv1FYcSTxMzZIDGBAW001kSE5s0oPFJaEJOZjrqTDjNY1RkpqvZCXSSxvpsSMqWKTyB
-         5Jdg==
-X-Gm-Message-State: AC+VfDyMYlXY7BM4g6zYNgTRbUhkmrLKfXcKt8t6+SKNg2tJ0UD1dJ86
-        ezKyRzWIAbW0jGNZ9Wbeirc4ePB4wJT3yrWoIKHwJw==
-X-Google-Smtp-Source: ACHHUZ7qfBuWJ7g/cUNl+4SloyhS1Jw/vsZzM5+CPBT1v63IbYJcCNJUmCOE72tByfzCCQdV4OnJwFRtxt2hx6Ct028=
-X-Received: by 2002:a05:6871:c10d:b0:196:87c5:8881 with SMTP id
- yq13-20020a056871c10d00b0019687c58881mr1376299oab.10.1685469970177; Tue, 30
- May 2023 11:06:10 -0700 (PDT)
+        with ESMTP id S232679AbjE3TFM (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 30 May 2023 15:05:12 -0400
+Received: from sonic314-27.consmr.mail.ne1.yahoo.com (sonic314-27.consmr.mail.ne1.yahoo.com [66.163.189.153])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 227B4102
+        for <linux-api@vger.kernel.org>; Tue, 30 May 2023 12:05:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1685473510; bh=29vdUlQQy1A/jtE7IYxgGsr2dtmKgUDXNUnDB6PPHm8=; h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To; b=L9AfHzZwktsyeJ3XHl8TLISkOAP871XtNFM1HIBDnlQdtXZTewIlY99B4BJnO5/VoVUqRX2QybSi2WPqprxd3rQ35UA3tatz2Haj2+z6tuFCzVv2VoGCd2Q5zad5ELBk6v7dNX0eQUpWmd1XciSxFo5/mzt1UYM4MEwYmU9OQATCle/6OUOdYoDIVT9VqH9pISCk49YOdgDtwVEES31HG/cX2MnB23/0MugahKISkwr1uEKq9UEEWpQq7kNFf114GLYgXmWGrVe4U74zsNIyjbpn4tsoHweKswfOIV6Xkr4vLjhZk/CSIYVr/5SoLOrVIMyedc9yIARwRMMRBYv1Jg==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1685473510; bh=vM2MjgeiK0de7kwIrh0Owxv5oaaOChV6roR0U/jpSnf=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=Sulhujk6yxichHHBao2xmeAq2zK297+jBxpEV/w+fcBZzZ4ShFp3IDMDar+2+JxN1G6GYDQKjS6tsGOuVHgHypdnVuk6p+3riX088KIXej+vW7dFhzlQM30Myj1gftpmRFLQ1kEVlFCjPcVxTkwuUbkpOdAnH8Tk3qLSgxg3hdyniX69blwuz681yYZI6uxJ5jJcrr1/kK7mI6LgP01bgm7K/o50xz6dT+PCC36U9e3HvmKW4xGsvwHWiwFxRI7SMae9L/iBpg/0fBoe2PQXhjNMJw6oLjS45fZewy6uifvf89VrvYyjZRXpvR8ej3RRePQhd8cuI1wIbtozIOgUsQ==
+X-YMail-OSG: osbvCaYVM1lwHvjwxwmcnmVCt_1ava3_l60lv6aYYMwNcX6qqrw934oc1w3Fz80
+ g_G8ASWRIMcZI81e.31hpzr56VRfxbwWdPs9KbPiiQQG.H43aKks2CMzlovJ6dnPJovAiI5XlpEM
+ DKHmbePhigzUH1msQFh5aU8rEnwjn3EQrjtCbgT5kCQ5d6uvJ4_KdAD_wZSxsgGLVvXDm1S7Pkvz
+ dA3QbMBuebh50vKCqgCcMoSZEjH4lgUpnGZnyw8pPsbpxemZVCQiHnbXxxcDOmnYL3n55HJ5t3Vk
+ 7EGysNReLO5S1n5I8BAEf55r3OYzRG1KeDUtlOel4WflEbsGUFIyfQ5jB616pbfMpBuR2sHxkwZ8
+ _Hlm6czf96UFdbiSAImG7H3lhB3mPyWOLW60ZCXj9xgLUuR2XMGkQoh5nmt2jr0fh5xyLwa.8K2Y
+ 83gzwa709tBGqNyMjccGbg1wZOe4WFoNRmab5t4ZeJfnVINgW3w2her_9exjbFySKKhkcsJHp6nh
+ Q4Amo974EtPqsJbbuORNxzbax8.EB87RRqtMEJ4QzSHdzEYxDtG1kIDHcLVPQe71GIb1cJfsVFGH
+ dz_vkz9_Z0ZlrPcx3H4.jmaJ2_kjtcmWxljyKS7a3jcA1xKnfwv.Mj4LBR2QCl62.8Zo3QAMpsxn
+ Pkew6Ji_kWKEM5ViBMVmo7pRovJa_8MBpM2AN.APNWULfqM12C7A.HgJHUuZvRV6RBAhKMXipSQt
+ 0OA0iUp2PIbEfcglAVmy04WtvC49kib3iTNNMjfcvMGpDX0Y63oLW9V05pBt5Rw29F.FUjWGcqDS
+ 9Teu.RXh5OtuiUAXL4x1pZ3C84irsLGUBSdvB7WWQHkP0z_sXrhlwwS30id4qLyM.WZdQWsZlJYF
+ _u1S0FcDdGDgm0xIiy7qeJN9CwRAE_78MNKh_dRllBDDLqLUcMvlltL3W_6hLtv0gAIyWnc503EW
+ jERDXcGUFi4lzbBKiJx2KCWAXUsSb1VhdNAn4uSCrE88qSxooB1JtJE9zOVn.4D.jPSTfVljcL_0
+ QS6bWkIYxRRxL8BDeFCxyeIR321hJzZzzP7_98Kiw9HaRVCFa_kq2.Rf8vEPOLPLo4y0x5S8fkhQ
+ LyFILEC5Nmcf3pePyX4fBzduK5jWJo7RYSXuDJMmNYhbEBTeS5Bd1onzvlsagye1n4UABkD7jYvt
+ j_SbLJw22T3mOFtBnuM5RVOTHWhADOnQVCdXt12gLe74nAXCn45VXafrgwHHajgkSQa75li36PS6
+ 2JpB7EwKFUcCEpLeCue6KCnbrwgK2rzxwfBhYWD7RlMv1vgGcVt4A_in_CS5JO3MePfeSjn4N5fM
+ 4ce7WT2.uVQ9d6D9iCU7FWH8MR.pSYOzU43aaL4V7Mw3EHgbe_dy5WPfZ.rRGspng9ut6GStxfgD
+ 5PSvjZymCHhZ8PHkQTV6YH4L44KAHJTNBgSEhSxOYQQZWJsLX5bYveKncZ51CE27InzY.Z.E1A7l
+ aaa8jy2_UOIQwwJ5oARN_nkGvvzxckbxiABS5TN5aDxKGqUa8SOx_X9cilcNgkRz5yCGVl5bMMnj
+ ZkhuDl73XjhGy2MEuid6VMS7eTJ3V47JTxcuxt2YIskMtwf1s7pxKAA12L_424FTPvlkpH5faNQ5
+ hU9zIW2Qu9zMDdqQ.oBh1xMLBgJxXAYjgS0HZGArk_7_vmgFcXPF6WOLS.YYTPaSjBmrSCMbcWv4
+ tyB1YrGuxbXY_gDuxd66_d8AGUxRrt0G2gSCEQZiLdCPGp8z8AOZirG4jR3TRYWc15d0Km6mizgr
+ aOM.5QXDFF0tw0_2XEuNfHOuDrFZY31gTd_aHcysW.iBEjppkjKXyhgyhKTMK.QL.Q13358cFpjF
+ 3dYYijUoNYxkWAEhkOpTgaVw8R7jzd5jiJEybWSE8OUWafVU5vqrwzMYK9LTy2jZCb0joL3MYtlT
+ zOkj0ilhG3ANUkey_nYfySsgupgkC.gCrmjFS_HF9SBm0l1CjLQrC6haf5YGdUOxfeeOjvMGuMgM
+ QQWlNb_ceIsrYFehp9h9Was3URkPQQbFgGZBXLkLfvlL1EEdLttN02D0eGTQIUYZm5rE6h99QbcP
+ r3eql0ucZtE_GJl601HyckHBMCXa.mlnpydSCIlfLB9p9KW8FSlg7kOcRCPdr.746bARchYfR2bg
+ nb8VqTzaX9zbal09DiiqPj.9L0.oj2do0ZFUjrNBOKZ55DlwC4I3rXSDbUWrhChK3gWebvoHh71G
+ ycOHSoBvXk4me6tHk9NpADPSNCWU5cILMMMowEPw1UhBJlPMPMk6T8E5IeVBIs15r1xojbYWkrxv
+ A7gaHwk7aYcY-
+X-Sonic-MF: <casey@schaufler-ca.com>
+X-Sonic-ID: e54802b8-a8ab-4317-9506-bb92222a4492
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic314.consmr.mail.ne1.yahoo.com with HTTP; Tue, 30 May 2023 19:05:10 +0000
+Received: by hermes--production-gq1-6db989bfb-jqsjz (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 814f54fcd2f99d924aeb689c6ba8361f;
+          Tue, 30 May 2023 19:05:08 +0000 (UTC)
+Message-ID: <4055d6df-60cc-3e90-9af3-bd714a521481@schaufler-ca.com>
+Date:   Tue, 30 May 2023 12:05:07 -0700
 MIME-Version: 1.0
-References: <ce44fc98-1234-fa53-5067-cd624866f44a@digikod.net>
- <20230518204549.3139044-1-enlightened@chromium.org> <a42875a0-d4c5-e2ac-d115-d4222e229f7d@schaufler-ca.com>
- <CAHC9VhTq0RgQ6xj86_BkZuAwy4kGy6eC8NVKFroEASNXP3uBxQ@mail.gmail.com>
- <CABi2SkX0cqOMPeuw8CD28Q6UZihi0Hh7GT=dTmxaG-T_rayPfQ@mail.gmail.com>
- <CAHC9VhRD8kfkHr2gfFp10txdDwE0NGSJQd08bRojeJKiKtqq6Q@mail.gmail.com>
- <1225a567-4ff5-462e-0db6-1a88a748d787@digikod.net> <b4825033-471c-ba32-530f-b0235356d55b@digikod.net>
- <aa2e3c9c-eac4-237d-02d0-4574f602563d@schaufler-ca.com>
-In-Reply-To: <aa2e3c9c-eac4-237d-02d0-4574f602563d@schaufler-ca.com>
-From:   Jeff Xu <jeffxu@chromium.org>
-Date:   Tue, 30 May 2023 11:05:00 -0700
-Message-ID: <CABi2SkWxZwLDfo=LjLA+cXGvpNfv26ZmD5dDm+AjgD5XgNfTmw@mail.gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
 Subject: Re: [PATCH v2] lsm: adds process attribute getter for Landlock
-To:     Casey Schaufler <casey@schaufler-ca.com>
-Cc:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>,
-        Paul Moore <paul@paul-moore.com>,
-        Shervin Oloumi <enlightened@chromium.org>,
+Content-Language: en-US
+To:     Jeff Xu <jeffxu@chromium.org>
+Cc:     Paul Moore <paul@paul-moore.com>,
+        Shervin Oloumi <enlightened@chromium.org>, mic@digikod.net,
         linux-security-module@vger.kernel.org, jorgelo@chromium.org,
         keescook@chromium.org, groeck@chromium.org, allenwebb@chromium.org,
         gnoack3000@gmail.com, areber@redhat.com, criu@openvz.org,
-        linux-api@vger.kernel.org, jannh@google.com, brauner@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        linux-api@vger.kernel.org, jannh@google.com, brauner@kernel.org,
+        Casey Schaufler <casey@schaufler-ca.com>
+References: <ce44fc98-1234-fa53-5067-cd624866f44a@digikod.net>
+ <20230518204549.3139044-1-enlightened@chromium.org>
+ <a42875a0-d4c5-e2ac-d115-d4222e229f7d@schaufler-ca.com>
+ <CAHC9VhTq0RgQ6xj86_BkZuAwy4kGy6eC8NVKFroEASNXP3uBxQ@mail.gmail.com>
+ <CABi2SkX0cqOMPeuw8CD28Q6UZihi0Hh7GT=dTmxaG-T_rayPfQ@mail.gmail.com>
+ <7b8688f5-20bc-8130-2341-ff56bb365d5a@schaufler-ca.com>
+ <CABi2SkUEUrwZ_HAVqX651iOQfXN6=Sdv4C=ihso5CSohXeo5uA@mail.gmail.com>
+From:   Casey Schaufler <casey@schaufler-ca.com>
+In-Reply-To: <CABi2SkUEUrwZ_HAVqX651iOQfXN6=Sdv4C=ihso5CSohXeo5uA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Mailer: WebService/1.1.21495 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, May 25, 2023 at 9:28=E2=80=AFAM Casey Schaufler <casey@schaufler-ca=
-.com> wrote:
->
-> On 5/24/2023 9:02 AM, Micka=C3=ABl Sala=C3=BCn wrote:
-> >
-> > On 24/05/2023 17:38, Micka=C3=ABl Sala=C3=BCn wrote:
-> >>
-> >> On 23/05/2023 23:12, Paul Moore wrote:
-> >>> On Tue, May 23, 2023 at 2:13=E2=80=AFAM Jeff Xu <jeffxu@chromium.org>=
- wrote:
-> >>>> On Mon, May 22, 2023 at 12:56=E2=80=AFPM Paul Moore <paul@paul-moore=
-.com>
-> >>>> wrote:
-> >>>>> On Thu, May 18, 2023 at 5:26=E2=80=AFPM Casey Schaufler
-> >>>>> <casey@schaufler-ca.com> wrote:
-> >>>>>> On 5/18/2023 1:45 PM, Shervin Oloumi wrote:
-> >>>>>>> Adds a new getprocattr hook function to the Landlock LSM, which
-> >>>>>>> tracks
-> >>>>>>> the landlocked state of the process. This is invoked when
-> >>>>>>> user-space
-> >>>>>>> reads /proc/[pid]/attr/domain
-> >>>>>>
-> >>>>>> Please don't add a Landlock specific entry directly in the attr/
-> >>>>>> directory. Add it only to attr/landlock.
-> >>>>>>
-> >>>>>> Also be aware that the LSM maintainer (Paul Moore) wants to move
-> >>>>>> away from the /proc/.../attr interfaces in favor of a new system
-> >>>>>> call,
-> >>>>>> which is in review.
-> >>>>>
-> >>>>> What Casey said above.
-> >>>>>
-> >>>>> There is still some uncertainty around timing, and if we're perfect=
-ly
-> >>>>> honest, acceptance of the new syscalls at the Linus level, but yes,=
- I
-> >>>>> would very much like to see the LSM infrastructure move away from
-> >>>>> procfs and towards a syscall API.  Part of the reasoning is that th=
-e
-> >>>>> current procfs API is ill-suited to handle the multiple, stacked LS=
-Ms
-> >>>>> and the other part being the complexity of procfs in a namespaced
-> >>>>> system.  If the syscall API is ultimately rejected, we will need to
-> >>>>> revisit the idea of a procfs API, but even then I think we'll need =
-to
-> >>>>> make some changes to the current approach.
-> >>>>>
-> >>>>> As I believe we are in the latter stages of review for the syscall
-> >>>>> API, perhaps you could take a look and ensure that the current
-> >>>>> proposed API works for what you are envisioning with Landlock?
-> >>
-> >> I agree, and since the LSM syscalls are almost ready that should not
-> >> change much the timing. In fact, extending these syscalls might be
-> >> easier than tweaking the current procfs/attr API for Landlock specific
-> >> requirements (e.g. scoped visibility). We should ensure that these
-> >> syscalls would be a good fit to return file descriptors, but in the
-> >> short term we only need to know if a process is landlocked or not, so =
-a
-> >> raw return value (0 or -errno) will be enough.
-> >>
-> >> Mentioning in the LSM syscalls patch series that they may deal with (a=
-nd
-> >> return) file descriptors could help API reviewers though.
-> >
-> > It should be kept in mind that the current LSM syscalls only deal with
-> > the calling task, whereas the goal of this Landlock patch series is to
-> > inspect other tasks. A new LSM syscall would need to be created to
-> > handle pidfd e.g., named lsm_get_proc_attr() or lsm_get_pid_attr().
->
-> I think it would be lsm_get_pid_attr(). Yes, it's the obvious next step.
->
-> >
-> > I'm not sure if this should be a generic LSM syscall or a Landlock
-> > syscall though. I have plan to handle processes other than the caller
-> > (e.g. to restrict an existing process hierarchy), so thinking about a
-> > Landlock-specific syscall could make sense.
-> >
-> > To summarize, creating a new LSM syscall to deal with pidfd and to get
-> > LSM process "status/attr" looks OK. However, Landlock-specific
-> > syscalls to deal with Landlock specificities (e.g. ruleset or domain
-> > file descriptor) make more sense.
-> >
-> > Having one LSM-generic syscall to get minimal Landlock attributes
-> > (i.e. mainly to know if a process is sandboxed), and another
-> > Landlock-specific syscall to do more things (e.g. get the domain file
-> > descriptor, restrict a task) seems reasonable. The second one would
-> > overlap with the first one though. What do you think?
->
-> I find it difficult to think of a file descriptor as an attribute of
-> a process. To my (somewhat unorthodox) thinking a file descriptor is
-> a name for an object, not an attribute of the object. You can't access
-> an object by its attributes, but you can by its name. An attribute is
-> a description of the object. I'm perfectly happy with lsm_get_pid_attr()
-> returning an attribute that is a file descriptor if it describes the
-> process in some way, but not as a substitute for opening /proc/42.
->
->
+On 5/30/2023 11:02 AM, Jeff Xu wrote:
+>>>> As I believe we are in the latter stages of review for the syscall
+>>>> API, perhaps you could take a look and ensure that the current
+>>>> proposed API works for what you are envisioning with Landlock?
+>>>>
+>>> Which review/patch to look for the proposed API ?
+>> https://lore.kernel.org/lkml/20230428203417.159874-3-casey@schaufler-ca.com/T/
+>>
+>>
+> How easy is it to add a customized LSM with new APIs?
 
-If I understand correctly:
-1> A new lsm syscall - lsm_get_pid_attr():  Landlock will return the
-process's landlock sandbox status: true/false.
+I haven't found it difficult, but that was in the pre-syscall era.
+Look at Landlock for an example of LSM specific syscalls, if you want
+to go that route.
 
-Is this a right fit for SELinux to also return the process's enforcing
-mode ? such as enforcing/permissive.
+> I'm asking because there are some hard-coded constant/macro, i.e.
+>
+> +#define LSM_ID_LANDLOCK 111
+> (Do IDs need to be sequential ?)
 
-2> Landlock will have its own specific syscall to deal with Landlock
-specificities (e.g. ruleset or domain file descriptor).
+No, but I would want a good reason for doing otherwise.
+
+> + define LSM_CONFIG_COUNT
+>
+> Today, only security/Kconfig change is needed to add a new LSM, I think ?
+
+That's correct. The syscall patches make it a trifle more difficult,
+requiring they be acknowledged in security.c. We could probably work
+around that, but it's really a small price to pay to get a constant
+value.
+
