@@ -2,110 +2,176 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A82071F59C
-	for <lists+linux-api@lfdr.de>; Fri,  2 Jun 2023 00:08:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1145371F6DB
+	for <lists+linux-api@lfdr.de>; Fri,  2 Jun 2023 01:54:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232202AbjFAWI4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 1 Jun 2023 18:08:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38806 "EHLO
+        id S232295AbjFAXyd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 1 Jun 2023 19:54:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46552 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229542AbjFAWIz (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 1 Jun 2023 18:08:55 -0400
-Received: from smtp-bc0c.mail.infomaniak.ch (smtp-bc0c.mail.infomaniak.ch [IPv6:2001:1600:4:17::bc0c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9820D18D
-        for <linux-api@vger.kernel.org>; Thu,  1 Jun 2023 15:08:53 -0700 (PDT)
-Received: from smtp-2-0000.mail.infomaniak.ch (unknown [10.5.36.107])
-        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4QXKz76KqCzMqC7D;
-        Fri,  2 Jun 2023 00:08:51 +0200 (CEST)
-Received: from unknown by smtp-2-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4QXKz65NTgzMpq1n;
-        Fri,  2 Jun 2023 00:08:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
-        s=20191114; t=1685657331;
-        bh=ip+z0ApypRtrufoBxPHRhT4Ix3lgSbydIARO/cQ6Nhs=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=zWHTDTn1/CV1D+VFPr9nO4rHQ17xrzpm8nwwnxM67EsRm/4gQJfS/TlL4zx/4tSni
-         BJtbKK93ifIm0TKmdqBdwKkJfCNaDpsLtiFWWIm6kCabF/HXo5y0F15SsbYnpf2WGk
-         t1uULghNuRC4JAZ1gz1GWKXkqxqrMt9LhRMJ+36A=
-Message-ID: <5b1b102b-3413-3669-5f3f-3a6987033a2d@digikod.net>
-Date:   Fri, 2 Jun 2023 00:08:50 +0200
+        with ESMTP id S229866AbjFAXyc (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 1 Jun 2023 19:54:32 -0400
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D887618D;
+        Thu,  1 Jun 2023 16:54:29 -0700 (PDT)
+Received: by mail-lf1-x132.google.com with SMTP id 2adb3069b0e04-4f3ba703b67so1946093e87.1;
+        Thu, 01 Jun 2023 16:54:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1685663668; x=1688255668;
+        h=in-reply-to:from:references:cc:to:content-language:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ybQ5L2WYRZQfSpMuiAlYLCMUlB1UvLkSX2ryNU/d/kY=;
+        b=dFyHInLr3LItv/MzgJKceQw1GUbQCk79pkixpfVW1hDFwwSn5PLuav/2iuHoJ3uBnn
+         +awDk09JA2RP/uHLCOKwxu84nKmrkku6jbcrFt0q33ywHzKEDdpKmzzz1WN8G9wC1sIL
+         B0bR+lYLk9QeW2OcVMx9EPJ4g8pbOHhf3anzF3EXanaryFFah00B0jDU/CEeYd1PcPME
+         8X2aCZ4usagdGbwfwUAHk5gpu7SoVCRrFm++DTgqpke8JCyi1xAZYJWUfooouV53okS+
+         2ZjoGJO9yv1APS8ZjHvStkoVHMyDBUQkbucIYHV2YV07T+S6uFAu8A5Jd9EgIsAklKEd
+         K6rw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685663668; x=1688255668;
+        h=in-reply-to:from:references:cc:to:content-language:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=ybQ5L2WYRZQfSpMuiAlYLCMUlB1UvLkSX2ryNU/d/kY=;
+        b=TNXBCKDFMb0TyMckQOu3pFTg4nE3C1gSVqnJpvCBY20uMNseyrur5iZM+9iRLpCdIO
+         skptwTC7/7LFZSU7CGPU1v1aWHr8wZX5zOBxY8QO3fO6w1WWnPOBU07if6cyGLn6WoMm
+         JPhq5ImNjuri2xVZ0Ak+agXj4rYf0T0kvrGWnPkyEblAIvzmssLkrl8Xr4ufvYi513yn
+         +GMM0AB7XhAF+5MUV31J9Ushbkz+o0rAmDyhpxdXpd6PtCH6dyqAvR7UtG4h64p5QFqI
+         cobpljX/Qj9AqSfrQJMdMoIM6Zwo267ojfbgCSY2cccXrdxDY7JvJzJ9BjLF7XqsBA2X
+         FphQ==
+X-Gm-Message-State: AC+VfDwqL3akiPqpbMCDLAuexUI3OKM/iQ5dHDqmdfRI2jPbpXxCpk59
+        UNTJOwflIL44s0JJlLx8ImQ=
+X-Google-Smtp-Source: ACHHUZ75XZN1swP9jyK/M05bwnJ7gb6IJvY5Tex8+culbYuiZScBJeEJYlu3OQV5/tY96Uy0EvCtuA==
+X-Received: by 2002:ac2:4192:0:b0:4ed:bfcf:3109 with SMTP id z18-20020ac24192000000b004edbfcf3109mr808493lfh.56.1685663667804;
+        Thu, 01 Jun 2023 16:54:27 -0700 (PDT)
+Received: from [192.168.0.160] ([170.253.51.134])
+        by smtp.gmail.com with ESMTPSA id u8-20020a05600c00c800b003f4ebeaa970sm144177wmm.25.2023.06.01.16.54.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 01 Jun 2023 16:54:27 -0700 (PDT)
+Message-ID: <0822f75a-267c-faa5-bdc5-55eca5dbbc62@gmail.com>
+Date:   Fri, 2 Jun 2023 01:54:25 +0200
 MIME-Version: 1.0
-User-Agent: 
-Subject: Re: [PATCH v2] lsm: adds process attribute getter for Landlock
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] tmpfs.5: extend with new noswap documentation
 Content-Language: en-US
-To:     Casey Schaufler <casey@schaufler-ca.com>,
-        Jeff Xu <jeffxu@chromium.org>
-Cc:     Paul Moore <paul@paul-moore.com>,
-        Shervin Oloumi <enlightened@chromium.org>,
-        linux-security-module@vger.kernel.org, jorgelo@chromium.org,
-        keescook@chromium.org, groeck@chromium.org, allenwebb@chromium.org,
-        gnoack3000@gmail.com, areber@redhat.com, criu@openvz.org,
-        linux-api@vger.kernel.org, jannh@google.com, brauner@kernel.org
-References: <ce44fc98-1234-fa53-5067-cd624866f44a@digikod.net>
- <20230518204549.3139044-1-enlightened@chromium.org>
- <a42875a0-d4c5-e2ac-d115-d4222e229f7d@schaufler-ca.com>
- <CAHC9VhTq0RgQ6xj86_BkZuAwy4kGy6eC8NVKFroEASNXP3uBxQ@mail.gmail.com>
- <CABi2SkX0cqOMPeuw8CD28Q6UZihi0Hh7GT=dTmxaG-T_rayPfQ@mail.gmail.com>
- <CAHC9VhRD8kfkHr2gfFp10txdDwE0NGSJQd08bRojeJKiKtqq6Q@mail.gmail.com>
- <1225a567-4ff5-462e-0db6-1a88a748d787@digikod.net>
- <b4825033-471c-ba32-530f-b0235356d55b@digikod.net>
- <aa2e3c9c-eac4-237d-02d0-4574f602563d@schaufler-ca.com>
- <CABi2SkWxZwLDfo=LjLA+cXGvpNfv26ZmD5dDm+AjgD5XgNfTmw@mail.gmail.com>
- <e1db62f4-32c5-d784-ba4e-5acc242bc00c@schaufler-ca.com>
- <e7c8a996-d98c-efac-3b12-dd6d66e421c3@digikod.net>
- <CABi2SkUFe7zOFi3Vr-A6bTGytOdeZkvsPfxxLq9+b0vHfa-bkA@mail.gmail.com>
- <e83ef047-42f3-260d-1ac1-07c576cce9f8@schaufler-ca.com>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-In-Reply-To: <e83ef047-42f3-260d-1ac1-07c576cce9f8@schaufler-ca.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Infomaniak-Routing: alpha
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+To:     Luis Chamberlain <mcgrof@kernel.org>, alx@kernel.org,
+        linux-man@vger.kernel.org, linux-api@vger.kernel.org
+Cc:     hughd@google.com, p.raghav@samsung.com, da.gomez@samsung.com,
+        rohan.puri@samsung.com, rpuri.linux@gmail.com,
+        a.manzanares@samsung.com, dave@stgolabs.net, yosryahmed@google.com,
+        keescook@chromium.org, patches@lists.linux.dev,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org
+References: <20230526210703.934922-1-mcgrof@kernel.org>
+From:   Alejandro Colomar <alx.manpages@gmail.com>
+In-Reply-To: <20230526210703.934922-1-mcgrof@kernel.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------fhGnL7Zf9xrdwVrHSelHTA4N"
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------fhGnL7Zf9xrdwVrHSelHTA4N
+Content-Type: multipart/mixed; boundary="------------3L7GuI8sJyU0F1PyzmHCFWDb";
+ protected-headers="v1"
+From: Alejandro Colomar <alx.manpages@gmail.com>
+To: Luis Chamberlain <mcgrof@kernel.org>, alx@kernel.org,
+ linux-man@vger.kernel.org, linux-api@vger.kernel.org
+Cc: hughd@google.com, p.raghav@samsung.com, da.gomez@samsung.com,
+ rohan.puri@samsung.com, rpuri.linux@gmail.com, a.manzanares@samsung.com,
+ dave@stgolabs.net, yosryahmed@google.com, keescook@chromium.org,
+ patches@lists.linux.dev, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org
+Message-ID: <0822f75a-267c-faa5-bdc5-55eca5dbbc62@gmail.com>
+Subject: Re: [PATCH] tmpfs.5: extend with new noswap documentation
+References: <20230526210703.934922-1-mcgrof@kernel.org>
+In-Reply-To: <20230526210703.934922-1-mcgrof@kernel.org>
 
-On 01/06/2023 23:34, Casey Schaufler wrote:
-> On 6/1/2023 1:48 PM, Jeff Xu wrote:
->> Hi Paul,
->>
->> On Wed, May 31, 2023 at 6:26 AM Mickaël Salaün <mic@digikod.net> wrote:
->>>>>>
->>>>> If I understand correctly:
->>>>> 1> A new lsm syscall - lsm_get_pid_attr():  Landlock will return the
->>>>> process's landlock sandbox status: true/false.
->>>> There would have to be a new LSM_ATTR_ENFORCMENT to query.
+--------------3L7GuI8sJyU0F1PyzmHCFWDb
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-I guess there is a misunderstanding. What is the link between global 
-system enforcement and the status of a sandboxed/restricted/enforced(?) 
-process?
+Hi Luis,
 
-The attribute would then be something like LSM_ATTR_RESTRICTED to get a 
-process restriction status, which might be the same for all processes 
-with system-wide policies (e.g., SELinux) but not for Landlock.
+On 5/26/23 23:07, Luis Chamberlain wrote:
+> Linux commit 2c6efe9cf2d7 ("shmem: add support to ignore swap")
+> merged as of v6.4 added support to disable swap for tmpfs mounts.
+>=20
+> This extends the man page to document that.
+>=20
+> Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
+> ---
+>  man5/tmpfs.5 | 5 +++++
+>  1 file changed, 5 insertions(+)
+>=20
+> diff --git a/man5/tmpfs.5 b/man5/tmpfs.5
+> index 09d9558985e9..f7f90f112103 100644
+> --- a/man5/tmpfs.5
+> +++ b/man5/tmpfs.5
+> @@ -99,6 +99,11 @@ suffixes like
+>  .BR size ,
+>  but not a % suffix.
+>  .TP
+> +.BR noswap "(since Linux 6.4)"
+> +.\" commit 2c6efe9cf2d7841b75fe38ed1adbd41a90f51ba0
+> +Disables swap. Remounts must respect the original settings.
 
+Please use semantic newlines.  See man-pages(7):
+   Use semantic newlines
+       In the source of a manual page, new sentences should be started
+       on  new  lines,  long  sentences  should be split into lines at
+       clause breaks (commas, semicolons, colons, and so on), and long
+       clauses should be split at phrase boundaries.  This convention,
+       sometimes known as "semantic newlines", makes it easier to  see
+       the  effect of patches, which often operate at the level of in=E2=80=
+=90
+       dividual sentences, clauses, or phrases.
 
->>>> Each LSM could then report what, if any, value it choose to.
->>>> I can't say whether SELinux would take advantage of this.
->>>> I don't see that Smack would report this attribute.
->>> I think such returned status for LSM_ATTR_ENFORCMENT query would make
->>> sense, but the syscall could also return -EPERM and other error codes.
->>>
->>>
->>>>> Is this a right fit for SELinux to also return the process's enforcing
->>>>> mode ? such as enforcing/permissive.
->>> Paul could answer that, but I think it would be simpler to have two
->>> different queries, something like LSM_ATTR_ENFORCMENT and
->>> LSM_ATTR_PERMISSIVE queries.
->>>
->> Hi Paul, what do you think ? Could SELinux have something like this.
-> 
-> Not Paul, but answering anyway - No, those are system wide attributes, not
-> process (task) attributes. You want some other syscall, say lsm_get_system_attr()
-> for those.
+Thanks,
+Alex
 
+> +By default swap is enabled.
+> +.TP
+>  .BR mode "=3D\fImode\fP"
+>  Set initial permissions of the root directory.
+>  .TP
+
+--=20
+<http://www.alejandro-colomar.es/>
+GPG key fingerprint: A9348594CE31283A826FBDD8D57633D441E25BB5
+
+--------------3L7GuI8sJyU0F1PyzmHCFWDb--
+
+--------------fhGnL7Zf9xrdwVrHSelHTA4N
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmR5L7EACgkQnowa+77/
+2zKzPQ//eaMf/JhjExdKSJjWCIGk056qab5So1LYbuHQWrEJYFGnC1v9obCoGeoQ
+lUj0/jsuKh0bNIZG7L01jDCLA+/lxrzq7UrqusAZpZu81DHKeh/ITysVkORfa5yZ
+/Rl6RKe9eCo01jBPkhHF84bBJX6jQdD5jzo0ZkCci5PMx5GMna01daevr60Cd7Fg
+1o+GYAJvZw/3aB98Pf40zT1DT3CsBKze284OAPwQqUFMO1gDKy9nJC6+j76Wgu5a
+xnlxwxothoNslsS9oPZF/y9TCanxiGQTPXTkSd2oNgkn1pXN4al4AukoLyvh/B0G
+GNvAnW57pAYr/2XCHXFU92yqrYaM1H9RF2dk6SbCjxjG6Uuz9G+icM6iRMLPscrI
+CG9smE/ZKCXGE5sM0ddQ6JsIR+iT7y6wokeKapztN19jYCPlwr/SWT/EOElYlD8G
+q683oVhzFcTSzCuIXBBBHm7lUOh3d0boOwHa7WZhVvcdPr4IV1BNWO7hb8hCg8uD
+PyzC1lnWr2835RaaD9DNki9pj/9pSYwnUvANFPNyJCtAY4Hnh93UrPz82YHCIf/w
+XJ7Snt+jzJApKGrdI0VvWwS9/8MTvj5bQczy5Z+KKocoV+W1yU2mnWkTiBvqItmU
+ksvdZ0IsQjD5HLY3BkkgObykUwNyOI+4lhYkkXM0eg+gTcuvTjc=
+=1akv
+-----END PGP SIGNATURE-----
+
+--------------fhGnL7Zf9xrdwVrHSelHTA4N--
