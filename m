@@ -2,44 +2,53 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BB252720F26
-	for <lists+linux-api@lfdr.de>; Sat,  3 Jun 2023 12:19:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 52763724488
+	for <lists+linux-api@lfdr.de>; Tue,  6 Jun 2023 15:36:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229571AbjFCKTy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 3 Jun 2023 06:19:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46074 "EHLO
+        id S233309AbjFFNgN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 6 Jun 2023 09:36:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229658AbjFCKTx (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 3 Jun 2023 06:19:53 -0400
-X-Greylist: delayed 4199 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 03 Jun 2023 03:19:52 PDT
-Received: from mail.webtopbits.pl (mail.webtopbits.pl [195.231.64.176])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F4311A4
-        for <linux-api@vger.kernel.org>; Sat,  3 Jun 2023 03:19:52 -0700 (PDT)
-Received: by mail.webtopbits.pl (Postfix, from userid 1001)
-        id E3ADCA38BB; Fri,  2 Jun 2023 09:30:47 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=webtopbits.pl;
-        s=mail; t=1685694654;
-        bh=Eh8ECMiYd4baGAwPAzhz8mhJACXX7NSRkYjh+plaY18=;
-        h=Date:From:To:Subject:From;
-        b=kqgQNZnpy0jY8zIU1Wx8WKZzFPCOygFq5YibpX78BBMz19Fwj3HlPbfpu80CD0eey
-         Y+quQonSau9KjaZosLu6mTeB/OP43hU7ERFkh9AT1MQ5AsVoB2naRilraXMgzQN4bE
-         eINWXF6WVtMTB67aRFHuTjn+zc9LSB6wvHKIpLx/xBkKQm4ABt8JB1q88E3a6+ffMX
-         Yjm4mK9JlbsQcDSg5fYhoaOX/SfZpLyym43epVJUuEisPfajO/G6pSm14RSzZuXtPh
-         aXjW22eoIoNyBHaocg5+AYFyFdIP5KidtY86eJ4pkJfdhiGjSvURExJhFmer6vcoJT
-         sPS+F6bWE+wdA==
-Received: by mail.webtopbits.pl for <linux-api@vger.kernel.org>; Fri,  2 Jun 2023 08:30:38 GMT
-Message-ID: <20230602085530-0.1.8w.5jy3.0.up1h9d8vq7@webtopbits.pl>
-Date:   Fri,  2 Jun 2023 08:30:38 GMT
-From:   "Kamil Durjasz" <kamil.durjasz@webtopbits.pl>
-To:     <linux-api@vger.kernel.org>
-Subject: =?UTF-8?Q?Wy=C5=BCsza_konwersja_w_e-sklepie_?=
-X-Mailer: mail.webtopbits.pl
+        with ESMTP id S237458AbjFFNgL (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 6 Jun 2023 09:36:11 -0400
+Received: from smtpout.efficios.com (unknown [IPv6:2607:5300:203:b2ee::31e5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 696EA10EA;
+        Tue,  6 Jun 2023 06:36:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=efficios.com;
+        s=smtpout1; t=1686058562;
+        bh=SxczWj3C0sN+bBEqmoP7lrNeQ6Ge5rxR4BAb86lqCNs=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=pfWEGVo8XfxY0qYzq5bvQVnb6MJsLDiCcDJudFnzHd5AqDdMI5FG2WchZy6wGHC5G
+         QGv4id5yFhNWebTPZiTV1kaT9KZjzjvZZEZdxzNg0FoI8DFdqs43qg/Xo6bWNXjzRm
+         LLLgfQ2HrgyY8G8V3Vfns8B+XMut8gGxHXNkhd6DysYqgMLuAZbWwrVZVJeskY+iVp
+         10sg/LCGoIpS56XNyVyAftfgfcyss50To3dQcAj0IV9aWhOuWuvSqqa8VIpMw9ocR2
+         BWA8aDTNH2i7weu+XDY3VABVIG0dH5ECpgwAGKUA4MrvnYgiYbrfJFoGV4yJ674Caa
+         vZnwfDNdIUDdQ==
+Received: from [172.16.0.134] (192-222-143-198.qc.cable.ebox.net [192.222.143.198])
+        by smtpout.efficios.com (Postfix) with ESMTPSA id 4QbBM62F78z17C5;
+        Tue,  6 Jun 2023 09:36:02 -0400 (EDT)
+Message-ID: <fd64bf35-8e18-8da7-d83c-882fdc60a87d@efficios.com>
+Date:   Tue, 6 Jun 2023 09:36:12 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=unavailable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 0/4] RSEQ selftests updates
+Content-Language: en-US
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
+        linux-api@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
+        linux-kselftest@vger.kernel.org
+References: <20230515135801.15220-1-mathieu.desnoyers@efficios.com>
+From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+In-Reply-To: <20230515135801.15220-1-mathieu.desnoyers@efficios.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RDNS_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -47,24 +56,44 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Dzie=C5=84 dobry,
+Hi Peter,
 
-w jaki spos=C3=B3b docieraj=C4=85 Pa=C5=84stwo do odbiorc=C3=B3w?
+Can you queue those fixes through your tree ?
 
-Tworzymy pot=C4=99=C5=BCne narz=C4=99dzia sprzeda=C5=BCy, kt=C3=B3re pozw=
-alaj=C4=85 kompleksowo rozwi=C4=85za=C4=87 problemy potencjalnych klient=C3=
-=B3w i skutecznie wp=C5=82yn=C4=85=C4=87 na ich decyzje zakupowe.=20
+Thanks,
 
-Skupiamy si=C4=99 na Pa=C5=84stwa potrzebach zwi=C4=85zanych z obs=C5=82u=
-g=C4=85 sklepu, oczekiwaniach i planach sprzeda=C5=BCowych. Szczeg=C3=B3=C5=
-=82owo dopasowujemy grafik=C4=99, funkcjonalno=C5=9Bci, struktur=C4=99 i =
-mikrointerakcje do Pa=C5=84stwa grupy docelowej, co przek=C5=82ada si=C4=99=
- na oczekiwane rezultaty.
+Mathieu
 
-Ch=C4=99tnie przedstawi=C4=99 dotychczasowe realizacje, aby mogli Pa=C5=84=
-stwo przekona=C4=87 si=C4=99 o naszych mo=C5=BCliwo=C5=9Bciach. Mog=C4=99=
- si=C4=99 skontaktowa=C4=87?
+On 5/15/23 09:57, Mathieu Desnoyers wrote:
+> Hi,
+> 
+> You will find in this series updates to the rseq selftests, mainly
+> bringing fixes from librseq project back into the RSEQ selftests.
+> 
+> Thanks,
+> 
+> Mathieu
+> 
+> Mathieu Desnoyers (4):
+>    selftests/rseq: Fix CID_ID typo in Makefile
+>    selftests/rseq: Implement rseq_unqual_scalar_typeof
+>    selftests/rseq: Fix arm64 buggy load-acquire/store-release macros
+>    selftests/rseq: Use rseq_unqual_scalar_typeof in macros
+> 
+>   tools/testing/selftests/rseq/Makefile     |  2 +-
+>   tools/testing/selftests/rseq/compiler.h   | 26 ++++++++++
+>   tools/testing/selftests/rseq/rseq-arm.h   |  4 +-
+>   tools/testing/selftests/rseq/rseq-arm64.h | 58 ++++++++++++-----------
+>   tools/testing/selftests/rseq/rseq-mips.h  |  4 +-
+>   tools/testing/selftests/rseq/rseq-ppc.h   |  4 +-
+>   tools/testing/selftests/rseq/rseq-riscv.h |  6 +--
+>   tools/testing/selftests/rseq/rseq-s390.h  |  4 +-
+>   tools/testing/selftests/rseq/rseq-x86.h   |  4 +-
+>   9 files changed, 70 insertions(+), 42 deletions(-)
+> 
 
+-- 
+Mathieu Desnoyers
+EfficiOS Inc.
+https://www.efficios.com
 
-Pozdrawiam
-Kamil Durjasz
