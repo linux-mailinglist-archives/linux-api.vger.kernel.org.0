@@ -2,203 +2,117 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C9CA724C84
-	for <lists+linux-api@lfdr.de>; Tue,  6 Jun 2023 21:08:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1543D7262CC
+	for <lists+linux-api@lfdr.de>; Wed,  7 Jun 2023 16:29:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239486AbjFFTIN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 6 Jun 2023 15:08:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39102 "EHLO
+        id S240446AbjFGO3h (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 7 Jun 2023 10:29:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56306 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239368AbjFFTHD (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 6 Jun 2023 15:07:03 -0400
-Received: from mail-pf1-x44a.google.com (mail-pf1-x44a.google.com [IPv6:2607:f8b0:4864:20::44a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB48210FE
-        for <linux-api@vger.kernel.org>; Tue,  6 Jun 2023 12:05:09 -0700 (PDT)
-Received: by mail-pf1-x44a.google.com with SMTP id d2e1a72fcca58-653843401d5so4464847b3a.3
-        for <linux-api@vger.kernel.org>; Tue, 06 Jun 2023 12:05:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1686078288; x=1688670288;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=CCEiTTKrsebxDoXfSRZP/CN+WTuYdz3sOeWxyKUUyPY=;
-        b=KFM+d/JKzgYvN5OR6kU44o+ZYxe7Q/H7MNTOnP/z0cxW3//uRTJeZxZ8dFp8Jit4Gf
-         YquLlWVy9xCdFnBGp+gPFhLtGo2w3F50cPqXWf8JFYlZ/OGxawmSMJJ/jIE184rG6FHp
-         ixTL8P/2ovgE/QdCx/NLmyiW9xL5hbY3itkmDOuPi4r2D/Bp6z5cypKETkTA5IN3CsDs
-         1vhuCHFDhZuON8z8NNnBNoq7He9ZNsDe7Xmjzq9wK+9M2GgIoXw9C4JhNu7KegBFAMS3
-         MULic01j2ol2uU6vWbv87Xaf10SomC0FL9lq9TfMGxJn5DnDmpEo+KEOdrVPsgYMpseZ
-         BMRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686078288; x=1688670288;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=CCEiTTKrsebxDoXfSRZP/CN+WTuYdz3sOeWxyKUUyPY=;
-        b=lGdlIaajI6ziYm7rxwGzfTqy/U4QqG60JklUnxZsZfMVZKoY5rmyVRVyD3JHK16twc
-         IBjR7z86ddXhlP/B2U5ykMyDz5+t8EpFVsevXw36N9u+jLBoSZfa9Y7ZdbyvWwRi932b
-         uzNvts8YbQiio3MYZ4kuQFrcXB2BW2VXRuxC1Hy6dg7NnHH89xU5+Qi4BfLwD5/q41dr
-         JQleMkRFkazuDvDZR6eeVCzbW4ReLmKjybAsk2UvzBZvk1a3cPYE6cnZQz02tnaMRDVi
-         +FGa61Ygc4ocEZO9TlQ7uIoKq+uMYDELXpezoPQu84aybtBPp7IHfwTfxAKM1SnZiZeb
-         oh8g==
-X-Gm-Message-State: AC+VfDwuiq77QYqDCpSrsPe7bx7S7sXqfBg6i99QxNHKo8Af3khvwWHK
-        MvdphB2+YcnPZn2wtIlgz02stIuVyKZ40SYuEQ==
-X-Google-Smtp-Source: ACHHUZ5UZgVYlUWSYfljNriuMM/SFMypamtYGG6ajWbl9pU1XKFK+BBOu36l6aAPASb6U7Gvlg5sOoRl6fqEbUEr5Q==
-X-Received: from ackerleytng-ctop.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:13f8])
- (user=ackerleytng job=sendgmr) by 2002:a05:6a00:13a6:b0:657:f26e:b025 with
- SMTP id t38-20020a056a0013a600b00657f26eb025mr1318192pfg.6.1686078288430;
- Tue, 06 Jun 2023 12:04:48 -0700 (PDT)
-Date:   Tue,  6 Jun 2023 19:04:04 +0000
-In-Reply-To: <cover.1686077275.git.ackerleytng@google.com>
-Mime-Version: 1.0
-References: <cover.1686077275.git.ackerleytng@google.com>
-X-Mailer: git-send-email 2.41.0.rc0.172.g3f132b7071-goog
-Message-ID: <3ae2d02c45c5fb91b490b1674165c733efb871d6.1686077275.git.ackerleytng@google.com>
-Subject: [RFC PATCH 19/19] KVM: selftests: Update test for various private
- memory backing source types
-From:   Ackerley Tng <ackerleytng@google.com>
-To:     akpm@linux-foundation.org, mike.kravetz@oracle.com,
-        muchun.song@linux.dev, pbonzini@redhat.com, seanjc@google.com,
-        shuah@kernel.org, willy@infradead.org
-Cc:     brauner@kernel.org, chao.p.peng@linux.intel.com,
-        coltonlewis@google.com, david@redhat.com, dhildenb@redhat.com,
-        dmatlack@google.com, erdemaktas@google.com, hughd@google.com,
-        isaku.yamahata@gmail.com, jarkko@kernel.org, jmattson@google.com,
-        joro@8bytes.org, jthoughton@google.com, jun.nakajima@intel.com,
-        kirill.shutemov@linux.intel.com, liam.merwick@oracle.com,
-        mail@maciej.szmigiero.name, mhocko@suse.com, michael.roth@amd.com,
-        qperret@google.com, rientjes@google.com, rppt@kernel.org,
-        steven.price@arm.com, tabba@google.com, vannapurve@google.com,
-        vbabka@suse.cz, vipinsh@google.com, vkuznets@redhat.com,
-        wei.w.wang@intel.com, yu.c.zhang@linux.intel.com,
-        kvm@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
-        qemu-devel@nongnu.org, x86@kernel.org,
-        Ackerley Tng <ackerleytng@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S239550AbjFGO3h (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 7 Jun 2023 10:29:37 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 403F31AE;
+        Wed,  7 Jun 2023 07:29:36 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C75E06100A;
+        Wed,  7 Jun 2023 14:29:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41D04C433EF;
+        Wed,  7 Jun 2023 14:29:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1686148175;
+        bh=1oDAIKxqgonf8S4LzAAuCNQtNjMJBLSiZTFS9TB1jIU=;
+        h=From:To:Cc:Subject:Date:From;
+        b=YkDMsm6w7qGxO3FxoqRiqvl4sX8dmEbs9oajMHBUjJdvy3sNOV0h2g1z6zYtoaO6y
+         F+VUHFf4V1ReVfsVnktrUVqJgszeG8b+ocxybxUNsPXGoC+Tx0uYyPaUwcuAZ7+gRZ
+         69hKhJAhjFL1MNCc92xGVPP8ICfnBRUbzuQuZiqQFWelr4eV06qitlMbneZXW5uWQz
+         uFs4R5l7UmAJHmF0CTYoEDhm7hSq4oIv8Wa3FvJAHqqzCH0/6uHO773Ly1bz/61YJZ
+         oAczK+G2I9Psnt7Jv/HeFkaqBTL0VLmntQsqwOfzvvr/3tW3HDpwV5bcVgkMKJhvFj
+         PEU5tC0IK0smQ==
+From:   Arnd Bergmann <arnd@kernel.org>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Richard Henderson <richard.henderson@linaro.org>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>,
+        Kees Cook <keescook@chromium.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Borislav Petkov <bp@suse.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Jann Horn <jannh@google.com>, linux-alpha@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
+Subject: [PATCH] syscalls: add sys_ni_posix_timers prototype
+Date:   Wed,  7 Jun 2023 16:28:45 +0200
+Message-Id: <20230607142925.3126422-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Update private_mem_conversions_test for various private memory backing
-source types
+From: Arnd Bergmann <arnd@arndb.de>
 
-Signed-off-by: Ackerley Tng <ackerleytng@google.com>
+The sys_ni_posix_timers() definition causes a warning when
+the declaration is missing, so this needs to be added
+along with the normal syscalls, outside of the #ifdef.
+
+kernel/time/posix-stubs.c:26:17: error: no previous prototype for 'sys_ni_posix_timers' [-Werror=missing-prototypes]
+
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- .../kvm/x86_64/private_mem_conversions_test.c | 38 ++++++++++++++-----
- 1 file changed, 28 insertions(+), 10 deletions(-)
+I missed sending this out in the initial submission of my Wmissing-prototype patches
+---
+ arch/alpha/kernel/osf_sys.c | 2 --
+ include/linux/syscalls.h    | 1 +
+ kernel/time/posix-stubs.c   | 1 +
+ 3 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tools/testing/selftests/kvm/x86_64/private_mem_conversions_test.c b/tools/testing/selftests/kvm/x86_64/private_mem_conversions_test.c
-index 6a353cf64f52..27a7e5099b7b 100644
---- a/tools/testing/selftests/kvm/x86_64/private_mem_conversions_test.c
-+++ b/tools/testing/selftests/kvm/x86_64/private_mem_conversions_test.c
-@@ -240,14 +240,15 @@ static void *__test_mem_conversions(void *__vcpu)
- 	}
+diff --git a/arch/alpha/kernel/osf_sys.c b/arch/alpha/kernel/osf_sys.c
+index 2a9a877a05083..d98701ee36c6a 100644
+--- a/arch/alpha/kernel/osf_sys.c
++++ b/arch/alpha/kernel/osf_sys.c
+@@ -1014,8 +1014,6 @@ SYSCALL_DEFINE2(osf_settimeofday, struct timeval32 __user *, tv,
+ 	return do_sys_settimeofday64(tv ? &kts : NULL, tz ? &ktz : NULL);
  }
  
--static void test_mem_conversions(enum vm_mem_backing_src_type src_type, uint32_t nr_vcpus,
--				 uint32_t nr_memslots)
-+static void test_mem_conversions(enum vm_mem_backing_src_type src_type,
-+				 enum vm_pmem_backing_src_type pmem_src_type,
-+				 uint32_t nr_vcpus, uint32_t nr_memslots)
+-asmlinkage long sys_ni_posix_timers(void);
+-
+ SYSCALL_DEFINE2(osf_utimes, const char __user *, filename,
+ 		struct timeval32 __user *, tvs)
  {
--	const size_t memfd_size = PER_CPU_DATA_SIZE * nr_vcpus;
- 	struct kvm_vcpu *vcpus[KVM_MAX_VCPUS];
- 	pthread_t threads[KVM_MAX_VCPUS];
- 	struct kvm_vm *vm;
- 	int memfd, i, r;
-+	size_t pmem_aligned_size, memfd_size;
- 	size_t test_unit_size;
+diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+index 4627b9cf4b4d9..712f4e1dc6a69 100644
+--- a/include/linux/syscalls.h
++++ b/include/linux/syscalls.h
+@@ -1286,6 +1286,7 @@ asmlinkage long sys_ni_syscall(void);
  
- 	const struct vm_shape shape = {
-@@ -270,21 +271,32 @@ static void test_mem_conversions(enum vm_mem_backing_src_type src_type, uint32_t
- 		 * Allocate enough memory so that each vCPU's chunk of memory can be
- 		 * naturally aligned with respect to the size of the backing store.
- 		 */
--		test_unit_size = align_up(PER_CPU_DATA_SIZE, get_backing_src_pagesz(src_type));
-+		test_unit_size = align_up(PER_CPU_DATA_SIZE,
-+					  max(get_backing_src_pagesz(src_type),
-+					      get_pmem_backing_src_pagesz(pmem_src_type)));
- 	}
+ #endif /* CONFIG_ARCH_HAS_SYSCALL_WRAPPER */
  
--	memfd = vm_create_guest_memfd(vm, memfd_size, 0);
-+	pmem_aligned_size = PER_CPU_DATA_SIZE;
-+	if (nr_memslots > 1) {
-+		pmem_aligned_size = align_up(PER_CPU_DATA_SIZE,
-+					     get_pmem_backing_src_pagesz(pmem_src_type));
-+	}
-+
-+	memfd_size = pmem_aligned_size * nr_vcpus;
-+	memfd = vm_create_guest_memfd(vm, memfd_size,
-+				      vm_pmem_backing_src_alias(pmem_src_type)->flag);
- 	for (i = 0; i < nr_memslots; i++) {
- 		uint64_t gpa =  BASE_DATA_GPA + i * test_unit_size;
--		uint64_t npages = PER_CPU_DATA_SIZE / vm->page_size;
-+		uint64_t npages = pmem_aligned_size / vm->page_size;
++asmlinkage long sys_ni_posix_timers(void);
  
- 		/* Make sure the memslot is large enough for all the test units */
- 		if (nr_memslots == 1)
- 			npages *= nr_vcpus;
+ /*
+  * Kernel code should not call syscalls (i.e., sys_xyzyyz()) directly.
+diff --git a/kernel/time/posix-stubs.c b/kernel/time/posix-stubs.c
+index 828aeecbd1e8a..39769b2d1005e 100644
+--- a/kernel/time/posix-stubs.c
++++ b/kernel/time/posix-stubs.c
+@@ -16,6 +16,7 @@
+ #include <linux/posix-timers.h>
+ #include <linux/time_namespace.h>
+ #include <linux/compat.h>
++#include <linux/syscalls.h>
  
-+		/* Offsets must be aligned to private mem's page size */
- 		vm_mem_add(vm, src_type, gpa,
- 			   BASE_DATA_SLOT + i, npages,
--			   KVM_MEM_PRIVATE, memfd, PER_CPU_DATA_SIZE * i);
-+			   KVM_MEM_PRIVATE, memfd, pmem_aligned_size * i);
- 	}
- 
- 	for (i = 0; i < nr_vcpus; i++) {
-@@ -324,10 +336,12 @@ static void test_mem_conversions(enum vm_mem_backing_src_type src_type, uint32_t
- static void usage(const char *cmd)
- {
- 	puts("");
--	printf("usage: %s [-h] [-m] [-s mem_type] [-n nr_vcpus]\n", cmd);
-+	printf("usage: %s [-h] [-m] [-s mem_type] [-p pmem_type] [-n nr_vcpus]\n", cmd);
- 	puts("");
- 	backing_src_help("-s");
- 	puts("");
-+	pmem_backing_src_help("-p");
-+	puts("");
- 	puts(" -n: specify the number of vcpus (default: 1)");
- 	puts("");
- 	puts(" -m: use multiple memslots (default: 1)");
-@@ -337,6 +351,7 @@ static void usage(const char *cmd)
- int main(int argc, char *argv[])
- {
- 	enum vm_mem_backing_src_type src_type = DEFAULT_VM_MEM_SRC;
-+	enum vm_pmem_backing_src_type pmem_src_type = DEFAULT_VM_PMEM_SRC;
- 	bool use_multiple_memslots = false;
- 	uint32_t nr_vcpus = 1;
- 	uint32_t nr_memslots;
-@@ -345,11 +360,14 @@ int main(int argc, char *argv[])
- 	TEST_REQUIRE(kvm_has_cap(KVM_CAP_EXIT_HYPERCALL));
- 	TEST_REQUIRE(kvm_check_cap(KVM_CAP_VM_TYPES) & BIT(KVM_X86_PROTECTED_VM));
- 
--	while ((opt = getopt(argc, argv, "hms:n:")) != -1) {
-+	while ((opt = getopt(argc, argv, "hms:p:n:")) != -1) {
- 		switch (opt) {
- 		case 's':
- 			src_type = parse_backing_src_type(optarg);
- 			break;
-+		case 'p':
-+			pmem_src_type = parse_pmem_backing_src_type(optarg);
-+			break;
- 		case 'n':
- 			nr_vcpus = atoi_positive("nr_vcpus", optarg);
- 			break;
-@@ -365,7 +383,7 @@ int main(int argc, char *argv[])
- 
- 	nr_memslots = use_multiple_memslots ? nr_vcpus : 1;
- 
--	test_mem_conversions(src_type, nr_vcpus, nr_memslots);
-+	test_mem_conversions(src_type, pmem_src_type, nr_vcpus, nr_memslots);
- 
- 	return 0;
- }
+ #ifdef CONFIG_ARCH_HAS_SYSCALL_WRAPPER
+ /* Architectures may override SYS_NI and COMPAT_SYS_NI */
 -- 
-2.41.0.rc0.172.g3f132b7071-goog
+2.39.2
 
