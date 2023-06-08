@@ -2,145 +2,233 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B9811727336
-	for <lists+linux-api@lfdr.de>; Thu,  8 Jun 2023 01:40:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DDF2C72762E
+	for <lists+linux-api@lfdr.de>; Thu,  8 Jun 2023 06:38:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233424AbjFGXk3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 7 Jun 2023 19:40:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48772 "EHLO
+        id S234078AbjFHEiS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 8 Jun 2023 00:38:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51944 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233518AbjFGXkU (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 7 Jun 2023 19:40:20 -0400
-Received: from sonic311-31.consmr.mail.ne1.yahoo.com (sonic311-31.consmr.mail.ne1.yahoo.com [66.163.188.212])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F5AB26BD
-        for <linux-api@vger.kernel.org>; Wed,  7 Jun 2023 16:39:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1686181198; bh=MLg3eEIQ6oxa5ubin2En3vP+BFYlpn63vPZqcYHn8/c=; h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To; b=L/8MkD72LF/Lc0nlDvMsqldR6tGxbQz3xtUxMnnexoh4/yczWF813WrtkaYNqlNBwO834Bu8cJpigYShXpbYLcHyoOyyn69fGBwM9WnG1SEGj419LTUK5QsAtlFaUGTVxfo7bFKY3MoHw1BmflWrLg7ZiXIwB3FFigweISoJhMac99mHDl/aaRklQJ397FvsEuVptW0EhNRZOURnWXEUfPHep4ZX/jU1CB55Ae1AZ1mkqUbtY7YmaL0GUGzjeaARxHgq9WteMManQ1IW/+JAf7M/R+oK07TXWm4ce1QaM+Y8+C+lCeG2Xwk3uiEqimjFFMl4cw8E0T/wMFmiL4/pQQ==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1686181198; bh=T8klwkrVKqfnlECaKgGkKbooPwQxUIVUUHSupnXE/Fy=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=EYSNA8nZ62hxDRua+4mKwljUmw7Pvie0EdDDL3p4swLATTSJVJJCeKdcbDDA4sutujm4oLRTWVELJkbBxglHqB8vsww5njtMUS+zL8JvPdrSxuMQV3Thgsu8TCSWHK3XKKRpMOlG9ZVGqQBO4V11hwghzbqZ2uQhRQF5yEw0Hl9iX3sNadMJfotyydIkN7eQi69GWN1hZUsOwIRQkFSfHO4yttTJG0PrMR/qy6/5JRv71D71qTKD2CS89ah04544v/rqYQkPSzoDGEb2rIXvRDQ6CJJYMJKMl8t4FXUDTv+M72dEfgUyoNPSpAe6/+yOTRziURHScPcoYC6mghzp3Q==
-X-YMail-OSG: 9DZ00UIVM1nf7gHNoSEJ_nQWRcW9g8Xfe_zpCClhZWdUoGLj_c_czAmMX82snG.
- EtXqu9.iP68RkKlYIDDaphvlBZCmGws9fbP4QhqaDyVLSzVGNWxXLVb2MOQVcAry.HF3I52WhI4D
- PKG_tAo_sviZephuG5VTSLYTBMsMPY7xJvJk25w60qIqC62H6UXeYqeg0HdIVd.Us.aysoxmkPxf
- ogF_ILbmys0RhgLlVtr.EhhS7BGJSVOkaTxA02G9S5n1lgQbBXqsedAJ64mkzCG3jQCOJjlmx.Dv
- 6y_H7TQGYRRVQql5NQrONSRPZ2YpzkfmqxzDHMv_objgDooc_lrUUzf8UHdpuaPVqY6rpNeU8TOZ
- e5mLjKbYPwp49p37sJpsBPcMNyGHBq7U6hkGLPix84zf1ipMbjOLYfpF7B5a3LHXjAAfHWrvqCcN
- lMffFRTxLeBBjN.vsgm0nBrL5IJUQKGsaie0Q6oezroJWGJ.OR3NL2frCfA4cal9wDEGRkRWGcfW
- iO24EvJ5RL8HkIaPN1DG3y2Io0kWag1b9epoONUrA6zggtd5U479RiczA0vul9evpicsvAMpHbbl
- ITDGSLv5cEu69DRFUYMOGZf6DNhgBhH_Tor9.7gt.FCYxWjpL0rPtCO_CQv1dTSYnJqAY_ypMUad
- hdqW2asKRPaC9dw0zJ22uYfuvf5GgkSfcFJFWzvsoG3eBywJF1rpSfcwKE45ppUV5rGRnJjvpXDQ
- 9YFOhypYjgDgZyxH3Ewm.JKJF77YpUouBT9fDtWFqBqV7U5gsoQlW4Vg5Q3npVsnXm9C34lybazL
- P_XpmC2d9NjTPUR3fpDLSYvH26OBYeetWh2ewrfV7kPWSNSOIy5SlP7iHv7_WaAxbsrtR2msS6AC
- Qtb8yxIFH0TP2wE2hd5QJxaKIQGNJm34bej_u.2QpkjRUr1pgAnniF22_EWBrhrhDGqjB55eJZLt
- jgIDr.eiHxoKMfKaBv9vwRs65eygNRDNqIVaAixkt7ho3DiqRTw5CJeJPIIjy8auG2t9iqEo.UcV
- KOHF1yx.J.SL2aATCAltOtvp2uS.kPXV.DB..aaBSogrOBD2WdgGcjKcDrhZNrdy.2zvEObvi_DW
- FvFj1lkvebih76k2HCiuOv_FfcriX48tFjqgAuAOW43.yFnk_PyvjKXBveAEHGIEnURD7jDFcDBY
- yJyY.ndXsula46PI7Pc9Tra7cSC3AY6Ti5wi0fc0d.aJM9YVKQ1FPfjw8CL.q..lJULUpn1Uksk5
- gn.wxf2KdRODJ0Tk7vSUBzHRpsHtuGGvZLnA8DPJypNEAOqbOgONzd5iwyhi8WRlR0OactKXuB3T
- t5wVUbhSU9WLwyDUAxoDhScJLYK_eyiG_HiTh8I96ftIMPwYStsnRLQQt.3erIT31LU105kO0gwf
- 1nDpz5vW6jtPcesr6lvz4xm95vysDUZr7_1z_fRF4DqY2vPsYuPsnBzhAXSBEleiGrdBZtt0lWtZ
- P4qbTLNvvnrISQM6OmOUHXactFUmSLnqmgW80oUX9QFPqsb3DQWw5pxe0j7_4dECibAiaJPrUK5K
- 8yowLBcUFs5iF5EhnPGh4.03qSKGEbah82axnlMqA.Xl.iPvq0vsDEfO8dWTfcWRkq1LaIkOo4lj
- kuKI9JoK0P9MAdgThuSvlb6hp8s50ykZc_dc606j_HFoUXT_T2YaXWE1Y_gC1fpK53FfW8xrbgul
- dvsVCquT88yypSo6va9qg42R3I3U7ks7yspn2CQodLJ8gu4NOe_Fwnt105YHjmWY9gZnvUmzwLJr
- f5SLOU4QgvMsJ9lCMhRSJcS4cZ841PgNTes5Yx.mi1E3Kl0Lr7Ic40allvm.2TfbQqVovCjkvyq6
- 7l.Ot0Im08EswnGuamVZUu6DiINcXAgx54rBdLdtqPOTnGZCbFe4KAclmZETJWuumgxWHyLva.Tb
- 1Da6hr0DzkMSiw5IJr_xNJLJtuAkXgIxghOKuoZRP1uow0vJI2q2YEPdNdPw2MlGupEMOJA9hWqC
- y9rohL3BVno3vrHQeyTklM8uzKagPnjJ2mvC7LFbGqqqFjRcmEmUyfHyhb7D33Pllt.a4iPvD5Yu
- eiHRSt75FCH4EzEmyzwCMneLEDQKlfHoIYNDr7sc5po5FVzUIiQP2pVI1E_fMSj4y1h2wdLD3ovs
- TVLef8m_Ug0gSLcpzFYt52HToxDS4pOwtBACGwxqOhczApOKFskW01vy1UVEyXdtV.PcYTwRqfWb
- V_gZQdnheV3reVNzsB.CWOm16ZZPXQVi.VzGIpWDiSHsko9r2PMZ.ORE_bF6AG0OdJwdYwOa.auz
- QPoT0s_qdpN4ooTJffd0v
-X-Sonic-MF: <casey@schaufler-ca.com>
-X-Sonic-ID: aa61df0c-dead-4c2e-8f62-dac88edc3df4
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic311.consmr.mail.ne1.yahoo.com with HTTP; Wed, 7 Jun 2023 23:39:58 +0000
-Received: by hermes--production-ne1-574d4b7954-xz2cn (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 722d8a43fe0be971fa9347acc11d3ac0;
-          Wed, 07 Jun 2023 23:39:57 +0000 (UTC)
-Message-ID: <3319126a-c5b5-c9db-dddb-7ed169ac7e83@schaufler-ca.com>
-Date:   Wed, 7 Jun 2023 16:39:55 -0700
+        with ESMTP id S232805AbjFHEiR (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 8 Jun 2023 00:38:17 -0400
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04A7C270F;
+        Wed,  7 Jun 2023 21:38:14 -0700 (PDT)
+Received: by mail-pl1-x634.google.com with SMTP id d9443c01a7336-1b04706c974so773905ad.2;
+        Wed, 07 Jun 2023 21:38:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686199093; x=1688791093;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=wTSOFzhf2LvbO/f18aHFxbTWWRqmnOPeGB/+V0fARF0=;
+        b=Hxdi6NBuMPQ1mGOD4h2MUw/VQWK48IDZeu68Ch1Zw7dMvFBMTi+oerNB09iE7hyLiL
+         vZ0JMywmm6m+UsQEI1Czocd7TWBP1GAaxUsFPK+nwoIo68zYSQaicYgA0AVVtdaN3hxC
+         ww8s/VI27frfrftXNr26ygj8NnSjeIzcvZ8iaTXQqW3fRxdM/14NiZrIbUqm8cOTy3LW
+         L1Sla6wDUf4ttNoARfkL+CJcES8DNVoK1zzkKGqIBe/8c99dd7lJzErerlGCF9oCMXbU
+         5ByvqdCsGi9NSNzjxDUbma1aWLio3t2DutLJIIpzM6s13qmPK9V+lg37S0zH1slnHrJ2
+         x3yA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686199093; x=1688791093;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wTSOFzhf2LvbO/f18aHFxbTWWRqmnOPeGB/+V0fARF0=;
+        b=TbZm0hzT+2ocyUFweUYSLeBhjToz44uBXEUqfq5kg5MdQTmVZ84GtahvstGKTdqpND
+         90sIr6t+ooY2sKiirqjPfdBhABzYdS4gY9WtlCoSzDWDN4FLlrFUo0irmcumJs/kmit7
+         X0mqWV7PDcwifXXUBI3Kor1WStVU1UD6Fyi1s4X5Zf+lVESAecRCpKuaNosNPAlzwoAi
+         z2CjN2eq/yeuSnUWty9Olt0i42rwgNzmCx/85awWrGBEg8PY3LyHFdpl+aQJ91X0jsIN
+         XqKnR7SpzCH9UEtpWZcQ6E/exA7qX4BuSMbmjemREN3tOH7e7MebRJ+i2WOmK4hIajlS
+         Y3pQ==
+X-Gm-Message-State: AC+VfDypcZXEotqzo5HEKKfLg6RPKPlt0MjtHNEMF7Q29MewwfpvK0hq
+        HBEKgw/My0TSkTZN9aEQdzI=
+X-Google-Smtp-Source: ACHHUZ4JLtQp1wbJvbBxyqfIUoQ7eVqhYzAImG0w4ZtrnuzeHLvHZOZu0NGlyX0Ex0Nr8vyAtJapgw==
+X-Received: by 2002:a17:903:18c:b0:1b1:4801:f516 with SMTP id z12-20020a170903018c00b001b14801f516mr8392723plg.68.1686199093206;
+        Wed, 07 Jun 2023 21:38:13 -0700 (PDT)
+Received: from localhost ([192.55.54.50])
+        by smtp.gmail.com with ESMTPSA id n10-20020a170902e54a00b001b01448ba72sm323640plf.215.2023.06.07.21.38.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Jun 2023 21:38:12 -0700 (PDT)
+Date:   Wed, 7 Jun 2023 21:38:10 -0700
+From:   Isaku Yamahata <isaku.yamahata@gmail.com>
+To:     Ackerley Tng <ackerleytng@google.com>
+Cc:     akpm@linux-foundation.org, mike.kravetz@oracle.com,
+        muchun.song@linux.dev, pbonzini@redhat.com, seanjc@google.com,
+        shuah@kernel.org, willy@infradead.org, brauner@kernel.org,
+        chao.p.peng@linux.intel.com, coltonlewis@google.com,
+        david@redhat.com, dhildenb@redhat.com, dmatlack@google.com,
+        erdemaktas@google.com, hughd@google.com, isaku.yamahata@gmail.com,
+        jarkko@kernel.org, jmattson@google.com, joro@8bytes.org,
+        jthoughton@google.com, jun.nakajima@intel.com,
+        kirill.shutemov@linux.intel.com, liam.merwick@oracle.com,
+        mail@maciej.szmigiero.name, mhocko@suse.com, michael.roth@amd.com,
+        qperret@google.com, rientjes@google.com, rppt@kernel.org,
+        steven.price@arm.com, tabba@google.com, vannapurve@google.com,
+        vbabka@suse.cz, vipinsh@google.com, vkuznets@redhat.com,
+        wei.w.wang@intel.com, yu.c.zhang@linux.intel.com,
+        kvm@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
+        qemu-devel@nongnu.org, x86@kernel.org
+Subject: Re: [RFC PATCH 00/19] hugetlb support for KVM guest_mem
+Message-ID: <20230608043810.GJ2244082@ls.amr.corp.intel.com>
+References: <cover.1686077275.git.ackerleytng@google.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v10 10/11] SELinux: Add selfattr hooks
-Content-Language: en-US
-To:     Paul Moore <paul@paul-moore.com>,
-        linux-security-module@vger.kernel.org
-Cc:     jmorris@namei.org, keescook@chromium.org,
-        john.johansen@canonical.com, penguin-kernel@i-love.sakura.ne.jp,
-        stephen.smalley.work@gmail.com, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, mic@digikod.net,
-        selinux@vger.kernel.org, Casey Schaufler <casey@schaufler-ca.com>
-References: <20230428203417.159874-11-casey@schaufler-ca.com>
- <b09b591926e0f297fe0a3e9d8fcf3a6a.paul@paul-moore.com>
-From:   Casey Schaufler <casey@schaufler-ca.com>
-In-Reply-To: <b09b591926e0f297fe0a3e9d8fcf3a6a.paul@paul-moore.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Mailer: WebService/1.1.21516 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <cover.1686077275.git.ackerleytng@google.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 6/7/2023 3:32 PM, Paul Moore wrote:
-> On Apr 28, 2023 Casey Schaufler <casey@schaufler-ca.com> wrote:
->> Add hooks for setselfattr and getselfattr. These hooks are not very
->> different from their setprocattr and getprocattr equivalents, and
->> much of the code is shared.
->>
->> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
->> Cc: selinux@vger.kernel.org
->> Cc: Paul Moore <paul@paul-moore.com>
->> ---
->>  security/selinux/hooks.c | 154 +++++++++++++++++++++++++++++++--------
->>  1 file changed, 124 insertions(+), 30 deletions(-)
->>
->> diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
->> index 2ee92d3fb79d..e78b955e04f8 100644
->> --- a/security/selinux/hooks.c
->> +++ b/security/selinux/hooks.c
->> @@ -6542,6 +6559,81 @@ static int selinux_setprocattr(const char *name, void *value, size_t size)
->>  	return error;
->>  }
->>  
->> +static int selinux_getselfattr(unsigned int attr, struct lsm_ctx __user *ctx,
->> +			       size_t *size, u32 flags)
->> +{
->> +	char *value;
->> +	size_t total_len;
->> +	int len;
->> +	int rc;
->> +
->> +	len = selinux_lsm_getattr(attr, current, &value);
->> +	if (len < 0)
->> +		return len;
->> +
->> +	total_len = ALIGN(struct_size(ctx, ctx, len), 8);
->> +
->> +	if (total_len > *size)
->> +		rc = -E2BIG;
-> Hmm.  Since we need to calculate the aligned @total_len value in the
-> LSM specific code, perhaps it doesn't make sense to also do the
-> alignment in lsm_fill_user_ctx().  My apologies, I know I was the one
-> who suggested doing the alignment in a common place previously.
+On Tue, Jun 06, 2023 at 07:03:45PM +0000,
+Ackerley Tng <ackerleytng@google.com> wrote:
 
-Some future user of lsm_fill_user_ctx() may not need to do the
-calculation, so I would be inclined to leave it here. I'm thinking
-SO_PEERCONTEXT, or the like. But I'll go with whatever gets the
-patchset moving forward.
+> Hello,
+> 
+> This patchset builds upon a soon-to-be-published WIP patchset that Sean
+> published at https://github.com/sean-jc/linux/tree/x86/kvm_gmem_solo, mentioned
+> at [1].
+> 
+> The tree can be found at:
+> https://github.com/googleprodkernel/linux-cc/tree/gmem-hugetlb-rfc-v1
+> 
+> In this patchset, hugetlb support for KVM's guest_mem (aka gmem) is introduced,
+> allowing VM private memory (for confidential computing) to be backed by hugetlb
+> pages.
+> 
+> guest_mem provides userspace with a handle, with which userspace can allocate
+> and deallocate memory for confidential VMs without mapping the memory into
+> userspace.
+> 
+> Why use hugetlb instead of introducing a new allocator, like gmem does for 4K
+> and transparent hugepages?
+> 
+> + hugetlb provides the following useful functionality, which would otherwise
+>   have to be reimplemented:
+>     + Allocation of hugetlb pages at boot time, including
+>         + Parsing of kernel boot parameters to configure hugetlb
+>         + Tracking of usage in hstate
+>         + gmem will share the same system-wide pool of hugetlb pages, so users
+>           don't have to have separate pools for hugetlb and gmem
+>     + Page accounting with subpools
+>         + hugetlb pages are tracked in subpools, which gmem uses to reserve
+>           pages from the global hstate
+>     + Memory charging
+>         + hugetlb provides code that charges memory to cgroups
+>     + Reporting: hugetlb usage and availability are available at /proc/meminfo,
+>       etc
+> 
+> The first 11 patches in this patchset is a series of refactoring to decouple
+> hugetlb and hugetlbfs.
+> 
+> The central thread binding the refactoring is that some functions (like
+> inode_resv_map(), inode_subpool(), inode_hstate(), etc) rely on a hugetlbfs
+> concept, that the resv_map, subpool, hstate, are in a specific field in a
+> hugetlb inode.
+> 
+> Refactoring to parametrize functions by hstate, subpool, resv_map will allow
+> hugetlb to be used by gmem and in other places where these data structures
+> aren't necessarily stored in the same positions in the inode.
+> 
+> The refactoring proposed here is just the minimum required to get a
+> proof-of-concept working with gmem. I would like to get opinions on this
+> approach before doing further refactoring. (See TODOs)
+> 
+> TODOs:
+> 
+> + hugetlb/hugetlbfs refactoring
+>     + remove_inode_hugepages() no longer needs to be exposed, it is hugetlbfs
+>       specific and used only in inode.c
+>     + remove_mapping_hugepages(), remove_inode_single_folio(),
+>       hugetlb_unreserve_pages() shouldn't need to take inode as a parameter
+>         + Updating inode->i_blocks can be refactored to a separate function and
+>           called from hugetlbfs and gmem
+>     + alloc_hugetlb_folio_from_subpool() shouldn't need to be parametrized by
+>       vma
+>     + hugetlb_reserve_pages() should be refactored to be symmetric with
+>       hugetlb_unreserve_pages()
+>         + It should be parametrized by resv_map
+>         + alloc_hugetlb_folio_from_subpool() could perhaps use
+>           hugetlb_reserve_pages()?
+> + gmem
+>     + Figure out if resv_map should be used by gmem at all
+>         + Probably needs more refactoring to decouple resv_map from hugetlb
+>           functions
 
->
->> +	else if (ctx)
->> +		rc = lsm_fill_user_ctx(ctx, value, len, LSM_ID_SELINUX, 0);
->> +	else
->> +		rc = 1;
->> +
->> +	*size = total_len;
->> +	if (rc < 0)
->> +		return rc;
->> +	return 1;
->> +}
+Hi. If kvm gmem is compiled as kernel module, many symbols are failed to link.
+You need to add EXPORT_SYMBOL{,_GPL} for exported symbols.
+Or compile it to kernel instead of module?
+
+Thanks,
+
+> Questions for the community:
+> 
+> 1. In this patchset, every gmem file backed with hugetlb is given a new
+>    subpool. Is that desirable?
+>     + In hugetlbfs, a subpool always belongs to a mount, and hugetlbfs has one
+>       mount per hugetlb size (2M, 1G, etc)
+>     + memfd_create(MFD_HUGETLB) effectively returns a full hugetlbfs file, so it
+>       (rightfully) uses the hugetlbfs kernel mounts and their subpools
+>     + I gave each file a subpool mostly to speed up implementation and still be
+>       able to reserve hugetlb pages from the global hstate based on the gmem
+>       file size.
+>     + gmem, unlike hugetlbfs, isn't meant to be a full filesystem, so
+>         + Should there be multiple mounts, one for each hugetlb size?
+>         + Will the mounts be initialized on boot or on first gmem file creation?
+>         + Or is one subpool per gmem file fine?
+> 2. Should resv_map be used for gmem at all, since gmem doesn't allow userspace
+>    reservations?
+> 
+> [1] https://lore.kernel.org/lkml/ZEM5Zq8oo+xnApW9@google.com/
+> 
+> ---
+> 
+> Ackerley Tng (19):
+>   mm: hugetlb: Expose get_hstate_idx()
+>   mm: hugetlb: Move and expose hugetlbfs_zero_partial_page
+>   mm: hugetlb: Expose remove_inode_hugepages
+>   mm: hugetlb: Decouple hstate, subpool from inode
+>   mm: hugetlb: Allow alloc_hugetlb_folio() to be parametrized by subpool
+>     and hstate
+>   mm: hugetlb: Provide hugetlb_filemap_add_folio()
+>   mm: hugetlb: Refactor vma_*_reservation functions
+>   mm: hugetlb: Refactor restore_reserve_on_error
+>   mm: hugetlb: Use restore_reserve_on_error directly in filesystems
+>   mm: hugetlb: Parametrize alloc_hugetlb_folio_from_subpool() by
+>     resv_map
+>   mm: hugetlb: Parametrize hugetlb functions by resv_map
+>   mm: truncate: Expose preparation steps for truncate_inode_pages_final
+>   KVM: guest_mem: Refactor kvm_gmem fd creation to be in layers
+>   KVM: guest_mem: Refactor cleanup to separate inode and file cleanup
+>   KVM: guest_mem: hugetlb: initialization and cleanup
+>   KVM: guest_mem: hugetlb: allocate and truncate from hugetlb
+>   KVM: selftests: Add basic selftests for hugetlbfs-backed guest_mem
+>   KVM: selftests: Support various types of backing sources for private
+>     memory
+>   KVM: selftests: Update test for various private memory backing source
+>     types
+> 
+>  fs/hugetlbfs/inode.c                          | 102 ++--
+>  include/linux/hugetlb.h                       |  86 ++-
+>  include/linux/mm.h                            |   1 +
+>  include/uapi/linux/kvm.h                      |  25 +
+>  mm/hugetlb.c                                  | 324 +++++++-----
+>  mm/truncate.c                                 |  24 +-
+>  .../testing/selftests/kvm/guest_memfd_test.c  |  33 +-
+>  .../testing/selftests/kvm/include/test_util.h |  14 +
+>  tools/testing/selftests/kvm/lib/test_util.c   |  74 +++
+>  .../kvm/x86_64/private_mem_conversions_test.c |  38 +-
+>  virt/kvm/guest_mem.c                          | 488 ++++++++++++++----
+>  11 files changed, 882 insertions(+), 327 deletions(-)
+> 
 > --
-> paul-moore.com
+> 2.41.0.rc0.172.g3f132b7071-goog
+
+-- 
+Isaku Yamahata <isaku.yamahata@gmail.com>
