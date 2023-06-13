@@ -2,42 +2,38 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B49672E328
-	for <lists+linux-api@lfdr.de>; Tue, 13 Jun 2023 14:38:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1747D72E6DD
+	for <lists+linux-api@lfdr.de>; Tue, 13 Jun 2023 17:17:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234660AbjFMMiP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 13 Jun 2023 08:38:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42388 "EHLO
+        id S242460AbjFMPP4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 13 Jun 2023 11:15:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41368 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232792AbjFMMiO (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 13 Jun 2023 08:38:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F0A910CE
-        for <linux-api@vger.kernel.org>; Tue, 13 Jun 2023 05:37:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1686659855;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=+b1T4bP+M0GcWXoHUW/q06urYQjMJ7X0Y1cHVDwah1s=;
-        b=eSs5uxtTfphSReOWi++uIDuvFoDX7hm4bBsgldwwaWlquOg3A9fylXd0nj1N++HL5yWVYV
-        onqKuiR2xaHecNgl2OoSKqI78Hi+HqDzlux74NTIP5jpCi6TdtUFBYgWHaIHi/7UY5ZzmV
-        rwD6yjEI7jg2xd/5FA7MDkPM4GxJ3nQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-505-NQoKV6qBNHuOgzR9uwg-rw-1; Tue, 13 Jun 2023 08:37:31 -0400
-X-MC-Unique: NQoKV6qBNHuOgzR9uwg-rw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        with ESMTP id S240619AbjFMPPz (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 13 Jun 2023 11:15:55 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40BBD118;
+        Tue, 13 Jun 2023 08:15:46 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A8B3185A5BA;
-        Tue, 13 Jun 2023 12:37:27 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (unknown [10.2.16.18])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 652C41121315;
-        Tue, 13 Jun 2023 12:37:20 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Mark Brown <broonie@kernel.org>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 44AF662EA4;
+        Tue, 13 Jun 2023 15:15:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDDEFC433F0;
+        Tue, 13 Jun 2023 15:15:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1686669344;
+        bh=/rl23s8079daMc/L5xKX5HaxFBpVGzkrwZXcRhgrzUo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=d3rTI8P1B/ZQkdGFSOLmBZfHDc0v1qUD5ReW/6vIFrV7gdzkt39bZ2f0RXKWqznCP
+         mak7dZUd/dZLoXk+ERH4/Z/OVpJCuCJ7PW860UL+CYqnIPUIQyoC7A3eHZs9TtLQr5
+         RAcdJKHXTcUwcaKJtteJrUAQtkyCrHBuDuh0abZfKzX5Kg9LVT8FJEMv7uVGPNXJR/
+         NjAx9gqLWqqJe5OVYmp9Z/fs5MfA6nBNw0SBJf4UIrswTkNexThtVewvq7yM5qWje8
+         AQzZV7HczX0LzsXj27rMLtOQ5REMxlatnITnkxaqLgbald+Ki8/N1aEqxZnChb+Bp7
+         fqdF79Ugiy5uQ==
+Date:   Tue, 13 Jun 2023 16:15:31 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Florian Weimer <fweimer@redhat.com>
 Cc:     Rick Edgecombe <rick.p.edgecombe@intel.com>, x86@kernel.org,
         "H . Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -70,20 +66,20 @@ Cc:     Rick Edgecombe <rick.p.edgecombe@intel.com>, x86@kernel.org,
         Pengfei Xu <pengfei.xu@intel.com>
 Subject: Re: [PATCH v9 23/42] Documentation/x86: Add CET shadow stack
  description
+Message-ID: <1f04fa59-6ca9-4f18-b138-6c33e164b6c2@sirena.org.uk>
 References: <20230613001108.3040476-1-rick.p.edgecombe@intel.com>
-        <20230613001108.3040476-24-rick.p.edgecombe@intel.com>
-        <0b7cae2a-ae5b-40d8-9ae7-10aea5a57fd6@sirena.org.uk>
-Date:   Tue, 13 Jun 2023 14:37:18 +0200
-In-Reply-To: <0b7cae2a-ae5b-40d8-9ae7-10aea5a57fd6@sirena.org.uk> (Mark
-        Brown's message of "Tue, 13 Jun 2023 12:55:48 +0100")
-Message-ID: <87y1knh729.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ <20230613001108.3040476-24-rick.p.edgecombe@intel.com>
+ <0b7cae2a-ae5b-40d8-9ae7-10aea5a57fd6@sirena.org.uk>
+ <87y1knh729.fsf@oldenburg.str.redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="CHHivuSQNQZBIb3Y"
+Content-Disposition: inline
+In-Reply-To: <87y1knh729.fsf@oldenburg.str.redhat.com>
+X-Cookie: Not a flying toy.
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -91,32 +87,49 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-* Mark Brown:
 
-> On Mon, Jun 12, 2023 at 05:10:49PM -0700, Rick Edgecombe wrote:
->
->> +Enabling arch_prctl()'s
->> +=======================
->> +
->> +Elf features should be enabled by the loader using the below arch_prctl's. They
->> +are only supported in 64 bit user applications. These operate on the features
->> +on a per-thread basis. The enablement status is inherited on clone, so if the
->> +feature is enabled on the first thread, it will propagate to all the thread's
->> +in an app.
->
-> I appreciate it's very late in the development of this series but given
-> that there are very similar features on both arm64 and riscv would it
-> make sense to make these just regular prctl()s, arch_prctl() isn't used
-> on other architectures and it'd reduce the amount of arch specific work
-> that userspace needs to do if the interface is shared.
+--CHHivuSQNQZBIb3Y
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Has the Arm feature been fully disclosed?
+On Tue, Jun 13, 2023 at 02:37:18PM +0200, Florian Weimer wrote:
 
-I would expect the integration with stack switching and unwinding
-differs between architectures even if the core mechanism is similar.
-It's probably tempting to handle shadow stack placement differently,
-too.
+> > I appreciate it's very late in the development of this series but given
+> > that there are very similar features on both arm64 and riscv would it
+> > make sense to make these just regular prctl()s, arch_prctl() isn't used
+> > on other architectures and it'd reduce the amount of arch specific work
+> > that userspace needs to do if the interface is shared.
 
-Thanks,
-Florian
+> Has the Arm feature been fully disclosed?
 
+Unfortunately no, it's not yet been folded into the ARM.  The system
+registers and instructions are in the latest XML releases but that's not
+the full story.
+
+> I would expect the integration with stack switching and unwinding
+> differs between architectures even if the core mechanism is similar.
+> It's probably tempting to handle shadow stack placement differently,
+> too.
+
+Yeah, there's likely to be some differences (though given the amount of
+discussion on the x86 implementation I'm trying to follow the decisions
+there as much as reasonable on the basis that we should hopefully come
+to the same conclusions).  It seemed worth mentioning as a needless
+bump, OTOH I defninitely don't see it as critical.
+
+--CHHivuSQNQZBIb3Y
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmSIiBMACgkQJNaLcl1U
+h9DYKAf/Vz3wx22uDdLyCBpiG7PQdfsvx6Gsa3OkqligILXiOR/RqMgrq58a10CL
+1Y83LNYyJWuUw541NRW64qugDHs9G2NwIpxrgeD3mBQibPyJoJyFsEOia0VFOvB/
+jEcMyC/PLUl6W0LBP7P/tyDcf6UyZY5mhI32w4k5JHImx4iNswSTcS5bEMrkbs/J
+wcEZi8RTKT6XeWHM1Y7Ky3oQax1I8b1G3pzGa6WK0c5fNstN0QRY6hpMFKknp1sR
+yygF1dgoS3kygw4ZeBsmpkmGJKETDGsCpqteh2JQ7XV2i2kEJe8IeOD/NAcPl43V
+Sovm7EiMjuwISm0hPggYtQ+vsFGHrg==
+=tl5C
+-----END PGP SIGNATURE-----
+
+--CHHivuSQNQZBIb3Y--
