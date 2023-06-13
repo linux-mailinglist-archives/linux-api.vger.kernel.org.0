@@ -2,133 +2,239 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1522672EB12
-	for <lists+linux-api@lfdr.de>; Tue, 13 Jun 2023 20:36:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4773D72EB2E
+	for <lists+linux-api@lfdr.de>; Tue, 13 Jun 2023 20:43:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231624AbjFMSgJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 13 Jun 2023 14:36:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37788 "EHLO
+        id S229947AbjFMSml (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 13 Jun 2023 14:42:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240112AbjFMSgI (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 13 Jun 2023 14:36:08 -0400
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1B731BD3
-        for <linux-api@vger.kernel.org>; Tue, 13 Jun 2023 11:36:05 -0700 (PDT)
-Received: by mail-ed1-x529.google.com with SMTP id 4fb4d7f45d1cf-5184abe9e86so2782252a12.0
-        for <linux-api@vger.kernel.org>; Tue, 13 Jun 2023 11:36:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1686681364; x=1689273364;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=c13OqGThZo2X78u4bO5FLqEGNspfbVSXUjccgWtSHTY=;
-        b=ANE/1RdrK0/uJ1d5u1IF7bwC3IYLTZ+W1qlyDzVTjdfogmY4e8wJqRj5EirxvjDfcs
-         upZ5wa0jrZsBIhIPTwkBHkixnCO2mwhmJGfShW2G3Xs6wiDN1tXPIo7dYNAhD6hWsvZO
-         1e/VGLpglNr4Cp8rsiGoX4CsQDVS0yKCj6gvs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686681364; x=1689273364;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=c13OqGThZo2X78u4bO5FLqEGNspfbVSXUjccgWtSHTY=;
-        b=eDenFwJVZgn95RN8CwPYUuY6aC+s8x6N7yS3W69bGAFJwBOpbZuYIMgDq6ASnWK3Xw
-         4Rv4DUrbTVEEf0XVrjFWteU9BYUxwqXeBMWCQi+3XvBmtwLuNNNwoFTlXFN1oyvivU9P
-         8stjHyAktY6HxCvcJoZE1tuf25zmYEsPOZzAlnGrVD1xKoRSsMhN1bzGJ8h73rFMZbSA
-         cFxHJKtlDo4a2u9/mP2HC3oJKhcb8nb/5K+JzqumT5dY7ukCCl9a+7ltfV2EKMddBMVO
-         ttypCP/rdotA0I73pJYnyML7xIGNv85tb+7mOfXdllFZV6MpDIkJgnbithiUqftSUfsx
-         2m9w==
-X-Gm-Message-State: AC+VfDzy+sxWnM5PmgT1jCBsk4sCchHMp4HVkCRBSwkk9wIa4VYakaPc
-        Y3MNQlT6smQHhnQLiJhSjaPvu2moofIhnQJHcjUzX9U1
-X-Google-Smtp-Source: ACHHUZ54I3MJF82t3b/LvkdXh0UmQ99yhzBibJ7VByuzNFhb3b8zaYXYXjO+UPX6AfdlyJR/xVzJuw==
-X-Received: by 2002:a17:907:787:b0:970:71c:df58 with SMTP id xd7-20020a170907078700b00970071cdf58mr12580655ejb.42.1686681364253;
-        Tue, 13 Jun 2023 11:36:04 -0700 (PDT)
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com. [209.85.208.49])
-        by smtp.gmail.com with ESMTPSA id f21-20020a170906139500b009745482c5b7sm6955801ejc.94.2023.06.13.11.36.03
-        for <linux-api@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Jun 2023 11:36:03 -0700 (PDT)
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-51870e2dc48so1962796a12.1
-        for <linux-api@vger.kernel.org>; Tue, 13 Jun 2023 11:36:03 -0700 (PDT)
-X-Received: by 2002:a19:3819:0:b0:4f7:457e:a457 with SMTP id
- f25-20020a193819000000b004f7457ea457mr3476722lfa.53.1686680882933; Tue, 13
- Jun 2023 11:28:02 -0700 (PDT)
+        with ESMTP id S229554AbjFMSmk (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 13 Jun 2023 14:42:40 -0400
+X-Greylist: delayed 422 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 13 Jun 2023 11:42:30 PDT
+Received: from mail.hallyn.com (mail.hallyn.com [178.63.66.53])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E253F1BE7;
+        Tue, 13 Jun 2023 11:42:30 -0700 (PDT)
+Received: from jerom (99-112-204-245.lightspeed.hstntx.sbcglobal.net [99.112.204.245])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: serge)
+        by mail.hallyn.com (Postfix) with ESMTPSA id 9B9FF7BD;
+        Tue, 13 Jun 2023 13:35:23 -0500 (CDT)
+Date:   Tue, 13 Jun 2023 13:35:11 -0500
+From:   Serge Hallyn <serge@hallyn.com>
+To:     Casey Schaufler <casey@schaufler-ca.com>
+Cc:     paul@paul-moore.com, linux-security-module@vger.kernel.org,
+        jmorris@namei.org, keescook@chromium.org,
+        john.johansen@canonical.com, penguin-kernel@i-love.sakura.ne.jp,
+        stephen.smalley.work@gmail.com, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, mic@digikod.net,
+        linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v10 03/11] proc: Use lsmids instead of lsm names for attrs
+Message-ID: <ZIi2utcInNAbRfPu@jerom>
+References: <20230428203417.159874-1-casey@schaufler-ca.com>
+ <20230428203417.159874-4-casey@schaufler-ca.com>
 MIME-Version: 1.0
-References: <20230613001108.3040476-1-rick.p.edgecombe@intel.com>
- <CAHk-=wh0UNRn96k3XLh2AYOo0iz1k_Qk-rQXv8kYjXkKBzUMWA@mail.gmail.com>
- <c239d2c4f7e369690866db455813cac359731e1d.camel@intel.com> <CAHk-=wjSWhVV+qr_tV0xg8c0WRn_H9wtFZkUVCpv-VzsddAS-Q@mail.gmail.com>
-In-Reply-To: <CAHk-=wjSWhVV+qr_tV0xg8c0WRn_H9wtFZkUVCpv-VzsddAS-Q@mail.gmail.com>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Tue, 13 Jun 2023 11:27:45 -0700
-X-Gmail-Original-Message-ID: <CAHk-=whY0ggV9P+3Ch1LcqefnS3=O7FmWkOPoiABD7QJGtwSHg@mail.gmail.com>
-Message-ID: <CAHk-=whY0ggV9P+3Ch1LcqefnS3=O7FmWkOPoiABD7QJGtwSHg@mail.gmail.com>
-Subject: Re: [PATCH v9 00/42] Shadow stacks for userspace
-To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-Cc:     "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "kcc@google.com" <kcc@google.com>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "david@redhat.com" <david@redhat.com>,
-        "Schimpe, Christina" <christina.schimpe@intel.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "jannh@google.com" <jannh@google.com>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        "broonie@kernel.org" <broonie@kernel.org>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "pavel@ucw.cz" <pavel@ucw.cz>, "bp@alien8.de" <bp@alien8.de>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "oleg@redhat.com" <oleg@redhat.com>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>,
-        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "szabolcs.nagy@arm.com" <szabolcs.nagy@arm.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "debug@rivosinc.com" <debug@rivosinc.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "Eranian, Stephane" <eranian@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230428203417.159874-4-casey@schaufler-ca.com>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Jun 13, 2023 at 10:44=E2=80=AFAM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> Anyway, I'm scanning through it right now. No comments yet, I only
-> just got started.
+On Fri, Apr 28, 2023 at 01:34:09PM -0700, Casey Schaufler wrote:
+> Use the LSM ID number instead of the LSM name to identify which
+> security module's attibute data should be shown in /proc/self/attr.
+> The security_[gs]etprocattr() functions have been changed to expect
+> the LSM ID. The change from a string comparison to an integer comparison
+> in these functions will provide a minor performance improvement.
+> 
+> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
+> Reviewed-by: Kees Cook <keescook@chromium.org>
 
-Well, it all looked fine from a quick scan. One small comment, and
-even that was just a minor stylistic nit.
+for patches 1-3,
 
-I didn't actually look through the x86 state infrastructure side -
-I'll just trust that is fine, and it doesn't interact with anything
-else, so I don't really worry about it. I mainly care about the VM
-side not causing problems, and the changes on that side all looked
-fine.
+Reviewed-by: Serge Hallyn <serge@hallyn.com>
 
-             Linus
+> Cc: linux-fsdevel@vger.kernel.org
+> ---
+>  fs/proc/base.c           | 29 +++++++++++++++--------------
+>  fs/proc/internal.h       |  2 +-
+>  include/linux/security.h | 11 +++++------
+>  security/security.c      | 11 +++++------
+>  4 files changed, 26 insertions(+), 27 deletions(-)
+> 
+> diff --git a/fs/proc/base.c b/fs/proc/base.c
+> index 5e0e0ccd47aa..cb6dec7473fe 100644
+> --- a/fs/proc/base.c
+> +++ b/fs/proc/base.c
+> @@ -96,6 +96,7 @@
+>  #include <linux/time_namespace.h>
+>  #include <linux/resctrl.h>
+>  #include <linux/cn_proc.h>
+> +#include <uapi/linux/lsm.h>
+>  #include <trace/events/oom.h>
+>  #include "internal.h"
+>  #include "fd.h"
+> @@ -145,10 +146,10 @@ struct pid_entry {
+>  	NOD(NAME, (S_IFREG|(MODE)),			\
+>  		NULL, &proc_single_file_operations,	\
+>  		{ .proc_show = show } )
+> -#define ATTR(LSM, NAME, MODE)				\
+> +#define ATTR(LSMID, NAME, MODE)				\
+>  	NOD(NAME, (S_IFREG|(MODE)),			\
+>  		NULL, &proc_pid_attr_operations,	\
+> -		{ .lsm = LSM })
+> +		{ .lsmid = LSMID })
+>  
+>  /*
+>   * Count the number of hardlinks for the pid_entry table, excluding the .
+> @@ -2730,7 +2731,7 @@ static ssize_t proc_pid_attr_read(struct file * file, char __user * buf,
+>  	if (!task)
+>  		return -ESRCH;
+>  
+> -	length = security_getprocattr(task, PROC_I(inode)->op.lsm,
+> +	length = security_getprocattr(task, PROC_I(inode)->op.lsmid,
+>  				      file->f_path.dentry->d_name.name,
+>  				      &p);
+>  	put_task_struct(task);
+> @@ -2788,7 +2789,7 @@ static ssize_t proc_pid_attr_write(struct file * file, const char __user * buf,
+>  	if (rv < 0)
+>  		goto out_free;
+>  
+> -	rv = security_setprocattr(PROC_I(inode)->op.lsm,
+> +	rv = security_setprocattr(PROC_I(inode)->op.lsmid,
+>  				  file->f_path.dentry->d_name.name, page,
+>  				  count);
+>  	mutex_unlock(&current->signal->cred_guard_mutex);
+> @@ -2837,27 +2838,27 @@ static const struct inode_operations proc_##LSM##_attr_dir_inode_ops = { \
+>  
+>  #ifdef CONFIG_SECURITY_SMACK
+>  static const struct pid_entry smack_attr_dir_stuff[] = {
+> -	ATTR("smack", "current",	0666),
+> +	ATTR(LSM_ID_SMACK, "current",	0666),
+>  };
+>  LSM_DIR_OPS(smack);
+>  #endif
+>  
+>  #ifdef CONFIG_SECURITY_APPARMOR
+>  static const struct pid_entry apparmor_attr_dir_stuff[] = {
+> -	ATTR("apparmor", "current",	0666),
+> -	ATTR("apparmor", "prev",	0444),
+> -	ATTR("apparmor", "exec",	0666),
+> +	ATTR(LSM_ID_APPARMOR, "current",	0666),
+> +	ATTR(LSM_ID_APPARMOR, "prev",		0444),
+> +	ATTR(LSM_ID_APPARMOR, "exec",		0666),
+>  };
+>  LSM_DIR_OPS(apparmor);
+>  #endif
+>  
+>  static const struct pid_entry attr_dir_stuff[] = {
+> -	ATTR(NULL, "current",		0666),
+> -	ATTR(NULL, "prev",		0444),
+> -	ATTR(NULL, "exec",		0666),
+> -	ATTR(NULL, "fscreate",		0666),
+> -	ATTR(NULL, "keycreate",		0666),
+> -	ATTR(NULL, "sockcreate",	0666),
+> +	ATTR(LSM_ID_UNDEF, "current",	0666),
+> +	ATTR(LSM_ID_UNDEF, "prev",		0444),
+> +	ATTR(LSM_ID_UNDEF, "exec",		0666),
+> +	ATTR(LSM_ID_UNDEF, "fscreate",	0666),
+> +	ATTR(LSM_ID_UNDEF, "keycreate",	0666),
+> +	ATTR(LSM_ID_UNDEF, "sockcreate",	0666),
+>  #ifdef CONFIG_SECURITY_SMACK
+>  	DIR("smack",			0555,
+>  	    proc_smack_attr_dir_inode_ops, proc_smack_attr_dir_ops),
+> diff --git a/fs/proc/internal.h b/fs/proc/internal.h
+> index 9dda7e54b2d0..a889d9ef9584 100644
+> --- a/fs/proc/internal.h
+> +++ b/fs/proc/internal.h
+> @@ -92,7 +92,7 @@ union proc_op {
+>  	int (*proc_show)(struct seq_file *m,
+>  		struct pid_namespace *ns, struct pid *pid,
+>  		struct task_struct *task);
+> -	const char *lsm;
+> +	int lsmid;
+>  };
+>  
+>  struct proc_inode {
+> diff --git a/include/linux/security.h b/include/linux/security.h
+> index e70fc863b04a..8faed81fc3b4 100644
+> --- a/include/linux/security.h
+> +++ b/include/linux/security.h
+> @@ -473,10 +473,9 @@ int security_sem_semctl(struct kern_ipc_perm *sma, int cmd);
+>  int security_sem_semop(struct kern_ipc_perm *sma, struct sembuf *sops,
+>  			unsigned nsops, int alter);
+>  void security_d_instantiate(struct dentry *dentry, struct inode *inode);
+> -int security_getprocattr(struct task_struct *p, const char *lsm, const char *name,
+> +int security_getprocattr(struct task_struct *p, int lsmid, const char *name,
+>  			 char **value);
+> -int security_setprocattr(const char *lsm, const char *name, void *value,
+> -			 size_t size);
+> +int security_setprocattr(int lsmid, const char *name, void *value, size_t size);
+>  int security_netlink_send(struct sock *sk, struct sk_buff *skb);
+>  int security_ismaclabel(const char *name);
+>  int security_secid_to_secctx(u32 secid, char **secdata, u32 *seclen);
+> @@ -1344,14 +1343,14 @@ static inline void security_d_instantiate(struct dentry *dentry,
+>  					  struct inode *inode)
+>  { }
+>  
+> -static inline int security_getprocattr(struct task_struct *p, const char *lsm,
+> +static inline int security_getprocattr(struct task_struct *p, int lsmid,
+>  				       const char *name, char **value)
+>  {
+>  	return -EINVAL;
+>  }
+>  
+> -static inline int security_setprocattr(const char *lsm, char *name,
+> -				       void *value, size_t size)
+> +static inline int security_setprocattr(int lsmid, char *name, void *value,
+> +				       size_t size)
+>  {
+>  	return -EINVAL;
+>  }
+> diff --git a/security/security.c b/security/security.c
+> index e390001a32c9..5a48b1b539e5 100644
+> --- a/security/security.c
+> +++ b/security/security.c
+> @@ -2176,26 +2176,25 @@ void security_d_instantiate(struct dentry *dentry, struct inode *inode)
+>  }
+>  EXPORT_SYMBOL(security_d_instantiate);
+>  
+> -int security_getprocattr(struct task_struct *p, const char *lsm,
+> -			 const char *name, char **value)
+> +int security_getprocattr(struct task_struct *p, int lsmid, const char *name,
+> +			 char **value)
+>  {
+>  	struct security_hook_list *hp;
+>  
+>  	hlist_for_each_entry(hp, &security_hook_heads.getprocattr, list) {
+> -		if (lsm != NULL && strcmp(lsm, hp->lsmid->name))
+> +		if (lsmid != 0 && lsmid != hp->lsmid->id)
+>  			continue;
+>  		return hp->hook.getprocattr(p, name, value);
+>  	}
+>  	return LSM_RET_DEFAULT(getprocattr);
+>  }
+>  
+> -int security_setprocattr(const char *lsm, const char *name, void *value,
+> -			 size_t size)
+> +int security_setprocattr(int lsmid, const char *name, void *value, size_t size)
+>  {
+>  	struct security_hook_list *hp;
+>  
+>  	hlist_for_each_entry(hp, &security_hook_heads.setprocattr, list) {
+> -		if (lsm != NULL && strcmp(lsm, hp->lsmid->name))
+> +		if (lsmid != 0 && lsmid != hp->lsmid->id)
+>  			continue;
+>  		return hp->hook.setprocattr(name, value, size);
+>  	}
+> -- 
+> 2.39.2
+> 
