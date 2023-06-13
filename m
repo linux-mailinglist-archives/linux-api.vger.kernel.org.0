@@ -2,239 +2,506 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4773D72EB2E
-	for <lists+linux-api@lfdr.de>; Tue, 13 Jun 2023 20:43:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 68BE272EB49
+	for <lists+linux-api@lfdr.de>; Tue, 13 Jun 2023 20:55:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229947AbjFMSml (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 13 Jun 2023 14:42:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40778 "EHLO
+        id S240407AbjFMSzC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 13 Jun 2023 14:55:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45738 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229554AbjFMSmk (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 13 Jun 2023 14:42:40 -0400
-X-Greylist: delayed 422 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 13 Jun 2023 11:42:30 PDT
+        with ESMTP id S240401AbjFMSzB (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 13 Jun 2023 14:55:01 -0400
 Received: from mail.hallyn.com (mail.hallyn.com [178.63.66.53])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E253F1BE7;
-        Tue, 13 Jun 2023 11:42:30 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B9B2B5;
+        Tue, 13 Jun 2023 11:54:57 -0700 (PDT)
 Received: from jerom (99-112-204-245.lightspeed.hstntx.sbcglobal.net [99.112.204.245])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
         (Authenticated sender: serge)
-        by mail.hallyn.com (Postfix) with ESMTPSA id 9B9FF7BD;
-        Tue, 13 Jun 2023 13:35:23 -0500 (CDT)
-Date:   Tue, 13 Jun 2023 13:35:11 -0500
+        by mail.hallyn.com (Postfix) with ESMTPSA id 6E43A7BD;
+        Tue, 13 Jun 2023 13:54:53 -0500 (CDT)
+Date:   Tue, 13 Jun 2023 13:54:50 -0500
 From:   Serge Hallyn <serge@hallyn.com>
 To:     Casey Schaufler <casey@schaufler-ca.com>
 Cc:     paul@paul-moore.com, linux-security-module@vger.kernel.org,
         jmorris@namei.org, keescook@chromium.org,
         john.johansen@canonical.com, penguin-kernel@i-love.sakura.ne.jp,
         stephen.smalley.work@gmail.com, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, mic@digikod.net,
-        linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v10 03/11] proc: Use lsmids instead of lsm names for attrs
-Message-ID: <ZIi2utcInNAbRfPu@jerom>
+        linux-api@vger.kernel.org, mic@digikod.net
+Subject: Re: [PATCH v10 04/11] LSM: syscalls for current process attributes
+Message-ID: <ZIi7euP3YDfIwwyC@jerom>
 References: <20230428203417.159874-1-casey@schaufler-ca.com>
- <20230428203417.159874-4-casey@schaufler-ca.com>
+ <20230428203417.159874-5-casey@schaufler-ca.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230428203417.159874-4-casey@schaufler-ca.com>
+In-Reply-To: <20230428203417.159874-5-casey@schaufler-ca.com>
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Apr 28, 2023 at 01:34:09PM -0700, Casey Schaufler wrote:
-> Use the LSM ID number instead of the LSM name to identify which
-> security module's attibute data should be shown in /proc/self/attr.
-> The security_[gs]etprocattr() functions have been changed to expect
-> the LSM ID. The change from a string comparison to an integer comparison
-> in these functions will provide a minor performance improvement.
+On Fri, Apr 28, 2023 at 01:34:10PM -0700, Casey Schaufler wrote:
+> Create a system call lsm_get_self_attr() to provide the security
+> module maintained attributes of the current process.
+> Create a system call lsm_set_self_attr() to set a security
+> module maintained attribute of the current process.
+> Historically these attributes have been exposed to user space via
+> entries in procfs under /proc/self/attr.
+> 
+> The attribute value is provided in a lsm_ctx structure. The structure
+> identifies the size of the attribute, and the attribute value. The format
+> of the attribute value is defined by the security module. A flags field
+> is included for LSM specific information. It is currently unused and must
+> be 0. The total size of the data, including the lsm_ctx structure and any
+> padding, is maintained as well.
+> 
+> struct lsm_ctx {
+>         __u64 id;
+>         __u64 flags;
+>         __u64 len;
+>         __u64 ctx_len;
+>         __u8 ctx[];
+> };
+> 
+> Two new LSM hooks are used to interface with the LSMs.
+> security_getselfattr() collects the lsm_ctx values from the
+> LSMs that support the hook, accounting for space requirements.
+> security_setselfattr() identifies which LSM the attribute is
+> intended for and passes it along.
 > 
 > Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
 > Reviewed-by: Kees Cook <keescook@chromium.org>
 
-for patches 1-3,
+Just two comments below.  With those (or with good counter
+arguments)
 
-Reviewed-by: Serge Hallyn <serge@hallyn.com>
+Reviewed-by: Serge E. Hallyn <serge@hallyn.com>
 
-> Cc: linux-fsdevel@vger.kernel.org
 > ---
->  fs/proc/base.c           | 29 +++++++++++++++--------------
->  fs/proc/internal.h       |  2 +-
->  include/linux/security.h | 11 +++++------
->  security/security.c      | 11 +++++------
->  4 files changed, 26 insertions(+), 27 deletions(-)
+>  Documentation/userspace-api/lsm.rst |  15 ++++
+>  include/linux/lsm_hook_defs.h       |   4 +
+>  include/linux/lsm_hooks.h           |   9 +++
+>  include/linux/security.h            |  19 +++++
+>  include/linux/syscalls.h            |   5 ++
+>  include/uapi/linux/lsm.h            |  36 +++++++++
+>  kernel/sys_ni.c                     |   4 +
+>  security/Makefile                   |   1 +
+>  security/lsm_syscalls.c             |  55 ++++++++++++++
+>  security/security.c                 | 112 ++++++++++++++++++++++++++++
+>  10 files changed, 260 insertions(+)
+>  create mode 100644 security/lsm_syscalls.c
 > 
-> diff --git a/fs/proc/base.c b/fs/proc/base.c
-> index 5e0e0ccd47aa..cb6dec7473fe 100644
-> --- a/fs/proc/base.c
-> +++ b/fs/proc/base.c
-> @@ -96,6 +96,7 @@
->  #include <linux/time_namespace.h>
->  #include <linux/resctrl.h>
->  #include <linux/cn_proc.h>
+> diff --git a/Documentation/userspace-api/lsm.rst b/Documentation/userspace-api/lsm.rst
+> index 6ddf5506110b..e6c3f262addc 100644
+> --- a/Documentation/userspace-api/lsm.rst
+> +++ b/Documentation/userspace-api/lsm.rst
+> @@ -48,6 +48,21 @@ creating socket objects.
+>  The proc filesystem provides this value in ``/proc/self/attr/sockcreate``.
+>  This is supported by the SELinux security module.
+>  
+> +Kernel interface
+> +================
+> +
+> +Set a security attribute of the current process
+> +-----------------------------------------------
+> +
+> +.. kernel-doc:: security/lsm_syscalls.c
+> +    :identifiers: sys_lsm_set_self_attr
+> +
+> +Get the specified security attributes of the current process
+> +------------------------------------------------------------
+> +
+> +.. kernel-doc:: security/lsm_syscalls.c
+> +    :identifiers: sys_lsm_get_self_attr
+> +
+>  Additional documentation
+>  ========================
+>  
+> diff --git a/include/linux/lsm_hook_defs.h b/include/linux/lsm_hook_defs.h
+> index 094b76dc7164..32104ff61999 100644
+> --- a/include/linux/lsm_hook_defs.h
+> +++ b/include/linux/lsm_hook_defs.h
+> @@ -261,6 +261,10 @@ LSM_HOOK(int, 0, sem_semop, struct kern_ipc_perm *perm, struct sembuf *sops,
+>  LSM_HOOK(int, 0, netlink_send, struct sock *sk, struct sk_buff *skb)
+>  LSM_HOOK(void, LSM_RET_VOID, d_instantiate, struct dentry *dentry,
+>  	 struct inode *inode)
+> +LSM_HOOK(int, -EOPNOTSUPP, getselfattr, unsigned int attr,
+> +	 struct lsm_ctx __user *ctx, size_t *size, u32 flags)
+> +LSM_HOOK(int, -EOPNOTSUPP, setselfattr, unsigned int attr,
+> +	 struct lsm_ctx __user *ctx, size_t size, u32 flags)
+>  LSM_HOOK(int, -EINVAL, getprocattr, struct task_struct *p, const char *name,
+>  	 char **value)
+>  LSM_HOOK(int, -EINVAL, setprocattr, const char *name, void *value, size_t size)
+> diff --git a/include/linux/lsm_hooks.h b/include/linux/lsm_hooks.h
+> index c1f00d09033e..457ff953e331 100644
+> --- a/include/linux/lsm_hooks.h
+> +++ b/include/linux/lsm_hooks.h
+> @@ -25,6 +25,7 @@
+>  #ifndef __LINUX_LSM_HOOKS_H
+>  #define __LINUX_LSM_HOOKS_H
+>  
 > +#include <uapi/linux/lsm.h>
->  #include <trace/events/oom.h>
->  #include "internal.h"
->  #include "fd.h"
-> @@ -145,10 +146,10 @@ struct pid_entry {
->  	NOD(NAME, (S_IFREG|(MODE)),			\
->  		NULL, &proc_single_file_operations,	\
->  		{ .proc_show = show } )
-> -#define ATTR(LSM, NAME, MODE)				\
-> +#define ATTR(LSMID, NAME, MODE)				\
->  	NOD(NAME, (S_IFREG|(MODE)),			\
->  		NULL, &proc_pid_attr_operations,	\
-> -		{ .lsm = LSM })
-> +		{ .lsmid = LSMID })
->  
->  /*
->   * Count the number of hardlinks for the pid_entry table, excluding the .
-> @@ -2730,7 +2731,7 @@ static ssize_t proc_pid_attr_read(struct file * file, char __user * buf,
->  	if (!task)
->  		return -ESRCH;
->  
-> -	length = security_getprocattr(task, PROC_I(inode)->op.lsm,
-> +	length = security_getprocattr(task, PROC_I(inode)->op.lsmid,
->  				      file->f_path.dentry->d_name.name,
->  				      &p);
->  	put_task_struct(task);
-> @@ -2788,7 +2789,7 @@ static ssize_t proc_pid_attr_write(struct file * file, const char __user * buf,
->  	if (rv < 0)
->  		goto out_free;
->  
-> -	rv = security_setprocattr(PROC_I(inode)->op.lsm,
-> +	rv = security_setprocattr(PROC_I(inode)->op.lsmid,
->  				  file->f_path.dentry->d_name.name, page,
->  				  count);
->  	mutex_unlock(&current->signal->cred_guard_mutex);
-> @@ -2837,27 +2838,27 @@ static const struct inode_operations proc_##LSM##_attr_dir_inode_ops = { \
->  
->  #ifdef CONFIG_SECURITY_SMACK
->  static const struct pid_entry smack_attr_dir_stuff[] = {
-> -	ATTR("smack", "current",	0666),
-> +	ATTR(LSM_ID_SMACK, "current",	0666),
->  };
->  LSM_DIR_OPS(smack);
->  #endif
->  
->  #ifdef CONFIG_SECURITY_APPARMOR
->  static const struct pid_entry apparmor_attr_dir_stuff[] = {
-> -	ATTR("apparmor", "current",	0666),
-> -	ATTR("apparmor", "prev",	0444),
-> -	ATTR("apparmor", "exec",	0666),
-> +	ATTR(LSM_ID_APPARMOR, "current",	0666),
-> +	ATTR(LSM_ID_APPARMOR, "prev",		0444),
-> +	ATTR(LSM_ID_APPARMOR, "exec",		0666),
->  };
->  LSM_DIR_OPS(apparmor);
->  #endif
->  
->  static const struct pid_entry attr_dir_stuff[] = {
-> -	ATTR(NULL, "current",		0666),
-> -	ATTR(NULL, "prev",		0444),
-> -	ATTR(NULL, "exec",		0666),
-> -	ATTR(NULL, "fscreate",		0666),
-> -	ATTR(NULL, "keycreate",		0666),
-> -	ATTR(NULL, "sockcreate",	0666),
-> +	ATTR(LSM_ID_UNDEF, "current",	0666),
-> +	ATTR(LSM_ID_UNDEF, "prev",		0444),
-> +	ATTR(LSM_ID_UNDEF, "exec",		0666),
-> +	ATTR(LSM_ID_UNDEF, "fscreate",	0666),
-> +	ATTR(LSM_ID_UNDEF, "keycreate",	0666),
-> +	ATTR(LSM_ID_UNDEF, "sockcreate",	0666),
->  #ifdef CONFIG_SECURITY_SMACK
->  	DIR("smack",			0555,
->  	    proc_smack_attr_dir_inode_ops, proc_smack_attr_dir_ops),
-> diff --git a/fs/proc/internal.h b/fs/proc/internal.h
-> index 9dda7e54b2d0..a889d9ef9584 100644
-> --- a/fs/proc/internal.h
-> +++ b/fs/proc/internal.h
-> @@ -92,7 +92,7 @@ union proc_op {
->  	int (*proc_show)(struct seq_file *m,
->  		struct pid_namespace *ns, struct pid *pid,
->  		struct task_struct *task);
-> -	const char *lsm;
-> +	int lsmid;
->  };
->  
->  struct proc_inode {
+>  #include <linux/security.h>
+>  #include <linux/init.h>
+>  #include <linux/rculist.h>
+> @@ -503,6 +504,14 @@
+>   *	and writing the xattrs as this hook is merely a filter.
+>   * @d_instantiate:
+>   *	Fill in @inode security information for a @dentry if allowed.
+> + * @getselfattr:
+> + *	Read attribute @attr for the current process and store it into @ctx.
+> + *	Return 0 on success, -EOPNOTSUPP if the attribute is not supported,
+> + *	or another negative value otherwise.
+> + * @setselfattr:
+> + *	Set attribute @attr for the current process.
+> + *	Return 0 on success, -EOPNOTSUPP if the attribute is not supported,
+> + *	or another negative value otherwise.
+>   * @getprocattr:
+>   *	Read attribute @name for process @p and store it into @value if allowed.
+>   *	Return the length of @value on success, a negative value otherwise.
 > diff --git a/include/linux/security.h b/include/linux/security.h
-> index e70fc863b04a..8faed81fc3b4 100644
+> index 8faed81fc3b4..806bff425af9 100644
 > --- a/include/linux/security.h
 > +++ b/include/linux/security.h
-> @@ -473,10 +473,9 @@ int security_sem_semctl(struct kern_ipc_perm *sma, int cmd);
+> @@ -60,6 +60,7 @@ struct fs_parameter;
+>  enum fs_value_type;
+>  struct watch;
+>  struct watch_notification;
+> +struct lsm_ctx;
+>  
+>  /* Default (no) options for the capable function */
+>  #define CAP_OPT_NONE 0x0
+> @@ -473,6 +474,10 @@ int security_sem_semctl(struct kern_ipc_perm *sma, int cmd);
 >  int security_sem_semop(struct kern_ipc_perm *sma, struct sembuf *sops,
 >  			unsigned nsops, int alter);
 >  void security_d_instantiate(struct dentry *dentry, struct inode *inode);
-> -int security_getprocattr(struct task_struct *p, const char *lsm, const char *name,
-> +int security_getprocattr(struct task_struct *p, int lsmid, const char *name,
+> +int security_getselfattr(unsigned int attr, struct lsm_ctx __user *ctx,
+> +			 size_t __user *size, u32 flags);
+> +int security_setselfattr(unsigned int attr, struct lsm_ctx __user *ctx,
+> +			 size_t size, u32 flags);
+>  int security_getprocattr(struct task_struct *p, int lsmid, const char *name,
 >  			 char **value);
-> -int security_setprocattr(const char *lsm, const char *name, void *value,
-> -			 size_t size);
-> +int security_setprocattr(int lsmid, const char *name, void *value, size_t size);
->  int security_netlink_send(struct sock *sk, struct sk_buff *skb);
->  int security_ismaclabel(const char *name);
->  int security_secid_to_secctx(u32 secid, char **secdata, u32 *seclen);
-> @@ -1344,14 +1343,14 @@ static inline void security_d_instantiate(struct dentry *dentry,
+>  int security_setprocattr(int lsmid, const char *name, void *value, size_t size);
+> @@ -1343,6 +1348,20 @@ static inline void security_d_instantiate(struct dentry *dentry,
 >  					  struct inode *inode)
 >  { }
 >  
-> -static inline int security_getprocattr(struct task_struct *p, const char *lsm,
-> +static inline int security_getprocattr(struct task_struct *p, int lsmid,
+> +static inline int security_getselfattr(unsigned int attr,
+> +				       struct lsm_ctx __user *ctx,
+> +				       size_t __user *size, u32 flags)
+> +{
+> +	return -EOPNOTSUPP;
+> +}
+> +
+> +static inline int security_setselfattr(unsigned int attr,
+> +				       struct lsm_ctx __user *ctx,
+> +				       size_t size, u32 flags)
+> +{
+> +	return -EOPNOTSUPP;
+> +}
+> +
+>  static inline int security_getprocattr(struct task_struct *p, int lsmid,
 >  				       const char *name, char **value)
 >  {
->  	return -EINVAL;
->  }
+> diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+> index 33a0ee3bcb2e..9a94c31bf6b6 100644
+> --- a/include/linux/syscalls.h
+> +++ b/include/linux/syscalls.h
+> @@ -71,6 +71,7 @@ struct clone_args;
+>  struct open_how;
+>  struct mount_attr;
+>  struct landlock_ruleset_attr;
+> +struct lsm_ctx;
+>  enum landlock_rule_type;
 >  
-> -static inline int security_setprocattr(const char *lsm, char *name,
-> -				       void *value, size_t size)
-> +static inline int security_setprocattr(int lsmid, char *name, void *value,
-> +				       size_t size)
->  {
->  	return -EINVAL;
->  }
+>  #include <linux/types.h>
+> @@ -1058,6 +1059,10 @@ asmlinkage long sys_memfd_secret(unsigned int flags);
+>  asmlinkage long sys_set_mempolicy_home_node(unsigned long start, unsigned long len,
+>  					    unsigned long home_node,
+>  					    unsigned long flags);
+> +asmlinkage long sys_lsm_get_self_attr(unsigned int attr, struct lsm_ctx *ctx,
+> +				      size_t *size, __u32 flags);
+> +asmlinkage long sys_lsm_set_self_attr(unsigned int attr, struct lsm_ctx *ctx,
+> +				      size_t size, __u32 flags);
+>  
+>  /*
+>   * Architecture-specific system calls
+> diff --git a/include/uapi/linux/lsm.h b/include/uapi/linux/lsm.h
+> index f27c9a9cc376..eeda59a77c02 100644
+> --- a/include/uapi/linux/lsm.h
+> +++ b/include/uapi/linux/lsm.h
+> @@ -9,6 +9,36 @@
+>  #ifndef _UAPI_LINUX_LSM_H
+>  #define _UAPI_LINUX_LSM_H
+>  
+> +#include <linux/types.h>
+> +#include <linux/unistd.h>
+> +
+> +/**
+> + * struct lsm_ctx - LSM context information
+> + * @id: the LSM id number, see LSM_ID_XXX
+> + * @flags: LSM specific flags
+> + * @len: length of the lsm_ctx struct, @ctx and any other data or padding
+> + * @ctx_len: the size of @ctx
+> + * @ctx: the LSM context value
+> + *
+> + * The @len field MUST be equal to the size of the lsm_ctx struct
+> + * plus any additional padding and/or data placed after @ctx.
+> + *
+> + * In all cases @ctx_len MUST be equal to the length of @ctx.
+> + * If @ctx is a string value it should be nul terminated with
+> + * @ctx_len equal to `strlen(@ctx) + 1`.  Binary values are
+> + * supported.
+> + *
+> + * The @flags and @ctx fields SHOULD only be interpreted by the
+> + * LSM specified by @id; they MUST be set to zero/0 when not used.
+> + */
+> +struct lsm_ctx {
+> +	__u64 id;
+> +	__u64 flags;
+> +	__u64 len;
+> +	__u64 ctx_len;
+> +	__u8 ctx[];
+> +};
+> +
+>  /*
+>   * ID tokens to identify Linux Security Modules (LSMs)
+>   *
+> @@ -51,4 +81,10 @@
+>  #define LSM_ATTR_PREV		104
+>  #define LSM_ATTR_SOCKCREATE	105
+>  
+> +/*
+> + * LSM_FLAG_XXX definitions identify special handling instructions
+> + * for the API.
+> + */
+> +#define LSM_FLAG_SINGLE	0x0001
+> +
+>  #endif /* _UAPI_LINUX_LSM_H */
+> diff --git a/kernel/sys_ni.c b/kernel/sys_ni.c
+> index 860b2dcf3ac4..d03c78ef1562 100644
+> --- a/kernel/sys_ni.c
+> +++ b/kernel/sys_ni.c
+> @@ -262,6 +262,10 @@ COND_SYSCALL_COMPAT(recvmsg);
+>  /* mm/nommu.c, also with MMU */
+>  COND_SYSCALL(mremap);
+>  
+> +/* security/lsm_syscalls.c */
+> +COND_SYSCALL(lsm_get_self_attr);
+> +COND_SYSCALL(lsm_set_self_attr);
+> +
+>  /* security/keys/keyctl.c */
+>  COND_SYSCALL(add_key);
+>  COND_SYSCALL(request_key);
+> diff --git a/security/Makefile b/security/Makefile
+> index 18121f8f85cd..59f238490665 100644
+> --- a/security/Makefile
+> +++ b/security/Makefile
+> @@ -7,6 +7,7 @@ obj-$(CONFIG_KEYS)			+= keys/
+>  
+>  # always enable default capabilities
+>  obj-y					+= commoncap.o
+> +obj-$(CONFIG_SECURITY) 			+= lsm_syscalls.o
+>  obj-$(CONFIG_MMU)			+= min_addr.o
+>  
+>  # Object file lists
+> diff --git a/security/lsm_syscalls.c b/security/lsm_syscalls.c
+> new file mode 100644
+> index 000000000000..ee3881159241
+> --- /dev/null
+> +++ b/security/lsm_syscalls.c
+> @@ -0,0 +1,55 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * System calls implementing the Linux Security Module API.
+> + *
+> + *  Copyright (C) 2022 Casey Schaufler <casey@schaufler-ca.com>
+> + *  Copyright (C) 2022 Intel Corporation
+> + */
+> +
+> +#include <asm/current.h>
+> +#include <linux/compiler_types.h>
+> +#include <linux/err.h>
+> +#include <linux/errno.h>
+> +#include <linux/security.h>
+> +#include <linux/stddef.h>
+> +#include <linux/syscalls.h>
+> +#include <linux/types.h>
+> +#include <linux/lsm_hooks.h>
+> +#include <uapi/linux/lsm.h>
+> +
+> +/**
+> + * sys_lsm_set_self_attr - Set current task's security module attribute
+> + * @attr: which attribute to set
+> + * @ctx: the LSM contexts
+> + * @size: size of @ctx
+> + * @flags: reserved for future use
+> + *
+> + * Sets the calling task's LSM context. On success this function
+> + * returns 0. If the attribute specified cannot be set a negative
+> + * value indicating the reason for the error is returned.
+> + */
+> +SYSCALL_DEFINE4(lsm_set_self_attr, unsigned int, attr, struct lsm_ctx __user *,
+> +		ctx, size_t, size, u32, flags)
+> +{
+> +	return security_setselfattr(attr, ctx, size, flags);
+> +}
+> +
+> +/**
+> + * sys_lsm_get_self_attr - Return current task's security module attributes
+> + * @attr: which attribute to set
+> + * @ctx: the LSM contexts
+> + * @size: size of @ctx, updated on return
+> + * @flags: reserved for future use
+> + *
+> + * Returns the calling task's LSM contexts. On success this
+> + * function returns the number of @ctx array elements. This value
+> + * may be zero if there are no LSM contexts assigned. If @size is
+> + * insufficient to contain the return data -E2BIG is returned and
+> + * @size is set to the minimum required size. In all other cases
+> + * a negative value indicating the error is returned.
+> + */
+> +SYSCALL_DEFINE4(lsm_get_self_attr, unsigned int, attr, struct lsm_ctx __user *,
+> +		ctx, size_t __user *, size, u32, flags)
+> +{
+> +	return security_getselfattr(attr, ctx, size, flags);
+> +}
 > diff --git a/security/security.c b/security/security.c
-> index e390001a32c9..5a48b1b539e5 100644
+> index 5a48b1b539e5..94b78bfd06b9 100644
 > --- a/security/security.c
 > +++ b/security/security.c
-> @@ -2176,26 +2176,25 @@ void security_d_instantiate(struct dentry *dentry, struct inode *inode)
+> @@ -2176,6 +2176,118 @@ void security_d_instantiate(struct dentry *dentry, struct inode *inode)
 >  }
 >  EXPORT_SYMBOL(security_d_instantiate);
 >  
-> -int security_getprocattr(struct task_struct *p, const char *lsm,
-> -			 const char *name, char **value)
-> +int security_getprocattr(struct task_struct *p, int lsmid, const char *name,
-> +			 char **value)
+> +/**
+> + * security_getselfattr - Read an LSM attribute of the current process.
+> + * @attr: which attribute to return
+> + * @ctx: the user-space destination for the information, or NULL
+
+It may seem too obvious to bother, but it seems to me this should
+say "pointer to the size of space..." to be as precise as possible.
+
+> + * @size: the size of space available to receive the data
+> + * @flags: special handling options. LSM_FLAG_SINGLE indicates that only
+> + * attributes associated with the LSM identified in the passed @ctx be
+> + * reported
+> + *
+> + * Returns the number of attributes found on success, negative value
+> + * on error. @size is reset to the total size of the data.
+> + * If @size is insufficient to contain the data -E2BIG is returned.
+> + */
+> +int security_getselfattr(unsigned int attr, struct lsm_ctx __user *ctx,
+> +			 size_t __user *size, u32 flags)
+> +{
+> +	struct security_hook_list *hp;
+> +	struct lsm_ctx lctx = { .id = LSM_ID_UNDEF, };
+> +	u8 __user *base = (u8 __user *)ctx;
+> +	size_t total = 0;
+> +	size_t entrysize;
+> +	size_t left;
+> +	bool toobig = false;
+> +	int count = 0;
+> +	int rc;
+> +
+> +	if (attr == 0)
+
+Should this be if (attr == LSM_ATTR_UNDEF) ?
+
+> +		return -EINVAL;
+> +	if (size == NULL)
+> +		return -EINVAL;
+> +	if (get_user(left, size))
+> +		return -EFAULT;
+> +
+> +	if ((flags & LSM_FLAG_SINGLE) == LSM_FLAG_SINGLE) {
+> +		if (!ctx)
+> +			return -EINVAL;
+> +		if (copy_struct_from_user(&lctx, sizeof(lctx), ctx, left))
+> +			return -EFAULT;
+> +		if (lctx.id == LSM_ID_UNDEF)
+> +			return -EINVAL;
+> +	} else if (flags) {
+> +		return -EINVAL;
+> +	}
+> +
+> +	hlist_for_each_entry(hp, &security_hook_heads.getselfattr, list) {
+> +		if (lctx.id != LSM_ID_UNDEF && lctx.id != hp->lsmid->id)
+> +			continue;
+> +		entrysize = left;
+> +		if (base)
+> +			ctx = (struct lsm_ctx __user *)(base + total);
+> +		rc = hp->hook.getselfattr(attr, ctx, &entrysize, flags);
+> +		if (rc == -EOPNOTSUPP) {
+> +			rc = 0;
+> +			continue;
+> +		}
+> +		if (rc == -E2BIG) {
+> +			toobig = true;
+> +			left = 0;
+> +			continue;
+> +		}
+> +		if (rc < 0)
+> +			return rc;
+> +
+> +		left -= entrysize;
+> +		total += entrysize;
+> +		count += rc;
+> +	}
+> +	if (put_user(total, size))
+> +		return -EFAULT;
+> +	if (toobig)
+> +		return -E2BIG;
+> +	if (count == 0)
+> +		return LSM_RET_DEFAULT(getselfattr);
+> +	return count;
+> +}
+> +
+> +/**
+> + * security_setselfattr - Set an LSM attribute on the current process.
+> + * @attr: which attribute to set
+> + * @ctx: the user-space source for the information
+> + * @size: the size of the data
+> + * @flags: reserved for future use, must be 0
+> + *
+> + * Set an LSM attribute for the current process. The LSM, attribute
+> + * and new value are included in @ctx.
+> + *
+> + * Returns 0 on success, -EINVAL if the input is inconsistent, -EFAULT
+> + * if the user buffer is inaccessible or an LSM specific failure.
+> + */
+> +int security_setselfattr(unsigned int attr, struct lsm_ctx __user *ctx,
+> +			 size_t size, u32 flags)
+> +{
+> +	struct security_hook_list *hp;
+> +	struct lsm_ctx lctx;
+> +
+> +	if (flags)
+> +		return -EINVAL;
+> +	if (size < sizeof(*ctx))
+> +		return -EINVAL;
+> +	if (copy_from_user(&lctx, ctx, sizeof(*ctx)))
+> +		return -EFAULT;
+> +	if (size < lctx.len || size < lctx.ctx_len + sizeof(ctx) ||
+> +	    lctx.len < lctx.ctx_len + sizeof(ctx))
+> +		return -EINVAL;
+> +
+> +	hlist_for_each_entry(hp, &security_hook_heads.setselfattr, list)
+> +		if ((hp->lsmid->id) == lctx.id)
+> +			return hp->hook.setselfattr(attr, ctx, size, flags);
+> +
+> +	return LSM_RET_DEFAULT(setselfattr);
+> +}
+> +
+>  int security_getprocattr(struct task_struct *p, int lsmid, const char *name,
+>  			 char **value)
 >  {
->  	struct security_hook_list *hp;
->  
->  	hlist_for_each_entry(hp, &security_hook_heads.getprocattr, list) {
-> -		if (lsm != NULL && strcmp(lsm, hp->lsmid->name))
-> +		if (lsmid != 0 && lsmid != hp->lsmid->id)
->  			continue;
->  		return hp->hook.getprocattr(p, name, value);
->  	}
->  	return LSM_RET_DEFAULT(getprocattr);
->  }
->  
-> -int security_setprocattr(const char *lsm, const char *name, void *value,
-> -			 size_t size)
-> +int security_setprocattr(int lsmid, const char *name, void *value, size_t size)
->  {
->  	struct security_hook_list *hp;
->  
->  	hlist_for_each_entry(hp, &security_hook_heads.setprocattr, list) {
-> -		if (lsm != NULL && strcmp(lsm, hp->lsmid->name))
-> +		if (lsmid != 0 && lsmid != hp->lsmid->id)
->  			continue;
->  		return hp->hook.setprocattr(name, value, size);
->  	}
 > -- 
 > 2.39.2
 > 
