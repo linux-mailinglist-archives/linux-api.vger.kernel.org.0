@@ -2,67 +2,65 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CB7DF72E2FA
-	for <lists+linux-api@lfdr.de>; Tue, 13 Jun 2023 14:29:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C5CB72E2FB
+	for <lists+linux-api@lfdr.de>; Tue, 13 Jun 2023 14:29:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238753AbjFMM3T (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 13 Jun 2023 08:29:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36074 "EHLO
+        id S242411AbjFMM3Y (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 13 Jun 2023 08:29:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35858 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240707AbjFMM3B (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 13 Jun 2023 08:29:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FE741FCB
-        for <linux-api@vger.kernel.org>; Tue, 13 Jun 2023 05:27:30 -0700 (PDT)
+        with ESMTP id S242466AbjFMM3L (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 13 Jun 2023 08:29:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3439D1989
+        for <linux-api@vger.kernel.org>; Tue, 13 Jun 2023 05:28:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1686659249;
+        s=mimecast20190719; t=1686659298;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=+CnFB1DNmO6T96vOB/65A5+oQ7wctSJhf7OTxF1Wbzs=;
-        b=bBOAfgh4Xmnsc66WzSNZjdvRJlmyo/Rod0LRmzhNl/KOGBo5mCS8x2ckVwbX4/NXnA3bWe
-        rCrVAp4G4nz6CURxj5dUUSDVxgyARTccCQ24Aj3KjD4cdyEh3Z/nWguv67iVRoNE86J+Eh
-        G05askvt3RK7SvYINSaF2C1GAkDVL4s=
-Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
- [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=5APAgmZrGjFJ9+U0RvJUaGvdr2gWc6sxi+r6310cnNs=;
+        b=NpemX1ocFWDM1Jmyz+nrK9ZpYU08wE6iscEdj7w6KetAsPrCRPOR33uj2YzQ+NGDI9xFxG
+        ofMbFgb7TFJdjLQXR1lYykQMCz2ht40lWsGpbzukhJ1tg5tLu5Plik83oCOioTshUpSdnP
+        ahg0K99Jrlx1aaB+llVMNNOx/TmtlU0=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-357-oayjoUR9M-GpKkSuWmYvDQ-1; Tue, 13 Jun 2023 08:27:28 -0400
-X-MC-Unique: oayjoUR9M-GpKkSuWmYvDQ-1
-Received: by mail-lf1-f72.google.com with SMTP id 2adb3069b0e04-4f618172ed6so3732603e87.3
-        for <linux-api@vger.kernel.org>; Tue, 13 Jun 2023 05:27:28 -0700 (PDT)
+ us-mta-106-9NJPwwwXPBmF3hE01skT8w-1; Tue, 13 Jun 2023 08:28:17 -0400
+X-MC-Unique: 9NJPwwwXPBmF3hE01skT8w-1
+Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-30ae18b11bfso2383308f8f.0
+        for <linux-api@vger.kernel.org>; Tue, 13 Jun 2023 05:28:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686659247; x=1689251247;
+        d=1e100.net; s=20221208; t=1686659296; x=1689251296;
         h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+CnFB1DNmO6T96vOB/65A5+oQ7wctSJhf7OTxF1Wbzs=;
-        b=M/3WmHWybKkSfnNSu5M1nuCggnkts3rHHNRHNLTvR1fVAW4Ea9aRa3ouk/scHHbFpD
-         6IF/OIz89RQd4mrG5uFFay3chaGriFN0GlRmorTkXlTMSkwvzXriB/ybLYRmQuFEavjP
-         7iSVP4kCoqifVUf8tfoNpoQG2/kwWu6XdyDkIHu+/hyQvWoLtgxn2lphDNb1Dy1o0Pvi
-         Ru0b02VKhdbz4aYcF4hSSmqVnBFTUNv3YyZLgKRqNgQZdOD4R6eyaBgdWvDNjD4g6awU
-         +pD2JvF8jkLUhVfXHCVNQ80z8tu/DskNKs23j2ICIcWSpx18e0VDDCe3uI1kHzcBW20m
-         M+IA==
-X-Gm-Message-State: AC+VfDycIGtnN3LxIlfbBUB/3xZDo0vojvN7shij0t02QzegzuOll7HE
-        VffC2lALoW0Yw3d4VVqflFcD2otD/fTQJ34plviLSgV1q2t7IjH7OHevlOvOQLnsYfZIR5Q0bUj
-        4YsFDxiJHQsqgBdopiINf
-X-Received: by 2002:a19:f248:0:b0:4f1:43b9:a600 with SMTP id d8-20020a19f248000000b004f143b9a600mr4757404lfk.60.1686659246370;
-        Tue, 13 Jun 2023 05:27:26 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5qxg+OUnNnuA/wq9a021d2mLhWsjtTUxn0p2SKKfWwVdEEV9g+Xp/WxtiQmQ4d7Ue+u9rDFA==
-X-Received: by 2002:a19:f248:0:b0:4f1:43b9:a600 with SMTP id d8-20020a19f248000000b004f143b9a600mr4757320lfk.60.1686659245781;
-        Tue, 13 Jun 2023 05:27:25 -0700 (PDT)
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5APAgmZrGjFJ9+U0RvJUaGvdr2gWc6sxi+r6310cnNs=;
+        b=FZvCpukX6P2On13Ktakh/D5FQ1XPkXBIg6CFHHscccI5tkVYzi68R3NppsFyIiy5n4
+         lr+YWaEsP5T0tNEq986yDtZAOvkOF14ZLGRMSEcLky3uCwGIxajxtcRArt/CauRG00Fy
+         UGAPVyEHv9ebNqCMJW0jhe/oLVBVr1/GMolNAcKXzTSRiFPPBIJn/CPnvHt2um6DfK0P
+         ESkIxG/97gX6IxQnIHxPC7tzWz1dU51Pp5ErcsofL8wSwbdGm/qRg3xCFU8bFFBKztQA
+         Pi/j4J2ePrXQTuitmBufNBk072ffKPd0fM+NizMiBpuC5K1p5xxdQioOQrbtFXSD2BAl
+         7jlw==
+X-Gm-Message-State: AC+VfDy73OdDjU8eJbrnT2ySMEg3DyDnGUbiFi/4Mnbu4kpgHYIyiXvt
+        A6oDZ4zbhDLNHJlCsKVY2rrzXvpNElfdumsAAwNlTFrNZIpRusk+eGOvrtLxEam0xKjOtylazRM
+        rguaR7qN7zAWKwr5TpJze
+X-Received: by 2002:a05:6000:10c7:b0:30a:eae0:106c with SMTP id b7-20020a05600010c700b0030aeae0106cmr7102022wrx.10.1686659296211;
+        Tue, 13 Jun 2023 05:28:16 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ61EMABfB7hkEtd8rE3feiAmwo8GaJnsqM5qFYcE5rkOiMq3BqizYRb/VE1CFB4BKMLKA5RWQ==
+X-Received: by 2002:a05:6000:10c7:b0:30a:eae0:106c with SMTP id b7-20020a05600010c700b0030aeae0106cmr7101998wrx.10.1686659295754;
+        Tue, 13 Jun 2023 05:28:15 -0700 (PDT)
 Received: from ?IPV6:2003:cb:c710:ff00:1a06:80f:733a:e8c6? (p200300cbc710ff001a06080f733ae8c6.dip0.t-ipconnect.de. [2003:cb:c710:ff00:1a06:80f:733a:e8c6])
-        by smtp.gmail.com with ESMTPSA id c12-20020a05600c0acc00b003f195d540d9sm14232474wmr.14.2023.06.13.05.27.23
+        by smtp.gmail.com with ESMTPSA id u2-20020a5d4342000000b0030e5c8d55f2sm15258101wrr.6.2023.06.13.05.28.13
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Jun 2023 05:27:25 -0700 (PDT)
-Message-ID: <ab7853ca-70dd-b885-07df-c0764509997f@redhat.com>
-Date:   Tue, 13 Jun 2023 14:27:23 +0200
+        Tue, 13 Jun 2023 05:28:15 -0700 (PDT)
+Message-ID: <65805965-c6a2-ce0c-fb11-5277e5976120@redhat.com>
+Date:   Tue, 13 Jun 2023 14:28:13 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
-Subject: Re: [PATCH v9 02/42] mm: Move pte/pmd_mkwrite() callers with no VMA
- to _novma()
+Subject: Re: [PATCH v9 03/42] mm: Make pte_mkwrite() take a VMA
 Content-Language: en-US
 To:     Rick Edgecombe <rick.p.edgecombe@intel.com>, x86@kernel.org,
         "H . Peter Anvin" <hpa@zytor.com>,
@@ -94,19 +92,18 @@ To:     Rick Edgecombe <rick.p.edgecombe@intel.com>, x86@kernel.org,
         Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
         debug@rivosinc.com, szabolcs.nagy@arm.com,
         torvalds@linux-foundation.org, broonie@kernel.org
-Cc:     linux-arm-kernel@lists.infradead.org, linux-s390@vger.kernel.org,
-        xen-devel@lists.xenproject.org
 References: <20230613001108.3040476-1-rick.p.edgecombe@intel.com>
- <20230613001108.3040476-3-rick.p.edgecombe@intel.com>
+ <20230613001108.3040476-4-rick.p.edgecombe@intel.com>
 From:   David Hildenbrand <david@redhat.com>
 Organization: Red Hat
-In-Reply-To: <20230613001108.3040476-3-rick.p.edgecombe@intel.com>
+In-Reply-To: <20230613001108.3040476-4-rick.p.edgecombe@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -137,23 +134,20 @@ On 13.06.23 02:10, Rick Edgecombe wrote:
 > be moved to pte_mkwrite_novma(). And lastly, pte_mkwrite() and all callers
 > can be changed to take/pass a VMA.
 > 
-> Previous patches have done the first step, so next move the callers that
-> don't have a VMA to pte_mkwrite_novma(). Also do the same for
-> pmd_mkwrite(). This will be ok for the shadow stack feature, as these
-> callers are on kernel memory which will not need to be made shadow stack,
-> and the other architectures only currently support one type of memory
-> in pte_mkwrite()
+> In a previous patches, pte_mkwrite() was renamed pte_mkwrite_novma() and
+> callers that don't have a VMA were changed to use pte_mkwrite_novma(). So
+> now change pte_mkwrite() to take a VMA and change the remaining callers to
+> pass a VMA. Apply the same changes for pmd_mkwrite().
 > 
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-s390@vger.kernel.org
-> Cc: xen-devel@lists.xenproject.org
-> Cc: linux-arch@vger.kernel.org
-> Cc: linux-mm@kvack.org
+> No functional change.
+> 
+> Suggested-by: David Hildenbrand <david@redhat.com>
 > Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
 > ---
 
 Acked-by: David Hildenbrand <david@redhat.com>
+
+Hopefully we'll get this landed soon :)
 
 -- 
 Cheers,
