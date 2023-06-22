@@ -2,33 +2,33 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3DDCA7399B0
-	for <lists+linux-api@lfdr.de>; Thu, 22 Jun 2023 10:29:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E8AC739CEC
+	for <lists+linux-api@lfdr.de>; Thu, 22 Jun 2023 11:28:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230229AbjFVI3S (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 22 Jun 2023 04:29:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47144 "EHLO
+        id S231856AbjFVJ2L (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 22 Jun 2023 05:28:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230117AbjFVI3R (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 22 Jun 2023 04:29:17 -0400
-Received: from EUR04-VI1-obe.outbound.protection.outlook.com (mail-vi1eur04on2070.outbound.protection.outlook.com [40.107.8.70])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31E4C1FF9;
-        Thu, 22 Jun 2023 01:28:48 -0700 (PDT)
+        with ESMTP id S231897AbjFVJ1k (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 22 Jun 2023 05:27:40 -0400
+Received: from EUR03-AM7-obe.outbound.protection.outlook.com (mail-am7eur03on2043.outbound.protection.outlook.com [40.107.105.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8112A30ED;
+        Thu, 22 Jun 2023 02:19:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
  s=selector2-armh-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OoGomNk2bbnUeGoqy9olvSlyDMBJOgxLH0AyRqp2uEo=;
- b=n2pDnRTmjsoCrLHuo5mFY5XusvJc9QdGAo1Jn4dv8PVCn7fnr1010Ee7EUI1PvRKavB6NWDQ8KyFE/ffPKfxCj3pOpfoKR0prG+XKq1wPRQ6yspE5lmsuzL4rCQ30v/EsHDax2wwEwQ+bXPqPtlHhPcsC3c1wNzfmoj8vh88xBM=
-Received: from DBBPR09CA0002.eurprd09.prod.outlook.com (2603:10a6:10:c0::14)
- by AS2PR08MB9812.eurprd08.prod.outlook.com (2603:10a6:20b:603::11) with
+ bh=5k7XCf5B1pDsHOAGX0ZIEyFrwYcrSyuWkj5C8WZaQro=;
+ b=XnSHxi38T6oqoZlbI0Fy3inZ/aP3rEMQU2AMSsupz8Gfy30lSe5g5VIdfvHHk9Q2jftjWr54gEO8ivvK+6JNG7dvVKGjiO5kOX7xmzYUjYvr/Qv2hRXSFqa69xrg1mbKIEENmfvKe9eclh0DUMvbZrsRyMfYqlMzNqpYqY8rUOU=
+Received: from AS4PR10CA0016.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:5d8::8)
+ by PAWPR08MB8935.eurprd08.prod.outlook.com (2603:10a6:102:33f::9) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.23; Thu, 22 Jun
- 2023 08:27:51 +0000
-Received: from DBAEUR03FT025.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:10:c0:cafe::ce) by DBBPR09CA0002.outlook.office365.com
- (2603:10a6:10:c0::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.24 via Frontend
- Transport; Thu, 22 Jun 2023 08:27:51 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.24; Thu, 22 Jun
+ 2023 09:19:05 +0000
+Received: from AM7EUR03FT018.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:20b:5d8:cafe::aa) by AS4PR10CA0016.outlook.office365.com
+ (2603:10a6:20b:5d8::8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.23 via Frontend
+ Transport; Thu, 22 Jun 2023 09:19:05 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
  smtp.mailfrom=arm.com; dkim=pass (signature was verified)
  header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
@@ -37,47 +37,47 @@ Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
  client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
  pr=C
 Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- DBAEUR03FT025.mail.protection.outlook.com (100.127.142.226) with Microsoft
+ AM7EUR03FT018.mail.protection.outlook.com (100.127.140.97) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6521.24 via Frontend Transport; Thu, 22 Jun 2023 08:27:51 +0000
-Received: ("Tessian outbound e2424c13b707:v142"); Thu, 22 Jun 2023 08:27:50 +0000
+ 15.20.6521.24 via Frontend Transport; Thu, 22 Jun 2023 09:19:05 +0000
+Received: ("Tessian outbound e2424c13b707:v142"); Thu, 22 Jun 2023 09:19:04 +0000
 X-CheckRecipientChecked: true
-X-CR-MTA-CID: 1a48b65363cfc1fc
+X-CR-MTA-CID: 99a5ce0491afae30
 X-CR-MTA-TID: 64aa7808
-Received: from 32353250eeb9.1
-        by 64aa7808-outbound-1.mta.getcheckrecipient.com id 6C6DE126-84BD-4E22-ACA8-53CB5A7D21D5.1;
-        Thu, 22 Jun 2023 08:27:44 +0000
-Received: from EUR01-HE1-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 32353250eeb9.1
+Received: from 186d5a01a5ab.1
+        by 64aa7808-outbound-1.mta.getcheckrecipient.com id C9F25E68-0F24-436B-B230-F0A839A556A7.1;
+        Thu, 22 Jun 2023 09:18:57 +0000
+Received: from EUR02-DB5-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 186d5a01a5ab.1
     (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Thu, 22 Jun 2023 08:27:43 +0000
+    Thu, 22 Jun 2023 09:18:57 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FqSfL4l2cOV1Tkm599somsdWgplHlblW0Pt+eNHIZVEfBAE6UT9xymdWEu47jbL6gbUT4TbeYu/qgHHPl+BqA1csSgr4Pozy9/6JcHuhDgmKtnbxDeCRG1gNrKrkgAQPeFVHt8UezEMwvhavvXd49PxIMt5TrjkeONVGgxscK95KAt1H+cjooSbmihuHNfB53rkX/TjYHqCfrkKSz9fBpglgE9HUj1K21ejUi9FPqfMp+0gcw3u0Q+tZ4ZifM7yjgRtn90rx1xxHmZ97FNqi5sbcQK36hy+8/8pl1fFIecV5NeYMpB2l2f4HG2Bx7cLi76MfWOt7LZSP3Pv7FrSjtw==
+ b=WK+2Kbp3LSJcI+ePj0X1TBJyVLtdf1K2rc+i9m4d2xeP14+yXy8bGknQuGo9B3yGG1LEizWxHo+vbLeDrXUqqjK6Hmh9lNfG0BDS/QbBhk5WnYZKa80iOlCkq+94CDuQrPFSPBLllwmIvn3EcvX4OKqhGVMIEAetTVOOJH2Uhp1kRCCmoA5jtZTBa0qnvRdbs64Ti98gZJvqnKhn3QNlTWdPg4qi8GvHE1SWIzWzaFmDPivERc2SL0Yg2QtCgwTHC/QjPyCHf3PuFsmvMV/kYhSPybg1Ff67PcOeJQgcHQcX1KU6DiNGwk/S8UwrVxoFPJ2nbiubfVDpSRWo+yOqVg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OoGomNk2bbnUeGoqy9olvSlyDMBJOgxLH0AyRqp2uEo=;
- b=CoOrMFnmoSETSOp9MXFhmmduCCWdrHT4nM5xSBCRY6w5NQXMKsbzdNbED1Tjxbn3cWS3C40QRJCMy+QbE2MEandqHYPgLaq09EnNU8D0jL3joQEeqvgXl18vkF9LMF+EqP0yK31uE9wOSeMQRlqn107iUrb6fzrb+nstopXgITMLilB2osSUIkgaEobd7lbRy/28CAttrAV1AZ/zTKQQrRE/7mZKBXvh7kh7JPBKj6C+hHbOa2/s4i5i+KnUn90CB6RdoWb9nyucducITNn5Wul7f1h6fOQQTFBSyCe1uRVkHNADHBMvOZifDPeWpANauHu70nZj5mrEE6JBqfWroA==
+ bh=5k7XCf5B1pDsHOAGX0ZIEyFrwYcrSyuWkj5C8WZaQro=;
+ b=OxJkCuVmggrgJXSKjMBy6CtVN7kGSMHK8bT1rEcnvCX2M09gLoufwmpS6X17o5szw+gDtsPRAAmbNyMInSYYfHSjN12Y+4An1LHcHUzISXZuB5QLqPHFqUpacideinBNg+1oxM+SvmQJwEGfpYV+ZbWa5HBcOEQo1cFPzK3POPRpv3AwcwpqSclMJ22a83le5FISGebA8Iesy15cvXdWxIGrv99lwKwSdObIH4jLMCdyWV/UDf7e/uc/L6OAQ/XXmH2fYKOF8NKzlKh790UpX7BHK9tZf22Gx+nalxEzfhQmDmb1T4DQAEsnU8ROmHX3Iib02IeOR+zt9oov5h7sVQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
  header.d=arm.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
  s=selector2-armh-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OoGomNk2bbnUeGoqy9olvSlyDMBJOgxLH0AyRqp2uEo=;
- b=n2pDnRTmjsoCrLHuo5mFY5XusvJc9QdGAo1Jn4dv8PVCn7fnr1010Ee7EUI1PvRKavB6NWDQ8KyFE/ffPKfxCj3pOpfoKR0prG+XKq1wPRQ6yspE5lmsuzL4rCQ30v/EsHDax2wwEwQ+bXPqPtlHhPcsC3c1wNzfmoj8vh88xBM=
+ bh=5k7XCf5B1pDsHOAGX0ZIEyFrwYcrSyuWkj5C8WZaQro=;
+ b=XnSHxi38T6oqoZlbI0Fy3inZ/aP3rEMQU2AMSsupz8Gfy30lSe5g5VIdfvHHk9Q2jftjWr54gEO8ivvK+6JNG7dvVKGjiO5kOX7xmzYUjYvr/Qv2hRXSFqa69xrg1mbKIEENmfvKe9eclh0DUMvbZrsRyMfYqlMzNqpYqY8rUOU=
 Authentication-Results-Original: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=arm.com;
 Received: from DB9PR08MB7179.eurprd08.prod.outlook.com (2603:10a6:10:2cc::19)
- by AS2PR08MB8429.eurprd08.prod.outlook.com (2603:10a6:20b:558::14) with
+ by GV2PR08MB7956.eurprd08.prod.outlook.com (2603:10a6:150:a9::5) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.24; Thu, 22 Jun
- 2023 08:27:37 +0000
+ 2023 09:18:52 +0000
 Received: from DB9PR08MB7179.eurprd08.prod.outlook.com
  ([fe80::43b7:3a83:5cbe:4559]) by DB9PR08MB7179.eurprd08.prod.outlook.com
  ([fe80::43b7:3a83:5cbe:4559%4]) with mapi id 15.20.6521.023; Thu, 22 Jun 2023
- 08:27:37 +0000
-Date:   Thu, 22 Jun 2023 09:27:23 +0100
+ 09:18:52 +0000
+Date:   Thu, 22 Jun 2023 10:18:38 +0100
 From:   "szabolcs.nagy@arm.com" <szabolcs.nagy@arm.com>
 To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
         "broonie@kernel.org" <broonie@kernel.org>
@@ -125,8 +125,9 @@ Cc:     "Xu, Pengfei" <pengfei.xu@intel.com>,
         "Eranian, Stephane" <eranian@google.com>
 Subject: Re: [PATCH v9 23/42] Documentation/x86: Add CET shadow stack
  description
-Message-ID: <ZJQF636p80oywgqZ@arm.com>
-References: <a0f1da840ad21fae99479288f5d74c7ab9095bb6.camel@intel.com>
+Message-ID: <ZJQR7slVHvjeCQG8@arm.com>
+References: <fc2ebfcf-8d91-4f07-a119-2aaec3aa099f@sirena.org.uk>
+ <a0f1da840ad21fae99479288f5d74c7ab9095bb6.camel@intel.com>
  <ZImZ6eUxf5DdLYpe@arm.com>
  <64837d2af3ae39bafd025b3141a04f04f4323205.camel@intel.com>
  <ZJAWMSLfSaHOD1+X@arm.com>
@@ -135,44 +136,42 @@ References: <a0f1da840ad21fae99479288f5d74c7ab9095bb6.camel@intel.com>
  <e676c4878c51ab4b6018c9426b5edacdb95f2168.camel@intel.com>
  <ZJLgp29mM3BLb3xa@arm.com>
  <c5ae83588a7e107beaf858ab04961e70d16fe32c.camel@intel.com>
- <5ae619e03ab5bd3189e606e844648f66bfc03b8f.camel@intel.com>
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <5ae619e03ab5bd3189e606e844648f66bfc03b8f.camel@intel.com>
-X-ClientProxiedBy: LO6P265CA0024.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:2ff::19) To DB9PR08MB7179.eurprd08.prod.outlook.com
+In-Reply-To: <c5ae83588a7e107beaf858ab04961e70d16fe32c.camel@intel.com>
+X-ClientProxiedBy: LO4P265CA0036.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:2ae::12) To DB9PR08MB7179.eurprd08.prod.outlook.com
  (2603:10a6:10:2cc::19)
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic: DB9PR08MB7179:EE_|AS2PR08MB8429:EE_|DBAEUR03FT025:EE_|AS2PR08MB9812:EE_
-X-MS-Office365-Filtering-Correlation-Id: f3b9de50-0521-404d-9b35-08db72fa9188
+X-MS-TrafficTypeDiagnostic: DB9PR08MB7179:EE_|GV2PR08MB7956:EE_|AM7EUR03FT018:EE_|PAWPR08MB8935:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3895ca1b-84d0-4bb9-8366-08db7301ba2c
 x-checkrecipientrouted: true
 NoDisclaimer: true
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: 6PnGYBhF+R57YQ60xDMh54U8GUzAt9TRP6hDo6QsdVcy/RcjfiagloM2cUzDrCQRGWx5RPIMXb57d0wdlvBfIbF5xNzEr2DEHR3rhBCoXOOBW/IwMlZRF9sgpHhCSvjuTA2tPE69fMv99ZWjYdri1mmW6GmdpibqUhljyggrmsIk1FVN8jVwUHifolILmF4J6Uas0vqZKNLoDc+QCTDGFGrTttteMcC066EoaRn59yJ7H6e9BSqO/gFfZsp5dF/LaTjD+GeY1cgkhiJ+bzRQxNRCV1tFyPMeeczexp9Mqbd3i4Pr6zvpNHmPNAA5taNQFuF/QcZ+XPHo727V/tlyI4FLufWobbrLSc1zs3rEe5UrcWJegpWRZ963WcQDu6tBeQ9GPANSjzYScGPQDlY1Nu1QrvTP1mh+jXdXCQhWZmff54AGspyKk1ZUeEa4DU1V5bnt4NFwOiRZtx+ZJg05kDG85CEhQo9aPJdvqpbfF4GD5Zo0lQDTtQ4NpIYRiHxgwDb2287TPxyqHBfkLEinLEv/TnVwJtMdmajAdTJUG7aMJKty8D6KZJtw9LLRIvMv
-X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR08MB7179.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(366004)(39860400002)(376002)(396003)(346002)(136003)(451199021)(2906002)(6486002)(38100700002)(6666004)(2616005)(83380400001)(6512007)(186003)(26005)(86362001)(110136005)(54906003)(41300700001)(478600001)(316002)(36756003)(66476007)(66946007)(66556008)(4326008)(6506007)(5660300002)(7416002)(7406005)(8676002)(8936002);DIR:OUT;SFP:1101;
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR08MB8429
+X-Microsoft-Antispam-Message-Info-Original: YRWnrzwfb2Ty0Xt5pefOZIW2muOzoSwEkzQcQGObdoSwsVEXZXZ7bGKjWu6/RtfWnxJnlc9Gh3VFQIebCAoaRraGv4SGEN7HPEB+/zTDXZEtYHA7HAHFT852ElBV9A9smbd+6nR2/fzoJoR17FNTj87ik6W4E1fnSf9NE3rGEipI3qWoVUdGTjEoS/2D/RPvJ8CJulOSL2IkFZ2bg2pCE7xqwrV2wgwC+SKFk3qK1/wkZPWz8V+p05TlkuteeuTwPj5ukAeQ5EZ7AvEi3EigguDlw2+ZN0w0AthmPKe8hjHac3zn/CeB37QqX5AHrKNSHGdrC4mAlnTQgdOJbZmevR55LN6UKkR4P4cpt3kF78CHvFrido8gZKjWmQZNSAwbREPPFYIKcFWDrs4hHuB2BUgVmLOrGnYJ/qQkXDQCRKiIDwYbbQr+pqmcgNRQeLGuYU/ERscUZZHJ0P4dLpzuPqq1IwQHGEmDfd0OeZC46zAB4TmCzDACuYiUVmz5Cbsue4jmpf/4tMG1xAFGhhiDxaieygt+MonhbKqa8xzrELYXqfMZpaiDKyFTx6HJZD0U
+X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR08MB7179.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(39860400002)(376002)(396003)(346002)(366004)(451199021)(54906003)(2616005)(86362001)(110136005)(478600001)(6666004)(6486002)(186003)(4326008)(41300700001)(316002)(83380400001)(6512007)(6506007)(26005)(66476007)(66946007)(66556008)(8936002)(8676002)(5660300002)(36756003)(7416002)(7406005)(38100700002)(2906002);DIR:OUT;SFP:1101;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR08MB7956
 Original-Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=arm.com;
 X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: DBAEUR03FT025.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: AM7EUR03FT018.eop-EUR03.prod.protection.outlook.com
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: e5ae655c-0c28-4946-4810-08db72fa894e
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 67c16379-6672-4029-0c86-08db7301b1f1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ViBSbb02y29b/I/dAnyOrDHb4odezVFNO2R+dJpWZQggg4NyI+cNWFgxVuvNpLHEX4U50Rs64Mc7x61wyscN3YSswMhSWJdsJ9JAhn4jCvkGmVA9Yad1i1CzA7uJIR20+Fb2EDAcmfWGacHSANkwGqTORD08Gv1SYDQP6n/vTZnIKWK2E7Mgm/NHAxt7+yRm6KnsiMz6kNd8etOXB4mrI2omacYzyQTh0y9EUI1vVnNy4S85ETbUSmxNX2Jir34b1o4I8MSfR+b8M+2ENURvQjZiaG74ZWK+g3kqxh7nNVBsH9uVxBkQ0sT1MSiv/trAx9A4GYtuWx42viZS41wrcza5NyOUzPAu7GYHKK84MQEs45SrIh7fmOMyBx2cagiUmRbUsnZYy5p2W1lCh8kfUNCqNRAgtbOvBnDFPInCQyxtUVZTKDWUJuJnqWVBUM8UDASxvpmYNMPnQUgr3qk/ka6D16uFFoqrRXp/KuspGj4djWBpKRbgY756nUIZgpxhwhCoB73LvHzxuZlykGao7dRjqpBmBAIEjIqf3LcldWpElU8lE92JrQtb2erRIHTIociIPBm/hPk8Om3e1mytK3scqC4S46SUi5HWIh8WD31R8oeHs+sdb4+q56HwbvhYmp1YzA0saawy8B+LvZG39Dsq8Bmzp8/ybCib/JceRhn49KPlM0IuqFjTsZYZ3X/bLEHptwiPOzxZ1n5chJPwvgy2CzMMQiV5IG4fV8Ye0oXy4QhkbpDw3ETjRaCrW/T/
-X-Forefront-Antispam-Report: CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230028)(4636009)(346002)(376002)(136003)(39860400002)(396003)(451199021)(46966006)(36840700001)(40470700004)(82740400003)(5660300002)(81166007)(356005)(6506007)(47076005)(26005)(6512007)(336012)(83380400001)(186003)(2616005)(36860700001)(107886003)(40480700001)(41300700001)(2906002)(8936002)(36756003)(6666004)(6486002)(4326008)(478600001)(70586007)(70206006)(40460700003)(86362001)(450100002)(110136005)(54906003)(316002)(8676002)(82310400005);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: S+2+B5mXJYceYW+nD3EqDq42Xkq4WDFx/3kSRwjpMrzuGr1TxBOCdcXnBqLhlVfxTaYglPpzytDKEsvoRhyeBlMla6msiJi2dIkjv3NqG8KYO7iF24gzPIOnA8Aoq5TABBcQMz7h5HcZOFHILjxxfZ9K0I7f1qy8P1Z96Zqe+qN2M6sTjLQdyOtRShSn3Wv0LuESdtXK9udmgoiZxYu+U+EmTBxGJqtgaxZ1r1luDvbnAHI5uInh7CQq8rsUo7gxXzC5KwC8Clkfc+necAK7U4plppl7R77ZVd2ixbkTXvnipZvz9y1150Lgy1ORDMYYKfb9ZKjrbh4oFI0z8aWSYsKGWBKmtQV055Ki5k76g5ap7tqjLUet3RJbi2uR2JQyG7kc6mn+b9TQ6rGeRPgeBgg4KBcCuQlXXim8xRbsX0PDz+sr29ezzy0iCXDSVnP2qGcJDHA8PGN7JAObw3NglhDopYEYQgxWymVVqSKMDCFFHurjciliI//NBwzsrftNR9ZpQr8YiwSEU0UIPP8GlFfny32scnmpphNhAYZk10O+N0GAKhyCRg1TjBEDqsi9ZJUlhAOI9BpZbKvvUyCtvswIIi/zC7Ge7N3U0XlGKs7Lmr1S9fR8SXx7+OLFMEa11qZO7kElp+T/OV9Iwow1YYA7e9XkUb0nEhnEUY6dbGMGnkJM3+PN1uwTiAAeRBHd4GqmIgojRigGCP/+LEaOF7GQozVj/2bHvxxDW4Pz5IeJiYb8kjfEvcSAim4JkSSu
+X-Forefront-Antispam-Report: CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230028)(4636009)(136003)(346002)(396003)(39860400002)(376002)(451199021)(40470700004)(46966006)(36840700001)(6506007)(8676002)(8936002)(70586007)(70206006)(450100002)(36756003)(478600001)(40480700001)(316002)(4326008)(5660300002)(2906002)(40460700003)(36860700001)(110136005)(54906003)(41300700001)(86362001)(82310400005)(6486002)(47076005)(186003)(26005)(6512007)(336012)(356005)(82740400003)(6666004)(83380400001)(81166007)(107886003)(2616005);DIR:OUT;SFP:1101;
 X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jun 2023 08:27:51.1940
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jun 2023 09:19:05.7448
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f3b9de50-0521-404d-9b35-08db72fa9188
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3895ca1b-84d0-4bb9-8366-08db7301ba2c
 X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: DBAEUR03FT025.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: AM7EUR03FT018.eop-EUR03.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR08MB9812
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR08MB8935
 X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,FORGED_SPF_HELO,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
         SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY
@@ -183,99 +182,80 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-The 06/21/2023 22:22, Edgecombe, Rick P wrote:
-> On Wed, 2023-06-21 at 11:54 -0700, Rick Edgecombe wrote:
-> > > > > > > > there is no magic, longjmp should be implemented as:
-> > > > > > > > 
-> > > > > > > >         target_ssp = read from jmpbuf;
-> > > > > > > >         current_ssp = read ssp;
-> > > > > > > >         for (p = target_ssp; p != current_ssp; p--) {
-> > > > > > > >                 if (*p == restore-token) {
-> > > > > > > >                         // target_ssp is on a different
-> > > > > > > > shstk.
-> > > > > > > >                         switch_shstk_to(p);
-> > > > > > > >                         break;
-> > > > > > > >                 }
-> > > > > > > >         }
-> > > > > > > >         for (; p != target_ssp; p++)
-> > > > > > > >                 // ssp is now on the same shstk as
-> > > > > > > > target.
-> > > > > > > >                 inc_ssp();
-> > > > > > > > 
-> > > > > > > > this is what setcontext is doing and longjmp can do the
-> > > > > > > > same:
-> > > > > > > > for programs that always longjmp within the same shstk
-> > > > > > > > the
-> > > > > > > > first
-> > > > > > > > loop is just p = current_ssp, but it also works when
-> > > > > > > > longjmp
-> > > > > > > > target is on a different shstk assuming nothing is
-> > > > > > > > running
-> > > > > > > > on
-> > > > > > > > that shstk, which is only possible if there is a restore
-> > > > > > > > token
-> > > > > > > > on top.
-> > > > > > > > 
-> > > > > > > > this implies if the kernel switches shstk on signal entry
-> > > > > > > > it has
-> > > > > > > > to add a restore-token on the switched away shstk.
+The 06/21/2023 18:54, Edgecombe, Rick P wrote:
+> On Wed, 2023-06-21 at 12:36 +0100, szabolcs.nagy@arm.com wrote:
+> > > The 06/20/2023 19:34, Edgecombe, Rick P wrote:
+> > > > > I actually did a POC for this, but rejected it. The problem is,
+> > > > > if
+> > > > > there is a shadow stack overflow at that point then the kernel
+> > > > > > > can't
+> > > > > push the shadow stack token to the old stack. And shadow stack
+> > > > > > > overflow
+> > > > > is exactly the alt shadow stack use case. So it doesn't really
+> > > > > > > solve
+> > > > > the problem.
+> > > 
+> > > the restore token in the alt shstk case does not regress anything
+> > > but
+> > > makes some use-cases work.
+> > > 
+> > > alt shadow stack is important if code tries to jump in and out of
+> > > signal handlers (dosemu does this with swapcontext) and for that a
+> > > restore token is needed.
+> > > 
+> > > alt shadow stack is important if the original shstk did not
+> > > overflow
+> > > but the signal handler would overflow it (small thread stack, huge
+> > > sigaltstack case).
+> > > 
+> > > alt shadow stack is also important for crash reporting on shstk
+> > > overflow even if longjmp does not work then. longjmp to a
+> > > makecontext
+> > > stack would still work and longjmp back to the original stack can
+> > > be
+> > > made to mostly work by an altshstk option to overwrite the top
+> > > entry
+> > > with a restore token on overflow (this can break unwinding though).
+> > > 
 > 
-> Wait a second, the claim is that the kernel should add a restore token
-> on the current shadow stack before handling a signal, to allow to
-> unwind from an alt shadow stack, right? But in this series there is not
-> an alt shadow stack, so signal will be handled on the current shadow
-> stack. If the user stays on the current shadow stack, the existing
-> simple INCSSP based solution will work.
+> There was previously a request to create an alt shadow stack for the
+> purpose of handling shadow stack overflow. So you are now suggesting to
+> to exclude that and instead target a different use case for alt shadow
+> stack?
 
-yes.
+that is not what i said.
 
-> If the user swapcontext()'s away while handling a signal (which *is*
-> currently supported) they will leave their own restore token on the old
-> stack. Hypothetically glibc could unwind back through a series of
-> ucontext stacks by pivoting, if it kept some metadata somewhere about
-> where to restore to. So there are actually already enough tokens to
-> make it back in this case, glibc just doesn't do this.
+> But I'm not sure how much we should change the ABI at this point since
+> we are constrained by existing userspace. If you read the history, we
+> may end up needing to deprecate the whole elf bit for this and other
+> reasons.
 
-swapcontext is currently *not* supported: for it to work you have to
-be able to jump *back* into the signal handler, which does not work if
-the swapcontext target is on the original thread stack (instead of
-say a makecontext stack).
+i'm not against deprecating the elf bit, but i think binary
+marking will be difficult for this kind of feature no matter what
+(code may be incompatible for complex runtime dependent reasons).
 
-jumping back can only be supported if alt stack can be paired with
-an alt shadow stack.
+> So should we struggle to find a way to grow the existing ABI without
+> disturbing the existing userspace? Or should we start with something,
+> finally, and see where we need to grow and maybe get a chance at a
+> fresh start to grow it?
+> 
+> Like, maybe 3 people will show up saying "hey, I *really* need to use
+> shadow stack and longjmp from a ucontext stack", and no one says
+> anything about shadow stack overflow. Then we know what to do. And
+> maybe dosemu decides it doesn't need to implement shadow stack (highly
+> likely I would think). Now that I think about it, AFAIU SS_AUTODISARM
+> was created for dosemu, and the alt shadow stack patch adopted this
+> behavior. So it's speculation that there is even a problem in that
+> scenario.
+> 
+> Or maybe people just enable WRSS for longjmp() and directly jump back
+> to the setjmp() point. Do most people want fast setjmp/longjmp() at the
+> cost of a little security?
+> 
+> Even if, with enough discussion, we could optimize for all
+> hypotheticals without real user feedback, I don't see how it helps
+> users to hold shadow stack. So I think we should move forward with the
+> current ABI.
 
-unwinding across a series of signal interrupts should work even
-with discontinous shstk. libgcc does not implement this which is
-a problem i think.
-
-> But how does the proposed token placed by the kernel on the original
-> stack help this problem? The longjmp() would have to be able to find
-> the location of the restore tokens somehow, which would not necessarily
-> be near the setjmp() point. The signal token could even be on a
-> different shadow stack.
-
-i posted the exact longjmp code and it takes care of this case.
-
-setjmp does not need to do anything special.
-
-the invariant is that an shstk is either capped by a restore token
-or in use by some executing task. this is guaranteed architecturally
-(when shstk is switched with an instruction) and should be guaranteed
-by the kernel too (when shstk is switched by the kernel).
-
-> I'm also not sure leaving a token on signal doesn't weaken the security
-> it it's own way as well. Any thread could then swap to that token.
-> Where as the shadow stack signal frame ssp pointer can only be used
-> from the shadow stack the signal was handled on.
-
-as far as i'm concerned it is a valid programming model to switch
-to a stack that is currently not in use and we should always allow
-that. (signal handled on an alt stack may not return)
-
-> So I think, in addition to blocking the shadow stack overflow use case
-> in the future, leaving a token behind on signal will not really help
-> longjmp(). (or at least I'm not following)
-
-the restore token must only be added if shstk is switched
-(currently it is not switched so don't add it, however if
-we agree on this then the unwinder can be fixed accordingly.)
+you may not get a second chance to fix a security feature.
+it will be just disabled if it causes problems.
