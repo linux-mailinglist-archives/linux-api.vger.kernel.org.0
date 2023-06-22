@@ -2,96 +2,122 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 32C5F73A7B1
-	for <lists+linux-api@lfdr.de>; Thu, 22 Jun 2023 19:50:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8EAF573A820
+	for <lists+linux-api@lfdr.de>; Thu, 22 Jun 2023 20:21:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231403AbjFVRud (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 22 Jun 2023 13:50:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42136 "EHLO
+        id S229832AbjFVSV2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 22 Jun 2023 14:21:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231409AbjFVRub (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 22 Jun 2023 13:50:31 -0400
-X-Greylist: delayed 955 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 22 Jun 2023 10:50:30 PDT
-Received: from mta-102a.earthlink-vadesecure.net (mta-102a.earthlink-vadesecure.net [51.81.61.66])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B2161BE3;
-        Thu, 22 Jun 2023 10:50:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; bh=f7xXfWZM+MImUrtRNOoXYVPJtna4w7j0w+27iz
- otiB0=; c=relaxed/relaxed; d=earthlink.net; h=from:reply-to:subject:
- date:to:cc:resent-date:resent-from:resent-to:resent-cc:in-reply-to:
- references:list-id:list-help:list-unsubscribe:list-subscribe:list-post:
- list-owner:list-archive; q=dns/txt; s=dk12062016; t=1687455275;
- x=1688060075; b=UVKoTQ9UlsU2ArvOLqN4BbwzMiANvmZIWLwq7xM9iF/Dk2pvkXQ9Qdu
- DYm4oacA5i1909lqw1FSY7rJPTYIiwwPDjVbGCjhggz3GJPSTOtTtI9qSfd6ux86mem4z9W
- epSwD+Ni4YK7tBRlFWZ8TzP6GoAVrQ1subcJFL0FDL9HS605MgzYUH153QK1KuuTMMRDD5Z
- AsvwdAMRkYSYoUqM39+URIKeHzaPjWe5sfMcRwTHP6vOC0lHW+Sy2GHr3NQR3neKhKMWLEe
- tEX1fTmw6iwGlCuUNKfpMP/IVZsco828De8ilCiczilAklUFL6xYNyhnxTwpY7wwTsfsdSV
- O+A==
-Received: from FRANKSTHINKPAD ([174.174.49.201])
- by vsel1nmtao02p.internal.vadesecure.com with ngmta
- id cef2d9db-176b0ba1903c281b; Thu, 22 Jun 2023 17:34:34 +0000
-From:   "Frank Filz" <ffilzlnx@mindspring.com>
-To:     "'Chuck Lever III'" <chuck.lever@oracle.com>,
-        "'stsp'" <stsp2@yandex.ru>
-Cc:     "'Jeff Layton'" <jlayton@kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        "'Al Viro'" <viro@zeniv.linux.org.uk>,
-        "'Christian Brauner'" <brauner@kernel.org>,
-        <linux-fsdevel@vger.kernel.org>, "'Shuah Khan'" <shuah@kernel.org>,
-        <linux-kselftest@vger.kernel.org>, <linux-api@vger.kernel.org>
-References: <20230621152214.2720319-1-stsp2@yandex.ru> <20230621152214.2720319-3-stsp2@yandex.ru> <4db7c65bee0739fe7983059296cfc95f20647fa3.camel@kernel.org> <7bbb29d2-4cae-48bd-1b97-9f4dbf6ffb19@yandex.ru> <8F45F47C-86C0-472E-B701-001A4FF90DBC@oracle.com> <26a798ae-b93b-2f68-71ed-35950240927d@yandex.ru> <187C3E49-A977-492E-99CB-97F032B24E5F@oracle.com>
-In-Reply-To: <187C3E49-A977-492E-99CB-97F032B24E5F@oracle.com>
-Subject: RE: [PATCH 2/2] selftests: add OFD lock tests
-Date:   Thu, 22 Jun 2023 10:34:33 -0700
-Message-ID: <0a2001d9a52f$cfd24450$6f76ccf0$@mindspring.com>
+        with ESMTP id S229522AbjFVSV1 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 22 Jun 2023 14:21:27 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7601E2105;
+        Thu, 22 Jun 2023 11:21:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=t02GqixU93hABDtM3rcPTM2ZhN4nb0XzBqI30VoyYtE=; b=JkDrdCiYPmkRNJ5i6MKcglC3hd
+        NNkrYcDa/j7MYLLBgA00ey9vHiYeBuzgjsqsikSND7EtUysmHbzGMxKW0AP+vk5H3dVHHqBiPIweh
+        gG2XM09tag/4gG9lm6S6WKfYBzWVKUyZt/0vBnCFVNR1F1vtv4X47yTkGAYwS/GvQmPjPaCVg5bKB
+        IO7lNl1cJezXl2O0/b4/TM5Vy3oc/85fzjOG3U4XQLNicGnZsWshEqYIHbXFJ7iNj5G4E9LVEQsKi
+        o0Cj/wcmvdiOOJIBDh7OrM2p52ajZQP5/2+eZPYS5Xl62VvDjLXmLPfcwtk0+94x48hYBrJqteI14
+        4sqgR3VA==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1qCOvX-00ForJ-LK; Thu, 22 Jun 2023 18:21:03 +0000
+Date:   Thu, 22 Jun 2023 19:21:03 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        John Allen <john.allen@amd.com>, kcc@google.com,
+        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
+        dethoma@microsoft.com, akpm@linux-foundation.org,
+        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
+        david@redhat.com, debug@rivosinc.com, szabolcs.nagy@arm.com,
+        torvalds@linux-foundation.org, broonie@kernel.org,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
+Subject: Re: [PATCH v9 16/42] mm: Add guard pages around a shadow stack.
+Message-ID: <ZJSRD1xZauOW3jFO@casper.infradead.org>
+References: <20230613001108.3040476-1-rick.p.edgecombe@intel.com>
+ <20230613001108.3040476-17-rick.p.edgecombe@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: Microsoft Outlook 15.0
-Content-Language: en-us
-Thread-Index: AQFRuQ0uoMlieQo9bLavrmguyfHQFQJxeCDcAuSmYXMCWoer6wFUNlsYArCPQ1cBeWn8P7A9dY2w
-Authentication-Results: earthlink-vadesecure.net;
- auth=pass smtp.auth=ffilzlnx@mindspring.com smtp.mailfrom=ffilzlnx@mindspring.com;
-X-Spam-Status: No, score=-0.5 required=5.0 tests=BAYES_05,DKIM_SIGNED,
-        DKIM_VALID,HK_RANDOM_ENVFROM,HK_RANDOM_FROM,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230613001108.3040476-17-rick.p.edgecombe@intel.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-> > On Jun 22, 2023, at 1:05 PM, stsp <stsp2@yandex.ru> wrote:
-> >
-> >
-> > 22.06.2023 21:58, Chuck Lever III =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> >> IMO that's not a reason not to do this properly.
-> >>
-> >> You should work with Jeff and the maintainer of xfstests to make it
-> >> happen.
-> > But its not going to be in this patch-set anyway, as its a different
-> > source tree...
->=20
-> If others agree with me, then please drop the selftests patch from =
-this series.
-> There is a considerably higher probability that the new test will be =
-run frequently
-> by CI if it's in xfstests.
->=20
->=20
-> > So I should prepare it when this is merged, or?
->=20
-> I don't have a strong preference. A good choice is to push the test =
-before the
-> kernel changes are merged.
+On Mon, Jun 12, 2023 at 05:10:42PM -0700, Rick Edgecombe wrote:
+> +++ b/include/linux/mm.h
+> @@ -342,7 +342,36 @@ extern unsigned int kobjsize(const void *objp);
+>  #endif /* CONFIG_ARCH_HAS_PKEYS */
+>  
+>  #ifdef CONFIG_X86_USER_SHADOW_STACK
+> -# define VM_SHADOW_STACK	VM_HIGH_ARCH_5 /* Should not be set with VM_SHARED */
+> +/*
+> + * This flag should not be set with VM_SHARED because of lack of support
+> + * core mm. It will also get a guard page. This helps userspace protect
+> + * itself from attacks. The reasoning is as follows:
+> + *
+> + * The shadow stack pointer(SSP) is moved by CALL, RET, and INCSSPQ. The
+> + * INCSSP instruction can increment the shadow stack pointer. It is the
+> + * shadow stack analog of an instruction like:
+> + *
+> + *   addq $0x80, %rsp
+> + *
+> + * However, there is one important difference between an ADD on %rsp
+> + * and INCSSP. In addition to modifying SSP, INCSSP also reads from the
+> + * memory of the first and last elements that were "popped". It can be
+> + * thought of as acting like this:
+> + *
+> + * READ_ONCE(ssp);       // read+discard top element on stack
+> + * ssp += nr_to_pop * 8; // move the shadow stack
+> + * READ_ONCE(ssp-8);     // read+discard last popped stack element
+> + *
+> + * The maximum distance INCSSP can move the SSP is 2040 bytes, before
+> + * it would read the memory. Therefore a single page gap will be enough
+> + * to prevent any operation from shifting the SSP to an adjacent stack,
+> + * since it would have to land in the gap at least once, causing a
+> + * fault.
+> + *
+> + * Prevent using INCSSP to move the SSP between shadow stacks by
+> + * having a PAGE_SIZE guard gap.
+> + */
+> +# define VM_SHADOW_STACK	VM_HIGH_ARCH_5
+>  #else
+>  # define VM_SHADOW_STACK	VM_NONE
+>  #endif
 
-As an aside, an additional testing option for OFD locks is the multilock =
-test tool that is in the nfs-ganesha project. In preparation to use OFD =
-locks in Ganesha, I added them to multilock to check them out, and that =
-incidentally also allows testing how the NFS client and server work when =
-OFD locks are taken on a file from an NFS mount.
-
-Frank
-
-
+This is a lot of very x86-specific language in a generic header file.
+I'm sure there's a better place for all this text.
