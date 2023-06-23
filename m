@@ -2,115 +2,83 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 78BCA73B24E
-	for <lists+linux-api@lfdr.de>; Fri, 23 Jun 2023 10:07:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C66D973B4A8
+	for <lists+linux-api@lfdr.de>; Fri, 23 Jun 2023 12:09:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231308AbjFWIHO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 23 Jun 2023 04:07:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49168 "EHLO
+        id S231608AbjFWKJa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 23 Jun 2023 06:09:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230038AbjFWIHN (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 23 Jun 2023 04:07:13 -0400
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 913211BE2;
-        Fri, 23 Jun 2023 01:07:12 -0700 (PDT)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailout.nyi.internal (Postfix) with ESMTP id 00E905C00AE;
-        Fri, 23 Jun 2023 04:07:12 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Fri, 23 Jun 2023 04:07:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-type:content-type:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm1; t=1687507631; x=1687594031; bh=dB
-        4MvOq9La9HYoQdGbRIWUCrkjRx1qjCnmDH5dNdClE=; b=G5BssPj+eEkx8Shb0G
-        Ra49Nv1ek5YqpZn1Iu8uQ5sW/Mzh4xpqaDgzsai96WZNF5DCeuEBLdEzRXFo1Scx
-        mHQs0EmOYrfw+0oeXUdZox7G+C1wT3JWIGQFws3lvHHy6bR8/WddyjS61sTQvDDw
-        zrw5eZBDmGp5CHsNBOty++lsKVll+PvdhvHQW26H8vdfqAI3Awp44PpxLRGIXDo3
-        VStlEyLTlQXbHNnjU5t74+0HSNQrXzTvBSC8HyW7ktK/LwOpdTTolr4m0X+Dy0T4
-        MHsnn21IazSXnL6MSE91q33pIaCuKDasx78DrFRfaMOXCHaZJ1ftxvfBjmyfFwol
-        fuRA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:content-type:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm2; t=1687507631; x=1687594031; bh=dB4MvOq9La9HY
-        oQdGbRIWUCrkjRx1qjCnmDH5dNdClE=; b=Soh679IQEAvAnobbwqge9pp41xyd0
-        OpfLpxy7QQDcqvcBdDWF1QGXZwKsGM2XBDIaRPUScNW/v8hvqlcumCFdjqaWQtU6
-        D7w4l5HeZTS0lUaUq76qJI3rIvgwGkX9TX5/M/xDJo3WtEYzjpgWP5EavAxq6+xa
-        FuD+TQGmhPRqiw885VwPyhRvvlceh/7XFN3Gb+uR/jC3gRa0KWacmC9Jfn29Tvj5
-        Vh8hdp38gMRhLBQlFxxy2TIEVSArCiHQqUapqGzd/pIkqycprPU6ZnQ07uEwdD8W
-        9mMywpP24UoxU5gO+J5LsRfD2bJFQVii64qs1WO76Tkgcy/5Yd1dxngEA==
-X-ME-Sender: <xms:r1KVZCuY4G181ZfyY6IXV7c1N4lNEKOP-boUrpzPGJLUUvUDvyp6rQ>
-    <xme:r1KVZHeI8WrNr4_M2VrTpfQWe_02pMI2ptAq7N9RRKls0lVLFfd-JWZr2kE3lFg-i
-    IOmkzd8leyE3jS6boE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgeeggecutefuodetggdotefrodftvfcurf
-    hrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhnugcu
-    uegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtthgvrh
-    hnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeetffen
-    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnug
-    esrghrnhgusgdruggv
-X-ME-Proxy: <xmx:r1KVZNxchoBFqmwWO9TFxyLxhAjyhqKFRNkxQFjm5anZfl2d9a2NXQ>
-    <xmx:r1KVZNOdVhhThXWJPfMbo_iaXbTiZUJ4xDLiDRyNkOIYq-a0aQmYtg>
-    <xmx:r1KVZC-JdOMDiHd31tzkbLjwn897Q9qibueH5CzCZrPMWqUUrbs7GA>
-    <xmx:r1KVZIlwBudg0ddG76MtTezUOssMFCiKj2QgIC0no3IKHRFW1PotcA>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id BF51BB60086; Fri, 23 Jun 2023 04:07:11 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-499-gf27bbf33e2-fm-20230619.001-gf27bbf33
-Mime-Version: 1.0
-Message-Id: <0344615b-5148-4641-a99c-ef75a387b261@app.fastmail.com>
-In-Reply-To: <038984b4-9e95-bc4b-e763-95bf24426f07@intel.com>
-References: <e1a2665d-2e11-7722-a7ae-ef534829ed37@intel.com>
- <20230621223600.1348693-1-sohil.mehta@intel.com>
- <388c9fbb-2782-4990-b432-eeb999308869@app.fastmail.com>
- <038984b4-9e95-bc4b-e763-95bf24426f07@intel.com>
-Date:   Fri, 23 Jun 2023 10:06:51 +0200
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Sohil Mehta" <sohil.mehta@intel.com>
-Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        Linux-Arch <linux-arch@vger.kernel.org>
-Subject: Re: [PATCH] syscalls: Remove file path comments from headers
-Content-Type: text/plain
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+        with ESMTP id S231424AbjFWKJO (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 23 Jun 2023 06:09:14 -0400
+X-Greylist: delayed 62093 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 23 Jun 2023 03:07:49 PDT
+Received: from forward502b.mail.yandex.net (forward502b.mail.yandex.net [IPv6:2a02:6b8:c02:900:1:45:d181:d502])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3791D10F1;
+        Fri, 23 Jun 2023 03:07:49 -0700 (PDT)
+Received: from mail-nwsmtp-smtp-production-main-36.sas.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-36.sas.yp-c.yandex.net [IPv6:2a02:6b8:c08:a497:0:640:fcbf:0])
+        by forward502b.mail.yandex.net (Yandex) with ESMTP id 6CAAA5E6F7;
+        Fri, 23 Jun 2023 13:07:46 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-36.sas.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id h7EVnbTDUqM0-ElAawmfA;
+        Fri, 23 Jun 2023 13:07:45 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail; t=1687514865;
+        bh=ypufzCakK8SokYucAEE7VSUnBPAaMt3NHttyycgl8oQ=;
+        h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+        b=BcbxT0a4yghZPCJpFPVDIzZh0rtc6FX4SgQteBgtMRRa+lSqA8E6v9++RJqVCpiO0
+         2KcAUYG9ijvExnhW1VTNx6S3kgFoE29MJF0SI3xzJ1IuxoPgCuft9Tk1Jqzwa93PAb
+         Wa4uosc0RQhGqDoyGO0SvkQwDYg6RV4wZojPdhnI=
+Authentication-Results: mail-nwsmtp-smtp-production-main-36.sas.yp-c.yandex.net; dkim=pass header.i=@yandex.ru
+Message-ID: <12ea42ec-95f3-6213-95e8-77c5ad64da25@yandex.ru>
+Date:   Fri, 23 Jun 2023 15:07:43 +0500
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] fcntl.2: document F_UNLCK F_OFD_GETLK extension
+Content-Language: en-US
+To:     Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org
+Cc:     Chuck Lever <chuck.lever@oracle.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <brauner@kernel.org>,
+        linux-fsdevel@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
+        linux-kselftest@vger.kernel.org, linux-api@vger.kernel.org
+References: <20230621152214.2720319-1-stsp2@yandex.ru>
+ <20230621152214.2720319-4-stsp2@yandex.ru>
+ <3719669bc40890e3a8221593ff8a178411ad749b.camel@kernel.org>
+From:   stsp <stsp2@yandex.ru>
+In-Reply-To: <3719669bc40890e3a8221593ff8a178411ad749b.camel@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jun 22, 2023, at 22:17, Sohil Mehta wrote:
-> On 6/22/2023 8:10 AM, Arnd Bergmann wrote:
->> Applied to the asm-generic tree, thanks!
->> 
->
-> Great, thanks for the quick response.
->
-> While going through the comments, I was wondering if we have a
-> definition of what constitutes a deprecated syscall vs an obsolete one?
->
-> For deprecated we have some information saying:
->> /*
->>  * Deprecated system calls which are still defined in
->>  * include/uapi/asm-generic/unistd.h and wanted by >= 1 arch
->>  */
->
-> But, I couldn't find anything for obsolete system calls.
 
-I don't think we've ever defined the two terms properly,
-I would assume they are used interchangeably here. If we wanted
-a definition, 'obsolete' could mean syscalls that are no longer
-used by current software while 'deprecated' are those that
-are still called by glibc and others on the architectures that
-provide them but are emulated through modern variants on other
-architectures. Without any documentation on the topic, or a
-definite list, other interpretations are equally possible.
+22.06.2023 17:03, Jeff Layton пишет:
+> We need to be pedantic for manpages. A "file description" is the
+> representation of the open file in the kernel (basically, the "struct
+> file" in the kernel). A file _descriptor_ is the numeric identifier
+> returned by open() and similar functions.
 
-     Arnd
+OK.
+
+
+> The locks are owned by the file description, so that would be the better
+> term to use here. I think you want something like:
+>
+> "When the l_type is set to F_UNLCK, returned locks are limited to ones
+> set on the given file description.
+This is also inaccurate, because "limited"
+implies other operations act widely.
+But actually other operations do not
+consider the "same fd" at all. So the
+reported sets by F_UNLCK and other
+ops do not overlap. Which is why I
+decided to describe it as a "special
+meaning".
