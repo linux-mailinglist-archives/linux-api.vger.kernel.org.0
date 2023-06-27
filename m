@@ -2,54 +2,83 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D42974012E
-	for <lists+linux-api@lfdr.de>; Tue, 27 Jun 2023 18:31:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8959D740206
+	for <lists+linux-api@lfdr.de>; Tue, 27 Jun 2023 19:20:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232532AbjF0Qbd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 27 Jun 2023 12:31:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51526 "EHLO
+        id S231332AbjF0RUh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 27 Jun 2023 13:20:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47130 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232502AbjF0QbL (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 27 Jun 2023 12:31:11 -0400
-Received: from forward500c.mail.yandex.net (forward500c.mail.yandex.net [178.154.239.208])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D6523C00;
-        Tue, 27 Jun 2023 09:30:45 -0700 (PDT)
-Received: from mail-nwsmtp-smtp-production-main-69.iva.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-69.iva.yp-c.yandex.net [IPv6:2a02:6b8:c0c:3c81:0:640:d488:0])
-        by forward500c.mail.yandex.net (Yandex) with ESMTP id 047175ECF5;
-        Tue, 27 Jun 2023 19:30:11 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-69.iva.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id 8UOOiL1DbOs0-nPrKI8NU;
-        Tue, 27 Jun 2023 19:30:10 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail; t=1687883410;
-        bh=+8H+6KHTtP3zOIWuObgi42qbQrOaAazw5td4SHG7F/g=;
-        h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
-        b=tlke0Aszxyf9h5b+t3X/fKzSm77D0ZpFzjfEPejJkwUUDdb4W8FzDxqrs0+Vks2ky
-         SfJ8scrpmwr/M88omrGNgqRKha3znJZQrkP2csJ7xhSyk1x+mA+Jsgm6W0fkiv/bkU
-         sQUex1yzjBBCeULHH5cMtDXtTETF8jhHYaHYFIrE=
-Authentication-Results: mail-nwsmtp-smtp-production-main-69.iva.yp-c.yandex.net; dkim=pass header.i=@yandex.ru
-Message-ID: <b4cea85d-e0d9-4926-f103-f29dd19e7b92@yandex.ru>
-Date:   Tue, 27 Jun 2023 21:30:07 +0500
+        with ESMTP id S231146AbjF0RUg (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 27 Jun 2023 13:20:36 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D249198;
+        Tue, 27 Jun 2023 10:20:35 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 85125611EE;
+        Tue, 27 Jun 2023 17:20:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E19DC433C9;
+        Tue, 27 Jun 2023 17:20:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1687886433;
+        bh=yG+a22abZ9SzUNQMe+8vtxSHNs6hg3hQ7bJmtKEfq6g=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=hyU4+sm92oSYzUVPRTJlX+Fe8+ttP3U+br5Qu6kTbNbf5lZfR+LqFTbGiYEKIV8Q+
+         5RtK9Vqc8+8DspI54cUVWQ4w14eVSy2+Rv5XCiYaU6R+cA3pp+bjTUBvPBsuxG8/R+
+         5XDChTIqMS7+mQbhSiOPUMCfEr82Rp5khktKM6IqzLhSB7J7tunqkGu8E55EYQkF3+
+         mRES0K7flwKd7TMmFAgchyy7qWWCZpdIVYnU15tNXlY1LFxI8enQ8GdFiHvchx76Fp
+         B6X9WIMAwaBYF4kJZrpLfqjsBEN5q10onKUXCktEh8nnAM3zv8+2mKEcK5AetxE/4j
+         uk99KdZ6KzwgA==
+Date:   Tue, 27 Jun 2023 18:20:21 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        John Allen <john.allen@amd.com>, kcc@google.com,
+        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
+        dethoma@microsoft.com, akpm@linux-foundation.org,
+        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
+        david@redhat.com, debug@rivosinc.com, szabolcs.nagy@arm.com,
+        torvalds@linux-foundation.org, Yu-cheng Yu <yu-cheng.yu@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
+Subject: Re: [PATCH v9 28/42] x86/shstk: Add user-mode shadow stack support
+Message-ID: <76a87cdf-4d4f-4b3f-b01f-0540eab71ac7@sirena.org.uk>
+References: <20230613001108.3040476-1-rick.p.edgecombe@intel.com>
+ <20230613001108.3040476-29-rick.p.edgecombe@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 0/2] v3: F_OFD_GETLK extension to read lock info
-Content-Language: en-US
-To:     Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org
-Cc:     Chuck Lever <chuck.lever@oracle.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <brauner@kernel.org>,
-        linux-fsdevel@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
-        linux-kselftest@vger.kernel.org, linux-api@vger.kernel.org
-References: <20230622165225.2772076-1-stsp2@yandex.ru>
- <b18c49ada119b6904b92375a847ce8c764cb1663.camel@kernel.org>
-From:   stsp <stsp2@yandex.ru>
-In-Reply-To: <b18c49ada119b6904b92375a847ce8c764cb1663.camel@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="5kInKYAEl4EdyhTr"
+Content-Disposition: inline
+In-Reply-To: <20230613001108.3040476-29-rick.p.edgecombe@intel.com>
+X-Cookie: Money is the root of all wealth.
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -57,23 +86,47 @@ List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
 
-27.06.2023 21:23, Jeff Layton пишет:
-> I've taken the first two patches into my locks-next branch, so they
-> should end up in linux-next soon. Adding support for testing this to
-> fstests is a hard requirement before this will be merged into mainline.
-Yes, it is _hard_...
-I am still trying to set up the buildroot
-environment for these tests:
+--5kInKYAEl4EdyhTr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-https://bugs.busybox.net/show_bug.cgi?id=15665
+On Mon, Jun 12, 2023 at 05:10:54PM -0700, Rick Edgecombe wrote:
 
-And this will take some time, if at all
-successful.
-Additionally, these tests simply compare
-the output with the pre-defined textual
-patterns, so I have no idea what to do
-after I figured "this feature is unsupported
-on this kernel".
-I sketched the tests, but the above problems
-are holding things.
+> +static void unmap_shadow_stack(u64 base, u64 size)
+> +{
+> +	while (1) {
+> +		int r;
+> +
+> +		r = vm_munmap(base, size);
+> +
+> +		/*
+> +		 * vm_munmap() returns -EINTR when mmap_lock is held by
+> +		 * something else, and that lock should not be held for a
+> +		 * long time.  Retry it for the case.
+> +		 */
+> +		if (r == -EINTR) {
+> +			cond_resched();
+> +			continue;
+> +		}
 
+This looks generic, not even shadow stack specific - was there any
+discussion of making it a vm_munmap_retry() (that's not a great name...)
+or similar?  I didn't see any in old versions of the thread but I
+might've missed something.
+
+--5kInKYAEl4EdyhTr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmSbGlUACgkQJNaLcl1U
+h9BqNQf9HqQNIAUg29S+cA0RcGv/d0uACrgRR/Ug+8CHXDUGAdslLvPRGSp8km6O
+OA3sMI3JNRbsr4+QP5B8PduPbTiiePjlyNOfMrxz2oSChLugzh8gH+q7a4GtFc+T
+1AsfYswcEu8GMSy7zWw//Wq8JPfNX51jxYggMohGwEtFjgZmvT1RZAaKyZwf3UKd
+kYYChaAWrKWCe9lREGDuscGs1Udhg5nbpLJMgcKNDuBTJRn5UUZoMNY84TvuvNqm
+hy/IpJZ8m7d/utTLzzbJS3nPy6oQoFIo2riYi2hCRNZPtDvjko8UJ9uNJCbZOp3i
+gswqwIVtf/sJIXp0+Zi+a0WuiSOwdg==
+=nPJT
+-----END PGP SIGNATURE-----
+
+--5kInKYAEl4EdyhTr--
