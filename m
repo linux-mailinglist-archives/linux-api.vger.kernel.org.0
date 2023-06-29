@@ -2,278 +2,272 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0638E742A43
-	for <lists+linux-api@lfdr.de>; Thu, 29 Jun 2023 18:08:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AF91E742DD8
+	for <lists+linux-api@lfdr.de>; Thu, 29 Jun 2023 21:55:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231650AbjF2QIP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 29 Jun 2023 12:08:15 -0400
-Received: from mail-db8eur05on2088.outbound.protection.outlook.com ([40.107.20.88]:61472
-        "EHLO EUR05-DB8-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S232035AbjF2QIK (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 29 Jun 2023 12:08:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=htpwCZPSKbFK/lAh6xoU7JNipvvRjPsm+GUSNR3AFq8=;
- b=U+f/6QxfqNq8akJ0U9oyw5cg7UFNTPcb4r5DK301oTbF6ga5oSTGpTQ4F9mhqEC/B225ZHcrwnsX1BTgLfNfdCEyjW6dV6t0ZFlJgB7dUSvLBuohQGwS7GHByLc8TaL2qeHpC3mfdAESI263W3P9mJBkvninbvz8qNkBNgKbAx0=
-Received: from DB7PR05CA0067.eurprd05.prod.outlook.com (2603:10a6:10:2e::44)
- by AS8PR08MB10077.eurprd08.prod.outlook.com (2603:10a6:20b:63e::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.23; Thu, 29 Jun
- 2023 16:08:07 +0000
-Received: from DBAEUR03FT004.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:10:2e:cafe::e1) by DB7PR05CA0067.outlook.office365.com
- (2603:10a6:10:2e::44) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6544.20 via Frontend
- Transport; Thu, 29 Jun 2023 16:08:07 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- DBAEUR03FT004.mail.protection.outlook.com (100.127.142.103) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6544.20 via Frontend Transport; Thu, 29 Jun 2023 16:08:07 +0000
-Received: ("Tessian outbound c08fa2e31830:v142"); Thu, 29 Jun 2023 16:08:07 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: 18bc51183e159456
-X-CR-MTA-TID: 64aa7808
-Received: from 7277d59e5d02.1
-        by 64aa7808-outbound-1.mta.getcheckrecipient.com id F086B373-8C7E-46A5-BCBC-57607F88F16F.1;
-        Thu, 29 Jun 2023 16:08:00 +0000
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 7277d59e5d02.1
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Thu, 29 Jun 2023 16:08:00 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HOoVEqTG8I5SvC8AK/Km+IUevE1Oxr4XHMlcqrALzlbTc3Ts0M0KJJf3iLhDg97mEtychYl7dCUPR5DqWUzF210Jwna7jxxPNUgshIwlbaBDKcLP0f0jNWEeWLKX26e3VpihBsJBk0PHNtOZ/J7+4fP3zvk76ZAGYdZy+KvItbFXRNIggoICGiLo1HI+ToennIL6m896HhgsM/mZNT6IiAcYFLvi4CUikWWDLgnPI4TZw/+Y3c2xenbwST+1yVJum5nwCvnVdFHy62/eEx0fDmyXre5XIFvKxLDWmYCTh6jWTS7kctMVmdqXbWQgw8MbTpJD5giP3vbnj/LKOoFuHQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=htpwCZPSKbFK/lAh6xoU7JNipvvRjPsm+GUSNR3AFq8=;
- b=lDm1LnbpTlVslGnEWPYh+s/8imwRBohlM8XCm1iP0Tqqq+WluX0XYh0N9fj/di9iK/ZbCvpBcRH/Qfm7acmwInd3cJqVyHuCcgePFXz/XiTh8cVnxg7IYQnCojr63aBx+tSiAWD/fOlGQTg2hNEjnh7iMcaG0q+PpbkKX7Zeww1TL12klityabgwG+T3t9J3jlaPSX/VIMqVKkjsHJhFaGTT0ip11V88m9Y5/K6QylWPt0pYQE0rBTnVFZ5nomrJN+xJGouMRH7pu8J9JSCeCo9HW50SAMTgboidIsthqWvWSsUxChXXNoDyMvo78kfHjGHpxcyzi4KtU1cvUC3hTA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=htpwCZPSKbFK/lAh6xoU7JNipvvRjPsm+GUSNR3AFq8=;
- b=U+f/6QxfqNq8akJ0U9oyw5cg7UFNTPcb4r5DK301oTbF6ga5oSTGpTQ4F9mhqEC/B225ZHcrwnsX1BTgLfNfdCEyjW6dV6t0ZFlJgB7dUSvLBuohQGwS7GHByLc8TaL2qeHpC3mfdAESI263W3P9mJBkvninbvz8qNkBNgKbAx0=
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-Received: from DB9PR08MB7179.eurprd08.prod.outlook.com (2603:10a6:10:2cc::19)
- by AS8PR08MB8442.eurprd08.prod.outlook.com (2603:10a6:20b:568::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6500.46; Thu, 29 Jun
- 2023 16:07:57 +0000
-Received: from DB9PR08MB7179.eurprd08.prod.outlook.com
- ([fe80::43b7:3a83:5cbe:4559]) by DB9PR08MB7179.eurprd08.prod.outlook.com
- ([fe80::43b7:3a83:5cbe:4559%4]) with mapi id 15.20.6521.026; Thu, 29 Jun 2023
- 16:07:57 +0000
-Date:   Thu, 29 Jun 2023 17:07:42 +0100
-From:   "szabolcs.nagy@arm.com" <szabolcs.nagy@arm.com>
-To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
-        "Lutomirski, Andy" <luto@kernel.org>
-Cc:     "Xu, Pengfei" <pengfei.xu@intel.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "kcc@google.com" <kcc@google.com>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "david@redhat.com" <david@redhat.com>,
-        "Schimpe, Christina" <christina.schimpe@intel.com>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "corbet@lwn.net" <corbet@lwn.net>, "nd@arm.com" <nd@arm.com>,
-        "broonie@kernel.org" <broonie@kernel.org>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "debug@rivosinc.com" <debug@rivosinc.com>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "pavel@ucw.cz" <pavel@ucw.cz>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
-        "oleg@redhat.com" <oleg@redhat.com>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "Torvalds, Linus" <torvalds@linux-foundation.org>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "Eranian, Stephane" <eranian@google.com>
-Subject: Re: [PATCH v9 23/42] Documentation/x86: Add CET shadow stack
- description
-Message-ID: <ZJ2sTu9QRmiWNISy@arm.com>
-References: <ZJAWMSLfSaHOD1+X@arm.com>
- <5794e4024a01e9c25f0951a7386cac69310dbd0f.camel@intel.com>
- <ZJFukYxRbU1MZlQn@arm.com>
- <e676c4878c51ab4b6018c9426b5edacdb95f2168.camel@intel.com>
- <ZJLgp29mM3BLb3xa@arm.com>
- <c5ae83588a7e107beaf858ab04961e70d16fe32c.camel@intel.com>
- <ZJQR7slVHvjeCQG8@arm.com>
- <CALCETrW+30_a2QQE-yw9djVFPxSxm7-c2FZFwZ50dOEmnmkeDA@mail.gmail.com>
- <ZJR545en+dYx399c@arm.com>
- <1cd67ae45fc379fd82d2745190e4caf74e67499e.camel@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <1cd67ae45fc379fd82d2745190e4caf74e67499e.camel@intel.com>
-X-ClientProxiedBy: LO4P123CA0316.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:197::15) To DB9PR08MB7179.eurprd08.prod.outlook.com
- (2603:10a6:10:2cc::19)
+        id S232213AbjF2Tzt (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 29 Jun 2023 15:55:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59936 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232190AbjF2Tzr (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 29 Jun 2023 15:55:47 -0400
+Received: from sonic311-30.consmr.mail.ne1.yahoo.com (sonic311-30.consmr.mail.ne1.yahoo.com [66.163.188.211])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E9A92D4C
+        for <linux-api@vger.kernel.org>; Thu, 29 Jun 2023 12:55:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1688068543; bh=fcOP/+ma99x59j5scMYhAoPff/GBv9YsUUKEfvXJwEo=; h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To; b=F1/HHR+GpfQmLZ9gBka6bSoTd7UsW7RhUKPq290mXq6lDawDVjp4aWaxRaCHJZG2ryUWaz+HTKlxr4yZWp1RFYLfCMmIL8cAZe2O/p+HvAruTkGhPEJqcEvTSY0sohX1pMmuHslTRosjJU9QQ6MEnpOro6keD9ySAdDvSkWoZ679z40Wi2VuyBVhUTh2FAsNSFcXbV0GrWlgcUJpxakOzxl2RO2z883+6pOZHYi4W7/CzC4CM6JEy/j1voLKLfGG7CosTL9G6a5pP3C54O6KmCi5VsIiJvdReAVRUlaBd/40hLDuOJrATM+dZ0NPYY8EU0SRkdAw0HnUj+JmpvWNaw==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1688068543; bh=DOevV0HOh8+tYFVX1K/DwJ4ASEDRbRlE9/1K671GNZT=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=kXJSkTJ6TIshico8caHktXCXvz/LGO6KNV/FRHo/bXnHZ4hORJiXj7ChaBSmhynuAutYKSm52xaK5/ge++LfIRXrj59ijoDjGzviC1MpmKp2EvC6yzr/hw+OAyHMr4/kx/97JmaEGi72Qhe4gI4+tJlgkqO7YMygi0n3phgPYk4ypVFm2rwTD9JdRxD1/UipA56ktRQkArTLAVBGKQrQq5+kv8yiBURzWSNU/KIFc1bKlolSB0gq8oMdtOXlGCHEbQl8dcD0piZb2CIC1wFIzNBpm76UiTldgZyPnhxjT0/Rrq/OA4Qf8to4tQrQT2+pphPy9d+aGy81hV2hpS+kuA==
+X-YMail-OSG: Js3YYuwVM1k20LYn8.sieiuitiBk4.WfBwhxIRnin3MbeMO8.obIC7XjeWvDYFH
+ p.eC_f_IYT3to7vRgriTqARIm4TT5z9H4yYFv3Xs5Zi_yhPTCRz_cnVd2gG2wstvzXcPEngJT4iT
+ ZunJ9GlLxDutSTPUqOYP78fKnhNxVWiwhoksadmf9ngiFIxfwJtz0XYbvAJcNYYL7yVdWk5wVAU0
+ qZqdlbJ.ZcwDDGiPA4W8klQIspKVZtcIhAdrsmQkScK2Gm39WeqbkyFnnVNMyjoMmibz_TJwOI1i
+ TwWOH6zPIziIJM4qD0OH_p1DtEk5oEegl0huvdSlMUaJyWdpum.pStj89NFD1X0AY8gFLE3GjwW2
+ pfzMAVXm30.UcXuDEFv0ma5Fj_QXgz5WvXasE.NPjrZjpFw48puFO0TIq6MARg.Lr.UysGSI2nxi
+ u4xL2ns4SMabXCym0aYar7CaJvK6zduGMRJXPKNQkXZNDgeF.I7Pp1hRORwd76jSElu.Px.Sqh1P
+ IsF4Zz42TjGn_ekfdyeMdzMdinqrQgA2bcBuqKyGx0.5mxkWVoUZ5lWDDKEFDPMyNGbxQy.Kspbk
+ jZTWO9bkNBj5c6aH9CthDJZXgBbz8Uv6wGL2or9xi9SDMlQIkVT664N1gUsRkqil4Ko8DfAR7syW
+ Xg9z2pJ_TwSl1.H_ah8zdDjDYSXfla4u2XKBhJyOMskCUrBEfk5XynbdJzrDiViH0wI2p5Tdt6KA
+ fyBOuRjWnLTDAFuLPNY8M2Jw_ru6mHbZawse9sDO6zAyA12x7AdDuYjJdDl6bCVX2lS.nNZZQ.HM
+ tv939aNucPFzm9mUO1PWvUYKGVYZ4NY9uyyCCgke5SPqoWYuZQ.2wC.2qrV4LQcgvJS477NAaJWq
+ mxgZmJxWTPztcWo5.pkEqpnHpkqEB4oAOzXti39oipp7_x3ppYnAHQPRkuV4CLIe0XrBABnRCtpF
+ bn8W45TJzGzCOWsqXdPpiZvHEX3WU0o9Msk5uXM829Nlxv3vlCJ9WgiXzbm016ZnbRrgRcZFXKHW
+ nHA8nZ4D72pHKsC4TXFnOjt6N80FEqzsxN54jKrjGxw8fR07qUadkzOhHqhtB9Tpe5rwxJW7UH27
+ dnzjWUqa_mTVf4KOEzD6.Merji3BveVDrICyPICANOQSIeRZ7yy2pdEPSFdBcsQAkDEiO2SHUQYX
+ jIuP5Gr4klWXiKwERUwmL2AKpBYTAMMIgO9uzrlpgSQApH.qBaRzkAllgm_hew2eReb26d4bu7_M
+ uHcQofP4wFRNTPg2q6Stlry_K8J38vsb8vAd6h_0cwMSIL5qQYoh0DNGRekO5VBWLN2zRhAEWewu
+ DsmdpcdhC6GKikeVW.PCvknuUHFBmEyoYggo2leOcj04XqRbYmeQ6Pb0ZMcAPHrqjZNEVGfPG8ii
+ SupIIAn0BgeXGhqCo6YyZS6HYvZdYYKSLBWh9ouKVrUgBqiEpV_WKOLZfm1qxYlAK1rOhKTQGaIP
+ 8BJVRiUy.jzftfchOcz9.vaahmxDa7eFV97gCUzrBl8nBePBmd8wz06vrLAvrq.M4np3db8HBVIN
+ 7iU0q7s8hbk3eLrZkuYsQDsnc8v1mAz5ARvw5r.bpuq_Ua549RERg3r1OukSDIUgLmQyab9OqIuk
+ U2BVHQWGOz3kZzSOeUn7iPNzWQNX_4sqy0cPK0SfA_mgvzJtHwnA.x.zPR5Q.RF4bx9j6ABt3wom
+ LtGTCZsuK6eDGjMf2_beV89aTv4m7Wvhg7xiwReRSmF6grL0OPAzZfev2V9RCW.xp.S93Uwa6lOi
+ dTqRVieUYVkcPVSl2nmEuSWafyDISY_x3K2bKkF6.6DvTxV_hkq3Ng9XF4rp2MJyUhULWpb.dLrX
+ I4v3usQEHgioX6pfqOH7scLUZ3xzoxeIWvV_XHhbbozpEfeUb3nLqgi7K8e3pC9t3kSbvKb3_tqG
+ u8kdCIFREVGH8K4c2qOfGgxH5CXHI2dLdvUoc3IE8Vgkd9j0q7ATk4tb.ZWPEvmvcVzdFDvWx8Jp
+ AqEF7Itqod40.ORRTWUeX5A7BDQipMVUmelXggFdAJyYrrAWLQvkn3JJfByvk984R8SBvNg5C_lX
+ w4t8ScCNBbuKC4hCHqOLkK.lwCP6sY9njAAZqdluQEO6CskpJKX1S.z_7OtVjSCVL5VW_pmZmUb0
+ w0pnnbsxW6MNWiwe9qfx5WaC0xZ7whyjrDcAsF6NyX6IgGS_eUGWbQpAiGmfKXJqbMc9qOiopJn9
+ Cft0q6bsvF_l_lK9k1XTdkMyv1WsMsl07vV.oumFlnXbkM2NaAfZcJebvjvAiOzuoBHcRh14XKT5
+ PYkKzzenzarzZ
+X-Sonic-MF: <casey@schaufler-ca.com>
+X-Sonic-ID: e3fae37a-243b-4e6f-89a4-6bf2e21433cd
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic311.consmr.mail.ne1.yahoo.com with HTTP; Thu, 29 Jun 2023 19:55:43 +0000
+Received: by hermes--production-gq1-5748b5bccb-dgd7m (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 8413d56f5114fad294c4c94233ef2643;
+          Thu, 29 Jun 2023 19:55:38 +0000 (UTC)
+From:   Casey Schaufler <casey@schaufler-ca.com>
+To:     casey@schaufler-ca.com, paul@paul-moore.com,
+        linux-security-module@vger.kernel.org
+Cc:     jmorris@namei.org, serge@hallyn.com, keescook@chromium.org,
+        john.johansen@canonical.com, penguin-kernel@i-love.sakura.ne.jp,
+        stephen.smalley.work@gmail.com, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, mic@digikod.net
+Subject: [PATCH v12 00/11] LSM: Three basic syscalls
+Date:   Thu, 29 Jun 2023 12:55:24 -0700
+Message-Id: <20230629195535.2590-1-casey@schaufler-ca.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic: DB9PR08MB7179:EE_|AS8PR08MB8442:EE_|DBAEUR03FT004:EE_|AS8PR08MB10077:EE_
-X-MS-Office365-Filtering-Correlation-Id: 761ebab7-18bb-49c8-0740-08db78bb072d
-x-checkrecipientrouted: true
-NoDisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: SuAiMI4pwQJkFTtkSCnZjVMeg2wIwzlDOnjwHCZJkUR9Jie4C0atK5k85Oh3r4ldi+oVJiCmqAQA0Ffp2OQ3rKvXLs/kgTv0OBSxJy0cT0zvUPFcGjg6QdrVu7VRojCmsj3rY2e/JWXSVzDqHfTLf6usIfMnH/zT9j8D205SpIBolfW2iY33/JnlGMgq/loR6ukjvEkpeYU1nT3PN+RQRYX4xzN0FYgXMzN1PCNkTxqDowiUq8UgGVfcUpcU66M1JCTy2ZGPinzbB7asnuEqW96QNj2Fvr6dnVEi6sGv2VveXwsvwlYGgn0luzE71J9geVELpNtzhRxKOpDf+nG9QxTOJXxdBl1VkE7Re/B9W4x6+GEVvmG45mZV5we+BZ9n5JBW77UoWD0yUTSAkkf9H2v9Ong6fJtUn1xPTyzo5qnRyr53+G0Tnl5TDEPgRfJLvYZolIf7gsOgg1r+KdzjF71V6aCuGuejwNJ8nyeNLR90cgSzaf220CqwtSFM4uSIu9+FE1G4J3KUtT1cQ8l+p/PppLXLMJXKEzW1GtBlST0RGqcNOLOZJzgamqystSqv
-X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR08MB7179.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(136003)(366004)(346002)(396003)(39860400002)(451199021)(66899021)(66476007)(6666004)(66946007)(66556008)(36756003)(4326008)(478600001)(54906003)(110136005)(86362001)(26005)(186003)(2616005)(83380400001)(7406005)(5660300002)(7416002)(2906002)(41300700001)(316002)(6486002)(38100700002)(6506007)(8936002)(8676002)(6512007);DIR:OUT;SFP:1101;
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB8442
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: DBAEUR03FT004.eop-EUR03.prod.protection.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: b1adbf0b-af17-406f-05d1-08db78bb00ac
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: qHyxqSVub8Y68ty/WIEsTI7+tmeRwd1nSXWw0AVF3NfiO9TNXxy/mXQEn+UQRbq4KHL6xNdS5GIwtDxeNDFl1uCY0H5HXN4qiChPP4HXNUPAtF/65ljHmhLH7xnOWZbPcvN0nMQvbV8AdmpORFncnfLCIaIa3emcQSSelL5g6RNWHbRU0ktxxCoomksEUOd3mKCnn1knNAaIL111kxGWjC2tFS9gCMFrVb2kfMRdQw5QpxKWJIApLxtYqboFh6lsI5mZ+U8ypb06tQ1Fc+l/B+VWBSYGZ5HCLz29p5tcuFCfuU46poKwWPszIi9xoubIn8+uODwvXv5IGuU2M29J0/DLCRNNSTVWQReiRe2PVQzy1sSlthwL6kZ8v+jZ1WCF9HeUnJwqU4EPn8xJBBQs04lMujrILszmxWBxv5bAkveYcvpKRlsTI19KwxW6bbBOb8pjmxc/Tlxtu6h9YgpYLmtWj4adNfrUii+ULyephXWWIwNGDo2p3IxfuhRU5eIT+aHPviKk6HKzHrnXqVumEjQKwsk1SsoVUgrbHKLubPs+5EphzARAf7sJ39WfRLwrfBH2x6FTjbqKJw/Q+EpDFA+D8V3TDCUwul9vZgg9xDY6UKlS8ZldnkcoHluOVvPMFtl5mMRU8r4B9xsoZzXo6dmbAX7FKVME1zpjh+/3/dDrnvGXYbc+SflDpTLfD9WZtNJDhUaKWgI3guqy85YVeljJ7Nbt0M8R5B1p3tMGbVUvCvqIlXJlfywQDQb5tyWw
-X-Forefront-Antispam-Report: CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230028)(4636009)(396003)(39860400002)(376002)(136003)(346002)(451199021)(46966006)(40470700004)(36840700001)(5660300002)(450100002)(70586007)(316002)(478600001)(36756003)(4326008)(70206006)(6506007)(66899021)(8936002)(8676002)(86362001)(2906002)(6512007)(26005)(110136005)(54906003)(36860700001)(40460700003)(40480700001)(41300700001)(6666004)(6486002)(82310400005)(356005)(186003)(336012)(82740400003)(47076005)(107886003)(83380400001)(2616005)(81166007);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2023 16:08:07.7509
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 761ebab7-18bb-49c8-0740-08db78bb072d
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: DBAEUR03FT004.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB10077
+Content-Transfer-Encoding: 8bit
+References: <20230629195535.2590-1-casey.ref@schaufler-ca.com>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
+        lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-The 06/22/2023 23:18, Edgecombe, Rick P wrote:
-> I'd also appreciate if you could spell out exactly which:
->  - ucontext
->  - signal
->  - longjmp
->  - custom library stack switching
-> 
-> patterns you think shadow stack should support working together.
-> Because even after all these mails, I'm still not sure exactly what you
-> are trying to achieve.
+Add three system calls for the Linux Security Module ABI.
 
-i'm trying to support two operations (in any combination):
+lsm_get_self_attr() provides the security module specific attributes
+that have previously been visible in the /proc/self/attr directory.
+For each security module that uses the specified attribute on the
+current process the system call will return an LSM identifier and
+the value of the attribute. The LSM and attribute identifier values
+are defined in include/uapi/linux/lsm.h
 
-(1) jump up the current (active) stack.
+LSM identifiers are simple integers and reflect the order in which
+the LSM was added to the mainline kernel. This is a convention, not
+a promise of the API. LSM identifiers below the value of 100 are
+reserved for unspecified future uses. That could include information
+about the security infrastructure itself, or about how multiple LSMs
+might interact with each other.
 
-(2) jump to a live frame in a different inactive but live stack.
-    the old stack becomes inactive (= no task executes on it)
-    and live (= has valid frames to jump to).
+A new LSM hook security_getselfattr() is introduced to get the
+required information from the security modules. This is similar
+to the existing security_getprocattr() hook, but specifies the
+format in which string data is returned and requires the module
+to put the information into a userspace destination.
 
-with
+lsm_set_self_attr() changes the specified LSM attribute. Only one
+attribute can be changed at a time, and then only if the specified
+security module allows the change.
 
-(3) the runtime must manage the shadow stacks transparently.
-    (= portable c code does not need modifications)
+A new LSM hook security_setselfattr() is introduced to set the
+required information in the security modules. This is similar
+to the existing security_setprocattr() hook, but specifies the
+format in which string data is presented and requires the module
+to get the information from a userspace destination.
 
-mapping this to c apis:
+lsm_list_modules() provides the LSM identifiers, in order, of the
+security modules that are active on the system. This has been
+available in the securityfs file /sys/kernel/security/lsm.
 
-- swapcontext, setcontext, longjmp, custom stack switching are jump
-  operations. (there are conditions under which (1) and (2) must work,
-  further details don't matter.)
+Patch 0001 changes the LSM registration from passing the name
+of the module to passing a lsm_id structure that contains the
+name of the module, an LSM identifier number and an attribute
+identifier.
+Patch 0002 adds the registered lsm_ids to a table.
+Patch 0003 changes security_[gs]etprocattr() to use LSM IDs instead
+of LSM names.
+Patch 0004 implements lsm_get_self_attr() and lsm_set_self_attr().
+New LSM hooks security_getselfattr() and security_setselfattr() are
+defined.
+Patch 0005 implements lsm_list_modules().
+Patch 0006 wires up the syscalls.
+Patch 0007 implements helper functions to make it easier for
+security modules to use lsm_ctx structures.
+Patch 0008 provides the Smack implementation for [gs]etselfattr().
+Patch 0009 provides the AppArmor implementation for [gs]etselfattr().
+Patch 0010 provides the SELinux implementation for [gs]etselfattr().
+Patch 0011 implements selftests for the three new syscalls.
 
-- makecontext creates an inactive live stack.
+https://github.com/cschaufler/lsm-stacking.git#lsm-syscalls-6.4-v12
 
-- signal is only special if it executes on an alt stack: on signal
-  entry the alt stack becomes active and the interrupted stack
-  inactive but live. (nested signals execute on the alt stack until
-  that is left either via a jump or signal return.)
+v12: Repair a registration time overflow check.
+v11: Remove redundent alignment code
+     Improve a few comments.
+     Use LSM_ATTR_UNDEF in place of 0 in a few places.
+     Correct a return of -EINVAL to -E2BIG.
+v10: Correct use of __user.
+     Improve a few comments.
+     Revert unnecessary changes in module initialization.
+v9: Support a flag LSM_FLAG_SINGLE in lsm_get_self_attr() that
+    instructs the call to provide only the attribute for the LSM
+    identified in the referenced lsm_ctx structure.
+    Fix a typing error.
+    Change some coding style.
+v8: Allow an LSM to provide more than one instance of an attribute,
+    even though none of the existing modules do so.
+    Pad the data returned by lsm_get_self_attr() to the size of
+    the struct lsm_ctx.
+    Change some displeasing varilable names.
+v7: Pass the attribute desired to lsm_[gs]et_self_attr in its own
+    parameter rather than encoding it in the flags.
+    Change the flags parameters to u32.
+    Don't shortcut out of calling LSM specific code in the
+    infrastructure, let the LSM report that doesn't support an
+    attribute instead. With that it is not necessary to maintain
+    a set of supported attributes in the lsm_id structure.
+    Fix a typing error.
+v6: Switch from reusing security_[gs]procattr() to using new
+    security_[gs]selfattr() hooks. Use explicit sized data types
+    in the lsm_ctx structure.
 
-- unwinding can be implemented with jump operations (it needs some
-  other things but that's out of scope here).
+v5: Correct syscall parameter data types.
 
-the patterns that shadow stack should support falls out of this model.
-(e.g. posix does not allow jumping from one thread to the stack of a
-different thread, but the model does not care about that, it only
-cares if the target stack is inactive and live then jump should work.)
+v4: Restore "reserved" LSM ID values. Add explaination.
+    Squash patches that introduce fields in lsm_id.
+    Correct a wireup error.
 
-some observations:
+v3: Add lsm_set_self_attr().
+    Rename lsm_self_attr() to lsm_get_self_attr().
+    Provide the values only for a specifed attribute in
+    lsm_get_self_attr().
+    Add selftests for the three new syscalls.
+    Correct some parameter checking.
 
-- it is necessary for jump to detect case (2) and then switch to the
-  target shadow stack. this is also sufficient to implement it. (note:
-  the restore token can be used for detection since that is guaranteed
-  to be present when user code creates an inactive live stack and is
-  not present anywhere else by design. a different marking can be used
-  if the inactive live stack is created by the kernel, but then the
-  kernel has to provide a switch method, e.g. syscall. this should not
-  be controversial.)
+v2: Use user-interface safe data types.
+    Remove "reserved" LSM ID values.
+    Improve kerneldoc comments
+    Include copyright dates
+    Use more descriptive name for LSM counter
+    Add documentation
+    Correct wireup errors
 
-- in this model two live stacks cannot use the same shadow stack since
-  jumping between the two stacks is allowed in both directions, but
-  jumping within a shadow stack only works in one direction. (also two
-  tasks could execute on the same shadow stack then. and it makes
-  shadow stack size accounting problematic.)
+Casey Schaufler (11):
+  LSM: Identify modules by more than name
+  LSM: Maintain a table of LSM attribute data
+  proc: Use lsmids instead of lsm names for attrs
+  LSM: syscalls for current process attributes
+  LSM: Create lsm_list_modules system call
+  LSM: wireup Linux Security Module syscalls
+  LSM: Helpers for attribute names and filling lsm_ctx
+  Smack: implement setselfattr and getselfattr hooks
+  AppArmor: Add selfattr hooks
+  SELinux: Add selfattr hooks
+  LSM: selftests for Linux Security Module syscalls
 
-- so sharing shadow stack with alt stack is broken. (the model is
-  right in the sense that valid posix code can trigger the issue. we
-  can ignore that corner case and adjust the model so the shared
-  shadow stack works for alt stack, but it likely does not change the
-  jump design: eventually we want alt shadow stack.)
+ Documentation/userspace-api/index.rst         |   1 +
+ Documentation/userspace-api/lsm.rst           |  73 +++++
+ MAINTAINERS                                   |   1 +
+ arch/alpha/kernel/syscalls/syscall.tbl        |   3 +
+ arch/arm/tools/syscall.tbl                    |   3 +
+ arch/arm64/include/asm/unistd.h               |   2 +-
+ arch/arm64/include/asm/unistd32.h             |   6 +
+ arch/ia64/kernel/syscalls/syscall.tbl         |   3 +
+ arch/m68k/kernel/syscalls/syscall.tbl         |   3 +
+ arch/microblaze/kernel/syscalls/syscall.tbl   |   3 +
+ arch/mips/kernel/syscalls/syscall_n32.tbl     |   3 +
+ arch/mips/kernel/syscalls/syscall_n64.tbl     |   3 +
+ arch/mips/kernel/syscalls/syscall_o32.tbl     |   3 +
+ arch/parisc/kernel/syscalls/syscall.tbl       |   3 +
+ arch/powerpc/kernel/syscalls/syscall.tbl      |   3 +
+ arch/s390/kernel/syscalls/syscall.tbl         |   3 +
+ arch/sh/kernel/syscalls/syscall.tbl           |   3 +
+ arch/sparc/kernel/syscalls/syscall.tbl        |   3 +
+ arch/x86/entry/syscalls/syscall_32.tbl        |   3 +
+ arch/x86/entry/syscalls/syscall_64.tbl        |   3 +
+ arch/xtensa/kernel/syscalls/syscall.tbl       |   3 +
+ fs/proc/base.c                                |  29 +-
+ fs/proc/internal.h                            |   2 +-
+ include/linux/lsm_hook_defs.h                 |   4 +
+ include/linux/lsm_hooks.h                     |  17 +-
+ include/linux/security.h                      |  46 ++-
+ include/linux/syscalls.h                      |   6 +
+ include/uapi/asm-generic/unistd.h             |  11 +-
+ include/uapi/linux/lsm.h                      |  90 ++++++
+ kernel/sys_ni.c                               |   5 +
+ security/Makefile                             |   1 +
+ security/apparmor/include/procattr.h          |   2 +-
+ security/apparmor/lsm.c                       | 110 ++++++-
+ security/apparmor/procattr.c                  |  10 +-
+ security/bpf/hooks.c                          |   9 +-
+ security/commoncap.c                          |   8 +-
+ security/landlock/cred.c                      |   2 +-
+ security/landlock/fs.c                        |   2 +-
+ security/landlock/ptrace.c                    |   2 +-
+ security/landlock/setup.c                     |   6 +
+ security/landlock/setup.h                     |   1 +
+ security/loadpin/loadpin.c                    |   9 +-
+ security/lockdown/lockdown.c                  |   8 +-
+ security/lsm_syscalls.c                       | 118 ++++++++
+ security/safesetid/lsm.c                      |   9 +-
+ security/security.c                           | 216 +++++++++++++-
+ security/selinux/hooks.c                      | 157 ++++++++--
+ security/smack/smack_lsm.c                    | 114 +++++++-
+ security/tomoyo/tomoyo.c                      |   9 +-
+ security/yama/yama_lsm.c                      |   8 +-
+ .../arch/mips/entry/syscalls/syscall_n64.tbl  |   3 +
+ .../arch/powerpc/entry/syscalls/syscall.tbl   |   3 +
+ .../perf/arch/s390/entry/syscalls/syscall.tbl |   3 +
+ .../arch/x86/entry/syscalls/syscall_64.tbl    |   3 +
+ tools/testing/selftests/Makefile              |   1 +
+ tools/testing/selftests/lsm/Makefile          |  12 +
+ tools/testing/selftests/lsm/config            |   2 +
+ .../selftests/lsm/lsm_get_self_attr_test.c    | 270 ++++++++++++++++++
+ .../selftests/lsm/lsm_list_modules_test.c     | 153 ++++++++++
+ .../selftests/lsm/lsm_set_self_attr_test.c    |  70 +++++
+ 60 files changed, 1569 insertions(+), 93 deletions(-)
+ create mode 100644 Documentation/userspace-api/lsm.rst
+ create mode 100644 include/uapi/linux/lsm.h
+ create mode 100644 security/lsm_syscalls.c
+ create mode 100644 tools/testing/selftests/lsm/Makefile
+ create mode 100644 tools/testing/selftests/lsm/config
+ create mode 100644 tools/testing/selftests/lsm/lsm_get_self_attr_test.c
+ create mode 100644 tools/testing/selftests/lsm/lsm_list_modules_test.c
+ create mode 100644 tools/testing/selftests/lsm/lsm_set_self_attr_test.c
 
-- shadow stack cannot always be managed by the runtime transparently:
-  it has to be allocated for makecontext and alt stack in situations
-  where allocation failure cannot be handled. more alarmingly the
-  destruction of stacks may not be visible to the runtime so the
-  corresponding shadow stacks leak. my preferred way to fix this is
-  new apis that are shadow stack compatible (e.g. shadow_makecontext
-  with shadow_freecontext) and marking the incompatible apis as such.
-  portable code then can decide to update to new apis, run with shstk
-  disabled or accept the leaks and OOM failures. the current approach
-  needs ifdef __CET__ in user code for makecontext and sigaltstack
-  has many issues.
+-- 
+2.40.1
 
-- i'm still not happy with the shadow stack sizing. and would like to
-  have a token at the end of the shadow stack to allow scanning. and
-  it would be nice to deal with shadow stack overflow. and there is
-  async disable on dlopen. so there are things to work on.
-
-i understand that the proposed linux abi makes most existing binaries
-with shstk marking work, which is relevant for x86.
-
-for a while i thought we can fix the remaining issues even if that
-means breaking existing shstk binaries (just bump the abi marking).
-now it seems the issues can only be addressed in a future abi break.
-
-which means x86 linux will likely end up maintaining two incompatible
-abis and the future one will need user code and build system changes,
-not just runtime changes. it is not a small incremental change to add
-alt shadow stack support for example.
-
-i don't think the maintenance burden of two shadow stack abis is the
-right path for arm64 to follow, so the shadow stack semantics will
-likely become divergent not common across targets.
-
-i hope my position is now clearer.
