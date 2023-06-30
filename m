@@ -2,82 +2,182 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E58A17437E9
-	for <lists+linux-api@lfdr.de>; Fri, 30 Jun 2023 11:08:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F88F7440E8
+	for <lists+linux-api@lfdr.de>; Fri, 30 Jun 2023 19:10:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230233AbjF3JHM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 30 Jun 2023 05:07:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55880 "EHLO
+        id S232813AbjF3RKm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 30 Jun 2023 13:10:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229742AbjF3JHL (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 30 Jun 2023 05:07:11 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA0B510C;
-        Fri, 30 Jun 2023 02:07:10 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4358461703;
-        Fri, 30 Jun 2023 09:07:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48733C433C8;
-        Fri, 30 Jun 2023 09:07:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1688116029;
-        bh=C+tUX9gfoFQb7OopzcGYBk3yW5e3tfFfCz9w7wqq7SU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=QCK5SkuSB37sZIRSyEYPpK5nZNM954DnbX6W7/bfjbYpDPFi/XUkr/Kt5CEoYTX3F
-         8D5a8hRdFGNtHHvkpkfJ3IAKegqJ8ikveCqdOE35cT3/vf/s1uwCfO49EGAANusLAS
-         Psg3hyrz7ePW1R+WyjtS10WK1hO0d7OuJMF6QHsOdJ59Fbya7LBIXb9WzH9VrWEfS7
-         C3iqTRBDaciO4EfIw4YKvyRn9LhZPwJQBgWOBBDYoBEPEIi0AcPFn9yk+W4gmmksJD
-         wVjwoy6Xq2bhguKEGF8J1ksGfAlWWU1qA7LTP09EBnNdnaZ0IXvMBBYxvWEvhReAjr
-         VZLAve/esK79Q==
-Date:   Fri, 30 Jun 2023 11:06:59 +0200
-From:   Christian Brauner <brauner@kernel.org>
-To:     Laurent Vivier <laurent@vivier.eu>
-Cc:     Norbert Lange <nolange79@gmail.com>, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        containers@lists.linux-foundation.org, jan.kiszka@siemens.com,
-        jannh@google.com, avagin@gmail.com, dima@arista.com,
-        James.Bottomley@HansenPartnership.com
-Subject: Re: [PATCH v8 1/1] ns: add binfmt_misc to the user namespace
-Message-ID: <20230630-hufen-herzallerliebst-fde8e7aecba0@brauner>
-References: <8eb5498d-89f6-e39e-d757-404cc3cfaa5c@vivier.eu>
- <20230630083852.3988-1-norbert.lange@andritz.com>
- <e8161622-beb0-d8d5-6501-f0bee76a372d@vivier.eu>
+        with ESMTP id S232633AbjF3RKk (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 30 Jun 2023 13:10:40 -0400
+Received: from sonic313-15.consmr.mail.ne1.yahoo.com (sonic313-15.consmr.mail.ne1.yahoo.com [66.163.185.38])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72057183
+        for <linux-api@vger.kernel.org>; Fri, 30 Jun 2023 10:10:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1688145038; bh=9FJikGLBz59ec9LC2kX4GhF0WlW5if2x5j1HXc6dyas=; h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To; b=SqQfHh3JjScx4/HWlkB+yuiHYOHC6zLwEOk8JMeGMZbZgBNObIsbrgFNlXEaM9mwpyJKaLk65xEYPa56War6IhthMW2j2hGysSSQHMapCjm8ScOGTwQ1Z0YhTllGIO+wKd1ICTJeRspRvhbOAS2hxGnhCCrhJm1Xr0pxRiB/zRNDQae03LkGXjeFqX9ISG6EFM6bBFdSEdXtHt534+tCd301iRXdi7VYJYbITWTxZy/kYxy6JQat9wZY3I7vKdJPCiKHdsFAVRz1jrWRZLRNel365waWenUpcP9yEafpZqhprmfgZ3ayvc4vhMA5nF6yp54D3qgFKMej3fXZlC8GOg==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1688145038; bh=P3ro1g1siZcgGpwJ7lQ+PhANLf1wJP0TnqWuGSdpg5Q=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=lBGwHhlEtrehtb1Ew+zzvVhI+RzN8GZCBPF/CBDPf2H9pWB/z/u42z3JA1KMOlBArhP0vv86eURhlJ3VQq4yLLNIFT/Pu4FUfmkGrmfOWWuJnyDuEHyM+mb/ori8FvUnlHZ0kY02T9qikre9NmrfeNmaJzDQJp6RAv+9FJG8ENdUfCXyS/PZkuh66d+VUZYSVYIkKhlnut7Jj43LbKDkeF5CpSVgHUilK1TKP+v/vvy1g945tI3/8NNQ6ynRN36cjwtYY5TmzNtDOPhxxa7H203HQkTzQsjCcQc0NTvni87dR3I9tH5FlcxHdwz2xO1u5nn481Vy45bA0hL7GE0Amw==
+X-YMail-OSG: g7a4YqQVM1mq9MlUvaF4c.2xOav95OKASudTDEbotoCm0EpmLT7ip6LCIiZyS04
+ XJDXedMJY5hGwl1rIoGo3ZthDSsUbWRdkzTDSntgIVTka6gNdQDHDYADBu_b.ukB7dWoard3eOtP
+ Viyznzft63OazbhEL_yxxOnuFycbM7sjZpFRX9ioyo3R1wZvvxbpxOkr28kytbyzxJOUalykFedz
+ 28ZmY4CGc4v0nCtx7cji4g2DlEjfrHCCt5z8JOQxquj3gxCYJ3bLlla_c7ES1B1itDZXs9kqjfIm
+ YMU10xYVbW7eJP_o_gr20PYqvVKRFp1LeBl1e4fx.TmDxyu__eYn1GuotJ7uQLfcGujKWOIDTOhy
+ QjfdMzw9t5igerKReXIr2u_dMIzSTnT2BiRBkduNYikbt45EY1o1_9PY_psQ1pVWqbD0D7h8XscF
+ xVPFWe3_PnJ03mRd8VSIOCuX6SrRmu8DmXjWGN6swSMeDYRJsGvPteDzCdY_MqSylU4Sjz_HC0g1
+ fnmUU9u3R.YUkub_btD9fv_YUDM7BAI8Rfsl.R_qxsZNovVHM0LVJuHFmqBlpusg7lOzqB.U6GBh
+ xcSAja2Tno.qvlcWhDibzreI6bJ0_nsZgBkVmUO4KUg_0_FWkgc1bVkuxt1xtRaYWzqIHzpCEFOH
+ xtgNJH3M.PQOHTtV3Bwah7.s49XfuNnkCrT8OwpGFw76oViMc8J8FkJdcZUqCA0y.CSYMmx42q5E
+ 2Lwkfr8hgPCc_KrSoCkX6wxIqBnXMuU4M1y.Pjz4PXgmX4gmM5r6py0CQwyNDf4C4SNCmZiK2aGr
+ x4Y3RTbHHndwrPSZxp0aLtz_gYbq4L2TgaKY7eW1I3MaPVcB5t4DssnVe5E0iiZeyfMfkyemI6L0
+ K3p.uL8TfUxNglSh2m2zWbUh15bzopeWOfpPLpEXaWRLCkzkfE.kXQGkxtX.MzTJkqOSZ5QLby1U
+ YKVflpTgpK9I8MKrXVOaa.6KikJq2YQbrUO4MJPhX2YmwGCILO6Tsv5hDtXdvBO7WYFxr0Vm1c.D
+ 9iUDg7jRtSe6YAdQ_7Rf8KQS58FiMuGmnTh.6oEJRHyROA95H_7WI9NJOAPqxyM8RvCE7HspMrBU
+ 3_qAeSfTl1CEmbPwf_Vjt82gdD8xQIprbABWQhdW_Cz.JfPGg.ITGQ2y7qL70L5zHQkaytMJF9Y7
+ Grm8Q_RBwFSr3wiHwiQzI0mlUvuCe2xlvuaQ1k3NxvSfuqr4_8TzWpv0rOEMMuHAN4sHYqnGuaCG
+ uOb9rk0tWiCr8mDWxKraoW0pQMTrawVl4J.2FgppMGMZ5lxHL53Y3Cm_UEBzM3gG8qMguxcGL1tV
+ zzCrdZ1f85e.QeIMtFbeHGfujhrtOCFun0JRUtWPjcPdwlRR2gpZ43ELDeP5iqSOVkX_wW26X4EM
+ XzXDiXSN1o2TlmnOiPr6ViahqZBFKeI7Q6SRKnkvoiwJeX7Sf3fPTZjMJv48iicBodUPT09m0tsR
+ Q2xX6CvYd5rmkFs84Rv4F5cK1bKe5xclZNGD5pF_F8aVdrhkT1yVcYcaDg6xozTLkqOSW7rjTMVT
+ OwPlT1YIpNdgjoMy6jNMD.A7h_CaK08PnoOnS_TDOJV1JHfC2xTY5Z0RSCUr_qyKgd7pRuwwGGl1
+ S0GwAtWAkTghmLzY0Ozf865ifRDx5L_wPIcr7CDonAiu8etA9w5SlfKgwAdxpmaL8E8vtQA7ZApa
+ FTETDlpkDbE90Mx7RVv6KzHr6HGNZYyfTD4q.ma.mlB88zl7IbXNDtq.c5VC56bvBTFJHPsC3TxA
+ oyacHhxYiAR5AAgM2ff7tPJhCFBd455.CHU71IML7vQsZrEYvvIM39cSryZ1KS_eYeruAnor.YlD
+ ro3H6ZmSfpQBvQnyUMalvB1qjrQ4bUcmBghoKO9hjsjdKZ5aMySJpDg8wKwj_wv_oNBkKRmXstj4
+ 8tUphDOpR0HUzM4BybzMxgwxiwVo9sKj5bUebZ.1LruqndbodJUxWaYGk4l533VJrB0Lu3h4SSVC
+ 7rHHJnuDeTXtKh1TRxRZXDyXL1OEOk.zsUIPw8TAb7Khp3gyVNlWjVcEc76.BCilemprA2iyHsMT
+ rCFcL7P9oh8Y3TSQEZel8wE_BrfWK3CMk1u6Ee.PKd.L1H8BLl2GGSRZzzcrSGAE3wSSEk3YAAPb
+ 0Ent7QYEIUCHmQeyleiH.0Soj2gNpMrdT9ijgdfjbdSrkmC5qVTgGz.JgIZP7rt5pGvaI2Bdq7Fd
+ DVQpVQM_sfpAL1Z4yNnWXo7eH8qf_nmESQdx8M0hxHkOJbCjU_i44eLj.1diS_I4S._mqjD0ddY9
+ 795nGUfnxiQ--
+X-Sonic-MF: <casey@schaufler-ca.com>
+X-Sonic-ID: cfaa1083-b5c3-4a05-844e-3b7b26de0c83
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic313.consmr.mail.ne1.yahoo.com with HTTP; Fri, 30 Jun 2023 17:10:38 +0000
+Received: by hermes--production-bf1-5d96b4b9f-fkqjg (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID b1acd5bb569e8c764ba1b89fdecedb8c;
+          Fri, 30 Jun 2023 17:10:33 +0000 (UTC)
+Message-ID: <d2165e8a-4b53-c333-ca99-7b4b1c3a06ef@schaufler-ca.com>
+Date:   Fri, 30 Jun 2023 10:10:30 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <e8161622-beb0-d8d5-6501-f0bee76a372d@vivier.eu>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v12 8/11] Smack: implement setselfattr and getselfattr
+ hooks
+Content-Language: en-US
+To:     Paul Moore <paul@paul-moore.com>,
+        linux-security-module@vger.kernel.org
+Cc:     jmorris@namei.org, serge@hallyn.com, keescook@chromium.org,
+        john.johansen@canonical.com, penguin-kernel@i-love.sakura.ne.jp,
+        stephen.smalley.work@gmail.com, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, mic@digikod.net,
+        Casey Schaufler <casey@schaufler-ca.com>
+References: <20230629195535.2590-9-casey@schaufler-ca.com>
+ <d1283a1078fd30a2e45915416ae968d2.paul@paul-moore.com>
+From:   Casey Schaufler <casey@schaufler-ca.com>
+In-Reply-To: <d1283a1078fd30a2e45915416ae968d2.paul@paul-moore.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Mailer: WebService/1.1.21612 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Jun 30, 2023 at 10:52:22AM +0200, Laurent Vivier wrote:
-> Hi Norbert,
-> 
-> Le 30/06/2023 à 10:38, Norbert Lange a écrit :
-> > Any news on this? What remains to be done, who needs to be harrassed?
-> > 
-> > Regards, Norbert
-> 
-> Christian was working on a new version but there is no update for 1 year.
-> 
-> [PATCH v2 1/2] binfmt_misc: cleanup on filesystem umount
-> https://lkml.org/lkml/2021/12/16/406
-> [PATCH v2 2/2] binfmt_misc: enable sandboxed mounts
-> https://lkml.org/lkml/2021/12/16/407
-> 
-> And personally I don't have the time to work on this.
+On 6/29/2023 7:14 PM, Paul Moore wrote:
+> On Jun 29, 2023 Casey Schaufler <casey@schaufler-ca.com> wrote:
+>> Implement Smack support for security_[gs]etselfattr.
+>> Refactor the setprocattr hook to avoid code duplication.
+>>
+>> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
+>> ---
+>>  security/smack/smack_lsm.c | 106 +++++++++++++++++++++++++++++++++++--
+>>  1 file changed, 101 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/security/smack/smack_lsm.c b/security/smack/smack_lsm.c
+>> index cf847cfe5ed8..4a84639e9db9 100644
+>> --- a/security/smack/smack_lsm.c
+>> +++ b/security/smack/smack_lsm.c
+> ..
+>
+>> @@ -3629,6 +3668,61 @@ static int smack_setprocattr(const char *name, void *value, size_t size)
+>>  	return size;
+>>  }
+>>  
+>> +/**
+>> + * smack_setselfattr - Set a Smack process attribute
+>> + * @attr: which attribute to set
+>> + * @ctx: buffer containing the data
+>> + * @size: size of @ctx
+>> + * @flags: unused
+>> + *
+>> + * Fill the passed user space @ctx with the details of the requested
+>> + * attribute.
+>> + *
+>> + * Returns 0 on success, an error code otherwise.
+>> + */
+>> +static int smack_setselfattr(unsigned int attr, struct lsm_ctx __user *ctx,
+>> +			     size_t size, u32 flags)
+>> +{
+>> +	struct lsm_ctx *lctx;
+>> +	int rc;
+>> +
+>> +	lctx = kmalloc(size, GFP_KERNEL);
+>> +	if (lctx == NULL)
+>> +		return -ENOMEM;
+>> +
+>> +	if (copy_from_user(lctx, ctx, size))
+>> +		rc = -EFAULT;
+>> +	else if (lctx->ctx_len > size)
+>> +		rc = -E2BIG;
+>> +	else
+>> +		rc = do_setattr(attr, lctx->ctx, lctx->ctx_len);
+>> +
+>> +	kfree(lctx);
+>> +	if (rc > 0)
+>> +		return 0;
+>> +	return rc;
+>> +}
+>> +
+>> +/**
+>> + * smack_setprocattr - Smack process attribute setting
+>> + * @name: the name of the attribute in /proc/.../attr
+>> + * @value: the value to set
+>> + * @size: the size of the value
+>> + *
+>> + * Sets the Smack value of the task. Only setting self
+>> + * is permitted and only with privilege
+>> + *
+>> + * Returns the length of the smack label or an error code
+>> + */
+>> +static int smack_setprocattr(const char *name, void *value, size_t size)
+>> +{
+>> +	int attr = lsm_name_to_attr(name);
+>> +
+>> +	if (attr == LSM_ATTR_UNDEF)
+> That should be '(attr != LSM_ATTR_UNDEF)', right?
 
-I've actually rebased this a few weeks ago:
-https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git/log/?h=vfs.binfmt_misc
-It has Acks, it's done. The only thing back then was Kees had wanted to
-take this but never did. I'll ping him.
+Yes, you're right. I'll fix and respin.
+
+>
+>> +		return do_setattr(attr, value, size);
+>> +	return -EINVAL;
+>> +}
+>> +
+>>  /**
+>>   * smack_unix_stream_connect - Smack access on UDS
+>>   * @sock: one sock
+>> @@ -4939,6 +5033,8 @@ static struct security_hook_list smack_hooks[] __ro_after_init = {
+>>  
+>>  	LSM_HOOK_INIT(d_instantiate, smack_d_instantiate),
+>>  
+>> +	LSM_HOOK_INIT(getselfattr, smack_getselfattr),
+>> +	LSM_HOOK_INIT(setselfattr, smack_setselfattr),
+>>  	LSM_HOOK_INIT(getprocattr, smack_getprocattr),
+>>  	LSM_HOOK_INIT(setprocattr, smack_setprocattr),
+>>  
+>> -- 
+>> 2.40.1
+> --
+> paul-moore.com
