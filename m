@@ -2,166 +2,130 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B9387432A2
-	for <lists+linux-api@lfdr.de>; Fri, 30 Jun 2023 04:15:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A5FF74344E
+	for <lists+linux-api@lfdr.de>; Fri, 30 Jun 2023 07:34:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232113AbjF3CPL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 29 Jun 2023 22:15:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54840 "EHLO
+        id S232159AbjF3FeI convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Fri, 30 Jun 2023 01:34:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41856 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232144AbjF3CPI (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 29 Jun 2023 22:15:08 -0400
-Received: from mail-qv1-xf35.google.com (mail-qv1-xf35.google.com [IPv6:2607:f8b0:4864:20::f35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F28063AB3
-        for <linux-api@vger.kernel.org>; Thu, 29 Jun 2023 19:14:46 -0700 (PDT)
-Received: by mail-qv1-xf35.google.com with SMTP id 6a1803df08f44-635dc2f6ef9so9596616d6.3
-        for <linux-api@vger.kernel.org>; Thu, 29 Jun 2023 19:14:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1688091285; x=1690683285;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=CYjOJQzczNCrKegpSzD/qpaJvwPv5v+9dxljoRuBmPU=;
-        b=XPnusK+xZumPpWK+TnAUlS47hwJecS+UZpSGGpkyFUq32PVtnnKC82N2AS0o564c5O
-         nCG0afUQzhNi/f32vRMZykfQK5ZDJFAAgPGwuAw/LgvF9RGhChAfFFpd2UGIO3J0Brcm
-         OzoQAihWKqpHn3BCuMB6LS1cYSDeTDNjDnRtKAB0SW3gg/svki+1zf0K1jedKFOwPyUx
-         UkQbZ5mL1eVUD7rTZbJPtNgot4q7aND0dI7qK1OGixnQam0BN5M0VB0SyKlJeWmb2pST
-         ZZamZP6AH+4dtMu2rIvCu8GUtFWVYcae2aJnB7UpPfC+yIUoy1PS2yFv0XQblexyNq7S
-         4KLw==
+        with ESMTP id S231235AbjF3FeF (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 30 Jun 2023 01:34:05 -0400
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AE8010F8;
+        Thu, 29 Jun 2023 22:34:04 -0700 (PDT)
+Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-bfe6ea01ff5so1371845276.3;
+        Thu, 29 Jun 2023 22:34:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688091285; x=1690683285;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=CYjOJQzczNCrKegpSzD/qpaJvwPv5v+9dxljoRuBmPU=;
-        b=VohT8PzWyIgHUgHyklvNVYygdJvNOReuk631Q6luuq/0ewvxNalxaIDmpAb5Cn+DsG
-         mJOsPZCcRr52xHRGYDTcB4RdIN4mzAezULx/3mKBlUNiDH3TI7VzQQpAYwYTZYXuACSb
-         kAxSkBgq+MB+rR+gKxGdhRfbud1xHL+WhNmJj7VaDDGxto6d6dQdB7AddxUDa9hR2Ubg
-         RIrpKpCVOJm4CNmvpgCoCexW40yeFSV++NdiHxwWx2umawx98FWnTlGupiHB8boBtiqw
-         L75E2PfQqWx6m4qfG5LGmulZyhDDaUo3ad6zFZ7AluCTs89ZwKv9jUNWxOYiEyOBkk8r
-         cDiA==
-X-Gm-Message-State: ABy/qLYuvRt9COY5qeujnwXw4v13y+xh4TjOm8vNftUNYG/B39gmM4U+
-        dNy9Vlsl2PWDYN0Bx+d/lNan
-X-Google-Smtp-Source: APBJJlEYmTkp0TWIhcE/1Q/1btQ6Nkp1941nU8UvOANXQNCODPFIXEE7Vp24aTqcnPqDySPvgwLkKw==
-X-Received: by 2002:a05:6214:cc7:b0:636:277f:4155 with SMTP id 7-20020a0562140cc700b00636277f4155mr2111822qvx.15.1688091285696;
-        Thu, 29 Jun 2023 19:14:45 -0700 (PDT)
-Received: from localhost ([70.22.175.108])
-        by smtp.gmail.com with ESMTPSA id ep8-20020a05621418e800b00630182f0191sm7551322qvb.1.2023.06.29.19.14.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Jun 2023 19:14:45 -0700 (PDT)
-Date:   Thu, 29 Jun 2023 22:14:44 -0400
-Message-ID: <d1283a1078fd30a2e45915416ae968d2.paul@paul-moore.com>
-From:   Paul Moore <paul@paul-moore.com>
-To:     Casey Schaufler <casey@schaufler-ca.com>, casey@schaufler-ca.com,
-        linux-security-module@vger.kernel.org
-Cc:     jmorris@namei.org, serge@hallyn.com, keescook@chromium.org,
-        john.johansen@canonical.com, penguin-kernel@i-love.sakura.ne.jp,
-        stephen.smalley.work@gmail.com, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, mic@digikod.net
-Subject: Re: [PATCH v12 8/11] Smack: implement setselfattr and getselfattr  hooks
-References: <20230629195535.2590-9-casey@schaufler-ca.com>
-In-Reply-To: <20230629195535.2590-9-casey@schaufler-ca.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        d=1e100.net; s=20221208; t=1688103243; x=1690695243;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rqe4oW6egP6ZYOUhmx0yHzT4spsp8DeajtOy9Dxl0N0=;
+        b=LIl0qLBMoW2LcJe2pPURQ0ju/TOcC/ZDWK6A3oVTnmFWJS7gYfIC1bIOf1gArGxrxM
+         I1boPzYZz19N5jurvtUEsZMRl9AlekP1u5fqDuB95nUo4uhTt3NgshUtNu3KfRvwzo5k
+         rCkn2GPz/k93Of9GfOClAJMS3N5vv2B6eqJ0c3fYbGN42PK38YFAkqAJP8/kkthAga+s
+         U1s3ENOmaKhtVza2UVdZzhHmtC883/wN8Z3t4TZ6kPVzGDnduFiMHU/jII8VFmZ8ixFn
+         P8WkVY85ZdA7eJb99tEhNAjPervEYs0QXGjiLfb3/OEV3+Dv5RZYEzR4W/h2Ythp+374
+         LUTg==
+X-Gm-Message-State: ABy/qLZ+1tELI0GRK3KtASWIqhDTVq1zv15xBVimE0wYU6IodiN/UVGf
+        XMpKUz2j7WLP6GjxWts5bkvmrtp3Sh5+2+FN1ApXPUOEo1c=
+X-Google-Smtp-Source: APBJJlGsOWkMaxD3Bj5EXOi0ZRM8KsFOEr8Lg1uNKczc+6HZPSKDsYy2QxFxSi6Et+JGvnEpCG0zVQlZ9J+DNPB54vc=
+X-Received: by 2002:a25:3107:0:b0:c12:29ac:1d36 with SMTP id
+ x7-20020a253107000000b00c1229ac1d36mr1697430ybx.7.1688103242894; Thu, 29 Jun
+ 2023 22:34:02 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230628230935.1196180-1-sohil.mehta@intel.com> <08e273fc-49c5-dd09-1c9e-d85a080767f9@infradead.org>
+In-Reply-To: <08e273fc-49c5-dd09-1c9e-d85a080767f9@infradead.org>
+From:   Namhyung Kim <namhyung@kernel.org>
+Date:   Thu, 29 Jun 2023 22:33:51 -0700
+Message-ID: <CAM9d7ch0GtTUjhtbph5rmCDvRBAKjLCN+25mukn_QPv4bDsjGQ@mail.gmail.com>
+Subject: Re: [PATCH] syscalls: Cleanup references to sys_lookup_dcookie()
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Sohil Mehta <sohil.mehta@intel.com>, Arnd Bergmann <arnd@arndb.de>,
+        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+        Richard Henderson <richard.henderson@linaro.org>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Michal Simek <monstr@monstr.eu>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+        Helge Deller <deller@gmx.de>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+        "David S . Miller" <davem@davemloft.net>,
+        Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>, Chris Zankel <chris@zankel.net>,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Sergei Trofimovich <slyich@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Rohan McLure <rmclure@linux.ibm.com>,
+        Andreas Schwab <schwab@linux-m68k.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Brian Gerst <brgerst@gmail.com>, linux-alpha@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-ia64@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
+        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-perf-users@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Jun 29, 2023 Casey Schaufler <casey@schaufler-ca.com> wrote:
-> 
-> Implement Smack support for security_[gs]etselfattr.
-> Refactor the setprocattr hook to avoid code duplication.
-> 
-> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
-> ---
->  security/smack/smack_lsm.c | 106 +++++++++++++++++++++++++++++++++++--
->  1 file changed, 101 insertions(+), 5 deletions(-)
-> 
-> diff --git a/security/smack/smack_lsm.c b/security/smack/smack_lsm.c
-> index cf847cfe5ed8..4a84639e9db9 100644
-> --- a/security/smack/smack_lsm.c
-> +++ b/security/smack/smack_lsm.c
+Hello,
 
-...
+On Wed, Jun 28, 2023 at 4:44 PM Randy Dunlap <rdunlap@infradead.org> wrote:
+>
+>
+>
+> On 6/28/23 16:09, Sohil Mehta wrote:
+> > commit 'be65de6b03aa ("fs: Remove dcookies support")' removed the
+> > syscall definition for lookup_dcookie.  However, syscall tables still
+> > point to the old sys_lookup_dcookie() definition. Update syscall tables
+> > of all architectures to directly point to sys_ni_syscall() instead.
+> >
+> > Signed-off-by: Sohil Mehta <sohil.mehta@intel.com>
+>
+> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
 
-> @@ -3629,6 +3668,61 @@ static int smack_setprocattr(const char *name, void *value, size_t size)
->  	return size;
->  }
->  
-> +/**
-> + * smack_setselfattr - Set a Smack process attribute
-> + * @attr: which attribute to set
-> + * @ctx: buffer containing the data
-> + * @size: size of @ctx
-> + * @flags: unused
-> + *
-> + * Fill the passed user space @ctx with the details of the requested
-> + * attribute.
-> + *
-> + * Returns 0 on success, an error code otherwise.
-> + */
-> +static int smack_setselfattr(unsigned int attr, struct lsm_ctx __user *ctx,
-> +			     size_t size, u32 flags)
-> +{
-> +	struct lsm_ctx *lctx;
-> +	int rc;
-> +
-> +	lctx = kmalloc(size, GFP_KERNEL);
-> +	if (lctx == NULL)
-> +		return -ENOMEM;
-> +
-> +	if (copy_from_user(lctx, ctx, size))
-> +		rc = -EFAULT;
-> +	else if (lctx->ctx_len > size)
-> +		rc = -E2BIG;
-> +	else
-> +		rc = do_setattr(attr, lctx->ctx, lctx->ctx_len);
-> +
-> +	kfree(lctx);
-> +	if (rc > 0)
-> +		return 0;
-> +	return rc;
-> +}
-> +
-> +/**
-> + * smack_setprocattr - Smack process attribute setting
-> + * @name: the name of the attribute in /proc/.../attr
-> + * @value: the value to set
-> + * @size: the size of the value
-> + *
-> + * Sets the Smack value of the task. Only setting self
-> + * is permitted and only with privilege
-> + *
-> + * Returns the length of the smack label or an error code
-> + */
-> +static int smack_setprocattr(const char *name, void *value, size_t size)
-> +{
-> +	int attr = lsm_name_to_attr(name);
-> +
-> +	if (attr == LSM_ATTR_UNDEF)
+I was about to say that it'd be nice if you split the tools/perf part
+since it can support old kernels.  But if the syscall is only used for
+oprofile then probably perf doesn't need to care about it. :)
 
-That should be '(attr != LSM_ATTR_UNDEF)', right?
+For the perf part,
+Acked-by: Namhyung Kim <namhyung@kernel.org>
 
-> +		return do_setattr(attr, value, size);
-> +	return -EINVAL;
-> +}
-> +
->  /**
->   * smack_unix_stream_connect - Smack access on UDS
->   * @sock: one sock
-> @@ -4939,6 +5033,8 @@ static struct security_hook_list smack_hooks[] __ro_after_init = {
->  
->  	LSM_HOOK_INIT(d_instantiate, smack_d_instantiate),
->  
-> +	LSM_HOOK_INIT(getselfattr, smack_getselfattr),
-> +	LSM_HOOK_INIT(setselfattr, smack_setselfattr),
->  	LSM_HOOK_INIT(getprocattr, smack_getprocattr),
->  	LSM_HOOK_INIT(setprocattr, smack_setprocattr),
->  
-> -- 
-> 2.40.1
-
---
-paul-moore.com
+Thanks,
+Namhyung
