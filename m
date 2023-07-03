@@ -2,139 +2,157 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EF03A74574B
-	for <lists+linux-api@lfdr.de>; Mon,  3 Jul 2023 10:24:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E65F4745D80
+	for <lists+linux-api@lfdr.de>; Mon,  3 Jul 2023 15:33:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229764AbjGCIYv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 3 Jul 2023 04:24:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33514 "EHLO
+        id S229973AbjGCNdP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 3 Jul 2023 09:33:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55316 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231281AbjGCIWx (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 3 Jul 2023 04:22:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E29CAE61
-        for <linux-api@vger.kernel.org>; Mon,  3 Jul 2023 01:22:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1688372522;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=KDniCynZ7+HhXvQAOCX57oK500g52Olq9GhoAqPPWUs=;
-        b=Jrc6Oy3GtlK4EwrpUOPYoxhWSH5/fF0Vzs6StmVcH120J2xldn4E4FZzrPFGfYwSX6TOkK
-        ZvH6zR/fH86ZLJ5eYMQONHEZmtlQrhxbjdm4BaWkcGGOqgO+XD6YFqoyLQcQGhFsroFWdL
-        OoLzlQMBKSjEgEN9eaLCbhQ6JNPs7gQ=
-Received: from mail-yb1-f199.google.com (mail-yb1-f199.google.com
- [209.85.219.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-398-qSfHAEDhOWSW0xJ1gdyBAA-1; Mon, 03 Jul 2023 04:21:57 -0400
-X-MC-Unique: qSfHAEDhOWSW0xJ1gdyBAA-1
-Received: by mail-yb1-f199.google.com with SMTP id 3f1490d57ef6-bfe92598ffaso4493767276.0
-        for <linux-api@vger.kernel.org>; Mon, 03 Jul 2023 01:21:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688372517; x=1690964517;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KDniCynZ7+HhXvQAOCX57oK500g52Olq9GhoAqPPWUs=;
-        b=SWTU8g36UXihXiux6dNSrCxNSsbsvnBjifqc2HPrsF/rB2GxfJWAHO3eMTlS9m4LUR
-         yLSlPpB9w3GolRQtldWUXr6hgwRMlhXvfguli9ALj9qIgT//o8KswaEp/kuzuHFzOyaE
-         qKjro2jXwZTEPFaK7iNNCRdZfMEdMonpG9VS1atzeLH+VH4p72qufJPQPESlIDeL3/PN
-         SjJiHJ0OpwWWoa4nVZGeimN+cWwtc9Q9vfEl4Y24MGZv7Zqdah5/mJ/bps11VIq8MhGS
-         lBFIDSre/dBP+gqRZjlvPjJtJbl/3bQVRgBad5IG62Z15ihMQxmvCh1wDUkMwzFW1Za8
-         TuIA==
-X-Gm-Message-State: ABy/qLbVudspEP8Sj5cTfWxCZ1rwAtCeJNOhbVAqzyztYy/bIJ6529/T
-        zW2RAwG8KnUKeT/8X138U0GaKTOVRYi48kXoAVbeqwHuiUwRsvSJMQY0+VqYh9hO7I7YieAbnkA
-        9Q1IM3k1IFlbzFyot7wU5LTybDH5y6j0xcdte
-X-Received: by 2002:a25:21d5:0:b0:c39:e0f5:8616 with SMTP id h204-20020a2521d5000000b00c39e0f58616mr8210951ybh.46.1688372517229;
-        Mon, 03 Jul 2023 01:21:57 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlHDI1TQ4yNBXhXRy2Ls9tZMeCzZCw/5NxW05oDphDYt6dbi8koo6BBkhcCkUZtgb7JdeBJbNiY37ga/25hmyqw=
-X-Received: by 2002:a25:21d5:0:b0:c39:e0f5:8616 with SMTP id
- h204-20020a2521d5000000b00c39e0f58616mr8210946ybh.46.1688372516994; Mon, 03
- Jul 2023 01:21:56 -0700 (PDT)
+        with ESMTP id S231757AbjGCNdF (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 3 Jul 2023 09:33:05 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B804310D4;
+        Mon,  3 Jul 2023 06:32:32 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4D38D60F3C;
+        Mon,  3 Jul 2023 13:32:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88351C433C7;
+        Mon,  3 Jul 2023 13:32:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1688391151;
+        bh=7qlSX9Nell5J7ysbWiOfRWUhTOykTgPNeRvu7kTYWFI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Z+7keICwZsDZYvzIbUYbAjua4wVC7WpRTZjY+p0UqCOPQWrv55HZV17LbtFu8q55z
+         w7+nnoVSS94ACBMalD0MKTnRFPFU8Lo8gOJYLxh/7fFg8lK8+z+7ucOmuceABT2LbP
+         OXt0TLl2OgWesEtsAtwwdogHYkJAqX6uxcjqLNOnN4FJ/q4GQ94xo2jHCEL0RlmBjG
+         3HH9mfElWZu57e7nhMbgJKjDoRJ7NCGaeytE3WK+/Oau36Zx6m+PH6EyMFWK9dN/+P
+         O5o5DDMYh20KrcIyUUvLmMh9lCta8zIFQh0t07Nl5P0Z5JSBTdsqs9+tHNT3DtqWGF
+         BFhK3s1ZBvHeQ==
+Date:   Mon, 3 Jul 2023 14:32:19 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+Cc:     "szabolcs.nagy@arm.com" <szabolcs.nagy@arm.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "Xu, Pengfei" <pengfei.xu@intel.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "kcc@google.com" <kcc@google.com>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "david@redhat.com" <david@redhat.com>,
+        "Schimpe, Christina" <christina.schimpe@intel.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "corbet@lwn.net" <corbet@lwn.net>, "nd@arm.com" <nd@arm.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "debug@rivosinc.com" <debug@rivosinc.com>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "pavel@ucw.cz" <pavel@ucw.cz>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
+        "oleg@redhat.com" <oleg@redhat.com>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "Torvalds, Linus" <torvalds@linux-foundation.org>,
+        "Eranian, Stephane" <eranian@google.com>
+Subject: Re: [PATCH v9 23/42] Documentation/x86: Add CET shadow stack
+ description
+Message-ID: <d8ade3c0-f256-48dd-9969-d5e55dadd0e4@sirena.org.uk>
+References: <ZJFukYxRbU1MZlQn@arm.com>
+ <e676c4878c51ab4b6018c9426b5edacdb95f2168.camel@intel.com>
+ <ZJLgp29mM3BLb3xa@arm.com>
+ <c5ae83588a7e107beaf858ab04961e70d16fe32c.camel@intel.com>
+ <ZJQR7slVHvjeCQG8@arm.com>
+ <CALCETrW+30_a2QQE-yw9djVFPxSxm7-c2FZFwZ50dOEmnmkeDA@mail.gmail.com>
+ <ZJR545en+dYx399c@arm.com>
+ <1cd67ae45fc379fd82d2745190e4caf74e67499e.camel@intel.com>
+ <ZJ2sTu9QRmiWNISy@arm.com>
+ <e057de9dd9e9fe48981afb4ded4b337e8a83fabf.camel@intel.com>
 MIME-Version: 1.0
-References: <20230609092127.170673-1-eperezma@redhat.com> <20230609092127.170673-3-eperezma@redhat.com>
- <20230609121244-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20230609121244-mutt-send-email-mst@kernel.org>
-From:   Eugenio Perez Martin <eperezma@redhat.com>
-Date:   Mon, 3 Jul 2023 10:21:20 +0200
-Message-ID: <CAJaqyWcaLe6TX4VuqMkh_po=C17MVX-tVq-XqHkMWYLTXh-sHQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/4] vdpa: accept VHOST_BACKEND_F_ENABLE_AFTER_DRIVER_OK
- backend feature
-To:     "Michael S. Tsirkin" <mst@redhat.com>
-Cc:     Jason Wang <jasowang@redhat.com>,
-        Zhu Lingshan <lingshan.zhu@intel.com>,
-        virtualization@lists.linux-foundation.org,
-        "Gonglei (Arei)" <arei.gonglei@huawei.com>, longpeng2@huawei.com,
-        Lei Yang <leiyang@redhat.com>,
-        Parav Pandit <parav@mellanox.com>,
-        Gautam Dawar <gdawar@xilinx.com>,
-        Dragos Tatulea <dtatulea@nvidia.com>,
-        Laurent Vivier <lvivier@redhat.com>, linux-api@vger.kernel.org,
-        Liuxiangdong <liuxiangdong5@huawei.com>,
-        linux-kernel@vger.kernel.org, alvaro.karsz@solid-run.com,
-        Shannon Nelson <snelson@pensando.io>,
-        Stefano Garzarella <sgarzare@redhat.com>,
-        Cindy Lu <lulu@redhat.com>, si-wei.liu@oracle.com,
-        Harpreet Singh Anand <hanand@xilinx.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="3loSgCLP1vFHrOSe"
+Content-Disposition: inline
+In-Reply-To: <e057de9dd9e9fe48981afb4ded4b337e8a83fabf.camel@intel.com>
+X-Cookie: Please go away.
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Jun 9, 2023 at 6:13=E2=80=AFPM Michael S. Tsirkin <mst@redhat.com> =
-wrote:
->
-> On Fri, Jun 09, 2023 at 11:21:25AM +0200, Eugenio P=C3=A9rez wrote:
-> > Accepting VHOST_BACKEND_F_ENABLE_AFTER_DRIVER_OK backend feature if
-> > userland sets it.
-> >
-> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > Acked-by: Shannon Nelson <shannon.nelson@amd.com>
->
-> I don't get it, so all vdpa devices accept this automatically?
-> Should this not be up to the parent?
->
 
-At the moment I don't see a reason why if a parent offers this
-feature, it could reject it afterwards. However I think we can add a
-fail if userland acks the backend feature but the parent does not
-offer it however.
+--3loSgCLP1vFHrOSe
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Would it work to add such fail in vdpa frontend and move it to the
-backend if and when any parent driver needs it in the future?
+On Sun, Jul 02, 2023 at 06:03:42PM +0000, Edgecombe, Rick P wrote:
+> On Thu, 2023-06-29 at 17:07 +0100, szabolcs.nagy@arm.com wrote:
 
-Thanks!
+> > which means x86 linux will likely end up maintaining two incompatible
+> > abis and the future one will need user code and build system changes,
+> > not just runtime changes. it is not a small incremental change to add
+> > alt shadow stack support for example.
 
-> > ---
-> >  drivers/vhost/vdpa.c | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/vhost/vdpa.c b/drivers/vhost/vdpa.c
-> > index bf77924d5b60..a3204406b73d 100644
-> > --- a/drivers/vhost/vdpa.c
-> > +++ b/drivers/vhost/vdpa.c
-> > @@ -680,7 +680,8 @@ static long vhost_vdpa_unlocked_ioctl(struct file *=
-filep,
-> >                       return -EFAULT;
-> >               if (features & ~(VHOST_VDPA_BACKEND_FEATURES |
-> >                                BIT_ULL(VHOST_BACKEND_F_SUSPEND) |
-> > -                              BIT_ULL(VHOST_BACKEND_F_RESUME)))
-> > +                              BIT_ULL(VHOST_BACKEND_F_RESUME) |
-> > +                              BIT_ULL(VHOST_BACKEND_F_ENABLE_AFTER_DRI=
-VER_OK)))
-> >                       return -EOPNOTSUPP;
-> >               if ((features & BIT_ULL(VHOST_BACKEND_F_SUSPEND)) &&
-> >                    !vhost_vdpa_can_suspend(v))
-> > --
-> > 2.31.1
->
+> > i don't think the maintenance burden of two shadow stack abis is the
+> > right path for arm64 to follow, so the shadow stack semantics will
+> > likely become divergent not common across targets.
 
+> Unfortunately we are at a bit of an information asymmetry here because
+> the ARM spec and patches are not public. It may be part of the cause of
+> the confusion.
+
+While the descriptive text bit of the spec is not yet integrated into
+the ARM the architecture XML describing the instructions and system
+registers is there, the document is numbered DDI0601:
+
+    https://developer.arm.com/documentation/ddi0601/
+
+The GCS specific instructions and system registers are all named
+beginning with GCS, it's aarch64 only.
+
+Hopefully I should have something out next week for the kernel.
+
+--3loSgCLP1vFHrOSe
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmSizeIACgkQJNaLcl1U
+h9D3Wwf/baVnu4r+oxpjrck31M4SQYopy428bSNBHaGoVHcoFSNJEIBylX2Zcrp+
+c+z0gkJRAjSvAfpT1mqWkw96gSlqLrDzUS6VClhMu0JZwkfmoNiqXwO2iK1jV5w9
+9ZMxbCYtfA6pSN8DHwhVkEJO1+9sI6iUJrWsXXcQBRFEeWwkeKpR8CeYL4F8hpdl
+4sOC1f2UeEJ82Rm6WPJ/ZNY/pTaGF3CWRP2WfoewkBwzMw9TevsYXdQAIOooFCOT
+5ukjmiLiGw2IuYux8Y0Gb1ZaOiOI/W95yow0cPBDS9YGj7y6ZbZqIa5PVfK1Smwf
+1QRf+xHUlAz6eiCCxHK2lZZqEP4vOw==
+=6QcV
+-----END PGP SIGNATURE-----
+
+--3loSgCLP1vFHrOSe--
