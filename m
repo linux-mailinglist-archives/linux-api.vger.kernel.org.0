@@ -2,285 +2,495 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C1A0974DBAB
-	for <lists+linux-api@lfdr.de>; Mon, 10 Jul 2023 18:55:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0820274DD99
+	for <lists+linux-api@lfdr.de>; Mon, 10 Jul 2023 20:52:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231395AbjGJQzq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 10 Jul 2023 12:55:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54042 "EHLO
+        id S231704AbjGJSwg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 10 Jul 2023 14:52:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55692 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231585AbjGJQzn (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 10 Jul 2023 12:55:43 -0400
-Received: from EUR04-VI1-obe.outbound.protection.outlook.com (mail-vi1eur04on2041.outbound.protection.outlook.com [40.107.8.41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DF2F187;
-        Mon, 10 Jul 2023 09:55:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=b52kxjIbzKwFn0WYm3LjTdw2O3lOH9P+tsnbMSn4c3o=;
- b=Q7PVmz6V31vZ6DchfQsbT5TzCPTr3yHt7TcK2+adS7seBq6OamDqr1d9AlIYcAMB+cidBlOBl1nBflJfbfGffYB9T4/jWmwbelkQBzHpBFq1Kv47+nKwHyFylMweyMpu/RDLB1Zcw4ICiUARXFILvF+IhfCT9I0jQ/UYRwefMXg=
-Received: from DB8PR03CA0030.eurprd03.prod.outlook.com (2603:10a6:10:be::43)
- by DB5PR08MB10096.eurprd08.prod.outlook.com (2603:10a6:10:4aa::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.30; Mon, 10 Jul
- 2023 16:55:04 +0000
-Received: from DBAEUR03FT021.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:10:be:cafe::2e) by DB8PR03CA0030.outlook.office365.com
- (2603:10a6:10:be::43) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.30 via Frontend
- Transport; Mon, 10 Jul 2023 16:55:04 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- DBAEUR03FT021.mail.protection.outlook.com (100.127.142.184) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6588.18 via Frontend Transport; Mon, 10 Jul 2023 16:55:04 +0000
-Received: ("Tessian outbound f9124736ff4f:v145"); Mon, 10 Jul 2023 16:55:03 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: ac1b14dc7dceaa16
-X-CR-MTA-TID: 64aa7808
-Received: from f0426a1ec8f0.1
-        by 64aa7808-outbound-1.mta.getcheckrecipient.com id 561E077A-9C4C-417B-8EEB-CDD0D27B6C78.1;
-        Mon, 10 Jul 2023 16:54:56 +0000
-Received: from EUR02-DB5-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id f0426a1ec8f0.1
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Mon, 10 Jul 2023 16:54:56 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bv38UvGdzw8yEokfG7qSRHYkJsmEXCfV4ZWwmrrdIKPxKW1Is+4lGs11B2YM+T8m5tKC6kh6bEGXUWpUJ2F9jTlUOrMeC9e8gXmu/y/G8E1NyWL0K4q5XSi4plzbDP6+LMvPAzi8NhXGCZtT1cvf7r+7uOUnwfwTbwr6x2cscn8yq3FiNiOOiFO1evevyP6+64nrNq18m8gJFXa1Ir6a1BzqRbXLo7S5bbZle7tq8MPHA0qnsZmnIa6cGoPBWC5S7yJr4pt+xGQpsfzMZ1YxIsFT4DCx4XrTruKigRWqHLMFQrD0WoaC4ymfBIFJzxvFmsqM2iPfooKKdZFptPkihA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=b52kxjIbzKwFn0WYm3LjTdw2O3lOH9P+tsnbMSn4c3o=;
- b=HgMTEgsEknOH4tbhCl6vu/xnM4Uk0TvrnDFAYd8RoKACd0eQfZFs4kHshyPdUbYvIupesIpnGEAy+H2ox5Wa2gNNZjoVTkrjCkO9z8p07/CWDoOXL2/DNyggcUPaLLYOFgPfGTL6Ja4lcWuU4YwbeknsOKpkSMZslXNOy4EJezgb9ZGwofj4vGBjweN1Um6LT5l49UOfqabP+pOO6bZv0pdg6BDlZjUQin7/jk9V6Jp3EC5eQ3Y/jnUFS0S24i4oLrb9m1w7UHRsqUUHzvcY0lg+5Np6Qnx0cbmQyvE4rLgvbf47Ebj9L6oiGh7/UfamKHueu4OOZlUKYeKd67D8Nw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=b52kxjIbzKwFn0WYm3LjTdw2O3lOH9P+tsnbMSn4c3o=;
- b=Q7PVmz6V31vZ6DchfQsbT5TzCPTr3yHt7TcK2+adS7seBq6OamDqr1d9AlIYcAMB+cidBlOBl1nBflJfbfGffYB9T4/jWmwbelkQBzHpBFq1Kv47+nKwHyFylMweyMpu/RDLB1Zcw4ICiUARXFILvF+IhfCT9I0jQ/UYRwefMXg=
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-Received: from DB9PR08MB7179.eurprd08.prod.outlook.com (2603:10a6:10:2cc::19)
- by AS8PR08MB10345.eurprd08.prod.outlook.com (2603:10a6:20b:57d::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.30; Mon, 10 Jul
- 2023 16:54:54 +0000
-Received: from DB9PR08MB7179.eurprd08.prod.outlook.com
- ([fe80::43b7:3a83:5cbe:4559]) by DB9PR08MB7179.eurprd08.prod.outlook.com
- ([fe80::43b7:3a83:5cbe:4559%4]) with mapi id 15.20.6565.028; Mon, 10 Jul 2023
- 16:54:54 +0000
-Date:   Mon, 10 Jul 2023 17:54:37 +0100
-From:   "szabolcs.nagy@arm.com" <szabolcs.nagy@arm.com>
-To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
-        "Lutomirski, Andy" <luto@kernel.org>
-Cc:     "Xu, Pengfei" <pengfei.xu@intel.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "kcc@google.com" <kcc@google.com>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "david@redhat.com" <david@redhat.com>,
-        "Schimpe, Christina" <christina.schimpe@intel.com>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "corbet@lwn.net" <corbet@lwn.net>, "nd@arm.com" <nd@arm.com>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        "broonie@kernel.org" <broonie@kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "x86@kernel.org" <x86@kernel.org>, "pavel@ucw.cz" <pavel@ucw.cz>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "debug@rivosinc.com" <debug@rivosinc.com>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "oleg@redhat.com" <oleg@redhat.com>,
-        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
-        "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "Torvalds, Linus" <torvalds@linux-foundation.org>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "Eranian, Stephane" <eranian@google.com>
-Subject: Re: [PATCH v9 23/42] Documentation/x86: Add CET shadow stack
- description
-Message-ID: <ZKw3zSKxCug0IbC1@arm.com>
-References: <ZJR545en+dYx399c@arm.com>
- <1cd67ae45fc379fd82d2745190e4caf74e67499e.camel@intel.com>
- <ZJ2sTu9QRmiWNISy@arm.com>
- <e057de9dd9e9fe48981afb4ded4b337e8a83fabf.camel@intel.com>
- <ZKMRFNSYQBC6S+ga@arm.com>
- <eda8b2c4b2471529954aadbe04592da1ddae906d.camel@intel.com>
- <ZKa8jB4lOik/aFn2@arm.com>
- <68b7f983ffd3b7c629940b6c6ee9533bb55d9a13.camel@intel.com>
- <ZKguVAZe+DGA1VEv@arm.com>
- <1c2f524cbaff886ce782bf3a3f95756197bc1e27.camel@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <1c2f524cbaff886ce782bf3a3f95756197bc1e27.camel@intel.com>
-X-ClientProxiedBy: LO4P265CA0005.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:2ad::17) To DB9PR08MB7179.eurprd08.prod.outlook.com
- (2603:10a6:10:2cc::19)
+        with ESMTP id S230386AbjGJSwf (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 10 Jul 2023 14:52:35 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18A86E9;
+        Mon, 10 Jul 2023 11:52:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1689015153; x=1720551153;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=9a4XUQKD3ye7xs9ePB4eQT0MrE+BnUzLQe3MtvFmF7Y=;
+  b=Qo6kyb1L00cHEIMPRfSD/Nb1n7yXu2rPhZ6cpuOSNIcWaZzNdt33FLeh
+   Z5NBsbm8g8ODaXEeaREZPNqdp1nkpPlWa9uN7OJ6Ic5xlkZf2pH5l4vIN
+   ZwOK4QbqFU1O0hfj/iVSbO5MRUN6WYiIWOSbzInN1URuqbryge1X14OZE
+   4oK1Wbn/tqtyoXiYzR7+OsOjnP52oWlfIXeK4IvhAJF0cRvUPc2Xpy5jI
+   Ak/GKCaWzJNBo7OTwZm8Fm+bPvyOA0iAURQfzMMI/vzIkrdB1dNTePkax
+   W7CC92PFMKqwdvFmvfKAiXuetInpHAzm56uCgsj+PwjnPtJmShnu9bOMD
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10767"; a="367004269"
+X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
+   d="scan'208";a="367004269"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2023 11:52:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10767"; a="1051455454"
+X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
+   d="scan'208";a="1051455454"
+Received: from sohilmeh.sc.intel.com ([172.25.103.65])
+  by fmsmga005.fm.intel.com with ESMTP; 10 Jul 2023 11:52:27 -0700
+From:   Sohil Mehta <sohil.mehta@intel.com>
+To:     Arnd Bergmann <arnd@arndb.de>, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org
+Cc:     Sohil Mehta <sohil.mehta@intel.com>,
+        Richard Henderson <richard.henderson@linaro.org>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Michal Simek <monstr@monstr.eu>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
+        Helge Deller <deller@gmx.de>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+        "David S . Miller" <davem@davemloft.net>,
+        Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>, Chris Zankel <chris@zankel.net>,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Ian Rogers <irogers@google.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Sergei Trofimovich <slyich@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Rohan McLure <rmclure@linux.ibm.com>,
+        Andreas Schwab <schwab@linux-m68k.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Brian Gerst <brgerst@gmail.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+        sparclinux@vger.kernel.org, linux-perf-users@vger.kernel.org
+Subject: [PATCH v2] syscalls: Cleanup references to sys_lookup_dcookie()
+Date:   Mon, 10 Jul 2023 18:51:24 +0000
+Message-Id: <20230710185124.3848462-1-sohil.mehta@intel.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230628230935.1196180-1-sohil.mehta@intel.com>
+References: <20230628230935.1196180-1-sohil.mehta@intel.com>
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic: DB9PR08MB7179:EE_|AS8PR08MB10345:EE_|DBAEUR03FT021:EE_|DB5PR08MB10096:EE_
-X-MS-Office365-Filtering-Correlation-Id: 184477e6-a80d-4fef-0330-08db8166687e
-x-checkrecipientrouted: true
-NoDisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: oW4Qi92VkPAyncIJaMc5/GkNdY7ixx3sNE9sR6k3xm2R3DjcDHAR19us0fRhGEyxgTCMZJIewwypXajzW7BK6nuiy9EgeuyUMPOtGUrjFVNGfpNZX6k3AcFwGQUxPskDTpl8Jslv2wcnIRX9jXWOymFoVcyeC6+ahmfbAINTCWkcU7iG4TzjUNOzTCxohNyN0l9VURILsqqowD9b7yhYUPh2hEaFXdGZnMyxnrqfNBqD2jzq4qdm3ICRHjjxZXx2oRPQ4ZVEXNShIKBVs7sUOXpVZkVPvgko6mg25RteUI/+QDGJonlH9pR4wRZz3lgprivN+nksUpGPiJCiiXPc8RDwh9PCITKIBe789EPe7xc1xLRDiiwPCXiaWs6xw+dKoasEoIba2SKaJfBxNMtfxJVtUd6g+AvyTPvnuDf089hDqOG3zfs1mQ0WeUk3qZ4/DHhRVa2HIOurXHNVRkPY6FK2WMbwbx2AqeCXuk9Drgfv2CpspMhyQ3ryG/ykl3NeHpGJPXlaYGCYfV7EU2cnPFjfaOaDv8ePlRXBUINdmFJGOqxsNY2VQuD32eY+XrU1
-X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR08MB7179.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(366004)(39860400002)(136003)(396003)(346002)(451199021)(6666004)(6486002)(478600001)(110136005)(54906003)(2616005)(83380400001)(36756003)(86362001)(2906002)(66946007)(186003)(6506007)(26005)(6512007)(38100700002)(8936002)(8676002)(4326008)(66476007)(41300700001)(66556008)(316002)(5660300002)(7416002)(7406005);DIR:OUT;SFP:1101;
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB10345
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: DBAEUR03FT021.eop-EUR03.prod.protection.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: df91ed88-ba0d-47fe-2815-08db816660af
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: YS/IhEVpgiHbZ1ZGDo2ZwCfR83itoC6AkR243bcokxW8u2YEDWJeIGRsVJnxEG+Dmg2JLhN3Ro1aBcn9TFkaQlZ2h1ddIq2h5eZpty4+3seOxHdY14bObb4gDLhDADI4DV2VO6Jr9oJ5MCUHriAJILhVbKnpT3meDgbA0pC+rDF50GA/4okhiSp1sXsuzCSvfM6LvXHHDS+dtY936eXQaeuCxvfNm44j3NZnxdZLp1DLZtZEUqBZ430TCo8n1j/8Z/rmnUY9w6a7LQwPx7f3kDK2sby9tTKZllaUVypAY59I7PrfnnBzJK/uVKgPG4UF3T4vv1AADZd3WkLeASkQkte1BVzSHbr7rOOhDMsJT0lSewM0MkRjtSGt3slBetFrJ4cFyVvLvLFO6T7cHIAAPRq0KCCkhS/rfi18wfBwDSV/l86oi1pI0gQf4emIQrZ78DsZleHMRaN8lXt4/ZSyEj0H+xT9gk0KZZy05Mrt839SyGRg5Vb2F8Mov7UX5VQMwBRzrpovzf5kI7xieQbzL4K4FI9AliiVRjsxLgxC8NOblmETm8ep0swHafMzjWqDkmxnJCElO++hCoR0IFAvOA/OIQNudxsySM3q44XSBXJKwFzd+jnx5JZnDp5YeR4sFgdIm+GKQ1Ph4T8orlF6sipmyvkPB5feU9RHaZPRm4tANR/ojCxpajea6Wy2zL60HuRBvcUZx3Zr1BcW2hTe6q7BQFA9LlwF7f8QqUS1AR7rDFHRzFpb3/xJuTWSHdGg
-X-Forefront-Antispam-Report: CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230028)(4636009)(136003)(376002)(39860400002)(396003)(346002)(451199021)(40470700004)(46966006)(36840700001)(478600001)(6666004)(6486002)(110136005)(54906003)(450100002)(36860700001)(47076005)(83380400001)(36756003)(40460700003)(86362001)(40480700001)(2616005)(2906002)(70206006)(82310400005)(336012)(70586007)(26005)(6506007)(107886003)(186003)(6512007)(81166007)(82740400003)(8676002)(356005)(5660300002)(4326008)(316002)(41300700001)(8936002);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jul 2023 16:55:04.1543
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 184477e6-a80d-4fef-0330-08db8166687e
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: DBAEUR03FT021.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB5PR08MB10096
-X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,FORGED_SPF_HELO,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-The 07/07/2023 17:37, Edgecombe, Rick P wrote:
-> On Fri, 2023-07-07 at 16:25 +0100, szabolcs.nagy@arm.com wrote:
-> > > Separate from all of this...now that all the constraints are
-> > > clearer,
-> > > if you have changed your mind on whether this series is ready,
-> > > could
-> > > you comment at the top of this thread something to that effect? I'm
-> > > imagining not many are reading so far down at this point.
-> > > 
-> > > For my part, I think we should go forward with what we have on the
-> > > kernel side, unless glibc/gcc developers would like to start by
-> > > deprecating the existing binaries. I just talked with HJ, and he
-> > > has
-> > > not changed his plans around this. If anyone else in that community
-> > > has
-> > > (Florian?), please speak up. But otherwise I think it's better to
-> > > start
-> > > getting real world feedback and grow based on that.
-> > > 
-> > 
-> > the x86 v1 abi tries to be compatible with existing unwinders.
-> > (are there other binaries that constrains v1? portable code
-> > should be fine as they rely on libc which we can still change)
-> > 
-> > i will have to discuss the arm plan with the arm kernel devs.
-> > the ugly bit i want to avoid on arm is to have to reimplement
-> > unwind and jump ops to make alt shadow stack work in a v2 abi.
-> > 
-> > i think the worse bit of the x86 v1 abi is that crash handlers
-> > don't work reliably (e.g. a crash on a tiny makecontext stack
-> > with the usual sigaltstack crash handler can unrecoverably fail
-> > during crash handling). i guess this can be somewhat mitigated
-> > by both linux and libc adding an extra page to the shadow stack
-> > size to guarantee that alt stack handlers with certain depth
-> > always work.
-> 
-> Some mails back, I listed the three things you might be asking for from
-> the kernel side and pointedly asked you to clarify. The only one you
-> still were wishing for up front was "Leave a token on switching to an
-> alt shadow stack."
-> 
-> But how you want to use this involves a lot of details for how glibc
-> will work (automatic shadow stack for sigaltstack, scan-restore-incssp,
-> etc). I think you first need to get the story straight with other libc
-> developers, otherwise this is just brainstorming. I'm not a glibc
-> contributor, so winning me over is only half the battle.
-> 
-> Only after that is settled do we get to the problem of the old libgcc
-> unwinders, and how it is a challenge to even add alt shadow stack given
-> glibc's plans and the existing binaries.
-> 
-> Once that is solved we are at the overflow problem, and the current
-> state of thinking on that is "i'm fairly sure this can be done (but
-> indeed complicated)".
-> 
-> So I think we are still missing any actionable requests that should
-> hold this up.
-> 
-> Is this a reasonable summary?
+commit 'be65de6b03aa ("fs: Remove dcookies support")' removed the
+syscall definition for lookup_dcookie.  However, syscall tables still
+point to the old sys_lookup_dcookie() definition. Update syscall tables
+of all architectures to directly point to sys_ni_syscall() instead.
 
-not entirely.
+Signed-off-by: Sohil Mehta <sohil.mehta@intel.com>
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Acked-by: Namhyung Kim <namhyung@kernel.org> # for perf
+---
+v2:
+- Rebased to v6.5-rc1. No other dependencies.
+- Added acquired tags.
+---
+ arch/alpha/kernel/syscalls/syscall.tbl              | 2 +-
+ arch/arm/tools/syscall.tbl                          | 2 +-
+ arch/arm64/include/asm/unistd32.h                   | 4 ++--
+ arch/ia64/kernel/syscalls/syscall.tbl               | 2 +-
+ arch/m68k/kernel/syscalls/syscall.tbl               | 2 +-
+ arch/microblaze/kernel/syscalls/syscall.tbl         | 2 +-
+ arch/mips/kernel/syscalls/syscall_n32.tbl           | 2 +-
+ arch/mips/kernel/syscalls/syscall_n64.tbl           | 2 +-
+ arch/mips/kernel/syscalls/syscall_o32.tbl           | 2 +-
+ arch/parisc/kernel/syscalls/syscall.tbl             | 2 +-
+ arch/powerpc/kernel/syscalls/syscall.tbl            | 2 +-
+ arch/s390/kernel/syscalls/syscall.tbl               | 2 +-
+ arch/sh/kernel/syscalls/syscall.tbl                 | 2 +-
+ arch/sparc/kernel/syscalls/syscall.tbl              | 2 +-
+ arch/x86/entry/syscalls/syscall_32.tbl              | 2 +-
+ arch/x86/entry/syscalls/syscall_64.tbl              | 2 +-
+ arch/xtensa/kernel/syscalls/syscall.tbl             | 2 +-
+ include/linux/compat.h                              | 1 -
+ include/linux/syscalls.h                            | 1 -
+ include/uapi/asm-generic/unistd.h                   | 2 +-
+ kernel/sys_ni.c                                     | 2 --
+ tools/include/uapi/asm-generic/unistd.h             | 2 +-
+ tools/perf/arch/mips/entry/syscalls/syscall_n64.tbl | 2 +-
+ tools/perf/arch/powerpc/entry/syscalls/syscall.tbl  | 2 +-
+ tools/perf/arch/s390/entry/syscalls/syscall.tbl     | 2 +-
+ tools/perf/arch/x86/entry/syscalls/syscall_64.tbl   | 2 +-
+ 26 files changed, 24 insertions(+), 28 deletions(-)
 
-the high level requirement is a design that
+diff --git a/arch/alpha/kernel/syscalls/syscall.tbl b/arch/alpha/kernel/syscalls/syscall.tbl
+index 1f13995d00d7..1349012f5c2e 100644
+--- a/arch/alpha/kernel/syscalls/syscall.tbl
++++ b/arch/alpha/kernel/syscalls/syscall.tbl
+@@ -334,7 +334,7 @@
+ 401	common	io_submit			sys_io_submit
+ 402	common	io_cancel			sys_io_cancel
+ 405	common	exit_group			sys_exit_group
+-406	common	lookup_dcookie			sys_lookup_dcookie
++406	common	lookup_dcookie			sys_ni_syscall
+ 407	common	epoll_create			sys_epoll_create
+ 408	common	epoll_ctl			sys_epoll_ctl
+ 409	common	epoll_wait			sys_epoll_wait
+diff --git a/arch/arm/tools/syscall.tbl b/arch/arm/tools/syscall.tbl
+index 8ebed8a13874..cb7ea3bf18cf 100644
+--- a/arch/arm/tools/syscall.tbl
++++ b/arch/arm/tools/syscall.tbl
+@@ -263,7 +263,7 @@
+ 246	common	io_submit		sys_io_submit
+ 247	common	io_cancel		sys_io_cancel
+ 248	common	exit_group		sys_exit_group
+-249	common	lookup_dcookie		sys_lookup_dcookie
++249	common	lookup_dcookie		sys_ni_syscall
+ 250	common	epoll_create		sys_epoll_create
+ 251	common	epoll_ctl		sys_epoll_ctl		sys_oabi_epoll_ctl
+ 252	common	epoll_wait		sys_epoll_wait
+diff --git a/arch/arm64/include/asm/unistd32.h b/arch/arm64/include/asm/unistd32.h
+index d952a28463e0..2d8ab890818a 100644
+--- a/arch/arm64/include/asm/unistd32.h
++++ b/arch/arm64/include/asm/unistd32.h
+@@ -508,8 +508,8 @@ __SYSCALL(__NR_io_submit, compat_sys_io_submit)
+ __SYSCALL(__NR_io_cancel, sys_io_cancel)
+ #define __NR_exit_group 248
+ __SYSCALL(__NR_exit_group, sys_exit_group)
+-#define __NR_lookup_dcookie 249
+-__SYSCALL(__NR_lookup_dcookie, compat_sys_lookup_dcookie)
++			/* 249 was lookup_dcookie */
++__SYSCALL(249, sys_ni_syscall)
+ #define __NR_epoll_create 250
+ __SYSCALL(__NR_epoll_create, sys_epoll_create)
+ #define __NR_epoll_ctl 251
+diff --git a/arch/ia64/kernel/syscalls/syscall.tbl b/arch/ia64/kernel/syscalls/syscall.tbl
+index f8c74ffeeefb..ac8bd817b1b9 100644
+--- a/arch/ia64/kernel/syscalls/syscall.tbl
++++ b/arch/ia64/kernel/syscalls/syscall.tbl
+@@ -222,7 +222,7 @@
+ 210	common	fadvise64			sys_fadvise64_64
+ 211	common	tgkill				sys_tgkill
+ 212	common	exit_group			sys_exit_group
+-213	common	lookup_dcookie			sys_lookup_dcookie
++213	common	lookup_dcookie			sys_ni_syscall
+ 214	common	io_setup			sys_io_setup
+ 215	common	io_destroy			sys_io_destroy
+ 216	common	io_getevents			sys_io_getevents
+diff --git a/arch/m68k/kernel/syscalls/syscall.tbl b/arch/m68k/kernel/syscalls/syscall.tbl
+index 4f504783371f..985eab03b83b 100644
+--- a/arch/m68k/kernel/syscalls/syscall.tbl
++++ b/arch/m68k/kernel/syscalls/syscall.tbl
+@@ -255,7 +255,7 @@
+ 245	common	io_cancel			sys_io_cancel
+ 246	common	fadvise64			sys_fadvise64
+ 247	common	exit_group			sys_exit_group
+-248	common	lookup_dcookie			sys_lookup_dcookie
++248	common	lookup_dcookie			sys_ni_syscall
+ 249	common	epoll_create			sys_epoll_create
+ 250	common	epoll_ctl			sys_epoll_ctl
+ 251	common	epoll_wait			sys_epoll_wait
+diff --git a/arch/microblaze/kernel/syscalls/syscall.tbl b/arch/microblaze/kernel/syscalls/syscall.tbl
+index 858d22bf275c..167586f139aa 100644
+--- a/arch/microblaze/kernel/syscalls/syscall.tbl
++++ b/arch/microblaze/kernel/syscalls/syscall.tbl
+@@ -260,7 +260,7 @@
+ 250	common	fadvise64			sys_fadvise64
+ # 251 is available for reuse (was briefly sys_set_zone_reclaim)
+ 252	common	exit_group			sys_exit_group
+-253	common	lookup_dcookie			sys_lookup_dcookie
++253	common	lookup_dcookie			sys_ni_syscall
+ 254	common	epoll_create			sys_epoll_create
+ 255	common	epoll_ctl			sys_epoll_ctl
+ 256	common	epoll_wait			sys_epoll_wait
+diff --git a/arch/mips/kernel/syscalls/syscall_n32.tbl b/arch/mips/kernel/syscalls/syscall_n32.tbl
+index 1976317d4e8b..eff7a64e6bf1 100644
+--- a/arch/mips/kernel/syscalls/syscall_n32.tbl
++++ b/arch/mips/kernel/syscalls/syscall_n32.tbl
+@@ -214,7 +214,7 @@
+ 203	n32	io_submit			compat_sys_io_submit
+ 204	n32	io_cancel			sys_io_cancel
+ 205	n32	exit_group			sys_exit_group
+-206	n32	lookup_dcookie			sys_lookup_dcookie
++206	n32	lookup_dcookie			sys_ni_syscall
+ 207	n32	epoll_create			sys_epoll_create
+ 208	n32	epoll_ctl			sys_epoll_ctl
+ 209	n32	epoll_wait			sys_epoll_wait
+diff --git a/arch/mips/kernel/syscalls/syscall_n64.tbl b/arch/mips/kernel/syscalls/syscall_n64.tbl
+index cfda2511badf..478fe63601fc 100644
+--- a/arch/mips/kernel/syscalls/syscall_n64.tbl
++++ b/arch/mips/kernel/syscalls/syscall_n64.tbl
+@@ -214,7 +214,7 @@
+ 203	n64	io_submit			sys_io_submit
+ 204	n64	io_cancel			sys_io_cancel
+ 205	n64	exit_group			sys_exit_group
+-206	n64	lookup_dcookie			sys_lookup_dcookie
++206	n64	lookup_dcookie			sys_ni_syscall
+ 207	n64	epoll_create			sys_epoll_create
+ 208	n64	epoll_ctl			sys_epoll_ctl
+ 209	n64	epoll_wait			sys_epoll_wait
+diff --git a/arch/mips/kernel/syscalls/syscall_o32.tbl b/arch/mips/kernel/syscalls/syscall_o32.tbl
+index 7692234c3768..1eb4efe647b9 100644
+--- a/arch/mips/kernel/syscalls/syscall_o32.tbl
++++ b/arch/mips/kernel/syscalls/syscall_o32.tbl
+@@ -258,7 +258,7 @@
+ 244	o32	io_submit			sys_io_submit			compat_sys_io_submit
+ 245	o32	io_cancel			sys_io_cancel
+ 246	o32	exit_group			sys_exit_group
+-247	o32	lookup_dcookie			sys_lookup_dcookie		compat_sys_lookup_dcookie
++247	o32	lookup_dcookie			sys_ni_syscall
+ 248	o32	epoll_create			sys_epoll_create
+ 249	o32	epoll_ctl			sys_epoll_ctl
+ 250	o32	epoll_wait			sys_epoll_wait
+diff --git a/arch/parisc/kernel/syscalls/syscall.tbl b/arch/parisc/kernel/syscalls/syscall.tbl
+index a0a9145b6dd4..b2d9266a4736 100644
+--- a/arch/parisc/kernel/syscalls/syscall.tbl
++++ b/arch/parisc/kernel/syscalls/syscall.tbl
+@@ -245,7 +245,7 @@
+ # 220 was alloc_hugepages
+ # 221 was free_hugepages
+ 222	common	exit_group		sys_exit_group
+-223	common	lookup_dcookie		sys_lookup_dcookie		compat_sys_lookup_dcookie
++223	common	lookup_dcookie		sys_ni_syscall
+ 224	common	epoll_create		sys_epoll_create
+ 225	common	epoll_ctl		sys_epoll_ctl
+ 226	common	epoll_wait		sys_epoll_wait
+diff --git a/arch/powerpc/kernel/syscalls/syscall.tbl b/arch/powerpc/kernel/syscalls/syscall.tbl
+index 8c0b08b7a80e..1b7777e5f9ff 100644
+--- a/arch/powerpc/kernel/syscalls/syscall.tbl
++++ b/arch/powerpc/kernel/syscalls/syscall.tbl
+@@ -294,7 +294,7 @@
+ 233	32	fadvise64			sys_ppc32_fadvise64		compat_sys_ppc32_fadvise64
+ 233	64	fadvise64			sys_fadvise64
+ 234	nospu	exit_group			sys_exit_group
+-235	nospu	lookup_dcookie			sys_lookup_dcookie		compat_sys_lookup_dcookie
++235	nospu	lookup_dcookie			sys_ni_syscall
+ 236	common	epoll_create			sys_epoll_create
+ 237	common	epoll_ctl			sys_epoll_ctl
+ 238	common	epoll_wait			sys_epoll_wait
+diff --git a/arch/s390/kernel/syscalls/syscall.tbl b/arch/s390/kernel/syscalls/syscall.tbl
+index a6935af2235c..11782be77f57 100644
+--- a/arch/s390/kernel/syscalls/syscall.tbl
++++ b/arch/s390/kernel/syscalls/syscall.tbl
+@@ -100,7 +100,7 @@
+ 106  common	stat			sys_newstat			compat_sys_newstat
+ 107  common	lstat			sys_newlstat			compat_sys_newlstat
+ 108  common	fstat			sys_newfstat			compat_sys_newfstat
+-110  common	lookup_dcookie		sys_lookup_dcookie		compat_sys_lookup_dcookie
++110  common	lookup_dcookie		-				-
+ 111  common	vhangup			sys_vhangup			sys_vhangup
+ 112  common	idle			-				-
+ 114  common	wait4			sys_wait4			compat_sys_wait4
+diff --git a/arch/sh/kernel/syscalls/syscall.tbl b/arch/sh/kernel/syscalls/syscall.tbl
+index 97377e8c5025..a8e3fbd448cd 100644
+--- a/arch/sh/kernel/syscalls/syscall.tbl
++++ b/arch/sh/kernel/syscalls/syscall.tbl
+@@ -260,7 +260,7 @@
+ 250	common	fadvise64			sys_fadvise64
+ # 251 is unused
+ 252	common	exit_group			sys_exit_group
+-253	common	lookup_dcookie			sys_lookup_dcookie
++253	common	lookup_dcookie			sys_ni_syscall
+ 254	common	epoll_create			sys_epoll_create
+ 255	common	epoll_ctl			sys_epoll_ctl
+ 256	common	epoll_wait			sys_epoll_wait
+diff --git a/arch/sparc/kernel/syscalls/syscall.tbl b/arch/sparc/kernel/syscalls/syscall.tbl
+index faa835f3c54a..2fb51f6f8248 100644
+--- a/arch/sparc/kernel/syscalls/syscall.tbl
++++ b/arch/sparc/kernel/syscalls/syscall.tbl
+@@ -249,7 +249,7 @@
+ 205	common	readahead		sys_readahead			compat_sys_readahead
+ 206	common	socketcall		sys_socketcall			sys32_socketcall
+ 207	common	syslog			sys_syslog
+-208	common	lookup_dcookie		sys_lookup_dcookie		compat_sys_lookup_dcookie
++208	common	lookup_dcookie		sys_ni_syscall
+ 209	common	fadvise64		sys_fadvise64			compat_sys_fadvise64
+ 210	common	fadvise64_64		sys_fadvise64_64		compat_sys_fadvise64_64
+ 211	common	tgkill			sys_tgkill
+diff --git a/arch/x86/entry/syscalls/syscall_32.tbl b/arch/x86/entry/syscalls/syscall_32.tbl
+index bc0a3c941b35..88d7d4dcab55 100644
+--- a/arch/x86/entry/syscalls/syscall_32.tbl
++++ b/arch/x86/entry/syscalls/syscall_32.tbl
+@@ -264,7 +264,7 @@
+ 250	i386	fadvise64		sys_ia32_fadvise64
+ # 251 is available for reuse (was briefly sys_set_zone_reclaim)
+ 252	i386	exit_group		sys_exit_group
+-253	i386	lookup_dcookie		sys_lookup_dcookie		compat_sys_lookup_dcookie
++253	i386	lookup_dcookie
+ 254	i386	epoll_create		sys_epoll_create
+ 255	i386	epoll_ctl		sys_epoll_ctl
+ 256	i386	epoll_wait		sys_epoll_wait
+diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
+index 227538b0ce80..27f78821453b 100644
+--- a/arch/x86/entry/syscalls/syscall_64.tbl
++++ b/arch/x86/entry/syscalls/syscall_64.tbl
+@@ -220,7 +220,7 @@
+ 209	64	io_submit		sys_io_submit
+ 210	common	io_cancel		sys_io_cancel
+ 211	64	get_thread_area
+-212	common	lookup_dcookie		sys_lookup_dcookie
++212	common	lookup_dcookie
+ 213	common	epoll_create		sys_epoll_create
+ 214	64	epoll_ctl_old
+ 215	64	epoll_wait_old
+diff --git a/arch/xtensa/kernel/syscalls/syscall.tbl b/arch/xtensa/kernel/syscalls/syscall.tbl
+index 2b69c3c035b6..65322171b3f3 100644
+--- a/arch/xtensa/kernel/syscalls/syscall.tbl
++++ b/arch/xtensa/kernel/syscalls/syscall.tbl
+@@ -273,7 +273,7 @@
+ 252	common	timer_getoverrun		sys_timer_getoverrun
+ # System
+ 253	common	reserved253			sys_ni_syscall
+-254	common	lookup_dcookie			sys_lookup_dcookie
++254	common	lookup_dcookie			sys_ni_syscall
+ 255	common	available255			sys_ni_syscall
+ 256	common	add_key				sys_add_key
+ 257	common	request_key			sys_request_key
+diff --git a/include/linux/compat.h b/include/linux/compat.h
+index 1cfa4f0f490a..233f61ec8afc 100644
+--- a/include/linux/compat.h
++++ b/include/linux/compat.h
+@@ -581,7 +581,6 @@ asmlinkage long compat_sys_io_pgetevents_time64(compat_aio_context_t ctx_id,
+ 					struct io_event __user *events,
+ 					struct __kernel_timespec __user *timeout,
+ 					const struct __compat_aio_sigset __user *usig);
+-asmlinkage long compat_sys_lookup_dcookie(u32, u32, char __user *, compat_size_t);
+ asmlinkage long compat_sys_epoll_pwait(int epfd,
+ 			struct epoll_event __user *events,
+ 			int maxevents, int timeout,
+diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+index 03e3d0121d5e..8f93b37b80fa 100644
+--- a/include/linux/syscalls.h
++++ b/include/linux/syscalls.h
+@@ -371,7 +371,6 @@ asmlinkage long sys_lremovexattr(const char __user *path,
+ 				 const char __user *name);
+ asmlinkage long sys_fremovexattr(int fd, const char __user *name);
+ asmlinkage long sys_getcwd(char __user *buf, unsigned long size);
+-asmlinkage long sys_lookup_dcookie(u64 cookie64, char __user *buf, size_t len);
+ asmlinkage long sys_eventfd2(unsigned int count, int flags);
+ asmlinkage long sys_epoll_create1(int flags);
+ asmlinkage long sys_epoll_ctl(int epfd, int op, int fd,
+diff --git a/include/uapi/asm-generic/unistd.h b/include/uapi/asm-generic/unistd.h
+index fd6c1cb585db..7ea3875137e9 100644
+--- a/include/uapi/asm-generic/unistd.h
++++ b/include/uapi/asm-generic/unistd.h
+@@ -71,7 +71,7 @@ __SYSCALL(__NR_fremovexattr, sys_fremovexattr)
+ #define __NR_getcwd 17
+ __SYSCALL(__NR_getcwd, sys_getcwd)
+ #define __NR_lookup_dcookie 18
+-__SC_COMP(__NR_lookup_dcookie, sys_lookup_dcookie, compat_sys_lookup_dcookie)
++__SYSCALL(__NR_lookup_dcookie, sys_ni_syscall)
+ #define __NR_eventfd2 19
+ __SYSCALL(__NR_eventfd2, sys_eventfd2)
+ #define __NR_epoll_create1 20
+diff --git a/kernel/sys_ni.c b/kernel/sys_ni.c
+index 781de7cc6a4e..817f1e433369 100644
+--- a/kernel/sys_ni.c
++++ b/kernel/sys_ni.c
+@@ -51,8 +51,6 @@ COND_SYSCALL_COMPAT(io_pgetevents);
+ COND_SYSCALL(io_uring_setup);
+ COND_SYSCALL(io_uring_enter);
+ COND_SYSCALL(io_uring_register);
+-COND_SYSCALL(lookup_dcookie);
+-COND_SYSCALL_COMPAT(lookup_dcookie);
+ COND_SYSCALL(eventfd2);
+ COND_SYSCALL(epoll_create1);
+ COND_SYSCALL(epoll_ctl);
+diff --git a/tools/include/uapi/asm-generic/unistd.h b/tools/include/uapi/asm-generic/unistd.h
+index dd7d8e10f16d..652537342a47 100644
+--- a/tools/include/uapi/asm-generic/unistd.h
++++ b/tools/include/uapi/asm-generic/unistd.h
+@@ -71,7 +71,7 @@ __SYSCALL(__NR_fremovexattr, sys_fremovexattr)
+ #define __NR_getcwd 17
+ __SYSCALL(__NR_getcwd, sys_getcwd)
+ #define __NR_lookup_dcookie 18
+-__SC_COMP(__NR_lookup_dcookie, sys_lookup_dcookie, compat_sys_lookup_dcookie)
++__SYSCALL(__NR_lookup_dcookie, sys_ni_syscall)
+ #define __NR_eventfd2 19
+ __SYSCALL(__NR_eventfd2, sys_eventfd2)
+ #define __NR_epoll_create1 20
+diff --git a/tools/perf/arch/mips/entry/syscalls/syscall_n64.tbl b/tools/perf/arch/mips/entry/syscalls/syscall_n64.tbl
+index 3f1886ad9d80..23a72075987d 100644
+--- a/tools/perf/arch/mips/entry/syscalls/syscall_n64.tbl
++++ b/tools/perf/arch/mips/entry/syscalls/syscall_n64.tbl
+@@ -214,7 +214,7 @@
+ 203	n64	io_submit			sys_io_submit
+ 204	n64	io_cancel			sys_io_cancel
+ 205	n64	exit_group			sys_exit_group
+-206	n64	lookup_dcookie			sys_lookup_dcookie
++206	n64	lookup_dcookie			sys_ni_syscall
+ 207	n64	epoll_create			sys_epoll_create
+ 208	n64	epoll_ctl			sys_epoll_ctl
+ 209	n64	epoll_wait			sys_epoll_wait
+diff --git a/tools/perf/arch/powerpc/entry/syscalls/syscall.tbl b/tools/perf/arch/powerpc/entry/syscalls/syscall.tbl
+index a0be127475b1..2c8db9708ec8 100644
+--- a/tools/perf/arch/powerpc/entry/syscalls/syscall.tbl
++++ b/tools/perf/arch/powerpc/entry/syscalls/syscall.tbl
+@@ -294,7 +294,7 @@
+ 233	32	fadvise64			sys_ppc32_fadvise64		compat_sys_ppc32_fadvise64
+ 233	64	fadvise64			sys_fadvise64
+ 234	nospu	exit_group			sys_exit_group
+-235	nospu	lookup_dcookie			sys_lookup_dcookie		compat_sys_lookup_dcookie
++235	nospu	lookup_dcookie			sys_ni_syscall
+ 236	common	epoll_create			sys_epoll_create
+ 237	common	epoll_ctl			sys_epoll_ctl
+ 238	common	epoll_wait			sys_epoll_wait
+diff --git a/tools/perf/arch/s390/entry/syscalls/syscall.tbl b/tools/perf/arch/s390/entry/syscalls/syscall.tbl
+index b68f47541169..85b45b49756e 100644
+--- a/tools/perf/arch/s390/entry/syscalls/syscall.tbl
++++ b/tools/perf/arch/s390/entry/syscalls/syscall.tbl
+@@ -100,7 +100,7 @@
+ 106  common	stat			sys_newstat			compat_sys_newstat
+ 107  common	lstat			sys_newlstat			compat_sys_newlstat
+ 108  common	fstat			sys_newfstat			compat_sys_newfstat
+-110  common	lookup_dcookie		sys_lookup_dcookie		compat_sys_lookup_dcookie
++110  common	lookup_dcookie		-				-
+ 111  common	vhangup			sys_vhangup			sys_vhangup
+ 112  common	idle			-				-
+ 114  common	wait4			sys_wait4			compat_sys_wait4
+diff --git a/tools/perf/arch/x86/entry/syscalls/syscall_64.tbl b/tools/perf/arch/x86/entry/syscalls/syscall_64.tbl
+index c84d12608cd2..da2643738262 100644
+--- a/tools/perf/arch/x86/entry/syscalls/syscall_64.tbl
++++ b/tools/perf/arch/x86/entry/syscalls/syscall_64.tbl
+@@ -220,7 +220,7 @@
+ 209	64	io_submit		sys_io_submit
+ 210	common	io_cancel		sys_io_cancel
+ 211	64	get_thread_area
+-212	common	lookup_dcookie		sys_lookup_dcookie
++212	common	lookup_dcookie
+ 213	common	epoll_create		sys_epoll_create
+ 214	64	epoll_ctl_old
+ 215	64	epoll_wait_old
+-- 
+2.34.1
 
-a) does not break many existing sigaltstack uses,
-
-b) allows implementing jump and unwind that support the
-   relevant use-cases around signals and stack switches
-   with minimal userspace changes.
-
-where (b) has nothing to add to v1 abi: existing unwind
-binaries mean this needs a v2 abi. (the point of discussing
-v2 ahead of time is to understand the cost of v2 and the
-divergence wrt targets without abi compat issue.)
-
-for (a) my actionable suggestion was to account altstack
-when sizing shadow stacks. to document an altstack call
-depth limit on the libc level (e.g. fixed 100 is fine) we
-need guarantees from the kernel. (consider recursive calls
-overflowing the stack with altstack crash handler: for this
-to be reliable shadow stack size > stack size is needed.
-but the diff can be tiny e.g. 1 page is enough.)
-
-your previous 3 actionable item list was
-
-1. add token when handling signals on altstack.
-
-this falls under (b). your summary is correct that this
-requires sorting out many fiddly details.
-
-2. top of stack token.
-
-this can work differently across targets so i have nothing
-against the x86 v1 abi, but on arm64 we plan to have this.
-
-3. more shadow stack sizing policies.
-
-this can be done in the future except the default policy
-should be fixed for (a) and a smaller size introduces the
-overflow issue which may require v2.
-
-in short the only important change for v1 is shstk sizing.
