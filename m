@@ -2,122 +2,667 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CECDA74F750
-	for <lists+linux-api@lfdr.de>; Tue, 11 Jul 2023 19:37:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A9A074F7E1
+	for <lists+linux-api@lfdr.de>; Tue, 11 Jul 2023 20:16:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231334AbjGKRhQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 11 Jul 2023 13:37:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43618 "EHLO
+        id S231334AbjGKSQh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 11 Jul 2023 14:16:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33356 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229491AbjGKRhP (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 11 Jul 2023 13:37:15 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7F62E4F;
-        Tue, 11 Jul 2023 10:37:13 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3CE7861579;
-        Tue, 11 Jul 2023 17:37:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E41BC433C8;
-        Tue, 11 Jul 2023 17:37:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689097032;
-        bh=g+dg42YNtsQJhOjtGMIfYdxeMk+Q5chUUpj1UHPyuI0=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=OU0fx9r/gW1jdTCG/iJZoodUiAYpTTMgryh+eUwK0SvFFeCzBDxABJWQ/HAhpM8ye
-         yBnM//6OA543xk4QBgEbWFDkvCh7ONFKnet6T2nY6GiJNGe++LpNHsBO53yIxRC1dw
-         CLUi1qmmodaux6upnMNyF/KqqubSxVHA67DwxYH/aO5VwDsXvdD1T4BZZhZWFZrom9
-         +nthUGNjjcFzaX2bY1z9qhdSCg7rB6hz0xgLF1oCv+tCDu8UN7UNhRG5OCUuJUdOw+
-         UBXBTnHv6L2WRueaCic7RFYV1/lmEsdEsvaplXp/1qHno7ehBsSMmEORgYmfsLOmFl
-         vPA4Eb9AXLl0w==
-From:   Christian Brauner <brauner@kernel.org>
-To:     Alexey Gladkov <legion@kernel.org>
-Cc:     Christian Brauner <brauner@kernel.org>,
-        James.Bottomley@HansenPartnership.com, acme@kernel.org,
-        alexander.shishkin@linux.intel.com, axboe@kernel.dk,
-        benh@kernel.crashing.org, bp@alien8.de, catalin.marinas@arm.com,
-        dalias@libc.org, davem@davemloft.net, deepa.kernel@gmail.com,
-        deller@gmx.de, dhowells@redhat.com, fenghua.yu@intel.com,
-        fweimer@redhat.com, geert@linux-m68k.org, glebfm@altlinux.org,
-        gor@linux.ibm.com, hare@suse.com, hpa@zytor.com,
-        ink@jurassic.park.msu.ru, jhogan@kernel.org, kim.phillips@arm.com,
-        ldv@altlinux.org, linux-alpha@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-ia64@vger.kernel.org,
-        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linux-s390@vger.kernel.org,
-        linux-sh@vger.kernel.org, linux@armlinux.org.uk,
-        linuxppc-dev@lists.ozlabs.org, luto@kernel.org, mattst88@gmail.com,
-        mingo@redhat.com, monstr@monstr.eu, mpe@ellerman.id.au,
-        namhyung@kernel.org, peterz@infradead.org, ralf@linux-mips.org,
-        sparclinux@vger.kernel.org, stefan@agner.ch, tglx@linutronix.de,
-        tony.luck@intel.com, will@kernel.org, x86@kernel.org,
-        ysato@users.sourceforge.jp,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Paul Mackerras <paulus@ozlabs.org>,
-        Tycho Andersen <tycho@tycho.pizza>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, linux-api@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, viro@zeniv.linux.org.uk
-Subject: Re: (subset) [PATCH v4 0/5] Add a new fchmodat2() syscall
-Date:   Tue, 11 Jul 2023 19:36:45 +0200
-Message-Id: <20230711-befreien-unwiderruflich-c2265c61e514@brauner>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1689092120.git.legion@kernel.org>
-References: <cover.1689074739.git.legion@kernel.org> <cover.1689092120.git.legion@kernel.org>
+        with ESMTP id S229884AbjGKSQg (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 11 Jul 2023 14:16:36 -0400
+Received: from smtp-190a.mail.infomaniak.ch (smtp-190a.mail.infomaniak.ch [185.125.25.10])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BF3210F2
+        for <linux-api@vger.kernel.org>; Tue, 11 Jul 2023 11:16:32 -0700 (PDT)
+Received: from smtp-2-0001.mail.infomaniak.ch (unknown [10.5.36.108])
+        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4R0pwZ5XL7zMqFlN;
+        Tue, 11 Jul 2023 18:16:30 +0000 (UTC)
+Received: from unknown by smtp-2-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4R0pwX3cbzzMpr0h;
+        Tue, 11 Jul 2023 20:16:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
+        s=20191114; t=1689099390;
+        bh=m8FfbDFpM+kGVy8FFUoZIpFpOZX5MFKGM3U3UZCg094=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=kF7ZQX5hK6ApcdfdK22M4s0UWVbsuUGXka2vfcwtc3Hu5vekUVqCEdnlVOcCnPSCn
+         AtXY9/ycs801En8GTtizwHmTw9c0PyXGzTB7fViNw9TyR3eKbvm1VmwuhiMX9oBL5H
+         6p2Ui2Sjh5qe+63GtQhdDnZVoi7WsGdJDDTGeC9k=
+Message-ID: <e9e8f6fa-6319-edbf-b1ea-581b0dbf6bf5@digikod.net>
+Date:   Tue, 11 Jul 2023 20:16:27 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1700; i=brauner@kernel.org; h=from:subject:message-id; bh=g+dg42YNtsQJhOjtGMIfYdxeMk+Q5chUUpj1UHPyuI0=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMaSsnSxT9aGqYFXo8u/Pv0u8/8n7p3Ja0Z4JQu5vS1/e2JvM Xda7tKOUhUGMi0FWTJHFod0kXG45T8Vmo0wNmDmsTCBDGLg4BWAiwv8ZGa5HavbtmudR8P/916OJ0j 91rvW3zk3vj11VUnvmNlvDpK2MDJ8umZ/uZt1qWrp9+6sJ/1y98jZJfQleeOMaf2RRS0fvbmYA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+User-Agent: 
+Subject: Re: [PATCH v12 11/11] LSM: selftests for Linux Security Module
+ syscalls
+Content-Language: en-US
+To:     Casey Schaufler <casey@schaufler-ca.com>, paul@paul-moore.com,
+        linux-security-module@vger.kernel.org
+Cc:     jmorris@namei.org, serge@hallyn.com, keescook@chromium.org,
+        john.johansen@canonical.com, penguin-kernel@i-love.sakura.ne.jp,
+        stephen.smalley.work@gmail.com, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org
+References: <20230629195535.2590-1-casey@schaufler-ca.com>
+ <20230629195535.2590-12-casey@schaufler-ca.com>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+In-Reply-To: <20230629195535.2590-12-casey@schaufler-ca.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-Infomaniak-Routing: alpha
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, 11 Jul 2023 18:16:02 +0200, Alexey Gladkov wrote:
-> In glibc, the fchmodat(3) function has a flags argument according to the
-> POSIX specification [1], but kernel syscalls has no such argument.
-> Therefore, libc implementations do workarounds using /proc. However,
-> this requires procfs to be mounted and accessible.
+It's nice to have such tests!
+
+On 29/06/2023 21:55, Casey Schaufler wrote:
+> Add selftests for the three system calls supporting the LSM
+> infrastructure.
 > 
-> This patch set adds fchmodat2(), a new syscall. The syscall allows to
-> pass the AT_SYMLINK_NOFOLLOW flag to disable LOOKUP_FOLLOW. In all other
-> respects, this syscall is no different from fchmodat().
+> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
+> ---
+>   tools/testing/selftests/Makefile              |   1 +
+>   tools/testing/selftests/lsm/Makefile          |  12 +
+>   tools/testing/selftests/lsm/config            |   2 +
+>   .../selftests/lsm/lsm_get_self_attr_test.c    | 270 ++++++++++++++++++
+>   .../selftests/lsm/lsm_list_modules_test.c     | 153 ++++++++++
+>   .../selftests/lsm/lsm_set_self_attr_test.c    |  70 +++++
+>   6 files changed, 508 insertions(+)
+>   create mode 100644 tools/testing/selftests/lsm/Makefile
+>   create mode 100644 tools/testing/selftests/lsm/config
+>   create mode 100644 tools/testing/selftests/lsm/lsm_get_self_attr_test.c
+>   create mode 100644 tools/testing/selftests/lsm/lsm_list_modules_test.c
+>   create mode 100644 tools/testing/selftests/lsm/lsm_set_self_attr_test.c
 > 
-> [...]
+> diff --git a/tools/testing/selftests/Makefile b/tools/testing/selftests/Makefile
+> index 90a62cf75008..2b91df264ada 100644
+> --- a/tools/testing/selftests/Makefile
+> +++ b/tools/testing/selftests/Makefile
+> @@ -38,6 +38,7 @@ TARGETS += landlock
+>   TARGETS += lib
+>   TARGETS += livepatch
+>   TARGETS += lkdtm
+> +TARGETS += lsm
+>   TARGETS += membarrier
+>   TARGETS += memfd
+>   TARGETS += memory-hotplug
+> diff --git a/tools/testing/selftests/lsm/Makefile b/tools/testing/selftests/lsm/Makefile
+> new file mode 100644
+> index 000000000000..f39a75212b78
+> --- /dev/null
+> +++ b/tools/testing/selftests/lsm/Makefile
+> @@ -0,0 +1,12 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +#
+> +# First run: make -C ../../../.. headers_install
+> +
+> +CFLAGS += -Wall -O2 $(KHDR_INCLUDES)
+> +
+> +TEST_GEN_PROGS := lsm_get_self_attr_test lsm_list_modules_test \
+> +		  lsm_set_self_attr_test
+> +
+> +include ../lib.mk
+> +
+> +$(TEST_GEN_PROGS):
+> diff --git a/tools/testing/selftests/lsm/config b/tools/testing/selftests/lsm/config
+> new file mode 100644
+> index 000000000000..afb887715f64
+> --- /dev/null
+> +++ b/tools/testing/selftests/lsm/config
+> @@ -0,0 +1,2 @@
+> +CONFIG_SYSFS=y
+> +CONFIG_SECURITY=y
+> diff --git a/tools/testing/selftests/lsm/lsm_get_self_attr_test.c b/tools/testing/selftests/lsm/lsm_get_self_attr_test.c
+> new file mode 100644
+> index 000000000000..a62524b17bf7
+> --- /dev/null
+> +++ b/tools/testing/selftests/lsm/lsm_get_self_attr_test.c
+> @@ -0,0 +1,270 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Linux Security Module infrastructure tests
+> + * Tests for the lsm_get_self_attr system call
+> + *
+> + * Copyright © 2022 Casey Schaufler <casey@schaufler-ca.com>
+> + * Copyright © 2022 Intel Corporation
+> + */
+> +
+> +#define _GNU_SOURCE
+> +#include <linux/lsm.h>
+> +#include <fcntl.h>
+> +#include <string.h>
+> +#include <stdio.h>
+> +#include <unistd.h>
+> +#include <sys/types.h>
+> +#include "../kselftest_harness.h"
+> +
+> +#define PROCATTR	"/proc/self/attr/"
+> +
+> +static int read_proc_attr(const char *attr, char *value, __kernel_size_t size)
 
-Tools updates usually go separately.
-Flags argument ported to unsigned int; otherwise unchanged.
+I don't think __kernel_size_t is required anywhere in this patch, size_t 
+should be fine.
 
----
 
-Applied to the master branch of the vfs/vfs.git tree.
-Patches in the master branch should appear in linux-next soon.
+> +{
+> +	int fd;
+> +	int len;
+> +	char *path;
+> +
+> +	len = strlen(PROCATTR) + strlen(attr) + 1;
+> +	path = calloc(len, 1);
+> +	if (path == NULL)
+> +		return -1;
+> +	sprintf(path, "%s%s", PROCATTR, attr);
+> +
+> +	fd = open(path, O_RDONLY);
+> +	free(path);
+> +
+> +	if (fd < 0)
+> +		return -1;
+> +	len = read(fd, value, size);
+> +	if (len <= 0)
+> +		return -1;
+> +	close(fd);
+> +
+> +	path = strchr(value, '\n');
+> +	if (path)
+> +		*path = '\0';
+> +
+> +	return 0;
+> +}
+> +
+> +static struct lsm_ctx *next_ctx(struct lsm_ctx *ctxp)
+> +{
+> +	void *vp;
+> +
+> +	vp = (void *)ctxp + sizeof(*ctxp) + ctxp->ctx_len;
+> +	return (struct lsm_ctx *)vp;
+> +}
+> +
+> +TEST(size_null_lsm_get_self_attr)
+> +{
+> +	const long page_size = sysconf(_SC_PAGESIZE);
+> +	char *ctx = calloc(page_size, 1);
+> +
+> +	ASSERT_NE(NULL, ctx);
+> +	errno = 0;
+> +	ASSERT_EQ(-1, syscall(__NR_lsm_get_self_attr, LSM_ATTR_CURRENT, ctx,
+> +			      NULL, 0));
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+It would be cleaner to use static functions instead of calling syscall() 
+each time.
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
 
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
+> +	ASSERT_EQ(EINVAL, errno);
+> +
+> +	free(ctx);
+> +}
+> +
+> +TEST(ctx_null_lsm_get_self_attr)
+> +{
+> +	const long page_size = sysconf(_SC_PAGESIZE);
+> +	__kernel_size_t size = page_size;
+> +
+> +	ASSERT_NE(-1, syscall(__NR_lsm_get_self_attr, LSM_ATTR_CURRENT, NULL,
+> +			      &size, 0));
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: master
+This assert fails.
 
-[1/5] Non-functional cleanup of a "__user * filename"
-      https://git.kernel.org/vfs/vfs/c/0f05a6af6b7e
-[2/5] fs: Add fchmodat2()
-      https://git.kernel.org/vfs/vfs/c/8d593559ec09
-[3/5] arch: Register fchmodat2, usually as syscall 452
-      https://git.kernel.org/vfs/vfs/c/2ee63b04f206
-[5/5] selftests: Add fchmodat2 selftest
-      https://git.kernel.org/vfs/vfs/c/f175b92081ec
+
+> +	ASSERT_NE(1, size);
+> +}
+> +
+> +TEST(size_too_small_lsm_get_self_attr)
+> +{
+> +	const long page_size = sysconf(_SC_PAGESIZE);
+> +	char *ctx = calloc(page_size, 1);
+> +	__kernel_size_t size = 1;
+> +
+> +	ASSERT_NE(NULL, ctx);
+> +	errno = 0;
+> +	ASSERT_EQ(-1, syscall(__NR_lsm_get_self_attr, LSM_ATTR_CURRENT, ctx,
+> +			      &size, 0));
+> +	ASSERT_EQ(E2BIG, errno);
+
+This assert fails because errno == EOPNOTSUPP.
+
+
+> +	ASSERT_NE(1, size);
+> +
+> +	free(ctx);
+> +}
+> +
+> +TEST(flags_zero_lsm_get_self_attr)
+> +{
+> +	const long page_size = sysconf(_SC_PAGESIZE);
+> +	char *ctx = calloc(page_size, 1);
+> +	__kernel_size_t size = page_size;
+> +
+> +	ASSERT_NE(NULL, ctx);
+> +	errno = 0;
+> +	ASSERT_EQ(-1, syscall(__NR_lsm_get_self_attr, LSM_ATTR_CURRENT, ctx,
+> +			      &size, 1));
+> +	ASSERT_EQ(EINVAL, errno);
+> +	ASSERT_EQ(page_size, size);
+> +
+> +	free(ctx);
+> +}
+> +
+> +TEST(flags_overset_lsm_get_self_attr)
+> +{
+> +	const long page_size = sysconf(_SC_PAGESIZE);
+> +	char *ctx = calloc(page_size, 1);
+> +	__kernel_size_t size = page_size;
+> +
+> +	ASSERT_NE(NULL, ctx);
+> +	errno = 0;
+> +	ASSERT_EQ(-1, syscall(__NR_lsm_get_self_attr,
+> +			      LSM_ATTR_CURRENT | LSM_ATTR_PREV, ctx, &size, 0));
+> +	ASSERT_EQ(EOPNOTSUPP, errno);
+> +
+> +	free(ctx);
+> +}
+> +
+> +TEST(basic_lsm_get_self_attr)
+> +{
+> +	const long page_size = sysconf(_SC_PAGESIZE);
+> +	__kernel_size_t size = page_size;
+> +	struct lsm_ctx *ctx = calloc(page_size, 1);
+> +	struct lsm_ctx *tctx = NULL;
+> +	__u64 *syscall_lsms = calloc(page_size, 1);
+> +	char *attr = calloc(page_size, 1);
+> +	int cnt_current = 0;
+> +	int cnt_exec = 0;
+> +	int cnt_fscreate = 0;
+> +	int cnt_keycreate = 0;
+> +	int cnt_prev = 0;
+> +	int cnt_sockcreate = 0;
+> +	int lsmcount;
+> +	int count;
+> +	int i;
+> +
+> +	ASSERT_NE(NULL, ctx);
+> +	ASSERT_NE(NULL, syscall_lsms);
+> +
+> +	lsmcount = syscall(__NR_lsm_list_modules, syscall_lsms, &size, 0);
+> +	ASSERT_LE(1, lsmcount);
+> +
+> +	for (i = 0; i < lsmcount; i++) {
+> +		switch (syscall_lsms[i]) {
+> +		case LSM_ID_SELINUX:
+> +			cnt_current++;
+> +			cnt_exec++;
+> +			cnt_fscreate++;
+> +			cnt_keycreate++;
+> +			cnt_prev++;
+> +			cnt_sockcreate++;
+> +			break;
+> +		case LSM_ID_SMACK:
+> +			cnt_current++;
+> +			break;
+> +		case LSM_ID_APPARMOR:
+> +			cnt_current++;
+> +			cnt_exec++;
+> +			cnt_prev++;
+> +			break;
+> +		default:
+> +			break;
+> +		}
+> +	}
+> +
+> +	if (cnt_current) {
+> +		size = page_size;
+> +		count = syscall(__NR_lsm_get_self_attr, LSM_ATTR_CURRENT, ctx,
+> +				&size, 0);
+> +		ASSERT_EQ(cnt_current, count);
+> +		tctx = ctx;
+> +		ASSERT_EQ(0, read_proc_attr("current", attr, page_size));
+> +		ASSERT_EQ(0, strcmp((char *)tctx->ctx, attr));
+> +		for (i = 1; i < count; i++) {
+> +			tctx = next_ctx(tctx);
+> +			ASSERT_NE(0, strcmp((char *)tctx->ctx, attr));
+> +		}
+> +	}
+> +	if (cnt_exec) {
+> +		size = page_size;
+> +		count = syscall(__NR_lsm_get_self_attr, LSM_ATTR_EXEC, ctx,
+> +				&size, 0);
+> +		ASSERT_GE(cnt_exec, count);
+> +		if (count > 0) {
+> +			tctx = ctx;
+> +			if (read_proc_attr("exec", attr, page_size) == 0)
+> +				ASSERT_EQ(0, strcmp((char *)tctx->ctx, attr));
+> +		}
+> +		for (i = 1; i < count; i++) {
+> +			tctx = next_ctx(tctx);
+> +			ASSERT_NE(0, strcmp((char *)tctx->ctx, attr));
+> +		}
+> +	}
+> +	if (cnt_fscreate) {
+> +		size = page_size;
+> +		count = syscall(__NR_lsm_get_self_attr, LSM_ATTR_FSCREATE, ctx,
+> +				&size, 0);
+> +		ASSERT_GE(cnt_fscreate, count);
+> +		if (count > 0) {
+> +			tctx = ctx;
+> +			if (read_proc_attr("fscreate", attr, page_size) == 0)
+> +				ASSERT_EQ(0, strcmp((char *)tctx->ctx, attr));
+> +		}
+> +		for (i = 1; i < count; i++) {
+> +			tctx = next_ctx(tctx);
+> +			ASSERT_NE(0, strcmp((char *)tctx->ctx, attr));
+> +		}
+> +	}
+> +	if (cnt_keycreate) {
+> +		size = page_size;
+> +		count = syscall(__NR_lsm_get_self_attr, LSM_ATTR_KEYCREATE, ctx,
+> +				&size, 0);
+> +		ASSERT_GE(cnt_keycreate, count);
+> +		if (count > 0) {
+> +			tctx = ctx;
+> +			if (read_proc_attr("keycreate", attr, page_size) == 0)
+> +				ASSERT_EQ(0, strcmp((char *)tctx->ctx, attr));
+> +		}
+> +		for (i = 1; i < count; i++) {
+> +			tctx = next_ctx(tctx);
+> +			ASSERT_NE(0, strcmp((char *)tctx->ctx, attr));
+> +		}
+> +	}
+> +	if (cnt_prev) {
+> +		size = page_size;
+> +		count = syscall(__NR_lsm_get_self_attr, LSM_ATTR_PREV, ctx,
+> +				&size, 0);
+> +		ASSERT_GE(cnt_prev, count);
+> +		if (count > 0) {
+> +			tctx = ctx;
+> +			ASSERT_EQ(0, read_proc_attr("prev", attr, page_size));
+> +			ASSERT_EQ(0, strcmp((char *)tctx->ctx, attr));
+> +			for (i = 1; i < count; i++) {
+> +				tctx = next_ctx(tctx);
+> +				ASSERT_NE(0, strcmp((char *)tctx->ctx, attr));
+> +			}
+> +		}
+> +	}
+> +	if (cnt_sockcreate) {
+> +		size = page_size;
+> +		count = syscall(__NR_lsm_get_self_attr, LSM_ATTR_SOCKCREATE,
+> +				ctx, &size, 0);
+> +		ASSERT_GE(cnt_sockcreate, count);
+> +		if (count > 0) {
+> +			tctx = ctx;
+> +			if (read_proc_attr("sockcreate", attr, page_size) == 0)
+> +				ASSERT_EQ(0, strcmp((char *)tctx->ctx, attr));
+> +		}
+> +		for (i = 1; i < count; i++) {
+> +			tctx = next_ctx(tctx);
+> +			ASSERT_NE(0, strcmp((char *)tctx->ctx, attr));
+> +		}
+> +	}
+> +
+> +	free(ctx);
+> +	free(attr);
+> +	free(syscall_lsms);
+> +}
+> +
+> +TEST_HARNESS_MAIN
+> diff --git a/tools/testing/selftests/lsm/lsm_list_modules_test.c b/tools/testing/selftests/lsm/lsm_list_modules_test.c
+> new file mode 100644
+> index 000000000000..871d516a7d7d
+> --- /dev/null
+> +++ b/tools/testing/selftests/lsm/lsm_list_modules_test.c
+> @@ -0,0 +1,153 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Linux Security Module infrastructure tests
+> + * Tests for the lsm_list_modules system call
+> + *
+> + * Copyright © 2022 Casey Schaufler <casey@schaufler-ca.com>
+> + * Copyright © 2022 Intel Corporation
+> + */
+> +
+> +#define _GNU_SOURCE
+> +#include <linux/lsm.h>
+> +#include <string.h>
+> +#include <stdio.h>
+> +#include <unistd.h>
+> +#include <sys/types.h>
+> +#include "../kselftest_harness.h"
+> +
+> +static int read_sysfs_lsms(char *lsms, __kernel_size_t size)
+> +{
+> +	FILE *fp;
+> +
+> +	fp = fopen("/sys/kernel/security/lsm", "r");
+
+This requires a kernel config not listed in the config file.
+
+
+> +	if (fp == NULL)
+> +		return -1;
+> +	if (fread(lsms, 1, size, fp) <= 0)
+> +		return -1;
+> +	fclose(fp);
+> +	return 0;
+> +}
+> +
+> +TEST(size_null_lsm_list_modules)
+> +{
+> +	const long page_size = sysconf(_SC_PAGESIZE);
+> +	char *syscall_lsms = calloc(page_size, 1);
+> +
+> +	ASSERT_NE(NULL, syscall_lsms);
+> +	errno = 0;
+> +	ASSERT_EQ(-1, syscall(__NR_lsm_list_modules, syscall_lsms, NULL, 0));
+> +	ASSERT_EQ(EFAULT, errno);
+> +
+> +	free(syscall_lsms);
+> +}
+> +
+> +TEST(ids_null_lsm_list_modules)
+> +{
+> +	const long page_size = sysconf(_SC_PAGESIZE);
+> +	__kernel_size_t size = page_size;
+> +
+> +	errno = 0;
+> +	ASSERT_EQ(-1, syscall(__NR_lsm_list_modules, NULL, &size, 0));
+> +	ASSERT_EQ(EFAULT, errno);
+> +	ASSERT_NE(1, size);
+> +}
+> +
+> +TEST(size_too_small_lsm_list_modules)
+> +{
+> +	const long page_size = sysconf(_SC_PAGESIZE);
+> +	char *syscall_lsms = calloc(page_size, 1);
+> +	__kernel_size_t size = 1;
+> +
+> +	ASSERT_NE(NULL, syscall_lsms);
+> +	errno = 0;
+> +	ASSERT_EQ(-1, syscall(__NR_lsm_list_modules, syscall_lsms, &size, 0));
+> +	ASSERT_EQ(E2BIG, errno);
+> +	ASSERT_NE(1, size);
+> +
+> +	free(syscall_lsms);
+> +}
+> +
+> +TEST(flags_set_lsm_list_modules)
+> +{
+> +	const long page_size = sysconf(_SC_PAGESIZE);
+> +	char *syscall_lsms = calloc(page_size, 1);
+> +	__kernel_size_t size = page_size;
+> +
+> +	ASSERT_NE(NULL, syscall_lsms);
+> +	errno = 0;
+> +	ASSERT_EQ(-1, syscall(__NR_lsm_list_modules, syscall_lsms, &size, 7));
+> +	ASSERT_EQ(EINVAL, errno);
+> +	ASSERT_EQ(page_size, size);
+> +
+> +	free(syscall_lsms);
+> +}
+> +
+> +TEST(correct_lsm_list_modules)
+> +{
+> +	const long page_size = sysconf(_SC_PAGESIZE);
+> +	__kernel_size_t size = page_size;
+> +	__u64 *syscall_lsms = calloc(page_size, 1);
+> +	char *sysfs_lsms = calloc(page_size, 1);
+> +	char *name;
+> +	char *cp;
+> +	int count;
+> +	int i;
+> +
+> +	ASSERT_NE(NULL, sysfs_lsms);
+> +	ASSERT_NE(NULL, syscall_lsms);
+> +	ASSERT_EQ(0, read_sysfs_lsms(sysfs_lsms, page_size));
+> +
+> +	count = syscall(__NR_lsm_list_modules, syscall_lsms, &size, 0);
+> +	ASSERT_LE(1, count);
+> +	cp = sysfs_lsms;
+> +	for (i = 0; i < count; i++) {
+> +		switch (syscall_lsms[i]) {
+> +		case LSM_ID_CAPABILITY:
+> +			name = "capability";
+> +			break;
+> +		case LSM_ID_SELINUX:
+> +			name = "selinux";
+> +			break;
+> +		case LSM_ID_SMACK:
+> +			name = "smack";
+> +			break;
+> +		case LSM_ID_TOMOYO:
+> +			name = "tomoyo";
+> +			break;
+> +		case LSM_ID_IMA:
+> +			name = "ima";
+> +			break;
+> +		case LSM_ID_APPARMOR:
+> +			name = "apparmor";
+> +			break;
+> +		case LSM_ID_YAMA:
+> +			name = "yama";
+> +			break;
+> +		case LSM_ID_LOADPIN:
+> +			name = "loadpin";
+> +			break;
+> +		case LSM_ID_SAFESETID:
+> +			name = "safesetid";
+> +			break;
+> +		case LSM_ID_LOCKDOWN:
+> +			name = "lockdown";
+> +			break;
+> +		case LSM_ID_BPF:
+> +			name = "bpf";
+> +			break;
+> +		case LSM_ID_LANDLOCK:
+> +			name = "landlock";
+> +			break;
+> +		default:
+> +			name = "INVALID";
+> +			break;
+> +		}
+> +		ASSERT_EQ(0, strncmp(cp, name, strlen(name)));
+> +		cp += strlen(name) + 1;
+> +	}
+> +
+> +	free(sysfs_lsms);
+> +	free(syscall_lsms);
+> +}
+> +
+> +TEST_HARNESS_MAIN
+> diff --git a/tools/testing/selftests/lsm/lsm_set_self_attr_test.c b/tools/testing/selftests/lsm/lsm_set_self_attr_test.c
+> new file mode 100644
+> index 000000000000..ca538a703168
+> --- /dev/null
+> +++ b/tools/testing/selftests/lsm/lsm_set_self_attr_test.c
+> @@ -0,0 +1,70 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Linux Security Module infrastructure tests
+> + * Tests for the lsm_set_self_attr system call
+> + *
+> + * Copyright © 2022 Casey Schaufler <casey@schaufler-ca.com>
+> + * Copyright © 2022 Intel Corporation
+> + */
+> +
+> +#define _GNU_SOURCE
+> +#include <linux/lsm.h>
+> +#include <string.h>
+> +#include <stdio.h>
+> +#include <unistd.h>
+> +#include <sys/types.h>
+> +#include "../kselftest_harness.h"
+
+There is no test that actually set an attribute. Would it be possible to 
+load a simple dummy policy to be able to test that with at least one LSM?
+
+Ditto for reading attribute, there are only tests that check for errors 
+but not to get attribute contents (only names with basic_lsm_get_self_attr).
+
+
+> +
+> +TEST(ctx_null_lsm_set_self_attr)
+> +{
+> +	ASSERT_EQ(-1, syscall(__NR_lsm_set_self_attr, LSM_ATTR_CURRENT, NULL,
+> +			      sizeof(struct lsm_ctx), 0));
+> +}
+> +
+> +TEST(size_too_small_lsm_set_self_attr)
+> +{
+> +	const long page_size = sysconf(_SC_PAGESIZE);
+> +	struct lsm_ctx *ctx = calloc(page_size, 1);
+> +	__kernel_size_t size = page_size;
+> +
+> +	ASSERT_NE(NULL, ctx);
+> +	ASSERT_GE(1, syscall(__NR_lsm_get_self_attr, LSM_ATTR_CURRENT, ctx,
+> +			     &size, 0));
+> +	ASSERT_EQ(-1, syscall(__NR_lsm_set_self_attr, LSM_ATTR_CURRENT, ctx, 1,
+> +			      0));
+> +
+> +	free(ctx);
+> +}
+> +
+> +TEST(flags_zero_lsm_set_self_attr)
+> +{
+> +	const long page_size = sysconf(_SC_PAGESIZE);
+> +	char *ctx = calloc(page_size, 1);
+> +	__kernel_size_t size = page_size;
+> +
+> +	ASSERT_NE(NULL, ctx);
+> +	ASSERT_GE(1, syscall(__NR_lsm_get_self_attr, LSM_ATTR_CURRENT, ctx,
+> +			     &size, 0));
+
+This only works if there is at least on LSM enabled. You should probably 
+list the three that use these syscalls in the config file (if they are 
+stackable).
+
+Also, all the get and list tests fail if there is no LSM enabled.
+
+
+
+> +	ASSERT_EQ(-1, syscall(__NR_lsm_set_self_attr, LSM_ATTR_CURRENT, ctx,
+> +			      size, 1));
+> +
+> +	free(ctx);
+> +}
+> +
+> +TEST(flags_overset_lsm_set_self_attr)
+> +{
+> +	const long page_size = sysconf(_SC_PAGESIZE);
+> +	char *ctx = calloc(page_size, 1);
+> +	__kernel_size_t size = page_size;
+> +	struct lsm_ctx *tctx = (struct lsm_ctx *)ctx;
+> +
+> +	ASSERT_NE(NULL, ctx);
+> +	ASSERT_GE(1, syscall(__NR_lsm_get_self_attr, LSM_ATTR_CURRENT, tctx,
+> +			     &size, 0));
+> +	ASSERT_EQ(-1, syscall(__NR_lsm_set_self_attr,
+> +			      LSM_ATTR_CURRENT | LSM_ATTR_PREV, tctx, size, 0));
+> +
+> +	free(ctx);
+> +}
+> +
+> +TEST_HARNESS_MAIN
