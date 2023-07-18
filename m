@@ -2,183 +2,186 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 74807758374
-	for <lists+linux-api@lfdr.de>; Tue, 18 Jul 2023 19:27:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B73A4758594
+	for <lists+linux-api@lfdr.de>; Tue, 18 Jul 2023 21:33:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232211AbjGRR1S (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 18 Jul 2023 13:27:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54604 "EHLO
+        id S229767AbjGRTdW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 18 Jul 2023 15:33:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56638 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230364AbjGRR1S (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 18 Jul 2023 13:27:18 -0400
-Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com [IPv6:2607:f8b0:4864:20::112e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADE261711;
-        Tue, 18 Jul 2023 10:27:12 -0700 (PDT)
-Received: by mail-yw1-x112e.google.com with SMTP id 00721157ae682-576a9507a9bso103368737b3.1;
-        Tue, 18 Jul 2023 10:27:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689701232; x=1692293232;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6EitCV8L/5kHKMNWP+m3nZoYflfzgDbS0oOR+mB4+WM=;
-        b=eeim6eLftiu5wQ4cJzyD0ELWWo75kP+t8nsimfHV8739n/VlUhxNm7gUQnEUpv3ahl
-         IsLaiHfNXLJJ191gbeft5qjX3y3tfkFwIfoRsBOLMPc4t5hWsqRqFXJDwWyU8Z3jpQnI
-         3zWJAxK2wUPQrgQk6jWIUpdVIi26W5rL0VKfSPPsHXV9VIMmY7c1cazGDg4dF9LpZTQ4
-         r43FTg1ewzmpQfPqZTw6fDgtWt80okEJcV9saY8GyXLfDwXp4yZ9lEPIJAc1n+ws/+ky
-         aHQRd9EID85iOhSviooJCBNsORwAHc2p24abbDM46RC++ae9BxRv3L5tml49Dq9qtvia
-         DhDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689701232; x=1692293232;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6EitCV8L/5kHKMNWP+m3nZoYflfzgDbS0oOR+mB4+WM=;
-        b=knYZXNSOXQ6NujmmmMbBbFtIBNo5Iq9f0ZLQlsGslH2vN7B3VkCGMumVlco+RVxhRz
-         Y20oNzKDgGsWpam3bU7YABO/cfbkj6ytpQl3pdTwMlkBAPb4yVb7MBWyIP/2dk2jiciZ
-         SKTsV4mb+lbOJwe6DQwZZuj/I/jE0ydtsH3+UvXhdWS9Se4dUlYOYt6CTNkxztBQwG/f
-         DjFSC+Up8fr1JUNPkIOPvAavYyftbmhtY8JTa63oxqA1oHHPL2DdpCqTZEOQdGhifQrb
-         xisWI984y5kLhPnAaUU22R4eL2UauFhGk0KdEbTI58yPCXb1zT15+eQ3bcBBFhxvtP+3
-         ItxA==
-X-Gm-Message-State: ABy/qLY4RcNRy43TiUuJD3AXT6HwVCQY9EG3rLblV4DgK/VEib5+UcW1
-        CICQWA229W9a2kgWYmQf8vo=
-X-Google-Smtp-Source: APBJJlGpb8CoGpCfXVSZR+nIvlah3LFCk7HHojmZWZsB67LiT3FfV041LGBjrK2aDj+tswkWh4n4ug==
-X-Received: by 2002:a0d:cbd7:0:b0:57a:8de8:e3f8 with SMTP id n206-20020a0dcbd7000000b0057a8de8e3f8mr15118947ywd.22.1689701231774;
-        Tue, 18 Jul 2023 10:27:11 -0700 (PDT)
-Received: from firmament.local (c-73-106-204-164.hsd1.ga.comcast.net. [73.106.204.164])
-        by smtp.gmail.com with ESMTPSA id i69-20020a819148000000b005774338d039sm566456ywg.96.2023.07.18.10.27.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Jul 2023 10:27:11 -0700 (PDT)
-From:   Matthew House <mattlloydhouse@gmail.com>
-To:     Alejandro Colomar <alx@kernel.org>
-Cc:     linux-man@vger.kernel.org, linux-api@vger.kernel.org,
-        netdev@vger.kernel.org, Ulrich Drepper <drepper@redhat.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH v3] recv.2: Document MSG_CMSG_CLOEXEC as returned in msg_flags
-Date:   Tue, 18 Jul 2023 13:26:08 -0400
-Message-ID: <20230718172648.943269-1-mattlloydhouse@gmail.com>
-In-Reply-To: <05f6395d-4ee2-ce87-253a-9dcbfe227d42@kernel.org>
-References: <20230709213358.389871-1-mattlloydhouse@gmail.com> <363c0f82-969d-1927-1bd5-b664cfc83a87@kernel.org> <20230716234803.851580-1-mattlloydhouse@gmail.com> <47e21a59-f74a-4a63-0f13-237c015ae6bb@kernel.org> <20230718060121.934187-1-mattlloydhouse@gmail.com> <05f6395d-4ee2-ce87-253a-9dcbfe227d42@kernel.org>
+        with ESMTP id S229665AbjGRTdV (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 18 Jul 2023 15:33:21 -0400
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com (mail-he1eur04on2081.outbound.protection.outlook.com [40.107.7.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70714198D;
+        Tue, 18 Jul 2023 12:33:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LbcWwves2v4iicynp9C3iqq3rUEVjyS9KDYBiXaecNI=;
+ b=YIEmAZDLssbfG+RPsXfxcigYslJn9VaVjzmVI9VADFBlWkfSgLh9SulQ46lL5kTDRASvROheTH6Cwn7FvstXxA1lKl50GUA/yXmI2LYbPHQxIPpk686C0SuT2qjGCuZw1dsc+C3y45ts46upv3387B3LMCukE0l7s3RahEabaII=
+Received: from DB8PR04CA0025.eurprd04.prod.outlook.com (2603:10a6:10:110::35)
+ by DU0PR08MB9393.eurprd08.prod.outlook.com (2603:10a6:10:420::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6609.23; Tue, 18 Jul
+ 2023 19:33:13 +0000
+Received: from DBAEUR03FT012.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:10:110:cafe::41) by DB8PR04CA0025.outlook.office365.com
+ (2603:10a6:10:110::35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6609.24 via Frontend
+ Transport; Tue, 18 Jul 2023 19:33:13 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ DBAEUR03FT012.mail.protection.outlook.com (100.127.142.126) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6588.33 via Frontend Transport; Tue, 18 Jul 2023 19:33:13 +0000
+Received: ("Tessian outbound 95df046a2e2c:v145"); Tue, 18 Jul 2023 19:33:13 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: a512fcba0873fea2
+X-CR-MTA-TID: 64aa7808
+Received: from 1389fd84b299.1
+        by 64aa7808-outbound-1.mta.getcheckrecipient.com id 49F7C953-1C87-494C-931F-358AE7072268.1;
+        Tue, 18 Jul 2023 19:33:06 +0000
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 1389fd84b299.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Tue, 18 Jul 2023 19:33:06 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OdG7ivjRBBR67heySxEen4axvhChrfdtx79cCT5q6noEDF9BxF9TMm+r1q+Tcy9KtyytKF4fzb6UF3wkuAwpREdVgttXBmYtebfQhyW3rOG7FLSXJ099DFYAkmxmteUgl4OZFyEcumy2CIexvY3bPHgHXnMSXSSIKjcLDegJIvBTaJcblPQESbBCUr/82lcmaL4AgpoZfdkmA4OJNhgnWZldJUzQxbgKJnmStE05k8RRtXEf7UuzW93cxzXW9ybhA7gz9hlEMJxVlNV9w96wDoPVyvOE8lEjellJ1pBYVxAsuElUjAVMRo0DVOaeK/yWzBauXTvyPOibt8Rso+ZcKg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LbcWwves2v4iicynp9C3iqq3rUEVjyS9KDYBiXaecNI=;
+ b=Ph6icODrVMavSP9nvAwc2JGNUUw43cRtUpGIJILwBUvVTzVZYD7AUIyik2oeuzSaqdvjHUwVq4cRuVqQ3Nj2I1JTVOFVR74YMl8BQr2RgKyCO6brRO9c2U98ywfuxWGyE5TGln0NX/BRI3fLRdOcZ4yLf8HR+hMea9ZhhZTpse1b0wqnRsCOr1GbVD02X5KJxi2LFvgT2Y1l/OGYwm/STt+OkwBfPdfX2+qc/pFAfBXtMYjJp/mjDqIY/KvIhQEopsu+9Ca5kIBtL2Bqdr77zjbY7y9W40NZ4F7g5Tcb8HJxycFDvlGs6iJ4HP8o+Ipn98/r6e1rKsZcsgNuOyvyQQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LbcWwves2v4iicynp9C3iqq3rUEVjyS9KDYBiXaecNI=;
+ b=YIEmAZDLssbfG+RPsXfxcigYslJn9VaVjzmVI9VADFBlWkfSgLh9SulQ46lL5kTDRASvROheTH6Cwn7FvstXxA1lKl50GUA/yXmI2LYbPHQxIPpk686C0SuT2qjGCuZw1dsc+C3y45ts46upv3387B3LMCukE0l7s3RahEabaII=
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+Received: from AS8PR08MB7176.eurprd08.prod.outlook.com (2603:10a6:20b:407::12)
+ by VE1PR08MB5678.eurprd08.prod.outlook.com (2603:10a6:800:1a0::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6609.23; Tue, 18 Jul
+ 2023 19:33:03 +0000
+Received: from AS8PR08MB7176.eurprd08.prod.outlook.com
+ ([fe80::84b4:c4e1:c645:6384]) by AS8PR08MB7176.eurprd08.prod.outlook.com
+ ([fe80::84b4:c4e1:c645:6384%5]) with mapi id 15.20.6588.031; Tue, 18 Jul 2023
+ 19:33:02 +0000
+Date:   Tue, 18 Jul 2023 20:32:33 +0100
+From:   Szabolcs Nagy <szabolcs.nagy@arm.com>
+To:     Rick Edgecombe <rick.p.edgecombe@intel.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        John Allen <john.allen@amd.com>, kcc@google.com,
+        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
+        dethoma@microsoft.com, akpm@linux-foundation.org,
+        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
+        david@redhat.com, debug@rivosinc.com,
+        torvalds@linux-foundation.org, broonie@kernel.org
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
+Subject: Re: [PATCH v9 23/42] Documentation/x86: Add CET shadow stack
+ description
+Message-ID: <ZLbo0XWOJhXm6gWK@arm.com>
+References: <20230613001108.3040476-1-rick.p.edgecombe@intel.com>
+ <20230613001108.3040476-24-rick.p.edgecombe@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230613001108.3040476-24-rick.p.edgecombe@intel.com>
+X-ClientProxiedBy: SA1P222CA0004.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:806:22c::14) To AS8PR08MB7176.eurprd08.prod.outlook.com
+ (2603:10a6:20b:407::12)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+X-MS-TrafficTypeDiagnostic: AS8PR08MB7176:EE_|VE1PR08MB5678:EE_|DBAEUR03FT012:EE_|DU0PR08MB9393:EE_
+X-MS-Office365-Filtering-Correlation-Id: 371d8eb3-88c4-4fbe-59ef-08db87c5d3f8
+x-checkrecipientrouted: true
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+NoDisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: /YijKyJvPQX5DW2r1LZhZTVD6b2pZ7Vs2sCipn4M6a8J2Z4Bdhvahgifi+xP6cdqJLDHCYJrpskVvHetS8iaVvbeAjweV0Dt+GGarSNZdJqDL4782CL13Xg1MCyLq9zoc5gO7SpphDLea/y9KeyP71pHw1iYXc2hmxm0VT/t9y3V7aWlAuznwhGPgwy7/zjmd2/IibVFGbzAYzE+tDSaEYc3ia6nHGy6076DdnPnxR1DxbsfnGpi1AdNpoJHzGXMoE5WSxU309+WoFFn9GrCWDtSa+9xUhuo64pd63SYD1cUnw1mIwc2CtHNz2DGIEjS9szzp7KwCblJHwwgHHHoPf+S6rbyD/2Q3kexqdrIn7z+hsQo3SCb4b56h+bWQFXcZetuLwuwDZ+2iuhWi5g+ACqUe4GOTK6cots9KHG18GIYCnPoEfltImOevUEHsHyj6U1WvbRncXtQCVTXUjMWMKJIn1NoBxLpNYCXFb0KqmJQwQj9dSeKZFE3tvuStAco3ewfU0D4VbzoV4CLmQ79he0N+1HJWhzfUbZFq95a7ZzXXCDlsZDoyd8Kr64OD+jbO7dE+CutNRzj0P7fHpFc+2c4djp+Zpfe54w6zB7DQUA=
+X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR08MB7176.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(376002)(136003)(366004)(396003)(39860400002)(451199021)(6506007)(54906003)(110136005)(478600001)(26005)(186003)(921005)(6666004)(6486002)(4326008)(66556008)(66476007)(66946007)(83380400001)(2616005)(6512007)(38100700002)(5660300002)(44832011)(8936002)(8676002)(4744005)(2906002)(41300700001)(7416002)(7406005)(316002)(86362001)(36756003);DIR:OUT;SFP:1101;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR08MB5678
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: DBAEUR03FT012.eop-EUR03.prod.protection.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 2ecabaeb-0970-4ba9-10a0-08db87c5cc92
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: /Kc60r3VH2XVCQnTuPBPQWRoJ4FASSAxcJ1ne2+2to9noIxE+dFoyy3uF5stpIe8muMlA2FW6fsOTL+xLyZAQnjgqNZBE5E/k4qWgjQ0/PqCVKhLmbwMenxqTJjKxDFSodGUYh9bnmkQoqLd2mqcayj4kFUasB0w2zIfC8nfra35gtkkLetd2HERu7vF/8i+J4SXtdre1JJNSK3Pu+AhZePvA/kTT6zAPoB+VwxfwG81+nSxsBRKeH4450dVZ1fTbRsA1Lb0Q4xyuWNng1UYrhuPL40s8HN3Y1KVcZr4oP0zC+zyY/vAIYnUrlwbU/G7MXaNrF1C0M5DxK8nTBGSazz4WljZA6Dfp7qF4djNQfFS7MggpxFsJ9iiozrK3Lq/KXqxSIJsZrgzqGqsJd96hVC7MNRXEbMjn04hk5In8wF7w3srGGaKChc8maQR3+GnkWOwfRP2payzfft55H0y0IK7fMU4efsDZwTaxaPxnR8GVq0q4XnC4t2aZlyevuwO1L21cXydqXV/H80tYK7TxxBfEd9KuEKKcO9BKR0n224UWYLKidQ/z/aNjXR3TeJoW7DrNJ5KdKQMQrO/HpQFZWlZYktTA0m/O4z/oGwWw/VP+I1hZGq3wdMoMLX4umYsWQlB1TNNM9U5vBqB9lOJaQ5LQ9OroVWyu9RaS9dEFnWvgmAkBFvZ2enmISUgyCP6QuCFc+MAnjrocqxfSJhkhlxGHlHuec7yo+KUJLV0uw9VavtKUCyp+7Ht5GKPZKup
+X-Forefront-Antispam-Report: CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(396003)(136003)(376002)(346002)(82310400008)(451199021)(40470700004)(36840700001)(46966006)(41300700001)(2906002)(316002)(44832011)(8936002)(8676002)(5660300002)(4744005)(40460700003)(36756003)(40480700001)(86362001)(6486002)(6666004)(356005)(921005)(81166007)(110136005)(54906003)(82740400003)(478600001)(6506007)(26005)(107886003)(336012)(186003)(6512007)(2616005)(36860700001)(70586007)(70206006)(450100002)(4326008)(47076005)(83380400001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jul 2023 19:33:13.7476
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 371d8eb3-88c4-4fbe-59ef-08db87c5d3f8
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: DBAEUR03FT012.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR08MB9393
+X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,FORGED_SPF_HELO,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Ever since commit 4a19542e5f69 ("O_CLOEXEC for SCM_RIGHTS") added the
-MSG_CMSG_CLOEXEC flag to recvmsg(2), the flag has also been copied into the
-returned msg->msg_flags when specified, regardless of whether any file
-descriptors were actually received, or whether the protocol supports
-receiving file descriptors at all. This behavior was primarily an
-implementation artifact: by copying MSG_CMSG_CLOEXEC into the msg_flags,
-scm_detach_fds() in net/core/scm.c (and its _compat() counterpart in
-net/compat.c) could determine whether it was set without having to receive
-a copy of the recvmsg(2) flags.
-
-This mechanism was closely modeled after the internal MSG_CMSG_COMPAT flag,
-which is passed by the compat versions of the send[m]msg(2) and
-recv[m]msg(2) syscalls to inform various functions that user space expects
-a compat layout. When the flag was first implemented by commits
-3225fc8a85f4 ("[NET]: Simplify scm handling and sendmsg/recvmsg invocation,
-consolidate net compat syscalls.") and 7e8d06bc1d90 ("[COMPAT]: Fix
-MSG_CMSG_COMPAT flag passing, kill cmsg_compat_recvmsg_fixup.") (in
-history/history.git), the behavior was very similar: recvmsg(2) would add
-MSG_CMSG_COMPAT to the msg_flags, and put_cmsg() and scm_detach_fds() in
-net/core/scm.c would read the flag to determine whether to delegate to
-their _compat() counterparts.
-
-However, after the initial implementation, more work was done to hide
-MSG_CMSG_COMPAT from user space. First, commit 37f7f421cce1 ("[NET]: Do not
-leak MSG_CMSG_COMPAT into userspace.") started scrubbing the bit from
-msg_flags right before copying it back into user space. Then, since passing
-the MSG_CMSG_COMPAT flag into the syscalls from non-compat code could
-confuse the kernel, commits 1be374a0518a ("net: Block MSG_CMSG_COMPAT in
-send(m)msg and recv(m)msg") and a7526eb5d06b ("net: Unbreak
-compat_sys_{send,recv}msg") made them return -EINVAL if user space
-attempted to pass the flag. But to reduce breakage, commit d720d8cec563
-("net: compat: Ignore MSG_CMSG_COMPAT in compat_sys_{send, recv}msg")
-rolled that back somewhat, making MSG_CMSG_COMPAT an error for the
-non-compat syscalls and a no-op for the compat syscalls, which is the
-current status quo.
-
-Even though MSG_CMSG_CLOEXEC was implemented after the kernel started
-scrubbing MSG_CMSG_COMPAT from the returned msg_flags, the newer flag never
-received the same treatment. At this point, this behavior has effectively
-become part of the user-space API, to the extent that io_uring has been
-careful in commit 9bb66906f23e ("io_uring: support multishot in recvmsg")
-to replicate the behavior in its multishot IORING_OP_RECVMSG operation.
-
-Therefore, document this behavior to avoid confusion when user space sees
-MSG_CMSG_CLOEXEC returned in msg->msg_flags.
-
-Cc: linux-api@vger.kernel.org
-Cc: netdev@vger.kernel.org
-Cc: Ulrich Drepper <drepper@redhat.com>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Signed-off-by: Matthew House <mattlloydhouse@gmail.com>
----
-Alright, I've summarized the history in the commit message, and I've added
-the CCs you requested.
-
-Also, for future reference, Drepper gave a reply to the last email, which
-did not make it onto the list:
-
-On Tue, Jul 18, 2023 at 9:24 AM Ulrich Drepper <drepper@redhat.com> wrote:
-> On Tue, Jul 18, 2023 at 2:10=E2=80=AFPM Alejandro Colomar <alx@kernel.org=
-> wrote:
+The 06/12/2023 17:10, Rick Edgecombe wrote:
+> Introduce a new document on Control-flow Enforcement Technology (CET).
 >
-> > > As for the original
-> > > purpose of the behavior, it's not really clear, and it may well have =
-been
-> > > an implementation artifact that got enshrined in the user space ABI.
-> > (Even
-> > > io_uring is careful to replicate this behavior!)
-> >
-> > This is what worries me.  I've CCd a bunch of people to see if they can
-> > bring some light.
-> >
->
-> It definitely was an artifact of the implementation.  I haven't tested
-> getting the close-on-exec flag information for all interfaces.  The
-> assumption was that the information about the close-on-exec flag is
-> received with the universal fcntl() call.
+> Co-developed-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
+> Reviewed-by: Borislav Petkov (AMD) <bp@alien8.de>
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+> Acked-by: Mike Rapoport (IBM) <rppt@kernel.org>
+> Tested-by: Pengfei Xu <pengfei.xu@intel.com>
+> Tested-by: John Allen <john.allen@amd.com>
+> Tested-by: Kees Cook <keescook@chromium.org>
 
-Thank you,
-Matthew House
+i don't have more comments on this.
 
- man2/recv.2 | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Reviewed-by: Szabolcs Nagy <szabolcs.nagy@arm.com>
 
-diff --git a/man2/recv.2 b/man2/recv.2
-index 660c103fb..1cd9f3e1b 100644
---- a/man2/recv.2
-+++ b/man2/recv.2
-@@ -412,6 +412,15 @@ is returned to indicate that expedited or out-of-band =
-data was received.
- .B MSG_ERRQUEUE
- indicates that no data was received but an extended error from the socket
- error queue.
-+.TP
-+.BR MSG_CMSG_CLOEXEC " (since Linux 2.6.23)"
-+.\" commit 4a19542e5f694cd408a32c3d9dc593ba9366e2d7
-+indicates that
-+.B MSG_CMSG_CLOEXEC
-+was specified in the
-+.I flags
-+argument of
-+.BR recvmsg ().
- .SH RETURN VALUE
- These calls return the number of bytes received, or \-1
- if an error occurred.
---=20
-2.41.0
-
+IMPORTANT NOTICE: The contents of this email and any attachments are confid=
+ential and may also be privileged. If you are not the intended recipient, p=
+lease notify the sender immediately and do not disclose the contents to any=
+ other person, use it for any purpose, or store or copy the information in =
+any medium. Thank you.
