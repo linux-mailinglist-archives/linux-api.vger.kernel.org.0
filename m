@@ -2,127 +2,137 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A6E1475D66E
-	for <lists+linux-api@lfdr.de>; Fri, 21 Jul 2023 23:24:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A48F475D6B2
+	for <lists+linux-api@lfdr.de>; Fri, 21 Jul 2023 23:40:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230023AbjGUVYA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 21 Jul 2023 17:24:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42152 "EHLO
+        id S230375AbjGUVkj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 21 Jul 2023 17:40:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51014 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229904AbjGUVX7 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 21 Jul 2023 17:23:59 -0400
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E087430D0;
-        Fri, 21 Jul 2023 14:23:54 -0700 (PDT)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailout.west.internal (Postfix) with ESMTP id 03BE53200A01;
-        Fri, 21 Jul 2023 17:23:52 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Fri, 21 Jul 2023 17:23:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-type:content-type:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm2; t=1689974632; x=1690061032; bh=BX
-        A5sL4xRNZhXccbqClwUqLOYCKhWLZB5FjhdMOfEyY=; b=KIWSyr1gDGjK5zOe64
-        CjDoz6RYdvcy0EBMoGa/JdfwjIzcqn5BmUC9VCIKCw7NxZMfzt4z2Sa84XokZDHh
-        D5UuaQEEeYlymRrPIp66kpzRRSIN/at++4LkuoNgOyR36Zhoc2rjzZ6KZwYlymge
-        0tEakJnvKGwlsyAYsg//PGS89t+lvztpDAo0kUyXnjMz+9ZC+0uLqc+K5RNwntKx
-        Gv4AtsdcWzrAu4+yHh6VG7qXSeDWQ6aUHOw9xXjD0B3LCrKYHsAEJxG7xDVfwk77
-        6c+ZATLarJtSVzeAZdXzWXe2gYcEAzdls5VstykuKCV2YIwUkjQZhYbH48/ar0VE
-        GnEg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:content-type:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm3; t=1689974632; x=1690061032; bh=BXA5sL4xRNZhX
-        ccbqClwUqLOYCKhWLZB5FjhdMOfEyY=; b=vEJWu1BeTLrHTDMqWmtuHU4Q7AyYu
-        bd8BzeEIVML4QdPofZ/ZZS/RiGJ7LajTTSg3Jh4Btcxb8MpOjEvRkI+e6vsbr8LR
-        Xn04DY3Kw9A6lpnISSTN91IJNkl7vxl/pHY7Xpa1/ijV4Vd2dgRWUTO4yiBo6vBP
-        o2t8luG+lIf2+QaZyTrkrSqeE8ODIv4qfkSyUqYe7dXhj9pXGKhuWplSBI6tJX90
-        40jy6Am6cz1J5/XK8dCLFZ0vxqmM0bBY8wl1uSeV23QAX0b6xHvqVgGpKPjhuAX/
-        Ratl1Lx/lLyWcmFJUlA34do5XZDDiuieSs3trLcZWPLSwApDUc7KqmOfw==
-X-ME-Sender: <xms:Zve6ZALfqNq7Boo-zlWow6j4YQVVpwJ6n2VTG9_w2rHQkxzr1Jd1Ug>
-    <xme:Zve6ZALcEGyJrX1fMorzJpL7fm9KJ8iwG3jLymrlKgg_lNggQsEr33PceJbwBZswX
-    2zCuwhLa00g1l65kkc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrhedvgdduheehucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
-    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
-    hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:Zve6ZAvRD67NV8bRZceXBiW0I78r3rj81xwHdEjWA7cKSKBvI9rmxw>
-    <xmx:Zve6ZNZPk9cKLCJc-8FK0gGXw2E2jldMOWVP7ZSkdCx3-pJY0heFyg>
-    <xmx:Zve6ZHYG_4xReXGC1gpXGr2qv_yBjlzI8HI8RER7c8kgIqRlKH2psw>
-    <xmx:aPe6ZDowLks1ypP3hCXSITwNPyMclEPm4oa37yepuDYmsz4MUs7yQQ>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id C7204B60089; Fri, 21 Jul 2023 17:23:50 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-531-gfdfa13a06d-fm-20230703.001-gfdfa13a0
-Mime-Version: 1.0
-Message-Id: <02045e07-0f9a-49bf-b6ca-354cb67678f8@app.fastmail.com>
-In-Reply-To: <20230721185445.GS4253@hirez.programming.kicks-ass.net>
-References: <20230721102237.268073801@infradead.org>
- <20230721105744.022509272@infradead.org>
- <2a1f8ae6-ed2b-4fe8-85af-df64e9c84794@app.fastmail.com>
- <20230721185445.GS4253@hirez.programming.kicks-ass.net>
-Date:   Fri, 21 Jul 2023 23:23:27 +0200
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Peter Zijlstra" <peterz@infradead.org>
-Cc:     "Thomas Gleixner" <tglx@linutronix.de>,
-        "Jens Axboe" <axboe@kernel.dk>, linux-kernel@vger.kernel.org,
-        "Ingo Molnar" <mingo@redhat.com>,
-        "Darren Hart" <dvhart@infradead.org>, dave@stgolabs.net,
-        andrealmeid@igalia.com,
-        "Andrew Morton" <akpm@linux-foundation.org>, urezki@gmail.com,
-        "Christoph Hellwig" <hch@infradead.org>,
-        "Lorenzo Stoakes" <lstoakes@gmail.com>, linux-api@vger.kernel.org,
-        linux-mm@kvack.org, Linux-Arch <linux-arch@vger.kernel.org>,
-        malteskarupke@web.de
-Subject: Re: [PATCH v1 05/14] futex: Add sys_futex_wake()
-Content-Type: text/plain
+        with ESMTP id S230349AbjGUVki (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 21 Jul 2023 17:40:38 -0400
+Received: from mail-yw1-x112c.google.com (mail-yw1-x112c.google.com [IPv6:2607:f8b0:4864:20::112c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 765A9272D
+        for <linux-api@vger.kernel.org>; Fri, 21 Jul 2023 14:40:35 -0700 (PDT)
+Received: by mail-yw1-x112c.google.com with SMTP id 00721157ae682-579de633419so28756517b3.3
+        for <linux-api@vger.kernel.org>; Fri, 21 Jul 2023 14:40:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1689975634; x=1690580434;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1l7ane1OFS+DsoXNZ3U+AZ4KjgV57iMuNiejIQehSc4=;
+        b=FSYL0es3zGYgPSbiIbE7QW63J5pU/Pp1sjBqc2fV7aNAMjPq8/ibss0ZDcKuCz0WIG
+         W/pDwheI4n0hlntSOBzbMjuRyUCHn6J1UpZM0i7jacmbpZVhwD+bwXYSZzGaFwphlXxq
+         mHOmwpGrQGKTdhU5PkDumCCubMwIFJBn7X46RallzhPKlwFEfXGUV4lHshAGTEFnJPAZ
+         7DpFyuDA12HPI8B8H1kFrbriPMQOIB6Fx6+2ImvM21lGje2l0zK5WEF6BdLcO2mfIzUl
+         lwkWo19C1XELSkBimTW40s1NN/p5NVBEuw68hDplm+NuuKpleUFzO7ma6Wphsn1x+N4c
+         jxPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689975634; x=1690580434;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1l7ane1OFS+DsoXNZ3U+AZ4KjgV57iMuNiejIQehSc4=;
+        b=dMM1WBYDieo1yIU3zYJREN06z6drk5ZRIV2U4HNV8RMXpQyLe0iwMY0ThBwisreGvW
+         SqP+UBKG/IcmkQJ7Qmokegq8BxKY8Wv1lxQurBeQ6dPDC7ji3dD1ivdiariblAsj97tm
+         f8h3aqhkKVdAQiFBacPD3x8Ds7Rtu6exo/5o9pY9dHOp9GbR3qrf0pU18tl2dpAPOUU+
+         afTGkkwbnIFDsiFjupRhN10yvodrqISsWEf6dMlcU0xZ1yGgl3ZlxK1Mj7Pxml68AIg+
+         nnMAfahRtT8PXJTpAH7TXjo5rLIfXfc8UnXxdo5Hr1xjVo2H4cv45pJcWUgMKR40za/t
+         JPXg==
+X-Gm-Message-State: ABy/qLb4xRDpEUo6opjxOgHA45z0m+cXbhYAYfYQge1GULVkkx82Q8zp
+        HylSYCx8WRaMNr5NiottGwyaE9e09ZF3vWcjtvST
+X-Google-Smtp-Source: APBJJlE7LB25GxeesqatrOlBcbG6723uMfnR2JDVAgGbF3gS9RIs3WyGqLCBTpgzBVkejDj4mmTAPOgV3lme6IdNwMQ=
+X-Received: by 2002:a0d:ddd4:0:b0:577:2cac:cd49 with SMTP id
+ g203-20020a0dddd4000000b005772caccd49mr1343753ywe.1.1689975634601; Fri, 21
+ Jul 2023 14:40:34 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230629195535.2590-1-casey@schaufler-ca.com> <20230629195535.2590-3-casey@schaufler-ca.com>
+ <9b09c571-9288-73e1-18c5-9023b909a5d9@digikod.net> <b711f8b4-f624-bb2b-1caf-90c674245135@schaufler-ca.com>
+In-Reply-To: <b711f8b4-f624-bb2b-1caf-90c674245135@schaufler-ca.com>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Fri, 21 Jul 2023 17:40:23 -0400
+Message-ID: <CAHC9VhRY1_tdLVnFGK4ZxRDEs+JKJWD3VR+iHrcrm9Psmbowtg@mail.gmail.com>
+Subject: Re: [PATCH v12 02/11] LSM: Maintain a table of LSM attribute data
+To:     Casey Schaufler <casey@schaufler-ca.com>
+Cc:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>,
+        linux-security-module@vger.kernel.org, jmorris@namei.org,
+        serge@hallyn.com, keescook@chromium.org,
+        john.johansen@canonical.com, penguin-kernel@i-love.sakura.ne.jp,
+        stephen.smalley.work@gmail.com, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Jul 21, 2023, at 20:54, Peter Zijlstra wrote:
-> On Fri, Jul 21, 2023 at 05:41:20PM +0200, Arnd Bergmann wrote:
->> On Fri, Jul 21, 2023, at 12:22, Peter Zijlstra wrote:
->> > --- a/kernel/sys_ni.c
->> > +++ b/kernel/sys_ni.c
->> > @@ -87,6 +87,7 @@ COND_SYSCALL_COMPAT(set_robust_list);
->> >  COND_SYSCALL(get_robust_list);
->> >  COND_SYSCALL_COMPAT(get_robust_list);
->> >  COND_SYSCALL(futex_waitv);
->> > +COND_SYSCALL(futex_wake);
->> >  COND_SYSCALL(kexec_load);
->> >  COND_SYSCALL_COMPAT(kexec_load);
->> >  COND_SYSCALL(init_module);
->> 
->> This is fine for the moment, but I wonder if we should start making
->> futex mandatory at some point. Right now, sparc32 with CONFIG_SMP
->> cannot support futex because of the lack of atomics in early
->> sparc processors, but sparc32 glibc actually requires futexes
->> and consequently only works on uniprocessor machines, on sparc64
->> compat mode, or on Leon3 with out of tree patches.
+On Fri, Jul 14, 2023 at 3:42=E2=80=AFPM Casey Schaufler <casey@schaufler-ca=
+.com> wrote:
+> On 7/11/2023 8:35 AM, Micka=C3=ABl Sala=C3=BCn wrote:
+> > On 29/06/2023 21:55, Casey Schaufler wrote:
+> >> As LSMs are registered add their lsm_id pointers to a table.
+> >> This will be used later for attribute reporting.
+> >>
+> >> Determine the number of possible security modules based on
+> >> their respective CONFIG options. This allows the number to be
+> >> known at build time. This allows data structures and tables
+> >> to use the constant.
+> >>
+> >> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
+> >> Reviewed-by: Kees Cook <keescook@chromium.org>
+> >> Reviewed-by: Serge Hallyn <serge@hallyn.com>
+> >> ---
+> >>   include/linux/security.h |  2 ++
+> >>   security/security.c      | 37 +++++++++++++++++++++++++++++++++++++
+> >>   2 files changed, 39 insertions(+)
+
+...
+
+> >> diff --git a/security/security.c b/security/security.c
+> >> index e56714ef045a..5a699e47478b 100644
+> >> --- a/security/security.c
+> >> +++ b/security/security.c
+> >> @@ -521,6 +546,18 @@ void __init security_add_hooks(struct
+> >> security_hook_list *hooks, int count,
+> >>   {
+> >>       int i;
+> >>   +    /*
+> >> +     * A security module may call security_add_hooks() more
+> >> +     * than once during initialization, and LSM initialization
+> >> +     * is serialized. Landlock is one such case.
+> >> +     * Look at the previous entry, if there is one, for duplication.
+> >> +     */
+> >> +    if (lsm_active_cnt =3D=3D 0 || lsm_idlist[lsm_active_cnt - 1] !=
+=3D
+> >> lsmid) {
+> >
+> > Isn't it possible to have interleaved security_add_hooks() calls?
 >
-> PARISC is another 'fun' case.
+> The initialization is serial and interleaving isn't possible.
+>
+> >> +        if (lsm_active_cnt >=3D LSM_CONFIG_COUNT)
+> >> +            panic("%s Too many LSMs registered.\n", __func__);
+> >
+> > I'm not sure we should panic, but from a security point of view it is
+> > critical enough=E2=80=A6
+>
+> It's possible this should be a BUG() instance, but the panic() more
+> closely resembles what's nearby in the code.
 
-I had to look up how that works, but as far as I can tell, the
-parisc code actually has a chance of working, as the userspace
-atomics go through the light-weight syscall that shares a hashed
-lock with the actual futex syscall. On sparc32 I think it's
-worse because userspace assumes that atomic instructions are
-supported while the kernel assumes they are not.
+I think the panic() call is okay.  If something is so horribly broken
+that we hit this case we have little option but to panic the system as
+booting with the LSM controls busted in such a way is very not good.
 
-        Arnd
+There are probably those that would object to the above statement, but
+those people aren't likely to be building a kernel with any LSMs in
+the first place.
+
+--=20
+paul-moore.com
