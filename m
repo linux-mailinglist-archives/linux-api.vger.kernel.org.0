@@ -2,93 +2,138 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BDB4A75CA56
-	for <lists+linux-api@lfdr.de>; Fri, 21 Jul 2023 16:43:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2ADBF75CC24
+	for <lists+linux-api@lfdr.de>; Fri, 21 Jul 2023 17:41:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229970AbjGUOnE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 21 Jul 2023 10:43:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55434 "EHLO
+        id S230291AbjGUPls (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 21 Jul 2023 11:41:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43340 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231835AbjGUOmz (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 21 Jul 2023 10:42:55 -0400
-Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CC1935AB
-        for <linux-api@vger.kernel.org>; Fri, 21 Jul 2023 07:42:46 -0700 (PDT)
-Received: by mail-io1-xd30.google.com with SMTP id ca18e2360f4ac-78706966220so19453239f.1
-        for <linux-api@vger.kernel.org>; Fri, 21 Jul 2023 07:42:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20221208.gappssmtp.com; s=20221208; t=1689950565; x=1690555365;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=UdDHMIe9cztVUm68exPMuhOaghi2gznh0/5nfFVFao4=;
-        b=Iw2r8lt3EXE/lGJI+Z+TgbWkqdCuKO2xgSx5o8bmML8JjgAavmXg1Gq6ZaHuWhxt45
-         VvliDNpZgJr2cdlOGgYFDaW7zgv8FWGcMq9otkJWFVQp9pI7WQ0HyDNWopuSJLb6jxXw
-         xpUVBg9uCjXXnH2nfZSMzTckgj36b70IRJf/qgnD5oFEZM3waIb36a7TrUulAzqKDre7
-         g6pEvkKU3M6o2M2XsBg7fXhCD63lSsArv+5t9CwTRqSv/HHmGPQTPDpWQsDfFt5s57E/
-         otFznxO9gm1N/9tGZ79U3SYpFrhoEHorvXTo3QPKtXwqwbEydF+2UHawVPZW+a69kW+p
-         /STQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689950565; x=1690555365;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UdDHMIe9cztVUm68exPMuhOaghi2gznh0/5nfFVFao4=;
-        b=Y17U22mo8sn8zQnYcZv3XfVbKEH9MOQVFZJnwppruiCSdNh1Ca+iGnrC10UjHH1xjs
-         skMyDX9SLI8Jcp7tTdViaxhXYeqGq2NjjL/7ub3GLzProNB9oE8gSnxklZJAsSGDB1zU
-         c7cniWIRcmdNz6Z4oFYSvpx+LVe+6S/VFAQMNdthTl+tdziWEylOF/PX2pomtW0i4VZY
-         CE/gT7hAIkmADpdVLapLLGH/wOAw0RR+/lp3xtd4n+z37zkhJIH+r98X3zotx9WqwHRT
-         uC3/BlUEXTvNgz8ZWgmeFdVQpoYAwEkNovGz+rOfth9OhnYZorYyvlVorFZ6HcJ2lYov
-         Idrw==
-X-Gm-Message-State: ABy/qLZyxZqcRTnR85+XUilSML/Fyw5HawfPPnLSQnhc6vTz3rsaXbSr
-        UNaUImWjPDkoT4FrCx9x+FDokw==
-X-Google-Smtp-Source: APBJJlEExOyixeH70jR2MtHJXYkNWk5o6Fv6eRLxjUzamtH1I6IPD96oIUz9hnM/aNDVt+3ptMz7rg==
-X-Received: by 2002:a6b:b4d5:0:b0:788:2d78:813c with SMTP id d204-20020a6bb4d5000000b007882d78813cmr2070896iof.0.1689950565765;
-        Fri, 21 Jul 2023 07:42:45 -0700 (PDT)
-Received: from [192.168.1.94] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id y15-20020a5d94cf000000b00786cf14a8absm1134207ior.43.2023.07.21.07.42.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Jul 2023 07:42:45 -0700 (PDT)
-Message-ID: <8ab771e5-a8a7-8588-7877-76c9658afcd3@kernel.dk>
-Date:   Fri, 21 Jul 2023 08:42:43 -0600
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v1 00/14] futex: More futex2 bits
-Content-Language: en-US
-To:     Peter Zijlstra <peterz@infradead.org>, tglx@linutronix.de
-Cc:     linux-kernel@vger.kernel.org, mingo@redhat.com,
-        dvhart@infradead.org, dave@stgolabs.net, andrealmeid@igalia.com,
-        Andrew Morton <akpm@linux-foundation.org>, urezki@gmail.com,
-        hch@infradead.org, lstoakes@gmail.com,
-        Arnd Bergmann <arnd@arndb.de>, linux-api@vger.kernel.org,
-        linux-mm@kvack.org, linux-arch@vger.kernel.org,
-        malteskarupke@web.de
+        with ESMTP id S230353AbjGUPlr (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 21 Jul 2023 11:41:47 -0400
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 754E1E6F;
+        Fri, 21 Jul 2023 08:41:46 -0700 (PDT)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+        by mailout.west.internal (Postfix) with ESMTP id 0E4933200065;
+        Fri, 21 Jul 2023 11:41:41 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute6.internal (MEProxy); Fri, 21 Jul 2023 11:41:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+        :cc:content-type:content-type:date:date:from:from:in-reply-to
+        :in-reply-to:message-id:mime-version:references:reply-to:sender
+        :subject:subject:to:to; s=fm2; t=1689954101; x=1690040501; bh=6J
+        7BKGMI7owfks+x7fQJRcecsf8Hj64J7kF7tz1vUtc=; b=A5MleABLoFt1S/H1FX
+        lAd3hMYSivC47C1cOQ23II5KS7K3NFfO4Ta2hebV51rUfaWP5B+SqMe/ZZd1Tmus
+        nquyvl30YF60+WlzevuP1gHcb3jUUglS6LprAw/0g4gGhUTsS2GwVtNf8A8bKOzB
+        d7ycPKywidmMgZUxdZ9N6HlpVPSx8+Wa0C22mvMO6Anqi1izYc+t6S5Vo3ase3Hr
+        iEF3tWSf3pl7jSqEUX20yU5/Zp+htaDXu5vHagPp644pe8TYXpNl+2/lcSuuMWuT
+        R8QtU8GJAHn+rb7X9sDpYX/54RRWAeBd0XRZgrf+MFLNNvXqFJmNbSlcKGXFsWme
+        uLcA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:content-type:date:date
+        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm3; t=1689954101; x=1690040501; bh=6J7BKGMI7owfk
+        s+x7fQJRcecsf8Hj64J7kF7tz1vUtc=; b=KKFUI9USNjtZMK1UdjRiKOrASU2aB
+        UwohSbcZoSv0MovXUckWbly517ofaKs1zFVOJlQoRpKoNDE6n81yJy0HEW/Az56B
+        7Y7311UFyE/EypKG3NMS1Edd9ottFeawbysIwjTlyq9uufaAtKVWO2eLv4Iq4czx
+        1u2EBWFE1iKXplu1ETWoc33u0KtduzQssM1lns3atfH4SVDSIN9qshRYzIaq1xis
+        +WZhezXcgSr/PbyHJ5S8ZYMjMGnC+yh1ZmmX/tdfTa36ZAsrOBdV0LGRrx+RcaWV
+        4k3I+bwZmw6WubmuDLaF7LzwjFegAY7g/pmDITvpCrageJPvJ76kXzZNg==
+X-ME-Sender: <xms:NKe6ZFJ4883KwLyAS3MNwRODRbel1d6GgCQExW2GBXtZuh_1rsuOmg>
+    <xme:NKe6ZBIDUr56imC4GjQgSpH2jKn_3Dbt1-nZbnfg20GBL3tS5p4a9V08ocYnqsbeO
+    LKI9bvXRilH9PddYYk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrhedvgdekjecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
+    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
+    gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
+    ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
+    hnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:NKe6ZNvSpR_w1_n2miOYV9s9Oy2ZpvME9VozPddNB-shifUX7c5Ipw>
+    <xmx:NKe6ZGb10gUS0FokO32Zwnmle5bg_T6t_hG7yVneWAJ5Z0KzLWlkYg>
+    <xmx:NKe6ZMbkl-16Z8wVJle4U2R1QnUqNbeTlAOBVl4K5_7JHlkcbP-alQ>
+    <xmx:Nae6ZMpiUann84kkg_MYKDy1mqCV6oeq0PtiXp_7ndx9EswpOi4tQQ>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id D723FB60089; Fri, 21 Jul 2023 11:41:40 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-531-gfdfa13a06d-fm-20230703.001-gfdfa13a0
+Mime-Version: 1.0
+Message-Id: <2a1f8ae6-ed2b-4fe8-85af-df64e9c84794@app.fastmail.com>
+In-Reply-To: <20230721105744.022509272@infradead.org>
 References: <20230721102237.268073801@infradead.org>
-From:   Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <20230721102237.268073801@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+ <20230721105744.022509272@infradead.org>
+Date:   Fri, 21 Jul 2023 17:41:20 +0200
+From:   "Arnd Bergmann" <arnd@arndb.de>
+To:     "Peter Zijlstra" <peterz@infradead.org>,
+        "Thomas Gleixner" <tglx@linutronix.de>,
+        "Jens Axboe" <axboe@kernel.dk>
+Cc:     linux-kernel@vger.kernel.org, "Ingo Molnar" <mingo@redhat.com>,
+        "Darren Hart" <dvhart@infradead.org>, dave@stgolabs.net,
+        andrealmeid@igalia.com,
+        "Andrew Morton" <akpm@linux-foundation.org>, urezki@gmail.com,
+        "Christoph Hellwig" <hch@infradead.org>,
+        "Lorenzo Stoakes" <lstoakes@gmail.com>, linux-api@vger.kernel.org,
+        linux-mm@kvack.org, Linux-Arch <linux-arch@vger.kernel.org>,
+        malteskarupke@web.de
+Subject: Re: [PATCH v1 05/14] futex: Add sys_futex_wake()
+Content-Type: text/plain
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 7/21/23 4:22?AM, Peter Zijlstra wrote:
-> Hi,
+On Fri, Jul 21, 2023, at 12:22, Peter Zijlstra wrote:
+> --- a/arch/arm/tools/syscall.tbl
+> +++ b/arch/arm/tools/syscall.tbl
+> @@ -465,3 +465,4 @@
+>  449	common	futex_waitv			sys_futex_waitv
+>  450	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
+>  451	common	cachestat			sys_cachestat
+> +452	common	futex_wake			sys_futex_wake
+
+This clashes with __NR_fchmodat2 in linux-next, which also wants number 452.
+
+> --- a/arch/arm64/include/asm/unistd32.h
+> +++ b/arch/arm64/include/asm/unistd32.h
+> @@ -909,6 +909,8 @@ __SYSCALL(__NR_futex_waitv, sys_futex_wa
+>  __SYSCALL(__NR_set_mempolicy_home_node, sys_set_mempolicy_home_node)
+>  #define __NR_cachestat 451
+>  __SYSCALL(__NR_cachestat, sys_cachestat)
+> +#define __NR_futex_wake 452
+> +__SYSCALL(__NR_futex_wake, sys_futex_wake)
 > 
-> New version of the futex2 patches. These are actually tested and appear to work
-> as expected.
-> 
-> I'm hoping to get at least the first 3 patches merged such that Jens can base
-> the io_uring futex patches on them.
+>  /*
+>   * Please add new compat syscalls above this comment and update
 
-First 4 now, as we'll need the validate patch as well!
+Unfortunately, changing this file still requires updating __NR_compat_syscalls
+in arch/arm64/include/asm/unistd.h as well.
 
--- 
-Jens Axboe
+> --- a/kernel/sys_ni.c
+> +++ b/kernel/sys_ni.c
+> @@ -87,6 +87,7 @@ COND_SYSCALL_COMPAT(set_robust_list);
+>  COND_SYSCALL(get_robust_list);
+>  COND_SYSCALL_COMPAT(get_robust_list);
+>  COND_SYSCALL(futex_waitv);
+> +COND_SYSCALL(futex_wake);
+>  COND_SYSCALL(kexec_load);
+>  COND_SYSCALL_COMPAT(kexec_load);
+>  COND_SYSCALL(init_module);
 
+This is fine for the moment, but I wonder if we should start making
+futex mandatory at some point. Right now, sparc32 with CONFIG_SMP
+cannot support futex because of the lack of atomics in early
+sparc processors, but sparc32 glibc actually requires futexes
+and consequently only works on uniprocessor machines, on sparc64
+compat mode, or on Leon3 with out of tree patches.
+
+      Arnd
