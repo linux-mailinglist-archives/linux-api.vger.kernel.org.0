@@ -2,91 +2,64 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 119007621EE
-	for <lists+linux-api@lfdr.de>; Tue, 25 Jul 2023 21:00:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CAB90762E53
+	for <lists+linux-api@lfdr.de>; Wed, 26 Jul 2023 09:45:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231126AbjGYTAF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 25 Jul 2023 15:00:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52070 "EHLO
+        id S231318AbjGZHpF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 26 Jul 2023 03:45:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37036 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231410AbjGYTAD (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 25 Jul 2023 15:00:03 -0400
-X-Greylist: delayed 917 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 25 Jul 2023 12:00:00 PDT
-Received: from brightrain.aerifal.cx (brightrain.aerifal.cx [216.12.86.13])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EED72126
-        for <linux-api@vger.kernel.org>; Tue, 25 Jul 2023 12:00:00 -0700 (PDT)
-Date:   Tue, 25 Jul 2023 14:44:43 -0400
-From:   Rich Felker <dalias@libc.org>
-To:     David Howells <dhowells@redhat.com>
-Cc:     Florian Weimer <fweimer@redhat.com>,
-        Alexey Gladkov <legion@kernel.org>,
-        James.Bottomley@HansenPartnership.com, acme@kernel.org,
-        alexander.shishkin@linux.intel.com, axboe@kernel.dk,
-        benh@kernel.crashing.org, borntraeger@de.ibm.com, bp@alien8.de,
-        catalin.marinas@arm.com, christian@brauner.io, davem@davemloft.net,
-        deepa.kernel@gmail.com, deller@gmx.de, fenghua.yu@intel.com,
-        geert@linux-m68k.org, glebfm@altlinux.org, gor@linux.ibm.com,
-        hare@suse.com, hpa@zytor.com, ink@jurassic.park.msu.ru,
-        jhogan@kernel.org, kim.phillips@arm.com, ldv@altlinux.org,
-        linux-alpha@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-ia64@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-        linux@armlinux.org.uk, linuxppc-dev@lists.ozlabs.org,
-        luto@kernel.org, mattst88@gmail.com, mingo@redhat.com,
-        monstr@monstr.eu, mpe@ellerman.id.au, namhyung@kernel.org,
-        paulus@samba.org, peterz@infradead.org, ralf@linux-mips.org,
-        sparclinux@vger.kernel.org, stefan@agner.ch, tglx@linutronix.de,
-        tony.luck@intel.com, tycho@tycho.ws, will@kernel.org,
-        x86@kernel.org, ysato@users.sourceforge.jp,
-        LKML <linux-kernel@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, linux-api@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, viro@zeniv.linux.org.uk
-Subject: Re: Add fchmodat2() - or add a more general syscall?
-Message-ID: <20230725184443.GA20050@brightrain.aerifal.cx>
-References: <87fs5c3rbl.fsf@oldenburg3.str.redhat.com>
- <cover.1689092120.git.legion@kernel.org>
- <cover.1689074739.git.legion@kernel.org>
- <104971.1690300714@warthog.procyon.org.uk>
- <107290.1690310391@warthog.procyon.org.uk>
+        with ESMTP id S232051AbjGZHoT (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 26 Jul 2023 03:44:19 -0400
+Received: from mail.strategicvision.pl (mail.strategicvision.pl [217.61.105.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 598E646BE
+        for <linux-api@vger.kernel.org>; Wed, 26 Jul 2023 00:40:02 -0700 (PDT)
+Received: by mail.strategicvision.pl (Postfix, from userid 1002)
+        id 4E0EB8480E; Wed, 26 Jul 2023 09:37:36 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=strategicvision.pl;
+        s=mail; t=1690357122;
+        bh=Z0N5VlX9/JlryGOL5I747Le9USomZJCRNNGRT3LbbKc=;
+        h=Date:From:To:Subject:From;
+        b=jg0zeeoNhfnCxOMIatAqLeMThQQVNWJQs0j2oGo9GqcQ9svGELw0aA/aqOl3xyT0j
+         cNi5V8ZrbWUIG1MsYsF2vDyIJyRNkr2Ulr2RAK87bAx4Xrhf1bHdlStK63SWtlCIKE
+         pXKt35tbQIZLXjKW8+RxGCY60dF9Z30gXx5AGRedkrbmKSRl7nXBquhJSh1XuKy68n
+         nzv8TT3P4yiiIbrksD+7ayPLU7A6vUIPd+BvKUw99R6ietezN6ZF0ov+G5cYh/IvHz
+         eDaDk2ZVOkPKhmMJc7Y8IiCdvfQNChw7x9d8ALb8EGuWLpwke15HTZxpwUEsLNiTXU
+         MhHXdEh5rcT1g==
+Received: by mail.strategicvision.pl for <linux-api@vger.kernel.org>; Wed, 26 Jul 2023 07:35:40 GMT
+Message-ID: <20230726084502-0.1.k.8n9d.0.4frz61ieou@strategicvision.pl>
+Date:   Wed, 26 Jul 2023 07:35:40 GMT
+From:   "Adam Charachuta" <adam.charachuta@strategicvision.pl>
+To:     <linux-api@vger.kernel.org>
+Subject: =?UTF-8?Q?S=C5=82owa_kluczowe_do_wypozycjonowania?=
+X-Mailer: mail.strategicvision.pl
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <107290.1690310391@warthog.procyon.org.uk>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=3.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_SBL_CSS,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED,URIBL_CSS_A,URIBL_DBL_SPAM
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ***
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Jul 25, 2023 at 07:39:51PM +0100, David Howells wrote:
-> Florian Weimer <fweimer@redhat.com> wrote:
-> 
-> > > Rather than adding a fchmodat2() syscall, should we add a
-> > > "set_file_attrs()" syscall that takes a mask and allows you to set a bunch
-> > > of stuff all in one go?  Basically, an interface to notify_change() in the
-> > > kernel that would allow several stats to be set atomically.  This might be
-> > > of particular interest to network filesystems.
-> > 
-> > Do you mean atomically as in compare-and-swap (update only if old values
-> > match), or just a way to update multiple file attributes with a single
-> > system call?
-> 
-> I was thinking more in terms of the latter.  AFAIK, there aren't any network
-> filesystems support a CAS interface on file attributes like that.  To be able
-> to do a CAS operation, we'd need to pass in the old values as well as the new.
-> 
-> Another thing we could look at is doing "create_and_set_attrs()", possibly
-> allowing it to take a list of xattrs also.
+Dzie=C5=84 dobry,
 
-Can we please not let " hey let's invent a new interface to do
-something that will be hard for underlying filesystems to even provide
-and that nothing needs because there's no standard API to do it" be
-the enemy of "fixing a known problem implementing an existing standard
-API that just requires a simple, clearly-scoped syscall to do it"?
+zapozna=C5=82em si=C4=99 z Pa=C5=84stwa ofert=C4=85 i z przyjemno=C5=9Bci=
+=C4=85 przyznaj=C4=99, =C5=BCe przyci=C4=85ga uwag=C4=99 i zach=C4=99ca d=
+o dalszych rozm=C3=B3w.=20
 
-Rich
+Pomy=C5=9Bla=C5=82em, =C5=BCe mo=C5=BCe m=C3=B3g=C5=82bym mie=C4=87 sw=C3=
+=B3j wk=C5=82ad w Pa=C5=84stwa rozw=C3=B3j i pom=C3=B3c dotrze=C4=87 z t=C4=
+=85 ofert=C4=85 do wi=C4=99kszego grona odbiorc=C3=B3w. Pozycjonuj=C4=99 =
+strony www, dzi=C4=99ki czemu generuj=C4=85 =C5=9Bwietny ruch w sieci.
+
+Mo=C5=BCemy porozmawia=C4=87 w najbli=C5=BCszym czasie?
+
+
+Pozdrawiam
+Adam Charachuta
