@@ -2,763 +2,227 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D471C76D61F
-	for <lists+linux-api@lfdr.de>; Wed,  2 Aug 2023 19:51:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F0E176F4BD
+	for <lists+linux-api@lfdr.de>; Thu,  3 Aug 2023 23:45:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234117AbjHBRvl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 2 Aug 2023 13:51:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38714 "EHLO
+        id S232299AbjHCVpj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 3 Aug 2023 17:45:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233462AbjHBRvA (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 2 Aug 2023 13:51:00 -0400
-Received: from sonic315-26.consmr.mail.ne1.yahoo.com (sonic315-26.consmr.mail.ne1.yahoo.com [66.163.190.152])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86692422F
-        for <linux-api@vger.kernel.org>; Wed,  2 Aug 2023 10:50:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1690998583; bh=EHUe7DseksUqbUQVVRcgp/deEuFWo6dpSz/lsCkwGLo=; h=From:To:Cc:Subject:Date:In-Reply-To:References:From:Subject:Reply-To; b=mq1V+wRnfalQg+hDIs91JAiOBFWpoGtU3x3mT/7R8g4fKs4dIXxLcHLaoxQPwN6nd5hjlF4dDKShBW28tLNk2vbmq4AIBzSiKUVkykbDcylBz0XNDZ3mMTpVxTOaY8kzEcD6O/5glK0j57EaunOnbisPrf788ZfRWq5DwT4AO9t0ZYZETXRxCmVn7nuUc11BC7NudRDPi13E5xwVKk2f+VkT34NhGPq1X2PiRdRZl/rKjNC97SvVT1tUPE258+CGm9+/shEqMALuZDc7bpzhZ2Dx4V+dvLG/MH/S8EB1tKpzopzkQ89xDjtrJt3D2taJzkU+Nl/uiu6zPj52ZlCULg==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1690998583; bh=pRaG9LwybZCpb3vsKwbI7nz4Co4oVYLrocM+90ECRny=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=jcDR0rkVkUdJT/jxZ47SluSoQBYPEcyyEEiKaOyN0rxuP+sNEopw24Ym4zF0FN1luYa4OkV8pSCwrPijyA/MDGDlbweN/aqsiR53E5mlxgOLfuK5avIOY2QT6D4/Uudp5chzkGEbHi0zLblIlYQJZCyn45/gx8qGhwhjRfyx6YkVku6U+7TFdBweEIwZcNrvylAvtgHKwVl+YLAvHsTYJDGS4bLuCKooQ7kLtROSM6UCuwL6oz5d4QDcdUuTuRyD9QHcUBkaLmfGYDbp7B+v5ECmFjfX5ZdNpNdxJ3dcR1Vv1NKsj+tuoY4Ei7gdilo2mGZGnHM7FVQKCh3knthhqg==
-X-YMail-OSG: Z1z.4I4VM1kQ9sRAwbXt2.t09MNt_XloARUb5rfysjPYJq3pJDUssxRdWHV85t5
- xUDWXDeeEIE9AIsEIFkZTMEHfiyJIycry8OJLfTCIelPWi9JI0diFa8B4Afkv78RCLrLhKHXZCQN
- anuCHJj95fEUr5njgaKsUSR663Rejy3e6l8WdrrWRHej5vHqtofx2IqKQLhTGTPz3tahFdmsQUBl
- yIPX65niKI8osi349svMhm7kYrbIs2t3q2JaO9rFZGumFRSnM55mmmGHHJ83mNKqsTlyDB4tCo3Q
- 4F2mfAf9VPlUF8PceoJFYMh1D.wtcwdxLwN6u33GuPPeONsmQzBUv0tHCBiVAzNaxTbtWmBW_ElO
- ZY8ztMiHbz.KIH0wOsJLtBgOlj15bklNmhPWcQM4X51F0QBgj5d9QU3DCLomMsj5Gx7pdYaJPypL
- suTEBXBUHS28gcCPOkCLCkrq4jXhLNho76RS6kBBDMQVL1TSZ4W2BJdjY3ZYXp3CUnBSx85oH.xh
- DVZtcO0ZxrBOKt49_6BgrTM97tk_GLMxccbcmWyJMd_0GPLDuJFC3QtoElkDC_vo1pRxbW84rBP.
- tEil201JMX5LHWZTMcNkMWts_OR_ck2hBrWp16f79P8Y5V8B4QuGs0bFSabG8OdUNXYmbTnS7MMO
- lhkVNqZxY0fUVs761R17.SyuKPfcFvBwyvhUOYubr8shgAVJISK2tqOaGulHIg2MzuGAsi99w6PU
- uQwpZFsLygG9vsX_RH5wQkNcFumBNRkQq45AI_Pyjkgnv8NPEVHS3slsw4t5u269u3pSk8l.EAdm
- nliZ6jjLDx2gZTbFT7U9QhSAJ8n0edxt9sJxiGohN1x_pAQrrLMySwLnefH4MMMKmH_vxbhbpFYE
- HvhYZXnwLxY4Gz2L9ioYLRG7tL7OI3QWa3mGKEIP_h0N9LOxQgb0lBCNyEUPLQ14GvlGhKsVRqYF
- uMTwcfxsYJIeH4XbSxzQElrhx2gmqC8_iePRTctc7UZrd9ngi7dZIDDOJlCjYHqfx29aWnJfR.Ew
- pLLmmZDSG2oJ1s8HB2Q9C7v0YG2LRv1L87OiNHNUh_imerCp9DDFWcdilgrmVzgcncsfx4XLbIv2
- Wevwm.krqoQLuOXU_AJG0n5_Sx_8NVZIlJneiUeyQxpfta_tjA89IHg_i2TMipUh8U5jxqlUfNWD
- TV10JNQ818LZPGYDXYpudv8sDiq71JMWbcJcCCZQU_aDEILmyuS0Rd7HWnZd30ziMO1T7n8C0wus
- sVQ8eS.BYxepgEjVc0aylZ5IbNSwURjPvhPGVerIhqi11KTAkFbLy862CM09cEYxW6bpIZ8rQ_Oi
- vktyf0KwoXwOptgHEyvMeZC8971qodgudXMzgcs7zVeO1UBQlw3Ux96LzkIXcf5w6A4ccSxyDLSh
- MMb9_BIphNimZA94NLkk4JKyN2AYOgNSV.euLL59qFEPro2VWoJJua1tKael_uEwskBGTC2NxkTx
- 58TbtdH1manna8CQ70wl3FxvfaCR55wS6N2wVuTyT9g8jGy.IJjxXaIQInQQKnLiLW.8H28a2sBm
- .W1eBhtsrRaa.oWybyYtiXdRtX4Z_Au_CakXU8JAj8tyQquxiVE9oIfQ8fweFucjeSHmcQNQkcOr
- HYWszFaoQjW5CtG2dMQ6pp8wz.Aykr8m2Ylzy5_vV1cwjWiamn1MdLo8fpv2adBTNxAZfjHhDMfj
- jciTHQpulFXakbTvXLw2rn7ucSHTA_tjbxAtClAArfmT61VALmGOF_yqzKtIj5NGz5sEfrr44xXm
- O7JMmjdBV5kvJ7zGrSRaMPIvz_PZb.xfjFX_R31YoAt9e7VIGpFQUnkFBncKYsqsL6961XWBiPOC
- mGvoCV8fEKsQtBa5AFIRoLN7D6AEflQaKa06HwR4l1d68u2SGO9araoNvyXvmhiY9656vSOEDQn1
- 7iXiGqYtskhBMfdasf5kps6Lq_05CPbyxGQBJIiq4Vcu.M9Q9GoxA_cfzXm8xicGo4Lz7EX2nBlU
- msbClpZzN1wOl5l3_GwLSy_hXbTvYEVERTS7reTznoISYHx3aZrplwVLSymmNWNC486UPc2ytff4
- gDgJDS33kyIjMOuesoEEROJGVFg_PORiNhabBgq8rpHbWsYU85fYEzeOfXF2PzX9FoPX07pV4Q8d
- qfd1pn8vKmXfXhqEVWX9Cq9Ipg6Vwrgq6l1pVpzxcf7VnDwZmxXrh3dLK9Ku_MB4.0.ZlpG298PC
- o7pgfWO5FQ3MhVJ45eLWQRWl3TtAZisWPvvkn2E._s9CMpZsW8HUBCquGsMUYI_fmPkE1ZlXud6D
- mUV_vAQ.8F3xMN.N1RfBuvNy1si4-
-X-Sonic-MF: <casey@schaufler-ca.com>
-X-Sonic-ID: 0c7cbfe3-b789-4385-94a5-14dcef45030c
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic315.consmr.mail.ne1.yahoo.com with HTTP; Wed, 2 Aug 2023 17:49:43 +0000
-Received: by hermes--production-gq1-7d844d8954-l5pzx (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 6a2fae4a0e3a5f2539f1465356d53db3;
-          Wed, 02 Aug 2023 17:49:36 +0000 (UTC)
-From:   Casey Schaufler <casey@schaufler-ca.com>
-To:     casey@schaufler-ca.com, paul@paul-moore.com,
-        linux-security-module@vger.kernel.org
-Cc:     jmorris@namei.org, serge@hallyn.com, keescook@chromium.org,
-        john.johansen@canonical.com, penguin-kernel@i-love.sakura.ne.jp,
-        stephen.smalley.work@gmail.com, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, mic@digikod.net
-Subject: [PATCH v13 11/11] LSM: selftests for Linux Security Module syscalls
-Date:   Wed,  2 Aug 2023 10:44:34 -0700
-Message-ID: <20230802174435.11928-12-casey@schaufler-ca.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230802174435.11928-1-casey@schaufler-ca.com>
-References: <20230802174435.11928-1-casey@schaufler-ca.com>
+        with ESMTP id S232067AbjHCVph (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 3 Aug 2023 17:45:37 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DA5F35B5;
+        Thu,  3 Aug 2023 14:45:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1691099135; x=1722635135;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=uL9O1FlrKasecN28UXFt0/H/JGqCfORMXhJ6xFBglwY=;
+  b=CEgJ+dYaKbjNn/u8ksBgJtPYKmibBUbIMhRy0ZULURz1svW8W7WnagP2
+   xWQWvNJGT5McvFEdcDiIV1nElICHs2w3SyTkoIbfPWzVpTX/9brpt3q5S
+   5XoEIUzJtmc3hfZ25MZgoonRus3Dx3YrVRPnCI1t/I1rHx6pzoGgHmI8s
+   cpY0GEKdoGEyfBck108aALBMpNOw5YDgusUMHPf/TKmkqrznULpbuIt4P
+   nIYu64VMDlp9cpE8kASWPzD1+HUDc4LTnfKJT8IIWhYmvBLb7fmvqN1Mt
+   MUBIjyHMYFoQnpbQGHf/tBOrvIHyO1wnwjA//lqoOrTupNdgxD6PSvaYu
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="367468406"
+X-IronPort-AV: E=Sophos;i="6.01,253,1684825200"; 
+   d="scan'208";a="367468406"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2023 14:45:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="976281407"
+X-IronPort-AV: E=Sophos;i="6.01,253,1684825200"; 
+   d="scan'208";a="976281407"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by fmsmga006.fm.intel.com with ESMTP; 03 Aug 2023 14:45:20 -0700
+Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Thu, 3 Aug 2023 14:45:19 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27 via Frontend Transport; Thu, 3 Aug 2023 14:45:19 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.47) by
+ edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.27; Thu, 3 Aug 2023 14:45:19 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XCMzXuyPRfaW4diUmCpWkNzBy7dQTyPpyNsIexxWiE2WOlGldEc1dM5DM82gejsTv8AwmAw7+JCpTESD8hADL314maiJlnmb4amcGaGPHypuYCPSrB1A004qhOTP66HVuFRWyWemn63Ut26GUPeeTZ0ag0ZN8yhNY0G/ARqqukMFO7dE1YkmGkE5n1S1Fndgm3iLcNuP69Pn8P296KbiFVtDFTPmQKWsDHATxJW9sVJSbUkS55peCiEKnpJ5QhR3Xfv+50+4LMdkQDku2yYCblNBTg7NNT6aY/sZJdE2hx93+axQCE19PrxzHBDrCzpaOD35SOTQvQkfxF2xhasbIQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=VWD0cSyZdRPmwAIcwUOG5k4OwVJKZRBv7kuC3Pttilw=;
+ b=BOAEpEjIVqmesiCiEeaYs0SWDhqRxvbYNGPjb34kAzAZ6diNvM4hvvmIE+Zvf3aH0V6+bwNiyBz50XAlr39VIIhnU3ymNLE38G3mqJUE3x8oagJISObUhjvP/44+aiAwA6/XTFZ4+UvIolCJk8SplePKINNeYWqVbqubxcjzMkASSbYi46rmncthlK+EA0KS5WLQB9r0tLZz5rAOhC8GA0QUAdzzFgyT/8BAW7orGn2EAkHPu/G2IgxXT38cNrAtxMYa4bIihnaOgGdmsR8O02Gmb12IxCTTDiZ28++BW+BZxIxSB6p0cjel0PIJqtqfJEhh+PD0dPUg8JtHqgPo+g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BYAPR11MB3320.namprd11.prod.outlook.com (2603:10b6:a03:18::25)
+ by SA0PR11MB4525.namprd11.prod.outlook.com (2603:10b6:806:9d::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6652.20; Thu, 3 Aug
+ 2023 21:45:12 +0000
+Received: from BYAPR11MB3320.namprd11.prod.outlook.com
+ ([fe80::e96e:8ce2:abd9:c61c]) by BYAPR11MB3320.namprd11.prod.outlook.com
+ ([fe80::e96e:8ce2:abd9:c61c%4]) with mapi id 15.20.6652.019; Thu, 3 Aug 2023
+ 21:45:12 +0000
+Message-ID: <5748f659-4063-0e18-c5d4-941a863d0d93@intel.com>
+Date:   Thu, 3 Aug 2023 14:44:57 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v2] syscalls: Cleanup references to sys_lookup_dcookie()
+Content-Language: en-US
+To:     Arnd Bergmann <arnd@arndb.de>, <linux-api@vger.kernel.org>,
+        <linux-arch@vger.kernel.org>
+CC:     Richard Henderson <richard.henderson@linaro.org>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        "Will Deacon" <will@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        "Michal Simek" <monstr@monstr.eu>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
+        "Helge Deller" <deller@gmx.de>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        "Nicholas Piggin" <npiggin@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        "Yoshinori Sato" <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        "John Paul Adrian Glaubitz" <glaubitz@physik.fu-berlin.de>,
+        "David S . Miller" <davem@davemloft.net>,
+        Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, <x86@kernel.org>,
+        "H . Peter Anvin" <hpa@zytor.com>, Chris Zankel <chris@zankel.net>,
+        "Max Filippov" <jcmvbkbc@gmail.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Arnaldo Carvalho de Melo" <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Ian Rogers <irogers@google.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Sergei Trofimovich <slyich@gmail.com>,
+        "Andrew Morton" <akpm@linux-foundation.org>,
+        Rohan McLure <rmclure@linux.ibm.com>,
+        Andreas Schwab <schwab@linux-m68k.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Brian Gerst <brgerst@gmail.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        <linux-alpha@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-ia64@vger.kernel.org>, <linux-m68k@lists.linux-m68k.org>,
+        <linux-mips@vger.kernel.org>, <linux-parisc@vger.kernel.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <linux-s390@vger.kernel.org>,
+        <linux-sh@vger.kernel.org>, <sparclinux@vger.kernel.org>,
+        <linux-perf-users@vger.kernel.org>
+References: <20230628230935.1196180-1-sohil.mehta@intel.com>
+ <20230710185124.3848462-1-sohil.mehta@intel.com>
+From:   Sohil Mehta <sohil.mehta@intel.com>
+In-Reply-To: <20230710185124.3848462-1-sohil.mehta@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YQBPR0101CA0184.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:f::27) To BYAPR11MB3320.namprd11.prod.outlook.com
+ (2603:10b6:a03:18::25)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=unavailable
-        autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR11MB3320:EE_|SA0PR11MB4525:EE_
+X-MS-Office365-Filtering-Correlation-Id: c7efc474-48d5-4247-6087-08db946aea3d
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: UVrTGacRs8YyvKou6lD2dmAhHLyZG41onkNpnNR6QqQTyHvOIGhlWSNTx34maOEc+v6dysJFYDqin8Wtmr7YUYWIk3CqQMpfa68snFQbRPR8hv4MV3HGLNFJ2Hj+OzQqElT/ADxLmZCzs+0eRVuWLlMKL2kODPI2mrYVpqF92/eBf/etz+ijgh7TAFOJBdOXPvSS7f31S+9H9Xs7FouCcgmvT6t+PxPO1MznmX/f1RcHHrVItnJuOJKqy0LWJ74Nr/1XygLg8t3n30hNhT/TeV9wBX9pjRfJaBUvcBSOOHfOz4huGaFH0fy9CZFSt9s2RDhRLCDBKr9wuJD5LMbcfjsNRou78UOAWbIgf2CjHJazFu3aXgc9LdGxdWVFGkenCoBuTigcGRDzhAv2SLSDMdEBYu4mKITZI+fRawhkDeJCpYou1Ahm1GY3JogkQMP3Kgasq9573yeDPfgDgtoxdaWrqOTG4kSrouWVZzp7EvV371YBYFsJ4Q4SqYcbTOZDV7qpJ9RfjY9t6ytLP7zKSzTNOlhYsylJdU3sPcZ7xkg0JUcEm0AvarS3gLHdPgeEcUx0UuHZAg6gbzBwrQ+gGa/k+2hrqqXXXuZkWj53zL6Yf+tC9tflTyTzn6wEdukrkqUfKpriovnj6wp72JKYsA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3320.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(346002)(376002)(366004)(396003)(39860400002)(136003)(451199021)(186006)(41300700001)(6486002)(82960400001)(6666004)(478600001)(38100700002)(2616005)(26005)(83380400001)(53546011)(6512007)(6506007)(4744005)(316002)(2906002)(54906003)(86362001)(31696002)(36756003)(66476007)(66556008)(4326008)(66946007)(31686004)(8676002)(8936002)(5660300002)(44832011)(7406005)(7366002)(7416002)(43740500002)(45980500001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NmRKRXBJb2Q3d3NjcUt2TDZNN3R0c25rQzVya2VOZjFBYnRKYTFKNXRISG5s?=
+ =?utf-8?B?SW5lQjZsMlR0d0N2elIxM0VXY0VxMjd2clRtZlI0aFRieVhJNEt3bXlTd3p3?=
+ =?utf-8?B?Zy9SVXozM21URUsvNmVXaXdPYlFmbE9jcUdXS3VHTjBiTkp4YzlUU3BuNHFs?=
+ =?utf-8?B?dzlFVkoxbmRkaUs0d0E4MVZMREcrMDdFWjM5RWlFSXlNTWMvNUQ0dXNCS3hl?=
+ =?utf-8?B?dmo4WDlCOU1FZERCeEhqVllTYnMza3N2YXZRc0VSRjdjQXNtZ1pLa01zdFU3?=
+ =?utf-8?B?bDhmeitsbDMxNUQ0MU40VjYxUEh6dVJ4ZENPRStTaGgreGtmMEpFUkxLclRM?=
+ =?utf-8?B?YjlyWmNxMXl0SitYTGdpdkViNDhQQ3Urb1FTby9wVTI3QStUNllDaHhWTUl6?=
+ =?utf-8?B?cEhya24zbWM1M0tlRUR0cDI2NkNjeFd4WE00dWNWdWJnYWRDOXBWOFdGcUFo?=
+ =?utf-8?B?RVhjRVlBWk5JOGpuWEx5NzI5eDlJb3Bra3ZBM1JxcjNDbVVXc0l0VEVadmQ5?=
+ =?utf-8?B?dnRhWDM4b3dXUFFkcjd2aHpZMTNhNVVLY3J0NXBPNmFyeXRDSC96clY4RXRz?=
+ =?utf-8?B?WDd6dEF4ZU15NFQ5Ym53RzNUMkphUWhQdHBMaElCVXhUR05GN1lmRWg5aGth?=
+ =?utf-8?B?anhkVThNQmxPQzg0U1pucTVaWk9GVEtoa1oweXRYYVEyY1N6MFJ3aFhFRXor?=
+ =?utf-8?B?VDdCeGdRUXZTTGs3TmJxN0pZQ2dNOFpaNCtGUHFlVjhoTyt3YTYyLzNOeUFl?=
+ =?utf-8?B?cHBDYmxCMjdDYnVmbGJkbG82SzJHWEEzQUZCUWUwMDVvYlZBbVpDVDBmRTZM?=
+ =?utf-8?B?Z0MxOFdZZlBYOTZLQ3ZjcXorQ3FxYXVKN2xoUURONGpIRlZpK2gyMmJSd2xm?=
+ =?utf-8?B?dHc2T1lvWW5FMlZ3dFdSRVRBN3h2bVVGSkkyTDBUdGVZRVBwY1AxcU54c3kz?=
+ =?utf-8?B?cFhJTTJWRDlHZFBBN0tvcUxPeFhDdVlFK2ZwZmdvRlJzU2FpNXIzSmlpcGVP?=
+ =?utf-8?B?MDArL0Z1SGhmSHBEaDNyM25KeEswWjM3Wkx5K0xSM3U1RUswbWY5citDRm0v?=
+ =?utf-8?B?YW5ZQ0ZqY2VtV0RyS3dxbXVkTDYzY0xza2dENkw0cDhFNldNMmFEaE8rQTZS?=
+ =?utf-8?B?SncwYlhxZmJ1Zk9Ocng4UDJJMTJxQU5FbGhlT3VOYjNaQ3dNdlNsS0wzYmtL?=
+ =?utf-8?B?OVdXRE5TalEzZktSMGZmdVpWV0hKb0pXWXQ0Z3Y4RzI3bkZqN0tRcTc0c0xz?=
+ =?utf-8?B?SDhDWmNUMXlTaTBmTnVMYlBSck0yQzNaYk5LSE5jdmdCdnl1WWlGNFpVRVEv?=
+ =?utf-8?B?QU1UVU0rSXVMYUpnb1FNMjgwY21WYXg2dG5KWWlCNkxIM0hiVWNYaW9UUFRH?=
+ =?utf-8?B?Sk44ejJNSzNtVGpnTkRYcDY1cVJCMXFiOU9UNmswUXhpODFKME96YUloNXJu?=
+ =?utf-8?B?ODh2R3lueTdqZzRnYkhzNmR5akNjSzA3Y3JWS21jTTFIN3V3QlA0VnV0Z1Fu?=
+ =?utf-8?B?V0xNdWs4MmRTV2R3NHhSSWxvQUE0RXZIR3hNS2c1OWtzOXdkeGpoa2lmcUg0?=
+ =?utf-8?B?WGZBaTJySEgxajBDQTNFRllJV3VxcjlsYzZEaXNrUE1CY2sxQ29sYXFnd0FT?=
+ =?utf-8?B?eHd6dWxXVmNkU2l6cWlISzJSbld4bTlMeWNVQXBMaVpZYzdhZmxuMVNOMU02?=
+ =?utf-8?B?UHlrNEg0TkFtaURCeDE3ZWtEYk8yeDMwWHBpNTFJMkpnbGtZY0tmSzFHVzNu?=
+ =?utf-8?B?dy9tK1krYlJ0TnM4N3R1Wk9iRGpMWHc4YTB6ZmNoVzIzWHhGYXFUcFgvcy9z?=
+ =?utf-8?B?ZStmR0w0OU16R3B5c1Btc3drc1JYYzlnMXQyZFJ1QVh3cTRCRkVqZEFLWEZL?=
+ =?utf-8?B?ZlNTeUk5bnhWR1I4SWcrOVovb3NRRGF3aE9USTArck9jeTN4b1RaellnV1dw?=
+ =?utf-8?B?eFZyNkpZQlNsWkNFZUhrbVZYU0xaRjdFMmNOWjN2L1B2SjZRdHhtZ0NvS2Fq?=
+ =?utf-8?B?ZFh5U2hCc0FCcHRwelhkRjJzU1BLSXZPcXY1azUzZW45MERkUzJobTRHcFJu?=
+ =?utf-8?B?K0NLOGRVTUxGS3FmS2EzTHllRVE1WTNyVFliS0cySnFieTk3N2VEL3p6L05I?=
+ =?utf-8?Q?TTk9ZlLYMBL+dE5LRZvdmLAqV?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: c7efc474-48d5-4247-6087-08db946aea3d
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3320.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Aug 2023 21:45:12.2569
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: D8U377FaK/XnfXT9SSRaRvSyUZK3wdDiJCJW5sIIW8EG87Pp94noQYk9j6gTJZ/EtVddH0iPsAs44hofO5lD0A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR11MB4525
+X-OriginatorOrg: intel.com
+X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Add selftests for the three system calls supporting the LSM
-infrastructure. This set of tests is limited by the differences
-in access policy enforced by the existing security modules.
+Hi Arnd,
 
-Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
----
- MAINTAINERS                                   |   1 +
- tools/testing/selftests/Makefile              |   1 +
- tools/testing/selftests/lsm/Makefile          |  19 ++
- tools/testing/selftests/lsm/common.c          |  81 ++++++
- tools/testing/selftests/lsm/common.h          |  33 +++
- tools/testing/selftests/lsm/config            |   3 +
- .../selftests/lsm/lsm_get_self_attr_test.c    | 240 ++++++++++++++++++
- .../selftests/lsm/lsm_list_modules_test.c     | 140 ++++++++++
- .../selftests/lsm/lsm_set_self_attr_test.c    |  74 ++++++
- 9 files changed, 592 insertions(+)
- create mode 100644 tools/testing/selftests/lsm/Makefile
- create mode 100644 tools/testing/selftests/lsm/common.c
- create mode 100644 tools/testing/selftests/lsm/common.h
- create mode 100644 tools/testing/selftests/lsm/config
- create mode 100644 tools/testing/selftests/lsm/lsm_get_self_attr_test.c
- create mode 100644 tools/testing/selftests/lsm/lsm_list_modules_test.c
- create mode 100644 tools/testing/selftests/lsm/lsm_set_self_attr_test.c
+On 7/10/2023 11:51 AM, Sohil Mehta wrote:
+> commit 'be65de6b03aa ("fs: Remove dcookies support")' removed the
+> syscall definition for lookup_dcookie.  However, syscall tables still
+> point to the old sys_lookup_dcookie() definition. Update syscall tables
+> of all architectures to directly point to sys_ni_syscall() instead.
+> 
+> Signed-off-by: Sohil Mehta <sohil.mehta@intel.com>
+> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+> Acked-by: Namhyung Kim <namhyung@kernel.org> # for perf
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index aca4db11dd02..c96f1c388d22 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -19158,6 +19158,7 @@ W:	http://kernsec.org/
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/pcmoore/lsm.git
- F:	include/uapi/linux/lsm.h
- F:	security/
-+F:	tools/testing/selftests/lsm/
- X:	security/selinux/
- 
- SELINUX SECURITY MODULE
-diff --git a/tools/testing/selftests/Makefile b/tools/testing/selftests/Makefile
-index 666b56f22a41..bde7c217b23f 100644
---- a/tools/testing/selftests/Makefile
-+++ b/tools/testing/selftests/Makefile
-@@ -39,6 +39,7 @@ TARGETS += landlock
- TARGETS += lib
- TARGETS += livepatch
- TARGETS += lkdtm
-+TARGETS += lsm
- TARGETS += membarrier
- TARGETS += memfd
- TARGETS += memory-hotplug
-diff --git a/tools/testing/selftests/lsm/Makefile b/tools/testing/selftests/lsm/Makefile
-new file mode 100644
-index 000000000000..bae6c1e3bba4
---- /dev/null
-+++ b/tools/testing/selftests/lsm/Makefile
-@@ -0,0 +1,19 @@
-+# SPDX-License-Identifier: GPL-2.0
-+#
-+# First run: make -C ../../../.. headers_install
-+
-+CFLAGS += -Wall -O2 $(KHDR_INCLUDES)
-+LOCAL_HDRS += common.h
-+
-+TEST_GEN_PROGS := lsm_get_self_attr_test lsm_list_modules_test \
-+		  lsm_set_self_attr_test
-+
-+include ../lib.mk
-+
-+$(TEST_GEN_PROGS):
-+
-+$(OUTPUT)/lsm_get_self_attr_test: lsm_get_self_attr_test.c common.c
-+$(OUTPUT)/lsm_set_self_attr_test: lsm_set_self_attr_test.c common.c
-+$(OUTPUT)/lsm_list_modules_test: lsm_list_modules_test.c common.c
-+
-+EXTRA_CLEAN = $(OUTPUT)/common.o
-diff --git a/tools/testing/selftests/lsm/common.c b/tools/testing/selftests/lsm/common.c
-new file mode 100644
-index 000000000000..db9af9375238
---- /dev/null
-+++ b/tools/testing/selftests/lsm/common.c
-@@ -0,0 +1,81 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Linux Security Module infrastructure tests
-+ *
-+ * Copyright © 2023 Casey Schaufler <casey@schaufler-ca.com>
-+ */
-+
-+#define _GNU_SOURCE
-+#include <linux/lsm.h>
-+#include <fcntl.h>
-+#include <string.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <unistd.h>
-+#include <sys/types.h>
-+#include "common.h"
-+
-+#define PROCATTR	"/proc/self/attr/"
-+
-+int read_proc_attr(const char *attr, char *value, size_t size)
-+{
-+	int fd;
-+	int len;
-+	char *path;
-+
-+	len = strlen(PROCATTR) + strlen(attr) + 1;
-+	path = calloc(len, 1);
-+	if (path == NULL)
-+		return -1;
-+	sprintf(path, "%s%s", PROCATTR, attr);
-+
-+	fd = open(path, O_RDONLY);
-+	free(path);
-+
-+	if (fd < 0)
-+		return -1;
-+	len = read(fd, value, size);
-+	if (len <= 0)
-+		return -1;
-+	close(fd);
-+
-+	path = strchr(value, '\n');
-+	if (path)
-+		*path = '\0';
-+
-+	return 0;
-+}
-+
-+int read_sysfs_lsms(char *lsms, size_t size)
-+{
-+	FILE *fp;
-+
-+	fp = fopen("/sys/kernel/security/lsm", "r");
-+	if (fp == NULL)
-+		return -1;
-+	if (fread(lsms, 1, size, fp) <= 0)
-+		return -1;
-+	fclose(fp);
-+	return 0;
-+}
-+
-+int attr_lsm_count(void)
-+{
-+	char *names = calloc(sysconf(_SC_PAGESIZE), 1);
-+	int count = 0;
-+
-+	if (!names)
-+		return 0;
-+
-+	if (read_sysfs_lsms(names, sysconf(_SC_PAGESIZE)))
-+		return 0;
-+
-+	if (strstr(names, "selinux"))
-+		count++;
-+	if (strstr(names, "smack"))
-+		count++;
-+	if (strstr(names, "apparmor"))
-+		count++;
-+
-+	return count;
-+}
-diff --git a/tools/testing/selftests/lsm/common.h b/tools/testing/selftests/lsm/common.h
-new file mode 100644
-index 000000000000..cd0214a3eeb2
---- /dev/null
-+++ b/tools/testing/selftests/lsm/common.h
-@@ -0,0 +1,33 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Linux Security Module infrastructure tests
-+ *
-+ * Copyright © 2023 Casey Schaufler <casey@schaufler-ca.com>
-+ */
-+
-+#ifndef lsm_get_self_attr
-+static inline int lsm_get_self_attr(unsigned int attr, struct lsm_ctx *ctx,
-+				    size_t *size, __u32 flags)
-+{
-+	return syscall(__NR_lsm_get_self_attr, attr, ctx, size, flags);
-+}
-+#endif
-+
-+#ifndef lsm_set_self_attr
-+static inline int lsm_set_self_attr(unsigned int attr, struct lsm_ctx *ctx,
-+				    size_t size, __u32 flags)
-+{
-+	return syscall(__NR_lsm_set_self_attr, attr, ctx, size, flags);
-+}
-+#endif
-+
-+#ifndef lsm_list_modules
-+static inline int lsm_list_modules(__u64 *ids, size_t *size, __u32 flags)
-+{
-+	return syscall(__NR_lsm_list_modules, ids, size, flags);
-+}
-+#endif
-+
-+extern int read_proc_attr(const char *attr, char *value, size_t size);
-+extern int read_sysfs_lsms(char *lsms, size_t size);
-+int attr_lsm_count(void);
-diff --git a/tools/testing/selftests/lsm/config b/tools/testing/selftests/lsm/config
-new file mode 100644
-index 000000000000..1c0c4c020f9c
---- /dev/null
-+++ b/tools/testing/selftests/lsm/config
-@@ -0,0 +1,3 @@
-+CONFIG_SYSFS=y
-+CONFIG_SECURITY=y
-+CONFIG_SECURITYFS=y
-diff --git a/tools/testing/selftests/lsm/lsm_get_self_attr_test.c b/tools/testing/selftests/lsm/lsm_get_self_attr_test.c
-new file mode 100644
-index 000000000000..74c65aae1fcc
---- /dev/null
-+++ b/tools/testing/selftests/lsm/lsm_get_self_attr_test.c
-@@ -0,0 +1,240 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Linux Security Module infrastructure tests
-+ * Tests for the lsm_get_self_attr system call
-+ *
-+ * Copyright © 2022 Casey Schaufler <casey@schaufler-ca.com>
-+ */
-+
-+#define _GNU_SOURCE
-+#include <linux/lsm.h>
-+#include <fcntl.h>
-+#include <string.h>
-+#include <stdio.h>
-+#include <unistd.h>
-+#include <sys/types.h>
-+#include "../kselftest_harness.h"
-+#include "common.h"
-+
-+static struct lsm_ctx *next_ctx(struct lsm_ctx *ctxp)
-+{
-+	void *vp;
-+
-+	vp = (void *)ctxp + sizeof(*ctxp) + ctxp->ctx_len;
-+	return (struct lsm_ctx *)vp;
-+}
-+
-+TEST(size_null_lsm_get_self_attr)
-+{
-+	const long page_size = sysconf(_SC_PAGESIZE);
-+	struct lsm_ctx *ctx = calloc(page_size, 1);
-+
-+	ASSERT_NE(NULL, ctx);
-+	errno = 0;
-+	ASSERT_EQ(-1, lsm_get_self_attr(LSM_ATTR_CURRENT, ctx, NULL, 0));
-+	ASSERT_EQ(EINVAL, errno);
-+
-+	free(ctx);
-+}
-+
-+TEST(ctx_null_lsm_get_self_attr)
-+{
-+	const long page_size = sysconf(_SC_PAGESIZE);
-+	size_t size = page_size;
-+	int rc;
-+
-+	rc = lsm_get_self_attr(LSM_ATTR_CURRENT, NULL, &size, 0);
-+
-+	if (attr_lsm_count()) {
-+		ASSERT_NE(-1, rc);
-+		ASSERT_NE(1, size);
-+	} else {
-+		ASSERT_EQ(-1, rc);
-+	}
-+}
-+
-+TEST(size_too_small_lsm_get_self_attr)
-+{
-+	const long page_size = sysconf(_SC_PAGESIZE);
-+	struct lsm_ctx *ctx = calloc(page_size, 1);
-+	size_t size = 1;
-+
-+	ASSERT_NE(NULL, ctx);
-+	errno = 0;
-+	ASSERT_EQ(-1, lsm_get_self_attr(LSM_ATTR_CURRENT, ctx, &size, 0));
-+	if (attr_lsm_count()) {
-+		ASSERT_EQ(E2BIG, errno);
-+	} else {
-+		ASSERT_EQ(EOPNOTSUPP, errno);
-+	}
-+	ASSERT_NE(1, size);
-+
-+	free(ctx);
-+}
-+
-+TEST(flags_zero_lsm_get_self_attr)
-+{
-+	const long page_size = sysconf(_SC_PAGESIZE);
-+	struct lsm_ctx *ctx = calloc(page_size, 1);
-+	size_t size = page_size;
-+
-+	ASSERT_NE(NULL, ctx);
-+	errno = 0;
-+	ASSERT_EQ(-1, lsm_get_self_attr(LSM_ATTR_CURRENT, ctx, &size, 1));
-+	ASSERT_EQ(EINVAL, errno);
-+	ASSERT_EQ(page_size, size);
-+
-+	free(ctx);
-+}
-+
-+TEST(flags_overset_lsm_get_self_attr)
-+{
-+	const long page_size = sysconf(_SC_PAGESIZE);
-+	struct lsm_ctx *ctx = calloc(page_size, 1);
-+	size_t size = page_size;
-+
-+	ASSERT_NE(NULL, ctx);
-+	errno = 0;
-+	ASSERT_EQ(-1, lsm_get_self_attr(LSM_ATTR_CURRENT | LSM_ATTR_PREV, ctx,
-+					&size, 0));
-+	ASSERT_EQ(EOPNOTSUPP, errno);
-+
-+	free(ctx);
-+}
-+
-+TEST(basic_lsm_get_self_attr)
-+{
-+	const long page_size = sysconf(_SC_PAGESIZE);
-+	size_t size = page_size;
-+	struct lsm_ctx *ctx = calloc(page_size, 1);
-+	struct lsm_ctx *tctx = NULL;
-+	__u64 *syscall_lsms = calloc(page_size, 1);
-+	char *attr = calloc(page_size, 1);
-+	int cnt_current = 0;
-+	int cnt_exec = 0;
-+	int cnt_fscreate = 0;
-+	int cnt_keycreate = 0;
-+	int cnt_prev = 0;
-+	int cnt_sockcreate = 0;
-+	int lsmcount;
-+	int count;
-+	int i;
-+
-+	ASSERT_NE(NULL, ctx);
-+	ASSERT_NE(NULL, syscall_lsms);
-+
-+	lsmcount = syscall(__NR_lsm_list_modules, syscall_lsms, &size, 0);
-+	ASSERT_LE(1, lsmcount);
-+
-+	for (i = 0; i < lsmcount; i++) {
-+		switch (syscall_lsms[i]) {
-+		case LSM_ID_SELINUX:
-+			cnt_current++;
-+			cnt_exec++;
-+			cnt_fscreate++;
-+			cnt_keycreate++;
-+			cnt_prev++;
-+			cnt_sockcreate++;
-+			break;
-+		case LSM_ID_SMACK:
-+			cnt_current++;
-+			break;
-+		case LSM_ID_APPARMOR:
-+			cnt_current++;
-+			cnt_exec++;
-+			cnt_prev++;
-+			break;
-+		default:
-+			break;
-+		}
-+	}
-+
-+	if (cnt_current) {
-+		size = page_size;
-+		count = lsm_get_self_attr(LSM_ATTR_CURRENT, ctx, &size, 0);
-+		ASSERT_EQ(cnt_current, count);
-+		tctx = ctx;
-+		ASSERT_EQ(0, read_proc_attr("current", attr, page_size));
-+		ASSERT_EQ(0, strcmp((char *)tctx->ctx, attr));
-+		for (i = 1; i < count; i++) {
-+			tctx = next_ctx(tctx);
-+			ASSERT_NE(0, strcmp((char *)tctx->ctx, attr));
-+		}
-+	}
-+	if (cnt_exec) {
-+		size = page_size;
-+		count = lsm_get_self_attr(LSM_ATTR_EXEC, ctx, &size, 0);
-+		ASSERT_GE(cnt_exec, count);
-+		if (count > 0) {
-+			tctx = ctx;
-+			if (read_proc_attr("exec", attr, page_size) == 0)
-+				ASSERT_EQ(0, strcmp((char *)tctx->ctx, attr));
-+		}
-+		for (i = 1; i < count; i++) {
-+			tctx = next_ctx(tctx);
-+			ASSERT_NE(0, strcmp((char *)tctx->ctx, attr));
-+		}
-+	}
-+	if (cnt_fscreate) {
-+		size = page_size;
-+		count = lsm_get_self_attr(LSM_ATTR_FSCREATE, ctx, &size, 0);
-+		ASSERT_GE(cnt_fscreate, count);
-+		if (count > 0) {
-+			tctx = ctx;
-+			if (read_proc_attr("fscreate", attr, page_size) == 0)
-+				ASSERT_EQ(0, strcmp((char *)tctx->ctx, attr));
-+		}
-+		for (i = 1; i < count; i++) {
-+			tctx = next_ctx(tctx);
-+			ASSERT_NE(0, strcmp((char *)tctx->ctx, attr));
-+		}
-+	}
-+	if (cnt_keycreate) {
-+		size = page_size;
-+		count = lsm_get_self_attr(LSM_ATTR_KEYCREATE, ctx, &size, 0);
-+		ASSERT_GE(cnt_keycreate, count);
-+		if (count > 0) {
-+			tctx = ctx;
-+			if (read_proc_attr("keycreate", attr, page_size) == 0)
-+				ASSERT_EQ(0, strcmp((char *)tctx->ctx, attr));
-+		}
-+		for (i = 1; i < count; i++) {
-+			tctx = next_ctx(tctx);
-+			ASSERT_NE(0, strcmp((char *)tctx->ctx, attr));
-+		}
-+	}
-+	if (cnt_prev) {
-+		size = page_size;
-+		count = lsm_get_self_attr(LSM_ATTR_PREV, ctx, &size, 0);
-+		ASSERT_GE(cnt_prev, count);
-+		if (count > 0) {
-+			tctx = ctx;
-+			ASSERT_EQ(0, read_proc_attr("prev", attr, page_size));
-+			ASSERT_EQ(0, strcmp((char *)tctx->ctx, attr));
-+			for (i = 1; i < count; i++) {
-+				tctx = next_ctx(tctx);
-+				ASSERT_NE(0, strcmp((char *)tctx->ctx, attr));
-+			}
-+		}
-+	}
-+	if (cnt_sockcreate) {
-+		size = page_size;
-+		count = lsm_get_self_attr(LSM_ATTR_SOCKCREATE, ctx, &size, 0);
-+		ASSERT_GE(cnt_sockcreate, count);
-+		if (count > 0) {
-+			tctx = ctx;
-+			if (read_proc_attr("sockcreate", attr, page_size) == 0)
-+				ASSERT_EQ(0, strcmp((char *)tctx->ctx, attr));
-+		}
-+		for (i = 1; i < count; i++) {
-+			tctx = next_ctx(tctx);
-+			ASSERT_NE(0, strcmp((char *)tctx->ctx, attr));
-+		}
-+	}
-+
-+	free(ctx);
-+	free(attr);
-+	free(syscall_lsms);
-+}
-+
-+TEST_HARNESS_MAIN
-diff --git a/tools/testing/selftests/lsm/lsm_list_modules_test.c b/tools/testing/selftests/lsm/lsm_list_modules_test.c
-new file mode 100644
-index 000000000000..445c02f09c74
---- /dev/null
-+++ b/tools/testing/selftests/lsm/lsm_list_modules_test.c
-@@ -0,0 +1,140 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Linux Security Module infrastructure tests
-+ * Tests for the lsm_list_modules system call
-+ *
-+ * Copyright © 2022 Casey Schaufler <casey@schaufler-ca.com>
-+ */
-+
-+#define _GNU_SOURCE
-+#include <linux/lsm.h>
-+#include <string.h>
-+#include <stdio.h>
-+#include <unistd.h>
-+#include <sys/types.h>
-+#include "../kselftest_harness.h"
-+#include "common.h"
-+
-+TEST(size_null_lsm_list_modules)
-+{
-+	const long page_size = sysconf(_SC_PAGESIZE);
-+	__u64 *syscall_lsms = calloc(page_size, 1);
-+
-+	ASSERT_NE(NULL, syscall_lsms);
-+	errno = 0;
-+	ASSERT_EQ(-1, lsm_list_modules(syscall_lsms, NULL, 0));
-+	ASSERT_EQ(EFAULT, errno);
-+
-+	free(syscall_lsms);
-+}
-+
-+TEST(ids_null_lsm_list_modules)
-+{
-+	const long page_size = sysconf(_SC_PAGESIZE);
-+	size_t size = page_size;
-+
-+	errno = 0;
-+	ASSERT_EQ(-1, lsm_list_modules(NULL, &size, 0));
-+	ASSERT_EQ(EFAULT, errno);
-+	ASSERT_NE(1, size);
-+}
-+
-+TEST(size_too_small_lsm_list_modules)
-+{
-+	const long page_size = sysconf(_SC_PAGESIZE);
-+	__u64 *syscall_lsms = calloc(page_size, 1);
-+	size_t size = 1;
-+
-+	ASSERT_NE(NULL, syscall_lsms);
-+	errno = 0;
-+	ASSERT_EQ(-1, lsm_list_modules(syscall_lsms, &size, 0));
-+	ASSERT_EQ(E2BIG, errno);
-+	ASSERT_NE(1, size);
-+
-+	free(syscall_lsms);
-+}
-+
-+TEST(flags_set_lsm_list_modules)
-+{
-+	const long page_size = sysconf(_SC_PAGESIZE);
-+	__u64 *syscall_lsms = calloc(page_size, 1);
-+	size_t size = page_size;
-+
-+	ASSERT_NE(NULL, syscall_lsms);
-+	errno = 0;
-+	ASSERT_EQ(-1, lsm_list_modules(syscall_lsms, &size, 7));
-+	ASSERT_EQ(EINVAL, errno);
-+	ASSERT_EQ(page_size, size);
-+
-+	free(syscall_lsms);
-+}
-+
-+TEST(correct_lsm_list_modules)
-+{
-+	const long page_size = sysconf(_SC_PAGESIZE);
-+	size_t size = page_size;
-+	__u64 *syscall_lsms = calloc(page_size, 1);
-+	char *sysfs_lsms = calloc(page_size, 1);
-+	char *name;
-+	char *cp;
-+	int count;
-+	int i;
-+
-+	ASSERT_NE(NULL, sysfs_lsms);
-+	ASSERT_NE(NULL, syscall_lsms);
-+	ASSERT_EQ(0, read_sysfs_lsms(sysfs_lsms, page_size));
-+
-+	count = lsm_list_modules(syscall_lsms, &size, 0);
-+	ASSERT_LE(1, count);
-+	cp = sysfs_lsms;
-+	for (i = 0; i < count; i++) {
-+		switch (syscall_lsms[i]) {
-+		case LSM_ID_CAPABILITY:
-+			name = "capability";
-+			break;
-+		case LSM_ID_SELINUX:
-+			name = "selinux";
-+			break;
-+		case LSM_ID_SMACK:
-+			name = "smack";
-+			break;
-+		case LSM_ID_TOMOYO:
-+			name = "tomoyo";
-+			break;
-+		case LSM_ID_IMA:
-+			name = "ima";
-+			break;
-+		case LSM_ID_APPARMOR:
-+			name = "apparmor";
-+			break;
-+		case LSM_ID_YAMA:
-+			name = "yama";
-+			break;
-+		case LSM_ID_LOADPIN:
-+			name = "loadpin";
-+			break;
-+		case LSM_ID_SAFESETID:
-+			name = "safesetid";
-+			break;
-+		case LSM_ID_LOCKDOWN:
-+			name = "lockdown";
-+			break;
-+		case LSM_ID_BPF:
-+			name = "bpf";
-+			break;
-+		case LSM_ID_LANDLOCK:
-+			name = "landlock";
-+			break;
-+		default:
-+			name = "INVALID";
-+			break;
-+		}
-+		ASSERT_EQ(0, strncmp(cp, name, strlen(name)));
-+		cp += strlen(name) + 1;
-+	}
-+
-+	free(sysfs_lsms);
-+	free(syscall_lsms);
-+}
-+
-+TEST_HARNESS_MAIN
-diff --git a/tools/testing/selftests/lsm/lsm_set_self_attr_test.c b/tools/testing/selftests/lsm/lsm_set_self_attr_test.c
-new file mode 100644
-index 000000000000..d0f5b776c548
---- /dev/null
-+++ b/tools/testing/selftests/lsm/lsm_set_self_attr_test.c
-@@ -0,0 +1,74 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Linux Security Module infrastructure tests
-+ * Tests for the lsm_set_self_attr system call
-+ *
-+ * Copyright © 2022 Casey Schaufler <casey@schaufler-ca.com>
-+ */
-+
-+#define _GNU_SOURCE
-+#include <linux/lsm.h>
-+#include <string.h>
-+#include <stdio.h>
-+#include <unistd.h>
-+#include <sys/types.h>
-+#include "../kselftest_harness.h"
-+#include "common.h"
-+
-+TEST(ctx_null_lsm_set_self_attr)
-+{
-+	ASSERT_EQ(-1, lsm_set_self_attr(LSM_ATTR_CURRENT, NULL,
-+					sizeof(struct lsm_ctx), 0));
-+}
-+
-+TEST(size_too_small_lsm_set_self_attr)
-+{
-+	const long page_size = sysconf(_SC_PAGESIZE);
-+	struct lsm_ctx *ctx = calloc(page_size, 1);
-+	size_t size = page_size;
-+
-+	ASSERT_NE(NULL, ctx);
-+	if (attr_lsm_count()) {
-+		ASSERT_LE(1, lsm_get_self_attr(LSM_ATTR_CURRENT, ctx, &size,
-+			  0));
-+	}
-+	ASSERT_EQ(-1, lsm_set_self_attr(LSM_ATTR_CURRENT, ctx, 1, 0));
-+
-+	free(ctx);
-+}
-+
-+TEST(flags_zero_lsm_set_self_attr)
-+{
-+	const long page_size = sysconf(_SC_PAGESIZE);
-+	struct lsm_ctx *ctx = calloc(page_size, 1);
-+	size_t size = page_size;
-+
-+	ASSERT_NE(NULL, ctx);
-+	if (attr_lsm_count()) {
-+		ASSERT_LE(1, lsm_get_self_attr(LSM_ATTR_CURRENT, ctx, &size,
-+			  0));
-+	}
-+	ASSERT_EQ(-1, lsm_set_self_attr(LSM_ATTR_CURRENT, ctx, size, 1));
-+
-+	free(ctx);
-+}
-+
-+TEST(flags_overset_lsm_set_self_attr)
-+{
-+	const long page_size = sysconf(_SC_PAGESIZE);
-+	char *ctx = calloc(page_size, 1);
-+	size_t size = page_size;
-+	struct lsm_ctx *tctx = (struct lsm_ctx *)ctx;
-+
-+	ASSERT_NE(NULL, ctx);
-+	if (attr_lsm_count()) {
-+		ASSERT_LE(1, lsm_get_self_attr(LSM_ATTR_CURRENT, tctx, &size,
-+			  0));
-+	}
-+	ASSERT_EQ(-1, lsm_set_self_attr(LSM_ATTR_CURRENT | LSM_ATTR_PREV, tctx,
-+					size, 0));
-+
-+	free(ctx);
-+}
-+
-+TEST_HARNESS_MAIN
--- 
-2.41.0
+The patch has received a couple of additional Acks.
 
+Does this seem like a valuable cleanup? If so, should it go through the
+asm-generic tree?
+
+Sohil
