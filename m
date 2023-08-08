@@ -2,243 +2,171 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E13EE773592
-	for <lists+linux-api@lfdr.de>; Tue,  8 Aug 2023 02:52:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 94C83773747
+	for <lists+linux-api@lfdr.de>; Tue,  8 Aug 2023 05:04:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229714AbjHHAwi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 7 Aug 2023 20:52:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49384 "EHLO
+        id S229456AbjHHDE3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 7 Aug 2023 23:04:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41666 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229568AbjHHAwi (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 7 Aug 2023 20:52:38 -0400
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82DC3170B;
-        Mon,  7 Aug 2023 17:52:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=1Z7LbxffltbPK1SHo7fxmLCfBnUSIOxwbsQyOLgeTiM=; b=CvAPVbIdkOl7UYswYzmU74xVVS
-        XyjwUWRqWPGxovxX1GsoEzR6Xa3VSDYNRmkw81fkMog8jEpL8xbYMEOWL2rruiwTQ2XbCHP9tDZ1J
-        MDrKtpx/owH55NmEOPcsFZB5Xi/vcenF8IIDF9ZGVUuyguUK/I2WMGWBtOFapIskEE7vKRfNZuPq3
-        otA2sGbIDLzwQx1PzGu9hqocdTAqJjU+7bOJ/bZrylT0owjevMf3T9t84rXIoTKEGBNbx7r5UBivQ
-        S24JILUF8XekC+4K1hSeYWl7r2YQLIDktntBUdKmRT4K26ok3Kg+mABGBlF21o9q9DvU1X6WXB2/w
-        mHLKesRg==;
-Received: from [177.45.63.19] (helo=[192.168.1.111])
-        by fanzine2.igalia.com with esmtpsa 
-        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-        id 1qTAxZ-00FAcr-T1; Tue, 08 Aug 2023 02:52:30 +0200
-Message-ID: <c4998f14-2804-4291-efe4-f42d07cd9343@igalia.com>
-Date:   Mon, 7 Aug 2023 21:52:18 -0300
+        with ESMTP id S229553AbjHHDE0 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 7 Aug 2023 23:04:26 -0400
+Received: from mail-oo1-xc2a.google.com (mail-oo1-xc2a.google.com [IPv6:2607:f8b0:4864:20::c2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 289A1C2;
+        Mon,  7 Aug 2023 20:04:25 -0700 (PDT)
+Received: by mail-oo1-xc2a.google.com with SMTP id 006d021491bc7-56ce156bd37so3215275eaf.3;
+        Mon, 07 Aug 2023 20:04:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1691463864; x=1692068664;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=lU9dy9acxPivAK9sAqV8O5YVQrlBKU/PVmJCwK+iI40=;
+        b=j/IuvRWHR0mJZ3utT4ETYOM1KM7sGD4D6iWKBc2trPoxvnlwBsoMfnx9RWBa1z6e4Q
+         zh+eICNT4DNpZQz/9VGiflvBuBBXTR9hcNTIP1Ow3nAaYXIQISn+2rtaXXj4mGHfCoRe
+         U3UiwSZ0sb6z3uEQUkWgqiYituiD53v18EKtRQiSRqmF9qVCCjCmohtLSh0+tF/YU90z
+         lcb4DDR5c5C2omHAhYF2c7OcYjx+EV+w/+DVkEMsaqwPlk2qdWuCcVGn66mbCa3gYc5B
+         7/9ycVjVsgMGhM/0GJ7Ht3uobSj4qHwVbW5eN/73sM1CV6a0RqokIYWwr6WQcmfcbvBo
+         D8Ug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691463864; x=1692068664;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lU9dy9acxPivAK9sAqV8O5YVQrlBKU/PVmJCwK+iI40=;
+        b=bZDO8S9NZSnm2d0ai72TGQOFYx2IY6v/COm7x7QeAvuEZgQtfFY39/5iTjOUEwe0dN
+         kU29+PvDm7gbPbmlTETzn4Qiviim90V0/dGXiCfHuZQsOE65GzqLy7yPrmYskk6jMorA
+         1N5KGkOf/yadjQ1PQ9Fj61XcAm8zQdp3b3CzoSBtpU83AfFZlh2UZnzg4VNHnsgnKiQa
+         fIdSarPgKrJ/fsDBB2f9RpmDWk9MnNZ9ltQ8p9yCIDxjJS3peBqAEwm8SxmZIWXhqbV4
+         Il9OCnnlbrrAmE2+ZeV0H85L3Zg9jcpjdUiiFwxsVpssYfu7JeDobuoP1boDUa8c1tpM
+         4Ahg==
+X-Gm-Message-State: AOJu0YwTbf25gnanFvjr2tFQx3N/7UHL1WomGSYDQCtPeeufVLlm7oIj
+        dP9+HrE1nAPoLlkfLOFgsUUruU87osMKUA==
+X-Google-Smtp-Source: AGHT+IFywI2BuYDLZVDGsdFfFF6DvxQuyBA8SR3uuOj7it5jlV6PY2OX2KTP4ilZALeWIK9XjjALHQ==
+X-Received: by 2002:aca:170d:0:b0:3a7:a34a:ea9 with SMTP id j13-20020aca170d000000b003a7a34a0ea9mr3018690oii.56.1691463863950;
+        Mon, 07 Aug 2023 20:04:23 -0700 (PDT)
+Received: from kir-rhat.lan (c-76-104-243-248.hsd1.wa.comcast.net. [76.104.243.248])
+        by smtp.gmail.com with ESMTPSA id b2-20020a17090a010200b002636dfcc6f5sm7276425pjb.3.2023.08.07.20.04.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Aug 2023 20:04:23 -0700 (PDT)
+From:   Kir Kolyshkin <kolyshkin@gmail.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Kir Kolyshkin <kolyshkin@gmail.com>, libc-alpha@sourceware.org,
+        musl@lists.openwall.com, linux-api@vger.kernel.org,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Christian Brauner <brauner@kernel.org>
+Subject: [PATCH] sched/headers: move struct sched_param out of uapi
+Date:   Mon,  7 Aug 2023 20:03:57 -0700
+Message-ID: <20230808030357.1213829-1-kolyshkin@gmail.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 03/14] futex: Flag conversion
-Content-Language: en-US
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, mingo@redhat.com,
-        dvhart@infradead.org, dave@stgolabs.net, tglx@linutronix.de,
-        Andrew Morton <akpm@linux-foundation.org>, axboe@kernel.dk,
-        urezki@gmail.com, hch@infradead.org, lstoakes@gmail.com,
-        Arnd Bergmann <arnd@arndb.de>, linux-api@vger.kernel.org,
-        linux-mm@kvack.org, linux-arch@vger.kernel.org,
-        malteskarupke@web.de
-References: <20230807121843.710612856@infradead.org>
- <20230807123322.952568452@infradead.org>
-From:   =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
-In-Reply-To: <20230807123322.952568452@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Em 07/08/2023 09:18, Peter Zijlstra escreveu:
-> Futex has 3 sets of flags:
-> 
->   - legacy futex op bits
->   - futex2 flags
->   - internal flags
-> 
-> Add a few helpers to convert from the API flags into the internal
-> flags.
-> 
-> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+Both glibc and musl define struct sched_param in sched.h, while kernel
+has it in uapi/linux/sched/types.h, making it cumbersome to use
+sched_getattr(2) or sched_setattr(2) from userspace.
 
-Reviewed-by: André Almeida <andrealmeid@igalia.com>
+For example, something like this:
 
-> ---
->   kernel/futex/futex.h    |   63 +++++++++++++++++++++++++++++++++++++++++++++---
->   kernel/futex/syscalls.c |   24 ++++++------------
->   kernel/futex/waitwake.c |    4 +--
->   3 files changed, 71 insertions(+), 20 deletions(-)
-> 
-> --- a/kernel/futex/futex.h
-> +++ b/kernel/futex/futex.h
-> @@ -5,6 +5,7 @@
->   #include <linux/futex.h>
->   #include <linux/rtmutex.h>
->   #include <linux/sched/wake_q.h>
-> +#include <linux/compat.h>
->   
->   #ifdef CONFIG_PREEMPT_RT
->   #include <linux/rcuwait.h>
-> @@ -16,8 +17,15 @@
->    * Futex flags used to encode options to functions and preserve them across
->    * restarts.
->    */
-> +#define FLAGS_SIZE_8		0x00
-> +#define FLAGS_SIZE_16		0x01
-> +#define FLAGS_SIZE_32		0x02
-> +#define FLAGS_SIZE_64		0x03
-> +
+	#include <sched.h>
+	#include <linux/sched/types.h>
 
-Minor nit: for consistent, I would go with SIZE_U8, instead of SIZE_8
+	struct sched_attr sa;
 
-> +#define FLAGS_SIZE_MASK		0x03
-> +
->   #ifdef CONFIG_MMU
-> -# define FLAGS_SHARED		0x01
-> +# define FLAGS_SHARED		0x10
->   #else
->   /*
->    * NOMMU does not have per process address space. Let the compiler optimize
-> @@ -25,8 +33,57 @@
->    */
->   # define FLAGS_SHARED		0x00
->   #endif
-> -#define FLAGS_CLOCKRT		0x02
-> -#define FLAGS_HAS_TIMEOUT	0x04
-> +#define FLAGS_CLOCKRT		0x20
-> +#define FLAGS_HAS_TIMEOUT	0x40
-> +#define FLAGS_NUMA		0x80
-> +
-> +/* FUTEX_ to FLAGS_ */
-> +static inline unsigned int futex_to_flags(unsigned int op)
-> +{
-> +	unsigned int flags = FLAGS_SIZE_32;
-> +
-> +	if (!(op & FUTEX_PRIVATE_FLAG))
-> +		flags |= FLAGS_SHARED;
-> +
-> +	if (op & FUTEX_CLOCK_REALTIME)
-> +		flags |= FLAGS_CLOCKRT;
-> +
-> +	return flags;
-> +}
-> +
-> +/* FUTEX2_ to FLAGS_ */
-> +static inline unsigned int futex2_to_flags(unsigned int flags2)
-> +{
-> +	unsigned int flags = flags2 & FUTEX2_SIZE_MASK;
-> +
-> +	if (!(flags2 & FUTEX2_PRIVATE))
-> +		flags |= FLAGS_SHARED;
-> +
-> +	if (flags2 & FUTEX2_NUMA)
-> +		flags |= FLAGS_NUMA;
-> +
-> +	return flags;
-> +}
-> +
-> +static inline bool futex_flags_valid(unsigned int flags)
-> +{
-> +	/* Only 64bit futexes for 64bit code */
-> +	if (!IS_ENABLED(CONFIG_64BIT) || in_compat_syscall()) {
-> +		if ((flags & FLAGS_SIZE_MASK) == FLAGS_SIZE_64)
-> +			return false;
-> +	}
-> +
-> +	/* Only 32bit futexes are implemented -- for now */
-> +	if ((flags & FLAGS_SIZE_MASK) != FLAGS_SIZE_32)
-> +		return false;
-> +
-> +	return true;
-> +} > +
-> +static inline unsigned int futex_size(unsigned int flags)
-> +{
-> +	return 1 << (flags & FLAGS_SIZE_MASK);
-> +}
->   
->   #ifdef CONFIG_FAIL_FUTEX
->   extern bool should_fail_futex(bool fshared);
-> --- a/kernel/futex/syscalls.c
-> +++ b/kernel/futex/syscalls.c
-> @@ -1,6 +1,5 @@
->   // SPDX-License-Identifier: GPL-2.0-or-later
->   
-> -#include <linux/compat.h>
->   #include <linux/syscalls.h>
->   #include <linux/time_namespace.h>
->   
-> @@ -85,15 +84,12 @@ SYSCALL_DEFINE3(get_robust_list, int, pi
->   long do_futex(u32 __user *uaddr, int op, u32 val, ktime_t *timeout,
->   		u32 __user *uaddr2, u32 val2, u32 val3)
->   {
-> +	unsigned int flags = futex_to_flags(op);
->   	int cmd = op & FUTEX_CMD_MASK;
-> -	unsigned int flags = 0;
->   
-> -	if (!(op & FUTEX_PRIVATE_FLAG))
-> -		flags |= FLAGS_SHARED;
-> -
-> -	if (op & FUTEX_CLOCK_REALTIME) {
-> -		flags |= FLAGS_CLOCKRT;
-> -		if (cmd != FUTEX_WAIT_BITSET && cmd != FUTEX_WAIT_REQUEUE_PI &&
-> +	if (flags & FLAGS_CLOCKRT) {
-> +		if (cmd != FUTEX_WAIT_BITSET &&
-> +		    cmd != FUTEX_WAIT_REQUEUE_PI &&
->   		    cmd != FUTEX_LOCK_PI2)
->   			return -ENOSYS;
->   	}
-> @@ -201,21 +197,19 @@ static int futex_parse_waitv(struct fute
->   	unsigned int i;
->   
->   	for (i = 0; i < nr_futexes; i++) {
-> +		unsigned int flags;
-> +
->   		if (copy_from_user(&aux, &uwaitv[i], sizeof(aux)))
->   			return -EFAULT;
->   
->   		if ((aux.flags & ~FUTEX2_VALID_MASK) || aux.__reserved)
->   			return -EINVAL;
->   
-> -		if (!IS_ENABLED(CONFIG_64BIT) || in_compat_syscall()) {
-> -			if ((aux.flags & FUTEX2_SIZE_MASK) == FUTEX2_SIZE_U64)
-> -				return -EINVAL;
-> -		}
-> -
-> -		if ((aux.flags & FUTEX2_SIZE_MASK) != FUTEX2_SIZE_U32)
-> +		flags = futex2_to_flags(aux.flags);
-> +		if (!futex_flags_valid(flags))
->   			return -EINVAL;
->   
-> -		futexv[i].w.flags = aux.flags;
-> +		futexv[i].w.flags = flags;
->   		futexv[i].w.val = aux.val;
->   		futexv[i].w.uaddr = aux.uaddr;
->   		futexv[i].q = futex_q_init;
-> --- a/kernel/futex/waitwake.c
-> +++ b/kernel/futex/waitwake.c
-> @@ -419,11 +419,11 @@ static int futex_wait_multiple_setup(str
->   	 */
->   retry:
->   	for (i = 0; i < count; i++) {
-> -		if ((vs[i].w.flags & FUTEX_PRIVATE_FLAG) && retry)
-> +		if (!(vs[i].w.flags & FLAGS_SHARED) && retry)
->   			continue;
->   
->   		ret = get_futex_key(u64_to_user_ptr(vs[i].w.uaddr),
-> -				    !(vs[i].w.flags & FUTEX_PRIVATE_FLAG),
-> +				    vs[i].w.flags & FLAGS_SHARED,
->   				    &vs[i].q.key, FUTEX_READ);
->   
->   		if (unlikely(ret))
-> 
-> 
+will result in "error: redefinition of ‘struct sched_param’" (note the
+code doesn't need sched_param at all -- it needs struct sched_attr
+plus some stuff from sched.h).
+
+The situation is, glibc is not going to provide a wrapper for
+sched_{get,set}attr, thus the need to include linux/sched_types.h
+directly, which leads to the above problem.
+
+Thus, the userspace is left with a few sub-par choices when it wants to
+use e.g. sched_setattr(2), such as maintaining a copy of struct
+sched_attr definition, or using some other ugly tricks.
+
+OTOH, struct sched_param is well known, defined in POSIX, and it won't
+be ever changed (as that would break backward compatibility).
+
+So, while struct sched_param is indeed part of the kernel uapi,
+exposing it the way it's done now creates an issue, and hiding it
+(like this patch does) fixes that issue, hopefully without creating
+another one: common userspace software rely on libc headers, and as
+for "special" software (like libc), it looks like glibc and musl
+do not rely on kernel headers for struct sched_param definition
+(but let's Cc their mailing lists in case it's otherwise).
+
+The alternative to this patch would be to move struct sched_attr to,
+say, linux/sched.h, or linux/sched/attr.h (the new file).
+
+Oh, and here is the previous attempt to fix the issue:
+https://lore.kernel.org/all/20200528135552.GA87103@google.com/
+While I support Linus arguments, the issue is still here
+and needs to be fixed.
+
+Cc: libc-alpha@sourceware.org
+Cc: musl@lists.openwall.com
+Cc: linux-api@vger.kernel.org
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Joel Fernandes <joel@joelfernandes.org>
+Cc: Christian Brauner <brauner@kernel.org>
+Fixes: e2d1e2aec572 ("sched/headers: Move various ABI definitions to <uapi/linux/sched/types.h>")
+Signed-off-by: Kir Kolyshkin <kolyshkin@gmail.com>
+---
+ include/linux/sched.h            | 5 ++++-
+ include/uapi/linux/sched/types.h | 4 ----
+ 2 files changed, 4 insertions(+), 5 deletions(-)
+
+diff --git a/include/linux/sched.h b/include/linux/sched.h
+index 609bde814cb0..3167e97a6b04 100644
+--- a/include/linux/sched.h
++++ b/include/linux/sched.h
+@@ -63,7 +63,6 @@ struct robust_list_head;
+ struct root_domain;
+ struct rq;
+ struct sched_attr;
+-struct sched_param;
+ struct seq_file;
+ struct sighand_struct;
+ struct signal_struct;
+@@ -370,6 +369,10 @@ extern struct root_domain def_root_domain;
+ extern struct mutex sched_domains_mutex;
+ #endif
+ 
++struct sched_param {
++	int sched_priority;
++};
++
+ struct sched_info {
+ #ifdef CONFIG_SCHED_INFO
+ 	/* Cumulative counters: */
+diff --git a/include/uapi/linux/sched/types.h b/include/uapi/linux/sched/types.h
+index f2c4589d4dbf..90662385689b 100644
+--- a/include/uapi/linux/sched/types.h
++++ b/include/uapi/linux/sched/types.h
+@@ -4,10 +4,6 @@
+ 
+ #include <linux/types.h>
+ 
+-struct sched_param {
+-	int sched_priority;
+-};
+-
+ #define SCHED_ATTR_SIZE_VER0	48	/* sizeof first published struct */
+ #define SCHED_ATTR_SIZE_VER1	56	/* add: util_{min,max} */
+ 
+-- 
+2.41.0
+
