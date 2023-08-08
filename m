@@ -2,75 +2,77 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A7CA774B91
-	for <lists+linux-api@lfdr.de>; Tue,  8 Aug 2023 22:50:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DC5B6774BCD
+	for <lists+linux-api@lfdr.de>; Tue,  8 Aug 2023 22:55:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233975AbjHHUuM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 8 Aug 2023 16:50:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38922 "EHLO
+        id S235070AbjHHUzr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 8 Aug 2023 16:55:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234131AbjHHUt6 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 8 Aug 2023 16:49:58 -0400
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E25F717BBD
-        for <linux-api@vger.kernel.org>; Tue,  8 Aug 2023 13:32:03 -0700 (PDT)
-Received: by mail-pf1-x434.google.com with SMTP id d2e1a72fcca58-68781a69befso868115b3a.0
-        for <linux-api@vger.kernel.org>; Tue, 08 Aug 2023 13:32:03 -0700 (PDT)
+        with ESMTP id S235101AbjHHUzf (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 8 Aug 2023 16:55:35 -0400
+Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com [IPv6:2607:f8b0:4864:20::d29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EAEE30DE
+        for <linux-api@vger.kernel.org>; Tue,  8 Aug 2023 13:44:07 -0700 (PDT)
+Received: by mail-io1-xd29.google.com with SMTP id ca18e2360f4ac-790dcf48546so38564339f.0
+        for <linux-api@vger.kernel.org>; Tue, 08 Aug 2023 13:44:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20221208.gappssmtp.com; s=20221208; t=1691526723; x=1692131523;
+        d=linuxfoundation.org; s=google; t=1691527446; x=1692132246;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=5+ZhtxeS2K6wY4/v6oo74/4iwOVLExtMX8Wj3f+oDck=;
-        b=oZCMVoKtaxGXXbK0HY94/QPg5Dv5Eo5JV0M9mPOSkkB1h/L++cw7dWV2Sfea+qFG69
-         liqMwo9D83nL5QdN/f6AjQt4sBb88fNmQzJfBFt36pvg9bbb0vWUYEYb0NAioDtDuyJr
-         /We3F/nffs7+Wj5j2Q8ClI7mkeE4ozYt0l7wJ7Kf6yPJqmG5TCAeIBsH9o8IEYbH0vo2
-         8rLZzoKIZXUBFRX6yS3G+lvzULHjFCa+Ic6HA2RAx/7bj938plbOSUMOG8Ofg39HNVGc
-         TIGcIgK+eGWtRH/tLPFq2ssiFKJNoOZw8ZAxRXqIFqYhhJp69llOE8/mILt0S+vH/4cn
-         2pGg==
+        bh=Rjv8XIJqffOkKpyD7dykI7sGXhmoGCSRZKfdAmqWIW8=;
+        b=XMLm8Vt+Alntw+x3XwstRjO4/8p7+j5rftUaBVS44dgGBGtV2/ERFPJBSnLIi+yOWQ
+         DDRqu//Q3ZaKBf7UTGPcnN9mTRD+RCpmeTREphyqI6yANvi4bsSeffcVG+6MoTZgV9Ur
+         uEJ8pSxVKym1aYP3YzUiQU+j8XA1yF0iryqGg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691526723; x=1692131523;
+        d=1e100.net; s=20221208; t=1691527446; x=1692132246;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5+ZhtxeS2K6wY4/v6oo74/4iwOVLExtMX8Wj3f+oDck=;
-        b=GNCPx9UJWTHSb57lTTEpb10sLymVm9ST5nfGFPF8QAbUYj3r4IWNfZ/fdOeanvc3Mu
-         fqNBR3IrqJCwcnYfVOsbcTLiw8FvjuqgM0+Ms28gOLwApSN+BZBUaLxpc4vuUBi5J5sl
-         BhaTKaGKu4ve7BXtDHYwEOkVio+rQmj06VGlOXhNgNJ1qo/pFQXE1kv4t5irCCwfxoiE
-         X7/4eBDemeGWEMB7Mq5xMra6rMXPdfzsrxG96JZBFlwisvthAe0/wy7FYGnIFys3ap37
-         hMKUChqsK+dTka4uBJGmP5XQ65PcIvcPP4tetPtHBpNAdLm+TOQTK8Di7gnlrD/wl+wU
-         YP2g==
-X-Gm-Message-State: AOJu0YwWW8HjVd06SmF8P3TCcavwB7Jkfb1b/XSRWM/nElXC0EmtWICy
-        diKK9/w3gLZv1xfIis3idtMv+Q==
-X-Google-Smtp-Source: AGHT+IEx3gKPK1UCRHC5/OF0O7NGaWz+NmKoOFS6yQMUxwxHjdFNxZmr4KBr7rsw4DGHnzbw4097ew==
-X-Received: by 2002:a05:6a00:2295:b0:675:8627:a291 with SMTP id f21-20020a056a00229500b006758627a291mr622535pfe.3.1691526723240;
-        Tue, 08 Aug 2023 13:32:03 -0700 (PDT)
-Received: from [192.168.1.136] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id y19-20020aa78053000000b0063b8ddf77f7sm8483777pfm.211.2023.08.08.13.32.01
+        bh=Rjv8XIJqffOkKpyD7dykI7sGXhmoGCSRZKfdAmqWIW8=;
+        b=G4lCiz18kkZbSKr4qmaCJJ0btPA1qK3WHdtZTY7Ocmse2i+llsdwYeG2+Ayf7dZaHH
+         BEFVFUCFX9D9JkOVbbMw3YKTCvQoYsaZJwUo4xF65FxOieBUyELQ0B6PAufxLt0piuC9
+         2N7n3PxHwGjw35AInzMdhoCFzpYLwu0pful3+zYlhhtHFvmt+nBmxJtEg0aiU65/ly10
+         yQpifLHCfFoRqwiGZMxP45wpQYKOTVZKfj6lXsg6KSj8JrCZV83MBCIlJHIPfBsOf9e2
+         JgmZRv6EB2Gr21+vRPiUInx4GKg6Cf2sQxkMox1l4B5v4I4z50phN0Pcn3pckj8Z53Bk
+         +Ktg==
+X-Gm-Message-State: AOJu0Yyp4heFyeh8BZRbrkPKxaMLK1qcPfvPgD1dchgbq1CpUCk0q1Sl
+        +isi98QMCMbQrpoR5sG+1+NzFkG2UzI6m1JpEHQ=
+X-Google-Smtp-Source: AGHT+IFJfvWoVvPgmusc54DOL0NDBOmrgtKVAa7yCf/zmoS8y2tSADL1GPkwyJ8VfLnyse3zjqERkw==
+X-Received: by 2002:a05:6602:29c7:b0:780:d6ef:160 with SMTP id z7-20020a05660229c700b00780d6ef0160mr1133187ioq.1.1691527445894;
+        Tue, 08 Aug 2023 13:44:05 -0700 (PDT)
+Received: from [192.168.1.128] ([38.15.45.1])
+        by smtp.gmail.com with ESMTPSA id x19-20020a5d9913000000b007836a9ca101sm3890696iol.22.2023.08.08.13.44.05
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Aug 2023 13:32:02 -0700 (PDT)
-Message-ID: <da6c76b0-9d8e-7b0e-99e5-8f5271413d22@kernel.dk>
-Date:   Tue, 8 Aug 2023 14:32:00 -0600
+        Tue, 08 Aug 2023 13:44:05 -0700 (PDT)
+Message-ID: <c1971f70-6c1d-4cd5-e130-ff948942f5b3@linuxfoundation.org>
+Date:   Tue, 8 Aug 2023 14:44:04 -0600
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.1
-Subject: Re: [PATCH v2 00/14] futex: More futex2 bits
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH 0/4] RSEQ selftests updates
 Content-Language: en-US
-To:     Peter Zijlstra <peterz@infradead.org>, tglx@linutronix.de
-Cc:     linux-kernel@vger.kernel.org, mingo@redhat.com,
-        dvhart@infradead.org, dave@stgolabs.net, andrealmeid@igalia.com,
-        Andrew Morton <akpm@linux-foundation.org>, urezki@gmail.com,
-        hch@infradead.org, lstoakes@gmail.com,
-        Arnd Bergmann <arnd@arndb.de>, linux-api@vger.kernel.org,
-        linux-mm@kvack.org, linux-arch@vger.kernel.org,
-        malteskarupke@web.de
-References: <20230807121843.710612856@infradead.org>
-From:   Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <20230807121843.710612856@infradead.org>
-Content-Type: text/plain; charset=UTF-8
+To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Peter Zijlstra <peterz@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
+        linux-api@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
+        linux-kselftest@vger.kernel.org,
+        Shuah Khan <skhan@linuxfoundation.org>
+References: <20230515135801.15220-1-mathieu.desnoyers@efficios.com>
+ <fd64bf35-8e18-8da7-d83c-882fdc60a87d@efficios.com>
+ <f0fdf470-f25d-b51f-8a2d-f891ea7b94b1@linuxfoundation.org>
+ <4fb64f73-12eb-d6a6-6f84-97e6195d7a5b@efficios.com>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <4fb64f73-12eb-d6a6-6f84-97e6195d7a5b@efficios.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -78,27 +80,30 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 8/7/23 6:18?AM, Peter Zijlstra wrote:
-> Hi!
+On 8/7/23 13:38, Mathieu Desnoyers wrote:
+> On 8/7/23 14:53, Shuah Khan wrote:
+>> On 6/6/23 07:36, Mathieu Desnoyers wrote:
+>>> Hi Peter,
+>>>
+>>> Can you queue those fixes through your tree ?
+>>>
+>>
+>>
+>> Peter, Mathieu,
+>>
+>> Doesn't look like this series has been pickedup?
 > 
-> New version of the futex2 patches. Futex2 is a new interface to the same 'old'
-> futex core. An attempt to get away from the multiplex syscall and add a little
-> room for extentions.
+> Not AFAIK. Peter, if you have this somewhere in your tip queue, please let us know.
 > 
-> Changes since v1:
->  - Moved the FUTEX2_{8,16,32,64} into FUTEX2_SIZE_Un namespace (tglx)
->  - Added FUTEX2_SIZE_MASK by popular demand (arnd,tglx)
->  - Added more comments (tglx)
->  - Updated __NR_compat_syscalls for arm64 (arnd)
->  - Folded some tags
+>>
+>> I can take these in for 6.6-rc1 if there are no dependencies
+>> on other trees.
+> 
+> It should not have dependencies with other trees.
+> 
 
-Thanks Peter - for the series:
+Applied to linux-kselftest next for Linux 6.6-rc1.
 
-Reviewed-and-tested-by: Jens Axboe <axboe@kernel.dk>
-
-on arm64 and x86-64. Caveat - only tested the existing futex api, not
-the new syscall, and the io_uring futex implementation on top as well.
-
--- 
-Jens Axboe
+thanks,
+-- Shuah
 
