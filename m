@@ -2,76 +2,129 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C66A7762FA
-	for <lists+linux-api@lfdr.de>; Wed,  9 Aug 2023 16:49:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 66A8D776C23
+	for <lists+linux-api@lfdr.de>; Thu, 10 Aug 2023 00:25:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233429AbjHIOtA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 9 Aug 2023 10:49:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58780 "EHLO
+        id S231215AbjHIWZd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 9 Aug 2023 18:25:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51508 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233947AbjHIOs7 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 9 Aug 2023 10:48:59 -0400
-Received: from mail-oa1-x34.google.com (mail-oa1-x34.google.com [IPv6:2001:4860:4864:20::34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2CED26A3
-        for <linux-api@vger.kernel.org>; Wed,  9 Aug 2023 07:48:43 -0700 (PDT)
-Received: by mail-oa1-x34.google.com with SMTP id 586e51a60fabf-1bba7717d3bso5264412fac.1
-        for <linux-api@vger.kernel.org>; Wed, 09 Aug 2023 07:48:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691592523; x=1692197323;
-        h=to:subject:message-id:date:from:sender:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YgsQjPYSA4x9EUAST26pLIMgzwk5/fmUNEDBBVE+P4A=;
-        b=TFpTZUOXTWGH2dpk84uuN4L6ztryfTr96HRUjBEUF/bDYTV0GwAkainCgGwHgdbdTe
-         d07gN8DD4U/nx+y71sFYnCPa675SEgLk9C0duSfLbXQ3j88qfZCM0bJF+D+m9uVSbQz0
-         JTFqEjBzmgDfwbmlaK7VTTpcaJtQStuqyG/cujDxOff8GPeWsZ661HEvidVdYbEXYlH2
-         601QcUlnYSAD3FRo8si9Dg+/HRANqJzInsYGaAHfDB7mAS6INmt91Sk79fpu2VVmmZcx
-         vOMvKKGAd/PavW5SXnW5kRFgM7o+Lva6IYtjHhv9MBoiexfokJe4DZYKCz2lPviG+/CP
-         YF+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691592523; x=1692197323;
-        h=to:subject:message-id:date:from:sender:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YgsQjPYSA4x9EUAST26pLIMgzwk5/fmUNEDBBVE+P4A=;
-        b=glf9zbyGH0KLHpWO4ciWbVPhEEKFZ7Q86Cx9ui87hvFTS1J10BG+NlzZR/8Prtg55S
-         TDZGclKF8qizeYIchvmt//FIetBRWEr3bgf3QDxFXQ+aau3bbni+BXT3HpFAzcJ/+Kc+
-         LMBsZmUqrpiN8p1W2V2/0EM0uO4YSxIN9frWs2rvtF5rRnvqSNbMChxegGq0jL9PuQr8
-         zZM4aOsqrP2iXzpSm3ytiqqM246WwFk0XmlvigYPXZVNNlJ+l/8wEqbaqvxVaRFDt1EU
-         12pCSWGfD3fj+EFK58OzdD9hKW9G4HM5GAWekIJ3DlM5p8V+UzAQpFSrQVhmvG88JXLe
-         cxoA==
-X-Gm-Message-State: AOJu0Ywh8M2So/4hMZGOjVfVesZwFK69PylO+etkYm8oyP8+73n7yU66
-        s/ddIVeNBnaqNpWmD3hov6Qew6eh2e1OQzf17tA=
-X-Google-Smtp-Source: AGHT+IFnMZV/Tepg/pxXNz5F327VvxgIC5AAq4V7oF57jXkkw29n3YX3lFruJAcb/8pvZcuyqRBt09/suL4PouBwbFQ=
-X-Received: by 2002:a05:6808:e8d:b0:3a7:53f1:16ac with SMTP id
- k13-20020a0568080e8d00b003a753f116acmr3364392oil.20.1691592502384; Wed, 09
- Aug 2023 07:48:22 -0700 (PDT)
+        with ESMTP id S229525AbjHIWZd (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 9 Aug 2023 18:25:33 -0400
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22FF9B2;
+        Wed,  9 Aug 2023 15:25:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=//xuUqEbAoChMqlkpflQb6XFF+UhgSuCsR64Dz8oIOw=; b=RufX4PgdOl7/nn1WfR4xMKanOl
+        D8ramvykvo45vHnoc+ju2imszAJPNbvtFdVL0OAfTekgQwwA2HBM3O4RyiDQpaRRNM/2kqS4u4SmG
+        YwKohVEgznE3HYd0qC2ScNMZxaFBGA5NkQUwLMYG2eTgldeeOQHQlWYD98Ym40vjOQsny+efBjxpc
+        0P0JA7rgEa0usmHDtYv85YIiTyIQzg5ThDrQMn8xVUCCsF7KFw1AslC2RHbmnlzeh9t2ZgwSG2B9c
+        CsDCPXpSHkA9MheAvKSZSV/fFKyMjeyJHm+/VdJLiZKwvNgVK0zS633u+Cv7gN5lEt4OKitHigi+u
+        SmbFSjYQ==;
+Received: from [191.193.179.209] (helo=[192.168.1.111])
+        by fanzine2.igalia.com with esmtpsa 
+        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+        id 1qTrcL-00GDvY-H2; Thu, 10 Aug 2023 00:25:25 +0200
+Message-ID: <071c02ae-a74d-46d8-990b-262264b62caf@igalia.com>
+Date:   Wed, 9 Aug 2023 19:25:19 -0300
 MIME-Version: 1.0
-Sender: mrsthereseninna@gmail.com
-Received: by 2002:a05:6358:71c3:b0:f1:be9a:c0c5 with HTTP; Wed, 9 Aug 2023
- 07:48:20 -0700 (PDT)
-From:   Dr Lisa Williams <lw4666555@gmail.com>
-Date:   Wed, 9 Aug 2023 07:48:20 -0700
-X-Google-Sender-Auth: O7I42bblFw4V1Z1d3Ig3xne0ObI
-Message-ID: <CAKVHDg846kpmnnkkdAMdnF7=uH8_CQyTkfzxvf0swbgcKOZ+2g@mail.gmail.com>
-Subject: Hi,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=0.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 05/14] futex: Add sys_futex_wake()
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, mingo@redhat.com,
+        dvhart@infradead.org, dave@stgolabs.net, tglx@linutronix.de,
+        axboe@kernel.dk, Andrew Morton <akpm@linux-foundation.org>,
+        urezki@gmail.com, hch@infradead.org, lstoakes@gmail.com,
+        Arnd Bergmann <arnd@arndb.de>, linux-api@vger.kernel.org,
+        linux-mm@kvack.org, linux-arch@vger.kernel.org,
+        malteskarupke@web.de, Geert Uytterhoeven <geert@linux-m68k.org>
+References: <20230807121843.710612856@infradead.org>
+ <20230807123323.090897260@infradead.org>
+Content-Language: en-US
+From:   =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
+In-Reply-To: <20230807123323.090897260@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi,
+Hi Peter,
 
-My name is Dr. Lisa Williams, from the United States, currently living
-in the United Kingdom.
+Em 07/08/2023 09:18, Peter Zijlstra escreveu:
+> To complement sys_futex_waitv() add sys_futex_wake(). This syscall
+> implements what was previously known as FUTEX_WAKE_BITSET except it
+> uses 'unsigned long' for the bitmask and takes FUTEX2 flags.
+> 
+> The 'unsigned long' allows FUTEX2_SIZE_U64 on 64bit platforms.
+> 
+> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+> Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> ---
 
-I hope you consider my friend request. I will share some of my photos
-and more details about me when I get your reply.
+[...]
 
-With love
-Lisa
+> +/*
+> + * sys_futex_wake - Wake a number of futexes
+> + * @uaddr:	Address of the futex(es) to wake
+> + * @mask:	bitmask
+> + * @nr:		Number of the futexes to wake
+> + * @flags:	FUTEX2 flags
+> + *
+> + * Identical to the traditional FUTEX_WAKE_BITSET op, except it is part of the
+> + * futex2 family of calls.
+> + */
+> +
+> +SYSCALL_DEFINE4(futex_wake,
+> +		void __user *, uaddr,
+> +		unsigned long, mask,
+> +		int, nr,
+> +		unsigned int, flags)
+> +{
+
+Do you think we could have a
+
+	if (!nr)
+		return 0;
+
+here? Otherwise, calling futex_wake(&f, 0, flags) will wake 1 futex (if 
+available), which is a strange undocumented behavior in my opinion.
+
+> +	if (flags & ~FUTEX2_VALID_MASK)
+> +		return -EINVAL;
+> +
+> +	flags = futex2_to_flags(flags);
+> +	if (!futex_flags_valid(flags))
+> +		return -EINVAL;
+> +
+> +	if (!futex_validate_input(flags, mask))
+> +		return -EINVAL;
+> +
+> +	return futex_wake(uaddr, flags, nr, mask);
+> +}
+> +
+>   #ifdef CONFIG_COMPAT
+>   COMPAT_SYSCALL_DEFINE2(set_robust_list,
+>   		struct compat_robust_list_head __user *, head,
+> --- a/kernel/sys_ni.c
+> +++ b/kernel/sys_ni.c
+> @@ -87,6 +87,7 @@ COND_SYSCALL_COMPAT(set_robust_list);
+>   COND_SYSCALL(get_robust_list);
+>   COND_SYSCALL_COMPAT(get_robust_list);
+>   COND_SYSCALL(futex_waitv);
+> +COND_SYSCALL(futex_wake);
+>   COND_SYSCALL(kexec_load);
+>   COND_SYSCALL_COMPAT(kexec_load);
+>   COND_SYSCALL(init_module);
+> 
+> 
