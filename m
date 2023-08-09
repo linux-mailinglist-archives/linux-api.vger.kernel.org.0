@@ -2,108 +2,77 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DC5B6774BCD
-	for <lists+linux-api@lfdr.de>; Tue,  8 Aug 2023 22:55:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BCDAC7754B6
+	for <lists+linux-api@lfdr.de>; Wed,  9 Aug 2023 10:04:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235070AbjHHUzr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 8 Aug 2023 16:55:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48486 "EHLO
+        id S229800AbjHIIED (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 9 Aug 2023 04:04:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235101AbjHHUzf (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 8 Aug 2023 16:55:35 -0400
-Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com [IPv6:2607:f8b0:4864:20::d29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EAEE30DE
-        for <linux-api@vger.kernel.org>; Tue,  8 Aug 2023 13:44:07 -0700 (PDT)
-Received: by mail-io1-xd29.google.com with SMTP id ca18e2360f4ac-790dcf48546so38564339f.0
-        for <linux-api@vger.kernel.org>; Tue, 08 Aug 2023 13:44:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1691527446; x=1692132246;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Rjv8XIJqffOkKpyD7dykI7sGXhmoGCSRZKfdAmqWIW8=;
-        b=XMLm8Vt+Alntw+x3XwstRjO4/8p7+j5rftUaBVS44dgGBGtV2/ERFPJBSnLIi+yOWQ
-         DDRqu//Q3ZaKBf7UTGPcnN9mTRD+RCpmeTREphyqI6yANvi4bsSeffcVG+6MoTZgV9Ur
-         uEJ8pSxVKym1aYP3YzUiQU+j8XA1yF0iryqGg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691527446; x=1692132246;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Rjv8XIJqffOkKpyD7dykI7sGXhmoGCSRZKfdAmqWIW8=;
-        b=G4lCiz18kkZbSKr4qmaCJJ0btPA1qK3WHdtZTY7Ocmse2i+llsdwYeG2+Ayf7dZaHH
-         BEFVFUCFX9D9JkOVbbMw3YKTCvQoYsaZJwUo4xF65FxOieBUyELQ0B6PAufxLt0piuC9
-         2N7n3PxHwGjw35AInzMdhoCFzpYLwu0pful3+zYlhhtHFvmt+nBmxJtEg0aiU65/ly10
-         yQpifLHCfFoRqwiGZMxP45wpQYKOTVZKfj6lXsg6KSj8JrCZV83MBCIlJHIPfBsOf9e2
-         JgmZRv6EB2Gr21+vRPiUInx4GKg6Cf2sQxkMox1l4B5v4I4z50phN0Pcn3pckj8Z53Bk
-         +Ktg==
-X-Gm-Message-State: AOJu0Yyp4heFyeh8BZRbrkPKxaMLK1qcPfvPgD1dchgbq1CpUCk0q1Sl
-        +isi98QMCMbQrpoR5sG+1+NzFkG2UzI6m1JpEHQ=
-X-Google-Smtp-Source: AGHT+IFJfvWoVvPgmusc54DOL0NDBOmrgtKVAa7yCf/zmoS8y2tSADL1GPkwyJ8VfLnyse3zjqERkw==
-X-Received: by 2002:a05:6602:29c7:b0:780:d6ef:160 with SMTP id z7-20020a05660229c700b00780d6ef0160mr1133187ioq.1.1691527445894;
-        Tue, 08 Aug 2023 13:44:05 -0700 (PDT)
-Received: from [192.168.1.128] ([38.15.45.1])
-        by smtp.gmail.com with ESMTPSA id x19-20020a5d9913000000b007836a9ca101sm3890696iol.22.2023.08.08.13.44.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Aug 2023 13:44:05 -0700 (PDT)
-Message-ID: <c1971f70-6c1d-4cd5-e130-ff948942f5b3@linuxfoundation.org>
-Date:   Tue, 8 Aug 2023 14:44:04 -0600
+        with ESMTP id S229783AbjHIIED (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 9 Aug 2023 04:04:03 -0400
+X-Greylist: delayed 414 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 09 Aug 2023 01:03:58 PDT
+Received: from forward502a.mail.yandex.net (forward502a.mail.yandex.net [178.154.239.82])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CA0C10CF
+        for <linux-api@vger.kernel.org>; Wed,  9 Aug 2023 01:03:58 -0700 (PDT)
+Received: from mail-nwsmtp-smtp-production-main-67.vla.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-67.vla.yp-c.yandex.net [IPv6:2a02:6b8:c15:2c95:0:640:f90:0])
+        by forward502a.mail.yandex.net (Yandex) with ESMTP id 8C1025EC41;
+        Wed,  9 Aug 2023 10:56:59 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-67.vla.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id vuTatqBWuOs0-Hh7wC64C;
+        Wed, 09 Aug 2023 10:56:58 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail; t=1691567818;
+        bh=YDBk0KjQh1HzWuh0Dn/kXGmLDEsk4jPretTZd8jrNcY=;
+        h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+        b=Klvyi2pEWgIVNQ8vbrf0jldMARt81cx4SDQ3yguOP5JrQPp5Jesz7semU/6BzrjMW
+         c/EJk1KUvW34WiaFKd8g5SJmm/394hla3o7QFDEIIjMK7eXGSLIguTZWaE8j0q0VQT
+         UJC2wrXoTh9tSHuvWw3/xO1IawcXQ3FYNs1BpA1Y=
+Authentication-Results: mail-nwsmtp-smtp-production-main-67.vla.yp-c.yandex.net; dkim=pass header.i=@yandex.ru
+Message-ID: <aa8a99e6-55e7-1f7d-dc64-4decf0ed7c80@yandex.ru>
+Date:   Wed, 9 Aug 2023 12:56:56 +0500
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH 0/4] RSEQ selftests updates
+Subject: Re: [PATCH 2/2] selftests: add OFD lock tests
 Content-Language: en-US
-To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Peter Zijlstra <peterz@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        "Paul E . McKenney" <paulmck@kernel.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
-        linux-api@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
-        linux-kselftest@vger.kernel.org,
-        Shuah Khan <skhan@linuxfoundation.org>
-References: <20230515135801.15220-1-mathieu.desnoyers@efficios.com>
- <fd64bf35-8e18-8da7-d83c-882fdc60a87d@efficios.com>
- <f0fdf470-f25d-b51f-8a2d-f891ea7b94b1@linuxfoundation.org>
- <4fb64f73-12eb-d6a6-6f84-97e6195d7a5b@efficios.com>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <4fb64f73-12eb-d6a6-6f84-97e6195d7a5b@efficios.com>
+To:     Chuck Lever III <chuck.lever@oracle.com>
+Cc:     Jeff Layton <jlayton@kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <brauner@kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        Shuah Khan <shuah@kernel.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
+References: <20230621152214.2720319-1-stsp2@yandex.ru>
+ <20230621152214.2720319-3-stsp2@yandex.ru>
+ <4db7c65bee0739fe7983059296cfc95f20647fa3.camel@kernel.org>
+ <7bbb29d2-4cae-48bd-1b97-9f4dbf6ffb19@yandex.ru>
+ <8F45F47C-86C0-472E-B701-001A4FF90DBC@oracle.com>
+From:   stsp <stsp2@yandex.ru>
+In-Reply-To: <8F45F47C-86C0-472E-B701-001A4FF90DBC@oracle.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
+        SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 8/7/23 13:38, Mathieu Desnoyers wrote:
-> On 8/7/23 14:53, Shuah Khan wrote:
->> On 6/6/23 07:36, Mathieu Desnoyers wrote:
->>> Hi Peter,
->>>
->>> Can you queue those fixes through your tree ?
->>>
->>
->>
->> Peter, Mathieu,
->>
->> Doesn't look like this series has been pickedup?
-> 
-> Not AFAIK. Peter, if you have this somewhere in your tip queue, please let us know.
-> 
->>
->> I can take these in for 6.6-rc1 if there are no dependencies
->> on other trees.
-> 
-> It should not have dependencies with other trees.
-> 
+Hi,
 
-Applied to linux-kselftest next for Linux 6.6-rc1.
+22.06.2023 21:58, Chuck Lever III пишет:
+> IMO that's not a reason not to do this properly.
+>
+> You should work with Jeff and the maintainer of
+> xfstests to make it happen.
+If only I knew who is that maintainer
+and why he ignores all patches...
 
-thanks,
--- Shuah
-
+Can someone else please take a look at this:
+https://www.spinics.net/lists/fstests/msg23115.html
+and make a review/ack?
