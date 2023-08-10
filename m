@@ -2,147 +2,130 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2227A777EB3
-	for <lists+linux-api@lfdr.de>; Thu, 10 Aug 2023 19:01:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C4CCF778397
+	for <lists+linux-api@lfdr.de>; Fri, 11 Aug 2023 00:24:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229503AbjHJRBe (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 10 Aug 2023 13:01:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51212 "EHLO
+        id S231849AbjHJWYb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 10 Aug 2023 18:24:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229470AbjHJRBd (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 10 Aug 2023 13:01:33 -0400
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 211EC268E;
-        Thu, 10 Aug 2023 10:01:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=+8cb/lhV+x8UwVjoJQYGCnkcCuUk06gy5cDVFa9lP4Y=; b=hsrqEwj5uFEl/A5N0NsIkOKko7
-        VBHWm8seX0TywTYIz6PrrK4tDN+b292bTV8mrnhY9V9o2xntn1fKqNdnx9TfNCnjRf7bW5kNVHpwL
-        lTSU5/Icyjn9S1KEQxca+JR/WtQFa1Ifc+UH3LC/DEzrKTtHDpIG5ciNNwrrV37wPVduwRvFMxDFf
-        WMwxsAeXae6gquIRGZKoL1wWIBeM5LvnbdvjoOUfvvZEg0NKD+hH5K6TFs7Moe+a9qOEaurTJYWSy
-        ItDAauA5HLg82zjn6oOGfImeRSP1QTlzDYJ83GceVZKFr4w3G7hTmHfNSMtLyrUcp8fVHbYOBgFqy
-        lVrrCDEA==;
-Received: from [191.193.179.209] (helo=[192.168.1.111])
-        by fanzine2.igalia.com with esmtpsa 
-        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-        id 1qU92L-00Gl8h-Vp; Thu, 10 Aug 2023 19:01:26 +0200
-Message-ID: <3bcdb026-8558-43ca-80c1-776216dcd86c@igalia.com>
-Date:   Thu, 10 Aug 2023 14:01:20 -0300
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 05/14] futex: Add sys_futex_wake()
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, mingo@redhat.com,
-        dvhart@infradead.org, dave@stgolabs.net, tglx@linutronix.de,
-        axboe@kernel.dk, Andrew Morton <akpm@linux-foundation.org>,
-        urezki@gmail.com, hch@infradead.org, lstoakes@gmail.com,
-        Arnd Bergmann <arnd@arndb.de>, linux-api@vger.kernel.org,
-        linux-mm@kvack.org, linux-arch@vger.kernel.org,
-        malteskarupke@web.de, Geert Uytterhoeven <geert@linux-m68k.org>
-References: <20230807121843.710612856@infradead.org>
- <20230807123323.090897260@infradead.org>
- <071c02ae-a74d-46d8-990b-262264b62caf@igalia.com>
- <20230810121341.GX212435@hirez.programming.kicks-ass.net>
-Content-Language: en-US
-From:   =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
-In-Reply-To: <20230810121341.GX212435@hirez.programming.kicks-ass.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+        with ESMTP id S231689AbjHJWYa (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 10 Aug 2023 18:24:30 -0400
+Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com [IPv6:2607:f8b0:4864:20::832])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2125273D
+        for <linux-api@vger.kernel.org>; Thu, 10 Aug 2023 15:24:28 -0700 (PDT)
+Received: by mail-qt1-x832.google.com with SMTP id d75a77b69052e-4085ee5b1e6so12255511cf.0
+        for <linux-api@vger.kernel.org>; Thu, 10 Aug 2023 15:24:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1691706268; x=1692311068;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=FLWNnusBQnURb+xt4DXlBk9kVPWvxt5Ijw2JQ29Fx8Y=;
+        b=PBDelp9ylnd1p2zMIhh8FOdARsKvJDy8PLP1C3HivQIoVhjSR67cE5WxfIaI6Q/ZFz
+         DEkN1mgdlvZTuViYovzDLhJyNP63ciyHtcSsOFP35Y2r3nfvchju03Lm1py3hn0YK13B
+         Tf033gd+fiSAz+zAyU1P7vdthhxKsqo7+UHR0SG9nY0b9bFpiMDg3P/p/pfY1q/HRl9H
+         oDuuwG/e0xmgnELlV/MVDjuss+NpV2Zg7lyplBP0JrPT788bpif3a08YQaePW5Mobn6z
+         orNqyhVtqc51s8BUq2eKc9Qx52+JGXPrxI41MnZZN+lH4fgMXwoDJX0bBz3M4TNMuZfa
+         rrpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691706268; x=1692311068;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=FLWNnusBQnURb+xt4DXlBk9kVPWvxt5Ijw2JQ29Fx8Y=;
+        b=L4OXds2nygIA5/3hKS8q5Y6xLLyocWHBZfVaFdfLnGbylUtUYjsP1I5b478lFn7Ub0
+         +k3kBsLfWUF9oI59VaXroWHw9v38U9HtNoqUEySP8ZT9XD6yIRQNMKlV/yhSwneQ/fdg
+         R8vbovaSWZDiCos4IrN2GLFR2+jvn6VSMLLMPbwTA78UK2WZ4pVoO+8MqotMFDjDnej4
+         XrVeiVIWmjYzgc596ZZPIZ+FHMDpA8cS/bJrMYmL1m/j+XZqhNsqW4xnj+h0+rLjofMi
+         hSn7/ZMpWISSJB+q/7gUhiFdBZ0EVeinjNVFtvbW5fm5wBn4G0Fd67YrBFRWbDCfiLZM
+         HP5A==
+X-Gm-Message-State: AOJu0YwVMVmjoDBYwXlRkfjP4+wE9L9YY7WfSEvppLlLt1p5yr39b1oT
+        1r3xOjoFQ9OrTNUuvUJz3RrO
+X-Google-Smtp-Source: AGHT+IEqhheF+cXXqXhsi4mrHMlBChr9PecL3CPsD6reX5pruGhIm1HrgtXPC/T91Y/HTSCU4vriDQ==
+X-Received: by 2002:a05:622a:4ca:b0:40e:f7cb:8c44 with SMTP id q10-20020a05622a04ca00b0040ef7cb8c44mr4507471qtx.23.1691706267776;
+        Thu, 10 Aug 2023 15:24:27 -0700 (PDT)
+Received: from localhost ([70.22.175.108])
+        by smtp.gmail.com with ESMTPSA id q9-20020ac84509000000b00401217aa51dsm778611qtn.76.2023.08.10.15.24.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Aug 2023 15:24:27 -0700 (PDT)
+Date:   Thu, 10 Aug 2023 18:24:26 -0400
+Message-ID: <1088bd209427626090f6a062a2ad1486.paul@paul-moore.com>
+From:   Paul Moore <paul@paul-moore.com>
+To:     Casey Schaufler <casey@schaufler-ca.com>, casey@schaufler-ca.com,
+        linux-security-module@vger.kernel.org
+Cc:     jmorris@namei.org, serge@hallyn.com, keescook@chromium.org,
+        john.johansen@canonical.com, penguin-kernel@i-love.sakura.ne.jp,
+        stephen.smalley.work@gmail.com, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, mic@digikod.net, selinux@vger.kernel.org
+Subject: Re: [PATCH v13 10/11] SELinux: Add selfattr hooks
+References: <20230802174435.11928-11-casey@schaufler-ca.com>
+In-Reply-To: <20230802174435.11928-11-casey@schaufler-ca.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-
-
-Em 10/08/2023 09:13, Peter Zijlstra escreveu:
-> On Wed, Aug 09, 2023 at 07:25:19PM -0300, André Almeida wrote:
->> Hi Peter,
->>
->> Em 07/08/2023 09:18, Peter Zijlstra escreveu:
->>> To complement sys_futex_waitv() add sys_futex_wake(). This syscall
->>> implements what was previously known as FUTEX_WAKE_BITSET except it
->>> uses 'unsigned long' for the bitmask and takes FUTEX2 flags.
->>>
->>> The 'unsigned long' allows FUTEX2_SIZE_U64 on 64bit platforms.
->>>
->>> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
->>> Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
->>> ---
->>
->> [...]
->>
->>> +/*
->>> + * sys_futex_wake - Wake a number of futexes
->>> + * @uaddr:	Address of the futex(es) to wake
->>> + * @mask:	bitmask
->>> + * @nr:		Number of the futexes to wake
->>> + * @flags:	FUTEX2 flags
->>> + *
->>> + * Identical to the traditional FUTEX_WAKE_BITSET op, except it is part of the
->>> + * futex2 family of calls.
->>> + */
->>> +
->>> +SYSCALL_DEFINE4(futex_wake,
->>> +		void __user *, uaddr,
->>> +		unsigned long, mask,
->>> +		int, nr,
->>> +		unsigned int, flags)
->>> +{
->>
->> Do you think we could have a
->>
->> 	if (!nr)
->> 		return 0;
->>
->> here? Otherwise, calling futex_wake(&f, 0, flags) will wake 1 futex (if
->> available), which is a strange undocumented behavior in my opinion.
+On Aug  2, 2023 Casey Schaufler <casey@schaufler-ca.com> wrote:
 > 
-> Oh 'cute' that.. yeah, but how about I put it ...
+> Add hooks for setselfattr and getselfattr. These hooks are not very
+> different from their setprocattr and getprocattr equivalents, and
+> much of the code is shared.
 > 
->>> +	if (flags & ~FUTEX2_VALID_MASK)
->>> +		return -EINVAL;
->>> +
->>> +	flags = futex2_to_flags(flags);
->>> +	if (!futex_flags_valid(flags))
->>> +		return -EINVAL;
->>> +
->>> +	if (!futex_validate_input(flags, mask))
->>> +		return -EINVAL;
+> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
+> Cc: selinux@vger.kernel.org
+> Cc: Paul Moore <paul@paul-moore.com>
+> ---
+>  security/selinux/hooks.c | 136 +++++++++++++++++++++++++++++++--------
+>  1 file changed, 109 insertions(+), 27 deletions(-)
 > 
-> here, because otherwise we get:
-> 
-> 	sys_futex_wake(&f, 0xFFFF, 0, FUTEX2_SIZE_U8)
-> 
-> to return 0, even though that is 'obviously' nonsensical and should
-> return -EINVAL. Or even garbage flags would be 'accepted'.
-> 
-> (because 0xFFFF is larger than U8 can accomodate)
-> 
+> diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
+> index c900813fc8f7..f66a28f672b2 100644
+> --- a/security/selinux/hooks.c
+> +++ b/security/selinux/hooks.c
 
-That make sense to me, but we would also want to validate the value of 
-f, if it's NULL or something strange to return -EINVAL... but this 
-happens only inside get_futex_key()...
+...
 
-To make this right, I think we would need to move this verification to 
-the syscall validation part:
+> @@ -6449,6 +6466,69 @@ static int selinux_setprocattr(const char *name, void *value, size_t size)
+>  	return error;
+>  }
+>  
+> +static int selinux_getselfattr(unsigned int attr, struct lsm_ctx __user *ctx,
+> +			       size_t *size, u32 flags)
+> +{
+> +	char *value;
+> +	size_t total_len;
+> +	int len;
+> +	int rc;
+> +
+> +	len = selinux_lsm_getattr(attr, current, &value);
+> +	if (len < 0)
+> +		return len;
+> +
+> +	total_len = ALIGN(struct_size(ctx, ctx, len), 8);
+> +
+> +	if (total_len > *size)
+> +		rc = -E2BIG;
+> +	else if (ctx)
+> +		rc = lsm_fill_user_ctx(ctx, value, len, LSM_ID_SELINUX, 0);
+> +	else
+> +		rc = 1;
 
-	if (unlikely((address % sizeof(u32)) != 0))
-		return -EINVAL;
+I'd probably either set rc to zero when at declaration time and drop
+this final else, or explicitly set rc to one here to better fit what
+lsm_fill_user_ctx() does on success.  However, the end result is the
+same so we can just fix that with a follow-up patch once this is
+merged into the lsm/next branch.
 
-	if (unlikely(!access_ok(uaddr, sizeof(u32))))
-		return -EFAULT;
+> +	kfree(value);
+> +	*size = total_len;
+> +	if (rc < 0)
+> +		return rc;
+> +	return 1;
+> +}
 
-And have u32 replaced with the proper size being used.
-
->>> +
->>> +	return futex_wake(uaddr, flags, nr, mask);
->>> +}
+--
+paul-moore.com
