@@ -2,142 +2,132 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A7B5777398
-	for <lists+linux-api@lfdr.de>; Thu, 10 Aug 2023 11:01:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C6D0F7777F3
+	for <lists+linux-api@lfdr.de>; Thu, 10 Aug 2023 14:14:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233297AbjHJJA5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 10 Aug 2023 05:00:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41874 "EHLO
+        id S232733AbjHJMOH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 10 Aug 2023 08:14:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233333AbjHJJAu (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 10 Aug 2023 05:00:50 -0400
-Received: from mail-yw1-x112a.google.com (mail-yw1-x112a.google.com [IPv6:2607:f8b0:4864:20::112a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A90E7212E
-        for <linux-api@vger.kernel.org>; Thu, 10 Aug 2023 02:00:49 -0700 (PDT)
-Received: by mail-yw1-x112a.google.com with SMTP id 00721157ae682-5899ed05210so8370707b3.3
-        for <linux-api@vger.kernel.org>; Thu, 10 Aug 2023 02:00:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sargun.me; s=google; t=1691658049; x=1692262849;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lhCwChUdW+kQSsQMPFv0FkCeW3f89FoYStWBaJ2lFDw=;
-        b=ejt1WRXT7sjbs/F4PWX12TpHeCBzvmZNTiji01GRoAf6p8OfbmoNb03PAbbBN/RLCQ
-         VBYnNI84L4OFthSqaNge4vLFjBAuxNTlVmqf6V8U0YE3IDL3ZNXO8wRf4251cHAWHgpx
-         dNUTQ+gTdkT8PD0qLlRmwako1iqQmFp+9SC1o=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691658049; x=1692262849;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lhCwChUdW+kQSsQMPFv0FkCeW3f89FoYStWBaJ2lFDw=;
-        b=EGIDs4nea9nndr1CWba3dS4UAW3281rhubK545Qwn7cmbFR2Zq3J2hd6jVKg1BLDRQ
-         TdIX19ZXyIwbHZaoDF3SK54W43rQcv81lSoRWqtiSyJ7Ey88nkGgtXxthkzzVGZ7GTq7
-         wE1+n23T/iYmvflAu+FgNunJ+dvcKPX7JxXLehErRatDdBb79sbL6Ud7klhZXkDHr22Y
-         GupdDYz6ycCmeSpkRpySwCT3XCG4DCQFaDgQIPbybJmTqH/htaYrIYzlurZhOInTjM6H
-         CbdJjz5cTxbPgxBavPxArvNWGQHGtZ9xS3hkqF+ssXNhiwPW+HoQgb6Q6M7RSTyDBQGo
-         0nkw==
-X-Gm-Message-State: AOJu0YxsnkF15mimHRgMoZlLktlpUpiAGeeC8S06doG64HWvze2F8RJl
-        9lr1iQ69uF5fGJKgI+n7vgkoHw==
-X-Google-Smtp-Source: AGHT+IEzO4K5faVNFigcDyW6hll/UVc7um7t3yi3jJ4R3UygLeWV+/6P2JT4hnOiSx37vE28TI8m4A==
-X-Received: by 2002:a0d:ef82:0:b0:56d:5272:d540 with SMTP id y124-20020a0def82000000b0056d5272d540mr1798917ywe.46.1691658048803;
-        Thu, 10 Aug 2023 02:00:48 -0700 (PDT)
-Received: from localhost (fwdproxy-frc-006.fbsv.net. [2a03:2880:21ff:6::face:b00c])
-        by smtp.gmail.com with ESMTPSA id j125-20020a819283000000b00586ba973bddsm233884ywg.110.2023.08.10.02.00.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Aug 2023 02:00:48 -0700 (PDT)
-From:   Sargun Dhillon <sargun@sargun.me>
-To:     linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
-Cc:     Aleksa Sarai <cyphar@cyphar.com>, Christoph Hellwig <hch@lst.de>,
-        Christian Brauner <brauner@kernel.org>
-Subject: [PATCH 3/3] selftests/mount_setattr: Add tests for mount locking API
-Date:   Thu, 10 Aug 2023 02:00:44 -0700
-Message-Id: <20230810090044.1252084-3-sargun@sargun.me>
-X-Mailer: git-send-email 2.39.3
-In-Reply-To: <20230810090044.1252084-1-sargun@sargun.me>
-References: <20230810090044.1252084-1-sargun@sargun.me>
+        with ESMTP id S233824AbjHJMOH (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 10 Aug 2023 08:14:07 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3887CE;
+        Thu, 10 Aug 2023 05:14:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+        Sender:Reply-To:Content-ID:Content-Description;
+        bh=Pa93SQq8YxZvrEKsoU75557vrKrxyHId0AZ4PcwSo4Y=; b=dwo7Y9o31EfEU/bYIBl9bXJKLH
+        torAPvffwW+hDI0Lcp8R3NjEiR1GkUBebEqf/qPL4X/6K9LRK9nE1sJKF9bAVzXMsAz1fIGTdHTvs
+        sc+sjSVxeXNaze3hFt/+dmVeGd819Zz7EWhgiIYSzEgotI3Ku+JK/w8gVffaAGz/7R1JmNEsuQI0E
+        NqBf3UdiCPxEh34gd12aMDA/Epr4AwFcIF/SxnDvUmNj8Ry9tzIZe+JZIVhZEHLhTHfijHm2iQqOD
+        +SyvFViybrcsDO7dDzEUuu/0ih8LEqBJE1XZOqrm7pzQ/9VfzAEvm5eW7J7fepkjuxlGOXvfICjpN
+        liX8T4vw==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+        by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1qU4Xu-006U7N-1l;
+        Thu, 10 Aug 2023 12:13:42 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 7F4BB30003A;
+        Thu, 10 Aug 2023 14:13:41 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 46ED420AC8AF1; Thu, 10 Aug 2023 14:13:41 +0200 (CEST)
+Date:   Thu, 10 Aug 2023 14:13:41 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>
+Cc:     linux-kernel@vger.kernel.org, mingo@redhat.com,
+        dvhart@infradead.org, dave@stgolabs.net, tglx@linutronix.de,
+        axboe@kernel.dk, Andrew Morton <akpm@linux-foundation.org>,
+        urezki@gmail.com, hch@infradead.org, lstoakes@gmail.com,
+        Arnd Bergmann <arnd@arndb.de>, linux-api@vger.kernel.org,
+        linux-mm@kvack.org, linux-arch@vger.kernel.org,
+        malteskarupke@web.de, Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH v2 05/14] futex: Add sys_futex_wake()
+Message-ID: <20230810121341.GX212435@hirez.programming.kicks-ass.net>
+References: <20230807121843.710612856@infradead.org>
+ <20230807123323.090897260@infradead.org>
+ <071c02ae-a74d-46d8-990b-262264b62caf@igalia.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <071c02ae-a74d-46d8-990b-262264b62caf@igalia.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-This adds tests to lock specific flags in place, and verifies that
-the expected rules hold.
+On Wed, Aug 09, 2023 at 07:25:19PM -0300, André Almeida wrote:
+> Hi Peter,
+> 
+> Em 07/08/2023 09:18, Peter Zijlstra escreveu:
+> > To complement sys_futex_waitv() add sys_futex_wake(). This syscall
+> > implements what was previously known as FUTEX_WAKE_BITSET except it
+> > uses 'unsigned long' for the bitmask and takes FUTEX2 flags.
+> > 
+> > The 'unsigned long' allows FUTEX2_SIZE_U64 on 64bit platforms.
+> > 
+> > Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+> > Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> > ---
+> 
+> [...]
+> 
+> > +/*
+> > + * sys_futex_wake - Wake a number of futexes
+> > + * @uaddr:	Address of the futex(es) to wake
+> > + * @mask:	bitmask
+> > + * @nr:		Number of the futexes to wake
+> > + * @flags:	FUTEX2 flags
+> > + *
+> > + * Identical to the traditional FUTEX_WAKE_BITSET op, except it is part of the
+> > + * futex2 family of calls.
+> > + */
+> > +
+> > +SYSCALL_DEFINE4(futex_wake,
+> > +		void __user *, uaddr,
+> > +		unsigned long, mask,
+> > +		int, nr,
+> > +		unsigned int, flags)
+> > +{
+> 
+> Do you think we could have a
+> 
+> 	if (!nr)
+> 		return 0;
+> 
+> here? Otherwise, calling futex_wake(&f, 0, flags) will wake 1 futex (if
+> available), which is a strange undocumented behavior in my opinion.
 
-Signed-off-by: Sargun Dhillon <sargun@sargun.me>
----
- tools/include/uapi/linux/mount.h              |  1 +
- .../mount_setattr/mount_setattr_test.c        | 42 +++++++++++++++++++
- 2 files changed, 43 insertions(+)
+Oh 'cute' that.. yeah, but how about I put it ...
 
-diff --git a/tools/include/uapi/linux/mount.h b/tools/include/uapi/linux/mount.h
-index 4d93967f8aea..66f302019373 100644
---- a/tools/include/uapi/linux/mount.h
-+++ b/tools/include/uapi/linux/mount.h
-@@ -135,5 +135,6 @@ struct mount_attr {
- 
- /* List of all mount_attr versions. */
- #define MOUNT_ATTR_SIZE_VER0	32 /* sizeof first published struct */
-+#define MOUNT_ATTR_SIZE_VER1	40
- 
- #endif /* _UAPI_LINUX_MOUNT_H */
-diff --git a/tools/testing/selftests/mount_setattr/mount_setattr_test.c b/tools/testing/selftests/mount_setattr/mount_setattr_test.c
-index 2aaa4aae41f5..3411fe17400b 100644
---- a/tools/testing/selftests/mount_setattr/mount_setattr_test.c
-+++ b/tools/testing/selftests/mount_setattr/mount_setattr_test.c
-@@ -1551,4 +1551,46 @@ TEST_F(mount_setattr, mount_attr_lock)
- 	ASSERT_EQ(sys_mount_setattr(-1, "/tmp/C", 0, &attr, sizeof(attr)), 0);
- }
- 
-+TEST_F(mount_setattr, mount_attr_do_lock)
-+{
-+	struct mount_attr attr = {};
-+
-+	attr.attr_lock = MOUNT_ATTR_NODIRATIME;
-+	ASSERT_EQ(sys_mount_setattr(-1, "/tmp/C", 0, &attr, sizeof(attr)), -1);
-+	ASSERT_EQ(errno, EINVAL);
-+
-+	attr.attr_lock = MOUNT_ATTR__ATIME;
-+	ASSERT_EQ(sys_mount_setattr(-1, "/tmp/C", 0, &attr, sizeof(attr)), -1);
-+	ASSERT_EQ(errno, EINVAL);
-+
-+	/* Do not allow locking unset locks */
-+	attr.attr_lock = MOUNT_ATTR_NOEXEC;
-+	ASSERT_EQ(sys_mount_setattr(-1, "/tmp/C", 0, &attr, sizeof(attr)), -1);
-+	ASSERT_EQ(errno, EINVAL);
-+
-+	/* Set and lock at the same time */
-+	attr.attr_set = MOUNT_ATTR_NOEXEC;
-+	ASSERT_EQ(sys_mount_setattr(-1, "/tmp/C", 0, &attr, sizeof(attr)), 0);
-+	ASSERT_EQ(errno, EINVAL);
-+
-+	memset(&attr, 0, sizeof(attr));
-+	/* Make sure we can't clear noexec now (that locking worked) */
-+	attr.attr_clr = MOUNT_ATTR_NOEXEC;
-+	ASSERT_EQ(sys_mount_setattr(-1, "/tmp/C", 0, &attr, sizeof(attr)), -1);
-+	ASSERT_EQ(errno, EPERM);
-+
-+	memset(&attr, 0, sizeof(attr));
-+	attr.attr_set = MOUNT_ATTR_NODEV;
-+	ASSERT_EQ(sys_mount_setattr(-1, "/tmp/C", 0, &attr, sizeof(attr)), 0);
-+
-+	memset(&attr, 0, sizeof(attr));
-+	attr.attr_lock = MOUNT_ATTR_NODEV;
-+	ASSERT_EQ(sys_mount_setattr(-1, "/tmp/C", 0, &attr, sizeof(attr)), 0);
-+
-+	/* Make sure we can't clear MOUNT_ATTR_NODEV */
-+	memset(&attr, 0, sizeof(attr));
-+	attr.attr_clr = MOUNT_ATTR_NODEV;
-+	ASSERT_EQ(sys_mount_setattr(-1, "/tmp/C", 0, &attr, sizeof(attr)), -1);
-+	ASSERT_EQ(errno, EPERM);
-+}
- TEST_HARNESS_MAIN
--- 
-2.39.3
+> > +	if (flags & ~FUTEX2_VALID_MASK)
+> > +		return -EINVAL;
+> > +
+> > +	flags = futex2_to_flags(flags);
+> > +	if (!futex_flags_valid(flags))
+> > +		return -EINVAL;
+> > +
+> > +	if (!futex_validate_input(flags, mask))
+> > +		return -EINVAL;
 
+here, because otherwise we get:
+
+	sys_futex_wake(&f, 0xFFFF, 0, FUTEX2_SIZE_U8)
+
+to return 0, even though that is 'obviously' nonsensical and should
+return -EINVAL. Or even garbage flags would be 'accepted'.
+
+(because 0xFFFF is larger than U8 can accomodate)
+
+> > +
+> > +	return futex_wake(uaddr, flags, nr, mask);
+> > +}
