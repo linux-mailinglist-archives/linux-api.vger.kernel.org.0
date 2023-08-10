@@ -2,64 +2,64 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D0ABA777395
-	for <lists+linux-api@lfdr.de>; Thu, 10 Aug 2023 11:00:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A7B5777398
+	for <lists+linux-api@lfdr.de>; Thu, 10 Aug 2023 11:01:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232929AbjHJJAt (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 10 Aug 2023 05:00:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46914 "EHLO
+        id S233297AbjHJJA5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 10 Aug 2023 05:00:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41874 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233007AbjHJJAs (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 10 Aug 2023 05:00:48 -0400
-Received: from mail-vs1-xe2d.google.com (mail-vs1-xe2d.google.com [IPv6:2607:f8b0:4864:20::e2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A95A2686
-        for <linux-api@vger.kernel.org>; Thu, 10 Aug 2023 02:00:48 -0700 (PDT)
-Received: by mail-vs1-xe2d.google.com with SMTP id ada2fe7eead31-44768609e0bso290657137.0
-        for <linux-api@vger.kernel.org>; Thu, 10 Aug 2023 02:00:48 -0700 (PDT)
+        with ESMTP id S233333AbjHJJAu (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 10 Aug 2023 05:00:50 -0400
+Received: from mail-yw1-x112a.google.com (mail-yw1-x112a.google.com [IPv6:2607:f8b0:4864:20::112a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A90E7212E
+        for <linux-api@vger.kernel.org>; Thu, 10 Aug 2023 02:00:49 -0700 (PDT)
+Received: by mail-yw1-x112a.google.com with SMTP id 00721157ae682-5899ed05210so8370707b3.3
+        for <linux-api@vger.kernel.org>; Thu, 10 Aug 2023 02:00:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sargun.me; s=google; t=1691658047; x=1692262847;
+        d=sargun.me; s=google; t=1691658049; x=1692262849;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YxV+g6cPuWZGz1us/p/P3KzaSA95f9jXZ60+ia8kzG4=;
-        b=NZtQXyZavyKjXJQlLCbLMp8JQx4Bv6vfUlOxfmeTF7HXbqEybjwKBO0L5ZZ/BxqmGd
-         mzt0Ne7r3nJ3mRWcONk65SCwIoTpSuNvReJVwRHPsaXct5B834tiu8jHUjWc4eR8b/+u
-         JTqTSYw7DwsoR2TBoOpaWDG8gR/R8eqGGMpm0=
+        bh=lhCwChUdW+kQSsQMPFv0FkCeW3f89FoYStWBaJ2lFDw=;
+        b=ejt1WRXT7sjbs/F4PWX12TpHeCBzvmZNTiji01GRoAf6p8OfbmoNb03PAbbBN/RLCQ
+         VBYnNI84L4OFthSqaNge4vLFjBAuxNTlVmqf6V8U0YE3IDL3ZNXO8wRf4251cHAWHgpx
+         dNUTQ+gTdkT8PD0qLlRmwako1iqQmFp+9SC1o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691658047; x=1692262847;
+        d=1e100.net; s=20221208; t=1691658049; x=1692262849;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=YxV+g6cPuWZGz1us/p/P3KzaSA95f9jXZ60+ia8kzG4=;
-        b=cOhPAniPJBIjM6ZbWsWrabR9kd1EnJVQfQbhdMJDSyu1X0f+pekSkwpMeqcp34/Hs8
-         trDscEpnH6ZvSLVC/FP49BFr9gl5v/LR30rDJKRvaGM+r/yp8ky92Lu9i2eJy0Eloy2V
-         ZzTsIdgjU4I4BN4/xrkitf2ikyt9WSogpkPb75cdXFHJaG5PR7NGmc5zrUJZkYpPAnax
-         O1qE85EVYKngo3dMycqo17FTgvE6+4g4VB4FGiyMzPLgY4mXU1hFOARuW2baNyKQ8pI6
-         HiSbdpk6+cV4kL+4e3hatzy/xv+9fpKeWUSBxtlRgrEys/lBu/wWowSyZsJj+KWyzxh/
-         pEtw==
-X-Gm-Message-State: AOJu0YzCDH9RBu3jwMnNo5PnXgk74LmDxZpWOCR6tIWGTHYoDrkKyKcm
-        pF1McEVlELkJz2pnIwJR3iHiyPHeV1shXiAQ5Z8=
-X-Google-Smtp-Source: AGHT+IE7qwq6W9dMp9jYpbuNuY+FW2lZK7aXPCfjfJmPodbQRRlJpyd8iTgCZqA/OnGdWV3shelY2w==
-X-Received: by 2002:a05:6102:3bca:b0:443:7935:6eb5 with SMTP id a10-20020a0561023bca00b0044379356eb5mr1089841vsv.15.1691658047256;
-        Thu, 10 Aug 2023 02:00:47 -0700 (PDT)
-Received: from localhost (fwdproxy-frc-020.fbsv.net. [2a03:2880:21ff:14::face:b00c])
-        by smtp.gmail.com with ESMTPSA id 207-20020a250bd8000000b00d1e6e93e8f5sm249600ybl.51.2023.08.10.02.00.46
+        bh=lhCwChUdW+kQSsQMPFv0FkCeW3f89FoYStWBaJ2lFDw=;
+        b=EGIDs4nea9nndr1CWba3dS4UAW3281rhubK545Qwn7cmbFR2Zq3J2hd6jVKg1BLDRQ
+         TdIX19ZXyIwbHZaoDF3SK54W43rQcv81lSoRWqtiSyJ7Ey88nkGgtXxthkzzVGZ7GTq7
+         wE1+n23T/iYmvflAu+FgNunJ+dvcKPX7JxXLehErRatDdBb79sbL6Ud7klhZXkDHr22Y
+         GupdDYz6ycCmeSpkRpySwCT3XCG4DCQFaDgQIPbybJmTqH/htaYrIYzlurZhOInTjM6H
+         CbdJjz5cTxbPgxBavPxArvNWGQHGtZ9xS3hkqF+ssXNhiwPW+HoQgb6Q6M7RSTyDBQGo
+         0nkw==
+X-Gm-Message-State: AOJu0YxsnkF15mimHRgMoZlLktlpUpiAGeeC8S06doG64HWvze2F8RJl
+        9lr1iQ69uF5fGJKgI+n7vgkoHw==
+X-Google-Smtp-Source: AGHT+IEzO4K5faVNFigcDyW6hll/UVc7um7t3yi3jJ4R3UygLeWV+/6P2JT4hnOiSx37vE28TI8m4A==
+X-Received: by 2002:a0d:ef82:0:b0:56d:5272:d540 with SMTP id y124-20020a0def82000000b0056d5272d540mr1798917ywe.46.1691658048803;
+        Thu, 10 Aug 2023 02:00:48 -0700 (PDT)
+Received: from localhost (fwdproxy-frc-006.fbsv.net. [2a03:2880:21ff:6::face:b00c])
+        by smtp.gmail.com with ESMTPSA id j125-20020a819283000000b00586ba973bddsm233884ywg.110.2023.08.10.02.00.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Aug 2023 02:00:46 -0700 (PDT)
+        Thu, 10 Aug 2023 02:00:48 -0700 (PDT)
 From:   Sargun Dhillon <sargun@sargun.me>
 To:     linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
 Cc:     Aleksa Sarai <cyphar@cyphar.com>, Christoph Hellwig <hch@lst.de>,
         Christian Brauner <brauner@kernel.org>
-Subject: [PATCH 2/3] fs: Allow user to lock mount attributes with mount_setattr
-Date:   Thu, 10 Aug 2023 02:00:43 -0700
-Message-Id: <20230810090044.1252084-2-sargun@sargun.me>
+Subject: [PATCH 3/3] selftests/mount_setattr: Add tests for mount locking API
+Date:   Thu, 10 Aug 2023 02:00:44 -0700
+Message-Id: <20230810090044.1252084-3-sargun@sargun.me>
 X-Mailer: git-send-email 2.39.3
 In-Reply-To: <20230810090044.1252084-1-sargun@sargun.me>
 References: <20230810090044.1252084-1-sargun@sargun.me>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -67,149 +67,77 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-We support locking certain mount attributes in the kernel. This API
-isn't directly exposed to users. Right now, users can lock mount
-attributes by going through the process of creating a new user
-namespaces, and when the mounts are copied to the "lower privilege"
-domain, they're locked. The mount can be reopened, and passed around
-as a "locked mount".
-
-Locked mounts are useful, for example, in container execution without
-user namespaces, where you may want to expose some host data as read
-only without allowing the container to remount the mount as mutable.
-
-The API currently requires that the given privilege is taken away
-while or before locking the flag in the less privileged position.
-This could be relaxed in the future, where the user is allowed to
-remount the mount as read only, but once they do, they cannot make
-it read only again.
-
-Right now, this allows for all flags that are lockable via the
-userns unshare trick to be locked, other than the atime related
-ones. This is because the semantics of what the "less privileged"
-position is around the atime flags is unclear.
+This adds tests to lock specific flags in place, and verifies that
+the expected rules hold.
 
 Signed-off-by: Sargun Dhillon <sargun@sargun.me>
 ---
- fs/namespace.c             | 40 +++++++++++++++++++++++++++++++++++---
- include/uapi/linux/mount.h |  2 ++
- 2 files changed, 39 insertions(+), 3 deletions(-)
+ tools/include/uapi/linux/mount.h              |  1 +
+ .../mount_setattr/mount_setattr_test.c        | 42 +++++++++++++++++++
+ 2 files changed, 43 insertions(+)
 
-diff --git a/fs/namespace.c b/fs/namespace.c
-index 54847db5b819..5396e544ac84 100644
---- a/fs/namespace.c
-+++ b/fs/namespace.c
-@@ -78,6 +78,7 @@ static LIST_HEAD(ex_mountpoints); /* protected by namespace_sem */
- struct mount_kattr {
- 	unsigned int attr_set;
- 	unsigned int attr_clr;
-+	unsigned int attr_lock;
- 	unsigned int propagation;
- 	unsigned int lookup_flags;
- 	bool recurse;
-@@ -3608,6 +3609,9 @@ SYSCALL_DEFINE5(mount, char __user *, dev_name, char __user *, dir_name,
- 
- #define MOUNT_SETATTR_PROPAGATION_FLAGS \
- 	(MS_UNBINDABLE | MS_PRIVATE | MS_SLAVE | MS_SHARED)
-+#define MOUNT_SETATTR_VALID_LOCK_FLAGS					       \
-+	(MOUNT_ATTR_RDONLY | MOUNT_ATTR_NOSUID | MOUNT_ATTR_NODEV |	       \
-+	 MOUNT_ATTR_NOEXEC)
- 
- static unsigned int attr_flags_to_mnt_flags(u64 attr_flags)
- {
-@@ -3629,6 +3633,22 @@ static unsigned int attr_flags_to_mnt_flags(u64 attr_flags)
- 	return mnt_flags;
- }
- 
-+static unsigned int attr_flags_to_mnt_lock_flags(u64 attr_flags)
-+{
-+	unsigned int mnt_flags = 0;
-+
-+	if (attr_flags & MOUNT_ATTR_RDONLY)
-+		mnt_flags |= MNT_LOCK_READONLY;
-+	if (attr_flags & MOUNT_ATTR_NOSUID)
-+		mnt_flags |= MNT_LOCK_NOSUID;
-+	if (attr_flags & MOUNT_ATTR_NODEV)
-+		mnt_flags |= MNT_LOCK_NODEV;
-+	if (attr_flags & MOUNT_ATTR_NOEXEC)
-+		mnt_flags |= MNT_LOCK_NOEXEC;
-+
-+	return mnt_flags;
-+}
-+
- /*
-  * Create a kernel mount representation for a new, prepared superblock
-  * (specified by fs_fd) and attach to an open_tree-like file descriptor.
-@@ -4037,11 +4057,18 @@ static int mount_setattr_prepare(struct mount_kattr *kattr, struct mount *mnt)
- 	int err;
- 
- 	for (m = mnt; m; m = next_mnt(m, mnt)) {
--		if (!can_change_locked_flags(m, recalc_flags(kattr, m))) {
-+		int new_mount_flags = recalc_flags(kattr, m);
-+
-+		if (!can_change_locked_flags(m, new_mount_flags)) {
- 			err = -EPERM;
- 			break;
- 		}
- 
-+		if ((new_mount_flags & kattr->attr_lock) != kattr->attr_lock) {
-+			err = -EINVAL;
-+			break;
-+		}
-+
- 		err = can_idmap_mount(kattr, m);
- 		if (err)
- 			break;
-@@ -4278,8 +4305,14 @@ static int build_mount_kattr(const struct mount_attr *attr, size_t usize,
- 	if ((attr->attr_set | attr->attr_clr) & ~MOUNT_SETATTR_VALID_FLAGS)
- 		return -EINVAL;
- 
-+	if (attr->attr_lock & ~MOUNT_SETATTR_VALID_LOCK_FLAGS)
-+		return -EINVAL;
-+
- 	kattr->attr_set = attr_flags_to_mnt_flags(attr->attr_set);
- 	kattr->attr_clr = attr_flags_to_mnt_flags(attr->attr_clr);
-+	kattr->attr_lock = attr_flags_to_mnt_flags(attr->attr_lock);
-+	kattr->attr_set |= attr_flags_to_mnt_lock_flags(attr->attr_lock);
-+
- 
- 	/*
- 	 * Since the MOUNT_ATTR_<atime> values are an enum, not a bitmap,
-@@ -4337,7 +4370,7 @@ SYSCALL_DEFINE5(mount_setattr, int, dfd, const char __user *, path,
- 	struct mount_attr attr;
- 	struct mount_kattr kattr;
- 
--	BUILD_BUG_ON(sizeof(struct mount_attr) != MOUNT_ATTR_SIZE_VER0);
-+	BUILD_BUG_ON(sizeof(struct mount_attr) != MOUNT_ATTR_SIZE_VER1);
- 
- 	if (flags & ~(AT_EMPTY_PATH |
- 		      AT_RECURSIVE |
-@@ -4360,7 +4393,8 @@ SYSCALL_DEFINE5(mount_setattr, int, dfd, const char __user *, path,
- 	/* Don't bother walking through the mounts if this is a nop. */
- 	if (attr.attr_set == 0 &&
- 	    attr.attr_clr == 0 &&
--	    attr.propagation == 0)
-+	    attr.propagation == 0 &&
-+	    attr.attr_lock == 0)
- 		return 0;
- 
- 	err = build_mount_kattr(&attr, usize, &kattr, flags);
-diff --git a/include/uapi/linux/mount.h b/include/uapi/linux/mount.h
-index 4d93967f8aea..de667c4f852d 100644
---- a/include/uapi/linux/mount.h
-+++ b/include/uapi/linux/mount.h
-@@ -131,9 +131,11 @@ struct mount_attr {
- 	__u64 attr_clr;
- 	__u64 propagation;
- 	__u64 userns_fd;
-+	__u64 attr_lock;
- };
+diff --git a/tools/include/uapi/linux/mount.h b/tools/include/uapi/linux/mount.h
+index 4d93967f8aea..66f302019373 100644
+--- a/tools/include/uapi/linux/mount.h
++++ b/tools/include/uapi/linux/mount.h
+@@ -135,5 +135,6 @@ struct mount_attr {
  
  /* List of all mount_attr versions. */
  #define MOUNT_ATTR_SIZE_VER0	32 /* sizeof first published struct */
 +#define MOUNT_ATTR_SIZE_VER1	40
  
  #endif /* _UAPI_LINUX_MOUNT_H */
+diff --git a/tools/testing/selftests/mount_setattr/mount_setattr_test.c b/tools/testing/selftests/mount_setattr/mount_setattr_test.c
+index 2aaa4aae41f5..3411fe17400b 100644
+--- a/tools/testing/selftests/mount_setattr/mount_setattr_test.c
++++ b/tools/testing/selftests/mount_setattr/mount_setattr_test.c
+@@ -1551,4 +1551,46 @@ TEST_F(mount_setattr, mount_attr_lock)
+ 	ASSERT_EQ(sys_mount_setattr(-1, "/tmp/C", 0, &attr, sizeof(attr)), 0);
+ }
+ 
++TEST_F(mount_setattr, mount_attr_do_lock)
++{
++	struct mount_attr attr = {};
++
++	attr.attr_lock = MOUNT_ATTR_NODIRATIME;
++	ASSERT_EQ(sys_mount_setattr(-1, "/tmp/C", 0, &attr, sizeof(attr)), -1);
++	ASSERT_EQ(errno, EINVAL);
++
++	attr.attr_lock = MOUNT_ATTR__ATIME;
++	ASSERT_EQ(sys_mount_setattr(-1, "/tmp/C", 0, &attr, sizeof(attr)), -1);
++	ASSERT_EQ(errno, EINVAL);
++
++	/* Do not allow locking unset locks */
++	attr.attr_lock = MOUNT_ATTR_NOEXEC;
++	ASSERT_EQ(sys_mount_setattr(-1, "/tmp/C", 0, &attr, sizeof(attr)), -1);
++	ASSERT_EQ(errno, EINVAL);
++
++	/* Set and lock at the same time */
++	attr.attr_set = MOUNT_ATTR_NOEXEC;
++	ASSERT_EQ(sys_mount_setattr(-1, "/tmp/C", 0, &attr, sizeof(attr)), 0);
++	ASSERT_EQ(errno, EINVAL);
++
++	memset(&attr, 0, sizeof(attr));
++	/* Make sure we can't clear noexec now (that locking worked) */
++	attr.attr_clr = MOUNT_ATTR_NOEXEC;
++	ASSERT_EQ(sys_mount_setattr(-1, "/tmp/C", 0, &attr, sizeof(attr)), -1);
++	ASSERT_EQ(errno, EPERM);
++
++	memset(&attr, 0, sizeof(attr));
++	attr.attr_set = MOUNT_ATTR_NODEV;
++	ASSERT_EQ(sys_mount_setattr(-1, "/tmp/C", 0, &attr, sizeof(attr)), 0);
++
++	memset(&attr, 0, sizeof(attr));
++	attr.attr_lock = MOUNT_ATTR_NODEV;
++	ASSERT_EQ(sys_mount_setattr(-1, "/tmp/C", 0, &attr, sizeof(attr)), 0);
++
++	/* Make sure we can't clear MOUNT_ATTR_NODEV */
++	memset(&attr, 0, sizeof(attr));
++	attr.attr_clr = MOUNT_ATTR_NODEV;
++	ASSERT_EQ(sys_mount_setattr(-1, "/tmp/C", 0, &attr, sizeof(attr)), -1);
++	ASSERT_EQ(errno, EPERM);
++}
+ TEST_HARNESS_MAIN
 -- 
 2.39.3
 
