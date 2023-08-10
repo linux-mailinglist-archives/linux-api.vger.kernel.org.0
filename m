@@ -2,215 +2,147 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A9943777CF6
-	for <lists+linux-api@lfdr.de>; Thu, 10 Aug 2023 17:58:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2227A777EB3
+	for <lists+linux-api@lfdr.de>; Thu, 10 Aug 2023 19:01:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235275AbjHJP5d (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 10 Aug 2023 11:57:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53738 "EHLO
+        id S229503AbjHJRBe (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 10 Aug 2023 13:01:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51212 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235991AbjHJP5c (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 10 Aug 2023 11:57:32 -0400
-Received: from smtp-relay-canonical-1.canonical.com (smtp-relay-canonical-1.canonical.com [185.125.188.121])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B6832715;
-        Thu, 10 Aug 2023 08:57:30 -0700 (PDT)
-Received: from [192.168.192.83] (unknown [50.47.134.245])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by smtp-relay-canonical-1.canonical.com (Postfix) with ESMTPSA id 1DC803F5DF;
-        Thu, 10 Aug 2023 15:57:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1691683049;
-        bh=afaGiTyx6I6De7+XWpFHjgDbhECkNuyNzAO7e+Z+xJ4=;
-        h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-         In-Reply-To:Content-Type;
-        b=T9QZKhooTG3JLBECR1pHr3Q/X9eJhwSH4ZCbF/g05BVV9Qkneci9gUWXW7ypnDZer
-         KA8uEoA+ESqqdPGQOtz4IT1Pyh1fTPzUfq8Sis2ZVa7GYLuceHs467JJQ9UqnSFrGt
-         kRyELVd5cpp/SODYcGYSTfsezom1w8pLtsJ/9ExtmHj3a+obKRcWxXa/YuUOi3hGkD
-         nkI1+Vo1DKXJJalUhrLcJ5bjNuj/z+Jl8RYWwigpBnw5+wVIS/gzGXMl9uxvLxaAlB
-         TbDmNTE9rA11K4tHXV1jxbJU1ctUE1NbpDn3ZeP7d+AC8MllbmDfT/EEqW7ZnL2sqO
-         Ub3lzYc11fJXQ==
-Message-ID: <8ec73c4f-bf21-0a8e-648f-b2ccc592aef9@canonical.com>
-Date:   Thu, 10 Aug 2023 08:57:25 -0700
+        with ESMTP id S229470AbjHJRBd (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 10 Aug 2023 13:01:33 -0400
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 211EC268E;
+        Thu, 10 Aug 2023 10:01:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=+8cb/lhV+x8UwVjoJQYGCnkcCuUk06gy5cDVFa9lP4Y=; b=hsrqEwj5uFEl/A5N0NsIkOKko7
+        VBHWm8seX0TywTYIz6PrrK4tDN+b292bTV8mrnhY9V9o2xntn1fKqNdnx9TfNCnjRf7bW5kNVHpwL
+        lTSU5/Icyjn9S1KEQxca+JR/WtQFa1Ifc+UH3LC/DEzrKTtHDpIG5ciNNwrrV37wPVduwRvFMxDFf
+        WMwxsAeXae6gquIRGZKoL1wWIBeM5LvnbdvjoOUfvvZEg0NKD+hH5K6TFs7Moe+a9qOEaurTJYWSy
+        ItDAauA5HLg82zjn6oOGfImeRSP1QTlzDYJ83GceVZKFr4w3G7hTmHfNSMtLyrUcp8fVHbYOBgFqy
+        lVrrCDEA==;
+Received: from [191.193.179.209] (helo=[192.168.1.111])
+        by fanzine2.igalia.com with esmtpsa 
+        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+        id 1qU92L-00Gl8h-Vp; Thu, 10 Aug 2023 19:01:26 +0200
+Message-ID: <3bcdb026-8558-43ca-80c1-776216dcd86c@igalia.com>
+Date:   Thu, 10 Aug 2023 14:01:20 -0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v13 08/11] Smack: implement setselfattr and getselfattr
- hooks
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 05/14] futex: Add sys_futex_wake()
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, mingo@redhat.com,
+        dvhart@infradead.org, dave@stgolabs.net, tglx@linutronix.de,
+        axboe@kernel.dk, Andrew Morton <akpm@linux-foundation.org>,
+        urezki@gmail.com, hch@infradead.org, lstoakes@gmail.com,
+        Arnd Bergmann <arnd@arndb.de>, linux-api@vger.kernel.org,
+        linux-mm@kvack.org, linux-arch@vger.kernel.org,
+        malteskarupke@web.de, Geert Uytterhoeven <geert@linux-m68k.org>
+References: <20230807121843.710612856@infradead.org>
+ <20230807123323.090897260@infradead.org>
+ <071c02ae-a74d-46d8-990b-262264b62caf@igalia.com>
+ <20230810121341.GX212435@hirez.programming.kicks-ass.net>
 Content-Language: en-US
-To:     Casey Schaufler <casey@schaufler-ca.com>, paul@paul-moore.com,
-        linux-security-module@vger.kernel.org
-Cc:     jmorris@namei.org, serge@hallyn.com, keescook@chromium.org,
-        penguin-kernel@i-love.sakura.ne.jp, stephen.smalley.work@gmail.com,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        mic@digikod.net
-References: <20230802174435.11928-1-casey@schaufler-ca.com>
- <20230802174435.11928-9-casey@schaufler-ca.com>
-From:   John Johansen <john.johansen@canonical.com>
-Organization: Canonical
-In-Reply-To: <20230802174435.11928-9-casey@schaufler-ca.com>
+From:   =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
+In-Reply-To: <20230810121341.GX212435@hirez.programming.kicks-ass.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 8/2/23 10:44, Casey Schaufler wrote:
-> Implement Smack support for security_[gs]etselfattr.
-> Refactor the setprocattr hook to avoid code duplication.
-> 
-> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
-Reviewed-by: John Johansen <john.johansen@canonical.com>
 
-> ---
->   security/smack/smack_lsm.c | 94 ++++++++++++++++++++++++++++++++++++--
->   1 file changed, 89 insertions(+), 5 deletions(-)
-> 
-> diff --git a/security/smack/smack_lsm.c b/security/smack/smack_lsm.c
-> index f3e4b26c8a87..71c773fff971 100644
-> --- a/security/smack/smack_lsm.c
-> +++ b/security/smack/smack_lsm.c
-> @@ -3565,6 +3565,45 @@ static void smack_d_instantiate(struct dentry *opt_dentry, struct inode *inode)
->   	return;
->   }
->   
-> +/**
-> + * smack_getselfattr - Smack current process attribute
-> + * @attr: which attribute to fetch
-> + * @ctx: buffer to receive the result
-> + * @size: available size in, actual size out
-> + * @flags: unused
-> + *
-> + * Fill the passed user space @ctx with the details of the requested
-> + * attribute.
-> + *
-> + * Returns 1, the number of attributes, on success, an error code otherwise.
-> + */
-> +static int smack_getselfattr(unsigned int attr, struct lsm_ctx __user *ctx,
-> +			     size_t *size, u32 flags)
-> +{
-> +	struct smack_known *skp = smk_of_current();
-> +	int total;
-> +	int slen;
-> +	int rc;
-> +
-> +	if (attr != LSM_ATTR_CURRENT)
-> +		return -EOPNOTSUPP;
-> +
-> +	slen = strlen(skp->smk_known) + 1;
-> +	total = ALIGN(slen + sizeof(*ctx), 8);
-> +	if (total > *size)
-> +		rc = -E2BIG;
-> +	else if (ctx)
-> +		rc = lsm_fill_user_ctx(ctx, skp->smk_known, slen, LSM_ID_SMACK,
-> +				       0);
-> +	else
-> +		rc = 1;
-> +
-> +	*size = total;
-> +	if (rc >= 0)
-> +		return 1;
-> +	return rc;
-> +}
-> +
->   /**
->    * smack_getprocattr - Smack process attribute access
->    * @p: the object task
-> @@ -3594,8 +3633,8 @@ static int smack_getprocattr(struct task_struct *p, const char *name, char **val
->   }
->   
->   /**
-> - * smack_setprocattr - Smack process attribute setting
-> - * @name: the name of the attribute in /proc/.../attr
-> + * do_setattr - Smack process attribute setting
-> + * @attr: the ID of the attribute
->    * @value: the value to set
->    * @size: the size of the value
->    *
-> @@ -3604,7 +3643,7 @@ static int smack_getprocattr(struct task_struct *p, const char *name, char **val
->    *
->    * Returns the length of the smack label or an error code
->    */
-> -static int smack_setprocattr(const char *name, void *value, size_t size)
-> +static int do_setattr(u64 attr, void *value, size_t size)
->   {
->   	struct task_smack *tsp = smack_cred(current_cred());
->   	struct cred *new;
-> @@ -3618,8 +3657,8 @@ static int smack_setprocattr(const char *name, void *value, size_t size)
->   	if (value == NULL || size == 0 || size >= SMK_LONGLABEL)
->   		return -EINVAL;
->   
-> -	if (strcmp(name, "current") != 0)
-> -		return -EINVAL;
-> +	if (attr != LSM_ATTR_CURRENT)
-> +		return -EOPNOTSUPP;
->   
->   	skp = smk_import_entry(value, size);
->   	if (IS_ERR(skp))
-> @@ -3658,6 +3697,49 @@ static int smack_setprocattr(const char *name, void *value, size_t size)
->   	return size;
->   }
->   
-> +/**
-> + * smack_setselfattr - Set a Smack process attribute
-> + * @attr: which attribute to set
-> + * @ctx: buffer containing the data
-> + * @size: size of @ctx
-> + * @flags: unused
-> + *
-> + * Fill the passed user space @ctx with the details of the requested
-> + * attribute.
-> + *
-> + * Returns 0 on success, an error code otherwise.
-> + */
-> +static int smack_setselfattr(unsigned int attr, struct lsm_ctx *ctx,
-> +			     size_t size, u32 flags)
-> +{
-> +	int rc;
-> +
-> +	rc = do_setattr(attr, ctx->ctx, ctx->ctx_len);
-> +	if (rc > 0)
-> +		return 0;
-> +	return rc;
-> +}
-> +
-> +/**
-> + * smack_setprocattr - Smack process attribute setting
-> + * @name: the name of the attribute in /proc/.../attr
-> + * @value: the value to set
-> + * @size: the size of the value
-> + *
-> + * Sets the Smack value of the task. Only setting self
-> + * is permitted and only with privilege
-> + *
-> + * Returns the length of the smack label or an error code
-> + */
-> +static int smack_setprocattr(const char *name, void *value, size_t size)
-> +{
-> +	int attr = lsm_name_to_attr(name);
-> +
-> +	if (attr != LSM_ATTR_UNDEF)
-> +		return do_setattr(attr, value, size);
-> +	return -EINVAL;
-> +}
-> +
->   /**
->    * smack_unix_stream_connect - Smack access on UDS
->    * @sock: one sock
-> @@ -4970,6 +5052,8 @@ static struct security_hook_list smack_hooks[] __ro_after_init = {
->   
->   	LSM_HOOK_INIT(d_instantiate, smack_d_instantiate),
->   
-> +	LSM_HOOK_INIT(getselfattr, smack_getselfattr),
-> +	LSM_HOOK_INIT(setselfattr, smack_setselfattr),
->   	LSM_HOOK_INIT(getprocattr, smack_getprocattr),
->   	LSM_HOOK_INIT(setprocattr, smack_setprocattr),
->   
 
+Em 10/08/2023 09:13, Peter Zijlstra escreveu:
+> On Wed, Aug 09, 2023 at 07:25:19PM -0300, André Almeida wrote:
+>> Hi Peter,
+>>
+>> Em 07/08/2023 09:18, Peter Zijlstra escreveu:
+>>> To complement sys_futex_waitv() add sys_futex_wake(). This syscall
+>>> implements what was previously known as FUTEX_WAKE_BITSET except it
+>>> uses 'unsigned long' for the bitmask and takes FUTEX2 flags.
+>>>
+>>> The 'unsigned long' allows FUTEX2_SIZE_U64 on 64bit platforms.
+>>>
+>>> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+>>> Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
+>>> ---
+>>
+>> [...]
+>>
+>>> +/*
+>>> + * sys_futex_wake - Wake a number of futexes
+>>> + * @uaddr:	Address of the futex(es) to wake
+>>> + * @mask:	bitmask
+>>> + * @nr:		Number of the futexes to wake
+>>> + * @flags:	FUTEX2 flags
+>>> + *
+>>> + * Identical to the traditional FUTEX_WAKE_BITSET op, except it is part of the
+>>> + * futex2 family of calls.
+>>> + */
+>>> +
+>>> +SYSCALL_DEFINE4(futex_wake,
+>>> +		void __user *, uaddr,
+>>> +		unsigned long, mask,
+>>> +		int, nr,
+>>> +		unsigned int, flags)
+>>> +{
+>>
+>> Do you think we could have a
+>>
+>> 	if (!nr)
+>> 		return 0;
+>>
+>> here? Otherwise, calling futex_wake(&f, 0, flags) will wake 1 futex (if
+>> available), which is a strange undocumented behavior in my opinion.
+> 
+> Oh 'cute' that.. yeah, but how about I put it ...
+> 
+>>> +	if (flags & ~FUTEX2_VALID_MASK)
+>>> +		return -EINVAL;
+>>> +
+>>> +	flags = futex2_to_flags(flags);
+>>> +	if (!futex_flags_valid(flags))
+>>> +		return -EINVAL;
+>>> +
+>>> +	if (!futex_validate_input(flags, mask))
+>>> +		return -EINVAL;
+> 
+> here, because otherwise we get:
+> 
+> 	sys_futex_wake(&f, 0xFFFF, 0, FUTEX2_SIZE_U8)
+> 
+> to return 0, even though that is 'obviously' nonsensical and should
+> return -EINVAL. Or even garbage flags would be 'accepted'.
+> 
+> (because 0xFFFF is larger than U8 can accomodate)
+> 
+
+That make sense to me, but we would also want to validate the value of 
+f, if it's NULL or something strange to return -EINVAL... but this 
+happens only inside get_futex_key()...
+
+To make this right, I think we would need to move this verification to 
+the syscall validation part:
+
+	if (unlikely((address % sizeof(u32)) != 0))
+		return -EINVAL;
+
+	if (unlikely(!access_ok(uaddr, sizeof(u32))))
+		return -EFAULT;
+
+And have u32 replaced with the proper size being used.
+
+>>> +
+>>> +	return futex_wake(uaddr, flags, nr, mask);
+>>> +}
