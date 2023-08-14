@@ -2,62 +2,61 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C8A5577B475
-	for <lists+linux-api@lfdr.de>; Mon, 14 Aug 2023 10:42:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C0EC677BFA7
+	for <lists+linux-api@lfdr.de>; Mon, 14 Aug 2023 20:16:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234756AbjHNImY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 14 Aug 2023 04:42:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46792 "EHLO
+        id S229579AbjHNSQU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 14 Aug 2023 14:16:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234757AbjHNIl5 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 14 Aug 2023 04:41:57 -0400
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [IPv6:2001:67c:2050:0:465::101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0E3A12E;
-        Mon, 14 Aug 2023 01:41:55 -0700 (PDT)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4RPSYr29qcz9sn2;
-        Mon, 14 Aug 2023 10:41:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
-        t=1692002512;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=W7cNopV9QtwDfWAl6SLw4jWogCD7aoRQLSKJtTeB2Z4=;
-        b=RMj4CUJ8Rvd/ZNQXo32QMV7F9lurzqTpsl02OwCu1jTFQ0n1d0fmf72WxHZ1ua+c7jCd9S
-        D1E9rniYp4s34lLn7rTOmuQpmh3X6pRzrzURyHouUZnlH8th5qc4KVaHELYz6gQeWZpln9
-        Vgr+Uwo20A0DzCdzDAKx/PsWiZrylfeBS0edlCGMrrdZhKBQMuJCc+nW+saFy+eUxwGf0d
-        /C3mvRd8NQMshleiI648XFnhOm+WbbnHPwtFAXk+GOcWLpgSGxvim4H+QKq7B+9A3O8LTY
-        AMH1dOh1rk34EaAWtAIFNW6K9gvaZ1cf5MF5xsgbBghS5oC5H3C0dlRfJeTWbA==
-From:   Aleksa Sarai <cyphar@cyphar.com>
-Date:   Mon, 14 Aug 2023 18:41:01 +1000
-Subject: [PATCH v2 5/5] selftests: improve vm.memfd_noexec sysctl tests
+        with ESMTP id S231642AbjHNSQP (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 14 Aug 2023 14:16:15 -0400
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0129310F0
+        for <linux-api@vger.kernel.org>; Mon, 14 Aug 2023 11:16:14 -0700 (PDT)
+Received: by mail-lj1-x22a.google.com with SMTP id 38308e7fff4ca-2b9e6cc93d8so72255341fa.0
+        for <linux-api@vger.kernel.org>; Mon, 14 Aug 2023 11:16:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sargun.me; s=google; t=1692036972; x=1692641772;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xVt4RUsuv4G99xwx94AYKyo6GYrDM5TMn+Hj2KeMtDg=;
+        b=c4VSp7JRQ4R1ioLJSoOzg1kXe0Cu7+DGVdermvHPu8HUgAROvHtmaLZ7AZWRiSs9B0
+         S+jUIy2tMlxpuocGCaKUHxdNm3y66320jUnj275yLiVtyRpCHscP6IyCGdmdsXfRn/bk
+         9qHmI5owfa3L+6VnhXqqRFnx1NskiVcTqVR5E=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692036972; x=1692641772;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xVt4RUsuv4G99xwx94AYKyo6GYrDM5TMn+Hj2KeMtDg=;
+        b=DRr5sDMNGrDsny+xaNnvWHpHqAtWiMwhIs+pry3S/1qyRtKZociqet9FsS3SxVOlvu
+         VqNqw5R44QhWIy8dHMTkDRV9XtIswwUcAxz36gL/dtmit46PZShpwVJn1dBQaPr0J81T
+         aUVdiUi+A1fVtUS0skFwM6D1ccMIwX1PzflnzX31yviz9rasbsC35p/F0SuR76l5f/t5
+         tgfKm2lPSw4XnxVAvaBwsMymMaWde2LHbHmK2+5WXO1BvBabmyhhRP9UlAjjY9/F7CNs
+         PCpZUinjh3yF80e+cdMhyIOO+7auW+NuWM8kpTFPGLXFa0jG2VgPe2CoSvzSzo5K3G6V
+         vYAA==
+X-Gm-Message-State: AOJu0YwkOHOGyKk9dCSyqmbN9XmkgdyMUnzJyCPou4eZhdlpoPZ15SSQ
+        u7ysu/roBzVDowRj0k6taHgz6u50qcFa3PgSvi1dVQ==
+X-Google-Smtp-Source: AGHT+IFdy+D60p76IT0qbpqN7bgOHvvMCwZImqTu6sMDUN/sb6qBGEFKuBcEqoGOwxTYjvRG8OmdrSkbuO4kUK1kdr4=
+X-Received: by 2002:a2e:95cf:0:b0:2bb:78ad:56cb with SMTP id
+ y15-20020a2e95cf000000b002bb78ad56cbmr2295557ljh.37.1692036971945; Mon, 14
+ Aug 2023 11:16:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230814-memfd-vm-noexec-uapi-fixes-v2-5-7ff9e3e10ba6@cyphar.com>
-References: <20230814-memfd-vm-noexec-uapi-fixes-v2-0-7ff9e3e10ba6@cyphar.com>
-In-Reply-To: <20230814-memfd-vm-noexec-uapi-fixes-v2-0-7ff9e3e10ba6@cyphar.com>
-To:     Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Jeff Xu <jeffxu@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Daniel Verkamp <dverkamp@chromium.org>
-Cc:     Christian Brauner <brauner@kernel.org>,
-        Dominique Martinet <asmadeus@codewreck.org>,
-        stable@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kselftest@vger.kernel.org, Aleksa Sarai <cyphar@cyphar.com>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=13000; i=cyphar@cyphar.com;
- h=from:subject:message-id; bh=0sdx3MhmB3vX/NM+/SK9/yhr9yRSi3Geq1KMMGDcLxI=;
- b=owGbwMvMwCWmMf3Xpe0vXfIZT6slMaTcfLG2x/3+jGwuzwQtTl/LxLKg180rat3ZkqJalPZ28
- m4xPnS+o5SFQYyLQVZMkWWbn2fopvmLryR/WskGM4eVCWQIAxenAEzk2QFGhs4PXJ+fSNazrA34
- 9lOx7d2F0lMb0t2/9PwKXp7O0yOxYwkjwxtGGx9O5lVLjRPsOj1U3HqnnHOabjbXuDJo82yHIOl
- 6XgA=
-X-Developer-Key: i=cyphar@cyphar.com; a=openpgp;
- fpr=C9C370B246B09F6DBCFC744C34401015D1D2D386
+References: <20230810090044.1252084-1-sargun@sargun.me> <20230810090044.1252084-2-sargun@sargun.me>
+ <20230811.020617-buttery.agate.grand.surgery-EoCrXfehGJ8@cyphar.com>
+In-Reply-To: <20230811.020617-buttery.agate.grand.surgery-EoCrXfehGJ8@cyphar.com>
+From:   Sargun Dhillon <sargun@sargun.me>
+Date:   Mon, 14 Aug 2023 12:15:35 -0600
+Message-ID: <CAMp4zn-YfP1Bs_S4B55cbAtkbOg8Do1UK1tVe6K1a2-Bxprx-Q@mail.gmail.com>
+Subject: Re: [PATCH 2/3] fs: Allow user to lock mount attributes with mount_setattr
+To:     Aleksa Sarai <cyphar@cyphar.com>
+Cc:     linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        Christoph Hellwig <hch@lst.de>,
+        Christian Brauner <brauner@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -67,500 +66,63 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-This adds proper tests for the nesting functionality of vm.memfd_noexec
-as well as some minor cleanups to spawn_*_thread().
+On Sun, Aug 13, 2023 at 10:41=E2=80=AFPM Aleksa Sarai <cyphar@cyphar.com> w=
+rote:
+>
+> It just occurred to me that the whole MNT_LOCK_* machinery has the
+> unfortunate consequence of restricting the host root user from being
+> able to modify the locked flags. Since this change will let you do this
+> without creating a userns, do we want to make can_change_locked_flags()
+> do capable(CAP_SYS_MOUNT)?
+>
+Doesn't mount_setattr already require that the user has CAP_SYS_ADMIN
+in the mount's user namespace?
 
-Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
----
- tools/testing/selftests/memfd/memfd_test.c | 339 +++++++++++++++++++++--------
- 1 file changed, 254 insertions(+), 85 deletions(-)
+I'm not sure how this lets us bypass that.
 
-diff --git a/tools/testing/selftests/memfd/memfd_test.c b/tools/testing/selftests/memfd/memfd_test.c
-index 8b7390ad81d1..3df008677239 100644
---- a/tools/testing/selftests/memfd/memfd_test.c
-+++ b/tools/testing/selftests/memfd/memfd_test.c
-@@ -18,6 +18,7 @@
- #include <sys/syscall.h>
- #include <sys/wait.h>
- #include <unistd.h>
-+#include <ctype.h>
- 
- #include "common.h"
- 
-@@ -43,7 +44,6 @@
-  */
- static size_t mfd_def_size = MFD_DEF_SIZE;
- static const char *memfd_str = MEMFD_STR;
--static pid_t spawn_newpid_thread(unsigned int flags, int (*fn)(void *));
- static int newpid_thread_fn2(void *arg);
- static void join_newpid_thread(pid_t pid);
- 
-@@ -96,12 +96,12 @@ static void sysctl_assert_write(const char *val)
- 	int fd = open("/proc/sys/vm/memfd_noexec", O_WRONLY | O_CLOEXEC);
- 
- 	if (fd < 0) {
--		printf("open sysctl failed\n");
-+		printf("open sysctl failed: %m\n");
- 		abort();
- 	}
- 
- 	if (write(fd, val, strlen(val)) < 0) {
--		printf("write sysctl failed\n");
-+		printf("write sysctl %s failed: %m\n", val);
- 		abort();
- 	}
- }
-@@ -111,7 +111,7 @@ static void sysctl_fail_write(const char *val)
- 	int fd = open("/proc/sys/vm/memfd_noexec", O_WRONLY | O_CLOEXEC);
- 
- 	if (fd < 0) {
--		printf("open sysctl failed\n");
-+		printf("open sysctl failed: %m\n");
- 		abort();
- 	}
- 
-@@ -122,6 +122,33 @@ static void sysctl_fail_write(const char *val)
- 	}
- }
- 
-+static void sysctl_assert_equal(const char *val)
-+{
-+	char *p, buf[128] = {};
-+	int fd = open("/proc/sys/vm/memfd_noexec", O_RDONLY | O_CLOEXEC);
-+
-+	if (fd < 0) {
-+		printf("open sysctl failed: %m\n");
-+		abort();
-+	}
-+
-+	if (read(fd, buf, sizeof(buf)) < 0) {
-+		printf("read sysctl failed: %m\n");
-+		abort();
-+	}
-+
-+	/* Strip trailing whitespace. */
-+	p = buf;
-+	while (!isspace(*p))
-+		p++;
-+	*p = '\0';
-+
-+	if (strcmp(buf, val) != 0) {
-+		printf("unexpected sysctl value: expected %s, got %s\n", val, buf);
-+		abort();
-+	}
-+}
-+
- static int mfd_assert_reopen_fd(int fd_in)
- {
- 	int fd;
-@@ -736,7 +763,7 @@ static int idle_thread_fn(void *arg)
- 	return 0;
- }
- 
--static pid_t spawn_idle_thread(unsigned int flags)
-+static pid_t spawn_thread(unsigned int flags, int (*fn)(void *), void *arg)
- {
- 	uint8_t *stack;
- 	pid_t pid;
-@@ -747,10 +774,7 @@ static pid_t spawn_idle_thread(unsigned int flags)
- 		abort();
- 	}
- 
--	pid = clone(idle_thread_fn,
--		    stack + STACK_SIZE,
--		    SIGCHLD | flags,
--		    NULL);
-+	pid = clone(fn, stack + STACK_SIZE, SIGCHLD | flags, arg);
- 	if (pid < 0) {
- 		printf("clone() failed: %m\n");
- 		abort();
-@@ -759,6 +783,33 @@ static pid_t spawn_idle_thread(unsigned int flags)
- 	return pid;
- }
- 
-+static void join_thread(pid_t pid)
-+{
-+	int wstatus;
-+
-+	if (waitpid(pid, &wstatus, 0) < 0) {
-+		printf("newpid thread: waitpid() failed: %m\n");
-+		abort();
-+	}
-+
-+	if (WIFEXITED(wstatus) && WEXITSTATUS(wstatus) != 0) {
-+		printf("newpid thread: exited with non-zero error code %d\n",
-+		       WEXITSTATUS(wstatus));
-+		abort();
-+	}
-+
-+	if (WIFSIGNALED(wstatus)) {
-+		printf("newpid thread: killed by signal %d\n",
-+		       WTERMSIG(wstatus));
-+		abort();
-+	}
-+}
-+
-+static pid_t spawn_idle_thread(unsigned int flags)
-+{
-+	return spawn_thread(flags, idle_thread_fn, NULL);
-+}
-+
- static void join_idle_thread(pid_t pid)
- {
- 	kill(pid, SIGTERM);
-@@ -1111,42 +1162,69 @@ static void test_noexec_seal(void)
- 	close(fd);
- }
- 
--static void test_sysctl_child(void)
-+static void test_sysctl_sysctl0(void)
- {
- 	int fd;
--	int pid;
- 
--	printf("%s sysctl 0\n", memfd_str);
--	sysctl_assert_write("0");
--	fd = mfd_assert_new("kern_memfd_sysctl_0",
-+	sysctl_assert_equal("0");
-+
-+	fd = mfd_assert_new("kern_memfd_sysctl_0_dfl",
- 			    mfd_def_size,
- 			    MFD_CLOEXEC | MFD_ALLOW_SEALING);
--
- 	mfd_assert_mode(fd, 0777);
- 	mfd_assert_has_seals(fd, 0);
- 	mfd_assert_chmod(fd, 0644);
- 	close(fd);
-+}
- 
--	printf("%s sysctl 1\n", memfd_str);
--	sysctl_assert_write("1");
--	fd = mfd_assert_new("kern_memfd_sysctl_1",
-+static void test_sysctl_set_sysctl0(void)
-+{
-+	sysctl_assert_write("0");
-+	test_sysctl_sysctl0();
-+}
-+
-+static void test_sysctl_sysctl1(void)
-+{
-+	int fd;
-+
-+	sysctl_assert_equal("1");
-+
-+	fd = mfd_assert_new("kern_memfd_sysctl_1_dfl",
- 			    mfd_def_size,
- 			    MFD_CLOEXEC | MFD_ALLOW_SEALING);
-+	mfd_assert_mode(fd, 0666);
-+	mfd_assert_has_seals(fd, F_SEAL_EXEC);
-+	mfd_fail_chmod(fd, 0777);
-+	close(fd);
- 
--	printf("%s child ns\n", memfd_str);
--	pid = spawn_newpid_thread(CLONE_NEWPID, newpid_thread_fn2);
--	join_newpid_thread(pid);
-+	fd = mfd_assert_new("kern_memfd_sysctl_1_exec",
-+			    mfd_def_size,
-+			    MFD_CLOEXEC | MFD_EXEC | MFD_ALLOW_SEALING);
-+	mfd_assert_mode(fd, 0777);
-+	mfd_assert_has_seals(fd, 0);
-+	mfd_assert_chmod(fd, 0644);
-+	close(fd);
- 
-+	fd = mfd_assert_new("kern_memfd_sysctl_1_noexec",
-+			    mfd_def_size,
-+			    MFD_CLOEXEC | MFD_NOEXEC_SEAL | MFD_ALLOW_SEALING);
- 	mfd_assert_mode(fd, 0666);
- 	mfd_assert_has_seals(fd, F_SEAL_EXEC);
- 	mfd_fail_chmod(fd, 0777);
--	sysctl_fail_write("0");
- 	close(fd);
-+}
- 
--	printf("%s sysctl 2\n", memfd_str);
--	sysctl_assert_write("2");
--	mfd_fail_new("kern_memfd_sysctl_2_exec",
--		     MFD_EXEC | MFD_CLOEXEC | MFD_ALLOW_SEALING);
-+static void test_sysctl_set_sysctl1(void)
-+{
-+	sysctl_assert_write("1");
-+	test_sysctl_sysctl1();
-+}
-+
-+static void test_sysctl_sysctl2(void)
-+{
-+	int fd;
-+
-+	sysctl_assert_equal("2");
- 
- 	fd = mfd_assert_new("kern_memfd_sysctl_2_dfl",
- 			    mfd_def_size,
-@@ -1156,98 +1234,188 @@ static void test_sysctl_child(void)
- 	mfd_fail_chmod(fd, 0777);
- 	close(fd);
- 
--	fd = mfd_assert_new("kern_memfd_sysctl_2_noexec_seal",
-+	mfd_fail_new("kern_memfd_sysctl_2_exec",
-+		     MFD_CLOEXEC | MFD_EXEC | MFD_ALLOW_SEALING);
-+
-+	fd = mfd_assert_new("kern_memfd_sysctl_2_noexec",
- 			    mfd_def_size,
--			    MFD_NOEXEC_SEAL | MFD_CLOEXEC | MFD_ALLOW_SEALING);
-+			    MFD_CLOEXEC | MFD_NOEXEC_SEAL | MFD_ALLOW_SEALING);
- 	mfd_assert_mode(fd, 0666);
- 	mfd_assert_has_seals(fd, F_SEAL_EXEC);
- 	mfd_fail_chmod(fd, 0777);
- 	close(fd);
--
--	sysctl_fail_write("0");
--	sysctl_fail_write("1");
- }
- 
--static int newpid_thread_fn(void *arg)
-+static void test_sysctl_set_sysctl2(void)
- {
--	test_sysctl_child();
--	return 0;
-+	sysctl_assert_write("2");
-+	test_sysctl_sysctl2();
- }
- 
--static void test_sysctl_child2(void)
-+static int sysctl_simple_child(void *arg)
- {
- 	int fd;
-+	int pid;
- 
--	sysctl_fail_write("0");
--	fd = mfd_assert_new("kern_memfd_sysctl_1",
--			    mfd_def_size,
--			    MFD_CLOEXEC | MFD_ALLOW_SEALING);
-+	printf("%s sysctl 0\n", memfd_str);
-+	test_sysctl_set_sysctl0();
- 
--	mfd_assert_mode(fd, 0666);
--	mfd_assert_has_seals(fd, F_SEAL_EXEC);
--	mfd_fail_chmod(fd, 0777);
--	close(fd);
-+	printf("%s sysctl 1\n", memfd_str);
-+	test_sysctl_set_sysctl1();
-+
-+	printf("%s sysctl 0\n", memfd_str);
-+	test_sysctl_set_sysctl0();
-+
-+	printf("%s sysctl 2\n", memfd_str);
-+	test_sysctl_set_sysctl2();
-+
-+	printf("%s sysctl 1\n", memfd_str);
-+	test_sysctl_set_sysctl1();
-+
-+	printf("%s sysctl 0\n", memfd_str);
-+	test_sysctl_set_sysctl0();
-+
-+	return 0;
-+}
-+
-+/*
-+ * Test sysctl
-+ * A very basic test to make sure the core sysctl semantics work.
-+ */
-+static void test_sysctl_simple(void)
-+{
-+	int pid = spawn_thread(CLONE_NEWPID, sysctl_simple_child, NULL);
-+
-+	join_thread(pid);
- }
- 
--static int newpid_thread_fn2(void *arg)
-+static int sysctl_nested(void *arg)
- {
--	test_sysctl_child2();
-+	void (*fn)(void) = arg;
-+
-+	fn();
- 	return 0;
- }
--static pid_t spawn_newpid_thread(unsigned int flags, int (*fn)(void *))
-+
-+static int sysctl_nested_wait(void *arg)
- {
--	uint8_t *stack;
--	pid_t pid;
-+	/* Wait for a SIGCONT. */
-+	kill(getpid(), SIGSTOP);
-+	return sysctl_nested(arg);
-+}
- 
--	stack = malloc(STACK_SIZE);
--	if (!stack) {
--		printf("malloc(STACK_SIZE) failed: %m\n");
--		abort();
--	}
-+static void test_sysctl_sysctl1_failset(void)
-+{
-+	sysctl_fail_write("0");
-+	test_sysctl_sysctl1();
-+}
- 
--	pid = clone(fn,
--		    stack + STACK_SIZE,
--		    SIGCHLD | flags,
--		    NULL);
--	if (pid < 0) {
--		printf("clone() failed: %m\n");
--		abort();
--	}
-+static void test_sysctl_sysctl2_failset(void)
-+{
-+	sysctl_fail_write("1");
-+	test_sysctl_sysctl2();
- 
--	return pid;
-+	sysctl_fail_write("0");
-+	test_sysctl_sysctl2();
- }
- 
--static void join_newpid_thread(pid_t pid)
-+static int sysctl_nested_child(void *arg)
- {
--	int wstatus;
-+	int fd;
-+	int pid;
- 
--	if (waitpid(pid, &wstatus, 0) < 0) {
--		printf("newpid thread: waitpid() failed: %m\n");
--		abort();
--	}
-+	printf("%s nested sysctl 0\n", memfd_str);
-+	sysctl_assert_write("0");
-+	/* A further nested pidns works the same. */
-+	pid = spawn_thread(CLONE_NEWPID, sysctl_simple_child, NULL);
-+	join_thread(pid);
- 
--	if (WIFEXITED(wstatus) && WEXITSTATUS(wstatus) != 0) {
--		printf("newpid thread: exited with non-zero error code %d\n",
--		       WEXITSTATUS(wstatus));
--		abort();
--	}
-+	printf("%s nested sysctl 1\n", memfd_str);
-+	sysctl_assert_write("1");
-+	/* Child inherits our setting. */
-+	pid = spawn_thread(CLONE_NEWPID, sysctl_nested, test_sysctl_sysctl1);
-+	join_thread(pid);
-+	/* Child cannot raise the setting. */
-+	pid = spawn_thread(CLONE_NEWPID, sysctl_nested,
-+			   test_sysctl_sysctl1_failset);
-+	join_thread(pid);
-+	/* Child can lower the setting. */
-+	pid = spawn_thread(CLONE_NEWPID, sysctl_nested,
-+			   test_sysctl_set_sysctl2);
-+	join_thread(pid);
-+	/* Child lowering the setting has no effect on our setting. */
-+	test_sysctl_sysctl1();
-+
-+	printf("%s nested sysctl 2\n", memfd_str);
-+	sysctl_assert_write("2");
-+	/* Child inherits our setting. */
-+	pid = spawn_thread(CLONE_NEWPID, sysctl_nested, test_sysctl_sysctl2);
-+	join_thread(pid);
-+	/* Child cannot raise the setting. */
-+	pid = spawn_thread(CLONE_NEWPID, sysctl_nested,
-+			   test_sysctl_sysctl2_failset);
-+	join_thread(pid);
-+
-+	/* Verify that the rules are actually inherited after fork. */
-+	printf("%s nested sysctl 0 -> 1 after fork\n", memfd_str);
-+	sysctl_assert_write("0");
- 
--	if (WIFSIGNALED(wstatus)) {
--		printf("newpid thread: killed by signal %d\n",
--		       WTERMSIG(wstatus));
--		abort();
--	}
-+	pid = spawn_thread(CLONE_NEWPID, sysctl_nested_wait,
-+			   test_sysctl_sysctl1_failset);
-+	sysctl_assert_write("1");
-+	kill(pid, SIGCONT);
-+	join_thread(pid);
-+
-+	printf("%s nested sysctl 0 -> 2 after fork\n", memfd_str);
-+	sysctl_assert_write("0");
-+
-+	pid = spawn_thread(CLONE_NEWPID, sysctl_nested_wait,
-+			   test_sysctl_sysctl2_failset);
-+	sysctl_assert_write("2");
-+	kill(pid, SIGCONT);
-+	join_thread(pid);
-+
-+	/*
-+	 * Verify that the current effective setting is saved on fork, meaning
-+	 * that the parent lowering the sysctl doesn't affect already-forked
-+	 * children.
-+	 */
-+	printf("%s nested sysctl 2 -> 1 after fork\n", memfd_str);
-+	sysctl_assert_write("2");
-+	pid = spawn_thread(CLONE_NEWPID, sysctl_nested_wait,
-+			   test_sysctl_sysctl2);
-+	sysctl_assert_write("1");
-+	kill(pid, SIGCONT);
-+	join_thread(pid);
-+
-+	printf("%s nested sysctl 2 -> 0 after fork\n", memfd_str);
-+	sysctl_assert_write("2");
-+	pid = spawn_thread(CLONE_NEWPID, sysctl_nested_wait,
-+			   test_sysctl_sysctl2);
-+	sysctl_assert_write("0");
-+	kill(pid, SIGCONT);
-+	join_thread(pid);
-+
-+	printf("%s nested sysctl 1 -> 0 after fork\n", memfd_str);
-+	sysctl_assert_write("1");
-+	pid = spawn_thread(CLONE_NEWPID, sysctl_nested_wait,
-+			   test_sysctl_sysctl1);
-+	sysctl_assert_write("0");
-+	kill(pid, SIGCONT);
-+	join_thread(pid);
-+
-+	return 0;
- }
- 
- /*
-- * Test sysctl
-- * A very basic sealing test to see whether setting/retrieving seals works.
-+ * Test sysctl with nested pid namespaces
-+ * Make sure that the sysctl nesting semantics work correctly.
-  */
--static void test_sysctl(void)
-+static void test_sysctl_nested(void)
- {
--	int pid = spawn_newpid_thread(CLONE_NEWPID, newpid_thread_fn);
-+	int pid = spawn_thread(CLONE_NEWPID, sysctl_nested_child, NULL);
- 
--	join_newpid_thread(pid);
-+	join_thread(pid);
- }
- 
- /*
-@@ -1433,6 +1601,9 @@ int main(int argc, char **argv)
- 	test_seal_grow();
- 	test_seal_resize();
- 
-+	test_sysctl_simple();
-+	test_sysctl_nested();
-+
- 	test_share_dup("SHARE-DUP", "");
- 	test_share_mmap("SHARE-MMAP", "");
- 	test_share_open("SHARE-OPEN", "");
-@@ -1447,8 +1618,6 @@ int main(int argc, char **argv)
- 	test_share_fork("SHARE-FORK", SHARED_FT_STR);
- 	join_idle_thread(pid);
- 
--	test_sysctl();
--
- 	printf("memfd: DONE\n");
- 
- 	return 0;
+Or are you saying we should check for
+CAP_SYS_MOUNT && CAP_SYS_ADMIN?
 
--- 
-2.41.0
+> > +             if ((new_mount_flags & kattr->attr_lock) !=3D kattr->attr=
+_lock) {
+> > +                     err =3D -EINVAL;
+> > +                     break;
+> > +             }
+>
+> Since the MNT_LOCK_* flags are invisible to userspace, it seems more
+> reasonable to have the attr_lock set be added to the existing set rather
+> than requiring userspace to pass the same set of flags.
+>
+IMHO, it's nice to be able to use the existing set of flags. I don't mind
+adding new flags though.
 
+> Actually, AFAICS this implementation breaks backwards compatibility
+> because with this change you now need to pass MNT_LOCK_* flags if
+> operating on a mount that has locks applied already. So existing
+> programs (which have .attr_lock=3D0) will start getting -EINVAL when
+> operating on mounts with locked flags (such as those locked in the
+> userns case). Or am I missing something?
+I don't think so, because if attr_lock is 0, then
+new_mount_flags & kattr->attr_lock is 0. kattr->attr_lock is only
+flags to *newly lock*, and doesn't inherit the set of current locks.
+
+>
+> In any case, the most reasonable behaviour would be to OR the requested
+> lock flags with the existing ones IMHO.
+>
+I can append this to the mount_attr_do_lock test in the next patch, and it
+lets me flip the NOSUID bit on and off without attr_lock being set, unless
+you're referring to something else. You shouldn't be able to attr_clr a
+locked attribute (even as CAP_SYS_ADMIN in the init_user_ns).
+attr_set will noop.
+
+
+/* Make sure we can set NOSUID (not locked) */
+memset(&attr, 0, sizeof(attr));
+attr.attr_set =3D MOUNT_ATTR_NOSUID;
+ASSERT_EQ(sys_mount_setattr(-1, "/tmp/C", 0, &attr, sizeof(attr)), 0);
+
+/* Make sure we can clear NOSUID (not locked) */
+memset(&attr, 0, sizeof(attr));
+attr.attr_clr =3D MOUNT_ATTR_NOSUID;
+ASSERT_EQ(sys_mount_setattr(-1, "/tmp/C", 0, &attr, sizeof(attr)), 0);
