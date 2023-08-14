@@ -2,53 +2,63 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 16BA477B17A
-	for <lists+linux-api@lfdr.de>; Mon, 14 Aug 2023 08:20:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 479BE77B466
+	for <lists+linux-api@lfdr.de>; Mon, 14 Aug 2023 10:42:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231718AbjHNGT7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 14 Aug 2023 02:19:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33992 "EHLO
+        id S234707AbjHNIl4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 14 Aug 2023 04:41:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52138 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233929AbjHNGTR (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 14 Aug 2023 02:19:17 -0400
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 458871993;
-        Sun, 13 Aug 2023 23:19:06 -0700 (PDT)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+        with ESMTP id S234828AbjHNIlc (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 14 Aug 2023 04:41:32 -0400
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3906612E;
+        Mon, 14 Aug 2023 01:41:30 -0700 (PDT)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4RPPP235Z2z9sWt;
-        Mon, 14 Aug 2023 08:19:02 +0200 (CEST)
+        by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4RPSYL1pknz9sSk;
+        Mon, 14 Aug 2023 10:41:26 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
-        t=1691993942;
+        t=1692002486;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=fb7rxHcuMR6URNyDww8AuEDEgol4onmkgqZcq6YbCpw=;
-        b=1PDx3KPcl6wuEDbmKq1wJPkQdIje+onmlCn5SkKCaqz8B8tWznBByrCzCiwBd39Gb4okxV
-        CAvytefYG8ZicP7yI8YBxeIJ0dSVOP4+MiqaaQ9wcsjOuU2HKIyIdPc+866RYDimahxf7+
-        +OqkYPZa+9kk5yHPmVUjOadmFxoBrqhC1wLMfngzcZm8f+2QvzaEkcKAY05RyUVqPqAyDK
-        4S5pnGRbA/+j4nPLH6G4AQ2WDLdzVFiM81TP3a/zZvstp2Z8uvdqgTAgZbQNMHexn1gN7a
-        vXx4e92vQwayrON31dNe+MWDol8PyUryHKrsBtxMPXDuhbFYouUjev3Q8R8uEQ==
-Date:   Mon, 14 Aug 2023 16:18:49 +1000
+         content-transfer-encoding:content-transfer-encoding;
+        bh=NUboT/tyGwRN+QiGFmvbhFhtxEwoPw7Up8T9SpZltac=;
+        b=eX0Te5I6hNL8L4CL7n0OvdpsIRx4kaXqNueehUKepAeG+Sd+Qq6MBXlO/GGJcDWfbD1lOC
+        Lhw0bL0MfKg0xckibbKAez65geHBSd6Mtac8QgW1XaPyPzBmGXmZprz145Kxo3BwIO+9jW
+        gOKc4k4SN2vFpEYYAWDcQYJT5KrrtqcFlOrZjJZ2lJaXaEhESt6MVnd7KmLzcKxmkqWD26
+        d0Y3gAkGH3kU1kTNNlZbs3oMc85pXONy+EVjrpylEl7dIW/Tzfz5hbSB6TCNqnlE1V98gp
+        V6dYzAVf/NZqVl2RJR5ycyGZ9Lj0aOOjqtpbiRurgTcp/+QYLhVNis6HvTF3jQ==
 From:   Aleksa Sarai <cyphar@cyphar.com>
-To:     Sargun Dhillon <sargun@sargun.me>
-Cc:     linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        Christoph Hellwig <hch@lst.de>,
-        Christian Brauner <brauner@kernel.org>
-Subject: Re: [PATCH 2/3] fs: Allow user to lock mount attributes with
- mount_setattr
-Message-ID: <20230814.061559-absent.hints.brave.teapots-iRV9CJPKzSJ@cyphar.com>
-References: <20230810090044.1252084-1-sargun@sargun.me>
- <20230810090044.1252084-2-sargun@sargun.me>
- <20230811.020617-buttery.agate.grand.surgery-EoCrXfehGJ8@cyphar.com>
+Subject: [PATCH v2 0/5] memfd: cleanups for vm.memfd_noexec
+Date:   Mon, 14 Aug 2023 18:40:56 +1000
+Message-Id: <20230814-memfd-vm-noexec-uapi-fixes-v2-0-7ff9e3e10ba6@cyphar.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="mjx7yiv554xy53n7"
-Content-Disposition: inline
-In-Reply-To: <20230811.020617-buttery.agate.grand.surgery-EoCrXfehGJ8@cyphar.com>
-X-Rspamd-Queue-Id: 4RPPP235Z2z9sWt
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJjo2WQC/42OOw6DMBBEr4JcZ5E/BKJU3COicMw6dmGM1gSBE
+ HePIUXaVKOn0TzNxhKSx8TuxcYIZ598HDLIS8GM08MLwfeZmeRS8RtXEDDYHuYAQ8QFDbz16MH
+ 6BRNog428mrp5csuyYCQ8i7x/dJktxQCTI9Q/ZSOUqFTF6/IICQLMOjpN7TdKE8Ohcj5Nkdbz5
+ iwO4f/zbt/3D0hF7PboAAAA
+To:     Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Jeff Xu <jeffxu@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Daniel Verkamp <dverkamp@chromium.org>
+Cc:     Christian Brauner <brauner@kernel.org>,
+        Dominique Martinet <asmadeus@codewreck.org>,
+        stable@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kselftest@vger.kernel.org, Aleksa Sarai <cyphar@cyphar.com>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4851; i=cyphar@cyphar.com;
+ h=from:subject:message-id; bh=dGi8A78yZ0SfEXLJu8jrgDZL5aiUP2hWwUC4ADrzENg=;
+ b=owGbwMvMwCWmMf3Xpe0vXfIZT6slMaTcfLFsU0K62YabZfmtzopLqiwzPh5c/dZd3uq54Z1Xn
+ THv7Q3yO0pZGMS4GGTFFFm2+XmGbpq/+Eryp5VsMHNYmUCGMHBxCsBEfngz/OFT3n66XilEuWbV
+ v0+5m5bWnF12LCrPd3HIo8dCHS0L1r9l+J+iJJdq8UqKraznccSsZybhN99m7+KUYddfLz254YO
+ 3JRsA
+X-Developer-Key: i=cyphar@cyphar.com; a=openpgp;
+ fpr=C9C370B246B09F6DBCFC744C34401015D1D2D386
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -58,221 +68,102 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+The most critical issue with vm.memfd_noexec=2 (the fact that passing
+MFD_EXEC would bypass it entirely[1]) has been fixed in Andrew's
+tree[2], but there are still some outstanding issues that need to be
+addressed:
 
---mjx7yiv554xy53n7
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+ * vm.memfd_noexec=2 shouldn't reject old-style memfd_create(2) syscalls
+   because it will make it far to difficult to ever migrate. Instead it
+   should imply MFD_EXEC.
 
-On 2023-08-14, Aleksa Sarai <cyphar@cyphar.com> wrote:
-> On 2023-08-10, Sargun Dhillon <sargun@sargun.me> wrote:
-> > We support locking certain mount attributes in the kernel. This API
-> > isn't directly exposed to users. Right now, users can lock mount
-> > attributes by going through the process of creating a new user
-> > namespaces, and when the mounts are copied to the "lower privilege"
-> > domain, they're locked. The mount can be reopened, and passed around
-> > as a "locked mount".
-> >=20
-> > Locked mounts are useful, for example, in container execution without
-> > user namespaces, where you may want to expose some host data as read
-> > only without allowing the container to remount the mount as mutable.
-> >=20
-> > The API currently requires that the given privilege is taken away
-> > while or before locking the flag in the less privileged position.
-> > This could be relaxed in the future, where the user is allowed to
-> > remount the mount as read only, but once they do, they cannot make
-> > it read only again.
-> >=20
-> > Right now, this allows for all flags that are lockable via the
-> > userns unshare trick to be locked, other than the atime related
-> > ones. This is because the semantics of what the "less privileged"
-> > position is around the atime flags is unclear.
-> >=20
-> > Signed-off-by: Sargun Dhillon <sargun@sargun.me>
-> > ---
-> >  fs/namespace.c             | 40 +++++++++++++++++++++++++++++++++++---
-> >  include/uapi/linux/mount.h |  2 ++
-> >  2 files changed, 39 insertions(+), 3 deletions(-)
-> >=20
-> > diff --git a/fs/namespace.c b/fs/namespace.c
-> > index 54847db5b819..5396e544ac84 100644
-> > --- a/fs/namespace.c
-> > +++ b/fs/namespace.c
-> > @@ -78,6 +78,7 @@ static LIST_HEAD(ex_mountpoints); /* protected by nam=
-espace_sem */
-> >  struct mount_kattr {
-> >  	unsigned int attr_set;
-> >  	unsigned int attr_clr;
-> > +	unsigned int attr_lock;
-> >  	unsigned int propagation;
-> >  	unsigned int lookup_flags;
-> >  	bool recurse;
-> > @@ -3608,6 +3609,9 @@ SYSCALL_DEFINE5(mount, char __user *, dev_name, c=
-har __user *, dir_name,
-> > =20
-> >  #define MOUNT_SETATTR_PROPAGATION_FLAGS \
-> >  	(MS_UNBINDABLE | MS_PRIVATE | MS_SLAVE | MS_SHARED)
-> > +#define MOUNT_SETATTR_VALID_LOCK_FLAGS					       \
-> > +	(MOUNT_ATTR_RDONLY | MOUNT_ATTR_NOSUID | MOUNT_ATTR_NODEV |	       \
-> > +	 MOUNT_ATTR_NOEXEC)
-> > =20
-> >  static unsigned int attr_flags_to_mnt_flags(u64 attr_flags)
-> >  {
-> > @@ -3629,6 +3633,22 @@ static unsigned int attr_flags_to_mnt_flags(u64 =
-attr_flags)
-> >  	return mnt_flags;
-> >  }
-> > =20
-> > +static unsigned int attr_flags_to_mnt_lock_flags(u64 attr_flags)
-> > +{
-> > +	unsigned int mnt_flags =3D 0;
-> > +
-> > +	if (attr_flags & MOUNT_ATTR_RDONLY)
-> > +		mnt_flags |=3D MNT_LOCK_READONLY;
-> > +	if (attr_flags & MOUNT_ATTR_NOSUID)
-> > +		mnt_flags |=3D MNT_LOCK_NOSUID;
-> > +	if (attr_flags & MOUNT_ATTR_NODEV)
-> > +		mnt_flags |=3D MNT_LOCK_NODEV;
-> > +	if (attr_flags & MOUNT_ATTR_NOEXEC)
-> > +		mnt_flags |=3D MNT_LOCK_NOEXEC;
-> > +
-> > +	return mnt_flags;
-> > +}
-> > +
-> >  /*
-> >   * Create a kernel mount representation for a new, prepared superblock
-> >   * (specified by fs_fd) and attach to an open_tree-like file descripto=
-r.
-> > @@ -4037,11 +4057,18 @@ static int mount_setattr_prepare(struct mount_k=
-attr *kattr, struct mount *mnt)
-> >  	int err;
-> > =20
-> >  	for (m =3D mnt; m; m =3D next_mnt(m, mnt)) {
-> > -		if (!can_change_locked_flags(m, recalc_flags(kattr, m))) {
-> > +		int new_mount_flags =3D recalc_flags(kattr, m);
-> > +
-> > +		if (!can_change_locked_flags(m, new_mount_flags)) {
-> >  			err =3D -EPERM;
-> >  			break;
-> >  		}
->=20
-> It just occurred to me that the whole MNT_LOCK_* machinery has the
-> unfortunate consequence of restricting the host root user from being
-> able to modify the locked flags. Since this change will let you do this
-> without creating a userns, do we want to make can_change_locked_flags()
-> do capable(CAP_SYS_MOUNT)?
+ * The dmesg warnings are pr_warn_once(), which on most systems means
+   that they will be used up by systemd or some other boot process and
+   userspace developers will never see it.
 
-Then again, it seems the semantics of changing locked mount flags would
-probably be a bit ugly -- should changing the flag unset the locked bit?
-If not, then not being able to clear the flags would make userspace's
-existing mechanism for handling locked mounts (inherit the all lockable
-mount flags already set on the mountpoint) would not work anymore.
+   - For the !(flags & (MFD_EXEC | MFD_NOEXEC_SEAL)) case, outputting a
+     rate-limited message to the kernel log is necessary to tell
+     userspace that they should add the new flags.
 
-So maybe it's better to just leave this as-is...
+     Arguably the most ideal way to deal with the spam concern[3,4]
+     while still prompting userspace to switch to the new flags would be
+     to only log the warning once per task or something similar.
+     However, adding something to task_struct for tracking this would be
+     needless bloat for a single pr_warn_ratelimited().
 
-> > +		if ((new_mount_flags & kattr->attr_lock) !=3D kattr->attr_lock) {
-> > +			err =3D -EINVAL;
-> > +			break;
-> > +		}
->=20
-> Since the MNT_LOCK_* flags are invisible to userspace, it seems more
-> reasonable to have the attr_lock set be added to the existing set rather
-> than requiring userspace to pass the same set of flags.
->=20
-> Actually, AFAICS this implementation breaks backwards compatibility
-> because with this change you now need to pass MNT_LOCK_* flags if
-> operating on a mount that has locks applied already. So existing
-> programs (which have .attr_lock=3D0) will start getting -EINVAL when
-> operating on mounts with locked flags (such as those locked in the
-> userns case). Or am I missing something?
->=20
-> In any case, the most reasonable behaviour would be to OR the requested
-> lock flags with the existing ones IMHO.
->=20
-> > +
-> >  		err =3D can_idmap_mount(kattr, m);
-> >  		if (err)
-> >  			break;
-> > @@ -4278,8 +4305,14 @@ static int build_mount_kattr(const struct mount_=
-attr *attr, size_t usize,
-> >  	if ((attr->attr_set | attr->attr_clr) & ~MOUNT_SETATTR_VALID_FLAGS)
-> >  		return -EINVAL;
-> > =20
-> > +	if (attr->attr_lock & ~MOUNT_SETATTR_VALID_LOCK_FLAGS)
-> > +		return -EINVAL;
-> > +
-> >  	kattr->attr_set =3D attr_flags_to_mnt_flags(attr->attr_set);
-> >  	kattr->attr_clr =3D attr_flags_to_mnt_flags(attr->attr_clr);
-> > +	kattr->attr_lock =3D attr_flags_to_mnt_flags(attr->attr_lock);
-> > +	kattr->attr_set |=3D attr_flags_to_mnt_lock_flags(attr->attr_lock);
-> > +
-> > =20
-> >  	/*
-> >  	 * Since the MOUNT_ATTR_<atime> values are an enum, not a bitmap,
-> > @@ -4337,7 +4370,7 @@ SYSCALL_DEFINE5(mount_setattr, int, dfd, const ch=
-ar __user *, path,
-> >  	struct mount_attr attr;
-> >  	struct mount_kattr kattr;
-> > =20
-> > -	BUILD_BUG_ON(sizeof(struct mount_attr) !=3D MOUNT_ATTR_SIZE_VER0);
-> > +	BUILD_BUG_ON(sizeof(struct mount_attr) !=3D MOUNT_ATTR_SIZE_VER1);
-> > =20
-> >  	if (flags & ~(AT_EMPTY_PATH |
-> >  		      AT_RECURSIVE |
-> > @@ -4360,7 +4393,8 @@ SYSCALL_DEFINE5(mount_setattr, int, dfd, const ch=
-ar __user *, path,
-> >  	/* Don't bother walking through the mounts if this is a nop. */
-> >  	if (attr.attr_set =3D=3D 0 &&
-> >  	    attr.attr_clr =3D=3D 0 &&
-> > -	    attr.propagation =3D=3D 0)
-> > +	    attr.propagation =3D=3D 0 &&
-> > +	    attr.attr_lock =3D=3D 0)
-> >  		return 0;
-> > =20
-> >  	err =3D build_mount_kattr(&attr, usize, &kattr, flags);
-> > diff --git a/include/uapi/linux/mount.h b/include/uapi/linux/mount.h
-> > index 4d93967f8aea..de667c4f852d 100644
-> > --- a/include/uapi/linux/mount.h
-> > +++ b/include/uapi/linux/mount.h
-> > @@ -131,9 +131,11 @@ struct mount_attr {
-> >  	__u64 attr_clr;
-> >  	__u64 propagation;
-> >  	__u64 userns_fd;
-> > +	__u64 attr_lock;
-> >  };
-> > =20
-> >  /* List of all mount_attr versions. */
-> >  #define MOUNT_ATTR_SIZE_VER0	32 /* sizeof first published struct */
-> > +#define MOUNT_ATTR_SIZE_VER1	40
-> > =20
-> >  #endif /* _UAPI_LINUX_MOUNT_H */
-> > --=20
-> > 2.39.3
-> >=20
->=20
-> --=20
-> Aleksa Sarai
-> Senior Software Engineer (Containers)
-> SUSE Linux GmbH
-> <https://www.cyphar.com/>
+     So just switch to pr_info_ratelimited() to avoid spamming the log
+     with something that isn't a real warning. There's lots of
+     info-level stuff in dmesg, it seems really unlikely that this
+     should be an actual problem. Most programs are already switching to
+     the new flags anyway.
 
+   - For the vm.memfd_noexec=2 case, we need to log a warning for every
+     failure because otherwise userspace will have no idea why their
+     previously working program started returning -EACCES (previously
+     -EINVAL) from memfd_create(2). pr_warn_once() is simply wrong here.
 
+ * The racheting mechanism for vm.memfd_noexec makes it incredibly
+   unappealing for most users to enable the sysctl because enabling it
+   on &init_pid_ns means you need a system reboot to unset it. Given the
+   actual security threat being protected against, CAP_SYS_ADMIN users
+   being restricted in this way makes little sense.
 
---=20
-Aleksa Sarai
-Senior Software Engineer (Containers)
-SUSE Linux GmbH
-<https://www.cyphar.com/>
+   The argument for this ratcheting by the original author was that it
+   allows you to have a hierarchical setting that cannot be unset by
+   child pidnses, but this is not accurate -- changing the parent
+   pidns's vm.memfd_noexec setting to be more restrictive didn't affect
+   children.
 
---mjx7yiv554xy53n7
-Content-Type: application/pgp-signature; name="signature.asc"
+   Instead, switch the vm.memfd_noexec sysctl to be properly
+   hierarchical and allow CAP_SYS_ADMIN users (in the pidns's owning
+   userns) to lower the setting as long as it is not lower than the
+   parent's effective setting. This change also makes it so that
+   changing a parent pidns's vm.memfd_noexec will affect all
+   descendants, providing a properly hierarchical setting. The
+   performance impact of this is incredibly minimal since the maximum
+   depth of pidns is 32 and it is only checked during memfd_create(2)
+   and unshare(CLONE_NEWPID).
 
------BEGIN PGP SIGNATURE-----
+ * The memfd selftests would not exit with a non-zero error code when
+   certain tests that ran in a forked process (specifically the ones
+   related to MFD_EXEC and MFD_NOEXEC_SEAL) failed.
 
-iHUEABYKAB0WIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCZNnHSQAKCRAol/rSt+lE
-b0IDAQCp6t6DAOYU6vMnM8SzLBr4vzh1CUF2MxXVQJgP/ZWdRwD/duZ7gFNxMe7N
-PDt6j+JqSjRtgGhFermnHsDb68G3rAI=
-=GQfs
------END PGP SIGNATURE-----
+[1]: https://lore.kernel.org/all/ZJwcsU0vI-nzgOB_@codewreck.org/
+[2]: https://lore.kernel.org/all/20230705063315.3680666-1-jeffxu@google.com/
+[3]: https://lore.kernel.org/Y5yS8wCnuYGLHMj4@x1n/
+[4]: https://lore.kernel.org/f185bb42-b29c-977e-312e-3349eea15383@linuxfoundation.org/
 
---mjx7yiv554xy53n7--
+Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
+---
+Changes in v2:
+- Make vm.memfd_noexec restrictions properly hierarchical.
+- Allow vm.memfd_noexec setting to be lowered by CAP_SYS_ADMIN as long
+  as it is not lower than the parent's effective setting.
+- Fix the logging behaviour related to the new flags and
+  vm.memfd_noexec=2.
+- Add more thorough tests for vm.memfd_noexec in selftests.
+- v1: <https://lore.kernel.org/r/20230713143406.14342-1-cyphar@cyphar.com>
+
+---
+Aleksa Sarai (5):
+      selftests: memfd: error out test process when child test fails
+      memfd: do not -EACCES old memfd_create() users with vm.memfd_noexec=2
+      memfd: improve userspace warnings for missing exec-related flags
+      memfd: replace ratcheting feature from vm.memfd_noexec with hierarchy
+      selftests: improve vm.memfd_noexec sysctl tests
+
+ include/linux/pid_namespace.h              |  39 ++--
+ kernel/pid.c                               |   3 +
+ kernel/pid_namespace.c                     |   6 +-
+ kernel/pid_sysctl.h                        |  28 ++-
+ mm/memfd.c                                 |  33 ++-
+ tools/testing/selftests/memfd/memfd_test.c | 332 +++++++++++++++++++++++------
+ 6 files changed, 322 insertions(+), 119 deletions(-)
+---
+base-commit: 3ff995246e801ea4de0a30860a1d8da4aeb538e7
+change-id: 20230803-memfd-vm-noexec-uapi-fixes-ace725c67b0f
+
+Best regards,
+-- 
+Aleksa Sarai <cyphar@cyphar.com>
+
