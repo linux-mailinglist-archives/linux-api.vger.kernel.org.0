@@ -2,166 +2,141 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DA7377C41D
-	for <lists+linux-api@lfdr.de>; Tue, 15 Aug 2023 01:59:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C63C077CA78
+	for <lists+linux-api@lfdr.de>; Tue, 15 Aug 2023 11:33:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232754AbjHNX7E (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 14 Aug 2023 19:59:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41568 "EHLO
+        id S231534AbjHOJcg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 15 Aug 2023 05:32:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38984 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232725AbjHNX6j (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 14 Aug 2023 19:58:39 -0400
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [IPv6:2001:67c:2050:0:465::202])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B74E124;
-        Mon, 14 Aug 2023 16:58:37 -0700 (PDT)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+        with ESMTP id S236293AbjHOJbz (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 15 Aug 2023 05:31:55 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 151D23A9D;
+        Tue, 15 Aug 2023 02:30:37 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4RPrvX424qz9sSC;
-        Tue, 15 Aug 2023 01:58:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
-        t=1692057512;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=YFNmrJDz8TQ/FKyloniYJQAduWfeMEx12U9NOZfx3Ec=;
-        b=SsAV21Eymk9wDD+NTR5KClddjZ2x7XBUiOYXrQDQN6S0AjNZmwH4zcifubmG0RIrBk5CsA
-        lN/GnzWNshWG8b/q3ePdQi2NzOsWp6ywfQttGlHr29ph6PWfBLY1THera+wk6jkJ9v9CeF
-        KHcbS+bWjw+MFgJTLIEOqSOqso3A9D76E789ZDpgkhdnYFk7qYVmzAwTO4wTWgUWR4+VjX
-        LL9niOQDGqjaacsMeUx51owNa1K5AA+14CSKKapcpTRwIYc366GFEzhUDMblJkwp9OWKpC
-        xtVrWGqet63zsATq/gdBXcsSDSgreBrNkSXpETOmCiUtpMUEp/vFd0BfSE8WKw==
-Date:   Tue, 15 Aug 2023 09:58:21 +1000
-From:   Aleksa Sarai <cyphar@cyphar.com>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 735C4619D7;
+        Tue, 15 Aug 2023 09:30:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72D88C433C8;
+        Tue, 15 Aug 2023 09:30:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1692091836;
+        bh=T2kGbRnErMgrts/4Qwp4uAi0SsB1Y6Xq9Lg1wUzmr4M=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=MYdK55o7h46+27cAX/ulE7EhEYJp6NFb0vDQw61LT0tM4DOpE1Nu6gbhECGNPvZHo
+         Sdrc4A4156J5ZdOh8keAu+XjZiHVyqf2KHISxbsdoXHfAR24Hn/MT1v25Pw89kIVKs
+         XMSNSNeUrZR7M1PZh+5oibsWTnP4nSIHkj9ZifHw3Cbj9WG+obXrApQktJ3jXAdR3C
+         iK0Snzywp1l2oOXtAjx+U0MKCwdPRTE2eGfdsz8HE8mzXxEy/otii6snkUif1KOMdG
+         CDPG4Hj/QPGW7UPQKxQNHz0fKZ1bOwznFnMHOIfLb0zl2qQRXghPJEpiMF+uCPlpX4
+         ibDBt2Xa9AP0w==
+Date:   Tue, 15 Aug 2023 11:30:32 +0200
+From:   Christian Brauner <brauner@kernel.org>
 To:     Sargun Dhillon <sargun@sargun.me>
 Cc:     linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        Christoph Hellwig <hch@lst.de>,
-        Christian Brauner <brauner@kernel.org>
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Christoph Hellwig <hch@lst.de>
 Subject: Re: [PATCH 2/3] fs: Allow user to lock mount attributes with
  mount_setattr
-Message-ID: <20230814.234005-ex.alehouse.beloved.favors-mztNlauDk2zk@cyphar.com>
+Message-ID: <20230815-ableisten-offiziell-9b4de6357f7c@brauner>
 References: <20230810090044.1252084-1-sargun@sargun.me>
  <20230810090044.1252084-2-sargun@sargun.me>
- <20230811.020617-buttery.agate.grand.surgery-EoCrXfehGJ8@cyphar.com>
- <CAMp4zn-YfP1Bs_S4B55cbAtkbOg8Do1UK1tVe6K1a2-Bxprx-Q@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="bok4357k4bf6h43u"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAMp4zn-YfP1Bs_S4B55cbAtkbOg8Do1UK1tVe6K1a2-Bxprx-Q@mail.gmail.com>
-X-Rspamd-Queue-Id: 4RPrvX424qz9sSC
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20230810090044.1252084-2-sargun@sargun.me>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Thu, Aug 10, 2023 at 02:00:43AM -0700, Sargun Dhillon wrote:
+> We support locking certain mount attributes in the kernel. This API
+> isn't directly exposed to users. Right now, users can lock mount
+> attributes by going through the process of creating a new user
+> namespaces, and when the mounts are copied to the "lower privilege"
+> domain, they're locked. The mount can be reopened, and passed around
+> as a "locked mount".
 
---bok4357k4bf6h43u
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Not sure if that's what you're getting at but you can actually fully
+create these locked mounts already:
 
-On 2023-08-14, Sargun Dhillon <sargun@sargun.me> wrote:
-> On Sun, Aug 13, 2023 at 10:41=E2=80=AFPM Aleksa Sarai <cyphar@cyphar.com>=
- wrote:
-> >
-> > It just occurred to me that the whole MNT_LOCK_* machinery has the
-> > unfortunate consequence of restricting the host root user from being
-> > able to modify the locked flags. Since this change will let you do this
-> > without creating a userns, do we want to make can_change_locked_flags()
-> > do capable(CAP_SYS_MOUNT)?
-> >
-> Doesn't mount_setattr already require that the user has CAP_SYS_ADMIN
-> in the mount's user namespace?
->=20
-> I'm not sure how this lets us bypass that.
->=20
-> Or are you saying we should check for
-> CAP_SYS_MOUNT && CAP_SYS_ADMIN?
+P1                                                 P2
+# init userns + init mountns                       # init userns + init mountns
+sudo mount --bind /foo /bar
+sudo mount --bind -o ro,nosuid,nodev,noexec /bar
 
-I was talking about the fact that can_change_locked_flags() doesn't have
-an escape catch for capable(CAP_SYS_whatever). But as I mentioned in a
-later mail, this might be safe but it would have other downsides.
+# unprivileged userns + unprivileged mountns
+unshare --mount --user --map-root
 
-> > > +             if ((new_mount_flags & kattr->attr_lock) !=3D kattr->at=
-tr_lock) {
-> > > +                     err =3D -EINVAL;
-> > > +                     break;
-> > > +             }
-> >
-> > Since the MNT_LOCK_* flags are invisible to userspace, it seems more
-> > reasonable to have the attr_lock set be added to the existing set rather
-> > than requiring userspace to pass the same set of flags.
-> >
-> IMHO, it's nice to be able to use the existing set of flags. I don't mind
-> adding new flags though.
+mount --bind -oremount
 
-This was related to the later paragraph. I agree passing the existing
-MOUNT_ATTR_* flags to attr_lock is preferable.
+fd = open_tree(/bar, OPEN_TREE_CLONE)
 
-> > Actually, AFAICS this implementation breaks backwards compatibility
-> > because with this change you now need to pass MNT_LOCK_* flags if
-> > operating on a mount that has locks applied already. So existing
-> > programs (which have .attr_lock=3D0) will start getting -EINVAL when
-> > operating on mounts with locked flags (such as those locked in the
-> > userns case). Or am I missing something?
-> I don't think so, because if attr_lock is 0, then
-> new_mount_flags & kattr->attr_lock is 0. kattr->attr_lock is only
-> flags to *newly lock*, and doesn't inherit the set of current locks.
+send(fd_send, P2);
 
-Ah, I misread this (I was confused why this check was needed which made
-me think it must be checking something else, but looking at it again,
-the check is actually making sure that if you lock a flag that the flag
-is also set) -- in that case the behaviour is exactly what I was
-describing. Oops!
+                                                   recv(&fd_recv, P1)
+                                                   
+                                                   move_mount(fd_recv, /locked-mnt);
 
-> > In any case, the most reasonable behaviour would be to OR the requested
-> > lock flags with the existing ones IMHO.
-> >
-> I can append this to the mount_attr_do_lock test in the next patch, and it
-> lets me flip the NOSUID bit on and off without attr_lock being set, unless
-> you're referring to something else.
+and now you have a fully locked mount on the host for P2. Did you mean that?
 
-The behaviour I was talking about was:
+> 
+> Locked mounts are useful, for example, in container execution without
+> user namespaces, where you may want to expose some host data as read
+> only without allowing the container to remount the mount as mutable.
+> 
+> The API currently requires that the given privilege is taken away
+> while or before locking the flag in the less privileged position.
+> This could be relaxed in the future, where the user is allowed to
+> remount the mount as read only, but once they do, they cannot make
+> it read only again.
 
-memset(&attr, 0, sizeof(attr));
-attr.attr_set =3D attr.attr_lock =3D MOUNT_ATTR_NOSUID;
-ASSERT_EQ(sys_mount_setattr(-1, "/tmp/C", 0, &attr, sizeof(attr)), 0);
+s/read only/read write/
 
-memset(&attr, 0, sizeof(attr));
-attr.attr_set =3D attr.attr_lock =3D MOUNT_ATTR_NOEXEC;
-ASSERT_EQ(sys_mount_setattr(-1, "/tmp/C", 0, &attr, sizeof(attr)), 0); // s=
-hould work
+> 
+> Right now, this allows for all flags that are lockable via the
+> userns unshare trick to be locked, other than the atime related
+> ones. This is because the semantics of what the "less privileged"
+> position is around the atime flags is unclear.
 
-/* mount should have MOUNT_ATTR_NOSUID|MOUNT_ATTR_NOEXEC now */
+I think that atime stuff doesn't really make sense to expose to
+userspace. That seems a bit pointless imho.
 
-(Which is what the current implementation should do.)
+> 
+> Signed-off-by: Sargun Dhillon <sargun@sargun.me>
+> ---
+>  fs/namespace.c             | 40 +++++++++++++++++++++++++++++++++++---
+>  include/uapi/linux/mount.h |  2 ++
+>  2 files changed, 39 insertions(+), 3 deletions(-)
+> 
+> diff --git a/fs/namespace.c b/fs/namespace.c
+> index 54847db5b819..5396e544ac84 100644
+> --- a/fs/namespace.c
+> +++ b/fs/namespace.c
+> @@ -78,6 +78,7 @@ static LIST_HEAD(ex_mountpoints); /* protected by namespace_sem */
+>  struct mount_kattr {
+>  	unsigned int attr_set;
+>  	unsigned int attr_clr;
+> +	unsigned int attr_lock;
 
-> You shouldn't be able to attr_clr a locked attribute (even as
-> CAP_SYS_ADMIN in the init_user_ns).
+So when I originally noted down this crazy idea
+https://github.com/uapi-group/kernel-features
+I didn't envision a new struct member but rather a flag that could be
+raised in attr_set like MOUNT_ATTR_LOCK that would indicate for the
+other flags in attr_set to become locked.
 
-This is what I was referring to in the escape hatch bit above (whether
-we should allow this).
+So if we could avoid growing the struct pointlessly I'd prefer that. Is
+there a reason that wouldn't work?
 
---=20
-Aleksa Sarai
-Senior Software Engineer (Containers)
-SUSE Linux GmbH
-<https://www.cyphar.com/>
-
---bok4357k4bf6h43u
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCZNq/mAAKCRAol/rSt+lE
-by/gAQDd85F/zO8FlOcNeDJB3M+T2GLEptrAlE2Aqoeu06sTAAEAyiLHYJFUBMgP
-mFNiIkveFIM9WpJBDzC/3tAzR8BTdwE=
-=ab0g
------END PGP SIGNATURE-----
-
---bok4357k4bf6h43u--
+I have no strong feelings about this tbh. It seems useful overall to
+have this ability. But it deviates a bit from regular mount semantics in
+that you can lock mount properties for the lifetime of the mount
+explicitly.
