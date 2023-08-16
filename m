@@ -2,57 +2,58 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B24B77D9B7
-	for <lists+linux-api@lfdr.de>; Wed, 16 Aug 2023 07:10:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1571477D9BA
+	for <lists+linux-api@lfdr.de>; Wed, 16 Aug 2023 07:14:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241851AbjHPFJs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 16 Aug 2023 01:09:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56680 "EHLO
+        id S229757AbjHPFOH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 16 Aug 2023 01:14:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34824 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241816AbjHPFJe (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 16 Aug 2023 01:09:34 -0400
-Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com [IPv6:2607:f8b0:4864:20::836])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E2171FD0
-        for <linux-api@vger.kernel.org>; Tue, 15 Aug 2023 22:09:32 -0700 (PDT)
-Received: by mail-qt1-x836.google.com with SMTP id d75a77b69052e-40c72caec5cso192771cf.0
-        for <linux-api@vger.kernel.org>; Tue, 15 Aug 2023 22:09:32 -0700 (PDT)
+        with ESMTP id S241863AbjHPFOA (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 16 Aug 2023 01:14:00 -0400
+Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com [IPv6:2607:f8b0:4864:20::829])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EA2D10C1
+        for <linux-api@vger.kernel.org>; Tue, 15 Aug 2023 22:13:55 -0700 (PDT)
+Received: by mail-qt1-x829.google.com with SMTP id d75a77b69052e-4036bd4fff1so187891cf.0
+        for <linux-api@vger.kernel.org>; Tue, 15 Aug 2023 22:13:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1692162571; x=1692767371;
+        d=google.com; s=20221208; t=1692162834; x=1692767634;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=EWYw8V7xEm9ZxKzv65n28jlWR3dMIFktpfCljWRtgVw=;
-        b=GcIFyrj/ggB6oJDZSePiyLgPx6rtBBCftDf5qEB/y2PfHEaSZwVgRAFk717Vq7viPz
-         4E/+eU3jWbqx2pUIsjWtHjjGeU1z7VYZBu0FDSnoUwDCTJVB6dxlytG671GLoTkFUv50
-         mgyvJefV+5iwQw8xGNZ6hJdicXkoGuwVzG3gOuCIwQCpKEZSZ76ygOiEk1jQ8CSt5SLu
-         VbAnN0GG5oX1AVK/AEBJZJ70EUKSnJaU2uwhXJ2P2loifrUXhyHCwVPorwg/X8L5wSC9
-         nNpnLfN91lFvY+SSE82EZtBEdr8ZwvPJNfBJum4yjh5DVEuSC6hFQ/ViTiCcFQts8V0S
-         DMMg==
+        bh=PQIHIan4UgwN8PNlutsYyTVZApetHryIC6JPWb8ty6E=;
+        b=xj+Wh4p0ryCM6u+0ke6PF1ZKIWXPnqDCM2X2W+Vh9DRPemN7o1IAJXVlQ8ebnFqqy7
+         NB7U1xgXTbtRiVUnO9pdj1QvGThirUh1JM05Vw9I419YXC633tnXWzTIBC/x0hDl57iM
+         SXLip6VcckpF1MHVCBnihB7PTZRoG1mBeCVMydwHnvXdayx2z06NaEqfUhqT5+fW0oUX
+         B1CdjQMpAjW7usda8p2facaUUSzGjgSNMg+GAiUrSMEcShzIkImShl1i71PjVsYqpp1f
+         coNSn1PudFw4PPNwiHbMtK4K6AC60oBl36rXmDZrvkVKkUOm8eR95tMyvdM5xdaFsDap
+         HEaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692162571; x=1692767371;
+        d=1e100.net; s=20221208; t=1692162834; x=1692767634;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=EWYw8V7xEm9ZxKzv65n28jlWR3dMIFktpfCljWRtgVw=;
-        b=G6B9Exo+2D0eOjgnEY77yJ2G5bbTrr4QvgSoaAXOf0hMvr4Zwhlkd0jwDZUFV7KuUU
-         UOja2OODUA1dI9ooawG4oeJPSV7q53FtK+2NIMMm7CuT4RiwO82XZYcZsu+Y4Jn/auQm
-         7v6AySXTjntYNGx23UBFqPSBkWOGyGBnvVDs2yXc4RfYaFgoklH3plfRJ+mQubO+FGsx
-         p+UGCU6OxEFbiIPT0Q4/js/WXoOkyZPS7DzdjEeRDot3MnBzhM0Vav/C80qe5KbWus2x
-         NNLN3FujNwfaczY5KkBmoWPkkwPPJpbx43NsFFy9sGgGEuMC+M1G630IbEredZuI8ACO
-         XOzw==
-X-Gm-Message-State: AOJu0YxDMz3Sjt1FIUmJ5ddQymflNLfR9jILNBGbMmEZSi6sKiJQNobx
-        sYcg5vPal+tLhFoU86c+VkScvYlwCkjDiBKFFa/RQw==
-X-Google-Smtp-Source: AGHT+IEApM/HrVBOBFUDcS71XBKU9AMFPQfP6BMa03FaPq3RB+bSh3eaqt1r6H0QW8Gx2soPN3AzokmVW8dGTIkNeN8=
-X-Received: by 2002:ac8:59c4:0:b0:410:385c:d1d9 with SMTP id
- f4-20020ac859c4000000b00410385cd1d9mr108035qtf.25.1692162570997; Tue, 15 Aug
- 2023 22:09:30 -0700 (PDT)
+        bh=PQIHIan4UgwN8PNlutsYyTVZApetHryIC6JPWb8ty6E=;
+        b=gEaii2ZL/iPIV924ywfkaGNBdk4AqlpCNCV9Xmk47Uy2Gu/+3Eq08Z+Eana9xVd39/
+         hoIRQuW4DfP2Iw/4b8nu5OjW+MDZVvsqhBu1B2xAEmk2TtwEWSu/qZwL/nT5nzLxKX8p
+         fb2Up0pFr0JbpbqX4Dr5tRD46fT0z879/Ac0LK7BBvT/n9L+/2jJY/KMYXQ5P+2XmF9U
+         TGFpZDIobVqRdpq+fprqem/cdIS6GB9QyXos0ZrtNdikrJG29QH10hWp3tDdY0nl8MyK
+         HY8q1G1SUglMWkxH5sXacdD+mRyYM45tdxi4c/vUDVTO7tRo7/T+kwAQ+hRq/MB4K7+C
+         qW9A==
+X-Gm-Message-State: AOJu0Yyfw03SmxDEYWefhanfs5nxtY6+nmvZOcYS3VN2lxnafB/9KylJ
+        bT/viBk6CciZmbBkK8cRZy149iFzMo4YYakA+gKZOg==
+X-Google-Smtp-Source: AGHT+IGP4SVn8SCneg6CjJ1ixzGWEsewlhNhcVCZOTXpO5Wj/AlFbxwap6oQp9wibsgICq0L8WSBO0iTE4GHZgff8DY=
+X-Received: by 2002:a05:622a:d5:b0:3ef:5f97:258f with SMTP id
+ p21-20020a05622a00d500b003ef5f97258fmr142674qtw.16.1692162834282; Tue, 15 Aug
+ 2023 22:13:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230814-memfd-vm-noexec-uapi-fixes-v2-0-7ff9e3e10ba6@cyphar.com>
-In-Reply-To: <20230814-memfd-vm-noexec-uapi-fixes-v2-0-7ff9e3e10ba6@cyphar.com>
+References: <20230814-memfd-vm-noexec-uapi-fixes-v2-0-7ff9e3e10ba6@cyphar.com> <20230814-memfd-vm-noexec-uapi-fixes-v2-4-7ff9e3e10ba6@cyphar.com>
+In-Reply-To: <20230814-memfd-vm-noexec-uapi-fixes-v2-4-7ff9e3e10ba6@cyphar.com>
 From:   Jeff Xu <jeffxu@google.com>
-Date:   Tue, 15 Aug 2023 22:08:54 -0700
-Message-ID: <CALmYWFuALsM-0nxp+X552VpuPkehtUNiC84gvmgZ7A1LLqkx_g@mail.gmail.com>
-Subject: Re: [PATCH v2 0/5] memfd: cleanups for vm.memfd_noexec
+Date:   Tue, 15 Aug 2023 22:13:18 -0700
+Message-ID: <CALmYWFvxLee5+RyLh=vo6kpwMVS-_C7BJ9kmTPDa2tetgHOHPw@mail.gmail.com>
+Subject: Re: [PATCH v2 4/5] memfd: replace ratcheting feature from
+ vm.memfd_noexec with hierarchy
 To:     Aleksa Sarai <cyphar@cyphar.com>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Shuah Khan <shuah@kernel.org>,
@@ -79,125 +80,83 @@ X-Mailing-List: linux-api@vger.kernel.org
 On Mon, Aug 14, 2023 at 1:41=E2=80=AFAM Aleksa Sarai <cyphar@cyphar.com> wr=
 ote:
 >
-> The most critical issue with vm.memfd_noexec=3D2 (the fact that passing
-> MFD_EXEC would bypass it entirely[1]) has been fixed in Andrew's
-> tree[2], but there are still some outstanding issues that need to be
-> addressed:
+> This sysctl has the very unusual behaviour of not allowing any user (even
+> CAP_SYS_ADMIN) to reduce the restriction setting, meaning that if you
+> were to set this sysctl to a more restrictive option in the host pidns
+> you would need to reboot your machine in order to reset it.
 >
->  * vm.memfd_noexec=3D2 shouldn't reject old-style memfd_create(2) syscall=
-s
->    because it will make it far to difficult to ever migrate. Instead it
->    should imply MFD_EXEC.
+> The justification given in [1] is that this is a security feature and
+> thus it should not be possible to disable. Aside from the fact that we
+> have plenty of security-related sysctls that can be disabled after being
+> enabled (fs.protected_symlinks for instance), the protection provided by
+> the sysctl is to stop users from being able to create a binary and then
+> execute it. A user with CAP_SYS_ADMIN can trivially do this without
+> memfd_create(2):
 >
->  * The dmesg warnings are pr_warn_once(), which on most systems means
->    that they will be used up by systemd or some other boot process and
->    userspace developers will never see it.
+>   % cat mount-memfd.c
+>   #include <fcntl.h>
+>   #include <string.h>
+>   #include <stdio.h>
+>   #include <stdlib.h>
+>   #include <unistd.h>
+>   #include <linux/mount.h>
 >
->    - For the !(flags & (MFD_EXEC | MFD_NOEXEC_SEAL)) case, outputting a
->      rate-limited message to the kernel log is necessary to tell
->      userspace that they should add the new flags.
+>   #define SHELLCODE "#!/bin/echo this file was executed from this totally=
+ private tmpfs:"
 >
->      Arguably the most ideal way to deal with the spam concern[3,4]
->      while still prompting userspace to switch to the new flags would be
->      to only log the warning once per task or something similar.
->      However, adding something to task_struct for tracking this would be
->      needless bloat for a single pr_warn_ratelimited().
+>   int main(void)
+>   {
+>         int fsfd =3D fsopen("tmpfs", FSOPEN_CLOEXEC);
+>         assert(fsfd >=3D 0);
+>         assert(!fsconfig(fsfd, FSCONFIG_CMD_CREATE, NULL, NULL, 2));
 >
->      So just switch to pr_info_ratelimited() to avoid spamming the log
->      with something that isn't a real warning. There's lots of
->      info-level stuff in dmesg, it seems really unlikely that this
->      should be an actual problem. Most programs are already switching to
->      the new flags anyway.
+>         int dfd =3D fsmount(fsfd, FSMOUNT_CLOEXEC, 0);
+>         assert(dfd >=3D 0);
 >
->    - For the vm.memfd_noexec=3D2 case, we need to log a warning for every
->      failure because otherwise userspace will have no idea why their
->      previously working program started returning -EACCES (previously
->      -EINVAL) from memfd_create(2). pr_warn_once() is simply wrong here.
+>         int execfd =3D openat(dfd, "exe", O_CREAT | O_RDWR | O_CLOEXEC, 0=
+782);
+>         assert(execfd >=3D 0);
+>         assert(write(execfd, SHELLCODE, strlen(SHELLCODE)) =3D=3D strlen(=
+SHELLCODE));
+>         assert(!close(execfd));
 >
->  * The racheting mechanism for vm.memfd_noexec makes it incredibly
->    unappealing for most users to enable the sysctl because enabling it
->    on &init_pid_ns means you need a system reboot to unset it. Given the
->    actual security threat being protected against, CAP_SYS_ADMIN users
->    being restricted in this way makes little sense.
+>         char *execpath =3D NULL;
+>         char *argv[] =3D { "bad-exe", NULL }, *envp[] =3D { NULL };
+>         execfd =3D openat(dfd, "exe", O_PATH | O_CLOEXEC);
+>         assert(execfd >=3D 0);
+>         assert(asprintf(&execpath, "/proc/self/fd/%d", execfd) > 0);
+>         assert(!execve(execpath, argv, envp));
+>   }
+>   % ./mount-memfd
+>   this file was executed from this totally private tmpfs: /proc/self/fd/5
+>   %
 >
->    The argument for this ratcheting by the original author was that it
->    allows you to have a hierarchical setting that cannot be unset by
->    child pidnses, but this is not accurate -- changing the parent
->    pidns's vm.memfd_noexec setting to be more restrictive didn't affect
->    children.
+> Given that it is possible for CAP_SYS_ADMIN users to create executable
+> binaries without memfd_create(2) and without touching the host
+> filesystem (not to mention the many other things a CAP_SYS_ADMIN process
+> would be able to do that would be equivalent or worse), it seems strange
+> to cause a fair amount of headache to admins when there doesn't appear
+> to be an actual security benefit to blocking this. There appear to be
+> concerns about confused-deputy-esque attacks[2] but a confused deputy tha=
+t
+> can write to arbitrary sysctls is a bigger security issue than
+> executable memfds.
 >
-That is not exactly what I said though.
-From ChromeOS's position,  allowing downgrade is less secure, and this
-setting was designed to be set at startup/reboot time from the very
-beginning, such that the kernel command line or as part of the
-container runtime environment (get passed to sandboxed container)
-I understand your viewpoint,  from another distribution point of view,
- the original design might be too restricted, so if the kernel wants
-to weigh more on ease of admin, I'm OK with your approach.
-Though it is less secure for ChromeOS - i.e. we do try to prevent
-arbitrary code execution  as much as possible, even for CAP_SYSADMIN.
-And with this change, it is less secure and one more possibility for
-us to consider.
+Something to point out: The demo code might be enough to prove your
+case in other distributions, however, in ChromeOS, you can't run this
+code. The executable in ChromeOS are all from known sources and
+verified at boot.
+If an attacker could run this code in ChromeOS, that means the
+attacker already acquired arbitrary code execution through other ways,
+at that point, the attacker no longer needs to create/find an
+executable memfd, they already have the vehicle. You can't use an
+example of an attacker already running arbitrary code to prove that
+disable downgrading is useless.
+I agree it is a big problem that an attacker already can modify a
+sysctl.  Assuming this can happen by controlling arguments passed into
+sysctl, at the time, the attacker might not have full arbitrary code
+execution yet, that is the reason the original design is so
+restrictive.
 
-
-
-
->    Instead, switch the vm.memfd_noexec sysctl to be properly
->    hierarchical and allow CAP_SYS_ADMIN users (in the pidns's owning
->    userns) to lower the setting as long as it is not lower than the
->    parent's effective setting. This change also makes it so that
->    changing a parent pidns's vm.memfd_noexec will affect all
->    descendants, providing a properly hierarchical setting. The
->    performance impact of this is incredibly minimal since the maximum
->    depth of pidns is 32 and it is only checked during memfd_create(2)
->    and unshare(CLONE_NEWPID).
->
->  * The memfd selftests would not exit with a non-zero error code when
->    certain tests that ran in a forked process (specifically the ones
->    related to MFD_EXEC and MFD_NOEXEC_SEAL) failed.
->
-> [1]: https://lore.kernel.org/all/ZJwcsU0vI-nzgOB_@codewreck.org/
-> [2]: https://lore.kernel.org/all/20230705063315.3680666-1-jeffxu@google.c=
-om/
-> [3]: https://lore.kernel.org/Y5yS8wCnuYGLHMj4@x1n/
-> [4]: https://lore.kernel.org/f185bb42-b29c-977e-312e-3349eea15383@linuxfo=
-undation.org/
->
-> Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
-> ---
-> Changes in v2:
-> - Make vm.memfd_noexec restrictions properly hierarchical.
-> - Allow vm.memfd_noexec setting to be lowered by CAP_SYS_ADMIN as long
->   as it is not lower than the parent's effective setting.
-> - Fix the logging behaviour related to the new flags and
->   vm.memfd_noexec=3D2.
-> - Add more thorough tests for vm.memfd_noexec in selftests.
-> - v1: <https://lore.kernel.org/r/20230713143406.14342-1-cyphar@cyphar.com=
->
->
-> ---
-> Aleksa Sarai (5):
->       selftests: memfd: error out test process when child test fails
->       memfd: do not -EACCES old memfd_create() users with vm.memfd_noexec=
-=3D2
->       memfd: improve userspace warnings for missing exec-related flags
->       memfd: replace ratcheting feature from vm.memfd_noexec with hierarc=
-hy
->       selftests: improve vm.memfd_noexec sysctl tests
->
->  include/linux/pid_namespace.h              |  39 ++--
->  kernel/pid.c                               |   3 +
->  kernel/pid_namespace.c                     |   6 +-
->  kernel/pid_sysctl.h                        |  28 ++-
->  mm/memfd.c                                 |  33 ++-
->  tools/testing/selftests/memfd/memfd_test.c | 332 +++++++++++++++++++++++=
-------
->  6 files changed, 322 insertions(+), 119 deletions(-)
-> ---
-> base-commit: 3ff995246e801ea4de0a30860a1d8da4aeb538e7
-> change-id: 20230803-memfd-vm-noexec-uapi-fixes-ace725c67b0f
->
-> Best regards,
-> --
-> Aleksa Sarai <cyphar@cyphar.com>
->
+Best regards,
+-Jeff
