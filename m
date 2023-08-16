@@ -2,177 +2,202 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A31B77CD83
-	for <lists+linux-api@lfdr.de>; Tue, 15 Aug 2023 15:48:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B24B77D9B7
+	for <lists+linux-api@lfdr.de>; Wed, 16 Aug 2023 07:10:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235219AbjHONrd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 15 Aug 2023 09:47:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35646 "EHLO
+        id S241851AbjHPFJs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 16 Aug 2023 01:09:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56680 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237464AbjHONrO (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 15 Aug 2023 09:47:14 -0400
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AA8919B3
-        for <linux-api@vger.kernel.org>; Tue, 15 Aug 2023 06:47:12 -0700 (PDT)
-Received: by mail-ej1-x62a.google.com with SMTP id a640c23a62f3a-99c0290f0a8so669218366b.1
-        for <linux-api@vger.kernel.org>; Tue, 15 Aug 2023 06:47:11 -0700 (PDT)
+        with ESMTP id S241816AbjHPFJe (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 16 Aug 2023 01:09:34 -0400
+Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com [IPv6:2607:f8b0:4864:20::836])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E2171FD0
+        for <linux-api@vger.kernel.org>; Tue, 15 Aug 2023 22:09:32 -0700 (PDT)
+Received: by mail-qt1-x836.google.com with SMTP id d75a77b69052e-40c72caec5cso192771cf.0
+        for <linux-api@vger.kernel.org>; Tue, 15 Aug 2023 22:09:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sargun.me; s=google; t=1692107230; x=1692712030;
+        d=google.com; s=20221208; t=1692162571; x=1692767371;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Unr4+ItpuKlIirZHj4iGptdbf8I+3LbFXo97iblwKyc=;
-        b=f/PlbdLGdiLehPhw+jZl2CbgQDrf6h5t/XaFt6inhQRlxmRrN91HH20sXysigGUmhp
-         svbvv0oqkBkUxXBFLN+QOEjDFxLKvAifHqrp0oeHf5G+0EHd+0JSZVUw/+EjyyNrwLF1
-         /nwLD5xOysI0ILlsEYx43G0m6vuiUbqFKwOxU=
+        bh=EWYw8V7xEm9ZxKzv65n28jlWR3dMIFktpfCljWRtgVw=;
+        b=GcIFyrj/ggB6oJDZSePiyLgPx6rtBBCftDf5qEB/y2PfHEaSZwVgRAFk717Vq7viPz
+         4E/+eU3jWbqx2pUIsjWtHjjGeU1z7VYZBu0FDSnoUwDCTJVB6dxlytG671GLoTkFUv50
+         mgyvJefV+5iwQw8xGNZ6hJdicXkoGuwVzG3gOuCIwQCpKEZSZ76ygOiEk1jQ8CSt5SLu
+         VbAnN0GG5oX1AVK/AEBJZJ70EUKSnJaU2uwhXJ2P2loifrUXhyHCwVPorwg/X8L5wSC9
+         nNpnLfN91lFvY+SSE82EZtBEdr8ZwvPJNfBJum4yjh5DVEuSC6hFQ/ViTiCcFQts8V0S
+         DMMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692107230; x=1692712030;
+        d=1e100.net; s=20221208; t=1692162571; x=1692767371;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Unr4+ItpuKlIirZHj4iGptdbf8I+3LbFXo97iblwKyc=;
-        b=KsCfxo+hiKqCZmxXKcAhnX46V1j0YJBlZXVyB7TgQdodJdSsbyT0c/nAQLlGgqCXXN
-         W1eKi662EN40CM8TDIV/THV54Duv/Ryyh3lpvyfN4IloW6++JEcSvhVMbx6MzmiK+Aec
-         Jqxuf5AOzraQ31hzTVzXQkAMIDjW5pyecsy5ryQddDqgrfq1JlrSTU7d3PDj5rxzzlK/
-         4eJUU5qwWqHxgNUveAg7Eq9OYo8lahxsNSjbg1UPOTesGOJK7UXME2VbimVuF50fGzij
-         Mv0bPZkcdpdrfIZQWe1PIVlMI8PlzLsqSRn7Y90AtzPCpdTzRyCDrWymz+6n0JqaL2wX
-         Jodg==
-X-Gm-Message-State: AOJu0Yx9V1an2GhlNXxWipjJq1ryRYz96M36zc1XwFTu4T9REtyze8Oi
-        fcpkbfx+D9/Xq4h6aYqCG/PqQNKAoFztCNTFDBtCNUok8bsIdIfzlJM=
-X-Google-Smtp-Source: AGHT+IGRk21b4lG7OdoQ5rBY2/KCbr8XWNydutcW06BmIydNi/uI/V0ofbVuNwwoMY0V2mg3J3CmxT+LYRYMOVcrEd4=
-X-Received: by 2002:a17:907:2e19:b0:993:e9b8:90f5 with SMTP id
- ig25-20020a1709072e1900b00993e9b890f5mr9788154ejc.8.1692107230114; Tue, 15
- Aug 2023 06:47:10 -0700 (PDT)
+        bh=EWYw8V7xEm9ZxKzv65n28jlWR3dMIFktpfCljWRtgVw=;
+        b=G6B9Exo+2D0eOjgnEY77yJ2G5bbTrr4QvgSoaAXOf0hMvr4Zwhlkd0jwDZUFV7KuUU
+         UOja2OODUA1dI9ooawG4oeJPSV7q53FtK+2NIMMm7CuT4RiwO82XZYcZsu+Y4Jn/auQm
+         7v6AySXTjntYNGx23UBFqPSBkWOGyGBnvVDs2yXc4RfYaFgoklH3plfRJ+mQubO+FGsx
+         p+UGCU6OxEFbiIPT0Q4/js/WXoOkyZPS7DzdjEeRDot3MnBzhM0Vav/C80qe5KbWus2x
+         NNLN3FujNwfaczY5KkBmoWPkkwPPJpbx43NsFFy9sGgGEuMC+M1G630IbEredZuI8ACO
+         XOzw==
+X-Gm-Message-State: AOJu0YxDMz3Sjt1FIUmJ5ddQymflNLfR9jILNBGbMmEZSi6sKiJQNobx
+        sYcg5vPal+tLhFoU86c+VkScvYlwCkjDiBKFFa/RQw==
+X-Google-Smtp-Source: AGHT+IEApM/HrVBOBFUDcS71XBKU9AMFPQfP6BMa03FaPq3RB+bSh3eaqt1r6H0QW8Gx2soPN3AzokmVW8dGTIkNeN8=
+X-Received: by 2002:ac8:59c4:0:b0:410:385c:d1d9 with SMTP id
+ f4-20020ac859c4000000b00410385cd1d9mr108035qtf.25.1692162570997; Tue, 15 Aug
+ 2023 22:09:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230810090044.1252084-1-sargun@sargun.me> <20230810090044.1252084-2-sargun@sargun.me>
- <20230815-ableisten-offiziell-9b4de6357f7c@brauner>
-In-Reply-To: <20230815-ableisten-offiziell-9b4de6357f7c@brauner>
-From:   Sargun Dhillon <sargun@sargun.me>
-Date:   Tue, 15 Aug 2023 06:46:33 -0700
-Message-ID: <CAMp4zn_RM+X8PBkAxXSuXrxbLTb2ndzVNXt10eaWj4uyWna30w@mail.gmail.com>
-Subject: Re: [PATCH 2/3] fs: Allow user to lock mount attributes with mount_setattr
-To:     Christian Brauner <brauner@kernel.org>
-Cc:     linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Christoph Hellwig <hch@lst.de>
+References: <20230814-memfd-vm-noexec-uapi-fixes-v2-0-7ff9e3e10ba6@cyphar.com>
+In-Reply-To: <20230814-memfd-vm-noexec-uapi-fixes-v2-0-7ff9e3e10ba6@cyphar.com>
+From:   Jeff Xu <jeffxu@google.com>
+Date:   Tue, 15 Aug 2023 22:08:54 -0700
+Message-ID: <CALmYWFuALsM-0nxp+X552VpuPkehtUNiC84gvmgZ7A1LLqkx_g@mail.gmail.com>
+Subject: Re: [PATCH v2 0/5] memfd: cleanups for vm.memfd_noexec
+To:     Aleksa Sarai <cyphar@cyphar.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Daniel Verkamp <dverkamp@chromium.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Dominique Martinet <asmadeus@codewreck.org>,
+        stable@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kselftest@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Aug 15, 2023 at 2:30=E2=80=AFAM Christian Brauner <brauner@kernel.o=
-rg> wrote:
+On Mon, Aug 14, 2023 at 1:41=E2=80=AFAM Aleksa Sarai <cyphar@cyphar.com> wr=
+ote:
 >
-> On Thu, Aug 10, 2023 at 02:00:43AM -0700, Sargun Dhillon wrote:
-> > We support locking certain mount attributes in the kernel. This API
-> > isn't directly exposed to users. Right now, users can lock mount
-> > attributes by going through the process of creating a new user
-> > namespaces, and when the mounts are copied to the "lower privilege"
-> > domain, they're locked. The mount can be reopened, and passed around
-> > as a "locked mount".
+> The most critical issue with vm.memfd_noexec=3D2 (the fact that passing
+> MFD_EXEC would bypass it entirely[1]) has been fixed in Andrew's
+> tree[2], but there are still some outstanding issues that need to be
+> addressed:
 >
-> Not sure if that's what you're getting at but you can actually fully
-> create these locked mounts already:
+>  * vm.memfd_noexec=3D2 shouldn't reject old-style memfd_create(2) syscall=
+s
+>    because it will make it far to difficult to ever migrate. Instead it
+>    should imply MFD_EXEC.
 >
-> P1                                                 P2
-> # init userns + init mountns                       # init userns + init m=
-ountns
-> sudo mount --bind /foo /bar
-> sudo mount --bind -o ro,nosuid,nodev,noexec /bar
+>  * The dmesg warnings are pr_warn_once(), which on most systems means
+>    that they will be used up by systemd or some other boot process and
+>    userspace developers will never see it.
 >
-> # unprivileged userns + unprivileged mountns
-> unshare --mount --user --map-root
+>    - For the !(flags & (MFD_EXEC | MFD_NOEXEC_SEAL)) case, outputting a
+>      rate-limited message to the kernel log is necessary to tell
+>      userspace that they should add the new flags.
 >
-> mount --bind -oremount
+>      Arguably the most ideal way to deal with the spam concern[3,4]
+>      while still prompting userspace to switch to the new flags would be
+>      to only log the warning once per task or something similar.
+>      However, adding something to task_struct for tracking this would be
+>      needless bloat for a single pr_warn_ratelimited().
 >
-> fd =3D open_tree(/bar, OPEN_TREE_CLONE)
+>      So just switch to pr_info_ratelimited() to avoid spamming the log
+>      with something that isn't a real warning. There's lots of
+>      info-level stuff in dmesg, it seems really unlikely that this
+>      should be an actual problem. Most programs are already switching to
+>      the new flags anyway.
 >
-> send(fd_send, P2);
+>    - For the vm.memfd_noexec=3D2 case, we need to log a warning for every
+>      failure because otherwise userspace will have no idea why their
+>      previously working program started returning -EACCES (previously
+>      -EINVAL) from memfd_create(2). pr_warn_once() is simply wrong here.
 >
->                                                    recv(&fd_recv, P1)
+>  * The racheting mechanism for vm.memfd_noexec makes it incredibly
+>    unappealing for most users to enable the sysctl because enabling it
+>    on &init_pid_ns means you need a system reboot to unset it. Given the
+>    actual security threat being protected against, CAP_SYS_ADMIN users
+>    being restricted in this way makes little sense.
 >
->                                                    move_mount(fd_recv, /l=
-ocked-mnt);
+>    The argument for this ratcheting by the original author was that it
+>    allows you to have a hierarchical setting that cannot be unset by
+>    child pidnses, but this is not accurate -- changing the parent
+>    pidns's vm.memfd_noexec setting to be more restrictive didn't affect
+>    children.
 >
-> and now you have a fully locked mount on the host for P2. Did you mean th=
-at?
->
+That is not exactly what I said though.
+From ChromeOS's position,  allowing downgrade is less secure, and this
+setting was designed to be set at startup/reboot time from the very
+beginning, such that the kernel command line or as part of the
+container runtime environment (get passed to sandboxed container)
+I understand your viewpoint,  from another distribution point of view,
+ the original design might be too restricted, so if the kernel wants
+to weigh more on ease of admin, I'm OK with your approach.
+Though it is less secure for ChromeOS - i.e. we do try to prevent
+arbitrary code execution  as much as possible, even for CAP_SYSADMIN.
+And with this change, it is less secure and one more possibility for
+us to consider.
 
-Yep. Doing this within a program without clone / fork is awkward. Forking a=
-nd
-unsharing in random C++ programs doesn't always go super well, so in my
-mind it'd be nice to have an API to do this directly.
 
-In addition, having the superblock continue to be owned by the userns that
-its mounted in is nice because then they can toggle the other mount attribu=
-tes
-(nodev, nosuid, noexec are the ones we care about).
 
-> >
-> > Locked mounts are useful, for example, in container execution without
-> > user namespaces, where you may want to expose some host data as read
-> > only without allowing the container to remount the mount as mutable.
-> >
-> > The API currently requires that the given privilege is taken away
-> > while or before locking the flag in the less privileged position.
-> > This could be relaxed in the future, where the user is allowed to
-> > remount the mount as read only, but once they do, they cannot make
-> > it read only again.
->
-> s/read only/read write/
->
-> >
-> > Right now, this allows for all flags that are lockable via the
-> > userns unshare trick to be locked, other than the atime related
-> > ones. This is because the semantics of what the "less privileged"
-> > position is around the atime flags is unclear.
->
-> I think that atime stuff doesn't really make sense to expose to
-> userspace. That seems a bit pointless imho.
->
-> >
-> > Signed-off-by: Sargun Dhillon <sargun@sargun.me>
-> > ---
-> >  fs/namespace.c             | 40 +++++++++++++++++++++++++++++++++++---
-> >  include/uapi/linux/mount.h |  2 ++
-> >  2 files changed, 39 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/fs/namespace.c b/fs/namespace.c
-> > index 54847db5b819..5396e544ac84 100644
-> > --- a/fs/namespace.c
-> > +++ b/fs/namespace.c
-> > @@ -78,6 +78,7 @@ static LIST_HEAD(ex_mountpoints); /* protected by nam=
-espace_sem */
-> >  struct mount_kattr {
-> >       unsigned int attr_set;
-> >       unsigned int attr_clr;
-> > +     unsigned int attr_lock;
->
-> So when I originally noted down this crazy idea
-> https://github.com/uapi-group/kernel-features
-> I didn't envision a new struct member but rather a flag that could be
-> raised in attr_set like MOUNT_ATTR_LOCK that would indicate for the
-> other flags in attr_set to become locked.
->
-> So if we could avoid growing the struct pointlessly I'd prefer that. Is
-> there a reason that wouldn't work?
-No reason. The semantics were just a little more awkward, IMHO.
-Specifically:
-* This attr could never be cleared, only set, which didn't seem to follow
-the attr_set / attr_clr semantics
-* If we ever introduced a mount_getattr call, you'd want to expose
-each of the locked bits independently, I'd think, and exposing
-that through one flag wouldn't give you the same fidelity.
 
+>    Instead, switch the vm.memfd_noexec sysctl to be properly
+>    hierarchical and allow CAP_SYS_ADMIN users (in the pidns's owning
+>    userns) to lower the setting as long as it is not lower than the
+>    parent's effective setting. This change also makes it so that
+>    changing a parent pidns's vm.memfd_noexec will affect all
+>    descendants, providing a properly hierarchical setting. The
+>    performance impact of this is incredibly minimal since the maximum
+>    depth of pidns is 32 and it is only checked during memfd_create(2)
+>    and unshare(CLONE_NEWPID).
 >
-> I have no strong feelings about this tbh. It seems useful overall to
-> have this ability. But it deviates a bit from regular mount semantics in
-> that you can lock mount properties for the lifetime of the mount
-> explicitly.
+>  * The memfd selftests would not exit with a non-zero error code when
+>    certain tests that ran in a forked process (specifically the ones
+>    related to MFD_EXEC and MFD_NOEXEC_SEAL) failed.
+>
+> [1]: https://lore.kernel.org/all/ZJwcsU0vI-nzgOB_@codewreck.org/
+> [2]: https://lore.kernel.org/all/20230705063315.3680666-1-jeffxu@google.c=
+om/
+> [3]: https://lore.kernel.org/Y5yS8wCnuYGLHMj4@x1n/
+> [4]: https://lore.kernel.org/f185bb42-b29c-977e-312e-3349eea15383@linuxfo=
+undation.org/
+>
+> Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
+> ---
+> Changes in v2:
+> - Make vm.memfd_noexec restrictions properly hierarchical.
+> - Allow vm.memfd_noexec setting to be lowered by CAP_SYS_ADMIN as long
+>   as it is not lower than the parent's effective setting.
+> - Fix the logging behaviour related to the new flags and
+>   vm.memfd_noexec=3D2.
+> - Add more thorough tests for vm.memfd_noexec in selftests.
+> - v1: <https://lore.kernel.org/r/20230713143406.14342-1-cyphar@cyphar.com=
+>
+>
+> ---
+> Aleksa Sarai (5):
+>       selftests: memfd: error out test process when child test fails
+>       memfd: do not -EACCES old memfd_create() users with vm.memfd_noexec=
+=3D2
+>       memfd: improve userspace warnings for missing exec-related flags
+>       memfd: replace ratcheting feature from vm.memfd_noexec with hierarc=
+hy
+>       selftests: improve vm.memfd_noexec sysctl tests
+>
+>  include/linux/pid_namespace.h              |  39 ++--
+>  kernel/pid.c                               |   3 +
+>  kernel/pid_namespace.c                     |   6 +-
+>  kernel/pid_sysctl.h                        |  28 ++-
+>  mm/memfd.c                                 |  33 ++-
+>  tools/testing/selftests/memfd/memfd_test.c | 332 +++++++++++++++++++++++=
+------
+>  6 files changed, 322 insertions(+), 119 deletions(-)
+> ---
+> base-commit: 3ff995246e801ea4de0a30860a1d8da4aeb538e7
+> change-id: 20230803-memfd-vm-noexec-uapi-fixes-ace725c67b0f
+>
+> Best regards,
+> --
+> Aleksa Sarai <cyphar@cyphar.com>
+>
