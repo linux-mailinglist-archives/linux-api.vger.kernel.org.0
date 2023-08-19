@@ -2,175 +2,140 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 66E937816DB
-	for <lists+linux-api@lfdr.de>; Sat, 19 Aug 2023 04:52:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 574297817BE
+	for <lists+linux-api@lfdr.de>; Sat, 19 Aug 2023 09:03:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244453AbjHSCv3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 18 Aug 2023 22:51:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52902 "EHLO
+        id S1343753AbjHSHDR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 19 Aug 2023 03:03:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244430AbjHSCvB (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 18 Aug 2023 22:51:01 -0400
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38CD94223;
-        Fri, 18 Aug 2023 19:50:59 -0700 (PDT)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4RSNXZ4RVqz9skw;
-        Sat, 19 Aug 2023 04:50:54 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
-        t=1692413454;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=fhTlw/KDqyUanTjcoZxqJpm0Dm5mWvJoRAWn5g99i9Q=;
-        b=KaQmHEg9LbsvEytLoH9O5QzW7WwwCyvMfgmDFD87x6WhtAgb8utIhO1DdQgtwvMZP/BQ9v
-        g4BpSHZsZkRwzWBUPe3DjxbA+iRmLhs7fJvj0l0TdPs7BKGyfZKZ4tnHb2/0fZfUtGgfBF
-        KUlGYs4G7gfXBXD+xuZDx6hSHuLpPgRmSqCp6NP67T3mvwJjGKQRM2jade7vbRPXDf15nz
-        4iZn/u9OF0+OplD2GhQzYrr2Zpm/2qQxLFMTm6LjdZRB8/HrZsCx4acNGQ6JM92vpnHSO4
-        8CX9ii7twfB8BX6MVeIyCmK3bkM1PuGuK7fLHI20AzeoXo+7xvLoYWG3J1YVfA==
-Date:   Sat, 19 Aug 2023 12:50:39 +1000
-From:   Aleksa Sarai <cyphar@cyphar.com>
-To:     Jeff Xu <jeffxu@google.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Daniel Verkamp <dverkamp@chromium.org>,
-        Christian Brauner <brauner@kernel.org>,
-        Dominique Martinet <asmadeus@codewreck.org>,
-        stable@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v2 0/5] memfd: cleanups for vm.memfd_noexec
-Message-ID: <20230819.022033-joyful.ward.quirky.defender-lpHlCTglJUSs@cyphar.com>
-References: <20230814-memfd-vm-noexec-uapi-fixes-v2-0-7ff9e3e10ba6@cyphar.com>
- <CALmYWFuALsM-0nxp+X552VpuPkehtUNiC84gvmgZ7A1LLqkx_g@mail.gmail.com>
+        with ESMTP id S1343732AbjHSHC7 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 19 Aug 2023 03:02:59 -0400
+Received: from mail-yw1-x1143.google.com (mail-yw1-x1143.google.com [IPv6:2607:f8b0:4864:20::1143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 338944218
+        for <linux-api@vger.kernel.org>; Sat, 19 Aug 2023 00:02:57 -0700 (PDT)
+Received: by mail-yw1-x1143.google.com with SMTP id 00721157ae682-579de633419so18018927b3.3
+        for <linux-api@vger.kernel.org>; Sat, 19 Aug 2023 00:02:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1692428576; x=1693033376;
+        h=content-transfer-encoding:to:subject:message-id:date:from:sender
+         :reply-to:mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=9kydyMnwD//o0quRqImkimRYfrWW9k+FT8t/oHoxyE8=;
+        b=MUn6TsJ49QsJA4igR3yMrdu/XsOuj8hKh7h6eVdj/4Q6ak4DnVptLCIKMxoaE1lx82
+         BxwzjkQUKGArD5gK4285su7I1sDB3qAK0HSAdokXHiNeRenFsT5dKLZZVD83rG1rnoeS
+         VdXWoxIFxTFlZ65TKthmVXAt9fOId6PSQJki87wVoyeAFbKQrlj5j4smx8DIxP/w0ZWJ
+         TRln+T7V97cC+Lha+e87zGu5qdfzMw4YK01R7iyxmdvnMREZiOau3xyPwKBLzOkfFV8d
+         16kMFJpKMWwV0JdyrqeYRq0aUvKFPGskV1RZVJY1R5FX4jJ5AOT83v5lCI7JlEhO9IN8
+         hMmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692428576; x=1693033376;
+        h=content-transfer-encoding:to:subject:message-id:date:from:sender
+         :reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9kydyMnwD//o0quRqImkimRYfrWW9k+FT8t/oHoxyE8=;
+        b=N9PFebcCf64Sp00lullmwerzHoxkuMAC+hrghK0PhBY22IjTuc/NBzXOjzkyTvjsJJ
+         m0ZJ4JTbgCnit9zNvv+e7Nk1bzhl7lI+r+xz74XJLrNa7bnTAZ8Rzxi3griADwsVVFma
+         hGlT5MtVNDBHSU5SqIs9aClChyPBhSiC2QeyUKr/45HHRZ1tUuMWrIMAneWdzB7DQMxg
+         PIX3w7nmd4M7gNS/bKiVWTDk3JE4M8/exhcCLoc2DNFEyJElEXRYpEn2Ae5Gpwc9n8ph
+         Qg/NY5fx237lhY8sWoOJGbQtH8vOJ0kRK8pFpGq1JjYzfOfmgqzVkA38vg05ItSrjwhS
+         1gqQ==
+X-Gm-Message-State: AOJu0YxDVD+e6D2MRlzGzzBqKYQXytZPOeF9LXlJW8CmPddiCSiPrgDo
+        fMFkTx4IimvkNDOm+Dd4yRnE+TrtG//rRKHFPGs=
+X-Google-Smtp-Source: AGHT+IHBFHux9W7amy752XAKQ4G+pXj9K8KLABgekYkKVjTaNiUovhqWPJjy5q7mdLIzANUAVG24gzrYlmHT6Kjn7Kk=
+X-Received: by 2002:a81:8782:0:b0:589:a9fc:ffcd with SMTP id
+ x124-20020a818782000000b00589a9fcffcdmr1407212ywf.20.1692428576106; Sat, 19
+ Aug 2023 00:02:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="cl6uohug5kcd6xoo"
-Content-Disposition: inline
-In-Reply-To: <CALmYWFuALsM-0nxp+X552VpuPkehtUNiC84gvmgZ7A1LLqkx_g@mail.gmail.com>
-X-Rspamd-Queue-Id: 4RSNXZ4RVqz9skw
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Reply-To: razumkoykhailo@gmail.com
+Sender: mrtombaba@gmail.com
+Received: by 2002:a05:7000:5395:b0:4f4:2174:eed4 with HTTP; Sat, 19 Aug 2023
+ 00:02:55 -0700 (PDT)
+From:   "Mr.Razum Khailo" <razumkoykhailo@gmail.com>
+Date:   Sat, 19 Aug 2023 00:02:55 -0700
+X-Google-Sender-Auth: TD1SbUwALQWUaG93zNo0ky4SaO8
+Message-ID: <CADXgghn2t3mU_VvtZDjHwnbadg2QnVcJ30yFd0kN8SL6NDhY1g@mail.gmail.com>
+Subject: Greetings from Ukraine,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+X-Spam-Status: Yes, score=5.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,LOTS_OF_MONEY,
+        MILLION_USD,MONEY_FREEMAIL_REPTO,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
+        SPF_PASS,T_HK_NAME_FM_MR_MRS,UNDISC_MONEY autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Report: *  0.0 RCVD_IN_DNSWL_BLOCKED RBL: ADMINISTRATOR NOTICE: The query to
+        *      DNSWL was blocked.  See
+        *      http://wiki.apache.org/spamassassin/DnsBlocklists#dnsbl-block
+        *      for more information.
+        *      [2607:f8b0:4864:20:0:0:0:1143 listed in]
+        [list.dnswl.org]
+        * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+        *      [score: 0.0000]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [mrtombaba[at]gmail.com]
+        *  2.0 MILLION_USD BODY: Talks about millions of dollars
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  0.0 LOTS_OF_MONEY Huge... sums of money
+        *  0.0 T_HK_NAME_FM_MR_MRS No description available.
+        *  2.4 MONEY_FREEMAIL_REPTO Lots of money from someone using free
+        *      email?
+        *  2.8 UNDISC_MONEY Undisclosed recipients + money/fraud signs
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-
---cl6uohug5kcd6xoo
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On 2023-08-15, Jeff Xu <jeffxu@google.com> wrote:
-> On Mon, Aug 14, 2023 at 1:41=E2=80=AFAM Aleksa Sarai <cyphar@cyphar.com> =
-wrote:
-> >
-> > The most critical issue with vm.memfd_noexec=3D2 (the fact that passing
-> > MFD_EXEC would bypass it entirely[1]) has been fixed in Andrew's
-> > tree[2], but there are still some outstanding issues that need to be
-> > addressed:
-> >
-> >  * vm.memfd_noexec=3D2 shouldn't reject old-style memfd_create(2) sysca=
-lls
-> >    because it will make it far to difficult to ever migrate. Instead it
-> >    should imply MFD_EXEC.
-> >
-> >  * The dmesg warnings are pr_warn_once(), which on most systems means
-> >    that they will be used up by systemd or some other boot process and
-> >    userspace developers will never see it.
-> >
-> >    - For the !(flags & (MFD_EXEC | MFD_NOEXEC_SEAL)) case, outputting a
-> >      rate-limited message to the kernel log is necessary to tell
-> >      userspace that they should add the new flags.
-> >
-> >      Arguably the most ideal way to deal with the spam concern[3,4]
-> >      while still prompting userspace to switch to the new flags would be
-> >      to only log the warning once per task or something similar.
-> >      However, adding something to task_struct for tracking this would be
-> >      needless bloat for a single pr_warn_ratelimited().
-> >
-> >      So just switch to pr_info_ratelimited() to avoid spamming the log
-> >      with something that isn't a real warning. There's lots of
-> >      info-level stuff in dmesg, it seems really unlikely that this
-> >      should be an actual problem. Most programs are already switching to
-> >      the new flags anyway.
-> >
-> >    - For the vm.memfd_noexec=3D2 case, we need to log a warning for eve=
-ry
-> >      failure because otherwise userspace will have no idea why their
-> >      previously working program started returning -EACCES (previously
-> >      -EINVAL) from memfd_create(2). pr_warn_once() is simply wrong here.
-> >
-> >  * The racheting mechanism for vm.memfd_noexec makes it incredibly
-> >    unappealing for most users to enable the sysctl because enabling it
-> >    on &init_pid_ns means you need a system reboot to unset it. Given the
-> >    actual security threat being protected against, CAP_SYS_ADMIN users
-> >    being restricted in this way makes little sense.
-> >
-> >    The argument for this ratcheting by the original author was that it
-> >    allows you to have a hierarchical setting that cannot be unset by
-> >    child pidnses, but this is not accurate -- changing the parent
-> >    pidns's vm.memfd_noexec setting to be more restrictive didn't affect
-> >    children.
-> >
-> That is not exactly what I said though.
-
-Sorry, I probably should've phrased this as "one of the main arguments".
-In the last discussion thread we had in the v1 of this patch, it was my
-impression that this was the primary sticking point.
-
-> From ChromeOS's position,  allowing downgrade is less secure, and this
-> setting was designed to be set at startup/reboot time from the very
-> beginning, such that the kernel command line or as part of the
-> container runtime environment (get passed to sandboxed container)
-
-If this had been implemented as a cmdline flag, it would be completely
-reasonable that you need to reboot to change it. However, it was
-implemented as a sysctl and the behaviour of sysctls is that admins can
-(generally) change them after they've been set -- even for
-security-related sysctls such as the fs.protected_* sysctls. The only
-counter-example I know if the YAMA one, and if I'm being honest I think
-that behaviour is also weird.
-
-> I understand your viewpoint,  from another distribution point of view,
->  the original design might be too restricted, so if the kernel wants
-> to weigh more on ease of admin, I'm OK with your approach.
-> Though it is less secure for ChromeOS - i.e. we do try to prevent
-> arbitrary code execution  as much as possible, even for CAP_SYSADMIN.
-> And with this change, it is less secure and one more possibility for
-> us to consider.
-
-FWIW I still think the threat model where a &init_user_ns-privileged
-CAP_SYS_ADMIN process can be tricked into writing a sysctl should be
-protected against by memfd_create(MFD_EXEC) doesn't really make sense
-for the vast majority of systems (if any).
-
-If ChromeOS really wants the old vm.memfd_noexec=3D2 behaviour to be
-enforced, this can be done with a very simple seccomp filter. If applied
-to pid1, this would also not be possible to unset without a reboot.
-
---=20
-Aleksa Sarai
-Senior Software Engineer (Containers)
-SUSE Linux GmbH
-<https://www.cyphar.com/>
-
---cl6uohug5kcd6xoo
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCZOAt/gAKCRAol/rSt+lE
-b6Y+AP0Wm/MW4iFFZsjNk1Ve8p+43R1ThqUEhy9cNUa2A+qukwD/QNnCpAY1pDe8
-3IaSvk3K4nMzrVgV/bxIOy2uMvt6QQY=
-=W70o
------END PGP SIGNATURE-----
-
---cl6uohug5kcd6xoo--
+R3JlZXRpbmdzwqBmcm9twqBVa3JhaW5lLA0KDQpNci7CoFJhenVta292wqBNeWtoYWlsbyzCoGFu
+wqBlbnRyZXByZW5ldXLCoGJ1c2luZXNzbWFuwqBmcm9twqBPZGVzc2ENClVrcmFpbmUuwqBXaXRo
+aW7CoGHCoHllYXLCoHBsdXPCoHNvbWXCoG1vbnRoc8Kgbm93LMKgbW9yZcKgdGhhbsKgOC4ywqBt
+aWxsaW9uDQpwZW9wbGXCoGFyb3VuZMKgdGhlwqBjaXRpZXPCoG9mwqBtecKgY291bnRyecKgVWty
+YWluZcKgaGF2ZcKgYmVlbsKgZXZhY3VhdGVkwqB0bw0KYcKgc2FmZcKgbG9jYXRpb27CoGFuZMKg
+b3V0wqBvZsKgdGhlwqBjb3VudHJ5LMKgbW9zdMKgZXNwZWNpYWxsecKgY2hpbGRyZW7CoHdpdGgN
+CnRoZWlywqBwYXJlbnRzLMKgbnVyc2luZ8KgbW90aGVyc8KgYW5kwqBwcmVnbmFudMKgd29tZW4s
+wqBhbmTCoHRob3NlwqB3aG/CoGhhdmUNCmJlZW7CoHNlcmlvdXNsecKgd291bmRlZMKgYW5kwqBu
+ZWVkwqB1cmdlbnTCoG1lZGljYWzCoGF0dGVudGlvbi7CoEnCoHdhc8KgYW1vbmcNCnRob3NlwqB0
+aGF0wqB3ZXJlwqBhYmxlwqB0b8KgZXZhY3VhdGXCoHRvwqBvdXLCoG5laWdoYm91cmluZ8KgY291
+bnRyaWVzwqBhbmTCoEnigJltDQpub3fCoGluwqB0aGXCoHJlZnVnZWXCoGNhbXDCoG9mwqBUZXLC
+oEFwZWzCoEdyb25pbmdlbsKgaW7CoHRoZcKgTmV0aGVybGFuZHMuDQoNCknCoG5lZWTCoGHCoGZv
+cmVpZ27CoHBhcnRuZXLCoHRvwqBlbmFibGXCoG1lwqB0b8KgdHJhbnNwb3J0wqBtecKgaW52ZXN0
+bWVudA0KY2FwaXRhbMKgYW5kwqB0aGVuwqByZWxvY2F0ZcKgd2l0aMKgbXnCoGZhbWlseSzCoGhv
+bmVzdGx5wqBpwqB3aXNowqBJwqB3aWxsDQpkaXNjdXNzwqBtb3JlwqBhbmTCoGdldMKgYWxvbmcu
+wqBJwqBuZWVkwqBhwqBwYXJ0bmVywqBiZWNhdXNlwqBtecKgaW52ZXN0bWVudA0KY2FwaXRhbMKg
+aXPCoGluwqBtecKgaW50ZXJuYXRpb25hbMKgYWNjb3VudC7CoEnigJltwqBpbnRlcmVzdGVkwqBp
+bsKgYnV5aW5nDQpwcm9wZXJ0aWVzLMKgaG91c2VzLMKgYnVpbGRpbmfCoHJlYWzCoGVzdGF0ZXMs
+wqBtecKgY2FwaXRhbMKgZm9ywqBpbnZlc3RtZW50DQppc8KgKCQzMMKgTWlsbGlvbsKgVVNEKcKg
+LsKgVGhlwqBmaW5hbmNpYWzCoGluc3RpdHV0aW9uc8KgaW7CoG15wqBjb3VudHJ5DQpVa3JhaW5l
+wqBhcmXCoGFsbMKgc2hvdMKgZG93bsKgZHVlwqB0b8KgdGhlwqBjcmlzaXPCoG9mwqB0aGlzwqB3
+YXLCoG9uwqBVa3JhaW5lDQpzb2lswqBiecKgdGhlwqBSdXNzaWFuwqBmb3JjZXMuwqBNZWFud2hp
+bGUswqBpZsKgdGhlcmXCoGlzwqBhbnnCoHByb2ZpdGFibGUNCmludmVzdG1lbnTCoHRoYXTCoHlv
+dcKgaGF2ZcKgc2/CoG11Y2jCoGV4cGVyaWVuY2XCoGluwqB5b3VywqBjb3VudHJ5LMKgdGhlbsKg
+d2UNCmNhbsKgam9pbsKgdG9nZXRoZXLCoGFzwqBwYXJ0bmVyc8Kgc2luY2XCoEnigJltwqBhwqBm
+b3JlaWduZXIuDQoNCknCoGNhbWXCoGFjcm9zc8KgeW91csKgZS1tYWlswqBjb250YWN0wqB0aHJv
+dWdowqBwcml2YXRlwqBzZWFyY2jCoHdoaWxlwqBpbsKgbmVlZA0Kb2bCoHlvdXLCoGFzc2lzdGFu
+Y2XCoGFuZMKgScKgZGVjaWRlZMKgdG/CoGNvbnRhY3TCoHlvdcKgZGlyZWN0bHnCoHRvwqBhc2vC
+oHlvdcKgaWYNCnlvdcKga25vd8KgYW55wqBsdWNyYXRpdmXCoGJ1c2luZXNzwqBpbnZlc3RtZW50
+wqBpbsKgeW91csKgY291bnRyecKgacKgY2FuDQppbnZlc3TCoG15wqBtb25lecKgc2luY2XCoG15
+wqBjb3VudHJ5wqBVa3JhaW5lwqBzZWN1cml0ecKgYW5kwqBlY29ub21pYw0KaW5kZXBlbmRlbnTC
+oGhhc8KgbG9zdMKgdG/CoHRoZcKgZ3JlYXRlc3TCoGxvd2VywqBsZXZlbCzCoGFuZMKgb3VywqBj
+dWx0dXJlwqBoYXMNCmxvc3TCoGluY2x1ZGluZ8Kgb3VywqBoYXBwaW5lc3PCoGhhc8KgYmVlbsKg
+dGFrZW7CoGF3YXnCoGZyb23CoHVzLsKgT3VywqBjb3VudHJ5DQpoYXPCoGJlZW7CoG9uwqBmaXJl
+wqBmb3LCoG1vcmXCoHRoYW7CoGHCoHllYXLCoG5vdy4NCg0KSWbCoHlvdcKgYXJlwqBjYXBhYmxl
+wqBvZsKgaGFuZGxpbmfCoHRoaXPCoGJ1c2luZXNzwqBwYXJ0bmVyc2hpcCzCoGNvbnRhY3TCoG1l
+DQpmb3LCoG1vcmXCoGRldGFpbHMswqBJwqB3aWxswqBhcHByZWNpYXRlwqBpdMKgaWbCoHlvdcKg
+Y2FuwqBjb250YWN0wqBtZQ0KaW1tZWRpYXRlbHkuwqBZb3XCoG1hecKgYXPCoHdlbGzCoHRlbGzC
+oG1lwqBhwqBsaXR0bGXCoG1vcmXCoGFib3V0wqB5b3Vyc2VsZi4NCkNvbnRhY3TCoG1lwqB1cmdl
+bnRsecKgdG/CoGVuYWJsZcKgdXPCoHRvwqBwcm9jZWVkwqB3aXRowqB0aGXCoGJ1c2luZXNzLsKg
+ScKgd2lsbA0KYmXCoHdhaXRpbmfCoGZvcsKgeW91csKgcmVzcG9uc2UuwqBNecKgc2luY2VyZcKg
+YXBvbG9naWVzwqBmb3LCoHRoZQ0KaW5jb252ZW5pZW5jZS4NCg0KDQpUaGFua8KgeW91IQ0KDQpN
+ci4gUmF6dW1rb3bCoE15a2hhaWxvLg0K
