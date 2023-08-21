@@ -2,113 +2,208 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 35283782EA9
-	for <lists+linux-api@lfdr.de>; Mon, 21 Aug 2023 18:44:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C3B17830CB
+	for <lists+linux-api@lfdr.de>; Mon, 21 Aug 2023 21:13:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236181AbjHUQoB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 21 Aug 2023 12:44:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38090 "EHLO
+        id S229793AbjHUTFv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 21 Aug 2023 15:05:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58592 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234963AbjHUQoA (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 21 Aug 2023 12:44:00 -0400
-Received: from mail-yw1-x112a.google.com (mail-yw1-x112a.google.com [IPv6:2607:f8b0:4864:20::112a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73ED8E8
-        for <linux-api@vger.kernel.org>; Mon, 21 Aug 2023 09:43:58 -0700 (PDT)
-Received: by mail-yw1-x112a.google.com with SMTP id 00721157ae682-58fba83feb0so23784627b3.3
-        for <linux-api@vger.kernel.org>; Mon, 21 Aug 2023 09:43:58 -0700 (PDT)
+        with ESMTP id S229766AbjHUTFs (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 21 Aug 2023 15:05:48 -0400
+Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com [IPv6:2607:f8b0:4864:20::829])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AA19CFE
+        for <linux-api@vger.kernel.org>; Mon, 21 Aug 2023 12:05:35 -0700 (PDT)
+Received: by mail-qt1-x829.google.com with SMTP id d75a77b69052e-40a47e8e38dso54931cf.1
+        for <linux-api@vger.kernel.org>; Mon, 21 Aug 2023 12:05:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1692636237; x=1693241037;
+        d=google.com; s=20221208; t=1692644734; x=1693249534;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WEjD/AU1mAJeRfhZIstUaBuufPMB+eCFCGb0gsqx2K4=;
-        b=e/fljHM5IKab4bwCG1qJZjMl1EdYPDisy5PuxXxKuc9lDhOydnOuCnDQqfvG2xe+L6
-         k7fwLgzPn5MRWSpTSS7DWJJLICoFgwGSRBTNu+i9RqAJeXjNEY07ysFOtQcv2dAp3WgA
-         aWxiuvMltKpXaN5b46LFPwc2GwslYeaXhSA8x3VeP2HnR+eB9pdI7o1m114AhVcjgqUf
-         Di2MBfcTOYveghp/yk5rUV8wqFoWTuWw6sUSyoYJJKUeKgCfD5YnKhtU1oMzow1Zs6Mt
-         U2375T2IA+uo27m1Y2U7h9GGFaBZSKfkpJi7CtFidyCEX/jtuTiND5dYYIP198K1lC2i
-         GrRQ==
+        bh=590/UzQEybat9jvi9JGXsnqP5LlShojALuYttZJVkzw=;
+        b=mLJCVxdEfC9JgMq29KJ2oYsUJpED5y428av1O5YJ0jU6sB+lO8HWEVpuO8nKjgg9Ml
+         gUTt3y395vdJFfIxWtCcB5HMdSaz3WnSebe4uGlVJ+urQr1ywHhfgIASLr6vK+utxaI5
+         Z+4FMfFRAD2wOs67xCprm2kpV/KfQ0h0fYu6n1Y9q+Ibfk8y3L5t6vCtZofwbY153cGX
+         kgmSLizjQG/KlPGgIcrjNBuwcUxEpiPhijxN1aMcXZE5tI8aFmxTUlp9SJPljx25YhVI
+         G8wjE1ZHZ9q9adseOfJW/eM1JAC6Im/ND/0g+m0y7I+OOF8DC2NWr/4Ab4kg9x0Ll26F
+         9Rdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692636237; x=1693241037;
+        d=1e100.net; s=20221208; t=1692644734; x=1693249534;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=WEjD/AU1mAJeRfhZIstUaBuufPMB+eCFCGb0gsqx2K4=;
-        b=IzgSM4m5jWJUmUzyokh+YaY1l535FyI/WyJ8bLXJZQC7rWRkJsaxjcmOfR3URELXba
-         2uYqD4HDSAooSjAtQLR1X7o+66qZTrwnE/hk3m7I5Nc3aBVzkrKiuiSE11/1OeQenKGy
-         7p+Y7FaGdOROHQsjV9SqvHCm1odcSxNW6HDyYdoPKZVqCBQE8+ovce0hRk6p/g/8j++c
-         maVUv2Rz9NkKPvSR3zU3/rqhczTOxF8Uh1C9IosY4nusffyesUQ4gmXpq9fmVRALPDNb
-         V1myp/gZBMylG9TZC6unPF8js3TTRvhXUPnaAijl4czMFvp7e363tG1a0apqzKiRZngk
-         Ai6A==
-X-Gm-Message-State: AOJu0Yy5Ir8J4g0LcOKCd7yBUSYo2vTd0WOWj+uqRUF6OrxvsR01IHnm
-        UOmWKp8YYuZiTDzVZDkZjrTV87tPxBPuUhYdctWX
-X-Google-Smtp-Source: AGHT+IFC5jriDqIEqds1bFUlasgKfzxVpx6c15GAraTz0Da6iHbAu2CtBrlCUKHV6YdY1VqSSccVr3ANUqzpYgoAo4g=
-X-Received: by 2002:a81:7384:0:b0:577:3fb4:f245 with SMTP id
- o126-20020a817384000000b005773fb4f245mr6182153ywc.19.1692636237673; Mon, 21
- Aug 2023 09:43:57 -0700 (PDT)
+        bh=590/UzQEybat9jvi9JGXsnqP5LlShojALuYttZJVkzw=;
+        b=fUqrIdQnOTCtKfldGlqFOBoibIDVnNYc9lXlBNtA5p3G6JpcCfvlLOHc2keASYSTV/
+         +dTrzgyyv/QxF84iGoQ4Psao10ouw9+s5BRllLfmM+HnlII+EDfCDxkgUbWhfOyHcVDN
+         YTpgbp5XVC+VUkGqJo6aEbLdvmItKGZSTJ9AMsS+b7nGSimgPuFXPWX6oyKSuh2Slhq+
+         RsgnnT6IccCRoK30NEPM55j18qY0WBZa3qdMGupNAQNU8ZsqMKoEToVvKerw6ZAaztOC
+         qp5QXE54PGFkM7CemJrzVDy01fb9lgBCYKNHvuxfY8itLsub5gGcrfuCIPFe0pKKJJBb
+         C3pg==
+X-Gm-Message-State: AOJu0YzpJB+t9B4LzvVdbSeXMTrHBngkzyLidPgQjk2j0uKFb5vLEyil
+        sDqHFRUQBHBveQP+gtNYSfRcCZGGG9AfvqliBDF4+A==
+X-Google-Smtp-Source: AGHT+IHWSgMuae3sAcjkJjT268HxeCbcdoOrGPQCFnFxWh5gkeDKoKc++ZSNNxE25rj8mdxOygQIECLN3qRMn8mdGK8=
+X-Received: by 2002:a05:622a:1045:b0:403:affb:3c03 with SMTP id
+ f5-20020a05622a104500b00403affb3c03mr51253qte.10.1692644734007; Mon, 21 Aug
+ 2023 12:05:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAP2_zdp=oGKVfuAYUSXb_42yU-8-86AtS27TiXpibS4mj8wrfg@mail.gmail.com>
-In-Reply-To: <CAP2_zdp=oGKVfuAYUSXb_42yU-8-86AtS27TiXpibS4mj8wrfg@mail.gmail.com>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Mon, 21 Aug 2023 12:43:47 -0400
-Message-ID: <CAHC9VhSre7fiAVNtbyVcjg3v3uUwzOm0grNbmo1ppKOyh1B=jg@mail.gmail.com>
-Subject: Re: Watchdog bark! bark due to excessive logging from SELinux in Linux-modules;
-To:     Aaditya raj <rajaditya073@gmail.com>
-Cc:     linux-security-module@vger.kernel.org, jmorris@namei.org,
-        keescook@chromium.org, john.johansen@canonical.com,
-        penguin-kernel@i-love.sakura.ne.jp, stephen.smalley.work@gmail.com,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        mic@digikod.net
+References: <20230814-memfd-vm-noexec-uapi-fixes-v2-0-7ff9e3e10ba6@cyphar.com>
+ <CALmYWFuALsM-0nxp+X552VpuPkehtUNiC84gvmgZ7A1LLqkx_g@mail.gmail.com> <20230819.022033-joyful.ward.quirky.defender-lpHlCTglJUSs@cyphar.com>
+In-Reply-To: <20230819.022033-joyful.ward.quirky.defender-lpHlCTglJUSs@cyphar.com>
+From:   Jeff Xu <jeffxu@google.com>
+Date:   Mon, 21 Aug 2023 12:04:57 -0700
+Message-ID: <CALmYWFth21j-iHrY8dgO50jUwOSPP99yr=jLitfTGtJR8n6jVg@mail.gmail.com>
+Subject: Re: [PATCH v2 0/5] memfd: cleanups for vm.memfd_noexec
+To:     Aleksa Sarai <cyphar@cyphar.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Daniel Verkamp <dverkamp@chromium.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Dominique Martinet <asmadeus@codewreck.org>,
+        stable@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kselftest@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Aug 21, 2023 at 7:14=E2=80=AFAM Aaditya raj <rajaditya073@gmail.com=
+On Fri, Aug 18, 2023 at 7:50=E2=80=AFPM Aleksa Sarai <cyphar@cyphar.com> wr=
+ote:
+>
+> On 2023-08-15, Jeff Xu <jeffxu@google.com> wrote:
+> > On Mon, Aug 14, 2023 at 1:41=E2=80=AFAM Aleksa Sarai <cyphar@cyphar.com=
 > wrote:
+> > >
+> > > The most critical issue with vm.memfd_noexec=3D2 (the fact that passi=
+ng
+> > > MFD_EXEC would bypass it entirely[1]) has been fixed in Andrew's
+> > > tree[2], but there are still some outstanding issues that need to be
+> > > addressed:
+> > >
+> > >  * vm.memfd_noexec=3D2 shouldn't reject old-style memfd_create(2) sys=
+calls
+> > >    because it will make it far to difficult to ever migrate. Instead =
+it
+> > >    should imply MFD_EXEC.
+> > >
+> > >  * The dmesg warnings are pr_warn_once(), which on most systems means
+> > >    that they will be used up by systemd or some other boot process an=
+d
+> > >    userspace developers will never see it.
+> > >
+> > >    - For the !(flags & (MFD_EXEC | MFD_NOEXEC_SEAL)) case, outputting=
+ a
+> > >      rate-limited message to the kernel log is necessary to tell
+> > >      userspace that they should add the new flags.
+> > >
+> > >      Arguably the most ideal way to deal with the spam concern[3,4]
+> > >      while still prompting userspace to switch to the new flags would=
+ be
+> > >      to only log the warning once per task or something similar.
+> > >      However, adding something to task_struct for tracking this would=
+ be
+> > >      needless bloat for a single pr_warn_ratelimited().
+> > >
+> > >      So just switch to pr_info_ratelimited() to avoid spamming the lo=
+g
+> > >      with something that isn't a real warning. There's lots of
+> > >      info-level stuff in dmesg, it seems really unlikely that this
+> > >      should be an actual problem. Most programs are already switching=
+ to
+> > >      the new flags anyway.
+> > >
+> > >    - For the vm.memfd_noexec=3D2 case, we need to log a warning for e=
+very
+> > >      failure because otherwise userspace will have no idea why their
+> > >      previously working program started returning -EACCES (previously
+> > >      -EINVAL) from memfd_create(2). pr_warn_once() is simply wrong he=
+re.
+> > >
+> > >  * The racheting mechanism for vm.memfd_noexec makes it incredibly
+> > >    unappealing for most users to enable the sysctl because enabling i=
+t
+> > >    on &init_pid_ns means you need a system reboot to unset it. Given =
+the
+> > >    actual security threat being protected against, CAP_SYS_ADMIN user=
+s
+> > >    being restricted in this way makes little sense.
+> > >
+> > >    The argument for this ratcheting by the original author was that i=
+t
+> > >    allows you to have a hierarchical setting that cannot be unset by
+> > >    child pidnses, but this is not accurate -- changing the parent
+> > >    pidns's vm.memfd_noexec setting to be more restrictive didn't affe=
+ct
+> > >    children.
+> > >
+> > That is not exactly what I said though.
 >
-> Hi Team ,
+> Sorry, I probably should've phrased this as "one of the main arguments".
+> In the last discussion thread we had in the v1 of this patch, it was my
+> impression that this was the primary sticking point.
 >
-> There is an Watchdog bark issue seen due to excessive logging from SELinu=
-x , I have attached a patch to restrict excessive logging , please review t=
-he patch and please let me know if there is any issue.
+> > From ChromeOS's position,  allowing downgrade is less secure, and this
+> > setting was designed to be set at startup/reboot time from the very
+> > beginning, such that the kernel command line or as part of the
+> > container runtime environment (get passed to sandboxed container)
 >
-> I have modified the file =E2=80=9Csecurity/selinux/hooks.c=E2=80=9D on li=
-ne number 1353 , replaced pr_warn with pr_warn_ratelimited.
->
-> ---
->  security/selinux/hooks.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> If this had been implemented as a cmdline flag, it would be completely
+> reasonable that you need to reboot to change it. However, it was
 
-Can you provide more information about what kernel you are using and
-the filesystem(s) you have mounted which are causing this error,
-including how they are mounted?  I wouldn't expect a normal system to
-flood the logs with many of these warnings, so I'm wondering if
-something else is wrong ...
+You might already know that sysctl can be set in kernel command line,
+thanks to Vlastimil Babka from SUSE. [1]
+[1] https://lore.kernel.org/lkml/20200325120345.12946-1-vbabka@suse.cz/
 
-> diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
-> index d06e350fedee..83f3e5a0ccc6 100644
-> --- a/security/selinux/hooks.c
-> +++ b/security/selinux/hooks.c
-> @@ -1350,7 +1350,7 @@ static int inode_doinit_use_xattr(struct inode *ino=
-de, struct dentry *dentry,
->         if (rc < 0) {
->                 kfree(context);
->                 if (rc !=3D -ENODATA) {
-> -                       pr_warn("SELinux: %s:  getxattr returned %d for d=
-ev=3D%s ino=3D%ld\n",
-> +                       pr_warn_ratelimited("SELinux: %s:  getxattr retur=
-ned %d for dev=3D%s ino=3D%ld\n",
->                                 __func__, -rc, inode->i_sb->s_id, inode->=
-i_ino);
->                         return rc;
->                 }
+> implemented as a sysctl and the behaviour of sysctls is that admins can
+> (generally) change them after they've been set -- even for
+> security-related sysctls such as the fs.protected_* sysctls. The only
+> counter-example I know if the YAMA one, and if I'm being honest I think
+> that behaviour is also weird.
+>
 
---=20
-paul-moore.com
+> > I understand your viewpoint,  from another distribution point of view,
+> >  the original design might be too restricted, so if the kernel wants
+> > to weigh more on ease of admin, I'm OK with your approach.
+> > Though it is less secure for ChromeOS - i.e. we do try to prevent
+> > arbitrary code execution  as much as possible, even for CAP_SYSADMIN.
+> > And with this change, it is less secure and one more possibility for
+> > us to consider.
+>
+> FWIW I still think the threat model where a &init_user_ns-privileged
+> CAP_SYS_ADMIN process can be tricked into writing a sysctl should be
+> protected against by memfd_create(MFD_EXEC) doesn't really make sense
+> for the vast majority of systems (if any).
+>
+I agree other distributions might not care much about running
+arbitrary code on the host for CAP_SYS_ADMIN, similar to traditional
+unix in this aspect. ChromeOS has some unique security features.
+
+> If ChromeOS really wants the old vm.memfd_noexec=3D2 behaviour to be
+> enforced, this can be done with a very simple seccomp filter. If applied
+> to pid1, this would also not be possible to unset without a reboot.
+>
+In practice, host and process can have different values for
+vm.memfd_noexec, it can't easily be implemented through seccomp.
+Seccomp also requires no-new-priv set, there are implications if we
+set it to pid 1 and apply to all its children.
+
+
+> --
+> Aleksa Sarai
+> Senior Software Engineer (Containers)
+> SUSE Linux GmbH
+> <https://www.cyphar.com/>
+
+Thanks
+Best regards,
+-Jeff
