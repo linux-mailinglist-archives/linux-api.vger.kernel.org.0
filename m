@@ -2,74 +2,59 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C3B17830CB
-	for <lists+linux-api@lfdr.de>; Mon, 21 Aug 2023 21:13:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 71F5C783C86
+	for <lists+linux-api@lfdr.de>; Tue, 22 Aug 2023 11:10:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229793AbjHUTFv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 21 Aug 2023 15:05:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58592 "EHLO
+        id S234191AbjHVJKR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 22 Aug 2023 05:10:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229766AbjHUTFs (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 21 Aug 2023 15:05:48 -0400
-Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com [IPv6:2607:f8b0:4864:20::829])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AA19CFE
-        for <linux-api@vger.kernel.org>; Mon, 21 Aug 2023 12:05:35 -0700 (PDT)
-Received: by mail-qt1-x829.google.com with SMTP id d75a77b69052e-40a47e8e38dso54931cf.1
-        for <linux-api@vger.kernel.org>; Mon, 21 Aug 2023 12:05:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1692644734; x=1693249534;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=590/UzQEybat9jvi9JGXsnqP5LlShojALuYttZJVkzw=;
-        b=mLJCVxdEfC9JgMq29KJ2oYsUJpED5y428av1O5YJ0jU6sB+lO8HWEVpuO8nKjgg9Ml
-         gUTt3y395vdJFfIxWtCcB5HMdSaz3WnSebe4uGlVJ+urQr1ywHhfgIASLr6vK+utxaI5
-         Z+4FMfFRAD2wOs67xCprm2kpV/KfQ0h0fYu6n1Y9q+Ibfk8y3L5t6vCtZofwbY153cGX
-         kgmSLizjQG/KlPGgIcrjNBuwcUxEpiPhijxN1aMcXZE5tI8aFmxTUlp9SJPljx25YhVI
-         G8wjE1ZHZ9q9adseOfJW/eM1JAC6Im/ND/0g+m0y7I+OOF8DC2NWr/4Ab4kg9x0Ll26F
-         9Rdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692644734; x=1693249534;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=590/UzQEybat9jvi9JGXsnqP5LlShojALuYttZJVkzw=;
-        b=fUqrIdQnOTCtKfldGlqFOBoibIDVnNYc9lXlBNtA5p3G6JpcCfvlLOHc2keASYSTV/
-         +dTrzgyyv/QxF84iGoQ4Psao10ouw9+s5BRllLfmM+HnlII+EDfCDxkgUbWhfOyHcVDN
-         YTpgbp5XVC+VUkGqJo6aEbLdvmItKGZSTJ9AMsS+b7nGSimgPuFXPWX6oyKSuh2Slhq+
-         RsgnnT6IccCRoK30NEPM55j18qY0WBZa3qdMGupNAQNU8ZsqMKoEToVvKerw6ZAaztOC
-         qp5QXE54PGFkM7CemJrzVDy01fb9lgBCYKNHvuxfY8itLsub5gGcrfuCIPFe0pKKJJBb
-         C3pg==
-X-Gm-Message-State: AOJu0YzpJB+t9B4LzvVdbSeXMTrHBngkzyLidPgQjk2j0uKFb5vLEyil
-        sDqHFRUQBHBveQP+gtNYSfRcCZGGG9AfvqliBDF4+A==
-X-Google-Smtp-Source: AGHT+IHWSgMuae3sAcjkJjT268HxeCbcdoOrGPQCFnFxWh5gkeDKoKc++ZSNNxE25rj8mdxOygQIECLN3qRMn8mdGK8=
-X-Received: by 2002:a05:622a:1045:b0:403:affb:3c03 with SMTP id
- f5-20020a05622a104500b00403affb3c03mr51253qte.10.1692644734007; Mon, 21 Aug
- 2023 12:05:34 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230814-memfd-vm-noexec-uapi-fixes-v2-0-7ff9e3e10ba6@cyphar.com>
- <CALmYWFuALsM-0nxp+X552VpuPkehtUNiC84gvmgZ7A1LLqkx_g@mail.gmail.com> <20230819.022033-joyful.ward.quirky.defender-lpHlCTglJUSs@cyphar.com>
-In-Reply-To: <20230819.022033-joyful.ward.quirky.defender-lpHlCTglJUSs@cyphar.com>
-From:   Jeff Xu <jeffxu@google.com>
-Date:   Mon, 21 Aug 2023 12:04:57 -0700
-Message-ID: <CALmYWFth21j-iHrY8dgO50jUwOSPP99yr=jLitfTGtJR8n6jVg@mail.gmail.com>
-Subject: Re: [PATCH v2 0/5] memfd: cleanups for vm.memfd_noexec
+        with ESMTP id S234075AbjHVJKQ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 22 Aug 2023 05:10:16 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6384A1BE;
+        Tue, 22 Aug 2023 02:10:13 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E6B2E64FE4;
+        Tue, 22 Aug 2023 09:10:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B12BC433C7;
+        Tue, 22 Aug 2023 09:10:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1692695412;
+        bh=pQisISmZ66AdEx39jJ4009uh0Yx/8HETEG0JPihLCHM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=dt1q16xZ4wVawYqxKyc7pTbYu+xIoHKLpdt4WziTYiykP4mBCSsx9VyKV3nGdWZuB
+         CGlsfHp0LveeO9NIsm2e6txPBhrMJk1AjqMm2owxcsfgIRV8U6Tt291oP3dqGDBQwG
+         gDHLPYuO5I1KGNzPSmFaAQ13Ck4sdojjeTz3R2DLhRG6otJRWx1AbClFee5WLwQArS
+         PEQ+W/rcU+hY/C9pH9HW980wqKbHfsBj2syDGyGfJ4KcbpYfg7B6yf6QcxIUaEjVGF
+         QYWB8QtIcGfFThWJC6mqnrDF7sLKwARR06oIWqrbVYOF+L5uhBGCzY8GFgI7AqFe2D
+         prG6ZSWsJIrdA==
+Date:   Tue, 22 Aug 2023 11:10:06 +0200
+From:   Christian Brauner <brauner@kernel.org>
 To:     Aleksa Sarai <cyphar@cyphar.com>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>,
+        Shuah Khan <shuah@kernel.org>, Jeff Xu <jeffxu@google.com>,
         Kees Cook <keescook@chromium.org>,
         Daniel Verkamp <dverkamp@chromium.org>,
-        Christian Brauner <brauner@kernel.org>,
         Dominique Martinet <asmadeus@codewreck.org>,
         stable@vger.kernel.org, linux-api@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+Subject: Re: [PATCH v2 3/5] memfd: improve userspace warnings for missing
+ exec-related flags
+Message-ID: <20230822-seenotrettung-bungalow-a4ea576f6f85@brauner>
+References: <20230814-memfd-vm-noexec-uapi-fixes-v2-0-7ff9e3e10ba6@cyphar.com>
+ <20230814-memfd-vm-noexec-uapi-fixes-v2-3-7ff9e3e10ba6@cyphar.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230814-memfd-vm-noexec-uapi-fixes-v2-3-7ff9e3e10ba6@cyphar.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -77,133 +62,36 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Aug 18, 2023 at 7:50=E2=80=AFPM Aleksa Sarai <cyphar@cyphar.com> wr=
-ote:
->
-> On 2023-08-15, Jeff Xu <jeffxu@google.com> wrote:
-> > On Mon, Aug 14, 2023 at 1:41=E2=80=AFAM Aleksa Sarai <cyphar@cyphar.com=
-> wrote:
-> > >
-> > > The most critical issue with vm.memfd_noexec=3D2 (the fact that passi=
-ng
-> > > MFD_EXEC would bypass it entirely[1]) has been fixed in Andrew's
-> > > tree[2], but there are still some outstanding issues that need to be
-> > > addressed:
-> > >
-> > >  * vm.memfd_noexec=3D2 shouldn't reject old-style memfd_create(2) sys=
-calls
-> > >    because it will make it far to difficult to ever migrate. Instead =
-it
-> > >    should imply MFD_EXEC.
-> > >
-> > >  * The dmesg warnings are pr_warn_once(), which on most systems means
-> > >    that they will be used up by systemd or some other boot process an=
-d
-> > >    userspace developers will never see it.
-> > >
-> > >    - For the !(flags & (MFD_EXEC | MFD_NOEXEC_SEAL)) case, outputting=
- a
-> > >      rate-limited message to the kernel log is necessary to tell
-> > >      userspace that they should add the new flags.
-> > >
-> > >      Arguably the most ideal way to deal with the spam concern[3,4]
-> > >      while still prompting userspace to switch to the new flags would=
- be
-> > >      to only log the warning once per task or something similar.
-> > >      However, adding something to task_struct for tracking this would=
- be
-> > >      needless bloat for a single pr_warn_ratelimited().
-> > >
-> > >      So just switch to pr_info_ratelimited() to avoid spamming the lo=
-g
-> > >      with something that isn't a real warning. There's lots of
-> > >      info-level stuff in dmesg, it seems really unlikely that this
-> > >      should be an actual problem. Most programs are already switching=
- to
-> > >      the new flags anyway.
-> > >
-> > >    - For the vm.memfd_noexec=3D2 case, we need to log a warning for e=
-very
-> > >      failure because otherwise userspace will have no idea why their
-> > >      previously working program started returning -EACCES (previously
-> > >      -EINVAL) from memfd_create(2). pr_warn_once() is simply wrong he=
-re.
-> > >
-> > >  * The racheting mechanism for vm.memfd_noexec makes it incredibly
-> > >    unappealing for most users to enable the sysctl because enabling i=
-t
-> > >    on &init_pid_ns means you need a system reboot to unset it. Given =
-the
-> > >    actual security threat being protected against, CAP_SYS_ADMIN user=
-s
-> > >    being restricted in this way makes little sense.
-> > >
-> > >    The argument for this ratcheting by the original author was that i=
-t
-> > >    allows you to have a hierarchical setting that cannot be unset by
-> > >    child pidnses, but this is not accurate -- changing the parent
-> > >    pidns's vm.memfd_noexec setting to be more restrictive didn't affe=
-ct
-> > >    children.
-> > >
-> > That is not exactly what I said though.
->
-> Sorry, I probably should've phrased this as "one of the main arguments".
-> In the last discussion thread we had in the v1 of this patch, it was my
-> impression that this was the primary sticking point.
->
-> > From ChromeOS's position,  allowing downgrade is less secure, and this
-> > setting was designed to be set at startup/reboot time from the very
-> > beginning, such that the kernel command line or as part of the
-> > container runtime environment (get passed to sandboxed container)
->
-> If this had been implemented as a cmdline flag, it would be completely
-> reasonable that you need to reboot to change it. However, it was
+On Mon, Aug 14, 2023 at 06:40:59PM +1000, Aleksa Sarai wrote:
+> In order to incentivise userspace to switch to passing MFD_EXEC and
+> MFD_NOEXEC_SEAL, we need to provide a warning on each attempt to call
+> memfd_create() without the new flags. pr_warn_once() is not useful
+> because on most systems the one warning is burned up during the boot
+> process (on my system, systemd does this within the first second of
+> boot) and thus userspace will in practice never see the warnings to push
+> them to switch to the new flags.
+> 
+> The original patchset[1] used pr_warn_ratelimited(), however there were
+> concerns about the degree of spam in the kernel log[2,3]. The resulting
+> inability to detect every case was flagged as an issue at the time[4].
+> 
+> While we could come up with an alternative rate-limiting scheme such as
+> only outputting the message if vm.memfd_noexec has been modified, or
+> only outputting the message once for a given task, these alternatives
+> have downsides that don't make sense given how low-stakes a single
+> kernel warning message is. Switching to pr_info_ratelimited() instead
+> should be fine -- it's possible some monitoring tool will be unhappy
+> with a stream of warning-level messages but there's already plenty of
+> info-level message spam in dmesg.
+> 
+> [1]: https://lore.kernel.org/20221215001205.51969-4-jeffxu@google.com/
+> [2]: https://lore.kernel.org/202212161233.85C9783FB@keescook/
+> [3]: https://lore.kernel.org/Y5yS8wCnuYGLHMj4@x1n/
+> [4]: https://lore.kernel.org/f185bb42-b29c-977e-312e-3349eea15383@linuxfoundation.org/
+> 
+> Cc: stable@vger.kernel.org # v6.3+
+> Fixes: 105ff5339f49 ("mm/memfd: add MFD_NOEXEC_SEAL and MFD_EXEC")
+> Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
+> ---
 
-You might already know that sysctl can be set in kernel command line,
-thanks to Vlastimil Babka from SUSE. [1]
-[1] https://lore.kernel.org/lkml/20200325120345.12946-1-vbabka@suse.cz/
-
-> implemented as a sysctl and the behaviour of sysctls is that admins can
-> (generally) change them after they've been set -- even for
-> security-related sysctls such as the fs.protected_* sysctls. The only
-> counter-example I know if the YAMA one, and if I'm being honest I think
-> that behaviour is also weird.
->
-
-> > I understand your viewpoint,  from another distribution point of view,
-> >  the original design might be too restricted, so if the kernel wants
-> > to weigh more on ease of admin, I'm OK with your approach.
-> > Though it is less secure for ChromeOS - i.e. we do try to prevent
-> > arbitrary code execution  as much as possible, even for CAP_SYSADMIN.
-> > And with this change, it is less secure and one more possibility for
-> > us to consider.
->
-> FWIW I still think the threat model where a &init_user_ns-privileged
-> CAP_SYS_ADMIN process can be tricked into writing a sysctl should be
-> protected against by memfd_create(MFD_EXEC) doesn't really make sense
-> for the vast majority of systems (if any).
->
-I agree other distributions might not care much about running
-arbitrary code on the host for CAP_SYS_ADMIN, similar to traditional
-unix in this aspect. ChromeOS has some unique security features.
-
-> If ChromeOS really wants the old vm.memfd_noexec=3D2 behaviour to be
-> enforced, this can be done with a very simple seccomp filter. If applied
-> to pid1, this would also not be possible to unset without a reboot.
->
-In practice, host and process can have different values for
-vm.memfd_noexec, it can't easily be implemented through seccomp.
-Seccomp also requires no-new-priv set, there are implications if we
-set it to pid 1 and apply to all its children.
-
-
-> --
-> Aleksa Sarai
-> Senior Software Engineer (Containers)
-> SUSE Linux GmbH
-> <https://www.cyphar.com/>
-
-Thanks
-Best regards,
--Jeff
+Reviewed-by: Christian Brauner <brauner@kernel.org>
