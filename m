@@ -2,139 +2,214 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D76BA788C0E
-	for <lists+linux-api@lfdr.de>; Fri, 25 Aug 2023 17:02:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 81067788D8D
+	for <lists+linux-api@lfdr.de>; Fri, 25 Aug 2023 19:04:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245290AbjHYPBp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 25 Aug 2023 11:01:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53734 "EHLO
+        id S244322AbjHYRDv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 25 Aug 2023 13:03:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41954 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343879AbjHYPBU (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 25 Aug 2023 11:01:20 -0400
-X-Greylist: delayed 88 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 25 Aug 2023 08:01:17 PDT
-Received: from smtp-42a8.mail.infomaniak.ch (smtp-42a8.mail.infomaniak.ch [84.16.66.168])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E6202126;
-        Fri, 25 Aug 2023 08:01:17 -0700 (PDT)
-Received: from smtp-3-0001.mail.infomaniak.ch (unknown [10.4.36.108])
-        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4RXNSW6BLlzMrQRp;
-        Fri, 25 Aug 2023 15:01:15 +0000 (UTC)
-Received: from unknown by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4RXNSV4QTMzMppB6;
-        Fri, 25 Aug 2023 17:01:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
-        s=20191114; t=1692975675;
-        bh=OSWgiupN6r3xc6GohyM7Ufm5JcLmepgwISMqZyG+Kaw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=syS9ukBZkb5WhWKzZgOpazkKcKMqOApNoYo45yVagq1T8plCpSy9PDfniFaKBBdNo
-         Browhp0n9Kkst6gX5L6nLEvTcclMD6prEzSJsINi6G9XMJLyLxuEB+el/AsRW3cx2m
-         h6CHOsji4/0Hy+vGGeNeHQhs2RXTpt9BvXze8Ouc=
-Date:   Fri, 25 Aug 2023 17:01:11 +0200
-From:   =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
-To:     Casey Schaufler <casey@schaufler-ca.com>
-Cc:     paul@paul-moore.com, linux-security-module@vger.kernel.org,
-        jmorris@namei.org, serge@hallyn.com, keescook@chromium.org,
-        john.johansen@canonical.com, penguin-kernel@i-love.sakura.ne.jp,
-        stephen.smalley.work@gmail.com, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org
-Subject: Re: [PATCH v13 11/11] LSM: selftests for Linux Security Module
- syscalls
-Message-ID: <20230825.OokahF6aezae@digikod.net>
-References: <20230802174435.11928-1-casey@schaufler-ca.com>
- <20230802174435.11928-12-casey@schaufler-ca.com>
+        with ESMTP id S1344163AbjHYRDU (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 25 Aug 2023 13:03:20 -0400
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74E8110D
+        for <linux-api@vger.kernel.org>; Fri, 25 Aug 2023 10:03:17 -0700 (PDT)
+Received: by mail-ed1-x52e.google.com with SMTP id 4fb4d7f45d1cf-51e28cac164so4520716a12.1
+        for <linux-api@vger.kernel.org>; Fri, 25 Aug 2023 10:03:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sargun.me; s=google; t=1692982996; x=1693587796;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tSpUxbBXVj26kOGi+OlLtmtncpHe6F+9WWjDFtfafPk=;
+        b=rdwLij6Cp+xCDzwni/DraMiKplwvtFJSSx53HIKdXUiLs1Q/iTg47JpA69sSpC0efN
+         Dv8jVLdX+ZomI4EOE3JVESZi/kGIKKgLxr38aisXqho58iXXSBQzXjhTQHs1cFBl8mXO
+         3yAahAylCR4AhjTrA5JxgMEs3kmtnvaig81nA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692982996; x=1693587796;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tSpUxbBXVj26kOGi+OlLtmtncpHe6F+9WWjDFtfafPk=;
+        b=f422hNxTnhWSHQ+QyiioyF17Eg2GsrgRsvutL3+ZHXYlbk0CPsjybRgSyov0mqQ25t
+         a4DTcxRX/gDPgh47c8TUPDNPViDu5KDUmCFzoIzV9QNsH0iuavl6F4U2tz4hFVYHw97n
+         WqBYEs0q7wfMJk+E44nWrLOmtxM79ENaxH7E+HUWnZR+ePbxiSJ29LCAiyvlS/H4ayfp
+         M+vWdV92NhRj9Dp+HvhFO/hxtIlao5tHXvSs2+LwEwzW7CGRFBqWnrspdF0JaVGG5qxo
+         QG5eORZme8QbRC3OTrWHpj4KeImYHT9Eze4ToUHag4mblFFPC0tquT18Zk3tfiC6s7Ah
+         9k1Q==
+X-Gm-Message-State: AOJu0YyZliOG8+foJT3hXgB8wN5brWrM7pFR/C1PXHoJeNqXszMnd1Xk
+        BnKKO6R+e6hCErVPaMtoxKDbUWw95lCF9+D1TolA8DEuNiKI99RHJspGyg==
+X-Google-Smtp-Source: AGHT+IGC8oAT9I6eJpDXZfWiYkFHuXY6lU1y4ZsC9TiZk8SBENPsUm/XcRqHoO3KnfrkgBFw0FgCzLupyAD9J9xiBYI=
+X-Received: by 2002:a17:907:7714:b0:99b:4210:cc76 with SMTP id
+ kw20-20020a170907771400b0099b4210cc76mr18802362ejc.28.1692982995706; Fri, 25
+ Aug 2023 10:03:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230802174435.11928-12-casey@schaufler-ca.com>
-X-Infomaniak-Routing: alpha
+References: <20230810090044.1252084-1-sargun@sargun.me> <20230810090044.1252084-2-sargun@sargun.me>
+ <20230815-ableisten-offiziell-9b4de6357f7c@brauner> <CAMp4zn_RM+X8PBkAxXSuXrxbLTb2ndzVNXt10eaWj4uyWna30w@mail.gmail.com>
+ <20230816-gauner-ehrung-95dc455055a0@brauner> <20230816.081541-lush.apricots.naughty.importer-1AIDZGMF3bd@cyphar.com>
+ <20230816-covern-kronzeuge-6d60381f598c@brauner>
+In-Reply-To: <20230816-covern-kronzeuge-6d60381f598c@brauner>
+From:   Sargun Dhillon <sargun@sargun.me>
+Date:   Fri, 25 Aug 2023 11:02:39 -0600
+Message-ID: <CAMp4zn9FwArMzibK6XY15b9_ouHo03DfUzOC199n2bNHkMqtGA@mail.gmail.com>
+Subject: Re: [PATCH 2/3] fs: Allow user to lock mount attributes with mount_setattr
+To:     Christian Brauner <brauner@kernel.org>
+Cc:     Aleksa Sarai <cyphar@cyphar.com>, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org, Christoph Hellwig <hch@lst.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-These tests look good!
+On Wed, Aug 16, 2023 at 4:36=E2=80=AFAM Christian Brauner <brauner@kernel.o=
+rg> wrote:
+>
+> On Wed, Aug 16, 2023 at 06:56:25PM +1000, Aleksa Sarai wrote:
+> > On 2023-08-16, Christian Brauner <brauner@kernel.org> wrote:
+> > > On Tue, Aug 15, 2023 at 06:46:33AM -0700, Sargun Dhillon wrote:
+> > > > On Tue, Aug 15, 2023 at 2:30=E2=80=AFAM Christian Brauner <brauner@=
+kernel.org> wrote:
+> > > > >
+> > > > > On Thu, Aug 10, 2023 at 02:00:43AM -0700, Sargun Dhillon wrote:
+> > > > > > We support locking certain mount attributes in the kernel. This=
+ API
+> > > > > > isn't directly exposed to users. Right now, users can lock moun=
+t
+> > > > > > attributes by going through the process of creating a new user
+> > > > > > namespaces, and when the mounts are copied to the "lower privil=
+ege"
+> > > > > > domain, they're locked. The mount can be reopened, and passed a=
+round
+> > > > > > as a "locked mount".
+> > > > >
+> > > > > Not sure if that's what you're getting at but you can actually fu=
+lly
+> > > > > create these locked mounts already:
+> > > > >
+> > > > > P1                                                 P2
+> > > > > # init userns + init mountns                       # init userns =
++ init mountns
+> > > > > sudo mount --bind /foo /bar
+> > > > > sudo mount --bind -o ro,nosuid,nodev,noexec /bar
+> > > > >
+> > > > > # unprivileged userns + unprivileged mountns
+> > > > > unshare --mount --user --map-root
+> > > > >
+> > > > > mount --bind -oremount
+> > > > >
+> > > > > fd =3D open_tree(/bar, OPEN_TREE_CLONE)
+> > > > >
+> > > > > send(fd_send, P2);
+> > > > >
+> > > > >                                                    recv(&fd_recv,=
+ P1)
+> > > > >
+> > > > >                                                    move_mount(fd_=
+recv, /locked-mnt);
+> > > > >
+> > > > > and now you have a fully locked mount on the host for P2. Did you=
+ mean that?
+> > > > >
+> > > >
+> > > > Yep. Doing this within a program without clone / fork is awkward. F=
+orking and
+> > > > unsharing in random C++ programs doesn't always go super well, so i=
+n my
+> > > > mind it'd be nice to have an API to do this directly.
+> > > >
+> > > > In addition, having the superblock continue to be owned by the user=
+ns that
+> > > > its mounted in is nice because then they can toggle the other mount=
+ attributes
+> > > > (nodev, nosuid, noexec are the ones we care about).
+> > > >
+> > > > > >
+> > > > > > Locked mounts are useful, for example, in container execution w=
+ithout
+> > > > > > user namespaces, where you may want to expose some host data as=
+ read
+> > > > > > only without allowing the container to remount the mount as mut=
+able.
+> > > > > >
+> > > > > > The API currently requires that the given privilege is taken aw=
+ay
+> > > > > > while or before locking the flag in the less privileged positio=
+n.
+> > > > > > This could be relaxed in the future, where the user is allowed =
+to
+> > > > > > remount the mount as read only, but once they do, they cannot m=
+ake
+> > > > > > it read only again.
+> > > > >
+> > > > > s/read only/read write/
+> > > > >
+> > > > > >
+> > > > > > Right now, this allows for all flags that are lockable via the
+> > > > > > userns unshare trick to be locked, other than the atime related
+> > > > > > ones. This is because the semantics of what the "less privilege=
+d"
+> > > > > > position is around the atime flags is unclear.
+> > > > >
+> > > > > I think that atime stuff doesn't really make sense to expose to
+> > > > > userspace. That seems a bit pointless imho.
+> > > > >
+> > > > > >
+> > > > > > Signed-off-by: Sargun Dhillon <sargun@sargun.me>
+> > > > > > ---
+> > > > > >  fs/namespace.c             | 40 ++++++++++++++++++++++++++++++=
++++++---
+> > > > > >  include/uapi/linux/mount.h |  2 ++
+> > > > > >  2 files changed, 39 insertions(+), 3 deletions(-)
+> > > > > >
+> > > > > > diff --git a/fs/namespace.c b/fs/namespace.c
+> > > > > > index 54847db5b819..5396e544ac84 100644
+> > > > > > --- a/fs/namespace.c
+> > > > > > +++ b/fs/namespace.c
+> > > > > > @@ -78,6 +78,7 @@ static LIST_HEAD(ex_mountpoints); /* protecte=
+d by namespace_sem */
+> > > > > >  struct mount_kattr {
+> > > > > >       unsigned int attr_set;
+> > > > > >       unsigned int attr_clr;
+> > > > > > +     unsigned int attr_lock;
+> > > > >
+> > > > > So when I originally noted down this crazy idea
+> > > > > https://github.com/uapi-group/kernel-features
+> > > > > I didn't envision a new struct member but rather a flag that coul=
+d be
+> > > > > raised in attr_set like MOUNT_ATTR_LOCK that would indicate for t=
+he
+> > > > > other flags in attr_set to become locked.
+> > > > >
+> > > > > So if we could avoid growing the struct pointlessly I'd prefer th=
+at. Is
+> > > > > there a reason that wouldn't work?
+> > > > No reason. The semantics were just a little more awkward, IMHO.
+> > > > Specifically:
+> > > > * This attr could never be cleared, only set, which didn't seem to =
+follow
+> > > > the attr_set / attr_clr semantics
+> > > > * If we ever introduced a mount_getattr call, you'd want to expose
+> > > > each of the locked bits independently, I'd think, and exposing
+> > > > that through one flag wouldn't give you the same fidelity.
+> > >
+> > > Hm, right. So it's either new flags or a new member. @Aleksa?
+> >
+> > I like ->attr_lock more tbh, especially since they cannot be cleared.
+> > They are implemented as mount flags internally, but conceptually lockin=
+g
+> > flags is a separate thing to setting them.
+>
+> Ok, it'd be neat if could do the sanity review of this api then as you
+> know the eventual users probably best.
 
-I suggested other tests to add in my previous emails.
-
-I'd suggest to re-run clang-format -i on them though.
-
-On Wed, Aug 02, 2023 at 10:44:34AM -0700, Casey Schaufler wrote:
-> Add selftests for the three system calls supporting the LSM
-> infrastructure. This set of tests is limited by the differences
-> in access policy enforced by the existing security modules.
-> 
-> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
-> ---
->  MAINTAINERS                                   |   1 +
->  tools/testing/selftests/Makefile              |   1 +
->  tools/testing/selftests/lsm/Makefile          |  19 ++
->  tools/testing/selftests/lsm/common.c          |  81 ++++++
->  tools/testing/selftests/lsm/common.h          |  33 +++
->  tools/testing/selftests/lsm/config            |   3 +
->  .../selftests/lsm/lsm_get_self_attr_test.c    | 240 ++++++++++++++++++
->  .../selftests/lsm/lsm_list_modules_test.c     | 140 ++++++++++
->  .../selftests/lsm/lsm_set_self_attr_test.c    |  74 ++++++
->  9 files changed, 592 insertions(+)
->  create mode 100644 tools/testing/selftests/lsm/Makefile
->  create mode 100644 tools/testing/selftests/lsm/common.c
->  create mode 100644 tools/testing/selftests/lsm/common.h
->  create mode 100644 tools/testing/selftests/lsm/config
->  create mode 100644 tools/testing/selftests/lsm/lsm_get_self_attr_test.c
->  create mode 100644 tools/testing/selftests/lsm/lsm_list_modules_test.c
->  create mode 100644 tools/testing/selftests/lsm/lsm_set_self_attr_test.c
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index aca4db11dd02..c96f1c388d22 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -19158,6 +19158,7 @@ W:	http://kernsec.org/
->  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/pcmoore/lsm.git
->  F:	include/uapi/linux/lsm.h
->  F:	security/
-> +F:	tools/testing/selftests/lsm/
->  X:	security/selinux/
->  
->  SELINUX SECURITY MODULE
-> diff --git a/tools/testing/selftests/Makefile b/tools/testing/selftests/Makefile
-> index 666b56f22a41..bde7c217b23f 100644
-> --- a/tools/testing/selftests/Makefile
-> +++ b/tools/testing/selftests/Makefile
-> @@ -39,6 +39,7 @@ TARGETS += landlock
->  TARGETS += lib
->  TARGETS += livepatch
->  TARGETS += lkdtm
-> +TARGETS += lsm
->  TARGETS += membarrier
->  TARGETS += memfd
->  TARGETS += memory-hotplug
-> diff --git a/tools/testing/selftests/lsm/Makefile b/tools/testing/selftests/lsm/Makefile
-> new file mode 100644
-> index 000000000000..bae6c1e3bba4
-> --- /dev/null
-> +++ b/tools/testing/selftests/lsm/Makefile
-> @@ -0,0 +1,19 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +#
-> +# First run: make -C ../../../.. headers_install
-> +
-> +CFLAGS += -Wall -O2 $(KHDR_INCLUDES)
-> +LOCAL_HDRS += common.h
-> +
-> +TEST_GEN_PROGS := lsm_get_self_attr_test lsm_list_modules_test \
-> +		  lsm_set_self_attr_test
-> +
-> +include ../lib.mk
-> +
-> +$(TEST_GEN_PROGS):
-
-This target can be removed.
-
-> +
-> +$(OUTPUT)/lsm_get_self_attr_test: lsm_get_self_attr_test.c common.c
-> +$(OUTPUT)/lsm_set_self_attr_test: lsm_set_self_attr_test.c common.c
-> +$(OUTPUT)/lsm_list_modules_test: lsm_list_modules_test.c common.c
-> +
-> +EXTRA_CLEAN = $(OUTPUT)/common.o
+Aleksa,
+What do you think? The biggest miss / frustration with this API is that
+there is no way to introspect which flags are locked from userspace,
+but given the absence of a mount_getattr syscall (currently), I think
+that we can add that later.
