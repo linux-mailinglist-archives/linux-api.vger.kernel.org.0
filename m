@@ -2,70 +2,120 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2760279132C
-	for <lists+linux-api@lfdr.de>; Mon,  4 Sep 2023 10:19:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 21F5F79182D
+	for <lists+linux-api@lfdr.de>; Mon,  4 Sep 2023 15:31:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345687AbjIDIT1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 4 Sep 2023 04:19:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47116 "EHLO
+        id S1353032AbjIDNbo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 4 Sep 2023 09:31:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351473AbjIDIT0 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 4 Sep 2023 04:19:26 -0400
-X-Greylist: delayed 2307 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 04 Sep 2023 01:19:23 PDT
-Received: from mail.equinoxrise.pl (mail.equinoxrise.pl [217.61.112.157])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C880102
-        for <linux-api@vger.kernel.org>; Mon,  4 Sep 2023 01:19:23 -0700 (PDT)
-Received: by mail.equinoxrise.pl (Postfix, from userid 1002)
-        id 7259C833F7; Mon,  4 Sep 2023 09:40:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=equinoxrise.pl;
-        s=mail; t=1693813255;
-        bh=v6OgBfK5dN7P5dQ0wCu59rOfZaiqziJeLNblJ8dOcGI=;
-        h=Date:From:To:Subject:From;
-        b=aowM7U3iVQFl6oqASl2vwWJwudQ4L6J2Y9hsfyEZlJb9VT3AeWkxp6wsLAaWW7xX/
-         w65c4BTjAxshR/chB4nbrfV6SMpZwm7hJmpDMnU8DInGkT4Wtxq+HwnG570LYpBvCW
-         Cm+vA93WW00o2wlEhtOYDwgA2nX23Ga45tLQ7CjtMwt4wGhzY9qztDvNBlUf+k7BCA
-         YKCf3QTihbeZdAwM0D3zoHuMEXaRnZFt5IP1oHr/Y69ZyqpJvB4bFZVLz3hHUyfhA7
-         3bcREK9lPJn/tSKWb0xECoqTtdBr3/wLopuZ2+IIlmJ6llyt33i5N4sUBKcXJaXU5U
-         KTl6Buk6Usb0g==
-Received: by mail.equinoxrise.pl for <linux-api@vger.kernel.org>; Mon,  4 Sep 2023 07:40:34 GMT
-Message-ID: <20230904084500-0.1.7.q71.0.9nakiiusg0@equinoxrise.pl>
-Date:   Mon,  4 Sep 2023 07:40:34 GMT
-From:   "Mateusz Talaga" <mateusz.talaga@equinoxrise.pl>
-To:     <linux-api@vger.kernel.org>
-Subject: Prezentacja
-X-Mailer: mail.equinoxrise.pl
+        with ESMTP id S234943AbjIDNbn (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 4 Sep 2023 09:31:43 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C34F6CD4;
+        Mon,  4 Sep 2023 06:31:36 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 7A2B721850;
+        Mon,  4 Sep 2023 13:31:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1693834295; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=8xUCxzGeN2LO3k4GTaJqu0a/S4SLZtY9yLR+6ymo9Vs=;
+        b=hENeBDVLkufawqQjmFjPqwhRZIvJjxcIDlP0bIkA1w5p7ublUOu8Oo51GdSmSZDgVXWmZ6
+        kexqUMTmBIhytvtR5+a6gQM6oARbu9IfN8oNDoPbRpBJMKyR6VIGi9cVDwP/FLxNpO6pjV
+        n/tOqnnZmTmYgnFXin4d6qJgicYLRro=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1693834295;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=8xUCxzGeN2LO3k4GTaJqu0a/S4SLZtY9yLR+6ymo9Vs=;
+        b=xjzrCGoGMj18gFCc/jOlyZvo2Ugj5w7x1Z9epxL++2QXcflL9+LYzICqF2VXvv4OFKb7XU
+        UIX9sdYQxVIzL/AA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3E46D13585;
+        Mon,  4 Sep 2023 13:31:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id pN9CDjfc9WTiDgAAMHmgww
+        (envelope-from <vbabka@suse.cz>); Mon, 04 Sep 2023 13:31:35 +0000
+Message-ID: <14b4a922-a31a-a329-0264-3d8bd101ee6b@suse.cz>
+Date:   Mon, 4 Sep 2023 15:31:34 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=3.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS,URIBL_CSS_A,URIBL_DBL_SPAM
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ***
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Subject: Re: Don't fill the kernel log with memfd_create messages
+Content-Language: en-US
+To:     "Alex Xu (Hello71)" <alex_y_xu@yahoo.ca>,
+        Christian Brauner <brauner@kernel.org>,
+        Aleksa Sarai <cyphar@cyphar.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Jeff Xu <jeffxu@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Daniel Verkamp <dverkamp@chromium.org>,
+        Dominique Martinet <asmadeus@codewreck.org>,
+        stable@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kselftest@vger.kernel.org
+References: <1693408388.rwssx8r1h9.none.ref@localhost>
+ <1693408388.rwssx8r1h9.none@localhost>
+From:   Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <1693408388.rwssx8r1h9.none@localhost>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_PASS,T_SPF_HELO_TEMPERROR autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Dzie=C5=84 dobry!
+On 8/30/23 17:52, Alex Xu (Hello71) wrote:
+> Hi all,
+> 
+> Recently "memfd: improve userspace warnings for missing exec-related 
+> flags" was merged. On my system, this is a regression, not an 
+> improvement, because the entire 256k kernel log buffer (default on x86) 
+> is filled with these warnings and "__do_sys_memfd_create: 122 callbacks 
+> suppressed". I haven't investigated too closely, but the most likely 
+> cause is Wayland libraries.
+> 
+> This is too serious of a consequence for using an old API, especially 
+> considering how recently the flags were added. The vast majority of 
+> software has not had time to add the flags: glibc does not define the 
+> macros until 2.38 which was released less than one month ago, man-pages 
+> does not document the flags, and according to Debian Code Search, only 
+> systemd, stress-ng, and strace actually pass either of these flags.
+> 
+> Furthermore, since old kernels reject unknown flags, it's not just a 
+> matter of defining and passing the flag; every program needs to 
+> add logic to handle EINVAL and try again.
+> 
+> Some other way needs to be found to encourage userspace to add the 
+> flags; otherwise, this message will be patched out because the kernel 
+> log becomes unusable after running unupdated programs, which will still 
+> exist even after upstreams are fixed. In particular, AppImages, 
+> flatpaks, snaps, and similar app bundles contain vendored Wayland 
+> libraries which can be difficult or impossible to update.
 
-Czy m=C3=B3g=C5=82bym przedstawi=C4=87 rozwi=C4=85zanie, kt=C3=B3re umo=C5=
-=BCliwia monitoring ka=C5=BCdego auta w czasie rzeczywistym w tym jego po=
-zycj=C4=99, zu=C5=BCycie paliwa i przebieg?
+It's being reverted:
+https://lore.kernel.org/all/20230902230530.6B663C433C8@smtp.kernel.org/
 
-Dodatkowo nasze narz=C4=99dzie minimalizuje koszty utrzymania samochod=C3=
-=B3w, skraca czas przejazd=C3=B3w, a tak=C5=BCe tworzenie planu tras czy =
-dostaw.
+Meanwhile stable should avoid backporting 434ed3350f57 ("memfd: improve
+userspace warnings for missing exec-related flags")
 
-Z naszej wiedzy i do=C5=9Bwiadczenia korzysta ju=C5=BC ponad 49 tys. Klie=
-nt=C3=B3w. Monitorujemy 809 000 pojazd=C3=B3w na ca=C5=82ym =C5=9Bwiecie,=
- co jest nasz=C4=85 najlepsz=C4=85 wizyt=C3=B3wk=C4=85.
+> Thanks,
+> Alex.
 
-Bardzo prosz=C4=99 o e-maila zwrotnego, je=C5=9Bli mogliby=C5=9Bmy wsp=C3=
-=B3lnie om=C3=B3wi=C4=87 potencja=C5=82 wykorzystania takiego rozwi=C4=85=
-zania w Pa=C5=84stwa firmie.
-
-
-Pozdrawiam
-Mateusz Talaga
