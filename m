@@ -2,94 +2,91 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E2CEA792A4F
-	for <lists+linux-api@lfdr.de>; Tue,  5 Sep 2023 18:59:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F2D34792F19
+	for <lists+linux-api@lfdr.de>; Tue,  5 Sep 2023 21:40:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244572AbjIEQer (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 5 Sep 2023 12:34:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40960 "EHLO
+        id S232491AbjIETkH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 5 Sep 2023 15:40:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55752 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354513AbjIEMKK (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 5 Sep 2023 08:10:10 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 470361AB;
-        Tue,  5 Sep 2023 05:10:07 -0700 (PDT)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1qdUsf-0006J5-Ge; Tue, 05 Sep 2023 14:10:05 +0200
-Message-ID: <1d79cc64-46d8-42ab-8219-e45e8d19532f@leemhuis.info>
-Date:   Tue, 5 Sep 2023 14:10:04 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Don't fill the kernel log with memfd_create messages
-Content-Language: en-US, de-DE
-To:     Linux kernel regressions list <regressions@lists.linux.dev>
-Cc:     stable@vger.kernel.org, linux-api@vger.kernel.org,
+        with ESMTP id S232335AbjIETkH (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 5 Sep 2023 15:40:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2862783
+        for <linux-api@vger.kernel.org>; Tue,  5 Sep 2023 12:39:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1693942741;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=kiG7LMI58PbxxQ7NC4rZfW+AyfhbvsaLPh/UOZNP78k=;
+        b=E4bdHXXlNZci6XnVChgZkJ5GEfH5OkRey1GrVyaI8UciEFRx7eD8tx1VOYyDeZKlxgD4oK
+        16CWpdpfsGIl3DST4gaoIQnKsIzdjgnC9BPgt3z02zFYOboi+nHwcdZXk/b55ErSXR/0AR
+        PFHTnEjg/rreMd58i1tVVKgLrSRP8ts=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-657-j9vJhjXcOjWqfSdsL5P9pA-1; Tue, 05 Sep 2023 12:20:09 -0400
+X-MC-Unique: j9vJhjXcOjWqfSdsL5P9pA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8B0A11C09CC6;
+        Tue,  5 Sep 2023 16:20:08 +0000 (UTC)
+Received: from oldenburg.str.redhat.com (unknown [10.2.16.42])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 8C0EF2026D68;
+        Tue,  5 Sep 2023 16:20:06 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Damian Tometzki <dtometzki@fedoraproject.org>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Shuah Khan <shuah@kernel.org>, Jeff Xu <jeffxu@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Daniel Verkamp <dverkamp@chromium.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Dominique Martinet <asmadeus@codewreck.org>,
+        stable@vger.kernel.org, linux-api@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         linux-kselftest@vger.kernel.org
-References: <1693408388.rwssx8r1h9.none.ref@localhost>
- <1693408388.rwssx8r1h9.none@localhost>
- <14b4a922-a31a-a329-0264-3d8bd101ee6b@suse.cz>
-From:   "Linux regression tracking #update (Thorsten Leemhuis)" 
-        <regressions@leemhuis.info>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-In-Reply-To: <14b4a922-a31a-a329-0264-3d8bd101ee6b@suse.cz>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1693915807;afc559ae;
-X-HE-SMSGID: 1qdUsf-0006J5-Ge
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Subject: Re: [PATCH v2 3/5] memfd: improve userspace warnings for missing
+ exec-related flags
+References: <20230814-memfd-vm-noexec-uapi-fixes-v2-0-7ff9e3e10ba6@cyphar.com>
+        <20230814-memfd-vm-noexec-uapi-fixes-v2-3-7ff9e3e10ba6@cyphar.com>
+        <ZPFzCSIgZ4QuHsSC@fedora.fritz.box>
+        <20230902155850.ca1d32c16862cbe54ebd36ef@linux-foundation.org>
+Date:   Tue, 05 Sep 2023 18:20:05 +0200
+In-Reply-To: <20230902155850.ca1d32c16862cbe54ebd36ef@linux-foundation.org>
+        (Andrew Morton's message of "Sat, 2 Sep 2023 15:58:50 -0700")
+Message-ID: <8734zs7ft6.fsf@oldenburg.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-[TLDR: This mail in primarily relevant for Linux kernel regression
-tracking. See link in footer if these mails annoy you.]
+* Andrew Morton:
 
-On 04.09.23 15:31, Vlastimil Babka wrote:
-> On 8/30/23 17:52, Alex Xu (Hello71) wrote:
->> Hi all,
->>
->> Recently "memfd: improve userspace warnings for missing exec-related 
->> flags" was merged. On my system, this is a regression, not an 
->> improvement, because the entire 256k kernel log buffer (default on x86) 
->> is filled with these warnings and "__do_sys_memfd_create: 122 callbacks 
->> suppressed". I haven't investigated too closely, but the most likely 
->> cause is Wayland libraries.
->>
->> This is too serious of a consequence for using an old API, especially 
->> considering how recently the flags were added. The vast majority of 
->> software has not had time to add the flags: glibc does not define the 
->> macros until 2.38 which was released less than one month ago, man-pages 
->> does not document the flags, and according to Debian Code Search, only 
->> systemd, stress-ng, and strace actually pass either of these flags.
->>
->> Furthermore, since old kernels reject unknown flags, it's not just a 
->> matter of defining and passing the flag; every program needs to 
->> add logic to handle EINVAL and try again.
->>
->> Some other way needs to be found to encourage userspace to add the 
->> flags; otherwise, this message will be patched out because the kernel 
->> log becomes unusable after running unupdated programs, which will still 
->> exist even after upstreams are fixed. In particular, AppImages, 
->> flatpaks, snaps, and similar app bundles contain vendored Wayland 
->> libraries which can be difficult or impossible to update.
-> 
-> It's being reverted:
-> https://lore.kernel.org/all/20230902230530.6B663C433C8@smtp.kernel.org/
+> OK, thanks, I'll revert this.  Spamming everyone even harder isn't a
+> good way to get developers to fix their stuff.
 
-in that case:
+Is this really buggy userspace?  Are future kernels going to require
+some of these flags?
 
-#regzbot fix: revert "memfd: improve userspace warnings for missing
-exec-related flags".
-#regzbot ignore-activity
+That's going to break lots of applications which use memfd_create to
+enable run-time code generation on locked-down systems because it looked
+like a stable interface (=E2=80=9Cdon't break userspace=E2=80=9D and all th=
+at).
 
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-That page also explains what to do if mails like this annoy you.
+Thanks,
+Florian
+
