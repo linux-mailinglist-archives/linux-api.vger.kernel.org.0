@@ -2,80 +2,50 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C109796DCD
-	for <lists+linux-api@lfdr.de>; Thu,  7 Sep 2023 01:58:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 400837975B0
+	for <lists+linux-api@lfdr.de>; Thu,  7 Sep 2023 17:54:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231187AbjIFX6r (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 6 Sep 2023 19:58:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50592 "EHLO
+        id S231144AbjIGPxs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 7 Sep 2023 11:53:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231382AbjIFX6q (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 6 Sep 2023 19:58:46 -0400
-Received: from sonic309-27.consmr.mail.ne1.yahoo.com (sonic309-27.consmr.mail.ne1.yahoo.com [66.163.184.153])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4B5E170E
-        for <linux-api@vger.kernel.org>; Wed,  6 Sep 2023 16:58:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1694044720; bh=tRjWz5xTmyODV3eJ2DcADpEY+4F+IbUA23RJut/dyxQ=; h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To; b=BsoBap4exTpmD0r0/roS3aSJdT4imQBkyc8oQYQzEOjCW/6BxlWAZ77I8N6rTivghAEBT66yf9hKHkb+SIzJX5wgSOnLBImf9eIOY7IL4/aXlsP1nb8JsdtYZAjN7sSBsfr/1vnoh+5hOfT3o58BtP52TBuf+khL4D75vlT897g+/Pw3yqnImFEhdOKNA61zFrPHwujLyD5vQ9lT9neodz9u3X6rMOwoO1ZkoqrZjgMK4lH2687Ly3ncbccay57zTWYpTG2qOGNwO4CKoIr25xEEUgh9o4u0ddPpXbGWpFifdzUa/uKZOu1Ejz1nHbd/btK5MpT2lYvADP+iSYL8oA==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1694044720; bh=g9eC/zeAtDc56qx1tKaCtbFl69LARuat1GQjKzLv1v0=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=dlS6fWJPskzYI/Lta+YFhJFFUegzc5LKlY/qiCcrb+hNi0CEPS35XeSQ08OEaOcVXFRO8QZrHw5eAyWkAPyxvdAtJ5eMxdMkwUNgJpWPOQm8FU/38d4AeTCDy/As+Okbc5tzmfXxuSrQUDk0nxlZuh9n418PNdqKphvuufXnPDYT2TJ+TK7qDnTt1qlBdVVM/Izvg+axY7PubVxxPVzv1yClC7rUqV7aV9rZO2QYxKGiDhIWLqF2FHY1INkM65L5FudQl6n3ZqFZYHzbsW73t1rw8ot+MXbHS1fAhOWlkQ7xqubDnytNBnSVlL9V7uV5mz8clf4Kz2+OybBOsotXXQ==
-X-YMail-OSG: OWpzUS8VM1kb_Yu3Uho_kLA18HQLQrktdaWV38y52nuuGpU7Cwrg6PXSeanROFV
- 99c_yxnMbXzF8GSvw.6dnlDGD5nDb5_G3r6XUVUgtf7A5Hla_Mn5pU8B52GOIGvLl4IswGvOgRjC
- B8Lkrk63biD9lrBfxn349F1ZCxIU_2vtrT9ai.n34qgcZVG_Oh3bSYTtc6xEgh7V0F0gBw3k4hen
- e5YL7eRqg1VJCbw5jz771ilbN.OXpwn2Xhu55ePXJZhbaBvkYqd.1BGK6GRKboi.a.cj4KynjDkE
- dK3WaD2t6nMW7Hjxhm59xj5Xdba9erpTpmtA_DIoHPGLUz4MalBe.uajjw0HyH2wYacZQzcj.Lm7
- yfSFzz9g9ZXPD22xVCXcWEKzeYBhvT7dspO.eLe3lZYr.gsX6Gqz5r81RKMkq5CjQjGPL_YIpO96
- vUiz_IYmMsJ1ho.OUeAlhnLdUyKuE7WqcbPlaSZwEFu9OmfyMENOfv0and9dmV0HXqYOV_eDY3V4
- F_IeR2nMjanoJ_dkgT0TFpnXRBkgpUTw.Yg7_sEJwBx.scG95_u9duimCD0baTgVJk3rw8SxrrdC
- hylJsxkXv7QjmPkwd7uF.0uFQ3tH5rqBg2oha5_vqrC.LAkJL55Zp9kjRyw2HeumV3MYZ8cRl4l4
- AIX1dC4.08GJDrgFuwltE71dgI_5D4zghcEXidSWDfPkuSXlvRn08FU9f5YSc3mB7oymkPHyRYrb
- F2KZj2QBHXBlErlC0kp4OX1h0yFK5YrilfqXyc2HCaLGEutgD6XZMjTe80cstt4bEZxTCPS3VFd_
- JeC1MEfaGsn6MZi1mV5NyRMThibxjr9QwPzSlkvDeev6awn4Y_EOmoSiejia.i7Za_6nMCOngV_a
- pb25aqxfl2f7qyyc3mE29LWJXXuPy3IHmOuBn.q9QRsxq7xTUZn1r1U80sEyGIRmrWzVaPAavVcJ
- 7S9TMhr.dtppbxNIB5MfiFHiOPH3pt2Pb2DhijWZQNFYHcsKyQNWwfDJIXfYxjNYY8W7XAb67JB4
- eYlT.NUOEXmTVO1PH.6A5hYCe0qE.u19dpms2GF6x4QfxN1OHUQorplSBYipKTWv16bRbrlmk8A7
- cs.TnT9qxI8jvta19pJnc0AnsyVR_8ExZCNDYZ9A3_EfYbuzwXJGx9mA72ugKhlQUhTpx1Yv7eE9
- 9UQm3.B_aNkDV8yU7Xe5SAT9W9CrleVztpUgf8bo2uvFtfRL207Y8LsjcKs_tuWXJyFfYllIlPOG
- A.wWNH5Et7AoAnjIHqa1V9OuKnPGQRH3S.Ww4dj_puleagfTmUMEBJ37ojCvUpS.2oXE4SJLLKgD
- fZjdSC7NX0xybhoNcWRxWxJjxOhV16UdwLHl..JR7HiDzUhxVZ86oaOurwQt1eEJOjXOIPo1Q7JB
- UAnIelZN25zlZfRc6TwIso_rpN6mruzPn5i0nYDYdFKKYMrK5Q3.wWTmiqGPKGSkuqgQAvvAXhUs
- 0.ulNGqagUSgnvKi_08lslyB8dJKdM.ULQUF4wFZXn8SSAUTE5cPn6yabMplIDH4eHQ3lGcZlu5V
- qm4XP3E5xe6RNg7qzPz1thmv73IzJ3hw0q7SsDmvTbCpvBgnEfwWm4pv9fSAWPBixHUmnv92m2OD
- fJVUQ1zwC93g_clm9PWKpQIg7lWy9QcSwnIEjHTwxlcNJCY7eP.hkPM3TqBjpTOoIgIbxEp6P9gE
- soLAJPKJKUg9rzOGhVCAS8.AIiACsXbqN6dWX7amz4hQ5k2.sFj8_CnwEOWmm4bSOb69uvZHCGDS
- 9LIX6NpZUihmCYXkxDCefx3malHkXQJE1XKwxfHhiIACKVGEm6BO_m3.qO.TZG8yaMI86PjyOcmC
- yw1v0LYgJs4qZ6SD7oTvXUkVoIPITTGEtHHhDdVRrv2m52KC7ZteVwpQRCnEG5O.dWNM4lZ_nO6D
- B_rhr.1KSELkI.pzpWksyAd9m47l9Dm4idJ_8tGbv72cA9AVG29KwXbfdIJUz8KfPhHBlTrccuhn
- 3apGAS_UDYH8pmcWW8pDZWNTeOm0LV3f9ChxWWklBAgXy61KDLrbeEZEE89MNvFhAUxyFWm2clQo
- ZmOZeOe1b1jCG2uGZIPDwwa0xN9OOvS8Bv.0cPcGrXHzSmSSvahlDaY1ddFCjYeJVFB9XLbBo3qz
- iWJUUt4XElxbG.BWG7aX9kmF.4F.tL1wlwCw4BZAxQEKjwBU5leZvy95.EkkMGujgVVwt2EtkI9D
- pGF1W5RYyemrzZicbDC3xlKnCZBRqV0eMVU1eLMvBixVRrjmeYbadMOZ1nQ.6o5iy6pb358UQOmE
- xE_Im1wHRi2x1G.c-
-X-Sonic-MF: <casey@schaufler-ca.com>
-X-Sonic-ID: 9a27b2be-e813-4ee3-ad8c-a0d353044ee7
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic309.consmr.mail.ne1.yahoo.com with HTTP; Wed, 6 Sep 2023 23:58:40 +0000
-Received: by hermes--production-bf1-865889d799-5m62n (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 0ff25f29cdc434fda842453459ee2cee;
-          Wed, 06 Sep 2023 23:48:08 +0000 (UTC)
-Message-ID: <fd1981c0-3f64-adb5-dece-a25494119992@schaufler-ca.com>
-Date:   Wed, 6 Sep 2023 16:48:04 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH v14 4/11] LSM: syscalls for current process attributes
-Content-Language: en-US
-To:     Paul Moore <paul@paul-moore.com>,
-        linux-security-module@vger.kernel.org
-Cc:     jmorris@namei.org, serge@hallyn.com, keescook@chromium.org,
+        with ESMTP id S238394AbjIGPoE (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 7 Sep 2023 11:44:04 -0400
+Received: from smtp-42ae.mail.infomaniak.ch (smtp-42ae.mail.infomaniak.ch [84.16.66.174])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F5083AB9
+        for <linux-api@vger.kernel.org>; Thu,  7 Sep 2023 08:38:41 -0700 (PDT)
+Received: from smtp-2-0000.mail.infomaniak.ch (unknown [10.5.36.107])
+        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4RhNfN0rB0zMpnS9;
+        Thu,  7 Sep 2023 15:37:32 +0000 (UTC)
+Received: from unknown by smtp-2-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4RhNfM4SjRzMpnPs;
+        Thu,  7 Sep 2023 17:37:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
+        s=20191114; t=1694101052;
+        bh=3Y5CnHkV/sAvVC0iHNFm674Ca/+2ssv0lam+xZGQXr8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=1FydaQ9lhh7gA6qUmG1MRh3WDKBbdkcrx2mzU/51BQlNjfBjJwJuR1zIokcGs4VqS
+         e85npZFWqAnv6G8+7xPeyHetXVbvTfw3O7Ev9MNL5zKZ4H/AWEURx3ch9dHyaTXCHt
+         xrUfpl4ED2jiKHBnlzlxIK+wzBoz5+L9hUSTMsTA=
+Date:   Thu, 7 Sep 2023 17:37:24 +0200
+From:   =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
+To:     Casey Schaufler <casey@schaufler-ca.com>
+Cc:     paul@paul-moore.com, linux-security-module@vger.kernel.org,
+        jmorris@namei.org, serge@hallyn.com, keescook@chromium.org,
         john.johansen@canonical.com, penguin-kernel@i-love.sakura.ne.jp,
         stephen.smalley.work@gmail.com, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, mic@digikod.net,
-        Casey Schaufler <casey@schaufler-ca.com>
-References: <20230828195802.135055-5-casey@schaufler-ca.com>
- <6bdfc1b73926b16fc4eea848f25275ed.paul@paul-moore.com>
-From:   Casey Schaufler <casey@schaufler-ca.com>
-In-Reply-To: <6bdfc1b73926b16fc4eea848f25275ed.paul@paul-moore.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Mailer: WebService/1.1.21763 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
-X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
+        linux-api@vger.kernel.org
+Subject: Re: [PATCH v14 04/11] LSM: syscalls for current process attributes
+Message-ID: <20230907.go2eLeCo6ov1@digikod.net>
+References: <20230828195802.135055-1-casey@schaufler-ca.com>
+ <20230828195802.135055-5-casey@schaufler-ca.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230828195802.135055-5-casey@schaufler-ca.com>
+X-Infomaniak-Routing: alpha
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -83,166 +53,255 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 9/6/2023 4:22 PM, Paul Moore wrote:
-> On Aug 28, 2023 Casey Schaufler <casey@schaufler-ca.com> wrote:
->> Create a system call lsm_get_self_attr() to provide the security
->> module maintained attributes of the current process.
->> Create a system call lsm_set_self_attr() to set a security
->> module maintained attribute of the current process.
->> Historically these attributes have been exposed to user space via
->> entries in procfs under /proc/self/attr.
->>
->> The attribute value is provided in a lsm_ctx structure. The structure
->> identifies the size of the attribute, and the attribute value. The format
->> of the attribute value is defined by the security module. A flags field
->> is included for LSM specific information. It is currently unused and must
->> be 0. The total size of the data, including the lsm_ctx structure and any
->> padding, is maintained as well.
->>
->> struct lsm_ctx {
->>         __u64 id;
->>         __u64 flags;
->>         __u64 len;
->>         __u64 ctx_len;
->>         __u8 ctx[];
->> };
->>
->> Two new LSM hooks are used to interface with the LSMs.
->> security_getselfattr() collects the lsm_ctx values from the
->> LSMs that support the hook, accounting for space requirements.
->> security_setselfattr() identifies which LSM the attribute is
->> intended for and passes it along.
->>
->> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
->> Reviewed-by: Kees Cook <keescook@chromium.org>
->> Reviewed-by: Serge Hallyn <serge@hallyn.com>
->> Reviewed-by: John Johansen <john.johansen@canonical.com>
->> ---
->>  Documentation/userspace-api/lsm.rst |  70 +++++++++++++
->>  include/linux/lsm_hook_defs.h       |   4 +
->>  include/linux/lsm_hooks.h           |   1 +
->>  include/linux/security.h            |  19 ++++
->>  include/linux/syscalls.h            |   5 +
->>  include/uapi/linux/lsm.h            |  36 +++++++
->>  kernel/sys_ni.c                     |   2 +
->>  security/Makefile                   |   1 +
->>  security/lsm_syscalls.c             |  57 +++++++++++
->>  security/security.c                 | 146 ++++++++++++++++++++++++++++
->>  10 files changed, 341 insertions(+)
->>  create mode 100644 Documentation/userspace-api/lsm.rst
->>  create mode 100644 security/lsm_syscalls.c
-> ..
->
->> diff --git a/security/security.c b/security/security.c
->> index 82253294069c..aa4ade1f71b9 100644
->> --- a/security/security.c
->> +++ b/security/security.c
->> @@ -3798,6 +3798,152 @@ void security_d_instantiate(struct dentry *dentry, struct inode *inode)
->>  }
->>  EXPORT_SYMBOL(security_d_instantiate);
->>  
->> +/**
->> + * security_getselfattr - Read an LSM attribute of the current process.
->> + * @attr: which attribute to return
->> + * @uctx: the user-space destination for the information, or NULL
->> + * @size: pointer to the size of space available to receive the data
->> + * @flags: special handling options. LSM_FLAG_SINGLE indicates that only
->> + * attributes associated with the LSM identified in the passed @ctx be
->> + * reported.
->> + *
->> + * A NULL value for @uctx can be used to get both the number of attributes
->> + * and the size of the data.
->> + *
->> + * Returns the number of attributes found on success, negative value
->> + * on error. @size is reset to the total size of the data.
->> + * If @size is insufficient to contain the data -E2BIG is returned.
->> + */
->> +int security_getselfattr(unsigned int attr, struct lsm_ctx __user *uctx,
->> +			 size_t __user *size, u32 flags)
->> +{
->> +	struct security_hook_list *hp;
->> +	struct lsm_ctx lctx = { .id = LSM_ID_UNDEF, };
->> +	u8 __user *base = (u8 __user *)uctx;
->> +	size_t total = 0;
->> +	size_t entrysize;
->> +	size_t left;
->> +	bool toobig = false;
->> +	bool single = false;
->> +	int count = 0;
->> +	int rc;
->> +
->> +	if (attr == LSM_ATTR_UNDEF)
->> +		return -EINVAL;
->> +	if (size == NULL)
->> +		return -EINVAL;
->> +	if (get_user(left, size))
->> +		return -EFAULT;
->> +
->> +	if (flags) {
->> +		/*
->> +		 * Only flag supported is LSM_FLAG_SINGLE
->> +		 */
->> +		if (flags & LSM_FLAG_SINGLE)
->> +			return -EINVAL;
-> Should this be something like the following?
->
->   if (flags & ~LSM_FLAG_SINGLE)
->     return -EINVAL;
+On Mon, Aug 28, 2023 at 12:57:54PM -0700, Casey Schaufler wrote:
+> Create a system call lsm_get_self_attr() to provide the security
+> module maintained attributes of the current process.
+> Create a system call lsm_set_self_attr() to set a security
+> module maintained attribute of the current process.
+> Historically these attributes have been exposed to user space via
+> entries in procfs under /proc/self/attr.
+> 
+> The attribute value is provided in a lsm_ctx structure. The structure
+> identifies the size of the attribute, and the attribute value. The format
+> of the attribute value is defined by the security module. A flags field
+> is included for LSM specific information. It is currently unused and must
+> be 0. The total size of the data, including the lsm_ctx structure and any
+> padding, is maintained as well.
+> 
+> struct lsm_ctx {
+>         __u64 id;
+>         __u64 flags;
+>         __u64 len;
+>         __u64 ctx_len;
+>         __u8 ctx[];
+> };
+> 
+> Two new LSM hooks are used to interface with the LSMs.
+> security_getselfattr() collects the lsm_ctx values from the
+> LSMs that support the hook, accounting for space requirements.
+> security_setselfattr() identifies which LSM the attribute is
+> intended for and passes it along.
+> 
+> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+> Reviewed-by: Serge Hallyn <serge@hallyn.com>
+> Reviewed-by: John Johansen <john.johansen@canonical.com>
+> ---
+>  Documentation/userspace-api/lsm.rst |  70 +++++++++++++
+>  include/linux/lsm_hook_defs.h       |   4 +
+>  include/linux/lsm_hooks.h           |   1 +
+>  include/linux/security.h            |  19 ++++
+>  include/linux/syscalls.h            |   5 +
+>  include/uapi/linux/lsm.h            |  36 +++++++
+>  kernel/sys_ni.c                     |   2 +
+>  security/Makefile                   |   1 +
+>  security/lsm_syscalls.c             |  57 +++++++++++
+>  security/security.c                 | 146 ++++++++++++++++++++++++++++
+>  10 files changed, 341 insertions(+)
+>  create mode 100644 Documentation/userspace-api/lsm.rst
+>  create mode 100644 security/lsm_syscalls.c
+> 
 
-Yes. I have a fix ready. There are a couple other touch-ups, too.
+> +/**
+> + * security_getselfattr - Read an LSM attribute of the current process.
+> + * @attr: which attribute to return
+> + * @uctx: the user-space destination for the information, or NULL
+> + * @size: pointer to the size of space available to receive the data
+> + * @flags: special handling options. LSM_FLAG_SINGLE indicates that only
+> + * attributes associated with the LSM identified in the passed @ctx be
+> + * reported.
+> + *
+> + * A NULL value for @uctx can be used to get both the number of attributes
+> + * and the size of the data.
+> + *
+> + * Returns the number of attributes found on success, negative value
+> + * on error. @size is reset to the total size of the data.
+> + * If @size is insufficient to contain the data -E2BIG is returned.
+> + */
+> +int security_getselfattr(unsigned int attr, struct lsm_ctx __user *uctx,
+> +			 size_t __user *size, u32 flags)
+> +{
+> +	struct security_hook_list *hp;
+> +	struct lsm_ctx lctx = { .id = LSM_ID_UNDEF, };
+> +	u8 __user *base = (u8 __user *)uctx;
+> +	size_t total = 0;
+> +	size_t entrysize;
+> +	size_t left;
+> +	bool toobig = false;
+> +	bool single = false;
 
->
->> +		if (uctx &&
->> +		    copy_struct_from_user(&lctx, sizeof(lctx), uctx, left))
->> +			return -EFAULT;
->> +		/*
->> +		 * If the LSM ID isn't specified it is an error.
->> +		 */
->> +		if (lctx.id == LSM_ID_UNDEF)
->> +			return -EINVAL;
->> +		single = true;
->> +	}
->> +
->> +	/*
->> +	 * In the usual case gather all the data from the LSMs.
->> +	 * In the single case only get the data from the LSM specified.
->> +	 */
->> +	hlist_for_each_entry(hp, &security_hook_heads.getselfattr, list) {
->> +		if (single) {
->> +			if (count > 0)
->> +				break;
->> +			if (lctx.id != hp->lsmid->id)
->> +				continue;
->> +		}
->> +		entrysize = left;
->> +		if (base)
->> +			uctx = (struct lsm_ctx __user *)(base + total);
->> +		rc = hp->hook.getselfattr(attr, uctx, &entrysize, flags);
->> +		if (rc == -EOPNOTSUPP) {
->> +			rc = 0;
->> +			continue;
->> +		}
->> +		if (rc == -E2BIG) {
->> +			toobig = true;
->> +			left = 0;
->> +			total += entrysize;
->> +			continue;
->> +		}
->> +		if (rc < 0)
->> +			return rc;
->> +
->> +		left -= entrysize;
->> +		total += entrysize;
->> +		count += rc;
->> +	}
->> +	if (put_user(total, size))
->> +		return -EFAULT;
->> +	if (toobig)
->> +		return -E2BIG;
->> +	if (count == 0)
->> +		return LSM_RET_DEFAULT(getselfattr);
->> +	return count;
->> +}
->
-> --
-> paul-moore.com
+Much easier to read with these booleans.
+
+> +	int count = 0;
+> +	int rc;
+> +
+> +	if (attr == LSM_ATTR_UNDEF)
+> +		return -EINVAL;
+> +	if (size == NULL)
+> +		return -EINVAL;
+> +	if (get_user(left, size))
+> +		return -EFAULT;
+> +
+> +	if (flags) {
+> +		/*
+> +		 * Only flag supported is LSM_FLAG_SINGLE
+> +		 */
+> +		if (flags & LSM_FLAG_SINGLE)
+> +			return -EINVAL;
+> +		if (uctx &&
+> +		    copy_struct_from_user(&lctx, sizeof(lctx), uctx, left))
+
+Again, I'm not sure is copy_struct_from_user() should be used here
+because it checks that the user space structures ends with zeros, which
+is inconsistent with the case without LSM_FLAG_SINGLE. Anyway, this code
+should at least properly handle the copy_struct_from_user() error codes
+which includes EFAULT *and* E2BIG.
+
+> +			return -EFAULT;
+> +		/*
+> +		 * If the LSM ID isn't specified it is an error.
+> +		 */
+> +		if (lctx.id == LSM_ID_UNDEF)
+> +			return -EINVAL;
+> +		single = true;
+> +	}
+> +
+> +	/*
+> +	 * In the usual case gather all the data from the LSMs.
+> +	 * In the single case only get the data from the LSM specified.
+> +	 */
+> +	hlist_for_each_entry(hp, &security_hook_heads.getselfattr, list) {
+> +		if (single) {
+> +			if (count > 0)
+> +				break;
+> +			if (lctx.id != hp->lsmid->id)
+> +				continue;
+> +		}
+> +		entrysize = left;
+> +		if (base)
+> +			uctx = (struct lsm_ctx __user *)(base + total);
+> +		rc = hp->hook.getselfattr(attr, uctx, &entrysize, flags);
+> +		if (rc == -EOPNOTSUPP) {
+> +			rc = 0;
+
+Not a big deal but with LSM_FLAG_SINGLE, if the selected LSM doesn't
+implement this hook, this will uselessly loop over all LSMs.
+I'd add:
+
+if (single)
+	/* Still try to write 0 as the total size for consistency. */
+	break;
+
+> +			continue;
+> +		}
+> +		if (rc == -E2BIG) {
+> +			toobig = true;
+> +			left = 0;
+> +			total += entrysize;
+
+I'm not sure what is the desired behavior with LSM_FLAG_SINGLE in this
+case but I'd add:
+
+if (single)
+	break;
+
+> +			continue;
+> +		}
+> +		if (rc < 0)
+> +			return rc;
+
+I think this should be a break instead of the return rc for consistency
+reasons.
+
+> +
+> +		left -= entrysize;
+> +		total += entrysize;
+> +		count += rc;
+
+You could simplify a bit by replacing the first single check with this
+one:
+
+if (single)
+	break;
+
+> +	}
+> +	if (put_user(total, size))
+> +		return -EFAULT;
+> +	if (toobig)
+> +		return -E2BIG;
+> +	if (count == 0)
+> +		return LSM_RET_DEFAULT(getselfattr);
+> +	return count;
+> +}
+> +
+
+It would be nice to add a comment before all these three syscall
+documentations to keep up-to-date the related user space documentation
+in lsm_syscalls.c
+
+> +/**
+> + * security_setselfattr - Set an LSM attribute on the current process.
+> + * @attr: which attribute to set
+> + * @uctx: the user-space source for the information
+> + * @size: the size of the data
+> + * @flags: reserved for future use, must be 0
+> + *
+> + * Set an LSM attribute for the current process. The LSM, attribute
+> + * and new value are included in @uctx.
+> + *
+> + * Returns 0 on success, -EINVAL if the input is inconsistent, -EFAULT
+> + * if the user buffer is inaccessible or an LSM specific failure.
+> + */
+> +int security_setselfattr(unsigned int attr, struct lsm_ctx __user *uctx,
+> +			 size_t size, u32 flags)
+> +{
+> +	struct security_hook_list *hp;
+> +	struct lsm_ctx *lctx;
+> +	int rc = LSM_RET_DEFAULT(setselfattr);
+> +
+> +	if (flags)
+> +		return -EINVAL;
+> +	if (size < sizeof(*lctx) || size > PAGE_SIZE)
+
+I would be better to return -E2BIG if size > PAGE_SIZE, and update the
+(two) documentations accordingly.
+
+> +		return -EINVAL;
+> +
+> +	lctx = kmalloc(size, GFP_KERNEL);
+> +	if (lctx == NULL)
+> +		return -ENOMEM;
+> +
+> +	if (copy_from_user(lctx, uctx, size)) {
+> +		rc = -EFAULT;
+> +		goto free_out;
+> +	}
+> +
+> +	if (size < lctx->len || size < lctx->ctx_len + sizeof(*lctx) ||
+> +	    lctx->len < lctx->ctx_len + sizeof(*lctx)) {
+> +		rc = -EINVAL;
+> +		goto free_out;
+> +	}
+> +
+> +	hlist_for_each_entry(hp, &security_hook_heads.setselfattr, list)
+> +		if ((hp->lsmid->id) == lctx->id) {
+> +			rc = hp->hook.setselfattr(attr, lctx, size, flags);
+
+There is no need (at least for now) to directly expose lctx->id nor
+lctx->flags. It would be simpler to only pass lctx->ctx and
+lctx->ctx_len to the hooks.
+
+> +			break;
+> +		}
+> +
+> +free_out:
+> +	kfree(lctx);
+> +	return rc;
+> +}
+> +
+>  /**
+>   * security_getprocattr() - Read an attribute for a task
+>   * @p: the task
+> -- 
+> 2.41.0
+> 
