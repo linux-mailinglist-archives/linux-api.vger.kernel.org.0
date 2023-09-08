@@ -2,95 +2,112 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D3247797EEE
-	for <lists+linux-api@lfdr.de>; Fri,  8 Sep 2023 01:05:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B20D79867A
+	for <lists+linux-api@lfdr.de>; Fri,  8 Sep 2023 13:32:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234886AbjIGXF6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 7 Sep 2023 19:05:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48078 "EHLO
+        id S239297AbjIHLcl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 8 Sep 2023 07:32:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58128 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234220AbjIGXF6 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 7 Sep 2023 19:05:58 -0400
-Received: from mail-yw1-x1131.google.com (mail-yw1-x1131.google.com [IPv6:2607:f8b0:4864:20::1131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2292F1BD3
-        for <linux-api@vger.kernel.org>; Thu,  7 Sep 2023 16:05:54 -0700 (PDT)
-Received: by mail-yw1-x1131.google.com with SMTP id 00721157ae682-58dce1f42d6so36418687b3.0
-        for <linux-api@vger.kernel.org>; Thu, 07 Sep 2023 16:05:54 -0700 (PDT)
+        with ESMTP id S231164AbjIHLcl (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 8 Sep 2023 07:32:41 -0400
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AAA61FC4;
+        Fri,  8 Sep 2023 04:32:28 -0700 (PDT)
+Received: by mail-lf1-x132.google.com with SMTP id 2adb3069b0e04-50091b91a83so3186488e87.3;
+        Fri, 08 Sep 2023 04:32:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1694127953; x=1694732753; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ISjcm/XAVmNIHdzglOwc4PmVKiJwUPJydrTms3Jl6eg=;
-        b=V+cYoJjSOo0+cVER+pLtXFHxL4gpwBiZPAnXuIDNDI/D9tadCcGltM7Gpn37mRxZyI
-         4tgJfGHWOJ5hQuzTtPIG2QAgldx3iOq2cwgr/kD858ME5b8wOMTyarbrZeD+JATul5F9
-         ZdneCGx6zafxCTiMnAmmcB7fm1FtyyNjDUmba/WjvJGAa99EdAtgM9n//ddztrTMMU8I
-         UPd9sr9rolSrW0nTovwbtCIgm/9I/oi9RRPsMuup5I5EBDsO+HavzFM5oBUhC+TzbIcq
-         xN9XDrcDZf7Y8hULAyflbVWI1WvlIRPP3RbcggXeIXZKcAYUN8CnbE8/yE4gNibIIEk9
-         y93A==
+        d=gmail.com; s=20221208; t=1694172746; x=1694777546; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6PPorl9wVbuo1uuAa9GCQe4GH/N/mOgDSgRVOXiC4Xs=;
+        b=A7smgSqU4Vd386QnVTV4gVRiZrPnAOGPJOm/ioCkIRKcBoHfXLLows9ESUDmFm0cwA
+         sqoNr1lrNek4DCTW3aGQiX4VtyVsgmWzeC7y+KzCnsU4jrsESy0A3N8i94OjZ+sVLkNf
+         dwF5PUc1lLmnhaBv1TpSpLdPT083sb4iQbF/gx8IHxY1N5WhLNl52dEB6+L/nC9G//rA
+         tSdJX3uapc1NfzVk41g8ERcFUJnKSclL60F4N6bwy0JMGGSVmGxOymEzB/UKSIZBlNaH
+         bIZoBk6xHTH/pn+5NB9Y4KdG46K7uC28vR0kY/NlmAXcaRuwpJedFm3xcirQJ0ayphxt
+         hL7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694127953; x=1694732753;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ISjcm/XAVmNIHdzglOwc4PmVKiJwUPJydrTms3Jl6eg=;
-        b=mtM615w4gCUuUOssrL+YhnEdPM5g9PT54ih8OaqR8/pNDNPXN3kZMG3l8P7uJ2nScx
-         BgDPqy6P3mKK+kCSaWYOHaHjVi9ikNc8VfJXbUqN1hzm9d4ae+M/pCUHFgwjQfnFhDnx
-         fc38mYAC+hEERaKlQeDAh3asaOBNIBCUMl3chfM+Ih3BHdovfPRnCiVwlJ+cOJrNetq9
-         ol1b118YQtSpBfGCYM+80k5WowfsP8Ibc+ZbnUpXoXpCxuJY87vy4EeVHSTfvHK+6t7n
-         /PYp0y44snSCe1ubsxpSiMpjqG7k0WvG5whA3IxgxPYPw0+mX3/0ZeBbxDQ3fsHw2SfO
-         pCPg==
-X-Gm-Message-State: AOJu0Yxxvc4IsGMxi1Wcb675r4aLZCQay3GTMLegYM6ygyGGaiESgzoO
-        RWMvUs7uDtXvzUrGmXPRPPR2eR1CIyptzisVps1A
-X-Google-Smtp-Source: AGHT+IG0HEX4ZGpo0hD4MHng6c+DEbD0YlWxaMovTIzbA3/W8ZnDLQi0HsEjlGcfgzt/69nt84jTXPqcVJSfyieNFCU=
-X-Received: by 2002:a81:450f:0:b0:59b:50ed:82e5 with SMTP id
- s15-20020a81450f000000b0059b50ed82e5mr2377444ywa.22.1694127953340; Thu, 07
- Sep 2023 16:05:53 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1694172746; x=1694777546;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6PPorl9wVbuo1uuAa9GCQe4GH/N/mOgDSgRVOXiC4Xs=;
+        b=Z0zM3U46h8Crk5kBhEGD+qOxJGHQMlcDq1H3VztuicERALwYxLlihUuR/t3UWWD6ND
+         HlW0dlGLOg9I8baGU0WxtG4Kyej00gwssxvgKE+oPBfsc2znqA1ErxPC0P4pex1A6O01
+         i1H9Wi70iekKgIUyGf2WT1CHeolCPYo+EuOM45rtWqS8EkJ0NYgVPdTVJLDl8VT3UheL
+         EUGqxqZN/6JUkEV/Ju8upj5laBxN0dqqIAPAuU0TTny2ro7UR5vwFWjASki+8uVw5+IM
+         QT8j/5HPxu6b+Qpe0EcT/fO47233TQdsz0P61ieI05MjwSfeJvtmhQ7SoSiLbM4lM2Dt
+         zYiA==
+X-Gm-Message-State: AOJu0Yz58OOEIiNkKCO8g54dkfiJ0z2kzHY7IO2N6OMkosZrG9zqJGfZ
+        VPlLinoQM3h2yNMUbig4uQ==
+X-Google-Smtp-Source: AGHT+IGrGaZ8RhXzHMLdtMpLJ3Qoxz38b3IriqqoFf+vup6bKImDxsxT8iGV8piZim5JOxtSjE73KQ==
+X-Received: by 2002:a19:6503:0:b0:500:8f65:c624 with SMTP id z3-20020a196503000000b005008f65c624mr1351524lfb.53.1694172746216;
+        Fri, 08 Sep 2023 04:32:26 -0700 (PDT)
+Received: from p183 ([46.53.253.206])
+        by smtp.gmail.com with ESMTPSA id s6-20020aa7c546000000b00521953ce6e0sm906185edr.93.2023.09.08.04.32.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Sep 2023 04:32:25 -0700 (PDT)
+Date:   Fri, 8 Sep 2023 14:32:24 +0300
+From:   Alexey Dobriyan <adobriyan@gmail.com>
+To:     akpm@linux-foundation.org
+Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        keescook@chromium.org
+Subject: [PATCH] uapi: partially fix __DECLARE_FLEX_ARRAY for C++
+Message-ID: <930c3ee5-1282-40f4-93e0-8ff894aabf3a@p183>
 MIME-Version: 1.0
-References: <20230828195802.135055-5-casey@schaufler-ca.com>
- <6bdfc1b73926b16fc4eea848f25275ed.paul@paul-moore.com> <fd1981c0-3f64-adb5-dece-a25494119992@schaufler-ca.com>
- <CAHC9VhT-GVq1D-AKMv_R3uKNm_iDV8uA3pB1ky5ScBnEdoPuvg@mail.gmail.com> <159ad121-e7e7-7d5a-c208-983c7a2b8d6e@schaufler-ca.com>
-In-Reply-To: <159ad121-e7e7-7d5a-c208-983c7a2b8d6e@schaufler-ca.com>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Thu, 7 Sep 2023 19:05:42 -0400
-Message-ID: <CAHC9VhQpQUPeL3G7F-QjYZdSvzZUsdd2uc9DYddgWvbQKUitjA@mail.gmail.com>
-Subject: Re: [PATCH v14 4/11] LSM: syscalls for current process attributes
-To:     Casey Schaufler <casey@schaufler-ca.com>
-Cc:     linux-security-module@vger.kernel.org, jmorris@namei.org,
-        serge@hallyn.com, keescook@chromium.org,
-        john.johansen@canonical.com, penguin-kernel@i-love.sakura.ne.jp,
-        stephen.smalley.work@gmail.com, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, mic@digikod.net
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Sep 7, 2023 at 6:15=E2=80=AFPM Casey Schaufler <casey@schaufler-ca.=
-com> wrote:
-> On 9/7/2023 8:42 AM, Paul Moore wrote:
-> > ...
-> >> Yes. I have a fix ready. There are a couple other touch-ups, too.
-> > Great.  Since you are doing another revision, can you double check all
-> > of the patch subject lines to ensure you don't have any double spaces?
-> >  I see at least one, possibly two more.
->
-> Where do you see that? I'm not finding it.
+__DECLARE_FLEX_ARRAY(T, member) macro expands to
 
-It's possible it may be part of the tooling I'm using.  I checked that
-this morning against the raw archives in lore and thought I still saw
-at least one patch with that issue, but now that I go back I'm not
-seeing it.  My apologies for the confusion.
+	struct {
+		struct {} __empty_member;
+		T member[];
+	};
 
-Regardless, I have updated my scripts so if it is on my end it
-shouldn't happen again.
+which is subtly wrong in C++ because sizeof(struct{}) is 1 not 0,
+changing UAPI structures layouts.
 
---=20
-paul-moore.com
+This can be fixed by expanding simply to
+
+	T member[];
+
+Most of the usages still be broken because of other C++ shenanigans
+but this fixes simplest usage: 1 flexible member at the end.
+
+Fix header guard while I'm at it.
+
+Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
+---
+
+ include/uapi/linux/stddef.h |    6 ++++++
+ 1 file changed, 6 insertions(+)
+
+--- a/include/uapi/linux/stddef.h
++++ b/include/uapi/linux/stddef.h
+@@ -39,6 +39,10 @@
+  * struct, it needs to be wrapped in an anonymous struct with at least 1
+  * named member, but that member can be empty.
+  */
++#ifdef __cplusplus
++#define __DECLARE_FLEX_ARRAY(T, member)		\
++	T member[]
++#else
+ #define __DECLARE_FLEX_ARRAY(TYPE, NAME)	\
+ 	struct { \
+ 		struct { } __empty_ ## NAME; \
+@@ -49,3 +53,5 @@
+ #ifndef __counted_by
+ #define __counted_by(m)
+ #endif
++
++#endif
