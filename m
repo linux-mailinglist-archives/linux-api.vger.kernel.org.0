@@ -2,61 +2,64 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B20D79867A
-	for <lists+linux-api@lfdr.de>; Fri,  8 Sep 2023 13:32:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 120587989AD
+	for <lists+linux-api@lfdr.de>; Fri,  8 Sep 2023 17:14:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239297AbjIHLcl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 8 Sep 2023 07:32:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58128 "EHLO
+        id S244408AbjIHPOt (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 8 Sep 2023 11:14:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231164AbjIHLcl (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 8 Sep 2023 07:32:41 -0400
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AAA61FC4;
-        Fri,  8 Sep 2023 04:32:28 -0700 (PDT)
-Received: by mail-lf1-x132.google.com with SMTP id 2adb3069b0e04-50091b91a83so3186488e87.3;
-        Fri, 08 Sep 2023 04:32:28 -0700 (PDT)
+        with ESMTP id S244412AbjIHPOs (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 8 Sep 2023 11:14:48 -0400
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C2F41BFF;
+        Fri,  8 Sep 2023 08:14:42 -0700 (PDT)
+Received: by mail-ed1-x533.google.com with SMTP id 4fb4d7f45d1cf-52a3ff5f0abso2956039a12.1;
+        Fri, 08 Sep 2023 08:14:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694172746; x=1694777546; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6PPorl9wVbuo1uuAa9GCQe4GH/N/mOgDSgRVOXiC4Xs=;
-        b=A7smgSqU4Vd386QnVTV4gVRiZrPnAOGPJOm/ioCkIRKcBoHfXLLows9ESUDmFm0cwA
-         sqoNr1lrNek4DCTW3aGQiX4VtyVsgmWzeC7y+KzCnsU4jrsESy0A3N8i94OjZ+sVLkNf
-         dwF5PUc1lLmnhaBv1TpSpLdPT083sb4iQbF/gx8IHxY1N5WhLNl52dEB6+L/nC9G//rA
-         tSdJX3uapc1NfzVk41g8ERcFUJnKSclL60F4N6bwy0JMGGSVmGxOymEzB/UKSIZBlNaH
-         bIZoBk6xHTH/pn+5NB9Y4KdG46K7uC28vR0kY/NlmAXcaRuwpJedFm3xcirQJ0ayphxt
-         hL7g==
+        d=gmail.com; s=20221208; t=1694186081; x=1694790881; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=atZ+M5AFC89fns5yYktOP5n7YffWb8eq/JNYGoPls6o=;
+        b=czggR3fKA1p2+uy0wuJXsWiZDazQKefsR+ONs8eB4zh/6IpEW+ExlqsviXsySv+8A7
+         xGmqzsSGqRfcY+SkF2d2nvVnBqmzvZE59H2oqwgz3nWbZiRIoh3pbqCpYx2d9b8ksSae
+         5NmJGPHr6AGAtV3sE9h6GRsxeKk/R87kMC9vmidxkumMvqpmdKGorHTxrO0PnYFzAXyp
+         N4c/gNPbWPVs9hqsB1GQ7zHxBR5Dl2/beRp1x04qLmheewaDdoCDBh7ZA+KCuYOJPW3G
+         Z8IHE9jTNMK1bVv/gNNNIAV2l/NMcWa9snhaKyaylJKSpvrDAsP4n6WKmgrB54YUZV1i
+         dbnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694172746; x=1694777546;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6PPorl9wVbuo1uuAa9GCQe4GH/N/mOgDSgRVOXiC4Xs=;
-        b=Z0zM3U46h8Crk5kBhEGD+qOxJGHQMlcDq1H3VztuicERALwYxLlihUuR/t3UWWD6ND
-         HlW0dlGLOg9I8baGU0WxtG4Kyej00gwssxvgKE+oPBfsc2znqA1ErxPC0P4pex1A6O01
-         i1H9Wi70iekKgIUyGf2WT1CHeolCPYo+EuOM45rtWqS8EkJ0NYgVPdTVJLDl8VT3UheL
-         EUGqxqZN/6JUkEV/Ju8upj5laBxN0dqqIAPAuU0TTny2ro7UR5vwFWjASki+8uVw5+IM
-         QT8j/5HPxu6b+Qpe0EcT/fO47233TQdsz0P61ieI05MjwSfeJvtmhQ7SoSiLbM4lM2Dt
-         zYiA==
-X-Gm-Message-State: AOJu0Yz58OOEIiNkKCO8g54dkfiJ0z2kzHY7IO2N6OMkosZrG9zqJGfZ
-        VPlLinoQM3h2yNMUbig4uQ==
-X-Google-Smtp-Source: AGHT+IGrGaZ8RhXzHMLdtMpLJ3Qoxz38b3IriqqoFf+vup6bKImDxsxT8iGV8piZim5JOxtSjE73KQ==
-X-Received: by 2002:a19:6503:0:b0:500:8f65:c624 with SMTP id z3-20020a196503000000b005008f65c624mr1351524lfb.53.1694172746216;
-        Fri, 08 Sep 2023 04:32:26 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1694186081; x=1694790881;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=atZ+M5AFC89fns5yYktOP5n7YffWb8eq/JNYGoPls6o=;
+        b=TgvZ2h11t9cGBEQmGYl/lyj6MAARa1BVecnewxkNYrQxcN0bcsYKULyxAD5fOT/3Zj
+         iDqjXyECs4POggERvYyH0/3o4UX3+7T+lyD+QAfs/EVs/vhsJiWJKZSDHcPlhyt5OcV8
+         GaiSC8SM/MAaPZc2M/QNyHTOnHz5OFoAdHdcpf3OmXQogEtTY1SPWvfneZCC7FRmfsFQ
+         76xIDXtCwt/O7QlkbuMpZZCkeh1RYIUfIwzlxFp4ZxGDWTDaIEKsyzSvYwNnqiznSKzL
+         92tCCtHyWLq78tvy+UfoHnANonP8I9aXnGi4n9V8clwOabfEGzoG5pMQRLntk8lQoq8z
+         aLjg==
+X-Gm-Message-State: AOJu0YznDNboZCrYSqVndv87Q8BI1I52G3KqjluKXqnEWjbSIahfvgH3
+        RuVt0iE0Mig4gA1cuhjI8YNCKpZRfQ==
+X-Google-Smtp-Source: AGHT+IFcJg5hcXsjXX0knl5z8cFkGsjaOKH0kKB8/DaoOrPf/A4VjnAQxhPGCOwVx1lN98OATVYLfw==
+X-Received: by 2002:a50:ed97:0:b0:523:387d:f5f1 with SMTP id h23-20020a50ed97000000b00523387df5f1mr2303303edr.24.1694186080517;
+        Fri, 08 Sep 2023 08:14:40 -0700 (PDT)
 Received: from p183 ([46.53.253.206])
-        by smtp.gmail.com with ESMTPSA id s6-20020aa7c546000000b00521953ce6e0sm906185edr.93.2023.09.08.04.32.25
+        by smtp.gmail.com with ESMTPSA id w15-20020a056402070f00b005288f0e547esm1150373edx.55.2023.09.08.08.14.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Sep 2023 04:32:25 -0700 (PDT)
-Date:   Fri, 8 Sep 2023 14:32:24 +0300
+        Fri, 08 Sep 2023 08:14:40 -0700 (PDT)
+Date:   Fri, 8 Sep 2023 18:14:38 +0300
 From:   Alexey Dobriyan <adobriyan@gmail.com>
 To:     akpm@linux-foundation.org
 Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
         keescook@chromium.org
-Subject: [PATCH] uapi: partially fix __DECLARE_FLEX_ARRAY for C++
-Message-ID: <930c3ee5-1282-40f4-93e0-8ff894aabf3a@p183>
+Subject: [PATCH v2] uapi: fix __DECLARE_FLEX_ARRAY for C++
+Message-ID: <a0c3a352-89c6-4764-b377-f55a68a1b2cb@p183>
+References: <930c3ee5-1282-40f4-93e0-8ff894aabf3a@p183>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+In-Reply-To: <930c3ee5-1282-40f4-93e0-8ff894aabf3a@p183>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -77,12 +80,31 @@ __DECLARE_FLEX_ARRAY(T, member) macro expands to
 which is subtly wrong in C++ because sizeof(struct{}) is 1 not 0,
 changing UAPI structures layouts.
 
-This can be fixed by expanding simply to
+This can be fixed by expanding to
 
 	T member[];
 
-Most of the usages still be broken because of other C++ shenanigans
-but this fixes simplest usage: 1 flexible member at the end.
+Now g++ doesn't like "T member[]" either throwing errors on code like
+this:
+
+	struct S {
+		union {
+			T1 member1[];
+			T2 member2[];
+		};
+	};
+
+or
+
+	struct S {
+		T member[];
+	};
+
+So use
+
+	T member[0];
+
+which seems to work and does the right thing wrt structure layout.
 
 Fix header guard while I'm at it.
 
@@ -100,7 +122,7 @@ Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
   */
 +#ifdef __cplusplus
 +#define __DECLARE_FLEX_ARRAY(T, member)		\
-+	T member[]
++	T member[0]
 +#else
  #define __DECLARE_FLEX_ARRAY(TYPE, NAME)	\
  	struct { \
