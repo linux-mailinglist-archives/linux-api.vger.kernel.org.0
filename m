@@ -2,198 +2,170 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F31AA79AE1D
-	for <lists+linux-api@lfdr.de>; Tue, 12 Sep 2023 01:42:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E1DA79B780
+	for <lists+linux-api@lfdr.de>; Tue, 12 Sep 2023 02:07:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239354AbjIKWpo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 11 Sep 2023 18:45:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37322 "EHLO
+        id S239693AbjIKWpt (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 11 Sep 2023 18:45:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243645AbjIKR1R (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 11 Sep 2023 13:27:17 -0400
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50E3B125;
-        Mon, 11 Sep 2023 10:27:09 -0700 (PDT)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailout.nyi.internal (Postfix) with ESMTP id 6FB9E5C0165;
-        Mon, 11 Sep 2023 13:27:08 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Mon, 11 Sep 2023 13:27:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-type:content-type:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm1; t=1694453228; x=1694539628; bh=Td
-        Gi7kVXEnEKoxN/ecGUPAlNClbuxU0h+eeQmE5muyU=; b=TPU3W6SYFJ7e/IDmmJ
-        xVpTiH4yGa4dS7/hYvgGW+IxFjo1AKWnWi0cxY73TQNDRBy95nX+2Ln16B8eX+uc
-        24420CK6I+1E3po3N/7w6h+xpUVQN5iakEs9SWqkGZzfaBWyS8mm6ZZcXDNM3Enj
-        DNcD+XPFH3/ihBtnnceAmRyohx2HuIkc5x0O3q3+DSBnjvcY+BkG+Ar6jfpTCZaC
-        MYz7GqU4CJ57CeyBG8ba0NMZMAqq9xuJb2lsZMjLUDlR55FsghaGUcXNfPHXYiMW
-        7BvR9RFZY0ARIWsZzZ1y0E+Ff1fiyeCC4tzrg5BS0lbP2yUy2A2/Za+2QGm0oS9a
-        Sg+Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:content-type:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm1; t=1694453228; x=1694539628; bh=TdGi7kVXEnEKo
-        xN/ecGUPAlNClbuxU0h+eeQmE5muyU=; b=IjBdVEQ0w4QnMwyv3KzHbk003lgrX
-        CryomNEZLcLZtWdU9qgXMjkgPVvkDx0seprWJ02+laI36Kw20IGYJqHv9LDinrGQ
-        JBNearY/wXoxxZXuVopKdKzhu95lW9UDS2VBu/3UjrRHzRAWm2ZtFC2p9pA78atd
-        ialY5pN3M6gfMqfiGa5aAVs3etQoeHcj3+V+JvcPNB61AakLSWOO+CZt7G2pzoln
-        zF3O891DCL6ZY5tksw8iHqFr2maJLJzUSVak2EOiqAow0PSq/nj7BFYQlROoMtlX
-        ErBVjE/jeBLlJzqURyFTJd2ImY+ltCXPj09M1PRQ2td2j4mbPC1MAzZoA==
-X-ME-Sender: <xms:6U3_ZDAItsKohJrpOX0uEMEkEAxzm3QjJajwzyjZxdmAKPDrYWEDaA>
-    <xme:6U3_ZJi4Eudh4S8_7fjb7Yj_G8MTc8o7F7iYINwrkvR1lyqcfR2cuFcM0w4Sw7BtA
-    NNurCDYAE0hbrSo_0c>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrudeigedgudduudcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
-    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
-    htthgvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedt
-    keetffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    grrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:6U3_ZOmAUShIz1HnYgmzBw2dyATGVeic8h1uMbmqjso3L3Sxe_HTOw>
-    <xmx:6U3_ZFylNI6c-B9sY4q6WZvBrRULVLHGeYUgy0FbbXzxh2U1dsV-LQ>
-    <xmx:6U3_ZITUDk4-y_jscr0qL5-f3PPv0XhwOAR7JoqXM3SVOFVH9MXQ3w>
-    <xmx:7E3_ZPLrOvvJLlcwP2woMLT2bK_I5P4HhJeKDGBmxqXR4N-uSRzmNg>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id C5A3EB60089; Mon, 11 Sep 2023 13:27:05 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-745-g95dd7bea33-fm-20230905.001-g95dd7bea
-Mime-Version: 1.0
-Message-Id: <e80f9c6f-d194-41c7-bdb5-e6a78751f543@app.fastmail.com>
-In-Reply-To: <ZP28D8dZXz3+4s9v@memverge.com>
+        with ESMTP id S240625AbjIKOtQ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 11 Sep 2023 10:49:16 -0400
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2064.outbound.protection.outlook.com [40.107.237.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D81F8E4D;
+        Mon, 11 Sep 2023 07:49:10 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jIzcos7kMXgXpXAxyYmpnIr4D4Jul6UY9LqbbNfhAeA9uNb4ZsYBJN4OO7pgX8B8Nnn8aVn1zYFA0Xm0qaU9D8DENj1hZ9OxMU87zZ1yyIMwXSvOkdCwipX8iCPt51aaprvWZYvRGnkMYQBPR0A64x1lUdLz3k1UMupoqPFQLhvdS2fpVE+kZkqwaRo79jSpIZfHXX0qBgaQljUrGebla1xG+5DbZaFhwpT+8iRieNDPgbcIlho0ebeGDLUoQB4s5CY3xQzGvlV9ypoR8yRSvpTgpHPrHSEqq00WG4jVXxnH4xgRQkLxC7dRPbhz6+4gHBrFw6RvuTAnba++nvfjeA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=cwJOxpAp9dHs/UVh2VAyV7o4fOVzHIQk12g7qrxAqFA=;
+ b=JsZnb9IArXEP4wkGWl7bqPh4azFGx+ndcHHIAyKzHLUs+3esHcngiKoF+jKZGMLdDI0Slj580+AIhM/o3x4xpxhWJk0aqMe5iMhpxGsSSjp41FWUA01tcEb9ZXdzIR0XIVJZzD41myuDDggx5/IRX1Y+ROAZ1QADWpRQuMPDR5p9ccKrUR8vti1xweknB+X+1rcp4s2qnjoLCAIZzJkMpLZa5ExaynPOxGmFxjIEFkexrxXiE2hZxmoDXPd6unBXqntA3ndqeyUO58da5N+LKm1pDVtBvg+g9pA5a35knkTVwGDXpqvDs78xt+HfayMqIdGr1ZVBddMVNtjdLLDaaw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
+ dkim=pass header.d=memverge.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cwJOxpAp9dHs/UVh2VAyV7o4fOVzHIQk12g7qrxAqFA=;
+ b=L5vv36E+S2Eiy46cp11EpI3iv+Nb0sihCiaGQUKRKNFz8g1GwFj14dZJwUsSD7nyg5cPBJkoHd0y+ZBEnOHRfmLd/6FBgu7fO5XemP6jIZysfLqY7n6EYFGIJzvuNsFwoQHW8/esxmoSsi9Lnc1Js5zYZQJgTQhioENtXtLfVF4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=memverge.com;
+Received: from SJ0PR17MB5512.namprd17.prod.outlook.com (2603:10b6:a03:394::19)
+ by PH0PR17MB4815.namprd17.prod.outlook.com (2603:10b6:510:8b::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6768.34; Mon, 11 Sep
+ 2023 14:49:07 +0000
+Received: from SJ0PR17MB5512.namprd17.prod.outlook.com
+ ([fe80::94b1:abab:838f:650e]) by SJ0PR17MB5512.namprd17.prod.outlook.com
+ ([fe80::94b1:abab:838f:650e%4]) with mapi id 15.20.6745.030; Mon, 11 Sep 2023
+ 14:49:06 +0000
+Date:   Sun, 10 Sep 2023 07:49:53 -0400
+From:   Gregory Price <gregory.price@memverge.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Gregory Price <gourry.memverge@gmail.com>,
+        linux-mm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-cxl@vger.kernel.org, luto@kernel.org, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+        hpa@zytor.com, arnd@arndb.de, akpm@linux-foundation.org,
+        x86@kernel.org
+Subject: Re: [RFC PATCH 3/3] mm/migrate: Create move_phys_pages syscall
+Message-ID: <ZP2tYY00/q9ElFQn@memverge.com>
 References: <20230907075453.350554-1-gregory.price@memverge.com>
  <20230907075453.350554-4-gregory.price@memverge.com>
- <f73d0495-f575-4b97-bc74-a57bd427df98@app.fastmail.com>
- <ZPrRcJCjRBvJ9c3N@memverge.com>
- <2fe03345-01a2-4cfe-9648-ae088493d1af@app.fastmail.com>
- <ZP28D8dZXz3+4s9v@memverge.com>
-Date:   Mon, 11 Sep 2023 19:26:45 +0200
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Gregory Price" <gregory.price@memverge.com>
-Cc:     "Gregory Price" <gourry.memverge@gmail.com>,
-        linux-mm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Linux-Arch <linux-arch@vger.kernel.org>,
-        linux-api@vger.kernel.org, linux-cxl@vger.kernel.org,
-        "Andy Lutomirski" <luto@kernel.org>,
-        "Thomas Gleixner" <tglx@linutronix.de>,
-        "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
-        "Dave Hansen" <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Andrew Morton" <akpm@linux-foundation.org>, x86@kernel.org
-Subject: Re: [RFC PATCH 3/3] mm/migrate: Create move_phys_pages syscall
-Content-Type: text/plain
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+ <878r9dzrxj.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <878r9dzrxj.fsf@meer.lwn.net>
+X-ClientProxiedBy: SJ0PR05CA0063.namprd05.prod.outlook.com
+ (2603:10b6:a03:332::8) To SJ0PR17MB5512.namprd17.prod.outlook.com
+ (2603:10b6:a03:394::19)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR17MB5512:EE_|PH0PR17MB4815:EE_
+X-MS-Office365-Filtering-Correlation-Id: 49529720-dd94-4c97-5f62-08dbb2d63faf
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 1F2YnYaatLozgTTnAiA+zT53A623jIrd/FVnznolsz8MK2lraogDTncIEAdFg0NvEZrGxAMas3EHRnyG9MFv5ecvqLqgCgadLffAff3xA7eZ6jJ5PL87WeYqzE4BJ2+EspLIBFvvLqqomo1spY/RMGV2CMjffzGSreChrE9z7tFXbO0GNlUezzXzcew4GN358BG6Hqg+nvMOH5os+128d92SXYTBvNNXAm5Wc+x+Lg4RFutovOKFxPCo1WOPgjiub8Lrp6QAGXEy38vIvFgcvDStMmqns4VW3WCHQpTiqaCqQ2mtqG2LO4vTdS3CWCmT3MFAUQn3Vf+/CX54b3JPSzToXTpNRN5oxy/rjrK4gZDy5QjyzQxz9UwxzW9ZJPVyBIzmwrQQy32jFHAikPJM0vj9Bak4tXr5Cta4T1JDolmKqLXznSInTWMVza9JZG6fzl4n8CegLGvNRPzNM6uT9X7DvAPiAWUEDQXfwYyQEYtJbjS0aZdqRFs6kN+VnwPKhpfB4IrCHDnXsvoTmrSyrY+8lBuaNzd51IqpdVSWxPN+/AvSeLD94dyUlAjS4LqO
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR17MB5512.namprd17.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(39830400003)(366004)(136003)(346002)(376002)(451199024)(186009)(1800799009)(8676002)(7416002)(2906002)(4326008)(44832011)(8936002)(41300700001)(5660300002)(66476007)(66946007)(66556008)(6916009)(316002)(478600001)(6506007)(6486002)(6512007)(6666004)(2616005)(26005)(83380400001)(36756003)(38100700002)(86362001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?VbAeylw0XYiavNwxL9peU0BqfDa0gpqui0BzYfAeJP+GIJnlMoHhyf0pmRH9?=
+ =?us-ascii?Q?qC1AKZQpzG2wrfvf7I7h4mcWcd7gRcpiUBngbla3W57QJrrH5QFN6PJilZta?=
+ =?us-ascii?Q?Jg4vuOjesWBXZ+g/ZcETTGGYP2MJLJz+xTio6Gh3PNRKvmSoXjDeevbC/o/p?=
+ =?us-ascii?Q?8jd0ITIc+lH6p4W6B3w66OuKh1/NHzfJVIs9b+jJgM51AHSpEDwU97meoxHa?=
+ =?us-ascii?Q?4qKxleVFpIp5FP/idEJ7XeaBwD0T6b7O+DguIdIf8OtjmK1+H2Rp2s/SlVt/?=
+ =?us-ascii?Q?ODZAGFB1LT1/IC6JrVknvO/ERBtVSA/JAW7mDgLiSjMVatXIgXLYt/pw32cX?=
+ =?us-ascii?Q?WkdeRaRTNV7Ll560jm2mwE+B/4tTu5EpVf+6HKAKtugvjvWCZVC6AHz849kc?=
+ =?us-ascii?Q?PSXvaK+w79D8t+v1kUAFRWeiM04+q8vUIKED8hIeJ6dKCG8a8uQel+4LyO6K?=
+ =?us-ascii?Q?KplQbKXiKSSu5HH8a75BVl8M1YmaPtUdjXsiSK0vVTDWqVXEXjNLcZIH53hf?=
+ =?us-ascii?Q?/OL6Wmco4OmWfDqFrSiizfwYDp+N+qftPXrLHHk+1Oce+HRgwl94trAd3aXn?=
+ =?us-ascii?Q?6CpOePlJO4VG/J6CTTsXUMO10aR0c44KzmrQVd7SCYZiGRZVczfBfW5VmUOD?=
+ =?us-ascii?Q?A3JYMdYNQdeqIhqL7LsSnvcIHEqz+E604YpPXC0EMtt8TBvxvsKOYTjrWb7g?=
+ =?us-ascii?Q?78nSiJIXSg7SJqQJ6K0gTxXARB4p8Zjvn7bM5l1mS6BO2J8XJ+sYFnnaa5mo?=
+ =?us-ascii?Q?KRLhvQeRN/H3cBVAfG74eGhDEaNQHOzyJzHHkx+yYasLv1sGDjDEX3xUyZqB?=
+ =?us-ascii?Q?u29XyDPmbA43gCb37bd/5XJ1wf8lbRyhFzMBaplv8QuubQss8Oj3ddbpJVBv?=
+ =?us-ascii?Q?Ff1o9pmT8oPifVxU/PTmLtPoTbT/vr7rQTO4EnRMQiUWyVjREJAAjlzwQ8ob?=
+ =?us-ascii?Q?K/Q2z/dgos8FtoisYxFPAnyCvdizIpScQYNQ2G/uA+un6IGB2cw76GQDgFqa?=
+ =?us-ascii?Q?OVgpHkgJVwaWrPQfCG5BdNfEqJV821ySqIc1I0PmVcYfT40/XCSemTBwizcz?=
+ =?us-ascii?Q?EKZFum37OsIstB2kaLdDQTDp6taPt5GsHTa4G7p49V2Lf1u0ZRE4dHrKnZq1?=
+ =?us-ascii?Q?MEDLGR5mPUjRiLZF7wGXBU71nZMn78AnLd40eTJ5EZU0M9ojktXHyykY6Ujs?=
+ =?us-ascii?Q?xbIvoCO/cyX9zSS2KrlqVcgfNcawr4Kn2tFCAE7vg9iYMFowTPICLj8UsrDx?=
+ =?us-ascii?Q?km8ekGlRtef3JNYLf9c5tYZ3NmMWLcmO3YVI0AO9qs62LW2NnZLSEja0CxQQ?=
+ =?us-ascii?Q?0MoNwYIsGB89N0HIt7ZWB5VcusIv53RygAVTNXwg2NJRFKRFhYYy6fv9k4i0?=
+ =?us-ascii?Q?FNKXO+/RwuN0sBjKq0zCwlURzjGadP4F584OPN9MqlP/YoKqF0lXC+VdBvbT?=
+ =?us-ascii?Q?L7AC8QPDNw8UH9lhPDVx19UzMUPjy7M2uBdYHpCb21FSD/12p91v/OcylB7W?=
+ =?us-ascii?Q?knINWQRkijbeQlhpOSVxclUGaLHCsSKEGU61g5GnYcoPv/DODGrFerwHa3Vt?=
+ =?us-ascii?Q?wqF07i7QSKdVVGxTH2QFA8xE5N/PoV1i8XILkEvul/+/+icmnWkdl+CXCQ5Y?=
+ =?us-ascii?Q?SA=3D=3D?=
+X-OriginatorOrg: memverge.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 49529720-dd94-4c97-5f62-08dbb2d63faf
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR17MB5512.namprd17.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2023 14:49:06.6818
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dOTFPMPUtHFobeRbMW2QLg9wcl7eCUwk9PoWe33cH31Dt2Jz4J7AhWpFDWrYP2+WJoqnqrUakeqAMftluowTt/89ACVbqTH+RzSRs2aljuo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR17MB4815
+X-Spam-Status: No, score=0.2 required=5.0 tests=BAYES_00,DATE_IN_PAST_24_48,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sun, Sep 10, 2023, at 14:52, Gregory Price wrote:
-> On Sat, Sep 09, 2023 at 05:18:13PM +0200, Arnd Bergmann wrote:
->> 
->> I think a pointer to '__u64' is the most appropriate here,
->> that is compatible between 32-bit and 64-bit architectures
->> and covers all addresses until we get architectures with
->> 128-bit addressing.
->> 
->> Thinking about it more, I noticed an existing bug in
->> both sys_move_pages and your current version of
->> sys_move_phys_pages: the 'pages' array is in fact not
->> suitable for compat tasks and needs an is_compat_task
->> check to load a 32-bit address from compat userspace on
->> the "if (get_user(p, pages + i))" line.
->>
->
-> I'll clean up the current implementation for what I have on a v2 of an
-> RFC, and then look at adding some pull-ahead patches to fix both
-> move_pages and move_phys_pages for compat processes.  Might take me a
-> bit, I've only done compat work once before and I remember it being
-> annoying to get right.
+On Sun, Sep 10, 2023 at 02:36:40PM -0600, Jonathan Corbet wrote:
+> Gregory Price <gourry.memverge@gmail.com> writes:
+> 
+> > Similar to the move_pages system call, instead of taking a pid and
+> > list of virtual addresses, this system call takes a list of physical
+> > addresses.
+> >
+> > Because there is no task to validate the memory policy against, each
+> > page needs to be interrogated to determine whether the migration is
+> > valid, and all tasks that map it need to be interrogated.
+> >
+> > This is accomplished via an rmap_walk on the folio containing
+> > the page, and interrogating all tasks that map the page.
+> >
+> > Each page must be interrogated individually, which should be
+> > considered when using this to migrate shared regions.
+> >
+> > The remaining logic is the same as the move_pages syscall. One
+> > change to do_pages_move is made (to check whether an mm_struct is
+> > passed) in order to re-use the existing migration code.
+> >
+> > Signed-off-by: Gregory Price <gregory.price@memverge.com>
+> > ---
+> >  arch/x86/entry/syscalls/syscall_32.tbl  |   1 +
+> >  arch/x86/entry/syscalls/syscall_64.tbl  |   1 +
+> >  include/linux/syscalls.h                |   5 +
+> >  include/uapi/asm-generic/unistd.h       |   8 +-
+> >  kernel/sys_ni.c                         |   1 +
+> >  mm/migrate.c                            | 178 +++++++++++++++++++++++-
+> >  tools/include/uapi/asm-generic/unistd.h |   8 +-
+> >  7 files changed, 197 insertions(+), 5 deletions(-)
+> 
+> So this is probably a silly question, but just to be sure ... what is
+> the permission model for this system call?  As far as I can tell, the
+> ability to move pages is entirely unrestricted, with the exception of
+> pages that would need MPOL_MF_MOVE_ALL.  If so, that seems undesirable,
+> but probably I'm just missing something ... ?
+> 
+> Thanks,
+> 
+> jon
 
-I think what you want is roughly this (untested):
+Not silly, looks like when U dropped the CAP_SYS_NICE check (no task to
+check against), check i neglected to add a CAP_SYS_ADMIN check.
 
---- a/mm/migrate.c
-+++ b/mm/migrate.c
-@@ -2159,6 +2159,7 @@ static int do_pages_move(struct mm_struct *mm, nodemask_t task_nodes,
-                         const int __user *nodes,
-                         int __user *status, int flags)
- {
-+       struct compat_uptr_t __user *compat_pages = (void __user *)pages;
-        int current_node = NUMA_NO_NODE;
-        LIST_HEAD(pagelist);
-        int start, i;
-@@ -2171,8 +2172,17 @@ static int do_pages_move(struct mm_struct *mm, nodemask_t task_nodes,
-                int node;
- 
-                err = -EFAULT;
--               if (get_user(p, pages + i))
--                       goto out_flush;
-+               if (in_compat_syscall() {
-+                       compat_uptr_t cp;
-+
-+                       if (get_user(cp, compat_pages + i))
-+                               goto out_flush;
-+
-+                       p = compat_ptr(cp);
-+               } else {
-+                       if (get_user(p, pages + i))
-+                               goto out_flush;
-+               }
-                if (get_user(node, nodes + i))
-                        goto out_flush;
- 
-alternatively you could use the get_compat_pages_array()
-helper that is already used in the do_pages_stat()
-function.
+Oversight on my part, I'll work it in with other feedback.
 
-> I did see other work on migrate.c hanging around on the list, I'll
-> double check this hasn't already been discovered/handled.
-
-It looks like I broke it, and it was working before my own
-5b1b561ba73c8 ("mm: simplify compat_sys_move_pages"), which
-only handled the nodes=NULL path.
-
-I suppose nobody noticed the regression because there are very
-few 32-bit NUMA systems, and even fewer cases in which one
-would run compat userspace to manage a 64-bit NUMA machine.
-
->
-> This only requires plumbing new 2 flags through do_pages_move, and no
-> new user-exposed types or information.
->
-> Is there an ick-factor with the idea of adding the following?
->
-> MPOL_MF_PHYS_ADDR : Treat page migration addresses as physical
-> MPOL_MF_PFN : Treat page migration addresses as PFNs
-
-I would strongly prefer supporting only one of the two, and
-a 64-bit physical address seems like the logical choice here.
-
->> These do not seem to be problematic from the ASLR perspective, so
->> I guess it may still be useful without CAP_SYS_ADMIN.
->
-> After reviewing the capabilities documentation it seems like
-> CAP_SYS_NICE is the appropriate capability.  My last meassage I said
-> CAP_SYS_ADMIN was probably correct, but I think using CAP_SYS_NICE
-> is more appropriate unless there are strong feelings due to the use of
-> PFN and Physcall Address.
->
-> I'm not sure rowhammer is of great concern in this interface because you
-> can't choose the destination address, only the destination node. Though
-> I suppose someone could go nuts and try to "massage" a node in some way
-> to get a statistical likelihood of placement (similar heap grooming).
-
-I agree that this doesn't introduce any additional risk for rowhammer
-attacks, but it seems slightly more logical to me to use CAP_SYS_ADMIN
-if that is what the other interfaces use that handle physical addresses
-and may leak address information.
-
-     Arnd
+Thanks!
+~Gregory
