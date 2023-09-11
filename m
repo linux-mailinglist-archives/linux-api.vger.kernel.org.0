@@ -2,252 +2,355 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EC06579B60B
-	for <lists+linux-api@lfdr.de>; Tue, 12 Sep 2023 02:04:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 68FF679C180
+	for <lists+linux-api@lfdr.de>; Tue, 12 Sep 2023 03:15:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233884AbjIKXUh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 11 Sep 2023 19:20:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46774 "EHLO
+        id S230150AbjILBPK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 11 Sep 2023 21:15:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347114AbjIKVYY (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 11 Sep 2023 17:24:24 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE3DF33F1A;
-        Mon, 11 Sep 2023 14:11:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694466687; x=1726002687;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=cz+v3li1JoGPwRcSsa49A9A/hlg8ps60ng4auSdFE3o=;
-  b=AOPcC92UVfDxM4I/O+IRKl/tvDilc4sqaM2BnmWjPyVRO3+gIDlOMtph
-   mxE51xZBg7CC1xJrra1J/fHqA++Fg0ywn97RUl0IKKSBDW9KMlU8U2irQ
-   M7S1YP3A7uyur28gDKCcH+Q+VD3CGcYHFPsMSfvXKTS+NDvHVrWM3JYqO
-   6Q+3ANmj/qHNYVtkIv/HSQac83WILuaLX+5kp3H/BrxrwHWJyj/x6KO7z
-   3ELPc1zFZLls2zBlJ4b9We9/+Ub7KdZtu/X5lzMLcG4UFOtddGxFXR7Zc
-   d5vIxplR1p5w0Q12QFkgdDlY1Dqhrb2dsLJDsyKI4v4SeX5X+AW/tqDS6
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="442211526"
-X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; 
-   d="scan'208";a="442211526"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 14:10:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="990249656"
-X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; 
-   d="scan'208";a="990249656"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by fmsmga006.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 11 Sep 2023 14:10:35 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Mon, 11 Sep 2023 14:10:34 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Mon, 11 Sep 2023 14:10:34 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32 via Frontend Transport; Mon, 11 Sep 2023 14:10:34 -0700
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.45) by
- edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.32; Mon, 11 Sep 2023 14:10:33 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IwOINgTVrqg6AjV3tQUGEFF0oYkXq17zca5dEBEiB1OTWc8bx6wjXgy4Z6HgSiv8Sw6rdrFCiz6YDFYnzmjhfilLOntQFa8hMnwA1xBQZPcLk1W2X3ozVo/LxI06mqX8lu3fS3dFZmBYt3mYg9isiycJsdU2o+lDuCMwroUbGBceQomA0uYxGbL6df4acMTNFQBZgV08gByVD0s5FW8/AbtItmHPITSXB/zRPWBCY9ggxEedFWBi+AKzjo+cSYjXTYmUcXgr0eOdJm6w5GOrjQXoZbMO3vHk1pCN71dvPyo8+bIUR3qycbOGubDuHcEyIy3RiELze77NWxl/t4ESkQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cz+v3li1JoGPwRcSsa49A9A/hlg8ps60ng4auSdFE3o=;
- b=MTaShp7v0ELm0nMWutwE1GzcfXqkHAOyGwHGPt4hQXZMQ8jUqFLzvJf/NuIw5ZKM2441oI6UPlBC2E7zhsIYi/Z0y6NQtrgdlAiEnTkWaTqd9QozFWBDLEZeVZoIAt8rX1oZGn3uutC4mRPUdgYpyXdup0Tq3k2hNF2t+V0DmkeBqwjilknq4euLgNLfa2dyGWbbz+g0MeWFg4JZO7MlEQc2kIjHylmGDuBMQVQzfMcuXa4tdB+I5S+ibU9ChU35n1xBhwDw5j7l9fxKcM/Avj/QCsrwGlG1Wu53YdWRbi1LhLLn/PCVI0UEhAAfoNkpHZlZhrAdNfzC1LZ8/9E/MA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from MN0PR11MB5963.namprd11.prod.outlook.com (2603:10b6:208:372::10)
- by CH3PR11MB7202.namprd11.prod.outlook.com (2603:10b6:610:142::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6768.30; Mon, 11 Sep
- 2023 21:10:26 +0000
-Received: from MN0PR11MB5963.namprd11.prod.outlook.com
- ([fe80::56f1:507b:133e:57cf]) by MN0PR11MB5963.namprd11.prod.outlook.com
- ([fe80::56f1:507b:133e:57cf%4]) with mapi id 15.20.6768.029; Mon, 11 Sep 2023
- 21:10:26 +0000
-From:   "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-To:     "Mehta, Sohil" <sohil.mehta@intel.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
-CC:     "svens@linux.ibm.com" <svens@linux.ibm.com>,
-        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-        "schwab@linux-m68k.org" <schwab@linux-m68k.org>,
-        "brgerst@gmail.com" <brgerst@gmail.com>,
-        "alexander.shishkin@linux.intel.com" 
-        <alexander.shishkin@linux.intel.com>,
-        "linux-perf-users@vger.kernel.org" <linux-perf-users@vger.kernel.org>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "monstr@monstr.eu" <monstr@monstr.eu>,
-        "borntraeger@linux.ibm.com" <borntraeger@linux.ibm.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "christophe.leroy@csgroup.eu" <christophe.leroy@csgroup.eu>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "glaubitz@physik.fu-berlin.de" <glaubitz@physik.fu-berlin.de>,
-        "dalias@libc.org" <dalias@libc.org>,
-        "lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "hca@linux.ibm.com" <hca@linux.ibm.com>,
-        "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
-        "sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>,
-        "ebiederm@xmission.com" <ebiederm@xmission.com>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "jolsa@kernel.org" <jolsa@kernel.org>,
-        "linux-parisc@vger.kernel.org" <linux-parisc@vger.kernel.org>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "linux-sh@vger.kernel.org" <linux-sh@vger.kernel.org>,
-        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
-        "mpe@ellerman.id.au" <mpe@ellerman.id.au>,
-        "geert@linux-m68k.org" <geert@linux-m68k.org>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "James.Bottomley@HansenPartnership.com" 
-        <James.Bottomley@HansenPartnership.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "ink@jurassic.park.msu.ru" <ink@jurassic.park.msu.ru>,
-        "linux-m68k@lists.linux-m68k.org" <linux-m68k@lists.linux-m68k.org>,
-        "tsbogend@alpha.franken.de" <tsbogend@alpha.franken.de>,
-        "broonie@kernel.org" <broonie@kernel.org>,
-        "Hunter, Adrian" <adrian.hunter@intel.com>,
-        "acme@kernel.org" <acme@kernel.org>,
-        "ysato@users.sourceforge.jp" <ysato@users.sourceforge.jp>,
-        "deller@gmx.de" <deller@gmx.de>,
-        "debug@rivosinc.com" <debug@rivosinc.com>,
-        "rmclure@linux.ibm.com" <rmclure@linux.ibm.com>,
-        "gor@linux.ibm.com" <gor@linux.ibm.com>,
-        "slyich@gmail.com" <slyich@gmail.com>,
-        "npiggin@gmail.com" <npiggin@gmail.com>,
-        "agordeev@linux.ibm.com" <agordeev@linux.ibm.com>,
-        "chris@zankel.net" <chris@zankel.net>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
-        "linux-alpha@vger.kernel.org" <linux-alpha@vger.kernel.org>,
-        "mattst88@gmail.com" <mattst88@gmail.com>,
-        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "jcmvbkbc@gmail.com" <jcmvbkbc@gmail.com>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
-        "irogers@google.com" <irogers@google.com>,
-        "namhyung@kernel.org" <namhyung@kernel.org>,
-        "will@kernel.org" <will@kernel.org>,
-        "davem@davemloft.net" <davem@davemloft.net>
-Subject: Re: [PATCH 2/2] arch: Reserve map_shadow_stack() syscall number for
- all architectures
-Thread-Topic: [PATCH 2/2] arch: Reserve map_shadow_stack() syscall number for
- all architectures
-Thread-Index: AQHZ5NpRkTepLBjCJE2MYA1Hq+GzELAWHwiA
-Date:   Mon, 11 Sep 2023 21:10:26 +0000
-Message-ID: <8b7106881fa227a64b4e951c6b9240a7126ac4a2.camel@intel.com>
-References: <20230911180210.1060504-1-sohil.mehta@intel.com>
-         <20230911180210.1060504-3-sohil.mehta@intel.com>
-In-Reply-To: <20230911180210.1060504-3-sohil.mehta@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.44.4-0ubuntu2 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MN0PR11MB5963:EE_|CH3PR11MB7202:EE_
-x-ms-office365-filtering-correlation-id: 23acd5b9-46fa-400f-3bb1-08dbb30b852c
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: OK8B7vokoD78jQYDjMuVPzAbbtFM6XAEjY9hKSs3AZuq1kG1CuguVaD+9tWZoX/lt2LI3AJ9gb12yjEXWlA06xZjNX5z6bqDqvDfndlJG7u6PmFpGRVs1fqith4R2Pm4xxE1622OtHqSYgDAzgT1b0wsfwjgN/MWY13ZmdQ/bxfeaUfvgSpo7JrHAQbRyZrLoRYEwkc4WWJ15S/sKqsdasGTjjL6FV2p6Vv1oBV4/aZXJ93fqWHY9xMuNAihCLbHiME/YWu1TWs71jvaV7lLLUD4qU454C25GLfTS7mj46pkXR8O1KKUNM9jIbs+LgWaS8TT/rreJrbXlLgjvFooh1C3v9ch/ObDxvMF3eE0qmYW3Z/P6rwgDZriUZHnN6kBM8HgeQXdkKTrTUd/8E+1XJwomLgYrjqj/TwKyD5gCu3WG58j8h9wdRBKIjZ55a0mzUXrrd+4xpVrosm4LiBBE80lnTqC4ooDP21tP42JYtqJOYtLJBXO0ZL8bmYI3TXNVDzaCUM050i8r1Z5J2gGcDTJjINfxvQzSXxA6nG+RU5STlH09rBhemp4JxGPvqLD2wBrVfureooBNTB5Gz5MEa8vujk4TLJ32bEVOZI6Nq4fgro9dN3RaKb439NQmM1H
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB5963.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(366004)(376002)(346002)(136003)(39860400002)(1800799009)(186009)(451199024)(122000001)(71200400001)(6486002)(6506007)(110136005)(8676002)(86362001)(82960400001)(38070700005)(36756003)(38100700002)(4744005)(6512007)(83380400001)(2906002)(8936002)(66476007)(4326008)(2616005)(66446008)(316002)(41300700001)(7406005)(478600001)(7416002)(5660300002)(64756008)(54906003)(7366002)(26005)(66556008)(76116006)(66946007)(91956017);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?UDJYWVdKOCtMSVNGRkRPTWpuTGJJNkkxU044b1lpUnhta25TUFZrUXZDSWts?=
- =?utf-8?B?TEttRWp1V2owMW5kUDJiVTBCUnI1QUYvOFdDNy8rUUlHREpMSG1Xd2lsUTRZ?=
- =?utf-8?B?SjZyVUdOT1AyRUhMMzZUZlFtcEMwQmcxUTZzQitYQ3k0R1dGcG40YXNsN0pC?=
- =?utf-8?B?dGlDNWJZODNHcXdHY2VzOU92M21GeE05MlhyZVhpazJ0dnQ5T0NnZnd3WDZt?=
- =?utf-8?B?Nk16bjZzd2FMWkRVNVhQTjl3RkVicVBWZUdOT05tL1FLR2I0S1lXUThTY210?=
- =?utf-8?B?eGhaTzRzUmJCTEd3TUtFQllPdDd0ajNnTHJXL3o5SzZVdlRPZk0xUVEvb00y?=
- =?utf-8?B?a0xkMTFDZmhaR2plODgrdDFTaC9aN0R4aHJQNjJoRjVlZ0xjUWVGV2lxK0pE?=
- =?utf-8?B?aEpCdTY3Q2VpZWlPR1UxZGM1N0ltSU1NWGU1YW9mdzY5d29RaTNJbDd4UUhk?=
- =?utf-8?B?ZjVsWHlwcjRSenM5aFcvaUFJM0VzYXBuMUdmNE1Ud1E0alh2Sng5dTVDYWUy?=
- =?utf-8?B?c2dIMHV5b2xtbVAvRmZzOG85VkJhK09qeGh1Q1l2VStrOVdva05NKzFWV0hj?=
- =?utf-8?B?S01DeStXRmx4KzA4MENIM01ZQUo3TmhVTWEzRnU4Q2xXV04vTW00bjZUWjdt?=
- =?utf-8?B?WUxTTUY2MnlrSnE4Yi8yZkoxd1NIK2Q0S1lkTWNsdUhCbUZMbmt4ZlVtNWJq?=
- =?utf-8?B?bTZnd2RiR2NRbHhkbmwyNlZoMHo4ODl1U3FsZnMwNWdlcUVvdmdqWmNFRzAz?=
- =?utf-8?B?Y0NaajFNNjFQanUvem8wUEhaTDFFOWhFRDNBUmVFbVFGNlRpS3FCU2Z6UWtG?=
- =?utf-8?B?ZHdzTE00S0lKVEJyQVJGYkRmSFZoZjFlazZWMzBSRnFtYzVrTFNBV0NNNExl?=
- =?utf-8?B?bDNhZFplTWdjODI2ME5QVGpwdVVTejVRbkE4T0VvbUJrd3k0RjJHamxoMjlI?=
- =?utf-8?B?TC8wTlM4c2dPWmE5bDNQT1BEV01PVlRJZGl3U200RndtcG1kUllqd2I4UVhu?=
- =?utf-8?B?cEhPNXNFTzF3K04xYlpJdTh1WHZzWTJZcE1KdHYrN05Cc1ZrUDFsRTdYd0Y5?=
- =?utf-8?B?bml1ZkdVdzNqNmdOdUhUU2F3cHQvQ1I3eXBxbXYra2E1K1RYWDJha2M0WUJ2?=
- =?utf-8?B?VDM2VXhKaG9WQlpzanFmdGRxOGU1Q0EzOXBzS3NMeFB6OStJQWlmR1dpV1hm?=
- =?utf-8?B?M1R3eVlMWXJCR3BGUWZLQ2FKeWJGTzkrbElKdWtWUkNPK3ZYazRIcXd4Z2d4?=
- =?utf-8?B?RkdZSjdBM0ZLdzFXS3I4b3VwNmJ0N0svLzVUV05iS3lRSkRSMHd2VXhQeHBv?=
- =?utf-8?B?Vm83a3dZd2MrUkppUVJoQkZSZ1JESzQvODJLWFhiTGJLMEE5dEZxOTNidjk3?=
- =?utf-8?B?QVh2eE1DYTRDTHV6MVJ2eWR6dkt6V0tvckk1d1IzQk5tS3lma29ZdjNNc0xk?=
- =?utf-8?B?UWtPWXdURHQydngxclM4b0FNSlV0V0hMRHRBS21rTVFJeC9xckZJWFBnd252?=
- =?utf-8?B?Y2w3UVN3bHg0NFpOMlgveUhHUmJmREsxeWdrcW9mUkpxYXRwTG93d0NQSDRi?=
- =?utf-8?B?LytCYzduQjRUUmc3eGU2V0FMSVJxSnlsL0dKQUlOV0F2bVAyRHFKQXQ4aEFq?=
- =?utf-8?B?QkpXK2h5TGxtVGptTm56cy8ySkNCanRxUjRzOUc0VnVLZ2hHU3UzUVVTZVZY?=
- =?utf-8?B?ZEs5cGZhaHpPVENSQ2dyRHJaTzhuL0FRcXhZVy94VkQrTFBaQVFGd3gyRUE2?=
- =?utf-8?B?dHF5azIyN1k5dkxHOG50U3BZR2QvUVRZeHFvYStMMFVPeENSVDJvNlIrSktv?=
- =?utf-8?B?VFNZeVRvQzZDYjZSckV5Zm1qbDE0RCtsWWtJSk9HM0xZa3hDd1V2YkkvVGpp?=
- =?utf-8?B?Mzg0ZmZ1ejdWZStzRDhQY0RSVExxMnErMzd4Vk1BU2YyZ2dQU2pWY1p0dHRk?=
- =?utf-8?B?dkRTTUpNc1F3TEtHRTMvdGt2RFo3QTBCa3ppT08vbDBRNWpnZHI4RU1vbWJj?=
- =?utf-8?B?S0RIR3p1N3EzWTlKKzVKa05zWnRSVW1CSXJqdDZEVFZjZGg2ZUxlcmRXc1Uy?=
- =?utf-8?B?U2JDS0FVajlaZTRqTkZiOHdTZ1QwbUswWFZib041U2ErV090S0NObFVCM1VY?=
- =?utf-8?B?Rkx3VXJZQnhWNXhDaDQ5L00vOEltZVJJVGx1V2V1NVdzQWlaL3FKTzJpenY3?=
- =?utf-8?B?d1E9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <1955378CE723A64F8B91F3A248378666@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        with ESMTP id S233876AbjILBPA (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 11 Sep 2023 21:15:00 -0400
+Received: from sonic311-31.consmr.mail.ne1.yahoo.com (sonic311-31.consmr.mail.ne1.yahoo.com [66.163.188.212])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC6AE1863D2
+        for <linux-api@vger.kernel.org>; Mon, 11 Sep 2023 18:02:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1694480483; bh=UUgz2B5wg4S6yAnMOKzi3AsEIZNsX57mspyGve0DwoE=; h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To; b=RPThHMDEIcKjpsMtW+9uGeg5uxTVh2q7eEdDJEoV3bYSb8zYHffFI6XH7as+fttbse0AlonNDu5srHI9yIb+oArCqlS/IviGa8rWy4QbY1cDFR/mvFysFGdUV1r4fxqlf2JhVGPnrbc5VoavPU6M2QSBySZN/SNL/ix6ojEJmseg//E4FGyl6Bw5Y8x2zl04Z+/aJxuMShCgcSpFxM9ennEF1ZUNQ8ZzC6a5NPHxuoJnfrQRli3xXc2UlAUhXSEoqrxoHyToY8m9dcFL3R7RJAZGfAH5I0hWh32TZ5/oPwU4Kd8qGnODGWR6lQiRZouj1/vsdTijeEyeCX/pylT5Qw==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1694480483; bh=OqgCUy8cAMxz4ZY5/xUC+2ftUW6yx8HOYAYbqn5d7RK=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=rXx5tl4HhFejyE9LKdXbGP6HPbxNqocfxwXz8IrMB1UfAfmvrUd/iT2lyqBMtn1BTIuX2FX47kVzmJimq9R62WHV6h1WihvLi254XuYBNITYcxLIhYq1y2epDtPThsYEfUGh5t5RXdcX+0OX7V+c3yPbsjHAbdF47+dSjhJMwtmCMiLUW0+Kr1zMPI6AkmwK0xILYAi3zvQ+swFeolzDBfs3fUpmnl3ey8JxegIomvzq7iFl3RBu+di3PemkkBV02L1BDBzR1+zgl7gj4ndmqwC80akFHXzRS50gQZ0xxiWlzajC52AkiT7C8+5XUzKiXmTflcdcQN0PEZyqWkRf+Q==
+X-YMail-OSG: aRg8FcIVM1mwFl4uoud2FulZbKh97FKZ7mx06BUNUySGkRyruapt7sHJLeME0Jy
+ YS.tus7zjnbg6Rsv06vHB8lWxXw6oRiOpSOFM1bd.EJX3gvfkL84Qhi3MgkIj.xD7.71rsfypGB.
+ Q3ewyBCVMJCUX6ESacE5kEIwAWJMXQdaKEdmQJlgNPny4PEWnFnt_KqU5hireTbzOGgPxsev0._5
+ 0HzH8_yuUyGIQWFdXKsEhNZV.MhppAtBcd5V10zFYfVetNo6b3xQE16axxd6RV3jFzCptwO2OnSU
+ uJA7owKGv6aQXETXTkF0nVqRj4.njXZ_APcbctcRrgogrXmWZrUDm.pEWrtWQ9pj88sAY0GHLYQT
+ AC3erXfOB.b2Q8xeQt21GYzXJhNPGxGtKqO5JQmBdq.7mIhtFe9GzMpZo9ROZmmOrdxf_kUC.Gp4
+ tDZAE2LfDrsuLP2rHypbdjQlz9NNstZugVBldrqocFtzhPeox4MWZKk6SriZRh8WWb27YH2.AODg
+ 9HfGVCb1aAcrbkgw8GZxg2kiW9FVPQpWimgn3G5e9PCwuoilSsGHYK6ZHgS3a4puMgrlfKhu0MF8
+ dNjlwUwQIT8pGJg5CHQkoBsVXKDXNxWTwcCctxRZMkTpIBmAIDjl7awOIg__ev8nwEe9dTSTsSqZ
+ xSts.768JzYlGzxtGJQ19q143kmQ6GZhFZcwP.X90m_X8Zsa1OQTF5kPdfeFVjWWKYCHO4q9gq8N
+ 7I9MbAq6mbxFJr2uyGt4Xhyz2TLLOaQrVfEcjR8utdGXJUti2.zSnUFjGM7tK4axBfwa3E5RYZ6h
+ bhV0UurWTY4G53aLzD3iNLlyd.1Td9j_lpUJnLB0_e5OCpmuGm1zIzIHpnBVLRtvUC4ZR4GbqJzm
+ zL6xRZeIQVeXzE6r_ajAh3WYLpBO4ZqjmFmRaCJCEThyBwj7Yz3iN6CCaf1lnXedY6PMAICoSYo6
+ LB4kXJWkE4ZUd3EbZawAsC4aw_zmxXe0YbUCzE94XY.lAQiBWhBoxTH8rmuZXa0wD12CdXkWvqnm
+ idwfu.UzqmnM8kP4__KPZjvk4AXuN374ztu_5PEJLlyGhN2U0qu3c8gWEqqaWxhZZciyoA4Ii479
+ au.P64bZbpLbnrhOBA48CSWhFWZ_e2.ZUZcS6Jsan4ZlCi5EowNz659ydwcBmLFjdQLvjNVOdZqG
+ 9dE1lNrwsYPtDXlOKnAJ5IHcGpSZA8EV71U.C_QX7OKKcA9ndPY5Kt7uNDxhV6Q7Gs2DraIbePV3
+ l7VEC0PNxwR8Ok.JRSg2lEMOvVSPBcdsf74kVgkEB5iAXs3L8gwCJ6gNiQI8NCdcNQlTM8hDpB68
+ p.i5WwkNRiDQBw8ASUMNsrCGbjh8hnD.wCQmr3sBeGyG7UX5_3DNvANloNGjEX2qfbjrrl3n5jzX
+ O6u2O9Kwb2ZWdMLZIBqQEfwNEyOzfz2HoTY98H_CNvQvQkr.s6A0u6QhxWWSFvwA7Dv7iTC6Rw2s
+ XjVYjbzogiDUsxEPoYcucGiyXj1N4n7HKmFBBAniN9I.vRPjxkNJMbXldI_mnXj.JwdHlt1USohg
+ 36nErN2sOH2Z_5ems8X2a5yPKKi_Qr56JDxJ7mW7XlG8oNS6ZvsrGQdhaU9RfXVNaZCcheGS7uGr
+ wsFRWBpo9TZPna7lFil6YYhFmtg0YuYaJTl3cn0g9ujauQL1m_ZqPwzmnUPllhXqSH1tPmmvDhMF
+ aKB9e3YQoCut0bq.JMy3yFqI3Quzp8SaZ2jvSX8dySefQVYbJ3hj6HCEpdQmhPienMqeigcKIqn.
+ lpk2EEXki7ioG.H5l2gWzO121SOO_Qhe5emM33oMSYETm.jtKaTSKjabIqzwTTEuNV.Ow62HS5M1
+ G3m8JAJt4CSMwnrIIuFmDjgE20P1JqnPtx_FlpYMLTvamf7wB28.gBdsopjU_RkuBL89N39BW_61
+ x8u7JMemM_bs3aVc4l8ELvPi7QKNyTcrkiMH5ANLYdFFGXST.uX.FYbxdIHm42PvfdoLgr_e.Xrf
+ em1AXkHdtFGjvXHsbjyS75LgDdta5OVE.5m6EmuTmN10BrjMRcWIVdkbUalXQ_MmppX_2Y_.4l.t
+ h7DlckOznnLf9NjKc7UZ.06tu5BqHHKUYLxjkejyBHQFje4W9kG._xLOkXg2CO0AJqyQPY4jZNqy
+ W6ND4JL652redG5o_5eXWw0AeiBQy7cOZSL9geK.tEmyvXsefNQGZHhXlg07WlC74M47jy8fiTXq
+ SxHZ5kPonod29nyebaL.OkkD1Tc94488MEV9eyn5KrUSsxg.8w.ZNif6Q3zmK1KZBXACX1_XKfyb
+ Q6Qnv2w0-
+X-Sonic-MF: <casey@schaufler-ca.com>
+X-Sonic-ID: cdda92d8-d76e-4d8b-8667-c1b92d795c98
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic311.consmr.mail.ne1.yahoo.com with HTTP; Tue, 12 Sep 2023 01:01:23 +0000
+Received: by hermes--production-bf1-865889d799-5m62n (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 8d3f1abcca143a9e2bba0e3e7669e2ea;
+          Mon, 11 Sep 2023 22:08:52 +0000 (UTC)
+Message-ID: <ebd82727-cc8e-d922-972b-ebd2cc47f1ee@schaufler-ca.com>
+Date:   Mon, 11 Sep 2023 15:08:48 -0700
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB5963.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 23acd5b9-46fa-400f-3bb1-08dbb30b852c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Sep 2023 21:10:26.3311
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: HLaoGmYZB49/k7gO5MHzCV3kWlkKIzYkFOA/yfaxaK6+Pz0NRaJ3iQ/UgYr90m463Lzfq/eY7NDmV2nbTKXOHYz+4COL3FjVF3YqWAst0BM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB7202
-X-OriginatorOrg: intel.com
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Subject: Re: [PATCH v14 04/11] LSM: syscalls for current process attributes
+Content-Language: en-US
+To:     =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+Cc:     paul@paul-moore.com, linux-security-module@vger.kernel.org,
+        jmorris@namei.org, serge@hallyn.com, keescook@chromium.org,
+        john.johansen@canonical.com, penguin-kernel@i-love.sakura.ne.jp,
+        stephen.smalley.work@gmail.com, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, Casey Schaufler <casey@schaufler-ca.com>
+References: <20230828195802.135055-1-casey@schaufler-ca.com>
+ <20230828195802.135055-5-casey@schaufler-ca.com>
+ <20230907.go2eLeCo6ov1@digikod.net>
+From:   Casey Schaufler <casey@schaufler-ca.com>
+In-Reply-To: <20230907.go2eLeCo6ov1@digikod.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Mailer: WebService/1.1.21797 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
+X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-T24gTW9uLCAyMDIzLTA5LTExIGF0IDE4OjAyICswMDAwLCBTb2hpbCBNZWh0YSB3cm90ZToKPiBk
-aWZmIC0tZ2l0IGEvYXJjaC9wb3dlcnBjL2tlcm5lbC9zeXNjYWxscy9zeXNjYWxsLnRibAo+IGIv
-YXJjaC9wb3dlcnBjL2tlcm5lbC9zeXNjYWxscy9zeXNjYWxsLnRibAo+IGluZGV4IDIwZTUwNTg2
-ZThhMi4uMjc2N2I4YTQyNjM2IDEwMDY0NAo+IC0tLSBhL2FyY2gvcG93ZXJwYy9rZXJuZWwvc3lz
-Y2FsbHMvc3lzY2FsbC50YmwKPiArKysgYi9hcmNoL3Bvd2VycGMva2VybmVsL3N5c2NhbGxzL3N5
-c2NhbGwudGJsCj4gQEAgLTUzOSwzICs1MzksNCBAQAo+IMKgNDUwwqDCoMKgwqBub3NwdcKgwqDC
-oHNldF9tZW1wb2xpY3lfaG9tZV9ub2RlwqDCoMKgwqDCoMKgwqDCoMKgc3lzX3NldF9tZW1wb2xp
-Y3lfaG9tCj4gZV9ub2RlCj4gwqA0NTHCoMKgwqDCoGNvbW1vbsKgwqBjYWNoZXN0YXTCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgc3lzX2NhY2hlc3RhdAo+IMKg
-NDUywqDCoMKgwqBjb21tb27CoMKgZmNobW9kYXQywqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoHN5c19mY2htb2RhdDIKPiArNDUzwqDCoMKgwqBjb21tb27CoMKg
-bWFwX3NoYWRvd19zdGFja8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgc3lzX21hcF9z
-aGFkb3dfc3RhY2sKCkkgbm90aWNlZCBpbiBwb3dlcnBjLCB0aGUgbm90IGltcGxlbWVudGVkIHN5
-c2NhbGxzIGFyZSBtYW51YWxseSBtYXBwZWQKdG8gc3lzX25pX3N5c2NhbGwuIEl0IGFsc28gaGFz
-IHNvbWUgc3BlY2lhbCBleHRyYSBzeXNfbmlfc3lzY2FsbCgpCmltcGxlbWVudGF0aW9uIGJpdHMg
-dG8gaGFuZGxlIGJvdGggQVJDSF9IQVNfU1lTQ0FMTF9XUkFQUEVSIGFuZAohQVJDSF9IQVNfU1lT
-Q0FMTF9XUkFQUEVSLiBTbyB3b25kZXJpbmcgaWYgaXQgbWlnaHQgbmVlZCBzcGVjaWFsCnRyZWF0
-bWVudC4gRGlkIHlvdSBzZWUgdGhvc2UgcGFydHM/Cgo=
+On 9/7/2023 8:37 AM, Mickaël Salaün wrote:
+> On Mon, Aug 28, 2023 at 12:57:54PM -0700, Casey Schaufler wrote:
+>> Create a system call lsm_get_self_attr() to provide the security
+>> module maintained attributes of the current process.
+>> Create a system call lsm_set_self_attr() to set a security
+>> module maintained attribute of the current process.
+>> Historically these attributes have been exposed to user space via
+>> entries in procfs under /proc/self/attr.
+>>
+>> The attribute value is provided in a lsm_ctx structure. The structure
+>> identifies the size of the attribute, and the attribute value. The format
+>> of the attribute value is defined by the security module. A flags field
+>> is included for LSM specific information. It is currently unused and must
+>> be 0. The total size of the data, including the lsm_ctx structure and any
+>> padding, is maintained as well.
+>>
+>> struct lsm_ctx {
+>>         __u64 id;
+>>         __u64 flags;
+>>         __u64 len;
+>>         __u64 ctx_len;
+>>         __u8 ctx[];
+>> };
+>>
+>> Two new LSM hooks are used to interface with the LSMs.
+>> security_getselfattr() collects the lsm_ctx values from the
+>> LSMs that support the hook, accounting for space requirements.
+>> security_setselfattr() identifies which LSM the attribute is
+>> intended for and passes it along.
+>>
+>> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
+>> Reviewed-by: Kees Cook <keescook@chromium.org>
+>> Reviewed-by: Serge Hallyn <serge@hallyn.com>
+>> Reviewed-by: John Johansen <john.johansen@canonical.com>
+>> ---
+>>  Documentation/userspace-api/lsm.rst |  70 +++++++++++++
+>>  include/linux/lsm_hook_defs.h       |   4 +
+>>  include/linux/lsm_hooks.h           |   1 +
+>>  include/linux/security.h            |  19 ++++
+>>  include/linux/syscalls.h            |   5 +
+>>  include/uapi/linux/lsm.h            |  36 +++++++
+>>  kernel/sys_ni.c                     |   2 +
+>>  security/Makefile                   |   1 +
+>>  security/lsm_syscalls.c             |  57 +++++++++++
+>>  security/security.c                 | 146 ++++++++++++++++++++++++++++
+>>  10 files changed, 341 insertions(+)
+>>  create mode 100644 Documentation/userspace-api/lsm.rst
+>>  create mode 100644 security/lsm_syscalls.c
+>>
+>> +/**
+>> + * security_getselfattr - Read an LSM attribute of the current process.
+>> + * @attr: which attribute to return
+>> + * @uctx: the user-space destination for the information, or NULL
+>> + * @size: pointer to the size of space available to receive the data
+>> + * @flags: special handling options. LSM_FLAG_SINGLE indicates that only
+>> + * attributes associated with the LSM identified in the passed @ctx be
+>> + * reported.
+>> + *
+>> + * A NULL value for @uctx can be used to get both the number of attributes
+>> + * and the size of the data.
+>> + *
+>> + * Returns the number of attributes found on success, negative value
+>> + * on error. @size is reset to the total size of the data.
+>> + * If @size is insufficient to contain the data -E2BIG is returned.
+>> + */
+>> +int security_getselfattr(unsigned int attr, struct lsm_ctx __user *uctx,
+>> +			 size_t __user *size, u32 flags)
+>> +{
+>> +	struct security_hook_list *hp;
+>> +	struct lsm_ctx lctx = { .id = LSM_ID_UNDEF, };
+>> +	u8 __user *base = (u8 __user *)uctx;
+>> +	size_t total = 0;
+>> +	size_t entrysize;
+>> +	size_t left;
+>> +	bool toobig = false;
+>> +	bool single = false;
+> Much easier to read with these booleans.
+>
+>> +	int count = 0;
+>> +	int rc;
+>> +
+>> +	if (attr == LSM_ATTR_UNDEF)
+>> +		return -EINVAL;
+>> +	if (size == NULL)
+>> +		return -EINVAL;
+>> +	if (get_user(left, size))
+>> +		return -EFAULT;
+>> +
+>> +	if (flags) {
+>> +		/*
+>> +		 * Only flag supported is LSM_FLAG_SINGLE
+>> +		 */
+>> +		if (flags & LSM_FLAG_SINGLE)
+>> +			return -EINVAL;
+>> +		if (uctx &&
+>> +		    copy_struct_from_user(&lctx, sizeof(lctx), uctx, left))
+> Again, I'm not sure is copy_struct_from_user() should be used here
+> because it checks that the user space structures ends with zeros, which
+> is inconsistent with the case without LSM_FLAG_SINGLE. Anyway, this code
+> should at least properly handle the copy_struct_from_user() error codes
+> which includes EFAULT *and* E2BIG.
+
+Further testing makes your point. The checking in copy_struct_from_user()
+is really annoying. I'm going to fix this.
+
+>
+>> +			return -EFAULT;
+>> +		/*
+>> +		 * If the LSM ID isn't specified it is an error.
+>> +		 */
+>> +		if (lctx.id == LSM_ID_UNDEF)
+>> +			return -EINVAL;
+>> +		single = true;
+>> +	}
+>> +
+>> +	/*
+>> +	 * In the usual case gather all the data from the LSMs.
+>> +	 * In the single case only get the data from the LSM specified.
+>> +	 */
+>> +	hlist_for_each_entry(hp, &security_hook_heads.getselfattr, list) {
+>> +		if (single) {
+>> +			if (count > 0)
+>> +				break;
+>> +			if (lctx.id != hp->lsmid->id)
+>> +				continue;
+>> +		}
+>> +		entrysize = left;
+>> +		if (base)
+>> +			uctx = (struct lsm_ctx __user *)(base + total);
+>> +		rc = hp->hook.getselfattr(attr, uctx, &entrysize, flags);
+>> +		if (rc == -EOPNOTSUPP) {
+>> +			rc = 0;
+> Not a big deal but with LSM_FLAG_SINGLE, if the selected LSM doesn't
+> implement this hook, this will uselessly loop over all LSMs.
+> I'd add:
+>
+> if (single)
+> 	/* Still try to write 0 as the total size for consistency. */
+> 	break;
+
+I'm trying to keep LSM_FLAG_SINGLE from being a complete special case.
+Asking for an attribute that the specified LSM doesn't support is a
+programming error, so I'm not concerned about a trivial performance
+issue.
+
+>
+>> +			continue;
+>> +		}
+>> +		if (rc == -E2BIG) {
+>> +			toobig = true;
+>> +			left = 0;
+>> +			total += entrysize;
+> I'm not sure what is the desired behavior with LSM_FLAG_SINGLE in this
+> case but I'd add:
+>
+> if (single)
+> 	break;
+
+I'm shifting the control logic a bit. I think it'll look cleaner.
+
+>
+>> +			continue;
+>> +		}
+>> +		if (rc < 0)
+>> +			return rc;
+> I think this should be a break instead of the return rc for consistency
+> reasons.
+
+No one has ever accused me of being consistent. I believe in using
+return aggressively.
+
+>
+>> +
+>> +		left -= entrysize;
+>> +		total += entrysize;
+>> +		count += rc;
+> You could simplify a bit by replacing the first single check with this
+> one:
+>
+> if (single)
+> 	break;
+
+As above, I think I'm making this clearer in v15.
+
+>
+>> +	}
+>> +	if (put_user(total, size))
+>> +		return -EFAULT;
+>> +	if (toobig)
+>> +		return -E2BIG;
+>> +	if (count == 0)
+>> +		return LSM_RET_DEFAULT(getselfattr);
+>> +	return count;
+>> +}
+>> +
+> It would be nice to add a comment before all these three syscall
+> documentations to keep up-to-date the related user space documentation
+> in lsm_syscalls.c
+
+Good thinking.
+
+>
+>> +/**
+>> + * security_setselfattr - Set an LSM attribute on the current process.
+>> + * @attr: which attribute to set
+>> + * @uctx: the user-space source for the information
+>> + * @size: the size of the data
+>> + * @flags: reserved for future use, must be 0
+>> + *
+>> + * Set an LSM attribute for the current process. The LSM, attribute
+>> + * and new value are included in @uctx.
+>> + *
+>> + * Returns 0 on success, -EINVAL if the input is inconsistent, -EFAULT
+>> + * if the user buffer is inaccessible or an LSM specific failure.
+>> + */
+>> +int security_setselfattr(unsigned int attr, struct lsm_ctx __user *uctx,
+>> +			 size_t size, u32 flags)
+>> +{
+>> +	struct security_hook_list *hp;
+>> +	struct lsm_ctx *lctx;
+>> +	int rc = LSM_RET_DEFAULT(setselfattr);
+>> +
+>> +	if (flags)
+>> +		return -EINVAL;
+>> +	if (size < sizeof(*lctx) || size > PAGE_SIZE)
+> I would be better to return -E2BIG if size > PAGE_SIZE, and update the
+> (two) documentations accordingly.
+>
+>> +		return -EINVAL;
+>> +
+>> +	lctx = kmalloc(size, GFP_KERNEL);
+>> +	if (lctx == NULL)
+>> +		return -ENOMEM;
+>> +
+>> +	if (copy_from_user(lctx, uctx, size)) {
+>> +		rc = -EFAULT;
+>> +		goto free_out;
+>> +	}
+>> +
+>> +	if (size < lctx->len || size < lctx->ctx_len + sizeof(*lctx) ||
+>> +	    lctx->len < lctx->ctx_len + sizeof(*lctx)) {
+>> +		rc = -EINVAL;
+>> +		goto free_out;
+>> +	}
+>> +
+>> +	hlist_for_each_entry(hp, &security_hook_heads.setselfattr, list)
+>> +		if ((hp->lsmid->id) == lctx->id) {
+>> +			rc = hp->hook.setselfattr(attr, lctx, size, flags);
+> There is no need (at least for now) to directly expose lctx->id nor
+> lctx->flags. It would be simpler to only pass lctx->ctx and
+> lctx->ctx_len to the hooks.
+
+No. Absolutely not. I dislike passing string/length pairs, especially when
+they are both contained in a structure.
+
+>
+>> +			break;
+>> +		}
+>> +
+>> +free_out:
+>> +	kfree(lctx);
+>> +	return rc;
+>> +}
+>> +
+>>  /**
+>>   * security_getprocattr() - Read an attribute for a task
+>>   * @p: the task
+>> -- 
+>> 2.41.0
+>>
