@@ -2,132 +2,90 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AFF1679D625
-	for <lists+linux-api@lfdr.de>; Tue, 12 Sep 2023 18:22:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D50F79D62B
+	for <lists+linux-api@lfdr.de>; Tue, 12 Sep 2023 18:23:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230235AbjILQWd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 12 Sep 2023 12:22:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53814 "EHLO
+        id S236510AbjILQXa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 12 Sep 2023 12:23:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233717AbjILQWc (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 12 Sep 2023 12:22:32 -0400
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2C8F10D;
-        Tue, 12 Sep 2023 09:22:28 -0700 (PDT)
-Received: by mail-ej1-x62c.google.com with SMTP id a640c23a62f3a-99bcf2de59cso742652166b.0;
-        Tue, 12 Sep 2023 09:22:28 -0700 (PDT)
+        with ESMTP id S231518AbjILQX3 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 12 Sep 2023 12:23:29 -0400
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0792310D;
+        Tue, 12 Sep 2023 09:23:25 -0700 (PDT)
+Received: by mail-ej1-x630.google.com with SMTP id a640c23a62f3a-99c1d03e124so722697366b.2;
+        Tue, 12 Sep 2023 09:23:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694535747; x=1695140547; darn=vger.kernel.org;
+        d=gmail.com; s=20221208; t=1694535803; x=1695140603; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=XfZpeOfcmkjD2RwkOI7LjaIvRtoKYYK0xNqzXUjc4kk=;
-        b=abw1/11LkpA+ahNq+QaCbGTyb+ulw1ZRMK8JIyKxofIhSF5S2nR3zltBMQPwW2Cu1t
-         Ano/Ay2vIt6FrvNP1Uv06Jmi+V7BoJJpD6BBTR7cXYW5nEos1UPMR3RrgJp9jIPKbjag
-         L9scuWC0xflqmCPAmWxXNVpEyOFnjA/7Yi1ahDC6gUYn3NcD6gcJ/daMjiyWK9rwwfL6
-         0ERnZrcBuhPH+kcfqqUqu1pm4bHfNkxGDXa0oFa8NueBqEXzpfH/8Gdc5Kw3Bjg9M7oB
-         3dkeXP7PcAfcJU8/2bt+V3GDBimh7uY00pwJdDESr3oAMDLkPtcFnh9SEnOgJ12m0zGQ
-         OsQg==
+        bh=XWvMWZ3PfPL63wEwHZjDGh9ALUEehxR7vNe39ic1Lp4=;
+        b=mTAJYC2EkCktF4zTiAVFwbXlMCK8Wqmvh33J2hK1eblyM3eKt9u36SKJxOK42lpXjS
+         XJ6qbkTTpgS/CMKlrjGQE02jy5ClVGKeEnZQACv62r4bPh5y+NB26fWbwAmYpL+exyq+
+         vDlKyFIzqmj78H1tLoVYo/0jQUBVLMHStJmgnQNAXr2Rr/tCvcSi9+yOmH7cjvYx4N21
+         LMYGTanzkj08LRe7fP7x4ZN2OCmYEjO7frtMl4CXTNxHBLjpnzx61ulGLvXgDrinSBr4
+         1BD3Ge/lcIAWVHzlsBJB0k/hzgDM3c5lU/Rk3Dg2R2BEzuqTx6iTbY2KCJJ8YkOIKg8k
+         6z/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694535747; x=1695140547;
+        d=1e100.net; s=20230601; t=1694535803; x=1695140603;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=XfZpeOfcmkjD2RwkOI7LjaIvRtoKYYK0xNqzXUjc4kk=;
-        b=ieIbETahCHZfsaNRK/dzYv0N2LngNu57OlXLvwjuhQ1mZOJSk+QDWyWyYQaw0GcUML
-         HhIQ2VNXEFyU/WSzIzxV3boBq1m5IlchKEqzzu+SdLMLOPQGCDbpKM0bib29TJAHyag3
-         1xaIWMj/UNSdRUhmKt4998pEu1vKHPpN1ZDoWJ6wQKjPLeVxgfA0gBQHAKObb9CMcZev
-         ZfB+OT3PHXIpz+1bmcAAGxBv1sbZeJOuzyJAOnD0Kivy8WorFQQQ+2WISbHUtA1J3ZUu
-         RvVCRG8XycGzzf7a8jSXRiRkvPfr5iQLUHPzGMziXY0OD/goCCi5XssbQoHvZ6Z8vBmN
-         fBFw==
-X-Gm-Message-State: AOJu0Yy1qB0i7xtiqFfWPANjXGzyLBFhvsHfPWwtCNl5Q3UICFdhs80K
-        ztC8MFWOq2RsjIS/37psg+dsKUj1ww==
-X-Google-Smtp-Source: AGHT+IG9TvD3z/xvZuFAqoVvxB1j1Q7YEwy8ygKiK8gg4f/Ylc0e34g1E+Ze0NmabQio29q2da8QFA==
-X-Received: by 2002:a17:907:7791:b0:9a9:e41c:bcb6 with SMTP id ky17-20020a170907779100b009a9e41cbcb6mr11465182ejc.28.1694535746774;
-        Tue, 12 Sep 2023 09:22:26 -0700 (PDT)
+        bh=XWvMWZ3PfPL63wEwHZjDGh9ALUEehxR7vNe39ic1Lp4=;
+        b=G+T94wI4sI7cABR8T9V5W/GtRPpITQPQNEZaFsSZ4Ihiv9c0sdW+HNIYUb9z8Cm1eQ
+         U95zn8N5erBKiMBPUcG4poLRHYD1FQOejgp9d4fic/lcoYOgV+YZVH8J13z8aDqUe26d
+         d7w7fq+o1qPeYEwxB2CYORLTT6eJ4OuhRqh1kfewmHbBwqbJ3T9bMm14docak3wKgg3i
+         g0zoGBn8kwyww77jwd2ZZ1QgMSdteAq5eYKCrHhtH7/wY0sOTGAJpu5SVw/Ep1ahvbqI
+         4tbZik/CBG2oPhq54NDyCqqN2ESctmY3PT1ZYIFDRnPS8dzmgZomkItflu5tvm2XMMUY
+         58iw==
+X-Gm-Message-State: AOJu0YzXOS9NT8KXICjFHsbJSHO3EjtWOAGO31PdjnlEhuzppnaHfKOb
+        EHnDIltPwe0MAV8zAC24S/cEmlHy+w==
+X-Google-Smtp-Source: AGHT+IGak6rYUKE4vzjvzo3nJZ/TMMEDCk8Vge6/xb70yEOlEamgl0yAG9yioVpJYJW0c9XWwDNIUQ==
+X-Received: by 2002:a17:906:7687:b0:9a5:e441:4cf2 with SMTP id o7-20020a170906768700b009a5e4414cf2mr9904342ejm.58.1694535803184;
+        Tue, 12 Sep 2023 09:23:23 -0700 (PDT)
 Received: from p183 ([46.53.254.179])
-        by smtp.gmail.com with ESMTPSA id d11-20020a1709064c4b00b00993004239a4sm6998179ejw.215.2023.09.12.09.22.25
+        by smtp.gmail.com with ESMTPSA id g21-20020a170906349500b00997e00e78e6sm7119522ejb.112.2023.09.12.09.23.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Sep 2023 09:22:26 -0700 (PDT)
-Date:   Tue, 12 Sep 2023 19:22:24 +0300
+        Tue, 12 Sep 2023 09:23:22 -0700 (PDT)
+Date:   Tue, 12 Sep 2023 19:23:21 +0300
 From:   Alexey Dobriyan <adobriyan@gmail.com>
 To:     akpm@linux-foundation.org, keescook@chromium.org
 Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
         linux-hardening@vger.kernel.org, David.Laight@aculab.com
-Subject: [PATCH v3 1/2] uapi: fix __DECLARE_FLEX_ARRAY for C++
-Message-ID: <97242381-f1ec-4a4a-9472-1a464f575657@p183>
+Subject: [PATCH v3 2/2] uapi: fix header guard in include/uapi/linux/stddef.h
+Message-ID: <b1f5081e-339d-421d-81b2-cbb94e1f6f5f@p183>
 References: <930c3ee5-1282-40f4-93e0-8ff894aabf3a@p183>
  <a0c3a352-89c6-4764-b377-f55a68a1b2cb@p183>
  <202309080848.60319AF@keescook>
  <f1819874-2b91-4983-9ebe-6cd83d5d3bc3@p183>
  <202309080910.44BB7CEF@keescook>
  <e364b36eefa049d8863c1c1001018636@AcuMS.aculab.com>
+ <97242381-f1ec-4a4a-9472-1a464f575657@p183>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <e364b36eefa049d8863c1c1001018636@AcuMS.aculab.com>
+In-Reply-To: <97242381-f1ec-4a4a-9472-1a464f575657@p183>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-__DECLARE_FLEX_ARRAY(T, member) macro expands to
-
-	struct {
-		struct {} __empty_member;
-		T member[];
-	};
-
-which is subtly wrong in C++ because sizeof(struct{}) is 1 not 0,
-changing UAPI structures layouts.
-
-This can be fixed by expanding to
-
-	T member[];
-
-Now g++ doesn't like "T member[]" either, throwing errors on
-the following code:
-
-	struct S {
-		union {
-			T1 member1[];
-			T2 member2[];
-		};
-	};
-
-or
-
-	struct S {
-		T member[];
-	};
-
-Use "T member[0];" which seems to work and does the right thing wrt
-structure layout.
-
 Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
-Fixes: 3080ea5553cc ("stddef: Introduce DECLARE_FLEX_ARRAY() helper")
 ---
 
- include/uapi/linux/stddef.h |    6 ++++++
- 1 file changed, 6 insertions(+)
+ include/uapi/linux/stddef.h |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 --- a/include/uapi/linux/stddef.h
 +++ b/include/uapi/linux/stddef.h
-@@ -29,6 +29,11 @@
- 		struct TAG { MEMBERS } ATTRS NAME; \
- 	}
- 
-+#ifdef __cplusplus
-+/* sizeof(struct{}) is 1 in C++, not 0, can't use C version of the macro. */
-+#define __DECLARE_FLEX_ARRAY(T, member)	\
-+	T member[0]
-+#else
- /**
-  * __DECLARE_FLEX_ARRAY() - Declare a flexible array usable in a union
-  *
-@@ -45,6 +50,7 @@
+@@ -50,8 +50,9 @@
  		TYPE NAME[]; \
  	}
  #endif
-+#endif
+-#endif
  
  #ifndef __counted_by
  #define __counted_by(m)
+ #endif
++
++#endif
