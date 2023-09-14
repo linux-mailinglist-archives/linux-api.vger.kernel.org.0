@@ -2,55 +2,33 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 98BF27A000E
-	for <lists+linux-api@lfdr.de>; Thu, 14 Sep 2023 11:30:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB1657A0039
+	for <lists+linux-api@lfdr.de>; Thu, 14 Sep 2023 11:36:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236958AbjINJay (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 14 Sep 2023 05:30:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38044 "EHLO
+        id S231925AbjINJg4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 14 Sep 2023 05:36:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236983AbjINJax (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 14 Sep 2023 05:30:53 -0400
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BF131BF9
-        for <linux-api@vger.kernel.org>; Thu, 14 Sep 2023 02:30:48 -0700 (PDT)
-Received: by mail-ej1-x634.google.com with SMTP id a640c23a62f3a-99bdeae1d0aso96137366b.1
-        for <linux-api@vger.kernel.org>; Thu, 14 Sep 2023 02:30:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1694683847; x=1695288647; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=AGNKandpT5NJQi5/AVhbxV6HoTTqbRKSZ06ZbK3/luU=;
-        b=EuckalfXH1JT3XTkUzTWkewdpQFiWl9xm/X1oFwXOucRbqaQYrGTv5pRzINx2+JbVB
-         GN/RhmMwwvCunOdM4h/yE/8V3FHdy/1e405EOc4Uy9+7IgnDHytdaEbkjOK6ixXStyyg
-         grBK+M9EhO4xMbIgTqOJbnPleXeJou4ay6rYc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694683847; x=1695288647;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=AGNKandpT5NJQi5/AVhbxV6HoTTqbRKSZ06ZbK3/luU=;
-        b=tR9/jqv696oiUK3xi24ILOXXwno+as+tkELfelB5OkrvLUDc1Ddbn/b8Muypw419m0
-         jbbs2Kw2ECzz7s9ftc3yYjrBEbfWIbFbr+Jhgrmwo9TdPw/WkdrutbMSgOMNINHVQ8kc
-         IMOuzT6+cz29HFVVhjIrxIJnzO+M0H79JoFG6pHCSI5GFI+GaT8dJb/JqId4GuKTFmFC
-         pqoDUXMTGsuUB5S9wut7Dj7O1ZFeJZCDpQ8jPUkjC7YL9wwU7R0xdzlzaihI6j6SHB2P
-         ZOA2MJM/Ik+guJ0xhCnHB2jvpfqqcbCC6lOzAxeZxbMoMVLLoEq05DgbRvZ7xpNMSMJe
-         2T3A==
-X-Gm-Message-State: AOJu0YwTfumwVONg3IWezSY2fvB9dKm8J2Oz8CkkBk+QSuSrIF57oyN5
-        ReHeslePDMsbABDDfNC6nYUQjzfNl+kP/uV/XnpusA==
-X-Google-Smtp-Source: AGHT+IErxIuUSOrHMpZqSuqUdIXCMgDX2eTt5MQnPA0+NeX4YIBWXdWis7beQb0iCZTFlc7Klj2DKQaUtyCunDyiRVo=
-X-Received: by 2002:a17:907:1c8e:b0:9a1:edb0:2a7f with SMTP id
- nb14-20020a1709071c8e00b009a1edb02a7fmr5062869ejc.6.1694683846431; Thu, 14
- Sep 2023 02:30:46 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230913152238.905247-1-mszeredi@redhat.com> <20230913152238.905247-2-mszeredi@redhat.com>
- <20230914-himmel-imposant-546bd73250a8@brauner>
-In-Reply-To: <20230914-himmel-imposant-546bd73250a8@brauner>
-From:   Miklos Szeredi <miklos@szeredi.hu>
-Date:   Thu, 14 Sep 2023 11:30:34 +0200
-Message-ID: <CAJfpegv8ZVyyZN7ppSYMD4g8i7rAP1_5UBxzSo869_SKmFhgvw@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/3] add unique mount ID
-To:     Christian Brauner <brauner@kernel.org>
+        with ESMTP id S237244AbjINJgw (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 14 Sep 2023 05:36:52 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D75D51BEF;
+        Thu, 14 Sep 2023 02:36:47 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCE55C433C8;
+        Thu, 14 Sep 2023 09:36:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1694684206;
+        bh=H2srYEKdzkCILZo1VmZDz5SnBJ+dNxreB69yshcWmz8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=BasUXXnDxP2Rf1ySoLlqGBiOwNwHrCwX08D9JXdLGTuYH3KyF4dy6Wk6VpqBNA3MZ
+         3tKSUWXRKYOMAVga/s4v06Fj1tkON+XAOoUCL96KWim7Kp9F+vtuZMblcZycUuNFlK
+         Z8Znf7Eh6J+7mnU3yyU/e6x2YtwQbQ59nV0yhA2sZwAginnQZTx+MTXkyS2/8jTSyA
+         7uourZWptEgtc21TYZam4B6atbCW6zTHySGqU5dLdlwOZ6vh30FtgGhmE2APU6LO1J
+         OMQ8FisgUilhC7bbHIrgf7pYb/LQdBxMbYKeynHLaoSAuXeIlQUhyKiLzCqH3xqn5a
+         FZ8E5Jta5HyUg==
+Date:   Thu, 14 Sep 2023 11:36:35 +0200
+From:   Christian Brauner <brauner@kernel.org>
+To:     Miklos Szeredi <miklos@szeredi.hu>
 Cc:     Miklos Szeredi <mszeredi@redhat.com>,
         linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-api@vger.kernel.org, linux-man@vger.kernel.org,
@@ -61,75 +39,31 @@ Cc:     Miklos Szeredi <mszeredi@redhat.com>,
         Al Viro <viro@zeniv.linux.org.uk>,
         Christian Brauner <christian@brauner.io>,
         Amir Goldstein <amir73il@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [RFC PATCH 1/3] add unique mount ID
+Message-ID: <20230914-jeweiligen-normung-47816c153531@brauner>
+References: <20230913152238.905247-1-mszeredi@redhat.com>
+ <20230913152238.905247-2-mszeredi@redhat.com>
+ <20230914-himmel-imposant-546bd73250a8@brauner>
+ <CAJfpegv8ZVyyZN7ppSYMD4g8i7rAP1_5UBxzSo869_SKmFhgvw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAJfpegv8ZVyyZN7ppSYMD4g8i7rAP1_5UBxzSo869_SKmFhgvw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, 14 Sept 2023 at 11:04, Christian Brauner <brauner@kernel.org> wrote:
->
-> On Wed, Sep 13, 2023 at 05:22:34PM +0200, Miklos Szeredi wrote:
-> > If a mount is released then it's mnt_id can immediately be reused.  This is
-> > bad news for user interfaces that want to uniquely identify a mount.
-> >
-> > Implementing a unique mount ID is trivial (use a 64bit counter).
-> > Unfortunately userspace assumes 32bit size and would overflow after the
-> > counter reaches 2^32.
-> >
-> > Introduce a new 64bit ID alongside the old one.  Allow new interfaces to
-> > work on both the old and new IDs by starting the counter from 2^32.
-> >
-> > Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
-> > ---
-> >  fs/mount.h                | 3 ++-
-> >  fs/namespace.c            | 4 ++++
-> >  fs/stat.c                 | 9 +++++++--
-> >  include/uapi/linux/stat.h | 1 +
-> >  4 files changed, 14 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/fs/mount.h b/fs/mount.h
-> > index 130c07c2f8d2..a14f762b3f29 100644
-> > --- a/fs/mount.h
-> > +++ b/fs/mount.h
-> > @@ -72,7 +72,8 @@ struct mount {
-> >       struct fsnotify_mark_connector __rcu *mnt_fsnotify_marks;
-> >       __u32 mnt_fsnotify_mask;
-> >  #endif
-> > -     int mnt_id;                     /* mount identifier */
-> > +     int mnt_id;                     /* mount identifier, reused */
-> > +     u64 mnt_id_unique;              /* mount ID unique until reboot */
-> >       int mnt_group_id;               /* peer group identifier */
-> >       int mnt_expiry_mark;            /* true if marked for expiry */
-> >       struct hlist_head mnt_pins;
-> > diff --git a/fs/namespace.c b/fs/namespace.c
-> > index e157efc54023..de47c5f66e17 100644
-> > --- a/fs/namespace.c
-> > +++ b/fs/namespace.c
-> > @@ -68,6 +68,9 @@ static u64 event;
-> >  static DEFINE_IDA(mnt_id_ida);
-> >  static DEFINE_IDA(mnt_group_ida);
-> >
-> > +/* Don't allow confusion with mount ID allocated wit IDA */
-> > +static atomic64_t mnt_id_ctr = ATOMIC64_INIT(1ULL << 32);
->
-> Hm, is your concern that userspace confuses these two values? If so, I
-> think we shouldn't worry about this.
+> Yes, one concern is that humans confuse the old and the new ID.
+> 
+> I also think it makes sense to allow the new interfaces to look up the
+> mount based on either the old or the new ID.   But I could be wrong
 
-Yes, one concern is that humans confuse the old and the new ID.
+Hm, mount id recycling may happen so quickly that for service restarts
+with a lot of mounts this becomes mostly useless...
 
-I also think it makes sense to allow the new interfaces to look up the
-mount based on either the old or the new ID.   But I could be wrong
-there, since that might encourage bad code.  Maybe the new interface
-should only use take the new ID, which means no mixed use of
-/proc/$$/mountinfo and statmnt/listmnt.
+> there, since that might encourage bad code.  Maybe the new interface
+> should only use take the new ID, which means no mixed use of
+> /proc/$$/mountinfo and statmnt/listmnt.
 
->
-> If a userspace program retrieves a mntid and then confuses itself about
-> what mnt id they're talking about something's very wrong anyway. So I'd
-> rather not see us waste 32 bits just for that.
-
-This is wasting a quarter of a billionth of the ID space.  We are
-surely not concerned about that.
-
-Thanks,
-Miklos
+... so I think that is indeed the better way of doing things. There's no
+need to encourage userspace to mix both identifiers.
