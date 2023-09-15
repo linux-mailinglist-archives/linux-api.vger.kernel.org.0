@@ -2,137 +2,127 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C1AED7A141E
-	for <lists+linux-api@lfdr.de>; Fri, 15 Sep 2023 05:06:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4DFEC7A1450
+	for <lists+linux-api@lfdr.de>; Fri, 15 Sep 2023 05:24:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231702AbjIODGs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 14 Sep 2023 23:06:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55226 "EHLO
+        id S231452AbjIODYJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 14 Sep 2023 23:24:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229767AbjIODGr (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 14 Sep 2023 23:06:47 -0400
-Received: from mail-vk1-xa2d.google.com (mail-vk1-xa2d.google.com [IPv6:2607:f8b0:4864:20::a2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C46FA270A;
-        Thu, 14 Sep 2023 20:06:43 -0700 (PDT)
-Received: by mail-vk1-xa2d.google.com with SMTP id 71dfb90a1353d-495f20c5832so672325e0c.0;
-        Thu, 14 Sep 2023 20:06:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1694747203; x=1695352003; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oYtmGG6qL/zG4tahuBG2Sq+on0Fe6qbc1wsa4F9iPKk=;
-        b=AkNLur5sXWUQ6BmzfG7L1n/bqy1lTlERiK8kBrPerF37bNT1lMTSj6kp13ASESDfh9
-         0xno+AXU3lJgy+qWE/hQXZMZXFEtjzPBvPw163xuXVAe7hE5o3QY3Y6VrYRZOChbZ7fw
-         XKn02btuZDsTKbwqLs6m1M5/vCrZ6kccdQLvfb77YWjdIltfZlyGxsD5Crqgv6mj2Sr/
-         dL7Utepivn0ffV7I1PNzSEp3W7bovzmxeaWyL4aLMZ3ojYmpnX9f/pO1W7YhsUUEKUJr
-         2CPI+ddpb3rR0zHEY+ART/goTuJZz8mIZmeufc2oWLIgTrx93v8r7aiemsiMaM70GTN3
-         OV/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694747203; x=1695352003;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oYtmGG6qL/zG4tahuBG2Sq+on0Fe6qbc1wsa4F9iPKk=;
-        b=HgF2pXuszv4qkmda7iI7KpCf9bWl2Z2u0LPxlbIUukJ2Lhk4eltocp6XwAGiIYeXmI
-         9tKg7TUYmH9sTOMaMTQ5IZcyJvLJyjtQ5VYuei/N6gQ+e2UuHd2+6oJz9CvTK+2uwxR/
-         PmdaaSRHIQWNk8tPzZkS8Sj5sYI6D7n6E+sh66C0CqJktX/Z5Xo+kY4giwTSIxeOTVRN
-         P1P7kkr45J58fnOK2RWgeG1cvn5VOG86hpFaHRh1JIlEJnhVAm3TO7dpi1t3qgdA51FV
-         N1J/aUlCvhEUsyVEyn5Zf8nOsH/3WCNEaFeD53D1uj1SSJt/OaxGxEq1UkcOutGh8c2p
-         b1MQ==
-X-Gm-Message-State: AOJu0YyFSN/mWBr0foXyCivwkT8udv3WOXNXbKo0D3W9F9UVwvAz/Ae5
-        p4MU22iWkj94p93hkmZpBy7KUFS22EYZt+ZucYQ=
-X-Google-Smtp-Source: AGHT+IEhMX07JZksQwf7xl95wqZoUqPRGk4v7y/txStcf9i0R4DdtWN/EbCHAyaH4Ri4XhPBhlkDhTEzYcuPbgWxfNk=
-X-Received: by 2002:a1f:eb82:0:b0:493:5363:d1dc with SMTP id
- j124-20020a1feb82000000b004935363d1dcmr576225vkh.12.1694747202792; Thu, 14
- Sep 2023 20:06:42 -0700 (PDT)
+        with ESMTP id S229767AbjIODYJ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 14 Sep 2023 23:24:09 -0400
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1F14270C;
+        Thu, 14 Sep 2023 20:24:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
+        s=201909; t=1694748242;
+        bh=6XG3B0FzXsmvZoKkkhm5wOJHB7Zd1TpS1JWjBGpTusE=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=PKpIyJXfdhJr2Sk2XiFpR9ouUJal5nD2tBGYvkTi+yQRsa9ZIvCgirZ5+6besrqBL
+         UlCTRNeIti/3HlXKC5s/hNh/zWDyp0CAj38ooZCtURDec0zV29n1q0vvHWP8LzC/8u
+         j+BMCh8sirKL/ZLOdFgRYAJwTicvGuLLCgCMve6s4NNE6G+YTeu3xI1X+6WSPiiUmJ
+         53dID1WgSubZVw/xkbEC18yiNd+dsH+sCiTIMfNZ4C0SAAbyPBEWD+PT1gDHirRJ7I
+         e1Oe/pJXxiN5V+sroGp3Ed6zutx8sxe3J/0iaG/Wx6C4lA/ghdRZcbu2waY0Piauup
+         ceLVj/+K8GSVw==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mail.ozlabs.org (Postfix) with ESMTPSA id 4Rn0045DDWz4wxR;
+        Fri, 15 Sep 2023 13:23:48 +1000 (AEST)
+From:   Michael Ellerman <mpe@ellerman.id.au>
+To:     Sohil Mehta <sohil.mehta@intel.com>, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org
+Cc:     Sohil Mehta <sohil.mehta@intel.com>,
+        Richard Henderson <richard.henderson@linaro.org>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Michal Simek <monstr@monstr.eu>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
+        Helge Deller <deller@gmx.de>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+        "David S . Miller" <davem@davemloft.net>,
+        Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>, Chris Zankel <chris@zankel.net>,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Ian Rogers <irogers@google.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Sergei Trofimovich <slyich@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Rohan McLure <rmclure@linux.ibm.com>,
+        Andreas Schwab <schwab@linux-m68k.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Brian Gerst <brgerst@gmail.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Rick Edgecombe <rick.p.edgecombe@intel.com>,
+        Mark Brown <broonie@kernel.org>,
+        Deepak Gupta <debug@rivosinc.com>, linux-alpha@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-ia64@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
+        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-perf-users@vger.kernel.org
+Subject: Re: [PATCH v2] arch: Reserve map_shadow_stack() syscall number for
+ all architectures
+In-Reply-To: <20230914185804.2000497-1-sohil.mehta@intel.com>
+References: <20230914185804.2000497-1-sohil.mehta@intel.com>
+Date:   Fri, 15 Sep 2023 13:23:43 +1000
+Message-ID: <878r986rwg.fsf@mail.lhotse>
 MIME-Version: 1.0
-References: <20230913152238.905247-1-mszeredi@redhat.com> <CAOQ4uxiuc0VNVaF98SE0axE3Mw6wMJJ1t36cmbcM5vwYLqtWSw@mail.gmail.com>
- <904a8d17-b6df-e294-fcf6-6f95459e1ffa@themaw.net>
-In-Reply-To: <904a8d17-b6df-e294-fcf6-6f95459e1ffa@themaw.net>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Fri, 15 Sep 2023 06:06:31 +0300
-Message-ID: <CAOQ4uxgHxVqtvb51Z27Sgft-U=oYtXeiv+3HJbara4zdRC-FZg@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/3] quering mount attributes
-To:     Ian Kent <raven@themaw.net>
-Cc:     Miklos Szeredi <mszeredi@redhat.com>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-man@vger.kernel.org,
-        linux-security-module@vger.kernel.org, Karel Zak <kzak@redhat.com>,
-        David Howells <dhowells@redhat.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <christian@brauner.io>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Sep 15, 2023 at 4:20=E2=80=AFAM Ian Kent <raven@themaw.net> wrote:
+Sohil Mehta <sohil.mehta@intel.com> writes:
+> commit c35559f94ebc ("x86/shstk: Introduce map_shadow_stack syscall")
+> recently added support for map_shadow_stack() but it is limited to x86
+> only for now. There is a possibility that other architectures (namely,
+> arm64 and RISC-V), that are implementing equivalent support for shadow
+> stacks, might need to add support for it.
 >
-> On 14/9/23 14:47, Amir Goldstein wrote:
-> > On Wed, Sep 13, 2023 at 6:22=E2=80=AFPM Miklos Szeredi <mszeredi@redhat=
-.com> wrote:
-> >> Implement the mount querying syscalls agreed on at LSF/MM 2023.  This =
-is an
-> >> RFC with just x86_64 syscalls.
-> >>
-> >> Excepting notification this should allow full replacement for
-> >> parsing /proc/self/mountinfo.
-> > Since you mentioned notifications, I will add that the plan discussed
-> > in LFSMM was, once we have an API to query mount stats and children,
-> > implement fanotify events for:
-> > mount [mntuid] was un/mounted at [parent mntuid],[dirfid+name]
-> >
-> > As with other fanotify events, the self mntuid and dirfid+name
-> > information can be omitted and without it, multiple un/mount events
-> > from the same parent mntuid will be merged, allowing userspace
-> > to listmnt() periodically only mntuid whose child mounts have changed,
-> > with little risk of event queue overflow.
-> >
-> > The possible monitoring scopes would be the entire mount namespace
-> > of the monitoring program or watching a single mount for change in
-> > its children mounts. The latter is similar to inotify directory childre=
-n watch,
-> > where the watches needs to be set recursively, with all the weight on
-> > userspace to avoid races.
+> Independent of that, reserving arch-specific syscall numbers in the
+> syscall tables of all architectures is good practice and would help
+> avoid future conflicts. map_shadow_stack() is marked as a conditional
+> syscall in sys_ni.c. Adding it to the syscall tables of other
+> architectures is harmless and would return ENOSYS when exercised.
 >
-> It's been my belief that the existing notification mechanisms don't
-> quite fully satisfy the needs of users of these calls (aka. the need
-> I found when implementing David's original calls into systemd).
+> Note, map_shadow_stack() was assigned #453 during the merge process
+> since #452 was taken by fchmodat2().
 >
-> Specifically the ability to process a batch of notifications at once.
->
-> Admittedly the notifications mechanism that David originally implemented
-> didn't fully implement what I found I needed but it did provide for a
-> settable queue length and getting a batch of notifications at a time.
->
-> Am I mistaken in my belief?
->
+> For Powerpc, map it to sys_ni_syscall() as is the norm for Powerpc
+> syscall tables.
 
-I am not sure I understand the question.
+Mapping it to sys_map_shadow_stack() would work fine, but I'm happy with
+sys_ni_syscall as I don't see powerpc implementing map_shadow_stack()
+any time soon.
 
-fanotify has an event queue (16K events by default), but it can
-also use unlimited size.
-With a limited size queue, event queue overflow generates an
-overflow event.
+Acked-by: Michael Ellerman <mpe@ellerman.id.au> (powerpc)
 
-event listeners can read a batch of events, depending on
-the size of the buffer that they provide.
-
-when multiple events with same information are queued,
-for example "something was un/mounted over parent mntuid 100"
-fanotify will merged those all those events in the queue and the
-event listeners will get only one such event in the batch.
-
-> Don't misunderstand me, it would be great for the existing notification
-> mechanisms to support these system calls, I just have a specific use case
-> in mind that I think is important, at least to me.
->
-
-Please explain the use case and your belief about existing fanotify
-limitations. I did not understand it.
-
-Thanks,
-Amir.
+cheers
