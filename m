@@ -2,127 +2,225 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DFEC7A1450
-	for <lists+linux-api@lfdr.de>; Fri, 15 Sep 2023 05:24:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 13FFF7A19D3
+	for <lists+linux-api@lfdr.de>; Fri, 15 Sep 2023 11:00:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231452AbjIODYJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 14 Sep 2023 23:24:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48770 "EHLO
+        id S232920AbjIOJAf (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 15 Sep 2023 05:00:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42860 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229767AbjIODYJ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 14 Sep 2023 23:24:09 -0400
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1F14270C;
-        Thu, 14 Sep 2023 20:24:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
-        s=201909; t=1694748242;
-        bh=6XG3B0FzXsmvZoKkkhm5wOJHB7Zd1TpS1JWjBGpTusE=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=PKpIyJXfdhJr2Sk2XiFpR9ouUJal5nD2tBGYvkTi+yQRsa9ZIvCgirZ5+6besrqBL
-         UlCTRNeIti/3HlXKC5s/hNh/zWDyp0CAj38ooZCtURDec0zV29n1q0vvHWP8LzC/8u
-         j+BMCh8sirKL/ZLOdFgRYAJwTicvGuLLCgCMve6s4NNE6G+YTeu3xI1X+6WSPiiUmJ
-         53dID1WgSubZVw/xkbEC18yiNd+dsH+sCiTIMfNZ4C0SAAbyPBEWD+PT1gDHirRJ7I
-         e1Oe/pJXxiN5V+sroGp3Ed6zutx8sxe3J/0iaG/Wx6C4lA/ghdRZcbu2waY0Piauup
-         ceLVj/+K8GSVw==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.ozlabs.org (Postfix) with ESMTPSA id 4Rn0045DDWz4wxR;
-        Fri, 15 Sep 2023 13:23:48 +1000 (AEST)
-From:   Michael Ellerman <mpe@ellerman.id.au>
-To:     Sohil Mehta <sohil.mehta@intel.com>, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org
-Cc:     Sohil Mehta <sohil.mehta@intel.com>,
-        Richard Henderson <richard.henderson@linaro.org>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Michal Simek <monstr@monstr.eu>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-        "David S . Miller" <davem@davemloft.net>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, Chris Zankel <chris@zankel.net>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Ian Rogers <irogers@google.com>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Sergei Trofimovich <slyich@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Rohan McLure <rmclure@linux.ibm.com>,
-        Andreas Schwab <schwab@linux-m68k.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Brian Gerst <brgerst@gmail.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>,
-        Mark Brown <broonie@kernel.org>,
-        Deepak Gupta <debug@rivosinc.com>, linux-alpha@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-ia64@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
-        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-perf-users@vger.kernel.org
-Subject: Re: [PATCH v2] arch: Reserve map_shadow_stack() syscall number for
- all architectures
-In-Reply-To: <20230914185804.2000497-1-sohil.mehta@intel.com>
-References: <20230914185804.2000497-1-sohil.mehta@intel.com>
-Date:   Fri, 15 Sep 2023 13:23:43 +1000
-Message-ID: <878r986rwg.fsf@mail.lhotse>
+        with ESMTP id S232242AbjIOJAf (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 15 Sep 2023 05:00:35 -0400
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E20CC449F
+        for <linux-api@vger.kernel.org>; Fri, 15 Sep 2023 01:58:16 -0700 (PDT)
+Received: by mail-ej1-x62f.google.com with SMTP id a640c23a62f3a-9a9d6b98845so660493466b.0
+        for <linux-api@vger.kernel.org>; Fri, 15 Sep 2023 01:58:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1694768230; x=1695373030; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=CBIiaOHoOHrCk3LeEQNU7t+gT7xznMj52aOiRS+1hC4=;
+        b=Omd8LNHO/TpEyR1D2FRKgBlsszWtWrz8cNDPH50EdQ+O4GGHmsBFoGC7jbxvQZQrop
+         Sxe1ydVQ3hgGrGoPACkzHEiLeR8/YyQQWhhkbQYvyUY4EfGaHPyzdKIj7t1/mq/wkcOq
+         77jscDTKNpU2lm+taEKQu91RkDbTtw0ejgIZ0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694768230; x=1695373030;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CBIiaOHoOHrCk3LeEQNU7t+gT7xznMj52aOiRS+1hC4=;
+        b=SYi66NCnMnMYkSVx1vwwlX48VRrtlFAjixrJtxmh7oWajhC5mSebagqBzYNma4juCJ
+         4fn3vHsHiZOK/XZhET96XhQjecg9UBDOsjuUKJQerpwT+/D5wuXPN4ctOOO8DUyY+bXo
+         27LXdVxKeC6ohhHIUqzDyeV46DST51V+PsVDGRfR9YThzEB6k+nCpLv+tTst+9BG8H0t
+         kMUnZQKBVu/cgd6DYejl0OeZtSU+RvMr6kWvEd8hOyY3UyuffcwZnktby5b5yb6j7MJ8
+         DFMqjcU7RcuwLPSv3c5ug4eXsp2NO40C9g2xI+KnZIJEUyDYKh6vW2vNQzTfbPQbf1sW
+         +Abg==
+X-Gm-Message-State: AOJu0YyO/PmMe1GXLPb9dQ6pRHHO3Fk81iYBxTmlGO6gMvxVZHqibjP4
+        jdvlpB2+IATv3OuYicwGF5pqgNuVNKOfpMvUW7HKrg==
+X-Google-Smtp-Source: AGHT+IG38zmA525fy/C/IrBaRcWlpOvf+szMKtBFzKIippNLUVWg1N/ro2hl/mnaBVvita3DyrmGNvsyitNfBphPSDM=
+X-Received: by 2002:a17:907:9620:b0:9a1:c35b:9e09 with SMTP id
+ gb32-20020a170907962000b009a1c35b9e09mr6450533ejc.8.1694768229999; Fri, 15
+ Sep 2023 01:57:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20230913152238.905247-1-mszeredi@redhat.com> <20230913152238.905247-3-mszeredi@redhat.com>
+ <20230914-salzig-manifest-f6c3adb1b7b4@brauner> <CAJfpegs-sDk0++FjSZ_RuW5m-z3BTBQdu4T9QPtWwmSZ1_4Yvw@mail.gmail.com>
+ <20230914-lockmittel-verknallen-d1a18d76ba44@brauner>
+In-Reply-To: <20230914-lockmittel-verknallen-d1a18d76ba44@brauner>
+From:   Miklos Szeredi <miklos@szeredi.hu>
+Date:   Fri, 15 Sep 2023 10:56:58 +0200
+Message-ID: <CAJfpegt-VPZP3ou-TMQFs1Xupj_iWA5ttC2UUFKh3E43EyCOQQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 2/3] add statmnt(2) syscall
+To:     Christian Brauner <brauner@kernel.org>
+Cc:     Miklos Szeredi <mszeredi@redhat.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-man@vger.kernel.org,
+        linux-security-module@vger.kernel.org, Karel Zak <kzak@redhat.com>,
+        Ian Kent <raven@themaw.net>,
+        David Howells <dhowells@redhat.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <christian@brauner.io>,
+        Amir Goldstein <amir73il@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
+        lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Sohil Mehta <sohil.mehta@intel.com> writes:
-> commit c35559f94ebc ("x86/shstk: Introduce map_shadow_stack syscall")
-> recently added support for map_shadow_stack() but it is limited to x86
-> only for now. There is a possibility that other architectures (namely,
-> arm64 and RISC-V), that are implementing equivalent support for shadow
-> stacks, might need to add support for it.
+On Thu, 14 Sept 2023 at 17:27, Christian Brauner <brauner@kernel.org> wrote:
 >
-> Independent of that, reserving arch-specific syscall numbers in the
-> syscall tables of all architectures is good practice and would help
-> avoid future conflicts. map_shadow_stack() is marked as a conditional
-> syscall in sys_ni.c. Adding it to the syscall tables of other
-> architectures is harmless and would return ENOSYS when exercised.
+> On Thu, Sep 14, 2023 at 12:13:54PM +0200, Miklos Szeredi wrote:
+> No worries, I think the discussion touching on this starts at:
+> https://youtu.be/j3fp2MtRr2I?si=f-YBg6uWq80dV3VC&t=1603
+> (with David talking quietly without a microphone for some parts
+> unfortunately...)
+
+(Thanks for digging that out.)
+
+That discussion touched on two aspects of using a single call vs.
+multiple calls:
+
+ - atomicity
+ - marshalling
+
+Atomicity of getting a snapshot of the current mount tree with all of
+its attributes was never guaranteed, although reading
+/proc/self/mountinfo into a sufficiently large buffer would work that
+way.   However, I don't see why mount trees would require stronger
+guarantees than dentry trees (for which we have basically none).
+
+Marshalling/demashalling of arbitrary structures is indeed ugly.  I
+think what Linus suggested, and what this interface was based on is
+much less than that.  Also see my suggestion below: it doesn't need
+demashalling at all due to the fact that the kernel can fill in the
+pointers.   And yes, this could be used for arbitrary structures
+without compromising type safety, but at the cost of adding more
+complexity to the kernel (at least ascii strings are just one type).
+
+Even more type clean interface:
+
+struct statmnt *statmnt(u64 mnt_id, u64 mask, void *buf, size_t
+bufsize, unsigned int flags);
+
+Kernel would return a fully initialized struct with the numeric as
+well as string fields filled.  That part is trivial for userspace to
+deal with.
+
+For sizing the buffer and versioning the struct see discussion below.
+
+> > What I'm thinking is making it even simpler for userspace:
+> >
+> > struct statmnt {
+> >   ...
+> >   char *mnt_root;
+> >   char *mountpoint;
+> >   char *fs_type;
+> >   u32 num_opts;
+> >   char *opts;
+> > };
+> >
+> > I'd still just keep options nul delimited.
+> >
+> > Is there a good reason not to return pointers (pointing to within the
+> > supplied buffer obviously) to userspace?
 >
-> Note, map_shadow_stack() was assigned #453 during the merge process
-> since #452 was taken by fchmodat2().
+> It's really unpleasant to program with. Yes, I think you pointed out
+> before that it often doesn't matter much as long as the system call is
+> really only relevant to some special purpose userspace.
 >
-> For Powerpc, map it to sys_ni_syscall() as is the norm for Powerpc
-> syscall tables.
+> But statmount() will be used pretty extensively pretty quickly for the
+> purpose of finding out mount options on a mount (Querying a whole
+> sequences of mounts via repeated listmount() + statmount() calls on the
+> other hand will be rarer.).
+>
+> And there's just so many tools that need this: libmount, systemd, all
+> kinds of container runtimes, path lookup libraries such as libpathrs,
+> languages like go and rust that expose and wrap these calls and so on.
+>
+> Most of these tools don't need to know about filesystem mount options
+> and if they do they can just query that through an extra system call. No
+> harm in doing that.
 
-Mapping it to sys_map_shadow_stack() would work fine, but I'm happy with
-sys_ni_syscall as I don't see powerpc implementing map_shadow_stack()
-any time soon.
+Just pass sizeof(struct statmnt) as the buffer size, and it will work that way.
 
-Acked-by: Michael Ellerman <mpe@ellerman.id.au> (powerpc)
+> The agreement we came to to split out listing submounts into a separate
+> system call was exactly to avoid having to have a variable sized pointer
+> at the end of the struct statmnt (That's also part of the video above
+> btw.) and to make it as simple as possible.
+>
+> Plus, the format for how to return arbitrary filesystem mount options
+> warrants a separate discussion imho as that's not really vfs level
+> information.
 
-cheers
+Okay.   Let's take fs options out of this.
+
+That leaves:
+
+ - fs type and optionally subtype
+ - root of mount within fs
+ - mountpoint path
+
+The type and subtype are naturally limited to sane sizes, those are
+not an issue.
+
+For paths the evolution of the relevant system/library calls was:
+
+  char *getwd(char buf[PATH_MAX]);
+  char *getcwd(char *buf, size_t size);
+  char *get_current_dir_name(void);
+
+It started out using a fixed size buffer, then a variable sized
+buffer, then an automatically allocated buffer by the library, hiding
+the need to resize on overflow.
+
+The latest style is suitable for the statmnt() call as well, if we
+worry about pleasantness of the API.
+
+>
+> > > This will also allow us to turn statmnt() into an extensible argument
+> > > system call versioned by size just like we do any new system calls with
+> > > struct arguments (e.g., mount_setattr(), clone3(), openat2() and so on).
+> > > Which is how we should do things like that.
+> >
+> > The mask mechanism also allow versioning of the struct.
+>
+> Yes, but this is done with reserved space which just pushes away the
+> problem and bloats the struct for the sake of an unknown future. If we
+> were to use an extensible argument struct we would just version by size.
+> The only requirement is that you extend by 64 bit (see struct
+> clone_args) which had been extended.
+
+No need for reserved space in fact.  Versioning would still work, as
+long as userspace is strictly checking the return mask.  I.e. newly
+added fields will come after the old buffer, as assumed by the kernel.
+But the kernel will never set the mask bits for these fields, so
+userspace should not ever look at them.  Note: the interface does have
+a bufsize parameter, so no possibility of memory corruption in any
+event.
+
+I added the reserved space so that userspace would be protected from
+rubbish at the end of the struct if the kernel was older.  A library
+wrapper could work around that issue (move the variable part beyond
+the end of the new struct), but it would require code update in the
+wrapper, not just updating the struct.
+
+But in fact it's much simpler to just add ample reserved space and be
+done with it forever, no need to worry about versioning at all.
+
+> > > numbers for sub types as well. So we don't need to use strings here.
+> >
+> > Ugh.
+>
+> Hm, idk. It's not that bad imho. We'll have to make some ugly tradeoffs.
+
+Subtype is a fuse thing (e.g. sshfs would show up as  fuse.sshfs
+/proc/self/mountinfo.  Forcing each fuse filesystem to invent a magic
+number... please no.
+
+Thanks,
+Miklos
