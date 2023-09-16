@@ -2,167 +2,109 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A30647A2D65
-	for <lists+linux-api@lfdr.de>; Sat, 16 Sep 2023 04:20:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A8DE7A2E35
+	for <lists+linux-api@lfdr.de>; Sat, 16 Sep 2023 08:33:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238274AbjIPCTv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 15 Sep 2023 22:19:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52266 "EHLO
+        id S238727AbjIPGc7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 16 Sep 2023 02:32:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54758 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231650AbjIPCTU (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 15 Sep 2023 22:19:20 -0400
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29B531BF2;
-        Fri, 15 Sep 2023 19:19:15 -0700 (PDT)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-        by mailout.west.internal (Postfix) with ESMTP id 78D0132002FB;
-        Fri, 15 Sep 2023 22:19:13 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Fri, 15 Sep 2023 22:19:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=cc
-        :cc:content-transfer-encoding:content-type:content-type:date
-        :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-        :references:reply-to:sender:subject:subject:to:to; s=fm1; t=
-        1694830752; x=1694917152; bh=dczvAIbYbztKI9psgMdrTQAOAqQnIvtCypR
-        JKfR2cKQ=; b=CZEdpjTuZlQ0iPdoZFIPXx7Cl1P79HLCyQkGlqXSInAk2td5bk0
-        viG/ZNH1onVP5rV5wuGtovHaEkZyhUvyndY0CbXBUxL0i8gDI4SWBqmWlgUHR/tv
-        dxiNm1KrQoX32cScG1d44ssxTuL11xbCxuC3n8+O1DuzEoqFdqhk4BXE8EktP9Ve
-        xMKb/hXnujcCkqBMKukW3k+CnHF14LsA4teZLsEJyZaHYUnsN1KYdDfSohyI85bu
-        C9JtRU3NiTtwCMTi9uNIR5SObSrEK69cRTa7/4dbwbcjHnuhwnnP3B4QR5nQ5qUU
-        QgVowKpmZsh4Nus1g/yUI+pEJHCudRD7Lnw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding
-        :content-type:content-type:date:date:feedback-id:feedback-id
-        :from:from:in-reply-to:in-reply-to:message-id:mime-version
-        :references:reply-to:sender:subject:subject:to:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-        1694830752; x=1694917152; bh=dczvAIbYbztKI9psgMdrTQAOAqQnIvtCypR
-        JKfR2cKQ=; b=a0J0xLTNceVYiEUX4d0ul+CYxgHpq5vjFRiN2wF2X9I6oS5Jxqr
-        FyAm+lkrwbNm0ccm1XxuRagVLJ/MRAsKYpavBg1WP/AiPJWSFtxWTRVPIyY3+WrV
-        ZQYlovfJOPRGDu9WkPUui9shKdUq2+6QLIcqzOQkFaW2WTtIRXPXsZv1XvzXxnEr
-        6h2hM4eXpSKRJ+CtpMaNyY+/IBdWk4ULX5D1yB9QrBDhwjS5/2frV5f5isgFOJkS
-        OoCIjAI/B4QYG+5FqrCELx25dL9L/lvM9zq/Gg1K+fjOOXqsOK/cEQ3I+JtOpIh5
-        x+luKYhtCzMOAeYCh9RI/HRwtcxZ5luGyHA==
-X-ME-Sender: <xms:oBAFZbW-uVubx3qTOXLOjdU8v5vgUvdfO5eiyE0yuddfyIVNHDdmJg>
-    <xme:oBAFZTntPvyxOx-sqE5zM_yPLVEPjXNz0Har04g8qQpN_p1nS8M196J0ExUpGvfDv
-    Z9clFM_Z4Gr>
-X-ME-Received: <xmr:oBAFZXaP2AXcO25rsMbCAW02QZkHypWXmZipruFibu8Rs9nVowC2Dfsa3qKBl_69BpqixDZGD-rlen4PfyyCToUiIlNX-cxjCajZrJeyHhpK7761T5s>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrudejfedgheeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepkfffgggfuffvvehfhfgjtgfgsehtkeertddtfeejnecuhfhrohhmpefkrghn
-    ucfmvghnthcuoehrrghvvghnsehthhgvmhgrfidrnhgvtheqnecuggftrfgrthhtvghrnh
-    epgedvteevvdefiedvueeujeegtedvheelhfehtefhkefgjeeuffeguefgkeduhfejnecu
-    vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprhgrvhgvnh
-    esthhhvghmrgifrdhnvght
-X-ME-Proxy: <xmx:oBAFZWWFxOfIxI1hWXvxK47W7hBn7BZojSODYM7ctjJzgj_vePOMFg>
-    <xmx:oBAFZVlO5Qlg_sNTkMPzdBA8DGn_8uOaXjusILeGgia6pnvAqFdRmQ>
-    <xmx:oBAFZTfu-CPfjI2SSAdr0LiiyIqjkikUcDjgdzP0JILObRVRBB8QPA>
-    <xmx:oBAFZWjJydA6INuWWB_fhoiJEpCWqekY7mGq4164RuAupPbOuPvcXA>
-Feedback-ID: i31e841b0:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 15 Sep 2023 22:19:07 -0400 (EDT)
-Message-ID: <9fd2f8da-17b0-e918-adef-4043678efaa2@themaw.net>
-Date:   Sat, 16 Sep 2023 10:19:02 +0800
+        with ESMTP id S238769AbjIPGct (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 16 Sep 2023 02:32:49 -0400
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10D4F19A9;
+        Fri, 15 Sep 2023 23:32:43 -0700 (PDT)
+Received: from fsav312.sakura.ne.jp (fsav312.sakura.ne.jp [153.120.85.143])
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 38G6W5kD044355;
+        Sat, 16 Sep 2023 15:32:05 +0900 (JST)
+        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav312.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav312.sakura.ne.jp);
+ Sat, 16 Sep 2023 15:32:05 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav312.sakura.ne.jp)
+Received: from [192.168.1.6] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+        (authenticated bits=0)
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 38G6W5Fq044352
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+        Sat, 16 Sep 2023 15:32:05 +0900 (JST)
+        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <94743c22-bc76-e741-e577-3e0845423f69@I-love.SAKURA.ne.jp>
+Date:   Sat, 16 Sep 2023 15:32:05 +0900
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [RFC PATCH 0/3] quering mount attributes
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v15 01/11] LSM: Identify modules by more than name
 Content-Language: en-US
-To:     Amir Goldstein <amir73il@gmail.com>
-Cc:     Miklos Szeredi <mszeredi@redhat.com>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-man@vger.kernel.org,
-        linux-security-module@vger.kernel.org, Karel Zak <kzak@redhat.com>,
-        David Howells <dhowells@redhat.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <christian@brauner.io>
-References: <20230913152238.905247-1-mszeredi@redhat.com>
- <CAOQ4uxiuc0VNVaF98SE0axE3Mw6wMJJ1t36cmbcM5vwYLqtWSw@mail.gmail.com>
- <904a8d17-b6df-e294-fcf6-6f95459e1ffa@themaw.net>
- <CAOQ4uxgHxVqtvb51Z27Sgft-U=oYtXeiv+3HJbara4zdRC-FZg@mail.gmail.com>
-From:   Ian Kent <raven@themaw.net>
-In-Reply-To: <CAOQ4uxgHxVqtvb51Z27Sgft-U=oYtXeiv+3HJbara4zdRC-FZg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_PASS,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+To:     Casey Schaufler <casey@schaufler-ca.com>, paul@paul-moore.com,
+        linux-security-module@vger.kernel.org
+Cc:     jmorris@namei.org, serge@hallyn.com, keescook@chromium.org,
+        john.johansen@canonical.com, stephen.smalley.work@gmail.com,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        mic@digikod.net
+References: <20230912205658.3432-1-casey@schaufler-ca.com>
+ <20230912205658.3432-2-casey@schaufler-ca.com>
+ <1f5e725d-58b6-eca2-97dc-d7c1209ff167@I-love.SAKURA.ne.jp>
+ <568c0730-b458-04b4-dbfa-77da1758aa05@schaufler-ca.com>
+From:   Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+In-Reply-To: <568c0730-b458-04b4-dbfa-77da1758aa05@schaufler-ca.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 15/9/23 11:06, Amir Goldstein wrote:
-> On Fri, Sep 15, 2023 at 4:20 AM Ian Kent <raven@themaw.net> wrote:
->> On 14/9/23 14:47, Amir Goldstein wrote:
->>> On Wed, Sep 13, 2023 at 6:22 PM Miklos Szeredi <mszeredi@redhat.com> wrote:
->>>> Implement the mount querying syscalls agreed on at LSF/MM 2023.  This is an
->>>> RFC with just x86_64 syscalls.
->>>>
->>>> Excepting notification this should allow full replacement for
->>>> parsing /proc/self/mountinfo.
->>> Since you mentioned notifications, I will add that the plan discussed
->>> in LFSMM was, once we have an API to query mount stats and children,
->>> implement fanotify events for:
->>> mount [mntuid] was un/mounted at [parent mntuid],[dirfid+name]
->>>
->>> As with other fanotify events, the self mntuid and dirfid+name
->>> information can be omitted and without it, multiple un/mount events
->>> from the same parent mntuid will be merged, allowing userspace
->>> to listmnt() periodically only mntuid whose child mounts have changed,
->>> with little risk of event queue overflow.
->>>
->>> The possible monitoring scopes would be the entire mount namespace
->>> of the monitoring program or watching a single mount for change in
->>> its children mounts. The latter is similar to inotify directory children watch,
->>> where the watches needs to be set recursively, with all the weight on
->>> userspace to avoid races.
->> It's been my belief that the existing notification mechanisms don't
->> quite fully satisfy the needs of users of these calls (aka. the need
->> I found when implementing David's original calls into systemd).
->>
->> Specifically the ability to process a batch of notifications at once.
->>
->> Admittedly the notifications mechanism that David originally implemented
->> didn't fully implement what I found I needed but it did provide for a
->> settable queue length and getting a batch of notifications at a time.
->>
->> Am I mistaken in my belief?
->>
-> I am not sure I understand the question.
->
-> fanotify has an event queue (16K events by default), but it can
-> also use unlimited size.
-> With a limited size queue, event queue overflow generates an
-> overflow event.
->
-> event listeners can read a batch of events, depending on
-> the size of the buffer that they provide.
+On 2023/09/16 2:53, Casey Schaufler wrote:
+> I *could* respond with:
+> 
+> -#define LSM_ID_TOMOYO	103
+> 
+> but I won't. I won't make a difference because TOMOYO doesn't present
+> any attributes. I understand your objections, but don't believe that
+> they can't be worked around. The argument that a LSM ID will prevent
+> new LSM development is rebuffed by the exact same situation with system
+> calls, PRCTL and IOCTL values. The argument that it somehow prevents
+> out-of-tree modules falls on deaf ears. The argument that it prevents
+> dynamic security modules is subsumed by the other issues surrounding
+> dynamic security modules, and does nothing to decrease the likelihood
+> of that facility going upstream. Especially since, to the best of my
+> knowledge, no one is working on it.
 
-So it sounds like I can get a bunch of events at once with fanotify.
++/**
++ * struct lsm_id - Identify a Linux Security Module.
++ * @lsm: name of the LSM, must be approved by the LSM maintainers
 
-I'll have to look at the code again ...
+Why can't you understand that "approved by the LSM maintainers" is a horrible
+requirement for LSM modules which cannot become one of in-tree LSMs?
 
+One of reasons for not every proposed LSM module can become in-tree is out of
+the LSM community's resources for reviewing/maintaining (or failure to acquire
+attention from the LSM community enough to get reviewed).
 
-Ian
++ * @id: LSM ID number from uapi/linux/lsm.h
 
->
-> when multiple events with same information are queued,
-> for example "something was un/mounted over parent mntuid 100"
-> fanotify will merged those all those events in the queue and the
-> event listeners will get only one such event in the batch.
->
->> Don't misunderstand me, it would be great for the existing notification
->> mechanisms to support these system calls, I just have a specific use case
->> in mind that I think is important, at least to me.
->>
-> Please explain the use case and your belief about existing fanotify
-> limitations. I did not understand it.
->
-> Thanks,
-> Amir.
+Since the LSM community cannot accept all of proposed LSMs due to limited resources,
+the LSM community is responsible for allowing whatever proposed LSMs (effectively any
+publicly available LSMs) to live as out-of-tree LSMs, by approving the LSM name and
+assigning a permanent LSM ID number.
+
+The only exception the LSM community can refuse to approve/assign would be that the name
+is not appropriate (e.g. a LSM module named "FuckYou") or the name is misleading (e.g.
+"selinux+", "smock", "tomato", "apparmour"). Otherwise, no matter how many times you repeat
+"we don't care out-of-tree LSMs" or "I do not intentionally plan to make life difficult for
+the out-of-tree LSMs", this patch is intended to lock out out-of-tree LSMs.
+
++ *
++ * Contains the information that identifies the LSM.
++ */
++struct lsm_id {
++	const char	*name;
++	u64		id;
++};
+
+Therefore, unless you change the policy for assigning LSM ID, I keep NACK on this change.
+
