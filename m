@@ -2,52 +2,52 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E0A987A2D4A
-	for <lists+linux-api@lfdr.de>; Sat, 16 Sep 2023 04:05:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A30647A2D65
+	for <lists+linux-api@lfdr.de>; Sat, 16 Sep 2023 04:20:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234684AbjIPCEy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 15 Sep 2023 22:04:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53994 "EHLO
+        id S238274AbjIPCTv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 15 Sep 2023 22:19:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52266 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235085AbjIPCE1 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 15 Sep 2023 22:04:27 -0400
+        with ESMTP id S231650AbjIPCTU (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 15 Sep 2023 22:19:20 -0400
 Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 003761BF8;
-        Fri, 15 Sep 2023 19:04:19 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29B531BF2;
+        Fri, 15 Sep 2023 19:19:15 -0700 (PDT)
 Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-        by mailout.west.internal (Postfix) with ESMTP id 9CF963200033;
-        Fri, 15 Sep 2023 22:04:15 -0400 (EDT)
+        by mailout.west.internal (Postfix) with ESMTP id 78D0132002FB;
+        Fri, 15 Sep 2023 22:19:13 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Fri, 15 Sep 2023 22:04:16 -0400
+  by compute2.internal (MEProxy); Fri, 15 Sep 2023 22:19:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=cc
         :cc:content-transfer-encoding:content-type:content-type:date
         :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
         :references:reply-to:sender:subject:subject:to:to; s=fm1; t=
-        1694829855; x=1694916255; bh=8Kg+lAI8pFsQQI2etrCoUrb1+gWu1sUllPz
-        gKR5k09o=; b=SuVc/0ts6Ul7xJOs8036PRSlF82N+bplhuR1e35KxF/9IvnU10i
-        rNbRjInhcSxhse74iqxyKotCnyKhQmUbV5stu8N9mjck5s9HmZk2fQCYymQag5Uc
-        mzYBtkyixLoHuIrQp/Swd6IBsaiLqp5AELLr9UsTlWQWir+rxcukiXJZYv/WNOxs
-        07zv1B9w32U8LzQRa5itjEewK5NqhlnLQztdzOJ30qfTDlvI6W51MsZy+OXl0+MA
-        0knZZbpw/NsqJQFs0llORBjY6PNKDq20kpBG4bC/k7vgFSxIJGe0jjhc5bkyUbek
-        zZU1Fqn0+qsx7x8wRBjxNhyU+nIRr8X+wJA==
+        1694830752; x=1694917152; bh=dczvAIbYbztKI9psgMdrTQAOAqQnIvtCypR
+        JKfR2cKQ=; b=CZEdpjTuZlQ0iPdoZFIPXx7Cl1P79HLCyQkGlqXSInAk2td5bk0
+        viG/ZNH1onVP5rV5wuGtovHaEkZyhUvyndY0CbXBUxL0i8gDI4SWBqmWlgUHR/tv
+        dxiNm1KrQoX32cScG1d44ssxTuL11xbCxuC3n8+O1DuzEoqFdqhk4BXE8EktP9Ve
+        xMKb/hXnujcCkqBMKukW3k+CnHF14LsA4teZLsEJyZaHYUnsN1KYdDfSohyI85bu
+        C9JtRU3NiTtwCMTi9uNIR5SObSrEK69cRTa7/4dbwbcjHnuhwnnP3B4QR5nQ5qUU
+        QgVowKpmZsh4Nus1g/yUI+pEJHCudRD7Lnw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:cc:content-transfer-encoding
         :content-type:content-type:date:date:feedback-id:feedback-id
         :from:from:in-reply-to:in-reply-to:message-id:mime-version
         :references:reply-to:sender:subject:subject:to:to:x-me-proxy
         :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-        1694829855; x=1694916255; bh=8Kg+lAI8pFsQQI2etrCoUrb1+gWu1sUllPz
-        gKR5k09o=; b=K7L56ZfVvUxGWwLnFpGaiKV4bRo6KV83F4YxPeOjc7uLqOG8AZy
-        iTkCcucZKC/LAhHAAOUJGPRfxxkuVw0vUBAL1+po6cMNvDbfMqZBB/h17CZOUzE1
-        kIZxWi21MbQmiDJ6DTnBPp97lkwgIORCMLWkZ18ziiO8OphS7zqW5rxIdK83kbtb
-        ti9w9L8pAQHnFYf2wxUFV2MykZDw6xLygboYJ4KI28iquz1hhDivVIKKWLQ6+Cw9
-        LgZwFEBVFCoq0zs3wXhln3Q6gzL2lB82V13ha32btWrrxh5Taag0efnW6ReQZxI+
-        Ohi9naGLBYibHrZMnTpY05BLU70tQ6KJd2w==
-X-ME-Sender: <xms:Hg0FZeD15PdFU6jZUAb64n0RLChzVUkL6c9DQg4OeQXtjbHmB2uc3w>
-    <xme:Hg0FZYgM2nOjavACr5yR1iqTwIA16bpA438rgFewUzpEqHSqxpeUrTP-u2y2Eax75
-    _tcS0V9fvDW>
-X-ME-Received: <xmr:Hg0FZRne2a9cqXCQ3Y5Kg5o5a867LSie6Hlwm7F7yKAnSOlowyJzdFZId4IEVWcZuduPQE97RWivoRUR8soqpibEEnrjIGrVGL-7qy5_kvyo6ahFpTI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrudejfedgheefucetufdoteggodetrfdotf
+        1694830752; x=1694917152; bh=dczvAIbYbztKI9psgMdrTQAOAqQnIvtCypR
+        JKfR2cKQ=; b=a0J0xLTNceVYiEUX4d0ul+CYxgHpq5vjFRiN2wF2X9I6oS5Jxqr
+        FyAm+lkrwbNm0ccm1XxuRagVLJ/MRAsKYpavBg1WP/AiPJWSFtxWTRVPIyY3+WrV
+        ZQYlovfJOPRGDu9WkPUui9shKdUq2+6QLIcqzOQkFaW2WTtIRXPXsZv1XvzXxnEr
+        6h2hM4eXpSKRJ+CtpMaNyY+/IBdWk4ULX5D1yB9QrBDhwjS5/2frV5f5isgFOJkS
+        OoCIjAI/B4QYG+5FqrCELx25dL9L/lvM9zq/Gg1K+fjOOXqsOK/cEQ3I+JtOpIh5
+        x+luKYhtCzMOAeYCh9RI/HRwtcxZ5luGyHA==
+X-ME-Sender: <xms:oBAFZbW-uVubx3qTOXLOjdU8v5vgUvdfO5eiyE0yuddfyIVNHDdmJg>
+    <xme:oBAFZTntPvyxOx-sqE5zM_yPLVEPjXNz0Har04g8qQpN_p1nS8M196J0ExUpGvfDv
+    Z9clFM_Z4Gr>
+X-ME-Received: <xmr:oBAFZXaP2AXcO25rsMbCAW02QZkHypWXmZipruFibu8Rs9nVowC2Dfsa3qKBl_69BpqixDZGD-rlen4PfyyCToUiIlNX-cxjCajZrJeyHhpK7761T5s>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrudejfedgheeiucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
     cujfgurhepkfffgggfuffvvehfhfgjtgfgsehtkeertddtfeejnecuhfhrohhmpefkrghn
@@ -55,15 +55,15 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrudejfedgheefucetufdoteggod
     epgedvteevvdefiedvueeujeegtedvheelhfehtefhkefgjeeuffeguefgkeduhfejnecu
     vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprhgrvhgvnh
     esthhhvghmrgifrdhnvght
-X-ME-Proxy: <xmx:Hg0FZcxyPU-BgGu2b-e90DL-FuBHyWkGTQ8E1bqUd8ppQHoDup_S1A>
-    <xmx:Hg0FZTTtoOoIoZWu8158PfSbUduu64nEjpjw5svznNa4yFa1T7FH9A>
-    <xmx:Hg0FZXZTeMA_xWiMJXgMnP6jva6at-74JQh1i6tBm7x2LueJngHzVw>
-    <xmx:Hw0FZY_eBDvcjra1qZY6avpk-8X-ru799Sj0pywfLBO3Pa4p-d3hdg>
+X-ME-Proxy: <xmx:oBAFZWWFxOfIxI1hWXvxK47W7hBn7BZojSODYM7ctjJzgj_vePOMFg>
+    <xmx:oBAFZVlO5Qlg_sNTkMPzdBA8DGn_8uOaXjusILeGgia6pnvAqFdRmQ>
+    <xmx:oBAFZTfu-CPfjI2SSAdr0LiiyIqjkikUcDjgdzP0JILObRVRBB8QPA>
+    <xmx:oBAFZWjJydA6INuWWB_fhoiJEpCWqekY7mGq4164RuAupPbOuPvcXA>
 Feedback-ID: i31e841b0:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 15 Sep 2023 22:04:09 -0400 (EDT)
-Message-ID: <cecbccf7-5591-7eac-f3b7-d8fef3b6ad5f@themaw.net>
-Date:   Sat, 16 Sep 2023 10:04:07 +0800
+ 15 Sep 2023 22:19:07 -0400 (EDT)
+Message-ID: <9fd2f8da-17b0-e918-adef-4043678efaa2@themaw.net>
+Date:   Sat, 16 Sep 2023 10:19:02 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
@@ -143,6 +143,14 @@ On 15/9/23 11:06, Amir Goldstein wrote:
 >
 > event listeners can read a batch of events, depending on
 > the size of the buffer that they provide.
+
+So it sounds like I can get a bunch of events at once with fanotify.
+
+I'll have to look at the code again ...
+
+
+Ian
+
 >
 > when multiple events with same information are queued,
 > for example "something was un/mounted over parent mntuid 100"
@@ -155,61 +163,6 @@ On 15/9/23 11:06, Amir Goldstein wrote:
 >>
 > Please explain the use case and your belief about existing fanotify
 > limitations. I did not understand it.
-
-Yes, it's not obvious, I'll try and explain it more clearly.
-
-
-I did some work to enable systemd to use the original fsinfo() call
-
-and the notifications system David had written.
-
-
-My use case was perhaps unrealistic but I have seen real world reports
-
-with similar symptoms and autofs usage can behave like this usage at
-
-times as well so it's not entirely manufactured. The use case is basically
-
-when there are a large number of mounts occurring for a sustained amount
-
-of time.
-
-
-Anyway, systemd processes get notified when there is mount activity and
-
-it then reads the mount table to update it state. I observed there are
-
-usually 3 separate systemd processes monitoring mount table changes and,
-
-under the above load, they use around 80-85% of a CPU each.
-
-
-Thing is systemd is actually pretty good at processing notifications so
-
-when there is sustained mount activity and the fsinfo() call was used the
-
-load changes from processing the table to processing notifications. The
-
-load goes down to a bit over 40% for each process.
-
-
-But if you can batch those notifications, like introduce a high water
-
-mark (yes I know this is not at all simple and I'm by no means suggesting
-
-this is all that needs to be done), to get a bunch of these notifications
-
-at once the throughput increases quite a bit. In my initial testing adding
-
-a delay of 10 or 20 milliseconds before fetching the queue of notifications
-
-and processing them saw a reduction of CPU usage to around 8% per process.
-
-
-What I'm saying is I've found that system calls to get the information
-
-directly isn't all that's needed to improve the scalability.
-
-
-Ian
-
+>
+> Thanks,
+> Amir.
