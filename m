@@ -2,108 +2,138 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2AF6B7A35D9
-	for <lists+linux-api@lfdr.de>; Sun, 17 Sep 2023 16:35:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A4B5B7A3699
+	for <lists+linux-api@lfdr.de>; Sun, 17 Sep 2023 18:40:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235590AbjIQOdX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 17 Sep 2023 10:33:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55224 "EHLO
+        id S230010AbjIQQjb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 17 Sep 2023 12:39:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55846 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232094AbjIQOdD (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 17 Sep 2023 10:33:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03C9B131
-        for <linux-api@vger.kernel.org>; Sun, 17 Sep 2023 07:32:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1694961138;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=fd2SQIw5RGzEP/oFXtTGteoLvZh3GLziCsZTny7nBwk=;
-        b=UL9zv3gpy+BlX2HyDYUL9wuRXaprzZbeQ1zJortdHLEixXHFvp1kqBN4Z3r8s9mrQ0Ifv6
-        yZGb725k32cg6+JMu9XUTYzqOM+xM5jx2qka7q0x2ZbpTwW7msboV5Ujfe+oJmHcOZ8uIn
-        gr7kXKaiN/JVn10+NiFndalrV8h27GI=
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-15-h9Sx2sFlNp2NkIYZCTQsHA-1; Sun, 17 Sep 2023 10:32:16 -0400
-X-MC-Unique: h9Sx2sFlNp2NkIYZCTQsHA-1
-Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-274972a4c22so1617126a91.3
-        for <linux-api@vger.kernel.org>; Sun, 17 Sep 2023 07:32:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694961135; x=1695565935;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fd2SQIw5RGzEP/oFXtTGteoLvZh3GLziCsZTny7nBwk=;
-        b=iskpoUPDOjMXEPQbw159C56RozDhb/F/67kCaG+uBvya1KcOw2VrjTec/8JASrzaj5
-         nE902e3NoftWp2iCLf8fYi9fFfNmLaE7gaPN9cPPOZMmHFZenNqU+DzRiUeAbjvHv93P
-         IHiHpE6dFiHEfYWsnNTS+PUKrtNkw+dKy+ILR9m3UCMc6hnwp9zS4uWpAe0+6EmcIyHo
-         gES7VbhOtYmxp5Z1Y29woLH6JluWxF+tW1/xdhkYue8s0dmdPf3Y/wKj1NTlrfuTdeKM
-         iIiEt9LwWUIXnqnUs+ImWPEUOFdn0Qpq2TM40Qs2Ej7gFcwq/DIWrA/DgtC8zNlnCdUr
-         H/Sw==
-X-Gm-Message-State: AOJu0Yz29nXgkP9VHdUvyrdHiiEpNF/hFS7bRJ3M1IwqC5CC4MsxPy7z
-        RAwRQVZ+2C9sC8ckwoQ1ziv+SvBRV2z+oXl3Xugsv3Buz+lROER2BP7nDSb9bQ0eeyv5KxYXCw3
-        nvK9zCk1ZzkclxGkI569+iDz2eHSN6qRqlXCX
-X-Received: by 2002:a17:90a:31c9:b0:25e:d727:6fb4 with SMTP id j9-20020a17090a31c900b0025ed7276fb4mr4479055pjf.2.1694961135575;
-        Sun, 17 Sep 2023 07:32:15 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHxaKD5CAfPDp+ptbao2NQtHRlf3cdqB0MlFwsD5D8HxKapmYDbW+OyM4JgBC0g1lRVqg8MaST0ACrIZLk6h88=
-X-Received: by 2002:a17:90a:31c9:b0:25e:d727:6fb4 with SMTP id
- j9-20020a17090a31c900b0025ed7276fb4mr4479048pjf.2.1694961135300; Sun, 17 Sep
- 2023 07:32:15 -0700 (PDT)
+        with ESMTP id S230375AbjIQQjK (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 17 Sep 2023 12:39:10 -0400
+Received: from sonic311-30.consmr.mail.ne1.yahoo.com (sonic311-30.consmr.mail.ne1.yahoo.com [66.163.188.211])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 160E910B
+        for <linux-api@vger.kernel.org>; Sun, 17 Sep 2023 09:39:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1694968744; bh=4do8MxIlT/SZxX5v5ZH60RwNAe7SLM1KZKwNKjL3HTg=; h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To; b=rDf4TXo2SrXhi7SJ+MZ7Xdp13eUHpwxYBOlRjzxyetImqGWIfYX3buCHNk3lTEhSS9A6KzhlB9RNOhLfsA/C9tx6fB+p1GKd79chjb9L3Mgo3LaOxgLiShJBjRl9bHq5NW+mZ9B93bEGF1gYJHEGStyUACsNX7uWS3H51lGhESX1XawFK2UE/CgFg4z21fcYD7SmZ7hKYf7U6WCJb4BTa72lKHHeSX7tZ8P+dWEAEm/mVroWPyLTJK6LHHbRnIQbLSJ6O/9Wjk+BwO1JZhtKvQBZCVf6xpw7OJn0Rc9YnGlmVfiVcDPl874Xn6McOiIbDQ5uJZ+nsxbdK6akekIHCA==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1694968744; bh=f2IuB7VsEW3oG5oCN6d/0IbbsCQ7OPUIuEnhnDE1fDc=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=cnzvxQFu4+PZ7yECw8URlPgR1N59n5pgTA75jca5YnX+U48IyFARWjXRHOYf7ObcATbj4otCz8BkZqfdn5Awetqgx5XFtATJ5tNGsc4U5IamwdzuBhXwj10y/r1nUBEmSEREMifCJUFMrMpr+8PlQVUA3NZYUuXIZZVvqNI6cIuRGZoFWXALDdZ36/u+5mQzW/1ekK1T6MLe/+gu5JVSRN+JNE37jAKZkbcPQHsaiimNZ6FkGsg2voMmkxg9AlgQr+llqodu4qZ/zCrN4QmK7Ci/8y/aeYTD2ezPwvkHhiBnwNpKVEaBP7lDAA6l1hz5pDdg6mAc+3YHbr62ZETupw==
+X-YMail-OSG: hKmnuugVM1nTqeTYE9629iBsxBmWWo2_Sprv4QSgQHhxNXpsayCe0lil.BjDXgH
+ g8c79hWYWsjx4S2tl1e2X1iGeD8dpy7E53MVG4jp31BZ_j1VSX5PkjOl.BJPsiDFLii2szd7Vg6h
+ 8N9.jGmtc5k0VBJvDQXc7ZA4rOoU3bwz1dp0YrU18IvX7fyVnbB8H5FYDKWwShwiA0aiJrB_3nKd
+ nQS63p0uVl6oQdPZ3DWtEzrtOBaDd_ht6x4WSl509YB2.NagjJtsG7Lv3VaAGbGecBBYlAORaYd5
+ a87SZL8y8mfzcZDZd6YKD33q0r84H881s1Mpq2atkb.DWNkZDX9VLB9vWKByPaJEguGJ_1saAm.H
+ 0nt2uWj0Mbyxc1pkQMVk3clb0R55wCNwjU9ZXVVJAkibOF3k5d49qX7yI27yxX6.o76DYHmNkZ9l
+ isblcjJOnWHPzJZnpejy9hEp35v4lWeC01bc6LGVj7WeL3I9QPpN4DOOERjgwrWK9oqZSR7mdgWE
+ IjvD_rrzQLetYjmkkPohKOlDBP7NYq3ZHdEFC98M.OHc3Ko4kZRnTvdUaSs5c2GpaLtyaurwE.wF
+ 65S1ADAGGYCy0U9cD1qI78qxDYPPjHCz.1guPUJeM3d57pfYmRETrFjYnW9VySAeqeaHc5E38pbG
+ FinLx4BXEwn7cMqAEl1k9aqGhYMIV5zHIMhSvyot89g4keqzeqKKgoO4hmr1GjSQiQtXixzNvwFx
+ ODABBaTSVeCM3uC15TYRrOhYsbKiGPtT7xUJVFhFNiWEfDnZvQ69chgayXIufax4k9Z_yhCPWqYQ
+ 1FJhkrzmxdGBlCzcjErTu6IaLbYEkSIV0Yhk_gZk5AAl0.3TqDK4GgAkOmUCj6phtM2YnSNeBxlh
+ kYHxdxTicjM9vDSm2pg01ivlry0lu3m3wwgu9NA3NkTgi80JYdvBTTtbpWPLmiWSbw5g1j20yS.H
+ j8WJYiU4RaQuPesumpVkEv5qyM3_kt_48QlSWTWpfhvPwvvFjJYysuKXtyiA_REk1OIa9S1Yfrq.
+ 2y.VE5lm6uej55FPMqQS1CzAgWr8bb8Jt5pS3IfB2EoPE837Nhigj_PqIXVwuLN803VRwW5_.jhq
+ 64lkW0mz1I8vWR9vPduKBrfz4Rz1uJqAulqlHcPX9asgau_ZJ_CzkoYDJSVu1Qjc8km3pWyQlbYe
+ 6sodp5Wl1Em4ITw205dmPbNMGW8uGkX5xlrnLeXbieQkxqkOpCGfciXVxYmuE9Qra8iaQZ98nE5z
+ VrNkcyv1P3nbEfcUiUtlivTqQRGjNOx9lydCUaPThqQm64ABgEHPhuoTZZGG9xMhhGEEoUG2PGqU
+ iqQrmULX5jecIcwMOI63nZbcUOBM9eNe447MOUuBO8JdF6yND0VDMwSPKCnsUvmat8.ROyvp8oN2
+ WMjKnnC44GklOZXJ7bBS7i2NTgMl7rvRSWhk2yX9HU0o0reHx.jxwGl176ccGa9d8H_joScyShFY
+ cvB1.t.2Cqlr71H2BB4Jr0Oe6QGO57e0oAe3oWdn1wA75fAjkILW_IfMUAbcopy.Q.L3D3sqsc0X
+ eUdGjwE1b_6LYY4acadrQ2BIwYHCVXU3TBKHppVQwP0JK6B5U3gqmnadozc2qt49o9H4Mqzy3ojV
+ W9KDCIzk_fByyvjYjPo.gvODiSM1EQIz4ElX_ewFiDVSeOvVUkWaG_g0PZ7UJ27AE5ylb7QvHfH2
+ vuDZ_nzCyOpH1vQzx3nntZqh6OAQ1A3UQMluvkwz48wJhimc1agEZlzHxh1uXV_2tZpp.eQMdEzY
+ AL_1BmizhUtMDjdpcGcA4ifM9veshm.00QgZ1jJIvdx38AWbhMmr8Ad7JWDTCGRySxHpAPMCT.U7
+ cgFPavC68_mc6eTqOhQBz1csUmp172F59W9VRZULL5gxq_W81dOmT2wVfklaRGmONHx95bnv6ooO
+ n.vmfqbGQ9kNi3N2h8g4xFpZveOr2.nnw2jgwAjQF.OwkNK04VALAEmF7AfRSeGTbdiDev.VGMJW
+ C5BZBJOGHWFUNvkqRTFszeY0oKYklgIqbgCBpBd40ilgm82qgDIam7z9r35LQmCF_O25QBlfJc9d
+ SRZpoEUttegdCYQuLFw4ym.A011D7Un_d9ios_Q3S_XshMefNw0oijmLnGMHGewB2Jp0gbg_puX0
+ iUQnwh.5dZX7NEc2jFyijFnEnxIQgneBk_C.TJ5MFr6SVYOVS3S9ER_5apzHeUZHN_lGbHI2Hbc.
+ 3YkeEVQscEhuN7O.wGe65hXMZ4OGGOw--
+X-Sonic-MF: <casey@schaufler-ca.com>
+X-Sonic-ID: 01272459-c848-4ef1-bdd4-c708e273ff64
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic311.consmr.mail.ne1.yahoo.com with HTTP; Sun, 17 Sep 2023 16:39:04 +0000
+Received: by hermes--production-bf1-678f64c47b-rmjq8 (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 1688bea468bd698e36240950404d6b5b;
+          Sun, 17 Sep 2023 16:38:59 +0000 (UTC)
+Message-ID: <6df9f8b8-5653-09a5-ae0a-6526016abaff@schaufler-ca.com>
+Date:   Sun, 17 Sep 2023 09:38:56 -0700
 MIME-Version: 1.0
-References: <20230913152238.905247-1-mszeredi@redhat.com> <20230913152238.905247-4-mszeredi@redhat.com>
- <20230917005419.397938-1-mattlloydhouse@gmail.com>
-In-Reply-To: <20230917005419.397938-1-mattlloydhouse@gmail.com>
-From:   Miklos Szeredi <mszeredi@redhat.com>
-Date:   Sun, 17 Sep 2023 16:32:04 +0200
-Message-ID: <CAOssrKcECS_CvifP1vMM8YOyMW7dkGXTDTKY2CRr-fPrJk76ZA@mail.gmail.com>
-Subject: Re: [RFC PATCH 3/3] add listmnt(2) syscall
-To:     Matthew House <mattlloydhouse@gmail.com>
-Cc:     linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-man@vger.kernel.org,
-        linux-security-module@vger.kernel.org, Karel Zak <kzak@redhat.com>,
-        Ian Kent <raven@themaw.net>,
-        David Howells <dhowells@redhat.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <christian@brauner.io>,
-        Amir Goldstein <amir73il@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v15 01/11] LSM: Identify modules by more than name
+To:     Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+        paul@paul-moore.com, linux-security-module@vger.kernel.org
+Cc:     jmorris@namei.org, serge@hallyn.com, keescook@chromium.org,
+        john.johansen@canonical.com, stephen.smalley.work@gmail.com,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        mic@digikod.net, Casey Schaufler <casey@schaufler-ca.com>
+References: <20230912205658.3432-1-casey@schaufler-ca.com>
+ <20230912205658.3432-2-casey@schaufler-ca.com>
+ <1f5e725d-58b6-eca2-97dc-d7c1209ff167@I-love.SAKURA.ne.jp>
+ <568c0730-b458-04b4-dbfa-77da1758aa05@schaufler-ca.com>
+ <94743c22-bc76-e741-e577-3e0845423f69@I-love.SAKURA.ne.jp>
+Content-Language: en-US
+From:   Casey Schaufler <casey@schaufler-ca.com>
+In-Reply-To: <94743c22-bc76-e741-e577-3e0845423f69@I-love.SAKURA.ne.jp>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Mailer: WebService/1.1.21797 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
+X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sun, Sep 17, 2023 at 2:54=E2=80=AFAM Matthew House <mattlloydhouse@gmail=
-.com> wrote:
-
-> > +       list_for_each_entry(r, &m->mnt_mounts, mnt_child) {
-> > +               if (!capable(CAP_SYS_ADMIN) &&
-> > +                   !is_path_reachable(r, r->mnt.mnt_root, root))
-> > +                       continue;
+On 9/15/2023 11:32 PM, Tetsuo Handa wrote:
+> On 2023/09/16 2:53, Casey Schaufler wrote:
+>> I *could* respond with:
+>>
+>> -#define LSM_ID_TOMOYO	103
+>>
+>> but I won't. I won't make a difference because TOMOYO doesn't present
+>> any attributes. I understand your objections, but don't believe that
+>> they can't be worked around. The argument that a LSM ID will prevent
+>> new LSM development is rebuffed by the exact same situation with system
+>> calls, PRCTL and IOCTL values. The argument that it somehow prevents
+>> out-of-tree modules falls on deaf ears. The argument that it prevents
+>> dynamic security modules is subsumed by the other issues surrounding
+>> dynamic security modules, and does nothing to decrease the likelihood
+>> of that facility going upstream. Especially since, to the best of my
+>> knowledge, no one is working on it.
+> +/**
+> + * struct lsm_id - Identify a Linux Security Module.
+> + * @lsm: name of the LSM, must be approved by the LSM maintainers
 >
-> I'm not an expert on the kernel API, but to my eyes, it looks a bit weird
-> to silently include or exclude unreachable mounts from the list based on
-> the result of a capability check. I'd normally expect a more explicit
-> design, where (e.g.) the caller would set a flag to request unreachable
-> mounts, then get an -EPERM back if it didn't have the capability, as
-> opposed to this design, where the meaning of the output ("all mounts" vs.
-> "all reachable mounts") changes implicitly depending on the caller. Is
-> there any precedent for a design like this, where inaccessible results
-> are silently omitted from a returned list?
+> Why can't you understand that "approved by the LSM maintainers" is a horrible
+> requirement for LSM modules which cannot become one of in-tree LSMs?
+>
+> One of reasons for not every proposed LSM module can become in-tree is out of
+> the LSM community's resources for reviewing/maintaining (or failure to acquire
+> attention from the LSM community enough to get reviewed).
+>
+> + * @id: LSM ID number from uapi/linux/lsm.h
+>
+> Since the LSM community cannot accept all of proposed LSMs due to limited resources,
+> the LSM community is responsible for allowing whatever proposed LSMs (effectively any
+> publicly available LSMs) to live as out-of-tree LSMs, by approving the LSM name and
+> assigning a permanent LSM ID number.
+>
+> The only exception the LSM community can refuse to approve/assign would be that the name
+> is not appropriate (e.g. a LSM module named "FuckYou") or the name is misleading (e.g.
+> "selinux+", "smock", "tomato", "apparmour"). Otherwise, no matter how many times you repeat
+> "we don't care out-of-tree LSMs" or "I do not intentionally plan to make life difficult for
+> the out-of-tree LSMs", this patch is intended to lock out out-of-tree LSMs.
 
-Good point.  That issue was nagging at the back of my mind.  Having an
-explicit flag nicely solves the issue.
+That is a false statement. There is a huge difference between apathy and malice. 
 
-Thanks,
-Miklos
-
+>
+> + *
+> + * Contains the information that identifies the LSM.
+> + */
+> +struct lsm_id {
+> +	const char	*name;
+> +	u64		id;
+> +};
+>
+> Therefore, unless you change the policy for assigning LSM ID, I keep NACK on this change.
+>
