@@ -2,106 +2,106 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E1D117A4D06
-	for <lists+linux-api@lfdr.de>; Mon, 18 Sep 2023 17:45:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D6D27A4FA1
+	for <lists+linux-api@lfdr.de>; Mon, 18 Sep 2023 18:48:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229512AbjIRPpu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 18 Sep 2023 11:45:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51238 "EHLO
+        id S230015AbjIRQsd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 18 Sep 2023 12:48:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229473AbjIRPpt (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 18 Sep 2023 11:45:49 -0400
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84B60E62
-        for <linux-api@vger.kernel.org>; Mon, 18 Sep 2023 08:44:31 -0700 (PDT)
-Received: by mail-lj1-x22c.google.com with SMTP id 38308e7fff4ca-2bffe2840adso24458381fa.2
-        for <linux-api@vger.kernel.org>; Mon, 18 Sep 2023 08:44:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1695051579; x=1695656379; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=pnZOaaX9WnOq4XyS/JjlYL/avJUHH7HaI21NKLakfeo=;
-        b=j2GRKG1OrY8I2YM8MQSp7QaPVHyfcJ1cxWabVqejxTFe/rumngpv2Xh5GJEM4qlOqp
-         AGaTzcEoKarx7J+8GklEgXEicZLy1bM1gwfq/7rHqUS06BN1pTKYs1SNEpk1heWVDkah
-         7//RA224XGoGJXOLRtre6RmNw//FN3cmAfSm8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695051579; x=1695656379;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pnZOaaX9WnOq4XyS/JjlYL/avJUHH7HaI21NKLakfeo=;
-        b=HleERvp0VnJLR4kMZGEXOnlcTChIp5hchhz5POgHxPPqdGcOlbm4SG3/vNZ4/S1aC/
-         /gqTWzxanRx5aa/qxiMEbUJ77Xqut1nWSKiv3gHhmoGy+foZiIXAy50GEd/nlZTqkE75
-         +56SKWTIcWj9A7Jz24nKNoKcnxJYpfj8VPaBGvnHZ1OjSQ2bYoGAcJLW3/oR0aREVogz
-         T3FjjUdVNN5gGN6kVH6O9z/IWkdjpshJ/jgb0bje/VpJqVjrekWcd7sxfQSR8mgog3NY
-         6FEPhXhokbppHhGuxi+lLIvNDpUZn3aNK1b7xNiwldCVS/BlofoElWk4RFaoA4Uk+hbT
-         Q3/A==
-X-Gm-Message-State: AOJu0Yzspel+qCmefDZr2wOZmGtq+xAQ02HSXZeHFKTxXfpHuQbIzV0W
-        VdBuf8Udb1E1cNFG3poQGxBgM1i9AKQ8NWQaGoCyMA==
-X-Google-Smtp-Source: AGHT+IEX3jWGmr70VHerLgs6yoJuT4x4No/6ZV9HiQJ69deItIn2LBGC4+/JWaXUJDPQe4rYusp8sYIm7bRZFyKgHH0=
-X-Received: by 2002:a2e:8751:0:b0:2bd:1f81:fc47 with SMTP id
- q17-20020a2e8751000000b002bd1f81fc47mr8984284ljj.22.1695051579729; Mon, 18
- Sep 2023 08:39:39 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230914-salzig-manifest-f6c3adb1b7b4@brauner>
- <CAJfpegs-sDk0++FjSZ_RuW5m-z3BTBQdu4T9QPtWwmSZ1_4Yvw@mail.gmail.com>
- <20230914-lockmittel-verknallen-d1a18d76ba44@brauner> <CAJfpegt-VPZP3ou-TMQFs1Xupj_iWA5ttC2UUFKh3E43EyCOQQ@mail.gmail.com>
- <20230918-grafik-zutreffen-995b321017ae@brauner> <CAOssrKfS79=+F0h=XPzJX2E6taxAPmEJEYPi4VBNQjgRR5ujqw@mail.gmail.com>
- <20230918-hierbei-erhielten-ba5ef74a5b52@brauner> <CAJfpegtaGXoZkMWLnk3PcibAvp7kv-4Yobo=UJj943L6v3ctJQ@mail.gmail.com>
- <20230918-stuhl-spannend-9904d4addc93@brauner> <CAJfpegvxNhty2xZW+4MM9Gepotii3CD1p0fyvLDQB82hCYzfLQ@mail.gmail.com>
- <20230918-bestialisch-brutkasten-1fb34abdc33c@brauner>
-In-Reply-To: <20230918-bestialisch-brutkasten-1fb34abdc33c@brauner>
-From:   Miklos Szeredi <miklos@szeredi.hu>
-Date:   Mon, 18 Sep 2023 17:39:28 +0200
-Message-ID: <CAJfpegvTiK=RM+0y07h-2vT6Zk2GCu6F98c=_CNx8B1ytFtO-g@mail.gmail.com>
-Subject: Re: [RFC PATCH 2/3] add statmnt(2) syscall
-To:     Christian Brauner <brauner@kernel.org>
-Cc:     Miklos Szeredi <mszeredi@redhat.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
+        with ESMTP id S230075AbjIRQsV (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 18 Sep 2023 12:48:21 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8ACAC1728;
+        Mon, 18 Sep 2023 09:47:32 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A389CC433C7;
+        Mon, 18 Sep 2023 13:05:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1695042351;
+        bh=HYgvqysiYXEBze4xu0V7hvbNlfumeLQhBcoLM4ehRSM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=b1RHVr7VnZBKe35gk2YjibsLWGUFzDa6Rs5pzFVjT3+aDGTpZh34yeHyFrXrynL2K
+         KqjZOVvPMxxpba5mXuTr+rNifmaKdTuBJuThpw3mmOpXucP7FoM/T58YcsXVi2ZjX9
+         s6rZikmVXh85yURmqt1dPNeOfA8Eo9m5VW/ZNnDtU6rn7/KPyyZqSeXk17FbB2klQ4
+         KgpaR9KKO4x3mG3x6rPOhzPwULyda9Gqt/uPciIbk1huxNbbpuVBvY9pFglPRCV0bl
+         wpTGdRsSI2tIKAu8fxG6rG4rjjrdoJijWw14OEaRpYE84ISzldJIP8Z1St5PBmrS7t
+         I5bRR5ywRd8zg==
+Date:   Mon, 18 Sep 2023 15:05:46 +0200
+From:   Christian Brauner <brauner@kernel.org>
+To:     Ian Kent <raven@themaw.net>
+Cc:     Sargun Dhillon <sargun@sargun.me>,
+        Miklos Szeredi <mszeredi@redhat.com>,
         linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-api@vger.kernel.org, linux-man@vger.kernel.org,
         linux-security-module@vger.kernel.org, Karel Zak <kzak@redhat.com>,
-        Ian Kent <raven@themaw.net>,
         David Howells <dhowells@redhat.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
         Al Viro <viro@zeniv.linux.org.uk>,
         Christian Brauner <christian@brauner.io>,
         Amir Goldstein <amir73il@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Subject: Re: [RFC PATCH 2/3] add statmnt(2) syscall
+Message-ID: <20230918-bruchfest-erliegen-2bff785bf978@brauner>
+References: <20230913152238.905247-1-mszeredi@redhat.com>
+ <20230913152238.905247-3-mszeredi@redhat.com>
+ <CAMp4zn-r5BV_T9VBPJf8Z-iG6=ziDEpCdmPgHRRXF78UoOjTjQ@mail.gmail.com>
+ <39dc7081-fef3-007b-eee3-273bff549ecf@themaw.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <39dc7081-fef3-007b-eee3-273bff549ecf@themaw.net>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, 18 Sept 2023 at 17:22, Christian Brauner <brauner@kernel.org> wrote:
->
-> > So to be clear about your proposal: .mnt_root and .mountpoint are
-> > initialized by the caller to buffers that the kernel can copy paths
-> > into?
->
-> Yeah, u64 pointer to a buffer and a size (see e.g., @set_tid and
-> @set_tid_size for struct clone_args, @log_buf and @log_size and other
-> args in there).
->
-> >
-> > If there's an overflow (one of the buffers was too small) the syscall
-> > returns -EOVERFLOW?
->
-> Yeah, I mean we have to make some things their problem.
->
-> To me that is an acceptable compromise.
+On Mon, Sep 18, 2023 at 07:36:39AM +0800, Ian Kent wrote:
+> 
+> On 18/9/23 02:18, Sargun Dhillon wrote:
+> > On Wed, Sep 13, 2023 at 9:25 AM Miklos Szeredi <mszeredi@redhat.com> wrote:
+> > > Add a way to query attributes of a single mount instead of having to parse
+> > > the complete /proc/$PID/mountinfo, which might be huge.
+> > > 
+> > > Lookup the mount by the old (32bit) or new (64bit) mount ID.  If a mount
+> > > needs to be queried based on path, then statx(2) can be used to first query
+> > > the mount ID belonging to the path.
+> > > 
+> > > Design is based on a suggestion by Linus:
+> > > 
+> > >    "So I'd suggest something that is very much like "statfsat()", which gets
+> > >     a buffer and a length, and returns an extended "struct statfs" *AND*
+> > >     just a string description at the end."
+> > > 
+> > > The interface closely mimics that of statx.
+> > > 
+> > > Handle ASCII attributes by appending after the end of the structure (as per
+> > > above suggestion).  Allow querying multiple string attributes with
+> > > individual offset/length for each.  String are nul terminated (termination
+> > > isn't counted in length).
+> > > 
+> > > Mount options are also delimited with nul characters.  Unlike proc, special
+> > > characters are not quoted.
+> > > 
+> > Thank you for writing this patch. I wish that this had existed the many times
+> > I've written parsers for mounts files in my life.
+> > 
+> > What do you think about exposing the locked flags, a la what happens
+> > on propagation of mount across user namespaces?
+> 
+> Which flags do you mean?
 
-Okay, so there are now (at least) two buffers, and on overflow the
-caller cannot know which one got overflown.  It can resize both, but
-that doesn't make the caller any simpler to implement.
+When you propagate mounts across mount+user namespaces a subset of
+(security sensitive) mount attributes become locked. This information is
+currently only available via internal flags but not in any way
+explicitly exposed to userspace.
 
-Also the interface is kind of weird in that some struct members are
-out, some are in (the pointers and the lengths).
+There's a proposal to extend mount_setattr(2) to explicitly allow
+locking flags but that would mean a new set of mount attr flags.
 
-I'd prefer the single buffer interface, which has none of the above issues.
-
-Thanks,
-Miklos
+So until the format of that is determined and settled this should be
+kept out of statmount().
