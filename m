@@ -2,110 +2,293 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 10B4B7A6926
-	for <lists+linux-api@lfdr.de>; Tue, 19 Sep 2023 18:47:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A928B7A6A57
+	for <lists+linux-api@lfdr.de>; Tue, 19 Sep 2023 20:00:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231775AbjISQrj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 19 Sep 2023 12:47:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38970 "EHLO
+        id S232209AbjISSAD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 19 Sep 2023 14:00:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230434AbjISQri (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 19 Sep 2023 12:47:38 -0400
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51267D6
-        for <linux-api@vger.kernel.org>; Tue, 19 Sep 2023 09:47:32 -0700 (PDT)
-Received: by mail-yb1-xb36.google.com with SMTP id 3f1490d57ef6-d84c24a810dso2585511276.2
-        for <linux-api@vger.kernel.org>; Tue, 19 Sep 2023 09:47:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1695142051; x=1695746851; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=b0a58sjbAG0A2Db53/Y8qtKDwxJA4NQiN/zlKOHGSV8=;
-        b=TM5ZUjOAzUYh87fKhiMIZzbDLLxZSC9g19dR6Q+EqAjA3RUbVL08w5sQA0i/jRpJwF
-         tPoFJz7i1Iw8+NicI8zzMJtfE/IxN9SOqt0mwSVX9BgcAg3MYT5ASg9mIGBOhD1xe2Nh
-         e+u6g+Y+raaSc8Rlza9rqVA7+VfU0JoGmVGmONTXc7BHTjLfGFHdDteXVXiaeamEhaX8
-         HG5Z1H4PLT5JrUycpXIiKN679HLoI8QnvpWbEfFUl2SwzVhZofsDtNQqAnE/N6NPlfm6
-         oK10qiklJ9CXHOAZqLbx7SajBzbMwAelNZO2AOckBqL0L6yDHb+QrDHEyAr0zbseh6BA
-         PbdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695142051; x=1695746851;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=b0a58sjbAG0A2Db53/Y8qtKDwxJA4NQiN/zlKOHGSV8=;
-        b=r0yixiPZxRYzmXOwe//cWoWwAx99r6kVqC29Pv1H8V/EupeGNy3wPeMVIuiMLmTZHW
-         X9SwEbnDsC+WpPu5GvuwgvIfQAHnkA9jC4olu3vVMS4NyoCNTRrQo14aIx8F40hV8//J
-         Evxly1XajFW+IM7aa7R0+atd7/Q0PPxJRW0XJBwsF+qNdcwLyqm2MrrzxCbl69elVb/F
-         HP9EpcWBSD49s4QnIy9L4f0/l9MWgVSk4blIzBALnT1TokooUyPzjH+8zGu6tlsHf/3N
-         asnj1oLDHHrIAIhupu/9rHjp4I8o4CDJs752wyw3MbbWVB9x0UU5STWB44gwbLJu2YKF
-         y2wA==
-X-Gm-Message-State: AOJu0YxidCqrBd/fxzu6twMLFu7WpD3tCJjiCZcICX2OW7SS+wQz9KL1
-        kCB3vKgT7esS4yJKV1h2Eu16Oe8AG8Jr3YjSr/Qb
-X-Google-Smtp-Source: AGHT+IHQGZRJnMfzYeI6Lr+HTWzOiuLwrjHGYMEEG1yEiRl6RXbYpezvkhRILNjas2h7ziHxZ5/E1l2+WRXKacc09uc=
-X-Received: by 2002:a5b:8d2:0:b0:d5d:4df9:b6e2 with SMTP id
- w18-20020a5b08d2000000b00d5d4df9b6e2mr105144ybq.46.1695142051445; Tue, 19 Sep
- 2023 09:47:31 -0700 (PDT)
+        with ESMTP id S232649AbjISSAD (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 19 Sep 2023 14:00:03 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E573BE;
+        Tue, 19 Sep 2023 10:59:56 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96EE5C433C7;
+        Tue, 19 Sep 2023 17:59:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1695146396;
+        bh=qBVtI3SYwGrdBXfsS/BqqDCajlbfTB2CQ+iywE0bJuA=;
+        h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
+        b=b4Ia90Jz3H/98CxWGuLcHOgKzgGkxOlPjvThIyaPcxwYQqx1IxfxKoTUkmpJpIHgo
+         fKFQMz3CZdyAAR7e/gwSN1zVePXlHgmawNGt2FZIYaUHAsRno9gHcPkv7n1qdRe11j
+         ecJQnjpHEHru3+PZvHEBqgHEcYqz23vhyM8Ii/4yRGKKTA3Eeqj3Bm8FpncbALJEDI
+         JrvKX2uX58DBe0ki7mFUlu2pzxc/V0k483yqW0AyFL4/4SP6i1+6V3CW3RZw2SLDTJ
+         xJDBvFLcFO5Zn+jTMx7JoXoRtbLZwFA0ZCyL5lI2Sl4YFBBAeSLs82jqAEJg7a4TVi
+         bBYhcvfd5uaeQ==
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailauth.nyi.internal (Postfix) with ESMTP id 84A6027C005B;
+        Tue, 19 Sep 2023 13:59:54 -0400 (EDT)
+Received: from imap48 ([10.202.2.98])
+  by compute3.internal (MEProxy); Tue, 19 Sep 2023 13:59:54 -0400
+X-ME-Sender: <xms:meEJZbvDTnn4-2ZVfNr4j-nrt6DbuzH5sfNP0wDhkWWhZBEk0WeJWA>
+    <xme:meEJZcd0vUwdkqaWg39kBoah1_MzWHsQpONejs63Zga-IT2Ndwvw00v4ZKynv0EaY
+    N-Dg3OR7Z5fLsCIMVE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrudekuddgkeekucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtgfesthhqredtreerjeenucfhrhhomhepfdet
+    nhguhicunfhuthhomhhirhhskhhifdcuoehluhhtoheskhgvrhhnvghlrdhorhhgqeenuc
+    ggtffrrghtthgvrhhnpeeiteejleegjeekleegveeujeejvdehjeekveegudduudffueek
+    jefffeeujeekhfenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrh
+    fuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghnugihodhmvghsmhhtphgr
+    uhhthhhpvghrshhonhgrlhhithihqdduudeiudekheeifedvqddvieefudeiiedtkedqlh
+    huthhopeepkhgvrhhnvghlrdhorhhgsehlihhnuhigrdhluhhtohdruhhs
+X-ME-Proxy: <xmx:meEJZezaaRTBRnaV1Q3ZhkSVJ9wsBpU3oaTGmNlO4OwrPfOhwGPAFw>
+    <xmx:meEJZaOqNYpTkL1NXPqGNtGr1AmOfQjS5RQVQ3aQHmYdI3olzDlfrQ>
+    <xmx:meEJZb_dr_QMGsxzWzeZH60E3CLCeB8o3NsMuskQcX5DKvFm2Ujt0g>
+    <xmx:muEJZRcsxFbM4DMBIvoZlpnm0h12IwvgYsqaIvPFhn8ViA3eWMAxEw>
+Feedback-ID: ieff94742:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id 9B17F31A0065; Tue, 19 Sep 2023 13:59:53 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-761-gece9e40c48-fm-20230913.001-gece9e40c
 MIME-Version: 1.0
-References: <20230913152238.905247-1-mszeredi@redhat.com> <20230913152238.905247-4-mszeredi@redhat.com>
- <20230917005419.397938-1-mattlloydhouse@gmail.com> <CAOssrKcECS_CvifP1vMM8YOyMW7dkGXTDTKY2CRr-fPrJk76ZA@mail.gmail.com>
- <20230918-einblick-klaut-0a010e0abc70@brauner>
-In-Reply-To: <20230918-einblick-klaut-0a010e0abc70@brauner>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Tue, 19 Sep 2023 12:47:20 -0400
-Message-ID: <CAHC9VhQsChQO9aaY+NTtmvJgXBodvXO6rUN3d7ZyHGqitLBABw@mail.gmail.com>
-Subject: Re: [RFC PATCH 3/3] add listmnt(2) syscall
-To:     Christian Brauner <brauner@kernel.org>
-Cc:     Miklos Szeredi <mszeredi@redhat.com>,
-        Matthew House <mattlloydhouse@gmail.com>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-man@vger.kernel.org,
-        linux-security-module@vger.kernel.org, Karel Zak <kzak@redhat.com>,
-        Ian Kent <raven@themaw.net>,
-        David Howells <dhowells@redhat.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <christian@brauner.io>,
-        Amir Goldstein <amir73il@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Message-Id: <0a7e3ccc-db66-428e-8c09-66e67bfded51@app.fastmail.com>
+In-Reply-To: <ZQnMzD26VI3C/ivf@memverge.com>
+References: <20230907075453.350554-1-gregory.price@memverge.com>
+ <20230907075453.350554-4-gregory.price@memverge.com>
+ <878r9dzrxj.fsf@meer.lwn.net> <ZP2tYY00/q9ElFQn@memverge.com>
+ <42d97bb4-fa0c-4ecc-8a1b-337b40dca930@app.fastmail.com>
+ <ZQnMzD26VI3C/ivf@memverge.com>
+Date:   Tue, 19 Sep 2023 10:59:33 -0700
+From:   "Andy Lutomirski" <luto@kernel.org>
+To:     "Gregory Price" <gregory.price@memverge.com>
+Cc:     "Jonathan Corbet" <corbet@lwn.net>,
+        "Gregory Price" <gourry.memverge@gmail.com>,
+        linux-mm@vger.kernel.org,
+        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
+        linux-arch@vger.kernel.org,
+        "Linux API" <linux-api@vger.kernel.org>, linux-cxl@vger.kernel.org,
+        "Thomas Gleixner" <tglx@linutronix.de>,
+        "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
+        "Dave Hansen" <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, "Arnd Bergmann" <arnd@arndb.de>,
+        "Andrew Morton" <akpm@linux-foundation.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>
+Subject: Re: [RFC PATCH 3/3] mm/migrate: Create move_phys_pages syscall
+Content-Type: text/plain;charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Sep 18, 2023 at 12:52=E2=80=AFPM Christian Brauner <brauner@kernel.=
-org> wrote:
-> On Sun, Sep 17, 2023 at 04:32:04PM +0200, Miklos Szeredi wrote:
-> > On Sun, Sep 17, 2023 at 2:54=E2=80=AFAM Matthew House <mattlloydhouse@g=
-mail.com> wrote:
-> >
-> > > > +       list_for_each_entry(r, &m->mnt_mounts, mnt_child) {
-> > > > +               if (!capable(CAP_SYS_ADMIN) &&
+
+
+On Tue, Sep 19, 2023, at 9:31 AM, Gregory Price wrote:
+> On Mon, Sep 18, 2023 at 08:34:16PM -0700, Andy Lutomirski wrote:
+>>=20
+>>=20
+>> On Sun, Sep 10, 2023, at 4:49 AM, Gregory Price wrote:
+>> > On Sun, Sep 10, 2023 at 02:36:40PM -0600, Jonathan Corbet wrote:
+>> >>=20
+>> >> So this is probably a silly question, but just to be sure ... what=
+ is
+>> >> the permission model for this system call?  As far as I can tell, =
+the
+>> >> ability to move pages is entirely unrestricted, with the exception=
+ of
+>> >> pages that would need MPOL_MF_MOVE_ALL.  If so, that seems undesir=
+able,
+>> >> but probably I'm just missing something ... ?
+>> >>=20
+>> >> Thanks,
+>> >>=20
+>> >> jon
+>> >
+>> > Not silly, looks like when U dropped the CAP_SYS_NICE check (no tas=
+k to
+>> > check against), check i neglected to add a CAP_SYS_ADMIN check.
+>>=20
+>> Global, I presume?
+>>=20
+>> I have to admit that I don=E2=80=99t think this patch set makes sense=
+ at all.
+>>=20
+>> As I understand it, there are two kinds of physical memory resource i=
+n CXL: those that live on a device and those that live in host memory.
+>>=20
+>> Device memory doesn=E2=80=99t migrate as such: if a page is on an acc=
+elerator, it=E2=80=99s on that accelerator. (If someone makes an acceler=
+ator with *two* PCIe targets and connects each target to a different nod=
+e, that=E2=80=99s a different story.)
+>>=20
+>> Host memory is host memory. CXL may access it, and the CXL access fro=
+m a given device may be faster if that device is connected closer to the=
+ memory. And the device may or may not know the virtual address and PASI=
+D of the memory.
+>>=20
+>
+> The CXL memory description here is a bit inaccurate.  Memory on the CXL
+> bus is not limited to host and accelerator, CXL memory devices may also
+> present memory for use by the system as-if it were just DRAM as well.
+> The accessing mechanisms are the same (i.e. you can 'mov rax, [rbx]'
+> and the result is a cacheline fetch that goes over the cxl bus rather
+> than the DRAM memory controllers).
+>
+> Small CXL background for the sake of clarity:
+>
+> type-2 devices are "accelerators", and the memory relationships you
+> describe here are roughly accurate.  The intent of this interface is n=
+ot
+> really for the purpose of managing type-2/accelerator device memory.
+>
+> type-3 devices are "memory devices", whose intent is to provide the
+> system additional memory resources that get mapped into one or more nu=
+ma
+> nodes.  The intent of these devices is to present memory to the kernel
+> *as-if* it were regular old DRAM just with different latency and
+> bandwidth attributes. This is a simplification of the overall goal.
 >
 >
-> > Good point.  That issue was nagging at the back of my mind.  Having an
-> > explicit flag nicely solves the issue.
+> So from the perspective of the kernel and a memory-tiering system, we
+> have numa nodes which abstract physical memory, and that physical memo=
+ry
+> may actually live anywhere (DRAM, CXL, where-ever).  This memory is
+> fungible with the exception that CXL memory should be placed in
+> ZONE_MOVABLE to ensure the hot-plugability of those memory devices.
 >
-> Ideally we avoid multiple capable(CAP_SYS_ADMIN) calls by only doing it
-> once and saving the return value. capable() call's aren't that cheap.
+>
+> The intent of this interface is to make page-migration decisions witho=
+ut
+> the need to track individual processes or virtual address mappings.
+>
+> One example would be to utilize the idle page tracking mechanism from
+> userland to make migration decisions.
+>
+> https://docs.kernel.org/admin-guide/mm/idle_page_tracking.html
+>
+> This mechanism allows a user to determine which PFNs are idle.  Combine
+> this information with a move_phys_page syscall, you can now implement
+> demotion/promotion in user-land without having to identify the virtual
+> address mapping of those PFN's in user-land.
+>
+>
+>> I fully believe that there=E2=80=99s some use for migrating host memo=
+ry to a node that's closer to a device.  But I don't think this API is t=
+he right way.  First, something needs to figure out that the host memory=
+ should be migrated.  Doing this presumably involves identifying which (=
+logical!) memory is being accessed and deciding to move it.  Maybe new A=
+PIs are needed to enable this.
+>>=20
+>
+> The intent is not to migrate memory to making it "closer to a device",
+> assuming you mean the intent is to make that data closer to a device
+> that is using it (i.e. an accelerator).
+>
+> The intent is to allow migration of memory based on a user-defined
+> policy via the usage of physical addresses.
+>
+> Lets consider a bandwidth-expansion focused tiering policy.  Each
+> additional CXL Type-3 Memory device provides additional memory
+> bandwidth to a processor via its pcie/cxl lanes.
+>
+> If all you care about is latency, moving/migrating pages closer to the
+> processor is beneficial.  However, if you care about maximizing
+> bandwidth, distributing memory across all possible devices with some
+> statistical distribution is a better goal.
+>
+> So sometimes you actually want hot data further away because it allows
+> for more concurrent cacheline fetches to occur.
+>
+>
+> The question as to whether getting the logical memory address is
+> required, useful, or performant depends on what sources of information
+> you can pull physical address information from.
+>
+> Above I explained idle page tracking, but another example would be the
+> CXL device directly, which knows 2 pieces of information (generally):
+>
+> 1) The extent of the memory it is hosting (some size)
+> 2) The physical-to-device address mapping for the system contacting it.
+>
+> The device talks (internally) in 0-based addressing (0x0 up to 0x...),
+> but the host places the host physical address (HPA) on the bus
+> (0x123450000).  The device receives and converts 0x123450000 (HPA) into
+> a 0-base address (device-physical-address, DPA).
+>
+> How does this relate to this interface?
+>
+> Consider a device which provides a "heat-map" for the memory it is
+> hosting.  If a user or system requests this heat-map, the device can
+> only provide that information in terms of either HPA or DPA.  If DPA,
+> then the host can recover the HPA by simply looking at the mapping it
+> programmed the device with.  This reverse-transaction (DPA-to-HPA) is
+> relatively inexpensive.
+>
+> The idle-page tracking interface is actually a good example of this. It
+> is functionally an heat-map for the entire system.
+>
+> However, things get extraordinary expensive after this.  HPA to host
+> virtual address translation (HPA to HVA) requires inspecting every task
+> that may map that HPA in its page tables.  When the cacheline fetch hi=
+ts
+> the bus, you are well below the construct of a "task", and the devices
+> has no way of telling you what task is using memory on that device.
+>
+> This makes any kind of tiering operation based on this type of heat-map
+> information somewhat of a non-starter.  You steal so much performance
+> just converting that information into task-specific information, that
+> you may as well not bother doing it.
+>
+> Instead, this interface would allow for a tiering policy to operate on
+> such heat-map information directly, and since all CXL memory is intend=
+ed
+> to be placed in ZONE_MOVABLE, that memory should always be migratable.
+>
+>> But this API is IMO rather silly.  Just as a trivial observation, if =
+you migrate a page you identify by physical address, *that physical addr=
+ess changes*.  So the only way it possibly works is that whatever heuris=
+tic is using the API knows to invalidate itself after calling the API, b=
+ut of course it also needs to invalidate itself if the kernel becomes in=
+telligent enough to migrate the page on its own or the owner of the logi=
+cal page triggers migration, etc.
+>>=20
+>> Put differently, the operation "migrate physical page 0xABCD000 to no=
+de 3" makes no sense.  That physical address belongs to whatever node it=
+s on, and without some magic hardware support that does not currently ex=
+ist, it's not going anywhere at runtime.
+>>=20
+>> I just don't see it this code working well, never mind the security i=
+ssues.
+>
+> I think this is more of a terminology issue.  I'm not married to the
+> name, but to me move_phys_page is intuitively easier to understand
+> because move_page exists and the only difference between the two
+> interfaces is virtual vs physical addressing.
+>
+> move_pages doesn't "migrate a virtual page" either, it "migrates the
+> data pointed to by this virtual address to another physical page locat=
+ed=20
+> on the target numa node".
+>
+> Likewise this interface "migrates the data located at the physical add=
+ress,
+> assuming the physical address is mapped, to another page on the target=
+ numa
+> node".
 
-Agreed.  The capability check doesn't do any subject/object
-comparisons so calling it for each mount is overkill.  However, I
-would think we would want the LSM hook called from inside the loop as
-that could involve a subject (@current) and object (individual mount
-point) comparison.
+I'm not complaining about the name.  I'm objecting about the semantics.
 
-> Plus, we should decide whether this should trigger an audit event or
-> not: capable(CAP_SYS_ADMIN) triggers an audit event,
-> ns_capable_noaudit(&init_user_ns, CAP_SYS_ADMIN) wouldn't.
-
-Why would we not want to audit the capable() call?
-
---=20
-paul-moore.com
+Apparently you have a system to collect usage statistics of physical add=
+resses, but you have no idea what those pages map do (without crawling /=
+proc or /sys, anyway).  But that means you have no idea when the logical=
+ contents of those pages *changes*.  So you fundamentally have a nasty r=
+ace: anything else that swaps or migrates those pages will mess up your =
+statistics, and you'll start trying to migrate the wrong thing.
