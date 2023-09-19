@@ -2,137 +2,76 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 761077A6BEE
-	for <lists+linux-api@lfdr.de>; Tue, 19 Sep 2023 22:00:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A7797A6CF0
+	for <lists+linux-api@lfdr.de>; Tue, 19 Sep 2023 23:28:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232088AbjISUAT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 19 Sep 2023 16:00:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38186 "EHLO
+        id S233133AbjISV3D (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 19 Sep 2023 17:29:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233035AbjISUAS (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 19 Sep 2023 16:00:18 -0400
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2089.outbound.protection.outlook.com [40.107.92.89])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83CDC9C;
-        Tue, 19 Sep 2023 13:00:11 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=imCMwj5lPFB7uMhYW4GZTWzKpFVg4QDxHHTUU5fUbbnQrY9VVw+WDU8UNzn01zCibD3mtjtdlnCCaTSApCou5+XcMHwGgxnidd+zJAUqumcWXRAJCnYUzllL7kd2RkVwACHr1XXKQE1/7HBfYyCZln2iidOX7TPduk7reuYiUY3J/MaoUnpPJ+/VXLmZQnK5g0YE9or1XgU+fF96ESp+T3C3rbt14X0fddgKdTvRBEsq7OANE+NIkOMFYJma4qumKWFtdr+snRO5wBseb6rHqRxYJ6QeYSQ4sYGPRu9jSwW8U8otgxFnpFY4NQ8b+9glRTfkYq5h7Br3P7JPlliJeQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=M65/YX0u+OL9gq+V3+q+iaPDBvIjibRRGKWVvpbHrKM=;
- b=fHLRwpr/xXMTtjdEClTB+5cg5BNJq9hHzW6xbvG6atlODiRPxZRLB7GjMEa3ejPo4Z4CY+IYdF8BiHZal98WbTVbQ8iBE/1sHtGbEQSCNf/LGX8HzsbZo/lrgmChX2fHcC5OEi8NB1GVa2VPyyyfpEqeW4/lGmc2l3+LEpaIUNXyPNTkoGJn7fGKswk1Z+W68bgHTBJ0H2SgqHFT1hf3hYW0u31i3vJvCTFPOlHDFExrEX9yf4Rz3Sv0ItJfFK+DHztO6/w9zTF9KBh7jhWIwbnBPOXbb7yZME1Qstxlh9WehHLtUxpiy9Le8pKqd01rwJYQdtl1PfqWEqErA2iKtA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
- dkim=pass header.d=memverge.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=M65/YX0u+OL9gq+V3+q+iaPDBvIjibRRGKWVvpbHrKM=;
- b=EMZRJ+5zHQtBybDxv8g4MIrFUcn1XB+DoVMGkzLYJAl1mQJKlPUp0ezIsjtGIwZalqfXBA0RDfXH0VF6pXtsPkF2KYar3JJgufen77ZXbQ7bCeXTT73yTsrXW4AvVfwbyJvvr7kB9nKOae82jtCE4dzzOdC+rQQjp3chlVSNRz0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=memverge.com;
-Received: from SJ0PR17MB5512.namprd17.prod.outlook.com (2603:10b6:a03:394::19)
- by IA1PR17MB6309.namprd17.prod.outlook.com (2603:10b6:208:42a::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.28; Tue, 19 Sep
- 2023 20:00:07 +0000
-Received: from SJ0PR17MB5512.namprd17.prod.outlook.com
- ([fe80::f4e8:df0d:9be8:88cc]) by SJ0PR17MB5512.namprd17.prod.outlook.com
- ([fe80::f4e8:df0d:9be8:88cc%6]) with mapi id 15.20.6792.026; Tue, 19 Sep 2023
- 20:00:07 +0000
-Date:   Tue, 19 Sep 2023 15:59:57 -0400
-From:   Gregory Price <gregory.price@memverge.com>
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Gregory Price <gourry.memverge@gmail.com>,
-        linux-mm@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arch@vger.kernel.org, Linux API <linux-api@vger.kernel.org>,
-        linux-cxl@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Arnd Bergmann <arnd@arndb.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        the arch/x86 maintainers <x86@kernel.org>
-Subject: Re: [RFC PATCH 3/3] mm/migrate: Create move_phys_pages syscall
-Message-ID: <ZQn9vfKGB4pqvYsG@memverge.com>
-References: <20230907075453.350554-1-gregory.price@memverge.com>
- <20230907075453.350554-4-gregory.price@memverge.com>
- <878r9dzrxj.fsf@meer.lwn.net>
- <ZP2tYY00/q9ElFQn@memverge.com>
- <42d97bb4-fa0c-4ecc-8a1b-337b40dca930@app.fastmail.com>
- <ZQnMzD26VI3C/ivf@memverge.com>
- <0a7e3ccc-db66-428e-8c09-66e67bfded51@app.fastmail.com>
- <ZQnmVI0Q/Al5UKgQ@memverge.com>
- <1b7ea860-55e2-48fb-86ba-ff3f9f6d8904@app.fastmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1b7ea860-55e2-48fb-86ba-ff3f9f6d8904@app.fastmail.com>
-X-ClientProxiedBy: BYAPR11CA0079.namprd11.prod.outlook.com
- (2603:10b6:a03:f4::20) To SJ0PR17MB5512.namprd17.prod.outlook.com
- (2603:10b6:a03:394::19)
+        with ESMTP id S229690AbjISV3D (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 19 Sep 2023 17:29:03 -0400
+Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com [IPv6:2001:4860:4864:20::31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 783F9AD;
+        Tue, 19 Sep 2023 14:28:57 -0700 (PDT)
+Received: by mail-oa1-x31.google.com with SMTP id 586e51a60fabf-1d69b2ffa1fso2686253fac.2;
+        Tue, 19 Sep 2023 14:28:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1695158937; x=1695763737; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=k83mB67AhO9crOADOMNRAqoI12asl4cHCEzQDkmUjKY=;
+        b=aozX6lmnXxRKnK3BNK0hYG13zEunx9VGbc0EyxTW+CbUFmDUeb5nqSQFUKKC7KGiFb
+         biVR7VYyVVUkmwperKkWTSlEjSalORaeiDmX7PVUPlIzndOynKMbCrdF1ppPseJKJkzZ
+         TXdxeRhjo4PGzDdTDo9lRudVyeymTMU/KkxQrKlOCCI4qTSB7TXiD5kGlmhkKdOTPPy9
+         y2s+ZLSTfBBwD0bPXUmx/MquYLEkG1i/q8QfIuLo0DOo/vjzUt1aVpR1X3mdq2fI5S64
+         w+w+jhwiADgpEsWoHZ4rYpA3RuOhNNsDQFIg29veLM0w8yqPKZmVT6fX6Ju4i16C+c74
+         VEfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695158937; x=1695763737;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=k83mB67AhO9crOADOMNRAqoI12asl4cHCEzQDkmUjKY=;
+        b=T0lDkENS3J6rg+bWwhm9926pWime04CiZ64GK3OaNByF7fy/5rQdzZ2cTlFDD8wR+A
+         tczuf0K5Rupm00J8/rPeYy4qdDJgF0ff0pIWS5eSyIq6jB+rbIkxtbX11IMugxVFIelI
+         0RuzkEfJONDjH8R8bAzz/CSgnj0coWPFku4eJyzFdr99A868FHK9o+cvz7tP49OQAAsU
+         fGze7XHEJ1DddYBQBxUQBaLEyDywdZD28l2ivylxyqGHwUHqHJCd5DgnX5nZAkT/L2KD
+         H6a/YOiMzUPQ4S6BOu6IphR1bpP/Vw77CV6a0rakS1OyCTc0SO/8Gg8f9GK85wFHoifa
+         +C+g==
+X-Gm-Message-State: AOJu0YzNa9tKgHQVavM9v0kahmNghL36fhE12cjdT2mkLJEp2XXQ9oMk
+        R58oPfovW56oViuD/Fo5Q+E=
+X-Google-Smtp-Source: AGHT+IGSw6IsB8OK6JkcDjxUHlHYWdIdH576aFSFhR7R4tcyE4+vdzO3paz63AelUmM2aazXgb99+Q==
+X-Received: by 2002:a05:6870:391f:b0:1bf:e522:7133 with SMTP id b31-20020a056870391f00b001bfe5227133mr736132oap.38.1695158936538;
+        Tue, 19 Sep 2023 14:28:56 -0700 (PDT)
+Received: from firmament.. (h198-137-20-64.xnet.uga.edu. [198.137.20.64])
+        by smtp.gmail.com with ESMTPSA id z185-20020a8189c2000000b0059af9f2ee68sm3377091ywf.66.2023.09.19.14.28.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Sep 2023 14:28:56 -0700 (PDT)
+From:   Matthew House <mattlloydhouse@gmail.com>
+To:     Miklos Szeredi <miklos@szeredi.hu>
+Cc:     Christian Brauner <brauner@kernel.org>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-man@vger.kernel.org,
+        linux-security-module@vger.kernel.org, Karel Zak <kzak@redhat.com>,
+        Ian Kent <raven@themaw.net>,
+        David Howells <dhowells@redhat.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <christian@brauner.io>,
+        Amir Goldstein <amir73il@gmail.com>
+Subject: Re: [RFC PATCH 2/3] add statmnt(2) syscall
+Date:   Tue, 19 Sep 2023 17:28:38 -0400
+Message-ID: <20230919212840.144314-1-mattlloydhouse@gmail.com>
+In-Reply-To: <CAJfpegs6g8JQDtaHsECA_12ss_8KXOHVRH9gwwPf5WamzxXOWQ@mail.gmail.com>
+References: <20230914-salzig-manifest-f6c3adb1b7b4@brauner> <CAJfpegs-sDk0++FjSZ_RuW5m-z3BTBQdu4T9QPtWwmSZ1_4Yvw@mail.gmail.com> <20230914-lockmittel-verknallen-d1a18d76ba44@brauner> <CAJfpegt-VPZP3ou-TMQFs1Xupj_iWA5ttC2UUFKh3E43EyCOQQ@mail.gmail.com> <20230918-grafik-zutreffen-995b321017ae@brauner> <CAOssrKfS79=+F0h=XPzJX2E6taxAPmEJEYPi4VBNQjgRR5ujqw@mail.gmail.com> <20230918-hierbei-erhielten-ba5ef74a5b52@brauner> <CAJfpegtaGXoZkMWLnk3PcibAvp7kv-4Yobo=UJj943L6v3ctJQ@mail.gmail.com> <20230918-stuhl-spannend-9904d4addc93@brauner> <CAJfpegvxNhty2xZW+4MM9Gepotii3CD1p0fyvLDQB82hCYzfLQ@mail.gmail.com> <20230918-bestialisch-brutkasten-1fb34abdc33c@brauner> <CAJfpegvTiK=RM+0y07h-2vT6Zk2GCu6F98c=_CNx8B1ytFtO-g@mail.gmail.com> <20230919003800.93141-1-mattlloydhouse@gmail.com> <CAJfpegs6g8JQDtaHsECA_12ss_8KXOHVRH9gwwPf5WamzxXOWQ@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR17MB5512:EE_|IA1PR17MB6309:EE_
-X-MS-Office365-Filtering-Correlation-Id: 909bc047-6202-4af5-b681-08dbb94b0517
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: PyZLsuXCAiGwtWIVCVeUT7gyVW55Jf2DN3XMaAE/lb70GzNQZZS897EaCsY+vbKc6nEqDXxVb1gsENXGEiTPex0GVVhl0qIxO6CFKq1AHZMLuXjLZig7Oi0M549FXBvM1OrQyqOEHax/RKwQ/BHqzQcIJHQquLiA+CL/U2DG+InypVho+0LtiMxGx9q7L3vnWyKe83GfNTuwA19cHjo0W5gDwR3PojwEPLg/z3jOK07Cn9CoIKQQZw9NlPayXYhaujmOC7ZDJ+GdlwaFKm4rmd0h12m39o1AuaAT8toDUlgHjto1027PUA+Y2kBkwMn/iV/jLRjLTWGptD3H0al0zXNI38LSO1kt2v+fKsrPOC/NoOPdWMYwgNiJaPeJ7OR7WQh80ke7U9XPi2yZ0xxhuPq7v67L8lIOrgXkNJ+7Orwh79R8TD5zG19libQqTUY9ZhKkUVg390z811kABLdNbWEpMnCA4xhzCZmRsoQiXlvBZHXQ2PWNnpRzXGcIHm5jLRIND207wfQZD5k+ZHFXU3uI9UFKBoqk0E6XCFnAWP3L4f+5Sl3Q1ynZ7wF5LFuY
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR17MB5512.namprd17.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(396003)(376002)(39840400004)(366004)(346002)(1800799009)(451199024)(186009)(478600001)(6506007)(6666004)(6486002)(6512007)(4326008)(83380400001)(26005)(2616005)(8676002)(2906002)(7416002)(66556008)(6916009)(66476007)(54906003)(316002)(66946007)(5660300002)(8936002)(41300700001)(44832011)(36756003)(38100700002)(86362001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bEphRC9RSUNkL0FjZktXS1ZxRlJPRXM1eEowa3NEY1MydTdYQlRMUGcrZTJI?=
- =?utf-8?B?RmpVY2FoU1NYK0ZRakNuM0d1U1JYT0pOSitoY25mUW10dDJkWTR3MnRCSFlB?=
- =?utf-8?B?Q1M0N0lXbkdYSWNBbHdGRmtJU0NpYmgyWDloUUFLai9Eb0o1K2hzbkF0V2k4?=
- =?utf-8?B?eWRNSFRKbGlJWEhOcVJ1TXVCcVhQMWprVlVzcWdTeGFzQnFLMFNua1gzOStE?=
- =?utf-8?B?U1d6YWs2SkF3eGlZaUdCZ0hGQm9YU294NHE5TWZnSExWaloya0t3REV4clNj?=
- =?utf-8?B?ZW9LTk5PRzhZQ0djVFd0M2ZMaHp2OGsrN1J6cVcvQ1hZTWhCeWhQK3FGTXJi?=
- =?utf-8?B?Vmk1ZlFFRW8yME5UY2IydlgrU0RISkQwNzhub1JmcUtmRTBTT2ZQTVdBYTFM?=
- =?utf-8?B?cCtkOFpEMXFqWURnY3ZvMmlTVE9CNXFIaU1oZUZsemlOYTZkZG1lWUpDMWxD?=
- =?utf-8?B?SHUyWHY1Zm8wbUQ1UzlJMWdhRWZkTnJwUjk3UkZ2dzNyRzNRSGJUNnVLbjla?=
- =?utf-8?B?aXY3K1RBL1YwZXpwdGVXNHJuMzYwU1pyN2VFRnBXWElGN1NUNWlndDlQb2FM?=
- =?utf-8?B?dzUzNkNXY214eElNUHk2NXVSMVk1dW9QVU1GR1NadGhERE9CNVJxQ0tDejZx?=
- =?utf-8?B?dkx0SmxvRFVmWkczTFY4WFVvOVQwdXQyUFZ4U0pJemFERVJyM0N2eFdFejVC?=
- =?utf-8?B?YVZQVUZ4NnNtZnpOQUhUcnRsREVoQzNGemlQYWdQa0NIQWRZdVlnYVB3UjBa?=
- =?utf-8?B?WHQzM2ZwWWtvcjFSVkFLeUVyYVJGWGoxemVqTDhMTmRXMjRzY0F3RHFRRHZy?=
- =?utf-8?B?ckE5QllXZkhTbkRYMDBjRDRIMHVYOUVGV3ZodEMwZ1RZbkNSZXFXcmtjbEZh?=
- =?utf-8?B?ODhLSjYxOGhuTnBJNzZCbFRPUHlnbHlZdVEyL3NUeStRWG1ZU3lEQTJvRi8v?=
- =?utf-8?B?cjVOckpVaGsraVRjUzNjakVMVnQ1MHhLZ1ovMEhndndWOHRtM3l6cldOTlo4?=
- =?utf-8?B?UTZOMFBmK3ZZbDhaUVNLY20zajJFSmRvcWdkWEg3Nlhnb2QvV2QwbFdodGpW?=
- =?utf-8?B?WUl6YVdpcGFBM0xCa3ZPUS9zU3hHTzZsOGdEcXkzOFhFMzRKcWFsV1FzZDhm?=
- =?utf-8?B?TlMySEdHYS9hWVpXYWczNUVHdG1mV0IrcHBoSCtnWFllMmhzckxGTkFKNzdB?=
- =?utf-8?B?aW1ZR2FZdjJUTmJxOHZVZlo0VUEzSThJdjdOQkVLdFdIL09TeFFKcXFpa0Vh?=
- =?utf-8?B?NG54dFBEdmlSZU1ZbjBySmdILzNRNkpkTHR4ZXRKbkpTVmhIMVJSZTdTWmxX?=
- =?utf-8?B?eFlrOWIwczhSV3ZKb05QWFNRdGhjaVhRV24zQ0Qwbit5M3UyTjZNR2RaR0U2?=
- =?utf-8?B?cmFuWlhIYXZDTU5IemJaUjk3c1ZqYUlwRUE1S2QxbUpvTHl6TVY3a1loR1Nv?=
- =?utf-8?B?a21tNkxmZysvNXRKaUxiUXZrWkJycklKQW9pNE12NTdtQkxSNEFsWDQ4L1lM?=
- =?utf-8?B?K2FIOXNnbnB1K1NzVUhEZG0yWGs0bitUQUFoYVRCR1d3RG9TM29FWmsxQW9D?=
- =?utf-8?B?akxJSHdENkRtMzhWdHpIZ0VvUERoa1NzZ01sVW82S1RWdExlK3dYbmx5NFMx?=
- =?utf-8?B?cEdKdzUzRjFScXZ1bXZuVkhXTkpGK1A3L3hvMUVEcFA0T0V1NjUzYW5sOGIv?=
- =?utf-8?B?THlnRmFaRUZkOXJEYTQxMy9oS1F6a0NsandrYzhBSGl3YjQvV01HclYycVBZ?=
- =?utf-8?B?Njl2RGd0Z0hENUpSRGQwZm0zU2lra3hVb3ozNlEyTHgzTkZjQmI0bXQwRVdT?=
- =?utf-8?B?T1pjd1ViaXFjamV5YXp3NXBDWDhTWGJyQnNLSU8zWlFSUHBFWGppYkFOTXVW?=
- =?utf-8?B?QnNtM2FNelh4eCt1T1V5Yk41SHh6MmFncWo2V3hTam1BZjg1VGlGNGVVc0t1?=
- =?utf-8?B?K3pZVU5sRHlGamhMZ2RVTkd5TndQSUxMNkJSVzZaKzhQU1VrZmFWTHo3clZM?=
- =?utf-8?B?R3lSekwrZWFpQzVtanFpYXB1ZVNmYzBHVjRFaUNVblVFc2lhQXJRa1lEdUJj?=
- =?utf-8?B?Tm5lSU9qUWEvVDJrbmFSbldGN2xBR1ltVjgzS0Rzd0xoNGhFeU9mRVd3b3k5?=
- =?utf-8?B?c1NHc2R1YjNSOFFGNCtSaFlJVWV4SnpMWHBTaFFSUFYycEZjNDFiQ1hwbUVJ?=
- =?utf-8?B?RFE9PQ==?=
-X-OriginatorOrg: memverge.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 909bc047-6202-4af5-b681-08dbb94b0517
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR17MB5512.namprd17.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Sep 2023 20:00:07.0770
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Cng2y8d2Fsq28j9fp19vI77X0QyXvVclIW0ZwpG9qrpUZAt54ZY82gFoOizYHJwhVSs7ceXyDEZzl7bjgWjDtG0+G8FXdIYDPfEkePsj3hc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR17MB6309
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -140,124 +79,151 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Sep 19, 2023 at 11:52:27AM -0700, Andy Lutomirski wrote:
-> 
-> 
-> On Tue, Sep 19, 2023, at 11:20 AM, Gregory Price wrote:
-> > On Tue, Sep 19, 2023 at 10:59:33AM -0700, Andy Lutomirski wrote:
-> >> 
-> >> I'm not complaining about the name.  I'm objecting about the semantics.
-> >> 
-> >> Apparently you have a system to collect usage statistics of physical addresses, but you have no idea what those pages map do (without crawling /proc or /sys, anyway).  But that means you have no idea when the logical contents of those pages *changes*.  So you fundamentally have a nasty race: anything else that swaps or migrates those pages will mess up your statistics, and you'll start trying to migrate the wrong thing.
-> >
-> > How does this change if I use virtual address based migration?
-> >
-> > I could do sampling based on virtual address (page faults, IBS/PEBs,
-> > whatever), and by the time I make a decision, the kernel could have
-> > migrated the data or even my task from Node A to Node B.  The sample I
-> > took is now stale, and I could make a poor migration decision.
-> 
-> The window is a lot narrower. If you’re sampling by VA, you collect stats and associate them with the logical page (the tuple (mapping, VA), for example).  The kernel can do this without races from page faults handlers.  If you sample based on PA, you fundamentally race against anything that does migration.
-> 
-
-Race conditions are race conditions, narrow or otherwise.  The narrow-ness
-of the condition is either irrelevant, or you can accept some level of race
-because the goal allows for slop within a certain window.
-
-In fact, the entire purpose of this interface is to very explicity
-reduce the time it takes to go from sampling to migration decision.
-
-Certainly a user could simply use a heatmap with cgroups.numa_stat
-to determine what processes they should interrogate - but for systems
-with many tennants/processes/tasks, sometimes just acting on the overall
-view of memory would be better served if *major* changes have to be made
-to the overall distribution.
-
-
-Similarly, collection of data can likewise we made more performant.
-
-Faults introduce runtime overhead.  Pushing heatmap collection to
-devices alleviates the need for introducing that overhead.  Use of
-IBS/PEBS is (by nature of sampling and a variety of quirks having to do
-with the prefetcher) quite inaccurate and costly to compute after being
-collected.
-
-
-Ultimately if your goal is extremely high precision for the performance
-of a single process, I agree with your analysis.  However, I never claimed
-the goal is precision on the level a single process.  On the contrary,
-the goal is system-wide tiering based on cheap-to-acquire information.
-
-> >
-> > If I do move_pages(pid, some_virt_addr, some_node) and it migrates the
-> > page from NodeA to NodeB, then the device-side collection is likewise
-> > no longer valid.  This problem doesn't change because I used virtual
-> > address compared to physical address.
-> 
-> Sure it does, as long as you collect those samples when you migrate. And I think the kernel migrating to or from device memory (or more generally allocating and freeing device memory and possibly even regular memory) *should* be aware of whatever hotness statistics are in use.
+On Tue, Sep 19, 2023 at 4:02 AM Miklos Szeredi <miklos@szeredi.hu> wrote:
+> On Tue, 19 Sept 2023 at 02:38, Matthew House <mattlloydhouse@gmail.com> w=
+rote:
 >
-
-I'm not keen on "the kernel should..." implying "user land should not".
-
-I don't disagree that the kernel could/should/would use this same
-information.  My proposal here is that there is value in enabling
-userland to do the same thing (so long as security is not compromised).
-
-> >
-> > But if i have a 512GB memory device, and i can see a wide swath of that
-> > 512GB is hot, while a good chunk of my local DRAM is not - then I
-> > probably don't care *what* gets migrated up to DRAM, i just care that a
-> > vast majority of that hot data does.
-> >
-> > The goal here isn't 100% precision, you will never get there. The goal
-> > here is broad-scope performance enhancements of the overall system
-> > while minimizing the cost to compute the migration actions to be taken.
-> >
-> > I don't think the contents of the page are always relevant.  The entire
-> > concept here is to enable migration without caring about what programs
-> > are using the memory for - just so long as the memcg's and zoning is
-> > respected.
-> >
-> 
-> At the very least I think you need to be aware of page *size*.  And if you want to avoid excessive fragmentation, you probably also want to be aware of the boundaries of a logical allocation.
+> > One natural solution is to set either of the two lengths to the expected
+> > size if the provided buffer are too small. That way, the caller learns =
+both
+> > which of the buffers is too small, and how large they need to be. Repla=
+cing
+> > a provided size with an expected size in this way already has precedent=
+ in
+> > existing syscalls:
 >
+> This is where the thread started.  Knowing the size of the buffer is
+> no good, since the needed buffer could change between calls.
 
-Re page size: this was brought up in a prior email, and I agree,
-but that also doesn't really change for move_pages.  The man page for
-move_pages already says this:
+As Brauner mentioned, this does not change with the single-buffer
+interface. And since changes are not likely to occur extremely frequently,
+I feel like it would be better for the caller to only need one retry in the
+common case rather than N retries for however many doublings it takes to
+fit the whole buffer.
 
-"""
-pages is an array of pointers to the pages that should be moved.
-These are pointers that should be aligned to page boundaries.
-"""
+> We are trying to create a simple interface, no?  My proposal would
+> need a helper like this:
+>
+> struct statmnt *statmount(uint64_t mnt_id, uint64_t mask, unsigned int fl=
+ags)
+> {
+>         size_t bufsize =3D 1 << 15;
+>         void *buf;
+>         int ret;
+>
+>         for (;;) {
+>                 buf =3D malloc(bufsize <<=3D 1);
+>                 if (!buf)
+>                         return NULL;
+>                 ret =3D syscall(__NR_statmnt, mnt_id, mask, buf, bufsize,=
+ flags);
+>                 if (!ret)
+>                         return buf;
+>                 free(buf);
+>                 if (errno !=3D EOVERFLOW)
+>                         return NULL;
+>         }
+> }
+>
+> Christian's would be (ignoring .fs_type for now):
+>
+> int statmount(uint64_t mnt_id, uint64_t mask, struct statmnt *st,
+> unsigned int flags)
+> {
+>         int ret;
+>
+>         st->mnt_root_size =3D 1 << 15;
+>         st->mountpoint_size =3D 1 << 15;
+>         for (;;) {
+>                 st->mnt_root =3D malloc(st->mnt_root_size <<=3D 1);
+>                 st->mountpoint =3D malloc(st->mountpoint <<=3D 1);
+>                 if (!st->mnt_root || !st->mountpoint) {
+>                         free(st->mnt_root);
+>                         free(st->mountpoint);
+>                         return -1;
+>                 }
+>                 ret =3D syscall(__NR_statmnt, mnt_id, mask, st,
+> sizeof(*st), flags);
+>                 if (!ret || errno !=3D EOVERFLOW)
+>                         return ret;
+>                 free(st->mnt_root);
+>                 free(st->mountpoint);
+>         }
+> }
+>
+> It's not hugely more complex, but more complex nonetheless.
+>
+> Also having the helper allocate buffers inside the struct could easily
+> result in leaks since it's not obvious what the caller needs to free,
+> while in the first example it is.
 
-But to an extent I agree with you.
+There's nothing stopping the userspace helper from exposing a contiguous
+buffer that can be easily freed, even if the kernel API uses a separate-
+buffer interface internally. It just takes a bit of addition in the helper
+to calculate the correct pointers. To wit:
 
-A device collecting data as I describe won't necessarily know the
-page size (or there may even be multiple sized pages hosted on the
-device).  Operating on that data blind does have some risks.
+struct statmnt *statmount(uint64_t mnt_id, uint64_t mask, unsigned int flag=
+s)
+{
+        uint32_t mnt_root_size =3D PATH_MAX;
+        uint32_t mountpoint_size =3D PATH_MAX;
+        struct statmnt *st;
+        int ret;
 
-Some work probably could be done to ensure the data being used doesn't,
-for example, cause a hugepage to be migrated multiple times.  In that
-regard, if the address doesn't match the base of the page the migration
-should fail.
+        for (;;) {
+                st =3D malloc(sizeof(*st) + mnt_root_size + mountpoint_size=
+);
+                if (!st)
+                        return NULL;
+                st->mnt_root =3D (char *)st + sizeof(*st);
+                st->mountpoint =3D (char *)st + sizeof(*st) + mnt_root_size;
+                st->mnt_root_size =3D mnt_root_size;
+                st->mountpoint_size =3D mountpoint_size;
+                ret =3D syscall(__NR_statmnt, mnt_id, mask, st, sizeof(*st),
+                              flags);
+                if (ret) {
+                        free(st);
+                        return NULL;
+                }
+                if (st->mnt_root_size <=3D mnt_root_size &&
+                    st->mountpoint_size <=3D mountpoint_size)
+                        return st;
+                mnt_root_size =3D st->mnt_root_size;
+                mountpoint_size =3D st->mountpoint_size;
+                free(st);
+        }
+}
 
-I think there are simple ways to avoid these footguns.
+(This is also far more helpful for users of the returned struct statmnt *,
+since they can just dereference the two pointers instead of having to
+decode the offsets by hand.)
 
-> 
-> I think that doing this entire process by PA, blind, from userspace will end up stuck in a not-so-good solution, and the ABI will be set in stone, and it will not be a great situation for long term maintainability or performance.
+More generally speaking, the biggest reason I dislike the current single-
+buffer interface is that the output is "all or nothing": either the caller
+has enough space in the buffer to store every single string, or it's unable
+to get any fields at all, just an -EOVERFLOW. There's no room for the
+caller to say that it just wants the integer fields and doesn't care about
+the strings. Thus, to reliably call statmnt() on an arbitrary mount, the
+ability to dynamically allocate memory is effectively mandatory. The only
+real solution to this would be additional statx-like flags to select the
+returned strings.
 
-"entire process" and "blind" are a little bit of an straw man here. The
-goal is to marry many pieces of data to make decisions about how and
-what to move, with as many (flexible) tools available to enact changes
-quickly to reduce the staleness of information issue.
+Meanwhile, with a separate-buffer interface, where the caller provides a
+pointer and capacity for each string, granular output would be trivial: the
+caller could just specify NULL/0 for any string it doesn't want, and still
+successfully retrieve all the integer fields. This would also work well if
+the caller, e.g., wants to set a hard cap of PATH_MAX bytes for each string
+(since it's using static buffers), but nonetheless wants to retrieve the
+integer fields if a string is too long.
 
-Sometimes it would be "more blind" than others, yes.  In other cases,
-such a device-provided heatmap would simply be informational for overall
-system health.
+Besides that, if the caller is written in standard C but doesn't want to
+use malloc(3) to allocate the buffer, then its helper function must be
+written very carefully (with a wrapper struct around the header and data)
+to satisfy the aliasing rules, which forbid programs from using a struct
+statmnt * pointer to read from a declared char[N] array. In practice,
+callers tend to very rarely exercise this proper care with existing single-
+buffer interfaces, such as recvmsg(2)'s msg_control buffer, and I would not
+be very happy if statmnt() further contributed to this widespread issue.
 
-To me, unless I'm misunderstanding, it sounds like you think system-wide
-tiering decisions should not be a function userland is empowered to do
-directly, but instead should be implemented entirely in the kernel?
-
-~Gregory
+Thank you,
+Matthew House
