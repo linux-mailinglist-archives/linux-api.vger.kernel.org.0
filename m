@@ -2,38 +2,64 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0172E7A63B5
-	for <lists+linux-api@lfdr.de>; Tue, 19 Sep 2023 14:50:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B336E7A6427
+	for <lists+linux-api@lfdr.de>; Tue, 19 Sep 2023 15:00:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232112AbjISMuk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 19 Sep 2023 08:50:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35682 "EHLO
+        id S232267AbjISNAO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 19 Sep 2023 09:00:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232095AbjISMuk (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 19 Sep 2023 08:50:40 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A4DD99;
-        Tue, 19 Sep 2023 05:50:34 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03154C433C7;
-        Tue, 19 Sep 2023 12:50:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695127834;
-        bh=Z6QQpDkL2SswUlO6H3+msbaSsQLtoo9xMCHAPMmiOuM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Ks30c9KGn0ulpQMYsz6/c9HIcUl6Ku6iehBT/YRiO20dEq7nnfaLrmNs3sG62slvx
-         edyHvvN7gUAcXgRuj7bigO2LnBpS5rjRY8l5dMzqW0yChPGFuiTfrckvcCaOMKksWH
-         rUBTiC70HXweArRfyQc8A6nwyMVigx/9cjbLPnHzNuXU/3Ne4AbE8V13y0AL5deBky
-         g1LB1i1lsP7bttZPmOH/UYLPuS4yLWHj6A8l5kg+a4QY+xHAvZzFjn0fNz36vPHhTI
-         plCwFaOUBT4/J8FGKGmAj8BZHCf8VyGRYkiKBXUHCKTMDdS/GLoAmRnvqAV4jweQR2
-         olouQz4SiPZVA==
-Date:   Tue, 19 Sep 2023 14:50:28 +0200
-From:   Christian Brauner <brauner@kernel.org>
-To:     Andreas Dilger <adilger@dilger.ca>
-Cc:     Miklos Szeredi <miklos@szeredi.hu>,
+        with ESMTP id S232281AbjISNAN (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 19 Sep 2023 09:00:13 -0400
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2370125
+        for <linux-api@vger.kernel.org>; Tue, 19 Sep 2023 06:00:06 -0700 (PDT)
+Received: by mail-ej1-x635.google.com with SMTP id a640c23a62f3a-9a64619d8fbso747718466b.0
+        for <linux-api@vger.kernel.org>; Tue, 19 Sep 2023 06:00:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1695128405; x=1695733205; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=mCwVe8KpOpCfcH7OtboVsrBBV5wJbNiJa5LJSES+O00=;
+        b=p+n/Pj6fr8fjEaTIQSufW8KDCkYxN9h54wJ18ZAKBy9HIKLLg5OJ4BRHlknSvJ7blX
+         7O+tW+VEFciYb2CyqXoCxptMv82IocM3L4HfGjwtMNPJwGff+GPfGmEVcAJkMg6Uml5O
+         2JpNMQwo6Mb1qDDuyEeet502BBgcWlF98418o=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695128405; x=1695733205;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mCwVe8KpOpCfcH7OtboVsrBBV5wJbNiJa5LJSES+O00=;
+        b=GK31O/plec9w8IwoUkF2nyHPJjoNRjAU4w0YTnpTk+ZtVDv/ffDiT/2cml5E/9A/4C
+         mkyO5RFo9uIW4zeGaCQekj4X2YvFMzTKtwzmg8E9jSgdBHHqqNQfkLSUPbTVR2vsXa+G
+         BdZArKNKOWfjHAz3KVkub01JgHqeTcVZ0QoB5TniRxkShwfrop7WqFw7SlNyBR6UEChF
+         rwQ0DXLUL6T8f1sCLVCu12xqagbbtTDf1S1QjM6E+mawGnSmpjp2R6yRK8FhXV8Myza7
+         9jdj+Rjr3HaSykuF+fRhCOGK7E82ezkeu5BZztGrl1U29VSsumjR0qs/I/3aRhK9v/fj
+         edfQ==
+X-Gm-Message-State: AOJu0YzymtESPgIyF8Fo82aOK+wG1qx06Q9ZNV6xmXMv408fzzXUxnK5
+        MlgrHIna+lO5hwW6DTlDp/yPYv9+N2s19HMHkPNUvg==
+X-Google-Smtp-Source: AGHT+IHwoRikybyWt8+rL4a6pcU5rd0ZRZjLkNEDHmNUJ985g1YGHrlb2S1LF8RGk4U05TZ7H0Z04WQ8UuSIlqbUZuQ=
+X-Received: by 2002:a17:906:519b:b0:9ad:e298:a5d with SMTP id
+ y27-20020a170906519b00b009ade2980a5dmr10879940ejk.19.1695128405076; Tue, 19
+ Sep 2023 06:00:05 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230918-hierbei-erhielten-ba5ef74a5b52@brauner>
+ <CAJfpegtaGXoZkMWLnk3PcibAvp7kv-4Yobo=UJj943L6v3ctJQ@mail.gmail.com>
+ <20230918-stuhl-spannend-9904d4addc93@brauner> <CAJfpegvxNhty2xZW+4MM9Gepotii3CD1p0fyvLDQB82hCYzfLQ@mail.gmail.com>
+ <20230918-bestialisch-brutkasten-1fb34abdc33c@brauner> <CAJfpegvTiK=RM+0y07h-2vT6Zk2GCu6F98c=_CNx8B1ytFtO-g@mail.gmail.com>
+ <20230919003800.93141-1-mattlloydhouse@gmail.com> <CAJfpegs6g8JQDtaHsECA_12ss_8KXOHVRH9gwwPf5WamzxXOWQ@mail.gmail.com>
+ <20230919-abfedern-halfen-c12583ff93ac@brauner> <CAJfpegsjE_G4d-W2hCZc0y+PioRgvK5TxT7kFAVgBqX6zN2dKg@mail.gmail.com>
+ <20230919-hackordnung-asketisch-331907800aa0@brauner>
+In-Reply-To: <20230919-hackordnung-asketisch-331907800aa0@brauner>
+From:   Miklos Szeredi <miklos@szeredi.hu>
+Date:   Tue, 19 Sep 2023 14:59:53 +0200
+Message-ID: <CAJfpeguv+Z6uys18_QYnHcbs_JpMNicRKGt50Scmp82kAOOFOQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 2/3] add statmnt(2) syscall
+To:     Christian Brauner <brauner@kernel.org>
+Cc:     Matthew House <mattlloydhouse@gmail.com>,
         Miklos Szeredi <mszeredi@redhat.com>,
         Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-api@vger.kernel.org, linux-man@vger.kernel.org,
         linux-security-module@vger.kernel.org, Karel Zak <kzak@redhat.com>,
         Ian Kent <raven@themaw.net>,
@@ -41,102 +67,47 @@ Cc:     Miklos Szeredi <miklos@szeredi.hu>,
         Al Viro <viro@zeniv.linux.org.uk>,
         Christian Brauner <christian@brauner.io>,
         Amir Goldstein <amir73il@gmail.com>
-Subject: Re: [RFC PATCH 2/3] add statmnt(2) syscall
-Message-ID: <20230919-gewusel-hingabe-714c000cef8f@brauner>
-References: <20230913152238.905247-1-mszeredi@redhat.com>
- <20230913152238.905247-3-mszeredi@redhat.com>
- <20230914-salzig-manifest-f6c3adb1b7b4@brauner>
- <CAJfpegs-sDk0++FjSZ_RuW5m-z3BTBQdu4T9QPtWwmSZ1_4Yvw@mail.gmail.com>
- <20230914-lockmittel-verknallen-d1a18d76ba44@brauner>
- <CAJfpegt-VPZP3ou-TMQFs1Xupj_iWA5ttC2UUFKh3E43EyCOQQ@mail.gmail.com>
- <20230918-grafik-zutreffen-995b321017ae@brauner>
- <59DA5D4F-8242-4BD4-AE1C-FC5A6464E377@dilger.ca>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <59DA5D4F-8242-4BD4-AE1C-FC5A6464E377@dilger.ca>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Sep 18, 2023 at 02:58:00PM -0600, Andreas Dilger wrote:
-> On Sep 18, 2023, at 7:51 AM, Christian Brauner <brauner@kernel.org> wrote:
-> > 
-> > 
-> >> The type and subtype are naturally limited to sane sizes, those are
-> >> not an issue.
-> > 
-> > What's the limit for fstype actually? I don't think there is one.
-> > There's one by chance but not by design afaict?
-> > 
-> > Maybe crazy idea:
-> > That magic number thing that we do in include/uapi/linux/magic.h
-> > is there a good reason for this or why don't we just add a proper,
-> > simple enum:
-> > 
-> > enum {
-> > 	FS_TYPE_ADFS        1
-> > 	FS_TYPE_AFFS        2
-> > 	FS_TYPE_AFS         3
-> > 	FS_TYPE_AUTOFS      4
-> > 	FS_TYPE_EXT2	    5
-> > 	FS_TYPE_EXT3	    6
-> > 	FS_TYPE_EXT4	    7
-> > 	.
-> > 	.
-> > 	.
-> > 	FS_TYPE_MAX
-> > }
-> > 
-> > that we start returning from statmount(). We can still return both the
-> > old and the new fstype? It always felt a bit odd that fs developers to
-> > just select a magic number.
-> 
-> Yes, there is a very good reason that there isn't an enum for filesystem
+On Tue, 19 Sept 2023 at 14:41, Christian Brauner <brauner@kernel.org> wrote:
+>
+> > >  with __u32 size for mnt_root and mnt_point
+> >
+> > Unnecessary if the strings are nul terminated.
+>
+> All ok by me so far but how does the kernel know the size of the buffer
+> to copy into? Wouldn't it be better to allow userspace to specify that?
+> I'm probably just missing something but I better ask.
 
-I think this isn't all that relevant to the patchset so I'm not going to
-spend a lot of time on this discussion but I'm curious.
+Because size of the buffer is given as the syscall argument.
 
-> type, which is because this API would be broken if it encounters any
-> filesystem that is not listed there.  Often a single filesystem driver in
-> the kernel will have multiple different magic numbers to handle versions,
-> endianness, etc.
+  long statmount(u64 mnt_id, u64 mask, struct statmnt __user *buf,
+size_t bufsize, unsigned int flags);
 
-Why isn't this a problem for magically chosen numbers?
+If you are still hung up about this not being properly typed, how about this:
 
-> 
-> Having a 32-bit magic number allows decentralized development with low
-> chance of collision, and using new filesystems without having to patch
-> every kernel for this new API to work with that filesystem.  Also,
+struct statmnt {
+        __u64 mask;             /* What results were written [uncond] */
+        __u32 sb_dev_major;     /* Device ID */
+[...]
+        __u64 fs_type;          /* [str] Filesystem type */
+        __u64 __spare[49];
+        char __string_buf[];
+};
 
-We don't care about out of tree filesystems.
+Such variable length structures are used all over the place, this
+isn't some big invention.  The only new thing is that we set pointers
+to within the tail part of the buffer, to make the interface work for
+the multiple strings case.
 
-> filesystems come and go (though more slowly) over time, and keeping the
-
-Even if we did ever remove a filesystem we'd obviously leave the enum in
-place. Same thig we do for deprecated flags, same thing we'd do for
-magic numbers.
-
-> full list of every filesystem ever developed in the kernel enum would be
-> a headache.
-
-I really don't follow this argument.
-
-> 
-> The field in the statmnt() call would need to be at a fixed-size 32-bit
-> value in any case, so having it return the existing magic will "just work"
-> because userspace tools already know and understand these magic values,
-> while introducing an in-kernel enum would be broken for multiple reasons.
-
-We already do expose the magic number in statmount() but it can't
-differentiate between ext2, ext3, and ext4 for example which is why I
-asked.
-
-Afaict, none of the points you mention are show stoppers and none of
-them are unique to an enum.
+Thanks,
+Miklos
