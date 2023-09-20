@@ -2,145 +2,89 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F4927A899A
-	for <lists+linux-api@lfdr.de>; Wed, 20 Sep 2023 18:36:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2DECD7A8FF9
+	for <lists+linux-api@lfdr.de>; Thu, 21 Sep 2023 01:50:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234535AbjITQgm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 20 Sep 2023 12:36:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42186 "EHLO
+        id S229478AbjITXun (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 20 Sep 2023 19:50:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43358 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233962AbjITQgm (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 20 Sep 2023 12:36:42 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47F5983;
-        Wed, 20 Sep 2023 09:36:36 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 01C5320159;
-        Wed, 20 Sep 2023 16:36:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1695227795; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=HgcKDsHEjFx/VP7CohCOLnWX8B/Q49HjkEPo77CZqUI=;
-        b=yGA9lj7QojFzxupELxt/S1695FU+Bk6Ws6YajnscZNLy5XMXZYx2CglV/VW7X1HyWiKyxZ
-        IyJIL6uhv+x5ixEH1Qg4Zm2nXhF6Aul4iqrCTL3B3DqZeoaizDRByGdGbWRZocYFnhELCo
-        aDiO01O1ZSK61oM9DMrOWIrIrTufvnQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1695227795;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=HgcKDsHEjFx/VP7CohCOLnWX8B/Q49HjkEPo77CZqUI=;
-        b=1I6Th0Jn5RMO7SicQVknnM3tRrdaaIQJaVR7JWTaXPr1DCAz8cL2VxwUktw5Tk5hOk5RzO
-        2ccJn3bhRRKpBbBA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C50841333E;
-        Wed, 20 Sep 2023 16:36:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id 9OkSMJIfC2VPawAAMHmgww
-        (envelope-from <jack@suse.cz>); Wed, 20 Sep 2023 16:36:34 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-        id 0DBBEA077D; Wed, 20 Sep 2023 18:36:34 +0200 (CEST)
-Date:   Wed, 20 Sep 2023 18:36:34 +0200
-From:   Jan Kara <jack@suse.cz>
-To:     Amir Goldstein <amir73il@gmail.com>
-Cc:     Jan Kara <jack@suse.cz>, Jeff Layton <jlayton@kernel.org>,
-        Christian Brauner <brauner@kernel.org>,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        Chuck Lever <chuck.lever@oracle.com>
-Subject: Re: [RFC][PATCH] fanotify: Enable FAN_REPORT_FID on more filesystem
- types
-Message-ID: <20230920163634.5agdx523uv7m2qtf@quack3>
-References: <20230411124037.1629654-1-amir73il@gmail.com>
- <20230412184359.grx7qyujnb63h4oy@quack3>
- <CAOQ4uxj_OQt+yLVnBH-Cg4mKe4_19L42bcsQx2BSOxR7E46SDQ@mail.gmail.com>
- <20230417162721.ouzs33oh6mb7vtft@quack3>
- <CAOQ4uxjfP+TrDded+Zps6k6GQM+UsEuW0R2PT_fMEH8ouY_aUg@mail.gmail.com>
- <20230920110429.f4wkfuls73pd55pv@quack3>
- <CAOQ4uxisRMZh_g-M06ROno9g-E+u2ME0109FAVJLiV4V=mwKDw@mail.gmail.com>
- <20230920134829.n74smxum27herhl6@quack3>
- <CAOQ4uxj-5n3ja+22Qv4H27wEGn=eAdE1JNRBSxS3TgdEr7b75A@mail.gmail.com>
+        with ESMTP id S229547AbjITXum (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 20 Sep 2023 19:50:42 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71D1EDE;
+        Wed, 20 Sep 2023 16:50:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Sender:Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=tlgdA+9zRCeEqqQqdnsCAMTZo8+aT2RUqSoMURIS/L0=; b=gZWIxfyxxYZn8qx/ODs6UihV7w
+        yCc0UiMKZgKV21JT2OoezTRYQ6ZGJcTL+LjYU5Kl/ydpycLgWmI0rN9OxmzJ0tDrNFETenW0qyjAZ
+        jZcuflWPs1JomA/GzhSRDQjsMUOOk4z+gYkPVnUKU8pcav2geuBrihQwvqfcwFuJeC/FqrHCdIOGa
+        RgflSoRRiawgM6syJ0tqe9jN/M961ZNwsACj5a4lzDKQPBdWfDf/FHcRqpKY6e5OEA2jBFyQFLQkO
+        QUCkB3MRGO3k5nPhIwYDYBdShihgvRvYDf0SO0+mbkfbGdPh0ZXroFXiWk9OQFHuS2fEAoJtTecGO
+        cWI7OljA==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.96 #2 (Red Hat Linux))
+        id 1qj6xb-004UYT-1u;
+        Wed, 20 Sep 2023 23:50:23 +0000
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     alx@kernel.org, linux-man@vger.kernel.org,
+        linux-api@vger.kernel.org
+Cc:     hughd@google.com, p.raghav@samsung.com, da.gomez@samsung.com,
+        rohan.puri@samsung.com, rpuri.linux@gmail.com,
+        a.manzanares@samsung.com, dave@stgolabs.net, yosryahmed@google.com,
+        keescook@chromium.org, mcgrof@kernel.org, patches@lists.linux.dev,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2] tmpfs.5: extend with new noswap documentation
+Date:   Wed, 20 Sep 2023 16:50:22 -0700
+Message-Id: <20230920235022.1070752-1-mcgrof@kernel.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAOQ4uxj-5n3ja+22Qv4H27wEGn=eAdE1JNRBSxS3TgdEr7b75A@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Sender: Luis Chamberlain <mcgrof@infradead.org>
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed 20-09-23 18:12:00, Amir Goldstein wrote:
-> On Wed, Sep 20, 2023 at 4:48 PM Jan Kara <jack@suse.cz> wrote:
-> > > If users had a flag to statfs() to request the "btrfs root volume fsid",
-> > > then fanotify could also report the root fsid and everyone will be happy
-> > > because the btrfs file handle already contains the subvolume root
-> > > object id (FILEID_BTRFS_WITH_PARENT_ROOT), but that is not
-> > > what users get for statfs() and that is not what fanotify documentation
-> > > says about how to query fsid.
-> > >
-> > > We could report the subvolume fsid for marked inode/mount
-> > > that is not a problem - we just cache the subvol fsid in inode/mount
-> > > connector, but that fsid will be inconsistent with the fsid in the sb
-> > > connector, so the same object (in subvolume) can get events
-> > > with different fsid (e.g. if one event is in mask of sb and another
-> > > event is in mask of inode).
-> >
-> > Yes. I'm sorry I didn't describe all the details. My idea was to report
-> > even on a dentry with the fsid statfs(2) would return on it. We don't want
-> > to call dentry_statfs() on each event (it's costly and we don't always have
-> > the dentry available) but we can have a special callback into the
-> > filesystem to get us just the fsid (which is very cheap) and call *that* on
-> > the inode on which the event happens to get fsid for the event. So yes, the
-> > sb mark would be returning events with different fsids for btrfs. Or we
-> > could compare the obtained fsid with the one in the root volume and ignore
-> > the event if they mismatch (that would be more like the different subvolume
-> > => different filesystem point of view and would require some more work on
-> > fanotify side to remember fsid in the sb mark and not in the sb connector).
-> >
-> 
-> It sounds like a big project.
+Linux commit 2c6efe9cf2d7 ("shmem: add support to ignore swap")
+merged as of v6.4 added support to disable swap for tmpfs mounts.
 
-Actually it should be pretty simple as I imagine it. Maybe I can quickly
-hack a POC.
+This extends the man page to document that.
 
-> I am not sure it is really needed.
->
-> On second thought, maybe getting different events on the
-> same subvol with different fsid is not that bad, because for
-> btrfs, it is possible to resolve the path of an fid in subvol
-> from either the root mount or the subvol mount.
-> IOW, subvol_fsid+fid and root_fsid+fid are two ways to
-> describe the same unique object.
-> 
-> Remember that we have two use cases for fsid+fid:
-> 1. (unpriv/priv) User queries fsid+fid, sets an inode mark on path,
->     stores fsid+fid<->path in a map to match events to path later
-> 2. (priv-only) User queries fsid, sets a sb/mount mark on path,
->     stores fsid<->path to match event to mntfd and
->     resolves path by handle from mntfd+fid
+Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
+---
 
-You're right that for open_by_handle_at() the fsid is actually only good
-for getting *any* path on the superblock where file handle can be used so
-any of the fsids provided by btrfs is OK. What will be a slight catch is
-that if you would be using name_to_handle_at() to match what you've got
-from fanotify you will never be able to identify some fids. I'm not sure
-how serious that would be...
+changes on v2:
 
-								Honza
+ - Use semantic newlines
+
+ man5/tmpfs.5 | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/man5/tmpfs.5 b/man5/tmpfs.5
+index 5274e632d6fd..047a17a78ee0 100644
+--- a/man5/tmpfs.5
++++ b/man5/tmpfs.5
+@@ -103,6 +103,12 @@ suffixes like
+ .BR size ,
+ but not a % suffix.
+ .TP
++.BR noswap "(since Linux 6.4)"
++.\" commit 2c6efe9cf2d7841b75fe38ed1adbd41a90f51ba0
++Disables swap.
++Remounts must respect the original settings.
++By default swap is enabled.
++.TP
+ .BR mode "=\fImode\fP"
+ Set initial permissions of the root directory.
+ .TP
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+2.39.2
+
