@@ -2,76 +2,71 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CBC27A87E9
-	for <lists+linux-api@lfdr.de>; Wed, 20 Sep 2023 17:08:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 678447A87F1
+	for <lists+linux-api@lfdr.de>; Wed, 20 Sep 2023 17:12:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235097AbjITPIq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 20 Sep 2023 11:08:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43014 "EHLO
+        id S234610AbjITPMV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 20 Sep 2023 11:12:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234723AbjITPIq (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 20 Sep 2023 11:08:46 -0400
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8202B9
-        for <linux-api@vger.kernel.org>; Wed, 20 Sep 2023 08:08:39 -0700 (PDT)
-Received: by mail-pl1-x630.google.com with SMTP id d9443c01a7336-1c5cd27b1acso607845ad.2
-        for <linux-api@vger.kernel.org>; Wed, 20 Sep 2023 08:08:39 -0700 (PDT)
+        with ESMTP id S234874AbjITPMU (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 20 Sep 2023 11:12:20 -0400
+Received: from mail-vs1-xe35.google.com (mail-vs1-xe35.google.com [IPv6:2607:f8b0:4864:20::e35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87B7FA3;
+        Wed, 20 Sep 2023 08:12:12 -0700 (PDT)
+Received: by mail-vs1-xe35.google.com with SMTP id ada2fe7eead31-4525dd7f9d0so1482718137.3;
+        Wed, 20 Sep 2023 08:12:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1695222519; x=1695827319; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=A1hTqSXJfm7wcfrItcK5JrSlQOXjCv7HTCeKCGqvymQ=;
-        b=fCLx4kJnxRnvn2RBWIlJp2xgrtfnSQrRXiPLB6hWl09ua9FnqQEnts2Slj+yPV7BJL
-         qFTne1skdJE2P4UCMjVODMRwLc/zXesV8i6pYKRaDa/jleDOBjTrHnJqNEJszw7Cow92
-         w/fCEPPX4mjYH6I9tfTeiuSFbgSP0O8pZB0SY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695222519; x=1695827319;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1695222731; x=1695827531; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=A1hTqSXJfm7wcfrItcK5JrSlQOXjCv7HTCeKCGqvymQ=;
-        b=fnPef/bDiL3pYbiz4Ac9ixEPDz63UzNiE2kPfP/BDnQsW6X8EcEMX1kIwSy35XkOAZ
-         /fnEMUOGl70W+j4Pn65mvMTRDa5mOaClBwcXP/jqiLyrbSro9mfA565PfmRDtr0NrPq/
-         Au+F5zmPfOheQnoRdg+38EJEKNYdwNzundsoQFE31uiuCKjVl2DZ7TuKjw02LJ7mNfXo
-         y8xc/auZ24aM+r5brKfxegP1iww1nsapedGRocwel417UgEXzZg79VJrhPMC8BqjZWmi
-         k5AFeOnvM14q/oPfHKRhKcHr0qmScNFeoWqiZoqnm7x7afBBExjTGgiTAljOhtWrAXiv
-         8XpA==
-X-Gm-Message-State: AOJu0Yxqv2jlWIcZoS2j7vNDAz10poYpGY5c/e4WudmYkty/fb3ffott
-        mgzEdGbnwAKKFQneE/6c3y0UFA==
-X-Google-Smtp-Source: AGHT+IEYvSSgs4VfBdmet/Ntoo1ukThK7r/ZFBYCpjSeCZ3+S9ZUzjkeWklpd+2K8Ou/noxLiQj4Rg==
-X-Received: by 2002:a17:902:c404:b0:1be:e7ba:3a97 with SMTP id k4-20020a170902c40400b001bee7ba3a97mr3205943plk.15.1695222519016;
-        Wed, 20 Sep 2023 08:08:39 -0700 (PDT)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id e3-20020a170902b78300b001c56157f062sm6096848pls.227.2023.09.20.08.08.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Sep 2023 08:08:38 -0700 (PDT)
-Date:   Wed, 20 Sep 2023 08:08:37 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Cc:     Casey Schaufler <casey@schaufler-ca.com>, paul@paul-moore.com,
-        linux-security-module@vger.kernel.org, jmorris@namei.org,
-        serge@hallyn.com, john.johansen@canonical.com,
-        stephen.smalley.work@gmail.com, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, mic@digikod.net,
-        Dave Chinner <david@fromorbit.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v15 01/11] LSM: Identify modules by more than name
-Message-ID: <202309200803.1911A584@keescook>
-References: <20230912205658.3432-1-casey@schaufler-ca.com>
- <20230912205658.3432-2-casey@schaufler-ca.com>
- <1f5e725d-58b6-eca2-97dc-d7c1209ff167@I-love.SAKURA.ne.jp>
- <568c0730-b458-04b4-dbfa-77da1758aa05@schaufler-ca.com>
- <94743c22-bc76-e741-e577-3e0845423f69@I-love.SAKURA.ne.jp>
- <6df9f8b8-5653-09a5-ae0a-6526016abaff@schaufler-ca.com>
- <ec37cd2f-24ee-3273-c253-58d480569117@I-love.SAKURA.ne.jp>
+        bh=3MJsi/TfPGsKboiCTOzz3krQMAHJ0ZhaSu8jme9s5Aw=;
+        b=fRpaLxBvWoOS9/zMXyr1iNEJYjmJ16WY77lPvi+pIy2fnoL4Mah19CEwbxaHpxS5s3
+         nVG4ddZxd6YNR4+opwCvX0hHF6O5ZqYw/mxCC7DYkORSpka2lm9Rq/Otm8QyjkBHmayw
+         UO2VJoIzbRfrVxoD2fvcxpdSloHyJ0zFuB/5Hf5hht/bCR/6GqD4BK/sm0nXLauaUkAx
+         LbxqBzsgxnnYp7nsuShJnkxWGVAk4hd8KpTFQZtrIwwkaSGlMJ/3u/js8aL9X6eGm3iF
+         y+KujKXl+qAVhMm91+JwTyOVqyhESQf3JoMJcdYrra14A3gjwvtvU+6MVfacXsAn47FS
+         VWNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695222731; x=1695827531;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3MJsi/TfPGsKboiCTOzz3krQMAHJ0ZhaSu8jme9s5Aw=;
+        b=CclrIlx6aGPxMsVIkMd4ltf1DM5xzhn6V3TYu3cGJBca3p9ELRzytexKFpkeDVchbJ
+         2AyyQj3e8bBdImhSzKtgxR1QxrZ7lQ1G/BIDgQnmyW6iWu2gsUk8vYX5Z8IQLV0ooeRv
+         ESGkjBIRRBVLLla/yxhMgd5zkiXXIUh9xvEdR0wI6WQe4kc7xD+34LlLsdxq7PocqaQF
+         xpeLnA0hVREDcCAPImtmX27wRSCR5vbUG2jGi0uq8zOZnYbgN5u05vgujEqLmbm09L7N
+         K5MhT2EKpA3cz9oK/ktlKMio9X0/wppd5/MbOGJdGJtZp1EAKVuGWSyQMu1wSyAyHqDS
+         srBA==
+X-Gm-Message-State: AOJu0Ywl2FOJY5hJRXqIoAlp4gJ0tgzTCIdK0+HoG98Zyjag62iDNqNX
+        JwJPrCTaqPc63Q/w1D5I1u/qSZX5Q2rGe0tWHBTwWT/YAk4=
+X-Google-Smtp-Source: AGHT+IHUqGZuuho1CL+oLgpcNRTBCWMu9gyo70jmeSOOlY0vFvwraCTFRbizN13wNg5EWhX3dUoif2Mx3DH6zWchZ0c=
+X-Received: by 2002:a67:e44e:0:b0:452:6ac7:cdf with SMTP id
+ n14-20020a67e44e000000b004526ac70cdfmr2786734vsm.24.1695222731446; Wed, 20
+ Sep 2023 08:12:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ec37cd2f-24ee-3273-c253-58d480569117@I-love.SAKURA.ne.jp>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+References: <20230411124037.1629654-1-amir73il@gmail.com> <20230412184359.grx7qyujnb63h4oy@quack3>
+ <CAOQ4uxj_OQt+yLVnBH-Cg4mKe4_19L42bcsQx2BSOxR7E46SDQ@mail.gmail.com>
+ <20230417162721.ouzs33oh6mb7vtft@quack3> <CAOQ4uxjfP+TrDded+Zps6k6GQM+UsEuW0R2PT_fMEH8ouY_aUg@mail.gmail.com>
+ <20230920110429.f4wkfuls73pd55pv@quack3> <CAOQ4uxisRMZh_g-M06ROno9g-E+u2ME0109FAVJLiV4V=mwKDw@mail.gmail.com>
+ <20230920134829.n74smxum27herhl6@quack3>
+In-Reply-To: <20230920134829.n74smxum27herhl6@quack3>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Wed, 20 Sep 2023 18:12:00 +0300
+Message-ID: <CAOQ4uxj-5n3ja+22Qv4H27wEGn=eAdE1JNRBSxS3TgdEr7b75A@mail.gmail.com>
+Subject: Re: [RFC][PATCH] fanotify: Enable FAN_REPORT_FID on more filesystem types
+To:     Jan Kara <jack@suse.cz>
+Cc:     Jeff Layton <jlayton@kernel.org>,
+        Christian Brauner <brauner@kernel.org>,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        Chuck Lever <chuck.lever@oracle.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -79,215 +74,225 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Sep 20, 2023 at 07:20:35PM +0900, Tetsuo Handa wrote:
-> On 2023/09/18 1:38, Casey Schaufler wrote:
-> > On 9/15/2023 11:32 PM, Tetsuo Handa wrote:
-> >> +/**
-> >> + * struct lsm_id - Identify a Linux Security Module.
-> >> + * @lsm: name of the LSM, must be approved by the LSM maintainers
-> >>
-> >> Why can't you understand that "approved by the LSM maintainers" is a horrible
-> >> requirement for LSM modules which cannot become one of in-tree LSMs?
-> >>
-> >> One of reasons for not every proposed LSM module can become in-tree is out of
-> >> the LSM community's resources for reviewing/maintaining (or failure to acquire
-> >> attention from the LSM community enough to get reviewed).
-> >>
-> >> + * @id: LSM ID number from uapi/linux/lsm.h
-> >>
-> >> Since the LSM community cannot accept all of proposed LSMs due to limited resources,
-> >> the LSM community is responsible for allowing whatever proposed LSMs (effectively any
-> >> publicly available LSMs) to live as out-of-tree LSMs, by approving the LSM name and
-> >> assigning a permanent LSM ID number.
-> >>
-> >> The only exception the LSM community can refuse to approve/assign would be that the name
-> >> is not appropriate (e.g. a LSM module named "FuckYou") or the name is misleading (e.g.
-> >> "selinux+", "smock", "tomato", "apparmour"). Otherwise, no matter how many times you repeat
-> >> "we don't care out-of-tree LSMs" or "I do not intentionally plan to make life difficult for
-> >> the out-of-tree LSMs", this patch is intended to lock out out-of-tree LSMs.
-> > 
-> > That is a false statement. There is a huge difference between apathy and malice. 
-> 
-> Dave Chinner wrote at https://lkml.kernel.org/r/ZQo94mCzV7hOrVkh@dread.disaster.area
-> as a response to "We don't care about out of tree filesystems.":
-> 
->   In this case, we most certainly do care. Downstream distros support
->   all sorts of out of tree filesystems loaded via kernel modules, so a
->   syscall that is used to uniquely identify a filesystem type to
->   userspace *must* have a mechanism for the filesystem to provide that
->   unique identifier to userspace.
-> 
->   Fundamentally, the kernel does not and should not dictate what
->   filesystem types it supports; the user decides what filesystem they
->   need to use, and it is the kernel's job to provide infrastructure
->   that works with that user's choice.
-> 
-> Can you see? What you are trying to is NACKed by simple s/filesystem/LSM/g .
-> 
-> The kernel is ultimately there for users. The kernel is never there for doing patent
-> acquisition competition. If the LSM community accepts only LSMs which won the patent
-> acquisition competition as in-tree (as described in "ANN: new LSM guidelines"),
-> the LSM community is responsible for allowing any publicly available LSMs to live as
-> out of tree modules.
-> 
-> Unless the policy is updated to approve any publicly available LSMs and assign a unique
-> identifier (which can be passed to the syscalls introduced by this series) to each
-> publicly available LSM, this series is a regression.
-> 
-> The "[PATCH v15 01/11] LSM: Identify modules by more than name" is exactly doing
-> "LSM: allow only in-tree LSM modules, lock out out-of-tree LSM modules".
-> Nack, Nack, Nack, Nack, Nack!!!!!
+On Wed, Sep 20, 2023 at 4:48=E2=80=AFPM Jan Kara <jack@suse.cz> wrote:
+>
+> On Wed 20-09-23 15:41:06, Amir Goldstein wrote:
+> > On Wed, Sep 20, 2023 at 2:04=E2=80=AFPM Jan Kara <jack@suse.cz> wrote:
+> > > On Wed 20-09-23 11:26:38, Amir Goldstein wrote:
+> > > > Be that as it may, there may be users that use inotify on network f=
+s
+> > > > and it even makes a lot of sense in controlled environments with
+> > > > single NFS client per NFS export (e.g. home dirs), so I think we wi=
+ll
+> > > > need to support those fs as well.
+> > >
+> > > Fair enough.
+> > >
+> > > > Maybe the wise thing to do is to opt-in to monitor those fs after a=
+ll?
+> > > > Maybe with explicit opt-in to watch a single fs, fanotify group wil=
+l
+> > > > limit itself to marks on a specific sb and then a null fsid won't m=
+atter?
+> > >
+> > > We have virtual filesystems with all sorts of missing or weird notifi=
+cation
+> > > functionality and we don't flag that in any way. So making a special =
+flag
+> > > for network filesystems seems a bit arbitrary. I'd just make them pro=
+vide
+> > > fsid and be done with it.
+> > >
+> >
+> > OK. I will try.
+> >
+> > However, in reply to Jeff's comment:
+> >
+> > > Caution here. Most of these filesystems don't have protocol support f=
+or
+> > > anything like inotify (the known exception being SMB). You can monito=
+r
+> > > such a network filesystem, but you won't get events for things that
+> > > happen on remote hosts.
+> >
+> > Regardless of the fsid question, when we discussed remote notifications
+> > support for FUSE/SMB, we raised the point that which notifications the
+> > user gets (local or remote) are ambiguous and one suggestion was to
+> > be explicit about requesting LOCAL or REMOTE notifications (or both).
+> >
+> > Among the filesystems that currently support fanotify, except for the
+> > most recent kernfs family, I think all of them are "purely local".
+> > For the purpose of this discussion I consider debugfs and such to have
+> > REMOTE notifications, which are not triggered from user vfs syscalls.
+>
+> Well, now you are speaking of FAN_REPORT_FID mode. There I agree we
+> currently support only filesystems with a sane behavior. But there are
+> definitely existing users of fanotify in "standard" file-descriptor mode
+> for filesystems such as sysfs, proc, etc. So the new flag would have to
+> change behavior only to FAN_REPORT_FID groups and that's why I think it's=
+ a
+> bit odd.
+>
 
-I feel like you are willfully not listening to us when we say that this
-doesn't block out of tree LSMs. Again, there is nothing here that stops
-it. To prove this point, here is an out of tree LSM that works with this
-series. So let's move from theoretical to practical: given this example,
-why do you think out of tree LSMs are blocked?
+No flag is fine by me.
 
+> > The one exception is smb, but only with config CIFS_NFSD_EXPORT
+> > and that one depends on BROKEN.
+> >
+> > If we did want to require an explicit FAN_LOCAL_NOTIF flag to allow
+> > setting marks on fs which may have changes not via local syscalls,
+> > it may be a good idea to flag those fs and disallow them without explic=
+it
+> > opt-in, before we add fanotify support to fs with missing notifications=
+?
+> > Perhaps before the official release of 6.6?
+>
+> Yeah, overall I agree it would be nice to differentiate filesystems where
+> we aren't going to generate all the events. But as I write above, there a=
+re
+> already existing users for non-FID mode so we cannot have that flag in th=
+e
+> general setting.
+>
+> > > > > configfs, debugfs, devpts, efivarfs, hugetlbfs, openpromfs, proc,=
+ pstore,
+> > > > > ramfs, sysfs, tracefs - virtual filesystems where fsnotify functi=
+onality is
+> > > > >   quite limited. But some special cases could be useful. Adding f=
+sid support
+> > > > >   is the same amount of trouble as for kernfs - a few LOC. In fac=
+t, we
+> > > > >   could perhaps add a fstype flag to indicate that this is a file=
+system
+> > > > >   without persistent identification and so uuid should be autogen=
+erated on
+> > > > >   mount (likely in alloc_super()) and f_fsid generated from sb->s=
+_uuid.
+> > > > >   This way we could handle all these filesystems with trivial amo=
+unt of
+> > > > >   effort.
+> > > > >
+> > > >
+> > > > Christian,
+> > > >
+> > > > I recall that you may have had reservations on initializing s_uuid
+> > > > and f_fsid in vfs code?
+> > > > Does an opt-in fstype flag address your concerns?
+> > > > Will you be ok with doing the tmpfs/kernfs trick for every fs
+> > > > that opted-in with fstype flag in generic vfs code?
+> > > >
+> > > > > freevxfs - the only real filesystem without f_fsid. Trivial to ha=
+ndle one
+> > > > >   way or the other.
+> > > > >
+> > > >
+> > > > Last but not least, btrfs subvolumes.
+> > > > They do have an fsid, but it is different from the sb fsid,
+> > > > so we disallow (even inode) fanotify marks.
+> > > >
+> > > > I am not sure how to solve this one,
+> > > > but if we choose to implement the opt-in fanotify flag for
+> > > > "watch single fs", we can make this problem go away, along
+> > > > with the problem of network fs fsid and other odd fs that we
+> > > > do not want to have to deal with.
+> > > >
+> > > > On top of everything, it is a fast solution and it doesn't
+> > > > involve vfs and changing any fs at all.
+> > >
+> > > Yeah, right, forgot about this one. Thanks for reminding me. But this=
+ is
+> > > mostly a kernel internal implementation issue and doesn't seem to be =
+a
+> > > principial problem so I'd prefer not to complicate the uAPI for this.=
+ We
+> > > could for example mandate a special super_operation for fetching fsid=
+ for a
+> > > dentry for filesystems which don't have uniform fsids over the whole
+> > > filesystem (i.e., btrfs) and call this when generating event for such
+> > > filesystems. Or am I missing some other complication?
+> > >
+> >
+> > The problem is the other way around :)
+> > btrfs_statfs() takes a dentry and returns the fsid of the subvolume.
+> > That is the fsid that users will get when querying the path to be marke=
+d.
+>
+> Yup.
+>
+> > If users had a flag to statfs() to request the "btrfs root volume fsid"=
+,
+> > then fanotify could also report the root fsid and everyone will be happ=
+y
+> > because the btrfs file handle already contains the subvolume root
+> > object id (FILEID_BTRFS_WITH_PARENT_ROOT), but that is not
+> > what users get for statfs() and that is not what fanotify documentation
+> > says about how to query fsid.
+> >
+> > We could report the subvolume fsid for marked inode/mount
+> > that is not a problem - we just cache the subvol fsid in inode/mount
+> > connector, but that fsid will be inconsistent with the fsid in the sb
+> > connector, so the same object (in subvolume) can get events
+> > with different fsid (e.g. if one event is in mask of sb and another
+> > event is in mask of inode).
+>
+> Yes. I'm sorry I didn't describe all the details. My idea was to report
+> even on a dentry with the fsid statfs(2) would return on it. We don't wan=
+t
+> to call dentry_statfs() on each event (it's costly and we don't always ha=
+ve
+> the dentry available) but we can have a special callback into the
+> filesystem to get us just the fsid (which is very cheap) and call *that* =
+on
+> the inode on which the event happens to get fsid for the event. So yes, t=
+he
+> sb mark would be returning events with different fsids for btrfs. Or we
+> could compare the obtained fsid with the one in the root volume and ignor=
+e
+> the event if they mismatch (that would be more like the different subvolu=
+me
+> =3D> different filesystem point of view and would require some more work =
+on
+> fanotify side to remember fsid in the sb mark and not in the sb connector=
+).
+>
 
-From a6f50cb719aac2452506babda07657f9f6961a95 Mon Sep 17 00:00:00 2001
-From: Kees Cook <keescook@chromium.org>
-Date: Wed, 20 Sep 2023 08:00:31 -0700
-Subject: [PATCH] security: Add GOAT LSM
+It sounds like a big project.
+I am not sure it is really needed.
 
-This will never go upstream, but it still works with the new LSM
-syscalls.
+On second thought, maybe getting different events on the
+same subvol with different fsid is not that bad, because for
+btrfs, it is possible to resolve the path of an fid in subvol
+from either the root mount or the subvol mount.
+IOW, subvol_fsid+fid and root_fsid+fid are two ways to
+describe the same unique object.
 
-Cc: Paul Moore <paul@paul-moore.com>
-Cc: James Morris <jmorris@namei.org>
-Cc: "Serge E. Hallyn" <serge@hallyn.com>
-Cc: linux-security-module@vger.kernel.org
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
- include/uapi/linux/lsm.h |  2 ++
- security/Kconfig         |  1 +
- security/Makefile        |  1 +
- security/goat/Kconfig    |  9 +++++++
- security/goat/Makefile   |  2 ++
- security/goat/goat.c     | 51 ++++++++++++++++++++++++++++++++++++++++
- 6 files changed, 66 insertions(+)
- create mode 100644 security/goat/Kconfig
- create mode 100644 security/goat/Makefile
- create mode 100644 security/goat/goat.c
+Remember that we have two use cases for fsid+fid:
+1. (unpriv/priv) User queries fsid+fid, sets an inode mark on path,
+    stores fsid+fid<->path in a map to match events to path later
+2. (priv-only) User queries fsid, sets a sb/mount mark on path,
+    stores fsid<->path to match event to mntfd and
+    resolves path by handle from mntfd+fid
 
-diff --git a/include/uapi/linux/lsm.h b/include/uapi/linux/lsm.h
-index eeda59a77c02..23b7a8f79cef 100644
---- a/include/uapi/linux/lsm.h
-+++ b/include/uapi/linux/lsm.h
-@@ -63,6 +63,8 @@ struct lsm_ctx {
- #define LSM_ID_BPF		110
- #define LSM_ID_LANDLOCK		111
- 
-+#define LSM_ID_GOAT		1138
-+
- /*
-  * LSM_ATTR_XXX definitions identify different LSM attributes
-  * which are used in the kernel's LSM userspace API. Support
-diff --git a/security/Kconfig b/security/Kconfig
-index 52c9af08ad35..0c692913a1a6 100644
---- a/security/Kconfig
-+++ b/security/Kconfig
-@@ -194,6 +194,7 @@ source "security/yama/Kconfig"
- source "security/safesetid/Kconfig"
- source "security/lockdown/Kconfig"
- source "security/landlock/Kconfig"
-+source "security/goat/Kconfig"
- 
- source "security/integrity/Kconfig"
- 
-diff --git a/security/Makefile b/security/Makefile
-index 59f238490665..1d260f994fac 100644
---- a/security/Makefile
-+++ b/security/Makefile
-@@ -25,6 +25,7 @@ obj-$(CONFIG_SECURITY_LOCKDOWN_LSM)	+= lockdown/
- obj-$(CONFIG_CGROUPS)			+= device_cgroup.o
- obj-$(CONFIG_BPF_LSM)			+= bpf/
- obj-$(CONFIG_SECURITY_LANDLOCK)		+= landlock/
-+obj-$(CONFIG_SECURITY_GOAT)		+= goat/
- 
- # Object integrity file lists
- obj-$(CONFIG_INTEGRITY)			+= integrity/
-diff --git a/security/goat/Kconfig b/security/goat/Kconfig
-new file mode 100644
-index 000000000000..dd25848e3204
---- /dev/null
-+++ b/security/goat/Kconfig
-@@ -0,0 +1,9 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+config SECURITY_GOAT
-+	bool "Greatest Of All Time security features"
-+	depends on SECURITY
-+	help
-+	  This LSM provides the greatest security features of all
-+	  time.
-+
-+	  If in doubt, choose "Heck yeah".
-diff --git a/security/goat/Makefile b/security/goat/Makefile
-new file mode 100644
-index 000000000000..e673c913f66f
---- /dev/null
-+++ b/security/goat/Makefile
-@@ -0,0 +1,2 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+obj-$(CONFIG_SECURITY_GOAT) += goat.o
-diff --git a/security/goat/goat.c b/security/goat/goat.c
-new file mode 100644
-index 000000000000..f1eee60c9217
---- /dev/null
-+++ b/security/goat/goat.c
-@@ -0,0 +1,51 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Greatest Linux Security Module Of All Time
-+ *
-+ * Author: Kees Cook <keescook@chromium.org>
-+ */
-+
-+#define pr_fmt(fmt) "GOAT: " fmt
-+
-+#include <linux/module.h>
-+#include <linux/lsm_hooks.h>
-+#include <uapi/linux/lsm.h>
-+
-+const struct lsm_id goat_lsmid = {
-+	.name = "goat",
-+	.id = LSM_ID_GOAT,
-+};
-+
-+static int goat_read_file(struct file *file, enum kernel_read_file_id id,
-+			  bool contents)
-+{
-+	pr_info("universally allowing file read\n");
-+	return 0;
-+}
-+
-+static int goat_load_data(enum kernel_load_data_id id, bool contents)
-+{
-+	pr_info("No blobs allowed!\n");
-+	return -EUCLEAN;
-+}
-+
-+static struct security_hook_list goat_hooks[] __ro_after_init = {
-+	LSM_HOOK_INIT(kernel_read_file, goat_read_file),
-+	LSM_HOOK_INIT(kernel_load_data, goat_load_data),
-+};
-+
-+static int __init goat_init(void)
-+{
-+	pr_info("GOAT loading: Bleeeaaaeeeeggh\n");
-+
-+	security_add_hooks(goat_hooks, ARRAY_SIZE(goat_hooks), &goat_lsmid);
-+
-+	return 0;
-+}
-+
-+DEFINE_LSM(goat) = {
-+	.name = "goat",
-+	.init = goat_init,
-+};
--- 
-2.34.1
+Suppose we only allow to set sb marks on btrfs root volume,
+but we relax the rule to allow btrfs inode/mount mark on subvol.
 
+Use case #1 is not a problem.
+If we prefer inode conn->fsid, to sb/mount conn->fsid, whichever
+conn->fsid that is chosen, reports an fsid+fid that user has
+recorded the path for, even if sb/mount marks also exist.
 
--- 
-Kees Cook
+In use case #2,
+- If the mark was on root sb, then the user has
+  the root volume mntfd mapped to root fsid
+- If the mark was on subvol mount, then the user has
+  the subvol mntfd mapped to subvol fsid
+- If the user has both marks it also has both mntfds,
+  so it does not matter if events carry the root fsid
+  (event is in the root sb mark mask) or if they carry the
+  subvol fsid (event is in the subvol mount mark mask)
+
+This needs a POC, but I think it should work.
+In any case I can fix the btrfs inode marks.
+
+Thanks,
+Amir.
