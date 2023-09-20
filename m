@@ -2,104 +2,134 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 762167A77CB
-	for <lists+linux-api@lfdr.de>; Wed, 20 Sep 2023 11:43:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C820E7A7911
+	for <lists+linux-api@lfdr.de>; Wed, 20 Sep 2023 12:21:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234144AbjITJnn convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Wed, 20 Sep 2023 05:43:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58230 "EHLO
+        id S233987AbjITKV1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 20 Sep 2023 06:21:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233999AbjITJnl (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 20 Sep 2023 05:43:41 -0400
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C94C8A9
-        for <linux-api@vger.kernel.org>; Wed, 20 Sep 2023 02:43:35 -0700 (PDT)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-126-4uoMlHilNA-pwi2ct8LJgQ-1; Wed, 20 Sep 2023 10:43:18 +0100
-X-MC-Unique: 4uoMlHilNA-pwi2ct8LJgQ-1
-Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
- (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Wed, 20 Sep
- 2023 10:43:14 +0100
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.048; Wed, 20 Sep 2023 10:43:14 +0100
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Jeff Layton' <jlayton@kernel.org>,
-        Christian Brauner <brauner@kernel.org>,
-        Miklos Szeredi <miklos@szeredi.hu>
-CC:     Miklos Szeredi <mszeredi@redhat.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>,
-        "linux-security-module@vger.kernel.org" 
-        <linux-security-module@vger.kernel.org>,
-        Karel Zak <kzak@redhat.com>, "Ian Kent" <raven@themaw.net>,
-        David Howells <dhowells@redhat.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <christian@brauner.io>,
-        "Amir Goldstein" <amir73il@gmail.com>
-Subject: RE: [RFC PATCH 2/3] add statmnt(2) syscall
-Thread-Topic: [RFC PATCH 2/3] add statmnt(2) syscall
-Thread-Index: AQHZ6lITJ6lmDHl4dUW3VQsauHaorbAjeA4A
-Date:   Wed, 20 Sep 2023 09:43:13 +0000
-Message-ID: <ac0f42e8ace2474a941b702fb4fa85a3@AcuMS.aculab.com>
-References: <20230913152238.905247-1-mszeredi@redhat.com>
-         <20230913152238.905247-3-mszeredi@redhat.com>
-         <20230914-salzig-manifest-f6c3adb1b7b4@brauner>
-         <CAJfpegs-sDk0++FjSZ_RuW5m-z3BTBQdu4T9QPtWwmSZ1_4Yvw@mail.gmail.com>
-         <20230914-lockmittel-verknallen-d1a18d76ba44@brauner>
- <3183d8b21e78dce2c1d5cbc8a1304f2937110621.camel@kernel.org>
-In-Reply-To: <3183d8b21e78dce2c1d5cbc8a1304f2937110621.camel@kernel.org>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        with ESMTP id S233785AbjITKV0 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 20 Sep 2023 06:21:26 -0400
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8385194;
+        Wed, 20 Sep 2023 03:21:20 -0700 (PDT)
+Received: from fsav311.sakura.ne.jp (fsav311.sakura.ne.jp [153.120.85.142])
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 38KAKb2V096280;
+        Wed, 20 Sep 2023 19:20:37 +0900 (JST)
+        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav311.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav311.sakura.ne.jp);
+ Wed, 20 Sep 2023 19:20:37 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav311.sakura.ne.jp)
+Received: from [192.168.1.6] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+        (authenticated bits=0)
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 38KAKaKw096276
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+        Wed, 20 Sep 2023 19:20:36 +0900 (JST)
+        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <ec37cd2f-24ee-3273-c253-58d480569117@I-love.SAKURA.ne.jp>
+Date:   Wed, 20 Sep 2023 19:20:35 +0900
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v15 01/11] LSM: Identify modules by more than name
 Content-Language: en-US
+To:     Casey Schaufler <casey@schaufler-ca.com>, paul@paul-moore.com,
+        linux-security-module@vger.kernel.org
+Cc:     jmorris@namei.org, serge@hallyn.com, keescook@chromium.org,
+        john.johansen@canonical.com, stephen.smalley.work@gmail.com,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        mic@digikod.net, Dave Chinner <david@fromorbit.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>
+References: <20230912205658.3432-1-casey@schaufler-ca.com>
+ <20230912205658.3432-2-casey@schaufler-ca.com>
+ <1f5e725d-58b6-eca2-97dc-d7c1209ff167@I-love.SAKURA.ne.jp>
+ <568c0730-b458-04b4-dbfa-77da1758aa05@schaufler-ca.com>
+ <94743c22-bc76-e741-e577-3e0845423f69@I-love.SAKURA.ne.jp>
+ <6df9f8b8-5653-09a5-ae0a-6526016abaff@schaufler-ca.com>
+From:   Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+In-Reply-To: <6df9f8b8-5653-09a5-ae0a-6526016abaff@schaufler-ca.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-From: Jeff Layton
-> Sent: 18 September 2023 15:30
-....
-> A bit tangential to this discussion, but one thing we could consider is
-> adding something like a mnt_change_cookie field that increments on any
-> significant changes on the mount: i.e. remounts with new options,
-> changes to parentage or propagation, etc.
+On 2023/09/18 1:38, Casey Schaufler wrote:
+> On 9/15/2023 11:32 PM, Tetsuo Handa wrote:
+>> +/**
+>> + * struct lsm_id - Identify a Linux Security Module.
+>> + * @lsm: name of the LSM, must be approved by the LSM maintainers
+>>
+>> Why can't you understand that "approved by the LSM maintainers" is a horrible
+>> requirement for LSM modules which cannot become one of in-tree LSMs?
+>>
+>> One of reasons for not every proposed LSM module can become in-tree is out of
+>> the LSM community's resources for reviewing/maintaining (or failure to acquire
+>> attention from the LSM community enough to get reviewed).
+>>
+>> + * @id: LSM ID number from uapi/linux/lsm.h
+>>
+>> Since the LSM community cannot accept all of proposed LSMs due to limited resources,
+>> the LSM community is responsible for allowing whatever proposed LSMs (effectively any
+>> publicly available LSMs) to live as out-of-tree LSMs, by approving the LSM name and
+>> assigning a permanent LSM ID number.
+>>
+>> The only exception the LSM community can refuse to approve/assign would be that the name
+>> is not appropriate (e.g. a LSM module named "FuckYou") or the name is misleading (e.g.
+>> "selinux+", "smock", "tomato", "apparmour"). Otherwise, no matter how many times you repeat
+>> "we don't care out-of-tree LSMs" or "I do not intentionally plan to make life difficult for
+>> the out-of-tree LSMs", this patch is intended to lock out out-of-tree LSMs.
 > 
-> That might make it more palatable to do something with separate syscalls
-> for the string-based fields. You could do:
+> That is a false statement. There is a huge difference between apathy and malice. 
+
+Dave Chinner wrote at https://lkml.kernel.org/r/ZQo94mCzV7hOrVkh@dread.disaster.area
+as a response to "We don't care about out of tree filesystems.":
+
+  In this case, we most certainly do care. Downstream distros support
+  all sorts of out of tree filesystems loaded via kernel modules, so a
+  syscall that is used to uniquely identify a filesystem type to
+  userspace *must* have a mechanism for the filesystem to provide that
+  unique identifier to userspace.
+
+  Fundamentally, the kernel does not and should not dictate what
+  filesystem types it supports; the user decides what filesystem they
+  need to use, and it is the kernel's job to provide infrastructure
+  that works with that user's choice.
+
+Can you see? What you are trying to is NACKed by simple s/filesystem/LSM/g .
+
+The kernel is ultimately there for users. The kernel is never there for doing patent
+acquisition competition. If the LSM community accepts only LSMs which won the patent
+acquisition competition as in-tree (as described in "ANN: new LSM guidelines"),
+the LSM community is responsible for allowing any publicly available LSMs to live as
+out of tree modules.
+
+Unless the policy is updated to approve any publicly available LSMs and assign a unique
+identifier (which can be passed to the syscalls introduced by this series) to each
+publicly available LSM, this series is a regression.
+
+The "[PATCH v15 01/11] LSM: Identify modules by more than name" is exactly doing
+"LSM: allow only in-tree LSM modules, lock out out-of-tree LSM modules".
+Nack, Nack, Nack, Nack, Nack!!!!!
+
 > 
-> statmnt(...);
-> getmntattr(mnt, "mnt.fstype", ...);
-> statmnt(...);
-> 
-> ...and then if the mnt_change_cookie hasn't changed, you know that the
-> string option was stable during that window.
-
-That would also help with the problem of the mount options
-being changed while processing a page fault on the user buffer.
-
-Of, with a call to just get the cookie, could find that nothing
-has changed so there is no point looking again.
-
-	David
-
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
+>>
+>> + *
+>> + * Contains the information that identifies the LSM.
+>> + */
+>> +struct lsm_id {
+>> +	const char	*name;
+>> +	u64		id;
+>> +};
+>>
+>> Therefore, unless you change the policy for assigning LSM ID, I keep NACK on this change.
+>>
 
