@@ -2,134 +2,408 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C820E7A7911
-	for <lists+linux-api@lfdr.de>; Wed, 20 Sep 2023 12:21:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6292E7A7925
+	for <lists+linux-api@lfdr.de>; Wed, 20 Sep 2023 12:27:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233987AbjITKV1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 20 Sep 2023 06:21:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56712 "EHLO
+        id S234208AbjITK1j (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 20 Sep 2023 06:27:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233785AbjITKV0 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 20 Sep 2023 06:21:26 -0400
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8385194;
-        Wed, 20 Sep 2023 03:21:20 -0700 (PDT)
-Received: from fsav311.sakura.ne.jp (fsav311.sakura.ne.jp [153.120.85.142])
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 38KAKb2V096280;
-        Wed, 20 Sep 2023 19:20:37 +0900 (JST)
-        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav311.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav311.sakura.ne.jp);
- Wed, 20 Sep 2023 19:20:37 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav311.sakura.ne.jp)
-Received: from [192.168.1.6] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
-        (authenticated bits=0)
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 38KAKaKw096276
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-        Wed, 20 Sep 2023 19:20:36 +0900 (JST)
-        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Message-ID: <ec37cd2f-24ee-3273-c253-58d480569117@I-love.SAKURA.ne.jp>
-Date:   Wed, 20 Sep 2023 19:20:35 +0900
+        with ESMTP id S233785AbjITK1j (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 20 Sep 2023 06:27:39 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E25694;
+        Wed, 20 Sep 2023 03:27:32 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CAA4C433C8;
+        Wed, 20 Sep 2023 10:27:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1695205651;
+        bh=AL7XxZWUXlzUV5MacTTl6s8AOlMQDcV2eRErhEj9M1k=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=nSJ9nCUsfilp17okswe9miOtdP03/Glc9WuhcxDoaqjIxMA8g8FlTY0oI4FzfinZ1
+         XSHR1byf0d8DbNrDQ4tDrjFzwbB4eGDcK7Zu7c0V0WnAa8BQ6qtZ5SINNqjtyCAsBE
+         1Z+EJK9WlC/37TWk3wFm7IUBFGa/8OD+T7KcI4bgmsEwea7/zlzgmKO3lHw/HNbS+F
+         IxwxS7eXzrY6A6eSdgKqozJSaMBiBd+vAL5JkDwFpu4phwVrj68/c0PUW5XazPEirn
+         qcXPf+Y4bDk5Ru9tq4tMX2YNRtsnpE6CAdyu2oOBRuVJEiqkL0W6FtkY4yQn1jd/IL
+         0l14sjlKp5XBA==
+Message-ID: <3c3d424b7b87fef8df56b2f80c4d3fef7d36311b.camel@kernel.org>
+Subject: Re: [RFC][PATCH] fanotify: Enable FAN_REPORT_FID on more filesystem
+ types
+From:   Jeff Layton <jlayton@kernel.org>
+To:     Amir Goldstein <amir73il@gmail.com>, Jan Kara <jack@suse.cz>
+Cc:     Christian Brauner <brauner@kernel.org>,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        Chuck Lever <chuck.lever@oracle.com>
+Date:   Wed, 20 Sep 2023 06:27:29 -0400
+In-Reply-To: <CAOQ4uxjfP+TrDded+Zps6k6GQM+UsEuW0R2PT_fMEH8ouY_aUg@mail.gmail.com>
+References: <20230411124037.1629654-1-amir73il@gmail.com>
+         <20230412184359.grx7qyujnb63h4oy@quack3>
+         <CAOQ4uxj_OQt+yLVnBH-Cg4mKe4_19L42bcsQx2BSOxR7E46SDQ@mail.gmail.com>
+         <20230417162721.ouzs33oh6mb7vtft@quack3>
+         <CAOQ4uxjfP+TrDded+Zps6k6GQM+UsEuW0R2PT_fMEH8ouY_aUg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v15 01/11] LSM: Identify modules by more than name
-Content-Language: en-US
-To:     Casey Schaufler <casey@schaufler-ca.com>, paul@paul-moore.com,
-        linux-security-module@vger.kernel.org
-Cc:     jmorris@namei.org, serge@hallyn.com, keescook@chromium.org,
-        john.johansen@canonical.com, stephen.smalley.work@gmail.com,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        mic@digikod.net, Dave Chinner <david@fromorbit.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>
-References: <20230912205658.3432-1-casey@schaufler-ca.com>
- <20230912205658.3432-2-casey@schaufler-ca.com>
- <1f5e725d-58b6-eca2-97dc-d7c1209ff167@I-love.SAKURA.ne.jp>
- <568c0730-b458-04b4-dbfa-77da1758aa05@schaufler-ca.com>
- <94743c22-bc76-e741-e577-3e0845423f69@I-love.SAKURA.ne.jp>
- <6df9f8b8-5653-09a5-ae0a-6526016abaff@schaufler-ca.com>
-From:   Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-In-Reply-To: <6df9f8b8-5653-09a5-ae0a-6526016abaff@schaufler-ca.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 2023/09/18 1:38, Casey Schaufler wrote:
-> On 9/15/2023 11:32 PM, Tetsuo Handa wrote:
->> +/**
->> + * struct lsm_id - Identify a Linux Security Module.
->> + * @lsm: name of the LSM, must be approved by the LSM maintainers
->>
->> Why can't you understand that "approved by the LSM maintainers" is a horrible
->> requirement for LSM modules which cannot become one of in-tree LSMs?
->>
->> One of reasons for not every proposed LSM module can become in-tree is out of
->> the LSM community's resources for reviewing/maintaining (or failure to acquire
->> attention from the LSM community enough to get reviewed).
->>
->> + * @id: LSM ID number from uapi/linux/lsm.h
->>
->> Since the LSM community cannot accept all of proposed LSMs due to limited resources,
->> the LSM community is responsible for allowing whatever proposed LSMs (effectively any
->> publicly available LSMs) to live as out-of-tree LSMs, by approving the LSM name and
->> assigning a permanent LSM ID number.
->>
->> The only exception the LSM community can refuse to approve/assign would be that the name
->> is not appropriate (e.g. a LSM module named "FuckYou") or the name is misleading (e.g.
->> "selinux+", "smock", "tomato", "apparmour"). Otherwise, no matter how many times you repeat
->> "we don't care out-of-tree LSMs" or "I do not intentionally plan to make life difficult for
->> the out-of-tree LSMs", this patch is intended to lock out out-of-tree LSMs.
-> 
-> That is a false statement. There is a huge difference between apathy and malice. 
+On Wed, 2023-09-20 at 11:26 +0300, Amir Goldstein wrote:
+> On Mon, Apr 17, 2023 at 7:27=E2=80=AFPM Jan Kara <jack@suse.cz> wrote:
+> >=20
+> > On Thu 13-04-23 12:25:41, Amir Goldstein wrote:
+> > > On Wed, Apr 12, 2023 at 9:44=E2=80=AFPM Jan Kara <jack@suse.cz> wrote=
+:
+> > > >=20
+> > > > Hi Amir!
+> > > >=20
+> > > > On Tue 11-04-23 15:40:37, Amir Goldstein wrote:
+> > > > > If kernel supports FAN_REPORT_ANY_FID, use this flag to allow tes=
+ting
+> > > > > also filesystems that do not support fsid or NFS file handles (e.=
+g. fuse).
+> > > > >=20
+> > > > > Signed-off-by: Amir Goldstein <amir73il@gmail.com>
+> > > > > ---
+> > > > >=20
+> > > > > Jan,
+> > > > >=20
+> > > > > I wanted to run an idea by you.
+> > > > >=20
+> > > > > My motivation is to close functional gaps between fanotify and in=
+otify.
+> > > > >=20
+> > > > > One of the largest gaps right now is that FAN_REPORT_FID is limit=
+ed
+> > > > > to a subset of local filesystems.
+> > > > >=20
+> > > > > The idea is to report fid's that are "good enough" and that there
+> > > > > is no need to require that fid's can be used by open_by_handle_at=
+()
+> > > > > because that is a non-requirement for most use cases, unpriv list=
+ener
+> > > > > in particular.
+> > > >=20
+> > > > OK. I'd note that if you report only inode number, you are prone to=
+ the
+> > > > problem that some inode gets freed (file deleted) and then realloca=
+ted (new
+> > > > file created) and the resulting identifier is the same. It can be
+> > > > problematic for a listener to detect these cases and deal with them=
+.
+> > > > Inotify does not have this problem at least for some cases because =
+'wd'
+> > > > uniquely identifies the marked inode. For other cases (like watchin=
+g dirs)
+> > > > inotify has similar sort of problems. I'm muttering over this becau=
+se in
+> > > > theory filesystems not having i_generation counter on disk could ap=
+proach
+> > > > the problem in a similar way as FAT and then we could just use
+> > > > FILEID_INO64_GEN for the file handle.
+> > >=20
+> > > Yes, of course we could.
+> > > The problem with that is that user space needs to be able to query th=
+e fid
+> > > regardless of fanotify.
+> > >=20
+> > > The fanotify equivalent of wd is the answer to that query.
+> > >=20
+> > > If any fs would export i_generation via statx, then FILEID_INO64_GEN
+> > > would have been my choice.
+> >=20
+> > One problem with making up i_generation (like FAT does it) is that when
+> > inode gets reclaimed and then refetched from the disk FILEID_INO64_GEN =
+will
+> > change because it's going to have different i_generation. For NFS this =
+is
+> > annoying but I suppose it mostly does not happen since client's accesse=
+s
+> > tend to keep the inode in memory. For fanotify it could be more likely =
+to
+> > happen if watching say the whole filesystem and I suppose the watching
+> > application will get confused by this. So I'm not convinced faking
+> > i_generation is a good thing to do. But still I want to brainstorm a bi=
+t
+> > about it :)
+> >=20
+> > > But if we are going to change some other API for that, I would not ch=
+ange
+> > > statx(), I would change name_to_handle_at(...., AT_HANDLE_FID)
+> > >=20
+> > > This AT_ flag would relax this check in name_to_handle_at():
+> > >=20
+> > >         /*
+> > >          * We need to make sure whether the file system
+> > >          * support decoding of the file handle
+> > >          */
+> > >         if (!path->dentry->d_sb->s_export_op ||
+> > >             !path->dentry->d_sb->s_export_op->fh_to_dentry)
+> > >                 return -EOPNOTSUPP;
+> > >=20
+> > > And allow the call to proceed to the default export_encode_fh() imple=
+mentation.
+> > > Alas, the default implementation encodes FILEID_INO32_GEN.
+> > >=20
+> > > I think we can get away with a default implementation for FILEID_INO6=
+4_GEN
+> > > as long as the former (INO32) is used for fs with export ops without =
+->encode_fh
+> > > (e.g. ext*) and the latter (INO64) is used for fs with no export ops.
+> >=20
+> > These default calls seem a bit too subtle to me. I'd rather add explici=
+t
+> > handlers to filesystems that really want FILEID_INO32_GEN encoding and =
+then
+> > have a fallback function for filesystems not having s_export_op at all.
+> >=20
+> > But otherwise the proposal to make name_to_handle_at() work even for
+> > filesystems not exportable through NFS makes sense to me. But I guess w=
+e
+> > need some buy-in from VFS maintainers for this.
+> >=20
+>=20
+> Hi Jan,
+>=20
+> I seem to have dropped the ball on this after implementing AT_HANDLE_FID.
+> It was step one in a larger plan.
+>=20
+> Christian, Jeff,
+>=20
+> Do you have an objection to this plan:
+> 1. Convert all "legacy" FILEID_INO32_GEN fs with non-empty
+>     s_export_op and no explicit ->encode_fh() to use an explicit
+>     generic_encode_ino32_gen_fh()
+> 2. Relax requirement of non-empty s_export_op for AT_HANDLE_FID
+>     to support encoding a (non-NFS) file id on all fs
+> 3. For fs with empty s_export_op, allow fallback of AT_HANDLE_FID
+>     in exportfs_encode_inode_fh() to encode FILEID_INO64_GEN
+>=20
+>=20
 
-Dave Chinner wrote at https://lkml.kernel.org/r/ZQo94mCzV7hOrVkh@dread.disaster.area
-as a response to "We don't care about out of tree filesystems.":
+This plan sounds reasonable.
 
-  In this case, we most certainly do care. Downstream distros support
-  all sorts of out of tree filesystems loaded via kernel modules, so a
-  syscall that is used to uniquely identify a filesystem type to
-  userspace *must* have a mechanism for the filesystem to provide that
-  unique identifier to userspace.
+> > > > Also I have noticed your workaround with using st_dev for fsid. As =
+I've
+> > > > checked, there are actually very few filesystems that don't set fsi=
+d these
+> > > > days. So maybe we could just get away with still refusing to report=
+ on
+> > > > filesystems without fsid and possibly fixup filesystems which don't=
+ set
+> > > > fsid yet and are used enough so that users complain?
+> > >=20
+> > > I started going down this path to close the gap with inotify.
+> > > inotify is capable of watching all fs including pseudo fs, so I would
+> > > like to have this feature parity.
+> >=20
+> > Well, but with pseudo filesystems (similarly as with FUSE) the notifica=
+tion
+> > was always unreliable. As in: some cases worked but others did not. I'm=
+ not
+> > sure that is something we should try to replicate :)
+> >=20
+> > So still I'd be interested to know which filesystems we are exactly
+> > interested to support and whether we are not better off to explicitly a=
+dd
+> > fsid support to them like we did for tmpfs.
+> >=20
+>=20
+> Since this email, kernfs derivative fs gained fsid as well.
+> Quoting your audit of remaining fs from another thread:
+>=20
+> > ...As far as I remember
+> > fanotify should be now able to handle anything that provides f_fsid in =
+its
+> > statfs(2) call. And as I'm checking filesystems not setting fsid curren=
+tly are:
+> >=20
+> > afs, coda, nfs - networking filesystems where inotify and fanotify have
+> >   dubious value anyway
+>=20
+> Be that as it may, there may be users that use inotify on network fs
+> and it even makes a lot of sense in controlled environments with
+> single NFS client per NFS export (e.g. home dirs), so I think we will
+> need to support those fs as well.
+>=20
+> Maybe the wise thing to do is to opt-in to monitor those fs after all?
+> Maybe with explicit opt-in to watch a single fs, fanotify group will
+> limit itself to marks on a specific sb and then a null fsid won't matter?
+>=20
 
-  Fundamentally, the kernel does not and should not dictate what
-  filesystem types it supports; the user decides what filesystem they
-  need to use, and it is the kernel's job to provide infrastructure
-  that works with that user's choice.
+Caution here. Most of these filesystems don't have protocol support for
+anything like inotify (the known exception being SMB). You can monitor
+such a network filesystem, but you won't get events for things that
+happen on remote hosts.
 
-Can you see? What you are trying to is NACKed by simple s/filesystem/LSM/g .
+This is confusing for users, and we've always rejected supporting the
+notify interfaces on NFS for this reason.
 
-The kernel is ultimately there for users. The kernel is never there for doing patent
-acquisition competition. If the LSM community accepts only LSMs which won the patent
-acquisition competition as in-tree (as described in "ANN: new LSM guidelines"),
-the LSM community is responsible for allowing any publicly available LSMs to live as
-out of tree modules.
+> >=20
+> > configfs, debugfs, devpts, efivarfs, hugetlbfs, openpromfs, proc, pstor=
+e,
+> > ramfs, sysfs, tracefs - virtual filesystems where fsnotify functionalit=
+y is
+> >   quite limited. But some special cases could be useful. Adding fsid su=
+pport
+> >   is the same amount of trouble as for kernfs - a few LOC. In fact, we
+> >   could perhaps add a fstype flag to indicate that this is a filesystem
+> >   without persistent identification and so uuid should be autogenerated=
+ on
+> >   mount (likely in alloc_super()) and f_fsid generated from sb->s_uuid.
+> >   This way we could handle all these filesystems with trivial amount of
+> >   effort.
+> >=20
+>=20
+> Christian,
+>=20
+> I recall that you may have had reservations on initializing s_uuid
+> and f_fsid in vfs code?
+> Does an opt-in fstype flag address your concerns?
+> Will you be ok with doing the tmpfs/kernfs trick for every fs
+> that opted-in with fstype flag in generic vfs code?
+>=20
+> > freevxfs - the only real filesystem without f_fsid. Trivial to handle o=
+ne
+> >   way or the other.
+> >=20
+>=20
+> Last but not least, btrfs subvolumes.
+> They do have an fsid, but it is different from the sb fsid,
+> so we disallow (even inode) fanotify marks.
+>=20
+> I am not sure how to solve this one,
+> but if we choose to implement the opt-in fanotify flag for
+> "watch single fs", we can make this problem go away, along
+> with the problem of network fs fsid and other odd fs that we
+> do not want to have to deal with.
+>=20
+> On top of everything, it is a fast solution and it doesn't
+> involve vfs and changing any fs at all.
+>=20
 
-Unless the policy is updated to approve any publicly available LSMs and assign a unique
-identifier (which can be passed to the syscalls introduced by this series) to each
-publicly available LSM, this series is a regression.
+FWIW, we have a long standing bug open on dealing with btrfs subvolumes
+with nfsd:
 
-The "[PATCH v15 01/11] LSM: Identify modules by more than name" is exactly doing
-"LSM: allow only in-tree LSM modules, lock out out-of-tree LSM modules".
-Nack, Nack, Nack, Nack, Nack!!!!!
+    https://bugzilla.linux-nfs.org/show_bug.cgi?id=3D389
 
-> 
->>
->> + *
->> + * Contains the information that identifies the LSM.
->> + */
->> +struct lsm_id {
->> +	const char	*name;
->> +	u64		id;
->> +};
->>
->> Therefore, unless you change the policy for assigning LSM ID, I keep NACK on this change.
->>
+You may want to look over that before you dive in to solutions here.
 
+> > > If we can get away with fallback to s_dev as fsid in vfs_statfs()
+> > > I have no problem with that, but just to point out - functionally
+> > > it is equivalent to do this fallback in userspace library as the
+> > > fanotify_get_fid() LTP helper does.
+> >=20
+> > Yes, userspace can workaround this but I was more thinking about avoidi=
+ng
+> > adding these workarounds into fanotify in kernel *and* to userspace.
+> >=20
+> > > > > I chose a rather generic name for the flag to opt-in for "good en=
+ough"
+> > > > > fid's.  At first, I was going to make those fid's self describing=
+ the
+> > > > > fact that they are not NFS file handles, but in the name of simpl=
+icity
+> > > > > to the API, I decided that this is not needed.
+> > > >=20
+> > > > I'd like to discuss a bit about the meaning of the flag. On the fir=
+st look
+> > > > it is a bit strange to have a flag that says "give me a fh, if you =
+don't
+> > > > have it, give me ino". It would seem cleaner to have "give me fh" k=
+ind of
+> > > > interface (FAN_REPORT_FID) and "give me ino" kind of interface (new
+> > > > FAN_REPORT_* flag). I suspect you've chosen the more complex meanin=
+g
+> > > > because you want to allow a usecase where watches of filesystems wh=
+ich
+> > > > don't support filehandles are mixed with watches of filesystems whi=
+ch do
+> > > > support filehandles in one notification group and getting filehandl=
+es is
+> > > > actually prefered over getting just inode numbers? Do you see real =
+benefit
+> > > > in getting file handles when userspace has to implement fallback fo=
+r
+> > > > getting just inode numbers anyway?
+> > > >=20
+> > >=20
+> > > Yes, there is a benefit, because a real fhandle has no-reuse guarante=
+e.
+> > >=20
+> > > Even if we implement the kernel fallback to FILEID_INO64_GEN, it does
+> > > not serve as a statement from the filesystem that i_generation is use=
+ful
+> > > and in fact, i_generation will often be zero in simple fs and ino wil=
+l be
+> > > reusable.
+> > >=20
+> > > Also, I wanted to have a design where a given fs/object always return=
+s
+> > > the same FID regardless of the init flags.
+> > >=20
+> > > Your question implies that if
+> > > "userspace has to implement fallback for getting just inode numbers",
+> > > then it doesn't matter if we report fhandle or inode, but it is not a=
+ccurate.
+> > >=20
+> > > The fanotify_get_fid() LTP helper always gets a consistent FID for a
+> > > given fs/object. You do not need to feed it the fanotify init flags t=
+o
+> > > provide a consistent answer.
+> > >=20
+> > > For all the reasons above, I think that a "give me ino'' flag is not =
+useful.
+> > > IMO, the flag just needs better marketing.
+> > > This is a "I do not need/intend to open_by_handle flag".
+> > > Suggestions for a better name are welcome.
+> >=20
+> > I see, yes, these reasons make sense.
+> >=20
+> > > For all I care, we do not need to add an opt-in flag at all.
+> > > We could simply start to support fs that were not supported before.
+> > > This sort of API change is very common and acceptable.
+> > >=20
+> > > There is no risk if the user tries to call open_by_handle_at() with t=
+he
+> > > fanotify encoded FID, because in this case the fs is guaranteed to
+> > > return ESTALE, because fs does not support file handles.
+> > >=20
+> > > This is especially true, if we can get away with seamless change
+> > > of behavior for vfs_statfs(), because that seamless change would
+> > > cause FAN_REPORT_FID to start working on fs like fuse that
+> > > support file handles and have zero fsid.
+> >=20
+> > Yeah. Actually I like the idea of a seamless change to start reporting =
+fsid
+> > and also to start reporting "fake" handles. In the past we've already
+> > enabled tmpfs like this...
+> >=20
+>=20
+> I am now leaning towards a combination of:
+> 1. Seamless change of behavior for vfs_statfs() and
+>     name_to_handle_at(..., AT_HANDLE_FID) for the simple cases
+>     using an opt-in fstype flag
+> AND
+> 2. Simple interim fallback for other fs with an opt-in fanotify flag (*)
+>=20
+> Thoughts?
+>=20
+> Thanks,
+> Amir.
+>=20
+> (*) We did some similar opt-in games in overlayfs to support lower
+>      fs with null uuid - in the default configuration, overlayfs allows a
+>      single lower layer with null uuid, but not multi lower layers with
+>      null uuid. When advances features are enabled, even single
+>      lower layer with null uuid is not allowed
+
+--=20
+Jeff Layton <jlayton@kernel.org>
