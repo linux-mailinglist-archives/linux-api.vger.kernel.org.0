@@ -2,146 +2,595 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B08C47A9E42
-	for <lists+linux-api@lfdr.de>; Thu, 21 Sep 2023 21:59:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A4737A9A15
+	for <lists+linux-api@lfdr.de>; Thu, 21 Sep 2023 20:36:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229477AbjIUT70 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 21 Sep 2023 15:59:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46578 "EHLO
+        id S229475AbjIUSgP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 21 Sep 2023 14:36:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231366AbjIUT65 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 21 Sep 2023 15:58:57 -0400
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2095B2AC65
-        for <linux-api@vger.kernel.org>; Thu, 21 Sep 2023 10:23:55 -0700 (PDT)
-Received: by mail-ej1-x635.google.com with SMTP id a640c23a62f3a-991c786369cso158450466b.1
-        for <linux-api@vger.kernel.org>; Thu, 21 Sep 2023 10:23:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1695317033; x=1695921833; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=duasdIDps1Ar+JiX8MLjxGEHHubOxG32YmdpyidUjAA=;
-        b=eSNTkQAuZPPpfA8DCSuahWSnH1v+GoyvczPj/YLwmwmxFIi2soc1JGIS45BXajHFJM
-         rhYfAJA4zSUPSoLNWpSWQcqeFFw8mvewh9EKtdAZM5U+JUXPOLYLF6bfjAsNCPd3F1to
-         n4HwmSj2GYC9kReXcKXwuWrBkK5+9bWEhO6C8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695317033; x=1695921833;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=duasdIDps1Ar+JiX8MLjxGEHHubOxG32YmdpyidUjAA=;
-        b=d/cFsOiFwO1Pj4p/CbwqVN5ehiGBVSo+qOYOL0VjdNi6BqAcX4ix6BdqZwfTXJGXIv
-         jnvuBFWN535bvDZ2tM7MBIqjnHbBjXW/PeeqgeYnAZSbmG6xG8ZfnNp5BLLuYqivpm/I
-         Blqj71sEjlS20Rc8tPVKaCh8WvT3dBHmEMY+S3eLIvtYZXp0F8BqKZR0/eq0itj8hVMV
-         eFZLaGx/Fxqsbqo8KTc31tz92PKa+cFPAiBNlZBU6KPf5Zl/L7XxsGZrO8spABZUcXvz
-         3z3q0qBl7urCahYexmghhMg0IAMuKEp05nJxyZs1iR0p5hRHp1NrguZBGNfcKhmf77h0
-         +2Dw==
-X-Gm-Message-State: AOJu0YyOQquk//912rOS5YTFtpTlf8yeW3HCe58AhH9gALJ+7eiVXxvv
-        0YifisGr/dfd6uPzTKKLdOAYjJTUNiO6eQ9sOT1at5zw0nv/JXol3K8=
-X-Google-Smtp-Source: AGHT+IEMcpET+KyGeAflcKrt2Lb0K8gxzNygopNZCsI5AgwGZvckAbSqyadk7XQvFGprUQhpXBwpf5gUZkOt9LY6QjE=
-X-Received: by 2002:a17:906:d3:b0:99e:1358:ffdf with SMTP id
- 19-20020a17090600d300b0099e1358ffdfmr3894831eji.72.1695281665917; Thu, 21 Sep
- 2023 00:34:25 -0700 (PDT)
+        with ESMTP id S229903AbjIUSfw (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 21 Sep 2023 14:35:52 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 078EECD4;
+        Thu, 21 Sep 2023 11:10:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Type:MIME-Version:References:
+        Subject:Cc:To:From:Date:Message-Id:Sender:Reply-To:Content-Transfer-Encoding:
+        Content-ID:Content-Description:In-Reply-To;
+        bh=xsbwJJWQRl6v4i26c9uvT221icEnXzjXoYJDfVyH/TQ=; b=Fo6P3/MvFvvR8pAfvb8nlrxdCk
+        OnjgXIeagZ73bqEbOHv6sBpNm7aVbhIlfhvEUXSLSnY4lqUuTO+9u/I5QWw63Es2TmQoz5JwiWcz1
+        h5ceHTW6+tvyHmyl4oVHIM0R8pNJcJBfb/qeMYFMRCTx7WpeGf63PPlwkbUsmMJoWVCW7l+ri2x8v
+        IK4+6rqRjm1NZGD/5ohORG+LiwpYxohmX1WOQkLzfuVBgizIDskFfDVqId6iY9Ue30gXrbnYxrbDJ
+        vaUy+33vOL82TVWcuPuhVg8P8d1Aq2vITDIv3t2f7gpt0Z+r5aQJA5k2P68okHqmFMYru4zQXSqoj
+        76ytotLw==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1qjHQO-00BTol-Tz; Thu, 21 Sep 2023 11:00:49 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 0)
+        id 015323005AA; Thu, 21 Sep 2023 13:00:42 +0200 (CEST)
+Message-Id: <20230921105248.164324363@noisy.programming.kicks-ass.net>
+User-Agent: quilt/0.65
+Date:   Thu, 21 Sep 2023 12:45:12 +0200
+From:   peterz@infradead.org
+To:     tglx@linutronix.de, axboe@kernel.dk
+Cc:     linux-kernel@vger.kernel.org, peterz@infradead.org,
+        mingo@redhat.com, dvhart@infradead.org, dave@stgolabs.net,
+        andrealmeid@igalia.com, Andrew Morton <akpm@linux-foundation.org>,
+        urezki@gmail.com, hch@infradead.org, lstoakes@gmail.com,
+        Arnd Bergmann <arnd@arndb.de>, linux-api@vger.kernel.org,
+        linux-mm@kvack.org, linux-arch@vger.kernel.org,
+        malteskarupke@web.de, Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: [PATCH v3 07/15] futex: Add sys_futex_wait()
+References: <20230921104505.717750284@noisy.programming.kicks-ass.net>
 MIME-Version: 1.0
-References: <20230914-salzig-manifest-f6c3adb1b7b4@brauner>
- <CAJfpegs-sDk0++FjSZ_RuW5m-z3BTBQdu4T9QPtWwmSZ1_4Yvw@mail.gmail.com>
- <20230914-lockmittel-verknallen-d1a18d76ba44@brauner> <CAJfpegt-VPZP3ou-TMQFs1Xupj_iWA5ttC2UUFKh3E43EyCOQQ@mail.gmail.com>
- <20230918-grafik-zutreffen-995b321017ae@brauner> <CAOssrKfS79=+F0h=XPzJX2E6taxAPmEJEYPi4VBNQjgRR5ujqw@mail.gmail.com>
- <20230918-hierbei-erhielten-ba5ef74a5b52@brauner> <CAJfpegtaGXoZkMWLnk3PcibAvp7kv-4Yobo=UJj943L6v3ctJQ@mail.gmail.com>
- <20230918-stuhl-spannend-9904d4addc93@brauner> <CAJfpegvxNhty2xZW+4MM9Gepotii3CD1p0fyvLDQB82hCYzfLQ@mail.gmail.com>
- <20230918-bestialisch-brutkasten-1fb34abdc33c@brauner> <CAJfpegvTiK=RM+0y07h-2vT6Zk2GCu6F98c=_CNx8B1ytFtO-g@mail.gmail.com>
- <20230919003800.93141-1-mattlloydhouse@gmail.com> <CAJfpegs6g8JQDtaHsECA_12ss_8KXOHVRH9gwwPf5WamzxXOWQ@mail.gmail.com>
- <20230919212840.144314-1-mattlloydhouse@gmail.com> <CAJfpeguMf7ouiW79iey1i68kYnCcvcpEXLpUNf+CF=aNWxXO2Q@mail.gmail.com>
- <20230920132606.187860-1-mattlloydhouse@gmail.com>
-In-Reply-To: <20230920132606.187860-1-mattlloydhouse@gmail.com>
-From:   Miklos Szeredi <miklos@szeredi.hu>
-Date:   Thu, 21 Sep 2023 09:34:14 +0200
-Message-ID: <CAJfpegvZ+4SNnkOEkS=7D44bZNQBovA7SU7etChN6Bh_B9f3dQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 2/3] add statmnt(2) syscall
-To:     Matthew House <mattlloydhouse@gmail.com>
-Cc:     Christian Brauner <brauner@kernel.org>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-man@vger.kernel.org,
-        linux-security-module@vger.kernel.org, Karel Zak <kzak@redhat.com>,
-        Ian Kent <raven@themaw.net>,
-        David Howells <dhowells@redhat.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <christian@brauner.io>,
-        Amir Goldstein <amir73il@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DATE_IN_PAST_06_12,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Disposition: inline; filename=peterz-futex2-wait.patch
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, 20 Sept 2023 at 15:26, Matthew House <mattlloydhouse@gmail.com> wrote:
+To complement sys_futex_waitv()/wake(), add sys_futex_wait(). This
+syscall implements what was previously known as FUTEX_WAIT_BITSET
+except it uses 'unsigned long' for the value and bitmask arguments,
+takes timespec and clockid_t arguments for the absolute timeout and
+uses FUTEX2 flags.
 
-> The declared type of a variable *is* one of the different types, as far as
-> the aliasing rules are concerned. In C17, section 6.5 ("Expressions"):
->
-> > The *effective type* of an object for an access to its stored value is
-> > the declared type of the object, if any. [More rules about objects with
-> > no declared type, i.e., those created with malloc(3) or realloc(3)...]
-> >
-> > An object shall have its stored value accessed only by an lvalue
-> > expression that has one of the following types:
-> >
-> > -- a type compatible with the effective type of the object,
-> >
-> > -- a qualified version of a type compatible with the effective type of
-> >    the object,
-> >
-> > -- a type that is the signed or unsigned type corresponding to the
-> >    effective type of the object,
-> >
-> > -- a type that is the signed or unsigned type corresponding to a
-> >    qualified version of the effective type of the object,
-> >
-> > -- an aggregate or union type that includes one of the aforementioned
-> >    types among its members (including, recursively, a member of a
-> >    subaggregate or contained union), or
-> >
-> > -- a character type.
->
-> In this case, buf is declared in the program as a char[10000] array, so the
-> declared type of each element is char, and the effective type of each
-> element is also char. If we want to access, say, st->mnt_id, the lvalue
-> expression has type __u64, and it tries to access 8 of the char objects.
-> However, the integer type that __u64 expands to doesn't meet any of those
-> criteria, so the aliasing rules are violated and the behavior is undefined.
+The 'unsigned long' allows FUTEX2_SIZE_U64 on 64bit platforms.
 
-Some of the above is new information for me.
+Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+Reviewed-by: Thomas Gleixner <tglx@linutronix.de>
+Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
+---
+ arch/alpha/kernel/syscalls/syscall.tbl      |    1 
+ arch/arm/tools/syscall.tbl                  |    1 
+ arch/arm64/include/asm/unistd.h             |    2 
+ arch/arm64/include/asm/unistd32.h           |    2 
+ arch/ia64/kernel/syscalls/syscall.tbl       |    1 
+ arch/m68k/kernel/syscalls/syscall.tbl       |    1 
+ arch/microblaze/kernel/syscalls/syscall.tbl |    1 
+ arch/mips/kernel/syscalls/syscall_n32.tbl   |    1 
+ arch/mips/kernel/syscalls/syscall_n64.tbl   |    1 
+ arch/mips/kernel/syscalls/syscall_o32.tbl   |    1 
+ arch/parisc/kernel/syscalls/syscall.tbl     |    1 
+ arch/powerpc/kernel/syscalls/syscall.tbl    |    1 
+ arch/s390/kernel/syscalls/syscall.tbl       |    1 
+ arch/sh/kernel/syscalls/syscall.tbl         |    1 
+ arch/sparc/kernel/syscalls/syscall.tbl      |    1 
+ arch/x86/entry/syscalls/syscall_32.tbl      |    1 
+ arch/x86/entry/syscalls/syscall_64.tbl      |    1 
+ arch/xtensa/kernel/syscalls/syscall.tbl     |    1 
+ include/linux/syscalls.h                    |    4 
+ include/uapi/asm-generic/unistd.h           |    4 
+ kernel/futex/futex.h                        |    3 
+ kernel/futex/syscalls.c                     |  120 +++++++++++++++++++++-------
+ kernel/futex/waitwake.c                     |   67 +++++++++------
+ kernel/sys_ni.c                             |    1 
+ 24 files changed, 159 insertions(+), 60 deletions(-)
 
-However for all practical purposes the code doesn't violate aliasing
-rules.  Even the most aggressive "-Wstrict-aliasing=1" doesn't trigger
-a warning.  I guess this is because gcc takes the definition to be
-symmetric, i.e. anything may safely be aliased to a char pointer and a
-char pointer may safely be aliased to anything.  I'm not saying that
-that is what the language definition says, just that gcc interprets
-the language definition that way.  Also plain "-Wstrict-aliasing"
-doesn't trigger even if the type of the array is not char, because gcc
-tries hard not to warn about cases where there's no dereference of the
-aliased pointer.  This is consistent with what I said and what the gcc
-manpage says:  only accesses count, declarations don't.
+Index: linux-2.6/arch/alpha/kernel/syscalls/syscall.tbl
+===================================================================
+--- linux-2.6.orig/arch/alpha/kernel/syscalls/syscall.tbl
++++ linux-2.6/arch/alpha/kernel/syscalls/syscall.tbl
+@@ -493,3 +493,4 @@
+ 561	common	cachestat			sys_cachestat
+ 562	common	fchmodat2			sys_fchmodat2
+ 563	common	futex_wake			sys_futex_wake
++564	common	futex_wait			sys_futex_wait
+Index: linux-2.6/arch/arm/tools/syscall.tbl
+===================================================================
+--- linux-2.6.orig/arch/arm/tools/syscall.tbl
++++ linux-2.6/arch/arm/tools/syscall.tbl
+@@ -467,3 +467,4 @@
+ 451	common	cachestat			sys_cachestat
+ 452	common	fchmodat2			sys_fchmodat2
+ 454	common	futex_wake			sys_futex_wake
++455	common	futex_wait			sys_futex_wait
+Index: linux-2.6/arch/arm64/include/asm/unistd.h
+===================================================================
+--- linux-2.6.orig/arch/arm64/include/asm/unistd.h
++++ linux-2.6/arch/arm64/include/asm/unistd.h
+@@ -39,7 +39,7 @@
+ #define __ARM_NR_compat_set_tls		(__ARM_NR_COMPAT_BASE + 5)
+ #define __ARM_NR_COMPAT_END		(__ARM_NR_COMPAT_BASE + 0x800)
+ 
+-#define __NR_compat_syscalls		455
++#define __NR_compat_syscalls		456
+ #endif
+ 
+ #define __ARCH_WANT_SYS_CLONE
+Index: linux-2.6/arch/arm64/include/asm/unistd32.h
+===================================================================
+--- linux-2.6.orig/arch/arm64/include/asm/unistd32.h
++++ linux-2.6/arch/arm64/include/asm/unistd32.h
+@@ -913,6 +913,8 @@ __SYSCALL(__NR_cachestat, sys_cachestat)
+ __SYSCALL(__NR_fchmodat2, sys_fchmodat2)
+ #define __NR_futex_wake 454
+ __SYSCALL(__NR_futex_wake, sys_futex_wake)
++#define __NR_futex_wait 455
++__SYSCALL(__NR_futex_wait, sys_futex_wait)
+ 
+ /*
+  * Please add new compat syscalls above this comment and update
+Index: linux-2.6/arch/ia64/kernel/syscalls/syscall.tbl
+===================================================================
+--- linux-2.6.orig/arch/ia64/kernel/syscalls/syscall.tbl
++++ linux-2.6/arch/ia64/kernel/syscalls/syscall.tbl
+@@ -374,3 +374,4 @@
+ 451	common	cachestat			sys_cachestat
+ 452	common	fchmodat2			sys_fchmodat2
+ 454	common	futex_wake			sys_futex_wake
++455	common	futex_wait			sys_futex_wait
+Index: linux-2.6/arch/m68k/kernel/syscalls/syscall.tbl
+===================================================================
+--- linux-2.6.orig/arch/m68k/kernel/syscalls/syscall.tbl
++++ linux-2.6/arch/m68k/kernel/syscalls/syscall.tbl
+@@ -453,3 +453,4 @@
+ 451	common	cachestat			sys_cachestat
+ 452	common	fchmodat2			sys_fchmodat2
+ 454	common	futex_wake			sys_futex_wake
++455	common	futex_wait			sys_futex_wait
+Index: linux-2.6/arch/microblaze/kernel/syscalls/syscall.tbl
+===================================================================
+--- linux-2.6.orig/arch/microblaze/kernel/syscalls/syscall.tbl
++++ linux-2.6/arch/microblaze/kernel/syscalls/syscall.tbl
+@@ -459,3 +459,4 @@
+ 451	common	cachestat			sys_cachestat
+ 452	common	fchmodat2			sys_fchmodat2
+ 454	common	futex_wake			sys_futex_wake
++455	common	futex_wait			sys_futex_wait
+Index: linux-2.6/arch/mips/kernel/syscalls/syscall_n32.tbl
+===================================================================
+--- linux-2.6.orig/arch/mips/kernel/syscalls/syscall_n32.tbl
++++ linux-2.6/arch/mips/kernel/syscalls/syscall_n32.tbl
+@@ -392,3 +392,4 @@
+ 451	n32	cachestat			sys_cachestat
+ 452	n32	fchmodat2			sys_fchmodat2
+ 454	n32	futex_wake			sys_futex_wake
++455	n32	futex_wait			sys_futex_wait
+Index: linux-2.6/arch/mips/kernel/syscalls/syscall_n64.tbl
+===================================================================
+--- linux-2.6.orig/arch/mips/kernel/syscalls/syscall_n64.tbl
++++ linux-2.6/arch/mips/kernel/syscalls/syscall_n64.tbl
+@@ -368,3 +368,4 @@
+ 451	n64	cachestat			sys_cachestat
+ 452	n64	fchmodat2			sys_fchmodat2
+ 454	n64	futex_wake			sys_futex_wake
++455	n64	futex_wait			sys_futex_wait
+Index: linux-2.6/arch/mips/kernel/syscalls/syscall_o32.tbl
+===================================================================
+--- linux-2.6.orig/arch/mips/kernel/syscalls/syscall_o32.tbl
++++ linux-2.6/arch/mips/kernel/syscalls/syscall_o32.tbl
+@@ -441,3 +441,4 @@
+ 451	o32	cachestat			sys_cachestat
+ 452	o32	fchmodat2			sys_fchmodat2
+ 454	o32	futex_wake			sys_futex_wake
++455	o32	futex_wait			sys_futex_wait
+Index: linux-2.6/arch/parisc/kernel/syscalls/syscall.tbl
+===================================================================
+--- linux-2.6.orig/arch/parisc/kernel/syscalls/syscall.tbl
++++ linux-2.6/arch/parisc/kernel/syscalls/syscall.tbl
+@@ -452,3 +452,4 @@
+ 451	common	cachestat			sys_cachestat
+ 452	common	fchmodat2			sys_fchmodat2
+ 454	common	futex_wake			sys_futex_wake
++455	common	futex_wait			sys_futex_wait
+Index: linux-2.6/arch/powerpc/kernel/syscalls/syscall.tbl
+===================================================================
+--- linux-2.6.orig/arch/powerpc/kernel/syscalls/syscall.tbl
++++ linux-2.6/arch/powerpc/kernel/syscalls/syscall.tbl
+@@ -540,3 +540,4 @@
+ 451	common	cachestat			sys_cachestat
+ 452	common	fchmodat2			sys_fchmodat2
+ 454	common	futex_wake			sys_futex_wake
++455	common	futex_wait			sys_futex_wait
+Index: linux-2.6/arch/s390/kernel/syscalls/syscall.tbl
+===================================================================
+--- linux-2.6.orig/arch/s390/kernel/syscalls/syscall.tbl
++++ linux-2.6/arch/s390/kernel/syscalls/syscall.tbl
+@@ -456,3 +456,4 @@
+ 451  common	cachestat		sys_cachestat			sys_cachestat
+ 452  common	fchmodat2		sys_fchmodat2			sys_fchmodat2
+ 454  common	futex_wake		sys_futex_wake			sys_futex_wake
++455  common	futex_wait		sys_futex_wait			sys_futex_wait
+Index: linux-2.6/arch/sh/kernel/syscalls/syscall.tbl
+===================================================================
+--- linux-2.6.orig/arch/sh/kernel/syscalls/syscall.tbl
++++ linux-2.6/arch/sh/kernel/syscalls/syscall.tbl
+@@ -456,3 +456,4 @@
+ 451	common	cachestat			sys_cachestat
+ 452	common	fchmodat2			sys_fchmodat2
+ 454	common	futex_wake			sys_futex_wake
++455	common	futex_wait			sys_futex_wait
+Index: linux-2.6/arch/sparc/kernel/syscalls/syscall.tbl
+===================================================================
+--- linux-2.6.orig/arch/sparc/kernel/syscalls/syscall.tbl
++++ linux-2.6/arch/sparc/kernel/syscalls/syscall.tbl
+@@ -499,3 +499,4 @@
+ 451	common	cachestat			sys_cachestat
+ 452	common	fchmodat2			sys_fchmodat2
+ 454	common	futex_wake			sys_futex_wake
++455	common	futex_wait			sys_futex_wait
+Index: linux-2.6/arch/x86/entry/syscalls/syscall_32.tbl
+===================================================================
+--- linux-2.6.orig/arch/x86/entry/syscalls/syscall_32.tbl
++++ linux-2.6/arch/x86/entry/syscalls/syscall_32.tbl
+@@ -458,3 +458,4 @@
+ 451	i386	cachestat		sys_cachestat
+ 452	i386	fchmodat2		sys_fchmodat2
+ 454	i386	futex_wake		sys_futex_wake
++455	i386	futex_wait		sys_futex_wait
+Index: linux-2.6/arch/x86/entry/syscalls/syscall_64.tbl
+===================================================================
+--- linux-2.6.orig/arch/x86/entry/syscalls/syscall_64.tbl
++++ linux-2.6/arch/x86/entry/syscalls/syscall_64.tbl
+@@ -376,6 +376,7 @@
+ 452	common	fchmodat2		sys_fchmodat2
+ 453	64	map_shadow_stack	sys_map_shadow_stack
+ 454	common	futex_wake		sys_futex_wake
++455	common	futex_wait		sys_futex_wait
+ 
+ #
+ # Due to a historical design error, certain syscalls are numbered differently
+Index: linux-2.6/arch/xtensa/kernel/syscalls/syscall.tbl
+===================================================================
+--- linux-2.6.orig/arch/xtensa/kernel/syscalls/syscall.tbl
++++ linux-2.6/arch/xtensa/kernel/syscalls/syscall.tbl
+@@ -424,3 +424,4 @@
+ 451	common	cachestat			sys_cachestat
+ 452	common	fchmodat2			sys_fchmodat2
+ 454	common	futex_wake			sys_futex_wake
++455	common	futex_wait			sys_futex_wait
+Index: linux-2.6/include/linux/syscalls.h
+===================================================================
+--- linux-2.6.orig/include/linux/syscalls.h
++++ linux-2.6/include/linux/syscalls.h
+@@ -552,6 +552,10 @@ asmlinkage long sys_futex_waitv(struct f
+ 
+ asmlinkage long sys_futex_wake(void __user *uaddr, unsigned long mask, int nr, unsigned int flags);
+ 
++asmlinkage long sys_futex_wait(void __user *uaddr, unsigned long val, unsigned long mask,
++			       unsigned int flags, struct __kernel_timespec __user *timespec,
++			       clockid_t clockid);
++
+ asmlinkage long sys_nanosleep(struct __kernel_timespec __user *rqtp,
+ 			      struct __kernel_timespec __user *rmtp);
+ asmlinkage long sys_nanosleep_time32(struct old_timespec32 __user *rqtp,
+Index: linux-2.6/include/uapi/asm-generic/unistd.h
+===================================================================
+--- linux-2.6.orig/include/uapi/asm-generic/unistd.h
++++ linux-2.6/include/uapi/asm-generic/unistd.h
+@@ -824,9 +824,11 @@ __SYSCALL(__NR_cachestat, sys_cachestat)
+ __SYSCALL(__NR_fchmodat2, sys_fchmodat2)
+ #define __NR_futex_wake 454
+ __SYSCALL(__NR_futex_wake, sys_futex_wake)
++#define __NR_futex_wait 455
++__SYSCALL(__NR_futex_wait, sys_futex_wait)
+ 
+ #undef __NR_syscalls
+-#define __NR_syscalls 455
++#define __NR_syscalls 456
+ 
+ /*
+  * 32 bit systems traditionally used different
+Index: linux-2.6/kernel/futex/futex.h
+===================================================================
+--- linux-2.6.orig/kernel/futex/futex.h
++++ linux-2.6/kernel/futex/futex.h
+@@ -332,6 +332,9 @@ extern int futex_requeue(u32 __user *uad
+ 			 u32 __user *uaddr2, int nr_wake, int nr_requeue,
+ 			 u32 *cmpval, int requeue_pi);
+ 
++extern int __futex_wait(u32 __user *uaddr, unsigned int flags, u32 val,
++			struct hrtimer_sleeper *to, u32 bitset);
++
+ extern int futex_wait(u32 __user *uaddr, unsigned int flags, u32 val,
+ 		      ktime_t *abs_time, u32 bitset);
+ 
+Index: linux-2.6/kernel/futex/syscalls.c
+===================================================================
+--- linux-2.6.orig/kernel/futex/syscalls.c
++++ linux-2.6/kernel/futex/syscalls.c
+@@ -221,6 +221,46 @@ static int futex_parse_waitv(struct fute
+ 	return 0;
+ }
+ 
++static int futex2_setup_timeout(struct __kernel_timespec __user *timeout,
++				clockid_t clockid, struct hrtimer_sleeper *to)
++{
++	int flag_clkid = 0, flag_init = 0;
++	struct timespec64 ts;
++	ktime_t time;
++	int ret;
++
++	if (!timeout)
++		return 0;
++
++	if (clockid == CLOCK_REALTIME) {
++		flag_clkid = FLAGS_CLOCKRT;
++		flag_init = FUTEX_CLOCK_REALTIME;
++	}
++
++	if (clockid != CLOCK_REALTIME && clockid != CLOCK_MONOTONIC)
++		return -EINVAL;
++
++	if (get_timespec64(&ts, timeout))
++		return -EFAULT;
++
++	/*
++	 * Since there's no opcode for futex_waitv, use
++	 * FUTEX_WAIT_BITSET that uses absolute timeout as well
++	 */
++	ret = futex_init_timeout(FUTEX_WAIT_BITSET, flag_init, &ts, &time);
++	if (ret)
++		return ret;
++
++	futex_setup_timer(&time, to, flag_clkid, 0);
++	return 0;
++}
++
++static inline void futex2_destroy_timeout(struct hrtimer_sleeper *to)
++{
++	hrtimer_cancel(&to->timer);
++	destroy_hrtimer_on_stack(&to->timer);
++}
++
+ /**
+  * sys_futex_waitv - Wait on a list of futexes
+  * @waiters:    List of futexes to wait on
+@@ -250,8 +290,6 @@ SYSCALL_DEFINE5(futex_waitv, struct fute
+ {
+ 	struct hrtimer_sleeper to;
+ 	struct futex_vector *futexv;
+-	struct timespec64 ts;
+-	ktime_t time;
+ 	int ret;
+ 
+ 	/* This syscall supports no flags for now */
+@@ -261,30 +299,8 @@ SYSCALL_DEFINE5(futex_waitv, struct fute
+ 	if (!nr_futexes || nr_futexes > FUTEX_WAITV_MAX || !waiters)
+ 		return -EINVAL;
+ 
+-	if (timeout) {
+-		int flag_clkid = 0, flag_init = 0;
+-
+-		if (clockid == CLOCK_REALTIME) {
+-			flag_clkid = FLAGS_CLOCKRT;
+-			flag_init = FUTEX_CLOCK_REALTIME;
+-		}
+-
+-		if (clockid != CLOCK_REALTIME && clockid != CLOCK_MONOTONIC)
+-			return -EINVAL;
+-
+-		if (get_timespec64(&ts, timeout))
+-			return -EFAULT;
+-
+-		/*
+-		 * Since there's no opcode for futex_waitv, use
+-		 * FUTEX_WAIT_BITSET that uses absolute timeout as well
+-		 */
+-		ret = futex_init_timeout(FUTEX_WAIT_BITSET, flag_init, &ts, &time);
+-		if (ret)
+-			return ret;
+-
+-		futex_setup_timer(&time, &to, flag_clkid, 0);
+-	}
++	if (timeout && (ret = futex2_setup_timeout(timeout, clockid, &to)))
++		return ret;
+ 
+ 	futexv = kcalloc(nr_futexes, sizeof(*futexv), GFP_KERNEL);
+ 	if (!futexv) {
+@@ -299,10 +315,8 @@ SYSCALL_DEFINE5(futex_waitv, struct fute
+ 	kfree(futexv);
+ 
+ destroy_timer:
+-	if (timeout) {
+-		hrtimer_cancel(&to.timer);
+-		destroy_hrtimer_on_stack(&to.timer);
+-	}
++	if (timeout)
++		futex2_destroy_timeout(&to);
+ 	return ret;
+ }
+ 
+@@ -336,6 +350,52 @@ SYSCALL_DEFINE4(futex_wake,
+ 	return futex_wake(uaddr, FLAGS_STRICT | flags, nr, mask);
+ }
+ 
++/*
++ * sys_futex_wait - Wait on a futex
++ * @uaddr:	Address of the futex to wait on
++ * @val:	Value of @uaddr
++ * @mask:	bitmask
++ * @flags:	FUTEX2 flags
++ * @timeout:	Optional absolute timeout
++ * @clockid:	Clock to be used for the timeout, realtime or monotonic
++ *
++ * Identical to the traditional FUTEX_WAIT_BITSET op, except it is part of the
++ * futex2 familiy of calls.
++ */
++
++SYSCALL_DEFINE6(futex_wait,
++		void __user *, uaddr,
++		unsigned long, val,
++		unsigned long, mask,
++		unsigned int, flags,
++		struct __kernel_timespec __user *, timeout,
++		clockid_t, clockid)
++{
++	struct hrtimer_sleeper to;
++	int ret;
++
++	if (flags & ~FUTEX2_VALID_MASK)
++		return -EINVAL;
++
++	flags = futex2_to_flags(flags);
++	if (!futex_flags_valid(flags))
++		return -EINVAL;
++
++	if (!futex_validate_input(flags, val) ||
++	    !futex_validate_input(flags, mask))
++		return -EINVAL;
++
++	if (timeout && (ret = futex2_setup_timeout(timeout, clockid, &to)))
++		return ret;
++
++	ret = __futex_wait(uaddr, flags, val, timeout ? &to : NULL, mask);
++
++	if (timeout)
++		futex2_destroy_timeout(&to);
++
++	return ret;
++}
++
+ #ifdef CONFIG_COMPAT
+ COMPAT_SYSCALL_DEFINE2(set_robust_list,
+ 		struct compat_robust_list_head __user *, head,
+Index: linux-2.6/kernel/futex/waitwake.c
+===================================================================
+--- linux-2.6.orig/kernel/futex/waitwake.c
++++ linux-2.6/kernel/futex/waitwake.c
+@@ -632,20 +632,18 @@ retry_private:
+ 	return ret;
+ }
+ 
+-int futex_wait(u32 __user *uaddr, unsigned int flags, u32 val, ktime_t *abs_time, u32 bitset)
++int __futex_wait(u32 __user *uaddr, unsigned int flags, u32 val,
++		 struct hrtimer_sleeper *to, u32 bitset)
+ {
+-	struct hrtimer_sleeper timeout, *to;
+-	struct restart_block *restart;
+-	struct futex_hash_bucket *hb;
+ 	struct futex_q q = futex_q_init;
++	struct futex_hash_bucket *hb;
+ 	int ret;
+ 
+ 	if (!bitset)
+ 		return -EINVAL;
++
+ 	q.bitset = bitset;
+ 
+-	to = futex_setup_timer(abs_time, &timeout, flags,
+-			       current->timer_slack_ns);
+ retry:
+ 	/*
+ 	 * Prepare to wait on uaddr. On success, it holds hb->lock and q
+@@ -653,18 +651,17 @@ retry:
+ 	 */
+ 	ret = futex_wait_setup(uaddr, val, flags, &q, &hb);
+ 	if (ret)
+-		goto out;
++		return ret;
+ 
+ 	/* futex_queue and wait for wakeup, timeout, or a signal. */
+ 	futex_wait_queue(hb, &q, to);
+ 
+ 	/* If we were woken (and unqueued), we succeeded, whatever. */
+-	ret = 0;
+ 	if (!futex_unqueue(&q))
+-		goto out;
+-	ret = -ETIMEDOUT;
++		return 0;
++
+ 	if (to && !to->task)
+-		goto out;
++		return -ETIMEDOUT;
+ 
+ 	/*
+ 	 * We expect signal_pending(current), but we might be the
+@@ -673,24 +670,38 @@ retry:
+ 	if (!signal_pending(current))
+ 		goto retry;
+ 
+-	ret = -ERESTARTSYS;
+-	if (!abs_time)
+-		goto out;
+-
+-	restart = &current->restart_block;
+-	restart->futex.uaddr = uaddr;
+-	restart->futex.val = val;
+-	restart->futex.time = *abs_time;
+-	restart->futex.bitset = bitset;
+-	restart->futex.flags = flags | FLAGS_HAS_TIMEOUT;
+-
+-	ret = set_restart_fn(restart, futex_wait_restart);
+-
+-out:
+-	if (to) {
+-		hrtimer_cancel(&to->timer);
+-		destroy_hrtimer_on_stack(&to->timer);
++	return -ERESTARTSYS;
++}
++
++int futex_wait(u32 __user *uaddr, unsigned int flags, u32 val, ktime_t *abs_time, u32 bitset)
++{
++	struct hrtimer_sleeper timeout, *to;
++	struct restart_block *restart;
++	int ret;
++
++	to = futex_setup_timer(abs_time, &timeout, flags,
++			       current->timer_slack_ns);
++
++	ret = __futex_wait(uaddr, flags, val, to, bitset);
++
++	/* No timeout, nothing to clean up. */
++	if (!to)
++		return ret;
++
++	hrtimer_cancel(&to->timer);
++	destroy_hrtimer_on_stack(&to->timer);
++
++	if (ret == -ERESTARTSYS) {
++		restart = &current->restart_block;
++		restart->futex.uaddr = uaddr;
++		restart->futex.val = val;
++		restart->futex.time = *abs_time;
++		restart->futex.bitset = bitset;
++		restart->futex.flags = flags | FLAGS_HAS_TIMEOUT;
++
++		return set_restart_fn(restart, futex_wait_restart);
+ 	}
++
+ 	return ret;
+ }
+ 
+Index: linux-2.6/kernel/sys_ni.c
+===================================================================
+--- linux-2.6.orig/kernel/sys_ni.c
++++ linux-2.6/kernel/sys_ni.c
+@@ -88,6 +88,7 @@ COND_SYSCALL(get_robust_list);
+ COND_SYSCALL_COMPAT(get_robust_list);
+ COND_SYSCALL(futex_waitv);
+ COND_SYSCALL(futex_wake);
++COND_SYSCALL(futex_wait);
+ COND_SYSCALL(kexec_load);
+ COND_SYSCALL_COMPAT(kexec_load);
+ COND_SYSCALL(init_module);
 
->
-> I've always felt that capacity doubling is a bit wasteful, but it's
-> definitely something I can live with, especially if providing size feedback
-> is as complex as you suggest. Still, I'm not a big fan of single-buffer
-> interfaces in general, with how poorly they tend to interact with C's
-> aliasing rules. (Also, those kinds of interfaces also invite alignment
-> errors: for instance, your snippet above is missing the necessary union to
-> prevent the buffer from being misaligned, which would cause UB when you
-> cast it to a struct statmnt *.)
 
-Okay, alignment is a different story.   I'll note this in the man page.
-
-Thanks,
-Miklos
