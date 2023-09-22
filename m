@@ -2,166 +2,123 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 528C67AA595
-	for <lists+linux-api@lfdr.de>; Fri, 22 Sep 2023 01:25:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9AD897AAE34
+	for <lists+linux-api@lfdr.de>; Fri, 22 Sep 2023 11:35:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230445AbjIUXZZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 21 Sep 2023 19:25:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48094 "EHLO
+        id S231253AbjIVJfR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 22 Sep 2023 05:35:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51130 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230050AbjIUXZW (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 21 Sep 2023 19:25:22 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E46F4F9;
-        Thu, 21 Sep 2023 11:10:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Type:MIME-Version:References:
-        Subject:Cc:To:From:Date:Message-Id:Sender:Reply-To:Content-Transfer-Encoding:
-        Content-ID:Content-Description:In-Reply-To;
-        bh=9OUktNkwNXjB5runbwWnUkYaH4gkQXyoyA8wphj6CxQ=; b=GGxYiouDxwMhpCaPcVH40k98P/
-        XAfPr7EX2gzP8TckrBbk0itBDqh1K7L47qzj5ufg0WUG7Olk8Cby/mGQk/MfSUHpFcAoHFbPrC9vs
-        EjyJVceNWZaOGslnAhpSgFyQciPs7Zl7wH+N2XntEXFqDsPfCoE6LiaK/AnohyGjrKsGsSQ089gs3
-        hlcFVZvN0eJHab3vYggwHl9ShJvSk4C58uCtLGwBHhEyqjaQe2iX2kH0aoMJkbcnplJDonkvdIIhK
-        hXDu6aGgekrKWj5LYF6dmt9W2ciUrqRrAGk+jg2tMV2PEMXwjpNtLXqPV9S9yK+8ASFpo1IaN/Y4q
-        uQIXkbmg==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1qjHQO-00BTom-U1; Thu, 21 Sep 2023 11:00:49 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 0)
-        id 26D833008D6; Thu, 21 Sep 2023 13:00:43 +0200 (CEST)
-Message-Id: <20230921105249.108410391@noisy.programming.kicks-ass.net>
-User-Agent: quilt/0.65
-Date:   Thu, 21 Sep 2023 12:45:19 +0200
-From:   peterz@infradead.org
-To:     tglx@linutronix.de, axboe@kernel.dk
-Cc:     linux-kernel@vger.kernel.org, peterz@infradead.org,
+        with ESMTP id S230403AbjIVJfQ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 22 Sep 2023 05:35:16 -0400
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61D3A197;
+        Fri, 22 Sep 2023 02:35:08 -0700 (PDT)
+Received: by mail-wm1-x32b.google.com with SMTP id 5b1f17b1804b1-405361bb949so15551055e9.1;
+        Fri, 22 Sep 2023 02:35:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1695375307; x=1695980107; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PTRcAdPYlN/VHO8FKzfnqIxG4I6YBXrgONS3QPJcMq8=;
+        b=TaQ8NEtpEuVv69ZwP6BlQZNrOZH9hWvlKKzV4EFMAGVoL3gqQ2JyPbWZJPBiT1sCy6
+         pYM6hR81JV4oW2EKCjmd8LhQKn0Y/D9AgpGR/tPhxOsurLhaGzKh7KVKiSAnHd05l530
+         VmMUeoZdqpgnuEZOU9Uu/PrGzEHTE9iN5g5uYor38eD9zE5ZIxAgdoajB6NDXf9sbS7m
+         /MvIc97eenrrsddYKqVCrvfSuEnRaXyc4nfKXctkSt4LOeGlfWGJveT44ZfB9f9Pv+7Y
+         bOu33d9n/b+ECxUQ1N+ZNJN2+NDT3ix6vgVhFo4TCXGCk2gGdvBJoy1HsZtgOPTy2Jwc
+         NoYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695375307; x=1695980107;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=PTRcAdPYlN/VHO8FKzfnqIxG4I6YBXrgONS3QPJcMq8=;
+        b=lF3FDHphhrh+q+GV1Bcu5frA1dstOZ5zKF3Cu/07LAdLcztUXr2GfEpl1/DsBkTV1J
+         u4ktUBLWLY7HA0VQbHhKX7hwtmErveF8R5+Kl7HDthvkDjwACAdB6tzlvrwds5PcyPMs
+         Fj7+jbD11U9yZxc8yyf+CntqXF6xunFeJ0GVZPaXBr//9N9IF92PwirASKWm3v5a/2n1
+         u5ftfpCc7DmueVpsmbwPWCTV+7piUvuF1VXA0r2KxqmhjUl5+52g/kXgNSs0Ebo4kB+a
+         NgnoCrncGiSeJWfV35k+rLySqvaeBx6rID0s6Q2fKbeN1S3LVaF8ZZfPhtBY3nD9pdB4
+         UPpg==
+X-Gm-Message-State: AOJu0Yw1KUGogS57novVervPxvDMpW7MRV87dee7Qu1nc33EBuC2S5P4
+        GYdLKLH4F+cqnYsoMpXU+8A=
+X-Google-Smtp-Source: AGHT+IHgk2oAySrEJX2mQ/nnZhq8OwQDyWgRq6/WsNVQQ6OGQjV4H9P7ur5I0ax4wch7C5zJrWdveA==
+X-Received: by 2002:adf:fc0d:0:b0:314:152d:f8db with SMTP id i13-20020adffc0d000000b00314152df8dbmr6957471wrr.58.1695375306573;
+        Fri, 22 Sep 2023 02:35:06 -0700 (PDT)
+Received: from gmail.com (1F2EF49C.nat.pool.telekom.hu. [31.46.244.156])
+        by smtp.gmail.com with ESMTPSA id v9-20020a5d4b09000000b0032008f99216sm4038542wrq.96.2023.09.22.02.35.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Sep 2023 02:35:05 -0700 (PDT)
+Sender: Ingo Molnar <mingo.kernel.org@gmail.com>
+Date:   Fri, 22 Sep 2023 11:35:03 +0200
+From:   Ingo Molnar <mingo@kernel.org>
+To:     peterz@infradead.org
+Cc:     tglx@linutronix.de, axboe@kernel.dk, linux-kernel@vger.kernel.org,
         mingo@redhat.com, dvhart@infradead.org, dave@stgolabs.net,
         andrealmeid@igalia.com, Andrew Morton <akpm@linux-foundation.org>,
         urezki@gmail.com, hch@infradead.org, lstoakes@gmail.com,
         Arnd Bergmann <arnd@arndb.de>, linux-api@vger.kernel.org,
         linux-mm@kvack.org, linux-arch@vger.kernel.org,
-        malteskarupke@web.de
-Subject: [PATCH v3 14/15] futex: Enable FUTEX2_{8,16}
+        malteskarupke@web.de, Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH v3 10/15] futex: Add sys_futex_requeue()
+Message-ID: <ZQ1fx29+b8PmLVk6@gmail.com>
 References: <20230921104505.717750284@noisy.programming.kicks-ass.net>
+ <20230921105248.511860556@noisy.programming.kicks-ass.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Disposition: inline; filename=peterz-futex2-small.patch
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230921105248.511860556@noisy.programming.kicks-ass.net>
+X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-When futexes are no longer u32 aligned, the lower offset bits are no
-longer available to put type info in. However, since offset is the
-offset within a page, there are plenty bits available on the top end.
 
-After that, pass flags into futex_get_value_locked() for WAIT and
-disallow FUTEX2_SIZE_U64 instead of mandating FUTEX2_SIZE_U32.
+* peterz@infradead.org <peterz@infradead.org> wrote:
 
-Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-Reviewed-by: Thomas Gleixner <tglx@linutronix.de>
----
- include/linux/futex.h   |   11 ++++++-----
- kernel/futex/core.c     |    9 +++++++++
- kernel/futex/futex.h    |    4 ++--
- kernel/futex/waitwake.c |    5 +++--
- 4 files changed, 20 insertions(+), 9 deletions(-)
+> --- linux-2.6.orig/kernel/futex/syscalls.c
+> +++ linux-2.6/kernel/futex/syscalls.c
+> @@ -396,6 +396,44 @@ SYSCALL_DEFINE6(futex_wait,
+>  	return ret;
+>  }
+>  
+> +/*
+> + * sys_futex_requeue - Requeue a waiter from one futex to another
+> + * @waiters:	array describing the source and destination futex
+> + * @flags:	unused
+> + * @nr_wake:	number of futexes to wake
+> + * @nr_requeue:	number of futexes to requeue
+> + *
+> + * Identical to the traditional FUTEX_CMP_REQUEUE op, except it is part of the
+> + * futex2 family of calls.
+> + */
+> +
+> +SYSCALL_DEFINE4(futex_requeue,
+> +		struct futex_waitv __user *, waiters,
+> +		unsigned int, flags,
+> +		int, nr_wake,
+> +		int, nr_requeue)
+> +{
+> +	struct futex_vector futexes[2];
+> +	u32 cmpval;
+> +	int ret;
+> +
+> +	if (flags)
+> +		return -EINVAL;
 
-Index: linux-2.6/include/linux/futex.h
-===================================================================
---- linux-2.6.orig/include/linux/futex.h
-+++ linux-2.6/include/linux/futex.h
-@@ -16,18 +16,19 @@ struct task_struct;
-  * The key type depends on whether it's a shared or private mapping.
-  * Don't rearrange members without looking at hash_futex().
-  *
-- * offset is aligned to a multiple of sizeof(u32) (== 4) by definition.
-- * We use the two low order bits of offset to tell what is the kind of key :
-+ * offset is the position within a page and is in the range [0, PAGE_SIZE).
-+ * The high bits of the offset indicate what kind of key this is:
-  *  00 : Private process futex (PTHREAD_PROCESS_PRIVATE)
-  *       (no reference on an inode or mm)
-  *  01 : Shared futex (PTHREAD_PROCESS_SHARED)
-  *	mapped on a file (reference on the underlying inode)
-  *  10 : Shared futex (PTHREAD_PROCESS_SHARED)
-  *       (but private mapping on an mm, and reference taken on it)
--*/
-+ */
- 
--#define FUT_OFF_INODE    1 /* We set bit 0 if key has a reference on inode */
--#define FUT_OFF_MMSHARED 2 /* We set bit 1 if key has a reference on mm */
-+#define FUT_OFF_INODE    (PAGE_SIZE << 0)
-+#define FUT_OFF_MMSHARED (PAGE_SIZE << 1)
-+#define FUT_OFF_SIZE	 (PAGE_SIZE << 2)
- 
- union futex_key {
- 	struct {
-Index: linux-2.6/kernel/futex/core.c
-===================================================================
---- linux-2.6.orig/kernel/futex/core.c
-+++ linux-2.6/kernel/futex/core.c
-@@ -311,6 +311,15 @@ int get_futex_key(void __user *uaddr, un
- 	}
- 
- 	/*
-+	 * Encode the futex size in the offset. This makes cross-size
-+	 * wake-wait fail -- see futex_match().
-+	 *
-+	 * NOTE that cross-size wake-wait is fundamentally broken wrt
-+	 * FLAGS_NUMA.
-+	 */
-+	key->both.offset |= FUT_OFF_SIZE * (flags & FLAGS_SIZE_MASK);
-+
-+	/*
- 	 * PROCESS_PRIVATE futexes are fast.
- 	 * As the mm cannot disappear under us and the 'key' only needs
- 	 * virtual address, we dont even have to find the underlying vma.
-Index: linux-2.6/kernel/futex/futex.h
-===================================================================
---- linux-2.6.orig/kernel/futex/futex.h
-+++ linux-2.6/kernel/futex/futex.h
-@@ -79,8 +79,8 @@ static inline bool futex_flags_valid(uns
- 			return false;
- 	}
- 
--	/* Only 32bit futexes are implemented -- for now */
--	if ((flags & FLAGS_SIZE_MASK) != FLAGS_SIZE_32)
-+	/* 64bit futexes aren't implemented -- yet */
-+	if ((flags & FLAGS_SIZE_MASK) == FLAGS_SIZE_64)
- 		return false;
- 
- 	/*
-Index: linux-2.6/kernel/futex/waitwake.c
-===================================================================
---- linux-2.6.orig/kernel/futex/waitwake.c
-+++ linux-2.6/kernel/futex/waitwake.c
-@@ -437,11 +437,12 @@ retry:
- 
- 	for (i = 0; i < count; i++) {
- 		u32 __user *uaddr = (u32 __user *)(unsigned long)vs[i].w.uaddr;
-+		unsigned int flags = vs[i].w.flags;
- 		struct futex_q *q = &vs[i].q;
- 		u32 val = vs[i].w.val;
- 
- 		hb = futex_q_lock(q);
--		ret = futex_get_value_locked(&uval, uaddr, FLAGS_SIZE_32);
-+		ret = futex_get_value_locked(&uval, uaddr, flags);
- 
- 		if (!ret && uval == val) {
- 			/*
-@@ -609,7 +610,7 @@ retry:
- retry_private:
- 	*hb = futex_q_lock(q);
- 
--	ret = futex_get_value_locked(&uval, uaddr, FLAGS_SIZE_32);
-+	ret = futex_get_value_locked(&uval, uaddr, flags);
- 
- 	if (ret) {
- 		futex_q_unlock(*hb);
+Small detail, but isn't -ENOSYS the canonical error code for functionality 
+not yet implemented - which the unused 'flags' ABI is arguably?
 
+-EINVAL is for recognized but incorrect parameters, such as:
 
+> +	if (!waiters)
+> +		return -EINVAL;
+
+Thanks,
+
+	Ingo
