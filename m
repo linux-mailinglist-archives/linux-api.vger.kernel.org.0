@@ -2,56 +2,62 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 113627ABABE
-	for <lists+linux-api@lfdr.de>; Fri, 22 Sep 2023 22:59:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A39F07ABDC3
+	for <lists+linux-api@lfdr.de>; Sat, 23 Sep 2023 06:47:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229737AbjIVU7x (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 22 Sep 2023 16:59:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52766 "EHLO
+        id S229732AbjIWErY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 23 Sep 2023 00:47:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229723AbjIVU7w (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 22 Sep 2023 16:59:52 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C46471A2;
-        Fri, 22 Sep 2023 13:59:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=Content-Type:MIME-Version:References:
-        Subject:Cc:To:From:Date:Message-Id:Sender:Reply-To:Content-Transfer-Encoding:
-        Content-ID:Content-Description:In-Reply-To;
-        bh=zWIQ6Yi556U65myk2PzRkq/DHdsIiBTxeyqBKDx6r2g=; b=hktQlK3IZ5z27ejm1FLGbbL1mo
-        mzMcjkhwk3cOL9uWlaupMqvTCXnVZAoT6CJRQ0M29Q5yLP4ldsnxOmGjX4q6rjSEI64QiOYmhDBl1
-        P34q0qimycD9b/kQhEEKct+8KTKDGbkWMwSTmS278soTtIfi9R+SqnOIrE5sNsyZz3ma+fTYPc4zF
-        1bnVko5qUEoPXj7iOJw+xXKE+NPyQD41xo32nxvuoljsm3NlHTZLfVHISoB7SITHfEz+0mYyjkOq8
-        DkRxp0jw7F5ICVHtOBTQtELeVEyWis3tl7y1KZ2CkP3ihqlF98Q0ECbL3/aloKy0AEDNlzdBY/hIg
-        FSIpHA6A==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-        by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qjnEs-00GXzC-2v;
-        Fri, 22 Sep 2023 20:59:05 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 0)
-        id F0DDE3008D6; Fri, 22 Sep 2023 22:59:03 +0200 (CEST)
-Message-Id: <20230922205450.033535181@infradead.org>
-User-Agent: quilt/0.65
-Date:   Fri, 22 Sep 2023 22:01:23 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     tglx@linutronix.de, axboe@kernel.dk
-Cc:     linux-kernel@vger.kernel.org, peterz@infradead.org,
-        mingo@redhat.com, dvhart@infradead.org, dave@stgolabs.net,
-        andrealmeid@igalia.com, Andrew Morton <akpm@linux-foundation.org>,
-        urezki@gmail.com, hch@infradead.org, lstoakes@gmail.com,
-        Arnd Bergmann <arnd@arndb.de>, linux-api@vger.kernel.org,
-        linux-mm@kvack.org, linux-arch@vger.kernel.org,
-        malteskarupke@web.de, steve.shaw@intel.com,
-        marko.makela@mariadb.com, andrei.artemev@intel.com
-Subject: [PATCH 17/15] [HACK] futex: Force futex hash collision
-References: <20230921104505.717750284@noisy.programming.kicks-ass.net>
- <20230921104505.717750284@noisy.programming.kicks-ass.net>
- <20230922200120.011184118@infradead.org>
+        with ESMTP id S229652AbjIWErX (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 23 Sep 2023 00:47:23 -0400
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9396719E;
+        Fri, 22 Sep 2023 21:47:17 -0700 (PDT)
+Received: from fsav412.sakura.ne.jp (fsav412.sakura.ne.jp [133.242.250.111])
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 38N4kYnm032599;
+        Sat, 23 Sep 2023 13:46:34 +0900 (JST)
+        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav412.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav412.sakura.ne.jp);
+ Sat, 23 Sep 2023 13:46:34 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav412.sakura.ne.jp)
+Received: from [192.168.1.6] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+        (authenticated bits=0)
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 38N4kYZc032591
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+        Sat, 23 Sep 2023 13:46:34 +0900 (JST)
+        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <af696700-ae4b-346e-4c52-3a7a21b0f46c@I-love.SAKURA.ne.jp>
+Date:   Sat, 23 Sep 2023 13:46:35 +0900
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v15 01/11] LSM: Identify modules by more than name
+Content-Language: en-US
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Casey Schaufler <casey@schaufler-ca.com>, paul@paul-moore.com,
+        linux-security-module@vger.kernel.org, jmorris@namei.org,
+        serge@hallyn.com, john.johansen@canonical.com,
+        stephen.smalley.work@gmail.com, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, mic@digikod.net,
+        Dave Chinner <david@fromorbit.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>
+References: <20230912205658.3432-1-casey@schaufler-ca.com>
+ <20230912205658.3432-2-casey@schaufler-ca.com>
+ <1f5e725d-58b6-eca2-97dc-d7c1209ff167@I-love.SAKURA.ne.jp>
+ <568c0730-b458-04b4-dbfa-77da1758aa05@schaufler-ca.com>
+ <94743c22-bc76-e741-e577-3e0845423f69@I-love.SAKURA.ne.jp>
+ <6df9f8b8-5653-09a5-ae0a-6526016abaff@schaufler-ca.com>
+ <ec37cd2f-24ee-3273-c253-58d480569117@I-love.SAKURA.ne.jp>
+ <202309200803.1911A584@keescook>
+From:   Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+In-Reply-To: <202309200803.1911A584@keescook>
 Content-Type: text/plain; charset=UTF-8
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -59,43 +65,44 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-If you hate performance -- use this.
+On 2023/09/21 0:08, Kees Cook wrote:
+> I feel like you are willfully not listening to us when we say that this
+> doesn't block out of tree LSMs. Again, there is nothing here that stops
+> it. To prove this point, here is an out of tree LSM that works with this
+> series. So let's move from theoretical to practical: given this example,
+> why do you think out of tree LSMs are blocked?
 
-Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
----
- kernel/futex/core.c     |    6 ++++++
- kernel/sched/features.h |    2 ++
- 2 files changed, 8 insertions(+)
+Because an LSM ID value
 
---- a/kernel/futex/core.c
-+++ b/kernel/futex/core.c
-@@ -128,6 +128,9 @@ static int futex_put_value(u32 val, u32
- 	}
- }
- 
-+#include <linux/sched/cputime.h>
-+#include "../sched/sched.h"
-+
- /**
-  * futex_hash - Return the hash bucket in the global hash
-  * @key:	Pointer to the futex key for which the hash is calculated
-@@ -159,6 +162,9 @@ struct futex_hash_bucket *futex_hash(uni
- 		}
- 	}
- 
-+	if (sched_feat(FUTEX_SQUASH))
-+		hash = 0;
-+
- 	return &futex_queues[node][hash & (futex_hashsize - 1)];
- }
- 
---- a/kernel/sched/features.h
-+++ b/kernel/sched/features.h
-@@ -89,3 +89,5 @@ SCHED_FEAT(UTIL_EST_FASTUP, true)
- SCHED_FEAT(LATENCY_WARN, false)
- 
- SCHED_FEAT(HZ_BW, true)
-+
-+SCHED_FEAT(FUTEX_SQUASH, false)
+> diff --git a/include/uapi/linux/lsm.h b/include/uapi/linux/lsm.h
+> index eeda59a77c02..23b7a8f79cef 100644
+> --- a/include/uapi/linux/lsm.h
+> +++ b/include/uapi/linux/lsm.h
+> @@ -63,6 +63,8 @@ struct lsm_ctx {
+>  #define LSM_ID_BPF		110
+>  #define LSM_ID_LANDLOCK		111
+>  
+> +#define LSM_ID_GOAT		1138
+> +
+>  /*
+>   * LSM_ATTR_XXX definitions identify different LSM attributes
+>   * which are used in the kernel's LSM userspace API. Support
 
+is assigned to LSM only when that LSM became no longer out of tree.
+
+I'm against the policy that only LSM modules that succeeded to become
+in-tree are assigned LSM ID. That's not a good usage of identifier.
+
+Quoting from https://lkml.kernel.org/r/4a6b6e2c-9872-4d4c-e42e-4ff0fb79f3ae@I-love.SAKURA.ne.jp :
+
+  The sane and the better usage of LSM ID is to register any publicly available
+  LSMs. If LSM ID serves as an index for what LSMs are available in the world,
+  by maintaining "the LSM module name, the LSM ID value, short description about
+  that LSM module, the public git repository or web site for more information
+  about that LSM module" pairs, people can easily find what LSMs could be used
+  for their purpose, and developers can avoid re-inventing similar LSM modules
+  which are already available somewhere in the world (and optionally helps
+  avoiding module name collisions with any publicly available LSMs).
+
+You must not say "We don't care about out of tree LSMs." when talking about this patch.
 
