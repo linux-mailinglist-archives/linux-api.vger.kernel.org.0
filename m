@@ -2,117 +2,125 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A1A9B7AEEEE
-	for <lists+linux-api@lfdr.de>; Tue, 26 Sep 2023 16:58:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 53B647AF58D
+	for <lists+linux-api@lfdr.de>; Tue, 26 Sep 2023 22:52:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234935AbjIZOkG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 26 Sep 2023 10:40:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46390 "EHLO
+        id S235438AbjIZUwg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 26 Sep 2023 16:52:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234855AbjIZOkE (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 26 Sep 2023 10:40:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5FB4120
-        for <linux-api@vger.kernel.org>; Tue, 26 Sep 2023 07:39:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1695739151;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=XllbBqxTvNzfuhH1RFsYE8Y8P6H7hYsJSRNMnTexg+M=;
-        b=GC5kb3tVC7t/WmGQ3HfCI6ZTrylsPE2nFdWqFwbunBsjUIzF+vbL/E0qXXUlWwtRBmOK46
-        xNpJaqWy0VVn4Kl2lyb33ZyD+zOwU67STyv51Iq2dBcvzUqy2N1uN4cb6S28HmAQynVtlu
-        rCQsPI3LJ2XRKFEmxfCfhlC7xAjaxbs=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-182-Fk0Y759GO-SfTiZBEIRSlA-1; Tue, 26 Sep 2023 10:39:08 -0400
-X-MC-Unique: Fk0Y759GO-SfTiZBEIRSlA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0CB3F8039D2;
-        Tue, 26 Sep 2023 14:39:07 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (unknown [10.2.16.53])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 268471004058;
-        Tue, 26 Sep 2023 14:39:05 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Miklos Szeredi <miklos@szeredi.hu>
-Cc:     Miklos Szeredi <mszeredi@redhat.com>,
-        Christian Brauner <brauner@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-man@vger.kernel.org,
-        linux-security-module@vger.kernel.org, Karel Zak <kzak@redhat.com>,
-        Ian Kent <raven@themaw.net>,
-        David Howells <dhowells@redhat.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <christian@brauner.io>,
-        Amir Goldstein <amir73il@gmail.com>
-Subject: Re: [RFC PATCH 2/3] add statmnt(2) syscall
-References: <20230913152238.905247-1-mszeredi@redhat.com>
-        <20230913152238.905247-3-mszeredi@redhat.com>
-        <20230914-salzig-manifest-f6c3adb1b7b4@brauner>
-        <CAJfpegs-sDk0++FjSZ_RuW5m-z3BTBQdu4T9QPtWwmSZ1_4Yvw@mail.gmail.com>
-        <20230914-lockmittel-verknallen-d1a18d76ba44@brauner>
-        <CAJfpegt-VPZP3ou-TMQFs1Xupj_iWA5ttC2UUFKh3E43EyCOQQ@mail.gmail.com>
-        <20230918-grafik-zutreffen-995b321017ae@brauner>
-        <CAOssrKfS79=+F0h=XPzJX2E6taxAPmEJEYPi4VBNQjgRR5ujqw@mail.gmail.com>
-        <871qeloxj0.fsf@oldenburg.str.redhat.com>
-        <CAJfpegupTzdG4=UwguL02c08ZaoX+UK7+=9XQ9D1G4wLMxuqFA@mail.gmail.com>
-        <87wmwdnhj1.fsf@oldenburg.str.redhat.com>
-        <CAJfpegvKECAFNhWYKfGbSWVX8pycQxsHnCr6KSqrQrR+u77yAg@mail.gmail.com>
-Date:   Tue, 26 Sep 2023 16:39:03 +0200
-In-Reply-To: <CAJfpegvKECAFNhWYKfGbSWVX8pycQxsHnCr6KSqrQrR+u77yAg@mail.gmail.com>
-        (Miklos Szeredi's message of "Tue, 26 Sep 2023 16:33:50 +0200")
-Message-ID: <87bkdpngmw.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        with ESMTP id S231945AbjIZUwf (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 26 Sep 2023 16:52:35 -0400
+Received: from mail-wr1-x44a.google.com (mail-wr1-x44a.google.com [IPv6:2a00:1450:4864:20::44a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 724A911D
+        for <linux-api@vger.kernel.org>; Tue, 26 Sep 2023 13:52:28 -0700 (PDT)
+Received: by mail-wr1-x44a.google.com with SMTP id ffacd0b85a97d-31f3eaa5c5eso7109053f8f.3
+        for <linux-api@vger.kernel.org>; Tue, 26 Sep 2023 13:52:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1695761547; x=1696366347; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=xrypDOHQ7EnWLT1fAC4mj+J/Ny7QwGyNqoMoBzWEChA=;
+        b=qz/8NKvGkybGhqCFZBHy2QOWUDiatqVuQzbEOQGhwf/uf6vRjGCT069ftKn55Ne3do
+         HmcPIihWscn9WK89fuGIrLkDxGaDDUPq/woote2ARyyV/dXu3wzQTu9GB4pwGTX7+oGF
+         AYcckj9arQQLrNM+hABMwvK9cBfduO3t2oYuyB1vBQ5K4YrjHnPDfHsUAecuQsehB1ph
+         w8xkZMwcSWf08cIcmD1ZpwqfYu04lG3F4AHRFYONPdAKI5hpeCT000B2YaDBpZpFDK2M
+         9ucxzfQKpAfQgK1XO4DtN+Jc646MTLczngtbpg7BpxRQRcwIXxD5j4dmgErgd8Sd/KH1
+         PHMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695761547; x=1696366347;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xrypDOHQ7EnWLT1fAC4mj+J/Ny7QwGyNqoMoBzWEChA=;
+        b=Z2Jt/kv9T1Fv9x678yufwXRawh1W8b/w2Q028OL0F8iR7oFrcAUSJJFLpHa9KYo7WI
+         NlJ9GS5EJwSh1KjNROjFOK7S92x6YaUoN/fyfTbZXecagELRExpDdtQ0UqLmiZtjjVW2
+         HH3R13qwiV0UodagcP8O/Cc1U8FzrTvqeSjmH4iqkcVyC6on3kolkaqbrXx0maceDwTc
+         xvcJE4a7Mb6mslObdyu1pTaFjcAOLTeliDpkzGbNyDiub9EuTxG8SL+57vSziYRQcwG2
+         HKM9FyGOH679sNuNnpqLqdRxpiOkNzNG8bBSxoAPvV7Yj0y/jtOIETBXBeSgHsFdXu8h
+         OUDQ==
+X-Gm-Message-State: AOJu0YzouBO8yzUGedJf2cVrzGi2KitOlPP9FSgGO801eg/1BnIZUmpG
+        oSLx5xnS0lLDHhc4QHykUsEIvQPaYj5g
+X-Google-Smtp-Source: AGHT+IFbugUBPJsObmukOcm7PN9PUqCtpIpnfXBZrDwvp1SMbjd8ej9aDBvvhWOhXNltTOfXtK7SKfPc3zlc
+X-Received: from dvyukov-desk.muc.corp.google.com ([2a00:79e0:9c:201:2a5f:6690:fe14:d69a])
+ (user=dvyukov job=sendgmr) by 2002:a5d:4b90:0:b0:321:a6b5:b50e with SMTP id
+ b16-20020a5d4b90000000b00321a6b5b50emr57461wrt.11.1695761546817; Tue, 26 Sep
+ 2023 13:52:26 -0700 (PDT)
+Date:   Tue, 26 Sep 2023 22:52:15 +0200
+In-Reply-To: <2c421e36-a749-7dc3-3562-7a8cf256df3c@efficios.com>
+Mime-Version: 1.0
+References: <2c421e36-a749-7dc3-3562-7a8cf256df3c@efficios.com>
+X-Mailer: git-send-email 2.42.0.515.g380fc7ccd1-goog
+Message-ID: <20230926205215.472650-1-dvyukov@google.com>
+Subject: Re: [RFC PATCH v2 1/4] rseq: Add sched_state field to struct rseq
+From:   Dmitry Vyukov <dvyukov@google.com>
+To:     mathieu.desnoyers@efficios.com
+Cc:     David.Laight@ACULAB.COM, alexander@mihalicyn.com,
+        andrealmeid@igalia.com, boqun.feng@gmail.com, brauner@kernel.org,
+        carlos@redhat.com, ckennelly@google.com, corbet@lwn.net,
+        dancol@google.com, dave@stgolabs.net, dvhart@infradead.org,
+        fweimer@redhat.com, goldstein.w.n@gmail.com, hpa@zytor.com,
+        libc-alpha@sourceware.org, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org, longman@redhat.com, mingo@redhat.com,
+        paulmck@kernel.org, peterz@infradead.org, pjt@google.com,
+        posk@posk.io, rostedt@goodmis.org, tglx@linutronix.de
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-* Miklos Szeredi:
-
-> On Tue, 26 Sept 2023 at 16:19, Florian Weimer <fweimer@redhat.com> wrote:
+>> I don't see why we can't stick this directly into struct rseq because
+>> it's all public anyway.
 >
->> getdents gets away with this buffer size because applications can copy
->> out all the data from struct dirent if they need long-term storage.
->> They have to do that because the usual readdir interface overwrites the
->> buffer, potentially at the next readdir call.  This means the buffer
->> size does not introduce an amount of memory fragmention that is
->> dependent on the directory size.
->>
->> With an opaque, pointer-carrying struct, copying out the data is not
->> possible in a generic fashion.  Only the parts that the application
->> knows about can be copied out.  So I think it's desirable to have a
->> fairly exact allocation.
+> The motivation for moving this to a different cache line is to handle 
+> the prior comment from Boqun, who is concerned that busy-waiting 
+> repeatedly loading a field from struct rseq will cause false-sharing and 
+> make other stores to that cache line slower, especially stores to 
+> rseq_cs to begin rseq critical sections, thus slightly increasing the 
+> overhead of rseq critical sections taken while mutexes are held.
 >
-> Okay, so let's add a 'size' field to the struct, which is set to the
-> size used (as opposed to the size of the buffer).   That should solve
-> copying without wasting a single byte of memory.
+> If we want to embed this field into struct rseq with its own cache line, 
+> then we need to add a lot of padding, which is inconvenient.
+>
+> That being said, perhaps this is premature optimization, what do you think ?
 
-That would be helpful.
+Hi Mathieu, Florian,
 
-> Otherwise the format is fully copyable, since the strings are denoted
-> with an offset, which doesn't change after the buffer is copied.
+This is exciting!
 
-I missed the development in that direction.  Yes, offsets would work
-nicely in this context.  They help with compat syscalls, too.
+I thought the motivation for moving rseq_sched_state out of struct rseq
+is lifetime management problem. I assume when a thread locks a mutex,
+it stores pointer to rseq_sched_state in the mutex state for other
+threads to poll. So the waiting thread would do something along the following
+lines:
 
-If the buffer is relocatable like that, we can even try first with a
-reasonably sized on-stack buffer and create an exactly-sized heap
-allocation from that.
+rseq_sched_state* state = __atomic_load_n(mutex->sched_state, __ATOMIC_RELAXED);
+if (state && !(state->state & RSEQ_SCHED_STATE_FLAG_ON_CPU))
+	futex_wait();
 
-Thanks,
-Florian
+Now if the state is struct rseq, which is stored in TLS,
+then the owning thread can unlock the mutex, exit and unmap TLS in between.
+Consequently, load of state->state will cause a paging fault.
+
+And we do want rseq in TLS to save 1 indirection.
+
+If rseq_sched_state is separated from struct rseq, then it can be allocated
+in type stable memory that is never unmapped.
+
+What am I missing here?
+
+However, if we can store this state in struct rseq, then an alternative
+interface would for the kernel to do:
+
+rseq->cpu_id = -1;
+
+to denote that the thread is not running on any CPU.
+I think it kinda makes sense, rseq->cpu_id is the thread's current CPU,
+and -1 naturally means "not running at all". And we already store -1
+right after init, so it shouldn't be a surprising value.
 
