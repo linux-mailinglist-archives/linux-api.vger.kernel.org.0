@@ -2,159 +2,97 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 174C77B02F2
-	for <lists+linux-api@lfdr.de>; Wed, 27 Sep 2023 13:29:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 85A047B0971
+	for <lists+linux-api@lfdr.de>; Wed, 27 Sep 2023 17:58:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230432AbjI0L33 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 27 Sep 2023 07:29:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51276 "EHLO
+        id S232505AbjI0P6c (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 27 Sep 2023 11:58:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230138AbjI0L33 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 27 Sep 2023 07:29:29 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2512FF3;
-        Wed, 27 Sep 2023 04:29:28 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BFE2C433C8;
-        Wed, 27 Sep 2023 11:29:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695814167;
-        bh=UyhTf+WxTHqj+BId15bKhzPOMMpXRo5MRgMrwKeWdrQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ZWC/7EoEoKMVgvQ/C1k949L/W4UvaYESeuNPqwv8PIs/O1sa30qvwNy4+4wH5RHrn
-         rXCDSNCBjYJE+fSKQORaJlXVMNMaTYuxAna9jVSW0PqQadd4xRLqBxvNRu4GdYj5aQ
-         xfYq3Q17QTE2ysP+F3XdPozVqtsQDfT90ONTPsj6M3SFVnSZ2U+O0cH70bOVJdxfkr
-         hzmA+zE3tGhdrmxfQxEOuKTifNUCf6NSLd7nbxeRYS+Jbc6dQYk4OVedvC1A5ed8Xs
-         SB1g4uQM0msEIiwvZ1TcThkc/KJrUO8bBzZ1/G8DaVvb5yxxhZ/Ka96wM8wPmZkEug
-         5vEOMz/Lc3Mcw==
-Date:   Wed, 27 Sep 2023 13:29:23 +0200
-From:   Alejandro Colomar <alx@kernel.org>
-To:     Max Kellermann <max.kellermann@ionos.com>
-Cc:     linux-man@vger.kernel.org, brauner@kernel.org, axboe@kernel.dk,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        libc-alpha@sourceware.org
-Subject: Re: [PATCH v2] man2/splice.2: document SPLICE_F_NOWAIT
-Message-ID: <zt5lslryl7gr6qvuahpuziodcvh3rd6qw5pbxx2m6rinmn6yrz@xt46qxmtknen>
-References: <hq2223k3kdclg2i2ozwtw37yvtwnxwrw3ns4op4fkh76x3fz47@2frhfofkwzay>
- <20230926134339.2919289-1-max.kellermann@ionos.com>
+        with ESMTP id S232544AbjI0P6c (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 27 Sep 2023 11:58:32 -0400
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E27CB194
+        for <linux-api@vger.kernel.org>; Wed, 27 Sep 2023 08:58:30 -0700 (PDT)
+Received: by mail-wm1-x333.google.com with SMTP id 5b1f17b1804b1-405459d9a96so125605e9.0
+        for <linux-api@vger.kernel.org>; Wed, 27 Sep 2023 08:58:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1695830309; x=1696435109; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=H6EKhbh+uwSaVjjFLye5TVhjia4Fh1KKJgT0N4UEBx0=;
+        b=NJm8ZQZGMr4oZGANbMqfNNiQl3YhHM5P/B9sKyOClTPb9V14zsDQIDHnnuTn5Ed/IR
+         msjf5TWskJLUpz5xXTwbEXVVT88zQ72VwO5VKmpMe6CP8wspxe8W9TpcFiLCCntEBJGP
+         5mKLIWP7nWb8fCqYBi8vG2Ic74SsAEgRYQgxEr9W+Cf53LAx5xvRltFS95QVNMhyXbHl
+         j+sG9dg+A6O99w0PxdY7dgSDi1zvk2tc8P/cDBbvep6G0+m07cLND7KNE+srzhi49C36
+         xSsQj2ILOfhvsy3Dhe9WFO5QrDKA4itNIEGZ0OdhDWgYvCJee9ZgTMrGhsMxzixW6xcd
+         kwew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695830309; x=1696435109;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=H6EKhbh+uwSaVjjFLye5TVhjia4Fh1KKJgT0N4UEBx0=;
+        b=ni1pR8ZMF4ld9h2m/fsR9Jzzas2QLJDr9nabhwYuV3EK15q4vUkFTrpJDUUg05GqvR
+         K9keMSHW8njcIMhEFx6Ci3C43+8OIkrxzG7nm6RxwJ+IUkm1aD28c1MjQO1Qo1yjVTY3
+         XUY7TyIkLIdPHbLr/qKdxK003JDtYG59o4lY9McbpTdRdwkHSeUtGSMuNTJXl5mSqtQ6
+         DQG62NWXp+UevSs/2fu2sqpx+V29EL9TBW6dAgP8piWMQgmKgPyTizaTlZJYDAzrbxd5
+         pia9QNycJd5yp40T5qYUkdWU9M/MOR7QzmK33BxITls1qnvUVysCF7wzsBDm9WggRxBC
+         TjCQ==
+X-Gm-Message-State: AOJu0YyUTTNo7uHbaY1YdvotNlKixru2yoAgWbjhasy8SVMZojNEBtZY
+        a3AYGqFnK5lw6kQodomzeSVrd9eibXiY2qmWkhKliQ==
+X-Google-Smtp-Source: AGHT+IHouwphCDErmnOKBhP+lk3XKIj4HPNAIxtupjaE9J/Cluv/KAGLM81/gWknqRfgR0LQ3k569YyhTiEpXvolNAA=
+X-Received: by 2002:a05:600c:4e42:b0:3fe:eb42:7ec with SMTP id
+ e2-20020a05600c4e4200b003feeb4207ecmr218651wmq.1.1695830309055; Wed, 27 Sep
+ 2023 08:58:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="du3gk64fs5h5i6jq"
-Content-Disposition: inline
-In-Reply-To: <20230926134339.2919289-1-max.kellermann@ionos.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <2c421e36-a749-7dc3-3562-7a8cf256df3c@efficios.com>
+ <20230926205215.472650-1-dvyukov@google.com> <CACT4Y+beLh1qnHF9bxhMUcva8KyuvZs7Mg_31SGK5xSoR=3m1A@mail.gmail.com>
+ <875y3wp6au.fsf@oldenburg.str.redhat.com>
+In-Reply-To: <875y3wp6au.fsf@oldenburg.str.redhat.com>
+From:   Dmitry Vyukov <dvyukov@google.com>
+Date:   Wed, 27 Sep 2023 08:58:16 -0700
+Message-ID: <CACT4Y+aVY+KPmBXYDBpA+JmLHvk=o5bt9d4tV5L41e813e0SVw@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 1/4] rseq: Add sched_state field to struct rseq
+To:     Florian Weimer <fweimer@redhat.com>
+Cc:     mathieu.desnoyers@efficios.com, David.Laight@aculab.com,
+        alexander@mihalicyn.com, andrealmeid@igalia.com,
+        boqun.feng@gmail.com, brauner@kernel.org, carlos@redhat.com,
+        ckennelly@google.com, corbet@lwn.net, dave@stgolabs.net,
+        dvhart@infradead.org, goldstein.w.n@gmail.com, hpa@zytor.com,
+        libc-alpha@sourceware.org, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org, longman@redhat.com, mingo@redhat.com,
+        paulmck@kernel.org, peterz@infradead.org, pjt@google.com,
+        posk@posk.io, rostedt@goodmis.org, tglx@linutronix.de
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Tue, 26 Sept 2023 at 21:51, Florian Weimer <fweimer@redhat.com> wrote:
+>
+> * Dmitry Vyukov:
+>
+> > In reality it's a bit more involved since the field is actually 8
+> > bytes and only partially overlaps with rseq.cpu_id_start (it's an
+> > 8-byte pointer with high 4 bytes overlap rseq.cpu_id_start):
+> >
+> > https://github.com/google/tcmalloc/blob/229908285e216cca8b844c1781bf16b838128d1b/tcmalloc/internal/percpu.h#L101-L165
+>
+> This does not compose with other rseq users, as noted in the sources:
+>
+>   // Note: this makes __rseq_abi.cpu_id_start unusable for its original purpose.
+>
+> For a core library such a malloc replacement, that is a very bad trap.
 
---du3gk64fs5h5i6jq
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2] man2/splice.2: document SPLICE_F_NOWAIT
-MIME-Version: 1.0
-
-Hi Max,
-
-On Tue, Sep 26, 2023 at 03:43:39PM +0200, Max Kellermann wrote:
-> Patch for SPLICE_F_NOWAIT submitted to LKML:
->  https://lore.kernel.org/lkml/20230926063609.2451260-1-max.kellermann@ion=
-os.com/
->=20
-> In the HISTORY section, I declared Linux 6.7 as the first version to
-> have this feature, but this is only speculation, because
-> SPLICE_F_NOWAIT is still under discussion and has not yet been merged.
->=20
-> Signed-off-by: Max Kellermann <max.kellermann@ionos.com>
-
-Thanks for the patch.  It LGTM.  Please ping when the kernel patch is
-merged or something.
-
-Thanks,
-Alex
-
-> ---
->  man2/splice.2 | 22 ++++++++++++++++++++--
->  1 file changed, 20 insertions(+), 2 deletions(-)
->=20
-> diff --git a/man2/splice.2 b/man2/splice.2
-> index e9a18e668..a07c001ac 100644
-> --- a/man2/splice.2
-> +++ b/man2/splice.2
-> @@ -89,13 +89,26 @@ call);
->  in the future, a correct implementation may be restored.
->  .TP
->  .B SPLICE_F_NONBLOCK
-> -Do not block on I/O.
-> +Do not block on I/O on pipes.
->  This makes the splice pipe operations nonblocking, but
->  .BR splice ()
->  may nevertheless block because the file descriptors that
->  are spliced to/from may block (unless they have the
->  .B O_NONBLOCK
-> -flag set).
-> +flag set or
-> +.B SPLICE_F_NOWAIT
-> +is specified).
-> +.TP
-> +.B SPLICE_F_NOWAIT
-> +If no data is immediately available on
-> +.I fd_in
-> +and it is not a pipe, do not wait (e.g. for backing storage or locks),
-> +but return immediately with
-> +.B EAGAIN.
-> +This is analogous to the
-> +.B RWF_NOWAIT
-> +flag of
-> +.BR preadv2 ().
->  .TP
->  .B SPLICE_F_MORE
->  More data will be coming in a subsequent splice.
-> @@ -138,6 +151,8 @@ is set to indicate the error.
->  .TP
->  .B EAGAIN
->  .B SPLICE_F_NONBLOCK
-> +or
-> +.B SPLICE_F_NOWAIT
->  was specified in
->  .I flags
->  or one of the file descriptors had been marked as nonblocking
-> @@ -192,6 +207,9 @@ was required to be a pipe.
->  Since Linux 2.6.31,
->  .\" commit 7c77f0b3f9208c339a4b40737bb2cb0f0319bb8d
->  both arguments may refer to pipes.
-> +.PP
-> +.B SPLICE_F_NOWAIT
-> +was added in Linux 6.7.
->  .SH NOTES
->  The three system calls
->  .BR splice (),
-> --=20
-> 2.39.2
->=20
-
---du3gk64fs5h5i6jq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmUUEhMACgkQnowa+77/
-2zLiXg//fTK72X+xAq/qsIkW/9tkOcu7G3VR6OklYNJmKteLxlYRsPbaQu/bOmhB
-8rcfLMGY2nJb+zVCom1GEBYurqIZX1EhNhHdCPvs4XN0/PaglBMt/eonQRbLfLE+
-WWFX6bKrz8/u3nPCRR5/qL+HEp3ari5Ge8Ff8cdUbrFH3Gc+73WcKMdi64WtlPeA
-/RyWlwZKGOOFwhFVf6sFB2QxxA745r2f4js/FipeH9Kn0jIl7uXv4+AOPBY8vDdi
-I4MAhZZo9EDNC83UFh3jcs/Tbh6n9mAvzz/hoE+z+v6SNcSIjcXhXNq0Sm7omn3G
-ZyP44qQbe6wO92LA6X+aZyVyYCOMtx4oIbfD75cGOlfzm1CD7SG2+VX1SE3ebLRK
-P4k+9dFaEWG1hV8QGO8QTTCMnexqrYQIdT2p2RbYaIEmDaiswA2F4y1ENW38BQF9
-F/CFSfuifG1JjZxmu+w9C5qWovR7wSTabBh3GdWAfXYUnNTrx3BsQXK/O0+tvqb4
-/5/t3ioIKUVx1THkQKW4XkIOaO6T60+DaW7cKyh9vYBCj//JbEmp3HsxAxo1X6j/
-j/z6M+NJrBKeMnKFV6lIYUrG+7v/MmIVvaVk/tzVAmLKDqgujM/9lZyAqXYK2h4I
-xQAn6eT0NM+Jq8JcDlS8edzU/IEDK/UUYDbAwMD6i5tyLENzZHU=
-=BP1p
------END PGP SIGNATURE-----
-
---du3gk64fs5h5i6jq--
+I agree. I wouldn't do this if there were other options. That's why I
+am looking for official kernel support for this.
+If we would have a separate 8 bytes that are overwritten with 0 when a
+thread is descheduled, that would be perfect.
