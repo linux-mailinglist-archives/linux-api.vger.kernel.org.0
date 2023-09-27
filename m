@@ -2,89 +2,105 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E868D7AF9E0
-	for <lists+linux-api@lfdr.de>; Wed, 27 Sep 2023 07:17:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 978957AFEE2
+	for <lists+linux-api@lfdr.de>; Wed, 27 Sep 2023 10:47:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229543AbjI0FRX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 27 Sep 2023 01:17:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38068 "EHLO
+        id S230170AbjI0IrR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 27 Sep 2023 04:47:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40592 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229840AbjI0FQi (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 27 Sep 2023 01:16:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83E8093D1
-        for <linux-api@vger.kernel.org>; Tue, 26 Sep 2023 21:51:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1695790311;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=lyI0l5tbqlD5kO6vNFEufMqdn2npnXDiZ3ZzE86goJU=;
-        b=Y8yevjmCW2gmknp3Wbb2AhtoVRRZdBMFs/NOQrnEt7Hm6o8EBu2NMUwCL7AN5FJYLUYsvl
-        JbzhGuRhWBJgxQOJsEJ7IgVL2LBm/j1DpwA5hlXDiWP5KXN1EyGfdw1nbn3AYbCB1KZil6
-        OSMCApDX2P9FgKdBc42hjVEZM5fKXgo=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-410-Pkjxo7nMNCCOJNXGT7GyJw-1; Wed, 27 Sep 2023 00:51:47 -0400
-X-MC-Unique: Pkjxo7nMNCCOJNXGT7GyJw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6CB1A2815E39;
-        Wed, 27 Sep 2023 04:51:46 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (unknown [10.2.16.34])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 5A77040C2064;
-        Wed, 27 Sep 2023 04:51:39 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Dmitry Vyukov <dvyukov@google.com>
-Cc:     mathieu.desnoyers@efficios.com, David.Laight@aculab.com,
-        alexander@mihalicyn.com, andrealmeid@igalia.com,
-        boqun.feng@gmail.com, brauner@kernel.org, carlos@redhat.com,
-        ckennelly@google.com, corbet@lwn.net, dave@stgolabs.net,
-        dvhart@infradead.org, goldstein.w.n@gmail.com, hpa@zytor.com,
-        libc-alpha@sourceware.org, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org, longman@redhat.com, mingo@redhat.com,
-        paulmck@kernel.org, peterz@infradead.org, pjt@google.com,
-        posk@posk.io, rostedt@goodmis.org, tglx@linutronix.de
-Subject: Re: [RFC PATCH v2 1/4] rseq: Add sched_state field to struct rseq
-References: <2c421e36-a749-7dc3-3562-7a8cf256df3c@efficios.com>
-        <20230926205215.472650-1-dvyukov@google.com>
-        <CACT4Y+beLh1qnHF9bxhMUcva8KyuvZs7Mg_31SGK5xSoR=3m1A@mail.gmail.com>
-Date:   Wed, 27 Sep 2023 06:51:37 +0200
-In-Reply-To: <CACT4Y+beLh1qnHF9bxhMUcva8KyuvZs7Mg_31SGK5xSoR=3m1A@mail.gmail.com>
-        (Dmitry Vyukov's message of "Tue, 26 Sep 2023 16:49:32 -0700")
-Message-ID: <875y3wp6au.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+        with ESMTP id S230248AbjI0IrQ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 27 Sep 2023 04:47:16 -0400
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0403BC0
+        for <linux-api@vger.kernel.org>; Wed, 27 Sep 2023 01:47:12 -0700 (PDT)
+Received: by mail-ej1-x62f.google.com with SMTP id a640c23a62f3a-99bdeae1d0aso1344803666b.1
+        for <linux-api@vger.kernel.org>; Wed, 27 Sep 2023 01:47:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1695804430; x=1696409230; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Q7R44+izV15PlpetL04YRf6tEqOd3u3v63DX/FqhKvw=;
+        b=BSixiHM40Hz7zXgVBsquclElSHBWJPjKLKm4PSVZlZUu56huUr+ubBK32UzVHMflA4
+         fc6RvqojFeDS2hQvqi9tOEfyiDDM5r7HbjJrDYkcudBPVRZAoJ6V6ZmYNExtkRcUqtIP
+         qX8ugJMer4WEzg8E9W2U2A7dT+we3Z20U3wAU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695804430; x=1696409230;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Q7R44+izV15PlpetL04YRf6tEqOd3u3v63DX/FqhKvw=;
+        b=M3am/A+P88dYts+W27E4mVNKXYSBQ1Ytzkn8/Bxoi4lFMp0esmSvay662O6xBNzkGo
+         f2DmT602U/gMywJ0H0dwV9DKKhIERYQI/BHRN3FhjytrAhHzAHTiu2NyOcrJZ8D6HKwh
+         xYyyg6X6QuY97VVEjNofwgzSLyRxhtGpEmttbXLB6W9RnwYE/6sz1cszPgJCaoBd4Dhz
+         /6vZ9Ir5EKgl65w4jdlm2JM9MLj6p2jSz4WvEpOX1FxywF2YNjNBj66mhrs0L/L/WQPR
+         ntkrfgHO+r32FlTBIHD4gxJ46EyO5TsKi7Gm0ZK6W9M89UC+iOAERCimyEeq4j40dt+k
+         jDDQ==
+X-Gm-Message-State: AOJu0YxLS4H0Io5Zqsv3DvQe3f7mVkTQMO4EwuEbvDNIVCVbYjw2y0wm
+        HBHFDAMOIlGc/7TZejFBVxees8CUI0Ug83kFlnIL1Q==
+X-Google-Smtp-Source: AGHT+IHakFZR3B3G8zMwyXaAUpbmlxEnten3LWsWQmOVVXf706DBV8ir31XKJVFq7fysuifFgh/a2olHdT2hG4uPu94=
+X-Received: by 2002:a17:907:7e91:b0:9a6:426f:7dfd with SMTP id
+ qb17-20020a1709077e9100b009a6426f7dfdmr1366881ejc.66.1695804430509; Wed, 27
+ Sep 2023 01:47:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-X-Spam-Status: No, score=1.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
-        RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_NONE autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Level: *
+References: <20230913152238.905247-1-mszeredi@redhat.com> <20230913152238.905247-3-mszeredi@redhat.com>
+ <44631c05-6b8a-42dc-b37e-df6776baa5d4@app.fastmail.com> <20230925-total-debatten-2a1f839fde5a@brauner>
+ <CAJfpegvUCoKebYS=_3eZtCH49nObotuWc=_khFcHshKjRG8h6Q@mail.gmail.com>
+ <20230925-wahlrecht-zuber-3cdc5a83d345@brauner> <CAJfpegvAVJUhgKZH2Dqo1s1xyT3nSopUg6J+8pEFYOnFDssH8g@mail.gmail.com>
+In-Reply-To: <CAJfpegvAVJUhgKZH2Dqo1s1xyT3nSopUg6J+8pEFYOnFDssH8g@mail.gmail.com>
+From:   Miklos Szeredi <miklos@szeredi.hu>
+Date:   Wed, 27 Sep 2023 10:46:58 +0200
+Message-ID: <CAJfpegu3BKXE+b51cj3=QwAsxe3QyKOEG_10muEsAsGD=_vkAA@mail.gmail.com>
+Subject: Re: [RFC PATCH 2/3] add statmnt(2) syscall
+To:     Christian Brauner <brauner@kernel.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-man@vger.kernel.org,
+        linux-security-module@vger.kernel.org, Karel Zak <kzak@redhat.com>,
+        Ian Kent <raven@themaw.net>,
+        David Howells <dhowells@redhat.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <christian@brauner.io>,
+        Amir Goldstein <amir73il@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-* Dmitry Vyukov:
-
-> In reality it's a bit more involved since the field is actually 8
-> bytes and only partially overlaps with rseq.cpu_id_start (it's an
-> 8-byte pointer with high 4 bytes overlap rseq.cpu_id_start):
+On Mon, 25 Sept 2023 at 15:20, Miklos Szeredi <miklos@szeredi.hu> wrote:
 >
-> https://github.com/google/tcmalloc/blob/229908285e216cca8b844c1781bf16b838128d1b/tcmalloc/internal/percpu.h#L101-L165
+> On Mon, 25 Sept 2023 at 15:19, Christian Brauner <brauner@kernel.org> wrote:
+> >
+> > > How about passing u64 *?
+> >
+> > struct statmnt_req {
+> >         __u64 mnt_id;
+> >         __u64 mask;
+> > };
+> >
+> > ?
+>
+> I'm fine with that as well.
 
-This does not compose with other rseq users, as noted in the sources:
+So after a bit more thinking: this is okay to make life easier for
+32bit archs, but only on the kernel ABI.
 
-  // Note: this makes __rseq_abi.cpu_id_start unusable for its original purpose.
+On the library API the args should *not* be multiplexed, as it's just
+a pointless complication.  This is just an internal implementation
+detail for the sake of legacy architectures, instead of being good API
+design.
 
-For a core library such a malloc replacement, that is a very bad trap.
+And because it's an internal thingy, my feeling is that this struct
+could be reused for passing mnt_id to listmount(2) as well, despite
+the fact that the mask would be unused.   But I'm ready to be
+convinced otherwise...
 
 Thanks,
-Florian
-
+Miklos
