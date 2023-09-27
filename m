@@ -2,97 +2,127 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 85A047B0971
-	for <lists+linux-api@lfdr.de>; Wed, 27 Sep 2023 17:58:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B0F247B098B
+	for <lists+linux-api@lfdr.de>; Wed, 27 Sep 2023 18:03:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232505AbjI0P6c (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 27 Sep 2023 11:58:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42288 "EHLO
+        id S231608AbjI0QDm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 27 Sep 2023 12:03:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55026 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232544AbjI0P6c (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 27 Sep 2023 11:58:32 -0400
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E27CB194
-        for <linux-api@vger.kernel.org>; Wed, 27 Sep 2023 08:58:30 -0700 (PDT)
-Received: by mail-wm1-x333.google.com with SMTP id 5b1f17b1804b1-405459d9a96so125605e9.0
-        for <linux-api@vger.kernel.org>; Wed, 27 Sep 2023 08:58:30 -0700 (PDT)
+        with ESMTP id S231968AbjI0QDZ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 27 Sep 2023 12:03:25 -0400
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BEBF10E3
+        for <linux-api@vger.kernel.org>; Wed, 27 Sep 2023 09:03:08 -0700 (PDT)
+Received: by mail-pl1-x632.google.com with SMTP id d9443c01a7336-1bdf4752c3cso82781685ad.2
+        for <linux-api@vger.kernel.org>; Wed, 27 Sep 2023 09:03:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1695830309; x=1696435109; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=H6EKhbh+uwSaVjjFLye5TVhjia4Fh1KKJgT0N4UEBx0=;
-        b=NJm8ZQZGMr4oZGANbMqfNNiQl3YhHM5P/B9sKyOClTPb9V14zsDQIDHnnuTn5Ed/IR
-         msjf5TWskJLUpz5xXTwbEXVVT88zQ72VwO5VKmpMe6CP8wspxe8W9TpcFiLCCntEBJGP
-         5mKLIWP7nWb8fCqYBi8vG2Ic74SsAEgRYQgxEr9W+Cf53LAx5xvRltFS95QVNMhyXbHl
-         j+sG9dg+A6O99w0PxdY7dgSDi1zvk2tc8P/cDBbvep6G0+m07cLND7KNE+srzhi49C36
-         xSsQj2ILOfhvsy3Dhe9WFO5QrDKA4itNIEGZ0OdhDWgYvCJee9ZgTMrGhsMxzixW6xcd
-         kwew==
+        d=linaro.org; s=google; t=1695830588; x=1696435388; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=cc32aBSxiKmB7YJYiVYNyRkEBllulbgFY+PbuERINks=;
+        b=ABmtJMNyGm2g+XCX436Xz/kj9gWN4T5A/ws3WsfsEJyoKgGmFCzrRrtnOovg5Fv4H+
+         ljOh+pq90hESatFWH+BeD76IK6s7R/uydMKDDxUgMKvnfAbIHMr7p3eeETMi+lYNMo9L
+         ldtZJPyireJ1upycmQsYIJQpeoVk4o8ePWoZb+Bl6h04wdLBcF/316EMubQf07Gw0vyl
+         gC1nKKdHZR2AnbIZ/oW6VFtKOeeEElyoxCm4InpZpBQRdhrECxGs9zds4RcKLgTxME2O
+         qS0IcOl4szdaetF1CLiDi9Iv4GZ2gNmDFx6rmEHDNgEQcZypZLTJ6IvZ+OmtgdRSfnn4
+         Hi5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695830309; x=1696435109;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1695830588; x=1696435388;
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=H6EKhbh+uwSaVjjFLye5TVhjia4Fh1KKJgT0N4UEBx0=;
-        b=ni1pR8ZMF4ld9h2m/fsR9Jzzas2QLJDr9nabhwYuV3EK15q4vUkFTrpJDUUg05GqvR
-         K9keMSHW8njcIMhEFx6Ci3C43+8OIkrxzG7nm6RxwJ+IUkm1aD28c1MjQO1Qo1yjVTY3
-         XUY7TyIkLIdPHbLr/qKdxK003JDtYG59o4lY9McbpTdRdwkHSeUtGSMuNTJXl5mSqtQ6
-         DQG62NWXp+UevSs/2fu2sqpx+V29EL9TBW6dAgP8piWMQgmKgPyTizaTlZJYDAzrbxd5
-         pia9QNycJd5yp40T5qYUkdWU9M/MOR7QzmK33BxITls1qnvUVysCF7wzsBDm9WggRxBC
-         TjCQ==
-X-Gm-Message-State: AOJu0YyUTTNo7uHbaY1YdvotNlKixru2yoAgWbjhasy8SVMZojNEBtZY
-        a3AYGqFnK5lw6kQodomzeSVrd9eibXiY2qmWkhKliQ==
-X-Google-Smtp-Source: AGHT+IHouwphCDErmnOKBhP+lk3XKIj4HPNAIxtupjaE9J/Cluv/KAGLM81/gWknqRfgR0LQ3k569YyhTiEpXvolNAA=
-X-Received: by 2002:a05:600c:4e42:b0:3fe:eb42:7ec with SMTP id
- e2-20020a05600c4e4200b003feeb4207ecmr218651wmq.1.1695830309055; Wed, 27 Sep
- 2023 08:58:29 -0700 (PDT)
+        bh=cc32aBSxiKmB7YJYiVYNyRkEBllulbgFY+PbuERINks=;
+        b=APnuvaz8Yh/481J1jYOf0DzZ8xR2T8WlwT9G8vy80/L//c09HAI/+RpvLSsW9hIeG+
+         FnXm9dS5wWyQRkiTqiAbkik61dqKnXBByaCT0ipA4AmxgCk6fpx+0NLLOcMBxCNQ/fZH
+         0JRAkPko58ia67sGnXOpQ7zKZ99i/teM/UXOwUfH6e3fkwB3bXxXMtTkg7xtv9SC0ewi
+         9izFwOGL+CJUxOdq40LAzBiyOG0CR8yLxBnQFHZSTQ2JXpGWNyLW+zxu5W4pgRp6VPKw
+         +EOlsrE/tlS2dNidp1kbWdr/gwUyyuTTD1dYSlcuogf1xmU91xBi4mXhxurTYgJTSAqv
+         MZnA==
+X-Gm-Message-State: AOJu0YzkkRcppm0gBqseETvqZaHL1suubNNCeUTgDlkNCjI6hsON+mF5
+        TSUHrzqdJOcOvuOYaKPOos04eA==
+X-Google-Smtp-Source: AGHT+IHxY4DW2OVHGZCmyyi4u1VB9W8yCdtBLbEwI6vaIqaWlrij8p9kxEZXh5NCY69eQYN3+gKd+Q==
+X-Received: by 2002:a17:902:b414:b0:1c3:52ed:18f9 with SMTP id x20-20020a170902b41400b001c352ed18f9mr1953496plr.62.1695830587598;
+        Wed, 27 Sep 2023 09:03:07 -0700 (PDT)
+Received: from ?IPV6:2804:1b3:a7c1:6eb0:6d4f:92fe:5e4e:27d3? ([2804:1b3:a7c1:6eb0:6d4f:92fe:5e4e:27d3])
+        by smtp.gmail.com with ESMTPSA id az11-20020a170902a58b00b001c5bcc9d916sm13274132plb.176.2023.09.27.09.03.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 27 Sep 2023 09:03:06 -0700 (PDT)
+Message-ID: <97eb2099-23c2-4921-89ac-9523226ad221@linaro.org>
+Date:   Wed, 27 Sep 2023 13:03:02 -0300
 MIME-Version: 1.0
-References: <2c421e36-a749-7dc3-3562-7a8cf256df3c@efficios.com>
- <20230926205215.472650-1-dvyukov@google.com> <CACT4Y+beLh1qnHF9bxhMUcva8KyuvZs7Mg_31SGK5xSoR=3m1A@mail.gmail.com>
- <875y3wp6au.fsf@oldenburg.str.redhat.com>
-In-Reply-To: <875y3wp6au.fsf@oldenburg.str.redhat.com>
-From:   Dmitry Vyukov <dvyukov@google.com>
-Date:   Wed, 27 Sep 2023 08:58:16 -0700
-Message-ID: <CACT4Y+aVY+KPmBXYDBpA+JmLHvk=o5bt9d4tV5L41e813e0SVw@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 1/4] rseq: Add sched_state field to struct rseq
-To:     Florian Weimer <fweimer@redhat.com>
-Cc:     mathieu.desnoyers@efficios.com, David.Laight@aculab.com,
-        alexander@mihalicyn.com, andrealmeid@igalia.com,
-        boqun.feng@gmail.com, brauner@kernel.org, carlos@redhat.com,
-        ckennelly@google.com, corbet@lwn.net, dave@stgolabs.net,
-        dvhart@infradead.org, goldstein.w.n@gmail.com, hpa@zytor.com,
-        libc-alpha@sourceware.org, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org, longman@redhat.com, mingo@redhat.com,
-        paulmck@kernel.org, peterz@infradead.org, pjt@google.com,
-        posk@posk.io, rostedt@goodmis.org, tglx@linutronix.de
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] uapi/auxvec: Define AT_HWCAP3 and AT_HWCAP4 aux vector,
+ entries
+Content-Language: en-US
+To:     Peter Bergner <bergner@linux.ibm.com>, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org,
+        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>
+Cc:     Nicholas Piggin <npiggin@gmail.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Segher Boessenkool <segher@kernel.crashing.org>,
+        GNU C Library <libc-alpha@sourceware.org>
+References: <fd879f60-3f0b-48d1-bfa1-6d337768207e@linux.ibm.com>
+From:   Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>
+Organization: Linaro
+In-Reply-To: <fd879f60-3f0b-48d1-bfa1-6d337768207e@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, 26 Sept 2023 at 21:51, Florian Weimer <fweimer@redhat.com> wrote:
->
-> * Dmitry Vyukov:
->
-> > In reality it's a bit more involved since the field is actually 8
-> > bytes and only partially overlaps with rseq.cpu_id_start (it's an
-> > 8-byte pointer with high 4 bytes overlap rseq.cpu_id_start):
-> >
-> > https://github.com/google/tcmalloc/blob/229908285e216cca8b844c1781bf16b838128d1b/tcmalloc/internal/percpu.h#L101-L165
->
-> This does not compose with other rseq users, as noted in the sources:
->
->   // Note: this makes __rseq_abi.cpu_id_start unusable for its original purpose.
->
-> For a core library such a malloc replacement, that is a very bad trap.
 
-I agree. I wouldn't do this if there were other options. That's why I
-am looking for official kernel support for this.
-If we would have a separate 8 bytes that are overwritten with 0 when a
-thread is descheduled, that would be perfect.
+
+On 26/09/23 19:02, Peter Bergner wrote:
+> The powerpc toolchain keeps a copy of the HWCAP bit masks in our TCB for fast
+> access by our __builtin_cpu_supports built-in function.  The TCB space for
+> the HWCAP entries - which are created in pairs - is an ABI extension, so
+> waiting to create the space for HWCAP3 and HWCAP4 until we need them is
+> problematical, given distro unwillingness to apply ABI modifying patches
+> to distro point releases.  Define AT_HWCAP3 and AT_HWCAP4 in the generic
+> uapi header so they can be used in GLIBC to reserve space in the powerpc
+> TCB for their future use.
+
+This is different than previously exported auxv, where each AT_* constant
+would have a auxv entry. On glibc it would require changing _dl_parse_auxv
+to iterate over the auxv_values to find AT_HWCAP3/AT_HWCAP4 (not ideal, 
+but doable).
+
+Wouldn't be better to always export it on fs/binfmt_elf.c, along with all 
+the machinery to setup it (ELF_HWCAP3, etc), along with proper documentation?
+
+> 
+> I scanned both the Linux and GLIBC source codes looking for unused AT_*
+> values and 29 and 30 did not seem to be used, so they are what I went
+> with.  If anyone sees a problem with using those specific values, I'm
+> amenable to using other values, just let me know what would be better.
+> 
+> Peter
+> 
+> 
+> Signed-off-by: Peter Bergner <bergner@linux.ibm.com>
+> ---
+>  include/uapi/linux/auxvec.h | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/include/uapi/linux/auxvec.h b/include/uapi/linux/auxvec.h
+> index 6991c4b8ab18..cc61cb9b3e9a 100644
+> --- a/include/uapi/linux/auxvec.h
+> +++ b/include/uapi/linux/auxvec.h
+> @@ -32,6 +32,8 @@
+>  #define AT_HWCAP2 26	/* extension of AT_HWCAP */
+>  #define AT_RSEQ_FEATURE_SIZE	27	/* rseq supported feature size */
+>  #define AT_RSEQ_ALIGN		28	/* rseq allocation alignment */
+> +#define AT_HWCAP3 29	/* extension of AT_HWCAP */
+> +#define AT_HWCAP4 30	/* extension of AT_HWCAP */
+>  
+>  #define AT_EXECFN  31	/* filename of program */
+>  
