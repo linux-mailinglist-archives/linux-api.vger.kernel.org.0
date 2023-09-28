@@ -2,38 +2,38 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D68B7B262C
-	for <lists+linux-api@lfdr.de>; Thu, 28 Sep 2023 21:55:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE62F7B2676
+	for <lists+linux-api@lfdr.de>; Thu, 28 Sep 2023 22:22:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230246AbjI1Tza (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 28 Sep 2023 15:55:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33162 "EHLO
+        id S232081AbjI1UWG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 28 Sep 2023 16:22:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229864AbjI1Tz3 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 28 Sep 2023 15:55:29 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46214F7;
-        Thu, 28 Sep 2023 12:55:25 -0700 (PDT)
+        with ESMTP id S232288AbjI1UWE (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 28 Sep 2023 16:22:04 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79727CC4;
+        Thu, 28 Sep 2023 13:21:51 -0700 (PDT)
 From:   Thomas Gleixner <tglx@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1695930921;
+        s=2020; t=1695932510;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=dSvz8T6itr9FWR99Rys1NQjiPi4ExBzhoF5Qj7BihzY=;
-        b=mjs6qexrVugU8k/lQ/2ebrfLj20C51JXiWSJ8xPNBWzRCSwGzngkjmcR+JR/ONH6yw7ktS
-        hGkLzkBsJ7WgbYQw8ayPdfzxVmHzEoG9xKXR1ePgshxqAfopx8aOiuM3fbAqyeVrHcPI1l
-        WRSBf9pL0dkkVd8AQCQ2VEajkV98Hu3LtZ+9EldKhcP0F6V/qmkp4RKeTGzvCH9KJJ1sTT
-        Q2d1WG+LhtySbtafDxMHHxQFKeQh9v/sTaKKs2iVwgWNlo0j0hx9LshO5WJTKrWR6Q0oe5
-        fFqmFF3l+mYiUaIoxhJg4U374ZzOVbtDsKW5s3AlVUnwa7wHC+1sFy0vIX/K+w==
+        bh=DmX9bKSrcJ3gg7QbnQ5HyzLMjN52R6w5zfPwPk6xm2I=;
+        b=YHT9m7xPV8mIUJbLtJqCcLFzUFa4VSLHpjgkGY3cd4OsQhGGJgLg1e37/hA4+6GMM4768U
+        J25l2Ijl5q2Dr3EN5sV1sW5qOUs6yOKu0Riai6pRlhAkAIDZJr2/z5n6bLp/vMjHgJ+Gt8
+        63LUYOG1iK4A0Zkv/x961yPdotSWh/SOFx/NVCyhNci9dTYBETgAAOOicW6ltIasTVrzML
+        PrMeIDKfE7VwKrI5Sn/Ar4iVv2LH2liLUD3belCuqIgfums7+W1d5fGNCGiQjZartkoR+z
+        gUfdlE3SjYRXr6yMe/vD0mOpT499Ao6EyQxB6mxpa1onD+YQCdM+hq/cTMS7ww==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1695930921;
+        s=2020e; t=1695932510;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=dSvz8T6itr9FWR99Rys1NQjiPi4ExBzhoF5Qj7BihzY=;
-        b=SpRahioNiaI5Gp8+sh8rdf76ZN2sFe6jyj/bug/FR6ZFkzyBWsAIB05ujDbsTrgCEkmVk7
-        jYB8I/j7gDCHzXBw==
+        bh=DmX9bKSrcJ3gg7QbnQ5HyzLMjN52R6w5zfPwPk6xm2I=;
+        b=caIsx9kL4G5PovmJ3A6YjoJRCjOZI7Nd/fXke7hfbfjDaR9tlUHt4i1fkUBLXVsyc5lCpC
+        yR+HpMzGp3/N7MDA==
 To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
         Peter Zijlstra <peterz@infradead.org>
 Cc:     linux-kernel@vger.kernel.org,
@@ -54,19 +54,19 @@ Cc:     linux-kernel@vger.kernel.org,
         Jonathan Corbet <corbet@lwn.net>,
         Noah Goldstein <goldstein.w.n@gmail.com>,
         Daniel Colascione <dancol@google.com>, longman@redhat.com,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Subject: Re: [RFC PATCH v2 4/4] selftests/rseq: Implement rseq_mutex test
- program
-In-Reply-To: <20230529191416.53955-5-mathieu.desnoyers@efficios.com>
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Florian Weimer <fweimer@redhat.com>
+Subject: Re: [RFC PATCH v2 1/4] rseq: Add sched_state field to struct rseq
+In-Reply-To: <20230529191416.53955-2-mathieu.desnoyers@efficios.com>
 References: <20230529191416.53955-1-mathieu.desnoyers@efficios.com>
- <20230529191416.53955-5-mathieu.desnoyers@efficios.com>
-Date:   Thu, 28 Sep 2023 21:55:20 +0200
-Message-ID: <87v8budqdz.ffs@tglx>
+ <20230529191416.53955-2-mathieu.desnoyers@efficios.com>
+Date:   Thu, 28 Sep 2023 22:21:49 +0200
+Message-ID: <87r0midp5u.ffs@tglx>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -74,30 +74,30 @@ List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
 On Mon, May 29 2023 at 15:14, Mathieu Desnoyers wrote:
-> +static void rseq_lock_slowpath(struct rseq_mutex *lock)
+> +void __rseq_set_sched_state(struct task_struct *t, unsigned int state);
+> +
+> +static inline void rseq_set_sched_state(struct task_struct *t, unsigned int state)
 > +{
-> +	int i = 0;
-> +
-> +	for (;;) {
-> +		struct rseq_abi_sched_state *expected = NULL, *self = rseq_get_sched_state(rseq_get_abi());
-> +
-> +		if (__atomic_compare_exchange_n(&lock->owner, &expected, self, false,
-> +						__ATOMIC_ACQUIRE, __ATOMIC_RELAXED))
-> +			break;
-> +		//TODO: use rseq critical section to protect dereference of owner thread's
-> +		//rseq_abi_sched_state, combined with rseq fence at thread reclaim.
-> +		if ((RSEQ_READ_ONCE(expected->state) & RSEQ_ABI_SCHED_STATE_FLAG_ON_CPU) &&
+> +	if (t->rseq_sched_state)
+> +		__rseq_set_sched_state(t, state);
 
-For robust and PI futexes the futex value is an ABI between kernel and
-user space. Sure, this is only meant for demonstration, but it's the
-wrong direction.
+This is invoked on every context switch and writes over that state
+unconditionally even in the case that the state was already
+cleared. There are enough situations where tasks are scheduled out
+several times while being in the kernel.
+
+>  /* rseq_preempt() requires preemption to be disabled. */
+>  static inline void rseq_preempt(struct task_struct *t)
+>  {
+>  	__set_bit(RSEQ_EVENT_PREEMPT_BIT, &t->rseq_event_mask);
+>  	rseq_set_notify_resume(t);
+> +	rseq_set_sched_state(t, 0);
+
+This code is already stupid to begin with. __set_bit() is cheap, but
+rseq_set_notify_resume() is not as it has a conditional and a locked
+instruction and now you add two more conditionals into the context
+switch path.
 
 Thanks,
 
         tglx
-
-
-
-
-
-
