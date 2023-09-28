@@ -2,89 +2,117 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F0467B1FE6
-	for <lists+linux-api@lfdr.de>; Thu, 28 Sep 2023 16:43:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 525F37B1FEF
+	for <lists+linux-api@lfdr.de>; Thu, 28 Sep 2023 16:44:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229713AbjI1Onc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 28 Sep 2023 10:43:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46842 "EHLO
+        id S230376AbjI1Ook (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 28 Sep 2023 10:44:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229605AbjI1Onb (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 28 Sep 2023 10:43:31 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02BE9F9;
-        Thu, 28 Sep 2023 07:43:30 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B98C8C433C8;
-        Thu, 28 Sep 2023 14:43:24 +0000 (UTC)
-Date:   Thu, 28 Sep 2023 10:43:21 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        "Paul E . McKenney" <paulmck@kernel.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
-        linux-api@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
-        Florian Weimer <fw@deneb.enyo.de>, David.Laight@aculab.com,
-        carlos@redhat.com, Peter Oskolkov <posk@posk.io>,
-        Alexander Mikhalitsyn <alexander@mihalicyn.com>,
-        Chris Kennelly <ckennelly@google.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Davidlohr Bueso <dave@stgolabs.net>,
-        =?UTF-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>,
-        libc-alpha@sourceware.org, Jonathan Corbet <corbet@lwn.net>,
-        Noah Goldstein <goldstein.w.n@gmail.com>,
-        Daniel Colascione <dancol@google.com>, longman@redhat.com,
-        Florian Weimer <fweimer@redhat.com>
-Subject: Re: [RFC PATCH v2 1/4] rseq: Add sched_state field to struct rseq
-Message-ID: <20230928104321.490782a7@rorschach.local.home>
-In-Reply-To: <20230928103926.GI9829@noisy.programming.kicks-ass.net>
-References: <20230529191416.53955-1-mathieu.desnoyers@efficios.com>
-        <20230529191416.53955-2-mathieu.desnoyers@efficios.com>
-        <20230928103926.GI9829@noisy.programming.kicks-ass.net>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        with ESMTP id S230212AbjI1Ooj (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 28 Sep 2023 10:44:39 -0400
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1937A19E
+        for <linux-api@vger.kernel.org>; Thu, 28 Sep 2023 07:44:37 -0700 (PDT)
+Received: by mail-lf1-x12d.google.com with SMTP id 2adb3069b0e04-5032a508e74so4555e87.1
+        for <linux-api@vger.kernel.org>; Thu, 28 Sep 2023 07:44:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1695912275; x=1696517075; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=BFwIpXTwL/lUKsUPWcI8rCYf21e0USndOV3VkIfXzr4=;
+        b=4aQV6YeY6iROW554n7rXB5howK8VsvKRNWX8a3DNmBIYMPkbBacwGWbnQob50OxIPN
+         snU2FUQ/wdeFDsL4rDUwnllZDQOasLaGkntz5J5tGQ117b5b2RUsVjhC5MkCLKyq+blv
+         HxRJsgB7cUxb7K80XelNxlktBfEtOg8KpweSQ5XMRRCQ4VqNff4rw0PsMxN8F/YO2zA/
+         x2SkKBE5lHVqfOJ97KFYJenZ4uMHX+kr0Ovxdrfj2CK3vX0WzrbDxJXK44B5mMOSQvEE
+         qYsnlWUG0FmvWfgfAorDxSohC8+WSWUsneaCdYuWW5ov7u6r1sWj+pVx/h7rN18O92e/
+         3kWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695912275; x=1696517075;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BFwIpXTwL/lUKsUPWcI8rCYf21e0USndOV3VkIfXzr4=;
+        b=pddRIOrC0dptMlUsrSUZ1R61MJpUsHdiI/ll9jBXfAMfIaxW25ZBqIdNaNHpfQjpgX
+         74mSxtSNqfd4jIDVpwykopujpC305Ta8MNNpUAJoc62AFoxZ2h/bpauo07E59GqiHrBr
+         4TM8FAKh42f6YeLv2C9GOb+14pqtYqBcyMHsZXlUrkYxQh/4zNrVqZj+Q2n0YT5LOgr8
+         043WPiOxUTZm7KWL7Zk06h18B2nGO0Wch+xOkyzY7UkWF9oBa6vFQOT+HaIFnoc/snhI
+         OtNy8e7DmSjSkaQBw5eDZKrEETIUsgNeZD4JhoW07/QmYf5c6teCFKjZaEa03NG7G3ES
+         WFFw==
+X-Gm-Message-State: AOJu0YwDnZyLDr5iE6P0mlVTQBDXvNUUwGWnyxOobEuaLfkj9T/aR2tK
+        JG9Un7OPBJ7KOl2gkyjtGWMcocyN3Ateab+fYH6EOg==
+X-Google-Smtp-Source: AGHT+IF+k5c+rX4zUNgLUDd2nRwl2MXqWoD/9z4V0hFhg8SGKLIhAegXLUkZVGYDQSttL/WplGoCXnRj0bwajDSqRps=
+X-Received: by 2002:ac2:47f2:0:b0:502:a55e:fec0 with SMTP id
+ b18-20020ac247f2000000b00502a55efec0mr247781lfp.6.1695912274999; Thu, 28 Sep
+ 2023 07:44:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <2c421e36-a749-7dc3-3562-7a8cf256df3c@efficios.com>
+ <20230926205215.472650-1-dvyukov@google.com> <CACT4Y+beLh1qnHF9bxhMUcva8KyuvZs7Mg_31SGK5xSoR=3m1A@mail.gmail.com>
+ <875y3wp6au.fsf@oldenburg.str.redhat.com> <CACT4Y+aVY+KPmBXYDBpA+JmLHvk=o5bt9d4tV5L41e813e0SVw@mail.gmail.com>
+ <87bkdmznl6.fsf@oldenburg.str.redhat.com>
+In-Reply-To: <87bkdmznl6.fsf@oldenburg.str.redhat.com>
+From:   Dmitry Vyukov <dvyukov@google.com>
+Date:   Thu, 28 Sep 2023 07:44:21 -0700
+Message-ID: <CACT4Y+Y4S7yicthk6ziFh_M53W3D_tbWFnLjcsT+szzLy4ZmYA@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 1/4] rseq: Add sched_state field to struct rseq
+To:     Florian Weimer <fweimer@redhat.com>
+Cc:     mathieu.desnoyers@efficios.com, David.Laight@aculab.com,
+        alexander@mihalicyn.com, andrealmeid@igalia.com,
+        boqun.feng@gmail.com, brauner@kernel.org, carlos@redhat.com,
+        ckennelly@google.com, corbet@lwn.net, dave@stgolabs.net,
+        dvhart@infradead.org, goldstein.w.n@gmail.com, hpa@zytor.com,
+        libc-alpha@sourceware.org, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org, longman@redhat.com, mingo@redhat.com,
+        paulmck@kernel.org, peterz@infradead.org, pjt@google.com,
+        posk@posk.io, rostedt@goodmis.org, tglx@linutronix.de
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, 28 Sep 2023 12:39:26 +0200
-Peter Zijlstra <peterz@infradead.org> wrote:
+On Thu, 28 Sept 2023 at 01:52, Florian Weimer <fweimer@redhat.com> wrote:
+>
+> * Dmitry Vyukov:
+>
+> > On Tue, 26 Sept 2023 at 21:51, Florian Weimer <fweimer@redhat.com> wrote:
+> >>
+> >> * Dmitry Vyukov:
+> >>
+> >> > In reality it's a bit more involved since the field is actually 8
+> >> > bytes and only partially overlaps with rseq.cpu_id_start (it's an
+> >> > 8-byte pointer with high 4 bytes overlap rseq.cpu_id_start):
+> >> >
+> >> > https://github.com/google/tcmalloc/blob/229908285e216cca8b844c1781bf16b838128d1b/tcmalloc/internal/percpu.h#L101-L165
+> >>
+> >> This does not compose with other rseq users, as noted in the sources:
+> >>
+> >>   // Note: this makes __rseq_abi.cpu_id_start unusable for its original purpose.
+> >>
+> >> For a core library such a malloc replacement, that is a very bad trap.
+> >
+> > I agree. I wouldn't do this if there were other options. That's why I
+> > am looking for official kernel support for this.
+> > If we would have a separate 8 bytes that are overwritten with 0 when a
+> > thread is descheduled, that would be perfect.
+>
+> That only solves part of the problem because these fields would still
+> have to be locked to tcmalloc.  I think you'd need a rescheduling
+> counter, then every library could keep their reference values in
+> library-private thread-local storage.
 
-> As always, are syscalls really *that* expensive? Why can't we busy wait
-> in the kernel instead?
+This unfortunatly won't work for tcmalloc.
+This data is accessed on the very hot path of malloc/free. We need a
+ready to use pointer in TLS, which is reset by the kernel to 0 (or
+some user-space specified value). Doing to separate loads for counters
+in different cache lines would be too expensive.
 
-Yes syscalls are that expensive. Several years ago I had a good talk
-with Robert Haas (one of the PostgreSQL maintainers) at Linux Plumbers,
-and I asked him if they used futexes. His answer was "no". He told me
-how they did several benchmarks and it was a huge performance hit (and
-this was before Spectre/Meltdown made things much worse). He explained
-to me that most locks are taken just to flip a few bits. Going into the
-kernel and coming back was orders of magnitude longer than the critical
-sections. By going into the kernel, it caused a ripple effect and lead
-to even more contention. There answer was to implement their locking
-completely in user space without any help from the kernel.
-
-This is when I thought that having an adaptive spinner that could get
-hints from the kernel via memory mapping would be extremely useful.
-
-The obvious problem with their implementation is that if the owner is
-sleeping, there's no point in spinning. Worse, the owner may even be
-waiting for the spinner to get off the CPU before it can run again. But
-according to Robert, the gain in the general performance greatly
-outweighed the few times this happened in practice.
-
-But still, if userspace could figure out if the owner is running on
-another CPU or not, to act just like the adaptive mutexes in the
-kernel, that would prevent the problem of a spinner keeping the owner
-from running.
-
--- Steve
+It may be possible to make several libraries use this feature  with an
+array of notifications (see rseq_desched_notif_t in my previous
+email).
