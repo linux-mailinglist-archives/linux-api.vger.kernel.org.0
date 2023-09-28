@@ -2,39 +2,39 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D78CB7B26C4
-	for <lists+linux-api@lfdr.de>; Thu, 28 Sep 2023 22:44:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 888C87B26E4
+	for <lists+linux-api@lfdr.de>; Thu, 28 Sep 2023 22:54:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230251AbjI1Uoi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 28 Sep 2023 16:44:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44420 "EHLO
+        id S231387AbjI1UyS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 28 Sep 2023 16:54:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35148 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229478AbjI1Uoi (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 28 Sep 2023 16:44:38 -0400
-Received: from smtpout.efficios.com (unknown [IPv6:2607:5300:203:b2ee::31e5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D14919C;
-        Thu, 28 Sep 2023 13:44:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=efficios.com;
-        s=smtpout1; t=1695933874;
-        bh=9aw0BPEYNd90DJaMDLBC1QrPFfgdOGYswPNrGMMC+Jo=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=kQmhU7WCur4kGAIitZt1UW+sOUNw/tzQmiKAvbldPzHKscXuIsBVKfYXirPm52xus
-         6l6eDyNgM9JikY371xnNuMdP26JC6oE2AdONEKdObMimS7miq3g54V4R7846LyiDaK
-         9iKlDwZfwTOUIHbBZ2gDoaM8GPiXQjjSGcuo6MHW965pS8acdehV+Na+K4LPSmzxsN
-         i1qThFkuG24sKTtm9tTgR2WvSfg9P75FOYBMFJU2NSktfCYrfsUx5rFyI0z1M6Chvo
-         vCMjD/wlQNqhdJzabIeEaJ8aRzmdbcirwyQwPMMoopzU3/DCLhS+AzQ2ezo/Tzb6Zb
-         8E4LtfZqmK/AQ==
-Received: from [IPV6:2606:6d00:100:4000:cacb:9855:de1f:ded2] (unknown [IPv6:2606:6d00:100:4000:cacb:9855:de1f:ded2])
-        by smtpout.efficios.com (Postfix) with ESMTPSA id 4RxQSx6Qmbz1Qnb;
-        Thu, 28 Sep 2023 16:44:33 -0400 (EDT)
-Message-ID: <94c23850-265c-5d71-f0a3-e02b5dbc050e@efficios.com>
-Date:   Thu, 28 Sep 2023 16:43:58 -0400
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [RFC PATCH v2 1/4] rseq: Add sched_state field to struct rseq
-Content-Language: en-US
-To:     Thomas Gleixner <tglx@linutronix.de>,
+        with ESMTP id S232283AbjI1UyQ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 28 Sep 2023 16:54:16 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FE3B19F;
+        Thu, 28 Sep 2023 13:54:14 -0700 (PDT)
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1695934452;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=A3j/9wejDQ+NDD78GYTcXX46SNesqLsHCj3tL/KaE0E=;
+        b=EYTkJuHdjoZvurePgf/yWXyZ5oPJpCiNFgdwobRZRwPPDC9jJvS4JUEu5GPc/r9WVD6ayB
+        j9kps0A221SwDIAw4jQqym2t+toR7V42FeNbUsU275ZGkZiSzR1Ph5LtoX/dH4F8SZHsgn
+        mUFkrGjar4DUxJvMaMzQ5ENgWkITP5KJ83C4nSRuiLInP6v0adyn1oI7rX76kSytJm6bw3
+        dZZf5c2/+mttVTw1IhGBnJK29WEZhpGOjf2SIhvVdqZF2CNk/+FaDohilJWZY67rcki0VH
+        PpODGR1zxEl9iCZ7ao0iZY7xrP6ThQmq3d/a6IL3/xN9Spn3PLJ8+Vta+npwLQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1695934452;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=A3j/9wejDQ+NDD78GYTcXX46SNesqLsHCj3tL/KaE0E=;
+        b=HqXj5SW6T6+YgMfTewJs8NsuI03Yde52sXYrIUGj2g+KaVQIGqZqTQ3R7wVLpOsTdJepHy
+        Ge7EkPDHdCvgSwCg==
+To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
         Peter Zijlstra <peterz@infradead.org>
 Cc:     linux-kernel@vger.kernel.org,
         "Paul E . McKenney" <paulmck@kernel.org>,
@@ -48,94 +48,86 @@ Cc:     linux-kernel@vger.kernel.org,
         Ingo Molnar <mingo@redhat.com>,
         Darren Hart <dvhart@infradead.org>,
         Davidlohr Bueso <dave@stgolabs.net>,
-        =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>,
-        libc-alpha@sourceware.org, Steven Rostedt <rostedt@goodmis.org>,
+        =?utf-8?Q?An?= =?utf-8?Q?dr=C3=A9?= Almeida 
+        <andrealmeid@igalia.com>, libc-alpha@sourceware.org,
+        Steven Rostedt <rostedt@goodmis.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Noah Goldstein <goldstein.w.n@gmail.com>,
         Daniel Colascione <dancol@google.com>, longman@redhat.com,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
         Florian Weimer <fweimer@redhat.com>
+Subject: Re: [RFC PATCH v2 1/4] rseq: Add sched_state field to struct rseq
+In-Reply-To: <20230529191416.53955-2-mathieu.desnoyers@efficios.com>
 References: <20230529191416.53955-1-mathieu.desnoyers@efficios.com>
- <20230529191416.53955-2-mathieu.desnoyers@efficios.com> <87r0midp5u.ffs@tglx>
-From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-In-Reply-To: <87r0midp5u.ffs@tglx>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,RDNS_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+ <20230529191416.53955-2-mathieu.desnoyers@efficios.com>
+Date:   Thu, 28 Sep 2023 22:54:12 +0200
+Message-ID: <87o7hmdnnv.ffs@tglx>
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 9/28/23 16:21, Thomas Gleixner wrote:
-> On Mon, May 29 2023 at 15:14, Mathieu Desnoyers wrote:
->> +void __rseq_set_sched_state(struct task_struct *t, unsigned int state);
->> +
->> +static inline void rseq_set_sched_state(struct task_struct *t, unsigned int state)
->> +{
->> +	if (t->rseq_sched_state)
->> +		__rseq_set_sched_state(t, state);
-> 
-> This is invoked on every context switch and writes over that state
-> unconditionally even in the case that the state was already
-> cleared. There are enough situations where tasks are scheduled out
-> several times while being in the kernel.
+On Mon, May 29 2023 at 15:14, Mathieu Desnoyers wrote:
+> +/*
+> + * rseq_sched_state should be aligned on the cache line size.
+> + */
+> +struct rseq_sched_state {
+> +	/*
+> +	 * Version of this structure. Populated by the kernel, read by
+> +	 * user-space.
+> +	 */
+> +	__u32 version;
+> +	/*
+> +	 * The state is updated by the kernel. Read by user-space with
+> +	 * single-copy atomicity semantics. This field can be read by any
+> +	 * userspace thread. Aligned on 32-bit. Contains a bitmask of enum
+> +	 * rseq_sched_state_flags. This field is provided as a hint by the
+> +	 * scheduler, and requires that the page holding this state is
+> +	 * faulted-in for the state update to be performed by the scheduler.
+> +	 */
+> +	__u32 state;
+> +	/*
+> +	 * Thread ID associated with the thread registering this structure.
+> +	 * Initialized by user-space before registration.
+> +	 */
+> +	__u32 tid;
+> +};
+> +
+>  /*
+>   * struct rseq is aligned on 4 * 8 bytes to ensure it is always
+>   * contained within a single cache-line.
+> @@ -148,6 +180,15 @@ struct rseq {
+>  	 */
+>  	__u32 mm_cid;
+>  
+> +	__u32 padding1;
+> +
+> +	/*
+> +	 * Restartable sequences sched_state_ptr field. Initialized by
+> +	 * userspace to the address at which the struct rseq_sched_state is
+> +	 * located. Read by the kernel on rseq registration.
+> +	 */
+> +	__u64 sched_state_ptr;
+> +
 
-Right, if this becomes more than a PoC, I'll make sure to keep track of 
-the current state within the task struct, and only update userspace on 
-state transition.
+Why is this a separate entity instead of being simply embedded into
+struct rseq?
 
-> 
->>   /* rseq_preempt() requires preemption to be disabled. */
->>   static inline void rseq_preempt(struct task_struct *t)
->>   {
->>   	__set_bit(RSEQ_EVENT_PREEMPT_BIT, &t->rseq_event_mask);
->>   	rseq_set_notify_resume(t);
->> +	rseq_set_sched_state(t, 0);
-> 
-> This code is already stupid to begin with. __set_bit() is cheap, but
-> rseq_set_notify_resume() is not as it has a conditional and a locked
-> instruction
+Neither the code comment nor the changelog tells anything about that.
 
-What alternative would you recommend to set a per-thread state that has 
-the same effect as TIF_NOTIFY_RESUME ? Indeed all it really needs to 
-synchronize with is the thread owning the flags, but AFAIU having this 
-flag part of the TIF flags requires use of an atomic instruction to 
-synchronize updates against concurrent threads.
-
-If we move this thread flag into a separate field of struct thread_info, 
-then we could turn this atomic set bit into a more lightweight store, 
-but then we'd need to check against an extra field on return to userspace.
-
-And if we want to remove the conditional branch on the scheduler 
-fast-path, we could always load and test both the task struct's rseq 
-pointer and the thread_info "preempted" state on return to userspace.
-
-The tradeoff there would be to add extra loads and conditional branches 
-on return to userspace to speed up the scheduler fast-path.
-
-Is this what you have in mind or am I missing your point ?
-
-> and now you add two more conditionals into the context
-> switch path.
-
-I'm open to suggestions on how to improve this if this goes beyond PoC 
-stage and we observe measurable benefits on the userspace side.
+If your intention was to provide a solution for process shared futexes
+then you completely failed to understand how process shared futexes
+work. If not, then please explain why you need a pointer and the
+associated hackery to deal with it.
 
 Thanks,
 
-Mathieu
+        tglx
 
-> 
-> Thanks,
-> 
->          tglx
-
--- 
-Mathieu Desnoyers
-EfficiOS Inc.
-https://www.efficios.com
 
