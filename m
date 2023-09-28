@@ -2,153 +2,84 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F7CD7B1EB4
-	for <lists+linux-api@lfdr.de>; Thu, 28 Sep 2023 15:41:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CE4407B1F6A
+	for <lists+linux-api@lfdr.de>; Thu, 28 Sep 2023 16:27:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232132AbjI1NlI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 28 Sep 2023 09:41:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50834 "EHLO
+        id S232265AbjI1O1F (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 28 Sep 2023 10:27:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56988 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231966AbjI1NlH (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 28 Sep 2023 09:41:07 -0400
-Received: from crane.ash.relay.mailchannels.net (crane.ash.relay.mailchannels.net [23.83.222.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C21C618F;
-        Thu, 28 Sep 2023 06:41:02 -0700 (PDT)
-X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
-Received: from relay.mailchannels.net (localhost [127.0.0.1])
-        by relay.mailchannels.net (Postfix) with ESMTP id E2EA16C13E9;
-        Thu, 28 Sep 2023 13:40:57 +0000 (UTC)
-Received: from pdx1-sub0-mail-a312.dreamhost.com (unknown [127.0.0.6])
-        (Authenticated sender: dreamhost)
-        by relay.mailchannels.net (Postfix) with ESMTPA id 4657C6C10E9;
-        Thu, 28 Sep 2023 13:40:57 +0000 (UTC)
-ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1695908457; a=rsa-sha256;
-        cv=none;
-        b=g9ApNVDpXUw8NbiVPB91whx+A98KefOUdvwQ3MYgplXW6DoYam+sUPQAu91KxM6lXmAxXG
-        4+lVY54zLzyyeGEiSaAH0MBOT3EuV9QBCa0z35Pjcv+ka5OdYgrOTPawDQ8X/6Hog0PECj
-        +VCYPSQUjhUvfaQFeKTuTziLY1PYZ7zN0W2keRSHnvhhkZRSqGTT7nDSy/vr6QmB7kG2zE
-        aKNFEeYHzAdw4/CP9pzCP/D5KIHZM+kN6o0Doinn8IGGWCCyXnD4WUM7GoCEAEmTdubvyH
-        YNCN9PZ81xsNuE4W7RAYFXtAiT4RMIC4CXIiuJJCIv6I1MUs9hAY1OAbljCfwg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mailchannels.net;
-        s=arc-2022; t=1695908457;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references:dkim-signature;
-        bh=fV4Zxk0FhT7C3XEli4MGvFTPX5hp1XlfXjZMP4aD39E=;
-        b=HoJv0cmylHUZA6FoIjPfBtY0ro3gzvVAMtGpG62BbF4JZKhTFuAeXbbMMWrMRmmHLMWbC1
-        Su1yYVFJnEg6+imcOYpfqRFBMKak44KKYR7GGJC1Y23rdaeyTn8Z1YRVOvAY8jdOJGmth6
-        ki1bCHAvCi1kba0drAKEAC254cmoOeUVO95JQzn7aFe1bnyaEsN4EX9DQLOFMWoci1n9Fq
-        KgwUoMt97N7Npdr93dzqm0EXiacL/gvbC8ECImymDcwm4f2YFI3iSlGTyH5WvxP5xNjV4m
-        qBqAkSJSA/OCTfaTx6sj6Uvr+90EujW3AM732SSUMEeK1om25hJK4lnP9RI4jA==
-ARC-Authentication-Results: i=1;
-        rspamd-7d5dc8fd68-ftkct;
-        auth=pass smtp.auth=dreamhost smtp.mailfrom=dave@stgolabs.net
-X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
-X-MC-Relay: Neutral
-X-MailChannels-SenderId: dreamhost|x-authsender|dave@stgolabs.net
-X-MailChannels-Auth-Id: dreamhost
-X-Plucky-Illegal: 128ccf8d5bc7bb01_1695908457686_874718514
-X-MC-Loop-Signature: 1695908457686:2815361285
-X-MC-Ingress-Time: 1695908457686
-Received: from pdx1-sub0-mail-a312.dreamhost.com (pop.dreamhost.com
- [64.90.62.162])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
-        by 100.109.140.241 (trex/6.9.1);
-        Thu, 28 Sep 2023 13:40:57 +0000
-Received: from offworld (ip72-199-50-187.sd.sd.cox.net [72.199.50.187])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: dave@stgolabs.net)
-        by pdx1-sub0-mail-a312.dreamhost.com (Postfix) with ESMTPSA id 4RxF481GpZzLJ;
-        Thu, 28 Sep 2023 06:40:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stgolabs.net;
-        s=dreamhost; t=1695908457;
-        bh=fV4Zxk0FhT7C3XEli4MGvFTPX5hp1XlfXjZMP4aD39E=;
-        h=Date:From:To:Cc:Subject:Content-Type;
-        b=YX3pGd+sUWu1zeeF2pqWBMRrJZeNQkOmmn70Mqq6Iw782HyjKK/rQbp90x0CM28MQ
-         ORUsj1thJvkFcftFmXRFJgwcTgcZAUIZnM8TWQkBbOnsfu3mrIjHTt1mt7DmYtaeo+
-         YA/JI9YuN/kkMCRAeJLVbjheB8a558IPuxjyzgYK1d4QDcG4sNAI3j9bKO3NwAPGWw
-         xjMHvl+rpIZEnI4KMbpxd8720EKSNF/OzV/vX425Rpme0SB+CUYaGU/7bSv2i+dXCK
-         9ho7aXqOGPZPB7rqpNc5GGz+/Yg4v0H+teJQiEal+h5fLIp3hcmE3uZhGbuxwl2OWx
-         hgJkWw+wEHVfg==
-Date:   Thu, 28 Sep 2023 06:40:53 -0700
-From:   Davidlohr Bueso <dave@stgolabs.net>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     tglx@linutronix.de, axboe@kernel.dk, linux-kernel@vger.kernel.org,
-        mingo@redhat.com, dvhart@infradead.org, andrealmeid@igalia.com,
-        Andrew Morton <akpm@linux-foundation.org>, urezki@gmail.com,
-        hch@infradead.org, lstoakes@gmail.com,
-        Arnd Bergmann <arnd@arndb.de>, linux-api@vger.kernel.org,
-        linux-mm@kvack.org, linux-arch@vger.kernel.org,
-        malteskarupke@web.de, steve.shaw@intel.com,
-        marko.makela@mariadb.com, andrei.artemev@intel.com
-Subject: Re: futex2 numa stuff
-Message-ID: <zhd6njnv63lithg5yetvyniwt34wcltxa5huk4ustp7j7pf2na@6v6qehyb3w3g>
-Mail-Followup-To: Peter Zijlstra <peterz@infradead.org>, 
-        tglx@linutronix.de, axboe@kernel.dk, linux-kernel@vger.kernel.org, mingo@redhat.com, 
-        dvhart@infradead.org, andrealmeid@igalia.com, 
-        Andrew Morton <akpm@linux-foundation.org>, urezki@gmail.com, hch@infradead.org, lstoakes@gmail.com, 
-        Arnd Bergmann <arnd@arndb.de>, linux-api@vger.kernel.org, linux-mm@kvack.org, 
-        linux-arch@vger.kernel.org, malteskarupke@web.de, steve.shaw@intel.com, 
-        marko.makela@mariadb.com, andrei.artemev@intel.com
-References: <20230921104505.717750284@noisy.programming.kicks-ass.net>
- <20230921104505.717750284@noisy.programming.kicks-ass.net>
- <20230922200120.011184118@infradead.org>
+        with ESMTP id S232202AbjI1O1D (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 28 Sep 2023 10:27:03 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4536419D;
+        Thu, 28 Sep 2023 07:27:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=4veK4h8MnCIHD8dLpIFbw5HKoCnVUh6S/Jh0++RlbFc=; b=oO+IJ5rhHVkD2WElUuMm4fRIjN
+        LxKYnzQ6vkvHTJu9mVx10IyIRe/OrH6eFGm8l6VQj7pCNBMWWZFI9+ISu3amj9xG7hmh19ddQAiul
+        UuoW7Bha8+d/CyvyPtrz9+PF7DYgWdMdn9x45gQinOgdA5eOqCCveDCd0nE8kisONdIhZIb689PcB
+        H7FCgQmhtzDXxNDsIkUjmLQdD6EDNGALUthVVrUZkzKL7Lzc86BubaVmZmPihrPevMyOZ1Bzghrdc
+        YhhrWjBtUxF7/WNFcZRUSeBm0S3hwgiLVguKsGYnIFuqNXLtrG9/2WFO14BPWkzqL4v8KY8BgwvfI
+        0qJo18CQ==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1qlryH-002yth-2F; Thu, 28 Sep 2023 14:26:29 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+        id B59B63002E3; Thu, 28 Sep 2023 16:26:28 +0200 (CEST)
+Date:   Thu, 28 Sep 2023 16:26:28 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc:     David Laight <David.Laight@aculab.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Florian Weimer <fw@deneb.enyo.de>,
+        "carlos@redhat.com" <carlos@redhat.com>,
+        Peter Oskolkov <posk@posk.io>,
+        Alexander Mikhalitsyn <alexander@mihalicyn.com>,
+        Chris Kennelly <ckennelly@google.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Davidlohr Bueso <dave@stgolabs.net>,
+        =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+        "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Noah Goldstein <goldstein.w.n@gmail.com>,
+        Daniel Colascione <dancol@google.com>,
+        "longman@redhat.com" <longman@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>
+Subject: Re: [RFC PATCH v2 1/4] rseq: Add sched_state field to struct rseq
+Message-ID: <20230928142628.GC27245@noisy.programming.kicks-ass.net>
+References: <20230529191416.53955-1-mathieu.desnoyers@efficios.com>
+ <20230529191416.53955-2-mathieu.desnoyers@efficios.com>
+ <20230928103926.GI9829@noisy.programming.kicks-ass.net>
+ <ef39143ad24743008a896d2a09da1066@AcuMS.aculab.com>
+ <34ddb730-8893-19a8-00fe-84c4e281eef1@efficios.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230922200120.011184118@infradead.org>
-User-Agent: NeoMutt/20230517
+In-Reply-To: <34ddb730-8893-19a8-00fe-84c4e281eef1@efficios.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, 22 Sep 2023, Peter Zijlstra wrote:
+On Thu, Sep 28, 2023 at 09:20:36AM -0400, Mathieu Desnoyers wrote:
 
->Hi!
->
->Updated version of patch 15/15 and a few extra patches for testing the
->FUTEX2_NUMA bits. The last patch (17/15) should never be applied for anything
->you care about and exists purely because I'm too lazy to generate actual
->hash-bucket contention.
->
->On my 2 node IVB-EP:
->
-> $ echo FUTEX_SQUASH > /debug/sched/features
->
->Effectively reducing each node to 1 bucket.
->
-> $ numactl -m0 -N0 ./futex_numa -c10 -t2 -n0 -N0 &
->   numactl -m1 -N1 ./futex_numa -c10 -t2 -n0 -N0
->
-> ...
-> contenders: 16154935
-> contenders: 16202472
->
-> $ numactl -m0 -N0 ./futex_numa -c10 -t2 -n0 -N0 &
->   numactl -m1 -N1 ./futex_numa -c10 -t2 -n0 -N1
->
-> contenders: 48584991
-> contenders: 48680560
->
->(loop counts, higher is better)
->
->Clearly showing how separating the hashes works.
->
->The first one runs 10 contenders on each node but forces the (numa) futex to
->hash to node 0 for both. This ensures all 20 contenders hash to the same
->bucket and *ouch*.
->
->The second one does the same, except now fully separates the nodes. Performance
->is much improved.
->
->Proving the per-node hashing actually works as advertised.
+> Of course things are more complicated with PI-futex, is that what you have
+> in mind ?
 
-Very nice.
+PI futex has to go through the kernel, also, they already spin-wait on
+owner.
