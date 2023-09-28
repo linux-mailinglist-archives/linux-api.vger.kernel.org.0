@@ -2,185 +2,153 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DDD67B1E17
-	for <lists+linux-api@lfdr.de>; Thu, 28 Sep 2023 15:24:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F7CD7B1EB4
+	for <lists+linux-api@lfdr.de>; Thu, 28 Sep 2023 15:41:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232053AbjI1NYN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 28 Sep 2023 09:24:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59480 "EHLO
+        id S232132AbjI1NlI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 28 Sep 2023 09:41:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231910AbjI1NYD (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 28 Sep 2023 09:24:03 -0400
-Received: from smtpout.efficios.com (unknown [IPv6:2607:5300:203:b2ee::31e5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE4711BD7;
-        Thu, 28 Sep 2023 06:21:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=efficios.com;
-        s=smtpout1; t=1695907278;
-        bh=aQgmzs+zgElkhFAUe9cVIYtiek4AxaBx9SIvc7Taa3k=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=rCj2JJBpStddJ8UFVBhHCvO1i34JJCIg1dSVgElFZ/VZjjxBXsjSlHX4/bamQ1b4Y
-         AkR+zmAOfBXIEZ0Mz+LDPtqf2F7jU/PFBRL6MnDua7hYl19lqrLaWzgOmJtr7jmLNr
-         yt/nlHYMyZzKWa/avqt94HHZ8+H69NMkaF1Htv/aP6r5k1ON5Cvzrlk7d1pBw7tz9s
-         Rny/QrzK6tbILSwEWSA7UIdFIKsh49DB0rHafJqvorC4XHs26w4p7BInwW1geC8Lqf
-         CURbioBUdnv21M5Jr6sux2TVGSUbYb4ObBFWXuE9tUbbfPto0xykOu0XNyaEWWMmWg
-         dLGpOhfyzpdwA==
-Received: from [IPV6:2605:8d80:5a1:95e5:4101:ac48:ed0d:d728] (unknown [IPv6:2605:8d80:5a1:95e5:4101:ac48:ed0d:d728])
-        by smtpout.efficios.com (Postfix) with ESMTPSA id 4RxDdS23fZz1RDt;
-        Thu, 28 Sep 2023 09:21:16 -0400 (EDT)
-Message-ID: <34ddb730-8893-19a8-00fe-84c4e281eef1@efficios.com>
-Date:   Thu, 28 Sep 2023 09:20:36 -0400
+        with ESMTP id S231966AbjI1NlH (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 28 Sep 2023 09:41:07 -0400
+Received: from crane.ash.relay.mailchannels.net (crane.ash.relay.mailchannels.net [23.83.222.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C21C618F;
+        Thu, 28 Sep 2023 06:41:02 -0700 (PDT)
+X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+        by relay.mailchannels.net (Postfix) with ESMTP id E2EA16C13E9;
+        Thu, 28 Sep 2023 13:40:57 +0000 (UTC)
+Received: from pdx1-sub0-mail-a312.dreamhost.com (unknown [127.0.0.6])
+        (Authenticated sender: dreamhost)
+        by relay.mailchannels.net (Postfix) with ESMTPA id 4657C6C10E9;
+        Thu, 28 Sep 2023 13:40:57 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1695908457; a=rsa-sha256;
+        cv=none;
+        b=g9ApNVDpXUw8NbiVPB91whx+A98KefOUdvwQ3MYgplXW6DoYam+sUPQAu91KxM6lXmAxXG
+        4+lVY54zLzyyeGEiSaAH0MBOT3EuV9QBCa0z35Pjcv+ka5OdYgrOTPawDQ8X/6Hog0PECj
+        +VCYPSQUjhUvfaQFeKTuTziLY1PYZ7zN0W2keRSHnvhhkZRSqGTT7nDSy/vr6QmB7kG2zE
+        aKNFEeYHzAdw4/CP9pzCP/D5KIHZM+kN6o0Doinn8IGGWCCyXnD4WUM7GoCEAEmTdubvyH
+        YNCN9PZ81xsNuE4W7RAYFXtAiT4RMIC4CXIiuJJCIv6I1MUs9hAY1OAbljCfwg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net;
+        s=arc-2022; t=1695908457;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references:dkim-signature;
+        bh=fV4Zxk0FhT7C3XEli4MGvFTPX5hp1XlfXjZMP4aD39E=;
+        b=HoJv0cmylHUZA6FoIjPfBtY0ro3gzvVAMtGpG62BbF4JZKhTFuAeXbbMMWrMRmmHLMWbC1
+        Su1yYVFJnEg6+imcOYpfqRFBMKak44KKYR7GGJC1Y23rdaeyTn8Z1YRVOvAY8jdOJGmth6
+        ki1bCHAvCi1kba0drAKEAC254cmoOeUVO95JQzn7aFe1bnyaEsN4EX9DQLOFMWoci1n9Fq
+        KgwUoMt97N7Npdr93dzqm0EXiacL/gvbC8ECImymDcwm4f2YFI3iSlGTyH5WvxP5xNjV4m
+        qBqAkSJSA/OCTfaTx6sj6Uvr+90EujW3AM732SSUMEeK1om25hJK4lnP9RI4jA==
+ARC-Authentication-Results: i=1;
+        rspamd-7d5dc8fd68-ftkct;
+        auth=pass smtp.auth=dreamhost smtp.mailfrom=dave@stgolabs.net
+X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: dreamhost|x-authsender|dave@stgolabs.net
+X-MailChannels-Auth-Id: dreamhost
+X-Plucky-Illegal: 128ccf8d5bc7bb01_1695908457686_874718514
+X-MC-Loop-Signature: 1695908457686:2815361285
+X-MC-Ingress-Time: 1695908457686
+Received: from pdx1-sub0-mail-a312.dreamhost.com (pop.dreamhost.com
+ [64.90.62.162])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+        by 100.109.140.241 (trex/6.9.1);
+        Thu, 28 Sep 2023 13:40:57 +0000
+Received: from offworld (ip72-199-50-187.sd.sd.cox.net [72.199.50.187])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: dave@stgolabs.net)
+        by pdx1-sub0-mail-a312.dreamhost.com (Postfix) with ESMTPSA id 4RxF481GpZzLJ;
+        Thu, 28 Sep 2023 06:40:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stgolabs.net;
+        s=dreamhost; t=1695908457;
+        bh=fV4Zxk0FhT7C3XEli4MGvFTPX5hp1XlfXjZMP4aD39E=;
+        h=Date:From:To:Cc:Subject:Content-Type;
+        b=YX3pGd+sUWu1zeeF2pqWBMRrJZeNQkOmmn70Mqq6Iw782HyjKK/rQbp90x0CM28MQ
+         ORUsj1thJvkFcftFmXRFJgwcTgcZAUIZnM8TWQkBbOnsfu3mrIjHTt1mt7DmYtaeo+
+         YA/JI9YuN/kkMCRAeJLVbjheB8a558IPuxjyzgYK1d4QDcG4sNAI3j9bKO3NwAPGWw
+         xjMHvl+rpIZEnI4KMbpxd8720EKSNF/OzV/vX425Rpme0SB+CUYaGU/7bSv2i+dXCK
+         9ho7aXqOGPZPB7rqpNc5GGz+/Yg4v0H+teJQiEal+h5fLIp3hcmE3uZhGbuxwl2OWx
+         hgJkWw+wEHVfg==
+Date:   Thu, 28 Sep 2023 06:40:53 -0700
+From:   Davidlohr Bueso <dave@stgolabs.net>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     tglx@linutronix.de, axboe@kernel.dk, linux-kernel@vger.kernel.org,
+        mingo@redhat.com, dvhart@infradead.org, andrealmeid@igalia.com,
+        Andrew Morton <akpm@linux-foundation.org>, urezki@gmail.com,
+        hch@infradead.org, lstoakes@gmail.com,
+        Arnd Bergmann <arnd@arndb.de>, linux-api@vger.kernel.org,
+        linux-mm@kvack.org, linux-arch@vger.kernel.org,
+        malteskarupke@web.de, steve.shaw@intel.com,
+        marko.makela@mariadb.com, andrei.artemev@intel.com
+Subject: Re: futex2 numa stuff
+Message-ID: <zhd6njnv63lithg5yetvyniwt34wcltxa5huk4ustp7j7pf2na@6v6qehyb3w3g>
+Mail-Followup-To: Peter Zijlstra <peterz@infradead.org>, 
+        tglx@linutronix.de, axboe@kernel.dk, linux-kernel@vger.kernel.org, mingo@redhat.com, 
+        dvhart@infradead.org, andrealmeid@igalia.com, 
+        Andrew Morton <akpm@linux-foundation.org>, urezki@gmail.com, hch@infradead.org, lstoakes@gmail.com, 
+        Arnd Bergmann <arnd@arndb.de>, linux-api@vger.kernel.org, linux-mm@kvack.org, 
+        linux-arch@vger.kernel.org, malteskarupke@web.de, steve.shaw@intel.com, 
+        marko.makela@mariadb.com, andrei.artemev@intel.com
+References: <20230921104505.717750284@noisy.programming.kicks-ass.net>
+ <20230921104505.717750284@noisy.programming.kicks-ass.net>
+ <20230922200120.011184118@infradead.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [RFC PATCH v2 1/4] rseq: Add sched_state field to struct rseq
-To:     David Laight <David.Laight@ACULAB.COM>,
-        'Peter Zijlstra' <peterz@infradead.org>
-Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Paul E . McKenney" <paulmck@kernel.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        Christian Brauner <brauner@kernel.org>,
-        Florian Weimer <fw@deneb.enyo.de>,
-        "carlos@redhat.com" <carlos@redhat.com>,
-        Peter Oskolkov <posk@posk.io>,
-        Alexander Mikhalitsyn <alexander@mihalicyn.com>,
-        Chris Kennelly <ckennelly@google.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Davidlohr Bueso <dave@stgolabs.net>,
-        =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>,
-        "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Noah Goldstein <goldstein.w.n@gmail.com>,
-        Daniel Colascione <dancol@google.com>,
-        "longman@redhat.com" <longman@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>
-References: <20230529191416.53955-1-mathieu.desnoyers@efficios.com>
- <20230529191416.53955-2-mathieu.desnoyers@efficios.com>
- <20230928103926.GI9829@noisy.programming.kicks-ass.net>
- <ef39143ad24743008a896d2a09da1066@AcuMS.aculab.com>
-Content-Language: en-US
-From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-In-Reply-To: <ef39143ad24743008a896d2a09da1066@AcuMS.aculab.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,RDNS_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20230922200120.011184118@infradead.org>
+User-Agent: NeoMutt/20230517
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 9/28/23 07:22, David Laight wrote:
-> From: Peter Zijlstra
->> Sent: 28 September 2023 11:39
->>
->> On Mon, May 29, 2023 at 03:14:13PM -0400, Mathieu Desnoyers wrote:
->>> Expose the "on-cpu" state for each thread through struct rseq to allow
->>> adaptative mutexes to decide more accurately between busy-waiting and
->>> calling sys_futex() to release the CPU, based on the on-cpu state of the
->>> mutex owner.
-> 
-> Are you trying to avoid spinning when the owning process is sleeping?
+On Fri, 22 Sep 2023, Peter Zijlstra wrote:
 
-Yes, this is my main intent.
+>Hi!
+>
+>Updated version of patch 15/15 and a few extra patches for testing the
+>FUTEX2_NUMA bits. The last patch (17/15) should never be applied for anything
+>you care about and exists purely because I'm too lazy to generate actual
+>hash-bucket contention.
+>
+>On my 2 node IVB-EP:
+>
+> $ echo FUTEX_SQUASH > /debug/sched/features
+>
+>Effectively reducing each node to 1 bucket.
+>
+> $ numactl -m0 -N0 ./futex_numa -c10 -t2 -n0 -N0 &
+>   numactl -m1 -N1 ./futex_numa -c10 -t2 -n0 -N0
+>
+> ...
+> contenders: 16154935
+> contenders: 16202472
+>
+> $ numactl -m0 -N0 ./futex_numa -c10 -t2 -n0 -N0 &
+>   numactl -m1 -N1 ./futex_numa -c10 -t2 -n0 -N1
+>
+> contenders: 48584991
+> contenders: 48680560
+>
+>(loop counts, higher is better)
+>
+>Clearly showing how separating the hashes works.
+>
+>The first one runs 10 contenders on each node but forces the (numa) futex to
+>hash to node 0 for both. This ensures all 20 contenders hash to the same
+>bucket and *ouch*.
+>
+>The second one does the same, except now fully separates the nodes. Performance
+>is much improved.
+>
+>Proving the per-node hashing actually works as advertised.
 
-> Or trying to avoid the system call when it will find that the futex
-> is no longer held?
-> 
-> The latter is really horribly detremental.
-
-That's a good questions. What should we do in those three situations 
-when trying to grab the lock:
-
-1) Lock has no owner
-
-We probably want to simply grab the lock with an atomic instruction. But 
-then if other threads are queued on sys_futex and did not manage to grab 
-the lock yet, this would be detrimental to fairness.
-
-2) Lock owner is running:
-
-The lock owner is certainly running on another cpu (I'm using the term 
-"cpu" here as logical cpu).
-
-I guess we could either decide to bypass sys_futex entirely and try to 
-grab the lock with an atomic, or we go through sys_futex nevertheless to 
-allow futex to guarantee some fairness across threads.
-
-3) Lock owner is sleeping:
-
-The lock owner may be either tied to the same cpu as the requester, or a 
-different cpu. Here calling FUTEX_WAIT and friends is pretty much required.
-
-Can you elaborate on why skipping sys_futex in scenario (2) would be so 
-bad ? I wonder if we could get away with skipping futex entirely in this 
-scenario and still guarantee fairness by implementing MCS locking or 
-ticket locks in userspace. Basically, if userspace queues itself on the 
-lock through either MCS locking or ticket locks, it could guarantee 
-fairness on its own.
-
-Of course things are more complicated with PI-futex, is that what you 
-have in mind ?
-
-> 
->>>
->>> It is only provided as an optimization hint, because there is no
->>> guarantee that the page containing this field is in the page cache, and
->>> therefore the scheduler may very well fail to clear the on-cpu state on
->>> preemption. This is expected to be rare though, and is resolved as soon
->>> as the task returns to user-space.
->>>
->>> The goal is to improve use-cases where the duration of the critical
->>> sections for a given lock follows a multi-modal distribution, preventing
->>> statistical guesses from doing a good job at choosing between busy-wait
->>> and futex wait behavior.
->>
->> As always, are syscalls really *that* expensive? Why can't we busy wait
->> in the kernel instead?
->>
->> I mean, sure, meltdown sucked, but most people should now be running
->> chips that are not affected by that particular horror show, no?
-> 
-> IIRC 'page table separation' which is what makes system calls expensive
-> is only a compile-time option. So is likely to be enabled on any 'distro'
-> kernel.
-> But a lot of other mitigations (eg RSB stuffing) are also pretty detrimental.
-> 
-> OTOH if you have a 'hot' userspace mutex you are going to lose whatever.
-> All that needs to happen is for a ethernet interrupt to decide to discard
-> completed transmits and refill the rx ring, and then for the softint code
-> to free a load of stuff deferred by rcu while you've grabbed the mutex
-> and no matter how short the user-space code path the mutex won't be
-> released for absolutely ages.
-> 
-> I had to change a load of code to use arrays and atomic increments
-> to avoid delays acquiring mutex.
-
-That's good input, thanks! I mostly defer to André Almeida on the 
-use-case motivation. I mostly provided this POC patch to show that it 
-_can_ be done with sys_rseq(2).
-
-Thanks!
-
-Mathieu
-
-> 
-> 	David
-> 
-> -
-> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-> Registration No: 1397386 (Wales)
-> 
-
--- 
-Mathieu Desnoyers
-EfficiOS Inc.
-https://www.efficios.com
-
+Very nice.
