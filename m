@@ -2,95 +2,91 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 751437B180D
-	for <lists+linux-api@lfdr.de>; Thu, 28 Sep 2023 12:07:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C33167B1863
+	for <lists+linux-api@lfdr.de>; Thu, 28 Sep 2023 12:40:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230490AbjI1KHf (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 28 Sep 2023 06:07:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45348 "EHLO
+        id S231294AbjI1KkK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 28 Sep 2023 06:40:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230358AbjI1KHe (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 28 Sep 2023 06:07:34 -0400
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F3AF198
-        for <linux-api@vger.kernel.org>; Thu, 28 Sep 2023 03:07:30 -0700 (PDT)
-Received: by mail-ed1-x529.google.com with SMTP id 4fb4d7f45d1cf-5363227cc80so411833a12.3
-        for <linux-api@vger.kernel.org>; Thu, 28 Sep 2023 03:07:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1695895648; x=1696500448; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=DtI3kB3DRHPB9DqqP0XY+HAtUyMDubLkneuHlzD3860=;
-        b=gYiPrQmN1jhYL+x8C0LEoXUdQcqshHo58gF2gKveAmY9rYqXs3JSyK6HSznIH6b1i8
-         iRV/Or2UlbUuiqfPM4vmn3DQyXSjSbZTph6iyrIYNSHjMThz1dVLZzjbULl05eZl8fp3
-         crc2xqIaMfNBcq1E1iWQx3ucLokdBXwTU7fJ8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695895648; x=1696500448;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DtI3kB3DRHPB9DqqP0XY+HAtUyMDubLkneuHlzD3860=;
-        b=hVQTQ+miEiCnZ/pVhi/yMT3GlaOLECE/qmU/6eL6uJAARgKTAAUxxVeKBijQBeDv8w
-         XPYsTvP0GctLM4UZb3WUInki80EZ8P8mnVojD3GaqqxAVFJf/JORytiQ47QOIE3rWPVT
-         AU0OaeAM/PqexFFwGYb11d09sLGvfIk45uHCbGWvUiFidsVBI4QMzDSJwXbZzFMFTCAL
-         3zvvdSKLR40XGOgO0jYMM93oW3EU1mVhodFWtpmxmZai8JPw4zOuMyv9Mee48MHA+xSI
-         dRik3yEfLde/IA6fKsYwWHwGbMBC9ckCsyqap29xMwASj05w11Cp697Dv/4kWuScOGpg
-         3jPA==
-X-Gm-Message-State: AOJu0YyN1spVlfFWprXJGsC/MBS9rZG4W01JYhjN8Rv2XHAdtnpHhnhT
-        8y6IxCugdbcKurzidtqF0gHSs1SbfWLUjVWnKyhRkQ==
-X-Google-Smtp-Source: AGHT+IEDypM3eCKriTL3toxyQv8Q1keb6DT2jEmjFo0FJ1MxFnDwMp3fk9njVXSZqz8oyH0A9Xgaw9Xxa1l5dOcoVH0=
-X-Received: by 2002:a17:907:7609:b0:9a5:cf23:de5b with SMTP id
- jx9-20020a170907760900b009a5cf23de5bmr846668ejc.38.1695895648586; Thu, 28 Sep
- 2023 03:07:28 -0700 (PDT)
+        with ESMTP id S231516AbjI1KkI (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 28 Sep 2023 06:40:08 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BA4219B;
+        Thu, 28 Sep 2023 03:40:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=0ZBqAeAxhLgaHzA0U30eyOYtBMrVtY+bz7/Iu08opZY=; b=g7rlIogZMEeSYihTHBu7xdq+FY
+        ATEFll57FfDYCVpVKC5ixPvUGmcn6PZZcL3q0qAGBY6XZZovo1npBpoA80oKeL0otH990eaH1/Aor
+        mwUWU8x6wheXOpOCCHRUMw4vqnnTIbtp5sVFeXFAj8NmLQyQRPFeZ90cMzOhOM5nSAQ4BcOJNwf6l
+        MBojAoJE5V06blZJTWbbOJDmalUtiCrE0kWJXR6ocJHPxx1WOYTZ439H6IsHJAyvGC+3CXSg7n6xV
+        AjTipxUkFB4liGxt3UqmTrPA1qpSFfJPjMrvWfmn3eqXSzZZFWiNxHkcHSJZLTFDyhZexhQxHzUhU
+        QQ8NuTJw==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+        by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1qloQX-004wXX-16;
+        Thu, 28 Sep 2023 10:39:27 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 742293002E3; Thu, 28 Sep 2023 12:39:26 +0200 (CEST)
+Date:   Thu, 28 Sep 2023 12:39:26 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
+        linux-api@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
+        Florian Weimer <fw@deneb.enyo.de>, David.Laight@aculab.com,
+        carlos@redhat.com, Peter Oskolkov <posk@posk.io>,
+        Alexander Mikhalitsyn <alexander@mihalicyn.com>,
+        Chris Kennelly <ckennelly@google.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Davidlohr Bueso <dave@stgolabs.net>,
+        =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+        libc-alpha@sourceware.org, Steven Rostedt <rostedt@goodmis.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Noah Goldstein <goldstein.w.n@gmail.com>,
+        Daniel Colascione <dancol@google.com>, longman@redhat.com,
+        Florian Weimer <fweimer@redhat.com>
+Subject: Re: [RFC PATCH v2 1/4] rseq: Add sched_state field to struct rseq
+Message-ID: <20230928103926.GI9829@noisy.programming.kicks-ass.net>
+References: <20230529191416.53955-1-mathieu.desnoyers@efficios.com>
+ <20230529191416.53955-2-mathieu.desnoyers@efficios.com>
 MIME-Version: 1.0
-References: <20230913152238.905247-1-mszeredi@redhat.com> <20230913152238.905247-4-mszeredi@redhat.com>
- <20230917005419.397938-1-mattlloydhouse@gmail.com> <CAOssrKcECS_CvifP1vMM8YOyMW7dkGXTDTKY2CRr-fPrJk76ZA@mail.gmail.com>
- <20230918-einblick-klaut-0a010e0abc70@brauner> <CAHC9VhQsChQO9aaY+NTtmvJgXBodvXO6rUN3d7ZyHGqitLBABw@mail.gmail.com>
-In-Reply-To: <CAHC9VhQsChQO9aaY+NTtmvJgXBodvXO6rUN3d7ZyHGqitLBABw@mail.gmail.com>
-From:   Miklos Szeredi <miklos@szeredi.hu>
-Date:   Thu, 28 Sep 2023 12:07:17 +0200
-Message-ID: <CAJfpegtJwcS9=7dCAVCEoBwD_U2MX44a6B62iDsc78AZt6nM7Q@mail.gmail.com>
-Subject: Re: [RFC PATCH 3/3] add listmnt(2) syscall
-To:     Paul Moore <paul@paul-moore.com>
-Cc:     Christian Brauner <brauner@kernel.org>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Matthew House <mattlloydhouse@gmail.com>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-man@vger.kernel.org,
-        linux-security-module@vger.kernel.org, Karel Zak <kzak@redhat.com>,
-        Ian Kent <raven@themaw.net>,
-        David Howells <dhowells@redhat.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <christian@brauner.io>,
-        Amir Goldstein <amir73il@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230529191416.53955-2-mathieu.desnoyers@efficios.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, 19 Sept 2023 at 18:48, Paul Moore <paul@paul-moore.com> wrote:
+On Mon, May 29, 2023 at 03:14:13PM -0400, Mathieu Desnoyers wrote:
+> Expose the "on-cpu" state for each thread through struct rseq to allow
+> adaptative mutexes to decide more accurately between busy-waiting and
+> calling sys_futex() to release the CPU, based on the on-cpu state of the
+> mutex owner.
+> 
+> It is only provided as an optimization hint, because there is no
+> guarantee that the page containing this field is in the page cache, and
+> therefore the scheduler may very well fail to clear the on-cpu state on
+> preemption. This is expected to be rare though, and is resolved as soon
+> as the task returns to user-space.
+> 
+> The goal is to improve use-cases where the duration of the critical
+> sections for a given lock follows a multi-modal distribution, preventing
+> statistical guesses from doing a good job at choosing between busy-wait
+> and futex wait behavior.
 
-> > Ideally we avoid multiple capable(CAP_SYS_ADMIN) calls by only doing it
-> > once and saving the return value. capable() call's aren't that cheap.
->
-> Agreed.  The capability check doesn't do any subject/object
-> comparisons so calling it for each mount is overkill.  However, I
-> would think we would want the LSM hook called from inside the loop as
-> that could involve a subject (@current) and object (individual mount
-> point) comparison.
+As always, are syscalls really *that* expensive? Why can't we busy wait
+in the kernel instead?
 
-The security_sb_statfs() one?
-
-Should a single failure result in a complete failure?
-
-Why is it not enough to check permission on the parent?
-
-Thanks,
-Miklos
+I mean, sure, meltdown sucked, but most people should now be running
+chips that are not affected by that particular horror show, no?
