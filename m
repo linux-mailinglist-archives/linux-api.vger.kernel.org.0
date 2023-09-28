@@ -2,206 +2,209 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5CF5D7B200D
-	for <lists+linux-api@lfdr.de>; Thu, 28 Sep 2023 16:47:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 430E07B2079
+	for <lists+linux-api@lfdr.de>; Thu, 28 Sep 2023 17:06:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231368AbjI1Orr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 28 Sep 2023 10:47:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38746 "EHLO
+        id S231722AbjI1PGe (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 28 Sep 2023 11:06:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37998 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231475AbjI1Ork (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 28 Sep 2023 10:47:40 -0400
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57287CEE
-        for <linux-api@vger.kernel.org>; Thu, 28 Sep 2023 07:47:32 -0700 (PDT)
-Received: by mail-lf1-x12b.google.com with SMTP id 2adb3069b0e04-50348c54439so4561e87.1
-        for <linux-api@vger.kernel.org>; Thu, 28 Sep 2023 07:47:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1695912450; x=1696517250; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=1JojOekoUcoXuO0Rpih+FmNKjIAwWhtI1+VL1LSepgs=;
-        b=dUGuQgfPu9zaMkVxUX6Z91su8MzdZTvmgWjqLwtD/spbYTkPN6kw71iS+aBoBMWO/J
-         bbXO/QN6sWB0FdI7QCj9iXNqJapia0nv6WI+4vnazT7zemK1Qgz2AL9bVGVKPJfmFh2r
-         B4X5f7HdfQle9RzSOCkYpVbokQY6rrDXP7fp7jf6ScDDgbp5xu2ItvNDoZJ8nz83JYUd
-         1RbhKHXbkyOspZBvauRGaYGVUvytYkRsDsFo3FoRNplw3K15qhM6SfZHXyALL7zsMHE8
-         KUnRgniT8w/t+HwUyCGkvYaVDEVXYe/Mq1ReaOZaILJHImkAG0HTeGmxYTrbLvKJ8bzY
-         pTzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695912450; x=1696517250;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1JojOekoUcoXuO0Rpih+FmNKjIAwWhtI1+VL1LSepgs=;
-        b=OdXpE675MYjARM2DaAu09fA/ME7oX9DAhtqdTlDD9tghrGQlPdmbvM2ynE9mgotBOf
-         IciyvA512n88Li0L960KRD15OuxEG9PApcr+ehi7VDGkANYFuImW8ES5/NDlH/AOzO4h
-         7DaCuwhgRek5stI0bphZQxGanwTs3dcqeaI71m0NtdxJYGavMBZIY5YTS1Oq0JiFd8oK
-         4QjNmwvdPx98xGUnAHOZK1XlJmpUlsprK67x7dWso/WORDDvjWFXiRDYQM8HHlw/uz3Z
-         bwUVJIT/sE958zLnQYtOx+u1GE81xvQin4d75DhU1Lh7AHOdlo5lxeNNTTMkyp7dtxHZ
-         sNvQ==
-X-Gm-Message-State: AOJu0YwNyBkIa6qXtlYhDBPArY7x+V0LjdzsVfNNc0vjk2ahhbN0oone
-        ILC1BOOPTyx97mOMlubGIuKVBLo83CjmjHl210g4Rw==
-X-Google-Smtp-Source: AGHT+IFRHY2YyR6Q9fY0bk32K0k63L4VHaemJ9rnRC7s1k7/O9yMYYHJFUxcOsKvAkcOtKVMojnRDL3hfLdy0LWLQAg=
-X-Received: by 2002:ac2:44c4:0:b0:501:90dd:be8e with SMTP id
- d4-20020ac244c4000000b0050190ddbe8emr217273lfm.5.1695912449938; Thu, 28 Sep
- 2023 07:47:29 -0700 (PDT)
+        with ESMTP id S231958AbjI1PG1 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 28 Sep 2023 11:06:27 -0400
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07C19F9;
+        Thu, 28 Sep 2023 08:06:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=VEh/P4CZIN7dtMmrMKJYQdsmVpbhrLGW/qbCtoGRHn4=; b=YXiSVfYwN2g/6rkn5PnqoRAI4+
+        p5KiqJ15ZG5Z2dkuvs+oJ/jLWj6IuN1B4FppVeXB7ejs7E1aEZbIO8zT4fFEQRkx54RvWwU80wVZZ
+        UXOJVl/OoJMldN81hAL4mt6LlaG8VRny/uzvmbzpNxSVWyzd8Gxo7eFKQi7JbuhG2a89+BGMnpwoZ
+        Z/n8LtiQZeSeBCnOKBw8DrvXupCQ6SSDXmc5iXhTkmvWBy+w8Q/fZpDDgsYMD8RulKlO/Srpk5ydB
+        5S5Qyg4xlNMdcNtCj2F5YH0bEVUSU+dLyQ9txViKcSpBs1YyIeAvgwhz9hpZDZXJ7o6836a13QxUL
+        +81Evc5Q==;
+Received: from [176.177.19.228] (helo=[192.168.1.19])
+        by fanzine2.igalia.com with esmtpsa 
+        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+        id 1qlsaZ-009JpF-0b; Thu, 28 Sep 2023 17:06:03 +0200
+Message-ID: <ab59863f-25f0-4635-8408-4aaec39ec6c2@igalia.com>
+Date:   Thu, 28 Sep 2023 17:05:59 +0200
 MIME-Version: 1.0
-References: <2c421e36-a749-7dc3-3562-7a8cf256df3c@efficios.com>
- <20230926205215.472650-1-dvyukov@google.com> <CACT4Y+beLh1qnHF9bxhMUcva8KyuvZs7Mg_31SGK5xSoR=3m1A@mail.gmail.com>
-In-Reply-To: <CACT4Y+beLh1qnHF9bxhMUcva8KyuvZs7Mg_31SGK5xSoR=3m1A@mail.gmail.com>
-From:   Dmitry Vyukov <dvyukov@google.com>
-Date:   Thu, 28 Sep 2023 07:47:15 -0700
-Message-ID: <CACT4Y+bJpUMpp9YNt4wvQdCHV0-br1d9rH8y01Q=Y_1hQW5yCA@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
 Subject: Re: [RFC PATCH v2 1/4] rseq: Add sched_state field to struct rseq
-To:     mathieu.desnoyers@efficios.com
-Cc:     David.Laight@aculab.com, alexander@mihalicyn.com,
-        andrealmeid@igalia.com, boqun.feng@gmail.com, brauner@kernel.org,
-        carlos@redhat.com, ckennelly@google.com, corbet@lwn.net,
-        dave@stgolabs.net, dvhart@infradead.org, fweimer@redhat.com,
-        goldstein.w.n@gmail.com, hpa@zytor.com, libc-alpha@sourceware.org,
-        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-        longman@redhat.com, mingo@redhat.com, paulmck@kernel.org,
-        peterz@infradead.org, pjt@google.com, posk@posk.io,
-        rostedt@goodmis.org, tglx@linutronix.de
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Language: en-US
+To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        David Laight <David.Laight@ACULAB.COM>,
+        Christian Brauner <brauner@kernel.org>,
+        Florian Weimer <fw@deneb.enyo.de>,
+        "carlos@redhat.com" <carlos@redhat.com>,
+        Peter Oskolkov <posk@posk.io>,
+        Alexander Mikhalitsyn <alexander@mihalicyn.com>,
+        'Peter Zijlstra' <peterz@infradead.org>,
+        Chris Kennelly <ckennelly@google.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Davidlohr Bueso <dave@stgolabs.net>,
+        "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Noah Goldstein <goldstein.w.n@gmail.com>,
+        Daniel Colascione <dancol@google.com>,
+        "longman@redhat.com" <longman@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>
+References: <20230529191416.53955-1-mathieu.desnoyers@efficios.com>
+ <20230529191416.53955-2-mathieu.desnoyers@efficios.com>
+ <20230928103926.GI9829@noisy.programming.kicks-ass.net>
+ <ef39143ad24743008a896d2a09da1066@AcuMS.aculab.com>
+ <34ddb730-8893-19a8-00fe-84c4e281eef1@efficios.com>
+From:   =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
+In-Reply-To: <34ddb730-8893-19a8-00fe-84c4e281eef1@efficios.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, 26 Sept 2023 at 16:49, Dmitry Vyukov <dvyukov@google.com> wrote:
->
-> > >> I don't see why we can't stick this directly into struct rseq because
-> > >> it's all public anyway.
-> > >
-> > > The motivation for moving this to a different cache line is to handle
-> > > the prior comment from Boqun, who is concerned that busy-waiting
-> > > repeatedly loading a field from struct rseq will cause false-sharing and
-> > > make other stores to that cache line slower, especially stores to
-> > > rseq_cs to begin rseq critical sections, thus slightly increasing the
-> > > overhead of rseq critical sections taken while mutexes are held.
-> > >
-> > > If we want to embed this field into struct rseq with its own cache line,
-> > > then we need to add a lot of padding, which is inconvenient.
-> > >
-> > > That being said, perhaps this is premature optimization, what do you think ?
-> >
-> > Hi Mathieu, Florian,
-> >
-> > This is exciting!
-> >
-> > I thought the motivation for moving rseq_sched_state out of struct rseq
-> > is lifetime management problem. I assume when a thread locks a mutex,
-> > it stores pointer to rseq_sched_state in the mutex state for other
-> > threads to poll. So the waiting thread would do something along the following
-> > lines:
-> >
-> > rseq_sched_state* state = __atomic_load_n(mutex->sched_state, __ATOMIC_RELAXED);
-> > if (state && !(state->state & RSEQ_SCHED_STATE_FLAG_ON_CPU))
-> >         futex_wait();
-> >
-> > Now if the state is struct rseq, which is stored in TLS,
-> > then the owning thread can unlock the mutex, exit and unmap TLS in between.
-> > Consequently, load of state->state will cause a paging fault.
-> >
-> > And we do want rseq in TLS to save 1 indirection.
-> >
-> > If rseq_sched_state is separated from struct rseq, then it can be allocated
-> > in type stable memory that is never unmapped.
-> >
-> > What am I missing here?
-> >
-> > However, if we can store this state in struct rseq, then an alternative
-> > interface would for the kernel to do:
-> >
-> > rseq->cpu_id = -1;
-> >
-> > to denote that the thread is not running on any CPU.
-> > I think it kinda makes sense, rseq->cpu_id is the thread's current CPU,
-> > and -1 naturally means "not running at all". And we already store -1
-> > right after init, so it shouldn't be a surprising value.
->
-> As you may know we experimented with "virtual CPUs" in tcmalloc. The
-> extension allows kernel to assign dense virtual CPU numbers to running
-> threads instead of real sparse CPU numbers:
->
-> https://github.com/google/tcmalloc/blob/229908285e216cca8b844c1781bf16b838128d1b/tcmalloc/internal/linux_syscall_support.h#L30-L41
->
-> Recently I added another change that [ab]uses rseq in an interesting
-> way. We want to get notifications about thread re-scheduling. A bit
-> simplified version of this is as follows:
-> we don't use rseq.cpu_id_start for its original purpose, so instead we
-> store something else there with a high bit set. Real CPU numbers don't
-> have a high bit set (at least while you have less than 2B CPUs :)).
-> This allows us to distinguish the value we stored in rseq.cpu_id_start
-> from real CPU id stored by the kernel.
-> Inside of rseq critical section we check if rseq.cpu_id_start has high
-> bit set, and if not, then we know that we were just rescheduled, so we
-> can do some additional work and update rseq.cpu_id_start to have high
-> bit set.
->
-> In reality it's a bit more involved since the field is actually 8
-> bytes and only partially overlaps with rseq.cpu_id_start (it's an
-> 8-byte pointer with high 4 bytes overlap rseq.cpu_id_start):
->
-> https://github.com/google/tcmalloc/blob/229908285e216cca8b844c1781bf16b838128d1b/tcmalloc/internal/percpu.h#L101-L165
->
-> I am thinking if we could extend the current proposed interface in a
-> way that would be more flexible and would satisfy all of these use
-> cases (spinlocks, and possibility of using virtual CPUs and
-> rescheduling notifications). In the end they all need a very similar
-> thing: kernel writing some value at some user address when a thread is
-> de-scheduled.
->
-> The minimal support we need for tcmalloc is an 8-byte user address +
-> kernel writing 0 at that address when a thread is descheduled.
->
-> The most flexible option to support multiple users
-> (malloc/spinlocks/something else) would be as follows:
->
-> User-space passes an array of structs with address + size (1/2/4/8
-> bytes) + value.
-> Kernel intereates over the array when the thread is de-scheduled and
-> writes the specified value at the provided address/size.
-> Something along the following lines (pseudo-code):
->
-> struct rseq {
->     ...
->     struct rseq_desched_notif_t* desched_notifs;
->     int desched_notif_count;
-> };
->
-> struct rseq_desched_notif_t {
->     void* addr;
->     uint64_t value;
->     int size;
-> };
->
-> static inline void rseq_preempt(struct task_struct *t)
-> {
->     ...
->     for (int i = 0; i < t->rseq->desched_notif_count; i++) {
->         switch (t->rseq->desched_notifs[i].size) {
->         case 1: put_user1(t->rseq->desched_notifs[i].addr,
-> t->rseq->desched_notifs[i].value);
->         case 2: put_user2(t->rseq->desched_notifs[i].addr,
-> t->rseq->desched_notifs[i].value);
->         case 4: put_user4(t->rseq->desched_notifs[i].addr,
-> t->rseq->desched_notifs[i].value);
->         case 8: put_user8(t->rseq->desched_notifs[i].addr,
-> t->rseq->desched_notifs[i].value);
->         }
->     }
-> }
 
-One thing I forgot to mention: ideally the kernel also writes a
-timestamp of descheduling somewhere.
-We are using this logic to assign per-CPU malloc caches to threads,
-and it's useful to know which caches were used very recently (still
-hot in cache) and which ones were not used for a long time.
+On 9/28/23 15:20, Mathieu Desnoyers wrote:
+> On 9/28/23 07:22, David Laight wrote:
+>> From: Peter Zijlstra
+>>> Sent: 28 September 2023 11:39
+>>>
+>>> On Mon, May 29, 2023 at 03:14:13PM -0400, Mathieu Desnoyers wrote:
+>>>> Expose the "on-cpu" state for each thread through struct rseq to allow
+>>>> adaptative mutexes to decide more accurately between busy-waiting and
+>>>> calling sys_futex() to release the CPU, based on the on-cpu state 
+>>>> of the
+>>>> mutex owner.
+>>
+>> Are you trying to avoid spinning when the owning process is sleeping?
+>
+> Yes, this is my main intent.
+>
+>> Or trying to avoid the system call when it will find that the futex
+>> is no longer held?
+>>
+>> The latter is really horribly detremental.
+>
+> That's a good questions. What should we do in those three situations 
+> when trying to grab the lock:
+>
+> 1) Lock has no owner
+>
+> We probably want to simply grab the lock with an atomic instruction. 
+> But then if other threads are queued on sys_futex and did not manage 
+> to grab the lock yet, this would be detrimental to fairness.
+>
+> 2) Lock owner is running:
+>
+> The lock owner is certainly running on another cpu (I'm using the term 
+> "cpu" here as logical cpu).
+>
+> I guess we could either decide to bypass sys_futex entirely and try to 
+> grab the lock with an atomic, or we go through sys_futex nevertheless 
+> to allow futex to guarantee some fairness across threads.
+
+About the fairness part:
+
+Even if you enqueue everyone, the futex syscall doesn't provide any 
+guarantee about the order of the wake. The current implementation tries 
+to be fair, but I don't think it works for every case. I wouldn't be 
+much concern about being fair here, given that it's an inherent problem 
+of the futex anyway.
+
+ From the man pages:
+
+"No guarantee is provided about which waiters are awoken"
+
+>
+> 3) Lock owner is sleeping:
+>
+> The lock owner may be either tied to the same cpu as the requester, or 
+> a different cpu. Here calling FUTEX_WAIT and friends is pretty much 
+> required.
+>
+> Can you elaborate on why skipping sys_futex in scenario (2) would be 
+> so bad ? I wonder if we could get away with skipping futex entirely in 
+> this scenario and still guarantee fairness by implementing MCS locking 
+> or ticket locks in userspace. Basically, if userspace queues itself on 
+> the lock through either MCS locking or ticket locks, it could 
+> guarantee fairness on its own.
+>
+> Of course things are more complicated with PI-futex, is that what you 
+> have in mind ?
+>
+>>
+>>>>
+>>>> It is only provided as an optimization hint, because there is no
+>>>> guarantee that the page containing this field is in the page cache, 
+>>>> and
+>>>> therefore the scheduler may very well fail to clear the on-cpu 
+>>>> state on
+>>>> preemption. This is expected to be rare though, and is resolved as 
+>>>> soon
+>>>> as the task returns to user-space.
+>>>>
+>>>> The goal is to improve use-cases where the duration of the critical
+>>>> sections for a given lock follows a multi-modal distribution, 
+>>>> preventing
+>>>> statistical guesses from doing a good job at choosing between 
+>>>> busy-wait
+>>>> and futex wait behavior.
+>>>
+>>> As always, are syscalls really *that* expensive? Why can't we busy wait
+>>> in the kernel instead?
+>>>
+>>> I mean, sure, meltdown sucked, but most people should now be running
+>>> chips that are not affected by that particular horror show, no?
+>>
+>> IIRC 'page table separation' which is what makes system calls expensive
+>> is only a compile-time option. So is likely to be enabled on any 
+>> 'distro'
+>> kernel.
+>> But a lot of other mitigations (eg RSB stuffing) are also pretty 
+>> detrimental.
+>>
+>> OTOH if you have a 'hot' userspace mutex you are going to lose whatever.
+>> All that needs to happen is for a ethernet interrupt to decide to 
+>> discard
+>> completed transmits and refill the rx ring, and then for the softint 
+>> code
+>> to free a load of stuff deferred by rcu while you've grabbed the mutex
+>> and no matter how short the user-space code path the mutex won't be
+>> released for absolutely ages.
+>>
+>> I had to change a load of code to use arrays and atomic increments
+>> to avoid delays acquiring mutex.
+>
+> That's good input, thanks! I mostly defer to André Almeida on the 
+> use-case motivation. I mostly provided this POC patch to show that it 
+> _can_ be done with sys_rseq(2).
+>
+> Thanks!
+>
+> Mathieu
+>
+>>
+>>     David
+>>
+>> -
+>> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, 
+>> MK1 1PT, UK
+>> Registration No: 1397386 (Wales)
+>>
+>
