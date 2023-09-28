@@ -2,127 +2,153 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B0F247B098B
-	for <lists+linux-api@lfdr.de>; Wed, 27 Sep 2023 18:03:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6FC847B128B
+	for <lists+linux-api@lfdr.de>; Thu, 28 Sep 2023 08:19:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231608AbjI0QDm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 27 Sep 2023 12:03:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55026 "EHLO
+        id S230265AbjI1GTK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 28 Sep 2023 02:19:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231968AbjI0QDZ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 27 Sep 2023 12:03:25 -0400
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BEBF10E3
-        for <linux-api@vger.kernel.org>; Wed, 27 Sep 2023 09:03:08 -0700 (PDT)
-Received: by mail-pl1-x632.google.com with SMTP id d9443c01a7336-1bdf4752c3cso82781685ad.2
-        for <linux-api@vger.kernel.org>; Wed, 27 Sep 2023 09:03:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1695830588; x=1696435388; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=cc32aBSxiKmB7YJYiVYNyRkEBllulbgFY+PbuERINks=;
-        b=ABmtJMNyGm2g+XCX436Xz/kj9gWN4T5A/ws3WsfsEJyoKgGmFCzrRrtnOovg5Fv4H+
-         ljOh+pq90hESatFWH+BeD76IK6s7R/uydMKDDxUgMKvnfAbIHMr7p3eeETMi+lYNMo9L
-         ldtZJPyireJ1upycmQsYIJQpeoVk4o8ePWoZb+Bl6h04wdLBcF/316EMubQf07Gw0vyl
-         gC1nKKdHZR2AnbIZ/oW6VFtKOeeEElyoxCm4InpZpBQRdhrECxGs9zds4RcKLgTxME2O
-         qS0IcOl4szdaetF1CLiDi9Iv4GZ2gNmDFx6rmEHDNgEQcZypZLTJ6IvZ+OmtgdRSfnn4
-         Hi5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695830588; x=1696435388;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cc32aBSxiKmB7YJYiVYNyRkEBllulbgFY+PbuERINks=;
-        b=APnuvaz8Yh/481J1jYOf0DzZ8xR2T8WlwT9G8vy80/L//c09HAI/+RpvLSsW9hIeG+
-         FnXm9dS5wWyQRkiTqiAbkik61dqKnXBByaCT0ipA4AmxgCk6fpx+0NLLOcMBxCNQ/fZH
-         0JRAkPko58ia67sGnXOpQ7zKZ99i/teM/UXOwUfH6e3fkwB3bXxXMtTkg7xtv9SC0ewi
-         9izFwOGL+CJUxOdq40LAzBiyOG0CR8yLxBnQFHZSTQ2JXpGWNyLW+zxu5W4pgRp6VPKw
-         +EOlsrE/tlS2dNidp1kbWdr/gwUyyuTTD1dYSlcuogf1xmU91xBi4mXhxurTYgJTSAqv
-         MZnA==
-X-Gm-Message-State: AOJu0YzkkRcppm0gBqseETvqZaHL1suubNNCeUTgDlkNCjI6hsON+mF5
-        TSUHrzqdJOcOvuOYaKPOos04eA==
-X-Google-Smtp-Source: AGHT+IHxY4DW2OVHGZCmyyi4u1VB9W8yCdtBLbEwI6vaIqaWlrij8p9kxEZXh5NCY69eQYN3+gKd+Q==
-X-Received: by 2002:a17:902:b414:b0:1c3:52ed:18f9 with SMTP id x20-20020a170902b41400b001c352ed18f9mr1953496plr.62.1695830587598;
-        Wed, 27 Sep 2023 09:03:07 -0700 (PDT)
-Received: from ?IPV6:2804:1b3:a7c1:6eb0:6d4f:92fe:5e4e:27d3? ([2804:1b3:a7c1:6eb0:6d4f:92fe:5e4e:27d3])
-        by smtp.gmail.com with ESMTPSA id az11-20020a170902a58b00b001c5bcc9d916sm13274132plb.176.2023.09.27.09.03.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Sep 2023 09:03:06 -0700 (PDT)
-Message-ID: <97eb2099-23c2-4921-89ac-9523226ad221@linaro.org>
-Date:   Wed, 27 Sep 2023 13:03:02 -0300
+        with ESMTP id S229453AbjI1GTJ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 28 Sep 2023 02:19:09 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC4D899;
+        Wed, 27 Sep 2023 23:19:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695881946; x=1727417946;
+  h=from:to:cc:subject:references:date:in-reply-to:
+   message-id:mime-version;
+  bh=yPoRTff1W8kHOZj6MIgWTa4FPEtV7El2Duzf1zGYqoI=;
+  b=XCmh6lMezJrCbdiEj6brvfLLN+4eo4r0uPrIBptu38VyOV1oYDG6UJI9
+   do2V5wVo0YxP/em7YTb0rKomZqAHoHKP41Ccv47kW5MBFB+2yfnlkNq51
+   X92JODOz5PFxUzxfwKV8rpdrpjK8KZzBv2eRlgo1VElZIbBAVyVOKHmYF
+   qkCX1Ouz4f0JUTsZDmhFmI1J+5p6CkzjhiqQAp9t1Lp0lJ/hR+L1U1GN9
+   52bTwBaeQPbrzcJJwMlwZdlsNl3oLkQpDlY+EqhGSw1QFTmPb/9NvfYRw
+   yPYbFY6TUoFZOuJ9yQnlDf9U80BK6g7a25NLdazkyARnsmTJB3cvNAGIu
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="446139326"
+X-IronPort-AV: E=Sophos;i="6.03,183,1694761200"; 
+   d="scan'208";a="446139326"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2023 23:19:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10846"; a="726120975"
+X-IronPort-AV: E=Sophos;i="6.03,183,1694761200"; 
+   d="scan'208";a="726120975"
+Received: from yhuang6-desk2.sh.intel.com (HELO yhuang6-desk2.ccr.corp.intel.com) ([10.238.208.55])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2023 23:19:00 -0700
+From:   "Huang, Ying" <ying.huang@intel.com>
+To:     Ravi Jonnalagadda <ravis.opensrc@micron.com>
+Cc:     <linux-mm@vger.kernel.org>, <linux-cxl@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-arch@vger.kernel.org>,
+        <linux-api@vger.kernel.org>, <luto@kernel.org>,
+        <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
+        <dietmar.eggemann@arm.com>, <vincent.guittot@linaro.org>,
+        <dave.hansen@linux.intel.com>, <hpa@zytor.com>, <arnd@arndb.de>,
+        <akpm@linux-foundation.org>, <x86@kernel.org>,
+        <aneesh.kumar@linux.ibm.com>, <gregory.price@memverge.com>,
+        <jgroves@micron.com>, <sthanneeru@micron.com>,
+        <emirakhur@micron.com>, <vtanna@micron.com>
+Subject: Re: [RFC PATCH 0/2] mm: mempolicy: Multi-tier interleaving
+References: <20230927095002.10245-1-ravis.opensrc@micron.com>
+Date:   Thu, 28 Sep 2023 14:14:32 +0800
+In-Reply-To: <20230927095002.10245-1-ravis.opensrc@micron.com> (Ravi
+        Jonnalagadda's message of "Wed, 27 Sep 2023 15:20:00 +0530")
+Message-ID: <87v8burfhz.fsf@yhuang6-desk2.ccr.corp.intel.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] uapi/auxvec: Define AT_HWCAP3 and AT_HWCAP4 aux vector,
- entries
-Content-Language: en-US
-To:     Peter Bergner <bergner@linux.ibm.com>, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org,
-        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>
-Cc:     Nicholas Piggin <npiggin@gmail.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Segher Boessenkool <segher@kernel.crashing.org>,
-        GNU C Library <libc-alpha@sourceware.org>
-References: <fd879f60-3f0b-48d1-bfa1-6d337768207e@linux.ibm.com>
-From:   Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>
-Organization: Linaro
-In-Reply-To: <fd879f60-3f0b-48d1-bfa1-6d337768207e@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=ascii
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+Hi, Ravi,
 
+Thanks for the patch!
 
-On 26/09/23 19:02, Peter Bergner wrote:
-> The powerpc toolchain keeps a copy of the HWCAP bit masks in our TCB for fast
-> access by our __builtin_cpu_supports built-in function.  The TCB space for
-> the HWCAP entries - which are created in pairs - is an ABI extension, so
-> waiting to create the space for HWCAP3 and HWCAP4 until we need them is
-> problematical, given distro unwillingness to apply ABI modifying patches
-> to distro point releases.  Define AT_HWCAP3 and AT_HWCAP4 in the generic
-> uapi header so they can be used in GLIBC to reserve space in the powerpc
-> TCB for their future use.
+Ravi Jonnalagadda <ravis.opensrc@micron.com> writes:
 
-This is different than previously exported auxv, where each AT_* constant
-would have a auxv entry. On glibc it would require changing _dl_parse_auxv
-to iterate over the auxv_values to find AT_HWCAP3/AT_HWCAP4 (not ideal, 
-but doable).
+> From: Ravi Shankar <ravis.opensrc@micron.com>
+>
+> Hello,
+>
+> The current interleave policy operates by interleaving page requests
+> among nodes defined in the memory policy. To accommodate the
+> introduction of memory tiers for various memory types (e.g., DDR, CXL,
+> HBM, PMEM, etc.), a mechanism is needed for interleaving page requests
+> across these memory types or tiers.
 
-Wouldn't be better to always export it on fs/binfmt_elf.c, along with all 
-the machinery to setup it (ELF_HWCAP3, etc), along with proper documentation?
+Why do we need interleaving page allocation among memory tiers?  I think
+that you need to make it more explicit.  I guess that it's to increase
+maximal memory bandwidth for workloads?
 
-> 
-> I scanned both the Linux and GLIBC source codes looking for unused AT_*
-> values and 29 and 30 did not seem to be used, so they are what I went
-> with.  If anyone sees a problem with using those specific values, I'm
-> amenable to using other values, just let me know what would be better.
-> 
-> Peter
-> 
-> 
-> Signed-off-by: Peter Bergner <bergner@linux.ibm.com>
-> ---
->  include/uapi/linux/auxvec.h | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/include/uapi/linux/auxvec.h b/include/uapi/linux/auxvec.h
-> index 6991c4b8ab18..cc61cb9b3e9a 100644
-> --- a/include/uapi/linux/auxvec.h
-> +++ b/include/uapi/linux/auxvec.h
-> @@ -32,6 +32,8 @@
->  #define AT_HWCAP2 26	/* extension of AT_HWCAP */
->  #define AT_RSEQ_FEATURE_SIZE	27	/* rseq supported feature size */
->  #define AT_RSEQ_ALIGN		28	/* rseq allocation alignment */
-> +#define AT_HWCAP3 29	/* extension of AT_HWCAP */
-> +#define AT_HWCAP4 30	/* extension of AT_HWCAP */
->  
->  #define AT_EXECFN  31	/* filename of program */
->  
+> This can be achieved by implementing an interleaving method that
+> considers the tier weights.
+> The tier weight will determine the proportion of nodes to select from
+> those specified in the memory policy.
+> A tier weight can be assigned to each memory type within the system.
+
+What is the problem of the original interleaving?  I think you need to
+make it explicit too.
+
+> Hasan Al Maruf had put forth a proposal for interleaving between two
+> tiers, namely the top tier and the low tier. However, this patch was
+> not adopted due to constraints on the number of available tiers.
+>
+> https://lore.kernel.org/linux-mm/YqD0%2FtzFwXvJ1gK6@cmpxchg.org/T/
+>
+> New proposed changes:
+>
+> 1. Introducea sysfs entry to allow setting the interleave weight for each
+> memory tier.
+> 2. Each tier with a default weight of 1, indicating a standard 1:1
+> proportion.
+> 3. Distribute the weight of that tier in a uniform manner across all nodes.
+> 4. Modifications to the existing interleaving algorithm to support the
+> implementation of multi-tier interleaving based on tier-weights.
+>
+> This is inline with Huang, Ying's presentation in lpc22, 16th slide in
+> https://lpc.events/event/16/contributions/1209/attachments/1042/1995/\
+> Live%20In%20a%20World%20With%20Multiple%20Memory%20Types.pdf
+
+Thanks to refer to the original work about this.
+
+> Observed a significant increase (165%) in bandwidth utilization
+> with the newly proposed multi-tier interleaving compared to the
+> traditional 1:1 interleaving approach between DDR and CXL tier nodes,
+> where 85% of the bandwidth is allocated to DDR tier and 15% to CXL
+> tier with MLC -w2 option.
+
+It appears that "mlc" isn't an open source software.  Better to use a
+open source software to test.  And, even better to use a more practical
+workloads instead of a memory bandwidth/latency measurement tool.
+
+> Usage Example:
+>
+> 1. Set weights for DDR (tier4) and CXL(teir22) tiers.
+> echo 85 > /sys/devices/virtual/memory_tiering/memory_tier4/interleave_weight
+> echo 15 > /sys/devices/virtual/memory_tiering/memory_tier22/interleave_weight
+>
+> 2. Interleave between DRR(tier4, node-0) and CXL (tier22, node-1) using numactl
+> numactl -i0,1 mlc --loaded_latency W2
+>
+> Srinivasulu Thanneeru (2):
+>   memory tier: Introduce sysfs for tier interleave weights.
+>   mm: mempolicy: Interleave policy for tiered memory nodes
+>
+>  include/linux/memory-tiers.h |  27 ++++++++-
+>  include/linux/sched.h        |   2 +
+>  mm/memory-tiers.c            |  67 +++++++++++++++-------
+>  mm/mempolicy.c               | 107 +++++++++++++++++++++++++++++++++--
+>  4 files changed, 174 insertions(+), 29 deletions(-)
+
+--
+Best Regards,
+Huang, Ying
