@@ -2,91 +2,134 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C33167B1863
-	for <lists+linux-api@lfdr.de>; Thu, 28 Sep 2023 12:40:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C30F87B1AF2
+	for <lists+linux-api@lfdr.de>; Thu, 28 Sep 2023 13:25:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231294AbjI1KkK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 28 Sep 2023 06:40:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33756 "EHLO
+        id S232186AbjI1LZj convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Thu, 28 Sep 2023 07:25:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55860 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231516AbjI1KkI (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 28 Sep 2023 06:40:08 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BA4219B;
-        Thu, 28 Sep 2023 03:40:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=0ZBqAeAxhLgaHzA0U30eyOYtBMrVtY+bz7/Iu08opZY=; b=g7rlIogZMEeSYihTHBu7xdq+FY
-        ATEFll57FfDYCVpVKC5ixPvUGmcn6PZZcL3q0qAGBY6XZZovo1npBpoA80oKeL0otH990eaH1/Aor
-        mwUWU8x6wheXOpOCCHRUMw4vqnnTIbtp5sVFeXFAj8NmLQyQRPFeZ90cMzOhOM5nSAQ4BcOJNwf6l
-        MBojAoJE5V06blZJTWbbOJDmalUtiCrE0kWJXR6ocJHPxx1WOYTZ439H6IsHJAyvGC+3CXSg7n6xV
-        AjTipxUkFB4liGxt3UqmTrPA1qpSFfJPjMrvWfmn3eqXSzZZFWiNxHkcHSJZLTFDyhZexhQxHzUhU
-        QQ8NuTJw==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-        by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qloQX-004wXX-16;
-        Thu, 28 Sep 2023 10:39:27 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 742293002E3; Thu, 28 Sep 2023 12:39:26 +0200 (CEST)
-Date:   Thu, 28 Sep 2023 12:39:26 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        with ESMTP id S232215AbjI1LZZ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 28 Sep 2023 07:25:25 -0400
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A040359A
+        for <linux-api@vger.kernel.org>; Thu, 28 Sep 2023 04:23:04 -0700 (PDT)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-94-16gep9MhMWCHUX4uA_UWOw-1; Thu, 28 Sep 2023 12:22:56 +0100
+X-MC-Unique: 16gep9MhMWCHUX4uA_UWOw-1
+Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
+ (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Thu, 28 Sep
+ 2023 12:22:55 +0100
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.048; Thu, 28 Sep 2023 12:22:55 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Peter Zijlstra' <peterz@infradead.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "Thomas Gleixner" <tglx@linutronix.de>,
         "Paul E . McKenney" <paulmck@kernel.org>,
         Boqun Feng <boqun.feng@gmail.com>,
-        "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
-        linux-api@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
-        Florian Weimer <fw@deneb.enyo.de>, David.Laight@aculab.com,
-        carlos@redhat.com, Peter Oskolkov <posk@posk.io>,
+        "H . Peter Anvin" <hpa@zytor.com>, "Paul Turner" <pjt@google.com>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        Christian Brauner <brauner@kernel.org>,
+        "Florian Weimer" <fw@deneb.enyo.de>,
+        "carlos@redhat.com" <carlos@redhat.com>,
+        "Peter Oskolkov" <posk@posk.io>,
         Alexander Mikhalitsyn <alexander@mihalicyn.com>,
         Chris Kennelly <ckennelly@google.com>,
         Ingo Molnar <mingo@redhat.com>,
-        Darren Hart <dvhart@infradead.org>,
+        "Darren Hart" <dvhart@infradead.org>,
         Davidlohr Bueso <dave@stgolabs.net>,
-        =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
-        libc-alpha@sourceware.org, Steven Rostedt <rostedt@goodmis.org>,
+        =?iso-8859-1?Q?Andr=E9_Almeida?= <andrealmeid@igalia.com>,
+        "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Noah Goldstein <goldstein.w.n@gmail.com>,
-        Daniel Colascione <dancol@google.com>, longman@redhat.com,
+        Daniel Colascione <dancol@google.com>,
+        "longman@redhat.com" <longman@redhat.com>,
         Florian Weimer <fweimer@redhat.com>
-Subject: Re: [RFC PATCH v2 1/4] rseq: Add sched_state field to struct rseq
-Message-ID: <20230928103926.GI9829@noisy.programming.kicks-ass.net>
+Subject: RE: [RFC PATCH v2 1/4] rseq: Add sched_state field to struct rseq
+Thread-Topic: [RFC PATCH v2 1/4] rseq: Add sched_state field to struct rseq
+Thread-Index: AQHZ8fgZ0Ykvpvbq8USYUjzds++7brAwFQDg
+Date:   Thu, 28 Sep 2023 11:22:55 +0000
+Message-ID: <ef39143ad24743008a896d2a09da1066@AcuMS.aculab.com>
 References: <20230529191416.53955-1-mathieu.desnoyers@efficios.com>
  <20230529191416.53955-2-mathieu.desnoyers@efficios.com>
+ <20230928103926.GI9829@noisy.programming.kicks-ass.net>
+In-Reply-To: <20230928103926.GI9829@noisy.programming.kicks-ass.net>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230529191416.53955-2-mathieu.desnoyers@efficios.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, May 29, 2023 at 03:14:13PM -0400, Mathieu Desnoyers wrote:
-> Expose the "on-cpu" state for each thread through struct rseq to allow
-> adaptative mutexes to decide more accurately between busy-waiting and
-> calling sys_futex() to release the CPU, based on the on-cpu state of the
-> mutex owner.
+From: Peter Zijlstra
+> Sent: 28 September 2023 11:39
 > 
-> It is only provided as an optimization hint, because there is no
-> guarantee that the page containing this field is in the page cache, and
-> therefore the scheduler may very well fail to clear the on-cpu state on
-> preemption. This is expected to be rare though, and is resolved as soon
-> as the task returns to user-space.
+> On Mon, May 29, 2023 at 03:14:13PM -0400, Mathieu Desnoyers wrote:
+> > Expose the "on-cpu" state for each thread through struct rseq to allow
+> > adaptative mutexes to decide more accurately between busy-waiting and
+> > calling sys_futex() to release the CPU, based on the on-cpu state of the
+> > mutex owner.
+
+Are you trying to avoid spinning when the owning process is sleeping?
+Or trying to avoid the system call when it will find that the futex
+is no longer held?
+
+The latter is really horribly detremental.
+
+> >
+> > It is only provided as an optimization hint, because there is no
+> > guarantee that the page containing this field is in the page cache, and
+> > therefore the scheduler may very well fail to clear the on-cpu state on
+> > preemption. This is expected to be rare though, and is resolved as soon
+> > as the task returns to user-space.
+> >
+> > The goal is to improve use-cases where the duration of the critical
+> > sections for a given lock follows a multi-modal distribution, preventing
+> > statistical guesses from doing a good job at choosing between busy-wait
+> > and futex wait behavior.
 > 
-> The goal is to improve use-cases where the duration of the critical
-> sections for a given lock follows a multi-modal distribution, preventing
-> statistical guesses from doing a good job at choosing between busy-wait
-> and futex wait behavior.
+> As always, are syscalls really *that* expensive? Why can't we busy wait
+> in the kernel instead?
+> 
+> I mean, sure, meltdown sucked, but most people should now be running
+> chips that are not affected by that particular horror show, no?
 
-As always, are syscalls really *that* expensive? Why can't we busy wait
-in the kernel instead?
+IIRC 'page table separation' which is what makes system calls expensive
+is only a compile-time option. So is likely to be enabled on any 'distro'
+kernel.
+But a lot of other mitigations (eg RSB stuffing) are also pretty detrimental.
 
-I mean, sure, meltdown sucked, but most people should now be running
-chips that are not affected by that particular horror show, no?
+OTOH if you have a 'hot' userspace mutex you are going to lose whatever.
+All that needs to happen is for a ethernet interrupt to decide to discard
+completed transmits and refill the rx ring, and then for the softint code
+to free a load of stuff deferred by rcu while you've grabbed the mutex
+and no matter how short the user-space code path the mutex won't be
+released for absolutely ages.
+
+I had to change a load of code to use arrays and atomic increments
+to avoid delays acquiring mutex.
+
+	David
+
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
+
