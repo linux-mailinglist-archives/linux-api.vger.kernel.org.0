@@ -2,101 +2,77 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 19A687B3940
-	for <lists+linux-api@lfdr.de>; Fri, 29 Sep 2023 19:59:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 92F0A7B3CC0
+	for <lists+linux-api@lfdr.de>; Sat, 30 Sep 2023 00:49:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233634AbjI2R7U (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 29 Sep 2023 13:59:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36228 "EHLO
+        id S233897AbjI2Wt1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 29 Sep 2023 18:49:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233353AbjI2R7T (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 29 Sep 2023 13:59:19 -0400
-Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA76E1AC;
-        Fri, 29 Sep 2023 10:59:17 -0700 (PDT)
-Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-1e113555a47so1025267fac.2;
-        Fri, 29 Sep 2023 10:59:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696010357; x=1696615157;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fKmSy9nYMevIdhZdG3nCQj5JvLdfTswn5XDlCNJCRqs=;
-        b=eTDIl/GoeNWOsScZcrUFheR/thLjVMUTLjKWbTo+Fx9Fr+c+urm7uWT/N9EUPFbGJ5
-         Mwz3gpAF24pvBtwFpJ+rPS4U1ooJ+gt4EBCUIIHzeQDRxHEAIAjE2gTbLWbkizwKTeJa
-         A75CUCXWhzQeSFc9kxnGUmqoaast7CxUXOpa3R623H7BwFQ1s4r3XulcOys57LDU/HPE
-         R8U8i0B6NldAJGLdcXF0h1Aovima/gzHGACs9UF1GvdOVFm6Pa/8nsSNdRrqhbqQrXEf
-         HPj6Y524RB7hHocogYbUxrmUw9XNjFpLvgiGjyYAtOjP9ud+bJ5iBYHC28XjET/zYuak
-         N2+g==
-X-Gm-Message-State: AOJu0YzhlOe++pUtPMoS/yYg1mvWkR/IDWk43KoBnmFO32+vOmn3Wfqz
-        JeHTipTW0EyzPYPdZKnlXEMpiZc3w797TA==
-X-Google-Smtp-Source: AGHT+IFGOtUOVVnTjR70judkp2CAL1bg7IpOYVhdJtj/g+DmpMMTkZUqHC4hofJt5GNiQMWUQXGnOA==
-X-Received: by 2002:a05:6870:230d:b0:1bb:a912:9339 with SMTP id w13-20020a056870230d00b001bba9129339mr5301433oao.7.1696010356848;
-        Fri, 29 Sep 2023 10:59:16 -0700 (PDT)
-Received: from [192.168.51.14] (c-73-231-117-72.hsd1.ca.comcast.net. [73.231.117.72])
-        by smtp.gmail.com with ESMTPSA id x28-20020a63b21c000000b00564b313d526sm15006265pge.54.2023.09.29.10.59.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 29 Sep 2023 10:59:16 -0700 (PDT)
-Message-ID: <2abb1fb8-88c6-401d-b65f-b7001b2203ec@acm.org>
-Date:   Fri, 29 Sep 2023 10:59:14 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 19/21] scsi: sd: Add WRITE_ATOMIC_16 support
-Content-Language: en-US
-To:     John Garry <john.g.garry@oracle.com>, axboe@kernel.dk,
-        kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
+        with ESMTP id S229508AbjI2Wt0 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 29 Sep 2023 18:49:26 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 807ECDD;
+        Fri, 29 Sep 2023 15:49:24 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B57E9C433C8;
+        Fri, 29 Sep 2023 22:49:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1696027764;
+        bh=Ufhqxo3yas1XlwZ8/C+WysTlrYXwdeYXTChlz66gL/0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=RqmEBvELKiKJrPdmj27E6wWm3wbgoGhbztCnJy3K8fbCsufv51Lo9qUuXj8sTFb4C
+         zU3wRai4oALXDco5xkF66XgYStzG6E7Va5LNHKv2nVFCtNMduKicVQ7BzAu6Gg3pLo
+         DyVc3WaIDXXS3CqCCT0fschckPSyFzmlt/dbLDBIpO+CvPw8eAtrVBCEpTUG6UJ+bE
+         sM6pS/HdnnAFfJXBhYTF3VU7HubdFFtuXEKr8TIhEZZpMR0qJOHhOjaM14WcTCkW8u
+         3/kp7PQcfopDGxKohL2jgFUOHFzUYt/CpLGVJQYxOo+j5L/uayzxWPWpO76hsI2ut3
+         Ym9Y7/TXMwICw==
+Date:   Fri, 29 Sep 2023 22:49:22 +0000
+From:   Eric Biggers <ebiggers@kernel.org>
+To:     John Garry <john.g.garry@oracle.com>
+Cc:     axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
         jejb@linux.ibm.com, martin.petersen@oracle.com, djwong@kernel.org,
         viro@zeniv.linux.org.uk, brauner@kernel.org,
-        chandan.babu@oracle.com, dchinner@redhat.com
-Cc:     linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+        chandan.babu@oracle.com, dchinner@redhat.com,
+        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-nvme@lists.infradead.org, linux-xfs@vger.kernel.org,
         linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
-        linux-api@vger.kernel.org
+        linux-api@vger.kernel.org,
+        Prasad Singamsetty <prasad.singamsetty@oracle.com>
+Subject: Re: [PATCH 03/21] fs/bdev: Add atomic write support info to statx
+Message-ID: <20230929224922.GB11839@google.com>
 References: <20230929102726.2985188-1-john.g.garry@oracle.com>
- <20230929102726.2985188-20-john.g.garry@oracle.com>
-From:   Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <20230929102726.2985188-20-john.g.garry@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+ <20230929102726.2985188-4-john.g.garry@oracle.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230929102726.2985188-4-john.g.garry@oracle.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 9/29/23 03:27, John Garry wrote:
-> +static blk_status_t sd_setup_atomic_cmnd(struct scsi_cmnd *cmd,
-> +					sector_t lba, unsigned int nr_blocks,
-> +					unsigned char flags)
-> +{
-> +	cmd->cmd_len  = 16;
-> +	cmd->cmnd[0]  = WRITE_ATOMIC_16;
-> +	cmd->cmnd[1]  = flags;
-> +	put_unaligned_be64(lba, &cmd->cmnd[2]);
-> +	cmd->cmnd[10] = 0;
-> +	cmd->cmnd[11] = 0;
-> +	put_unaligned_be16(nr_blocks, &cmd->cmnd[12]);
-> +	cmd->cmnd[14] = 0;
-> +	cmd->cmnd[15] = 0;
-> +
-> +	return BLK_STS_OK;
-> +}
+On Fri, Sep 29, 2023 at 10:27:08AM +0000, John Garry wrote:
+> diff --git a/include/uapi/linux/stat.h b/include/uapi/linux/stat.h
+> index 7cab2c65d3d7..c99d7cac2aa6 100644
+> --- a/include/uapi/linux/stat.h
+> +++ b/include/uapi/linux/stat.h
+> @@ -127,7 +127,10 @@ struct statx {
+>  	__u32	stx_dio_mem_align;	/* Memory buffer alignment for direct I/O */
+>  	__u32	stx_dio_offset_align;	/* File offset alignment for direct I/O */
+>  	/* 0xa0 */
+> -	__u64	__spare3[12];	/* Spare space for future expansion */
+> +	__u32	stx_atomic_write_unit_max;
+> +	__u32	stx_atomic_write_unit_min;
 
-Please store the 'dld' value in the GROUP NUMBER field. See e.g.
-sd_setup_rw16_cmnd().
+Maybe min first and then max?  That seems a bit more natural, and a lot of the
+code you've written handle them in that order.
 
-> @@ -1139,6 +1156,7 @@ static blk_status_t sd_setup_read_write_cmnd(struct scsi_cmnd *cmd)
->   	unsigned int nr_blocks = sectors_to_logical(sdp, blk_rq_sectors(rq));
->   	unsigned int mask = logical_to_sectors(sdp, 1) - 1;
->   	bool write = rq_data_dir(rq) == WRITE;
-> +	bool atomic_write = !!(rq->cmd_flags & REQ_ATOMIC) && write;
+> +#define STATX_ATTR_WRITE_ATOMIC		0x00400000 /* File supports atomic write operations */
 
-Please leave out the superfluous "!!".
+How would this differ from stx_atomic_write_unit_min != 0?
 
-Thanks,
-
-Bart.
+- Eric
