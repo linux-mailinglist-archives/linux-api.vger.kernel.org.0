@@ -2,47 +2,46 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FBB47B3936
-	for <lists+linux-api@lfdr.de>; Fri, 29 Sep 2023 19:54:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 19A687B3940
+	for <lists+linux-api@lfdr.de>; Fri, 29 Sep 2023 19:59:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233313AbjI2Ryn (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 29 Sep 2023 13:54:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42838 "EHLO
+        id S233634AbjI2R7U (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 29 Sep 2023 13:59:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232748AbjI2Rym (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 29 Sep 2023 13:54:42 -0400
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99A4919F;
-        Fri, 29 Sep 2023 10:54:40 -0700 (PDT)
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-690d2441b95so725333b3a.1;
-        Fri, 29 Sep 2023 10:54:40 -0700 (PDT)
+        with ESMTP id S233353AbjI2R7T (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 29 Sep 2023 13:59:19 -0400
+Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA76E1AC;
+        Fri, 29 Sep 2023 10:59:17 -0700 (PDT)
+Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-1e113555a47so1025267fac.2;
+        Fri, 29 Sep 2023 10:59:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696010080; x=1696614880;
+        d=1e100.net; s=20230601; t=1696010357; x=1696615157;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=B9/9Gv0T5SqN4UKcP3WTfyU63gOyTEvwA+tYFqPn6v4=;
-        b=Aqrvk8M2ByaNlCu2DS+ieBqjgw4UHpV2wDuMiBIR5+dqCDRU5tJHMNFWHiukTJNwf9
-         0cGC0X6ga2W47xi0H7+YMsfv4v1xqScn8qv5CSIfjDQhhNldbJrnbjuIpoJXMn0aUHOE
-         8m1Hd6ySt40rhE+nvc8KVXXXIM1L80GsrvhXD3iXTpA9Jko0ILNaviufVoF/OHEzw6F5
-         wYhiWfuWRoK6Eb8YiviLGQNvlSQKQZGUSYzWGlAlMXLpFw826b/0Awv4VlqdQprMwDn3
-         /VC7qTFPov7DFGnXb98Hi8zumm/gUZ+l8ZFz7LVZOX0TE0rIs67st96OICmyFW0dtJpF
-         ySqw==
-X-Gm-Message-State: AOJu0Yz2X8b73a5XuK2Bm63JyjHFej8vrQJBUWB5u4gvvvsvs5AUc6Wt
-        AOlmGF61LMys33lDiLSkER4=
-X-Google-Smtp-Source: AGHT+IF7T70L+W8FzWQ7S9Hp4H3npZwWUK6+DQgaST+LZ35UudBV+LIK350rWU8eXdmjL58O/JFyrA==
-X-Received: by 2002:a05:6a00:2d96:b0:68a:582b:6b62 with SMTP id fb22-20020a056a002d9600b0068a582b6b62mr6846347pfb.7.1696010079849;
-        Fri, 29 Sep 2023 10:54:39 -0700 (PDT)
+        bh=fKmSy9nYMevIdhZdG3nCQj5JvLdfTswn5XDlCNJCRqs=;
+        b=eTDIl/GoeNWOsScZcrUFheR/thLjVMUTLjKWbTo+Fx9Fr+c+urm7uWT/N9EUPFbGJ5
+         Mwz3gpAF24pvBtwFpJ+rPS4U1ooJ+gt4EBCUIIHzeQDRxHEAIAjE2gTbLWbkizwKTeJa
+         A75CUCXWhzQeSFc9kxnGUmqoaast7CxUXOpa3R623H7BwFQ1s4r3XulcOys57LDU/HPE
+         R8U8i0B6NldAJGLdcXF0h1Aovima/gzHGACs9UF1GvdOVFm6Pa/8nsSNdRrqhbqQrXEf
+         HPj6Y524RB7hHocogYbUxrmUw9XNjFpLvgiGjyYAtOjP9ud+bJ5iBYHC28XjET/zYuak
+         N2+g==
+X-Gm-Message-State: AOJu0YzhlOe++pUtPMoS/yYg1mvWkR/IDWk43KoBnmFO32+vOmn3Wfqz
+        JeHTipTW0EyzPYPdZKnlXEMpiZc3w797TA==
+X-Google-Smtp-Source: AGHT+IFGOtUOVVnTjR70judkp2CAL1bg7IpOYVhdJtj/g+DmpMMTkZUqHC4hofJt5GNiQMWUQXGnOA==
+X-Received: by 2002:a05:6870:230d:b0:1bb:a912:9339 with SMTP id w13-20020a056870230d00b001bba9129339mr5301433oao.7.1696010356848;
+        Fri, 29 Sep 2023 10:59:16 -0700 (PDT)
 Received: from [192.168.51.14] (c-73-231-117-72.hsd1.ca.comcast.net. [73.231.117.72])
-        by smtp.gmail.com with ESMTPSA id b2-20020aa78702000000b0068620bee456sm15197789pfo.209.2023.09.29.10.54.36
+        by smtp.gmail.com with ESMTPSA id x28-20020a63b21c000000b00564b313d526sm15006265pge.54.2023.09.29.10.59.14
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 29 Sep 2023 10:54:38 -0700 (PDT)
-Message-ID: <2e5af8a4-f2e1-4c2e-bd0b-14cc9894b48e@acm.org>
-Date:   Fri, 29 Sep 2023 10:54:35 -0700
+        Fri, 29 Sep 2023 10:59:16 -0700 (PDT)
+Message-ID: <2abb1fb8-88c6-401d-b65f-b7001b2203ec@acm.org>
+Date:   Fri, 29 Sep 2023 10:59:14 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 18/21] scsi: sd: Support reading atomic properties from
- block limits VPD
+Subject: Re: [PATCH 19/21] scsi: sd: Add WRITE_ATOMIC_16 support
 Content-Language: en-US
 To:     John Garry <john.g.garry@oracle.com>, axboe@kernel.dk,
         kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
@@ -54,9 +53,9 @@ Cc:     linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
         linux-api@vger.kernel.org
 References: <20230929102726.2985188-1-john.g.garry@oracle.com>
- <20230929102726.2985188-19-john.g.garry@oracle.com>
+ <20230929102726.2985188-20-john.g.garry@oracle.com>
 From:   Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <20230929102726.2985188-19-john.g.garry@oracle.com>
+In-Reply-To: <20230929102726.2985188-20-john.g.garry@oracle.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
@@ -70,29 +69,33 @@ List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
 On 9/29/23 03:27, John Garry wrote:
-> +static void sd_config_atomic(struct scsi_disk *sdkp)
+> +static blk_status_t sd_setup_atomic_cmnd(struct scsi_cmnd *cmd,
+> +					sector_t lba, unsigned int nr_blocks,
+> +					unsigned char flags)
 > +{
-> +	unsigned int logical_block_size = sdkp->device->sector_size;
-> +	struct request_queue *q = sdkp->disk->queue;
+> +	cmd->cmd_len  = 16;
+> +	cmd->cmnd[0]  = WRITE_ATOMIC_16;
+> +	cmd->cmnd[1]  = flags;
+> +	put_unaligned_be64(lba, &cmd->cmnd[2]);
+> +	cmd->cmnd[10] = 0;
+> +	cmd->cmnd[11] = 0;
+> +	put_unaligned_be16(nr_blocks, &cmd->cmnd[12]);
+> +	cmd->cmnd[14] = 0;
+> +	cmd->cmnd[15] = 0;
 > +
-> +	if (sdkp->max_atomic) {
+> +	return BLK_STS_OK;
+> +}
 
-Please use the "return early" style here to keep the indentation
-level in this function low.
+Please store the 'dld' value in the GROUP NUMBER field. See e.g.
+sd_setup_rw16_cmnd().
 
-> +		unsigned int max_atomic = max_t(unsigned int,
-> +			rounddown_pow_of_two(sdkp->max_atomic),
-> +			rounddown_pow_of_two(sdkp->max_atomic_with_boundary));
-> +		unsigned int unit_min = sdkp->atomic_granularity ?
-> +			rounddown_pow_of_two(sdkp->atomic_granularity) :
-> +			physical_block_size_sectors;
-> +		unsigned int unit_max = max_atomic;
-> +
-> +		if (sdkp->max_atomic_boundary)
-> +			unit_max = min_t(unsigned int, unit_max,
-> +				rounddown_pow_of_two(sdkp->max_atomic_boundary));
+> @@ -1139,6 +1156,7 @@ static blk_status_t sd_setup_read_write_cmnd(struct scsi_cmnd *cmd)
+>   	unsigned int nr_blocks = sectors_to_logical(sdp, blk_rq_sectors(rq));
+>   	unsigned int mask = logical_to_sectors(sdp, 1) - 1;
+>   	bool write = rq_data_dir(rq) == WRITE;
+> +	bool atomic_write = !!(rq->cmd_flags & REQ_ATOMIC) && write;
 
-Why does "rounddown_pow_of_two()" occur in the above code?
+Please leave out the superfluous "!!".
 
 Thanks,
 
