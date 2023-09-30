@@ -2,97 +2,68 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B2BD7B3D5E
-	for <lists+linux-api@lfdr.de>; Sat, 30 Sep 2023 03:16:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 15EFB7B4089
+	for <lists+linux-api@lfdr.de>; Sat, 30 Sep 2023 15:41:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229767AbjI3BQa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 29 Sep 2023 21:16:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54036 "EHLO
+        id S234191AbjI3NlH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 30 Sep 2023 09:41:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58264 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229489AbjI3BQa (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 29 Sep 2023 21:16:30 -0400
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0831F3;
-        Fri, 29 Sep 2023 18:16:27 -0700 (PDT)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.west.internal (Postfix) with ESMTP id 763C13200916;
-        Fri, 29 Sep 2023 21:16:22 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Fri, 29 Sep 2023 21:16:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=cc
-        :cc:content-transfer-encoding:content-type:content-type:date
-        :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-        :references:reply-to:sender:subject:subject:to:to; s=fm1; t=
-        1696036581; x=1696122981; bh=fFeBd2wnRQFZEpz+r8VxUNSi+h4AN2LcJPK
-        4S1aXKis=; b=AsuR5BNr/3Zccy/Xb5uNgfZgXpVBovOZBwhYBQ0E4yfaaq7CpZh
-        /ZQv/TbE0C6nViX/Qp/767ob3XI3jDp5fgYGH8kTpkTagAAjs9gVTpjdmtsKfsbM
-        iop9rnxJsmUcFDBehPEvfSOO+7nAbOboC8ZPdwHIkrd07YZiVY7zuOkvbfYKAocI
-        P3N0+NCCIBBgaNwcm4UQX7FyJxoo4ML+dmI3bXOkXI2ML+sqZ9tTjQEjJVPnXfTx
-        AMoN59No0cz303+JEs9rjyOp4oTRmYj//EGMTHdBK4fAUSQ/M8U2NGQ1HCysUoV4
-        BbPMZhG7Qn9NYI5QOJhA1zKppl7F4uluoQA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding
-        :content-type:content-type:date:date:feedback-id:feedback-id
-        :from:from:in-reply-to:in-reply-to:message-id:mime-version
-        :references:reply-to:sender:subject:subject:to:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-        1696036581; x=1696122981; bh=fFeBd2wnRQFZEpz+r8VxUNSi+h4AN2LcJPK
-        4S1aXKis=; b=MCPogdCTKEpWqzyxwXUoXwfpyQJygkdIURvYLbVFhBo218HKEjf
-        46mRPT8AH0p/CC32x0nIVVSbFNni23E0H3vQ+Ot6kSkWANtJr6jEtQAuUqYgtLcV
-        zF3DGMUXDxFBYmbc6NCkFD0m44M+lQmqeyC4OONy01owuyCm88YMvx/v3k+5wWgm
-        lJ3SFBfiF2ZfG9iZizW5/P7d9wqytHEIkCiiytYTvmV5BJdhLvv3TkevTZysgoHo
-        EjzWUhlDBT6GZf6yqku6erzlBru/OPCNrsf6LZDnEV2TrEhcEZcFOQ+Yq18HhVxI
-        bxZiGfCErYvgxcYUuHWbBQYU0j9qyNYf5sA==
-X-ME-Sender: <xms:5XYXZSqt9Rac8jxW6aNaM9v-7OLygZ1dbpaVg29P3K-9-UrS7sJ7-g>
-    <xme:5XYXZQqT3NbNOOl1um60I64qCffg_mgDtNikXrxxbkuZemGWC_KvtDK05kirNvRjM
-    wBi5afgXKAU>
-X-ME-Received: <xmr:5XYXZXPvndhUvUAkT1PdKlTVQxdTm_ZBhmhwOPRugaACaszOZ5Wl239YDlx3z1RYKovsPw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrtdehgddugecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefkffggfgfuvfevfhfhjggtgfesthejredttdefjeenucfhrhhomhepkfgrnhcu
-    mfgvnhhtuceorhgrvhgvnhesthhhvghmrgifrdhnvghtqeenucggtffrrghtthgvrhhnpe
-    euhfeuieeijeeuveekgfeitdethefguddtleffhfelfeelhfduuedvfefhgefhheenucev
-    lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehrrghvvghnse
-    hthhgvmhgrfidrnhgvth
-X-ME-Proxy: <xmx:5XYXZR6yR90AT63M-YNM2vWNZmjMPexZPzNWbhBdZvqTJBpJQnpkJw>
-    <xmx:5XYXZR6PeRUmhwDfL5Sjr77fd09GbXWtylG8xOEthefDZ1JQjSGBeA>
-    <xmx:5XYXZRiA5c_8DmUr3ykCcMP0SAjJTBfgSk9AwSpN7dFwyxrR-qTIFw>
-    <xmx:5XYXZQKx7obLnQZeNvwDx2rK6qugIqcZ3TgYhQndbWkEcP-tXy2UCw>
-Feedback-ID: i31e841b0:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 29 Sep 2023 21:16:14 -0400 (EDT)
-Message-ID: <348596f8-e88b-2e8b-96e2-20caaf5c9d7b@themaw.net>
-Date:   Sat, 30 Sep 2023 09:16:11 +0800
+        with ESMTP id S230516AbjI3NlE (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 30 Sep 2023 09:41:04 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30F7DE6;
+        Sat, 30 Sep 2023 06:41:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696081262; x=1727617262;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=uLZqwADgpJ9WWjDEC/o1UYcaaGs8VGqI4kgPdR63JWQ=;
+  b=CwNTVnWUX10StZbs1eYTdLk5AFNhY74M0/+EXtOHMi4+aMBwUHsj32ss
+   LgHa94dF/nD3AITpAyF9EfFDcI2ywXqBnxv5Jt+mR35SfDiXcFfVeHHEL
+   LDZczsxS1uKyEConZhX42jXXn6Akbjdm5AEGp1lIvFFRE7HbI5Ipx7GX9
+   90c3JLXvoAsDu0ArOQTyyfH4L3aNKqQYP/p7SbyumY1H2GqriJka5CFmi
+   kywh6Y+OducVwzeDHmDDV8d5OpbnR+1K6xJc1+uJokfvihxl1ZO4I5gsg
+   uqrqp/BCzbeTatFwdFwyATHRyeopAwka+WoYRBIluVgs/UVM9JFKcFZiA
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10849"; a="381325996"
+X-IronPort-AV: E=Sophos;i="6.03,190,1694761200"; 
+   d="scan'208";a="381325996"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2023 06:41:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10849"; a="743695319"
+X-IronPort-AV: E=Sophos;i="6.03,190,1694761200"; 
+   d="scan'208";a="743695319"
+Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
+  by orsmga007.jf.intel.com with ESMTP; 30 Sep 2023 06:40:56 -0700
+Received: from kbuild by c3b01524d57c with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qmaDG-0004B9-0r;
+        Sat, 30 Sep 2023 13:40:54 +0000
+Date:   Sat, 30 Sep 2023 21:40:30 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     John Garry <john.g.garry@oracle.com>, axboe@kernel.dk,
+        kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
+        jejb@linux.ibm.com, martin.petersen@oracle.com, djwong@kernel.org,
+        viro@zeniv.linux.org.uk, brauner@kernel.org,
+        chandan.babu@oracle.com, dchinner@redhat.com
+Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-nvme@lists.infradead.org, linux-xfs@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
+        linux-api@vger.kernel.org, John Garry <john.g.garry@oracle.com>
+Subject: Re: [PATCH 09/21] block: Add checks to merging of atomic writes
+Message-ID: <202309302100.L6ynQWub-lkp@intel.com>
+References: <20230929102726.2985188-10-john.g.garry@oracle.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v3 3/4] add statmount(2) syscall
-To:     Miklos Szeredi <miklos@szeredi.hu>
-Cc:     Miklos Szeredi <mszeredi@redhat.com>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-man@vger.kernel.org,
-        linux-security-module@vger.kernel.org, Karel Zak <kzak@redhat.com>,
-        David Howells <dhowells@redhat.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <christian@brauner.io>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Matthew House <mattlloydhouse@gmail.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>
-References: <20230928130147.564503-1-mszeredi@redhat.com>
- <20230928130147.564503-4-mszeredi@redhat.com>
- <5787bac5-b368-485a-f906-44e7049d4b8f@themaw.net>
- <CAJfpegt80_Tyto3QyD48V_yzHSghqg8AC_OPHEMPkDjEYCcisQ@mail.gmail.com>
-Content-Language: en-US
-From:   Ian Kent <raven@themaw.net>
-In-Reply-To: <CAJfpegt80_Tyto3QyD48V_yzHSghqg8AC_OPHEMPkDjEYCcisQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_NONE autolearn=ham
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230929102726.2985188-10-john.g.garry@oracle.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -100,46 +71,40 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 29/9/23 17:10, Miklos Szeredi wrote:
-> On Fri, 29 Sept 2023 at 02:42, Ian Kent <raven@themaw.net> wrote:
->> On 28/9/23 21:01, Miklos Szeredi wrote:
->>> +static struct vfsmount *lookup_mnt_in_ns(u64 id, struct mnt_namespace *ns)
->>> +{
->>> +     struct mount *mnt;
->>> +     struct vfsmount *res = NULL;
->>> +
->>> +     lock_ns_list(ns);
->>> +     list_for_each_entry(mnt, &ns->list, mnt_list) {
->>> +             if (!mnt_is_cursor(mnt) && id == mnt->mnt_id_unique) {
->>> +                     res = &mnt->mnt;
->>> +                     break;
->>> +             }
->>> +     }
->>> +     unlock_ns_list(ns);
->>> +     return res;
->>> +}
->> Seems like we might need to consider making (struct mnt_namespace)->list
->>
->> a hashed list.
-> Yes, linear search needs to go.  A hash table is probably the easiest solution.
->
-> But I'd also consider replacing ns->list with an rbtree.  Not as
-> trivial as adding a system hash table and probably also slightly
-> slower, but it would have some advantages:
->
->   - most space efficient (no overhead of hash buckets)
->
->   - cursor can go away (f_pos can just contain last ID)
+Hi John,
 
-I guess that would be ok.
+kernel test robot noticed the following build errors:
 
-Avoiding the cursor is a big plus.
+[auto build test ERROR on xfs-linux/for-next]
+[also build test ERROR on axboe-block/for-next mkp-scsi/for-next jejb-scsi/for-next linus/master v6.6-rc3 next-20230929]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/John-Garry/block-Add-atomic-write-operations-to-request_queue-limits/20230929-184542
+base:   https://git.kernel.org/pub/scm/fs/xfs/xfs-linux.git for-next
+patch link:    https://lore.kernel.org/r/20230929102726.2985188-10-john.g.garry%40oracle.com
+patch subject: [PATCH 09/21] block: Add checks to merging of atomic writes
+config: mips-mtx1_defconfig (https://download.01.org/0day-ci/archive/20230930/202309302100.L6ynQWub-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230930/202309302100.L6ynQWub-lkp@intel.com/reproduce)
 
-An rbtree is used in kernfs and its readdir function is rather painful so
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309302100.L6ynQWub-lkp@intel.com/
 
-I wonder what the implications might be for other enumeration needs.
+All errors (new ones prefixed by >>):
 
+>> ld.lld: error: undefined symbol: __moddi3
+   >>> referenced by blk-merge.c
+   >>>               block/blk-merge.o:(ll_back_merge_fn) in archive vmlinux.a
+   >>> referenced by blk-merge.c
+   >>>               block/blk-merge.o:(ll_back_merge_fn) in archive vmlinux.a
+   >>> referenced by blk-merge.c
+   >>>               block/blk-merge.o:(bio_attempt_front_merge) in archive vmlinux.a
+   >>> referenced 3 more times
 
-Ian
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
