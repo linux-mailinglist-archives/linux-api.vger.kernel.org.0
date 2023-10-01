@@ -2,109 +2,101 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 15EFB7B4089
-	for <lists+linux-api@lfdr.de>; Sat, 30 Sep 2023 15:41:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 63F507B479C
+	for <lists+linux-api@lfdr.de>; Sun,  1 Oct 2023 15:23:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234191AbjI3NlH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 30 Sep 2023 09:41:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58264 "EHLO
+        id S234994AbjJANXj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 1 Oct 2023 09:23:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46052 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230516AbjI3NlE (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 30 Sep 2023 09:41:04 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30F7DE6;
-        Sat, 30 Sep 2023 06:41:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696081262; x=1727617262;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=uLZqwADgpJ9WWjDEC/o1UYcaaGs8VGqI4kgPdR63JWQ=;
-  b=CwNTVnWUX10StZbs1eYTdLk5AFNhY74M0/+EXtOHMi4+aMBwUHsj32ss
-   LgHa94dF/nD3AITpAyF9EfFDcI2ywXqBnxv5Jt+mR35SfDiXcFfVeHHEL
-   LDZczsxS1uKyEConZhX42jXXn6Akbjdm5AEGp1lIvFFRE7HbI5Ipx7GX9
-   90c3JLXvoAsDu0ArOQTyyfH4L3aNKqQYP/p7SbyumY1H2GqriJka5CFmi
-   kywh6Y+OducVwzeDHmDDV8d5OpbnR+1K6xJc1+uJokfvihxl1ZO4I5gsg
-   uqrqp/BCzbeTatFwdFwyATHRyeopAwka+WoYRBIluVgs/UVM9JFKcFZiA
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10849"; a="381325996"
-X-IronPort-AV: E=Sophos;i="6.03,190,1694761200"; 
-   d="scan'208";a="381325996"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2023 06:41:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10849"; a="743695319"
-X-IronPort-AV: E=Sophos;i="6.03,190,1694761200"; 
-   d="scan'208";a="743695319"
-Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 30 Sep 2023 06:40:56 -0700
-Received: from kbuild by c3b01524d57c with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qmaDG-0004B9-0r;
-        Sat, 30 Sep 2023 13:40:54 +0000
-Date:   Sat, 30 Sep 2023 21:40:30 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     John Garry <john.g.garry@oracle.com>, axboe@kernel.dk,
-        kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
+        with ESMTP id S234979AbjJANXi (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 1 Oct 2023 09:23:38 -0400
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70CAE8E;
+        Sun,  1 Oct 2023 06:23:36 -0700 (PDT)
+Received: by mail-oi1-f169.google.com with SMTP id 5614622812f47-3af609c4dfeso2944548b6e.1;
+        Sun, 01 Oct 2023 06:23:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696166615; x=1696771415;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xVJSYZtpL0YLa+wcSpHtc+qG+rdtMGRB99f0WwrMd40=;
+        b=l8gK/xLbmU3VcpswqtVQ4osnKA3PiOgCmngkGdgGvW42lc3FPAoee0wkwEUE/i9hR3
+         9a9Fj0T9jBo1x9YS3TJ/62OSIqjzO9Z617M0bHZw21IUwRAuTp5qty0WKg1zgxz8+u04
+         eUV5mdQc3Tn/HrZzM7p1qYk38OeI1Lcqmwrfc2QJzy1Y0hVXjoT7GfR1wG9JpQTga1cH
+         nfpzAcj7gk7kWmRMLiF8Fr2Vd5EQUSt6W/3RSJ8VggbtOtZL7aa+1RKwmJeX3r+qFALy
+         OIZa1enx/FJueIi4Arsdy7hTPBm2grlt3kIqwQpFYVy5Z20RisCoEDM/hrodMBmd8WtU
+         YmzA==
+X-Gm-Message-State: AOJu0YwlZR5/xURFcSL7Sps60/xL7XfhhisCqbdIr+UnD22ISDmGGjHV
+        UAbFcBBFdrd+UxnV+7EYGgY=
+X-Google-Smtp-Source: AGHT+IG5r59Stw18eP45GGvts3KKKs7AnR8jZu7o46ucmeUjXt+CrOjIYIY866yaw9ZKQjAGZmJ61Q==
+X-Received: by 2002:aca:220e:0:b0:3a1:bfda:c6d2 with SMTP id b14-20020aca220e000000b003a1bfdac6d2mr9142795oic.11.1696166615513;
+        Sun, 01 Oct 2023 06:23:35 -0700 (PDT)
+Received: from ?IPV6:2601:647:4d7e:54f3:667:4981:ffa1:7be1? ([2601:647:4d7e:54f3:667:4981:ffa1:7be1])
+        by smtp.gmail.com with ESMTPSA id d4-20020a170903230400b001c20c608373sm20148814plh.296.2023.10.01.06.23.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 01 Oct 2023 06:23:34 -0700 (PDT)
+Message-ID: <b9c266d2-d5d6-4294-9a95-764641e295b4@acm.org>
+Date:   Sun, 1 Oct 2023 06:23:31 -0700
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 03/21] fs/bdev: Add atomic write support info to statx
+Content-Language: en-US
+To:     Eric Biggers <ebiggers@kernel.org>,
+        John Garry <john.g.garry@oracle.com>
+Cc:     axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
         jejb@linux.ibm.com, martin.petersen@oracle.com, djwong@kernel.org,
         viro@zeniv.linux.org.uk, brauner@kernel.org,
-        chandan.babu@oracle.com, dchinner@redhat.com
-Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+        chandan.babu@oracle.com, dchinner@redhat.com,
         linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-nvme@lists.infradead.org, linux-xfs@vger.kernel.org,
         linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
-        linux-api@vger.kernel.org, John Garry <john.g.garry@oracle.com>
-Subject: Re: [PATCH 09/21] block: Add checks to merging of atomic writes
-Message-ID: <202309302100.L6ynQWub-lkp@intel.com>
-References: <20230929102726.2985188-10-john.g.garry@oracle.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230929102726.2985188-10-john.g.garry@oracle.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+        linux-api@vger.kernel.org,
+        Prasad Singamsetty <prasad.singamsetty@oracle.com>
+References: <20230929102726.2985188-1-john.g.garry@oracle.com>
+ <20230929102726.2985188-4-john.g.garry@oracle.com>
+ <20230929224922.GB11839@google.com>
+From:   Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <20230929224922.GB11839@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi John,
+On 9/29/23 15:49, Eric Biggers wrote:
+> On Fri, Sep 29, 2023 at 10:27:08AM +0000, John Garry wrote:
+>> diff --git a/include/uapi/linux/stat.h b/include/uapi/linux/stat.h
+>> index 7cab2c65d3d7..c99d7cac2aa6 100644
+>> --- a/include/uapi/linux/stat.h
+>> +++ b/include/uapi/linux/stat.h
+>> @@ -127,7 +127,10 @@ struct statx {
+>>   	__u32	stx_dio_mem_align;	/* Memory buffer alignment for direct I/O */
+>>   	__u32	stx_dio_offset_align;	/* File offset alignment for direct I/O */
+>>   	/* 0xa0 */
+>> -	__u64	__spare3[12];	/* Spare space for future expansion */
+>> +	__u32	stx_atomic_write_unit_max;
+>> +	__u32	stx_atomic_write_unit_min;
+> 
+> Maybe min first and then max?  That seems a bit more natural, and a lot of the
+> code you've written handle them in that order.
+> 
+>> +#define STATX_ATTR_WRITE_ATOMIC		0x00400000 /* File supports atomic write operations */
+> 
+> How would this differ from stx_atomic_write_unit_min != 0?
 
-kernel test robot noticed the following build errors:
+Is it even possible that stx_atomic_write_unit_min == 0? My understanding
+is that all Linux filesystems rely on the assumption that writing a single
+logical block either succeeds or does not happen, even if a power failure
+occurs between writing and reading a logical block.
 
-[auto build test ERROR on xfs-linux/for-next]
-[also build test ERROR on axboe-block/for-next mkp-scsi/for-next jejb-scsi/for-next linus/master v6.6-rc3 next-20230929]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Thanks,
 
-url:    https://github.com/intel-lab-lkp/linux/commits/John-Garry/block-Add-atomic-write-operations-to-request_queue-limits/20230929-184542
-base:   https://git.kernel.org/pub/scm/fs/xfs/xfs-linux.git for-next
-patch link:    https://lore.kernel.org/r/20230929102726.2985188-10-john.g.garry%40oracle.com
-patch subject: [PATCH 09/21] block: Add checks to merging of atomic writes
-config: mips-mtx1_defconfig (https://download.01.org/0day-ci/archive/20230930/202309302100.L6ynQWub-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230930/202309302100.L6ynQWub-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309302100.L6ynQWub-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> ld.lld: error: undefined symbol: __moddi3
-   >>> referenced by blk-merge.c
-   >>>               block/blk-merge.o:(ll_back_merge_fn) in archive vmlinux.a
-   >>> referenced by blk-merge.c
-   >>>               block/blk-merge.o:(ll_back_merge_fn) in archive vmlinux.a
-   >>> referenced by blk-merge.c
-   >>>               block/blk-merge.o:(bio_attempt_front_merge) in archive vmlinux.a
-   >>> referenced 3 more times
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Bart.
