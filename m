@@ -2,106 +2,161 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 11F197B5B2E
-	for <lists+linux-api@lfdr.de>; Mon,  2 Oct 2023 21:24:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 12EEF7B5C6D
+	for <lists+linux-api@lfdr.de>; Mon,  2 Oct 2023 23:19:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238825AbjJBTVz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 2 Oct 2023 15:21:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38676 "EHLO
+        id S229840AbjJBVTm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 2 Oct 2023 17:19:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238588AbjJBTVz (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 2 Oct 2023 15:21:55 -0400
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 800C7B8;
-        Mon,  2 Oct 2023 12:21:52 -0700 (PDT)
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-692c70bc440so95996b3a.3;
-        Mon, 02 Oct 2023 12:21:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696274512; x=1696879312;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=F/ve4+0hI3kPGfr74V3fRnzywfGyjXPBIyqNnDnwTuY=;
-        b=ASbk9QYdkJdNH3dtF4kQxAFsa1WIsFZRCmEaGeONCcDrOLUA/l3FYCyKw+jCc/l4Lp
-         URXEmUyjTNfoFYhTaboe92+s7mCrUOIVAOQNo7OInFKLSaaU4MQNVpTrj/sDrS/6DeeC
-         +opqrkEnDfP0HpV0WoqiNvrET5+jyMu7PgwfAhuyV9L8ecpIJ0cSoQBlYcw6D/+oJ1r3
-         s42eclPXZE7oBYjDzhDlpytJE2W2JM2eOVZxf5NeDeSgsVCXAVzK4OG1qDq9tK5VqfMZ
-         h9grhLsPMwTuAyv9mHhfnNUyx6Ym90CUjWcQ6z5449W3OoSjr6jQMqfdLYNOcXTZo0mT
-         dnMA==
-X-Gm-Message-State: AOJu0YxwOStOFqwEYS4mNMb4un+Em2+f+aOYqo7HHNVxq1/NIfLSArFa
-        a1C0cxuf65JPiMj37Itu/N8=
-X-Google-Smtp-Source: AGHT+IHdmSkxcMU9Q3KlwXLUK3XdwSehxi52wiuutteyt+WOowhzgK0t39kMn9Z+tSskapiavysFsA==
-X-Received: by 2002:a05:6a21:35c4:b0:136:ea0e:d23 with SMTP id ba4-20020a056a2135c400b00136ea0e0d23mr9301982pzc.11.1696274511618;
-        Mon, 02 Oct 2023 12:21:51 -0700 (PDT)
-Received: from ?IPV6:2620:15c:211:201:6ad7:f663:5f97:db57? ([2620:15c:211:201:6ad7:f663:5f97:db57])
-        by smtp.gmail.com with ESMTPSA id o5-20020a170902d4c500b001b896d0eb3dsm10650573plg.8.2023.10.02.12.21.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Oct 2023 12:21:51 -0700 (PDT)
-Message-ID: <6a41f73c-d2ac-405f-9ecd-96dd938c9a1f@acm.org>
-Date:   Mon, 2 Oct 2023 12:21:48 -0700
+        with ESMTP id S229650AbjJBVTl (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 2 Oct 2023 17:19:41 -0400
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB570A4;
+        Mon,  2 Oct 2023 14:19:38 -0700 (PDT)
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 392LJDiQ000786;
+        Mon, 2 Oct 2023 21:19:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=gatv7sy+EOwFxHcezDJOHWDu3nM1vA3GE7rgG9QZ/KI=;
+ b=GlQP1vi4L/n3i6tR1nGdk/3FPGSstrkoaNsqO4MIqQAX6UMER+faRjVDlwFX9DCxp0+1
+ wiAQ48fc1fts/APs9F35r79/zWcAmhCyA9vlYUri6XeznNlLqh0QNxlECmANXFM1LdpX
+ DA/5v2LmVEjll0UO0BANCz4/xTvdpJrWiLhNMt1bisI1k3crGOJ1JjxwpxfVPnev4I/r
+ wCtQ8Ubva8GRIkuwA7hmAur9l/D5oaHhWIY+B9+oF8NrktxgJoY49+Kis3E9WplluL4/
+ uba3lt24vcN+N71c5W9JmS8eP/Nvc06UWk/b5rEpZDTVbz+4jQ66Lx5vyxvB6P2aIrmH Nw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3tg5p3002v-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 02 Oct 2023 21:19:14 +0000
+Received: from m0360083.ppops.net (m0360083.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 392LJD0T000844;
+        Mon, 2 Oct 2023 21:19:13 GMT
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3tg5p3002b-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 02 Oct 2023 21:19:13 +0000
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+        by ppma12.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 392K30dV005924;
+        Mon, 2 Oct 2023 21:19:12 GMT
+Received: from smtprelay05.wdc07v.mail.ibm.com ([172.16.1.72])
+        by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 3tex0scuh2-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 02 Oct 2023 21:19:12 +0000
+Received: from smtpav01.dal12v.mail.ibm.com (smtpav01.dal12v.mail.ibm.com [10.241.53.100])
+        by smtprelay05.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 392LJBht65733118
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 2 Oct 2023 21:19:12 GMT
+Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id A80FB58058;
+        Mon,  2 Oct 2023 21:19:11 +0000 (GMT)
+Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 0832858057;
+        Mon,  2 Oct 2023 21:19:11 +0000 (GMT)
+Received: from [9.61.61.107] (unknown [9.61.61.107])
+        by smtpav01.dal12v.mail.ibm.com (Postfix) with ESMTP;
+        Mon,  2 Oct 2023 21:19:10 +0000 (GMT)
+Message-ID: <891957ad-453e-4c68-9c5a-7a979667543d@linux.ibm.com>
+Date:   Mon, 2 Oct 2023 16:19:10 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 19/21] scsi: sd: Add WRITE_ATOMIC_16 support
+Subject: Re: [PATCH] uapi/auxvec: Define AT_HWCAP3 and AT_HWCAP4 aux vector,
+ entries
 Content-Language: en-US
-To:     John Garry <john.g.garry@oracle.com>, axboe@kernel.dk,
-        kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
-        jejb@linux.ibm.com, martin.petersen@oracle.com, djwong@kernel.org,
-        viro@zeniv.linux.org.uk, brauner@kernel.org,
-        chandan.babu@oracle.com, dchinner@redhat.com
-Cc:     linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-nvme@lists.infradead.org, linux-xfs@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
-        linux-api@vger.kernel.org
-References: <20230929102726.2985188-1-john.g.garry@oracle.com>
- <20230929102726.2985188-20-john.g.garry@oracle.com>
- <2abb1fb8-88c6-401d-b65f-b7001b2203ec@acm.org>
- <a6041625-a203-04b3-fa42-ed023e868060@oracle.com>
-From:   Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <a6041625-a203-04b3-fa42-ed023e868060@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+To:     Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
+        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>
+Cc:     Nicholas Piggin <npiggin@gmail.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Segher Boessenkool <segher@kernel.crashing.org>,
+        GNU C Library <libc-alpha@sourceware.org>
+References: <fd879f60-3f0b-48d1-bfa1-6d337768207e@linux.ibm.com>
+ <97eb2099-23c2-4921-89ac-9523226ad221@linaro.org>
+From:   Peter Bergner <bergner@linux.ibm.com>
+In-Reply-To: <97eb2099-23c2-4921-89ac-9523226ad221@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: iwOxse1LKTd-mzgBl_gDQrG6AZJZ2pID
+X-Proofpoint-GUID: oXttozJ5pEGhCYcwaRXxZAKaOtCxpjge
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-02_15,2023-10-02_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 spamscore=0
+ phishscore=0 mlxlogscore=716 malwarescore=0 clxscore=1011 suspectscore=0
+ priorityscore=1501 impostorscore=0 adultscore=0 lowpriorityscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2309180000 definitions=main-2310020163
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 10/2/23 04:36, John Garry wrote:
-> On 29/09/2023 18:59, Bart Van Assche wrote:
->> On 9/29/23 03:27, John Garry wrote:
->>> +static blk_status_t sd_setup_atomic_cmnd(struct scsi_cmnd *cmd,
->>> +                    sector_t lba, unsigned int nr_blocks,
->>> +                    unsigned char flags)
->>> +{
->>> +    cmd->cmd_len  = 16;
->>> +    cmd->cmnd[0]  = WRITE_ATOMIC_16;
->>> +    cmd->cmnd[1]  = flags;
->>> +    put_unaligned_be64(lba, &cmd->cmnd[2]);
->>> +    cmd->cmnd[10] = 0;
->>> +    cmd->cmnd[11] = 0;
->>> +    put_unaligned_be16(nr_blocks, &cmd->cmnd[12]);
->>> +    cmd->cmnd[14] = 0;
->>> +    cmd->cmnd[15] = 0;
->>> +
->>> +    return BLK_STS_OK;
->>> +}
->>
->> Please store the 'dld' value in the GROUP NUMBER field. See e.g.
->> sd_setup_rw16_cmnd().
+Hi Adhemerval, sorry for the delay in replying, I was a little under the
+weather last week.
+
+
+On 9/27/23 11:03 AM, Adhemerval Zanella Netto wrote:
+> On 26/09/23 19:02, Peter Bergner wrote:
+>> The powerpc toolchain keeps a copy of the HWCAP bit masks in our TCB for fast
+>> access by our __builtin_cpu_supports built-in function.  The TCB space for
+>> the HWCAP entries - which are created in pairs - is an ABI extension, so
+>> waiting to create the space for HWCAP3 and HWCAP4 until we need them is
+>> problematical, given distro unwillingness to apply ABI modifying patches
+>> to distro point releases.  Define AT_HWCAP3 and AT_HWCAP4 in the generic
+>> uapi header so they can be used in GLIBC to reserve space in the powerpc
+>> TCB for their future use.
 > 
-> Are you sure that WRITE ATOMIC (16) supports dld?
+> This is different than previously exported auxv, where each AT_* constant
+> would have a auxv entry. On glibc it would require changing _dl_parse_auxv
+> to iterate over the auxv_values to find AT_HWCAP3/AT_HWCAP4 (not ideal, 
+> but doable).
 
-Hi John,
+When you say different, do you mean because all AUXVs exported by the kernel
+*will* have an AT_HWCAP and AT_HWCAP2 entry and AT_HWCAP3/AT_HWCAP4 won't?
+I don't think that's a problem for either kernel or glibc side of things.
+I'm not even sure there is a guarantee that every AT_* value *must* be
+present in the exported AUXV.
 
-I was assuming that DLD would be supported by the WRITE ATOMIC(16) 
-command. After having taken another look at the latest SBC-5 draft
-I see that the DLD2/DLD1/DLD0 bits are not present in the WRITE 
-ATOMIC(16) command. So please ignore my comment above.
+The new AT_HWCAP3/AT_HWCAP4 defines are less than AT_MINSIGSTKSZ, so they
+don't affect the size of _dl_parse_auxv's auxv_values array size and the
+AT_HWCAP3 and AT_HWCAP4 entries in auxv_values[] are already initialized
+to zero today.  Additionally, the loop in _dl_parse_auxv already parses
+the entire AUXV, so there is no extra work for it to do, unless and until
+AT_HWCAP3 and AT_HWCAP4 start being exported by the kernel.  Really, the
+only extra work _dl_parse_auxv would need to do, is add two new stores:
 
-Thanks,
+  GLRO(dl_hwcap3) = auxv_values[AT_HWCAP3];
+  GLRO(dl_hwcap4) = auxv_values[AT_HWCAP4];
 
-Bart.
+
+
+> Wouldn't be better to always export it on fs/binfmt_elf.c, along with all 
+> the machinery to setup it (ELF_HWCAP3, etc), along with proper documentation?
+
+You mean modify the kernel now to export AT_HWCAP3 and AT_HWCAP4 as zero
+masks?  Is that really necessary since we don't need or have any features
+defined in them yet?  GLIBC's _dl_parse_auxv doesn't really need them to
+be exported either, since in the absence of the entries, it will just end
+up using zero masks for dl_hwcap3 and dl_hwcap4, so everything is copacetic
+even without any kernel changes.
+
+As I mentioned, our real problem is the lead time for getting changes that
+affect the user ABI into a distro release, and ppc's copy/cache of the HWCAP
+masks is an ABI change.  If we wait to add this support until when we
+actually have a need for HWCAP3, then we won't have any support until
+the next major distro release.  However, if we can add this support now,
+which I don't think is an onerous change on glibc's part, then we can
+start using it immediately when Linux starts exporting them.
+
+
+Peter
+
+
+
+
