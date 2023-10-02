@@ -2,144 +2,214 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F1FED7B5ABE
-	for <lists+linux-api@lfdr.de>; Mon,  2 Oct 2023 21:04:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 801E27B5AFF
+	for <lists+linux-api@lfdr.de>; Mon,  2 Oct 2023 21:14:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229534AbjJBS5j (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 2 Oct 2023 14:57:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46902 "EHLO
+        id S238588AbjJBTNJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 2 Oct 2023 15:13:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229521AbjJBS5j (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 2 Oct 2023 14:57:39 -0400
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5184B3;
-        Mon,  2 Oct 2023 11:57:35 -0700 (PDT)
-Received: by mail-ej1-x62b.google.com with SMTP id a640c23a62f3a-98377c5d53eso10134666b.0;
-        Mon, 02 Oct 2023 11:57:35 -0700 (PDT)
+        with ESMTP id S229536AbjJBTNI (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 2 Oct 2023 15:13:08 -0400
+Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com [IPv6:2607:f8b0:4864:20::f30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C795EB3
+        for <linux-api@vger.kernel.org>; Mon,  2 Oct 2023 12:13:04 -0700 (PDT)
+Received: by mail-qv1-xf30.google.com with SMTP id 6a1803df08f44-65b2463d651so642626d6.3
+        for <linux-api@vger.kernel.org>; Mon, 02 Oct 2023 12:13:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696273054; x=1696877854; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6otIAIPh5XIg1eGDA9+e/nRojsDL+BWNZmCLTXEiHIA=;
-        b=SkY7fLwEi05LRe4HbNrtDKgquzKBUKQVBBSW7ldg4gktqWijMcLhgG0qQGhrkC5Gdx
-         hiYkLIWkmZOXsnU/aoXyzHYcOVY15S/rjBU3GeA44TcyrHfsX2cysX/cn0W3WDm3j9gH
-         +tvmjzs/3rdMceWT0ufdLlzBumWUYhndYNj1o6syLCq1+9o+gcgKpz20wqZEBZbVMEYW
-         aKiF2LldMkiy2h6jdoOAzklnMsFKO62RMTc0sisQpw1QjhIPdbznjFmpNxF8LJx3B535
-         M2gsACbAoE1xlFJw/qlgtJUy2/j4KFEGxr0BB1XLawHm1Mi3LohrJb36Nx48gN7FryRy
-         p5KQ==
+        d=google.com; s=20230601; t=1696273984; x=1696878784; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UrdshLJ6yY4TrRO+7HKqgHBt/I+RLSjFGYVl7KEYqTI=;
+        b=V5rIdH3ABQqrWkOcHPHfk4puVfhnzUPZfwFbZDn+fRkjIss08Om0Vok5ClfLFkLj9L
+         MPsLqndLZEY0PBXsyRSohdb9EdVIHtO3Et6E8InO8V2U/VaUzgcR9fSm9ZWq49lyJj5P
+         0XOF3qSDOItqY8P51toknL5em6vD3gKWSE2c8JhvqrnUsblh4byV2tWaHYB+WrPrBVnQ
+         ihcegEmZtLT5ate82ZbfUqTakN0ejz8WACcbefFTItNoIUsedYeHoOivF4ryjVrT2xoF
+         odbGl1ECUipomhK71avc0fHHVAVYaMA2eUC9UVhfCEmphVKPvBh/wPegJUnaTKrpJDl7
+         szxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696273054; x=1696877854;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6otIAIPh5XIg1eGDA9+e/nRojsDL+BWNZmCLTXEiHIA=;
-        b=biPmDiKJZ1IahmGqDAh9v6bMNgNpUYJavD81jhXfV0f3eW6o2lqxwnWjzzBOuH2KEG
-         l+9JnfMPj+haYgKzp2/ViNLiNrAa6gTkMTeUv05zMp6d3PGZACvQUomeDJj2u5iRjyPF
-         7gEJtLVdUMqbCPvhF75cZ04agsceU1QNkJjdiU+skFxqq/U8CHqHWEbzJgf8CayRLQht
-         q7mBm/Hv80z7Gl+BRgdIghcGnPnBuC8BEFXxVPHgCmzn+C2FoRKOGPE3TItVxsqlUZVU
-         QoCWY0zYaLRKf9Z8sZnSd2El9XGRb33X8nSmzAhA+hIpNFctoUG05/HpiRxTt0aG48Si
-         0TlA==
-X-Gm-Message-State: AOJu0YxvgArJxfPiIZdIFucs6+XUD6EP5IeJ29cTJNqZ6klmLtsT6SK4
-        ZtOIFeWN8+uVhuOtl6bQvBE=
-X-Google-Smtp-Source: AGHT+IHD8FhvaBavsFW1owvzNtaVcgzQZwpKsi3fOHEFxFljS9IxvDlviiFOn1pYk31ZGH6V97T+BQ==
-X-Received: by 2002:a17:906:1097:b0:9a9:e393:8bcd with SMTP id u23-20020a170906109700b009a9e3938bcdmr9775679eju.5.1696273053905;
-        Mon, 02 Oct 2023 11:57:33 -0700 (PDT)
-Received: from gmail.com (1F2EF530.nat.pool.telekom.hu. [31.46.245.48])
-        by smtp.gmail.com with ESMTPSA id z17-20020a1709067e5100b0099bc80d5575sm17245551ejr.200.2023.10.02.11.57.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Oct 2023 11:57:33 -0700 (PDT)
-Sender: Ingo Molnar <mingo.kernel.org@gmail.com>
-Date:   Mon, 2 Oct 2023 20:57:31 +0200
-From:   Ingo Molnar <mingo@kernel.org>
+        d=1e100.net; s=20230601; t=1696273984; x=1696878784;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UrdshLJ6yY4TrRO+7HKqgHBt/I+RLSjFGYVl7KEYqTI=;
+        b=geHdM7DeJyYyiyMJHIsmD6kligYlBMYjYfjtNzPFHNzwYkbwzN4ZDlS75Z1qpz9D4T
+         F3NI44qy+cZD2on8PrvvRy/f27oLMtHn+eXMUMR4yF6w8Qn/HTVMYEet4k8NGjNn1K5V
+         ZvcNzYLBkPeP2c7/je27oWhPERTKkYnnW1Fe/sabtFJEJ8hndG4GBRjBFNMXHi9zsTja
+         XJFTDkiXOnXkjPcmgY3V3WMeahko1DViP/IhFxwbxEHDLAuonNklMvytD6HcSP8ChYSA
+         rNhrZhYemBg2wf+HP9LOaoDZuDFLg9xdvVzNm7UV2ewanKu8AwQQhmheqgs62Tus3DdG
+         qPtQ==
+X-Gm-Message-State: AOJu0YwYgPaJB3mHreo6k6fD7IGwdWvC9zY3i2sU5GflJIEB1c4h/J98
+        lgHaZDjR+OyO3JxfLOIcfSH2SVVNlZ3XQerNzREiufXKOm4ATCaXoHM=
+X-Google-Smtp-Source: AGHT+IH1wn5ECQeHv7HdplVxaqOth1RWCOBlGsjk711xwfVqBlnsjjZuBUv1oJq5F0LPcPyQSrvzzHrEmFhKsEkZkSQ=
+X-Received: by 2002:a0c:b541:0:b0:655:ea8d:666d with SMTP id
+ w1-20020a0cb541000000b00655ea8d666dmr11587167qvd.44.1696273983581; Mon, 02
+ Oct 2023 12:13:03 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230808030357.1213829-1-kolyshkin@gmail.com>
+In-Reply-To: <20230808030357.1213829-1-kolyshkin@gmail.com>
+From:   enh <enh@google.com>
+Date:   Mon, 2 Oct 2023 12:12:48 -0700
+Message-ID: <CAJgzZooaa7m01KMnL+jHPLCX-Gqtps0ZqxhU7q6ai3OXdNzAgA@mail.gmail.com>
+Subject: Re: [PATCH] sched/headers: move struct sched_param out of uapi
 To:     Kir Kolyshkin <kolyshkin@gmail.com>
 Cc:     linux-kernel@vger.kernel.org, libc-alpha@sourceware.org,
         musl@lists.openwall.com, linux-api@vger.kernel.org,
         Ingo Molnar <mingo@redhat.com>,
         Peter Zijlstra <peterz@infradead.org>,
         Joel Fernandes <joel@joelfernandes.org>,
-        Christian Brauner <brauner@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [PATCH] sched/headers: move struct sched_param out of uapi
-Message-ID: <ZRsSm7vDnMVEEk/f@gmail.com>
-References: <20230808030357.1213829-1-kolyshkin@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230808030357.1213829-1-kolyshkin@gmail.com>
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+        Christian Brauner <brauner@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-
-* Kir Kolyshkin <kolyshkin@gmail.com> wrote:
-
+On Mon, Aug 7, 2023 at 8:04=E2=80=AFPM Kir Kolyshkin via Libc-alpha
+<libc-alpha@sourceware.org> wrote:
+>
 > Both glibc and musl define struct sched_param in sched.h, while kernel
 > has it in uapi/linux/sched/types.h, making it cumbersome to use
 > sched_getattr(2) or sched_setattr(2) from userspace.
-> 
+>
 > For example, something like this:
-> 
-> 	#include <sched.h>
-> 	#include <linux/sched/types.h>
-> 
-> 	struct sched_attr sa;
-> 
-> will result in "error: redefinition of ‘struct sched_param’" (note the
+>
+>         #include <sched.h>
+>         #include <linux/sched/types.h>
+>
+>         struct sched_attr sa;
+>
+> will result in "error: redefinition of =E2=80=98struct sched_param=E2=80=
+=99" (note the
 > code doesn't need sched_param at all -- it needs struct sched_attr
 > plus some stuff from sched.h).
-> 
+
+note that `struct sched_attr` is still pretty problematic for
+userspace because it keeps changing. i (Android's bionic libc
+maintainer) get pretty frequent complaints about the lack of a wrapper
+for this in libc, but that doesn't seem plausible if it keeps
+changing. worse than that, we do find projects copy & pasting `struct
+sched_attr` (ltp, for example), which causes problems when bionic --
+which uses the latest released uapi headers directly -- and those
+projects' duplicates don't match.
+
+it would be helpful (or at least "less problematic") if each new
+variant was called sched_attr_v1, sched_attr_v2 etc.
+
+ironically, the end result of the requests for `struct sched_attr` to
+be in <sched.h> and to have wrappers for the syscalls is that i'm
+seriously considering _removing_ `struct sched_attr` from our uapi
+headers [because when i said we use them "directly", they do actually
+go through a python script] on the assumption that "everyone just
+carries around the specific version they want, and no-one has to worry
+about ABI differences" is less problematic than the current situation.
+
+(to be clear: personally i've only seen source incompatibility.
+although one _could_ pass `struct sched_attr` across library
+boundaries and have ABI incompatibility, i haven't yet seen that.
+unless you count "that's the reason why there's no libc wrapper for
+this syscall, despite it being by far my most-demanded syscall
+wrapper".)
+
 > The situation is, glibc is not going to provide a wrapper for
 > sched_{get,set}attr, thus the need to include linux/sched_types.h
 > directly, which leads to the above problem.
+>
+> Thus, the userspace is left with a few sub-par choices when it wants to
+> use e.g. sched_setattr(2), such as maintaining a copy of struct
+> sched_attr definition, or using some other ugly tricks.
+>
+> OTOH, struct sched_param is well known, defined in POSIX, and it won't
+> be ever changed (as that would break backward compatibility).
+>
+> So, while struct sched_param is indeed part of the kernel uapi,
+> exposing it the way it's done now creates an issue, and hiding it
+> (like this patch does) fixes that issue, hopefully without creating
+> another one: common userspace software rely on libc headers, and as
+> for "special" software (like libc), it looks like glibc and musl
+> do not rely on kernel headers for struct sched_param definition
+> (but let's Cc their mailing lists in case it's otherwise).
 
-Meh, I truly detest this patch, because 'struct sched_param' is very much
-part of the syscall ABI signature:
+getting back to your actual point about `struct sched_param`, yes,
+this sgtm too. bionic has the exact same <sched.h> vs
+<linux/sched/types.h> duplication.
 
-  include/linux/syscalls.h:
+> The alternative to this patch would be to move struct sched_attr to,
+> say, linux/sched.h, or linux/sched/attr.h (the new file).
 
-  asmlinkage long sys_sched_setparam(pid_t pid,
-                                        struct sched_param __user *param);
-  asmlinkage long sys_sched_setscheduler(pid_t pid, int policy,
-                                        struct sched_param __user *param);
-  asmlinkage long sys_sched_getparam(pid_t pid,
-                                        struct sched_param __user *param);
+as long as everyone promises never to change `struct sched_param`,
+that would be my personal preference --- my _ideal_ is that i never
+define anything that's uapi and get it "direct" from the [very lightly
+modified] upstream uapi headers instead.
 
-... but OTOH let's not pretend that UAPI headers have much justification
-to exist unless they are useful & can be utilized in some of the most
-common user-space library environments as-is. Namespace collisions happen.
-
-So I'm inclined to apply this workaround, but changed the title and added
-the caveat below to the changelog:
-
-    sched/headers: Move 'struct sched_param' out of uapi, to work around glibc/musl breakage
-
-    ...
-
-    Oh, and here is the previous attempt to fix the issue:
-    
-      https://lore.kernel.org/all/20200528135552.GA87103@google.com/
-    
-    While I support Linus arguments, the issue is still here
-    and needs to be fixed.
-
-    [ mingo: Linus is right, this shouldn't be needed - but on the other
-             hand I agree that this header is not really helpful to
-             user-space as-is. So let's pretend that
-             <uapi/linux/sched/types.h> is only about sched_attr, and
-             call this commit a workaround for user-space breakage
-             that it in reality is ... Also, remove the Fixes tag. ]
-    
-
-So unless Linus objects, I'll apply this to tip:sched/core for a v6.7 merge.
-
-Thanks,
-
-	Ingo
+> Oh, and here is the previous attempt to fix the issue:
+> https://lore.kernel.org/all/20200528135552.GA87103@google.com/
+> While I support Linus arguments, the issue is still here
+> and needs to be fixed.
+>
+> Cc: libc-alpha@sourceware.org
+> Cc: musl@lists.openwall.com
+> Cc: linux-api@vger.kernel.org
+> Cc: Ingo Molnar <mingo@redhat.com>
+> Cc: Peter Zijlstra <peterz@infradead.org>
+> Cc: Joel Fernandes <joel@joelfernandes.org>
+> Cc: Christian Brauner <brauner@kernel.org>
+> Fixes: e2d1e2aec572 ("sched/headers: Move various ABI definitions to <uap=
+i/linux/sched/types.h>")
+> Signed-off-by: Kir Kolyshkin <kolyshkin@gmail.com>
+> ---
+>  include/linux/sched.h            | 5 ++++-
+>  include/uapi/linux/sched/types.h | 4 ----
+>  2 files changed, 4 insertions(+), 5 deletions(-)
+>
+> diff --git a/include/linux/sched.h b/include/linux/sched.h
+> index 609bde814cb0..3167e97a6b04 100644
+> --- a/include/linux/sched.h
+> +++ b/include/linux/sched.h
+> @@ -63,7 +63,6 @@ struct robust_list_head;
+>  struct root_domain;
+>  struct rq;
+>  struct sched_attr;
+> -struct sched_param;
+>  struct seq_file;
+>  struct sighand_struct;
+>  struct signal_struct;
+> @@ -370,6 +369,10 @@ extern struct root_domain def_root_domain;
+>  extern struct mutex sched_domains_mutex;
+>  #endif
+>
+> +struct sched_param {
+> +       int sched_priority;
+> +};
+> +
+>  struct sched_info {
+>  #ifdef CONFIG_SCHED_INFO
+>         /* Cumulative counters: */
+> diff --git a/include/uapi/linux/sched/types.h b/include/uapi/linux/sched/=
+types.h
+> index f2c4589d4dbf..90662385689b 100644
+> --- a/include/uapi/linux/sched/types.h
+> +++ b/include/uapi/linux/sched/types.h
+> @@ -4,10 +4,6 @@
+>
+>  #include <linux/types.h>
+>
+> -struct sched_param {
+> -       int sched_priority;
+> -};
+> -
+>  #define SCHED_ATTR_SIZE_VER0   48      /* sizeof first published struct =
+*/
+>  #define SCHED_ATTR_SIZE_VER1   56      /* add: util_{min,max} */
+>
+> --
+> 2.41.0
+>
