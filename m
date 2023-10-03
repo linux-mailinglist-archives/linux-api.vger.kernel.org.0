@@ -2,57 +2,57 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 760957B5F5D
-	for <lists+linux-api@lfdr.de>; Tue,  3 Oct 2023 05:32:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A2F27B5FD4
+	for <lists+linux-api@lfdr.de>; Tue,  3 Oct 2023 06:24:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230102AbjJCDc0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 2 Oct 2023 23:32:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37308 "EHLO
+        id S230117AbjJCEYc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 3 Oct 2023 00:24:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40608 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229854AbjJCDcY (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 2 Oct 2023 23:32:24 -0400
-Received: from mail-oo1-xc36.google.com (mail-oo1-xc36.google.com [IPv6:2607:f8b0:4864:20::c36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13C84AC
-        for <linux-api@vger.kernel.org>; Mon,  2 Oct 2023 20:32:20 -0700 (PDT)
-Received: by mail-oo1-xc36.google.com with SMTP id 006d021491bc7-57b68556d6dso252421eaf.1
-        for <linux-api@vger.kernel.org>; Mon, 02 Oct 2023 20:32:20 -0700 (PDT)
+        with ESMTP id S230083AbjJCEYb (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 3 Oct 2023 00:24:31 -0400
+Received: from mail-oo1-xc30.google.com (mail-oo1-xc30.google.com [IPv6:2607:f8b0:4864:20::c30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 538BBA9
+        for <linux-api@vger.kernel.org>; Mon,  2 Oct 2023 21:24:28 -0700 (PDT)
+Received: by mail-oo1-xc30.google.com with SMTP id 006d021491bc7-57b5f0d658dso281415eaf.0
+        for <linux-api@vger.kernel.org>; Mon, 02 Oct 2023 21:24:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fromorbit-com.20230601.gappssmtp.com; s=20230601; t=1696303939; x=1696908739; darn=vger.kernel.org;
+        d=fromorbit-com.20230601.gappssmtp.com; s=20230601; t=1696307067; x=1696911867; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=RU41F7Q6OV/0/KdhPXX+Zr4mK7H3+EqyDj/vuFMgUwY=;
-        b=XT6E4nEe2lpvHtnwQcZENIeLzw+dHyxIav2hEzJi3HEMLxhzQGbUCsiJuuY6Ptohg1
-         EpAHAoMJiNr124BR0eGbirI9jDEqPbKbLHndbftA1Uo4N+3pi9Yz7TC9iJMDkCTk7TfD
-         tsWNkVvgvMJED2SSeWPy6qVPrRd7sLmeS+IlIp3Mc4bAcgminkq8abwG5snQNSHmUR+z
-         vAFwbHtJRYixbYr+eDZ75i3r8ptzfRpm5lxpwcHryyjgmNpseu928GP7KUNaHjavU+Sk
-         MTTvTGitt+lHDUZbJ/TMqf5ge3n57gA/I8fZ1TNkPBqfpJrODIXHoNyJenQYdHQ7859H
-         z1UA==
+        bh=tRj24ayrhAkntLHqRcMnTUmDF9ooyeDw7/Fu4VWKcjU=;
+        b=tvoonKFXb7FoOfcAkeQ3FTmGqcUtyQUM19R/UF/tgEfrvpvggco/c11JArL7+O/Q2b
+         lHJY6lWfd1HUR6mDDT2JmbqXv/vRyrM/r21gzZOH5AwMCXT0eHQsBLRXBtz17gq5J42a
+         fOOY4Q83RomolysrvHwqaYKtqk6dE0WNJsjZmdUOJwhQbUSMbsP1qC7w85TqU7vMzwiP
+         KfnuX5x8lFxsmmK/xEbZmHIYL0yRhLQmOyU3H0+gIgBbfBYsfVCppPIQHYSiawgZJKhn
+         eHNKXRaprlgpHbEW8p00K57S82zT9t05RzOiLF0Wq2q8SlX12VMef38FgfHxErytpY0H
+         RGqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696303939; x=1696908739;
+        d=1e100.net; s=20230601; t=1696307067; x=1696911867;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=RU41F7Q6OV/0/KdhPXX+Zr4mK7H3+EqyDj/vuFMgUwY=;
-        b=E3vhj/r0OtCkH980EWU2T26B2gcRXsnXfCjDKRBsNlDLDqPooK8Krm1mm9EOSpvjal
-         DrmJMpF6ivhTmQWJ7cOg7tqAtlWrXo2k4FI9npfbba3b5BciHhMWMP1GiLs6lFfh3OLg
-         w5/bwGJNGMaYEdAl28JURE5zumMZXo1MmgxWkVM2OzsjB3QCXLl2GZE3i8PKBc1kmhsO
-         2wkQePxV7iZ1erG4mH9V6dEN+VgqdemQ5i8blcRZ+HwXnk3bFYh4l5zkwlxjP5n0+v9V
-         lMaCUksTCcVxjmpdeA8wMj6qU5c52Xzqvs+VEtv1NZ87KRWI13iXRL3IYsVWhcSG4zBD
-         KsuQ==
-X-Gm-Message-State: AOJu0YxLNpElFiRCmb/1KJIFLIxJMzjQAwFjClB6MM4n09LI68h20gvR
-        Ag7rdcqFu+7jArV/yvTCqELikA==
-X-Google-Smtp-Source: AGHT+IE+l0s5pjMPvA3XUiId2MHvVR/AZFGjyb3rFVyjmEnq89vMNSByVxUcQTQOlmK6z2/vj7dVDg==
-X-Received: by 2002:a05:6358:2496:b0:134:c682:213f with SMTP id m22-20020a056358249600b00134c682213fmr13720441rwc.31.1696303939244;
-        Mon, 02 Oct 2023 20:32:19 -0700 (PDT)
+        bh=tRj24ayrhAkntLHqRcMnTUmDF9ooyeDw7/Fu4VWKcjU=;
+        b=kcD4o28JHe5zkFglDMaGJ0RQrVKoTgRadFr7IMSMogJSh+txFkSYx6lhJ7cji4JRd2
+         1VV/Ff3fmZhaS/BzgzhKxI8FK4vccSg0zOOtThyJbJDQxPifMjwrcv/j6HeWGGzEe3C/
+         8qPLgWlzHtJ+SCiug8qBok4+mZMC14eBHzNEEhPl+ZpjN7gj+GkVY1/ASK4upb7BwqYJ
+         AGVU0kRr3uhknRmZ0CwQnlFBWX2X8CBxfpEEd+mDYrBtosSdbT6NVd51w80cvKuZ7P5p
+         AbK3sQZWy6FoD6AeqPhnfHR6gkqeujoXyQBoKUIXLG9wV90jyUgKwX3e4qCddxZ1DysA
+         1yTg==
+X-Gm-Message-State: AOJu0YxyFuvf8XXw386WwMDkYNZ5lz0PqjMYzd3NyMylwutLMccu/18J
+        SANv4eIWvP3EVdzeiePpidRARA==
+X-Google-Smtp-Source: AGHT+IF9/GeW581UAr9N/tYBG4MpUKg3lZZswuTJjzX9kHgNxMQY4rk20R8BKOaIH9/L9F4V8Y44rA==
+X-Received: by 2002:a05:6358:7204:b0:133:4ce:4e8c with SMTP id h4-20020a056358720400b0013304ce4e8cmr17340586rwa.29.1696307067412;
+        Mon, 02 Oct 2023 21:24:27 -0700 (PDT)
 Received: from dread.disaster.area (pa49-180-20-59.pa.nsw.optusnet.com.au. [49.180.20.59])
-        by smtp.gmail.com with ESMTPSA id v22-20020aa78516000000b0068fde95aa93sm244484pfn.135.2023.10.02.20.32.18
+        by smtp.gmail.com with ESMTPSA id r25-20020aa78b99000000b006933f657db3sm320573pfd.21.2023.10.02.21.24.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Oct 2023 20:32:18 -0700 (PDT)
+        Mon, 02 Oct 2023 21:24:26 -0700 (PDT)
 Received: from dave by dread.disaster.area with local (Exim 4.96)
         (envelope-from <david@fromorbit.com>)
-        id 1qnW8u-008jvm-0S;
-        Tue, 03 Oct 2023 14:32:16 +1100
-Date:   Tue, 3 Oct 2023 14:32:16 +1100
+        id 1qnWxL-008kjp-29;
+        Tue, 03 Oct 2023 15:24:23 +1100
+Date:   Tue, 3 Oct 2023 15:24:23 +1100
 From:   Dave Chinner <david@fromorbit.com>
 To:     John Garry <john.g.garry@oracle.com>
 Cc:     axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
@@ -63,180 +63,249 @@ Cc:     axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
         linux-nvme@lists.infradead.org, linux-xfs@vger.kernel.org,
         linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
         linux-api@vger.kernel.org
-Subject: Re: [PATCH 15/21] fs: xfs: Support atomic write for statx
-Message-ID: <ZRuLQKKPCzyUZtC9@dread.disaster.area>
+Subject: Re: [PATCH 16/21] fs: iomap: Atomic write support
+Message-ID: <ZRuXd/iG1kyeFQDh@dread.disaster.area>
 References: <20230929102726.2985188-1-john.g.garry@oracle.com>
- <20230929102726.2985188-16-john.g.garry@oracle.com>
+ <20230929102726.2985188-17-john.g.garry@oracle.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230929102726.2985188-16-john.g.garry@oracle.com>
+In-Reply-To: <20230929102726.2985188-17-john.g.garry@oracle.com>
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Sep 29, 2023 at 10:27:20AM +0000, John Garry wrote:
-> Support providing info on atomic write unit min and max for an inode.
+On Fri, Sep 29, 2023 at 10:27:21AM +0000, John Garry wrote:
+> Add flag IOMAP_ATOMIC_WRITE to indicate to the FS that an atomic write
+> bio is being created and all the rules there need to be followed.
 > 
-> For simplicity, currently we limit the min at the FS block size, but a
-> lower limit could be supported in future.
-> 
-> The atomic write unit min and max is limited by the guaranteed extent
-> alignment for the inode.
+> It is the task of the FS iomap iter callbacks to ensure that the mapping
+> created adheres to those rules, like size is power-of-2, is at a
+> naturally-aligned offset, etc.
+
+The mapping being returned by the filesystem can span a much greater
+range than the actual IO needs - the iomap itself is not guaranteed
+to be aligned to anything in particular, but the IO location within
+that map can still conform to atomic IO constraints. See how
+iomap_sector() calculates the actual LBA address of the IO from
+the iomap and the current file position the IO is being done at.
+
+hence I think saying "the filesysetm should make sure all IO
+alignment adheres to atomic IO rules is probably wrong. The iomap
+layer doesn't care what the filesystem does, all it cares about is
+whether the IO can be done given the extent map that was returned to
+it.
+
+Indeed, iomap_dio_bio_iter() is doing all these alignment checks for
+normal DIO reads and writes which must be logical block sized
+aligned. i.e. this check:
+
+        if ((pos | length) & (bdev_logical_block_size(iomap->bdev) - 1) ||
+            !bdev_iter_is_aligned(iomap->bdev, dio->submit.iter))
+                return -EINVAL;
+
+Hence I think that atomic IO units, which are similarly defined by
+the bdev, should be checked at the iomap layer, too. e.g, by
+following up with:
+
+	if ((dio->iocb->ki_flags & IOCB_ATOMIC) &&
+	    ((pos | length) & (bdev_atomic_unit_min(iomap->bdev) - 1) ||
+	     !bdev_iter_is_atomic_aligned(iomap->bdev, dio->submit.iter))
+		return -EINVAL;
+
+At this point, filesystems don't really need to know anything about
+atomic IO - if they've allocated a large contiguous extent (e.g. via
+fallocate()), then RWF_ATOMIC will just work for the cases where the
+block device supports it...
+
+This then means that stuff like XFS extent size hints only need to
+check when the hint is set that it is aligned to the underlying
+device atomic IO constraints. Then when it sees the IOMAP_ATOMIC
+modifier, it can fail allocation if it can't get extent size hint
+aligned allocation.
+
+IOWs, I'm starting to think this doesn't need any change to the
+on-disk format for XFS - it can be driven entirely through two
+dynamic mechanisms:
+
+1. (IOMAP_WRITE | IOMAP_ATOMIC) requests from the direct IO layer
+which causes mapping/allocation to fail if it can't allocate (or
+map) atomic IO compatible extents for the IO.
+
+2. FALLOC_FL_ATOMIC preallocation flag modifier to tell fallocate()
+to force alignment of all preallocated extents to atomic IO
+constraints.
+
+This doesn't require extent size hints at all. The filesystem can
+query the bdev at mount time, store the min/max atomic write sizes,
+and then use them for all requests that have _ATOMIC modifiers set
+on them.
+
+With iomap doing the same "get the atomic constraints from the bdev"
+style lookups for per-IO file offset and size checking, I don't
+think we actually need extent size hints or an on-disk flag to force
+extent size hint alignment.
+
+That doesn't mean extent size hints can't be used - it just means
+that extent size hints have to be constrained to being aligned to
+atomic IOs (e.g. extent size hint must be an integer multiple of the
+max atomic IO size). This then acts as a modifier for _ATOMIC
+context allocations, much like it is a modifier for normal
+allocations now.
+
+> In iomap_dio_bio_iter(), ensure that for a non-dsync iocb that the mapping
+> is not dirty nor unmapped.
+>
+> A write should only produce a single bio, so error when it doesn't.
+
+I comment on both these things below.
+
 > 
 > Signed-off-by: John Garry <john.g.garry@oracle.com>
 > ---
->  fs/xfs/xfs_iops.c | 51 +++++++++++++++++++++++++++++++++++++++++++++++
->  fs/xfs/xfs_iops.h |  4 ++++
->  2 files changed, 55 insertions(+)
+>  fs/iomap/direct-io.c  | 26 ++++++++++++++++++++++++--
+>  fs/iomap/trace.h      |  3 ++-
+>  include/linux/iomap.h |  1 +
+>  3 files changed, 27 insertions(+), 3 deletions(-)
 > 
-> diff --git a/fs/xfs/xfs_iops.c b/fs/xfs/xfs_iops.c
-> index 1c1e6171209d..5bff80748223 100644
-> --- a/fs/xfs/xfs_iops.c
-> +++ b/fs/xfs/xfs_iops.c
-> @@ -546,6 +546,46 @@ xfs_stat_blksize(
->  	return PAGE_SIZE;
->  }
+> diff --git a/fs/iomap/direct-io.c b/fs/iomap/direct-io.c
+> index bcd3f8cf5ea4..6ef25e26f1a1 100644
+> --- a/fs/iomap/direct-io.c
+> +++ b/fs/iomap/direct-io.c
+> @@ -275,10 +275,11 @@ static inline blk_opf_t iomap_dio_bio_opflags(struct iomap_dio *dio,
+>  static loff_t iomap_dio_bio_iter(const struct iomap_iter *iter,
+>  		struct iomap_dio *dio)
+>  {
+> +	bool atomic_write = iter->flags & IOMAP_ATOMIC_WRITE;
+>  	const struct iomap *iomap = &iter->iomap;
+>  	struct inode *inode = iter->inode;
+>  	unsigned int fs_block_size = i_blocksize(inode), pad;
+> -	loff_t length = iomap_length(iter);
+> +	const loff_t length = iomap_length(iter);
+>  	loff_t pos = iter->pos;
+>  	blk_opf_t bio_opf;
+>  	struct bio *bio;
+> @@ -292,6 +293,13 @@ static loff_t iomap_dio_bio_iter(const struct iomap_iter *iter,
+>  	    !bdev_iter_is_aligned(iomap->bdev, dio->submit.iter))
+>  		return -EINVAL;
 >  
-> +void xfs_ip_atomic_write_attr(struct xfs_inode *ip,
-> +			xfs_filblks_t *unit_min_fsb,
-> +			xfs_filblks_t *unit_max_fsb)
-
-Formatting.
-
-Also, we don't use variable name shorthand for function names -
-xfs_get_atomic_write_hint(ip) to match xfs_get_extsz_hint(ip)
-would be appropriate, right?
-
-
-
-> +{
-> +	xfs_extlen_t		extsz_hint = xfs_get_extsz_hint(ip);
-> +	struct xfs_buftarg	*target = xfs_inode_buftarg(ip);
-> +	struct block_device	*bdev = target->bt_bdev;
-> +	struct xfs_mount	*mp = ip->i_mount;
-> +	xfs_filblks_t		atomic_write_unit_min,
-> +				atomic_write_unit_max,
-> +				align;
-> +
-> +	atomic_write_unit_min = XFS_B_TO_FSB(mp,
-> +		queue_atomic_write_unit_min_bytes(bdev->bd_queue));
-> +	atomic_write_unit_max = XFS_B_TO_FSB(mp,
-> +		queue_atomic_write_unit_max_bytes(bdev->bd_queue));
-
-These should be set in the buftarg at mount time, like we do with
-sector size masks. Then we don't need to convert them to fsbs on
-every single lookup.
-
-> +	/* for RT, unset extsize gives hint of 1 */
-> +	/* for !RT, unset extsize gives hint of 0 */
-> +	if (extsz_hint && (XFS_IS_REALTIME_INODE(ip) ||
-> +	    (ip->i_diflags2 & XFS_DIFLAG2_FORCEALIGN)))
-
-Logic is non-obvious. The compound is (rt || force), not
-(extsz && rt), so it took me a while to actually realise I read this
-incorrectly.
-
-	if (extsz_hint &&
-	    (XFS_IS_REALTIME_INODE(ip) ||
-	     (ip->i_diflags2 & XFS_DIFLAG2_FORCEALIGN))) {
-
-> +		align = extsz_hint;
-> +	else
-> +		align = 1;
-
-And now the logic looks wrong to me. We don't want to use extsz hint
-for RT inodes if force align is not set, this will always use it
-regardless of the fact it has nothing to do with force alignment.
-
-Indeed, if XFS_DIFLAG2_FORCEALIGN is not set, then shouldn't this
-always return min/max = 0 because atomic alignments are not in us on
-this inode?
-
-i.e. the first thing this code should do is:
-
-	*unit_min_fsb = 0;
-	*unit_max_fsb = 0;
-	if (!(ip->i_diflags2 & XFS_DIFLAG2_FORCEALIGN))
-		return;
-
-Then we can check device support:
-
-	if (!buftarg->bt_atomic_write_max)
-		return;
-
-Then we can check for extent size hints. If that's not set:
-
-	align = xfs_get_extsz_hint(ip);
-	if (align <= 1) {
-		unit_min_fsb = 1;
-		unit_max_fsb = 1;
-		return;
-	}
-
-And finally, if there is an extent size hint, we can return that.
-
-> +	if (atomic_write_unit_max == 0) {
-> +		*unit_min_fsb = 0;
-> +		*unit_max_fsb = 0;
-> +	} else if (atomic_write_unit_min == 0) {
-> +		*unit_min_fsb = 1;
-> +		*unit_max_fsb = min_t(xfs_filblks_t, atomic_write_unit_max,
-> +					align);
-
-Why is it valid for a device to have a zero minimum size? If it can
-set a maximum, it should -always- set a minimum size as logical
-sector size is a valid lower bound, yes?
-
-> +	} else {
-> +		*unit_min_fsb = min_t(xfs_filblks_t, atomic_write_unit_min,
-> +					align);
-> +		*unit_max_fsb = min_t(xfs_filblks_t, atomic_write_unit_max,
-> +					align);
+> +	if (atomic_write && !iocb_is_dsync(dio->iocb)) {
+> +		if (iomap->flags & IOMAP_F_DIRTY)
+> +			return -EIO;
+> +		if (iomap->type != IOMAP_MAPPED)
+> +			return -EIO;
 > +	}
 
-Nothing here guarantees the power-of-2 sizes that the RWF_ATOMIC
-user interface requires....
+How do we get here without space having been allocated for the
+write?
 
-It also doesn't check that the extent size hint is aligned with
-atomic write units.
+Perhaps what this is trying to do is make RWF_ATOMIC only be valid
+into written space? I mean, this will fail with preallocated space
+(IOMAP_UNWRITTEN) even though we still have exactly the RWF_ATOMIC
+all-or-nothing behaviour guaranteed after a crash because of journal
+recovery behaviour. i.e. if the unwritten conversion gets written to
+the journal, the data will be there. If it isn't written to the
+journal, then the space remains unwritten and there's no data across
+that entire range....
 
-It also doesn't check either against stripe unit alignment....
+So I'm not really sure that either of these checks are valid or why
+they are actually needed....
 
-> +}
 > +
->  STATIC int
->  xfs_vn_getattr(
->  	struct mnt_idmap	*idmap,
-> @@ -614,6 +654,17 @@ xfs_vn_getattr(
->  			stat->dio_mem_align = bdev_dma_alignment(bdev) + 1;
->  			stat->dio_offset_align = bdev_logical_block_size(bdev);
+>  	if (iomap->type == IOMAP_UNWRITTEN) {
+>  		dio->flags |= IOMAP_DIO_UNWRITTEN;
+>  		need_zeroout = true;
+> @@ -381,6 +389,9 @@ static loff_t iomap_dio_bio_iter(const struct iomap_iter *iter,
+>  					  GFP_KERNEL);
+>  		bio->bi_iter.bi_sector = iomap_sector(iomap, pos);
+>  		bio->bi_ioprio = dio->iocb->ki_ioprio;
+> +		if (atomic_write)
+> +			bio->bi_opf |= REQ_ATOMIC;
+> +
+>  		bio->bi_private = dio;
+>  		bio->bi_end_io = iomap_dio_bio_end_io;
+>  
+> @@ -397,6 +408,12 @@ static loff_t iomap_dio_bio_iter(const struct iomap_iter *iter,
 >  		}
-> +		if (request_mask & STATX_WRITE_ATOMIC) {
-> +			xfs_filblks_t unit_min_fsb, unit_max_fsb;
+>  
+>  		n = bio->bi_iter.bi_size;
+> +		if (atomic_write && n != length) {
+> +			/* This bio should have covered the complete length */
+> +			ret = -EINVAL;
+> +			bio_put(bio);
+> +			goto out;
+
+Why? The actual bio can be any length that meets the aligned
+criteria between min and max, yes? So it's valid to split a
+RWF_ATOMIC write request up into multiple min unit sized bios, is it
+not? I mean, that's the whole point of the min/max unit setup, isn't
+it? That the max sized write only guarantees that it will tear at
+min unit boundaries, not within those min unit boundaries? If
+I've understood this correctly, then why does this "single bio for
+large atomic write" constraint need to exist?
+
+
+> +		}
+>  		if (dio->flags & IOMAP_DIO_WRITE) {
+>  			task_io_account_write(n);
+>  		} else {
+> @@ -554,6 +571,8 @@ __iomap_dio_rw(struct kiocb *iocb, struct iov_iter *iter,
+>  	struct blk_plug plug;
+>  	struct iomap_dio *dio;
+>  	loff_t ret = 0;
+> +	bool is_read = iov_iter_rw(iter) == READ;
+> +	bool atomic_write = (iocb->ki_flags & IOCB_ATOMIC) && !is_read;
+
+This does not need to be done here, because....
+
+>  
+>  	trace_iomap_dio_rw_begin(iocb, iter, dio_flags, done_before);
+>  
+> @@ -579,7 +598,7 @@ __iomap_dio_rw(struct kiocb *iocb, struct iov_iter *iter,
+>  	if (iocb->ki_flags & IOCB_NOWAIT)
+>  		iomi.flags |= IOMAP_NOWAIT;
+>  
+> -	if (iov_iter_rw(iter) == READ) {
+> +	if (is_read) {
+>  		/* reads can always complete inline */
+>  		dio->flags |= IOMAP_DIO_INLINE_COMP;
+>  
+> @@ -605,6 +624,9 @@ __iomap_dio_rw(struct kiocb *iocb, struct iov_iter *iter,
+>  		if (iocb->ki_flags & IOCB_DIO_CALLER_COMP)
+>  			dio->flags |= IOMAP_DIO_CALLER_COMP;
+>  
+> +		if (atomic_write)
+> +			iomi.flags |= IOMAP_ATOMIC_WRITE;
+
+.... it is only checked once in the write path, so
+
+		if (iocb->ki_flags & IOCB_ATOMIC)
+			iomi.flags |= IOMAP_ATOMIC;
+
 > +
-> +			xfs_ip_atomic_write_attr(ip, &unit_min_fsb,
-> +				&unit_max_fsb);
-> +			stat->atomic_write_unit_min = XFS_FSB_TO_B(mp, unit_min_fsb);
-> +			stat->atomic_write_unit_max = XFS_FSB_TO_B(mp, unit_max_fsb);
+>  		if (dio_flags & IOMAP_DIO_OVERWRITE_ONLY) {
+>  			ret = -EAGAIN;
+>  			if (iomi.pos >= dio->i_size ||
+> diff --git a/fs/iomap/trace.h b/fs/iomap/trace.h
+> index c16fd55f5595..f9932733c180 100644
+> --- a/fs/iomap/trace.h
+> +++ b/fs/iomap/trace.h
+> @@ -98,7 +98,8 @@ DEFINE_RANGE_EVENT(iomap_dio_rw_queued);
+>  	{ IOMAP_REPORT,		"REPORT" }, \
+>  	{ IOMAP_FAULT,		"FAULT" }, \
+>  	{ IOMAP_DIRECT,		"DIRECT" }, \
+> -	{ IOMAP_NOWAIT,		"NOWAIT" }
+> +	{ IOMAP_NOWAIT,		"NOWAIT" }, \
+> +	{ IOMAP_ATOMIC_WRITE,	"ATOMIC" }
 
-That's just nasty. We pull byte units from the bdev, convert them to
-fsb to round them, then convert them back to byte counts. We should
-be doing all the work in one set of units....
-
-> +			stat->attributes |= STATX_ATTR_WRITE_ATOMIC;
-> +			stat->attributes_mask |= STATX_ATTR_WRITE_ATOMIC;
-> +			stat->result_mask |= STATX_WRITE_ATOMIC;
-
-If the min/max are zero, then atomic writes are not supported on
-this inode, right? Why would we set any of the attributes or result
-mask to say it is supported on this file?
-
+We already have an IOMAP_WRITE flag, so IOMAP_ATOMIC is the modifier
+for the write IO behaviour (like NOWAIT), not a replacement write
+flag.
 
 -Dave.
 -- 
