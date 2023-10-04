@@ -2,169 +2,99 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C2DA7B8D81
-	for <lists+linux-api@lfdr.de>; Wed,  4 Oct 2023 21:37:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E1CB27B8E66
+	for <lists+linux-api@lfdr.de>; Wed,  4 Oct 2023 23:01:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243752AbjJDTiA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 4 Oct 2023 15:38:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54220 "EHLO
+        id S233848AbjJDVBF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 4 Oct 2023 17:01:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40034 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233505AbjJDTiA (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 4 Oct 2023 15:38:00 -0400
-Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC4AFAD
-        for <linux-api@vger.kernel.org>; Wed,  4 Oct 2023 12:37:55 -0700 (PDT)
-Received: by mail-yb1-xb2e.google.com with SMTP id 3f1490d57ef6-d8162698f0dso266971276.0
-        for <linux-api@vger.kernel.org>; Wed, 04 Oct 2023 12:37:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1696448275; x=1697053075; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mQGn2Phe0RwYW5SGubGGOv+c/hAGSSs2LrA09w+wOG8=;
-        b=TilTgkhZouIPuv7GuwoG4+G6t7andK6GaOW7wftIFaIREBfgJYPJjkN6KSK+Avay1v
-         okj2r3PfUPtWwxcVfYzuc5MIEkhfTszqWOo4sILSQ+TwvnDqz3vm/FRq/pTgPApIJcuR
-         xeu8lYuf4TL5C3DOHXnWsxMwLmJ8NFRWzBd9dMgzmLbzx2UVGMEkHFAy7LdbgWhwznu9
-         q4MPPTMc+XkAxik+CKCeMKAMl6Ppmmh6L4Fb2iaAJqVXH69Q8w9yDfPkAQh5pDn7RGoo
-         QKUSyOL5Kit6+OQz+MneFcrB66bi0fLGTNflIfkoKvSCaS7dbthDD6qpSpwI/e+ED9en
-         /4fg==
+        with ESMTP id S233577AbjJDVBE (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 4 Oct 2023 17:01:04 -0400
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BAD89E;
+        Wed,  4 Oct 2023 14:01:01 -0700 (PDT)
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-69101d33315so204680b3a.3;
+        Wed, 04 Oct 2023 14:01:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696448275; x=1697053075;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mQGn2Phe0RwYW5SGubGGOv+c/hAGSSs2LrA09w+wOG8=;
-        b=ZRMdcc0VB92Jn3+9zoTtF49BZ6R9TTG4sUgtwQyIwq/6gBxS7KfVC4/zfL7DbYfLnf
-         5hgzNM3Yb/pk5A2guTcxQcKoFl3SV0lGT2ModyVJFMLazE8wfV/mqmwxZgfNfG+GjEWA
-         ara0SOZQbZ30gmuWAGSv7GmielVaFGHDDIUhldrh6fkqWQb/cxQDCXf0m28YiYwO7Z+8
-         xreVCwZOxQHbQYnh0+ZANdfJjgYahP62JW9VH+s0MEimLeMJlsOpawW4/K6G4HcV55sZ
-         uBJzkHQc6n5I12c9o/1bEn5GzSpzK6BC//AseyAiNsIRYE79+aC9U9E+fKkQ0F4HbA/R
-         yQdw==
-X-Gm-Message-State: AOJu0YyIYNBGyaL9sTHke64jzUYs3VrIgxPAewPILuvV5pedioH6ATjj
-        qxoPHZzh72fCtBHSNYPQ0LD81fbatRyUVbsxxnrz
-X-Google-Smtp-Source: AGHT+IF/30kkFHZBZjg3KbcOdEkEVasuK1il9LqueAt4mYRrIgMYFlqbwoL44JXav1232SSuhV3Vc5nqAWjjxjk5xw0=
-X-Received: by 2002:a05:6902:18c9:b0:d1a:955f:304d with SMTP id
- ck9-20020a05690218c900b00d1a955f304dmr3631465ybb.64.1696448274671; Wed, 04
- Oct 2023 12:37:54 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1696453261; x=1697058061;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MqWCjpGoPtGeBxPj6NXaJjfTI+0jdvkGwu/+8Rx4Pz4=;
+        b=LCtAqZbXV5EEBnFNAca0GPoeTLEa2hsqHrwR7Pls/FiUK7wc98ledPW4TKRH0pXfqH
+         uT8SIsiC2ayCfIGuiDpPeOtnoh/bVV6ig6sryt17Mrzyc9w6T+EKGQFAkSkIeyXKbmSP
+         RyxJM/kArK9xkwaZwjGwLym7OfguHOsGRMPDBhTpKtrZuQyU2U22kbO5KFQNaE7dA9HB
+         gOwS8YEK8/9/XD50PMCB86wqvtyBRLNZ1iT0mGNF4do0QPqGLqkmkEFTlI9VZkrCV6qS
+         D7SgUM9srYhxtWYfXDOIg+lG3y/rKt2Gk3JqJ3rJCDr/ZAJOdZW0E3UKSLsQMxKvibv4
+         HIfg==
+X-Gm-Message-State: AOJu0YxiLL41GZnvhwRwoh7lUo0woL0sDiAaOgWg1HdQV2S6PRkoCI/O
+        zzs61cbnOApW1NQbPUlT3rM=
+X-Google-Smtp-Source: AGHT+IEuGjzH8Kj7y4GInNBPROGHOmz2jLurje3529a8epyygBEeFbbe5C5V5No2qUQIED/PIYh8gA==
+X-Received: by 2002:a05:6a00:b84:b0:68f:ccea:8e14 with SMTP id g4-20020a056a000b8400b0068fccea8e14mr4137143pfj.32.1696453260897;
+        Wed, 04 Oct 2023 14:01:00 -0700 (PDT)
+Received: from ?IPV6:2620:15c:211:201:969d:167a:787c:a6c7? ([2620:15c:211:201:969d:167a:787c:a6c7])
+        by smtp.gmail.com with ESMTPSA id a24-20020aa78658000000b006934e7ceb79sm3657241pfo.32.2023.10.04.14.00.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 04 Oct 2023 14:01:00 -0700 (PDT)
+Message-ID: <45bc1c01-09c7-4c54-b305-f349d0d0e19b@acm.org>
+Date:   Wed, 4 Oct 2023 14:00:58 -0700
 MIME-Version: 1.0
-References: <20230928130147.564503-1-mszeredi@redhat.com> <20230928130147.564503-5-mszeredi@redhat.com>
-In-Reply-To: <20230928130147.564503-5-mszeredi@redhat.com>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Wed, 4 Oct 2023 15:37:43 -0400
-Message-ID: <CAHC9VhQD9r+Qf5Vz1XmxUdJJJO7HNTKdo8Ux=n+xkxr=JGFMrw@mail.gmail.com>
-Subject: Re: [PATCH v3 4/4] add listmount(2) syscall
-To:     Miklos Szeredi <mszeredi@redhat.com>
-Cc:     linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-man@vger.kernel.org,
-        linux-security-module@vger.kernel.org, Karel Zak <kzak@redhat.com>,
-        Ian Kent <raven@themaw.net>,
-        David Howells <dhowells@redhat.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <christian@brauner.io>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Matthew House <mattlloydhouse@gmail.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 01/21] block: Add atomic write operations to request_queue
+ limits
+Content-Language: en-US
+To:     "Martin K. Petersen" <martin.petersen@oracle.com>
+Cc:     John Garry <john.g.garry@oracle.com>, axboe@kernel.dk,
+        kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
+        jejb@linux.ibm.com, djwong@kernel.org, viro@zeniv.linux.org.uk,
+        brauner@kernel.org, chandan.babu@oracle.com, dchinner@redhat.com,
+        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-nvme@lists.infradead.org, linux-xfs@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
+        linux-api@vger.kernel.org,
+        Himanshu Madhani <himanshu.madhani@oracle.com>
+References: <20230929102726.2985188-1-john.g.garry@oracle.com>
+ <20230929102726.2985188-2-john.g.garry@oracle.com>
+ <7f031c7a-1830-4331-86f9-4d5fbca94b8a@acm.org>
+ <yq1bkdfrt8l.fsf@ca-mkp.ca.oracle.com>
+From:   Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <yq1bkdfrt8l.fsf@ca-mkp.ca.oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Sep 28, 2023 at 9:04=E2=80=AFAM Miklos Szeredi <mszeredi@redhat.com=
-> wrote:
->
-> Add way to query the children of a particular mount.  This is a more
-> flexible way to iterate the mount tree than having to parse the complete
-> /proc/self/mountinfo.
->
-> Lookup the mount by the new 64bit mount ID.  If a mount needs to be queri=
-ed
-> based on path, then statx(2) can be used to first query the mount ID
-> belonging to the path.
->
-> Return an array of new (64bit) mount ID's.  Without privileges only mount=
-s
-> are listed which are reachable from the task's root.
->
-> Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
-> ---
->  arch/x86/entry/syscalls/syscall_32.tbl |  1 +
->  arch/x86/entry/syscalls/syscall_64.tbl |  1 +
->  fs/namespace.c                         | 69 ++++++++++++++++++++++++++
->  include/linux/syscalls.h               |  3 ++
->  include/uapi/asm-generic/unistd.h      |  5 +-
->  include/uapi/linux/mount.h             |  3 ++
->  6 files changed, 81 insertions(+), 1 deletion(-)
+On 10/3/23 20:00, Martin K. Petersen wrote:
+> 
+> Bart,
+> 
+>>    also that there are no guarantees that the data written by an atomic
+>>    write will survive a power failure. See also the difference between
+>>    the NVMe parameters AWUN and AWUPF.
+> 
+> We only care about *PF. The *N variants were cut from the same cloth as
+> TRIM and UNMAP.
 
-...
+Hi Martin,
 
-> diff --git a/fs/namespace.c b/fs/namespace.c
-> index 3326ba2b2810..050e2d2af110 100644
-> --- a/fs/namespace.c
-> +++ b/fs/namespace.c
-> @@ -4970,6 +4970,75 @@ SYSCALL_DEFINE4(statmount, const struct __mount_ar=
-g __user *, req,
->         return ret;
->  }
->
-> +static long do_listmount(struct vfsmount *mnt, u64 __user *buf, size_t b=
-ufsize,
-> +                        const struct path *root, unsigned int flags)
-> +{
-> +       struct mount *r, *m =3D real_mount(mnt);
-> +       struct path rootmnt =3D {
-> +               .mnt =3D root->mnt,
-> +               .dentry =3D root->mnt->mnt_root
-> +       };
-> +       long ctr =3D 0;
-> +       bool reachable_only =3D true;
-> +       int err;
-> +
-> +       err =3D security_sb_statfs(mnt->mnt_root);
-> +       if (err)
-> +               return err;
-> +
-> +       if (flags & LISTMOUNT_UNREACHABLE) {
-> +               if (!capable(CAP_SYS_ADMIN))
-> +                       return -EPERM;
-> +               reachable_only =3D false;
-> +       }
-> +
-> +       if (reachable_only && !is_path_reachable(m, mnt->mnt_root, &rootm=
-nt))
-> +               return capable(CAP_SYS_ADMIN) ? 0 : -EPERM;
-> +
-> +       list_for_each_entry(r, &m->mnt_mounts, mnt_child) {
-> +               if (reachable_only &&
-> +                   !is_path_reachable(r, r->mnt.mnt_root, root))
-> +                       continue;
+Has the following approach been considered? RWF_ATOMIC only guarantees 
+atomicity. Persistence is not guaranteed without fsync() / fdatasync().
 
-I believe we would want to move the security_sb_statfs() call from
-above to down here; something like this I think ...
+I think this would be more friendly towards battery-powered devices
+(smartphones). On these devices it can be safe to skip fsync() / 
+fdatasync() if the battery level is high enough.
 
-  err =3D security_sb_statfs(r->mnt.mnt_root);
-  if (err)
-    /* if we can't access the mount, pretend it doesn't exist */
-    continue;
+Thanks,
 
-> +               if (ctr >=3D bufsize)
-> +                       return -EOVERFLOW;
-> +               if (put_user(r->mnt_id_unique, buf + ctr))
-> +                       return -EFAULT;
-> +               ctr++;
-> +               if (ctr < 0)
-> +                       return -ERANGE;
-> +       }
-> +       return ctr;
-> +}
+Bart.
 
---=20
-paul-moore.com
+
+
