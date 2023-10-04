@@ -2,116 +2,83 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F291F7B86A4
-	for <lists+linux-api@lfdr.de>; Wed,  4 Oct 2023 19:34:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 25F3B7B86B3
+	for <lists+linux-api@lfdr.de>; Wed,  4 Oct 2023 19:37:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243671AbjJDReV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 4 Oct 2023 13:34:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48526 "EHLO
+        id S233497AbjJDRhD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 4 Oct 2023 13:37:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233721AbjJDReU (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 4 Oct 2023 13:34:20 -0400
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA171A6;
-        Wed,  4 Oct 2023 10:34:16 -0700 (PDT)
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1c63164a2b6so9710405ad.0;
-        Wed, 04 Oct 2023 10:34:16 -0700 (PDT)
+        with ESMTP id S233502AbjJDRhC (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 4 Oct 2023 13:37:02 -0400
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8317A7;
+        Wed,  4 Oct 2023 10:36:58 -0700 (PDT)
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-690fe10b6a4so17504b3a.3;
+        Wed, 04 Oct 2023 10:36:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696440856; x=1697045656;
+        d=1e100.net; s=20230601; t=1696441018; x=1697045818;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=A+/9fMvIMylBk0tUbkGNvHwmLNtY7jK7qI7VPa1SYvo=;
-        b=kO0PWT5No7NlODxM63GhW7VUuyO89xEdHizAXlK+4KHh880crBurt3wcMndUKeqRTg
-         cwFuIZum5VQ11J9iIRMGoyE7VBadrFVYbGHI5HFJ5jRwjg/1PSjuFVitxe6osjG424ES
-         O1wo3WRSAr+hs0BGeakrA9EG/MOGp130rEEE7eraLidDqKBVK9PdZVBUlAPffJdtbwz3
-         r8W1MvCZ/XEZSdtBpRftKhaV7eMuW+IljlUYu4YWTuy+osXc1QhEuDD7Tvex9VoT6Tb/
-         yQj8TQlNY0w4eorwcS52ln4z57slUSuCM9yLZPKaaTUlMZCZrtBn515PscBtOgT2/ygR
-         etvQ==
-X-Gm-Message-State: AOJu0YxPlAE8R6YCYS2Nczjmk9A+QQz3ns7qdgRqyhu+NbRBnyrrljz7
-        r4PAv4lK056Xh8yhOi1shRQ=
-X-Google-Smtp-Source: AGHT+IG8R+DlyiiEVWC+68KptejH+cGLh+ypDyuFaNYiG/lvbHPG9T3lVvSCSBbHEXdRAJ132q1v4Q==
-X-Received: by 2002:a17:902:d4c4:b0:1c5:e207:836e with SMTP id o4-20020a170902d4c400b001c5e207836emr444422plg.26.1696440856149;
-        Wed, 04 Oct 2023 10:34:16 -0700 (PDT)
+        bh=g29tpi2UnIBTW31PgclWidtbuPMj8CfZn07mYSfvtsM=;
+        b=qQP4sdMIAAtgVfLmnYyVPRvyzkMAPFL61LG/c5KoWZHO8jacy0fIZqFss4YoRsaofY
+         3JzSkfekjL3WQISXO1VT1ZSlYRbS2F+uCEjDIieoLLE4PA7lV16NDDLza4JOgEEf47AJ
+         VUWO66nUXw0Mnn7ojwn+jGljiXSpIdVw1FDtxBX/V2bhj+AfMl4R6ZIh6wYzW3TouVaV
+         r4UyuIOfF8GZI5kcUa1RX3FljLzbBwZ1g48uL1JYj/IVAT9npSUKshhS6o8uR34+PEDw
+         vLAoaD9ozQF9+dYTjIqyIqkJp09X2hklcn+6s3ZJ/fNvlQNcfSO23fwn4RVNbktesuxd
+         8dJQ==
+X-Gm-Message-State: AOJu0YwGZJIjSipWcQFgODGPG5F+VTuZO+L1cYGXL4RQ7tcSRqseOgLw
+        4sdE7b2rfFhLrbG7ZkhFnRxSdiqlgaU=
+X-Google-Smtp-Source: AGHT+IHCZWk9ZETBxOJ3ukGft40tk77E0oF5ppNLkTAP7tZ8Pr+6WS3Df7g6DQ/xXKvdRG4aD6Q+bA==
+X-Received: by 2002:a05:6a20:7fa8:b0:159:c2d0:9fc6 with SMTP id d40-20020a056a207fa800b00159c2d09fc6mr3529835pzj.8.1696441018078;
+        Wed, 04 Oct 2023 10:36:58 -0700 (PDT)
 Received: from ?IPV6:2620:15c:211:201:969d:167a:787c:a6c7? ([2620:15c:211:201:969d:167a:787c:a6c7])
-        by smtp.gmail.com with ESMTPSA id i1-20020a17090332c100b001bbb25dd3a7sm3978166plr.187.2023.10.04.10.34.14
+        by smtp.gmail.com with ESMTPSA id n18-20020a62e512000000b0068ffd56f705sm3510725pff.118.2023.10.04.10.36.56
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Oct 2023 10:34:15 -0700 (PDT)
-Message-ID: <e6c7b33c-38ba-402b-abdc-b783d4402402@acm.org>
-Date:   Wed, 4 Oct 2023 10:34:13 -0700
+        Wed, 04 Oct 2023 10:36:57 -0700 (PDT)
+Message-ID: <bef7887b-6bf8-4863-b3b8-800df12f91e4@acm.org>
+Date:   Wed, 4 Oct 2023 10:36:55 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 10/21] block: Add fops atomic write support
+Subject: Re: [PATCH 2/4] readv.2: Document RWF_ATOMIC flag
 Content-Language: en-US
-To:     John Garry <john.g.garry@oracle.com>, axboe@kernel.dk,
-        kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
-        jejb@linux.ibm.com, martin.petersen@oracle.com, djwong@kernel.org,
-        viro@zeniv.linux.org.uk, brauner@kernel.org,
-        chandan.babu@oracle.com, dchinner@redhat.com
-Cc:     linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-nvme@lists.infradead.org, linux-xfs@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
+To:     John Garry <john.g.garry@oracle.com>, linux-kernel@vger.kernel.org,
         linux-api@vger.kernel.org
-References: <20230929102726.2985188-1-john.g.garry@oracle.com>
- <20230929102726.2985188-11-john.g.garry@oracle.com>
- <17ee1669-5830-4ead-888d-a6a4624b638a@acm.org>
- <5d26fa3b-ec34-bc39-ecfe-4616a04977ca@oracle.com>
- <b7a6f380-c6fa-45e0-b727-ba804c6684e4@acm.org>
- <1adeff8e-e2fe-7dc3-283e-4979f9bd6adc@oracle.com>
- <8e2f4aeb-e00e-453a-9658-b1c4ae352084@acm.org>
- <d981dea1-9851-6511-d101-22ea8d7fd31e@oracle.com>
+Cc:     martin.petersen@oracle.com, djwong@kernel.org, david@fromorbit.com,
+        himanshu.madhani@oracle.com
+References: <20230929093717.2972367-1-john.g.garry@oracle.com>
+ <20230929093717.2972367-3-john.g.garry@oracle.com>
+ <9ba10b14-931b-42db-b7c2-e6f9aa95e477@acm.org>
+ <dee45e9a-6a45-e949-2b46-1373fea8dcda@oracle.com>
 From:   Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <d981dea1-9851-6511-d101-22ea8d7fd31e@oracle.com>
+In-Reply-To: <dee45e9a-6a45-e949-2b46-1373fea8dcda@oracle.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 10/4/23 02:14, John Garry wrote:
-> On 03/10/2023 17:45, Bart Van Assche wrote:
->> On 10/3/23 01:37, John Garry wrote:
->>> I don't think that is_power_of_2(write length) is specific to XFS.
->>
->> I think this is specific to XFS. Can you show me the F2FS code that 
->> restricts the length of an atomic write to a power of two? I haven't 
->> found it. The only power-of-two check that I found in F2FS is the 
->> following (maybe I overlooked something):
->>
->> $ git grep -nH is_power fs/f2fs
->> fs/f2fs/super.c:3914:    if (!is_power_of_2(zone_sectors)) {
+On 10/4/23 01:47, John Garry wrote:
+> On 03/10/2023 20:25, Bart Van Assche wrote:
+>> Additionally, shouldn't it be documented what value will be stored in
+>> errno if the atomic write has been rejected?
 > 
-> Any usecases which we know of requires a power-of-2 block size.
-> 
-> Do you know of a requirement for other sizes? Or are you concerned that 
-> it is unnecessarily restrictive?
-> 
-> We have to deal with HW features like atomic write boundary and FS 
-> restrictions like extent and stripe alignment transparent, which are 
-> almost always powers-of-2, so naturally we would want to work with 
-> powers-of-2 for atomic write sizes.
-> 
-> The power-of-2 stuff could be dropped if that is what people want. 
-> However we still want to provide a set of rules to the user to make 
-> those HW and FS features mentioned transparent to the user.
+> So I was treating all atomic writes errors which don't follow the 
+> "rules" as low-level I/O errors, which is -EIO. However, yes, I can 
+> document this. Further to that, based on description of an error for 
+> O_DIRECT, which is to return -EINVAL for misaligned, I think that 
+> -EINVAL may be better for any atomic write rule violations. OK?
 
-Hi John,
-
-My concern is that the power-of-2 requirements are only needed for
-traditional filesystems and not for log-structured filesystems (BTRFS,
-F2FS, BCACHEFS).
-
-What I'd like to see is that each filesystem declares its atomic write
-requirements (in struct address_space_operations?) and that
-blkdev_atomic_write_valid() checks the filesystem-specific atomic write
-requirements.
+That sounds good to me.
 
 Thanks,
 
 Bart.
+
