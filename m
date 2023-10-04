@@ -2,345 +2,205 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E9817B762C
-	for <lists+linux-api@lfdr.de>; Wed,  4 Oct 2023 03:16:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B99877B76B8
+	for <lists+linux-api@lfdr.de>; Wed,  4 Oct 2023 04:54:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239448AbjJDBQd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 3 Oct 2023 21:16:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58268 "EHLO
+        id S240544AbjJDCyK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 3 Oct 2023 22:54:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239265AbjJDBQd (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 3 Oct 2023 21:16:33 -0400
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45BADB7
-        for <linux-api@vger.kernel.org>; Tue,  3 Oct 2023 18:16:28 -0700 (PDT)
-Received: by mail-pj1-x1031.google.com with SMTP id 98e67ed59e1d1-2773af0c5dbso1064643a91.1
-        for <linux-api@vger.kernel.org>; Tue, 03 Oct 2023 18:16:28 -0700 (PDT)
+        with ESMTP id S230447AbjJDCyK (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 3 Oct 2023 22:54:10 -0400
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FE3AAF;
+        Tue,  3 Oct 2023 19:54:07 -0700 (PDT)
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 393I51BD019574;
+        Wed, 4 Oct 2023 02:53:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=to : cc : subject :
+ from : message-id : references : date : in-reply-to : content-type :
+ mime-version; s=corp-2023-03-30;
+ bh=GvXY58FJLSzUsW2XC1ktG2icL+zEMrUBcXB4pT/Dt1A=;
+ b=KrX/qZHfcnYCtSpfJl4lIkLkDJapZwmWVNadmL+CoaAnD7yt+IabhTDD0o3nkVwqYgsG
+ SXoa1R/YglT8voPCrz08b/iAubF0BZaWZd9JQzrukxhyEFD72oX2KAqEux8vYcqMhDll
+ ZAJTpPSyzFRJskKQBzq3vpOQolocJgY0ASQ8WpuxLLzsUSgF8tGXnOV8LyIOgDMmAnRQ
+ rpJo0JJ8ocE2fgz19ESc6/+3kuysmaFHE50XwsufN6MNBua3UzX6NzexJ439Sf1p9h+Q
+ 9FtETFb7fAgnxQQ0JCedrPDhRbd/xj2aVOQRwRm34gJAj1SMSUykXPJHNFXZd7UiTkxR JQ== 
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3tebjbx0ys-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 04 Oct 2023 02:53:26 +0000
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+        by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 394107i0025740;
+        Wed, 4 Oct 2023 02:53:25 GMT
+Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2169.outbound.protection.outlook.com [104.47.57.169])
+        by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3tea4dbbuc-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 04 Oct 2023 02:53:25 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jHxBRQsWwHAb8C720u6I20FLryXT1kivuYszFf1XFYa7fM0Zi7UuiqRRtUzwnREPJ4kqWEMn4YU6T4x1L6P28mqK7mcVoolCuDkkJ2hFzgW+MYRl032XV2IIoIQ106OrD1eunAAXT+5X9lD+UUanEzHqBa2qetXP0PMm073XBI0l4Zq3prZ2cSIvW0Ckt0L5+mB3ljEisggvy4t4qTjHgoQKakMVs+GyX1yZRw/zy84Pq0lX/j3ePzCRVqyydj1UUkgbPuBIX8Q6Ml/PuWwGLsXA0DzW+IMif3fjSzVZ/TdttfWCCli0bLhBlkESC+hmvwp5LANq2lkD6QhwC9KDpQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GvXY58FJLSzUsW2XC1ktG2icL+zEMrUBcXB4pT/Dt1A=;
+ b=TMkwWm7JcuDnOSz4CDA8OHbVRZoI97fbUtlPAtPoBxocISPlVNZioIFtIFam6RVUZYYPl3GZxwDCUTIKtP8HxkyknD11tLG1uuMqU64+AQsnEXM/koq3H7NlAMUzGwS/d4uoYGhPKSw4/6eNZ0dwnEkEucs1OIgoHUWve+LMM5HnK0cy1RvhWYq/4BJ5yM4oEONm7h4UTDeCXruOR1j5tv4yTOHB/ulDNp9HdIY06ablMIo23A6yeQFv5Pa96EwmGhet1cZgrwu7UM6QewtcFuEaSqEsLrRlKJdl8iHgxIgCRD/RlCtl8T+Hy7bol1mq+FOfpZ3goO0DJciyFIfxnA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fromorbit-com.20230601.gappssmtp.com; s=20230601; t=1696382188; x=1696986988; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=27OUlXqVAY5pph8VgkHut5jt4z0+Lj/b+tomTvgAza4=;
-        b=QthoRRAX1baBx3h8rgX8Bw+0FWLigoJo7DUnxOe8B8MEIyrb06X5OX699/5nX02v3l
-         WS4jjFjnGXObRCM4vjeoiySxa7JNxnN0Cz9O/PRrI4U8CPpHbNkryhS/Dxr5+pYrm973
-         wA8j++f6kbITTUKETCGkYfbdu1ECHLJkTD/akDftkuLh6Gd4jRVnnbofGTK3vgP9q+vF
-         /TPXXWnvwVcT/g9H8LI7JdEUKncDZQUc80d1NU6ZHu+1FHNh0iosVf5btk+Nt77RGF96
-         qUUSrOrCmlAj1RsmykVACkKEGdByybTBtBPBTVQIhCcROLX6FWAXHkTBX79sqI/Th+S9
-         wpOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696382188; x=1696986988;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=27OUlXqVAY5pph8VgkHut5jt4z0+Lj/b+tomTvgAza4=;
-        b=Xln6zf7FRmI2bPSaOJ5FsED0CPyVLsQZ8Y9ei1/CSlMKGttDXfs5aU3yTOuHj2jEu0
-         mr3H5dCpl9KxRCQeiPPatxmLgJJnoq0iBX4VVbpjw2lVM6IBlW8KYRh8Z7mCQnjhoS73
-         Vvsx1LSzYNT/C9yMT6Ml2JZ21idY0UlrIN1tqr72m1djqzE/m4o8e9haeCtSxJeyU363
-         7YXqbzULoJLsZFN0WsTMgXCy4C50J7O7Hud7saEeGgyYB0/B+H0Va5zbFhHXPbqna/rT
-         P9TMaun7VJ5qy+fQ3mi3TmL1aFpbfpcVSD9etUr2NtkW1hcWf+Juom07N0fj9KM+St7Z
-         krbw==
-X-Gm-Message-State: AOJu0YzToGy0tCwEWoaOlprhCQRo4Jhx9ae96myBCsVJo0UG1ajTHzwR
-        OMUTG8a2wscTohmzJorCdToyEg==
-X-Google-Smtp-Source: AGHT+IGAZMmhmKfxlRSU/a8+EGUxGlR0SLNCds5QUJ8ZXzl8PknPnruiTA+IGWcxcfozw3Ji0pNl7Q==
-X-Received: by 2002:a17:90b:4ad2:b0:269:2682:11fb with SMTP id mh18-20020a17090b4ad200b00269268211fbmr964608pjb.8.1696382187364;
-        Tue, 03 Oct 2023 18:16:27 -0700 (PDT)
-Received: from dread.disaster.area (pa49-180-20-59.pa.nsw.optusnet.com.au. [49.180.20.59])
-        by smtp.gmail.com with ESMTPSA id x18-20020a17090aa39200b002609cadc56esm228044pjp.11.2023.10.03.18.16.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Oct 2023 18:16:26 -0700 (PDT)
-Received: from dave by dread.disaster.area with local (Exim 4.96)
-        (envelope-from <david@fromorbit.com>)
-        id 1qnqUx-0098Sr-2u;
-        Wed, 04 Oct 2023 12:16:23 +1100
-Date:   Wed, 4 Oct 2023 12:16:23 +1100
-From:   Dave Chinner <david@fromorbit.com>
-To:     "Darrick J. Wong" <djwong@kernel.org>
-Cc:     John Garry <john.g.garry@oracle.com>, axboe@kernel.dk,
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GvXY58FJLSzUsW2XC1ktG2icL+zEMrUBcXB4pT/Dt1A=;
+ b=nmfbUx4UwkyO+PddPFekqcim8bufG94BipMjRVdnasUF4xz/PStoGU+/RmofI4qZuRNzGlL+rXFYTEYm3FaSipHNROupf0zsXTDsEoStroj+HgIb0x77ciDYCoD09mDtQT2X/ApV+W9RVNhVz3F7ARcNJY01rIRvjY6LpGSccdU=
+Received: from PH0PR10MB4759.namprd10.prod.outlook.com (2603:10b6:510:3d::12)
+ by DM4PR10MB6232.namprd10.prod.outlook.com (2603:10b6:8:8f::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.21; Wed, 4 Oct
+ 2023 02:53:23 +0000
+Received: from PH0PR10MB4759.namprd10.prod.outlook.com
+ ([fe80::59f3:b30d:a592:36be]) by PH0PR10MB4759.namprd10.prod.outlook.com
+ ([fe80::59f3:b30d:a592:36be%7]) with mapi id 15.20.6813.017; Wed, 4 Oct 2023
+ 02:53:23 +0000
+To:     Bart Van Assche <bvanassche@acm.org>
+Cc:     "Martin K. Petersen" <martin.petersen@oracle.com>,
+        John Garry <john.g.garry@oracle.com>, axboe@kernel.dk,
         kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
-        jejb@linux.ibm.com, martin.petersen@oracle.com,
-        viro@zeniv.linux.org.uk, brauner@kernel.org,
-        chandan.babu@oracle.com, dchinner@redhat.com,
+        jejb@linux.ibm.com, djwong@kernel.org, viro@zeniv.linux.org.uk,
+        brauner@kernel.org, chandan.babu@oracle.com, dchinner@redhat.com,
         linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-nvme@lists.infradead.org, linux-xfs@vger.kernel.org,
         linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
         linux-api@vger.kernel.org
-Subject: Re: [PATCH 16/21] fs: iomap: Atomic write support
-Message-ID: <ZRy850C0sceCsf1k@dread.disaster.area>
+Subject: Re: [PATCH 10/21] block: Add fops atomic write support
+From:   "Martin K. Petersen" <martin.petersen@oracle.com>
+Organization: Oracle Corporation
+Message-ID: <yq1h6n7rume.fsf@ca-mkp.ca.oracle.com>
 References: <20230929102726.2985188-1-john.g.garry@oracle.com>
- <20230929102726.2985188-17-john.g.garry@oracle.com>
- <ZRuXd/iG1kyeFQDh@dread.disaster.area>
- <20231003164749.GH21298@frogsfrogsfrogs>
+        <20230929102726.2985188-11-john.g.garry@oracle.com>
+        <17ee1669-5830-4ead-888d-a6a4624b638a@acm.org>
+        <5d26fa3b-ec34-bc39-ecfe-4616a04977ca@oracle.com>
+        <b7a6f380-c6fa-45e0-b727-ba804c6684e4@acm.org>
+        <yq1lecktuoo.fsf@ca-mkp.ca.oracle.com>
+        <db6a950b-1308-4ca1-9f75-6275118bdcf5@acm.org>
+Date:   Tue, 03 Oct 2023 22:53:20 -0400
+In-Reply-To: <db6a950b-1308-4ca1-9f75-6275118bdcf5@acm.org> (Bart Van Assche's
+        message of "Tue, 3 Oct 2023 09:55:40 -0700")
+Content-Type: text/plain
+X-ClientProxiedBy: SJ0PR13CA0170.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c7::25) To PH0PR10MB4759.namprd10.prod.outlook.com
+ (2603:10b6:510:3d::12)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231003164749.GH21298@frogsfrogsfrogs>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR10MB4759:EE_|DM4PR10MB6232:EE_
+X-MS-Office365-Filtering-Correlation-Id: fdf58c7c-ba1a-43b1-c90b-08dbc48512c8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: WxGXz7xuoDJ/jv8C2IdhmnGiQDOlFpN00y/4zhB9N6Sb/cRU8vVwPLPoh19XmTTK94dzYXdUA6fvOgVJv84cq4WFVz9txvH71T8ndYHJWQL1FcjLyvS05VWdfCvXo4ooVJrF4H6PSchzedMuepv6zm45ajwIGS+B648/UGbFOB3EhTbbw/WtOgwvG6wPMD5A+9eD0HPISMKknAeFX59tKS+wsIM9LHu2X5Ogy6X3G5kscHhQfk0bA7NKUsQFYdWjQUFKCfoZjnOXr6r6V0q7zbWNjlCzJQZlN1mqzWmBOxpPF/bg+5XD2j9PHLzonrdCXd9lauwUQpYVx/2vtafWeHwIVO2+HlJADghZG9IKHv+5e7oNx16lfAz93NrJjNfpOf0j6PuFSolWk2U8XRZdKM1NtpOWIHAaM+r6dOl6PfcAYrt5L8rU7qQ3FviHpEx5gsRuqVP+jol4cGcfNCQA0g9eicPIVS1PaTfp8l4mcYVVX1LzbKuCo6vZtq7vuhGVqqNUEzDfYalaw10ZsBMz9sftxGi4yz4EVwf+rBcEF8EIOD/siuHAez8i5nuOfL4V
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB4759.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(396003)(39860400002)(376002)(136003)(366004)(230922051799003)(64100799003)(451199024)(186009)(1800799009)(7416002)(2906002)(86362001)(66946007)(36916002)(38100700002)(66556008)(54906003)(6916009)(316002)(41300700001)(6486002)(66476007)(6512007)(26005)(6506007)(8676002)(8936002)(4326008)(478600001)(5660300002)(83380400001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?8/Dj/aK8wSEFvenDLkvpCN0rt9+YbMvcPecY3rjQxdPF8odetjffcBat4oJp?=
+ =?us-ascii?Q?TfnJOcGgj+IYr7GvBfgxHsc7Q/FKn3GvfldBwRWSSJ5JxCXKEgMFxUCIuSHK?=
+ =?us-ascii?Q?7cYZUHd9Z9B4Hsb2wwEOCPbZt4+DofP5H0c9i5I9GdQ9nK1h1QEAIYc1mNwT?=
+ =?us-ascii?Q?8FrL59fUTkl6J4txIho3JOWw/XaMUqf9csOlqjevLpJNyd9wXawffmnkGf+h?=
+ =?us-ascii?Q?DrdDnAgAEGMGk+giqL7B932danyG5CBSU81VA3B9i81tJC8yTnlD53FgBtCA?=
+ =?us-ascii?Q?8L7D/DhKs7hMl9k7L0EAOT3aMRiKDO8rco5q7xV02zVEKbt2ZnWpfpT6Nmpu?=
+ =?us-ascii?Q?hAsJX958HjDfpb8FHubJT+iEefOQaV+R4j9cs2Bql4MoAWU45PbjbFcDO7ZX?=
+ =?us-ascii?Q?RNgY28mGcGipDD1JEXgxbOHYL7NZCOfJy5BjsyFdmKUksr7uvjsn3QTwqTPf?=
+ =?us-ascii?Q?J5CCQ0JME7l2M9SLEfElwCmeaevI1h2rtl3Zyd9eSHJl5jR6Qw/ZsB3Bytej?=
+ =?us-ascii?Q?r+BBO7+XdQZlqTyxVZ2RCBWqiGjP5oB9OhybcsEmfkBeq26QBb725P1Ds9Zs?=
+ =?us-ascii?Q?VhkHcT0GwS6rMWdoISJFrCX/DzFFWHvbrQgRaYx+D5338Gov4CUdRye+zNUf?=
+ =?us-ascii?Q?1iTt4yVyKymtlb9mFM6sOdJvttacLl4MQ3fwC4WQ7fp43vQGY41JgWhmzsRx?=
+ =?us-ascii?Q?ymhjT1nDq22mx8HPMdUee1zQXsiNUGbU4Pg5IN35P3fLbGUdFmc1LJtxnB3u?=
+ =?us-ascii?Q?i3x1cbkApZFk42T4U7tJ4zlaCUB+bTuoyeHQPYSV7Fc6C6s5wx7N35mp6VF3?=
+ =?us-ascii?Q?lAUGFgORFWwKSBHCDINu9FlIxzFCheki8Sqt2uG+zGHElsr3QOTl/X4kRhYW?=
+ =?us-ascii?Q?LVnd3+chRwL4NIHQeRvJPrGVvEdKI/VIFNtpmWIufEWPkVe0E6GJ5D09qnHS?=
+ =?us-ascii?Q?cK9rYrP0QsIwRHNCTZxkZyT8Otygvomn74wrp8Sa1NUMIYW4b+Pblk+mrqQq?=
+ =?us-ascii?Q?wHirViBRBT1d5F7fgOY+04jja2kq6eg1fZtsn7dTGsuPXuSWvrZtDYiP2NfS?=
+ =?us-ascii?Q?1NLqo4B3ZH6R2ddah7WBdwp2WP0U7+sEy5u5cLlD80loD38A3K6j+j1D47+C?=
+ =?us-ascii?Q?ya/sJuWEieYi5a2BOfxXP8IZRbfVv4bTApjSYy5s8vcE5bFcNv6CJuO3POCI?=
+ =?us-ascii?Q?e1MYXjsEMJ/gXIK5oXHKnTfGuBwTiMu/3cee8/Rl50t1VaMGfd9emRT9d/CF?=
+ =?us-ascii?Q?AhZXZ5UEb+gI25EhnrBTOqAqgXhFD00cTS4aTbH1p8sPNtJeLbuls3NCicxF?=
+ =?us-ascii?Q?dvZxnWn6Ih0sCkzsT58MqFRQdMJxdufhYZpSp0DxVBfVCXdzTb24Q3KEG0Gg?=
+ =?us-ascii?Q?RQygLx8eDXvtqPzkHoClljLUPcnEFfC4kxyy+Hay/I8ySNSB6x02hC+uuXrf?=
+ =?us-ascii?Q?PerkR5/OkJ9Vi8ogOleYG4mxFRIkRFlHEz5DRur19eESrsXP2QqGvrvZBaSI?=
+ =?us-ascii?Q?f+L5Nq3bFlCFEIA6827UTcFv6tXTLGMR9LYJBQR2PWVCNIUNASgCHPB+pGzs?=
+ =?us-ascii?Q?x9aS53xbTK5l1KJ4OvTRbr89SnQlOdygQtXJAfRRhBqTytA+9qv2fcLP2wXc?=
+ =?us-ascii?Q?hA=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: =?us-ascii?Q?g1LF1qQh1Ks48DR9GOxuuf/aqTy4Q4h5l6U1qlEgNUCvdfEJdcSmTYZZ+MX4?=
+ =?us-ascii?Q?U2iIidVmWPQUsL8EMux5YDmufW6LttXFy3gz8YDBFZOjlFRRlrTSOaBev7+5?=
+ =?us-ascii?Q?R5NHfyLrhc7iIUYRk7odGPWN+8Tt/YY492fv6JwE7pHFsJn/4h4mg0Xe0f96?=
+ =?us-ascii?Q?UpJGCe0mPuGF6wquZHyWSsQEI+NSFvszLGbZaIK50Rem6y0x5xptjY6kyuV2?=
+ =?us-ascii?Q?Fv3l3nF601cKbyrPGBMf6kYIQ35kAdacH2jQiLAL4QibVVIIg3xDsiqIlg48?=
+ =?us-ascii?Q?QymwMH8NA9v4T5pbSEekQWLVeqM0kcJr5O44R7nYAh1/CCUdCA+DcCy8X65O?=
+ =?us-ascii?Q?KlSZoSmvz2fHSD1WAK0pBwH6O0RNSqiPyTLSaeFmPkMdp4h3wIJe4FYfvZxe?=
+ =?us-ascii?Q?yepE7jpXYUmjTGfIjKTrQaSiOrl5HkVQSYa7OTCHrswusYeZ55e15nlLM31x?=
+ =?us-ascii?Q?zsHdkhkWWTJCtDzZ4MxZw2jlDBd4pofeSy8SNj7nzTQrmwpK4R2cFRj84Kd3?=
+ =?us-ascii?Q?cDRDT0aXtlP8MF37X6SOEzU2jrAqLBdEiQgGRoKmMzrG8QwAL0yEW2vufqHQ?=
+ =?us-ascii?Q?ep4rrKqul13WUj0J6ZuS4jEA3Rn5dbqJB0XSKkjpjyFmMbBa5hjKmpGWd8Ej?=
+ =?us-ascii?Q?o00mt2KWvqdt4FTruUt6wuvZXT++k9if9fejO+l0w72Y1x1u9PuNvu1pTLQq?=
+ =?us-ascii?Q?8je7jgfRYcYfsZBy2zbsg213vY0j65iz9DalSTLhWMs6DbGRjYbrS5vPydpj?=
+ =?us-ascii?Q?yKUdJRMt9emASzaHKeXqxKZ1gA3B+/u6+5Q4IhtX0GOBrZAh/GHWIrHdULsC?=
+ =?us-ascii?Q?kZf+wpSNo13CNediJWp5Nz9m0TJvdwCUuyMlFynhn1+E7+EDUUizQ8+SQLAy?=
+ =?us-ascii?Q?KTep1t/7vOhiR53vJrDGohE/r5eoRD46imNudKH9sGVPwid10UirotZlWPE4?=
+ =?us-ascii?Q?Hnj/2aL4nPHGkydXuLbOh3GAtYZH3UxiRcXkiL45LQ1J8/oeFOAc1S13jNtc?=
+ =?us-ascii?Q?9Nl9TntNLAzN4T5/DCGC/QQrfW+oKIvAm9rUA9TeFwmG6rq8NCNVxdYmLh1r?=
+ =?us-ascii?Q?XpYPnWWGyJKS2duVL6sM3BHSh4RPhfO+w2G1SlvWt9ijlEvQfmg=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fdf58c7c-ba1a-43b1-c90b-08dbc48512c8
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4759.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Oct 2023 02:53:22.9308
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vY9djBJ0UKsLajIdzL0J2XRznG9RqJEFuKa36e0OxZsYMhOqTSPX5KM0tWu/89e+KZsueu1eYi2f0UPf5jQwQ+zSdpOG243CgzEq4qA7J18=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR10MB6232
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-04_01,2023-10-02_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 bulkscore=0 spamscore=0
+ mlxscore=0 malwarescore=0 phishscore=0 adultscore=0 mlxlogscore=983
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2309180000
+ definitions=main-2310040019
+X-Proofpoint-GUID: vML1Z2CDTyLtAnn1tpbr0NaSVTE6MrEY
+X-Proofpoint-ORIG-GUID: vML1Z2CDTyLtAnn1tpbr0NaSVTE6MrEY
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Oct 03, 2023 at 09:47:49AM -0700, Darrick J. Wong wrote:
-> On Tue, Oct 03, 2023 at 03:24:23PM +1100, Dave Chinner wrote:
-> > On Fri, Sep 29, 2023 at 10:27:21AM +0000, John Garry wrote:
-> > > Add flag IOMAP_ATOMIC_WRITE to indicate to the FS that an atomic write
-> > > bio is being created and all the rules there need to be followed.
-> > > 
-> > > It is the task of the FS iomap iter callbacks to ensure that the mapping
-> > > created adheres to those rules, like size is power-of-2, is at a
-> > > naturally-aligned offset, etc.
-> > 
-> > The mapping being returned by the filesystem can span a much greater
-> > range than the actual IO needs - the iomap itself is not guaranteed
-> > to be aligned to anything in particular, but the IO location within
-> > that map can still conform to atomic IO constraints. See how
-> > iomap_sector() calculates the actual LBA address of the IO from
-> > the iomap and the current file position the IO is being done at.
-> > 
-> > hence I think saying "the filesysetm should make sure all IO
-> > alignment adheres to atomic IO rules is probably wrong. The iomap
-> > layer doesn't care what the filesystem does, all it cares about is
-> > whether the IO can be done given the extent map that was returned to
-> > it.
-> > 
-> > Indeed, iomap_dio_bio_iter() is doing all these alignment checks for
-> > normal DIO reads and writes which must be logical block sized
-> > aligned. i.e. this check:
-> > 
-> >         if ((pos | length) & (bdev_logical_block_size(iomap->bdev) - 1) ||
-> >             !bdev_iter_is_aligned(iomap->bdev, dio->submit.iter))
-> >                 return -EINVAL;
-> > 
-> > Hence I think that atomic IO units, which are similarly defined by
-> > the bdev, should be checked at the iomap layer, too. e.g, by
-> > following up with:
-> > 
-> > 	if ((dio->iocb->ki_flags & IOCB_ATOMIC) &&
-> > 	    ((pos | length) & (bdev_atomic_unit_min(iomap->bdev) - 1) ||
-> > 	     !bdev_iter_is_atomic_aligned(iomap->bdev, dio->submit.iter))
-> > 		return -EINVAL;
-> > 
-> > At this point, filesystems don't really need to know anything about
-> > atomic IO - if they've allocated a large contiguous extent (e.g. via
-> > fallocate()), then RWF_ATOMIC will just work for the cases where the
-> > block device supports it...
-> > 
-> > This then means that stuff like XFS extent size hints only need to
-> > check when the hint is set that it is aligned to the underlying
-> > device atomic IO constraints. Then when it sees the IOMAP_ATOMIC
-> > modifier, it can fail allocation if it can't get extent size hint
-> > aligned allocation.
-> > 
-> > IOWs, I'm starting to think this doesn't need any change to the
-> > on-disk format for XFS - it can be driven entirely through two
-> > dynamic mechanisms:
-> > 
-> > 1. (IOMAP_WRITE | IOMAP_ATOMIC) requests from the direct IO layer
-> > which causes mapping/allocation to fail if it can't allocate (or
-> > map) atomic IO compatible extents for the IO.
-> > 
-> > 2. FALLOC_FL_ATOMIC preallocation flag modifier to tell fallocate()
-> > to force alignment of all preallocated extents to atomic IO
-> > constraints.
-> 
-> Ugh, let's not relitigate problems that you (Dave) and I have already
-> solved.
-> 
-> Back in 2018, our internal proto-users of pmem asked for aligned
-> allocations so they could use PMD mappings to reduce TLB pressure.  At
-> the time, you and I talked on IRC about whether that should be done via
-> fallocate flag or setting extszinherit+sunit at mkfs time.  We decided
-> against adding fallocate flags because linux-api bikeshed hell.
 
-Ok, but I don't see how I'm supposed to correlate a discussion from
-5 years ago on a different topic with this one. I can only comment
-on what I see in front of me. And what is in front of me is
-something that doesn't need on-disk changes to implement....
+Bart,
 
-> Ever since, we've been shipping UEK with a mkfs.xmem scripts that
-> automates computing the mkfs.xfs geometry CLI options.  It works,
-> mostly, except for the unaligned allocations that one gets when the free
-> space gets fragmented.  The xfsprogs side of the forcealign patchset
-> moves most of the mkfs.xmem cli option setting logic into mkfs itself,
-> and the kernel side shuts off the lowspace allocator to fix the
-> fragmentation problem.
-> 
-> I'd rather fix the remaining quirks and not reinvent solved solutions,
-> as popular as that is in programming circles.
-> 
-> Why is mandatory allocation alignment for atomic writes different?
-> Forcealign solves the problem for NVME/SCSI AWU and pmem PMD in the same
-> way with the same control knobs for sysadmins.  I don't want to have
-> totally separate playbooks for accomplishing nearly the same things.
+> I'm still wondering whether we really should support storage devices
+> that report an ATOMIC TRANSFER LENGTH GRANULARITY that is larger than
+> the logical block size.
 
-Which is fair enough, but that's not the context under which this
-has been presented.
+We should. The common case is that the device reports an ATOMIC TRANSFER
+LENGTH GRANULARITY matching the reported physical block size. I.e. a
+logical block size of 512 bytes and a physical block size of 4KB. In
+that scenario a write of a single logical block would require
+read-modify-write of a physical block.
 
-Can we please get the forced-align stuff separated from atomic write
-support - the atomic write requirements completely overwhelms small
-amount of change needed to support physical file offset
-alignment....
+> Is my understanding correct that the NVMe specification makes it
+> mandatory to support single logical block atomic writes since the
+> smallest value that can be reported as the AWUN parameter is one
+> logical block because this parameter is a 0's based value? Is my
+> understanding correct that SCSI devices that report an ATOMIC TRANSFER
+> LENGTH GRANULARITY that is larger than the logical block size are not
+> able to support the NVMe protocol?
 
-> I don't like encoding hardware details in the fallocate uapi either.
-> That implies adding FALLOC_FL_HUGEPAGE for pmem, and possibly
-> FALLOC_FL_{SUNIT,SWIDTH} for users with RAIDs.
+That's correct. There are obviously things you can express in SCSI that
+you can't in NVMe. And the other way around. Our intent is to support
+both protocols.
 
-No, that's reading way too much into it. FALLOC_FL_ATOMIC would mean
-"ensure preallocation is valid for RWF_ATOMIC based IO contrainsts",
-nothing more, nothing less. This isn't -hardware specific-, it's
-simply a flag to tell the filesystem to align file offsets to
-physical storage constraints so the allocated space works works
-appropriately for a specific IO API.
-
-IOWs, it is little different from the FALLOC_FL_NOHIDE_STALE flag
-for modifying fallocate() behaviour...
-
-> > This doesn't require extent size hints at all. The filesystem can
-> > query the bdev at mount time, store the min/max atomic write sizes,
-> > and then use them for all requests that have _ATOMIC modifiers set
-> > on them.
-> > 
-> > With iomap doing the same "get the atomic constraints from the bdev"
-> > style lookups for per-IO file offset and size checking, I don't
-> > think we actually need extent size hints or an on-disk flag to force
-> > extent size hint alignment.
-> > 
-> > That doesn't mean extent size hints can't be used - it just means
-> > that extent size hints have to be constrained to being aligned to
-> > atomic IOs (e.g. extent size hint must be an integer multiple of the
-> > max atomic IO size). This then acts as a modifier for _ATOMIC
-> > context allocations, much like it is a modifier for normal
-> > allocations now.
-> 
-> (One behavior change that comes with FORCEALIGN is that without it,
-> extent size hints affect only the alignment of the file range mappings.
-> With FORCEALIGN, the space allocation itself *and* the mapping are
-> aligned.)
-> 
-> The one big downside of FORCEALIGN is that the extent size hint can
-> become misaligned with the AWU (or pagetable) geometry if the fs is
-> moved to a different computing environment.  I prefer not to couple the
-> interface to the hardware because that leaves open the possibility for
-> users to discover more use cases.
-
-Sure, but this isn't really a "forced" alignment. This is a feature
-that is providing "file offset is physically aligned to an
-underlying hardware address space" instead of doing the normal thing
-of abstracting file data away from the physical layout of the
-storage.
-
-If we can have user APIs that say "file data should be physically
-aligned to storage" then we don't need on-disk flags to implement
-this. Extent size hints could still be used to indicate the required
-alignment, but we could also pull it straight from the hardware if
-those aren't set. AFAICT only fallocate() and pwritev2() need these
-flags for IO, but we could add a fadvise() command to set it on a
-struct file, if mmap()/madvise is told to use hugepages we can use
-PMD alignment rather than storage hardware alignment, etc.
-
-IOWs actually having APIs that simply say "use physical offset
-alignment" without actually saying exactly which hardware alignment
-they want allows the filesystem to dynamically select the optimal
-alignment for the given application use case rather than requiring
-the admin to set up specific configuration at mkfs time....
-
-
-
-> > > 
-> > > Signed-off-by: John Garry <john.g.garry@oracle.com>
-> > > ---
-> > >  fs/iomap/direct-io.c  | 26 ++++++++++++++++++++++++--
-> > >  fs/iomap/trace.h      |  3 ++-
-> > >  include/linux/iomap.h |  1 +
-> > >  3 files changed, 27 insertions(+), 3 deletions(-)
-> > > 
-> > > diff --git a/fs/iomap/direct-io.c b/fs/iomap/direct-io.c
-> > > index bcd3f8cf5ea4..6ef25e26f1a1 100644
-> > > --- a/fs/iomap/direct-io.c
-> > > +++ b/fs/iomap/direct-io.c
-> > > @@ -275,10 +275,11 @@ static inline blk_opf_t iomap_dio_bio_opflags(struct iomap_dio *dio,
-> > >  static loff_t iomap_dio_bio_iter(const struct iomap_iter *iter,
-> > >  		struct iomap_dio *dio)
-> > >  {
-> > > +	bool atomic_write = iter->flags & IOMAP_ATOMIC_WRITE;
-> > >  	const struct iomap *iomap = &iter->iomap;
-> > >  	struct inode *inode = iter->inode;
-> > >  	unsigned int fs_block_size = i_blocksize(inode), pad;
-> > > -	loff_t length = iomap_length(iter);
-> > > +	const loff_t length = iomap_length(iter);
-> > >  	loff_t pos = iter->pos;
-> > >  	blk_opf_t bio_opf;
-> > >  	struct bio *bio;
-> > > @@ -292,6 +293,13 @@ static loff_t iomap_dio_bio_iter(const struct iomap_iter *iter,
-> > >  	    !bdev_iter_is_aligned(iomap->bdev, dio->submit.iter))
-> > >  		return -EINVAL;
-> > >  
-> > > +	if (atomic_write && !iocb_is_dsync(dio->iocb)) {
-> > > +		if (iomap->flags & IOMAP_F_DIRTY)
-> > > +			return -EIO;
-> > > +		if (iomap->type != IOMAP_MAPPED)
-> > > +			return -EIO;
-> > > +	}
-> > 
-> > How do we get here without space having been allocated for the
-> > write?
-> > 
-> > Perhaps what this is trying to do is make RWF_ATOMIC only be valid
-> > into written space? I mean, this will fail with preallocated space
-> > (IOMAP_UNWRITTEN) even though we still have exactly the RWF_ATOMIC
-> > all-or-nothing behaviour guaranteed after a crash because of journal
-> > recovery behaviour. i.e. if the unwritten conversion gets written to
-> > the journal, the data will be there. If it isn't written to the
-> > journal, then the space remains unwritten and there's no data across
-> > that entire range....
-> > 
-> > So I'm not really sure that either of these checks are valid or why
-> > they are actually needed....
-> 
-> This requires O_DSYNC (or RWF_DSYNC) for atomic writes to unwritten or
-> COW space.
-
-COW, maybe - I haven't thought that far through it. 
-
-However, for unwritten extents we just don't need O_DSYNC to
-guarantee all or nothing writes. The application still has to use
-fdatasync() to determine if the IO succeeded, but the actual IO and
-unwritten conversion transaction ordering guarantee the
-"all-or-nothing" behaviour of a RWF_ATOMIC write that is not using
-O_DSYNC.
-
-i.e.  It just doesn't matter when the conversion transaction hits
-the journal. If it doesn't hit the journal before the crash, the
-write never happened. If it does hit the journal, then the cache
-flush before the journal write ensures all the data from the
-RWF_ATOMIC write is present on disk before the unwritten conversion
-hits the journal.
-
-> We want failures in forcing the log transactions for the
-> endio processing to be reported to the pwrite caller as EIO, right?
-
-A failure to force the log will result in a filesystem shutdown. It
-doesn't matter if that happens during IO completion or sometime
-before or during the fdatasync() call the application would still
-need to use to guarantee data integrity.
-
-RWF_ATOMIC implies FUA semantics, right? i.e. if the RWF_ATOMIC
-write is a pure overwrite, there are no journal or cache flushes
-needed to complete the write. If so, batching up all the metadata
-updates between data integrity checkpoints can still make
-performance much better.  If the filesystem flushes the journal
-itself, it's no different from an application crash recovery
-perspective to using RWF_DSYNC|RWF_ATOMIC and failing in the middle
-of a multi-IO update....
-
-Hence I just don't see why RWF_ATOMIC requires O_DSYNC semantics at
-all; all RWF_ATOMIC provides is larger "non-tearing" IO granularity
-and this doesn't change filesystem data integrity semantics at all.
-
--Dave.
 -- 
-Dave Chinner
-david@fromorbit.com
+Martin K. Petersen	Oracle Linux Engineering
