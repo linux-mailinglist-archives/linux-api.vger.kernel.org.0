@@ -1,88 +1,75 @@
 Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5DE3F7B96CF
-	for <lists+linux-api@lfdr.de>; Thu,  5 Oct 2023 00:00:24 +0200 (CEST)
+Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
+	by mail.lfdr.de (Postfix) with ESMTP id 38C157B985E
+	for <lists+linux-api@lfdr.de>; Thu,  5 Oct 2023 00:49:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233829AbjJDWAG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 4 Oct 2023 18:00:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49128 "EHLO
+        id S236904AbjJDWsc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 4 Oct 2023 18:48:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233512AbjJDWAF (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 4 Oct 2023 18:00:05 -0400
-Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com [IPv6:2607:f8b0:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B448D9
-        for <linux-api@vger.kernel.org>; Wed,  4 Oct 2023 15:00:01 -0700 (PDT)
-Received: by mail-oi1-x22b.google.com with SMTP id 5614622812f47-3af65455e7fso222274b6e.3
-        for <linux-api@vger.kernel.org>; Wed, 04 Oct 2023 15:00:01 -0700 (PDT)
+        with ESMTP id S233822AbjJDWsb (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 4 Oct 2023 18:48:31 -0400
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 808D5C6
+        for <linux-api@vger.kernel.org>; Wed,  4 Oct 2023 15:48:28 -0700 (PDT)
+Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-68fb85afef4so281355b3a.1
+        for <linux-api@vger.kernel.org>; Wed, 04 Oct 2023 15:48:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fromorbit-com.20230601.gappssmtp.com; s=20230601; t=1696456800; x=1697061600; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=8zIzwqHlLY+Qfqxn8xlWssJN81SYfup2U1XurU6Xi68=;
-        b=EEsBWVzU+YlG+VxpFQzcNAw2kIE3vUf5gEiwamx30JyP1rWhj/pWLF/x85MuAmm7Im
-         Fhc+/iZ3ahszA46KKhd8KPeT640NJ03WDqLcsHiRqKwz5/VWRuZB6sH/HBE/YfQGqgDb
-         ZZ/YaxLUoyI+SpuepUdLc+PydKCmt0FiiDDZEV60sVI/J2iBrSVVcs3UMpcbPmcGJYeN
-         UF/3bNj5pVWbPRPKnuC0eX73dS9kLksZdcRMe1LIN5pEmI+OoymOInzcxOpaWbJOxXeN
-         NYSTvh0x/PY4bdhoILNSCCtJw+rfNX2GorI9aHo5ErbMqkTsxPGLBYQbh6FbURpAYFjv
-         B92A==
+        d=fromorbit-com.20230601.gappssmtp.com; s=20230601; t=1696459708; x=1697064508; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=+A41qc5nnmnXCGqzGK/2/pzW8O1/gqRl39Ug/MmsPjY=;
+        b=k04h216BWDygbKaOY92AakISD4ZjtzPmUdiyg+0v6kZZdAgcbedC5zjHM/KOiNGGMv
+         ZY43AwHTXutqIkxE14K0BJwfp22ZjZqVLPYbeF6hxDovxr71k3N/Wi9nIgmm56Mqcfdj
+         0rQbnpADW1bOs9DnwdWAnJWIdMm2UmIaesPpuxvAGu8EuWQUIsioZuOJrb9lNUkeFu6p
+         W/Eh9AL0MhD/qYc0ydlX1rAL3/iaC0XORBeerCOB4rMMMYjLGa18j61u0rV0k3CSNxpD
+         1VEsO7cFnyRSRY+1EUare54vimTaLYtlhl4yClKdH9/DfEStcvK0N8JhzXAOUTfV0AUB
+         bplA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696456800; x=1697061600;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8zIzwqHlLY+Qfqxn8xlWssJN81SYfup2U1XurU6Xi68=;
-        b=P8U9M8UStqq1gzAfyuOZffpfCwhmiohu8AYEKb/KPjFSBIhaH355gwGHDHRb161V86
-         72jxd50bZ9fOpmIgDATPv25IShZhi+9StAWCaTB1Ylje34MJRGPJBN/+kEhTROZLRU45
-         uwpQPhDOi1fT5wORLteMweYJM9WFYT4P7oBhS8rplZZqx6Kr35qG2RQj6YQRCLfu5BC9
-         dUis1yOn8Q49h/c78f7XFEztUvjnymK56xPw3IQ+KYulPUbhYUDakr7UgfIyO007jrnA
-         mEoBEaAhTf/W8f5bnNmctfVViEJTYDJ1HrwpfimSkSfZAt4pGysiogoeGy+C5sM8fOmN
-         6f+Q==
-X-Gm-Message-State: AOJu0YyvT6bG28xKFoabuFjClr1J9bd7uvTWmgnY/6YLmHRZoVdMYpTj
-        eNkozmS8eBFyUgy6FteLfyNrDQ==
-X-Google-Smtp-Source: AGHT+IH/h109J3vK2RjmtyBZliPuvZyDqqzD7Zzri4BtaZwGs/8k8SoTtzUNYozX75NqP2QFf8pgiw==
-X-Received: by 2002:a05:6358:8a2:b0:14b:86a3:b3f0 with SMTP id m34-20020a05635808a200b0014b86a3b3f0mr3841093rwj.5.1696456800389;
-        Wed, 04 Oct 2023 15:00:00 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1696459708; x=1697064508;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+A41qc5nnmnXCGqzGK/2/pzW8O1/gqRl39Ug/MmsPjY=;
+        b=LIbNUMBjS+zwuOZE6KjHW2iU5QEEQ24fZvzkfTaciHA4q2CTmquISlA7Qm41EJ3il2
+         0flaROUTc47++KyCxKznDxvZeQjme0zo2k/m58gE/HKihMDww5tuzOMPaq3DjTs7NfH+
+         2d43JxijmskEKYhipG3riQtFWJJlfP8Ah9k19DbrAEuI/SIA6KMHuBAW1KXIiUG7P6vc
+         oqYn9gsXYpMGdzapwYB4BJUsVdVCcoGXyKj8DvwVDu7F7j3Ws/a4Z+nNnOwyC904WFID
+         SqDk2nhEgDvWu4k179hkksMe0GN+5A+sV7Zl4QB0vLbqYYZvCVXZlrfHoMrWaDIB18up
+         xOtw==
+X-Gm-Message-State: AOJu0Yx/jRzV17iCnojHQjYyQ4nTlK5NEYCyLSPAXcBKlSSCrmaPnf0i
+        uu+PVB+dctqKIBU8SpQXBcw8sw==
+X-Google-Smtp-Source: AGHT+IHTMmCgJaPPPebL/z6ptP+ioTw9on4mYiswrAi8Kcue6f5UNTVBPQhGJAi31/XYj6jO6KbLMg==
+X-Received: by 2002:a05:6a00:2406:b0:690:d620:7801 with SMTP id z6-20020a056a00240600b00690d6207801mr3836132pfh.11.1696459707926;
+        Wed, 04 Oct 2023 15:48:27 -0700 (PDT)
 Received: from dread.disaster.area (pa49-180-20-59.pa.nsw.optusnet.com.au. [49.180.20.59])
-        by smtp.gmail.com with ESMTPSA id 9-20020a17090a018900b00274a43c3414sm2236230pjc.47.2023.10.04.14.59.59
+        by smtp.gmail.com with ESMTPSA id y22-20020aa78056000000b00692b6fe1c7asm32069pfm.179.2023.10.04.15.48.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Oct 2023 14:59:59 -0700 (PDT)
+        Wed, 04 Oct 2023 15:48:27 -0700 (PDT)
 Received: from dave by dread.disaster.area with local (Exim 4.96)
         (envelope-from <david@fromorbit.com>)
-        id 1qo9uO-009W7k-1F;
-        Thu, 05 Oct 2023 08:59:56 +1100
-Date:   Thu, 5 Oct 2023 08:59:56 +1100
+        id 1qoAfI-009Wtm-33;
+        Thu, 05 Oct 2023 09:48:24 +1100
+Date:   Thu, 5 Oct 2023 09:48:24 +1100
 From:   Dave Chinner <david@fromorbit.com>
-To:     Bart Van Assche <bvanassche@acm.org>
-Cc:     John Garry <john.g.garry@oracle.com>, axboe@kernel.dk,
-        kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
-        jejb@linux.ibm.com, martin.petersen@oracle.com, djwong@kernel.org,
-        viro@zeniv.linux.org.uk, brauner@kernel.org,
-        chandan.babu@oracle.com, dchinner@redhat.com,
-        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-nvme@lists.infradead.org, linux-xfs@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
-        linux-api@vger.kernel.org
-Subject: Re: [PATCH 10/21] block: Add fops atomic write support
-Message-ID: <ZR3gXHfIpn3eybh0@dread.disaster.area>
-References: <20230929102726.2985188-1-john.g.garry@oracle.com>
- <20230929102726.2985188-11-john.g.garry@oracle.com>
- <17ee1669-5830-4ead-888d-a6a4624b638a@acm.org>
- <5d26fa3b-ec34-bc39-ecfe-4616a04977ca@oracle.com>
- <b7a6f380-c6fa-45e0-b727-ba804c6684e4@acm.org>
- <1adeff8e-e2fe-7dc3-283e-4979f9bd6adc@oracle.com>
- <8e2f4aeb-e00e-453a-9658-b1c4ae352084@acm.org>
- <d981dea1-9851-6511-d101-22ea8d7fd31e@oracle.com>
- <e6c7b33c-38ba-402b-abdc-b783d4402402@acm.org>
+To:     John Garry <john.g.garry@oracle.com>
+Cc:     Bart Van Assche <bvanassche@acm.org>, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, martin.petersen@oracle.com,
+        djwong@kernel.org, himanshu.madhani@oracle.com
+Subject: Re: [PATCH 2/4] readv.2: Document RWF_ATOMIC flag
+Message-ID: <ZR3ruIg5tpKSG0mp@dread.disaster.area>
+References: <20230929093717.2972367-1-john.g.garry@oracle.com>
+ <20230929093717.2972367-3-john.g.garry@oracle.com>
+ <9ba10b14-931b-42db-b7c2-e6f9aa95e477@acm.org>
+ <dee45e9a-6a45-e949-2b46-1373fea8dcda@oracle.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <e6c7b33c-38ba-402b-abdc-b783d4402402@acm.org>
+In-Reply-To: <dee45e9a-6a45-e949-2b46-1373fea8dcda@oracle.com>
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -90,85 +77,49 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Oct 04, 2023 at 10:34:13AM -0700, Bart Van Assche wrote:
-> On 10/4/23 02:14, John Garry wrote:
-> > On 03/10/2023 17:45, Bart Van Assche wrote:
-> > > On 10/3/23 01:37, John Garry wrote:
-> > > > I don't think that is_power_of_2(write length) is specific to XFS.
-> > > 
-> > > I think this is specific to XFS. Can you show me the F2FS code that
-> > > restricts the length of an atomic write to a power of two? I haven't
-> > > found it. The only power-of-two check that I found in F2FS is the
-> > > following (maybe I overlooked something):
-> > > 
-> > > $ git grep -nH is_power fs/f2fs
-> > > fs/f2fs/super.c:3914:    if (!is_power_of_2(zone_sectors)) {
+On Wed, Oct 04, 2023 at 09:47:24AM +0100, John Garry wrote:
+> On 03/10/2023 20:25, Bart Van Assche wrote:
+> > On 9/29/23 02:37, John Garry wrote:
+> > > +.BR RWF_ATOMIC " (since Linux 6.7)"
+> > > +Allows block-based filesystems to indicate that write operations
+> > > will be issued
+> > > +with torn-write protection. Torn-write protection means that for a
+> > > power or any
+> > > +other hardware failure, all or none of the data from the write will
+> > > be stored,
+> > > +but never a mix of old and new data. This flag is meaningful only for
+> > > +.BR pwritev2 (),
+> > > +and its effect applies only to the data range written by the system
+> > > call.
+> > > +The total write length must be power-of-2 and must be sized between
+> > > +stx_atomic_write_unit_min and stx_atomic_write_unit_max, both
+> > > inclusive. The
+> > > +write must be at a natural offset within the file with respect to
+> > > the total
+> > > +write length. Torn-write protection only works with
+> > > +.B O_DIRECT
+> > > +flag, i.e. buffered writes are not supported. To guarantee
+> > > consistency from
+> > > +the write between a file's in-core state with the storage device,
 > > 
-> > Any usecases which we know of requires a power-of-2 block size.
-> > 
-> > Do you know of a requirement for other sizes? Or are you concerned that
-> > it is unnecessarily restrictive?
-> > 
-> > We have to deal with HW features like atomic write boundary and FS
-> > restrictions like extent and stripe alignment transparent, which are
-> > almost always powers-of-2, so naturally we would want to work with
-> > powers-of-2 for atomic write sizes.
-> > 
-> > The power-of-2 stuff could be dropped if that is what people want.
-> > However we still want to provide a set of rules to the user to make
-> > those HW and FS features mentioned transparent to the user.
+> > It seems wrong to me to start the first sentence with "Allows". Atomic
+> > behavior should be mandatory if RWF_ATOMIC has been set.
 > 
-> Hi John,
+> Yes, I agree that this has been poorly worded. Flag RWF_ATOMIC does not
+> indicate anything. I will fix it.
 > 
-> My concern is that the power-of-2 requirements are only needed for
-> traditional filesystems and not for log-structured filesystems (BTRFS,
-> F2FS, BCACHEFS).
+> > 
+> > Additionally, shouldn't it be documented what value will be stored in
+> > errno if the atomic write has been rejected?
+> 
+> So I was treating all atomic writes errors which don't follow the "rules" as
+> low-level I/O errors, which is -EIO. However, yes, I can document this.
+> Further to that, based on description of an error for O_DIRECT, which is to
+> return -EINVAL for misaligned, I think that -EINVAL may be better for any
+> atomic write rule violations. OK?
 
-Filesystems that support copy-on-write data (needed for arbitrary
-filesystem block aligned RWF_ATOMIC support) are not necessarily log
-structured. For example: XFS.
-
-All three of the filesystems you list above still use power-of-2
-block sizes for most of their metadata structures and for large data
-extents. Hence once you go above a certain file size they are going
-to be doing full power-of-2 block size aligned IO anyway. hence the
-constraint of atomic writes needing to be power-of-2 block size
-aligned to avoid RMW cycles doesn't really change for these
-filesystems.
-
-In which case, they can just set their minimum atomic IO size to be
-the same as their block size (e.g. 4kB) and set the maximum to
-something they can guarantee gets COW'd in a single atomic
-transaction. What the hardware can do with REQ_ATOMIC IO is
-completely irrelevant at this point....
-
-> What I'd like to see is that each filesystem declares its atomic write
-> requirements (in struct address_space_operations?) and that
-> blkdev_atomic_write_valid() checks the filesystem-specific atomic write
-> requirements.
-
-That seems unworkable to me - IO constraints propagate from the
-bottom up, not from the top down.
-
-Consider multi-device filesystems (btrfs and XFS), where different
-devices might have different atomic write parameters.  Which
-set of bdev parameters does the filesystem report to the querying
-bdev?  (And doesn't that question just sound completely wrong?)
-
-It also doesn't work for filesystems that can configure extent
-allocation alignment at an individual inode level (like XFS) - what
-does the filesystem report to the device when it doesn't know what
-alignment constraints individual on-disk inodes might be using?
-
-That's why statx() vectors through filesystems to all them to set
-their own parameters based on the inode statx() is being called on.
-If the filesystem has a native RWF_ATOMIC implementation, it can put
-it's own parameters in the statx min/max atomic write size fields.
-If the fs doesn't have it's own native support, but can do physical
-file offset/LBA alignment, then it publishes the block device atomic
-support parameters or overrides them with it's internal allocation
-alignment constraints. If the bdev doesn't support REQ_ATOMIC, the
-filesystem says "atomic writes are not supported".
+Agreed - I was going to make that comment myself about using EINVAL
+instead of EIO...
 
 -Dave.
 -- 
