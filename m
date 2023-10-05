@@ -2,95 +2,101 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E4BC7BA4C5
-	for <lists+linux-api@lfdr.de>; Thu,  5 Oct 2023 18:11:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C28B7BA7C1
+	for <lists+linux-api@lfdr.de>; Thu,  5 Oct 2023 19:18:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238114AbjJEQKx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 5 Oct 2023 12:10:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33238 "EHLO
+        id S229891AbjJERSg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 5 Oct 2023 13:18:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46090 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237768AbjJEQJr (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 5 Oct 2023 12:09:47 -0400
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7567E7E214
-        for <linux-api@vger.kernel.org>; Thu,  5 Oct 2023 08:52:28 -0700 (PDT)
-Received: by mail-ed1-x531.google.com with SMTP id 4fb4d7f45d1cf-523100882f2so1897178a12.2
-        for <linux-api@vger.kernel.org>; Thu, 05 Oct 2023 08:52:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1696521147; x=1697125947; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=FQ7R/nvBhjGTebLIH07sXUQkeSq81lBJV2IFuqFT5ks=;
-        b=kaAKFbtGGjgq+daw7tAPVKBzxgbEZS9H7gZCMFN6Loa+RDfMDJJPx7OVmEaJtr5nO7
-         whXAfc+4mSiqQGPVk8UZrzWIs7N9mg0yc5MiqbSkhy+B0awBpFHbdak6CYFQcvlZTqv6
-         9DxxkWBBlTnGtHFJcuQ0qxZx2w3BZ416UgQm8=
+        with ESMTP id S230466AbjJERRt (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 5 Oct 2023 13:17:49 -0400
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86D8F271F;
+        Thu,  5 Oct 2023 10:10:48 -0700 (PDT)
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-694f3444f94so1023701b3a.2;
+        Thu, 05 Oct 2023 10:10:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696521147; x=1697125947;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FQ7R/nvBhjGTebLIH07sXUQkeSq81lBJV2IFuqFT5ks=;
-        b=hICO+TxPQfv9mw/RRyXRMDi1I/I02RF9a+kQq0ZhWti4BSGO9DkcIv4i1jIEomE8xc
-         vSvTEhr4+UYrwc0cX5y5rDw6KaUzqiIugbmYgXPcfF78fe4XKzMvOOWz0D/sc4MFVLjN
-         5XWtfNuTx89x/ccefS7SKlFXQ5DnxpdKNBe4qgNLJ5s5A9FrWUvEpxKpACTEtUzdN29M
-         g55rLiryX7VN+3t572/QaFTGbDcV1GPhvAeF5R/GHdcjyTMnfrGk/MVM4YFVJ/zYX2PV
-         fY21EPiOziN7Ztk1B17dSuKIpqmvOTW7po2lc4iZm/lpOgEwWG5Jb1UCb3rmt3Eu/mh5
-         4DFQ==
-X-Gm-Message-State: AOJu0YxsSsrCFmQuqZxN65R+TEbZ5bqs/38nF9EBUxETMDI6iFRKjlib
-        6FhhVY0JJz9RNpGiSaUBTCYwwM4bA0rovIh2ZToGbA==
-X-Google-Smtp-Source: AGHT+IEjk91u8XSDRTtHtK1m9U1BbYI9ul1sY8PRZffqsVYEFnsO8jHMq77QF4AYuvBhByku9bOaBTvxJTmlGFVmmZk=
-X-Received: by 2002:a17:907:724b:b0:9a1:fcd7:b825 with SMTP id
- ds11-20020a170907724b00b009a1fcd7b825mr5098742ejc.71.1696521146721; Thu, 05
- Oct 2023 08:52:26 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1696525848; x=1697130648;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Mau3Ytqwy7TZu9wwYpopAHbH4XlNKRL4d1UxE9xBpfw=;
+        b=an0tRdeZR8L82BbTIXPQpuym7qXuraJsgB6jec+r9avljTJrywnf5bxAvKZvN+RaFL
+         1IOxRUHqDNqO0HjCx8a4Cn++qr6f8C47fM+zlrpwQOwxDXF7LKKrlLmYLBLruad+e/4w
+         yChHYbMonF+VPwbrN8Fv7OzbrOyrdKowNaG5ln++F0oPOg9UHpD6YMyt5v2N+DPFyLCx
+         ToR0Fo7Of7qWsS8yxefsnzvb7UWu/QF/KCAywDdJ6t+PbUE5qIil+SyKPbpF4rLLXop7
+         ye/Cp4TBjuTt/V45gJb5nC4VcYuA2olgH2xnew0UphcDHDla+vzsqyLddhGPRo/QZ75n
+         9tBg==
+X-Gm-Message-State: AOJu0YzA3AHjB+UzjywzPsjodr4qGObGPpdsdruSfWx05rf+rt4gxe+g
+        fGX9KWE9PC4KgtOK8CNnEvA=
+X-Google-Smtp-Source: AGHT+IGnVdp8oICK4V8pUUfksO9nmUjiTQt7WLAzT5URUjUrgm7Kl0ihNxBLzaBBJ2yggv4nt+XNYg==
+X-Received: by 2002:a05:6a00:1410:b0:68b:eb3d:8030 with SMTP id l16-20020a056a00141000b0068beb3d8030mr6024179pfu.1.1696525847811;
+        Thu, 05 Oct 2023 10:10:47 -0700 (PDT)
+Received: from ?IPV6:2620:15c:211:201:ca3e:70ef:bad:2f? ([2620:15c:211:201:ca3e:70ef:bad:2f])
+        by smtp.gmail.com with ESMTPSA id t16-20020a63b250000000b00565eb4fa8d1sm1641495pgo.16.2023.10.05.10.10.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 05 Oct 2023 10:10:47 -0700 (PDT)
+Message-ID: <a2077ddf-9a8f-4101-aeb9-605d6dee3c6e@acm.org>
+Date:   Thu, 5 Oct 2023 10:10:45 -0700
 MIME-Version: 1.0
-References: <20230928130147.564503-1-mszeredi@redhat.com> <20230928130147.564503-2-mszeredi@redhat.com>
-In-Reply-To: <20230928130147.564503-2-mszeredi@redhat.com>
-From:   Miklos Szeredi <miklos@szeredi.hu>
-Date:   Thu, 5 Oct 2023 17:52:15 +0200
-Message-ID: <CAJfpeguTQvA6cq-3JCEZx6wP+nvZX8E6_77pNRJUU2_S7cyAiA@mail.gmail.com>
-Subject: Re: [PATCH v3 1/4] add unique mount ID
-To:     Miklos Szeredi <mszeredi@redhat.com>
-Cc:     linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-man@vger.kernel.org,
-        linux-security-module@vger.kernel.org, Karel Zak <kzak@redhat.com>,
-        Ian Kent <raven@themaw.net>,
-        David Howells <dhowells@redhat.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <christian@brauner.io>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Matthew House <mattlloydhouse@gmail.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>, Paul Moore <paul@paul-moore.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 10/21] block: Add fops atomic write support
+Content-Language: en-US
+To:     "Martin K. Petersen" <martin.petersen@oracle.com>
+Cc:     John Garry <john.g.garry@oracle.com>, axboe@kernel.dk,
+        kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
+        jejb@linux.ibm.com, djwong@kernel.org, viro@zeniv.linux.org.uk,
+        brauner@kernel.org, chandan.babu@oracle.com, dchinner@redhat.com,
+        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-nvme@lists.infradead.org, linux-xfs@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
+        linux-api@vger.kernel.org
+References: <20230929102726.2985188-1-john.g.garry@oracle.com>
+ <20230929102726.2985188-11-john.g.garry@oracle.com>
+ <17ee1669-5830-4ead-888d-a6a4624b638a@acm.org>
+ <5d26fa3b-ec34-bc39-ecfe-4616a04977ca@oracle.com>
+ <b7a6f380-c6fa-45e0-b727-ba804c6684e4@acm.org>
+ <yq1lecktuoo.fsf@ca-mkp.ca.oracle.com>
+ <db6a950b-1308-4ca1-9f75-6275118bdcf5@acm.org>
+ <yq1h6n7rume.fsf@ca-mkp.ca.oracle.com>
+ <34c08488-a288-45f9-a28f-a514a408541d@acm.org>
+ <yq1ttr6qoqp.fsf@ca-mkp.ca.oracle.com>
+From:   Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <yq1ttr6qoqp.fsf@ca-mkp.ca.oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, 28 Sept 2023 at 15:03, Miklos Szeredi <mszeredi@redhat.com> wrote:
->
-> If a mount is released then its mnt_id can immediately be reused.  This is
-> bad news for user interfaces that want to uniquely identify a mount.
->
-> Implementing a unique mount ID is trivial (use a 64bit counter).
-> Unfortunately userspace assumes 32bit size and would overflow after the
-> counter reaches 2^32.
->
-> Introduce a new 64bit ID alongside the old one.  Initialize the counter to
-> 2^32, this guarantees that the old and new IDs are never mixed up.
+On 10/4/23 11:17, Martin K. Petersen wrote:
+> 
+> Hi Bart!
+> 
+>> In other words, also for the above example it is guaranteed that 
+>> writes of a single logical block (512 bytes) are atomic, no matter
+>> what value is reported as the ATOMIC TRANSFER LENGTH GRANULARITY.
+> 
+> There is no formal guarantee that a disk drive sector 
+> read-modify-write operation results in a readable sector after a 
+> power failure. We have definitely seen blocks being mangled in the 
+> field.
 
-It occurred to me that it might make sense to make this counter
-per-namespace.  That would allow more separation between namespaces,
-like preventing the observation of mount creations in other
-namespaces.
+Aren't block devices expected to use a capacitor that provides enough
+power to handle power failures cleanly?
 
-Does a global number make any sense?
+How about blacklisting block devices that mangle blocks if a power
+failure occurs? I think such block devices are not compatible with
+journaling filesystems nor with log-structured filesystems.
 
 Thanks,
-Miklos
+
+Bart.
+
