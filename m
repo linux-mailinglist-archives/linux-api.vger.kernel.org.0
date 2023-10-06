@@ -2,163 +2,188 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 066C27BC2CF
-	for <lists+linux-api@lfdr.de>; Sat,  7 Oct 2023 01:08:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2041E7BC315
+	for <lists+linux-api@lfdr.de>; Sat,  7 Oct 2023 01:49:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233737AbjJFXII (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 6 Oct 2023 19:08:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35024 "EHLO
+        id S233910AbjJFXtc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 6 Oct 2023 19:49:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233898AbjJFXIH (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 6 Oct 2023 19:08:07 -0400
-Received: from mail-yw1-x1129.google.com (mail-yw1-x1129.google.com [IPv6:2607:f8b0:4864:20::1129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9BF49C
-        for <linux-api@vger.kernel.org>; Fri,  6 Oct 2023 16:08:04 -0700 (PDT)
-Received: by mail-yw1-x1129.google.com with SMTP id 00721157ae682-59f7f2b1036so31996587b3.3
-        for <linux-api@vger.kernel.org>; Fri, 06 Oct 2023 16:08:04 -0700 (PDT)
+        with ESMTP id S231381AbjJFXtb (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 6 Oct 2023 19:49:31 -0400
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 686DEBD;
+        Fri,  6 Oct 2023 16:49:28 -0700 (PDT)
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 396LO2tJ028862;
+        Fri, 6 Oct 2023 23:49:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=to : cc : subject :
+ from : message-id : references : date : in-reply-to : content-type :
+ mime-version; s=corp-2023-03-30;
+ bh=f/7V4GPOscG4FZ74AixysPK9SejqoXIFuTFl0Y/uaCQ=;
+ b=Vc5/AYRlhseeTrW/mCpuXKMtPsWhxUtuEP4rYvbQbDwDSTwbV4ItZhAefxtT1Mc+6+EJ
+ Bf/hb2FPC6aeNgOyB6H6qhLPZkFswpvkn+n2vAsc3y6BuHyNoUs1CsCdUMVeCRbN9CW7
+ k6CUnQx+WkpU72v9vO1EF5hD3rA+yaNIJ6emLTY8mLVE/ivQdWemlNWqmqdo6HbK08Rq
+ TV6BXdI9SDcJKEjpIQTDEjDJ3qmZdvVw9bxDIwjvCzzMfZ8qT7jTtbLdpNfPXIhfuML5
+ AvFtRs3F03gf/MpDLA4JkdFET6MyTnNjVEHvchTSvDEhZKz6dyW59dFBf4kWHPKUz3uO Og== 
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3tea3emwuj-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 06 Oct 2023 23:49:05 +0000
+Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+        by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 396M6P9G002843;
+        Fri, 6 Oct 2023 23:48:58 GMT
+Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2173.outbound.protection.outlook.com [104.47.55.173])
+        by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3tea4b929g-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 06 Oct 2023 23:48:57 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=j5j3ttEQY24NxtIENJGMY6YcW8+GNTCdtB+2wWMEZNj3VcMMSgyPNhzGrQ585jvhrRyJ5Iqva3BNb5/RpNGi4BxJ7pIgtvC48NA6ajLXHdV3pOEvFL9RjCTbJ6UG1b/v5wUiimTKnYps75Tjr/ZRl2jsjWQIckOAVmXdXwoX7WVviHjLgrbwRxiv5emeobLdIdpa71m6lboDcFkuaiPgj8kRq0FYAla9o66HXapuE2ycxa/w5zwpoO25ZzHQCuxH+X0FM4ObC0VclH8wsuu78CrHaUUKSiQ5gHyVb5rtJPMNhsR/7rqtUzsgGwLlqyUQqRapywxXgsHS6X3oxkJNkA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=f/7V4GPOscG4FZ74AixysPK9SejqoXIFuTFl0Y/uaCQ=;
+ b=SXWMhiTY8cvHDw0ywIoJCe5AusQ3yz7Latiiq97nhJDZ9Cq4jHyYfBiV5eTcfdLO7VmYjgG0Jj0HgsKcQbbd9eYK9k9vyqDiNpOtjw5c34ls867++6dVlw5kC3X7Kggt2O7ZALgfKNZ7fbiqSt2HFR1/WsMz8shVzVKDPO8yCFmzN3YtsDYImmQaxnEiP5qTtSY9Y4ImpvTL3+VutnfEz1O8fS6MnmEiuuzPtvozik5EFyPDdNtKDBf8C2/43E7BoS/HDfwSOSh22cmeSHfL+ziRcUI03h6yZaO8x+64w/eH0dBNhhGj924wAzC3yPisw5wYv6itEouTblwv/MjiDw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1696633684; x=1697238484; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=F50fu8DXl9ERFHVYVt4zY9h1hnn4ptAJ3MO5xm3ht8M=;
-        b=DSWU7Th6ZPr/C9XYfy2ArD7EwQYRdfx5NerMmWa6VeiCNw24YRrs4c7/Vfca2xgG4O
-         aiv44TiryMe03QX0qA4WsJTNRtLHaZmTv5GAFT+E90Slc9yUpNis1hUvIqujMk9dy+Lu
-         whWgQoQmCxAp1reO223+nIWNoses+CDen4cXjYYHWeYzLJ0XgXhVLoiKgmVihZ7t0VBF
-         KVUvLeTTU1rCg0CZsgE8hY/Wnvf7cl6RkUSwfcA/M9AgkF8uRT5sXVjkWFUGMQ7x9ArI
-         g9ogSHC6U/qeV7Vb1LKQIgnT0KsuxnywtMV2ZAYQh0Qi2tCddZbyOa0V2URk+/YnNPYn
-         rhyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696633684; x=1697238484;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=F50fu8DXl9ERFHVYVt4zY9h1hnn4ptAJ3MO5xm3ht8M=;
-        b=Izkl+dWmk9Jfz8LrQlXnaTbBRjOmhx8jZhcLQFLtzTaWQqeyO9KeSO9bnHxFxz54Qn
-         ugbDFVvyfCH5g/c0jR0l0YrC8x1mAFFOSInSK4EYf/niTAWiJ8pG3qy/0Yr15OV0D4Ht
-         JW+c5jOoVU1YkJM0RSAqfU5+0M2UHojZansOGKazhvl1kB6UOoiQomHF7+dB+PqPAhBl
-         D7ZXiNHV+Tz8G9gnbWpPD1NVRG3HEljnKHxTtnD2J1dJelAOpXqqsUvtzhDtJDPkSwuF
-         2TJka6lVnNehO3XwS2bfIfZd9fIxNmYWuXf7mo2LG5nsKvXfRqRhrY+nvucKrXhZRNAq
-         NkkQ==
-X-Gm-Message-State: AOJu0YwlqP4knV3xiiDrmMbWkgVBbT2Tmy1TFZt3mEtPyjg2Litb8oGL
-        p9CShapecAGlxcPo+xswn/VlEPa2/GbRxuOOAfZ3
-X-Google-Smtp-Source: AGHT+IFptmDYsPUwJNXgzo/KC+xeqdAaTYpkEhIAeXQIc7ZwVI4dQTLTBID85bUW0YeCyFWkPLg7ZtNgHG2nI/ZPkQI=
-X-Received: by 2002:a25:b31a:0:b0:d4b:ab7b:17ed with SMTP id
- l26-20020a25b31a000000b00d4bab7b17edmr8590362ybj.4.1696633683762; Fri, 06 Oct
- 2023 16:08:03 -0700 (PDT)
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=f/7V4GPOscG4FZ74AixysPK9SejqoXIFuTFl0Y/uaCQ=;
+ b=PwU24EU8ht1IZ56/gbR+tN7vFDir5x26c3YXo+twTkuVTYZq75ngZuPyoO8BvGSYd5IwOLhok05QwE1Hz53ks1FC8YwDbizFrJMOI72ozj8m6Ld4ubX/4Gl2GsXYtBI8kWcfT9+r/OAr9YieBKJmD7OKdmK4YYd6Yd6jUMh9IeY=
+Received: from PH0PR10MB4759.namprd10.prod.outlook.com (2603:10b6:510:3d::12)
+ by SA2PR10MB4682.namprd10.prod.outlook.com (2603:10b6:806:110::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.32; Fri, 6 Oct
+ 2023 23:48:55 +0000
+Received: from PH0PR10MB4759.namprd10.prod.outlook.com
+ ([fe80::1ae3:44f0:f5b:2383]) by PH0PR10MB4759.namprd10.prod.outlook.com
+ ([fe80::1ae3:44f0:f5b:2383%4]) with mapi id 15.20.6838.033; Fri, 6 Oct 2023
+ 23:48:55 +0000
+To:     Bart Van Assche <bvanassche@acm.org>
+Cc:     John Garry <john.g.garry@oracle.com>, axboe@kernel.dk,
+        kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
+        jejb@linux.ibm.com, martin.petersen@oracle.com, djwong@kernel.org,
+        viro@zeniv.linux.org.uk, brauner@kernel.org,
+        chandan.babu@oracle.com, dchinner@redhat.com,
+        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-nvme@lists.infradead.org, linux-xfs@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
+        linux-api@vger.kernel.org
+Subject: Re: [PATCH 18/21] scsi: sd: Support reading atomic properties from
+ block limits VPD
+From:   "Martin K. Petersen" <martin.petersen@oracle.com>
+Organization: Oracle Corporation
+Message-ID: <yq11qe7qptg.fsf@ca-mkp.ca.oracle.com>
+References: <20230929102726.2985188-1-john.g.garry@oracle.com>
+        <20230929102726.2985188-19-john.g.garry@oracle.com>
+        <2e5af8a4-f2e1-4c2e-bd0b-14cc9894b48e@acm.org>
+        <53bfe07e-e125-7a69-4f89-481c10e0959e@oracle.com>
+        <a7a24914-4940-4a23-b439-bc8f0ad99212@acm.org>
+Date:   Fri, 06 Oct 2023 19:48:53 -0400
+In-Reply-To: <a7a24914-4940-4a23-b439-bc8f0ad99212@acm.org> (Bart Van Assche's
+        message of "Fri, 6 Oct 2023 10:52:40 -0700")
+Content-Type: text/plain
+X-ClientProxiedBy: BYAPR06CA0060.namprd06.prod.outlook.com
+ (2603:10b6:a03:14b::37) To PH0PR10MB4759.namprd10.prod.outlook.com
+ (2603:10b6:510:3d::12)
 MIME-Version: 1.0
-References: <20230928130147.564503-1-mszeredi@redhat.com> <20230928130147.564503-5-mszeredi@redhat.com>
- <CAHC9VhQD9r+Qf5Vz1XmxUdJJJO7HNTKdo8Ux=n+xkxr=JGFMrw@mail.gmail.com>
- <CAJfpegsPbDgaz46x4Rr9ZgCpF9rohVHsvuWtQ5LNAdiYU_D4Ww@mail.gmail.com>
- <a25f2736-1837-f4ca-b401-85db24f46452@themaw.net> <CAJfpegv78njkWdaShTskKXoGOpKAndvYYJwq7CLibiu+xmLCvg@mail.gmail.com>
- <CAHC9VhTwnjhfmkT5Rzt+SBf-8hyw4PYkbuPYnm6XLoyY7VAUiw@mail.gmail.com> <CAJfpegsZqF4TnnFBsV-tzi=w_7M=To5DeAjyW=cei9YuG+qMfg@mail.gmail.com>
-In-Reply-To: <CAJfpegsZqF4TnnFBsV-tzi=w_7M=To5DeAjyW=cei9YuG+qMfg@mail.gmail.com>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Fri, 6 Oct 2023 19:07:52 -0400
-Message-ID: <CAHC9VhS5cRA3FFWAttuy-tNP=p+Rk1O3Sq8Np29jenFQprFi4A@mail.gmail.com>
-Subject: Re: [PATCH v3 4/4] add listmount(2) syscall
-To:     Miklos Szeredi <miklos@szeredi.hu>
-Cc:     Ian Kent <raven@themaw.net>, Miklos Szeredi <mszeredi@redhat.com>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-man@vger.kernel.org,
-        linux-security-module@vger.kernel.org, Karel Zak <kzak@redhat.com>,
-        David Howells <dhowells@redhat.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <christian@brauner.io>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Matthew House <mattlloydhouse@gmail.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR10MB4759:EE_|SA2PR10MB4682:EE_
+X-MS-Office365-Filtering-Correlation-Id: c8bc7e5e-c600-4d7d-1494-08dbc6c6cd55
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: tSjhlboLOt/RURTBKShc4HwCdiY9xMmItYTlJ2fjAE0M+4VpKRXYb17gxoItdUFsnbxS4y0Z8zl5gA4Z+wXPkwAPd5XqHXQrs2veQSxafKqCqasktUQdapExDa5kLxSAoojQ0r5RAn6ClaSIEIC48MXOEHuJIAX5MNO8PBKwmBWJ5ycfRtfpkj8H7kbCVV2NzrnITqIeBZ1SeXEmPRJ3HGeFyLpevRvTdKH1UQcJXsOhj0+KXO3pQkAIAMmA+bKits6iDhtG9Qea+yqpxFYyhc2+NfIlrS0nyz+hReqCJMTyM2CSRFinq04S7Obx7m7idtwd3FJWha4pLa2LrZB3vnO4yFnDNpECKFkNhYW1eGsYEvnE2iOkmu5hOQsAxB5D1bV8+ArNcqnOXWYxNBvIujaLaKMtZvEWUhRg1DGKs14q5QGJJ5QeIZx2Bj5kMa5FjNX7zzbyB3uphw4MUVa8wsL+jPQWVXolHHACq2fBwbZa7nuo/h7vF/8o+xdPrFiuzvguFpuIA0Pp7lNNThJv/UioXiI1L8SmpXDdfeMUGrSijRb23ERtO+CntD7j6nqs
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB4759.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(376002)(396003)(346002)(136003)(39860400002)(230922051799003)(186009)(451199024)(64100799003)(1800799009)(26005)(478600001)(6506007)(36916002)(6486002)(38100700002)(86362001)(558084003)(7416002)(6512007)(2906002)(66476007)(66946007)(316002)(4326008)(8936002)(8676002)(41300700001)(5660300002)(6916009)(66556008);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?DBvNMJ2aiX03/sjESb5R84TGEdSXCXjkrXgnV45bKC6fj0y988HgJaIWuEUR?=
+ =?us-ascii?Q?CBnW1dJLVLJBxCagZSA3Pdz/h6aVE522cHvCMAEogVKvxRoch5DEYFvXsF9G?=
+ =?us-ascii?Q?+H6QrOl8IVZok4I3028/U1KdkKILETUhtMXhNadAbLa8CZQjU+COyhHdn1en?=
+ =?us-ascii?Q?drnw7J1XcurMosK4w7CE/IGGIIOE1W1i9/zugwpA+6dnsSnHi2CF1fyJjiSr?=
+ =?us-ascii?Q?ywxyfiK7SLNBHa7C/yVhqeCgPtdx5u1LeeOpsGEo1UUgWc0HrkrlmJS63bwM?=
+ =?us-ascii?Q?IyHViqQOwtD8c9HHKpjz4T0i6Oa6NA2iE9sCU0Pd2PzkPIenlPjgu8xcBrBE?=
+ =?us-ascii?Q?sob8mxPsc546+hJ1vGCgeDdYaouML8G+yYQyeokBmYBkP8L1S/C9at7Uy4TB?=
+ =?us-ascii?Q?80S9to8rsa/oiceekDa4KSXbgMct+YEuj7tdxpW80N8dhSUhqE84tAbIduPa?=
+ =?us-ascii?Q?u6aYwZbw/nkO82TJE7SK/vIzqDe5t7Y6HTTI6DwwgkJGh+nR0u9UrlQCyxxj?=
+ =?us-ascii?Q?KrhH82r3A6LuE/jqfhiIqDoy2b5GLVl+2qZ8zhbjzUqNFnSqmmDK4Tx/w2bO?=
+ =?us-ascii?Q?IFh1oJgalePeNsYA5aEWJ0GOH6lQnU1aU3YtCOlVWsON298DM01i0OqVeSa4?=
+ =?us-ascii?Q?Gw5cy+0qEc240pZoflXojqktJWCP2XrZOdUGhcniHxCxfxMbb5HgmqsUZOwl?=
+ =?us-ascii?Q?FPiMDmFWWKl3tT7diLKBXeLPdA6Q+A/4OHEOi4dqzyYCyUK/vXxTsIilMuGr?=
+ =?us-ascii?Q?g0oOZgyHrekqnSylRRdIejBSWl4tZJS1xgqyNjnLBz3+3z55yigbhtc4Foql?=
+ =?us-ascii?Q?zv92sldrVurAD8gfT1Wn02luubFBh1Y6HM/Ea7FWFAB1evbWN5LeUF+jhJZ5?=
+ =?us-ascii?Q?kImOg7BuqIaImda9oWXxEatZPacaKdYmCADmemZkr2zclIGoM28V/rnUCuN6?=
+ =?us-ascii?Q?4yplo67iLDHoMwifE1qVowM0CR+ejSqQ0LQoKfoxhafmEd8n78K+GDhDUZr+?=
+ =?us-ascii?Q?i5uxIbhjvQwIy6tQYMVnA/7HS9W/d+cHibhfJNuyfAMnyFvYYdJ8ee4LsC12?=
+ =?us-ascii?Q?QLMBVdTHdutm/SMUZbWfsP7GWeRMnI5+IDNZRP0LJ4tHremvXbsg5Tj6zpAD?=
+ =?us-ascii?Q?YxnwXXkIhaMuB/OFhUU50skB2BfXlRRsgEbWmlFCbP5w//w4ZuaHRveH3HlY?=
+ =?us-ascii?Q?1BRAfzuXjUvwFh3fXEu4ihC8UTznjxr+q3ltSZS/TkBZznZAEb/xqkJwVLPq?=
+ =?us-ascii?Q?xcKhxT9F9IrSrh7FQVqR6DCfSq5GtI5a52WtU77Cdwu46A9Qov3Colyx9LaB?=
+ =?us-ascii?Q?67vHy73k5CTNXe5Uip2Dcu4DwxAg4WfRmufx9mG8fgXfOnaZjlCcLwcqSBUd?=
+ =?us-ascii?Q?1MsCyvdoKv0J3GYta3RyNhvqSS4asXAeAXR4/lSzAjiDI52ufUpy/Ei0qqx9?=
+ =?us-ascii?Q?X3wqmJKAfiRSNMlScwBOaJN6kUy4mD0DCzC9qj0f6+ikmCDWUci3Cb5k5xQ9?=
+ =?us-ascii?Q?EAQXHyz22b5l+OlEevsuBWkUX/7+cuoGHD3wevFniwcWRMZiuO2UfaLIYjuo?=
+ =?us-ascii?Q?dABZH6WZoLT5vSyt+3ineizeWZQuipu9G0nFwYE0sCzSperlmIl1I4OGxFqR?=
+ =?us-ascii?Q?eA=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: =?us-ascii?Q?eB+nI1oKxA3Ufy5B2I6IpCzK6XAOXIg09Mrdy6V/UJ9TaACpRFgnerNpnUg1?=
+ =?us-ascii?Q?XOytO4cbc9LJhL0BULMSMtNrGxr2JCsE0armDKasedfKLTrCUZSaeBYnf9+c?=
+ =?us-ascii?Q?ct4zs+pTKGzuezdcOds/vHI6N4peJfW1l0RDZSvklcc3kC7Pk5M8XOnVTK6Y?=
+ =?us-ascii?Q?rra27F59/xLT0XDRKZ3TL/pdumA3ziFsfFyiszLn8e9JUYPZkItQNmF3y7fV?=
+ =?us-ascii?Q?r2HouD/obLMemppQkU5yS9ibfbx4qcnoTzGH+O4QWI5vvkdyfsxyZyrhW0J8?=
+ =?us-ascii?Q?e1uXDbgJxHpmweAA3WempaYGDA5/M9X6rMnBxzlgkLPeaZ28knNvt7SqadhS?=
+ =?us-ascii?Q?HXD7Ni6T53WF4DuhNAjcflF7B5dRQWqJNpLrOMXdYhVKfYLP9WAZMr/SnDfm?=
+ =?us-ascii?Q?sqCirY5lQafBUJh/JkT+QBLHTilH8jJENlnimzGmsHDqebsZllhfM2PO3PA0?=
+ =?us-ascii?Q?lf77affbgGoHW7AMb6/9bignw012BixtrH7CniLfJ411gZfbDxk8PHMs6Zhd?=
+ =?us-ascii?Q?RD6eCNWfRHuGxUF+L+J34B7NB+2PtXImKbtt+nNYdDbG0xoi0r+f9WPw7Ee/?=
+ =?us-ascii?Q?fdN+1QVs4YzarMqcz6WTGq8ja3gqkZ+ZqTeg+AonbIiGsO8GZ/NR79PcOy98?=
+ =?us-ascii?Q?M58GBVK61kth67ksEIXtMdOjCr8DiRoeHf0SuQ9PD9cpLWowtjy+hHGGJ80K?=
+ =?us-ascii?Q?7dN164ARZkki2TrI/PNp+W29dqYTza6oE2W3BNdnD5249eJ7Dkf54Usw2zaM?=
+ =?us-ascii?Q?JaBXlcZRLmc//IwwYgh7i07K6a3UFytYozUGals33di/Y8ZTY0wxS/lejxeB?=
+ =?us-ascii?Q?eadPDX4cbmusnfUO5vUzG0KcxBthXDidQ2Vs60miLaRD6njrmeDpukT4FVFh?=
+ =?us-ascii?Q?HnNlnHqTbsnZpKviANIJsF+x/uN626IyTx6vazsomCq/HLJ0l0/7QjKewEeY?=
+ =?us-ascii?Q?QIRTTlHlDcG9L8eld+i9D2ojov5FHqwpqGjKmoA4rEAk0/JZ0l01YDct+frL?=
+ =?us-ascii?Q?wU5DNUUAigxeLTdk1FAvXypiPbfHmOZghB92RMyRRr8fpUDk1KRsev3AdM0U?=
+ =?us-ascii?Q?+b3oE8Hdh3Vq/zPJu0AwUeiYcFc/1Bga9c9dEeTRl8UyxkPq/L8=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c8bc7e5e-c600-4d7d-1494-08dbc6c6cd55
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4759.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Oct 2023 23:48:55.5158
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5gvSxVdnuJwZtVXceZxgz4teFwaCwq5GwgmMU+CFk+fHEUUwJjwcbalkvoaMSx2fHP2ti3XWKbyGJMQk2GyDx5IZuttnBeOsZRaHksIeXts=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR10MB4682
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-06_15,2023-10-06_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 mlxlogscore=752 mlxscore=0
+ spamscore=0 malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2309180000
+ definitions=main-2310060184
+X-Proofpoint-ORIG-GUID: 7NqGmHuYDhNusafGdRtd62H4fiSjOoyJ
+X-Proofpoint-GUID: 7NqGmHuYDhNusafGdRtd62H4fiSjOoyJ
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Oct 6, 2023 at 4:53=E2=80=AFAM Miklos Szeredi <miklos@szeredi.hu> w=
-rote:
-> On Fri, 6 Oct 2023 at 04:56, Paul Moore <paul@paul-moore.com> wrote:
->
-> > > Also I cannot see the point in hiding some mount ID's from the list.
-> > > It seems to me that the list is just an array of numbers that in
-> > > itself doesn't carry any information.
-> >
-> > I think it really comes down to the significance of the mount ID, and
-> > I can't say I know enough of the details here to be entirely
-> > comfortable taking a hard stance on this.  Can you help me understand
-> > the mount ID concept a bit better?
->
-> Mount ID is a descriptor that allows referring to a specific struct
-> mount from userspace.
->
-> The old 32 bit mount id is allocated with IDA from a global pool.
-> Because it's non-referencing it doesn't allow uniquely identifying a
-> mount.  That was a design mistake that I made back in 2008, thinking
-> that the same sort of dense descriptor space as used for file
-> descriptors would work.  Originally it was used to identify the mount
-> and the parent mount in /proc/PID/mountinfo.  Later it was also added
-> to the following interfaces:
->
->  - name_to_handle_at(2) returns 32 bit value
->  - /proc/PID/FD/fdinfo
->  - statx(2) returns 64 bit value
->
-> It was never used on the kernel interfaces as an input argument.
 
-Thanks for the background.
+Bart,
 
-> statmount(2) and listmount(2) require the mount to be identified by
-> userspace, so having a unique ID is important.  So the "[1/4] add
-> unique mount ID" adds a new 64 bit ID (still global) that is allocated
-> sequentially and only reused after reboot.   It is used as an input to
-> these syscalls.  It is returned by statx(2) if requested by
-> STATX_MNT_ID_UNIQUE and as an array of ID's by listmount(2).
->
-> I can see mild security problems with the global allocation, since a
-> task can observe mounts being done in other namespaces.  This doesn't
-> sound too serious, and the old ID has similar issues.  But I think
-> making the new ID be local to the mount namespace is also feasible.
+> I think the above means that it is wrong to round down the ATOMIC
+> TRANSFER LENGTH GRANULARITY or the ATOMIC BOUNDARY values.
 
-The LSM hook API is designed to operate independently from any of the
-kernel namespaces; while some LSMs may choose to be aware of
-namespaces and adjust their controls accordingly, there is no
-requirement that they do so.  For that reason, I'm not too bothered
-either way if the mount ID is global or tied to a namespace.
+It was a deliberate design choice to facilitate supporting MAM. John
+will look into relaxing the constraints.
 
-> > While I'm reasonably confident that we want a security_sb_statfs()
-> > control point in statmount(), it may turn out that we don't want/need
-> > a call in the listmount() case.  Perhaps your original patch was
-> > correct in the sense that we only want a single security_sb_statfs()
-> > call for the root (implying that the child mount IDs are attributes of
-> > the root/parent mount)?  Maybe it's something else entirely?
->
-> Mounts are arranged in a tree (I think it obvious how) and
-> listmount(2) just lists the IDs of the immediate children of a mount.
->
-> I don't see ID being an attribute of a mount, it's a descriptor.
-
-In this case I think the approach you took originally in this thread
-is likely what we want, call security_sb_statfs() against the root
-mount in listmount().  Just please move it after the capability
-checks.
-
-If you look at the two LSMs which implement the security_sb_statfs(),
-Smack and SELinux, you see that Smack treats this as a read operation
-between the current process and the specified mount and SELinux treats
-this as a filesystem:getattr operations between the current process
-and the specified mount.  In both cases I can see that being the right
-approach for reading a list of child mounts off of a root mount.
-
-Does that sound good?  I'm guessing that's okay since that was how you
-wrote it in your original patch, but there has been a lot of
-discussion since then :)
-
---=20
-paul-moore.com
+-- 
+Martin K. Petersen	Oracle Linux Engineering
