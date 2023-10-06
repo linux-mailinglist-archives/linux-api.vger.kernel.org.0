@@ -2,110 +2,161 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DEED97BAF1C
-	for <lists+linux-api@lfdr.de>; Fri,  6 Oct 2023 01:09:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 30B187BAF90
+	for <lists+linux-api@lfdr.de>; Fri,  6 Oct 2023 02:27:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229455AbjJEXIN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 5 Oct 2023 19:08:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39728 "EHLO
+        id S229512AbjJFA1Y (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 5 Oct 2023 20:27:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37168 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229584AbjJEXFw (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 5 Oct 2023 19:05:52 -0400
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F060C18D;
-        Thu,  5 Oct 2023 15:58:42 -0700 (PDT)
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1c5c91bece9so12667845ad.3;
-        Thu, 05 Oct 2023 15:58:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696546722; x=1697151522;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ltrto+rjiXQu6CZ+tQzK6opfBYwCjT8QDYR8jfh7uis=;
-        b=O7DASNSznlTd5ejToG7zZxT0IN65h5T8Uh1E7nOD4KR3FSTFiKp5uU0Klez9Eofr9S
-         RUwEZRW+TnRzEJBgkjn52VWF4fl1wydVjaYeJtI5wZq8CLoY4/CwtmN2r5niieEJ7FVK
-         Oa48bzGPTGd9Ir8SPA21xlelOjhxI1pu0NkrEiWXcdNm9Ad5CNjTx0qFzQ1XQITVFL4O
-         +gvlsu5qz8Zln17rfS9W7BdUol9y20ikB2sMNlqa75ZHYXInhp9t6+xUa5uD+HhF+d/5
-         UlVTcsTutcDLmNFcm9eh731zopuJ+c9I90dcdCvUNTZ9zdIdtRWnbRE7o41jgsK8h0nb
-         fbiw==
-X-Gm-Message-State: AOJu0Yzi0rLi9lue2JnwHKT1HEOiqXI/mvVVO6es2brMnUzeCewWBJJ1
-        feaVLmWZO3DMDF20j/hzyo8=
-X-Google-Smtp-Source: AGHT+IG0/9Wn5G/tnzM5vE5E/JIG1ER4pe53NdB/BX3Y8VlltjOu9i9A0D7Ui0Qfz98C4QopBOrp7w==
-X-Received: by 2002:a17:902:6ac4:b0:1c6:d34:5279 with SMTP id i4-20020a1709026ac400b001c60d345279mr6265144plt.13.1696546722102;
-        Thu, 05 Oct 2023 15:58:42 -0700 (PDT)
-Received: from [192.168.51.14] (c-73-231-117-72.hsd1.ca.comcast.net. [73.231.117.72])
-        by smtp.gmail.com with ESMTPSA id 6-20020a170902c24600b001b89a6164desm2316513plg.118.2023.10.05.15.58.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Oct 2023 15:58:41 -0700 (PDT)
-Message-ID: <d976868a-d32c-43d1-b5da-ebbc4c8de468@acm.org>
-Date:   Thu, 5 Oct 2023 15:58:38 -0700
+        with ESMTP id S229455AbjJFA1W (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 5 Oct 2023 20:27:22 -0400
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 238CFD6;
+        Thu,  5 Oct 2023 17:27:18 -0700 (PDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailout.nyi.internal (Postfix) with ESMTP id D6DBD5C022E;
+        Thu,  5 Oct 2023 20:27:14 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Thu, 05 Oct 2023 20:27:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=cc
+        :cc:content-transfer-encoding:content-type:content-type:date
+        :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+        :references:reply-to:sender:subject:subject:to:to; s=fm1; t=
+        1696552034; x=1696638434; bh=T0KKGiY1Q8zqQlnDql/yrnMneNPlqDlkRnN
+        aCenas50=; b=NsjPxZnjfyHwzZfOHHXiexldWr+qApfmB0/vePs04hlPTprXeLP
+        muo00EbDjfVB1reJo4Gi4OS1KB2yKHJLXypX7FP9f8SiFiuTTmSrdGnGbT4K689r
+        z66w+t1ZqKIb1NIjSbKd+C3UTVrNSLtPth5mcA3FYufCXiws+vpJmy2O516DHjyJ
+        ihdQSZ38omannW+GHVLJOeh9SQ6MZquPLile5x3UrWcDg4Q2JEJiJD9zcQTBoNRr
+        6x/a/6VF9DRNQK9BxCUhL2jfUfE394R7CcxAHV7hxrIaVlniEjAEaUKbHFTqMYQa
+        fqyo8jR86/CgH3mfBPaM3dcgHcKEAjlyiog==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding
+        :content-type:content-type:date:date:feedback-id:feedback-id
+        :from:from:in-reply-to:in-reply-to:message-id:mime-version
+        :references:reply-to:sender:subject:subject:to:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+        1696552034; x=1696638434; bh=T0KKGiY1Q8zqQlnDql/yrnMneNPlqDlkRnN
+        aCenas50=; b=X888C7YOEFoEUmRM8CxSfxcrCdN9fA9Y5Wy6nLVEg9ywh69eNaa
+        6W3pVRhpXRkpqInMSTExphzKk98r8O/8dVuEsTt+gm6V9pxt9eSkQ0j65XTkkWJ0
+        MNvfAOLtcJrmVR4FChTj/BXwfRhGsHO0CZN6T1pxihIcqNsUqpLgodWcxVVSjxe/
+        J7WaYl4kaoT0sRg5jCO/jRjX+EIu36obx3yapz54vniMmrIyIrQVRmJgS2iIcYTP
+        sEUVz7bYc3OLvHqkLUkELZaiyWx+0oNyWsIpVwsggmP9Jww+pZlAhtsozkL3qGOp
+        +1/5oNgpXRGev7OaRgAzJ4sTXuSzyXpcK/Q==
+X-ME-Sender: <xms:YVQfZfmuJNp-n-wtUgJgsFbSLdiR22bouAjj_2tgWzTIrIUUBX2gCQ>
+    <xme:YVQfZS1SVFoihWiBusOuFwPtyP31D50Ca_GbiWm7abTAAL_2bs4isr20RLkFfjAcL
+    BxjfhFtL5fb>
+X-ME-Received: <xmr:YVQfZVrDl_aaip9HvCknlI6jRPyGFHmp4XIR2As3mc0fM0hq9NcHh2YOfCQYeFPLTHjC0FB7jevxc-zpl4gQfd14McbIogeQGtJNcrdmu93JGq2r-eLXH8Xs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrgeehgdefhecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefkffggfgfuvfevfhfhjggtgfesthejredttdefjeenucfhrhhomhepkfgrnhcu
+    mfgvnhhtuceorhgrvhgvnhesthhhvghmrgifrdhnvghtqeenucggtffrrghtthgvrhhnpe
+    euhfeuieeijeeuveekgfeitdethefguddtleffhfelfeelhfduuedvfefhgefhheenucev
+    lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehrrghvvghnse
+    hthhgvmhgrfidrnhgvth
+X-ME-Proxy: <xmx:YlQfZXl1_L8TMWe7RLDu62ZvUSa2BREvMrbrCCOrXMfOn5Qm8b3OIw>
+    <xmx:YlQfZd1-2AUNUqJXnkVrBopvHNDc9gw-i0J_3MpQWHS7GRNgMX9LPw>
+    <xmx:YlQfZWsuyxmLje11F-KKbJnHXS9c6kPzsNYDWePd3DSoN72GFSt7dw>
+    <xmx:YlQfZXMBhWMqKgsB-pnkEyij8sgxlC3Mdp0aHMAxo11bXMPdJ4_mbQ>
+Feedback-ID: i31e841b0:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 5 Oct 2023 20:27:07 -0400 (EDT)
+Message-ID: <7fe3c01f-c225-394c-fac5-cabfc70f3606@themaw.net>
+Date:   Fri, 6 Oct 2023 08:27:03 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 10/21] block: Add fops atomic write support
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v3 4/4] add listmount(2) syscall
 Content-Language: en-US
-To:     Dave Chinner <david@fromorbit.com>
-Cc:     "Martin K. Petersen" <martin.petersen@oracle.com>,
-        John Garry <john.g.garry@oracle.com>, axboe@kernel.dk,
-        kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
-        jejb@linux.ibm.com, djwong@kernel.org, viro@zeniv.linux.org.uk,
-        brauner@kernel.org, chandan.babu@oracle.com, dchinner@redhat.com,
-        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-nvme@lists.infradead.org, linux-xfs@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
-        linux-api@vger.kernel.org
-References: <20230929102726.2985188-11-john.g.garry@oracle.com>
- <17ee1669-5830-4ead-888d-a6a4624b638a@acm.org>
- <5d26fa3b-ec34-bc39-ecfe-4616a04977ca@oracle.com>
- <b7a6f380-c6fa-45e0-b727-ba804c6684e4@acm.org>
- <yq1lecktuoo.fsf@ca-mkp.ca.oracle.com>
- <db6a950b-1308-4ca1-9f75-6275118bdcf5@acm.org>
- <yq1h6n7rume.fsf@ca-mkp.ca.oracle.com>
- <34c08488-a288-45f9-a28f-a514a408541d@acm.org>
- <yq1ttr6qoqp.fsf@ca-mkp.ca.oracle.com>
- <a2077ddf-9a8f-4101-aeb9-605d6dee3c6e@acm.org>
- <ZR86Z1OcO52a4BtH@dread.disaster.area>
-From:   Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <ZR86Z1OcO52a4BtH@dread.disaster.area>
+To:     Miklos Szeredi <miklos@szeredi.hu>
+Cc:     Paul Moore <paul@paul-moore.com>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-man@vger.kernel.org,
+        linux-security-module@vger.kernel.org, Karel Zak <kzak@redhat.com>,
+        David Howells <dhowells@redhat.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <christian@brauner.io>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Matthew House <mattlloydhouse@gmail.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>
+References: <20230928130147.564503-1-mszeredi@redhat.com>
+ <20230928130147.564503-5-mszeredi@redhat.com>
+ <CAHC9VhQD9r+Qf5Vz1XmxUdJJJO7HNTKdo8Ux=n+xkxr=JGFMrw@mail.gmail.com>
+ <CAJfpegsPbDgaz46x4Rr9ZgCpF9rohVHsvuWtQ5LNAdiYU_D4Ww@mail.gmail.com>
+ <a25f2736-1837-f4ca-b401-85db24f46452@themaw.net>
+ <CAJfpegv78njkWdaShTskKXoGOpKAndvYYJwq7CLibiu+xmLCvg@mail.gmail.com>
+From:   Ian Kent <raven@themaw.net>
+In-Reply-To: <CAJfpegv78njkWdaShTskKXoGOpKAndvYYJwq7CLibiu+xmLCvg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-6.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_PASS,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 10/5/23 15:36, Dave Chinner wrote:
-> $ lspci |grep -i nvme
-> 03:00.0 Non-Volatile memory controller: Samsung Electronics Co Ltd NVMe SSD Controller SM981/PM981/PM983
-> 06:00.0 Non-Volatile memory controller: Samsung Electronics Co Ltd NVMe SSD Controller SM981/PM981/PM983
-> $ cat /sys/block/nvme*n1/queue/write_cache
-> write back
-> write back
-> $
-> 
-> That they have volatile writeback caches....
+On 5/10/23 23:47, Miklos Szeredi wrote:
+> On Thu, 5 Oct 2023 at 06:23, Ian Kent <raven@themaw.net> wrote:
+>
+>> The proc interfaces essentially use <mount namespace>->list to provide
+>>
+>> the mounts that can be seen so it's filtered by mount namespace of the
+>>
+>> task that's doing the open().
+>>
+>>
+>> See fs/namespace.c:mnt_list_next() and just below the m_start(), m_next(),
+> /proc/$PID/mountinfo will list the mount namespace of $PID.  Whether
+> current task has permission to do so is decided at open time.
+>
+> listmount() will list the children of the given mount ID.  The mount
+> ID is looked up in the task's mount namespace, so this cannot be used
+> to list mounts of other namespaces.  It's a more limited interface.
 
-It seems like what I wrote has been misunderstood completely. With
-"handling a power failure cleanly" I meant that power cycling a block device
-does not result in read errors nor in reading data that has never been written.
-Although it is hard to find information about this topic, here is what I found
-online:
-* About certain SSDs with power loss protection:
-   https://us.transcend-info.com/embedded/technology/power-loss-protection-plp
-* About another class of SSDs with power loss protection:
-   https://www.kingston.com/en/blog/servers-and-data-centers/ssd-power-loss-protection
-* About yet another class of SSDs with power loss protection:
-   https://phisonblog.com/avoiding-ssd-data-loss-with-phisons-power-loss-protection-2/
+Yep. But isn't the ability to see these based on task privilege?
 
-So far I haven't found any information about hard disks and power failure
-handling. What I found is that most current hard disks protect data with ECC.
-The ECC mechanism should provide good protection against reading data that
-has never been written. If a power failure occurs while a hard disk is writing
-a physical block, can this result in a read error after power is restored? If
-so, is this behavior allowed by storage standards?
 
-Bart.
+Is the proc style restriction actually what we need here (or some variation
+
+of that implementation)?
+
+
+An privileged task typically has the init namespace as its mount namespace
+
+and mounts should propagate from there so it should be able to see all 
+mounts.
+
+
+If the file handle has been opened in a task that is using some other mount
+
+namespace then presumably that's what the program author wants the task 
+to see.
+
+So I'm not sure I see a problem obeying the namespace of a given task.
+
+
+Ian
+
+>
+> I sort of understand the reasoning behind calling into a security hook
+> on entry to statmount() and listmount().  And BTW I also think that if
+> statmount() and listmount() is limited in this way, then the same
+> limitation should be applied to the proc interfaces.  But that needs
+> to be done real carefully because it might cause regressions.  OTOH if
+> it's only done on the new interfaces, then what is the point, since
+> the old interfaces will be available indefinitely?
+>
+> Also I cannot see the point in hiding some mount ID's from the list.
+> It seems to me that the list is just an array of numbers that in
+> itself doesn't carry any information.
+>
+> Thanks,
+> Miklos
