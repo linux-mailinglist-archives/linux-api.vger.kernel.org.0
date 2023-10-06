@@ -2,150 +2,251 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D56D67BBE7F
-	for <lists+linux-api@lfdr.de>; Fri,  6 Oct 2023 20:15:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D5A77BBFEE
+	for <lists+linux-api@lfdr.de>; Fri,  6 Oct 2023 22:01:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233202AbjJFSP0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 6 Oct 2023 14:15:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38264 "EHLO
+        id S233339AbjJFUBk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 6 Oct 2023 16:01:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233088AbjJFSPZ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 6 Oct 2023 14:15:25 -0400
-Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com [IPv6:2607:f8b0:4864:20::b35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7AE7BF
-        for <linux-api@vger.kernel.org>; Fri,  6 Oct 2023 11:15:23 -0700 (PDT)
-Received: by mail-yb1-xb35.google.com with SMTP id 3f1490d57ef6-d865854ef96so2596983276.2
-        for <linux-api@vger.kernel.org>; Fri, 06 Oct 2023 11:15:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1696616122; x=1697220922; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AYLhV8RKvbCInhnzqZ/HGBAbLzuMZXeZ10wGn+QIDt0=;
-        b=agZMnV/HJlJNR+eXnUqkrCNrnhdt8cTuH8KPxM8I0UlHzDgSB7yZOnfEzjuFFKmcys
-         px5mNgUlWMDvOhhIQ0tlHY+8PJ6lEWdjJPSApcLl/imzQggHqLnKYP1xPJpvbKX7Pxv/
-         8kR/kNwBWBPMQjEU7AXu3y2seqJXmjp4CTdY4oB1MHnwBAD2awuAUZPZnHR4vh0brRey
-         GhZvL/kPa8oQLPzBPzQ1kfkPRDz7LJIeNOKK/15bFxj9KCs7KIWsjDEqTIHOSh+IwdEf
-         ag4eZsxXhkYwVL5qydQ7mcnxfV/I44GhPcxTxAOWs1vxEnC+e8YwG+HGK+zixX8m9djt
-         T7vA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696616122; x=1697220922;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=AYLhV8RKvbCInhnzqZ/HGBAbLzuMZXeZ10wGn+QIDt0=;
-        b=Zlss3wMtDB103+Pgmgk8yafbGr6AN7YHmU0W/jsbLlpiJokhd0vrKg6pQhauWyEP4w
-         g9q+X1I+C3l6yvNNLp3BCUX6BWigOHCcDS5YRotzrcK8x0Mx4PlLytljHxtW4tOAF0LZ
-         1KfmIdPfIksWZJfY1OJEQKreEDpukRaDWeUngp5w/adqKfthzjDTR8G39c001FdwnpuL
-         KfWGVoPTh7Kf76XP53gAP9fa4S3O8xOQCTGVn/jev/FeynZrXJYZQgW3kbTU5+lCo3IH
-         DdmDdKLIqMkH7ryA4zm6fbJ+sm/We0RXryPOA4PCqrv0aPPHB/8ruxWBHTpZtCuLZOcR
-         ThWg==
-X-Gm-Message-State: AOJu0YyEBATdfCOwUYd0CbyLzBVIJduHY7DBDIq3VG6U7q33vhFnUyP7
-        YP2tDZhbwZOds9Sr+O4tshpcj5UpZJ+2ijdVor+ptA==
-X-Google-Smtp-Source: AGHT+IHzqypY4NdUT7zu05+MFHgfnxNiLO+3lSgUozk3D6Rhta9XqDneUgYhohjCWFkKwZkcLQmr90WO9qHqGTSh0Io=
-X-Received: by 2002:a25:509:0:b0:d7f:cdc8:e184 with SMTP id
- 9-20020a250509000000b00d7fcdc8e184mr8607707ybf.49.1696616122514; Fri, 06 Oct
- 2023 11:15:22 -0700 (PDT)
+        with ESMTP id S233283AbjJFUBi (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 6 Oct 2023 16:01:38 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 076C983;
+        Fri,  6 Oct 2023 13:01:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696622497; x=1728158497;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=w18bicPFsa6muxGkgTV16Ht3yE15FqqvBTrUOmV0dfc=;
+  b=HK0Ha5l/GV32WRbGxVR6NXQkG9DIr6Po7NvtSd1WsJvY+LxPc4I20bhT
+   F6qbrIZ0gdUFi9HLAsuDpTBOFR7sn5FxnQCKzBAHjsE4uSp1HqPmnmaPB
+   KEDxFTwha/Dm0wtHzjPjciLlb7uJor/3EYjmc3S3zHse6nUsZJ+i/LFWc
+   PNk2KgoYpwd/wjEvmX4bmbdHiYObVDrt3oqJFnFP1zAaQ/d2TYe512kEx
+   9cSv7QYnfpQr08zN+uBePE0gEJRM/icgUbTRG9mJj6NDu0pr9y+UrgAS8
+   sM98+E7Eab6IwxwlwU+pz1xFYEk0HRtma8rAoOg1f5wAi3RSeR+xA3S6i
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10855"; a="383710496"
+X-IronPort-AV: E=Sophos;i="6.03,204,1694761200"; 
+   d="scan'208";a="383710496"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2023 13:01:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10855"; a="842947806"
+X-IronPort-AV: E=Sophos;i="6.03,204,1694761200"; 
+   d="scan'208";a="842947806"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by FMSMGA003.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 06 Oct 2023 13:01:35 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Fri, 6 Oct 2023 13:01:35 -0700
+Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Fri, 6 Oct 2023 13:01:35 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32 via Frontend Transport; Fri, 6 Oct 2023 13:01:35 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.47) by
+ edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.32; Fri, 6 Oct 2023 13:01:34 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iDLREd1fmnJhWqMT+I3tNpL/XXE+IfEwf+CtlaNUhpAw5L/D8ZN4b6n32qSmyCR+Ktsbvr8Tz3kfW7pMYtWBQcEUtbIRc4/J0/CfT7NXmz7aPQA4/+hj6QEt7U1W+L4shGU6Uwt9KJXumLZfiykp1Lng1Ki0CY9qGbvMuZKnITSm0hNEInWajSPHklyou+/SMBM5ox3yu1f5K7khibVho2f5LVjbJQVaEZtH1cmGlIHxi38U80RCdjgBlkh/DrXs94moeit3SGtiBeLscK79N97x0x7AnGsVHjbDdYhAFVCaFUl4EGMhHL/3bjkc1iIsLv3BP4nbw/hSPZg/uccb3g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=w18bicPFsa6muxGkgTV16Ht3yE15FqqvBTrUOmV0dfc=;
+ b=YABE15NdwbB79Pd1NDFGK14mnTv9LUhNb8X/bLBz8kyhF53eDohBLVibU0JusdTPCyhhWKXzLYkwM7tF5dWjwUJdpbL6aSO0Zqua7XD9XEmOJk+G5xm3knVT3F56q28+OsXcpqjjOKJ20M8UdIdwsFu/J+o86Mdp66Qwh2Q6VxeVh/QzVCPIBU69f/sdnUw9Rsj1Kbvd4F1m7ce2GXYT4j4xQAzVQ6CwESWMik7sQTLWfAGcei5YNeBcnsW7CswsF9uMeBOrgz8uo8KXgIfT5q/avdr3vphTGLK4bzY3kKvGCCNKL2fmG64WgK3yZRuVRj4G9zeURvf1SLICVEBtnw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from MN0PR11MB5963.namprd11.prod.outlook.com (2603:10b6:208:372::10)
+ by SA3PR11MB7655.namprd11.prod.outlook.com (2603:10b6:806:307::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.24; Fri, 6 Oct
+ 2023 20:01:31 +0000
+Received: from MN0PR11MB5963.namprd11.prod.outlook.com
+ ([fe80::56f1:507b:133e:57cf]) by MN0PR11MB5963.namprd11.prod.outlook.com
+ ([fe80::56f1:507b:133e:57cf%5]) with mapi id 15.20.6838.033; Fri, 6 Oct 2023
+ 20:01:31 +0000
+From:   "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+To:     "Mehta, Sohil" <sohil.mehta@intel.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
+CC:     "borntraeger@linux.ibm.com" <borntraeger@linux.ibm.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "deller@gmx.de" <deller@gmx.de>,
+        "lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
+        "irogers@google.com" <irogers@google.com>,
+        "agordeev@linux.ibm.com" <agordeev@linux.ibm.com>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "jcmvbkbc@gmail.com" <jcmvbkbc@gmail.com>,
+        "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
+        "ysato@users.sourceforge.jp" <ysato@users.sourceforge.jp>,
+        "Hunter, Adrian" <adrian.hunter@intel.com>,
+        "chris@zankel.net" <chris@zankel.net>,
+        "hca@linux.ibm.com" <hca@linux.ibm.com>,
+        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "brgerst@gmail.com" <brgerst@gmail.com>,
+        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
+        "broonie@kernel.org" <broonie@kernel.org>,
+        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
+        "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
+        "christophe.leroy@csgroup.eu" <christophe.leroy@csgroup.eu>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "mpe@ellerman.id.au" <mpe@ellerman.id.au>,
+        "tsbogend@alpha.franken.de" <tsbogend@alpha.franken.de>,
+        "ink@jurassic.park.msu.ru" <ink@jurassic.park.msu.ru>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "geert@linux-m68k.org" <geert@linux-m68k.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>,
+        "namhyung@kernel.org" <namhyung@kernel.org>,
+        "jolsa@kernel.org" <jolsa@kernel.org>,
+        "npiggin@gmail.com" <npiggin@gmail.com>,
+        "monstr@monstr.eu" <monstr@monstr.eu>,
+        "linux-m68k@lists.linux-m68k.org" <linux-m68k@lists.linux-m68k.org>,
+        "debug@rivosinc.com" <debug@rivosinc.com>,
+        "ebiederm@xmission.com" <ebiederm@xmission.com>,
+        "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
+        "will@kernel.org" <will@kernel.org>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "gor@linux.ibm.com" <gor@linux.ibm.com>,
+        "alexander.shishkin@linux.intel.com" 
+        <alexander.shishkin@linux.intel.com>,
+        "mattst88@gmail.com" <mattst88@gmail.com>,
+        "glaubitz@physik.fu-berlin.de" <glaubitz@physik.fu-berlin.de>,
+        "linux-parisc@vger.kernel.org" <linux-parisc@vger.kernel.org>,
+        "acme@kernel.org" <acme@kernel.org>,
+        "slyich@gmail.com" <slyich@gmail.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-alpha@vger.kernel.org" <linux-alpha@vger.kernel.org>,
+        "James.Bottomley@HansenPartnership.com" 
+        <James.Bottomley@HansenPartnership.com>,
+        "rmclure@linux.ibm.com" <rmclure@linux.ibm.com>,
+        "linux-sh@vger.kernel.org" <linux-sh@vger.kernel.org>,
+        "svens@linux.ibm.com" <svens@linux.ibm.com>,
+        "dalias@libc.org" <dalias@libc.org>,
+        "schwab@linux-m68k.org" <schwab@linux-m68k.org>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>,
+        "linux-perf-users@vger.kernel.org" <linux-perf-users@vger.kernel.org>
+Subject: Re: [PATCH v2] arch: Reserve map_shadow_stack() syscall number for
+ all architectures
+Thread-Topic: [PATCH v2] arch: Reserve map_shadow_stack() syscall number for
+ all architectures
+Thread-Index: AQHZ5z2WzPjTzalN7Ei06VoIKvvJZ7A4YMaAgAAFboCAAAaGAIAE5JYA
+Date:   Fri, 6 Oct 2023 20:01:31 +0000
+Message-ID: <3bd9a85c6f10279af6372cf17064978ad38c18b3.camel@intel.com>
+References: <20230914185804.2000497-1-sohil.mehta@intel.com>
+         <487836fc-7c9f-2662-66a4-fa5e3829cf6b@intel.com>
+         <231994b0-ca11-4347-8d93-ce66fdbe3d25@app.fastmail.com>
+         <622b95d8-f8ad-5bd4-0145-d6aed2e3c07d@intel.com>
+In-Reply-To: <622b95d8-f8ad-5bd4-0145-d6aed2e3c07d@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.44.4-0ubuntu2 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MN0PR11MB5963:EE_|SA3PR11MB7655:EE_
+x-ms-office365-filtering-correlation-id: b2d26037-faf1-48cc-8352-08dbc6a708bb
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: jaX1Pd6ew70OEJ8SnmQTMbzU9crA0n7TyQtG7/s7zq10nJhRlgLbrqT0kTBhRbQs0DeG5Q2OUSC1sf5Zc9kZagmBl3/eL0BiVJSjjeG85LNAZYY3wxlXvlRe0wRukh6SeX7+N3xukFsa03O/SM8F0Demp1Z6QT9JeVL5ENgdlRhKdenh3mewROtbcUsS/etkIpw74dcp7e+8xImLOqUgmUmTGSq5PKoA/qlKVqGIBfjn6w6bqIR61kxRga5h3hQhQDnTfaO4SINf4Qn7y+OyimJ9JsyICSus1F+IOQfSCiL0KMKRJrrTHs6KEN7uvKYMKZZSxrCF2fNilvF7IMm2A8usqSZ1Ace1XLwD3TribKZPdRqHO9H/rpK/mzApDcPgN1Ixl0s0T9MH5bWvQoYsft1wTHdBYCxJXNYGLg3w99Bck/0S5QMiQVAeEr2sBKe+RjVKL9rMyIb1DB1tVHUcTHDpIU7Bd+LczGtIBhByVdbxiojQ7my5E07ystRhjWZ6332/bFlwHpQNKHQq4qToCTOvvWwNmJ/b9nuCyxfZN4OP6dZGnd1KUh5iPwWqFCcV8lYaq5IhemEgiP/PwHsgIGOP5vMcy/AnKzrncxauXVNcFLWX0Fe4ReD7fOA2v1yD
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB5963.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(376002)(136003)(346002)(39860400002)(366004)(230922051799003)(64100799003)(186009)(451199024)(1800799009)(8936002)(2616005)(66946007)(54906003)(66446008)(66476007)(66556008)(64756008)(316002)(41300700001)(6506007)(86362001)(6512007)(26005)(36756003)(71200400001)(6486002)(38100700002)(82960400001)(122000001)(478600001)(76116006)(110136005)(91956017)(4744005)(7366002)(7416002)(7406005)(38070700005)(2906002)(4326008)(5660300002)(8676002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?WDNCTDcvd3F5djFlaDY3QTQzVDU0Y2Z0VXZ2aGlpTFpla01XU2Q2YnA0MEhj?=
+ =?utf-8?B?bi93bUtpZUlEVDVZR0ZGTmJ1bS9BNE8xcm9vbmtRQmtwb0taQmhQclFkbEV4?=
+ =?utf-8?B?UUNtaURuUGFFZ2JjeFJJMyswc1VXckJiRlZ0WFVYTkd0c1hWZmZuVm1QdWNZ?=
+ =?utf-8?B?NnhMYjlTZzRXcTN5VVg3RFNFWkd2ZkdJR2lya0lZMmMwbXJ5MXZkTnc1d2Y4?=
+ =?utf-8?B?NjhvYmlVc0NxMlo4M2VFL010d1psdEVpclJNV0JUdXgvUVQ1bUZCbit5MkRx?=
+ =?utf-8?B?UjE4alpMYU1xTlZsMjVOSFBOcWVWZE91TjVsRzZpTmlVV0JSK25MS3JXYzFs?=
+ =?utf-8?B?TWRSUUpYM0p0ZklrNFJFNGhxRFR3a3ZnNnRxL0JFMjFad1J2bEY3VEduVnVo?=
+ =?utf-8?B?YnlSQnYyaGxHanBnQlVZN1o0MlpuYlpGZExMNE5YM0lzQjlvNnI5VHIydldy?=
+ =?utf-8?B?RGFhZ2pRUy92QTl4MnBtYXE2czFDcEZEeVd0dW1QNDJreUZ5TjB5cjRlZ2FV?=
+ =?utf-8?B?NlRJMUpCb3NybFRZcjI4MFFhS0dXVmpBclFTeG1kdTVMQlpOTmNmZk9lYmRl?=
+ =?utf-8?B?K3pPdkl0cmJCVHNWbGtBYm9TZ24vNFZRVVMwYmlmeWVaYmZsekN1ZDZIeENt?=
+ =?utf-8?B?YWJEZkVPbm5rYVVFdTJBR05IenYvakVZdFArY1J1WWRJWW84d1lqS29QVkwr?=
+ =?utf-8?B?RWMxa0MrTjZTMEpJVkw2cGFBRGVmWS9TTEhHaFp2TXMvRmZpekwvOUFoWGpM?=
+ =?utf-8?B?OEFJMGFRWktodXlpdnRqNU8wOHI1YlRNRTA2RG1CYnBsQWpqSkhobk95Rkpi?=
+ =?utf-8?B?eWg1U29vbWdvZXFCZjVDSzNKRmtBd3U5dXp1NDV6cE8zVTBocm82VitZSW5n?=
+ =?utf-8?B?L01PZlM4RzVWWmkvUUFxZWoveGo0Uk10VnRlWmJiR1lGQ2FXbThIdHJIRUF1?=
+ =?utf-8?B?M1FRWEV5UkE2cWRsQTZBSDRjR1g5M0lSWEJnTUxwd0NMM0ZGOVJ1bnBYaFNQ?=
+ =?utf-8?B?SWNXNHplYjhFNnFESURKSlNvVGlVcW1BRmUwSzRJL1V1SCtuUDVtMlZ4bFBK?=
+ =?utf-8?B?NWh3VG9PaWJybGUyd1NIelR2c3BHWXVwNGRPZFB4UzR5SllyK2dneW9mTlk5?=
+ =?utf-8?B?QS9XbFNjQlUwMnJMMWFsckFvbFhoWURxN0ZBc1JFUHUvbWZUYmw5TXVyZFN6?=
+ =?utf-8?B?b0V3OXNTdmkweEIvdWx2YTF4NHIyYVJYWDA4ZEwzdmJiNm5LK0xRSDJucEdF?=
+ =?utf-8?B?RkpyU2lxdzhPc3krZTZhSkhzdVhJdkFQWHNGM1RFMVM0Y3BpSWQxTmpsQ21a?=
+ =?utf-8?B?eTNieU90emk3L1FDdjgraUR1akNnWHorOHd4V25TRWFBRWY1WUc1Z3FndVNU?=
+ =?utf-8?B?TEpPeDduYWM0c3FvTDQ3STYvdEd3dVd0WlRSVlI5UkpKUFhFY1RVWElIcXJH?=
+ =?utf-8?B?eWRuOCtNSWJSSVRlU0NOSk1oUlRoaWpFRWgwVjYzNlAwWk0zSFlSdGxoMTFS?=
+ =?utf-8?B?b0lVanpyUTV0L09POHJlRnREZlJmQ1hNeE94ekNvUC81Q1prYUZSMTlnZnpN?=
+ =?utf-8?B?dVNzRUV5UnAxS0g3K0doaGJoMzNMTWVERlNLMlB6WXNjcDBvK3Zmc0w4eloy?=
+ =?utf-8?B?SUsrYy91TVdzV2ZQN3gyK25DN3NkTUVBOW1SNVEwZHNJR0h6NFJLZVdhSFdE?=
+ =?utf-8?B?Y05ZcEhWa3JNbGY2VThFTGV2V2JWRm8rakdFMUJqbEpGWXFjRWhuVXZiNzBN?=
+ =?utf-8?B?b3ZhKzNrNHVwdDJHNS9UYkFLWTJhYjl3WjBSbng0UUdyUXRUSWp4VlllcFgy?=
+ =?utf-8?B?Skl6SUQ5czhzQzZNclhKSXBCNDRkWGpmZFlCWm1uM2ozNnpQdmJSa0NSRXAw?=
+ =?utf-8?B?bUVSOHRZS2Q0d2Fuai9mYjh1akljc3JlYjlLbUwyTnhMamJTcDNETU5wS0VQ?=
+ =?utf-8?B?dEg1ZDNFZFV0T0RhOUpadmw4R2s2Q05URzVWdGpMb2RnbGRMakVjL0dhbmxM?=
+ =?utf-8?B?RllsZEZjbnlLVGZZU3JNU0owbVJ2WTVpdFp6dE1HbGZxb3pqdmR6YkZ0UWow?=
+ =?utf-8?B?ZllzckNyMEVMTXVnOUFnd1hEZnlGREg3VlgyZCt6ZlZmMVNBUzFqdWdFR0d6?=
+ =?utf-8?B?QlBRemJHVnJibkZLZ0crVk9obmNvQ1ZDQ1NxUVFVMU1QNFV2SldkdG53bG1r?=
+ =?utf-8?B?b3c9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <0C2B3A20E2357943B9266903966FAF59@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20230929102726.2985188-1-john.g.garry@oracle.com> <20230929102726.2985188-5-john.g.garry@oracle.com>
-In-Reply-To: <20230929102726.2985188-5-john.g.garry@oracle.com>
-From:   Jeremy Bongio <jbongio@google.com>
-Date:   Fri, 6 Oct 2023 11:15:11 -0700
-Message-ID: <CAOvQCn6zeHGiyfC_PH_Edop-JsMh1gUD8WL84R9oPanxOaxrsA@mail.gmail.com>
-Subject: Re: [PATCH 04/21] fs: Add RWF_ATOMIC and IOCB_ATOMIC flags for atomic
- write support
-To:     John Garry <john.g.garry@oracle.com>
-Cc:     axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
-        jejb@linux.ibm.com, martin.petersen@oracle.com, djwong@kernel.org,
-        viro@zeniv.linux.org.uk, brauner@kernel.org,
-        chandan.babu@oracle.com, dchinner@redhat.com,
-        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-nvme@lists.infradead.org, linux-xfs@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, tytso@mit.edu,
-        linux-api@vger.kernel.org,
-        Prasad Singamsetty <prasad.singamsetty@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
-        autolearn_force=no version=3.4.6
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB5963.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b2d26037-faf1-48cc-8352-08dbc6a708bb
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Oct 2023 20:01:31.1308
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: y+a1VFJnoIQj7e9E6vA7aNpD9bLEnNFQ9SCLb2RbHpQ+n+fwWkFOHk4aPyQw6o99d0pByBmjyl6/DnKmvIfacs1wG89qpEjTdZ0PYDilOxk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR11MB7655
+X-OriginatorOrg: intel.com
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-What is the advantage of using write flags instead of using an atomic
-open flag (O_ATOMIC)? With an open flag, write, writev, pwritev would
-all be supported for atomic writes. And this would potentially require
-less application changes to take advantage of atomic writes.
-
-On Fri, Sep 29, 2023 at 3:28=E2=80=AFAM John Garry <john.g.garry@oracle.com=
-> wrote:
->
-> From: Prasad Singamsetty <prasad.singamsetty@oracle.com>
->
-> Userspace may add flag RWF_ATOMIC to pwritev2() to indicate that the
-> write is to be issued with torn write prevention, according to special
-> alignment and length rules.
->
-> Torn write prevention means that for a power or any other HW failure, all
-> or none of the data will be committed to storage, but never a mix of old
-> and new.
->
-> For any syscall interface utilizing struct iocb, add IOCB_ATOMIC for
-> iocb->ki_flags field to indicate the same.
->
-> A call to statx will give the relevant atomic write info:
-> - atomic_write_unit_min
-> - atomic_write_unit_max
->
-> Both values are a power-of-2.
->
-> Applications can avail of atomic write feature by ensuring that the total
-> length of a write is a power-of-2 in size and also sized between
-> atomic_write_unit_min and atomic_write_unit_max, inclusive. Applications
-> must ensure that the write is at a naturally-aligned offset in the file
-> wrt the total write length.
->
-> Signed-off-by: Prasad Singamsetty <prasad.singamsetty@oracle.com>
-> Signed-off-by: John Garry <john.g.garry@oracle.com>
-> ---
->  include/linux/fs.h      | 1 +
->  include/uapi/linux/fs.h | 5 ++++-
->  2 files changed, 5 insertions(+), 1 deletion(-)
->
-> diff --git a/include/linux/fs.h b/include/linux/fs.h
-> index b528f063e8ff..898952dee8eb 100644
-> --- a/include/linux/fs.h
-> +++ b/include/linux/fs.h
-> @@ -328,6 +328,7 @@ enum rw_hint {
->  #define IOCB_SYNC              (__force int) RWF_SYNC
->  #define IOCB_NOWAIT            (__force int) RWF_NOWAIT
->  #define IOCB_APPEND            (__force int) RWF_APPEND
-> +#define IOCB_ATOMIC            (__force int) RWF_ATOMIC
->
->  /* non-RWF related bits - start at 16 */
->  #define IOCB_EVENTFD           (1 << 16)
-> diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
-> index b7b56871029c..e3b4f5bc6860 100644
-> --- a/include/uapi/linux/fs.h
-> +++ b/include/uapi/linux/fs.h
-> @@ -301,8 +301,11 @@ typedef int __bitwise __kernel_rwf_t;
->  /* per-IO O_APPEND */
->  #define RWF_APPEND     ((__force __kernel_rwf_t)0x00000010)
->
-> +/* Atomic Write */
-> +#define RWF_ATOMIC     ((__force __kernel_rwf_t)0x00000020)
-> +
->  /* mask of flags supported by the kernel */
->  #define RWF_SUPPORTED  (RWF_HIPRI | RWF_DSYNC | RWF_SYNC | RWF_NOWAIT |\
-> -                        RWF_APPEND)
-> +                        RWF_APPEND | RWF_ATOMIC)
->
->  #endif /* _UAPI_LINUX_FS_H */
-> --
-> 2.31.1
->
+T24gVHVlLCAyMDIzLTEwLTAzIGF0IDEwOjE4IC0wNzAwLCBTb2hpbCBNZWh0YSB3cm90ZToNCj4g
+PiBJZiB5b3UgbGlrZSwgSSBjYW4gcGljayB0aGlzIHVwIGZvciA2LjcgdGhyb3VnaCB0aGUgYXNt
+LWdlbmVyaWMNCj4gPiB0cmVlLiBJZiB5b3UgdGhpbmsgdGhpcyBzaG91bGQgYmUgcGFydCBvZiA2
+LjYsIEkgd291bGQgc3VnZ2VzdA0KPiA+IHRvIG1lcmdlIGl0IHRocm91Z2ggdGhlIHRyZWUgdGhh
+dCBvcmlnaW5hbGx5IGNvbnRhaW5lZCB0aGUNCj4gPiBzeXNjYWxsIGNvZGUuDQo+ID4gDQo+IA0K
+PiBEYXZlLCBJbmdvLCB3b3VsZCB5b3UgcHJlZmVyIHRvIHRha2UgdGhpcyBwYXRjaCB0aHJvdWdo
+IDYuNiBvciBkZWZlcg0KPiBpdA0KPiB1bnRpbCA2Ljc/DQo+IA0KPiBJdCdzIG5vdCBuZWNlc3Nh
+cmlseSBhIGZpeCBidXQgaXQgZG9lcyBoZWxwIGZpbmlzaCB1cCB0aGUgc2hzdGsNCj4gc3lzY2Fs
+bA0KPiBhZGRlZCB3aXRoIDYuNi4gQWxzbywgaXQgbWlnaHQgaGVscCByZWR1Y2Ugc29tZSBtZXJn
+ZSBjb25mbGljdHMgbGF0ZXINCj4gaWYNCj4gbmV3ZXIgc3lzY2FsbHMgYXJlIGJlaW5nIGFkZGVk
+IGR1cmluZyB0aGUgNi43IHdpbmRvdy4NCg0KSGkgQXJuZCwNCg0KSXQgZG9lc24ndCBsb29rIGxp
+a2UgYW55b25lIGlzIHBvdW5jaW5nIG9uIHRoZSBzeXNjYWxsIG51bWJlciBpbiBsaW51eC0NCm5l
+eHQgY3VycmVudGx5LiBJdCBtaWdodCBiZSBuaWNlIHRvIGhhdmUgdGhpcyBwYXRjaCBnbyB0aHJv
+dWdoIGxpbnV4LQ0KbmV4dCBzaW5jZSBpdCB0b3VjaGVzIHNvIG1hbnkgYXJjaGl0ZWN0dXJlcy4g
+QW5kIGl0IHNvdW5kcyBsaWtlIHg4Ng0KZm9sayBhcmUgb2sgd2l0aCB0aGlzLCBzbyBpZiB5b3Ug
+Y291bGQgcGljayBpdCB1cCBmb3IgNi43IHRoYXQgd291bGQgYmUNCmdyZWF0LiBUaGFua3MhDQo=
