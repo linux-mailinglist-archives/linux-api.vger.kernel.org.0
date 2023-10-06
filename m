@@ -2,165 +2,105 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2597F7BB811
-	for <lists+linux-api@lfdr.de>; Fri,  6 Oct 2023 14:49:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AA1A17BBD9D
+	for <lists+linux-api@lfdr.de>; Fri,  6 Oct 2023 19:22:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231334AbjJFMtH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 6 Oct 2023 08:49:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51992 "EHLO
+        id S233025AbjJFRWQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 6 Oct 2023 13:22:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33900 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231933AbjJFMtG (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 6 Oct 2023 08:49:06 -0400
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01D06C2
-        for <linux-api@vger.kernel.org>; Fri,  6 Oct 2023 05:49:04 -0700 (PDT)
-Received: by mail-ej1-x62d.google.com with SMTP id a640c23a62f3a-99c136ee106so372461066b.1
-        for <linux-api@vger.kernel.org>; Fri, 06 Oct 2023 05:49:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1696596542; x=1697201342; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9AHjmOOVg74tMZjWptrYGXUC/br+tpPBZRDuB46pbJ4=;
-        b=cybkrnUGy9JdW8Bq6HZ3s8LtKVkPFd3uIuxU3nZegmL8NCx/gJJvd4tkIGEOEjaGVc
-         TBoQtvncVvvHAiLlNaACmW3GzFvABrLFQMBK7qZkiOr99ujkOEw1F7OLlOWTYVCaevW+
-         0CZrL8GNUXClnCF0odjdk3rC5BDyMihuR2Mfw=
+        with ESMTP id S233011AbjJFRWO (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 6 Oct 2023 13:22:14 -0400
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D321DFB;
+        Fri,  6 Oct 2023 10:22:12 -0700 (PDT)
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-68bed2c786eso2040948b3a.0;
+        Fri, 06 Oct 2023 10:22:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696596542; x=1697201342;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9AHjmOOVg74tMZjWptrYGXUC/br+tpPBZRDuB46pbJ4=;
-        b=wiawfiuSbnXyqePMwHd+XL/Z9iKrcmsclmiqirfHm3QMSWNoB46zpaP2vFITTmHVwu
-         ZCqWbNOngb+43jc/XvT15msXQAcC3VghJwP9NmRCxnDxVCScBxWO7n4du5UlAiWqGDbk
-         Sanh4NHoa1TfOegOIEzU3vtg+XTpG8ernM67ArmDLfbqnPkHknGxf9eseIOqzOAXFduH
-         KU3km6Ni8TP/R96G3Prj6Qcd7Z6o/TSxKlVH3AJ0ZG71rmwwsPqm38H3HBAA2a1/TFAL
-         8eJ1SUa5beqSmn1NHXJnCDjqYPXMKUz9bz1/yqFQwaQPcQWozWpItP6DCx0VTf3m0fvP
-         bDGQ==
-X-Gm-Message-State: AOJu0Yz7fksrxa6Ij2MdxfwoR29l2BFHYSouMhTbFoM8Jy1qoHO3KyFL
-        ewqJxK4l2g4biiHXfT/g7XevbuUdurJ3yAH/MZ3GBw==
-X-Google-Smtp-Source: AGHT+IHvhpoQukvgif68v6ZXOt6wMxc0dIOaTCgNjhO+rpuGoNyF7BA9zqJTf0SIaSVv9SnHJJPet2kdIR96Z6Sp450=
-X-Received: by 2002:a17:907:7790:b0:9b9:facb:d950 with SMTP id
- ky16-20020a170907779000b009b9facbd950mr1823443ejc.72.1696596542320; Fri, 06
- Oct 2023 05:49:02 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1696612932; x=1697217732;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=UEjTiQOqZq/tiyoM37CeUZKubVviy0Hfhp5dRvbPE0c=;
+        b=YsNctJ0/shhjWo097m9U0+Axz93l4J8ST/Kf8XoiTiRB3dg1Vnna5RVXyySMpcjyfx
+         mGN2Ml1p9qPflgFDEDeH9sAqTyFp4+AzWGhl4kUGC3L9icHYEYQB7WnYRnBLNXR0FOnm
+         W5nIa6bVRuHecrHmavjx9azWy8TXSA75mJ7FwVrINtW0GfEz6IVVzXsRYgihvLITmm+m
+         8YyuamQcLUngN8XoG7XlSAwruJC8xwx3PDZtdYMaQ91sAgm0WZ6syqlya61aWiqw7e+5
+         9Y/95fbENTwSRe9geoSPOXhq7prhwKuzts7xYofCYgBvhQNw51uRXeLsGDXmqL7QIauq
+         NC0w==
+X-Gm-Message-State: AOJu0YwwhP/Ngd9CyNIYC7TI1+B4xEx+vhpH4t29MdZ8I2DEzYe888J6
+        6iHb6CT6kZq0p4Vu+4CvSko=
+X-Google-Smtp-Source: AGHT+IERDatMvRwiT/bQ534S3NzSEl+A3niSuO3D+OTniQoBISPNSqc1StabEZo+erszyh/gqRzPcg==
+X-Received: by 2002:a05:6a20:12d6:b0:153:4ea6:d127 with SMTP id v22-20020a056a2012d600b001534ea6d127mr10425406pzg.18.1696612931891;
+        Fri, 06 Oct 2023 10:22:11 -0700 (PDT)
+Received: from ?IPV6:2620:15c:211:201:ebdb:ae30:148c:2f33? ([2620:15c:211:201:ebdb:ae30:148c:2f33])
+        by smtp.gmail.com with ESMTPSA id q17-20020a62e111000000b0069327d0b491sm1719291pfh.195.2023.10.06.10.22.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 06 Oct 2023 10:22:10 -0700 (PDT)
+Message-ID: <2bb2a4d0-4f1f-45f1-9196-f5d0d8ee1878@acm.org>
+Date:   Fri, 6 Oct 2023 10:22:08 -0700
 MIME-Version: 1.0
-References: <20230928130147.564503-1-mszeredi@redhat.com> <20230928130147.564503-2-mszeredi@redhat.com>
- <CAJfpeguTQvA6cq-3JCEZx6wP+nvZX8E6_77pNRJUU2_S7cyAiA@mail.gmail.com> <CAOQ4uxgoA5eQCqXp0H7S+CtVM77OD4caQr59yHymtZUTwBCqLw@mail.gmail.com>
-In-Reply-To: <CAOQ4uxgoA5eQCqXp0H7S+CtVM77OD4caQr59yHymtZUTwBCqLw@mail.gmail.com>
-From:   Miklos Szeredi <miklos@szeredi.hu>
-Date:   Fri, 6 Oct 2023 14:48:51 +0200
-Message-ID: <CAJfpegudgvPQamq_9XyzE8-m5iVQSA=-2YPDcpt5sCtjmd9z0A@mail.gmail.com>
-Subject: Re: [PATCH v3 1/4] add unique mount ID
-To:     Amir Goldstein <amir73il@gmail.com>
-Cc:     Miklos Szeredi <mszeredi@redhat.com>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-man@vger.kernel.org,
-        linux-security-module@vger.kernel.org, Karel Zak <kzak@redhat.com>,
-        Ian Kent <raven@themaw.net>,
-        David Howells <dhowells@redhat.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <christian@brauner.io>,
-        Matthew House <mattlloydhouse@gmail.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>, Paul Moore <paul@paul-moore.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 10/21] block: Add fops atomic write support
+Content-Language: en-US
+To:     Dave Chinner <david@fromorbit.com>
+Cc:     "Martin K. Petersen" <martin.petersen@oracle.com>,
+        John Garry <john.g.garry@oracle.com>, axboe@kernel.dk,
+        kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
+        jejb@linux.ibm.com, djwong@kernel.org, viro@zeniv.linux.org.uk,
+        brauner@kernel.org, chandan.babu@oracle.com, dchinner@redhat.com,
+        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-nvme@lists.infradead.org, linux-xfs@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
+        linux-api@vger.kernel.org
+References: <5d26fa3b-ec34-bc39-ecfe-4616a04977ca@oracle.com>
+ <b7a6f380-c6fa-45e0-b727-ba804c6684e4@acm.org>
+ <yq1lecktuoo.fsf@ca-mkp.ca.oracle.com>
+ <db6a950b-1308-4ca1-9f75-6275118bdcf5@acm.org>
+ <yq1h6n7rume.fsf@ca-mkp.ca.oracle.com>
+ <34c08488-a288-45f9-a28f-a514a408541d@acm.org>
+ <yq1ttr6qoqp.fsf@ca-mkp.ca.oracle.com>
+ <a2077ddf-9a8f-4101-aeb9-605d6dee3c6e@acm.org>
+ <ZR86Z1OcO52a4BtH@dread.disaster.area>
+ <d976868a-d32c-43d1-b5da-ebbc4c8de468@acm.org>
+ <ZR+NiYIuKzEilkW3@dread.disaster.area>
+From:   Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <ZR+NiYIuKzEilkW3@dread.disaster.area>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, 6 Oct 2023 at 13:44, Amir Goldstein <amir73il@gmail.com> wrote:
->
-> On Thu, Oct 5, 2023 at 6:52=E2=80=AFPM Miklos Szeredi <miklos@szeredi.hu>=
- wrote:
-> >
-> > On Thu, 28 Sept 2023 at 15:03, Miklos Szeredi <mszeredi@redhat.com> wro=
-te:
-> > >
-> > > If a mount is released then its mnt_id can immediately be reused.  Th=
-is is
-> > > bad news for user interfaces that want to uniquely identify a mount.
-> > >
-> > > Implementing a unique mount ID is trivial (use a 64bit counter).
-> > > Unfortunately userspace assumes 32bit size and would overflow after t=
-he
-> > > counter reaches 2^32.
-> > >
-> > > Introduce a new 64bit ID alongside the old one.  Initialize the count=
-er to
-> > > 2^32, this guarantees that the old and new IDs are never mixed up.
-> >
-> > It occurred to me that it might make sense to make this counter
-> > per-namespace.  That would allow more separation between namespaces,
-> > like preventing the observation of mount creations in other
-> > namespaces.
-> >
->
-> Preventing the observation of mount creations in other mount namespaces
-> is independent of whether a global mntid namespace is used.
+On 10/5/23 21:31, Dave Chinner wrote:
+> Then I don't see what your concern is.
+> 
+> Single sector writes are guaranteed atomic and have been for as long 
+> as I've worked in this game. OTOH, multi-sector writes are not 
+> guaranteed to be atomic - they can get torn on sector boundaries, but
+> the individual sectors within that write are guaranteed to be 
+> all-or-nothing.
+> 
+> Any hardware device that does not guarantee single sector write 
+> atomicity (i.e. tears in the middle of a sector) is, by definition, 
+> broken. And we all know that broken hardware means nothing in the 
+> storage stack works as it should, so I just don't see what point you 
+> are trying to make...
 
-A local ID space makes observation of mount creations in other
-namespaces impossible.  While a global ID space does not.  ID
-allocation could be designed in a way that makes observation
-impossible, but that basically boils down to allocating separate
-ranges to each namespace, which is equivalent to identifying mounts by
-an {NSID, MNTID} pair.
-
->
-> > Does a global number make any sense?
-> >
->
-> I think global mntid namepsace makes notifications API a lot easier.
-> A process (e.g. systemd) may set marks to watch new mounts on
-> different mount namespaces.
->
-> If mntid could collide in different mount namepsaces, we will either
-> need to describe the mount namespace in the event or worse,
-> map child mount namespace mntid to parent mount namespace
-> like with uids.
-
-Mntids are quite different from uids in that a certain ID is only
-valid in a certain namespace.   There's no inheritance or sharing of
-mounts.  Also mounts cannot be moved from one namespace to another
-(with the exception of mounts created in an anonymous namespace).
-
-> If we use a global mntid namespace, multi mount namespace
-> watching becomes much much easier.
-
-If the watcher wants to interpret the received event it will have to
-know the namespace anyway.  Otherwise it's just a meaningless number.
-
-> Regarding the possible scopes for watching added/removed mounts
-> we could support:
-> - watch parent mount for children mounts (akin to inotify directory watch=
-)
-
-This probably makes sense.
-
-> - watch all mounts of a filesystem
-
-I don't see a use case.
-
-> - watch all mounts in mount namespace
-
-Yes.
-
-> - watch on entire system
-
-Again, I don't see how this could make sense.  Each time
-unshare(CLONE_NEWNS) is invoked a storm of mount creation events will
-happen.
-
-I'd imagine that watching mounts is primarily to complement the
-directory tree notifications, so that all changes to the path lookup
-namespace of a process could be monitored.
+Do you agree that the above implies that it is not useful in patch 01/21
+of this series to track atomic_write_unit_min_bytes in the block layer
+nor to export this information to user space? The above implies that
+this parameter will always be equal to the logical block size. Writes to
+a single physical block happen atomically. If there are multiple logical
+blocks per physical block, the block device must serialize 
+read/modify/write cycles internally.
 
 Thanks,
-Miklos
+
+Bart.
