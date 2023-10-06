@@ -2,131 +2,134 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DA797BB38F
-	for <lists+linux-api@lfdr.de>; Fri,  6 Oct 2023 10:54:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B3D737BB6E3
+	for <lists+linux-api@lfdr.de>; Fri,  6 Oct 2023 13:44:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230434AbjJFIyD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 6 Oct 2023 04:54:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33678 "EHLO
+        id S232108AbjJFLow (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 6 Oct 2023 07:44:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230358AbjJFIyD (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 6 Oct 2023 04:54:03 -0400
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5056183
-        for <linux-api@vger.kernel.org>; Fri,  6 Oct 2023 01:54:00 -0700 (PDT)
-Received: by mail-ej1-x62b.google.com with SMTP id a640c23a62f3a-9b98a699f45so322211066b.3
-        for <linux-api@vger.kernel.org>; Fri, 06 Oct 2023 01:54:00 -0700 (PDT)
+        with ESMTP id S231887AbjJFLov (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 6 Oct 2023 07:44:51 -0400
+Received: from mail-qv1-xf2c.google.com (mail-qv1-xf2c.google.com [IPv6:2607:f8b0:4864:20::f2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99AC1CE;
+        Fri,  6 Oct 2023 04:44:50 -0700 (PDT)
+Received: by mail-qv1-xf2c.google.com with SMTP id 6a1803df08f44-65b0e623189so10041076d6.1;
+        Fri, 06 Oct 2023 04:44:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1696582439; x=1697187239; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=3xGSg1ywEPdzy+7pm5ys+NDpYYhLyChWJlGKSbRiijw=;
-        b=e9JOMdBddiy+e2X+XurG3ruDYEHCQk3UVKyXYxDFYF6XrhfOyP7Ato/eVIEGR8Logq
-         81e6/dyfh73Lsst2k4dsDNpGBJCi7izTL7CPKkAFe4U2y+awEF+a7D+evT3y7n39fFWx
-         lJs5HQgMTUkhEIyVnUfxn+0aQVgdBiP30I5CQ=
+        d=gmail.com; s=20230601; t=1696592689; x=1697197489; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZM+JEXPoWkqE2R2OZqnBYJfbJJGioqTQDA2fARdnsWI=;
+        b=F7BpiSVf2F/x2fwRipqpz0Th059a8mX5wASI3qWhlG1NAZjnY/YFoftm3vrZQdXy4X
+         78fdwPcMJ/Jvls85aPUMT0LVMB/Qx20twYzaOfzAr5yz8pY5PlwgJed5KPy6WLMVic0h
+         aLLqXRQnS1GmZfZ63bRFFY894P7GXcxd+edrurwd6xyZZ4T0ybn9CGqzYftouc24roMK
+         qQ0tD/CYDdruznRN+6JwegvDVITdnqjXJ3I4gkMCC3b433wgiMRVB193FsUgXIIqa6T5
+         BLQOQXYzwxsbo/tXezj9UZXoQNsPLe6hIDwhKS2kytOI9A+54c4nuFqlpnHm5dlA4RAG
+         ylow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696582439; x=1697187239;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3xGSg1ywEPdzy+7pm5ys+NDpYYhLyChWJlGKSbRiijw=;
-        b=bFqQrqQtdEJT/sBC3okXSMOxWoqL0plrF+a43JGJdAF8eAoe9mMnPtMW7esG20ZNEM
-         aQR7HETOarmlBUfyBQWWpXn5i/YBTRuJWhKWU3nBjnqz9sRCXrw4Tmm/5YXwU06T+iEb
-         n8QQIhS3infHvAkM2hnSJpbHLdnF1dqBup1jcu7IFfbsfhcUX4uj/ceayVRFkPwLNoCS
-         i5LJJGhVGzBd77RaAACHb31cLuHcXSeVwwPC5l22R1HKvqOTMa/CTudSUkj3wjeFEOWs
-         rJefPtJwUbiNJT6zY8wWZC4z7bdEwMkZoa+49Uq4w1T14XMNRP4j07+FYJ668KJK0pO3
-         lS8Q==
-X-Gm-Message-State: AOJu0YzHORCvBCNtdfwi9gYf5ln3S7nURLgYR0onHZQ9ktcaCAkRPacI
-        FubGRcKP099eSCTAqziNkO+Z0E2ruvzGSDzuIlvXjw==
-X-Google-Smtp-Source: AGHT+IE83piQJm/UCJj7lGXWIXCxJWyzvaAX8JQ2evdgbQBnXPLUaWBfp6YDG5512fSgiL66epwHp3T7nz1LEyZLGHk=
-X-Received: by 2002:a17:906:109e:b0:9b2:a7f2:f819 with SMTP id
- u30-20020a170906109e00b009b2a7f2f819mr6282014eju.31.1696582438701; Fri, 06
- Oct 2023 01:53:58 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1696592690; x=1697197490;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZM+JEXPoWkqE2R2OZqnBYJfbJJGioqTQDA2fARdnsWI=;
+        b=RGDrjEb15zBWB5uYU6ac25EbSEf1t4LKYAkgsh/UMNDkJiN+egaRSa1l3kYtPAAo4t
+         ppGdIkpwGJV1s7L6lWEhxKTyvHS9kvTJOR3jM5WNsguG+SKWA09OeFDfPVvWkYbOLjqp
+         muezzkrcnhbJfgPygYwBO8I6UuIVwOB3E4XGHOUgG/aQHdTmx4xitPawhYJ5OJeqVl2L
+         5R31Us+NgpsW65az9thv3HNAFbe33KWEE8M1LN7KnVsdPbuWLsQ2JBO/l+/Rhc+VfZTL
+         bHaHN+0pMZCqMZ9CUbC2iItC5nQXBabAGFMVs2+tdzHYv6x/8T9s5ke37qdIcYCSz00U
+         WtPw==
+X-Gm-Message-State: AOJu0YxnKjr7mlv1EIuHEMYw1uClS653nJutBKo9vZp390Ypqn4UI3IN
+        kyeodw0Oos9uUYCIzYGi6/1Z9x4sJs7BkJATPm3ee5A9
+X-Google-Smtp-Source: AGHT+IHVLFeVcOso79B+AyG6TlZQfq3OF2axjCboJd9gZ3N2/TlbvkrJJ9EFkyHfFiFvnF3ZBj+hl0iH+2OYB3iQySU=
+X-Received: by 2002:a0c:c409:0:b0:64f:3699:90cd with SMTP id
+ r9-20020a0cc409000000b0064f369990cdmr8286281qvi.42.1696592689654; Fri, 06 Oct
+ 2023 04:44:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230928130147.564503-1-mszeredi@redhat.com> <20230928130147.564503-5-mszeredi@redhat.com>
- <CAHC9VhQD9r+Qf5Vz1XmxUdJJJO7HNTKdo8Ux=n+xkxr=JGFMrw@mail.gmail.com>
- <CAJfpegsPbDgaz46x4Rr9ZgCpF9rohVHsvuWtQ5LNAdiYU_D4Ww@mail.gmail.com>
- <a25f2736-1837-f4ca-b401-85db24f46452@themaw.net> <CAJfpegv78njkWdaShTskKXoGOpKAndvYYJwq7CLibiu+xmLCvg@mail.gmail.com>
- <CAHC9VhTwnjhfmkT5Rzt+SBf-8hyw4PYkbuPYnm6XLoyY7VAUiw@mail.gmail.com>
-In-Reply-To: <CAHC9VhTwnjhfmkT5Rzt+SBf-8hyw4PYkbuPYnm6XLoyY7VAUiw@mail.gmail.com>
-From:   Miklos Szeredi <miklos@szeredi.hu>
-Date:   Fri, 6 Oct 2023 10:53:47 +0200
-Message-ID: <CAJfpegsZqF4TnnFBsV-tzi=w_7M=To5DeAjyW=cei9YuG+qMfg@mail.gmail.com>
-Subject: Re: [PATCH v3 4/4] add listmount(2) syscall
-To:     Paul Moore <paul@paul-moore.com>
-Cc:     Ian Kent <raven@themaw.net>, Miklos Szeredi <mszeredi@redhat.com>,
+References: <20230928130147.564503-1-mszeredi@redhat.com> <20230928130147.564503-2-mszeredi@redhat.com>
+ <CAJfpeguTQvA6cq-3JCEZx6wP+nvZX8E6_77pNRJUU2_S7cyAiA@mail.gmail.com>
+In-Reply-To: <CAJfpeguTQvA6cq-3JCEZx6wP+nvZX8E6_77pNRJUU2_S7cyAiA@mail.gmail.com>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Fri, 6 Oct 2023 14:44:38 +0300
+Message-ID: <CAOQ4uxgoA5eQCqXp0H7S+CtVM77OD4caQr59yHymtZUTwBCqLw@mail.gmail.com>
+Subject: Re: [PATCH v3 1/4] add unique mount ID
+To:     Miklos Szeredi <miklos@szeredi.hu>
+Cc:     Miklos Szeredi <mszeredi@redhat.com>,
         linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-api@vger.kernel.org, linux-man@vger.kernel.org,
         linux-security-module@vger.kernel.org, Karel Zak <kzak@redhat.com>,
+        Ian Kent <raven@themaw.net>,
         David Howells <dhowells@redhat.com>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Al Viro <viro@zeniv.linux.org.uk>,
         Christian Brauner <christian@brauner.io>,
-        Amir Goldstein <amir73il@gmail.com>,
         Matthew House <mattlloydhouse@gmail.com>,
         Florian Weimer <fweimer@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>
+        Arnd Bergmann <arnd@arndb.de>, Paul Moore <paul@paul-moore.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, 6 Oct 2023 at 04:56, Paul Moore <paul@paul-moore.com> wrote:
-
-> > Also I cannot see the point in hiding some mount ID's from the list.
-> > It seems to me that the list is just an array of numbers that in
-> > itself doesn't carry any information.
+On Thu, Oct 5, 2023 at 6:52=E2=80=AFPM Miklos Szeredi <miklos@szeredi.hu> w=
+rote:
 >
-> I think it really comes down to the significance of the mount ID, and
-> I can't say I know enough of the details here to be entirely
-> comfortable taking a hard stance on this.  Can you help me understand
-> the mount ID concept a bit better?
+> On Thu, 28 Sept 2023 at 15:03, Miklos Szeredi <mszeredi@redhat.com> wrote=
+:
+> >
+> > If a mount is released then its mnt_id can immediately be reused.  This=
+ is
+> > bad news for user interfaces that want to uniquely identify a mount.
+> >
+> > Implementing a unique mount ID is trivial (use a 64bit counter).
+> > Unfortunately userspace assumes 32bit size and would overflow after the
+> > counter reaches 2^32.
+> >
+> > Introduce a new 64bit ID alongside the old one.  Initialize the counter=
+ to
+> > 2^32, this guarantees that the old and new IDs are never mixed up.
+>
+> It occurred to me that it might make sense to make this counter
+> per-namespace.  That would allow more separation between namespaces,
+> like preventing the observation of mount creations in other
+> namespaces.
+>
 
-Mount ID is a descriptor that allows referring to a specific struct
-mount from userspace.
+Preventing the observation of mount creations in other mount namespaces
+is independent of whether a global mntid namespace is used.
 
-The old 32 bit mount id is allocated with IDA from a global pool.
-Because it's non-referencing it doesn't allow uniquely identifying a
-mount.  That was a design mistake that I made back in 2008, thinking
-that the same sort of dense descriptor space as used for file
-descriptors would work.  Originally it was used to identify the mount
-and the parent mount in /proc/PID/mountinfo.  Later it was also added
-to the following interfaces:
+> Does a global number make any sense?
+>
 
- - name_to_handle_at(2) returns 32 bit value
- - /proc/PID/FD/fdinfo
- - statx(2) returns 64 bit value
+I think global mntid namepsace makes notifications API a lot easier.
+A process (e.g. systemd) may set marks to watch new mounts on
+different mount namespaces.
 
-It was never used on the kernel interfaces as an input argument.
+If mntid could collide in different mount namepsaces, we will either
+need to describe the mount namespace in the event or worse,
+map child mount namespace mntid to parent mount namespace
+like with uids.
 
-statmount(2) and listmount(2) require the mount to be identified by
-userspace, so having a unique ID is important.  So the "[1/4] add
-unique mount ID" adds a new 64 bit ID (still global) that is allocated
-sequentially and only reused after reboot.   It is used as an input to
-these syscalls.  It is returned by statx(2) if requested by
-STATX_MNT_ID_UNIQUE and as an array of ID's by listmount(2).
+If we use a global mntid namespace, multi mount namespace
+watching becomes much much easier.
 
-I can see mild security problems with the global allocation, since a
-task can observe mounts being done in other namespaces.  This doesn't
-sound too serious, and the old ID has similar issues.  But I think
-making the new ID be local to the mount namespace is also feasible.
+Regarding the possible scopes for watching added/removed mounts
+we could support:
+- watch parent mount for children mounts (akin to inotify directory watch)
+- watch all mounts of a filesystem
+- watch all mounts in mount namespace
+- watch on entire system
 
-> While I'm reasonably confident that we want a security_sb_statfs()
-> control point in statmount(), it may turn out that we don't want/need
-> a call in the listmount() case.  Perhaps your original patch was
-> correct in the sense that we only want a single security_sb_statfs()
-> call for the root (implying that the child mount IDs are attributes of
-> the root/parent mount)?  Maybe it's something else entirely?
-
-Mounts are arranged in a tree (I think it obvious how) and
-listmount(2) just lists the IDs of the immediate children of a mount.
-
-I don't see ID being an attribute of a mount, it's a descriptor.
+Not sure which of the above we will end up implementing, but the
+first two can use existing fanotify mount/sb marks.
 
 Thanks,
-Miklos
+Amir.
