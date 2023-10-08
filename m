@@ -2,182 +2,158 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A63F97BC39B
-	for <lists+linux-api@lfdr.de>; Sat,  7 Oct 2023 03:21:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D75987BCCEA
+	for <lists+linux-api@lfdr.de>; Sun,  8 Oct 2023 09:08:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234023AbjJGBVq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 6 Oct 2023 21:21:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37420 "EHLO
+        id S230221AbjJHHI3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 8 Oct 2023 03:08:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234006AbjJGBVo (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 6 Oct 2023 21:21:44 -0400
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C24C9B6;
-        Fri,  6 Oct 2023 18:21:43 -0700 (PDT)
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 396LOv1K027285;
-        Sat, 7 Oct 2023 01:21:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=to : cc : subject :
- from : message-id : references : date : in-reply-to : content-type :
- mime-version; s=corp-2023-03-30;
- bh=rIK8PNthw7jR8VfP37/YuoEu1vfIO3oTGBCGhd8uCMc=;
- b=RrIjdUoTiIAbg24w+fDQRi71HxNRBUMOc1yzHg9/8mU7jO7nSRJCv27CU0bGjOzIx36d
- MDHj5jneNVUIoNt+kJ2l8xyQhj8sP3rDkxg4wzd+s9tZBaXG5hz8B7iuBHnChVBxC8FI
- 63QFuhDQZPZQVJ2WofjYPJx9aW/zMhWWfqnIPmSSFQVH3aS/CzMi7vo5WDpdCgCwvIWg
- kXi+uywmS7g3pLrCygH4BwjDvqGkDJ+20NE4s4mCKyylfZNGKeYiK1jw5LCch6HtxvUs
- D1OfXgzynCnwWQPAXcCthzv/hDgbCiPZo+CccKlMASPrbRL7GynH4SpnIy+ELALRSznB Xw== 
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3tec7vmuxw-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Sat, 07 Oct 2023 01:21:10 +0000
-Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-        by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 396M6WxK002848;
-        Sat, 7 Oct 2023 01:21:09 GMT
-Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2174.outbound.protection.outlook.com [104.47.59.174])
-        by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3tea4bb5h3-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Sat, 07 Oct 2023 01:21:09 +0000
+        with ESMTP id S229441AbjJHHI2 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 8 Oct 2023 03:08:28 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8934EB9;
+        Sun,  8 Oct 2023 00:08:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696748906; x=1728284906;
+  h=date:from:to:cc:subject:message-id:
+   content-transfer-encoding:mime-version;
+  bh=KTPw61wG3P2AJ1S8Su/VEBjqtFfzGDoGvaQfHfCkP0Y=;
+  b=eTTXDHYHYJND0KVe0nfs+/PugxYTcBxMGiWYMZVZSQqihVFdOow/eAsz
+   f0Dfy6nou6difX40i2q+Yqkhgr8oC6wOzljlT4uFzxmXbtuUMdBz6HMrz
+   qGVdRaTPotug/qjnkEYu1DEnsP0E1dp+zmAZCWPB5rQ+jnTwGD1mxh28P
+   aUN22ohaN+zmumLl0XnclvjhrrVJfdazXJFQ7IEODUTEyZw4bPlmB0NNj
+   HVwQHzsV4ycJPqddxRVZlfVmY5E7EbYJbH+wt55S6QJ2iiXPx/9XPcnRy
+   RK6SPggTiOjp1WRjd0w3Kt/lhhRdU8pVP87ZcGpv1SNzbQJId6owKodnM
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10856"; a="387848584"
+X-IronPort-AV: E=Sophos;i="6.03,207,1694761200"; 
+   d="scan'208";a="387848584"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2023 00:08:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10856"; a="752678421"
+X-IronPort-AV: E=Sophos;i="6.03,207,1694761200"; 
+   d="scan'208";a="752678421"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+  by orsmga002.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 08 Oct 2023 00:08:25 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Sun, 8 Oct 2023 00:08:24 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Sun, 8 Oct 2023 00:08:24 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32 via Frontend Transport; Sun, 8 Oct 2023 00:08:24 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.173)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.32; Sun, 8 Oct 2023 00:08:24 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=a4UW1DoNF0pUmsfEcAm5UWN65hB43RF4UtoEQROhT8q/BREvDBqc7eB/tlnw1WAkYA6LDEJJRjWpH1CQdu60ICdgvz8aOXgMfhDtBxKbZ8wt2xFEwC0wVFEw1gPMwysJA403V5wGkXjWXtgmqnnnCbgXnS3+MUhkRPYAOWE+EJjmt7oeHZTakpwI0u00nEJe8qbDwqAjYKvH9JTsQTi1k4oXmpCGBdqHVSRGKyEpzG6U1Il8Z7yM6HYnwXLVuCObg7GckfiHiqvRlC4nINfIGzsQE4iWMfNiLdIsGycLO094u1EDABVPnMVYcWvFeRYoNsH+bkDtO7bp0xKADpiJNA==
+ b=Obplx7aHMqd8zw0r6atlPzxG9lYN6NyqF0H6T7OJKq5MP3K/JezQFnWqxzoKQN/BLQTlWSuPCufnpcZhENmkw5cP2sgTzjwsjIhbdimdWZtsdmDR54xiP7Vd4zEEqt6oK1rtwv8JRLucqjO22WbcEljp/xXk7Tttmyxm3nTQrmGnDHS5fbuVFQY6ejT8bK3C/nkiePRzWS70aZ6PSI4kXsOdSBbwyyI1QE4VSaVpQvRfMHlM2FknxKFr4a5dHYdXPwZQ30CZx9UJE/iqCGwdQmQyKXlCxWpccoAiwHjgRVlhHUalgkWLyXKOJKwPqAH/ixG4Qxd5IST1g+Eqk5WiPA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rIK8PNthw7jR8VfP37/YuoEu1vfIO3oTGBCGhd8uCMc=;
- b=UWrU0exc83aqmd9s4VDU/ER4A93YumWu1IhRNmN+piZcCH0Ah19KAwkGFoMHXGRDrfZWa2w371Y8dPtG2w3sESDq+SmBxN0+ZhdDbz1RtO9k/jW+87jTRAv+w7JaVOm4y9GOMctmUGt+/aZuOzfAY8a48Euvwq/7UGN/N+KxQhpvzT5Xl50tt4mO1aepwRQuRXTdgxHRURpkbyeexb6GbJoSHQPzSUAVkdDgOiLcsNSXmDbUUQz+mQ23u9ZSWHT+R9wDHL2hyoneDFwfSY9BL7ZAVerwMsZk3gXD/BSj//kmmc/uZryV1OmE3hMNsBXS4LVYiWR7pTDL/JYVGHiaJA==
+ bh=zhFzym9O+b3WidHBZ7unSrVRSPWR9LHcPIIIk1ZYtVA=;
+ b=XQEAilzl5BFc9MA3YFEH9WXkBIVtEYvGG6XsestILAP7D4I/QTE2/0BUYXNEHip8lxf8EWJfYCXth2QChHYT3nsPb1TrtoRYWCAmriypDWCiB4e73l+jhBiK5lgAUv+N0PLYtHpy3YlKWxlP+OESHTlHprZxMWB6y34/KZtzYgB6a0Ght37tGacjeYz79zaKv3wG+uesqUIfLDZMAElotHJZbgK6qHQSEsgwIYt+3OoVi67qM5aMvDKzjOzcudqJmUJnDI4wZiRegATGwMRvMR1al4VMEI3CCQN6qEYYq6EHTgqx5RWGTssO+wTfteyZCIGmFGoc3DSeUR6FP7tGDg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rIK8PNthw7jR8VfP37/YuoEu1vfIO3oTGBCGhd8uCMc=;
- b=VAJExmUWQpzVHhZX3pF48REFQwEfEzPTYMuzJ2FLcnYb3b2vJND0YFKrX1KImNl0SsPRt3/ggjpq4W5K3AoosidBrFa58uqE9hVOdEbkyWFcVLQOHaCmkm5XmsGV5Q/RvmqEyNLXrO2oXGdf/t2oJJiNy6rTQ0KuOT/AP8Jg+Xc=
-Received: from PH0PR10MB4759.namprd10.prod.outlook.com (2603:10b6:510:3d::12)
- by CO1PR10MB4723.namprd10.prod.outlook.com (2603:10b6:303:9c::20) with
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH8PR11MB6779.namprd11.prod.outlook.com (2603:10b6:510:1ca::17)
+ by PH8PR11MB7990.namprd11.prod.outlook.com (2603:10b6:510:259::6) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.26; Sat, 7 Oct
- 2023 01:21:05 +0000
-Received: from PH0PR10MB4759.namprd10.prod.outlook.com
- ([fe80::1ae3:44f0:f5b:2383]) by PH0PR10MB4759.namprd10.prod.outlook.com
- ([fe80::1ae3:44f0:f5b:2383%4]) with mapi id 15.20.6838.033; Sat, 7 Oct 2023
- 01:21:05 +0000
-To:     Bart Van Assche <bvanassche@acm.org>
-Cc:     Dave Chinner <david@fromorbit.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        John Garry <john.g.garry@oracle.com>, axboe@kernel.dk,
-        kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
-        jejb@linux.ibm.com, djwong@kernel.org, viro@zeniv.linux.org.uk,
-        brauner@kernel.org, chandan.babu@oracle.com, dchinner@redhat.com,
-        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-nvme@lists.infradead.org, linux-xfs@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
-        linux-api@vger.kernel.org
-Subject: Re: [PATCH 10/21] block: Add fops atomic write support
-From:   "Martin K. Petersen" <martin.petersen@oracle.com>
-Organization: Oracle Corporation
-Message-ID: <yq1v8bjpaz5.fsf@ca-mkp.ca.oracle.com>
-References: <5d26fa3b-ec34-bc39-ecfe-4616a04977ca@oracle.com>
-        <b7a6f380-c6fa-45e0-b727-ba804c6684e4@acm.org>
-        <yq1lecktuoo.fsf@ca-mkp.ca.oracle.com>
-        <db6a950b-1308-4ca1-9f75-6275118bdcf5@acm.org>
-        <yq1h6n7rume.fsf@ca-mkp.ca.oracle.com>
-        <34c08488-a288-45f9-a28f-a514a408541d@acm.org>
-        <yq1ttr6qoqp.fsf@ca-mkp.ca.oracle.com>
-        <a2077ddf-9a8f-4101-aeb9-605d6dee3c6e@acm.org>
-        <ZR86Z1OcO52a4BtH@dread.disaster.area>
-        <d976868a-d32c-43d1-b5da-ebbc4c8de468@acm.org>
-        <ZR+NiYIuKzEilkW3@dread.disaster.area>
-        <2bb2a4d0-4f1f-45f1-9196-f5d0d8ee1878@acm.org>
-Date:   Fri, 06 Oct 2023 21:21:01 -0400
-In-Reply-To: <2bb2a4d0-4f1f-45f1-9196-f5d0d8ee1878@acm.org> (Bart Van Assche's
-        message of "Fri, 6 Oct 2023 10:22:08 -0700")
-Content-Type: text/plain
-X-ClientProxiedBy: BY3PR05CA0028.namprd05.prod.outlook.com
- (2603:10b6:a03:254::33) To PH0PR10MB4759.namprd10.prod.outlook.com
- (2603:10b6:510:3d::12)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.43; Sun, 8 Oct
+ 2023 07:08:22 +0000
+Received: from PH8PR11MB6779.namprd11.prod.outlook.com
+ ([fe80::73c6:1231:e700:924]) by PH8PR11MB6779.namprd11.prod.outlook.com
+ ([fe80::73c6:1231:e700:924%4]) with mapi id 15.20.6838.029; Sun, 8 Oct 2023
+ 07:08:22 +0000
+Date:   Sun, 8 Oct 2023 15:08:09 +0800
+From:   kernel test robot <oliver.sang@intel.com>
+To:     "peterz@infradead.org" <peterz@infradead.org>
+CC:     <oe-lkp@lists.linux.dev>, <lkp@intel.com>,
+        <linux-kernel@vger.kernel.org>, <x86@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        <linux-alpha@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-ia64@vger.kernel.org>, <linux-m68k@lists.linux-m68k.org>,
+        <linux-mips@vger.kernel.org>, <linux-parisc@vger.kernel.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <linux-s390@vger.kernel.org>,
+        <linux-sh@vger.kernel.org>, <sparclinux@vger.kernel.org>,
+        <linux-api@vger.kernel.org>, <linux-arch@vger.kernel.org>,
+        <ying.huang@intel.com>, <feng.tang@intel.com>,
+        <fengwei.yin@intel.com>, <oliver.sang@intel.com>
+Subject: [tip:locking/core] [futex]  cb8c4312af:
+ will-it-scale.per_process_ops -3.2% regression
+Message-ID: <202310081429.a30c99f2-oliver.sang@intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SI2PR02CA0001.apcprd02.prod.outlook.com
+ (2603:1096:4:194::10) To PH8PR11MB6779.namprd11.prod.outlook.com
+ (2603:10b6:510:1ca::17)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR10MB4759:EE_|CO1PR10MB4723:EE_
-X-MS-Office365-Filtering-Correlation-Id: be72003f-dd07-4637-16f4-08dbc6d3ad15
+X-MS-TrafficTypeDiagnostic: PH8PR11MB6779:EE_|PH8PR11MB7990:EE_
+X-MS-Office365-Filtering-Correlation-Id: 53a134e3-49c4-41f4-a2af-08dbc7cd5b99
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: vZafzDzlPaH3JtINiokgetvNu4064tpGO/utw7w8CYlANt5H5BJTqLJ3SUFSNCw2gmdngKnEaSFeyZ9uDENZ7phejCrb5Sl69Rpd420RkfsOpAhTIqHPwREieRjxnffwhln4vzXeks0P8DYUGl65nsCnVaek+kiYjxG6sAl8A7udVp3P6ow/nDF4j6As+FMrkcyV17znLl6Aq7Se5ZK8d1s+XHJALb5bnGd3/gDKcnE9LLLBS5b1uiv7M+hNwBPnHsHrxZffKSojKSRN6lTe25BVAMUDoQcRSjiDbQtrQHsgKugclYDi8epEgEhDNEfm4/4o7pIJd/1pbcR/JtLa4Ur2Vzmta+ic8r5JSOFqgPYmvirehmLtrNi7HV9nC0FCQRbAPu58LVEoQc5f4RfNNH+mhUtG43WypCsRKOe0OhW0yAHq4o5URpkXpKDPFPSCE19Fk5EdnDcYYv2i+e/9y7tOsgS8+as/BtNizLNq1lH7kbh651a3LjRU1mMCcsD9Tpw2PoWFwINkSjT9ThDCMadrHdui6hLGacX/ztExRBB/LrrXjLk6tcoMS7peU481
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB4759.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(396003)(136003)(39860400002)(346002)(366004)(230922051799003)(451199024)(1800799009)(186009)(64100799003)(6512007)(6506007)(6486002)(478600001)(36916002)(83380400001)(5660300002)(6666004)(38100700002)(86362001)(6916009)(2906002)(4326008)(26005)(54906003)(8936002)(41300700001)(8676002)(66556008)(66946007)(316002)(7416002)(66476007);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: 9OmmVcCBow4Bm24+KZa/qQ2iVNoihIp1u02ICfFD/rhaQr5KQw0Ty2hEAnjwsd/Q6p3jicO4BCE274N1JNPhOWCdguxyjJ5UTPKY+JtPxAwfmv/NIdyYlPzB+9Yr0vOjFNnZ2pa7doK8RBTR2MepAAyj4VXV382vOzUfoDz5tnDqUvI8x4Z5T0mxox5ooQFuUKXYS7WZ/nEbSWsIT3pCQHppTskf1vaxjCwnUhUDD+UEHEBTevOWhP9LCmzQ/Ca9oU628RpooeQA52X2R+ysCEqMzTkN2Vu/Xyq4AHKg8sbo7JSAFHKTh9eJQfdJ5nAt+W+wXhCQRMtQyaNbKxHvj0iqLJsFUHlGyvwLMk9+ugWQIgYzNN7fGqIe+WfVVSZfTERtQC610ko0vL3QpbqEwD810u5KJdM40F1M36+pMxdPUoHEsIPpe8GhJ4DFDtSo6lLdq0YW/ViAn0WecODy8J5V4EdmpHJ6WUSg+SoNSIdqjvkJ8FUffOC9Q4+YnPjgSji6yneKyiph3nrYwTkYbKIl+vSNbAT3lOgvtPQBLWYIEZYz/EgkWWwk3/5vXBbdfQOEEt4Uvyn7s4VvseDhUA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR11MB6779.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(366004)(136003)(396003)(39860400002)(376002)(230922051799003)(64100799003)(186009)(451199024)(1800799009)(38100700002)(82960400001)(86362001)(36756003)(2906002)(6512007)(6486002)(966005)(478600001)(41300700001)(5660300002)(8936002)(4326008)(8676002)(6666004)(6506007)(83380400001)(2616005)(1076003)(107886003)(66556008)(66476007)(66946007)(7416002)(54906003)(316002)(6916009)(26005);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Lr1Fzinal5iFPnKt0k8/VGcG7fdIHJcuzrw/VIT41AMu9cSPFSp984OYPJwt?=
- =?us-ascii?Q?1AIRyQlekBfMarznW+JCBZ6MOsEQlxkBzauhx/r9An0pSmr/arW9Lf5PEfOB?=
- =?us-ascii?Q?Ghkma/+hfTzKJJYtYvws+ClQtOc/CjTsEN9HtXBZxngVjfi26/NYI62YuOkd?=
- =?us-ascii?Q?1lJW/maj6hgysnuGNVlhos6yYsbbE0yxPf0284S7yADG655o1WsyTgZIsQtw?=
- =?us-ascii?Q?XBeIGBHBGEYigCCZlnp8Jr7njT3EKI9EovYsm8dsrZDKjzFz5Uu/62nCFZRx?=
- =?us-ascii?Q?hdRSJaBCHZCE1QMM6LRnxGIXJr4WYWgvM4Bl12VeejJJTjft2ETTzSefeFii?=
- =?us-ascii?Q?k0ATJxlmo8iKemfcyzzgDqs/lxjrWiJVMH7aGepMnlizNhJP2fUjA63lHgjS?=
- =?us-ascii?Q?77hIX3TmtHGP1X6JMVSbkaKyxkggrU27exnBfwACCl42oaeQTO8MKE5Ur/55?=
- =?us-ascii?Q?dpUiS5gZJirUhJnNAHTSwo1kLtw/L31+2IP53FtKthYs1F13F5MBKfPO1T2o?=
- =?us-ascii?Q?fjxdy3GhRkFe2xZI9Hvn+Wbjpl5lOAQnJ5VsHM0l/pZfwcXr10MDDHA7VBWH?=
- =?us-ascii?Q?o1fU25ptJUkMcJFgS2oTOdZoco124YS26wWRO+wYlm/lSXqIuQHursh+YLXc?=
- =?us-ascii?Q?cZ4j8W3ZBjATV9yc7RHFtTn8/ZO5QcZCW1YrO+acDhkQv2vUGs0FgnAc5Pqb?=
- =?us-ascii?Q?yCj2yz4hbsnfeYwAXhrf9Rio46FIR0sdkabCEpHpnWqCeloxvB1pNnBIDQ82?=
- =?us-ascii?Q?6Fqrg73AjZayR2eSXf5DUqwNNjLxAf/kNLf1TteL8/PnzF+4SWKcFcb8Ps8Q?=
- =?us-ascii?Q?gjnp9KAWDMlqDjDjll4boHOhtrDLXh0WQoy9SoMrswvqrPoHuePGVpQZLy8H?=
- =?us-ascii?Q?IwXA8s90bCq4382RZRMOY6xQep+XmoHqcaiV3xMnbpr+JfdYXLlMCAXcSZjU?=
- =?us-ascii?Q?n5GIzFaREpIe1flB5oGQfCtehW5xZN72M2schix7e5xKs+pKmL5tzKYqr2QR?=
- =?us-ascii?Q?PWgWwlIPMRuxxhXa6DHTIAXpowjgi9tACpc29taIYWs1mpK4wxn8wpkwmHkt?=
- =?us-ascii?Q?QQvlVPaNhPvsWUbsbgbIsxdImIYgg62FdeiTIRrh93Gh/lLcuSQRmjkiqpXl?=
- =?us-ascii?Q?TA5z/uyPxzl/6DwtrpDtn3mxLlrUL3yg0OZbzbmqUssUyz+u9KXMhY+eu3up?=
- =?us-ascii?Q?k/1bpccZSE/xWcn1GQkhfAfPr7vD/qKMBKnWinzT3mfdJPFfKOqC/QY32d0a?=
- =?us-ascii?Q?EM0gyYwSx6Ga14N6vant5Gye4AAZbSQCKu7zhTzzTiu51KfFBGV6N+rLbcv+?=
- =?us-ascii?Q?jEVpFzcmAmqTdUT8Xtg1st9zpCudJCWo0vPvovkgLI5nI7iq9f9sXIfvwMxU?=
- =?us-ascii?Q?GGnKV2JKHylhb4jAe8RXBThqRlyu+IcYp8JDdW5/Ru4e3BmJ4cIRF/6hH6L8?=
- =?us-ascii?Q?aJkARqw1iEXWXLVTXv709hMo8EsNHFOYBdsEHDygt+GLoicjdoC8AN9F4m+6?=
- =?us-ascii?Q?qDB/ARoEBmLeGYuzU1TbS9+FYpGupLt6MSzhO3jEay4w5PCl9O99WYKHMW3Q?=
- =?us-ascii?Q?Y+IA3tTk8WpiFMgRKg90/GsoRSYg0f7/XDZ2X5IoEge8jrGSP/mJGL+m4ulM?=
- =?us-ascii?Q?uA=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: =?us-ascii?Q?+OBehmAcD3hA0p6MrHUCW3AZ2LCo5Tp3fgtvINqyEbtwMfpxVS+gsof1xqnh?=
- =?us-ascii?Q?Nq89ipDlg6IG5kCzxi58hLSlTv8ICrZee120oFIug6ADLNCiLaOwX+lzqGyI?=
- =?us-ascii?Q?wuZi2dp6KS2LCp02NZ1/jMFtoxSoE+DS8vooQHxOB1qoORCMjyt3W2v7IfhT?=
- =?us-ascii?Q?aoPuDkaZrSLcpgabudBGLCztZpsa+/hQQQegTpkeZ8n3/bcBhZnU+lHX0FbR?=
- =?us-ascii?Q?mhLYzEqrgJi1xAlb51qPCIzSAQi78ItudLePpw6Gxdmn5AvPRFt9562N8Vg/?=
- =?us-ascii?Q?gcVUi6eShZAoaoglU5XayBG5z1Gl/CCbc5InXryvhvumvOgP1tor9vXa35ZQ?=
- =?us-ascii?Q?g7BV4LlzCpsTDUtaOm7olw2n3cswJlVSSsNJXL2qXQN+SesTm0l6vDx67+ER?=
- =?us-ascii?Q?uP85KwGSt7mF9648FxuL+f8JrQK6jB/23Xh3d/phM9Q/ZN/Ux2/G6c/MLorw?=
- =?us-ascii?Q?nT4Ck28exiAyCk7TXWDzk7js6odG0oVxwc94tRtpxqKBe5Kq+sIRFGm0ZXi1?=
- =?us-ascii?Q?FmdveVWQhoGr0OHB/GMIqW8w1/+TZQJCAJnaSP5ryyYZ4fRZCf2sosHuKF5u?=
- =?us-ascii?Q?HPAglldVpgvrbcE/MVSxbeuUOnmbP08y8fPFk5CTrI2ADN0Q79mT142vVMGr?=
- =?us-ascii?Q?qvZQRDKQADOndznIrO/hQNRyUAn+khK+D3g3AjBu+BdY+c1whKu9Ivztapqw?=
- =?us-ascii?Q?a+joY5x3yuhTMUo3BPirYbOfuatx4m5M5aNGqywHX9+Oj0QzwtunziPknQQ2?=
- =?us-ascii?Q?aGbeJSN9v4QZhCGqwSBbfREuB3D3bSYK5UTVJI3T8JWik7XAqH6nZc8eY33G?=
- =?us-ascii?Q?9kGLXLe0d7fwMKKFBV4C2i3zoC8t4yvhOKa5v0Zvlr6NdzV023ahREf90LSJ?=
- =?us-ascii?Q?OoC+hqISdKwgWjD3ijQXO06zRIBwdZ2Qv9/hVfAH+/J87rijz6yxqHAirJy3?=
- =?us-ascii?Q?fjyrJUmSgHA0EXTMxh4VrS8JznAKI444671SvIpcKwNsXhJkBtv1VileTsBP?=
- =?us-ascii?Q?0IvFHgpn3PcWcHFPyyTm4E/CkHhPDgvcIQ+x3AuaTEjJjch06BNHASOxHjPM?=
- =?us-ascii?Q?8tToa8RTY2TlCEIoYqafhZZYMBHChZoEPoA/t1pmIPcNGunY4UfMGORTNaWm?=
- =?us-ascii?Q?pZR6/n2sQ2R78VVQ3cKawm3SIiPD0A+y3g=3D=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: be72003f-dd07-4637-16f4-08dbc6d3ad15
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4759.namprd10.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?MFmQud+Y7tiLvhLsVjPZ8tQSr9eXTf2exHjXqPZaZoEpuzDF89NU8NuLpP?=
+ =?iso-8859-1?Q?6qfFqQdenjQBqe8as7s+9csAcbKSpkjhgfZh9Ra8KJtkUcqN6O2ug4OlSK?=
+ =?iso-8859-1?Q?JfIjtElexBmEILLtucjgOj4mh3yBjqsvPsF6M7UFl967vWczgLQQqmOtpU?=
+ =?iso-8859-1?Q?t6uSj0KbVC42zbQTilS/upUPzkChpJrzN15sbmTsMrAwhbjLXOp1afbhR/?=
+ =?iso-8859-1?Q?m5mCfmwYNcVRV9p15AO0dWGjisTiTxtOLDbQSD/zWC1lXVlo8DnxBu3SAM?=
+ =?iso-8859-1?Q?ERom4L+b8Yi1ENPVDBXLBy/YF64mCA69eKdPMenZ3HWTGVioctdDdw8d22?=
+ =?iso-8859-1?Q?e/0J7yP6MHqUtageFCUI6VDSBp53J7wUMU5HtwoHpE/bDDtvEw4tbyvMSy?=
+ =?iso-8859-1?Q?2cEHXpg5DL/Z0se/UIt3zzC6CgY47loalTjUoUfVK3HBSMxxL5JQaGckof?=
+ =?iso-8859-1?Q?fgJfda9OXTkqD1v7EMNtiDB7S7gHTPFr9xTSjBt4Q4C1og8GA9TyzvttL9?=
+ =?iso-8859-1?Q?7qP/Z876sbVHSZYCkR29eXXWDgDZ0sI8pBAEoxRGPxputSaEPYZhfW5DHR?=
+ =?iso-8859-1?Q?9BgZ8THA4U2pxCj8O46/WYe9DchHxbfF0cKytyxmKH24ygjGP6lMvm77mh?=
+ =?iso-8859-1?Q?0xsbP811Ssu1I2w8e1fWbndN8Po+eSI0mPijCI625PkpMDHIyn7Ymd0eh8?=
+ =?iso-8859-1?Q?XbS8InZzutL8G2WZrrJCT0ogV0kjz164/z9gb0VaBrykInD+utWWoPg/oO?=
+ =?iso-8859-1?Q?FDhHf8vofqcpDXrAu5x9FQSln1Waz1X9vSVzmWAc8PjPG3VvRawzTK/ceT?=
+ =?iso-8859-1?Q?i7bfmcFvoQJFmzo0UA7tis/JDGEInlYOkIGcod09QucQf1KO4yt1w2kbfr?=
+ =?iso-8859-1?Q?VNyXXgsIRO4mG0Mk940DVswFNX6g2BX+CcqyK8VPQTfoRQHj/i+WfThOuC?=
+ =?iso-8859-1?Q?8Y6w1rkGcAY0fXlAJN0MSdxFGdSDovL8LHaWV3m7qTXiconWG0T9SvoCNl?=
+ =?iso-8859-1?Q?1CQYcyVB/cBcK28i70gKbbewN95NMt47VkC9K2DIeLbECuoQvOEMhGOfCM?=
+ =?iso-8859-1?Q?Vdx9xre1O7vO5BwearrywN/LKNb08UafZY60p+oRwsO43wCu1aBhdMdk8G?=
+ =?iso-8859-1?Q?s1E/ob07cfuFmBAkMxm06FkwOiqyKm4Fya7nWPZuC89zLyaRz/WPV7WcQ2?=
+ =?iso-8859-1?Q?eEoCkeSL0dC3dVhHgBxt6GjNE+SGm1gFhCpJlbr9Xk0QpE3mcfZtT3IBzv?=
+ =?iso-8859-1?Q?Dh07XCrl9PbT4/hEQLzHCOjSQy3ElNoki5lhipwvZz64Oi/oIrvPqlGwGR?=
+ =?iso-8859-1?Q?qsYBmL6DaEQ30zaYA15RidEFOA9yQVF6qNET9oLeziKUiN5bIwoNg5aZF9?=
+ =?iso-8859-1?Q?/XnHtZavccLzk8Rrr8dwC2GqD2rTVKYRAmLJdUowX7yJL2xsp5O0jB0h1C?=
+ =?iso-8859-1?Q?W37Zo0JqmPZ3Wib1vi1SEYW91p9E7kuns+LzrWQjexINnjWvqqCE7sc/om?=
+ =?iso-8859-1?Q?MeOGqj3oE9HGQ+/tkbZmyGd1VdCgqBbKr2ADwVVE5ccAI+NKr8UHiHKi4y?=
+ =?iso-8859-1?Q?05DNpCBZ0U8Kt/Axn7l0kILt7xfDXmy61b6/WRUyCWXaz1T+KdHNSiUuFW?=
+ =?iso-8859-1?Q?8r3PCz8ZDiFqcjqdmapIBoCT5wiUNXJyzVenRLJxaBdGTLjiSY9d3OZQ?=
+ =?iso-8859-1?Q?=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 53a134e3-49c4-41f4-a2af-08dbc7cd5b99
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB6779.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Oct 2023 01:21:04.8857
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Oct 2023 07:08:22.5068
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: J03RGdSiODHXBtst2jGEjYyyniq3+PMuvUmsW+uH3AoSoyzvk77OzwutfFd0a+1XRBRMGF951KGXxijG4fYGrmpQj1Ze8ewoCOoqOCgXNbE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4723
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-10-06_15,2023-10-06_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 mlxlogscore=999 mlxscore=0
- spamscore=0 malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2309180000
- definitions=main-2310070009
-X-Proofpoint-ORIG-GUID: xfE5TN4amzWvVkkR4AN_Bgag1VWsvMg-
-X-Proofpoint-GUID: xfE5TN4amzWvVkkR4AN_Bgag1VWsvMg-
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7hqjiYDg1PF97YTfwF7G9jXGsMLXFp5CoW/x11mvlZS4xJRFuzF4FKNq26kIszVcF5nI63HUCMRTRxZSm+8JVg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB7990
+X-OriginatorOrg: intel.com
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -185,45 +161,128 @@ List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
 
-Bart,
 
-> The above implies that this parameter will always be equal to the
-> logical block size.
+Hello,
 
-It does not. Being able to write each individual block in an I/O without
-tearing does not imply that a device can write two blocks as a single
-atomic operation.
+kernel test robot noticed a -3.2% regression of will-it-scale.per_process_ops on:
 
-> Writes to a single physical block happen atomically. If there are
-> multiple logical blocks per physical block, the block device must
-> serialize read/modify/write cycles internally.
 
-This is what SBC has to say:
+commit: cb8c4312afca1b2dc64107e7e7cea81911055612 ("futex: Add sys_futex_wait()")
+https://git.kernel.org/cgit/linux/kernel/git/tip/tip.git locking/core
 
-"If any write command that is not an atomic write command, does not
-complete successfully (e.g., the command completed with CHECK CONDITION
-status, or the command was being processed at the time of a power loss
-or an incorrect demount of a removable medium), then any data in the
-logical blocks referenced by the LBAs specified by that command is
-indeterminate."
+testcase: will-it-scale
+test machine: 224 threads 4 sockets Intel(R) Xeon(R) Platinum 8380H CPU @ 2.90GHz (Cooper Lake) with 192G memory
+parameters:
 
-SBC defines "atomic write command" like this:
+	nr_task: 16
+	mode: process
+	test: futex4
+	cpufreq_governor: performance
 
-"An atomic write command performs one or more atomic write operations.
- The following write commands are atomic write commands:
 
- a) WRITE ATOMIC (16) (see 5.48); and
- b) WRITE ATOMIC (32) (see 5.49)."
 
-You will note that none of the regular WRITE commands appear in that
-list.
 
-Now, in practice we obviously rely heavily on the fact that most devices
-are implemented in a sane fashion which doesn't mess up individual
-logical blocks on power fail. But the spec does not guarantee this; it
-is device implementation dependent. And again, we have seen both hard
-disk drives and SSDs that cause collateral damage to an entire physical
-block when power is lost at the wrong time.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <oliver.sang@intel.com>
+| Closes: https://lore.kernel.org/oe-lkp/202310081429.a30c99f2-oliver.sang@intel.com
+
+
+Details are as below:
+-------------------------------------------------------------------------------------------------->
+
+
+The kernel config and materials to reproduce are available at:
+https://download.01.org/0day-ci/archive/20231008/202310081429.a30c99f2-oliver.sang@intel.com
+
+=========================================================================================
+compiler/cpufreq_governor/kconfig/mode/nr_task/rootfs/tbox_group/test/testcase:
+  gcc-12/performance/x86_64-rhel-8.3/process/16/debian-11.1-x86_64-20220510.cgz/lkp-cpl-4sp2/futex4/will-it-scale
+
+commit: 
+  43adf84495 ("futex: FLAGS_STRICT")
+  cb8c4312af ("futex: Add sys_futex_wait()")
+
+43adf844951084c2 cb8c4312afca1b2dc64107e7e7c 
+---------------- --------------------------- 
+         %stddev     %change         %stddev
+             \          |                \  
+ 1.339e+08            -3.2%  1.296e+08        will-it-scale.16.processes
+   8367312            -3.2%    8102637        will-it-scale.per_process_ops
+ 1.339e+08            -3.2%  1.296e+08        will-it-scale.workload
+      0.61            -0.0        0.59        perf-stat.i.branch-miss-rate%
+  72599095            -2.7%   70647352        perf-stat.i.branch-misses
+      0.80            -1.8%       0.79        perf-stat.i.cpi
+ 2.073e+10            +3.8%  2.152e+10        perf-stat.i.dTLB-loads
+  1.72e+10            +2.2%  1.757e+10        perf-stat.i.dTLB-stores
+  66739031            -5.4%   63102078        perf-stat.i.iTLB-load-misses
+   2080892            +2.4%    2131032        perf-stat.i.iTLB-loads
+ 8.203e+10            +1.6%  8.337e+10        perf-stat.i.instructions
+      1231            +7.3%       1321        perf-stat.i.instructions-per-iTLB-miss
+      1.24            +1.8%       1.27        perf-stat.i.ipc
+    222.58            +2.4%     227.82        perf-stat.i.metric.M/sec
+      0.61            -0.0        0.59        perf-stat.overall.branch-miss-rate%
+      0.80            -1.8%       0.79        perf-stat.overall.cpi
+      1229            +7.5%       1321        perf-stat.overall.instructions-per-iTLB-miss
+      1.24            +1.8%       1.27        perf-stat.overall.ipc
+    184025            +4.9%     193123        perf-stat.overall.path-length
+  72373935            -2.7%   70427711        perf-stat.ps.branch-misses
+ 2.066e+10            +3.8%  2.144e+10        perf-stat.ps.dTLB-loads
+ 1.714e+10            +2.2%  1.751e+10        perf-stat.ps.dTLB-stores
+  66517376            -5.5%   62888454        perf-stat.ps.iTLB-load-misses
+   2073911            +2.4%    2123876        perf-stat.ps.iTLB-loads
+ 8.175e+10            +1.6%  8.309e+10        perf-stat.ps.instructions
+ 2.464e+13            +1.6%  2.504e+13        perf-stat.total.instructions
+     29.29 ±  2%     -29.3        0.00        perf-profile.calltrace.cycles-pp.futex_wait_setup.futex_wait.do_futex.__x64_sys_futex.do_syscall_64
+     12.17 ±  2%     -12.2        0.00        perf-profile.calltrace.cycles-pp.futex_q_lock.futex_wait_setup.futex_wait.do_futex.__x64_sys_futex
+      9.21 ±  2%      -9.2        0.00        perf-profile.calltrace.cycles-pp.futex_get_value_locked.futex_wait_setup.futex_wait.do_futex.__x64_sys_futex
+      6.61 ±  2%      -6.6        0.00        perf-profile.calltrace.cycles-pp.__get_user_nocheck_4.futex_get_value_locked.futex_wait_setup.futex_wait.do_futex
+      2.03 ±  2%      -0.1        1.88 ±  3%  perf-profile.calltrace.cycles-pp.syscall_exit_to_user_mode.do_syscall_64.entry_SYSCALL_64_after_hwframe.syscall
+      0.00            +2.0        1.98 ±  4%  perf-profile.calltrace.cycles-pp.get_futex_key.futex_wait_setup.__futex_wait.futex_wait.do_futex
+      0.00            +4.0        3.96 ±  3%  perf-profile.calltrace.cycles-pp.futex_q_unlock.futex_wait_setup.__futex_wait.futex_wait.do_futex
+      0.00            +4.1        4.09 ±  3%  perf-profile.calltrace.cycles-pp._raw_spin_lock.futex_q_lock.futex_wait_setup.__futex_wait.futex_wait
+      0.00            +4.4        4.35 ±  3%  perf-profile.calltrace.cycles-pp.futex_hash.futex_q_lock.futex_wait_setup.__futex_wait.futex_wait
+      0.00            +6.1        6.14 ±  3%  perf-profile.calltrace.cycles-pp.__get_user_nocheck_4.futex_get_value_locked.futex_wait_setup.__futex_wait.futex_wait
+      0.00            +8.5        8.52 ±  3%  perf-profile.calltrace.cycles-pp.futex_get_value_locked.futex_wait_setup.__futex_wait.futex_wait.do_futex
+      0.00           +11.3       11.27 ±  3%  perf-profile.calltrace.cycles-pp.futex_q_lock.futex_wait_setup.__futex_wait.futex_wait.do_futex
+      0.00           +27.4       27.44 ±  3%  perf-profile.calltrace.cycles-pp.futex_wait_setup.__futex_wait.futex_wait.do_futex.__x64_sys_futex
+      0.00           +31.3       31.33 ±  3%  perf-profile.calltrace.cycles-pp.__futex_wait.futex_wait.do_futex.__x64_sys_futex.do_syscall_64
+     29.80 ±  2%      -1.9       27.91 ±  3%  perf-profile.children.cycles-pp.futex_wait_setup
+     12.68 ±  2%      -0.9       11.74 ±  3%  perf-profile.children.cycles-pp.futex_q_lock
+      7.49 ±  2%      -0.6        6.93 ±  3%  perf-profile.children.cycles-pp.__get_user_nocheck_4
+      4.38 ±  2%      -0.4        3.96 ±  3%  perf-profile.children.cycles-pp.futex_q_unlock
+      4.74 ±  2%      -0.4        4.35 ±  3%  perf-profile.children.cycles-pp.futex_hash
+      4.62 ±  2%      -0.3        4.33 ±  3%  perf-profile.children.cycles-pp._raw_spin_lock
+      0.48 ±  3%      -0.2        0.32 ±  5%  perf-profile.children.cycles-pp.futex_setup_timer
+      1.71 ±  2%      -0.1        1.57 ±  4%  perf-profile.children.cycles-pp.entry_SYSCALL_64_safe_stack
+      1.24 ±  3%      -0.1        1.14 ±  4%  perf-profile.children.cycles-pp.syscall_enter_from_user_mode
+      0.52 ±  5%      -0.0        0.47 ±  4%  perf-profile.children.cycles-pp.syscall_exit_to_user_mode_prepare
+      0.35 ±  3%      -0.0        0.31 ±  3%  perf-profile.children.cycles-pp.syscall@plt
+      0.00           +31.5       31.46 ±  3%  perf-profile.children.cycles-pp.__futex_wait
+      7.88 ±  2%      -2.4        5.48 ±  2%  perf-profile.self.cycles-pp.futex_wait
+     10.37 ±  3%      -0.9        9.46 ±  3%  perf-profile.self.cycles-pp.syscall
+      7.46 ±  2%      -0.6        6.91 ±  3%  perf-profile.self.cycles-pp.__get_user_nocheck_4
+      4.20 ±  2%      -0.4        3.78 ±  3%  perf-profile.self.cycles-pp.futex_q_unlock
+      4.56 ±  2%      -0.4        4.19 ±  3%  perf-profile.self.cycles-pp.futex_hash
+      4.44 ±  2%      -0.3        4.16 ±  3%  perf-profile.self.cycles-pp._raw_spin_lock
+      3.54 ±  2%      -0.2        3.29 ±  3%  perf-profile.self.cycles-pp.futex_q_lock
+      1.71 ±  2%      -0.1        1.57 ±  4%  perf-profile.self.cycles-pp.entry_SYSCALL_64_safe_stack
+      0.40 ±  3%      -0.1        0.32 ±  5%  perf-profile.self.cycles-pp.futex_setup_timer
+      1.18            -0.1        1.10 ±  3%  perf-profile.self.cycles-pp.do_syscall_64
+      1.00            -0.1        0.94 ±  4%  perf-profile.self.cycles-pp.syscall_exit_to_user_mode
+      2.14 ±  3%      +0.2        2.31 ±  3%  perf-profile.self.cycles-pp.__x64_sys_futex
+      0.00            +3.5        3.50 ±  3%  perf-profile.self.cycles-pp.__futex_wait
+
+
+
+
+Disclaimer:
+Results have been estimated based on internal Intel analysis and are provided
+for informational purposes only. Any difference in system hardware or software
+design or configuration may affect actual performance.
+
 
 -- 
-Martin K. Petersen	Oracle Linux Engineering
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
