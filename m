@@ -2,152 +2,112 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A87057BEC47
-	for <lists+linux-api@lfdr.de>; Mon,  9 Oct 2023 23:05:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EBA567BEDFA
+	for <lists+linux-api@lfdr.de>; Tue, 10 Oct 2023 00:02:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1378212AbjJIVFh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 9 Oct 2023 17:05:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46308 "EHLO
+        id S1378321AbjJIWC6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 9 Oct 2023 18:02:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1378201AbjJIVFf (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 9 Oct 2023 17:05:35 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7C4AAF;
-        Mon,  9 Oct 2023 14:05:32 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74EB5C433C8;
-        Mon,  9 Oct 2023 21:05:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696885532;
-        bh=FZhRi5JSh0p/d2usQybblt8GOkPVFT7Pmxw3bLtebBs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=T3qbRRq16OIPybsmh/yi+PWNwCeO1ieVJAqSU8vLBx8fVcFUkiqE8Sag9LIvWVzLe
-         2IcwZnN8TBi8hj/vST0lqnJhIb0XyPybZuxDX3XLs5bUS9Su/JGkEt17yQmr+Oy+yF
-         msi6r4boWZ90461u3nQrBvYTudl8BXWfPz0K0rF6eQEEl8YOPf0Ryah3cHYQnli8y7
-         3CyL4hEMkP0OnGP63EZ4A5ibteVsrGljshMdeUaDDIK+pCMG14RcsW39fE756mNMT5
-         OVB8YIQrBl6yOfCDudxsCtGQ6nshQRyVkRc91eGPA8PO2gtP85g9GXTpexJRJpOE5J
-         +VQ8KfVDglBHg==
-Date:   Mon, 9 Oct 2023 14:05:31 -0700
-From:   "Darrick J. Wong" <djwong@kernel.org>
-To:     Dave Chinner <david@fromorbit.com>
-Cc:     John Garry <john.g.garry@oracle.com>, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, martin.petersen@oracle.com,
-        himanshu.madhani@oracle.com
-Subject: Re: [PATCH 2/4] readv.2: Document RWF_ATOMIC flag
-Message-ID: <20231009210531.GB214073@frogsfrogsfrogs>
-References: <20230929093717.2972367-1-john.g.garry@oracle.com>
- <20230929093717.2972367-3-john.g.garry@oracle.com>
- <20231009174438.GE21283@frogsfrogsfrogs>
- <ZSRk9Z6/i2E+YV9A@dread.disaster.area>
+        with ESMTP id S1378734AbjJIWC6 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 9 Oct 2023 18:02:58 -0400
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8964C9F
+        for <linux-api@vger.kernel.org>; Mon,  9 Oct 2023 15:02:56 -0700 (PDT)
+Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-690ce3c55f1so3692683b3a.0
+        for <linux-api@vger.kernel.org>; Mon, 09 Oct 2023 15:02:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fromorbit-com.20230601.gappssmtp.com; s=20230601; t=1696888976; x=1697493776; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=FbRz1UHmb7XUmCqoAt2aiODWlREyMNkavGrCa5bn36A=;
+        b=MZMZEj7zdsBoJQlEqyQ7v1u73ywMatHnYxtzMTLOIChOW5Fj5hbsue8BCDnwZxtqcQ
+         Kg+DivpcL9YfAptxhH8yBJ1QRQvqUx0k4LOax7iqK/dELisMRFbtBkUqtrtY47lZ+ofy
+         DGm8KhkoYBL5jytjoP/T80KHYkA5DyDw0wbhfOBiZ74IUgR7mwfVq35XMRjYwhfdJeTb
+         O0MlsmOH5kEpAoBcmicazdkPWXfIlXgrE+3XEi02pKf0KPAfCQ7//DufBBPsRP1ceV4x
+         h9xi5Hslq6LovCeR5XflppE5Ctm7zCmejNMN3aBsgvGKiAd9KCHi9Q0hwBn+IFLL63fB
+         Rr7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696888976; x=1697493776;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FbRz1UHmb7XUmCqoAt2aiODWlREyMNkavGrCa5bn36A=;
+        b=ZCuzqH4o1TS12V21v1FUz5XfAylN73+sM2Ellp/rHep2TtyT/1e3xVqqUmMkTsrjvv
+         CTwF3QesBl2DGx493lmvEF6hMgD1HX1vFhprPinPalVUXcM2s1bFmPVWgChsFFWnS9xM
+         md0ivCSmmsfn+U8wqyDcEOm9KHhZBMk/07Nnzv7SzsUTH8fbqdX7Rjg8xlQI9t9ylQd/
+         qn4Xd46YDGRkvZ2owup4th119YQ47pk7wYqwy1yH/6cMSvW7rCijUEZ0oi6ki8l/s6qR
+         i3bA52XhcM5WRMRTaxbDqdcpqAR9BsnupBFQyMc0gqgWpA9tgLK2itUho1nQwn1o4cgB
+         uURA==
+X-Gm-Message-State: AOJu0Yy9S/8QxA+bNETyLMQZeLo+O5bdEGKD3clwEAlcIXJefOH8Y/EN
+        S+fH6H4juxF4yChKSKhgbib5yQ==
+X-Google-Smtp-Source: AGHT+IEpkt3G98AV4FGoCDMDB+5clUh7WiyyCdUTYHTZBvPKYhyU/1ce58WV9ik5NuXYhsQyrBkPyg==
+X-Received: by 2002:a05:6a20:734b:b0:166:6582:a7d5 with SMTP id v11-20020a056a20734b00b001666582a7d5mr16692295pzc.3.1696888976074;
+        Mon, 09 Oct 2023 15:02:56 -0700 (PDT)
+Received: from dread.disaster.area (pa49-180-20-59.pa.nsw.optusnet.com.au. [49.180.20.59])
+        by smtp.gmail.com with ESMTPSA id h21-20020a62b415000000b00682868714fdsm7023146pfn.95.2023.10.09.15.02.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Oct 2023 15:02:55 -0700 (PDT)
+Received: from dave by dread.disaster.area with local (Exim 4.96)
+        (envelope-from <david@fromorbit.com>)
+        id 1qpyKz-00BhaC-06;
+        Tue, 10 Oct 2023 09:02:53 +1100
+Date:   Tue, 10 Oct 2023 09:02:53 +1100
+From:   Dave Chinner <david@fromorbit.com>
+To:     Jeremy Bongio <jbongio@google.com>
+Cc:     John Garry <john.g.garry@oracle.com>, axboe@kernel.dk,
+        kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
+        jejb@linux.ibm.com, martin.petersen@oracle.com, djwong@kernel.org,
+        viro@zeniv.linux.org.uk, brauner@kernel.org,
+        chandan.babu@oracle.com, dchinner@redhat.com,
+        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-nvme@lists.infradead.org, linux-xfs@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, tytso@mit.edu,
+        linux-api@vger.kernel.org,
+        Prasad Singamsetty <prasad.singamsetty@oracle.com>
+Subject: Re: [PATCH 04/21] fs: Add RWF_ATOMIC and IOCB_ATOMIC flags for
+ atomic write support
+Message-ID: <ZSR4jeSKlppLWjQy@dread.disaster.area>
+References: <20230929102726.2985188-1-john.g.garry@oracle.com>
+ <20230929102726.2985188-5-john.g.garry@oracle.com>
+ <CAOvQCn6zeHGiyfC_PH_Edop-JsMh1gUD8WL84R9oPanxOaxrsA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZSRk9Z6/i2E+YV9A@dread.disaster.area>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <CAOvQCn6zeHGiyfC_PH_Edop-JsMh1gUD8WL84R9oPanxOaxrsA@mail.gmail.com>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Oct 10, 2023 at 07:39:17AM +1100, Dave Chinner wrote:
-> On Mon, Oct 09, 2023 at 10:44:38AM -0700, Darrick J. Wong wrote:
-> > On Fri, Sep 29, 2023 at 09:37:15AM +0000, John Garry wrote:
-> > > From: Himanshu Madhani <himanshu.madhani@oracle.com>
-> > > 
-> > > Add RWF_ATOMIC flag description for pwritev2().
-> > > 
-> > > Signed-off-by: Himanshu Madhani <himanshu.madhani@oracle.com>
-> > > #jpg: complete rewrite
-> > > Signed-off-by: John Garry <john.g.garry@oracle.com>
-> > > ---
-> > >  man2/readv.2 | 45 +++++++++++++++++++++++++++++++++++++++++++++
-> > >  1 file changed, 45 insertions(+)
-> ....
-> > > +For when regular files are opened with
-> > > +.BR open (2)
-> > > +but without
-> > > +.B O_SYNC
-> > > +or
-> > > +.B O_DSYNC
-> > > +and the
-> > > +.BR pwritev2()
-> > > +call is made without
-> > > +.B RWF_SYNC
-> > > +or
-> > > +.BR RWF_DSYNC
-> > > +set, the range metadata must already be flushed to storage and the data range
-> > > +must not be in unwritten state, shared, a preallocation, or a hole.
-> > 
-> > I think that we can drop all of these flags requirements, since the
-> > contiguous small space allocation requirement means that the fs can
-> > provide all-or-nothing writes even if metadata updates are needed:
-> > 
-> > If the file range is allocated and marked unwritten (i.e. a
-> > preallocation), the ioend will clear the unwritten bit from the file
-> > mapping atomically.  After a crash, the application sees either zeroes
-> > or all the data that was written.
-> > 
-> > If the file range is shared, the ioend will map the COW staging extent
-> > into the file atomically.  After a crash, the application sees either
-> > the old contents from the old blocks, or the new contents from the new
-> > blocks.
-> > 
-> > If the file range is a sparse hole, the directio setup will allocate
-> > space and create an unwritten mapping before issuing the write bio.  The
-> > rest of the process works the same as preallocations and has the same
-> > behaviors.
-> > 
-> > If the file range is allocated and was previously written, the write is
-> > issued and that's all that's needed from the fs.  After a crash, reads
-> > of the storage device produce the old contents or the new contents.
-> 
-> This is exactly what I explained when reviewing the code that
-> rejected RWF_ATOMIC without O_DSYNC on metadata dirty inodes.
+On Fri, Oct 06, 2023 at 11:15:11AM -0700, Jeremy Bongio wrote:
+> What is the advantage of using write flags instead of using an atomic
+> open flag (O_ATOMIC)? With an open flag, write, writev, pwritev would
+> all be supported for atomic writes. And this would potentially require
+> less application changes to take advantage of atomic writes.
 
-I'm glad we agree. :)
+Atomic writes are not a property of the file or even the inode
+itself, they are an attribute of the specific IO being issued by
+the application.
 
-John, when you're back from vacation, can we get rid of this language
-and all those checks under _is_dsync() in the iomap patch?
+Most applications that want atomic writes are using it as a
+performance optimisation. They are likely already using DIO with
+either AIO, pwritev2 or io_uring and so are already using the
+interfaces that support per-IO attributes. Not every IO to every
+file needs to be atomic, so a per-IO attribute makes a lot of sense
+for these applications.
 
-(That code is 100% the result of me handwaving and bellyaching 6 months
-ago when the team was trying to get all the atomic writes bits working
-prior to LSF and I was too burned out to think the xfs part through.
-As a result, I decided that we'd only support strict overwrites for the
-first iteration.)
+Add to that that implementing atomic IO semantics in the generic IO
+paths (e.g. for buffered writes) is much more difficult. It's
+not an unsolvable problem (especially now with high-order folio
+support in the page cache), it's just way outside the scope of this
+patchset.
 
-> > Summarizing:
-> > 
-> > An (ATOMIC|SYNC) request provides the strongest guarantees (data
-> > will not be torn, and all file metadata updates are persisted before
-> > the write is returned to userspace.  Programs see either the old data or
-> > the new data, even if there's a crash.
-> > 
-> > (ATOMIC|DSYNC) is less strong -- data will not be torn, and any file
-> > updates for just that region are persisted before the write is returned.
-> > 
-> > (ATOMIC) is the least strong -- data will not be torn.  Neither the
-> > filesystem nor the device make guarantees that anything ended up on
-> > stable storage, but if it does, programs see either the old data or the
-> > new data.
-> 
-> Yup, that makes sense to me.
-
-Perhaps this ^^ is what we should be documenting here.
-
-> > Maybe we should rename the whole UAPI s/atomic/untorn/...
-> 
-> Perhaps, though "torn writes" is nomenclature that nobody outside
-> storage and filesystem developers really knows about. All I ever
-> hear from userspace developers is "we want atomic/all-or-nothing
-> data writes"...
-
-Fair 'enuf.
-
---D
-
-> -Dave.
-> -- 
-> Dave Chinner
-> david@fromorbit.com
+-Dave.
+-- 
+Dave Chinner
+david@fromorbit.com
