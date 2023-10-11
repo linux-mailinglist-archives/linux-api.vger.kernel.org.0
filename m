@@ -2,302 +2,123 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5442A7BFCF8
-	for <lists+linux-api@lfdr.de>; Tue, 10 Oct 2023 15:10:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0CF5F7C46C5
+	for <lists+linux-api@lfdr.de>; Wed, 11 Oct 2023 02:36:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231400AbjJJNKt (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 10 Oct 2023 09:10:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59134 "EHLO
+        id S1344418AbjJKAgM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 10 Oct 2023 20:36:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56336 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231997AbjJJNKr (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 10 Oct 2023 09:10:47 -0400
-Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com [IPv6:2607:f8b0:4864:20::1136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19555B0
-        for <linux-api@vger.kernel.org>; Tue, 10 Oct 2023 06:10:39 -0700 (PDT)
-Received: by mail-yw1-x1136.google.com with SMTP id 00721157ae682-5a505762c9dso68981507b3.2
-        for <linux-api@vger.kernel.org>; Tue, 10 Oct 2023 06:10:39 -0700 (PDT)
+        with ESMTP id S1344336AbjJKAgL (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 10 Oct 2023 20:36:11 -0400
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 394718E
+        for <linux-api@vger.kernel.org>; Tue, 10 Oct 2023 17:36:10 -0700 (PDT)
+Received: by mail-pf1-x42f.google.com with SMTP id d2e1a72fcca58-6969b391791so4418640b3a.3
+        for <linux-api@vger.kernel.org>; Tue, 10 Oct 2023 17:36:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1696943438; x=1697548238; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CsgZvUB2O0zJJrI/iXEY3Re98UsWJ7TyyRlE83OGx1c=;
-        b=ClEywZq1fSzze7YXlDGvaegYHxjIuvnYfp1HycbsaSvVYQRV9J6UgWzTuAEik1o0pm
-         U7DwJ52X+9yH1f/5wbBZ/gXoLOziGyKx8CGl5UpuxHqCgFHDBkln/fVH3y4LILkHuDVF
-         1G4puvi5nBFuXjoUg4CrfmTdIXu0z0KI3HXnxArcHL49meMu6XwfDs8g9VqIZHoEqHC4
-         iWt3tHlme+gAwG6G3kMXnHsDjCDzi5w8XRmGT4W3u3tIFtk7fuHCohO4TtD4F1GVKQcF
-         ATk2r7257VplRrIdF413nbwI9t3Xa6Xq0NdPLhT+m3EdGw2BWJNhH5luI/Fm3xvrGtb6
-         vcTw==
+        d=chromium.org; s=google; t=1696984569; x=1697589369; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=xq+AEqzmHiQrj4BnporbT5EC448/0KDAPw5SaA543wQ=;
+        b=nB1eJAcYFJ0WLMPTTNQOXv2BCX7Ec5DJFEKhjnvMV9Vld0Zp32P1axIpbHBLQ5Lq4v
+         FQodCej3Z/SjpXgBuDwPh2e0kyGFaWsrmL++BKMFs1K78r1i/vgEk5Oww39LhAoU61Ja
+         PZ3U28c+2dfi0CE/gXBQ7OdORBHZFdy9XztaA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696943438; x=1697548238;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CsgZvUB2O0zJJrI/iXEY3Re98UsWJ7TyyRlE83OGx1c=;
-        b=LHW1OgOu11GHRo3NB5SmdOykQQrImwEIFR7OScykZc1WVEvunueHDTl4imvvmKmVv8
-         x38kDNVKo/+/WTHbxBk1IGJLlHPvdH35r76JsBBdGdw1uJ+1OUdmTFwQwwvz3e3VVvPU
-         an6SeEUBzFj2+N85jPOW1L5+8chYiCAo8c2nc6ZEOIXF70DK8FwqL7wJbmo2v54JWLYc
-         wDOgfuC23bDbrjOAzviaAl7bdHe+88n4T0SRYRBQ0DYZsvXpH3jwvh+/diA1RPgTeiY6
-         XKz6FbcKctT2T/giuiNNsYS24GTz0tTSDxAPcUn8fTtvBKa0Gb4q+Y1PiFf31ON0TL5w
-         hSoQ==
-X-Gm-Message-State: AOJu0YzEjZdQak7xVkKZfwejFlmlxVdc5EDDw5mOmSyGgjKIRcprd0x+
-        YkhnA22BI3r+KlTMIKgyHUpRCau2jtW0eqkL/eyw
-X-Google-Smtp-Source: AGHT+IExdQYxbTm0mWZmMia9F8dQ3CBKiDVgTxmh3dZcW2qO311/CmuHbWAs1IVtseArGBo+1R/yIG6+Wi0mpWLjU5A=
-X-Received: by 2002:a25:16c3:0:b0:d62:b8f5:d745 with SMTP id
- 186-20020a2516c3000000b00d62b8f5d745mr16050911ybw.52.1696943438099; Tue, 10
- Oct 2023 06:10:38 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1696984569; x=1697589369;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xq+AEqzmHiQrj4BnporbT5EC448/0KDAPw5SaA543wQ=;
+        b=r2GHtq7YduokggbkOC5eYP2dgr6uxwCVpPfbszY7rO4DrEKYEEw+artnXYSh2HENyp
+         PwJXLBySGVEf6kiW5F6/st3GdQEALBDb9k8k+ErXhAckvl+7O2R36JKWiJuHZbm/T1H6
+         Vwq+HobqGiv5hHyWiMTIHcqBN1w3Uob9g0KiQGfe+U1HNPjt8r0VU/4y2a9BZQiuHZ4D
+         zWRMbmmriA8L8ehVuWMks3rHQ3VtuQlojA6zBDEWVx69QWUHp45ySlX90vNoOtBVFI9r
+         WoSLsE39XQoZg4Y69zB9ljZVBbt6Gy2+r1RMyGpK0GNjEc3LnVv9+4TJWn+NTUb7dEcG
+         RY5Q==
+X-Gm-Message-State: AOJu0YytJZNLWuAM0PpewaDbaTXfEc7QKxIENt1cZhgHnFubPvA/ZLYU
+        1t/w4n0MWawD3ngaFb9eeqM8OA==
+X-Google-Smtp-Source: AGHT+IFMfsjVmKnXm10wsvKLck/lh98ypo1T0gT+eWGMkht127PX3Zx9fbqq+35mlCoTyk2gMLVQoA==
+X-Received: by 2002:a05:6a20:12d6:b0:13d:a903:88e6 with SMTP id v22-20020a056a2012d600b0013da90388e6mr21244798pzg.48.1696984569634;
+        Tue, 10 Oct 2023 17:36:09 -0700 (PDT)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id g25-20020aa78759000000b006934704bf56sm8887859pfo.64.2023.10.10.17.36.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Oct 2023 17:36:08 -0700 (PDT)
+Date:   Tue, 10 Oct 2023 17:36:07 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Norbert Lange <nolange79@gmail.com>
+Cc:     Christian Brauner <brauner@kernel.org>,
+        Laurent Vivier <laurent@vivier.eu>,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org,
+        containers@lists.linux-foundation.org, jan.kiszka@siemens.com,
+        jannh@google.com, avagin@gmail.com, dima@arista.com,
+        James.Bottomley@hansenpartnership.com
+Subject: Re: [PATCH v8 1/1] ns: add binfmt_misc to the user namespace
+Message-ID: <202310101735.94C17F0@keescook>
+References: <8eb5498d-89f6-e39e-d757-404cc3cfaa5c@vivier.eu>
+ <20230630083852.3988-1-norbert.lange@andritz.com>
+ <e8161622-beb0-d8d5-6501-f0bee76a372d@vivier.eu>
+ <20230630-hufen-herzallerliebst-fde8e7aecba0@brauner>
+ <202307121239.1EB4D324@keescook>
+ <CADYdroNw5ZPPUqXQ5Psb8ffzi47SzvJAixQgxm+vsmV9eX_kYg@mail.gmail.com>
 MIME-Version: 1.0
-References: <20230912205658.3432-1-casey@schaufler-ca.com> <20230912205658.3432-5-casey@schaufler-ca.com>
- <20231003.kooghohS2Aiz@digikod.net> <CAHC9VhT_ijmqo9ap-EokWHuALsMAqome2qcWgst3eRP6m+vbRA@mail.gmail.com>
- <20231009.MieQu5ou2loo@digikod.net> <CAHC9VhS_pFy=WUq8F7jXQ3gstdM36FG52NQ+OeESHRSa54h7MQ@mail.gmail.com>
- <20231010.eisha1Fohj8u@digikod.net>
-In-Reply-To: <20231010.eisha1Fohj8u@digikod.net>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Tue, 10 Oct 2023 09:10:27 -0400
-Message-ID: <CAHC9VhReBwy6KMOZ58gNhdffGhob_Z3d6G1Z3VbsP-bA00Z0=w@mail.gmail.com>
-Subject: Re: [PATCH v15 04/11] LSM: syscalls for current process attributes
-To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
-Cc:     Casey Schaufler <casey@schaufler-ca.com>,
-        linux-security-module@vger.kernel.org, jmorris@namei.org,
-        serge@hallyn.com, keescook@chromium.org,
-        john.johansen@canonical.com, penguin-kernel@i-love.sakura.ne.jp,
-        stephen.smalley.work@gmail.com, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CADYdroNw5ZPPUqXQ5Psb8ffzi47SzvJAixQgxm+vsmV9eX_kYg@mail.gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Oct 10, 2023 at 5:14=E2=80=AFAM Micka=C3=ABl Sala=C3=BCn <mic@digik=
-od.net> wrote:
-> On Mon, Oct 09, 2023 at 12:04:31PM -0400, Paul Moore wrote:
-> > On Mon, Oct 9, 2023 at 11:37=E2=80=AFAM Micka=C3=ABl Sala=C3=BCn <mic@d=
-igikod.net> wrote:
-> > > On Thu, Oct 05, 2023 at 09:04:34PM -0400, Paul Moore wrote:
-> > > > On Tue, Oct 3, 2023 at 10:09=E2=80=AFAM Micka=C3=ABl Sala=C3=BCn <m=
-ic@digikod.net> wrote:
-> > > > > On Tue, Sep 12, 2023 at 01:56:49PM -0700, Casey Schaufler wrote:
-> > > > > > Create a system call lsm_get_self_attr() to provide the securit=
-y
-> > > > > > module maintained attributes of the current process.
-> > > > > > Create a system call lsm_set_self_attr() to set a security
-> > > > > > module maintained attribute of the current process.
-> > > > > > Historically these attributes have been exposed to user space v=
-ia
-> > > > > > entries in procfs under /proc/self/attr.
-> > > > > >
-> > > > > > The attribute value is provided in a lsm_ctx structure. The str=
-ucture
-> > > > > > identifies the size of the attribute, and the attribute value. =
-The format
-> > > > > > of the attribute value is defined by the security module. A fla=
-gs field
-> > > > > > is included for LSM specific information. It is currently unuse=
-d and must
-> > > > > > be 0. The total size of the data, including the lsm_ctx structu=
-re and any
-> > > > > > padding, is maintained as well.
-> > > > > >
-> > > > > > struct lsm_ctx {
-> > > > > >         __u64 id;
-> > > > > >         __u64 flags;
-> > > > > >         __u64 len;
-> > > > > >         __u64 ctx_len;
-> > > > > >         __u8 ctx[];
-> > > > > > };
-> > > > > >
-> > > > > > Two new LSM hooks are used to interface with the LSMs.
-> > > > > > security_getselfattr() collects the lsm_ctx values from the
-> > > > > > LSMs that support the hook, accounting for space requirements.
-> > > > > > security_setselfattr() identifies which LSM the attribute is
-> > > > > > intended for and passes it along.
-> > > > > >
-> > > > > > Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
-> > > > > > Reviewed-by: Kees Cook <keescook@chromium.org>
-> > > > > > Reviewed-by: Serge Hallyn <serge@hallyn.com>
-> > > > > > Reviewed-by: John Johansen <john.johansen@canonical.com>
-> > > > > > ---
-> > > > > >  Documentation/userspace-api/lsm.rst |  70 +++++++++++++
-> > > > > >  include/linux/lsm_hook_defs.h       |   4 +
-> > > > > >  include/linux/lsm_hooks.h           |   1 +
-> > > > > >  include/linux/security.h            |  19 ++++
-> > > > > >  include/linux/syscalls.h            |   5 +
-> > > > > >  include/uapi/linux/lsm.h            |  36 +++++++
-> > > > > >  kernel/sys_ni.c                     |   2 +
-> > > > > >  security/Makefile                   |   1 +
-> > > > > >  security/lsm_syscalls.c             |  57 +++++++++++
-> > > > > >  security/security.c                 | 152 ++++++++++++++++++++=
-++++++++
-> > > > > >  10 files changed, 347 insertions(+)
-> > > > > >  create mode 100644 Documentation/userspace-api/lsm.rst
-> > > > > >  create mode 100644 security/lsm_syscalls.c
+On Wed, Sep 06, 2023 at 12:28:27PM +0200, Norbert Lange wrote:
+> Am Mi., 12. Juli 2023 um 21:40 Uhr schrieb Kees Cook <keescook@chromium.org>:
+> >
+> > On Fri, Jun 30, 2023 at 11:06:59AM +0200, Christian Brauner wrote:
+> > > On Fri, Jun 30, 2023 at 10:52:22AM +0200, Laurent Vivier wrote:
+> > > > Hi Norbert,
 > > > >
-> > > > ...
-> > > >
-> > > > > > diff --git a/security/security.c b/security/security.c
-> > > > > > index a3489c04b783..0d179750d964 100644
-> > > > > > --- a/security/security.c
-> > > > > > +++ b/security/security.c
-> > > > > > @@ -3837,6 +3837,158 @@ void security_d_instantiate(struct dent=
-ry *dentry, struct inode *inode)
-> > > > > >  }
-> > > > > >  EXPORT_SYMBOL(security_d_instantiate);
-> > > > > >
-> > > > > > +/*
-> > > > > > + * Please keep this in sync with it's counterpart in security/=
-lsm_syscalls.c
-> > > > > > + */
-> > > > > > +
-> > > > > > +/**
-> > > > > > + * security_getselfattr - Read an LSM attribute of the current=
- process.
-> > > > > > + * @attr: which attribute to return
-> > > > > > + * @uctx: the user-space destination for the information, or N=
-ULL
-> > > > > > + * @size: pointer to the size of space available to receive th=
-e data
-> > > > > > + * @flags: special handling options. LSM_FLAG_SINGLE indicates=
- that only
-> > > > > > + * attributes associated with the LSM identified in the passed=
- @ctx be
-> > > > > > + * reported.
-> > > > > > + *
-> > > > > > + * A NULL value for @uctx can be used to get both the number o=
-f attributes
-> > > > > > + * and the size of the data.
-> > > > > > + *
-> > > > > > + * Returns the number of attributes found on success, negative=
- value
-> > > > > > + * on error. @size is reset to the total size of the data.
-> > > > > > + * If @size is insufficient to contain the data -E2BIG is retu=
-rned.
-> > > > > > + */
-> > > > > > +int security_getselfattr(unsigned int attr, struct lsm_ctx __u=
-ser *uctx,
-> > > > > > +                      size_t __user *size, u32 flags)
-> > > > > > +{
-> > > > > > +     struct security_hook_list *hp;
-> > > > > > +     struct lsm_ctx lctx =3D { .id =3D LSM_ID_UNDEF, };
-> > > > > > +     u8 __user *base =3D (u8 __user *)uctx;
-> > > > > > +     size_t total =3D 0;
-> > > > > > +     size_t entrysize;
-> > > > > > +     size_t left;
-> > > > > > +     bool toobig =3D false;
-> > > > > > +     bool single =3D false;
-> > > > > > +     int count =3D 0;
-> > > > > > +     int rc;
-> > > > > > +
-> > > > > > +     if (attr =3D=3D LSM_ATTR_UNDEF)
-> > > > > > +             return -EINVAL;
-> > > > > > +     if (size =3D=3D NULL)
-> > > > > > +             return -EINVAL;
-> > > > > > +     if (get_user(left, size))
-> > > > > > +             return -EFAULT;
-> > > > > > +
-> > > > > > +     if (flags) {
-> > > > > > +             /*
-> > > > > > +              * Only flag supported is LSM_FLAG_SINGLE
-> > > > > > +              */
-> > > > > > +             if (flags !=3D LSM_FLAG_SINGLE)
-> > > > > > +                     return -EINVAL;
-> > > > > > +             if (uctx && copy_from_user(&lctx, uctx, sizeof(lc=
-tx)))
+> > > > Le 30/06/2023 à 10:38, Norbert Lange a écrit :
+> > > > > Any news on this? What remains to be done, who needs to be harrassed?
 > > > > >
-> > > > > I'm not sure if we should return -EINVAL or -EFAULT when uctx =3D=
-=3D NULL.
-> > > > > Because uctx is optional (when LSM_FLAG_SINGLE is not set), I gue=
-ss
-> > > > > -EINVAL is OK.
+> > > > > Regards, Norbert
 > > > >
-> > > > That's a good point, we should probably the error codes here: if uc=
-tx
-> > > > is NULL in the LSM_FLAG_SINGLE case we should return -EINVAL, if th=
-e
-> > > > copy_from_user() fails we should return -EFAULT.
+> > > > Christian was working on a new version but there is no update for 1 year.
 > > > >
-> > > > > > +                     return -EFAULT;
-> > > > > > +             /*
-> > > > > > +              * If the LSM ID isn't specified it is an error.
-> > > > > > +              */
-> > > > > > +             if (lctx.id =3D=3D LSM_ID_UNDEF)
-> > > > > > +                     return -EINVAL;
-> > > > > > +             single =3D true;
-> > > > > > +     }
-> > > > > > +
-> > > > > > +     /*
-> > > > > > +      * In the usual case gather all the data from the LSMs.
-> > > > > > +      * In the single case only get the data from the LSM spec=
-ified.
-> > > > > > +      */
-> > > > > > +     hlist_for_each_entry(hp, &security_hook_heads.getselfattr=
-, list) {
-> > > > > > +             if (single && lctx.id !=3D hp->lsmid->id)
-> > > > > > +                     continue;
-> > > > > > +             entrysize =3D left;
-> > > > > > +             if (base)
-> > > > > > +                     uctx =3D (struct lsm_ctx __user *)(base +=
- total);
-> > > > > > +             rc =3D hp->hook.getselfattr(attr, uctx, &entrysiz=
-e, flags);
-> > > > > > +             if (rc =3D=3D -EOPNOTSUPP) {
-> > > > > > +                     rc =3D 0;
-> > > > > > +                     continue;
-> > > > > > +             }
-> > > > > > +             if (rc =3D=3D -E2BIG) {
-> > > > > > +                     toobig =3D true;
-> > > > > > +                     left =3D 0;
-> > > > > > +             } else if (rc < 0)
-> > > > > > +                     return rc;
-> > > > > > +             else
-> > > > > > +                     left -=3D entrysize;
-> > > > > > +
-> > > > > > +             total +=3D entrysize;
-> > > > > > +             count +=3D rc;
-> > > > >
-> > > > > There is a bug if rc =3D=3D -E2BIG
+> > > > [PATCH v2 1/2] binfmt_misc: cleanup on filesystem umount
+> > > > https://lkml.org/lkml/2021/12/16/406
+> > > > [PATCH v2 2/2] binfmt_misc: enable sandboxed mounts
+> > > > https://lkml.org/lkml/2021/12/16/407
 > > > >
-> > > > Can you elaborate a bit more on this? Nothing is jumping out at me =
-as
-> > > > obviously broken... are you talking about @count becoming garbage d=
-ue
-> > > > to @rc being equal to -E2BIG?  If that is the case it should be oka=
-y
-> > > > since we explicitly return -E2BIG, not @count, if @toobig is true.
+> > > > And personally I don't have the time to work on this.
 > > >
-> > > Indeed, in this case count will not be returned thanks to toobig. I'd
-> > > suggest to "continue" if rc =3D=3D -E2BIG (like for -EOPNOTSUPP) to a=
-void an
-> > > inconsistent count value, which could bite us one day.
+> > > I've actually rebased this a few weeks ago:
+> > > https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git/log/?h=vfs.binfmt_misc
+> > > It has Acks, it's done. The only thing back then was Kees had wanted to
+> > > take this but never did. I'll ping him.
 > >
-> > Okay, how about we reset @rc to zero in the -E2BIG case?  We don't
-> > want to bypass the lower part of the loop in this case as we still
-> > need to update @total.
+> > Hi! Can you resend this now that the merge window is closed? I looked at
+> > it in your tree and it seems okay. I remain a bit nervous about exposing
+> > it to unpriv access, but I'd like to give it a try. It'd be very useful!
 > >
-> >   if (rc =3D=3D -E2BIG) {
-> >     rc =3D 0;
-> >     left =3D 0;
-> >     toobig =3D true;
-> >   }
->
-> Indeed, this is better.
->
-> To avoid useless calls to getselfattr hooks, we could also patch the
-> last part of the loop:
-> -               if (single)
-> +               if (single || left <=3D 0)
->                         break;
->
+> > -Kees
+> >
+> > --
+> > Kees Cook
+> 
+> Hate to be that guy, but did anything move closer towards upstream
+> since that post?
 
-They aren't useless calls, we keep calling into the LSMs so that we
-can return a buffer size hint in the @size parameter when the getattr
-syscall returns -E2BIG.
+No rebase was needed -- I've dropped this in -next now. Let's see how it
+goes!
 
---=20
-paul-moore.com
+-- 
+Kees Cook
