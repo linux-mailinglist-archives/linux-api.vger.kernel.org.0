@@ -2,123 +2,100 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CF5F7C46C5
-	for <lists+linux-api@lfdr.de>; Wed, 11 Oct 2023 02:36:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 40F7D7C793D
+	for <lists+linux-api@lfdr.de>; Fri, 13 Oct 2023 00:07:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344418AbjJKAgM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 10 Oct 2023 20:36:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56336 "EHLO
+        id S1442988AbjJLWHh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 12 Oct 2023 18:07:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59042 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344336AbjJKAgL (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 10 Oct 2023 20:36:11 -0400
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 394718E
-        for <linux-api@vger.kernel.org>; Tue, 10 Oct 2023 17:36:10 -0700 (PDT)
-Received: by mail-pf1-x42f.google.com with SMTP id d2e1a72fcca58-6969b391791so4418640b3a.3
-        for <linux-api@vger.kernel.org>; Tue, 10 Oct 2023 17:36:10 -0700 (PDT)
+        with ESMTP id S1442981AbjJLWHh (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 12 Oct 2023 18:07:37 -0400
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DD37C9
+        for <linux-api@vger.kernel.org>; Thu, 12 Oct 2023 15:07:35 -0700 (PDT)
+Received: by mail-yb1-xb2d.google.com with SMTP id 3f1490d57ef6-d9ac3b4f42cso1016330276.0
+        for <linux-api@vger.kernel.org>; Thu, 12 Oct 2023 15:07:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1696984569; x=1697589369; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=xq+AEqzmHiQrj4BnporbT5EC448/0KDAPw5SaA543wQ=;
-        b=nB1eJAcYFJ0WLMPTTNQOXv2BCX7Ec5DJFEKhjnvMV9Vld0Zp32P1axIpbHBLQ5Lq4v
-         FQodCej3Z/SjpXgBuDwPh2e0kyGFaWsrmL++BKMFs1K78r1i/vgEk5Oww39LhAoU61Ja
-         PZ3U28c+2dfi0CE/gXBQ7OdORBHZFdy9XztaA=
+        d=paul-moore.com; s=google; t=1697148454; x=1697753254; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FTpO+n7M6TPusV7FMWLowRWDIaW45wTQ8zFKVmNzMBQ=;
+        b=NW5Z3rCCFc2KtasrXAoE9YL/QIbz1vQDdiY4kWi7QG288MJng1pggtfP7I53rMHK3T
+         mP81r4KgN/sGKrM+Ikg4GVcyp8eaoPEnzdYGYsiK8IXDbVVDOjAuHTH21ZydwMB1G+H6
+         mebPzSmpNXRGlGxQVAxOWR/r+Fnl+JOntj/ywwxGQlROtlt0I07mx4Qq7zOIsh1yJlG8
+         9ao49TZY3RhFBZXBC3bpnW6EyoV4Gij0uQj4mEuhEhPERc5F3PfJyWcVNUGCaI3b+kYh
+         qPohKsNLmCbaycIlcTfj595HnFr98uhXUPVkKhTK327msSyq2iutmiYaA1NgYgjbTGos
+         iv5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696984569; x=1697589369;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xq+AEqzmHiQrj4BnporbT5EC448/0KDAPw5SaA543wQ=;
-        b=r2GHtq7YduokggbkOC5eYP2dgr6uxwCVpPfbszY7rO4DrEKYEEw+artnXYSh2HENyp
-         PwJXLBySGVEf6kiW5F6/st3GdQEALBDb9k8k+ErXhAckvl+7O2R36JKWiJuHZbm/T1H6
-         Vwq+HobqGiv5hHyWiMTIHcqBN1w3Uob9g0KiQGfe+U1HNPjt8r0VU/4y2a9BZQiuHZ4D
-         zWRMbmmriA8L8ehVuWMks3rHQ3VtuQlojA6zBDEWVx69QWUHp45ySlX90vNoOtBVFI9r
-         WoSLsE39XQoZg4Y69zB9ljZVBbt6Gy2+r1RMyGpK0GNjEc3LnVv9+4TJWn+NTUb7dEcG
-         RY5Q==
-X-Gm-Message-State: AOJu0YytJZNLWuAM0PpewaDbaTXfEc7QKxIENt1cZhgHnFubPvA/ZLYU
-        1t/w4n0MWawD3ngaFb9eeqM8OA==
-X-Google-Smtp-Source: AGHT+IFMfsjVmKnXm10wsvKLck/lh98ypo1T0gT+eWGMkht127PX3Zx9fbqq+35mlCoTyk2gMLVQoA==
-X-Received: by 2002:a05:6a20:12d6:b0:13d:a903:88e6 with SMTP id v22-20020a056a2012d600b0013da90388e6mr21244798pzg.48.1696984569634;
-        Tue, 10 Oct 2023 17:36:09 -0700 (PDT)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id g25-20020aa78759000000b006934704bf56sm8887859pfo.64.2023.10.10.17.36.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Oct 2023 17:36:08 -0700 (PDT)
-Date:   Tue, 10 Oct 2023 17:36:07 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Norbert Lange <nolange79@gmail.com>
-Cc:     Christian Brauner <brauner@kernel.org>,
-        Laurent Vivier <laurent@vivier.eu>,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org,
-        containers@lists.linux-foundation.org, jan.kiszka@siemens.com,
-        jannh@google.com, avagin@gmail.com, dima@arista.com,
-        James.Bottomley@hansenpartnership.com
-Subject: Re: [PATCH v8 1/1] ns: add binfmt_misc to the user namespace
-Message-ID: <202310101735.94C17F0@keescook>
-References: <8eb5498d-89f6-e39e-d757-404cc3cfaa5c@vivier.eu>
- <20230630083852.3988-1-norbert.lange@andritz.com>
- <e8161622-beb0-d8d5-6501-f0bee76a372d@vivier.eu>
- <20230630-hufen-herzallerliebst-fde8e7aecba0@brauner>
- <202307121239.1EB4D324@keescook>
- <CADYdroNw5ZPPUqXQ5Psb8ffzi47SzvJAixQgxm+vsmV9eX_kYg@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1697148454; x=1697753254;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FTpO+n7M6TPusV7FMWLowRWDIaW45wTQ8zFKVmNzMBQ=;
+        b=VsqCclLDwkM8z4dpxGzAbSd5ypNeTUDAf2CsM8yU2hIvPbi8yjDpIKsNtMvMa+dJxJ
+         L9rU0YKHkPdIrFCWVKcQWer4RuzWktZZ3+AoNcBVFJiMH+T1QpGO7Eb2dWCHjIwRgUyx
+         ySW5XjeSz0PFdeYdYyfd34R7FsERd4O7cnPEomPGoSMhRom9GMbxcF88ngPWmSq7TAna
+         N1BXJ2MgWa0xA5ADqWGlWEDyg/XrNT5fCjgBjfsC+utGyVaTNYC7V3xZB/VYfGP2Wmz8
+         DoVn4JinMQU++PLejwIRExvIbYeWMK+k9M6u7d4MeiU0ZwD/PNHHzaMZrUg+XYazF1m3
+         sHjw==
+X-Gm-Message-State: AOJu0Yxb67vqo5pZ2MAcn/4IkK9RrttIC+j4J5HR+uEMWgeSgTDVtih2
+        M3F8kevugp3Ojwzuc+R7cV7B0pNwymR2wp1drutJaj/Pasi/tSs=
+X-Google-Smtp-Source: AGHT+IFCCAqMHcCOC2zCF8+Q5T8WEXUqQeKxVVUJ5FXWykxKz087i2mYibghbz7BJCKnZoqSGweTZQ6cBwPP1Hi4V30=
+X-Received: by 2002:a25:ace0:0:b0:d9a:decd:ed3a with SMTP id
+ x32-20020a25ace0000000b00d9adecded3amr1493296ybd.26.1697148454517; Thu, 12
+ Oct 2023 15:07:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CADYdroNw5ZPPUqXQ5Psb8ffzi47SzvJAixQgxm+vsmV9eX_kYg@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20230912205658.3432-1-casey.ref@schaufler-ca.com> <20230912205658.3432-1-casey@schaufler-ca.com>
+In-Reply-To: <20230912205658.3432-1-casey@schaufler-ca.com>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Thu, 12 Oct 2023 18:07:23 -0400
+Message-ID: <CAHC9VhRcbp3iWQwL7FTUrcU1C3OsZ413Nbq+17oTwW7hZ7XvBw@mail.gmail.com>
+Subject: Re: [PATCH v15 00/11] LSM: Three basic syscalls
+To:     Casey Schaufler <casey@schaufler-ca.com>
+Cc:     linux-security-module@vger.kernel.org, jmorris@namei.org,
+        serge@hallyn.com, keescook@chromium.org,
+        john.johansen@canonical.com, penguin-kernel@i-love.sakura.ne.jp,
+        stephen.smalley.work@gmail.com, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, mic@digikod.net
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Sep 06, 2023 at 12:28:27PM +0200, Norbert Lange wrote:
-> Am Mi., 12. Juli 2023 um 21:40 Uhr schrieb Kees Cook <keescook@chromium.org>:
-> >
-> > On Fri, Jun 30, 2023 at 11:06:59AM +0200, Christian Brauner wrote:
-> > > On Fri, Jun 30, 2023 at 10:52:22AM +0200, Laurent Vivier wrote:
-> > > > Hi Norbert,
-> > > >
-> > > > Le 30/06/2023 à 10:38, Norbert Lange a écrit :
-> > > > > Any news on this? What remains to be done, who needs to be harrassed?
-> > > > >
-> > > > > Regards, Norbert
-> > > >
-> > > > Christian was working on a new version but there is no update for 1 year.
-> > > >
-> > > > [PATCH v2 1/2] binfmt_misc: cleanup on filesystem umount
-> > > > https://lkml.org/lkml/2021/12/16/406
-> > > > [PATCH v2 2/2] binfmt_misc: enable sandboxed mounts
-> > > > https://lkml.org/lkml/2021/12/16/407
-> > > >
-> > > > And personally I don't have the time to work on this.
-> > >
-> > > I've actually rebased this a few weeks ago:
-> > > https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git/log/?h=vfs.binfmt_misc
-> > > It has Acks, it's done. The only thing back then was Kees had wanted to
-> > > take this but never did. I'll ping him.
-> >
-> > Hi! Can you resend this now that the merge window is closed? I looked at
-> > it in your tree and it seems okay. I remain a bit nervous about exposing
-> > it to unpriv access, but I'd like to give it a try. It'd be very useful!
-> >
-> > -Kees
-> >
-> > --
-> > Kees Cook
-> 
-> Hate to be that guy, but did anything move closer towards upstream
-> since that post?
+On Tue, Sep 12, 2023 at 4:57=E2=80=AFPM Casey Schaufler <casey@schaufler-ca=
+.com> wrote:
+>
+> Add three system calls for the Linux Security Module ABI ...
 
-No rebase was needed -- I've dropped this in -next now. Let's see how it
-goes!
+First off, a big thank you to Casey who took it upon himself to turn
+my pseudo-code syscall suggestion into a proper patchset and saw it
+through 15 revisions.  Thanks also go out to everyone that has helped
+review and comment on this effort; I know everyone is busy, but these
+reviews are important.
 
--- 
-Kees Cook
+I'm happy to say that I think we're in a good place with this revision
+of the LSM syscall patchset.  I only see two outstanding issues, and
+neither of those are bugs/showstoppers that affect the API, they are
+simply areas where the implementation could be improved.  With the
+understanding that Casey is busy for the rest of the month, and my
+desire to make sure this patchset gets a full dev cycle in linux-next,
+I'm going to suggest merging this into the lsm/next-queue branch soon
+(likely tomorrow) in preparation for merging it into lsm/next once the
+upcoming merge window closes.  Those who want to help improve the
+implementation, as suggested in the feedback on this revision or
+otherwise, are welcome to submit patches against the lsm/next-queue
+branch and I will merge them into that branch once they pass review.
+
+If I don't hear any objections I'll plan on merging this patchset
+tomorrow, I'll send a follow-up reply to this email when it's done.
+
+--=20
+paul-moore.com
