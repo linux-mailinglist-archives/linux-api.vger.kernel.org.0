@@ -2,199 +2,114 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C0C27C7BAC
-	for <lists+linux-api@lfdr.de>; Fri, 13 Oct 2023 04:40:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E6F67C8FA0
+	for <lists+linux-api@lfdr.de>; Fri, 13 Oct 2023 23:55:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229509AbjJMCkG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 12 Oct 2023 22:40:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60490 "EHLO
+        id S232194AbjJMVzT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 13 Oct 2023 17:55:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52840 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229499AbjJMCkF (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 12 Oct 2023 22:40:05 -0400
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7C4DDE;
-        Thu, 12 Oct 2023 19:40:03 -0700 (PDT)
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.48])
-        by mailout.nyi.internal (Postfix) with ESMTP id 646F45C0380;
-        Thu, 12 Oct 2023 22:40:01 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute7.internal (MEProxy); Thu, 12 Oct 2023 22:40:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=cc
-        :cc:content-transfer-encoding:content-type:content-type:date
-        :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-        :references:reply-to:sender:subject:subject:to:to; s=fm1; t=
-        1697164801; x=1697251201; bh=v/NfjpcqgjT4cCUGFXPV+Rh0Ny4ORRueTJG
-        R6kwHMb8=; b=h98MYJKTyJxh5BlvDbqEbS/QDtKUAxWwg2gGTDuH6bPyNZVeWqr
-        wx7264K7BBz32R/co1ATerAhNOMz75YLvm0fgTpgMMNQu55w/LVhZfVZ8OAJaCJq
-        7nb9dXr37pUg3xsw+b7il6/ccYQEcPhPb1vK4CCQEDrzy95IV5o4SoOHlrLXJpUS
-        Eb6yPF/vCqUumwQwHr6SUOmSXmec1KGdbHy/VnWCwJ1VS7MFAVN4kRWjtDai5r4e
-        6Iyb5UfYgyfG6nkNOqOd32AZHM4b4h2XiUHG2i77ha6HhTxsKzAs97rGYCPcA6Jm
-        X5Z16cCuPlMvm2fDFuvmbQ+0wtUWZGtKmxA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding
-        :content-type:content-type:date:date:feedback-id:feedback-id
-        :from:from:in-reply-to:in-reply-to:message-id:mime-version
-        :references:reply-to:sender:subject:subject:to:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-        1697164801; x=1697251201; bh=v/NfjpcqgjT4cCUGFXPV+Rh0Ny4ORRueTJG
-        R6kwHMb8=; b=Jt+wF3cEaxzWcr3/XY+Wti7uxW1slOr+Hh/k2JZeVBiHjcLII+Z
-        nY0JUMQAUmDbFKRWkpDfuKIptHIvAR4kGoNSizhDviET/VuKiZVCLSJwzXlYZuVd
-        CpnkeoHXGKe3B0+EamZEayG0kSpjwW7ne9v4AUmksO5OEuGQtcIFvB9B8Tp7Kdlb
-        8KnNMyLprmaqX8wELioBDQZV7M5B73HYVbhOMQu/7XxjsD97mBwdVhOEsAQdEYiM
-        4Zs6ZIclabu89A++eIi9tF47Z7p4t5528a4i5yVVr0vyQgwSV2oj8Dm/R1FxOYyU
-        hjjXgGv4TTuQcjNkFh96NNn3NsYXWo/LI0g==
-X-ME-Sender: <xms:AK4oZfYmg8hEeYfVAyN9-NVArxIb9pHAIGMu3LtUcRruvGFiFXYofA>
-    <xme:AK4oZea2lrufPdbPIb_b2cpZxrufVNi-KdhmDGxE6gD8ljT5zvF1TCt_XZjTxXcnY
-    ctZD-IlCEos>
-X-ME-Received: <xmr:AK4oZR_c5k74EqiyFt1B-u0NuLBMh1OUK8IicBC-0xnMyiMUjlVPKb21xDJnQHX7pAYonr_C7pXIwMswwGu5E6yaqAnpZ1_E9drmkcuN1Xom8hNHEleP_4lU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedriedugdeitdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefkffggfgfhvfevfhfujggtgfesthekredttdefjeenucfhrhhomhepkfgrnhcu
-    mfgvnhhtuceorhgrvhgvnhesthhhvghmrgifrdhnvghtqeenucggtffrrghtthgvrhhnpe
-    ekueffkefhffetjeeikeevtdfhgefhgeetfedvgeevveejgeffleelffekveejtdenucev
-    lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehrrghvvghnse
-    hthhgvmhgrfidrnhgvth
-X-ME-Proxy: <xmx:AK4oZVr_hhUjuDK8v1CelxtwSzRQiPkQJ28QaIhT5GG36oeAhMe8dA>
-    <xmx:AK4oZapZISNp-1EU-J-rAeME2Ys8rS-j8-lysqiKkCn9cG15lAW-6g>
-    <xmx:AK4oZbSFYIFmjcllZIBS8h0RkMXumwjif1oWQKDJk2WMEEF9D0_4Rw>
-    <xmx:Aa4oZVB9SQ5uAQPRwuokl4D2K98Gt4SH7aFjq0x66MdNJYh_gIZC1A>
-Feedback-ID: i31e841b0:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 12 Oct 2023 22:39:53 -0400 (EDT)
-Message-ID: <c45fc3e5-05ca-14ab-0536-4f670973b927@themaw.net>
-Date:   Fri, 13 Oct 2023 10:39:49 +0800
+        with ESMTP id S232021AbjJMVzT (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 13 Oct 2023 17:55:19 -0400
+Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3FCDBE
+        for <linux-api@vger.kernel.org>; Fri, 13 Oct 2023 14:55:16 -0700 (PDT)
+Received: by mail-yb1-xb2f.google.com with SMTP id 3f1490d57ef6-d9ac31cb021so2677016276.1
+        for <linux-api@vger.kernel.org>; Fri, 13 Oct 2023 14:55:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1697234116; x=1697838916; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LKGSCOVLbkYhGYoq+rtlt3uTKCf4verh3lWQ8sV6E5A=;
+        b=P1WAcFezEm1NvXvZtbYJCwmZeudvXGnk1C4nrNAWPQcchDGRu8o60gX93BCGMUyyDr
+         2Ond7dftnmvBmmi/F9j7w3wldMUXfyfTgCEPQQynYKtGlUgXjfddnSJZ5Ljqp6NMXf5T
+         aM2WULrobajmf22xevmho4VZMv4M8CKUkmaMqqKbrO9TJ5rCvQ8xnM7hPg8aRdRZsR9r
+         si4OMsMCJqZxkKQj89zQwXwK3Z/sRmnU/MYMJv8/BnvznnU5WX3Q9VO1+rd1McsJawQ9
+         52HjduOd1/tKPfr+cO9bQ0L8UO2Tml/spW6B51s/nqVsgctgqPtYwPs8nW5Q8znIv154
+         lJlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697234116; x=1697838916;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LKGSCOVLbkYhGYoq+rtlt3uTKCf4verh3lWQ8sV6E5A=;
+        b=nvdQUVigw+7RkWG4ONiMhSDLP7jJPZccGJY8G09xkNgC4r/gag8FQPWlqyUyMzBcwB
+         v0L8w18jWbAkCp5AvwsFt8wGN4s3hab4b589lZ9SsfSXJtDQ5mtJuO7F1gv/xtH1WuG+
+         IZ+u+veeawVbCEiHw3wNjHyG8ivNBeapTyjhBIQKak/DJiyui/69/HUP0uC0FJlRWxY5
+         8N/un+3I7ADj0gcUY2UC+Rf9RCGRtuZjL6v4S0N+IHzghxTnpDAg7MJi46nP8evMCxgx
+         XM6iskNDvxaPUi9+MonJWN71C0MB26FmarTsCZLNpgmwjUwTHAyr0EJE/JsSiyCS2J2G
+         XFoQ==
+X-Gm-Message-State: AOJu0YymGwJaIyCCwbXhcshqjFQ6PJo91ACtSej/plDwtRtGGtCa8o/i
+        iuESfsmwcexQ5yG5EznYYYmXFGrDRccRwjx7v0jp
+X-Google-Smtp-Source: AGHT+IG7mv21RwUbd4s8yApgHo1oFDE2XPy+OCLcTrQN0/TOGlzUdlKn7So/TOy+xlC76NBVGDCjNC3AbSNbPwuT8pc=
+X-Received: by 2002:a25:ae8b:0:b0:d9a:d20d:7d5a with SMTP id
+ b11-20020a25ae8b000000b00d9ad20d7d5amr6426451ybj.1.1697234115842; Fri, 13 Oct
+ 2023 14:55:15 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-From:   Ian Kent <raven@themaw.net>
-To:     Miklos Szeredi <miklos@szeredi.hu>
-Cc:     Paul Moore <paul@paul-moore.com>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-man@vger.kernel.org,
-        linux-security-module@vger.kernel.org, Karel Zak <kzak@redhat.com>,
-        David Howells <dhowells@redhat.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <christian@brauner.io>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Matthew House <mattlloydhouse@gmail.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>
-References: <20230928130147.564503-1-mszeredi@redhat.com>
- <20230928130147.564503-5-mszeredi@redhat.com>
- <CAHC9VhQD9r+Qf5Vz1XmxUdJJJO7HNTKdo8Ux=n+xkxr=JGFMrw@mail.gmail.com>
- <CAJfpegsPbDgaz46x4Rr9ZgCpF9rohVHsvuWtQ5LNAdiYU_D4Ww@mail.gmail.com>
- <a25f2736-1837-f4ca-b401-85db24f46452@themaw.net>
- <CAJfpegv78njkWdaShTskKXoGOpKAndvYYJwq7CLibiu+xmLCvg@mail.gmail.com>
- <7fe3c01f-c225-394c-fac5-cabfc70f3606@themaw.net>
-Content-Language: en-US
-Subject: Re: [PATCH v3 4/4] add listmount(2) syscall
-In-Reply-To: <7fe3c01f-c225-394c-fac5-cabfc70f3606@themaw.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-6.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20230912205658.3432-1-casey.ref@schaufler-ca.com>
+ <20230912205658.3432-1-casey@schaufler-ca.com> <CAHC9VhRcbp3iWQwL7FTUrcU1C3OsZ413Nbq+17oTwW7hZ7XvBw@mail.gmail.com>
+In-Reply-To: <CAHC9VhRcbp3iWQwL7FTUrcU1C3OsZ413Nbq+17oTwW7hZ7XvBw@mail.gmail.com>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Fri, 13 Oct 2023 17:55:04 -0400
+Message-ID: <CAHC9VhSqY5+DR-jXprrftb1=CzDvhTh0Ep66A16RMd4L7W7TYw@mail.gmail.com>
+Subject: Re: [PATCH v15 00/11] LSM: Three basic syscalls
+To:     Casey Schaufler <casey@schaufler-ca.com>
+Cc:     linux-security-module@vger.kernel.org, jmorris@namei.org,
+        serge@hallyn.com, keescook@chromium.org,
+        john.johansen@canonical.com, penguin-kernel@i-love.sakura.ne.jp,
+        stephen.smalley.work@gmail.com, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, mic@digikod.net
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 6/10/23 08:27, Ian Kent wrote:
-> On 5/10/23 23:47, Miklos Szeredi wrote:
->> On Thu, 5 Oct 2023 at 06:23, Ian Kent <raven@themaw.net> wrote:
->>
->>> The proc interfaces essentially use <mount namespace>->list to provide
->>>
->>> the mounts that can be seen so it's filtered by mount namespace of the
->>>
->>> task that's doing the open().
->>>
->>>
->>> See fs/namespace.c:mnt_list_next() and just below the m_start(), 
->>> m_next(),
->> /proc/$PID/mountinfo will list the mount namespace of $PID. Whether
->> current task has permission to do so is decided at open time.
->>
->> listmount() will list the children of the given mount ID.  The mount
->> ID is looked up in the task's mount namespace, so this cannot be used
->> to list mounts of other namespaces.  It's a more limited interface.
+On Thu, Oct 12, 2023 at 6:07=E2=80=AFPM Paul Moore <paul@paul-moore.com> wr=
+ote:
 >
-> Yep. But isn't the ability to see these based on task privilege?
+> On Tue, Sep 12, 2023 at 4:57=E2=80=AFPM Casey Schaufler <casey@schaufler-=
+ca.com> wrote:
+> >
+> > Add three system calls for the Linux Security Module ABI ...
 >
+> First off, a big thank you to Casey who took it upon himself to turn
+> my pseudo-code syscall suggestion into a proper patchset and saw it
+> through 15 revisions.  Thanks also go out to everyone that has helped
+> review and comment on this effort; I know everyone is busy, but these
+> reviews are important.
 >
-> Is the proc style restriction actually what we need here (or some 
-> variation
+> I'm happy to say that I think we're in a good place with this revision
+> of the LSM syscall patchset.  I only see two outstanding issues, and
+> neither of those are bugs/showstoppers that affect the API, they are
+> simply areas where the implementation could be improved.  With the
+> understanding that Casey is busy for the rest of the month, and my
+> desire to make sure this patchset gets a full dev cycle in linux-next,
+> I'm going to suggest merging this into the lsm/next-queue branch soon
+> (likely tomorrow) in preparation for merging it into lsm/next once the
+> upcoming merge window closes.  Those who want to help improve the
+> implementation, as suggested in the feedback on this revision or
+> otherwise, are welcome to submit patches against the lsm/next-queue
+> branch and I will merge them into that branch once they pass review.
 >
-> of that implementation)?
->
->
-> An privileged task typically has the init namespace as its mount 
-> namespace
->
-> and mounts should propagate from there so it should be able to see all 
-> mounts.
->
->
-> If the file handle has been opened in a task that is using some other 
-> mount
->
-> namespace then presumably that's what the program author wants the 
-> task to see.
->
-> So I'm not sure I see a problem obeying the namespace of a given task.
+> If I don't hear any objections I'll plan on merging this patchset
+> tomorrow, I'll send a follow-up reply to this email when it's done.
 
-I've had a look through the code we had in the old fsinfo() proposal
+Since it's been *almost* a full 24 hours and no objections I went
+ahead and merged this patchset into lsm/next-queue with the intention
+of bringing them into lsm/next after the upcoming merge window closes.
+For those of you who have suggested changes, please feel free to
+submit patches against the lsm/next-queue branch and we can get them
+queued up along with these patches.
 
-because I think we need to consider the use cases that are needed.
+Thanks everyone!
 
-
-IIRC initially we had a flag FSINFO_ATTR_MOUNT_CHILDREN that essentially
-
-enumerated the children of the given mount in much the same way as is
-
-done now in this system call.
-
-
-But because we needed to enumerate mounts in the same way as the proc file
-
-system mount tables a flag FSINFO_ATTR_MOUNT_ALL was added that essentially
-
-used the mount namespace mounts list in a similar way to the proc file
-
-system so that a list of mounts for a mount namespace could be retrieved.
-
-
-This later use case is what is used by processes that monitor mounts and
-
-is what's needed more so than enumerating the children as we do now.
-
-
-I'm still looking at the mount id lookup.
-
-
-Ian
-
->
->
-> Ian
->
->>
->> I sort of understand the reasoning behind calling into a security hook
->> on entry to statmount() and listmount().  And BTW I also think that if
->> statmount() and listmount() is limited in this way, then the same
->> limitation should be applied to the proc interfaces.  But that needs
->> to be done real carefully because it might cause regressions. OTOH if
->> it's only done on the new interfaces, then what is the point, since
->> the old interfaces will be available indefinitely?
->>
->> Also I cannot see the point in hiding some mount ID's from the list.
->> It seems to me that the list is just an array of numbers that in
->> itself doesn't carry any information.
->>
->> Thanks,
->> Miklos
+--=20
+paul-moore.com
