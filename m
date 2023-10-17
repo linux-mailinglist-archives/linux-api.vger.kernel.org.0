@@ -2,132 +2,147 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5483F7CC868
-	for <lists+linux-api@lfdr.de>; Tue, 17 Oct 2023 18:08:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BDF627CD048
+	for <lists+linux-api@lfdr.de>; Wed, 18 Oct 2023 01:15:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235068AbjJQQIi convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Tue, 17 Oct 2023 12:08:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38088 "EHLO
+        id S229459AbjJQXPK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 17 Oct 2023 19:15:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234993AbjJQQIi (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 17 Oct 2023 12:08:38 -0400
-Received: from frasgout12.his.huawei.com (frasgout12.his.huawei.com [14.137.139.154])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8A28F1;
-        Tue, 17 Oct 2023 09:08:33 -0700 (PDT)
-Received: from mail02.huawei.com (unknown [172.18.147.229])
-        by frasgout12.his.huawei.com (SkyGuard) with ESMTP id 4S8z5Z1hglz9xvtB;
-        Tue, 17 Oct 2023 23:52:50 +0800 (CST)
-Received: from [127.0.0.1] (unknown [10.204.63.22])
-        by APP1 (Coremail) with SMTP id LxC2BwD3TpBfsS5lfRxmAg--.39235S2;
-        Tue, 17 Oct 2023 17:08:08 +0100 (CET)
-Message-ID: <6f33144c850c40e9438a6de2cf3004e223508755.camel@huaweicloud.com>
-Subject: Re: [PATCH v15 00/11] LSM: Three basic syscalls
-From:   Roberto Sassu <roberto.sassu@huaweicloud.com>
-To:     Paul Moore <paul@paul-moore.com>, Mimi Zohar <zohar@linux.ibm.com>
-Cc:     Casey Schaufler <casey@schaufler-ca.com>,
-        linux-security-module@vger.kernel.org, jmorris@namei.org,
-        serge@hallyn.com, keescook@chromium.org,
-        john.johansen@canonical.com, penguin-kernel@i-love.sakura.ne.jp,
-        stephen.smalley.work@gmail.com, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, mic@digikod.net,
-        linux-integrity@vger.kernel.org
-Date:   Tue, 17 Oct 2023 18:07:56 +0200
-In-Reply-To: <CAHC9VhTjHT-DGKu0=cZPVb=+kMwmbPdr8HiVWJq-yzaDiYk_SA@mail.gmail.com>
-References: <20230912205658.3432-1-casey.ref@schaufler-ca.com>
-         <20230912205658.3432-1-casey@schaufler-ca.com>
-         <CAHC9VhRcbp3iWQwL7FTUrcU1C3OsZ413Nbq+17oTwW7hZ7XvBw@mail.gmail.com>
-         <CAHC9VhSqY5+DR-jXprrftb1=CzDvhTh0Ep66A16RMd4L7W7TYw@mail.gmail.com>
-         <ae39864947debbc7c460db478b8abe1c147b7d5c.camel@huaweicloud.com>
-         <CAHC9VhRQ7xpeSX7b3VZfzQ15noJ8mgauNMuHWo_n3hMgsYMAfQ@mail.gmail.com>
-         <468436cf766732a3cfc55d07ad119a6ccdc815c1.camel@huaweicloud.com>
-         <CAHC9VhTjHT-DGKu0=cZPVb=+kMwmbPdr8HiVWJq-yzaDiYk_SA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.44.4-0ubuntu2 
+        with ESMTP id S234793AbjJQXPK (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 17 Oct 2023 19:15:10 -0400
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 959B9FD;
+        Tue, 17 Oct 2023 16:15:08 -0700 (PDT)
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39HNCFuV016883;
+        Tue, 17 Oct 2023 23:14:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ mime-version : subject : from : to : cc : references : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=6l8K+zlwEhLLX214l6vpRGzDWkRe5WLN3fGIjut9A8k=;
+ b=NxGosvxCFLdIKyADacPqMj7Z/2VpAKnwwhDdYrnPVODOBVPQnIbzuCQMrj0zrkssDZ0j
+ skYZz3R//lYOaS/Ah93/RzFRGJJeGBRH4fGC4wBii/aZBacmDKJgao88FMfAYNwbCIvv
+ vYwp/CELiopI2PEPFYRJ+IxnOkdWexc4ZTBhpmN9dylQ8l1ADwqXmv8cQL/nRT0/xGEJ
+ dIkMT+CRet9pOfpPaboNg3KHeSZVvIT6GdjgcLWgQffsepquWLPa3a6P2HRJ+e4Ffoxz
+ tuD/pkeqCCclrpT9zt9Sdmf7m40fw7R+ua33UKkAHX8mVX7G765OLhZCVu54FLlwriCk Fw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3tt3qv033b-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 17 Oct 2023 23:14:57 +0000
+Received: from m0353729.ppops.net (m0353729.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 39HND8OV020148;
+        Tue, 17 Oct 2023 23:14:57 GMT
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3tt3qv0330-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 17 Oct 2023 23:14:56 +0000
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+        by ppma23.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 39HMNbud027130;
+        Tue, 17 Oct 2023 23:14:55 GMT
+Received: from smtprelay05.dal12v.mail.ibm.com ([172.16.1.7])
+        by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3tr6tkc8de-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 17 Oct 2023 23:14:55 +0000
+Received: from smtpav01.wdc07v.mail.ibm.com (smtpav01.wdc07v.mail.ibm.com [10.39.53.228])
+        by smtprelay05.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 39HNEsLL22217252
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 17 Oct 2023 23:14:55 GMT
+Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id B15D15804B;
+        Tue, 17 Oct 2023 23:14:54 +0000 (GMT)
+Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id D750A58055;
+        Tue, 17 Oct 2023 23:14:53 +0000 (GMT)
+Received: from [9.61.148.54] (unknown [9.61.148.54])
+        by smtpav01.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+        Tue, 17 Oct 2023 23:14:53 +0000 (GMT)
+Message-ID: <4294d9ae-3f5e-4f81-b586-2c134d21896a@linux.ibm.com>
+Date:   Tue, 17 Oct 2023 18:14:53 -0500
 MIME-Version: 1.0
-X-CM-TRANSID: LxC2BwD3TpBfsS5lfRxmAg--.39235S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Ww4DWr17JF4UXFy7Wr45Wrg_yoW8Zry7pF
-        WkKay8KFs7Zr12kF1vvF4rC3W5Kr9YqrW3Wrn8Cr18JryFyFyYgrsrGFW29r15Grs5ta4S
-        yF4agryUuw1vy3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUkjb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
-        6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-        vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
-        xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxV
-        AFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
-        x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
-        0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1l42xK82IYc2Ij
-        64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
-        8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE
-        2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42
-        xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIE
-        c7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07UWE__UUUUU=
-X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAgANBF1jj5EligAAsE
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: [PING][PATCH] uapi/auxvec: Define AT_HWCAP3 and AT_HWCAP4 aux vector,
+ entries
+Content-Language: en-US
+From:   Peter Bergner <bergner@linux.ibm.com>
+To:     linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Cc:     Nicholas Piggin <npiggin@gmail.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Segher Boessenkool <segher@kernel.crashing.org>,
+        GNU C Library <libc-alpha@sourceware.org>
+References: <fd879f60-3f0b-48d1-bfa1-6d337768207e@linux.ibm.com>
+In-Reply-To: <fd879f60-3f0b-48d1-bfa1-6d337768207e@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: nN4KjNZj50rO6_LqZkRXygqLOQCFnOq1
+X-Proofpoint-GUID: lLwL3FQnW5CClXBEbUZX8rWUOQs8gJGH
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-17_06,2023-10-17_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 mlxscore=0
+ bulkscore=0 mlxlogscore=999 spamscore=0 clxscore=1011 adultscore=0
+ suspectscore=0 lowpriorityscore=0 malwarescore=0 priorityscore=1501
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2309180000 definitions=main-2310170196
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, 2023-10-17 at 11:58 -0400, Paul Moore wrote:
-> On Tue, Oct 17, 2023 at 3:01 AM Roberto Sassu
-> <roberto.sassu@huaweicloud.com> wrote:
-> > On Mon, 2023-10-16 at 11:06 -0400, Paul Moore wrote:
-> > > On Mon, Oct 16, 2023 at 8:05 AM Roberto Sassu
-> > > <roberto.sassu@huaweicloud.com> wrote:
-> > > > 
-> > > > Sorry, I just noticed LSM_ID_IMA. Since we have the 'integrity' LSM, I
-> > > > think it should be LSM_ID_INTEGRITY.
-> > > > 
-> > > > Mimi, all, do you agree? If yes, I send a patch shortly.
-> > > 
-> > > I believe LSM_ID_IMA is the better option, despite "integrity" already
-> > > being present in Kconfig and possibly other areas.  "IMA" is a
-> > > specific thing/LSM whereas "integrity" is a property, principle, or
-> > > quality.  Especially as we move forward with promoting IMA as a full
-> > > and proper LSM, we should work towards referring to it as "IMA" and
-> > > not "integrity".
-> > > 
-> > > If anything we should be working to support "IMA" in places where we
-> > > currently have "integrity" so that we can eventually deprecate
-> > > "integrity".
-> > 
-> > Hi Paul
-> > 
-> > I fully understand your argument. However, 'integrity' has been the
-> > word to identify the integrity subsystem since long time ago.
-> > 
-> > Reducing the scope to 'ima' would create some confusion since, while
-> > 'ima' is associated to integrity, it would not encompass EVM.
+CCing linux-kernel for more exposure.
+
+PING.  I'm waiting on a reply from anyone on the kernel side of things
+to see whether they have an issue with reserving values for AT_HWCAP3
+and AT_HWCAP4.  
+
+I'll note reviews from the GLIBC camp did not have an issue with the below patch.
+
+Thanks.
+
+Peter
+
+
+On 9/26/23 5:02 PM, Peter Bergner wrote:
+> The powerpc toolchain keeps a copy of the HWCAP bit masks in our TCB for fast
+> access by our __builtin_cpu_supports built-in function.  The TCB space for
+> the HWCAP entries - which are created in pairs - is an ABI extension, so
+> waiting to create the space for HWCAP3 and HWCAP4 until we need them is
+> problematical, given distro unwillingness to apply ABI modifying patches
+> to distro point releases.  Define AT_HWCAP3 and AT_HWCAP4 in the generic
+> uapi header so they can be used in GLIBC to reserve space in the powerpc
+> TCB for their future use.
 > 
-> Using LSM_ID_IMA to reference the combination of IMA+EVM makes much
-> more sense to me than using LSM_ID_INTEGRITY, especially as we move
-> towards promoting IMA+EVM and adopting LSM hooks for integrity
-> verification, opening the door for other integrity focused LSMs.
-
-+ Mimi, linux-integrity
-
-Ok, just to understand before posting v4, the code looks like this:
-
-+const struct lsm_id integrity_lsmid = {
-+	.name = "integrity",
-+	.id = LSM_ID_IMA,
-+};
-+
- DEFINE_LSM(integrity) = {
- 	.name = "integrity",
--	.init = integrity_iintcache_init,
-+	.init = integrity_lsm_init,
- 	.order = LSM_ORDER_LAST,
- };
- 
-Is it ok?
-
-Thanks
-
-Roberto
-
+> I scanned both the Linux and GLIBC source codes looking for unused AT_*
+> values and 29 and 30 did not seem to be used, so they are what I went
+> with.  If anyone sees a problem with using those specific values, I'm
+> amenable to using other values, just let me know what would be better.
+> 
+> Peter
+> 
+> 
+> Signed-off-by: Peter Bergner <bergner@linux.ibm.com>
+> ---
+>  include/uapi/linux/auxvec.h | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/include/uapi/linux/auxvec.h b/include/uapi/linux/auxvec.h
+> index 6991c4b8ab18..cc61cb9b3e9a 100644
+> --- a/include/uapi/linux/auxvec.h
+> +++ b/include/uapi/linux/auxvec.h
+> @@ -32,6 +32,8 @@
+>  #define AT_HWCAP2 26	/* extension of AT_HWCAP */
+>  #define AT_RSEQ_FEATURE_SIZE	27	/* rseq supported feature size */
+>  #define AT_RSEQ_ALIGN		28	/* rseq allocation alignment */
+> +#define AT_HWCAP3 29	/* extension of AT_HWCAP */
+> +#define AT_HWCAP4 30	/* extension of AT_HWCAP */
+>  
+>  #define AT_EXECFN  31	/* filename of program */
+>  
 
