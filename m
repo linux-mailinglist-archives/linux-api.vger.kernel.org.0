@@ -2,160 +2,153 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3AA5A7CDF22
-	for <lists+linux-api@lfdr.de>; Wed, 18 Oct 2023 16:17:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 662C07CE29F
+	for <lists+linux-api@lfdr.de>; Wed, 18 Oct 2023 18:22:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345011AbjJRORU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 18 Oct 2023 10:17:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43250 "EHLO
+        id S229690AbjJRQW5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 18 Oct 2023 12:22:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345065AbjJRORE (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 18 Oct 2023 10:17:04 -0400
-Received: from frasgout12.his.huawei.com (frasgout12.his.huawei.com [14.137.139.154])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26192449B;
-        Wed, 18 Oct 2023 07:15:35 -0700 (PDT)
-Received: from mail02.huawei.com (unknown [172.18.147.229])
-        by frasgout12.his.huawei.com (SkyGuard) with ESMTP id 4S9XXk2rD7z9v7Nc;
-        Wed, 18 Oct 2023 21:59:50 +0800 (CST)
-Received: from [10.221.98.153] (unknown [10.221.98.153])
-        by APP1 (Coremail) with SMTP id LxC2BwBHU5Rl6C9lCP90Ag--.36102S2;
-        Wed, 18 Oct 2023 15:15:10 +0100 (CET)
-Message-ID: <283bf52d-af6e-4d20-a5ba-d98511c2e530@huaweicloud.com>
-Date:   Wed, 18 Oct 2023 16:14:58 +0200
+        with ESMTP id S229702AbjJRQWz (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 18 Oct 2023 12:22:55 -0400
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2062.outbound.protection.outlook.com [40.107.22.62])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48B3C98;
+        Wed, 18 Oct 2023 09:22:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Sgj16zS6PgE0Gfzy2ZVYrIaDELe67037s2rq4tznm7Y=;
+ b=jVWTV1dgPmW8ShIlQsW1ISqg71I2IaJt0CZwji5LJhkxIcv1j5RSdghYwJUuxa7eQ6pzZZO4nNeXqh8cdX+8T60G2DRFhPZ5ypFHlW+uchRZjCcgLhJq4Use8c2sJLTNpShv4tUcw7ZX/9yCFX4FSM6S/yFi9jg83n25EHxXo5k=
+Received: from DB7PR05CA0022.eurprd05.prod.outlook.com (2603:10a6:10:36::35)
+ by AS8PR08MB6392.eurprd08.prod.outlook.com (2603:10a6:20b:31a::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.21; Wed, 18 Oct
+ 2023 16:22:51 +0000
+Received: from DBAEUR03FT061.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:10:36:cafe::86) by DB7PR05CA0022.outlook.office365.com
+ (2603:10a6:10:36::35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.21 via Frontend
+ Transport; Wed, 18 Oct 2023 16:22:51 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ DBAEUR03FT061.mail.protection.outlook.com (100.127.143.28) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6907.22 via Frontend Transport; Wed, 18 Oct 2023 16:22:51 +0000
+Received: ("Tessian outbound 9e011a9ddd13:v215"); Wed, 18 Oct 2023 16:22:51 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: 9bc9be87f8aee56f
+X-CR-MTA-TID: 64aa7808
+Received: from 6319eec14f4b.1
+        by 64aa7808-outbound-1.mta.getcheckrecipient.com id 16CA8F59-A1A4-4788-BB6B-1934F2EF7CD7.1;
+        Wed, 18 Oct 2023 16:22:44 +0000
+Received: from EUR02-DB5-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 6319eec14f4b.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Wed, 18 Oct 2023 16:22:44 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=F/bumfYspw4GSjf+TokeekzRTgXTX0pJs8w4FkTa7TzYMA3azxTez5ci6MdLvIJW/5DniiGgWp+Quk3MdF5+jvlRzCy+9TORzPgybv+NR36If+GKHHRdyA38HoB26AHsK8oEiXNNqeYfU0gVpBotxUZKZen1/LF7kFQSHgk0P7yluU4SmxgO9jFHra0sf7Bw9Ik4Rmy3Md521GIdzPZwl6SDtOWpx+JD9XW7zevLis2mDcTGa1vVDKjRjVycIzmeLFAFKE6GgHBTIs1kirAGV+du91tK0icJEARDmyELHR1kQ7zIxKLRZcvmv4rlzyGCF0b6gki75Ma9nH/clC74ZQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Sgj16zS6PgE0Gfzy2ZVYrIaDELe67037s2rq4tznm7Y=;
+ b=kiKuFCr+9docbTvI4txUNY6Q877bwEiXyOqiUpYn4MHUCvn1DJ7KvY8AYDj1kBanazp1qivrftom3nQXc9nUYmMxVzVWXVmbwN+M/QTRaO7uUW7R8iii2yO1mpqrnCim1WXndftIVSqjqZJDzmFcLasPvWddkJMx/90qSXQxUH3Sn/FctfgEeX/qEnt2ZaPnKpKAGEHMpba+rFXohvbRaFM3RUQdV1q8V7hFuX3DlK+VJIvHLqzsSdqxCNuhjjN50qo4uiXQMtZX6K04NTP2qbilHDU98MILcPGwGEzmYQGy13mmZknuklkUaFiE7eVMcWtrIY1+1a1JkfKovRpvXg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Sgj16zS6PgE0Gfzy2ZVYrIaDELe67037s2rq4tznm7Y=;
+ b=jVWTV1dgPmW8ShIlQsW1ISqg71I2IaJt0CZwji5LJhkxIcv1j5RSdghYwJUuxa7eQ6pzZZO4nNeXqh8cdX+8T60G2DRFhPZ5ypFHlW+uchRZjCcgLhJq4Use8c2sJLTNpShv4tUcw7ZX/9yCFX4FSM6S/yFi9jg83n25EHxXo5k=
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+Received: from DB9PR08MB7179.eurprd08.prod.outlook.com (2603:10a6:10:2cc::19)
+ by PA6PR08MB10829.eurprd08.prod.outlook.com (2603:10a6:102:3d6::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.22; Wed, 18 Oct
+ 2023 16:22:43 +0000
+Received: from DB9PR08MB7179.eurprd08.prod.outlook.com
+ ([fe80::7279:cb15:78e8:3831]) by DB9PR08MB7179.eurprd08.prod.outlook.com
+ ([fe80::7279:cb15:78e8:3831%5]) with mapi id 15.20.6907.021; Wed, 18 Oct 2023
+ 16:22:42 +0000
+Date:   Wed, 18 Oct 2023 17:22:29 +0100
+From:   Szabolcs Nagy <szabolcs.nagy@arm.com>
+To:     Peter Bergner <bergner@linux.ibm.com>, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org,
+        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Cc:     Nicholas Piggin <npiggin@gmail.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Segher Boessenkool <segher@kernel.crashing.org>,
+        GNU C Library <libc-alpha@sourceware.org>
+Subject: Re: [PING][PATCH] uapi/auxvec: Define AT_HWCAP3 and AT_HWCAP4 aux
+ vector, entries
+Message-ID: <ZTAGRY0Zn0KV/biE@arm.com>
+References: <fd879f60-3f0b-48d1-bfa1-6d337768207e@linux.ibm.com>
+ <4294d9ae-3f5e-4f81-b586-2c134d21896a@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <4294d9ae-3f5e-4f81-b586-2c134d21896a@linux.ibm.com>
+X-ClientProxiedBy: LO2P265CA0088.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:8::28) To DB9PR08MB7179.eurprd08.prod.outlook.com
+ (2603:10a6:10:2cc::19)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v15 00/11] LSM: Three basic syscalls
-To:     Mimi Zohar <zohar@linux.ibm.com>, Paul Moore <paul@paul-moore.com>
-Cc:     Casey Schaufler <casey@schaufler-ca.com>,
-        linux-security-module@vger.kernel.org, jmorris@namei.org,
-        serge@hallyn.com, keescook@chromium.org,
-        john.johansen@canonical.com, penguin-kernel@i-love.sakura.ne.jp,
-        stephen.smalley.work@gmail.com, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, mic@digikod.net,
-        linux-integrity@vger.kernel.org
-References: <20230912205658.3432-1-casey.ref@schaufler-ca.com>
- <20230912205658.3432-1-casey@schaufler-ca.com>
- <CAHC9VhRcbp3iWQwL7FTUrcU1C3OsZ413Nbq+17oTwW7hZ7XvBw@mail.gmail.com>
- <CAHC9VhSqY5+DR-jXprrftb1=CzDvhTh0Ep66A16RMd4L7W7TYw@mail.gmail.com>
- <ae39864947debbc7c460db478b8abe1c147b7d5c.camel@huaweicloud.com>
- <CAHC9VhRQ7xpeSX7b3VZfzQ15noJ8mgauNMuHWo_n3hMgsYMAfQ@mail.gmail.com>
- <468436cf766732a3cfc55d07ad119a6ccdc815c1.camel@huaweicloud.com>
- <CAHC9VhTjHT-DGKu0=cZPVb=+kMwmbPdr8HiVWJq-yzaDiYk_SA@mail.gmail.com>
- <6f33144c850c40e9438a6de2cf3004e223508755.camel@huaweicloud.com>
- <2637d5294d4a7ae871f1b758f5a30234836e2463.camel@huaweicloud.com>
- <c896c8ed559d0075146070be232e449b6951eb99.camel@linux.ibm.com>
-Content-Language: en-US
-From:   Roberto Sassu <roberto.sassu@huaweicloud.com>
-In-Reply-To: <c896c8ed559d0075146070be232e449b6951eb99.camel@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: LxC2BwBHU5Rl6C9lCP90Ag--.36102S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxWF45AryfGF18KF4UuF1UAwb_yoWrJFy8pF
-        WUKa15tF4kZr1jkrn2va1rAw4UKrWrXryUWr98Gry8Za4qyryFqrW7CFW7ury5WrnYyw1j
-        yr4Yqa4xZ34qy3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUkjb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
-        6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-        vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
-        xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxV
-        AFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
-        x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
-        0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1l42xK82IYc2Ij
-        64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
-        8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE
-        2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42
-        xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIE
-        c7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07UWE__UUUUU=
-X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAQAOBF1jj5UwpgACs7
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-MS-TrafficTypeDiagnostic: DB9PR08MB7179:EE_|PA6PR08MB10829:EE_|DBAEUR03FT061:EE_|AS8PR08MB6392:EE_
+X-MS-Office365-Filtering-Correlation-Id: 81352d72-dec6-404a-c268-08dbcff679d5
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: 1wG3soMbwbiPjvoXL19E8lJ+DuH7PSpk/5qhpukbI+bBLeHFPrtl072sjH9FZe3z1B03vf9zi+S6RJyWdk810MI7KXszzeqx3O5kElJYvb4JnaprgE3zd03eW3DEnHrkhOpg7vqOvDkVKb0shiw9yTcmI/nG1CszATch8TeTq4ZkqzYA7Dzn3Jr/0CNRWYRcXKSl1hcA2LAgl2LaaidZNUojK2hTUEH/CvuvDSRRLagDLgccCcE0iw1BatvN87ntIrNcHz0zLlK/kiYXSt3INTh7azjHeaqopKiyL6iqzWKf55xAc6U4eKEhmNkgVvza6Yp7JGU2Dn8X/iqIxPW0mnM0oMUOCxKcW/QBEJQXRyAJjD+FCkhS1+m3Td4vUHYB9xmO2MvMzKXDiA6No6stIK582/75zWHYbl9rGonxLMC8lklifowIlyC7MokJzsrdvy6lnlGomXNVZxp9y66cYEz9Q2LwNPBFCpm0V7xjo7ooYC79SZwoEqNKK30n7k8D1kAoK/QXGw7ma+VnxZPfTxEXz9gUYAsk7T7QNZHRSiiwXvh+xK/WaG0iyHn6gDRD
+X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR08MB7179.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(136003)(376002)(366004)(396003)(39860400002)(230922051799003)(1800799009)(64100799003)(451199024)(186009)(6512007)(6506007)(2616005)(26005)(6666004)(6486002)(478600001)(44832011)(38100700002)(8676002)(36756003)(5660300002)(316002)(41300700001)(86362001)(2906002)(8936002)(4326008)(110136005)(4744005)(66476007)(66946007)(66556008)(54906003);DIR:OUT;SFP:1101;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA6PR08MB10829
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: DBAEUR03FT061.eop-EUR03.prod.protection.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 9179579b-26c2-4ba1-771c-08dbcff67472
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Gh1dzEQkYmsYJuEDOPPI94cW96nYGHKFBJgrIGfdbfnSaMcyYu76QNs+uzeW6la0c3B7wae/+NcqdawcFMfn8IWg59D0bzDdO3L2jGN51aX2MHSZs2J1C7laGXHKCvLIJTf7lc/qRcGNbMqNZ6FXSEGa4lSX2x/EQrLE05+HyuEQP53rNSL83XhEEoI2ndCpgpPCocdyNiLkULlJvlfAh0AFlyAlfiSzkt3c6pozk/4pC8/ypXJHXinorxoPMYfjVPL6NxuTqWmTCgkW7dtyOB885GDLZT648vanp0scl9L7+R6nZync2mjpcQqGKa5LvjLoi5s2rDi6fSoUl0G4V1q5wRKzsC3CYA8Z7cKOU9vSO7xPbOPumLgCPuVYUFj0wO68A8RD8HbNkQFN/2o0KZGIsqvet6gyR2p/iqFvXWQcj4DV3NiC0z9xCHe93xAyr+370h5oYD8ZhW1PgX+sl/Lq+nen6WQiqj+npnMt5r1sfZWmLI+aPgOPCDiU/gGz/2dGPLSjPMm5lU6MCURtid7J45N0ps7qfmHzyWlKCNPj3UYhDGgauyKfRaFP8lqmHENSfo1KAFTceBR676yJoxR6S/AV/OVWv4JGHUPitISY6RhqV2T5+0re4HIh/gYL0HV0AS0bFKlGbCftD1hbCpkBhhKH+XmPbPkFf7v2OTyQQ3sWhQ6TeFl6+FDbeZt9G+A63lDk6hw4oNL9SvxxlkVnofCyXA8BScRGR2COSxoNchTNOyzv/4xn2ZH2ZOPv
+X-Forefront-Antispam-Report: CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230031)(4636009)(396003)(376002)(39860400002)(346002)(136003)(230922051799003)(82310400011)(186009)(1800799009)(64100799003)(451199024)(36840700001)(46966006)(40470700004)(8676002)(450100002)(4326008)(8936002)(36860700001)(336012)(6512007)(47076005)(110136005)(44832011)(5660300002)(41300700001)(36756003)(6486002)(478600001)(54906003)(6506007)(4744005)(86362001)(6666004)(316002)(40480700001)(70206006)(2906002)(107886003)(2616005)(81166007)(70586007)(40460700003)(356005)(26005)(82740400003);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Oct 2023 16:22:51.5544
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 81352d72-dec6-404a-c268-08dbcff679d5
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: DBAEUR03FT061.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6392
+X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,FORGED_SPF_HELO,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_NONE,UNPARSEABLE_RELAY autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 10/18/2023 3:09 PM, Mimi Zohar wrote:
-> On Wed, 2023-10-18 at 11:31 +0200, Roberto Sassu wrote:
->> On Tue, 2023-10-17 at 18:07 +0200, Roberto Sassu wrote:
->>> On Tue, 2023-10-17 at 11:58 -0400, Paul Moore wrote:
->>>> On Tue, Oct 17, 2023 at 3:01 AM Roberto Sassu
->>>> <roberto.sassu@huaweicloud.com> wrote:
->>>>> On Mon, 2023-10-16 at 11:06 -0400, Paul Moore wrote:
->>>>>> On Mon, Oct 16, 2023 at 8:05 AM Roberto Sassu
->>>>>> <roberto.sassu@huaweicloud.com> wrote:
->>>>>>>
->>>>>>> Sorry, I just noticed LSM_ID_IMA. Since we have the 'integrity' LSM, I
->>>>>>> think it should be LSM_ID_INTEGRITY.
->>>>>>>
->>>>>>> Mimi, all, do you agree? If yes, I send a patch shortly.
->>>>>>
->>>>>> I believe LSM_ID_IMA is the better option, despite "integrity" already
->>>>>> being present in Kconfig and possibly other areas.  "IMA" is a
->>>>>> specific thing/LSM whereas "integrity" is a property, principle, or
->>>>>> quality.  Especially as we move forward with promoting IMA as a full
->>>>>> and proper LSM, we should work towards referring to it as "IMA" and
->>>>>> not "integrity".
->>>>>>
->>>>>> If anything we should be working to support "IMA" in places where we
->>>>>> currently have "integrity" so that we can eventually deprecate
->>>>>> "integrity".
->>>>>
->>>>> Hi Paul
->>>>>
->>>>> I fully understand your argument. However, 'integrity' has been the
->>>>> word to identify the integrity subsystem since long time ago.
->>>>>
->>>>> Reducing the scope to 'ima' would create some confusion since, while
->>>>> 'ima' is associated to integrity, it would not encompass EVM.
->>>>
->>>> Using LSM_ID_IMA to reference the combination of IMA+EVM makes much
->>>> more sense to me than using LSM_ID_INTEGRITY, especially as we move
->>>> towards promoting IMA+EVM and adopting LSM hooks for integrity
->>>> verification, opening the door for other integrity focused LSMs.
->>>
->>> + Mimi, linux-integrity
->>>
->>> Ok, just to understand before posting v4, the code looks like this:
->>
->> I worked on a new proposal. Let me know what you think. It is available
->> here:
->>
->> https://github.com/robertosassu/linux/tree/ima-evm-lsms-v4-devel-v6
->>
->>
->> I made IMA and EVM as standalone LSMs and removed 'integrity'. They
->> maintain the same properties of 'integrity', i.e. they are the last and
->> always enabled.
->>
->> During initialization, 'ima' and 'evm' call integrity_iintcache_init(),
->> so that they can get integrity metadata. I added a check to ensure that
->> this function is called only once. I also added the lsmid parameter so
->> that the integrity-specific functions are added under the LSM ID of the
->> caller.
->>
->> I added a new LSM ID for EVM, does not look good that IMA and EVM are
->> represented by LSM_ID_IMA.
->>
->> Finally, I had to drop the patch to remove the rbtree, because without
->> the 'integrity' LSM, space in the security blob cannot be reserved.
->> Since integrity metadata is shared, it cannot be reserved by 'ima' or
->> 'evm'.
->>
->> An intermediate solution would be to keep the 'integrity' LSM just to
->> reserve space in the security blob. Or, we remove the rbtree if/when
->> IMA and EVM use disjoint integrity metadata.
+The 10/17/2023 18:14, Peter Bergner wrote:
+> CCing linux-kernel for more exposure.
 > 
-> One of the major benefits for making IMA and EVM LSMs was removing the
-> rbtree and replacing it with the ability of using i_security.
+> PING.  I'm waiting on a reply from anyone on the kernel side of things
+> to see whether they have an issue with reserving values for AT_HWCAP3
+> and AT_HWCAP4.  
 > 
-> I agree with Roberto.  All three should be defined: LSM_ID_INTEGRITY,
-> LSM_ID_IMA, LSM_ID_EVM.
+> I'll note reviews from the GLIBC camp did not have an issue with the below patch.
 
-I did not try yet, but the 'integrity' LSM does not need an LSM ID. With 
-the last version adding hooks to 'ima' or 'evm', it should be sufficient 
-to keep DEFINE_LSM(integrity) with the request to store a pointer in the 
-security blob (even the init function can be a dummy function).
+fwiw, aarch64 is quickly filling up AT_HWCAP2 so this will be
+useful for arm64 too eventually, but we are not in a hurry.
 
-Roberto
-
+> > +#define AT_HWCAP3 29	/* extension of AT_HWCAP */
+> > +#define AT_HWCAP4 30	/* extension of AT_HWCAP */
