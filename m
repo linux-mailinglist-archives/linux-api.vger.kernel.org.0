@@ -2,132 +2,139 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 473617CE2DA
-	for <lists+linux-api@lfdr.de>; Wed, 18 Oct 2023 18:35:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EFA67CE6B7
+	for <lists+linux-api@lfdr.de>; Wed, 18 Oct 2023 20:35:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230097AbjJRQfy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 18 Oct 2023 12:35:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39094 "EHLO
+        id S230088AbjJRSft (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 18 Oct 2023 14:35:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229941AbjJRQfx (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 18 Oct 2023 12:35:53 -0400
-Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCDD1EA
-        for <linux-api@vger.kernel.org>; Wed, 18 Oct 2023 09:35:50 -0700 (PDT)
-Received: by mail-yb1-xb2f.google.com with SMTP id 3f1490d57ef6-d9b9adaf291so4351074276.1
-        for <linux-api@vger.kernel.org>; Wed, 18 Oct 2023 09:35:50 -0700 (PDT)
+        with ESMTP id S229697AbjJRSfs (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 18 Oct 2023 14:35:48 -0400
+Received: from mail-qv1-xf36.google.com (mail-qv1-xf36.google.com [IPv6:2607:f8b0:4864:20::f36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D53DF7;
+        Wed, 18 Oct 2023 11:35:42 -0700 (PDT)
+Received: by mail-qv1-xf36.google.com with SMTP id 6a1803df08f44-66d0760cd20so60153006d6.0;
+        Wed, 18 Oct 2023 11:35:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1697646950; x=1698251750; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1697654141; x=1698258941; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Yg1ixXD9WP2UwFv3eCuFIgDaKeSzuWksYgfLUmtsPLE=;
-        b=YyjzUlMVr6NeIBZstb5IqDkkcck+5xjDdyastFAX+IA2reEOf2RmtoKTy2G1G5PXR8
-         8KopRCBxuHEPuPBIcqAWqe1g+86RNPddLDwuvPYW1qRNiA/bQO0k9u0BkAok9OC/6wDy
-         QKQxpKIjq8f4dqtbJUpPHShIO577inw/fiuT8geddCX5xHrA9gQ+yWS9FQxiRTcrOSOI
-         le763e1Fq2N6eHOpaDErlGS6/vKxK7UETnoGUjki13GwCsyzR/RIInWPU43A9JSbm4cD
-         FLpZAoBYyGTYu5976WkvHizZRksdf815iH7cfFWToH/LzyYE8TDh+q5JiBjyAvUwMB4v
-         VUDw==
+        bh=tF4IybATL1pJ3n0HP7pLFs/t3oo7yD7OlL4dKsrLvS0=;
+        b=YZ5vhVnj39UXNq4JtSMsammPecU8nd6nkdmMY90yCl72CweShxe+6KfIQRj3p/kqRu
+         5uj6jAbwxbdKg/FFtJMSR2w+O+R5IHv4x15gFHueaUCW7xVe1xGhOMIQVoEexKv3xNnK
+         NlKmyQyHX7aFe7YJPDSsvUyYH7+UIAaqYZjtJkPww0eC/UCTpt2X4ArFMN/WpFTbq8Pr
+         CgpZSFRGWMrk2OfH7UWoMvBFBS+acjyVVCs+6vGQdZMQQVZUsRwuqoq5VeCnM3EOCqdh
+         TD8l/+0oKwLyzA0/cKddHZ0EUna5RFm4N0Xgxna6fSkiKd1vpiGKzlEIpwJuZe8vpzTj
+         EGJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697646950; x=1698251750;
+        d=1e100.net; s=20230601; t=1697654141; x=1698258941;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Yg1ixXD9WP2UwFv3eCuFIgDaKeSzuWksYgfLUmtsPLE=;
-        b=RnnMTF8rzg1+ox5vnbq2TYWKHMHyX3c1h5Hx8FIc8IRm6FCJWQuDjzkzTlth/EL4QG
-         oLRPGcNq20Q5cI2yACAkzmLMpTQ6nFEIXkAAC7jFmHVnO8akIsH5TaLz1Vl+ok/esaKZ
-         PB5uTNvEbtBjZKdZEaKb6WBTKM/YfAH5g71GjTuGnns8JbVNbiCrTiZiY6OaERRXCaZm
-         C3iN6/riiOzTvuLysnW7ppnplNi0iHmMrDzPuEolnfzPtxSG4lg9/dnm0zYhjVB86Ly/
-         LB5xZsgs88zFXFJ7uSoXlSjWQ7ILOocufEkCOf+5ICu9g6cluEMK4+/8mypGu8EE17LP
-         yO1Q==
-X-Gm-Message-State: AOJu0YyfmbuH8tlI1uAEjmDcYgsSFZrcjDi6iDpWLwh+BxKIAznA88MA
-        mKh+/59RGvOVnvz5ejg3tIt3+ZSe+nyAXP0pUVV8
-X-Google-Smtp-Source: AGHT+IEUZ6xuw82JyE5izuSckatFgudDKao+ZUtrcCvlVYbpEdBTt8l9Iieigfc86lzMInTlfSG9zwOCz5pN9FOfDmQ=
-X-Received: by 2002:a5b:a:0:b0:d79:d23f:b49c with SMTP id a10-20020a5b000a000000b00d79d23fb49cmr5549383ybp.35.1697646949881;
- Wed, 18 Oct 2023 09:35:49 -0700 (PDT)
+        bh=tF4IybATL1pJ3n0HP7pLFs/t3oo7yD7OlL4dKsrLvS0=;
+        b=uCq3wLBa0yL20KBQADXkovWFb3Q8PuD/l1qoO+oh9EVMTWLFRnk3ohd4w/lUQYRmr9
+         I3BBiL+ZHzQDR+Eypf72Nu4HFGJk3iFd2NCJh1h1csYngAKqNjivQJeXNV0xqtyZUyfD
+         pXH/DTxLjmBIte1PBHGQzJoZxSUd0lhTUDWrnIbDmAFj3Q0hyCD07bK+wl6umKsY5DEp
+         DWxMc7aUYUF2VtsuCOKYPw0tm6KezEfjiXxs6VtVFJszx0BPFa4blKclHJcGtv2Wa8Gb
+         Z+xkiHfmY9kC6h7s5s4lK/zcvIWWj07g4NMmUVu4V1b5QhgtA1wuJkko8NzCSthQUGYe
+         uTSw==
+X-Gm-Message-State: AOJu0YxuItL4z0YsgZNQowVociUfgr59ICGMT10Kj4gg0Zf2G/txz1oL
+        E4zQh03GBDAShQBddKwCovP95R63vSMF03uad/c=
+X-Google-Smtp-Source: AGHT+IF8cO0xbv1VXNQ95Ky7TEdM17RjGVcnIxx+ZCkMYz7kNqlshTh0HVSxAx1z5GuO6ldzdtMzKTVdnfkeJFQ5kTI=
+X-Received: by 2002:a05:6214:f01:b0:66d:5a3a:c5e6 with SMTP id
+ gw1-20020a0562140f0100b0066d5a3ac5e6mr320519qvb.18.1697654141422; Wed, 18 Oct
+ 2023 11:35:41 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230912205658.3432-1-casey.ref@schaufler-ca.com>
- <20230912205658.3432-1-casey@schaufler-ca.com> <CAHC9VhRcbp3iWQwL7FTUrcU1C3OsZ413Nbq+17oTwW7hZ7XvBw@mail.gmail.com>
- <CAHC9VhSqY5+DR-jXprrftb1=CzDvhTh0Ep66A16RMd4L7W7TYw@mail.gmail.com>
- <ae39864947debbc7c460db478b8abe1c147b7d5c.camel@huaweicloud.com>
- <CAHC9VhRQ7xpeSX7b3VZfzQ15noJ8mgauNMuHWo_n3hMgsYMAfQ@mail.gmail.com>
- <468436cf766732a3cfc55d07ad119a6ccdc815c1.camel@huaweicloud.com>
- <CAHC9VhTjHT-DGKu0=cZPVb=+kMwmbPdr8HiVWJq-yzaDiYk_SA@mail.gmail.com>
- <6f33144c850c40e9438a6de2cf3004e223508755.camel@huaweicloud.com>
- <2637d5294d4a7ae871f1b758f5a30234836e2463.camel@huaweicloud.com>
- <c896c8ed559d0075146070be232e449b6951eb99.camel@linux.ibm.com> <283bf52d-af6e-4d20-a5ba-d98511c2e530@huaweicloud.com>
-In-Reply-To: <283bf52d-af6e-4d20-a5ba-d98511c2e530@huaweicloud.com>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Wed, 18 Oct 2023 12:35:38 -0400
-Message-ID: <CAHC9VhSiUgY1Dzy6LGOjPF6XQ3pVBiZ9LPdcQANNXZ9rj-WURw@mail.gmail.com>
-Subject: Re: [PATCH v15 00/11] LSM: Three basic syscalls
-To:     Roberto Sassu <roberto.sassu@huaweicloud.com>
-Cc:     Mimi Zohar <zohar@linux.ibm.com>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        linux-security-module@vger.kernel.org, jmorris@namei.org,
-        serge@hallyn.com, keescook@chromium.org,
-        john.johansen@canonical.com, penguin-kernel@i-love.sakura.ne.jp,
-        stephen.smalley.work@gmail.com, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, mic@digikod.net,
-        linux-integrity@vger.kernel.org
+References: <20230411124037.1629654-1-amir73il@gmail.com> <20230412184359.grx7qyujnb63h4oy@quack3>
+ <CAOQ4uxj_OQt+yLVnBH-Cg4mKe4_19L42bcsQx2BSOxR7E46SDQ@mail.gmail.com>
+ <20230417162721.ouzs33oh6mb7vtft@quack3> <CAOQ4uxjfP+TrDded+Zps6k6GQM+UsEuW0R2PT_fMEH8ouY_aUg@mail.gmail.com>
+ <20230920110429.f4wkfuls73pd55pv@quack3> <CAOQ4uxisRMZh_g-M06ROno9g-E+u2ME0109FAVJLiV4V=mwKDw@mail.gmail.com>
+ <20230920134829.n74smxum27herhl6@quack3> <CAOQ4uxj-5n3ja+22Qv4H27wEGn=eAdE1JNRBSxS3TgdEr7b75A@mail.gmail.com>
+ <20230920163634.5agdx523uv7m2qtf@quack3>
+In-Reply-To: <20230920163634.5agdx523uv7m2qtf@quack3>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Wed, 18 Oct 2023 21:35:30 +0300
+Message-ID: <CAOQ4uxjpMqzzgc--302n4Vc_PLO-RPppk65pSo6B_V-3XiK_Lw@mail.gmail.com>
+Subject: Re: [RFC][PATCH] fanotify: Enable FAN_REPORT_FID on more filesystem types
+To:     Jan Kara <jack@suse.cz>
+Cc:     Jeff Layton <jlayton@kernel.org>,
+        Christian Brauner <brauner@kernel.org>,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        Chuck Lever <chuck.lever@oracle.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Oct 18, 2023 at 10:15=E2=80=AFAM Roberto Sassu
-<roberto.sassu@huaweicloud.com> wrote:
-> On 10/18/2023 3:09 PM, Mimi Zohar wrote:
-
-...
-
-> > I agree with Roberto.  All three should be defined: LSM_ID_INTEGRITY,
-> > LSM_ID_IMA, LSM_ID_EVM.
+On Wed, Sep 20, 2023 at 7:36=E2=80=AFPM Jan Kara <jack@suse.cz> wrote:
 >
-> I did not try yet, but the 'integrity' LSM does not need an LSM ID. With
-> the last version adding hooks to 'ima' or 'evm', it should be sufficient
-> to keep DEFINE_LSM(integrity) with the request to store a pointer in the
-> security blob (even the init function can be a dummy function).
+> On Wed 20-09-23 18:12:00, Amir Goldstein wrote:
+> > On Wed, Sep 20, 2023 at 4:48=E2=80=AFPM Jan Kara <jack@suse.cz> wrote:
+> > > > If users had a flag to statfs() to request the "btrfs root volume f=
+sid",
+> > > > then fanotify could also report the root fsid and everyone will be =
+happy
+> > > > because the btrfs file handle already contains the subvolume root
+> > > > object id (FILEID_BTRFS_WITH_PARENT_ROOT), but that is not
+> > > > what users get for statfs() and that is not what fanotify documenta=
+tion
+> > > > says about how to query fsid.
+> > > >
+> > > > We could report the subvolume fsid for marked inode/mount
+> > > > that is not a problem - we just cache the subvol fsid in inode/moun=
+t
+> > > > connector, but that fsid will be inconsistent with the fsid in the =
+sb
+> > > > connector, so the same object (in subvolume) can get events
+> > > > with different fsid (e.g. if one event is in mask of sb and another
+> > > > event is in mask of inode).
+> > >
+> > > Yes. I'm sorry I didn't describe all the details. My idea was to repo=
+rt
+> > > even on a dentry with the fsid statfs(2) would return on it. We don't=
+ want
+> > > to call dentry_statfs() on each event (it's costly and we don't alway=
+s have
+> > > the dentry available) but we can have a special callback into the
+> > > filesystem to get us just the fsid (which is very cheap) and call *th=
+at* on
+> > > the inode on which the event happens to get fsid for the event. So ye=
+s, the
+> > > sb mark would be returning events with different fsids for btrfs. Or =
+we
+> > > could compare the obtained fsid with the one in the root volume and i=
+gnore
+> > > the event if they mismatch (that would be more like the different sub=
+volume
+> > > =3D> different filesystem point of view and would require some more w=
+ork on
+> > > fanotify side to remember fsid in the sb mark and not in the sb conne=
+ctor).
+> > >
+> >
+> > It sounds like a big project.
+>
+> Actually it should be pretty simple as I imagine it. Maybe I can quickly
+> hack a POC.
+>
 
-First off, this *really* should have been brought up way, way, *way*
-before now.  This patchset has been discussed for months, and bringing
-up concerns in the eleventh hour is borderline rude.
+I think I get what you mean.
+Pushed POC (only compile tested so far) to branch inode_fsid on my github [=
+1]
+and posted the patches for seamless support for non-decodable fid.
 
-At least we haven't shipped this in a tagged release from Linus yet,
-so there is that.
+Let me know if that is what you meant.
 
-If you want to add a unique LSM ID for both IMA and EVM, I'm okay with
-that, but if we do that I don't see the need for a dedicated ID for
-"integrity".  Roberto, Mimi, one of you please send me a patch on top
-of lsm/next-queue that updates the LSM ID to look like the following
-(I believe EVM was added between AppArmor and Yama, yes?):
+Thanks,
+Amir.
 
-#define LSM_ID_UNDEF            0
-#define LSM_ID_CAPABILITY       100
-#define LSM_ID_SELINUX          101
-#define LSM_ID_SMACK            102
-#define LSM_ID_TOMOYO           103
-#define LSM_ID_IMA              104
-#define LSM_ID_APPARMOR         105
-#define LSM_ID_EVM              106
-#define LSM_ID_YAMA             107
-#define LSM_ID_LOADPIN          108
-#define LSM_ID_SAFESETID        109
-#define LSM_ID_LOCKDOWN         110
-#define LSM_ID_BPF              111
-#define LSM_ID_LANDLOCK         112
-
-... and also update the LSM registration code for IMA/EVM/etc. to do
-the right thing.
-
-Also, just to be clear, you should get this patch out ASAP.
-
---=20
-paul-moore.com
+[1] https://github.com/amir73il/linux/commits/inode_fsid
