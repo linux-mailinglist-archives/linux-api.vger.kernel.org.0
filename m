@@ -2,150 +2,128 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 411987D1676
-	for <lists+linux-api@lfdr.de>; Fri, 20 Oct 2023 21:42:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E83177D1692
+	for <lists+linux-api@lfdr.de>; Fri, 20 Oct 2023 21:53:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229817AbjJTTmu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 20 Oct 2023 15:42:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35556 "EHLO
+        id S230010AbjJTTxB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 20 Oct 2023 15:53:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49184 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229555AbjJTTmt (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 20 Oct 2023 15:42:49 -0400
-Received: from sonic312-30.consmr.mail.ne1.yahoo.com (sonic312-30.consmr.mail.ne1.yahoo.com [66.163.191.211])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40F2DD5D
-        for <linux-api@vger.kernel.org>; Fri, 20 Oct 2023 12:42:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1697830967; bh=Izr45HyIaKoE4cz09PMwTts7ybC7A1AHwj+nXIptXuE=; h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To; b=ks6ioE09+0hL/vCa/8yPkHarVg3PoJCxgJe20utl9SIgE/GWEDQj6nMrEP+lLlLz6kAArJ8/KLc5nvD+G5oi85oKkTzL5A811+KLXKdDT+ce7gh7hhrhzYg02tVsRKXrahDsdn+7ooILhRvxrF7RlEpLjjz6F2NSAMM5LitG1l4nRl6k7sKTsTCoaIsfYXt9LyNfxc8dU3UQGp91MsAYg3zH2eXm0Oi8qYoyb7qQA3qx/3fhhJeDxtrnbs/99RVZe/Oi7aaitMVdZly7L4Uq7mdASlft9mBNezXSvIZxrjHQwB5vUo5yKMA8oGrOaX9ikZ2vbGFVqd3QtQjQ6Xqyow==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1697830967; bh=rQPvUIancDmlQflSB/Qy8hS21akCeFpbvEHakYevJLd=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=QSpD3ymykPEg/Z1tDWuHO4yibZ/cHJzCqhUSISivzbDDrbpDxsFXwa4cZti2ejGhEJPOxeCnpheyIYh8xizUo2F3CYf4yejolkYey/nLTE6hus2aTDGlCvzCyiIz2PDLdamF2zejo+0AupRQb5D10bggft8qnB4Hvtr3Qq8ySSdLvOzvB06rVucsWiJ/SotQBi3CsAD0sslZn1T1lwDOkWDhXMHKP7+HIbZ6wn5PeJVmvKunOczS4NG5Ypek+daOKcye0Xw2J/c3YIV+JJN9HiazgXzzrUkp3uh/2aC+wjL1cZhKvmydByG6kzC7ichjtV9u7sS8lQlHySnW9FfJgA==
-X-YMail-OSG: 5uuS1boVM1kOcIFTXVKqiltXNdqjPjh3K8pVhVF0GUSf5vzCDcElFXSoZMsyfWR
- atpcNsUN9Aav16sLcwLvEPuDtNEO0180YhzT.vkZNQwXdi6kyrUxMEBl3hfiof1JKa1p.zjrpnKv
- Niy_VeJz8rdVlzKRYFFSatFsMaWQsXj1qbxmJ04NkoUcGfN2WZhcid5c9HeSNfbLmxp3qcvxbf_O
- gpIW1DfLNgla4Av0meR.hO0RITCfossMPWdRH5n5eB867qoCCHpuVHhT.y5AZYvWAVsxBAOM5OGt
- GLCzpgSLvCYfeUy.XxSPVt9ji9zNzfc2FrRNhBG_LWODoTjLtQH5u3S5tIO_uJY9inhqBlQ00I5n
- Torw63dg9nSSLeQaqIIS9cdXbmaY.sDmmsxinpsHlTrSmoBfBOu_PAcgL3ouUKob3342XJP9xW.F
- HFipS29Ezesl8Ok0XlkDU7RafR3kMeZdCOKGfDvpKArQeTWAunjN52GLDuNLBYofh_mqTBfz.iMS
- GPNJh7a5nEzLVAQ7B79HIi97UCNxiJxsI7GylXtg5sDrFOCb6gd4uA1aT2BJWWOTQOY4emlNJG9c
- 9QZGWTx9S4W8gzLvSUJZofqLo8.ca0mPvHkdfDsHBu8xeTwA0iHYLYFcoyJTV4myhnOBawim2fCc
- 1S4Uy1Nq2ShhP98qm4.lRT.XEeFuNLCbqc75DWETO3x_3gmi5ZzbU0BpUqgEFNYH9PPyHG7ZLs3d
- 3vSpZr7AM8YrJbtFoB82Af4qKSpH9jDqMIFIy1T75dOjSVS2PHWln_gOF413E67MoQJk_qRQ27pf
- hNh8UzU5.kd.LLwtcfdgVb4p._r2NNfZrTWKrZYbr8PgmchgfLgTzM_z2WVwSKFP.aMgCcY7IN2n
- 1LCQBNt_Y_pHwRsgt5KAzqcctvNHzG01ECZ4JPhra_ALoYFYAzbVuLoZ_TnunOtXOjJVo2eYXpPD
- w.mSLlPJDFiMe7IeHkPcpd95KUVMhYDdYJCVjMBhkk4axcPdBVaqJ.waAy5h.YxBfh0_eaQ2vK.S
- xKdsGzGWeEraZ20aHck49t94xQM57.z4vI9KyG0j1uR94F8C4vqUKpLN1Yhnl3_LqBpTxO5JN_0X
- yNo5groYITIQRqC4tO8XXKE9rO5gLHpqa4xMXLmSrDbOg1AKIIEn06xYMvjy9p0VhIi9TgHaAEtw
- u1gMb9FUlzArVHAtXMSIOtCg5_PAvqtl7ku3go.rXuX5m6iqxiLIgiWAPLTGUZcUDrZAIyyPVTgp
- 0_476YlERBun_JTpxVI8YKbbCUkphx6eBQjQ7HaiCwq5qkHfL1pVO0WMMojmPXJ9a6PLxej96Up0
- viPp8ePFUwkrVEeRPFBFjShYKfM7CYD_9CCBMl2XcLS6nBITK4h4PlHU1NzZa5h4n5OhuHivYiSu
- 8vsYyvVziUF01.ye.pivlJVC0iDEEOkw5kgKVEwY8SA7o5CDlpiu3RPQuNvcxTmo.zTmK_gx1i2z
- pOAlLKBNtaTHjNfVemxRrqtIt1FVq1fwzCdWtRZwNNoVeoibR8FBQN8Z4xpIU_MNQfzDGJCX.Cy9
- TmDZiTLhYScXWmiC_nHVY6qC.3PngpCfuoYoryhDaeow4Z5p9miKBCPdJ4_2BTboOgLZoqGN7ARo
- n25K2vIwEwsUP9Hpjz.D6bilBFDWQrE8Ex3sJ3j2siO2nMlVR2KYdppq0wIy.gmUSC7uWXuZJJQw
- OdwJ1rlsMo.QmwQd13W52VU0mHw6YlR2qStLzmDFSxpiEYVwiTXRM3xHR2UdOZSNV0tCRsUnT0RM
- QMeD96GHKRz3h3S3q54gr3poi4cDLx_KunT0.ia869BSYyqAu.YKHdo0cc4qV_v1gXDDWhZsZcKp
- hIow2S_WSsVZ3jxsz_qty_aT7Je5tJkMEcPX1JvJI139tnTiYGjS4TnuRggf21WEmQ7u4JU_7M6T
- njVbJus_Xm2jQX1CxXB6sU4G7GGPCw21r1Km3OLqoiMQ89kYC_Zdnu.CWGSxE_QZgATuMG2c4M6L
- 5_sg2zeh2reAFYNr333wPUC7ZWiU3YvKIi_lhaow0iz63sjfrwjghNI5xKcS5KWcE1eZKeN3HiLc
- NP1cyGh9VaTnj9QrPZZYXZJYcBBpzIbuIWDL3ZadG.JsseBKpzx9zQfavy1w1hl76obf82U53c5l
- G6D1qlaXOuvo.IOakwcotJfZp_2yYZe1p.8SKK_vek9xSycV1LyMyFyhvuIeFB5f9poitS65NdA.
- qr8_r_nRvjemQxRBjT.JOJazsTu4cxdaRtOZOly7chKy44yzgY1x9QZJKVn4bAeLT7ykXjzDk6N5
- 6o6RIs6nCF_c-
+        with ESMTP id S229886AbjJTTxA (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 20 Oct 2023 15:53:00 -0400
+Received: from sonic302-28.consmr.mail.ne1.yahoo.com (sonic302-28.consmr.mail.ne1.yahoo.com [66.163.186.154])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82D94D67
+        for <linux-api@vger.kernel.org>; Fri, 20 Oct 2023 12:52:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1697831576; bh=EpVkC5AGZXp0L0Z303ND7RTOhjv3pv4lcwIG15RjL8Y=; h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To; b=MHGydxSrIYlG8fcdN+QKArBRROB0LnluBO/bTt52gB4DQv6VIgF8AvYYw0mq+k4p7JVrCLXmETHS8zN+SOU7vyuKpP24ao7+a2gd+RDPEu+C8u/dk0AFdvzY0SSJS+Qra5zKzoKGrmHF49VhFY90QLAQ2xwZrALPn1RfVKpaw9uVzkpJTzdIHKt5lz90K7vkH1h840aqQ3CAQgBrw6cdNe1c0Qm80OTGhN7u8MlVpbB0zvZzxhEy1/nXQI1Wi9F83ti1UPzShmfHXGIE0jdbD/XUht7uO5NgNtWhRr0y5vU/QX+jrRF93uB5HKtBQ+7II2h9qHzzNGLT5Dwb2b8iTw==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1697831576; bh=Z2M7SgQklCeM3YLkpk2Qz0fcgv32pWFf6iBzGcw6uvG=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=BC7xzY+qUeSz/IGAxmjY2TmpcZwogT2B2R3gAcW7yvUae7rEmqcseO3TCXwCj6ZHM3pGRzjpNA3wNVRwfFIfuZ3XrZXZkJGqUhN91dgkzMaMJal8w23JTp6z2PFLn1ImpKQ8FlHEz59pPoJv08+sHvC2hP1BBPwcuYd5R+A3y0jKFV/Tg0n555R0nPlfGaj/O7miRZ8Y5E1bkrOqi4liFyknbt+tyc+hrAga0sh5xzNPTp2CA79yDouGX/ub0YWUpaepvKyFxyLJTZFac+WY1ivUcb7qOG+B7PiSslopv9J6a8DwNtqYPtXGOnWohDI6MuHATvEomhq6VBZSTXTUFw==
+X-YMail-OSG: TWj2ddEVM1lEfRyNjKHdgBIoGrAup2o40ECGjhu5H4oQm3ktpdpWZqbyS9CU7CD
+ Bn8pZ81AgH_NHhfYwsZnNvk_HPAZQ6miOfjO7XR2kAnpZh_mgJjyOZi_eWjbet5trfDzcAVFVWsN
+ aPoAa6OKsRbvIutcFbF9ZHx7Qeg3ktbec7s3KKTAGw80gBfErtN6GFg9pzUGty7y94ACSHChTr54
+ 6oCvcdq8kx3SS39HPKs33RYjz9JSsthbED9ynl3Lat6NFC_gmORvaY38gAhMn7LL9DeZQMEymtaR
+ oDkKoqjedwOAwUEtv8S2iSAHQFySdIyyyTEAIftMMYymz5NHuWwsiAvwpf2cLc6DxsL7a.GqWNbl
+ I48vV2qy2Y0If9iyxs7jNikmC_exjS1CIk0fHA45NXVHRVOJ0s7jgJ4iEGDS0CqLIOKaeSLDs_ne
+ MokATlrI3c3sRrEoQfgtxRe2qQq.uSKQkcgaiwQLOxG3sOvHuqrmIMFQDu.xKbzZ6t4Bic8.MArX
+ pWvAcB4IROLhMfRLo0K9bfVx8kEu10odxbfXzmupUdm0dujF05a_32j1fiAUi.d_jq26j.bf1Dg1
+ tmeIV94rvmpwI6fho3F8Cp3ShpGWOYLWDlO1nyVUuxJ5njM82tB8kBEQbxl7sHO1SawjUjSCy5Qf
+ YQPUOCLoF0l2p_.QJCNvzVzPxqnxz62qS3AsuZkh80YgJHHZi9OMP0e9OgJC9ZbPjJif.JFKpD7r
+ _dC.N6ojOkFvisY8rYbXZsoKY9DPveXmsYuX8IUUwSkXvgHxqpHmJ3DJ99FodtxLpdfBNJ7DBjNr
+ lgGmhqt.w705HVoz77rH3g_I5sQVgLGA1WUZoJQdFspDdVxxpEsNV0dXA9cW2JBRsrGXa.luhTYb
+ b1KGORaxDDq5xByoO5MNM3GlRR7LlJ53uwWYM9c___bKQJM_qwFDFYfMqNdcCG7LO1HtNkrNBV_H
+ D_Pz.8xsHAUikFV_fpCJRdkrotLc_Vm.2prMErW8nUSXmFjohvbfZObh0b7AJJnKj8nT2voLkFdj
+ iQrgl_zu3jnlxWP.ii2przpgoOcivDSnduTIEdt3r9cxsKa0D0GIO_w.NXKrQ02IYFYB.xhrjsvs
+ EEehgIfPmR08dTKkrw1afiCOaN25YfQM0G4yKjj9s_TwS_6Q_cf0ga0.UGExouv4slHscYViOlaK
+ woeK3w_50cpSyDWPeoETviICogDGPSpIx9XXrDZnLIhh6nuetwzJ8ujiVcKs4lHtPZTfuD4vWbQM
+ mWqG7EjNHj42DB7GomBCdeXcr5zgemrX4mbBPbsF6gGUmV1soYeiZME8zc8OocJcTTMRcsW9tWx9
+ 7pxNFjv0mhvPGfZThQX6x0bJ_4wb5IDHe0O9qg4YBWT47yN42mIhGMGDdW2qf03jnYm7X5BG3tzq
+ mR3HiDY0HbPwiEq_lhDiIi10DhTn15zFd_KP_0q9S9hr5J8WZnh.rtlZ2LnctpIEQIKd39C2UdMx
+ WZqGK.u7FjzfrBwodrf_Yng6BuTiC69urK3gT8yoYBXNARBDlE3sOTyWi5ecZ50TiPHECBF3h3Go
+ XxY.gl3Zy9zT3rbDe.XZ6NOV9KZPRD_A2o5xvUWEB9O2uU9hR3D3QYab.ZS3BfkFVh8yKFC3ar1F
+ nWmG_ABN69q14MfEgil4Ir0qWejsXZdjoUJGbAvEFW9_NZ0HNZ6m0i1v2YfBFoZ..RsNnexE4_Qt
+ m7i0un8I3EiYcJh8Wycy4NNU7h_MKLSxeVMjvoWsQTdOjA4odQmxU_FRulGBLKYlE2onSEG_faaY
+ p69wpip45nROmGHWwkZ01AdJKLoA0PbZcyEgcYrQJx_SRO55wfTQ9Y5QNYdpOwtFImJD59upF28N
+ NJnAnrSuUQ0sdivryzX2MGne4kqEAjCpd.cjqvcEpbJSt.mTTunJjFPqMv_8GWTJ03oMr5PPdFji
+ aBL20ftvZYUn539BMfb_4OZrFKGSiJFY60D0LknAuLKi3hM6EYLgjkIjYtPCUkfLUoAdBB1h5mYI
+ zbW993uthZxMyMNxNovIFxvXLHlUZc6UOH7jE1JrktNoSLWugASUUyxlCUs96JZpDe.JcpHZ2PTr
+ kDkN1qkxMZZp5StBIoIEHujErVgo2MeOm4zwIM0J6cu0_mJEvmiP6b3ZrfBv7h6RIf7F.lupsnJp
+ nw1VXE1DAHXV.NIVMM6YF7l0YAMYtR0ndBfZ3.MWUJ9Jh0Q5kERfXPzl9VOVJdwfxRUgpCUWIXGJ
+ _r6eY4kqPmQqR4QJ0DmiTu2YHp2_pUKgQM94ZIhuLFSFvLh9dONp67Zp4bGOTVm0vykKiP193sle
+ mDKWLUBJufAmfPmETNw--
 X-Sonic-MF: <casey@schaufler-ca.com>
-X-Sonic-ID: af4079dc-9681-41bd-a2be-da77c45f5527
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic312.consmr.mail.ne1.yahoo.com with HTTP; Fri, 20 Oct 2023 19:42:47 +0000
-Received: by hermes--production-ne1-68668bc7f7-tcb7m (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 61b855ece54e3c9ac0b267506fbc72a7;
-          Fri, 20 Oct 2023 19:42:45 +0000 (UTC)
-Message-ID: <8880b6e1-eae7-4317-b038-05aedcb41532@schaufler-ca.com>
-Date:   Fri, 20 Oct 2023 12:42:43 -0700
+X-Sonic-ID: 7bd88aeb-f3f3-4948-b4a1-5cb66ac474cb
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic302.consmr.mail.ne1.yahoo.com with HTTP; Fri, 20 Oct 2023 19:52:56 +0000
+Received: by hermes--production-ne1-68668bc7f7-j2rhn (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 55ca460fb48d2cac1ab70cd1ef65e60f;
+          Fri, 20 Oct 2023 19:52:51 +0000 (UTC)
+Message-ID: <30d1110a-7583-4fa1-85c8-d6ce362f5ae2@schaufler-ca.com>
+Date:   Fri, 20 Oct 2023 12:52:49 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v15 08/11] Smack: implement setselfattr and getselfattr
- hooks
+Subject: Re: [PATCH v15 01/11] LSM: Identify modules by more than name
 Content-Language: en-US
-To:     =?UTF-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
-Cc:     paul@paul-moore.com, linux-security-module@vger.kernel.org,
-        jmorris@namei.org, serge@hallyn.com, keescook@chromium.org,
-        john.johansen@canonical.com, penguin-kernel@i-love.sakura.ne.jp,
-        stephen.smalley.work@gmail.com, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, Casey Schaufler <casey@schaufler-ca.com>
+To:     Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+        paul@paul-moore.com, linux-security-module@vger.kernel.org
+Cc:     jmorris@namei.org, serge@hallyn.com, keescook@chromium.org,
+        john.johansen@canonical.com, stephen.smalley.work@gmail.com,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        mic@digikod.net, Casey Schaufler <casey@schaufler-ca.com>
 References: <20230912205658.3432-1-casey@schaufler-ca.com>
- <20230912205658.3432-9-casey@schaufler-ca.com>
- <20231003.uva7zohqueNu@digikod.net>
+ <20230912205658.3432-2-casey@schaufler-ca.com>
+ <e391877d-cd10-3c6d-1f57-0aaa32846a8e@I-love.SAKURA.ne.jp>
 From:   Casey Schaufler <casey@schaufler-ca.com>
-In-Reply-To: <20231003.uva7zohqueNu@digikod.net>
+In-Reply-To: <e391877d-cd10-3c6d-1f57-0aaa32846a8e@I-love.SAKURA.ne.jp>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Mailer: WebService/1.1.21797 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,
+        SPF_NONE autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 10/3/2023 7:28 AM, Mickaël Salaün wrote:
-> On Tue, Sep 12, 2023 at 01:56:53PM -0700, Casey Schaufler wrote:
->> Implement Smack support for security_[gs]etselfattr.
->> Refactor the setprocattr hook to avoid code duplication.
->>
->> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
->> Reviewed-by: John Johansen <john.johansen@canonical.com>
->> ---
->>  security/smack/smack_lsm.c | 95 ++++++++++++++++++++++++++++++++++++--
->>  1 file changed, 90 insertions(+), 5 deletions(-)
->>
->> diff --git a/security/smack/smack_lsm.c b/security/smack/smack_lsm.c
->> index f73f9a2834eb..12160d060cc1 100644
->> --- a/security/smack/smack_lsm.c
->> +++ b/security/smack/smack_lsm.c
->> @@ -3626,6 +3626,46 @@ static void smack_d_instantiate(struct dentry *opt_dentry, struct inode *inode)
->>  	return;
->>  }
->>  
->> +/**
->> + * smack_getselfattr - Smack current process attribute
->> + * @attr: which attribute to fetch
->> + * @ctx: buffer to receive the result
->> + * @size: available size in, actual size out
->> + * @flags: unused
->> + *
->> + * Fill the passed user space @ctx with the details of the requested
->> + * attribute.
->> + *
->> + * Returns the number of attributes on success, an error code otherwise.
->> + * There will only ever be one attribute.
->> + */
->> +static int smack_getselfattr(unsigned int attr, struct lsm_ctx __user *ctx,
->> +			     size_t *size, u32 flags)
->> +{
->> +	struct smack_known *skp = smk_of_current();
->> +	int total;
->> +	int slen;
->> +	int rc;
->> +
->> +	if (attr != LSM_ATTR_CURRENT)
->> +		return -EOPNOTSUPP;
->> +
->> +	slen = strlen(skp->smk_known) + 1;
+On 10/5/2023 5:58 AM, Tetsuo Handa wrote:
+> On 2023/09/13 5:56, Casey Schaufler wrote:
+>> Create a struct lsm_id to contain identifying information about Linux
+>> Security Modules (LSMs). At inception this contains the name of the
+>> module and an identifier associated with the security module.  Change
+>> the security_add_hooks() interface to use this structure.  Change the
+>> individual modules to maintain their own struct lsm_id and pass it to
+>> security_add_hooks().
+> I came to worry about what purpose does the LSM ID value (or more precisely,
+> "struct lsm_id") is used for. If the LSM ID value is used for only switch
+> {reading,writing} /proc/self/attr/ of specific LSM module's information, only
+> LSM modules that use /proc/self/attr/ will need the LSM ID value.
 >
->> +	total = ALIGN(slen + sizeof(*ctx), 8);
->> +	if (total > *size)
->> +		rc = -E2BIG;
->> +	else if (ctx)
->> +		rc = lsm_fill_user_ctx(ctx, skp->smk_known, slen, LSM_ID_SMACK,
->> +				       0);
->> +	else
->> +		rc = 1;
-> Can we move these checks into lsm_fill_user_ctx()? They are similar for
-> AppArmor and SELinux.
-
-Possibly, but that would make lsm_fill_user_ctx() into lsm_validiate_and_fill_user_ctx(),
-and I don't want to do that.
-
+> But this series uses "struct lsm_id" as one of arguments for security_add_hooks(),
+> and might be reused for different purposes.
 >
->> +
->> +	*size = total;
->> +	if (rc >= 0)
->> +		return 1;
->> +	return rc;
->> +}
+> Then, BPF-based LSMs (which are not considered as in-tree LSM modules, for
+> only BPF hook is considered as in-tree LSM module) might receive unfavorable
+> treatment than non BPF-based LSMs? 
+>
+> [PATCH v15 05/11] says
+>
+>   Create a system call to report the list of Linux Security Modules
+>   that are active on the system. The list is provided as an array
+>   of LSM ID numbers.
+>   
+>   The calling application can use this list determine what LSM
+>   specific actions it might take. That might include choosing an
+>   output format, determining required privilege or bypassing
+>   security module specific behavior.
+>
+> but, at least, name of BPF-based LSMs won't be shown up in lsm_list_modules()
+> compared to non BPF-based LSMs? Then, the calling application can't use this
+> list determine what BPF-based LSM specific actions it might take?
+
+That is correct. Just as knowing that your system is using SELinux won't
+tell you whether a specific action might be permitted because that's driven
+by the loaded policy, so too knowing that your system is using BPF won't
+tell you whether a specific action might be permitted because that's driven
+by the eBPF programs in place.
+
+I wish we could stop people from saying "BPF-based LSM". BPF is the LSM. The
+eBPF programs that implement a "policy" are NOT a LSM. There needs to be a
+name for that, but LSM  is  not  it.
+
