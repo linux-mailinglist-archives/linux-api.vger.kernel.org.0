@@ -2,84 +2,60 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AAAE37D40A6
-	for <lists+linux-api@lfdr.de>; Mon, 23 Oct 2023 22:11:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 977B97D49C2
+	for <lists+linux-api@lfdr.de>; Tue, 24 Oct 2023 10:16:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229482AbjJWULX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 23 Oct 2023 16:11:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50078 "EHLO
+        id S233844AbjJXIQX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 24 Oct 2023 04:16:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57988 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229498AbjJWULW (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 23 Oct 2023 16:11:22 -0400
-Received: from vmicros1.altlinux.org (vmicros1.altlinux.org [194.107.17.57])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8BC561A4;
-        Mon, 23 Oct 2023 13:11:19 -0700 (PDT)
-Received: from mua.local.altlinux.org (mua.local.altlinux.org [192.168.1.14])
-        by vmicros1.altlinux.org (Postfix) with ESMTP id C580F72C8D3;
-        Mon, 23 Oct 2023 23:11:18 +0300 (MSK)
-Received: by mua.local.altlinux.org (Postfix, from userid 508)
-        id BC0037CFF64; Mon, 23 Oct 2023 23:11:18 +0300 (IDT)
-Date:   Mon, 23 Oct 2023 23:11:18 +0300
-From:   "Dmitry V. Levin" <ldv@strace.io>
-To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-Cc:     dave.hansen@linux.intel.com, bp@alien8.de, x86@kernel.org,
-        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] x86/uapi: fix SHADOW_STACK_SET_TOKEN type
-Message-ID: <20231023201118.GA19800@altlinux.org>
-References: <20231022222134.GA5334@altlinux.org>
- <006699efc5ccdce1bd62f45ef2852ab0233e295c.camel@intel.com>
+        with ESMTP id S233837AbjJXIQM (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 24 Oct 2023 04:16:12 -0400
+Received: from mail.citycodes.pl (mail.citycodes.pl [158.255.215.195])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FDA510E6
+        for <linux-api@vger.kernel.org>; Tue, 24 Oct 2023 01:16:08 -0700 (PDT)
+Received: by mail.citycodes.pl (Postfix, from userid 1001)
+        id 375F2215D1; Tue, 24 Oct 2023 10:15:44 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=citycodes.pl; s=mail;
+        t=1698135367; bh=fClkhHu/p6gIm8tbpvFwCqGX3kXIMdqjiuDdSiYGEkk=;
+        h=Date:From:To:Subject:From;
+        b=oqtSkte4mXIn/xyEaknOqL3Tl4NO0bc6VjC4RbPlFquarA3tB0B3MdX3ImFLr2uY4
+         NQwm8d10oZdP6SyrML9AEgBF9CZ/nozUYmv9K8ePHY10VXD6SZEFv03uxJCVqOoFql
+         S4W7VRYKLibcf/Zzzb6McAY+8Ac3NACR89UD2ctm18uO/k2lq3dJ+LCND273QD6oSS
+         iZ0Awj+dz3cH35DTcoKJR0ItzBiykL5g58GLsqQFWbhy//0sowq6fx6DAJLPQUbmaH
+         fE3uW4SAnOoDQ7BfYzeDrRvTt3ix/IABB6O/WOjJq1mYshlG9jZsI03TIhLkyaaW6n
+         OqwCeLJpLJAPA==
+Received: by mail.citycodes.pl for <linux-api@vger.kernel.org>; Tue, 24 Oct 2023 08:15:29 GMT
+Message-ID: <20231024084500-0.1.8a.l90j.0.9ce92798hi@citycodes.pl>
+Date:   Tue, 24 Oct 2023 08:15:29 GMT
+From:   "Kamil Lasek" <kamil.lasek@citycodes.pl>
+To:     <linux-api@vger.kernel.org>
+Subject: Wycena paneli fotowoltaicznych
+X-Mailer: mail.citycodes.pl
 MIME-Version: 1.0
-Content-Type: text/plain; charset=koi8-r
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <006699efc5ccdce1bd62f45ef2852ab0233e295c.camel@intel.com>
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Oct 23, 2023 at 04:36:48PM +0000, Edgecombe, Rick P wrote:
-> On Mon, 2023-10-23 at 01:21 +0300, Dmitry V. Levin wrote:
-> > Fix the type of SHADOW_STACK_SET_TOKEN to match the type of the
-> > corresponding "flags" argument of map_shadow_stack syscall which
-> > is of type "unsigned int".
-> > 
-> > Fixes: c35559f94ebc3 ("x86/shstk: Introduce map_shadow_stack
-> > syscall")
-> > Signed-off-by: Dmitry V. Levin <ldv@strace.io>
-> > ---
-> > šarch/x86/include/uapi/asm/mman.h | 2 +-
-> > š1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/arch/x86/include/uapi/asm/mman.h
-> > b/arch/x86/include/uapi/asm/mman.h
-> > index 46cdc941f958..8419e25bb617 100644
-> > --- a/arch/x86/include/uapi/asm/mman.h
-> > +++ b/arch/x86/include/uapi/asm/mman.h
-> > @@ -6,7 +6,7 @@
-> > š#define MAP_ABOVE4Gšššš0x80šššššššššššš/* only map above 4GB */
-> > š
-> > š/* Flags for map_shadow_stack(2) */
-> > -#define SHADOW_STACK_SET_TOKENš(1ULL << 0)ššššš/* Set up a restore
-> > token in the shadow stack */
-> > +#define SHADOW_STACK_SET_TOKENš(1U << 0)ššššššš/* Set up a restore
-> > token in the shadow stack */
-> > š
-> > š#include <asm-generic/mman.h>
-> 
-> Good point that they are mismatched. I don't remember why flags is not
-> an unsigned long though. I wonder if we should quick change it to an
-> unsigned long, if it's not too late. We probably won't run out of
-> flags, but maybe some value could get stuffed in the upper bits or
-> something someday.
+Dzie=C5=84 dobry,
 
-We usually don't use unsigned long for flags because we support 32-bit
-architectures.
+dostrzegam mo=C5=BCliwo=C5=9B=C4=87 wsp=C3=B3=C5=82pracy z Pa=C5=84stwa f=
+irm=C4=85.
+
+=C5=9Awiadczymy kompleksow=C4=85 obs=C5=82ug=C4=99 inwestycji w fotowolta=
+ik=C4=99, kt=C3=B3ra obni=C5=BCa koszty energii elektrycznej.
+
+Czy s=C4=85 Pa=C5=84stwo zainteresowani weryfikacj=C4=85 wst=C4=99pnych p=
+ropozycji?
 
 
--- 
-ldv
+Pozdrawiam,
+Kamil Lasek
