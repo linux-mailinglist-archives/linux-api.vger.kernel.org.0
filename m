@@ -2,225 +2,449 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E55A87D56B4
-	for <lists+linux-api@lfdr.de>; Tue, 24 Oct 2023 17:39:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F9E67D6E54
+	for <lists+linux-api@lfdr.de>; Wed, 25 Oct 2023 16:04:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234772AbjJXPj5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 24 Oct 2023 11:39:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49008 "EHLO
+        id S234971AbjJYODD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 25 Oct 2023 10:03:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32892 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234241AbjJXPj4 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 24 Oct 2023 11:39:56 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78654A3;
-        Tue, 24 Oct 2023 08:39:53 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 103A4C433CB;
-        Tue, 24 Oct 2023 15:39:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1698161993;
-        bh=/rlLxhNSn/t+30txYLqZQGurJwDZR8upBwpSJggekiY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=fNE2f5ibypsa5fChbuudRetPnBp1TT2xK6365rFeS3Js57m5bmA3h5FXnGV6UR1iK
-         nXCwfuNle0QfKJq/vkrLReIgI34OSXVdYYJGElM3+qIH5M/7icyn0RlGfDfQjNPhac
-         ggYGVB2nPffzd3NGz0FN7dQF6/ei9IJM3zChgLkpWl9iFHBQRPTbI3UiF3Ija5O197
-         2rCtg6QjWgEeOCu16Q/HwEyqsj6dv3eFbWwzQmBdNpZUTayI/zb51ZivJRe+MKKnUF
-         WJaDfX98ieCrds5MH5M8RQwKjAyx1V7nT1b4dEKbn+T757tZDgCraRuHmW/VtnpVwD
-         I/VHb5EPZ/Y8w==
-Date:   Tue, 24 Oct 2023 08:39:52 -0700
-From:   "Darrick J. Wong" <djwong@kernel.org>
-To:     John Garry <john.g.garry@oracle.com>
+        with ESMTP id S234214AbjJYODC (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 25 Oct 2023 10:03:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA82F132
+        for <linux-api@vger.kernel.org>; Wed, 25 Oct 2023 07:02:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1698242531;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=x1DYN7Za1uyLzcDLrfQjEDekO6UImwLBhsScIzlPerc=;
+        b=ida6CPj06NiVQ4YlzG1C6SpEje8t/0LYfNy5xNVXOPIWgpxDXMZhteX3CD/Tp4EowHZoU+
+        L9nylfAoPFJseMx+ixJ/k/uNhwat+7OM2g8HodeganaIj8aQGCsivHU60btdQAogN+q1+4
+        hOXh7lwvBmTNHYpEPB0xfgu3A3SbckU=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-548-uz3LVwyiP8GNpmQuG9KDvQ-1; Wed, 25 Oct 2023 10:02:09 -0400
+X-MC-Unique: uz3LVwyiP8GNpmQuG9KDvQ-1
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-9b98d8f6bafso375059766b.1
+        for <linux-api@vger.kernel.org>; Wed, 25 Oct 2023 07:02:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698242528; x=1698847328;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=x1DYN7Za1uyLzcDLrfQjEDekO6UImwLBhsScIzlPerc=;
+        b=Rm/y5uB1OWaIAsqsrZLnGNMVdtZfbLqjDsX0nEkM1yjuNBFSvNANQ+a4d4cBkowPr3
+         y/CrDaIgWklJqYuGgyA0Y/mLDaIHFHivWYinpWeWO/xFMsYrgTH/ZwvtMcpuwqlneSJm
+         EP6K8FSf3tpe9IdpynQ7bVfQhNIzDVXATxp7xiuH8Oe75LGO2TPf8OzcILw/+AhJYCFv
+         ADlkLrM3bSQUeaQZ1OmGBf2BoYzg9PcM+8hTflp6Xp5jN3LCEqGpuscQd+/Q0d7xGRym
+         Rbc6qMN3MjW++1mvfjl0c0pyaWyuujJQF4nvovs7zUwpZpcDPstq/Qd/+HaNfdGNXftG
+         CheA==
+X-Gm-Message-State: AOJu0YxucdD3mVg17ZP8bNovFV6SnufDqLpRxH+k4/oZNV1KQ6Qj9E5m
+        EBPiu6OVquikMICVEOxsr68Ul4UKTFVF7noKTN83/x5KqKpyj1+NvF5aLrI0uB359IV3tlIv8VX
+        jaG5QIq/8mEfjCXuDNLQY
+X-Received: by 2002:a17:906:c115:b0:9be:839a:3372 with SMTP id do21-20020a170906c11500b009be839a3372mr11884368ejc.59.1698242527921;
+        Wed, 25 Oct 2023 07:02:07 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEWrkTOkCAZfzN3xYcXcvz5ivnltGcFS7nQ3UQVnKVXqNdwubssOqdk3o6zzAPGNGJ5035rSA==
+X-Received: by 2002:a17:906:c115:b0:9be:839a:3372 with SMTP id do21-20020a170906c11500b009be839a3372mr11884320ejc.59.1698242527362;
+        Wed, 25 Oct 2023 07:02:07 -0700 (PDT)
+Received: from maszat.piliscsaba.szeredi.hu (92-249-235-200.pool.digikabel.hu. [92.249.235.200])
+        by smtp.gmail.com with ESMTPSA id vl9-20020a170907b60900b00989828a42e8sm9857073ejc.154.2023.10.25.07.02.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Oct 2023 07:02:06 -0700 (PDT)
+From:   Miklos Szeredi <mszeredi@redhat.com>
+To:     linux-fsdevel@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        martin.petersen@oracle.com, david@fromorbit.com,
-        himanshu.madhani@oracle.com
-Subject: Re: [PATCH 2/4] readv.2: Document RWF_ATOMIC flag
-Message-ID: <20231024153952.GK11391@frogsfrogsfrogs>
-References: <20230929093717.2972367-1-john.g.garry@oracle.com>
- <20230929093717.2972367-3-john.g.garry@oracle.com>
- <20231009174438.GE21283@frogsfrogsfrogs>
- <0262fed7-a70f-8782-628f-2e9ded0108f8@oracle.com>
+        linux-man@vger.kernel.org, linux-security-module@vger.kernel.org,
+        Karel Zak <kzak@redhat.com>, Ian Kent <raven@themaw.net>,
+        David Howells <dhowells@redhat.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <christian@brauner.io>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Matthew House <mattlloydhouse@gmail.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>
+Subject: [PATCH v4 0/6] querying mount attributes
+Date:   Wed, 25 Oct 2023 16:01:58 +0200
+Message-ID: <20231025140205.3586473-1-mszeredi@redhat.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0262fed7-a70f-8782-628f-2e9ded0108f8@oracle.com>
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Oct 24, 2023 at 01:30:03PM +0100, John Garry wrote:
-> On 09/10/2023 18:44, Darrick J. Wong wrote:
-> > On Fri, Sep 29, 2023 at 09:37:15AM +0000, John Garry wrote:
-> > > From: Himanshu Madhani <himanshu.madhani@oracle.com>
-> > > 
-> > > Add RWF_ATOMIC flag description for pwritev2().
-> > > 
-> > > Signed-off-by: Himanshu Madhani <himanshu.madhani@oracle.com>
-> > > #jpg: complete rewrite
-> > > Signed-off-by: John Garry <john.g.garry@oracle.com>
-> > > ---
-> > >   man2/readv.2 | 45 +++++++++++++++++++++++++++++++++++++++++++++
-> > >   1 file changed, 45 insertions(+)
-> > > 
-> > > diff --git a/man2/readv.2 b/man2/readv.2
-> > > index fa9b0e4e44a2..ff09f3bc9792 100644
-> > > --- a/man2/readv.2
-> > > +++ b/man2/readv.2
-> > > @@ -193,6 +193,51 @@ which provides lower latency, but may use additional resources.
-> > >   .B O_DIRECT
-> > >   flag.)
-> > >   .TP
-> > > +.BR RWF_ATOMIC " (since Linux 6.7)"
-> > > +Allows block-based filesystems to indicate that write operations will be issued
-> > 
-> > "Require regular file write operations to be issued with torn write
-> > protection."
-> 
-> ok
-> 
-> > 
-> > > +with torn-write protection. Torn-write protection means that for a power or any
-> > > +other hardware failure, all or none of the data from the write will be stored,
-> > > +but never a mix of old and new data. This flag is meaningful only for
-> > > +.BR pwritev2 (),
-> > > +and its effect applies only to the data range written by the system call.
-> > > +The total write length must be power-of-2 and must be sized between
-> > > +stx_atomic_write_unit_min and stx_atomic_write_unit_max, both inclusive. The
-> > > +write must be at a natural offset within the file with respect to the total
-> > 
-> > What is a "natural" offset?
-> 
-> I really meant naturally-aligned offset
-> 
-> >  That should be defined with more
-> > specificity.  Does that mean that the position of a XX-KiB write must
-> > also be aligned to XX-KiB?
-> 
-> Yes
-> 
-> >  e.g. a 32K untorn write can only start at a
-> > multiple of 32K?
-> 
-> Correct
-> 
-> > What if the device supports untorn writes between 4K
-> > and 64K, does that mean I /cannot/ issue a 32K untorn write at offset
-> > 48K?
-> 
-> Correct
-> 
-> Do you think that an example would help?
+Implement mount querying syscalls agreed on at LSF/MM 2023.
 
-Yes.
+Features:
 
-> > 
-> > > +write length. Torn-write protection only works with
-> > > +.B O_DIRECT
-> > > +flag, i.e. buffered writes are not supported. To guarantee consistency from
-> > > +the write between a file's in-core state with the storage device,
-> > > +.BR fdatasync (2)
-> > > +or
-> > > +.BR fsync (2)
-> > > +or
-> > > +.BR open (2)
-> > > +and
-> > > +.B O_SYNC
-> > > +or
-> > > +.B O_DSYNC
-> > > +or
-> > > +.B pwritev2 ()
-> > > +flag
-> > > +.B RWF_SYNC
-> > > +or
-> > > +.B RWF_DSYNC
-> > > +is required.
-> > 
-> > I'm starting to think that this manpage shouldn't be restating
-> > durability information here.
-> > 
-> > "Application programs with data or file integrity completion
-> > requirements must configure synchronous writes with the DSYNC
-> > or SYNC flags, as explained above."
-> 
-> ok
-> 
-> > 
-> > > +For when regular files are opened with
-> > > +.BR open (2)
-> > > +but without
-> > > +.B O_SYNC
-> > > +or
-> > > +.B O_DSYNC
-> > > +and the
-> > > +.BR pwritev2()
-> > > +call is made without
-> > > +.B RWF_SYNC
-> > > +or
-> > > +.BR RWF_DSYNC
-> > > +set, the range metadata must already be flushed to storage and the data range
-> > > +must not be in unwritten state, shared, a preallocation, or a hole.
-> > 
-> > I think that we can drop all of these flags requirements, since the
-> > contiguous small space allocation requirement means that the fs can
-> > provide all-or-nothing writes even if metadata updates are needed:
-> > 
-> > If the file range is allocated and marked unwritten (i.e. a
-> > preallocation), the ioend will clear the unwritten bit from the file
-> > mapping atomically.  After a crash, the application sees either zeroes
-> > or all the data that was written.
-> > 
-> > If the file range is shared, the ioend will map the COW staging extent
-> > into the file atomically.  After a crash, the application sees either
-> > the old contents from the old blocks, or the new contents from the new
-> > blocks.
-> > 
-> > If the file range is a sparse hole, the directio setup will allocate
-> > space and create an unwritten mapping before issuing the write bio.  The
-> > rest of the process works the same as preallocations and has the same
-> > behaviors.
-> > 
-> > If the file range is allocated and was previously written, the write is
-> > issued and that's all that's needed from the fs.  After a crash, reads
-> > of the storage device produce the old contents or the new contents.
-> > 
-> > Summarizing:
-> > 
-> > An (ATOMIC|SYNC) request provides the strongest guarantees (data
-> > will not be torn, and all file metadata updates are persisted before
-> > the write is returned to userspace.  Programs see either the old data or
-> > the new data, even if there's a crash.
-> > 
-> > (ATOMIC|DSYNC) is less strong -- data will not be torn, and any file
-> > updates for just that region are persisted before the write is returned.
-> > 
-> > (ATOMIC) is the least strong -- data will not be torn.  Neither the
-> > filesystem nor the device make guarantees that anything ended up on
-> > stable storage, but if it does, programs see either the old data or the
-> > new data.
-> > 
-> 
-> 
-> Will respond to later mail in thread.
+ - statx-like want/got mask
+ - allows returning ascii strings (fs type, root, mount point)
+ - returned buffer is relocatable (no pointers)
 
-Ok, thank you!
+Still missing:
+ - man pages
+ - kselftest
 
---D
+Please find the test utility at the end of this mail.
 
-> > Maybe we should rename the whole UAPI s/atomic/untorn/...
-> >  > --D
-> > 
-> > > +.TP
-> > >   .BR RWF_SYNC " (since Linux 4.7)"
-> > >   .\" commit e864f39569f4092c2b2bc72c773b6e486c7e3bd9
-> > >   Provide a per-write equivalent of the
-> > > -- 
-> > > 2.31.1
-> > > 
-> 
-> Thanks,
-> John
-> 
+  Usage: statmnt [-l|-r] [-u] (mnt_id|path)
+
+Git tree:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/vfs.git#statmount-v4
+
+
+Changes v3..v4:
+
+ - incorporate patch moving list of mounts to an rbtree
+ - wire up syscalls for all archs
+ - add LISTMOUNT_RECURSIVE (depth first iteration of mount tree)
+ - add LSMT_ROOT (list root instead of a specific mount ID)
+ - list_for_each_entry_del() moved to a separate patchset
+
+Changes v1..v3:
+
+ - rename statmnt(2) -> statmount(2)
+ - rename listmnt(2) -> listmount(2)
+ - make ABI 32bit compatible by passing 64bit args in a struct (tested on
+   i386 and x32)
+ - only accept new 64bit mount IDs
+ - fix compile on !CONFIG_PROC_FS
+ - call security_sb_statfs() in both syscalls
+ - make lookup_mnt_in_ns() static
+ - add LISTMOUNT_UNREACHABLE flag to listmnt() to explicitly ask for
+   listing unreachable mounts
+ - remove .sb_opts
+ - remove subtype from .fs_type
+ - return the number of bytes used (including strings) in .size
+ - rename .mountpoint -> .mnt_point
+ - point strings by an offset against char[] VLA at the end of the struct.
+   E.g. printf("fs_type: %s\n", st->str + st->fs_type);
+ - don't save string lengths
+ - extend spare space in struct statmnt (complete size is now 512 bytes)
+
+
+Miklos Szeredi (6):
+  add unique mount ID
+  mounts: keep list of mounts in an rbtree
+  namespace: extract show_path() helper
+  add statmount(2) syscall
+  add listmount(2) syscall
+  wire up syscalls for statmount/listmount
+
+ arch/alpha/kernel/syscalls/syscall.tbl      |   3 +
+ arch/arm/tools/syscall.tbl                  |   3 +
+ arch/arm64/include/asm/unistd32.h           |   4 +
+ arch/ia64/kernel/syscalls/syscall.tbl       |   3 +
+ arch/m68k/kernel/syscalls/syscall.tbl       |   3 +
+ arch/microblaze/kernel/syscalls/syscall.tbl |   3 +
+ arch/mips/kernel/syscalls/syscall_n32.tbl   |   3 +
+ arch/mips/kernel/syscalls/syscall_n64.tbl   |   3 +
+ arch/mips/kernel/syscalls/syscall_o32.tbl   |   3 +
+ arch/parisc/kernel/syscalls/syscall.tbl     |   3 +
+ arch/powerpc/kernel/syscalls/syscall.tbl    |   3 +
+ arch/s390/kernel/syscalls/syscall.tbl       |   3 +
+ arch/sh/kernel/syscalls/syscall.tbl         |   3 +
+ arch/sparc/kernel/syscalls/syscall.tbl      |   3 +
+ arch/x86/entry/syscalls/syscall_32.tbl      |   3 +
+ arch/x86/entry/syscalls/syscall_64.tbl      |   2 +
+ arch/xtensa/kernel/syscalls/syscall.tbl     |   3 +
+ fs/internal.h                               |   2 +
+ fs/mount.h                                  |  27 +-
+ fs/namespace.c                              | 573 ++++++++++++++++----
+ fs/pnode.c                                  |   2 +-
+ fs/proc_namespace.c                         |  13 +-
+ fs/stat.c                                   |   9 +-
+ include/linux/mount.h                       |   5 +-
+ include/linux/syscalls.h                    |   8 +
+ include/uapi/asm-generic/unistd.h           |   8 +-
+ include/uapi/linux/mount.h                  |  65 +++
+ include/uapi/linux/stat.h                   |   1 +
+ 28 files changed, 635 insertions(+), 129 deletions(-)
+
+-- 
+2.41.0
+
+=== statmnt.c ===
+#define _GNU_SOURCE
+#include <unistd.h>
+#include <stdio.h>
+#include <fcntl.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include <string.h>
+#include <errno.h>
+#include <sys/mount.h>
+#include <sys/stat.h>
+#include <sys/param.h>
+#include <err.h>
+
+/*
+ * Structure for getting mount/superblock/filesystem info with statmount(2).
+ *
+ * The interface is similar to statx(2): individual fields or groups can be
+ * selected with the @mask argument of statmount().  Kernel will set the @mask
+ * field according to the supported fields.
+ *
+ * If string fields are selected, then the caller needs to pass a buffer that
+ * has space after the fixed part of the structure.  Nul terminated strings are
+ * copied there and offsets relative to @str are stored in the relevant fields.
+ * If the buffer is too small, then EOVERFLOW is returned.  The actually used
+ * size is returned in @size.
+ */
+struct statmnt {
+	__u32 size;		/* Total size, including strings */
+	__u32 __spare1;
+	__u64 mask;		/* What results were written */
+	__u32 sb_dev_major;	/* Device ID */
+	__u32 sb_dev_minor;
+	__u64 sb_magic;		/* ..._SUPER_MAGIC */
+	__u32 sb_flags;		/* MS_{RDONLY,SYNCHRONOUS,DIRSYNC,LAZYTIME} */
+	__u32 fs_type;		/* [str] Filesystem type */
+	__u64 mnt_id;		/* Unique ID of mount */
+	__u64 mnt_parent_id;	/* Unique ID of parent (for root == mnt_id) */
+	__u32 mnt_id_old;	/* Reused IDs used in proc/.../mountinfo */
+	__u32 mnt_parent_id_old;
+	__u64 mnt_attr;		/* MOUNT_ATTR_... */
+	__u64 mnt_propagation;	/* MS_{SHARED,SLAVE,PRIVATE,UNBINDABLE} */
+	__u64 mnt_peer_group;	/* ID of shared peer group */
+	__u64 mnt_master;	/* Mount receives propagation from this ID */
+	__u64 propagate_from;	/* Propagation from in current namespace */
+	__u32 mnt_root;		/* [str] Root of mount relative to root of fs */
+	__u32 mnt_point;	/* [str] Mountpoint relative to current root */
+	__u64 __spare2[50];
+	char str[];		/* Variable size part containing strings */
+};
+
+/*
+ * To be used on the kernel ABI only for passing 64bit arguments to statmount(2)
+ */
+struct __mount_arg {
+	__u64 mnt_id;
+	__u64 request_mask;
+};
+
+/*
+ * @mask bits for statmount(2)
+ */
+#define STMT_SB_BASIC		0x00000001U     /* Want/got sb_... */
+#define STMT_MNT_BASIC		0x00000002U	/* Want/got mnt_... */
+#define STMT_PROPAGATE_FROM	0x00000004U	/* Want/got propagate_from */
+#define STMT_MNT_ROOT		0x00000008U	/* Want/got mnt_root  */
+#define STMT_MNT_POINT		0x00000010U	/* Want/got mnt_point */
+#define STMT_FS_TYPE		0x00000020U	/* Want/got fs_type */
+
+/* listmount(2) flags */
+#define LISTMOUNT_UNREACHABLE	0x01	/* List unreachable mounts too */
+#define LISTMOUNT_RECURSIVE	0x02	/* List a mount tree */
+
+/*
+ * Special @mnt_id values that can be passed to listmount
+ */
+#define LSMT_ROOT		0xffffffffffffffff	/* root mount */
+
+#ifdef __alpha__
+#define __NR_statmount   564
+#define __NR_listmount   565
+#else
+#define __NR_statmount   454
+#define __NR_listmount   455
+#endif
+
+#define STATX_MNT_ID_UNIQUE	0x00004000U	/* Want/got extended stx_mount_id */
+
+
+static void free_if_neq(void *p, const void *q)
+{
+	if (p != q)
+		free(p);
+}
+
+static struct statmnt *statmount(uint64_t mnt_id, uint64_t mask, unsigned int flags)
+{
+	struct __mount_arg arg = {
+		.mnt_id = mnt_id,
+		.request_mask = mask,
+	};
+	union {
+		struct statmnt m;
+		char s[4096];
+	} buf;
+	struct statmnt *ret, *mm = &buf.m;
+	size_t bufsize = sizeof(buf);
+
+	while (syscall(__NR_statmount, &arg, mm, bufsize, flags) == -1) {
+		free_if_neq(mm, &buf.m);
+		if (errno != EOVERFLOW)
+			return NULL;
+		bufsize = MAX(1 << 15, bufsize << 1);
+		mm = malloc(bufsize);
+		if (!mm)
+			return NULL;
+	}
+	ret = malloc(mm->size);
+	if (ret)
+		memcpy(ret, mm, mm->size);
+	free_if_neq(mm, &buf.m);
+
+	return ret;
+}
+
+static int listmount(uint64_t mnt_id, uint64_t **listp, unsigned int flags)
+{
+	struct __mount_arg arg = {
+		.mnt_id = mnt_id,
+	};
+	uint64_t buf[512];
+	size_t bufsize = sizeof(buf);
+	uint64_t *ret, *ll = buf;
+	long len;
+
+	while ((len = syscall(__NR_listmount, &arg, ll, bufsize / sizeof(buf[0]), flags)) == -1) {
+		free_if_neq(ll, buf);
+		if (errno != EOVERFLOW)
+			return -1;
+		bufsize = MAX(1 << 15, bufsize << 1);
+		ll = malloc(bufsize);
+		if (!ll)
+			return -1;
+	}
+	bufsize = len * sizeof(buf[0]);
+	ret = malloc(bufsize);
+	if (!ret)
+		return -1;
+
+	*listp = ret;
+	memcpy(ret, ll, bufsize);
+	free_if_neq(ll, buf);
+
+	return len;
+}
+
+
+int main(int argc, char *argv[])
+{
+	struct statmnt *st;
+	char *end;
+	int res;
+	int list = 0;
+	int flags = 0;
+	uint64_t mask = STMT_SB_BASIC | STMT_MNT_BASIC | STMT_PROPAGATE_FROM | STMT_MNT_ROOT | STMT_MNT_POINT | STMT_FS_TYPE;
+	uint64_t mnt_id;
+	int opt;
+
+	for (;;) {
+		opt = getopt(argc, argv, "lru");
+		if (opt == -1)
+			break;
+		switch (opt) {
+		case 'r':
+			flags |= LISTMOUNT_RECURSIVE;
+			/* fallthrough */
+		case 'l':
+			list = 1;
+			break;
+		case 'u':
+			flags |= LISTMOUNT_UNREACHABLE;
+			break;
+		default:
+			errx(1, "usage: %s [-l|-r] [-u] (mnt_id|path)", argv[0]);
+		}
+	}
+	if (optind >= argc) {
+		if (!list)
+			errx(1, "missing mnt_id or path");
+		else
+			mnt_id = -1LL;
+	} else {
+		const char *arg = argv[optind];
+
+		mnt_id = strtoll(arg, &end, 0);
+		if (!mnt_id || *end != '\0') {
+			struct statx sx;
+
+			res = statx(AT_FDCWD, arg, 0, STATX_MNT_ID_UNIQUE, &sx);
+			if (res == -1)
+				err(1, "%s", arg);
+
+			if (!(sx.stx_mask & (STATX_MNT_ID | STATX_MNT_ID_UNIQUE)))
+				errx(1, "Sorry, no mount ID");
+
+			mnt_id = sx.stx_mnt_id;
+		}
+	}
+
+	if (list) {
+		uint64_t *list;
+		int num, i;
+
+		res = listmount(mnt_id, &list, flags);
+		if (res == -1)
+			err(1, "listmnt(0x%llx)", (unsigned long long) mnt_id);
+
+		num = res;
+		for (i = 0; i < num; i++) {
+			printf("0x%llx", (unsigned long long) list[i]);
+
+			st = statmount(list[i], STMT_MNT_POINT, 0);
+			if (!st) {
+				printf("\t[%s]\n", strerror(errno));
+			} else {
+				printf("\t%s\n", (st->mask & STMT_MNT_POINT) ? st->str + st->mnt_point : "???");
+			}
+			free(st);
+		}
+		free(list);
+
+		return 0;
+	}
+
+	st = statmount(mnt_id, mask, 0);
+	if (!st)
+		err(1, "statmnt(0x%llx)", (unsigned long long) mnt_id);
+
+	printf("size: %u\n", st->size);
+	printf("mask: 0x%llx\n", st->mask);
+	if (st->mask & STMT_SB_BASIC) {
+		printf("sb_dev_major: %u\n", st->sb_dev_major);
+		printf("sb_dev_minor: %u\n", st->sb_dev_minor);
+		printf("sb_magic: 0x%llx\n", st->sb_magic);
+		printf("sb_flags: 0x%08x\n", st->sb_flags);
+	}
+	if (st->mask & STMT_MNT_BASIC) {
+		printf("mnt_id: 0x%llx\n", st->mnt_id);
+		printf("mnt_parent_id: 0x%llx\n", st->mnt_parent_id);
+		printf("mnt_id_old: %u\n", st->mnt_id_old);
+		printf("mnt_parent_id_old: %u\n", st->mnt_parent_id_old);
+		printf("mnt_attr: 0x%08llx\n", st->mnt_attr);
+		printf("mnt_propagation: %s%s%s%s\n",
+		       st->mnt_propagation & MS_SHARED ? "shared," : "",
+		       st->mnt_propagation & MS_SLAVE ? "slave," : "",
+		       st->mnt_propagation & MS_UNBINDABLE ? "unbindable," : "",
+		       st->mnt_propagation & MS_PRIVATE ? "private" : "");
+		printf("mnt_peer_group: %llu\n", st->mnt_peer_group);
+		printf("mnt_master: %llu\n", st->mnt_master);
+	}
+	if (st->mask & STMT_PROPAGATE_FROM)
+		printf("propagate_from: %llu\n", st->propagate_from);
+	if (st->mask & STMT_MNT_ROOT)
+		printf("mnt_root: %u <%s>\n", st->mnt_root, st->str + st->mnt_root);
+	if (st->mask & STMT_MNT_POINT)
+		printf("mnt_point: %u <%s>\n", st->mnt_point, st->str + st->mnt_point);
+	if (st->mask & STMT_FS_TYPE)
+		printf("fs_type: %u <%s>\n", st->fs_type, st->str + st->fs_type);
+	free(st);
+
+	return 0;
+}
+
