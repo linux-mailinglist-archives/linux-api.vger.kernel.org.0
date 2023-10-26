@@ -2,203 +2,232 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 84C9F7D6F01
-	for <lists+linux-api@lfdr.de>; Wed, 25 Oct 2023 16:42:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D04A7D874E
+	for <lists+linux-api@lfdr.de>; Thu, 26 Oct 2023 19:11:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235098AbjJYOML (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 25 Oct 2023 10:12:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36316 "EHLO
+        id S231795AbjJZRLA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 26 Oct 2023 13:11:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36846 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235086AbjJYOMI (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 25 Oct 2023 10:12:08 -0400
-Received: from mail-qv1-xf32.google.com (mail-qv1-xf32.google.com [IPv6:2607:f8b0:4864:20::f32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30A7619D;
-        Wed, 25 Oct 2023 07:12:01 -0700 (PDT)
-Received: by mail-qv1-xf32.google.com with SMTP id 6a1803df08f44-66d0ceba445so32116876d6.0;
-        Wed, 25 Oct 2023 07:12:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698243121; x=1698847921; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=tKVdix5RJvAI2e7Uan+fxbsu4C97jUxO2pzvhonFzY0=;
-        b=CNS1eddqb09hcy1uhUf2Ojts+RIgLDq6IcmgR6OAKxEsjVep2Qq7bWGc7UbkQ7zPj2
-         f4c97FMU438jHeKGWLTKmOEzcmTVKaBJFKCV00Fobym3LMhK3uo1DFErKJ5kHtC+f8TK
-         P37ZLnlCFIVRBXYxlv1jliKDQdAA7lAA3T3KDStUMpolo68kDhp/DEH5YsV6NI9LWCF5
-         JRWEK91jyIjr57dDO5koa7K4xNniD4HTXB2FW/4fvJQL9RePGjdt7WFRqkGyzq6Dwbif
-         FMzMQqb4cQ2TDHvNUWhCkHPvFv156PrQjfeQkFSrIqzERtYSAghYcUpHv3XKm8FPy2GK
-         iBCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698243121; x=1698847921;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tKVdix5RJvAI2e7Uan+fxbsu4C97jUxO2pzvhonFzY0=;
-        b=V9nmMnS4LJPUrGV3CYECA9/Y+JxDkHQXf9MfXWyWW+vlYfuKlNg9VduF7SCLQHlaW4
-         pJ2BgEXajIC3/RxsxcTGV2+oPN5A+Tc37j5CuDsm/p3zASrnI3daj2t7VW/l3yotOzBw
-         XfnZtGShCWdpOylFhW1RWh3NgwdbMNGnZ3bgdFUf+Amz51u/TS77F1zXE1rS0XmpmIiP
-         Vcc/7CeaaiuVnoB+87ZnjfXuJi74uDr2oz0MzGxsCaFunDHHrFHKL+rOpqdbijdBqORS
-         8O4MlJemtPg8Z3CRIGHmexsYo1leI1jtHbPUtJSiMAxXInQgCgfmQTDHDm7xKgI1RS5F
-         wskg==
-X-Gm-Message-State: AOJu0Yzt6eRY4K5Ya/FM5RYrDbd9bvpEsnLfo/8wDS+rHWwMxfN0sSKx
-        hgO0DL3JCEzS1yQJn3UZ88ATsJR+yjfP4+Xo6dE4DHbybxo=
-X-Google-Smtp-Source: AGHT+IEYmiXrH9anAkYWc5nR1PVbmJGPx+I6s1L7XIvhFdEERBEuSUp/hRq1VdhSVnhFrfQhMOY3YEFbbstolz52YUE=
-X-Received: by 2002:ad4:5beb:0:b0:65b:3133:cec with SMTP id
- k11-20020ad45beb000000b0065b31330cecmr17192353qvc.32.1698243120426; Wed, 25
- Oct 2023 07:12:00 -0700 (PDT)
+        with ESMTP id S231771AbjJZRK7 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 26 Oct 2023 13:10:59 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 624EC116;
+        Thu, 26 Oct 2023 10:10:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698340256; x=1729876256;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=i1CUoyWm90D8FLe7lhpSu9M57XJZ8r6Durc5teJfCaA=;
+  b=YcsLbTcwmZEhbHQVZvhTME48h2fnl8BqDGUbpsiEYbyawpOyEmpXcq/Z
+   BAncm6wiXw3lCoo3EKEq4fMFlRc+YmVy2FDrAqQSQrJQANUsJpAxR6oCw
+   XCCPHAlMBP49f8vsO2epAMbFBvBu+MYA+LDbXP2ke8UjxDRKA8UFkST0h
+   fw6qti9J1xbYVUbhLwi93ieCTfhatnjtXRW0mD6lDDOtOotxOYX0owDIK
+   iSjz+yMnnlA92wR4cR0JzCUQU/bQJis5SHKhVuYRV63I95EQgIBeY4jZ/
+   ATf9qTcfyeuCu6ffjZmmJ79b23263yGhcaVzAKWmZZBc/hpSM/uG4uzwa
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="387423335"
+X-IronPort-AV: E=Sophos;i="6.03,254,1694761200"; 
+   d="scan'208";a="387423335"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2023 10:10:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="794294812"
+X-IronPort-AV: E=Sophos;i="6.03,254,1694761200"; 
+   d="scan'208";a="794294812"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by orsmga001.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 26 Oct 2023 10:10:55 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Thu, 26 Oct 2023 10:10:55 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Thu, 26 Oct 2023 10:10:54 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34 via Frontend Transport; Thu, 26 Oct 2023 10:10:54 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.101)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.34; Thu, 26 Oct 2023 10:10:49 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fQJcSgfsg2grR4adDw3v7EYHralvAxckLd1RZInu2pS/vgLGAZQElngt2h8XHixXKb29B0SzeZHXyFr0PMjVvs9LtncMMJE4oRe/6l5N94mJEFGVpXpRzAGq/NfiOGzu7v2GY8umB1AlImo35mTAZbDnL5jy2SvxbYdksWA+UhiQDfNbgS4G4jav2JzA2kNu3fGt+qMJu6dtbUAokXlAS/GrmtXvOwn80CwTefBx6Emsk4zqt9NEPFzK4tTeRtZ+RvzOJGr+FnEvbrbgKHcMUBpFSNriTbgWQdT0T37NBugh3iTP22I3S4lzs6AFOqZQ78eKxBJ5EWApvA3hrsKB5Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=i1CUoyWm90D8FLe7lhpSu9M57XJZ8r6Durc5teJfCaA=;
+ b=MtX1nPGNeLqy6Ky5SrLBm/7izIiuQX2NMBrwndAXCJTLHrA0R5gcMf8jAMTTlhH82I87vY9iZl7NUMMcSz2mxoZ23SrHvyIHJeszfgqwkfzQJR3hHR2plA3TMhKkJJNjQhEsYGAsQ8JpZcPuJXQZ5NR1OXA1FEqL1FB01x4NTH6J4xSD3jHd0JUnVokm0VljrGLvgJfrw0Qc2RWUK8QQF7ybdKib7tAwdXgh26FuqMjtl35MRsZU1HssYoyhs7XGhnHDZoOKXuoj7bpuFJky6XNDYceF5JQrswaWV+X7IqCPjs9PuC6SlV8Dejs/8xrPZ4HkI0GTQgqf8sYFEk7Ewg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from MN0PR11MB5963.namprd11.prod.outlook.com (2603:10b6:208:372::10)
+ by SJ0PR11MB5070.namprd11.prod.outlook.com (2603:10b6:a03:2d5::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.19; Thu, 26 Oct
+ 2023 17:10:48 +0000
+Received: from MN0PR11MB5963.namprd11.prod.outlook.com
+ ([fe80::4d44:dbfa:a7b4:b7c1]) by MN0PR11MB5963.namprd11.prod.outlook.com
+ ([fe80::4d44:dbfa:a7b4:b7c1%4]) with mapi id 15.20.6907.028; Thu, 26 Oct 2023
+ 17:10:47 +0000
+From:   "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+To:     "broonie@kernel.org" <broonie@kernel.org>
+CC:     "dietmar.eggemann@arm.com" <dietmar.eggemann@arm.com>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "Szabolcs.Nagy@arm.com" <Szabolcs.Nagy@arm.com>,
+        "brauner@kernel.org" <brauner@kernel.org>,
+        "shuah@kernel.org" <shuah@kernel.org>,
+        "debug@rivosinc.com" <debug@rivosinc.com>,
+        "mgorman@suse.de" <mgorman@suse.de>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "vincent.guittot@linaro.org" <vincent.guittot@linaro.org>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "rostedt@goodmis.org" <rostedt@goodmis.org>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "vschneid@redhat.com" <vschneid@redhat.com>,
+        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+        "bristot@redhat.com" <bristot@redhat.com>,
+        "will@kernel.org" <will@kernel.org>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "jannh@google.com" <jannh@google.com>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "bsegall@google.com" <bsegall@google.com>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "juri.lelli@redhat.com" <juri.lelli@redhat.com>
+Subject: Re: [PATCH RFC RFT 2/5] fork: Add shadow stack support to clone3()
+Thread-Topic: [PATCH RFC RFT 2/5] fork: Add shadow stack support to clone3()
+Thread-Index: AQHaBbRTBvR+3Qu63E+MwFOmoT8P7rBXkZMAgAAhcgCABKBHAA==
+Date:   Thu, 26 Oct 2023 17:10:47 +0000
+Message-ID: <2ec0be71ade109873445a95f3f3c107711bb0943.camel@intel.com>
+References: <20231023-clone3-shadow-stack-v1-0-d867d0b5d4d0@kernel.org>
+         <20231023-clone3-shadow-stack-v1-2-d867d0b5d4d0@kernel.org>
+         <dc9a3dd544bbf859142c5582011a924b1c1bf6ed.camel@intel.com>
+         <8b0c9332-ba56-4259-a71f-9789d28391f1@sirena.org.uk>
+In-Reply-To: <8b0c9332-ba56-4259-a71f-9789d28391f1@sirena.org.uk>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.44.4-0ubuntu2 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MN0PR11MB5963:EE_|SJ0PR11MB5070:EE_
+x-ms-office365-filtering-correlation-id: 98ced7b0-44a6-4a5c-b71b-08dbd6467f92
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 7ByLvsH9j9qxM+aX7dMEe/smux42Q88StDGpAu2iRH8txwIRWRHCvyMWyz/2dfculfsyWg7JA+WkQa1QCcSPmApv7AQ44LY5ofd4WYkZAZDeHUgpP5zBpzKObO3tS/03RId0YhqWw9Cl39+24vqzHrUGJMcNOuLIoMZGIQs4FwSX5ZmEyEIX23zHoll0arW3iXtRcbTwx54FIWwbyEm0EU4vMtEJvTQCfGFh4wOgbc/3sQg7mozDKDneuSZOzOrwhSA4Dz0LtYhx2jrGewy2SyHV+2LA/NwjGsMsFoDFB3mO/9KY9khHr1gGM38Ra3AERElqjEIBkzp4Hi14I8IFvZ/kkaNq+0TFmFJoi+ng1m1wKx/4fCXlJVC0YrU5ZMlFHEYjLpSU49kfcZCgGkZ2qCqKL9oYoXLuoSNkjnus0z5TgNxAw1he8pkcWt1lrhu8Dvf880uUHuEUL8lKBK4OWTtmxrkrZZ4jwB9oXzNlAjoSMjgzTFImfTISZCtY2qepsT+aae4cQomjxX6Haol7SACRqsdTtbReeHqqc0vE7zaSahUk819y09k/j82Jlrf9X5DANY3JEYjfqkl0Mcw5bjktGw0xrGeeGb+fa94gs+LuXsfGXEY2LlDYWGkRPJVR
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB5963.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(366004)(376002)(396003)(346002)(39860400002)(230922051799003)(451199024)(64100799003)(1800799009)(186009)(2906002)(4001150100001)(7416002)(5660300002)(41300700001)(82960400001)(26005)(38100700002)(38070700009)(4326008)(8676002)(8936002)(83380400001)(91956017)(76116006)(316002)(66446008)(64756008)(66476007)(66556008)(2616005)(6916009)(36756003)(54906003)(6512007)(66946007)(122000001)(478600001)(6506007)(71200400001)(86362001)(6486002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?anJHOVRodkt5R0g2NktwK0FHRHpHN2tIVVlSRnIrNVY0UlJ1eXh2UDZaQVRU?=
+ =?utf-8?B?Tk0vbnh1Q3FFZWo3K0lOR0FMenpvMDl2MVR3bjI1dWpiVG5qanFkMUR2NjM5?=
+ =?utf-8?B?Z0duc1BZbnJtVHRVODZYRnBNTG4vRk43Sld4cFJXWXRLWmZIOFBUZHJVVkd1?=
+ =?utf-8?B?NHNkNUpoY0pWZTUyYlo0NnBKMW82WjBtZW5USEExUXBqUW5uUlRNdVJYek1i?=
+ =?utf-8?B?SWQxdDJOOHpjOWVGenBMWVNIdGlJcjVta2lTZUVhQnpZTXFyVDEzKzNvOWRj?=
+ =?utf-8?B?b2x0N2VuRnY0MWhZbTZRM1ljMFB5ZXpLdTllL3RXd05pbzFhczllaVFHM0dn?=
+ =?utf-8?B?TUNlVERyQ3IzSGpNM0plVEJVYSs0eDNUeFp0Wk9xZ04vWk5WN2tlUDJKaUM1?=
+ =?utf-8?B?MmYySENmeEtWTktCbDFnZ1BtZkVWa096UEtmejBNeTE3RHI5Mk0vWkd2THZn?=
+ =?utf-8?B?M3dPUklLbGNleGVXV21ib2hqL09IUW5kNHhxbFlGK2VLS2cwa2lBalc1MStS?=
+ =?utf-8?B?UUFLV0wzdlFvQ0UzOFFwNXhpK3Fidno3T1FGVFVUdkp5TGZIOXpXK1ZSbjFI?=
+ =?utf-8?B?Wkc2cHpNVWtNTHUvLzR5QTByUEU4QVdEN0JCbmhkK2tTaEVtTGdNeWp1SzRE?=
+ =?utf-8?B?Yk02a3BMN1E4d0k5MEVGd1NqcHd5KytMMC93VnlKVHFETXlvaFVmVXA3aWZP?=
+ =?utf-8?B?SHVzNXg5M3BUK1J0K2paZUhUaUF6UDdKNlorZUNjU1Q3ZUlreS9Kem9MV0kv?=
+ =?utf-8?B?SEx2LzJUaXZIQUtNRVF0cWpFL1E0UGZ4U0JsckxRWGo5YW9YN1EwSVhhK0I0?=
+ =?utf-8?B?TWZza3BFSTVyWEk1SitNYmJpVEFuQ2lySEtmbER3bWxlSnVHSEZxTW1rWFZl?=
+ =?utf-8?B?aVF5eHRocEtNaWdZemUwcGRYQ0h1RnhsaTZGRDJRUU4zRVFuckVkMEpUT3px?=
+ =?utf-8?B?aWROWFZHa0lPbHNLWHl6ZUVwdVRJT1VaUktqRzZ6OTJCU1JMUFlsQ2k2M2pV?=
+ =?utf-8?B?R3ZSN051bHkwekpxUGk0Q2J0M2dmTlRRblc2cnFuNENtSlFycnNtVWhSWHJU?=
+ =?utf-8?B?d0JZb3p5dnY3Nk5mOTRTQWRLMnl5T3lNdVJPaE1hRUlYUWRuOGtzRDhJRC95?=
+ =?utf-8?B?WFZIc1llbmU1UnJlVDNyWnpTMmZReHdseExLVi95MmFpNnlTZTg3eEQ2NHRz?=
+ =?utf-8?B?dkNOK2gyVXpORVpnb3JCa1NBU0VCaUsxSVp5cVdHYVVicU9zTmxVZG90bnpV?=
+ =?utf-8?B?dUxpNUorVXhUeDYwbiswOWp0aHNSbDVXZyswU3VnTEQ2UkR2aUxMYkt4ZENt?=
+ =?utf-8?B?eFkrSkt6bDcyUDdSWjRxM2ErVzJpTWF5OG10Q0JHYStRTTUyT0R6UkZZL0Nx?=
+ =?utf-8?B?QnRmTnNMK1hhd3BteE1LSFZRVFpSTnk1TENpMGliNkpPZUwyK2toMTNnL2pz?=
+ =?utf-8?B?NDZ2OTlVZE4zeitZdHhxcFBBL0dYM0s2dEl2L21kMENoc3ZZRlVXU0xaODg1?=
+ =?utf-8?B?U0greDJ0bnZKS2tUcWdyd2hndnNQVDdRbXJtYU96NFY3ZjZ2TFVYQTcyUWVI?=
+ =?utf-8?B?UjZ1a01vVStHdE5TbHNSM3o0cGRzSnB6a2FYalRKMWc1WEF2VGJsMy9SUC9X?=
+ =?utf-8?B?MEdDdmVMc0ROT1IyODlsUXNDRHNrWU9SNGNLbWFpZVVLQ2lORy9JU21JME91?=
+ =?utf-8?B?TnhoUngyUk5vanhGNGYyOXRhTTBTV2dXQzBoTUxHZ2VMOGdCZURkLzBVTlYy?=
+ =?utf-8?B?WFFkU1lJYnJLeWs4VTdSL3FiSjFGZHlvc1FGODNNdTRqV0E4ZlZOalNLejFw?=
+ =?utf-8?B?KytrWnNHeVRpWmNNSGdTNU1QaE1URmZLT2YwNW9halFQTnhiSmUvUzBjbG50?=
+ =?utf-8?B?cHV3RitJRGVONnZ2c2dVMDVyTi9sMXBtZkgzMjJocUsyZFMvWXNYR0FHMm9B?=
+ =?utf-8?B?M2g2U0Q2MnRVamtPaVVjaEF4S0tNZW9UaU5jMWpWMGlYK3I0cDVtbk9maEk3?=
+ =?utf-8?B?L0hTa0IxdnNIOEJ5SG9EeFk1WlV6RkJWaGJ6NVZWVURiU0lSRWtTd0g1Qkh5?=
+ =?utf-8?B?MkFLbkRvdGlVcFNUR3JpNFp3NjhZRzlNNDlNaTU0Q1NaUys0endNa0QvNzJx?=
+ =?utf-8?B?MVVzRUpYengrOHZQZ1VYNVM5OGdNOFNpRWwwdEliM3hDMHMrdnlubUF3Rkpm?=
+ =?utf-8?B?Y0E9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <938DCE4DDF231E47A7E13060DA6FA748@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20230411124037.1629654-1-amir73il@gmail.com> <20230412184359.grx7qyujnb63h4oy@quack3>
- <CAOQ4uxj_OQt+yLVnBH-Cg4mKe4_19L42bcsQx2BSOxR7E46SDQ@mail.gmail.com>
- <20230417162721.ouzs33oh6mb7vtft@quack3> <CAOQ4uxjfP+TrDded+Zps6k6GQM+UsEuW0R2PT_fMEH8ouY_aUg@mail.gmail.com>
- <20230920110429.f4wkfuls73pd55pv@quack3>
-In-Reply-To: <20230920110429.f4wkfuls73pd55pv@quack3>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Wed, 25 Oct 2023 17:11:48 +0300
-Message-ID: <CAOQ4uxh_wNOoWjxw2qQPyxoqyvo-u8pFGHH9p92BzrqBACVJTA@mail.gmail.com>
-Subject: Re: [RFC][PATCH] fanotify: Enable FAN_REPORT_FID on more filesystem types
-To:     Jan Kara <jack@suse.cz>
-Cc:     Christian Brauner <brauner@kernel.org>,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        Jeff Layton <jlayton@kernel.org>,
-        Chuck Lever <chuck.lever@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB5963.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 98ced7b0-44a6-4a5c-b71b-08dbd6467f92
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Oct 2023 17:10:47.9284
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: atawSXBWfVy0WDbH5AR8/OhntLDzPABkiJCEyF6yH9xzUlzYbKM9FaPNzkpJt6jLKzENvnE1SxubTDVzOKMQlAAM/JuIwW6AakZL1fWDcgo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5070
+X-OriginatorOrg: intel.com
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-> > Hi Jan,
-> >
-> > I seem to have dropped the ball on this after implementing AT_HANDLE_FID.
-> > It was step one in a larger plan.
->
-> No problem, I forgot about this as well :)
->
-
-Following up...
-
-> > Christian, Jeff,
-> >
-> > Do you have an objection to this plan:
-> > 1. Convert all "legacy" FILEID_INO32_GEN fs with non-empty
-> >     s_export_op and no explicit ->encode_fh() to use an explicit
-> >     generic_encode_ino32_gen_fh()
-> > 2. Relax requirement of non-empty s_export_op for AT_HANDLE_FID
-> >     to support encoding a (non-NFS) file id on all fs
-> > 3. For fs with empty s_export_op, allow fallback of AT_HANDLE_FID
-> >     in exportfs_encode_inode_fh() to encode FILEID_INO64_GEN
-> >
-
-These are now queued on Christian's vfs.f_fsid branch.
-
-> >
-> > > > > Also I have noticed your workaround with using st_dev for fsid. As I've
-> > > > > checked, there are actually very few filesystems that don't set fsid these
-> > > > > days. So maybe we could just get away with still refusing to report on
-> > > > > filesystems without fsid and possibly fixup filesystems which don't set
-> > > > > fsid yet and are used enough so that users complain?
-> > > >
-> > > > I started going down this path to close the gap with inotify.
-> > > > inotify is capable of watching all fs including pseudo fs, so I would
-> > > > like to have this feature parity.
-> > >
-> > > Well, but with pseudo filesystems (similarly as with FUSE) the notification
-> > > was always unreliable. As in: some cases worked but others did not. I'm not
-> > > sure that is something we should try to replicate :)
-> > >
-> > > So still I'd be interested to know which filesystems we are exactly
-> > > interested to support and whether we are not better off to explicitly add
-> > > fsid support to them like we did for tmpfs.
-> > >
-> >
-> > Since this email, kernfs derivative fs gained fsid as well.
-> > Quoting your audit of remaining fs from another thread:
-> >
-> > > ...As far as I remember
-> > > fanotify should be now able to handle anything that provides f_fsid in its
-> > > statfs(2) call. And as I'm checking filesystems not setting fsid currently are:
-> > >
-> > > afs, coda, nfs - networking filesystems where inotify and fanotify have
-> > >   dubious value anyway
-> >
-> > Be that as it may, there may be users that use inotify on network fs
-> > and it even makes a lot of sense in controlled environments with
-> > single NFS client per NFS export (e.g. home dirs), so I think we will
-> > need to support those fs as well.
->
-> Fair enough.
-
-I have sent an fsid patch for NFS and for FUSE.
-I am not going to deal with afs and coda unless there is explicit demand.
-
->
-> > Maybe the wise thing to do is to opt-in to monitor those fs after all?
-> > Maybe with explicit opt-in to watch a single fs, fanotify group will
-> > limit itself to marks on a specific sb and then a null fsid won't matter?
->
-> We have virtual filesystems with all sorts of missing or weird notification
-> functionality and we don't flag that in any way. So making a special flag
-> for network filesystems seems a bit arbitrary. I'd just make them provide
-> fsid and be done with it.
->
-> > > configfs, debugfs, devpts, efivarfs, hugetlbfs, openpromfs, proc, pstore,
-> > > ramfs, sysfs, tracefs - virtual filesystems where fsnotify functionality is
-> > >   quite limited. But some special cases could be useful. Adding fsid support
-> > >   is the same amount of trouble as for kernfs - a few LOC. In fact, we
-> > >   could perhaps add a fstype flag to indicate that this is a filesystem
-> > >   without persistent identification and so uuid should be autogenerated on
-> > >   mount (likely in alloc_super()) and f_fsid generated from sb->s_uuid.
-> > >   This way we could handle all these filesystems with trivial amount of
-> > >   effort.
-> > >
-
-Patch for simple fs fsid also queued on Christian's vfs.f_fsid branch.
-
-> >
-> > Christian,
-> >
-> > I recall that you may have had reservations on initializing s_uuid
-> > and f_fsid in vfs code?
-> > Does an opt-in fstype flag address your concerns?
-> > Will you be ok with doing the tmpfs/kernfs trick for every fs
-> > that opted-in with fstype flag in generic vfs code?
-> >
-> > > freevxfs - the only real filesystem without f_fsid. Trivial to handle one
-> > >   way or the other.
-> > >
-
-fsid patch was posted for freevxfs.
-fsid patch for gfs2 was posted and applied by the maintainer.
-
-> >
-> > Last but not least, btrfs subvolumes.
-> > They do have an fsid, but it is different from the sb fsid,
-> > so we disallow (even inode) fanotify marks.
-> >
-> > I am not sure how to solve this one,
-> > but if we choose to implement the opt-in fanotify flag for
-> > "watch single fs", we can make this problem go away, along
-> > with the problem of network fs fsid and other odd fs that we
-> > do not want to have to deal with.
-> >
-> > On top of everything, it is a fast solution and it doesn't
-> > involve vfs and changing any fs at all.
->
-> Yeah, right, forgot about this one. Thanks for reminding me. But this is
-> mostly a kernel internal implementation issue and doesn't seem to be a
-> principial problem so I'd prefer not to complicate the uAPI for this. We
-> could for example mandate a special super_operation for fetching fsid for a
-> dentry for filesystems which don't have uniform fsids over the whole
-> filesystem (i.e., btrfs) and call this when generating event for such
-> filesystems. Or am I missing some other complication?
->
-
-No complication AFAICS.
-btrfs fsid patches posted for review.
-
-Thanks,
-Amir.
+T24gTW9uLCAyMDIzLTEwLTIzIGF0IDE5OjMyICswMTAwLCBNYXJrIEJyb3duIHdyb3RlOg0KPiBS
+aWdodC7CoCBXZSdyZSBhbHJlYWR5IGFkZGluZyB0aGUgY29zdCBvZiB0aGUgZXh0cmEgbWFwX3No
+YWRvd19zdGFjaygpDQo+IHNvDQo+IGl0IGRvZXNuJ3Qgc2VlbSB0aGF0IG91dCBvZiBzY29wZS7C
+oCBXZSBjb3VsZCBhbHNvIGFsbG93IGNsb25lMygpIHRvDQo+IGJlDQo+IHVzZWQgZm9yIGFsbG9j
+YXRpb24sIHBvdGVudGlhbGx5IHJlbW92aW5nIHRoZSBhYmlsaXR5IHRvIHNwZWNpZnkgdGhlDQo+
+IGFkZHJlc3MgZW50aXJlbHkgYW5kIG9ubHkgc3BlY2lmeWluZyB0aGUgc2l6ZS7CoCBJIGRpZCBj
+b25zaWRlciB0aGF0DQo+IG9wdGlvbiBidXQgaXQgZmVsdCBhd2t3YXJkIGluIHRoZSBBUEksIHRo
+b3VnaCBlcXVhbGx5IHRoZSB3aG9sZQ0KPiBzaGFkb3cNCj4gc3RhY2sgYWxsb2NhdGlvbiB0aGlu
+ZyBpcyBhIGJpdCB0aGF0IHdheS7CoCBUaGF0IHdvdWxkIGF2b2lkIGNvbmNlcm5zDQo+IGFib3V0
+IHBsYWNpbmcgYW5kIHZhbGlkYXRpbmcgdG9rZW5zIGVudGlyZWx5IGJ1dCBnaXZlcyBsZXNzIGNv
+bnRyb2wNCj4gdG8NCj4gdXNlcnNwYWNlLg0KDQpUaGVyZSBpcyBhbHNvIGNvc3QgaW4gdGhlIGZv
+cm0gb2YgZXh0cmEgY29tcGxleGl0eS4gTm90IHRvIHRocm93IEZVRCwNCmJ1dCBHVVAgaGFzIGJl
+ZW4gdGhlIHNvdXJjZSBvZiB0aG9ybnkgcHJvYmxlbXMuIEFuZCBoZXJlIHdlIHdvdWxkIGJlDQpk
+b2luZyBpdCBhcm91bmQgc2VjdXJpdHkgcmFjZXMuIFdlJ3JlIHByb2JhYmx5IGhlbHBlZCB0aGF0
+IHNoYWRvdyBzdGFjaw0KaXMgb25seSBwcml2YXRlL2Fub255bW91cyBtZW1vcnksIHNvIG1heWJl
+IGl0J3MgZW5vdWdoIG9mIGEgbm9ybWFsIGNhc2UNCnRvIG5vdCB3b3JyeSBhYm91dCBpdC4NCg0K
+U3RpbGwsIHRoZXJlIGlzIHNvbWUgZXh0cmEgY29tcGxleGl0eSwgYW5kIEknbSBub3Qgc3VyZSBp
+ZiB3ZSByZWFsbHkNCm5lZWQgaXQuIFRoZSBqdXN0aWZpY2F0aW9uIHNlZW1zIHRvIG1vc3RseSBi
+ZSB0aGF0IGl0J3Mgbm90IGFzIGZsZXhpYmxlDQphcyBub3JtYWwgc3RhY2tzIHdpdGggY2xvbmUz
+Lg0KDQpJIGRvbid0IHVuZGVyc3RhbmQgd2h5IGRvaW5nIHNpemUtb25seSBpcyBhd2t3YXJkLiBK
+dXN0IGJlY2F1c2UgaXQNCmRvZXNuJ3QgbWF0Y2ggdGhlIHJlZ3VsYXIgc3RhY2sgY2xvbmUzIHNl
+bWFudGljcz8NCg0KPiANCj4gVGhpcyBhbHNvIGRvZXNuJ3QgZG8gYW55dGhpbmcgdG8gc3RvcCBh
+bnlvbmUgdHJ5aW5nIHRvIGFsbG9jYXRlIHN1Yg0KPiBwYWdlDQo+IHNoYWRvdyBzdGFja3MgaWYg
+dGhleSdyZSB0cnlpbmcgdG8gc2F2ZSBtZW1vcnkgd2l0aCBhbGwgdGhlIGxhY2sgb2YNCj4gb3Zl
+cnJ1biBwcm90ZWN0aW9uIHRoYXQgaW1wbGllcywgdGhvdWdoIHRoYXQgc2VlbXMgdG8gbWUgdG8g
+YmUgbXVjaA0KPiBtb3JlDQo+IG9mIGEgZGVsaWJlcmF0ZSBkZWNpc2lvbiB0aGF0IHBlb3BsZSBt
+aWdodCBtYWtlLCBhIHRva2VuIHdvdWxkDQo+IHByZXZlbnQNCj4gdGhhdCB0b28gdW5sZXNzIHdy
+aXRlIGFjY2VzcyB0byB0aGUgc2hhZG93IHN0YWNrIGlzIGVuYWJsZWQuDQoNClNvcnJ5LCBJJ20g
+bm90IGZvbGxvd2luZy4gU3ViLXBhZ2Ugc2hhZG93IHN0YWNrcz8NCg0KPiANCj4gPiA+ICvCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAvKg0KPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoCAqIFRoaXMgZG9lc24ndCB2YWxpZGF0ZSB0aGF0IHRoZSBhZGRyZXNzZXMgYXJl
+DQo+ID4gPiBtYXBwZWQNCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgKiBW
+TV9TSEFET1dfU1RBQ0ssIGp1c3QgdGhhdCB0aGV5J3JlIG1hcHBlZCBhdA0KPiA+ID4gYWxsLg0K
+PiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAqLw0KPiANCj4gPiBJdCBqdXN0
+IGNoZWNrcyB0aGUgcmFuZ2UsIHJpZ2h0Pw0KPiANCj4gWWVzLCBzYW1lIGNoZWNrIGFzIGZvciB0
+aGUgbm9ybWFsIHN0YWNrLg0KDQpXaGF0IGxvb2tlZCB3cm9uZyBpcyB0aGF0IHRoZSBjb21tZW50
+IHNheXMgdGhhdCBpdCBjaGVja3MgaWYgdGhlDQphZGRyZXNzZXMgYXJlIG1hcHBlZCwgYnV0IHRo
+ZSBjb2RlIGp1c3QgZG9lcyBhY2Nlc3Nfb2soKS4gSXQncyBhIG1pbm9yDQp0aGluZyBpbiBhbnkg
+Y2FzZS4NCg==
