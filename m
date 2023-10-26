@@ -2,70 +2,94 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ECB897D89C2
-	for <lists+linux-api@lfdr.de>; Thu, 26 Oct 2023 22:40:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 49DCD7D8C39
+	for <lists+linux-api@lfdr.de>; Fri, 27 Oct 2023 01:31:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229815AbjJZUkm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 26 Oct 2023 16:40:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53968 "EHLO
+        id S231221AbjJZXbv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 26 Oct 2023 19:31:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51698 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229680AbjJZUkm (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 26 Oct 2023 16:40:42 -0400
-Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com [IPv6:2607:f8b0:4864:20::22a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 828061AB
-        for <linux-api@vger.kernel.org>; Thu, 26 Oct 2023 13:40:39 -0700 (PDT)
-Received: by mail-oi1-x22a.google.com with SMTP id 5614622812f47-3b2e308a751so667508b6e.0
-        for <linux-api@vger.kernel.org>; Thu, 26 Oct 2023 13:40:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1698352839; x=1698957639; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=q9VGZryxohWoLkcssXCQeH8twZ55IAA507WLGCAYAaE=;
-        b=iTmjDJ5GoUNt/kokTUjonvJDn31eaTPqWFpdZVJXkEbAVmY+DxoZVbQWzH2YjFkz9n
-         hvCBMCuG7hr/9h66PWJL8Lks3kgH+fM7kH0emJ5AT75iJmkJVnqjCTDJOljtYJ1rqgRr
-         yITJCAiZDP6JzT/H6Bvg7/V2ypcV5c8TAO7XraoH+YBIdL7LW55cYG2l2zwTIv1fA5GC
-         dKeh4ISRGIt10dHYecFU7H4my8I9WtK14tTClqhhurWqg5+IKF1P6DD9Dwn+bbI52SQo
-         jz3Lqc6yhe1CEQ+BS/SxHpfdRMPVW4LqEDZPAxCYJsasqNNmfaXCGPPuGqSsNE/yc7zY
-         Lp4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698352839; x=1698957639;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=q9VGZryxohWoLkcssXCQeH8twZ55IAA507WLGCAYAaE=;
-        b=RBWAZKQX2iMP9Jq9bAta2JcnXthA47BzaGz5bamCZAxFc/yEfLNKvDjhvUhpSBUMJc
-         284fL6s0OcLjZPTk4av9r7F6cEJ0sRvXLwj13e8O8IBwIk05xescthfacajU4w9szUiF
-         IvLBXtH6qogQizWq1UyenBWuiZYqz2QynVoN9aksdW29qQ7VlSv8dxTG5TnigbcEwvuo
-         XvaxgdtMWY7t75CQeVArhjuT0IZirOABVXhcitNuBF82qpmQhi7fIK2UK+gKMkO3A3Vg
-         tvbwYxBo7dr1y4HQfjHZB3/E0Dnh6Q0RWZAx/XmNHxO3GfvkeNSTxzEotYvs8S3y6TFZ
-         i+wg==
-X-Gm-Message-State: AOJu0YxHQ46hBkyKtOPg8m23aQuD/Q+4exKN/DchELFwV1bMZD/U/oSm
-        k3WLKJuGy9r7+TfySAZPZGv+TA==
-X-Google-Smtp-Source: AGHT+IGCTBZtkCCqu5afIx/QC6bIDygKrlkNFZqpmqwK9+dCMi0WvVZgjm1UujEAwrNrPBouPD8Pfg==
-X-Received: by 2002:a05:6808:338f:b0:3aa:1306:96e8 with SMTP id ce15-20020a056808338f00b003aa130696e8mr2012202oib.1.1698352838725;
-        Thu, 26 Oct 2023 13:40:38 -0700 (PDT)
-Received: from debug.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id y25-20020a056808061900b003b2f369a932sm19865oih.49.2023.10.26.13.40.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Oct 2023 13:40:38 -0700 (PDT)
-Date:   Thu, 26 Oct 2023 13:40:35 -0700
-From:   Deepak Gupta <debug@rivosinc.com>
-To:     Mark Brown <broonie@kernel.org>
-Cc:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
-        "dietmar.eggemann@arm.com" <dietmar.eggemann@arm.com>,
+        with ESMTP id S229503AbjJZXbu (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 26 Oct 2023 19:31:50 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52C5E187;
+        Thu, 26 Oct 2023 16:31:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698363108; x=1729899108;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=vFMmZBA+3ttLuM9LCcjFHQwzp+mBVBTaLX7LXSKEFuA=;
+  b=M2qYPHgITIxVi+PlLFSQHVyN/iQgjyV/OTCAeOQ1lXhwz3Eqq4jURfz3
+   UTud6/yV4HDzPXDqLi/RuwRqUC3mlkv09gpQ5MA/y7NyHSfTWO9zRzugS
+   Q65PM/C6yGc3OjCwsIlQXDYNRwZOni4MI6Ja/jBtBuPAUl6YKoWL7VBAG
+   Ey+v71JHZp6PCsilSxQtyQAo7qrFh1AeAXZ01HYp0C5xhp231NBhhhat3
+   YypZaGuI+3jXDIwMXiTphwU4yo9rHY8+RBf5FU3sSLu2K8wP7hS9Wqmud
+   BhX4blwkEDtGXpYznV6zywcSzDCvr1MYv0H4EsSs+V3Jk9EJrfb8DcFid
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="386561293"
+X-IronPort-AV: E=Sophos;i="6.03,254,1694761200"; 
+   d="scan'208";a="386561293"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2023 16:31:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="752923887"
+X-IronPort-AV: E=Sophos;i="6.03,254,1694761200"; 
+   d="scan'208";a="752923887"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by orsmga007.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 26 Oct 2023 16:31:47 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Thu, 26 Oct 2023 16:31:46 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Thu, 26 Oct 2023 16:31:45 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34 via Frontend Transport; Thu, 26 Oct 2023 16:31:45 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.100)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.34; Thu, 26 Oct 2023 16:31:05 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RUPGj4y52/cWqAycNKjBnbLJREuZ0mUGhPwrpyTiVA7mSSZA//kFA5U4DjQjSR7f9ZpMvrZdTUgeBiy1DM6j7uyoUITDWpV5EMRFU8V4zLIkGX25kIsReRNiGH6lY5BP5K28x/OsFrceqUh0ywXstALCk4dAkhdRA/Lxj4w2NHPqfz0ZFclHLwcLH+apEMl1fho9x1U89P5uqvJXDCuohTQgZEfqxhCjd0rz5oDMjoBR48JetdSl+w5lQxb0ESkVaJ2sUry4UAJnjvx7kM7lDsodChpBLJjAeLhuJcUTYCHIaVt7KcpZhwMvZZXPC+A6/PQlhrCUVW46Su9R4+hbKQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vFMmZBA+3ttLuM9LCcjFHQwzp+mBVBTaLX7LXSKEFuA=;
+ b=ocqf402oyk41nMSyxsoJ2RqJ9khxyHVYE6OJ+DGOF/Gz9vYDD/SziC3DdxSOheca4p28DxzUg75neK2gN4CKh9siHvMX04DMelP/TqKQ9NAdpI7HvDg+WfXD0Coiwu4BQgO4+J5PspQOLHoVNvOnFJdEf3QaktR2YPEb6y+qP72NKvo5cEdYoW02ScavPjjIc17QVwdYMyboNaLTwTeFSTsHkIPRf0MrrlaiA1TNOkL+M07O6EJRVYsz+s3HkmA5bZwpFRZC447lJIve5REkhrneHFGSMtW/cLVedsq5lHmiZ7djyby8uZp/mH8Q6TO+76vcXtiuhlz6+6JHdVIb7A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from MN0PR11MB5963.namprd11.prod.outlook.com (2603:10b6:208:372::10)
+ by SJ0PR11MB5597.namprd11.prod.outlook.com (2603:10b6:a03:300::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.26; Thu, 26 Oct
+ 2023 23:31:03 +0000
+Received: from MN0PR11MB5963.namprd11.prod.outlook.com
+ ([fe80::4d44:dbfa:a7b4:b7c1]) by MN0PR11MB5963.namprd11.prod.outlook.com
+ ([fe80::4d44:dbfa:a7b4:b7c1%4]) with mapi id 15.20.6907.028; Thu, 26 Oct 2023
+ 23:31:03 +0000
+From:   "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+To:     "broonie@kernel.org" <broonie@kernel.org>
+CC:     "dietmar.eggemann@arm.com" <dietmar.eggemann@arm.com>,
         "keescook@chromium.org" <keescook@chromium.org>,
         "Szabolcs.Nagy@arm.com" <Szabolcs.Nagy@arm.com>,
-        "brauner@kernel.org" <brauner@kernel.org>,
         "shuah@kernel.org" <shuah@kernel.org>,
-        "mgorman@suse.de" <mgorman@suse.de>,
         "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "debug@rivosinc.com" <debug@rivosinc.com>,
+        "mgorman@suse.de" <mgorman@suse.de>,
+        "brauner@kernel.org" <brauner@kernel.org>,
         "fweimer@redhat.com" <fweimer@redhat.com>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "vincent.guittot@linaro.org" <vincent.guittot@linaro.org>,
+        "mingo@redhat.com" <mingo@redhat.com>,
         "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
         "rostedt@goodmis.org" <rostedt@goodmis.org>,
-        "mingo@redhat.com" <mingo@redhat.com>,
+        "vincent.guittot@linaro.org" <vincent.guittot@linaro.org>,
         "tglx@linutronix.de" <tglx@linutronix.de>,
         "vschneid@redhat.com" <vschneid@redhat.com>,
         "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
@@ -81,133 +105,98 @@ Cc:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
         "x86@kernel.org" <x86@kernel.org>,
         "juri.lelli@redhat.com" <juri.lelli@redhat.com>
 Subject: Re: [PATCH RFC RFT 2/5] fork: Add shadow stack support to clone3()
-Message-ID: <ZTrOw97NFjUpANMg@debug.ba.rivosinc.com>
+Thread-Topic: [PATCH RFC RFT 2/5] fork: Add shadow stack support to clone3()
+Thread-Index: AQHaBbRTBvR+3Qu63E+MwFOmoT8P7rBXkZMAgAAhcgCABKBHAIAAC/yAgABeRgA=
+Date:   Thu, 26 Oct 2023 23:31:03 +0000
+Message-ID: <b211a1db25b634d9c4b8b956d22fc59d0c43bf8a.camel@intel.com>
 References: <20231023-clone3-shadow-stack-v1-0-d867d0b5d4d0@kernel.org>
- <20231023-clone3-shadow-stack-v1-2-d867d0b5d4d0@kernel.org>
- <dc9a3dd544bbf859142c5582011a924b1c1bf6ed.camel@intel.com>
- <8b0c9332-ba56-4259-a71f-9789d28391f1@sirena.org.uk>
- <2ec0be71ade109873445a95f3f3c107711bb0943.camel@intel.com>
- <807a8142-7a8e-4563-9859-8e928156d7e5@sirena.org.uk>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+         <20231023-clone3-shadow-stack-v1-2-d867d0b5d4d0@kernel.org>
+         <dc9a3dd544bbf859142c5582011a924b1c1bf6ed.camel@intel.com>
+         <8b0c9332-ba56-4259-a71f-9789d28391f1@sirena.org.uk>
+         <2ec0be71ade109873445a95f3f3c107711bb0943.camel@intel.com>
+         <807a8142-7a8e-4563-9859-8e928156d7e5@sirena.org.uk>
 In-Reply-To: <807a8142-7a8e-4563-9859-8e928156d7e5@sirena.org.uk>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.44.4-0ubuntu2 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MN0PR11MB5963:EE_|SJ0PR11MB5597:EE_
+x-ms-office365-filtering-correlation-id: 49e56dfc-a934-4e8f-d739-08dbd67b9eec
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: iAsJ+vUSOdO3U7++Ysr4V9o3Anah46s4E7X/jwygdsyLVKiX+MxJHweXGCS8GD6jLEJ4xBSvDDMWm1njSD0y4dE9jPW8YvfogITWe+9sebkM6J3l74mmqKF6TGd1q4oRvGb8J8viKfHhamkygBs7JjNjlrFGGv7lNZcxel+Yy04k4G5uz4QFkdGm+KsB8hkxbHQib1r483EJ7rzGsno1ZpsJVKU93sAjOTo50Zdp+yNpCROMpMeJa23v0Kl1AbZdJNBG9GBerx96rApW/DxbckSCzrsb+ATs2lSqQkIvzo+Rj94/CddV6qZGTAob8iGbhbH0VzWh4dlOKP3uMZxlSxm6ol+GOmco7Cbx406PjBcORueiAmwA0PmTFgYXCKlUZoQ8dc24V0Lp0X+taRD6IIf8+8HsoIVX58gKzgtutKgxuWM0bEJX7hiKn4W3yar17Ja02gaIcaqgy9M17cRrlUsGwBaEcijyyclhPyGFKUnVzwPUCBSQKdlEmJl0wpep3vx2SD61+S8af33LZKaL1A+B9aYzqzcKYbAO+vnu99gkwg+sBqNELEBT4IBNlry+UZ26VpJrlZX1Ff8oMf3RLx8AziJmVerbQsn/GG2MRFbf2/y7RnwatQBbco5zH5J3
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB5963.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(136003)(396003)(376002)(346002)(366004)(230922051799003)(186009)(1800799009)(64100799003)(451199024)(76116006)(66446008)(558084003)(82960400001)(36756003)(71200400001)(26005)(6506007)(6512007)(38070700009)(86362001)(38100700002)(122000001)(2616005)(4326008)(6486002)(8936002)(41300700001)(8676002)(478600001)(5660300002)(4001150100001)(7416002)(2906002)(64756008)(66476007)(316002)(54906003)(6916009)(91956017)(66946007)(66556008);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?TzB1MC9BcEVxRjVOUzY2ZHlkVXlUNXc1V1grQjQ3ai8vWWZpQU40a1Bmejgv?=
+ =?utf-8?B?NkIrVzlqa3hnaW5rbVV1R0x1YWJQN09KSk90Znk5MWVIYTNSVC9ZWlA3dE40?=
+ =?utf-8?B?KytMN2JBWGhkbCtnSjNwOGhEdnlheWpxeGhiNGpFaTlSaERtUXZESXE4elVx?=
+ =?utf-8?B?L3hsVDFMY21nTUpEdXhoaFVodFFuQ2d1K0t1Zk9tQUZ1VzFITkRKMUxnUC94?=
+ =?utf-8?B?aGdrMUZJemIxeXhSaCtReVR5KzlDWXY2d2ZPTEhqTUZxSm8xUlZGZHAxUDFY?=
+ =?utf-8?B?YVZuOFJUQXNmb1dpZzFRWkxoa05NMCttVVhWb2Frb01FYjZEOFhoSmVzN1NJ?=
+ =?utf-8?B?S2NBY3cxQUxYcGFJdCtwWUVlbkh4M2pCd3RMYkxpWkN1Y1FpMFNMdWRIbnZu?=
+ =?utf-8?B?UldyR1p5ZGd6K3FJY3JOczl5ZzlNMFRYcUIwaEhpdUFaSkozTkFOUUN1UWZt?=
+ =?utf-8?B?VGt2ZGtBTUpyQzA2UDZ5SFEyazNQY25NdW84U1dQSUtyODFSZU56SjNPK3ZC?=
+ =?utf-8?B?SDZkeDBFanpDOGxJUzRkcDlQTjhCamo0OG1xQzk2enQ3c1IwY2JYRzBWVVY2?=
+ =?utf-8?B?czNVTENFUXAvZlMybG5LVVZHMy8rNXJ5VkVNTDFLaWxCeXBudUNlZ2VncnVT?=
+ =?utf-8?B?UmdnamtUUmU5aURPQi9kOHBaQlAzZEJTY3lMZW5kdTVqNW1JaWVCdFRud0w0?=
+ =?utf-8?B?VldNZ0dCZHR0SDJxd1EyVTJJaE5mWDYrYzgzNG5CbUEwSk41WGJDWm9HTFpn?=
+ =?utf-8?B?V2ppRFpCTzg2Y1BFalhCWWR3QklldVJFVVBwbE5JdUd4ZzlmdnBVdG9XdWQz?=
+ =?utf-8?B?K01tZmY5OXU4TlY4NGdwMlkzVXdTZDFwMitvZ0dYL2huNHZXMVJCbTh3TlVs?=
+ =?utf-8?B?RmpnQ1gwTTJXUUwxeDVrVlJISC9RTExUQmpzMTg3Z0psZGJ6d0s5UXNsVVlj?=
+ =?utf-8?B?Ujhja2cyT0dTYlNXM253eXExNUlMVEs2dDN0V0c0d081MGpNZll2UkxEOXJX?=
+ =?utf-8?B?QW4zREJJMFlmVVR4bTRETVU4aU1wTmFPRzF1Y1VnaE1yQ25BenNjMDZDK01t?=
+ =?utf-8?B?L1hldGlvQUcyUm12M0pybmE1eDVlQ0hsRElSbVNOL2tkdlh5a1JBQm9ZNTFx?=
+ =?utf-8?B?VEZ0cXdMKzZwZnZQdVkrYUtHVDd6OEllRFo5N3plTmtMUklQMlpMdHBmcStk?=
+ =?utf-8?B?NHZobXFZSSsvVGtYazR4cS9qZW91eFEzU3B4cFYrQTdUYjNXRm41TzFobkFC?=
+ =?utf-8?B?K1RyTWRXcW1Eck5DOXJCbUhETHJWOUM3LzVhWS83dkpWYlhYbEF4VDR6VS9D?=
+ =?utf-8?B?YW9HV0FTS3IzazNXRXV0VTdHc2NNKzhoZkdTUEFGU2s4Q3RvYy9XTElDZFVW?=
+ =?utf-8?B?QUszOGNaOTdGUjAzTmRBY3Y4OHN3QUlGREFFaGQxNHc1SHM0NWlFUjdGWGdl?=
+ =?utf-8?B?bXZseDcwMnVNV3hTN2ZYemNmckxyS1lOeXB0L2VNRHFvUU43dlNvZFNrZmpi?=
+ =?utf-8?B?S0JqTVlzdG5MYVBPRWZkS1V2OUxtcVZaWjk2TEhhZi9jSE9RS1U5QVd3bUx3?=
+ =?utf-8?B?MXBGekZoUHVUOURvVVB3VGJ3ayt0VnlLcVkwYW9rVXlnODVFTWpQUXJmemQx?=
+ =?utf-8?B?STZ1ZHZPVVNmbTJmUFZpclNvSmFDaTJjbzVPMjNudkd5Ris5SHNDVHAzY29T?=
+ =?utf-8?B?M3kxYXhVcERuaVV5RExwN3N5SnJkODYxM1pWQ0hjY2RMTTNhditGSHNFalRK?=
+ =?utf-8?B?emZxQ2FIaUYxSVBSVTViazVlTDRDM3NKQWhIRC8rNXByd1JqL2xqbzJ1SXh4?=
+ =?utf-8?B?aTBVNzk5d2EydVFkSEgzaFdvSUF3SWVYV0Zqbng0cUhITk5Pa29DOFVMMFpD?=
+ =?utf-8?B?T0oxRTJHSUEvWk5DNDFRWEhKaFJlREhJa3Z6aTN5UVFxUjVFNUxiK2o1aHNE?=
+ =?utf-8?B?a0dnRXp2N1dhbVRLU0dUVldrQnJ4bVgzSkt5cnJZMnVXdjNPZndnTGFHMks1?=
+ =?utf-8?B?RG9OY3FLeXNVdjF6SldxRUE2RVRyQ0d4KzluUmV5NEU2Y285eHBQemwwdlQz?=
+ =?utf-8?B?RzlrSHcvWkZDcWFEbG1PcTV1ZEhpQ1o1MVI2ZngxWGc5WnpwTGRYTUVFU29H?=
+ =?utf-8?B?RFJFUEZEMjNZclRMbFJWUkJvbnhzdVdXU3VNRTFjSUsrek5Tand0SVVqbDRr?=
+ =?utf-8?B?VUE9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <BE8305114213774B934B40B62A6FD9E7@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB5963.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 49e56dfc-a934-4e8f-d739-08dbd67b9eec
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Oct 2023 23:31:03.8378
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: cLsqTEpByA4L/cVurzDnXdewjG2NGYFDmmDg5fNy9ezxH8+udQpFyFk4dynGxxvCIByCsIVGF/zfiLyhcSLJyzOnMsCocrqRcslfFoAy6FM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5597
+X-OriginatorOrg: intel.com
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Oct 26, 2023 at 06:53:37PM +0100, Mark Brown wrote:
->On Thu, Oct 26, 2023 at 05:10:47PM +0000, Edgecombe, Rick P wrote:
->> On Mon, 2023-10-23 at 19:32 +0100, Mark Brown wrote:
->
->> > Right.  We're already adding the cost of the extra map_shadow_stack()
->> > so
->> > it doesn't seem that out of scope.  We could also allow clone3() to
->> > be
->> > used for allocation, potentially removing the ability to specify the
->> > address entirely and only specifying the size.  I did consider that
->> > option but it felt awkward in the API, though equally the whole
->> > shadow
->> > stack allocation thing is a bit that way.  That would avoid concerns
->> > about placing and validating tokens entirely but gives less control
->> > to
->> > userspace.
->
->> There is also cost in the form of extra complexity. Not to throw FUD,
->> but GUP has been the source of thorny problems. And here we would be
->> doing it around security races. We're probably helped that shadow stack
->> is only private/anonymous memory, so maybe it's enough of a normal case
->> to not worry about it.
->
->> Still, there is some extra complexity, and I'm not sure if we really
->> need it. The justification seems to mostly be that it's not as flexible
->> as normal stacks with clone3.
->
->I definitely agree on the complexity, trying to valdiate a token is
->going to be more code doing fiddly things and there's always the risk
->that something will change around it and invalidate assumptions the code
->makes.  Particularly given my inability to test x86 I'm certainly way
->more happy pushing this series forward implementing size only than I am
->doing token validation.
->
-
-FWIW, from arch specific perspective, RISC-V shadow stack extension has
-`ssamoswap` to perform this token exchange. But I understand x86 has this
-limitation (not sure about arm GCS).
-
- From security perspective:--
-Someone having ability to execute clone3 with control on input, probably
-already achieved some level of control flow bending because they need to
-corrupt memory and then carefully control registers input to clone3.
-Although if it is purely a data oriented gadget, I think it is possible.
-
-Since this RFC is mostly concerned about `size` of shadow stack. I think
-we should limit it to size only.
-
->> I don't understand why doing size-only is awkward. Just because it
->> doesn't match the regular stack clone3 semantics?
->
->Basically, yes - we don't allocate userpace pages in clone3() for the
->normal stack and we do offer userspace control over where to place
->things.  There was some grumbling about this in the current ABI from the
->arm64 side, though the limited control of the size is more of the issue
->really.
->
->I'm not sure placement control is essential but the other bit of it is
->the freeing of the shadow stack, especially if userspace is doing stack
->switches the current behaviour where we free the stack when the thread
->is exiting doesn't feel great exactly.  It's mainly an issue for
->programs that pivot stacks which isn't the common case but it is a
->general sharp edge.
-
-In general, I am assuming such placement requirements emanate because
-regular stack holds data (local args, etc) as well and thus software may
-make assumptions about how stack frame is prepared and may worry about
-layout and such. In case of shadow stack, it can only hold return
-addresses and tokens (created by user mode itself). Both of them endup
-there as result of call or user sw own way of setting up tokens.
-
-So I don't see a need for software to specify address.
-
->
->> > This also doesn't do anything to stop anyone trying to allocate sub
->> > page
->> > shadow stacks if they're trying to save memory with all the lack of
->> > overrun protection that implies, though that seems to me to be much
->> > more
->> > of a deliberate decision that people might make, a token would
->> > prevent
->> > that too unless write access to the shadow stack is enabled.
->
->> Sorry, I'm not following. Sub-page shadow stacks?
->
->If someone decides to allocate a page of shadow stack then point thread
->A at the first half of the page and thread B at the second half of the
->page nothing would stop them.  There are obvious issues with this but I
->can see someone trying to do it in a system that creates lots of
->threads and has memory constraints.
->
->> > > > +               /*
->> > > > +                * This doesn't validate that the addresses are
->> > > > mapped
->> > > > +                * VM_SHADOW_STACK, just that they're mapped at
->> > > > all.
->> > > > +                */
->
->> > > It just checks the range, right?
->
->> > Yes, same check as for the normal stack.
->
->> What looked wrong is that the comment says that it checks if the
->> addresses are mapped, but the code just does access_ok(). It's a minor
->> thing in any case.
->
->Oh, I see, yes.
-
-
+T24gVGh1LCAyMDIzLTEwLTI2IGF0IDE4OjUzICswMTAwLCBNYXJrIEJyb3duIHdyb3RlOg0KPiBQ
+YXJ0aWN1bGFybHkgZ2l2ZW4gbXkgaW5hYmlsaXR5IHRvIHRlc3QgeDg2IEknbSBjZXJ0YWlubHkg
+d2F5DQo+IG1vcmUgaGFwcHkgcHVzaGluZyB0aGlzIHNlcmllcyBmb3J3YXJkIGltcGxlbWVudGlu
+ZyBzaXplIG9ubHkgdGhhbiBJDQo+IGFtDQo+IGRvaW5nIHRva2VuIHZhbGlkYXRpb24uDQoNCkkg
+Y2FuIGhlbHAgd2l0aCB0ZXN0aW5nL2RldmVsb3BtZW50IG9uY2Ugd2UgZ2V0IHRoZSBwbGFuIHNl
+dHRsZWQgb24uDQo=
