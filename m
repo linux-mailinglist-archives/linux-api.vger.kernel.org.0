@@ -2,155 +2,143 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D3FB57DA4A9
-	for <lists+linux-api@lfdr.de>; Sat, 28 Oct 2023 03:36:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E6B0F7DAC02
+	for <lists+linux-api@lfdr.de>; Sun, 29 Oct 2023 11:58:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232951AbjJ1Bgk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 27 Oct 2023 21:36:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49738 "EHLO
+        id S229529AbjJ2K6n (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 29 Oct 2023 06:58:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229471AbjJ1Bgj (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 27 Oct 2023 21:36:39 -0400
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69DD91A6;
-        Fri, 27 Oct 2023 18:36:36 -0700 (PDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailout.nyi.internal (Postfix) with ESMTP id 066505C0100;
-        Fri, 27 Oct 2023 21:36:34 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Fri, 27 Oct 2023 21:36:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=cc
-        :cc:content-transfer-encoding:content-type:content-type:date
-        :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-        :references:reply-to:sender:subject:subject:to:to; s=fm2; t=
-        1698456994; x=1698543394; bh=KsUaa2dQRxZCNliH8E4IgB96uElIa6AZYOi
-        IzXKoc/g=; b=fZYSL1Hh4egXuicxkMFg+jLgSXE3ZgD8AFpH+th6BJTlZigkseO
-        mtkr17z5D5GSLqS3VGFVp3OeFx9U78fXmtLa9W0N/XHvBo5ajUNKShNtUDs7/sKd
-        ZV4tr0uGpIz8uPI45OdgM/w5KYporhOEOR24znvm/rirYuDF3x6YBc+zxbDplwcj
-        7eBteMNTZrNWsvL9HHyHvp/BuuTW1dNXe++6VfFOS27Qnk8Z+nS9kmlR+bgDjVzf
-        gzUPt1jW0vMwPsIsCCc5Gobwv8H4jeIM+R7sWGfp/qmKEDAGzJQ7Vn3acMbKXa6M
-        jPYyerd5HZZrgWis7rMj8zYIuHGTycY1cyQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding
-        :content-type:content-type:date:date:feedback-id:feedback-id
-        :from:from:in-reply-to:in-reply-to:message-id:mime-version
-        :references:reply-to:sender:subject:subject:to:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-        1698456994; x=1698543394; bh=KsUaa2dQRxZCNliH8E4IgB96uElIa6AZYOi
-        IzXKoc/g=; b=F3HFKyzmmg9oxz/ntz+T5+XmYWDdcKhDALX/MCh6lte6GAO0rwY
-        RBcb9BjyHp8jfuTcYbT2DGUA7udnstUUZIewC+T0DtyeWdgMhJ1CexKem91iZYy6
-        UGw2pgxXP/vDrtoAus18DfE8shNHIcPiyWKBOSmk2oal3LptEcqVlRX5oMXDlu+F
-        AF3WjmY+PFO3tr/zpnWzGTezgZo9zPILxeYMg5+G5Z3PliD3q1tUvm7YPhNsNzVD
-        HoedNHyyAhNO8zmJjwOqJoRSuLUhPzLCExH6mpE/QFi0Bg+8usyrjuGQNliseQTW
-        6ABGQ2psafUCNfRw0eRgJHREBL0cIJ+Q2tA==
-X-ME-Sender: <xms:oWU8ZeXAoF6deDOgUPP8C37DgzNB5zqFhXIx_UUlwRxfnidgTS8Z2g>
-    <xme:oWU8Zan70Wjt7XusI4EdTk3INHaBCZEJTNlCgkgZlPjZw0Z6YaGz4P_VlXKBWXG_o
-    5b2IrLD46uq>
-X-ME-Received: <xmr:oWU8ZSZVrs7Ok5a2SVYQddVtyrDFBGeXIx6fztF1Qj5veEm0bWwUb_g9XUSv6pumVvon4v7pGkdUm-az3drwVgg2PHpCw3QRedu6TbUw3NTX1OazR_mEExRB>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrleehgdegjecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefkffggfgfuvfevfhfhjggtgfesthekredttdefjeenucfhrhhomhepkfgrnhcu
-    mfgvnhhtuceorhgrvhgvnhesthhhvghmrgifrdhnvghtqeenucggtffrrghtthgvrhhnpe
-    egvdetvedvfeeivdeuueejgeetvdehlefhheethfekgfejueffgeeugfekudfhjeenucev
-    lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehrrghvvghnse
-    hthhgvmhgrfidrnhgvth
-X-ME-Proxy: <xmx:oWU8ZVXRpVhBFGvyoK3JORYTRAnTL3oJArZ07m9g1A_Y-w8QOstB-Q>
-    <xmx:oWU8ZYlDTKU5SN-q5rutlx_Ge-tniBq1-2UQr9mEKu7oWWOVtiafRQ>
-    <xmx:oWU8ZadzWHfaQcb9lqILEARfOFF8xBUCqVR_7FZPHZC2aNr_ddzUkA>
-    <xmx:omU8ZT-ELN39i8ylB1sZIrKCuC2WhY8InDf7as0RWilH3weOxiBTDQ>
-Feedback-ID: i31e841b0:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 27 Oct 2023 21:36:27 -0400 (EDT)
-Message-ID: <c938a7d9-aa9e-a3ad-a001-fb9022d21475@themaw.net>
-Date:   Sat, 28 Oct 2023 09:36:23 +0800
+        with ESMTP id S229446AbjJ2K6m (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 29 Oct 2023 06:58:42 -0400
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F276C0;
+        Sun, 29 Oct 2023 03:58:40 -0700 (PDT)
+Received: from fsav411.sakura.ne.jp (fsav411.sakura.ne.jp [133.242.250.110])
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 39TAw1YC028196;
+        Sun, 29 Oct 2023 19:58:01 +0900 (JST)
+        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav411.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav411.sakura.ne.jp);
+ Sun, 29 Oct 2023 19:58:01 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav411.sakura.ne.jp)
+Received: from [192.168.1.6] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+        (authenticated bits=0)
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 39TAw1hV028191
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+        Sun, 29 Oct 2023 19:58:01 +0900 (JST)
+        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <c35322f3-3f89-40d2-a5fb-7226fb93d202@I-love.SAKURA.ne.jp>
+Date:   Sun, 29 Oct 2023 19:57:59 +0900
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v4 2/6] mounts: keep list of mounts in an rbtree
-To:     Miklos Szeredi <mszeredi@redhat.com>
-Cc:     linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-man@vger.kernel.org,
-        linux-security-module@vger.kernel.org, Karel Zak <kzak@redhat.com>,
-        David Howells <dhowells@redhat.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <christian@brauner.io>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Matthew House <mattlloydhouse@gmail.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>
-References: <20231025140205.3586473-1-mszeredi@redhat.com>
- <20231025140205.3586473-3-mszeredi@redhat.com>
- <b69c1c17-35f9-351e-79a9-ef3ef5481974@themaw.net>
- <CAOssrKe76uZ5t714=Ta7GMLnZdS4QGm-fOfT9q5hNFe1fsDMVg@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v15 01/11] LSM: Identify modules by more than name
 Content-Language: en-US
-From:   Ian Kent <raven@themaw.net>
-In-Reply-To: <CAOssrKe76uZ5t714=Ta7GMLnZdS4QGm-fOfT9q5hNFe1fsDMVg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-6.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_PASS,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+To:     Casey Schaufler <casey@schaufler-ca.com>, paul@paul-moore.com,
+        linux-security-module@vger.kernel.org
+Cc:     jmorris@namei.org, serge@hallyn.com, keescook@chromium.org,
+        john.johansen@canonical.com, stephen.smalley.work@gmail.com,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        mic@digikod.net
+References: <20230912205658.3432-1-casey@schaufler-ca.com>
+ <20230912205658.3432-2-casey@schaufler-ca.com>
+ <e391877d-cd10-3c6d-1f57-0aaa32846a8e@I-love.SAKURA.ne.jp>
+ <30d1110a-7583-4fa1-85c8-d6ce362f5ae2@schaufler-ca.com>
+ <2fb1a8cd-88d0-40f0-b3d8-cfa8b71e7dd9@I-love.SAKURA.ne.jp>
+ <29fe1e5b-4bf3-4bb3-b8de-fbd8dfc25be3@schaufler-ca.com>
+From:   Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+In-Reply-To: <29fe1e5b-4bf3-4bb3-b8de-fbd8dfc25be3@schaufler-ca.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 27/10/23 16:17, Miklos Szeredi wrote:
-> On Fri, Oct 27, 2023 at 5:12 AM Ian Kent <raven@themaw.net> wrote:
->> On 25/10/23 22:02, Miklos Szeredi wrote:
->>> The mnt.mnt_list is still used to set up the mount tree and for
->>> propagation, but not after the mount has been added to a namespace.  Hence
->>> mnt_list can live in union with rb_node.  Use MNT_ONRB mount flag to
->>> validate that the mount is on the correct list.
->> Is that accurate, propagation occurs at mount and also at umount.
-> When propagating a mount, the new mount's mnt_list is used as a head
-> for the new propagated mounts.  These are then moved to the rb tree by
-> commit_tree().
->
-> When umounting there's a "to umount" list called tmp_list in
-> umount_tree(), this list is used to collect direct umounts and then
-> propagated umounts.  The direct umounts are added in umount_tree(),
-> the propagated ones umount_one().
->
-> Note: umount_tree() can be called on a not yet finished mount, in that
-> case the mounts are still on mnt_list, so umount_tree() needs to deal
-> with both.
->
->> IDG how the change to umount_one() works, it looks like umount_list()
+On 2023/10/21 23:11, Casey Schaufler wrote:
+>> If the system call returning LSM ID value for SELinux but does not tell
+>> the caller of that system call whether a specific action might be permitted,
+>> what information does LSM ID value tell?
+> 
+> It tells the caller that the LSM is active on the system. That's it.
+> Just like reading /sys/kernel/security/lsm.
+
+Then, the
+
+  The calling application can use this list determine what LSM
+  specific actions it might take. That might include choosing an
+  output format, determining required privilege or bypassing
+  security module specific behavior.
+
+part should be removed from the description. Instead, the description should
+emphasis that the numeric LSM ID values are there in order to allow
+identifying what LSM modules are active without interpreting string LSM names
+in /sys/kernel/security/lsm .
+
+
+
+>> What does "choosing an output format", "determining required privilege",
+>> "bypassing security module specific behavior" mean? How can they choose
+>> meaningful output format, determine appropriate privilege, bypass security
+>> module specific behavior (if the only information the caller can know from
+>> the LSM ID value were what LSMs are enabled) ?
+> 
+> If Smack and SELinux not enabled on the system there is no point in
+> setting up a netlabel configuration, for example.
+
+I know nothing about netlabel. But can userspace make such assumption from
+this granularity? For example, if TOMOYO and AppArmor start supporting
+netlabel configuration, your assumption
+
+  If Smack and SELinux not enabled on the system there is no point in
+  setting up a netlabel configuration
+
+becomes no longer true. It is also possible that a new LSM implementation
+obtains an LSM ID for that LSM, and starts supporting netlabel configuration
+some timer later. I don't know if we come to the point where we can enable
+SELinux and Smack at the same time. But when it becomes possible to enable
+SELinux and Smack at the same time, the userspace might have already written
+code based on current situation that netlabel configuration are exclusive. Then,
+someday starting to return both LSM ID for SELinux and LSM ID for Smack might
+confuse userspace.
+
+Thus, it might be safe to determine what LSMs are active from the LSM ID values
+returned from the system call. But it is not safe to assume what functionality
+is active (e.g. netlabel configuration is interpreted) from the LSM ID values
+returned from the system call.
+
+If you want to allow userspace to make such assumption using the system call,
+the granularity the system call returns needs to be what access control mechanism
+(not only LSM modules but also eBPF-based access control mechanisms) hooks which
+LSM hooks. More information than interpreting string LSM names in 
+/sys/kernel/security/lsm will be needed.
+
+> 
+>>> I wish we could stop people from saying "BPF-based LSM". BPF is the LSM. The
+>>> eBPF programs that implement a "policy" are NOT a LSM. There needs to be a
+>>> name for that, but LSM  is  not  it.
+>> My understanding is that "BPF is not an LSM module but infrastructure for using
+>> LSM hooks".
+> 
+> As BPF is implemented as a LSM I suggest your statement is incorrect.
+
+Enumerating only LSM modules are not useful. "ID for access control mechanisms
+that can be controlled via LSM hooks" will be needed.
+
+> 
 >>
->> uses mnt_list. It looks like propagate_umount() is also using mnt_list.
+>> The patch description lacks relationship between LSM ID value and data.
+>> In other words, why LSM ID values are needed (and are useful for doing what).
+>> If the only information the caller can know from the LSM ID value were
+>> what LSMs are enabled (i.e. the content of /sys/kernel/security/lsm ), why
+>> bother to use LSM ID values? (Yes, integer comparison is faster than string
+>> comparison. But that is not enough justification for not allowing out-of-tree
+>> LSMs and eBPF-based access control mechanisms to have stable LSM ID values.)
 >>
->>
->> Am I missing something obvious?
-> So when a mount is part of a namespace (either anonymous or not) it is
-> on the rb tree, when not then it can temporarily be on mnt_list.
-> MNT_ONRB flag is used to validate that the mount is on the list that
-> we expect it to be on, but also to detect the case of the mount setup
-> being aborted.
->
-> We could handle the second case differently, since we should be able
-> to tell when we are removing the mount from a namespace and when we
-> are aborting a mount, but this was the least invasive way to do this.
 
-Thanks for the explanation, what you've said is essentially what I
+I conclude that LSM ID values are pointless and are NOT needed.
 
-understood reading the series.
-
-
-But I still haven't quite got this so I'll need to spend more time
-
-on this part of the patch series.
-
-
-That's not a problem, ;).
-
-
-Ian
-
->
-> Thanks,
-> Miklos
->
