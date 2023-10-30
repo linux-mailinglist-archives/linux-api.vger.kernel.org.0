@@ -2,192 +2,94 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DCFF87DB2E7
-	for <lists+linux-api@lfdr.de>; Mon, 30 Oct 2023 06:45:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BBC167E0DD9
+	for <lists+linux-api@lfdr.de>; Sat,  4 Nov 2023 05:58:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230488AbjJ3Fpq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 30 Oct 2023 01:45:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54864 "EHLO
+        id S231533AbjKDE6B (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 4 Nov 2023 00:58:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40634 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229829AbjJ3Fpq (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 30 Oct 2023 01:45:46 -0400
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C00D9BC;
-        Sun, 29 Oct 2023 22:45:43 -0700 (PDT)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailout.west.internal (Postfix) with ESMTP id 01D4C3200988;
-        Mon, 30 Oct 2023 01:45:41 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute6.internal (MEProxy); Mon, 30 Oct 2023 01:45:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=cc
-        :cc:content-transfer-encoding:content-type:content-type:date
-        :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-        :references:reply-to:sender:subject:subject:to:to; s=fm2; t=
-        1698644741; x=1698731141; bh=jaTWG66pDHoMbCEBoC0gkbfu5n/wvjRGKKr
-        6RONugiw=; b=kH1PljIwB4mx8xnaIGjwZChPF+ytCawKcocvOonU1W80TSZWp7A
-        mlndkyy1y+v/Pp5M1Ti83zkcRGcpZEX8qlYgTYvlWUISmO7ywFth8lvMO1TOM1PW
-        ESUBADIRp9beHdJ5/jRCsesd1tHJIl9C2+xvZtsLgEH51g1M0AsnI0UsqfBb+9rM
-        46Cyet41GCFc5y01IQJpT62gHDNEp8coBIY66tx86nQbOxtedlnqHFoWxaKYsW6M
-        7NBSWFS4kgLFziprja2mK1e0I7mfD/w5NfmRN7XI1jp93GE1UVTgUeG3BLSn5Pvd
-        s9F8Tx74suf3yQcN4y6tEb9ZiVtxjAaLvVQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding
-        :content-type:content-type:date:date:feedback-id:feedback-id
-        :from:from:in-reply-to:in-reply-to:message-id:mime-version
-        :references:reply-to:sender:subject:subject:to:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-        1698644741; x=1698731141; bh=jaTWG66pDHoMbCEBoC0gkbfu5n/wvjRGKKr
-        6RONugiw=; b=lU/j/+GsBZjBEEfDrgUzeheIxy92PUsVQwlz9VpHBPNkyGeJuEp
-        Ie4cXb1MwbbxAZXN8YU+ms/igcfooRHZBD/kJqX3qsI3j4GlAs4O6qv8qVOqO9Jf
-        Q7AecRB79YnnBiICaFAAmthF6J1Hs3YGSG3DTxQZtOaAWsGTnI/fdiO2Xjr1wLc8
-        ASaFSONgTCewvWzr2QWqnM1/6YTeGbWt1AaNniaLvZr6NF3BE5EpiDfxGO3XArfY
-        n6vYrs47fmcxnPdnwueK8nerYpL3BgGYFf6euhUHPZFk6Fu0FSaI8Z09EG6Tqiqv
-        Q+Roqn/VyaZwP+74u0rJyQfLkxDneCowbRw==
-X-ME-Sender: <xms:BUM_ZQU51d17FuPrp3ucPlUeWHzV-9uuv0_BgNGCvO6i_zF4oqFTOA>
-    <xme:BUM_ZUnhlTPM7z25YGpWS2ZxZVSSSXtSQZGP2LG53JNy0eCzAf4i3UQ8sXg1U8RiY
-    LCswe_wm2w0>
-X-ME-Received: <xmr:BUM_ZUba5JMOj-Rr6g8_AzLmFqeUQI5LCVNIQ_07XT1UJRs6BHSEAltH0i9SrxeVqscCJI3GDopPxUEVj1eNOSETAJD-d8TO9GyWuPYDpYsGm2SuqB6ZDgve>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrleelgdekkecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefkffggfgfuhffvvehfjggtgfesthekredttdefjeenucfhrhhomhepkfgrnhcu
-    mfgvnhhtuceorhgrvhgvnhesthhhvghmrgifrdhnvghtqeenucggtffrrghtthgvrhhnpe
-    eiveelkefgtdegudefudeftdelteejtedvheeuleevvdeluefhuddtieegveelkeenucev
-    lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehrrghvvghnse
-    hthhgvmhgrfidrnhgvth
-X-ME-Proxy: <xmx:BUM_ZfU_98WYEJc-r7pFTctcN3qRayb6W5zTEMzhBM-314_3kPDCCA>
-    <xmx:BUM_Zakd3BUGtYMBT6nyVbxOd4PgwA6e-6PQYWHvE2EeEFTJc7486w>
-    <xmx:BUM_ZUcTEXgs2896m8D2OQJzisVWovqy1u0DVriyrJmn-Z6jqYO-2Q>
-    <xmx:BUM_ZV9DDlqafNvwsJKyNuhtvxWaxOjawSSs8IN8BWocmKLJTS0ikQ>
-Feedback-ID: i31e841b0:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 30 Oct 2023 01:45:35 -0400 (EDT)
-Message-ID: <cbc065c0-1dc3-974f-6e48-483baaf750a3@themaw.net>
-Date:   Mon, 30 Oct 2023 13:45:33 +0800
+        with ESMTP id S229509AbjKDE6B (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 4 Nov 2023 00:58:01 -0400
+X-Greylist: delayed 4261 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 03 Nov 2023 21:57:58 PDT
+Received: from mail.profitpathwaygo.com (mail.profitpathwaygo.com [141.94.21.238])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D82A7112
+        for <linux-api@vger.kernel.org>; Fri,  3 Nov 2023 21:57:58 -0700 (PDT)
+Received: by mail.profitpathwaygo.com (Postfix, from userid 1002)
+        id C5D40511BA; Mon, 30 Oct 2023 08:30:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=profitpathwaygo.com;
+        s=mail; t=1698654707;
+        bh=qp3Ofokho6Ql+WtI8ZPVilyHYhskXL7fod7u9CWs8W4=;
+        h=Date:From:To:Subject:From;
+        b=MaroZO3/LKCUkcF5sGcQkjPKqCpvfR5C2CGJL9qKxaazrUNLDapwPAXR6aMQ71MPw
+         dLIe9740bD1dY2mmd9PYpinFTb+rp4xmo0XrDPIzoAimapVgfXSrDc3IN2VOta05pY
+         MBP+VMV3gfhmDWuzS2YTKGzAD+wK4+XveUGdjqrcLyZWYPuaAEIxt0p08m6yPs4NoP
+         i63XD6AgRptGoaiqZ1mYdTeVtSdZSpBmsEeWQTzL6+p5KIw/T0WxH1x1Pvq/RTALwL
+         XlbqJ+9Ae1K9AbZtHaLo5T32qWuHQWKZSVaIf6Dtzx2Q0KnItweWgNomYbqapI4KR8
+         wcTS6fHOQy2hQ==
+Received: by mail.profitpathwaygo.com for <linux-api@vger.kernel.org>; Mon, 30 Oct 2023 08:30:28 GMT
+Message-ID: <20231030074500-0.1.2s.154ao.0.br61022vn7@profitpathwaygo.com>
+Date:   Mon, 30 Oct 2023 08:30:28 GMT
+From:   "Adam Charachuta" <adam.charachuta@profitpathwaygo.com>
+To:     <linux-api@vger.kernel.org>
+Subject: =?UTF-8?Q?S=C5=82owa_kluczowe_do_wypozycjonowania_?=
+X-Mailer: mail.profitpathwaygo.com
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v4 2/6] mounts: keep list of mounts in an rbtree
-Content-Language: en-US
-From:   Ian Kent <raven@themaw.net>
-To:     Miklos Szeredi <mszeredi@redhat.com>
-Cc:     linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-man@vger.kernel.org,
-        linux-security-module@vger.kernel.org, Karel Zak <kzak@redhat.com>,
-        David Howells <dhowells@redhat.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <christian@brauner.io>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Matthew House <mattlloydhouse@gmail.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>
-References: <20231025140205.3586473-1-mszeredi@redhat.com>
- <20231025140205.3586473-3-mszeredi@redhat.com>
- <b69c1c17-35f9-351e-79a9-ef3ef5481974@themaw.net>
- <CAOssrKe76uZ5t714=Ta7GMLnZdS4QGm-fOfT9q5hNFe1fsDMVg@mail.gmail.com>
- <c938a7d9-aa9e-a3ad-a001-fb9022d21475@themaw.net>
- <dfb5f3d5-8db8-34af-d605-14112e8cc485@themaw.net>
-In-Reply-To: <dfb5f3d5-8db8-34af-d605-14112e8cc485@themaw.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-5.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_PASS,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: Yes, score=6.5 required=5.0 tests=BAYES_05,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_SBL_CSS,
+        RCVD_IN_VALIDITY_RPBL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED,URIBL_CSS_A,URIBL_DBL_SPAM autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Report: *  0.0 URIBL_BLOCKED ADMINISTRATOR NOTICE: The query to URIBL was
+        *      blocked.  See
+        *      http://wiki.apache.org/spamassassin/DnsBlocklists#dnsbl-block
+        *      for more information.
+        *      [URIs: profitpathwaygo.com]
+        *  2.5 URIBL_DBL_SPAM Contains a spam URL listed in the Spamhaus DBL
+        *      blocklist
+        *      [URIs: profitpathwaygo.com]
+        *  1.3 RCVD_IN_VALIDITY_RPBL RBL: Relay in Validity RPBL,
+        *      https://senderscore.org/blocklistlookup/
+        *      [141.94.21.238 listed in bl.score.senderscore.com]
+        *  3.3 RCVD_IN_SBL_CSS RBL: Received via a relay in Spamhaus SBL-CSS
+        *      [141.94.21.238 listed in zen.spamhaus.org]
+        *  0.1 URIBL_CSS_A Contains URL's A record listed in the Spamhaus CSS
+        *      blocklist
+        *      [URIs: profitpathwaygo.com]
+        * -0.5 BAYES_05 BODY: Bayes spam probability is 1 to 5%
+        *      [score: 0.0150]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+X-Spam-Level: ******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 30/10/23 13:37, Ian Kent wrote:
-> On 28/10/23 09:36, Ian Kent wrote:
->> On 27/10/23 16:17, Miklos Szeredi wrote:
->>> On Fri, Oct 27, 2023 at 5:12 AM Ian Kent <raven@themaw.net> wrote:
->>>> On 25/10/23 22:02, Miklos Szeredi wrote:
->>>>> The mnt.mnt_list is still used to set up the mount tree and for
->>>>> propagation, but not after the mount has been added to a 
->>>>> namespace.  Hence
->>>>> mnt_list can live in union with rb_node.  Use MNT_ONRB mount flag to
->>>>> validate that the mount is on the correct list.
->>>> Is that accurate, propagation occurs at mount and also at umount.
->>> When propagating a mount, the new mount's mnt_list is used as a head
->>> for the new propagated mounts.  These are then moved to the rb tree by
->>> commit_tree().
->>>
->>> When umounting there's a "to umount" list called tmp_list in
->>> umount_tree(), this list is used to collect direct umounts and then
->>> propagated umounts.  The direct umounts are added in umount_tree(),
->>> the propagated ones umount_one().
->>>
->>> Note: umount_tree() can be called on a not yet finished mount, in that
->>> case the mounts are still on mnt_list, so umount_tree() needs to deal
->>> with both.
->>>
->>>> IDG how the change to umount_one() works, it looks like umount_list()
->>>>
->>>> uses mnt_list. It looks like propagate_umount() is also using 
->>>> mnt_list.
->>>>
->>>>
->>>> Am I missing something obvious?
->>> So when a mount is part of a namespace (either anonymous or not) it is
->>> on the rb tree, when not then it can temporarily be on mnt_list.
->>> MNT_ONRB flag is used to validate that the mount is on the list that
->>> we expect it to be on, but also to detect the case of the mount setup
->>> being aborted.
->>>
->>> We could handle the second case differently, since we should be able
->>> to tell when we are removing the mount from a namespace and when we
->>> are aborting a mount, but this was the least invasive way to do this.
->>
->> Thanks for the explanation, what you've said is essentially what I
->>
->> understood reading the series.
->>
->>
->> But I still haven't quite got this so I'll need to spend more time
->>
->> on this part of the patch series.
->>
->>
->> That's not a problem, ;).
->
-> After cloning your git tree and looking in there I don't see what
->
-> I was concerned about so I think I was confused by obscurity by
->
-> diff rather than seeing a real problem, ;)
->
->
-> Still that union worries me a little bit so I'll keep looking at
->
-> the code for a while.
+Dzie=C5=84 dobry,
 
-Is fs/namespace.c:iterate_mounts() a problem?
+zapozna=C5=82em si=C4=99 z Pa=C5=84stwa ofert=C4=85 i z przyjemno=C5=9Bci=
+=C4=85 przyznaj=C4=99, =C5=BCe przyci=C4=85ga uwag=C4=99 i zach=C4=99ca d=
+o dalszych rozm=C3=B3w.=20
 
-It's called from:
+Pomy=C5=9Bla=C5=82em, =C5=BCe mo=C5=BCe m=C3=B3g=C5=82bym mie=C4=87 sw=C3=
+=B3j wk=C5=82ad w Pa=C5=84stwa rozw=C3=B3j i pom=C3=B3c dotrze=C4=87 z t=C4=
+=85 ofert=C4=85 do wi=C4=99kszego grona odbiorc=C3=B3w. Pozycjonuj=C4=99 =
+strony www, dzi=C4=99ki czemu generuj=C4=85 =C5=9Bwietny ruch w sieci.
 
-1) ./kernel/audit_tree.c:709: if (iterate_mounts(compare_root,
-2) ./kernel/audit_tree.c:839:    err = iterate_mounts(tag_mount, tree, mnt);
-3) ./kernel/audit_tree.c:917:        failed = iterate_mounts(tag_mount, 
-tree, tagged);
+Mo=C5=BCemy porozmawia=C4=87 w najbli=C5=BCszym czasie?
 
 
- From functions 1) audit_trim_trees(), 2) audit_add_tree_rule() and
-
-3) audit_tag_tree().
-
-
->
->
->>
->>
->> Ian
->>
->>>
->>> Thanks,
->>> Miklos
->>>
->>
->
+Pozdrawiam serdecznie
+Adam Charachuta
