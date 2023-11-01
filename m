@@ -2,121 +2,202 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F26D57DE031
-	for <lists+linux-api@lfdr.de>; Wed,  1 Nov 2023 12:13:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E4E77DE093
+	for <lists+linux-api@lfdr.de>; Wed,  1 Nov 2023 12:53:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230261AbjKALNj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 1 Nov 2023 07:13:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50984 "EHLO
+        id S235482AbjKALxK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 1 Nov 2023 07:53:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60750 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229537AbjKALNi (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 1 Nov 2023 07:13:38 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A450F7;
-        Wed,  1 Nov 2023 04:13:36 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5860EC433C9;
-        Wed,  1 Nov 2023 11:13:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1698837215;
-        bh=N6UVVns/VSWJvvvj6Jyp/eMunRO6kModQGgkQaRIaQ8=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=sy4Rxi2OPF+XMY89X0x7G4Df22/7CmUQqn3N+1UFEGdivQpNgTMq7V0eFIjbhlHy4
-         NJ+SneIU7hLdENdE8i3xuGqt0DWisuf6j6dMTpH7rt7+f+c2HLH/QpGZmSSy3tDHAo
-         jkWxzsSGXF/Iy/Fvavj8jPNeeb2Hjqn3mLGNLuoWIjzIktyHko0WNwy7mYWoooIl2x
-         RqL8ijcizyWd4X8B4FZ6xFYCT5zjiKLKFbOmKaggI1Nb8kxSM5Sz8h+dl8NYx6VOAr
-         AJ3E120jL+X3i0qStXrxsrApc40u3MiIjSxus9h6cZ4HXOQZHOtSo4SzklF7i/nZHc
-         NuRLHu3IY++mg==
-From:   Christian Brauner <brauner@kernel.org>
-To:     Miklos Szeredi <mszeredi@redhat.com>
-Cc:     Christian Brauner <brauner@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        with ESMTP id S235477AbjKALxJ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 1 Nov 2023 07:53:09 -0400
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A4AEFD;
+        Wed,  1 Nov 2023 04:52:59 -0700 (PDT)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailout.west.internal (Postfix) with ESMTP id C93063200922;
+        Wed,  1 Nov 2023 07:52:57 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute1.internal (MEProxy); Wed, 01 Nov 2023 07:52:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=cc
+        :cc:content-transfer-encoding:content-type:content-type:date
+        :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+        :references:reply-to:sender:subject:subject:to:to; s=fm2; t=
+        1698839577; x=1698925977; bh=UUCVuGrNRCpcYFlCbcFf5lEpE2lBBdg3YBm
+        yL9tLv7w=; b=Pnw3+9M2zJBysq/HCrWzx++7ioXU9uVt9gLf1TTb65umX/Z6dOV
+        SG17X48MblnRmVI41ZNT/JpWQAS0FKfHWv7Ewfq69XeVHp1o+20611cF9pTq+okA
+        7TzsfvQrVFFnDos8SOAbchT6lomSWwCqAK+1kGYJMy9q09pv7pANZsMOlrJYK8LC
+        8jQ5sG3489NO3cDvYOiA0Fy4g3b882mo2ByojssF5Wi5dyphDuf3v0YCDG/w3byo
+        UBEs7pLgUky5Ax2brNploXC3yf9o5OiQYC2BwVLeqkTrzSljeafU4Row5iQ1RzoV
+        LEo0PdpTLCYPfvr8mIVAhvoRiCaG2cd3X3A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding
+        :content-type:content-type:date:date:feedback-id:feedback-id
+        :from:from:in-reply-to:in-reply-to:message-id:mime-version
+        :references:reply-to:sender:subject:subject:to:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+        1698839577; x=1698925977; bh=UUCVuGrNRCpcYFlCbcFf5lEpE2lBBdg3YBm
+        yL9tLv7w=; b=j3DY1HJpugv1lnyf3YyQZd9LwANx1zrD0s9o9OWQwCl4UWNUJj1
+        +Z/N7cmBYHwaHWi9qx5KaVq7j+Ob8BIssvpyvEO/IOykqgZxJq2EaWQZZD6Xa0jX
+        vqFAX3a4Towiyd93qBkd8z0IlIrdjy/dguh1UFTKq0hJAGH+VWSGVMoYh2mvc+C0
+        y53v+2VNjdz5zgYkM0yDMyJSEoRGGDC1T1+rzCxQo/I2WfCuHuJLg0p3UGCOvWlx
+        HMUmHueKPRHL+/F1FMOV9l6ygDPirpokP6Wcz6y+wNNbh5oc2L+Gw+PrBMK8je8B
+        hM/qslLy94j3DYrgyJ2UCEwi10ORO2EZb7g==
+X-ME-Sender: <xms:GDxCZSVDRhakPUwHplcfCdn8-0e2PhOPLYDGGqox1mDlqlUG5pyG1g>
+    <xme:GDxCZenwT-BwnaS8Ar2pKF-v-TqgPwUPw4iJT7wH_07WPtDfQoZlY9_7b7RWgVLVd
+    W_wW6MP4xw5>
+X-ME-Received: <xmr:GDxCZWZBp3A8Z_ICpzAdODM99RENy_x-LkA3DVeLkNod880-Cvb3sH0SOFSRaXRW0rTS4MAkcAHH-OEnPCB3vXlEy5Q_K-UuTZOZU2zIBPimlFFaH1fq6LLK>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedruddtgedgfeefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtfeejnecuhfhrohhmpefkrghn
+    ucfmvghnthcuoehrrghvvghnsehthhgvmhgrfidrnhgvtheqnecuggftrfgrthhtvghrnh
+    epueegveehueejjedvgeeiheekueduhffgueejgfevgedujeeiieegteehkeehvdeknecu
+    ffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurf
+    grrhgrmhepmhgrihhlfhhrohhmpehrrghvvghnsehthhgvmhgrfidrnhgvth
+X-ME-Proxy: <xmx:GDxCZZXo4z5kNc6XnNyH4o0miOeP6iTv9TfcdFsdrY6G95Tjba3h5g>
+    <xmx:GDxCZcmpn2Uh44xi6H5exAuw0b8VrQDA8N65yEXNZv85Rsw-xlkZ5g>
+    <xmx:GDxCZed8uAsJ2BfDDbcucJRdj_HIrDNECoekeV7-TZeJ_ykg1Je_DA>
+    <xmx:GTxCZX-EHKpQt_nr_DkCej8VOQIUrVVTbkN_8GL9Z2m4z-YblRG5Bg>
+Feedback-ID: i31e841b0:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 1 Nov 2023 07:52:49 -0400 (EDT)
+Message-ID: <374433e3-ab72-64a3-0fa0-ab455268e5e0@themaw.net>
+Date:   Wed, 1 Nov 2023 19:52:45 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v4 0/6] querying mount attributes
+To:     Miklos Szeredi <mszeredi@redhat.com>, linux-fsdevel@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
         linux-man@vger.kernel.org, linux-security-module@vger.kernel.org,
-        Karel Zak <kzak@redhat.com>, Ian Kent <raven@themaw.net>,
+        Karel Zak <kzak@redhat.com>,
         David Howells <dhowells@redhat.com>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Al Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <christian@brauner.io>,
         Amir Goldstein <amir73il@gmail.com>,
         Matthew House <mattlloydhouse@gmail.com>,
         Florian Weimer <fweimer@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v4 0/6] querying mount attributes
-Date:   Wed,  1 Nov 2023 12:13:22 +0100
-Message-Id: <20231101-urenkel-banal-b232d7a3cbe8@brauner>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231025140205.3586473-1-mszeredi@redhat.com>
+        Arnd Bergmann <arnd@arndb.de>
 References: <20231025140205.3586473-1-mszeredi@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2563; i=brauner@kernel.org; h=from:subject:message-id; bh=N6UVVns/VSWJvvvj6Jyp/eMunRO6kModQGgkQaRIaQ8=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMaQ6GZ289OXCtbZoBr++dRPd5U8zfzd2E9PQv/qguNnzmCyb I9fzjlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgImsX8nI8G7S4mBTpv1PprLka33dfK jgxsVD9lziqkscTjw5GpmzpZuRYbnXm9lXvtvfKju9Ii6KS9eKb9+Pl6nfWMLjLzsILdXeywYA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Language: en-US
+From:   Ian Kent <raven@themaw.net>
+In-Reply-To: <20231025140205.3586473-1-mszeredi@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, 25 Oct 2023 16:01:58 +0200, Miklos Szeredi wrote:
+On 25/10/23 22:01, Miklos Szeredi wrote:
 > Implement mount querying syscalls agreed on at LSF/MM 2023.
-> 
+>
 > Features:
-> 
->  - statx-like want/got mask
->  - allows returning ascii strings (fs type, root, mount point)
->  - returned buffer is relocatable (no pointers)
-> 
-> [...]
+>
+>   - statx-like want/got mask
+>   - allows returning ascii strings (fs type, root, mount point)
+>   - returned buffer is relocatable (no pointers)
+>
+> Still missing:
+>   - man pages
+>   - kselftest
+>
+> Please find the test utility at the end of this mail.
+>
+>    Usage: statmnt [-l|-r] [-u] (mnt_id|path)
+>
+> Git tree:
+>
+>    git://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/vfs.git#statmount-v4
+>
+>
+> Changes v3..v4:
+>
+>   - incorporate patch moving list of mounts to an rbtree
+>   - wire up syscalls for all archs
+>   - add LISTMOUNT_RECURSIVE (depth first iteration of mount tree)
+>   - add LSMT_ROOT (list root instead of a specific mount ID)
+>   - list_for_each_entry_del() moved to a separate patchset
+>
+> Changes v1..v3:
+>
+>   - rename statmnt(2) -> statmount(2)
+>   - rename listmnt(2) -> listmount(2)
+>   - make ABI 32bit compatible by passing 64bit args in a struct (tested on
+>     i386 and x32)
+>   - only accept new 64bit mount IDs
+>   - fix compile on !CONFIG_PROC_FS
+>   - call security_sb_statfs() in both syscalls
+>   - make lookup_mnt_in_ns() static
+>   - add LISTMOUNT_UNREACHABLE flag to listmnt() to explicitly ask for
+>     listing unreachable mounts
+>   - remove .sb_opts
+>   - remove subtype from .fs_type
+>   - return the number of bytes used (including strings) in .size
+>   - rename .mountpoint -> .mnt_point
+>   - point strings by an offset against char[] VLA at the end of the struct.
+>     E.g. printf("fs_type: %s\n", st->str + st->fs_type);
+>   - don't save string lengths
+>   - extend spare space in struct statmnt (complete size is now 512 bytes)
+>
+>
+> Miklos Szeredi (6):
+>    add unique mount ID
+>    mounts: keep list of mounts in an rbtree
+>    namespace: extract show_path() helper
+>    add statmount(2) syscall
+>    add listmount(2) syscall
+>    wire up syscalls for statmount/listmount
+>
+>   arch/alpha/kernel/syscalls/syscall.tbl      |   3 +
+>   arch/arm/tools/syscall.tbl                  |   3 +
+>   arch/arm64/include/asm/unistd32.h           |   4 +
+>   arch/ia64/kernel/syscalls/syscall.tbl       |   3 +
+>   arch/m68k/kernel/syscalls/syscall.tbl       |   3 +
+>   arch/microblaze/kernel/syscalls/syscall.tbl |   3 +
+>   arch/mips/kernel/syscalls/syscall_n32.tbl   |   3 +
+>   arch/mips/kernel/syscalls/syscall_n64.tbl   |   3 +
+>   arch/mips/kernel/syscalls/syscall_o32.tbl   |   3 +
+>   arch/parisc/kernel/syscalls/syscall.tbl     |   3 +
+>   arch/powerpc/kernel/syscalls/syscall.tbl    |   3 +
+>   arch/s390/kernel/syscalls/syscall.tbl       |   3 +
+>   arch/sh/kernel/syscalls/syscall.tbl         |   3 +
+>   arch/sparc/kernel/syscalls/syscall.tbl      |   3 +
+>   arch/x86/entry/syscalls/syscall_32.tbl      |   3 +
+>   arch/x86/entry/syscalls/syscall_64.tbl      |   2 +
+>   arch/xtensa/kernel/syscalls/syscall.tbl     |   3 +
+>   fs/internal.h                               |   2 +
+>   fs/mount.h                                  |  27 +-
+>   fs/namespace.c                              | 573 ++++++++++++++++----
+>   fs/pnode.c                                  |   2 +-
+>   fs/proc_namespace.c                         |  13 +-
+>   fs/stat.c                                   |   9 +-
+>   include/linux/mount.h                       |   5 +-
+>   include/linux/syscalls.h                    |   8 +
+>   include/uapi/asm-generic/unistd.h           |   8 +-
+>   include/uapi/linux/mount.h                  |  65 +++
+>   include/uapi/linux/stat.h                   |   1 +
+>   28 files changed, 635 insertions(+), 129 deletions(-)
 
-I think we should start showing clear signs of commitment to this. In
-absence of strong objections I don't see a reason to let this rot on
-list until we forget about it. Maybe this will entice people to provide
-more reviews as well.
+Looks ok to me,covers the primary cases I needed when I worked
 
-It's all pretty close to what we discussed at LSFMM23 and we stated that
-we aim to merge something by the end of the year. Let's see if that can
-actually happen.
+on using fsinfo() in systemd.
 
-I don't have huge quarrels with this. Yes, there's stuff I'd like to see
-done differently but nothing I consider blockers. So let's get this
-into -next once rc1 is out so it can get a full cycle of exposure.
 
-I've renamed struct statmnt to struct statmount to align with statx()
-and struct statx. I also renamed struct stmt_state to struct kstatmount
-as that's how we usually do this. And I renamed struct __mount_arg to
-struct mnt_id_req and dropped the comment. Libraries can expose this in
-whatever form they want but we'll also have direct consumers. I'd rather
-have this struct be underscore free and officially sanctioned.
+Karel, is there anything missing you would need for adding
 
----
+libmount support?
 
-Applied to the vfs.mount branch of the vfs/vfs.git tree.
-Patches in the vfs.mount branch should appear in linux-next soon.
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+Reviewed-by: Ian Kent <raven@themaw.net>
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
 
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs.master
-
-[1/6] add unique mount ID
-      https://git.kernel.org/vfs/vfs/c/ec873c3baa0c
-[2/6] mounts: keep list of mounts in an rbtree
-      https://git.kernel.org/vfs/vfs/c/f15247ad234c
-[3/6] namespace: extract show_path() helper
-      https://git.kernel.org/vfs/vfs/c/6e5f64ac5382
-[4/6] add statmount(2) syscall
-      https://git.kernel.org/vfs/vfs/c/edf3b2ac1bd5
-[5/6] add listmount(2) syscall
-      https://git.kernel.org/vfs/vfs/c/4412ca803757
-[6/6] wire up syscalls for statmount/listmount
-      https://git.kernel.org/vfs/vfs/c/d0a56e829d2c
+>
