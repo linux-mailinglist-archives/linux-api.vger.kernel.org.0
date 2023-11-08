@@ -1,90 +1,144 @@
-Return-Path: <linux-api+bounces-4-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-5-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 077EC7E4A87
-	for <lists+linux-api@lfdr.de>; Tue,  7 Nov 2023 22:23:27 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id F26537E4EF1
+	for <lists+linux-api@lfdr.de>; Wed,  8 Nov 2023 03:33:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8D96928148F
-	for <lists+linux-api@lfdr.de>; Tue,  7 Nov 2023 21:23:25 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9329EB20E71
+	for <lists+linux-api@lfdr.de>; Wed,  8 Nov 2023 02:33:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCA402A1CC;
-	Tue,  7 Nov 2023 21:23:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="rK+OnYx1"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F6F5384;
+	Wed,  8 Nov 2023 02:33:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-api@vger.kernel.org
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 168DC2A1C1;
-	Tue,  7 Nov 2023 21:23:22 +0000 (UTC)
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D6EDD7A;
-	Tue,  7 Nov 2023 13:23:22 -0800 (PST)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::646])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id F31F12E6;
-	Tue,  7 Nov 2023 21:23:21 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net F31F12E6
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1699392202; bh=2bPfjR7kBNZGvheEbYB67hyrLGZvMBmZpVWx1tFetOc=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=rK+OnYx1kL0a3bjZDfsENQn/36liPQbikm+cF0IIL7uoRqvigxogbLjdpPCqpOUL4
-	 20vKdaAIOJQTqgbNBat7EE54SVjzJ1cB0r+6Hj6klHk0UaQtTvHi0zzjA7q+UtIOBg
-	 eLOp8qgztGXW1kIIl+AOBvajTaaMWbbj3biCrXYq4GjtY/78SLhH2r2hHMkfr8Qz1N
-	 IuCUc1qUEkHhZdyLr3nsjFMAHG6n+Ha22XOXRgKRcG+R0zXHSP/SXwwziD9EBQ+TvJ
-	 0a0H3NY+qRfmDvAUoyLtplpp3HfufK2AolwLLciPpzLM1PTay0YOi1/RLDhckMUJMD
-	 yFMw/uISJbmyg==
-From: Jonathan Corbet <corbet@lwn.net>
-To: Miklos Szeredi <mszeredi@redhat.com>, linux-fsdevel@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-man@vger.kernel.org, linux-security-module@vger.kernel.org, Karel
- Zak <kzak@redhat.com>, Ian Kent <raven@themaw.net>, David Howells
- <dhowells@redhat.com>, Linus Torvalds <torvalds@linux-foundation.org>, Al
- Viro <viro@zeniv.linux.org.uk>, Christian Brauner <christian@brauner.io>,
- Amir Goldstein <amir73il@gmail.com>, Matthew House
- <mattlloydhouse@gmail.com>, Florian Weimer <fweimer@redhat.com>, Arnd
- Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH v4 5/6] add listmount(2) syscall
-In-Reply-To: <20231025140205.3586473-6-mszeredi@redhat.com>
-References: <20231025140205.3586473-1-mszeredi@redhat.com>
- <20231025140205.3586473-6-mszeredi@redhat.com>
-Date: Tue, 07 Nov 2023 14:23:21 -0700
-Message-ID: <87il6d1cmu.fsf@meer.lwn.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 102F362A
+	for <linux-api@vger.kernel.org>; Wed,  8 Nov 2023 02:33:35 +0000 (UTC)
+X-Greylist: delayed 725 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 07 Nov 2023 18:33:34 PST
+Received: from localhost.fundacionsgae.org (salaberlanga.com [82.223.37.45])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6A58C184
+	for <linux-api@vger.kernel.org>; Tue,  7 Nov 2023 18:33:34 -0800 (PST)
+Received: by localhost.fundacionsgae.org (Postfix, from userid 48)
+	id AC34A16E85D6; Wed,  8 Nov 2023 03:20:03 +0100 (CET)
+To: linux-api@vger.kernel.org
+Subject: Job vacancy
+X-PHP-Originating-Script: 48:xleet.php(6) : eval()'d code
+Date: Wed, 8 Nov 2023 03:20:03 +0100
+From: "St. Thomas' Hospital UK" <stthomashospitaluk66@gmail.com>
+Reply-To: recruitment@gsttsnhsuk.online
+Message-ID: <bd6fc8671df30a4f4aca0c91e6669b8e@tarifas.sgae.eu>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
 
-Miklos Szeredi <mszeredi@redhat.com> writes:
+St. Thomas' Hospital UK
 
-> Add way to query the children of a particular mount.  This is a more
-> flexible way to iterate the mount tree than having to parse the complete
-> /proc/self/mountinfo.
->
-> Allow listing either
->
->  - immediate child mounts only, or
->
->  - recursively all descendant mounts (depth first).
+  REF: HR/MED-004/06923
 
-So I have one probably silly question:
+St. Thomas' Hospital UK is a large NHS teaching hospital in Central
+London, England. It is one of the institutions that compose the King's
+Health Partners, an academic health science Center. Administratively
+part of the Guy's and St Thomas' NHS Foundation Trust, together with
+Guy's Hospital and King's College Hospital, it provides the location
+of the King's College London GKT School of Medical Education.
 
-> +SYSCALL_DEFINE4(listmount, const struct __mount_arg __user *, req,
-> +		u64 __user *, buf, size_t, bufsize, unsigned int, flags)
-> +{
+It is ranked amongst the best Ten (10) hospitals in the United Kingdom
+with 840 beds. The hospital has provided healthcare freely or under
+charitable auspices since the 12th century. It is one of London's most
+famous hospitals, associated with names such as Sir Astley Cooper,
+William Cheselden, Florence Nightingale, Linda Richards, Edmund
+Montgomery, Agnes Elizabeth Jones and Sir Harold Ridley. It is a
+prominent London landmark =E2=80=93 largely due to its location on the
+opposite bank of the River Thames to the Houses of Parliament.
 
-Why use struct __mount_arg (or struct mnt_id_req :) here rather than
-just passing in the mount ID directly?  You don't use the request_mask
-field anywhere.
+The largest not-for-profit health system in the world, we provide high
+quality, personalized and compassionate care to our patients through
+our dedication to safety, rigorous self-assessment, performance
+improvement, corporate integrity and health service management. We are
+committed to being the per-eminent provider of acute inpatient and
+outpatient health care services.
 
-Thanks,
+DESCRIPTION: Following the COVID-19 outbreak, expansion and
+development in our hospital, we are currently recruiting and employing
+the services of Medical Professionals  (Specialists, Consultants,
+General Practitioners) with relevant experiences to fill in the
+following below vacancies in our health care facility in the United
+Kingdom.
 
-jon
+AREAS OF VACANCIES:
+
+StH1. ALLERGY & IMMUNOLOGY StH2. ANAESTHESIOLOGY StH3. ANGIOLOGY StH4.
+ANTHROPOSOPHIC MEDICINE StH5. BREAST SURGERY  StH6. CARDIOLOGY StH7.
+CRANIOSACRAL PRACTITIONER / THERAPIST StH8. CARDIOTHORACIC SURGERY
+StH9. CARDIAC SURGERY
+
+StH10. CRITICAL CARE MEDICINE StH11. DENTISTS StH12. DENTAL SURGEON
+StH13. DERMATOLOGY StH14. ENDOCRINOLOGY
+
+StH15. EMERGENCY MEDICINE StH16. GASTROENTEROLOGY StH17. GENERAL
+SURGERY StH18. GENERAL PAEDIATRICS  StH19. GENERAL MEDICINE  StH20.
+HEMATOLOGY StH21. HYPERTENSION SPECIALIST StH22. INTERNAL MEDICINE
+StH23. INFECTOLOGY StH24. MORPHOLOGY StH25. NEPHROLOGY  StH26.
+NEUROSURGERY StH27. NEONATOLOGY StH28. ORTHOPAEDICS StH29. ORTHOPAEDIC
+SURGERY StH30. OTORHINOLARYNGOLOGY  StH31. ORTHODONTIST StH32.
+OCCUPATIONAL MEDICINE StH33. ORAL AND MAXILLOFACIAL SURGERY StH34.
+PATHOLOGY
+
+StH35. PLASTIC & RECONSTRUCTIVE SURGERY StH36. PNEUMOLOGY StH37.
+PAEDIATRIC SURGEON  StH38.  PSYCHOLOGIST StH39.  PHYSIOTHERAPY  StH40.
+PEDIATRICS StH41. PUBLIC HEALTH  StH42. RADIOLOGY StH43. RHEUMATOLOGY
+StH44. REHABILITATION MEDICINE StH45. RESPIRATORY MEDICINE  StH46.
+THORACIC SURGERY  StH47. TRAUMATOLOGY StH48. TRICHOLOGIST StH49.
+UROLOGY
+
+JOB LOCATION: London, United Kingdom
+
+JOB COMMENCEMENT: 2023
+
+EMPLOYMENT TYPE: Contract / Full-time
+
+EMPLOYMENT BENEFITS:
+
+Excellent Salary and Overtime Bonus, Health/life Insurance, Relocation
+expenses, Research and Educational assistance, Medical, Optical and
+Dental Care, Family/Single housing accommodation, 24/7 Official
+Vehicle, Scholarship for employee's dependent within UK schools.
+
+Interested applicants are to send a detailed attachment Resume via email: recruitment@gsttsnhsuk.online
+ 
+
+NOTE: APPLICATION IS OPEN TO INTERESTED PERSONS FROM ALL INTERNATIONAL
+LOCATIONS, ALL SUCCESSFUL APPLICANTS IN OUR RECRUITMENT PROCESS MUST
+BE WILLING TO RELOCATE TO THE UK FOR WORK.
+
+Coronavirus (COVID-19)- Stay at home if you feel unwell. If you have a
+fever, cough and difficulty breathing, seek medical attention and
+call-in advance. Follow the directions of your local health authority.
+Source: World Health Organization
+
+
+Sincerely,
+
+
+Julie Screaton,
+
+St. Thomas' Hospital Uk
+
+Guy's & St. Thomas NHS Foundation Trust
+
+London, United Kingdom @2023
+
+St Thomas' Hospital UK incorporated in England, UK (Reg. No: 06160266)
+having its registered address at Westminster Bridge Rd, London SE1
+7EH, England.
+
 
