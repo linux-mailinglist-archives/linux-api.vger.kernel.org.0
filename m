@@ -1,242 +1,148 @@
-Return-Path: <linux-api+bounces-49-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-50-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E877C7EB74C
-	for <lists+linux-api@lfdr.de>; Tue, 14 Nov 2023 21:06:53 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EBBF47EB792
+	for <lists+linux-api@lfdr.de>; Tue, 14 Nov 2023 21:14:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 880101F25B38
-	for <lists+linux-api@lfdr.de>; Tue, 14 Nov 2023 20:06:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1D5811C2085F
+	for <lists+linux-api@lfdr.de>; Tue, 14 Nov 2023 20:14:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D79235EEC;
-	Tue, 14 Nov 2023 20:06:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D2D735EFF;
+	Tue, 14 Nov 2023 20:14:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="COcQPXbg"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="HXbNj79h"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E264135EEA;
-	Tue, 14 Nov 2023 20:06:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DABDC433CA;
-	Tue, 14 Nov 2023 20:06:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1699992407;
-	bh=E/vO68ZFg6z/6OFrFC7xPTTrAHCnKC1HTh6WooalFG0=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=COcQPXbgQRtRh6McXlLmwmXao6NZB3DoRessUOEzmGfXy4Q/yfYUiqe2WOLh/IYGF
-	 FMBnikyOgbZ4guVGrh4thejR7lpM9/J7elIeMvqn0TvaqPkguJ+s3Aq37l4LuqxRFC
-	 v4p5MmzIlI1cXY3d+ExzvWO6rv1/BAv2iZM/SxWfFH+irRYyhcVt5iA5XOIAtofqZs
-	 ff55nzUXFCkjKqaW3ENaYA+/zyjpH1diIaH8FSe0+DzEzNzf12qZRNKc9wraAurRpB
-	 QTq0/Y8N6T3asG2FNY6JVFVGgPdEAYk1sGStNyZsJR1xaOjloUaEo2iNq1d878F5q1
-	 KPBFNtezCOfpA==
-From: Mark Brown <broonie@kernel.org>
-Date: Tue, 14 Nov 2023 20:05:58 +0000
-Subject: [PATCH RFC RFT v2 5/5] kselftest/clone3: Test shadow stack support
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 252D21CABB;
+	Tue, 14 Nov 2023 20:14:15 +0000 (UTC)
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3694CD9;
+	Tue, 14 Nov 2023 12:14:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=5uS+7I/hdEi/j2d0v3U0nBW/3e8OdQbcjBLfaqo5fyE=; b=HXbNj79hUL/5Ub5itbEm9PybKB
+	NCqN7/gz0LISFlHa5/xxpoB7CU0TLhU++Ja7zjWOUu2G/Q5QDEUDHO3lshLpJy0dmtsmf3YxNs2pF
+	swsw9Pg9udmdl60h+A0dDCR0eOHWD0hgWsqvmLy/ez75SyMfZALCemr7C6blMD7pae14rso/vLK5j
+	wzz3unbnayfDGsKpEP8Nc8nkCarWpeY8qac5Oimq5G+0jrETK2P1BsyAqVhJID0j4gFVjixX5e4vV
+	bOfmoueLJ04Q/LIiOojemprgSKSYxEsLpW2B2ofbl2hEdBrTdGLccG1q0Khc7925jo+4psSm6A/QB
+	H9Bg9jRQ==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1r2znO-002hgP-2v;
+	Tue, 14 Nov 2023 20:14:03 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 7D811300581; Tue, 14 Nov 2023 21:14:02 +0100 (CET)
+Date: Tue, 14 Nov 2023 21:14:02 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Florian Weimer <fweimer@redhat.com>
+Cc: Xi Ruoyao <xry111@xry111.site>, libc-alpha@sourceware.org,
+	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+	linux-mm@kvack.org, linux-arch@vger.kernel.org,
+	Thomas Gleixner <tglx@linutronix.de>,
+	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>
+Subject: Re: Several tst-robust* tests time out with recent Linux kernel
+Message-ID: <20231114201402.GA25315@noisy.programming.kicks-ass.net>
+References: <4bda9f2e06512e375e045f9e72edb205104af19c.camel@xry111.site>
+ <d69d50445284a5e0d98a64862877c1e6ec22a9a8.camel@xry111.site>
+ <20231114153100.GY8262@noisy.programming.kicks-ass.net>
+ <20231114154017.GI4779@noisy.programming.kicks-ass.net>
+ <87ttpowajb.fsf@oldenburg.str.redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20231114-clone3-shadow-stack-v2-5-b613f8681155@kernel.org>
-References: <20231114-clone3-shadow-stack-v2-0-b613f8681155@kernel.org>
-In-Reply-To: <20231114-clone3-shadow-stack-v2-0-b613f8681155@kernel.org>
-To: "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>, 
- Deepak Gupta <debug@rivosinc.com>, Szabolcs Nagy <Szabolcs.Nagy@arm.com>, 
- "H.J. Lu" <hjl.tools@gmail.com>, Florian Weimer <fweimer@redhat.com>, 
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
- Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, 
- Vincent Guittot <vincent.guittot@linaro.org>, 
- Dietmar Eggemann <dietmar.eggemann@arm.com>, 
- Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, 
- Mel Gorman <mgorman@suse.de>, 
- Daniel Bristot de Oliveira <bristot@redhat.com>, 
- Valentin Schneider <vschneid@redhat.com>, 
- Christian Brauner <brauner@kernel.org>, Shuah Khan <shuah@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>, 
- Will Deacon <will@kernel.org>, Kees Cook <keescook@chromium.org>, 
- jannh@google.com, bsegall@google.com, linux-kselftest@vger.kernel.org, 
- linux-api@vger.kernel.org, Mark Brown <broonie@kernel.org>
-X-Mailer: b4 0.13-dev-0438c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4655; i=broonie@kernel.org;
- h=from:subject:message-id; bh=E/vO68ZFg6z/6OFrFC7xPTTrAHCnKC1HTh6WooalFG0=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBlU9Mw/E0ZsNXT9pAEZkYqPqXgi0HGwFTiejBMba7Z
- 6cP6PmaJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZVPTMAAKCRAk1otyXVSH0LQGB/
- 4oDg/SgcY9WyortMyVY5pGTeVD+7/87/hOdY7hfIp+F1K7NuGnb1VAshA9GDrQrRrVDJR33MztYPws
- ERtdrqnCijOhMif91Jz0Mb6PPxhuPwdQM2wrWk3v7RpgcOyxMN0RaDlVwz4cfhfT8lM1btzDn+R8gP
- lv1fW6naRVaEBk1u+XByiBjDcNuC2gN6PnxA2uviZWaJEfRitQhRtzZLzcS7JF7G/LDzK9DX985Qcp
- XKNXyEOsQRryZb01iDaU7uZElG619LThNkspj0Ssw4LBsC1LbumQi+5yiwNW1+WR1Ms0PvU5OPq8JD
- Gq2E+E1TMJzFmDyydw6e59q55JmVey
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87ttpowajb.fsf@oldenburg.str.redhat.com>
 
-Add basic test coverage for specifying the shadow stack for a newly
-created thread via clone3(), including coverage of the newly extended
-argument structure. We detect support for shadow stacks on the running
-system by attempting to allocate a shadow stack page during initialisation
-using map_shadow_stack().
+On Tue, Nov 14, 2023 at 05:43:20PM +0100, Florian Weimer wrote:
+> * Peter Zijlstra:
+> 
+> >> diff --git a/kernel/futex/futex.h b/kernel/futex/futex.h
+> >> index b5379c0e6d6d..1a1f9301251f 100644
+> >> --- a/kernel/futex/futex.h
+> >> +++ b/kernel/futex/futex.h
+> >> @@ -17,7 +17,7 @@
+> >>   * restarts.
+> >>   */
+> >>  #ifdef CONFIG_MMU
+> >> -# define FLAGS_SHARED		0x01
+> >> +# define FLAGS_SHARED		0x10
+> >>  #else
+> >>  /*
+> >>   * NOMMU does not have per process address space. Let the compiler optimize
+> >
+> > Just the above seems sufficient.
+> 
+> There are a few futex_wake calls which hard-code the flags argument as
+> 1:
+> 
+> kernel/futex/core.c=637=static int handle_futex_death(u32 __user *uaddr, struct task_struct *curr,
+> --
+> kernel/futex/core.c-686-         * this.
+> kernel/futex/core.c-687-         */
+> kernel/futex/core.c-688-        owner = uval & FUTEX_TID_MASK;
+> kernel/futex/core.c-689-
+> kernel/futex/core.c-690-        if (pending_op && !pi && !owner) {
+> kernel/futex/core.c:691:                futex_wake(uaddr, 1, 1, FUTEX_BITSET_MATCH_ANY);
+> kernel/futex/core.c-692-                return 0;
+> kernel/futex/core.c-693-        }
+> kernel/futex/core.c-694-
+> kernel/futex/core.c-695-        if (owner != task_pid_vnr(curr))
+> kernel/futex/core.c-696-                return 0;
+> --
+> kernel/futex/core.c-739-        /*
+> kernel/futex/core.c-740-         * Wake robust non-PI futexes here. The wakeup of
+> kernel/futex/core.c-741-         * PI futexes happens in exit_pi_state():
+> kernel/futex/core.c-742-         */
+> kernel/futex/core.c-743-        if (!pi && (uval & FUTEX_WAITERS))
+> kernel/futex/core.c:744:                futex_wake(uaddr, 1, 1, FUTEX_BITSET_MATCH_ANY);
+> kernel/futex/core.c-745-
+> kernel/futex/core.c-746-        return 0;
+> kernel/futex/core.c-747-}
+> kernel/futex/core.c-748-
+> kernel/futex/core.c-749-/*
 
-Signed-off-by: Mark Brown <broonie@kernel.org>
+Urgh, thanks!
+
+Confirmed, the below cures things. Although I should probably make that
+FLAGS_SIZE_32 | FLAGS_SHARED against Linus' tree.
+
+Let me go do a proper patch.
+
 ---
- tools/testing/selftests/clone3/clone3.c           | 68 +++++++++++++++++++++++
- tools/testing/selftests/clone3/clone3_selftests.h |  7 +++
- 2 files changed, 75 insertions(+)
+ kernel/futex/core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tools/testing/selftests/clone3/clone3.c b/tools/testing/selftests/clone3/clone3.c
-index 6adbfd14c841..10e0487c402a 100644
---- a/tools/testing/selftests/clone3/clone3.c
-+++ b/tools/testing/selftests/clone3/clone3.c
-@@ -11,6 +11,7 @@
- #include <stdint.h>
- #include <stdio.h>
- #include <stdlib.h>
-+#include <sys/mman.h>
- #include <sys/syscall.h>
- #include <sys/types.h>
- #include <sys/un.h>
-@@ -21,6 +22,9 @@
- #include "../kselftest.h"
- #include "clone3_selftests.h"
+diff --git a/kernel/futex/core.c b/kernel/futex/core.c
+index d1d7b3c175a4..e7793f0d5757 100644
+--- a/kernel/futex/core.c
++++ b/kernel/futex/core.c
+@@ -687,7 +687,7 @@ static int handle_futex_death(u32 __user *uaddr, struct task_struct *curr,
+ 	owner = uval & FUTEX_TID_MASK;
  
-+static bool shadow_stack_supported;
-+static size_t max_supported_args_size;
-+
- enum test_mode {
- 	CLONE3_ARGS_NO_TEST,
- 	CLONE3_ARGS_ALL_0,
-@@ -28,6 +32,7 @@ enum test_mode {
- 	CLONE3_ARGS_INVAL_EXIT_SIGNAL_NEG,
- 	CLONE3_ARGS_INVAL_EXIT_SIGNAL_CSIG,
- 	CLONE3_ARGS_INVAL_EXIT_SIGNAL_NSIG,
-+	CLONE3_ARGS_SHADOW_STACK,
- };
- 
- typedef bool (*filter_function)(void);
-@@ -44,6 +49,27 @@ struct test {
- 	filter_function filter;
- };
- 
-+#ifndef __NR_map_shadow_stack
-+#define __NR_map_shadow_stack 453
-+#endif
-+
-+static void test_shadow_stack_supported(void)
-+{
-+        long shadow_stack;
-+
-+	shadow_stack = syscall(__NR_map_shadow_stack, 0, getpagesize(), 0);
-+	if (shadow_stack == -1) {
-+		ksft_print_msg("map_shadow_stack() not supported\n");
-+	} else if ((void *)shadow_stack == MAP_FAILED) {
-+		ksft_print_msg("Failed to map shadow stack\n");
-+	} else {
-+		ksft_print_msg("Shadow stack supportd\n");
-+		shadow_stack_supported = true;
-+
-+		munmap((void *)shadow_stack, getpagesize());
-+	}
-+}
-+
- static int call_clone3(uint64_t flags, size_t size, enum test_mode test_mode)
- {
- 	struct __clone_args args = {
-@@ -89,6 +115,9 @@ static int call_clone3(uint64_t flags, size_t size, enum test_mode test_mode)
- 	case CLONE3_ARGS_INVAL_EXIT_SIGNAL_NSIG:
- 		args.exit_signal = 0x00000000000000f0ULL;
- 		break;
-+	case CLONE3_ARGS_SHADOW_STACK:
-+		args.shadow_stack_size = getpagesize();
-+		break;
+ 	if (pending_op && !pi && !owner) {
+-		futex_wake(uaddr, 1, 1, FUTEX_BITSET_MATCH_ANY);
++		futex_wake(uaddr, FLAGS_SHARED, 1, FUTEX_BITSET_MATCH_ANY);
+ 		return 0;
  	}
  
- 	memcpy(&args_ext.args, &args, sizeof(struct __clone_args));
-@@ -179,6 +208,26 @@ static bool no_timenamespace(void)
- 	return true;
+@@ -740,7 +740,7 @@ static int handle_futex_death(u32 __user *uaddr, struct task_struct *curr,
+ 	 * PI futexes happens in exit_pi_state():
+ 	 */
+ 	if (!pi && (uval & FUTEX_WAITERS))
+-		futex_wake(uaddr, 1, 1, FUTEX_BITSET_MATCH_ANY);
++		futex_wake(uaddr, FLAGS_SHARED, 1, FUTEX_BITSET_MATCH_ANY);
+ 
+ 	return 0;
  }
- 
-+static bool have_shadow_stack(void)
-+{
-+	if (shadow_stack_supported) {
-+		ksft_print_msg("Shadow stack supported\n");
-+		return true;
-+	}
-+
-+	return false;
-+}
-+
-+static bool no_shadow_stack(void)
-+{
-+	if (!shadow_stack_supported) {
-+		ksft_print_msg("Shadow stack not supported\n");
-+		return true;
-+	}
-+
-+	return false;
-+}
-+
- static size_t page_size_plus_8(void)
- {
- 	return getpagesize() + 8;
-@@ -322,6 +371,24 @@ static const struct test tests[] = {
- 		.expected = -EINVAL,
- 		.test_mode = CLONE3_ARGS_NO_TEST,
- 	},
-+	{
-+		.name = "Shadow stack on system with shadow stack",
-+		.flags = 0,
-+		.size = 0,
-+		.expected = 0,
-+		.e2big_valid = true,
-+		.test_mode = CLONE3_ARGS_SHADOW_STACK,
-+		.filter = no_shadow_stack,
-+	},
-+	{
-+		.name = "Shadow stack on system without shadow stack",
-+		.flags = 0,
-+		.size = 0,
-+		.expected = -EINVAL,
-+		.e2big_valid = true,
-+		.test_mode = CLONE3_ARGS_SHADOW_STACK,
-+		.filter = have_shadow_stack,
-+	},
- };
- 
- int main(int argc, char *argv[])
-@@ -332,6 +399,7 @@ int main(int argc, char *argv[])
- 	ksft_print_header();
- 	ksft_set_plan(ARRAY_SIZE(tests));
- 	test_clone3_supported();
-+	test_shadow_stack_supported();
- 
- 	for (i = 0; i < ARRAY_SIZE(tests); i++)
- 		test_clone3(&tests[i]);
-diff --git a/tools/testing/selftests/clone3/clone3_selftests.h b/tools/testing/selftests/clone3/clone3_selftests.h
-index 3d2663fe50ba..2e06127091f5 100644
---- a/tools/testing/selftests/clone3/clone3_selftests.h
-+++ b/tools/testing/selftests/clone3/clone3_selftests.h
-@@ -31,6 +31,13 @@ struct __clone_args {
- 	__aligned_u64 set_tid;
- 	__aligned_u64 set_tid_size;
- 	__aligned_u64 cgroup;
-+#ifndef CLONE_ARGS_SIZE_VER2
-+#define CLONE_ARGS_SIZE_VER2 88	/* sizeof third published struct */
-+#endif
-+	__aligned_u64 shadow_stack_size;
-+#ifndef CLONE_ARGS_SIZE_VER3
-+#define CLONE_ARGS_SIZE_VER3 96 /* sizeof fourth published struct */
-+#endif
- };
- 
- static pid_t sys_clone3(struct __clone_args *args, size_t size)
-
--- 
-2.30.2
-
 
