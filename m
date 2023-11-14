@@ -1,105 +1,133 @@
-Return-Path: <linux-api+bounces-40-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-41-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF3FB7EAD3F
-	for <lists+linux-api@lfdr.de>; Tue, 14 Nov 2023 10:46:59 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 786127EB396
+	for <lists+linux-api@lfdr.de>; Tue, 14 Nov 2023 16:31:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DE9021C2082C
-	for <lists+linux-api@lfdr.de>; Tue, 14 Nov 2023 09:46:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 215741F25155
+	for <lists+linux-api@lfdr.de>; Tue, 14 Nov 2023 15:31:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 165D3BE4D;
-	Tue, 14 Nov 2023 09:46:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5C744175A;
+	Tue, 14 Nov 2023 15:31:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=xry111.site header.i=@xry111.site header.b="VBueanTJ"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="jeQ38FgQ"
 X-Original-To: linux-api@vger.kernel.org
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72314168C6;
-	Tue, 14 Nov 2023 09:46:53 +0000 (UTC)
-Received: from xry111.site (xry111.site [89.208.246.23])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2B5C12C;
-	Tue, 14 Nov 2023 01:46:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xry111.site;
-	s=default; t=1699955206;
-	bh=satinxlx0MAD+yis9bfpesgap/Kipwt793BTW81wdaY=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=VBueanTJYrYcd14G9qi/23MRd4/ENc28NIPvSkbLnkOfu2wW8bUfj6KMzGRFItt/O
-	 FPZK6G3PQDSI+moLq/5mMrcyCGcB/8/PLABOaiw51SMGlnL7gFN4YZhNMGNXGhhREN
-	 ElwF7VG4CoZSuNSVnw8P7P6NKK+aNPCet4cyzJN8=
-Received: from [127.0.0.1] (unknown [IPv6:2001:470:683e::1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-384) server-digest SHA384)
-	(Client did not present a certificate)
-	(Authenticated sender: xry111@xry111.site)
-	by xry111.site (Postfix) with ESMTPSA id 7CF0D66A03;
-	Tue, 14 Nov 2023 04:46:45 -0500 (EST)
-Message-ID: <d69d50445284a5e0d98a64862877c1e6ec22a9a8.camel@xry111.site>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24E28156D6;
+	Tue, 14 Nov 2023 15:31:12 +0000 (UTC)
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0462EED;
+	Tue, 14 Nov 2023 07:31:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=ES3CKOK15qiOQ31HBftdTmMZ4/pyu+Fy7CFpwUKK07Y=; b=jeQ38FgQf5V+DXfle0y0y+hBMz
+	GXfbzPxiIG8hsjgci0m9KGUYB3vaI8r8zMscbGiMr4Dmbeq/mpCr48IK8V9OQtkFr68NMpCyKcCEs
+	6yVDt9MJUs2D5ygUi+I8Hz0Sr/675i5kuHe7G+cZwyrn//7PitjB1QeJ/cN1cZ1LB2zPLB1lVNOvD
+	4A59BReiFAbv0MbEFZmz30rzdjc0mCgYFKabgIMYhSRhbZGX+YfkIQqvo/+6eaGOQ8aSDl+HA5hNI
+	OJRQRbWNmQhvKjFxdBPGcWNzixLvtL+86KiwkUYlLOOe9UIvK+eBYoqrT9wG0d2iFqdNGxOfUwFur
+	K0ru7nEg==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1r2vNU-008iQs-W7; Tue, 14 Nov 2023 15:31:01 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id A64BC300581; Tue, 14 Nov 2023 16:31:00 +0100 (CET)
+Date: Tue, 14 Nov 2023 16:31:00 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Xi Ruoyao <xry111@xry111.site>
+Cc: libc-alpha@sourceware.org, linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org, linux-mm@kvack.org,
+	linux-arch@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>
 Subject: Re: Several tst-robust* tests time out with recent Linux kernel
-From: Xi Ruoyao <xry111@xry111.site>
-To: "Peter Zijlstra (Intel)" <peterz@infradead.org>, 
-	libc-alpha@sourceware.org
-Cc: linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-mm@kvack.org,  linux-arch@vger.kernel.org, Thomas Gleixner
- <tglx@linutronix.de>,  =?ISO-8859-1?Q?Andr=E9?= Almeida
- <andrealmeid@igalia.com>
-Date: Tue, 14 Nov 2023 17:46:43 +0800
-In-Reply-To: <4bda9f2e06512e375e045f9e72edb205104af19c.camel@xry111.site>
+Message-ID: <20231114153100.GY8262@noisy.programming.kicks-ass.net>
 References: <4bda9f2e06512e375e045f9e72edb205104af19c.camel@xry111.site>
-Autocrypt: addr=xry111@xry111.site; prefer-encrypt=mutual;
- keydata=mDMEYnkdPhYJKwYBBAHaRw8BAQdAsY+HvJs3EVKpwIu2gN89cQT/pnrbQtlvd6Yfq7egugi0HlhpIFJ1b3lhbyA8eHJ5MTExQHhyeTExMS5zaXRlPoiTBBMWCgA7FiEEkdD1djAfkk197dzorKrSDhnnEOMFAmJ5HT4CGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQrKrSDhnnEOPHFgD8D9vUToTd1MF5bng9uPJq5y3DfpcxDp+LD3joA3U2TmwA/jZtN9xLH7CGDHeClKZK/ZYELotWfJsqRcthOIGjsdAPuDgEYnkdPhIKKwYBBAGXVQEFAQEHQG+HnNiPZseiBkzYBHwq/nN638o0NPwgYwH70wlKMZhRAwEIB4h4BBgWCgAgFiEEkdD1djAfkk197dzorKrSDhnnEOMFAmJ5HT4CGwwACgkQrKrSDhnnEOPjXgD/euD64cxwqDIqckUaisT3VCst11RcnO5iRHm6meNIwj0BALLmWplyi7beKrOlqKfuZtCLbiAPywGfCNg8LOTt4iMD
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.1 
+ <d69d50445284a5e0d98a64862877c1e6ec22a9a8.camel@xry111.site>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d69d50445284a5e0d98a64862877c1e6ec22a9a8.camel@xry111.site>
 
-On Tue, 2023-11-14 at 02:33 +0800, Xi Ruoyao wrote:
-> Hi,
->=20
-> With Linux 6.7.0-rc1, several tst-robust* tests time out on x86_64:
->=20
-> FAIL: nptl/tst-robust1
-> FAIL: nptl/tst-robust3
-> FAIL: nptl/tst-robust4
-> FAIL: nptl/tst-robust6
-> FAIL: nptl/tst-robust7
-> FAIL: nptl/tst-robust9
->=20
-> This does not happen with Linux 6.6.0.=C2=A0 Do you have some clue about
-> it?
+On Tue, Nov 14, 2023 at 05:46:43PM +0800, Xi Ruoyao wrote:
+> On Tue, 2023-11-14 at 02:33 +0800, Xi Ruoyao wrote:
+> > Hi,
+> > 
+> > With Linux 6.7.0-rc1, several tst-robust* tests time out on x86_64:
+> > 
+> > FAIL: nptl/tst-robust1
+> > FAIL: nptl/tst-robust3
+> > FAIL: nptl/tst-robust4
+> > FAIL: nptl/tst-robust6
+> > FAIL: nptl/tst-robust7
+> > FAIL: nptl/tst-robust9
+> > 
+> > This does not happen with Linux 6.6.0.  Do you have some clue about
+> > it?
+> 
+> Bisected to the kernel commit:
+> 
+> commit 5694289ce183bc3336407a78c8c722a0b9208f9b (HEAD)
+> Author: peterz@infradead.org <peterz@infradead.org>
+> Date:   Thu Sep 21 12:45:08 2023 +0200
+> 
+>     futex: Flag conversion
+>     
+>     Futex has 3 sets of flags:
+>     
+>      - legacy futex op bits
+>      - futex2 flags
+>      - internal flags
+>     
+>     Add a few helpers to convert from the API flags into the internal
+>     flags.
+>     
+>     Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+>     Reviewed-by: Thomas Gleixner <tglx@linutronix.de>
+>     Reviewed-by: Andr<C3><A9> Almeida <andrealmeid@igalia.com>
+>     Link: https://lore.kernel.org/r/20230921105247.722140574@noisy.programming.kicks-ass.net
 
-Bisected to the kernel commit:
+I can confirm. I'm also going crazy trying to figure out how this
+happens.
 
-commit 5694289ce183bc3336407a78c8c722a0b9208f9b (HEAD)
-Author: peterz@infradead.org <peterz@infradead.org>
-Date:   Thu Sep 21 12:45:08 2023 +0200
+The below is sufficient to make it unhappy...
 
-    futex: Flag conversion
-   =20
-    Futex has 3 sets of flags:
-   =20
-     - legacy futex op bits
-     - futex2 flags
-     - internal flags
-   =20
-    Add a few helpers to convert from the API flags into the internal
-    flags.
-   =20
-    Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-    Reviewed-by: Thomas Gleixner <tglx@linutronix.de>
-    Reviewed-by: Andr<C3><A9> Almeida <andrealmeid@igalia.com>
-    Link: https://lore.kernel.org/r/20230921105247.722140574@noisy.programm=
-ing.kicks-ass.net
+/me most puzzled
 
---=20
-Xi Ruoyao <xry111@xry111.site>
-School of Aerospace Science and Technology, Xidian University
+---
+diff --git a/kernel/futex/futex.h b/kernel/futex/futex.h
+index b5379c0e6d6d..1a1f9301251f 100644
+--- a/kernel/futex/futex.h
++++ b/kernel/futex/futex.h
+@@ -17,7 +17,7 @@
+  * restarts.
+  */
+ #ifdef CONFIG_MMU
+-# define FLAGS_SHARED		0x01
++# define FLAGS_SHARED		0x10
+ #else
+ /*
+  * NOMMU does not have per process address space. Let the compiler optimize
+@@ -25,8 +25,8 @@
+  */
+ # define FLAGS_SHARED		0x00
+ #endif
+-#define FLAGS_CLOCKRT		0x02
+-#define FLAGS_HAS_TIMEOUT	0x04
++#define FLAGS_CLOCKRT		0x20
++#define FLAGS_HAS_TIMEOUT	0x40
+ 
+ #ifdef CONFIG_FAIL_FUTEX
+ extern bool should_fail_futex(bool fshared);
 
