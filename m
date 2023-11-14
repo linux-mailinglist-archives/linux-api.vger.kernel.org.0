@@ -1,120 +1,105 @@
-Return-Path: <linux-api+bounces-39-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-40-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEDD97E9718
-	for <lists+linux-api@lfdr.de>; Mon, 13 Nov 2023 08:37:15 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF3FB7EAD3F
+	for <lists+linux-api@lfdr.de>; Tue, 14 Nov 2023 10:46:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 883232809DD
-	for <lists+linux-api@lfdr.de>; Mon, 13 Nov 2023 07:37:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DE9021C2082C
+	for <lists+linux-api@lfdr.de>; Tue, 14 Nov 2023 09:46:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F67815AD3;
-	Mon, 13 Nov 2023 07:37:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 165D3BE4D;
+	Tue, 14 Nov 2023 09:46:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="XzV/MSc+";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ALek5Aab"
+	dkim=pass (1024-bit key) header.d=xry111.site header.i=@xry111.site header.b="VBueanTJ"
 X-Original-To: linux-api@vger.kernel.org
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0B2515ACF
-	for <linux-api@vger.kernel.org>; Mon, 13 Nov 2023 07:37:08 +0000 (UTC)
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 708A410EF;
-	Sun, 12 Nov 2023 23:37:07 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72314168C6;
+	Tue, 14 Nov 2023 09:46:53 +0000 (UTC)
+Received: from xry111.site (xry111.site [89.208.246.23])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2B5C12C;
+	Tue, 14 Nov 2023 01:46:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xry111.site;
+	s=default; t=1699955206;
+	bh=satinxlx0MAD+yis9bfpesgap/Kipwt793BTW81wdaY=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=VBueanTJYrYcd14G9qi/23MRd4/ENc28NIPvSkbLnkOfu2wW8bUfj6KMzGRFItt/O
+	 FPZK6G3PQDSI+moLq/5mMrcyCGcB/8/PLABOaiw51SMGlnL7gFN4YZhNMGNXGhhREN
+	 ElwF7VG4CoZSuNSVnw8P7P6NKK+aNPCet4cyzJN8=
+Received: from [127.0.0.1] (unknown [IPv6:2001:470:683e::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 736C6218BB;
-	Mon, 13 Nov 2023 07:37:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1699861025; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ks/7h4ZtJHP9K8LwK/ZBpyhaWgSD033ADJwO3+onHA8=;
-	b=XzV/MSc+fh8MO/HliQ6dd6hT+LI6qivOhkZXzKG9ceYbC3p36vK1kxghABdwJczXtY/16Q
-	YLTl6GnEIZTx3/JDP6D0sDnEj3YgwAfIHGa6U9H/2ss5VwURylnaHRMKDM/mWEUmXQsWmN
-	7jkmay5oXut9JbjtyRiDJ/Ymj5tY2jI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1699861025;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ks/7h4ZtJHP9K8LwK/ZBpyhaWgSD033ADJwO3+onHA8=;
-	b=ALek5AabeoPEmfthJ6aL1x/EEWmz1rGnt9a5JzNFkPEbtxbQI+k/wiDKYZN1QFyFBOekhO
-	UqF1RizTRCLXZxDw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4F04C13398;
-	Mon, 13 Nov 2023 07:37:05 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id fiiHEiHSUWXEVgAAMHmgww
-	(envelope-from <vbabka@suse.cz>); Mon, 13 Nov 2023 07:37:05 +0000
-Message-ID: <87fa3d2e-6822-0f24-daec-772dbe717b63@suse.cz>
-Date: Mon, 13 Nov 2023 08:37:04 +0100
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-384) server-digest SHA384)
+	(Client did not present a certificate)
+	(Authenticated sender: xry111@xry111.site)
+	by xry111.site (Postfix) with ESMTPSA id 7CF0D66A03;
+	Tue, 14 Nov 2023 04:46:45 -0500 (EST)
+Message-ID: <d69d50445284a5e0d98a64862877c1e6ec22a9a8.camel@xry111.site>
+Subject: Re: Several tst-robust* tests time out with recent Linux kernel
+From: Xi Ruoyao <xry111@xry111.site>
+To: "Peter Zijlstra (Intel)" <peterz@infradead.org>, 
+	libc-alpha@sourceware.org
+Cc: linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-mm@kvack.org,  linux-arch@vger.kernel.org, Thomas Gleixner
+ <tglx@linutronix.de>,  =?ISO-8859-1?Q?Andr=E9?= Almeida
+ <andrealmeid@igalia.com>
+Date: Tue, 14 Nov 2023 17:46:43 +0800
+In-Reply-To: <4bda9f2e06512e375e045f9e72edb205104af19c.camel@xry111.site>
+References: <4bda9f2e06512e375e045f9e72edb205104af19c.camel@xry111.site>
+Autocrypt: addr=xry111@xry111.site; prefer-encrypt=mutual;
+ keydata=mDMEYnkdPhYJKwYBBAHaRw8BAQdAsY+HvJs3EVKpwIu2gN89cQT/pnrbQtlvd6Yfq7egugi0HlhpIFJ1b3lhbyA8eHJ5MTExQHhyeTExMS5zaXRlPoiTBBMWCgA7FiEEkdD1djAfkk197dzorKrSDhnnEOMFAmJ5HT4CGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQrKrSDhnnEOPHFgD8D9vUToTd1MF5bng9uPJq5y3DfpcxDp+LD3joA3U2TmwA/jZtN9xLH7CGDHeClKZK/ZYELotWfJsqRcthOIGjsdAPuDgEYnkdPhIKKwYBBAGXVQEFAQEHQG+HnNiPZseiBkzYBHwq/nN638o0NPwgYwH70wlKMZhRAwEIB4h4BBgWCgAgFiEEkdD1djAfkk197dzorKrSDhnnEOMFAmJ5HT4CGwwACgkQrKrSDhnnEOPjXgD/euD64cxwqDIqckUaisT3VCst11RcnO5iRHm6meNIwj0BALLmWplyi7beKrOlqKfuZtCLbiAPywGfCNg8LOTt4iMD
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.1 
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH] exitz syscall
-Content-Language: en-US
-To: Theodore Ts'o <tytso@mit.edu>, Willy Tarreau <w@1wt.eu>
-Cc: York Jasper Niebuhr <yjnworkstation@gmail.com>,
- akpm@linux-foundation.org, linux-kernel@vger.kernel.org,
- linux-api@vger.kernel.org, linux-security-module@vger.kernel.org,
- torvalds@linux-foundation.org
-References: <20231111125126.11665-1-yjnworkstation@gmail.com>
- <20231111132431.GA3717@1wt.eu> <20231112045217.GA39417@mit.edu>
-From: Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <20231112045217.GA39417@mit.edu>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-On 11/12/23 05:52, Theodore Ts'o wrote:
-> On Sat, Nov 11, 2023 at 02:24:31PM +0100, Willy Tarreau wrote:
->> Hello,
->> 
->> On Sat, Nov 11, 2023 at 01:51:26PM +0100, York Jasper Niebuhr wrote:
->> > Adds a system call to flag a process' resources to be cleared on
->> > exit (or, in the case of memory, on free). Currently, only zeroing
->> > memory is implemented.
->> (...)
->> 
->> IMHO it does not make sense to add a syscall for this, please have a
->> look at prctl(2) instead, which is already used for similar settings.
-> 
-> Another reason to use prctl() is there are other cases when you'd want
-> to zero a process's memory.  For example, if the process gets killed
-> to some kind of signal, or when it gets OOM killed (where there is no
-> system call which forces the process to exit).  Also, if you want to
-> zero memory when the process exits, you'd want to zero the process
-> memory on an exec(2).
+On Tue, 2023-11-14 at 02:33 +0800, Xi Ruoyao wrote:
+> Hi,
+>=20
+> With Linux 6.7.0-rc1, several tst-robust* tests time out on x86_64:
+>=20
+> FAIL: nptl/tst-robust1
+> FAIL: nptl/tst-robust3
+> FAIL: nptl/tst-robust4
+> FAIL: nptl/tst-robust6
+> FAIL: nptl/tst-robust7
+> FAIL: nptl/tst-robust9
+>=20
+> This does not happen with Linux 6.6.0.=C2=A0 Do you have some clue about
+> it?
 
-Probably also munmap() and maybe a number of other ways where the process
-can give up its memory voluntarily. Then there are also involuntary ways
-where the a copy of the data can end up leaking elsewhere than the pages the
-process has mapped - e.g. swapout/swapin of pages, page migration...
+Bisected to the kernel commit:
 
-So I'm not sure it's feasible to attempt making a whole process "sensitive"
-and close all the holes. Instead what we have is to mark specific areas as
-sensitive - things like mlock(), madvise(MADV_DONTDUMP / MADV_DONTFORK) and
-ultimately memfd_secret().
+commit 5694289ce183bc3336407a78c8c722a0b9208f9b (HEAD)
+Author: peterz@infradead.org <peterz@infradead.org>
+Date:   Thu Sep 21 12:45:08 2023 +0200
 
-> Cheers,
-> 
-> 						- Ted
-> 
+    futex: Flag conversion
+   =20
+    Futex has 3 sets of flags:
+   =20
+     - legacy futex op bits
+     - futex2 flags
+     - internal flags
+   =20
+    Add a few helpers to convert from the API flags into the internal
+    flags.
+   =20
+    Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+    Reviewed-by: Thomas Gleixner <tglx@linutronix.de>
+    Reviewed-by: Andr<C3><A9> Almeida <andrealmeid@igalia.com>
+    Link: https://lore.kernel.org/r/20230921105247.722140574@noisy.programm=
+ing.kicks-ass.net
 
+--=20
+Xi Ruoyao <xry111@xry111.site>
+School of Aerospace Science and Technology, Xidian University
 
