@@ -1,141 +1,125 @@
-Return-Path: <linux-api+bounces-74-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-75-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id F111E7EE6E4
-	for <lists+linux-api@lfdr.de>; Thu, 16 Nov 2023 19:41:21 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 519EC7EE828
+	for <lists+linux-api@lfdr.de>; Thu, 16 Nov 2023 21:12:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AA125280FE2
-	for <lists+linux-api@lfdr.de>; Thu, 16 Nov 2023 18:41:20 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3F882B20BD4
+	for <lists+linux-api@lfdr.de>; Thu, 16 Nov 2023 20:12:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EF3F46444;
-	Thu, 16 Nov 2023 18:41:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B82A346453;
+	Thu, 16 Nov 2023 20:12:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pma9qkeR"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FMF9PAQy"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1F2163A4;
-	Thu, 16 Nov 2023 18:41:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 869CDC433C7;
-	Thu, 16 Nov 2023 18:41:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700160077;
-	bh=axDloRwFo8G9keDVvfti1AbZSDYwXXFVtTtUR/GsIhE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pma9qkeRVPQcWRu3uBsdtKvpuVIgNSNViUMZuUAsPzW0fPCAwJupH64Rorn1lXigY
-	 oaSevdGsXzgdUA358FZmo3L3HdiGxwBi4lzyktHO6ps8ysOMJduDj1QhTP5VAYpkUk
-	 r4jpy7BB/GULp/bmBvJ/VYwJK9ImBUMhB/XaYQCa7gHHQ+wT9qvjCrG0pqpBcrjdH8
-	 kA2/xCGko6HFcbNsf1vbFrliwyVvLF9DQ+lKv+ukKtXX2dKDbOOibJN2URvD1vF6o3
-	 WTWoD98qttsiSQhb09vJTJvaiFrjRcq+wSM/iKMaTgDRshlU5vr22WTT9su8wzPKcj
-	 RueF5t/2ZQovg==
-Date: Thu, 16 Nov 2023 18:41:08 +0000
-From: Mark Brown <broonie@kernel.org>
-To: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-Cc: "Szabolcs.Nagy@arm.com" <Szabolcs.Nagy@arm.com>,
-	"dietmar.eggemann@arm.com" <dietmar.eggemann@arm.com>,
-	"keescook@chromium.org" <keescook@chromium.org>,
-	"shuah@kernel.org" <shuah@kernel.org>,
-	"brauner@kernel.org" <brauner@kernel.org>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-	"debug@rivosinc.com" <debug@rivosinc.com>,
-	"mgorman@suse.de" <mgorman@suse.de>,
-	"linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-	"fweimer@redhat.com" <fweimer@redhat.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"mingo@redhat.com" <mingo@redhat.com>,
-	"rostedt@goodmis.org" <rostedt@goodmis.org>,
-	"hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-	"tglx@linutronix.de" <tglx@linutronix.de>,
-	"vschneid@redhat.com" <vschneid@redhat.com>,
-	"catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-	"vincent.guittot@linaro.org" <vincent.guittot@linaro.org>,
-	"bristot@redhat.com" <bristot@redhat.com>,
-	"will@kernel.org" <will@kernel.org>,
-	"hpa@zytor.com" <hpa@zytor.com>,
-	"peterz@infradead.org" <peterz@infradead.org>,
-	"jannh@google.com" <jannh@google.com>,
-	"bp@alien8.de" <bp@alien8.de>,
-	"bsegall@google.com" <bsegall@google.com>,
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-	"Pandey, Sunil K" <sunil.k.pandey@intel.com>,
-	"x86@kernel.org" <x86@kernel.org>,
-	"juri.lelli@redhat.com" <juri.lelli@redhat.com>
-Subject: Re: [PATCH RFC RFT v2 2/5] fork: Add shadow stack support to clone3()
-Message-ID: <eebf054b-7e0e-4732-8d8c-718073ec32ed@sirena.org.uk>
-References: <c9434fa9d864612ed9082197a601c5002ed86a38.camel@intel.com>
- <d873072c-e1f4-4e1f-9efc-dfbd53054766@sirena.org.uk>
- <ZVTvvJTOV777UGsP@arm.com>
- <d90884a0-c4d3-41e9-8f23-68aa87bbe269@sirena.org.uk>
- <d05d23d56bd2c7de30e7732e6bd3d313d8385c47.camel@intel.com>
- <ZVXvptSmmJ6MQ0dY@arm.com>
- <1bd189e0-a7dd-422c-9766-ef1c9b0d3df8@sirena.org.uk>
- <ZVYfO/yqRtuRYaJA@arm.com>
- <54d3bc9c-9890-49f0-9e9d-78ea4d0d7199@sirena.org.uk>
- <9ce63f824b768f9635e55150815ee614fdee1d73.camel@intel.com>
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36213A5
+	for <linux-api@vger.kernel.org>; Thu, 16 Nov 2023 12:12:20 -0800 (PST)
+Received: by mail-pj1-x102f.google.com with SMTP id 98e67ed59e1d1-28035cf6a30so1000646a91.3
+        for <linux-api@vger.kernel.org>; Thu, 16 Nov 2023 12:12:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1700165539; x=1700770339; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=QgNHea2v2D3O8dTZ/sAPUHfYW1P6pznus4pS0an/UkI=;
+        b=FMF9PAQy+KMNZyywHS3QaMw3KW8iD81ulTzSwGbjpqRp8iAw3Xypg72VqW2SOqEug8
+         bAGDeFOaG5eOaSQfujzTpEZ7ABEfEPR99qRCuEkzb1g8qK4ty/SSGh/OWCLHMDKqlKQM
+         vHbF7e58xXFbFtovJnodBSinozC+g3kXK74oGiDuypF+xiEp9e4ZZrfU0g8HiPg1BBD0
+         JZ7ef6SbeSxoZnMxfEBENhqsx+HIeMdNYkiUvDdZ/AX3uZUZNZ6ZDEyff8CmhO2nD4Dj
+         8Kr9x6MepXu4JLi8kSshGAFq1vU/Zh9FmLEnT6iGOOFnc9QzPEvg4Hvvwq5MvJbtgon5
+         ydkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700165539; x=1700770339;
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=QgNHea2v2D3O8dTZ/sAPUHfYW1P6pznus4pS0an/UkI=;
+        b=OrhuG+HqUWkOBbI6TV9tDi3EecNezzN0XqgfRPV4OwdPnovrINeksLo1mhV38YYCOl
+         8H6ArPyxrgwwiQ0BT4ayltabBTmIjTPEae800CjPqPXC9L8lW54ZQmmC8V3kURJ11PzQ
+         DElvE+28m9eDxCFJIIbvkpIkeVEnA8gaeVkboX4udMdZ4fi5iBFtFrlt8/3QBNgKbeSv
+         3hZp0yG7VP38ADk1+7dp3KSt9OGe9QDi+Ar1gc/XTUVu+cokM9lVeZKMq2sXh8NvITE1
+         zWLIANq6+KO5z9zVmw/1NHVhpRslFwSuYfcPywbpm/Vsf3vuLOz4MxRuXjPEThIbMQ0T
+         ksyQ==
+X-Gm-Message-State: AOJu0YzhpxbHXwELHhSomlfiBbdSzGBflsqAaaQF0A9vPBP9BFxDuNca
+	j2jtBh7eVV7RKPq1BR7P/RXPjA==
+X-Google-Smtp-Source: AGHT+IGlTO9JcHdCtKOhihATNGgTtRYC9vKdjkaqj9QXzXbsWQRaGgZTBC22Xdz+4dy/RIkiK9RklA==
+X-Received: by 2002:a17:90b:390a:b0:280:48d4:1eb3 with SMTP id ob10-20020a17090b390a00b0028048d41eb3mr15760995pjb.8.1700165539109;
+        Thu, 16 Nov 2023 12:12:19 -0800 (PST)
+Received: from ?IPV6:2804:1b3:a7c1:4617:716b:3ad5:e6b:26a9? ([2804:1b3:a7c1:4617:716b:3ad5:e6b:26a9])
+        by smtp.gmail.com with ESMTPSA id az2-20020a17090b028200b002800b26dbc1sm1940133pjb.32.2023.11.16.12.12.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 16 Nov 2023 12:12:18 -0800 (PST)
+Message-ID: <938766c0-4cee-4363-a089-d5a6b10698d0@linaro.org>
+Date: Thu, 16 Nov 2023 17:12:13 -0300
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="6jnoQqzq7uwk9KbQ"
-Content-Disposition: inline
-In-Reply-To: <9ce63f824b768f9635e55150815ee614fdee1d73.camel@intel.com>
-X-Cookie: micro:
+User-Agent: Mozilla Thunderbird
+Subject: Re: proposed libc interface and man page for statmount(2)
+Content-Language: en-US
+To: Miklos Szeredi <miklos@szeredi.hu>, libc-alpha@sourceware.org,
+ linux-man <linux-man@vger.kernel.org>, Rich Felker <dalias@libc.org>
+Cc: Alejandro Colomar <alx@kernel.org>, Linux API
+ <linux-api@vger.kernel.org>, linux-fsdevel@vger.kernel.org,
+ Karel Zak <kzak@redhat.com>, Ian Kent <raven@themaw.net>,
+ David Howells <dhowells@redhat.com>, Christian Brauner
+ <christian@brauner.io>, Amir Goldstein <amir73il@gmail.com>,
+ Florian Weimer <fweimer@redhat.com>, Arnd Bergmann <arnd@arndb.de>
+References: <CAJfpegsMahRZBk2d2vRLgO8ao9QUP28BwtfV1HXp5hoTOH6Rvw@mail.gmail.com>
+From: Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>
+Organization: Linaro
+In-Reply-To: <CAJfpegsMahRZBk2d2vRLgO8ao9QUP28BwtfV1HXp5hoTOH6Rvw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
---6jnoQqzq7uwk9KbQ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-On Thu, Nov 16, 2023 at 06:11:17PM +0000, Edgecombe, Rick P wrote:
+On 15/11/23 12:08, Miklos Szeredi wrote:
+> Hi,
+> 
+> Attaching the proposed man page for the new statmount() syscall.
+> 
+> It describes a libc interface that is slightly different from the raw
+> kernel API.   The differences from the two API's are also described in
+> the man page.
+> 
+> Raw:
+> 
+>        long syscall(SYS_statmount, const struct mnt_id_req *req,
+>                     struct statmount *buf, size_t bufsize, unsigned int flags);
+> 
+> Libc:
+> 
+>        struct statmount *statmount(uint64_t mnt_id, uint64_t request_mask,
+>                                    struct statmount *buf, size_t bufsize,
+>                                    unsigned int flags);
+> 
+> I propose the libc one to allow automatically allocating the buffer if
+> the buf argument is NULL, similar to getcwd(3).
 
-> Now that I've thought about it more, removing the CLONE_VFORK part of
-> the logic has several downsides. It is a little extra work to create
-> and unmap a shadow stack for an operation that is supposed to be this
-> limited fast thing.
+The glibc getcwd implementation allocates a buffer with maximum size
+of max(PATH_MAX, getpagesize()) and iff getpwd syscall fails it will 
+fallback to a generic implementation that keep calling openat and realloc 
+the buf if required.  So for the generic case, it would require malloc
+plus realloc (to free some unused memory).
 
-It does rather feel like it's defeating the point of the thing.
+Making statmount similar to getcwd would require something alike, where 
+the libc will loop to reallocate the buffer if syscall returns EOVERFLOW.
+I am not sure this would be the best interface, come up the initial buffer
+size and the increment might be tricky and not ideal for all usage cases.
 
-> It also will change the SSP(let me know if anyone has a general term we
-> can use) for the child. So if you have like:
+Maybe setting the initial size depending of request_mask bits, by assuming
+a reasonable size for STMT_FS_TYPE and PATH_MAX for STMT_MNT_ROOT/STMT_MNT_POINT
+would be a reasonable initial size. 
 
-SSP seems fine, we're already using shadow stack here.
-
-> What about a CLONE_NEW_SHSTK for clone3 that forces a new shadow stack?
-> So keep the existing logic, but the new flag can override the logic for
-> !CLONE_VM and CLONE_VFORK if the caller wants. The behavior of
-> shadow_stack_size is then simple. 0 means use default size, !0 means
-> use the passed size. No need to overload and tie up args->stack.
-
-That does seem like it cuts through the ambiguous cases.  If we go for
-that it feels like we should require the flag when specifying a size,
-just to be sure that everything is clear.  Though having said that we
-could just always allocate a shadow stack if a size is specified
-regardless of the flags, requiring people who want non-default behaviour
-to have some idea what stack size they want.  I don't think I have
-strong opinons between having the new flag or always allocating a stack
-if a size is specified.
-
---6jnoQqzq7uwk9KbQ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmVWYkMACgkQJNaLcl1U
-h9AnPQf+OrS9UnpK/M86Qe+eZ528KWBeQ9RRfz6xqRg0c/kGK8aPqBjZTcIlGNKo
-d+yKeTyTrlEaJLLd7jod/7KrOJjsYSDVokQXwODuLjTZYQJpPzJaHqXs/7gTrCHl
-bi7ce8CTK1y0SBanxfqk+uhy+26/tXCuF6DEytoY4dTwOn88k+L2ol0D17BeqHmm
-7jLLDyvzl8FSLnksehEldYXRveieFSWJB2zODhPtQvRwbzsymNPkEXN+oVvCxiTh
-kIFOodspI8EmbIDryfo9U0xzfbaYTgg+2tB9C36LVNTg6idLgi6eeAB0nFk7+6x6
-kVKeD4/4OM8Gtp9VErF0qo5dP468EQ==
-=Iru+
------END PGP SIGNATURE-----
-
---6jnoQqzq7uwk9KbQ--
+It also always pull malloc, which is not ideal for the static linking case
+since the interface not always return the strings.
 
