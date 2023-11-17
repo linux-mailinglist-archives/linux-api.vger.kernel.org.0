@@ -1,191 +1,343 @@
-Return-Path: <linux-api+bounces-84-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-85-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D18F7EF762
-	for <lists+linux-api@lfdr.de>; Fri, 17 Nov 2023 19:17:07 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED6A77EF8DF
+	for <lists+linux-api@lfdr.de>; Fri, 17 Nov 2023 21:51:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C3C84B20A84
-	for <lists+linux-api@lfdr.de>; Fri, 17 Nov 2023 18:17:04 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6397FB20A32
+	for <lists+linux-api@lfdr.de>; Fri, 17 Nov 2023 20:51:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D421D358B5;
-	Fri, 17 Nov 2023 18:16:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDA0443AD8;
+	Fri, 17 Nov 2023 20:51:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HZUw5Do5"
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="POEunZhc"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 342BDD5B;
-	Fri, 17 Nov 2023 10:16:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700245016; x=1731781016;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=LE+TmHCS7anUs67Me4oQY8ga4UTFIGdvTdSLZ+lOpDE=;
-  b=HZUw5Do54hvWH8MJTtT+VmdTxX7TSJ9pdadCN6YXCH5ImYydpv8jPKDR
-   V5VkarVPNrBb33uSU3a3fEoSlnFRN00nS5HRN14kPrHLmtHMpelYJuhBj
-   PL/R7PTWGJCMFu+7m1Dreiwi2/HpLPZ9yeHEhIfd83hK6XaqiUcx+DQha
-   jbT1AEH7YY43yUmB+d+t8y3Yxx/k18Jhi8XnUVa8WVsQdX33UnnB440w6
-   178oRR3mYwDufzBYlJQ/MmXvHnzDuyTMKWTBD5uG9RR2Dj53AyxTgK5Dr
-   +0ZfRi4XnoBtlpkEsk9jmgKD/baCNt02a2EnTO3dtFNlTiptN6CY7xkcd
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10897"; a="12896797"
-X-IronPort-AV: E=Sophos;i="6.04,206,1695711600"; 
-   d="scan'208";a="12896797"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2023 10:16:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10897"; a="1097168902"
-X-IronPort-AV: E=Sophos;i="6.04,206,1695711600"; 
-   d="scan'208";a="1097168902"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by fmsmga005.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 17 Nov 2023 10:16:55 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Fri, 17 Nov 2023 10:16:54 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34 via Frontend Transport; Fri, 17 Nov 2023 10:16:54 -0800
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.168)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.34; Fri, 17 Nov 2023 10:16:54 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=K1HnsuAMkrII6IGG26i51LHRWet3q7hsB/DFFa5o3I3McbUwWAG3jt9J56AdY24pJ1vskvO6oNxMEWl39E5kiLw3EdNA2/98CxdGLslWzsTzPqgpeY+9wu67vBURLSDhavKdqMyVURU9rBu5c5dy0EAaRwjAgyrljZ9qoJOmMJqEVZ1ZvQHRnqOs/RgTzOsumZuVQsSuEVQhrkl1NyS3noQwaIlbrHsGfNmWjB5MAA/yQqDn9gr1d+aFyJ1PPaGGbRLqjvnca/3OVeVBR8c+eSTLDHifbjqhMiG6dP8xGInnGfAm4gSGXbdL7Bn2jp8VRAMPVYH/AhEKuwl3YdvTrA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LE+TmHCS7anUs67Me4oQY8ga4UTFIGdvTdSLZ+lOpDE=;
- b=W7+VowvCWA1e1wQWyTEAStey0R9hv8l54Dnx2spvlc3XGO638wGoJ0yHWiJ0KnSpnpt30Lx+Qd7NnKI3PfLGsPqPxbJE+RSKIVWU/SOOzSy2NRCv75yeCDMSRN1ya3MZc96a/ksGkfEv/iwUFw2Yt6H68A3njklnKg1DqObu17Mj8UXVeuEk+T2PfrEif38yITlOShe9U83aKCj554FmCxgbK6Z87Ch3BMrzpp66ntWgeBg35dy6nBUxVChX5qJYTRIgIljgQqOXmUKyuNEHqXwF9oBAPvLYBIkPdKPAgp7COLML/VuUFHOQo9PyMo47jRLeEkYNvopvDn0rp4Hrsg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from MN0PR11MB5963.namprd11.prod.outlook.com (2603:10b6:208:372::10)
- by CY8PR11MB6988.namprd11.prod.outlook.com (2603:10b6:930:54::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.20; Fri, 17 Nov
- 2023 18:16:52 +0000
-Received: from MN0PR11MB5963.namprd11.prod.outlook.com
- ([fe80::5260:13db:a6e:35e9]) by MN0PR11MB5963.namprd11.prod.outlook.com
- ([fe80::5260:13db:a6e:35e9%6]) with mapi id 15.20.7002.022; Fri, 17 Nov 2023
- 18:16:52 +0000
-From: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-To: "dietmar.eggemann@arm.com" <dietmar.eggemann@arm.com>,
-	"broonie@kernel.org" <broonie@kernel.org>, "Szabolcs.Nagy@arm.com"
-	<Szabolcs.Nagy@arm.com>, "brauner@kernel.org" <brauner@kernel.org>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-	"debug@rivosinc.com" <debug@rivosinc.com>, "mgorman@suse.de"
-	<mgorman@suse.de>, "vincent.guittot@linaro.org" <vincent.guittot@linaro.org>,
-	"fweimer@redhat.com" <fweimer@redhat.com>, "mingo@redhat.com"
-	<mingo@redhat.com>, "rostedt@goodmis.org" <rostedt@goodmis.org>,
-	"hjl.tools@gmail.com" <hjl.tools@gmail.com>, "tglx@linutronix.de"
-	<tglx@linutronix.de>, "vschneid@redhat.com" <vschneid@redhat.com>,
-	"shuah@kernel.org" <shuah@kernel.org>, "bristot@redhat.com"
-	<bristot@redhat.com>, "hpa@zytor.com" <hpa@zytor.com>, "peterz@infradead.org"
-	<peterz@infradead.org>, "bp@alien8.de" <bp@alien8.de>, "bsegall@google.com"
-	<bsegall@google.com>, "x86@kernel.org" <x86@kernel.org>,
-	"juri.lelli@redhat.com" <juri.lelli@redhat.com>
-CC: "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-	"linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-	"keescook@chromium.org" <keescook@chromium.org>, "jannh@google.com"
-	<jannh@google.com>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "catalin.marinas@arm.com"
-	<catalin.marinas@arm.com>, "will@kernel.org" <will@kernel.org>, "Pandey,
- Sunil K" <sunil.k.pandey@intel.com>
-Subject: Re: [PATCH RFC RFT v2 5/5] kselftest/clone3: Test shadow stack
- support
-Thread-Topic: [PATCH RFC RFT v2 5/5] kselftest/clone3: Test shadow stack
- support
-Thread-Index: AQHaFzYe+3PXY720NkO0CxBi0N1IArB6cYGAgARki4A=
-Date: Fri, 17 Nov 2023 18:16:52 +0000
-Message-ID: <7dfd1d488517cfc74bb52a52d52bca7345fc2528.camel@intel.com>
+Received: from mail-oa1-x2e.google.com (mail-oa1-x2e.google.com [IPv6:2001:4860:4864:20::2e])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71267D5B
+	for <linux-api@vger.kernel.org>; Fri, 17 Nov 2023 12:51:22 -0800 (PST)
+Received: by mail-oa1-x2e.google.com with SMTP id 586e51a60fabf-1e98e97c824so1740726fac.1
+        for <linux-api@vger.kernel.org>; Fri, 17 Nov 2023 12:51:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1700254282; x=1700859082; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=bN20sgWzr3hvmPnBHj6NtFmr2ao5No2o7Np+nHfNS3Q=;
+        b=POEunZhcNSUDYAzRqThXThXM9GBQSMPdFBj9nSmQ6MTjMJdM1kXLyiK7TRxM+1n5oO
+         QTgnQ+NTIVSYmzhkqA+lv3NqPIQa629nbHqUmwNv/mY9PAheqdV28iLCJtWeN0yNy0NJ
+         IG2OFFPnB0Pkn2AyyxkspJmG5nZrXO7xiJMmJ/EXTG3SzMttTyAZp+kli2fXp7ZcpV8D
+         hsVukl8whAtd44R0+c8KaK7PHysQbsMEIjmvwOdIUHAimC7KI+f0lfBIdLAbQoOP48kd
+         WXfP1iQT9++lheppG+oQeM4QTSsvD1ZbJ75h7iEgw0FnfIMMrhx8m3IX/jXw504EvIKn
+         +7xw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700254282; x=1700859082;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bN20sgWzr3hvmPnBHj6NtFmr2ao5No2o7Np+nHfNS3Q=;
+        b=ioePLhWyjXwQsC+55vpW1V4h4fSD1CctKKmcJTm3Y+msNjrU66N1u/+4+qO2Ahq6qa
+         Yp7U666AokJRRbNSCycPhvxmU2bQHY3q8NGhzS1SeUGszzLR3j+DaiTGbzWedhMW2kSZ
+         klsmt80FsqZs8DQJuvnbjCg8kKppYn1yE8wJ7IRXT6sP/IfpASUPPu2wsqoZcdoY/B+7
+         e54Z1xg8O8Tqqco5HoMSYLgmn/1C01+83VTZf3TPOhGxDK1W3gZtSl6oYJNl/e+teIqL
+         AuQMjrp6NdvOkOrJoZPUE9+NuoJQkhfasoKiE2HkmJc8XSfryv4zOI4+k4JYW5Lvz8K1
+         8PXw==
+X-Gm-Message-State: AOJu0YwD0dmpX235toMBm+FkxkoaEZlmx3g++1xiAQIesNyAIGFnq95u
+	qhWm+OjwSTYC3jrmxwHDJ4S2sA==
+X-Google-Smtp-Source: AGHT+IGK/jRGfldsk6YOHG7XE2ESsCPIK1dlHm9uFhqkc36DHTe2kDcn/KF2fRU5N35/HfhbFTtoxw==
+X-Received: by 2002:a05:6870:9d99:b0:1c8:c9ca:7092 with SMTP id pv25-20020a0568709d9900b001c8c9ca7092mr124337oab.11.1700254281705;
+        Fri, 17 Nov 2023 12:51:21 -0800 (PST)
+Received: from debug.ba.rivosinc.com ([64.71.180.162])
+        by smtp.gmail.com with ESMTPSA id pj24-20020a056871d19800b001efa91630f6sm402222oac.6.2023.11.17.12.51.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Nov 2023 12:51:21 -0800 (PST)
+Date: Fri, 17 Nov 2023 12:51:18 -0800
+From: Deepak Gupta <debug@rivosinc.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
+	Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
+	"H.J. Lu" <hjl.tools@gmail.com>,
+	Florian Weimer <fweimer@redhat.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Daniel Bristot de Oliveira <bristot@redhat.com>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Kees Cook <keescook@chromium.org>,
+	jannh@google.com, linux-kselftest@vger.kernel.org,
+	linux-api@vger.kernel.org
+Subject: Re: [PATCH RFC RFT v2 2/5] fork: Add shadow stack support to clone3()
+Message-ID: <ZVfSRhQ6vpDfc8Ma@debug.ba.rivosinc.com>
 References: <20231114-clone3-shadow-stack-v2-0-b613f8681155@kernel.org>
-	 <20231114-clone3-shadow-stack-v2-5-b613f8681155@kernel.org>
-	 <309927ad8bfa72ce2d084ee16cd0cd84e69fef16.camel@intel.com>
-In-Reply-To: <309927ad8bfa72ce2d084ee16cd0cd84e69fef16.camel@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-user-agent: Evolution 3.44.4-0ubuntu2 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MN0PR11MB5963:EE_|CY8PR11MB6988:EE_
-x-ms-office365-filtering-correlation-id: 91008e94-81f8-4ef6-d2bf-08dbe7995f9e
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: e35G3Nxn3PRTyWoDmxcxvxLGhkQM9HnaxMzmr76MuNJwP9s3XVMQabrr3Aqcau/l6LDwgwGGpp2tkcYGey25A8YiuJKZzO2VPeqjD1IrEXyYDQERXGBQvxePbJR7bTvsfXQhyGFxGpcguQUaKt3opaqnWxhDszY1BKbPqPOozf0FQPqcrssY2XD3ZhoOESAUorK5iCaj0PyGaAQJMRVkNy6Dr3Oq9hw7Dk7lTWgd05JXcRAo7vrNOaaUEgLoBrMCveK+XjJr3X41oI4KRqXQ4e2V5gZIxLYaB4xArjdoUeFdUWLdQa15YOS8HQm0AVmAZ7Y6ResnlA294ViLb8CraGmReGQs4R/1ABL1pZmCcPd/Tw2/64Cmod/jcDzTDB0arOh4U1Yz55Jor/EbyD+0+RlgdE7UKbdZfVLZGmxTblBwapIk99jy7sCaD9gUZ5qLuj8ynqwtD0jsU+6jTINFLL3gyOZDIvrPLGqrwSeY7CR444B8jKawcf5HRoFfdMMKlLM43xSt7WkPsZuvGB8JCP5X2zfrIZARjqUOKgMso23ojlH5AomROgN2ob7dqba1lgh886k6JCIA/M8LAgURMRBC8AtFfxfc+try0+9icgXeDphGZ2iXibzMo0kEREOt
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB5963.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(376002)(346002)(136003)(366004)(396003)(230922051799003)(1800799009)(186009)(64100799003)(451199024)(38070700009)(82960400001)(8936002)(8676002)(4744005)(2616005)(5660300002)(6512007)(86362001)(7416002)(41300700001)(921008)(2906002)(36756003)(4001150100001)(122000001)(4326008)(26005)(6486002)(478600001)(76116006)(83380400001)(71200400001)(316002)(64756008)(54906003)(66556008)(38100700002)(91956017)(110136005)(66446008)(6506007)(66946007)(66476007);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?R3RXbExzcWJBZXRwdmx6SWVRenZNTWpBbktiZXA5MER0Y21aazVBZHFubTdD?=
- =?utf-8?B?VzNCTzltYi9BamIrWS9icHZCNy9Gc3l5MktYRTVTbUJXVXFoM3ErVzZRWTFz?=
- =?utf-8?B?bHBUajJwQXI5NXo1eXpuSkZIVmNIbXpBaVVqNWdjSzNtMG9XK1Zjb0s1UTlJ?=
- =?utf-8?B?WHhWTVk3SllGN0dQdlkxNmNTM0RJQUszOVArcGEzUmFtelhuTFRCdUgvZHN6?=
- =?utf-8?B?b0hsVkNEaks0ZG0velRWRm94TlVyRDJOTHhlWUhGOWJselFtNnhvbHVwWjRy?=
- =?utf-8?B?cDREZ1ltMXB4d1JUZnYzNGdJUU5aWGNYMUtaV3h6NGZnQWRIOGpZckpXN3hS?=
- =?utf-8?B?d0YrVExsQ0Q5MHN3UGVoL1ZkR04vbFJ0NmVYQVNDSC9zanAvbXVOYk5KUUpV?=
- =?utf-8?B?K2dxOWNlRmZsS3RkYnppSjBWUzVzNVlrME5uUUFkMDlKRnNFVmdGN3E5MFZ1?=
- =?utf-8?B?NnV3RDNORnhCZ3F3RkgxSFFva2FvbWlwMXdvRndGSFVwdFd2cGJrTXFvWUFS?=
- =?utf-8?B?TG9JWXBFb2VkRnRzTDZqa3IzNW5wbk1teVRxekJJQ3dMNTVvdTJVNTZCQVR3?=
- =?utf-8?B?YnBZTVRPS0RlM2wyN25lMGhaSHdCeW5idjBUdGZvcjJmbUQwSEQyUTlZZHA0?=
- =?utf-8?B?czVGVkRTY3l0aDlYdXNJK2h1c3JOUGc4RWxYYVZKODBHaHp3YXVmVFJ0SUFJ?=
- =?utf-8?B?Skg5VmQzQmp0c2hoWG9YTjR0MGdFYWZ1bGkvczllTVMwUHlWVGpCMjlyNzJV?=
- =?utf-8?B?WEZWN05ZS3hRZEJ5ZzZPZnhhNkZFQU9pamU1eGhBWnNEUmJWTmliYUxhQXpB?=
- =?utf-8?B?aFdRaXVjL1VIcm5jWk56Z0JzVGlOekFPVW5ValQ0S2x0bVBtdGpscm04bnZL?=
- =?utf-8?B?MUwxUW1DaUtDdUVSQjRSdnlSS3ZLc1ZaaU5zTkNFclVZZzRWOExFUHE4Sm1T?=
- =?utf-8?B?UW5kWExhZERqeE82UnY3UE9aSWd5TXVab3dtY0hmdEhUVjFPZVRZVm54QXVn?=
- =?utf-8?B?SUZENzVNNUMwbG5HSWx2VCtZdnVTWHllNTk3L01iRXRuN3haU3AxQWhiUWpw?=
- =?utf-8?B?clQzcWpUMlh2SmtIQXJmREhnbksxem9ESk0rN3FSNG1ENWJIN3lWbzE1R2xj?=
- =?utf-8?B?bjdzR1BRWUFvYVplT0VheHp4VHlLanNCa1JjaS96NXh4cThCUmx6WmxBdng5?=
- =?utf-8?B?TkdrUE9wRGpEMHVaUHFZbFpBcnhUc1NXeEdnYXdRbmtZYTNQMVRUdE1qQ3Fq?=
- =?utf-8?B?UWRYeUQ1UU5sU0pMQ1BmUFk1NGhSMmhmUVZaS1BKQmRvT3owZ2tOYWVvRjdT?=
- =?utf-8?B?cHozcmZCc0JkcXFBTW1Qc1NCV2JVVDVmblFzWWJnWVEycjk5WFEzMWQ0aWpK?=
- =?utf-8?B?NzhuWTJrUm9QdGpTQVc5VnNrRGhmd05mSmZ3ejJXemEwVGdPWkdnd0RBalp2?=
- =?utf-8?B?RDhRblFGQnA4YUphZW01R1hkZnNjbkl0MGxGMEoyUFVTdkYvRGVEZXJtNzJ6?=
- =?utf-8?B?TVh5V3FmVDVDd0xrZ3k2OEFpWXBMc1VZMHVPZDdBOXRBcENJUUQyTkRkTGRP?=
- =?utf-8?B?YkVNLzlydklIUThkaGhaL3pEZ2J4KzMxUFhIMGQ1YXJQMWZyd3dGdFpMN3p6?=
- =?utf-8?B?OHZ5L1Znem5ZRnIyM2trK1BqbGtBbTVrTHhHUE5HS3ZCWGdLb0xUSlpxTXdo?=
- =?utf-8?B?YmFQeDJaV0RqUTRvaXBGQ2xXeEFPd3MrdHlwYzlQQWlvV1B4dDdReGRMd1lR?=
- =?utf-8?B?WkVYK0NzUkJPUFhnUzI0Mkl2SXdOTHREeVRnTzQ3YkdIT0lGVFVtYWpMQXZ2?=
- =?utf-8?B?aE5CM25zMGxKdHBSbWM2aThYMUVGVklNOEJFeVltZXRVZEQ4Y2hUSEFjM2xQ?=
- =?utf-8?B?RlFCeXhEdC83YjdBMC9ka3RWU1VrM2daeVdJNXd5OU1PNlNBTVlwM1VaVmtH?=
- =?utf-8?B?a1RrT3IxT1RTdEcyT25VdFpyTWlJendMWWhTM3NUR21VSERzd0ljRjU1dTlI?=
- =?utf-8?B?cFIvUytnRHRQbWR4S0QyeTNyNWNWS2lqK01hNzMwellXSGN0WjlUZlVEaEIw?=
- =?utf-8?B?ZVE2aUdjc3BtTjdaUGdISzk3ejBVY09xVXo0UzJ2ZXplNFNQQXJybGdjN1R3?=
- =?utf-8?B?TXN0NFppOWdydHI3OURXUCtvcjkwcmJjUy81RUxkUS9seXFIYzhvTTBKVFJN?=
- =?utf-8?B?d2c9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <1D05E5A39D948D4E90FC680EFF47599D@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ <20231114-clone3-shadow-stack-v2-2-b613f8681155@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB5963.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 91008e94-81f8-4ef6-d2bf-08dbe7995f9e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Nov 2023 18:16:52.3139
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: chY9+s3cHdFCuLiP/Rhhzr9P0Zy/IBe0U/3If7wCIuprJ3r5HHraHj5Qn1rtvtJAHiHhJY2JTBk3MMfYerA33MN0u/FdMVzabqKdihcgTRY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB6988
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20231114-clone3-shadow-stack-v2-2-b613f8681155@kernel.org>
 
-T24gVHVlLCAyMDIzLTExLTE0IGF0IDE1OjExIC0wODAwLCBSaWNrIEVkZ2Vjb21iZSB3cm90ZToN
-Cj4gVGhlIG90aGVyIHRlc3RzIHBhc3NlZCBpbiBib3RoIGNhc2VzLiBJJ20gZ29pbmcgdG8gZGln
-IGludG8gdGhlIG90aGVyDQo+IHBhcnRzIG5vdyBidXQgY2FuIGNpcmNsZSBiYWNrIGlmIGl0J3Mg
-bm90IG9idmlvdXMgd2hhdCdzIGdvaW5nIG9uDQo+IHRoZXJlLg0KDQpGaW5hbGx5IGdvdCBiYWNr
-IHRvIHRoaXMuIEkgdGhpbmsgaXQncyBqdXN0IGEgcHJvYmxlbSB3aXRoIHRoZSBzaGFkb3cNCnN0
-YWNrIGRldGVjdGlvbiBsb2dpYyBpbiB0aGUgdGVzdC4NCg==
+On Tue, Nov 14, 2023 at 08:05:55PM +0000, Mark Brown wrote:
+>Unlike with the normal stack there is no API for configuring the the shadow
+>stack for a new thread, instead the kernel will dynamically allocate a new
+>shadow stack with the same size as the normal stack. This appears to be due
+>to the shadow stack series having been in development since before the more
+>extensible clone3() was added rather than anything more deliberate.
+>
+>Add parameters to clone3() specifying the address and size of a shadow
+>stack for the newly created process, 
+
+Probably should update commit message in next version. Address is not specified
+anymore.
+
+>we validate that the range specified
+>is accessible to userspace but do not validate that it has been mapped
+>appropriately for use as a shadow stack (normally via map_shadow_stack()).
+>If the shadow stack is specified in this way then the caller is responsible
+>for freeing the memory as with the main stack. If no shadow stack is
+>specified then the existing implicit allocation and freeing behaviour is
+>maintained.
+>
+>If the architecture does not support shadow stacks the shadow stack
+>parameters must be zero, architectures that do support the feature are
+>expected to have the same requirement on individual systems that lack
+>shadow stack support.
+>
+>Update the existing x86 implementation to pay attention to the newly added
+>arguments, in order to maintain compatibility we use the existing behaviour
+>if no shadow stack is specified. Minimal validation is done of the supplied
+>parameters, detailed enforcement is left to when the thread is executed.
+>Since we are now using four fields from the kernel_clone_args we pass that
+>into the shadow stack code rather than individual fields.
+>
+>Signed-off-by: Mark Brown <broonie@kernel.org>
+>---
+> arch/x86/include/asm/shstk.h | 11 +++++++----
+> arch/x86/kernel/process.c    |  2 +-
+> arch/x86/kernel/shstk.c      | 30 +++++++++++++++++++++++++-----
+> include/linux/sched/task.h   |  2 ++
+> include/uapi/linux/sched.h   |  4 ++++
+> kernel/fork.c                | 24 ++++++++++++++++++++++--
+> 6 files changed, 61 insertions(+), 12 deletions(-)
+>
+>diff --git a/arch/x86/include/asm/shstk.h b/arch/x86/include/asm/shstk.h
+>index 42fee8959df7..8be7b0a909c3 100644
+>--- a/arch/x86/include/asm/shstk.h
+>+++ b/arch/x86/include/asm/shstk.h
+>@@ -6,6 +6,7 @@
+> #include <linux/types.h>
+>
+> struct task_struct;
+>+struct kernel_clone_args;
+> struct ksignal;
+>
+> #ifdef CONFIG_X86_USER_SHADOW_STACK
+>@@ -16,8 +17,8 @@ struct thread_shstk {
+>
+> long shstk_prctl(struct task_struct *task, int option, unsigned long arg2);
+> void reset_thread_features(void);
+>-unsigned long shstk_alloc_thread_stack(struct task_struct *p, unsigned long clone_flags,
+>-				       unsigned long stack_size);
+>+unsigned long shstk_alloc_thread_stack(struct task_struct *p,
+>+				       const struct kernel_clone_args *args);
+> void shstk_free(struct task_struct *p);
+> int setup_signal_shadow_stack(struct ksignal *ksig);
+> int restore_signal_shadow_stack(void);
+>@@ -26,8 +27,10 @@ static inline long shstk_prctl(struct task_struct *task, int option,
+> 			       unsigned long arg2) { return -EINVAL; }
+> static inline void reset_thread_features(void) {}
+> static inline unsigned long shstk_alloc_thread_stack(struct task_struct *p,
+>-						     unsigned long clone_flags,
+>-						     unsigned long stack_size) { return 0; }
+>+						     const struct kernel_clone_args *args)
+>+{
+>+	return 0;
+>+}
+> static inline void shstk_free(struct task_struct *p) {}
+> static inline int setup_signal_shadow_stack(struct ksignal *ksig) { return 0; }
+> static inline int restore_signal_shadow_stack(void) { return 0; }
+>diff --git a/arch/x86/kernel/process.c b/arch/x86/kernel/process.c
+>index b6f4e8399fca..a9ca80ea5056 100644
+>--- a/arch/x86/kernel/process.c
+>+++ b/arch/x86/kernel/process.c
+>@@ -207,7 +207,7 @@ int copy_thread(struct task_struct *p, const struct kernel_clone_args *args)
+> 	 * is disabled, new_ssp will remain 0, and fpu_clone() will know not to
+> 	 * update it.
+> 	 */
+>-	new_ssp = shstk_alloc_thread_stack(p, clone_flags, args->stack_size);
+>+	new_ssp = shstk_alloc_thread_stack(p, args);
+> 	if (IS_ERR_VALUE(new_ssp))
+> 		return PTR_ERR((void *)new_ssp);
+>
+>diff --git a/arch/x86/kernel/shstk.c b/arch/x86/kernel/shstk.c
+>index 59e15dd8d0f8..7ffe90010587 100644
+>--- a/arch/x86/kernel/shstk.c
+>+++ b/arch/x86/kernel/shstk.c
+>@@ -191,18 +191,38 @@ void reset_thread_features(void)
+> 	current->thread.features_locked = 0;
+> }
+>
+>-unsigned long shstk_alloc_thread_stack(struct task_struct *tsk, unsigned long clone_flags,
+>-				       unsigned long stack_size)
+>+unsigned long shstk_alloc_thread_stack(struct task_struct *tsk,
+>+				       const struct kernel_clone_args *args)
+> {
+> 	struct thread_shstk *shstk = &tsk->thread.shstk;
+>+	unsigned long clone_flags = args->flags;
+> 	unsigned long addr, size;
+>
+> 	/*
+> 	 * If shadow stack is not enabled on the new thread, skip any
+>-	 * switch to a new shadow stack.
+>+	 * implicit switch to a new shadow stack and reject attempts to
+>+	 * explciitly specify one.
+> 	 */
+>-	if (!features_enabled(ARCH_SHSTK_SHSTK))
+>+	if (!features_enabled(ARCH_SHSTK_SHSTK)) {
+>+		if (args->shadow_stack)
+>+			return (unsigned long)ERR_PTR(-EINVAL);
+>+
+> 		return 0;
+>+	}
+>+
+>+	/*
+>+	 * If the user specified a shadow stack then do some basic
+>+	 * validation and use it.  The caller is responsible for
+>+	 * freeing the shadow stack.
+>+	 */
+>+	if (args->shadow_stack_size) {
+>+		size = args->shadow_stack_size;
+>+
+>+		if (size < 8)
+>+			return (unsigned long)ERR_PTR(-EINVAL);
+>+	} else {
+>+		size = args->stack_size;
+>+	}
+>
+> 	/*
+> 	 * For CLONE_VFORK the child will share the parents shadow stack.
+>@@ -222,7 +242,7 @@ unsigned long shstk_alloc_thread_stack(struct task_struct *tsk, unsigned long cl
+> 	if (!(clone_flags & CLONE_VM))
+> 		return 0;
+>
+>-	size = adjust_shstk_size(stack_size);
+>+	size = adjust_shstk_size(size);
+> 	addr = alloc_shstk(0, size, 0, false);
+> 	if (IS_ERR_VALUE(addr))
+> 		return addr;
+>diff --git a/include/linux/sched/task.h b/include/linux/sched/task.h
+>index a23af225c898..94e7cf62be51 100644
+>--- a/include/linux/sched/task.h
+>+++ b/include/linux/sched/task.h
+>@@ -41,6 +41,8 @@ struct kernel_clone_args {
+> 	void *fn_arg;
+> 	struct cgroup *cgrp;
+> 	struct css_set *cset;
+>+	unsigned long shadow_stack;
+>+	unsigned long shadow_stack_size;
+> };
+>
+> /*
+>diff --git a/include/uapi/linux/sched.h b/include/uapi/linux/sched.h
+>index 3bac0a8ceab2..a998b6d0c897 100644
+>--- a/include/uapi/linux/sched.h
+>+++ b/include/uapi/linux/sched.h
+>@@ -84,6 +84,8 @@
+>  *                kernel's limit of nested PID namespaces.
+>  * @cgroup:       If CLONE_INTO_CGROUP is specified set this to
+>  *                a file descriptor for the cgroup.
+>+ * @shadow_stack_size: Specify the size of the shadow stack to allocate
+>+ *                     for the child process.
+>  *
+>  * The structure is versioned by size and thus extensible.
+>  * New struct members must go at the end of the struct and
+>@@ -101,12 +103,14 @@ struct clone_args {
+> 	__aligned_u64 set_tid;
+> 	__aligned_u64 set_tid_size;
+> 	__aligned_u64 cgroup;
+>+	__aligned_u64 shadow_stack_size;
+> };
+> #endif
+>
+> #define CLONE_ARGS_SIZE_VER0 64 /* sizeof first published struct */
+> #define CLONE_ARGS_SIZE_VER1 80 /* sizeof second published struct */
+> #define CLONE_ARGS_SIZE_VER2 88 /* sizeof third published struct */
+>+#define CLONE_ARGS_SIZE_VER3 96 /* sizeof fourth published struct */
+>
+> /*
+>  * Scheduling policies
+>diff --git a/kernel/fork.c b/kernel/fork.c
+>index 10917c3e1f03..b0df69c8185e 100644
+>--- a/kernel/fork.c
+>+++ b/kernel/fork.c
+>@@ -3067,7 +3067,9 @@ noinline static int copy_clone_args_from_user(struct kernel_clone_args *kargs,
+> 		     CLONE_ARGS_SIZE_VER1);
+> 	BUILD_BUG_ON(offsetofend(struct clone_args, cgroup) !=
+> 		     CLONE_ARGS_SIZE_VER2);
+>-	BUILD_BUG_ON(sizeof(struct clone_args) != CLONE_ARGS_SIZE_VER2);
+>+	BUILD_BUG_ON(offsetofend(struct clone_args, shadow_stack_size) !=
+>+		     CLONE_ARGS_SIZE_VER3);
+>+	BUILD_BUG_ON(sizeof(struct clone_args) != CLONE_ARGS_SIZE_VER3);
+>
+> 	if (unlikely(usize > PAGE_SIZE))
+> 		return -E2BIG;
+>@@ -3110,6 +3112,7 @@ noinline static int copy_clone_args_from_user(struct kernel_clone_args *kargs,
+> 		.tls		= args.tls,
+> 		.set_tid_size	= args.set_tid_size,
+> 		.cgroup		= args.cgroup,
+>+		.shadow_stack_size	= args.shadow_stack_size,
+> 	};
+>
+> 	if (args.set_tid &&
+>@@ -3150,6 +3153,23 @@ static inline bool clone3_stack_valid(struct kernel_clone_args *kargs)
+> 	return true;
+> }
+>
+>+/**
+>+ * clone3_shadow_stack_valid - check and prepare shadow stack
+>+ * @kargs: kernel clone args
+>+ *
+>+ * Verify that shadow stacks are only enabled if supported.
+>+ */
+>+static inline bool clone3_shadow_stack_valid(struct kernel_clone_args *kargs)
+>+{
+>+#ifdef CONFIG_ARCH_HAS_USER_SHADOW_STACK
+>+	/* The architecture must check support on the specific machine */
+>+	return true;
+>+#else
+>+	/* The architecture does not support shadow stacks */
+>+	return !kargs->shadow_stack_size;
+>+#endif
+>+}
+>+
+> static bool clone3_args_valid(struct kernel_clone_args *kargs)
+> {
+> 	/* Verify that no unknown flags are passed along. */
+>@@ -3172,7 +3192,7 @@ static bool clone3_args_valid(struct kernel_clone_args *kargs)
+> 	    kargs->exit_signal)
+> 		return false;
+>
+>-	if (!clone3_stack_valid(kargs))
+>+	if (!clone3_stack_valid(kargs) || !clone3_shadow_stack_valid(kargs))
+> 		return false;
+>
+> 	return true;
+>
+>-- 
+>2.30.2
+>
 
