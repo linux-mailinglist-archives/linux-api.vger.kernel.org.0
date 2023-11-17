@@ -1,76 +1,86 @@
-Return-Path: <linux-api+bounces-79-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-80-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C6437EF456
-	for <lists+linux-api@lfdr.de>; Fri, 17 Nov 2023 15:23:01 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C289A7EF4BA
+	for <lists+linux-api@lfdr.de>; Fri, 17 Nov 2023 15:47:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 336C9281356
-	for <lists+linux-api@lfdr.de>; Fri, 17 Nov 2023 14:23:00 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3616DB20B39
+	for <lists+linux-api@lfdr.de>; Fri, 17 Nov 2023 14:47:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FA4A321B8;
-	Fri, 17 Nov 2023 14:22:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8326F32C67;
+	Fri, 17 Nov 2023 14:47:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="c2yBqcWG"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DVya5cUp"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEF0ED52
-	for <linux-api@vger.kernel.org>; Fri, 17 Nov 2023 06:22:50 -0800 (PST)
-Received: by mail-ed1-x530.google.com with SMTP id 4fb4d7f45d1cf-53e04b17132so3023944a12.0
-        for <linux-api@vger.kernel.org>; Fri, 17 Nov 2023 06:22:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1700230969; x=1700835769; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZgEwr6cblUYmNXzrXsexyeMYJOZxnBeSbiEtnTE9Rpo=;
-        b=c2yBqcWG5wLmCrcCNj9D90lBtbOXBb2eOnN4JjxKfhw4w+bVYJCP6if9aNpWySwtae
-         +PKMTK9dejOhDBSsQf9xoJQTgPEERYNQ+hMG4OLQXohr4vvT/Dr2zqTCkV/TJZyQeOHp
-         xrqdyh82y1mTodRaH63hAuiY9Lzgg8CfnsEB4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700230969; x=1700835769;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZgEwr6cblUYmNXzrXsexyeMYJOZxnBeSbiEtnTE9Rpo=;
-        b=HbRGvgGpcq7yXEUIYDu1CYoipFpR7ydCskiRUZuQx+qd81OtGYx7UU/TvSlHhHkV04
-         +PNM033lj69xpZgCLMzEKimNt4w/MzWPiktcoOOS4GtZHBSCv1USGfFLqp8gsWpqJEVM
-         GMhY0yjLxk1WDvobnt/6qBTOIT9JNUk/tSvJumg4Ez6a+3s02IYL+QFu+YA1J2rk6z2z
-         ChJzbeILFd13b2Gu+hrj6TahC+Bz8iz5xbOTtFS+phf6vhe1HN1eWDTvBpNSNGQT3p5q
-         Efk/6vnhm4sQUqSFp52OiwMNG7XqX6QyT2cpGlH4lDUeQ/d+ofCPW9HYlUsCtj6o0Gi/
-         gGAA==
-X-Gm-Message-State: AOJu0Yz5bquLAJQOkAcCYoNqGshXM8qtaDjQqM21R67jiDXlLNxJOC+I
-	I93p213thJV301tFcGMYm2KF+RvBk+ZLdyNH+ReXJA==
-X-Google-Smtp-Source: AGHT+IGgYlVlz5kZsNEul9P3cFAA/LVnHFSJhgqspvk+ptWMRVhNOBHlmFgmPRjE2MffzqftzNpdO3+Du9TZPBY14eo=
-X-Received: by 2002:a17:906:770d:b0:9dd:bd42:4ec7 with SMTP id
- q13-20020a170906770d00b009ddbd424ec7mr13486494ejm.38.1700230968929; Fri, 17
- Nov 2023 06:22:48 -0800 (PST)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6174CD63
+	for <linux-api@vger.kernel.org>; Fri, 17 Nov 2023 06:47:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1700232437;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=X9wOMp8/lcZxe3DczLGKJvGgQoyeF43B10JYtRm4Dvc=;
+	b=DVya5cUp7NqJ8ioaBQHnJjJDKXf3EqltKfEHsYfauHxwcyo58N7qJsQm0f5PSH/KchE0k1
+	pvwt8Bzop0lNAfvHYdPpKHXdUojPDrZAePnWWSDEzofPlC3pEJ9s+4s2Oilc68wbpKMdmS
+	Y6Y08yvIUmPQenhO2zHDPAPMOEWX6+A=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-54-2HjE7GweOPyUgzyAt7wK1w-1; Fri, 17 Nov 2023 09:47:13 -0500
+X-MC-Unique: 2HjE7GweOPyUgzyAt7wK1w-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D5908811E7E;
+	Fri, 17 Nov 2023 14:47:12 +0000 (UTC)
+Received: from oldenburg.str.redhat.com (unknown [10.2.16.3])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id AFD29C1290F;
+	Fri, 17 Nov 2023 14:47:10 +0000 (UTC)
+From: Florian Weimer <fweimer@redhat.com>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: libc-alpha@sourceware.org,  linux-man <linux-man@vger.kernel.org>,
+  Alejandro Colomar <alx@kernel.org>,  Linux API
+ <linux-api@vger.kernel.org>,  linux-fsdevel@vger.kernel.org,  Karel Zak
+ <kzak@redhat.com>,  Ian Kent <raven@themaw.net>,  David Howells
+ <dhowells@redhat.com>,  Christian Brauner <christian@brauner.io>,  Amir
+ Goldstein <amir73il@gmail.com>,  Arnd Bergmann <arnd@arndb.de>
+Subject: Re: proposed libc interface and man page for statmount(2)
+References: <CAJfpegsMahRZBk2d2vRLgO8ao9QUP28BwtfV1HXp5hoTOH6Rvw@mail.gmail.com>
+	<87fs15qvu4.fsf@oldenburg.str.redhat.com>
+	<CAJfpegvqBtePer8HRuShe3PAHLbCg9YNUpOWzPg-+=gGwQJWpw@mail.gmail.com>
+Date: Fri, 17 Nov 2023 15:47:08 +0100
+In-Reply-To: <CAJfpegvqBtePer8HRuShe3PAHLbCg9YNUpOWzPg-+=gGwQJWpw@mail.gmail.com>
+	(Miklos Szeredi's message of "Thu, 16 Nov 2023 22:01:27 +0100")
+Message-ID: <87leawphcj.fsf@oldenburg.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.3 (gnu/linux)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAJfpegsMahRZBk2d2vRLgO8ao9QUP28BwtfV1HXp5hoTOH6Rvw@mail.gmail.com>
- <87fs15qvu4.fsf@oldenburg.str.redhat.com> <CAJfpegvqBtePer8HRuShe3PAHLbCg9YNUpOWzPg-+=gGwQJWpw@mail.gmail.com>
-In-Reply-To: <CAJfpegvqBtePer8HRuShe3PAHLbCg9YNUpOWzPg-+=gGwQJWpw@mail.gmail.com>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Fri, 17 Nov 2023 15:22:37 +0100
-Message-ID: <CAJfpegv7mGhNCyOULTNNPVskGYoeQAVK=s+k=p_3crP6fm+PPQ@mail.gmail.com>
-Subject: Re: proposed libc interface and man page for statmount(2)
-To: Florian Weimer <fweimer@redhat.com>
-Cc: libc-alpha@sourceware.org, linux-man <linux-man@vger.kernel.org>, 
-	Alejandro Colomar <alx@kernel.org>, Linux API <linux-api@vger.kernel.org>, 
-	linux-fsdevel@vger.kernel.org, Karel Zak <kzak@redhat.com>, 
-	Ian Kent <raven@themaw.net>, David Howells <dhowells@redhat.com>, 
-	Christian Brauner <christian@brauner.io>, Amir Goldstein <amir73il@gmail.com>, Arnd Bergmann <arnd@arndb.de>
-Content-Type: multipart/mixed; boundary="000000000000f09207060a59de45"
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.8
 
---000000000000f09207060a59de45
-Content-Type: text/plain; charset="UTF-8"
+* Miklos Szeredi:
 
-On Thu, 16 Nov 2023 at 22:01, Miklos Szeredi <miklos@szeredi.hu> wrote:
+> On Thu, 16 Nov 2023 at 21:36, Florian Weimer <fweimer@redhat.com> wrote:
+>
+>> In addition to Adhemerval's observation that we'd prefer to have some
+>> hint regarding the buffer size, it's probably better to have entirely
+>> separate interfaces because it makes static analysis easier.  With a
+>> unified interface, we can still convey the information with an inline
+>> wrapper function, but we can avoid that complexity.
+>
+> I'm not against having separate allocating and the non-allocating
+> interfaces.
+
+Thanks.
 
 > But I don't think the allocating one needs a size hint.   Your
 > suggestion of passing a buffer on the stack to the syscall and then
@@ -78,140 +88,17 @@ On Thu, 16 Nov 2023 at 22:01, Miklos Szeredi <miklos@szeredi.hu> wrote:
 > stack buffer is sized generously, then the loop will never need to
 > repeat for any real life case.
 
-       int statmount(uint64_t mnt_id, uint64_t request_mask,
-                   struct statmount *buf, size_t bufsize, unsigned int flags);
+The strings could get fairly large if they ever contain key material,
+especially for post-quantum cryptography.
 
-       struct statmount *statmount_alloc(uint64_t mnt_id,
-                   uint64_t request_mask, unsigned int flags);
-
-Updated man page attached.
+We have plenty of experience with these double-buffer-and-retry
+interfaces and glibc, and the failure mode once there is much more data
+than initially expected can be quite bad.  For new interfaces, I want a
+way to avoid that.  At least as long applications use statmount_allloc,
+we have a way to switch to a different interface if that becomes
+necessary just with a glibc-internal change.
 
 Thanks,
-Miklos
+Florian
 
---000000000000f09207060a59de45
-Content-Type: application/x-troff-man; name="statmount.2"
-Content-Disposition: attachment; filename="statmount.2"
-Content-Transfer-Encoding: base64
-Content-ID: <f_lp2pltui0>
-X-Attachment-Id: f_lp2pltui0
-
-LlwiIENvcHlyaWdodCAyMDIzIE1pa2xvcyBTemVyZWRpIDxtc3plcmVkaUByZWRoYXQuY29tPgou
-XCIKLlwiIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4wLW9yLWxhdGVyCi5cIgouVEgg
-c3RhdG1vdW50IDIgKGRhdGUpICJMaW51eCBtYW4tcGFnZXMgKHVucmVsZWFzZWQpIgouU0ggTkFN
-RQpzdGF0bW91bnQsIHN0YXRtb3VudF9hbGxvYyBcLSBnZXQgZmlsZXN5c3RlbSBzdGF0dXMKLlNI
-IExJQlJBUlkKU3RhbmRhcmQgQyBsaWJyYXJ5Ci5SSSAoIGxpYmMgIiwgIiBcLWxjICkKLlNIIFNZ
-Tk9QU0lTCi5uZgouQlIgIiNkZWZpbmUgX0dOVV9TT1VSQ0UiICIgICAgICAgICAvKiBTZWUgZmVh
-dHVyZV90ZXN0X21hY3Jvcyg3KSAqLyIKLkIgI2luY2x1ZGUgPHN5cy9tb3VudC5oPgouUAouQkkg
-ImludCBzdGF0bW91bnQodWludDY0X3QgIiBtbnRfaWQgIiwgdWludDY0X3QgIiByZXF1ZXN0X21h
-c2sgIiwiCi5CSSAiICAgICAgICAgICAgc3RydWN0IHN0YXRtb3VudCAqIiBidWYgIiwgc2l6ZV90
-ICIgYnVmc2l6ZSAiLCB1bnNpZ25lZCBpbnQgIiBmbGFncyAiKTsiCi5QCi5CSSAic3RydWN0IHN0
-YXRtb3VudCAqc3RhdG1vdW50X2FsbG9jKHVpbnQ2NF90ICIgbW50X2lkICIsIgouQkkgIiAgICAg
-ICAgICAgIHVpbnQ2NF90ICIgcmVxdWVzdF9tYXNrICIsIHVuc2lnbmVkIGludCAiIGZsYWdzICIp
-OyIKLlNIIERFU0NSSVBUSU9OClRoZQouQlIgc3RhdG1vdW50ICgpCmFuZAouQlIgc3RhdG1vdW50
-X2FsbG9jICgpCmNhbGxzIHJldHVybnMgaW5mb3JtYXRpb24gYWJvdXQgYSBtb3VudCBzcGVjaWZp
-ZWQgYnkKLklSIG1udF9pZCAuCi5QClRoZSBtb3VudCBJRCBmb3IgYSBwYXJ0aWN1bGFyIHBhdGgg
-Y2FuIGJlIG9idGFpbmVkIGJ5IGNhbGxpbmcKLkJSIHN0YXR4ICgyKQp3aXRoIHRoZQouQiBTVEFU
-WF9NTlRfSURfVU5JUVVFCm1hc2sgYW5kIHVzaW5nIHRoZSByZXR1cm5lZAouSSBtbnRfaWQKZmll
-bGQuIFRoZSBtb3VudCBJRHMgcmV0dXJuZWQgYnkgdGhlCi5CUiBsaXN0bW91bnQgKDIpCnN5c3Rl
-bSBjYWxsIGNhbiBhbHNvIGJlIHVzZWQuICBOb3RlLCBob3dldmVyLCB0aGF0IG1vdW50IElEcyBm
-b3VuZCBpbgovcHJvYy9QSUQvbW91bnRpbmZvIGFyZSBub3Qgc3VpdGFibGUuCi5QClRoZQouSSBy
-ZXF1ZXN0X21hc2sKYXJndW1lbnQgaXMgdXNlZCB0byBzcGVjaWZ5IHdoaWNoIGZpZWxkcyB0aGUg
-Y2FsbGVyIGlzIGludGVyZXN0ZWQgaW4uClRoZSBmb2xsb3dpbmcgY29uc3RhbnRzIGNhbiBiZSBP
-UmVkIHRvZ2V0aGVyOgouUAouaW4gKzRuCi5UUwpsQiBsLgpTVE1UX1NCX0JBU0lDCVdhbnQgc2Jf
-Li4uClNUTVRfTU5UX0JBU0lDCVdhbnQgbW50Xy4uLgpTVE1UX1BST1BBR0FURV9GUk9NCVdhbnQg
-cHJvcGFnYXRlX2Zyb20KU1RNVF9NTlRfUk9PVAlXYW50IG1udF9yb290ClNUTVRfTU5UX1BPSU5U
-CVdhbnQgbW50X3BvaW50ClNUTVRfRlNfVFlQRQlXYW50IGZzX3R5cGUKLlRFCi5pbgouUAouQlIg
-c3RhdG1vdW50ICgpCnRha2VzCi5JIGJ1ZgphbmQKLkkgYnVmc2l6ZQphcmd1bWVudHMsIHdoaWNo
-IHNwZWNpZnkgdGhlIGJ1ZmZlciB3aGVyZSB0aGUgcmV0dXJuZWQgaW5mb3JtYXRpb24gaXMgdG8g
-YmUKc3RvcmVkLgouSSBidWZzaXplCm1heSBiZSBsYXJnZXIgdGhhbgouSSBzaXplb2Yoc3RydWN0
-IHN0YXRtb3VudCkKdG8gYWxsb3cgcGxhY2VtZW50IG9mIHN0cmluZ3MgYWZ0ZXIgdGhlIHN0cnVj
-dHVyZS4gIE5vdGUsIGhvd2V2ZXIsIHRoYXQgZGVmaW5pbmcKYSBieXRlIGFycmF5IGFuZCBjYXN0
-aW5nIGl0IHRvCi5JIHN0cnVjdCBzdGF0bW91bnQgKgppcyBub3QgcG9ydGFibGUgZHVlIHRvIHBv
-c3NpYmxlIG1pc2FsaWdubWVudCBvZiB0aGUgcmVzdWx0aW5nIHBvaW50ZXIuICBXaGVuCnN0cmlu
-Z3MgYXJlIHJlcXVlc3RlZCwgaXQgaXMgcmVjb21lbmRlZCB0byB1c2UgdGhlCi5CUiBzdGF0bW91
-bnRfYWxsb2MgKCkKaW50ZXJmYWNlLCB3aGljaCB0YWtlcyBjYXJlIG9mIHByb3BlciBzaXppbmcg
-b2YgdGhlIGJ1ZmZlci4KLlAKLkJSIHN0YXRtb3VudF9hbGxvYyAoKQphbGxvY2F0ZXMgdGhlIGJ1
-ZmZlciBkeW5hbWljYWxseSB1c2luZwouQlIgbWFsbG9jICgzKS4KVGhpcyBjYWxsIHRha2VzIGNh
-cmUgb2YgZGV0ZXJtaW5pbmcgdGhlIGNvcnJlY3Qgc2l6ZSBvZiB0aGUgYWxsb2NhdGlvbi4gVGhl
-IGNhbGxlciBpcyByZXNwb25zaWJsZSBmb3IgY2FsbGluZwouQlIgZnJlZSAoMykKb24gdGhlIHJl
-dHVybmVkIGJ1ZmZlci4KLlAKVGhlCi5JIGZsYWdzCmFyZ3VtZW50IGlzIHJlc2VydmVkIGZvciBm
-dXR1cmUgdXNlIGFuZCBtdXN0IGJlIHNldCB0byB6ZXJvLgouU1MKUmV0dXJuZWQgaW5mb3JtYXRp
-b24KVGhlIHJlc3VsdCBidWZmZXIgaXMgYSBzdHJ1Y3R1cmUgb2YgdGhlIGZvbGxvd2luZyB0eXBl
-OgouUAouaW4gKzRuCi5FWApzdHJ1Y3Qgc3RhdG1vdW50IHsKICAgIHVpbnQzMl90IHNpemU7ICAg
-ICAgICAgICAgICAgIC8qIEFsd2F5cyBmaWxsZWQgaW4gKi8KICAgIC4uLgogICAgdWludDY0X3Qg
-bWFzazsgICAgICAgICAgICAgICAgLyogQWx3YXlzIGZpbGxlZCBpbiAqLwogICAgdWludDMyX3Qg
-c2JfZGV2X21ham9yOwogICAgdWludDMyX3Qgc2JfZGV2X21pbm9yOwogICAgdWludDY0X3Qgc2Jf
-bWFnaWM7CiAgICB1aW50MzJfdCBzYl9mbGFnczsKICAgIHVpbnQzMl90IGZzX3R5cGU7ICAgICAg
-ICAgICAgICAvKiBbc3RyXSAqLwogICAgdWludDY0X3QgbW50X2lkOwogICAgdWludDY0X3QgbW50
-X3BhcmVudF9pZDsKICAgIHVpbnQzMl90IG1udF9pZF9vbGQ7CiAgICB1aW50MzJfdCBtbnRfcGFy
-ZW50X2lkX29sZDsKICAgIHVpbnQ2NF90IG1udF9hdHRyOwogICAgdWludDY0X3QgbW50X3Byb3Bh
-Z2F0aW9uOwogICAgdWludDY0X3QgbW50X3BlZXJfZ3JvdXA7CiAgICB1aW50NjRfdCBtbnRfbWFz
-dGVyOwogICAgdWludDY0X3QgcHJvcGFnYXRlX2Zyb207CiAgICB1aW50MzJfdCBtbnRfcm9vdDsg
-ICAgICAgICAgICAgLyogW3N0cl0gKi8KICAgIHVpbnQzMl90IG1udF9wb2ludDsgICAgICAgICAg
-ICAvKiBbc3RyXSAqLwogICAgLi4uCiAgICBjaGFyIHN0cltdOwp9OwouRUUKLmluCi5UUAouSSBz
-aXplClRoZSBudW1iZXIgb2YgYnl0ZXMgc3RvcmVkIGluIHRoZSBidWZmZXIuCi5UUAouSSBtYXNr
-CkJpdHdpc2UgT1Igb2YgdGhlIGNvbnN0YW50cyB1c2VkIGZvcgouSSByZXF1ZXN0X21hc2sKaW5k
-aWNhdGluZyB3aGljaCBmaWVsZHMgd2VyZSBmaWxsZWQuICBUaGUgY2FsbGVyIHNob3VsZCBjaGVj
-ayB0aGUKLkkgbWFzawpiZWZvcmUgdXNpbmcgdGhlIHZhbHVlIG9mIGFueSBmaWVsZCBiZWxvdy4K
-LlRQCi5JUiBzYl9kZXZfbWFqb3IgIiBhbmQgIiBzYl9kZXZfbWlub3IKVGhlIGRldmljZSBJRCBv
-ZiB0aGUgbW91bnRlZCBmaWxlc3lzdGVtLgouVFAKLkkgc2JfbWFnaWMKSW50ZWdlciB2YWx1ZSBp
-bmRpY2F0aW5nIHRoZSB0eXBlIG9mIGZpbGVzeXN0ZW0uICBTZWUKLkkgZl90eXBlCi5CUiBzdGF0
-ZnMgKDIpLgouVFAKLkkgc2JfZmxhZ3MKRmlsZXN5c3RlbSBmbGFncyB0aGF0IGFyZSBzZXQgb24g
-bW91bnQgY3JlYXRpb24gb3IgcmVjb25maWd1cmF0aW9uIChyZW1vdW50KS4KVGhpcyBjYW4gYmUg
-dGhlIGJpdHdpc2UgT1Igb2YKLkJSIFNCX1JET05MWSAiLCAiIFNCX1NZTkNIUk9OT1VTICIsICIg
-U0JfRElSU1lOQyAiIGFuZCAiIFNCX0xBWllUSU1FIC4KLlRQCi5JIGZzX3R5cGUKVGhlIGZpbGVz
-eXN0ZW0gdHlwZSBuYW1lLiAgVXNlCi5JICJidWYtPnN0cltidWYtPmZzX3R5cGVdIgp0byBvYnRh
-aW4gdGhlIHN0cmluZy4KLlRQCi5JIG1udF9pZApUaGUgdW5pcXVlIG1vdW50IElEIG9mIHRoZSBt
-b3VudC4gIFRoaXMgd2lsbCBiZSB0aGUgc2FtZSBhcyB0aGUKLkkgbW50X2lkCmFyZ3VtZW50IHBh
-c3NlZCB0byB0aGUKLkJSIHN0YXRtb3VudCAoKQpjYWxsLgouVFAKLkkgbW50X3BhcmVudF9pZApU
-aGUgdW5pcXVlIG1vdW50IElEIG9mIHRoZSBwYXJlbnQgbW91bnQuICBJZiB0aGlzIG1vdW50IGlz
-IHRoZSByb290IG9mIGEgbW91bnQgdHJlZSwgdGhlbiB0aGUgdmFsdWUgd2lsbCBiZSBlcXVhbCB0
-bwouSVIgbW50X2lkIC4KLlRQCi5JIG1udF9pZF9vbGQKUmV1c2VkIG1vdW50IElEIGZvdW5kIGlu
-IC9wcm9jL1BJRC9tb3VudGluZm8KLlRQCi5JIG1udF9wYXJlbnRfaWRfb2xkClJldXNlZCBtb3Vu
-dCBJRCBvZiB0aGUgcGFyZW50IG1vdW50LiAgSWYgdGhpcyBtb3VudCBpcyB0aGUgcm9vdCBvZiBh
-IG1vdW50IHRyZWUsIHRoZW4gdGhlIHZhbHVlIHdpbGwgYmUgZXF1YWwgdG8KLklSIG1vdW50X2lk
-X29sZCAuCi5UUAouSSBtbnRfYXR0cgpNb3VudCBhdHRyaWJ1dGVzIGFzIHVzZWQgaW4KLkJSIGZz
-bW91bnQgIigyKSBhbmQgIiBtb3VudF9zZXRhdHRyICgyKS4KLlRQCi5JIG1udF9wcm9wYWdhdGlv
-bgpQcm9wYWdhdGlvbiBzdGF0ZSBvZiB0aGUgbW91bnQuICBNYXkgYmUgYSBjb21iaW5hdGlvbiBv
-ZgouQlIgTVNfU0hBUkVEICIgYW5kICIgTVNfU0xBVkUKb3IgaXQgbWF5IGJlCi5CUiBNU19VTkJJ
-TkRBQkxFICIgb3IgIiBNU19QUklWQVRFLgouVFAKLkkgbW50X3BlZXJfZ3JvdXAKSUQgb2YgdGhl
-IHNoYXJlZCBwZWVyIGdyb3VwIHRoaXMgbW91bnQgaXMgaW4uICBFYWNoIHBlZXIgZ3JvdXAgaGFz
-IGFuCmF1dG9tYXRpY2FsbHkgZ2VuZXJhdGVkIHVuaXF1ZSBJRCwgYW5kIGFsbCBtb3VudHMgaW4g
-dGhlIHNhbWUgcGVlciBncm91cCB3aWxsCnNoYXJlIHRoaXMgSUQuCi5UUAouSSBtbnRfbWFzdGVy
-CklEIG9mIHRoZSBzaGFyZWQgcGVlciBncm91cCB0aGF0IHRoaXMgbW91bnQgcmVjZWl2ZXMgcHJv
-cGFnYXRpb24gZnJvbS4gIFRoaXMgaXMKdGhlIElEIG9mIHRoZSBpbW1lZGlhdGUgbWFzdGVyLCB3
-aGljaCBtYXkgbm90IGhhdmUgYW55IG1vdW50cyBpbiB0aGUgY3VycmVudApuYW1lc3BhY2UuCi5U
-UAouSSBwcm9wYWdhdGVfZnJvbQpJRCBvZiB0aGUgY2xvc2VzdCBzaGFyZWQgcGVlciBncm91cCB0
-aGF0IHRoaXMgbW91bnQgcmVjZWl2ZXMgcHJvcGFnYXRpb24gZnJvbQphbmQgaGFzIGEgbW91bnQg
-aW4gdGhlIGN1cnJlbnQgbmFtZXNwYWNlLiAgSWYgdGhlcmUncyBubyBzdWNoIHBlZXIgZ3JvdXAs
-IHRoaXMKZmllbGQgaXMgc2V0IHRvIHplcm8uCi5UUAouSSBtbnRfcm9vdApSb290IG9mIHRoZSBt
-b3VudCB3aXRoaW4gdGhlIGZpbGVzeXN0ZW0uIFVzZQouSSAiYnVmLT5zdHJbYnVmLT5tbnRfcm9v
-dF0iCnRvIG9idGFpbiB0aGUgc3RyaW5nLgouVFAKLkkgbW50X3BvaW50ClRoZSBtb3VudCBwb2lu
-dCByZWxhdGl2ZSB0byB0aGUgcHJvY2VzcydzIHJvb3QuIFVzZQouSSAiYnVmLT5zdHJbYnVmLT5t
-bnRfcG9pbnRdIgp0byBvYnRhaW4gdGhlIHN0cmluZy4KLlRQCi5JIHN0cgpTdHJpbmdzIGFyZSBw
-bGFjZWQgYWZ0ZXIgdGhpcyBwb2ludDsgdGhlIG9mZnNldHMgYWdhaW5zdAouSSBzdHIKYXJlIHN0
-b3JlZCBpbiB0aGUgcmVwc3BlY3RpdmUgZmllbGRzLgouUApTaW5jZSBzdHJpbmdzIGFyZSBzdG9y
-ZWQgYXMgYW4gb2Zmc2V0IHJlbGF0aXZlIHRvIHRoZQouSSBzdHIKZmllbGQsIHRoZSBieXRlIGFy
-cmF5ICh2b2lkICopYnVmIC4uLiAoKHZvaWQgKilidWYpW2J1Zi0+c2l6ZS0xXSBpcyByZWxvY2F0
-YWJsZS4KLlNIIFJFVFVSTiBWQUxVRQouQlIgc3RhdG1vdW50ICgpCnJldHVybnMgemVybyBvbiBz
-dWNjZXNzLgpPbiBmYWlsdXJlLCBcLTEgaXMgcmV0dXJuZWQgYW5kCi5JIGVycm5vCmlzIHNldCB0
-byBpbmRpY2F0ZSB0aGUgZXJyb3IuCi5QCi5CUiBzdGF0bW91bnRfYWxsb2MgKCkKcmV0dXJucyBh
-IHBvaW50ZXIgdG8gYSBidWZmZXIgYWxsb2NhdGVkIHdpdGgKLkJSIG1hbGxvYyAoMykKb24gc3Vj
-Y2Vzcy4gT24gZmFpbHVyZSBOVUxMIGlzIHJldHVybmVkIGFuZAouSSBlcnJubwppcyBzZXQgdG8g
-aW5kaWNhdGUgdGhlIGVycm9yLgouU0ggRVJST1JTCi5UUAouQiBFTk9FTlQKVGhlIG1vdW50IGRl
-c2lnbmF0ZWQgYnkKLkkgbW50X2lkCmRvZXMgbm90IGV4aXN0IGluIHRoZSBjdXJyZW50IG1vdW50
-IG5hbWVzcGFjZS4KLlRQCi5CIEVQRVJNClRoZSBtb3VudCBpcyBub3QgcmVhY2hhYmxlIGZyb20g
-dGhlIGN1cnJlbnQgcm9vdCBkaXJlY3RvcnkgYW5kIHRoZSBjYWxsaW5nIHByb2Nlc3MgZG9lcyBu
-b3QgaGF2ZSB0aGUKLkIgQ0FQX1NZU19BRE1JTgpjYXBhYmlsaXR5LgouVFAKLkIgRUlOVkFMCklu
-dmFsaWQgZmxhZyBzcGVjaWZpZWQgaW4KLklSIGZsYWdzIC4KLlRQCi5CIEVGQVVMVAouSSBidWYK
-b3IKLkkgcmVxCmlzIG91dHNpZGUgdGhlIHByb2Nlc3MncyBhY2Nlc3NpYmxlIGFkZHJlc3Mgc3Bh
-Y2UuCi5UUAouQiBFT1ZFUkZMT1cKLkkgYnVmc2l6ZQppcyB0b28gc21hbGwgdG8gYWNjb21vZGF0
-ZSB0aGUgcmVxdWVzdGVkIHN0cmluZyhzKS4gIFRoaXMgZXJyb3IgaXMgb25seSByZXR1cm5lZCBi
-eQouQlIgc3RhdG1vdW50ICgpLgouVFAKLkIgRU5PTUVNCkZhaWxlZCB0byBhbGxvY2F0ZSBtZW1v
-cnkuCi5TSCBTVEFOREFSRFMKTGludXguCi5TSCBISVNUT1JZCk5vdCB1cHN0cmVhbSB5ZXQuCi5T
-SCBTRUUgQUxTTwouQlIgZnNtb3VudCgyKSwKLkJSIGxpc3Rtb3VudCgyKSwKLkJSIG1vdW50X3Nl
-dGF0dHIoMiksCi5CUiBwcm9jKDUpLAouQlIgc3RhdGZzKDIpLAouQlIgc3RhdHZmcygyKSwKLkJS
-IHN0YXR4KDIpCg==
---000000000000f09207060a59de45--
 
