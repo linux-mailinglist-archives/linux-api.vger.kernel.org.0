@@ -1,119 +1,237 @@
-Return-Path: <linux-api+bounces-87-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-88-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8759E7F06F8
-	for <lists+linux-api@lfdr.de>; Sun, 19 Nov 2023 15:54:52 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 826467F1285
+	for <lists+linux-api@lfdr.de>; Mon, 20 Nov 2023 12:55:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B78B11C203B7
-	for <lists+linux-api@lfdr.de>; Sun, 19 Nov 2023 14:54:51 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id ECC9CB217EE
+	for <lists+linux-api@lfdr.de>; Mon, 20 Nov 2023 11:55:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1DCC1875;
-	Sun, 19 Nov 2023 14:54:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA4EF18AE9;
+	Mon, 20 Nov 2023 11:55:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZkYRGAZY"
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="pLANkITR"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBFEAE1;
-	Sun, 19 Nov 2023 06:54:43 -0800 (PST)
-Received: by mail-pj1-x1033.google.com with SMTP id 98e67ed59e1d1-28035cf6a30so2722483a91.3;
-        Sun, 19 Nov 2023 06:54:43 -0800 (PST)
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCA8AA2
+	for <linux-api@vger.kernel.org>; Mon, 20 Nov 2023 03:55:26 -0800 (PST)
+Received: by mail-ej1-x62f.google.com with SMTP id a640c23a62f3a-9f27af23443so586688166b.0
+        for <linux-api@vger.kernel.org>; Mon, 20 Nov 2023 03:55:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700405683; x=1701010483; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=UFViZfi+D4ykbhkIT1nTXXcFAxgIUhFWAUIBpe5r3Wc=;
-        b=ZkYRGAZY1eqCGhzjf/MmU0AdLwn1Qe9xCD76KdWY3zEnj2KO6KYSjOkYMtgQWfyk84
-         +g+zHJwGzNUDPjKMYSAG8zO021qd12ZgtRU5Qm7FC1r99+74dckHxwfutRFKEgVqLS2q
-         VjLGJp3kWyzO/X1p4g+xfqBj126TjrGX4SKTV7lQt1khTCiB4MSVrf+APOxS+7Rajnzy
-         9d2Gnz40RhWIEWpjcvqYKT6f1MYr3SGDRUcaMJTg1a/kdVgq8jk0NxhtwmTvAbsNsZ79
-         E52eWzxumClV3RdDXH0eZuXtvnNQ/IqwNWdiCisOyiqG1IHAxuKoW84ZIoYwwi+MG9Re
-         SzgA==
+        d=szeredi.hu; s=google; t=1700481325; x=1701086125; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=z3vsvlrcGrEGBTtA0AP5aKKnvlKyJhXO+Stjh5B7q6E=;
+        b=pLANkITRLfmcC2J2YJuCVAa1pwMrD93Mc4zVHF9sidJYmleg6uvCC0cn11PBpLeTzU
+         wnWGW66IJSF5DTsBOm+IoH6vcKqPv4EewI0zatcHhSaHN1imDCyf5VuhD6x/ycD7DpNM
+         S2OFwCooxjQic/D8w4m//o32R0QqvTEw4jh90=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700405683; x=1701010483;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UFViZfi+D4ykbhkIT1nTXXcFAxgIUhFWAUIBpe5r3Wc=;
-        b=myc+Cbwdg8hBQJ1p6BH0ORXZ8rZfV1NHHL5a50Y1r13kjU8PJ8CXaLPamDBQRnXTw7
-         4uRwVXagJmbHLuPJ7iW0tfNMJgAMETNGuIxKHlbngMTg/d7kZx3/UZhf7l/FXiUpOHgV
-         FfFv6ekPOheDJ7b1OAyFD/3Nki+bzSg8s3NgHw5az7EmsXKi9WyDk+++cBtKdbuO4woH
-         b26S0Tn7g25/7aMVw94IjhUC+KxRi2JCUttHRKoDWeXgSthQNBNvS5zzDPaKgx/sH5Mf
-         JhqAbKK82u6oNKkedI6WiNraDjL0s50+q4eOo/4pd0A2bB4cla3zOyK571x8GHWCQ27N
-         /Puw==
-X-Gm-Message-State: AOJu0Yxv89WAhACP7udQiFSP5OGR8Z7wIJxyWjTaAKJi95kWOFSD+0ea
-	KIqa5nm+Xoph2U6CngJbYZ/R7cUdzLLzFUSYgSE=
-X-Google-Smtp-Source: AGHT+IH+vd8OYZwpc2tfLC50gM6zOidWteKbkUKAokaglhsxOIquzqcPn2ooow/qdYCB+TyXuHNctw6hbmvYNqeRlzU=
-X-Received: by 2002:a17:90a:1690:b0:281:416e:1c3f with SMTP id
- o16-20020a17090a169000b00281416e1c3fmr3470474pja.28.1700405683271; Sun, 19
- Nov 2023 06:54:43 -0800 (PST)
+        d=1e100.net; s=20230601; t=1700481325; x=1701086125;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=z3vsvlrcGrEGBTtA0AP5aKKnvlKyJhXO+Stjh5B7q6E=;
+        b=RahYdJgL2RfEFHljwXF9YNRGReekObf6az3WVrPlX8VnkWMEDKObBEYB7qMGqBj0cP
+         UPZ5SlTwc6SbrDwazlBGoskJleCAlJzlc+djwSv6GQXzFDUr2fxca+YLV6Aeoqb+WRIR
+         ARBt2AMj76gts5cmPRX4Ctgk/Kosd6eQqVdArSpYqmFMoGRxTCPYMYqaJ3jQk/kHO8DT
+         IHYeeYqfmxKdvrw1JA4+qcvZzvbZU5RHeBYWyqlMeYX47XJSEjitYcFeONpFUmAtPglH
+         Ae75ctgIHp7j/BzE6+M099Du/b3SM1GCCaiO+OLM0aarFqqLIos1Hu+llJ7E3PP4ainc
+         1GzQ==
+X-Gm-Message-State: AOJu0YwrAIezVBbfw8S1T3gumjw46VfBSuIinJPMgabxAnYJslqWFh1J
+	aknlWlPYs5zM0G0s952fFmhy6rTP/cyGZ5i0r2g=
+X-Google-Smtp-Source: AGHT+IHRK6NFPlWpLc2M9qeLs7fvIv/FO+aj2+Cw07fK4WT3xRJbJ7ajVhN90FoD6icsE0y5IMV/Fw==
+X-Received: by 2002:a17:906:4a50:b0:9c2:a072:78bf with SMTP id a16-20020a1709064a5000b009c2a07278bfmr5239895ejv.26.1700481325269;
+        Mon, 20 Nov 2023 03:55:25 -0800 (PST)
+Received: from maszat.piliscsaba.szeredi.hu (91-82-181-165.pool.digikabel.hu. [91.82.181.165])
+        by smtp.gmail.com with ESMTPSA id dk26-20020a170906f0da00b009fc0c42098csm1963955ejb.173.2023.11.20.03.55.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Nov 2023 03:55:24 -0800 (PST)
+Date: Mon, 20 Nov 2023 12:55:17 +0100
+From: Miklos Szeredi <miklos@szeredi.hu>
+To: Florian Weimer <fweimer@redhat.com>
+Cc: libc-alpha@sourceware.org, linux-man <linux-man@vger.kernel.org>,
+	Alejandro Colomar <alx@kernel.org>,
+	Linux API <linux-api@vger.kernel.org>,
+	linux-fsdevel@vger.kernel.org, Karel Zak <kzak@redhat.com>,
+	Ian Kent <raven@themaw.net>, David Howells <dhowells@redhat.com>,
+	Christian Brauner <christian@brauner.io>,
+	Amir Goldstein <amir73il@gmail.com>, Arnd Bergmann <arnd@arndb.de>
+Subject: Re: proposed libc interface and man page for statmount(2)
+Message-ID: <ZVtEkeTuqAGG8Yxy@maszat.piliscsaba.szeredi.hu>
+References: <CAJfpegsMahRZBk2d2vRLgO8ao9QUP28BwtfV1HXp5hoTOH6Rvw@mail.gmail.com>
+ <87fs15qvu4.fsf@oldenburg.str.redhat.com>
+ <CAJfpegvqBtePer8HRuShe3PAHLbCg9YNUpOWzPg-+=gGwQJWpw@mail.gmail.com>
+ <87leawphcj.fsf@oldenburg.str.redhat.com>
+ <CAJfpegsCfuPuhtD+wfM3mUphqk9AxWrBZDa9-NxcdnsdAEizaw@mail.gmail.com>
+ <CAJfpegsBqbx5+VMHVHbYx2CdxxhtKHYD4V-nN5J3YCtXTdv=TQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231111125126.11665-1-yjnworkstation@gmail.com>
- <20231111132431.GA3717@1wt.eu> <20231112045217.GA39417@mit.edu> <87fa3d2e-6822-0f24-daec-772dbe717b63@suse.cz>
-In-Reply-To: <87fa3d2e-6822-0f24-daec-772dbe717b63@suse.cz>
-From: Jasper Niebuhr <yjnworkstation@gmail.com>
-Date: Sun, 19 Nov 2023 15:54:31 +0100
-Message-ID: <CAMjCObsNOMxe52XT6L4JscX5VBO8xAjqjHy-bzRyoLU54G9gRA@mail.gmail.com>
-Subject: Re: [PATCH] exitz syscall
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: "Theodore Ts'o" <tytso@mit.edu>, Willy Tarreau <w@1wt.eu>, akpm@linux-foundation.org, 
-	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, torvalds@linux-foundation.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJfpegsBqbx5+VMHVHbYx2CdxxhtKHYD4V-nN5J3YCtXTdv=TQ@mail.gmail.com>
 
-I took some time to consider a few options...
+On Fri, Nov 17, 2023 at 04:50:25PM +0100, Miklos Szeredi wrote:
+> I wonder... Is there a reason this shouldn't be done statelessly by
+> adding an "continue after this ID" argument to listmount(2)?  The
+> caller will just need to pass the last mount ID received in the array
+> to the next listmount(2) call and iterate until a short count is
+> returned.
 
-1. MLOCK_ZERO_ON_FREE flag for mlock2:
+No comments so far... maybe more explanation is needed.
 
-This would achieve what I was looking for. On the other hand, this
-feature could not be used to just ensure the memory is zeroed before
-reallocation, without locking it to memory. So if you just want a few
-regions to be protected from other processes, this would not be ideal.
-Also the VM_* flags are all used otherwise (except for a random hole
-in the middle).
+New signature of listmount() would be:
 
-2. PR_INIT_ON_FREE option for prctl + some cap against DoS:
+ssize_t listmount(uint64_t mnt_id, uint64_t last_mnt_id,
+		  uint64_t *buf, size_t bufsize, unsigned int flags);
 
-This could, more generally, be used to "replace" other ways of
-choosing initialization behavior. Systems could run with zeroing in
-general disabled to improve performance and just use this feature
-whenever needed. However, it seems counterintuitive to me to have a
-prctl option to set properties of a range of memory. Is there a system
-call to set general properties of memory areas?
+And the usage would be:
 
-3. CONFIG_MLOCK_INIT_ON_FREE:
+	for (last = 0; nres == bufsize; last = buf[bufsize-1]) {
+		nres = listmount(parent, last, buf, bufsize, flags);
+		for (i = 0; i < nres; i++) {
+			/* process buf[i] */
+		}
+	}
 
-Such a config could be used as an alternative to init_on_free (or its
-DEFAULT_ON config) and would be limited to the much smaller amount of
-mlocked memory. Again, this could not be used if you didn't want to
-lock the pages to memory, but would definitely be one of the easiest
-ways to avoid most of the init_on_free overhead with essentially the
-same security.
 
-4. PR_INIT_MLOCKED_ON_FREE option for prctl:
+Here's a kernel patch against the version in Christian's tree.  The syscall
+signature doesn't need changing, since we have a spare u64 in the mnt_id_req for
+listmount.
 
-This would essentially be option 3. but even further limited to only
-the processes that want it and cannot ensure keys are zeroed before an
-exit/crash. This prctl option would take no further options except an
-enable/disable switch. It could be called once, in the beginning, to
-enable the feature. If the process then crashes, any mlocked memory is
-cleared and does not make its way to another process. After any key
-material has been erased, the program could call prctl again to
-disable the feature so no clearing is done when the process exits.
+The major difference is in the order that the mount ID's are listed, which is
+now strictly increasing.  Doing the recursive listing in DFS order is nicer, but
+I don't think it's important enough.
 
-Currently #1, #3 and #4 sound most applicable to me. Options #3 and #4
-are probably a lot cleaner to implement, #1 and #4 should be more
-performant. From your experience, how often would someone want to
-seriously prevent memory from getting to another process without the
-option to mlock it?
+Comments?
 
-Is there any arguments I am missing? What's your opinion on these?
-Which, if any, do you think would work best?
+Thanks,
+Miklos
+
+---
+ fs/namespace.c             |   41 +++++++++++++++++++++++++----------------
+ include/uapi/linux/mount.h |    5 ++++-
+ 2 files changed, 29 insertions(+), 17 deletions(-)
+
+--- a/fs/namespace.c
++++ b/fs/namespace.c
+@@ -1009,7 +1009,7 @@ void mnt_change_mountpoint(struct mount
+ 
+ static inline struct mount *node_to_mount(struct rb_node *node)
+ {
+-	return rb_entry(node, struct mount, mnt_node);
++	return node ? rb_entry(node, struct mount, mnt_node) : NULL;
+ }
+ 
+ static void mnt_add_to_ns(struct mnt_namespace *ns, struct mount *mnt)
+@@ -4960,21 +4960,22 @@ SYSCALL_DEFINE4(statmount, const struct
+ 	return ret;
+ }
+ 
+-static struct mount *listmnt_first(struct mount *root)
++static struct mount *listmnt_next(struct mount *curr)
+ {
+-	return list_first_entry_or_null(&root->mnt_mounts, struct mount, mnt_child);
++	return node_to_mount(rb_next(&curr->mnt_node));
+ }
+ 
+-static struct mount *listmnt_next(struct mount *curr, struct mount *root, bool recurse)
++static bool is_submount(struct mount *sub, struct mount *mnt)
+ {
+-	if (recurse)
+-		return next_mnt(curr, root);
+-	if (!list_is_head(curr->mnt_child.next, &root->mnt_mounts))
+-		return list_next_entry(curr, mnt_child);
+-	return NULL;
++	for (; sub != mnt; sub = sub->mnt_parent) {
++		if (sub->mnt_parent == sub)
++			return false;
++	}
++	return true;
+ }
+ 
+-static long do_listmount(struct vfsmount *mnt, u64 __user *buf, size_t bufsize,
++static long do_listmount(struct vfsmount *mnt, struct mount *last,
++			 u64 __user *buf, size_t bufsize,
+ 			 const struct path *root, unsigned int flags)
+ {
+ 	struct mount *r, *m = real_mount(mnt);
+@@ -5000,13 +5001,16 @@ static long do_listmount(struct vfsmount
+ 	if (err)
+ 		return err;
+ 
+-	for (r = listmnt_first(m); r; r = listmnt_next(r, m, recurse)) {
++	for (r = last; (r = listmnt_next(r)) != NULL && ctr < bufsize;) {
++		if (recurse && !is_submount(r, m))
++			continue;
++		if (!recurse && r->mnt_parent != m)
++			continue;
++
+ 		if (reachable_only &&
+ 		    !is_path_reachable(r, r->mnt.mnt_root, root))
+ 			continue;
+ 
+-		if (ctr >= bufsize)
+-			return -EOVERFLOW;
+ 		if (put_user(r->mnt_id_unique, buf + ctr))
+ 			return -EFAULT;
+ 		ctr++;
+@@ -5021,6 +5025,7 @@ SYSCALL_DEFINE4(listmount, const struct
+ {
+ 	struct mnt_id_req kreq;
+ 	struct vfsmount *mnt;
++	struct mount *last;
+ 	struct path root;
+ 	u64 mnt_id;
+ 	long err;
+@@ -5030,8 +5035,6 @@ SYSCALL_DEFINE4(listmount, const struct
+ 
+ 	if (copy_from_user(&kreq, req, sizeof(kreq)))
+ 		return -EFAULT;
+-	if (kreq.request_mask != 0)
+-		return -EINVAL;
+ 	mnt_id = kreq.mnt_id;
+ 
+ 	down_read(&namespace_sem);
+@@ -5040,13 +5043,19 @@ SYSCALL_DEFINE4(listmount, const struct
+ 	else
+ 		mnt = lookup_mnt_in_ns(mnt_id, current->nsproxy->mnt_ns);
+ 
++	if (!kreq.last_mnt_id) {
++		last = real_mount(mnt);
++	} else {
++		last = mnt_find_id_at(current->nsproxy->mnt_ns, kreq.last_mnt_id);
++	}
++
+ 	err = -ENOENT;
+ 	if (mnt) {
+ 		get_fs_root(current->fs, &root);
+ 		/* Skip unreachable for LSMT_ROOT */
+ 		if (mnt_id == LSMT_ROOT && !(flags & LISTMOUNT_UNREACHABLE))
+ 			mnt = root.mnt;
+-		err = do_listmount(mnt, buf, bufsize, &root, flags);
++		err = do_listmount(mnt, last, buf, bufsize, &root, flags);
+ 		path_put(&root);
+ 	}
+ 	up_read(&namespace_sem);
+--- a/include/uapi/linux/mount.h
++++ b/include/uapi/linux/mount.h
+@@ -178,7 +178,10 @@ struct statmount {
+ 
+ struct mnt_id_req {
+ 	__u64 mnt_id;
+-	__u64 request_mask;
++	union {
++		__u64 request_mask;
++		__u64 last_mnt_id;
++	};
+ };
+ 
+ /*
 
