@@ -1,300 +1,142 @@
-Return-Path: <linux-api+bounces-100-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-101-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F34737F21C4
-	for <lists+linux-api@lfdr.de>; Tue, 21 Nov 2023 00:56:02 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E59527F21CB
+	for <lists+linux-api@lfdr.de>; Tue, 21 Nov 2023 00:57:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AC6B42826EA
-	for <lists+linux-api@lfdr.de>; Mon, 20 Nov 2023 23:56:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9F0D4282543
+	for <lists+linux-api@lfdr.de>; Mon, 20 Nov 2023 23:57:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F22BE3B79C;
-	Mon, 20 Nov 2023 23:55:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E63E03B7AA;
+	Mon, 20 Nov 2023 23:57:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kXPWNcG5"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VkBhQsQv"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D47813B2B7;
-	Mon, 20 Nov 2023 23:55:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 117A9C433CD;
-	Mon, 20 Nov 2023 23:55:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700524557;
-	bh=owctnHEQpTZFQ/Gh7J9JCdoUfmKHACZs61x8UVn64fA=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=kXPWNcG58IzRJcCMYKqGURnJUj6rneGHKU5SHp+Yf638TdXxD6qdEjDB7S6BCsaPN
-	 kw1grYPFTeK8O5cG4h2X1cqzvy7XNsobjqD1iKKOpu1y7GW7ir3IcILs1wvsxePXiX
-	 Om32bgn+r0Kc4xsb7B1qJWMcY1ZTdpkCqgZG6axe8UqYiPPUaoeS9aNspPLDfQYe7F
-	 4i5WaIbb0Lb48acRfEomtvfTLDEae9OiDs96AATwQ4MzV7kPJ53TypjDlyYATRcP1F
-	 nhlKAg5hr5a2EkdbbJmjlz8SdWFaQ9QHXR6en4tnnzhDUYXYcnIjzDOwk8LfxvxLFB
-	 a0M4ISsRfNyLg==
-From: Mark Brown <broonie@kernel.org>
-Date: Mon, 20 Nov 2023 23:54:33 +0000
-Subject: [PATCH RFT v3 5/5] kselftest/clone3: Test shadow stack support
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5CC4BE
+	for <linux-api@vger.kernel.org>; Mon, 20 Nov 2023 15:57:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1700524628;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=znhhgLdmAWpUPn9GHqUr/8E6KWdCC2feKOkD+ky/o8U=;
+	b=VkBhQsQvEOrf4BB15oA3oSwupWqB2Kllp81F/bs8O871BFsDGjcrBbePZN3ZtguUFtPMiu
+	SX3e43W95dAp6T+7/X/qSg0fe+ZsWGinjShqNTVhlGyjh2S4bNBOprc8XlIlAhBgHOFw2a
+	H5kiYMxhCUY7H3RuZrrhtYMw5s9Zrns=
+Received: from mail-oa1-f71.google.com (mail-oa1-f71.google.com
+ [209.85.160.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-163-xm5zH-F5NDanSqTnyUXtEw-1; Mon, 20 Nov 2023 18:57:06 -0500
+X-MC-Unique: xm5zH-F5NDanSqTnyUXtEw-1
+Received: by mail-oa1-f71.google.com with SMTP id 586e51a60fabf-1f5acba887bso5321515fac.3
+        for <linux-api@vger.kernel.org>; Mon, 20 Nov 2023 15:57:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700524625; x=1701129425;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=znhhgLdmAWpUPn9GHqUr/8E6KWdCC2feKOkD+ky/o8U=;
+        b=c6moPwvoUCC1LfieDunjWtUZT9nq4nN2rx2nWgoeBsxloI5+694DTxbubHIae3gSYg
+         KcoiYHufr/UaOrZ+Zu3QYjLWwW7xHa8cRPb8HKcrAi85UXPC0Fk6/1uhlZ04W/jg3hGk
+         KUPtuVWkLKfRlgitRLJsbwlhfEOF6kqFids//+Bzv1OWtxkyQg0OHeX8zJ85p6aSorMy
+         uLTa9xdEMZvD2R5n4GErtzmIMjMvbCTgPPaunh1CML+B21m/iBo7QRrYWLEGwVx1bQ1k
+         D7sHUXf8MTgLlLb2G74QpVAhFgl5bM5bPR2AZjpbxz2EAdNDlNc8G+TsgPR/CYuqu8uk
+         Wo/w==
+X-Gm-Message-State: AOJu0YyPpYRrclpJFAt8yIQi6Mogh2p2d9/73j3686Pq9p5+iJxMk51K
+	FTGlKzTe0COaLwKRu0DAB+1hfvYCJdcYngh7i996KAXy3WiLzKG36+/g4/3qCALuuoz2eYjPraU
+	pN1pLjFrl5mwUd5XaAiSOQBAwCdKGdLQ=
+X-Received: by 2002:a05:6870:b4a6:b0:1d6:b7aa:c6ed with SMTP id y38-20020a056870b4a600b001d6b7aac6edmr10935784oap.56.1700524625743;
+        Mon, 20 Nov 2023 15:57:05 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IE3kvlgcQckGHpb2R5jSIU328bNbYbFOFTRp64CPF5uDJXJxeJoHQaM1YVmEmBSMMZcmeugfA==
+X-Received: by 2002:a05:6870:b4a6:b0:1d6:b7aa:c6ed with SMTP id y38-20020a056870b4a600b001d6b7aac6edmr10935776oap.56.1700524625486;
+        Mon, 20 Nov 2023 15:57:05 -0800 (PST)
+Received: from ?IPV6:2403:580f:7fe0::101a? (2403-580f-7fe0--101a.ip6.aussiebb.net. [2403:580f:7fe0::101a])
+        by smtp.gmail.com with ESMTPSA id x19-20020a62fb13000000b006870ed427b2sm6758263pfm.94.2023.11.20.15.56.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Nov 2023 15:57:04 -0800 (PST)
+Message-ID: <15b01137-6ed4-0cd8-4f61-4ee870236639@redhat.com>
+Date: Tue, 21 Nov 2023 07:56:52 +0800
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: proposed libc interface and man page for statmount(2)
+To: Miklos Szeredi <miklos@szeredi.hu>, Florian Weimer <fweimer@redhat.com>
+Cc: libc-alpha@sourceware.org, linux-man <linux-man@vger.kernel.org>,
+ Alejandro Colomar <alx@kernel.org>, Linux API <linux-api@vger.kernel.org>,
+ linux-fsdevel@vger.kernel.org, Karel Zak <kzak@redhat.com>,
+ Ian Kent <raven@themaw.net>, David Howells <dhowells@redhat.com>,
+ Christian Brauner <christian@brauner.io>, Amir Goldstein
+ <amir73il@gmail.com>, Arnd Bergmann <arnd@arndb.de>
+References: <CAJfpegsMahRZBk2d2vRLgO8ao9QUP28BwtfV1HXp5hoTOH6Rvw@mail.gmail.com>
+ <87fs15qvu4.fsf@oldenburg.str.redhat.com>
+ <CAJfpegvqBtePer8HRuShe3PAHLbCg9YNUpOWzPg-+=gGwQJWpw@mail.gmail.com>
+ <87leawphcj.fsf@oldenburg.str.redhat.com>
+ <CAJfpegsCfuPuhtD+wfM3mUphqk9AxWrBZDa9-NxcdnsdAEizaw@mail.gmail.com>
+ <CAJfpegsBqbx5+VMHVHbYx2CdxxhtKHYD4V-nN5J3YCtXTdv=TQ@mail.gmail.com>
+ <ZVtEkeTuqAGG8Yxy@maszat.piliscsaba.szeredi.hu>
+ <878r6soc13.fsf@oldenburg.str.redhat.com>
+ <ZVtScPlr-bkXeHPz@maszat.piliscsaba.szeredi.hu>
+Content-Language: en-US
+From: Ian Kent <ikent@redhat.com>
+In-Reply-To: <ZVtScPlr-bkXeHPz@maszat.piliscsaba.szeredi.hu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231120-clone3-shadow-stack-v3-5-a7b8ed3e2acc@kernel.org>
-References: <20231120-clone3-shadow-stack-v3-0-a7b8ed3e2acc@kernel.org>
-In-Reply-To: <20231120-clone3-shadow-stack-v3-0-a7b8ed3e2acc@kernel.org>
-To: "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>, 
- Deepak Gupta <debug@rivosinc.com>, Szabolcs Nagy <Szabolcs.Nagy@arm.com>, 
- "H.J. Lu" <hjl.tools@gmail.com>, Florian Weimer <fweimer@redhat.com>, 
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
- Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, 
- Vincent Guittot <vincent.guittot@linaro.org>, 
- Dietmar Eggemann <dietmar.eggemann@arm.com>, 
- Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, 
- Mel Gorman <mgorman@suse.de>, 
- Daniel Bristot de Oliveira <bristot@redhat.com>, 
- Valentin Schneider <vschneid@redhat.com>, 
- Christian Brauner <brauner@kernel.org>, Shuah Khan <shuah@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>, 
- Will Deacon <will@kernel.org>, Kees Cook <keescook@chromium.org>, 
- jannh@google.com, bsegall@google.com, linux-kselftest@vger.kernel.org, 
- linux-api@vger.kernel.org, Mark Brown <broonie@kernel.org>
-X-Mailer: b4 0.13-dev-0438c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6256; i=broonie@kernel.org;
- h=from:subject:message-id; bh=owctnHEQpTZFQ/Gh7J9JCdoUfmKHACZs61x8UVn64fA=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBlW/HiMlAIrIk0zoNZPXS7mjGALNqlLtxI2zW1lzFx
- 3jMYT1aJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZVvx4gAKCRAk1otyXVSH0ET0B/
- 4nvEdmzpCcydJg0+47Rl9429nQXE80i9vOlZZ/9WqqOIYAlKpHeFSIOp/PZDC83mbAQAxnUgbUKz02
- SCY9ehwt0jFjCW6KAfX3s5hXXl5tcbhUGCHr9lyXvKF4RC8gUhqsAn7Di0fIfaEyPir7UEEbwfAI9N
- KAD4OkZsq2rJBXu/VfcqDkUqE3NAI/WfYWh0ztHPuhz7F+6+z34EL5+xqEN+LBsYQMbB/5dVN/Icjx
- XRa8eunc+ibLyI5fUpjAe8aUnbiQwU+xUl/9w21ilfDLimj8hwbZSMx5zyvOvN2sl31yjPqo6wtKaB
- Qpc9fjLP8sGNv3P8Guq8Q/ZS7Ha8T6
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-Add basic test coverage for specifying the shadow stack for a newly
-created thread via clone3(), including coverage of the newly extended
-argument structure.
+On 20/11/23 20:34, Miklos Szeredi wrote:
+> On Mon, Nov 20, 2023 at 01:16:24PM +0100, Florian Weimer wrote:
+>> Is the ID something specific to the VFS layer itself, or does it come
+>> from file systems?
+> It comes from the VFS.
+>
+>
+>> POSIX has a seekdir/telldir interface like that, I don't think file
+>> system authors like it.  Some have added dedicated data structures for
+>> it to implement somewhat predictable behavior in the face of concurrent
+>> directory modification.  Would this interface suffer from similar
+>> issues?
+> The same issue was solved for /proc/$$/mountinfo using cursors.
 
-In order to facilitate testing on systems without userspace shadow stack
-support we manually enable shadow stacks on startup, this is architecture
-specific due to the use of an arch_prctl() on x86. Due to interactions with
-potential userspace locking of features we actually detect support for
-shadow stacks on the running system by attempting to allocate a shadow
-stack page during initialisation using map_shadow_stack(), warning if this
-succeeds when the enable failed.
+The mounts are now using an rb-tree, I think the the cursor solution can
 
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
- tools/testing/selftests/clone3/clone3.c           | 117 ++++++++++++++++++++++
- tools/testing/selftests/clone3/clone3_selftests.h |   7 ++
- 2 files changed, 124 insertions(+)
+only work for a linear list, the case is very different.
 
-diff --git a/tools/testing/selftests/clone3/clone3.c b/tools/testing/selftests/clone3/clone3.c
-index 6adbfd14c841..0f9f99dc5aac 100644
---- a/tools/testing/selftests/clone3/clone3.c
-+++ b/tools/testing/selftests/clone3/clone3.c
-@@ -11,6 +11,7 @@
- #include <stdint.h>
- #include <stdio.h>
- #include <stdlib.h>
-+#include <sys/mman.h>
- #include <sys/syscall.h>
- #include <sys/types.h>
- #include <sys/un.h>
-@@ -21,6 +22,10 @@
- #include "../kselftest.h"
- #include "clone3_selftests.h"
- 
-+static bool shadow_stack_enabled;
-+static bool shadow_stack_supported;
-+static size_t max_supported_args_size;
-+
- enum test_mode {
- 	CLONE3_ARGS_NO_TEST,
- 	CLONE3_ARGS_ALL_0,
-@@ -28,6 +33,7 @@ enum test_mode {
- 	CLONE3_ARGS_INVAL_EXIT_SIGNAL_NEG,
- 	CLONE3_ARGS_INVAL_EXIT_SIGNAL_CSIG,
- 	CLONE3_ARGS_INVAL_EXIT_SIGNAL_NSIG,
-+	CLONE3_ARGS_SHADOW_STACK,
- };
- 
- typedef bool (*filter_function)(void);
-@@ -44,6 +50,36 @@ struct test {
- 	filter_function filter;
- };
- 
-+#ifndef __NR_map_shadow_stack
-+#define __NR_map_shadow_stack 453
-+#endif
-+
-+/*
-+ * We check for shadow stack support by attempting to use
-+ * map_shadow_stack() since features may have been locked by the
-+ * dynamic linker resulting in spurious errors when we attempt to
-+ * enable on startup.  We warn if the enable failed.
-+ */
-+static void test_shadow_stack_supported(void)
-+{
-+        long shadow_stack;
-+
-+	shadow_stack = syscall(__NR_map_shadow_stack, 0, getpagesize(), 0);
-+	if (shadow_stack == -1) {
-+		ksft_print_msg("map_shadow_stack() not supported\n");
-+	} else if ((void *)shadow_stack == MAP_FAILED) {
-+		ksft_print_msg("Failed to map shadow stack\n");
-+	} else {
-+		ksft_print_msg("Shadow stack supportd\n");
-+		shadow_stack_supported = true;
-+
-+		if (!shadow_stack_enabled)
-+			ksft_print_msg("Mapped but did not enable shadow stack\n");
-+
-+		munmap((void *)shadow_stack, getpagesize());
-+	}
-+}
-+
- static int call_clone3(uint64_t flags, size_t size, enum test_mode test_mode)
- {
- 	struct __clone_args args = {
-@@ -89,6 +125,9 @@ static int call_clone3(uint64_t flags, size_t size, enum test_mode test_mode)
- 	case CLONE3_ARGS_INVAL_EXIT_SIGNAL_NSIG:
- 		args.exit_signal = 0x00000000000000f0ULL;
- 		break;
-+	case CLONE3_ARGS_SHADOW_STACK:
-+		args.shadow_stack_size = getpagesize();
-+		break;
- 	}
- 
- 	memcpy(&args_ext.args, &args, sizeof(struct __clone_args));
-@@ -179,6 +218,26 @@ static bool no_timenamespace(void)
- 	return true;
- }
- 
-+static bool have_shadow_stack(void)
-+{
-+	if (shadow_stack_supported) {
-+		ksft_print_msg("Shadow stack supported\n");
-+		return true;
-+	}
-+
-+	return false;
-+}
-+
-+static bool no_shadow_stack(void)
-+{
-+	if (!shadow_stack_supported) {
-+		ksft_print_msg("Shadow stack not supported\n");
-+		return true;
-+	}
-+
-+	return false;
-+}
-+
- static size_t page_size_plus_8(void)
- {
- 	return getpagesize() + 8;
-@@ -322,16 +381,74 @@ static const struct test tests[] = {
- 		.expected = -EINVAL,
- 		.test_mode = CLONE3_ARGS_NO_TEST,
- 	},
-+	{
-+		.name = "Shadow stack on system with shadow stack",
-+		.flags = CLONE_VM,
-+		.size = 0,
-+		.expected = 0,
-+		.e2big_valid = true,
-+		.test_mode = CLONE3_ARGS_SHADOW_STACK,
-+		.filter = no_shadow_stack,
-+	},
-+	{
-+		.name = "Shadow stack on system without shadow stack",
-+		.flags = CLONE_VM,
-+		.size = 0,
-+		.expected = -EINVAL,
-+		.e2big_valid = true,
-+		.test_mode = CLONE3_ARGS_SHADOW_STACK,
-+		.filter = have_shadow_stack,
-+	},
- };
- 
-+#ifdef __x86_64__
-+#define ARCH_SHSTK_ENABLE	0x5001
-+#define ARCH_SHSTK_SHSTK	(1ULL <<  0)
-+
-+#define ARCH_PRCTL(arg1, arg2)					\
-+({								\
-+	long _ret;						\
-+	register long _num  asm("eax") = __NR_arch_prctl;	\
-+	register long _arg1 asm("rdi") = (long)(arg1);		\
-+	register long _arg2 asm("rsi") = (long)(arg2);		\
-+								\
-+	asm volatile (						\
-+		"syscall\n"					\
-+		: "=a"(_ret)					\
-+		: "r"(_arg1), "r"(_arg2),			\
-+		  "0"(_num)					\
-+		: "rcx", "r11", "memory", "cc"			\
-+	);							\
-+	_ret;							\
-+})
-+
-+#define ENABLED_SHADOW_STACK
-+static inline void enable_shadow_stack(void)
-+{
-+	int ret = ARCH_PRCTL(ARCH_SHSTK_ENABLE, ARCH_SHSTK_SHSTK);
-+	if (ret == 0)
-+		shadow_stack_enabled = true;
-+}
-+
-+#endif
-+
-+#ifndef ENABLE_SHADOW_STACK
-+static void enable_shadow_stack(void)
-+{
-+}
-+#endif
-+
- int main(int argc, char *argv[])
- {
- 	size_t size;
- 	int i;
- 
-+	enable_shadow_stack();
-+
- 	ksft_print_header();
- 	ksft_set_plan(ARRAY_SIZE(tests));
- 	test_clone3_supported();
-+	test_shadow_stack_supported();
- 
- 	for (i = 0; i < ARRAY_SIZE(tests); i++)
- 		test_clone3(&tests[i]);
-diff --git a/tools/testing/selftests/clone3/clone3_selftests.h b/tools/testing/selftests/clone3/clone3_selftests.h
-index 3d2663fe50ba..2e06127091f5 100644
---- a/tools/testing/selftests/clone3/clone3_selftests.h
-+++ b/tools/testing/selftests/clone3/clone3_selftests.h
-@@ -31,6 +31,13 @@ struct __clone_args {
- 	__aligned_u64 set_tid;
- 	__aligned_u64 set_tid_size;
- 	__aligned_u64 cgroup;
-+#ifndef CLONE_ARGS_SIZE_VER2
-+#define CLONE_ARGS_SIZE_VER2 88	/* sizeof third published struct */
-+#endif
-+	__aligned_u64 shadow_stack_size;
-+#ifndef CLONE_ARGS_SIZE_VER3
-+#define CLONE_ARGS_SIZE_VER3 96 /* sizeof fourth published struct */
-+#endif
- };
- 
- static pid_t sys_clone3(struct __clone_args *args, size_t size)
 
--- 
-2.30.2
+>
+> This patchset removes the need for cursors, since the new unique mount ID can be
+> used to locate the current position without having to worry about deleted and
+> added mounts.
+
+IIRC the problem with proc mounts traversals was because the lock was taken
+
+and dropped between reads so that mount entries could be deleted (not sure
+
+adding had quite the same problem) from the list in between reads.
+
+
+Sounds like I'll need to look at the code but first though but an rb-tree
+
+can have mounts removed and new mounts inserted if the locks are dropped
+
+if the retrieval is slit between multiple calls.
+
+
+So I'm struggling to see why this isn't the same problem and I don't think
+
+introducing cursors in this case would work (thankfully, lets do this again
+
+please).
+
+
+Ian
 
 
