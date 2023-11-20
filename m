@@ -1,76 +1,81 @@
-Return-Path: <linux-api+bounces-93-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-94-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67A137F17C5
-	for <lists+linux-api@lfdr.de>; Mon, 20 Nov 2023 16:48:10 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0EAE7F1838
+	for <lists+linux-api@lfdr.de>; Mon, 20 Nov 2023 17:11:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E2FEBB218ED
-	for <lists+linux-api@lfdr.de>; Mon, 20 Nov 2023 15:48:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8812B2822E9
+	for <lists+linux-api@lfdr.de>; Mon, 20 Nov 2023 16:11:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 451EF1DA49;
-	Mon, 20 Nov 2023 15:48:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E429F1DDFF;
+	Mon, 20 Nov 2023 16:11:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LFGlYdyZ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aVeHwi+2"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 257451C299;
-	Mon, 20 Nov 2023 15:48:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8761EC433C7;
-	Mon, 20 Nov 2023 15:47:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2D1A1DDD1;
+	Mon, 20 Nov 2023 16:11:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29C76C433C8;
+	Mon, 20 Nov 2023 16:11:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700495281;
-	bh=Pqf0n0WeWapO2rexMfY7DVUbXOQsxxnsm5OV8uzP0l0=;
+	s=k20201202; t=1700496675;
+	bh=l4r0Zimkl2LX+9IdnFYB72JaaxPTIHzvY5B+YteFh1o=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LFGlYdyZ4aooQny7HpcVdwiEhDOv+NfyxvwJDl5MhddiGZMQcQfPexiJQG5vduf+2
-	 e6usNZrsf9DQAJavs1p0ZasnPuxM7z42rQB5u3DPzTMUV8hocsdghKfYkL/wCemVHA
-	 AEQwyTdHo9DB50LPO9wiYjrKDkMo361uqixSnd4x7QE1PrBQVguNmxViYJQj8xC4L/
-	 QoK060hByDKtkmW7XJLgEWlg/5Pr+2adCARB2Fn0/mW3E7XBWGvOghm/6LwqcTkwFj
-	 ezh6zPw5NfemTc8o89g3ZOSALWluWZsI5q2KhV3AXoOz9UaKggQprcdsb35h3npn1y
-	 ZM6/+pcUkOJwA==
-Date: Mon, 20 Nov 2023 15:47:52 +0000
+	b=aVeHwi+2Hgj/MxBohgdl7uWfeCXEx0zHDkNp3GoXfAlPyCNdXjhISc08To2mAWpsg
+	 Ka9agmJfeGTq2PwGP7qlDGL2YLoNjtaLlnd2RdQFk74FLmg3ZXJw8OYrOFjOCYjVDK
+	 jbbYKoWmyAwlnJ8SS28QkFVQZQu0D4d1lJTGkwE/CcJfi/xh9choFN3jLPEeJkjln+
+	 a8d5Q5l2VC6gcFdSM1pZijn63wQgEPhxjx2bpDgcdb9YbWkH4365hcYI5QfOxgcuRs
+	 baqdvbxxy2MiR/8bVvBENWqGlzB0zRWDLaLwc1eAK6LbUaC2QOh7tGPbYAcZ3zxuu5
+	 AZLFtTkfi6SiA==
+Date: Mon, 20 Nov 2023 16:11:05 +0000
 From: Mark Brown <broonie@kernel.org>
-To: Deepak Gupta <debug@rivosinc.com>
-Cc: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
-	"dietmar.eggemann@arm.com" <dietmar.eggemann@arm.com>,
+To: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+Cc: "dietmar.eggemann@arm.com" <dietmar.eggemann@arm.com>,
+	"keescook@chromium.org" <keescook@chromium.org>,
+	"shuah@kernel.org" <shuah@kernel.org>,
 	"Szabolcs.Nagy@arm.com" <Szabolcs.Nagy@arm.com>,
-	"brauner@kernel.org" <brauner@kernel.org>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+	"linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+	"debug@rivosinc.com" <debug@rivosinc.com>,
 	"mgorman@suse.de" <mgorman@suse.de>,
-	"vincent.guittot@linaro.org" <vincent.guittot@linaro.org>,
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
 	"fweimer@redhat.com" <fweimer@redhat.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
 	"mingo@redhat.com" <mingo@redhat.com>,
-	"rostedt@goodmis.org" <rostedt@goodmis.org>,
 	"hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+	"rostedt@goodmis.org" <rostedt@goodmis.org>,
 	"tglx@linutronix.de" <tglx@linutronix.de>,
 	"vschneid@redhat.com" <vschneid@redhat.com>,
-	"shuah@kernel.org" <shuah@kernel.org>,
+	"brauner@kernel.org" <brauner@kernel.org>,
+	"vincent.guittot@linaro.org" <vincent.guittot@linaro.org>,
 	"bristot@redhat.com" <bristot@redhat.com>,
-	"hpa@zytor.com" <hpa@zytor.com>,
+	"will@kernel.org" <will@kernel.org>,
+	"catalin.marinas@arm.com" <catalin.marinas@arm.com>,
 	"peterz@infradead.org" <peterz@infradead.org>,
+	"hpa@zytor.com" <hpa@zytor.com>,
+	"jannh@google.com" <jannh@google.com>,
 	"bp@alien8.de" <bp@alien8.de>,
 	"bsegall@google.com" <bsegall@google.com>,
-	"x86@kernel.org" <x86@kernel.org>,
-	"juri.lelli@redhat.com" <juri.lelli@redhat.com>,
 	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-	"linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-	"keescook@chromium.org" <keescook@chromium.org>,
-	"jannh@google.com" <jannh@google.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-	"will@kernel.org" <will@kernel.org>,
-	"Pandey, Sunil K" <sunil.k.pandey@intel.com>
-Subject: Re: [PATCH RFC RFT v2 5/5] kselftest/clone3: Test shadow stack
- support
-Message-ID: <fde30e5a-f795-46ed-9dd8-9370c4f0aae8@sirena.org.uk>
-References: <20231114-clone3-shadow-stack-v2-0-b613f8681155@kernel.org>
- <20231114-clone3-shadow-stack-v2-5-b613f8681155@kernel.org>
- <309927ad8bfa72ce2d084ee16cd0cd84e69fef16.camel@intel.com>
- <ZVfXTmVestrAwIkN@debug.ba.rivosinc.com>
+	"Pandey, Sunil K" <sunil.k.pandey@intel.com>,
+	"x86@kernel.org" <x86@kernel.org>,
+	"juri.lelli@redhat.com" <juri.lelli@redhat.com>
+Subject: Re: [PATCH RFC RFT v2 2/5] fork: Add shadow stack support to clone3()
+Message-ID: <0f7747d2-f2ee-4e3e-be70-231673365339@sirena.org.uk>
+References: <ZVTvvJTOV777UGsP@arm.com>
+ <d90884a0-c4d3-41e9-8f23-68aa87bbe269@sirena.org.uk>
+ <d05d23d56bd2c7de30e7732e6bd3d313d8385c47.camel@intel.com>
+ <ZVXvptSmmJ6MQ0dY@arm.com>
+ <1bd189e0-a7dd-422c-9766-ef1c9b0d3df8@sirena.org.uk>
+ <ZVYfO/yqRtuRYaJA@arm.com>
+ <54d3bc9c-9890-49f0-9e9d-78ea4d0d7199@sirena.org.uk>
+ <9ce63f824b768f9635e55150815ee614fdee1d73.camel@intel.com>
+ <eebf054b-7e0e-4732-8d8c-718073ec32ed@sirena.org.uk>
+ <2f92f798a1807679d193fa19b217486f57398163.camel@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -78,56 +83,40 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="3acFUUbMZ6fZyK3o"
+	protocol="application/pgp-signature"; boundary="oHaoulzZJbn3kFex"
 Content-Disposition: inline
-In-Reply-To: <ZVfXTmVestrAwIkN@debug.ba.rivosinc.com>
+In-Reply-To: <2f92f798a1807679d193fa19b217486f57398163.camel@intel.com>
 X-Cookie: <Manoj> I *like* the chicken
 
 
---3acFUUbMZ6fZyK3o
+--oHaoulzZJbn3kFex
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Fri, Nov 17, 2023 at 01:12:46PM -0800, Deepak Gupta wrote:
-> On Tue, Nov 14, 2023 at 11:11:58PM +0000, Edgecombe, Rick P wrote:
+On Fri, Nov 17, 2023 at 05:43:26PM +0000, Edgecombe, Rick P wrote:
 
-> > It seems like there will be a need for some generic method of checking
-> > if shadow stack is enabled. Maybe a more generic compiler
-> > intrinsic/builtin or glibc API (something unrelated to SSP)?
+> Either of those seem fine to me, but it would be nice to get it vetted
+> by the libc folks before committing. I'd maybe lean towards the one you
+> suggested without the new flag.
 
-> Exposing a new file under procfs would be useful?
-> Something like "/proc/sys/vm/user_shadow_stack_supported"
+I'll go with just taking the stack size as a parameter then, less
+validation, hopefully the userspace people will be OK with that - I
+agree it'd be best to get their buy in.
 
-> `map_shadow_stack` can return MAP_FAILED for other reasons.
-> I think `kselftests` are fine but I don't want people to pick up this
-> as test code and run with it in production :-)
-
-> So kernel providing a way to indicate whether it supports shadow stack
-> mappings in user mode via procfs would be useful and arch agnostic.
-
-I can see that might be useful for some higher level code that wants to
-tune the size and nothing else.  I'd be tempted to do it through adding
-a tuneable for the maximum default shadow stack size (x86 currently uses
-4G) just so it's *vaguely* useful rather than just a file.  I question
-the utility of that but just a plain file doesn't feel quite idiomatic.
-
-In any case it feels like it's off topic for this series and should be
-done separately.
-
---3acFUUbMZ6fZyK3o
+--oHaoulzZJbn3kFex
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmVbf6cACgkQJNaLcl1U
-h9Ak7wf8CA50MceuP83I2frKM1LB7rUjimAktBhZrwl5FbVW7GLI9WxpLtXZ4Gce
-6+H6sDQmMtCmAiYmwZG214ZNu95rQr8HUxQCVs8WY7Ir3h9U02/MNpcaIXswd1oe
-kbT14fSM/GGsA+uSKGkbuXMSQAONUKNC7iNF6R52pKZs4J4clVxxylydo47OFrDD
-/EkwidMFHpPlsJkv48ETgjih58pssM9+B/oBIP1RlwmS4sgPshT9+wyEGnFjs83O
-susJUcqp61pP6dV2CQN1YRfvGWo+vsZ6ByHLKOrOM9SEVJAm01FzzwYPEyRhXj+S
-FxAsuQ+E51GZknCUfOkBnAjqeuY8hw==
-=L/Yb
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmVbhRkACgkQJNaLcl1U
+h9Cdrwf+PmZcxRd9PuAOMhD/6WyXjzTrfyyd7VVQcWto1Pi1mU7ex1a6Z6PPdldx
+ICSc5ltzExGle1le1oPaux2tfECZmEUwesny78lyH61HNVLzpbnIwYgxf5gqug9l
+/vSYnX2H2VhdXPnpkBoDWi6u0efw2aBYZiKvFCtTh+KOTOYCAsgGGevgtX0f2yKv
+qn9eYcl8tN9LAwSLf9wzCs3hLPo1AS4RcxZwfsUaqEonFBtdHPx5jAFqXKkF7lc0
+uU3bhzZF5mtnggRUWxTeQ9vzAPe57SywrWklzQNVj1OgRR/vthYZagsDCoLr/MjS
+yCc4JkHAq5fDXpziU7O62hNi5nofMg==
+=V1wv
 -----END PGP SIGNATURE-----
 
---3acFUUbMZ6fZyK3o--
+--oHaoulzZJbn3kFex--
 
