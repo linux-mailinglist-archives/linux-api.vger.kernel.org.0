@@ -1,130 +1,133 @@
-Return-Path: <linux-api+bounces-92-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-93-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AEE47F1778
-	for <lists+linux-api@lfdr.de>; Mon, 20 Nov 2023 16:38:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67A137F17C5
+	for <lists+linux-api@lfdr.de>; Mon, 20 Nov 2023 16:48:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 892FEB2189B
-	for <lists+linux-api@lfdr.de>; Mon, 20 Nov 2023 15:38:16 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E2FEBB218ED
+	for <lists+linux-api@lfdr.de>; Mon, 20 Nov 2023 15:48:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02CD51D6B1;
-	Mon, 20 Nov 2023 15:38:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 451EF1DA49;
+	Mon, 20 Nov 2023 15:48:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XggcxYpd"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LFGlYdyZ"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF5901D546;
-	Mon, 20 Nov 2023 15:38:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFDA8C433C8;
-	Mon, 20 Nov 2023 15:38:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 257451C299;
+	Mon, 20 Nov 2023 15:48:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8761EC433C7;
+	Mon, 20 Nov 2023 15:47:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700494691;
-	bh=V/gEbXHf7msuIYmekR4+CzwjOqMIaKw26uDtvj0+qFM=;
+	s=k20201202; t=1700495281;
+	bh=Pqf0n0WeWapO2rexMfY7DVUbXOQsxxnsm5OV8uzP0l0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XggcxYpdOUX2bbB8XTJAwJYcatmv0J9n0vYM4cR4w7viqBhtBRsz7CTZ9T+cqbUIL
-	 44Aj/5aqonkcHTjvUrEjR9s7FRvivyFau/DZyMdBS/23foob8BJ18/ODKMotPsNt90
-	 ka20WHes20fBe0hfg9bWBTKJgBGDgfLFduMUGGkUN0JjrhUp6BnEsqMYOdWsB7tTmQ
-	 zq8iL6dA/lgOiTSC/pL35W7gUFWVkWnIy23mqKPPHpuFnE8aati9dM7xDgw8TDXBqS
-	 DEGdC6qmJZW4mq8vl5J0WeOmqNuAzsCtqvbD6Fak09QFFxc95clvVGo4nC4Xa+cBRL
-	 +yow5ssMmjaNw==
-Date: Mon, 20 Nov 2023 16:38:05 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Florian Weimer <fweimer@redhat.com>, libc-alpha@sourceware.org,
-	linux-man <linux-man@vger.kernel.org>,
-	Alejandro Colomar <alx@kernel.org>,
-	Linux API <linux-api@vger.kernel.org>,
-	linux-fsdevel@vger.kernel.org, Karel Zak <kzak@redhat.com>,
-	Ian Kent <raven@themaw.net>, David Howells <dhowells@redhat.com>,
-	Christian Brauner <christian@brauner.io>,
-	Amir Goldstein <amir73il@gmail.com>, Arnd Bergmann <arnd@arndb.de>
-Subject: Re: proposed libc interface and man page for statmount(2)
-Message-ID: <20231120-wachhalten-darfst-ed3244509881@brauner>
-References: <CAJfpegsMahRZBk2d2vRLgO8ao9QUP28BwtfV1HXp5hoTOH6Rvw@mail.gmail.com>
- <87fs15qvu4.fsf@oldenburg.str.redhat.com>
- <CAJfpegvqBtePer8HRuShe3PAHLbCg9YNUpOWzPg-+=gGwQJWpw@mail.gmail.com>
- <87leawphcj.fsf@oldenburg.str.redhat.com>
- <CAJfpegsCfuPuhtD+wfM3mUphqk9AxWrBZDa9-NxcdnsdAEizaw@mail.gmail.com>
- <CAJfpegsBqbx5+VMHVHbYx2CdxxhtKHYD4V-nN5J3YCtXTdv=TQ@mail.gmail.com>
- <ZVtEkeTuqAGG8Yxy@maszat.piliscsaba.szeredi.hu>
+	b=LFGlYdyZ4aooQny7HpcVdwiEhDOv+NfyxvwJDl5MhddiGZMQcQfPexiJQG5vduf+2
+	 e6usNZrsf9DQAJavs1p0ZasnPuxM7z42rQB5u3DPzTMUV8hocsdghKfYkL/wCemVHA
+	 AEQwyTdHo9DB50LPO9wiYjrKDkMo361uqixSnd4x7QE1PrBQVguNmxViYJQj8xC4L/
+	 QoK060hByDKtkmW7XJLgEWlg/5Pr+2adCARB2Fn0/mW3E7XBWGvOghm/6LwqcTkwFj
+	 ezh6zPw5NfemTc8o89g3ZOSALWluWZsI5q2KhV3AXoOz9UaKggQprcdsb35h3npn1y
+	 ZM6/+pcUkOJwA==
+Date: Mon, 20 Nov 2023 15:47:52 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Deepak Gupta <debug@rivosinc.com>
+Cc: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
+	"dietmar.eggemann@arm.com" <dietmar.eggemann@arm.com>,
+	"Szabolcs.Nagy@arm.com" <Szabolcs.Nagy@arm.com>,
+	"brauner@kernel.org" <brauner@kernel.org>,
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+	"mgorman@suse.de" <mgorman@suse.de>,
+	"vincent.guittot@linaro.org" <vincent.guittot@linaro.org>,
+	"fweimer@redhat.com" <fweimer@redhat.com>,
+	"mingo@redhat.com" <mingo@redhat.com>,
+	"rostedt@goodmis.org" <rostedt@goodmis.org>,
+	"hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+	"tglx@linutronix.de" <tglx@linutronix.de>,
+	"vschneid@redhat.com" <vschneid@redhat.com>,
+	"shuah@kernel.org" <shuah@kernel.org>,
+	"bristot@redhat.com" <bristot@redhat.com>,
+	"hpa@zytor.com" <hpa@zytor.com>,
+	"peterz@infradead.org" <peterz@infradead.org>,
+	"bp@alien8.de" <bp@alien8.de>,
+	"bsegall@google.com" <bsegall@google.com>,
+	"x86@kernel.org" <x86@kernel.org>,
+	"juri.lelli@redhat.com" <juri.lelli@redhat.com>,
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+	"linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+	"keescook@chromium.org" <keescook@chromium.org>,
+	"jannh@google.com" <jannh@google.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+	"will@kernel.org" <will@kernel.org>,
+	"Pandey, Sunil K" <sunil.k.pandey@intel.com>
+Subject: Re: [PATCH RFC RFT v2 5/5] kselftest/clone3: Test shadow stack
+ support
+Message-ID: <fde30e5a-f795-46ed-9dd8-9370c4f0aae8@sirena.org.uk>
+References: <20231114-clone3-shadow-stack-v2-0-b613f8681155@kernel.org>
+ <20231114-clone3-shadow-stack-v2-5-b613f8681155@kernel.org>
+ <309927ad8bfa72ce2d084ee16cd0cd84e69fef16.camel@intel.com>
+ <ZVfXTmVestrAwIkN@debug.ba.rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="3acFUUbMZ6fZyK3o"
 Content-Disposition: inline
-In-Reply-To: <ZVtEkeTuqAGG8Yxy@maszat.piliscsaba.szeredi.hu>
+In-Reply-To: <ZVfXTmVestrAwIkN@debug.ba.rivosinc.com>
+X-Cookie: <Manoj> I *like* the chicken
 
-On Mon, Nov 20, 2023 at 12:55:17PM +0100, Miklos Szeredi wrote:
-> On Fri, Nov 17, 2023 at 04:50:25PM +0100, Miklos Szeredi wrote:
-> > I wonder... Is there a reason this shouldn't be done statelessly by
-> > adding an "continue after this ID" argument to listmount(2)?  The
-> > caller will just need to pass the last mount ID received in the array
-> > to the next listmount(2) call and iterate until a short count is
-> > returned.
-> 
-> No comments so far... maybe more explanation is needed.
-> 
-> New signature of listmount() would be:
-> 
-> ssize_t listmount(uint64_t mnt_id, uint64_t last_mnt_id,
-> 		  uint64_t *buf, size_t bufsize, unsigned int flags);
-> 
-> And the usage would be:
-> 
-> 	for (last = 0; nres == bufsize; last = buf[bufsize-1]) {
-> 		nres = listmount(parent, last, buf, bufsize, flags);
-> 		for (i = 0; i < nres; i++) {
-> 			/* process buf[i] */
-> 		}
-> 	}
-> 
-> 
-> Here's a kernel patch against the version in Christian's tree.  The syscall
-> signature doesn't need changing, since we have a spare u64 in the mnt_id_req for
-> listmount.
-> 
-> The major difference is in the order that the mount ID's are listed, which is
-> now strictly increasing.  Doing the recursive listing in DFS order is nicer, but
-> I don't think it's important enough.
-> 
-> Comments?
 
-Sure. We can also add a size argument to struct mnt_id_req then you can
-version it by size and extend it easily later (see sched_{g,s}etattr()
-that do similar things):
+--3acFUUbMZ6fZyK3o
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-struct mnt_id_req {
-	__u32 size;
-	__u64 mnt_id;
-	__u64 request_mask;
-	union {
-		__u64 request_mask;
-		__u64 last_mnt_id;
-	};
-};
+On Fri, Nov 17, 2023 at 01:12:46PM -0800, Deepak Gupta wrote:
+> On Tue, Nov 14, 2023 at 11:11:58PM +0000, Edgecombe, Rick P wrote:
 
-foo(struct mnt_id_req __user *ureq)
-{
-	u32 size;
-	struct mnt_id_req kreq;
+> > It seems like there will be a need for some generic method of checking
+> > if shadow stack is enabled. Maybe a more generic compiler
+> > intrinsic/builtin or glibc API (something unrelated to SSP)?
 
-	ret = get_user(size, &ureq->size);
-	if (ret)
-		return ret;
+> Exposing a new file under procfs would be useful?
+> Something like "/proc/sys/vm/user_shadow_stack_supported"
 
-        if (size < MNT_ID_REQ_SIZE_VER0 || size > PAGE_SIZE)
-		return -EINVAL;
+> `map_shadow_stack` can return MAP_FAILED for other reasons.
+> I think `kselftests` are fine but I don't want people to pick up this
+> as test code and run with it in production :-)
 
-	ret = copy_struct_from_user(&kreq, sizeof(kreq), ureq, size);
-	if (ret)
-		return ret;
-}
+> So kernel providing a way to indicate whether it supports shadow stack
+> mappings in user mode via procfs would be useful and arch agnostic.
+
+I can see that might be useful for some higher level code that wants to
+tune the size and nothing else.  I'd be tempted to do it through adding
+a tuneable for the maximum default shadow stack size (x86 currently uses
+4G) just so it's *vaguely* useful rather than just a file.  I question
+the utility of that but just a plain file doesn't feel quite idiomatic.
+
+In any case it feels like it's off topic for this series and should be
+done separately.
+
+--3acFUUbMZ6fZyK3o
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmVbf6cACgkQJNaLcl1U
+h9Ak7wf8CA50MceuP83I2frKM1LB7rUjimAktBhZrwl5FbVW7GLI9WxpLtXZ4Gce
+6+H6sDQmMtCmAiYmwZG214ZNu95rQr8HUxQCVs8WY7Ir3h9U02/MNpcaIXswd1oe
+kbT14fSM/GGsA+uSKGkbuXMSQAONUKNC7iNF6R52pKZs4J4clVxxylydo47OFrDD
+/EkwidMFHpPlsJkv48ETgjih58pssM9+B/oBIP1RlwmS4sgPshT9+wyEGnFjs83O
+susJUcqp61pP6dV2CQN1YRfvGWo+vsZ6ByHLKOrOM9SEVJAm01FzzwYPEyRhXj+S
+FxAsuQ+E51GZknCUfOkBnAjqeuY8hw==
+=L/Yb
+-----END PGP SIGNATURE-----
+
+--3acFUUbMZ6fZyK3o--
 
