@@ -1,58 +1,58 @@
-Return-Path: <linux-api+bounces-109-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-110-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A0217F34A8
-	for <lists+linux-api@lfdr.de>; Tue, 21 Nov 2023 18:13:23 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4EE37F3526
+	for <lists+linux-api@lfdr.de>; Tue, 21 Nov 2023 18:43:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9EB18B20FEF
-	for <lists+linux-api@lfdr.de>; Tue, 21 Nov 2023 17:13:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 99A901F22A36
+	for <lists+linux-api@lfdr.de>; Tue, 21 Nov 2023 17:43:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CE085A100;
-	Tue, 21 Nov 2023 17:13:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3FB820DCB;
+	Tue, 21 Nov 2023 17:43:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eOpT3uUb"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jIsxsBz1"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com [IPv6:2607:f8b0:4864:20::112f])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A172F10C1;
-	Tue, 21 Nov 2023 09:13:06 -0800 (PST)
-Received: by mail-yw1-x112f.google.com with SMTP id 00721157ae682-5ca77fc0f04so22365807b3.0;
-        Tue, 21 Nov 2023 09:13:06 -0800 (PST)
+Received: from mail-yw1-x1133.google.com (mail-yw1-x1133.google.com [IPv6:2607:f8b0:4864:20::1133])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C32F112;
+	Tue, 21 Nov 2023 09:43:33 -0800 (PST)
+Received: by mail-yw1-x1133.google.com with SMTP id 00721157ae682-5ca77fc0f04so22722317b3.0;
+        Tue, 21 Nov 2023 09:43:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700586785; x=1701191585; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1700588612; x=1701193412; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=3AE1vsaCg/OCpsM8DXy41/9s8SNdAdOfniKnePQoU6s=;
-        b=eOpT3uUbu7aJoO2m943tCCnvtyH+xgW8QRT9gX+UlvWV/HsICy6rgzl+tLpXqJRGRD
-         RVteTpaGyrhiGfAOSbtxTLOiqbsuTeK8ydCAgIIEhzMTzdIP4g6CEAGDQ8cj3zH5R/fh
-         T/LpVEfH8RGRgNFtgISCyZfiP0wD9VroNUOonbuMFczernWUWUyIY1VytvXRfCb8e/lF
-         lIuFBYkFEJ7kROaI7Vk0muLV9VG//QGHmZdQCcKpU1s/mJUQmUOxIG+wrb+4DmT5/xQ/
-         PhECaavV6BfmGGe7lfmIOPyzNmo65uMskbroUwKdXrQCaIFB+4UCOtmin0BLGDK01f4X
-         xSNQ==
+        bh=jcdO93W2gkiSVTYsE02lua5YrAmzsNVRNsOXdkCHlX0=;
+        b=jIsxsBz1y65mKLSL9qG3/iYmx3jZfgpgNYdO5QZYheeJEVwYz199vVv/JfKY509LK3
+         B+WD2J5YN3AwadPgPKLTtnT391uneV9Q4ifSDFtjasGM91aa2mQh1l6D5z4RPtvuoB21
+         lqld9DLDeGGPLkQRd+YxADX4yOsuSHgUoTzqL8osr8ISDLwZMt2mL9o48+4ociWeekGq
+         xLg0cvdjWlee1kXxX+yU8Mp8GAUSVH4GfJ7RuR38kkpE6v53CBc0WM9leDHJEfx3hcdn
+         d96EhD5ft+fvxAM5vmOjE/43jkZUG957c8a+qO+s7btvtT6Nx3GmAyqZiKfPhLrePiFu
+         04Ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700586785; x=1701191585;
+        d=1e100.net; s=20230601; t=1700588612; x=1701193412;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3AE1vsaCg/OCpsM8DXy41/9s8SNdAdOfniKnePQoU6s=;
-        b=DuPVW+sfCMml9z+KqPdoNYknoJFBEtrXPSuK/ZT42Fg3vFsufJraaPZXHywLUHfV6Y
-         hk7SR2AGHehhsrEeXe12jJz71k+n6BY70+xOIKQbQnqdryW027+hrOXY4BgArAyI1Xa9
-         chYuu4aVehyQrhDhEY6lnybBXNNC6H3w21RJMDwn3D61Mk0/F31om57bTXqPSqlzXKQD
-         pn4N04s/ecNZUemHfm5AoZPfq+oRxKgyBR0k50LM9QRRXayEy3AY5EwpQW1k56ykOrbq
-         9tOthHC/mY980Bv1aPn+zemHx1FmvIBt0guo6RLEjZWb4t78p6CqpHFSMXgLkEC8pFd2
-         l3Hw==
-X-Gm-Message-State: AOJu0YwEBBamGsRmPJKq+WACwxA2NTYT+Xfivj62UGZfubZ9N1ZyKx3Y
-	LVrxbvwtkcFZFKtB5caJwY0=
-X-Google-Smtp-Source: AGHT+IHT3ZApSXGATslgtejB/P1iO54fqZKujt8TRiYqECERZwq3b3xGOgsDOV7noQMCcVdL1wlb7g==
-X-Received: by 2002:a25:a206:0:b0:da0:53d2:8f46 with SMTP id b6-20020a25a206000000b00da053d28f46mr8261338ybi.25.1700586785446;
-        Tue, 21 Nov 2023 09:13:05 -0800 (PST)
+        bh=jcdO93W2gkiSVTYsE02lua5YrAmzsNVRNsOXdkCHlX0=;
+        b=Rec6J6rch9+snJra2jqegy7crLFy2iCtlCTa9U1Y/CYoZx8pRcvH4b+T20q9zO7pLI
+         +vJcDvxW+y0Z+Vbfsz0yKgiMN/xDT9SbCc7RK2le12QEB9uauMvQ+2A5aCkSxGIumh+1
+         VgfTLtaAu+v+jJiQ2tvNwqSX69xgQh6bLX14ahv6y+UCUuEVUtKMFHA47zcGdkN9drN/
+         8lo+B8abwA0EvLVi3sv1k/cXOArn9t9g8yGO3FkXT1Y6Q4SnJRq8qifyHNMH3/8qIydK
+         i8N6iPTOM6DwTJyv/tNNlH/FSJUg1IAfFUcwAziUjZJ6iPpRry2n6SwY783hDJZn0YK9
+         lPbw==
+X-Gm-Message-State: AOJu0YwW0BhW5iMfr2kn5gpsNPWjlzbZtHBDvQQS8oDEdohuZuDpyXkf
+	DsIM7ypqaE3I9ZDQDgX8m6bxSiudwpHqwQ==
+X-Google-Smtp-Source: AGHT+IE0znboxlh0HZKnnqZnSwVeg1ibAFyJKHEFFtP0OQ0Bd+RshL0lvovr/orHfDokbFAPfvWvLQ==
+X-Received: by 2002:a05:690c:270b:b0:5c9:b734:b086 with SMTP id dy11-20020a05690c270b00b005c9b734b086mr6319861ywb.21.1700588611876;
+        Tue, 21 Nov 2023 09:43:31 -0800 (PST)
 Received: from localhost ([2601:344:8301:57f0:e005:b808:45e:1b60])
-        by smtp.gmail.com with ESMTPSA id y5-20020a259b05000000b00d9cd730e4d0sm803882ybn.26.2023.11.21.09.13.04
+        by smtp.gmail.com with ESMTPSA id z188-20020a0dd7c5000000b005af5bb5e840sm3185517ywd.34.2023.11.21.09.43.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Nov 2023 09:13:05 -0800 (PST)
-Date: Tue, 21 Nov 2023 09:13:04 -0800
+        Tue, 21 Nov 2023 09:43:31 -0800 (PST)
+Date: Tue, 21 Nov 2023 09:43:30 -0800
 From: Yury Norov <yury.norov@gmail.com>
 To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 Cc: Peter Zijlstra <peterz@infradead.org>, linux-kernel@vger.kernel.org,
@@ -65,11 +65,10 @@ Cc: Peter Zijlstra <peterz@infradead.org>, linux-kernel@vger.kernel.org,
 	carlos@redhat.com, Peter Oskolkov <posk@posk.io>,
 	Alexander Mikhalitsyn <alexander@mihalicyn.com>,
 	Chris Kennelly <ckennelly@google.com>
-Subject: Re: [PATCH 23/30] cpumask: Implement
- cpumask_{first,next}_{not,}andnot
-Message-ID: <ZVzlIAUrxGUFsoyt@yury-ThinkPad>
+Subject: Re: [PATCH 24/30] sched: NUMA-aware per-memory-map concurrency ID
+Message-ID: <ZVzsQl2vakb9xSWe@yury-ThinkPad>
 References: <20221122203932.231377-1-mathieu.desnoyers@efficios.com>
- <20221122203932.231377-24-mathieu.desnoyers@efficios.com>
+ <20221122203932.231377-25-mathieu.desnoyers@efficios.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -78,111 +77,455 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221122203932.231377-24-mathieu.desnoyers@efficios.com>
+In-Reply-To: <20221122203932.231377-25-mathieu.desnoyers@efficios.com>
 
-On Tue, Nov 22, 2022 at 03:39:25PM -0500, Mathieu Desnoyers wrote:
-> Allow finding the first or next bit within two input cpumasks which is
-> either:
+On Tue, Nov 22, 2022 at 03:39:26PM -0500, Mathieu Desnoyers wrote:
+> Keep track of a NUMA-aware concurrency ID. On NUMA systems, when a
+> NUMA-aware concurrency ID is observed by user-space to be associated
+> with a NUMA node, it is guaranteed to never change NUMA node unless a
+> kernel-level NUMA configuration change happens.
 > 
-> - both zero and zero,
-> - respectively one and zero.
+> Exposing a numa-aware concurrency ID is useful in situations where a
+> process or a set of processes belonging to cpuset are pinned to a set of
+> cores which belong to a subset of the system's NUMA nodes. In those
+> situations, it is possible to benefit from the compactness of
+> concurrency IDs over CPU ids, while keeping NUMA locality, for indexing
+> a per-cpu data structure which takes into account NUMA locality.
 > 
 > Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 > ---
->  include/linux/cpumask.h | 60 +++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 60 insertions(+)
+>  include/linux/mm.h       |  18 +++++
+>  include/linux/mm_types.h |  68 +++++++++++++++-
+>  include/linux/sched.h    |   3 +
+>  kernel/fork.c            |   3 +
+>  kernel/sched/core.c      |   8 +-
+>  kernel/sched/sched.h     | 168 +++++++++++++++++++++++++++++++++++----
+>  6 files changed, 245 insertions(+), 23 deletions(-)
 > 
-> diff --git a/include/linux/cpumask.h b/include/linux/cpumask.h
-> index c2aa0aa26b45..271bccc0a6d7 100644
-> --- a/include/linux/cpumask.h
-> +++ b/include/linux/cpumask.h
-> @@ -153,6 +153,32 @@ unsigned int cpumask_first_and(const struct cpumask *srcp1, const struct cpumask
->  	return find_first_and_bit(cpumask_bits(srcp1), cpumask_bits(srcp2), nr_cpumask_bits);
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index e0fba52de3e2..c7dfdf4c9d08 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -3484,6 +3484,20 @@ static inline int task_mm_cid(struct task_struct *t)
+>  {
+>  	return t->mm_cid;
+>  }
+> +#ifdef CONFIG_NUMA
+> +static inline int task_mm_numa_cid(struct task_struct *t)
+> +{
+> +	if (num_possible_nodes() == 1)
+> +		return task_mm_cid(t);
+> +	else
+> +		return t->mm_numa_cid;
+> +}
+> +#else
+> +static inline int task_mm_numa_cid(struct task_struct *t)
+> +{
+> +	return task_mm_cid(t);
+> +}
+> +#endif
+>  #else
+>  static inline void sched_mm_cid_before_execve(struct task_struct *t) { }
+>  static inline void sched_mm_cid_after_execve(struct task_struct *t) { }
+> @@ -3498,6 +3512,10 @@ static inline int task_mm_cid(struct task_struct *t)
+>  	 */
+>  	return raw_smp_processor_id();
+>  }
+> +static inline int task_mm_numa_cid(struct task_struct *t)
+> +{
+> +	return task_mm_cid(t);
+> +}
+>  #endif
+>  
+>  #endif /* _LINUX_MM_H */
+> diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+> index dabb42d26bb9..8c9afe8ce603 100644
+> --- a/include/linux/mm_types.h
+> +++ b/include/linux/mm_types.h
+> @@ -18,6 +18,7 @@
+>  #include <linux/page-flags-layout.h>
+>  #include <linux/workqueue.h>
+>  #include <linux/seqlock.h>
+> +#include <linux/nodemask.h>
+>  
+>  #include <asm/mmu.h>
+>  
+> @@ -847,15 +848,80 @@ static inline cpumask_t *mm_cidmask(struct mm_struct *mm)
+>  	return (struct cpumask *)cid_bitmap;
 >  }
 >  
-> +/**
-> + * cpumask_first_andnot - return the first cpu from *srcp1 & ~*srcp2
-> + * @src1p: the first input
-> + * @src2p: the second input
-> + *
-> + * Returns >= nr_cpu_ids if no cpus match in both.
+> +#ifdef CONFIG_NUMA
+> +/*
+> + * Layout of node cidmasks:
+> + * - mm_numa cidmask:           cpumask of the currently used mm_numa cids.
+> + * - node_alloc cidmask:        cpumask tracking which cid were
+> + *                              allocated (across nodes) in this
+> + *                              memory map.
+> + * - node cidmask[nr_node_ids]: per-node cpumask tracking which cid
+> + *                              were allocated in this memory map.
 > + */
-> +static inline
-> +unsigned int cpumask_first_andnot(const struct cpumask *srcp1, const struct cpumask *srcp2)
+> +static inline cpumask_t *mm_numa_cidmask(struct mm_struct *mm)
 > +{
-> +	return find_first_andnot_bit(cpumask_bits(srcp1), cpumask_bits(srcp2), nr_cpumask_bits);
+> +	unsigned long cid_bitmap = (unsigned long)mm_cidmask(mm);
+> +
+> +	/* Skip mm_cidmask */
+> +	cid_bitmap += cpumask_size();
+> +	return (struct cpumask *)cid_bitmap;
 > +}
 > +
-> +/**
-> + * cpumask_first_notandnot - return the first cpu from ~*srcp1 & ~*srcp2
-> + * @src1p: the first input
-> + * @src2p: the second input
-> + *
-> + * Returns >= nr_cpu_ids if no cpus match in both.
-> + */
-> +static inline
-> +unsigned int cpumask_first_notandnot(const struct cpumask *srcp1, const struct cpumask *srcp2)
-
-cpumask_first_zero_or
-
+> +static inline cpumask_t *mm_node_alloc_cidmask(struct mm_struct *mm)
 > +{
-> +	return find_first_notandnot_bit(cpumask_bits(srcp1), cpumask_bits(srcp2), nr_cpumask_bits);
-> +}
-
-Can you be consistent - either add cpumask_check for all new
-functions, or don't.
-
+> +	unsigned long cid_bitmap = (unsigned long)mm_numa_cidmask(mm);
 > +
->  /**
->   * cpumask_last - get the last CPU in a cpumask
->   * @srcp:	- the cpumask pointer
-> @@ -195,6 +221,40 @@ static inline unsigned int cpumask_next_zero(int n, const struct cpumask *srcp)
->  	return find_next_zero_bit(cpumask_bits(srcp), nr_cpumask_bits, n+1);
+> +	/* Skip mm_numa_cidmask */
+> +	cid_bitmap += cpumask_size();
+> +	return (struct cpumask *)cid_bitmap;
+> +}
+> +
+> +static inline cpumask_t *mm_node_cidmask(struct mm_struct *mm, unsigned int node)
+> +{
+> +	unsigned long cid_bitmap = (unsigned long)mm_node_alloc_cidmask(mm);
+> +
+> +	/* Skip node alloc cidmask */
+> +	cid_bitmap += cpumask_size();
+> +	cid_bitmap += node * cpumask_size();
+> +	return (struct cpumask *)cid_bitmap;
+> +}
+> +
+> +static inline void mm_init_node_cidmask(struct mm_struct *mm)
+> +{
+> +	unsigned int node;
+> +
+> +	if (num_possible_nodes() == 1)
+> +		return;
+> +	cpumask_clear(mm_numa_cidmask(mm));
+> +	cpumask_clear(mm_node_alloc_cidmask(mm));
+> +	for (node = 0; node < nr_node_ids; node++)
+> +		cpumask_clear(mm_node_cidmask(mm, node));
+
+Can you use for_each_node() here? If so, I think it's worth to do it.
+
+> +}
+> +
+> +static inline unsigned int mm_node_cidmask_size(void)
+> +{
+> +	if (num_possible_nodes() == 1)
+> +		return 0;
+> +	return (nr_node_ids + 2) * cpumask_size();
+> +}
+> +#else /* CONFIG_NUMA */
+> +static inline void mm_init_node_cidmask(struct mm_struct *mm) { }
+> +static inline unsigned int mm_node_cidmask_size(void)
+> +{
+> +	return 0;
+> +}
+> +#endif /* CONFIG_NUMA */
+> +
+>  static inline void mm_init_cid(struct mm_struct *mm)
+>  {
+>  	raw_spin_lock_init(&mm->cid_lock);
+>  	cpumask_clear(mm_cidmask(mm));
+> +	mm_init_node_cidmask(mm);
 >  }
 >  
-> +/**
-> + * cpumask_next_andnot - return the next cpu from *srcp1 & ~*srcp2
-> + * @n: the cpu prior to the place to search (ie. return will be > @n)
-> + * @src1p: the first input
-> + * @src2p: the second input
-> + *
-> + * Returns >= nr_cpu_ids if no cpus match in both.
-> + */
-> +static inline
-> +unsigned int cpumask_next_andnot(int n, const struct cpumask *srcp1, const struct cpumask *srcp2)
+>  static inline unsigned int mm_cid_size(void)
+>  {
+> -	return cpumask_size();
+> +	return cpumask_size() + mm_node_cidmask_size();
+>  }
+>  #else /* CONFIG_SCHED_MM_CID */
+>  static inline void mm_init_cid(struct mm_struct *mm) { }
+> diff --git a/include/linux/sched.h b/include/linux/sched.h
+> index c7e3c27e0e2e..990ef3d4b22b 100644
+> --- a/include/linux/sched.h
+> +++ b/include/linux/sched.h
+> @@ -1317,6 +1317,9 @@ struct task_struct {
+>  #ifdef CONFIG_SCHED_MM_CID
+>  	int				mm_cid;		/* Current cid in mm */
+>  	int				mm_cid_active;	/* Whether cid bitmap is active */
+> +#ifdef CONFIG_NUMA
+> +	int				mm_numa_cid;	/* Current numa_cid in mm */
+> +#endif
+>  #endif
+>  
+>  	struct tlbflush_unmap_batch	tlb_ubc;
+> diff --git a/kernel/fork.c b/kernel/fork.c
+> index d48dedc4be75..364f4c62b1a4 100644
+> --- a/kernel/fork.c
+> +++ b/kernel/fork.c
+> @@ -1050,6 +1050,9 @@ static struct task_struct *dup_task_struct(struct task_struct *orig, int node)
+>  #ifdef CONFIG_SCHED_MM_CID
+>  	tsk->mm_cid = -1;
+>  	tsk->mm_cid_active = 0;
+> +#ifdef CONFIG_NUMA
+> +	tsk->mm_numa_cid = -1;
+> +#endif
+>  #endif
+>  	return tsk;
+>  
+> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+> index ef0cc40cca6b..095b5eb35d3d 100644
+> --- a/kernel/sched/core.c
+> +++ b/kernel/sched/core.c
+> @@ -11284,8 +11284,7 @@ void sched_mm_cid_exit_signals(struct task_struct *t)
+>  	if (!mm)
+>  		return;
+>  	local_irq_save(flags);
+> -	mm_cid_put(mm, t->mm_cid);
+> -	t->mm_cid = -1;
+> +	mm_cid_put(mm, t);
+>  	t->mm_cid_active = 0;
+>  	local_irq_restore(flags);
+>  }
+> @@ -11298,8 +11297,7 @@ void sched_mm_cid_before_execve(struct task_struct *t)
+>  	if (!mm)
+>  		return;
+>  	local_irq_save(flags);
+> -	mm_cid_put(mm, t->mm_cid);
+> -	t->mm_cid = -1;
+> +	mm_cid_put(mm, t);
+>  	t->mm_cid_active = 0;
+>  	local_irq_restore(flags);
+>  }
+> @@ -11312,7 +11310,7 @@ void sched_mm_cid_after_execve(struct task_struct *t)
+>  	WARN_ON_ONCE((t->flags & PF_KTHREAD) || !t->mm);
+>  
+>  	local_irq_save(flags);
+> -	t->mm_cid = mm_cid_get(mm);
+> +	mm_cid_get(mm, t);
+>  	t->mm_cid_active = 1;
+>  	local_irq_restore(flags);
+>  	rseq_set_notify_resume(t);
+> diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
+> index 0096dc22926e..87f61f926e88 100644
+> --- a/kernel/sched/sched.h
+> +++ b/kernel/sched/sched.h
+> @@ -3262,38 +3262,174 @@ static inline void update_current_exec_runtime(struct task_struct *curr,
+>  }
+>  
+>  #ifdef CONFIG_SCHED_MM_CID
+> -static inline int __mm_cid_get(struct mm_struct *mm)
+> +#ifdef CONFIG_NUMA
+> +static inline void __mm_numa_cid_get(struct mm_struct *mm, struct task_struct *t)
 > +{
-> +	/* -1 is a legal arg here. */
-> +	if (n != -1)
-> +		cpumask_check(n);
-> +	return find_next_andnot_bit(cpumask_bits(srcp1), cpumask_bits(srcp2), nr_cpumask_bits, n+1);
+> +	struct cpumask *cpumask = mm_numa_cidmask(mm),
+> +		       *node_cpumask = mm_node_cidmask(mm, numa_node_id()),
+> +		       *node_alloc_cpumask = mm_node_alloc_cidmask(mm);
+> +	unsigned int node;
+> +	int cid;
+> +
+> +	if (num_possible_nodes() == 1) {
+> +		cid = -1;
+> +		goto end;
+> +	}
+> +
+> +	/*
+> +	 * Try to reserve lowest available cid number within those already
+> +	 * reserved for this NUMA node.
+> +	 */
+> +	cid = cpumask_first_andnot(node_cpumask, cpumask);
+> +	if (cid >= nr_cpu_ids)
+> +		goto alloc_numa;
+> +	__cpumask_set_cpu(cid, cpumask);
+> +	goto end;
+
+The 'end' is just a 't->mm_numa_cid = cid;' I think it would be less confusing
+if you drop it:
+
+        cid = cpumask_first_andnot();
+        if (cid < nr_cpu_ids) {
+                t->mm_numa_cid = cid;
+                return;
+        }
+                
+This would also let you to remove 'alloc_numa' label.
+
+> +
+> +alloc_numa:
+> +	/*
+> +	 * Try to reserve lowest available cid number within those not already
+> +	 * allocated for numa nodes.
+> +	 */
+> +	cid = cpumask_first_notandnot(node_alloc_cpumask, cpumask);
+> +	if (cid >= nr_cpu_ids)
+> +		goto numa_update;
+> +	__cpumask_set_cpu(cid, cpumask);
+> +	__cpumask_set_cpu(cid, node_cpumask);
+> +	__cpumask_set_cpu(cid, node_alloc_cpumask);
+> +	goto end;
+
+Same here. Reverse conditional and return from if() branch.
+
+> +numa_update:
+> +	/*
+> +	 * NUMA node id configuration changed for at least one CPU in the system.
+> +	 * We need to steal a currently unused cid from an overprovisioned
+> +	 * node for our current node. Userspace must handle the fact that the
+> +	 * node id associated with this cid may change due to node ID
+> +	 * reconfiguration.
+> +	 *
+> +	 * Count how many possible cpus are attached to each (other) node id,
+> +	 * and compare this with the per-mm node cidmask cpu count. Find one
+> +	 * which has too many cpus in its mask to steal from.
+> +	 */
+> +	for (node = 0; node < nr_node_ids; node++) {
+
+Again, for_each_node()?
+
+> +		struct cpumask *iter_cpumask;
+> +
+> +		if (node == numa_node_id())
+> +			continue;
+> +		iter_cpumask = mm_node_cidmask(mm, node);
+> +		if (nr_cpus_node(node) < cpumask_weight(iter_cpumask)) {
+> +			/* Try to steal from this node. */
+> +			cid = cpumask_first_andnot(iter_cpumask, cpumask);
+> +			if (cid >= nr_cpu_ids)
+> +				goto steal_fail;
+> +			__cpumask_set_cpu(cid, cpumask);
+> +			__cpumask_clear_cpu(cid, iter_cpumask);
+> +			__cpumask_set_cpu(cid, node_cpumask);
+> +			goto end;
+> +		}
+
+Same here, you can reverse conditional and drop goto's.
+
+> +	}
+> +
+> +steal_fail:
+> +	/*
+> +	 * Our attempt at gracefully stealing a cid from another
+> +	 * overprovisioned NUMA node failed. Fallback to grabbing the first
+> +	 * available cid.
+> +	 */
+> +	cid = cpumask_first_zero(cpumask);
+> +	if (cid >= nr_cpu_ids) {
+> +		cid = -1;
+> +		goto end;
+> +	}
+> +	__cpumask_set_cpu(cid, cpumask);
+> +	/* Steal cid from its numa node mask. */
+> +	for (node = 0; node < nr_node_ids; node++) {
+> +		struct cpumask *iter_cpumask;
+> +
+> +		if (node == numa_node_id())
+> +			continue;
+> +		iter_cpumask = mm_node_cidmask(mm, node);
+> +		if (cpumask_test_cpu(cid, iter_cpumask)) {
+> +			__cpumask_clear_cpu(cid, iter_cpumask);
+> +			break;
+> +		}
+> +	}
+> +	__cpumask_set_cpu(cid, node_cpumask);
+> +end:
+> +	t->mm_numa_cid = cid;
 > +}
 > +
-> +/**
-> + * cpumask_next_notandnot - return the next cpu from ~*srcp1 & ~*srcp2
-> + * @n: the cpu prior to the place to search (ie. return will be > @n)
-> + * @src1p: the first input
-> + * @src2p: the second input
-> + *
-> + * Returns >= nr_cpu_ids if no cpus match in both.
-> + */
-> +static inline
-> +unsigned int cpumask_next_notandnot(int n, const struct cpumask *srcp1, const struct cpumask *srcp2)
-
-same here: cpumask_next_zero_or()
-
-Thanks,
-        Yury
-
+> +static inline void __mm_numa_cid_put(struct mm_struct *mm, struct task_struct *t)
 > +{
-> +	/* -1 is a legal arg here. */
-> +	if (n != -1)
-> +		cpumask_check(n);
-> +	return find_next_notandnot_bit(cpumask_bits(srcp1), cpumask_bits(srcp2), nr_cpumask_bits, n+1);
+> +	int cid = t->mm_numa_cid;
+> +
+> +	if (num_possible_nodes() == 1)
+> +		return;
+> +	if (cid < 0)
+> +		return;
+> +	__cpumask_clear_cpu(cid, mm_numa_cidmask(mm));
+> +	t->mm_numa_cid = -1;
 > +}
 > +
->  #if NR_CPUS == 1
->  /* Uniprocessor: there is only one valid CPU */
->  static inline unsigned int cpumask_local_spread(unsigned int i, int node)
+> +static inline void mm_numa_transfer_cid_prev_next(struct task_struct *prev, struct task_struct *next)
+> +{
+> +	next->mm_numa_cid = prev->mm_numa_cid;
+> +	prev->mm_numa_cid = -1;
+> +}
+> +#else
+> +static inline void __mm_numa_cid_get(struct mm_struct *mm, struct task_struct *t) { }
+> +static inline void __mm_numa_cid_put(struct mm_struct *mm, struct task_struct *t) { }
+> +static inline void mm_numa_transfer_cid_prev_next(struct task_struct *prev, struct task_struct *next) { }
+> +#endif
+> +
+> +static inline void __mm_cid_get(struct mm_struct *mm, struct task_struct *t)
+>  {
+>  	struct cpumask *cpumask;
+>  	int cid;
+>  
+>  	cpumask = mm_cidmask(mm);
+>  	cid = cpumask_first_zero(cpumask);
+> -	if (cid >= nr_cpu_ids)
+> -		return -1;
+> +	if (cid >= nr_cpu_ids) {
+> +		cid = -1;
+> +		goto end;
+> +	}
+>  	__cpumask_set_cpu(cid, cpumask);
+> -	return cid;
+> +end:
+> +	t->mm_cid = cid;
+>  }
+>  
+> -static inline void mm_cid_put(struct mm_struct *mm, int cid)
+> +static inline void mm_cid_get(struct mm_struct *mm, struct task_struct *t)
+>  {
+>  	lockdep_assert_irqs_disabled();
+> -	if (cid < 0)
+> -		return;
+>  	raw_spin_lock(&mm->cid_lock);
+> -	__cpumask_clear_cpu(cid, mm_cidmask(mm));
+> +	__mm_cid_get(mm, t);
+> +	__mm_numa_cid_get(mm, t);
+>  	raw_spin_unlock(&mm->cid_lock);
+>  }
+>  
+> -static inline int mm_cid_get(struct mm_struct *mm)
+> +static inline void __mm_cid_put(struct mm_struct *mm, struct task_struct *t)
+>  {
+> -	int ret;
+> +	int cid = t->mm_cid;
+> +
+> +	if (cid < 0)
+> +		return;
+> +	__cpumask_clear_cpu(cid, mm_cidmask(mm));
+> +	t->mm_cid = -1;
+> +}
+>  
+> +static inline void mm_cid_put(struct mm_struct *mm, struct task_struct *t)
+> +{
+>  	lockdep_assert_irqs_disabled();
+>  	raw_spin_lock(&mm->cid_lock);
+> -	ret = __mm_cid_get(mm);
+> +	__mm_cid_put(mm, t);
+> +	__mm_numa_cid_put(mm, t);
+>  	raw_spin_unlock(&mm->cid_lock);
+> -	return ret;
+> +}
+> +
+> +static inline void mm_transfer_cid_prev_next(struct task_struct *prev, struct task_struct *next)
+> +{
+> +	next->mm_cid = prev->mm_cid;
+> +	prev->mm_cid = -1;
+> +	mm_numa_transfer_cid_prev_next(prev, next);
+>  }
+>  
+>  static inline void switch_mm_cid(struct task_struct *prev, struct task_struct *next)
+> @@ -3304,15 +3440,13 @@ static inline void switch_mm_cid(struct task_struct *prev, struct task_struct *n
+>  			 * Context switch between threads in same mm, hand over
+>  			 * the mm_cid from prev to next.
+>  			 */
+> -			next->mm_cid = prev->mm_cid;
+> -			prev->mm_cid = -1;
+> +			mm_transfer_cid_prev_next(prev, next);
+>  			return;
+>  		}
+> -		mm_cid_put(prev->mm, prev->mm_cid);
+> -		prev->mm_cid = -1;
+> +		mm_cid_put(prev->mm, prev);
+>  	}
+>  	if (next->mm_cid_active)
+> -		next->mm_cid = mm_cid_get(next->mm);
+> +		mm_cid_get(next->mm, next);
+>  }
+>  
+>  #else
 > -- 
 > 2.25.1
 > 
