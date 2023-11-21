@@ -1,216 +1,358 @@
-Return-Path: <linux-api+bounces-107-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-108-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A00FC7F3347
-	for <lists+linux-api@lfdr.de>; Tue, 21 Nov 2023 17:09:49 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B14957F347F
+	for <lists+linux-api@lfdr.de>; Tue, 21 Nov 2023 18:06:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D0ACC1C21BF5
-	for <lists+linux-api@lfdr.de>; Tue, 21 Nov 2023 16:09:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 269881F23103
+	for <lists+linux-api@lfdr.de>; Tue, 21 Nov 2023 17:06:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57C9259177;
-	Tue, 21 Nov 2023 16:09:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD4CD58103;
+	Tue, 21 Nov 2023 17:06:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O1iqDLIU"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i2tz4qIV"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36F9558108;
-	Tue, 21 Nov 2023 16:09:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08B91C433C8;
-	Tue, 21 Nov 2023 16:09:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700582985;
-	bh=5M41NCGcjZMhgdurlBjtRlLdvlA9gQfTtgnr20SzQZU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=O1iqDLIUfkFchTr0uWwZMhQgAuctcM2Lx3snmajtHnpejlh8n+MTWJO7l3nV1CBa1
-	 kAHoT3m9q+xRr659OjHWajWVNSlBi0D7Aw+vM7kO4fJqjjqvxeApGS+5nfGJEa78Jk
-	 6Y07eattO7dTYl9+mTfkk0M2mD18uYjoBR7K/37EXMdznWu325kyXczTP3GxOGGoRU
-	 Xjtnh3hx9nQM2LplH6L1EMqLam1VpAjVMm6H6tloJi/HViAQeJtNGA6mCZIgX9TSna
-	 8gmK/ReArU1XZnSjlnmXs2uxwb8xHedROorBMvsdvX6GiHiGeR9Kn3Hg/tbZYz3OVH
-	 x6NU13TxFQvNg==
-Date: Tue, 21 Nov 2023 16:09:40 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Szabolcs Nagy <Szabolcs.Nagy@arm.com>
-Cc: Christian Brauner <brauner@kernel.org>,
-	"Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
-	Deepak Gupta <debug@rivosinc.com>, "H.J. Lu" <hjl.tools@gmail.com>,
-	Florian Weimer <fweimer@redhat.com>,
+Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com [IPv6:2607:f8b0:4864:20::112b])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03E5C12A;
+	Tue, 21 Nov 2023 09:06:09 -0800 (PST)
+Received: by mail-yw1-x112b.google.com with SMTP id 00721157ae682-59b5484fbe6so60756267b3.1;
+        Tue, 21 Nov 2023 09:06:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700586368; x=1701191168; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=7yvtQ4Ebo/Kb44aEbWh7yd1BLC9SYBFw1dHgRjmsTHQ=;
+        b=i2tz4qIVWVkOJ6TDKRMadqmHcJ283aprr/uBoHXtSSwKjHb2G2ng2V6oH4WL2sm+z7
+         pq7feLAoECK+gfj9//495/2aV/dZHHpHTGLQ8OkOgzeXD5HofRzt2jjqpYLdkh33fq+B
+         up7fDiv1tG7F95MLKtiaSdUUkl9UaWNbz8Ds7wRxvkqnZQXx2Lev2jSgvqfc1tgWYq3n
+         GjrPc6JnqONJfbf+tfCDjfm8XaXARnafMIXpQChpKuNoR2wzFaUrQeZI7imAmRyFIz33
+         BQJxWn9YiNkIgJ/8ZaU7nurYq4WdPUYTlEneRtWyKCk8d9cjeqSkCUF2Jnjt+g4hl/Jt
+         oYgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700586368; x=1701191168;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7yvtQ4Ebo/Kb44aEbWh7yd1BLC9SYBFw1dHgRjmsTHQ=;
+        b=RoHNim6wFdSI+BF6bMcO8ELm3pRnwSqWBQyBF5h6XlgnpW3r+lAEM1kYFkq9MAHYfl
+         R2rVebFjL8sWrxH8nbIW5XrJ+XZVM3kCPjLVEXJaWnslB9Px7hsa3Vi93SNiFwULitSR
+         3pUtIcNC9UuWDCzMxZeBkkhdYZuCxETGInPoCnHCvK43GFGrQqk2LpP5qwiR7gscy3Tp
+         kVFSWDPbuSFPZLsRYEk8iGzFd+4rpjpot9/H/UC+lQKC0Iu7Ds7uGjou5JiN+K5kSXbM
+         CSjfPnyS+rIYfEODttq2eUxuWUSMTH87uWQtZl9mxxWbbkNAA5LTBqqeYuvxk79WO44C
+         ngkQ==
+X-Gm-Message-State: AOJu0YyC5kYCsYzlHWyDdaLQ5e0f3hJgU965DjrLgXs04WZe4GGnpNZf
+	vcRB04qUFhx+WBlhdb/26bE=
+X-Google-Smtp-Source: AGHT+IGgYGW74+xEboeRnBl++DsL5KBqe1zC/1Rgzefx/B1dmv/vwJy33R/2Fsyv4huD1plo9vANQQ==
+X-Received: by 2002:a05:690c:b19:b0:5ca:d579:52f with SMTP id cj25-20020a05690c0b1900b005cad579052fmr5902440ywb.35.1700586368016;
+        Tue, 21 Nov 2023 09:06:08 -0800 (PST)
+Received: from localhost ([2601:344:8301:57f0:e005:b808:45e:1b60])
+        by smtp.gmail.com with ESMTPSA id o81-20020a817354000000b005b37c6e01f9sm3122576ywc.90.2023.11.21.09.06.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Nov 2023 09:06:07 -0800 (PST)
+Date: Tue, 21 Nov 2023 09:06:06 -0800
+From: Yury Norov <yury.norov@gmail.com>
+To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: Peter Zijlstra <peterz@infradead.org>, linux-kernel@vger.kernel.org,
 	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Daniel Bristot de Oliveira <bristot@redhat.com>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Kees Cook <keescook@chromium.org>,
-	jannh@google.com, linux-kselftest@vger.kernel.org,
-	linux-api@vger.kernel.org, David Hildenbrand <david@redhat.com>,
-	nd@arm.com
-Subject: Re: [PATCH RFT v3 0/5] fork: Support shadow stacks in clone3()
-Message-ID: <ZVzWRIA9AfXHeWMW@finisterre.sirena.org.uk>
-References: <20231120-clone3-shadow-stack-v3-0-a7b8ed3e2acc@kernel.org>
- <20231121-urlaub-motivieren-c9d7ee1a6058@brauner>
- <ZVyg0WgILK35xjBn@arm.com>
+	"Paul E . McKenney" <paulmck@kernel.org>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	"H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
+	linux-api@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
+	Florian Weimer <fw@deneb.enyo.de>, David.Laight@aculab.com,
+	carlos@redhat.com, Peter Oskolkov <posk@posk.io>,
+	Alexander Mikhalitsyn <alexander@mihalicyn.com>,
+	Chris Kennelly <ckennelly@google.com>
+Subject: Re: [PATCH 22/30] lib: Implement
+ find_{first,next,nth}_notandnot_bit, find_first_andnot_bit
+Message-ID: <ZVzjfpEfT2mz6B59@yury-ThinkPad>
+References: <20221122203932.231377-1-mathieu.desnoyers@efficios.com>
+ <20221122203932.231377-23-mathieu.desnoyers@efficios.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Cu1hqtbNXe1joyHG"
-Content-Disposition: inline
-In-Reply-To: <ZVyg0WgILK35xjBn@arm.com>
-X-Cookie: Slow day.  Practice crawling.
-
-
---Cu1hqtbNXe1joyHG
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20221122203932.231377-23-mathieu.desnoyers@efficios.com>
 
-On Tue, Nov 21, 2023 at 12:21:37PM +0000, Szabolcs Nagy wrote:
-> The 11/21/2023 11:17, Christian Brauner wrote:
+On Tue, Nov 22, 2022 at 03:39:24PM -0500, Mathieu Desnoyers wrote:
+> Allow finding the first, next, or nth bit within two input bitmasks
+> which is zero in both masks.
+> 
+> Allow fiding the first bit within two input bitmasks which is set in
+> first mask and cleared in the second mask. find_next_andnot_bit and
+> find_nth_andnot_bit already exist, so find the first bit appears to be
+> missing.
+> 
+> Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+> ---
+>  include/linux/find.h | 123 +++++++++++++++++++++++++++++++++++++++++--
+>  lib/find_bit.c       |  42 +++++++++++++++
+>  2 files changed, 161 insertions(+), 4 deletions(-)
+> 
+> diff --git a/include/linux/find.h b/include/linux/find.h
+> index ccaf61a0f5fd..43c3db92a096 100644
+> --- a/include/linux/find.h
+> +++ b/include/linux/find.h
+> @@ -14,6 +14,8 @@ unsigned long _find_next_and_bit(const unsigned long *addr1, const unsigned long
+>  					unsigned long nbits, unsigned long start);
+>  unsigned long _find_next_andnot_bit(const unsigned long *addr1, const unsigned long *addr2,
+>  					unsigned long nbits, unsigned long start);
+> +unsigned long _find_next_notandnot_bit(const unsigned long *addr1, const unsigned long *addr2,
+> +					unsigned long nbits, unsigned long start);
+>  unsigned long _find_next_zero_bit(const unsigned long *addr, unsigned long nbits,
+>  					 unsigned long start);
+>  extern unsigned long _find_first_bit(const unsigned long *addr, unsigned long size);
+> @@ -22,8 +24,14 @@ unsigned long __find_nth_and_bit(const unsigned long *addr1, const unsigned long
+>  				unsigned long size, unsigned long n);
+>  unsigned long __find_nth_andnot_bit(const unsigned long *addr1, const unsigned long *addr2,
+>  					unsigned long size, unsigned long n);
+> +unsigned long __find_nth_notandnot_bit(const unsigned long *addr1, const unsigned long *addr2,
+> +					unsigned long size, unsigned long n);
+>  extern unsigned long _find_first_and_bit(const unsigned long *addr1,
+>  					 const unsigned long *addr2, unsigned long size);
+> +extern unsigned long _find_first_andnot_bit(const unsigned long *addr1,
+> +					 const unsigned long *addr2, unsigned long size);
+> +extern unsigned long _find_first_notandnot_bit(const unsigned long *addr1,
+> +					 const unsigned long *addr2, unsigned long size);
+>  extern unsigned long _find_first_zero_bit(const unsigned long *addr, unsigned long size);
+>  extern unsigned long _find_last_bit(const unsigned long *addr, unsigned long size);
+>  
+> @@ -95,15 +103,14 @@ unsigned long find_next_and_bit(const unsigned long *addr1,
+>  
+>  #ifndef find_next_andnot_bit
+>  /**
+> - * find_next_andnot_bit - find the next set bit in *addr1 excluding all the bits
+> - *                        in *addr2
+> + * find_next_andnot_bit - find the next bit set in *addr1, cleared in *addr2
+>   * @addr1: The first address to base the search on
+>   * @addr2: The second address to base the search on
+>   * @size: The bitmap size in bits
+>   * @offset: The bitnumber to start searching at
+>   *
+> - * Returns the bit number for the next set bit
+> - * If no bits are set, returns @size.
+> + * Returns the bit number for the next bit set in *addr1, cleared in *addr2
+> + * If no such bits are found, returns @size.
+>   */
+>  static inline
+>  unsigned long find_next_andnot_bit(const unsigned long *addr1,
+> @@ -124,6 +131,37 @@ unsigned long find_next_andnot_bit(const unsigned long *addr1,
+>  }
+>  #endif
+>  
+> +#ifndef find_next_notandnot_bit
 
-> > I have a few questions that are probably me just not knowing much about
-> > shadow stacks so hopefully I'm not asking you write a thesis by
-> > accident:
+You don't need ifdefs for new functions. If arch people will add their
+implementations, they will protect generic version themself.
 
-One thing it feels like it's worth saying up front here is that shadow
-stacks are userspace memory with special permissions and instructions
-for access - they are mapped into the userspace address range and
-userspace can directly interact with them in restricted ways.  For
-example there's some thought to using shadow stacks in unwinders since
-all the return addresses are stored in a single convenient block of
-memory which it's much harder to corrupt.  Overflowing a shadow stack
-results in userspace getting a memory access fault just as with other
-memory access issues.
+> +/**
+> + * find_next_notandnot_bit - find the next bit cleared in both *addr1 and *addr2
+> + * @addr1: The first address to base the search on
+> + * @addr2: The second address to base the search on
+> + * @size: The bitmap size in bits
+> + * @offset: The bitnumber to start searching at
+> + *
+> + * Returns the bit number for the next bit cleared in both *addr1 and *addr2
+> + * If no such bits are found, returns @size.
+> + */
+> +static inline
+> +unsigned long find_next_notandnot_bit(const unsigned long *addr1,
+> +		const unsigned long *addr2, unsigned long size,
+> +		unsigned long offset)
 
-> > (2) With what other interfaces is implicit allocation and deallocation
-> >     not consistent? I don't understand this argument. The kernel creates
-> >     a shadow stack as a security measure to store return addresses. It
-> >     seems to me exactly that the kernel should implicitly allocate and
-> >     deallocate the shadow stack and not have userspace muck around with
-> >     its size?
+This should be find_next_zero_or_bit(). That way you'll avoid
+negation for both maps and be consistent with existing API.
 
-> the kernel is not supposed to impose stack size policy or a particular
-> programming model that limits the stack management options nor prevent
-> the handling of stack overflows.
+> +{
+> +	if (small_const_nbits(size)) {
+> +		unsigned long val;
+> +
+> +		if (unlikely(offset >= size))
+> +			return size;
+> +
+> +		val = ~*addr1 & ~*addr2 & GENMASK(size - 1, offset);
+> +		return val ? __ffs(val) : size;
+> +	}
+> +
+> +	return _find_next_notandnot_bit(addr1, addr2, size, offset);
+> +}
+> +#endif
+> +
+> +
+>  #ifndef find_next_zero_bit
+>  /**
+>   * find_next_zero_bit - find the next cleared bit in a memory region
+> @@ -255,6 +293,32 @@ unsigned long find_nth_andnot_bit(const unsigned long *addr1, const unsigned lon
+>  	return __find_nth_andnot_bit(addr1, addr2, size, n);
+>  }
+>  
+> +/**
+> + * find_nth_notandnot_bit - find N'th cleared bit in 2 memory regions.
+> + * @addr1: The 1st address to start the search at
+> + * @addr2: The 2nd address to start the search at
+> + * @size: The maximum number of bits to search
+> + * @n: The number of set bit, which position is needed, counting from 0
+> + *
+> + * Returns the bit number of the N'th cleared bit.
+> + * If no such, returns @size.
+> + */
+> +static inline
+> +unsigned long find_nth_notandnot_bit(const unsigned long *addr1, const unsigned long *addr2,
+> +				unsigned long size, unsigned long n)
 
-The inconsistency here is with the management of the standard stack -
-with the standard stack userspace passes an already allocated address
-range to the kernel.  A constant tension during review of the shadow
-stack interfaces has been that shadow stack memory is userspace memory
-but the security constraints mean that we've come down on the side of
-having a custom allocation syscall for it instead of using flags on
-mmap() and friends like people often expect, and now having it allocated
-as part of clone3().  The aim is to highlight that this difference is
-deliberately chosen for specific reasons rather than just carelessness.
+Same here. find_nth_zero_or_bit()
 
-> > (3) Why is it safe for userspace to request the shadow stack size? What
-> >     if they request a tiny shadow stack size? Should this interface
-> >     require any privilege?
+Thanks,
+Yury
 
-> user can allocate huge or tiny stacks already.
-
-> and i think userspace can take control over shadow stack management:
-> it can disable signals, start a clone child with stack_size == 1 page,
-> map_shadow_stack and switch to it, enable signals. however this is
-> complicated, leaks 1 page of kernel allocated shadow stack (+reserved
-> guard page, i guess userspace could unmap, not sure if that works
-> currently) and requires additional syscalls.
-
-The other thing here is that if userspace gets this wrong it'll result
-in the userspace process hitting the top of the stack and getting fatal
-signals in a similar manner to what happens if it gets the size of
-the standard stack wrong (the kernel allocation does mean that there
-should always be guard pages and it's harder to overrun the stack and
-corrupt adjacent memory).  There doesn't seem to be any meaningful risk
-here over what userspace can already do to itself anyway as part of
-thread allocation.
-
-> > (4) Why isn't the @stack_size argument I added for clone3() enough?
-> >     If it is specified can't the size of the shadow stack derived from it?
-
-> shadow stack only contains return addresses so it is proportional
-> to the number of stack frames, not the stack size and it must
-> account for sigaltstack too, not just the thread stack.
-
-> if you make minimal assumptions about stack usage and ignore the
-> sigaltstack issue then the worst case shadow stack requirement
-> is indeed proportional to the stack_size, but this upper bound
-> can be pessimistic and userspace knows the tradeoffs better.
-
-It's also worth pointing out here that the existing shadow stack support
-for x86 and in review code for arm64 make exactly these assumptions and
-guesses at a shadow stack size based on the stack_size for the thread.
-There's just been a general lack of enthusiasm for the fact that due to
-the need to store variables on the normal stack the resulting shadow
-stack is very likely to be substantially overallocated but we can't
-safely reduce the size without information from userspace.
-
-> > And my current main objection is that shadow stacks were just released
-> > to userspace. There can't be a massive amount of users yet - outside of
-> > maybe early adopters.
-
-> no upstream libc has code to enable shadow stacks at this point
-> so there are exactly 0 users in the open. (this feature requires
-> runtime support)
-
-> the change is expected to allow wider deployability. (e.g. not
-> just in glibc)
-
-Right, and the lack of any userspace control of the shadow stack size
-has been a review concern with the arm64 GCS series which I'm trying to
-address here.  The main concern is that userspaces that start a lot of
-threads are going to start using a lot more address space than they need
-to when shadow stacks are enabled.  Given the fairly long deployment
-pipeline from extending a syscall to end users who might be using the
-feature in conjuction with imposing resource limits it does seem like a
-reasonable problem to anticipate.
-
-> > The fact that there are other architectures that bring in a similar
-> > feature makes me even more hesitant. If they have all agreed _and_
-> > implemented shadow stacks and have unified semantics then we can
-> > consider exposing control knobs to userspace that aren't implicitly
-> > architecture specific currently.
-
-To be clear the reason I'm working on this is that I've implemented the
-arm64 support, I don't even have any access to x86 systems that have the
-feature (hence the RFT in the subject line) - Rick Edgecombe did the x86
-work.  The arm64 code is still in review, the userspace interface is
-very similar to that for x86 and there doesn't seem to be any
-controversy there which makes me expect that a change is likely.  Unlike
-x86 we only have a spec and virtual implementations at present, there's
-no immintent hardware, so we're taking our time with making sure that
-everything is working well.  Deepak Gupta (in CC) has been reviewing the
-series from the point of view of RISC-V.  I think we're all fairly well
-aligned on the requirements here.
-
---Cu1hqtbNXe1joyHG
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmVc1kMACgkQJNaLcl1U
-h9CDlwf+IhkEGdyJ2fiqfKcNpafPMwN0aeTMjOPP/L7jiP8Td42ADOhD2xjnT+hO
-Hf4eTNgjFZn8jmQkkctS/BiOWjx1ktNT1b8YW7/uOElZ8ecMmwGy9oTLihIuFTfk
-y2jC8/Ih1LfS6Uj493lNI7ozpbPqSAtCppeVWDnoB+YaEw476ZsNl7xnEBcx0k0U
-EXcsMSe9AD3vgV1zZ9oCnSdvG0+HdxwO6yzaKjdJOnd3MMtp7tSeuokr0OehZUDk
-nd/mDzROewzF8DHGFPo0D8UlOhNE3JV2sZPm3AExh/fsrah3JFrj2DDQOQpuoekP
-2nh2I0Rc8Jsn11q+EnefpA8nVFch3w==
-=+tkg
------END PGP SIGNATURE-----
-
---Cu1hqtbNXe1joyHG--
+> +{
+> +	if (n >= size)
+> +		return size;
+> +
+> +	if (small_const_nbits(size)) {
+> +		unsigned long val =  (~*addr1) & (~*addr2) & GENMASK(size - 1, 0);
+> +
+> +		return val ? fns(val, n) : size;
+> +	}
+> +
+> +	return __find_nth_notandnot_bit(addr1, addr2, size, n);
+> +}
+> +
+>  #ifndef find_first_and_bit
+>  /**
+>   * find_first_and_bit - find the first set bit in both memory regions
+> @@ -280,6 +344,57 @@ unsigned long find_first_and_bit(const unsigned long *addr1,
+>  }
+>  #endif
+>  
+> +#ifndef find_first_andnot_bit
+> +/**
+> + * find_first_andnot_bit - find first set bit in 2 memory regions,
+> + *			   flipping bits in 2nd region
+> + * @addr1: The first address to base the search on
+> + * @addr2: The second address to base the search on
+> + * @size: The bitmap size in bits
+> + *
+> + * Returns the bit number for the next set bit
+> + * If no bits are set, returns @size.
+> + */
+> +static inline
+> +unsigned long find_first_andnot_bit(const unsigned long *addr1,
+> +				 const unsigned long *addr2,
+> +				 unsigned long size)
+> +{
+> +	if (small_const_nbits(size)) {
+> +		unsigned long val = *addr1 & (~*addr2) & GENMASK(size - 1, 0);
+> +
+> +		return val ? __ffs(val) : size;
+> +	}
+> +
+> +	return _find_first_andnot_bit(addr1, addr2, size);
+> +}
+> +#endif
+> +
+> +#ifndef find_first_notandnot_bit
+> +/**
+> + * find_first_notandnot_bit - find first cleared bit in 2 memory regions
+> + * @addr1: The first address to base the search on
+> + * @addr2: The second address to base the search on
+> + * @size: The bitmap size in bits
+> + *
+> + * Returns the bit number for the next cleared bit
+> + * If no bits are set, returns @size.
+> + */
+> +static inline
+> +unsigned long find_first_notandnot_bit(const unsigned long *addr1,
+> +				 const unsigned long *addr2,
+> +				 unsigned long size)
+> +{
+> +	if (small_const_nbits(size)) {
+> +		unsigned long val = (~*addr1) & (~*addr2) & GENMASK(size - 1, 0);
+> +
+> +		return val ? __ffs(val) : size;
+> +	}
+> +
+> +	return _find_first_notandnot_bit(addr1, addr2, size);
+> +}
+> +#endif
+> +
+>  #ifndef find_first_zero_bit
+>  /**
+>   * find_first_zero_bit - find the first cleared bit in a memory region
+> diff --git a/lib/find_bit.c b/lib/find_bit.c
+> index 18bc0a7ac8ee..a1f592f2437e 100644
+> --- a/lib/find_bit.c
+> +++ b/lib/find_bit.c
+> @@ -116,6 +116,32 @@ unsigned long _find_first_and_bit(const unsigned long *addr1,
+>  EXPORT_SYMBOL(_find_first_and_bit);
+>  #endif
+>  
+> +#ifndef find_first_andnot_bit
+> +/*
+> + * Find the first set bit in two memory regions, flipping bits in 2nd region.
+> + */
+> +unsigned long _find_first_andnot_bit(const unsigned long *addr1,
+> +				  const unsigned long *addr2,
+> +				  unsigned long size)
+> +{
+> +	return FIND_FIRST_BIT(addr1[idx] & ~addr2[idx], /* nop */, size);
+> +}
+> +EXPORT_SYMBOL(_find_first_andnot_bit);
+> +#endif
+> +
+> +#ifndef find_first_notandnot_bit
+> +/*
+> + * Find the first cleared bit in two memory regions.
+> + */
+> +unsigned long _find_first_notandnot_bit(const unsigned long *addr1,
+> +				  const unsigned long *addr2,
+> +				  unsigned long size)
+> +{
+> +	return FIND_FIRST_BIT(~addr1[idx] & ~addr2[idx], /* nop */, size);
+> +}
+> +EXPORT_SYMBOL(_find_first_notandnot_bit);
+> +#endif
+> +
+>  #ifndef find_first_zero_bit
+>  /*
+>   * Find the first cleared bit in a memory region.
+> @@ -155,6 +181,13 @@ unsigned long __find_nth_andnot_bit(const unsigned long *addr1, const unsigned l
+>  }
+>  EXPORT_SYMBOL(__find_nth_andnot_bit);
+>  
+> +unsigned long __find_nth_notandnot_bit(const unsigned long *addr1, const unsigned long *addr2,
+> +				 unsigned long size, unsigned long n)
+> +{
+> +	return FIND_NTH_BIT(~addr1[idx] & ~addr2[idx], size, n);
+> +}
+> +EXPORT_SYMBOL(__find_nth_notandnot_bit);
+> +
+>  #ifndef find_next_and_bit
+>  unsigned long _find_next_and_bit(const unsigned long *addr1, const unsigned long *addr2,
+>  					unsigned long nbits, unsigned long start)
+> @@ -173,6 +206,15 @@ unsigned long _find_next_andnot_bit(const unsigned long *addr1, const unsigned l
+>  EXPORT_SYMBOL(_find_next_andnot_bit);
+>  #endif
+>  
+> +#ifndef find_next_notandnot_bit
+> +unsigned long _find_next_notandnot_bit(const unsigned long *addr1, const unsigned long *addr2,
+> +					unsigned long nbits, unsigned long start)
+> +{
+> +	return FIND_NEXT_BIT(~addr1[idx] & ~addr2[idx], /* nop */, nbits, start);
+> +}
+> +EXPORT_SYMBOL(_find_next_notandnot_bit);
+> +#endif
+> +
+>  #ifndef find_next_zero_bit
+>  unsigned long _find_next_zero_bit(const unsigned long *addr, unsigned long nbits,
+>  					 unsigned long start)
+> -- 
+> 2.25.1
+> 
 
