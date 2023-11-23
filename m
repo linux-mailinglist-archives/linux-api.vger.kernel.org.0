@@ -1,149 +1,111 @@
-Return-Path: <linux-api+bounces-143-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-144-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25AFD7F6297
-	for <lists+linux-api@lfdr.de>; Thu, 23 Nov 2023 16:21:54 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E70AE7F63DE
+	for <lists+linux-api@lfdr.de>; Thu, 23 Nov 2023 17:25:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DDF3E281E16
-	for <lists+linux-api@lfdr.de>; Thu, 23 Nov 2023 15:21:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 56A65281727
+	for <lists+linux-api@lfdr.de>; Thu, 23 Nov 2023 16:25:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09E5D35EF6;
-	Thu, 23 Nov 2023 15:21:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B7F03FB09;
+	Thu, 23 Nov 2023 16:24:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iCM5CXlq"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dmnZyFi9"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38292C1;
-	Thu, 23 Nov 2023 07:21:46 -0800 (PST)
-Received: by mail-pg1-x52d.google.com with SMTP id 41be03b00d2f7-5c1a75a4b6cso624121a12.2;
-        Thu, 23 Nov 2023 07:21:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700752905; x=1701357705; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Q70ME+Z8MA/iN3ndOUEyZrB6FW+VdFvlQgHMP5KT7Xo=;
-        b=iCM5CXlqAt6LnkAOYOhnscwAXsBbXV7C+ZTWy1y0+lqJME3AzFM04ost8zlgR61r5M
-         PrzdagkS4HXJTl50UaFQ+Q3IECUJ03ejFDjcec79B2BFVixqsLXRI6vSuDbZErn00DrE
-         t+TnrXSpuLl5jkYrkuPBU8gW/eNMhuwRD6kdGmzyqP4Oe7vel1JLRXqyfjQGaibDZUfg
-         u6Qdk0e8HKQdZPf4C8WzmJAPLGfXcGTVU8Gnd1tE4n7Zhrc2C8kRMpFR6OQQclsd+lS+
-         O7K/3bF/txOsjVMueW2xDUVSFzOtbIxLr4zBdxlr/pUoONyLFHM770WznoBSHrgjsXkf
-         XY1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700752905; x=1701357705;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Q70ME+Z8MA/iN3ndOUEyZrB6FW+VdFvlQgHMP5KT7Xo=;
-        b=K7H/4wA3vRaN/7cbMAiBt8w5gsNJy0M4BfaQKNgWmsgPVNzPI94nd9h8sXMWf8GfSs
-         CZ5DVguqnURC7cunaTuGB0O4kqXQXcZoj4ieqBZE5sDfU765YAlpN0cY+kr6dq9bBHpx
-         5thmd/2OKtYPrG7zU2WPc0EtFRXAWMB1w7jI2fWVJ5OtyB1SAgc088tzcqHKekD4KUM6
-         vtSijG8ReRgvH3b9kt4bJ22P1mAY7csfPyYNI8Z11mDKoHtQCkDsZMZufiMN52+1Hdrm
-         LKhVA0TgV8ofja+lNMTeazD6VSfZIOwyfyAGRUGvX+oiq54Q4E4ZsUYPjjELcyP+SOFJ
-         lK4w==
-X-Gm-Message-State: AOJu0YyYJjE+8LRzi9o2tLqqrlbARxvN2IhkEUEIUkeJG8Imduudu//f
-	j7JfZG0GGl8AWJHLPHw1gCvnHo1G/CQRnuEEy0U=
-X-Google-Smtp-Source: AGHT+IG7HjrLo+UO2gU6kyO67Qrxj1Fj9BW3CiY12ZHHr9qO2aQ6gsiGv7l3PWYv+dLAVKqIAWPZHZTysn9dpGno6g4=
-X-Received: by 2002:a17:90a:1948:b0:280:cd5f:bf90 with SMTP id
- 8-20020a17090a194800b00280cd5fbf90mr5907737pjh.23.1700752905538; Thu, 23 Nov
- 2023 07:21:45 -0800 (PST)
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0717F3E463;
+	Thu, 23 Nov 2023 16:24:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7570C433C9;
+	Thu, 23 Nov 2023 16:24:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1700756698;
+	bh=8qbTRbdLFdnXb3Xe8uP0IN8YCP7nL2AK2pZi0k8jVmI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dmnZyFi9UMYT31BH9Q3rAbNfIaVQ0bRDx2OxJp8JC3rGb5UBAa/ZbMLbt/oJhrtgy
+	 XQfk4Ja/ihC5b4N7oj+pbXArjp1ErDUiUsHfGVpN1prX6E4NqkVCAdTa7YKTx3RMzO
+	 CCzgc6Nc08iu4BX33NSVnfADwm12OkUR6BbVR+6uZ8my99h87K6pqcNq+QStsFkVkN
+	 iCdESVJWG2oGoQYr39+vyW7w17U6oydSDnJB0BBp/X2jXoJuRUEHiLoq2YXBgfo4D4
+	 6JfNQmixj3sbRZEA4YVVRpfW+tL8FsdMvhdHGegCCfGhFpUx79OXEwzB9cAw0XEGkW
+	 VQwoEDItqb3tQ==
+Date: Thu, 23 Nov 2023 17:24:48 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
+	"Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
+	Deepak Gupta <debug@rivosinc.com>, "H.J. Lu" <hjl.tools@gmail.com>,
+	Florian Weimer <fweimer@redhat.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Daniel Bristot de Oliveira <bristot@redhat.com>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Kees Cook <keescook@chromium.org>,
+	jannh@google.com, linux-kselftest@vger.kernel.org,
+	linux-api@vger.kernel.org, David Hildenbrand <david@redhat.com>,
+	nd@arm.com
+Subject: Re: [PATCH RFT v3 0/5] fork: Support shadow stacks in clone3()
+Message-ID: <20231123-edelherzig-feiern-b53339f5a639@brauner>
+References: <20231120-clone3-shadow-stack-v3-0-a7b8ed3e2acc@kernel.org>
+ <20231121-urlaub-motivieren-c9d7ee1a6058@brauner>
+ <ZVyg0WgILK35xjBn@arm.com>
+ <ZVzWRIA9AfXHeWMW@finisterre.sirena.org.uk>
+ <20231123-geflattert-mausklick-63d8ebcacffb@brauner>
+ <ZV85khoUcFyKhQ+w@finisterre.sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <ZV5zGROLefrsEcHJ@r13-u19.micron.com> <ZV6Uhsg6WLBtNqU3@memverge.com>
-In-Reply-To: <ZV6Uhsg6WLBtNqU3@memverge.com>
-From: Vinicius Petrucci <vpetrucci@gmail.com>
-Date: Thu, 23 Nov 2023 09:21:08 -0600
-Message-ID: <CAEZ6=UNLuOYom1Qng28F2y6XocJM4cnbDG1yq3m1p8btuQ4tRQ@mail.gmail.com>
-Subject: Re: [RFC PATCH] mm/mbind: Introduce process_mbind() syscall for
- external memory binding
-To: Gregory Price <gregory.price@memverge.com>, linux-mm@kvack.org
-Cc: akpm@linux-foundation.org, linux-cxl@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
-	linux-api@vger.kernel.org, minchan@kernel.org, dave.hansen@linux.intel.com, 
-	x86@kernel.org, Jonathan.Cameron@huawei.com, aneesh.kumar@linux.ibm.com, 
-	ying.huang@intel.com, dan.j.williams@intel.com, hezhongkun.hzk@bytedance.com, 
-	fvdl@google.com, surenb@google.com, rientjes@google.com, hannes@cmpxchg.org, 
-	mhocko@suse.com, Hasan.Maruf@amd.com, jgroves@micron.com, 
-	ravis.opensrc@micron.com, sthanneeru@micron.com, emirakhur@micron.com, 
-	vtavarespetr@micron.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ZV85khoUcFyKhQ+w@finisterre.sirena.org.uk>
 
-Hi Greg!
+On Thu, Nov 23, 2023 at 11:37:54AM +0000, Mark Brown wrote:
+> On Thu, Nov 23, 2023 at 11:10:24AM +0100, Christian Brauner wrote:
+> > On Tue, Nov 21, 2023 at 04:09:40PM +0000, Mark Brown wrote:
+> > > On Tue, Nov 21, 2023 at 12:21:37PM +0000, Szabolcs Nagy wrote:
+> > > > The 11/21/2023 11:17, Christian Brauner wrote:
+> 
+> > I'm still not enthusiastic that we only have one implementation for this
+> > in the kernel. What's the harm in waiting until the arm patches are
+> > merged? This shouldn't result in chicken and egg: if the implementations
+> > are sufficiently similar then we can do an appropriate clone3()
+> > extension.
+> 
+> The main thing would be that it would mean that people doing userspace
+> enablement based on the merged x86 support can't use the stack size
+> control.  It's not the end of the world if that has to wait a bit, it's
+> a bit of a detail thing, but it would make life easier, I guess the
+> userspace people can let us know if it's starting to be a real hassle
+> and we can reevaulate if that happens.
+> 
+> It's also currently a dependency for the arm64 code so it'd be good to
+> at least get ageement that assuming nothing comes up in testing the
+> patches can go in along with the arm64 series, removing the dependency
 
-Thanks a lot for quickly looking into this and sharing your notes here.
+Oh yeah, I'm not fuzzed whose tree this goes through. By all means, take
+it with the arm64 series.
 
-On Wed, Nov 22, 2023 at 5:53=E2=80=AFPM Gregory Price
-<gregory.price@memverge.com> wrote:
->
-> > Please note the initial `maxnode` parameter from `mbind` was omitted
-> > to ensure the API doesn't exceed 6 arguments. Instead, the constant
-> > MAX_NUMNODES was utilized.
-> >
->
-> I don't think this will work, users have traditionally been allowed to
-> shorten their nodemasks, and also for some level of portability.
->
-> We may want to consider an arg structure, rather than just chopping an
-> argument off.
->
+> and then adding it as an incremental thing would be a hassle.  It's
+> likely that the arm64 series will be held out of tree for a while to as
+> more complete userspace support is built up and validated so things
+> might be sitting for a while - we don't have hardware right now so we
+> can be cautious with the testing.
 
-Yes, good point... that should be considered as a more complete
-long-term approach beyond the MVP.
-
-> > diff --git a/mm/mempolicy.c b/mm/mempolicy.c
-> > index 10a590ee1c89..91ee300fa728 100644
-> > --- a/mm/mempolicy.c
-> > +++ b/mm/mempolicy.c
-> > @@ -1215,11 +1215,10 @@ static struct folio *alloc_migration_target_by_=
-mpol(struct folio *src,
-> >  }
-> >  #endif
-> >
-> > -static long do_mbind(unsigned long start, unsigned long len,
-> > +static long do_mbind(struct mm_struct *mm, unsigned long start, unsign=
-ed long len,
-> >                    unsigned short mode, unsigned short mode_flags,
-> >                    nodemask_t *nmask, unsigned long flags)
-> >  {
-> > -     struct mm_struct *mm =3D current->mm;
-> >       struct vm_area_struct *vma, *prev;
-> >       struct vma_iterator vmi;
-> >       struct migration_mpol mmpol;
-> > @@ -1465,10 +1464,84 @@ static inline int sanitize_mpol_flags(int *mode=
-, unsigned short *flags)
-> >       return 0;
-> >  }
->
-> This is a completely insufficient change to do_mbind.  do_mbind utilizes
-> `current` in a variety of places for nodemask (cpuset) validation and to
-> acquire the task's lock.  This will not work the way you intend it to,
-> you end up mixing up node masks between current and target task.
->
-
-Oh oh. True! Good catch!
-
-> see here:
-> https://lore.kernel.org/all/20231122211200.31620-7-gregory.price@memverge=
-.com/
->
-
-Let me go over this... Thanks!
-
-> We may want to combine this change and with my change so that your iovec
-> changes can be re-used, because that is a very nice feature.
->
-
-Sounds good. Thanks again!
-
-Best,
-
-Vinicius
+Ok, that sounds good to me.
 
