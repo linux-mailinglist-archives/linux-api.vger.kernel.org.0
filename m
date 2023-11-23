@@ -1,146 +1,149 @@
-Return-Path: <linux-api+bounces-142-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-143-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BA457F5EE4
-	for <lists+linux-api@lfdr.de>; Thu, 23 Nov 2023 13:17:27 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25AFD7F6297
+	for <lists+linux-api@lfdr.de>; Thu, 23 Nov 2023 16:21:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BBED6281C37
-	for <lists+linux-api@lfdr.de>; Thu, 23 Nov 2023 12:17:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DDF3E281E16
+	for <lists+linux-api@lfdr.de>; Thu, 23 Nov 2023 15:21:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0ABF324204;
-	Thu, 23 Nov 2023 12:17:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09E5D35EF6;
+	Thu, 23 Nov 2023 15:21:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DnQ+IN2C"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iCM5CXlq"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E00B12377F;
-	Thu, 23 Nov 2023 12:17:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC58CC433C8;
-	Thu, 23 Nov 2023 12:17:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700741842;
-	bh=xCCEkCoA+F5EPxb6wixFuv+Y++MgTfZXWFP2tS5YmbI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DnQ+IN2CmzxBZAQar7A0chcph0OEoFG6VnV6a6nmioVv2J/i9XwLKSaBn/FSInAxx
-	 LjQyETOrquG0xUVyofz8IdDiXc+65v47aEFJYrkyp94Rhr7Qn+wXpibKXsoCuej9tn
-	 F9i+QRgxqAqc9qAEbQWB9alRJo7ThMiX5NTqYAA9/Mh1bDV5X8D1VGlgfY80qTWKKf
-	 JCh2pnKtcOgJ+INkcur5VZYKBtiXwOINvTJSzfLQt4T0OQuqIdxQRaxPK/lz3TIlRy
-	 gkPRtHSBxj21quDA8+JA3AfWf+aq3ofiXoJd0+8V6+G+YhgnXpTiH4S/qtZjio0SiG
-	 1qQaNC4hl1CSg==
-Date: Thu, 23 Nov 2023 12:17:19 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Christian Brauner <brauner@kernel.org>
-Cc: "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
-	Deepak Gupta <debug@rivosinc.com>,
-	Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
-	"H.J. Lu" <hjl.tools@gmail.com>,
-	Florian Weimer <fweimer@redhat.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Daniel Bristot de Oliveira <bristot@redhat.com>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Kees Cook <keescook@chromium.org>,
-	jannh@google.com, linux-kselftest@vger.kernel.org,
-	linux-api@vger.kernel.org
-Subject: Re: [PATCH RFT v3 2/5] fork: Add shadow stack support to clone3()
-Message-ID: <ZV9Cz00vAKd7EwKD@finisterre.sirena.org.uk>
-References: <20231120-clone3-shadow-stack-v3-0-a7b8ed3e2acc@kernel.org>
- <20231120-clone3-shadow-stack-v3-2-a7b8ed3e2acc@kernel.org>
- <20231123-derivate-freikarte-6de8984caf85@brauner>
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38292C1;
+	Thu, 23 Nov 2023 07:21:46 -0800 (PST)
+Received: by mail-pg1-x52d.google.com with SMTP id 41be03b00d2f7-5c1a75a4b6cso624121a12.2;
+        Thu, 23 Nov 2023 07:21:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700752905; x=1701357705; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Q70ME+Z8MA/iN3ndOUEyZrB6FW+VdFvlQgHMP5KT7Xo=;
+        b=iCM5CXlqAt6LnkAOYOhnscwAXsBbXV7C+ZTWy1y0+lqJME3AzFM04ost8zlgR61r5M
+         PrzdagkS4HXJTl50UaFQ+Q3IECUJ03ejFDjcec79B2BFVixqsLXRI6vSuDbZErn00DrE
+         t+TnrXSpuLl5jkYrkuPBU8gW/eNMhuwRD6kdGmzyqP4Oe7vel1JLRXqyfjQGaibDZUfg
+         u6Qdk0e8HKQdZPf4C8WzmJAPLGfXcGTVU8Gnd1tE4n7Zhrc2C8kRMpFR6OQQclsd+lS+
+         O7K/3bF/txOsjVMueW2xDUVSFzOtbIxLr4zBdxlr/pUoONyLFHM770WznoBSHrgjsXkf
+         XY1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700752905; x=1701357705;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Q70ME+Z8MA/iN3ndOUEyZrB6FW+VdFvlQgHMP5KT7Xo=;
+        b=K7H/4wA3vRaN/7cbMAiBt8w5gsNJy0M4BfaQKNgWmsgPVNzPI94nd9h8sXMWf8GfSs
+         CZ5DVguqnURC7cunaTuGB0O4kqXQXcZoj4ieqBZE5sDfU765YAlpN0cY+kr6dq9bBHpx
+         5thmd/2OKtYPrG7zU2WPc0EtFRXAWMB1w7jI2fWVJ5OtyB1SAgc088tzcqHKekD4KUM6
+         vtSijG8ReRgvH3b9kt4bJ22P1mAY7csfPyYNI8Z11mDKoHtQCkDsZMZufiMN52+1Hdrm
+         LKhVA0TgV8ofja+lNMTeazD6VSfZIOwyfyAGRUGvX+oiq54Q4E4ZsUYPjjELcyP+SOFJ
+         lK4w==
+X-Gm-Message-State: AOJu0YyYJjE+8LRzi9o2tLqqrlbARxvN2IhkEUEIUkeJG8Imduudu//f
+	j7JfZG0GGl8AWJHLPHw1gCvnHo1G/CQRnuEEy0U=
+X-Google-Smtp-Source: AGHT+IG7HjrLo+UO2gU6kyO67Qrxj1Fj9BW3CiY12ZHHr9qO2aQ6gsiGv7l3PWYv+dLAVKqIAWPZHZTysn9dpGno6g4=
+X-Received: by 2002:a17:90a:1948:b0:280:cd5f:bf90 with SMTP id
+ 8-20020a17090a194800b00280cd5fbf90mr5907737pjh.23.1700752905538; Thu, 23 Nov
+ 2023 07:21:45 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="AJGmcN2ZtlBWZhny"
-Content-Disposition: inline
-In-Reply-To: <20231123-derivate-freikarte-6de8984caf85@brauner>
-X-Cookie: Slow day.  Practice crawling.
+References: <ZV5zGROLefrsEcHJ@r13-u19.micron.com> <ZV6Uhsg6WLBtNqU3@memverge.com>
+In-Reply-To: <ZV6Uhsg6WLBtNqU3@memverge.com>
+From: Vinicius Petrucci <vpetrucci@gmail.com>
+Date: Thu, 23 Nov 2023 09:21:08 -0600
+Message-ID: <CAEZ6=UNLuOYom1Qng28F2y6XocJM4cnbDG1yq3m1p8btuQ4tRQ@mail.gmail.com>
+Subject: Re: [RFC PATCH] mm/mbind: Introduce process_mbind() syscall for
+ external memory binding
+To: Gregory Price <gregory.price@memverge.com>, linux-mm@kvack.org
+Cc: akpm@linux-foundation.org, linux-cxl@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
+	linux-api@vger.kernel.org, minchan@kernel.org, dave.hansen@linux.intel.com, 
+	x86@kernel.org, Jonathan.Cameron@huawei.com, aneesh.kumar@linux.ibm.com, 
+	ying.huang@intel.com, dan.j.williams@intel.com, hezhongkun.hzk@bytedance.com, 
+	fvdl@google.com, surenb@google.com, rientjes@google.com, hannes@cmpxchg.org, 
+	mhocko@suse.com, Hasan.Maruf@amd.com, jgroves@micron.com, 
+	ravis.opensrc@micron.com, sthanneeru@micron.com, emirakhur@micron.com, 
+	vtavarespetr@micron.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi Greg!
 
---AJGmcN2ZtlBWZhny
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Thanks a lot for quickly looking into this and sharing your notes here.
 
-On Thu, Nov 23, 2023 at 11:28:47AM +0100, Christian Brauner wrote:
-> On Mon, Nov 20, 2023 at 11:54:30PM +0000, Mark Brown wrote:
+On Wed, Nov 22, 2023 at 5:53=E2=80=AFPM Gregory Price
+<gregory.price@memverge.com> wrote:
+>
+> > Please note the initial `maxnode` parameter from `mbind` was omitted
+> > to ensure the API doesn't exceed 6 arguments. Instead, the constant
+> > MAX_NUMNODES was utilized.
+> >
+>
+> I don't think this will work, users have traditionally been allowed to
+> shorten their nodemasks, and also for some level of portability.
+>
+> We may want to consider an arg structure, rather than just chopping an
+> argument off.
+>
 
-> Any reasonably maximum that should be assumed here? IOW, what happens if
-> userspace starts specifying 4G shadow_stack_size with each clone3() call
-> for lolz?
+Yes, good point... that should be considered as a more complete
+long-term approach beyond the MVP.
 
-I guess we could impose RLIMIT_STACK?
+> > diff --git a/mm/mempolicy.c b/mm/mempolicy.c
+> > index 10a590ee1c89..91ee300fa728 100644
+> > --- a/mm/mempolicy.c
+> > +++ b/mm/mempolicy.c
+> > @@ -1215,11 +1215,10 @@ static struct folio *alloc_migration_target_by_=
+mpol(struct folio *src,
+> >  }
+> >  #endif
+> >
+> > -static long do_mbind(unsigned long start, unsigned long len,
+> > +static long do_mbind(struct mm_struct *mm, unsigned long start, unsign=
+ed long len,
+> >                    unsigned short mode, unsigned short mode_flags,
+> >                    nodemask_t *nmask, unsigned long flags)
+> >  {
+> > -     struct mm_struct *mm =3D current->mm;
+> >       struct vm_area_struct *vma, *prev;
+> >       struct vma_iterator vmi;
+> >       struct migration_mpol mmpol;
+> > @@ -1465,10 +1464,84 @@ static inline int sanitize_mpol_flags(int *mode=
+, unsigned short *flags)
+> >       return 0;
+> >  }
+>
+> This is a completely insufficient change to do_mbind.  do_mbind utilizes
+> `current` in a variety of places for nodemask (cpuset) validation and to
+> acquire the task's lock.  This will not work the way you intend it to,
+> you end up mixing up node masks between current and target task.
+>
 
-> > +	} else {
-> > +		/*
-> > +		 * For CLONE_VFORK the child will share the parents
-> > +		 * shadow stack.  Make sure to clear the internal
-> > +		 * tracking of the thread shadow stack so the freeing
-> > +		 * logic run for child knows to leave it alone.
-> > +		 */
-> > +		if (clone_flags & CLONE_VFORK) {
-> > +			shstk->base = 0;
-> > +			shstk->size = 0;
-> > +			return 0;
-> > +		}
+Oh oh. True! Good catch!
 
-> Why is the CLONE_VFORK handling only necessary if shadow_stack_size is
-> unset? In general, a comment or explanation on the interaction between
-> CLONE_VFORK and shadow_stack_size would be helpful.
+> see here:
+> https://lore.kernel.org/all/20231122211200.31620-7-gregory.price@memverge=
+.com/
+>
 
-This is the existing implicit behaviour that clone() has, it's current
-ABI for x86.  The intent is that if the user has explicitly configured a
-shadow stack then we just do whatever they asked us to do, if they
-didn't we try to guess something sensible.  The comment at the top of
-this block when where we check if shadow_stack_size is set is intended
-to capture this requirement:
+Let me go over this... Thanks!
 
-	/*
-	 * If the user specified a shadow stack then do some basic
-	 * validation and use it, otherwise fall back to a default
-	 * shadow stack size if the clone_flags don't indicate an
-	 * allocation is unneeded.
-	 */
-	if (args->shadow_stack_size) {
-		size = args->shadow_stack_size;
+> We may want to combine this change and with my change so that your iovec
+> changes can be re-used, because that is a very nice feature.
+>
 
-		if (size < 8)
-			return (unsigned long)ERR_PTR(-EINVAL);
-	} else {
+Sounds good. Thanks again!
 
-I'm not immediately seeing somewhere else to add something?
+Best,
 
---AJGmcN2ZtlBWZhny
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmVfQswACgkQJNaLcl1U
-h9DRagf/Qr+aRzdrHJh9fSSLcdVyPWWetGTynP7apYTbfIJNAFGrD8vDR4FbXIgo
-3zI00sIHLkRQiHWty6m4u9AJ8XMLCYFmQimJNZLz7I25IjHPsLRBGP17h4VGUFKp
-MXKiwwy/MXn13Mt1wXsn+sizlovYp5rfd4+ta7JRpNb8w35xKAn/U9fvMeUgK/NT
-OGwo4JdB/YCubVh7D7diPSYIxrsmxqCn7Y3d2g5YODah+bndYUvTUvobke1ncRiT
-Z/MA21qSDAjVZ9izHDZOuR0/D0P0KhIELHWgYmVfrYYKDjQh2oG20edjGnd0KBBP
-RefBRVldWZfRr0LBmg/sGFYHxzOX9w==
-=EwkF
------END PGP SIGNATURE-----
-
---AJGmcN2ZtlBWZhny--
+Vinicius
 
