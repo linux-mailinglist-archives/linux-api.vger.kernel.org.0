@@ -1,132 +1,411 @@
-Return-Path: <linux-api+bounces-146-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-147-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF0887F6589
-	for <lists+linux-api@lfdr.de>; Thu, 23 Nov 2023 18:35:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF4807F6DC8
+	for <lists+linux-api@lfdr.de>; Fri, 24 Nov 2023 09:14:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 80C1F281CA8
-	for <lists+linux-api@lfdr.de>; Thu, 23 Nov 2023 17:35:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 958FD281309
+	for <lists+linux-api@lfdr.de>; Fri, 24 Nov 2023 08:14:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37934405E9;
-	Thu, 23 Nov 2023 17:35:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDBD79464;
+	Fri, 24 Nov 2023 08:14:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KY1lQexw"
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="Zt1f9f9l"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1692D405E5;
-	Thu, 23 Nov 2023 17:35:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E27BCC433CC;
-	Thu, 23 Nov 2023 17:35:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700760942;
-	bh=/73LHzEUuMC+UbtJ5BdZY8QbIJypb3dNXKHEGBhyUfk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KY1lQexwEHntktudEDLo2U/ya2/15YkepNxQSkua05q8GbSv6SrrINT35F3cF/9SN
-	 nVVuTeTKuFby1C2Q2H9+GAtGpc3HmEwhDoSMRjdrnDZ7qd8YIV7PXYL7d3b0tOSPW0
-	 y7mw/lZsUVYDLUtrAv1a3ClM+o5NKYp0Gprp7NcVJrSepRcjEsTppbDPIu4rYAqPhq
-	 CPn+qYP6jrRFi7gx+yV6h+UfDlNYqR+RSiEZM4yd6J+0quh157aUnC+PPHDcVK7GKV
-	 v6z9a7G+dQuNhkhiiJDlH3d4BufRFhu6hioME38hjy6Ql6uspZzj41LliW1R+CMLeN
-	 S/BNLPWNqi4TQ==
-Date: Thu, 23 Nov 2023 17:35:38 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Christian Brauner <brauner@kernel.org>
-Cc: "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
-	Deepak Gupta <debug@rivosinc.com>,
-	Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
-	"H.J. Lu" <hjl.tools@gmail.com>,
-	Florian Weimer <fweimer@redhat.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Daniel Bristot de Oliveira <bristot@redhat.com>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Kees Cook <keescook@chromium.org>,
-	jannh@google.com, linux-kselftest@vger.kernel.org,
-	linux-api@vger.kernel.org
-Subject: Re: [PATCH RFT v3 2/5] fork: Add shadow stack support to clone3()
-Message-ID: <ZV+NamY31GyANEe/@finisterre.sirena.org.uk>
-References: <20231120-clone3-shadow-stack-v3-0-a7b8ed3e2acc@kernel.org>
- <20231120-clone3-shadow-stack-v3-2-a7b8ed3e2acc@kernel.org>
- <20231123-derivate-freikarte-6de8984caf85@brauner>
- <ZV9Cz00vAKd7EwKD@finisterre.sirena.org.uk>
- <20231123-ausziehen-harpune-d020d47f964c@brauner>
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA596199F
+	for <linux-api@vger.kernel.org>; Fri, 24 Nov 2023 00:13:55 -0800 (PST)
+Received: by mail-lf1-x131.google.com with SMTP id 2adb3069b0e04-50abbb23122so2097353e87.3
+        for <linux-api@vger.kernel.org>; Fri, 24 Nov 2023 00:13:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance.com; s=google; t=1700813633; x=1701418433; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BIPK5Hvm18pzHDJO73eIMgzzAL5lmhWxslNB0teYmMk=;
+        b=Zt1f9f9lLLl0AT6igTLQgwrz+i2HDgQd0dTDkZXq4rbqzXPey5xh8RNV3iHgcdaOcH
+         Lnb06rWrqupjGrHmNfHpR3H8vjjrtN2Do3MxrXbzv4jtvy2hKk1WvcCKcdBVA+HMa69N
+         vPP2CWqsGLgFtzJuIy3SHF2JZA/2SD3UEU3ZWOFOoYZq/3Xh7d4iql34WHEcy6qynl5p
+         V66l7yT02x9LmedmdV3uUOwP/mzh+alih5Af2ey6HGl8pbJRevdJBviNo/4EGAXbMAEp
+         YkD/0h9BDb234wsm7qHrfq2zWCAVxJPFT/64Ryxr+s4XKJMTHMNzudPMqR5sKya+JvDP
+         oqmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700813633; x=1701418433;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=BIPK5Hvm18pzHDJO73eIMgzzAL5lmhWxslNB0teYmMk=;
+        b=gqBXfRZyi2WeNFGNrz5hCQlNj4NZTAJ1y7YipzUXK8Eokz3Bw9vrY94GAGLwXQLgz1
+         PZUqLbQe5ziMcDNZLTfGuDxs4UC+LieV1vT0FgK7SEyN/hLxS2FTt0WscIZUEljqRudl
+         BthbOWZ7wUwPsA35K9FLv5l6lc/9N7UXubZsYkS4E/ecRKx8UQlwlxK7ZNJB6oB4uxLC
+         pcV1dIQVGlp2GA6bb0rkgQHBFuliYT+E23CG1j11GMYX4kTTlM8J8fT0PTaRJEUnLqmn
+         N01ZZCKC3ZerVgNixMC/k3269qqj95S7rNAsN27fxojmsF4SDsgDtUnn1ybYLPlm1XGt
+         Uu1w==
+X-Gm-Message-State: AOJu0YyTQ7/nKTaHqYPkjl+Qxugcgd6BdZq9z+mWIWo+rbE+xbnmF1GZ
+	C8MO00l1fBt1nWUX0wi1U/P7NRvvCWRQr92Z22BEDw==
+X-Google-Smtp-Source: AGHT+IENKYtJn7xsQSiBE3z3paskmTKdU9LExQjBtyLHTdb/HOLTWbiQ73NUela9SSYZDTWiu5//+NrPdj5O6kxNjpY=
+X-Received: by 2002:a2e:9bc1:0:b0:2c8:3406:6fb5 with SMTP id
+ w1-20020a2e9bc1000000b002c834066fb5mr1222293ljj.7.1700813633478; Fri, 24 Nov
+ 2023 00:13:53 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="CndIlGpPnv8RlVC+"
-Content-Disposition: inline
-In-Reply-To: <20231123-ausziehen-harpune-d020d47f964c@brauner>
-X-Cookie: Slow day.  Practice crawling.
+References: <ZV5zGROLefrsEcHJ@r13-u19.micron.com>
+In-Reply-To: <ZV5zGROLefrsEcHJ@r13-u19.micron.com>
+From: Zhongkun He <hezhongkun.hzk@bytedance.com>
+Date: Fri, 24 Nov 2023 16:13:41 +0800
+Message-ID: <CACSyD1OFjROw26+2ojG37eDBParVg721x1HCROMiF2pW2aHj8A@mail.gmail.com>
+Subject: Re: [RFC PATCH] mm/mbind: Introduce process_mbind() syscall for
+ external memory binding
+To: Vinicius Petrucci <vpetrucci@gmail.com>
+Cc: akpm@linux-foundation.org, linux-mm@vger.kernel.org, 
+	linux-cxl@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-api@vger.kernel.org, minchan@kernel.org, 
+	dave.hansen@linux.intel.com, x86@kernel.org, Jonathan.Cameron@huawei.com, 
+	aneesh.kumar@linux.ibm.com, gregory.price@memverge.com, ying.huang@intel.com, 
+	dan.j.williams@intel.com, fvdl@google.com, surenb@google.com, 
+	rientjes@google.com, hannes@cmpxchg.org, mhocko@suse.com, Hasan.Maruf@amd.com, 
+	jgroves@micron.com, ravis.opensrc@micron.com, sthanneeru@micron.com, 
+	emirakhur@micron.com, vtavarespetr@micron.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi Vinicius=EF=BC=81
 
---CndIlGpPnv8RlVC+
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Thu, Nov 23, 2023 at 5:32=E2=80=AFAM Vinicius Petrucci <vpetrucci@gmail.=
+com> wrote:
+>
+> From: Vinicius Tavares Petrucci <vtavarespetr@micron.com>
+>
+> This patch introduces `process_mbind()` to enable a userspace orchestrato=
+r with
+> an understanding of another process's memory layout to alter its memory p=
+olicy.
+> As system memory configurations become more and more complex (e.g., DDR+H=
+BM+CXL memories),
+> such a userspace orchestrator can explore more advanced techniques to gui=
+de memory placement
+> to individual NUMA nodes across memory tiers. This allows for a more effi=
+cient allocation of
+> memory resources, leading to enhanced application performance.
+>
+> Alternatively, there are existing methods such as LD_PRELOAD (https://pme=
+m.io/memkind/) or
+> syscall_intercept (https://github.com/pmem/syscall_intercept), but these =
+techniques, beyond the
+> lack of portability/universality, can lead to system incompatibility issu=
+es, inconsistency in
+> application behavior, potential risks due to global system-wide settings,=
+ and increased
+> complexity in implementation.
+>
+> The concept of an external entity that understands the layout of another =
+process's VM
+> is already present with `process_madvise()`. Thus, it seems reasonable to=
+ introduce
+> the `process_mbind` variant of `mbind`. The implementation framework of `=
+process_mbind()`
+> is akin to `process_madvise()`. It uses pidfd of an external process to d=
+irect the memory
+> policy and supports a vector of memory address ranges.
+>
+> The general use case here is similar to the prior RFC `pidfd_set_mempolic=
+y()`
+> (https://lore.kernel.org/linux-mm/20221010094842.4123037-1-hezhongkun.hzk=
+@bytedance.com/),
+> but offers a more fine-grained external control by binding specific memor=
+y regions
+> (say, heap data structures) to specific NUMA nodes. Another concrete use =
+case was described
+> by a prior work showing up to 2X runtime improvement (compared to AutoNUM=
+A tiering) using
+> memory object/region-based memory placement for workloads with irregular =
+access patterns
+> such as graph analytics: https://iiswc.org/iiswc2022/IISWC2022_42.pdf
+>
+> The proposed API is as follows:
+>
+> long process_mbind(int pidfd,
+>                 const struct iovec *iovec,
+>                 unsigned long vlen,
+>                 unsigned long mode,
+>                 const unsigned long *nmask,
+>                 unsigned int flags);
+>
+> The `pidfd` argument is used to select the process that is identified by =
+the PID file
+> descriptor provided in pidfd. (See pidofd_open(2) for more information)
+>
+> The pointer `iovec` points to an array of iovec structures (as described =
+in <sys/uio.h>):
+>
+> struct iovec {
+>     void *iov_base;         /* starting address of region */
+>     size_t iov_len;         /* size of region (in bytes) */
+> };
+>
+> The `iovec` defines memory regions that start at the address (iov_base) a=
+nd
+> have a size measured in bytes (iov_len).
 
-On Thu, Nov 23, 2023 at 05:33:05PM +0100, Christian Brauner wrote:
-> On Thu, Nov 23, 2023 at 12:17:19PM +0000, Mark Brown wrote:
+Good idea.
 
-> > > > +		if (clone_flags & CLONE_VFORK) {
-> > > > +			shstk->base = 0;
-> > > > +			shstk->size = 0;
-> > > > +			return 0;
-> > > > +		}
+>
+> The `vlen` indicates the quantity of elements contained in iovec.
+>
+> Please note the initial `maxnode` parameter from `mbind` was omitted
+> to ensure the API doesn't exceed 6 arguments. Instead, the constant
+> MAX_NUMNODES was utilized.
 
-> > > Why is the CLONE_VFORK handling only necessary if shadow_stack_size is
-> > > unset? In general, a comment or explanation on the interaction between
-> > > CLONE_VFORK and shadow_stack_size would be helpful.
+The original parameters should not be omitted,  the patch from
+Gregory Price is a good solution to put all of them together.
 
-> > This is the existing implicit behaviour that clone() has, it's current
-> > ABI for x86.  The intent is that if the user has explicitly configured a
-> > shadow stack then we just do whatever they asked us to do, if they
+>
+> Please see the mbind(2) man page for more details about other's arguments=
+.
+>
+> Additionally, it is worth noting the following:
+> - Using a vector of address ranges as an argument in `process_mbind` prov=
+ides more
+> flexibility than the original `mbind` system call, even when invoked from=
+ a current
+> or local process.
+> - In contrast to `move_pages`, which requires an array of fixed-size page=
+s,
+> `process_mbind` (with flags MPOL_MF_MOVE*) offers a more convinient and f=
+lexible page
+> migration capability on a per object or region basis.
+> - Similar to `process_madvise`, manipulating the memory binding of extern=
+al processes
+> necessitates `CAP_SYS_NICE` and `PTRACE_MODE_READ_FSCREDS` checks (refer =
+to ptrace(2)).
+>
+> Suggested-by: Frank van der Linden <fvdl@google.com>
+> Signed-off-by: Vinicius Tavares Petrucci <vtavarespetr@micron.com>
+> Signed-off-by: Hasan Al Maruf <Hasan.Maruf@amd.com>
+> ---
+>  arch/x86/entry/syscalls/syscall_64.tbl |  1 +
+>  include/linux/syscalls.h               |  4 ++
+>  include/uapi/asm-generic/unistd.h      |  4 +-
+>  kernel/sys_ni.c                        |  1 +
+>  mm/mempolicy.c                         | 86 +++++++++++++++++++++++++-
+>  5 files changed, 92 insertions(+), 4 deletions(-)
+>
+> diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/sysc=
+alls/syscall_64.tbl
+> index 8cb8bf68721c..9d9db49a3242 100644
+> --- a/arch/x86/entry/syscalls/syscall_64.tbl
+> +++ b/arch/x86/entry/syscalls/syscall_64.tbl
+> @@ -378,6 +378,7 @@
+>  454    common  futex_wake              sys_futex_wake
+>  455    common  futex_wait              sys_futex_wait
+>  456    common  futex_requeue           sys_futex_requeue
+> +457    common  process_mbind           sys_process_mbind
+>
+>  #
+>  # Due to a historical design error, certain syscalls are numbered differ=
+ently
+> diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+> index fd9d12de7e92..def5250ed625 100644
+> --- a/include/linux/syscalls.h
+> +++ b/include/linux/syscalls.h
+> @@ -816,6 +816,10 @@ asmlinkage long sys_mbind(unsigned long start, unsig=
+ned long len,
+>                                 const unsigned long __user *nmask,
+>                                 unsigned long maxnode,
+>                                 unsigned flags);
+> +asmlinkage long sys_process_mbind(int pidfd, const struct iovec __user *=
+vec,
+> +                               size_t vlen, unsigned long mode,
+> +                               const unsigned long __user *nmask,
+> +                               unsigned flags);
+>  asmlinkage long sys_get_mempolicy(int __user *policy,
+>                                 unsigned long __user *nmask,
+>                                 unsigned long maxnode,
+> diff --git a/include/uapi/asm-generic/unistd.h b/include/uapi/asm-generic=
+/unistd.h
+> index 756b013fb832..9ed2c91940d6 100644
+> --- a/include/uapi/asm-generic/unistd.h
+> +++ b/include/uapi/asm-generic/unistd.h
+> @@ -828,9 +828,11 @@ __SYSCALL(__NR_futex_wake, sys_futex_wake)
+>  __SYSCALL(__NR_futex_wait, sys_futex_wait)
+>  #define __NR_futex_requeue 456
+>  __SYSCALL(__NR_futex_requeue, sys_futex_requeue)
+> +#define __NR_process_mbind 457
+> +__SYSCALL(__NR_process_mbind, sys_process_mbind)
+>
+>  #undef __NR_syscalls
+> -#define __NR_syscalls 457
+> +#define __NR_syscalls 458
+>
+>  /*
+>   * 32 bit systems traditionally used different
+> diff --git a/kernel/sys_ni.c b/kernel/sys_ni.c
+> index e1a6e3c675c0..cc5cb5ae3ae7 100644
+> --- a/kernel/sys_ni.c
+> +++ b/kernel/sys_ni.c
+> @@ -187,6 +187,7 @@ COND_SYSCALL(process_madvise);
+>  COND_SYSCALL(process_mrelease);
+>  COND_SYSCALL(remap_file_pages);
+>  COND_SYSCALL(mbind);
+> +COND_SYSCALL(process_mbind);
+>  COND_SYSCALL(get_mempolicy);
+>  COND_SYSCALL(set_mempolicy);
+>  COND_SYSCALL(migrate_pages);
+> diff --git a/mm/mempolicy.c b/mm/mempolicy.c
+> index 10a590ee1c89..91ee300fa728 100644
+> --- a/mm/mempolicy.c
+> +++ b/mm/mempolicy.c
+> @@ -1215,11 +1215,10 @@ static struct folio *alloc_migration_target_by_mp=
+ol(struct folio *src,
+>  }
+>  #endif
+>
+> -static long do_mbind(unsigned long start, unsigned long len,
+> +static long do_mbind(struct mm_struct *mm, unsigned long start, unsigned=
+ long len,
+>                      unsigned short mode, unsigned short mode_flags,
+>                      nodemask_t *nmask, unsigned long flags)
+>  {
+> -       struct mm_struct *mm =3D current->mm;
+>         struct vm_area_struct *vma, *prev;
+>         struct vma_iterator vmi;
+>         struct migration_mpol mmpol;
+> @@ -1465,10 +1464,84 @@ static inline int sanitize_mpol_flags(int *mode, =
+unsigned short *flags)
+>         return 0;
+>  }
+>
+> +static long kernel_mbind_process(int pidfd, const struct iovec __user *v=
+ec,
+> +               size_t vlen, unsigned long mode,
+> +               const unsigned long __user *nmask, unsigned int flags)
+> +{
+> +       ssize_t ret;
+> +       struct iovec iovstack[UIO_FASTIOV];
+> +       struct iovec *iov =3D iovstack;
+> +       struct iov_iter iter;
+> +       struct task_struct *task;
+> +       struct mm_struct *mm;
+> +       unsigned int f_flags;
+> +       unsigned short mode_flags;
+> +       int lmode =3D mode;
+> +       unsigned long maxnode =3D MAX_NUMNODES;
+> +       int err;
+> +       nodemask_t nodes;
+> +
+> +       err =3D sanitize_mpol_flags(&lmode, &mode_flags);
+> +       if (err)
+> +               goto out;
+> +
+> +       err =3D get_nodes(&nodes, nmask, maxnode);
+> +       if (err)
+> +               goto out;
+> +
+> +       ret =3D import_iovec(ITER_DEST, vec, vlen, ARRAY_SIZE(iovstack),
+> +                       &iov, &iter);
+> +       if (ret < 0)
+> +               goto out;
+> +
+> +       task =3D pidfd_get_task(pidfd, &f_flags);
+> +       if (IS_ERR(task)) {
+> +               ret =3D PTR_ERR(task);
+> +               goto free_iov;
+> +       }
+> +
+> +       /* From process_madvise: Require PTRACE_MODE_READ
+> +        * to avoid leaking ASLR metadata. */
+> +       mm =3D mm_access(task, PTRACE_MODE_READ_FSCREDS);
+> +       if (IS_ERR_OR_NULL(mm)) {
+> +               ret =3D IS_ERR(mm) ? PTR_ERR(mm) : -ESRCH;
+> +               goto release_task;
+> +       }
+> +
+> +       /* From process_madvise: Require CAP_SYS_NICE for
+> +        * influencing process performance. */
+> +       if (!capable(CAP_SYS_NICE)) {
+> +               ret =3D -EPERM;
+> +               goto release_mm;
+> +       }
+> +
+> +       while (iov_iter_count(&iter)) {
+> +               unsigned long start =3D untagged_addr(
+> +                               (unsigned long)iter_iov_addr(&iter));
+> +               unsigned long len =3D iter_iov_len(&iter);
+> +
+> +               ret =3D do_mbind(mm, start, len, lmode, mode_flags,
+> +                               &nodes, flags);
+> +               if (ret < 0)
+> +                       break;
+> +               iov_iter_advance(&iter, iter_iov_len(&iter));
+> +       }
+> +
+> +release_mm:
+> +       mmput(mm);
+> +release_task:
+> +       put_task_struct(task);
+> +free_iov:
+> +       kfree(iov);
+> +out:
+> +       return ret;
+> +}
+> +
 
-> So what I'm asking is: if the calling process is suspended until the
-> child exits or exec's does it make sense for the child to even get a
-> shadow stack? I don't know the answer which is why I'm asking.
+The do_mbind function relies on the current task to obtain nodemask
+and task policy,
+so the current modification is not enough.
 
-We were initially doing some suppression of stack creation based on the
-flags but based on prior discussion we decided it wasn't worth it.
-There was some question about corner cases (IIRC the main one was
-posix_spawn()), but generally the thinking here was that since userspace
-explicitly asked for the shadow stack in the worst case it'll just be
-inefficient and userspace can fix things by just not doing that.  If we
-just create the shadow stack whenever it's requested then it makes the
-kernel side handling really simple to implement/verify and we don't have
-to worry about having missed any use cases with combinations of flags
-that we've not anticipated.
+>  static long kernel_mbind(unsigned long start, unsigned long len,
+>                          unsigned long mode, const unsigned long __user *=
+nmask,
+>                          unsigned long maxnode, unsigned int flags)
+>  {
+> +       struct mm_struct *mm =3D current->mm;
+>         unsigned short mode_flags;
+>         nodemask_t nodes;
+>         int lmode =3D mode;
+> @@ -1483,7 +1556,7 @@ static long kernel_mbind(unsigned long start, unsig=
+ned long len,
+>         if (err)
+>                 return err;
+>
+> -       return do_mbind(start, len, lmode, mode_flags, &nodes, flags);
+> +       return do_mbind(mm, start, len, lmode, mode_flags, &nodes, flags)=
+;
+>  }
+>
+>  SYSCALL_DEFINE4(set_mempolicy_home_node, unsigned long, start, unsigned =
+long, len,
+> @@ -1553,6 +1626,13 @@ SYSCALL_DEFINE4(set_mempolicy_home_node, unsigned =
+long, start, unsigned long, le
+>         return err;
+>  }
+>
+> +SYSCALL_DEFINE6(process_mbind, int, pidfd, const struct iovec __user *, =
+vec,
+> +               size_t, vlen, unsigned long, mode,
+> +               const unsigned long __user *, nmask, unsigned int, flags)
+> +{
+> +       return kernel_mbind_process(pidfd, vec, vlen, mode, nmask, flags)=
+;
+> +}
+> +
+>  SYSCALL_DEFINE6(mbind, unsigned long, start, unsigned long, len,
+>                 unsigned long, mode, const unsigned long __user *, nmask,
+>                 unsigned long, maxnode, unsigned int, flags)
+> --
+> 2.41.0
+>
 
---CndIlGpPnv8RlVC+
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmVfjWoACgkQJNaLcl1U
-h9AaCAf9ESVElI0jUJmzKPT+rOMQcmn2utfrXnIajA0L2w8qephayJtaRS/cumi6
-x79EY3sWCc3/7DU8ZokCs+1hlLe2YXBcHChU9mPSM5r910muGEmRFmDNYvXT0MDx
-zTAxwD1JezQm/xx+eao6qAXcndvSWtQ07KRkY+7kGh48MaBu6ea7ZHGLX36KLU3D
-FGZ4pwQjZAEZniikVAMKqkMiZgPWLaklyuu86hpWa1m5m9t6j3O97Zc7zsT9EhvO
-+L9dshnSTGK00sGneVJrznPPUm6w+9xYsAO8YNFfVMDSEeezBH3nKHxDGaGONOyP
-jacIFPP64N2TZMtsNbsQpUCrFXE4DQ==
-=+O4D
------END PGP SIGNATURE-----
-
---CndIlGpPnv8RlVC+--
+Per my understanding,  the process_mbind() is implementable without
+many difficult challenges=EF=BC=8C
+since it is always protected by mm->mmap_lock. But task mempolicy does
+not acquire any lock
+in alloc_pages().
 
