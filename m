@@ -1,227 +1,181 @@
-Return-Path: <linux-api+bounces-169-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-170-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34CDF7FC107
-	for <lists+linux-api@lfdr.de>; Tue, 28 Nov 2023 19:09:15 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7EF37FC336
+	for <lists+linux-api@lfdr.de>; Tue, 28 Nov 2023 19:31:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DDB302823C6
-	for <lists+linux-api@lfdr.de>; Tue, 28 Nov 2023 18:09:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 05D011C20CD6
+	for <lists+linux-api@lfdr.de>; Tue, 28 Nov 2023 18:31:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A424219F9;
-	Tue, 28 Nov 2023 18:09:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A4FC3D0B2;
+	Tue, 28 Nov 2023 18:31:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=memverge.com header.i=@memverge.com header.b="BNZT1N5p"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CIKPoBtJ"
 X-Original-To: linux-api@vger.kernel.org
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2060.outbound.protection.outlook.com [40.107.95.60])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDF8091;
-	Tue, 28 Nov 2023 10:09:07 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OmXhB38m0m5oq/l0kxnmuq5vMq78ahv2Vezk70JRyBCaX3kia7O2eW2/48AWtGqm3l0CW54q/Dv2wEe4lqwTyuk5qztM3rwWG0MriHgvQTnqqwl58d0QZfBXXe93bFJifyM5DBxKWPxV19boLHxaIs3KRnZhmb7nSVRWed3VQ/0eK/ODzdEvd6LmEU8GGrc7i4qmRHk4qPG+kDXWKU6YdH2SF+4F5qqq+uXf6Upc22DweSI0hg/2sQaPvPhB1wiu1gnTzoeSE5kYttKMMwlSsJpBMXHmpenpErCD30FBnrkcwBLoeEfc3KOuFrYh0Y1kqrZ6f5LBG6+joiaNvMNq9A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5s9J5/ZfVDp/yhvkUTjP/J14nJ8PKRu3+g5cl68Ajvg=;
- b=g1/9esN/EO7bqLkRz5TTkAx9cjn8WLvZJklIS1MNGy9+134eF3fjoxOSyXo4s1GZ8OQqNXaFHGQFgL5ZqSvNCHwBPGsX2TtqQVkElr7oTHmV0SNei7mfUJEDIM9O5ZAyboWIg2KLBtaNgnbEQYNmYS/JvoURxjpI2mXGKcTEbLE+1jxuTfBEiQz4XLkwyq9vOMM4IQI7yhdWbaNGW4eTdFujyRiR4Kuo+ECqfhgRxGVmeeWnY1ECTMOSROlfLH/PyNvtz7ZgiDsq8NBqnOtk/6sSagqePcLZvba8CYPCz+l/UuYNsYHSapwrU5ovf2iMPgC8fQUmkr03D+MSpKDIVA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
- dkim=pass header.d=memverge.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5s9J5/ZfVDp/yhvkUTjP/J14nJ8PKRu3+g5cl68Ajvg=;
- b=BNZT1N5pVbeLbjnj1Y2bj4RQZemJrbFap7YjgHTjT1y05sHSw71K2R8qMU2E8y/AtPte5vOvYpHHDQkiwE5rxZsfkOn6e0UA+TNwvnrXl0A0daYNfhcTfP3y8TpTjkgfX2omAuKYCqYe+xY/vzKvBadMoc/5BivcXqJiM8QkSJw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=memverge.com;
-Received: from SJ0PR17MB5512.namprd17.prod.outlook.com (2603:10b6:a03:394::19)
- by BL3PR17MB6115.namprd17.prod.outlook.com (2603:10b6:208:3bb::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.21; Tue, 28 Nov
- 2023 18:09:03 +0000
-Received: from SJ0PR17MB5512.namprd17.prod.outlook.com
- ([fe80::381c:7f11:1028:15f4]) by SJ0PR17MB5512.namprd17.prod.outlook.com
- ([fe80::381c:7f11:1028:15f4%5]) with mapi id 15.20.7046.015; Tue, 28 Nov 2023
- 18:09:02 +0000
-Date: Tue, 28 Nov 2023 13:08:54 -0500
-From: Gregory Price <gregory.price@memverge.com>
-To: Michal Hocko <mhocko@suse.com>
-Cc: Gregory Price <gourry.memverge@gmail.com>, linux-mm@kvack.org,
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-kernel@vger.kernel.org, akpm@linux-foundation.org,
-	arnd@arndb.de, tglx@linutronix.de, luto@kernel.org,
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-	x86@kernel.org, hpa@zytor.com, tj@kernel.org, ying.huang@intel.com
-Subject: Re: [RFC PATCH 06/11] mm/mempolicy: modify do_mbind to operate on
- task argument instead of current
-Message-ID: <ZWYsth2CtC4Ilvoz@memverge.com>
-References: <20231122211200.31620-1-gregory.price@memverge.com>
- <20231122211200.31620-7-gregory.price@memverge.com>
- <ZWX0-hEjqkmnR1Nq@tiehlicka>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZWX0-hEjqkmnR1Nq@tiehlicka>
-X-ClientProxiedBy: BYAPR07CA0047.namprd07.prod.outlook.com
- (2603:10b6:a03:60::24) To SJ0PR17MB5512.namprd17.prod.outlook.com
- (2603:10b6:a03:394::19)
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15C1D3D0AB;
+	Tue, 28 Nov 2023 18:31:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7C9EC433C8;
+	Tue, 28 Nov 2023 18:31:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701196295;
+	bh=NROPqiEQ6vDNcp6Pe2C3MvsogsqejvAhVuwaVCUo15M=;
+	h=From:Subject:Date:To:Cc:From;
+	b=CIKPoBtJ/QbC4Puo88DuBLNoFO9srfUroQZVKEWxP615vnnyRUKuoVi93BNUz7zxG
+	 TYRE9V6/65uZKCUTjQtAQiGe27dUxg/c80zdoz/cKMqzMxWZ31XQ2bpXD/Whi6sLfN
+	 CmA9DqW1jgxIYV71QjBGjdzqHTcJtTU5BaOct3o0b/+QeVxe+hCd9nUugV6D+c94C9
+	 Tca7aGjGzSwoXNvdKHOON3hBNHsW30ATAUIdnxp1ncabviO++vIUxWLzL/fbc9gWl9
+	 YYpFbHx0JP9KEwblM+wUV7RCTmCt40rTgGU8FmxZ5g7wrAo4Uvd3wYXjt+p7USgCDF
+	 BM+N+jWJKuqrw==
+From: Mark Brown <broonie@kernel.org>
+Subject: [PATCH RFT v4 0/5] fork: Support shadow stacks in clone3()
+Date: Tue, 28 Nov 2023 18:22:38 +0000
+Message-Id: <20231128-clone3-shadow-stack-v4-0-8b28ffe4f676@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR17MB5512:EE_|BL3PR17MB6115:EE_
-X-MS-Office365-Filtering-Correlation-Id: 460d3026-f316-42e6-db2e-08dbf03d1a35
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	W1oy1oHfQVtbCNTpAVNjp9lXkDzVtyUzz1KRao9bKIL0lli7HKny1kD6lK/gZAoaOBOqM6x5HFvaaeBE4rzaTL45GZl0YxkdQ77EkQ7zrg6olwdNaDLGNbVXE+s+KEEnn2VRyxRWGWWxh/b4nCoKXQoxd0citKkuecJiZLIFnLFnFwyXcICgzoWq1zs+64ls6SINkHJROUSpQ4bxeaxxmYtVzb3X/HZPpTfUajsBIY1tNxSGNlGJKlB1mDoVdamR2NW7ZV5OFNh4g5TPkrOGsenLhYuqrFDworsgCjQDycLpjwC91OQejMJRIungvx2CBr0pV9cbunafBup74GBZCftNjW3k9UquUCk2o3lHOdPa6PKJXAASFA7ilrZMiYrr7pNq9IWDfx8CIECzmhzLriMhXrCZVNWyal+10jjPprUJoXAX1/Je3EnjsMOgTzYKfVHR3wDv7IFfuZNrsmYKwS2l1mGeeKU8vgqRpmlPs8WRhw49NcedjG9/J3DA9Sn55bCQDXKYGC7GvuBqIz5e4y9e38GGxgVBezj1FSex9ybbPc4KnzG9AgQpZQ70zzcZbL2qgkh8e9QIvYxLjXzy+7O2fn0P8U0lvP6im057nz9iaSebLxk7mA/+gzWrBPnw
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR17MB5512.namprd17.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(396003)(376002)(136003)(39850400004)(366004)(230922051799003)(230173577357003)(230273577357003)(186009)(451199024)(64100799003)(1800799012)(2616005)(26005)(6512007)(6916009)(8676002)(4326008)(8936002)(2906002)(5660300002)(7416002)(86362001)(6486002)(478600001)(44832011)(66946007)(66556008)(316002)(66476007)(38100700002)(83380400001)(6506007)(6666004)(36756003)(41300700001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?p8iKQnv0ouZBlMziW8Y/m769PvbnR8YxqMCzWexsVtosM/X3uslABOaputJX?=
- =?us-ascii?Q?1FZvqUjJocc3uLROa7FFluY/IjRnJVoVDEZ4vR8k2/7p16DT5oU0hwb0PODj?=
- =?us-ascii?Q?7t1mzd6N6L1XOhfXpNpbNRgHETBHpLvsRolUwBMnrXIvohyvMctjlhoHBzkh?=
- =?us-ascii?Q?lLxYjj/oWRZn9+AGx6Py9BksSlLoTyBFjd+7128mzN3RGcRZ5esIvPpA2hWJ?=
- =?us-ascii?Q?GKbYImk7NanScPqrFCjuiKOYnIufv2C0sJ1vCN72p6XN8TnYmq9eeFlcY3us?=
- =?us-ascii?Q?Gix7CZPVrzTtO/yB0HZ+mEv8obO6lXs8r4mR5AGtn2mNdTNlWxRYnysAEz7b?=
- =?us-ascii?Q?FG+qyArWpYEx4Ss8zOBxvf/+o9QckVd+99Zs6Lv9vn92HEnLkR8Olhm4dVtF?=
- =?us-ascii?Q?whaXF7VycfVu0U/VESn+xCSdjbbePhS28IrFidvxHv4OfpIuXplYXlOTeFJB?=
- =?us-ascii?Q?W5zt4V2Y36Yp82r7MDBUWmCSdkH+cgDwRLqv7P4E8lMA8SQe9sOvoqLeYQDz?=
- =?us-ascii?Q?563EKERSSA75W+scXy6rgSKNZDBCu+ThkJW6QA8HY/yUdJvmwSmv1klt2n55?=
- =?us-ascii?Q?CC7f7v49a1dLVC4iPPdP0TYezj6Ga1R3dui4fN4Gb8Tz3h6GrRrBFW6ehma8?=
- =?us-ascii?Q?j+Qpg7bAEbyAYZy4a9CQTSDOWlo08qJeCV81ZE4vyJ0yuDP1T3Qat65X5dQ8?=
- =?us-ascii?Q?3AMQtkbZz7HWoj8Bf5K5I8kej/zDZDTXLx/Z4sypM85JIn4lQW4iVZhqY7Sz?=
- =?us-ascii?Q?hn1DCgvdb7UFV/S2KihrfLe40/yJO9XmN/ksb7Q6fFriuNetVoYwCSH4h28y?=
- =?us-ascii?Q?l43e4/gBRrDgOwU6R6Vb2EL5B7FB71aA75NLGuB3a19N8JzHexH1MOZ+bSiJ?=
- =?us-ascii?Q?Hp3ncGh6HqyoV2aQ0Exb7ARvwmc1DpWshyPXhUz03eJ88B94kgFHhrb1Ctb5?=
- =?us-ascii?Q?ky31t5xfQsr/PBNMh7DrdE1cQStpigLaYDOa1/DzJznpClTRrg20Odav9LKm?=
- =?us-ascii?Q?QkgKaJfi9tLxisuL1mydRRNScYEF03cnCJLc4EWSYP8TENLU769DynyAyd/v?=
- =?us-ascii?Q?XRXM3NNb3NO7mRiyF8rPEyWTF8UwyUL2KxLC64v1ht3dvJQ9kWXlsLye3xaK?=
- =?us-ascii?Q?68yV2Jl6/Umi/4H9nkP1Zv0jL8dqjS4vsz4SIRR5o7yUfrFebPM9lSSCi0fv?=
- =?us-ascii?Q?a0Q6EZ5jPhNekv8CZ58YYxkW7netmDVZWZwbidghqVnV35V1yCicqjqlufME?=
- =?us-ascii?Q?WBIfSAmRa9mY7PvIAhcBsGk6yr4m8PVwhJXnCB9/ZALJscqTuwEq/5wAXM49?=
- =?us-ascii?Q?pQUSnexS45p9GOfuVrnIrB7LJFhPwSghR3V0U+AX+EaDb4uZEKYKHyQAL00S?=
- =?us-ascii?Q?Pqss56uRzLnIOkJMX5rHBsu4eYk3I7DYKJC2PGCkXmBWA3dZmq7+omIAWtfF?=
- =?us-ascii?Q?i5I0bYUGkMW/q8VJvB0Krw9xxh/tP4KiikG7i7h2dKSDqtaydbcEn9EUQebQ?=
- =?us-ascii?Q?lanOjDDWGDdJiRTM6nAmqgmwF8zAA5HiMrD1IV/6XBggashGWiCT1+WXWBjm?=
- =?us-ascii?Q?dNAi0RsAtNNnqE5UyW3lGe6XRV2RlvWH6K8ZsjbU64yMofnBjO3IZfd1lu9f?=
- =?us-ascii?Q?gg=3D=3D?=
-X-OriginatorOrg: memverge.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 460d3026-f316-42e6-db2e-08dbf03d1a35
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR17MB5512.namprd17.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Nov 2023 18:09:02.8419
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 65ac3Ko3Bqt++bu1Fq0Lu2HqkJVHjBm17C87CyjmadIrjwRVZ0TJjbQB97+vTj8PQLb8IuilIG4TD17cQzsPeH+6U6wAXhF7SLHPwoRwFEY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR17MB6115
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAO4vZmUC/23NTQ7CIBAF4Ks0rMUw0D9dufIAxp1xQWHakjZgo
+ KmapneX1IUau3zzMt+bSEBvMJB9MhGPownG2RjSTUJUK22D1OiYCWdcAIMdVb2zKGhopXZ3Gga
+ pOgqZTpnmVZ2JnMTPm8faPBb1Qk7HM7nGY2vC4PxzWRphqd4oF6voCJRRXeaFZlX0NTt06C32W
+ +ebBRz5BwFI1xEekSoHUZd5CZBlf4j4QjhbR0REZFGVqAVyqdQPMs/zC8rzE/pGAQAA
+To: "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>, 
+ Deepak Gupta <debug@rivosinc.com>, Szabolcs Nagy <Szabolcs.Nagy@arm.com>, 
+ "H.J. Lu" <hjl.tools@gmail.com>, Florian Weimer <fweimer@redhat.com>, 
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+ Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, 
+ Vincent Guittot <vincent.guittot@linaro.org>, 
+ Dietmar Eggemann <dietmar.eggemann@arm.com>, 
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, 
+ Mel Gorman <mgorman@suse.de>, 
+ Daniel Bristot de Oliveira <bristot@redhat.com>, 
+ Valentin Schneider <vschneid@redhat.com>, 
+ Christian Brauner <brauner@kernel.org>, Shuah Khan <shuah@kernel.org>
+Cc: linux-kernel@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>, 
+ Will Deacon <will@kernel.org>, Kees Cook <keescook@chromium.org>, 
+ jannh@google.com, bsegall@google.com, linux-kselftest@vger.kernel.org, 
+ linux-api@vger.kernel.org, Mark Brown <broonie@kernel.org>, 
+ David Hildenbrand <david@redhat.com>
+X-Mailer: b4 0.13-dev-0438c
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4805; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=NROPqiEQ6vDNcp6Pe2C3MvsogsqejvAhVuwaVCUo15M=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBlZjH8l9Ti0WgO7TV3nEmr2nHEZD+bNbFMAmto8y31
+ cDYyzOqJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZWYx/AAKCRAk1otyXVSH0KVBB/
+ 9UTQ8Gb5Mko1cMNdxosIdKOkPP7xuu/4gZvr95GtpZU/Zf5ZaLiEtwHpBLtjwYfjIwU4+fdkr5+HSk
+ fEcdsHdm6JoP3KpSPNmfDU7LpYjBrEbfsM0T29Whx+ZYit11WF8u3bpI2hKIw61C2hpPYSYuBy6QGc
+ JZFhsWNxwUaJ2VTvGMY1PB21x8r1J5jwfal4InabKs8Sd3RqTPsjLkmL6A44zrzxPFOxJdNEzv8ZyP
+ wj8aHvy/mDeY1GrPjJOKpENz9CMFWFQdRlbGPzwnrGD681OFVm8mVQu8F5CVScFvS6v2SPoVWyy0Zs
+ hy3YgoLqZwj6V5+YyUfQiUUK0vu9Rb
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Tue, Nov 28, 2023 at 03:11:06PM +0100, Michal Hocko wrote:
-> On Wed 22-11-23 16:11:55, Gregory Price wrote:
-> [...]
-> > + * Like get_vma_policy and get_task_policy, must hold alloc/task_lock
-> > + * while calling this.
-> > + */
-> > +static struct mempolicy *get_task_vma_policy(struct task_struct *task,
-> > +					     struct vm_area_struct *vma,
-> > +					     unsigned long addr, int order,
-> > +					     pgoff_t *ilx)
-> [...]
-> 
-> You should add lockdep annotation for alloc_lock/task_lock here for clarity and 
-> also...  
-> > @@ -1844,16 +1899,7 @@ struct mempolicy *__get_vma_policy(struct vm_area_struct *vma,
-> >  struct mempolicy *get_vma_policy(struct vm_area_struct *vma,
-> >  				 unsigned long addr, int order, pgoff_t *ilx)
-> >  {
-> > -	struct mempolicy *pol;
-> > -
-> > -	pol = __get_vma_policy(vma, addr, ilx);
-> > -	if (!pol)
-> > -		pol = get_task_policy(current);
-> > -	if (pol->mode == MPOL_INTERLEAVE) {
-> > -		*ilx += vma->vm_pgoff >> order;
-> > -		*ilx += (addr - vma->vm_start) >> (PAGE_SHIFT + order);
-> > -	}
-> > -	return pol;
-> > +	return get_task_vma_policy(current, vma, addr, order, ilx);
-> 
-> I do not think that all get_vma_policy take task_lock (just random check
-> dequeue_hugetlb_folio_vma->huge_node->get_vma_policy AFAICS)
-> 
-> Also I do not see policy_nodemask to be handled anywhere. That one is
-> used along with get_vma_policy (sometimes hidden like in
-> alloc_pages_mpol). It has a dependency on
-> cpuset_nodemask_valid_mems_allowed. That means that e.g. mbind on a
-> remote task would be constrained by current task cpuset when allocating
-> migration targets for the target task. I am wondering how many other
-> dependencies like that are lurking there.
+The kernel has recently added support for shadow stacks, currently
+x86 only using their CET feature but both arm64 and RISC-V have
+equivalent features (GCS and Zicfiss respectively), I am actively
+working on GCS[1].  With shadow stacks the hardware maintains an
+additional stack containing only the return addresses for branch
+instructions which is not generally writeable by userspace and ensures
+that any returns are to the recorded addresses.  This provides some
+protection against ROP attacks and making it easier to collect call
+stacks.  These shadow stacks are allocated in the address space of the
+userspace process.
 
-So after further investigation, I'm going to have to back out the
-changes that make home_node and mbind modifiable by an external task
-and revisit it at a later time.
+Our API for shadow stacks does not currently offer userspace any
+flexiblity for managing the allocation of shadow stacks for newly
+created threads, instead the kernel allocates a new shadow stack with
+the same size as the normal stack whenever a thread is created with the
+feature enabled.  The stacks allocated in this way are freed by the
+kernel when the thread exits or shadow stacks are disabled for the
+thread.  This lack of flexibility and control isn't ideal, in the vast
+majority of cases the shadow stack will be over allocated and the
+implicit allocation and deallocation is not consistent with other
+interfaces.  As far as I can tell the interface is done in this manner
+mainly because the shadow stack patches were in development since before
+clone3() was implemented.
 
-Right now, there's a very nasty rats nest of entanglement between
-mempolicy and vma/shmem that hides a bunch of accesses to current.
+Since clone3() is readily extensible let's add support for specifying a
+shadow stack when creating a new thread or process in a similar manner
+to how the normal stack is specified, keeping the current implicit
+allocation behaviour if one is not specified either with clone3() or
+through the use of clone().  Unlike normal stacks only the shadow stack
+size is specified, similar issues to those that lead to the creation of
+map_shadow_stack() apply.
 
-It only becomes apparently when you start chasing all the callers of
-mpol_dup, which had another silent access to current->cpusets.
+Please note that the x86 portions of this code are build tested only, I
+don't appear to have a system that can run CET avaible to me, I have
+done testing with an integration into my pending work for GCS.  There is
+some possibility that the arm64 implementation may require the use of
+clone3() and explicit userspace allocation of shadow stacks, this is
+still under discussion.
 
-mpol_dup calls the following:
-	current_cpuset_is_being_rebound
-	cpuset_mems_allowed(current)
+A new architecture feature Kconfig option for shadow stacks is added as
+here, this was suggested as part of the review comments for the arm64
+GCS series and since we need to detect if shadow stacks are supported it
+seemed sensible to roll it in here.
 
-So we would need to do the following
-1) create mpol_dup_task and make current explicit, not implicit
-2) chase down all callers to mpol_dup and make sure it isn't generated
-   from any of the task interfaces
-3) if it is generated from the task interfaces, plumb a reference to
-   current down through... somehow... if possible...
+[1] https://lore.kernel.org/r/20231009-arm64-gcs-v6-0-78e55deaa4dd@kernel.org/
 
-Here's a ~1 hour chase that lead me to the conclusion that this will
-take considerably more work, and is not to be taken lightly:
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+Changes in v4:
+- Formatting changes.
+- Use a define for minimum shadow stack size and move some basic
+  validation to fork.c.
+- Link to v3: https://lore.kernel.org/r/20231120-clone3-shadow-stack-v3-0-a7b8ed3e2acc@kernel.org
 
-do_mbind
-	mbind_range
-		vma_modify_policy
-			split_vma
-				__split_vma
-					vma_dup_policy
-						mpol_dup
-		vma_replace_policy
-			mpol_dup
-			vma->vm_ops->set_policy - see below
+Changes in v3:
+- Rebase onto v6.7-rc2.
+- Remove stale shadow_stack in internal kargs.
+- If a shadow stack is specified unconditionally use it regardless of
+  CLONE_ parameters.
+- Force enable shadow stacks in the selftest.
+- Update changelogs for RISC-V feature rename.
+- Link to v2: https://lore.kernel.org/r/20231114-clone3-shadow-stack-v2-0-b613f8681155@kernel.org
 
-__set_mempolicy_home_node
-	mbind_range
-		... same as above ...
+Changes in v2:
+- Rebase onto v6.7-rc1.
+- Remove ability to provide preallocated shadow stack, just specify the
+  desired size.
+- Link to v1: https://lore.kernel.org/r/20231023-clone3-shadow-stack-v1-0-d867d0b5d4d0@kernel.org
 
-digging into vma->vm_ops->set_policy we end up in mm/shmem.c
+---
+Mark Brown (5):
+      mm: Introduce ARCH_HAS_USER_SHADOW_STACK
+      fork: Add shadow stack support to clone3()
+      selftests/clone3: Factor more of main loop into test_clone3()
+      selftests/clone3: Allow tests to flag if -E2BIG is a valid error code
+      kselftest/clone3: Test shadow stack support
 
-shmem_set_policy
-	mpol_set_shared_policy
-		sp_alloc
-			mpol_dup
-				current_cpuset_is_being_rebound()
-				cpuset_mems_allowed(current)
+ arch/x86/Kconfig                                  |   1 +
+ arch/x86/include/asm/shstk.h                      |  11 +-
+ arch/x86/kernel/process.c                         |   2 +-
+ arch/x86/kernel/shstk.c                           |  56 ++++--
+ fs/proc/task_mmu.c                                |   2 +-
+ include/linux/mm.h                                |   2 +-
+ include/linux/sched/task.h                        |   1 +
+ include/uapi/linux/sched.h                        |   4 +
+ kernel/fork.c                                     |  53 ++++--
+ mm/Kconfig                                        |   6 +
+ tools/testing/selftests/clone3/clone3.c           | 200 +++++++++++++++++-----
+ tools/testing/selftests/clone3/clone3_selftests.h |   7 +
+ 12 files changed, 268 insertions(+), 77 deletions(-)
+---
+base-commit: 98b1cc82c4affc16f5598d4fa14b1858671b2263
+change-id: 20231019-clone3-shadow-stack-15d40d2bf536
 
-Who knows what else is burried in the vma stack, but making vma
-mempolicies externally modifiable looks to be a much more monumental
-task than just simply making the task policy modifiable.
+Best regards,
+-- 
+Mark Brown <broonie@kernel.org>
 
-For now i'm going to submit a V2 with home_node and mbind removed from
-the proposal.  Those will take far more investigation.
-
-This also means that process_set_mempolicy should not be extended to
-allow for vma policy replacements.
-
-~Gregory
 
