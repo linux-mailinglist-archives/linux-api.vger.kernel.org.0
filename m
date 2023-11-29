@@ -1,324 +1,207 @@
-Return-Path: <linux-api+bounces-176-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-177-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF4B37FC7DF
-	for <lists+linux-api@lfdr.de>; Tue, 28 Nov 2023 22:24:15 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC4337FCD0D
+	for <lists+linux-api@lfdr.de>; Wed, 29 Nov 2023 03:46:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 51A3FB21FE2
-	for <lists+linux-api@lfdr.de>; Tue, 28 Nov 2023 21:24:13 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 87362B210C2
+	for <lists+linux-api@lfdr.de>; Wed, 29 Nov 2023 02:46:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5958E42AAF;
-	Tue, 28 Nov 2023 21:24:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDD66A29;
+	Wed, 29 Nov 2023 02:46:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="q9PB9c8/"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Rbp8kiCs";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="LBRg/JeI"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com [IPv6:2607:f8b0:4864:20::231])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E08D84C28
-	for <linux-api@vger.kernel.org>; Tue, 28 Nov 2023 13:24:01 -0800 (PST)
-Received: by mail-oi1-x231.google.com with SMTP id 5614622812f47-3b894f5a7f3so88783b6e.2
-        for <linux-api@vger.kernel.org>; Tue, 28 Nov 2023 13:24:01 -0800 (PST)
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6C241735;
+	Tue, 28 Nov 2023 18:46:34 -0800 (PST)
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3AT2iBHo000301;
+	Wed, 29 Nov 2023 02:46:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=to : cc : subject :
+ from : message-id : references : date : in-reply-to : content-type :
+ mime-version; s=corp-2023-11-20;
+ bh=qjMDuqejG0fhl915Icj4cyCk/jiH3IgwnenTVQD+2qw=;
+ b=Rbp8kiCs/HzhTHVWY6+MIXw8jZ4wNzjc9o/TT/lIsKWkKagS2XM1ggUAl480Z0UKle+1
+ 2+SzB/kduWF9Lr2kHIq13rnlZean6xKEFjE1OITiGSNWhuF4TuxfFUTn0klquzPbBcss
+ oZk1aoAS/TU7Sxngq8lfpqedZt+FFP9z53SRlZ/4A0NUQpPpKGHc9HprAQn3B3MABS5u
+ CcxRiBdq7EZFL60hK3QAmv1xHJamFusg1l65CcyvsX9EjSWWOrwXKf9iL/p605DSMcdt
+ Z+FXJ9Xls82p0K9l4BwXq+O221046MF03p0saP25QsJo+pBfkobc3/LpxVb88QB3Pgzc tQ== 
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3uk7beyemd-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 29 Nov 2023 02:46:07 +0000
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 3AT2ipC1026975;
+	Wed, 29 Nov 2023 02:46:06 GMT
+Received: from nam04-mw2-obe.outbound.protection.outlook.com (mail-mw2nam04lp2169.outbound.protection.outlook.com [104.47.73.169])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3uk7ce3y38-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 29 Nov 2023 02:46:06 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PWhuGh8NANKghIfqIXzlG8z9btm4ObTZcO8mSpSeduH/koBVTMy+cXAWpMV4KB+2m8pPG+ctrw1b46hKXNMwxbXs1xa/mwV347ae67HDQnXCicER1WIW9+oBgSNF7l4T1bbGcV7z6U4d7+Nl5e0LpootiZbwpTzXEZzxR6fK+jz7kriomznBvJh3v4DtrPNYewiiXmHpukRnGyDjYSvhPhumjoS+NpfCJDmzeJAXvEb/hnM2zJfI1FHOtr9uS/qYK26pph1P8i6D6dunW4WGD2zCSYNxC4Lc3B2zm0vzWCKJ/SqmyR6IN2eI7x5iYuvXbZ4X73i5dfSFfCn+/yw2/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qjMDuqejG0fhl915Icj4cyCk/jiH3IgwnenTVQD+2qw=;
+ b=nI7cqTBo7LNfoHAgSMUAbG71AAQIg1RZvgZyfdPj/tXjDGdNSGXkr5gXx9V2xJv+g7s4MjWI4LSD6J/KsG328SdHyWDvpa6b7oJittfSXJ7S6ZeZkODDSVJvleXJ0YzPqisN4Zf4RgFMpklsuiDaeHptvVccyGBDffyVo3G+EUpojZMSfeK1E1GppqoWRHEnMN0kE8wPBOmjFNGeeiJ5AQYtzT+eeryAfFj5VNLhbdO1yVd7W7p0fvPJ/6uCAvoixw4rvyDU45E37AtKYkJXxPDnPrQuzuyMxo9rgtj20/aUmGAMclCraZ6hkdUHXrs1sM3PWgjsHSXYMhHKmEll1A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1701206641; x=1701811441; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=4MY36XUOmXD7TRhzMNFRbou/xNiTRxYnsiuYoe/9vH0=;
-        b=q9PB9c8/mS9Cqs/pqyS3Mh05czIr8dWMNvelOdhWC0oKKSPB220tpYEFocReSdKYk0
-         Y6dfzGhKu8JhDabIpchhi/W3G8aG8/6fWPQucX5yTxhP3+t9f0bNL79dFwFK2POaqjJV
-         3b2sEXrfNaaClwR8LlbJJBCv8qwB4jGEVZSEGcrzDIQ/WdZQg2baFFkzbP9bfqJDv3L/
-         gc5tbFpxD0yK2Reh/k+TDpdfZYtsQ013FhTc5CR9LtDu02p3hbqE1vfQMOWRjlX+yPJM
-         9XaDyUxhHGqH9zjn9yoslCkD6k5QRCbcpZnVoBR4pKCNjqVJ4FfptDrlkKpVtEkSpY/Y
-         QB4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701206641; x=1701811441;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4MY36XUOmXD7TRhzMNFRbou/xNiTRxYnsiuYoe/9vH0=;
-        b=i3TjRAJhhF9KCpGjwYu48ucgYVk06PQSZXGjNJmpN7aOCGwvooWAGoBeeIjypHZPul
-         BGKWi1+fbmDSMh78STZlTfdqCaBslVIjFmo8PQnXQuWAcaq/6M5ddiax5u/48PQfw9Dz
-         r8rZ1Ay6MPaBc4WHz+wGoxDJ9sTVOjhC+6XrBfHrFnHgTHSKh149uIxOIAjxkRcGfdj6
-         NzZDFkbG+0idr8wIEB+dpMshsAdp1v+OZ/q0qX/iQETMH+pJHYBLW+gL20kGGvRGKTwp
-         bp9/WT9bUAIRtqpogsVKqv5HI2edHO8PqVhHsUc0CxrLMXURUqgppicwg70QKpsvTUPT
-         Foyw==
-X-Gm-Message-State: AOJu0YxJlnIgdL4wyusmVBEKV5cxwUe1pLgr5C3Z2+pcBA9GOVXooIC8
-	vj9bg+640YSdojAwrLmewbu5Vg==
-X-Google-Smtp-Source: AGHT+IHqcR9D9braDY0YWWAci7hQUd4tP4Ci6dTK2hgrx6ZnFoZpjFWTZRG+IihHEWJHVL4m2dMjFA==
-X-Received: by 2002:a05:6871:4e46:b0:1f9:f527:8865 with SMTP id uj6-20020a0568714e4600b001f9f5278865mr18249736oab.52.1701206641031;
-        Tue, 28 Nov 2023 13:24:01 -0800 (PST)
-Received: from debug.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id lm24-20020a0568703d9800b001fa24002089sm2014044oab.30.2023.11.28.13.23.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Nov 2023 13:24:00 -0800 (PST)
-Date: Tue, 28 Nov 2023 13:23:57 -0800
-From: Deepak Gupta <debug@rivosinc.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
-	Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
-	"H.J. Lu" <hjl.tools@gmail.com>,
-	Florian Weimer <fweimer@redhat.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Daniel Bristot de Oliveira <bristot@redhat.com>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Kees Cook <keescook@chromium.org>,
-	jannh@google.com, linux-kselftest@vger.kernel.org,
-	linux-api@vger.kernel.org
-Subject: Re: [PATCH RFT v4 2/5] fork: Add shadow stack support to clone3()
-Message-ID: <ZWZabbeK942FToNs@debug.ba.rivosinc.com>
-References: <20231128-clone3-shadow-stack-v4-0-8b28ffe4f676@kernel.org>
- <20231128-clone3-shadow-stack-v4-2-8b28ffe4f676@kernel.org>
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qjMDuqejG0fhl915Icj4cyCk/jiH3IgwnenTVQD+2qw=;
+ b=LBRg/JeIWBFkkalbPP7AbAPglYYm3mh6VELGRpUWXwCgm8fCl5CjLGrox4le3bqxfIVpLT6Kehxhf4ZM1ipJTZiJtW35I518sQ5cibS8SxdSRXibiVyt2VSpNqmS3zh/yd24uoaMy5/YlxqIPdv6SHWVcQ+Y5uiXUaOKQB/IeaI=
+Received: from PH0PR10MB4759.namprd10.prod.outlook.com (2603:10b6:510:3d::12)
+ by PH0PR10MB4456.namprd10.prod.outlook.com (2603:10b6:510:43::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.27; Wed, 29 Nov
+ 2023 02:46:04 +0000
+Received: from PH0PR10MB4759.namprd10.prod.outlook.com
+ ([fe80::995d:69a3:a135:1494]) by PH0PR10MB4759.namprd10.prod.outlook.com
+ ([fe80::995d:69a3:a135:1494%5]) with mapi id 15.20.7025.022; Wed, 29 Nov 2023
+ 02:46:04 +0000
+To: John Garry <john.g.garry@oracle.com>
+Cc: Christoph Hellwig <hch@lst.de>, axboe@kernel.dk, kbusch@kernel.org,
+        sagi@grimberg.me, jejb@linux.ibm.com, martin.petersen@oracle.com,
+        djwong@kernel.org, viro@zeniv.linux.org.uk, brauner@kernel.org,
+        chandan.babu@oracle.com, dchinner@redhat.com,
+        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-nvme@lists.infradead.org, linux-xfs@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
+        linux-api@vger.kernel.org
+Subject: Re: [PATCH 17/21] fs: xfs: iomap atomic write support
+From: "Martin K. Petersen" <martin.petersen@oracle.com>
+Organization: Oracle Corporation
+Message-ID: <yq1wmu1s5iw.fsf@ca-mkp.ca.oracle.com>
+References: <20230929102726.2985188-1-john.g.garry@oracle.com>
+	<20230929102726.2985188-18-john.g.garry@oracle.com>
+	<20231109152615.GB1521@lst.de>
+	<a50a16ca-d4b9-a4d8-4230-833d82752bd2@oracle.com>
+	<c78bcca7-8f09-41c7-adf0-03b42cde70d6@oracle.com>
+	<20231128135619.GA12202@lst.de>
+	<e4fb6875-e552-45aa-b193-58f15d9a786c@oracle.com>
+Date: Tue, 28 Nov 2023 21:45:59 -0500
+In-Reply-To: <e4fb6875-e552-45aa-b193-58f15d9a786c@oracle.com> (John Garry's
+	message of "Tue, 28 Nov 2023 17:42:10 +0000")
+Content-Type: text/plain
+X-ClientProxiedBy: LO4P265CA0004.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:2ad::13) To PH0PR10MB4759.namprd10.prod.outlook.com
+ (2603:10b6:510:3d::12)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20231128-clone3-shadow-stack-v4-2-8b28ffe4f676@kernel.org>
-
-On Tue, Nov 28, 2023 at 06:22:40PM +0000, Mark Brown wrote:
->Unlike with the normal stack there is no API for configuring the the shadow
->stack for a new thread, instead the kernel will dynamically allocate a new
->shadow stack with the same size as the normal stack. This appears to be due
->to the shadow stack series having been in development since before the more
->extensible clone3() was added rather than anything more deliberate.
->
->Add a parameter to clone3() specifying the size of a shadow stack for
->the newly created process.  If no shadow stack is specified then the
->existing implicit allocation behaviour is maintained.
->
->If the architecture does not support shadow stacks the shadow stack size
->parameter must be zero, architectures that do support the feature are
->expected to enforce the same requirement on individual systems that lack
->shadow stack support.
->
->Update the existing x86 implementation to pay attention to the newly added
->arguments, in order to maintain compatibility we use the existing behaviour
->if no shadow stack is specified. Minimal validation is done of the supplied
->parameters, detailed enforcement is left to when the thread is executed.
->Since we are now using more fields from the kernel_clone_args we pass that
->into the shadow stack code rather than individual fields.
->
->Signed-off-by: Mark Brown <broonie@kernel.org>
->---
-> arch/x86/include/asm/shstk.h | 11 +++++----
-> arch/x86/kernel/process.c    |  2 +-
-> arch/x86/kernel/shstk.c      | 56 ++++++++++++++++++++++++++++++--------------
-> include/linux/sched/task.h   |  1 +
-> include/uapi/linux/sched.h   |  4 ++++
-> kernel/fork.c                | 53 +++++++++++++++++++++++++++++++----------
-> 6 files changed, 92 insertions(+), 35 deletions(-)
->
->diff --git a/arch/x86/include/asm/shstk.h b/arch/x86/include/asm/shstk.h
->index 42fee8959df7..8be7b0a909c3 100644
->--- a/arch/x86/include/asm/shstk.h
->+++ b/arch/x86/include/asm/shstk.h
->@@ -6,6 +6,7 @@
-> #include <linux/types.h>
->
-> struct task_struct;
->+struct kernel_clone_args;
-> struct ksignal;
->
-> #ifdef CONFIG_X86_USER_SHADOW_STACK
->@@ -16,8 +17,8 @@ struct thread_shstk {
->
-> long shstk_prctl(struct task_struct *task, int option, unsigned long arg2);
-> void reset_thread_features(void);
->-unsigned long shstk_alloc_thread_stack(struct task_struct *p, unsigned long clone_flags,
->-				       unsigned long stack_size);
->+unsigned long shstk_alloc_thread_stack(struct task_struct *p,
->+				       const struct kernel_clone_args *args);
-> void shstk_free(struct task_struct *p);
-> int setup_signal_shadow_stack(struct ksignal *ksig);
-> int restore_signal_shadow_stack(void);
->@@ -26,8 +27,10 @@ static inline long shstk_prctl(struct task_struct *task, int option,
-> 			       unsigned long arg2) { return -EINVAL; }
-> static inline void reset_thread_features(void) {}
-> static inline unsigned long shstk_alloc_thread_stack(struct task_struct *p,
->-						     unsigned long clone_flags,
->-						     unsigned long stack_size) { return 0; }
->+						     const struct kernel_clone_args *args)
->+{
->+	return 0;
->+}
-> static inline void shstk_free(struct task_struct *p) {}
-> static inline int setup_signal_shadow_stack(struct ksignal *ksig) { return 0; }
-> static inline int restore_signal_shadow_stack(void) { return 0; }
->diff --git a/arch/x86/kernel/process.c b/arch/x86/kernel/process.c
->index b6f4e8399fca..a9ca80ea5056 100644
->--- a/arch/x86/kernel/process.c
->+++ b/arch/x86/kernel/process.c
->@@ -207,7 +207,7 @@ int copy_thread(struct task_struct *p, const struct kernel_clone_args *args)
-> 	 * is disabled, new_ssp will remain 0, and fpu_clone() will know not to
-> 	 * update it.
-> 	 */
->-	new_ssp = shstk_alloc_thread_stack(p, clone_flags, args->stack_size);
->+	new_ssp = shstk_alloc_thread_stack(p, args);
-> 	if (IS_ERR_VALUE(new_ssp))
-> 		return PTR_ERR((void *)new_ssp);
->
->diff --git a/arch/x86/kernel/shstk.c b/arch/x86/kernel/shstk.c
->index 59e15dd8d0f8..0d1325d2d94a 100644
->--- a/arch/x86/kernel/shstk.c
->+++ b/arch/x86/kernel/shstk.c
->@@ -191,38 +191,58 @@ void reset_thread_features(void)
-> 	current->thread.features_locked = 0;
-> }
->
->-unsigned long shstk_alloc_thread_stack(struct task_struct *tsk, unsigned long clone_flags,
->-				       unsigned long stack_size)
->+unsigned long shstk_alloc_thread_stack(struct task_struct *tsk,
->+				       const struct kernel_clone_args *args)
-> {
-> 	struct thread_shstk *shstk = &tsk->thread.shstk;
->+	unsigned long clone_flags = args->flags;
-> 	unsigned long addr, size;
->
-> 	/*
-> 	 * If shadow stack is not enabled on the new thread, skip any
->-	 * switch to a new shadow stack.
->+	 * implicit switch to a new shadow stack and reject attempts to
->+	 * explciitly specify one.
-> 	 */
->-	if (!features_enabled(ARCH_SHSTK_SHSTK))
->-		return 0;
->+	if (!features_enabled(ARCH_SHSTK_SHSTK)) {
->+		if (args->shadow_stack_size)
->+			return (unsigned long)ERR_PTR(-EINVAL);
->
->-	/*
->-	 * For CLONE_VFORK the child will share the parents shadow stack.
->-	 * Make sure to clear the internal tracking of the thread shadow
->-	 * stack so the freeing logic run for child knows to leave it alone.
->-	 */
->-	if (clone_flags & CLONE_VFORK) {
->-		shstk->base = 0;
->-		shstk->size = 0;
-> 		return 0;
-> 	}
->
-> 	/*
->-	 * For !CLONE_VM the child will use a copy of the parents shadow
->-	 * stack.
->+	 * If the user specified a shadow stack then do some basic
->+	 * validation and use it, otherwise fall back to a default
->+	 * shadow stack size if the clone_flags don't indicate an
->+	 * allocation is unneeded.
-> 	 */
->-	if (!(clone_flags & CLONE_VM))
->-		return 0;
->+	if (args->shadow_stack_size) {
->+		size = args->shadow_stack_size;
->+	} else {
->+		/*
->+		 * For CLONE_VFORK the child will share the parents
->+		 * shadow stack.  Make sure to clear the internal
->+		 * tracking of the thread shadow stack so the freeing
->+		 * logic run for child knows to leave it alone.
->+		 */
->+		if (clone_flags & CLONE_VFORK) {
->+			shstk->base = 0;
->+			shstk->size = 0;
->+			return 0;
->+		}
->+
->+		/*
->+		 * For !CLONE_VM the child will use a copy of the
->+		 * parents shadow stack.
->+		 */
->+		if (!(clone_flags & CLONE_VM))
->+			return 0;
->+
->+		size = args->stack_size;
->+
->+	}
->
->-	size = adjust_shstk_size(stack_size);
->+	size = adjust_shstk_size(size);
-> 	addr = alloc_shstk(0, size, 0, false);
-> 	if (IS_ERR_VALUE(addr))
-> 		return addr;
->diff --git a/include/linux/sched/task.h b/include/linux/sched/task.h
->index a23af225c898..e86a09cfccd8 100644
->--- a/include/linux/sched/task.h
->+++ b/include/linux/sched/task.h
->@@ -41,6 +41,7 @@ struct kernel_clone_args {
-> 	void *fn_arg;
-> 	struct cgroup *cgrp;
-> 	struct css_set *cset;
->+	unsigned long shadow_stack_size;
-> };
->
-> /*
->diff --git a/include/uapi/linux/sched.h b/include/uapi/linux/sched.h
->index 3bac0a8ceab2..a998b6d0c897 100644
->--- a/include/uapi/linux/sched.h
->+++ b/include/uapi/linux/sched.h
->@@ -84,6 +84,8 @@
->  *                kernel's limit of nested PID namespaces.
->  * @cgroup:       If CLONE_INTO_CGROUP is specified set this to
->  *                a file descriptor for the cgroup.
->+ * @shadow_stack_size: Specify the size of the shadow stack to allocate
->+ *                     for the child process.
->  *
->  * The structure is versioned by size and thus extensible.
->  * New struct members must go at the end of the struct and
->@@ -101,12 +103,14 @@ struct clone_args {
-> 	__aligned_u64 set_tid;
-> 	__aligned_u64 set_tid_size;
-> 	__aligned_u64 cgroup;
->+	__aligned_u64 shadow_stack_size;
-> };
-> #endif
->
-> #define CLONE_ARGS_SIZE_VER0 64 /* sizeof first published struct */
-> #define CLONE_ARGS_SIZE_VER1 80 /* sizeof second published struct */
-> #define CLONE_ARGS_SIZE_VER2 88 /* sizeof third published struct */
->+#define CLONE_ARGS_SIZE_VER3 96 /* sizeof fourth published struct */
->
-> /*
->  * Scheduling policies
->diff --git a/kernel/fork.c b/kernel/fork.c
->index 10917c3e1f03..35131acd43d2 100644
->--- a/kernel/fork.c
->+++ b/kernel/fork.c
->@@ -121,6 +121,11 @@
->  */
-> #define MAX_THREADS FUTEX_TID_MASK
->
->+/*
->+ * Require that shadow stacks can store at least one element
->+ */
->+#define SHADOW_STACK_SIZE_MIN 8
-
-nit:
-Sorry, should've mentioned it earlier.
-Can this be "#define SHADOW_STACK_SIZE_MIN sizeof(unsigned long)"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR10MB4759:EE_|PH0PR10MB4456:EE_
+X-MS-Office365-Filtering-Correlation-Id: b707e293-a7af-4534-20b5-08dbf0855415
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	OpIMKfP3REgRnEE32A8++gX64prNhl7OphpfaZX2KtLlmsSBuIySUIFocRw+s2j0YHPdPwBQIvIK9a2sk7re7FDEYuBx77cLxpvmE+gSTD57XAoSQEKFQ4rRWnPLpIRYd2IvjBtPRneToI2swgpTSqYhUD6MPldxmblus1nUUBfj98+g3zJAkdUk2tNsiMVzWckVEpNJNugCK67pcIx9BMWxO0IPs86JntPe1oufhO/+NXnvMfJtVqorLfZCy+G0V2zMPxVf62T24HgDyMlUVJawjrv1PzMWVcHugqHHjf9hd4V9dCCTqPbm6O1u9rG8AR/m8VK5Se5xgGeF1MTUgxZ0w2i/5IWpD5u25ThkWw6L/JjbU6R2Wa7NFUkoyQ7byyEcn1zkSg1LqeQgoRKbcCM906+C9mx5TutdAwz2F/aATJZKYj+kRxyAA8mbGKYetJjMCPHrA9s49DqGCOoKrB2rvH05uGuTf2TLy8ZLtSp57OV3bvzN3bosI3oxwY+YOaabb/pXTuECV0+1mRyaQGn0rnt19SNqw0HKK+xIviICPJhobd5zeX7P1HTcDzMX
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB4759.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(376002)(366004)(39860400002)(346002)(396003)(230922051799003)(64100799003)(1800799012)(451199024)(186009)(38100700002)(41300700001)(86362001)(4744005)(83380400001)(5660300002)(7416002)(26005)(2906002)(66476007)(6512007)(36916002)(6506007)(8936002)(6666004)(8676002)(6862004)(4326008)(478600001)(6486002)(6636002)(66556008)(66946007)(316002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?V1MtxbWBqF2dHWfJG6krDDhmTshqHRwUt1GK7h1D98E4RtVc0ocCgdmLPdFQ?=
+ =?us-ascii?Q?cb5gJ4BLeei9nb8uPjjsm4w27cAaO5z8FvzeFDMazxZqFds/lNKcbewERbXO?=
+ =?us-ascii?Q?l5l0I8xXNj3LtC44ciNDXUIGKz2WuR+7lG9u1H7XB5KwDFG14DbT789JGuDJ?=
+ =?us-ascii?Q?2BG42sycxwIUdVmPk/jPrz1z1HoYon2kHz0HQAcGj966DDaBiGo9C84RIImN?=
+ =?us-ascii?Q?eMy4yYoXNNfc6T9HNnuJ9HMreynUzRGYmBcPe8FNUxB773yPtI0O1erzpW3H?=
+ =?us-ascii?Q?eq6Q1hcuZKThMrTWVwNHTm1z87vxYu2ud86M6mUie5BrRcrSWPEU63EcLvJs?=
+ =?us-ascii?Q?Ia6uvzKufjVSOyxxMJQJNPitCQtkueFZWUgSRQ+C2EuVsz5z5Pb8UPVVGbw/?=
+ =?us-ascii?Q?rbxsY5mqivG6Y9b5HCf3VTnzduFksG/zDPp8WeGi4W2X7acZCj7VTXMVScko?=
+ =?us-ascii?Q?7/N5+pIitD4QdPzkHD1W+pQ2lkeWtyxKkstl2QnbpaaHOYEbbp8CCkFDj6DC?=
+ =?us-ascii?Q?K3siH6mv/rfLZ9U/tKdd1ITGGq7yrc6iQW+uohiEAskI4VLtGvXIcGrKZ8bt?=
+ =?us-ascii?Q?qUU1ctouAqrM/ZqMXeuUsGYUUPyKfovkaL2wPz1hmK8o820YiZp3JMVb2Nd2?=
+ =?us-ascii?Q?b8GEu2tqT3hcmDP5k5W7u3IAwbBDshi+Gz4arlWfuRTXTzMg2EAaUhhhst+T?=
+ =?us-ascii?Q?M1ICzTHzxPY9hNjNgJ/TFBeXEA6vKe6lHx+KbIoDML2IkMY+dsKa+q52/x4/?=
+ =?us-ascii?Q?pO8iWSUf+d1j5A1ebiBGOb7tI8CD6+5q8sm0izwuM2wE94Mf1ynUFfRMpYYo?=
+ =?us-ascii?Q?dg64sOWjOuQISgxtV+ctgi7Q46MHYqFLM8Q8oB4N710pAjq3PYZsbP1g9u2B?=
+ =?us-ascii?Q?npwyY+MwSvktgerL/JJZpF5OjpnPqduOD8idgvoQgDaeLu93nVByCgyYlLw/?=
+ =?us-ascii?Q?Y8zQSf0SWW68Y2ehiJ3wAGtwfDRmlJmOLeb/o8Izith1TQ+/cccMuoDpuZB9?=
+ =?us-ascii?Q?VirYsviQJlkbMWPDj4lElMgYPvTB6LGFmMoqxlWBfGR3E7tMA+zW7u5xcnTv?=
+ =?us-ascii?Q?Yfb3RCP50HGJ1eVAdBCH+HsIKjpG97zVb5gv/UXZgkal2wVWyE9JzpKOsQyi?=
+ =?us-ascii?Q?zHIdjGfMKETUfv6FEjQbbFsYcvWME2EuovLucp2VlsJXQJeFZIoTBf3kTVf0?=
+ =?us-ascii?Q?1tIARPQFVQYNfUywp+tc1lXide1lrZxC9STX9gGV5sszQefsFv5KtNAl57vw?=
+ =?us-ascii?Q?7jHmyzEy2lSlOqDZ7pI4uHOveH+go17PGdc7PrPd00uNZAI/Pg3KYygEg6Xz?=
+ =?us-ascii?Q?+q9qSyWuz7oliEUtnWKOQx/2fnGMexiAOq5aARj5B1K/EmZVLZqUjmgAFcpc?=
+ =?us-ascii?Q?5kWybFZ95LT/sy4OEFyi/DJpcLaQTEO+bVAJ4hRp3/3Y84EAkq5JqhetxkiA?=
+ =?us-ascii?Q?WBTGee4MIk8XrAnsPsBS2ibILJZM/wt7yBmqjXYvEDThlOBxEyfGFWhCP3Bm?=
+ =?us-ascii?Q?gVaUoYZyfngsh8G1Pac1OjfJ0AXk2EeUwconVdpSGdbFF5fpPNMhfsc+EO/U?=
+ =?us-ascii?Q?i3VHuhexwH6kcL/jlR/gpgTwbUf31QeLZvtgzq9XdZA5Nge/DrJXFiyD/X4O?=
+ =?us-ascii?Q?YA=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
+	=?us-ascii?Q?xye/n5Cf5frT5vu/ieXt3LCDqixxNsoMraeepNtHCP4bPMyfv8KTCeRdFWaL?=
+ =?us-ascii?Q?i5eL1RZRnqY3yBQahnXMWPrk1AOWqrGGVhv24vhqcaan2e9UP8pJqXnXBhWI?=
+ =?us-ascii?Q?QDxQ6UcRq5K6FKasRxwJUZPeFZB07vdf31jUKL4+/+xESGQM72Ei03yumU6u?=
+ =?us-ascii?Q?WuU2bokE6Ug16FZK+izMrHNFbOb104vrmQ8eUYoZi60QKwfilcZuPQ8pb3HZ?=
+ =?us-ascii?Q?g5Tnm1nsilX5Zkrd83LoAAAOFfrpL31aejD4Ga4zTxYYJe0sGpKN5IYXFDgE?=
+ =?us-ascii?Q?WimAf6e5Hm3bKBQCx5LD/B45apULAuz3N/KKsPKjBEqObyKgFolno9pyrID2?=
+ =?us-ascii?Q?6HkQpq8QoNzMXYFvrCNanGCh/kpFmvTsy4vP4Vm0WEHUQNJFrMB8sgGQV7q0?=
+ =?us-ascii?Q?rHFozj/Czr3ATp6vR5AsWkP/U3Ut2qMsaOTphzb+upkOguA1Q7on6AdMkedH?=
+ =?us-ascii?Q?6oO9lotLP+1SamwwqSbgx9pSvZB8uQiwtjbLfh3BNoXPgRQyCygVaSo2zNos?=
+ =?us-ascii?Q?h4oup41SuwF+jRlD2w7hQI4Lr5Iti3jS/REfQYGPc0ytb3IQTCdgmKYcj8vb?=
+ =?us-ascii?Q?MunhkkGx571/PTmFmyGwPbj9eVc9KjQL3RXu+bTYdImSN4ewt8FiQ68z2PM4?=
+ =?us-ascii?Q?DC8MINIZ86kWIWJMzfFlf/HzaBoVnDXnwKGVipxCBa+qwmnKC6LHZteZXmLx?=
+ =?us-ascii?Q?hq8ataNRSJKYjY/pHF5VoiM1Sc3gZ1h7geWR+EXAe6LrXIMr/qbR1itKEcr2?=
+ =?us-ascii?Q?RbWTYhLjH0+cpjGQscXONyvFmSpxz6voG43gIkcmaHWabnZIAin5hWFfEfnu?=
+ =?us-ascii?Q?yoKafqrow2UXWMruvtnsxJI4lgGVyTNsJJPRRQDmL1rim/ejO/iR6PkZztSo?=
+ =?us-ascii?Q?0BcgaAy3N3CSz224UooI66ws7e6zqX4ZE092C4BbRc2OuwzpmjXzKI1EVTUH?=
+ =?us-ascii?Q?3h8NIVd3AuDBt88B0DI+WkCzo67EzRB3AzXbFHF2j0mGR53hpijw9e1ch6wz?=
+ =?us-ascii?Q?ra8vELTdsaeQCdrWHRd54nREXDfbiW5EM3ZiODefO19QQOWwNtMgNYZLz6m/?=
+ =?us-ascii?Q?yv97oaJgT5bb0mmBtDLH6qRlPnV35g=3D=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b707e293-a7af-4534-20b5-08dbf0855415
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4759.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Nov 2023 02:46:03.6038
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5BQd5dI5UqeRkgEAFGP3arHiRCLmpnmuSJogZX+ZI9cjv7Lxn/7mYeTQL+IwIy2uLbIuXBy2P5iVBcMkso/6yXoQ6w79ODLiUEZknyJo1Zg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB4456
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-28_27,2023-11-27_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 malwarescore=0
+ suspectscore=0 spamscore=0 mlxlogscore=999 mlxscore=0 phishscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311060000 definitions=main-2311290019
+X-Proofpoint-ORIG-GUID: Mazf-Bsb0Ddar-grvBr76tftpfPdW5RC
+X-Proofpoint-GUID: Mazf-Bsb0Ddar-grvBr76tftpfPdW5RC
 
 
->+
-> /*
->  * Protected counters by write_lock_irq(&tasklist_lock)
->  */
->@@ -3067,7 +3072,9 @@ noinline static int copy_clone_args_from_user(struct kernel_clone_args *kargs,
-> 		     CLONE_ARGS_SIZE_VER1);
-> 	BUILD_BUG_ON(offsetofend(struct clone_args, cgroup) !=
-> 		     CLONE_ARGS_SIZE_VER2);
->-	BUILD_BUG_ON(sizeof(struct clone_args) != CLONE_ARGS_SIZE_VER2);
+> b. other FSes which do not have CoW support. ext4 is already being
+> used for "atomic writes" in the field
+
+We also need raw block device access to work within the constraints
+required by the hardware.
+
+>> probably want to do it for optimal performance, but requiring it
+>> feeels rather limited.
+
+The application developers we are working with generally prefer an error
+when things are not aligned properly. Predictable performance is key.
+Removing the performance variability of doing double writes is the
+reason for supporting atomics in the first place.
+
+I think there is value in providing a more generic (file-centric) atomic
+user API. And I think the I/O stack plumbing we provide would be useful
+in supporting such an endeavor. But I am not convinced that atomic
+operations in general should be limited to the couple of filesystems
+that can do CoW.
+
+-- 
+Martin K. Petersen	Oracle Linux Engineering
 
