@@ -1,140 +1,209 @@
-Return-Path: <linux-api+bounces-183-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-184-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B7427FEBE5
-	for <lists+linux-api@lfdr.de>; Thu, 30 Nov 2023 10:34:25 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 956B17FF465
+	for <lists+linux-api@lfdr.de>; Thu, 30 Nov 2023 17:08:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 36BD9281CD7
-	for <lists+linux-api@lfdr.de>; Thu, 30 Nov 2023 09:34:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 485562816FF
+	for <lists+linux-api@lfdr.de>; Thu, 30 Nov 2023 16:08:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4185C38F95;
-	Thu, 30 Nov 2023 09:34:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D79DF54BDE;
+	Thu, 30 Nov 2023 16:08:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="f0K8D4b6"
+	dkim=pass (1024-bit key) header.d=memverge.com header.i=@memverge.com header.b="yC9Z/qD9"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CB1BD50
-	for <linux-api@vger.kernel.org>; Thu, 30 Nov 2023 01:34:17 -0800 (PST)
-Received: by mail-lf1-x12d.google.com with SMTP id 2adb3069b0e04-50bc8a9503fso1035354e87.3
-        for <linux-api@vger.kernel.org>; Thu, 30 Nov 2023 01:34:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1701336855; x=1701941655; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+eIvDGUerrfda7PffkFuPcobBVIOmFzTvv07SzDnFxE=;
-        b=f0K8D4b6Oe8iOmMUicT+5Lv91ypLRKyglr/Pzb7avwoiUeeCkjczQlgrFzZ/XAFEUg
-         eQh2jlq+UR19sNECrQK1HQasRgZHvBpFaFMRPBySOzM4EjPiJA37j34bVlNCIsfDboSE
-         10YgyhnL0w2u+rDqn4QocWquSeCJyvOfDQAm/KCRQzbTInSEFlltVT2+zU4ayaBxSVWs
-         epNVPNHTtRESZlipG3S9DqKQvjX9t+GwcrAGv0/rYEF8D4W9L37SB/hvZwp9xXlWOqWD
-         L5Famg7t7l2X+DbzGABtg78fiKeCIbKuNbDspI1nDNUXPgLTliwPi0xErbSTewndabNY
-         Lg6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701336855; x=1701941655;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+eIvDGUerrfda7PffkFuPcobBVIOmFzTvv07SzDnFxE=;
-        b=iA1hB11+EoB4HgxRE4BKh/7EV8usdBNakQcGLAsnK7Y4mkdJChIf4HcWj4tCFo5x1F
-         STP16ADhQvzNH7Yu/YrpyMAiyuy1j5PuQzjp4EXyxSg1961aSdFXRD4ul7gHbT/ZqRpP
-         Pb6ylDkxCLq4z3Xsge6ahWQro/EUBYYL+XL/VbQWyM7g6dGzPwC/yCQ/lRx2a6lcAz3V
-         lPl0CXZ4WpU8MP1/5qNunGdAAfbWwIvApbiaLv2OETD9zrmOinC0pwqt6YqjQQZlKBj2
-         Wg8OtCCkAlEuh5mT04imDce46NNMCTocrR4fp6v8FOn+8+sSmqFWmPEyXIrvISUIHAY9
-         X9Pg==
-X-Gm-Message-State: AOJu0Yyaf9/tlp+y8yd6eg7qphFQKpJwCg03uvbWWowPGgK7/qMXi5dm
-	xP6NtwcoZNYfr/WUNJLZbJRLmEJbNeC/U6+kr9vvcPEmEGBUXEIahGs=
-X-Google-Smtp-Source: AGHT+IGEdQGMBIjZ7uHMEFe3IpSrNio2BkAzOv5Ena+HIB7yN6xBdJSwPKwJFx2hI5uAUVFYg1O06Q8AZ2TzKuVz+uU=
-X-Received: by 2002:a19:a40a:0:b0:50b:c7e3:a1e6 with SMTP id
- q10-20020a19a40a000000b0050bc7e3a1e6mr2293027lfc.44.1701336855608; Thu, 30
- Nov 2023 01:34:15 -0800 (PST)
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2065.outbound.protection.outlook.com [40.107.94.65])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D061290;
+	Thu, 30 Nov 2023 08:08:04 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ngu0jTSjqNFk1qifX0En3KJwmaNOtGGU1VixxQcaiZOihlioF0ExwGfpWsCpgjisH9ZFaCtHJfJEMvAqlFz5U9V95FrLRmTS10iE1hx6mkRvOtgHX66OKg8BEb6ISFosfvlE/lfUkzwxKd0La2HTtNphkQFrDDoNuJl0IzcHqtBYGDc5sWK/Z+cHRB/p9ixp/STLrAPVM0SCOtLkr8coLH9TWCUlxSh3qFcnfXtAVTgb5ilvFe8DAvJjX1DOr1ZI+obMrAVQP3c+wmP4ELhzUSsb6uyn2LX/8cyou9NBnsViRtm6xOmAgy5mnDXi2eruQzo7TPOoQKrkLx0aaU39hw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5t7gQnNDOYvyQ621jnLJLPSU+g12cU27tJ+eOQ9aFoI=;
+ b=T20kLSbNLvohqoUDUADgvw50TR/pZX1Q4o0KCWFHu1WArx/t+ghtPVWwEdRt5a8jq7+wfum8I/n7NSf04nvzQTgKOor/Yx7qxQunxmJWlVaEMDQSyYgpEZbS4FIydREntDySlzFSEvXtlQgt9nnG9IRzyaWEiv5WigEP6aBQnAJKDwUqqZ4Yexz0QMiISejyXDrpAgx7AZwVSSVPUjkZuUptWMYI5UPa4hvQ4zyvnCCTnC2pe9l6EIdNOHj0dDJAtLNk+lUTRwdLU2ZAXbNQ4DI9T3hutQ2KVhb22mCg9Z1G4Rt4iAzdYzSwVEWLg4FxKVwPRpfwWt2go3m/A5ljEg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
+ dkim=pass header.d=memverge.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5t7gQnNDOYvyQ621jnLJLPSU+g12cU27tJ+eOQ9aFoI=;
+ b=yC9Z/qD9NNzAJ+jE25AmQM1sAC27DvMMRPWwcOTGPYoPZ/1QOJU5PEQc+uqNA5MKmClsTeAcm8/YjW/7ZZ1ifTNO+rTWLnN0z2W7mXnRetGby22WFy3seRy8KnTZl8S0dMpfR5K4s1G4fe8TtPkgP9ZziDvyOfc2Ei5rqcHBRug=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=memverge.com;
+Received: from SJ0PR17MB5512.namprd17.prod.outlook.com (2603:10b6:a03:394::19)
+ by DM4PR17MB6954.namprd17.prod.outlook.com (2603:10b6:8:18e::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.8; Thu, 30 Nov
+ 2023 16:08:00 +0000
+Received: from SJ0PR17MB5512.namprd17.prod.outlook.com
+ ([fe80::381c:7f11:1028:15f4]) by SJ0PR17MB5512.namprd17.prod.outlook.com
+ ([fe80::381c:7f11:1028:15f4%5]) with mapi id 15.20.7068.012; Thu, 30 Nov 2023
+ 16:07:59 +0000
+Date: Thu, 30 Nov 2023 11:07:44 -0500
+From: Gregory Price <gregory.price@memverge.com>
+To: Zhongkun He <hezhongkun.hzk@bytedance.com>
+Cc: Vinicius Petrucci <vpetrucci@gmail.com>, akpm@linux-foundation.org,
+	linux-mm@vger.kernel.org, linux-cxl@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+	linux-api@vger.kernel.org, minchan@kernel.org,
+	dave.hansen@linux.intel.com, x86@kernel.org,
+	Jonathan.Cameron@huawei.com, aneesh.kumar@linux.ibm.com,
+	ying.huang@intel.com, dan.j.williams@intel.com, fvdl@google.com,
+	surenb@google.com, rientjes@google.com, hannes@cmpxchg.org,
+	mhocko@suse.com, Hasan.Maruf@amd.com, jgroves@micron.com,
+	ravis.opensrc@micron.com, sthanneeru@micron.com,
+	emirakhur@micron.com, vtavarespetr@micron.com
+Subject: Re: [RFC PATCH] mm/mbind: Introduce process_mbind() syscall for
+ external memory binding
+Message-ID: <ZWizUEd/rsxSc0fW@memverge.com>
+References: <ZV5zGROLefrsEcHJ@r13-u19.micron.com>
+ <CACSyD1OFjROw26+2ojG37eDBParVg721x1HCROMiF2pW2aHj8A@mail.gmail.com>
+ <ZV/HSFMmv3xwkNPL@memverge.com>
+ <CACSyD1MrCzyV-93Ov07NpV3Nm3u0fYExmD1ShE_e2tapW6a6HA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CACSyD1MrCzyV-93Ov07NpV3Nm3u0fYExmD1ShE_e2tapW6a6HA@mail.gmail.com>
+X-ClientProxiedBy: BY5PR16CA0028.namprd16.prod.outlook.com
+ (2603:10b6:a03:1a0::41) To SJ0PR17MB5512.namprd17.prod.outlook.com
+ (2603:10b6:a03:394::19)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <ZV5zGROLefrsEcHJ@r13-u19.micron.com> <CACSyD1OFjROw26+2ojG37eDBParVg721x1HCROMiF2pW2aHj8A@mail.gmail.com>
- <ZV/HSFMmv3xwkNPL@memverge.com>
-In-Reply-To: <ZV/HSFMmv3xwkNPL@memverge.com>
-From: Zhongkun He <hezhongkun.hzk@bytedance.com>
-Date: Thu, 30 Nov 2023 17:34:04 +0800
-Message-ID: <CACSyD1MrCzyV-93Ov07NpV3Nm3u0fYExmD1ShE_e2tapW6a6HA@mail.gmail.com>
-Subject: Re: [RFC PATCH] mm/mbind: Introduce process_mbind() syscall for
- external memory binding
-To: Gregory Price <gregory.price@memverge.com>
-Cc: Vinicius Petrucci <vpetrucci@gmail.com>, akpm@linux-foundation.org, 
-	linux-mm@vger.kernel.org, linux-cxl@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
-	linux-api@vger.kernel.org, minchan@kernel.org, dave.hansen@linux.intel.com, 
-	x86@kernel.org, Jonathan.Cameron@huawei.com, aneesh.kumar@linux.ibm.com, 
-	ying.huang@intel.com, dan.j.williams@intel.com, fvdl@google.com, 
-	surenb@google.com, rientjes@google.com, hannes@cmpxchg.org, mhocko@suse.com, 
-	Hasan.Maruf@amd.com, jgroves@micron.com, ravis.opensrc@micron.com, 
-	sthanneeru@micron.com, emirakhur@micron.com, vtavarespetr@micron.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR17MB5512:EE_|DM4PR17MB6954:EE_
+X-MS-Office365-Filtering-Correlation-Id: 422f3940-7478-4ae9-13c0-08dbf1be85d4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	w465u5lFbE7yGTsyMBjnicYaxvtZBxNRxHM62Y6fWUw6yt/G1q+NI7nyxFtUQ8rBAyhNNuhMr00kHDbFJg4v7ieRtJIeVM+wFX5dWACfC1FxMW+QkdGAACLdwXMYPvtToh1hTW4kfw76aMDmgLZtbYxiPLENjC3LnZjHPuSXRxFZgwFX2hQ2VdEndAc53a4eHb4tMlU2VDTuUX4iRgkjN+9r4DBtt1xmP2FqpbpXA6cKy484DnY4v9I0q68rVrCudT41dra7BJ1ESzkASw/e47xiJoK+0PZ8dhUoyNQ1Co+mLmMo5357LoEcruUJNbybWEmpVLK5WjdynZbTVFCuqTpcCsUBfXBwTnztSZZyEnTiurHYnN5ZykVtvq16QptkFkTQM1t8T2ErBr1ADBdBOa3r0h86i27QBbH9eVC+o4gbBFkXF/b8zwkdRJIXzbT4xivmRYE+eIjqGSnerc2S5ggm5OsNblA5ulh04NcRMgcvjPk0mMi3KCKsmgXoZtdG0lhk1bgH0F4jZdHpHzC1HYuIf9OmQYfOMlpMZ1m4+88=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR17MB5512.namprd17.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(346002)(366004)(376002)(136003)(39840400004)(230922051799003)(451199024)(186009)(1800799012)(64100799003)(38100700002)(83380400001)(8676002)(66476007)(2906002)(44832011)(86362001)(8936002)(4326008)(5660300002)(66556008)(316002)(7416002)(66946007)(6486002)(966005)(478600001)(36756003)(6916009)(6506007)(41300700001)(6512007)(6666004)(26005)(2616005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?K29hZUpNaGhGd1RiSDgvMURCOVB4WXVVSEV1N0lyRXJDd080Q0tyRHNlRGIx?=
+ =?utf-8?B?SnM0T3FxbEZhQ1Z2VUdqUEhPRVdVVFVJTmE2QndOM0xlT3c0a1Ixb2V6encr?=
+ =?utf-8?B?enBrRWlrZ0Z0eGZTREdwSGV6N1JqQWc5OVQwSWFLejZ5d3NBR0JqcmRBODRU?=
+ =?utf-8?B?bXJUNG9qeit0L3ZidXNmNnBYd3pyb09YV1hZRlpPdUk4SmV2bDlZczNxT1p2?=
+ =?utf-8?B?NTBxa1p3ZVRDdXVvbFpvcU14TXpsWkg5Y2piRlRVT3FKTE54N0x6cHhYL1lG?=
+ =?utf-8?B?ZmpPZzJpZGluRU9IMkp6M1EzWk9mUFRqSGwwUnU0aDQrVVFQN0hSbGVBcVlI?=
+ =?utf-8?B?ck00ZFZXeVJjOEtQMm9KeU1SNkVCMEFISldYeXFTWDBldFhoTS9EZFRRcXJx?=
+ =?utf-8?B?eEFvVkl3TmV4U2RILytacDFOS2tKTENYNWNsZmxScXRtZ0wyN1M3U1F2WEsx?=
+ =?utf-8?B?VkozVmpSdGtmcFdpbUZnWDVmLzVrY2FuREVqRDN6K1hQWktzVTJtMHdRL3pa?=
+ =?utf-8?B?VXdZQU9OZHpINVUveUhTUk4xSUwwajIxOTBSOWZYd3VYeDNVZHFrMVZTSnhW?=
+ =?utf-8?B?U3FRVDhiUVhtMFZqcGhxLzBNNlpBV0dTTEE5NndFSlBMT2lEaWU3blIreGtM?=
+ =?utf-8?B?K0JLUVBVRnBZeXVCZk1oR0FWQXJGRU9ESDdPUCs3WFg5cUxwRGZWaEd3alcx?=
+ =?utf-8?B?S09oVG9KNnJndFNWcU5DMFdxdGJmUU9KQ094a0djOS9rMjQxS2pSdUJ3bFRP?=
+ =?utf-8?B?MXd1bDEvUVBpQmNsQjN5ZWVvWkVrWFdLNlFkZW11NkVqUmZaSEw4YmdNNVpO?=
+ =?utf-8?B?RE53QklGUmVzQUM2VGdQUUZIZmdGVmJaYnBKMkpNNWFuNE5waEk0QTk5bEhu?=
+ =?utf-8?B?U3M2T2hUaDMydGFOVzExbDVwV3lENXdVSjF5VVRmYVpGM21vRXNoWjAwUkhq?=
+ =?utf-8?B?T1c5Q25LNFBBWkRESHE1bEE2OStidWIvNE1IVHNXc05WR2gySVRod1dsb0Fz?=
+ =?utf-8?B?dEQwdmNFS21pdm1EVlRJbHd4UzZzcnFERHZyNENJVWRIL0hJTGpFeGJ1YnlH?=
+ =?utf-8?B?cVFyNlJwMkRDUDVyRWJ1b2NDakl2T0daaTFyL0dmQmFDU2x2ZDc0V3JLQUJH?=
+ =?utf-8?B?SnVvWlM1cHlNTlU3M1dXTnl0TXZWS0tYd0lyWnoxOWVsTWVjd2JvQnB3TGNB?=
+ =?utf-8?B?VkoyanlJQW9jdWFGb0hXTlRYYlQ1aDZwTnZNVEVrQXVWZzNyNTFXSy9wUTcy?=
+ =?utf-8?B?K3UxWjA1eEYzRjNaL1J1RTZaOXROaFQwOHk3d2xzSnAxUHRmOWZrRHYrS0Jx?=
+ =?utf-8?B?R3V6ZElhQ0tRT3BVdWFMRTNFdU5FQ25KUGRkMDg3YnRkV0t1RnlnVEkrUXd2?=
+ =?utf-8?B?WmtKb1MxQkErbXVWVWg0OUZVRkx3L0sreXFGTlFieE5aOEJrWjJ6bzBDd2lE?=
+ =?utf-8?B?bVp0UXNmQ1hvdUFHWnF1eFVFRTdpcityTk9qM0RtbHN3a1lOdEQrNkk2TGFU?=
+ =?utf-8?B?dVJ6VHZuQ1RoNlZwb3lIaWZtYzd6ZFVMMnhQdmh2NG1ZNjJTTjhIano4alFP?=
+ =?utf-8?B?Nkd0UTFLMnNadGJmRmgzYUpodjVZK2Q5MGIwaGxYL2lDbmFPYWRjZy9ZUzg1?=
+ =?utf-8?B?bGc0MDQ3SUxjUFh6RTNrdGVBN3E3aUhCczBWU3JpaTJLUHh1L243ZzNlcUJ4?=
+ =?utf-8?B?ay90UlBJZjJVV2FNaE91REdFdFdpZUV2RDZYNUk2emR4eENRTnliMjc2by9m?=
+ =?utf-8?B?TCtYT3YxTytwbUZ5YkwxNnNXMW1ONGtvSXh4c3phZklUb0NkTU9ON0dPMm0z?=
+ =?utf-8?B?WWdnSjU5UVZ5OXJHZXVUb040NHdOSUJXbFBtdDR2UVBvWVZkU25LMU9uT3hn?=
+ =?utf-8?B?WFduQUFTTjZTdjBxdWJKYWswZkdudFlaSnRPcHJZemN2Z1Z6RHU3eHlYS3gz?=
+ =?utf-8?B?TThPZHNBK2MrajFWeTZYejZ5NWYvYmFCTWt6NjRGNk1ZWVZ1YzAzUSsrZEh6?=
+ =?utf-8?B?dEFNWndmR01DdVRRRVBuT1Q5Z1cxK0JhWVhkQVRvNGg4cGE2UUZTczNzSndj?=
+ =?utf-8?B?Q2ZXZkg1NzJCcTlhTDFwekNOOWVQM1QzU2lTSktiZ2ltMGNEdUk3a0JtbWly?=
+ =?utf-8?B?dUsxeHNVSExIVjNWVzNFZC9rUEp5TnF1Wkw0NTdxV1lvbkZOOFhKVVJJZVVM?=
+ =?utf-8?B?MWc9PQ==?=
+X-OriginatorOrg: memverge.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 422f3940-7478-4ae9-13c0-08dbf1be85d4
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR17MB5512.namprd17.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Nov 2023 16:07:59.7081
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xXYRxDyVvGRunDKB1Ic1lgWpJNIfOOq4Lwb6ElrgmYQQY+JkQM35q17AazrvNo5eFpKpj4CS4hUS82DTCRMl5vz4+ZU3x3qX0pcTJcYjPk8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR17MB6954
 
-Hi Gregory, sorry for the late reply.
+On Thu, Nov 30, 2023 at 05:34:04PM +0800, Zhongkun He wrote:
+> Hi Gregory, sorry for the late reply.
+> 
+> I tried pidfd_set_mempolicy(suggested by michal) about a year ago.
+> There is a problem here that may need attention.
+> 
+> A mempolicy can be either associated with a process or with a VMA.
+> All vma manipulation is somewhat protected by a down_read on
+> mmap_lock.In process context(in alloc_pages()) there is no locking
+> because only the process accesses its own state.
+> 
+> Now  we need to change the process context mempolicy specified
+> in pidfd. the mempolicy may about to be freed by
+> pidfd_set_mempolicy() while alloc_pages() is using it,
+> The race condition appears.
+> 
+> Say something like the following：
+> 
+> pidfd_set_mempolicy()        target task stack:
+>                                                alloc_pages:
+>                                              mpol = p->mempolicy;
+>   task_lock(task);
+>   old = task->mempolicy;
+>   task->mempolicy = new;
+>   task_unlock(task);
+>   mpol_put(old);
+>                                            /*old mpol has been freed.*/
+>                                            policy_node(...., mpol)
+>                                           __alloc_pages();
+> 
+> To reduce the use of locks and atomic operations(mpol_get/put)
+> in the hot path, there are no references or lock protections here
+> for task mempolicy.
+> 
+> It would be great if your refactoring has a good solution.
+> 
+> Thanks.
+> 
 
-I tried pidfd_set_mempolicy(suggested by michal) about a year ago.
-There is a problem here that may need attention.
+Hi ZhongKun!
 
-A mempolicy can be either associated with a process or with a VMA.
-All vma manipulation is somewhat protected by a down_read on
-mmap_lock.In process context(in alloc_pages()) there is no locking
-because only the process accesses its own state.
+I actually just sent out a more general RFC to mempolicy updates that
+discuss this more completely:
 
-Now  we need to change the process context mempolicy specified
-in pidfd. the mempolicy may about to be freed by
-pidfd_set_mempolicy() while alloc_pages() is using it,
-The race condition appears.
+https://lore.kernel.org/linux-mm/ZWezcQk+BYEq%2FWiI@memverge.com/
 
-Say something like the following=EF=BC=9A
+and another post on even more issues with pidfd modifications to vma
+mempolicies:
 
-pidfd_set_mempolicy()        target task stack:
-                                               alloc_pages:
-                                             mpol =3D p->mempolicy;
-  task_lock(task);
-  old =3D task->mempolicy;
-  task->mempolicy =3D new;
-  task_unlock(task);
-  mpol_put(old);
-                                           /*old mpol has been freed.*/
-                                           policy_node(...., mpol)
-                                          __alloc_pages();
+https://lore.kernel.org/linux-mm/ZWYsth2CtC4Ilvoz@memverge.com/
 
-To reduce the use of locks and atomic operations(mpol_get/put)
-in the hot path, there are no references or lock protections here
-for task mempolicy.
+We may have to slow-walk the changes to vma policies due to there being
+many more hidden accesses to (current) than expected. It's a rather
+nasty rats nest of mempolicy-vma-cpusets-shmem callbacks that obscure
+these current-task accesses, it will take time to work through.
 
-It would be great if your refactoring has a good solution.
+As for hot-path reference counting - we may need to change the way
+mempolicy is managed, possibly we could leverage RCU to manage mempolicy
+references in the hot path, rather than using locks.  In this scenario,
+we would likely need to change the way the default policy is applied
+(maybe not, I haven't fully explored it).
 
-Thanks.
+Do you have thoughts on this?  Would very much like additional comments
+before I go through the refactor work.
 
-On Sat, Nov 25, 2023 at 4:09=E2=80=AFAM Gregory Price
-<gregory.price@memverge.com> wrote:
->
-> On Fri, Nov 24, 2023 at 04:13:41PM +0800, Zhongkun He wrote:
-> >
-> > Per my understanding,  the process_mbind() is implementable without
-> > many difficult challenges=EF=BC=8C
-> > since it is always protected by mm->mmap_lock. But task mempolicy does
-> > not acquire any lock
-> > in alloc_pages().
->
-> per-vma policies are protected by the mmap lock, while the task
-> mempolicy is protected by the task lock on replacement, and
-> task->mems_allowed (protected by task_lock).
->
-> There is an update in my refactor tickets that enforces the acquisition
-> of task_lock on mpol_set_nodemask, which prevents the need for
-> alloc_pages to do anything else.  That's not present in this patch.
->
-> Basically mems_allowed deals with the majority of situations, and
-> mmap_lock deals with per-vma mempolicy changes and migrations.
->
-> ~Gregory
+Regards,
+Gregory
 
