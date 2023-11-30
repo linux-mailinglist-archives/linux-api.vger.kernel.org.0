@@ -1,209 +1,214 @@
-Return-Path: <linux-api+bounces-184-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-186-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 956B17FF465
-	for <lists+linux-api@lfdr.de>; Thu, 30 Nov 2023 17:08:14 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AF237FF660
+	for <lists+linux-api@lfdr.de>; Thu, 30 Nov 2023 17:41:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 485562816FF
-	for <lists+linux-api@lfdr.de>; Thu, 30 Nov 2023 16:08:13 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0463FB2114D
+	for <lists+linux-api@lfdr.de>; Thu, 30 Nov 2023 16:41:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D79DF54BDE;
-	Thu, 30 Nov 2023 16:08:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C728854F82;
+	Thu, 30 Nov 2023 16:41:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=memverge.com header.i=@memverge.com header.b="yC9Z/qD9"
+	dkim=pass (2048-bit key) header.d=tycho.pizza header.i=@tycho.pizza header.b="xGCt99og";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="MRoPsenN"
 X-Original-To: linux-api@vger.kernel.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2065.outbound.protection.outlook.com [40.107.94.65])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D061290;
-	Thu, 30 Nov 2023 08:08:04 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ngu0jTSjqNFk1qifX0En3KJwmaNOtGGU1VixxQcaiZOihlioF0ExwGfpWsCpgjisH9ZFaCtHJfJEMvAqlFz5U9V95FrLRmTS10iE1hx6mkRvOtgHX66OKg8BEb6ISFosfvlE/lfUkzwxKd0La2HTtNphkQFrDDoNuJl0IzcHqtBYGDc5sWK/Z+cHRB/p9ixp/STLrAPVM0SCOtLkr8coLH9TWCUlxSh3qFcnfXtAVTgb5ilvFe8DAvJjX1DOr1ZI+obMrAVQP3c+wmP4ELhzUSsb6uyn2LX/8cyou9NBnsViRtm6xOmAgy5mnDXi2eruQzo7TPOoQKrkLx0aaU39hw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5t7gQnNDOYvyQ621jnLJLPSU+g12cU27tJ+eOQ9aFoI=;
- b=T20kLSbNLvohqoUDUADgvw50TR/pZX1Q4o0KCWFHu1WArx/t+ghtPVWwEdRt5a8jq7+wfum8I/n7NSf04nvzQTgKOor/Yx7qxQunxmJWlVaEMDQSyYgpEZbS4FIydREntDySlzFSEvXtlQgt9nnG9IRzyaWEiv5WigEP6aBQnAJKDwUqqZ4Yexz0QMiISejyXDrpAgx7AZwVSSVPUjkZuUptWMYI5UPa4hvQ4zyvnCCTnC2pe9l6EIdNOHj0dDJAtLNk+lUTRwdLU2ZAXbNQ4DI9T3hutQ2KVhb22mCg9Z1G4Rt4iAzdYzSwVEWLg4FxKVwPRpfwWt2go3m/A5ljEg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
- dkim=pass header.d=memverge.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5t7gQnNDOYvyQ621jnLJLPSU+g12cU27tJ+eOQ9aFoI=;
- b=yC9Z/qD9NNzAJ+jE25AmQM1sAC27DvMMRPWwcOTGPYoPZ/1QOJU5PEQc+uqNA5MKmClsTeAcm8/YjW/7ZZ1ifTNO+rTWLnN0z2W7mXnRetGby22WFy3seRy8KnTZl8S0dMpfR5K4s1G4fe8TtPkgP9ZziDvyOfc2Ei5rqcHBRug=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=memverge.com;
-Received: from SJ0PR17MB5512.namprd17.prod.outlook.com (2603:10b6:a03:394::19)
- by DM4PR17MB6954.namprd17.prod.outlook.com (2603:10b6:8:18e::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.8; Thu, 30 Nov
- 2023 16:08:00 +0000
-Received: from SJ0PR17MB5512.namprd17.prod.outlook.com
- ([fe80::381c:7f11:1028:15f4]) by SJ0PR17MB5512.namprd17.prod.outlook.com
- ([fe80::381c:7f11:1028:15f4%5]) with mapi id 15.20.7068.012; Thu, 30 Nov 2023
- 16:07:59 +0000
-Date: Thu, 30 Nov 2023 11:07:44 -0500
-From: Gregory Price <gregory.price@memverge.com>
-To: Zhongkun He <hezhongkun.hzk@bytedance.com>
-Cc: Vinicius Petrucci <vpetrucci@gmail.com>, akpm@linux-foundation.org,
-	linux-mm@vger.kernel.org, linux-cxl@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-api@vger.kernel.org, minchan@kernel.org,
-	dave.hansen@linux.intel.com, x86@kernel.org,
-	Jonathan.Cameron@huawei.com, aneesh.kumar@linux.ibm.com,
-	ying.huang@intel.com, dan.j.williams@intel.com, fvdl@google.com,
-	surenb@google.com, rientjes@google.com, hannes@cmpxchg.org,
-	mhocko@suse.com, Hasan.Maruf@amd.com, jgroves@micron.com,
-	ravis.opensrc@micron.com, sthanneeru@micron.com,
-	emirakhur@micron.com, vtavarespetr@micron.com
-Subject: Re: [RFC PATCH] mm/mbind: Introduce process_mbind() syscall for
- external memory binding
-Message-ID: <ZWizUEd/rsxSc0fW@memverge.com>
-References: <ZV5zGROLefrsEcHJ@r13-u19.micron.com>
- <CACSyD1OFjROw26+2ojG37eDBParVg721x1HCROMiF2pW2aHj8A@mail.gmail.com>
- <ZV/HSFMmv3xwkNPL@memverge.com>
- <CACSyD1MrCzyV-93Ov07NpV3Nm3u0fYExmD1ShE_e2tapW6a6HA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACSyD1MrCzyV-93Ov07NpV3Nm3u0fYExmD1ShE_e2tapW6a6HA@mail.gmail.com>
-X-ClientProxiedBy: BY5PR16CA0028.namprd16.prod.outlook.com
- (2603:10b6:a03:1a0::41) To SJ0PR17MB5512.namprd17.prod.outlook.com
- (2603:10b6:a03:394::19)
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51DB41A4;
+	Thu, 30 Nov 2023 08:40:57 -0800 (PST)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.nyi.internal (Postfix) with ESMTP id EA2735C006B;
+	Thu, 30 Nov 2023 11:40:53 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute1.internal (MEProxy); Thu, 30 Nov 2023 11:40:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tycho.pizza; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:sender:subject
+	:subject:to:to; s=fm3; t=1701362453; x=1701448853; bh=GcRUTefwOD
+	feWsEEU+T7P5vkTMTkxQIp7mTUU9VqXL8=; b=xGCt99ogNyz5PF4Lg0iAzjC7qp
+	FTlBXswcvclsYpRpetMTOZeHvn0VKjXlt5IxOKdgHGAdqFfr7wACfU37IXpvx/6t
+	P8GYFuhEuY1+1HU/lQU4KGELsKb+Shoqwh6YBsDfec4s8aGLKT6QUYU26PSui/6I
+	/4gT+bDjkIJGkOJp6Gbxa7FpsfUJjyWrNHakgInrdTcGADekAP8zHs0ntdDyfBnF
+	qcu93zQEGRxPbQRSSR5Sh/2L5PmeQW/DnL/8cjpFNAWqGjyRdzu0y0eBBV8VyEuo
+	nw4aOFHD4fteUzqZZFz14NyYmX9BKhwRd9BnVu3tyScO7/ArxN7XfBz0rPPg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; t=1701362453; x=1701448853; bh=GcRUTefwODfeW
+	sEEU+T7P5vkTMTkxQIp7mTUU9VqXL8=; b=MRoPsenNPeU3+ceAOVhtiJAXfV/uR
+	GTn22jjH2BZ5z93PfBkF7NgpW7yARoJtGwnZ+pew+zZqqULn+2GKr02BLwdjYVg8
+	7VbnJ0yYaeLbvBy9Db+9x21UY4Lpk3ozF8v80qwwkvLX5G05+7gFGAE1Yb6R6xLD
+	thYnzYkEMKNVz1cyfUx7xzcK+Cu84vVl1kxlXt0cZ4AVHTqcGF+nVl2XdG5yqcLP
+	RxjinEvBgtwLrUbq6zpGD7XC5bLhk5BjrUrWxbLm3NrSk0ArDsLkPksVv5J4XINd
+	XIAv97dzF9BE10dgkLytjqllQj8UE+NC3FTwCNdFFrxPzlN9noMKkwr0A==
+X-ME-Sender: <xms:FbtoZbKWnQl9swwhF8d-cfzIQYsWVfddnN2c-BAD0eV9J4oY65wgXw>
+    <xme:FbtoZfIxiz3L1siGUM_UngRKelJoyxSHY7M9gkhGuHLGwx9e6qM-c80jFmZtLMyfT
+    nfHkSj3WYTS65MkFYo>
+X-ME-Received: <xmr:FbtoZTsInCHdFqc4s2hBM_B6_DMTGmgdsayeC2IyuId94Z9migP3UkwJCSFHGLIufG6J7Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrudeijedgleduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepvfihtghhohcu
+    tehnuggvrhhsvghnuceothihtghhohesthihtghhohdrphhiiiiirgeqnecuggftrfgrth
+    htvghrnhepheeffeehleeftdfgjeegheelieefvdfghfeuudeuheehuefhhffhtefhiedv
+    geegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepth
+    ihtghhohesthihtghhohdrphhiiiiirg
+X-ME-Proxy: <xmx:FbtoZUbvG4ShnYrcRkxZ93RRhU0Fb2PHZpTDdZfbiq1pKNTMOjRaCQ>
+    <xmx:FbtoZSaJqd2StH1olzM6QrkKFhb5agn88EuXXs4pVKGOqF4WS0V9WA>
+    <xmx:FbtoZYAlVpZucUuefDFRhFSpY9SFdUEqv6zM9RGwA7dktX2mQwH-ZA>
+    <xmx:FbtoZZwdqZz87YMNN4LKK5f2fPACkWh_pwkndUjK2LDjOkX1yiOJ2w>
+Feedback-ID: i21f147d5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 30 Nov 2023 11:40:52 -0500 (EST)
+From: Tycho Andersen <tycho@tycho.pizza>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Oleg Nesterov <oleg@redhat.com>,
+	"Eric W . Biederman" <ebiederm@xmission.com>,
+	linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	Tycho Andersen <tycho@tycho.pizza>,
+	Tycho Andersen <tandersen@netflix.com>
+Subject: [RFC 1/3] pidfd: allow pidfd_open() on non-thread-group leaders
+Date: Thu, 30 Nov 2023 09:39:44 -0700
+Message-Id: <20231130163946.277502-1-tycho@tycho.pizza>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR17MB5512:EE_|DM4PR17MB6954:EE_
-X-MS-Office365-Filtering-Correlation-Id: 422f3940-7478-4ae9-13c0-08dbf1be85d4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	w465u5lFbE7yGTsyMBjnicYaxvtZBxNRxHM62Y6fWUw6yt/G1q+NI7nyxFtUQ8rBAyhNNuhMr00kHDbFJg4v7ieRtJIeVM+wFX5dWACfC1FxMW+QkdGAACLdwXMYPvtToh1hTW4kfw76aMDmgLZtbYxiPLENjC3LnZjHPuSXRxFZgwFX2hQ2VdEndAc53a4eHb4tMlU2VDTuUX4iRgkjN+9r4DBtt1xmP2FqpbpXA6cKy484DnY4v9I0q68rVrCudT41dra7BJ1ESzkASw/e47xiJoK+0PZ8dhUoyNQ1Co+mLmMo5357LoEcruUJNbybWEmpVLK5WjdynZbTVFCuqTpcCsUBfXBwTnztSZZyEnTiurHYnN5ZykVtvq16QptkFkTQM1t8T2ErBr1ADBdBOa3r0h86i27QBbH9eVC+o4gbBFkXF/b8zwkdRJIXzbT4xivmRYE+eIjqGSnerc2S5ggm5OsNblA5ulh04NcRMgcvjPk0mMi3KCKsmgXoZtdG0lhk1bgH0F4jZdHpHzC1HYuIf9OmQYfOMlpMZ1m4+88=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR17MB5512.namprd17.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(346002)(366004)(376002)(136003)(39840400004)(230922051799003)(451199024)(186009)(1800799012)(64100799003)(38100700002)(83380400001)(8676002)(66476007)(2906002)(44832011)(86362001)(8936002)(4326008)(5660300002)(66556008)(316002)(7416002)(66946007)(6486002)(966005)(478600001)(36756003)(6916009)(6506007)(41300700001)(6512007)(6666004)(26005)(2616005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?K29hZUpNaGhGd1RiSDgvMURCOVB4WXVVSEV1N0lyRXJDd080Q0tyRHNlRGIx?=
- =?utf-8?B?SnM0T3FxbEZhQ1Z2VUdqUEhPRVdVVFVJTmE2QndOM0xlT3c0a1Ixb2V6encr?=
- =?utf-8?B?enBrRWlrZ0Z0eGZTREdwSGV6N1JqQWc5OVQwSWFLejZ5d3NBR0JqcmRBODRU?=
- =?utf-8?B?bXJUNG9qeit0L3ZidXNmNnBYd3pyb09YV1hZRlpPdUk4SmV2bDlZczNxT1p2?=
- =?utf-8?B?NTBxa1p3ZVRDdXVvbFpvcU14TXpsWkg5Y2piRlRVT3FKTE54N0x6cHhYL1lG?=
- =?utf-8?B?ZmpPZzJpZGluRU9IMkp6M1EzWk9mUFRqSGwwUnU0aDQrVVFQN0hSbGVBcVlI?=
- =?utf-8?B?ck00ZFZXeVJjOEtQMm9KeU1SNkVCMEFISldYeXFTWDBldFhoTS9EZFRRcXJx?=
- =?utf-8?B?eEFvVkl3TmV4U2RILytacDFOS2tKTENYNWNsZmxScXRtZ0wyN1M3U1F2WEsx?=
- =?utf-8?B?VkozVmpSdGtmcFdpbUZnWDVmLzVrY2FuREVqRDN6K1hQWktzVTJtMHdRL3pa?=
- =?utf-8?B?VXdZQU9OZHpINVUveUhTUk4xSUwwajIxOTBSOWZYd3VYeDNVZHFrMVZTSnhW?=
- =?utf-8?B?U3FRVDhiUVhtMFZqcGhxLzBNNlpBV0dTTEE5NndFSlBMT2lEaWU3blIreGtM?=
- =?utf-8?B?K0JLUVBVRnBZeXVCZk1oR0FWQXJGRU9ESDdPUCs3WFg5cUxwRGZWaEd3alcx?=
- =?utf-8?B?S09oVG9KNnJndFNWcU5DMFdxdGJmUU9KQ094a0djOS9rMjQxS2pSdUJ3bFRP?=
- =?utf-8?B?MXd1bDEvUVBpQmNsQjN5ZWVvWkVrWFdLNlFkZW11NkVqUmZaSEw4YmdNNVpO?=
- =?utf-8?B?RE53QklGUmVzQUM2VGdQUUZIZmdGVmJaYnBKMkpNNWFuNE5waEk0QTk5bEhu?=
- =?utf-8?B?U3M2T2hUaDMydGFOVzExbDVwV3lENXdVSjF5VVRmYVpGM21vRXNoWjAwUkhq?=
- =?utf-8?B?T1c5Q25LNFBBWkRESHE1bEE2OStidWIvNE1IVHNXc05WR2gySVRod1dsb0Fz?=
- =?utf-8?B?dEQwdmNFS21pdm1EVlRJbHd4UzZzcnFERHZyNENJVWRIL0hJTGpFeGJ1YnlH?=
- =?utf-8?B?cVFyNlJwMkRDUDVyRWJ1b2NDakl2T0daaTFyL0dmQmFDU2x2ZDc0V3JLQUJH?=
- =?utf-8?B?SnVvWlM1cHlNTlU3M1dXTnl0TXZWS0tYd0lyWnoxOWVsTWVjd2JvQnB3TGNB?=
- =?utf-8?B?VkoyanlJQW9jdWFGb0hXTlRYYlQ1aDZwTnZNVEVrQXVWZzNyNTFXSy9wUTcy?=
- =?utf-8?B?K3UxWjA1eEYzRjNaL1J1RTZaOXROaFQwOHk3d2xzSnAxUHRmOWZrRHYrS0Jx?=
- =?utf-8?B?R3V6ZElhQ0tRT3BVdWFMRTNFdU5FQ25KUGRkMDg3YnRkV0t1RnlnVEkrUXd2?=
- =?utf-8?B?WmtKb1MxQkErbXVWVWg0OUZVRkx3L0sreXFGTlFieE5aOEJrWjJ6bzBDd2lE?=
- =?utf-8?B?bVp0UXNmQ1hvdUFHWnF1eFVFRTdpcityTk9qM0RtbHN3a1lOdEQrNkk2TGFU?=
- =?utf-8?B?dVJ6VHZuQ1RoNlZwb3lIaWZtYzd6ZFVMMnhQdmh2NG1ZNjJTTjhIano4alFP?=
- =?utf-8?B?Nkd0UTFLMnNadGJmRmgzYUpodjVZK2Q5MGIwaGxYL2lDbmFPYWRjZy9ZUzg1?=
- =?utf-8?B?bGc0MDQ3SUxjUFh6RTNrdGVBN3E3aUhCczBWU3JpaTJLUHh1L243ZzNlcUJ4?=
- =?utf-8?B?ay90UlBJZjJVV2FNaE91REdFdFdpZUV2RDZYNUk2emR4eENRTnliMjc2by9m?=
- =?utf-8?B?TCtYT3YxTytwbUZ5YkwxNnNXMW1ONGtvSXh4c3phZklUb0NkTU9ON0dPMm0z?=
- =?utf-8?B?WWdnSjU5UVZ5OXJHZXVUb040NHdOSUJXbFBtdDR2UVBvWVZkU25LMU9uT3hn?=
- =?utf-8?B?WFduQUFTTjZTdjBxdWJKYWswZkdudFlaSnRPcHJZemN2Z1Z6RHU3eHlYS3gz?=
- =?utf-8?B?TThPZHNBK2MrajFWeTZYejZ5NWYvYmFCTWt6NjRGNk1ZWVZ1YzAzUSsrZEh6?=
- =?utf-8?B?dEFNWndmR01DdVRRRVBuT1Q5Z1cxK0JhWVhkQVRvNGg4cGE2UUZTczNzSndj?=
- =?utf-8?B?Q2ZXZkg1NzJCcTlhTDFwekNOOWVQM1QzU2lTSktiZ2ltMGNEdUk3a0JtbWly?=
- =?utf-8?B?dUsxeHNVSExIVjNWVzNFZC9rUEp5TnF1Wkw0NTdxV1lvbkZOOFhKVVJJZVVM?=
- =?utf-8?B?MWc9PQ==?=
-X-OriginatorOrg: memverge.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 422f3940-7478-4ae9-13c0-08dbf1be85d4
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR17MB5512.namprd17.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Nov 2023 16:07:59.7081
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xXYRxDyVvGRunDKB1Ic1lgWpJNIfOOq4Lwb6ElrgmYQQY+JkQM35q17AazrvNo5eFpKpj4CS4hUS82DTCRMl5vz4+ZU3x3qX0pcTJcYjPk8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR17MB6954
+Content-Transfer-Encoding: 8bit
 
-On Thu, Nov 30, 2023 at 05:34:04PM +0800, Zhongkun He wrote:
-> Hi Gregory, sorry for the late reply.
-> 
-> I tried pidfd_set_mempolicy(suggested by michal) about a year ago.
-> There is a problem here that may need attention.
-> 
-> A mempolicy can be either associated with a process or with a VMA.
-> All vma manipulation is somewhat protected by a down_read on
-> mmap_lock.In process context(in alloc_pages()) there is no locking
-> because only the process accesses its own state.
-> 
-> Now  we need to change the process context mempolicy specified
-> in pidfd. the mempolicy may about to be freed by
-> pidfd_set_mempolicy() while alloc_pages() is using it,
-> The race condition appears.
-> 
-> Say something like the following：
-> 
-> pidfd_set_mempolicy()        target task stack:
->                                                alloc_pages:
->                                              mpol = p->mempolicy;
->   task_lock(task);
->   old = task->mempolicy;
->   task->mempolicy = new;
->   task_unlock(task);
->   mpol_put(old);
->                                            /*old mpol has been freed.*/
->                                            policy_node(...., mpol)
->                                           __alloc_pages();
-> 
-> To reduce the use of locks and atomic operations(mpol_get/put)
-> in the hot path, there are no references or lock protections here
-> for task mempolicy.
-> 
-> It would be great if your refactoring has a good solution.
-> 
-> Thanks.
-> 
+From: Tycho Andersen <tandersen@netflix.com>
 
-Hi ZhongKun!
+We are using the pidfd family of syscalls with the seccomp userspace
+notifier. When some thread triggers a seccomp notification, we want to do
+some things to its context (munge fd tables via pidfd_getfd(), maybe write
+to its memory, etc.). However, threads created with ~CLONE_FILES or
+~CLONE_VM mean that we can't use the pidfd family of syscalls for this
+purpose, since their fd table or mm are distinct from the thread group
+leader's. In this patch, we relax this restriction for pidfd_open().
 
-I actually just sent out a more general RFC to mempolicy updates that
-discuss this more completely:
+In order to avoid dangling poll() users we need to notify pidfd waiters
+when individual threads die, but once we do that all the other machinery
+seems to work ok viz. the tests. But I suppose there are more cases than
+just this one.
 
-https://lore.kernel.org/linux-mm/ZWezcQk+BYEq%2FWiI@memverge.com/
+Another weirdness is the open-coding of this vs. exporting using
+do_notify_pidfd(). This particular location is after __exit_signal() is
+called, which does __unhash_process() which kills ->thread_pid, so we need
+to use the copy we have locally, vs do_notify_pid() which accesses it via
+task_pid(). Maybe this suggests that the notification should live somewhere
+in __exit_signals()? I just put it here because I saw we were already
+testing if this task was the leader.
 
-and another post on even more issues with pidfd modifications to vma
-mempolicies:
+Signed-off-by: Tycho Andersen <tandersen@netflix.com>
+---
+ kernel/exit.c | 29 +++++++++++++++++++----------
+ kernel/fork.c |  4 +---
+ kernel/pid.c  | 11 +----------
+ 3 files changed, 21 insertions(+), 23 deletions(-)
 
-https://lore.kernel.org/linux-mm/ZWYsth2CtC4Ilvoz@memverge.com/
+diff --git a/kernel/exit.c b/kernel/exit.c
+index ee9f43bed49a..34eeefc7ee21 100644
+--- a/kernel/exit.c
++++ b/kernel/exit.c
+@@ -263,16 +263,25 @@ void release_task(struct task_struct *p)
+ 	 */
+ 	zap_leader = 0;
+ 	leader = p->group_leader;
+-	if (leader != p && thread_group_empty(leader)
+-			&& leader->exit_state == EXIT_ZOMBIE) {
+-		/*
+-		 * If we were the last child thread and the leader has
+-		 * exited already, and the leader's parent ignores SIGCHLD,
+-		 * then we are the one who should release the leader.
+-		 */
+-		zap_leader = do_notify_parent(leader, leader->exit_signal);
+-		if (zap_leader)
+-			leader->exit_state = EXIT_DEAD;
++	if (leader != p) {
++		if (thread_group_empty(leader)
++				&& leader->exit_state == EXIT_ZOMBIE) {
++			/*
++			 * If we were the last child thread and the leader has
++			 * exited already, and the leader's parent ignores SIGCHLD,
++			 * then we are the one who should release the leader.
++			 */
++			zap_leader = do_notify_parent(leader,
++						      leader->exit_signal);
++			if (zap_leader)
++				leader->exit_state = EXIT_DEAD;
++		} else {
++			/*
++			 * wake up pidfd pollers anyway, they want to know this
++			 * thread is dying.
++			 */
++			wake_up_all(&thread_pid->wait_pidfd);
++		}
+ 	}
+ 
+ 	write_unlock_irq(&tasklist_lock);
+diff --git a/kernel/fork.c b/kernel/fork.c
+index 10917c3e1f03..eef15c93f6cf 100644
+--- a/kernel/fork.c
++++ b/kernel/fork.c
+@@ -2163,8 +2163,6 @@ static int __pidfd_prepare(struct pid *pid, unsigned int flags, struct file **re
+  * Allocate a new file that stashes @pid and reserve a new pidfd number in the
+  * caller's file descriptor table. The pidfd is reserved but not installed yet.
+  *
+- * The helper verifies that @pid is used as a thread group leader.
+- *
+  * If this function returns successfully the caller is responsible to either
+  * call fd_install() passing the returned pidfd and pidfd file as arguments in
+  * order to install the pidfd into its file descriptor table or they must use
+@@ -2182,7 +2180,7 @@ static int __pidfd_prepare(struct pid *pid, unsigned int flags, struct file **re
+  */
+ int pidfd_prepare(struct pid *pid, unsigned int flags, struct file **ret)
+ {
+-	if (!pid || !pid_has_task(pid, PIDTYPE_TGID))
++	if (!pid)
+ 		return -EINVAL;
+ 
+ 	return __pidfd_prepare(pid, flags, ret);
+diff --git a/kernel/pid.c b/kernel/pid.c
+index 6500ef956f2f..4806798022d9 100644
+--- a/kernel/pid.c
++++ b/kernel/pid.c
+@@ -552,11 +552,6 @@ struct pid *pidfd_get_pid(unsigned int fd, unsigned int *flags)
+  * Return the task associated with @pidfd. The function takes a reference on
+  * the returned task. The caller is responsible for releasing that reference.
+  *
+- * Currently, the process identified by @pidfd is always a thread-group leader.
+- * This restriction currently exists for all aspects of pidfds including pidfd
+- * creation (CLONE_PIDFD cannot be used with CLONE_THREAD) and pidfd polling
+- * (only supports thread group leaders).
+- *
+  * Return: On success, the task_struct associated with the pidfd.
+  *	   On error, a negative errno number will be returned.
+  */
+@@ -615,11 +610,7 @@ int pidfd_create(struct pid *pid, unsigned int flags)
+  * @flags: flags to pass
+  *
+  * This creates a new pid file descriptor with the O_CLOEXEC flag set for
+- * the process identified by @pid. Currently, the process identified by
+- * @pid must be a thread-group leader. This restriction currently exists
+- * for all aspects of pidfds including pidfd creation (CLONE_PIDFD cannot
+- * be used with CLONE_THREAD) and pidfd polling (only supports thread group
+- * leaders).
++ * the process identified by @pid.
+  *
+  * Return: On success, a cloexec pidfd is returned.
+  *         On error, a negative errno number will be returned.
 
-We may have to slow-walk the changes to vma policies due to there being
-many more hidden accesses to (current) than expected. It's a rather
-nasty rats nest of mempolicy-vma-cpusets-shmem callbacks that obscure
-these current-task accesses, it will take time to work through.
+base-commit: 2cc14f52aeb78ce3f29677c2de1f06c0e91471ab
+-- 
+2.34.1
 
-As for hot-path reference counting - we may need to change the way
-mempolicy is managed, possibly we could leverage RCU to manage mempolicy
-references in the hot path, rather than using locks.  In this scenario,
-we would likely need to change the way the default policy is applied
-(maybe not, I haven't fully explored it).
-
-Do you have thoughts on this?  Would very much like additional comments
-before I go through the refactor work.
-
-Regards,
-Gregory
 
