@@ -1,82 +1,174 @@
-Return-Path: <linux-api+bounces-195-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-196-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 504497FFBAF
-	for <lists+linux-api@lfdr.de>; Thu, 30 Nov 2023 20:43:31 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB5CC7FFDDC
+	for <lists+linux-api@lfdr.de>; Thu, 30 Nov 2023 22:49:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0B7D12824F2
-	for <lists+linux-api@lfdr.de>; Thu, 30 Nov 2023 19:43:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CF0C81C20B28
+	for <lists+linux-api@lfdr.de>; Thu, 30 Nov 2023 21:49:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2658752F91;
-	Thu, 30 Nov 2023 19:43:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 081FB5A11B;
+	Thu, 30 Nov 2023 21:49:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ysx3+T/m"
+	dkim=pass (2048-bit key) header.d=micron.com header.i=@micron.com header.b="hou5UaMK"
 X-Original-To: linux-api@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7BCCD7D
-	for <linux-api@vger.kernel.org>; Thu, 30 Nov 2023 11:43:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1701373403;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1LzR82TZZoRBH/QGAZ8DY5Aa+itdrUDM4gzCDXUwKhE=;
-	b=Ysx3+T/mVS7pVHYhsAKoKYAU0y5Ntu1UafkmpBaQWyhyuJvIvdyph86BBZGhosznfS6fkH
-	dGCe/fP0FDfPh5ZAzumfDlXiALW3kpUje4IPTsmGQVh4cP4/Y2SRnvhKQOOPL/sCvtAiHD
-	wmZjFPB+Qm3QsTCLuha101Llh/d0QiM=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-673-HioBAyClOBG-ZY4j2hqARw-1; Thu,
- 30 Nov 2023 14:43:22 -0500
-X-MC-Unique: HioBAyClOBG-ZY4j2hqARw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AB73B381CBA1;
-	Thu, 30 Nov 2023 19:43:21 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (unknown [10.2.16.45])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 046491121307;
-	Thu, 30 Nov 2023 19:43:19 +0000 (UTC)
-From: Florian Weimer <fweimer@redhat.com>
-To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: Tycho Andersen <tycho@tycho.pizza>,  Christian Brauner
- <brauner@kernel.org>,  Oleg Nesterov <oleg@redhat.com>,  "Eric W .
- Biederman" <ebiederm@xmission.com>,  linux-kernel@vger.kernel.org,
-  linux-api@vger.kernel.org,  Tycho Andersen <tandersen@netflix.com>
-Subject: Re: [RFC 1/3] pidfd: allow pidfd_open() on non-thread-group leaders
-References: <20231130163946.277502-1-tycho@tycho.pizza>
-	<874jh3t7e9.fsf@oldenburg.str.redhat.com>
-	<ZWjaSAhG9KI2i9NK@tycho.pizza>
-	<a07b7ae6-8e86-4a87-9347-e6e1a0f2ee65@efficios.com>
-Date: Thu, 30 Nov 2023 20:43:18 +0100
-In-Reply-To: <a07b7ae6-8e86-4a87-9347-e6e1a0f2ee65@efficios.com> (Mathieu
-	Desnoyers's message of "Thu, 30 Nov 2023 14:00:01 -0500")
-Message-ID: <87ttp3rprd.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.3 (gnu/linux)
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2070.outbound.protection.outlook.com [40.107.94.70])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95F47198E;
+	Thu, 30 Nov 2023 13:49:22 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VfPlFno7sk2eCfkaHGfH4ZNDlvU0dCplOLmRs2C6CDWMvbnXKohrnL+gV0lfz1/6JRfvh883R9oCN+suGjm/6GtQ5boQHkvP6eS7IE5v1+EKhfNWpV151eCtDDRxujlCrP+eY8fjEoGav0QzAIuUgLWiMkgwRdNkhv8vqeVfeqdLS4oMuIH5gqaQKALwbNYCXAXgMaoc/ctqhhNLuPnRwlvp/0TL0OYikNdZwMWH80xKohi2bxyRd0U3IlJPpCofhZs6buwhZS8rwJvDRdeJBtbLp76nvouGrThKkCPmVG0yCELnQFbz7Et4HxVTSAAaCV+stdwn9Ntbrl/uEWKE5g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2axCpfEpUw/lFBX37+lqcZ+XwWsj1GhOI3zXdhsSKZw=;
+ b=Eg0Zz+4FYPEROcQO5wM8FbBuXk0t9wEqF3qcHO9k+8i3wiQ75yVS+hoNmYGX33rt9SGqwPYZEjwf6Mbk/0nitkjQ+Iq8/d8Lwpx8u+tRkrjZNLHu7pnZ+pgasxvQsFU9nIQkcKcRRVTCFq3yUOOsVoBFgqxudDXPDRoctONdb+jd05X818yvF0o6RaKKy2QwsBtCTECXw/TcJDnOWrAO9yY8b5EULRQ2M4BfwsO6HWRSNUHZ8ZRGaq16wkAkvotSRsMlO5ulHEk8w15mBDdOZTf1YutypnZENhju9a0XNFuMK37cVdpFyJhu0mFct3gImGV6MWxpxCtmAtDLwXjVIg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 137.201.242.130) smtp.rcpttodomain=cmpxchg.org smtp.mailfrom=micron.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=micron.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=micron.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2axCpfEpUw/lFBX37+lqcZ+XwWsj1GhOI3zXdhsSKZw=;
+ b=hou5UaMKmbvZiMLjfyZSYqMlngsFCwrwTYndMzBtChxf/y9otMIesefTJUz399G1bRK/GSbx+UykxQzYqnf5GRdzamiFYuMHsBEHXPe3oCZXTrbNCbzoyGjJWVfM86fN1vsACGdsGgIr2Ak2O06vg/itN2W3+F7UK/TzPelauwCKzt/lVsoSVdtfaZfxYjrWNKxEbbuuWF3rNeFLEbJnsb5yldDBxW8a5DGSucSzHqkbR7gO4fVoTEZkAGvXORbhAbzUdO6OciH+waGQJQt4K3tQNi81zK7LEVkKlKuYxXIpbBPoCoXerO0Ec3LjfrstATf8/QPxr+DWEZsxNVLlOQ==
+Received: from BL0PR02CA0126.namprd02.prod.outlook.com (2603:10b6:208:35::31)
+ by DM6PR08MB6284.namprd08.prod.outlook.com (2603:10b6:5:1ed::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.24; Thu, 30 Nov
+ 2023 21:49:12 +0000
+Received: from BL6PEPF0001AB4B.namprd04.prod.outlook.com
+ (2603:10b6:208:35:cafe::ec) by BL0PR02CA0126.outlook.office365.com
+ (2603:10b6:208:35::31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.27 via Frontend
+ Transport; Thu, 30 Nov 2023 21:49:12 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 137.201.242.130)
+ smtp.mailfrom=micron.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=micron.com;
+Received-SPF: Pass (protection.outlook.com: domain of micron.com designates
+ 137.201.242.130 as permitted sender) receiver=protection.outlook.com;
+ client-ip=137.201.242.130; helo=mail.micron.com; pr=C
+Received: from mail.micron.com (137.201.242.130) by
+ BL6PEPF0001AB4B.mail.protection.outlook.com (10.167.242.69) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7046.17 via Frontend Transport; Thu, 30 Nov 2023 21:49:11 +0000
+Received: from BOW17EX19A.micron.com (137.201.21.218) by BOW36EX19B.micron.com
+ (137.201.85.154) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.27; Thu, 30 Nov
+ 2023 14:49:10 -0700
+Received: from micron.com (10.3.67.194) by RestrictedRelay17EX19A.micron.com
+ (137.201.21.218) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.27 via Frontend
+ Transport; Thu, 30 Nov 2023 14:49:03 -0700
+From: <sthanneeru.opensrc@micron.com>
+To: <aneesh.kumar@linux.ibm.com>, <hannes@cmpxchg.org>, <hasanalmaruf@fb.com>,
+	<haowang3@fb.com>, <ying.huang@intel.com>, <gregory.price@memverge.com>,
+	<dan.j.williams@intel.com>, <mhocko@suse.com>, <tj@kernel.org>,
+	<hezhongkun.hzk@bytedance.com>, <fvdl@google.com>, <john@jagalactic.com>,
+	<mirakhur@micron.com>, <vtavarespetr@micron.com>, <Ravis.OpenSrc@micron.com>,
+	<Jonathan.Cameron@huawei.com>, <linux-kernel@vger.kernel.org>,
+	<linux-api@vger.kernel.org>
+CC: Srinivasulu Thanneeru <sthanneeru.opensrc@micron.com>
+Subject: [RFC PATCH 0/2] Node migration between memory tiers
+Date: Fri, 1 Dec 2023 03:18:56 +0530
+Message-ID: <20231130214858.1887-1-sthanneeru.opensrc@micron.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.3
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-MT-Whitelisted: matched
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB4B:EE_|DM6PR08MB6284:EE_
+X-MS-Office365-Filtering-Correlation-Id: e5e81982-f278-4918-1683-08dbf1ee304e
+X-LD-Processed: f38a5ecd-2813-4862-b11b-ac1d563c806f,ExtAddr
+X-EXT-ByPass: 1
+X-MT-RULE-Whitelisted: Triggered
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+ SI61F38wre6TCG5R3s1ckP/FWGvhPL3mY5tRaieF0UkqBrfXVfvb93LeDHAuCyKLuURsnX7fDg547oSGwQ6EWcHunFbuEvlUgNTdiqrf3z+piQHFBRTC3dqTP3MR3qjGd0aErFgEMWca82dvSFUuT+kVdqlB+rIyEONTSd2ZUQ6yjLD8op0pQSlPiL+HzFan7JFkP6brwr7QxlL+BxLHUigc89qZ+JBo7PkNFetquonBFWM/0rh7HNGPKqZ4AjFJWDhE+gjCGpNtJoZh5LSD55KqYOkOIPHJO4YXKYcmKL7zljFIH8nLTNlMQVycr6SNe3YYqycvALDvd/FY1SzxEvoZ6Hf9mTev2IKyBlFbTaZFHdzy6KIa4qccq/HZelcbnO26JFKaJjCvwOquvMOAgHIFATxlHRDxda5AtrysXEe6jZbCjmfnw4V1pCag9Z8iw6RLHHcWwwS7XoPNxkWu7F9vnTE5kWFF42njIF/YjK6Pir3mXWtBHgJ3R+nlD5g/yKp5yqi2rTBhKusRAVHEes/kOhFNNcQoEGki+Ojk2cSBA6gkmcgoXwJIQ7KsHZrei1pVo5ODafbvd7GPKStdS7w6IB8SEnyCSedD90oczYstcAFckjQvrgqVJcjwBQiz5MCyHSr3eB7gnxBLPEDrfs4uJzOW2PzqaAZyv2FQMWSsxuGMQrMksxqvlHRjcqgPGVU1wTE2UEgPyMgiKj4wjvwIRPTD/lVoaNBYanOJx6R1fTttgkTPDXEZP33+jWK6CoDSpI4LsqdtXDZOum6AvkxYNItPhJ0gdgSUkK2qsdo5MVs5YjHVkCOIkfKC6N3i
+X-Forefront-Antispam-Report:
+ CIP:137.201.242.130;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.micron.com;PTR:masquerade.micron.com;CAT:NONE;SFS:(13230031)(4636009)(39860400002)(396003)(136003)(346002)(376002)(230922051799003)(64100799003)(82310400011)(1800799012)(451199024)(186009)(40470700004)(46966006)(36840700001)(107886003)(1076003)(921008)(40480700001)(47076005)(55016003)(7636003)(356005)(83380400001)(82740400003)(26005)(6286002)(41300700001)(36756003)(36860700001)(426003)(336012)(2616005)(6666004)(2876002)(40460700003)(2906002)(5660300002)(7416002)(478600001)(316002)(7696005)(70586007)(110136005)(70206006)(8936002)(86362001)(8676002)(4326008)(83996005)(2101003);DIR:OUT;SFP:1101;
+X-OriginatorOrg: micron.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Nov 2023 21:49:11.6585
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e5e81982-f278-4918-1683-08dbf1ee304e
+X-MS-Exchange-CrossTenant-Id: f38a5ecd-2813-4862-b11b-ac1d563c806f
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f38a5ecd-2813-4862-b11b-ac1d563c806f;Ip=[137.201.242.130];Helo=[mail.micron.com]
+X-MS-Exchange-CrossTenant-AuthSource: BL6PEPF0001AB4B.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR08MB6284
 
-* Mathieu Desnoyers:
+From: Srinivasulu Thanneeru <sthanneeru.opensrc@micron.com>
 
->>> I'd like to offer a userspace API which allows safe stashing of
->>> unreachable file descriptors on a service thread.
+The memory tiers feature allows nodes with similar memory types
+or performance characteristics to be grouped together in a
+memory tier. However, there is currently no provision for
+moving a node from one tier to another on demand.
 
->> By "safe" here do you mean not accessible via pidfd_getfd()?
+This patch series aims to support node migration between tiers
+on demand by sysadmin/root user using the provided sysfs for
+node migration. Each tier has a start abstract distance(adistance)
+and range.
 
-No, unreachable by close/close_range/dup2/dup3.  I expect we can do an
-intra-process transfer using /proc, but I'm hoping for something nicer.
+To migrate a node to a tier, the corresponding node’s sysfs
+adistance_offset is written with a value corresponding to
+the tier’s adistance.
 
-Thanks,
-Florian
+Example: Move node2 to memory tier5 from its default tier(i.e 4)
+
+1. Check default values:
+$cat /sys/devices/virtual/memory_tiering/memory_tier4/nodelist
+0-2
+
+$cat /sys/devices/system/node/node0/adistance_offset
+0
+$cat /sys/devices/system/node/node1/adistance_offset
+0
+$cat /sys/devices/system/node/node2/adistance_offset
+0
+
+2. Move node2 to  tier5:
+
+To move node2 from emory_tier4 (adistance=512) to
+emory_tier5 (abstract=640), set the `adistance_offset` of
+node 2 to 128 (i.e., 512 + 128 = 640).
+
+Tier4 adistance start can be derved from tier-id
+(i.e for tier4, 4 << 7 = 512).
+
+$echo 128 > /sys/devices/system/node/node2/adistance_offset
+$cat /sys/devices/system/node/node2/adistance_offset
+128
+
+3. Verify node2's tier id:
+
+$cat /sys/devices/virtual/memory_tiering/memory_tier5/nodelist
+2
+$cat /sys/devices/virtual/memory_tiering/memory_tier4/nodelist
+0-1
+
+Srinivasulu Thanneeru (2):
+  base/node: Add sysfs for adistance_offset
+  memory tier: Support node migration between tiers
+
+ drivers/base/node.c          | 51 +++++++++++++++++++++++
+ include/linux/memory-tiers.h | 11 +++++
+ include/linux/node.h         |  6 +++
+ mm/memory-tiers.c            | 79 ++++++++++++++++++++----------------
+ 4 files changed, 113 insertions(+), 34 deletions(-)
+
+-- 
+2.25.1
 
 
