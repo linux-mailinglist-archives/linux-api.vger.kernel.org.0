@@ -1,37 +1,61 @@
-Return-Path: <linux-api+bounces-221-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-222-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8A91803903
-	for <lists+linux-api@lfdr.de>; Mon,  4 Dec 2023 16:39:25 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68E8E803910
+	for <lists+linux-api@lfdr.de>; Mon,  4 Dec 2023 16:43:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D96A21C20AAC
-	for <lists+linux-api@lfdr.de>; Mon,  4 Dec 2023 15:39:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 221652810FD
+	for <lists+linux-api@lfdr.de>; Mon,  4 Dec 2023 15:43:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1D972C869;
-	Mon,  4 Dec 2023 15:39:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A74B12C872;
+	Mon,  4 Dec 2023 15:43:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="tj/UJeCd"
 X-Original-To: linux-api@vger.kernel.org
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4578FFD;
-	Mon,  4 Dec 2023 07:39:16 -0800 (PST)
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 59D36227A8E; Mon,  4 Dec 2023 16:39:12 +0100 (CET)
-Date: Mon, 4 Dec 2023 16:39:12 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: John Garry <john.g.garry@oracle.com>
-Cc: Christoph Hellwig <hch@lst.de>, axboe@kernel.dk, kbusch@kernel.org,
-	sagi@grimberg.me, jejb@linux.ibm.com, martin.petersen@oracle.com,
-	djwong@kernel.org, viro@zeniv.linux.org.uk, brauner@kernel.org,
-	chandan.babu@oracle.com, dchinner@redhat.com,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
-	linux-api@vger.kernel.org
-Subject: Re: [PATCH 17/21] fs: xfs: iomap atomic write support
-Message-ID: <20231204153912.GA3580@lst.de>
-References: <20230929102726.2985188-1-john.g.garry@oracle.com> <20230929102726.2985188-18-john.g.garry@oracle.com> <20231109152615.GB1521@lst.de> <a50a16ca-d4b9-a4d8-4230-833d82752bd2@oracle.com> <c78bcca7-8f09-41c7-adf0-03b42cde70d6@oracle.com> <20231128135619.GA12202@lst.de> <e4fb6875-e552-45aa-b193-58f15d9a786c@oracle.com> <20231204134509.GA25834@lst.de> <a87d48a7-f2a8-40ae-8d9b-e4534ccc29b1@oracle.com>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2a07:de40:b251:101:10:150:64:2])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A12ECA;
+	Mon,  4 Dec 2023 07:43:22 -0800 (PST)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 89F8E1F8CC;
+	Mon,  4 Dec 2023 15:43:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1701704600; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YOaNcpQ6My2bUhBcS70FOu0bLg5v5vZHCTRkgHEbbYM=;
+	b=tj/UJeCdsMGyPWGdKIizicxYxzBgTyG1loqLjwj9GNYY5CVkpbGvV79Sugd3/xJZYqnx5P
+	0cM9dGOVT7TG1MmP/dBn/0UEwDd59VfveUq3avVaAKDudbopYSwMw26Rfmg6R/plnXcaey
+	8vK4WDl22XY+fI2mSXzqxXBlvrw21Ps=
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 64AAF139AA;
+	Mon,  4 Dec 2023 15:43:20 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id VZXlFZjzbWU9WgAAD6G6ig
+	(envelope-from <mhocko@suse.com>); Mon, 04 Dec 2023 15:43:20 +0000
+Date: Mon, 4 Dec 2023 16:43:19 +0100
+From: Michal Hocko <mhocko@suse.com>
+To: sthanneeru.opensrc@micron.com
+Cc: aneesh.kumar@linux.ibm.com, linux-cxl@vger.kernel.org,
+	linux-mm@kvack.org, dan.j.williams@intel.com, hannes@cmpxchg.org,
+	hasanalmaruf@fb.com, haowang3@fb.com, ying.huang@intel.com,
+	gregory.price@memverge.com, tj@kernel.org,
+	hezhongkun.hzk@bytedance.com, fvdl@google.com, john@jagalactic.com,
+	emirakhur@micron.com, vtavarespetr@micron.com,
+	Ravis.OpenSrc@micron.com, Jonathan.Cameron@huawei.com,
+	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
+Subject: Re: [RFC PATCH 0/2] Node migration between memory tiers
+Message-ID: <ZW3zl2Fke5FtQCv3@tiehlicka>
+References: <20231130220422.2033-1-sthanneeru.opensrc@micron.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -40,45 +64,40 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a87d48a7-f2a8-40ae-8d9b-e4534ccc29b1@oracle.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20231130220422.2033-1-sthanneeru.opensrc@micron.com>
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: -3.22
+X-Spamd-Result: default: False [-3.22 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 MIME_GOOD(-0.10)[text/plain];
+	 TO_DN_NONE(0.00)[];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	 RCPT_COUNT_TWELVE(0.00)[20];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 MID_RHS_NOT_FQDN(0.50)[];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-2.62)[98.31%]
 
-On Mon, Dec 04, 2023 at 03:19:15PM +0000, John Garry wrote:
-> On 04/12/2023 13:45, Christoph Hellwig wrote:
->> On Tue, Nov 28, 2023 at 05:42:10PM +0000, John Garry wrote:
->>> ok, fine, it would not be required for XFS with CoW. Some concerns still:
->>> a. device atomic write boundary, if any
->>> b. other FSes which do not have CoW support. ext4 is already being used for
->>> "atomic writes" in the field - see dubious amazon torn-write prevention.
->>
->> What is the 'dubious amazon torn-write prevention'?
->
-> https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/storage-twp.html
->
-> AFAICS, this is without any kernel changes, so no guarantee of unwanted 
-> splitting or merging of bios.
->
-> Anyway, there will still be !CoW FSes which people want to support.
+On Fri 01-12-23 03:34:20, sthanneeru.opensrc@micron.com wrote:
+> From: Srinivasulu Thanneeru <sthanneeru.opensrc@micron.com>
+> 
+> The memory tiers feature allows nodes with similar memory types
+> or performance characteristics to be grouped together in a
+> memory tier. However, there is currently no provision for
+> moving a node from one tier to another on demand.
 
-Ugg, so they badly reimplement NVMe atomic write support and use it
-without software stack enablement.  Calling it dubious is way to
-gentle..
-
->> Relying just on the hardware seems very limited, especially as there is
->> plenty of hardware that won't guarantee anything larger than 4k, and
->> plenty of NVMe hardware without has some other small limit like 32k
->> because it doesn't support multiple atomicy mode.
->
-> So what would you propose as the next step? Would it to be first achieve 
-> atomic write support for XFS with HW support + CoW to ensure contiguous 
-> extents (and without XFS forcealign)?
-
-I think the very first priority is just block device support without
-any fs enablement.  We just need to make sure the API isn't too limited
-for additional use cases.
-
-> Ignoring FSes, then how is this supposed to work for block devices? We just 
-> always need HW support, right?
-
-Yes.
+Could you expand on why this is really needed/necessary? What is the
+actual usecase?
+-- 
+Michal Hocko
+SUSE Labs
 
