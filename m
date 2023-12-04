@@ -1,137 +1,135 @@
-Return-Path: <linux-api+bounces-210-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-211-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3934C80129D
-	for <lists+linux-api@lfdr.de>; Fri,  1 Dec 2023 19:29:02 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32BD9802A4A
+	for <lists+linux-api@lfdr.de>; Mon,  4 Dec 2023 03:30:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E60DF2814F2
-	for <lists+linux-api@lfdr.de>; Fri,  1 Dec 2023 18:29:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D07F8280CB3
+	for <lists+linux-api@lfdr.de>; Mon,  4 Dec 2023 02:30:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F10A74F619;
-	Fri,  1 Dec 2023 18:28:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 938621EB53;
+	Mon,  4 Dec 2023 02:30:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A81vm8Af"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Zz2sqq8U"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 145B1D7
+	for <linux-api@vger.kernel.org>; Sun,  3 Dec 2023 18:30:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1701657037;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tJPC9DmNEur0ykkO9N98kEn1eLUMAn1MYmT0jUvM8c4=;
+	b=Zz2sqq8UORu8HIOJZrBsHzPPiH8tI1dLXYyxkkP1LWA5rK3sqCedXev6girFVqisJCblS0
+	qghYx2ibX8fMeAz9ASv24jrcmyxBRGDXfIkWt9j8jA34Kl8g9bNEJ6nP1H4JU0rFqUFZx2
+	VUmGqpQoLpuaM68m7r8rVvnCqs0rSwI=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-517-kyPI3YZUPXWYIekSdoIZ4Q-1; Sun, 03 Dec 2023 21:30:32 -0500
+X-MC-Unique: kyPI3YZUPXWYIekSdoIZ4Q-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC4724EB59;
-	Fri,  1 Dec 2023 18:28:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3274AC433C8;
-	Fri,  1 Dec 2023 18:28:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701455338;
-	bh=GRzvb6K1F09jnFNhMGdAakhzpcFCOUV6/A//CTedh4I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=A81vm8AffuWGRBlTGQ6h8Ukd3z/U1Ud6I5sNaVbK5J3kTwKD/u3+evexovH0kUvYr
-	 PtSE3KDikxJeZNGdGkSNH0mc6fmmAylgGwpToBd04E2B4LbMW14o+TcWeY25snyHDw
-	 fTtnf9n4lwHqrh8lDDaUZCoi9HMWqYsmkT0aVi2nsRZuoTN4oUBdH8i/5U/p/PTbu2
-	 S2lGZJkv12gi0Q+9npLmBClZCuduDTBzgKiVkuRAouu7FmM1eWtUXxo2EweuRo9LfK
-	 ViEAJXevymtpRykKPA7pw6Da9zAy2v538ZItO3J830G494ZzD5isvKvrohPdYQ50j0
-	 m6yojiW2HtnTQ==
-Date: Fri, 1 Dec 2023 18:28:48 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Catalin Marinas <catalin.marinas@arm.com>
-Cc: "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
-	Deepak Gupta <debug@rivosinc.com>,
-	Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
-	"H.J. Lu" <hjl.tools@gmail.com>,
-	Florian Weimer <fweimer@redhat.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Daniel Bristot de Oliveira <bristot@redhat.com>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
-	Will Deacon <will@kernel.org>, Kees Cook <keescook@chromium.org>,
-	jannh@google.com, linux-kselftest@vger.kernel.org,
-	linux-api@vger.kernel.org, David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH RFT v4 0/5] fork: Support shadow stacks in clone3()
-Message-ID: <37a35edb-e72d-4983-8be7-67c56d2292c5@sirena.org.uk>
-References: <20231128-clone3-shadow-stack-v4-0-8b28ffe4f676@kernel.org>
- <ZWjb6r0RWPo199pC@arm.com>
- <fce4c169-5d19-40e8-bc32-0abec9bb008e@sirena.org.uk>
- <ZWoYLs2STGA1LZLU@arm.com>
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 384798007B3;
+	Mon,  4 Dec 2023 02:30:31 +0000 (UTC)
+Received: from fedora (unknown [10.72.120.8])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 1AF4A492BFE;
+	Mon,  4 Dec 2023 02:30:18 +0000 (UTC)
+Date: Mon, 4 Dec 2023 10:30:14 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: John Garry <john.g.garry@oracle.com>
+Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
+	jejb@linux.ibm.com, martin.petersen@oracle.com, djwong@kernel.org,
+	viro@zeniv.linux.org.uk, brauner@kernel.org,
+	chandan.babu@oracle.com, dchinner@redhat.com,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
+	linux-api@vger.kernel.org, ming.lei@redhat.com
+Subject: Re: [PATCH 10/21] block: Add fops atomic write support
+Message-ID: <ZW05th/c0sNbM2Zf@fedora>
+References: <20230929102726.2985188-1-john.g.garry@oracle.com>
+ <20230929102726.2985188-11-john.g.garry@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="CkFryha6tlsnAYUC"
-Content-Disposition: inline
-In-Reply-To: <ZWoYLs2STGA1LZLU@arm.com>
-X-Cookie: The early worm gets the late bird.
-
-
---CkFryha6tlsnAYUC
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230929102726.2985188-11-john.g.garry@oracle.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.10
 
-On Fri, Dec 01, 2023 at 05:30:22PM +0000, Catalin Marinas wrote:
+On Fri, Sep 29, 2023 at 10:27:15AM +0000, John Garry wrote:
+> Add support for atomic writes, as follows:
+> - Ensure that the IO follows all the atomic writes rules, like must be
+>   naturally aligned
+> - Set REQ_ATOMIC
+> 
+> Signed-off-by: John Garry <john.g.garry@oracle.com>
+> ---
+>  block/fops.c | 42 +++++++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 41 insertions(+), 1 deletion(-)
+> 
+> diff --git a/block/fops.c b/block/fops.c
+> index acff3d5d22d4..516669ad69e5 100644
+> --- a/block/fops.c
+> +++ b/block/fops.c
+> @@ -41,6 +41,29 @@ static bool blkdev_dio_unaligned(struct block_device *bdev, loff_t pos,
+>  		!bdev_iter_is_aligned(bdev, iter);
+>  }
+>  
+> +static bool blkdev_atomic_write_valid(struct block_device *bdev, loff_t pos,
+> +			      struct iov_iter *iter)
+> +{
+> +	unsigned int atomic_write_unit_min_bytes =
+> +			queue_atomic_write_unit_min_bytes(bdev_get_queue(bdev));
+> +	unsigned int atomic_write_unit_max_bytes =
+> +			queue_atomic_write_unit_max_bytes(bdev_get_queue(bdev));
+> +
+> +	if (!atomic_write_unit_min_bytes)
+> +		return false;
 
-> Another concern I had was that map_shadow_stack() currently takes
-> a flags arg (though only one flag) while the clone/clone3() allocate the
-> shadow stack with an implicit configuration (other than size). Would
-> map_shadow_stack() ever get new flags that we may also need to set on
-> the default thread shadow stack (e.g. a new permission type)? At that
-> point it would be better if clone3() allowed a shadow stack pointer so
-> that any specific attributes would be limited to map_shadow_stack().
+The above check should have be moved to limit setting code path.
 
-The flags argument currently only lets you specify if a stack switch
-token should be written (which is not relevant for the clone3() case)
-and if a top of stack marker should be included (which since the top of
-stack marker is NULL for arm64 only has perceptible effect if a token is
-being written).  I'm not particularly anticipating any further additions,
-though never say never.
+> +	if (pos % atomic_write_unit_min_bytes)
+> +		return false;
+> +	if (iov_iter_count(iter) % atomic_write_unit_min_bytes)
+> +		return false;
+> +	if (!is_power_of_2(iov_iter_count(iter)))
+> +		return false;
+> +	if (iov_iter_count(iter) > atomic_write_unit_max_bytes)
+> +		return false;
+> +	if (pos % iov_iter_count(iter))
+> +		return false;
 
-> If that's only theoretical, I'm fine to go ahead with a size-only
-> argument for clone3(). We could also add the pointer now and allocate
-> the stack if NULL or reuse it if not, maybe with some prctl to allow
-> this. It might be overengineering and we'd never use such feature
-> though.
+I am a bit confused about relation between atomic_write_unit_max_bytes and
+atomic_write_max_bytes.
 
-Yeah, it seems like a bunch of work and interface to test that I'm not
-convinced anyone would actually use.
+Here the max IO length is limited to be <= atomic_write_unit_max_bytes,
+so looks userspace can only submit IO with write-atomic-unit naturally
+aligned IO(such as, 4k, 8k, 16k, 32k, ...), but these user IOs are
+allowed to be merged to big one if naturally alignment is respected and
+the merged IO size is <= atomic_write_max_bytes.
 
-> > As well as the actual configuration of the size the other thing that we
-> > gain is that as well as relying on heuristics to determine if we need to
-> > allocate a new shadow stack for the new thread we allow userspace to
-> > explicitly request a new shadow stack.
+Is my understanding right? If yes, I'd suggest to document the point,
+and the last two checks could be change to:
 
-> But the reverse is not true - we can't use clone3() to create a thread
-> without a shadow stack AFAICT.
+	/* naturally aligned */
+	if (pos % iov_iter_count(iter))
+		return false;
 
-Right.  Given the existing implicit allocation only x86 ABI we'd need to
-retrofit that by adding an explicit "no shadow stack" flag.  That is
-possible though I'm having a hard time seeing the use case for it.
+	if (iov_iter_count(iter) > atomic_write_max_bytes)
+		return false;
 
---CkFryha6tlsnAYUC
-Content-Type: application/pgp-signature; name="signature.asc"
+Thanks, 
+Ming
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmVqJeAACgkQJNaLcl1U
-h9DzAQf+LrewNdEd54lFym1uNzfqTALngDRzqEQiwyX9OjpXl7qCfKd77el1CZ0K
-CJz64ccqu/oWsPYXYcGbSzzFELkIyPbqIWZ48NeKCGVMapsadRneUI6QO0pONxhV
-UBVjFK0nqQeKMuXZXSPnPQ4r2TP6/8V0GXwpTmI6t2rMAIKgUQ0co0qAQBbVUWVh
-C+V88onP3gYcXwH6uKjmj27pT2gr2vJABiO/VkXt1CSXUlqK9VgG0cPwj/DHIq9X
-RiFY1ItDu4w+4efoNzq6mmX+hbBRDfqWWYzUeJl/XLd/1cDY3ZLB/CCzNvN5s4YW
-PXlpWyT3/osvaRjlXy33OnPqJ7lLQQ==
-=UeuB
------END PGP SIGNATURE-----
-
---CkFryha6tlsnAYUC--
 
