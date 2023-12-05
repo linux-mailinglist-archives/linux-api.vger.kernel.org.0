@@ -1,65 +1,62 @@
-Return-Path: <linux-api+bounces-228-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-229-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3A5280443A
-	for <lists+linux-api@lfdr.de>; Tue,  5 Dec 2023 02:46:25 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF0A48048F5
+	for <lists+linux-api@lfdr.de>; Tue,  5 Dec 2023 05:58:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7E6BF2813EA
-	for <lists+linux-api@lfdr.de>; Tue,  5 Dec 2023 01:46:24 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5BAAFB20C33
+	for <lists+linux-api@lfdr.de>; Tue,  5 Dec 2023 04:58:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A40C1111;
-	Tue,  5 Dec 2023 01:46:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D11DE6123;
+	Tue,  5 Dec 2023 04:58:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GE8WddnC"
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="ULAuEAIm"
 X-Original-To: linux-api@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 129C8107
-	for <linux-api@vger.kernel.org>; Mon,  4 Dec 2023 17:46:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1701740773;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=R1C3Q/KwQSqG9yP6ISOd9Cb0ee81aaiJLrsTwyDo8cI=;
-	b=GE8WddnCqe8U8dogiu0XJn5LLEJNuqegKbU9q5d+TdcRR+DSZaJvMiADw0X+EqebkdDjL0
-	GYmDch4cMnqDSdAVIniy2xIDeGx1WEQvOW0n+uIsRTnfHx9hbB/Ww7PLBA5nt/rnMVYnKG
-	27Atl4aqJq7ENTG9mzU2cCGqF8qoXag=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-394-wLc8U6qJMbyT2DZnFWgRjQ-1; Mon, 04 Dec 2023 20:46:09 -0500
-X-MC-Unique: wLc8U6qJMbyT2DZnFWgRjQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 242C785A5B5;
-	Tue,  5 Dec 2023 01:46:08 +0000 (UTC)
-Received: from fedora (unknown [10.72.120.8])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 6BB08C1596F;
-	Tue,  5 Dec 2023 01:45:58 +0000 (UTC)
-Date: Tue, 5 Dec 2023 09:45:53 +0800
-From: Ming Lei <ming.lei@redhat.com>
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8694CCA
+	for <linux-api@vger.kernel.org>; Mon,  4 Dec 2023 20:58:34 -0800 (PST)
+Received: from cwcc.thunk.org (pool-173-48-111-98.bstnma.fios.verizon.net [173.48.111.98])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 3B54tdZl016948
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 4 Dec 2023 23:55:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1701752144; bh=xY31OtXpm6KSv94nmxlfIijYjDNR0HuHd+Om4l/DRL4=;
+	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+	b=ULAuEAImbbRp/EKwZ7vqMIWXT6OjmvjIgkTgGyD2NyabpELmR3xt1M7Wv5tFphTNy
+	 XiZVg+kRB4tu3DD9cFnL521xALsq037uudWRmRUK7vkgoYcEoqgB+Htr4GUEL0xIyy
+	 LNPjeRK8WI4kaZRcQ+8btulffIuW+dUqWHrMOgabNvPzMOdbmgmh9p5eHW3WRVb/ep
+	 Yi7dzwjk72n8SsYenWwqy0BIa468+PEZe3uAIMnixXE8eMy6TAzFNehDAUg68SjnCk
+	 /52qTNwdL2JoY1vDMEizYdaR4Y9c40vZA++hZxVi6HpdiFL1SvlEc/7gPguBe1Lv+1
+	 /K1ac43DNI/4Q==
+Received: by cwcc.thunk.org (Postfix, from userid 15806)
+	id 626A415C02E0; Mon,  4 Dec 2023 23:55:39 -0500 (EST)
+Date: Mon, 4 Dec 2023 23:55:39 -0500
+From: "Theodore Ts'o" <tytso@mit.edu>
 To: John Garry <john.g.garry@oracle.com>
-Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
-	jejb@linux.ibm.com, martin.petersen@oracle.com, djwong@kernel.org,
-	viro@zeniv.linux.org.uk, brauner@kernel.org,
-	chandan.babu@oracle.com, dchinner@redhat.com,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
-	linux-api@vger.kernel.org
-Subject: Re: [PATCH 10/21] block: Add fops atomic write support
-Message-ID: <ZW6A0R04Gk/04EHj@fedora>
+Cc: Christoph Hellwig <hch@lst.de>, axboe@kernel.dk, kbusch@kernel.org,
+        sagi@grimberg.me, jejb@linux.ibm.com, martin.petersen@oracle.com,
+        djwong@kernel.org, viro@zeniv.linux.org.uk, brauner@kernel.org,
+        chandan.babu@oracle.com, dchinner@redhat.com,
+        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-nvme@lists.infradead.org, linux-xfs@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, jbongio@google.com,
+        linux-api@vger.kernel.org
+Subject: Re: [PATCH 17/21] fs: xfs: iomap atomic write support
+Message-ID: <20231205045539.GH509422@mit.edu>
 References: <20230929102726.2985188-1-john.g.garry@oracle.com>
- <20230929102726.2985188-11-john.g.garry@oracle.com>
- <ZW05th/c0sNbM2Zf@fedora>
- <03a87103-0721-412c-92f5-9fd605dc0c74@oracle.com>
- <ZW3DracIEH7uTyEA@fedora>
- <bd639010-2ad7-4379-ba0a-64b5f6ebec41@oracle.com>
+ <20230929102726.2985188-18-john.g.garry@oracle.com>
+ <20231109152615.GB1521@lst.de>
+ <a50a16ca-d4b9-a4d8-4230-833d82752bd2@oracle.com>
+ <c78bcca7-8f09-41c7-adf0-03b42cde70d6@oracle.com>
+ <20231128135619.GA12202@lst.de>
+ <e4fb6875-e552-45aa-b193-58f15d9a786c@oracle.com>
+ <20231204134509.GA25834@lst.de>
+ <a87d48a7-f2a8-40ae-8d9b-e4534ccc29b1@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -68,126 +65,52 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <bd639010-2ad7-4379-ba0a-64b5f6ebec41@oracle.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.8
+In-Reply-To: <a87d48a7-f2a8-40ae-8d9b-e4534ccc29b1@oracle.com>
 
-On Mon, Dec 04, 2023 at 01:13:55PM +0000, John Garry wrote:
+On Mon, Dec 04, 2023 at 03:19:15PM +0000, John Garry wrote:
+> > 
+> > What is the 'dubious amazon torn-write prevention'?
 > 
-> > > 
-> > > I added this here (as opposed to the caller), as I was not really worried
-> > > about speeding up the failure path. Are you saying to call even earlier in
-> > > submission path?
-> > atomic_write_unit_min is one hardware property, and it should be checked
-> > in blk_queue_atomic_write_unit_min_sectors() from beginning, then you
-> > can avoid this check every other where.
+> https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/storage-twp.html
 > 
-> ok, but we still need to ensure in the submission path that the block device
-> actually supports atomic writes - this was the initial check.
+> AFAICS, this is without any kernel changes, so no guarantee of unwanted
+> splitting or merging of bios.
 
-Then you may add one helper bdev_support_atomic_write().
+Well, more than one company has audited the kernel paths, and it turns
+out that for selected Kernel versions, after doing desk-check
+verification of the relevant kernel baths, as well as experimental
+verification via testing to try to find torn writes in the kernel, we
+can make it safe for specific kernel versions which might be used in
+hosted MySQL instances where we control the kernel, the mysql server,
+and the emulated block device (and we know the database is doing
+Direct I/O writes --- this won't work for PostgreSQL).  I gave a talk
+about this at Google I/O Next '18, five years ago[1].
 
-> 
-> > 
-> > > > > +	if (pos % atomic_write_unit_min_bytes)
-> > > > > +		return false;
-> > > > > +	if (iov_iter_count(iter) % atomic_write_unit_min_bytes)
-> > > > > +		return false;
-> > > > > +	if (!is_power_of_2(iov_iter_count(iter)))
-> > > > > +		return false;
-> > > > > +	if (iov_iter_count(iter) > atomic_write_unit_max_bytes)
-> > > > > +		return false;
-> > > > > +	if (pos % iov_iter_count(iter))
-> > > > > +		return false;
-> > > > I am a bit confused about relation between atomic_write_unit_max_bytes and
-> > > > atomic_write_max_bytes.
-> > > I think that naming could be improved. Or even just drop merging (and
-> > > atomic_write_max_bytes concept) until we show it to improve performance.
-> > > 
-> > > So generally atomic_write_unit_max_bytes will be same as
-> > > atomic_write_max_bytes, however it could be different if:
-> > > a. request queue nr hw segments or other request queue limits needs to
-> > > restrict atomic_write_unit_max_bytes
-> > > b. atomic_write_unit_max_bytes does not need to be a power-of-2 and
-> > > atomic_write_max_bytes does. So essentially:
-> > > atomic_write_unit_max_bytes = rounddown_pow_of_2(atomic_write_max_bytes)
-> > > 
-> > plug merge often improves sequential IO perf, so if the hardware supports
-> > this way, I think 'atomic_write_max_bytes' should be supported from the
-> > beginning, such as:
-> > 
-> > - user space submits sequential N * (4k, 8k, 16k, ...) atomic writes, all can
-> > be merged to single IO request, which is issued to driver.
-> > 
-> > Or
-> > 
-> > - user space submits sequential 4k, 4k, 8k, 16K, 32k, 64k atomic writes, all can
-> > be merged to single IO request, which is issued to driver.
-> 
-> Right, we do expect userspace to use a fixed block size, but we give scope
-> in the API to use variable size.
+[1] https://www.youtube.com/watch?v=gIeuiGg-_iw
 
-Maybe it is enough to just take atomic_write_unit_min_bytes
-only, and allow length to be N * atomic_write_unit_min_bytes.
+Given the performance gains (see the talk (see the comparison of the
+at time 19:31 and at 29:57) --- it's quite compelling. 
 
-But it may violate atomic write boundary?
+Of course, I wouldn't recommend this approach for a naive sysadmin,
+since most database adminsitrators won't know how to audit kernel code
+(see the discussion at time 35:10 of the video), and reverify the
+entire software stack before every kernel upgrade.  The challenge is
+how to do this safely.
 
-> 
-> > 
-> > The hardware should recognize unit size by start LBA, and check if length is
-> > valid, so probably the interface might be relaxed to:
-> > 
-> > 1) start lba is unit aligned, and this unit is in the supported unit
-> > range(power_2 in [unit_min, unit_max])
-> > 
-> > 2) length needs to be:
-> > 
-> > - N * this_unit_size
-> > - <= atomic_write_max_bytes
-> 
-> Please note that we also need to consider:
-> - any atomic write boundary (from NVMe)
+The fact remains that both Amazon's EBS and Google's Persistent Disk
+products are implemented in such a way that writes will not be torn
+below the virtual machine, and the guarantees are in fact quite a bit
+stronger than what we will probably end up advertising via NVMe and/or
+SCSI.  It wouldn't surprise me if this is the case (or could be made
+to be the case) For Oracle Cloud as well.
 
-Can you provide actual NVMe boundary value?
+The question is how to make this guarantee so that the kernel knows
+when various cloud-provided block devicse do provide these greater
+guarantees, and then how to make it be an architected feature, as
+opposed to a happy implementation detail that has to be verified at
+every kernel upgrade.
 
-Firstly natural aligned write won't cross boundary, so boundary should
-be >= write_unit_max, see blow code from patch 10/21:
+Cheers,
 
-+static bool bio_straddles_atomic_write_boundary(loff_t bi_sector,
-+				unsigned int bi_size,
-+				unsigned int boundary)
-+{
-+	loff_t start = bi_sector << SECTOR_SHIFT;
-+	loff_t end = start + bi_size;
-+	loff_t start_mod = start % boundary;
-+	loff_t end_mod = end % boundary;
-+
-+	if (end - start > boundary)
-+		return true;
-+	if ((start_mod > end_mod) && (start_mod && end_mod))
-+		return true;
-+
-+	return false;
-+}
-+
-
-Then if the WRITE size is <= boundary, the above function should return
-false, right? Looks like it is power_of(2) & aligned atomic_write_max_bytes?
-
-> - virt boundary (from NVMe)
-
-virt boundary is applied on bv_offset and bv_len, and NVMe's virt
-bounary is (4k - 1), it shouldn't be one issue in reality.
-
-> 
-> And, as I mentioned elsewhere, I am still not 100% comfortable that we don't
-> pay attention to regular max_sectors_kb...
-
-max_sectors_kb should be bigger than atomic_write_max_bytes actually,
-then what is your concern?
-
-
-
-Thanks,
-Ming
-
+						- Ted
 
