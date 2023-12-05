@@ -1,76 +1,58 @@
-Return-Path: <linux-api+bounces-249-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-250-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E75A3805C97
-	for <lists+linux-api@lfdr.de>; Tue,  5 Dec 2023 18:51:39 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48F81805D4F
+	for <lists+linux-api@lfdr.de>; Tue,  5 Dec 2023 19:26:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 24DE51C2103F
-	for <lists+linux-api@lfdr.de>; Tue,  5 Dec 2023 17:51:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7A4001C20FE5
+	for <lists+linux-api@lfdr.de>; Tue,  5 Dec 2023 18:26:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 724956A32F;
-	Tue,  5 Dec 2023 17:51:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17D5C68B97;
+	Tue,  5 Dec 2023 18:26:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R8bjdApn"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HYhLgwkS"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com [IPv6:2607:f8b0:4864:20::112e])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B667188;
-	Tue,  5 Dec 2023 09:51:30 -0800 (PST)
-Received: by mail-yw1-x112e.google.com with SMTP id 00721157ae682-5d95a3562faso18787597b3.2;
-        Tue, 05 Dec 2023 09:51:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701798690; x=1702403490; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7LXGGLKq7Z8pmpqdiDr0S+r8xceEAR8zgb0x49rS3sI=;
-        b=R8bjdApnww8WC3o+WSiy8NhKdZDvh2RQ6IIXltqPCit4tt5edUruWnTnKbKw8JMgoW
-         AaslWx1XjedWqsGL8+ol6gyZCIGB4IfTo6BVdsFf0xr1CffM1f+JowJuLBEu7RiYLs5r
-         eSEt1tQHR4FGE0hIKkPbW+ZmlLqgDjZHbnA0jQUSd1g9rUyaxJO/WDeUclxAnxyOsIyh
-         efyXUea0Aml+iBi1cY2mdavZb2Sq5s21nhAmvC/uTKR0r9GubJZFZvU5Rpm2N197r7IJ
-         hZuBqi6yElLl/P4Km6wzcUz4VfBhPTqLUyFGrxFfFeAe6RWbcvzNpEtdLRi2MW5jeyGK
-         0KiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701798690; x=1702403490;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7LXGGLKq7Z8pmpqdiDr0S+r8xceEAR8zgb0x49rS3sI=;
-        b=FK1zrswlE/RWF1BhhEvKb3r6PSSP1HYdSDkjqJaUOSEjaC/yOgL+kO2n42JDXyUHfd
-         8IJqSZutN9w5Qe4mCA5PaaBJoSuHuep8+LGDxZZZmpKeT8PdgncpvyY7UYbO5fnJtj/g
-         OIHmGIK1YFdLkL+SxyXc6U8t8yUh45m/46Kk/SkYRRhA16jWxnjztVpkaYog4l08Arwb
-         dfJ3XWkUD4JHOSZqe8aAqpxgSDWdmi1vv7YM4KVNaXuTfhAgituj002T78/HQsKC1P9l
-         mCIQACXpqXTY2OLm8VyJu/FlMtYb56/QVJPpksyS/RlrWHiIzjR1zSJWdL/jCk1jp3j6
-         xoKg==
-X-Gm-Message-State: AOJu0YzQgXEYeE+943yRIWxieijHu92bEs8DZd3CHPbh+QNUYpvqmeSJ
-	Pxk323pgzB6TDg8aNu4F+wE=
-X-Google-Smtp-Source: AGHT+IFdOwamQNuxLTN6hj36+e1/fLL+aOtl+lmhjkUdffr8tXVDulQ2jRf06EAqBbOEAEkQbeQRbQ==
-X-Received: by 2002:a81:48cf:0:b0:5a8:204c:5c9b with SMTP id v198-20020a8148cf000000b005a8204c5c9bmr5089876ywa.18.1701798689227;
-        Tue, 05 Dec 2023 09:51:29 -0800 (PST)
-Received: from firmament.. ([89.187.171.244])
-        by smtp.gmail.com with ESMTPSA id o5-20020a0de505000000b0059a34cfa2a5sm4327132ywe.67.2023.12.05.09.51.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Dec 2023 09:51:29 -0800 (PST)
-From: Matthew House <mattlloydhouse@gmail.com>
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F81910EC
+	for <linux-api@vger.kernel.org>; Tue,  5 Dec 2023 10:26:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1701800796;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9vLZwFal9fP9J1mspSe58NdnT8TEzp8c71VShhTDYr8=;
+	b=HYhLgwkSKOsRJ5by1evzuScU6bJnfGv4qmIVgXRVikdMWKAqax7Jo53rQ370fpXlNfZd8x
+	9714vx8vnUB71BggLcKjbwvttY9oOnEy4D095FLhkIExNr2jLm1ce42yPyLQwnh0N/tfcg
+	AMv6aeYfwVjgiiNN6MIyOfAj17sDfAQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-459-nm6oeEwhOLyrD1M9IU2apA-1; Tue, 05 Dec 2023 13:26:34 -0500
+X-MC-Unique: nm6oeEwhOLyrD1M9IU2apA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C8AD5836F22;
+	Tue,  5 Dec 2023 18:26:33 +0000 (UTC)
+Received: from ws.net.home (unknown [10.45.225.175])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id DB3141C060AF;
+	Tue,  5 Dec 2023 18:26:31 +0000 (UTC)
+Date: Tue, 5 Dec 2023 19:26:29 +0100
+From: Karel Zak <kzak@redhat.com>
 To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: libc-alpha@sourceware.org,
-	linux-man <linux-man@vger.kernel.org>,
+Cc: libc-alpha@sourceware.org, linux-man <linux-man@vger.kernel.org>,
 	Alejandro Colomar <alx@kernel.org>,
 	Linux API <linux-api@vger.kernel.org>,
-	Florian Weimer <fweimer@redhat.com>,
-	linux-fsdevel@vger.kernel.org,
-	Karel Zak <kzak@redhat.com>,
-	Ian Kent <raven@themaw.net>,
-	David Howells <dhowells@redhat.com>,
+	Florian Weimer <fweimer@redhat.com>, linux-fsdevel@vger.kernel.org,
+	Ian Kent <raven@themaw.net>, David Howells <dhowells@redhat.com>,
 	Christian Brauner <christian@brauner.io>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>
+	Amir Goldstein <amir73il@gmail.com>, Arnd Bergmann <arnd@arndb.de>
 Subject: Re: [RFC] proposed libc interface and man page for listmount
-Date: Tue,  5 Dec 2023 12:51:10 -0500
-Message-ID: <20231205175117.686780-1-mattlloydhouse@gmail.com>
-In-Reply-To: <CAJfpeguMViqawKfJtM7_M9=m+6WsTcPfa_18t_rM9iuMG096RA@mail.gmail.com>
+Message-ID: <20231205182629.qk5s6f7m7sas4anh@ws.net.home>
 References: <CAJfpeguMViqawKfJtM7_M9=m+6WsTcPfa_18t_rM9iuMG096RA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
@@ -78,38 +60,40 @@ List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJfpeguMViqawKfJtM7_M9=m+6WsTcPfa_18t_rM9iuMG096RA@mail.gmail.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.7
 
-On Tue, Dec 5, 2023 at 11:28 AM Miklos Szeredi <miklos@szeredi.hu> wrote:
+On Tue, Dec 05, 2023 at 05:27:58PM +0100, Miklos Szeredi wrote:
 > Attaching the proposed man page for listing mounts (based on the new
 > listmount() syscall).
->
+> 
 > The raw interface is:
->
+> 
 >        syscall(__NR_listmount, const struct mnt_id_req __user *, req,
->                   u64 __user *, buf, size_t, bufsize, unsigned int, flags=
-);
->
+>                   u64 __user *, buf, size_t, bufsize, unsigned int, flags);
+> 
 > The proposed libc API is.
->
->        struct listmount *listmount_start(uint64_t mnt_id, unsigned int fl=
-ags);
+> 
+>        struct listmount *listmount_start(uint64_t mnt_id, unsigned int flags);
 >        uint64_t listmount_next(struct listmount *lm);
 >        void listmount_end(struct listmount *lm);
->
-> I'm on the opinion that no wrapper is needed for the raw syscall, just
-> like there isn't one for getdents(2).
->
-> Comments?
 
-One use case I've been thinking of involves inspecting the mount list
-between syscall(__NR_clone3) and _exit(), so it has to be async-signal-
-safe. It would be nice if there were a libc wrapper that accepted a user-
-provided buffer and was async-signal-safe, so that I wouldn't have to add
-yet another syscall wrapper and redefine the kernel types just for this
-use case. (I can't trust the libc not to make its own funny versions of the
-types' layouts for its own ends.)
+What about:
 
-Thank you,
-Matthew House
+    getmountlist()
+    nextmountlist()
+    freemountlist()
+
+For me, _start and _end() sounds strange. For example, We already use
+get+free for getaddrinfo().
+
+    Karel
+
+
+-- 
+ Karel Zak  <kzak@redhat.com>
+ http://karelzak.blogspot.com
+
 
