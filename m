@@ -1,142 +1,95 @@
-Return-Path: <linux-api+bounces-241-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-242-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4B578056A3
-	for <lists+linux-api@lfdr.de>; Tue,  5 Dec 2023 14:59:38 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 793C080574B
+	for <lists+linux-api@lfdr.de>; Tue,  5 Dec 2023 15:26:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2693C1C20FE6
-	for <lists+linux-api@lfdr.de>; Tue,  5 Dec 2023 13:59:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 32E6F281833
+	for <lists+linux-api@lfdr.de>; Tue,  5 Dec 2023 14:26:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C30061696;
-	Tue,  5 Dec 2023 13:59:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A1F565EBB;
+	Tue,  5 Dec 2023 14:26:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JN++hwSb"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Je+fNcYY"
 X-Original-To: linux-api@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 074EAB2
-	for <linux-api@vger.kernel.org>; Tue,  5 Dec 2023 05:59:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1701784767;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=79PD3d2kumFOy7A9eRn22aWg7Y9KfDQNCF0FEIsFKv8=;
-	b=JN++hwSbeEtvYIDQEnTocqRIwTKPwizQ8MLJCNogk37MfOmNrssTygAM7/UMLO7BWL1Bhg
-	QnmDrKXb6arKiNmKG0UIeiF4iH4dqLYa0m19StL4rQgcVi3tPLAE5C2jCsQ49MbRsc4BcS
-	VtYGxBggNq7haR8TqYzROq4xVuFtiV4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-80-uCsCU4nHN_ezAkIn8k7hWw-1; Tue, 05 Dec 2023 08:59:24 -0500
-X-MC-Unique: uCsCU4nHN_ezAkIn8k7hWw-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E090885A58C;
-	Tue,  5 Dec 2023 13:59:22 +0000 (UTC)
-Received: from fedora (unknown [10.72.120.3])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 1A5A8492BC7;
-	Tue,  5 Dec 2023 13:59:12 +0000 (UTC)
-Date: Tue, 5 Dec 2023 21:59:08 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: John Garry <john.g.garry@oracle.com>
-Cc: Christoph Hellwig <hch@lst.de>, axboe@kernel.dk, kbusch@kernel.org,
-	sagi@grimberg.me, jejb@linux.ibm.com, martin.petersen@oracle.com,
-	djwong@kernel.org, viro@zeniv.linux.org.uk, brauner@kernel.org,
-	chandan.babu@oracle.com, dchinner@redhat.com,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
-	linux-api@vger.kernel.org
-Subject: Re: [PATCH 17/21] fs: xfs: iomap atomic write support
-Message-ID: <ZW8srC5hTWOGF5ts@fedora>
-References: <20230929102726.2985188-1-john.g.garry@oracle.com>
- <20230929102726.2985188-18-john.g.garry@oracle.com>
- <20231109152615.GB1521@lst.de>
- <a50a16ca-d4b9-a4d8-4230-833d82752bd2@oracle.com>
- <c78bcca7-8f09-41c7-adf0-03b42cde70d6@oracle.com>
- <20231128135619.GA12202@lst.de>
- <e4fb6875-e552-45aa-b193-58f15d9a786c@oracle.com>
- <20231204134509.GA25834@lst.de>
- <a87d48a7-f2a8-40ae-8d9b-e4534ccc29b1@oracle.com>
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B54C290;
+	Tue,  5 Dec 2023 06:26:26 -0800 (PST)
+Received: by mail-wm1-x336.google.com with SMTP id 5b1f17b1804b1-40b5155e154so61390465e9.3;
+        Tue, 05 Dec 2023 06:26:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701786385; x=1702391185; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Op8EMMLSn4u+aBPhlPBNq3QMTgHXM3GBpRsFBgi0BfQ=;
+        b=Je+fNcYYEL+oFZXHBG4vyEm4q3MDARjCNpqHxjZnjM73qqZMRPVD7xWZibgPTy3/qZ
+         cZ8IXlBB5x0tjJMdxDVWKk3z3BjzFi3X1paWRN+UEdh+T3DddyG+cimxxBfEEFaBW6E/
+         ksHVOnfKLbiMXQk9AGNjof23UTBc9YcjXzmsaZH5pbEVa6P+wzBYPzH5cu7dKdJtrQMh
+         uKQ/r54G+UJpU6cqaRA3UmR9U7XTCcCTE2WMnHPL8Epk49F602I7KbEMwBGF1/hvwnNo
+         dOXjcZoiWBK9RZeYs5Fi76sJn4nFe7doVl6pARNwGz4QT1cIckkCePFkTQLeXxmbSHUG
+         gxHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701786385; x=1702391185;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Op8EMMLSn4u+aBPhlPBNq3QMTgHXM3GBpRsFBgi0BfQ=;
+        b=dzH6VgYL2LMwnS30vzjJhaVXTq31R7cx0QQDTbh92Wrco9v9OBnX8Lc8ST1acPKaPU
+         VZL56HFq97M/uWJv4ERUImKDOo6fdDRLu7zpBgqyaIdexAav3qJZKTAMLGQ9uoQki/cQ
+         NBQgparuqcNzUelqonsVzhTJ14wXb4vW8/nCt1jH0RaX9TuVEXKOnwxkvWCyGaIBlI8G
+         nwazp/4BLRmfxQePJgk1/I0Si5Rn6tCw1uHu+DLwT5m4wGOgACiGJ/nVLbei6YyBU80t
+         ezpCKatvYywYsIjnqgc74uQmGhwPUaoLT6/2yegvHwvIMYiegkfCj+DcvOs7zlByIMoy
+         2t+Q==
+X-Gm-Message-State: AOJu0YwzAzKu92baV5gGxaknFvOj9FhAHzuvVJJIljX+N/DtMD+DePBx
+	judPtpq3C2Tfz64Ke2OgfGhN0bjE6Q==
+X-Google-Smtp-Source: AGHT+IHHROYIemcb/wsY8oPQMU7gMIn1gsTtBT9VDn93wCGrv8ctub0VOQUxcGsJwZ8m28SEOnej3w==
+X-Received: by 2002:a05:600c:4f50:b0:40b:5e1f:6fd9 with SMTP id m16-20020a05600c4f5000b0040b5e1f6fd9mr501528wmq.46.1701786384964;
+        Tue, 05 Dec 2023 06:26:24 -0800 (PST)
+Received: from p183 ([46.53.254.107])
+        by smtp.gmail.com with ESMTPSA id t20-20020a05600c451400b004094e565e71sm19022491wmo.23.2023.12.05.06.26.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Dec 2023 06:26:24 -0800 (PST)
+Date: Tue, 5 Dec 2023 17:26:22 +0300
+From: Alexey Dobriyan <adobriyan@gmail.com>
+To: Florian Weimer <fweimer@redhat.com>
+Cc: akpm@linux-foundation.org, linux-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+	x86@kernel.org
+Subject: Re: [PATCH] ELF: supply userspace with available page shifts
+ (AT_PAGE_SHIFT_LIST)
+Message-ID: <75344429-1f34-4a14-ab10-8613846d694e@p183>
+References: <6b399b86-a478-48b0-92a1-25240a8ede54@p183>
+ <87v89dvuxg.fsf@oldenburg.str.redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <a87d48a7-f2a8-40ae-8d9b-e4534ccc29b1@oracle.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.9
+In-Reply-To: <87v89dvuxg.fsf@oldenburg.str.redhat.com>
 
-On Mon, Dec 04, 2023 at 03:19:15PM +0000, John Garry wrote:
-> On 04/12/2023 13:45, Christoph Hellwig wrote:
-> > On Tue, Nov 28, 2023 at 05:42:10PM +0000, John Garry wrote:
-> > > ok, fine, it would not be required for XFS with CoW. Some concerns still:
-> > > a. device atomic write boundary, if any
-> > > b. other FSes which do not have CoW support. ext4 is already being used for
-> > > "atomic writes" in the field - see dubious amazon torn-write prevention.
-> > 
-> > What is the 'dubious amazon torn-write prevention'?
+On Tue, Dec 05, 2023 at 10:51:39AM +0100, Florian Weimer wrote:
+> * Alexey Dobriyan:
 > 
-> https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/storage-twp.html
+> > +/*
+> > + * Page sizes available for mmap(2) encoded as 1 page shift per byte in
+> > + * increasing order.
+> > + *
+> > + * Thus 32-bit systems get 4 shifts, 64-bit systems get 8 shifts tops.
 > 
-> AFAICS, this is without any kernel changes, so no guarantee of unwanted
-> splitting or merging of bios.
-> 
-> Anyway, there will still be !CoW FSes which people want to support.
-> 
-> > 
-> > > About b., we could add the pow-of-2 and file offset alignment requirement
-> > > for other FSes, but then need to add some method to advertise that
-> > > restriction.
-> > 
-> > We really need a better way to communicate I/O limitations anyway.
-> > Something like XFS_IOC_DIOINFO on steroids.
-> > 
-> > > Sure, but to me it is a concern that we have 2x paths to make robust a.
-> > > offload via hw, which may involve CoW b. no HW support, i.e. CoW always
-> > 
-> > Relying just on the hardware seems very limited, especially as there is
-> > plenty of hardware that won't guarantee anything larger than 4k, and
-> > plenty of NVMe hardware without has some other small limit like 32k
-> > because it doesn't support multiple atomicy mode.
-> 
-> So what would you propose as the next step? Would it to be first achieve
-> atomic write support for XFS with HW support + CoW to ensure contiguous
-> extents (and without XFS forcealign)?
-> 
-> > 
-> > > And for no HW support, if we don't follow the O_ATOMIC model of committing
-> > > nothing until a SYNC is issued, would we allocate, write, and later free a
-> > > new extent for each write, right?
-> > 
-> > Yes. Then again if you do data journalling you do that anyway, and as
-> > one little project I'm doing right now shows that data journling is
-> > often the fastest thing we can do for very small writes.
-> 
-> Ignoring FSes, then how is this supposed to work for block devices? We just
-> always need HW support, right?
+> Couldn't you use the bits in a long instead, to indicate which shifts
+> are present?  That's always going to be enough.
 
-Looks the HW support could be minimized, just like what Google and Amazon did,
-16KB physical block size with proper queue limit setting.
+Yes!
 
-Now seems it is easy to make such device with ublk-loop by:
+I was so proud of myself for this line:
 
-- use one backing disk with 16KB/32KB/.. physical block size
-- expose proper physical bs & chunk_sectors & max sectors queue limit
+	val |= 21 << (s += 8);
 
-Then any 16KB aligned direct WRITE with N*16KB length(N in [1, 8] with 256
-chunk_sectors) can be atomic-write.
-
-
-
-Thanks,
-Ming
-
+Now it is boring bitmask again :-)
 
