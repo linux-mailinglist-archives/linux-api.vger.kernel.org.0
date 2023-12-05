@@ -1,151 +1,191 @@
-Return-Path: <linux-api+bounces-232-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-234-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71DB2804CF4
-	for <lists+linux-api@lfdr.de>; Tue,  5 Dec 2023 09:51:56 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9F4E804D14
+	for <lists+linux-api@lfdr.de>; Tue,  5 Dec 2023 10:02:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BEE39B20C03
-	for <lists+linux-api@lfdr.de>; Tue,  5 Dec 2023 08:51:53 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 95FE92815B5
+	for <lists+linux-api@lfdr.de>; Tue,  5 Dec 2023 09:02:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B06F13C067;
-	Tue,  5 Dec 2023 08:51:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68CC13D3B3;
+	Tue,  5 Dec 2023 09:02:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="rY6nmgxx"
+	dkim=pass (2048-bit key) header.d=micron.com header.i=@micron.com header.b="XG0L0iU9"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2a07:de40:b251:101:10:150:64:1])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 048C7C9;
-	Tue,  5 Dec 2023 00:51:45 -0800 (PST)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 7B79921F68;
-	Tue,  5 Dec 2023 08:51:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1701766303; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iYZrHcRKmIrpOYrKMr35EBcUWS2p3IpXTZ63lUIPXII=;
-	b=rY6nmgxxV/dp2Txfm9owLYj4Xm0chzSf5QtJ9SHZhSfsxUm8HpyKu2Di1fmddShakHu/lo
-	lxUyRPsPuOy3Ws+nldU7ljrsKFaPZp5lJXD4Gcgt7QtfPX/R6i+PiZnRdf06YrsP8183/b
-	LGHmH3HZswyx3flQnuYHj8AcLNNjH9Q=
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 71D6B136CF;
-	Tue,  5 Dec 2023 08:51:43 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id k77CG5/kbmXvQgAAD6G6ig
-	(envelope-from <mhocko@suse.com>); Tue, 05 Dec 2023 08:51:43 +0000
-Date: Tue, 5 Dec 2023 09:51:39 +0100
-From: Michal Hocko <mhocko@suse.com>
-To: Srinivasulu Thanneeru <sthanneeru.opensrc@micron.com>
-Cc: aneesh.kumar@linux.ibm.com, linux-cxl@vger.kernel.org,
-	linux-mm@kvack.org, dan.j.williams@intel.com, hannes@cmpxchg.org,
-	hasanalmaruf@fb.com, haowang3@fb.com, ying.huang@intel.com,
-	gregory.price@memverge.com, tj@kernel.org,
-	hezhongkun.hzk@bytedance.com, fvdl@google.com, john@jagalactic.com,
-	emirakhur@micron.com, vtavarespetr@micron.com,
-	Ravis.OpenSrc@micron.com, Jonathan.Cameron@huawei.com,
-	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
-Subject: Re: [EXT] Re: [RFC PATCH 0/2] Node migration between memory tiers
-Message-ID: <ZW7km-SED5oIGGnZ@tiehlicka>
-References: <20231130220422.2033-1-sthanneeru.opensrc@micron.com>
- <ZW3zl2Fke5FtQCv3@tiehlicka>
- <1db561a9-6984-418d-9305-a2a5ece93696@micron.com>
- <ZW7g4ExYF79gMEBU@tiehlicka>
- <2552828e-6865-4fa8-a9c4-8ed76dd85257@micron.com>
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF9B4186;
+	Tue,  5 Dec 2023 01:02:37 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ifRV/QVGiHyNAipob3b5IUUpXQFMZ3EbgnVsZvkYcg0bo9s1rMiXxMDxPsChpNFD4e7vQMICU05B4S5AMl7brktA7FUDVy5PvqVeHDuH6hoxt5GI6uFJwTBgCQXCGKyDkKygpclMCnKKChf//Ub2ETtsQBcxwE4Wk5nXL1QA7UzB5/7ni5o3Z+0SyBnR+DpjE+sfSPPfUowAI0F+bfc+m+5je0rxXI6iP/B4jnbT2fi9XWqgGO4npWhWTbxEUufqoUTmUO1kKs0HBaERvfBKBPx40+28HQkh67IcPD4hY9x5UAydsUDCvB1nKy1LbFQZ/zk0Rn4I1fkVUy2V+Pp+qg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QYY1dlKz7XRZSHjkJle7feKn+k9Cgkr7NBlAOAoWdKE=;
+ b=AFTRGE+gD5wQjxe2HYRFqXd2XSnAySLUW/yo9LlIvl1mfdUtxsuv1QjHqLsEMgfFj+iaePxVWYSHfhRrt1C8fSG6AG+eKX7PWXM7UWSKHDxtfuU+4bLDTFNeP6zohpgZKnSAN5lZVAqCI6ommIiW7I7opPH5s0nVmH2rRiLtOGjGgYnCqPvj326OIz+yu/+E0Zw0kCqKLKRPAG0pDO9FUR4yNn47zEEAgxfPCNV9NoixJghYwdmCOv4oKdHRaS06WvBFDVcdJTRr06TTkISFHilXcuzTTHY0CWoPysiQExOYpob8VAHIR41w1CM4apvQvyO8SnGvBzLnoAexOPt8AA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 137.201.242.130) smtp.rcpttodomain=suse.com smtp.mailfrom=micron.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=micron.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=micron.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QYY1dlKz7XRZSHjkJle7feKn+k9Cgkr7NBlAOAoWdKE=;
+ b=XG0L0iU9PeFPATRUe45PAharioBZEXUDoazY1daDrN2O3r8dc2refzE9BStsWZRwPrljHv5MOw96XWL0DbKYxyBbHagEGXlhcax4yOgZ2qW8UuVnuM9K0sA5pEZtotKXXT5XVHwbJqEUoWSgKia+n6s8igFysm8E9czWIBKUhMRjpykV5E9ndcFz9cHe4QKkfRbIk68P94Pa43j+sFYdevECBpQDsea4O0IPEyX3+5jFAh3vGnAMsSkMqqxj1mIbRHbDLvTBYHaZ4H+r9t+WxvK2dBTPfkxRtQzxyUI2Ja1nWzxgu6W0WrwNaL+YpjzOmIzmHIy9iAe4oUVLHiIiMg==
+Received: from BN9P221CA0014.NAMP221.PROD.OUTLOOK.COM (2603:10b6:408:10a::19)
+ by CYXPR08MB9261.namprd08.prod.outlook.com (2603:10b6:930:d8::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.34; Tue, 5 Dec
+ 2023 09:02:33 +0000
+Received: from SN1PEPF0002BA50.namprd03.prod.outlook.com
+ (2603:10b6:408:10a:cafe::a) by BN9P221CA0014.outlook.office365.com
+ (2603:10b6:408:10a::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.33 via Frontend
+ Transport; Tue, 5 Dec 2023 09:02:32 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 137.201.242.130)
+ smtp.mailfrom=micron.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=micron.com;
+Received-SPF: Pass (protection.outlook.com: domain of micron.com designates
+ 137.201.242.130 as permitted sender) receiver=protection.outlook.com;
+ client-ip=137.201.242.130; helo=mail.micron.com; pr=C
+Received: from mail.micron.com (137.201.242.130) by
+ SN1PEPF0002BA50.mail.protection.outlook.com (10.167.242.73) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7068.20 via Frontend Transport; Tue, 5 Dec 2023 09:02:32 +0000
+Received: from BOW36EX19B.micron.com (137.201.85.154) by BOW36EX19B.micron.com
+ (137.201.85.154) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.27; Tue, 5 Dec
+ 2023 02:02:29 -0700
+Received: from [10.3.101.85] (10.3.101.85) by
+ RestrictedRelayBOW36EX19B.micron.com (137.201.85.154) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.27 via Frontend Transport; Tue, 5 Dec 2023 02:02:22 -0700
+Message-ID: <8eae7d95-fc98-4ac7-8f83-d0caee00bc87@micron.com>
+Date: Tue, 5 Dec 2023 14:32:20 +0530
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2552828e-6865-4fa8-a9c4-8ed76dd85257@micron.com>
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 MIME_GOOD(-0.10)[text/plain];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.com:s=susede1];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 RCPT_COUNT_TWELVE(0.00)[20];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 MID_RHS_NOT_FQDN(0.50)[];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-3.00)[100.00%]
-X-Spam-Score: -3.80
+User-Agent: Mozilla Thunderbird
+Subject: Re: [EXT] Re: [RFC PATCH 0/2] Node migration between memory tiers
+Content-Language: en-US
+To: Michal Hocko <mhocko@suse.com>
+CC: <aneesh.kumar@linux.ibm.com>, <linux-cxl@vger.kernel.org>,
+	<linux-mm@kvack.org>, <dan.j.williams@intel.com>, <hannes@cmpxchg.org>,
+	<hasanalmaruf@fb.com>, <haowang3@fb.com>, <ying.huang@intel.com>,
+	<gregory.price@memverge.com>, <tj@kernel.org>,
+	<hezhongkun.hzk@bytedance.com>, <fvdl@google.com>, <john@jagalactic.com>,
+	<emirakhur@micron.com>, <vtavarespetr@micron.com>,
+	<Ravis.OpenSrc@micron.com>, <Jonathan.Cameron@huawei.com>,
+	<linux-kernel@vger.kernel.org>, <linux-api@vger.kernel.org>
+References: <20231130220422.2033-1-sthanneeru.opensrc@micron.com>
+ <ZW3zl2Fke5FtQCv3@tiehlicka>
+ <1db561a9-6984-418d-9305-a2a5ece93696@micron.com>
+ <ZW7g4ExYF79gMEBU@tiehlicka>
+ <2552828e-6865-4fa8-a9c4-8ed76dd85257@micron.com>
+ <ZW7km-SED5oIGGnZ@tiehlicka>
+From: Srinivasulu Thanneeru <sthanneeru.opensrc@micron.com>
+In-Reply-To: <ZW7km-SED5oIGGnZ@tiehlicka>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MT-Whitelisted: matched
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN1PEPF0002BA50:EE_|CYXPR08MB9261:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1e08090c-9afb-4ec5-04cf-08dbf570eaa5
+X-LD-Processed: f38a5ecd-2813-4862-b11b-ac1d563c806f,ExtAddr
+X-EXT-ByPass: 1
+X-MT-RULE-Whitelisted: Triggered
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+ pH+rTWh1ZBt0vY8tPoHIkZfCRFBrYu4havX3fg1Mpd550AfzOtKtJt1MWopf2tQP4t1kFFkHj4uMWwprBigOBvYJQXR63bj/JG4pc2/OG3vS3VjUqPwHgeQTRzGXRGykiA91u19ryTI3HASeHS6LbxZjnJMb3xFT1zIOHSlowhBL5EQf3PqCgPpehLVcezgniJkxWtTaaV4nGoWaa6DwYtJFESXIPH2pMZJd+mUocTvS9TKaCns/FG87fmNJquL1PCdg9OpSlFGkIKwH6lB/lS9WBlxk9oGzovtbZ4fK3iOfCQWpkVr/zQMimbcr5jd7Q1D5xxV0FIOABpVRwAqZ09Pi6Eh3Mv6s3+u5wXC6my5HAE8X1xwKruGvae/LDyw0hyMBy2vC4sNFXmCOh5QEWPlsQnnmvpG5pID97QX+OsMw0x//3RFRLbOlloqdyaese1ZR2/nl2+EJdIyYag3rbuRk2Pk43qonPUUDaoedFgJQfc6rpS0hAngzqgJXwmLUhPvbHhJT+GEmBA0umvdiZnIp7E2t8WBeCGJGl4htQr2EnV9ovfzPWKc/A+E8TK1BogroNYaluDVIkl+vIvE6HCl6ZCWDVZa8tJNooUpdfvDR7JaWEUeQQJ8QftXUVfnyylU99xSzkOPvJyCb2gKDUhM2Tu2TgMUDTsxe0KqSPyXEiZapD3OO0Yg6yLRdwrXSkO3iUuY4ccl2a6NqysKpCDBkRwjJQQNC/JKA24hb7OW46CfzWApodkshVwo2p8tPKNqdU2l4b5e8WIQybZXL0CfsB0PoeG6SfklnOaIyq8c/gtGWTDaB6j4ssgJpXB9pombGMUsahmQ2912nsX15NgrGCLNJ8UK+UArxmQb2Lvw=
+X-Forefront-Antispam-Report:
+ CIP:137.201.242.130;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.micron.com;PTR:masquerade.micron.com;CAT:NONE;SFS:(13230031)(4636009)(396003)(136003)(376002)(39860400002)(346002)(230922051799003)(230173577357003)(230273577357003)(186009)(82310400011)(64100799003)(451199024)(1800799012)(40470700004)(36840700001)(46966006)(40460700003)(5660300002)(7416002)(2906002)(36860700001)(31696002)(86362001)(36756003)(356005)(7636003)(41300700001)(82740400003)(47076005)(53546011)(2616005)(26005)(478600001)(8676002)(4326008)(54906003)(6916009)(70586007)(70206006)(16576012)(336012)(426003)(316002)(83380400001)(8936002)(31686004)(40480700001)(3940600001)(43740500002);DIR:OUT;SFP:1101;
+X-OriginatorOrg: micron.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Dec 2023 09:02:32.4101
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1e08090c-9afb-4ec5-04cf-08dbf570eaa5
+X-MS-Exchange-CrossTenant-Id: f38a5ecd-2813-4862-b11b-ac1d563c806f
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f38a5ecd-2813-4862-b11b-ac1d563c806f;Ip=[137.201.242.130];Helo=[mail.micron.com]
+X-MS-Exchange-CrossTenant-AuthSource: SN1PEPF0002BA50.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYXPR08MB9261
 
-On Tue 05-12-23 14:12:17, Srinivasulu Thanneeru wrote:
+
+
+On 12/5/2023 2:21 PM, Michal Hocko wrote:
+> CAUTION: EXTERNAL EMAIL. Do not click links or open attachments unless you recognize the sender and were expecting this message.
 > 
 > 
-> On 12/5/2023 2:05 PM, Michal Hocko wrote:
-> > CAUTION: EXTERNAL EMAIL. Do not click links or open attachments unless you recognize the sender and were expecting this message.
-> > 
-> > 
-> > On Tue 05-12-23 01:26:07, Srinivasulu Thanneeru wrote:
-> > > 
-> > > 
-> > > On 12/4/2023 9:13 PM, Michal Hocko wrote:
-> > > > CAUTION: EXTERNAL EMAIL. Do not click links or open attachments unless you recognize the sender and were expecting this message.
-> > > > 
-> > > > 
-> > > > On Fri 01-12-23 03:34:20, sthanneeru.opensrc@micron.com wrote:
-> > > > > From: Srinivasulu Thanneeru <sthanneeru.opensrc@micron.com>
-> > > > > 
-> > > > > The memory tiers feature allows nodes with similar memory types
-> > > > > or performance characteristics to be grouped together in a
-> > > > > memory tier. However, there is currently no provision for
-> > > > > moving a node from one tier to another on demand.
-> > > > 
-> > > > Could you expand on why this is really needed/necessary? What is the
-> > > > actual usecase?
-> > > 
-> > > Hi Michal Hock,
-> > > 
-> > > Following two use-cases we have observed.
-> > > 1. It is not accurate to group similar memory types in the same tier,
-> > >     because even similar memory types may have different speed grades.
-> > 
-> > Presumably they are grouped based on a HW configuration. Does that mean
-> > that the configuration is wrong? Are you trying to workaround that by
-> > this interface?
-> > 
-> > > 2. Some systems boots up with CXL devices and DRAM on the same memory-tier,
-> > > we need a way to move the CXL nodes to the correct tier from the user space.
-> > 
-> > Again, could you expand a bit more and explain why this cannot be
-> > configured automatically?
+> On Tue 05-12-23 14:12:17, Srinivasulu Thanneeru wrote:
+>>
+>>
+>> On 12/5/2023 2:05 PM, Michal Hocko wrote:
+>>> CAUTION: EXTERNAL EMAIL. Do not click links or open attachments unless you recognize the sender and were expecting this message.
+>>>
+>>>
+>>> On Tue 05-12-23 01:26:07, Srinivasulu Thanneeru wrote:
+>>>>
+>>>>
+>>>> On 12/4/2023 9:13 PM, Michal Hocko wrote:
+>>>>> CAUTION: EXTERNAL EMAIL. Do not click links or open attachments unless you recognize the sender and were expecting this message.
+>>>>>
+>>>>>
+>>>>> On Fri 01-12-23 03:34:20, sthanneeru.opensrc@micron.com wrote:
+>>>>>> From: Srinivasulu Thanneeru <sthanneeru.opensrc@micron.com>
+>>>>>>
+>>>>>> The memory tiers feature allows nodes with similar memory types
+>>>>>> or performance characteristics to be grouped together in a
+>>>>>> memory tier. However, there is currently no provision for
+>>>>>> moving a node from one tier to another on demand.
+>>>>>
+>>>>> Could you expand on why this is really needed/necessary? What is the
+>>>>> actual usecase?
+>>>>
+>>>> Hi Michal Hock,
+>>>>
+>>>> Following two use-cases we have observed.
+>>>> 1. It is not accurate to group similar memory types in the same tier,
+>>>>      because even similar memory types may have different speed grades.
+>>>
+>>> Presumably they are grouped based on a HW configuration. Does that mean
+>>> that the configuration is wrong? Are you trying to workaround that by
+>>> this interface?
+>>>
+>>>> 2. Some systems boots up with CXL devices and DRAM on the same memory-tier,
+>>>> we need a way to move the CXL nodes to the correct tier from the user space.
+>>>
+>>> Again, could you expand a bit more and explain why this cannot be
+>>> configured automatically?
+>>
+>> Yes, in both cases above, if hardware not automatically populated properly,
+>> in that case this interface would help to correct it from user space.
+>>
+>> We had observed case-2 in our setups.
 > 
-> Yes, in both cases above, if hardware not automatically populated properly,
-> in that case this interface would help to correct it from user space.
+> How hard it is to address this at the HW level?
 > 
-> We had observed case-2 in our setups.
+> Btw. this is really important piece of context that should be part of
+> the changelog. Quite honestly introducing user interfaces solely to
+> workaround HW issues seems a rather weak justification. Are there any
+> usecases you can think of where this would be useful?
 
-How hard it is to address this at the HW level?
+I'm not sure how difficult to fix it in the hardware.
 
-Btw. this is really important piece of context that should be part of
-the changelog. Quite honestly introducing user interfaces solely to
-workaround HW issues seems a rather weak justification. Are there any
-usecases you can think of where this would be useful?
+Sure, i will capture the use-cases in the change log, will be sending V2 
+by changing interface from adistance_offset to memtier_overwrite to 
+avoid complicated math for finding offset at user-level.
 
--- 
-Michal Hocko
-SUSE Labs
+Thank you Michal Hocko for the feedback.
+
+> --
+> Michal Hocko
+> SUSE Labs
 
