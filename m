@@ -1,38 +1,38 @@
-Return-Path: <linux-api+bounces-243-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-244-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4D9480582B
-	for <lists+linux-api@lfdr.de>; Tue,  5 Dec 2023 16:05:51 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FB06805918
+	for <lists+linux-api@lfdr.de>; Tue,  5 Dec 2023 16:51:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6E4121F21792
-	for <lists+linux-api@lfdr.de>; Tue,  5 Dec 2023 15:05:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 555351F21723
+	for <lists+linux-api@lfdr.de>; Tue,  5 Dec 2023 15:51:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55AA767E85;
-	Tue,  5 Dec 2023 15:05:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD97968EA1;
+	Tue,  5 Dec 2023 15:51:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KY4z3Vzv"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RGyeU7Qv"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3240867E81;
-	Tue,  5 Dec 2023 15:05:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 055F1C433C7;
-	Tue,  5 Dec 2023 15:05:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A90395F1EE;
+	Tue,  5 Dec 2023 15:51:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DF6DC433CA;
+	Tue,  5 Dec 2023 15:51:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701788745;
-	bh=aap6pmp+k2anpVz8ybOF65zFnWxtExFTvx5xhqmLzhM=;
+	s=k20201202; t=1701791488;
+	bh=cRtFwqVwGM/L5ElETR7/boeZZkQBM/dk1tSxRXa+SjE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KY4z3VzvUuPldDeBw1TVDWWHBlLtm/bPmaaxPgzbCSHLaQYi1u+lCwOb7Us/NjEcx
-	 o7sD3S6iAE0kqc55CH1FJRYCDrFhE5JAnh2FSorQL9ENifCtcB2OIGfSLGSXF7VgE/
-	 o8/cza+U878GauzXqR/B12Q4kYa0ZCG/YLvOstc6yG+uoqaW/dRuVIKhEkrjSzhZaX
-	 JZuFrrGjzC2DWyMRSXLM0njLcgfRJhjuQfswGV2u1JFM8I7wuJhwyIQtXoneSf/wQL
-	 MzPZZnBSiQNxsG7dgobcKlxmI6QUYtjnEhqQZnnA8PKsirpP69JcRC/rx3sMBgHSi6
-	 kxfISKx2P9EAA==
-Date: Tue, 5 Dec 2023 15:05:36 +0000
+	b=RGyeU7QvMB9+MJb48ISbSvf4giVhpNA1dzt2x0ApFyux9D1hNyJs59V5235TZ2GG4
+	 YmmscdTAvjHB2f/Dzabq6WldhzjojX/lu0bKk4lcksWKzdLuGoTrT7fvHU9LKRoqKD
+	 S6fN3oMu6fGnXMPU4L/vZ6F9j9IuH35Qz5dhWGCkgVvbhBxiXlzpMFRGcGhkI0e2WY
+	 ZE++rhJDKQDduO5iCBtpGGCA7cUvKwqeWnAIZbSrOqwWlHJRndZ6IL6Q7Lsq2ZPYiE
+	 JTczBH9TsKFE66ZbfxdXRr6dqYK61eoQAS9hDwYl5X2RGRoSpJ3NNZMHrCdoArncrG
+	 56cJ50OFSADtw==
+Date: Tue, 5 Dec 2023 15:51:19 +0000
 From: Mark Brown <broonie@kernel.org>
 To: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
 Cc: "dietmar.eggemann@arm.com" <dietmar.eggemann@arm.com>,
@@ -63,11 +63,11 @@ Cc: "dietmar.eggemann@arm.com" <dietmar.eggemann@arm.com>,
 	"catalin.marinas@arm.com" <catalin.marinas@arm.com>,
 	"linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
 	"will@kernel.org" <will@kernel.org>
-Subject: Re: [PATCH RFT v4 5/5] kselftest/clone3: Test shadow stack support
-Message-ID: <345cf31a-3663-4974-9b2a-54d2433e64a7@sirena.org.uk>
+Subject: Re: [PATCH RFT v4 2/5] fork: Add shadow stack support to clone3()
+Message-ID: <ed665d6f-66b0-4eeb-8cf8-db852e017d6a@sirena.org.uk>
 References: <20231128-clone3-shadow-stack-v4-0-8b28ffe4f676@kernel.org>
- <20231128-clone3-shadow-stack-v4-5-8b28ffe4f676@kernel.org>
- <4898975452179af46f38daa6979b32ba94001419.camel@intel.com>
+ <20231128-clone3-shadow-stack-v4-2-8b28ffe4f676@kernel.org>
+ <61f80d032c6a630dd641c9b598b37c2eb40d51e8.camel@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -75,71 +75,51 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="eEFWtkuzePavFi4c"
+	protocol="application/pgp-signature"; boundary="ofW00QD6kVu0wbQR"
 Content-Disposition: inline
-In-Reply-To: <4898975452179af46f38daa6979b32ba94001419.camel@intel.com>
+In-Reply-To: <61f80d032c6a630dd641c9b598b37c2eb40d51e8.camel@intel.com>
 X-Cookie: I've Been Moved!
 
 
---eEFWtkuzePavFi4c
-Content-Type: text/plain; charset=us-ascii
+--ofW00QD6kVu0wbQR
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Dec 05, 2023 at 12:10:20AM +0000, Edgecombe, Rick P wrote:
+On Tue, Dec 05, 2023 at 12:26:57AM +0000, Edgecombe, Rick P wrote:
+> On Tue, 2023-11-28 at 18:22 +0000, Mark Brown wrote:
 
-> Without this diff, the test crashed for me on a shadow stack system:
+> > -=A0=A0=A0=A0=A0=A0=A0size =3D adjust_shstk_size(stack_size);
+> > +=A0=A0=A0=A0=A0=A0=A0size =3D adjust_shstk_size(size);
+> > =A0=A0=A0=A0=A0=A0=A0=A0addr =3D alloc_shstk(0, size, 0, false);
 
-> -static inline void enable_shadow_stack(void)
-> +static inline __attribute__((always_inline)) void
+> Hmm. I didn't test this, but in the copy_process(), copy_mm() happens
+> before this point. So the shadow stack would get mapped in current's MM
+> (i.e. the parent). So in the !CLONE_VM case with shadow_stack_size!=3D0
+> the SSP in the child will be updated to an area that is not mapped in
+> the child. I think we need to pass tsk->mm into alloc_shstk(). But such
+> an exotic clone usage does give me pause, regarding whether all of this
+> is premature.
 
-doh.
+Hrm, right.  And we then can't use do_mmap() either.  I'd be somewhat
+tempted to disallow that specific case for now rather than deal with it
+though that's not really in the spirit of just always following what the
+user asked for.
 
-> But I wonder if the clone3 test should get its shadow stack enabled the
-> conventional elf bit way. So if it's all there (HW, kernel, glibc) then
-> the test will run with shadow stack. Otherwise the test will run
-> without shadow stack.
-
-This creates bootstrapping issues if we do it for arm64 where nothing is
-merged yet except for the model and EL3 support - in order to get any
-test coverage you need to be using an OS with the libc and toolchain
-support available and that's not going to be something we can rely on
-for a while (and even when things are merged a lot of the CI systems use
-Debian).  There is a small risk that the toolchain will generate
-incompatible code if it doesn't know it's specifically targetting shadow
-stacks but the toolchain people didn't seem concerned about that risk
-and we've not been running into problems.
-
-It looks x86 is in better shape here with the userspace having run ahead
-of the kernel support though I'm not 100% clear if everything is fully
-lined up?  -mshstk -fcf-protection appears to build fine with gcc 8 but
-I'm a bit less clear on glibc and any ABI variations.
-
-> The other reason is that the shadow stack test in the x86 selftest
-> manual enabling is designed to work without a shadow stack enabled
-> glibc and has to be specially crafted to work around the missing
-> support. I'm not sure the more generic selftests should have to know
-> how to do this. So what about something like this instead:
-
-What's the issue with working around the missing support?  My
-understanding was that there should be no ill effects from repeated
-attempts to enable.  We could add a check for things already being
-enabled=20
-
---eEFWtkuzePavFi4c
+--ofW00QD6kVu0wbQR
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmVvPEAACgkQJNaLcl1U
-h9BTUAf/XQUhFFRSCwVlzHTp8jJ+VI5Cs+r84ZiyHFlSQtaZvyox4D48jNDyd8kw
-iXxMa2/lUeW/qiZ2bufzYmM8AKSuObkpZhcCj+TyprXYnvmhqscegfQjQqnqgV+b
-ctpM6PGCxetylMwYUwMw83v4ZUrLua2oCnU+xdHphkC1ClZt2lH6lZXAAG5q7Qx/
-E2t1mv+L/eA7qNnMGddM3PQ35AQu7mHFuPohck0pIKqvxXiQVGDRdYTLuMxlKQDG
-f43kOxDHV7jSemDeF0K60+t53hVU36kE5yFUH2gqQUaksnZsTzkv1OX8Hdn/VXON
-1HI0UnmxFD8fHjkg8vvOvtr3/ncfxw==
-=1GHB
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmVvRvYACgkQJNaLcl1U
+h9DXGQf6AvheyqUPcMw3T4JTt1lwn5bDs4oC7fZ63uO+BX16gGSEx73amHIyNaGv
+p+FtTHrVU1xQTu+Bh5L5QjW68t6061HLlHW0E+RoX9HlyW4v6GsBwzHxAYfp1eNw
+zce0c49OZQlgDA42/CH/PbejjX8H1a3jlwW+zIxwHNDqWs8pe+pEaZ/jEhLLUQ1W
+vJGRdn/PtZRKo7APLWn3uTOUGUbI9hXU/XQvJwKEo3DvNbYkezmTGe8ExIBkWQV3
+5oecmztnkjUiARHVRvyxW3vjbljlNxG4ECGlrpchrZgpeanmraDINzcWNnwYIBHE
+lP5fF9Y4DIiSj/DAO0BKEO0x5wgfCw==
+=1erK
 -----END PGP SIGNATURE-----
 
---eEFWtkuzePavFi4c--
+--ofW00QD6kVu0wbQR--
 
