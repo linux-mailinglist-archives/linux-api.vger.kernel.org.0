@@ -1,92 +1,200 @@
-Return-Path: <linux-api+bounces-262-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-263-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC7F580795A
-	for <lists+linux-api@lfdr.de>; Wed,  6 Dec 2023 21:25:09 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1B568079BC
+	for <lists+linux-api@lfdr.de>; Wed,  6 Dec 2023 21:47:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 95D0B1F218AE
-	for <lists+linux-api@lfdr.de>; Wed,  6 Dec 2023 20:25:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 55A79282486
+	for <lists+linux-api@lfdr.de>; Wed,  6 Dec 2023 20:47:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 233F36F63A;
-	Wed,  6 Dec 2023 20:25:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C566836AF9;
+	Wed,  6 Dec 2023 20:47:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="n+Xws8bf"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Y6o24DQZ"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6667D12F
-	for <linux-api@vger.kernel.org>; Wed,  6 Dec 2023 12:24:58 -0800 (PST)
-Received: by mail-ej1-x62f.google.com with SMTP id a640c23a62f3a-a1a496a73ceso18119366b.2
-        for <linux-api@vger.kernel.org>; Wed, 06 Dec 2023 12:24:58 -0800 (PST)
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45E2E193
+	for <linux-api@vger.kernel.org>; Wed,  6 Dec 2023 12:47:29 -0800 (PST)
+Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-6cbe716b511so236315b3a.3
+        for <linux-api@vger.kernel.org>; Wed, 06 Dec 2023 12:47:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1701894297; x=1702499097; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=EspDDl8Dq3tngLpXRmIDltEe/7IquwN2W8jv0OkYqQc=;
-        b=n+Xws8bfaFffRdiIHUc1+D0MYHAfuuVka6vpar78H+cYAdwJfBqtI3qKryginhK0Fv
-         UdW9+/2ETk7/jgwGR5p+Qdsq1LXIQmvSN6g3ee5rrpjh2uSoX/oSb0LOZ3D4fqqdfAWq
-         QyEozzZKNTsoXSkN0tr2ASoceIOyDeL90Up5M=
+        d=chromium.org; s=google; t=1701895649; x=1702500449; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=jH5xFGHLfaGKeTo3oAeaQhvYj/JNwEL2VQkuPijRi84=;
+        b=Y6o24DQZPYW6bDAMF8DnWmhJ+bIOnM2Bj5/xanRSCrxIrix1pIPAWGMw0FYwp9Ddco
+         BG2lU+3F6Z/Bo/nWeo0LJxx3EEpTIjzPTI7S5QqudpZGchQOkPtm260eF20/zfIkTEfV
+         OaK41SqXsCR+fOG+eoyuZ1D7Exvd7YPWvfgco=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701894297; x=1702499097;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=EspDDl8Dq3tngLpXRmIDltEe/7IquwN2W8jv0OkYqQc=;
-        b=CuDqnzwiGajKJSyX2JvBH1yQZkMBRumqIAltif4Mw8xI7hqbQUCPPPoctYj49KDZ1e
-         8p50z8felnj+0ZMJl2YQgl8btxzsvS+vjWvlMthrIr9zyZS+sz+sTKCeGRaL23Bjeitc
-         LJq31DeOn1GI8WR8u2npZxulSJDwEyi7Z7i4nI+Pde/ynUEI+rfCrxGSfq/xKua0y8ns
-         4D2AR0Fze+TXFTFCrhzvZvwRZLqtnHqB18DpGqJWtn4aGFHobvTDWecnxZ/l2TCyT6bM
-         EJsSc9Hylc18TN9feCBFWKv8Bn7j0VOWUSCbWmhnKIW6qjsLMRhiO9vDuj5l281fQNvW
-         5/Tw==
-X-Gm-Message-State: AOJu0YwFwz0WCs/ODuQkWXWxrf8dXiFBZF+U1gDWvOA8/zFc8mNLoHJh
-	l97E/IluoxtpIO/jgZXSye4fvCAGaHC4Gtc3nobSLw==
-X-Google-Smtp-Source: AGHT+IH+iwdb52KbnDIVMtSgM8sHUxJ0VwQ8KVpecHhoi9seb1w9sznIUZPT9Vqahu6bTmOPlo2a3KD/zljbOdj7EXQ=
-X-Received: by 2002:a17:906:3648:b0:a18:ad93:460d with SMTP id
- r8-20020a170906364800b00a18ad93460dmr816177ejb.69.1701894296772; Wed, 06 Dec
- 2023 12:24:56 -0800 (PST)
+        d=1e100.net; s=20230601; t=1701895649; x=1702500449;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jH5xFGHLfaGKeTo3oAeaQhvYj/JNwEL2VQkuPijRi84=;
+        b=ge9+3sKyzbwp76ISJlvC1jxwwCg9WCITaATC9iXXw3APWI2JPRcV0SEtgV8UdEc/C4
+         Yy7YIovj9aU7QVyhwH/s/zBgD8Ysah+LFNnHqsSGqK1nM4cNfZ3n1/Xl1nKe9feclZ1R
+         do+iAOIGXSFCNLKroIgjZGd4I290ZSHBaOxQM+I3TqxKGavq0zwq42uBYd9v/9hzCGAb
+         iFp1pIBHdqHgjxGpwq3ygH1aSiwh4qto4W2hdktyfD+ylQX/OXmMlPZIzxmKSq24vS2j
+         +DOL8Z2FOtBxnRMu0QoNDWKzE0DeezBZEaoQ3N2Ebc+easIxjbLHm2CC9QiXBOnbxDbX
+         NPyA==
+X-Gm-Message-State: AOJu0Yzu9Bnvh5aq1EsZIacIXIZ2fM5tSymcmOW2cjnxqrO/3ytETgQA
+	V7xQabdbDvnhpBl4IoTYy5MC/Q==
+X-Google-Smtp-Source: AGHT+IG8edmbaWwZIf/w/eblo4vl/lG7fplpBHuIF1Twy+iyazsyadGfNrebQcOdekHIj8N1K6cJCw==
+X-Received: by 2002:a05:6a00:4c18:b0:6ce:2731:d5be with SMTP id ea24-20020a056a004c1800b006ce2731d5bemr1380737pfb.47.1701895648672;
+        Wed, 06 Dec 2023 12:47:28 -0800 (PST)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id n15-20020aa78a4f000000b006cbb58301basm417930pfa.19.2023.12.06.12.47.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Dec 2023 12:47:28 -0800 (PST)
+Date: Wed, 6 Dec 2023 12:47:27 -0800
+From: Kees Cook <keescook@chromium.org>
+To: Alexey Dobriyan <adobriyan@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Florian Weimer <fweimer@redhat.com>, linux-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+	x86@kernel.org
+Subject: Re: [PATCH v2] ELF: supply userspace with available page shifts
+ (AT_PAGE_SHIFT_MASK)
+Message-ID: <202312061236.DE847C52AA@keescook>
+References: <6b399b86-a478-48b0-92a1-25240a8ede54@p183>
+ <87v89dvuxg.fsf@oldenburg.str.redhat.com>
+ <1d679805-8a82-44a4-ba14-49d4f28ff597@p183>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231128160337.29094-1-mszeredi@redhat.com> <20231128160337.29094-4-mszeredi@redhat.com>
- <20231206195807.GA209606@mail.hallyn.com>
-In-Reply-To: <20231206195807.GA209606@mail.hallyn.com>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Wed, 6 Dec 2023 21:24:45 +0100
-Message-ID: <CAJfpegs-uUEwKrEcmRE4WkzWet_A1f9mnM7UtFqM=szEUi+-1g@mail.gmail.com>
-Subject: Re: [PATCH 3/4] listmount: small changes in semantics
-To: "Serge E. Hallyn" <serge@hallyn.com>
-Cc: Miklos Szeredi <mszeredi@redhat.com>, Christian Brauner <christian@brauner.io>, linux-api@vger.kernel.org, 
-	linux-man@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	Karel Zak <kzak@redhat.com>, linux-fsdevel@vger.kernel.org, 
-	Ian Kent <raven@themaw.net>, David Howells <dhowells@redhat.com>, 
-	Al Viro <viro@zeniv.linux.org.uk>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1d679805-8a82-44a4-ba14-49d4f28ff597@p183>
 
-On Wed, 6 Dec 2023 at 20:58, Serge E. Hallyn <serge@hallyn.com> wrote:
->
-> On Tue, Nov 28, 2023 at 05:03:34PM +0100, Miklos Szeredi wrote:
+On Tue, Dec 05, 2023 at 07:01:34PM +0300, Alexey Dobriyan wrote:
+> Report available page shifts in arch independent manner, so that
+> userspace developers won't have to parse /proc/cpuinfo hunting
+> for arch specific strings:
+> 
+> Note!
+> 
+> This is strictly for userspace, if some page size is shutdown due
+> to kernel command line option or CPU bug workaround, than is must not
+> be reported in aux vector!
 
-> > -     if (!is_path_reachable(m, mnt->mnt_root, &rootmnt))
-> > -             return capable(CAP_SYS_ADMIN) ? 0 : -EPERM;
-> > +     if (!capable(CAP_SYS_ADMIN) &&
->
-> Was there a reason to do the capable check first?  In general,
-> checking capable() when not needed is frowned upon, as it will
-> set the PF_SUPERPRIV flag.
->
+Given Florian in CC, I assume this is something glibc would like to be
+using? Please mention this in the commit log.
 
-I synchronized the permission checking with statmount() without
-thinking about the order.   I guess we can change the order back in
-both syscalls?
+> 
+> x86_64 machine with 1 GiB pages:
+> 
+> 	00000030  06 00 00 00 00 00 00 00  00 10 00 00 00 00 00 00
+> 	00000040  1d 00 00 00 00 00 00 00  00 10 20 40 00 00 00 00
+> 
+> x86_64 machine with 2 MiB pages only:
+> 
+> 	00000030  06 00 00 00 00 00 00 00  00 10 00 00 00 00 00 00
+> 	00000040  1d 00 00 00 00 00 00 00  00 10 20 00 00 00 00 00
+> 
+> AT_PAGESZ is always 4096 which is not that interesting.
 
-I also don't understand the reason behind the using the _noaudit()
-variant.  Christian?
+That's not always true. For example, see arm64:
+arch/arm64/include/asm/elf.h:#define ELF_EXEC_PAGESIZE  PAGE_SIZE
 
-Thanks,
-Miklos
+I'm not actually sure why x86 forces it to 4096. I'd need to go look
+through the history there.
+
+> 
+> Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
+> ---
+> 
+> 	v2: switch to 1 bit per page shift (bitmask)
+> 
+>  arch/x86/include/asm/elf.h  |   12 ++++++++++++
+>  fs/binfmt_elf.c             |    3 +++
+>  include/uapi/linux/auxvec.h |   14 ++++++++++++++
+>  3 files changed, 29 insertions(+)
+> 
+> --- a/arch/x86/include/asm/elf.h
+> +++ b/arch/x86/include/asm/elf.h
+> @@ -358,6 +358,18 @@ else if (IS_ENABLED(CONFIG_IA32_EMULATION))				\
+>  
+>  #define COMPAT_ELF_ET_DYN_BASE	(TASK_UNMAPPED_BASE + 0x1000000)
+>  
+> +#define ARCH_AT_PAGE_SHIFT_MASK					\
+> +	do {							\
+> +		u32 val = 1 << 12;				\
+> +		if (boot_cpu_has(X86_FEATURE_PSE)) {		\
+> +			val |= 1 << 21;				\
+> +		}						\
+> +		if (boot_cpu_has(X86_FEATURE_GBPAGES)) {	\
+> +			val |= 1 << 30;				\
+> +		}						\
+> +		NEW_AUX_ENT(AT_PAGE_SHIFT_MASK, val);		\
+> +	} while (0)
+> +
+>  #endif /* !CONFIG_X86_32 */
+
+Can't we have a generic ARCH_AT_PAGE_SHIFT_MASK too? Something like:
+
+#ifndef ARCH_AT_PAGE_SHIFT_MASK
+#define ARCH_AT_PAGE_SHIFT_MASK
+	NEW_AUX_ENT(AT_PAGE_SHIFT_MASK, 1 << PAGE_SHIFT)
+#endif
+
+Or am I misunderstanding something here?
+
+>  
+>  #define VDSO_CURRENT_BASE	((unsigned long)current->mm->context.vdso)
+> --- a/fs/binfmt_elf.c
+> +++ b/fs/binfmt_elf.c
+> @@ -240,6 +240,9 @@ create_elf_tables(struct linux_binprm *bprm, const struct elfhdr *exec,
+>  #endif
+>  	NEW_AUX_ENT(AT_HWCAP, ELF_HWCAP);
+>  	NEW_AUX_ENT(AT_PAGESZ, ELF_EXEC_PAGESIZE);
+> +#ifdef ARCH_AT_PAGE_SHIFT_MASK
+> +	ARCH_AT_PAGE_SHIFT_MASK;
+> +#endif
+
+That way we can avoid an #ifdef in the .c file.
+
+>  	NEW_AUX_ENT(AT_CLKTCK, CLOCKS_PER_SEC);
+>  	NEW_AUX_ENT(AT_PHDR, phdr_addr);
+>  	NEW_AUX_ENT(AT_PHENT, sizeof(struct elf_phdr));
+> --- a/include/uapi/linux/auxvec.h
+> +++ b/include/uapi/linux/auxvec.h
+> @@ -33,6 +33,20 @@
+>  #define AT_RSEQ_FEATURE_SIZE	27	/* rseq supported feature size */
+>  #define AT_RSEQ_ALIGN		28	/* rseq allocation alignment */
+>  
+> +/*
+> + * Page sizes available for mmap(2) encoded as bitmask.
+> + *
+> + * Example: x86_64 system with pse, pdpe1gb /proc/cpuinfo flags reports
+> + * 4 KiB, 2 MiB and 1 GiB page support.
+> + *
+> + *	$ hexdump -C /proc/self/auxv
+
+FWIW, a more readable form is: $ LD_SHOW_AUXV=1 /bin/true
+
+> + *	00000030  06 00 00 00 00 00 00 00  00 10 00 00 00 00 00 00
+> + *	00000040  1d 00 00 00 00 00 00 00  00 10 20 40 00 00 00 00
+> + *
+> + * For 2^64 hugepage support please contact your Universe sales representative.
+> + */
+> +#define AT_PAGE_SHIFT_MASK	29
+
+... hmm, why is 29 unused?
+
+> +
+>  #define AT_EXECFN  31	/* filename of program */
+>  
+>  #ifndef AT_MINSIGSTKSZ
+
+This will need a man page update for "getauxval" as well...
+
+
+-- 
+Kees Cook
 
