@@ -1,107 +1,104 @@
-Return-Path: <linux-api+bounces-255-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-256-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3196806D52
-	for <lists+linux-api@lfdr.de>; Wed,  6 Dec 2023 12:06:04 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A389C8073A2
+	for <lists+linux-api@lfdr.de>; Wed,  6 Dec 2023 16:22:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AF6F52819A1
-	for <lists+linux-api@lfdr.de>; Wed,  6 Dec 2023 11:06:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5631C1F216F5
+	for <lists+linux-api@lfdr.de>; Wed,  6 Dec 2023 15:22:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9ADBA3158D;
-	Wed,  6 Dec 2023 11:05:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 942103FE32;
+	Wed,  6 Dec 2023 15:22:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Akaf99O5"
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="MdULf2FQ"
 X-Original-To: linux-api@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED12A211E
-	for <linux-api@vger.kernel.org>; Wed,  6 Dec 2023 03:05:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1701860726;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ty0j+r5L+r6LT8rFnUkaIbcoEHNkHsvnWoF/ZMGSfD0=;
-	b=Akaf99O5MGQIAGonsWLHytp5FFv5ftjTh+QrGS1r8lP6K8XE7FqVzgDd7skURUK7SwqHr9
-	2QqlJDzBkLGlcDtyoKi+MCr9xRgVVqYiR/TAxho0dgAT0EXXX9BTvfYXaVRDu2dhE8Za1v
-	gZof2LWolrLzAQz7DbhEn8RP6Txm2pU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-542-h578pkMkOqmLT8vInGhnRA-1; Wed, 06 Dec 2023 06:05:23 -0500
-X-MC-Unique: h578pkMkOqmLT8vInGhnRA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2a07:de40:b251:101:10:150:64:2])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33083C6;
+	Wed,  6 Dec 2023 07:22:18 -0800 (PST)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6496685A58A;
-	Wed,  6 Dec 2023 11:05:22 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (unknown [10.39.192.186])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 162A23C2E;
-	Wed,  6 Dec 2023 11:05:19 +0000 (UTC)
-From: Florian Weimer <fweimer@redhat.com>
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: libc-alpha@sourceware.org,  linux-man <linux-man@vger.kernel.org>,
-  Alejandro Colomar <alx@kernel.org>,  Linux API
- <linux-api@vger.kernel.org>,  linux-fsdevel@vger.kernel.org,  Karel Zak
- <kzak@redhat.com>,  Ian Kent <raven@themaw.net>,  David Howells
- <dhowells@redhat.com>,  Christian Brauner <christian@brauner.io>,  Amir
- Goldstein <amir73il@gmail.com>,  Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [RFC] proposed libc interface and man page for listmount
-References: <CAJfpeguMViqawKfJtM7_M9=m+6WsTcPfa_18t_rM9iuMG096RA@mail.gmail.com>
-Date: Wed, 06 Dec 2023 12:05:18 +0100
-In-Reply-To: <CAJfpeguMViqawKfJtM7_M9=m+6WsTcPfa_18t_rM9iuMG096RA@mail.gmail.com>
-	(Miklos Szeredi's message of "Tue, 5 Dec 2023 17:27:58 +0100")
-Message-ID: <87cyvjd21d.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.3 (gnu/linux)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id A8E9F1FD10;
+	Wed,  6 Dec 2023 15:22:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1701876136; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gkjHKYAP5twolJ4o2zeIBlBabIi6G0piKzuKxyph/is=;
+	b=MdULf2FQpMh7CIDFOz6/1CQ2AvWwRPAclXBWeHxX8E7ca0tpr4W4qpbJrUS8Fit+3D5H8j
+	BrcB7llqosZTjB9s7y/NepYDP/2atjTJJZZjjpTJ0Jg8hPoVfIMigbrswCzTKjw6hXTyHB
+	lDmLW9gztz9b5nATD4h/8mWBlRo4f5U=
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7EE42136CD;
+	Wed,  6 Dec 2023 15:22:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id m2v4GqiRcGUHSwAAD6G6ig
+	(envelope-from <mhocko@suse.com>); Wed, 06 Dec 2023 15:22:16 +0000
+Date: Wed, 6 Dec 2023 16:22:15 +0100
+From: Michal Hocko <mhocko@suse.com>
+To: Ravi Jonnalagadda <ravis.opensrc@micron.com>
+Cc: Jonathan.Cameron@huawei.com, aneesh.kumar@linux.ibm.com,
+	dan.j.williams@intel.com, emirakhur@micron.com, fvdl@google.com,
+	gregory.price@memverge.com, hannes@cmpxchg.org, haowang3@fb.com,
+	hasanalmaruf@fb.com, hezhongkun.hzk@bytedance.com,
+	john@jagalactic.com, linux-api@vger.kernel.org,
+	linux-cxl@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, sthanneeru.opensrc@micron.com, tj@kernel.org,
+	vtavarespetr@micron.com, ying.huang@intel.com
+Subject: Re: [RFC PATCH 0/2] Node migration between memory tiers
+Message-ID: <ZXCRp78pD0ZMTMBw@tiehlicka>
+References: <ZW7km-SED5oIGGnZ@tiehlicka>
+ <20231205091958.55-1-ravis.opensrc@micron.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231205091958.55-1-ravis.opensrc@micron.com>
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: 0.12
+X-Spamd-Result: default: False [0.12 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 RCPT_COUNT_TWELVE(0.00)[20];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 MID_RHS_NOT_FQDN(0.50)[];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-0.08)[63.83%]
 
-* Miklos Szeredi:
+On Tue 05-12-23 14:49:58, Ravi Jonnalagadda wrote:
+[...]
+> There was a prior discussion on this functionality in a previous thread, where
+> Huang Ying thought this might be a useful feature to overcome limitations of
+> systems where nodes with different bandwidth characteristics are grouped in 
+> a single tier.
 
-> Attaching the proposed man page for listing mounts (based on the new
-> listmount() syscall).
+Please summarize all those prior discussions into the cover letter.
+Usecases are really crucial for the justification.
 >
-> The raw interface is:
->
->        syscall(__NR_listmount, const struct mnt_id_req __user *, req,
->                   u64 __user *, buf, size_t, bufsize, unsigned int, flags);
->
-> The proposed libc API is.
->
->        struct listmount *listmount_start(uint64_t mnt_id, unsigned int flags);
->        uint64_t listmount_next(struct listmount *lm);
->        void listmount_end(struct listmount *lm);
->
-> I'm on the opinion that no wrapper is needed for the raw syscall, just
-> like there isn't one for getdents(2).
-
-We do have a wrapper for getdents64.  It's useful because if you modify
-the directory, you care about the buffer boundary because you should
-rewind after processing the current buffer.  The inotify facility also
-exposes a sequence of variably sized objects to applications, but does
-not add a new system call for that.  That's just an aside, though.
-
-The existing functions dealing with /proc/mounts or /etc/fstab are
-called setmntent, getmntent or getmntment_r (the former with a bad
-implementation, the latter with a bad interface), and endmntent.  This
-follows the pattern of NSS enumeration interfaces, except that in the
-mntent case, there is an explicit file handle, so a thread-safe
-implementation is possible in principle.  Your proposed interface is
-similar, so that's good.
-
-I would also like to see a comment from the Hurd folks.  Presumably they
-have something similar already for enumerating translators?
-
-Thanks,
-Florian
-
+-- 
+Michal Hocko
+SUSE Labs
 
