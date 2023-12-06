@@ -1,62 +1,87 @@
-Return-Path: <linux-api+bounces-256-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-257-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A389C8073A2
-	for <lists+linux-api@lfdr.de>; Wed,  6 Dec 2023 16:22:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 753B38073AC
+	for <lists+linux-api@lfdr.de>; Wed,  6 Dec 2023 16:27:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5631C1F216F5
-	for <lists+linux-api@lfdr.de>; Wed,  6 Dec 2023 15:22:26 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2AD611F21894
+	for <lists+linux-api@lfdr.de>; Wed,  6 Dec 2023 15:27:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 942103FE32;
-	Wed,  6 Dec 2023 15:22:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2E363FE5F;
+	Wed,  6 Dec 2023 15:27:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="MdULf2FQ"
+	dkim=pass (2048-bit key) header.d=tycho.pizza header.i=@tycho.pizza header.b="eIx0mXmL";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="IwmUrbSA"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2a07:de40:b251:101:10:150:64:2])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33083C6;
-	Wed,  6 Dec 2023 07:22:18 -0800 (PST)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id A8E9F1FD10;
-	Wed,  6 Dec 2023 15:22:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1701876136; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gkjHKYAP5twolJ4o2zeIBlBabIi6G0piKzuKxyph/is=;
-	b=MdULf2FQpMh7CIDFOz6/1CQ2AvWwRPAclXBWeHxX8E7ca0tpr4W4qpbJrUS8Fit+3D5H8j
-	BrcB7llqosZTjB9s7y/NepYDP/2atjTJJZZjjpTJ0Jg8hPoVfIMigbrswCzTKjw6hXTyHB
-	lDmLW9gztz9b5nATD4h/8mWBlRo4f5U=
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7EE42136CD;
-	Wed,  6 Dec 2023 15:22:16 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id m2v4GqiRcGUHSwAAD6G6ig
-	(envelope-from <mhocko@suse.com>); Wed, 06 Dec 2023 15:22:16 +0000
-Date: Wed, 6 Dec 2023 16:22:15 +0100
-From: Michal Hocko <mhocko@suse.com>
-To: Ravi Jonnalagadda <ravis.opensrc@micron.com>
-Cc: Jonathan.Cameron@huawei.com, aneesh.kumar@linux.ibm.com,
-	dan.j.williams@intel.com, emirakhur@micron.com, fvdl@google.com,
-	gregory.price@memverge.com, hannes@cmpxchg.org, haowang3@fb.com,
-	hasanalmaruf@fb.com, hezhongkun.hzk@bytedance.com,
-	john@jagalactic.com, linux-api@vger.kernel.org,
-	linux-cxl@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, sthanneeru.opensrc@micron.com, tj@kernel.org,
-	vtavarespetr@micron.com, ying.huang@intel.com
-Subject: Re: [RFC PATCH 0/2] Node migration between memory tiers
-Message-ID: <ZXCRp78pD0ZMTMBw@tiehlicka>
-References: <ZW7km-SED5oIGGnZ@tiehlicka>
- <20231205091958.55-1-ravis.opensrc@micron.com>
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 340B9FA;
+	Wed,  6 Dec 2023 07:27:20 -0800 (PST)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailout.nyi.internal (Postfix) with ESMTP id 8D6935C02A9;
+	Wed,  6 Dec 2023 10:27:19 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Wed, 06 Dec 2023 10:27:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tycho.pizza; h=
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm3; t=1701876439; x=1701962839; bh=FT
+	6UEoWVsDlfq8nOucO+L8572l+DeQGXhub/tbWtdrE=; b=eIx0mXmLhdGLez1Q+u
+	Ee0o8vn+1rJ13CAy0ryFOtVnfnOY+WReKAgmoSV4pq8Vs+TP72SYcIjuSMtCtzmF
+	pcievzijmVoLfI5+sB+MIS70mdvBmkCKNnevaxVwbbb+MN26eH3A+uEhzKjczoSz
+	u/w7NDif0QudJR6wwfRTVoiP4d+2of1LB8BF2NPwvPsUJQ4avEJ2oRbuaXGfLvqC
+	baZt32UXCPuIV1Havxch7H5KmOP951fwRSdaA3lvrM6Er6BQ+SyiMvZ/t++Idn/h
+	BzUIwjgzuEB4bYUqfTeYDhkBXdkIxnu5csUDEWBrWdloWM4PdhCVYfpFTuklaPZh
+	Deyw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; t=1701876439; x=1701962839; bh=FT6UEoWVsDlfq
+	8nOucO+L8572l+DeQGXhub/tbWtdrE=; b=IwmUrbSAlb0Twy6EorGSDlLkjaeuS
+	gncuJoTYDmFaLztU8O1f+k3nVftAOr6uwAvtyQ2p25abP9n9ABGhJ8HeWmKEzu3w
+	VQ5jFbnTPgX4KnHsLip9ZBlpBn8X0NcOay6IDDfDYUc01iljg0GzwZ+cSVK0gVvf
+	PIZSUKS7rgrirb4BeGeNXq89LXAzbi+JbpJB2agitfOedDLq+NQYgHhAaKeQ4wPs
+	ZZcQIdB2L6OMg5Zc1zal6ba21fu60MRp0c6V9f8jnsbfDdNrYARTx9bRqvR2JCUy
+	acVwAoJWgdzb708JXKEDmayeajdLhfiWQi5uvI+Tawqxd5bR2JIGV7UIA==
+X-ME-Sender: <xms:15JwZZ1cm5uK11ww6N-OFCKcAnz0RCROi6eKV7kdGS6b5NLTRHWKIg>
+    <xme:15JwZQGZDaXb1NplmNVvbtoawJFeTsk3moR1fftaslpix2x3UcGuokJBU7qtD-Wu3
+    pPwoWXYGdg8d3lF4ss>
+X-ME-Received: <xmr:15JwZZ5jjWAA2PGEJgIzgAg3FPkysEWkpdsYc_XEwf0SU_bYzxwxX1g9OdtNromuiu52hQ1wyfCOILwaRbX61ygIn3RS>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrudektddgjeekucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepvfihtghh
+    ohcutehnuggvrhhsvghnuceothihtghhohesthihtghhohdrphhiiiiirgeqnecuggftrf
+    grthhtvghrnhepueettdetgfejfeffheffffekjeeuveeifeduleegjedutdefffetkeel
+    hfelleetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epthihtghhohesthihtghhohdrphhiiiiirg
+X-ME-Proxy: <xmx:15JwZW3KPkIw_b256pFVavGfelUCZSAZmcD4F7XfQo-BxljvgPEUOg>
+    <xmx:15JwZcHiWf1EVl_MGU2gnyOw1nhOIW3CJ0f-aJBG532qiIXjaY2kzQ>
+    <xmx:15JwZX-O0YmgE6YUwpkjTmjO-mLtu_mScNcWu4IHKerjrEDztmuruw>
+    <xmx:15JwZR4jvTsL_SOv-sronCWcxDVhFM1w3cdMJC7A9WOo1JXwmn5bFA>
+Feedback-ID: i21f147d5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 6 Dec 2023 10:27:18 -0500 (EST)
+Date: Wed, 6 Dec 2023 08:27:17 -0700
+From: Tycho Andersen <tycho@tycho.pizza>
+To: Florian Weimer <fweimer@redhat.com>
+Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Oleg Nesterov <oleg@redhat.com>,
+	"Eric W . Biederman" <ebiederm@xmission.com>,
+	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+	Tycho Andersen <tandersen@netflix.com>
+Subject: Re: [RFC 1/3] pidfd: allow pidfd_open() on non-thread-group leaders
+Message-ID: <ZXCS1SMQLhSPtjdp@tycho.pizza>
+References: <20231130163946.277502-1-tycho@tycho.pizza>
+ <874jh3t7e9.fsf@oldenburg.str.redhat.com>
+ <ZWjaSAhG9KI2i9NK@tycho.pizza>
+ <a07b7ae6-8e86-4a87-9347-e6e1a0f2ee65@efficios.com>
+ <87ttp3rprd.fsf@oldenburg.str.redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -65,40 +90,28 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231205091958.55-1-ravis.opensrc@micron.com>
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: 0.12
-X-Spamd-Result: default: False [0.12 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.com:s=susede1];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 RCPT_COUNT_TWELVE(0.00)[20];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 MID_RHS_NOT_FQDN(0.50)[];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-0.08)[63.83%]
+In-Reply-To: <87ttp3rprd.fsf@oldenburg.str.redhat.com>
 
-On Tue 05-12-23 14:49:58, Ravi Jonnalagadda wrote:
-[...]
-> There was a prior discussion on this functionality in a previous thread, where
-> Huang Ying thought this might be a useful feature to overcome limitations of
-> systems where nodes with different bandwidth characteristics are grouped in 
-> a single tier.
+On Thu, Nov 30, 2023 at 08:43:18PM +0100, Florian Weimer wrote:
+> * Mathieu Desnoyers:
+> 
+> >>> I'd like to offer a userspace API which allows safe stashing of
+> >>> unreachable file descriptors on a service thread.
+> 
+> >> By "safe" here do you mean not accessible via pidfd_getfd()?
+> 
+> No, unreachable by close/close_range/dup2/dup3.  I expect we can do an
+> intra-process transfer using /proc, but I'm hoping for something nicer.
 
-Please summarize all those prior discussions into the cover letter.
-Usecases are really crucial for the justification.
->
--- 
-Michal Hocko
-SUSE Labs
+It occurred to me that we could get the seccomp() protected-memory
+functionality almost all the way via some combination of
+memfd_create(MFD_ALLOW_SEALING), fcntl(F_SEAL_WRITE|F_SEAL_SEAL), and
+mmap(PROT_NONE). Some other thread could come along and unmap/remap,
+but perhaps with some kind of F_SEAL_NOUNMAP married to one of these
+special files we could both get what we want?
+
+I submitted a talk to FOSDEM just for grins, if anyone is planning to
+attend that.
+
+Tycho
 
