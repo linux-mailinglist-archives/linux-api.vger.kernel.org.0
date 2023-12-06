@@ -1,48 +1,48 @@
-Return-Path: <linux-api+bounces-259-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-260-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35C75807785
-	for <lists+linux-api@lfdr.de>; Wed,  6 Dec 2023 19:24:42 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 106B08077B5
+	for <lists+linux-api@lfdr.de>; Wed,  6 Dec 2023 19:42:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ABCD3281A5D
-	for <lists+linux-api@lfdr.de>; Wed,  6 Dec 2023 18:24:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AF35D1F21240
+	for <lists+linux-api@lfdr.de>; Wed,  6 Dec 2023 18:42:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC86A41845;
-	Wed,  6 Dec 2023 18:24:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B3211DDE2;
+	Wed,  6 Dec 2023 18:42:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s/YlAtrR"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YZlmINq0"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B701C41840;
-	Wed,  6 Dec 2023 18:24:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AF45C433C8;
-	Wed,  6 Dec 2023 18:24:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBFBA364;
+	Wed,  6 Dec 2023 18:42:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02CFFC433CA;
+	Wed,  6 Dec 2023 18:42:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701887076;
-	bh=4ociTYjLoBrdbSLdAVJ6LzCaO53NQDE26UM1o9IZWZg=;
+	s=k20201202; t=1701888152;
+	bh=Z1/55yzMuInGGMiFrVpL72QittGX16HCTLFf+Os5o/w=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=s/YlAtrRmhrOz+dFkqxppDDn4K8as+geagP17kHHEvfOK0G7t80W7bf6IQ+OPfpsf
-	 lZGBvYzkhbsLel8sAoRPlHGaNyIdiu9QLUsiWWyq1bHqrJOql8doifcUt3iDn5xeXt
-	 nEWqo4cuOFsBmoLzBvCXmtJWmpBzThD6CjI9GO8feB+bn/blEyhK3N8qi+XFw6eAYF
-	 LTtwk1Cj0pIJTy5OJTWCjlq9u4XKeOoR1O4oF66Ciz9hCs6paeWX7BIC4DrXC7FnD3
-	 +McORAGD0rvebh34P2oPjP6a9ufDbCaSyKMZ3ttn7cA3NQ0YcQNa/ORu5/Wlr46tO0
-	 Hab1jL6pQKfDA==
-Date: Wed, 6 Dec 2023 18:24:27 +0000
+	b=YZlmINq0IhveoV1iEJDBzMqrwVakbojITZqfK7Ub17p4CaHW4axLE1K8gmtbPzdXY
+	 7sZgtS8nJcEHdyx8PrY26UkJjo3Ti4WlDXOn5VBnZLNSYol2VE+xEIRfjHsogWpwEf
+	 em8DLtq0DGYwf1gGD2xcVI3FCflaNEOtkEuXwoZv7gMeZsVU7HryDKpUvnXzta/pdT
+	 BSrkOORx/nxKZI91EItlnB7hcoxIUL25ZHM46t+eDqisxnnmynuqKdkd36MVd+OrmE
+	 odcXURBHZCAVFMmdn6JICXKvM0km2elMMzpv2daDtblEuonbBGmowoFW7UPqQw3k6y
+	 9W0LBUzmtQiBg==
+Date: Wed, 6 Dec 2023 18:42:23 +0000
 From: Mark Brown <broonie@kernel.org>
 To: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
 Cc: "dietmar.eggemann@arm.com" <dietmar.eggemann@arm.com>,
 	"keescook@chromium.org" <keescook@chromium.org>,
+	"Szabolcs.Nagy@arm.com" <Szabolcs.Nagy@arm.com>,
 	"shuah@kernel.org" <shuah@kernel.org>,
-	"brauner@kernel.org" <brauner@kernel.org>,
 	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
 	"debug@rivosinc.com" <debug@rivosinc.com>,
 	"mgorman@suse.de" <mgorman@suse.de>,
-	"Szabolcs.Nagy@arm.com" <Szabolcs.Nagy@arm.com>,
+	"brauner@kernel.org" <brauner@kernel.org>,
 	"fweimer@redhat.com" <fweimer@redhat.com>,
 	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
 	"mingo@redhat.com" <mingo@redhat.com>,
@@ -63,13 +63,15 @@ Cc: "dietmar.eggemann@arm.com" <dietmar.eggemann@arm.com>,
 	"linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
 	"x86@kernel.org" <x86@kernel.org>,
 	"juri.lelli@redhat.com" <juri.lelli@redhat.com>
-Subject: Re: [PATCH RFT v4 2/5] fork: Add shadow stack support to clone3()
-Message-ID: <e3019fc3-3b52-4067-973a-83a2b0e5ae2f@sirena.org.uk>
+Subject: Re: [PATCH RFT v4 5/5] kselftest/clone3: Test shadow stack support
+Message-ID: <2a7fe5bd-3133-4bdf-9150-cf929925d421@sirena.org.uk>
 References: <20231128-clone3-shadow-stack-v4-0-8b28ffe4f676@kernel.org>
- <20231128-clone3-shadow-stack-v4-2-8b28ffe4f676@kernel.org>
- <61f80d032c6a630dd641c9b598b37c2eb40d51e8.camel@intel.com>
- <ed665d6f-66b0-4eeb-8cf8-db852e017d6a@sirena.org.uk>
- <47bb581c20010552615125fce63e3c5c49d1c690.camel@intel.com>
+ <20231128-clone3-shadow-stack-v4-5-8b28ffe4f676@kernel.org>
+ <4898975452179af46f38daa6979b32ba94001419.camel@intel.com>
+ <345cf31a-3663-4974-9b2a-54d2433e64a7@sirena.org.uk>
+ <a6bf192a1568620826dd79124511ea61472873c8.camel@intel.com>
+ <098f5d43-e093-4316-9b86-80833c2b94ec@sirena.org.uk>
+ <127bba3063b19dd87ae3014f6d3bba342f7a16fb.camel@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -77,85 +79,58 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="MP7fcSpsVuqtyKiU"
+	protocol="application/pgp-signature"; boundary="zxBosQRC8SZzpWjX"
 Content-Disposition: inline
-In-Reply-To: <47bb581c20010552615125fce63e3c5c49d1c690.camel@intel.com>
+In-Reply-To: <127bba3063b19dd87ae3014f6d3bba342f7a16fb.camel@intel.com>
 X-Cookie: From concentrate.
 
 
---MP7fcSpsVuqtyKiU
-Content-Type: text/plain; charset=iso-8859-1
+--zxBosQRC8SZzpWjX
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Dec 05, 2023 at 10:23:08PM +0000, Edgecombe, Rick P wrote:
-> On Tue, 2023-12-05 at 15:51 +0000, Mark Brown wrote:
+On Tue, Dec 05, 2023 at 10:31:09PM +0000, Edgecombe, Rick P wrote:
+> On Tue, 2023-12-05 at 16:43 +0000, Mark Brown wrote:
 
-> > Hrm, right.=A0 And we then can't use do_mmap() either.=A0 I'd be somewh=
-at
-> > tempted to disallow that specific case for now rather than deal with
-> > it
-> > though that's not really in the spirit of just always following what
-> > the
-> > user asked for.
+> > If the x86 toolchain/libc support is widely enough deployed (or you
+> > just
+> > don't mind any missing coverage) we could use the toolchain support
+> > there and only have the manual enable for arm64, it'd be inconsistent
+> > but not wildly so.
 
-> Oh, yea. What a pain. It doesn't seem like we could easily even add a
-> do_mmap() variant that takes an mm either.
+> I'm hoping there is not too much of a gap before the glibc support
+> starts filtering out. Long term, elf bit enabling is probably the right
+> thing for the generic tests. Short term, manual enabling is ok with me
+> if no one else minds. Maybe we could add my "don't do" list as a
+> comment if we do manual enabling?
 
-> I did a quick logging test on a Fedora userspace. systemd (I think)
-> appears to do a clone(!CLONE_VM) with a stack passed. So maybe the
-> combo might actually get used with a shadow_stack_size if it used
-> clone3 some day. At the same time, fixing clone to mmap() in the child
-> doesn't seem straight forward at all. Checking with some of our MM
-> folks, the suggestion was to look at doing the child's shadow stack
-> mapping in dup_mm() to avoid tripping over complications that happen
-> when a remote MM becomes more "live".
+Probably good to write it up somewhere, yes - it'd also be useful for
+anyone off doing their own non-libc things.  It did cross my mind to
+try to make a document for the generic bit of the ABI for shadow stacks.
 
-Yeah, I can't see anything that looks particularly tasteful.
+> I'll have to check your new series, but I also wonder if we could cram
+> the manual enabling and status checking pieces into some headers and
+> not have to have "if x86" "if arm" logic in the test themselves.
 
-> If we just punt on this combination for now, then the documented rules
-> for args->shadow_stack_size would be something like:
-> clone3 will use the parents shadow stack when CLONE_VM is not present.
-> If CLONE_VFORK is set then it will use the parents shadow stack only
-> when args->shadow_stack_size is non-zero. In the cases when the parents
-> shadow stack is not used, args->shadow_stack_size is used for the size
-> whenever non-zero.
+I did think about that but was worried that a header might encourage
+more users doing the hacky thing.  OTOH it would mean the arch specific
+tests could share the header though so perhaps you're right, I'll take a
+look.
 
-> I guess it doesn't seem too overly complicated. But I'm not thinking
-> any of the options seem great. I'd unhappily lean towards not
-
-Indeed, it's all really hard to get enthusiastic about.
-
-> supporting shadow_stack_size!=3D0 && !CLONE_VM for now. But it seems like
-> there may be a user for the unsupported case, so this would be just
-> improving things a little and kicking the can down the road. I also
-> wonder if this is a sign to reconsider the earlier token consuming
-> design.
-
-In the case where we have !CLONE_VM it should actually possible to reuse
-the token (since the user is in at least some sense the child process
-rather than the parent) so it's less pure overhead, providing you don't
-mind the children of a given parent all using the same addresses for
-their initial shadow stack.
-
-I'll have a poke at the various options and come up with something,
-hopefully this month but it's getting a bit busy so might be early=20
-next year instead.
-
---MP7fcSpsVuqtyKiU
+--zxBosQRC8SZzpWjX
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmVwvFoACgkQJNaLcl1U
-h9BjkQf+IKy3MFuF8lImmAni+DxdD+Kaebr+6cdjuI4Q8xYb1rhMSU/IXfh6GAfk
-9J2Fh673QpD3E871HljnXRD2XdevWJxeJjIz2y7vjYVelcrHS71vjvH/mxIJN4We
-gS9enoXEJNwqWyssqMBIUnwGD+kWNs7wvz4cKhRSc1hNd6q7IWCJVGYwOjsoI9/c
-8gaf+t7lMSgrVaWOgkAHafhXfo3yfWfzpDhYBJ9B29gfVpUlQOyvwASElNWyPnUR
-Mgkw1SbfuSxCloqVgZBMq5/kuSg5wCAeyTKtPNkXh3Lxq8/7wIDzb3ioe/Vt0lnr
-m5vMJhWEJhg2/P2arPbdNwZHuwxP4A==
-=WH48
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmVwwI8ACgkQJNaLcl1U
+h9CVHQf/cmjZxceMOIDMMSGhM2fS6i96ldlWTSPwQfb5HMKyTcQ9YOSXaNHb1m2n
+dbvgXqvkgPThdFw0hYwcTryPVlHqdnqTAuZwcn5s0I+z0YEt9KiBtfNM1AZtxSkd
+wIEAlKcXlSJV6x8d35Hg5hsVHoeEefnw4Wi5qVddYjN2yoBVVKH11gniMSs5dll+
+nlvb20GPpPPTFyx3qqVyuraICoNnxRAI7x/+GyDlDJW4fn9EBcYnOr32L4kRxIY7
+aQY9S2naHGi/jQoayRcGng+kj+FMGqeRF6nJh3oN57fekEqjJvcE43JtefHT25Cf
+AuTtlmmNB4jQcvkAK6CoMdX6HG153w==
+=RXcG
 -----END PGP SIGNATURE-----
 
---MP7fcSpsVuqtyKiU--
+--zxBosQRC8SZzpWjX--
 
