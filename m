@@ -1,136 +1,150 @@
-Return-Path: <linux-api+bounces-260-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-261-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 106B08077B5
-	for <lists+linux-api@lfdr.de>; Wed,  6 Dec 2023 19:42:35 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5E2380790B
+	for <lists+linux-api@lfdr.de>; Wed,  6 Dec 2023 20:58:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AF35D1F21240
-	for <lists+linux-api@lfdr.de>; Wed,  6 Dec 2023 18:42:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8210D1F21231
+	for <lists+linux-api@lfdr.de>; Wed,  6 Dec 2023 19:58:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B3211DDE2;
-	Wed,  6 Dec 2023 18:42:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YZlmINq0"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E15FE41874;
+	Wed,  6 Dec 2023 19:58:15 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBFBA364;
-	Wed,  6 Dec 2023 18:42:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02CFFC433CA;
-	Wed,  6 Dec 2023 18:42:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701888152;
-	bh=Z1/55yzMuInGGMiFrVpL72QittGX16HCTLFf+Os5o/w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YZlmINq0IhveoV1iEJDBzMqrwVakbojITZqfK7Ub17p4CaHW4axLE1K8gmtbPzdXY
-	 7sZgtS8nJcEHdyx8PrY26UkJjo3Ti4WlDXOn5VBnZLNSYol2VE+xEIRfjHsogWpwEf
-	 em8DLtq0DGYwf1gGD2xcVI3FCflaNEOtkEuXwoZv7gMeZsVU7HryDKpUvnXzta/pdT
-	 BSrkOORx/nxKZI91EItlnB7hcoxIUL25ZHM46t+eDqisxnnmynuqKdkd36MVd+OrmE
-	 odcXURBHZCAVFMmdn6JICXKvM0km2elMMzpv2daDtblEuonbBGmowoFW7UPqQw3k6y
-	 9W0LBUzmtQiBg==
-Date: Wed, 6 Dec 2023 18:42:23 +0000
-From: Mark Brown <broonie@kernel.org>
-To: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-Cc: "dietmar.eggemann@arm.com" <dietmar.eggemann@arm.com>,
-	"keescook@chromium.org" <keescook@chromium.org>,
-	"Szabolcs.Nagy@arm.com" <Szabolcs.Nagy@arm.com>,
-	"shuah@kernel.org" <shuah@kernel.org>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-	"debug@rivosinc.com" <debug@rivosinc.com>,
-	"mgorman@suse.de" <mgorman@suse.de>,
-	"brauner@kernel.org" <brauner@kernel.org>,
-	"fweimer@redhat.com" <fweimer@redhat.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"mingo@redhat.com" <mingo@redhat.com>,
-	"hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-	"rostedt@goodmis.org" <rostedt@goodmis.org>,
-	"vincent.guittot@linaro.org" <vincent.guittot@linaro.org>,
-	"tglx@linutronix.de" <tglx@linutronix.de>,
-	"vschneid@redhat.com" <vschneid@redhat.com>,
-	"catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-	"bristot@redhat.com" <bristot@redhat.com>,
-	"will@kernel.org" <will@kernel.org>,
-	"hpa@zytor.com" <hpa@zytor.com>,
-	"peterz@infradead.org" <peterz@infradead.org>,
-	"jannh@google.com" <jannh@google.com>,
-	"bp@alien8.de" <bp@alien8.de>,
-	"bsegall@google.com" <bsegall@google.com>,
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-	"linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-	"x86@kernel.org" <x86@kernel.org>,
-	"juri.lelli@redhat.com" <juri.lelli@redhat.com>
-Subject: Re: [PATCH RFT v4 5/5] kselftest/clone3: Test shadow stack support
-Message-ID: <2a7fe5bd-3133-4bdf-9150-cf929925d421@sirena.org.uk>
-References: <20231128-clone3-shadow-stack-v4-0-8b28ffe4f676@kernel.org>
- <20231128-clone3-shadow-stack-v4-5-8b28ffe4f676@kernel.org>
- <4898975452179af46f38daa6979b32ba94001419.camel@intel.com>
- <345cf31a-3663-4974-9b2a-54d2433e64a7@sirena.org.uk>
- <a6bf192a1568620826dd79124511ea61472873c8.camel@intel.com>
- <098f5d43-e093-4316-9b86-80833c2b94ec@sirena.org.uk>
- <127bba3063b19dd87ae3014f6d3bba342f7a16fb.camel@intel.com>
+Received: from mail.hallyn.com (mail.hallyn.com [178.63.66.53])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E78ABA;
+	Wed,  6 Dec 2023 11:58:09 -0800 (PST)
+Received: by mail.hallyn.com (Postfix, from userid 1001)
+	id 18BDD801; Wed,  6 Dec 2023 13:58:07 -0600 (CST)
+Date: Wed, 6 Dec 2023 13:58:07 -0600
+From: "Serge E. Hallyn" <serge@hallyn.com>
+To: Miklos Szeredi <mszeredi@redhat.com>
+Cc: Christian Brauner <christian@brauner.io>, linux-api@vger.kernel.org,
+	linux-man@vger.kernel.org, linux-security-module@vger.kernel.org,
+	Karel Zak <kzak@redhat.com>, linux-fsdevel@vger.kernel.org,
+	Ian Kent <raven@themaw.net>, David Howells <dhowells@redhat.com>,
+	Al Viro <viro@zeniv.linux.org.uk>
+Subject: Re: [PATCH 3/4] listmount: small changes in semantics
+Message-ID: <20231206195807.GA209606@mail.hallyn.com>
+References: <20231128160337.29094-1-mszeredi@redhat.com>
+ <20231128160337.29094-4-mszeredi@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="zxBosQRC8SZzpWjX"
-Content-Disposition: inline
-In-Reply-To: <127bba3063b19dd87ae3014f6d3bba342f7a16fb.camel@intel.com>
-X-Cookie: From concentrate.
-
-
---zxBosQRC8SZzpWjX
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231128160337.29094-4-mszeredi@redhat.com>
 
-On Tue, Dec 05, 2023 at 10:31:09PM +0000, Edgecombe, Rick P wrote:
-> On Tue, 2023-12-05 at 16:43 +0000, Mark Brown wrote:
+On Tue, Nov 28, 2023 at 05:03:34PM +0100, Miklos Szeredi wrote:
+> 1) Make permission checking consistent with statmount(2): fail if mount is
+> unreachable from current root.  Previously it failed if mount was
+> unreachable from root->mnt->mnt_root.
+> 
+> 2) List all submounts, even if unreachable from current root.  This is
+> safe, since 1) will prevent listing unreachable mounts for unprivileged
+> users.
+> 
+> 3) LSMT_ROOT is unchaged, it lists mounts under current root.
+> 
+> Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
+> ---
+>  fs/namespace.c | 39 ++++++++++++++-------------------------
+>  1 file changed, 14 insertions(+), 25 deletions(-)
+> 
+> diff --git a/fs/namespace.c b/fs/namespace.c
+> index ad62cf7ee334..10cd651175b5 100644
+> --- a/fs/namespace.c
+> +++ b/fs/namespace.c
+> @@ -5004,37 +5004,26 @@ static struct mount *listmnt_next(struct mount *curr)
+>  	return node_to_mount(rb_next(&curr->mnt_node));
+>  }
+>  
+> -static ssize_t do_listmount(struct mount *first, struct vfsmount *mnt,
+> +static ssize_t do_listmount(struct mount *first, struct path *orig, u64 mnt_id,
+>  			    u64 __user *buf, size_t bufsize,
+>  			    const struct path *root)
+>  {
+> -	struct mount *r, *m = real_mount(mnt);
+> -	struct path rootmnt = {
+> -		.mnt = root->mnt,
+> -		.dentry = root->mnt->mnt_root
+> -	};
+> -	struct path orig;
+> +	struct mount *r;
+>  	ssize_t ctr;
+>  	int err;
+>  
+> -	if (!is_path_reachable(m, mnt->mnt_root, &rootmnt))
+> -		return capable(CAP_SYS_ADMIN) ? 0 : -EPERM;
+> +	if (!capable(CAP_SYS_ADMIN) &&
 
-> > If the x86 toolchain/libc support is widely enough deployed (or you
-> > just
-> > don't mind any missing coverage) we could use the toolchain support
-> > there and only have the manual enable for arm64, it'd be inconsistent
-> > but not wildly so.
+Was there a reason to do the capable check first?  In general,
+checking capable() when not needed is frowned upon, as it will
+set the PF_SUPERPRIV flag.
 
-> I'm hoping there is not too much of a gap before the glibc support
-> starts filtering out. Long term, elf bit enabling is probably the right
-> thing for the generic tests. Short term, manual enabling is ok with me
-> if no one else minds. Maybe we could add my "don't do" list as a
-> comment if we do manual enabling?
-
-Probably good to write it up somewhere, yes - it'd also be useful for
-anyone off doing their own non-libc things.  It did cross my mind to
-try to make a document for the generic bit of the ABI for shadow stacks.
-
-> I'll have to check your new series, but I also wonder if we could cram
-> the manual enabling and status checking pieces into some headers and
-> not have to have "if x86" "if arm" logic in the test themselves.
-
-I did think about that but was worried that a header might encourage
-more users doing the hacky thing.  OTOH it would mean the arch specific
-tests could share the header though so perhaps you're right, I'll take a
-look.
-
---zxBosQRC8SZzpWjX
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmVwwI8ACgkQJNaLcl1U
-h9CVHQf/cmjZxceMOIDMMSGhM2fS6i96ldlWTSPwQfb5HMKyTcQ9YOSXaNHb1m2n
-dbvgXqvkgPThdFw0hYwcTryPVlHqdnqTAuZwcn5s0I+z0YEt9KiBtfNM1AZtxSkd
-wIEAlKcXlSJV6x8d35Hg5hsVHoeEefnw4Wi5qVddYjN2yoBVVKH11gniMSs5dll+
-nlvb20GPpPPTFyx3qqVyuraICoNnxRAI7x/+GyDlDJW4fn9EBcYnOr32L4kRxIY7
-aQY9S2naHGi/jQoayRcGng+kj+FMGqeRF6nJh3oN57fekEqjJvcE43JtefHT25Cf
-AuTtlmmNB4jQcvkAK6CoMdX6HG153w==
-=RXcG
------END PGP SIGNATURE-----
-
---zxBosQRC8SZzpWjX--
+> +	    !is_path_reachable(real_mount(orig->mnt), orig->dentry, root))
+> +		return -EPERM;
+>  
+> -	err = security_sb_statfs(mnt->mnt_root);
+> +	err = security_sb_statfs(orig->dentry);
+>  	if (err)
+>  		return err;
+>  
+> -	if (root->mnt == mnt) {
+> -		orig = *root;
+> -	} else {
+> -		orig.mnt = mnt;
+> -		orig.dentry = mnt->mnt_root;
+> -	}
+> -
+>  	for (ctr = 0, r = first; r; r = listmnt_next(r)) {
+> -		if (r == m)
+> +		if (r->mnt_id_unique == mnt_id)
+>  			continue;
+> -		if (!is_path_reachable(r, r->mnt.mnt_root, &orig))
+> +		if (!is_path_reachable(r, r->mnt.mnt_root, orig))
+>  			continue;
+>  
+>  		if (ctr >= bufsize)
+> @@ -5053,9 +5042,8 @@ SYSCALL_DEFINE4(listmount, const struct mnt_id_req __user *, req,
+>  {
+>  	struct mnt_namespace *ns = current->nsproxy->mnt_ns;
+>  	struct mnt_id_req kreq;
+> -	struct vfsmount *mnt;
+>  	struct mount *first;
+> -	struct path root;
+> +	struct path root, orig;
+>  	u64 mnt_id;
+>  	ssize_t ret;
+>  
+> @@ -5071,16 +5059,17 @@ SYSCALL_DEFINE4(listmount, const struct mnt_id_req __user *, req,
+>  	down_read(&namespace_sem);
+>  	get_fs_root(current->fs, &root);
+>  	if (mnt_id == LSMT_ROOT) {
+> -		mnt = root.mnt;
+> +		orig = root;
+>  	} else {
+>  		ret = -ENOENT;
+> -		mnt  = lookup_mnt_in_ns(mnt_id, ns);
+> -		if (!mnt)
+> +		orig.mnt  = lookup_mnt_in_ns(mnt_id, ns);
+> +		if (!orig.mnt)
+>  			goto err;
+> +		orig.dentry = orig.mnt->mnt_root;
+>  	}
+>  	first = node_to_mount(rb_first(&ns->mounts));
+>  
+> -	ret = do_listmount(first, mnt, buf, bufsize, &root);
+> +	ret = do_listmount(first, &orig, mnt_id, buf, bufsize, &root);
+>  err:
+>  	path_put(&root);
+>  	up_read(&namespace_sem);
+> -- 
+> 2.41.0
+> 
 
