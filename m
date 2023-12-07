@@ -1,124 +1,123 @@
-Return-Path: <linux-api+bounces-293-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-294-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A753E80952E
-	for <lists+linux-api@lfdr.de>; Thu,  7 Dec 2023 23:18:11 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D39780960D
+	for <lists+linux-api@lfdr.de>; Thu,  7 Dec 2023 23:59:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3BE73281818
-	for <lists+linux-api@lfdr.de>; Thu,  7 Dec 2023 22:18:10 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2043D1F21377
+	for <lists+linux-api@lfdr.de>; Thu,  7 Dec 2023 22:59:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7516C840F1;
-	Thu,  7 Dec 2023 22:18:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0AB364D586;
+	Thu,  7 Dec 2023 22:58:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=stgolabs.net header.i=@stgolabs.net header.b="IUGByDH/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ajlap/dw"
 X-Original-To: linux-api@vger.kernel.org
-Received: from bird.elm.relay.mailchannels.net (bird.elm.relay.mailchannels.net [23.83.212.17])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C383410DE;
-	Thu,  7 Dec 2023 14:18:03 -0800 (PST)
-X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
-Received: from relay.mailchannels.net (localhost [127.0.0.1])
-	by relay.mailchannels.net (Postfix) with ESMTP id E8A5B94297A;
-	Thu,  7 Dec 2023 22:18:02 +0000 (UTC)
-Received: from pdx1-sub0-mail-a206.dreamhost.com (unknown [127.0.0.6])
-	(Authenticated sender: dreamhost)
-	by relay.mailchannels.net (Postfix) with ESMTPA id 545C3942985;
-	Thu,  7 Dec 2023 22:18:02 +0000 (UTC)
-ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1701987482; a=rsa-sha256;
-	cv=none;
-	b=XIxqLONpak5Z/quUPT8ob6a4cz23yAmBWMqP3j/jxcjPTkdsx7iEXhnCZjc9ckUA3zMwkK
-	a3M0sTejb63Hhky/bBI5E8sYyAmWO1E99B+dBDyi2dc6Vln3AdIwHfrVmpu0ay0vDMJkp/
-	qvPgAQQ8kLLh7ruM8R3fzHwnmqWIt6yeIVpb4kWaOL0VPAoImOvTOw5f1rzJh8/42VHvq7
-	hfdE/mLAV3Bw07P5qH+g3H59kOuB8Mij1jCTpdspjGs9mbubGVe6T/BeoBAWnoMQYxMV+p
-	mNDv4aZ+u2P0Omm6DKFIyWYLfMjqhZrpLSEDRva8RUE0kBHSnduJbMejIdhMUg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mailchannels.net;
-	s=arc-2022; t=1701987482;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references:dkim-signature;
-	bh=POl4DWLqR/bRNOMgsVfEX6y6MMnMuc7boUj6x6VE23s=;
-	b=+CEzdId799XG/75zFnjfEJ4aR1pcDMd03OvuGJfC+gzmuGzrW42soUSV6QCCNxrbPAT+do
-	3Sy1FXT3yDwQ3sCIofv4cOkqThnEUJ7LfeXulwubhBw3lS5EXn4gCeorw/BzfAo+jN/J5q
-	VpU/ArsZ3XMLoIzkU4U4DgD3Sm4PIFd0D7Uv2c8MaNRxo4XT4S9aXPxEKCOdixCdFMdtU0
-	0kUSzxRxtVCekC9q5RyKbbYPXE0RLFALs7dNRVF/lDnGr1LWDWXjT7Fb4cjs9kpg8soCvE
-	ITzokZPU1dXp9DUVXogleanKcxklx5fdLlfp20x+ZlMACSsKMR1PGQJL/NZQnw==
-ARC-Authentication-Results: i=1;
-	rspamd-696ff67dc8-wtjhs;
-	auth=pass smtp.auth=dreamhost smtp.mailfrom=dave@stgolabs.net
-X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
-X-MC-Relay: Neutral
-X-MailChannels-SenderId: dreamhost|x-authsender|dave@stgolabs.net
-X-MailChannels-Auth-Id: dreamhost
-X-Stretch-Bottle: 76b24ca367833107_1701987482714_1654256506
-X-MC-Loop-Signature: 1701987482714:2977466096
-X-MC-Ingress-Time: 1701987482713
-Received: from pdx1-sub0-mail-a206.dreamhost.com (pop.dreamhost.com
- [64.90.62.162])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
-	by 100.118.156.74 (trex/6.9.2);
-	Thu, 07 Dec 2023 22:18:02 +0000
-Received: from offworld (ip72-199-50-187.sd.sd.cox.net [72.199.50.187])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	(Authenticated sender: dave@stgolabs.net)
-	by pdx1-sub0-mail-a206.dreamhost.com (Postfix) with ESMTPSA id 4SmTDS4NqFzCb;
-	Thu,  7 Dec 2023 14:18:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stgolabs.net;
-	s=dreamhost; t=1701987482;
-	bh=POl4DWLqR/bRNOMgsVfEX6y6MMnMuc7boUj6x6VE23s=;
-	h=Date:From:To:Subject:Content-Type;
-	b=IUGByDH/0M+ZoVjZfyKlfAaspk+reGSssPqMb8UPZMvCwxqVZ7Rr6yZAlLm1M3bX5
-	 S/wqZzZ7iLdjzkLr0SGXMLBwZLuWRvvKrVx7zeetwJYaFYfhyRWm3SUgCH/w2ynJdE
-	 GwkNm+LGgWSFUVVRLegOoxkZFhcL41XwxZULXBrlxJnlGX02Q+pxiT6KMFyfMzcB90
-	 rSg0djbLhvTuAUrGESvOH98kuZl225JKhcPUrLb8W7GdUNHPhml8fGGg+VINp+tO3L
-	 5Cd2J/Y2i2QHkRP9s9dPdxJcLi7TlfwH24Ee3gVfALWQLuqz0AX3doA7lcmx5CkhtT
-	 MDfEUl00T5q8g==
-Date: Thu, 7 Dec 2023 14:17:57 -0800
-From: Davidlohr Bueso <dave@stgolabs.net>
-To: Gregory Price <gourry.memverge@gmail.com>, linux-mm@kvack.org, 
-	jgroves@micron.com, ravis.opensrc@micron.com, sthanneeru@micron.com, 
-	emirakhur@micron.com, Hasan.Maruf@amd.com, linux-doc@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, linux-arch@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, akpm@linux-foundation.org, arnd@arndb.de, tglx@linutronix.de, 
-	luto@kernel.org, mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, 
-	x86@kernel.org, hpa@zytor.com, mhocko@kernel.org, tj@kernel.org, 
-	ying.huang@intel.com, gregory.price@memverge.com, corbet@lwn.net, rakie.kim@sk.com, 
-	hyeongtak.ji@sk.com, honggyu.kim@sk.com, vtavarespetr@micron.com, 
-	peterz@infradead.org
-Subject: Re: [RFC PATCH 01/11] mm/mempolicy: implement the sysfs-based
- weighted_interleave interface
-Message-ID: <iwvu5bzpxie35u66ice7y2r2n562xmao5gvzkc7rfhfh5phx2i@idvfsdnq4ynf>
-Mail-Followup-To: Gregory Price <gourry.memverge@gmail.com>, 
-	linux-mm@kvack.org, jgroves@micron.com, ravis.opensrc@micron.com, 
-	sthanneeru@micron.com, emirakhur@micron.com, Hasan.Maruf@amd.com, 
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org, akpm@linux-foundation.org, 
-	arnd@arndb.de, tglx@linutronix.de, luto@kernel.org, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	mhocko@kernel.org, tj@kernel.org, ying.huang@intel.com, gregory.price@memverge.com, 
-	corbet@lwn.net, rakie.kim@sk.com, hyeongtak.ji@sk.com, honggyu.kim@sk.com, 
-	vtavarespetr@micron.com, peterz@infradead.org
-References: <20231207002759.51418-1-gregory.price@memverge.com>
- <20231207002759.51418-2-gregory.price@memverge.com>
- <uxqkbmqbvcvx6wc3g2h6vhkutv5flrq6rslwdfs7pa6kknupwh@a245pbtfqfgj>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DABBA358AC;
+	Thu,  7 Dec 2023 22:58:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58E2EC433C8;
+	Thu,  7 Dec 2023 22:58:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701989938;
+	bh=fdYFS4UIedapRqvC5EhadTwBycy5c+nIp6a9D9KoFRw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Ajlap/dwWcOOVf6xWLdUG5Vsge9GGLtQW+REAyRu744RSdrP4n5ULO78N2vxy2FpO
+	 2UQRb1NaMqxYWufUFrnoowD7r/oY745sxRF4hvL7U7wgJFyEu6V4ot6H2SLMPN/A7s
+	 RQClP11Zuo72c7tQdSXd0+5hGtIhElFMpVn4V7xYGr9/T/DSmUcSUnVOHSR1AnyVdN
+	 0aOErRZIffzAFLl1Bv9qL3teozDTKGTZkSdhi8MVeyOWxRGJw5/Q87/ecbZZw0eITJ
+	 Z4yqFVk3Tj3sayaYk77t+kFOq5GySnmbwvVK7VbauzX4nteC7cEjaNh/Y/7C88vHsu
+	 DP0pH+tmg5rvA==
+Date: Thu, 7 Dec 2023 23:58:53 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Florian Weimer <fweimer@redhat.com>
+Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Tycho Andersen <tycho@tycho.pizza>, linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org, Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>
+Subject: Re: [RFC 1/3] pidfd: allow pidfd_open() on non-thread-group leaders
+Message-ID: <20231207-entdecken-selektiert-d5ce6dca6a80@brauner>
+References: <20231130163946.277502-1-tycho@tycho.pizza>
+ <874jh3t7e9.fsf@oldenburg.str.redhat.com>
+ <ZWjaSAhG9KI2i9NK@tycho.pizza>
+ <a07b7ae6-8e86-4a87-9347-e6e1a0f2ee65@efficios.com>
+ <87ttp3rprd.fsf@oldenburg.str.redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <uxqkbmqbvcvx6wc3g2h6vhkutv5flrq6rslwdfs7pa6kknupwh@a245pbtfqfgj>
-User-Agent: NeoMutt/20231006
+In-Reply-To: <87ttp3rprd.fsf@oldenburg.str.redhat.com>
 
-On Thu, 07 Dec 2023, Davidlohr Bueso wrote:
+[adjusting Cc as that's really a separate topic]
 
->fyi Rakie's tag needs to be last, per the From.
+On Thu, Nov 30, 2023 at 08:43:18PM +0100, Florian Weimer wrote:
+> * Mathieu Desnoyers:
+> 
+> >>> I'd like to offer a userspace API which allows safe stashing of
+> >>> unreachable file descriptors on a service thread.
 
-sorry no, quite the opposite, never mind this :)
+Fwiw, systemd has a concept called the fdstore:
+
+https://systemd.io/FILE_DESCRIPTOR_STORE
+
+"The file descriptor store [...] allows services to upload during
+runtime additional fds to the service manager that it shall keep on its
+behalf. File descriptors are passed back to the service on subsequent
+activations, the same way as any socket activation fds are passed.
+
+[...]
+
+The primary use-case of this logic is to permit services to restart
+seamlessly (for example to update them to a newer version), without
+losing execution context, dropping pinned resources, terminating
+established connections or even just momentarily losing connectivity. In
+fact, as the file descriptors can be uploaded freely at any time during
+the service runtime, this can even be used to implement services that
+robustly handle abnormal termination and can recover from that without
+losing pinned resources."
+
+> 
+> >> By "safe" here do you mean not accessible via pidfd_getfd()?
+> 
+> No, unreachable by close/close_range/dup2/dup3.  I expect we can do an
+> intra-process transfer using /proc, but I'm hoping for something nicer.
+
+File descriptors are reachable for all processes/threads that share a
+file descriptor table. Changing that means breaking core userspace
+assumptions about how file descriptors work. That's not going to happen
+as far as I'm concerned.
+
+We may consider additional security_* hooks in close*() and dup*(). That
+would allow you to utilize Landlock or BPF LSM to prevent file
+descriptors from being closed or duplicated. pidfd_getfd() is already
+blockable via security_file_receive().
+
+In general, messing with fds in that way is really not a good idea.
+
+If you need something that awkward, then you should go all the way and
+look at io_uring which basically has a separate fd-like handle called
+"fixed files".
+
+Fixed file indexes are separate file-descriptor like handles that can
+only be used from io_uring calls but not with the regular system call
+interface.
+
+IOW, you can refer to a file using an io_uring fixed index. The index to
+use can be chosen by userspace and can't be used with any regular
+fd-based system calls.
+
+The io_uring fd itself can be made a fixed file itself
+
+The only thing missing would be to turn an io_uring fixed file back into
+a regular file descriptor. That could probably be done by using
+receive_fd() and then installing that fd back into the caller's file
+descriptor table. But that would require an io_uring patch.
 
