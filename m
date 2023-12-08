@@ -1,71 +1,89 @@
-Return-Path: <linux-api+bounces-305-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-306-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CEE180AC29
-	for <lists+linux-api@lfdr.de>; Fri,  8 Dec 2023 19:38:14 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D900C80AD7A
+	for <lists+linux-api@lfdr.de>; Fri,  8 Dec 2023 21:04:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4EA5E1C20B9C
-	for <lists+linux-api@lfdr.de>; Fri,  8 Dec 2023 18:38:13 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 60B84B20AFA
+	for <lists+linux-api@lfdr.de>; Fri,  8 Dec 2023 20:04:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E7CA31A92;
-	Fri,  8 Dec 2023 18:38:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2CA656463;
+	Fri,  8 Dec 2023 20:04:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="eNU1EAx2"
+	dkim=pass (2048-bit key) header.d=tycho.pizza header.i=@tycho.pizza header.b="Z4fson34";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="cB4y2/PS"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0040B118
-	for <linux-api@vger.kernel.org>; Fri,  8 Dec 2023 10:38:08 -0800 (PST)
-Received: by mail-pg1-x52b.google.com with SMTP id 41be03b00d2f7-5be30d543c4so1864911a12.2
-        for <linux-api@vger.kernel.org>; Fri, 08 Dec 2023 10:38:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1702060688; x=1702665488; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=NtN8RJrSywNd9cqTGDXuX00rE8787z779s5kNZbKPTg=;
-        b=eNU1EAx2H0cVhDiB2lfoDQan7fEfMz5udTwfcMi9THoBeXBj746nTvWMWjNVPI/oae
-         7u+kXee+wGaH5DFIw6qBonTMD7k84kKyGR+guCa69j7SvDmbG4aK+5dbRq51nuD/XUdv
-         QUFMyM/mvvGSEpHl888CNEbL3R2m1SDSlUWCE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702060688; x=1702665488;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NtN8RJrSywNd9cqTGDXuX00rE8787z779s5kNZbKPTg=;
-        b=KqfcOrXSglNuHjUAr3OHY7MjKsKdtL7bAuMvvQqGDjQlh9uTsFQ04JKmuXVJUZp1Bn
-         +uUoZEh88kednUA53ofufCOYmy+K7M8Y32o1GJ4EAS9S10J0lA0vWf0IxFPvU5AU+pdL
-         Aa0LYcX1wPxejVguvFzKmh/itKCDMExkPaYP+Otwzyz8qmIRqi+m4YHgi6teCBnzPYcO
-         vbwW8v6ZhZceNUqpzYKeTH1JwfE92ChHGw474Cjekl2/diaWW53Jc44kxlPJeqQaHVAl
-         mfngx5NOvYfJ9MbeXR1EB375r+ywXi02oscX7oFvuXYuCQYcDdXmxyxLl0KOjsPrxOBl
-         /J3w==
-X-Gm-Message-State: AOJu0YyuTKUxIXD8CNc8D/2ALlvBxKPj4wcPqY6+y+A3kf2V/YAedyG6
-	/omF1lECV5kkkvqv7PH/zdF1Jw==
-X-Google-Smtp-Source: AGHT+IHJzNo7Hbj+hV0vS5OXcDWV8L1dA0GJLnVKpqyuVHtDw1XXI/AWkfGTwQ2ZZjG7MnXsry4Z7g==
-X-Received: by 2002:a05:6a20:918b:b0:18f:97c:823b with SMTP id v11-20020a056a20918b00b0018f097c823bmr529965pzd.69.1702060688480;
-        Fri, 08 Dec 2023 10:38:08 -0800 (PST)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id o73-20020a62cd4c000000b006c875abecbcsm1966803pfg.121.2023.12.08.10.38.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Dec 2023 10:38:07 -0800 (PST)
-Date: Fri, 8 Dec 2023 10:38:07 -0800
-From: Kees Cook <keescook@chromium.org>
-To: Florian Weimer <fweimer@redhat.com>
-Cc: Alexey Dobriyan <adobriyan@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-api@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCH v2] ELF: supply userspace with available page shifts
- (AT_PAGE_SHIFT_MASK)
-Message-ID: <202312081037.895E558@keescook>
-References: <6b399b86-a478-48b0-92a1-25240a8ede54@p183>
- <87v89dvuxg.fsf@oldenburg.str.redhat.com>
- <1d679805-8a82-44a4-ba14-49d4f28ff597@p183>
- <202312061236.DE847C52AA@keescook>
- <4f5f29d4-9c50-453c-8ad3-03a92fed192e@p183>
- <202312081027.BA44B7B3@keescook>
- <87lea4czki.fsf@oldenburg.str.redhat.com>
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D1E711D;
+	Fri,  8 Dec 2023 12:04:18 -0800 (PST)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.west.internal (Postfix) with ESMTP id 72A563200A64;
+	Fri,  8 Dec 2023 15:04:16 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Fri, 08 Dec 2023 15:04:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tycho.pizza; h=
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm3; t=1702065855; x=1702152255; bh=GG
+	NlAi0M3/WjzMXprO8Id6miZfyxGyNcpliBuJNnlBU=; b=Z4fson34NdZM6IcEu2
+	iLoZagOg8lFOwUsGY7/MgxiA3LedN4e9kJA3GykFrrqKaqcQkaCw60ioeQdo5tUd
+	HsdIeempYYhyj0pQcCye3E+fdHu3WaEkPkjZSkxP5Y9l7UYdMwHxtF+o0aPUuGzA
+	mVqloC3lOtZUWGKLrmRkVyontchKqZFpNRxkgwT6iofNh3Rk3hYkEzp2JvQWqGG/
+	fixNjBLSn7VZS4dvDpVxcoDSR7lskB75R+oOH9R1ZNW5HHvIp7qR+k2db6sj+IXi
+	tHpMVAAKFuoLZW+IbRQ7h51HhzJB3hDdE18+dWI4IRKeaSdhu752YbLgrYkYaktg
+	LHug==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; t=1702065855; x=1702152255; bh=GGNlAi0M3/Wjz
+	MXprO8Id6miZfyxGyNcpliBuJNnlBU=; b=cB4y2/PSRxjPLQFaqkfAMWDth0DBB
+	3g62xpt6oL50ixWkQs8C0eBT7KLpMYa+9l86QazfOOhEMi9IM2i7tmV2qgAM4bzP
+	jwCW0aSSR5QpzalgCb0thW3FgBHfZzSn0CvrS2lzLo1jOkv5U0feKE6hzvbEPoRg
+	sOd920U+mOGYBDn+YB/9XQnb2M1w8j+zEuwIg+x002Mp5FbeR+RnBMVk/vrUP1Ut
+	fn3wxy0VvHmuF0hecFJ35dnTfMgH4DLgrR9VCE/KKlG+EWN44kGbRn+tQM2QF2ue
+	KhmgFnOzSpwSSv3GU8MXjiY/HKu9Z4AqWLcHRFf9HXprupx1rbfW8QoAw==
+X-ME-Sender: <xms:v3ZzZcxZlzP9F7gZxGqFF1g-O9FKhv7tsQhhfLgBIsUCLRfVwWm4Zw>
+    <xme:v3ZzZQSgJOqvPT9kXwi9Vhj3srGxLrxZW0Ylj8l_n2zXggWUKstvm0Ak871UFIXfJ
+    _F9lYCmDzin7zxxvj0>
+X-ME-Received: <xmr:v3ZzZeURbIzstxM83ZJB7wN38bM_adx6KXAa5wCUDSD-oWbr3xQ_7Vjp6_4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrudekiedgudefgecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefvhigt
+    hhhoucetnhguvghrshgvnhcuoehthigthhhosehthigthhhordhpihiiiigrqeenucggtf
+    frrghtthgvrhhnpeelveduteeghfehkeeukefhudfftefhheetfedthfevgfetleevvddu
+    veetueefheenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuih
+    iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepthihtghhohesthihtghhohdrphhi
+    iiiirg
+X-ME-Proxy: <xmx:v3ZzZajIFjxXuK0OpO2WXKzSOnk9R9-7QodwrzuEBDBt26kwkGDrgA>
+    <xmx:v3ZzZeAjHvXt8Ks21zhawShfuuHJwmwjrYixTHE-wiqfE1FSct7FsQ>
+    <xmx:v3ZzZbIid0UApEmFYARIYTY-EYrG66b-E0OQhspWscn2cMiinwlerg>
+    <xmx:v3ZzZUAzxrDhTBWo8ThOoC7WjBbnJPx-KCkgtSdl9JjfjfFTcr6Ebg>
+Feedback-ID: i21f147d5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 8 Dec 2023 15:04:13 -0500 (EST)
+Date: Fri, 8 Dec 2023 13:04:11 -0700
+From: Tycho Andersen <tycho@tycho.pizza>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Oleg Nesterov <oleg@redhat.com>,
+	"Eric W . Biederman" <ebiederm@xmission.com>,
+	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+	Tycho Andersen <tandersen@netflix.com>, Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org,
+	Joel Fernandes <joel@joelfernandes.org>
+Subject: Re: [RFC 1/3] pidfd: allow pidfd_open() on non-thread-group leaders
+Message-ID: <ZXN2u2oJl1Z6FTqt@tycho.pizza>
+References: <20231130163946.277502-1-tycho@tycho.pizza>
+ <20231130173938.GA21808@redhat.com>
+ <ZWjM6trZ6uw6yBza@tycho.pizza>
+ <ZWoKbHJ0152tiGeD@tycho.pizza>
+ <20231207-weither-autopilot-8daee206e6c5@brauner>
+ <20231207-avancieren-unbezahlbar-9258f45ec3ec@brauner>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -74,25 +92,68 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87lea4czki.fsf@oldenburg.str.redhat.com>
+In-Reply-To: <20231207-avancieren-unbezahlbar-9258f45ec3ec@brauner>
 
-On Fri, Dec 08, 2023 at 07:35:25PM +0100, Florian Weimer wrote:
-> * Kees Cook:
+On Thu, Dec 07, 2023 at 10:25:09PM +0100, Christian Brauner wrote:
+> > If these concerns are correct
 > 
-> > I significantly prefer APIs not being arch-specific, so I'd prefer we
-> > always include AT_PAGE_SHIFT_MASK. For an architecture that doesn't
-> > define its own ARCH_AT_PAGE_SHIFT_MASK, it's not _inaccurate_ to report
-> > 1 << PAGE_SHIFT, but it might be incomplete.
+> So, ok. I misremebered this. The scenario I had been thinking of is
+> basically the following.
 > 
-> The downside is that as an application programmer, I have to go and
-> chase for the information the legacy way if I encounter
-> getauxval(AT_PAGE_SHIFT_MASK) == getpagesize() for a longer time
-> because the interface does not signal the absence of any extended
-> page sizes.
+> We have a thread-group with thread-group leader 1234 and a thread with
+> 4567 in that thread-group. Assume current thread-group leader is tsk1
+> and the non-thread-group leader is tsk2. tsk1 uses struct pid *tg_pid
+> and tsk2 uses struct pid *t_pid. The struct pids look like this after
+> creation of both thread-group leader tsk1 and thread tsk2:
+> 
+> 	TGID 1234				TID 4567 
+> 	tg_pid[PIDTYPE_PID]  = tsk1		t_pid[PIDTYPE_PID]  = tsk2
+> 	tg_pid[PIDTYPE_TGID] = tsk1		t_pid[PIDTYPE_TGID] = NULL
+> 
+> IOW, tsk2's struct pid has never been used as a thread-group leader and
+> thus PIDTYPE_TGID is NULL. Now assume someone does create pidfds for
+> tsk1 and for tsk2:
+> 	
+> 	tg_pidfd = pidfd_open(tsk1)		t_pidfd = pidfd_open(tsk2)
+> 	-> tg_pidfd->private_data = tg_pid	-> t_pidfd->private_data = t_pid
+> 
+> So we stash away struct pid *tg_pid for a pidfd_open() on tsk1 and we
+> stash away struct pid *t_pid for a pidfd_open() on tsk2.
+> 
+> If we wait on that task via P_PIDFD we get:
+> 
+> 				/* waiting through pidfd */
+> 	waitid(P_PIDFD, tg_pidfd)		waitid(P_PIDFD, t_pidfd)
+> 	tg_pid[PIDTYPE_TGID] == tsk1		t_pid[PIDTYPE_TGID] == NULL
+> 	=> succeeds				=> fails
+> 
+> Because struct pid *tg_pid is used a thread-group leader struct pid we
+> can wait on that tsk1. But we can't via the non-thread-group leader
+> pidfd because the struct pid *t_pid has never been used as a
+> thread-group leader.
+> 
+> Now assume, t_pid exec's and the struct pids are transfered. IIRC, we
+> get:
+> 
+> 	tg_pid[PIDTYPE_PID]   = tsk2		t_pid[PIDTYPE_PID]   = tsk1
+> 	tg_pid[PIDTYPE_TGID]  = tsk2		t_pid[PIDTYPE_TGID]  = NULL
+> 
+> If we wait on that task via P_PIDFD we get:
+> 	
+> 				/* waiting through pidfd */
+> 	waitid(P_PIDFD, tg_pidfd)		waitid(P_PIDFD, t_pid)
+> 	tg_pid[PIDTYPE_TGID] == tsk2		t_pid[PIDTYPE_TGID] == NULL
+> 	=> succeeds				=> fails
+> 
+> Which is what we want. So effectively this should all work and I
+> misremembered the struct pid linkage. So afaict we don't even have a
+> problem here which is great.
 
-Are there architectures besides x86 where AT_PAGE_SHIFT_MASK isn't a
-single bit? If so, let's get them added now along with x86.
+It sounds like we need some tests for waitpid() directly though, to
+ensure the semantics stay stable. I can add those and send a v3,
+assuming the location of do_notify_pidfd() looks ok to you in v2:
 
--- 
-Kees Cook
+https://lore.kernel.org/all/20231207170946.130823-1-tycho@tycho.pizza/
+
+Tycho
 
