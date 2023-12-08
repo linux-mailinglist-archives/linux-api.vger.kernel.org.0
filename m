@@ -1,157 +1,99 @@
-Return-Path: <linux-api+bounces-297-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-298-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AEE8809A23
-	for <lists+linux-api@lfdr.de>; Fri,  8 Dec 2023 04:17:08 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1A5980A422
+	for <lists+linux-api@lfdr.de>; Fri,  8 Dec 2023 14:07:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 34EFA1F212DC
-	for <lists+linux-api@lfdr.de>; Fri,  8 Dec 2023 03:17:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 268A52819D0
+	for <lists+linux-api@lfdr.de>; Fri,  8 Dec 2023 13:07:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C5AF3D7B;
-	Fri,  8 Dec 2023 03:17:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04D051C696;
+	Fri,  8 Dec 2023 13:07:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="kiokj3Cv"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FRvRDROr"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3176A1722
-	for <linux-api@vger.kernel.org>; Thu,  7 Dec 2023 19:16:58 -0800 (PST)
-Received: by mail-pf1-x42b.google.com with SMTP id d2e1a72fcca58-6ce6d089482so209641b3a.0
-        for <linux-api@vger.kernel.org>; Thu, 07 Dec 2023 19:16:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1702005417; x=1702610217; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=9Rux8vsdKkM8nJouugwOO5GuiDS1SIZxc5Vu7ejUgpg=;
-        b=kiokj3Cvkjuh6K6kaPMkRewYJfU3w76aX5w5wmeAVRKVmf0fG63b8As81aqJwLS8Ym
-         /NU6pPAj7qvc6Y6z+bqUiMdUlNb63WQoULePOTxhnrIzSm3pWwUXUuZ47feGpdANRy6l
-         d6Rm0Ahj2pUFGrINR3AJ4gSgcKopIg4zHVw+YSondoXswF1Ghn1Ro7Ay/5apnjwA0iWR
-         avJmPk39lMK9S2+rEg5cP659n/hVbyR7phdrDxZAUm7Q/nH5x8YbwR5EDbZNtEXMIvRO
-         fjD1db9u7IcdSj3hZxJKAcBmOXrDWE89NO7iSgk6DSN6xrfPkNyPb1v3Z5dyaOAXWzL5
-         /x1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702005417; x=1702610217;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9Rux8vsdKkM8nJouugwOO5GuiDS1SIZxc5Vu7ejUgpg=;
-        b=SAzTrc8S8YVyS7Ff7+pwof51KxPDUFPpFE905tODOgJOuWTc48Iw6ChPotY0BfPWLL
-         N9fggWQSoePJzGmXY+6sHq2LCw4QPfG3gtnJQ/kYg6h8F3fOwJH04gIrsHjpL+DiPVoJ
-         1b9onFoFw/d2Pr4fd1FsmUMPqrPOrU3NimIljRYAVwCQewYL9QannppLrRyC2a3ax3/6
-         oy8jWy0TEjhdQcxyF9ewaGAa49OQzV9+WYexmD2UTcsirr/BM22N/wUbF7NmBDKTff/M
-         SbXYG625lf18EEunCoJX9T1UZOoAhnklH7GVxWos5BgWhKFhKUks++2WUCkdWTTmrnkX
-         +qzw==
-X-Gm-Message-State: AOJu0YzHh3Q9snPP9jHDypJLKo3KqNOGJpAwEEgWgXlyoutUkKoSBSEG
-	uHhIZKX1LnNVU/C4XnAyv1JZCo8dSwBOuGYOjMjCgA==
-X-Google-Smtp-Source: AGHT+IG9jHTBY0aV5Yr24U5BQ3/Hg69SHwR+uuZY0ZALqq+TUk7qPMqJeWLxOi0f4Ti5W5yPHBr6Gg==
-X-Received: by 2002:a05:6a00:194f:b0:6ce:2de2:fe4d with SMTP id s15-20020a056a00194f00b006ce2de2fe4dmr7543886pfk.1.1702005417512;
-        Thu, 07 Dec 2023 19:16:57 -0800 (PST)
-Received: from [192.168.1.150] ([198.8.77.194])
-        by smtp.gmail.com with ESMTPSA id w4-20020aa78584000000b006ce5c583c89sm532425pfn.15.2023.12.07.19.16.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Dec 2023 19:16:56 -0800 (PST)
-Message-ID: <c86faa98-937f-42e6-8c05-60112fd95966@kernel.dk>
-Date: Thu, 7 Dec 2023 20:16:55 -0700
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1888840E4;
+	Fri,  8 Dec 2023 13:07:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CA9CC433C8;
+	Fri,  8 Dec 2023 13:07:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702040846;
+	bh=SoM8x/tugHwn+Aw7Ckn647a6hBilbt2LIQ8QfTxIMGc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FRvRDROrDplmOc4J0deSnjRWLLGfPdUoC08OtmjKBBVaNKm0FrU1Hh9dIrDNqAOBe
+	 HnJU5tzwbP6vUsjWqwsqT9n2TghaBXk+yI/DSTHRoUh6J8TebGKZtlkVhUHGrHJSej
+	 rMTfRzUZEeBvSvaA7cfzvYU+HN/EZ8U4j954fnUHh/LDvlF8pBANHxXqlvMMzuMc17
+	 zrtOIeKzKW1hQzXtc9yYZgh6PVKPNMal3ObYBYFJdytUt9sOv28+B2W3BiLnqdSsoI
+	 vjr5ZVsZS6uvDgNIyMbSXGXaOcujepTCT/JCGYOo2bFRvtQn55qgPf29L7eJ0bkNia
+	 bT1Vn3kR//EOQ==
+Date: Fri, 8 Dec 2023 14:07:20 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: "Serge E. Hallyn" <serge@hallyn.com>,
+	Miklos Szeredi <mszeredi@redhat.com>,
+	Christian Brauner <christian@brauner.io>, linux-api@vger.kernel.org,
+	linux-man@vger.kernel.org, linux-security-module@vger.kernel.org,
+	Karel Zak <kzak@redhat.com>, linux-fsdevel@vger.kernel.org,
+	Ian Kent <raven@themaw.net>, David Howells <dhowells@redhat.com>,
+	Al Viro <viro@zeniv.linux.org.uk>
+Subject: Re: [PATCH 3/4] listmount: small changes in semantics
+Message-ID: <20231208-umtreiben-imposant-0b89b4dd2f80@brauner>
+References: <20231128160337.29094-1-mszeredi@redhat.com>
+ <20231128160337.29094-4-mszeredi@redhat.com>
+ <20231206195807.GA209606@mail.hallyn.com>
+ <CAJfpegs-uUEwKrEcmRE4WkzWet_A1f9mnM7UtFqM=szEUi+-1g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC 1/3] pidfd: allow pidfd_open() on non-thread-group leaders
-Content-Language: en-US
-To: Christian Brauner <brauner@kernel.org>,
- Florian Weimer <fweimer@redhat.com>
-Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Tycho Andersen <tycho@tycho.pizza>, linux-kernel@vger.kernel.org,
- linux-api@vger.kernel.org, Jan Kara <jack@suse.cz>,
- linux-fsdevel@vger.kernel.org
-References: <20231130163946.277502-1-tycho@tycho.pizza>
- <874jh3t7e9.fsf@oldenburg.str.redhat.com> <ZWjaSAhG9KI2i9NK@tycho.pizza>
- <a07b7ae6-8e86-4a87-9347-e6e1a0f2ee65@efficios.com>
- <87ttp3rprd.fsf@oldenburg.str.redhat.com>
- <20231207-entdecken-selektiert-d5ce6dca6a80@brauner>
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <20231207-entdecken-selektiert-d5ce6dca6a80@brauner>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAJfpegs-uUEwKrEcmRE4WkzWet_A1f9mnM7UtFqM=szEUi+-1g@mail.gmail.com>
 
-On 12/7/23 3:58 PM, Christian Brauner wrote:
-> [adjusting Cc as that's really a separate topic]
+On Wed, Dec 06, 2023 at 09:24:45PM +0100, Miklos Szeredi wrote:
+> On Wed, 6 Dec 2023 at 20:58, Serge E. Hallyn <serge@hallyn.com> wrote:
+> >
+> > On Tue, Nov 28, 2023 at 05:03:34PM +0100, Miklos Szeredi wrote:
 > 
-> On Thu, Nov 30, 2023 at 08:43:18PM +0100, Florian Weimer wrote:
->> * Mathieu Desnoyers:
->>
->>>>> I'd like to offer a userspace API which allows safe stashing of
->>>>> unreachable file descriptors on a service thread.
+> > > -     if (!is_path_reachable(m, mnt->mnt_root, &rootmnt))
+> > > -             return capable(CAP_SYS_ADMIN) ? 0 : -EPERM;
+> > > +     if (!capable(CAP_SYS_ADMIN) &&
+> >
+> > Was there a reason to do the capable check first?  In general,
+> > checking capable() when not needed is frowned upon, as it will
+> > set the PF_SUPERPRIV flag.
+> >
 > 
-> Fwiw, systemd has a concept called the fdstore:
-> 
-> https://systemd.io/FILE_DESCRIPTOR_STORE
-> 
-> "The file descriptor store [...] allows services to upload during
-> runtime additional fds to the service manager that it shall keep on its
-> behalf. File descriptors are passed back to the service on subsequent
-> activations, the same way as any socket activation fds are passed.
-> 
-> [...]
-> 
-> The primary use-case of this logic is to permit services to restart
-> seamlessly (for example to update them to a newer version), without
-> losing execution context, dropping pinned resources, terminating
-> established connections or even just momentarily losing connectivity. In
-> fact, as the file descriptors can be uploaded freely at any time during
-> the service runtime, this can even be used to implement services that
-> robustly handle abnormal termination and can recover from that without
-> losing pinned resources."
-> 
->>
->>>> By "safe" here do you mean not accessible via pidfd_getfd()?
->>
->> No, unreachable by close/close_range/dup2/dup3.  I expect we can do an
->> intra-process transfer using /proc, but I'm hoping for something nicer.
-> 
-> File descriptors are reachable for all processes/threads that share a
-> file descriptor table. Changing that means breaking core userspace
-> assumptions about how file descriptors work. That's not going to happen
-> as far as I'm concerned.
-> 
-> We may consider additional security_* hooks in close*() and dup*(). That
-> would allow you to utilize Landlock or BPF LSM to prevent file
-> descriptors from being closed or duplicated. pidfd_getfd() is already
-> blockable via security_file_receive().
-> 
-> In general, messing with fds in that way is really not a good idea.
-> 
-> If you need something that awkward, then you should go all the way and
-> look at io_uring which basically has a separate fd-like handle called
-> "fixed files".
-> 
-> Fixed file indexes are separate file-descriptor like handles that can
-> only be used from io_uring calls but not with the regular system call
-> interface.
-> 
-> IOW, you can refer to a file using an io_uring fixed index. The index to
-> use can be chosen by userspace and can't be used with any regular
-> fd-based system calls.
-> 
-> The io_uring fd itself can be made a fixed file itself
-> 
-> The only thing missing would be to turn an io_uring fixed file back into
-> a regular file descriptor. That could probably be done by using
-> receive_fd() and then installing that fd back into the caller's file
-> descriptor table. But that would require an io_uring patch.
+> I synchronized the permission checking with statmount() without
+> thinking about the order.   I guess we can change the order back in
+> both syscalls?
 
-FWIW, since it was very trivial, I posted an rfc/test patch for just
-that with a test case. It's here:
+I can just change the order. It's mostly a question of what is more
+expensive. If there's such unpleasant side-effects... then sure I'll
+reorder.
 
-https://lore.kernel.org/io-uring/df0e24ff-f3a0-4818-8282-2a4e03b7b5a6@kernel.dk/
+> I also don't understand the reason behind the using the _noaudit()
+> variant.  Christian?
 
--- 
-Jens Axboe
+The reasoning is similar to the change in commit e7eda157c407 ("fs:
+don't audit the capability check in simple_xattr_list()").
 
+    "The check being unconditional may lead to unwanted denials reported by
+    LSMs when a process has the capability granted by DAC, but denied by an
+    LSM. In the case of SELinux such denials are a problem, since they can't
+    be effectively filtered out via the policy and when not silenced, they
+    produce noise that may hide a true problem or an attack."
+
+So for system calls like listmount() that we can expect to be called a
+lot of times (findmnt etc at some point) this would needlessly spam
+dmesg without any value. We can always change that to an explicit
+capable() later.
 
