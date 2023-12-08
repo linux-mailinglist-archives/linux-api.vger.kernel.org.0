@@ -1,89 +1,69 @@
-Return-Path: <linux-api+bounces-302-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-303-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3430180AB19
-	for <lists+linux-api@lfdr.de>; Fri,  8 Dec 2023 18:47:57 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 007E580AC0C
+	for <lists+linux-api@lfdr.de>; Fri,  8 Dec 2023 19:29:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9526BB20AFF
-	for <lists+linux-api@lfdr.de>; Fri,  8 Dec 2023 17:47:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A38001F21115
+	for <lists+linux-api@lfdr.de>; Fri,  8 Dec 2023 18:29:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7662A3B78E;
-	Fri,  8 Dec 2023 17:47:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45A1247A6A;
+	Fri,  8 Dec 2023 18:29:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="tU5rg+J6";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="WY/+/qKj";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="tU5rg+J6";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="WY/+/qKj"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="kHVnjikM"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2a07:de40:b251:101:10:150:64:2])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36F0A173B;
-	Fri,  8 Dec 2023 09:47:46 -0800 (PST)
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id BC8971F458;
-	Fri,  8 Dec 2023 17:47:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1702057664; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ty0wkmYBzhMqy5lLUe3gr3yBKvt3QqcxRuI17ne1tpQ=;
-	b=tU5rg+J60uTl33suc+vysMg4/c7ONg3pOCdPI5/B0uag7ybZVCxCk3soIVw0N1aq98Vekl
-	uRFPmvqowmZpxJ1QixeFmNMXO3O6hvZ1lMgggPgKrX1yI0wyJV5LTO1WozbKXuL4km6+uM
-	c4RvaarTbxqOP2EOnMW4O11dpw8rmz0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1702057664;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ty0wkmYBzhMqy5lLUe3gr3yBKvt3QqcxRuI17ne1tpQ=;
-	b=WY/+/qKjUM23d2X621auToV3XZASU1Jw4lKcsnGiwBykB58+5xS4iHMFiX4pVT65CkN8o8
-	+VgmcyjXbLyf6RCQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1702057664; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ty0wkmYBzhMqy5lLUe3gr3yBKvt3QqcxRuI17ne1tpQ=;
-	b=tU5rg+J60uTl33suc+vysMg4/c7ONg3pOCdPI5/B0uag7ybZVCxCk3soIVw0N1aq98Vekl
-	uRFPmvqowmZpxJ1QixeFmNMXO3O6hvZ1lMgggPgKrX1yI0wyJV5LTO1WozbKXuL4km6+uM
-	c4RvaarTbxqOP2EOnMW4O11dpw8rmz0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1702057664;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ty0wkmYBzhMqy5lLUe3gr3yBKvt3QqcxRuI17ne1tpQ=;
-	b=WY/+/qKjUM23d2X621auToV3XZASU1Jw4lKcsnGiwBykB58+5xS4iHMFiX4pVT65CkN8o8
-	+VgmcyjXbLyf6RCQ==
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id AA52013A6B;
-	Fri,  8 Dec 2023 17:47:44 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id Jl4/KcBWc2VCUgAAn2gu4w
-	(envelope-from <jack@suse.cz>); Fri, 08 Dec 2023 17:47:44 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 43F3EA07DC; Fri,  8 Dec 2023 18:47:44 +0100 (CET)
-Date: Fri, 8 Dec 2023 18:47:44 +0100
-From: Jan Kara <jack@suse.cz>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Tycho Andersen <tycho@tycho.pizza>, Oleg Nesterov <oleg@redhat.com>,
-	"Eric W . Biederman" <ebiederm@xmission.com>,
-	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-	Tycho Andersen <tandersen@netflix.com>, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org,
-	Joel Fernandes <joel@joelfernandes.org>
-Subject: Re: [RFC 1/3] pidfd: allow pidfd_open() on non-thread-group leaders
-Message-ID: <20231208174744.2vsubexeolns7nb5@quack3>
-References: <20231130163946.277502-1-tycho@tycho.pizza>
- <20231207-netzhaut-wachen-81c34f8ee154@brauner>
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B849BA
+	for <linux-api@vger.kernel.org>; Fri,  8 Dec 2023 10:29:27 -0800 (PST)
+Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-6ceda123d4fso837332b3a.2
+        for <linux-api@vger.kernel.org>; Fri, 08 Dec 2023 10:29:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1702060167; x=1702664967; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=TYr+i/5NYC3JxHFPI2U93kF4hGY9T4auZhKGKiOPNQ0=;
+        b=kHVnjikMJ8sBJkpxzMJH8TGeYPDCRNcWe0xMt9OuB/ulypTZPHYi+fTnQSgz1g6gVM
+         7lfMOdf8ZmsFg0HVpyBjTxEGA9DWqzjsfwsfsdnk6r9rfmLGVtioc6Qkmubo7Rn2GB8y
+         SuvlggiglrNgLjK7M047un0d4ZF00oX3FJh8I=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702060167; x=1702664967;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TYr+i/5NYC3JxHFPI2U93kF4hGY9T4auZhKGKiOPNQ0=;
+        b=sgNXVFnWAaLG05bU7p1XFm1rhDVGVaF2rz7UYrzS1MdX3786cE8cRawn6izCZ+N/QF
+         ntADIT9RsrEBrF5JGl0D+seI6hz6LVVa2g+qXCPVDilZSBfxe08Ez1o2DJgVf4AKjPU6
+         Kc6SVVi5+h6t3YL2/Y0zLNs/dhd4JcH4ZtPeSltqDIomu3n1wIU5YyradIsltnoneXrl
+         PJVPR6ULZ37MtI3viGmHIQLcoboP9K2R4aBnYKNJM78o/yd7J1eAnhg1wQe3PeguaCWD
+         VC9RqI4m/xrqRbO68QoeUTrzjF+4FNS6trotEMNDI5SpxytmPAbFG7laPUcBzCnQvGJf
+         oUJg==
+X-Gm-Message-State: AOJu0Yz/AW/YoKFvY56AsPlD5+KdcDabas063jl/USjDRzZnvf189bjE
+	tF7Fknw+95PDxqe4fJ0eUOozZQ==
+X-Google-Smtp-Source: AGHT+IEma1zSM6Y9S/+UI5j3p/5Dq4kkVNLpVZGExv6IrOEFo4uGT5o+AV+5AuIOPLXchpFMpklmRA==
+X-Received: by 2002:a05:6a00:15cb:b0:6ce:49f9:d3e1 with SMTP id o11-20020a056a0015cb00b006ce49f9d3e1mr494561pfu.12.1702060166997;
+        Fri, 08 Dec 2023 10:29:26 -0800 (PST)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id ff16-20020a056a002f5000b006ce742b6b1fsm1900019pfb.63.2023.12.08.10.29.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Dec 2023 10:29:26 -0800 (PST)
+Date: Fri, 8 Dec 2023 10:29:25 -0800
+From: Kees Cook <keescook@chromium.org>
+To: Alexey Dobriyan <adobriyan@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Florian Weimer <fweimer@redhat.com>, linux-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+	x86@kernel.org
+Subject: Re: [PATCH v2] ELF: supply userspace with available page shifts
+ (AT_PAGE_SHIFT_MASK)
+Message-ID: <202312081027.BA44B7B3@keescook>
+References: <6b399b86-a478-48b0-92a1-25240a8ede54@p183>
+ <87v89dvuxg.fsf@oldenburg.str.redhat.com>
+ <1d679805-8a82-44a4-ba14-49d4f28ff597@p183>
+ <202312061236.DE847C52AA@keescook>
+ <4f5f29d4-9c50-453c-8ad3-03a92fed192e@p183>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -92,94 +72,33 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231207-netzhaut-wachen-81c34f8ee154@brauner>
-X-Spam-Level: 
-X-Spam-Score: -3.80
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -3.80
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 MIME_GOOD(-0.10)[text/plain];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 RCPT_COUNT_SEVEN(0.00)[10];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 MID_RHS_NOT_FQDN(0.50)[];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-3.00)[100.00%]
-X-Spam-Flag: NO
+In-Reply-To: <4f5f29d4-9c50-453c-8ad3-03a92fed192e@p183>
 
-On Thu 07-12-23 18:21:18, Christian Brauner wrote:
-> [Cc fsdevel & Jan because we had some discussions about fanotify
-> returning non-thread-group pidfds. That's just for awareness or in case
-> this might need special handling.]
-
-Thanks!
-
-> On Thu, Nov 30, 2023 at 09:39:44AM -0700, Tycho Andersen wrote:
-> > From: Tycho Andersen <tandersen@netflix.com>
+On Thu, Dec 07, 2023 at 05:57:05PM +0300, Alexey Dobriyan wrote:
+> On Wed, Dec 06, 2023 at 12:47:27PM -0800, Kees Cook wrote:
+> > Can't we have a generic ARCH_AT_PAGE_SHIFT_MASK too? Something like:
 > > 
-> > We are using the pidfd family of syscalls with the seccomp userspace
-> > notifier. When some thread triggers a seccomp notification, we want to do
-> > some things to its context (munge fd tables via pidfd_getfd(), maybe write
-> > to its memory, etc.). However, threads created with ~CLONE_FILES or
-> > ~CLONE_VM mean that we can't use the pidfd family of syscalls for this
-> > purpose, since their fd table or mm are distinct from the thread group
-> > leader's. In this patch, we relax this restriction for pidfd_open().
+> > #ifndef ARCH_AT_PAGE_SHIFT_MASK
+> > #define ARCH_AT_PAGE_SHIFT_MASK
+> > 	NEW_AUX_ENT(AT_PAGE_SHIFT_MASK, 1 << PAGE_SHIFT)
+> > #endif
 > > 
-> > In order to avoid dangling poll() users we need to notify pidfd waiters
-> > when individual threads die, but once we do that all the other machinery
-> > seems to work ok viz. the tests. But I suppose there are more cases than
-> > just this one.
-> > 
-> > Another weirdness is the open-coding of this vs. exporting using
-> > do_notify_pidfd(). This particular location is after __exit_signal() is
-> > called, which does __unhash_process() which kills ->thread_pid, so we need
-> > to use the copy we have locally, vs do_notify_pid() which accesses it via
-> > task_pid(). Maybe this suggests that the notification should live somewhere
-> > in __exit_signals()? I just put it here because I saw we were already
-> > testing if this task was the leader.
-> > 
-> > Signed-off-by: Tycho Andersen <tandersen@netflix.com>
-> > ---
+> > Or am I misunderstanding something here?
 > 
-> So we've always said that if there's a use-case for this then we're
-> willing to support it. And I think that stance hasn't changed. I know
-> that others have expressed interest in this as well.
+> 1) Arch maintainers can opt into this new way to report information at
+>    their own pace.
 > 
-> So currently the series only enables pidfds for threads to be created
-> and allows notifications for threads. But all places that currently make
-> use of pidfds refuse non-thread-group leaders. We can certainly proceed
-> with a patch series that only enables creation and exit notification but
-> we should also consider unlocking additional functionality:
- 
-...
-
-> * pidfd_prepare() is used to create pidfds for:
+> 2) AT_PAGE_SHIFT_MASK is about _all_ pagesizes supported by CPU.
+>    Reporting just one is missing the point.
 > 
->   (1) CLONE_PIDFD via clone() and clone3()
->   (2) SCM_PIDFD and SO_PEERPIDFD
->   (3) fanotify
+>    I'll clarify comment: mmap() support require many things including
+>    tests for hugetlbfs being mounted, this is about CPU support.
 
-So for fanotify there's no problem I can think of. All we do is return the
-pidfd we get to userspace with the event to identify the task generating
-the event. So in practice this would mean userspace will get proper pidfd
-instead of error value (FAN_EPIDFD) for events generated by
-non-thread-group leader. IMO a win.
+I significantly prefer APIs not being arch-specific, so I'd prefer we
+always include AT_PAGE_SHIFT_MASK. For an architecture that doesn't
+define its own ARCH_AT_PAGE_SHIFT_MASK, it's not _inaccurate_ to report
+1 << PAGE_SHIFT, but it might be incomplete.
 
-								Honza
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Kees Cook
 
