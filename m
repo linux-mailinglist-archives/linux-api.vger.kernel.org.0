@@ -1,123 +1,184 @@
-Return-Path: <linux-api+bounces-294-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-295-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D39780960D
-	for <lists+linux-api@lfdr.de>; Thu,  7 Dec 2023 23:59:01 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0281F8096E1
+	for <lists+linux-api@lfdr.de>; Fri,  8 Dec 2023 01:05:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2043D1F21377
-	for <lists+linux-api@lfdr.de>; Thu,  7 Dec 2023 22:59:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A12512820E2
+	for <lists+linux-api@lfdr.de>; Fri,  8 Dec 2023 00:05:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0AB364D586;
-	Thu,  7 Dec 2023 22:58:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02129161;
+	Fri,  8 Dec 2023 00:05:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ajlap/dw"
+	dkim=pass (1024-bit key) header.d=memverge.com header.i=@memverge.com header.b="o+37JHhb"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DABBA358AC;
-	Thu,  7 Dec 2023 22:58:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58E2EC433C8;
-	Thu,  7 Dec 2023 22:58:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701989938;
-	bh=fdYFS4UIedapRqvC5EhadTwBycy5c+nIp6a9D9KoFRw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ajlap/dwWcOOVf6xWLdUG5Vsge9GGLtQW+REAyRu744RSdrP4n5ULO78N2vxy2FpO
-	 2UQRb1NaMqxYWufUFrnoowD7r/oY745sxRF4hvL7U7wgJFyEu6V4ot6H2SLMPN/A7s
-	 RQClP11Zuo72c7tQdSXd0+5hGtIhElFMpVn4V7xYGr9/T/DSmUcSUnVOHSR1AnyVdN
-	 0aOErRZIffzAFLl1Bv9qL3teozDTKGTZkSdhi8MVeyOWxRGJw5/Q87/ecbZZw0eITJ
-	 Z4yqFVk3Tj3sayaYk77t+kFOq5GySnmbwvVK7VbauzX4nteC7cEjaNh/Y/7C88vHsu
-	 DP0pH+tmg5rvA==
-Date: Thu, 7 Dec 2023 23:58:53 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Florian Weimer <fweimer@redhat.com>
-Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Tycho Andersen <tycho@tycho.pizza>, linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>
-Subject: Re: [RFC 1/3] pidfd: allow pidfd_open() on non-thread-group leaders
-Message-ID: <20231207-entdecken-selektiert-d5ce6dca6a80@brauner>
-References: <20231130163946.277502-1-tycho@tycho.pizza>
- <874jh3t7e9.fsf@oldenburg.str.redhat.com>
- <ZWjaSAhG9KI2i9NK@tycho.pizza>
- <a07b7ae6-8e86-4a87-9347-e6e1a0f2ee65@efficios.com>
- <87ttp3rprd.fsf@oldenburg.str.redhat.com>
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2044.outbound.protection.outlook.com [40.107.94.44])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A5A4171C;
+	Thu,  7 Dec 2023 16:05:28 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=K73n6+PlvmBWh8t1pLJOZ5DtwxBRmna6aVd8/GniU/IvCmyudpDCfwXZtM126p6ZRiw02ELMXOhlj5nL3E8xuNjjU3VybyNMGaYHkKmDDv5z2oX8BRCGqGoe8bu6/i0iCrg3xj2l5M0unC7jAgPUP8sB9jI1Ooa+lBONl0Sr7kgyKlCpXdVkhSZc0yMAAtXqhfURiap5r/p2kMlvXVRtH7FpLU84YKPPatm6ZwKuv6ioUzhw8/jutH/J9GBOv9lNzhRGCp/qMq4JRvtwtIzorgqCZqibTlJMyfciO051hQ3kc8ebQbm5a+eAW3Nu1pKyusgDS1cZnajwGw71/rd9GA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zi6uDaDBJF8VpqKuq9PSPla/rVnh6GWgeSfJDHDp5Jw=;
+ b=lKCUEGyF1TUa1sf+NoLuTMq5bqTXOnDjf4oVdDYgegi96MZIQOaLEu9rxZTEv9oIZmeA1R9VE7Fz0CojYkhaJRqqWAcWe+7qGfPn9C7rnA/Tc0Ia+obIqAbLD5Q9kWguduZWbljNr6NWKJ5FLaTW6wK927ADSn8ifx6xFpj8EEFYl+YfyXKe/CpmpxF3TB/PW+Zfhv5sqzLFbr5hpQ+8CLvorp2uUYQxIBf8224ScBUVjtAW5BteP2sBAKeumIA+6lhkglKW5KG5u7ryJ9m2Z8rxC8x7fXrNienL+W9Y57tFE8q35TWu1iFOWpSpGr4Slgju9fWgn9jOfkhC5Yuzag==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
+ dkim=pass header.d=memverge.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zi6uDaDBJF8VpqKuq9PSPla/rVnh6GWgeSfJDHDp5Jw=;
+ b=o+37JHhbnRpqsTGNkrHd8Ouyab0yv1Y53ZWBT5eGyw91tOYQmSZMb4Q1/hShnu6fb3Zq/nGMl48BT8SAHF68f9+HGz9jCWZvj2CTztSKOUGkOvRT40J+vrOeDMDFEXXN7bKpBcodkuQm6Y242XK9QoXdBvTbPl+6ucG0mEOTVmg=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=memverge.com;
+Received: from SJ0PR17MB5512.namprd17.prod.outlook.com (2603:10b6:a03:394::19)
+ by IA0PR17MB6371.namprd17.prod.outlook.com (2603:10b6:208:433::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.25; Fri, 8 Dec
+ 2023 00:05:24 +0000
+Received: from SJ0PR17MB5512.namprd17.prod.outlook.com
+ ([fe80::381c:7f11:1028:15f4]) by SJ0PR17MB5512.namprd17.prod.outlook.com
+ ([fe80::381c:7f11:1028:15f4%5]) with mapi id 15.20.7068.027; Fri, 8 Dec 2023
+ 00:05:24 +0000
+Date: Thu, 7 Dec 2023 19:05:18 -0500
+From: Gregory Price <gregory.price@memverge.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Gregory Price <gourry.memverge@gmail.com>, linux-mm@kvack.org,
+	jgroves@micron.com, ravis.opensrc@micron.com, sthanneeru@micron.com,
+	emirakhur@micron.com, Hasan.Maruf@amd.com,
+	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-api@vger.kernel.org, Linux-Arch <linux-arch@vger.kernel.org>,
+	linux-kernel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Andy Lutomirski <luto@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>, Michal Hocko <mhocko@kernel.org>,
+	Tejun Heo <tj@kernel.org>, ying.huang@intel.com,
+	Jonathan Corbet <corbet@lwn.net>, rakie.kim@sk.com,
+	hyeongtak.ji@sk.com, honggyu.kim@sk.com, vtavarespetr@micron.com,
+	Peter Zijlstra <peterz@infradead.org>,
+	Frank van der Linden <fvdl@google.com>
+Subject: Re: [RFC PATCH 07/11] mm/mempolicy: add userland mempolicy arg
+ structure
+Message-ID: <ZXJdvmZCjRLDV50L@memverge.com>
+References: <20231207002759.51418-1-gregory.price@memverge.com>
+ <20231207002759.51418-8-gregory.price@memverge.com>
+ <67fab0f1-e326-4ad8-9def-4d2bd5489b33@app.fastmail.com>
+ <ZXHdhVeel1dOxlYJ@memverge.com>
+ <cddbf290-021a-49d5-8729-e98cb099ff67@app.fastmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cddbf290-021a-49d5-8729-e98cb099ff67@app.fastmail.com>
+X-ClientProxiedBy: SJ2PR07CA0022.namprd07.prod.outlook.com
+ (2603:10b6:a03:505::24) To SJ0PR17MB5512.namprd17.prod.outlook.com
+ (2603:10b6:a03:394::19)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <87ttp3rprd.fsf@oldenburg.str.redhat.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR17MB5512:EE_|IA0PR17MB6371:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2f415cc7-0824-4c7c-9cd7-08dbf781604b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	yxyS2HGM8KZ4F4Mg6czGuEQCByj+X09NUI8RdO6Uz5weAJ48JJ/GZpmsOYAIXRvJj4V48ywOsP9/2kFmBKtsXZb5DT4Eza4/SNWusezM9RRiQCoSluSYxL6hljZaSa8dqsC1nkWjfnD1Kpx2CCQKSJEog89YXzRd9X9laE0IQgtKMGRAVt79jvNVd51sZPMTFSXeDE0HSSV7gNnxDQfD+W/d5SXktKhESqGJ7K4uU82b5eQxej4eanHFYzp/5A8bS/qv+z8Pp2vGXURTG7VC0DEJq6kiIvzH/a4O3RVpFVPmij+MemqicpzJjqIdf5pGLmYDto/3C+uAWTbTtRztsbSCwc0gA/3eIqyEIqXjQKAR8p7kr9t4q2OrZT2yzwGiT29KnrIjA3Mmr3e7YeSLZok09D9W00Sjcagj41Epr/tz3geF3lDhiZ/pTPWvRhxygV2hHtENVv6QRmalvNP48UIEXwgWo5+yGt4xVewvAzX4gHyrkz6K2As94YvSHSBFKn+2zOmltRUgpy1fd4/yphMmez5Rn4Sl2VQtElWN6B42+6vro8Wbeyu93NNV6JHg
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR17MB5512.namprd17.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(136003)(376002)(39840400004)(366004)(396003)(230922051799003)(64100799003)(451199024)(1800799012)(186009)(2616005)(6512007)(26005)(41300700001)(66946007)(44832011)(316002)(54906003)(5660300002)(7416002)(7406005)(38100700002)(8676002)(86362001)(4326008)(36756003)(8936002)(66556008)(6506007)(66476007)(6916009)(6486002)(6666004)(478600001)(2906002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?gmadOaYVVt8S8Kh8qzD4hHjBpSnZmU1T3TxQAVgwNumpF74wLh2y7urvwq9b?=
+ =?us-ascii?Q?F6+TMt8Jo2mOf1yGeoUhKIUmQgO+rLeM8c329Ekjzq/xa1G67oluIzy5jzJU?=
+ =?us-ascii?Q?mkMavlZ7drbAFcBmbdrKGRGYDiPz5JeJ65S5eQ1RlhvKwcqOVMURenAkSI/D?=
+ =?us-ascii?Q?hZ1ZQaw+3r7sknWVTGI1VPYNVNb5ZhdBZxrHVEA62R25aHcbMq59uZWA0qLP?=
+ =?us-ascii?Q?kA22i8Hjcf4vgfWDkL9MFiGYFyQEbtmGtuEaUeeihIj/YkkUxWUqabPlipqE?=
+ =?us-ascii?Q?Xp/u4KF4kJrCIfNRerXIGt2diyTmQOqrCoMImCrR7mkQk7GP6o1OrFgp3yT6?=
+ =?us-ascii?Q?ufJNxB0+h9z0d3MfzZn50NPo+4a6PpHFeewN3MfbSREAuOnjqy7jmtvSHSYH?=
+ =?us-ascii?Q?sryrIVQGw7y/6djFJykc3FcOwG/3wfNrftNhVrvLC93zKid4mi2h/C3liYI5?=
+ =?us-ascii?Q?WUNN0JUO3CW7e47ZTPox8/73bg1wrsHpMGGJKYv9+jIZy9R66EkJc89h6+9W?=
+ =?us-ascii?Q?Qlwq+d1sdPP0EugG8Yqpr8Mtr2r1jMhCoCobmmVMF2wp2LjqatRZZrih3cEa?=
+ =?us-ascii?Q?KCexQ7eAaxmgDxAMeSLF7g8u8QGo8xYD4/dLSez0vuXDMDOXVOsBT46pI/SY?=
+ =?us-ascii?Q?G24ZAkcEn9uxdbvSjKZLp0ADfsaQ98n0aeRfd9x2TJe9JK5Hy27JqhudcvvJ?=
+ =?us-ascii?Q?XSwEMBxz0lgSCblZWFgVfAg0u09nuUX8OQdQNUAYlon3lKBSqr2KQMS+P9YH?=
+ =?us-ascii?Q?RVM3beby354Ud1BZQIubZK7oiG2CofT9u+a0KpeLwASediyN6oEr0evIVhYq?=
+ =?us-ascii?Q?MV0XQCCzqqrZr7d7DDN2B5YQa1Oj1FGo8oPB3NWBqwf85P8RZ4WUUixwYCrV?=
+ =?us-ascii?Q?/JC0m74AJfmbytQdneDnPZbYnGqof5KJKdaJGn0lpd57nuy4NG3172xi7IgZ?=
+ =?us-ascii?Q?qO00IdioIR0SXFnKrPVyk2T7on8U64ESoAH+wCF4kamAiYMb5PhoprQVbO7q?=
+ =?us-ascii?Q?dnovyGlz7Fcd3rB8byVTJIsuObk+9W+7rolgpSF+xYA12ZkqrBHM0Kd5jXlZ?=
+ =?us-ascii?Q?nhm80WDKXjtt872iMxNRUy+q9WUnwKx9vncijFnTMca2G/RJJBDH3Vy5QlBH?=
+ =?us-ascii?Q?Uqzmp2IX0CvHaTn0p5ER9v+Vb4jwDAMIxq3IZvICJ7BeNtfsXxqnr/gXlPkf?=
+ =?us-ascii?Q?FF2V0oD5lUI1/VDf0Y3FExEUghf7I2RtAK/LPBxHgh15aryQrMnMtKNYlvxn?=
+ =?us-ascii?Q?hl0NZ6Znyb0Ix9LtzFPeQ5hjwR6c5LKHcuYDb4K5ZgbEStvbGkUnMS5S3Ee6?=
+ =?us-ascii?Q?KjQZRp5iHTfuOqVCFNQUkON02tyoxphLwOzZ6R07uy/iMAS499iwxWTHdEeJ?=
+ =?us-ascii?Q?CB/qPcESU6SulRHQr2M4yDWZ9kKXDaIje6eQCAqPXanqwsJy/cvSGdXEW/VC?=
+ =?us-ascii?Q?evzsURoDj871TsyEQzynkVbEWFr5K9cZFMc3ALu8t4lVuf91E0mRWCC3Yapa?=
+ =?us-ascii?Q?5IKn6wH+fLpd5wyqPd9KrjqQEynFXSrWuQrOnFIP8oSlpn6RYyxtnOpD4bRm?=
+ =?us-ascii?Q?bTh96czPlcLNMS8i6rpbO3d13OT5Qg1BMWHUoOUT5sU01u1YPg3oswntAxBv?=
+ =?us-ascii?Q?kw=3D=3D?=
+X-OriginatorOrg: memverge.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2f415cc7-0824-4c7c-9cd7-08dbf781604b
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR17MB5512.namprd17.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2023 00:05:24.3987
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zvakIcKHlXidbGI3qAlGm/pX23tawRr3opOxMggkhmlLw/yNrNtV/BYCrB5AkRO6XebWAezWBMpVSFa7ydUqVDQAGl8MS1F1Gq6FLSuyRAo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR17MB6371
 
-[adjusting Cc as that's really a separate topic]
-
-On Thu, Nov 30, 2023 at 08:43:18PM +0100, Florian Weimer wrote:
-> * Mathieu Desnoyers:
+On Thu, Dec 07, 2023 at 04:43:03PM +0100, Arnd Bergmann wrote:
+> On Thu, Dec 7, 2023, at 15:58, Gregory Price wrote:
+> > On Thu, Dec 07, 2023 at 08:13:22AM +0100, Arnd Bergmann wrote:
+> >> On Thu, Dec 7, 2023, at 01:27, Gregory Price wrote:
+> >> 
+> >> Aside from this, you should avoid holes in the data structure.
+> >> On 64-bit architectures, the layout above has holes after
+> >> policy_node and after addr_node.
+> >> 
+> >>       Arnd
+> >
+> > doh, clearly i didn't stop to think about alignment. Good eye.
+> > I'll redo this with __u/s members and fix the holes.
+> >
+> > Didn't stop to think about compat pointers.  I don't think the
+> > u64_to_user_ptr pattern is offensive, so i'll make that change.
+> > At least I don't see what the other options are beyond compat.
 > 
-> >>> I'd like to offer a userspace API which allows safe stashing of
-> >>> unreachable file descriptors on a service thread.
-
-Fwiw, systemd has a concept called the fdstore:
-
-https://systemd.io/FILE_DESCRIPTOR_STORE
-
-"The file descriptor store [...] allows services to upload during
-runtime additional fds to the service manager that it shall keep on its
-behalf. File descriptors are passed back to the service on subsequent
-activations, the same way as any socket activation fds are passed.
-
-[...]
-
-The primary use-case of this logic is to permit services to restart
-seamlessly (for example to update them to a newer version), without
-losing execution context, dropping pinned resources, terminating
-established connections or even just momentarily losing connectivity. In
-fact, as the file descriptors can be uploaded freely at any time during
-the service runtime, this can even be used to implement services that
-robustly handle abnormal termination and can recover from that without
-losing pinned resources."
-
+> Ok, sounds good.
 > 
-> >> By "safe" here do you mean not accessible via pidfd_getfd()?
+> I see you already call wrappers for compat mode to convert
+> iovec and nodemask layouts for the indirect pointers, and they
+> look correct. If you wanted to do handle the compat syscalls
+> using the same entry point, you could add the same kind of
+> helper to copy the mempolicy args from user space with an
+> optional conversion, but not having to do this is clearly
+> easier.
 > 
-> No, unreachable by close/close_range/dup2/dup3.  I expect we can do an
-> intra-process transfer using /proc, but I'm hoping for something nicer.
+>      Arnd
 
-File descriptors are reachable for all processes/threads that share a
-file descriptor table. Changing that means breaking core userspace
-assumptions about how file descriptors work. That's not going to happen
-as far as I'm concerned.
+I don't know that either is easier, it's basically just what annoying
+way do you want to handle this annoying problem.  I'll poke at it
+and decide which one I hate less.
 
-We may consider additional security_* hooks in close*() and dup*(). That
-would allow you to utilize Landlock or BPF LSM to prevent file
-descriptors from being closed or duplicated. pidfd_getfd() is already
-blockable via security_file_receive().
+One thing i didn't really think about, probably the iovec/len
+fields should just be args for mbind2, rather than embedded in
+mpol_args - since mpol_args is supposed to describe the mpol
+while the iovec/len describes what it applies to.
 
-In general, messing with fds in that way is really not a good idea.
+Simplifies the mpol_args structure a bit. Doesn't change the handling
+at all. (bit of a rubber ducky comment here)
 
-If you need something that awkward, then you should go all the way and
-look at io_uring which basically has a separate fd-like handle called
-"fixed files".
+As always, I appreciate the input
 
-Fixed file indexes are separate file-descriptor like handles that can
-only be used from io_uring calls but not with the regular system call
-interface.
-
-IOW, you can refer to a file using an io_uring fixed index. The index to
-use can be chosen by userspace and can't be used with any regular
-fd-based system calls.
-
-The io_uring fd itself can be made a fixed file itself
-
-The only thing missing would be to turn an io_uring fixed file back into
-a regular file descriptor. That could probably be done by using
-receive_fd() and then installing that fd back into the caller's file
-descriptor table. But that would require an io_uring patch.
+~Gregory
 
