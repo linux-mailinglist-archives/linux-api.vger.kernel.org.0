@@ -1,184 +1,157 @@
-Return-Path: <linux-api+bounces-296-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-297-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3B488096F4
-	for <lists+linux-api@lfdr.de>; Fri,  8 Dec 2023 01:12:20 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AEE8809A23
+	for <lists+linux-api@lfdr.de>; Fri,  8 Dec 2023 04:17:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0BACC1C20B91
-	for <lists+linux-api@lfdr.de>; Fri,  8 Dec 2023 00:12:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 34EFA1F212DC
+	for <lists+linux-api@lfdr.de>; Fri,  8 Dec 2023 03:17:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DA8A195;
-	Fri,  8 Dec 2023 00:12:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C5AF3D7B;
+	Fri,  8 Dec 2023 03:17:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=memverge.com header.i=@memverge.com header.b="r8VE0l9c"
+	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="kiokj3Cv"
 X-Original-To: linux-api@vger.kernel.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2071.outbound.protection.outlook.com [40.107.92.71])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 709F31716;
-	Thu,  7 Dec 2023 16:12:10 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OdfCFRCUOMRakhgtfCwgH8ilG7fq138W6k8AiTGr7wuExSME1LJka/Qiy2UYd+1C1Stib+BKAG971VqyTEuFxjhFJNVDkmVwuZG6z4fmwW35XA9DEoKoe4WizWGLen4lISMp4sQ+aBEb66PO89ttC5LttXNCm0sHl5LFQUhQAcdGtH/k+iW7ZcyN9gfFkv84hzm4/Y4cG/A+ZzRfi3CZrSh8XxTizpOeNOJzRW96smMN0XCvdyY+OmcPuUJCG6A+p9Lf7sI/dmmMAdPEvMPVvAMsR/jqk7vnJzOMcYS36+8kOmXU/QnoBLYy742d4O+ZRvAmXEv1k2Tq9HZZ5nplJw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=naCROcZwFJyDfAQcKuCqlnhY3Re9LTbXdGrG6K0rweM=;
- b=Hx1kRX80fKddb2hP+FOsdW+8q9QvU5lYoJ9QJr5SVbgJYAr7y7/Li/AcqRheyNIZGOfAF1AeOwcqk8j6ftOAz55yhsLMLHUDZw+Vu3YR3lUUWrmbmeILxGDHhLdD81hcWzbTO/IyfD1ykyWFOfWdpX8rRqXAeTnpQKPw07fMctbwfdKHSv0UhNfb3g1xRizFh0YOkieHuIsJbPgkusn5T508smgZLF8OvZls1ojRqiQkW8NZZhWRp/FrICaupiCZyMEr2aV1YYHF8t2zKB79rUa8T3aC1vT9Y0yfo13+6JXL1Pnw7WinfOOiMGbueOIiPSV5KGgGddyAL7MD1zwuyw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
- dkim=pass header.d=memverge.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=naCROcZwFJyDfAQcKuCqlnhY3Re9LTbXdGrG6K0rweM=;
- b=r8VE0l9cVFEC/bXdYRLK6hxkywI5XFh27aXIDOMnet7Xbt9c7RrMltBIt6Wrpd8fcHJ0arlsB84rA7caEjZ/Jfe4bWsTOYrf1yR/tEwnixOpGOXil8AbcuGZJt1uHiSBES+/q5lHJNgbofbOfdnlKpzWvmImq8PCDvahYij1K4U=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=memverge.com;
-Received: from SJ0PR17MB5512.namprd17.prod.outlook.com (2603:10b6:a03:394::19)
- by SJ0PR17MB5843.namprd17.prod.outlook.com (2603:10b6:a03:40e::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.27; Fri, 8 Dec
- 2023 00:12:05 +0000
-Received: from SJ0PR17MB5512.namprd17.prod.outlook.com
- ([fe80::381c:7f11:1028:15f4]) by SJ0PR17MB5512.namprd17.prod.outlook.com
- ([fe80::381c:7f11:1028:15f4%5]) with mapi id 15.20.7068.027; Fri, 8 Dec 2023
- 00:12:05 +0000
-Date: Thu, 7 Dec 2023 19:11:59 -0500
-From: Gregory Price <gregory.price@memverge.com>
-To: Gregory Price <gourry.memverge@gmail.com>, linux-mm@kvack.org,
-	jgroves@micron.com, ravis.opensrc@micron.com, sthanneeru@micron.com,
-	emirakhur@micron.com, Hasan.Maruf@amd.com,
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-kernel@vger.kernel.org, akpm@linux-foundation.org,
-	arnd@arndb.de, tglx@linutronix.de, luto@kernel.org,
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-	x86@kernel.org, hpa@zytor.com, mhocko@kernel.org, tj@kernel.org,
-	ying.huang@intel.com, corbet@lwn.net, rakie.kim@sk.com,
-	hyeongtak.ji@sk.com, honggyu.kim@sk.com, vtavarespetr@micron.com,
-	peterz@infradead.org
-Subject: Re: [RFC PATCH 01/11] mm/mempolicy: implement the sysfs-based
- weighted_interleave interface
-Message-ID: <ZXJfT/EXFu+MtTkW@memverge.com>
-References: <20231207002759.51418-1-gregory.price@memverge.com>
- <20231207002759.51418-2-gregory.price@memverge.com>
- <uxqkbmqbvcvx6wc3g2h6vhkutv5flrq6rslwdfs7pa6kknupwh@a245pbtfqfgj>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <uxqkbmqbvcvx6wc3g2h6vhkutv5flrq6rslwdfs7pa6kknupwh@a245pbtfqfgj>
-X-ClientProxiedBy: SJ0PR03CA0235.namprd03.prod.outlook.com
- (2603:10b6:a03:39f::30) To SJ0PR17MB5512.namprd17.prod.outlook.com
- (2603:10b6:a03:394::19)
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3176A1722
+	for <linux-api@vger.kernel.org>; Thu,  7 Dec 2023 19:16:58 -0800 (PST)
+Received: by mail-pf1-x42b.google.com with SMTP id d2e1a72fcca58-6ce6d089482so209641b3a.0
+        for <linux-api@vger.kernel.org>; Thu, 07 Dec 2023 19:16:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1702005417; x=1702610217; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9Rux8vsdKkM8nJouugwOO5GuiDS1SIZxc5Vu7ejUgpg=;
+        b=kiokj3Cvkjuh6K6kaPMkRewYJfU3w76aX5w5wmeAVRKVmf0fG63b8As81aqJwLS8Ym
+         /NU6pPAj7qvc6Y6z+bqUiMdUlNb63WQoULePOTxhnrIzSm3pWwUXUuZ47feGpdANRy6l
+         d6Rm0Ahj2pUFGrINR3AJ4gSgcKopIg4zHVw+YSondoXswF1Ghn1Ro7Ay/5apnjwA0iWR
+         avJmPk39lMK9S2+rEg5cP659n/hVbyR7phdrDxZAUm7Q/nH5x8YbwR5EDbZNtEXMIvRO
+         fjD1db9u7IcdSj3hZxJKAcBmOXrDWE89NO7iSgk6DSN6xrfPkNyPb1v3Z5dyaOAXWzL5
+         /x1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702005417; x=1702610217;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9Rux8vsdKkM8nJouugwOO5GuiDS1SIZxc5Vu7ejUgpg=;
+        b=SAzTrc8S8YVyS7Ff7+pwof51KxPDUFPpFE905tODOgJOuWTc48Iw6ChPotY0BfPWLL
+         N9fggWQSoePJzGmXY+6sHq2LCw4QPfG3gtnJQ/kYg6h8F3fOwJH04gIrsHjpL+DiPVoJ
+         1b9onFoFw/d2Pr4fd1FsmUMPqrPOrU3NimIljRYAVwCQewYL9QannppLrRyC2a3ax3/6
+         oy8jWy0TEjhdQcxyF9ewaGAa49OQzV9+WYexmD2UTcsirr/BM22N/wUbF7NmBDKTff/M
+         SbXYG625lf18EEunCoJX9T1UZOoAhnklH7GVxWos5BgWhKFhKUks++2WUCkdWTTmrnkX
+         +qzw==
+X-Gm-Message-State: AOJu0YzHh3Q9snPP9jHDypJLKo3KqNOGJpAwEEgWgXlyoutUkKoSBSEG
+	uHhIZKX1LnNVU/C4XnAyv1JZCo8dSwBOuGYOjMjCgA==
+X-Google-Smtp-Source: AGHT+IG9jHTBY0aV5Yr24U5BQ3/Hg69SHwR+uuZY0ZALqq+TUk7qPMqJeWLxOi0f4Ti5W5yPHBr6Gg==
+X-Received: by 2002:a05:6a00:194f:b0:6ce:2de2:fe4d with SMTP id s15-20020a056a00194f00b006ce2de2fe4dmr7543886pfk.1.1702005417512;
+        Thu, 07 Dec 2023 19:16:57 -0800 (PST)
+Received: from [192.168.1.150] ([198.8.77.194])
+        by smtp.gmail.com with ESMTPSA id w4-20020aa78584000000b006ce5c583c89sm532425pfn.15.2023.12.07.19.16.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 07 Dec 2023 19:16:56 -0800 (PST)
+Message-ID: <c86faa98-937f-42e6-8c05-60112fd95966@kernel.dk>
+Date: Thu, 7 Dec 2023 20:16:55 -0700
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR17MB5512:EE_|SJ0PR17MB5843:EE_
-X-MS-Office365-Filtering-Correlation-Id: efd1d4a4-66d9-4f90-627f-08dbf7824f4c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	t3Duk6XKpZ4l7zsZ46tI39m5PyVKQYpIwEn7vT4uyNOfDHnPYz+K4Bk9MLxsNEqz7yEFK3A0jAlpLu5opcglWT6GLQP9JPGeC+civkovDBviCFptMgUc7y8myQ2xgbNUKErioD9WzXj0rskxPX2Zcgr+XGZZ65JbfgBRkj2Zmass3zUQwbATNwHXyShgBli3mBo0LXg/n7eHripRi6XwAjHAqp/CwI3lL9+PconBh2CCaurUcDB1yQbK1iQD8t90Qn2LgWSB9sdzmTegNJa9owxfvHMPKd0PzlPGYBnub8T15LnPTMuKL+Ojj23K6CcMH4FqZYDtnlOPS1KVRvB4X4Q4BYXr0voGYflyS3ZNNZKimpt+0pZS+7wMs+4y8obx8dOu+F3L3Mfx4jZuW6z7ZakDExEqjo4g2iDTOkYrHhamfQTe/PwwlkmdaownPODMP6vBqd4c/BV6EVCLSRt8Hrk2CL0oeiBI+yIdI7HwINe23FRCU2zj3HAoIwAmGVeN63lhFDbBF+qP8SN2cucAbmaHMGL8vF4MW7pfhD9fc8B5nMXlf61d3G0LUKfjnT4OAlbprCER3p+QiySsWVP8mr97QE9ycbQQfF4QaWuPrR7DZtwCSRmr9RE/Msj3vv7Y
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR17MB5512.namprd17.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(396003)(39840400004)(346002)(376002)(366004)(230922051799003)(451199024)(186009)(64100799003)(1800799012)(41300700001)(921008)(36756003)(5660300002)(2906002)(7416002)(7406005)(83380400001)(6666004)(6506007)(26005)(38100700002)(2616005)(6512007)(478600001)(6486002)(66476007)(66946007)(66556008)(44832011)(8936002)(8676002)(86362001)(316002)(16393002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?6kM1oHoIff6eXahaQ1lELhOknww9FIYINdzojy/W0zzEc5mqwbLRZuTOf6+1?=
- =?us-ascii?Q?aDr2ksgtXpEAFCvWL+dfvZuuC9iaJVqdIr8yhDhZ9Y/MpCZX4JBswwYRvaFN?=
- =?us-ascii?Q?GhMTkxdCaQyF/ZVp63UhU4/jpINPXA+lgI615CY4yHLl2qKLexDn/F0JLPzf?=
- =?us-ascii?Q?qfcMooDw5/dZ3d1SgdgaD30Pvvj4CbJroNBlFZJ4B+ypbb8w5cegACwApK1z?=
- =?us-ascii?Q?uzGBHaBMxd9Q/QEnKAiMT3YZlFVslLQWPtf46j1X2ebT0mCodZVpcOa+SqMT?=
- =?us-ascii?Q?yTsKKO11fySOm5yrJMNgKHR+gXZLBvClwDobY4BCX2xrSRYEzw9sAEL58Nig?=
- =?us-ascii?Q?5uZEzWZXVYOOJDVrF+srCorBZ4BCuZ4pbarVEZ8oM/e5gyLEeUkdDlGeRagH?=
- =?us-ascii?Q?IEXL2+cPpESiv5fZZ8RM5n1AHv61HHHSI7+mkB81brDLaHgMZgVJjPab37hK?=
- =?us-ascii?Q?1EwAAuGAZEWGAQxm7/3XwwpMWmV9jUMAtIBNa53nnU+7anvM3968CcLVFPaF?=
- =?us-ascii?Q?IhWVPEJOIWQLaDhuMItCzKX92EHw2QseV/hDMF0c6RKvSPOlTScWyEIPAuCz?=
- =?us-ascii?Q?aZ173fSGJeurU3133bNj0yunnGBc42UdDKfQuqp5AVbZK7hMW6ZheUT/3q62?=
- =?us-ascii?Q?dIo2nJ06XGYYf1FmzxoqP+UL92wQ9khl+LvKuo32qpJnpLKeB71VHXW3nXAK?=
- =?us-ascii?Q?HdpoP+vvH0jBQBTDqqJ16A47Pkh/j7DtCvit2+kpseTg8bjYI8BG9x3EWTfV?=
- =?us-ascii?Q?RaRSmBrETQiZpJnAE9Y3vFXSXl5prbZkPh4oRIUu9lvNqfYvuYzVvbFZ8mMt?=
- =?us-ascii?Q?xaoSrnMPpqaDzLynbxFEDmxc6oATfDtvMo19Pkw6cTrRPmF7hMyvb4oRyPv6?=
- =?us-ascii?Q?a5OM4a9qN4fqx0+FI2pyUJXapmNbMz84p6jjHeenIawkIqBnpVCjVDnsxgmW?=
- =?us-ascii?Q?XYzWDqaVNuzNVmb13Zr1nPOX8WB5wT9zuDxFUJVIOsaJulX+tjYrzZDHM4JJ?=
- =?us-ascii?Q?GJ/q8I8EpxG9960lKL3UKPi9FVpd5oI8AnLaWNb8XrE9Bt7YSXX/sMXEiBUe?=
- =?us-ascii?Q?mtiY2TKfRGfQKKfsy86nErka166e97THnFCaz+OQVXGxWaj8JfWwq+DVzHRB?=
- =?us-ascii?Q?RnrDVZDOpm2BCmd++Ag+mdFs4s+UYy8DzAFVNSfwAu3tpmaQdTpue8+xq7C9?=
- =?us-ascii?Q?acq7KWawGLyJGKFICLlNQL4Eq2pafcGMRPHR58B62RIhVDQiOrkcF68ko4VS?=
- =?us-ascii?Q?rpBx6xkfUCF1V31G16KOLNiKaE09W4OLKbyLhBipZejOO8+p9d7eUjjheH93?=
- =?us-ascii?Q?7LWwDQWCFrGN3CBn+M1Nk+OmmktPYE0SFuWmvetwqwiCH7Vv3GiBH8evBHaf?=
- =?us-ascii?Q?QwJx0/bnhlRTM1fjFdSh6IMdpzlHxaZqcoBUOk60kGcRL5mFmrxC5C/yiCJU?=
- =?us-ascii?Q?RH5gvicy6Lbyd4ZpVEXsvC0PWaKgZgNoQjzlpkUTm4qGUe+rymA1A6OsfvfX?=
- =?us-ascii?Q?nMyJLMfXiqDjXuDspMiO4P2mtPKV0VwfYFXYnPHOjQXDWz3nHX6TuA9td92i?=
- =?us-ascii?Q?qRpUrQW5xnHf/sqFdkxyDnzjt/NaB/1Fl5jLrmG7sz91cT7iAh3rFWIskOlQ?=
- =?us-ascii?Q?JQ=3D=3D?=
-X-OriginatorOrg: memverge.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: efd1d4a4-66d9-4f90-627f-08dbf7824f4c
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR17MB5512.namprd17.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2023 00:12:05.3240
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: p+aHLrGHdKXqRCL4AufnaHHvk+iXpIjGJaodIPDN7Mfdnv14Mrnepe0YnoXRC1aCwnUGuHwYgkpM1jMU1voi30GYtLH7m5z9F3mMIsCTys0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR17MB5843
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC 1/3] pidfd: allow pidfd_open() on non-thread-group leaders
+Content-Language: en-US
+To: Christian Brauner <brauner@kernel.org>,
+ Florian Weimer <fweimer@redhat.com>
+Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Tycho Andersen <tycho@tycho.pizza>, linux-kernel@vger.kernel.org,
+ linux-api@vger.kernel.org, Jan Kara <jack@suse.cz>,
+ linux-fsdevel@vger.kernel.org
+References: <20231130163946.277502-1-tycho@tycho.pizza>
+ <874jh3t7e9.fsf@oldenburg.str.redhat.com> <ZWjaSAhG9KI2i9NK@tycho.pizza>
+ <a07b7ae6-8e86-4a87-9347-e6e1a0f2ee65@efficios.com>
+ <87ttp3rprd.fsf@oldenburg.str.redhat.com>
+ <20231207-entdecken-selektiert-d5ce6dca6a80@brauner>
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <20231207-entdecken-selektiert-d5ce6dca6a80@brauner>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Dec 07, 2023 at 01:56:07PM -0800, Davidlohr Bueso wrote:
-> On Wed, 06 Dec 2023, Gregory Price wrote:
-> > +
-> > +What:		/sys/kernel/mm/mempolicy/weighted_interleave/nodeN/
-> > +Date:		December 2023
-> > +Contact:	Linux memory management mailing list <linux-mm@kvack.org>
-> > +Description:	Configuration interface for accesses initiated from nodeN
-> > +
-> > +		The directory to configure access initiator weights for nodeN.
-> > +
-> > +		Possible numa nodes which have not been marked as a CPU node
-> > +		at boot will not have a nodeN directory made for them at boot.
+On 12/7/23 3:58 PM, Christian Brauner wrote:
+> [adjusting Cc as that's really a separate topic]
 > 
-> This could be better rephrased without the negation. ie:
+> On Thu, Nov 30, 2023 at 08:43:18PM +0100, Florian Weimer wrote:
+>> * Mathieu Desnoyers:
+>>
+>>>>> I'd like to offer a userspace API which allows safe stashing of
+>>>>> unreachable file descriptors on a service thread.
 > 
-> "Only numa nodes with CPUs (compute) will have a nodeN directory."
+> Fwiw, systemd has a concept called the fdstore:
 > 
-
-I thought documentation was supposed to be as confusing as possible.
-
-lol I'll update it.  reading it now, this is awful.
-
-> > +		Hotplug for CPU nodes is not supported.
+> https://systemd.io/FILE_DESCRIPTOR_STORE
 > 
-> Can this even happen? Hot-adding a previously offlined CPU won't change/add a
-> new numa node. So just rm the line altogether?
->
-
-I... have no idea.  In that sense, aye aye!
-
-> > +static ssize_t node_weight_show(struct kobject *kobj,
-> > +				struct kobj_attribute *attr, char *buf)
-> > +
-> > +static ssize_t node_weight_store(struct kobject *kobj,
-> > +				 struct kobj_attribute *attr,
-> > +				 const char *buf, size_t count)
+> "The file descriptor store [...] allows services to upload during
+> runtime additional fds to the service manager that it shall keep on its
+> behalf. File descriptors are passed back to the service on subsequent
+> activations, the same way as any socket activation fds are passed.
 > 
-> iw_table will need some (basic) form of serialization.
+> [...]
 > 
+> The primary use-case of this logic is to permit services to restart
+> seamlessly (for example to update them to a newer version), without
+> losing execution context, dropping pinned resources, terminating
+> established connections or even just momentarily losing connectivity. In
+> fact, as the file descriptors can be uploaded freely at any time during
+> the service runtime, this can even be used to implement services that
+> robustly handle abnormal termination and can recover from that without
+> losing pinned resources."
+> 
+>>
+>>>> By "safe" here do you mean not accessible via pidfd_getfd()?
+>>
+>> No, unreachable by close/close_range/dup2/dup3.  I expect we can do an
+>> intra-process transfer using /proc, but I'm hoping for something nicer.
+> 
+> File descriptors are reachable for all processes/threads that share a
+> file descriptor table. Changing that means breaking core userspace
+> assumptions about how file descriptors work. That's not going to happen
+> as far as I'm concerned.
+> 
+> We may consider additional security_* hooks in close*() and dup*(). That
+> would allow you to utilize Landlock or BPF LSM to prevent file
+> descriptors from being closed or duplicated. pidfd_getfd() is already
+> blockable via security_file_receive().
+> 
+> In general, messing with fds in that way is really not a good idea.
+> 
+> If you need something that awkward, then you should go all the way and
+> look at io_uring which basically has a separate fd-like handle called
+> "fixed files".
+> 
+> Fixed file indexes are separate file-descriptor like handles that can
+> only be used from io_uring calls but not with the regular system call
+> interface.
+> 
+> IOW, you can refer to a file using an io_uring fixed index. The index to
+> use can be chosen by userspace and can't be used with any regular
+> fd-based system calls.
+> 
+> The io_uring fd itself can be made a fixed file itself
+> 
+> The only thing missing would be to turn an io_uring fixed file back into
+> a regular file descriptor. That could probably be done by using
+> receive_fd() and then installing that fd back into the caller's file
+> descriptor table. But that would require an io_uring patch.
 
-originally the SKH group recommended a serialized "N*W,N*W,..." format,
-but this doesn't work for a matrix.
+FWIW, since it was very trivial, I posted an rfc/test patch for just
+that with a test case. It's here:
 
-Possibly i could add `N-M*W,...;N-M*W,...` and add a nodeN/weightlist
-interface that lets you acquire the whole iw_table for one or more
-nodes.  Might be a nice extension.
+https://lore.kernel.org/io-uring/df0e24ff-f3a0-4818-8282-2a4e03b7b5a6@kernel.dk/
 
-I figured there is an aversion to multi-value sysfs files, so I reverted
-back to a one-file-one-value file.  If there is a preference for the
-fully serialized methods, I'll happily add those.  Easy enough and I
-already have the code to parse it.
+-- 
+Jens Axboe
 
-~Gregory
 
