@@ -1,216 +1,187 @@
-Return-Path: <linux-api+bounces-330-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-331-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1179180F1AC
-	for <lists+linux-api@lfdr.de>; Tue, 12 Dec 2023 16:59:24 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D441380F8EF
+	for <lists+linux-api@lfdr.de>; Tue, 12 Dec 2023 22:09:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BB2EF2819B8
-	for <lists+linux-api@lfdr.de>; Tue, 12 Dec 2023 15:59:22 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 57E98B20E91
+	for <lists+linux-api@lfdr.de>; Tue, 12 Dec 2023 21:09:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC44C76DD9;
-	Tue, 12 Dec 2023 15:59:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3061E65A8B;
+	Tue, 12 Dec 2023 21:09:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=memverge.com header.i=@memverge.com header.b="ZT/wc2Js"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Qd2J5mn2"
 X-Original-To: linux-api@vger.kernel.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2063.outbound.protection.outlook.com [40.107.92.63])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BA72AA;
-	Tue, 12 Dec 2023 07:59:15 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FxC/426LU/wtHKA+BnlH3NB7hO1iwyF4nQ11RL1D2cKXKBN00wwB8JCxP8fN+SwUZF9mbDgMXZfdw6IKdDxllZXmDhs2g4okKj/Kb8AURiuAIbzZLOjRHn7iGLRYVmZ94aUBHEImGfMJqTyK6SRcPoQEFrQyqF7qC8bfp0voVK3oRCx8iskhQUilfCLCtIj8erDciYz3Zs1fX43F0vCtoT6shrwWYDtnpQo5aE4X+OmyFAfjFniC0wV78ackQT4AWTbutFBmtRy5V6URAj5oQoAO1F0QJzgqdFL+k8BeeJjUketfrnIiwnAcweKUVpeB1NNdL+NrlqAx4kQu10yFqg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ETVv9IVOPuZwFuu1RONN+q9OvrA1tFu1scKt0AjuDm4=;
- b=BriY6R5iQOzxIQIWaMZnzAVfthRkRRQjhY9vZrw9TXnD87bpJABh8zHbqx0EU0CnAF2CPYnLqDkiTo3yTqQ/USzLJ/Gg+4pj2tHYB4NPAxZ23uyk6MtVO44I5beFxejSSyieIY0vGuOduF20jKTd1jgPgkCuc9CSh+b9FhV0z4SVj2fHAwC1Xlnh68tg88ItmvsUarB4HuIzq5uNjP30BTVssRTkFaccV99NlivJcv9I4r5HVLIAZN8RV9Z/KGSqLZoJOEyrHODYxV5deTgBtyGd8ihA+PrhFh9BZXCKKV7ycQlXv2ckoUVd066JvRxh1yd7L4BkKT8QIdBjfhXPOw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
- dkim=pass header.d=memverge.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ETVv9IVOPuZwFuu1RONN+q9OvrA1tFu1scKt0AjuDm4=;
- b=ZT/wc2Jsrzp9aKGwp8LEsn/rkSTmhEAx3kyg8ZXn7b1s9JsY6O+whZOuUQlU/E1VIlwamItyWyFH+1JXNI/DXf35PpRVs4PtKIUDLq3X9mY5QSFpnU/x967XbCjPibIjyc4aGxv9F2RbXskDLT8kLgy8pMcPpxHGDyx7IpGyemk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=memverge.com;
-Received: from SJ0PR17MB5512.namprd17.prod.outlook.com (2603:10b6:a03:394::19)
- by SN7PR17MB6483.namprd17.prod.outlook.com (2603:10b6:806:359::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.32; Tue, 12 Dec
- 2023 15:59:12 +0000
-Received: from SJ0PR17MB5512.namprd17.prod.outlook.com
- ([fe80::381c:7f11:1028:15f4]) by SJ0PR17MB5512.namprd17.prod.outlook.com
- ([fe80::381c:7f11:1028:15f4%5]) with mapi id 15.20.7068.033; Tue, 12 Dec 2023
- 15:59:12 +0000
-Date: Tue, 12 Dec 2023 10:59:06 -0500
-From: Gregory Price <gregory.price@memverge.com>
-To: "Huang, Ying" <ying.huang@intel.com>
-Cc: Gregory Price <gourry.memverge@gmail.com>, linux-mm@kvack.org,
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-kernel@vger.kernel.org, akpm@linux-foundation.org,
-	arnd@arndb.de, tglx@linutronix.de, luto@kernel.org,
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-	x86@kernel.org, hpa@zytor.com, mhocko@kernel.org, tj@kernel.org,
-	corbet@lwn.net, rakie.kim@sk.com, hyeongtak.ji@sk.com,
-	honggyu.kim@sk.com, vtavarespetr@micron.com, peterz@infradead.org,
-	jgroves@micron.com, ravis.opensrc@micron.com, sthanneeru@micron.com,
-	emirakhur@micron.com, Hasan.Maruf@amd.com, seungjun.ha@samsung.com,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Hasan Al Maruf <hasanalmaruf@fb.com>, Hao Wang <haowang3@fb.com>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Zhongkun He <hezhongkun.hzk@bytedance.com>,
-	Frank van der Linden <fvdl@google.com>,
-	John Groves <john@jagalactic.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH v2 00/11] mempolicy2, mbind2, and weighted interleave
-Message-ID: <ZXiDSrdNfbv8/Ple@memverge.com>
-References: <20231209065931.3458-1-gregory.price@memverge.com>
- <87r0jtxp23.fsf@yhuang6-desk2.ccr.corp.intel.com>
- <ZXc74yJzXDkCm+BA@memverge.com>
- <87plzbx5hz.fsf@yhuang6-desk2.ccr.corp.intel.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87plzbx5hz.fsf@yhuang6-desk2.ccr.corp.intel.com>
-X-ClientProxiedBy: SJ0PR03CA0249.namprd03.prod.outlook.com
- (2603:10b6:a03:3a0::14) To SJ0PR17MB5512.namprd17.prod.outlook.com
- (2603:10b6:a03:394::19)
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24150BD
+	for <linux-api@vger.kernel.org>; Tue, 12 Dec 2023 13:09:23 -0800 (PST)
+Received: by mail-pl1-x631.google.com with SMTP id d9443c01a7336-1d06fffdb65so37280275ad.2
+        for <linux-api@vger.kernel.org>; Tue, 12 Dec 2023 13:09:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1702415362; x=1703020162; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=s4klJ8l6fLfAZKVWPgko1830CXSL6+WluuhkBtOdryM=;
+        b=Qd2J5mn2We4mnkEiCEls1VCkboYBr+dlfGZLimYXMEv0Fr125YcU6FhbelmsrYUlmw
+         yhQt8l+jB6J2+Q4mBW1zIR8AdecT02FZYwsyxw/wDV1bfn/r3PlC0W0QI0XOMK0nh3uq
+         SaswAESNfrahm+MVvzj67Lh7E9XIfSP4O2hlQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702415362; x=1703020162;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=s4klJ8l6fLfAZKVWPgko1830CXSL6+WluuhkBtOdryM=;
+        b=aC5K73JAZ6xcbOEZVX5ezCtjpLy3IK5hd2DBofOjATkkFBUzRAoOjt2RUppQvQP5TV
+         yYGENciSce+5R9zNeyrL51vWYURHH6tyMtoG2etbzVJxGffkzXNQ81XU/tNOHZKTZFb0
+         OatvgEl2s9ihrIJKV4ON0wSlLwJqsCoBeqBYy51BKT9J2JsZlvpeCEhsIPfdnUEFGjBc
+         xPvCwsCexViWE6THxaQC8HQujw6PSlXwMQJXk6ZFnukfw2EkfrV/f4V2xJCUhzNzyoDN
+         6zVm4PmgLf9iD7AzsXhgIg41wrvDdyqQqJXLhL4R+RIIaMetdVcx/McpTGZMaa3n8ONM
+         IDDg==
+X-Gm-Message-State: AOJu0Yyb27TM0EMU/hKRrJA7nNM6DV1ZgmnOIk+kNP+0l5qn4U2MDPDh
+	I72Lqepm6WpX1Ygad864uKf/Hg==
+X-Google-Smtp-Source: AGHT+IHtd7FszDMGirD1ZPy4kL3dQAz8QrpOLMzWyFxONZj+kxreJ+VdZCKjnt0WLVGQPyhmEcczVA==
+X-Received: by 2002:a17:903:2446:b0:1d0:6ffd:6e6b with SMTP id l6-20020a170903244600b001d06ffd6e6bmr4102435pls.99.1702415362621;
+        Tue, 12 Dec 2023 13:09:22 -0800 (PST)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id d6-20020a170903230600b001d347a98e7asm114457plh.260.2023.12.12.13.09.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Dec 2023 13:09:22 -0800 (PST)
+Date: Tue, 12 Dec 2023 13:09:21 -0800
+From: Kees Cook <keescook@chromium.org>
+To: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>
+Cc: Alexey Dobriyan <adobriyan@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Florian Weimer <fweimer@redhat.com>, linux-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+	x86@kernel.org, Eric Biederman <ebiederm@xmission.com>,
+	linux-mm@kvack.org
+Subject: Re: [PATCH v3] ELF: AT_PAGE_SHIFT_MASK -- supply userspace with
+ available page shifts
+Message-ID: <202312121307.D6605DCD@keescook>
+References: <6b399b86-a478-48b0-92a1-25240a8ede54@p183>
+ <87v89dvuxg.fsf@oldenburg.str.redhat.com>
+ <1d679805-8a82-44a4-ba14-49d4f28ff597@p183>
+ <8582f7c9-b49d-4d21-8948-59d580e5317c@p183>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR17MB5512:EE_|SN7PR17MB6483:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7d1ef72c-d893-4ee3-ae00-08dbfb2b4893
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	7BrZyukzSsN0SEnD74MbsJKesD3ver2YH0NAi2ZwsILjdIgnTqkiYOk7GFnmd6UoVvlKAUHhyX5zNTelH3qU3CXNEQ//k0+04q0/s/3+doUE2+52rxDsAtMfYPhfBO+YWBSGLmfY7jYWeSNQJ97/sBDXbc9tkt875JSkB1RjcgLK/5JfBcns3UAzXz1iCrIB/FMJVKwK4p/fO40N3dyshFEXdDqxHOx75mgJWttprOreowwDGOr03Mzu+e8QVUUQN73QjoNtfZCXsikc6uI3ExUVSvi8qVviFGV0KmRNLB/osx6TbPyF2WTrHNhW//xY9tgp2+919jvicIu1arWFNyuXJVnH+kM7VYoD690HWkR7ioeWDhFdx9dkCpRdoYWJCAsKpvz/xEMpMaTqIfKgeTZ8O+qQfkp8oCW/2HziPwzUoW750DfcFMTykbI5+j2Ufn5Eph1VZJOn0BftsZnLMCbOdn8D2j4w8lnAnh+P4UzQXD9AqED6s6/7BIBjwpwguI6FH4B6Azisbd0q/UHLxwDoIgqph5V6KXhd4VOL5u+xoxR1EjlDLgmi7iN3151FYYwZa2U0nGjOU+sflsu+EBtai85mwOV12wIEmOvljibKWkKhH5DitBWw24n42CBw
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR17MB5512.namprd17.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(376002)(366004)(39840400004)(346002)(136003)(230922051799003)(451199024)(1800799012)(186009)(64100799003)(2906002)(5660300002)(7416002)(44832011)(7406005)(8676002)(8936002)(4326008)(41300700001)(316002)(66946007)(66476007)(54906003)(6916009)(66556008)(478600001)(6486002)(2616005)(6512007)(6666004)(26005)(6506007)(36756003)(38100700002)(86362001)(16393002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?cUDIT1RUMW1buLYnH0XADOIO6FV/AKX1ug/NlUIDaCs/INPodrn08CfIpqN/?=
- =?us-ascii?Q?3vMyXJ0OpgD7XoETEmnZEJe+bLTICB2A8ouKS6uRH/4viI8pEUW/feNzQzpv?=
- =?us-ascii?Q?BpHTj74Zc3ZFUl/UE33BieMr8CFYj+4y2XfojIzi3+4pU/ACOuMafOHd5eJu?=
- =?us-ascii?Q?BlfqhKupowILip5CjGKJ6ANPdMRJrKPPisegUUEqzo7BOSdmm5WhLlXHFrII?=
- =?us-ascii?Q?pAN37nELkvn739Ve3jOs8Px5i2iRQHwO47czLR2rqSigGiXoa58836Ui+QrA?=
- =?us-ascii?Q?XHdV0oUMCvvcTzYsFVSDOhK9nxm1PBtfIqIG9Z2yIroWcgedvtv+rrqnHKV7?=
- =?us-ascii?Q?RaWtjBmIrTZhHH7+zokkzqT0zq2yeI+UK+XYzaW3XRyr5bp0Inr5wDsHwVri?=
- =?us-ascii?Q?41pU/Me7PwK1DjZjkOWGu0ip2/f9uRd+vcuDafZb6cmtCrQgmAylgZGG06CV?=
- =?us-ascii?Q?DKrMPBBTm7jO+4kLNIls0GBLKtl8si7oMqVsGlvKHsFBRFKkIsJlFyzLP1up?=
- =?us-ascii?Q?N2OYVq35FLC42CgG5IvTYv5cPANsAR0LOFggCrwyZ0Z0+66s3NZashCe9FNG?=
- =?us-ascii?Q?nEpxu24wWrn49e2/mRjpmcf5A0GIcE4rnZ0aDd1SeEsyHb5b8IOS1sP/1+/x?=
- =?us-ascii?Q?YiLz99dJgl04ug+WRExNRbaE5qXBQLD0MQFrs2ldaAS69AV31vfPVfM7i6PZ?=
- =?us-ascii?Q?+mli+v1GBmY7ycgGcrUrAlE3TNW7+nSctx54bLzp7TOuT6A9/nR7mUsETYir?=
- =?us-ascii?Q?plvz3CcXz4gNdgf6EVX5QHrO5GCo+mXsVqjETDEG31yjW3qgsELZ856tRb75?=
- =?us-ascii?Q?rxu8xe5iKZQNmzEyKlLscNttcuXgQoYJYKWrc4hK+IDB7rJgEdKlXqNoiA/a?=
- =?us-ascii?Q?zSDW8LxE8lCVXLoJW8kbMwf/DjV8efzcdLQf/0ET0s1kHxyI61FHauZrEHfZ?=
- =?us-ascii?Q?egg22267zNhUnUtVv1QK+noBlMptkrsp8pgZw2lkeFR8S1W8KAH05DoEN9IV?=
- =?us-ascii?Q?E6dID4MM2TCWFyl54TwdGn17MP4Ot2Drei9Lbpqy5kt0WE48KRw4A+oHiROk?=
- =?us-ascii?Q?v1FU1+XYAif5nlee+xIZQxJmNhgdz94WeM85wyPQQ2ER5ccX4CzIVhLcCvf0?=
- =?us-ascii?Q?tbptXXENv9TB7KfIJ0LvTcCGTAcpxegqJl9B0l/6xwPxoiX2ZkTI+fHSjibF?=
- =?us-ascii?Q?jRP72260uCUNIC/3/Alovg6S4LRpxNg8ZKLqAKENljVjqMVyadb/DVyN/4WR?=
- =?us-ascii?Q?PvglkuK2CvPZhN0oN8qEcEvExeSmEG4djD7J/4JmdOoPR7fvClQwidHGtgLC?=
- =?us-ascii?Q?EaQI7DZYeQFiHle4SwGu6jE9VsxHvq4WMTU2YVO/u0dPKnNA9fCQUkhSGJFQ?=
- =?us-ascii?Q?e/KGPQI4ELeYydf0FuPEWNlEOcbxkKWVxp2Teq60eXTiP0Jdn/SCyXqtNomc?=
- =?us-ascii?Q?R6vewHwULw0wWW3gSltsjdE32Li8BUwmRgWSQfGI9Ry+NHJH1Y2doc8U+Z2Q?=
- =?us-ascii?Q?9unNHlEs3dnnRVrXBcnYg8bS692L8zVyKPEfX1fuF2S43uBrLFKnIcdP76Z0?=
- =?us-ascii?Q?HPPHPEByHVDRPERgOZ53+v3af5yJozQXCGGOvZHnekmFJVd2f8WSNg28He1E?=
- =?us-ascii?Q?vw=3D=3D?=
-X-OriginatorOrg: memverge.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7d1ef72c-d893-4ee3-ae00-08dbfb2b4893
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR17MB5512.namprd17.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Dec 2023 15:59:12.4440
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IuYZw9TscuJYleWasYe1kJc6odmkEC5HgoUzZgeXEjfMKc/V/cP8OxIBEkko9arlobNSH1WNtLSKv4FHgUBgY7OOxZHV1jxTv79kFeoaaK8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR17MB6483
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8582f7c9-b49d-4d21-8948-59d580e5317c@p183>
 
-On Tue, Dec 12, 2023 at 03:08:24PM +0800, Huang, Ying wrote:
-> Gregory Price <gregory.price@memverge.com> writes:
+On Thu, Dec 07, 2023 at 09:44:33PM +0300, Alexey Dobriyan wrote:
+> Report available page shifts in arch independent manner, so that
+> userspace developers won't have to parse /proc/cpuinfo hunting
+> for arch specific strings.
 > 
-> >> For example, can we use something as below?
-> >> 
-> >>   long set_mempolicy2(int mode, const unsigned long *nodemask, unsigned int *il_weights,
-> >>                           unsigned long maxnode, unsigned long home_node,
-> >>                           unsigned long flags);
-> >> 
-> >>   long mbind2(unsigned long start, unsigned long len,
-> >>                           int mode, const unsigned long *nodemask, unsigned int *il_weights,
-> >>                           unsigned long maxnode, unsigned long home_node,
-> >>                           unsigned long flags);
-> >> 
-> >
-> > Your definition of mbind2 is impossible.
-> >
-> > Neither of these interfaces solve the extensibility issue.  If a new
-> > policy which requires a new format of data arrives, we can look forward
-> > to set_mempolicy3 and mbind3.
+> Main users are supposed to be libhugetlbfs-like libraries which try
+> to abstract huge mappings across multiple architectures. Regular code
+> which queries hugepage support before using them benefits too because
+> it doesn't have to deal with descriptors and parsing sysfs hierarchies
+> while enjoying the simplicity and speed of getauxval(AT_PAGE_SHIFT_MASK).
 > 
-> IIUC, we will not over-engineering too much.  It's hard to predict the
-> requirements in the future.
+> Note!
 > 
-
-Sure, but having the mempolicy struct at least gives us more flexibility
-than the original interface.
-
-> >> A struct may be defined to hold mempolicy iteself.
-> >> 
-> >> struct mpol {
-> >>         int mode;
-> >>         unsigned int home_node;
-> >>         const unsigned long *nodemask;
-> >>         unsigned int *il_weights;
-> >>         unsigned int maxnode;
-> >> };
-> >> 
-> >
-> > addr could be pulled out for get_mempolicy2, so i will do that
-> >
-> > 'addr_node' and 'policy_node' are warts that came from the original
-> > get_mempolicy.  Removing them increases the complexity of handling
-> > arguments in the common get_mempolicy code.
-> >
-> > I could probably just drop support for retrieving the addr_node from
-> > get_mempolicy2, since it's already possible with get_mempolicy.  So I
-> > will do that.
+> This is strictly for userspace, if some page size is shutdown due
+> to kernel command line option or CPU bug workaround, than it must
+> not be reported in aux vector!
 > 
-> If it's necessary, we can add another struct for get_mempolicy2().  But
-> I don't think that it's necessary to add get_mempolicy2() specific
-> parameters for set_mempolicy2() or mbind2().
+> x86_64 machine with 1 GiB pages:
+> 
+> 	00000030  06 00 00 00 00 00 00 00  00 10 00 00 00 00 00 00
+> 	00000040  1d 00 00 00 00 00 00 00  00 10 20 40 00 00 00 00
+> 
+> x86_64 machine with 2 MiB pages only:
+> 
+> 	00000030  06 00 00 00 00 00 00 00  00 10 00 00 00 00 00 00
+> 	00000040  1d 00 00 00 00 00 00 00  00 10 20 00 00 00 00 00
+> 
+> AT_PAGESZ always reports one smallest page size which is not interesting.
+> 
+> Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
+> ---
+> 
+> 	v3: better comment and changelog
+> 	v2: switch to page shifts, rename to ARCH_AT_PAGE_SHIFT_MASK
+> 
+>  arch/x86/include/asm/elf.h  |   12 ++++++++++++
+>  fs/binfmt_elf.c             |    3 +++
+>  include/uapi/linux/auxvec.h |   13 +++++++++++++
+>  3 files changed, 28 insertions(+)
+> 
+> --- a/arch/x86/include/asm/elf.h
+> +++ b/arch/x86/include/asm/elf.h
+> @@ -358,6 +358,18 @@ else if (IS_ENABLED(CONFIG_IA32_EMULATION))				\
+>  
+>  #define COMPAT_ELF_ET_DYN_BASE	(TASK_UNMAPPED_BASE + 0x1000000)
+>  
+> +#define ARCH_AT_PAGE_SHIFT_MASK					\
+> +	do {							\
+> +		u32 val = 1 << 12;				\
+> +		if (boot_cpu_has(X86_FEATURE_PSE)) {		\
+> +			val |= 1 << 21;				\
+> +		}						\
+> +		if (boot_cpu_has(X86_FEATURE_GBPAGES)) {	\
+> +			val |= 1 << 30;				\
+> +		}						\
+> +		NEW_AUX_ENT(AT_PAGE_SHIFT_MASK, val);		\
+> +	} while (0)
+> +
+>  #endif /* !CONFIG_X86_32 */
+>  
+>  #define VDSO_CURRENT_BASE	((unsigned long)current->mm->context.vdso)
 
-After edits, the only parameter that doesn't have parity between
-interfaces is `addr_node` and `policy_node`.  This was an unfortunate
-wart on the original get_mempolicy() that multiplexed the output of
-(*mode) based on whether MPOL_F_NODE was set.
+If I can get an Ack from x86 maintainers for this, I can carry it in my
+execve tree.
 
-Example:
-if (MPOL_F_ADDR | MPOL_F_NODE), then get_mempolicy() would return
-details about a VMA mempolicy + the node of that address in (*mode).
+Thanks for the updates to the commit log and comments, it reads better
+now.
 
-Right now in get_mempolicy2() I fetch this unconditionally instead of
-requiring MPOL_F_NODE.  I did not want to multiplexing (*mode) output.
+-Kees
 
-I see two options:
-1) Get rid of MPOL_F_NODE functionality in get_mempolicy2()
-   If a user wants that information, they can still use get_mempolicy()
+> --- a/fs/binfmt_elf.c
+> +++ b/fs/binfmt_elf.c
+> @@ -240,6 +240,9 @@ create_elf_tables(struct linux_binprm *bprm, const struct elfhdr *exec,
+>  #endif
+>  	NEW_AUX_ENT(AT_HWCAP, ELF_HWCAP);
+>  	NEW_AUX_ENT(AT_PAGESZ, ELF_EXEC_PAGESIZE);
+> +#ifdef ARCH_AT_PAGE_SHIFT_MASK
+> +	ARCH_AT_PAGE_SHIFT_MASK;
+> +#endif
+>  	NEW_AUX_ENT(AT_CLKTCK, CLOCKS_PER_SEC);
+>  	NEW_AUX_ENT(AT_PHDR, phdr_addr);
+>  	NEW_AUX_ENT(AT_PHENT, sizeof(struct elf_phdr));
+> --- a/include/uapi/linux/auxvec.h
+> +++ b/include/uapi/linux/auxvec.h
+> @@ -33,6 +33,19 @@
+>  #define AT_RSEQ_FEATURE_SIZE	27	/* rseq supported feature size */
+>  #define AT_RSEQ_ALIGN		28	/* rseq allocation alignment */
+>  
+> +/*
+> + * All page sizes supported by CPU encoded as bitmask.
+> + *
+> + * Example: x86_64 system with pse, pdpe1gb /proc/cpuinfo flags
+> + * reports 4 KiB, 2 MiB and 1 GiB page support.
+> + *
+> + *	$ LD_SHOW_AUXV=1 $(which true) | grep -e AT_PAGE_SHIFT_MASK
+> + *	AT_PAGE_SHIFT_MASK: 0x40201000
+> + *
+> + * For 2^64 hugepage support please contact your Universe sales representative.
+> + */
+> +#define AT_PAGE_SHIFT_MASK	29
+> +
+>  #define AT_EXECFN  31	/* filename of program */
+>  
+>  #ifndef AT_MINSIGSTKSZ
 
-2) Keep MPOL_F_NODE and mpol_args->addr_node/policy_node, but don't allow
-   any future extensions that create this kind of situation.
-
-I'm fine with either.  I originally aimed for get_mempolicy2() to be
-all of get_mempolicy() features + new data, but that obviously isn't
-required.
-
-~Gregory
+-- 
+Kees Cook
 
