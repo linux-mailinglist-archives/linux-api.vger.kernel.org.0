@@ -1,187 +1,169 @@
-Return-Path: <linux-api+bounces-331-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-332-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D441380F8EF
-	for <lists+linux-api@lfdr.de>; Tue, 12 Dec 2023 22:09:34 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC18F81085B
+	for <lists+linux-api@lfdr.de>; Wed, 13 Dec 2023 03:46:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 57E98B20E91
-	for <lists+linux-api@lfdr.de>; Tue, 12 Dec 2023 21:09:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 62B331F21ADD
+	for <lists+linux-api@lfdr.de>; Wed, 13 Dec 2023 02:46:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3061E65A8B;
-	Tue, 12 Dec 2023 21:09:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BEE6D1873;
+	Wed, 13 Dec 2023 02:46:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Qd2J5mn2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E9K1L8Nk"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24150BD
-	for <linux-api@vger.kernel.org>; Tue, 12 Dec 2023 13:09:23 -0800 (PST)
-Received: by mail-pl1-x631.google.com with SMTP id d9443c01a7336-1d06fffdb65so37280275ad.2
-        for <linux-api@vger.kernel.org>; Tue, 12 Dec 2023 13:09:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1702415362; x=1703020162; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=s4klJ8l6fLfAZKVWPgko1830CXSL6+WluuhkBtOdryM=;
-        b=Qd2J5mn2We4mnkEiCEls1VCkboYBr+dlfGZLimYXMEv0Fr125YcU6FhbelmsrYUlmw
-         yhQt8l+jB6J2+Q4mBW1zIR8AdecT02FZYwsyxw/wDV1bfn/r3PlC0W0QI0XOMK0nh3uq
-         SaswAESNfrahm+MVvzj67Lh7E9XIfSP4O2hlQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702415362; x=1703020162;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=s4klJ8l6fLfAZKVWPgko1830CXSL6+WluuhkBtOdryM=;
-        b=aC5K73JAZ6xcbOEZVX5ezCtjpLy3IK5hd2DBofOjATkkFBUzRAoOjt2RUppQvQP5TV
-         yYGENciSce+5R9zNeyrL51vWYURHH6tyMtoG2etbzVJxGffkzXNQ81XU/tNOHZKTZFb0
-         OatvgEl2s9ihrIJKV4ON0wSlLwJqsCoBeqBYy51BKT9J2JsZlvpeCEhsIPfdnUEFGjBc
-         xPvCwsCexViWE6THxaQC8HQujw6PSlXwMQJXk6ZFnukfw2EkfrV/f4V2xJCUhzNzyoDN
-         6zVm4PmgLf9iD7AzsXhgIg41wrvDdyqQqJXLhL4R+RIIaMetdVcx/McpTGZMaa3n8ONM
-         IDDg==
-X-Gm-Message-State: AOJu0Yyb27TM0EMU/hKRrJA7nNM6DV1ZgmnOIk+kNP+0l5qn4U2MDPDh
-	I72Lqepm6WpX1Ygad864uKf/Hg==
-X-Google-Smtp-Source: AGHT+IHtd7FszDMGirD1ZPy4kL3dQAz8QrpOLMzWyFxONZj+kxreJ+VdZCKjnt0WLVGQPyhmEcczVA==
-X-Received: by 2002:a17:903:2446:b0:1d0:6ffd:6e6b with SMTP id l6-20020a170903244600b001d06ffd6e6bmr4102435pls.99.1702415362621;
-        Tue, 12 Dec 2023 13:09:22 -0800 (PST)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id d6-20020a170903230600b001d347a98e7asm114457plh.260.2023.12.12.13.09.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Dec 2023 13:09:22 -0800 (PST)
-Date: Tue, 12 Dec 2023 13:09:21 -0800
-From: Kees Cook <keescook@chromium.org>
-To: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>
-Cc: Alexey Dobriyan <adobriyan@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Florian Weimer <fweimer@redhat.com>, linux-kernel@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-	x86@kernel.org, Eric Biederman <ebiederm@xmission.com>,
-	linux-mm@kvack.org
-Subject: Re: [PATCH v3] ELF: AT_PAGE_SHIFT_MASK -- supply userspace with
- available page shifts
-Message-ID: <202312121307.D6605DCD@keescook>
-References: <6b399b86-a478-48b0-92a1-25240a8ede54@p183>
- <87v89dvuxg.fsf@oldenburg.str.redhat.com>
- <1d679805-8a82-44a4-ba14-49d4f28ff597@p183>
- <8582f7c9-b49d-4d21-8948-59d580e5317c@p183>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD5B0A1;
+	Tue, 12 Dec 2023 18:46:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702435606; x=1733971606;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=HeA8jqVHlKL8RuAwlVwqlEfSLUf01LuyOK0z4h52XBU=;
+  b=E9K1L8NkXiwvE8fDUPMWUEOiMS9H8D41NxJxxGD7pTJwcIqp9QlaqDsq
+   h0vDJhhzXywSBBP5IwyqZrCPG3szk7RQ/B+ZdJEbd/6DGfYw/+b6Ua5c4
+   JmN2q3cO72YukyM13Kq60uMkctSEzYqBlEm1anIxY6JbmNLjXgVZGDwje
+   sPDW3Q/xhfhTa8wlmaMBErgIkgVicdDupxArRzxvj7KxJ2hk0UpZR4nrT
+   bzXXWyVOzTdNLIdRZLZxJPZQMdPb23GxAiIiWQEtKpwPGPSuCSxWAT5Z3
+   GotW5FtEWlSxoeQwdStJKVDIFnD1ZY3AmcbR1Y7CSEll62/6WkBifmf7e
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="8281547"
+X-IronPort-AV: E=Sophos;i="6.04,271,1695711600"; 
+   d="scan'208";a="8281547"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 18:46:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="808005595"
+X-IronPort-AV: E=Sophos;i="6.04,271,1695711600"; 
+   d="scan'208";a="808005595"
+Received: from yhuang6-desk2.sh.intel.com (HELO yhuang6-desk2.ccr.corp.intel.com) ([10.238.208.55])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 18:46:35 -0800
+From: "Huang, Ying" <ying.huang@intel.com>
+To: Gregory Price <gregory.price@memverge.com>
+Cc: Gregory Price <gourry.memverge@gmail.com>,  <linux-mm@kvack.org>,
+  <linux-doc@vger.kernel.org>,  <linux-fsdevel@vger.kernel.org>,
+  <linux-api@vger.kernel.org>,  <linux-arch@vger.kernel.org>,
+  <linux-kernel@vger.kernel.org>,  <akpm@linux-foundation.org>,
+  <arnd@arndb.de>,  <tglx@linutronix.de>,  <luto@kernel.org>,
+  <mingo@redhat.com>,  <bp@alien8.de>,  <dave.hansen@linux.intel.com>,
+  <x86@kernel.org>,  <hpa@zytor.com>,  <mhocko@kernel.org>,
+  <tj@kernel.org>,  <corbet@lwn.net>,  <rakie.kim@sk.com>,
+  <hyeongtak.ji@sk.com>,  <honggyu.kim@sk.com>,  <vtavarespetr@micron.com>,
+  <peterz@infradead.org>,  <jgroves@micron.com>,
+  <ravis.opensrc@micron.com>,  <sthanneeru@micron.com>,
+  <emirakhur@micron.com>,  <Hasan.Maruf@amd.com>,
+  <seungjun.ha@samsung.com>,  Johannes Weiner <hannes@cmpxchg.org>,  "Hasan
+ Al Maruf" <hasanalmaruf@fb.com>,  Hao Wang <haowang3@fb.com>,  Dan
+ Williams <dan.j.williams@intel.com>,  Michal Hocko <mhocko@suse.com>,
+  Zhongkun He <hezhongkun.hzk@bytedance.com>,  Frank van der Linden
+ <fvdl@google.com>,  "John Groves" <john@jagalactic.com>,  Jonathan Cameron
+ <Jonathan.Cameron@huawei.com>
+Subject: Re: [PATCH v2 00/11] mempolicy2, mbind2, and weighted interleave
+In-Reply-To: <ZXiDSrdNfbv8/Ple@memverge.com> (Gregory Price's message of "Tue,
+	12 Dec 2023 10:59:06 -0500")
+References: <20231209065931.3458-1-gregory.price@memverge.com>
+	<87r0jtxp23.fsf@yhuang6-desk2.ccr.corp.intel.com>
+	<ZXc74yJzXDkCm+BA@memverge.com>
+	<87plzbx5hz.fsf@yhuang6-desk2.ccr.corp.intel.com>
+	<ZXiDSrdNfbv8/Ple@memverge.com>
+Date: Wed, 13 Dec 2023 10:44:35 +0800
+Message-ID: <87zfyestws.fsf@yhuang6-desk2.ccr.corp.intel.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8582f7c9-b49d-4d21-8948-59d580e5317c@p183>
+Content-Type: text/plain; charset=ascii
 
-On Thu, Dec 07, 2023 at 09:44:33PM +0300, Alexey Dobriyan wrote:
-> Report available page shifts in arch independent manner, so that
-> userspace developers won't have to parse /proc/cpuinfo hunting
-> for arch specific strings.
-> 
-> Main users are supposed to be libhugetlbfs-like libraries which try
-> to abstract huge mappings across multiple architectures. Regular code
-> which queries hugepage support before using them benefits too because
-> it doesn't have to deal with descriptors and parsing sysfs hierarchies
-> while enjoying the simplicity and speed of getauxval(AT_PAGE_SHIFT_MASK).
-> 
-> Note!
-> 
-> This is strictly for userspace, if some page size is shutdown due
-> to kernel command line option or CPU bug workaround, than it must
-> not be reported in aux vector!
-> 
-> x86_64 machine with 1 GiB pages:
-> 
-> 	00000030  06 00 00 00 00 00 00 00  00 10 00 00 00 00 00 00
-> 	00000040  1d 00 00 00 00 00 00 00  00 10 20 40 00 00 00 00
-> 
-> x86_64 machine with 2 MiB pages only:
-> 
-> 	00000030  06 00 00 00 00 00 00 00  00 10 00 00 00 00 00 00
-> 	00000040  1d 00 00 00 00 00 00 00  00 10 20 00 00 00 00 00
-> 
-> AT_PAGESZ always reports one smallest page size which is not interesting.
-> 
-> Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
-> ---
-> 
-> 	v3: better comment and changelog
-> 	v2: switch to page shifts, rename to ARCH_AT_PAGE_SHIFT_MASK
-> 
->  arch/x86/include/asm/elf.h  |   12 ++++++++++++
->  fs/binfmt_elf.c             |    3 +++
->  include/uapi/linux/auxvec.h |   13 +++++++++++++
->  3 files changed, 28 insertions(+)
-> 
-> --- a/arch/x86/include/asm/elf.h
-> +++ b/arch/x86/include/asm/elf.h
-> @@ -358,6 +358,18 @@ else if (IS_ENABLED(CONFIG_IA32_EMULATION))				\
->  
->  #define COMPAT_ELF_ET_DYN_BASE	(TASK_UNMAPPED_BASE + 0x1000000)
->  
-> +#define ARCH_AT_PAGE_SHIFT_MASK					\
-> +	do {							\
-> +		u32 val = 1 << 12;				\
-> +		if (boot_cpu_has(X86_FEATURE_PSE)) {		\
-> +			val |= 1 << 21;				\
-> +		}						\
-> +		if (boot_cpu_has(X86_FEATURE_GBPAGES)) {	\
-> +			val |= 1 << 30;				\
-> +		}						\
-> +		NEW_AUX_ENT(AT_PAGE_SHIFT_MASK, val);		\
-> +	} while (0)
-> +
->  #endif /* !CONFIG_X86_32 */
->  
->  #define VDSO_CURRENT_BASE	((unsigned long)current->mm->context.vdso)
+Gregory Price <gregory.price@memverge.com> writes:
 
-If I can get an Ack from x86 maintainers for this, I can carry it in my
-execve tree.
+> On Tue, Dec 12, 2023 at 03:08:24PM +0800, Huang, Ying wrote:
+>> Gregory Price <gregory.price@memverge.com> writes:
+>> 
+>> >> For example, can we use something as below?
+>> >> 
+>> >>   long set_mempolicy2(int mode, const unsigned long *nodemask, unsigned int *il_weights,
+>> >>                           unsigned long maxnode, unsigned long home_node,
+>> >>                           unsigned long flags);
+>> >> 
+>> >>   long mbind2(unsigned long start, unsigned long len,
+>> >>                           int mode, const unsigned long *nodemask, unsigned int *il_weights,
+>> >>                           unsigned long maxnode, unsigned long home_node,
+>> >>                           unsigned long flags);
+>> >> 
+>> >
+>> > Your definition of mbind2 is impossible.
+>> >
+>> > Neither of these interfaces solve the extensibility issue.  If a new
+>> > policy which requires a new format of data arrives, we can look forward
+>> > to set_mempolicy3 and mbind3.
+>> 
+>> IIUC, we will not over-engineering too much.  It's hard to predict the
+>> requirements in the future.
+>> 
+>
+> Sure, but having the mempolicy struct at least gives us more flexibility
+> than the original interface.
+>
+>> >> A struct may be defined to hold mempolicy iteself.
+>> >> 
+>> >> struct mpol {
+>> >>         int mode;
+>> >>         unsigned int home_node;
+>> >>         const unsigned long *nodemask;
+>> >>         unsigned int *il_weights;
+>> >>         unsigned int maxnode;
+>> >> };
+>> >> 
+>> >
+>> > addr could be pulled out for get_mempolicy2, so i will do that
+>> >
+>> > 'addr_node' and 'policy_node' are warts that came from the original
+>> > get_mempolicy.  Removing them increases the complexity of handling
+>> > arguments in the common get_mempolicy code.
+>> >
+>> > I could probably just drop support for retrieving the addr_node from
+>> > get_mempolicy2, since it's already possible with get_mempolicy.  So I
+>> > will do that.
+>> 
+>> If it's necessary, we can add another struct for get_mempolicy2().  But
+>> I don't think that it's necessary to add get_mempolicy2() specific
+>> parameters for set_mempolicy2() or mbind2().
+>
+> After edits, the only parameter that doesn't have parity between
+> interfaces is `addr_node` and `policy_node`.  This was an unfortunate
+> wart on the original get_mempolicy() that multiplexed the output of
+> (*mode) based on whether MPOL_F_NODE was set.
+>
+> Example:
+> if (MPOL_F_ADDR | MPOL_F_NODE), then get_mempolicy() would return
+> details about a VMA mempolicy + the node of that address in (*mode).
+>
+> Right now in get_mempolicy2() I fetch this unconditionally instead of
+> requiring MPOL_F_NODE.  I did not want to multiplexing (*mode) output.
+>
+> I see two options:
+> 1) Get rid of MPOL_F_NODE functionality in get_mempolicy2()
+>    If a user wants that information, they can still use get_mempolicy()
+>
+> 2) Keep MPOL_F_NODE and mpol_args->addr_node/policy_node, but don't allow
+>    any future extensions that create this kind of situation.
 
-Thanks for the updates to the commit log and comments, it reads better
-now.
+3) Add another parameter to get_mempolicy2(), such as "unsigned long
+*value" to retrieve addr_node or policy_node.  We can extend it to be a
+"struct *" in the future if necessary.
 
--Kees
+> I'm fine with either.  I originally aimed for get_mempolicy2() to be
+> all of get_mempolicy() features + new data, but that obviously isn't
+> required.
 
-> --- a/fs/binfmt_elf.c
-> +++ b/fs/binfmt_elf.c
-> @@ -240,6 +240,9 @@ create_elf_tables(struct linux_binprm *bprm, const struct elfhdr *exec,
->  #endif
->  	NEW_AUX_ENT(AT_HWCAP, ELF_HWCAP);
->  	NEW_AUX_ENT(AT_PAGESZ, ELF_EXEC_PAGESIZE);
-> +#ifdef ARCH_AT_PAGE_SHIFT_MASK
-> +	ARCH_AT_PAGE_SHIFT_MASK;
-> +#endif
->  	NEW_AUX_ENT(AT_CLKTCK, CLOCKS_PER_SEC);
->  	NEW_AUX_ENT(AT_PHDR, phdr_addr);
->  	NEW_AUX_ENT(AT_PHENT, sizeof(struct elf_phdr));
-> --- a/include/uapi/linux/auxvec.h
-> +++ b/include/uapi/linux/auxvec.h
-> @@ -33,6 +33,19 @@
->  #define AT_RSEQ_FEATURE_SIZE	27	/* rseq supported feature size */
->  #define AT_RSEQ_ALIGN		28	/* rseq allocation alignment */
->  
-> +/*
-> + * All page sizes supported by CPU encoded as bitmask.
-> + *
-> + * Example: x86_64 system with pse, pdpe1gb /proc/cpuinfo flags
-> + * reports 4 KiB, 2 MiB and 1 GiB page support.
-> + *
-> + *	$ LD_SHOW_AUXV=1 $(which true) | grep -e AT_PAGE_SHIFT_MASK
-> + *	AT_PAGE_SHIFT_MASK: 0x40201000
-> + *
-> + * For 2^64 hugepage support please contact your Universe sales representative.
-> + */
-> +#define AT_PAGE_SHIFT_MASK	29
-> +
->  #define AT_EXECFN  31	/* filename of program */
->  
->  #ifndef AT_MINSIGSTKSZ
-
--- 
-Kees Cook
+--
+Best Regards,
+Huang, Ying
 
