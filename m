@@ -1,59 +1,63 @@
-Return-Path: <linux-api+bounces-349-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-350-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF516813873
-	for <lists+linux-api@lfdr.de>; Thu, 14 Dec 2023 18:25:47 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7854E813B46
+	for <lists+linux-api@lfdr.de>; Thu, 14 Dec 2023 21:08:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E4A9BB215B2
-	for <lists+linux-api@lfdr.de>; Thu, 14 Dec 2023 17:25:44 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E282BB210F8
+	for <lists+linux-api@lfdr.de>; Thu, 14 Dec 2023 20:08:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B98F565ED4;
-	Thu, 14 Dec 2023 17:25:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C94406A348;
+	Thu, 14 Dec 2023 20:08:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S4w7Gxxs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k85baBYP"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DFDF121;
-	Thu, 14 Dec 2023 09:25:37 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8978B6A32A;
+	Thu, 14 Dec 2023 20:08:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702574737; x=1734110737;
+  t=1702584500; x=1734120500;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=n7sgoh155H8eAHnmAlShMHrMmOd3VKlxViI4CSkmeBM=;
-  b=S4w7GxxsiAyVYsj+gRhoRXIWTz3qNs72S3a+RrKX9t4oxb1688GZHJhg
-   0Al5oXVQmnW+vV77ncyknZK77i9UjG7pK86JQa9iRppJWdHepvw7x7T4P
-   PhqOdnm0XeBByXc2bGCxvkRVfQFOGyhsPH1wdvmxDvC946Do9UnOCnJxf
-   RkKmEm/Gag0gtXB0hRgOQTLo8Rey/wz18HldfovXVcU46jDWa1gnuUmlT
-   Cde7vWbJUOmw4QelxzHCngSnq2MGEzJ+ezr5JcHUb02gquSlkcigVr6y0
-   zGRbL+2T5Hz8HOQid7ZZcLqGQkp0tn2jOlPfP4nS9qMZW5YJ9q6b10EXV
+  bh=nQZaAPlzIhWS5ZONexlJhNtWCCnMIrfTLdkPryy2dwY=;
+  b=k85baBYPGxpVuhmnbc8/5NdROhfAh1sWpBqb0FtgN3N+KS3fdkKqb991
+   68kJibc1IlRfzvNi3m5giDxsuQf05NgUypTMEirMc762sniQHM2MQgrCi
+   wnYlUPMRUWThPg8vPpXbV44zShYDy5z4R6QoFURNdiwkNnEqk0pYtmT4o
+   UGEYjjH9XwNgBSVL/DsiuEG83xbIF1vZTYjmbHd9MYJUtkrxrhAcEoIX+
+   1oekGYMNIpZuhOpReeMwx8PrB67V1PGa1Vwkhim+O5jCPVKEmdPTHRBWG
+   HAq6JS4x5fiJFo5LapP8k0jDaQbpyzbJqFbJ+eXjzdyz+ACsq3uTXF4eP
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="374662134"
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="392356795"
 X-IronPort-AV: E=Sophos;i="6.04,276,1695711600"; 
-   d="scan'208";a="374662134"
+   d="scan'208";a="392356795"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 09:25:36 -0800
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 12:08:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="777963121"
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="778009672"
 X-IronPort-AV: E=Sophos;i="6.04,276,1695711600"; 
-   d="scan'208";a="777963121"
+   d="scan'208";a="778009672"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 14 Dec 2023 09:25:30 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 14 Dec 2023 12:08:11 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rDpSQ-000MO6-2P;
-	Thu, 14 Dec 2023 17:25:14 +0000
-Date: Fri, 15 Dec 2023 01:24:00 +0800
+	id 1rDs09-000MZC-2A;
+	Thu, 14 Dec 2023 20:08:09 +0000
+Date: Fri, 15 Dec 2023 04:07:44 +0800
 From: kernel test robot <lkp@intel.com>
 To: Gregory Price <gourry.memverge@gmail.com>, linux-mm@kvack.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-	x86@kernel.org, akpm@linux-foundation.org, arnd@arndb.de,
-	tglx@linutronix.de, luto@kernel.org, mingo@redhat.com, bp@alien8.de,
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org, x86@kernel.org,
+	akpm@linux-foundation.org, arnd@arndb.de, tglx@linutronix.de,
+	luto@kernel.org, mingo@redhat.com, bp@alien8.de,
 	dave.hansen@linux.intel.com, hpa@zytor.com, mhocko@kernel.org,
 	tj@kernel.org, ying.huang@intel.com, gregory.price@memverge.com,
 	corbet@lwn.net, rakie.kim@sk.com, hyeongtak.ji@sk.com,
@@ -61,7 +65,7 @@ Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	jgroves@micron.com, ravis.opensrc@micron.com, sthanneeru@micron.com,
 	emirakhur@micron.com, Hasan.Maruf@amd.com, seungjun.ha@samsung.com
 Subject: Re: [PATCH v3 08/11] mm/mempolicy: add set_mempolicy2 syscall
-Message-ID: <202312150125.MYsauj7B-lkp@intel.com>
+Message-ID: <202312150311.RPwbE1sK-lkp@intel.com>
 References: <20231213224118.1949-9-gregory.price@memverge.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
@@ -88,22 +92,51 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-Price/mm-mempolic
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
 patch link:    https://lore.kernel.org/r/20231213224118.1949-9-gregory.price%40memverge.com
 patch subject: [PATCH v3 08/11] mm/mempolicy: add set_mempolicy2 syscall
-config: x86_64-randconfig-002-20231214 (https://download.01.org/0day-ci/archive/20231215/202312150125.MYsauj7B-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231215/202312150125.MYsauj7B-lkp@intel.com/reproduce)
+config: um-randconfig-002-20231214 (https://download.01.org/0day-ci/archive/20231215/202312150311.RPwbE1sK-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231215/202312150311.RPwbE1sK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312150125.MYsauj7B-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312150311.RPwbE1sK-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: __x64_sys_set_mempolicy2
-   >>> referenced by syscall_64.c
-   >>>               arch/x86/entry/syscall_64.o:(sys_call_table) in archive vmlinux.a
-   >>> did you mean: __x64_sys_set_mempolicy
-   >>> defined in: vmlinux.a(kernel/sys_ni.o)
+   /usr/bin/ld: arch/um/drivers/pcap.o: in function `dbus_write':
+   pcap-dbus.o:(.text+0x2432f): undefined reference to `dbus_message_demarshal'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x24345): undefined reference to `dbus_connection_send'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x2434e): undefined reference to `dbus_connection_flush'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x24356): undefined reference to `dbus_message_unref'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x243a4): undefined reference to `dbus_error_free'
+   /usr/bin/ld: arch/um/drivers/pcap.o: in function `dbus_read':
+   pcap-dbus.o:(.text+0x243f0): undefined reference to `dbus_connection_pop_message'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x24412): undefined reference to `dbus_connection_pop_message'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x24428): undefined reference to `dbus_connection_read_write'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x24492): undefined reference to `dbus_message_is_signal'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x244ae): undefined reference to `dbus_message_marshal'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x24516): undefined reference to `dbus_free'
+   /usr/bin/ld: arch/um/drivers/pcap.o: in function `dbus_cleanup':
+   pcap-dbus.o:(.text+0x2457c): undefined reference to `dbus_connection_unref'
+   /usr/bin/ld: arch/um/drivers/pcap.o: in function `dbus_activate':
+   pcap-dbus.o:(.text+0x24626): undefined reference to `dbus_connection_open'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x2463e): undefined reference to `dbus_bus_register'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x2472c): undefined reference to `dbus_bus_add_match'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x24734): undefined reference to `dbus_error_is_set'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x2477b): undefined reference to `dbus_bus_get'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x247ac): undefined reference to `dbus_error_free'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x247bd): undefined reference to `dbus_bus_add_match'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x247c5): undefined reference to `dbus_error_is_set'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x247fe): undefined reference to `dbus_error_free'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x2480a): undefined reference to `dbus_connection_unref'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x24836): undefined reference to `dbus_bus_get'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x24872): undefined reference to `dbus_error_free'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x24885): undefined reference to `dbus_connection_set_max_received_size'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x24896): undefined reference to `dbus_connection_unref'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x2490c): undefined reference to `dbus_error_free'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x2494a): undefined reference to `dbus_error_free'
+>> /usr/bin/ld: arch/x86/um/sys_call_table_64.o:(.rodata+0xe48): undefined reference to `sys_set_mempolicy2'
+   collect2: error: ld returned 1 exit status
 
 -- 
 0-DAY CI Kernel Test Service
