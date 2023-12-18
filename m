@@ -1,115 +1,172 @@
-Return-Path: <linux-api+bounces-351-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-352-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD019813F36
-	for <lists+linux-api@lfdr.de>; Fri, 15 Dec 2023 02:31:14 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AD8781674E
+	for <lists+linux-api@lfdr.de>; Mon, 18 Dec 2023 08:23:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4EB2B1F217AA
-	for <lists+linux-api@lfdr.de>; Fri, 15 Dec 2023 01:31:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 22E6128215B
+	for <lists+linux-api@lfdr.de>; Mon, 18 Dec 2023 07:23:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5706A44;
-	Fri, 15 Dec 2023 01:31:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XuJluONs"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 680F379D9;
+	Mon, 18 Dec 2023 07:23:08 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8536ED2;
-	Fri, 15 Dec 2023 01:30:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702603859; x=1734139859;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=bo4CQbjDhFgPpZxFoaEvDAhRSz9PVVm5QEWsB3l+Hvk=;
-  b=XuJluONsDon84bZ/4wBMxn5QUNTntsBWx4gm1jbxm+wZHrbyY0LB6YkT
-   W73nuNOAj5hzJtHhBuQlriKvImG7sUXGW1UaV5zYtVHSwtc8d78D58g4s
-   MaErkP1PpDGJuhh+pFBRB1bj9DqIQHZInyVclEvLuctD2DSaOkWYYI+kk
-   V+dN5G+i00N64SGZCJB4IUzEJSDipmoYXIZtp2CF8Yte/NJ5jlMLRHikf
-   LGBKy+z0rZ8jG7GZzMBYAF5r4mePqD8Rcc8/2VautMPmCdw+CNKGt1yB3
-   u7ZhNyI4pbuIuiHhLTRFfwrfHcotwlrJwyXOhjSO3P3bGPsCJJdkajq/q
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="399050762"
-X-IronPort-AV: E=Sophos;i="6.04,277,1695711600"; 
-   d="scan'208";a="399050762"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 17:30:58 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="897960014"
-X-IronPort-AV: E=Sophos;i="6.04,277,1695711600"; 
-   d="scan'208";a="897960014"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 14 Dec 2023 17:30:50 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rDx2N-000Mwz-31;
-	Fri, 15 Dec 2023 01:30:47 +0000
-Date: Fri, 15 Dec 2023 09:30:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: Gregory Price <gourry.memverge@gmail.com>, linux-mm@kvack.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-	x86@kernel.org, akpm@linux-foundation.org, arnd@arndb.de,
-	tglx@linutronix.de, luto@kernel.org, mingo@redhat.com, bp@alien8.de,
-	dave.hansen@linux.intel.com, hpa@zytor.com, mhocko@kernel.org,
-	tj@kernel.org, ying.huang@intel.com, gregory.price@memverge.com,
-	corbet@lwn.net, rakie.kim@sk.com, hyeongtak.ji@sk.com,
-	honggyu.kim@sk.com, vtavarespetr@micron.com, peterz@infradead.org,
-	jgroves@micron.com, ravis.opensrc@micron.com, sthanneeru@micron.com,
-	emirakhur@micron.com, Hasan.Maruf@amd.com, seungjun.ha@samsung.com
-Subject: Re: [PATCH v3 09/11] mm/mempolicy: add get_mempolicy2 syscall
-Message-ID: <202312150958.WYyFWIdr-lkp@intel.com>
-References: <20231213224118.1949-10-gregory.price@memverge.com>
+Received: from invmail4.hynix.com (exvmail4.hynix.com [166.125.252.92])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17A7F79C7;
+	Mon, 18 Dec 2023 07:23:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sk.com
+X-AuditID: a67dfc5b-d85ff70000001748-ef-657fefc8c14b
+From: Hyeongtak Ji <hyeongtak.ji@sk.com>
+To: gourry.memverge@gmail.com
+Cc: Hasan.Maruf@amd.com,
+	Jonathan.Cameron@Huawei.com,
+	akpm@linux-foundation.org,
+	arnd@arndb.de,
+	bp@alien8.de,
+	corbet@lwn.net,
+	dan.j.williams@intel.com,
+	dave.hansen@linux.intel.com,
+	emirakhur@micron.com,
+	fvdl@google.com,
+	gregory.price@memverge.com,
+	hannes@cmpxchg.org,
+	haowang3@fb.com,
+	hasanalmaruf@fb.com,
+	hezhongkun.hzk@bytedance.com,
+	honggyu.kim@sk.com,
+	hpa@zytor.com,
+	hyeongtak.ji@sk.com,
+	jgroves@micron.com,
+	john@jagalactic.com,
+	linux-api@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	luto@kernel.org,
+	mhocko@kernel.org,
+	mhocko@suse.com,
+	mingo@redhat.com,
+	peterz@infradead.org,
+	rakie.kim@sk.com,
+	ravis.opensrc@micron.com,
+	seungjun.ha@samsung.com,
+	sthanneeru@micron.com,
+	tglx@linutronix.de,
+	tj@kernel.org,
+	vtavarespetr@micron.com,
+	x86@kernel.org,
+	ying.huang@intel.com,
+	kernel_team@skhynix.com
+Subject: RE: [PATCH v3 00/11] mempolicy2, mbind2, and weighted interleave
+Date: Mon, 18 Dec 2023 16:07:48 +0900
+Message-Id: <20231218070750.2123-1-hyeongtak.ji@sk.com>
+X-Mailer: git-send-email 2.37.3.windows.1
+In-Reply-To: <20231213224118.1949-1-gregory.price@memverge.com>
+References: <20231213224118.1949-1-gregory.price@memverge.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231213224118.1949-10-gregory.price@memverge.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Sf0yMcRzH973ne8/zdByPq803Zc1NozaRtfnYLP3RH4+JWdYfwnLqoZu6
+	cilloyOXOhOi6CruqtGS7jxl0oq78+PKUFKtzWSUyVIpivVDepam/157f97v9+efN0upSuUr
+	WK3umKDXaRLUtAIrBhdb1zUPZwobjJW+UGKrpmE6/zkDP+x/aOhznENwraANQb99lq5/b2fg
+	qcVCQ//UFxkYznzCcEfcAeXPPyIwFtlpeJV9hoZ3Xe8QFN5bDu7xCRqctj1QZe2iofZXDg3W
+	7AoMjU0tGN42lNDQUz0jh9aGu3IYGL9FwYe8MGh3WGTgvuCQwefOBgb6c90yGK75jqBWLKBg
+	4vYzBO6efAZ+23vl0GK+gsP8+V/GPMwb26dpfnIiH/F/mqtp/sm3YYq/nDXE8A/N7xneIqby
+	Z58OyvnaykC+vPGrjK8zjWFerMqleXE0n+GHXr9m+Obrk3iXd7RiS5yQoE0T9OtDDyjis16c
+	xsmdS9NraispAypbZEIeLOFCiKvjKp7nlxeHGIlpbi0pNJRTJsSyXtxK4nq0yoQULMXVM6TA
+	+YaSPJ7cNlI/2MhIHsz5kzFnqiQruU3ElNPEzFUGkEt1JTKJPbitROw6hyRWcaHENvmEnvMv
+	Iy1FfViqobg1xHZDJckU50ey7hdT0lvCtbGky1r8r9ObOCu78SXEmRfEzf/j5gVxC6KqkEqr
+	S0vUaBNCguIzdNr0oNikRBHNjubWyam99Wi0bbcLcSxSL1ZyAZmCSq5JS8lIdCHCUmovZXjZ
+	rKSM02ScEPRJMfrUBCHFhXxYrF6u3Dh+PE7FHdYcE44IQrKgn7/KWI8VBuRzvCJoe++MotU7
+	esThLd8cORmY1BY5nff5ZlxM588Oa0zqwY0WvLqqf4nxgKqwdefjU37KgZng0i0DUbFHp1Rf
+	PGP3Tal7MnI8zWsfiDpSdNthH0wOsbkNi5aER0WMdMc2HdKNJp+//NK/Z31vnehcd74A9uPw
+	dt/sCNkjO12txinxmuBASp+i+QvQzCBrMAMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa0iTYRiGe/cdNx19TbEPTaJFmUmZUfgUYQZFb0eCiDCKnPmVQzdlS2tR
+	aB5KB5kHTF1TpobJUmdbkYmJTkuNTmquIDqpleaR1Ix5yhFR/y7u5+K+/zwsIcukvFml+qyg
+	USti5LSElJj9gte1jSYKG75XEGC0VNIwm/OEgfGaORr6Gq8iyM97haC/ZoEKxjoZaDGZaOif
+	+SaCpOQeEu5YD0DZk88I0gpraHh+JZmGd453CMa/DhJw4+5SyOibQtD600lDkyUMzCUOGpqL
+	2imwTaXTUHLlFgn1j9pJ6Koz0vChcp6Cl3VVFAz+LCfgY2YodDaaRNB6rVEEdsc3Cr501zHQ
+	n9EqgtHqMQQ2ax4BztuPFxY+5DDwq6aXgnZDLhnqj6fSMkmc1jlL42lnDsJzbZU0bh4aJXB2
+	ygiDHxreM9hkjcepLcMUtlWsxWX1AyJ8Tz9JYqs5g8bWHzkMHnnxgsFtBdPkIZ9jkm2RQowy
+	QdAEhoRLolKeXibjuhefr7ZVEEmo1E2PxCzPbeKfXR9hXExza/gbSWWEHrGsJ+fL2xtW6JGE
+	Jbhahs9r6iBcjge3h68drmdcDsmt4ieb4l2xlAvm9emPmD+V/nzWPaPIxWJuO291XEUulnEh
+	vGW6mf7jL+HbC/tIVw3B+fGWYpkrJrjlfMr9m0QWkhr+swz/LMN/lgkRZuSpVCeoFMqYzeu1
+	0VE6tfL8+lOxKita+JLySzPZtWiia7cdcSySu0s5/0RBRikStDqVHfEsIfeU7ixdiKSRCt0F
+	QRN7UhMfI2jtyIcl5Uule48K4TLujOKsEC0IcYLm71XEir2TUNW5/D065wnJSY+I46UNy/yK
+	vCZkEe76kfQ4SVbq/lOVZHPP3YzDR0aHNr7VzXtJLSqH24nnA7at4tUXNwRt//jJY3pzsep0
+	QENhdODAIh9jb5Vvx7ZU5wqTL3WurPygeMtkeOiDHcJ4dV9uV/DK4/vcM7vDdr0OwOaSN4Gl
+	86fV/nJSG6UIWktotIrfF9TRyCEDAAA=
+X-CFilter-Loop: Reflected
 
 Hi Gregory,
 
-kernel test robot noticed the following build errors:
+Thank you for the v3 patch.
 
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on deller-parisc/for-next powerpc/next powerpc/fixes s390/features jcmvbkbc-xtensa/xtensa-for-next arnd-asm-generic/master linus/master v6.7-rc5]
-[cannot apply to geert-m68k/for-next geert-m68k/for-linus tip/x86/asm next-20231214]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Gregory Price <gourry.memverge@gmail.com> write:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-Price/mm-mempolicy-implement-the-sysfs-based-weighted_interleave-interface/20231214-064236
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20231213224118.1949-10-gregory.price%40memverge.com
-patch subject: [PATCH v3 09/11] mm/mempolicy: add get_mempolicy2 syscall
-config: x86_64-randconfig-002-20231214 (https://download.01.org/0day-ci/archive/20231215/202312150958.WYyFWIdr-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231215/202312150958.WYyFWIdr-lkp@intel.com/reproduce)
+[snip]
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312150958.WYyFWIdr-lkp@intel.com/
+> =====================================================================
+> Performance tests - MLC
+> From Ravi Jonnalagadda <ravis.opensrc@micron.com>
+> 
+> Workload:                               W2
+> Data Signature:                         2:1 read:write
+> DRAM only bandwidth (GBps):             298.8
+> DRAM + CXL (default interleave) (GBps): 113.04
+> DRAM + CXL (weighted interleave)(GBps): 412.5
+> Gain over DRAM only:                    1.38x
+> 
+> Workload:                               W5
+> Data Signature:                         1:1 read:write
+> DRAM only bandwidth (GBps):             273.2
+> DRAM + CXL (default interleave) (GBps): 117.23
+> DRAM + CXL (weighted interleave)(GBps): 382.7
+> Gain over DRAM only:                    1.4x
 
-All errors (new ones prefixed by >>):
+I've run XSBench based on the v3 patch and got numbers below. I used
+your sample numactl extension from here:
+Link: https://github.com/gmprice/numactl/tree/weighted_interleave_master
 
->> ld.lld: error: undefined symbol: __x64_sys_get_mempolicy2
-   >>> referenced by syscall_64.c
-   >>>               arch/x86/entry/syscall_64.o:(sys_call_table) in archive vmlinux.a
-   >>> did you mean: __x64_sys_get_mempolicy
-   >>> defined in: vmlinux.a(kernel/sys_ni.o)
+Performance tests – XSBench
+NUMA node 0: 56 logical cores, 128 GB memory
+NUMA node 2: 96 GB CXL memory
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+  1. dram only
+  $ numactl -membind 0 ./XSBench -s XL –p 5000000
+  Threads:     56
+  Runtime:     36.235 seconds
+  Lookups:     170,000,000
+  Lookups/s:   4,691,618
+ 
+  2. default interleave
+  $ numactl –-interleave 0,2 ./XSBench –s XL –p 5000000
+  Threads:     56
+  Runtime:     55.243 seconds
+  Lookups:     170,000,000
+  Lookups/s:   3,077,293
+
+  3. weighted interleave
+  $ numactl --weighted --interleave 0,2 ./XSBench –s XL –p 5000000
+  Threads:     56
+  Runtime:     29.262 seconds
+  Lookups:     170,000,000
+  Lookups/s:   5,809,513
+
+In terms of runtime, weighted-interleaving shows 1.19x improvement
+compared to dram only, and 1.47x compared to default interleave.  I’ve
+repeatedly run XSBench and have not observed any significant variations
+across the runs.
+
+Kind regards,
+Hyeongtak
 
