@@ -1,54 +1,54 @@
-Return-Path: <linux-api+bounces-396-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-397-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38EE581F085
-	for <lists+linux-api@lfdr.de>; Wed, 27 Dec 2023 17:41:32 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D9D481F1A9
+	for <lists+linux-api@lfdr.de>; Wed, 27 Dec 2023 20:52:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E4B9828206C
-	for <lists+linux-api@lfdr.de>; Wed, 27 Dec 2023 16:41:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DA7231F22EFB
+	for <lists+linux-api@lfdr.de>; Wed, 27 Dec 2023 19:52:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C4941E529;
-	Wed, 27 Dec 2023 16:41:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C9D347A4B;
+	Wed, 27 Dec 2023 19:52:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=memverge.com header.i=@memverge.com header.b="qQeefBJm"
+	dkim=pass (1024-bit key) header.d=memverge.com header.i=@memverge.com header.b="awjCQzKk"
 X-Original-To: linux-api@vger.kernel.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2088.outbound.protection.outlook.com [40.107.94.88])
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2045.outbound.protection.outlook.com [40.107.93.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB31A45026;
-	Wed, 27 Dec 2023 16:41:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A260347761;
+	Wed, 27 Dec 2023 19:52:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=memverge.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=memverge.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Oknz5d5J98lHJAQTx6cG5JRqITBt4AAy92CMOBXxlBYstwDFDtjlujRG9e/pxP6wzqxCmkRfcSZXfaU9LmOrLGDZ1g4ZO1x9phlspegl2JRG+lO2fXnzlwEaNIW/CyqNSGTIR6zK0Awp/BmSk1NT5Kj3gf3tr++AxyUKFsWrImO2FakMlR7ggBClyYAviHd5rfh1cRG7wWfQ+4NHLkybl/iYrey/fLMdDFxDK9BX39Qep2S/5UFgPlyKm6KNHxrISAXWQMTNqAIA5nepy3Kp625n42GLArfqoilU4CC4VBhEeFYfQmmtLEcVM5f0Lf9iy/I3bOj2xu4cwqz6AuVSDQ==
+ b=IKVuGxYMr2aO1NbJ6WFsgbmvKGfLcROnJiimAf/ONPY7z6fZftqbdX2LWLZd3I1y0xuppHJkQabOHuIAKOxLW9kEkdAFF6XoLudBqH19W5zTFxmJnpD9MmBtuazyqTMKHuBO09LFnzAUfbHActVqVmfcQ31Pm+EeTfpDZPyllYHRI5hgPyspCMB2gC+q+++KnamI4ebUOsOnLCi5aQc4vHnCWdqPzKwQ50UOo2VOtlcAfV4oJjaL9pYVCDK36FSLCKECcJri73kzydtpUdNTVp/rB20ayWd5PgyoLcSLGKvsp6GjNqWBXnkMHf3mMm8VRRr02D90B+tk/av2ypcs8w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zIJo9Ct4jBIJ1AVfs3m25acIbzGYsAkqBsjceiMrTHU=;
- b=nNVH7qL9vE6vCX81EHYGmBL/8XTTXjTLOwcaBEO0O/ZIh6iAsiwduCkBSwLHJ0W1wQPN42SoOSUw6dcAPctNK1t1qa0fuG+Gy4a4cmhzE+I+sZcRaMBYH38yhtcYEdNyse8zPmeq0KyVR0rXdzkwruqkp70U25lbJOzKBAZPkqe535Hq79Sf+qT8RmQ+EZdG5fgzyLLPsrvUQIwiP7z4cNKDua6oGHL7wiuwpiNvuLQq5qnkDu9xIq7Tq+zfP7BbP65aH5yh+9VOc9z9Jil6id+1WFal4M8MlCF8gT+GSjup6hlGYi6KmYf8iQHm4mQH3hxhMNzza+Kch+tAO+qaGQ==
+ bh=mtjAlTX2HzUw5cC2SujbNKCIunnZGkeGftLbnj0MQzU=;
+ b=fHULR3lznkl6SR6zNJdNzhnXae7BaZEzAPQAAEmH+k7VhWJRF9JIZ2WBnfqyLNPfsjIdXTWT3qA1cT9UMVTSPAbYpozyX7iywBNmc+mMEn3LOkylpMntmZ4nfcFNPX1DirbnDeH13dJ0A5WtdMcETy7pCGtx7ndHZKx9bnqztUAzKXJiaByTjAxZM+CJI4+Okm5HHanwW6S9cxCgdyyetjHCpFEuU0dxoHv9XR/41fqJfw95bSRWnnxJeVJ+URkxDpYTbqbBGNf4AY4ayTu0J2fo37PnVniaDDIRptPPUENTQfCGaq6mC5S2TsTytnU98Hi7I3CaBAiRTNaSZHABUw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
  dkim=pass header.d=memverge.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zIJo9Ct4jBIJ1AVfs3m25acIbzGYsAkqBsjceiMrTHU=;
- b=qQeefBJmwNmSeMWkP7SlB2Tym03gFitlc/KDw1wYZ3e3gTo8Z/+m3DlB4LCHak9Jirdjcx/zhq39fBmDE2BL3WqL6GcYV2YYjyp3nkcdhGQ7j/9kUbQsA5RaAii5IQmjr7YvsY+tniS11KZpuoiSE2M2LQ4FV6gunLbGQEZA11k=
+ bh=mtjAlTX2HzUw5cC2SujbNKCIunnZGkeGftLbnj0MQzU=;
+ b=awjCQzKknGDS4ROKDrWtet97dh9K7MxfDPRNip55o1ZFqqn1SNeAO3upZF0i9+m+9RuahTwJLnapjgy591oSpQjmh8w46mgG6LRH3wwoI4N5h3aa5sDWlL5JBnJUi0U5eQTpR0Vx5pAh0xtqIPku3/9LoaLhlJr2DTxYpVUwqdA=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=memverge.com;
 Received: from SJ0PR17MB5512.namprd17.prod.outlook.com (2603:10b6:a03:394::19)
- by MW4PR17MB6007.namprd17.prod.outlook.com (2603:10b6:303:1be::5) with
+ by DM4PR17MB6939.namprd17.prod.outlook.com (2603:10b6:8:181::11) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7113.27; Wed, 27 Dec
- 2023 16:41:22 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7135.18; Wed, 27 Dec
+ 2023 19:52:20 +0000
 Received: from SJ0PR17MB5512.namprd17.prod.outlook.com
  ([fe80::381c:7f11:1028:15f4]) by SJ0PR17MB5512.namprd17.prod.outlook.com
  ([fe80::381c:7f11:1028:15f4%5]) with mapi id 15.20.7113.027; Wed, 27 Dec 2023
- 16:41:22 +0000
-Date: Tue, 26 Dec 2023 03:06:01 -0500
+ 19:52:19 +0000
+Date: Tue, 26 Dec 2023 06:32:54 -0500
 From: Gregory Price <gregory.price@memverge.com>
 To: "Huang, Ying" <ying.huang@intel.com>
 Cc: Gregory Price <gourry.memverge@gmail.com>, linux-mm@kvack.org,
@@ -65,7 +65,7 @@ Cc: Gregory Price <gourry.memverge@gmail.com>, linux-mm@kvack.org,
 	Srinivasulu Thanneeru <sthanneeru.opensrc@micron.com>
 Subject: Re: [PATCH v5 02/11] mm/mempolicy: introduce
  MPOL_WEIGHTED_INTERLEAVE for weighted interleaving
-Message-ID: <ZYqJaXaFCKvuwu3H@memverge.com>
+Message-ID: <ZYq55i03DIYCuC0u@memverge.com>
 References: <20231223181101.1954-1-gregory.price@memverge.com>
  <20231223181101.1954-3-gregory.price@memverge.com>
  <8734vof3kq.fsf@yhuang6-desk2.ccr.corp.intel.com>
@@ -73,7 +73,7 @@ References: <20231223181101.1954-1-gregory.price@memverge.com>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <ZYp6ZRLZQVtTHest@memverge.com>
-X-ClientProxiedBy: BYAPR01CA0023.prod.exchangelabs.com (2603:10b6:a02:80::36)
+X-ClientProxiedBy: BYAPR01CA0045.prod.exchangelabs.com (2603:10b6:a03:94::22)
  To SJ0PR17MB5512.namprd17.prod.outlook.com (2603:10b6:a03:394::19)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
@@ -82,68 +82,81 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR17MB5512:EE_|MW4PR17MB6007:EE_
-X-MS-Office365-Filtering-Correlation-Id: 17f121a5-d16e-46b6-8970-08dc06faa8ad
+X-MS-TrafficTypeDiagnostic: SJ0PR17MB5512:EE_|DM4PR17MB6939:EE_
+X-MS-Office365-Filtering-Correlation-Id: e86497ec-4eaa-4e48-1dfe-08dc071555d0
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	RR2mG3WLgthAt8fOfDfZS4nGAKw1esUciI4LHk9W8pGrH0m49ZVKlQPKZr4sPs8NYagAtKxUi/HzO7Dfa/Pat2xtMM+VTH6m1jkQ29ML7JFS1pHmF1VSh3TntY2Pv0umDSPujCIwVUSD77Pm0SzFF1v2VNIzIdCw7sQleV07KUvLPlVmECzB6HEjpZGxzAURUh88dO3G5B0dk+rqVcUeyluFZ2c3UrpnOz0PfLkNEkqGXM/lD/O+LGzFVgiV9nPQMXJECSJzuuc+K2BwUabH7smrLqG6oPAFZUTbxkz2Mn82qVfmytmfNVngpHh5WRT7E3Kk1MzmGOGssb7m9U6wpQiQk/hmC5+sZJsM0lVM5P8tLrwf8P/jsEmOasIThwTjiV/EbNuTlAOTt0GNWIBK4NE5TjItHH2KAJojaY9F7yJLOx8jZj4DYILTfu6/jn6uej6Ghflvfo7WcZWiMJUMLYDsCGE66600ZXfkYHKsJzxwouF/czlx4+VrrxN0d5xGwMz2aYG1pXRW0TbJbDzowthPCqwy271YLZZDXYsf0jH20sMYFX0vXzHw8noc0RwrrxRO6rvyAN/Jm/HfDBGhRywrQNuzq8Teo8qgADltpx4=
+	azhoa98W2TmDNFX7YPBhdSW3Q+USs/98wnpOrXgeo3jYnW1dmG6yw4mpj6fRr8ya0H1zOxCqu9fy1WVhvDqPBilZB3XMX+tpV6b67fWCMdc94dje9bc0Fq0GLx9CgOu647ZGnsZD8M8v6B2YQQUx2f+JzMhNOyH8eWPdH+aQ2qnWHETWu1nPgHPrXfdgr1JONE/kpf9oSKmnsKyOxyyvPMWV94Rssv4fcz2yJ73oouWwYnfJsj3UWl5z3qnYezpa/0qdhaFRn8sXUMCQ7cbgWVWOcifYaJ4FeqBmAveGsi41x0GYs7Hui9vunyIc47rwBsI2I27Gos0BllWYic8hMbh1QrPCSXSDosCW1BiIST7DVeMm51Olfewr+kd4Vu7tw57RczlqiFe48vtYjAehZDH9oGC05SYfPWFfOpSlFi5mz6uW9Maykouj8mMoKXw+DMJ4+OFTwFQg/2S6yBXxTLrAIE4J0H7gvYOxtSFNTsGpY+J+i2fF5zn7LXJiQJtX/Eh5Di0LXJNHNZLbpgRmaUUJSr4mX7mjZgs8GaLhk1Rr8GzH/2EUvUsqmJnKcN60dREVO+0ZQt3pEyWAvtIjlKCSq7nzfUyjKkJd1g5VnXGgi21KoqC8TPvSj0l6Kd/m
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR17MB5512.namprd17.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(376002)(346002)(366004)(136003)(39850400004)(230922051799003)(1800799012)(451199024)(64100799003)(186009)(6506007)(2616005)(26005)(86362001)(36756003)(7406005)(38100700002)(4326008)(8676002)(44832011)(5660300002)(7416002)(6512007)(6916009)(6486002)(66556008)(66946007)(316002)(54906003)(66476007)(478600001)(41300700001)(8936002)(4744005)(2906002)(6666004)(16393002);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR17MB5512.namprd17.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39850400004)(376002)(366004)(396003)(136003)(346002)(230922051799003)(1800799012)(451199024)(186009)(64100799003)(36756003)(6916009)(6666004)(6506007)(6486002)(66946007)(66556008)(66476007)(86362001)(6512007)(38100700002)(26005)(5660300002)(2616005)(41300700001)(8936002)(4744005)(7406005)(44832011)(2906002)(478600001)(4326008)(8676002)(7416002)(54906003)(316002)(16393002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?Pzzh2MKzW2aX74emyV/M6UMC4IO7gXtLA2f55978OhecDq0SoPiqjuc0YOjc?=
- =?us-ascii?Q?eGpOuQONKa2BGdY2cAvXItTMjTXwsHcAuTFr+sraELL4us8AZWmodUgK/QlE?=
- =?us-ascii?Q?sh8Cwc8ro9mkvKAW4bcZ/v1gvxQZiBHkelJHQVh6GtyUCDs6JmPu367zYfbS?=
- =?us-ascii?Q?J/L24Nu9KUHQS0KHMLdEX/ZSbqX+z9JgJojCDntTadTOyNRj/iqY1S65LQ+W?=
- =?us-ascii?Q?rLLKMA42/MrYMHXxaYpFZW/Q+gfZRgpMNhbgIm+vuzABxqNfFTgrht2jaU89?=
- =?us-ascii?Q?OoDnAGFI8Nxe+D0bNcbaM8RgLyxI6HPHTAKIMkquwdd6Zd8y9TdhW3LQD37C?=
- =?us-ascii?Q?r+peQIgT4AOmODXZcfm9H4vs+59l9sgJOfZ3LB8aR7/u0XCM8xWpYXW3GdOs?=
- =?us-ascii?Q?OAMhbLFpJtP28l/W3HC4ZyS9As+R1b3D9O40yU3HGzSyBKzN0xq5GXvqT29X?=
- =?us-ascii?Q?NCSX+s5xRbERqjlGVAA9kw06cjw7bN78VkxSRH1dyBJ3C6nQDqBmqaqa0LRo?=
- =?us-ascii?Q?ki9dcqasnMtsgeDKhy7MQgiz0t8EgZjTR1FiM1YEjDJAsCtKdyctE5NUv56e?=
- =?us-ascii?Q?Bj+swfn2edvobkJyF+Iy1umbAu63ud8UEyjS25XLhE7TQZH8jO+syVuY+rGt?=
- =?us-ascii?Q?sEMQh4h5uOF1+8wZeySf91kT8Ab2NgXLMVKLlLLk4h1h1+shR8eYtz1KqYm1?=
- =?us-ascii?Q?itnKBrb9xrRoEfco3zWogThvLn8yR2seRbrOfSTHSNTpy5/OTk59dzlR3UnA?=
- =?us-ascii?Q?Z19BUXXMbLivyW4uS426GPrEaqhMVK6vfn4kzUe9P15Wx9HEGW/wR/4z4sT6?=
- =?us-ascii?Q?+JO2h8lQ2lTrsNdO40QD/aF5zvPJFESoa5K/7lKfqfmKtupcejlathpF9y9q?=
- =?us-ascii?Q?TW/kZkqI+ON7TJLrrkoUsl0HzCZt7Ps82AnOY2PIqT0PP6vsutEIjeIHLD4A?=
- =?us-ascii?Q?8pOHgpYXbUF0Wr0eRLr1Rnod2H0WGUZXu1IuVJDHfu25zXp1vGVaxDXfq6Pd?=
- =?us-ascii?Q?M2oEUwKIERqydqDG90q1WWQAVjaSpjjKW/dNEKpLBxNYMYwy7r5Sdc1CNcLD?=
- =?us-ascii?Q?FnaKJJ7XJ3B1u713GdxwvuJYOUc/MqsDWIXz82ittKn9aI/2asf0beyXCIE9?=
- =?us-ascii?Q?4DqaaCxaQEDjfgCrMGlsaaWgDPFzZFtZ847TtB0EIm0idkuz6FWCTcJoBGYI?=
- =?us-ascii?Q?m6tByt3GFtgTn5jJ9Sdm0/Xo3WrJzZxZQWub8MUMu7/2lyQwGICSsBG+jOIz?=
- =?us-ascii?Q?pYCmq9kmzzGljrIm7PAY319FxH4AkO2OP4JPuGC7wyjEqhA4eFdz4vSu1VGD?=
- =?us-ascii?Q?ANZqVtFD5jXM4R0pSIkHNAoE8Jd4zmMWuVXudY5PUm9wwybd+5DvcH2AhCKH?=
- =?us-ascii?Q?GzG5ZCf4pPr6JlxmiT002Mvc7Xd3+/8IKcxSfhsBo0RIao/U6mUA5WXs3CmB?=
- =?us-ascii?Q?Sk1VFLk2zeDC5HhGnAx25wyd/jU3R7ifQ4fK1mVkOpWff0U8RWDnMAi6FiVa?=
- =?us-ascii?Q?zFa1k/kDcn/Rm8qOLyMh9yDXawsOBvuFlBi70fDz+nCog+v83pQ9NUcZOtNX?=
- =?us-ascii?Q?JmuoRHdu5YYSf5xxpSUtnBvGaa7DPjxIVFZPTRo8wdbs0AGhqpY1FSJIY/sO?=
- =?us-ascii?Q?nA=3D=3D?=
+	=?us-ascii?Q?Xuj8GFvvxUBEl8iE9MqV23Y0gq5q3la1yfi03L/68cLHr2BzjNoqbxO8jR1/?=
+ =?us-ascii?Q?rIn8saXfe0FREsqGAe+IuxWR1rsJbylOuwVgepSw6gpcZGC0EeyySWvmtRDI?=
+ =?us-ascii?Q?ZoTE6NY6eNG6heC++Nlo+MyNch48bMYV+WSUL0OROBEMLcTyfJ0tsE24wkmV?=
+ =?us-ascii?Q?KczpRJgQjcJinSGC/GEu3pktBIheCCyxkXwu+RMiSqVCtg+44KOe5dBXNpy3?=
+ =?us-ascii?Q?IiIBoLIaS1PNGgVTIOj0MD3IN/2FLnJ2WmnuM+WFnns+Xs9GTR2U1+hvIOGn?=
+ =?us-ascii?Q?pmYzJ7pNZGJ/bbMJI2Q2j3ER3sxTWyD1V2oDygeqbmjDvlOY/xmekVlSKH0K?=
+ =?us-ascii?Q?c8R4bH1NZyyD7+sr8UP4vcOUSOGUdfTQdemR6+u6qAGXyx1yjdTZvTpHzoDH?=
+ =?us-ascii?Q?m7HSZD6XfPGCqGGJaOvp0FvAtwtJ+3Qb5B342t4aN8ygsgUtJ4atyuYSorYM?=
+ =?us-ascii?Q?euD04WDm1JdC8emk39OMAYCn0WbxBQxqp/u0y0MORnXSbZdL3Ag2jRz1r8IT?=
+ =?us-ascii?Q?Ept5gjqsBmV5FhHx0R+J5mT8myUfWLklq9M6Lv0I0PCSFBmc7YyOgj2NV3Bq?=
+ =?us-ascii?Q?Ocj71NeQ1+V/C778ftGELsBy1RYlFxLcDi0UNuH6irwTu9cnl2p5wU88Kbbh?=
+ =?us-ascii?Q?WMI7Cqe9pxnNzZl75X+TrXvl049Bsanv2NQb9Z3dVz2kTq5CLrYV4DXf+OeR?=
+ =?us-ascii?Q?S3L372yDEPdIYrNBSR0pW9AWZbfcq1fMxoGdZAJII4XIDpceySrwPgo+fFDg?=
+ =?us-ascii?Q?FyUQtIfoHMVIDnZO0p7fHqTxTgfWHFOKaRaqhuUnnDn1OA7ZA39sZZDC4xlQ?=
+ =?us-ascii?Q?JVnkQe1oSGJr01A8TIURxsNe1gwPBp9HMk7x47d/3kMp+/Qrks+QjeWd60FW?=
+ =?us-ascii?Q?CGeD0WMtn150OUz/mU6VJQsramF4V/SvdEHrB7VIzfUiAeGA2Gn6krBhh3/5?=
+ =?us-ascii?Q?8csEzjKZK0/aLGzMWnziEMHGYvEKoJh31GDpqx4uAF/bE8sapFHQMFNjK+Oy?=
+ =?us-ascii?Q?3LDF82DbJvyYeM6pcbofMxsILf5A+DH86JbscbBvEV1/w/trctbJjVWULfmZ?=
+ =?us-ascii?Q?oqjPVUad9mhWiqo1Z2ASwdWcQ6/tTwNbXg1no8CPTS/6ziATtWJcbwDEA34M?=
+ =?us-ascii?Q?TMPVHcSny+lsz0W2UozZuIVDUbOzcDqsbAIVrQ+gCPRgmftYFpPFjPVYDQMZ?=
+ =?us-ascii?Q?OLdbW1EpRKcBFe1yf2Mmf1fQddk37Xsxe+mCLUsWRCGr3ks6ZiGzWVa7/jDp?=
+ =?us-ascii?Q?Pw/ME2NU5Jjp448NgH00gn7rkjzSJ+2wozLzm+nTJopID3+cwUjBHzIX/SS9?=
+ =?us-ascii?Q?a93gY9WSSiFp8xhHAJ+QeEMfC+6AScZ/qVEUeZrxPDZ4gNbdUX8cfVPWObN/?=
+ =?us-ascii?Q?WXxrBmfvP8w3ZE9otM1HIZvhf0otUYiKhvWYU4zleW/c2IWDsKAesv96KnJ0?=
+ =?us-ascii?Q?FwDB/vyF12boUPRlrAzktNVyQXD+MVNPxpWwp0xwtuf/C6X4ejXA0dyNu80k?=
+ =?us-ascii?Q?1UrIxb23OdMrnB/Gd3F2wukwrqS4QtTm6QtYCZ5vQtJKJ/HT979lXiVSNnaK?=
+ =?us-ascii?Q?SO1EQoeidTPb0o/ctkT9GdEBFEcNJ3YOBVYVDdC5CBUraX4CotxwIdlWdMR7?=
+ =?us-ascii?Q?DQ=3D=3D?=
 X-OriginatorOrg: memverge.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 17f121a5-d16e-46b6-8970-08dc06faa8ad
+X-MS-Exchange-CrossTenant-Network-Message-Id: e86497ec-4eaa-4e48-1dfe-08dc071555d0
 X-MS-Exchange-CrossTenant-AuthSource: SJ0PR17MB5512.namprd17.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Dec 2023 16:41:22.2531
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Dec 2023 19:52:19.7089
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JwTWaCspUqQgzHzOiXY8TMnvGftm6jmGck3EemkC25b4aLCVqPTrsmV+nPdOqifOD/c0sQvYLXiFfVdIfwmtydO1U8ZGOHGwdBOe42h8f9c=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR17MB6007
+X-MS-Exchange-CrossTenant-UserPrincipalName: A4G2XUfLVQro0x8advvzpB+eXVO2qdGYaMGShVc7L66e8SzMfeLrZaLoqbf1FnYDOOtQx23CqW8oHSi+iGTbWppwwKfrQXAq8hHcVc7mTE8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR17MB6939
 
 On Tue, Dec 26, 2023 at 02:01:57AM -0500, Gregory Price wrote:
+> On Wed, Dec 27, 2023 at 04:32:37PM +0800, Huang, Ying wrote:
+> > Gregory Price <gourry.memverge@gmail.com> writes:
+> 
+> Barrier is to stabilize nodemask on the stack, but yes i'll carry the
+> comment from interleave_nid into this barrier as well.
+> 
+> > > +
+> > > +	/* first ensure we have a valid nodemask */
+> > > +	nid = first_node(nodemask);
+> > > +	if (nid == MAX_NUMNODES)
+> > > +		return nid;
 > > 
-> > If pol->wil.cur_weight == 0, prev_node will be used without being
-> > initialized below.
+> > It appears that this isn't necessary, because we can check whether
+> > weight_total == 0 after the next loop.
 > > 
 > 
-> pol->wil.cur_weight is not used below.
+> fair, will snip.
 > 
 
-disregard, i misread your comment. prev_node should be initialized, to 
-NO_NUMA_NODE.  Will fix.
+Follow up - this is only possible if the nodemask is invalid / has no
+nodes, so it's better to check for this explicitly.  If nodemask is
+valid, then it's not possible to have a weight_total of 0, because
+weights cannot be 0.
 
 ~Gregory
 
