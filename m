@@ -1,421 +1,367 @@
-Return-Path: <linux-api+bounces-387-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-388-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8D7481E376
-	for <lists+linux-api@lfdr.de>; Tue, 26 Dec 2023 01:30:22 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BECF781ECB3
+	for <lists+linux-api@lfdr.de>; Wed, 27 Dec 2023 07:44:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 41D35B21F2B
-	for <lists+linux-api@lfdr.de>; Tue, 26 Dec 2023 00:30:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6B5702836E5
+	for <lists+linux-api@lfdr.de>; Wed, 27 Dec 2023 06:44:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58EB35234;
-	Tue, 26 Dec 2023 00:22:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01AC2524C;
+	Wed, 27 Dec 2023 06:44:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DvMrHV6Q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K/dL7NOt"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30F8B522A;
-	Tue, 26 Dec 2023 00:22:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C221C433C7;
-	Tue, 26 Dec 2023 00:22:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1703550134;
-	bh=4V8wI0StG6wvCrqHUSVcj8ztFa80GUymxP4hspC1fAE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=DvMrHV6QQiNBHGaBL0R4QN1kJnQFwgjqkL5QftL+w8H4zChzCsTcGAJ7jSSmzjaCr
-	 8yiXouRwAZPJwqBScFBqFjLrITqxoaYk1Tj+BW1l09JT07nwkc02lD5Mq2cf8mkeWT
-	 r8fdQT5AmT7GKf4zoPw191uROWjTE8BHJr1aP8M5eLgQ9Zl43FE+Ut6294LuJsEgt9
-	 kekJCCjD/314fSwnJat5RaLPCtsmxgAIlG7y51d3akeQh2KPwxMMZ4GNi0JQDPrzYc
-	 c6kBs5NbYxMn6WCatEpSF8YmDbKkppZSSfEJcvn4LDN8GI0VnrpmL1Fg6D26YUk6VM
-	 NyG8RHT0St3ww==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
-	kernel test robot <oliver.sang@intel.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Sasha Levin <sashal@kernel.org>,
-	catalin.marinas@arm.com,
-	will@kernel.org,
-	paul.walmsley@sifive.com,
-	palmer@dabbelt.com,
-	aou@eecs.berkeley.edu,
-	hca@linux.ibm.com,
-	gor@linux.ibm.com,
-	agordeev@linux.ibm.com,
-	mingo@redhat.com,
-	x86@kernel.org,
-	arnd@arndb.de,
-	keescook@chromium.org,
-	ardb@kernel.org,
-	kevin.brodsky@arm.com,
-	svens@linux.ibm.com,
-	geert@linux-m68k.org,
-	peterz@infradead.org,
-	sohil.mehta@intel.com,
-	nphamcs@gmail.com,
-	rick.p.edgecombe@intel.com,
-	akpm@linux-foundation.org,
-	jannh@google.com,
-	yang.lee@linux.alibaba.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-riscv@lists.infradead.org,
-	linux-s390@vger.kernel.org,
-	linux-api@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 38/39] posix-timers: Get rid of [COMPAT_]SYS_NI() uses
-Date: Mon, 25 Dec 2023 19:19:28 -0500
-Message-ID: <20231226002021.4776-38-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20231226002021.4776-1-sashal@kernel.org>
-References: <20231226002021.4776-1-sashal@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 976735228;
+	Wed, 27 Dec 2023 06:44:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1703659462; x=1735195462;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version:content-transfer-encoding;
+  bh=VeQzlZbz/ixCeVbIgAPwCnOiwp06eabmtszK1CsD/84=;
+  b=K/dL7NOtT+3DCeC9wrs3xFKyBY8GMdB5THHFPUruhYMszp0YSnxYBuuS
+   ptNGd/CsNX1t2ugiBgkLopEMfFfZwg/E8cqN/TP0De4KQCjEKqOGGsS3L
+   BMIII+Xqc1F2pAZWREIn3kZr9oMT1WGoY4nCKF9xmtY+RbufWGVsr9bE3
+   bDJQULb30R9DUZdRxhrEe8JdwdyM2GVjP0XqF8aWF0td/DqUKyEKIR8YW
+   7mYhqrn7wCtVUVdiejeMp+Qsqhp2l2AcmEUM1KWY0Dw7Ih59+Zg9rmmuf
+   hKNF+qxtMVApXwe7unoMx5L501wYqkkuYpyyD+aKjlG5qFbsxr3Qj43Vq
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10935"; a="386842488"
+X-IronPort-AV: E=Sophos;i="6.04,308,1695711600"; 
+   d="scan'208";a="386842488"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2023 22:44:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10935"; a="771356130"
+X-IronPort-AV: E=Sophos;i="6.04,308,1695711600"; 
+   d="scan'208";a="771356130"
+Received: from yhuang6-desk2.sh.intel.com (HELO yhuang6-desk2.ccr.corp.intel.com) ([10.238.208.55])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2023 22:44:14 -0800
+From: "Huang, Ying" <ying.huang@intel.com>
+To: Gregory Price <gourry.memverge@gmail.com>
+Cc: linux-mm@kvack.org,  linux-doc@vger.kernel.org,
+  linux-fsdevel@vger.kernel.org,  linux-kernel@vger.kernel.org,
+  linux-api@vger.kernel.org,  x86@kernel.org,  akpm@linux-foundation.org,
+  arnd@arndb.de,  tglx@linutronix.de,  luto@kernel.org,  mingo@redhat.com,
+  bp@alien8.de,  dave.hansen@linux.intel.com,  hpa@zytor.com,
+  mhocko@kernel.org,  tj@kernel.org,  gregory.price@memverge.com,
+  corbet@lwn.net,  rakie.kim@sk.com,  hyeongtak.ji@sk.com,
+  honggyu.kim@sk.com,  vtavarespetr@micron.com,  peterz@infradead.org,
+  jgroves@micron.com,  ravis.opensrc@micron.com,  sthanneeru@micron.com,
+  emirakhur@micron.com,  Hasan.Maruf@amd.com,  seungjun.ha@samsung.com
+Subject: Re: [PATCH v5 01/11] mm/mempolicy: implement the sysfs-based
+ weighted_interleave interface
+In-Reply-To: <20231223181101.1954-2-gregory.price@memverge.com> (Gregory
+	Price's message of "Sat, 23 Dec 2023 13:10:51 -0500")
+References: <20231223181101.1954-1-gregory.price@memverge.com>
+	<20231223181101.1954-2-gregory.price@memverge.com>
+Date: Wed, 27 Dec 2023 14:42:15 +0800
+Message-ID: <877cl0f8oo.fsf@yhuang6-desk2.ccr.corp.intel.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-From: Linus Torvalds <torvalds@linux-foundation.org>
+Gregory Price <gourry.memverge@gmail.com> writes:
 
-[ Upstream commit a4aebe936554dac6a91e5d091179c934f8325708 ]
+> From: Rakie Kim <rakie.kim@sk.com>
+>
+> This patch provides a way to set interleave weight information under
+> sysfs at /sys/kernel/mm/mempolicy/weighted_interleave/nodeN
+>
+> The sysfs structure is designed as follows.
+>
+>   $ tree /sys/kernel/mm/mempolicy/
+>   /sys/kernel/mm/mempolicy/ [1]
+>   =E2=94=94=E2=94=80=E2=94=80 weighted_interleave [2]
+>       =E2=94=9C=E2=94=80=E2=94=80 node0 [3]
+>       =E2=94=94=E2=94=80=E2=94=80 node1
+>
+> Each file above can be explained as follows.
+>
+> [1] mm/mempolicy: configuration interface for mempolicy subsystem
+>
+> [2] weighted_interleave/: config interface for weighted interleave policy
+>
+> [3] weighted_interleave/nodeN: weight for nodeN
+>
+> If sysfs is disabled in the config, the global interleave weights
+> will default to "1" for all nodes.
+>
+> Signed-off-by: Rakie Kim <rakie.kim@sk.com>
+> Signed-off-by: Honggyu Kim <honggyu.kim@sk.com>
+> Co-developed-by: Gregory Price <gregory.price@memverge.com>
+> Signed-off-by: Gregory Price <gregory.price@memverge.com>
+> Co-developed-by: Hyeongtak Ji <hyeongtak.ji@sk.com>
+> Signed-off-by: Hyeongtak Ji <hyeongtak.ji@sk.com>
+> ---
+>  .../ABI/testing/sysfs-kernel-mm-mempolicy     |   4 +
+>  ...fs-kernel-mm-mempolicy-weighted-interleave |  22 +++
+>  mm/mempolicy.c                                | 156 ++++++++++++++++++
+>  3 files changed, 182 insertions(+)
+>  create mode 100644 Documentation/ABI/testing/sysfs-kernel-mm-mempolicy
+>  create mode 100644 Documentation/ABI/testing/sysfs-kernel-mm-mempolicy-w=
+eighted-interleave
+>
+> diff --git a/Documentation/ABI/testing/sysfs-kernel-mm-mempolicy b/Docume=
+ntation/ABI/testing/sysfs-kernel-mm-mempolicy
+> new file mode 100644
+> index 000000000000..2dcf24f4384a
+> --- /dev/null
+> +++ b/Documentation/ABI/testing/sysfs-kernel-mm-mempolicy
+> @@ -0,0 +1,4 @@
+> +What:		/sys/kernel/mm/mempolicy/
+> +Date:		December 2023
+> +Contact:	Linux memory management mailing list <linux-mm@kvack.org>
+> +Description:	Interface for Mempolicy
+> diff --git a/Documentation/ABI/testing/sysfs-kernel-mm-mempolicy-weighted=
+-interleave b/Documentation/ABI/testing/sysfs-kernel-mm-mempolicy-weighted-=
+interleave
+> new file mode 100644
+> index 000000000000..aa27fdf08c19
+> --- /dev/null
+> +++ b/Documentation/ABI/testing/sysfs-kernel-mm-mempolicy-weighted-interl=
+eave
+> @@ -0,0 +1,22 @@
+> +What:		/sys/kernel/mm/mempolicy/weighted_interleave/
+> +Date:		December 2023
+> +Contact:	Linux memory management mailing list <linux-mm@kvack.org>
+> +Description:	Configuration Interface for the Weighted Interleave policy
+> +
+> +What:		/sys/kernel/mm/mempolicy/weighted_interleave/nodeN
+> +Date:		December 2023
+> +Contact:	Linux memory management mailing list <linux-mm@kvack.org>
+> +Description:	Weight configuration interface for nodeN
+> +
+> +		The interleave weight for a memory node (N). These weights are
+> +		utilized by processes which have set their mempolicy to
+> +		MPOL_WEIGHTED_INTERLEAVE and have opted into global weights by
+> +		omitting a task-local weight array.
+> +
+> +		These weights only affect new allocations, and changes at runtime
+> +		will not cause migrations on already allocated pages.
+> +
+> +		Writing an empty string resets the weight value to 1.
 
-Only the posix timer system calls use this (when the posix timer support
-is disabled, which does not actually happen in any normal case), because
-they had debug code to print out a warning about missing system calls.
+I still think that it's a good idea to provide some better default
+weight value with HMAT or CDAT if available.  So, better not to make "1"
+as part of ABI?
 
-Get rid of that special case, and just use the standard COND_SYSCALL
-interface that creates weak system call stubs that return -ENOSYS for
-when the system call does not exist.
+> +
+> +		Minimum weight: 1
 
-This fixes a kCFI issue with the SYS_NI() hackery:
+Can weight be "0"?  Do we need a way to specify that a node don't want
+to participate weighted interleave?
 
-  CFI failure at int80_emulation+0x67/0xb0 (target: sys_ni_posix_timers+0x0/0x70; expected type: 0xb02b34d9)
-  WARNING: CPU: 0 PID: 48 at int80_emulation+0x67/0xb0
+> +		Maximum weight: 255
+> diff --git a/mm/mempolicy.c b/mm/mempolicy.c
+> index 10a590ee1c89..0e77633b07a5 100644
+> --- a/mm/mempolicy.c
+> +++ b/mm/mempolicy.c
+> @@ -131,6 +131,8 @@ static struct mempolicy default_policy =3D {
+>=20=20
+>  static struct mempolicy preferred_node_policy[MAX_NUMNODES];
+>=20=20
+> +static char iw_table[MAX_NUMNODES];
+> +
 
-Reported-by: kernel test robot <oliver.sang@intel.com>
-Reviewed-by: Sami Tolvanen <samitolvanen@google.com>
-Tested-by: Sami Tolvanen <samitolvanen@google.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Dave Hansen <dave.hansen@linux.intel.com>
-Cc: Borislav Petkov <bp@alien8.de>
-Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- arch/arm64/include/asm/syscall_wrapper.h |  4 ---
- arch/riscv/include/asm/syscall_wrapper.h |  5 ---
- arch/s390/include/asm/syscall_wrapper.h  | 13 +------
- arch/x86/include/asm/syscall_wrapper.h   | 34 +++---------------
- kernel/sys_ni.c                          | 14 ++++++++
- kernel/time/posix-stubs.c                | 45 ------------------------
- 6 files changed, 19 insertions(+), 96 deletions(-)
+It's kind of obscure whether "char" is "signed" or "unsigned".  Given
+the max weight is 255 above, it's better to use "u8"?
 
-diff --git a/arch/arm64/include/asm/syscall_wrapper.h b/arch/arm64/include/asm/syscall_wrapper.h
-index 17f687510c485..7a0e7b59be9b9 100644
---- a/arch/arm64/include/asm/syscall_wrapper.h
-+++ b/arch/arm64/include/asm/syscall_wrapper.h
-@@ -44,9 +44,6 @@
- 		return sys_ni_syscall();						\
- 	}
- 
--#define COMPAT_SYS_NI(name) \
--	SYSCALL_ALIAS(__arm64_compat_sys_##name, sys_ni_posix_timers);
--
- #endif /* CONFIG_COMPAT */
- 
- #define __SYSCALL_DEFINEx(x, name, ...)						\
-@@ -82,6 +79,5 @@
- 	}
- 
- asmlinkage long __arm64_sys_ni_syscall(const struct pt_regs *__unused);
--#define SYS_NI(name) SYSCALL_ALIAS(__arm64_sys_##name, sys_ni_posix_timers);
- 
- #endif /* __ASM_SYSCALL_WRAPPER_H */
-diff --git a/arch/riscv/include/asm/syscall_wrapper.h b/arch/riscv/include/asm/syscall_wrapper.h
-index 1d7942c8a6cba..eeec04b7dae67 100644
---- a/arch/riscv/include/asm/syscall_wrapper.h
-+++ b/arch/riscv/include/asm/syscall_wrapper.h
-@@ -46,9 +46,6 @@ asmlinkage long __riscv_sys_ni_syscall(const struct pt_regs *);
- 		return sys_ni_syscall();						\
- 	}
- 
--#define COMPAT_SYS_NI(name) \
--	SYSCALL_ALIAS(__riscv_compat_sys_##name, sys_ni_posix_timers);
--
- #endif /* CONFIG_COMPAT */
- 
- #define __SYSCALL_DEFINEx(x, name, ...)						\
-@@ -82,6 +79,4 @@ asmlinkage long __riscv_sys_ni_syscall(const struct pt_regs *);
- 		return sys_ni_syscall();					\
- 	}
- 
--#define SYS_NI(name) SYSCALL_ALIAS(__riscv_sys_##name, sys_ni_posix_timers);
--
- #endif /* __ASM_SYSCALL_WRAPPER_H */
-diff --git a/arch/s390/include/asm/syscall_wrapper.h b/arch/s390/include/asm/syscall_wrapper.h
-index 9286430fe7290..35c1d1b860d88 100644
---- a/arch/s390/include/asm/syscall_wrapper.h
-+++ b/arch/s390/include/asm/syscall_wrapper.h
-@@ -63,10 +63,6 @@
- 	cond_syscall(__s390x_sys_##name);				\
- 	cond_syscall(__s390_sys_##name)
- 
--#define SYS_NI(name)							\
--	SYSCALL_ALIAS(__s390x_sys_##name, sys_ni_posix_timers);		\
--	SYSCALL_ALIAS(__s390_sys_##name, sys_ni_posix_timers)
--
- #define COMPAT_SYSCALL_DEFINEx(x, name, ...)						\
- 	long __s390_compat_sys##name(struct pt_regs *regs);				\
- 	ALLOW_ERROR_INJECTION(__s390_compat_sys##name, ERRNO);				\
-@@ -85,15 +81,11 @@
- 
- /*
-  * As some compat syscalls may not be implemented, we need to expand
-- * COND_SYSCALL_COMPAT in kernel/sys_ni.c and COMPAT_SYS_NI in
-- * kernel/time/posix-stubs.c to cover this case as well.
-+ * COND_SYSCALL_COMPAT in kernel/sys_ni.c to cover this case as well.
-  */
- #define COND_SYSCALL_COMPAT(name)					\
- 	cond_syscall(__s390_compat_sys_##name)
- 
--#define COMPAT_SYS_NI(name)						\
--	SYSCALL_ALIAS(__s390_compat_sys_##name, sys_ni_posix_timers)
--
- #define __S390_SYS_STUBx(x, name, ...)						\
- 	long __s390_sys##name(struct pt_regs *regs);				\
- 	ALLOW_ERROR_INJECTION(__s390_sys##name, ERRNO);				\
-@@ -124,9 +116,6 @@
- #define COND_SYSCALL(name)						\
- 	cond_syscall(__s390x_sys_##name)
- 
--#define SYS_NI(name)							\
--	SYSCALL_ALIAS(__s390x_sys_##name, sys_ni_posix_timers)
--
- #define __S390_SYS_STUBx(x, fullname, name, ...)
- 
- #endif /* CONFIG_COMPAT */
-diff --git a/arch/x86/include/asm/syscall_wrapper.h b/arch/x86/include/asm/syscall_wrapper.h
-index fd2669b1cb2d9..21f9407be5d35 100644
---- a/arch/x86/include/asm/syscall_wrapper.h
-+++ b/arch/x86/include/asm/syscall_wrapper.h
-@@ -86,9 +86,6 @@ extern long __ia32_sys_ni_syscall(const struct pt_regs *regs);
- 		return sys_ni_syscall();				\
- 	}
- 
--#define __SYS_NI(abi, name)						\
--	SYSCALL_ALIAS(__##abi##_##name, sys_ni_posix_timers);
--
- #ifdef CONFIG_X86_64
- #define __X64_SYS_STUB0(name)						\
- 	__SYS_STUB0(x64, sys_##name)
-@@ -100,13 +97,10 @@ extern long __ia32_sys_ni_syscall(const struct pt_regs *regs);
- #define __X64_COND_SYSCALL(name)					\
- 	__COND_SYSCALL(x64, sys_##name)
- 
--#define __X64_SYS_NI(name)						\
--	__SYS_NI(x64, sys_##name)
- #else /* CONFIG_X86_64 */
- #define __X64_SYS_STUB0(name)
- #define __X64_SYS_STUBx(x, name, ...)
- #define __X64_COND_SYSCALL(name)
--#define __X64_SYS_NI(name)
- #endif /* CONFIG_X86_64 */
- 
- #if defined(CONFIG_X86_32) || defined(CONFIG_IA32_EMULATION)
-@@ -120,13 +114,10 @@ extern long __ia32_sys_ni_syscall(const struct pt_regs *regs);
- #define __IA32_COND_SYSCALL(name)					\
- 	__COND_SYSCALL(ia32, sys_##name)
- 
--#define __IA32_SYS_NI(name)						\
--	__SYS_NI(ia32, sys_##name)
- #else /* CONFIG_X86_32 || CONFIG_IA32_EMULATION */
- #define __IA32_SYS_STUB0(name)
- #define __IA32_SYS_STUBx(x, name, ...)
- #define __IA32_COND_SYSCALL(name)
--#define __IA32_SYS_NI(name)
- #endif /* CONFIG_X86_32 || CONFIG_IA32_EMULATION */
- 
- #ifdef CONFIG_IA32_EMULATION
-@@ -135,8 +126,7 @@ extern long __ia32_sys_ni_syscall(const struct pt_regs *regs);
-  * additional wrappers (aptly named __ia32_sys_xyzzy) which decode the
-  * ia32 regs in the proper order for shared or "common" syscalls. As some
-  * syscalls may not be implemented, we need to expand COND_SYSCALL in
-- * kernel/sys_ni.c and SYS_NI in kernel/time/posix-stubs.c to cover this
-- * case as well.
-+ * kernel/sys_ni.c to cover this case as well.
-  */
- #define __IA32_COMPAT_SYS_STUB0(name)					\
- 	__SYS_STUB0(ia32, compat_sys_##name)
-@@ -148,14 +138,10 @@ extern long __ia32_sys_ni_syscall(const struct pt_regs *regs);
- #define __IA32_COMPAT_COND_SYSCALL(name)				\
- 	__COND_SYSCALL(ia32, compat_sys_##name)
- 
--#define __IA32_COMPAT_SYS_NI(name)					\
--	__SYS_NI(ia32, compat_sys_##name)
--
- #else /* CONFIG_IA32_EMULATION */
- #define __IA32_COMPAT_SYS_STUB0(name)
- #define __IA32_COMPAT_SYS_STUBx(x, name, ...)
- #define __IA32_COMPAT_COND_SYSCALL(name)
--#define __IA32_COMPAT_SYS_NI(name)
- #endif /* CONFIG_IA32_EMULATION */
- 
- 
-@@ -175,13 +161,10 @@ extern long __ia32_sys_ni_syscall(const struct pt_regs *regs);
- #define __X32_COMPAT_COND_SYSCALL(name)					\
- 	__COND_SYSCALL(x64, compat_sys_##name)
- 
--#define __X32_COMPAT_SYS_NI(name)					\
--	__SYS_NI(x64, compat_sys_##name)
- #else /* CONFIG_X86_X32_ABI */
- #define __X32_COMPAT_SYS_STUB0(name)
- #define __X32_COMPAT_SYS_STUBx(x, name, ...)
- #define __X32_COMPAT_COND_SYSCALL(name)
--#define __X32_COMPAT_SYS_NI(name)
- #endif /* CONFIG_X86_X32_ABI */
- 
- 
-@@ -212,17 +195,12 @@ extern long __ia32_sys_ni_syscall(const struct pt_regs *regs);
- 
- /*
-  * As some compat syscalls may not be implemented, we need to expand
-- * COND_SYSCALL_COMPAT in kernel/sys_ni.c and COMPAT_SYS_NI in
-- * kernel/time/posix-stubs.c to cover this case as well.
-+ * COND_SYSCALL_COMPAT in kernel/sys_ni.c to cover this case as well.
-  */
- #define COND_SYSCALL_COMPAT(name) 					\
- 	__IA32_COMPAT_COND_SYSCALL(name)				\
- 	__X32_COMPAT_COND_SYSCALL(name)
- 
--#define COMPAT_SYS_NI(name)						\
--	__IA32_COMPAT_SYS_NI(name)					\
--	__X32_COMPAT_SYS_NI(name)
--
- #endif /* CONFIG_COMPAT */
- 
- #define __SYSCALL_DEFINEx(x, name, ...)					\
-@@ -243,8 +221,8 @@ extern long __ia32_sys_ni_syscall(const struct pt_regs *regs);
-  * As the generic SYSCALL_DEFINE0() macro does not decode any parameters for
-  * obvious reasons, and passing struct pt_regs *regs to it in %rdi does not
-  * hurt, we only need to re-define it here to keep the naming congruent to
-- * SYSCALL_DEFINEx() -- which is essential for the COND_SYSCALL() and SYS_NI()
-- * macros to work correctly.
-+ * SYSCALL_DEFINEx() -- which is essential for the COND_SYSCALL() macro
-+ * to work correctly.
-  */
- #define SYSCALL_DEFINE0(sname)						\
- 	SYSCALL_METADATA(_##sname, 0);					\
-@@ -257,10 +235,6 @@ extern long __ia32_sys_ni_syscall(const struct pt_regs *regs);
- 	__X64_COND_SYSCALL(name)					\
- 	__IA32_COND_SYSCALL(name)
- 
--#define SYS_NI(name)							\
--	__X64_SYS_NI(name)						\
--	__IA32_SYS_NI(name)
--
- 
- /*
-  * For VSYSCALLS, we need to declare these three syscalls with the new
-diff --git a/kernel/sys_ni.c b/kernel/sys_ni.c
-index e137c1385c569..11c55593a2e91 100644
---- a/kernel/sys_ni.c
-+++ b/kernel/sys_ni.c
-@@ -200,6 +200,20 @@ COND_SYSCALL(recvmmsg_time32);
- COND_SYSCALL_COMPAT(recvmmsg_time32);
- COND_SYSCALL_COMPAT(recvmmsg_time64);
- 
-+/* Posix timer syscalls may be configured out */
-+COND_SYSCALL(timer_create);
-+COND_SYSCALL(timer_gettime);
-+COND_SYSCALL(timer_getoverrun);
-+COND_SYSCALL(timer_settime);
-+COND_SYSCALL(timer_delete);
-+COND_SYSCALL(clock_adjtime);
-+COND_SYSCALL(getitimer);
-+COND_SYSCALL(setitimer);
-+COND_SYSCALL(alarm);
-+COND_SYSCALL_COMPAT(timer_create);
-+COND_SYSCALL_COMPAT(getitimer);
-+COND_SYSCALL_COMPAT(setitimer);
-+
- /*
-  * Architecture specific syscalls: see further below
-  */
-diff --git a/kernel/time/posix-stubs.c b/kernel/time/posix-stubs.c
-index 828aeecbd1e8a..9b6fcb8d85e78 100644
---- a/kernel/time/posix-stubs.c
-+++ b/kernel/time/posix-stubs.c
-@@ -17,40 +17,6 @@
- #include <linux/time_namespace.h>
- #include <linux/compat.h>
- 
--#ifdef CONFIG_ARCH_HAS_SYSCALL_WRAPPER
--/* Architectures may override SYS_NI and COMPAT_SYS_NI */
--#include <asm/syscall_wrapper.h>
--#endif
--
--asmlinkage long sys_ni_posix_timers(void)
--{
--	pr_err_once("process %d (%s) attempted a POSIX timer syscall "
--		    "while CONFIG_POSIX_TIMERS is not set\n",
--		    current->pid, current->comm);
--	return -ENOSYS;
--}
--
--#ifndef SYS_NI
--#define SYS_NI(name)  SYSCALL_ALIAS(sys_##name, sys_ni_posix_timers)
--#endif
--
--#ifndef COMPAT_SYS_NI
--#define COMPAT_SYS_NI(name)  SYSCALL_ALIAS(compat_sys_##name, sys_ni_posix_timers)
--#endif
--
--SYS_NI(timer_create);
--SYS_NI(timer_gettime);
--SYS_NI(timer_getoverrun);
--SYS_NI(timer_settime);
--SYS_NI(timer_delete);
--SYS_NI(clock_adjtime);
--SYS_NI(getitimer);
--SYS_NI(setitimer);
--SYS_NI(clock_adjtime32);
--#ifdef __ARCH_WANT_SYS_ALARM
--SYS_NI(alarm);
--#endif
--
- /*
-  * We preserve minimal support for CLOCK_REALTIME and CLOCK_MONOTONIC
-  * as it is easy to remain compatible with little code. CLOCK_BOOTTIME
-@@ -158,18 +124,7 @@ SYSCALL_DEFINE4(clock_nanosleep, const clockid_t, which_clock, int, flags,
- 				 which_clock);
- }
- 
--#ifdef CONFIG_COMPAT
--COMPAT_SYS_NI(timer_create);
--#endif
--
--#if defined(CONFIG_COMPAT) || defined(CONFIG_ALPHA)
--COMPAT_SYS_NI(getitimer);
--COMPAT_SYS_NI(setitimer);
--#endif
--
- #ifdef CONFIG_COMPAT_32BIT_TIME
--SYS_NI(timer_settime32);
--SYS_NI(timer_gettime32);
- 
- SYSCALL_DEFINE2(clock_settime32, const clockid_t, which_clock,
- 		struct old_timespec32 __user *, tp)
--- 
-2.43.0
+And, we may need a way to specify whether the weight has been overridden
+by the user.  A special value (such as 255) can be used for that.  If
+so, the maximum weight should be 254 instead of 255.  As a user space
+interface, is it better to use 100 as the maximum value?
 
+>  /**
+>   * numa_nearest_node - Find nearest node by state
+>   * @node: Node id to start the search
+> @@ -3067,3 +3069,157 @@ void mpol_to_str(char *buffer, int maxlen, struct=
+ mempolicy *pol)
+>  		p +=3D scnprintf(p, buffer + maxlen - p, ":%*pbl",
+>  			       nodemask_pr_args(&nodes));
+>  }
+> +
+> +#ifdef CONFIG_SYSFS
+> +struct iw_node_attr {
+> +	struct kobj_attribute kobj_attr;
+> +	int nid;
+> +};
+> +
+> +static ssize_t node_show(struct kobject *kobj, struct kobj_attribute *at=
+tr,
+> +			 char *buf)
+> +{
+> +	struct iw_node_attr *node_attr;
+> +
+> +	node_attr =3D container_of(attr, struct iw_node_attr, kobj_attr);
+> +	return sysfs_emit(buf, "%d\n", iw_table[node_attr->nid]);
+> +}
+> +
+> +static ssize_t node_store(struct kobject *kobj, struct kobj_attribute *a=
+ttr,
+> +			  const char *buf, size_t count)
+> +{
+> +	struct iw_node_attr *node_attr;
+> +	unsigned char weight =3D 0;
+> +
+> +	node_attr =3D container_of(attr, struct iw_node_attr, kobj_attr);
+> +	/* If no input, set default weight to 1 */
+> +	if (count =3D=3D 0 || sysfs_streq(buf, ""))
+> +		weight =3D 1;
+> +	else if (kstrtou8(buf, 0, &weight) || !weight)
+> +		return -EINVAL;
+> +
+> +	iw_table[node_attr->nid] =3D weight;
+
+kstrtou8(), "unsigned char weight", "char iw_table[]" isn't completely
+consistent.  It's better to make them consistent?
+
+> +	return count;
+> +}
+> +
+> +static struct iw_node_attr *node_attrs[MAX_NUMNODES];
+> +
+> +static void sysfs_wi_node_release(struct iw_node_attr *node_attr,
+> +				  struct kobject *parent)
+> +{
+> +	if (!node_attr)
+> +		return;
+> +	sysfs_remove_file(parent, &node_attr->kobj_attr.attr);
+> +	kfree(node_attr->kobj_attr.attr.name);
+> +	kfree(node_attr);
+> +}
+> +
+> +static void sysfs_mempolicy_release(struct kobject *mempolicy_kobj)
+> +{
+> +	int i;
+> +
+> +	for (i =3D 0; i < MAX_NUMNODES; i++)
+> +		sysfs_wi_node_release(node_attrs[i], mempolicy_kobj);
+
+IIUC, if this is called in error path (such as, in
+add_weighted_interleave_group()), some node_attrs[] element may be
+"NULL"?
+
+> +	kobject_put(mempolicy_kobj);
+> +}
+> +
+> +static const struct kobj_type mempolicy_ktype =3D {
+> +	.sysfs_ops =3D &kobj_sysfs_ops,
+> +	.release =3D sysfs_mempolicy_release,
+> +};
+> +
+> +static int add_weight_node(int nid, struct kobject *wi_kobj)
+> +{
+> +	struct iw_node_attr *node_attr;
+> +	char *name;
+> +
+> +	node_attr =3D kzalloc(sizeof(*node_attr), GFP_KERNEL);
+> +	if (!node_attr)
+> +		return -ENOMEM;
+> +
+> +	name =3D kasprintf(GFP_KERNEL, "node%d", nid);
+> +	if (!name) {
+> +		kfree(node_attr);
+> +		return -ENOMEM;
+> +	}
+> +
+> +	sysfs_attr_init(&node_attr->kobj_attr.attr);
+> +	node_attr->kobj_attr.attr.name =3D name;
+> +	node_attr->kobj_attr.attr.mode =3D 0644;
+> +	node_attr->kobj_attr.show =3D node_show;
+> +	node_attr->kobj_attr.store =3D node_store;
+> +	node_attr->nid =3D nid;
+> +
+> +	if (sysfs_create_file(wi_kobj, &node_attr->kobj_attr.attr)) {
+> +		kfree(node_attr->kobj_attr.attr.name);
+> +		kfree(node_attr);
+> +		pr_err("failed to add attribute to weighted_interleave\n");
+> +		return -ENOMEM;
+> +	}
+> +
+> +	node_attrs[nid] =3D node_attr;
+> +	return 0;
+> +}
+> +
+> +static int add_weighted_interleave_group(struct kobject *root_kobj)
+> +{
+> +	struct kobject *wi_kobj;
+> +	int nid, err;
+> +
+> +	wi_kobj =3D kzalloc(sizeof(struct kobject), GFP_KERNEL);
+> +	if (!wi_kobj)
+> +		return -ENOMEM;
+> +
+> +	err =3D kobject_init_and_add(wi_kobj, &mempolicy_ktype, root_kobj,
+> +				   "weighted_interleave");
+> +	if (err) {
+> +		kfree(wi_kobj);
+> +		return err;
+> +	}
+> +
+> +	memset(node_attrs, 0, sizeof(node_attrs));
+> +	for_each_node_state(nid, N_POSSIBLE) {
+> +		err =3D add_weight_node(nid, wi_kobj);
+> +		if (err) {
+> +			pr_err("failed to add sysfs [node%d]\n", nid);
+> +			break;
+> +		}
+> +	}
+> +	if (err)
+> +		kobject_put(wi_kobj);
+> +	return 0;
+> +}
+> +
+> +static int __init mempolicy_sysfs_init(void)
+> +{
+> +	int err;
+> +	struct kobject *root_kobj;
+> +
+> +	memset(&iw_table, 1, sizeof(iw_table));
+> +
+> +	root_kobj =3D kobject_create_and_add("mempolicy", mm_kobj);
+> +	if (!root_kobj) {
+> +		pr_err("failed to add mempolicy kobject to the system\n");
+> +		return -ENOMEM;
+> +	}
+> +
+> +	err =3D add_weighted_interleave_group(root_kobj);
+> +
+> +	if (err)
+> +		kobject_put(root_kobj);
+> +	return err;
+> +
+> +}
+> +#else
+> +static int __init mempolicy_sysfs_init(void)
+> +{
+> +	/*
+> +	 * if sysfs is not enabled MPOL_WEIGHTED_INTERLEAVE defaults to
+> +	 * MPOL_INTERLEAVE behavior, but is still defined separately to
+> +	 * allow task-local weighted interleave to operate as intended.
+> +	 */
+> +	memset(&iw_table, 1, sizeof(iw_table));
+> +	return 0;
+> +}
+> +#endif /* CONFIG_SYSFS */
+> +late_initcall(mempolicy_sysfs_init);
+
+--
+Best Regards,
+Huang, Ying
 
