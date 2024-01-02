@@ -1,133 +1,176 @@
-Return-Path: <linux-api+bounces-418-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-420-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85477821E06
-	for <lists+linux-api@lfdr.de>; Tue,  2 Jan 2024 15:47:31 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A2628221B5
+	for <lists+linux-api@lfdr.de>; Tue,  2 Jan 2024 20:06:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 237061F22DB7
-	for <lists+linux-api@lfdr.de>; Tue,  2 Jan 2024 14:47:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 23E9D284435
+	for <lists+linux-api@lfdr.de>; Tue,  2 Jan 2024 19:06:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 495361427C;
-	Tue,  2 Jan 2024 14:47:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18D6E15AE6;
+	Tue,  2 Jan 2024 19:06:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=memverge.com header.i=@memverge.com header.b="KFSWKqSa"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2051.outbound.protection.outlook.com [40.107.94.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8533E14278;
-	Tue,  2 Jan 2024 14:47:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-dbd5b96b12eso6941852276.2;
-        Tue, 02 Jan 2024 06:47:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704206843; x=1704811643;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ekkdo/2BplW5G1QGE0ZikpIwpoAMXqmEuZbikDyIFz0=;
-        b=eEDV/TA+yDi9rzS4d29cEX3zzSXoVNRJNzDoGuysOuxpEJEowFV5cGTWrhRu0xSwW7
-         QmWsoZyMIPschgscJszqoLfeFv4XxDsQ33aYgdPlJTgwqfu/+P9iYiXq9nLvE23SUxjP
-         6+mZklDokedEVLK27xGuVT5AxW9BFLVnTR+WwMsxh6nMFNhhcxyy/OTE2Tdre5Se8lYg
-         eMBCvW4SaKM/FgtRDz9wSMTVLUeyEWS3Sy8oTfK86uJPkK2CqNlwiZ6jMxeWVVlqQPOc
-         UaGQ9f4KBe+mmtAs1xlOxh8Z68/X5u6T4GHo94+9jIEidX7pkyPfVZAQwp6j3Jo5j6J9
-         +f3Q==
-X-Gm-Message-State: AOJu0Yzhr/YDWPmrTX0sCNouEozaAkf4LJCFWStKzeAr5UYUD9pvUhtU
-	ubOspSxvGMPYz8VSy0cSmsHGrHuA3WY+Dg==
-X-Google-Smtp-Source: AGHT+IHPLkt35W4v1MnRFFxzaqNEdOiSs5acLz4CQokv3q6zjgT8/l430U6zonddl1yPA24q8/ZR8Q==
-X-Received: by 2002:a5b:752:0:b0:dbd:bc3e:55e3 with SMTP id s18-20020a5b0752000000b00dbdbc3e55e3mr8097056ybq.69.1704206843323;
-        Tue, 02 Jan 2024 06:47:23 -0800 (PST)
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
-        by smtp.gmail.com with ESMTPSA id 204-20020a2501d5000000b00dbdb03e146bsm10210496ybb.51.2024.01.02.06.47.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 Jan 2024 06:47:23 -0800 (PST)
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-5e7bb1e0db8so73378307b3.0;
-        Tue, 02 Jan 2024 06:47:23 -0800 (PST)
-X-Received: by 2002:a0d:f6c2:0:b0:5e2:5d71:56c with SMTP id
- g185-20020a0df6c2000000b005e25d71056cmr12772287ywf.32.1704206843051; Tue, 02
- Jan 2024 06:47:23 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 956B115AD8;
+	Tue,  2 Jan 2024 19:06:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=memverge.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=memverge.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OpD77qjkDgTJPvzKA+FtePdOwt2Wpzpw7If2au/jInvWByk6GkD/Pqg1G57XA3gVWcxQWXDOwJKWeJMkNVn01jZ9MLdiLUdVcWDzHvJmV4P6P8xdoaOz8ID0nHQ1tIp0YkInsOveErfKh1tu9o28m3Ig8cYjXlk52XNmNQJq9igTUzHwW/k3pBHGEGUdpuvRc/YfU42+ZvgvDO9rAoe8DUsdMFxgSP530xGwz8E8mfMH71j70JvSYKiF6hoWjmJTrQPpctQ3vh1l1wPDRzq+5NvY83p8GPIEEj7HE1ggIcRnD7oUF5zY7gnFomuwd2FcLn+8N2BZ6L8bxEVWjp2emA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vzeEyJq3m7iAvzRAORC+trfETGy5lzrqQNhSDdnF884=;
+ b=YmGlXTubC/Nkb0l+twQgc+cLnv5wzVZWDPop10Enni3LyQiMGWtJmOuoL+CENX0q6/BiRpHlVQ2BYv4EkOHWLuKLqdFes0MuQvHgaYqfJJ/S5sos4Rj/N1n/DfZ9TADtnY46Yrqa9iC6cagW7Q+Y3KJotlgNsIINceIkW7wqEE1Ul6bzsS5Iv1Pa8P25FW5xtORPr6WY42nTdSwDqzgBm+r5VrzihLJVlIkeHCxZRZXKiVVTpumUmi12oSQnuAlHrCAdPrOjTRL3m+B0DseYbJcIXNe8dWSUpPiOzKbGjX74rz2kvBqITC82Yq4SbKe0bWN2NbHw80kwJgAp0GTBsQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
+ dkim=pass header.d=memverge.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vzeEyJq3m7iAvzRAORC+trfETGy5lzrqQNhSDdnF884=;
+ b=KFSWKqSae5srlcE7baFWisTJmwBwaPB380VAnSg36D74crjlSSBrLSIJfX7g1AOsDCYMmLRgzaOD4qis7kJtsPRnzuOXcs0xFPMohAdXrbooTzgXWkLK7Xjuel0kF1y3l+Iw0x/Z5piDNDM7M+2Lju0dQtSzLpzvytEobfBKdW8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=memverge.com;
+Received: from SJ0PR17MB5512.namprd17.prod.outlook.com (2603:10b6:a03:394::19)
+ by DS0PR17MB6373.namprd17.prod.outlook.com (2603:10b6:8:136::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7135.25; Tue, 2 Jan
+ 2024 19:06:23 +0000
+Received: from SJ0PR17MB5512.namprd17.prod.outlook.com
+ ([fe80::7a04:dc86:2799:2f15]) by SJ0PR17MB5512.namprd17.prod.outlook.com
+ ([fe80::7a04:dc86:2799:2f15%4]) with mapi id 15.20.7135.023; Tue, 2 Jan 2024
+ 19:06:23 +0000
+Date: Tue, 2 Jan 2024 14:06:13 -0500
+From: Gregory Price <gregory.price@memverge.com>
+To: "Huang, Ying" <ying.huang@intel.com>
+Cc: Gregory Price <gourry.memverge@gmail.com>, linux-mm@kvack.org,
+	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+	x86@kernel.org, akpm@linux-foundation.org, arnd@arndb.de,
+	tglx@linutronix.de, luto@kernel.org, mingo@redhat.com, bp@alien8.de,
+	dave.hansen@linux.intel.com, hpa@zytor.com, mhocko@kernel.org,
+	tj@kernel.org, corbet@lwn.net, rakie.kim@sk.com,
+	hyeongtak.ji@sk.com, honggyu.kim@sk.com, vtavarespetr@micron.com,
+	peterz@infradead.org, jgroves@micron.com, ravis.opensrc@micron.com,
+	sthanneeru@micron.com, emirakhur@micron.com, Hasan.Maruf@amd.com,
+	seungjun.ha@samsung.com, Johannes Weiner <hannes@cmpxchg.org>,
+	Hasan Al Maruf <hasanalmaruf@fb.com>, Hao Wang <haowang3@fb.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Zhongkun He <hezhongkun.hzk@bytedance.com>,
+	Frank van der Linden <fvdl@google.com>,
+	John Groves <john@jagalactic.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: [PATCH v5 00/11] mempolicy2, mbind2, and weighted interleave
+Message-ID: <ZZRepTEFNFC17fjT@memverge.com>
+References: <20231223181101.1954-1-gregory.price@memverge.com>
+ <87frzqg1jp.fsf@yhuang6-desk2.ccr.corp.intel.com>
+ <ZYqEjsaqseI68EyJ@memverge.com>
+ <87le98e4w1.fsf@yhuang6-desk2.ccr.corp.intel.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87le98e4w1.fsf@yhuang6-desk2.ccr.corp.intel.com>
+X-ClientProxiedBy: BY5PR16CA0027.namprd16.prod.outlook.com
+ (2603:10b6:a03:1a0::40) To SJ0PR17MB5512.namprd17.prod.outlook.com
+ (2603:10b6:a03:394::19)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231223181101.1954-1-gregory.price@memverge.com> <20231223181101.1954-11-gregory.price@memverge.com>
-In-Reply-To: <20231223181101.1954-11-gregory.price@memverge.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 2 Jan 2024 15:47:12 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXgteq4FSM-ugahDtZq_swM_jFMMonB=K4+A1VjTansLA@mail.gmail.com>
-Message-ID: <CAMuHMdXgteq4FSM-ugahDtZq_swM_jFMMonB=K4+A1VjTansLA@mail.gmail.com>
-Subject: Re: [PATCH v5 10/11] mm/mempolicy: add the mbind2 syscall
-To: Gregory Price <gourry.memverge@gmail.com>
-Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-api@vger.kernel.org, x86@kernel.org, akpm@linux-foundation.org, 
-	arnd@arndb.de, tglx@linutronix.de, luto@kernel.org, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, hpa@zytor.com, mhocko@kernel.org, 
-	tj@kernel.org, ying.huang@intel.com, gregory.price@memverge.com, 
-	corbet@lwn.net, rakie.kim@sk.com, hyeongtak.ji@sk.com, honggyu.kim@sk.com, 
-	vtavarespetr@micron.com, peterz@infradead.org, jgroves@micron.com, 
-	ravis.opensrc@micron.com, sthanneeru@micron.com, emirakhur@micron.com, 
-	Hasan.Maruf@amd.com, seungjun.ha@samsung.com, Michal Hocko <mhocko@suse.com>, 
-	Frank van der Linden <fvdl@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR17MB5512:EE_|DS0PR17MB6373:EE_
+X-MS-Office365-Filtering-Correlation-Id: b500ee09-a7a8-42a9-28dd-08dc0bc5e944
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	XrJYzMq24ovzyHu6sLwH6NOGMIb4Zxsj5yhLuYc9h1KMmrN63TtUI+wjPWXC5s9TxYQy1H1QKN2gi+G9aj8fDDQyA0DLiHdtWajfM72EOwKQ7C7lKi9J3RSAALygE0qprvQ0FZv9443Wk3M47zITcMCtojWEmfHo0ymIxm5O0ajb5r8UCOFagi3uoqkwC+FyI/X54xZKUCXrrOsyeDobLfTNAdZzunKtCHIPvaRaN8nlkHdFdjZtnJqeCY77a02u/m+L62sZDL8cCt+aVVAZJUU9p27aRZqaobOsdjUonDLyLsVTiMd5pAfvWN1Smqc9F32meWf4CIn4Fd5S9gH+sWaiXKhL+FKQXxKY5DrBE+WyXZy75BRNBzxdnMCcZTLv4hA3mU7rA2cu6lr+UpklNErTRpIW2+TDNDuCOnUiQGO2s1lz+IJrWKogFAK7R6est14yFvdOeOa7nY5GAEeZrxyzYF/wZs6kGIMBBeFKNwaVDXvKYZDRC99VizNN7i7gEqL/fZ4flavDx62Yaxze3y7HpOLhaUawl/Kd1rBDbdUyrza/aWKgiRHDWgk9OwC2/OOq0ddYmnLDGJSG5DdTykvsiYK8KDx4hLrrLCJD8dVLhXNqAPypx4y0zFfbUxFH
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR17MB5512.namprd17.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(396003)(39840400004)(346002)(376002)(366004)(230922051799003)(451199024)(1800799012)(186009)(64100799003)(38100700002)(36756003)(86362001)(6512007)(478600001)(6666004)(4326008)(44832011)(66946007)(66556008)(66476007)(6486002)(26005)(316002)(8676002)(2616005)(6916009)(54906003)(8936002)(6506007)(41300700001)(5660300002)(7406005)(7416002)(2906002)(4744005)(16393002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?5yEkyGLYQqosncnR8cLJoKkCkOl/Vjd5T8TqR38eWfxL/22srXbwGxInJ33g?=
+ =?us-ascii?Q?qiinAWqICPwmifrx6ha82NsNs6hXJEFo48319AZy+WObMSJvmAXy0OyHJi2R?=
+ =?us-ascii?Q?Ij1Kv+qzVK8LgGQQ92d/JHz/naLM44HmdKmIO2bVpPhlGb2HHd2BHzZVRGC7?=
+ =?us-ascii?Q?2st0aaD6roel1tgBsKV1FwFMS5Lz1TuSfczkGzGIAsZyAOml3cvm6856+H7f?=
+ =?us-ascii?Q?EQv6FnexhPCXgo4C+48jTEziyefbaduYJJq85Z1vtyehtki+33L4cpcwTzIK?=
+ =?us-ascii?Q?c7GgS6hNmUUhbEmb/Hgssd6EPA/mZgwvSfr0n1hPxBVNi8P+xPL5i4MKwklL?=
+ =?us-ascii?Q?JWXvyPX1Xr4l5aEYasDX5nbPZRdXSgR8XziMm+daAijH/zhwuDBuFT+oyvkN?=
+ =?us-ascii?Q?Qvek6DKyM+RIdaxwVhTUy270gN2kmNNWJPgL9FY4J6VHK+/cVibC0fjV4DaY?=
+ =?us-ascii?Q?Ctp4FyDLW2rNzsesf7lppNwDeg77Vz8tJL4N7V7s/jFsmX+lXTjgTob1UkpM?=
+ =?us-ascii?Q?FauHtWATRroKxq4nyK6tVlR1lM4RErQVDJyK50dAHYPmzhFoISr0x2WNXEYp?=
+ =?us-ascii?Q?nAHVsjU66JShrXhPt2I3krSL87zj+/BSvePBvNshCW7qC7CmxCHwks8EkP1e?=
+ =?us-ascii?Q?Y0ZohNmzaU/Vl/jwHZ9Cc6MCrBILWam4iE+NcT6Lt7Z1mejTzSUxBYyIeqsM?=
+ =?us-ascii?Q?9iFm6/pBurPXZJUKgLOSVPwg/BeKJUbxgQi2fyL/S4UXmENOEYiu/j56IzXp?=
+ =?us-ascii?Q?Ny6BVcu1qBJM0ih4CGk2vRoCWQCPuDGvSOuYg+vZ0KQnhZ+5+X/ud+/aRY+x?=
+ =?us-ascii?Q?Xu32p8bgyoV4BM968iS4ImHPI0ZrlH7DeRZRTdUEUX0L4Q/Wl2Nsl/iFbRN/?=
+ =?us-ascii?Q?X+9je+sQqrWVaJeRL1sa1Y4uK0JP6vwfRKgfP5RQikpyAlc16y9bydfDh+Qi?=
+ =?us-ascii?Q?5I8deEs3Tb2HQKrMz+vpxUWurGzkw5516VyPa9eRAcov32FsbN+T/Cdr5nTK?=
+ =?us-ascii?Q?IRqv6BzsswSo5nYH25RqB+2KkjIOEgvI2jxILy5G/yHlhDTLRlHHr4WXNgxo?=
+ =?us-ascii?Q?6o3ZzC5m0sZbBU6TAg/e9+8LlVzbcM3XUN22+1kBQWSWl4HQzoqIDNz+MOhy?=
+ =?us-ascii?Q?q/SfyPyXEeiF3v1HsjgEWJuvBUts81g5M9psvw9yFywhDOe+6K5YaWf+ZhVQ?=
+ =?us-ascii?Q?mX2XRndKp3UcPmPh3thYqeWDjR9OBRXciMsLpe24Yau9/q+SWFNMkXEEvTea?=
+ =?us-ascii?Q?QrTVpJ+r0/CbTyLieqiEg6isL2NdwacRgirpR9IzIqIHMcrwZVI6z7ek8dRA?=
+ =?us-ascii?Q?1R4Ud6UV5MkF2n/VonfKSx8RrPKvKr63yJMtPXxdOnUnUPqhYTZIb53d67tu?=
+ =?us-ascii?Q?poNq7y5/F6PUmGFTynJNHGxIzxeN7Gx7h539hxUL8V1Qdnoc65zkSwaGuUD/?=
+ =?us-ascii?Q?osdUfvi+VEBLMQ0OwhV28IL6+oV6GzGRoNzyQgTdRhjRvgwXD9t92Pam64Gc?=
+ =?us-ascii?Q?Fo+x03t1iClLOqzeMxaz1klAOFVGkSfP2tY0tz6svQquD2DBtpkZB0rARAfj?=
+ =?us-ascii?Q?1K7POzUAumX9G556IS+m9wHJ2wSRx4A3IbZ4lDZx+t3sKzV9hy524nKfzyfR?=
+ =?us-ascii?Q?0w=3D=3D?=
+X-OriginatorOrg: memverge.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b500ee09-a7a8-42a9-28dd-08dc0bc5e944
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR17MB5512.namprd17.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jan 2024 19:06:23.1960
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8dm4HAPPVPcJsxV3WxgLwpGV9t91gXyZ34mX/t47ESF6gDKavAYbLowTa8GWwc8LqI5B0ykHAwZUaBs67RZsmSyMuvN0O9FG5m3Xh23+J8E=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR17MB6373
 
-On Sat, Dec 23, 2023 at 7:14=E2=80=AFPM Gregory Price <gourry.memverge@gmai=
-l.com> wrote:
-> mbind2 is an extensible mbind interface which allows a user to
-> set the mempolicy for one or more address ranges.
->
-> Defined as:
->
-> mbind2(unsigned long addr, unsigned long len, struct mpol_args *args,
->        size_t size, unsigned long flags)
->
-> addr:         address of the memory range to operate on
-> len:          length of the memory range
-> flags:        MPOL_MF_HOME_NODE + original mbind() flags
->
-> Input values include the following fields of mpol_args:
->
-> mode:         The MPOL_* policy (DEFAULT, INTERLEAVE, etc.)
-> mode_flags:   The MPOL_F_* flags that were previously passed in or'd
->               into the mode.  This was split to hopefully allow future
->               extensions additional mode/flag space.
-> home_node:    if (flags & MPOL_MF_HOME_NODE), set home node of policy
->               to this otherwise it is ignored.
-> pol_maxnodes: The max number of nodes described by pol_nodes
-> pol_nodes:    the nodemask to apply for the memory policy
->
-> The semantics are otherwise the same as mbind(), except that
-> the home_node can be set.
->
-> Suggested-by: Michal Hocko <mhocko@suse.com>
-> Suggested-by: Frank van der Linden <fvdl@google.com>
-> Suggested-by: Vinicius Tavares Petrucci <vtavarespetr@micron.com>
-> Suggested-by: Rakie Kim <rakie.kim@sk.com>
-> Suggested-by: Hyeongtak Ji <hyeongtak.ji@sk.com>
-> Suggested-by: Honggyu Kim <honggyu.kim@sk.com>
-> Signed-off-by: Gregory Price <gregory.price@memverge.com>
-> Co-developed-by: Vinicius Tavares Petrucci <vtavarespetr@micron.com>
+> >> > struct mpol_args {
+> >> >         /* Basic mempolicy settings */
+> >> >         __u16 mode;
+> >> >         __u16 mode_flags;
+> >> >         __s32 home_node;
+> >> >         __u64 pol_maxnodes;
+> >> 
+> >> I understand that we want to avoid hole in struct.  But I still feel
+> >> uncomfortable to use __u64 for a small.  But I don't have solution too.
+> >> Anyone else has some idea?
+> >>
+> >
+> > maxnode has been an `unsigned long` in every other interface for quite
+> > some time.  Seems better to keep this consistent rather than it suddenly
+> > become `unsigned long` over here and `unsigned short` over there.
+> 
+> I don't think that it matters.  The actual maximum node number will be
+> less than maximum `unsigned short`.
+> 
 
->  arch/m68k/kernel/syscalls/syscall.tbl         |  1 +
+the structure will end up being
 
-Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
+struct mpol_args {
+	__u16 mode;
+	__u16 mode_flags;
+	__s32 home_node;
+	__u16 pol_maxnodes;
+	__u8  rsv[6];
+	__aligned_u64 pol_nodes;
+	__aligned_u64 il_weights;
+}
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+If you're fine with that, i'll make the change.
+~Gregory
 
