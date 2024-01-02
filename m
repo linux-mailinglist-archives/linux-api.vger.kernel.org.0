@@ -1,51 +1,51 @@
-Return-Path: <linux-api+bounces-411-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-412-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7D6682180D
-	for <lists+linux-api@lfdr.de>; Tue,  2 Jan 2024 08:43:23 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F2DC82187F
+	for <lists+linux-api@lfdr.de>; Tue,  2 Jan 2024 09:44:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 47F97282443
-	for <lists+linux-api@lfdr.de>; Tue,  2 Jan 2024 07:43:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EE41D1F21FE8
+	for <lists+linux-api@lfdr.de>; Tue,  2 Jan 2024 08:44:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA0591FBC;
-	Tue,  2 Jan 2024 07:43:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 669A94C94;
+	Tue,  2 Jan 2024 08:44:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CFGwhlRL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HV4RtWW3"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05D1A53A5;
-	Tue,  2 Jan 2024 07:43:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAB5563A6;
+	Tue,  2 Jan 2024 08:44:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704181395; x=1735717395;
+  t=1704185089; x=1735721089;
   h=from:to:cc:subject:in-reply-to:references:date:
    message-id:mime-version;
-  bh=q58h3B9SniKOzHIyVANaPPu7KXRTAPPnTDU3BqNClF4=;
-  b=CFGwhlRLciEW9rMP20TaseKWinwxqez3rIYH+wrt4+ZgdGDCAXl271dB
-   UqNRRbvZ5WxgLq6hp+C+xgQikOE7NuxX21itV5ikfPOPAxDYgh2vRK8Ac
-   ikHKY4zUAk0EQQcjgQ20TNSLJYX4aw3BXggJN98w9W81dQb9pbCLTRQXQ
-   wRjkoGloxyBHgfgVTFMKAjmV2+6tIiMLwpT548onV800STYLATN7sKcPY
-   S12FvFlqKx3IlkWt+tLSb1ap25ROIM/0LiF7lxn4hczm0TQ7TGE4Mpi/A
-   cL+KzejWjpzlxoQcNQzNcfRf729o8hKUpV/j1bTob0s25iy4qdhzmrykQ
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10940"; a="381809959"
+  bh=UvmgInCVS3LhauRxpvGYGqfhEKWYPGEDg6KPf7j+yCc=;
+  b=HV4RtWW3zbgsrg7xsd+HrGGdyb8HJTqDUD67gM6K7KSgE8iYYgBrfNWB
+   12VNThHGdcAeyvYYkH9WfLZ4uZhsbOTBT1FFrIDTDcb3Qeqrjyn2RAnwD
+   c+lOs9WPxbfDVybQQVjNuqc0fyopk7dDdiHrB9jeRZ1bv+94+s+RxcTcd
+   UMLBB+hi0ntDi9Im6jSEG584jmCojHq7wu+JE+Ha4FAZIeM0xg6RjHJCt
+   MLHj3M4ueAZGzuOgKLSEdkB3kES1Fp9lHcqVobepfg/uAf+ytD8tu7HE8
+   sVixbqV0SxLJc+2mrrgbqja78KQM67zVenEUxJtXvlWmkuBLk+IO51qwt
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10940"; a="4189864"
 X-IronPort-AV: E=Sophos;i="6.04,324,1695711600"; 
-   d="scan'208";a="381809959"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jan 2024 23:43:14 -0800
+   d="scan'208";a="4189864"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2024 00:44:48 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10940"; a="783129772"
+X-IronPort-AV: E=McAfee;i="6600,9927,10940"; a="779632795"
 X-IronPort-AV: E=Sophos;i="6.04,324,1695711600"; 
-   d="scan'208";a="783129772"
+   d="scan'208";a="779632795"
 Received: from yhuang6-desk2.sh.intel.com (HELO yhuang6-desk2.ccr.corp.intel.com) ([10.238.208.55])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jan 2024 23:43:07 -0800
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2024 00:44:41 -0800
 From: "Huang, Ying" <ying.huang@intel.com>
 To: Gregory Price <gregory.price@memverge.com>
 Cc: Gregory Price <gourry.memverge@gmail.com>,  <linux-mm@kvack.org>,
@@ -59,17 +59,18 @@ Cc: Gregory Price <gourry.memverge@gmail.com>,  <linux-mm@kvack.org>,
   <vtavarespetr@micron.com>,  <peterz@infradead.org>,
   <jgroves@micron.com>,  <ravis.opensrc@micron.com>,
   <sthanneeru@micron.com>,  <emirakhur@micron.com>,  <Hasan.Maruf@amd.com>,
-  <seungjun.ha@samsung.com>
-Subject: Re: [PATCH v5 01/11] mm/mempolicy: implement the sysfs-based
- weighted_interleave interface
-In-Reply-To: <ZYp3JbcCPQc4fUrB@memverge.com> (Gregory Price's message of "Tue,
-	26 Dec 2023 01:48:05 -0500")
+  <seungjun.ha@samsung.com>,  Srinivasulu Thanneeru
+ <sthanneeru.opensrc@micron.com>
+Subject: Re: [PATCH v5 02/11] mm/mempolicy: introduce
+ MPOL_WEIGHTED_INTERLEAVE for weighted interleaving
+In-Reply-To: <ZYp6ZRLZQVtTHest@memverge.com> (Gregory Price's message of "Tue,
+	26 Dec 2023 02:01:57 -0500")
 References: <20231223181101.1954-1-gregory.price@memverge.com>
-	<20231223181101.1954-2-gregory.price@memverge.com>
-	<877cl0f8oo.fsf@yhuang6-desk2.ccr.corp.intel.com>
-	<ZYp3JbcCPQc4fUrB@memverge.com>
-Date: Tue, 02 Jan 2024 15:41:08 +0800
-Message-ID: <87h6jwdvxn.fsf@yhuang6-desk2.ccr.corp.intel.com>
+	<20231223181101.1954-3-gregory.price@memverge.com>
+	<8734vof3kq.fsf@yhuang6-desk2.ccr.corp.intel.com>
+	<ZYp6ZRLZQVtTHest@memverge.com>
+Date: Tue, 02 Jan 2024 16:42:42 +0800
+Message-ID: <878r58dt31.fsf@yhuang6-desk2.ccr.corp.intel.com>
 User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
@@ -81,169 +82,152 @@ Content-Type: text/plain; charset=ascii
 
 Gregory Price <gregory.price@memverge.com> writes:
 
-> On Wed, Dec 27, 2023 at 02:42:15PM +0800, Huang, Ying wrote:
+> On Wed, Dec 27, 2023 at 04:32:37PM +0800, Huang, Ying wrote:
 >> Gregory Price <gourry.memverge@gmail.com> writes:
 >> 
->> > +		These weights only affect new allocations, and changes at runtime
->> > +		will not cause migrations on already allocated pages.
+>> > +static unsigned int weighted_interleave_nid(struct mempolicy *pol, pgoff_t ilx)
+>> > +{
+>> > +	nodemask_t nodemask = pol->nodes;
+>> > +	unsigned int target, weight_total = 0;
+>> > +	int nid;
+>> > +	unsigned char weights[MAX_NUMNODES];
+>> 
+>> MAX_NUMNODSE could be as large as 1024.  1KB stack space may be too
+>> large?
+>> 
+>
+> I've been struggling with a good solution to this.  We need a local copy
+> of weights to prevent weights from changing out from under us during
+> allocation (which may take quite some time), but it seemed unwise to
+> to allocate 1KB heap in this particular path.
+>
+> Is my concern unfounded?  If so, I can go ahead and add the allocation
+> code.
+
+Please take a look at NODEMASK_ALLOC().
+
+>> > +	unsigned char weight;
 >> > +
->> > +		Writing an empty string resets the weight value to 1.
+>> > +	barrier();
 >> 
->> I still think that it's a good idea to provide some better default
->> weight value with HMAT or CDAT if available.  So, better not to make "1"
->> as part of ABI?
+>> Memory barrier needs comments.
 >> 
 >
-> That's the eventual goal,
+> Barrier is to stabilize nodemask on the stack, but yes i'll carry the
+> comment from interleave_nid into this barrier as well.
 
-Good to know this.
+Please see below.
 
-> but this is just the initial mechanism.
+>> > +
+>> > +	/* first ensure we have a valid nodemask */
+>> > +	nid = first_node(nodemask);
+>> > +	if (nid == MAX_NUMNODES)
+>> > +		return nid;
+>> 
+>> It appears that this isn't necessary, because we can check whether
+>> weight_total == 0 after the next loop.
+>> 
 >
-> My current thought is that the CXL driver will apply weights as the
-> system iterates through devices and creates numa nodes.  In the
-> meantime, you have to give the "possible" nodes a default value to
-> prevent nodes onlined after boot from showing up with 0-value.
->
-> Not allowing 0-value weights is simply easier in many respects.
+> fair, will snip.
 >
 >> > +
->> > +		Minimum weight: 1
->> 
->> Can weight be "0"?  Do we need a way to specify that a node don't want
->> to participate weighted interleave?
->> 
->
-> In this code, weight cannot be 0.  My thoguht is that removing the node
-> from the nodemask is the way to denote 0.
->
-> The problem with 0 is hotplug, migration, and cpusets.mems_allowed.  
->
-> Example issue:  Use set local weights to [1,0,1,0] for nodes [0-3],
-> and has a cpusets.mems_allowed mask of (0, 2).
->
-> Lets say the user migrates the task via cgroups from nodes (0,2) to
-> (1,3).
->
-> The task will instantly crash as basically OOM because weights of
-> [1,0,1,0] will prevent memory from being allocations.
->
-> Not allowing nodes weights of 0 is defensive.  Instead, simply removing
-> the node from the nodemask and/or mems_allowed is both equivalent to and
-> the preferred way to apply a weight of 0.
-
-It sounds reasonable to set minimum weight to 1.  But "1" may be not the
-default weight, so, I don't think it's a good idea to make "1" as
-default in ABI.
-
->> > +		Maximum weight: 255
->> > diff --git a/mm/mempolicy.c b/mm/mempolicy.c
->> > index 10a590ee1c89..0e77633b07a5 100644
->> > --- a/mm/mempolicy.c
->> > +++ b/mm/mempolicy.c
->> > @@ -131,6 +131,8 @@ static struct mempolicy default_policy = {
->> >  
->> >  static struct mempolicy preferred_node_policy[MAX_NUMNODES];
->> >  
->> > +static char iw_table[MAX_NUMNODES];
+>> > +	/* Then collect weights on stack and calculate totals */
+>> > +	for_each_node_mask(nid, nodemask) {
+>> > +		weight = iw_table[nid];
+>> > +		weight_total += weight;
+>> > +		weights[nid] = weight;
+>> > +	}
 >> > +
+>> > +	/* Finally, calculate the node offset based on totals */
+>> > +	target = (unsigned int)ilx % weight_total;
 >> 
->> It's kind of obscure whether "char" is "signed" or "unsigned".  Given
->> the max weight is 255 above, it's better to use "u8"?
+>> Why use type casting?
+>> 
+>
+> Artifact of old prototypes, snipped.
+>
+>> > +
+>> > +	/* Stabilize the nodemask on the stack */
+>> > +	barrier();
+>> 
+>> I don't think barrier() is needed to wait for memory operations for
+>> stack.  It's usually used for cross-processor memory order.
 >>
 >
-> bah, stupid mistake.  I will switch this to u8.
+> This is present in the old interleave code.  To the best of my
+> understanding, the concern is for mempolicy->nodemask rebinding that can
+> occur when cgroups.cpusets.mems_allowed changes.
 >
->> And, we may need a way to specify whether the weight has been overridden
->> by the user.
->> A special value (such as 255) can be used for that.  If
->> so, the maximum weight should be 254 instead of 255.  As a user space
->> interface, is it better to use 100 as the maximum value?
+> so we can't iterate over (mempolicy->nodemask), we have to take a local
+> copy.
+>
+> My *best* understanding of the barrier here is to prevent the compiler
+> from reordering operations such that it attempts to optimize out the
+> local copy (or do lazy-fetch).
+>
+> It is present in the original interleave code, so I pulled it forward to
+> this, but I have not tested whether this is a bit paranoid or not.
+>
+> from `interleave_nid`:
+>
+>  /*
+>   * The barrier will stabilize the nodemask in a register or on
+>   * the stack so that it will stop changing under the code.
+>   *
+>   * Between first_node() and next_node(), pol->nodes could be changed
+>   * by other threads. So we put pol->nodes in a local stack.
+>   */
+>  barrier();
+
+Got it.  This is kind of READ_ONCE() for nodemask.  To avoid to add
+comments all over the place.  Can we implement a wrapper for it?  For
+example, memcpy_once().  __read_once_size() in
+tools/include/linux/compiler.h can be used as reference.
+
+Because node_weights[] may be changed simultaneously too.  We may need
+to consider similar issue for it too.  But RCU seems more appropriate
+for node_weights[].
+
+>> > +		/* Otherwise we adjust nr_pages down, and continue from there */
+>> > +		rem_pages -= pol->wil.cur_weight;
+>> > +		pol->wil.cur_weight = 0;
+>> > +		prev_node = node;
+>> 
+>> If pol->wil.cur_weight == 0, prev_node will be used without being
+>> initialized below.
 >> 
 >
-> There's global weights and local weights.  These are the global weights.
+> pol->wil.cur_weight is not used below.
 >
-> Local weights are stored in task->mempolicy.wil.il_weights.
->
-> (policy->mode_flags & MPOL_F_GWEIGHT) denotes the override.
-> This is set if (mempolicy_args->il_weights) was provided.
->
-> This simplifies the interface.
->
-> (note: local weights are not introduced until the last patch 11/11)
-
-The global weight is writable via sysfs too, right?  Then, for global
-weights, we have 2 sets of values,
-
-iw_table_default[], and iw_table[].
-
-iw_table_default[] is set to "1" now, and will be set to some other
-values after we have enabled HMAT/CDAT based default value.
-
-iw_table[] is initialized with a special value (for example, "0", if "1"
-is the minimal weight).  And users can change it via sysfs.  Then the
-actual global weight for a node becomes
-
-    iw_table[node] ? : iw_table_default[node]
-
-
-As for global weight and local weight, we may need a way to copy from
-the global weights to the local weights to simplify the memory policy
-setup.  For example, if users want to use the global weights of node 0,
-1, 2 and override the weight of node 3.  They can specify some special
-value, for example, 0, in mempolicy_args->il_weights[0], [1], [2] to
-copy from the global values, and override [3] via some other value.
-
-
-Think about the default weight value via HMAT/CDAT again.  It may be not
-a good idea to use "1" as default even for now.
-
-For example,
-
-- The memory bandwidth of DRAM is 100GB, whose default weight is "1".
-
-- We hot-plug CXL.mem A with memory bandwidth 20GB.  So, we change the
-  weight of DRAM to 5, and use "1" as the weight of CXL.mem A.
-
-- We hot-plug CXL.mem B with memory bandwidth 10GB.  So, we change the
-  weight of DRAM to 10, the weight of CXL.mem A to 2, and use "1" as the
-  weight of CXL.mem B.
-
-That is, if we use "1" as default weight, we need to change weights of
-nodes frequently because we haven't a "base" weight.  The best candidate
-base weight is the weight of DRAM node.  For example, if we set the
-default weight of DRAM node to be "16" and use that as the base weight,
-we don't need to change it in most cases.  The weight of other nodes can
-be set according to the ratio of its memory bandwidth to that of DRAM.
-
-This makes it easy to set the default weight via HMAT/CDAT too.
-
-What do you think about that?
-
+>> > +	}
 >> > +
->> > +static void sysfs_mempolicy_release(struct kobject *mempolicy_kobj)
->> > +{
->> > +	int i;
->> > +
->> > +	for (i = 0; i < MAX_NUMNODES; i++)
->> > +		sysfs_wi_node_release(node_attrs[i], mempolicy_kobj);
+>> > +	/* Now we can continue allocating as if from 0 instead of an offset */
+>> > +	rounds = rem_pages / weight_total;
+>> > +	delta = rem_pages % weight_total;
+>> > +	for (i = 0; i < nnodes; i++) {
+>> > +		node = next_node_in(prev_node, nodes);
+>> > +		weight = weights[node];
+>> > +		node_pages = weight * rounds;
+>> > +		if (delta) {
+>> > +			if (delta > weight) {
+>> > +				node_pages += weight;
+>> > +				delta -= weight;
+>> > +			} else {
+>> > +				node_pages += delta;
+>> > +				delta = 0;
+>> > +			}
+>> > +		}
+>> > +		/* We may not make it all the way around */
+>> > +		if (!node_pages)
+>> > +			break;
+>> > +		/* If an over-allocation would occur, floor it */
+>> > +		if (node_pages + total_allocated > nr_pages) {
 >> 
->> IIUC, if this is called in error path (such as, in
->> add_weighted_interleave_group()), some node_attrs[] element may be
->> "NULL"?
+>> Why is this possible?
 >> 
 >
-> The null check is present in sysfs_wi_node_release
->
-> if (!node_attr)
-> 	return;
-
-This works.  Sorry for noise.
-
-> Is it preferable to pull this out? Seemed more defensive to put it
-> inside the function.
-
-Both are OK for me.
+> this may have been a paranoid artifact from an early prototype, will
+> snip and validate.
 
 --
 Best Regards,
