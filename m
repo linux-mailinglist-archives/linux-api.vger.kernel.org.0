@@ -1,51 +1,51 @@
-Return-Path: <linux-api+bounces-410-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-411-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD6158216E5
-	for <lists+linux-api@lfdr.de>; Tue,  2 Jan 2024 05:30:04 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C7D6682180D
+	for <lists+linux-api@lfdr.de>; Tue,  2 Jan 2024 08:43:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2CC1CB2131C
-	for <lists+linux-api@lfdr.de>; Tue,  2 Jan 2024 04:30:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 47F97282443
+	for <lists+linux-api@lfdr.de>; Tue,  2 Jan 2024 07:43:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BF9510E1;
-	Tue,  2 Jan 2024 04:29:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA0591FBC;
+	Tue,  2 Jan 2024 07:43:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ipuJnKOX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CFGwhlRL"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D1A2EC8;
-	Tue,  2 Jan 2024 04:29:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05D1A53A5;
+	Tue,  2 Jan 2024 07:43:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704169791; x=1735705791;
+  t=1704181395; x=1735717395;
   h=from:to:cc:subject:in-reply-to:references:date:
    message-id:mime-version;
-  bh=hqB1jolzeL5g0fOOCpwx+h0oswS2dZ1l57/pHl6LV6w=;
-  b=ipuJnKOXH/d55FxxnePKnOgpQYBzjTUOk/nIeGbdlSR7JfxzuGM1JbIy
-   9K0eAD81mm6F6CtoPFbCA4GWby4oQKw3sMAknAYMCmqpZG54+WNxX9yc/
-   dcjM7jel1BwYSguIIfijKolgB1NeY/sRXyrd3WoMNZiwPWmCFzpV1IdLw
-   VI5Ml0IloM7SC2R5jt8TAPD966b7KWdzptLo9UOTVb02KAmRZS//vjl86
-   4+lHClOy4Mw/OJcltNOn6LVI8HVBzq1eGkSOVajWE+94lcL9YVKfZKjZB
-   WxGgGYITfzL84JTpS96N4jTR5eLCzEsoLfF3v6nqrEid4GvYGaiRoTYP2
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10940"; a="427999332"
+  bh=q58h3B9SniKOzHIyVANaPPu7KXRTAPPnTDU3BqNClF4=;
+  b=CFGwhlRLciEW9rMP20TaseKWinwxqez3rIYH+wrt4+ZgdGDCAXl271dB
+   UqNRRbvZ5WxgLq6hp+C+xgQikOE7NuxX21itV5ikfPOPAxDYgh2vRK8Ac
+   ikHKY4zUAk0EQQcjgQ20TNSLJYX4aw3BXggJN98w9W81dQb9pbCLTRQXQ
+   wRjkoGloxyBHgfgVTFMKAjmV2+6tIiMLwpT548onV800STYLATN7sKcPY
+   S12FvFlqKx3IlkWt+tLSb1ap25ROIM/0LiF7lxn4hczm0TQ7TGE4Mpi/A
+   cL+KzejWjpzlxoQcNQzNcfRf729o8hKUpV/j1bTob0s25iy4qdhzmrykQ
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10940"; a="381809959"
 X-IronPort-AV: E=Sophos;i="6.04,324,1695711600"; 
-   d="scan'208";a="427999332"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jan 2024 20:29:50 -0800
+   d="scan'208";a="381809959"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jan 2024 23:43:14 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10940"; a="779578844"
+X-IronPort-AV: E=McAfee;i="6600,9927,10940"; a="783129772"
 X-IronPort-AV: E=Sophos;i="6.04,324,1695711600"; 
-   d="scan'208";a="779578844"
+   d="scan'208";a="783129772"
 Received: from yhuang6-desk2.sh.intel.com (HELO yhuang6-desk2.ccr.corp.intel.com) ([10.238.208.55])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jan 2024 20:29:41 -0800
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jan 2024 23:43:07 -0800
 From: "Huang, Ying" <ying.huang@intel.com>
 To: Gregory Price <gregory.price@memverge.com>
 Cc: Gregory Price <gourry.memverge@gmail.com>,  <linux-mm@kvack.org>,
@@ -59,20 +59,17 @@ Cc: Gregory Price <gourry.memverge@gmail.com>,  <linux-mm@kvack.org>,
   <vtavarespetr@micron.com>,  <peterz@infradead.org>,
   <jgroves@micron.com>,  <ravis.opensrc@micron.com>,
   <sthanneeru@micron.com>,  <emirakhur@micron.com>,  <Hasan.Maruf@amd.com>,
-  <seungjun.ha@samsung.com>,  Johannes Weiner <hannes@cmpxchg.org>,  Hasan
- Al Maruf <hasanalmaruf@fb.com>,  Hao Wang <haowang3@fb.com>,  Dan Williams
- <dan.j.williams@intel.com>,  "Michal Hocko" <mhocko@suse.com>,  Zhongkun
- He <hezhongkun.hzk@bytedance.com>,  "Frank van der Linden"
- <fvdl@google.com>,  John Groves <john@jagalactic.com>,  Jonathan Cameron
- <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH v5 00/11] mempolicy2, mbind2, and weighted interleave
-In-Reply-To: <ZYqEjsaqseI68EyJ@memverge.com> (Gregory Price's message of "Tue,
-	26 Dec 2023 02:45:18 -0500")
+  <seungjun.ha@samsung.com>
+Subject: Re: [PATCH v5 01/11] mm/mempolicy: implement the sysfs-based
+ weighted_interleave interface
+In-Reply-To: <ZYp3JbcCPQc4fUrB@memverge.com> (Gregory Price's message of "Tue,
+	26 Dec 2023 01:48:05 -0500")
 References: <20231223181101.1954-1-gregory.price@memverge.com>
-	<87frzqg1jp.fsf@yhuang6-desk2.ccr.corp.intel.com>
-	<ZYqEjsaqseI68EyJ@memverge.com>
-Date: Tue, 02 Jan 2024 12:27:42 +0800
-Message-ID: <87le98e4w1.fsf@yhuang6-desk2.ccr.corp.intel.com>
+	<20231223181101.1954-2-gregory.price@memverge.com>
+	<877cl0f8oo.fsf@yhuang6-desk2.ccr.corp.intel.com>
+	<ZYp3JbcCPQc4fUrB@memverge.com>
+Date: Tue, 02 Jan 2024 15:41:08 +0800
+Message-ID: <87h6jwdvxn.fsf@yhuang6-desk2.ccr.corp.intel.com>
 User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
@@ -84,214 +81,169 @@ Content-Type: text/plain; charset=ascii
 
 Gregory Price <gregory.price@memverge.com> writes:
 
-> On Mon, Dec 25, 2023 at 03:54:18PM +0800, Huang, Ying wrote:
+> On Wed, Dec 27, 2023 at 02:42:15PM +0800, Huang, Ying wrote:
 >> Gregory Price <gourry.memverge@gmail.com> writes:
 >> 
->> > For example, the stream benchmark demonstrates that default interleave
->> > is actively harmful, where weighted interleave is beneficial.
->> >
->> > Hardware: 1-socket 8 channel DDR5 + 1 CXL expander in PCIe x16
->> > Default interleave : -78% (slower than DRAM)
->> > Global weighting   : -6% to +4% (workload dependant)
->> > Targeted weights   : +2.5% to +4% (consistently better than DRAM)
->> >
->> > If nothing else, this shows how awful round-robin interleave is.
+>> > +		These weights only affect new allocations, and changes at runtime
+>> > +		will not cause migrations on already allocated pages.
+>> > +
+>> > +		Writing an empty string resets the weight value to 1.
 >> 
->> I guess the performance of the default policy, local (fast memory)
->> first, may be even better in some situation?  For example, before the
->> bandwidth of DRAM is saturated?
+>> I still think that it's a good idea to provide some better default
+>> weight value with HMAT or CDAT if available.  So, better not to make "1"
+>> as part of ABI?
 >> 
 >
-> Yes - but it's more complicated than that.
->
-> Global weighting here means we did `numactl -w --interleave ...`, which
-> means *all* memory regions will be interleaved.  Code, stack, heap, etc.
->
-> Targeted weights means we used mbind2() with local weights, which only
-> targted specific heap regions.
->
-> The default policy was better than global weighting likely as a result
-> of things like stack/code being distributed to higher latency memory
-> produced a measurable overhead.
->
-> To provide this, we only applied weights to bandwidth driving regions,
-> and as a result we demonstrated a measurable performance increase.
->
-> So yes, the defautl policy may be better in some situations - but that
-> will be true of any policy.
+> That's the eventual goal,
 
-Yes.  Some memory area may be more sensitive to memory latency than
-other area.
+Good to know this.
 
-Per my understanding, memory latency will increase with the actual
-memory throughput.  And it increases quickly when the memory throughput
-nears the maximum memory bandwidth.  As in the figures in the following
-URL.
-
-https://mahmoudhatem.wordpress.com/2017/11/07/memory-bandwidth-vs-latency-response-curve/
-
-If the memory latency of the DRAM will not increase much, it's better to
-place the hot data in DRAM always.  But if the memory throughput nears
-the max memory bandwidth, so that the memory latency of DRAM increases
-greatly, may be even higher than that of CXL memory, it's better to put
-some hot data in CXL memory to reduce the overall memory latency.
-
-If it's right, I suggest to add something like above in the patch
-description.
-
->> I understand that you may want to limit the memory usage of the fast
->> memory too.  But IMHO, that is another requirements.  That should be
->> enforced by something like per-node memory limit.
+> but this is just the initial mechanism.
+>
+> My current thought is that the CXL driver will apply weights as the
+> system iterates through devices and creates numa nodes.  In the
+> meantime, you have to give the "possible" nodes a default value to
+> prevent nodes onlined after boot from showing up with 0-value.
+>
+> Not allowing 0-value weights is simply easier in many respects.
+>
+>> > +
+>> > +		Minimum weight: 1
+>> 
+>> Can weight be "0"?  Do we need a way to specify that a node don't want
+>> to participate weighted interleave?
 >> 
 >
-> This interface does not limit memory usage of a particular node, it 
-> distributes data according to the requested policy.
+> In this code, weight cannot be 0.  My thoguht is that removing the node
+> from the nodemask is the way to denote 0.
 >
-> Nuanced distinction, but important.  If nodes become exhausted, tasks
-> are still free to allocate memory from any node in the nodemask, even if
-> it violates the requested mempolicy.
+> The problem with 0 is hotplug, migration, and cpusets.mems_allowed.  
 >
-> This is consistent with the existing behavior of mempolicy.
+> Example issue:  Use set local weights to [1,0,1,0] for nodes [0-3],
+> and has a cpusets.mems_allowed mask of (0, 2).
+>
+> Lets say the user migrates the task via cgroups from nodes (0,2) to
+> (1,3).
+>
+> The task will instantly crash as basically OOM because weights of
+> [1,0,1,0] will prevent memory from being allocations.
+>
+> Not allowing nodes weights of 0 is defensive.  Instead, simply removing
+> the node from the nodemask and/or mems_allowed is both equivalent to and
+> the preferred way to apply a weight of 0.
 
-Good.
+It sounds reasonable to set minimum weight to 1.  But "1" may be not the
+default weight, so, I don't think it's a good idea to make "1" as
+default in ABI.
 
->> > =====================================================================
->> > (Patches 3-6) Refactoring mempolicy for code-reuse
->> >
->> > To avoid multiple paths of mempolicy creation, we should refactor the
->> > existing code to enable the designed extensibility, and refactor
->> > existing users to utilize the new interface (while retaining the
->> > existing userland interface).
->> >
->> > This set of patches introduces a new mempolicy_args structure, which
->> > is used to more fully describe a requested mempolicy - to include
->> > existing and future extensions.
->> >
->> > /*
->> >  * Describes settings of a mempolicy during set/get syscalls and
->> >  * kernel internal calls to do_set_mempolicy()
->> >  */
->> > struct mempolicy_args {
->> >     unsigned short mode;            /* policy mode */
->> >     unsigned short mode_flags;      /* policy mode flags */
->> >     int home_node;                  /* mbind: use MPOL_MF_HOME_NODE */
->> >     nodemask_t *policy_nodes;       /* get/set/mbind */
->> >     unsigned char *il_weights;      /* for mode MPOL_WEIGHTED_INTERLEAVE */
->> > };
+>> > +		Maximum weight: 255
+>> > diff --git a/mm/mempolicy.c b/mm/mempolicy.c
+>> > index 10a590ee1c89..0e77633b07a5 100644
+>> > --- a/mm/mempolicy.c
+>> > +++ b/mm/mempolicy.c
+>> > @@ -131,6 +131,8 @@ static struct mempolicy default_policy = {
+>> >  
+>> >  static struct mempolicy preferred_node_policy[MAX_NUMNODES];
+>> >  
+>> > +static char iw_table[MAX_NUMNODES];
+>> > +
 >> 
->> According to
->> 
->> https://www.geeksforgeeks.org/difference-between-argument-and-parameter-in-c-c-with-examples/
->> 
->> it appears that "parameter" are better than "argument" for struct name
->> here.  It appears that current kernel source supports this too.
->> 
->> $ grep 'struct[\t ]\+[a-zA-Z0-9]\+_param' -r include/linux | wc -l
->> 411
->> $ grep 'struct[\t ]\+[a-zA-Z0-9]\+_arg' -r include/linux | wc -l
->> 25
->> 
->
-> Will change.
->
->> > This arg structure will eventually be utilized by the following
->> > interfaces:
->> >     mpol_new() - new mempolicy creation
->> >     do_get_mempolicy() - acquiring information about mempolicy
->> >     do_set_mempolicy() - setting the task mempolicy
->> >     do_mbind()         - setting a vma mempolicy
->> >
->> > do_get_mempolicy() is completely refactored to break it out into
->> > separate functionality based on the flags provided by get_mempolicy(2)
->> >     MPOL_F_MEMS_ALLOWED: acquires task->mems_allowed
->> >     MPOL_F_ADDR: acquires information on vma policies
->> >     MPOL_F_NODE: changes the output for the policy arg to node info
->> >
->> > We refactor the get_mempolicy syscall flatten the logic based on these
->> > flags, and aloow for set_mempolicy2() to re-use the underlying logic.
->> >
->> > The result of this refactor, and the new mempolicy_args structure, is
->> > that extensions like 'sys_set_mempolicy_home_node' can now be directly
->> > integrated into the initial call to 'set_mempolicy2', and that more
->> > complete information about a mempolicy can be returned with a single
->> > call to 'get_mempolicy2', rather than multiple calls to 'get_mempolicy'
->> >
->> >
->> > =====================================================================
->> > (Patches 7-10) set_mempolicy2, get_mempolicy2, mbind2
->> >
->> > These interfaces are the 'extended' counterpart to their relatives.
->> > They use the userland 'struct mpol_args' structure to communicate a
->> > complete mempolicy configuration to the kernel.  This structure
->> > looks very much like the kernel-internal 'struct mempolicy_args':
->> >
->> > struct mpol_args {
->> >         /* Basic mempolicy settings */
->> >         __u16 mode;
->> >         __u16 mode_flags;
->> >         __s32 home_node;
->> >         __u64 pol_maxnodes;
->> 
->> I understand that we want to avoid hole in struct.  But I still feel
->> uncomfortable to use __u64 for a small.  But I don't have solution too.
->> Anyone else has some idea?
+>> It's kind of obscure whether "char" is "signed" or "unsigned".  Given
+>> the max weight is 255 above, it's better to use "u8"?
 >>
 >
-> maxnode has been an `unsigned long` in every other interface for quite
-> some time.  Seems better to keep this consistent rather than it suddenly
-> become `unsigned long` over here and `unsigned short` over there.
+> bah, stupid mistake.  I will switch this to u8.
+>
+>> And, we may need a way to specify whether the weight has been overridden
+>> by the user.
+>> A special value (such as 255) can be used for that.  If
+>> so, the maximum weight should be 254 instead of 255.  As a user space
+>> interface, is it better to use 100 as the maximum value?
+>> 
+>
+> There's global weights and local weights.  These are the global weights.
+>
+> Local weights are stored in task->mempolicy.wil.il_weights.
+>
+> (policy->mode_flags & MPOL_F_GWEIGHT) denotes the override.
+> This is set if (mempolicy_args->il_weights) was provided.
+>
+> This simplifies the interface.
+>
+> (note: local weights are not introduced until the last patch 11/11)
 
-I don't think that it matters.  The actual maximum node number will be
-less than maximum `unsigned short`.
+The global weight is writable via sysfs too, right?  Then, for global
+weights, we have 2 sets of values,
 
->> >         __aligned_u64 pol_nodes;
->> >         __aligned_u64 *il_weights;      /* of size pol_maxnodes */
->> 
->> Typo?  Should be,
->> 
->
-> derp derp
->
->> >
->> > The 'flags' argument for mbind2 is the same as 'mbind', except with
->> > the addition of MPOL_MF_HOME_NODE to denote whether the 'home_node'
->> > field should be utilized.
->> >
->> > The 'flags' argument for get_mempolicy2 allows for MPOL_F_ADDR to
->> > allow operating on VMA policies, but MPOL_F_NODE and MPOL_F_MEMS_ALLOWED
->> > behavior has been omitted, since get_mempolicy() provides this already.
->> 
->> I still think that it's a good idea to make it possible to deprecate
->> get_mempolicy().  How about use a union as follows?
->> 
->> struct mpol_mems_allowed {
->>          __u64 maxnodes;
->>          __aligned_u64 nodemask;
->> };
->> 
->> union mpol_info {
->>         struct mpol_args args;
->>         struct mpol_mems_allowed mems_allowed;
->>         __s32 node;
->> };
->> 
->
-> See my other email.  I've come around to see mems_allowed as a wart that
-> needs to be removed.  The same information is already available via
-> sysfs cpusets.mems and cpusets.mems_effective.
->
-> Additionally, mems_allowed isn't even technically part of the mempolicy,
-> so if we did want an interface to acquire the infomation, you'd prefer
-> to just implement a stand-alone syscall.
->
-> The sysfs interface seems sufficient though.
->
-> `policy_node` is a similar "why does this even exist" type feature,
-> except that it can still be used from get_mempolicy() and if there is an
-> actual reason to extend it to get_mempolicy2() it can be added to
-> mpol_params.
+iw_table_default[], and iw_table[].
 
-OK.
+iw_table_default[] is set to "1" now, and will be set to some other
+values after we have enabled HMAT/CDAT based default value.
+
+iw_table[] is initialized with a special value (for example, "0", if "1"
+is the minimal weight).  And users can change it via sysfs.  Then the
+actual global weight for a node becomes
+
+    iw_table[node] ? : iw_table_default[node]
+
+
+As for global weight and local weight, we may need a way to copy from
+the global weights to the local weights to simplify the memory policy
+setup.  For example, if users want to use the global weights of node 0,
+1, 2 and override the weight of node 3.  They can specify some special
+value, for example, 0, in mempolicy_args->il_weights[0], [1], [2] to
+copy from the global values, and override [3] via some other value.
+
+
+Think about the default weight value via HMAT/CDAT again.  It may be not
+a good idea to use "1" as default even for now.
+
+For example,
+
+- The memory bandwidth of DRAM is 100GB, whose default weight is "1".
+
+- We hot-plug CXL.mem A with memory bandwidth 20GB.  So, we change the
+  weight of DRAM to 5, and use "1" as the weight of CXL.mem A.
+
+- We hot-plug CXL.mem B with memory bandwidth 10GB.  So, we change the
+  weight of DRAM to 10, the weight of CXL.mem A to 2, and use "1" as the
+  weight of CXL.mem B.
+
+That is, if we use "1" as default weight, we need to change weights of
+nodes frequently because we haven't a "base" weight.  The best candidate
+base weight is the weight of DRAM node.  For example, if we set the
+default weight of DRAM node to be "16" and use that as the base weight,
+we don't need to change it in most cases.  The weight of other nodes can
+be set according to the ratio of its memory bandwidth to that of DRAM.
+
+This makes it easy to set the default weight via HMAT/CDAT too.
+
+What do you think about that?
+
+>> > +
+>> > +static void sysfs_mempolicy_release(struct kobject *mempolicy_kobj)
+>> > +{
+>> > +	int i;
+>> > +
+>> > +	for (i = 0; i < MAX_NUMNODES; i++)
+>> > +		sysfs_wi_node_release(node_attrs[i], mempolicy_kobj);
+>> 
+>> IIUC, if this is called in error path (such as, in
+>> add_weighted_interleave_group()), some node_attrs[] element may be
+>> "NULL"?
+>> 
+>
+> The null check is present in sysfs_wi_node_release
+>
+> if (!node_attr)
+> 	return;
+
+This works.  Sorry for noise.
+
+> Is it preferable to pull this out? Seemed more defensive to put it
+> inside the function.
+
+Both are OK for me.
 
 --
 Best Regards,
