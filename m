@@ -1,51 +1,51 @@
-Return-Path: <linux-api+bounces-412-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-413-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F2DC82187F
-	for <lists+linux-api@lfdr.de>; Tue,  2 Jan 2024 09:44:57 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4088E8218B5
+	for <lists+linux-api@lfdr.de>; Tue,  2 Jan 2024 10:12:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EE41D1F21FE8
-	for <lists+linux-api@lfdr.de>; Tue,  2 Jan 2024 08:44:56 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B66A6282C61
+	for <lists+linux-api@lfdr.de>; Tue,  2 Jan 2024 09:12:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 669A94C94;
-	Tue,  2 Jan 2024 08:44:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 310D56ADE;
+	Tue,  2 Jan 2024 09:12:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HV4RtWW3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dgpv6VQH"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAB5563A6;
-	Tue,  2 Jan 2024 08:44:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DAE15697;
+	Tue,  2 Jan 2024 09:12:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704185089; x=1735721089;
+  t=1704186724; x=1735722724;
   h=from:to:cc:subject:in-reply-to:references:date:
    message-id:mime-version;
-  bh=UvmgInCVS3LhauRxpvGYGqfhEKWYPGEDg6KPf7j+yCc=;
-  b=HV4RtWW3zbgsrg7xsd+HrGGdyb8HJTqDUD67gM6K7KSgE8iYYgBrfNWB
-   12VNThHGdcAeyvYYkH9WfLZ4uZhsbOTBT1FFrIDTDcb3Qeqrjyn2RAnwD
-   c+lOs9WPxbfDVybQQVjNuqc0fyopk7dDdiHrB9jeRZ1bv+94+s+RxcTcd
-   UMLBB+hi0ntDi9Im6jSEG584jmCojHq7wu+JE+Ha4FAZIeM0xg6RjHJCt
-   MLHj3M4ueAZGzuOgKLSEdkB3kES1Fp9lHcqVobepfg/uAf+ytD8tu7HE8
-   sVixbqV0SxLJc+2mrrgbqja78KQM67zVenEUxJtXvlWmkuBLk+IO51qwt
+  bh=ZUUp125/reT7Tq22vhlJmnu5Uponk8HjKBT4ndhBEac=;
+  b=Dgpv6VQHu3RhxV2FCj+bDXw6/JYN7kFKFDMw0VLe/GyMXKXFjx37NFx7
+   K9LSIovE6Kw0NbY45E3ewL/LVCkqSyc9vFtY1zRkrucuSevmp03Kc/Gx1
+   BUskTf+QwAQ6jFEv6rLxIqVPtsHfb2FCSpEFmeVw4FpbaU9QBSO6fu8o7
+   vJ4faPt4aPjLfcwkRYZQsHcs3dRTVN24NQnIjwBRKkLqXJwsDq+k6jmwp
+   KeqHyEX9IxdYradK1IKV6CkTcDimj7gFxy9LrhNxQRe77zX/U0mjJI8rc
+   ovixFAUDkMUn7cSwNt1lPuELuYUJAYBckThS03ByJ5n3gR3GoGmotY0ON
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10940"; a="4189864"
+X-IronPort-AV: E=McAfee;i="6600,9927,10940"; a="428020231"
 X-IronPort-AV: E=Sophos;i="6.04,324,1695711600"; 
-   d="scan'208";a="4189864"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2024 00:44:48 -0800
+   d="scan'208";a="428020231"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2024 01:12:01 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10940"; a="779632795"
+X-IronPort-AV: E=McAfee;i="6600,9927,10940"; a="755861313"
 X-IronPort-AV: E=Sophos;i="6.04,324,1695711600"; 
-   d="scan'208";a="779632795"
+   d="scan'208";a="755861313"
 Received: from yhuang6-desk2.sh.intel.com (HELO yhuang6-desk2.ccr.corp.intel.com) ([10.238.208.55])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2024 00:44:41 -0800
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2024 01:11:53 -0800
 From: "Huang, Ying" <ying.huang@intel.com>
 To: Gregory Price <gregory.price@memverge.com>
 Cc: Gregory Price <gourry.memverge@gmail.com>,  <linux-mm@kvack.org>,
@@ -59,18 +59,17 @@ Cc: Gregory Price <gourry.memverge@gmail.com>,  <linux-mm@kvack.org>,
   <vtavarespetr@micron.com>,  <peterz@infradead.org>,
   <jgroves@micron.com>,  <ravis.opensrc@micron.com>,
   <sthanneeru@micron.com>,  <emirakhur@micron.com>,  <Hasan.Maruf@amd.com>,
-  <seungjun.ha@samsung.com>,  Srinivasulu Thanneeru
- <sthanneeru.opensrc@micron.com>
-Subject: Re: [PATCH v5 02/11] mm/mempolicy: introduce
- MPOL_WEIGHTED_INTERLEAVE for weighted interleaving
-In-Reply-To: <ZYp6ZRLZQVtTHest@memverge.com> (Gregory Price's message of "Tue,
-	26 Dec 2023 02:01:57 -0500")
+  <seungjun.ha@samsung.com>
+Subject: Re: [PATCH v5 03/11] mm/mempolicy: refactor sanitize_mpol_flags for
+ reuse
+In-Reply-To: <ZYq9klTts4yg8RhG@memverge.com> (Gregory Price's message of "Tue,
+	26 Dec 2023 06:48:34 -0500")
 References: <20231223181101.1954-1-gregory.price@memverge.com>
-	<20231223181101.1954-3-gregory.price@memverge.com>
-	<8734vof3kq.fsf@yhuang6-desk2.ccr.corp.intel.com>
-	<ZYp6ZRLZQVtTHest@memverge.com>
-Date: Tue, 02 Jan 2024 16:42:42 +0800
-Message-ID: <878r58dt31.fsf@yhuang6-desk2.ccr.corp.intel.com>
+	<20231223181101.1954-4-gregory.price@memverge.com>
+	<87y1dgdoou.fsf@yhuang6-desk2.ccr.corp.intel.com>
+	<ZYp7P1fH8nvkr4o0@memverge.com> <ZYq9klTts4yg8RhG@memverge.com>
+Date: Tue, 02 Jan 2024 17:09:55 +0800
+Message-ID: <871qb0drto.fsf@yhuang6-desk2.ccr.corp.intel.com>
 User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
@@ -82,152 +81,34 @@ Content-Type: text/plain; charset=ascii
 
 Gregory Price <gregory.price@memverge.com> writes:
 
-> On Wed, Dec 27, 2023 at 04:32:37PM +0800, Huang, Ying wrote:
->> Gregory Price <gourry.memverge@gmail.com> writes:
->> 
->> > +static unsigned int weighted_interleave_nid(struct mempolicy *pol, pgoff_t ilx)
->> > +{
->> > +	nodemask_t nodemask = pol->nodes;
->> > +	unsigned int target, weight_total = 0;
->> > +	int nid;
->> > +	unsigned char weights[MAX_NUMNODES];
->> 
->> MAX_NUMNODSE could be as large as 1024.  1KB stack space may be too
->> large?
->> 
+> On Tue, Dec 26, 2023 at 02:05:35AM -0500, Gregory Price wrote:
+>> On Wed, Dec 27, 2023 at 04:39:29PM +0800, Huang, Ying wrote:
+>> > Gregory Price <gourry.memverge@gmail.com> writes:
+>> > 
+>> > > +	unsigned short mode = (*mode_arg & ~MPOL_MODE_FLAGS);
+>> > > +
+>> > > +	*flags = *mode_arg & MPOL_MODE_FLAGS;
+>> > > +	*mode_arg = mode;
+>> > 
+>> > It appears that it's unnecessary to introduce a local variable to split
+>> > mode/flags.  Just reuse the original code?
+>> > 
 >
-> I've been struggling with a good solution to this.  We need a local copy
-> of weights to prevent weights from changing out from under us during
-> allocation (which may take quite some time), but it seemed unwise to
-> to allocate 1KB heap in this particular path.
+> Revisiting during fixes: Note the change from int to short.
 >
-> Is my concern unfounded?  If so, I can go ahead and add the allocation
-> code.
+> I chose to make this explicit because validate_mpol_flags takes a short.
+>
+> I'm fairly sure changing it back throws a truncation warning.
 
-Please take a look at NODEMASK_ALLOC().
+Why something like below doesn't work?
 
->> > +	unsigned char weight;
->> > +
->> > +	barrier();
->> 
->> Memory barrier needs comments.
->> 
->
-> Barrier is to stabilize nodemask on the stack, but yes i'll carry the
-> comment from interleave_nid into this barrier as well.
+int sanitize_mpol_flags(int *mode, unsigned short *flags)
+{
+        *flags = *mode & MPOL_MODE_FLAGS;
+        *mode &= ~MPOL_MODE_FLAGS;
 
-Please see below.
-
->> > +
->> > +	/* first ensure we have a valid nodemask */
->> > +	nid = first_node(nodemask);
->> > +	if (nid == MAX_NUMNODES)
->> > +		return nid;
->> 
->> It appears that this isn't necessary, because we can check whether
->> weight_total == 0 after the next loop.
->> 
->
-> fair, will snip.
->
->> > +
->> > +	/* Then collect weights on stack and calculate totals */
->> > +	for_each_node_mask(nid, nodemask) {
->> > +		weight = iw_table[nid];
->> > +		weight_total += weight;
->> > +		weights[nid] = weight;
->> > +	}
->> > +
->> > +	/* Finally, calculate the node offset based on totals */
->> > +	target = (unsigned int)ilx % weight_total;
->> 
->> Why use type casting?
->> 
->
-> Artifact of old prototypes, snipped.
->
->> > +
->> > +	/* Stabilize the nodemask on the stack */
->> > +	barrier();
->> 
->> I don't think barrier() is needed to wait for memory operations for
->> stack.  It's usually used for cross-processor memory order.
->>
->
-> This is present in the old interleave code.  To the best of my
-> understanding, the concern is for mempolicy->nodemask rebinding that can
-> occur when cgroups.cpusets.mems_allowed changes.
->
-> so we can't iterate over (mempolicy->nodemask), we have to take a local
-> copy.
->
-> My *best* understanding of the barrier here is to prevent the compiler
-> from reordering operations such that it attempts to optimize out the
-> local copy (or do lazy-fetch).
->
-> It is present in the original interleave code, so I pulled it forward to
-> this, but I have not tested whether this is a bit paranoid or not.
->
-> from `interleave_nid`:
->
->  /*
->   * The barrier will stabilize the nodemask in a register or on
->   * the stack so that it will stop changing under the code.
->   *
->   * Between first_node() and next_node(), pol->nodes could be changed
->   * by other threads. So we put pol->nodes in a local stack.
->   */
->  barrier();
-
-Got it.  This is kind of READ_ONCE() for nodemask.  To avoid to add
-comments all over the place.  Can we implement a wrapper for it?  For
-example, memcpy_once().  __read_once_size() in
-tools/include/linux/compiler.h can be used as reference.
-
-Because node_weights[] may be changed simultaneously too.  We may need
-to consider similar issue for it too.  But RCU seems more appropriate
-for node_weights[].
-
->> > +		/* Otherwise we adjust nr_pages down, and continue from there */
->> > +		rem_pages -= pol->wil.cur_weight;
->> > +		pol->wil.cur_weight = 0;
->> > +		prev_node = node;
->> 
->> If pol->wil.cur_weight == 0, prev_node will be used without being
->> initialized below.
->> 
->
-> pol->wil.cur_weight is not used below.
->
->> > +	}
->> > +
->> > +	/* Now we can continue allocating as if from 0 instead of an offset */
->> > +	rounds = rem_pages / weight_total;
->> > +	delta = rem_pages % weight_total;
->> > +	for (i = 0; i < nnodes; i++) {
->> > +		node = next_node_in(prev_node, nodes);
->> > +		weight = weights[node];
->> > +		node_pages = weight * rounds;
->> > +		if (delta) {
->> > +			if (delta > weight) {
->> > +				node_pages += weight;
->> > +				delta -= weight;
->> > +			} else {
->> > +				node_pages += delta;
->> > +				delta = 0;
->> > +			}
->> > +		}
->> > +		/* We may not make it all the way around */
->> > +		if (!node_pages)
->> > +			break;
->> > +		/* If an over-allocation would occur, floor it */
->> > +		if (node_pages + total_allocated > nr_pages) {
->> 
->> Why is this possible?
->> 
->
-> this may have been a paranoid artifact from an early prototype, will
-> snip and validate.
+        return validate_mpol_flags(*mode, flags);
+}
 
 --
 Best Regards,
