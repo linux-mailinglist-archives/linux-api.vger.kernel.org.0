@@ -1,116 +1,286 @@
-Return-Path: <linux-api+bounces-413-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-414-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4088E8218B5
-	for <lists+linux-api@lfdr.de>; Tue,  2 Jan 2024 10:12:21 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3387D8218D4
+	for <lists+linux-api@lfdr.de>; Tue,  2 Jan 2024 10:19:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B66A6282C61
-	for <lists+linux-api@lfdr.de>; Tue,  2 Jan 2024 09:12:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A55441F212A7
+	for <lists+linux-api@lfdr.de>; Tue,  2 Jan 2024 09:19:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 310D56ADE;
-	Tue,  2 Jan 2024 09:12:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 335DD63A6;
+	Tue,  2 Jan 2024 09:19:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dgpv6VQH"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dXm5gASL"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DAE15697;
-	Tue,  2 Jan 2024 09:12:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704186724; x=1735722724;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=ZUUp125/reT7Tq22vhlJmnu5Uponk8HjKBT4ndhBEac=;
-  b=Dgpv6VQHu3RhxV2FCj+bDXw6/JYN7kFKFDMw0VLe/GyMXKXFjx37NFx7
-   K9LSIovE6Kw0NbY45E3ewL/LVCkqSyc9vFtY1zRkrucuSevmp03Kc/Gx1
-   BUskTf+QwAQ6jFEv6rLxIqVPtsHfb2FCSpEFmeVw4FpbaU9QBSO6fu8o7
-   vJ4faPt4aPjLfcwkRYZQsHcs3dRTVN24NQnIjwBRKkLqXJwsDq+k6jmwp
-   KeqHyEX9IxdYradK1IKV6CkTcDimj7gFxy9LrhNxQRe77zX/U0mjJI8rc
-   ovixFAUDkMUn7cSwNt1lPuELuYUJAYBckThS03ByJ5n3gR3GoGmotY0ON
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10940"; a="428020231"
-X-IronPort-AV: E=Sophos;i="6.04,324,1695711600"; 
-   d="scan'208";a="428020231"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2024 01:12:01 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10940"; a="755861313"
-X-IronPort-AV: E=Sophos;i="6.04,324,1695711600"; 
-   d="scan'208";a="755861313"
-Received: from yhuang6-desk2.sh.intel.com (HELO yhuang6-desk2.ccr.corp.intel.com) ([10.238.208.55])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2024 01:11:53 -0800
-From: "Huang, Ying" <ying.huang@intel.com>
-To: Gregory Price <gregory.price@memverge.com>
-Cc: Gregory Price <gourry.memverge@gmail.com>,  <linux-mm@kvack.org>,
-  <linux-doc@vger.kernel.org>,  <linux-fsdevel@vger.kernel.org>,
-  <linux-kernel@vger.kernel.org>,  <linux-api@vger.kernel.org>,
-  <x86@kernel.org>,  <akpm@linux-foundation.org>,  <arnd@arndb.de>,
-  <tglx@linutronix.de>,  <luto@kernel.org>,  <mingo@redhat.com>,
-  <bp@alien8.de>,  <dave.hansen@linux.intel.com>,  <hpa@zytor.com>,
-  <mhocko@kernel.org>,  <tj@kernel.org>,  <corbet@lwn.net>,
-  <rakie.kim@sk.com>,  <hyeongtak.ji@sk.com>,  <honggyu.kim@sk.com>,
-  <vtavarespetr@micron.com>,  <peterz@infradead.org>,
-  <jgroves@micron.com>,  <ravis.opensrc@micron.com>,
-  <sthanneeru@micron.com>,  <emirakhur@micron.com>,  <Hasan.Maruf@amd.com>,
-  <seungjun.ha@samsung.com>
-Subject: Re: [PATCH v5 03/11] mm/mempolicy: refactor sanitize_mpol_flags for
- reuse
-In-Reply-To: <ZYq9klTts4yg8RhG@memverge.com> (Gregory Price's message of "Tue,
-	26 Dec 2023 06:48:34 -0500")
-References: <20231223181101.1954-1-gregory.price@memverge.com>
-	<20231223181101.1954-4-gregory.price@memverge.com>
-	<87y1dgdoou.fsf@yhuang6-desk2.ccr.corp.intel.com>
-	<ZYp7P1fH8nvkr4o0@memverge.com> <ZYq9klTts4yg8RhG@memverge.com>
-Date: Tue, 02 Jan 2024 17:09:55 +0800
-Message-ID: <871qb0drto.fsf@yhuang6-desk2.ccr.corp.intel.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69FBB6AAB;
+	Tue,  2 Jan 2024 09:19:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-40d87df95ddso14343815e9.0;
+        Tue, 02 Jan 2024 01:19:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1704187142; x=1704791942; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cJtkm4EXw3sNC6xVwUMHZ+TIthpOJy/4hNIkSK0zIGE=;
+        b=dXm5gASLRjCFsIXcf8UP52iXmlY5jAsGYfEWwrjllkigjSkWEhR1L9fSxXUJlk7bEG
+         ytDOfqirPEpGZhR56lPww0Oq5qk99O2YQOnlz70zZ0QYEbqO60C1AgEQ96cAFgs+NxG5
+         QDrMXPQ0bsqWRLs6LQBlf1d09JYDNPdXGcifugyN0bTl4bVS59g1LRDzsOT5b5h7upb1
+         DJyTq7Ts7nCO8L1q+8MpQlu2GFfv42wp6DSImOZ7KBDrX03Xe2k/4VeER41u++r70J2T
+         ViQLCM9w3gPZs/8roPsef8KY+N7Ov9p4Z8D0dWAHkPfK/7lq+Kb0/eB7psBe2Xw150zC
+         voQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704187142; x=1704791942;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cJtkm4EXw3sNC6xVwUMHZ+TIthpOJy/4hNIkSK0zIGE=;
+        b=qlUs33vr5y4DP4Byx0FHwEbNjhhQJOVU2nC6DqbfXeema8OocXiCiS103NC/aBtnd4
+         +xdNIKEAodS+LhztjQv4lULDpYpV9VgzwGIvXIfwtg0Wq8YP/YyEm/xQrp5fPVefovUm
+         7S5CRqfiFDXv8RZcL62jK56Z2rZSQY1DPSseddFri88P9yZ1zSHflFIYZe30yowknmlc
+         Pd4GGAUqlEp9Sda6HCpTqpYkWeMNTn4Nm1erEuDT/V2VEv1R0UioOcFj8nxStaaF+a9+
+         G6KMw4j5NjF/iyOXVQAKG1oK1dC5vrhldRvlTIlyyyyP5qlpYF46SdcuFE+P17czvtpc
+         iJ6w==
+X-Gm-Message-State: AOJu0YzKVUPFrTrsA7G15P2FYYjP87XYwDcreR6uUNOUfPTUGM86T+B/
+	TYLOFMmZ6sEwfPjNaSB8pbk=
+X-Google-Smtp-Source: AGHT+IH5pC1w3L/Msv/w4SqF5tDEWT/1ehbAn+768EIBJqFn5JQqYha9fIPeZiFTlGdv9N8FH1uo3w==
+X-Received: by 2002:a05:600c:4393:b0:40d:3cdb:5dca with SMTP id e19-20020a05600c439300b0040d3cdb5dcamr5316702wmn.316.1704187142276;
+        Tue, 02 Jan 2024 01:19:02 -0800 (PST)
+Received: from ran.advaoptical.com ([82.166.23.19])
+        by smtp.gmail.com with ESMTPSA id l17-20020a05600c4f1100b0040d85a304desm9284313wmq.35.2024.01.02.01.18.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Jan 2024 01:19:01 -0800 (PST)
+From: Sagi Maimon <maimon.sagi@gmail.com>
+To: richardcochran@gmail.com,
+	luto@kernel.org,
+	datglx@linutronix.de,
+	mingo@redhat.com,
+	bp@alien8.de,
+	dave.hansen@linux.intel.com,
+	x86@kernel.org,
+	hpa@zytor.com,
+	arnd@arndb.de,
+	geert@linux-m68k.org,
+	peterz@infradead.org,
+	hannes@cmpxchg.org,
+	sohil.mehta@intel.com,
+	rick.p.edgecombe@intel.com,
+	nphamcs@gmail.com,
+	palmer@sifive.com,
+	maimon.sagi@gmail.com,
+	keescook@chromium.org,
+	legion@kernel.org,
+	mark.rutland@arm.com
+Cc: linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	linux-arch@vger.kernel.org,
+	netdev@vger.kernel.org
+Subject: [PATCH v5] posix-timers: add multi_clock_gettime system call
+Date: Tue,  2 Jan 2024 11:18:55 +0200
+Message-Id: <20240102091855.70418-1-maimon.sagi@gmail.com>
+X-Mailer: git-send-email 2.26.3
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ascii
+Content-Transfer-Encoding: 8bit
 
-Gregory Price <gregory.price@memverge.com> writes:
+Some user space applications need to read some clocks.
+Each read requires moving from user space to kernel space.
+The syscall overhead causes unpredictable delay between N clocks reads
+Removing this delay causes better synchronization between N clocks.
 
-> On Tue, Dec 26, 2023 at 02:05:35AM -0500, Gregory Price wrote:
->> On Wed, Dec 27, 2023 at 04:39:29PM +0800, Huang, Ying wrote:
->> > Gregory Price <gourry.memverge@gmail.com> writes:
->> > 
->> > > +	unsigned short mode = (*mode_arg & ~MPOL_MODE_FLAGS);
->> > > +
->> > > +	*flags = *mode_arg & MPOL_MODE_FLAGS;
->> > > +	*mode_arg = mode;
->> > 
->> > It appears that it's unnecessary to introduce a local variable to split
->> > mode/flags.  Just reuse the original code?
->> > 
->
-> Revisiting during fixes: Note the change from int to short.
->
-> I chose to make this explicit because validate_mpol_flags takes a short.
->
-> I'm fairly sure changing it back throws a truncation warning.
+Introduce a new system call multi_clock_gettime, which can be used to measure
+the offset between multiple clocks, from variety of types: PHC, virtual PHC
+and various system clocks (CLOCK_REALTIME, CLOCK_MONOTONIC, etc).
+The offset includes the total time that the driver needs to read the clock
+timestamp.
 
-Why something like below doesn't work?
+New system call allows the reading of a list of clocks - up to PTP_MAX_CLOCKS.
+Supported clocks IDs: PHC, virtual PHC and various system clocks.
+Up to PTP_MAX_SAMPLES times (per clock) in a single system call read.
+The system call returns n_clocks timestamps for each measurement:
+- clock 0 timestamp
+- ...
+- clock n timestamp
 
-int sanitize_mpol_flags(int *mode, unsigned short *flags)
-{
-        *flags = *mode & MPOL_MODE_FLAGS;
-        *mode &= ~MPOL_MODE_FLAGS;
+Signed-off-by: Sagi Maimon <maimon.sagi@gmail.com>
+---
+ Changes since version 4:
+ - fix error  : 'struct __ptp_multi_clock_get' declared inside parameter list 
+   will not be visible outside of this definition or declaration
 
-        return validate_mpol_flags(*mode, flags);
-}
+ arch/x86/entry/syscalls/syscall_64.tbl |  1 +
+ include/linux/syscalls.h               |  3 +-
+ include/uapi/asm-generic/unistd.h      |  4 +-
+ include/uapi/linux/multi_clock.h       | 21 +++++++++
+ kernel/time/posix-timers.c             | 59 ++++++++++++++++++++++++++
+ 5 files changed, 86 insertions(+), 2 deletions(-)
+ create mode 100644 include/uapi/linux/multi_clock.h
 
---
-Best Regards,
-Huang, Ying
+diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
+index 8cb8bf68721c..9cdeb0bf49db 100644
+--- a/arch/x86/entry/syscalls/syscall_64.tbl
++++ b/arch/x86/entry/syscalls/syscall_64.tbl
+@@ -378,6 +378,7 @@
+ 454	common	futex_wake		sys_futex_wake
+ 455	common	futex_wait		sys_futex_wait
+ 456	common	futex_requeue		sys_futex_requeue
++457	common	multi_clock_gettime	sys_multi_clock_gettime
+ 
+ #
+ # Due to a historical design error, certain syscalls are numbered differently
+diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+index fd9d12de7e92..bde7dec493fd 100644
+--- a/include/linux/syscalls.h
++++ b/include/linux/syscalls.h
+@@ -74,6 +74,7 @@ struct landlock_ruleset_attr;
+ enum landlock_rule_type;
+ struct cachestat_range;
+ struct cachestat;
++struct __ptp_multi_clock_get;
+ 
+ #include <linux/types.h>
+ #include <linux/aio_abi.h>
+@@ -1161,7 +1162,7 @@ asmlinkage long sys_mmap_pgoff(unsigned long addr, unsigned long len,
+ 			unsigned long prot, unsigned long flags,
+ 			unsigned long fd, unsigned long pgoff);
+ asmlinkage long sys_old_mmap(struct mmap_arg_struct __user *arg);
+-
++asmlinkage long sys_multi_clock_gettime(struct __ptp_multi_clock_get __user * ptp_multi_clk_get);
+ 
+ /*
+  * Not a real system call, but a placeholder for syscalls which are
+diff --git a/include/uapi/asm-generic/unistd.h b/include/uapi/asm-generic/unistd.h
+index 756b013fb832..beb3e0052d3c 100644
+--- a/include/uapi/asm-generic/unistd.h
++++ b/include/uapi/asm-generic/unistd.h
+@@ -828,9 +828,11 @@ __SYSCALL(__NR_futex_wake, sys_futex_wake)
+ __SYSCALL(__NR_futex_wait, sys_futex_wait)
+ #define __NR_futex_requeue 456
+ __SYSCALL(__NR_futex_requeue, sys_futex_requeue)
++#define __NR_multi_clock_gettime 457
++__SYSCALL(__NR_multi_clock_gettime, sys_multi_clock_gettime)
+ 
+ #undef __NR_syscalls
+-#define __NR_syscalls 457
++#define __NR_syscalls 458
+ 
+ /*
+  * 32 bit systems traditionally used different
+diff --git a/include/uapi/linux/multi_clock.h b/include/uapi/linux/multi_clock.h
+new file mode 100644
+index 000000000000..5e78dac3a533
+--- /dev/null
++++ b/include/uapi/linux/multi_clock.h
+@@ -0,0 +1,21 @@
++/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
++#ifndef _UAPI_MULTI_CLOCK_H
++#define _UAPI_MULTI_CLOCK_H
++
++#include <linux/types.h>
++#include <linux/time_types.h>
++
++#define MULTI_PTP_MAX_CLOCKS 32 /* Max number of clocks */
++#define MULTI_PTP_MAX_SAMPLES 32 /* Max allowed offset measurement samples. */
++
++struct __ptp_multi_clock_get {
++	unsigned int n_clocks; /* Desired number of clocks. */
++	unsigned int n_samples; /* Desired number of measurements per clock. */
++	clockid_t clkid_arr[MULTI_PTP_MAX_CLOCKS]; /* list of clock IDs */
++	/*
++	 * Array of list of n_clocks clocks time samples n_samples times.
++	 */
++	struct  __kernel_timespec ts[MULTI_PTP_MAX_SAMPLES][MULTI_PTP_MAX_CLOCKS];
++};
++
++#endif /* _UAPI_MULTI_CLOCK_H */
+diff --git a/kernel/time/posix-timers.c b/kernel/time/posix-timers.c
+index b924f0f096fa..1d321dc56a25 100644
+--- a/kernel/time/posix-timers.c
++++ b/kernel/time/posix-timers.c
+@@ -31,6 +31,8 @@
+ #include <linux/compat.h>
+ #include <linux/nospec.h>
+ #include <linux/time_namespace.h>
++#include <linux/multi_clock.h>
++#include <linux/slab.h>
+ 
+ #include "timekeeping.h"
+ #include "posix-timers.h"
+@@ -1426,6 +1428,63 @@ SYSCALL_DEFINE4(clock_nanosleep_time32, clockid_t, which_clock, int, flags,
+ 
+ #endif
+ 
++SYSCALL_DEFINE1(multi_clock_gettime, struct __ptp_multi_clock_get __user *, ptp_multi_clk_get)
++{
++	const struct k_clock *kc;
++	struct timespec64 *kernel_tp;
++	struct timespec64 *kernel_tp_base;
++	unsigned int n_clocks; /* Desired number of clocks. */
++	unsigned int n_samples; /* Desired number of measurements per clock. */
++	unsigned int i, j;
++	clockid_t clkid_arr[MULTI_PTP_MAX_CLOCKS]; /* list of clock IDs */
++	int error = 0;
++
++	if (copy_from_user(&n_clocks, &ptp_multi_clk_get->n_clocks, sizeof(n_clocks)))
++		return -EFAULT;
++	if (copy_from_user(&n_samples, &ptp_multi_clk_get->n_samples, sizeof(n_samples)))
++		return -EFAULT;
++	if (n_samples > MULTI_PTP_MAX_SAMPLES)
++		return -EINVAL;
++	if (n_clocks > MULTI_PTP_MAX_CLOCKS)
++		return -EINVAL;
++	if (copy_from_user(clkid_arr, &ptp_multi_clk_get->clkid_arr,
++			   sizeof(clockid_t) * n_clocks))
++		return -EFAULT;
++
++	kernel_tp_base = kmalloc_array(n_clocks * n_samples,
++				       sizeof(struct timespec64), GFP_KERNEL);
++	if (!kernel_tp_base)
++		return -ENOMEM;
++
++	kernel_tp = kernel_tp_base;
++	for (j = 0; j < n_samples; j++) {
++		for (i = 0; i < n_clocks; i++) {
++			kc = clockid_to_kclock(clkid_arr[i]);
++			if (!kc) {
++				error = -EINVAL;
++				goto out;
++			}
++			error = kc->clock_get_timespec(clkid_arr[i], kernel_tp++);
++			if (error)
++				goto out;
++		}
++	}
++
++	kernel_tp = kernel_tp_base;
++	for (j = 0; j < n_samples; j++) {
++		for (i = 0; i < n_clocks; i++) {
++			if (put_timespec64(kernel_tp++, (struct __kernel_timespec __user *)
++					&ptp_multi_clk_get->ts[j][i])) {
++				error = -EFAULT;
++				goto out;
++			}
++		}
++	}
++out:
++	kfree(kernel_tp_base);
++	return error;
++}
++
+ static const struct k_clock clock_realtime = {
+ 	.clock_getres		= posix_get_hrtimer_res,
+ 	.clock_get_timespec	= posix_get_realtime_timespec,
+-- 
+2.26.3
+
 
