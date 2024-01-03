@@ -1,51 +1,51 @@
-Return-Path: <linux-api+bounces-427-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-428-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8844D822786
-	for <lists+linux-api@lfdr.de>; Wed,  3 Jan 2024 04:17:36 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3009282281A
+	for <lists+linux-api@lfdr.de>; Wed,  3 Jan 2024 06:49:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 20B281F23DAF
-	for <lists+linux-api@lfdr.de>; Wed,  3 Jan 2024 03:17:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 49A201C22DC4
+	for <lists+linux-api@lfdr.de>; Wed,  3 Jan 2024 05:49:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3F5B4A28;
-	Wed,  3 Jan 2024 03:17:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E03717748;
+	Wed,  3 Jan 2024 05:49:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XNOdzEAc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S6pasgrL"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24C7C156E3;
-	Wed,  3 Jan 2024 03:17:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3711171CC;
+	Wed,  3 Jan 2024 05:49:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704251834; x=1735787834;
+  t=1704260943; x=1735796943;
   h=from:to:cc:subject:in-reply-to:references:date:
    message-id:mime-version;
-  bh=IYl8ewQ4V4H2LKmJOnjAX1mXhwVOE3zgKgzzaM0O4jg=;
-  b=XNOdzEAczL+1nrraXDOtIYd9qGEEHxEFmnI2C2UQm5OPhO2PuHkNfXjy
-   vPYAZP1wIEUrDR+uTT+ixM6fCi/OxeZnL1g8DCsQfPoYLcSOXN5F2c6aV
-   PMcuXVhR6ck1ZrSeDHZQahOKCZ3lRuGLKq3l4g6XlBgx1e87vLNJmZf8T
-   1zVpUzzpgjhDPUSDAoRNnwIS2RQ7d7YZdXsa5yM2u8NrHw5yg/VfhhMcg
-   Am4inq2LyXmWyH3aUJoIVq4bM3H/Mw/UZ5tnCnahr4vayPnS0AalxbG+v
-   DJ6MaO9LCd2uO7kuVbZOfzvYtg2d7RwNeCA37upT5JcXOIw//hu7CvvCM
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="483135463"
-X-IronPort-AV: E=Sophos;i="6.04,326,1695711600"; 
-   d="scan'208";a="483135463"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2024 19:17:12 -0800
+  bh=vSVxbwN6/wmar2Lbtj1KTSwlY+xHAKgJbZ0423wPmJs=;
+  b=S6pasgrLrzYn/FDv7u7wWpoeflbdAArhcTl5hvmSUN8VnKgigOybVICz
+   94/RkaGIszbP0ePkzV7vbUI3GBxoUvJcfpoLmjfVhnH58yTM4rZ8PKAnq
+   Gz+XMpmMQHA62cNCi4+W8+hWhvo/v4up7VLnOeBSVNTsdw1UUAB1i5XZ8
+   MGSSZdYWIOJg0siY0hhXA4AzxnAmqFjZ8DGbh59cCa21kVal+7+PdcgIV
+   YkSgKbLPNWqCRMBOdc3nR1oPVgte6D4tcFfcchRXp09ou6DXfl/XQvwly
+   7fV5RVbXaaOX2OAnGZdm7vqo4aCbfTzQzaeqtsd01qO2CCUqvdAKEozNB
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="15604294"
+X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; 
+   d="scan'208";a="15604294"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2024 21:49:02 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="783381442"
-X-IronPort-AV: E=Sophos;i="6.04,326,1695711600"; 
-   d="scan'208";a="783381442"
+X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="903330999"
+X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; 
+   d="scan'208";a="903330999"
 Received: from yhuang6-desk2.sh.intel.com (HELO yhuang6-desk2.ccr.corp.intel.com) ([10.238.208.55])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2024 19:17:04 -0800
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2024 21:48:54 -0800
 From: "Huang, Ying" <ying.huang@intel.com>
 To: Gregory Price <gregory.price@memverge.com>
 Cc: Gregory Price <gourry.memverge@gmail.com>,  <linux-mm@kvack.org>,
@@ -59,22 +59,20 @@ Cc: Gregory Price <gourry.memverge@gmail.com>,  <linux-mm@kvack.org>,
   <vtavarespetr@micron.com>,  <peterz@infradead.org>,
   <jgroves@micron.com>,  <ravis.opensrc@micron.com>,
   <sthanneeru@micron.com>,  <emirakhur@micron.com>,  <Hasan.Maruf@amd.com>,
-  <seungjun.ha@samsung.com>,  Johannes Weiner <hannes@cmpxchg.org>,  Hasan
- Al Maruf <hasanalmaruf@fb.com>,  Hao Wang <haowang3@fb.com>,  Dan Williams
- <dan.j.williams@intel.com>,  "Michal Hocko" <mhocko@suse.com>,  Zhongkun
- He <hezhongkun.hzk@bytedance.com>,  "Frank van der Linden"
- <fvdl@google.com>,  John Groves <john@jagalactic.com>,  Jonathan Cameron
- <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH v5 00/11] mempolicy2, mbind2, and weighted interleave
-In-Reply-To: <ZZRepTEFNFC17fjT@memverge.com> (Gregory Price's message of "Tue,
-	2 Jan 2024 14:06:13 -0500")
+  <seungjun.ha@samsung.com>,  Srinivasulu Thanneeru
+ <sthanneeru.opensrc@micron.com>
+Subject: Re: [PATCH v5 02/11] mm/mempolicy: introduce
+ MPOL_WEIGHTED_INTERLEAVE for weighted interleaving
+In-Reply-To: <ZZRybDPSoLme8Ldh@memverge.com> (Gregory Price's message of "Tue,
+	2 Jan 2024 15:30:36 -0500")
 References: <20231223181101.1954-1-gregory.price@memverge.com>
-	<87frzqg1jp.fsf@yhuang6-desk2.ccr.corp.intel.com>
-	<ZYqEjsaqseI68EyJ@memverge.com>
-	<87le98e4w1.fsf@yhuang6-desk2.ccr.corp.intel.com>
-	<ZZRepTEFNFC17fjT@memverge.com>
-Date: Wed, 03 Jan 2024 11:15:06 +0800
-Message-ID: <87sf3fcdl1.fsf@yhuang6-desk2.ccr.corp.intel.com>
+	<20231223181101.1954-3-gregory.price@memverge.com>
+	<8734vof3kq.fsf@yhuang6-desk2.ccr.corp.intel.com>
+	<ZYp6ZRLZQVtTHest@memverge.com>
+	<878r58dt31.fsf@yhuang6-desk2.ccr.corp.intel.com>
+	<ZZRybDPSoLme8Ldh@memverge.com>
+Date: Wed, 03 Jan 2024 13:46:56 +0800
+Message-ID: <87mstnc6jz.fsf@yhuang6-desk2.ccr.corp.intel.com>
 User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
@@ -86,42 +84,143 @@ Content-Type: text/plain; charset=ascii
 
 Gregory Price <gregory.price@memverge.com> writes:
 
->> >> > struct mpol_args {
->> >> >         /* Basic mempolicy settings */
->> >> >         __u16 mode;
->> >> >         __u16 mode_flags;
->> >> >         __s32 home_node;
->> >> >         __u64 pol_maxnodes;
+> On Tue, Jan 02, 2024 at 04:42:42PM +0800, Huang, Ying wrote:
+>> Gregory Price <gregory.price@memverge.com> writes:
+>> 
+>> > On Wed, Dec 27, 2023 at 04:32:37PM +0800, Huang, Ying wrote:
+>> >> Gregory Price <gourry.memverge@gmail.com> writes:
 >> >> 
->> >> I understand that we want to avoid hole in struct.  But I still feel
->> >> uncomfortable to use __u64 for a small.  But I don't have solution too.
->> >> Anyone else has some idea?
+>> >> > +static unsigned int weighted_interleave_nid(struct mempolicy *pol, pgoff_t ilx)
+>> >> > +{
+>> >> > +	nodemask_t nodemask = pol->nodes;
+>> >> > +	unsigned int target, weight_total = 0;
+>> >> > +	int nid;
+>> >> > +	unsigned char weights[MAX_NUMNODES];
+>> >> 
+>> >> MAX_NUMNODSE could be as large as 1024.  1KB stack space may be too
+>> >> large?
+>> >> 
+>> >
+>> > I've been struggling with a good solution to this.  We need a local copy
+>> > of weights to prevent weights from changing out from under us during
+>> > allocation (which may take quite some time), but it seemed unwise to
+>> > to allocate 1KB heap in this particular path.
+>> >
+>> > Is my concern unfounded?  If so, I can go ahead and add the allocation
+>> > code.
+>> 
+>> Please take a look at NODEMASK_ALLOC().
+>>
+>
+> This is not my question. NODEMASK_ALLOC calls kmalloc/kfree. 
+>
+> Some of the allocations on the stack can be replaced with a scratch
+> allocation, that's no big deal.
+>
+> I'm specifically concerned about:
+> 	weighted_interleave_nid
+> 	alloc_pages_bulk_array_weighted_interleave
+>
+> I'm unsure whether kmalloc/kfree is safe (and non-offensive) in those
+> contexts. If kmalloc/kfree is safe fine, this problem is trivial.
+>
+> If not, there is no good solution to this without pre-allocating a
+> scratch area per-task.
+
+You need to audit whether it's safe for all callers.  I guess that you
+need to allocate pages after calling, so you can use the same GFP flags
+here.
+
+>> >> I don't think barrier() is needed to wait for memory operations for
+>> >> stack.  It's usually used for cross-processor memory order.
 >> >>
 >> >
->> > maxnode has been an `unsigned long` in every other interface for quite
->> > some time.  Seems better to keep this consistent rather than it suddenly
->> > become `unsigned long` over here and `unsigned short` over there.
+>> > This is present in the old interleave code.  To the best of my
+>> > understanding, the concern is for mempolicy->nodemask rebinding that can
+>> > occur when cgroups.cpusets.mems_allowed changes.
+>> >
+>> > so we can't iterate over (mempolicy->nodemask), we have to take a local
+>> > copy.
+>> >
+>> > My *best* understanding of the barrier here is to prevent the compiler
+>> > from reordering operations such that it attempts to optimize out the
+>> > local copy (or do lazy-fetch).
+>> >
+>> > It is present in the original interleave code, so I pulled it forward to
+>> > this, but I have not tested whether this is a bit paranoid or not.
+>> >
+>> > from `interleave_nid`:
+>> >
+>> >  /*
+>> >   * The barrier will stabilize the nodemask in a register or on
+>> >   * the stack so that it will stop changing under the code.
+>> >   *
+>> >   * Between first_node() and next_node(), pol->nodes could be changed
+>> >   * by other threads. So we put pol->nodes in a local stack.
+>> >   */
+>> >  barrier();
 >> 
->> I don't think that it matters.  The actual maximum node number will be
->> less than maximum `unsigned short`.
+>> Got it.  This is kind of READ_ONCE() for nodemask.  To avoid to add
+>> comments all over the place.  Can we implement a wrapper for it?  For
+>> example, memcpy_once().  __read_once_size() in
+>> tools/include/linux/compiler.h can be used as reference.
+>> 
+>> Because node_weights[] may be changed simultaneously too.  We may need
+>> to consider similar issue for it too.  But RCU seems more appropriate
+>> for node_weights[].
 >> 
 >
-> the structure will end up being
+> Weights are collected individually onto the stack because we have to sum
+> them up before we actually apply the weights.
 >
-> struct mpol_args {
-> 	__u16 mode;
-> 	__u16 mode_flags;
-> 	__s32 home_node;
-> 	__u16 pol_maxnodes;
-> 	__u8  rsv[6];
-> 	__aligned_u64 pol_nodes;
-> 	__aligned_u64 il_weights;
+> A stale weight is not offensive.  RCU is not needed and doesn't help.
+
+When you copy weights from iw_table[] to stack, it's possible for
+compiler to cache its contents in register, or merge, split the memory
+operations.  At the same time, iw_table[] may be changed simultaneously
+via sysfs interface.  So, we need a mechanism to guarantee that we read
+the latest contents consistently.
+
+> The reason the barrier is needed is not weights, it's the nodemask.
+
+Yes.  So I said that we need similar stuff for weights.
+
+> So you basically just want to replace barrier() with this and drop the
+> copy/pasted comments:
+>
+> static void read_once_policy_nodemask(struct mempolicy *pol, nodemask_t *mask)
+> {
+>         /*
+>          * The barrier will stabilize the nodemask in a register or on
+>          * the stack so that it will stop changing under the code.
+>          *
+>          * Between first_node() and next_node(), pol->nodes could be changed
+>          * by other threads. So we put pol->nodes in a local stack.
+>          */
+>         barrier();
+>         __builtin_memcpy(mask, &pol->nodes, sizeof(nodemask_t));
+>         barrier();
 > }
 >
-> If you're fine with that, i'll make the change.
+> - nodemask_t nodemask = pol->nodemask
+> - barrier()
+> + nodemask_t nodemask;
+> + read_once_policy_nodemask(pol, &nodemask)
+>
+> Is that right?
 
-This looks OK for me.  But, I don't know whether others think this is
-better.
+Yes.  Something like that.  Or even more general (need to be optimized?),
+
+static inline static void memcpy_once(void *dst, void *src, size_t n)
+{
+        barrier();
+        memcpy(dst, src, n);
+        barrier();
+}
+
+        memcpy_once(&nodemask, &pol->nodemask, sizeof(nodemask));
+
+The comments can be based on that of READ_ONCE().
 
 --
 Best Regards,
