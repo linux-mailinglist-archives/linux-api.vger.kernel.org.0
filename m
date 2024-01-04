@@ -1,127 +1,172 @@
-Return-Path: <linux-api+bounces-449-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-451-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1D81823BD3
-	for <lists+linux-api@lfdr.de>; Thu,  4 Jan 2024 06:41:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6A168245DE
+	for <lists+linux-api@lfdr.de>; Thu,  4 Jan 2024 17:11:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 75ED71F25193
-	for <lists+linux-api@lfdr.de>; Thu,  4 Jan 2024 05:41:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8A37C1F233E4
+	for <lists+linux-api@lfdr.de>; Thu,  4 Jan 2024 16:11:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA820171DD;
-	Thu,  4 Jan 2024 05:41:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95E3724B21;
+	Thu,  4 Jan 2024 16:11:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N+1dSZej"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="YSbRBowg"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79D491D68F;
-	Thu,  4 Jan 2024 05:41:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704346896; x=1735882896;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=zU+PrLqJJBCnhHcPG8wQ+xY16mmjmcFQBKH/0T898HU=;
-  b=N+1dSZejAxYbxJJZEYa9eJalXy268cTQyEYhZcS85SE40hWYgb7Olivj
-   xw3EbT8rUJEgvYBJJhryZSQmSqUTtcPv8rGmxO+qMGXfs3i0mtTKjlPaH
-   dUZo6r9BzUNwtmQYFcOE3WcB5cOeB6cd/bKJL/VXJ5pHq79vRMCgcGB7N
-   /tiuhcl8qXiniH+bGsAI2ekH7OwxRdMIFgdy0IkLdyxxws4ZhjOrd/c7l
-   WBdvG3fQQ2fsJGGgikU1JlH4EvyUDoedLo/i5V4eW7b0wZTlTcLavHNW8
-   YDjCy3fdf7iaS5XM8T7KqoibiD2oFOwbewfIFdLPSq5q56vDyzV9p1Hvk
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="4474409"
-X-IronPort-AV: E=Sophos;i="6.04,329,1695711600"; 
-   d="scan'208";a="4474409"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2024 21:41:35 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10942"; a="1111600089"
-X-IronPort-AV: E=Sophos;i="6.04,329,1695711600"; 
-   d="scan'208";a="1111600089"
-Received: from yhuang6-desk2.sh.intel.com (HELO yhuang6-desk2.ccr.corp.intel.com) ([10.238.208.55])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2024 21:41:28 -0800
-From: "Huang, Ying" <ying.huang@intel.com>
-To: Gregory Price <gregory.price@memverge.com>
-Cc: Gregory Price <gourry.memverge@gmail.com>,  <linux-mm@kvack.org>,
-  <linux-doc@vger.kernel.org>,  <linux-fsdevel@vger.kernel.org>,
-  <linux-kernel@vger.kernel.org>,  <linux-api@vger.kernel.org>,
-  <x86@kernel.org>,  <akpm@linux-foundation.org>,  <arnd@arndb.de>,
-  <tglx@linutronix.de>,  <luto@kernel.org>,  <mingo@redhat.com>,
-  <bp@alien8.de>,  <dave.hansen@linux.intel.com>,  <hpa@zytor.com>,
-  <mhocko@kernel.org>,  <tj@kernel.org>,  <corbet@lwn.net>,
-  <rakie.kim@sk.com>,  <hyeongtak.ji@sk.com>,  <honggyu.kim@sk.com>,
-  <vtavarespetr@micron.com>,  <peterz@infradead.org>,
-  <jgroves@micron.com>,  <ravis.opensrc@micron.com>,
-  <sthanneeru@micron.com>,  <emirakhur@micron.com>,  <Hasan.Maruf@amd.com>,
-  <seungjun.ha@samsung.com>,  Srinivasulu Thanneeru
- <sthanneeru.opensrc@micron.com>
-Subject: Re: [PATCH v5 02/11] mm/mempolicy: introduce
- MPOL_WEIGHTED_INTERLEAVE for weighted interleaving
-In-Reply-To: <ZZXbN4+2nVbE/lRe@memverge.com> (Gregory Price's message of "Wed,
-	3 Jan 2024 17:09:59 -0500")
-References: <20231223181101.1954-1-gregory.price@memverge.com>
-	<20231223181101.1954-3-gregory.price@memverge.com>
-	<8734vof3kq.fsf@yhuang6-desk2.ccr.corp.intel.com>
-	<ZYp6ZRLZQVtTHest@memverge.com>
-	<878r58dt31.fsf@yhuang6-desk2.ccr.corp.intel.com>
-	<ZZRybDPSoLme8Ldh@memverge.com>
-	<87mstnc6jz.fsf@yhuang6-desk2.ccr.corp.intel.com>
-	<ZZXbN4+2nVbE/lRe@memverge.com>
-Date: Thu, 04 Jan 2024 13:39:31 +0800
-Message-ID: <875y09d5d8.fsf@yhuang6-desk2.ccr.corp.intel.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EEB524A1B;
+	Thu,  4 Jan 2024 16:11:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 404G9pk8005867;
+	Thu, 4 Jan 2024 16:10:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding;
+ s=corp-2023-11-20; bh=X9vxQbxFR9yiom7tWw8fZfudhH+D0dUZJvMr0Tcyfjc=;
+ b=YSbRBowguMf+oYk84lCh45C/wWysUseXr128NrBet+b7PEvPDjw97gDOKsK7IOgVPNw1
+ uegk0AJ96Y87dxHwp1HmBxcmX8sO92gqYhSIUMRq5hiWQk5P4bnrAx8eC/7oJZO28PJ1
+ PAHvBXiEgWF7IJGPztXkDtJ0Pzls/jCyr66mNedDmrnEqoi0CMChD79uVH1MXvUPc7Aw
+ Kr0ME8WWR9H1dvTjJfGl8dfGwh4LjPpfI9EPhOH410Qpz8cKnJ3ck/KoqPWLp7Hok4sK
+ Gn6rW0Zc71J2iR86fhu2rJ/5J73tAf/x1mYgbKE9IF4BYAK8lcXnc5TuGs3acg56awSJ Dg== 
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3vdyxn805r-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 04 Jan 2024 16:10:10 +0000
+Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 404Fdte6039299;
+	Thu, 4 Jan 2024 16:10:09 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3vdvhudwvg-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 04 Jan 2024 16:10:09 +0000
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 404GA9ga026902;
+	Thu, 4 Jan 2024 16:10:09 GMT
+Received: from localhost.localdomain (dhcp-10-175-55-141.vpn.oracle.com [10.175.55.141])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 3vdvhudwne-1;
+	Thu, 04 Jan 2024 16:10:09 +0000
+From: Vegard Nossum <vegard.nossum@oracle.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jani Nikula <jani.nikula@linux.intel.com>, linux-doc@vger.kernel.org,
+        linux-api@vger.kernel.org, Vegard Nossum <vegard.nossum@oracle.com>
+Subject: [PATCH 1/5] docs: move admin-guide/sysfs-rules.rst to userspace-api/
+Date: Thu,  4 Jan 2024 17:09:42 +0100
+Message-Id: <20240104160946.3450743-1-vegard.nossum@oracle.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ascii
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-01-04_09,2024-01-03_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 adultscore=0 malwarescore=0
+ suspectscore=0 phishscore=0 mlxscore=0 mlxlogscore=999 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311290000
+ definitions=main-2401040127
+X-Proofpoint-GUID: BgxvGfBTOy-6LayscKHEolNaX-clmeK1
+X-Proofpoint-ORIG-GUID: BgxvGfBTOy-6LayscKHEolNaX-clmeK1
 
-Gregory Price <gregory.price@memverge.com> writes:
+This file documents how userspace ought to interact with sysfs. It is
+clearly intended for applications that access sysfs programmatically,
+rather than at users or admins.
 
-> On Wed, Jan 03, 2024 at 01:46:56PM +0800, Huang, Ying wrote:
->> Gregory Price <gregory.price@memverge.com> writes:
->> > I'm specifically concerned about:
->> > 	weighted_interleave_nid
->> > 	alloc_pages_bulk_array_weighted_interleave
->> >
->> > I'm unsure whether kmalloc/kfree is safe (and non-offensive) in those
->> > contexts. If kmalloc/kfree is safe fine, this problem is trivial.
->> >
->> > If not, there is no good solution to this without pre-allocating a
->> > scratch area per-task.
->> 
->> You need to audit whether it's safe for all callers.  I guess that you
->> need to allocate pages after calling, so you can use the same GFP flags
->> here.
->> 
->
-> After picking away i realized that this code is usually going to get
-> called during page fault handling - duh.  So kmalloc is almost never
-> safe (or can fail), and we it's nasty to try to handle those errors.
+Move it to the userspace API guide.
 
-Why not just OOM for allocation failure?
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
+---
+ Documentation/ABI/stable/sysfs-devices                 |  2 +-
+ Documentation/admin-guide/index.rst                    |  9 ---------
+ Documentation/userspace-api/index.rst                  | 10 +++++++++-
+ .../{admin-guide => userspace-api}/sysfs-rules.rst     |  0
+ tools/lib/api/fs/fs.c                                  |  2 +-
+ 5 files changed, 11 insertions(+), 12 deletions(-)
+ rename Documentation/{admin-guide => userspace-api}/sysfs-rules.rst (100%)
 
-> Instead of doing that, I simply chose to implement the scratch space
-> in the mempolicy structure
->
-> mempolicy->wil.scratch_weights[MAX_NUMNODES].
->
-> We eat an extra 1kb of memory in the mempolicy, but it gives us a safe
-> scratch space we can use any time the task is allocating memory, and
-> prevents the need for any fancy error handling.  That seems like a
-> perfectly reasonable tradeoff.
+diff --git a/Documentation/ABI/stable/sysfs-devices b/Documentation/ABI/stable/sysfs-devices
+index 98a8ef99ac5f..7829414cba62 100644
+--- a/Documentation/ABI/stable/sysfs-devices
++++ b/Documentation/ABI/stable/sysfs-devices
+@@ -1,6 +1,6 @@
+ Note:
+   This documents additional properties of any device beyond what
+-  is documented in Documentation/admin-guide/sysfs-rules.rst
++  is documented in Documentation/userspace-api/sysfs-rules.rst
+ 
+ What:		/sys/devices/*/of_node
+ Date:		February 2015
+diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
+index 43ea35613dfc..c2b032314a24 100644
+--- a/Documentation/admin-guide/index.rst
++++ b/Documentation/admin-guide/index.rst
+@@ -47,15 +47,6 @@ problems and bugs in particular.
+    perf/index
+    pstore-blk
+ 
+-This is the beginning of a section with information of interest to
+-application developers.  Documents covering various aspects of the kernel
+-ABI will be found here.
+-
+-.. toctree::
+-   :maxdepth: 1
+-
+-   sysfs-rules
+-
+ This is the beginning of a section with information of interest to
+ application developers and system integrators doing analysis of the
+ Linux kernel for safety critical applications. Documents supporting
+diff --git a/Documentation/userspace-api/index.rst b/Documentation/userspace-api/index.rst
+index 74bc0716432e..6ce2edf519f6 100644
+--- a/Documentation/userspace-api/index.rst
++++ b/Documentation/userspace-api/index.rst
+@@ -9,8 +9,16 @@ While much of the kernel's user-space API is documented elsewhere
+ also be found in the kernel tree itself.  This manual is intended to be the
+ place where this information is gathered.
+ 
++General documentation:
++
++.. toctree::
++   :maxdepth: 1
++
++   sysfs-rules
++
++Subsystem-specific documentation:
++
+ .. toctree::
+-   :caption: Table of contents
+    :maxdepth: 2
+ 
+    no_new_privs
+diff --git a/Documentation/admin-guide/sysfs-rules.rst b/Documentation/userspace-api/sysfs-rules.rst
+similarity index 100%
+rename from Documentation/admin-guide/sysfs-rules.rst
+rename to Documentation/userspace-api/sysfs-rules.rst
+diff --git a/tools/lib/api/fs/fs.c b/tools/lib/api/fs/fs.c
+index 5cb0eeec2c8a..c35247b6ad81 100644
+--- a/tools/lib/api/fs/fs.c
++++ b/tools/lib/api/fs/fs.c
+@@ -214,7 +214,7 @@ static void mem_toupper(char *f, size_t len)
+ 
+ /*
+  * Check for "NAME_PATH" environment variable to override fs location (for
+- * testing). This matches the recommendation in Documentation/admin-guide/sysfs-rules.rst
++ * testing). This matches the recommendation in Documentation/userspace-api/sysfs-rules.rst
+  * for SYSFS_PATH.
+  */
+ static bool fs__env_override(struct fs *fs)
+-- 
+2.34.1
 
-I don't think that this is a good idea.  The weight array is temporary.
-
---
-Best Regards,
-Huang, Ying
 
