@@ -1,161 +1,481 @@
-Return-Path: <linux-api+bounces-457-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-458-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72C32824F28
-	for <lists+linux-api@lfdr.de>; Fri,  5 Jan 2024 08:25:51 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B42EB825B5E
+	for <lists+linux-api@lfdr.de>; Fri,  5 Jan 2024 21:07:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1C27B285526
-	for <lists+linux-api@lfdr.de>; Fri,  5 Jan 2024 07:25:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 57607285ED5
+	for <lists+linux-api@lfdr.de>; Fri,  5 Jan 2024 20:07:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C1E1134A2;
-	Fri,  5 Jan 2024 07:25:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 987EE1E4AD;
+	Fri,  5 Jan 2024 20:07:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=memverge.com header.i=@memverge.com header.b="JETk18fz"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qGXg2O4H"
 X-Original-To: linux-api@vger.kernel.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2066.outbound.protection.outlook.com [40.107.244.66])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9BE51DDD9;
-	Fri,  5 Jan 2024 07:25:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=memverge.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=memverge.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VF1lY4oeGr3LBwJk3ZR7MWAeP9SrHHDK8KwoL2RmjCFN8+3vKuYHETzABjdJrU4HU3+hYvtSPUTXFfulW3e1+MjDWEJAhC89Kr3d7rBWGU6OkVs6eO22InnMd5Omad5uRSfTiNz87cV0onIPBLWG+m6bJS34uo8OmegsTaN6MHyMRc5PKB6N7lxCxpxXcqIxh8/nWC3H6rDH+yoU8FjfDHZ4BLbokj+zhxgGdUAsior8jnhen7Mp84vp8ZogTBrf4S0YHT12yyTY7oClg/Fe4kE8CiLKXbonyWqqpV1M1KM5p6k04cq7SFR6ZHS5e7IfzF1YfnOsMmjMPtwR4mC0Yw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3a5jw1QyWuTRkjCthL/JXi1g5xzyEK1LTY6GX4CW0F4=;
- b=lVSPzoBXvNu4dnmHSMzrMTgVzXec3KgELkIDUFuDw0hQ1shwqKXAPCAhajQRym8yLwgO7NeMPu8f8r1Hb2Og+37YKIjOx1ta4FRUfbe/RHqCBp3YfNp73vY0sEeyB5sFa4hs0WOpz1eJ8QTDY9t4uulYgEHF8loQEmo/Qn4bfFAgnTcCIp4ELkVsni2gZAbaVDwnAwLiyk5zwbJ7Zh/wRFw4SrNCBt4CPEAOUDXQzWWUEMqEYoc4JuRHQ1VoACpNjfcrvn1onTeej6AAjBjMNaBKpAvTqQt9ckGTELBBcfbNMHhoKDBdgo7n6J1amO+0lPrEtJE4YxyfNHlBi8vKfw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
- dkim=pass header.d=memverge.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3a5jw1QyWuTRkjCthL/JXi1g5xzyEK1LTY6GX4CW0F4=;
- b=JETk18fzq7zTgUcBzjp3EQGNohnVFYk7r/AfARowYdGAFH0jsOX97B0AfgAW01ZKoCK2i5iR/eL2Nhc3vtEa71EFhRddiedxnX4PngF2xnX2LmDisLBfoFkZ2traiDHSKvM3ZOKR+eHyXrSME5H/sUn1ppmqC0Ybg5XCVHwtR88=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=memverge.com;
-Received: from MW4PR17MB5515.namprd17.prod.outlook.com (2603:10b6:303:126::5)
- by IA1PR17MB6051.namprd17.prod.outlook.com (2603:10b6:208:388::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7159.13; Fri, 5 Jan
- 2024 07:25:41 +0000
-Received: from MW4PR17MB5515.namprd17.prod.outlook.com
- ([fe80::f5ca:336b:991c:167b]) by MW4PR17MB5515.namprd17.prod.outlook.com
- ([fe80::f5ca:336b:991c:167b%4]) with mapi id 15.20.7159.015; Fri, 5 Jan 2024
- 07:25:41 +0000
-Date: Fri, 5 Jan 2024 02:25:28 -0500
-From: Gregory Price <gregory.price@memverge.com>
-To: "Huang, Ying" <ying.huang@intel.com>
-Cc: Gregory Price <gourry.memverge@gmail.com>, linux-mm@kvack.org,
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-	x86@kernel.org, akpm@linux-foundation.org, arnd@arndb.de,
-	tglx@linutronix.de, luto@kernel.org, mingo@redhat.com, bp@alien8.de,
-	dave.hansen@linux.intel.com, hpa@zytor.com, mhocko@kernel.org,
-	tj@kernel.org, corbet@lwn.net, rakie.kim@sk.com,
-	hyeongtak.ji@sk.com, honggyu.kim@sk.com, vtavarespetr@micron.com,
-	peterz@infradead.org, jgroves@micron.com, ravis.opensrc@micron.com,
-	sthanneeru@micron.com, emirakhur@micron.com, Hasan.Maruf@amd.com,
-	seungjun.ha@samsung.com,
-	Srinivasulu Thanneeru <sthanneeru.opensrc@micron.com>
-Subject: Re: [PATCH v5 02/11] mm/mempolicy: introduce
- MPOL_WEIGHTED_INTERLEAVE for weighted interleaving
-Message-ID: <ZZeu6DwVt6o0fl14@memverge.com>
-References: <20231223181101.1954-3-gregory.price@memverge.com>
- <8734vof3kq.fsf@yhuang6-desk2.ccr.corp.intel.com>
- <ZYp6ZRLZQVtTHest@memverge.com>
- <878r58dt31.fsf@yhuang6-desk2.ccr.corp.intel.com>
- <ZZRybDPSoLme8Ldh@memverge.com>
- <87mstnc6jz.fsf@yhuang6-desk2.ccr.corp.intel.com>
- <ZZXbN4+2nVbE/lRe@memverge.com>
- <875y09d5d8.fsf@yhuang6-desk2.ccr.corp.intel.com>
- <ZZcAF4zIpsVN3dLd@memverge.com>
- <87cyugb7cz.fsf@yhuang6-desk2.ccr.corp.intel.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87cyugb7cz.fsf@yhuang6-desk2.ccr.corp.intel.com>
-X-ClientProxiedBy: SJ0PR03CA0290.namprd03.prod.outlook.com
- (2603:10b6:a03:39e::25) To MW4PR17MB5515.namprd17.prod.outlook.com
- (2603:10b6:303:126::5)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7737E35F1E;
+	Fri,  5 Jan 2024 20:07:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A8A4C433C8;
+	Fri,  5 Jan 2024 20:07:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1704485263;
+	bh=Oz6hEm57ispsaURM48oskOk88XCVK7oo7RknkpPk49E=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=qGXg2O4HGR9FRbe83e4FG01Iji1PnS5LLdicyEntdFfLtiyP8WPVFv8wERJNLodzG
+	 ab2Ly5DXQPzQix+cBaxJlKoA2RuoNF5RzB3si8rUkkGi67Uek2SyM0SnTxVD+jynC0
+	 YBlyFRH4Pt682juLgXCs48YLqk1zpP7fAvObMWTpEeoy64pzox4yLIzaf7CD/hEpC2
+	 wrJiceBy8QKRx/BDo5c+hOx3/lDGvIZlWBrYJNGBCvI/qfjpQ7vft8+MAtuWp0XWms
+	 L04mfMfCKjNymvmA+dpolvCZ4Uhzw/g3dcWqjO4iFZmCDuQSv9MCaAqZ23AKpTo7kk
+	 jtzoJYcn8NQtw==
+Date: Fri, 5 Jan 2024 21:07:39 +0100
+From: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Vegard Nossum <vegard.nossum@oracle.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jani Nikula
+ <jani.nikula@linux.intel.com>, linux-doc@vger.kernel.org,
+ linux-api@vger.kernel.org
+Subject: Re: [PATCH 4/5] Documentation/ABI/README: convert to ReST
+Message-ID: <20240105210739.20ae5f05@coco.lan>
+In-Reply-To: <20240104160946.3450743-4-vegard.nossum@oracle.com>
+References: <20240104160946.3450743-1-vegard.nossum@oracle.com>
+	<20240104160946.3450743-4-vegard.nossum@oracle.com>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW4PR17MB5515:EE_|IA1PR17MB6051:EE_
-X-MS-Office365-Filtering-Correlation-Id: 434657cb-890e-4de2-0fad-08dc0dbf859c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	+YG5GtjxzsjUdbSwdpFawOUDfo09ZjnArb7vqpyVPaOOCZ+C8JdN9DspuYFilOAw7alk46jTktTs7BQsRyXWPCh5BlF4aFzatvcpCTAdvG7P/i2WNXKRkvDIfQFe2VEaG8oILlWiK/yW4ODtOJbqCdZFZ/fP48y24rpQIl+0mqFN7Sq0/BmHAvKJnSp/p58hVSUz63mhcPP7Fl6LSu5u8zSXmEY8aaAcNReXvIy4r8uusMnv0a+2pxENTIpIVideAD/+q+SXCKPiWVPOkzQwMi8Bhodk3AInKHa9qKgag485TcnEJx8QnoZ1kE8gHl8MfGLqzsll4gvCInXK2UedndkJQUpOP/fwXrwdSwXGc/anMYuXCf6WhGMbrtIUp8IN0bMWTyE4PpvfKknQ41baWUmvnh8NIBKD9b6zfdqC/EABhr7wR7aG2Pm49FeGFf5kgxgCPS/PVfiXl7ARypERJxjcB7bNOe7QYv8OpnNgmGOWhFmnMbP18oAblXnScFktduJBbIT1VvNqdn2K2cnKGglbPNyX3qZrhSv9JaMmFWJoLIMekfwP93OelMHX+g9qhJiRLMfWmhF7keOlnFCpliywPDFlrHjCAMSium4MYVY=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR17MB5515.namprd17.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(376002)(136003)(366004)(346002)(39840400004)(230922051799003)(451199024)(64100799003)(1800799012)(186009)(2906002)(4744005)(8936002)(7416002)(7406005)(8676002)(4326008)(44832011)(6486002)(36756003)(316002)(86362001)(54906003)(6916009)(66476007)(5660300002)(478600001)(6506007)(41300700001)(6512007)(6666004)(26005)(38100700002)(2616005)(66556008)(66946007)(83380400001)(16393002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?LkNWQ16ILwTN61lgtsVuTnQfB7PTjCEsWW+t17j98K5ZV09kDx70XY/Dz/mb?=
- =?us-ascii?Q?yqTjtud268+QBjNDyupxALlkVzkuJiNkxyZIsE60n8fJlSvM9dJtCsRktU8G?=
- =?us-ascii?Q?CRr5yJtptI5bz8EegWWDVjZqdsj5RvjY2whFLEUo8SIJE3RhMbCS3/h8cj/R?=
- =?us-ascii?Q?Z8kWOwyLmHPVuCWsbUO7e/eape/c2QtCyA9ghod4XHxnDTNBvH1GJ/zv7+q9?=
- =?us-ascii?Q?UBCUTHFWzhyL11FsXLZiS8Y2pgVb6AHAonwRnW7amsBpcr2hyfdBTL+JdvGZ?=
- =?us-ascii?Q?eecBOciWYHFq25GEK5HRLvc2GBetbyTirKIpsyieaPho7uagj3lNNopvnLdb?=
- =?us-ascii?Q?1njYoxK+qLe2vKJbUWMUy/fqugxD+2N4k2Ht3zJ/UIA6TUV/MVjZlbxKIt/i?=
- =?us-ascii?Q?JFevkLic+7ZvRSVxpHgUdRXR7Elp7aYQYZtWVjTtqgUf2DljQHyG5sSSGhoU?=
- =?us-ascii?Q?3k96uWSNgzZhuhnfE7mGv71kScveFahPNwCQLz1Gj3I65Yy/5LlTSR96yq5g?=
- =?us-ascii?Q?+3uf1R3487+YXzzbKR8thXogknUoF2eAI3qaAhO1rEzXwass61gvJHdvPh7l?=
- =?us-ascii?Q?w5gDKbmRBPlo9eBsbaghq17C4ZjH8i7iiwbxBV2zypuSoUMf+6qRsrabhedF?=
- =?us-ascii?Q?PmnmQdul3GCummEiQpVHWLZXlJq6ZNcuhy7MrE9dVWkzUAeJrcdPXqYVzrWg?=
- =?us-ascii?Q?c9+VRh25Cr0oge1wbAeqMzpEnsUSkmmjKMjHS0GqsJifE9jaddqfnFQw22rV?=
- =?us-ascii?Q?wVRpt/jDY3aPUrKQiNU1y32oYT/piIifczDNZSnW/GLISgRwAz7zyLllF5+S?=
- =?us-ascii?Q?xyFsftKAzfu1kIvtFXytzBFGECiEy6znMTbXwZZuRx67z0D6UtfsBBza0dVV?=
- =?us-ascii?Q?IAAXRNQ3KuaAp3JIHQlJ3wwy0OKPZx81X4FwQ+U+p6vekV/7Lx/Cp71Hk6e8?=
- =?us-ascii?Q?L27QYzPewcyRKpidT2IR6YaGjZ51NsM1Q+6IRO+BI+0NrvUH3lhoYsgm6yCp?=
- =?us-ascii?Q?NskRv2qegC3j49WQ+KIZZWjit0N/qUPiHwc/r1rldrNsvScYzFWq9PPsbIJr?=
- =?us-ascii?Q?kQiAl5AySUTKDx6pJuBK1gY9N0Wk/MbQVyn/eDx4dY1hjOX3bOHYeLTMoCsp?=
- =?us-ascii?Q?DhkrlJtw6Bv3fbmddL89V0rkcOL02MvjD/1yocMqoTpPdgji/nDNz9TjCcYZ?=
- =?us-ascii?Q?IDFVM7G3ImftDs9zzff+fcB/m0QQPmwRL5DROyS2YHnLdmQQbHOMKUeGFuL4?=
- =?us-ascii?Q?u7ZMIaxpm6z4giMtVbSpHr3dYwDtXuLsgWgHSFeiMc1YAOEdSO6qRPA4AQNm?=
- =?us-ascii?Q?yUgb3BcUhio0RV300o30Wfp37tEBbO8SwXH545imXiRw+MuY5lbwx9xCOaG+?=
- =?us-ascii?Q?18R816AVYYnJmETslVlUSRkLtT0ioV3Ajya8azj1bRSNdKlifmfCeTtBTR3w?=
- =?us-ascii?Q?hjhEAOZDQXljdK8mCUbtbFvoEHKyGHYoOjd2xmFrjLP4ShpnVi07tkFz/lIo?=
- =?us-ascii?Q?lasuXmBBUkrgcJTi3bercGAH9eCybWLdMk3SvAXthNG2tq7J410TJP4LGiw5?=
- =?us-ascii?Q?auI0xEarP18lwP1KqkIYwJKbyYio5ehVX/1E0fgKAh5fmB0H70A3IDfVzh6T?=
- =?us-ascii?Q?sg=3D=3D?=
-X-OriginatorOrg: memverge.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 434657cb-890e-4de2-0fad-08dc0dbf859c
-X-MS-Exchange-CrossTenant-AuthSource: MW4PR17MB5515.namprd17.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jan 2024 07:25:41.3405
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Zv0wK6pEO8api6d5gA2olJtKnhr3afJ3RWhsm3C0NBbZVncnZJ+vsay9vlYmbQtM3Pj7eji2IPLDfptbuH2Boz5gFzVxJP2js8IqkIkeUNQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR17MB6051
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 05, 2024 at 02:51:40PM +0800, Huang, Ying wrote:
-> >
-> > So we're talking ~1MB for 1024 threads with mempolicies to avoid error
-> > conditions mid-page-allocation and to reduce the cost associated with
-> > applying weighted interleave.
-> 
-> Think about this again.  Why do we need weights array on stack?  I think
-> this is used to keep weights consistent.  If so, we don't need weights
-> array on stack.  Just use RCU to access global weights array.
-> 
+Em Thu,  4 Jan 2024 17:09:45 +0100
+Vegard Nossum <vegard.nossum@oracle.com> escreveu:
 
-From the bulk allocation code:
+> This file is basically ReST syntax already -- with just a few tweaks we
+> can include this in the rendered HTML documentation which currently has
+> no introduction or explanation.
+>=20
+> References to this document were found and fixed with some variant of:
+>=20
+>   git grep -Pl 'ABI/README(?!\.rst)' | xargs sed -i 's|\(Documentation/AB=
+I/README\)|\1\.rst|g'
+>=20
+> plus manual inspection and reflows where necessary.
+>=20
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
+> ---
+>  Documentation/ABI/{README =3D> README.rst}      | 36 +++++++++----------
+>  Documentation/Kconfig                         |  8 ++---
+>  Documentation/filesystems/sysfs.rst           |  4 +--
+>  Documentation/process/4.Coding.rst            |  4 +--
+>  Documentation/process/submit-checklist.rst    |  2 +-
+>  .../translations/it_IT/process/4.Coding.rst   |  4 +--
+>  .../it_IT/process/submit-checklist.rst        |  2 +-
+>  .../translations/ja_JP/SubmitChecklist        |  2 +-
+>  .../sp_SP/process/submit-checklist.rst        |  2 +-
+>  .../translations/zh_CN/filesystems/sysfs.txt  |  2 +-
+>  .../translations/zh_CN/process/4.Coding.rst   |  2 +-
+>  .../zh_CN/process/submit-checklist.rst        |  2 +-
+>  .../translations/zh_TW/filesystems/sysfs.txt  |  2 +-
+>  .../translations/zh_TW/process/4.Coding.rst   |  2 +-
+>  .../zh_TW/process/submit-checklist.rst        |  2 +-
+>  15 files changed, 38 insertions(+), 38 deletions(-)
+>  rename Documentation/ABI/{README =3D> README.rst} (82%)
+>=20
+> diff --git a/Documentation/ABI/README b/Documentation/ABI/README.rst
+> similarity index 82%
+> rename from Documentation/ABI/README
+> rename to Documentation/ABI/README.rst
+> index 8bac9cb09a6d..04f5d05d6caa 100644
+> --- a/Documentation/ABI/README
+> +++ b/Documentation/ABI/README.rst
+> @@ -41,24 +41,24 @@ The different levels of stability are:
+>  	This directory contains a list of the old interfaces that have
+>  	been removed from the kernel.
+> =20
+> -Every file in these directories will contain the following information:
+> -
+> -What:		Short description of the interface
+> -Date:		Date created
+> -KernelVersion:	Kernel version this feature first showed up in.
+> -Contact:	Primary contact for this interface (may be a mailing list)
+> -Description:	Long description of the interface and how to use it.
+> -Users:		All users of this interface who wish to be notified when
+> -		it changes.  This is very important for interfaces in
+> -		the "testing" stage, so that kernel developers can work
+> -		with userspace developers to ensure that things do not
+> -		break in ways that are unacceptable.  It is also
+> -		important to get feedback for these interfaces to make
+> -		sure they are working in a proper way and do not need to
+> -		be changed further.
+> -
+> -
+> -Note:
+> +Every file in these directories will contain the following information::
+> +
+> + What:		Short description of the interface
+> + Date:		Date created
+> + KernelVersion:	Kernel version this feature first showed up in.
+> + Contact:	Primary contact for this interface (may be a mailing list)
+> + Description:	Long description of the interface and how to use it.
+> + Users:		All users of this interface who wish to be notified when
+> + 		it changes.  This is very important for interfaces in
+> + 		the "testing" stage, so that kernel developers can work
+> + 		with userspace developers to ensure that things do not
+> + 		break in ways that are unacceptable.  It is also
+> + 		important to get feedback for these interfaces to make
+> + 		sure they are working in a proper way and do not need to
+> + 		be changed further.
 
-__alloc_pages_bulk(gfp, node, NULL, node_pages, NULL, page_array);
+My personal preference would be to use:
 
-This function can block. You cannot block during an RCU read context.
+:What:
 
-~Gregory
+as this produces a better markup.
+
+> +
+> +.. note::
+> +
+>     The fields should be use a simple notation, compatible with ReST mark=
+up.
+>     Also, the file **should not** have a top-level index, like::
+> =20
+> diff --git a/Documentation/Kconfig b/Documentation/Kconfig
+> index 3a0e7ac0c4e3..8e690a4f1a64 100644
+> --- a/Documentation/Kconfig
+> +++ b/Documentation/Kconfig
+> @@ -16,10 +16,10 @@ config WARN_ABI_ERRORS
+>  	bool "Warn if there are errors at ABI files"
+>  	help
+>  	  The files under Documentation/ABI should follow what's
+> -	  described at Documentation/ABI/README. Yet, as they're manually
+> -	  written, it would be possible that some of those files would
+> -	  have errors that would break them for being parsed by
+> -	  scripts/get_abi.pl. Add a check to verify them.
+> +	  described at Documentation/ABI/README.rst. Yet, as they're
+> +	  manually written, it would be possible that some of those
+> +	  files would have errors that would break them for being parsed
+> +	  by scripts/get_abi.pl. Add a check to verify them.
+> =20
+>  	  If unsure, select 'N'.
+> =20
+> diff --git a/Documentation/filesystems/sysfs.rst b/Documentation/filesyst=
+ems/sysfs.rst
+> index c32993bc83c7..e30694706b15 100644
+> --- a/Documentation/filesystems/sysfs.rst
+> +++ b/Documentation/filesystems/sysfs.rst
+> @@ -418,5 +418,5 @@ Documentation
+>  The sysfs directory structure and the attributes in each directory defin=
+e an
+>  ABI between the kernel and user space. As for any ABI, it is important t=
+hat
+>  this ABI is stable and properly documented. All new sysfs attributes mus=
+t be
+> -documented in Documentation/ABI. See also Documentation/ABI/README for m=
+ore
+> -information.
+> +documented in Documentation/ABI. See also Documentation/ABI/README.rst f=
+or
+> +more information.
+> diff --git a/Documentation/process/4.Coding.rst b/Documentation/process/4=
+.Coding.rst
+> index 1f0d81f44e14..120d126ee288 100644
+> --- a/Documentation/process/4.Coding.rst
+> +++ b/Documentation/process/4.Coding.rst
+> @@ -347,8 +347,8 @@ information.
+>  Any code which adds a new user-space interface - including new sysfs or
+>  /proc files - should include documentation of that interface which enabl=
+es
+>  user-space developers to know what they are working with.  See
+> -Documentation/ABI/README for a description of how this documentation sho=
+uld
+> -be formatted and what information needs to be provided.
+> +Documentation/ABI/README.rst for a description of how this documentation
+> +should be formatted and what information needs to be provided.
+> =20
+>  The file :ref:`Documentation/admin-guide/kernel-parameters.rst
+>  <kernelparameters>` describes all of the kernel's boot-time parameters.
+> diff --git a/Documentation/process/submit-checklist.rst b/Documentation/p=
+rocess/submit-checklist.rst
+> index b1bc2d37bd0a..7e6198ab368d 100644
+> --- a/Documentation/process/submit-checklist.rst
+> +++ b/Documentation/process/submit-checklist.rst
+> @@ -85,7 +85,7 @@ and elsewhere regarding submitting Linux kernel patches.
+>  17) All new module parameters are documented with ``MODULE_PARM_DESC()``
+> =20
+>  18) All new userspace interfaces are documented in ``Documentation/ABI/`=
+`.
+> -    See ``Documentation/ABI/README`` for more information.
+> +    See ``Documentation/ABI/README.rst`` for more information.
+
+If you're willing to convert to ReST, please remove ``, as this will
+let automarkup.py to create cross-reference links. Same note for the
+translations too.
+
+>      Patches that change userspace interfaces should be CCed to
+>      linux-api@vger.kernel.org.
+> =20
+> diff --git a/Documentation/translations/it_IT/process/4.Coding.rst b/Docu=
+mentation/translations/it_IT/process/4.Coding.rst
+> index 54fd255b77d0..631d56ae56dc 100644
+> --- a/Documentation/translations/it_IT/process/4.Coding.rst
+> +++ b/Documentation/translations/it_IT/process/4.Coding.rst
+> @@ -365,8 +365,8 @@ informazione.
+>  Qualsiasi codice che aggiunge una nuova interfaccia in spazio utente - i=
+nclusi
+>  nuovi file in sysfs o /proc - dovrebbe includere la documentazione di ta=
+le
+>  interfaccia cos=C3=AC da permette agli sviluppatori dello spazio utente =
+di sapere
+> -con cosa stanno lavorando.  Consultate: Documentation/ABI/README per ave=
+re una
+> -descrizione di come questi documenti devono essere impostati e quali
+> +con cosa stanno lavorando.  Consultate: Documentation/ABI/README.rst per=
+ avere
+> +una descrizione di come questi documenti devono essere impostati e quali
+>  informazioni devono essere fornite.
+> =20
+>  Il file :ref:`Documentation/translations/it_IT/admin-guide/kernel-parame=
+ters.rst <kernelparameters>`
+> diff --git a/Documentation/translations/it_IT/process/submit-checklist.rs=
+t b/Documentation/translations/it_IT/process/submit-checklist.rst
+> index 2fc09cc1f0be..828c8f27d492 100644
+> --- a/Documentation/translations/it_IT/process/submit-checklist.rst
+> +++ b/Documentation/translations/it_IT/process/submit-checklist.rst
+> @@ -94,7 +94,7 @@ sottomissione delle patch, in particolare
+>  18) Tutti i nuovi parametri dei moduli sono documentati con ``MODULE_PAR=
+M_DESC()``.
+> =20
+>  19) Tutte le nuove interfacce verso lo spazio utente sono documentate in
+> -    ``Documentation/ABI/``.  Leggete ``Documentation/ABI/README`` per ma=
+ggiori
+> +    ``Documentation/ABI/``.  Leggete ``Documentation/ABI/README.rst`` pe=
+r maggiori
+>      informazioni.  Le patch che modificano le interfacce utente dovrebbe=
+ro
+>      essere inviate in copia anche a linux-api@vger.kernel.org.
+> =20
+> diff --git a/Documentation/translations/ja_JP/SubmitChecklist b/Documenta=
+tion/translations/ja_JP/SubmitChecklist
+> index 4429447b0965..87867c47bffd 100644
+> --- a/Documentation/translations/ja_JP/SubmitChecklist
+> +++ b/Documentation/translations/ja_JP/SubmitChecklist
+> @@ -86,7 +86,7 @@ Linux =E3=82=AB=E3=83=BC=E3=83=8D=E3=83=AB=E3=83=91=E3=
+=83=83=E3=83=81=E6=8A=95=E7=A8=BF=E8=80=85=E5=90=91=E3=81=91=E3=83=81=E3=82=
+=A7=E3=83=83=E3=82=AF=E3=83=AA=E3=82=B9=E3=83=88
+>      =E5=88=A9=E7=94=A8=E3=81=97=E3=81=A6=E5=BF=85=E3=81=9A=E3=81=9D=E3=
+=81=AE=E8=AA=AC=E6=98=8E=E3=82=92=E8=A8=98=E8=BF=B0=E3=81=97=E3=81=A6=E3=81=
+=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
+> =20
+>  18: =E6=96=B0=E3=81=97=E3=81=84userspace=E3=82=A4=E3=83=B3=E3=82=BF=E3=
+=83=95=E3=82=A7=E3=83=BC=E3=82=B9=E3=82=92=E4=BD=9C=E6=88=90=E3=81=97=E3=81=
+=9F=E5=A0=B4=E5=90=88=E3=81=AB=E3=81=AF=E3=80=81Documentation/ABI/ =E3=81=AB
+> -    Documentation/ABI/README =E3=82=92=E5=8F=82=E8=80=83=E3=81=AB=E3=81=
+=97=E3=81=A6=E5=BF=85=E3=81=9A=E3=83=89=E3=82=AD=E3=83=A5=E3=83=A1=E3=83=B3=
+=E3=83=88=E3=82=92=E8=BF=BD=E5=8A=A0=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=
+=81=95=E3=81=84=E3=80=82
+> +    Documentation/ABI/README.rst =E3=82=92=E5=8F=82=E8=80=83=E3=81=AB=E3=
+=81=97=E3=81=A6=E5=BF=85=E3=81=9A=E3=83=89=E3=82=AD=E3=83=A5=E3=83=A1=E3=83=
+=B3=E3=83=88=E3=82=92=E8=BF=BD=E5=8A=A0=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=
+=E3=81=95=E3=81=84=E3=80=82
+> =20
+>  19: =E5=B0=91=E3=81=AA=E3=81=8F=E3=81=A8=E3=82=82slab=E3=82=A2=E3=83=AD=
+=E3=82=B1=E3=83=BC=E3=82=B7=E3=83=A7=E3=83=B3=E3=81=A8page=E3=82=A2=E3=83=
+=AD=E3=82=B1=E3=83=BC=E3=82=B7=E3=83=A7=E3=83=B3=E3=81=AB=E5=A4=B1=E6=95=97=
+=E3=81=97=E3=81=9F=E5=A0=B4=E5=90=88=E3=81=AE
+>      =E6=8C=99=E5=8B=95=E3=81=AB=E3=81=A4=E3=81=84=E3=81=A6=E3=80=81fault=
+-injection=E3=82=92=E5=88=A9=E7=94=A8=E3=81=97=E3=81=A6=E7=A2=BA=E8=AA=8D=
+=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
+> diff --git a/Documentation/translations/sp_SP/process/submit-checklist.rs=
+t b/Documentation/translations/sp_SP/process/submit-checklist.rst
+> index 0d6651f9d871..b8072be18532 100644
+> --- a/Documentation/translations/sp_SP/process/submit-checklist.rst
+> +++ b/Documentation/translations/sp_SP/process/submit-checklist.rst
+> @@ -97,7 +97,7 @@ y en otros lugares con respecto al env=C3=ADo de parche=
+s del kernel de Linux.
+>      ``MODULE_PARM_DESC()``.
+> =20
+>  18) Todas las nuevas interfaces de espacio de usuario est=C3=A1n documen=
+tadas
+> -    en ``Documentation/ABI/``. Consulte ``Documentation/ABI/README`` para
+> +    en ``Documentation/ABI/``. Consulte ``Documentation/ABI/README.rst``=
+ para
+>      obtener m=C3=A1s informaci=C3=B3n. Los parches que cambian las inter=
+faces del
+>      espacio de usuario deben ser CCed a linux-api@vger.kernel.org.
+> =20
+> diff --git a/Documentation/translations/zh_CN/filesystems/sysfs.txt b/Doc=
+umentation/translations/zh_CN/filesystems/sysfs.txt
+> index 547062759e60..871fc60aeeca 100644
+> --- a/Documentation/translations/zh_CN/filesystems/sysfs.txt
+> +++ b/Documentation/translations/zh_CN/filesystems/sysfs.txt
+> @@ -370,4 +370,4 @@ void driver_remove_file(struct device_driver *, const=
+ struct driver_attribute *)
+> =20
+>  sysfs =E7=9B=AE=E5=BD=95=E7=BB=93=E6=9E=84=E4=BB=A5=E5=8F=8A=E5=85=B6=E4=
+=B8=AD=E5=8C=85=E5=90=AB=E7=9A=84=E5=B1=9E=E6=80=A7=E5=AE=9A=E4=B9=89=E4=BA=
+=86=E4=B8=80=E4=B8=AA=E5=86=85=E6=A0=B8=E4=B8=8E=E7=94=A8=E6=88=B7=E7=A9=BA=
+=E9=97=B4=E4=B9=8B=E9=97=B4=E7=9A=84 ABI=E3=80=82
+>  =E5=AF=B9=E4=BA=8E=E4=BB=BB=E4=BD=95 ABI=EF=BC=8C=E5=85=B6=E8=87=AA=E8=
+=BA=AB=E7=9A=84=E7=A8=B3=E5=AE=9A=E5=92=8C=E9=80=82=E5=BD=93=E7=9A=84=E6=96=
+=87=E6=A1=A3=E6=98=AF=E9=9D=9E=E5=B8=B8=E9=87=8D=E8=A6=81=E7=9A=84=E3=80=82=
+=E6=89=80=E6=9C=89=E6=96=B0=E7=9A=84 sysfs
+> -=E5=B1=9E=E6=80=A7=E5=BF=85=E9=A1=BB=E5=9C=A8 Documentation/ABI =E4=B8=
+=AD=E6=9C=89=E6=96=87=E6=A1=A3=E3=80=82=E8=AF=A6=E8=A7=81 Documentation/ABI=
+/README=E3=80=82
+> +=E5=B1=9E=E6=80=A7=E5=BF=85=E9=A1=BB=E5=9C=A8 Documentation/ABI =E4=B8=
+=AD=E6=9C=89=E6=96=87=E6=A1=A3=E3=80=82=E8=AF=A6=E8=A7=81 Documentation/ABI=
+/README.rst=E3=80=82
+> diff --git a/Documentation/translations/zh_CN/process/4.Coding.rst b/Docu=
+mentation/translations/zh_CN/process/4.Coding.rst
+> index 7cac9424f5d5..1b752b3bdc8c 100644
+> --- a/Documentation/translations/zh_CN/process/4.Coding.rst
+> +++ b/Documentation/translations/zh_CN/process/4.Coding.rst
+> @@ -244,7 +244,7 @@ scripts/coccinelle=E7=9B=AE=E5=BD=95=E4=B8=8B=E5=B7=
+=B2=E7=BB=8F=E6=89=93=E5=8C=85=E4=BA=86=E7=9B=B8=E5=BD=93=E5=A4=9A=E7=9A=84=
+=E5=86=85=E6=A0=B8=E2=80=9C=E8=AF=AD=E4=B9=89=E8=A1=A5=E4=B8=81=E2=80=9D
+> =20
+>  =E4=BB=BB=E4=BD=95=E6=B7=BB=E5=8A=A0=E6=96=B0=E7=94=A8=E6=88=B7=E7=A9=BA=
+=E9=97=B4=E6=8E=A5=E5=8F=A3=E7=9A=84=E4=BB=A3=E7=A0=81=E2=80=94=E2=80=94=E5=
+=8C=85=E6=8B=AC=E6=96=B0=E7=9A=84sysfs=E6=88=96/proc=E6=96=87=E4=BB=B6=E2=
+=80=94=E2=80=94=E9=83=BD=E5=BA=94=E8=AF=A5=E5=8C=85=E5=90=AB=E8=AF=A5=E6=8E=
+=A5=E5=8F=A3
+>  =E7=9A=84=E6=96=87=E6=A1=A3=EF=BC=8C=E8=AF=A5=E6=96=87=E6=A1=A3=E4=BD=BF=
+=E7=94=A8=E6=88=B7=E7=A9=BA=E9=97=B4=E5=BC=80=E5=8F=91=E4=BA=BA=E5=91=98=E8=
+=83=BD=E5=A4=9F=E7=9F=A5=E9=81=93=E4=BB=96=E4=BB=AC=E5=9C=A8=E4=BD=BF=E7=94=
+=A8=E4=BB=80=E4=B9=88=E3=80=82=E8=AF=B7=E5=8F=82=E9=98=85
+> -Documentation/ABI/README=EF=BC=8C=E4=BA=86=E8=A7=A3=E5=A6=82=E4=BD=95=E6=
+=AD=A4=E6=96=87=E6=A1=A3=E6=A0=BC=E5=BC=8F=E4=BB=A5=E5=8F=8A=E9=9C=80=E8=A6=
+=81=E6=8F=90=E4=BE=9B=E5=93=AA=E4=BA=9B=E4=BF=A1=E6=81=AF=E3=80=82
+> +Documentation/ABI/README.rst=EF=BC=8C=E4=BA=86=E8=A7=A3=E5=A6=82=E4=BD=
+=95=E6=AD=A4=E6=96=87=E6=A1=A3=E6=A0=BC=E5=BC=8F=E4=BB=A5=E5=8F=8A=E9=9C=80=
+=E8=A6=81=E6=8F=90=E4=BE=9B=E5=93=AA=E4=BA=9B=E4=BF=A1=E6=81=AF=E3=80=82
+> =20
+>  =E6=96=87=E6=A1=A3 :ref:`Documentation/admin-guide/kernel-parameters.rst=
+ <kernelparameters>`
+>  =E6=8F=8F=E8=BF=B0=E4=BA=86=E5=86=85=E6=A0=B8=E7=9A=84=E6=89=80=E6=9C=89=
+=E5=BC=95=E5=AF=BC=E6=97=B6=E9=97=B4=E5=8F=82=E6=95=B0=E3=80=82=E4=BB=BB=E4=
+=BD=95=E6=B7=BB=E5=8A=A0=E6=96=B0=E5=8F=82=E6=95=B0=E7=9A=84=E8=A1=A5=E4=B8=
+=81=E9=83=BD=E5=BA=94=E8=AF=A5=E5=90=91=E8=AF=A5=E6=96=87=E6=A1=A3=E6=B7=BB=
+=E5=8A=A0=E9=80=82=E5=BD=93=E7=9A=84
+> diff --git a/Documentation/translations/zh_CN/process/submit-checklist.rs=
+t b/Documentation/translations/zh_CN/process/submit-checklist.rst
+> index 3d6ee21c74ae..0942021202a3 100644
+> --- a/Documentation/translations/zh_CN/process/submit-checklist.rst
+> +++ b/Documentation/translations/zh_CN/process/submit-checklist.rst
+> @@ -83,7 +83,7 @@ Linux=E5=86=85=E6=A0=B8=E8=A1=A5=E4=B8=81=E6=8F=90=E4=
+=BA=A4=E6=A3=80=E6=9F=A5=E5=8D=95
+>  17) =E6=89=80=E6=9C=89=E6=96=B0=E7=9A=84=E6=A8=A1=E5=9D=97=E5=8F=82=E6=
+=95=B0=E9=83=BD=E8=AE=B0=E5=BD=95=E5=9C=A8 ``MODULE_PARM_DESC()``
+> =20
+>  18) =E6=89=80=E6=9C=89=E6=96=B0=E7=9A=84=E7=94=A8=E6=88=B7=E7=A9=BA=E9=
+=97=B4=E6=8E=A5=E5=8F=A3=E9=83=BD=E8=AE=B0=E5=BD=95=E5=9C=A8 ``Documentatio=
+n/ABI/`` =E4=B8=AD=E3=80=82=E6=9C=89=E5=85=B3=E8=AF=A6=E7=BB=86=E4=BF=A1=E6=
+=81=AF=EF=BC=8C
+> -    =E8=AF=B7=E5=8F=82=E9=98=85 ``Documentation/ABI/README`` =E3=80=82=
+=E6=9B=B4=E6=94=B9=E7=94=A8=E6=88=B7=E7=A9=BA=E9=97=B4=E6=8E=A5=E5=8F=A3=E7=
+=9A=84=E8=A1=A5=E4=B8=81=E5=BA=94=E8=AF=A5=E6=8A=84=E9=80=81
+> +    =E8=AF=B7=E5=8F=82=E9=98=85 ``Documentation/ABI/README.rst`` =E3=80=
+=82=E6=9B=B4=E6=94=B9=E7=94=A8=E6=88=B7=E7=A9=BA=E9=97=B4=E6=8E=A5=E5=8F=A3=
+=E7=9A=84=E8=A1=A5=E4=B8=81=E5=BA=94=E8=AF=A5=E6=8A=84=E9=80=81
+>      linux-api@vger.kernel.org=E3=80=82
+> =20
+>  19) =E5=B7=B2=E9=80=9A=E8=BF=87=E8=87=B3=E5=B0=91=E6=B3=A8=E5=85=A5slab=
+=E5=92=8Cpage=E5=88=86=E9=85=8D=E5=A4=B1=E8=B4=A5=E8=BF=9B=E8=A1=8C=E6=A3=
+=80=E6=9F=A5=E3=80=82=E8=AF=B7=E5=8F=82=E9=98=85 ``Documentation/fault-inje=
+ction/`` =E3=80=82
+> diff --git a/Documentation/translations/zh_TW/filesystems/sysfs.txt b/Doc=
+umentation/translations/zh_TW/filesystems/sysfs.txt
+> index 978462d5fe14..a94e83dcb814 100644
+> --- a/Documentation/translations/zh_TW/filesystems/sysfs.txt
+> +++ b/Documentation/translations/zh_TW/filesystems/sysfs.txt
+> @@ -373,5 +373,5 @@ void driver_remove_file(struct device_driver *, const=
+ struct driver_attribute *)
+> =20
+>  sysfs =E7=9B=AE=E9=8C=84=E7=B5=90=E6=A7=8B=E4=BB=A5=E5=8F=8A=E5=85=B6=E4=
+=B8=AD=E5=8C=85=E5=90=AB=E7=9A=84=E5=B1=AC=E6=80=A7=E5=AE=9A=E7=BE=A9=E4=BA=
+=86=E4=B8=80=E5=80=8B=E5=85=A7=E6=A0=B8=E8=88=87=E7=94=A8=E6=88=B6=E7=A9=BA=
+=E9=96=93=E4=B9=8B=E9=96=93=E7=9A=84 ABI=E3=80=82
+>  =E5=B0=8D=E6=96=BC=E4=BB=BB=E4=BD=95 ABI=EF=BC=8C=E5=85=B6=E8=87=AA=E8=
+=BA=AB=E7=9A=84=E7=A9=A9=E5=AE=9A=E5=92=8C=E9=81=A9=E7=95=B6=E7=9A=84=E6=96=
+=87=E6=AA=94=E6=98=AF=E9=9D=9E=E5=B8=B8=E9=87=8D=E8=A6=81=E7=9A=84=E3=80=82=
+=E6=89=80=E6=9C=89=E6=96=B0=E7=9A=84 sysfs
+> -=E5=B1=AC=E6=80=A7=E5=BF=85=E9=A0=88=E5=9C=A8 Documentation/ABI =E4=B8=
+=AD=E6=9C=89=E6=96=87=E6=AA=94=E3=80=82=E8=A9=B3=E8=A6=8B Documentation/ABI=
+/README=E3=80=82
+> +=E5=B1=AC=E6=80=A7=E5=BF=85=E9=A0=88=E5=9C=A8 Documentation/ABI =E4=B8=
+=AD=E6=9C=89=E6=96=87=E6=AA=94=E3=80=82=E8=A9=B3=E8=A6=8B Documentation/ABI=
+/README.rst=E3=80=82
+> =20
+> diff --git a/Documentation/translations/zh_TW/process/4.Coding.rst b/Docu=
+mentation/translations/zh_TW/process/4.Coding.rst
+> index bdd2abe4daf4..541e09ae1440 100644
+> --- a/Documentation/translations/zh_TW/process/4.Coding.rst
+> +++ b/Documentation/translations/zh_TW/process/4.Coding.rst
+> @@ -247,7 +247,7 @@ scripts/coccinelle=E7=9B=AE=E9=8C=84=E4=B8=8B=E5=B7=
+=B2=E7=B6=93=E6=89=93=E5=8C=85=E4=BA=86=E7=9B=B8=E7=95=B6=E5=A4=9A=E7=9A=84=
+=E5=85=A7=E6=A0=B8=E2=80=9C=E8=AA=9E=E7=BE=A9=E8=A3=9C=E4=B8=81=E2=80=9D
+> =20
+>  =E4=BB=BB=E4=BD=95=E6=B7=BB=E5=8A=A0=E6=96=B0=E7=94=A8=E6=88=B6=E7=A9=BA=
+=E9=96=93=E6=8E=A5=E5=8F=A3=E7=9A=84=E4=BB=A3=E7=A2=BC=E2=80=94=E2=80=94=E5=
+=8C=85=E6=8B=AC=E6=96=B0=E7=9A=84sysfs=E6=88=96/proc=E6=96=87=E4=BB=B6=E2=
+=80=94=E2=80=94=E9=83=BD=E6=87=89=E8=A9=B2=E5=8C=85=E5=90=AB=E8=A9=B2=E6=8E=
+=A5=E5=8F=A3
+>  =E7=9A=84=E6=96=87=E6=AA=94=EF=BC=8C=E8=A9=B2=E6=96=87=E6=AA=94=E4=BD=BF=
+=E7=94=A8=E6=88=B6=E7=A9=BA=E9=96=93=E9=96=8B=E7=99=BC=E4=BA=BA=E5=93=A1=E8=
+=83=BD=E5=A4=A0=E7=9F=A5=E9=81=93=E4=BB=96=E5=80=91=E5=9C=A8=E4=BD=BF=E7=94=
+=A8=E4=BB=80=E9=BA=BC=E3=80=82=E8=AB=8B=E5=8F=83=E9=96=B1
+> -Documentation/ABI/README=EF=BC=8C=E7=9E=AD=E8=A7=A3=E5=A6=82=E4=BD=95=E6=
+=AD=A4=E6=96=87=E6=AA=94=E6=A0=BC=E5=BC=8F=E4=BB=A5=E5=8F=8A=E9=9C=80=E8=A6=
+=81=E6=8F=90=E4=BE=9B=E5=93=AA=E4=BA=9B=E4=BF=A1=E6=81=AF=E3=80=82
+> +Documentation/ABI/README.rst=EF=BC=8C=E7=9E=AD=E8=A7=A3=E5=A6=82=E4=BD=
+=95=E6=AD=A4=E6=96=87=E6=AA=94=E6=A0=BC=E5=BC=8F=E4=BB=A5=E5=8F=8A=E9=9C=80=
+=E8=A6=81=E6=8F=90=E4=BE=9B=E5=93=AA=E4=BA=9B=E4=BF=A1=E6=81=AF=E3=80=82
+> =20
+>  =E6=96=87=E6=AA=94 :ref:`Documentation/admin-guide/kernel-parameters.rst=
+ <kernelparameters>`
+>  =E6=8F=8F=E8=BF=B0=E4=BA=86=E5=85=A7=E6=A0=B8=E7=9A=84=E6=89=80=E6=9C=89=
+=E5=BC=95=E5=B0=8E=E6=99=82=E9=96=93=E5=8F=83=E6=95=B8=E3=80=82=E4=BB=BB=E4=
+=BD=95=E6=B7=BB=E5=8A=A0=E6=96=B0=E5=8F=83=E6=95=B8=E7=9A=84=E8=A3=9C=E4=B8=
+=81=E9=83=BD=E6=87=89=E8=A9=B2=E5=90=91=E8=A9=B2=E6=96=87=E6=AA=94=E6=B7=BB=
+=E5=8A=A0=E9=81=A9=E7=95=B6=E7=9A=84
+> diff --git a/Documentation/translations/zh_TW/process/submit-checklist.rs=
+t b/Documentation/translations/zh_TW/process/submit-checklist.rst
+> index e57ef0f99e0c..efece58cb5b2 100644
+> --- a/Documentation/translations/zh_TW/process/submit-checklist.rst
+> +++ b/Documentation/translations/zh_TW/process/submit-checklist.rst
+> @@ -86,7 +86,7 @@ Linux=E5=85=A7=E6=A0=B8=E8=A3=9C=E4=B8=81=E6=8F=90=E4=
+=BA=A4=E6=AA=A2=E6=9F=A5=E5=96=AE
+>  17) =E6=89=80=E6=9C=89=E6=96=B0=E7=9A=84=E6=A8=A1=E5=A1=8A=E5=8F=83=E6=
+=95=B8=E9=83=BD=E8=A8=98=E9=8C=84=E5=9C=A8 ``MODULE_PARM_DESC()``
+> =20
+>  18) =E6=89=80=E6=9C=89=E6=96=B0=E7=9A=84=E7=94=A8=E6=88=B6=E7=A9=BA=E9=
+=96=93=E6=8E=A5=E5=8F=A3=E9=83=BD=E8=A8=98=E9=8C=84=E5=9C=A8 ``Documentatio=
+n/ABI/`` =E4=B8=AD=E3=80=82=E6=9C=89=E9=97=9C=E8=A9=B3=E7=B4=B0=E4=BF=A1=E6=
+=81=AF=EF=BC=8C
+> -    =E8=AB=8B=E5=8F=83=E9=96=B1 ``Documentation/ABI/README`` =E3=80=82=
+=E6=9B=B4=E6=94=B9=E7=94=A8=E6=88=B6=E7=A9=BA=E9=96=93=E6=8E=A5=E5=8F=A3=E7=
+=9A=84=E8=A3=9C=E4=B8=81=E6=87=89=E8=A9=B2=E6=8A=84=E9=80=81
+> +    =E8=AB=8B=E5=8F=83=E9=96=B1 ``Documentation/ABI/README.rst`` =E3=80=
+=82=E6=9B=B4=E6=94=B9=E7=94=A8=E6=88=B6=E7=A9=BA=E9=96=93=E6=8E=A5=E5=8F=A3=
+=E7=9A=84=E8=A3=9C=E4=B8=81=E6=87=89=E8=A9=B2=E6=8A=84=E9=80=81
+>      linux-api@vger.kernel.org=E3=80=82
+> =20
+>  19) =E5=B7=B2=E9=80=9A=E9=81=8E=E8=87=B3=E5=B0=91=E6=B3=A8=E5=85=A5slab=
+=E5=92=8Cpage=E5=88=86=E9=85=8D=E5=A4=B1=E6=95=97=E9=80=B2=E8=A1=8C=E6=AA=
+=A2=E6=9F=A5=E3=80=82=E8=AB=8B=E5=8F=83=E9=96=B1 ``Documentation/fault-inje=
+ction/`` =E3=80=82
+
+
+
+Thanks,
+Mauro
 
