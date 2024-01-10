@@ -1,34 +1,80 @@
-Return-Path: <linux-api+bounces-472-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-473-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE7B182A377
-	for <lists+linux-api@lfdr.de>; Wed, 10 Jan 2024 22:40:01 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73F6682A3D9
+	for <lists+linux-api@lfdr.de>; Wed, 10 Jan 2024 23:23:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6A07B1F2239F
-	for <lists+linux-api@lfdr.de>; Wed, 10 Jan 2024 21:40:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 277C31F282FE
+	for <lists+linux-api@lfdr.de>; Wed, 10 Jan 2024 22:23:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E76174F603;
-	Wed, 10 Jan 2024 21:39:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48B8B4F88D;
+	Wed, 10 Jan 2024 22:23:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HNtPaD4k"
 X-Original-To: linux-api@vger.kernel.org
-Received: from brightrain.aerifal.cx (brightrain.aerifal.cx [104.156.224.86])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BB2D4F601
-	for <linux-api@vger.kernel.org>; Wed, 10 Jan 2024 21:39:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=libc.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=libc.org
-Date: Wed, 10 Jan 2024 16:24:53 -0500
-From: Rich Felker <dalias@libc.org>
-To: musl@lists.openwall.com
-Cc: linux-api@vger.kernel.org
-Subject: Re: [musl] Protect pthreads' mutexes against use-after-destroy
-Message-ID: <20240110212453.GR4163@brightrain.aerifal.cx>
-References: <ec138086-c5b9-4ca2-9da5-bef8b14de27d@dustri.org>
- <20240109190726.GO4163@brightrain.aerifal.cx>
- <20240110015550.GP4163@brightrain.aerifal.cx>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EB344F882;
+	Wed, 10 Jan 2024 22:23:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1d4ca2fd2fbso24861035ad.2;
+        Wed, 10 Jan 2024 14:23:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1704925409; x=1705530209; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YxsxElpc+jT4mmfFhZPh3DZtom6DY7JYexQS1ckDeao=;
+        b=HNtPaD4kJRUspPNKpAUr2dxoiG8LyYKKlLz247S4HTflSjv54I01jFxnLeaxPplTKq
+         JL5L2ui0g8zSJfFie9jlZ8/n/LODPmODsrKOkWvBPWOTBlJlvcRBKIoYnSSJIDS5XbKz
+         e0MufS6DsxAexT8E7O6UgDpuHBoiarsdaTQjZp9YTyEQKIrpMTCZWPYIv3Ns4oKJ606I
+         XQ7eP7eLQAJCHSjByllqx8D0qj1bUXy61yxVO/Zhiaxxaud42LX0RW/iECrAioeLad1F
+         quq2NYU30qnuhN5yCjl3avY/1G0fY5iPsnemHGKzeRB+O+YrYu4+UakLYFS38GVxS5ri
+         FtuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704925409; x=1705530209;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YxsxElpc+jT4mmfFhZPh3DZtom6DY7JYexQS1ckDeao=;
+        b=TkKzWy2hqWN7eP/jxQGEk5nnugI9YSV+Kd00lBRS6rjSNDyevCALOHNanZvgyGjcxt
+         a8PV9XWKzlQUqtKOI0KkokdghfHxuciCbSemIMz4wC4GCH/2f66eo6PuwY7ThNcBjUO2
+         /GDmNVMINCT754PRR1ASd4h4SeXIHTZF29SX0F1C685oqh+Ud9kIKMjcy28Mto7OPWYf
+         DAan5cbS9dRlN9KxTBTVvClPgdQOS2YbycFYwSQ5l5lvbOg/z9EmEAomVLkRPWPNcCtp
+         PVHw+9gRvkNbyJLOuqfWjtaoowJeAy9lfdf9btU1nBaEnauKpUOvb9ybFMxCjuiNZu5w
+         6C6Q==
+X-Gm-Message-State: AOJu0YwaLBJU6uW1TOsuH0ppW4GAYtz6cgcOK5Zp0rJy55diBcV9Ls0U
+	IfpZp2dRLaGPv1tlOwFLdt4=
+X-Google-Smtp-Source: AGHT+IGeLGDDAGN9Ml97cgT8MOww4VOvyzegLjaWhxhlroPbTTKHlKjmxi9wcV5Ku03hRVlwCCLv3w==
+X-Received: by 2002:a17:90b:4d91:b0:28b:d90c:c724 with SMTP id oj17-20020a17090b4d9100b0028bd90cc724mr180672pjb.54.1704925408886;
+        Wed, 10 Jan 2024 14:23:28 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id gk9-20020a17090b118900b0028d19ddb1afsm2095854pjb.33.2024.01.10.14.23.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Jan 2024 14:23:28 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Wed, 10 Jan 2024 14:23:26 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: Miklos Szeredi <mszeredi@redhat.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org, linux-man@vger.kernel.org,
+	linux-security-module@vger.kernel.org, Karel Zak <kzak@redhat.com>,
+	Ian Kent <raven@themaw.net>, David Howells <dhowells@redhat.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <christian@brauner.io>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Matthew House <mattlloydhouse@gmail.com>,
+	Florian Weimer <fweimer@redhat.com>, Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [PATCH v4 5/6] add listmount(2) syscall
+Message-ID: <75b87a85-7d2c-4078-91e3-024ea36cfb42@roeck-us.net>
+References: <20231025140205.3586473-1-mszeredi@redhat.com>
+ <20231025140205.3586473-6-mszeredi@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -37,115 +83,41 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240110015550.GP4163@brightrain.aerifal.cx>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+In-Reply-To: <20231025140205.3586473-6-mszeredi@redhat.com>
 
-On Tue, Jan 09, 2024 at 08:55:50PM -0500, Rich Felker wrote:
-> On Tue, Jan 09, 2024 at 02:07:26PM -0500, Rich Felker wrote:
-> > On Tue, Jan 09, 2024 at 03:37:17PM +0100, jvoisin wrote:
-> > > Ohai,
-> > > 
-> > > as discussed on irc, Android's bionic has a check to prevent
-> > > use-after-destroy on phtread mutexes
-> > > (https://github.com/LineageOS/android_bionic/blob/e0aac7df6f58138dae903b5d456c947a3f8092ea/libc/bionic/pthread_mutex.cpp#L803),
-> > > and musl doesn't.
-> > > 
-> > > While odds are that this is a super-duper common bug, it would still be
-> > > nice to have this kind of protection, since it's cheap, and would
-> > > prevent/make it easy to diagnose weird states.
-> > > 
-> > > Is this something that should/could be implemented?
-> > > 
-> > > o/
-> > 
-> > I think you meant that the odds are it's not common. There's already
-> > enough complexity in the code paths for supporting all the different
-> > mutex types that my leaning would be, if we do any hardening for
-> > use-after-destroy, that it should probably just take the form of
-> > putting the object in a state that will naturally deadlock or error
-> > rather than adding extra checks to every path where it's used.
-> > 
-> > If OTOH we do want it to actually trap in all cases where it's used
-> > after destroy, the simplest way to achieve that is probably to set it
-> > up as a non-robust non-PI recursive or errorchecking mutex with
-> > invalid prev/next pointers and owner of 0x3fffffff. Then the only
-> > place that would actually have to have an explicit trap is trylock in
-> > the code path:
-> > 
-> >         if (own == 0x3fffffff) return ENOTRECOVERABLE;
-> > 
-> > where it could trap if type isn't robust. The unlock code path would
-> > trap on accessing invalid prev/next pointers.
+Hi,
+
+On Wed, Oct 25, 2023 at 04:02:03PM +0200, Miklos Szeredi wrote:
+> Add way to query the children of a particular mount.  This is a more
+> flexible way to iterate the mount tree than having to parse the complete
+> /proc/self/mountinfo.
 > 
-> Unfortunately I discovered a problem we need to deal with in
-> researching for this: at some point Linux quietly changed the futex
-> ABI, so that bit 29 is no longer reserved but potentially a tid bit.
-> This was documented in 9c40365a65d62d7c06a95fb331b3442cb02d2fd9 but
-> apparently actually happened at the source level a long time before
-> that. So, we cannot assume 0x3fffffff is not a valid tid, and thereby
-> cannot assume 0x7fffffff is not equal to ownerdead|valid_tid.
+> Allow listing either
 > 
-> This probably means we need to find a way to encode "not recoverable"
-> as 0x40000000, as 0 is now the _only_ value in the low-30-bits that
-> can't potentially be a valid tid.
+>  - immediate child mounts only, or
 > 
-> I'll look at this more over the next day or two. It's probably fixable
-> but requires fiddling with delicate logic.
+>  - recursively all descendant mounts (depth first).
 > 
-> Note that the only in-the-wild breakage possible is on systems where
-> the pid/tid limit has been set extremely high, where attempts to lock
-> a recursive or errorchecking mutex owned by a thread with tid
-> 0x3fffffff could malfunction.
+> Lookup the mount by the new 64bit mount ID.  If a mount needs to be queried
+> based on path, then statx(2) can be used to first query the mount ID
+> belonging to the path.
+> 
+> Return an array of new (64bit) mount ID's.  Without privileges only mounts
+> are listed which are reachable from the task's root.
+> 
+> Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
 
-OK, more fun. The kernel documentation (locking/robust-futex-ABI.rst)
-is *wrong*. It claims that, when processing the robust list for a
-dying task, the only actions are:
+with this patch in the tree, all sh4 builds fail with ICE.
 
- 1) if bit 31 (0x80000000) is set in that word, then attempt a futex
-    wakeup on that address, which will waken the next thread that has
-    used to the futex mechanism to wait on that address, and
- 2) atomically set  bit 30 (0x40000000) in the 'lock word'.
+during RTL pass: final
+In file included from fs/namespace.c:11:
+fs/namespace.c: In function '__se_sys_listmount':
+include/linux/syscalls.h:258:9: internal compiler error: in change_address_1, at emit-rtl.c:2275
 
-However, 2 is incorrect. There is no "set bit 30" operation in the
-kernel. Rather, it atomically replaces the old lock value (tid of the
-dying task, possibly with bit 31 added on for "waiters present") with
-0x40000000 (no waiters) or 0xc0000000 (maybe waiters), clearing out
-the tid of the dying task.
+I tested with gcc 8.2, 11.3, 11.4, and 12.3. The compiler version
+does not make a difference. Has anyone else seen the same problem ?
+If so, any idea what to do about it ?
 
-Thus, we cannot use 0x40000000 as the "not recoverable" value; this is
-the only value the kernel ever used for "owner died" state.
-
-At first this sounds good: we should be able to use any value with bit
-30 set, including something like 0x7fffffff like we're using now, as
-the "not recoverable" state. Unfortunately, that's not quite true. The
-kernel's robust list processing at task death masks off bit 30, so if
-a task with tid 0x3fffffff were to die with the unrecoverable mutex in
-its robust list or or pending slot, it would wrongly get converted
-back by the kernel from "not recoverable" state to "owner died" state.
-
-Naively one would expect an already not-recoverable not to be able to
-be added to the robust list, and this is correct; however, it can be
-added to the pending slot if a thread attempting to lock it was
-suspended after checking the old state, before it was in
-not-recoverable state, but before attempting the atomic CAS to take
-the lock, seeing that fail, and removing it from the pending slot.
-
-I don't see any solution to this problem without having one or more
-values of the low 30 bits (bits 0-29) that are reserved and guaranteed
-never to match a real task. AIUI, Linux presently doesn't support more
-than 22 bits of tid anyway, so this probably is not a real issue, but
-it is an issue for future-proofing the user-kernel interface. What
-we're doing now (using 0x7fffffff as the unrecoverable value) is
-unsafe if Linux or any kernel purporting to honor the Linux syscall
-API/ABI ever supports full 30-bit tids.
-
-I think we should probably ask the kernel folks to reinstate the
-original specification that bit 29 (0x20000000) is reserved and
-guaranteed not to be present in a valid tid. If that's deemed
-inappropriate, just reserving a single value 0x3fffffff that's
-guaranteed not to be a real tid should suffice. Either would make what
-we're doing now (based on the old pre-2020 documentation) valid and
-future-proof once again.
-
-Rich
+Thanks,
+Guenter
 
