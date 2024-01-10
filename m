@@ -1,190 +1,113 @@
-Return-Path: <linux-api+bounces-468-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-469-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62737829AF1
-	for <lists+linux-api@lfdr.de>; Wed, 10 Jan 2024 14:11:32 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EFEF829B87
+	for <lists+linux-api@lfdr.de>; Wed, 10 Jan 2024 14:42:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E1B451F24B71
-	for <lists+linux-api@lfdr.de>; Wed, 10 Jan 2024 13:11:31 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 85907B20CD6
+	for <lists+linux-api@lfdr.de>; Wed, 10 Jan 2024 13:42:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 143094879A;
-	Wed, 10 Jan 2024 13:11:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42A3048CCD;
+	Wed, 10 Jan 2024 13:42:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="iUpM9xzc";
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="iUpM9xzc"
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="FSYSViSC";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="LjMJGc5c"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDDF448794;
-	Wed, 10 Jan 2024 13:11:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id BA0981F8AB;
-	Wed, 10 Jan 2024 13:11:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1704892280; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=+Z6GZnazkXvmT3ykqKVkZG08FG2RukNYcIfqOb3XcwI=;
-	b=iUpM9xzct678dCYvhoRdWNBfjO7m2Bzrp9+ZOD36Q1MUfFwUDVkxxFWMKWm0wlcOJpODuE
-	4+wwDdJgUKkiUHR+e7xwCpZtjgKr6XDLk+x7ONRW8hjQIST9T3VOsDNDhIhaAC98EI83GN
-	Q0aXN/ZdgzJqMfLLx7WaqjAAzahQ/6k=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1704892280; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=+Z6GZnazkXvmT3ykqKVkZG08FG2RukNYcIfqOb3XcwI=;
-	b=iUpM9xzct678dCYvhoRdWNBfjO7m2Bzrp9+ZOD36Q1MUfFwUDVkxxFWMKWm0wlcOJpODuE
-	4+wwDdJgUKkiUHR+e7xwCpZtjgKr6XDLk+x7ONRW8hjQIST9T3VOsDNDhIhaAC98EI83GN
-	Q0aXN/ZdgzJqMfLLx7WaqjAAzahQ/6k=
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4427713786;
-	Wed, 10 Jan 2024 13:01:42 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 5dbcDTaVnmVhcwAAD6G6ig
-	(envelope-from <nik.borisov@suse.com>); Wed, 10 Jan 2024 13:01:42 +0000
-From: Nikolay Borisov <nik.borisov@suse.com>
-To: linux-kernel@vger.kernel.org,
-	x86@kernel.org
-Cc: arnd@arndb.de,
-	linux-api@vger.kernel.org,
-	Richard Palethorpe <rpalethorpe@suse.com>,
-	Nikolay Borisov <nik.borisov@suse.com>
-Subject: [PATCH RESEND] x86/entry/ia32: Ensure s32 is sign extended to s64
-Date: Wed, 10 Jan 2024 15:01:22 +0200
-Message-Id: <20240110130122.3836513-1-nik.borisov@suse.com>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A18548CC1;
+	Wed, 10 Jan 2024 13:42:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.west.internal (Postfix) with ESMTP id B169B3200B40;
+	Wed, 10 Jan 2024 08:42:44 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Wed, 10 Jan 2024 08:42:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1704894164; x=1704980564; bh=BmHdlujemK
+	Tt47oYKjP4mcCwFNBw0dvdYdm7mWMOS1A=; b=FSYSViSC2HmmHEdU8iG/Pm0B7/
+	0lVOCBmFGOdxzFynNzEiZvBT8791kHGkqdqHs+89oyxPyMg368ySC5F9AQ5zDkwp
+	eyWZf8uk6JVHrewvLbam2aCpBF5K5+epVbNpGOlYgrxTavqZ4i8VcJb6vmxxeUzw
+	TdA7VIWudKtw7yNWv+WBRBgouGRg9284T5kKWipb7Y9l0In0ewObfvWrAGdhKWzD
+	ZLNj22wVCzlthWStObyo3/KCOCGZwyMs+zdF2GK+jCzWP35V3O0FPonsBQyO90Du
+	Pqzrr6YazJwsANqD/VoZVNMDddWKBNycQe5zF0WbTv08AFkC5v1Q8qAlGeIQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1704894164; x=1704980564; bh=BmHdlujemKTt47oYKjP4mcCwFNBw
+	0dvdYdm7mWMOS1A=; b=LjMJGc5c26PEODjc+KnVJFpKLhBmcZ19hhMC4c1gFy1d
+	rE/35yB6KiE/dCZQ+muUF4XLzD/hXpNRXMWZKpPRk9zd+SsqaUYbKeE+8UziqxJT
+	1NG37LUqmIPdafSVCpj5TjRKK18bG7JR9ynPM6HRBuGIR6iYaFOuufEfDagcVg8u
+	VT3sSrYzkho/T988ODuWwRsZrTf4mLReUeHvjLd3aDd43Q6mO3MJYey6iV3941We
+	ev3YhRCT2Wuw/UniDSaTx1X3GO4sGrLkj8URVqidhzyc8IilQZvhl5R5Zk9JGX1S
+	9Gxxuj9Qhdnm/IMedil8usV3JjCP6P6qxAC6dJGRiQ==
+X-ME-Sender: <xms:056eZc6AunfMbpdUJjN1VRHddp9meAu36R5UmmvP5jApnzDbzNlC1A>
+    <xme:056eZd4HADRZL2RAV_MPPe3Nfh1gWXqRyYYvofIm9G0ZvZ_sP4llVRJjqAVIY6wi_
+    w5LP--bSD4VLQTXcYU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdeiuddgheegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepvefhffeltdegheeffffhtdegvdehjedtgfekueevgfduffettedtkeekueef
+    hedunecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
+    dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:056eZbclHecWM0jrjKxsSrRZJQd9uOImluO2miOvuXX4JHqWdBQ1DQ>
+    <xmx:056eZRLl4lKvuRBixBM6zg301d2WrCKvqKqvjG6osj_l8S45l9q2jw>
+    <xmx:056eZQJ5RSkfi9oxEonFrDhj7qfuIDV8hUlxKgvS_LGptflBErKiLw>
+    <xmx:1J6eZXXkMfAn2j5UMtmzXGM2rIUyy_pNzrPcB2z9gYzPEEgPtFoYpQ>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id A3DC5B6008D; Wed, 10 Jan 2024 08:42:43 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-1364-ga51d5fd3b7-fm-20231219.001-ga51d5fd3
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [4.68 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 R_MISSING_CHARSET(2.50)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 BROKEN_CONTENT_TYPE(1.50)[];
-	 RCPT_COUNT_FIVE(0.00)[6];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.com:s=susede1];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-0.02)[54.51%]
-X-Spam-Score: 4.68
-X-Spam-Level: ****
-Authentication-Results: smtp-out2.suse.de;
-	none
+Message-Id: <6c82c4b9-297d-44a0-87dc-9413e15fa48a@app.fastmail.com>
+In-Reply-To: <20240110130122.3836513-1-nik.borisov@suse.com>
+References: <20240110130122.3836513-1-nik.borisov@suse.com>
+Date: Wed, 10 Jan 2024 14:42:22 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Nikolay Borisov" <nik.borisov@suse.com>, linux-kernel@vger.kernel.org,
+ x86@kernel.org
+Cc: linux-api@vger.kernel.org, "Richard Palethorpe" <rpalethorpe@suse.com>
+Subject: Re: [PATCH RESEND] x86/entry/ia32: Ensure s32 is sign extended to s64
+Content-Type: text/plain
 
-From: Richard Palethorpe <rpalethorpe@suse.com>
+On Wed, Jan 10, 2024, at 14:01, Nikolay Borisov wrote:
+>
+> This patch has been sent previously by Richard back in 2021 [0]. 
+> However it
+> seems to have been dropped at some point and never merged. So I'm 
+> resending again
+> to consider it for merging given that io_pgetevents_time64 LTP test 
+> still fails.
+>
+>
+> [0] https://lore.kernel.org/all/20210927161955.28494-1-rpalethorpe@suse.com/
 
-Presently ia32 registers stored in ptregs are unconditionally cast to
-unsigned int by the ia32 stub. They are then cast to long when passed
-to __se_sys*, but will not be sign extended.
+Thank you for resending this, I hadn't noticed that this never
+went in, but I also see that I still keep the same patch in
+my testing tree.
 
-This takes the sign of the syscall argument into account in the ia32
-stub. It still casts to unsigned int to avoid implementation specific
-behavior. However then casts to int or unsigned int as necessary. So
-that the following cast to long sign extends the value.
+I think the entire syscall entry logic needs a larger
+cross-architecture overhaul to avoid these confusing macros
+and make sure we get it right everywhere, but that's not
+going to happen overnight, so this patch is what should
+get merged and backported to LTS kernels first.
 
-This fixes the io_pgetevents02 LTP test when compiled with
--m32. Presently the systemcall io_pgetevents_time64 unexpectedly
-accepts -1 for the maximum number of events. It doesn't appear other
-systemcalls with signed arguments are effected because they all have
-compat variants defined and wired up. A less general solution is to
-wire up the systemcall:
-https://lore.kernel.org/ltp/20210921130127.24131-1-rpalethorpe@suse.com/
-
-Fixes: ebeb8c82ffaf ("syscalls/x86: Use 'struct pt_regs' based syscall calling for IA32_EMULATION and x32")
-Signed-off-by: Richard Palethorpe <rpalethorpe@suse.com>
-Suggested-by: Arnd Bergmann <arnd@arndb.de>
-Reviewed-by: Arnd Bergmann <arnd@arndb.de>
-Signed-off-by: Nikolay Borisov <nik.borisov@suse.com>
----
-
-This patch has been sent previously by Richard back in 2021 [0]. However it
-seems to have been dropped at some point and never merged. So I'm resending again
-to consider it for merging given that io_pgetevents_time64 LTP test still fails.
-
-
-[0] https://lore.kernel.org/all/20210927161955.28494-1-rpalethorpe@suse.com/
-
- arch/x86/include/asm/syscall_wrapper.h | 25 +++++++++++++++++++++----
- include/linux/syscalls.h               |  1 +
- 2 files changed, 22 insertions(+), 4 deletions(-)
-
-diff --git a/arch/x86/include/asm/syscall_wrapper.h b/arch/x86/include/asm/syscall_wrapper.h
-index 21f9407be5d3..7e88705e907f 100644
---- a/arch/x86/include/asm/syscall_wrapper.h
-+++ b/arch/x86/include/asm/syscall_wrapper.h
-@@ -58,12 +58,29 @@ extern long __ia32_sys_ni_syscall(const struct pt_regs *regs);
- 		,,regs->di,,regs->si,,regs->dx				\
- 		,,regs->r10,,regs->r8,,regs->r9)			\
-
-+
-+/* SYSCALL_PT_ARGS is Adapted from s390x */
-+#define SYSCALL_PT_ARG6(m, t1, t2, t3, t4, t5, t6)			\
-+	SYSCALL_PT_ARG5(m, t1, t2, t3, t4, t5), m(t6, (regs->bp))
-+#define SYSCALL_PT_ARG5(m, t1, t2, t3, t4, t5)				\
-+	SYSCALL_PT_ARG4(m, t1, t2, t3, t4),  m(t5, (regs->di))
-+#define SYSCALL_PT_ARG4(m, t1, t2, t3, t4)				\
-+	SYSCALL_PT_ARG3(m, t1, t2, t3),  m(t4, (regs->si))
-+#define SYSCALL_PT_ARG3(m, t1, t2, t3)					\
-+	SYSCALL_PT_ARG2(m, t1, t2), m(t3, (regs->dx))
-+#define SYSCALL_PT_ARG2(m, t1, t2)					\
-+	SYSCALL_PT_ARG1(m, t1), m(t2, (regs->cx))
-+#define SYSCALL_PT_ARG1(m, t1) m(t1, (regs->bx))
-+#define SYSCALL_PT_ARGS(x, ...) SYSCALL_PT_ARG##x(__VA_ARGS__)
-+
-+#define __SC_COMPAT_CAST(t, a)						\
-+	(__typeof(__builtin_choose_expr(__TYPE_IS_L(t), 0, 0U)))	\
-+	(unsigned int)a
-+
- /* Mapping of registers to parameters for syscalls on i386 */
- #define SC_IA32_REGS_TO_ARGS(x, ...)					\
--	__MAP(x,__SC_ARGS						\
--	      ,,(unsigned int)regs->bx,,(unsigned int)regs->cx		\
--	      ,,(unsigned int)regs->dx,,(unsigned int)regs->si		\
--	      ,,(unsigned int)regs->di,,(unsigned int)regs->bp)
-+	SYSCALL_PT_ARGS(x, __SC_COMPAT_CAST,				\
-+			__MAP(x, __SC_TYPE, __VA_ARGS__))		\
-
- #define __SYS_STUB0(abi, name)						\
- 	long __##abi##_##name(const struct pt_regs *regs);		\
-diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
-index 5c0dbef55792..80a059cab260 100644
---- a/include/linux/syscalls.h
-+++ b/include/linux/syscalls.h
-@@ -128,6 +128,7 @@ struct mnt_id_req;
- #define __TYPE_IS_LL(t) (__TYPE_AS(t, 0LL) || __TYPE_AS(t, 0ULL))
- #define __SC_LONG(t, a) __typeof(__builtin_choose_expr(__TYPE_IS_LL(t), 0LL, 0L)) a
- #define __SC_CAST(t, a)	(__force t) a
-+#define __SC_TYPE(t, a)	t
- #define __SC_ARGS(t, a)	a
- #define __SC_TEST(t, a) (void)BUILD_BUG_ON_ZERO(!__TYPE_IS_LL(t) && sizeof(t) > sizeof(long))
-
---
-2.34.1
-
+    arnd
 
