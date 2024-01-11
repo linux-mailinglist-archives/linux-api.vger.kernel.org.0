@@ -1,136 +1,110 @@
-Return-Path: <linux-api+bounces-482-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-483-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68F2982AD44
-	for <lists+linux-api@lfdr.de>; Thu, 11 Jan 2024 12:22:52 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F3F882ADA6
+	for <lists+linux-api@lfdr.de>; Thu, 11 Jan 2024 12:36:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 19299288440
-	for <lists+linux-api@lfdr.de>; Thu, 11 Jan 2024 11:22:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D1E601F21ECF
+	for <lists+linux-api@lfdr.de>; Thu, 11 Jan 2024 11:36:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A09AD14F8B;
-	Thu, 11 Jan 2024 11:22:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="cKmWR6dd"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A80A88F62;
+	Thu, 11 Jan 2024 11:36:25 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp-42ae.mail.infomaniak.ch (smtp-42ae.mail.infomaniak.ch [84.16.66.174])
+Received: from h3cspam02-ex.h3c.com (smtp.h3c.com [60.191.123.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EB8915484
-	for <linux-api@vger.kernel.org>; Thu, 11 Jan 2024 11:22:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
-Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
-	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4T9hqx0cJqzMq1bb;
-	Thu, 11 Jan 2024 11:13:49 +0000 (UTC)
-Received: from unknown by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4T9hqv3yjdzr0;
-	Thu, 11 Jan 2024 12:13:47 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
-	s=20191114; t=1704971628;
-	bh=+Dx1y3NlPG0Oz8roNtugh3aPtZh2p+5yMmqeI1QIBEo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cKmWR6dd9MEc0f1sWvXvwPne86uMgX6Rg0KeJVVsscclRS1cSJCPmDmTNkT/1XtcZ
-	 M9CkaQ17CndY2CFXQa2yAo/NkWO74ADRLKDwND8coyTVI9ArZiO6sunp1VX8yJVUIp
-	 eaoribqixdWDGKshebZ45tTsKaao8crTDJDZXE9U=
-Date: Thu, 11 Jan 2024 12:13:46 +0100
-From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
-To: Huyadi <hu.yadi@h3c.com>
-Cc: "jmorris@namei.org" <jmorris@namei.org>, 
-	"serge@hallyn.com" <serge@hallyn.com>, "shuah@kernel.org" <shuah@kernel.org>, 
-	"mathieu.desnoyers@efficios.com" <mathieu.desnoyers@efficios.com>, "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-security-module@vger.kernel.org" <linux-security-module@vger.kernel.org>, 
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>, "514118380@qq.com" <514118380@qq.com>
-Subject: Re: =?utf-8?B?5Zue5aSNOiBbUEFUQ0ggdjJdIHNlbGZ0ZXN0cy9tb3ZlX21v?=
- =?utf-8?Q?unt=5Fset=5Fgroup=3AMake?= tests build with old libc
-Message-ID: <20240111.aeth4shoo0Oo@digikod.net>
-References: <20240110072901.5873-1-hu.yadi@h3c.com>
- <20240110.Yap9Aw9aeghu@digikod.net>
- <6c398076d4624691a97766bad168d975@h3c.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ED4E15493;
+	Thu, 11 Jan 2024 11:36:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=h3c.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=h3c.com
+Received: from mail.maildlp.com ([172.25.15.154])
+	by h3cspam02-ex.h3c.com with ESMTP id 40BBZ9Z9081112;
+	Thu, 11 Jan 2024 19:35:09 +0800 (GMT-8)
+	(envelope-from hu.yadi@h3c.com)
+Received: from DAG6EX02-IMDC.srv.huawei-3com.com (unknown [10.62.14.11])
+	by mail.maildlp.com (Postfix) with ESMTP id CC870200AD20;
+	Thu, 11 Jan 2024 19:39:31 +0800 (CST)
+Received: from localhost.localdomain (10.99.206.12) by
+ DAG6EX02-IMDC.srv.huawei-3com.com (10.62.14.11) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.1258.27; Thu, 11 Jan 2024 19:35:11 +0800
+From: Hu Yadi <hu.yadi@h3c.com>
+To: <jmorris@namei.org>, <serge@hallyn.com>, <shuah@kernel.org>,
+        <mathieu.desnoyers@efficios.com>, <mic@digikod.net>
+CC: <linux-api@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-security-module@vger.kernel.org>,
+        <linux-kselftest@vger.kernel.org>, <514118380@qq.com>,
+        "Hu.Yadi" <hu.yadi@h3c.com>
+Subject: [PATCH v4] selftests/move_mount_set_group:Make tests build with old libc
+Date: Thu, 11 Jan 2024 19:32:29 +0800
+Message-ID: <20240111113229.10820-1-hu.yadi@h3c.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <6c398076d4624691a97766bad168d975@h3c.com>
-X-Infomaniak-Routing: alpha
+X-ClientProxiedBy: BJSMTP02-EX.srv.huawei-3com.com (10.63.20.133) To
+ DAG6EX02-IMDC.srv.huawei-3com.com (10.62.14.11)
+X-DNSRBL: 
+X-SPAM-SOURCE-CHECK: pass
+X-MAIL:h3cspam02-ex.h3c.com 40BBZ9Z9081112
 
-On Thu, Jan 11, 2024 at 02:25:03AM +0000, Huyadi wrote:
-> 
-> >On Wed, Jan 10, 2024 at 03:29:01PM +0800, Hu Yadi wrote:
-> >> From: "Hu.Yadi" <hu.yadi@h3c.com>
-> >> 
-> >> Replace SYS_<syscall> with __NR_<syscall>.  Using the __NR_<syscall> 
-> >> notation, provided by UAPI, is useful to build tests on systems 
-> >> without the SYS_<syscall> definitions.
-> >
-> >This looks a lot like that...
-> >https://git.kernel.org/stable/c/87129ef13603ae46c82bcd09eed948acf0506dbb
-> 
-> Yes, I picked up comments from above commit in order for consistent,
-> I would send v3 patch if it is inappropriate. 
+From: "Hu.Yadi" <hu.yadi@h3c.com>
 
-This is not an issue at all to use the same wording if it makes sense.
-Actually, the description of v3 is less explanatory.  It might just be
-appropriate to reference past similar work. That would justify your
-work, add a precedent, and if there is any issue we could fix both
-changes.
+Replace SYS_<syscall> with __NR_<syscall>.  Using the __NR_<syscall>
+notation, provided by UAPI, is useful to build tests on systems without
+the SYS_<syscall> definitions.
 
-You can append this to the commit message (with the v2 description):
+Replace SYS_move_mount with __NR_move_mount
 
-Similar changes: commit 87129ef13603 ("selftests/landlock: Make tests
-build with old libc")
+Similar changes: commit 87129ef13603 ("selftests/landlock: Make tests build with old libc")
 
 Acked-by: Mickaël Salaün <mic@digikod.net>
+Signed-off-by: Hu.Yadi <hu.yadi@h3c.com>
+Suggested-by: Jiao <jiaoxupo@h3c.com>
+Reviewed-by: Berlin <berlin@h3c.com>
+---
+Changes v4 -> v3:
+ - Adjust comments for consistent
+ - Add Acked-by
+Changes v2 -> v3:
+ - Adjust comments
+Changes v1 -> v2:
+ - Fix mail of Suggested-by and Reviewed-by
 
-> 
-> >> 
-> >> Replace SYS_move_mount with __NR_move_mount
-> >> 
-> >> Signed-off-by: Hu.Yadi <hu.yadi@h3c.com> Suggested-by:Jiao 
-> >> <jiaoxupo@h3c.com> Reviewed-by:Berlin <berlin@h3c.com>
-> >> ---
-> >> Changes v1 -> v2:
-> >>  - Fix mail of Suggested-by and Reviewed-by
-> >> 
-> >>  .../move_mount_set_group/move_mount_set_group_test.c          | 4 ++--
-> >>  1 file changed, 2 insertions(+), 2 deletions(-)
-> >> 
-> >> diff --git 
-> >> a/tools/testing/selftests/move_mount_set_group/move_mount_set_group_te
-> >> st.c 
-> >> b/tools/testing/selftests/move_mount_set_group/move_mount_set_group_te
-> >> st.c index 50ed5d475dd1..bcf51d785a37 100644
-> >> --- 
-> >> a/tools/testing/selftests/move_mount_set_group/move_mount_set_group_te
-> >> st.c
-> >> +++ b/tools/testing/selftests/move_mount_set_group/move_mount_set_grou
-> >> +++ p_test.c
-> >> @@ -218,7 +218,7 @@ static bool move_mount_set_group_supported(void)
-> >>  	if (mount(NULL, SET_GROUP_FROM, NULL, MS_SHARED, 0))
-> >>  		return -1;
-> >>  
-> >> -	ret = syscall(SYS_move_mount, AT_FDCWD, SET_GROUP_FROM,
-> >> +	ret = syscall(__NR_move_mount, AT_FDCWD, SET_GROUP_FROM,
-> >>  		      AT_FDCWD, SET_GROUP_TO, MOVE_MOUNT_SET_GROUP);
-> >>  	umount2("/tmp", MNT_DETACH);
-> >>  
-> >> @@ -363,7 +363,7 @@ TEST_F(move_mount_set_group, complex_sharing_copying)
-> >>  		       CLONE_VM | CLONE_FILES); ASSERT_GT(pid, 0);
-> >>  	ASSERT_EQ(wait_for_pid(pid), 0);
-> >>  
-> >> -	ASSERT_EQ(syscall(SYS_move_mount, ca_from.mntfd, "",
-> >> +	ASSERT_EQ(syscall(__NR_move_mount, ca_from.mntfd, "",
-> >>  			  ca_to.mntfd, "", MOVE_MOUNT_SET_GROUP
-> >>  			  | MOVE_MOUNT_F_EMPTY_PATH | MOVE_MOUNT_T_EMPTY_PATH),
-> >>  		  0);
-> >> --
-> >> 2.23.0
-> >>  
+ .../move_mount_set_group/move_mount_set_group_test.c          | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/tools/testing/selftests/move_mount_set_group/move_mount_set_group_test.c b/tools/testing/selftests/move_mount_set_group/move_mount_set_group_test.c
+index 50ed5d475dd1..bcf51d785a37 100644
+--- a/tools/testing/selftests/move_mount_set_group/move_mount_set_group_test.c
++++ b/tools/testing/selftests/move_mount_set_group/move_mount_set_group_test.c
+@@ -218,7 +218,7 @@ static bool move_mount_set_group_supported(void)
+ 	if (mount(NULL, SET_GROUP_FROM, NULL, MS_SHARED, 0))
+ 		return -1;
+ 
+-	ret = syscall(SYS_move_mount, AT_FDCWD, SET_GROUP_FROM,
++	ret = syscall(__NR_move_mount, AT_FDCWD, SET_GROUP_FROM,
+ 		      AT_FDCWD, SET_GROUP_TO, MOVE_MOUNT_SET_GROUP);
+ 	umount2("/tmp", MNT_DETACH);
+ 
+@@ -363,7 +363,7 @@ TEST_F(move_mount_set_group, complex_sharing_copying)
+ 		       CLONE_VM | CLONE_FILES); ASSERT_GT(pid, 0);
+ 	ASSERT_EQ(wait_for_pid(pid), 0);
+ 
+-	ASSERT_EQ(syscall(SYS_move_mount, ca_from.mntfd, "",
++	ASSERT_EQ(syscall(__NR_move_mount, ca_from.mntfd, "",
+ 			  ca_to.mntfd, "", MOVE_MOUNT_SET_GROUP
+ 			  | MOVE_MOUNT_F_EMPTY_PATH | MOVE_MOUNT_T_EMPTY_PATH),
+ 		  0);
+-- 
+2.23.0
+
 
