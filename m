@@ -1,51 +1,54 @@
-Return-Path: <linux-api+bounces-484-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-485-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A60182AFA5
-	for <lists+linux-api@lfdr.de>; Thu, 11 Jan 2024 14:27:39 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C30782B059
+	for <lists+linux-api@lfdr.de>; Thu, 11 Jan 2024 15:12:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8204EB20E38
-	for <lists+linux-api@lfdr.de>; Thu, 11 Jan 2024 13:27:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AC1181F224E7
+	for <lists+linux-api@lfdr.de>; Thu, 11 Jan 2024 14:11:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C038016404;
-	Thu, 11 Jan 2024 13:27:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86AC13BB29;
+	Thu, 11 Jan 2024 14:11:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="mEvfMIL8"
+	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="1kIR6WKm"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp-190e.mail.infomaniak.ch (smtp-190e.mail.infomaniak.ch [185.125.25.14])
+Received: from smtp-1909.mail.infomaniak.ch (smtp-1909.mail.infomaniak.ch [185.125.25.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4513415EBC
-	for <linux-api@vger.kernel.org>; Thu, 11 Jan 2024 13:27:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07A893A8D9
+	for <linux-api@vger.kernel.org>; Thu, 11 Jan 2024 14:11:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
-Received: from smtp-2-0000.mail.infomaniak.ch (unknown [10.5.36.107])
-	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4T9lp50cJjzMqlwl;
-	Thu, 11 Jan 2024 13:27:25 +0000 (UTC)
-Received: from unknown by smtp-2-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4T9lp40hDzzMpnPr;
-	Thu, 11 Jan 2024 14:27:23 +0100 (CET)
+Received: from smtp-3-0001.mail.infomaniak.ch (unknown [10.4.36.108])
+	by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4T9mfW3Q2jzMrF30;
+	Thu, 11 Jan 2024 14:05:55 +0000 (UTC)
+Received: from unknown by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4T9mfV6yPSzMppBF;
+	Thu, 11 Jan 2024 15:05:54 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
-	s=20191114; t=1704979644;
-	bh=NcqqHqbHcG+SCp8ggpuwIKesgMZhBMGU2oOkDWhEbbM=;
+	s=20191114; t=1704981955;
+	bh=aI1+49gT1ZojrVUKrGP+osTMmA2ZTIqr1RprKbXCN+U=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mEvfMIL8w/91vuf2+ilbVcjIHYmM1diMZINM0JzdDDczWXcvNNoaBmlCHuEJQnw3L
-	 BF4gtyQax3ytNPKu7AV8CoDCavZzV54n9xTZq2APhQB677qFd/Jar7UulQVKRDVU0Y
-	 Ili5KwP5JpLXiJb25B6Fasjvym0M9aOWUuRxGLpk=
-Date: Thu, 11 Jan 2024 14:27:22 +0100
+	b=1kIR6WKm8uQMHswlhMP2gSeP//iC+OYFm+Thxm4kVJ3s8CqFvXp7wc7Hio9u3ONlJ
+	 efuLO72RQB/RIELTZX5fivqOJRiCiOburHK1q3wLJY14iOkgVCnOdE1wrr8cCSuT7r
+	 jOaLcO+lhyCQVJQxkXIWSX7Dgd8ukt7OCBauaDkk=
+Date: Thu, 11 Jan 2024 15:05:53 +0100
 From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
-To: Hu Yadi <hu.yadi@h3c.com>
-Cc: jmorris@namei.org, serge@hallyn.com, shuah@kernel.org, 
-	mathieu.desnoyers@efficios.com, linux-api@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, linux-kselftest@vger.kernel.org, 514118380@qq.com, 
-	Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH v4] selftests/move_mount_set_group:Make tests build with
- old libc
-Message-ID: <20240111.mee0ohZie5he@digikod.net>
-References: <20240111113229.10820-1-hu.yadi@h3c.com>
+To: Huyadi <hu.yadi@h3c.com>
+Cc: "jmorris@namei.org" <jmorris@namei.org>, 
+	"serge@hallyn.com" <serge@hallyn.com>, "shuah@kernel.org" <shuah@kernel.org>, 
+	"mathieu.desnoyers@efficios.com" <mathieu.desnoyers@efficios.com>, "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-security-module@vger.kernel.org" <linux-security-module@vger.kernel.org>, 
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>, "514118380@qq.com" <514118380@qq.com>
+Subject: Re: =?utf-8?B?5Zue5aSN?= =?utf-8?Q?=3A?= [PATCH]
+ selftests/landlock:Fix two build issues
+Message-ID: <20240111.Ooraegolah6n@digikod.net>
+References: <20240110070854.7077-1-hu.yadi@h3c.com>
+ <20240110.ob2roh1Xai9y@digikod.net>
+ <9820400d6083428bbab2dfe5d5682d19@h3c.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -55,65 +58,118 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240111113229.10820-1-hu.yadi@h3c.com>
+In-Reply-To: <9820400d6083428bbab2dfe5d5682d19@h3c.com>
 X-Infomaniak-Routing: alpha
 
-On Thu, Jan 11, 2024 at 07:32:29PM +0800, Hu Yadi wrote:
-> From: "Hu.Yadi" <hu.yadi@h3c.com>
+On Thu, Jan 11, 2024 at 02:34:08AM +0000, Huyadi wrote:
 > 
-> Replace SYS_<syscall> with __NR_<syscall>.  Using the __NR_<syscall>
-> notation, provided by UAPI, is useful to build tests on systems without
-> the SYS_<syscall> definitions.
+> ->On Wed, Jan 10, 2024 at 03:08:54PM +0800, Hu Yadi wrote:
+> >> From: "Hu.Yadi" <hu.yadi@h3c.com>
+> >> 
+> >> Two issues comes up  while building selftest/landlock:
+> >> 
+> >> the first one is as to gettid
+> >> 
+> >> net_test.c: In function ‘set_service’:
+> >> net_test.c:91:45: warning: implicit declaration of function ‘gettid’; did you mean ‘getgid’? [-Wimplicit-function-declaration]
+> >>     "_selftests-landlock-net-tid%d-index%d", gettid(),
+> >>                                              ^~~~~~
+> >>                                              getgid
+> >> net_test.c:(.text+0x4e0): undefined reference to `gettid'
+> >> 
+> >> the second is compiler error
+> >> gcc -Wall -O2 -isystem   fs_test.c -lcap -o /home/linux/tools/testing/selftests/landlock/fs_test
+> >> fs_test.c:4575:9: error: initializer element is not constant
+> >>   .mnt = mnt_tmp,
+> >>          ^~~~~~~
+> >
+> >What is the version of GCC (and headers) and on which system (and
+> >version) are you building these tests?
 > 
-> Replace SYS_move_mount with __NR_move_mount
-> 
-> Similar changes: commit 87129ef13603 ("selftests/landlock: Make tests build with old libc")
-> 
-> Acked-by: Mickaël Salaün <mic@digikod.net>
+> gcc 7.3 / glibc-2.28/ kernel 4.19/ OpenEulor20.03
 
-Sorry, it should have been Reviewed-by: Mickaël Salaün <mic@digikod.net>
+These are old versions. You should mention in the commit message which
+version of glibc added gettid().
 
-Also, this is maintained by the VFS maintainers. I CCed three relevant addresses.
+> 
+> >> 
+> >> this patch is to fix them
+> >> 
+> >> Signed-off-by: Hu.Yadi <hu.yadi@h3c.com>
+> >> Suggested-by: Jiao <jiaoxupo@h3c.com>
+> >> Reviewed-by:Berlin <berlin@h3c.com>
+> >> ---
+> >>  tools/testing/selftests/landlock/fs_test.c  | 5 ++++-  
+> >> tools/testing/selftests/landlock/net_test.c | 3 +--
+> >>  2 files changed, 5 insertions(+), 3 deletions(-)
+> >> 
+> >> diff --git a/tools/testing/selftests/landlock/fs_test.c 
+> >> b/tools/testing/selftests/landlock/fs_test.c
+> >> index 18e1f86a6234..93eb40a09073 100644
+> >> --- a/tools/testing/selftests/landlock/fs_test.c
+> >> +++ b/tools/testing/selftests/landlock/fs_test.c
+> >> @@ -4572,7 +4572,10 @@ FIXTURE_VARIANT(layout3_fs)
+> >>  /* clang-format off */
+> >>  FIXTURE_VARIANT_ADD(layout3_fs, tmpfs) {
+> >>  	/* clang-format on */
+> >> -	.mnt = mnt_tmp,
 
-> Signed-off-by: Hu.Yadi <hu.yadi@h3c.com>
-> Suggested-by: Jiao <jiaoxupo@h3c.com>
-> Reviewed-by: Berlin <berlin@h3c.com>
-> ---
-> Changes v4 -> v3:
->  - Adjust comments for consistent
->  - Add Acked-by
-> Changes v2 -> v3:
->  - Adjust comments
-> Changes v1 -> v2:
->  - Fix mail of Suggested-by and Reviewed-by
+Can you just cast mnt_tmp? It exists to avoid such duplicate code.
+
+> >> +	.mnt = {
+> >> +		.type = "tmpfs",
+> >> +        	.data = "size=4m,mode=700",
+> >
+> >When applying this patch we get: "space before tab in indent"
 > 
->  .../move_mount_set_group/move_mount_set_group_test.c          | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> Sorry for inconvenient, I'll resend it v2 after checkpatch.pl shows no error.
 > 
-> diff --git a/tools/testing/selftests/move_mount_set_group/move_mount_set_group_test.c b/tools/testing/selftests/move_mount_set_group/move_mount_set_group_test.c
-> index 50ed5d475dd1..bcf51d785a37 100644
-> --- a/tools/testing/selftests/move_mount_set_group/move_mount_set_group_test.c
-> +++ b/tools/testing/selftests/move_mount_set_group/move_mount_set_group_test.c
-> @@ -218,7 +218,7 @@ static bool move_mount_set_group_supported(void)
->  	if (mount(NULL, SET_GROUP_FROM, NULL, MS_SHARED, 0))
->  		return -1;
+> >> +	},
+> >>  	.file_path = file1_s1d1,
+> >>  };
+> >>  
+> >> diff --git a/tools/testing/selftests/landlock/net_test.c 
+> >> b/tools/testing/selftests/landlock/net_test.c
+> >> index 929e21c4db05..8fb357de8c55 100644
+> >> --- a/tools/testing/selftests/landlock/net_test.c
+> >> +++ b/tools/testing/selftests/landlock/net_test.c
+> >> @@ -18,7 +18,6 @@
+> >>  #include <sys/prctl.h>
+> >>  #include <sys/socket.h>
+> >>  #include <sys/un.h>
+> >> -
+> >>  #include "common.h"
+> >>  
+> >>  const short sock_port_start = (1 << 10); @@ -88,7 +87,7 @@ static int 
+> >> set_service(struct service_fixture *const srv,
+> >>  	case AF_UNIX:
+> >>  		srv->unix_addr.sun_family = prot.domain;
+> >>  		sprintf(srv->unix_addr.sun_path,
+> >> -			"_selftests-landlock-net-tid%d-index%d", gettid(),
+> >> +			"_selftests-landlock-net-tid%ld-index%d", syscall(SYS_gettid),
+> >
+> >You sent another patch that "replace SYS_<syscall> with __NR_<syscall>".
+> >Why not here?
+> >
+> >Please follow the same approach:
+> >https://git.kernel.org/stable/c/87129ef13603ae46c82bcd09eed948acf0506dbb
+
+Can you please add a getpid() helper like for renameat2() in this
+commit?
+
+Also, all Landlock-related code is formatted with clang-format. You can
+do it with clang-format -i tools/testing/selftests/landlock/*.[ch]
+
+> 
+> Got it, I'll resend it v2 including the fix 
+> 
+> >>  			index);
+> >>  		srv->unix_addr_len = SUN_LEN(&srv->unix_addr);
+> >>  		srv->unix_addr.sun_path[0] = '\0';
+> >> --
+> >> 2.23.0
+> >> 
+> >> 
+> 
 >  
-> -	ret = syscall(SYS_move_mount, AT_FDCWD, SET_GROUP_FROM,
-> +	ret = syscall(__NR_move_mount, AT_FDCWD, SET_GROUP_FROM,
->  		      AT_FDCWD, SET_GROUP_TO, MOVE_MOUNT_SET_GROUP);
->  	umount2("/tmp", MNT_DETACH);
->  
-> @@ -363,7 +363,7 @@ TEST_F(move_mount_set_group, complex_sharing_copying)
->  		       CLONE_VM | CLONE_FILES); ASSERT_GT(pid, 0);
->  	ASSERT_EQ(wait_for_pid(pid), 0);
->  
-> -	ASSERT_EQ(syscall(SYS_move_mount, ca_from.mntfd, "",
-> +	ASSERT_EQ(syscall(__NR_move_mount, ca_from.mntfd, "",
->  			  ca_to.mntfd, "", MOVE_MOUNT_SET_GROUP
->  			  | MOVE_MOUNT_F_EMPTY_PATH | MOVE_MOUNT_T_EMPTY_PATH),
->  		  0);
-> -- 
-> 2.23.0
-> 
-> 
 
