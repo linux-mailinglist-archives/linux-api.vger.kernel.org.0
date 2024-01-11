@@ -1,107 +1,116 @@
-Return-Path: <linux-api+bounces-474-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-475-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5B5882A53C
-	for <lists+linux-api@lfdr.de>; Thu, 11 Jan 2024 01:33:24 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DD6382A600
+	for <lists+linux-api@lfdr.de>; Thu, 11 Jan 2024 03:26:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4C57428973B
-	for <lists+linux-api@lfdr.de>; Thu, 11 Jan 2024 00:33:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2483C1F2121A
+	for <lists+linux-api@lfdr.de>; Thu, 11 Jan 2024 02:26:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68E4038F;
-	Thu, 11 Jan 2024 00:33:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="NJsf+udm"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00573807;
+	Thu, 11 Jan 2024 02:26:20 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from h3cspam02-ex.h3c.com (smtp.h3c.com [60.191.123.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A077219E
-	for <linux-api@vger.kernel.org>; Thu, 11 Jan 2024 00:33:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a27cd5850d6so509683866b.1
-        for <linux-api@vger.kernel.org>; Wed, 10 Jan 2024 16:33:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1704933196; x=1705537996; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ecki/5hmhCZ1pJBgLNzGL9kIecS6fNHUeL7VAgIOt7A=;
-        b=NJsf+udmMv6VWRQdlcAXxWsoP078V+yWouc3IQeOpsuDb8rBqf8Jwfw07hLxjov059
-         J8vy97crNMGtVjaNPq4msOkVwEl5x3bkCSb2IceT3LFOCPMF2tAqZLLjqg2WOnBuDHRr
-         sCfordjb1dO+oCi1c5/jySKpXZ/i/+teGjbss=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704933196; x=1705537996;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Ecki/5hmhCZ1pJBgLNzGL9kIecS6fNHUeL7VAgIOt7A=;
-        b=TNfTyvo2bqMVYR71Cu4Lu9uYjW9ozr7cL33WHApoH9UFfUG+223zjO40GO/+HScgbs
-         GvkQFbE2mHR/nMEXYcgqafH2x7oiJ7aI9HncT6gloPDksv9Z1tvXl43qpYxKe7p9oUZr
-         KCG9HZ2u7dJV1Zq/Uo8mQnU/v80owTRo9VdS4/hPlUU3BQfM8W2a+rYQA7jY02YBjcyd
-         lFHYJalniA4/3VeE7Py/BoKOde59OXH13JALFGycebXJqnNFzDeUdOgLwITz+r3NT+ea
-         ei1ayM3j4wGlL+qk5e3jsSwbJMUkEvH7apBYmeCfH7HLCwAlkZq/KB95J9gG5m4zrkhh
-         3XVw==
-X-Gm-Message-State: AOJu0Ywu73LYoEftpzz9NtHdfcShMQOq3quxtrT5Avo/TlpABuQz8TZC
-	MZRGw63ZbsrOob2U5XFt4xQ0tNgIbLUKwdxu/LMWys46Mq0qDU7i
-X-Google-Smtp-Source: AGHT+IH8Cl+9Y7wYYTTl2o+kJAc/N3BihNr4iWlz+DAePvqWZPniud3avwowcHCbvJlo4ZbgEKn7RA==
-X-Received: by 2002:a17:907:2990:b0:a26:9347:3742 with SMTP id eu16-20020a170907299000b00a2693473742mr126595ejc.44.1704933195717;
-        Wed, 10 Jan 2024 16:33:15 -0800 (PST)
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com. [209.85.218.51])
-        by smtp.gmail.com with ESMTPSA id v23-20020a1709061dd700b00a2c2a9b5766sm341009ejh.97.2024.01.10.16.33.14
-        for <linux-api@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Jan 2024 16:33:14 -0800 (PST)
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a277339dcf4so523705266b.2
-        for <linux-api@vger.kernel.org>; Wed, 10 Jan 2024 16:33:14 -0800 (PST)
-X-Received: by 2002:a17:907:1c9b:b0:a28:d5dd:574f with SMTP id
- nb27-20020a1709071c9b00b00a28d5dd574fmr218565ejc.31.1704933194074; Wed, 10
- Jan 2024 16:33:14 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 412F81C16;
+	Thu, 11 Jan 2024 02:26:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=h3c.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=h3c.com
+Received: from mail.maildlp.com ([172.25.15.154])
+	by h3cspam02-ex.h3c.com with ESMTP id 40B2P3Oi095226;
+	Thu, 11 Jan 2024 10:25:03 +0800 (GMT-8)
+	(envelope-from hu.yadi@h3c.com)
+Received: from DAG6EX01-IMDC.srv.huawei-3com.com (unknown [10.62.14.10])
+	by mail.maildlp.com (Postfix) with ESMTP id 559F822D4780;
+	Thu, 11 Jan 2024 10:29:23 +0800 (CST)
+Received: from DAG6EX02-IMDC.srv.huawei-3com.com (10.62.14.11) by
+ DAG6EX01-IMDC.srv.huawei-3com.com (10.62.14.10) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.27; Thu, 11 Jan 2024 10:25:04 +0800
+Received: from DAG6EX02-IMDC.srv.huawei-3com.com ([fe80::4c21:7c89:4f9d:e4c4])
+ by DAG6EX02-IMDC.srv.huawei-3com.com ([fe80::4c21:7c89:4f9d:e4c4%16]) with
+ mapi id 15.02.1258.027; Thu, 11 Jan 2024 10:25:03 +0800
+From: Huyadi <hu.yadi@h3c.com>
+To: =?utf-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
+CC: "jmorris@namei.org" <jmorris@namei.org>,
+        "serge@hallyn.com"
+	<serge@hallyn.com>,
+        "shuah@kernel.org" <shuah@kernel.org>,
+        "mathieu.desnoyers@efficios.com" <mathieu.desnoyers@efficios.com>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-security-module@vger.kernel.org"
+	<linux-security-module@vger.kernel.org>,
+        "linux-kselftest@vger.kernel.org"
+	<linux-kselftest@vger.kernel.org>,
+        "514118380@qq.com" <514118380@qq.com>
+Subject: =?utf-8?B?5Zue5aSNOiBbUEFUQ0ggdjJdIHNlbGZ0ZXN0cy9tb3ZlX21vdW50X3NldF9n?=
+ =?utf-8?Q?roup:Make_tests_build_with_old_libc?=
+Thread-Topic: [PATCH v2] selftests/move_mount_set_group:Make tests build with
+ old libc
+Thread-Index: AQHaQ5cFEyIWLbXjpU+9djDN1vXVNrDSzHOAgAEVTtA=
+Date: Thu, 11 Jan 2024 02:25:03 +0000
+Message-ID: <6c398076d4624691a97766bad168d975@h3c.com>
+References: <20240110072901.5873-1-hu.yadi@h3c.com>
+ <20240110.Yap9Aw9aeghu@digikod.net>
+In-Reply-To: <20240110.Yap9Aw9aeghu@digikod.net>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-sender-location: DAG2
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231025140205.3586473-1-mszeredi@redhat.com> <20231025140205.3586473-6-mszeredi@redhat.com>
- <75b87a85-7d2c-4078-91e3-024ea36cfb42@roeck-us.net>
-In-Reply-To: <75b87a85-7d2c-4078-91e3-024ea36cfb42@roeck-us.net>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Wed, 10 Jan 2024 16:32:57 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wjdW-4s6Kpa4izJ2D=yPdCje6Ta=eQxxQG6e2SkP42vnw@mail.gmail.com>
-Message-ID: <CAHk-=wjdW-4s6Kpa4izJ2D=yPdCje6Ta=eQxxQG6e2SkP42vnw@mail.gmail.com>
-Subject: Re: [PATCH v4 5/6] add listmount(2) syscall
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Miklos Szeredi <mszeredi@redhat.com>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, 
-	linux-man@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	Karel Zak <kzak@redhat.com>, Ian Kent <raven@themaw.net>, David Howells <dhowells@redhat.com>, 
-	Al Viro <viro@zeniv.linux.org.uk>, Christian Brauner <christian@brauner.io>, 
-	Amir Goldstein <amir73il@gmail.com>, Matthew House <mattlloydhouse@gmail.com>, 
-	Florian Weimer <fweimer@redhat.com>, Arnd Bergmann <arnd@arndb.de>
-Content-Type: text/plain; charset="UTF-8"
+X-DNSRBL: 
+X-SPAM-SOURCE-CHECK: pass
+X-MAIL:h3cspam02-ex.h3c.com 40B2P3Oi095226
 
-On Wed, 10 Jan 2024 at 14:23, Guenter Roeck <linux@roeck-us.net> wrote:
->
-> with this patch in the tree, all sh4 builds fail with ICE.
->
-> during RTL pass: final
-> In file included from fs/namespace.c:11:
-> fs/namespace.c: In function '__se_sys_listmount':
-> include/linux/syscalls.h:258:9: internal compiler error: in change_address_1, at emit-rtl.c:2275
-
-We do have those very ugly SYSCALL_DEFINEx() macros, but I'm not
-seeing _anything_ that would be odd about the listmount case.
-
-And the "__se_sys" thing in particular is just a fairly trivial wrapper.
-
-It does use that asmlinkage_protect() thing, and it is unquestionably
-horrendously ugly (staring too long at <linux/syscalls.h> has been
-known to cause madness and despair), but we do that for *every* single
-system call and I don't see why the new listmount entry would be
-different.
-
-           Linus
+DQo+T24gV2VkLCBKYW4gMTAsIDIwMjQgYXQgMDM6Mjk6MDFQTSArMDgwMCwgSHUgWWFkaSB3cm90
+ZToNCj4+IEZyb206ICJIdS5ZYWRpIiA8aHUueWFkaUBoM2MuY29tPg0KPj4gDQo+PiBSZXBsYWNl
+IFNZU188c3lzY2FsbD4gd2l0aCBfX05SXzxzeXNjYWxsPi4gIFVzaW5nIHRoZSBfX05SXzxzeXNj
+YWxsPiANCj4+IG5vdGF0aW9uLCBwcm92aWRlZCBieSBVQVBJLCBpcyB1c2VmdWwgdG8gYnVpbGQg
+dGVzdHMgb24gc3lzdGVtcyANCj4+IHdpdGhvdXQgdGhlIFNZU188c3lzY2FsbD4gZGVmaW5pdGlv
+bnMuDQo+DQo+VGhpcyBsb29rcyBhIGxvdCBsaWtlIHRoYXQuLi4NCj5odHRwczovL2dpdC5rZXJu
+ZWwub3JnL3N0YWJsZS9jLzg3MTI5ZWYxMzYwM2FlNDZjODJiY2QwOWVlZDk0OGFjZjA1MDZkYmIN
+Cg0KWWVzLCBJIHBpY2tlZCB1cCBjb21tZW50cyBmcm9tIGFib3ZlIGNvbW1pdCBpbiBvcmRlciBm
+b3IgY29uc2lzdGVudCwNCkkgd291bGQgc2VuZCB2MyBwYXRjaCBpZiBpdCBpcyBpbmFwcHJvcHJp
+YXRlLiANCg0KPj4gDQo+PiBSZXBsYWNlIFNZU19tb3ZlX21vdW50IHdpdGggX19OUl9tb3ZlX21v
+dW50DQo+PiANCj4+IFNpZ25lZC1vZmYtYnk6IEh1LllhZGkgPGh1LnlhZGlAaDNjLmNvbT4gU3Vn
+Z2VzdGVkLWJ5OkppYW8gDQo+PiA8amlhb3h1cG9AaDNjLmNvbT4gUmV2aWV3ZWQtYnk6QmVybGlu
+IDxiZXJsaW5AaDNjLmNvbT4NCj4+IC0tLQ0KPj4gQ2hhbmdlcyB2MSAtPiB2MjoNCj4+ICAtIEZp
+eCBtYWlsIG9mIFN1Z2dlc3RlZC1ieSBhbmQgUmV2aWV3ZWQtYnkNCj4+IA0KPj4gIC4uLi9tb3Zl
+X21vdW50X3NldF9ncm91cC9tb3ZlX21vdW50X3NldF9ncm91cF90ZXN0LmMgICAgICAgICAgfCA0
+ICsrLS0NCj4+ICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygt
+KQ0KPj4gDQo+PiBkaWZmIC0tZ2l0IA0KPj4gYS90b29scy90ZXN0aW5nL3NlbGZ0ZXN0cy9tb3Zl
+X21vdW50X3NldF9ncm91cC9tb3ZlX21vdW50X3NldF9ncm91cF90ZQ0KPj4gc3QuYyANCj4+IGIv
+dG9vbHMvdGVzdGluZy9zZWxmdGVzdHMvbW92ZV9tb3VudF9zZXRfZ3JvdXAvbW92ZV9tb3VudF9z
+ZXRfZ3JvdXBfdGUNCj4+IHN0LmMgaW5kZXggNTBlZDVkNDc1ZGQxLi5iY2Y1MWQ3ODVhMzcgMTAw
+NjQ0DQo+PiAtLS0gDQo+PiBhL3Rvb2xzL3Rlc3Rpbmcvc2VsZnRlc3RzL21vdmVfbW91bnRfc2V0
+X2dyb3VwL21vdmVfbW91bnRfc2V0X2dyb3VwX3RlDQo+PiBzdC5jDQo+PiArKysgYi90b29scy90
+ZXN0aW5nL3NlbGZ0ZXN0cy9tb3ZlX21vdW50X3NldF9ncm91cC9tb3ZlX21vdW50X3NldF9ncm91
+DQo+PiArKysgcF90ZXN0LmMNCj4+IEBAIC0yMTgsNyArMjE4LDcgQEAgc3RhdGljIGJvb2wgbW92
+ZV9tb3VudF9zZXRfZ3JvdXBfc3VwcG9ydGVkKHZvaWQpDQo+PiAgCWlmIChtb3VudChOVUxMLCBT
+RVRfR1JPVVBfRlJPTSwgTlVMTCwgTVNfU0hBUkVELCAwKSkNCj4+ICAJCXJldHVybiAtMTsNCj4+
+ICANCj4+IC0JcmV0ID0gc3lzY2FsbChTWVNfbW92ZV9tb3VudCwgQVRfRkRDV0QsIFNFVF9HUk9V
+UF9GUk9NLA0KPj4gKwlyZXQgPSBzeXNjYWxsKF9fTlJfbW92ZV9tb3VudCwgQVRfRkRDV0QsIFNF
+VF9HUk9VUF9GUk9NLA0KPj4gIAkJICAgICAgQVRfRkRDV0QsIFNFVF9HUk9VUF9UTywgTU9WRV9N
+T1VOVF9TRVRfR1JPVVApOw0KPj4gIAl1bW91bnQyKCIvdG1wIiwgTU5UX0RFVEFDSCk7DQo+PiAg
+DQo+PiBAQCAtMzYzLDcgKzM2Myw3IEBAIFRFU1RfRihtb3ZlX21vdW50X3NldF9ncm91cCwgY29t
+cGxleF9zaGFyaW5nX2NvcHlpbmcpDQo+PiAgCQkgICAgICAgQ0xPTkVfVk0gfCBDTE9ORV9GSUxF
+Uyk7IEFTU0VSVF9HVChwaWQsIDApOw0KPj4gIAlBU1NFUlRfRVEod2FpdF9mb3JfcGlkKHBpZCks
+IDApOw0KPj4gIA0KPj4gLQlBU1NFUlRfRVEoc3lzY2FsbChTWVNfbW92ZV9tb3VudCwgY2FfZnJv
+bS5tbnRmZCwgIiIsDQo+PiArCUFTU0VSVF9FUShzeXNjYWxsKF9fTlJfbW92ZV9tb3VudCwgY2Ff
+ZnJvbS5tbnRmZCwgIiIsDQo+PiAgCQkJICBjYV90by5tbnRmZCwgIiIsIE1PVkVfTU9VTlRfU0VU
+X0dST1VQDQo+PiAgCQkJICB8IE1PVkVfTU9VTlRfRl9FTVBUWV9QQVRIIHwgTU9WRV9NT1VOVF9U
+X0VNUFRZX1BBVEgpLA0KPj4gIAkJICAwKTsNCj4+IC0tDQo+PiAyLjIzLjANCj4+ICANCg==
 
