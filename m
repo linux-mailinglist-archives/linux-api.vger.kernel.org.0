@@ -1,139 +1,136 @@
-Return-Path: <linux-api+bounces-481-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-482-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FC8682A857
-	for <lists+linux-api@lfdr.de>; Thu, 11 Jan 2024 08:31:12 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68F2982AD44
+	for <lists+linux-api@lfdr.de>; Thu, 11 Jan 2024 12:22:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0AF211C23449
-	for <lists+linux-api@lfdr.de>; Thu, 11 Jan 2024 07:31:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 19299288440
+	for <lists+linux-api@lfdr.de>; Thu, 11 Jan 2024 11:22:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60221D282;
-	Thu, 11 Jan 2024 07:31:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A09AD14F8B;
+	Thu, 11 Jan 2024 11:22:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gj2GJVKu"
+	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="cKmWR6dd"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp-42ae.mail.infomaniak.ch (smtp-42ae.mail.infomaniak.ch [84.16.66.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3413D271;
-	Thu, 11 Jan 2024 07:31:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-dbe1560c5b0so553695276.0;
-        Wed, 10 Jan 2024 23:31:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704958265; x=1705563065; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=4T5oinj6i4RtpTG4VL9LZbm5pLTPQsWr68EJIfiHeE0=;
-        b=gj2GJVKu3oRFYgsgTlbcc+ZYy8RJbcKnlqQolsg7ox8TDv5Vn1/TfXmZdMVquG1iO0
-         Hm/86EFyQv6YIe8YE5mTHenFTP8jhH8ESmvKIvoYjaNJuLlVToSf2X8cIhCJwSf7phDh
-         Grf+ffalQfFrJRD1S22cXmzIbpK1kMDIYH8D3gW0F4cGviwh8tqvLghRLbiYK4+0XHje
-         x0cOf5snxjHAGbTuO3QRnPvzSeDi5y4CnSUs8qFmwyKponMJKrEZsQbQrOiT9PdfRzHR
-         jCeE9n/w7IQAVQIwHQydVZJUDzP26EQfqEpg3XpWTq5iGMWhbvvzbpM6EaXNVnre3e1v
-         HKDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704958265; x=1705563065;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4T5oinj6i4RtpTG4VL9LZbm5pLTPQsWr68EJIfiHeE0=;
-        b=fwwG1aoKIMz6Ss3oNQeiWGTeq50QBnYoDgJAS7BPqyAO2xLSWzPfkogAmGS2osZEl1
-         klHZacaOu+q51SBkkVZsz24NrPqak0h/nswp0YG+fKg/fZw07cCpF/0/KuxSSKxA604H
-         6nmqdhSiAvjXfnM1TVRDzIq9KJ4RmfU1+T3/FNKSt1B0Ve+pxLaG6h7iLMU1t76ch2K8
-         AcdS3MkXX46NCe1+ckvolVFOaJZfgBmtL4BBTZsSnZ2uNLAIdaBF5oz2rWglz4i9O6NI
-         bgzQPuiimDRZP/6L7AYnTRip27Em0IWQHfGuHMylByN1/Sqgdxw9mXLpJ1lmQqpqqWUB
-         YCxQ==
-X-Gm-Message-State: AOJu0Yx60h19VX4lUsApi100ZoB9WkZmiJV6R8Kde3zh9fOecHuD76Ns
-	8Ahj7xv4y221NfJ6H/XRccgyYt03n5E=
-X-Google-Smtp-Source: AGHT+IHFyUhcUtqRSzpWm/gnjXz+qEZoFool0wFoHozXJQggC1lFv7etZ+nxppAw9wp+cAbX01nF8w==
-X-Received: by 2002:a81:ae43:0:b0:5f0:7272:c243 with SMTP id g3-20020a81ae43000000b005f07272c243mr1249913ywk.5.1704958264821;
-        Wed, 10 Jan 2024 23:31:04 -0800 (PST)
-Received: from hoboy.vegasvil.org ([2600:1700:2430:6f6f:e2d5:5eff:fea5:802f])
-        by smtp.gmail.com with ESMTPSA id g189-20020a0df6c6000000b005a4da74b869sm200083ywf.139.2024.01.10.23.31.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jan 2024 23:31:04 -0800 (PST)
-Date: Wed, 10 Jan 2024 23:31:00 -0800
-From: Richard Cochran <richardcochran@gmail.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Sagi Maimon <maimon.sagi@gmail.com>, Andy Lutomirski <luto@kernel.org>,
-	tglx@linutronix.de, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Sohil Mehta <sohil.mehta@intel.com>,
-	Rick Edgecombe <rick.p.edgecombe@intel.com>,
-	Nhat Pham <nphamcs@gmail.com>, Palmer Dabbelt <palmer@sifive.com>,
-	Kees Cook <keescook@chromium.org>,
-	Alexey Gladkov <legion@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>, linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org, Linux-Arch <linux-arch@vger.kernel.org>,
-	Netdev <netdev@vger.kernel.org>
-Subject: Re: [PATCH v3] posix-timers: add multi_clock_gettime system call
-Message-ID: <ZZ-ZNHgDsZwg9CaW@hoboy.vegasvil.org>
-References: <20231228122411.3189-1-maimon.sagi@gmail.com>
- <f254c189-463e-43a3-bc09-9a8869ebf819@app.fastmail.com>
- <CAMuE1bF0Hho4VwO6w3f+9z3j5TtscYzuAjj10MFt2mZXG2P8dQ@mail.gmail.com>
- <84d8e9d7-09ce-4781-8dfa-a74bb0955ae8@app.fastmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EB8915484
+	for <linux-api@vger.kernel.org>; Thu, 11 Jan 2024 11:22:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
+Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
+	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4T9hqx0cJqzMq1bb;
+	Thu, 11 Jan 2024 11:13:49 +0000 (UTC)
+Received: from unknown by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4T9hqv3yjdzr0;
+	Thu, 11 Jan 2024 12:13:47 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
+	s=20191114; t=1704971628;
+	bh=+Dx1y3NlPG0Oz8roNtugh3aPtZh2p+5yMmqeI1QIBEo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cKmWR6dd9MEc0f1sWvXvwPne86uMgX6Rg0KeJVVsscclRS1cSJCPmDmTNkT/1XtcZ
+	 M9CkaQ17CndY2CFXQa2yAo/NkWO74ADRLKDwND8coyTVI9ArZiO6sunp1VX8yJVUIp
+	 eaoribqixdWDGKshebZ45tTsKaao8crTDJDZXE9U=
+Date: Thu, 11 Jan 2024 12:13:46 +0100
+From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
+To: Huyadi <hu.yadi@h3c.com>
+Cc: "jmorris@namei.org" <jmorris@namei.org>, 
+	"serge@hallyn.com" <serge@hallyn.com>, "shuah@kernel.org" <shuah@kernel.org>, 
+	"mathieu.desnoyers@efficios.com" <mathieu.desnoyers@efficios.com>, "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-security-module@vger.kernel.org" <linux-security-module@vger.kernel.org>, 
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>, "514118380@qq.com" <514118380@qq.com>
+Subject: Re: =?utf-8?B?5Zue5aSNOiBbUEFUQ0ggdjJdIHNlbGZ0ZXN0cy9tb3ZlX21v?=
+ =?utf-8?Q?unt=5Fset=5Fgroup=3AMake?= tests build with old libc
+Message-ID: <20240111.aeth4shoo0Oo@digikod.net>
+References: <20240110072901.5873-1-hu.yadi@h3c.com>
+ <20240110.Yap9Aw9aeghu@digikod.net>
+ <6c398076d4624691a97766bad168d975@h3c.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <84d8e9d7-09ce-4781-8dfa-a74bb0955ae8@app.fastmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <6c398076d4624691a97766bad168d975@h3c.com>
+X-Infomaniak-Routing: alpha
 
-On Tue, Jan 02, 2024 at 12:29:59PM +0100, Arnd Bergmann wrote:
+On Thu, Jan 11, 2024 at 02:25:03AM +0000, Huyadi wrote:
+> 
+> >On Wed, Jan 10, 2024 at 03:29:01PM +0800, Hu Yadi wrote:
+> >> From: "Hu.Yadi" <hu.yadi@h3c.com>
+> >> 
+> >> Replace SYS_<syscall> with __NR_<syscall>.  Using the __NR_<syscall> 
+> >> notation, provided by UAPI, is useful to build tests on systems 
+> >> without the SYS_<syscall> definitions.
+> >
+> >This looks a lot like that...
+> >https://git.kernel.org/stable/c/87129ef13603ae46c82bcd09eed948acf0506dbb
+> 
+> Yes, I picked up comments from above commit in order for consistent,
+> I would send v3 patch if it is inappropriate. 
 
-> I think Andy's suggestion of exposing time offsets instead
-> of absolute times would actually achieve that: If the
-> interface is changed to return the offset against
-> CLOCK_MONOTONIC, CLOCK_MONOTONIC_RAW or CLOCK_BOOTTIME
-> (not sure what is best here), then the new syscall can use
-> getcrosststamp() where supported for the best results or
-> fall back to gettimex64() or gettime64() otherwise to
-> provide a consistent user interface.
+This is not an issue at all to use the same wording if it makes sense.
+Actually, the description of v3 is less explanatory.  It might just be
+appropriate to reference past similar work. That would justify your
+work, add a precedent, and if there is any issue we could fix both
+changes.
 
-Yes, it makes more sense to provide the offset, since that is what the
-user needs in the end.
+You can append this to the commit message (with the v2 description):
 
-Can we change the name of the system call to "clock compare"?
+Similar changes: commit 87129ef13603 ("selftests/landlock: Make tests
+build with old libc")
 
-int clock_compare(clockid_t a, clockid_t b,
-		  int64_t *offset, int64_t *error);
+Acked-by: Mickaël Salaün <mic@digikod.net>
 
-returns: zero or error code,
- offset = a - b
- error  = maximum error due to asymmetry
-
-If clocks a and b are both System-V clocks, then *error=0 and *offset
-can be returned directly from the kernel's time keeping state.
-
-If getcrosststamp() is supported on a or b, then invoke it.
-
-otherwise do this:
-
-   t1 = gettime(a)
-   t2 = gettime(b)
-   t3 - gettime(c)
-
-   *offset = (t1 + t3)/2 - t2
-   *error  = (t3 - t1)/2
-
-There is no need for repeated measurement, since user space can call
-again when `error` is unacceptable.
-
-Thanks,
-Richard
-
-
-
+> 
+> >> 
+> >> Replace SYS_move_mount with __NR_move_mount
+> >> 
+> >> Signed-off-by: Hu.Yadi <hu.yadi@h3c.com> Suggested-by:Jiao 
+> >> <jiaoxupo@h3c.com> Reviewed-by:Berlin <berlin@h3c.com>
+> >> ---
+> >> Changes v1 -> v2:
+> >>  - Fix mail of Suggested-by and Reviewed-by
+> >> 
+> >>  .../move_mount_set_group/move_mount_set_group_test.c          | 4 ++--
+> >>  1 file changed, 2 insertions(+), 2 deletions(-)
+> >> 
+> >> diff --git 
+> >> a/tools/testing/selftests/move_mount_set_group/move_mount_set_group_te
+> >> st.c 
+> >> b/tools/testing/selftests/move_mount_set_group/move_mount_set_group_te
+> >> st.c index 50ed5d475dd1..bcf51d785a37 100644
+> >> --- 
+> >> a/tools/testing/selftests/move_mount_set_group/move_mount_set_group_te
+> >> st.c
+> >> +++ b/tools/testing/selftests/move_mount_set_group/move_mount_set_grou
+> >> +++ p_test.c
+> >> @@ -218,7 +218,7 @@ static bool move_mount_set_group_supported(void)
+> >>  	if (mount(NULL, SET_GROUP_FROM, NULL, MS_SHARED, 0))
+> >>  		return -1;
+> >>  
+> >> -	ret = syscall(SYS_move_mount, AT_FDCWD, SET_GROUP_FROM,
+> >> +	ret = syscall(__NR_move_mount, AT_FDCWD, SET_GROUP_FROM,
+> >>  		      AT_FDCWD, SET_GROUP_TO, MOVE_MOUNT_SET_GROUP);
+> >>  	umount2("/tmp", MNT_DETACH);
+> >>  
+> >> @@ -363,7 +363,7 @@ TEST_F(move_mount_set_group, complex_sharing_copying)
+> >>  		       CLONE_VM | CLONE_FILES); ASSERT_GT(pid, 0);
+> >>  	ASSERT_EQ(wait_for_pid(pid), 0);
+> >>  
+> >> -	ASSERT_EQ(syscall(SYS_move_mount, ca_from.mntfd, "",
+> >> +	ASSERT_EQ(syscall(__NR_move_mount, ca_from.mntfd, "",
+> >>  			  ca_to.mntfd, "", MOVE_MOUNT_SET_GROUP
+> >>  			  | MOVE_MOUNT_F_EMPTY_PATH | MOVE_MOUNT_T_EMPTY_PATH),
+> >>  		  0);
+> >> --
+> >> 2.23.0
+> >>  
 
