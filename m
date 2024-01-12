@@ -1,121 +1,73 @@
-Return-Path: <linux-api+bounces-497-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-498-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15D7182BBFB
-	for <lists+linux-api@lfdr.de>; Fri, 12 Jan 2024 08:45:56 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC4A782BC99
+	for <lists+linux-api@lfdr.de>; Fri, 12 Jan 2024 10:00:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BD0971F21946
-	for <lists+linux-api@lfdr.de>; Fri, 12 Jan 2024 07:45:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E28021C24FF7
+	for <lists+linux-api@lfdr.de>; Fri, 12 Jan 2024 09:00:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E79735D729;
-	Fri, 12 Jan 2024 07:45:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 332DA54FB4;
+	Fri, 12 Jan 2024 09:00:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MZYCAQk3"
 X-Original-To: linux-api@vger.kernel.org
-Received: from h3cspam02-ex.h3c.com (smtp.h3c.com [60.191.123.50])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7F0542A81;
-	Fri, 12 Jan 2024 07:45:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=h3c.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=h3c.com
-Received: from mail.maildlp.com ([172.25.15.154])
-	by h3cspam02-ex.h3c.com with ESMTP id 40C7hs78061086;
-	Fri, 12 Jan 2024 15:43:54 +0800 (GMT-8)
-	(envelope-from hu.yadi@h3c.com)
-Received: from DAG6EX02-IMDC.srv.huawei-3com.com (unknown [10.62.14.11])
-	by mail.maildlp.com (Postfix) with ESMTP id 63C8322CFF00;
-	Fri, 12 Jan 2024 15:48:17 +0800 (CST)
-Received: from localhost.localdomain (10.99.206.12) by
- DAG6EX02-IMDC.srv.huawei-3com.com (10.62.14.11) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.1258.27; Fri, 12 Jan 2024 15:43:55 +0800
-From: Hu Yadi <hu.yadi@h3c.com>
-To: <jmorris@namei.org>, <serge@hallyn.com>, <shuah@kernel.org>,
-        <mathieu.desnoyers@efficios.com>, <mic@digikod.net>,
-        <amir73il@gmail.com>, <brauner@kernel.org>, <avagin@google.com>
-CC: <linux-api@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-security-module@vger.kernel.org>,
-        <linux-kselftest@vger.kernel.org>, <514118380@qq.com>,
-        Hu Yadi <hu.yadi@h3c.com>
-Subject: [PATCH] selftests/filesystems:fix build error in overlayfs
-Date: Fri, 12 Jan 2024 15:40:59 +0800
-Message-ID: <20240112074059.29673-1-hu.yadi@h3c.com>
-X-Mailer: git-send-email 2.17.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0811155C32;
+	Fri, 12 Jan 2024 09:00:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E60CFC433C7;
+	Fri, 12 Jan 2024 09:00:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705050027;
+	bh=YI2MBsGksfRvnck5eV3vj+iBhMjVRTG567aWxvxO1vI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MZYCAQk37wO6ZueXyiyiwNC/hJzSFL59QVVW2pn5cRRvl0tcHlLZpzGb67EdFcAlo
+	 qxPJdtyLF0tTjxhY9mE4S186QOwLe3hkJpsNE1K7SC6Y0lkjeTeLRKkfz0ZWe/BIV/
+	 O79g6u9D5mhM0Hr1p6/zkOViOhMIm6hNh//LD9MdEvktxArHXnPUrrJR7jmzit2l6M
+	 SunzVoZKI+gvSPCtKvvt0hC7lD5Ywq4jROHNIJm8btr491PobAK57fbdrmhGMJ2/0G
+	 v/87qWM40Yu2KGq83Vhoig6wPcg48lLqakR4CxABfd36OPhLcn7sLss+H3Xq2YcflV
+	 VFRD9igaSjSlw==
+Date: Fri, 12 Jan 2024 10:00:20 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Guenter Roeck <linux@roeck-us.net>, 
+	Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>, 
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Miklos Szeredi <mszeredi@redhat.com>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, 
+	linux-man@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	Karel Zak <kzak@redhat.com>, Ian Kent <raven@themaw.net>, David Howells <dhowells@redhat.com>, 
+	Al Viro <viro@zeniv.linux.org.uk>, Christian Brauner <christian@brauner.io>, 
+	Amir Goldstein <amir73il@gmail.com>, Matthew House <mattlloydhouse@gmail.com>, 
+	Florian Weimer <fweimer@redhat.com>, Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [PATCH v4 5/6] add listmount(2) syscall
+Message-ID: <20240112-stilbruch-wildwasser-f5b4323410ba@brauner>
+References: <20231025140205.3586473-1-mszeredi@redhat.com>
+ <20231025140205.3586473-6-mszeredi@redhat.com>
+ <75b87a85-7d2c-4078-91e3-024ea36cfb42@roeck-us.net>
+ <CAHk-=wjdW-4s6Kpa4izJ2D=yPdCje6Ta=eQxxQG6e2SkP42vnw@mail.gmail.com>
+ <2f595f28-7fcd-4196-a0b1-6598781530b9@roeck-us.net>
+ <CAHk-=wjh6Cypo8WC-McXgSzCaou3UXccxB+7PVeSuGR8AjCphg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BJSMTP02-EX.srv.huawei-3com.com (10.63.20.133) To
- DAG6EX02-IMDC.srv.huawei-3com.com (10.62.14.11)
-X-DNSRBL: 
-X-SPAM-SOURCE-CHECK: pass
-X-MAIL:h3cspam02-ex.h3c.com 40C7hs78061086
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wjh6Cypo8WC-McXgSzCaou3UXccxB+7PVeSuGR8AjCphg@mail.gmail.com>
 
-One build issue comes up due to both mount.h included dev_in_maps.c
+> NOTE! ENTIRELY untested, but that naming and lack of argument sanity
 
-In file included from dev_in_maps.c:10:
-/usr/include/sys/mount.h:35:3: error: expected identifier before numeric constant
-   35 |   MS_RDONLY = 1,  /* Mount read-only.  */
-      |   ^~~~~~~~~
-In file included from dev_in_maps.c:13:
+Thanks for catching that. I've slightly tweaked the attached patch and
+put it into vfs.fixes at [1]. There's a fsnotify performance regression
+fix for io_uring in there as well. I plan to get both to you Saturday
+CET. Let us know if there's any additional issues.
 
-Remove one of them to solve conflict, another error comes up:
-
-dev_in_maps.c:170:6: error: implicit declaration of function ‘mount’ [-Werror=implicit-function-declaration]
-  170 |  if (mount(NULL, "/", NULL, MS_SLAVE | MS_REC, NULL) == -1) {
-      |      ^~~~~
-cc1: all warnings being treated as errors
-
-and then , add sys_mount definition to solve it
-After both above, dev_in_maps.c can be built correctly on my mache(gcc 10.2,glibc-2.32,kernel-5.10)
-
-Signed-off-by: Hu Yadi <hu.yadi@h3c.com>
----
- .../selftests/filesystems/overlayfs/dev_in_maps.c      | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
-
-diff --git a/tools/testing/selftests/filesystems/overlayfs/dev_in_maps.c b/tools/testing/selftests/filesystems/overlayfs/dev_in_maps.c
-index e19ab0e85709..759f86e7d263 100644
---- a/tools/testing/selftests/filesystems/overlayfs/dev_in_maps.c
-+++ b/tools/testing/selftests/filesystems/overlayfs/dev_in_maps.c
-@@ -10,7 +10,6 @@
- #include <linux/mount.h>
- #include <sys/syscall.h>
- #include <sys/stat.h>
--#include <sys/mount.h>
- #include <sys/mman.h>
- #include <sched.h>
- #include <fcntl.h>
-@@ -32,7 +31,11 @@ static int sys_fsmount(int fd, unsigned int flags, unsigned int attr_flags)
- {
- 	return syscall(__NR_fsmount, fd, flags, attr_flags);
- }
--
-+static int sys_mount(const char *src, const char *tgt, const char *fst,
-+		unsigned long flags, const void *data)
-+{
-+	return syscall(__NR_mount, src, tgt, fst, flags, data);
-+}
- static int sys_move_mount(int from_dfd, const char *from_pathname,
- 			  int to_dfd, const char *to_pathname,
- 			  unsigned int flags)
-@@ -166,8 +169,7 @@ int main(int argc, char **argv)
- 		ksft_test_result_skip("unable to create a new mount namespace\n");
- 		return 1;
- 	}
--
--	if (mount(NULL, "/", NULL, MS_SLAVE | MS_REC, NULL) == -1) {
-+	if (sys_mount(NULL, "/", NULL, MS_SLAVE | MS_REC, NULL) == -1) {
- 		pr_perror("mount");
- 		return 1;
- 	}
--- 
-2.39.3
-
+[1]: https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git/log/?h=vfs.fixes
 
