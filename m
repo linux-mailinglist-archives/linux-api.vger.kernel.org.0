@@ -1,157 +1,160 @@
-Return-Path: <linux-api+bounces-493-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-494-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1894582BA2C
-	for <lists+linux-api@lfdr.de>; Fri, 12 Jan 2024 04:52:33 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0BFC82BACE
+	for <lists+linux-api@lfdr.de>; Fri, 12 Jan 2024 06:24:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 141D51C238EE
-	for <lists+linux-api@lfdr.de>; Fri, 12 Jan 2024 03:52:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A51111F26944
+	for <lists+linux-api@lfdr.de>; Fri, 12 Jan 2024 05:24:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87C541B27F;
-	Fri, 12 Jan 2024 03:52:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A144E5B20C;
+	Fri, 12 Jan 2024 05:24:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hu648VVH"
 X-Original-To: linux-api@vger.kernel.org
-Received: from h3cspam02-ex.h3c.com (smtp.h3c.com [60.191.123.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95BE51B27B;
-	Fri, 12 Jan 2024 03:52:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=h3c.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=h3c.com
-Received: from mail.maildlp.com ([172.25.15.154])
-	by h3cspam02-ex.h3c.com with ESMTP id 40C3p4MT003113;
-	Fri, 12 Jan 2024 11:51:04 +0800 (GMT-8)
-	(envelope-from hu.yadi@h3c.com)
-Received: from DAG6EX03-IMDC.srv.huawei-3com.com (unknown [10.62.14.12])
-	by mail.maildlp.com (Postfix) with ESMTP id 70BD02383F3B;
-	Fri, 12 Jan 2024 11:55:26 +0800 (CST)
-Received: from DAG6EX02-IMDC.srv.huawei-3com.com (10.62.14.11) by
- DAG6EX03-IMDC.srv.huawei-3com.com (10.62.14.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.27; Fri, 12 Jan 2024 11:51:05 +0800
-Received: from DAG6EX02-IMDC.srv.huawei-3com.com ([fe80::4c21:7c89:4f9d:e4c4])
- by DAG6EX02-IMDC.srv.huawei-3com.com ([fe80::4c21:7c89:4f9d:e4c4%16]) with
- mapi id 15.02.1258.027; Fri, 12 Jan 2024 11:51:05 +0800
-From: Huyadi <hu.yadi@h3c.com>
-To: =?utf-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
-CC: "jmorris@namei.org" <jmorris@namei.org>,
-        "serge@hallyn.com"
-	<serge@hallyn.com>,
-        "shuah@kernel.org" <shuah@kernel.org>,
-        "mathieu.desnoyers@efficios.com" <mathieu.desnoyers@efficios.com>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-security-module@vger.kernel.org"
-	<linux-security-module@vger.kernel.org>,
-        "linux-kselftest@vger.kernel.org"
-	<linux-kselftest@vger.kernel.org>,
-        "514118380@qq.com" <514118380@qq.com>
-Subject: =?utf-8?B?5Zue5aSNOiDlm57lpI06IFtQQVRDSF0gc2VsZnRlc3RzL2xhbmRsb2NrOkZp?=
- =?utf-8?Q?x_two_build_issues?=
-Thread-Topic: =?utf-8?B?5Zue5aSNOiBbUEFUQ0hdIHNlbGZ0ZXN0cy9sYW5kbG9jazpGaXggdHdvIGJ1?=
- =?utf-8?Q?ild_issues?=
-Thread-Index: AQHaQ5QxkbjYpIV9GUSOObpENmDqbrDSzGWAgAEYDgCAADzbgIABap9w
-Date: Fri, 12 Jan 2024 03:51:05 +0000
-Message-ID: <9a040b2653114a059956ee33703cf05e@h3c.com>
-References: <20240110070854.7077-1-hu.yadi@h3c.com>
- <20240110.ob2roh1Xai9y@digikod.net>
- <9820400d6083428bbab2dfe5d5682d19@h3c.com>
- <20240111.Ooraegolah6n@digikod.net>
-In-Reply-To: <20240111.Ooraegolah6n@digikod.net>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-sender-location: DAG2
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5B275C8E1;
+	Fri, 12 Jan 2024 05:24:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-5e7409797a1so59481087b3.0;
+        Thu, 11 Jan 2024 21:24:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1705037068; x=1705641868; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=heVTH2EP/JfOmY9Rzq8j0Q0ltkkFkZbT8oB6/EA/QjU=;
+        b=hu648VVH2kYUu4lEodQaeYcP1B4Rsits3CLYbZp7NuycxoBngWpJ8Re4Oc75vs0nma
+         jgOy5N9maMKa2LBoMdO5bxB9kNStDnlX56wXTIp8K/FMHSVT8b6zNGNKjRKByYTAvwv6
+         JW7XmhZ6cJNfLHEudrfODQyJRqo8ScJjas4Qvv9OZWpSd71fK8Sp4Vjdrf16nCsN5JbC
+         GpZDpNArbU3AtX6F7CmP/jIX7jmIl+M6Wa4NRxVS2l8ExHNuXbb5a41Zwk2R5UfICLLv
+         iPnsvJtCZSAcYXphBYa6x9CRPZdyHLeQn+5mAma6VNT0JCyrm6c4r7iUiBbVnvvMYuPy
+         1/oQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705037068; x=1705641868;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=heVTH2EP/JfOmY9Rzq8j0Q0ltkkFkZbT8oB6/EA/QjU=;
+        b=NqvJrnNbt0dIEMJEUzzz3klgU4gidwkefnw6NWLLnsCHpOCRf8T7E1s8ma2LNTlLOv
+         b6QJ97Jf4S/1uwb1/2wiKfIAIxAW3uydjfxzVs2o4Dy493kpcLaHO0scuPLxal+X0gde
+         Bgdv1SHjP22Ue6g3dMAHQK0HgL2SSlG+Z9UgKOt3rWIl+tzHBxKAH7ZDQex6GYOGwltt
+         P9Rfti9LOzl9TZrvo6uWcnNmK7MKnDjOC7TiaOL1aYRjlQgKaM7DLctdtzYDtNz2rW/X
+         Jwee3xcV0reKhI5AkXfu80YVg6mtmAOrU+L8r3d56gQVbC0GCq4MCXVrsny6Kuq/oB8S
+         3b4g==
+X-Gm-Message-State: AOJu0Yx4UVNNjCed3PCZcfCFJaZ0Od3otqLhQY/SRfms9ZsEeBaucna6
+	aGzVzyKXYm35hEQZWaP5aXA=
+X-Google-Smtp-Source: AGHT+IHuOgViTEPqU3OZ6NudbUXy1IrnGt80tE6bb6BIEVIHp1ZRyR4nzDuuMpu800H7CQ3z0WgXaw==
+X-Received: by 2002:a0d:cccf:0:b0:5cd:c7a3:6cb3 with SMTP id o198-20020a0dcccf000000b005cdc7a36cb3mr867678ywd.37.1705037067775;
+        Thu, 11 Jan 2024 21:24:27 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id s65-20020a819b44000000b005e7fb8e1fdasm1058473ywg.14.2024.01.11.21.24.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Jan 2024 21:24:27 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Thu, 11 Jan 2024 21:24:25 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
+	Rich Felker <dalias@libc.org>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Miklos Szeredi <mszeredi@redhat.com>, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+	linux-man@vger.kernel.org, linux-security-module@vger.kernel.org,
+	Karel Zak <kzak@redhat.com>, Ian Kent <raven@themaw.net>,
+	David Howells <dhowells@redhat.com>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <christian@brauner.io>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Matthew House <mattlloydhouse@gmail.com>,
+	Florian Weimer <fweimer@redhat.com>, Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [PATCH v4 5/6] add listmount(2) syscall
+Message-ID: <ab4e88fa-af6a-49e9-a8bc-3cdc3a531aaf@roeck-us.net>
+References: <20231025140205.3586473-1-mszeredi@redhat.com>
+ <20231025140205.3586473-6-mszeredi@redhat.com>
+ <75b87a85-7d2c-4078-91e3-024ea36cfb42@roeck-us.net>
+ <CAHk-=wjdW-4s6Kpa4izJ2D=yPdCje6Ta=eQxxQG6e2SkP42vnw@mail.gmail.com>
+ <2f595f28-7fcd-4196-a0b1-6598781530b9@roeck-us.net>
+ <CAHk-=wjh6Cypo8WC-McXgSzCaou3UXccxB+7PVeSuGR8AjCphg@mail.gmail.com>
+ <77b38aa7-a8b1-4450-8c50-379f130dda16@roeck-us.net>
+ <CAHk-=wgK81n4=pfKnhWfYxxtFBS_1UQDaeBGRRJ39qjVw-oyCQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-DNSRBL: 
-X-SPAM-SOURCE-CHECK: pass
-X-MAIL:h3cspam02-ex.h3c.com 40C3p4MT003113
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wgK81n4=pfKnhWfYxxtFBS_1UQDaeBGRRJ39qjVw-oyCQ@mail.gmail.com>
 
-Pk9uIFRodSwgSmFuIDExLCAyMDI0IGF0IDAyOjM0OjA4QU0gKzAwMDAsIEh1eWFkaSB3cm90ZToN
-Cj4+IA0KPj4gLT5PbiBXZWQsIEphbiAxMCwgMjAyNCBhdCAwMzowODo1NFBNICswODAwLCBIdSBZ
-YWRpIHdyb3RlOg0KPj4gPj4gRnJvbTogIkh1LllhZGkiIDxodS55YWRpQGgzYy5jb20+DQo+PiA+
-PiANCj4+ID4+IFR3byBpc3N1ZXMgY29tZXMgdXAgIHdoaWxlIGJ1aWxkaW5nIHNlbGZ0ZXN0L2xh
-bmRsb2NrOg0KPj4gPj4gDQo+PiA+PiB0aGUgZmlyc3Qgb25lIGlzIGFzIHRvIGdldHRpZA0KPj4g
-Pj4gDQo+PiA+PiBuZXRfdGVzdC5jOiBJbiBmdW5jdGlvbiDigJhzZXRfc2VydmljZeKAmToNCj4+
-ID4+IG5ldF90ZXN0LmM6OTE6NDU6IHdhcm5pbmc6IGltcGxpY2l0IGRlY2xhcmF0aW9uIG9mIGZ1
-bmN0aW9uIOKAmGdldHRpZOKAmTsgZGlkIHlvdSBtZWFuIOKAmGdldGdpZOKAmT8gWy1XaW1wbGlj
-aXQtZnVuY3Rpb24tZGVjbGFyYXRpb25dDQo+PiA+PiAgICAgIl9zZWxmdGVzdHMtbGFuZGxvY2st
-bmV0LXRpZCVkLWluZGV4JWQiLCBnZXR0aWQoKSwNCj4+ID4+ICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgIF5+fn5+fg0KPj4gPj4gICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgZ2V0Z2lkDQo+PiA+PiBuZXRfdGVzdC5jOigudGV4
-dCsweDRlMCk6IHVuZGVmaW5lZCByZWZlcmVuY2UgdG8gYGdldHRpZCcNCj4+ID4+IA0KPj4gPj4g
-dGhlIHNlY29uZCBpcyBjb21waWxlciBlcnJvcg0KPj4gPj4gZ2NjIC1XYWxsIC1PMiAtaXN5c3Rl
-bSAgIGZzX3Rlc3QuYyAtbGNhcCAtbyAvaG9tZS9saW51eC90b29scy90ZXN0aW5nL3NlbGZ0ZXN0
-cy9sYW5kbG9jay9mc190ZXN0DQo+PiA+PiBmc190ZXN0LmM6NDU3NTo5OiBlcnJvcjogaW5pdGlh
-bGl6ZXIgZWxlbWVudCBpcyBub3QgY29uc3RhbnQNCj4+ID4+ICAgLm1udCA9IG1udF90bXAsDQo+
-PiA+PiAgICAgICAgICBefn5+fn5+DQo+PiA+DQo+PiA+V2hhdCBpcyB0aGUgdmVyc2lvbiBvZiBH
-Q0MgKGFuZCBoZWFkZXJzKSBhbmQgb24gd2hpY2ggc3lzdGVtIChhbmQNCj4+ID52ZXJzaW9uKSBh
-cmUgeW91IGJ1aWxkaW5nIHRoZXNlIHRlc3RzPw0KPj4gDQo+PiBnY2MgNy4zIC8gZ2xpYmMtMi4y
-OC8ga2VybmVsIDQuMTkvIE9wZW5FdWxvcjIwLjAzDQo+DQo+VGhlc2UgYXJlIG9sZCB2ZXJzaW9u
-cy4gWW91IHNob3VsZCBtZW50aW9uIGluIHRoZSBjb21taXQgbWVzc2FnZSB3aGljaCB2ZXJzaW9u
-IG9mIGdsaWJjIGFkZGVkIGdldHRpZCgpLj4NCg0KT2ssIEknbGwgYWRkIGl0IC4NCg0KPj4gDQo+
-PiA+PiANCj4+ID4+IHRoaXMgcGF0Y2ggaXMgdG8gZml4IHRoZW0NCj4+ID4+IA0KPj4gPj4gU2ln
-bmVkLW9mZi1ieTogSHUuWWFkaSA8aHUueWFkaUBoM2MuY29tPg0KPj4gPj4gU3VnZ2VzdGVkLWJ5
-OiBKaWFvIDxqaWFveHVwb0BoM2MuY29tPiBSZXZpZXdlZC1ieTpCZXJsaW4gDQo+PiA+PiA8YmVy
-bGluQGgzYy5jb20+DQo+PiA+PiAtLS0NCj4+ID4+ICB0b29scy90ZXN0aW5nL3NlbGZ0ZXN0cy9s
-YW5kbG9jay9mc190ZXN0LmMgIHwgNSArKysrLSANCj4+ID4+IHRvb2xzL3Rlc3Rpbmcvc2VsZnRl
-c3RzL2xhbmRsb2NrL25ldF90ZXN0LmMgfCAzICstLQ0KPj4gPj4gIDIgZmlsZXMgY2hhbmdlZCwg
-NSBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQ0KPj4gPj4gDQo+PiA+PiBkaWZmIC0tZ2l0
-IGEvdG9vbHMvdGVzdGluZy9zZWxmdGVzdHMvbGFuZGxvY2svZnNfdGVzdC5jDQo+PiA+PiBiL3Rv
-b2xzL3Rlc3Rpbmcvc2VsZnRlc3RzL2xhbmRsb2NrL2ZzX3Rlc3QuYw0KPj4gPj4gaW5kZXggMThl
-MWY4NmE2MjM0Li45M2ViNDBhMDkwNzMgMTAwNjQ0DQo+PiA+PiAtLS0gYS90b29scy90ZXN0aW5n
-L3NlbGZ0ZXN0cy9sYW5kbG9jay9mc190ZXN0LmMNCj4+ID4+ICsrKyBiL3Rvb2xzL3Rlc3Rpbmcv
-c2VsZnRlc3RzL2xhbmRsb2NrL2ZzX3Rlc3QuYw0KPj4gPj4gQEAgLTQ1NzIsNyArNDU3MiwxMCBA
-QCBGSVhUVVJFX1ZBUklBTlQobGF5b3V0M19mcykNCj4+ID4+ICAvKiBjbGFuZy1mb3JtYXQgb2Zm
-ICovDQo+PiA+PiAgRklYVFVSRV9WQVJJQU5UX0FERChsYXlvdXQzX2ZzLCB0bXBmcykgew0KPj4g
-Pj4gIAkvKiBjbGFuZy1mb3JtYXQgb24gKi8NCj4+ID4+IC0JLm1udCA9IG1udF90bXAsDQo+DQo+
-Q2FuIHlvdSBqdXN0IGNhc3QgbW50X3RtcD8gSXQgZXhpc3RzIHRvIGF2b2lkIHN1Y2ggZHVwbGlj
-YXRlIGNvZGUuDQoNCkkgdHJpZWQgdG8gYWRkIGNhc3QsIGJ1dCBpdCBpcyBub3QgZWZmZWN0aXZl
-LiAgd2hhdCdzIG1vcmUsIGFsbCBGSVhUVVJFX1ZBUklBTlRfQUREIGRlY2xhcmF0aW9uIHVuZGVy
-IHRvb2xzL3Rlc3RpbmcgYXJlIGFzc2lnbmVkIHdpdGggY29uc3RhbnQsDQpTbywgY3VycmVudCBz
-b2x1dGlvbiBsb29rcyBmaW5lIHRvIG1lLCB3aGF0J3MgeW91ciBvcHRpb24/DQo+DQo+PiA+PiAr
-CS5tbnQgPSB7DQo+PiA+PiArCQkudHlwZSA9ICJ0bXBmcyIsDQo+PiA+PiArICAgICAgICAJLmRh
-dGEgPSAic2l6ZT00bSxtb2RlPTcwMCIsDQo+PiA+DQo+PiA+V2hlbiBhcHBseWluZyB0aGlzIHBh
-dGNoIHdlIGdldDogInNwYWNlIGJlZm9yZSB0YWIgaW4gaW5kZW50Ig0KPj4gDQo+PiBTb3JyeSBm
-b3IgaW5jb252ZW5pZW50LCBJJ2xsIHJlc2VuZCBpdCB2MiBhZnRlciBjaGVja3BhdGNoLnBsIHNo
-b3dzIG5vIGVycm9yLg0KPj4gDQo+PiA+PiArCX0sDQo+PiA+PiAgCS5maWxlX3BhdGggPSBmaWxl
-MV9zMWQxLA0KPj4gPj4gIH07DQo+PiA+PiAgDQo+PiA+PiBkaWZmIC0tZ2l0IGEvdG9vbHMvdGVz
-dGluZy9zZWxmdGVzdHMvbGFuZGxvY2svbmV0X3Rlc3QuYw0KPj4gPj4gYi90b29scy90ZXN0aW5n
-L3NlbGZ0ZXN0cy9sYW5kbG9jay9uZXRfdGVzdC5jDQo+PiA+PiBpbmRleCA5MjllMjFjNGRiMDUu
-LjhmYjM1N2RlOGM1NSAxMDA2NDQNCj4+ID4+IC0tLSBhL3Rvb2xzL3Rlc3Rpbmcvc2VsZnRlc3Rz
-L2xhbmRsb2NrL25ldF90ZXN0LmMNCj4+ID4+ICsrKyBiL3Rvb2xzL3Rlc3Rpbmcvc2VsZnRlc3Rz
-L2xhbmRsb2NrL25ldF90ZXN0LmMNCj4+ID4+IEBAIC0xOCw3ICsxOCw2IEBADQo+PiA+PiAgI2lu
-Y2x1ZGUgPHN5cy9wcmN0bC5oPg0KPj4gPj4gICNpbmNsdWRlIDxzeXMvc29ja2V0Lmg+DQo+PiA+
-PiAgI2luY2x1ZGUgPHN5cy91bi5oPg0KPj4gPj4gLQ0KPj4gPj4gICNpbmNsdWRlICJjb21tb24u
-aCINCj4+ID4+ICANCj4+ID4+ICBjb25zdCBzaG9ydCBzb2NrX3BvcnRfc3RhcnQgPSAoMSA8PCAx
-MCk7IEBAIC04OCw3ICs4Nyw3IEBAIHN0YXRpYyANCj4+ID4+IGludCBzZXRfc2VydmljZShzdHJ1
-Y3Qgc2VydmljZV9maXh0dXJlICpjb25zdCBzcnYsDQo+PiA+PiAgCWNhc2UgQUZfVU5JWDoNCj4+
-ID4+ICAJCXNydi0+dW5peF9hZGRyLnN1bl9mYW1pbHkgPSBwcm90LmRvbWFpbjsNCj4+ID4+ICAJ
-CXNwcmludGYoc3J2LT51bml4X2FkZHIuc3VuX3BhdGgsDQo+PiA+PiAtCQkJIl9zZWxmdGVzdHMt
-bGFuZGxvY2stbmV0LXRpZCVkLWluZGV4JWQiLCBnZXR0aWQoKSwNCj4+ID4+ICsJCQkiX3NlbGZ0
-ZXN0cy1sYW5kbG9jay1uZXQtdGlkJWxkLWluZGV4JWQiLCBzeXNjYWxsKFNZU19nZXR0aWQpLA0K
-Pj4gPg0KPj4gPllvdSBzZW50IGFub3RoZXIgcGF0Y2ggdGhhdCAicmVwbGFjZSBTWVNfPHN5c2Nh
-bGw+IHdpdGggX19OUl88c3lzY2FsbD4iLg0KPj4gPldoeSBub3QgaGVyZT8NCj4+ID4NCj4+ID5Q
-bGVhc2UgZm9sbG93IHRoZSBzYW1lIGFwcHJvYWNoOg0KPj4gPmh0dHBzOi8vZ2l0Lmtlcm5lbC5v
-cmcvc3RhYmxlL2MvODcxMjllZjEzNjAzYWU0NmM4MmJjZDA5ZWVkOTQ4YWNmMDUwNg0KPj4gPmRi
-Yg0KPg0KPkNhbiB5b3UgcGxlYXNlIGFkZCBhIGdldHBpZCgpIGhlbHBlciBsaWtlIGZvciByZW5h
-bWVhdDIoKSBpbiB0aGlzIGNvbW1pdD8+DQoNClRoYW5rcyB5b3VyIHdhcm0gaW5zdHJ1Y3Rpb24s
-IEknbGwgZG8gaXQgYW5kIHNlbmQgcGF0Y2ggc29vbi4NCg0KPkFsc28sIGFsbCBMYW5kbG9jay1y
-ZWxhdGVkIGNvZGUgaXMgZm9ybWF0dGVkIHdpdGggY2xhbmctZm9ybWF0LiBZb3UgY2FuIGRvIGl0
-IHdpdGggY2xhbmctZm9ybWF0IC1pIHRvb2xzL3Rlc3Rpbmcvc2VsZnRlc3RzL2xhbmRsb2NrLyou
-W2NoXQ0KPg0KPj4gDQo+PiBHb3QgaXQsIEknbGwgcmVzZW5kIGl0IHYyIGluY2x1ZGluZyB0aGUg
-Zml4DQo+PiANCj4+ID4+ICAJCQlpbmRleCk7DQo+PiA+PiAgCQlzcnYtPnVuaXhfYWRkcl9sZW4g
-PSBTVU5fTEVOKCZzcnYtPnVuaXhfYWRkcik7DQo+PiA+PiAgCQlzcnYtPnVuaXhfYWRkci5zdW5f
-cGF0aFswXSA9ICdcMCc7DQo+PiA+PiAtLQ0KPj4gPj4gMi4yMy4wDQo+PiA+PiANCj4+ID4+IA0K
-Pj4gDQo+PiAgDQogDQo=
+On Thu, Jan 11, 2024 at 07:40:32PM -0800, Linus Torvalds wrote:
+> On Thu, 11 Jan 2024 at 15:57, Guenter Roeck <linux@roeck-us.net> wrote:
+> >
+> > I wonder if something may be wrong with the definition and use of __m
+> > for u64 accesses. The code below also fixes the build problem.
+> 
+> Ok, that looks like the right workaround.
+> 
+
+I think I'll go with the code below. It doesn't touch the MMU code
+(which for some reason doesn't result in a build failure), and
+it generates
+
+! 5071 "fs/namespace.c" 1
+        mov.l   r6,@r1
+        mov.l   r7,@(4,r1)
+
+which seems to be correct. It also matches the pattern used
+for __put_user_asm(). Does that make sense ?
+
+Thanks,
+Guenter
+
+---
+diff --git a/arch/sh/include/asm/uaccess_32.h b/arch/sh/include/asm/uaccess_32.h
+index 5d7ddc092afd..5ce46b2a95b6 100644
+--- a/arch/sh/include/asm/uaccess_32.h
++++ b/arch/sh/include/asm/uaccess_32.h
+@@ -176,6 +176,7 @@ do {							\
+ } while (0)
+ #endif /* CONFIG_MMU */
+ 
++#ifdef CONFIG_MMU
+ #if defined(CONFIG_CPU_LITTLE_ENDIAN)
+ #define __put_user_u64(val,addr,retval) \
+ ({ \
+@@ -221,6 +222,26 @@ __asm__ __volatile__( \
+ 	: "r" (val), "m" (__m(addr)), "i" (-EFAULT), "0" (retval) \
+         : "memory"); })
+ #endif
++#else
++#if defined(CONFIG_CPU_LITTLE_ENDIAN)
++#define __put_user_u64(val,addr,retval) \
++({ \
++__asm__ __volatile__( \
++	"mov.l	%R0,%1\n\t" \
++	"mov.l	%S0,%T1\n\t" \
++	: /* no outputs */ \
++	: "r" (val), "m" (*(u64 *)(addr)) \
++	: "memory"); })
++#else
++({ \
++__asm__ __volatile__( \
++	"mov.l	%S0,%1\n\t" \
++	"mov.l	%R0,%T1\n\t" \
++	: /* no outputs */ \
++	: "r" (val), "m" (*(u64 *)(addr)) \
++	: "memory"); })
++#endif
++#endif /* CONFIG_MMU */
+ 
+ extern void __put_user_unknown(void);
+ 
 
