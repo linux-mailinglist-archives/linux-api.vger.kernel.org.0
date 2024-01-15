@@ -1,119 +1,141 @@
-Return-Path: <linux-api+bounces-511-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-512-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7792382DB3F
-	for <lists+linux-api@lfdr.de>; Mon, 15 Jan 2024 15:26:41 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 567AB82DCA2
+	for <lists+linux-api@lfdr.de>; Mon, 15 Jan 2024 16:50:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 117D41F22777
-	for <lists+linux-api@lfdr.de>; Mon, 15 Jan 2024 14:26:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 400961C21DDF
+	for <lists+linux-api@lfdr.de>; Mon, 15 Jan 2024 15:50:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD4E41759B;
-	Mon, 15 Jan 2024 14:26:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 284B217753;
+	Mon, 15 Jan 2024 15:49:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="0Do1yxTR"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fdZAE68O"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-ej1-f74.google.com (mail-ej1-f74.google.com [209.85.218.74])
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C2C417596
-	for <linux-api@vger.kernel.org>; Mon, 15 Jan 2024 14:26:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--gnoack.bounces.google.com
-Received: by mail-ej1-f74.google.com with SMTP id a640c23a62f3a-a2d9a0d63e1so60579866b.1
-        for <linux-api@vger.kernel.org>; Mon, 15 Jan 2024 06:26:31 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB19717BA1;
+	Mon, 15 Jan 2024 15:49:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-dbd99c08cd6so7005346276.0;
+        Mon, 15 Jan 2024 07:49:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1705328789; x=1705933589; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:from:subject:references
-         :mime-version:message-id:in-reply-to:date:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1705333783; x=1705938583; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Ozom/lCh7bTZ+/UKfLuCBm+OREt52FaBrJgWzLh8wC8=;
-        b=0Do1yxTRwgC7h280pJ8zhLj/yfD/6WH13dQWYRj2ztXHCfl0K2c7xAzZvEoJ6DoVqv
-         mw6QNl8KldnuTDm1bTankOz7PZSmz9nW7Xb4Nvd1xSb8WKWW+M4JZR1xKTICA++qaKmb
-         Qs8hFLuAnwnSinSay6UDX6ktpZhU/VUyToi6gZsM1XsUrWAbiM9Lrqua7HgmdqDAXF+i
-         LaBWsQ/SJqMFtd0gSlX/8SQx7WrgWiJhx0uSzcoMefcd98yDhH5/yRHZvmtPHrVVYS3L
-         DQlX85B9BJzJj18vXOYMUVzaKjEKb5PzLD8gJKaYGMmG78jIeUUPhXwhcnF8Mj4z4rI0
-         xvaA==
+        bh=SL7TyLa6aUw4gCp8WNPrFTXBo1ubO4C/088ALvqvncI=;
+        b=fdZAE68OFBp4GPejeD3x4tZhnc1JCB1IhT3IFWQgiBrlL5h1VsHznBc7VBg+1ZeLH8
+         qrjbxPX7eZV1L1AD1qMJYQKjFqDETDjO61joQrfzwXuSKz/6ylxQdT4v+s4Nj6BJe/vn
+         E/porRuOMaujnqEmxYJU0Jvw8fR2Hnbnk7NXkYFY8SkZ2M2EcdijdS9XfVs5ax2pw8Ny
+         AbxIpKi+n3s1DdQTY7L/nTiTY/suC3AqOilH3ZjRhLISpya8DIo7dki2ryD9YjwGLqWR
+         iPEz003Si2ZzzAvWw2+tmcaitYraYuMKwxczuoXXOnUc+C5Oycf7hcWGHSAAw99Ozcmx
+         jygg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705328789; x=1705933589;
-        h=content-transfer-encoding:cc:to:from:subject:references
-         :mime-version:message-id:in-reply-to:date:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Ozom/lCh7bTZ+/UKfLuCBm+OREt52FaBrJgWzLh8wC8=;
-        b=ULWmzjjtjPXY5j7I4nXURM854TSiyqfTMMH7BfFRVE7LU68DQPzFY9XVNJJ5uBikWg
-         q2bAIDujXu/1G2QnSsb+/6gvt1sg/eJbmcLftQS1EgNj4vaU4bhfLvwP42kJkVsGIcD9
-         xJ9Hfr4cD6Poalj4g+eke5Gnaa04NyP58A4coVOQRbt7S4BmVABoJsV3JAOIikDzWjeP
-         +gGOM6XFadSTlkKd1UI3Gpq0/WcUDJgemtQQ2x4qUS3M+hJLjDSXgDCi39syxlpwjKxZ
-         XYb76Te5v+R9vNfLeiXKest3XhrV8Ketpdc8SOiV8qH61NSav0Xad8oylczuQ+2RRFoQ
-         Z1Eg==
-X-Gm-Message-State: AOJu0YxrI/tNgmYFfOscmXnWjyarQYysqVe083nauHsDr3jAur/pPwiM
-	D03gvFpLmNF0NVOrYkxbcn2LqAXndFzUgdJOJA==
-X-Google-Smtp-Source: AGHT+IFPE1nx6Rr58qzIM5ZCiUHok3Ak5Gi1PZAX+14/hxuK9boaY1dYPKdC8HnlSs8HFgwRD9CSdDRExPU=
-X-Received: from sport.zrh.corp.google.com ([2a00:79e0:9d:4:3a10:62fd:72bf:27db])
- (user=gnoack job=sendgmr) by 2002:a17:906:39cf:b0:a23:5780:6300 with SMTP id
- i15-20020a17090639cf00b00a2357806300mr19031eje.10.1705328789306; Mon, 15 Jan
- 2024 06:26:29 -0800 (PST)
-Date: Mon, 15 Jan 2024 15:26:21 +0100
-In-Reply-To: <20240112074059.29673-1-hu.yadi@h3c.com>
-Message-Id: <ZaVAjQmio26WloSk@google.com>
+        d=1e100.net; s=20230601; t=1705333783; x=1705938583;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=SL7TyLa6aUw4gCp8WNPrFTXBo1ubO4C/088ALvqvncI=;
+        b=CS83+SMrmENV0G2exeyJDYQ7WWT7OsqybnKrt3s8cTjK/W62jwwPhZe4KzjW7WeqOP
+         G7QsP52QgH7+Kx0IQYT4cUZbg1XIEgj5wVKJSYtEYf90xRO41rcrhQiVUbanSvYn4//N
+         idzG+QQf4wSW5bqZkX3D/DL22H9DBCF1tOx/XvgKZYmytgpF7+Mjl6dkLfjF9uV1EKWd
+         N3Am7d9Hi9PcHZobtbIJcYpJPix3nm3fXdK7659vrJfvMTa7RVCaeWDy25J8QlVDJKX1
+         IPneGuw2jNaaSWVaBvIa4q33YEWSBprINe3L0aqXDFkBh3BYcw/qcurmIOTnyvrmtr75
+         JcDA==
+X-Gm-Message-State: AOJu0YyqUUij0LaN+TQBjFmDq9ll32MDNi08+V+MvjMCIJgP4sHzdLpP
+	12tLPgiQqyED/tH/aZXo/9R4UdYAewEyeXD3Q4A=
+X-Google-Smtp-Source: AGHT+IHRvjvqz812fgPuK5VrHIBc03d7H7tW5k/POpwadt/5R3fqa0Hh1ZXXjPW5NBRtuM6eFswRhIcAM5+PcEeg3oo=
+X-Received: by 2002:a25:c503:0:b0:db7:dad0:76d2 with SMTP id
+ v3-20020a25c503000000b00db7dad076d2mr2809380ybe.110.1705333783459; Mon, 15
+ Jan 2024 07:49:43 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20240112074059.29673-1-hu.yadi@h3c.com>
-Subject: Re: [PATCH] selftests/filesystems:fix build error in overlayfs
-From: "=?iso-8859-1?Q?G=FCnther?= Noack" <gnoack@google.com>
-To: Hu Yadi <hu.yadi@h3c.com>
-Cc: jmorris@namei.org, serge@hallyn.com, shuah@kernel.org, 
-	mathieu.desnoyers@efficios.com, mic@digikod.net, amir73il@gmail.com, 
-	brauner@kernel.org, avagin@google.com, linux-api@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, 514118380@qq.com
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+References: <20231228122411.3189-1-maimon.sagi@gmail.com> <f254c189-463e-43a3-bc09-9a8869ebf819@app.fastmail.com>
+ <CAMuE1bF0Hho4VwO6w3f+9z3j5TtscYzuAjj10MFt2mZXG2P8dQ@mail.gmail.com>
+ <84d8e9d7-09ce-4781-8dfa-a74bb0955ae8@app.fastmail.com> <ZZ-ZNHgDsZwg9CaW@hoboy.vegasvil.org>
+In-Reply-To: <ZZ-ZNHgDsZwg9CaW@hoboy.vegasvil.org>
+From: Sagi Maimon <maimon.sagi@gmail.com>
+Date: Mon, 15 Jan 2024 17:49:32 +0200
+Message-ID: <CAMuE1bF4sSeiDr-jyebF6F8oRxGs1b2gtT39fTJ2JeaFabr6Ng@mail.gmail.com>
+Subject: Re: [PATCH v3] posix-timers: add multi_clock_gettime system call
+To: Richard Cochran <richardcochran@gmail.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Andy Lutomirski <luto@kernel.org>, tglx@linutronix.de, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Geert Uytterhoeven <geert@linux-m68k.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Sohil Mehta <sohil.mehta@intel.com>, Rick Edgecombe <rick.p.edgecombe@intel.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Palmer Dabbelt <palmer@sifive.com>, Kees Cook <keescook@chromium.org>, 
+	Alexey Gladkov <legion@kernel.org>, Mark Rutland <mark.rutland@arm.com>, linux-kernel@vger.kernel.org, 
+	linux-api@vger.kernel.org, Linux-Arch <linux-arch@vger.kernel.org>, 
+	Netdev <netdev@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hello!
+On Thu, Jan 11, 2024 at 9:31=E2=80=AFAM Richard Cochran
+<richardcochran@gmail.com> wrote:
+>
+> On Tue, Jan 02, 2024 at 12:29:59PM +0100, Arnd Bergmann wrote:
+>
+> > I think Andy's suggestion of exposing time offsets instead
+> > of absolute times would actually achieve that: If the
+> > interface is changed to return the offset against
+> > CLOCK_MONOTONIC, CLOCK_MONOTONIC_RAW or CLOCK_BOOTTIME
+> > (not sure what is best here), then the new syscall can use
+> > getcrosststamp() where supported for the best results or
+> > fall back to gettimex64() or gettime64() otherwise to
+> > provide a consistent user interface.
+>
+> Yes, it makes more sense to provide the offset, since that is what the
+> user needs in the end.
+>
+Make sense will be made on the next patch.
+> Can we change the name of the system call to "clock compare"?
+>
+> int clock_compare(clockid_t a, clockid_t b,
+>                   int64_t *offset, int64_t *error);
+>
+> returns: zero or error code,
+>  offset =3D a - b
+>  error  =3D maximum error due to asymmetry
+>
+> If clocks a and b are both System-V clocks, then *error=3D0 and *offset
+> can be returned directly from the kernel's time keeping state.
+>
+> If getcrosststamp() is supported on a or b, then invoke it.
+>
+> otherwise do this:
+>
+>    t1 =3D gettime(a)
+>    t2 =3D gettime(b)
+>    t3 - gettime(c)
+>
+>    *offset =3D (t1 + t3)/2 - t2
+>    *error  =3D (t3 - t1)/2
+>
+> There is no need for repeated measurement, since user space can call
+> again when `error` is unacceptable.
+>
+Thanks for your notes, all of them will be done on the next patch (it
+will take some time due to work overload).
+The only question that I have is: why not implement it as an IOCTL?
+It makes more sense to me since it is close to another IOCTL, the
+"PTP_SYS_OFFSET" family.
+Does it make sense to you?
 
-On Fri, Jan 12, 2024 at 03:40:59PM +0800, Hu Yadi wrote:
-> One build issue comes up due to both mount.h included dev_in_maps.c
->=20
-> In file included from dev_in_maps.c:10:
-> /usr/include/sys/mount.h:35:3: error: expected identifier before numeric =
-constant
->    35 |   MS_RDONLY =3D 1,  /* Mount read-only.  */
->       |   ^~~~~~~~~
-> In file included from dev_in_maps.c:13:
->=20
-> Remove one of them to solve conflict, another error comes up:
->=20
-> dev_in_maps.c:170:6: error: implicit declaration of function =E2=80=98mou=
-nt=E2=80=99 [-Werror=3Dimplicit-function-declaration]
->   170 |  if (mount(NULL, "/", NULL, MS_SLAVE | MS_REC, NULL) =3D=3D -1) {
->       |      ^~~~~
-> cc1: all warnings being treated as errors
->=20
-> and then , add sys_mount definition to solve it
-> After both above, dev_in_maps.c can be built correctly on my mache(gcc 10=
-.2,glibc-2.32,kernel-5.10)
-
-This is apparently the same error as in
-https://lore.kernel.org/all/11cdac1e-e96c-405f-63e8-35b0e2926337@arm.com/
-
-I'm getting the impression that we are fixing the issue at the wrong layer =
-here?
-After all, the mount() syscall is supposed to be used with <sys/mount.h>
-according to the mount(2) man page?  It feels a bit like cheating to resort=
- to
-sys_mount() instead...?
-
-Do you have any deeper thoughts on what could be the underlying issue here?
-With my newer GCC toolchains, I have been unable to reproduce this.
-
-Thanks,
-=E2=80=94G=C3=BCnther
-
+> Thanks,
+> Richard
+>
+>
+>
 
