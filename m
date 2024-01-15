@@ -1,118 +1,119 @@
-Return-Path: <linux-api+bounces-510-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-511-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58F6882D7A6
-	for <lists+linux-api@lfdr.de>; Mon, 15 Jan 2024 11:44:36 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7792382DB3F
+	for <lists+linux-api@lfdr.de>; Mon, 15 Jan 2024 15:26:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id ED5E3B20C94
-	for <lists+linux-api@lfdr.de>; Mon, 15 Jan 2024 10:44:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 117D41F22777
+	for <lists+linux-api@lfdr.de>; Mon, 15 Jan 2024 14:26:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D6971A286;
-	Mon, 15 Jan 2024 10:44:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD4E41759B;
+	Mon, 15 Jan 2024 14:26:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="0Do1yxTR"
 X-Original-To: linux-api@vger.kernel.org
-Received: from h3cspam02-ex.h3c.com (smtp.h3c.com [60.191.123.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f74.google.com (mail-ej1-f74.google.com [209.85.218.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DC2463AD;
-	Mon, 15 Jan 2024 10:44:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=h3c.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=h3c.com
-Received: from mail.maildlp.com ([172.25.15.154])
-	by h3cspam02-ex.h3c.com with ESMTP id 40FAfUqO038155;
-	Mon, 15 Jan 2024 18:41:30 +0800 (GMT-8)
-	(envelope-from hu.yadi@h3c.com)
-Received: from DAG6EX13-BJD.srv.huawei-3com.com (unknown [10.153.34.15])
-	by mail.maildlp.com (Postfix) with ESMTP id 88C4C2004DB6;
-	Mon, 15 Jan 2024 18:45:58 +0800 (CST)
-Received: from DAG6EX02-IMDC.srv.huawei-3com.com (10.62.14.11) by
- DAG6EX13-BJD.srv.huawei-3com.com (10.153.34.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.27; Mon, 15 Jan 2024 18:41:32 +0800
-Received: from DAG6EX02-IMDC.srv.huawei-3com.com ([fe80::4c21:7c89:4f9d:e4c4])
- by DAG6EX02-IMDC.srv.huawei-3com.com ([fe80::4c21:7c89:4f9d:e4c4%16]) with
- mapi id 15.02.1258.027; Mon, 15 Jan 2024 18:41:32 +0800
-From: Huyadi <hu.yadi@h3c.com>
-To: "'kernel test robot'" <lkp@intel.com>,
-        "jmorris@namei.org"
-	<jmorris@namei.org>,
-        "serge@hallyn.com" <serge@hallyn.com>,
-        "shuah@kernel.org" <shuah@kernel.org>,
-        "mathieu.desnoyers@efficios.com"
-	<mathieu.desnoyers@efficios.com>,
-        "mic@digikod.net" <mic@digikod.net>
-CC: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-security-module@vger.kernel.org"
-	<linux-security-module@vger.kernel.org>,
-        "linux-kselftest@vger.kernel.org"
-	<linux-kselftest@vger.kernel.org>,
-        "514118380@qq.com" <514118380@qq.com>
-Subject: =?gb2312?B?u9i4tDogW1BBVENIIHYzXSBzZWxmdGVzdHMvbGFuZGxvY2s6Rml4IHR3byBi?=
- =?gb2312?Q?uild_issues?=
-Thread-Topic: [PATCH v3] selftests/landlock:Fix two build issues
-Thread-Index: AQHaRScQ690ykYEnskymgvTI87URSbDZuk8AgAD5tWA=
-Date: Mon, 15 Jan 2024 10:41:32 +0000
-Message-ID: <44bf55ff3e3649c88c5b1daf843a86b5@h3c.com>
-References: <20240112071245.669-1-hu.yadi@h3c.com>
- <202401151147.T1s11iHJ-lkp@intel.com>
-In-Reply-To: <202401151147.T1s11iHJ-lkp@intel.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-sender-location: DAG2
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C2C417596
+	for <linux-api@vger.kernel.org>; Mon, 15 Jan 2024 14:26:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--gnoack.bounces.google.com
+Received: by mail-ej1-f74.google.com with SMTP id a640c23a62f3a-a2d9a0d63e1so60579866b.1
+        for <linux-api@vger.kernel.org>; Mon, 15 Jan 2024 06:26:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1705328789; x=1705933589; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:from:subject:references
+         :mime-version:message-id:in-reply-to:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ozom/lCh7bTZ+/UKfLuCBm+OREt52FaBrJgWzLh8wC8=;
+        b=0Do1yxTRwgC7h280pJ8zhLj/yfD/6WH13dQWYRj2ztXHCfl0K2c7xAzZvEoJ6DoVqv
+         mw6QNl8KldnuTDm1bTankOz7PZSmz9nW7Xb4Nvd1xSb8WKWW+M4JZR1xKTICA++qaKmb
+         Qs8hFLuAnwnSinSay6UDX6ktpZhU/VUyToi6gZsM1XsUrWAbiM9Lrqua7HgmdqDAXF+i
+         LaBWsQ/SJqMFtd0gSlX/8SQx7WrgWiJhx0uSzcoMefcd98yDhH5/yRHZvmtPHrVVYS3L
+         DQlX85B9BJzJj18vXOYMUVzaKjEKb5PzLD8gJKaYGMmG78jIeUUPhXwhcnF8Mj4z4rI0
+         xvaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705328789; x=1705933589;
+        h=content-transfer-encoding:cc:to:from:subject:references
+         :mime-version:message-id:in-reply-to:date:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Ozom/lCh7bTZ+/UKfLuCBm+OREt52FaBrJgWzLh8wC8=;
+        b=ULWmzjjtjPXY5j7I4nXURM854TSiyqfTMMH7BfFRVE7LU68DQPzFY9XVNJJ5uBikWg
+         q2bAIDujXu/1G2QnSsb+/6gvt1sg/eJbmcLftQS1EgNj4vaU4bhfLvwP42kJkVsGIcD9
+         xJ9Hfr4cD6Poalj4g+eke5Gnaa04NyP58A4coVOQRbt7S4BmVABoJsV3JAOIikDzWjeP
+         +gGOM6XFadSTlkKd1UI3Gpq0/WcUDJgemtQQ2x4qUS3M+hJLjDSXgDCi39syxlpwjKxZ
+         XYb76Te5v+R9vNfLeiXKest3XhrV8Ketpdc8SOiV8qH61NSav0Xad8oylczuQ+2RRFoQ
+         Z1Eg==
+X-Gm-Message-State: AOJu0YxrI/tNgmYFfOscmXnWjyarQYysqVe083nauHsDr3jAur/pPwiM
+	D03gvFpLmNF0NVOrYkxbcn2LqAXndFzUgdJOJA==
+X-Google-Smtp-Source: AGHT+IFPE1nx6Rr58qzIM5ZCiUHok3Ak5Gi1PZAX+14/hxuK9boaY1dYPKdC8HnlSs8HFgwRD9CSdDRExPU=
+X-Received: from sport.zrh.corp.google.com ([2a00:79e0:9d:4:3a10:62fd:72bf:27db])
+ (user=gnoack job=sendgmr) by 2002:a17:906:39cf:b0:a23:5780:6300 with SMTP id
+ i15-20020a17090639cf00b00a2357806300mr19031eje.10.1705328789306; Mon, 15 Jan
+ 2024 06:26:29 -0800 (PST)
+Date: Mon, 15 Jan 2024 15:26:21 +0100
+In-Reply-To: <20240112074059.29673-1-hu.yadi@h3c.com>
+Message-Id: <ZaVAjQmio26WloSk@google.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-DNSRBL: 
-X-SPAM-SOURCE-CHECK: pass
-X-MAIL:h3cspam02-ex.h3c.com 40FAfUqO038155
+Mime-Version: 1.0
+References: <20240112074059.29673-1-hu.yadi@h3c.com>
+Subject: Re: [PATCH] selftests/filesystems:fix build error in overlayfs
+From: "=?iso-8859-1?Q?G=FCnther?= Noack" <gnoack@google.com>
+To: Hu Yadi <hu.yadi@h3c.com>
+Cc: jmorris@namei.org, serge@hallyn.com, shuah@kernel.org, 
+	mathieu.desnoyers@efficios.com, mic@digikod.net, amir73il@gmail.com, 
+	brauner@kernel.org, avagin@google.com, linux-api@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, 514118380@qq.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-DQo+SGkgSHUsDQo+DQo+a2VybmVsIHRlc3Qgcm9ib3Qgbm90aWNlZCB0aGUgZm9sbG93aW5nIGJ1
-aWxkIGVycm9yczoNCj4NCj4gW2F1dG8gYnVpbGQgdGVzdCBFUlJPUiBvbiBzaHVhaC1rc2VsZnRl
-c3QvbmV4dF0gW2Fsc28gYnVpbGQgdGVzdCBFUlJPUiBvbiBzaHVhaC1rc2VsZnRlc3QvZml4ZXMg
-bGludXMvbWFzdGVyIHY2LjcgbmV4dC0yMDI0MDExMl0gW0lmIHlvdXIgcGF0Y2ggaXMgYXBwbGll
-ZCB0byB0aGUgd3JvbmcgZ2l0IHRyZWUsIGtpbmRseSBkcm9wIHVzIGEgbm90ZS4NCj5BbmQgd2hl
-biBzdWJtaXR0aW5nIHBhdGNoLCB3ZSBzdWdnZXN0IHRvIHVzZSAnLS1iYXNlJyBhcyBkb2N1bWVu
-dGVkIGluIGh0dHBzOi8vZ2l0LXNjbS5jb20vZG9jcy9naXQtZm9ybWF0LXBhdGNoI19iYXNlX3Ry
-ZWVfaW5mb3JtYXRpb25dDQoNCj51cmw6ICAgIGh0dHBzOi8vZ2l0aHViLmNvbS9pbnRlbC1sYWIt
-bGtwL2xpbnV4L2NvbW1pdHMvSHUtWWFkaS9zZWxmdGVzdHMtbGFuZGxvY2stRml4LXR3by1idWls
-ZC1pc3N1ZXMvMjAyNDAxMTItMTUxODA1DQo+YmFzZTogICBodHRwczovL2dpdC5rZXJuZWwub3Jn
-L3B1Yi9zY20vbGludXgva2VybmVsL2dpdC9zaHVhaC9saW51eC1rc2VsZnRlc3QuZ2l0IG5leHQN
-Cj5wYXRjaCBsaW5rOiAgICBodHRwczovL2xvcmUua2VybmVsLm9yZy9yLzIwMjQwMTEyMDcxMjQ1
-LjY2OS0xLWh1LnlhZGklNDBoM2MuY29tDQo+cGF0Y2ggc3ViamVjdDogW1BBVENIIHYzXSBzZWxm
-dGVzdHMvbGFuZGxvY2s6Rml4IHR3byBidWlsZCBpc3N1ZXMNCj5jb21waWxlcjogZ2NjLTEyIChE
-ZWJpYW4gMTIuMi4wLTE0KSAxMi4yLjAgcmVwcm9kdWNlICh0aGlzIGlzIGEgVz0xIGJ1aWxkKTog
-KGh0dHBzOi8vZG93bmxvYWQuMDEub3JnLzBkYXktY2kvYXJjaGl2ZS8yMDI0MDExNS8yMDI0MDEx
-NTExNDcuVDFzMTFpSEotbGtwQGludGVsLmNvbS9yZXByb2R1Y2UpDQo+DQo+SWYgeW91IGZpeCB0
-aGUgaXNzdWUgaW4gYSBzZXBhcmF0ZSBwYXRjaC9jb21taXQgKGkuZS4gbm90IGp1c3QgYSBuZXcg
-dmVyc2lvbiBvZiB0aGUgc2FtZSBwYXRjaC9jb21taXQpLCBraW5kbHkgYWRkIGZvbGxvd2luZyB0
-YWdzDQo+fCBSZXBvcnRlZC1ieToga2VybmVsIHRlc3Qgcm9ib3QgPGxrcEBpbnRlbC5jb20+DQo+
-fCBDbG9zZXM6IA0KPnwgaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvb2Uta2J1aWxkLWFsbC8yMDI0
-MDExNTExNDcuVDFzMTFpSEotbGtwQGludGVsLg0KPnwgY29tLw0KPg0KPkFsbCBlcnJvcnMgKG5l
-dyBvbmVzIHByZWZpeGVkIGJ5ID4+KToNCj4NCg0KRml4IGl0LCBhbmQgc2VuZCBwYXRjaCBWNCBz
-b29uLg0KDQo+Pj4gbmV0X3Rlc3QuYzoyNToxNDogZXJyb3I6IHN0YXRpYyBkZWNsYXJhdGlvbiBv
-ZiAnZ2V0dGlkJyBmb2xsb3dzIA0KPj4+IG5vbi1zdGF0aWMgZGVjbGFyYXRpb24NCj4gICAgICAy
-NSB8IHN0YXRpYyBwaWRfdCBnZXR0aWQodm9pZCkNCj4gICAgICAgICB8ICAgICAgICAgICAgICBe
-fn5+fn4NCj4gICBJbiBmaWxlIGluY2x1ZGVkIGZyb20gL3Vzci9pbmNsdWRlL3VuaXN0ZC5oOjEy
-MTgsDQo+ICAgICAgICAgICAgICAgICAgICBmcm9tIC91c3IvaW5jbHVkZS94ODZfNjQtbGludXgt
-Z251L2JpdHMvc2lnc3Rrc3ouaDoyNCwNCj4gICAgICAgICAgICAgICAgICAgIGZyb20gL3Vzci9p
-bmNsdWRlL3NpZ25hbC5oOjMyOCwNCj4gICAgICAgICAgICAgICAgICAgIGZyb20gL3Vzci9pbmNs
-dWRlL3g4Nl82NC1saW51eC1nbnUvc3lzL3dhaXQuaDozNiwNCj4gICAgICAgICAgICAgICAgICAg
-IGZyb20gY29tbW9uLmg6MTYsDQo+ICAgICAgICAgICAgICAgICAgICBmcm9tIG5ldF90ZXN0LmM6
-MjI6DQo+ICAgL3Vzci9pbmNsdWRlL3g4Nl82NC1saW51eC1nbnUvYml0cy91bmlzdGRfZXh0Lmg6
-MzQ6MTY6IG5vdGU6IHByZXZpb3VzIGRlY2xhcmF0aW9uIG9mICdnZXR0aWQnIHdpdGggdHlwZSAn
-X19waWRfdCh2b2lkKScge2FrYSAnaW50KHZvaWQpJ30NCj4gICAgICAzNCB8IGV4dGVybiBfX3Bp
-ZF90IGdldHRpZCAodm9pZCkgX19USFJPVzsNCj4gICAgICAgICB8ICAgICAgICAgICAgICAgIF5+
-fn5+fg0KPg0KPi0tDQo+MC1EQVkgQ0kgS2VybmVsIFRlc3QgU2VydmljZQ0KaHR0cHM6Ly9naXRo
-dWIuY29tL2ludGVsL2xrcC10ZXN0cy93aWtpDQo=
+Hello!
+
+On Fri, Jan 12, 2024 at 03:40:59PM +0800, Hu Yadi wrote:
+> One build issue comes up due to both mount.h included dev_in_maps.c
+>=20
+> In file included from dev_in_maps.c:10:
+> /usr/include/sys/mount.h:35:3: error: expected identifier before numeric =
+constant
+>    35 |   MS_RDONLY =3D 1,  /* Mount read-only.  */
+>       |   ^~~~~~~~~
+> In file included from dev_in_maps.c:13:
+>=20
+> Remove one of them to solve conflict, another error comes up:
+>=20
+> dev_in_maps.c:170:6: error: implicit declaration of function =E2=80=98mou=
+nt=E2=80=99 [-Werror=3Dimplicit-function-declaration]
+>   170 |  if (mount(NULL, "/", NULL, MS_SLAVE | MS_REC, NULL) =3D=3D -1) {
+>       |      ^~~~~
+> cc1: all warnings being treated as errors
+>=20
+> and then , add sys_mount definition to solve it
+> After both above, dev_in_maps.c can be built correctly on my mache(gcc 10=
+.2,glibc-2.32,kernel-5.10)
+
+This is apparently the same error as in
+https://lore.kernel.org/all/11cdac1e-e96c-405f-63e8-35b0e2926337@arm.com/
+
+I'm getting the impression that we are fixing the issue at the wrong layer =
+here?
+After all, the mount() syscall is supposed to be used with <sys/mount.h>
+according to the mount(2) man page?  It feels a bit like cheating to resort=
+ to
+sys_mount() instead...?
+
+Do you have any deeper thoughts on what could be the underlying issue here?
+With my newer GCC toolchains, I have been unable to reproduce this.
+
+Thanks,
+=E2=80=94G=C3=BCnther
+
 
