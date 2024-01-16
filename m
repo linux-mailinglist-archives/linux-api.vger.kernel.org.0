@@ -1,144 +1,132 @@
-Return-Path: <linux-api+bounces-515-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-516-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 888E182ED57
-	for <lists+linux-api@lfdr.de>; Tue, 16 Jan 2024 12:04:36 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EE1C82F122
+	for <lists+linux-api@lfdr.de>; Tue, 16 Jan 2024 16:14:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 23BE41F23FD1
-	for <lists+linux-api@lfdr.de>; Tue, 16 Jan 2024 11:04:36 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C668FB232EC
+	for <lists+linux-api@lfdr.de>; Tue, 16 Jan 2024 15:14:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23B911A58F;
-	Tue, 16 Jan 2024 11:04:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A31C1BF47;
+	Tue, 16 Jan 2024 15:14:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="jh8KHJD2";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="GA4WR0CZ";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="jh8KHJD2";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="GA4WR0CZ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ElxQ3hwZ"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70B851A581;
-	Tue, 16 Jan 2024 11:04:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 98A4D1FB95;
-	Tue, 16 Jan 2024 11:04:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1705403066; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=TsvTliU/AduXv8+lyjjkHnFNXCRZ5gTEvS/YJHnYT4c=;
-	b=jh8KHJD2XI9MNvwOKBGUV3u89KpaECwx+WHsbVQXnR+JIfp+stGXAiY4Ae3T/PehyN4fdt
-	if0vMud4Wh4bU/5SDKD+Cb4UfyGDTc5kl4ps3YJEQqzPJSBvMfJsi+xuoPwGlLg8t/L5wK
-	t7l1L0Cs2e0JX9sXf6pTOw0ozeSIH+o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1705403066;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=TsvTliU/AduXv8+lyjjkHnFNXCRZ5gTEvS/YJHnYT4c=;
-	b=GA4WR0CZZi+rJybJiMLoiP8UmdYjQ0ruP6PzcjWiLiql8N4mBmgQnyqll+JWMmeXxuCzoT
-	wiqtKQPK62AIiHDQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1705403066; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=TsvTliU/AduXv8+lyjjkHnFNXCRZ5gTEvS/YJHnYT4c=;
-	b=jh8KHJD2XI9MNvwOKBGUV3u89KpaECwx+WHsbVQXnR+JIfp+stGXAiY4Ae3T/PehyN4fdt
-	if0vMud4Wh4bU/5SDKD+Cb4UfyGDTc5kl4ps3YJEQqzPJSBvMfJsi+xuoPwGlLg8t/L5wK
-	t7l1L0Cs2e0JX9sXf6pTOw0ozeSIH+o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1705403066;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=TsvTliU/AduXv8+lyjjkHnFNXCRZ5gTEvS/YJHnYT4c=;
-	b=GA4WR0CZZi+rJybJiMLoiP8UmdYjQ0ruP6PzcjWiLiql8N4mBmgQnyqll+JWMmeXxuCzoT
-	wiqtKQPK62AIiHDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 274D4132FA;
-	Tue, 16 Jan 2024 11:04:26 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id cYYzCLpipmUwMgAAD6G6ig
-	(envelope-from <pvorel@suse.cz>); Tue, 16 Jan 2024 11:04:26 +0000
-From: Petr Vorel <pvorel@suse.cz>
-To: linux-man@vger.kernel.org
-Cc: Petr Vorel <pvorel@suse.cz>,
-	=?UTF-8?q?Maciej=20=C5=BBenczykowski?= <maze@google.com>,
-	Alejandro Colomar <alx@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCFF91BF2B;
+	Tue, 16 Jan 2024 15:14:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DC7EC433F1;
+	Tue, 16 Jan 2024 15:14:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705418050;
+	bh=kqWQQUuaJdff5I0uGZCylWnTssX2s6YVxSu7iKtNMLU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ElxQ3hwZ20gajxxte3wUCNKg2VAhCCxGGHYpl4kbOsIOLp3oQ7GIErbk9QHGrY8aN
+	 UuOfTcym1MVv82UdEbAEWbuwAcz3DrqcXk4QWMHvY9bPSjVkuiLU7m0loLwfgHxDKf
+	 GJSdyTLsuRhjELnO1fMr22KG/bF3YuzmMQrQGsrwDxbFZA3fgc8Hbp1xRVbVQiuCKh
+	 MyPywJvqUPmFkdKChqjP0ee5crxJfcSnQSayrDTNFekXJis7ZMM8T3zstphJvVGM2Z
+	 jrnMkWTNsrqqBOTIx/miY2qjPuLJKPl8FseBR+5KQdnkqFKB+Anxwt1afUX8qyuxrE
+	 7qAsarSBaNUjg==
+Date: Tue, 16 Jan 2024 16:14:06 +0100
+From: Alejandro Colomar <alx@kernel.org>
+To: Petr Vorel <pvorel@suse.cz>
+Cc: linux-man@vger.kernel.org,
+	Maciej =?utf-8?Q?=C5=BBenczykowski?= <maze@google.com>,
+	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
 	Matthias Gerstner <matthias.gerstner@suse.com>,
 	Avinesh Kumar <akumar@suse.de>
-Subject: [PATCH 1/1] socket.7: Mention CAP_NET_RAW on SO_MARK
-Date: Tue, 16 Jan 2024 12:04:18 +0100
-Message-ID: <20240116110418.2577798-1-pvorel@suse.cz>
-X-Mailer: git-send-email 2.43.0
+Subject: Re: [PATCH 1/1] socket.7: Mention CAP_NET_RAW on SO_MARK
+Message-ID: <ZaadPmLFCI4rsGy_@debian>
+References: <20240116110418.2577798-1-pvorel@suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spam-Level: ***
-X-Spam-Score: 3.54
-X-Spamd-Result: default: False [3.54 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 R_MISSING_CHARSET(2.50)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 BROKEN_CONTENT_TYPE(1.50)[];
-	 NEURAL_HAM_LONG(-1.00)[-0.999];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 RCPT_COUNT_SEVEN(0.00)[8];
-	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-0.16)[69.49%]
-X-Spam-Flag: NO
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="bhiuGhNFMyNI74lX"
+Content-Disposition: inline
+In-Reply-To: <20240116110418.2577798-1-pvorel@suse.cz>
 
-Added in 079925cce1d0 ("net: allow SO_MARK with CAP_NET_RAW") in v5.17.
 
-Signed-off-by: Petr Vorel <pvorel@suse.cz>
----
- man7/socket.7 | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+--bhiuGhNFMyNI74lX
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 16 Jan 2024 16:14:06 +0100
+From: Alejandro Colomar <alx@kernel.org>
+To: Petr Vorel <pvorel@suse.cz>
+Cc: linux-man@vger.kernel.org,
+	Maciej =?utf-8?Q?=C5=BBenczykowski?= <maze@google.com>,
+	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+	Matthias Gerstner <matthias.gerstner@suse.com>,
+	Avinesh Kumar <akumar@suse.de>
+Subject: Re: [PATCH 1/1] socket.7: Mention CAP_NET_RAW on SO_MARK
 
-diff --git a/man7/socket.7 b/man7/socket.7
-index 3ff8fe51b..3ebfc770b 100644
---- a/man7/socket.7
-+++ b/man7/socket.7
-@@ -614,7 +614,9 @@ Changing the mark can be used for mark-based
- routing without netfilter or for packet filtering.
- Setting this option requires the
- .B CAP_NET_ADMIN
--capability.
-+or
-+.B CAP_NET_RAW
-+(since Linux 5.17) capability.
- .TP
- .B SO_OOBINLINE
- If this option is enabled,
--- 
-2.43.0
+Hi Petr,
 
+On Tue, Jan 16, 2024 at 12:04:18PM +0100, Petr Vorel wrote:
+> Added in 079925cce1d0 ("net: allow SO_MARK with CAP_NET_RAW") in v5.17.
+>=20
+> Signed-off-by: Petr Vorel <pvorel@suse.cz>
+
+Patch applied.  Thanks!
+
+Have a lovely day,
+Alex
+
+> ---
+>  man7/socket.7 | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/man7/socket.7 b/man7/socket.7
+> index 3ff8fe51b..3ebfc770b 100644
+> --- a/man7/socket.7
+> +++ b/man7/socket.7
+> @@ -614,7 +614,9 @@ Changing the mark can be used for mark-based
+>  routing without netfilter or for packet filtering.
+>  Setting this option requires the
+>  .B CAP_NET_ADMIN
+> -capability.
+> +or
+> +.B CAP_NET_RAW
+> +(since Linux 5.17) capability.
+>  .TP
+>  .B SO_OOBINLINE
+>  If this option is enabled,
+> --=20
+> 2.43.0
+>=20
+
+--=20
+<https://www.alejandro-colomar.es/>
+Looking for a remote C programming job at the moment.
+
+--bhiuGhNFMyNI74lX
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmWmnT4ACgkQnowa+77/
+2zKrpw//eDslC0PUvAEIgtFOQAbGv+aFzPcmugouIlpPzK7ybnXFA2s41LQoEm/f
+oRI1LtANL9BIC4M+eq0sNkevqjkTTHM9Gc++8MfqAfvvOhrqzpsVaHgMGcd7ys+J
+xdvukkRmL0M/MdhKsn/IDJDTDwmmVpxFEyznNmjvKV1ZwrtUGnJNX9wSScZ9kkD8
+nXDCbDg33cRKRHyOh09uBx4eqksznsJwBXPQuQtqVYLrXot8nAQcnsRifCZcpR8y
+mn/m+pjFthQ98EJozUHtzans0hTjyBGR28ZaeHgjhko0cYwVO7Dj6wzdSsem8a9m
+nmnotmPd7Y+6i+qpMdinJmHGBtIrb43u3I/iLapN7liP4vtkvCd1nimzXMeKYfdV
+xUUk56YU7zbVCkdTFbX1lUkgAgUt2VsJZiM4CD/9u8ikiWKNxeNJuXK6NuMzL2td
+RjrLYUcpU4pCSKEnKKi4273CWS94z9gb8sRpfGdNOr8bYXkn+aYsrMCZnZ6kftuw
+QVIBU35zFMaB+O7b9flRupG7ICu0kWKs9aWi8/XUXBFz+XKOHW3VAAs6c3uXiYfb
+ylCcip+BX5E0n6zDpyO7SreAWFw/lxXJ+5bZRuDA3JzlcJ73C/xnhoj+8srT+xem
+i9QiufXjy3L9qtmQbKSnLpQJUBYSXxM1NzqOVMQHXhA0m6dpg0k=
+=UOiT
+-----END PGP SIGNATURE-----
+
+--bhiuGhNFMyNI74lX--
 
