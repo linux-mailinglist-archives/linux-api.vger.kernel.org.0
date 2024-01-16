@@ -1,117 +1,144 @@
-Return-Path: <linux-api+bounces-514-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-515-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6AD582E81B
-	for <lists+linux-api@lfdr.de>; Tue, 16 Jan 2024 04:16:55 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 888E182ED57
+	for <lists+linux-api@lfdr.de>; Tue, 16 Jan 2024 12:04:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 10C77B2246A
-	for <lists+linux-api@lfdr.de>; Tue, 16 Jan 2024 03:16:53 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 23BE41F23FD1
+	for <lists+linux-api@lfdr.de>; Tue, 16 Jan 2024 11:04:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88A6F6FBF;
-	Tue, 16 Jan 2024 03:16:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23B911A58F;
+	Tue, 16 Jan 2024 11:04:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="jh8KHJD2";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="GA4WR0CZ";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="jh8KHJD2";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="GA4WR0CZ"
 X-Original-To: linux-api@vger.kernel.org
-Received: from h3cspam02-ex.h3c.com (smtp.h3c.com [60.191.123.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 763DB6FB2;
-	Tue, 16 Jan 2024 03:16:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=h3c.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=h3c.com
-Received: from mail.maildlp.com ([172.25.15.154])
-	by h3cspam02-ex.h3c.com with ESMTP id 40G3FFeF057282;
-	Tue, 16 Jan 2024 11:15:15 +0800 (GMT-8)
-	(envelope-from hu.yadi@h3c.com)
-Received: from DAG6EX10-BJD.srv.huawei-3com.com (unknown [10.153.34.12])
-	by mail.maildlp.com (Postfix) with ESMTP id 021222004BB6;
-	Tue, 16 Jan 2024 11:19:43 +0800 (CST)
-Received: from DAG6EX02-IMDC.srv.huawei-3com.com (10.62.14.11) by
- DAG6EX10-BJD.srv.huawei-3com.com (10.153.34.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.27; Tue, 16 Jan 2024 11:15:16 +0800
-Received: from DAG6EX02-IMDC.srv.huawei-3com.com ([fe80::4c21:7c89:4f9d:e4c4])
- by DAG6EX02-IMDC.srv.huawei-3com.com ([fe80::4c21:7c89:4f9d:e4c4%16]) with
- mapi id 15.02.1258.027; Tue, 16 Jan 2024 11:15:16 +0800
-From: Huyadi <hu.yadi@h3c.com>
-To: =?utf-8?B?J0fDvG50aGVyIE5vYWNrJw==?= <gnoack@google.com>
-CC: "jmorris@namei.org" <jmorris@namei.org>,
-        "serge@hallyn.com"
-	<serge@hallyn.com>,
-        "shuah@kernel.org" <shuah@kernel.org>,
-        "mathieu.desnoyers@efficios.com" <mathieu.desnoyers@efficios.com>,
-        "mic@digikod.net" <mic@digikod.net>,
-        "amir73il@gmail.com"
-	<amir73il@gmail.com>,
-        "brauner@kernel.org" <brauner@kernel.org>,
-        "avagin@google.com" <avagin@google.com>,
-        "linux-api@vger.kernel.org"
-	<linux-api@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>,
-        "linux-security-module@vger.kernel.org"
-	<linux-security-module@vger.kernel.org>,
-        "linux-kselftest@vger.kernel.org"
-	<linux-kselftest@vger.kernel.org>,
-        "514118380@qq.com" <514118380@qq.com>
-Subject: =?utf-8?B?5Zue5aSNOiBbUEFUQ0hdIHNlbGZ0ZXN0cy9maWxlc3lzdGVtczpmaXggYnVp?=
- =?utf-8?Q?ld_error_in_overlayfs?=
-Thread-Topic: [PATCH] selftests/filesystems:fix build error in overlayfs
-Thread-Index: AQHaRSsZ3C6Kdahh1UyDYHPgqAANTbDabSyAgAFbR1A=
-Date: Tue, 16 Jan 2024 03:15:15 +0000
-Message-ID: <f25be6663bcc4608adf630509f045a76@h3c.com>
-References: <20240112074059.29673-1-hu.yadi@h3c.com>
- <ZaVAjQmio26WloSk@google.com>
-In-Reply-To: <ZaVAjQmio26WloSk@google.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-sender-location: DAG2
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70B851A581;
+	Tue, 16 Jan 2024 11:04:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 98A4D1FB95;
+	Tue, 16 Jan 2024 11:04:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1705403066; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=TsvTliU/AduXv8+lyjjkHnFNXCRZ5gTEvS/YJHnYT4c=;
+	b=jh8KHJD2XI9MNvwOKBGUV3u89KpaECwx+WHsbVQXnR+JIfp+stGXAiY4Ae3T/PehyN4fdt
+	if0vMud4Wh4bU/5SDKD+Cb4UfyGDTc5kl4ps3YJEQqzPJSBvMfJsi+xuoPwGlLg8t/L5wK
+	t7l1L0Cs2e0JX9sXf6pTOw0ozeSIH+o=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1705403066;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=TsvTliU/AduXv8+lyjjkHnFNXCRZ5gTEvS/YJHnYT4c=;
+	b=GA4WR0CZZi+rJybJiMLoiP8UmdYjQ0ruP6PzcjWiLiql8N4mBmgQnyqll+JWMmeXxuCzoT
+	wiqtKQPK62AIiHDQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1705403066; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=TsvTliU/AduXv8+lyjjkHnFNXCRZ5gTEvS/YJHnYT4c=;
+	b=jh8KHJD2XI9MNvwOKBGUV3u89KpaECwx+WHsbVQXnR+JIfp+stGXAiY4Ae3T/PehyN4fdt
+	if0vMud4Wh4bU/5SDKD+Cb4UfyGDTc5kl4ps3YJEQqzPJSBvMfJsi+xuoPwGlLg8t/L5wK
+	t7l1L0Cs2e0JX9sXf6pTOw0ozeSIH+o=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1705403066;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=TsvTliU/AduXv8+lyjjkHnFNXCRZ5gTEvS/YJHnYT4c=;
+	b=GA4WR0CZZi+rJybJiMLoiP8UmdYjQ0ruP6PzcjWiLiql8N4mBmgQnyqll+JWMmeXxuCzoT
+	wiqtKQPK62AIiHDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 274D4132FA;
+	Tue, 16 Jan 2024 11:04:26 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id cYYzCLpipmUwMgAAD6G6ig
+	(envelope-from <pvorel@suse.cz>); Tue, 16 Jan 2024 11:04:26 +0000
+From: Petr Vorel <pvorel@suse.cz>
+To: linux-man@vger.kernel.org
+Cc: Petr Vorel <pvorel@suse.cz>,
+	=?UTF-8?q?Maciej=20=C5=BBenczykowski?= <maze@google.com>,
+	Alejandro Colomar <alx@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	Matthias Gerstner <matthias.gerstner@suse.com>,
+	Avinesh Kumar <akumar@suse.de>
+Subject: [PATCH 1/1] socket.7: Mention CAP_NET_RAW on SO_MARK
+Date: Tue, 16 Jan 2024 12:04:18 +0100
+Message-ID: <20240116110418.2577798-1-pvorel@suse.cz>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-DNSRBL: 
-X-SPAM-SOURCE-CHECK: pass
-X-MAIL:h3cspam02-ex.h3c.com 40G3FFeF057282
+Content-Transfer-Encoding: 8bit
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spam-Level: ***
+X-Spam-Score: 3.54
+X-Spamd-Result: default: False [3.54 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 R_MISSING_CHARSET(2.50)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 BROKEN_CONTENT_TYPE(1.50)[];
+	 NEURAL_HAM_LONG(-1.00)[-0.999];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 RCPT_COUNT_SEVEN(0.00)[8];
+	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-0.16)[69.49%]
+X-Spam-Flag: NO
 
-DQoNCg0KPk9uIEZyaSwgSmFuIDEyLCAyMDI0IGF0IDAzOjQwOjU5UE0gKzA4MDAsIEh1IFlhZGkg
-d3JvdGU6DQo+PiBPbmUgYnVpbGQgaXNzdWUgY29tZXMgdXAgZHVlIHRvIGJvdGggbW91bnQuaCBp
-bmNsdWRlZCBkZXZfaW5fbWFwcy5jDQo+PiANCj4+IEluIGZpbGUgaW5jbHVkZWQgZnJvbSBkZXZf
-aW5fbWFwcy5jOjEwOg0KPj4gL3Vzci9pbmNsdWRlL3N5cy9tb3VudC5oOjM1OjM6IGVycm9yOiBl
-eHBlY3RlZCBpZGVudGlmaWVyIGJlZm9yZSBudW1lcmljIGNvbnN0YW50DQo+PiAgICAzNSB8ICAg
-TVNfUkRPTkxZID0gMSwgIC8qIE1vdW50IHJlYWQtb25seS4gICovDQo+PiAgICAgICB8ICAgXn5+
-fn5+fn5+DQo+PiBJbiBmaWxlIGluY2x1ZGVkIGZyb20gZGV2X2luX21hcHMuYzoxMzoNCj4+IA0K
-Pj4gUmVtb3ZlIG9uZSBvZiB0aGVtIHRvIHNvbHZlIGNvbmZsaWN0LCBhbm90aGVyIGVycm9yIGNv
-bWVzIHVwOg0KPj4gDQo+PiBkZXZfaW5fbWFwcy5jOjE3MDo2OiBlcnJvcjogaW1wbGljaXQgZGVj
-bGFyYXRpb24gb2YgZnVuY3Rpb24g4oCYbW91bnTigJkgWy1XZXJyb3I9aW1wbGljaXQtZnVuY3Rp
-b24tZGVjbGFyYXRpb25dDQo+PiAgIDE3MCB8ICBpZiAobW91bnQoTlVMTCwgIi8iLCBOVUxMLCBN
-U19TTEFWRSB8IE1TX1JFQywgTlVMTCkgPT0gLTEpIHsNCj4+ICAgICAgIHwgICAgICBefn5+fg0K
-Pj4gY2MxOiBhbGwgd2FybmluZ3MgYmVpbmcgdHJlYXRlZCBhcyBlcnJvcnMNCj4+IA0KPj4gYW5k
-IHRoZW4gLCBhZGQgc3lzX21vdW50IGRlZmluaXRpb24gdG8gc29sdmUgaXQgQWZ0ZXIgYm90aCBh
-Ym92ZSwgDQo+PiBkZXZfaW5fbWFwcy5jIGNhbiBiZSBidWlsdCBjb3JyZWN0bHkgb24gbXkgbWFj
-aGUoZ2NjIA0KPj4gMTAuMixnbGliYy0yLjMyLGtlcm5lbC01LjEwKQ0KPg0KPlRoaXMgaXMgYXBw
-YXJlbnRseSB0aGUgc2FtZSBlcnJvciBhcyBpbg0KPmh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2Fs
-bC8xMWNkYWMxZS1lOTZjLTQwNWYtNjNlOC0zNWIwZTI5MjYzMzdAYXJtLmNvbS8NCj4NCj5JJ20g
-Z2V0dGluZyB0aGUgaW1wcmVzc2lvbiB0aGF0IHdlIGFyZSBmaXhpbmcgdGhlIGlzc3VlIGF0IHRo
-ZSB3cm9uZyBsYXllciBoZXJlPw0KPkFmdGVyIGFsbCwgdGhlIG1vdW50KCkgc3lzY2FsbCBpcyBz
-dXBwb3NlZCB0byBiZSB1c2VkIHdpdGggPHN5cy9tb3VudC5oPiBhY2NvcmRpbmcgdG8gdGhlIG1v
-dW50KDIpIG1hbiBwYWdlPyAgSXQgZmVlbHMgYSBiaXQgbGlrZSBjaGVhdGluZyB0byByZXNvcnQg
-dG8NCj5zeXNfbW91bnQoKSBpbnN0ZWFkLi4uPw0KDQpIZWFkZXJzIGNvbmZsaWN0IGlzIGtub3du
-IGlzc3VlIGR1ZSB0byBodHRwczovL3NvdXJjZXdhcmUub3JnL2dsaWJjL3dpa2kvU3luY2hyb25p
-emluZ19IZWFkZXJzDQo8bGludXgvbW91bnQuaD4gYW5kIDxzeXMvbW91bnQuaD4gKE5vdGU6IG5v
-IHdvcmthcm91bmQpDQpTbywgaXQgaXMgaW5jb3JyZWN0IHRvIHVzZSBib3RoIHRoZW0uDQoNCj4N
-Cj5EbyB5b3UgaGF2ZSBhbnkgZGVlcGVyIHRob3VnaHRzIG9uIHdoYXQgY291bGQgYmUgdGhlIHVu
-ZGVybHlpbmcgaXNzdWUgaGVyZT8NCj5XaXRoIG15IG5ld2VyIEdDQyB0b29sY2hhaW5zLCBJIGhh
-dmUgYmVlbiB1bmFibGUgdG8gcmVwcm9kdWNlIHRoaXMuDQo+DQpnY2MgdmVyc2lvbiAxMC4yLjEg
-MjAyMDA4MjUgKEFsaWJhYmEgMTAuMi4xLTMuNSAyLjMyKSAoR0NDKQ0KbGRkIChHTlUgbGliYykg
-Mi4zMg0Ka2VybmVsIDUuMTAuMTM0LTE2LjEuYWw4Lng4Nl82NA0KIkFsaWJhYmEgQ2xvdWQgTGlu
-dXggMyh0aGUgbW9zdCBiaWdnZXN0IHB1YmxpYyBjbG91ZCBwcm92aWRlcidzIE9TKQ0KDQoNCj5U
-aGFua3MsDQoNCg==
+Added in 079925cce1d0 ("net: allow SO_MARK with CAP_NET_RAW") in v5.17.
+
+Signed-off-by: Petr Vorel <pvorel@suse.cz>
+---
+ man7/socket.7 | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/man7/socket.7 b/man7/socket.7
+index 3ff8fe51b..3ebfc770b 100644
+--- a/man7/socket.7
++++ b/man7/socket.7
+@@ -614,7 +614,9 @@ Changing the mark can be used for mark-based
+ routing without netfilter or for packet filtering.
+ Setting this option requires the
+ .B CAP_NET_ADMIN
+-capability.
++or
++.B CAP_NET_RAW
++(since Linux 5.17) capability.
+ .TP
+ .B SO_OOBINLINE
+ If this option is enabled,
+-- 
+2.43.0
+
 
