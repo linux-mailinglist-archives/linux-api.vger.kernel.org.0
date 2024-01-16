@@ -1,117 +1,117 @@
-Return-Path: <linux-api+bounces-513-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-514-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3282182E40E
-	for <lists+linux-api@lfdr.de>; Tue, 16 Jan 2024 00:46:19 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6AD582E81B
+	for <lists+linux-api@lfdr.de>; Tue, 16 Jan 2024 04:16:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F0D7F1C22429
-	for <lists+linux-api@lfdr.de>; Mon, 15 Jan 2024 23:46:17 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 10C77B2246A
+	for <lists+linux-api@lfdr.de>; Tue, 16 Jan 2024 03:16:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B6FD1B7E6;
-	Mon, 15 Jan 2024 23:41:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mTx61PM0"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88A6F6FBF;
+	Tue, 16 Jan 2024 03:16:48 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from h3cspam02-ex.h3c.com (smtp.h3c.com [60.191.123.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BC4B1B7E0;
-	Mon, 15 Jan 2024 23:41:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-5f093e7c095so10950017b3.1;
-        Mon, 15 Jan 2024 15:41:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705362109; x=1705966909; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=li88m9Aw/LCRAibakjpHlPDF8glbTaanlpZnqcTkC3Q=;
-        b=mTx61PM0RfW81476w3SxgKhunmpkb+X+BRYdcyxZD0RZrTxtvVNMXfvg8o9D8eYlNY
-         5kzmp4o6p1hISU4ISHyk2U458fgCYNDvruavKcBnvdsNv9EYXPmTy8lkDmOBbCKqxLfl
-         C9VohKLwJvjO63pPmdw4KjmaQIMGOeefcNarkcUJ1KBlUwP5BROL9kgcHCVN8+QhJ0Bd
-         G0F/zrVzlR6IA0Wv3AH2uzLoTmFwmbZ4xzh1jKC+spGfAQzjzUsDdsg9ljOeU3dssjFy
-         HA/XXQYZ5YOqd9yIIlZg0+rtI4WNqqQBBguYf+s6Q8PgNrW7IEl2IRzvj+WlEnCfaBF2
-         duvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705362109; x=1705966909;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=li88m9Aw/LCRAibakjpHlPDF8glbTaanlpZnqcTkC3Q=;
-        b=u2TE4xwssw4N10+ebMx/40pJjnrEC8SfIkb5k05oGOBMcKm/CBIVcP4rhYN+9gAff6
-         59l7QowriWoRpBYdQXpsszHIIYMX2Wk0O2lLu6i8yaRFB7uaGyFmnvLG/EX3tWLpZZQf
-         ThQrLXbBeaERlLc05awz7ZlJv944i8Te4xxwAkucx3wcRYLztkrjtqx7FnEvhd5zYyfP
-         wqloSuaqChLvy5QF4qqmzFZU5mD+tVhnAEEVqcNZctjhOh0IZkjcpFAtC6h+//VusQtG
-         f0qJwAd5jD0fq/CYeM0zX7FLLNaOpm2Q0777r8tlzhlfpKYpRcW72uLnQtcRFxgN59go
-         3ngQ==
-X-Gm-Message-State: AOJu0YxdB0QlQUjWHX8Y7HBihQyuHh2v5T0ze4UCnpV/wyZwLFieLqT6
-	mmmrXLUN9D8Jb09lDjYSstQ=
-X-Google-Smtp-Source: AGHT+IGoHxdCVz46pwuSIwlG6SlJkCKzggHGVAWjVqpMq2qgnnp1pcozB9Kcp8x25R40Z/y/SU3Z8w==
-X-Received: by 2002:a0d:d046:0:b0:5fb:d0ad:9545 with SMTP id s67-20020a0dd046000000b005fbd0ad9545mr5518884ywd.4.1705362109078;
-        Mon, 15 Jan 2024 15:41:49 -0800 (PST)
-Received: from hoboy.vegasvil.org ([2600:1700:2430:6f6f:e2d5:5eff:fea5:802f])
-        by smtp.gmail.com with ESMTPSA id cl27-20020a05690c0c1b00b005f48b0ce126sm4280575ywb.62.2024.01.15.15.41.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jan 2024 15:41:48 -0800 (PST)
-Date: Mon, 15 Jan 2024 15:41:45 -0800
-From: Richard Cochran <richardcochran@gmail.com>
-To: Sagi Maimon <maimon.sagi@gmail.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Andy Lutomirski <luto@kernel.org>,
-	tglx@linutronix.de, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Sohil Mehta <sohil.mehta@intel.com>,
-	Rick Edgecombe <rick.p.edgecombe@intel.com>,
-	Nhat Pham <nphamcs@gmail.com>, Palmer Dabbelt <palmer@sifive.com>,
-	Kees Cook <keescook@chromium.org>,
-	Alexey Gladkov <legion@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>, linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org, Linux-Arch <linux-arch@vger.kernel.org>,
-	Netdev <netdev@vger.kernel.org>
-Subject: Re: [PATCH v3] posix-timers: add multi_clock_gettime system call
-Message-ID: <ZaXCuV1Dy0e_E-h0@hoboy.vegasvil.org>
-References: <20231228122411.3189-1-maimon.sagi@gmail.com>
- <f254c189-463e-43a3-bc09-9a8869ebf819@app.fastmail.com>
- <CAMuE1bF0Hho4VwO6w3f+9z3j5TtscYzuAjj10MFt2mZXG2P8dQ@mail.gmail.com>
- <84d8e9d7-09ce-4781-8dfa-a74bb0955ae8@app.fastmail.com>
- <ZZ-ZNHgDsZwg9CaW@hoboy.vegasvil.org>
- <CAMuE1bF4sSeiDr-jyebF6F8oRxGs1b2gtT39fTJ2JeaFabr6Ng@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 763DB6FB2;
+	Tue, 16 Jan 2024 03:16:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=h3c.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=h3c.com
+Received: from mail.maildlp.com ([172.25.15.154])
+	by h3cspam02-ex.h3c.com with ESMTP id 40G3FFeF057282;
+	Tue, 16 Jan 2024 11:15:15 +0800 (GMT-8)
+	(envelope-from hu.yadi@h3c.com)
+Received: from DAG6EX10-BJD.srv.huawei-3com.com (unknown [10.153.34.12])
+	by mail.maildlp.com (Postfix) with ESMTP id 021222004BB6;
+	Tue, 16 Jan 2024 11:19:43 +0800 (CST)
+Received: from DAG6EX02-IMDC.srv.huawei-3com.com (10.62.14.11) by
+ DAG6EX10-BJD.srv.huawei-3com.com (10.153.34.12) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.27; Tue, 16 Jan 2024 11:15:16 +0800
+Received: from DAG6EX02-IMDC.srv.huawei-3com.com ([fe80::4c21:7c89:4f9d:e4c4])
+ by DAG6EX02-IMDC.srv.huawei-3com.com ([fe80::4c21:7c89:4f9d:e4c4%16]) with
+ mapi id 15.02.1258.027; Tue, 16 Jan 2024 11:15:16 +0800
+From: Huyadi <hu.yadi@h3c.com>
+To: =?utf-8?B?J0fDvG50aGVyIE5vYWNrJw==?= <gnoack@google.com>
+CC: "jmorris@namei.org" <jmorris@namei.org>,
+        "serge@hallyn.com"
+	<serge@hallyn.com>,
+        "shuah@kernel.org" <shuah@kernel.org>,
+        "mathieu.desnoyers@efficios.com" <mathieu.desnoyers@efficios.com>,
+        "mic@digikod.net" <mic@digikod.net>,
+        "amir73il@gmail.com"
+	<amir73il@gmail.com>,
+        "brauner@kernel.org" <brauner@kernel.org>,
+        "avagin@google.com" <avagin@google.com>,
+        "linux-api@vger.kernel.org"
+	<linux-api@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>,
+        "linux-security-module@vger.kernel.org"
+	<linux-security-module@vger.kernel.org>,
+        "linux-kselftest@vger.kernel.org"
+	<linux-kselftest@vger.kernel.org>,
+        "514118380@qq.com" <514118380@qq.com>
+Subject: =?utf-8?B?5Zue5aSNOiBbUEFUQ0hdIHNlbGZ0ZXN0cy9maWxlc3lzdGVtczpmaXggYnVp?=
+ =?utf-8?Q?ld_error_in_overlayfs?=
+Thread-Topic: [PATCH] selftests/filesystems:fix build error in overlayfs
+Thread-Index: AQHaRSsZ3C6Kdahh1UyDYHPgqAANTbDabSyAgAFbR1A=
+Date: Tue, 16 Jan 2024 03:15:15 +0000
+Message-ID: <f25be6663bcc4608adf630509f045a76@h3c.com>
+References: <20240112074059.29673-1-hu.yadi@h3c.com>
+ <ZaVAjQmio26WloSk@google.com>
+In-Reply-To: <ZaVAjQmio26WloSk@google.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-sender-location: DAG2
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMuE1bF4sSeiDr-jyebF6F8oRxGs1b2gtT39fTJ2JeaFabr6Ng@mail.gmail.com>
+X-DNSRBL: 
+X-SPAM-SOURCE-CHECK: pass
+X-MAIL:h3cspam02-ex.h3c.com 40G3FFeF057282
 
-On Mon, Jan 15, 2024 at 05:49:32PM +0200, Sagi Maimon wrote:
-
-> Thanks for your notes, all of them will be done on the next patch (it
-> will take some time due to work overload).
-
-No hurry, glad you are keeping this going...
-
-> The only question that I have is: why not implement it as an IOCTL?
-> It makes more sense to me since it is close to another IOCTL, the
-> "PTP_SYS_OFFSET" family.
-
-I've often needed other clock offsets, like CLOCK_REALTIME - CLOCK_MONOTONIC.
-
-Those don't have a character device, and so there is no way to call
-ioctl() on them.  That is why I'd like to have a system call that
-handles any two clock_t instances, using the most accurate back end
-based on the kinds of the two clocks.
-
-Thanks,
-Richard
-
+DQoNCg0KPk9uIEZyaSwgSmFuIDEyLCAyMDI0IGF0IDAzOjQwOjU5UE0gKzA4MDAsIEh1IFlhZGkg
+d3JvdGU6DQo+PiBPbmUgYnVpbGQgaXNzdWUgY29tZXMgdXAgZHVlIHRvIGJvdGggbW91bnQuaCBp
+bmNsdWRlZCBkZXZfaW5fbWFwcy5jDQo+PiANCj4+IEluIGZpbGUgaW5jbHVkZWQgZnJvbSBkZXZf
+aW5fbWFwcy5jOjEwOg0KPj4gL3Vzci9pbmNsdWRlL3N5cy9tb3VudC5oOjM1OjM6IGVycm9yOiBl
+eHBlY3RlZCBpZGVudGlmaWVyIGJlZm9yZSBudW1lcmljIGNvbnN0YW50DQo+PiAgICAzNSB8ICAg
+TVNfUkRPTkxZID0gMSwgIC8qIE1vdW50IHJlYWQtb25seS4gICovDQo+PiAgICAgICB8ICAgXn5+
+fn5+fn5+DQo+PiBJbiBmaWxlIGluY2x1ZGVkIGZyb20gZGV2X2luX21hcHMuYzoxMzoNCj4+IA0K
+Pj4gUmVtb3ZlIG9uZSBvZiB0aGVtIHRvIHNvbHZlIGNvbmZsaWN0LCBhbm90aGVyIGVycm9yIGNv
+bWVzIHVwOg0KPj4gDQo+PiBkZXZfaW5fbWFwcy5jOjE3MDo2OiBlcnJvcjogaW1wbGljaXQgZGVj
+bGFyYXRpb24gb2YgZnVuY3Rpb24g4oCYbW91bnTigJkgWy1XZXJyb3I9aW1wbGljaXQtZnVuY3Rp
+b24tZGVjbGFyYXRpb25dDQo+PiAgIDE3MCB8ICBpZiAobW91bnQoTlVMTCwgIi8iLCBOVUxMLCBN
+U19TTEFWRSB8IE1TX1JFQywgTlVMTCkgPT0gLTEpIHsNCj4+ICAgICAgIHwgICAgICBefn5+fg0K
+Pj4gY2MxOiBhbGwgd2FybmluZ3MgYmVpbmcgdHJlYXRlZCBhcyBlcnJvcnMNCj4+IA0KPj4gYW5k
+IHRoZW4gLCBhZGQgc3lzX21vdW50IGRlZmluaXRpb24gdG8gc29sdmUgaXQgQWZ0ZXIgYm90aCBh
+Ym92ZSwgDQo+PiBkZXZfaW5fbWFwcy5jIGNhbiBiZSBidWlsdCBjb3JyZWN0bHkgb24gbXkgbWFj
+aGUoZ2NjIA0KPj4gMTAuMixnbGliYy0yLjMyLGtlcm5lbC01LjEwKQ0KPg0KPlRoaXMgaXMgYXBw
+YXJlbnRseSB0aGUgc2FtZSBlcnJvciBhcyBpbg0KPmh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2Fs
+bC8xMWNkYWMxZS1lOTZjLTQwNWYtNjNlOC0zNWIwZTI5MjYzMzdAYXJtLmNvbS8NCj4NCj5JJ20g
+Z2V0dGluZyB0aGUgaW1wcmVzc2lvbiB0aGF0IHdlIGFyZSBmaXhpbmcgdGhlIGlzc3VlIGF0IHRo
+ZSB3cm9uZyBsYXllciBoZXJlPw0KPkFmdGVyIGFsbCwgdGhlIG1vdW50KCkgc3lzY2FsbCBpcyBz
+dXBwb3NlZCB0byBiZSB1c2VkIHdpdGggPHN5cy9tb3VudC5oPiBhY2NvcmRpbmcgdG8gdGhlIG1v
+dW50KDIpIG1hbiBwYWdlPyAgSXQgZmVlbHMgYSBiaXQgbGlrZSBjaGVhdGluZyB0byByZXNvcnQg
+dG8NCj5zeXNfbW91bnQoKSBpbnN0ZWFkLi4uPw0KDQpIZWFkZXJzIGNvbmZsaWN0IGlzIGtub3du
+IGlzc3VlIGR1ZSB0byBodHRwczovL3NvdXJjZXdhcmUub3JnL2dsaWJjL3dpa2kvU3luY2hyb25p
+emluZ19IZWFkZXJzDQo8bGludXgvbW91bnQuaD4gYW5kIDxzeXMvbW91bnQuaD4gKE5vdGU6IG5v
+IHdvcmthcm91bmQpDQpTbywgaXQgaXMgaW5jb3JyZWN0IHRvIHVzZSBib3RoIHRoZW0uDQoNCj4N
+Cj5EbyB5b3UgaGF2ZSBhbnkgZGVlcGVyIHRob3VnaHRzIG9uIHdoYXQgY291bGQgYmUgdGhlIHVu
+ZGVybHlpbmcgaXNzdWUgaGVyZT8NCj5XaXRoIG15IG5ld2VyIEdDQyB0b29sY2hhaW5zLCBJIGhh
+dmUgYmVlbiB1bmFibGUgdG8gcmVwcm9kdWNlIHRoaXMuDQo+DQpnY2MgdmVyc2lvbiAxMC4yLjEg
+MjAyMDA4MjUgKEFsaWJhYmEgMTAuMi4xLTMuNSAyLjMyKSAoR0NDKQ0KbGRkIChHTlUgbGliYykg
+Mi4zMg0Ka2VybmVsIDUuMTAuMTM0LTE2LjEuYWw4Lng4Nl82NA0KIkFsaWJhYmEgQ2xvdWQgTGlu
+dXggMyh0aGUgbW9zdCBiaWdnZXN0IHB1YmxpYyBjbG91ZCBwcm92aWRlcidzIE9TKQ0KDQoNCj5U
+aGFua3MsDQoNCg==
 
