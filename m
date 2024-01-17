@@ -1,191 +1,106 @@
-Return-Path: <linux-api+bounces-524-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-525-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99B7A8304EF
-	for <lists+linux-api@lfdr.de>; Wed, 17 Jan 2024 13:08:33 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A8018306FF
+	for <lists+linux-api@lfdr.de>; Wed, 17 Jan 2024 14:23:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 19CB51F252BB
-	for <lists+linux-api@lfdr.de>; Wed, 17 Jan 2024 12:08:33 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EB003B230F6
+	for <lists+linux-api@lfdr.de>; Wed, 17 Jan 2024 13:23:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 450271DFD9;
-	Wed, 17 Jan 2024 12:08:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17CDF1EB48;
+	Wed, 17 Jan 2024 13:23:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="p3WTc8h0";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="2Zzq4BwP";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="p3WTc8h0";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="2Zzq4BwP"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O3ltVMKf"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CB541DFC7;
-	Wed, 17 Jan 2024 12:08:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB6FD1F922;
+	Wed, 17 Jan 2024 13:23:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705493307; cv=none; b=O8FLmgQHOqK+CHFsTpXJg7H3ZO9qTqsIcpgUSVQgQkGjr4QEFnp102/0zdmGgu0Y4u8RrBxZsHnnRVvvTTgUMQmpTwo6hWHFjmhfGwdJ8wWT4kVRuTkRd/817rXhES5/Nmg8ubLPuCBVk6MEv3hOWZJLf2i04CvWQoxZWnp/jLs=
+	t=1705497795; cv=none; b=dYd9ZWTS4RzUjDCsB8BMlpqaPY/7o1u9IyV/44unQ7n5OlfpraXyosdjUemBXGu6fhzIyBkQuSAKpbW7GowN6bnZcasc4crHLnHEY+rQbaMD5zmyNlaCwqCDs6DJDM1LEYuBp/TmKvfYAWy9SldK1CkCeFvYrYM3/pX/DoszUTM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705493307; c=relaxed/simple;
-	bh=q4FKtlbQxuWFWzmo9yaIfVN2KvTlMKcHXxpzku4plKg=;
-	h=Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:Reply-To:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:X-Spam-Level:X-Spam-Score:
-	 X-Spamd-Result:X-Spam-Flag; b=a6IHwJtAo4JtLRF4FvHJmHUgBwFsN+nWnPO4Jux55eKnJTGxz0AhN7rG0yvWV1X4iYkIsSCYiHoLFCKJ/0zRCGsrNKvIyn/VyjpHLolUzEyumQd8s9N5QkY0VrObMdpT1EvxL6uFtpR19TQIDXEDPNSbGVOAbsSsWA2ztDXGv58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=p3WTc8h0; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=2Zzq4BwP; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=p3WTc8h0; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=2Zzq4BwP; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 39C9121FD1;
-	Wed, 17 Jan 2024 12:08:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1705493303;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oTFWylkF/behWgunuXA11B8WAzc3sBR9mDzkTqI7sNc=;
-	b=p3WTc8h0gXYOKAVJBGKxIMT+FjuK7T4yqXsBIdq8SI4v2ibXgI9A4xGSffQ0gANtJUqM8m
-	kYAE89evCOsrsLBl7Ih7L6axGXoUQ6tJmQgobu/5fa/DWeqYMcGfQQLsR5MpX1j/ht1DOY
-	EokMK1fNBC7TNVuiT+YQ/eAOCmlXTYE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1705493303;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oTFWylkF/behWgunuXA11B8WAzc3sBR9mDzkTqI7sNc=;
-	b=2Zzq4BwP+r98g+TuFI4ZZsJCj6P1tNrcEDtija3MhBcAlZNa2wDhxrall9hebT8RUu840h
-	5mIHhYq01u6y7bBw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1705493303;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oTFWylkF/behWgunuXA11B8WAzc3sBR9mDzkTqI7sNc=;
-	b=p3WTc8h0gXYOKAVJBGKxIMT+FjuK7T4yqXsBIdq8SI4v2ibXgI9A4xGSffQ0gANtJUqM8m
-	kYAE89evCOsrsLBl7Ih7L6axGXoUQ6tJmQgobu/5fa/DWeqYMcGfQQLsR5MpX1j/ht1DOY
-	EokMK1fNBC7TNVuiT+YQ/eAOCmlXTYE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1705493303;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oTFWylkF/behWgunuXA11B8WAzc3sBR9mDzkTqI7sNc=;
-	b=2Zzq4BwP+r98g+TuFI4ZZsJCj6P1tNrcEDtija3MhBcAlZNa2wDhxrall9hebT8RUu840h
-	5mIHhYq01u6y7bBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C4C7213751;
-	Wed, 17 Jan 2024 12:08:22 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id i2CnLTbDp2XTUgAAD6G6ig
-	(envelope-from <pvorel@suse.cz>); Wed, 17 Jan 2024 12:08:22 +0000
-Date: Wed, 17 Jan 2024 13:08:21 +0100
-From: Petr Vorel <pvorel@suse.cz>
-To: Alejandro Colomar <alx@kernel.org>
-Cc: linux-man@vger.kernel.org,
-	Maciej =?iso-8859-2?Q?=AFenczykowski?= <maze@google.com>,
-	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-	Matthias Gerstner <matthias.gerstner@suse.com>,
-	Avinesh Kumar <akumar@suse.de>
-Subject: Re: [PATCH 1/1] socket.7: Mention CAP_NET_RAW on SO_MARK
-Message-ID: <20240117120821.GA2705119@pevik>
-Reply-To: Petr Vorel <pvorel@suse.cz>
-References: <20240116110418.2577798-1-pvorel@suse.cz>
- <ZaadPmLFCI4rsGy_@debian>
- <20240117091452.GB2665992@pevik>
- <ZafBxnhOSWxBRWko@debian>
+	s=arc-20240116; t=1705497795; c=relaxed/simple;
+	bh=RlrKzDkIjIq2TVxqUGllwocF4eW5X7TS+IGUjH/GmNc=;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
+	 X-Developer-Signature:X-Developer-Key:Content-Transfer-Encoding;
+	b=q0FfiZgHt4Vc2RSaQDcmoxGxp6HRSS9c6cO4XfmCA0epFaf4jITmj1BsaMYmVFw66fA64dlmIHXI0sDQWWPMyP/+1JZYsJ2P9EQ0FJg1fUomEy+/rrtxb5Cjq8tddKnhRueETdGfeVyKWMJ9AlUcWs4eOqfllEatQFXWi8zFa3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O3ltVMKf; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D20C4C433F1;
+	Wed, 17 Jan 2024 13:23:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705497794;
+	bh=RlrKzDkIjIq2TVxqUGllwocF4eW5X7TS+IGUjH/GmNc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=O3ltVMKfNpps7jLn6qrK66z9essBMT7uQdldoI41FVeZpP5s2NuWF94UNzHV38/wT
+	 eSR3kJEVj8/SMmxrcnL530OJP5anCDb1EHgDiqc/gAARZRJC480B8q8z59Z7WwSeIX
+	 DB+oikzFQUKuZSAP02ANo7U/oBqLg1y5FFBpZ3ETmZt9FbhUyxA9/VZVVBfUlMF2q6
+	 2wZxrcvQsIBEsb/ZEnid4dpeoYdLdVIDEKUBx2XiuBBLzyJsuV+uxdReK1lNBmNd5p
+	 ZEiB5FssjuGIMYYvlvKzvyzXWfP4UDW3dyNgqbQT7YGeFisVysGjiyqpXFcCxPm+Xt
+	 qshFMsBJy3xXQ==
+From: Christian Brauner <brauner@kernel.org>
+To: jmorris@namei.org,
+	serge@hallyn.com,
+	shuah@kernel.org,
+	mathieu.desnoyers@efficios.com,
+	mic@digikod.net,
+	amir73il@gmail.com,
+	avagin@google.com,
+	Hu Yadi <hu.yadi@h3c.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+	linux-api@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	514118380@qq.com
+Subject: Re: [PATCH] selftests/filesystems:fix build error in overlayfs
+Date: Wed, 17 Jan 2024 14:23:02 +0100
+Message-ID: <20240117-strotzen-wegkommen-e7ac317948c6@brauner>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240112074059.29673-1-hu.yadi@h3c.com>
+References: <20240112074059.29673-1-hu.yadi@h3c.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZafBxnhOSWxBRWko@debian>
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -1.59
-X-Spamd-Result: default: False [-1.59 / 50.00];
-	 ARC_NA(0.00)[];
-	 HAS_REPLYTO(0.30)[pvorel@suse.cz];
-	 REPLYTO_EQ_FROM(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 MIME_GOOD(-0.10)[text/plain];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 RCPT_COUNT_SEVEN(0.00)[7];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 MID_RHS_NOT_FQDN(0.50)[];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-1.09)[88.14%]
-X-Spam-Flag: NO
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1149; i=brauner@kernel.org; h=from:subject:message-id; bh=RlrKzDkIjIq2TVxqUGllwocF4eW5X7TS+IGUjH/GmNc=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMaQuv7LjCodESftWD40ivqbiAKabFjaLcl6GP9prV/e29 GLFPnWzjlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgImkrmT4ZyJoU8uQpNmaxel0 cVHEorj7uoES5aWCsgslOFZ9NWuwZPjvU3KIJc5SKcVkv9TsJzqCzFd2vt6vLhwkN81lT1BDxEk 2AA==
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-> Hi Petr,
+On Fri, 12 Jan 2024 15:40:59 +0800, Hu Yadi wrote:
+> One build issue comes up due to both mount.h included dev_in_maps.c
+> 
+> In file included from dev_in_maps.c:10:
+> /usr/include/sys/mount.h:35:3: error: expected identifier before numeric constant
+>    35 |   MS_RDONLY = 1,  /* Mount read-only.  */
+>       |   ^~~~~~~~~
+> In file included from dev_in_maps.c:13:
+> 
+> [...]
 
-> On Wed, Jan 17, 2024 at 10:14:52AM +0100, Petr Vorel wrote:
-> > Hi Alex,
+Applied to the vfs.misc branch of the vfs/vfs.git tree.
+Patches in the vfs.misc branch should appear in linux-next soon.
 
-> > > Hi Petr,
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
-> > > On Tue, Jan 16, 2024 at 12:04:18PM +0100, Petr Vorel wrote:
-> > > > Added in 079925cce1d0 ("net: allow SO_MARK with CAP_NET_RAW") in v5.17.
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
 
-> > > > Signed-off-by: Petr Vorel <pvorel@suse.cz>
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
 
-> > > Patch applied.  Thanks!
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs.misc
 
-> > Thank you! BTW I don't see this patch in git tree [1], maybe you just haven't
-> > push yet.
-
-> That's it.  I'm first pushing them to a 'contrib' branch (similar to
-> Linux 'next') in my own server[1], and after one day or so I push to
-> master.  That buffering allows me to catch some mistakes.
-
-Thanks a lot for info!
-
-> [1]:  <https://www.alejandro-colomar.es/src/alx/linux/man-pages/man-pages.git/log/?h=contrib>
-
-Ah, maybe my patch to MAINTAINERS was wrong, please push the correct tree
-https://lore.kernel.org/linux-man/20240117091903.2668916-1-pvorel@suse.cz/
-
-> 	$ git log --all --graph --oneline -10
-> 	* 0c118822f (alx/contrib, contrib) open.2: srcfix
-> 	* 24347d22a syscalls.2: ffix
-> 	* 9e04cb40f mremap.2: wfix
-> 	* 3a271d5b8 fts.3, div_t.3type: ffix
-> 	* 527f31b9f socket.7: Mention CAP_NET_RAW on SO_MARK
-> 	| * 71c25f15d (alx/MR, MR) man*/: ffix (MR.sed)
-> 	|/  
-> 	* d82ce270c (HEAD -> master, korg/master, alx/main, main) locale.5: tfix
-> 	* f65154cba cpuid.4: Note which CPUs don't support CPUID and what happens
-> 	* f98168310 sched_getcpu.3: tfix
-> 	* 26cdb3ebb faccessat(2), utimensat(2): Document AT_EMPTY_PATH flag
-
-> I'll push in a moment to master.
-
-Thanks!
-
-Kind regards,
-Petr
-
-> Have a lovely day,
-> Alex
+[1/1] selftests/filesystems:fix build error in overlayfs
+      https://git.kernel.org/vfs/vfs/c/f67dae6ba174
 
