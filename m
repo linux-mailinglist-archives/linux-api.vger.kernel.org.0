@@ -1,225 +1,192 @@
-Return-Path: <linux-api+bounces-521-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-522-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7742683004F
-	for <lists+linux-api@lfdr.de>; Wed, 17 Jan 2024 08:00:24 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1B108301F5
+	for <lists+linux-api@lfdr.de>; Wed, 17 Jan 2024 10:15:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5A4ACB23148
-	for <lists+linux-api@lfdr.de>; Wed, 17 Jan 2024 07:00:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 139DE1F277AD
+	for <lists+linux-api@lfdr.de>; Wed, 17 Jan 2024 09:15:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB0BA8BFC;
-	Wed, 17 Jan 2024 07:00:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4797E12B98;
+	Wed, 17 Jan 2024 09:15:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dC045jYB"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="08dFBzXg";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="rbOjr/Va";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="08dFBzXg";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="rbOjr/Va"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3738D8821;
-	Wed, 17 Jan 2024 07:00:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E78612B87;
+	Wed, 17 Jan 2024 09:15:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705474816; cv=none; b=X4eyEruQAFuZpqfVpiKIeAV0/0b1KpA6uLhSwwbekBpHcwZ+EIiaoDBx8YrJAK67hNVeLe92gXyuNYfqStxVYyK16r2b3ZYx/GMiyYsqxyi6YzLqbs15nIfrdxnl5Gsb1YGqYnlUyb6lM1tLsRAqFc87xtZLELOnLlYZsWkK0W4=
+	t=1705482904; cv=none; b=r20frNf+URdztRRAAVlP37TvdJrnBt+i8gjrao6WXY9ml5foWntvctoF/8AngDGhON4h2hiMUgBCKjrHMRxSJwgvK+lbRtRy4OPmlnauVrkCanfh29OLhnsK59dEGFCwJ9Z/PhEkrP5BkE22Ew3HPeZR5nWFg02+Ba9k4tgp+b8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705474816; c=relaxed/simple;
-	bh=k7OAtGL+2nxEw5zXMvTzAkCupl6TNovUqU9pBszDoZw=;
-	h=DKIM-Signature:X-IronPort-AV:X-IronPort-AV:Received:X-ExtLoop1:
-	 X-IronPort-AV:X-IronPort-AV:Received:From:To:Cc:Subject:
-	 In-Reply-To:References:Date:Message-ID:User-Agent:MIME-Version:
-	 Content-Type; b=oVhji3qY2ZDASvFIeKR64K0/TqlePKmrPcoNxgjIaf+iTMJvCMlBQ3SWCZnK4coyIfQpp1/bTlKjiKZhPx0xcfsjlfz4JpA1xkGCeH3flywncCEddwIj96VxbsQ03KXvh863CUW0Hc898AWKk0Df4ZlrXdVyhK9F2Bdk8qv45QI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dC045jYB; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705474814; x=1737010814;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=k7OAtGL+2nxEw5zXMvTzAkCupl6TNovUqU9pBszDoZw=;
-  b=dC045jYBJ/qgdV8IuFIERlO5KYgi4A3hOAEBcnDiXjd/LS+eSZ24PBno
-   ETE11v9wmP7J3vlX80uBPBwjpPsqtHRhOflpq9G4gaIP11PTLyC6lFHbu
-   cnirBb1/FLKhXPugVCVyf+bSw2bltCCtcCsuJsFQx0pdduwy0hvIhgAwK
-   /d+H1PobomQiJpViEpMp1sjjusqgps2k02xBuodsxj33tXVzK9Z1k2lm1
-   5MEwR21zzlxMC/UMwpaum4WiNG6FfYXujvrmrLjG0Ej2LOB+Kt/bGJ2ne
-   O2KMvPLlGa4/H4DbwBNL6G1+yYFK3gOBvQGFU9sk2/IiOJpHVDzIkZRBC
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="6805784"
-X-IronPort-AV: E=Sophos;i="6.05,200,1701158400"; 
-   d="scan'208";a="6805784"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2024 23:00:13 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10955"; a="957456948"
-X-IronPort-AV: E=Sophos;i="6.05,200,1701158400"; 
-   d="scan'208";a="957456948"
-Received: from yhuang6-desk2.sh.intel.com (HELO yhuang6-desk2.ccr.corp.intel.com) ([10.238.208.55])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2024 23:00:06 -0800
-From: "Huang, Ying" <ying.huang@intel.com>
-To: Gregory Price <gregory.price@memverge.com>
-Cc: Gregory Price <gourry.memverge@gmail.com>,  <linux-mm@kvack.org>,
-  <linux-kernel@vger.kernel.org>,  <linux-doc@vger.kernel.org>,
-  <linux-fsdevel@vger.kernel.org>,  <linux-api@vger.kernel.org>,
-  <corbet@lwn.net>,  <akpm@linux-foundation.org>,  <honggyu.kim@sk.com>,
-  <rakie.kim@sk.com>,  <hyeongtak.ji@sk.com>,  <mhocko@kernel.org>,
-  <vtavarespetr@micron.com>,  <jgroves@micron.com>,
-  <ravis.opensrc@micron.com>,  <sthanneeru@micron.com>,
-  <emirakhur@micron.com>,  <Hasan.Maruf@amd.com>,
-  <seungjun.ha@samsung.com>,  <hannes@cmpxchg.org>,
-  <dan.j.williams@intel.com>
-Subject: Re: [PATCH 1/3] mm/mempolicy: implement the sysfs-based
- weighted_interleave interface
-In-Reply-To: <ZadkmWj3Rd483f68@memverge.com> (Gregory Price's message of "Wed,
-	17 Jan 2024 00:24:41 -0500")
-References: <20240112210834.8035-1-gregory.price@memverge.com>
-	<20240112210834.8035-2-gregory.price@memverge.com>
-	<87le8r1dzr.fsf@yhuang6-desk2.ccr.corp.intel.com>
-	<ZadkmWj3Rd483f68@memverge.com>
-Date: Wed, 17 Jan 2024 14:58:08 +0800
-Message-ID: <87o7dkzbsv.fsf@yhuang6-desk2.ccr.corp.intel.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	s=arc-20240116; t=1705482904; c=relaxed/simple;
+	bh=Q08/0JPUmIF735thgSiaVRZ0/n+iC0wKqyNqiaQTRFg=;
+	h=Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Date:From:To:Cc:Subject:
+	 Message-ID:Reply-To:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:X-Spam-Level:X-Rspamd-Server:
+	 X-Spamd-Result:X-Spam-Score:X-Rspamd-Queue-Id:X-Spam-Flag; b=t4/HjmfyFDatEDKso0hDGIBER4GWgBYSJRGCuF0mjblBMnUyKlC61RoM16uZeNAYGYtwkT5eSJy6wSxNKSufSTkq2n4L4Vz0E1N+x/yNACQb1P2DIZZ/FKeJIpRmtOiRp5SZMHD9XykRf6JceHN+8b77ab/draMWIvsKy/fQ2Kw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=08dFBzXg; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=rbOjr/Va; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=08dFBzXg; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=rbOjr/Va; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 5C65C21FCD;
+	Wed, 17 Jan 2024 09:14:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1705482894;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=b5zaWhkvNJdBjASJuwpU3R0cBDYHMrXzV9WEzpYwfmw=;
+	b=08dFBzXgiQcE1i2hs0Fm5UkqqLW8hPMRXWciY5xmruF5ZOkZm++PsoMJ0KuLh0BFebuS5+
+	jBCguZCyj7BvOkJL/mQkvEnHkeF/dPka72G9rUULvlvihfz2JrjH0c6GnvsjT6sxUpnoaU
+	/ARfTChNZLhp/1TH9IyEZMeRPBu3ugQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1705482894;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=b5zaWhkvNJdBjASJuwpU3R0cBDYHMrXzV9WEzpYwfmw=;
+	b=rbOjr/VaeEC81vSd6ewwPHV/noSE8NXRAnsTQXHx6eab+mkd8gtLftkbyMS4nvn7S0+zJP
+	OwBakJJznCCNmsAw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1705482894;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=b5zaWhkvNJdBjASJuwpU3R0cBDYHMrXzV9WEzpYwfmw=;
+	b=08dFBzXgiQcE1i2hs0Fm5UkqqLW8hPMRXWciY5xmruF5ZOkZm++PsoMJ0KuLh0BFebuS5+
+	jBCguZCyj7BvOkJL/mQkvEnHkeF/dPka72G9rUULvlvihfz2JrjH0c6GnvsjT6sxUpnoaU
+	/ARfTChNZLhp/1TH9IyEZMeRPBu3ugQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1705482894;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=b5zaWhkvNJdBjASJuwpU3R0cBDYHMrXzV9WEzpYwfmw=;
+	b=rbOjr/VaeEC81vSd6ewwPHV/noSE8NXRAnsTQXHx6eab+mkd8gtLftkbyMS4nvn7S0+zJP
+	OwBakJJznCCNmsAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E1C6B137EB;
+	Wed, 17 Jan 2024 09:14:53 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 0mrONI2ap2WUFgAAD6G6ig
+	(envelope-from <pvorel@suse.cz>); Wed, 17 Jan 2024 09:14:53 +0000
+Date: Wed, 17 Jan 2024 10:14:52 +0100
+From: Petr Vorel <pvorel@suse.cz>
+To: Alejandro Colomar <alx@kernel.org>
+Cc: linux-man@vger.kernel.org,
+	Maciej =?iso-8859-2?Q?=AFenczykowski?= <maze@google.com>,
+	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+	Matthias Gerstner <matthias.gerstner@suse.com>,
+	Avinesh Kumar <akumar@suse.de>
+Subject: Re: [PATCH 1/1] socket.7: Mention CAP_NET_RAW on SO_MARK
+Message-ID: <20240117091452.GB2665992@pevik>
+Reply-To: Petr Vorel <pvorel@suse.cz>
+References: <20240116110418.2577798-1-pvorel@suse.cz>
+ <ZaadPmLFCI4rsGy_@debian>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ascii
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZaadPmLFCI4rsGy_@debian>
+X-Spam-Level: 
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=08dFBzXg;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b="rbOjr/Va"
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-2.30 / 50.00];
+	 HAS_REPLYTO(0.30)[pvorel@suse.cz];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	 TO_DN_SOME(0.00)[];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_TRACE(0.00)[suse.cz:+];
+	 MX_GOOD(-0.01)[];
+	 RCPT_COUNT_SEVEN(0.00)[7];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 BAYES_HAM(-0.09)[64.27%];
+	 ARC_NA(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	 REPLYTO_EQ_FROM(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 MIME_GOOD(-0.10)[text/plain];
+	 RCVD_DKIM_ARC_DNSWL_HI(-1.00)[];
+	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.cz:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 MID_RHS_NOT_FQDN(0.50)[];
+	 RCVD_IN_DNSWL_HI(-0.50)[2a07:de40:b281:104:10:150:64:97:from];
+	 RCVD_TLS_ALL(0.00)[]
+X-Spam-Score: -2.30
+X-Rspamd-Queue-Id: 5C65C21FCD
+X-Spam-Flag: NO
 
-Gregory Price <gregory.price@memverge.com> writes:
+Hi Alex,
 
-> On Mon, Jan 15, 2024 at 11:18:00AM +0800, Huang, Ying wrote:
->> Gregory Price <gourry.memverge@gmail.com> writes:
->> 
->> > +static struct iw_table default_iw_table;
->> > +/*
->> > + * iw_table is the sysfs-set interleave weight table, a value of 0
->> > + * denotes that the default_iw_table value should be used.
->> > + *
->> > + * iw_table is RCU protected
->> > + */
->> > +static struct iw_table __rcu *iw_table;
->> > +static DEFINE_MUTEX(iw_table_mtx);
->> 
->> I greped "mtx" in kernel/*.c and mm/*.c and found nothing.  To following
->> the existing coding convention, better to name this as iw_table_mutex or
->> iw_table_lock?
->> 
->
-> ack.
->
->> And, I think this is used to protect both iw_table and default_iw_table?
->> If so, it deserves some comments.
->> 
->
-> Right now default_iw_table cannot be updated, and so it is neither
-> protected nor requires protection.
->
-> I planned to add the protection comment in the next patch series, which
-> would implement the kernel-side interface for updating the default
-> weights during boot/hotplug.
->
-> We haven't had the discussion on how/when this should happen yet,
-> though, and there's some research to be done.  (i.e. when should DRAM
-> weights be set? should the entire table be reweighted on hotplug? etc)
+> Hi Petr,
 
-Before that, I'm OK to remove default_iw_table and use hard coded "1" as
-default weight for now.
+> On Tue, Jan 16, 2024 at 12:04:18PM +0100, Petr Vorel wrote:
+> > Added in 079925cce1d0 ("net: allow SO_MARK with CAP_NET_RAW") in v5.17.
 
->> > +static ssize_t node_store(struct kobject *kobj, struct kobj_attribute *attr,
->> > +			  const char *buf, size_t count)
->> > +{
->> > +	struct iw_node_attr *node_attr;
->> > +	struct iw_table __rcu *new;
->> > +	struct iw_table __rcu *old;
->> > +	u8 weight = 0;
->> > +
->> > +	node_attr = container_of(attr, struct iw_node_attr, kobj_attr);
->> > +	if (count == 0 || sysfs_streq(buf, ""))
->> > +		weight = 0;
->> > +	else if (kstrtou8(buf, 0, &weight))
->> > +		return -EINVAL;
->> > +
->> > +	new = kmalloc(sizeof(*new), GFP_KERNEL);
->> > +	if (!new)
->> > +		return -ENOMEM;
->> > +
->> > +	mutex_lock(&iw_table_mtx);
->> > +	old = rcu_dereference_protected(iw_table,
->> > +					lockdep_is_held(&iw_table_mtx));
->> > +	/* If value is 0, revert to default weight */
->> > +	weight = weight ? weight : default_iw_table.weights[node_attr->nid];
->> 
->> If we change the default weight in default_iw_table.weights[], how do we
->> identify whether the weight has been customized by users via sysfs?  So,
->> I suggest to use 0 in iw_table for not-customized weight.
->> 
->> And if so, we need to use RCU to access default_iw_table too.
->>
->
-> Dumb simplification on my part, I'll walk this back and add the 
->
-> if (!weight) weight = default_iw_table[node]
->
-> logic back into the allocator paths accordinly.
->
->> > +	memcpy(&new->weights, &old->weights, sizeof(new->weights));
->> > +	new->weights[node_attr->nid] = weight;
->> > +	rcu_assign_pointer(iw_table, new);
->> > +	mutex_unlock(&iw_table_mtx);
->> > +	kfree_rcu(old, rcu);
->> 
->> synchronize_rcu() should be OK here.  It's fast enough in this cold
->> path.  This make it good to define iw_table as
->> 
-> I'll take a look.
->
->> u8 __rcu *iw_table;
->> 
->> Then, we only need to allocate nr_node_ids elements now.
->> 
->
-> We need nr_possible_nodes to handle hotplug correctly.
+> > Signed-off-by: Petr Vorel <pvorel@suse.cz>
 
-nr_node_ids >= num_possible_nodes().  It's larger than any possible node
-ID.
+> Patch applied.  Thanks!
 
-> I decided to simplify this down to MAX_NUMNODES *juuuuuust in case*
-> "true node hotplug" ever becomes a reality.  If that happens, then
-> only allocating space for possible nodes creates a much bigger
-> headache on hotplug.
->
-> For the sake of that simplification, it seemed better to just eat the
-> 1KB.  If you really want me to do that, I will, but the MAX_NUMNODES
-> choice was an explicitly defensive choice.
+Thank you! BTW I don't see this patch in git tree [1], maybe you just haven't
+push yet.
 
-When "true node hotplug" becomes reality, we can make nr_node_ids ==
-MAX_NUMNODES.  So, it's safe to use it.  Please take a look at
-setup_nr_node_ids().
+Kind regards,
+Petr
 
->> > +static int __init mempolicy_sysfs_init(void)
->> > +{
->> > +	/*
->> > +	 * if sysfs is not enabled MPOL_WEIGHTED_INTERLEAVE defaults to
->> > +	 * MPOL_INTERLEAVE behavior, but is still defined separately to
->> > +	 * allow task-local weighted interleave and system-defaults to
->> > +	 * operate as intended.
->> > +	 *
->> > +	 * In this scenario iw_table cannot (presently) change, so
->> > +	 * there's no need to set up RCU / cleanup code.
->> > +	 */
->> > +	memset(&default_iw_table.weights, 1, sizeof(default_iw_table));
->> 
->> This depends on sizeof(default_iw_table.weights[0]) == 1, I think it's
->> better to use explicit loop here to make the code more robust a little.
->> 
->
-> oh hm, you're right.  rookie mistake on my part.
->
+[1] https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/
 
---
-Best Regards,
-Huang, Ying
+
+> Have a lovely day,
+> Alex
+
+> > ---
+> >  man7/socket.7 | 4 +++-
+> >  1 file changed, 3 insertions(+), 1 deletion(-)
+
+> > diff --git a/man7/socket.7 b/man7/socket.7
+> > index 3ff8fe51b..3ebfc770b 100644
+> > --- a/man7/socket.7
+> > +++ b/man7/socket.7
+> > @@ -614,7 +614,9 @@ Changing the mark can be used for mark-based
+> >  routing without netfilter or for packet filtering.
+> >  Setting this option requires the
+> >  .B CAP_NET_ADMIN
+> > -capability.
+> > +or
+> > +.B CAP_NET_RAW
+> > +(since Linux 5.17) capability.
+> >  .TP
+> >  .B SO_OOBINLINE
+> >  If this option is enabled,
+> > -- 
+> > 2.43.0
 
