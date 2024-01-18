@@ -1,164 +1,104 @@
-Return-Path: <linux-api+bounces-533-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-534-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3756831AC1
-	for <lists+linux-api@lfdr.de>; Thu, 18 Jan 2024 14:43:36 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6676831B9D
+	for <lists+linux-api@lfdr.de>; Thu, 18 Jan 2024 15:40:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A1728287BA7
-	for <lists+linux-api@lfdr.de>; Thu, 18 Jan 2024 13:43:35 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 202C3B220D7
+	for <lists+linux-api@lfdr.de>; Thu, 18 Jan 2024 14:40:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BA462555A;
-	Thu, 18 Jan 2024 13:43:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB9291E532;
+	Thu, 18 Jan 2024 14:38:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="CmN1miDM";
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="CmN1miDM"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mzXAhM7+"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 804E824A0B;
-	Thu, 18 Jan 2024 13:43:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B768288D5;
+	Thu, 18 Jan 2024 14:38:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705585408; cv=none; b=s/Lc/I9jvQm1oP19Qybc0gf7K1b1fXSqcfeRG4/XkyVgYGmV82F9DqUsUPfS9UfuKUoBfe4Jf6R3YYuGMXG7nMA2qLNmvHpsPRLlQARuS4qw1wHp5pomj3ymoXAkyylgn5raUMu7eBm1EK1wpD7AIrVNHujkWa81UV0gdWxaDRI=
+	t=1705588696; cv=none; b=mqzfjaqRjKPJUSXcQqW6Dqz2LVgnjdowwEGpJKN6J61zIe7WFYhfU6b5t5J2RDZXMLleA6w9gKIFa7UTwm8NVuxGEHkNNDjXBko0+9v3Bg3lb89VZEJa4fYJvnDQp3onJx2BJE4S+EszPc6eT5H1iHLO44lTCZqOMnflHcIxkKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705585408; c=relaxed/simple;
-	bh=CInZu229v+p6ubCNxyxTiYzu7fJFZZzOi8CMGdGohes=;
-	h=Received:DKIM-Signature:DKIM-Signature:Received:Received:Date:
-	 From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:X-Spam-Level:X-Spam-Score:
-	 X-Spamd-Result:X-Spam-Flag; b=gBRjejJzY3LRqj1TNccTUJCxeGakeglAqD7pZLUMUq60OVXxdmS8wkvODKKyKIWzQQLHjK7+wxtYv6orgkK+XlZ/qKxkhzQ0YSts8h7obVNwbvxe3NYJuo3NFKQm5lp3gHdJv/VstdUcQUB8tEVM+mSzY0Q4mtV+SaxZoUNFG1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=CmN1miDM; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=CmN1miDM; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 9F6071FCF4;
-	Thu, 18 Jan 2024 13:43:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1705585403; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NAWBeypBvGFM6Xet4cmHeLDFXwdHP1NsXHe8czK2YMg=;
-	b=CmN1miDMCWoPZDcJl9YS1hNtPAeMclubrDcIqROVR76CBjuXXcFa4wfjjq0sICX54wZX+6
-	Fz3a491/y9KDfEH5an44nGnbdES5Gc4UJr+TtZNGb0eDXerVeGho1gqbjjl5BET50a0ojt
-	WZX38fDrUgiiLC096IEsXyEcq/E1pco=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1705585403; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NAWBeypBvGFM6Xet4cmHeLDFXwdHP1NsXHe8czK2YMg=;
-	b=CmN1miDMCWoPZDcJl9YS1hNtPAeMclubrDcIqROVR76CBjuXXcFa4wfjjq0sICX54wZX+6
-	Fz3a491/y9KDfEH5an44nGnbdES5Gc4UJr+TtZNGb0eDXerVeGho1gqbjjl5BET50a0ojt
-	WZX38fDrUgiiLC096IEsXyEcq/E1pco=
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 86CB813874;
-	Thu, 18 Jan 2024 13:43:23 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id bfnRHvsqqWUHDAAAD6G6ig
-	(envelope-from <mhocko@suse.com>); Thu, 18 Jan 2024 13:43:23 +0000
-Date: Thu, 18 Jan 2024 14:43:23 +0100
-From: Michal Hocko <mhocko@suse.com>
-To: Lance Yang <ioworker0@gmail.com>
-Cc: akpm@linux-foundation.org, zokeefe@google.com, david@redhat.com,
-	songmuchun@bytedance.com, shy828301@gmail.com, peterx@redhat.com,
-	mknyszek@google.com, minchan@kernel.org, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
-Subject: Re: [PATCH v2 1/1] mm/madvise: add MADV_F_COLLAPSE_LIGHT to
- process_madvise()
-Message-ID: <Zakq-54DFdPu0c2U@tiehlicka>
-References: <20240118120347.61817-1-ioworker0@gmail.com>
- <ZakqQyL9t2ffNUIf@tiehlicka>
+	s=arc-20240116; t=1705588696; c=relaxed/simple;
+	bh=guptyyOQalkFrWPUTJrIlKr56a+E4jq1Is5W6DKtQj4=;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
+	 X-Developer-Signature:X-Developer-Key:Content-Transfer-Encoding;
+	b=cBrbqdODX3uZiczHu7TfcpKojvQ7rlqpLWdNCu72Rjx4PwWc+8NSQ0mwl/GOuVJmy48ffxIgvTQpbvOmZovaO9a6DXN5nbg5jmsDkrHThMrjBL4jeqT/btG4tcZItOwPvipixt4ZfBHv4+47E6h29iGcZ/AH+kF/plpb8cxbYC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mzXAhM7+; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F3AFC433F1;
+	Thu, 18 Jan 2024 14:38:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705588696;
+	bh=guptyyOQalkFrWPUTJrIlKr56a+E4jq1Is5W6DKtQj4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=mzXAhM7+fcWvAQk9/kZpGzqcaTe1J2wHXx6K79E0F57Wn+xXIeVBoCK0WvgD883Lk
+	 Xdf3d1R0d6midMySgh1kU2uf77Iec4SM376aV4i3IskZIc92os1NbBFJLDSD5TCij/
+	 M7YCdPEA9nQiR197ZQlgBgcRlG/CLGHFLXsiykQ98msZ98A9jYkjc5EosO1V34Ur2B
+	 gT0hUut7FfWOkSJBGoLzQrQkvW69QVQNCph6K56szy5dGeWzVE61cPHsmcb7TPEmjq
+	 ViIJOnDwlbzPqtBzER104irvthKCHU9B0j36PcvBpid1tFWsALOibairaydiQ840Mx
+	 zj4AYXaH5jnCw==
+From: Christian Brauner <brauner@kernel.org>
+To: Hu Yadi <hu.yadi@h3c.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+	linux-api@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	514118380@qq.com,
+	jmorris@namei.org,
+	serge@hallyn.com,
+	shuah@kernel.org,
+	mathieu.desnoyers@efficios.com,
+	mic@digikod.net
+Subject: Re: [PATCH v4] selftests/move_mount_set_group:Make tests build with old libc
+Date: Thu, 18 Jan 2024 15:37:56 +0100
+Message-ID: <20240118-sezieren-neurologie-6690110057ca@brauner>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240111113229.10820-1-hu.yadi@h3c.com>
+References: <20240111113229.10820-1-hu.yadi@h3c.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZakqQyL9t2ffNUIf@tiehlicka>
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -0.80
-X-Spamd-Result: default: False [-0.80 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.com:s=susede1];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 RCPT_COUNT_TWELVE(0.00)[12];
-	 FREEMAIL_TO(0.00)[gmail.com];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 MID_RHS_NOT_FQDN(0.50)[];
-	 FREEMAIL_CC(0.00)[linux-foundation.org,google.com,redhat.com,bytedance.com,gmail.com,kernel.org,kvack.org,vger.kernel.org];
-	 RCVD_TLS_ALL(0.00)[]
-X-Spam-Flag: NO
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1169; i=brauner@kernel.org; h=from:subject:message-id; bh=guptyyOQalkFrWPUTJrIlKr56a+E4jq1Is5W6DKtQj4=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMaSuNL/gYT4jbaGy/4JkroyimR9NvAQn5yqVywfzKjXEO ClZcFd0lLIwiHExyIopsji0m4TLLeep2GyUqQEzh5UJZAgDF6cATGTbBkaG3cbOjneu/Zs677DJ lPNla3//9xYuXh3vkzPXZrfEvLqTrYwMB+NmyzJamd05erEv82GNfvZ/C8ksyVPePndiZnyaWBz LBwA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-Dang, forgot to cc linux-api...
-
-On Thu 18-01-24 14:40:19, Michal Hocko wrote:
-> On Thu 18-01-24 20:03:46, Lance Yang wrote:
+On Thu, 11 Jan 2024 19:32:29 +0800, Hu Yadi wrote:
+> Replace SYS_<syscall> with __NR_<syscall>.  Using the __NR_<syscall>
+> notation, provided by UAPI, is useful to build tests on systems without
+> the SYS_<syscall> definitions.
+> 
+> Replace SYS_move_mount with __NR_move_mount
+> 
+> Similar changes: commit 87129ef13603 ("selftests/landlock: Make tests build with old libc")
+> 
 > [...]
-> 
-> before we discuss the semantic, let's focus on the usecase.
-> 
-> > Use Cases
-> > 
-> > An immediate user of this new functionality is the Go runtime heap allocator
-> > that manages memory in hugepage-sized chunks. In the past, whether it was a
-> > newly allocated chunk through mmap() or a reused chunk released by
-> > madvise(MADV_DONTNEED), the allocator attempted to eagerly back memory with
-> > huge pages using madvise(MADV_HUGEPAGE)[2] and madvise(MADV_COLLAPSE)[3]
-> > respectively. However, both approaches resulted in performance issues; for
-> > both scenarios, there could be entries into direct reclaim and/or compaction,
-> > leading to unpredictable stalls[4]. Now, the allocator can confidently use
-> > process_madvise(MADV_F_COLLAPSE_LIGHT) to attempt the allocation of huge pages.
-> 
-> IIUC the primary reason is the cost of the huge page allocation which
-> can be really high if the memory is heavily fragmented and it is called
-> synchronously from the process directly, correct? Can that be worked
-> around by process_madvise and performing the operation from a different
-> context? Are there any other reasons to have a different mode?
-> 
-> I mean I can think of a more relaxed (opportunistic) MADV_COLLAPSE -
-> e.g. non blocking one to make sure that the caller doesn't really block
-> on resource contention (be it locks or memory availability) because that
-> matches our non-blocking interface in other areas but having a LIGHT
-> operation sounds really vague and the exact semantic would be
-> implementation specific and might change over time. Non-blocking has a
-> clear semantic but it is not really clear whether that is what you
-> really need/want.
-> 
-> > [1] https://github.com/torvalds/linux/commit/7d8faaf155454f8798ec56404faca29a82689c77
-> > [2] https://github.com/golang/go/commit/8fa9e3beee8b0e6baa7333740996181268b60a3a
-> > [3] https://github.com/golang/go/commit/9f9bb26880388c5bead158e9eca3be4b3a9bd2af
-> > [4] https://github.com/golang/go/issues/63334
-> > 
-> > [v1] https://lore.kernel.org/lkml/20240117050217.43610-1-ioworker0@gmail.com/
-> -- 
-> Michal Hocko
-> SUSE Labs
 
--- 
-Michal Hocko
-SUSE Labs
+Applied to the vfs.misc branch of the vfs/vfs.git tree.
+Patches in the vfs.misc branch should appear in linux-next soon.
+
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
+
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs.misc
+
+[1/1] selftests/move_mount_set_group:Make tests build with old libc
+      https://git.kernel.org/vfs/vfs/c/0778b0a1a8d2
 
