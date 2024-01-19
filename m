@@ -1,261 +1,112 @@
-Return-Path: <linux-api+bounces-540-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-541-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3A3C83235B
-	for <lists+linux-api@lfdr.de>; Fri, 19 Jan 2024 03:37:32 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49623832383
+	for <lists+linux-api@lfdr.de>; Fri, 19 Jan 2024 03:59:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A23B7285E49
-	for <lists+linux-api@lfdr.de>; Fri, 19 Jan 2024 02:37:31 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DE8BDB21F49
+	for <lists+linux-api@lfdr.de>; Fri, 19 Jan 2024 02:59:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70C9B1111;
-	Fri, 19 Jan 2024 02:37:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ldr6hg1A"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD81C15A4;
+	Fri, 19 Jan 2024 02:59:26 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from h3cspam02-ex.h3c.com (smtp.h3c.com [60.191.123.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBFAF15A4;
-	Fri, 19 Jan 2024 02:37:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5A03138F;
+	Fri, 19 Jan 2024 02:59:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.191.123.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705631848; cv=none; b=XWw6feMSjnuTDfRSTn5BeiKNcRgoq/rJm+9wEXatTLy8BKjYpuGtmRTxQ5+iuMILwBlo4wJUDpWDl7TE0THbebVusxPelgtsoT7xDTOXiVYAfVANq8GCvvJDHHAe80wDwAWAO5lKsG0Z7KLevKIIofc7t6+baaYR7kL68239vus=
+	t=1705633166; cv=none; b=fGQnpj4dlmVPVAEE29cZkr0uUj8h2CVbv4hMSshTYtcwrA7x9rbqY8TMhBVt8y0gvmbajmGZp/yB7AAGPESRmvMTitJgSrw/Kzr6pJbVvQTNTYV9eVm6k7x1Nsj4Vk1UkcLgkz+6hvANQ0GRsvaMwpjRpvmR7CtqQ1UAxSaxQkM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705631848; c=relaxed/simple;
-	bh=aICAH4hRXeLeMw1z8zxzaW7lbyGRMfDIu0CC/thDglg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lIwq24TAh003AT4OM72uwxdtdDEmd7A/HlGnQegpdhiPFV1lTvD3xXSE2EuryBnokhhfZGCIQ84pekT5PvPkuFu8Ri4jc9rigT5/CKFQ7tvT371mqqZ1QBBFofqsTWm/1b5WBvfx4OgvJNnI+Uh2+toMwZuczllBCGhX5g+8OvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ldr6hg1A; arc=none smtp.client-ip=209.85.128.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-5ebca94cf74so3178837b3.0;
-        Thu, 18 Jan 2024 18:37:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705631846; x=1706236646; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aICAH4hRXeLeMw1z8zxzaW7lbyGRMfDIu0CC/thDglg=;
-        b=ldr6hg1A/8WMSsCLdyU6MRQGsRsvrpVwAmeGGnle2Rcr8wJpoemKiNDuoSrXM4vRfP
-         zYZ025iYb9VCmXMzTxlszWdZfWwzz/WC+OoT/AoVkJTN1sk8v33DJa0IhVLVgX7tbAIA
-         aJGg8ohJWycWsj+k+InHaX4Z0D1+M6Bdm/dppyQAcD3Ib5HRg71w+gSAvVDVtIS+iEQw
-         BTgQ+bsYqGbbUgUgm9VLElnexUZZIaY1X5BhVdriBYjvXEpxuflnPjl+BVVhGwM2Vd7Q
-         sfX9yK0Nvlmrwc+STUzlqPeotInONJRHVvqo8xz+M4rbdXO+YiYYQxU9+xHM8PxVNOaO
-         92WQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705631846; x=1706236646;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aICAH4hRXeLeMw1z8zxzaW7lbyGRMfDIu0CC/thDglg=;
-        b=Aq9PE/00bQ9L017q0kj7vRYuODMEvP5qmtyx9cv70d3aczPGKjTDkBssTVNLirE1DV
-         i0iegl7L1AVsgLdkAmGTdsIAdzwqbJdXUIqjUkVuWk5l6wEmCVkubVP2EUHac0kTEgzg
-         lDMuUVXwJZjr4eJQvCUIt1rK1YVfXiFsv/RW9Q9riy+3lNSOeNOBkHXmkwynBbKjkL0q
-         s58icv8U+LyKaPNrsaFHefR2/V+miWXSJZ2g83//L6d58wRwW1spXJYpTMU8+TGHrcBj
-         f3As1LXDrLx+JBPbA9Pf5TWEKyLPM2kCJ0tA5flPflExHjzIelCkiDK1lzKr1SVHUcA/
-         NHMw==
-X-Gm-Message-State: AOJu0YwdWri43d5k115aayrm/C1240VUJX0ZJWRBAXlpyy7AYvsH3IrA
-	oWaCdn+JXM9dpXYuE+GPYmhl2X2MndIYp3D+GNmpRy57J7FDzW8dZSFCGgONpPC+QWiEoHTYW87
-	nDsBKosf/hoqjuMlS41uJCRumkeo=
-X-Google-Smtp-Source: AGHT+IFh9LHQHtffb4CbOihY48EMjl6zFT/VeDNE2gD3ybmauOUjWzJrCzUrHXjoEE8tIzwDekj0YCoL7L2xxgPhr8g=
-X-Received: by 2002:a5b:c07:0:b0:dc2:371d:53b with SMTP id f7-20020a5b0c07000000b00dc2371d053bmr1488950ybq.9.1705631845763;
- Thu, 18 Jan 2024 18:37:25 -0800 (PST)
+	s=arc-20240116; t=1705633166; c=relaxed/simple;
+	bh=wTuOtLp0K3RgyC3KOzCWVfI7I4OOv/HcKRoWWEzway0=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=IOxsqQHV1r7s5qIy60RCqT9ciOR6w6H9phFeOcXDT2Fyqp7RpZzfjQI+Km6HGUdvv3aUQvDmnjqOM6Z5qI72VJDgRttE6eAvJfSsBupDmRc2VRqHoQyn1gLhxRzL4FZZfhRcE+513tRnyzOMCrMM5I1NIGMAI1HBUlA1UwJQ5oI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=h3c.com; spf=pass smtp.mailfrom=h3c.com; arc=none smtp.client-ip=60.191.123.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=h3c.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=h3c.com
+Received: from mail.maildlp.com ([172.25.15.154])
+	by h3cspam02-ex.h3c.com with ESMTP id 40J2vhvT092086;
+	Fri, 19 Jan 2024 10:57:43 +0800 (GMT-8)
+	(envelope-from hu.yadi@h3c.com)
+Received: from DAG6EX07-IMDC.srv.huawei-3com.com (unknown [10.62.14.16])
+	by mail.maildlp.com (Postfix) with ESMTP id DEA3A22CFEC6;
+	Fri, 19 Jan 2024 11:02:14 +0800 (CST)
+Received: from DAG6EX02-IMDC.srv.huawei-3com.com (10.62.14.11) by
+ DAG6EX07-IMDC.srv.huawei-3com.com (10.62.14.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.27; Fri, 19 Jan 2024 10:57:43 +0800
+Received: from DAG6EX02-IMDC.srv.huawei-3com.com ([fe80::4c21:7c89:4f9d:e4c4])
+ by DAG6EX02-IMDC.srv.huawei-3com.com ([fe80::4c21:7c89:4f9d:e4c4%16]) with
+ mapi id 15.02.1258.027; Fri, 19 Jan 2024 10:57:43 +0800
+From: Huyadi <hu.yadi@h3c.com>
+To: "'Christian Brauner'" <brauner@kernel.org>
+CC: "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-security-module@vger.kernel.org"
+	<linux-security-module@vger.kernel.org>,
+        "linux-kselftest@vger.kernel.org"
+	<linux-kselftest@vger.kernel.org>,
+        "514118380@qq.com" <514118380@qq.com>,
+        "jmorris@namei.org" <jmorris@namei.org>,
+        "serge@hallyn.com"
+	<serge@hallyn.com>,
+        "shuah@kernel.org" <shuah@kernel.org>,
+        "mathieu.desnoyers@efficios.com" <mathieu.desnoyers@efficios.com>,
+        "mic@digikod.net" <mic@digikod.net>
+Subject: =?utf-8?B?5Zue5aSNOiBbUEFUQ0ggdjRdIHNlbGZ0ZXN0cy9tb3ZlX21vdW50X3NldF9n?=
+ =?utf-8?Q?roup:Make_tests_build_with_old_libc?=
+Thread-Topic: [PATCH v4] selftests/move_mount_set_group:Make tests build with
+ old libc
+Thread-Index: AQHaRII9d44IpKHVmkiSX1xdCq/Vx7DfKLkAgAFS0NA=
+Date: Fri, 19 Jan 2024 02:57:43 +0000
+Message-ID: <8918d5e83d54418b9db3ee9c055d675d@h3c.com>
+References: <20240111113229.10820-1-hu.yadi@h3c.com>
+ <20240118-sezieren-neurologie-6690110057ca@brauner>
+In-Reply-To: <20240118-sezieren-neurologie-6690110057ca@brauner>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-sender-location: DAG2
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240118120347.61817-1-ioworker0@gmail.com> <ZakqQyL9t2ffNUIf@tiehlicka>
- <Zakq-54DFdPu0c2U@tiehlicka> <CAAa6QmTN2B-JAO=38A09hMtUp=srLiUfs=sDbck7Chkr=W-dCw@mail.gmail.com>
- <CAHbLzkphG+kmLvYQFB6WZuuGadPsRvsH4Os9CwnxvizKAfwuvQ@mail.gmail.com>
-In-Reply-To: <CAHbLzkphG+kmLvYQFB6WZuuGadPsRvsH4Os9CwnxvizKAfwuvQ@mail.gmail.com>
-From: Lance Yang <ioworker0@gmail.com>
-Date: Fri, 19 Jan 2024 10:37:14 +0800
-Message-ID: <CAK1f24kQTUQsNf05cxJ_HsaLg9rTBWh8K64PCVbeudW8G7pStg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/1] mm/madvise: add MADV_F_COLLAPSE_LIGHT to process_madvise()
-To: Yang Shi <shy828301@gmail.com>
-Cc: "Zach O'Keefe" <zokeefe@google.com>, Michal Hocko <mhocko@suse.com>, akpm@linux-foundation.org, 
-	david@redhat.com, songmuchun@bytedance.com, peterx@redhat.com, 
-	mknyszek@google.com, minchan@kernel.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-DNSRBL: 
+X-SPAM-SOURCE-CHECK: pass
+X-MAIL:h3cspam02-ex.h3c.com 40J2vhvT092086
 
-Hey Yang,
-
-Thanks for taking the time to review!
-
-On Fri, Jan 19, 2024 at 3:00=E2=80=AFAM Yang Shi <shy828301@gmail.com> wrot=
-e:
->
-> On Thu, Jan 18, 2024 at 6:59=E2=80=AFAM Zach O'Keefe <zokeefe@google.com>=
- wrote:
-> >
-> > On Thu, Jan 18, 2024 at 5:43=E2=80=AFAM Michal Hocko <mhocko@suse.com> =
-wrote:
-> > >
-> > > Dang, forgot to cc linux-api...
-> > >
-> > > On Thu 18-01-24 14:40:19, Michal Hocko wrote:
-> > > > On Thu 18-01-24 20:03:46, Lance Yang wrote:
-> > > > [...]
-> > > >
-> > > > before we discuss the semantic, let's focus on the usecase.
-> > > >
-> > > > > Use Cases
-> > > > >
-> > > > > An immediate user of this new functionality is the Go runtime hea=
-p allocator
-> > > > > that manages memory in hugepage-sized chunks. In the past, whethe=
-r it was a
-> > > > > newly allocated chunk through mmap() or a reused chunk released b=
-y
-> > > > > madvise(MADV_DONTNEED), the allocator attempted to eagerly back m=
-emory with
-> > > > > huge pages using madvise(MADV_HUGEPAGE)[2] and madvise(MADV_COLLA=
-PSE)[3]
-> > > > > respectively. However, both approaches resulted in performance is=
-sues; for
-> > > > > both scenarios, there could be entries into direct reclaim and/or=
- compaction,
-> > > > > leading to unpredictable stalls[4]. Now, the allocator can confid=
-ently use
-> > > > > process_madvise(MADV_F_COLLAPSE_LIGHT) to attempt the allocation =
-of huge pages.
-> >
-> > Aside: The thought was a MADV_F_COLLAPSE_LIGHT _flag_; so it'd be
-> > process_madvise(..., MADV_COLLAPSE, MADV_F_COLLAPSE_LIGHT)
-> >
-> > > > IIUC the primary reason is the cost of the huge page allocation whi=
-ch
-> > > > can be really high if the memory is heavily fragmented and it is ca=
-lled
-> > > > synchronously from the process directly, correct? Can that be worke=
-d
-> > > > around by process_madvise and performing the operation from a diffe=
-rent
-> > > > context? Are there any other reasons to have a different mode?
-> > > >
-> > > > I mean I can think of a more relaxed (opportunistic) MADV_COLLAPSE =
--
-> > > > e.g. non blocking one to make sure that the caller doesn't really b=
-lock
-> > > > on resource contention (be it locks or memory availability) because=
- that
-> > > > matches our non-blocking interface in other areas but having a LIGH=
-T
-> > > > operation sounds really vague and the exact semantic would be
-> > > > implementation specific and might change over time. Non-blocking ha=
-s a
-> > > > clear semantic but it is not really clear whether that is what you
-> > > > really need/want.
-> >
-> > IIUC, usecase from Go is unbounded latency due to sync compaction in a
-> > context where the latency is unacceptable. Working w/ them to
-> > understand how things can be improved -- it's possible the changes can
-> > occur entirely on their side, w/o any additional kernel support.
-> >
-> > The non-blocking case awkwardly sits between MADV_COLLAPSE today, and
-> > khugepaged; esp when common case is that the allocation can probably
-> > be satisfied in fast path.
-> >
-> > The suggestion for something like "LIGHT" was intentionally vague
-> > because it could allow for other optimizations / changes down the
-> > line, as you point out. I think that might be a win, vs tying to a
-> > specific optimization (e.g. like a MADV_F_COLLAPSE_NODEFRAG). But I
-> > could be alone on that front, given the design of
-> > /sys/kernel/mm/transparent_hugepage.
->
-> Per the description Go marks the address spaces with MADV_HUGEPAGE. It
-> means the application really wants to have huge page back the address
-> space so kernel will try as hard as possible to get huge page. This is
-> the default behavior of MADV_HUGEPAGE. If they don't want to enter
-> direct reclaim, they can configure the defrag mode to "defer", which
-> means no direct reclaim and wakeup kswapd and kcompactd, and rely on
-> khugepaged to install huge page later on. But this mode is not
-> supported by khugepaged defrag, so MADV_COLLAPSE may not support it
-> (IIRC MADV_COLLAPSE uses khugepaged defrag mode). Or they can just not
-> call MADV_HUGEPAGE and leave the decision to the users, IIRC Java does
-> so (specifying a flag to indicate use huge page or not by the users).
-
-Thank you for providing insights into the Go use cases with MADV_HUGEPAGE
-and the configuration options for defrag mode.
-
-Considering the limitations with the "defer" mode, it becomes apparent
-that there
-is a gap in addressing scenarios where an application desires a lighter-wei=
-ght
-alternative to MADV_HUGEPAGE.
-
-MADV_F_COLLAPSE_LIGHT aims to fill this gap by providing a more flexible an=
-d
-opportunistic approach, catering to applications in latency-sensitive
-environments
-that seek performance improvements with huge pages but prefer to avoid dire=
-ct
-reclaim and compaction. This option can serve as a valuable addition for us=
-ers
-who want more control over the behavior without the constraints of existing
-configurations.
-
-In the era of cloud-native computing, it's challenging for users to be
-aware of the
-THP configurations on all nodes in a cluster, let alone have
-fine-grained control
-over them. Simply disabling the use of huge pages due to concerns
-about potential
-direct reclamation and compaction may be regrettable, as users are deprived=
- of
-the opportunity to experiment with large page allocations. However,
-relying solely on
-MADV_HUGEPAGE introduces the risk of unpredictable stalls, making it a trad=
-e-off
-that users must carefully consider.
-
-By introducing MADV_F_COLLAPSE_LIGHT, we offer users a more flexible and
-controllable solution in cloud-native environments, allowing them to
-better balance
-performance requirements and resource management. This selectively lightwei=
-ght
-alternative is designed to provide users with more choices to better
-meet the diverse
-needs of different scenarios.
-
-Thanks again for your review and your suggestion!
-Lance
-
->
-> >
-> > But circling back, I agree w/ you that the first order of business is t=
-o
-> > iron out a real usecase. As of right now, it's not clear something
-> > like this is required or helpful.
-> >
-> > Thanks,
-> > Zach
-> >
-> >
-> >
-> >
-> > > > > [1] https://github.com/torvalds/linux/commit/7d8faaf155454f8798ec=
-56404faca29a82689c77
-> > > > > [2] https://github.com/golang/go/commit/8fa9e3beee8b0e6baa7333740=
-996181268b60a3a
-> > > > > [3] https://github.com/golang/go/commit/9f9bb26880388c5bead158e9e=
-ca3be4b3a9bd2af
-> > > > > [4] https://github.com/golang/go/issues/63334
-> > > > >
-> > > > > [v1] https://lore.kernel.org/lkml/20240117050217.43610-1-ioworker=
-0@gmail.com/
-> > > > --
-> > > > Michal Hocko
-> > > > SUSE Labs
-> > >
-> > > --
-> > > Michal Hocko
-> > > SUSE Labs
+DQo+T24gVGh1LCAxMSBKYW4gMjAyNCAxOTozMjoyOSArMDgwMCwgSHUgWWFkaSB3cm90ZToNCj4+
+IFJlcGxhY2UgU1lTXzxzeXNjYWxsPiB3aXRoIF9fTlJfPHN5c2NhbGw+LiAgVXNpbmcgdGhlIF9f
+TlJfPHN5c2NhbGw+IA0KPj4gbm90YXRpb24sIHByb3ZpZGVkIGJ5IFVBUEksIGlzIHVzZWZ1bCB0
+byBidWlsZCB0ZXN0cyBvbiBzeXN0ZW1zIA0KPj4gd2l0aG91dCB0aGUgU1lTXzxzeXNjYWxsPiBk
+ZWZpbml0aW9ucy4NCj4+IA0KPj4gUmVwbGFjZSBTWVNfbW92ZV9tb3VudCB3aXRoIF9fTlJfbW92
+ZV9tb3VudA0KPj4gDQo+PiBTaW1pbGFyIGNoYW5nZXM6IGNvbW1pdCA4NzEyOWVmMTM2MDMgKCJz
+ZWxmdGVzdHMvbGFuZGxvY2s6IE1ha2UgdGVzdHMgDQo+PiBidWlsZCB3aXRoIG9sZCBsaWJjIikN
+Cj4+IA0KPj4gWy4uLl0NCj4NCj5BcHBsaWVkIHRvIHRoZSB2ZnMubWlzYyBicmFuY2ggb2YgdGhl
+IHZmcy92ZnMuZ2l0IHRyZWUuDQo+UGF0Y2hlcyBpbiB0aGUgdmZzLm1pc2MgYnJhbmNoIHNob3Vs
+ZCBhcHBlYXIgaW4gbGludXgtbmV4dCBzb29uLg0KPg0KPlBsZWFzZSByZXBvcnQgYW55IG91dHN0
+YW5kaW5nIGJ1Z3MgdGhhdCB3ZXJlIG1pc3NlZCBkdXJpbmcgcmV2aWV3IGluIGEgbmV3IHJldmll
+dyB0byB0aGUgb3JpZ2luYWwgcGF0Y2ggc2VyaWVzIGFsbG93aW5nIHVzIHRvIGRyb3AgaXQuDQo+
+DQo+SXQncyBlbmNvdXJhZ2VkIHRvIHByb3ZpZGUgQWNrZWQtYnlzIGFuZCBSZXZpZXdlZC1ieXMg
+ZXZlbiB0aG91Z2ggdGhlIHBhdGNoIGhhcyBub3cgYmVlbiBhcHBsaWVkLiBJZiBwb3NzaWJsZSBw
+YXRjaCB0cmFpbGVycyB3aWxsIGJlIHVwZGF0ZWQuDQo+DQo+Tm90ZSB0aGF0IGNvbW1pdCBoYXNo
+ZXMgc2hvd24gYmVsb3cgYXJlIHN1YmplY3QgdG8gY2hhbmdlIGR1ZSB0byByZWJhc2UsIHRyYWls
+ZXIgdXBkYXRlcyBvciBzaW1pbGFyLiBJZiBpbiBkb3VidCwgcGxlYXNlIGNoZWNrIHRoZSBsaXN0
+ZWQgYnJhbmNoLg0KPg0KPnRyZWU6ICAgaHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xp
+bnV4L2tlcm5lbC9naXQvdmZzL3Zmcy5naXQNCj5icmFuY2g6IHZmcy5taXNjDQo+DQoNCk1heSBJ
+IHRha2UgdGhlIGxpYmVydHkgdG8gYXNrIHdoeSBJIGRvbid0IHNlZSBwYXRjaCBhcHBsaWVkIHRv
+IGFib3ZlIGJyYW5jaD8NCmFuZCBiZWxvdyBjb21taXQgYWxzbyBzaG93cyBlcnJvcjoNCg0KQmFk
+IG9iamVjdCBpZDogMDc3OGIwYTFhOGQyDQoNCj5bMS8xXSBzZWxmdGVzdHMvbW92ZV9tb3VudF9z
+ZXRfZ3JvdXA6TWFrZSB0ZXN0cyBidWlsZCB3aXRoIG9sZCBsaWJjDQo+ICAgICBodHRwczovL2dp
+dC5rZXJuZWwub3JnL3Zmcy92ZnMvYy8wNzc4YjBhMWE4ZDINCg==
 
