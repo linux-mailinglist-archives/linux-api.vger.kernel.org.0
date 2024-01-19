@@ -1,69 +1,69 @@
-Return-Path: <linux-api+bounces-538-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-539-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 354AD831F6F
-	for <lists+linux-api@lfdr.de>; Thu, 18 Jan 2024 20:00:53 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73A5D832318
+	for <lists+linux-api@lfdr.de>; Fri, 19 Jan 2024 02:46:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6BD9CB24952
-	for <lists+linux-api@lfdr.de>; Thu, 18 Jan 2024 19:00:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2255828691D
+	for <lists+linux-api@lfdr.de>; Fri, 19 Jan 2024 01:46:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2F222E414;
-	Thu, 18 Jan 2024 19:00:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A403ED9;
+	Fri, 19 Jan 2024 01:46:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OZSXbB50"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dkgSH5yE"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29A952E407;
-	Thu, 18 Jan 2024 19:00:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4E4C10E4;
+	Fri, 19 Jan 2024 01:46:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705604436; cv=none; b=tB8DkHU9K2LXO/nfCbcVnJ6tmnS2Xt6yyOuTBjvbyPKRBlnD1mUAZS4uKbAFEcp4rkWXXHMyDAn+cCmaukYCC+bsh7gUBgjALO6XMmI71lKdh0zSbq18aK9tw4SsdKNOUq2eMRzQ5QLoaEQuv2jRcuf2QFmv9iQw/b6rVyuO8cI=
+	t=1705628805; cv=none; b=PA8Bx9h8F6dJauuFhNCq47q18Qi8AvO3uTMb+RZhe2YHYl+GvCVj1oczqpnoIWaR1ifN6zkFGbIz/Zd8f79b3I45ICbnIxoJeN7Z0LYjekJTMD8DUK9EmgZmDZXQBxIjQEN2ox44ZwRwoQeQsig3NUiLpZ/Gx1dXdWfftYNH2LY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705604436; c=relaxed/simple;
-	bh=XAcMAf7Ovbr7Vmhjkv9al2GrF4OlxBEV2eCDppGIUMw=;
+	s=arc-20240116; t=1705628805; c=relaxed/simple;
+	bh=AueCKfkK92AxG/6IJd7YrY+xmTeP8e01vZBo030LmM8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hOBj5oCPUQW2P8T1t+PNHCkJ5pQlPLD0Ud4qaLfVHfF0nG6ebamjNf2av5iN0cFTMWAK/hmZp2rINcQfb9W9QtDU0kkwdFBGyEuuI6XRUCdQo7yeE9AsZLQPZfBYWgdJTWgM/rlvkyekm6saCrqUME78OzcwLbOFfW+X9swAh9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OZSXbB50; arc=none smtp.client-ip=209.85.215.174
+	 To:Cc:Content-Type; b=GNC4VOAw1Wx9i0b2nv05boCsWLs9DnvmKx/SY8z81GuXHrYNkf9MKUkJT+OVgre2po1yx3bKivzfRKhtQtPWyfi85GjXVbkc4PsY0nBPCYhsCg+ur/R4tcUXNU9xDUedKvMwftTTAWNJUtpdCrI/cnFf+ZwgVCuiao3sDFGnXPU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dkgSH5yE; arc=none smtp.client-ip=209.85.219.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-5cec32dedf3so6296634a12.0;
-        Thu, 18 Jan 2024 11:00:34 -0800 (PST)
+Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-dc2308fe275so305807276.1;
+        Thu, 18 Jan 2024 17:46:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705604434; x=1706209234; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1705628802; x=1706233602; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=XAcMAf7Ovbr7Vmhjkv9al2GrF4OlxBEV2eCDppGIUMw=;
-        b=OZSXbB50PevpVekoHkthR2aJ7eH6KD6owRxRRAVObjJwNndkYJDTS+1rJc6F5dzVoQ
-         OrG8yfWPfvrDjsLlWtj23ZmAz5IyiyluRyvdMprDBg2+/z2jLKjnW+AsTLkXJY14AHRT
-         +dPxfP1ebWynn5jSkjNCMe7PVCf07XFVmjyw5NPMdgAi7xfUr2Kh+yaE3hjgCnL37o39
-         j+BinNF1iXWtiCwTHRY9l6f6iBcfAyRsAzZ9TygSqoRA9+Er6B4+Gass0GqGjBpzeTiU
-         r82VPXhzujyiydLWuWksiyhsmYMBngI+0aI1WDs4KDLNDVwc/wxgGHePXnAQdPgO8KNE
-         4TWQ==
+        bh=AueCKfkK92AxG/6IJd7YrY+xmTeP8e01vZBo030LmM8=;
+        b=dkgSH5yEgIV6JpG2oIt8UX0/G4OIv0SXYdpizvGHtAvtDj2/tfryrhH7qGvjiOl991
+         BBphPpgWM/xqESJvy62XroOJml+wLY1hkvboyL9o0w8woU8SR17uBnXpvRuV+lmhdpfd
+         uYMeb5CaX3l9omjUe/M1aB+ht8sdE/zoLRxd8bGqzagyHdPOMByKAJi/cVBEGVqgA3LP
+         6F2Wjx3XTGFf7xwK2mF+5I7awaVe1hco2U4FRlcUF46gQU3SeDWCz3AVqBKHcaAi68iK
+         hnHb2G5xodSrdrDehqYE4tEHZ/agVM0f56Ow5L3xXL4DtxwM9wvjVK5MeNETKaI8sU0p
+         83rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705604434; x=1706209234;
+        d=1e100.net; s=20230601; t=1705628802; x=1706233602;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=XAcMAf7Ovbr7Vmhjkv9al2GrF4OlxBEV2eCDppGIUMw=;
-        b=fdWAbog1CYzpCypVObLp+EXYNJTWtltQQwkWnoQw6gBlNnsmuRLeL6RDqNiK6NKL8G
-         PVLj8ySQLQPfijyF49/DbPPCYg7klY8B2o3brWGxIv3wFCcEuPUzwaZEM8zMPC4luhs3
-         WS3fQPuKPBomeOoClY8fdmNEc9lcAUtIInnBIo6qyPnERP5igAJwmtCsAAK+AoP9tiBP
-         aAoOvBK+hRpdi/DhfnZj0lFWN9r2aaueZlJgz0aPZzmkY7ctSeHVeQcY1DEc2nkIjy8i
-         qxUREEFFy3bNJETssQT4xfea7++wq9SfMaN/tK6gQQqB/Rzy9YlE4X71w04vok34xKw9
-         Eq0g==
-X-Gm-Message-State: AOJu0YxLHZL0qxNuGNSsXUgZj3ebbNS2A3fy5tlqyRkROi9vySchopLQ
-	8hkrcL4qvOQr5YuL7foe7fwbhiYV/spaymCgiqsIrxzAKFJJd/WCAuT3vrMKKD568LXH1dEDQZ0
-	Ny6+/ZnfoXaxjWeAjhokWsLxJrMw=
-X-Google-Smtp-Source: AGHT+IHEy7skCBtgPdajoz9zt08QL2GTIY08k+U/TB1G5WRO8gUmPuqTc+lXn0jliCoNccW6sdsaD4y0e3hcNPKw2Go=
-X-Received: by 2002:a17:90b:3ec3:b0:28c:3042:f8cb with SMTP id
- rm3-20020a17090b3ec300b0028c3042f8cbmr1067312pjb.21.1705604434386; Thu, 18
- Jan 2024 11:00:34 -0800 (PST)
+        bh=AueCKfkK92AxG/6IJd7YrY+xmTeP8e01vZBo030LmM8=;
+        b=wXdjprGAQTNThokt5sz2FAgqb0szUqGWtjfDpde6wF/zm4TVPkXSdYjSVFzOH1qYdz
+         omO0KR+lcLEd6x/O0TGfnASWZX/T0g6QkWgPez/hCPsv6U995DKNDF3Gf+ESV7UrKSOY
+         dK+C3sTBsVqBYLFAkdO2qYjyWMwkL3rkC6wLbSu23wWSR5j1wZM6QzMNDBGAU/EbCvwo
+         icjZ7fb5fjwCvQXfYJ9lvHRdAUmjV1akxrmSeiiVvflvGZs88g/yZntXZq7SLvGF6Y9z
+         95sFfG53D1RHckOXZPs+dhWRb99gjURVqHu/21lXLFUiMIWqj1hjnTmuOYDocYCPY3xo
+         TznQ==
+X-Gm-Message-State: AOJu0YwjX6kLstNDAfEys0XKmYubhSt/i5zgOv6L1Eq/WXV2UgwtEsEz
+	G5Kq0oUvDN+L/CTVIXyNPD8UhK1b+Pe5ubR74t4L4INW1J6c3Usm6ka84Y1GsvcWB6qVM+LKKnj
+	xoT6C+zHIqRY/kQHV1rO+4jdbI9w=
+X-Google-Smtp-Source: AGHT+IG8H/gwTuHimb/wtOeta/7zcplF6H/nP9A9ZRsXDnkTs2vERVUIyr7VvrS0nX9v6FcSiEemCKNfYILJ6WWk9ts=
+X-Received: by 2002:a05:6902:1b0d:b0:dc2:1c77:436c with SMTP id
+ eh13-20020a0569021b0d00b00dc21c77436cmr1627083ybb.97.1705628802569; Thu, 18
+ Jan 2024 17:46:42 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -73,20 +73,20 @@ MIME-Version: 1.0
 References: <20240118120347.61817-1-ioworker0@gmail.com> <ZakqQyL9t2ffNUIf@tiehlicka>
  <Zakq-54DFdPu0c2U@tiehlicka> <CAAa6QmTN2B-JAO=38A09hMtUp=srLiUfs=sDbck7Chkr=W-dCw@mail.gmail.com>
 In-Reply-To: <CAAa6QmTN2B-JAO=38A09hMtUp=srLiUfs=sDbck7Chkr=W-dCw@mail.gmail.com>
-From: Yang Shi <shy828301@gmail.com>
-Date: Thu, 18 Jan 2024 11:00:21 -0800
-Message-ID: <CAHbLzkphG+kmLvYQFB6WZuuGadPsRvsH4Os9CwnxvizKAfwuvQ@mail.gmail.com>
+From: Lance Yang <ioworker0@gmail.com>
+Date: Fri, 19 Jan 2024 09:46:31 +0800
+Message-ID: <CAK1f24kUUrVBzAHjiC8-v3s_33P6dO8UFRL1FVzR_8C=NJn0aA@mail.gmail.com>
 Subject: Re: [PATCH v2 1/1] mm/madvise: add MADV_F_COLLAPSE_LIGHT to process_madvise()
 To: "Zach O'Keefe" <zokeefe@google.com>
-Cc: Michal Hocko <mhocko@suse.com>, Lance Yang <ioworker0@gmail.com>, akpm@linux-foundation.org, 
-	david@redhat.com, songmuchun@bytedance.com, peterx@redhat.com, 
+Cc: Michal Hocko <mhocko@suse.com>, akpm@linux-foundation.org, david@redhat.com, 
+	songmuchun@bytedance.com, shy828301@gmail.com, peterx@redhat.com, 
 	mknyszek@google.com, minchan@kernel.org, linux-mm@kvack.org, 
 	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 18, 2024 at 6:59=E2=80=AFAM Zach O'Keefe <zokeefe@google.com> w=
-rote:
+On Thu, Jan 18, 2024 at 10:59=E2=80=AFPM Zach O'Keefe <zokeefe@google.com> =
+wrote:
 >
 > On Thu, Jan 18, 2024 at 5:43=E2=80=AFAM Michal Hocko <mhocko@suse.com> wr=
 ote:
@@ -121,6 +121,14 @@ tly use
 >
 > Aside: The thought was a MADV_F_COLLAPSE_LIGHT _flag_; so it'd be
 > process_madvise(..., MADV_COLLAPSE, MADV_F_COLLAPSE_LIGHT)
+
+I apologize for the misunderstanding. I will provide the correct implementa=
+tion
+in version 3.
+
+BR,
+Lance
+
 >
 > > > IIUC the primary reason is the cost of the huge page allocation which
 > > > can be really high if the memory is heavily fragmented and it is call=
@@ -157,19 +165,6 @@ a
 > specific optimization (e.g. like a MADV_F_COLLAPSE_NODEFRAG). But I
 > could be alone on that front, given the design of
 > /sys/kernel/mm/transparent_hugepage.
-
-Per the description Go marks the address spaces with MADV_HUGEPAGE. It
-means the application really wants to have huge page back the address
-space so kernel will try as hard as possible to get huge page. This is
-the default behavior of MADV_HUGEPAGE. If they don't want to enter
-direct reclaim, they can configure the defrag mode to "defer", which
-means no direct reclaim and wakeup kswapd and kcompactd, and rely on
-khugepaged to install huge page later on. But this mode is not
-supported by khugepaged defrag, so MADV_COLLAPSE may not support it
-(IIRC MADV_COLLAPSE uses khugepaged defrag mode). Or they can just not
-call MADV_HUGEPAGE and leave the decision to the users, IIRC Java does
-so (specifying a flag to indicate use huge page or not by the users).
-
 >
 > But circling back, I agree w/ you that the first order of business is to
 > iron out a real usecase. As of right now, it's not clear something
