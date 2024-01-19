@@ -1,171 +1,121 @@
-Return-Path: <linux-api+bounces-543-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-544-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id D926B83298F
-	for <lists+linux-api@lfdr.de>; Fri, 19 Jan 2024 13:32:53 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E329832997
+	for <lists+linux-api@lfdr.de>; Fri, 19 Jan 2024 13:37:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 78306B23157
-	for <lists+linux-api@lfdr.de>; Fri, 19 Jan 2024 12:32:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BC48E284EAF
+	for <lists+linux-api@lfdr.de>; Fri, 19 Jan 2024 12:37:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FEEF524D4;
-	Fri, 19 Jan 2024 12:32:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00A8D4EB5B;
+	Fri, 19 Jan 2024 12:37:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="gtndS8/Y"
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="jY9Y+fhn";
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="jY9Y+fhn"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp-8fa8.mail.infomaniak.ch (smtp-8fa8.mail.infomaniak.ch [83.166.143.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E805B524BF
-	for <linux-api@vger.kernel.org>; Fri, 19 Jan 2024 12:32:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.166.143.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CA11524A7;
+	Fri, 19 Jan 2024 12:37:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705667536; cv=none; b=BoraBsK6E4u/TsRDCN1oYj7zKUHT4Iie6D5KjjAhH/yoQrM1084CtDjbSEXR5l7L1O6MHX4QRy4Bp1dwOfNyA+XmQcUwA9O7yYMGzOFmvGE0m1oHfQ51X3K14GQNjLD7tKz+32SP26G/M8sMjjUKWtWVKTlF++6iXiy38dPXD6c=
+	t=1705667850; cv=none; b=LZjdUxBo0tiy7AJjwKxLvSFwmrTL5g7/YS30PzdmXmlPejY8dStaChpRjPdgu3BHSjsDDZ3YxJfX9PFf7IxvEj3FUM0OWGLgEk19jjawEYxn0tQpJXjOVjjLuzkX1WZL/eZ0iXo0gpEPHQUdm4bGEjQLaJEoLf7hrghukZljdrc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705667536; c=relaxed/simple;
-	bh=/rHoGZTfUaI2731SCJ/Ui1obvUcWjbrYkcngo32s3NI=;
+	s=arc-20240116; t=1705667850; c=relaxed/simple;
+	bh=SjwwPYaDeTn8+WySgdVe2Jy3obiU1LoQMOO+RVjo+a4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i2yCnX0irrCVXJ8BuIElG860iA384FjUDa5DVlwoNgQWltcMrFLvACNeFbPN3qp2YerR+owlvIya+ecl3HiPQEKFyoNfxXgOyq8U9e5Udc93aadND2OtadEnoyfdR77W4oM51uZy04KB5TeyqjWeA/niDUPGL3uGc9JkxIb6Z9E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=gtndS8/Y; arc=none smtp.client-ip=83.166.143.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
-Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
-	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4TGfBW0CY9zMqsrp;
-	Fri, 19 Jan 2024 13:32:03 +0100 (CET)
-Received: from unknown by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4TGfBT3VQ1z3Y;
-	Fri, 19 Jan 2024 13:32:01 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
-	s=20191114; t=1705667522;
-	bh=/rHoGZTfUaI2731SCJ/Ui1obvUcWjbrYkcngo32s3NI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gtndS8/YTII1IUBg6cxIKRVTqllpPrXuv0rGGy+ahVXJ838yhn0MQoFWwMWAOp352
-	 jEpY9qgt/HNKEga06/it/vVXGcuGVm3dtgRLYXAqRXKDuh/4uXdRZdHnagnHv2r/sH
-	 82UnU9NsMyFZT3lQQByOlyR2onA46Nqw3JDEd0rw=
-Date: Fri, 19 Jan 2024 13:31:58 +0100
-From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
-To: Hu Yadi <hu.yadi@h3c.com>
-Cc: jmorris@namei.org, serge@hallyn.com, shuah@kernel.org, 
-	mathieu.desnoyers@efficios.com, amir73il@gmail.com, brauner@kernel.org, avagin@google.com, 
-	linux-api@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, linux-kselftest@vger.kernel.org, 514118380@qq.com, 
-	konstantin.meskhidze@huawei.com
-Subject: Re: [PATCH v4] selftests/landlock:Fix two build issues
-Message-ID: <20240119.Ugaehae2ze5b@digikod.net>
-References: <20240115102409.19799-1-hu.yadi@h3c.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=GhP0uak7lJqCdK00GGjRrCqicYvA2qBP2z+l3wnmvA98DCzevTCsW5Laj8SksLkbNbtmLPKpyUO6ZGzykcpwhBvDoxoRlqS+8amclxFeYbXjDGOb303eoBTinJ5L+OEuciLqxuHivd3kDDTPGeA0YTR6ZjuwAtInjreyaWNW+nc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=jY9Y+fhn; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=jY9Y+fhn; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A5A4A21E4F;
+	Fri, 19 Jan 2024 12:37:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1705667840; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UEfBPVEz5WOmoy4eOtA/Y+8nJMYZBVOx5DSCH//+zbI=;
+	b=jY9Y+fhnvNswaq/yxDtvbCiumzDhzm5ENMrwoS4y0n0NiyJXo343INe4d6CoNFycCOmqKV
+	pecs+YiDIxcH4jbh0nSqghSw3JggeLzAM9TdqE+Fv9L692QQIk6dXIRuNpvmidh21+MvKF
+	3qQyKNDdxIBMfsko7doteRIcOkZnCKo=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1705667840; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UEfBPVEz5WOmoy4eOtA/Y+8nJMYZBVOx5DSCH//+zbI=;
+	b=jY9Y+fhnvNswaq/yxDtvbCiumzDhzm5ENMrwoS4y0n0NiyJXo343INe4d6CoNFycCOmqKV
+	pecs+YiDIxcH4jbh0nSqghSw3JggeLzAM9TdqE+Fv9L692QQIk6dXIRuNpvmidh21+MvKF
+	3qQyKNDdxIBMfsko7doteRIcOkZnCKo=
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7D201136F5;
+	Fri, 19 Jan 2024 12:37:20 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id MA54GwBtqmXLDQAAD6G6ig
+	(envelope-from <mhocko@suse.com>); Fri, 19 Jan 2024 12:37:20 +0000
+Date: Fri, 19 Jan 2024 13:37:19 +0100
+From: Michal Hocko <mhocko@suse.com>
+To: Lance Yang <ioworker0@gmail.com>
+Cc: akpm@linux-foundation.org, zokeefe@google.com, david@redhat.com,
+	songmuchun@bytedance.com, shy828301@gmail.com, peterx@redhat.com,
+	mknyszek@google.com, minchan@kernel.org, linux-mm@kvack.org,
+	linux-api@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/1] mm/madvise: add MADV_F_COLLAPSE_LIGHT flag to
+ process_madvise()
+Message-ID: <Zaps_0jnspsheP92@tiehlicka>
+References: <20240119115104.75456-1-ioworker0@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240115102409.19799-1-hu.yadi@h3c.com>
-X-Infomaniak-Routing: alpha
+In-Reply-To: <20240119115104.75456-1-ioworker0@gmail.com>
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: -1.45
+X-Spamd-Result: default: False [-1.45 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 RCPT_COUNT_TWELVE(0.00)[12];
+	 FREEMAIL_TO(0.00)[gmail.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 MID_RHS_NOT_FQDN(0.50)[];
+	 FREEMAIL_CC(0.00)[linux-foundation.org,google.com,redhat.com,bytedance.com,gmail.com,kernel.org,kvack.org,vger.kernel.org];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-0.65)[82.59%]
+X-Spam-Flag: NO
 
-On Mon, Jan 15, 2024 at 06:24:09PM +0800, Hu Yadi wrote:
-> From: "Hu.Yadi" <hu.yadi@h3c.com>
-> 
-> Two issues comes up while building selftest/landlock on my side
-> (gcc 7.3/glibc-2.28/kernel-4.19)
-> 
-> the first one is as to gettid
-> 
-> net_test.c: In function ‘set_service’:
-> net_test.c:91:45: warning: implicit declaration of function ‘gettid’; [-Wimplicit-function-declaration]
->     "_selftests-landlock-net-tid%d-index%d", gettid(),
->                                              ^~~~~~
->                                              getgid
-> net_test.c:(.text+0x4e0): undefined reference to `gettid'
-> 
-> the second is compiler error
-> gcc -Wall -O2 -isystem   fs_test.c -lcap -o selftests/landlock/fs_test
-> fs_test.c:4575:9: error: initializer element is not constant
->   .mnt = mnt_tmp,
->          ^~~~~~~
-> 
-> Fixes: 04f9070e99a4 ("selftests/landlock: Add tests for pseudo filesystems")
-> Fixes: a549d055a22e ("selftests/landlock: Add network tests")
+Please do not start a new version until all the outstanding points are
+settled. This just fragments the discussion and makes it hard to follow
+it.
 
-Could you please create two patches as requested for v3, one per fix?
-This is useful because it enables to backport these fixes when
-appropriate.
-
-> 
-> this patch is to fix them
-> 
-> Signed-off-by: Hu.Yadi <hu.yadi@h3c.com>
-> Suggested-by: Jiao <jiaoxupo@h3c.com>
-> Reviewed-by: Berlin <berlin@h3c.com>
-> ---
-> Changes v4 -> v3:
->   fix gettid error from kernel test robot
->   https://lore.kernel.org/oe-kbuild-all/202401151147.T1s11iHJ-lkp@intel.com/
-> Changes v3 -> v2:
->  - add helper of gettid instead of __NR_gettid
->  - add gcc/glibc version info in comments
-> Changes v1 -> v2:
->  - fix whitespace error
->  - replace SYS_gettid with _NR_gettid
-> 
->  tools/testing/selftests/landlock/fs_test.c  | 5 ++++-
->  tools/testing/selftests/landlock/net_test.c | 7 ++++++-
->  2 files changed, 10 insertions(+), 2 deletions(-)
-> 
-> diff --git a/tools/testing/selftests/landlock/fs_test.c b/tools/testing/selftests/landlock/fs_test.c
-> index 18e1f86a6234..a992cf7c0ad1 100644
-> --- a/tools/testing/selftests/landlock/fs_test.c
-> +++ b/tools/testing/selftests/landlock/fs_test.c
-> @@ -4572,7 +4572,10 @@ FIXTURE_VARIANT(layout3_fs)
->  /* clang-format off */
->  FIXTURE_VARIANT_ADD(layout3_fs, tmpfs) {
->  	/* clang-format on */
-> -	.mnt = mnt_tmp,
-> +	.mnt = {
-> +		.type = "tmpfs",
-> +		.data = "size=4m,mode=700",
-> +	},
-
-I requested some changes here.
-
->  	.file_path = file1_s1d1,
->  };
-> 
-> diff --git a/tools/testing/selftests/landlock/net_test.c b/tools/testing/selftests/landlock/net_test.c
-> index 929e21c4db05..d50f2920ed82 100644
-> --- a/tools/testing/selftests/landlock/net_test.c
-> +++ b/tools/testing/selftests/landlock/net_test.c
-> @@ -21,6 +21,11 @@
-
-We should include sys/syscall.h
-
-> 
->  #include "common.h"
-> 
-> +static pid_t landlock_gettid(void)
-
-Please rename to sys_gettid().
-
-> +{
-> +        return syscall(__NR_gettid);
-> +}
-> +
->  const short sock_port_start = (1 << 10);
-> 
->  static const char loopback_ipv4[] = "127.0.0.1";
-> @@ -88,7 +93,7 @@ static int set_service(struct service_fixture *const srv,
->  	case AF_UNIX:
->  		srv->unix_addr.sun_family = prot.domain;
->  		sprintf(srv->unix_addr.sun_path,
-> -			"_selftests-landlock-net-tid%d-index%d", gettid(),
-> +			"_selftests-landlock-net-tid%d-index%d", landlock_gettid(),
->  			index);
->  		srv->unix_addr_len = SUN_LEN(&srv->unix_addr);
->  		srv->unix_addr.sun_path[0] = '\0';
-> --
-> 2.23.0
-> 
+Thanks!
+-- 
+Michal Hocko
+SUSE Labs
 
