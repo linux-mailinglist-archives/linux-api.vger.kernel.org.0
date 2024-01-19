@@ -1,121 +1,73 @@
-Return-Path: <linux-api+bounces-544-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-545-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E329832997
-	for <lists+linux-api@lfdr.de>; Fri, 19 Jan 2024 13:37:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFAEA832AA0
+	for <lists+linux-api@lfdr.de>; Fri, 19 Jan 2024 14:39:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BC48E284EAF
-	for <lists+linux-api@lfdr.de>; Fri, 19 Jan 2024 12:37:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 76A63286ECE
+	for <lists+linux-api@lfdr.de>; Fri, 19 Jan 2024 13:39:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00A8D4EB5B;
-	Fri, 19 Jan 2024 12:37:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C95952F70;
+	Fri, 19 Jan 2024 13:39:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="jY9Y+fhn";
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="jY9Y+fhn"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VC6t6GIz"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CA11524A7;
-	Fri, 19 Jan 2024 12:37:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1BE14EB27;
+	Fri, 19 Jan 2024 13:39:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705667850; cv=none; b=LZjdUxBo0tiy7AJjwKxLvSFwmrTL5g7/YS30PzdmXmlPejY8dStaChpRjPdgu3BHSjsDDZ3YxJfX9PFf7IxvEj3FUM0OWGLgEk19jjawEYxn0tQpJXjOVjjLuzkX1WZL/eZ0iXo0gpEPHQUdm4bGEjQLaJEoLf7hrghukZljdrc=
+	t=1705671588; cv=none; b=ctJzBBQia16LwRLJ52fK4SizZzvMyPN5epwJFtJ38NEKXIR+KDgIQq6TWhhACPjKMl05aBqXEqMCiIhUlAnXBVVnmsoV2jgRpazWDBO5aWhoEGXMT4stjXxBb86BGPwX0F6MHCh1FvSNxeFM9QbDL56DQ+BxRsCSRP2DSjZIw58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705667850; c=relaxed/simple;
-	bh=SjwwPYaDeTn8+WySgdVe2Jy3obiU1LoQMOO+RVjo+a4=;
+	s=arc-20240116; t=1705671588; c=relaxed/simple;
+	bh=0e3299HIfeGN0FOc/l05T16XyLWG8o2Q+NeqnbVKOEo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GhP0uak7lJqCdK00GGjRrCqicYvA2qBP2z+l3wnmvA98DCzevTCsW5Laj8SksLkbNbtmLPKpyUO6ZGzykcpwhBvDoxoRlqS+8amclxFeYbXjDGOb303eoBTinJ5L+OEuciLqxuHivd3kDDTPGeA0YTR6ZjuwAtInjreyaWNW+nc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=jY9Y+fhn; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=jY9Y+fhn; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A5A4A21E4F;
-	Fri, 19 Jan 2024 12:37:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1705667840; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UEfBPVEz5WOmoy4eOtA/Y+8nJMYZBVOx5DSCH//+zbI=;
-	b=jY9Y+fhnvNswaq/yxDtvbCiumzDhzm5ENMrwoS4y0n0NiyJXo343INe4d6CoNFycCOmqKV
-	pecs+YiDIxcH4jbh0nSqghSw3JggeLzAM9TdqE+Fv9L692QQIk6dXIRuNpvmidh21+MvKF
-	3qQyKNDdxIBMfsko7doteRIcOkZnCKo=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1705667840; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UEfBPVEz5WOmoy4eOtA/Y+8nJMYZBVOx5DSCH//+zbI=;
-	b=jY9Y+fhnvNswaq/yxDtvbCiumzDhzm5ENMrwoS4y0n0NiyJXo343INe4d6CoNFycCOmqKV
-	pecs+YiDIxcH4jbh0nSqghSw3JggeLzAM9TdqE+Fv9L692QQIk6dXIRuNpvmidh21+MvKF
-	3qQyKNDdxIBMfsko7doteRIcOkZnCKo=
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7D201136F5;
-	Fri, 19 Jan 2024 12:37:20 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id MA54GwBtqmXLDQAAD6G6ig
-	(envelope-from <mhocko@suse.com>); Fri, 19 Jan 2024 12:37:20 +0000
-Date: Fri, 19 Jan 2024 13:37:19 +0100
-From: Michal Hocko <mhocko@suse.com>
-To: Lance Yang <ioworker0@gmail.com>
-Cc: akpm@linux-foundation.org, zokeefe@google.com, david@redhat.com,
-	songmuchun@bytedance.com, shy828301@gmail.com, peterx@redhat.com,
-	mknyszek@google.com, minchan@kernel.org, linux-mm@kvack.org,
-	linux-api@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/1] mm/madvise: add MADV_F_COLLAPSE_LIGHT flag to
- process_madvise()
-Message-ID: <Zaps_0jnspsheP92@tiehlicka>
-References: <20240119115104.75456-1-ioworker0@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=CJ4Xm2BD49X2Dx0TDW8HDTg0oGyDb10aqxGiQ9anhucZPtgEbWCp12TWirS/8EqGsPVWMMdc3toPq1Mf9ttUg3N5Mz2SDEOtNrkNiqf2hdJedQGLh6REGaUfbEt3aSmCwwDWAVN1/2Miq3kTY6I+Q0EaP2ss+I1bLbZchPngWPE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VC6t6GIz; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99AB1C433C7;
+	Fri, 19 Jan 2024 13:39:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705671587;
+	bh=0e3299HIfeGN0FOc/l05T16XyLWG8o2Q+NeqnbVKOEo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VC6t6GIzV1VygwqCER/Nr6tzYJGTv7V6ntBXydwwK/WpZjt3olAeW/3mCNmBvl/p4
+	 CNdib6G77tuULPM3HCbtFCdLclLmdoBc/UU63e5luRVfBxQ8PZnR7jvAf39HaFNODT
+	 Dz4t/6t6RCWx1IsqBEpFaf32anCTN6eU36cOjNhqxa7xsqb8gT9Y1hKK0j1Czy5adA
+	 KsO3nT2fqHjBqIHDX5Zu83zSH+mFlyxY/9d66dcLA0RK00hVYTI/emm/b9lWu6xR1/
+	 4lgFjlif8m4k+jwMW2bWTIDd+1a+OmoSakzmri/CjSmjj6+0aG8kWt1d6aUSMLe8iX
+	 yGYCrNqiGQLKQ==
+Date: Fri, 19 Jan 2024 14:39:41 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Huyadi <hu.yadi@h3c.com>
+Cc: "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-security-module@vger.kernel.org" <linux-security-module@vger.kernel.org>, 
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>, "514118380@qq.com" <514118380@qq.com>, 
+	"jmorris@namei.org" <jmorris@namei.org>, "serge@hallyn.com" <serge@hallyn.com>, 
+	"shuah@kernel.org" <shuah@kernel.org>, 
+	"mathieu.desnoyers@efficios.com" <mathieu.desnoyers@efficios.com>, "mic@digikod.net" <mic@digikod.net>
+Subject: Re: =?utf-8?B?5Zue5aSNOiBbUEFUQ0ggdjRdIHNlbGZ0ZXN0cy9tb3ZlX21v?=
+ =?utf-8?Q?unt=5Fset=5Fgroup=3AMake?= tests build with old libc
+Message-ID: <20240119-zuletzt-unausstehlich-5a254df4450d@brauner>
+References: <20240111113229.10820-1-hu.yadi@h3c.com>
+ <20240118-sezieren-neurologie-6690110057ca@brauner>
+ <8918d5e83d54418b9db3ee9c055d675d@h3c.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240119115104.75456-1-ioworker0@gmail.com>
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -1.45
-X-Spamd-Result: default: False [-1.45 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.com:s=susede1];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 RCPT_COUNT_TWELVE(0.00)[12];
-	 FREEMAIL_TO(0.00)[gmail.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 MID_RHS_NOT_FQDN(0.50)[];
-	 FREEMAIL_CC(0.00)[linux-foundation.org,google.com,redhat.com,bytedance.com,gmail.com,kernel.org,kvack.org,vger.kernel.org];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-0.65)[82.59%]
-X-Spam-Flag: NO
+In-Reply-To: <8918d5e83d54418b9db3ee9c055d675d@h3c.com>
 
-Please do not start a new version until all the outstanding points are
-settled. This just fragments the discussion and makes it hard to follow
-it.
+> May I take the liberty to ask why I don't see patch applied to above branch?
 
-Thanks!
--- 
-Michal Hocko
-SUSE Labs
+Just wasn't pushed yet. It is now.
 
