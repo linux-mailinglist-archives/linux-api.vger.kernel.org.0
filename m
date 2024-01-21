@@ -1,333 +1,545 @@
-Return-Path: <linux-api+bounces-555-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-556-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA3148331E8
-	for <lists+linux-api@lfdr.de>; Sat, 20 Jan 2024 01:44:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B839F83544B
+	for <lists+linux-api@lfdr.de>; Sun, 21 Jan 2024 04:12:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 254A61F22F0A
-	for <lists+linux-api@lfdr.de>; Sat, 20 Jan 2024 00:44:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 334231F21F44
+	for <lists+linux-api@lfdr.de>; Sun, 21 Jan 2024 03:12:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF658A5A;
-	Sat, 20 Jan 2024 00:43:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 359CF2EB0C;
+	Sun, 21 Jan 2024 03:12:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b="vvkQbQLb"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HnN4NmK6"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-il1-f178.google.com (mail-il1-f178.google.com [209.85.166.178])
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 393D1642
-	for <linux-api@vger.kernel.org>; Sat, 20 Jan 2024 00:43:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A0A436114;
+	Sun, 21 Jan 2024 03:12:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705711431; cv=none; b=AT70DLFo+ZLXDVCh0I0U/+EufwKwt8IuIpbAfyCzaunjVUsiVXZvcHrWKlnbomEnlV9s/essNwh5Jgiyfnv9vVQ/gFIbVvy1w9n7JCk/SLuPnSWI9eQ7tl3LVEi+Jxp3Md9yt6/NhPFjXlzSK4PRYHAqDRsoJAH9ODJQBj7vE44=
+	t=1705806736; cv=none; b=LzFcHac1QUQXixcFN/kTqBpKasVZYXNnP9f6iCvND5nySC7cxipfID0IWahlcpw4mP5qp2CBK7XdOXYbBn385lCrfwzhao4Otk1+RygPP7EMBxFIG1hyw4uGyZ1fCfIWZBxWxN3gFbKMAq2MBhbnQW3BfaNl4zw1g767vH62/K8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705711431; c=relaxed/simple;
-	bh=leyeBcFJkOelhkt5ST2SMMVIL20doBYceJpBDtuL/v4=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Je9q+D+AvvsSQt3GkLpPK16Cfim8TbAMkoKx/9UvTz2cKyT0X4urXceCuZj9zRchoEbYTprTL3MtsaPLhD14q13hkuNDZmUmEww4UXE1A4RKulywhg1Mi5Dp99YcOx21Zf/ts1s0PTGBLvH3Zq2BH8BI0hp694yHnddp0ie4xvs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com; spf=pass smtp.mailfrom=fastly.com; dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b=vvkQbQLb; arc=none smtp.client-ip=209.85.166.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastly.com
-Received: by mail-il1-f178.google.com with SMTP id e9e14a558f8ab-361ae51a4d9so2606045ab.1
-        for <linux-api@vger.kernel.org>; Fri, 19 Jan 2024 16:43:50 -0800 (PST)
+	s=arc-20240116; t=1705806736; c=relaxed/simple;
+	bh=GlWq5YzAvZikC6Mv5PQXdsGxLulWZUj/h1yfuwvRCWM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jT9ehGhvuvg19Ezx0pDqb/b5Nr71txMmFS4wy3wHT2ODS9R7z01LRFCXqBK76QwgO29ygFMwgH5ZqO5ESk8FM/h9Z9xcrm+EnSgLEhEUbzmVUc82ttv4q8GE2ph1NQ+OgAkImV2FywbMPBLrUCswIx5tniojba47VChUUwaJdww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HnN4NmK6; arc=none smtp.client-ip=209.85.222.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-7838af983c1so163659885a.3;
+        Sat, 20 Jan 2024 19:12:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fastly.com; s=google; t=1705711429; x=1706316229; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1705806733; x=1706411533; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=46obnkf6HiNspFca0IexytJkMImH/ly796+NnSx1ch0=;
-        b=vvkQbQLblhuJ7aeH9EqTZIwRdx/VIjTWUHgEcxNAOzfzeiJxm9zvXv7dWWk3C5Nl//
-         bNO06zAlN2MP0k96uPqcO8Dvkfjw3ppZpGqiqHcm5FCkZs6WArkq9bgX8j9rYZXcEaJC
-         isgcyzCXRKDBiROTCTSsjWGcSomsOkAaeuv6U=
+        bh=Z6gPUh4N2LTgxhCi9niOzUXp+BMTDaWgskKb2u+4b3k=;
+        b=HnN4NmK6Nvf0mfWobl+THmsTiEfNbLlNmr8Gi+HkL+laARk/oCMwq0v13XnVuYTg2j
+         g1tA3QBi2LeB8zcXZEOBqzS31dpYBqxq+K4j8pnBOEyKmlCXHf1lBS8QcmJAgpXttLLN
+         K8Gow0t2lm7ub/Wx0oB6xAA51iWxpy9zk1ENKkAVsM+xW/31qCiLBYjI53ut0MKZFFbh
+         s6E3R2KcyuNz2jOVNQwDhKJDr7FHWxiaFTt/KPgdp9rUFC5JeBFKdjZZasafagNsuHox
+         n3jxT6dHZKlgi+px4XzjICYp71XbyWX3zXvmcY3Rb5HHlAclYGDRbAOh8E2xDYjQX4NG
+         IqKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705711429; x=1706316229;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1705806733; x=1706411533;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=46obnkf6HiNspFca0IexytJkMImH/ly796+NnSx1ch0=;
-        b=v7TQQg8UkWleyOUU17hmitQrUvxPg9SHMSwrKWy/xDxl+jM8K4jJwmqV34SLCONEaA
-         tKguQkuM/vdfJofBGTyphDbWmm++vyuIp06KNw3sALWeKAK9rUNKy+Yf/keuHc+AK2Cg
-         RAdRz7UUuFlG9yZUHn7Foe7JDvNbGX+NfmIagm0xiSyqIBUD++B+soBo4qtOCmw2b2Sv
-         JDzFtRfDayxxm2R5mraCeebwo0yudGuiXl9/jdp+tXWu5UmTP5m3VZJ0NSuG3NGr5nyS
-         eS71n9anNr3+qGCR/F257yf7JUkQYuI5ob+VUsWqEUrFPsmxkSZO8vp3x8RDkk5JvxdO
-         2/GQ==
-X-Gm-Message-State: AOJu0YxWtzT0Fle+AGjP18d3YdEhJtNEVJLHeMWMcozExcyE6g8kb3eo
-	3OlK1deccG9DjDLZtKC780l6b0MXTGDx5fnBJ5mVl9SjeOLjO8oVpqpKPvIHaI9saH4r0Q/li5e
-	LF7M=
-X-Google-Smtp-Source: AGHT+IEiLauMOX12GtSj1Q05/y33vn5vvIkQZdiE2JeowwT1m/qjSZxd/D3a+Q2jcRdJVaLHE4vNdg==
-X-Received: by 2002:a05:6e02:1b0e:b0:35f:b29c:d2ab with SMTP id i14-20020a056e021b0e00b0035fb29cd2abmr919408ilv.34.1705711429426;
-        Fri, 19 Jan 2024 16:43:49 -0800 (PST)
-Received: from localhost.localdomain ([2620:11a:c018:0:ea8:be91:8d1:f59b])
-        by smtp.gmail.com with ESMTPSA id p7-20020a170903248700b001cf6783fd41sm3563800plw.17.2024.01.19.16.43.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Jan 2024 16:43:48 -0800 (PST)
-From: Joe Damato <jdamato@fastly.com>
-To: netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: chuck.lever@oracle.com,
-	jlayton@kernel.org,
-	linux-api@vger.kernel.org,
-	edumazet@google.com,
-	davem@davemloft.net,
-	alexander.duyck@gmail.com,
-	sridhar.samudrala@intel.com,
-	kuba@kernel.org,
-	Joe Damato <jdamato@fastly.com>
-Subject: [RFC 1/1] eventpoll: support busy poll per epoll instance
-Date: Sat, 20 Jan 2024 00:42:47 +0000
-Message-Id: <20240120004247.42036-2-jdamato@fastly.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240120004247.42036-1-jdamato@fastly.com>
-References: <20240120004247.42036-1-jdamato@fastly.com>
+        bh=Z6gPUh4N2LTgxhCi9niOzUXp+BMTDaWgskKb2u+4b3k=;
+        b=KfcdCwWj5q43XNiv/ChBxJBB6l6r907Wup2kIotKu8XGv9RYgvtcKLkem4zGxLYO7x
+         LglO/z7YeU9hcEXK3Hx2BPR04w2luHcPFO548oAVnwrgBnXXo9ijftmVryX16Dfz6pAV
+         frVy93voM6gtt1Z6sI+xtEKjvCUGy/AT2qkj7M13S/kKTR1PB7xWQRy42KwUBiHv4WKv
+         CC/+QGIj+IF1A5QjZ6FAY1Y5cVEr2wLvsc7e9y+/9pyiJhJFk/hWOJKfoBAm/vlyLG+m
+         swYoGrhlthN3urQ84Afy6ztQZqEDtcDANBpRaSrRZFjhzSzlQ4rcyGic6ke3iNcEusY/
+         pntg==
+X-Gm-Message-State: AOJu0YyunXlsvhS18ov00o+D5xDUV6jC9Mp08WtLVh0QhgssL+U5+ILS
+	3nkIdC0RTh3l11q04KrSnulcekDCcxUDEg6Tpf6uiEIfBjTAchcvQ9zYvD3injmVwyHBOrkUSe5
+	/KV2LyfAxvLYhb8R0NvcPP3X8law=
+X-Google-Smtp-Source: AGHT+IGzafBFye2vRrqSSVKyNAjIMueIUF73ZPHJZdbsCmZjylhu1mYb99ImFJp5Y3+8ybHG56NBq7i0QuUsMAzr+EQ=
+X-Received: by 2002:a05:620a:6089:b0:783:8e00:5e38 with SMTP id
+ dx9-20020a05620a608900b007838e005e38mr3210431qkb.121.1705806732955; Sat, 20
+ Jan 2024 19:12:12 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240118120347.61817-1-ioworker0@gmail.com>
+In-Reply-To: <20240118120347.61817-1-ioworker0@gmail.com>
+From: Lance Yang <ioworker0@gmail.com>
+Date: Sun, 21 Jan 2024 11:12:01 +0800
+Message-ID: <CAK1f24=TfJvsDCEesaTa8rGP7ay62p6UiJem=XWnpFa9yfSA3A@mail.gmail.com>
+Subject: Re: [PATCH v2 1/1] mm/madvise: add MADV_F_COLLAPSE_LIGHT to process_madvise()
+To: akpm@linux-foundation.org
+Cc: zokeefe@google.com, david@redhat.com, songmuchun@bytedance.com, 
+	shy828301@gmail.com, peterx@redhat.com, mknyszek@google.com, 
+	minchan@kernel.org, mhocko@suse.com, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add F_EPOLL_{S,G}ET_BUSY_POLL_USECS to allow setting a busy poll timeout
-per epoll instance so that individual applications can enable (or
-disable) epoll based busy poll as needed.
+Hello Everyone,
 
-Prior to this change, epoll-based busy poll could only be enabled
-system-wide, which limits the usefulness of busy poll.
+For applications actively utilizing THP, the defrag mode may
+not be a very user-friendly design. Here are the reasons:
+1. Before marking the address space with
+    MADV_HUGEPAGE,it is necessary to check if
+    the current configuration of the defrag mode aligns with
+    their preferences.
+2. Once the defrag mode configuration changes, these
+    applications may face the risk of unpredictable stalls.
 
-Signed-off-by: Joe Damato <jdamato@fastly.com>
----
- fs/eventpoll.c                   | 71 ++++++++++++++++++++++++++++++--
- fs/fcntl.c                       |  5 +++
- include/linux/eventpoll.h        |  2 +
- include/uapi/linux/fcntl.h       |  6 +++
- tools/include/uapi/linux/fcntl.h |  6 +++
- tools/perf/trace/beauty/fcntl.c  |  3 +-
- 6 files changed, 88 insertions(+), 5 deletions(-)
+THP is an important feature of the Linux kernel that can
+significantly enhance memory access performance.
+However, due to the lack of fine-grained control over
+the huge page allocation strategy, many applications
+default to not using huge pages and even recommend
+users to disable THP. This situation is regrettable.
 
-diff --git a/fs/eventpoll.c b/fs/eventpoll.c
-index 3534d36a1474..a8087c2b47ef 100644
---- a/fs/eventpoll.c
-+++ b/fs/eventpoll.c
-@@ -227,6 +227,8 @@ struct eventpoll {
- #ifdef CONFIG_NET_RX_BUSY_POLL
- 	/* used to track busy poll napi_id */
- 	unsigned int napi_id;
-+	/* busy poll timeout */
-+	u64 busy_poll_usecs;
- #endif
- 
- #ifdef CONFIG_DEBUG_LOCK_ALLOC
-@@ -386,12 +388,39 @@ static inline int ep_events_available(struct eventpoll *ep)
- 		READ_ONCE(ep->ovflist) != EP_UNACTIVE_PTR;
- }
- 
-+/**
-+ * busy_loop_ep_timeout - check if busy poll has timed out. The timeout value
-+ * from the epoll instance ep is preferred, but if it is not set fallback to
-+ * the system-wide global via busy_loop_timeout.
-+ */
-+static inline bool busy_loop_ep_timeout(unsigned long start_time, struct eventpoll *ep)
-+{
- #ifdef CONFIG_NET_RX_BUSY_POLL
-+	unsigned long bp_usec = READ_ONCE(ep->busy_poll_usecs);
-+
-+	if (bp_usec) {
-+		unsigned long end_time = start_time + bp_usec;
-+		unsigned long now = busy_loop_current_time();
-+
-+		return time_after(now, end_time);
-+	} else {
-+		return busy_loop_timeout(start_time);
-+	}
-+#endif
-+	return true;
-+}
-+
-+#ifdef CONFIG_NET_RX_BUSY_POLL
-+static bool ep_busy_loop_on(struct eventpoll *ep)
-+{
-+	return !!ep->busy_poll_usecs ^ net_busy_loop_on();
-+}
-+
- static bool ep_busy_loop_end(void *p, unsigned long start_time)
- {
- 	struct eventpoll *ep = p;
- 
--	return ep_events_available(ep) || busy_loop_timeout(start_time);
-+	return ep_events_available(ep) || busy_loop_ep_timeout(start_time, ep);
- }
- 
- /*
-@@ -404,7 +433,7 @@ static bool ep_busy_loop(struct eventpoll *ep, int nonblock)
- {
- 	unsigned int napi_id = READ_ONCE(ep->napi_id);
- 
--	if ((napi_id >= MIN_NAPI_ID) && net_busy_loop_on()) {
-+	if ((napi_id >= MIN_NAPI_ID) && ep_busy_loop_on(ep)) {
- 		napi_busy_loop(napi_id, nonblock ? NULL : ep_busy_loop_end, ep, false,
- 			       BUSY_POLL_BUDGET);
- 		if (ep_events_available(ep))
-@@ -430,7 +459,8 @@ static inline void ep_set_busy_poll_napi_id(struct epitem *epi)
- 	struct socket *sock;
- 	struct sock *sk;
- 
--	if (!net_busy_loop_on())
-+	ep = epi->ep;
-+	if (!ep_busy_loop_on(ep))
- 		return;
- 
- 	sock = sock_from_file(epi->ffd.file);
-@@ -442,7 +472,6 @@ static inline void ep_set_busy_poll_napi_id(struct epitem *epi)
- 		return;
- 
- 	napi_id = READ_ONCE(sk->sk_napi_id);
--	ep = epi->ep;
- 
- 	/* Non-NAPI IDs can be rejected
- 	 *	or
-@@ -466,6 +495,10 @@ static inline void ep_set_busy_poll_napi_id(struct epitem *epi)
- {
- }
- 
-+static inline bool ep_busy_loop_on(struct eventpoll *ep)
-+{
-+	return false;
-+}
- #endif /* CONFIG_NET_RX_BUSY_POLL */
- 
- /*
-@@ -933,6 +966,33 @@ static const struct file_operations eventpoll_fops = {
- 	.llseek		= noop_llseek,
- };
- 
-+unsigned long eventpoll_fcntl(struct file *file, unsigned int cmd, unsigned long arg)
-+{
-+	int ret;
-+	struct eventpoll *ep;
-+
-+	if (!is_file_epoll(file))
-+		return -EINVAL;
-+
-+	ep = file->private_data;
-+
-+	switch (cmd) {
-+#ifdef CONFIG_NET_RX_BUSY_POLL
-+	case F_EPOLL_SET_BUSY_POLL_USECS:
-+		ret = ep->busy_poll_usecs = arg;
-+		break;
-+	case F_EPOLL_GET_BUSY_POLL_USECS:
-+		ret = ep->busy_poll_usecs;
-+		break;
-+#endif
-+	default:
-+		ret = -EINVAL;
-+		break;
-+	}
-+
-+	return ret;
-+}
-+
- /*
-  * This is called from eventpoll_release() to unlink files from the eventpoll
-  * interface. We need to have this facility to cleanup correctly files that are
-@@ -2058,6 +2118,9 @@ static int do_epoll_create(int flags)
- 		error = PTR_ERR(file);
- 		goto out_free_fd;
- 	}
-+#ifndef CONFIG_NET_RX_BUSY_POLL
-+	ep->busy_poll_usecs = 0;
-+#endif
- 	ep->file = file;
- 	fd_install(fd, file);
- 	return fd;
-diff --git a/fs/fcntl.c b/fs/fcntl.c
-index c80a6acad742..f232e7c2eb9d 100644
---- a/fs/fcntl.c
-+++ b/fs/fcntl.c
-@@ -9,6 +9,7 @@
- #include <linux/init.h>
- #include <linux/mm.h>
- #include <linux/sched/task.h>
-+#include <linux/eventpoll.h>
- #include <linux/fs.h>
- #include <linux/filelock.h>
- #include <linux/file.h>
-@@ -419,6 +420,10 @@ static long do_fcntl(int fd, unsigned int cmd, unsigned long arg,
- 	case F_SET_RW_HINT:
- 		err = fcntl_rw_hint(filp, cmd, arg);
- 		break;
-+	case F_EPOLL_GET_BUSY_POLL_USECS:
-+	case F_EPOLL_SET_BUSY_POLL_USECS:
-+		err = eventpoll_fcntl(filp, cmd, arg);
-+		break;
- 	default:
- 		break;
- 	}
-diff --git a/include/linux/eventpoll.h b/include/linux/eventpoll.h
-index 3337745d81bd..3e6a49d14f52 100644
---- a/include/linux/eventpoll.h
-+++ b/include/linux/eventpoll.h
-@@ -22,6 +22,8 @@ struct file;
- struct file *get_epoll_tfile_raw_ptr(struct file *file, int tfd, unsigned long toff);
- #endif
- 
-+unsigned long eventpoll_fcntl(struct file *file, unsigned int cmd, unsigned long arg);
-+
- /* Used to release the epoll bits inside the "struct file" */
- void eventpoll_release_file(struct file *file);
- 
-diff --git a/include/uapi/linux/fcntl.h b/include/uapi/linux/fcntl.h
-index 282e90aeb163..522134ab9580 100644
---- a/include/uapi/linux/fcntl.h
-+++ b/include/uapi/linux/fcntl.h
-@@ -56,6 +56,12 @@
- #define F_GET_FILE_RW_HINT	(F_LINUX_SPECIFIC_BASE + 13)
- #define F_SET_FILE_RW_HINT	(F_LINUX_SPECIFIC_BASE + 14)
- 
-+/*
-+ * Set/Get busy poll usecs for an epoll instance.
-+ */
-+#define F_EPOLL_GET_BUSY_POLL_USECS (F_LINUX_SPECIFIC_BASE + 15)
-+#define F_EPOLL_SET_BUSY_POLL_USECS (F_LINUX_SPECIFIC_BASE + 16)
-+
- /*
-  * Valid hint values for F_{GET,SET}_RW_HINT. 0 is "not set", or can be
-  * used to clear any hints previously set.
-diff --git a/tools/include/uapi/linux/fcntl.h b/tools/include/uapi/linux/fcntl.h
-index 6c80f96049bd..1937f8b74783 100644
---- a/tools/include/uapi/linux/fcntl.h
-+++ b/tools/include/uapi/linux/fcntl.h
-@@ -56,6 +56,12 @@
- #define F_GET_FILE_RW_HINT	(F_LINUX_SPECIFIC_BASE + 13)
- #define F_SET_FILE_RW_HINT	(F_LINUX_SPECIFIC_BASE + 14)
- 
-+/*
-+ * Set/Get busy poll usecs for an epoll instance.
-+ */
-+#define F_EPOLL_GET_BUSY_POLL_USECS (F_LINUX_SPECIFIC_BASE + 15)
-+#define F_EPOLL_SET_BUSY_POLL_USECS (F_LINUX_SPECIFIC_BASE + 16)
-+
- /*
-  * Valid hint values for F_{GET,SET}_RW_HINT. 0 is "not set", or can be
-  * used to clear any hints previously set.
-diff --git a/tools/perf/trace/beauty/fcntl.c b/tools/perf/trace/beauty/fcntl.c
-index 56ef83b3d130..dae5647c5c1a 100644
---- a/tools/perf/trace/beauty/fcntl.c
-+++ b/tools/perf/trace/beauty/fcntl.c
-@@ -94,7 +94,8 @@ size_t syscall_arg__scnprintf_fcntl_arg(char *bf, size_t size, struct syscall_ar
- 	    cmd == F_OFD_SETLK || cmd == F_OFD_SETLKW || cmd == F_OFD_GETLK ||
- 	    cmd == F_GETOWN_EX || cmd == F_SETOWN_EX ||
- 	    cmd == F_GET_RW_HINT || cmd == F_SET_RW_HINT ||
--	    cmd == F_GET_FILE_RW_HINT || cmd == F_SET_FILE_RW_HINT)
-+	    cmd == F_GET_FILE_RW_HINT || cmd == F_SET_FILE_RW_HINT ||
-+	    cmd == F_EPOLL_GET_BUSY_POLL_USECS || cmd == F_EPOLL_SET_BUSY_POLL_USECS)
- 		return syscall_arg__scnprintf_hex(bf, size, arg);
- 
- 	return syscall_arg__scnprintf_long(bf, size, arg);
--- 
-2.25.1
+With the introduction of MADV_COLLAPSE into the kernel,
+it is not affected by the defrag mode.
+MADV_COLLAPSE offers the potential for
+fine-grained synchronous control over the huge page
+allocation mechanism, marking a significant enhancement
+for THP.
 
+By adding flags to MADV_COLLAPSE, different
+synchronous allocation strategies can be provided to
+applications. This can instill confidence in them, allowing
+them to reconsider using THP and allocate huge pages
+according to their desired synchronous allocation strategy,
+without worrying about the defrag mode configuration.
+
+BR,
+Lance
+
+
+On Thu, Jan 18, 2024 at 8:03=E2=80=AFPM Lance Yang <ioworker0@gmail.com> wr=
+ote:
+>
+> This idea was inspired by MADV_COLLAPSE introduced by Zach O'Keefe[1].
+>
+> Allow MADV_F_COLLAPSE_LIGHT behavior for process_madvise(2) if the caller
+> has CAP_SYS_ADMIN or is requesting the collapse of its own memory.
+>
+> The semantics of MADV_F_COLLAPSE_LIGHT are similar to MADV_COLLAPSE, but
+> it  avoids direct reclaim and/or compaction, quickly failing on allocatio=
+n
+> errors.
+>
+> This change enables a more flexible and efficient usage of memory collaps=
+e
+> operations, providing additional control to userspace applications for
+> system-wide THP optimization.
+>
+> Semantics
+>
+> This call is independent of the system-wide THP sysfs settings, but will
+> fail for memory marked VM_NOHUGEPAGE.  If the ranges provided span
+> multiple VMAs, the semantics of the collapse over each VMA is independent
+> from the others.  This implies a hugepage cannot cross a VMA boundary.  I=
+f
+> collapse of a given hugepage-aligned/sized region fails, the operation ma=
+y
+> continue to attempt collapsing the remainder of memory specified.
+>
+> The memory ranges provided must be page-aligned, but are not required to
+> be hugepage-aligned.  If the memory ranges are not hugepage-aligned, the
+> start/end of the range will be clamped to the first/last hugepage-aligned
+> address covered by said range.  The memory ranges must span at least one
+> hugepage-sized region.
+>
+> All non-resident pages covered by the range will first be
+> swapped/faulted-in, before being internally copied onto a freshly
+> allocated hugepage.  Unmapped pages will have their data directly
+> initialized to 0 in the new hugepage.  However, for every eligible
+> hugepage aligned/sized region to-be collapsed, at least one page must
+> currently be backed by memory (a PMD covering the address range must
+> already exist).
+>
+> Allocation for the new hugepage will not enter direct reclaim and/or
+> compaction, quickly failing if allocation fails. When the system has
+> multiple NUMA nodes, the hugepage will be allocated from the node providi=
+ng
+> the most native pages. This operation operates on the current state of th=
+e
+> specified process and makes no persistent changes or guarantees on how pa=
+ges
+> will be mapped, constructed, or faulted in the future.
+>
+> Use Cases
+>
+> An immediate user of this new functionality is the Go runtime heap alloca=
+tor
+> that manages memory in hugepage-sized chunks. In the past, whether it was=
+ a
+> newly allocated chunk through mmap() or a reused chunk released by
+> madvise(MADV_DONTNEED), the allocator attempted to eagerly back memory wi=
+th
+> huge pages using madvise(MADV_HUGEPAGE)[2] and madvise(MADV_COLLAPSE)[3]
+> respectively. However, both approaches resulted in performance issues; fo=
+r
+> both scenarios, there could be entries into direct reclaim and/or compact=
+ion,
+> leading to unpredictable stalls[4]. Now, the allocator can confidently us=
+e
+> process_madvise(MADV_F_COLLAPSE_LIGHT) to attempt the allocation of huge =
+pages.
+>
+> [1] https://github.com/torvalds/linux/commit/7d8faaf155454f8798ec56404fac=
+a29a82689c77
+> [2] https://github.com/golang/go/commit/8fa9e3beee8b0e6baa733374099618126=
+8b60a3a
+> [3] https://github.com/golang/go/commit/9f9bb26880388c5bead158e9eca3be4b3=
+a9bd2af
+> [4] https://github.com/golang/go/issues/63334
+>
+> [v1] https://lore.kernel.org/lkml/20240117050217.43610-1-ioworker0@gmail.=
+com/
+>
+> Signed-off-by: Lance Yang <ioworker0@gmail.com>
+> Suggested-by: Zach O'Keefe <zokeefe@google.com>
+> Suggested-by: David Hildenbrand <david@redhat.com>
+> ---
+> V1 -> V2: Treat process_madvise(MADV_F_COLLAPSE_LIGHT) as the lighter-wei=
+ght alternative
+>         to madvise(MADV_COLLAPSE)
+>
+>  arch/alpha/include/uapi/asm/mman.h           |  1 +
+>  arch/mips/include/uapi/asm/mman.h            |  1 +
+>  arch/parisc/include/uapi/asm/mman.h          |  1 +
+>  arch/xtensa/include/uapi/asm/mman.h          |  1 +
+>  include/linux/huge_mm.h                      |  5 +--
+>  include/uapi/asm-generic/mman-common.h       |  1 +
+>  mm/khugepaged.c                              | 15 ++++++--
+>  mm/madvise.c                                 | 36 +++++++++++++++++---
+>  tools/include/uapi/asm-generic/mman-common.h |  1 +
+>  9 files changed, 52 insertions(+), 10 deletions(-)
+>
+> diff --git a/arch/alpha/include/uapi/asm/mman.h b/arch/alpha/include/uapi=
+/asm/mman.h
+> index 763929e814e9..22f23ca04f1a 100644
+> --- a/arch/alpha/include/uapi/asm/mman.h
+> +++ b/arch/alpha/include/uapi/asm/mman.h
+> @@ -77,6 +77,7 @@
+>  #define MADV_DONTNEED_LOCKED   24      /* like DONTNEED, but drop locked=
+ pages too */
+>
+>  #define MADV_COLLAPSE  25              /* Synchronous hugepage collapse =
+*/
+> +#define MADV_F_COLLAPSE_LIGHT  26      /* Similar to COLLAPSE, but avoid=
+s direct reclaim and/or compaction */
+>
+>  /* compatibility flags */
+>  #define MAP_FILE       0
+> diff --git a/arch/mips/include/uapi/asm/mman.h b/arch/mips/include/uapi/a=
+sm/mman.h
+> index c6e1fc77c996..acec0b643e9c 100644
+> --- a/arch/mips/include/uapi/asm/mman.h
+> +++ b/arch/mips/include/uapi/asm/mman.h
+> @@ -104,6 +104,7 @@
+>  #define MADV_DONTNEED_LOCKED   24      /* like DONTNEED, but drop locked=
+ pages too */
+>
+>  #define MADV_COLLAPSE  25              /* Synchronous hugepage collapse =
+*/
+> +#define MADV_F_COLLAPSE_LIGHT  26      /* Similar to COLLAPSE, but avoid=
+s direct reclaim and/or compaction */
+>
+>  /* compatibility flags */
+>  #define MAP_FILE       0
+> diff --git a/arch/parisc/include/uapi/asm/mman.h b/arch/parisc/include/ua=
+pi/asm/mman.h
+> index 68c44f99bc93..812029c98cd7 100644
+> --- a/arch/parisc/include/uapi/asm/mman.h
+> +++ b/arch/parisc/include/uapi/asm/mman.h
+> @@ -71,6 +71,7 @@
+>  #define MADV_DONTNEED_LOCKED   24      /* like DONTNEED, but drop locked=
+ pages too */
+>
+>  #define MADV_COLLAPSE  25              /* Synchronous hugepage collapse =
+*/
+> +#define MADV_F_COLLAPSE_LIGHT  26      /* Similar to COLLAPSE, but avoid=
+s direct reclaim and/or compaction */
+>
+>  #define MADV_HWPOISON     100          /* poison a page for testing */
+>  #define MADV_SOFT_OFFLINE 101          /* soft offline page for testing =
+*/
+> diff --git a/arch/xtensa/include/uapi/asm/mman.h b/arch/xtensa/include/ua=
+pi/asm/mman.h
+> index 1ff0c858544f..52ef463dd5b6 100644
+> --- a/arch/xtensa/include/uapi/asm/mman.h
+> +++ b/arch/xtensa/include/uapi/asm/mman.h
+> @@ -112,6 +112,7 @@
+>  #define MADV_DONTNEED_LOCKED   24      /* like DONTNEED, but drop locked=
+ pages too */
+>
+>  #define MADV_COLLAPSE  25              /* Synchronous hugepage collapse =
+*/
+> +#define MADV_F_COLLAPSE_LIGHT  26      /* Similar to COLLAPSE, but avoid=
+s direct reclaim and/or compaction */
+>
+>  /* compatibility flags */
+>  #define MAP_FILE       0
+> diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
+> index 5adb86af35fc..075fdb5d481a 100644
+> --- a/include/linux/huge_mm.h
+> +++ b/include/linux/huge_mm.h
+> @@ -303,7 +303,7 @@ int hugepage_madvise(struct vm_area_struct *vma, unsi=
+gned long *vm_flags,
+>                      int advice);
+>  int madvise_collapse(struct vm_area_struct *vma,
+>                      struct vm_area_struct **prev,
+> -                    unsigned long start, unsigned long end);
+> +                    unsigned long start, unsigned long end, int behavior=
+);
+>  void vma_adjust_trans_huge(struct vm_area_struct *vma, unsigned long sta=
+rt,
+>                            unsigned long end, long adjust_next);
+>  spinlock_t *__pmd_trans_huge_lock(pmd_t *pmd, struct vm_area_struct *vma=
+);
+> @@ -450,7 +450,8 @@ static inline int hugepage_madvise(struct vm_area_str=
+uct *vma,
+>
+>  static inline int madvise_collapse(struct vm_area_struct *vma,
+>                                    struct vm_area_struct **prev,
+> -                                  unsigned long start, unsigned long end=
+)
+> +                                  unsigned long start, unsigned long end=
+,
+> +                                  int behavior)
+>  {
+>         return -EINVAL;
+>  }
+> diff --git a/include/uapi/asm-generic/mman-common.h b/include/uapi/asm-ge=
+neric/mman-common.h
+> index 6ce1f1ceb432..92c67bc755da 100644
+> --- a/include/uapi/asm-generic/mman-common.h
+> +++ b/include/uapi/asm-generic/mman-common.h
+> @@ -78,6 +78,7 @@
+>  #define MADV_DONTNEED_LOCKED   24      /* like DONTNEED, but drop locked=
+ pages too */
+>
+>  #define MADV_COLLAPSE  25              /* Synchronous hugepage collapse =
+*/
+> +#define MADV_F_COLLAPSE_LIGHT  26      /* Similar to COLLAPSE, but avoid=
+s direct reclaim and/or compaction */
+>
+>  /* compatibility flags */
+>  #define MAP_FILE       0
+> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> index 2b219acb528e..2840051c0ae2 100644
+> --- a/mm/khugepaged.c
+> +++ b/mm/khugepaged.c
+> @@ -97,6 +97,8 @@ static struct kmem_cache *mm_slot_cache __ro_after_init=
+;
+>  struct collapse_control {
+>         bool is_khugepaged;
+>
+> +       int behavior;
+> +
+>         /* Num pages scanned per node */
+>         u32 node_load[MAX_NUMNODES];
+>
+> @@ -1058,10 +1060,16 @@ static int __collapse_huge_page_swapin(struct mm_=
+struct *mm,
+>  static int alloc_charge_hpage(struct page **hpage, struct mm_struct *mm,
+>                               struct collapse_control *cc)
+>  {
+> -       gfp_t gfp =3D (cc->is_khugepaged ? alloc_hugepage_khugepaged_gfpm=
+ask() :
+> -                    GFP_TRANSHUGE);
+>         int node =3D hpage_collapse_find_target_node(cc);
+>         struct folio *folio;
+> +       gfp_t gfp;
+> +
+> +       if (cc->is_khugepaged)
+> +               gfp =3D alloc_hugepage_khugepaged_gfpmask();
+> +       else
+> +               gfp =3D (cc->behavior =3D=3D MADV_F_COLLAPSE_LIGHT ?
+> +                              GFP_TRANSHUGE_LIGHT :
+> +                              GFP_TRANSHUGE);
+>
+>         if (!hpage_collapse_alloc_folio(&folio, gfp, node, &cc->alloc_nma=
+sk)) {
+>                 *hpage =3D NULL;
+> @@ -2697,7 +2705,7 @@ static int madvise_collapse_errno(enum scan_result =
+r)
+>  }
+>
+>  int madvise_collapse(struct vm_area_struct *vma, struct vm_area_struct *=
+*prev,
+> -                    unsigned long start, unsigned long end)
+> +                    unsigned long start, unsigned long end, int behavior=
+)
+>  {
+>         struct collapse_control *cc;
+>         struct mm_struct *mm =3D vma->vm_mm;
+> @@ -2718,6 +2726,7 @@ int madvise_collapse(struct vm_area_struct *vma, st=
+ruct vm_area_struct **prev,
+>         if (!cc)
+>                 return -ENOMEM;
+>         cc->is_khugepaged =3D false;
+> +       cc->behavior =3D behavior;
+>
+>         mmgrab(mm);
+>         lru_add_drain_all();
+> diff --git a/mm/madvise.c b/mm/madvise.c
+> index 912155a94ed5..9c40226505aa 100644
+> --- a/mm/madvise.c
+> +++ b/mm/madvise.c
+> @@ -60,6 +60,7 @@ static int madvise_need_mmap_write(int behavior)
+>         case MADV_POPULATE_READ:
+>         case MADV_POPULATE_WRITE:
+>         case MADV_COLLAPSE:
+> +       case MADV_F_COLLAPSE_LIGHT:
+>                 return 0;
+>         default:
+>                 /* be safe, default to 1. list exceptions explicitly */
+> @@ -1082,8 +1083,9 @@ static int madvise_vma_behavior(struct vm_area_stru=
+ct *vma,
+>                 if (error)
+>                         goto out;
+>                 break;
+> +       case MADV_F_COLLAPSE_LIGHT:
+>         case MADV_COLLAPSE:
+> -               return madvise_collapse(vma, prev, start, end);
+> +               return madvise_collapse(vma, prev, start, end, behavior);
+>         }
+>
+>         anon_name =3D anon_vma_name(vma);
+> @@ -1178,6 +1180,7 @@ madvise_behavior_valid(int behavior)
+>         case MADV_HUGEPAGE:
+>         case MADV_NOHUGEPAGE:
+>         case MADV_COLLAPSE:
+> +       case MADV_F_COLLAPSE_LIGHT:
+>  #endif
+>         case MADV_DONTDUMP:
+>         case MADV_DODUMP:
+> @@ -1194,6 +1197,17 @@ madvise_behavior_valid(int behavior)
+>         }
+>  }
+>
+> +
+> +static bool process_madvise_behavior_only(int behavior)
+> +{
+> +       switch (behavior) {
+> +       case MADV_F_COLLAPSE_LIGHT:
+> +               return true;
+> +       default:
+> +               return false;
+> +       }
+> +}
+> +
+>  static bool process_madvise_behavior_valid(int behavior)
+>  {
+>         switch (behavior) {
+> @@ -1201,6 +1215,7 @@ static bool process_madvise_behavior_valid(int beha=
+vior)
+>         case MADV_PAGEOUT:
+>         case MADV_WILLNEED:
+>         case MADV_COLLAPSE:
+> +       case MADV_F_COLLAPSE_LIGHT:
+>                 return true;
+>         default:
+>                 return false;
+> @@ -1368,6 +1383,8 @@ int madvise_set_anon_name(struct mm_struct *mm, uns=
+igned long start,
+>   *             transparent huge pages so the existing pages will not be
+>   *             coalesced into THP and new pages will not be allocated as=
+ THP.
+>   *  MADV_COLLAPSE - synchronously coalesce pages into new THP.
+> + *  MADV_F_COLLAPSE_LIGHT - only for process_madvise, avoids direct recl=
+aim and/or
+> + *             compaction.
+>   *  MADV_DONTDUMP - the application wants to prevent pages in the given =
+range
+>   *             from being included in its core dump.
+>   *  MADV_DODUMP - cancel MADV_DONTDUMP: no longer exclude from core dump=
+.
+> @@ -1394,7 +1411,8 @@ int madvise_set_anon_name(struct mm_struct *mm, uns=
+igned long start,
+>   *  -EBADF  - map exists, but area maps something that isn't a file.
+>   *  -EAGAIN - a kernel resource was temporarily unavailable.
+>   */
+> -int do_madvise(struct mm_struct *mm, unsigned long start, size_t len_in,=
+ int behavior)
+> +int _do_madvise(struct mm_struct *mm, unsigned long start, size_t len_in=
+,
+> +               int behavior, bool is_process_madvise)
+>  {
+>         unsigned long end;
+>         int error;
+> @@ -1405,6 +1423,9 @@ int do_madvise(struct mm_struct *mm, unsigned long =
+start, size_t len_in, int beh
+>         if (!madvise_behavior_valid(behavior))
+>                 return -EINVAL;
+>
+> +       if (!is_process_madvise && process_madvise_behavior_only(behavior=
+))
+> +               return -EINVAL;
+> +
+>         if (!PAGE_ALIGNED(start))
+>                 return -EINVAL;
+>         len =3D PAGE_ALIGN(len_in);
+> @@ -1448,9 +1469,14 @@ int do_madvise(struct mm_struct *mm, unsigned long=
+ start, size_t len_in, int beh
+>         return error;
+>  }
+>
+> +int do_madvise(struct mm_struct *mm, unsigned long start, size_t len_in,=
+ int behavior)
+> +{
+> +       return _do_madvise(mm, start, len_in, behavior, false);
+> +}
+> +
+>  SYSCALL_DEFINE3(madvise, unsigned long, start, size_t, len_in, int, beha=
+vior)
+>  {
+> -       return do_madvise(current->mm, start, len_in, behavior);
+> +       return _do_madvise(current->mm, start, len_in, behavior, false);
+>  }
+>
+>  SYSCALL_DEFINE5(process_madvise, int, pidfd, const struct iovec __user *=
+, vec,
+> @@ -1504,8 +1530,8 @@ SYSCALL_DEFINE5(process_madvise, int, pidfd, const =
+struct iovec __user *, vec,
+>         total_len =3D iov_iter_count(&iter);
+>
+>         while (iov_iter_count(&iter)) {
+> -               ret =3D do_madvise(mm, (unsigned long)iter_iov_addr(&iter=
+),
+> -                                       iter_iov_len(&iter), behavior);
+> +               ret =3D _do_madvise(mm, (unsigned long)iter_iov_addr(&ite=
+r),
+> +                                       iter_iov_len(&iter), behavior, tr=
+ue);
+>                 if (ret < 0)
+>                         break;
+>                 iov_iter_advance(&iter, iter_iov_len(&iter));
+> diff --git a/tools/include/uapi/asm-generic/mman-common.h b/tools/include=
+/uapi/asm-generic/mman-common.h
+> index 6ce1f1ceb432..92c67bc755da 100644
+> --- a/tools/include/uapi/asm-generic/mman-common.h
+> +++ b/tools/include/uapi/asm-generic/mman-common.h
+> @@ -78,6 +78,7 @@
+>  #define MADV_DONTNEED_LOCKED   24      /* like DONTNEED, but drop locked=
+ pages too */
+>
+>  #define MADV_COLLAPSE  25              /* Synchronous hugepage collapse =
+*/
+> +#define MADV_F_COLLAPSE_LIGHT  26      /* Similar to COLLAPSE, but avoid=
+s direct reclaim and/or compaction */
+>
+>  /* compatibility flags */
+>  #define MAP_FILE       0
+> --
+> 2.33.1
+>
 
