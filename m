@@ -1,142 +1,79 @@
-Return-Path: <linux-api+bounces-559-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-560-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E384783658A
-	for <lists+linux-api@lfdr.de>; Mon, 22 Jan 2024 15:35:11 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55F9B836BBC
+	for <lists+linux-api@lfdr.de>; Mon, 22 Jan 2024 17:51:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 93712280A47
-	for <lists+linux-api@lfdr.de>; Mon, 22 Jan 2024 14:35:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8964D1C261F2
+	for <lists+linux-api@lfdr.de>; Mon, 22 Jan 2024 16:51:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88FB03D3BE;
-	Mon, 22 Jan 2024 14:35:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D10F641219;
+	Mon, 22 Jan 2024 15:25:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ml/CNM8Z"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W2s87Plc"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2455F3D544;
-	Mon, 22 Jan 2024 14:35:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A48ED41210;
+	Mon, 22 Jan 2024 15:25:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705934105; cv=none; b=tEA4QVlE7oEghfMT62vBdme+3wAchylzGIuLzrvFrwypA8W5ZRWfYSmjT+yAEpvOCl2qjQN/FJuGw1cf+4oX9Id3v0uV7YlRGK0UvgPkw/6tQ62m9t0bNc4hYDcF5deOBj1bHhUaW65e1CxkgNks7TsRi6ihakpwR4Yp1PtCo4E=
+	t=1705937107; cv=none; b=mJ1kjrvoMTECDpuUWNLYP1V1EJfuCo/6ZWUIsfa05cceywaqlvfKbt5Q12UoSziVrNc25MmXsrtGZtN7YE3byL1ZKEYl6+Z0LfDiWsCu61oqdJf1KlM7pDNCmEbH06CWVjF1IgND3Vka2/EkDfA/+/ujK4ySthu0CdbKUH5eblM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705934105; c=relaxed/simple;
-	bh=Og27EideGjz/YmHYDhgkpc8f4ToRAK905gCq976BynM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UyLD3nV/Hz8v1sPaWIPwswOixJsJeBrN6G/5vqffGS7YIJYnCG1vdtEGW8MVVgz2yMY8WsJGbenZZDEReSd4AXvjDaMMOqQDAo3COXmhsMZFJZXCgHJatcuBFYrO/3IFuXR4RFkbl8dfzC0rxP2txvGA58L67+BM4D7y5USePtg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ml/CNM8Z; arc=none smtp.client-ip=209.85.219.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-d9b9adaf291so1892946276.1;
-        Mon, 22 Jan 2024 06:35:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705934103; x=1706538903; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Og27EideGjz/YmHYDhgkpc8f4ToRAK905gCq976BynM=;
-        b=Ml/CNM8ZE7rLoRqUJHGVrQcv1bQmof6YzHypIJhmERAPojJvfuE8bB26d53dkOyRBI
-         XinfoLTdmR4k/1Re+p3lNZbaFPTQV3Y4pa6R69/dJMaX8YiOk2WwHbTVNbpxzWyplW1H
-         Avi3lpLoVzPLdd4V+tRVimIzZzV3IqLYPLqmQC+fRhlGoJxDh5mW1yGCxIIbhgJbVaRm
-         UyjKa/gfQQpbFEP/qjaVgdK6Ia733EqeZjLRHeWupvf6vJB0lEIUi0ZXO2Izo2GIB9SR
-         waTslOVyjdvJlT+8Dwv0XkyqMRFHK1hXZYzWWAghzTnluQ90NkffgVCZ+hELm6hlXiWX
-         WVSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705934103; x=1706538903;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Og27EideGjz/YmHYDhgkpc8f4ToRAK905gCq976BynM=;
-        b=eXCvxpAFNFY5sfe86geUCDRe1yxC+qlN84mmq4c76BtD/ZlpNtTZhcPBENvbpW+pTG
-         8l8An91qkoT+8Q27vE2fQpD7aBCzFUsiAJK3TtC5X4+YCngkTexOsY2RFnH7Ayv/RKoX
-         7zdKZEEmmSjXYLcjvIgaaMflUnpHFsmQz4l/5cPhs8JHyntXIAGIxjh2MCCj3sRu+lIO
-         mftkB5Egq9EU8ZqK7/yCUigJFV1yWpmsDKts8fxchqFBNsx+IgMBUsM1o7ieSm8hyKLU
-         ArKYmY/J4f06X8xt1cjXFypmaSU9/Tdg7vGBzgsQU7etoE4EaDoESjbpc4D7lPz/opII
-         P3QA==
-X-Gm-Message-State: AOJu0Yyc75gq+todhHcyttED1yvVI2F8UQFiclXTMjRsE1KdhOL7Hi//
-	XOVDP/W2d8Mqwc2Zo6kt95/Hm7xBw3i7Z7KvUzw7CgIUZ1WNT30mN+8eitD2/PUXpJXxDJaM4Qr
-	hjBaFBlcGdhflc0FzUUbhGvabK1w=
-X-Google-Smtp-Source: AGHT+IHGy6dZdzctqaV679FADtGawvC9dVXq0p2eDZEE2ghSmn6+nUX4Fc4rP8ATsdF/htsN4JuKsXhYtzBjrflrQRU=
-X-Received: by 2002:a25:aa4a:0:b0:dc2:2e4e:d36c with SMTP id
- s68-20020a25aa4a000000b00dc22e4ed36cmr1393429ybi.37.1705934103029; Mon, 22
- Jan 2024 06:35:03 -0800 (PST)
+	s=arc-20240116; t=1705937107; c=relaxed/simple;
+	bh=uQjaKfpOsy59BldaTOx7UUJOln9p/JBZ5qFpOPOj//g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YHg6ZY8gX7E4NppqvzKzlNrEdJVGWDMdzx9VjmInqc3KugzTs6bFte3mPdDRguvTfHMuF29XrFaCknXWlh92B/1H6ad7iUXcJMbyeU8YjXnXy3J4JwCRiQ4TdzTPOngeEvbQcy88hJXYw8zN5LpvFOvxey7fVKhMHvePiMwiznI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W2s87Plc; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1454BC433F1;
+	Mon, 22 Jan 2024 15:25:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705937107;
+	bh=uQjaKfpOsy59BldaTOx7UUJOln9p/JBZ5qFpOPOj//g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=W2s87PlcBBQgG38hGiE77fLDeUK2SsJuqEWSUpS7anXa0zvPd0YfhQBtaAq9q4LnD
+	 wpynDeqFv62dNga4fTQDpPubw+eDwBstZQ4qEmY66rZAdoAGgQwOloK6C7f4jchD5X
+	 sdwaSgS8IanBaY9XlpnLZxxnlb/DP6gM0KlrzMLCrExWtEhkrdwiTiRqNX3sjNJytb
+	 BHd6aA296DPnt1VHJz5aa9SI0W9MNtaHCVt4yrbYauP2GggMC9kXndxsvHbT2DiTBt
+	 pnlzF+XxECAToHUsXPO5+2iCWvjrbKvZwV9sV5DirJKc6waVVnGfDPXJRJ2/2cMco+
+	 m16PaOlAoJICg==
+Date: Mon, 22 Jan 2024 16:25:01 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Joe Damato <jdamato@fastly.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	chuck.lever@oracle.com, jlayton@kernel.org, linux-api@vger.kernel.org, 
+	edumazet@google.com, davem@davemloft.net, alexander.duyck@gmail.com, 
+	sridhar.samudrala@intel.com, kuba@kernel.org
+Subject: Re: [RFC 1/1] eventpoll: support busy poll per epoll instance
+Message-ID: <20240122-erwidern-erleichtern-8a04080a4db3@brauner>
+References: <20240120004247.42036-1-jdamato@fastly.com>
+ <20240120004247.42036-2-jdamato@fastly.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240118120347.61817-1-ioworker0@gmail.com> <ZakqQyL9t2ffNUIf@tiehlicka>
- <CAK1f24k+=Sskotbct+yGxpDKNv=qyXPkww5i2kaqfzwaUVO_GQ@mail.gmail.com>
- <ZapwWuVTIDeI3W8A@tiehlicka> <CAK1f24m9oxciHsAht4-cCWo_NT7x+bkoXUO2HOwgMCr0OnwpcA@mail.gmail.com>
- <Za5yvjZWVyYjgyfh@tiehlicka> <CAK1f24n+pTw=7atKGAbgBh8qKOTBPq-BEV7ZkLcgN3P0n3h3ug@mail.gmail.com>
-In-Reply-To: <CAK1f24n+pTw=7atKGAbgBh8qKOTBPq-BEV7ZkLcgN3P0n3h3ug@mail.gmail.com>
-From: Lance Yang <ioworker0@gmail.com>
-Date: Mon, 22 Jan 2024 22:34:51 +0800
-Message-ID: <CAK1f24=7fKU-+xRSOhrJrZ56=YoVfnkONZwNOJRS4yY4SzhANA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/1] mm/madvise: add MADV_F_COLLAPSE_LIGHT to process_madvise()
-To: Michal Hocko <mhocko@suse.com>, "Zach O'Keefe" <zokeefe@google.com>
-Cc: akpm@linux-foundation.org, david@redhat.com, songmuchun@bytedance.com, 
-	shy828301@gmail.com, peterx@redhat.com, mknyszek@google.com, 
-	minchan@kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-api@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240120004247.42036-2-jdamato@fastly.com>
 
-Hey Zach,
+On Sat, Jan 20, 2024 at 12:42:47AM +0000, Joe Damato wrote:
+> Add F_EPOLL_{S,G}ET_BUSY_POLL_USECS to allow setting a busy poll timeout
+> per epoll instance so that individual applications can enable (or
+> disable) epoll based busy poll as needed.
+> 
+> Prior to this change, epoll-based busy poll could only be enabled
+> system-wide, which limits the usefulness of busy poll.
+> 
+> Signed-off-by: Joe Damato <jdamato@fastly.com>
+> ---
 
-What do you think about the semantic?
-
-Thanks,
-Lance
-
-On Mon, Jan 22, 2024 at 10:14=E2=80=AFPM Lance Yang <ioworker0@gmail.com> w=
-rote:
->
-> On Mon, Jan 22, 2024 at 9:50=E2=80=AFPM Michal Hocko <mhocko@suse.com> wr=
-ote:
-> >
-> > On Sat 20-01-24 10:09:32, Lance Yang wrote:
-> > [...]
-> > > Hey Michal,
-> > >
-> > > Thanks for your suggestion!
-> > >
-> > > It seems that the implementation should try but not too hard aligns w=
-ell
-> > > with my desired behavior.
-> >
-> > The problem I have with this semantic is that it is really hard to
-> > define and then stick with. Our implementation might change over time
-> > and what somebody considers good ATM might turn int "trying harder than
-> > I wanted" later on.
-> >
-> > > Non-blocking in general is also a great idea.
-> > > Perhaps in the future, we can add a MADV_F_COLLAPSE_NOBLOCK
-> > > flag for scenarios where latency is extremely critical.
-> >
-> > Non blocking semantic is much easier to define and maintain. The actual
-> > allocation/compaction implementation might change as well over time but
-> > the userspace at least knows that the request will not block waiting fo=
-r
-> > any required resources.
->
-> I appreciate your insights!
->
-> It makes sense that a non-blocking semantic is easier to define and maint=
-ain,
-> providing userspace with the certainty that requests won=E2=80=99t be blo=
-cked.
->
-> Thanks,
-> Lance
->
-> >
-> > --
-> > Michal Hocko
-> > SUSE Labs
+This should be an ioctl on the epoll fd, not a fcntl(). fcntl()s
+should aim to be generic which this isn't. We've recently rejected a
+memfd addition as a fcntl() as well for the same reason.
 
