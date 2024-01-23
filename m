@@ -1,132 +1,112 @@
-Return-Path: <linux-api+bounces-570-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-571-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C86A8838DC2
-	for <lists+linux-api@lfdr.de>; Tue, 23 Jan 2024 12:45:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6ACE838E21
+	for <lists+linux-api@lfdr.de>; Tue, 23 Jan 2024 13:05:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7DCC41F2322F
-	for <lists+linux-api@lfdr.de>; Tue, 23 Jan 2024 11:45:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7DA5C1F2295E
+	for <lists+linux-api@lfdr.de>; Tue, 23 Jan 2024 12:05:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C5275D753;
-	Tue, 23 Jan 2024 11:45:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="JvljyBDE"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3205C5D915;
+	Tue, 23 Jan 2024 12:05:28 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp-8fae.mail.infomaniak.ch (smtp-8fae.mail.infomaniak.ch [83.166.143.174])
+Received: from h3cspam02-ex.h3c.com (smtp.h3c.com [60.191.123.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C27CF5A114
-	for <linux-api@vger.kernel.org>; Tue, 23 Jan 2024 11:45:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.166.143.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13E9F5C61A;
+	Tue, 23 Jan 2024 12:05:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.191.123.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706010329; cv=none; b=GoUxHgoGGqF2iQ1U/7yVJ7djGjvmvxB71eQTjRBKYQDxF+a32fMxAxQey5ppoBxN2arLgNRJvTnhnQsPmgabNsY69S77lTQCR7H8vu9ppvNseYtMKBlEOGfTkulnh/iy7zcw3o8J59x4yj12ezvYVf3cYicAoF06skhPj+5gHCQ=
+	t=1706011528; cv=none; b=bHiW2qlzqP0W+ARVnaNXkPvdQX1a/BCpxwiecJxltOooSgDJ6Ia1vmMI0IeAmJcb0JSV2h2zlouWP4qxEONJ47iWnNnOawiLng3btvCj+cR/YvwTbK8abbdeVPMsd/UaPssjRKvwv3CzNaGGzMyfmyHQ3Qyjq45tF/DHuvuFoQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706010329; c=relaxed/simple;
-	bh=7wANGkPvqc+OR36L/josux0TSfXeAjjxrHp0PPQm9Pg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jO7pbuVv3G+QJOBj9Bl6sgtZaQOLmgxrcxVx5DbQnM9DDFXW2VuPEHU3UuTD2h65irZeu42FiU3CknoSV+pmHkdi0cV0iaYuvroxnshdip1QJ8JFeacr7ro0aDIwpQjO9QXpplUnta/RXeibR+FaoUdUcCwooe+W3/6qmE2wpVo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=JvljyBDE; arc=none smtp.client-ip=83.166.143.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
-Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
-	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4TK45K38bnzMq6j2;
-	Tue, 23 Jan 2024 12:05:57 +0100 (CET)
-Received: from unknown by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4TK45J5Xd3z3c;
-	Tue, 23 Jan 2024 12:05:56 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
-	s=20191114; t=1706007957;
-	bh=7wANGkPvqc+OR36L/josux0TSfXeAjjxrHp0PPQm9Pg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JvljyBDEANid5jv8ERtVwSxpi1/sSEsRHoeQHYvn6ppPg13FyqlE/KAEnNljLlp33
-	 /XJvdjnxXUfeWX96UxAfxgq7H8wjmBCmSiSTXEUseBwcrBTGqZbib3oHfGXv1oS2Ur
-	 99i3ya/rLt1p3v0Qqohv3oj030dMsCYQGGjm6tCQ=
-Date: Tue, 23 Jan 2024 12:05:53 +0100
-From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
-To: Hu Yadi <hu.yadi@h3c.com>
-Cc: jmorris@namei.org, serge@hallyn.com, shuah@kernel.org, 
-	mathieu.desnoyers@efficios.com, amir73il@gmail.com, brauner@kernel.org, avagin@google.com, 
-	linux-api@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, linux-kselftest@vger.kernel.org, 514118380@qq.com, 
-	konstantin.meskhidze@huawei.com
-Subject: Re: [PATCH] selftests/landlock:Fix net_test build issues with old
- libc
-Message-ID: <20240123.Baiquie9Roh6@digikod.net>
-References: <20240123062621.25082-1-hu.yadi@h3c.com>
+	s=arc-20240116; t=1706011528; c=relaxed/simple;
+	bh=GiH+wOby5YduPA4k8m2yi3D59oBZ6oK+TLaCvK0X+d4=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=LNAdStLVlzb+2/QaP/xSt4Yok2YXsO3zlIKluayqMIzrl18DOg4eIUjtXieMq9AF0Bl3pxOPhScIWO7NpKI3m0Rc4Hyt6efRg0kgk49GFMFGWCLl10uMSZBuJbQtJcwJotsclvt4vCKCbE4FgB2FgLimjFSxdhaL/UqPo749lk4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=h3c.com; spf=pass smtp.mailfrom=h3c.com; arc=none smtp.client-ip=60.191.123.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=h3c.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=h3c.com
+Received: from mail.maildlp.com ([172.25.15.154])
+	by h3cspam02-ex.h3c.com with ESMTP id 40NC4EU4014951;
+	Tue, 23 Jan 2024 20:04:14 +0800 (GMT-8)
+	(envelope-from hu.yadi@h3c.com)
+Received: from DAG6EX14-BJD.srv.huawei-3com.com (unknown [10.153.34.16])
+	by mail.maildlp.com (Postfix) with ESMTP id CDCEF22D4AC3;
+	Tue, 23 Jan 2024 20:08:54 +0800 (CST)
+Received: from DAG6EX02-IMDC.srv.huawei-3com.com (10.62.14.11) by
+ DAG6EX14-BJD.srv.huawei-3com.com (10.153.34.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.27; Tue, 23 Jan 2024 20:04:17 +0800
+Received: from DAG6EX02-IMDC.srv.huawei-3com.com ([fe80::4c21:7c89:4f9d:e4c4])
+ by DAG6EX02-IMDC.srv.huawei-3com.com ([fe80::4c21:7c89:4f9d:e4c4%16]) with
+ mapi id 15.02.1258.027; Tue, 23 Jan 2024 20:04:17 +0800
+From: Huyadi <hu.yadi@h3c.com>
+To: =?utf-8?B?J01pY2thw6tsIFNhbGHDvG4n?= <mic@digikod.net>
+CC: "jmorris@namei.org" <jmorris@namei.org>,
+        "serge@hallyn.com"
+	<serge@hallyn.com>,
+        "shuah@kernel.org" <shuah@kernel.org>,
+        "mathieu.desnoyers@efficios.com" <mathieu.desnoyers@efficios.com>,
+        "amir73il@gmail.com" <amir73il@gmail.com>,
+        "brauner@kernel.org"
+	<brauner@kernel.org>,
+        "avagin@google.com" <avagin@google.com>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-security-module@vger.kernel.org"
+	<linux-security-module@vger.kernel.org>,
+        "linux-kselftest@vger.kernel.org"
+	<linux-kselftest@vger.kernel.org>,
+        "514118380@qq.com" <514118380@qq.com>,
+        "konstantin.meskhidze@huawei.com" <konstantin.meskhidze@huawei.com>
+Subject: =?utf-8?B?5Zue5aSNOiBbUEFUQ0ggdjRdIHNlbGZ0ZXN0cy9sYW5kbG9jazpGaXggdHdv?=
+ =?utf-8?Q?_build_issues?=
+Thread-Topic: [PATCH v4] selftests/landlock:Fix two build issues
+Thread-Index: AQHaR51Te/ejhd6BskWKYK0XmAmChrDgkaUAgAbFurA=
+Date: Tue, 23 Jan 2024 12:04:17 +0000
+Message-ID: <adec399e50c74b30b59480d92c431241@h3c.com>
+References: <20240115102409.19799-1-hu.yadi@h3c.com>
+ <20240119.Ugaehae2ze5b@digikod.net>
+In-Reply-To: <20240119.Ugaehae2ze5b@digikod.net>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-sender-location: DAG2
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240123062621.25082-1-hu.yadi@h3c.com>
-X-Infomaniak-Routing: alpha
+X-DNSRBL: 
+X-SPAM-SOURCE-CHECK: pass
+X-MAIL:h3cspam02-ex.h3c.com 40NC4EU4014951
 
-Thanks, I tweaked a bit and merged this patch in my next branch.
-
-On Tue, Jan 23, 2024 at 02:26:21PM +0800, Hu Yadi wrote:
-> From: "Hu.Yadi" <hu.yadi@h3c.com>
-
-There is an extra "." here, I fixed it. You don't need to add this From
-field if it matches your email's From one.
-
-> 
-> Fixes: a549d055a22e ("selftests/landlock: Add network tests")
-> 
-> one issues comes up while building selftest/landlock/net_test on my side
-> (gcc 7.3/glibc-2.28/kernel-4.19)
-> 
-> net_test.c: In function ‘set_service’:
-> net_test.c:91:45: warning: implicit declaration of function ‘gettid’; [-Wimplicit-function-declaration]
->     "_selftests-landlock-net-tid%d-index%d", gettid(),
->                                              ^~~~~~
->                                              getgid
-> net_test.c:(.text+0x4e0): undefined reference to `gettid'
-> 
-> Signed-off-by: Hu Yadi <hu.yadi@h3c.com>
-> Suggested-by: Jiao <jiaoxupo@h3c.com>
-> Reviewed-by: Berlin <berlin@h3c.com>
-> ---
->  tools/testing/selftests/landlock/net_test.c | 10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
-> 
-> diff --git a/tools/testing/selftests/landlock/net_test.c b/tools/testing/selftests/landlock/net_test.c
-> index 929e21c4db05..6cc1bb1a9166 100644
-> --- a/tools/testing/selftests/landlock/net_test.c
-> +++ b/tools/testing/selftests/landlock/net_test.c
-> @@ -18,9 +18,15 @@
->  #include <sys/prctl.h>
->  #include <sys/socket.h>
->  #include <sys/un.h>
-> -
-> +#include <sys/syscall.h>
->  #include "common.h"
-> 
-> +
-> +static pid_t sys_gettid(void)
-> +{
-> +	return syscall(__NR_gettid);
-> +}
-> +
->  const short sock_port_start = (1 << 10);
-> 
->  static const char loopback_ipv4[] = "127.0.0.1";
-> @@ -88,7 +94,7 @@ static int set_service(struct service_fixture *const srv,
->  	case AF_UNIX:
->  		srv->unix_addr.sun_family = prot.domain;
->  		sprintf(srv->unix_addr.sun_path,
-> -			"_selftests-landlock-net-tid%d-index%d", gettid(),
-> +			"_selftests-landlock-net-tid%d-index%d", sys_gettid(),
->  			index);
->  		srv->unix_addr_len = SUN_LEN(&srv->unix_addr);
->  		srv->unix_addr.sun_path[0] = '\0';
-> --
-> 2.23.0
-> 
-> 
+DQo+PiBDaGFuZ2VzIHYzIC0+IHYyOg0KPj4gIC0gYWRkIGhlbHBlciBvZiBnZXR0aWQgaW5zdGVh
+ZCBvZiBfX05SX2dldHRpZA0KPj4gIC0gYWRkIGdjYy9nbGliYyB2ZXJzaW9uIGluZm8gaW4gY29t
+bWVudHMgQ2hhbmdlcyB2MSAtPiB2MjoNCj4+ICAtIGZpeCB3aGl0ZXNwYWNlIGVycm9yDQo+PiAg
+LSByZXBsYWNlIFNZU19nZXR0aWQgd2l0aCBfTlJfZ2V0dGlkDQo+PiANCj4+ICB0b29scy90ZXN0
+aW5nL3NlbGZ0ZXN0cy9sYW5kbG9jay9mc190ZXN0LmMgIHwgNSArKysrLSAgDQo+PiB0b29scy90
+ZXN0aW5nL3NlbGZ0ZXN0cy9sYW5kbG9jay9uZXRfdGVzdC5jIHwgNyArKysrKystDQo+PiAgMiBm
+aWxlcyBjaGFuZ2VkLCAxMCBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQ0KPj4gDQo+PiBk
+aWZmIC0tZ2l0IGEvdG9vbHMvdGVzdGluZy9zZWxmdGVzdHMvbGFuZGxvY2svZnNfdGVzdC5jIA0K
+Pj4gYi90b29scy90ZXN0aW5nL3NlbGZ0ZXN0cy9sYW5kbG9jay9mc190ZXN0LmMNCj4+IGluZGV4
+IDE4ZTFmODZhNjIzNC4uYTk5MmNmN2MwYWQxIDEwMDY0NA0KPj4gLS0tIGEvdG9vbHMvdGVzdGlu
+Zy9zZWxmdGVzdHMvbGFuZGxvY2svZnNfdGVzdC5jDQo+PiArKysgYi90b29scy90ZXN0aW5nL3Nl
+bGZ0ZXN0cy9sYW5kbG9jay9mc190ZXN0LmMNCj4+IEBAIC00NTcyLDcgKzQ1NzIsMTAgQEAgRklY
+VFVSRV9WQVJJQU5UKGxheW91dDNfZnMpDQo+PiAgLyogY2xhbmctZm9ybWF0IG9mZiAqLw0KPj4g
+IEZJWFRVUkVfVkFSSUFOVF9BREQobGF5b3V0M19mcywgdG1wZnMpIHsNCj4+ICAJLyogY2xhbmct
+Zm9ybWF0IG9uICovDQo+PiAtCS5tbnQgPSBtbnRfdG1wLA0KPj4gKwkubW50ID0gew0KPj4gKwkJ
+LnR5cGUgPSAidG1wZnMiLA0KPj4gKwkJLmRhdGEgPSAic2l6ZT00bSxtb2RlPTcwMCIsDQo+PiAr
+CX0sDQo+DQo+SSByZXF1ZXN0ZWQgc29tZSBjaGFuZ2VzIGhlcmUuDQo+DQoNCkNvdWxkIHlvdSBn
+aXZlIG1lIHNvbWUgaW5zcGlyYXRpb24gaG93IHRvIGZpeCBpdD8gDQppdCBsb29rcyBmaW5lIHRv
+IG1lIHRvIGFzc2lnbiB2YWx1ZSBhcyBhYm92ZSwgd2hpY2ggY29uc2lzdGVudCB3aXRoIG90aGVy
+IHBzZXVkbyBGUyB0ZXN0cy4NClRoYW5rcyBpbiBhZHZhbmNlLg0KDQo+PiAgCS5maWxlX3BhdGgg
+PSBmaWxlMV9zMWQxLA0KPj4gIH07DQo+PiANCiAgDQo=
 
