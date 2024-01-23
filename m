@@ -1,171 +1,129 @@
-Return-Path: <linux-api+bounces-578-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-580-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3173839349
-	for <lists+linux-api@lfdr.de>; Tue, 23 Jan 2024 16:42:20 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 203328399E7
+	for <lists+linux-api@lfdr.de>; Tue, 23 Jan 2024 20:57:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 640ED1F24FE0
-	for <lists+linux-api@lfdr.de>; Tue, 23 Jan 2024 15:42:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A609E285CE6
+	for <lists+linux-api@lfdr.de>; Tue, 23 Jan 2024 19:57:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4BB4D651B5;
-	Tue, 23 Jan 2024 15:35:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2EAE82D77;
+	Tue, 23 Jan 2024 19:57:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tycho.pizza header.i=@tycho.pizza header.b="Rc5liliN";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="yMl9ymMe"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Z5cOUJdh"
 X-Original-To: linux-api@vger.kernel.org
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB562604C6;
-	Tue, 23 Jan 2024 15:35:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.111.4.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30E43823D4
+	for <linux-api@vger.kernel.org>; Tue, 23 Jan 2024 19:57:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706024113; cv=none; b=AxQWyZKIalaFYc3qupQ2RBT4/ys1lvrNJhM0jzG98JgH7KpY3ge7rLzqW7rUoRlogtH6te7F4LJkN4Bp5uJacZ+awnQj5P70y23wzCfOGu/sgv5cv9Cbz3oflxGhGScWS95wX/tWEyJwg+RWX5OEVokJELkoorsKLXYvSm6Ek9g=
+	t=1706039849; cv=none; b=Xaxz3GBC3H/FLXnlbnW25kgrJOAiXHzdx5wqL9uIfOYx3xSl3AO1k6WMMzIvazJQYJp0Y7QAtH/bLzBOb7I4VDtoiiXtinDrYfsPee5x9ThXTVTi16N49tg+9fb8mjhRKmiPXXYgOatE/aHhk8GjfsnzERz6o1Ax2+vTvJT4/Us=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706024113; c=relaxed/simple;
-	bh=p7kDtRxNmyebETMhw6b+Mx4k05Ru5n+gRX2phozmjyc=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=hZtDRUzuU3LKKh3l8WXzeYlI7kDeoc73G8gaZaQOUdyKy8Ltr2wM/RZgOSWF31zyfrp8WM/eoDjcATZKT6E7HEVD1itP7Yxc66ptqCFMKxl7qB6hggRuOTkZ/NrtFK8+hBchl5awL8oL0jaJeb++euL3/krac1y2jeqfBoL1vkY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tycho.pizza; spf=pass smtp.mailfrom=tycho.pizza; dkim=pass (2048-bit key) header.d=tycho.pizza header.i=@tycho.pizza header.b=Rc5liliN; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=yMl9ymMe; arc=none smtp.client-ip=66.111.4.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tycho.pizza
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tycho.pizza
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.48])
-	by mailout.nyi.internal (Postfix) with ESMTP id C3A795C0216;
-	Tue, 23 Jan 2024 10:35:10 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute7.internal (MEProxy); Tue, 23 Jan 2024 10:35:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tycho.pizza; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm2; t=1706024110; x=
-	1706110510; bh=gJLT8vRm8Hjo8wbk8FioBAMkLCd1UJ0XB+b0Hp92i1E=; b=R
-	c5liliN7MdwemxXRAq0BjXl/IcCZaMPQUOHHXZWqmMEGfViRLQ1lwxTvqehRWrcS
-	D0hwdi0tEkZv+pdjwvl8tHkgddRBz0Bq73nQ/cwt36qx2XjfkMmlIqDXEnMuWRxc
-	m9KEmWF/lGAyIMfJbeEBaE0YB+54IhcVLMSdpTI2XLdN+3P3dEECbdaS3Cwojc/H
-	OstS2f371urwJhfwtXYlnjwfQnEyshLH0CNd+rRkYybKHb+mF4YepV/YDd5LhRkq
-	1p8VM6iGcRaSv+9Z5kTeftdM2YOlpbagYJwAFegvNBfjjUazwlo6jWaOVSGQx9sn
-	87rkq/TUy0+RnVr0T3UmQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1706024110; x=
-	1706110510; bh=gJLT8vRm8Hjo8wbk8FioBAMkLCd1UJ0XB+b0Hp92i1E=; b=y
-	Ml9ymMeJbiYAnQ23lM9QD/UKt2mqjtHxSgW/+QFxRIZaAcPbAiKTqTnTbJhY+YM3
-	hIg6hjxDYClQFOdauQ+2Qc95bqTI7iZAw29Q9jwtt54cVANjCDyOK2JOIVWN4MMa
-	wJqdSB2Q6dB+Hs9r5VF0sC5+6bQTpXvEMZUj79HyAHoAkvpGifov7PQgE99yEURN
-	vhwN1IkDHNFeb0a87RdciaifTITHZ4cYpJZdZQ8MrgMY2M7mphj0ICn2fczABEhW
-	14k9KvBwnxS/S4bVsq8D2OS38GBXj2RSRoV9YUIEBbJOcn6fQcfCzKJfPWxBUtis
-	k0WHKCETus9OG/vgP/uNw==
-X-ME-Sender: <xms:rtyvZV9DrHK3dK7WexEzdKv_kace6CVVAN7LassKATINmr56fN6S5A>
-    <xme:rtyvZZslal2hT8KOBFH-LvGiKcsJXptAZu_mJ_RjVF-bxEFMox_eCu6RtN_t-zEnU
-    ctrm124XW9AY1lvR8U>
-X-ME-Received: <xmr:rtyvZTCdPzB_yoFdpDjPrwoLOHweoiLJaqmUu4aZNU_AtguinyiJurMYp5bLgI9bDzcRuA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdekkedgjeeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepvfihtghh
-    ohcutehnuggvrhhsvghnuceothihtghhohesthihtghhohdrphhiiiiirgeqnecuggftrf
-    grthhtvghrnhepvdegffehledvleejvdethffgieefveevhfeigefffffgheeguedtieek
-    tdeigeeunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    epthihtghhohesthihtghhohdrphhiiiiirg
-X-ME-Proxy: <xmx:rtyvZZd5cn8nHPJgrdKARmeqwAS77NQWE1tNrgmhYzlXi2E-97LhXw>
-    <xmx:rtyvZaMzc2IP6fYyihvmJIZk1cBjTOdBfgQ7rxUkBkxGm9OYY5byLg>
-    <xmx:rtyvZbkKnOC1_l_A6TdFWrAsbF2nl_SpgW0RqYFUJFBBAwsw5fZ7zw>
-    <xmx:rtyvZR1nUwLjjW8ccXLWcLXSW7H6O23hkaSLhzgP-6C1nS0iR3ue2Q>
-Feedback-ID: i21f147d5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 23 Jan 2024 10:35:09 -0500 (EST)
-From: Tycho Andersen <tycho@tycho.pizza>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Oleg Nesterov <oleg@redhat.com>,
-	linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org,
-	Tycho Andersen <tycho@tycho.pizza>,
-	Tycho Andersen <tandersen@netflix.com>
-Subject: [PATCH v3 3/3] clone: allow CLONE_THREAD | CLONE_PIDFD together
-Date: Tue, 23 Jan 2024 08:34:52 -0700
-Message-Id: <20240123153452.170866-4-tycho@tycho.pizza>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240123153452.170866-1-tycho@tycho.pizza>
+	s=arc-20240116; t=1706039849; c=relaxed/simple;
+	bh=eHkPR3/xKx5knTznkRRWuM3jQAUkvV0DDAKaVcE10cM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rzLCwklDTuONzsiKT/CGbRbg3XePoXgG1XkwloQBoEu2ZBLNiDahvak9yPYUW9ZKpxZ8gzW6+87jDo6yT52oVeCFuSMaDm3n3t03pCgcLZRxi5mhYPFqJPTlcQSDQrivaN0ingNPQcz+dlfjzg22tNG/cMlFfZrFAfhB+dFwV8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Z5cOUJdh; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1706039847;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5vwh8XXykxSRKxJ8L9h/647T2KFRZBxRZj81Ie4/Uls=;
+	b=Z5cOUJdhuIdTMgDet67EWWB0iCHCEwIi6U06OfoZHWSGKsXxadfYry2dI1Gtpjr7TDwLEY
+	10WUYFSFzLWwEHFlsIGCCQHPlq0UMMIkSWhDAiZrB3znhbV5V6wXWnOuGNDSozKoZr0z/p
+	nJtuCsYRhCysow+XX/LwjvNPCbUaE6o=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-492-JItt-U_pOjajNrstXhT0bQ-1; Tue, 23 Jan 2024 14:57:24 -0500
+X-MC-Unique: JItt-U_pOjajNrstXhT0bQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E4F9C10AFA03;
+	Tue, 23 Jan 2024 19:57:23 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.224.197])
+	by smtp.corp.redhat.com (Postfix) with SMTP id 82BEB2026D66;
+	Tue, 23 Jan 2024 19:57:22 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Tue, 23 Jan 2024 20:56:10 +0100 (CET)
+Date: Tue, 23 Jan 2024 20:56:08 +0100
+From: Oleg Nesterov <oleg@redhat.com>
+To: Tycho Andersen <tycho@tycho.pizza>
+Cc: Christian Brauner <brauner@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org, Tycho Andersen <tandersen@netflix.com>
+Subject: Re: [PATCH v3 1/3] pidfd: allow pidfd_open() on non-thread-group
+ leaders
+Message-ID: <20240123195608.GB9978@redhat.com>
 References: <20240123153452.170866-1-tycho@tycho.pizza>
+ <20240123153452.170866-2-tycho@tycho.pizza>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240123153452.170866-2-tycho@tycho.pizza>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.4
 
-From: Tycho Andersen <tandersen@netflix.com>
+Too late for me, but I don't understand this patch after a quick glance.
+perhaps I missed something...
 
-This removes the restriction of CLONE_THREAD | CLONE_PIDFD being specified
-together. Assuming the previous patch sorts out all the thorny issues this
-should be safe. I've left it as a separate patch since it is not strictly
-necessary as a usecase for us, but might be nice? Perhaps we want to wait
-until someone actually needs it though.
+On 01/23, Tycho Andersen wrote:
+>
+> @@ -256,6 +256,17 @@ void release_task(struct task_struct *p)
+>  	write_lock_irq(&tasklist_lock);
+>  	ptrace_release_task(p);
+>  	thread_pid = get_pid(p->thread_pid);
+> +
+> +	/*
+> +	 * If we're not the leader, notify any waiters on our pidfds. Note that
+> +	 * we don't want to notify the leader until /everyone/ in the thread
+> +	 * group is dead, viz. the condition below.
+> +	 *
+> +	 * We have to do this here, since __exit_signal() will
+> +	 * __unhash_processes(), and break do_notify_pidfd()'s lookup.
+> +	 */
+> +	if (!thread_group_leader(p))
+> +		do_notify_pidfd(p);
 
-Signed-off-by: Tycho Andersen <tandersen@netflix.com>
----
- kernel/fork.c                                   |  3 +--
- .../selftests/pidfd/pidfd_non_tgl_test.c        | 17 +++++++++++++++++
- 2 files changed, 18 insertions(+), 2 deletions(-)
+This doesn't look consistent.
 
-diff --git a/kernel/fork.c b/kernel/fork.c
-index 44969cd472f0..25fccf7c08a7 100644
---- a/kernel/fork.c
-+++ b/kernel/fork.c
-@@ -2296,9 +2296,8 @@ __latent_entropy struct task_struct *copy_process(
- 		/*
- 		 * - CLONE_DETACHED is blocked so that we can potentially
- 		 *   reuse it later for CLONE_PIDFD.
--		 * - CLONE_THREAD is blocked until someone really needs it.
- 		 */
--		if (clone_flags & (CLONE_DETACHED | CLONE_THREAD))
-+		if (clone_flags & CLONE_DETACHED)
- 			return ERR_PTR(-EINVAL);
- 	}
- 
-diff --git a/tools/testing/selftests/pidfd/pidfd_non_tgl_test.c b/tools/testing/selftests/pidfd/pidfd_non_tgl_test.c
-index c0624b127fab..a34208c2307e 100644
---- a/tools/testing/selftests/pidfd/pidfd_non_tgl_test.c
-+++ b/tools/testing/selftests/pidfd/pidfd_non_tgl_test.c
-@@ -546,6 +546,22 @@ static int test_non_tgl_waitid_exec(void)
- 	return ret;
- }
- 
-+static int test_clone_thread_pidfd(void)
-+{
-+	pid_t pid;
-+	int flags = CLONE_THREAD | CLONE_VM | CLONE_SIGHAND | CLONE_PIDFD;
-+	int pidfd;
-+
-+	pid = clone(thread_sleep, stack + STACK_SIZE, flags, NULL, &pidfd);
-+	if (pid < 0) {
-+		perror("clone");
-+		return KSFT_FAIL;
-+	}
-+
-+	close(pidfd);
-+	return KSFT_PASS;
-+}
-+
- #define T(x) { x, #x }
- struct pidfd_non_tgl_test {
- 	int (*fn)();
-@@ -557,6 +573,7 @@ struct pidfd_non_tgl_test {
- 	T(test_non_tgl_exit_poll),
- 	T(test_non_tgl_waitid_exit),
- 	T(test_non_tgl_waitid_exec),
-+	T(test_clone_thread_pidfd),
- };
- #undef T
- 
--- 
-2.34.1
+If the task is a group leader do_notify_pidfd() is called by exit_notify()
+when it becomes a zombie (if no other threads), before it is reaped by its
+parent (unless autoreap).
+
+If it is a sub-thread, it is called by release_task() above. Note that a
+sub-thread can become a zombie too if it is traced.
+
+>  	__exit_signal(p);
+
+and,  do_notify_pidfd() is called before __exit_signal() which does
+__unhash_process() -> detach_pid(PIDTYPE_PID).
+
+Doesn't this mean that pidfd_poll() can hang? thread_group_exited()
+won't return true after do_notify_pidfd() above, not to mention that
+thread_group_empty() is not possible if !thread_group_leader().
+
+So. When do we want to do do_notify_pidfd() ? Whe the task (leader or not)
+becomes a zombie (passes exit_notify) or when it is reaped by release_task?
+
+Either way pidfd_poll() needs more changes with this patch and it can't
+use thread_group_exited(). If do_notify_pidfd() is called by release_task()
+after __exit_signal(), it can just check pid_has_task(PIDTYPE_PID).
+
+Oleg.
 
 
