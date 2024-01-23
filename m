@@ -1,123 +1,149 @@
-Return-Path: <linux-api+bounces-566-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-567-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED35F838782
-	for <lists+linux-api@lfdr.de>; Tue, 23 Jan 2024 07:35:18 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id A46208388A9
+	for <lists+linux-api@lfdr.de>; Tue, 23 Jan 2024 09:15:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A48BA2887DE
-	for <lists+linux-api@lfdr.de>; Tue, 23 Jan 2024 06:35:17 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E06B2B2497F
+	for <lists+linux-api@lfdr.de>; Tue, 23 Jan 2024 08:15:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B3CD51C50;
-	Tue, 23 Jan 2024 06:32:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A0D756741;
+	Tue, 23 Jan 2024 08:15:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dBCMBJgn"
 X-Original-To: linux-api@vger.kernel.org
-Received: from h3cspam02-ex.h3c.com (smtp.h3c.com [60.191.123.50])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A6903611E;
-	Tue, 23 Jan 2024 06:32:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.191.123.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18E926121;
+	Tue, 23 Jan 2024 08:15:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.88
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705991560; cv=none; b=bE1pqiFFozB5an/pcdhiPkrO3w+epYLnAtx8HyzMJv9cM3OgOc92/NYOpNagraaYd1uqiDIMg5B3RnJu3Dyg3ezIr8iamtGtEPeGh79A4AOak0g7eEGY9/Uv++GeflwkpeAga4g9qjp7fG0s83k0ApwQCmidPb3YAdBKTB9kfUg=
+	t=1705997748; cv=none; b=PN56ktQ8sVhz3aXw3z2lTFbh7WIjUEJ1VPkwOtRTrDUqAO/iYH3/Op/pndVQSrOGT6i3w4ScWSbyHBf2gHq3GqTGCiwB5j3tmJgEFIpRudkpZ/5MTgiwTctgg0FYbfqT13e3IN6U5YVkPcFVK1UBW99hsNww/n3M6Zr2cxlvQuY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705991560; c=relaxed/simple;
-	bh=UB0JVtkwXrMLRZTn2mIH3m4UcL4y+gCZIzpUMshRf5g=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Zmx3OA8iX0w4zqORFkLw7TFyhyT9fRZc8RtdaCiUCk0uoIpiU9m4D3hV6HJjxo12IrG5KWS6MpNnlyY73NQRRXvBDbjCD9XY4hgHB4cg3Yc3TmuwkJM38P6ZUwthxeoRz9Gktf1DSyHfCoOArgbgF+HZdIjHhqXiScz1/ZLkYr0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=h3c.com; spf=pass smtp.mailfrom=h3c.com; arc=none smtp.client-ip=60.191.123.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=h3c.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=h3c.com
-Received: from mail.maildlp.com ([172.25.15.154])
-	by h3cspam02-ex.h3c.com with ESMTP id 40N6TIvp065821;
-	Tue, 23 Jan 2024 14:29:18 +0800 (GMT-8)
-	(envelope-from hu.yadi@h3c.com)
-Received: from DAG6EX02-IMDC.srv.huawei-3com.com (unknown [10.62.14.11])
-	by mail.maildlp.com (Postfix) with ESMTP id 44C142004BC2;
-	Tue, 23 Jan 2024 14:33:57 +0800 (CST)
-Received: from localhost.localdomain (10.99.206.12) by
- DAG6EX02-IMDC.srv.huawei-3com.com (10.62.14.11) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.1258.27; Tue, 23 Jan 2024 14:29:20 +0800
-From: Hu Yadi <hu.yadi@h3c.com>
-To: <jmorris@namei.org>, <serge@hallyn.com>, <shuah@kernel.org>,
-        <mathieu.desnoyers@efficios.com>, <mic@digikod.net>,
-        <amir73il@gmail.com>, <brauner@kernel.org>, <avagin@google.com>
-CC: <linux-api@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-security-module@vger.kernel.org>,
-        <linux-kselftest@vger.kernel.org>, <514118380@qq.com>,
-        <konstantin.meskhidze@huawei.com>, "Hu.Yadi"
-	<hu.yadi@h3c.com>
-Subject: [PATCH] selftests/landlock:Fix net_test build issues with old libc
-Date: Tue, 23 Jan 2024 14:26:21 +0800
-Message-ID: <20240123062621.25082-1-hu.yadi@h3c.com>
-X-Mailer: git-send-email 2.17.1
+	s=arc-20240116; t=1705997748; c=relaxed/simple;
+	bh=Q9cZM58uRpptNUZAKXZJSLxxlo/oFlDoWc5U0H4XU38=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=sXAvKcD7Lb9s4xOYOZ155riZrUBaMq2nzCUUv1xlYrJhXZzgyMjjldgmC7S9IUP9OOiJSvPWQA7sqLUtitHFrO9gS/MXAlX6tkRZ+nk4fSYbNHEvXvPZh4uQdpmXkW5xn8Jd6WzW+BoAgAjrVssyBuqRQ/CQfCp80HMP1T91ax4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dBCMBJgn; arc=none smtp.client-ip=192.55.52.88
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1705997746; x=1737533746;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=Q9cZM58uRpptNUZAKXZJSLxxlo/oFlDoWc5U0H4XU38=;
+  b=dBCMBJgnnZxxyK0erbvktvEXpropBlY20o+40ErPDqu2eqqtJsmai7xK
+   OkGDNTiOH1BS/M/JGmYjOxb61OLRIqasy7/uWLc6YqiV3Gnd0XUu9l5Go
+   JFK7Pgwm7Nzd/WW6Z7ZebVO0PYmQjNUkXlnPNPl5M3tH2/FxoFsp8rki0
+   07O/yRWBzxvzEOVKT0jj4C2642kPmxgsyG3QDTYHWzNgx4tAjq3E7brca
+   7P9b7fyVIkvdlWxaIp4zM6/KR+JjsOfO0heSqiK8BcEvjE2Eb4qztMcob
+   myX0/GR0zkcQ3YBm+BBRrDb8hcJNYtlB/4JqCZ4E4+Nkn3Oz23ugdJ0Pr
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10961"; a="432610289"
+X-IronPort-AV: E=Sophos;i="6.05,213,1701158400"; 
+   d="scan'208";a="432610289"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2024 00:15:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10961"; a="929264349"
+X-IronPort-AV: E=Sophos;i="6.05,213,1701158400"; 
+   d="scan'208";a="929264349"
+Received: from yhuang6-desk2.sh.intel.com (HELO yhuang6-desk2.ccr.corp.intel.com) ([10.238.208.55])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2024 00:15:39 -0800
+From: "Huang, Ying" <ying.huang@intel.com>
+To: Gregory Price <gregory.price@memverge.com>
+Cc: Gregory Price <gourry.memverge@gmail.com>,  <linux-mm@kvack.org>,
+  <linux-kernel@vger.kernel.org>,  <linux-doc@vger.kernel.org>,
+  <linux-fsdevel@vger.kernel.org>,  <linux-api@vger.kernel.org>,
+  <corbet@lwn.net>,  <akpm@linux-foundation.org>,  <honggyu.kim@sk.com>,
+  <rakie.kim@sk.com>,  <hyeongtak.ji@sk.com>,  <mhocko@kernel.org>,
+  <vtavarespetr@micron.com>,  <jgroves@micron.com>,
+  <ravis.opensrc@micron.com>,  <sthanneeru@micron.com>,
+  <emirakhur@micron.com>,  <Hasan.Maruf@amd.com>,
+  <seungjun.ha@samsung.com>,  <hannes@cmpxchg.org>,
+  <dan.j.williams@intel.com>,  Srinivasulu Thanneeru
+ <sthanneeru.opensrc@micron.com>
+Subject: Re: [PATCH v2 3/3] mm/mempolicy: introduce MPOL_WEIGHTED_INTERLEAVE
+ for weighted interleaving
+In-Reply-To: <Za9GiqsZtcfKXc5m@memverge.com> (Gregory Price's message of "Mon,
+	22 Jan 2024 23:54:34 -0500")
+References: <20240119175730.15484-1-gregory.price@memverge.com>
+	<20240119175730.15484-4-gregory.price@memverge.com>
+	<87jzo0vjkk.fsf@yhuang6-desk2.ccr.corp.intel.com>
+	<Za9GiqsZtcfKXc5m@memverge.com>
+Date: Tue, 23 Jan 2024 16:13:43 +0800
+Message-ID: <87ede8v554.fsf@yhuang6-desk2.ccr.corp.intel.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BJSMTP01-EX.srv.huawei-3com.com (10.63.20.132) To
- DAG6EX02-IMDC.srv.huawei-3com.com (10.62.14.11)
-X-DNSRBL: 
-X-SPAM-SOURCE-CHECK: pass
-X-MAIL:h3cspam02-ex.h3c.com 40N6TIvp065821
+Content-Type: text/plain; charset=ascii
 
-From: "Hu.Yadi" <hu.yadi@h3c.com>
+Gregory Price <gregory.price@memverge.com> writes:
 
-Fixes: a549d055a22e ("selftests/landlock: Add network tests")
+> On Tue, Jan 23, 2024 at 11:02:03AM +0800, Huang, Ying wrote:
+>> Gregory Price <gourry.memverge@gmail.com> writes:
+>> 
+>> > +	int prev_node = NUMA_NO_NODE;
+>> 
+>> It appears that we should initialize prev_node with me->il_prev?
+>> Details are as below.
+>> 
+>
+> yeah good catch, was a rebase error from my tested code, where this is
+> the case.  patching now.
+>
+>> > +		if (rem_pages <= pol->wil.cur_weight) {
+>> > +			pol->wil.cur_weight -= rem_pages;
+>> 
+>> If "pol->wil.cur_weight == 0" here, we need to change me->il_prev?
+>> 
+> you are right, and also need to fetch the next cur_weight.  Seems I
+> missed this specific case in my tests.  (had this tested with a single
+> node but not 2, so it looked right).
+>
+> Added to my test suite.
+>
+>> We can replace "weight_nodes" with "i" and use a "for" loop?
+>> 
+>> > +	while (weight_nodes < nnodes) {
+>> > +		node = next_node_in(prev_node, nodes);
+>> 
+>> IIUC, "node" will not change in the loop, so all "weight" below will be
+>> the same value.  To keep it simple, I think we can just copy weights
+>> from the global iw_table and consider the default value?
+>> 
+>
+> another rebase error here from my tested code, this should have been
+> node = prev_node;
+> while (...)
+>     node = next_node_in(node, nodes);
+>
+> I can change it to a for loop as suggested, but for more info on why I
+> did it this way, see the chunk below
+>
+>> > +		} else if (!delta_depleted) {
+>> > +			/* if there was no delta, track last allocated node */
+>> > +			resume_node = node;
+>> > +			resume_weight = i < (nnodes - 1) ? weights[i+1] :
+>> > +							   weights[0];
+>                         ^ this line acquires the weight of the *NEXT* node
+> 			  another chunk prior to this does the same
+> 			  thing.  I suppose i can use next_node_in()
+> 			  instead and just copy the entire weigh array
+> 			  though, if that is preferable.
 
-one issues comes up while building selftest/landlock/net_test on my side
-(gcc 7.3/glibc-2.28/kernel-4.19)
+Yes.  I think copy the entire weight array make code logic simpler.
 
-net_test.c: In function ‘set_service’:
-net_test.c:91:45: warning: implicit declaration of function ‘gettid’; [-Wimplicit-function-declaration]
-    "_selftests-landlock-net-tid%d-index%d", gettid(),
-                                             ^~~~~~
-                                             getgid
-net_test.c:(.text+0x4e0): undefined reference to `gettid'
-
-Signed-off-by: Hu Yadi <hu.yadi@h3c.com>
-Suggested-by: Jiao <jiaoxupo@h3c.com>
-Reviewed-by: Berlin <berlin@h3c.com>
----
- tools/testing/selftests/landlock/net_test.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
-
-diff --git a/tools/testing/selftests/landlock/net_test.c b/tools/testing/selftests/landlock/net_test.c
-index 929e21c4db05..6cc1bb1a9166 100644
---- a/tools/testing/selftests/landlock/net_test.c
-+++ b/tools/testing/selftests/landlock/net_test.c
-@@ -18,9 +18,15 @@
- #include <sys/prctl.h>
- #include <sys/socket.h>
- #include <sys/un.h>
--
-+#include <sys/syscall.h>
- #include "common.h"
-
-+
-+static pid_t sys_gettid(void)
-+{
-+	return syscall(__NR_gettid);
-+}
-+
- const short sock_port_start = (1 << 10);
-
- static const char loopback_ipv4[] = "127.0.0.1";
-@@ -88,7 +94,7 @@ static int set_service(struct service_fixture *const srv,
- 	case AF_UNIX:
- 		srv->unix_addr.sun_family = prot.domain;
- 		sprintf(srv->unix_addr.sun_path,
--			"_selftests-landlock-net-tid%d-index%d", gettid(),
-+			"_selftests-landlock-net-tid%d-index%d", sys_gettid(),
- 			index);
- 		srv->unix_addr_len = SUN_LEN(&srv->unix_addr);
- 		srv->unix_addr.sun_path[0] = '\0';
 --
-2.23.0
-
+Best Regards,
+Huang, Ying
 
