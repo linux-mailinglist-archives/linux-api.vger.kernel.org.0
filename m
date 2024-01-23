@@ -1,112 +1,111 @@
-Return-Path: <linux-api+bounces-571-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-572-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6ACE838E21
-	for <lists+linux-api@lfdr.de>; Tue, 23 Jan 2024 13:05:34 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47177839111
+	for <lists+linux-api@lfdr.de>; Tue, 23 Jan 2024 15:16:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7DA5C1F2295E
-	for <lists+linux-api@lfdr.de>; Tue, 23 Jan 2024 12:05:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0044528AEBD
+	for <lists+linux-api@lfdr.de>; Tue, 23 Jan 2024 14:16:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3205C5D915;
-	Tue, 23 Jan 2024 12:05:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 675F25F863;
+	Tue, 23 Jan 2024 14:14:35 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from h3cspam02-ex.h3c.com (smtp.h3c.com [60.191.123.50])
+Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de [130.133.4.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13E9F5C61A;
-	Tue, 23 Jan 2024 12:05:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.191.123.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9680D605C9;
+	Tue, 23 Jan 2024 14:14:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=130.133.4.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706011528; cv=none; b=bHiW2qlzqP0W+ARVnaNXkPvdQX1a/BCpxwiecJxltOooSgDJ6Ia1vmMI0IeAmJcb0JSV2h2zlouWP4qxEONJ47iWnNnOawiLng3btvCj+cR/YvwTbK8abbdeVPMsd/UaPssjRKvwv3CzNaGGzMyfmyHQ3Qyjq45tF/DHuvuFoQw=
+	t=1706019275; cv=none; b=UKerg12Ywsb3ZQAW/TyL/tJlfGFmR1G2K+Rw60keDc6lbyIEhORNxwiI9yMtYxkikP7yDAbrgGVby5vKI4GVpz2LfJRxO0x+YH7g9ycIOlXTN5i+Dms12o5mzNWTwZJMdrCfqYClZbOZyox0ieNWKOKQQDYIY0kDEJrJJgHUpzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706011528; c=relaxed/simple;
-	bh=GiH+wOby5YduPA4k8m2yi3D59oBZ6oK+TLaCvK0X+d4=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=LNAdStLVlzb+2/QaP/xSt4Yok2YXsO3zlIKluayqMIzrl18DOg4eIUjtXieMq9AF0Bl3pxOPhScIWO7NpKI3m0Rc4Hyt6efRg0kgk49GFMFGWCLl10uMSZBuJbQtJcwJotsclvt4vCKCbE4FgB2FgLimjFSxdhaL/UqPo749lk4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=h3c.com; spf=pass smtp.mailfrom=h3c.com; arc=none smtp.client-ip=60.191.123.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=h3c.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=h3c.com
-Received: from mail.maildlp.com ([172.25.15.154])
-	by h3cspam02-ex.h3c.com with ESMTP id 40NC4EU4014951;
-	Tue, 23 Jan 2024 20:04:14 +0800 (GMT-8)
-	(envelope-from hu.yadi@h3c.com)
-Received: from DAG6EX14-BJD.srv.huawei-3com.com (unknown [10.153.34.16])
-	by mail.maildlp.com (Postfix) with ESMTP id CDCEF22D4AC3;
-	Tue, 23 Jan 2024 20:08:54 +0800 (CST)
-Received: from DAG6EX02-IMDC.srv.huawei-3com.com (10.62.14.11) by
- DAG6EX14-BJD.srv.huawei-3com.com (10.153.34.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.27; Tue, 23 Jan 2024 20:04:17 +0800
-Received: from DAG6EX02-IMDC.srv.huawei-3com.com ([fe80::4c21:7c89:4f9d:e4c4])
- by DAG6EX02-IMDC.srv.huawei-3com.com ([fe80::4c21:7c89:4f9d:e4c4%16]) with
- mapi id 15.02.1258.027; Tue, 23 Jan 2024 20:04:17 +0800
-From: Huyadi <hu.yadi@h3c.com>
-To: =?utf-8?B?J01pY2thw6tsIFNhbGHDvG4n?= <mic@digikod.net>
-CC: "jmorris@namei.org" <jmorris@namei.org>,
-        "serge@hallyn.com"
-	<serge@hallyn.com>,
-        "shuah@kernel.org" <shuah@kernel.org>,
-        "mathieu.desnoyers@efficios.com" <mathieu.desnoyers@efficios.com>,
-        "amir73il@gmail.com" <amir73il@gmail.com>,
-        "brauner@kernel.org"
-	<brauner@kernel.org>,
-        "avagin@google.com" <avagin@google.com>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-security-module@vger.kernel.org"
-	<linux-security-module@vger.kernel.org>,
-        "linux-kselftest@vger.kernel.org"
-	<linux-kselftest@vger.kernel.org>,
-        "514118380@qq.com" <514118380@qq.com>,
-        "konstantin.meskhidze@huawei.com" <konstantin.meskhidze@huawei.com>
-Subject: =?utf-8?B?5Zue5aSNOiBbUEFUQ0ggdjRdIHNlbGZ0ZXN0cy9sYW5kbG9jazpGaXggdHdv?=
- =?utf-8?Q?_build_issues?=
-Thread-Topic: [PATCH v4] selftests/landlock:Fix two build issues
-Thread-Index: AQHaR51Te/ejhd6BskWKYK0XmAmChrDgkaUAgAbFurA=
-Date: Tue, 23 Jan 2024 12:04:17 +0000
-Message-ID: <adec399e50c74b30b59480d92c431241@h3c.com>
-References: <20240115102409.19799-1-hu.yadi@h3c.com>
- <20240119.Ugaehae2ze5b@digikod.net>
-In-Reply-To: <20240119.Ugaehae2ze5b@digikod.net>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-sender-location: DAG2
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1706019275; c=relaxed/simple;
+	bh=aLNrXaxt98R5cd0HEJoYciC+5vGvHwIt2upVpsfT5Tg=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=hmXU6sfb4LbGJW6NEVH+Y4khsCQtovcuVrjnoKsWvqFweD/00R8NYD2hhDLeixoT9pOqP0Rj4ChT4JO9+YUKYV5K5IfZrAsqKVFmmlna896jpO042/rZl/DWhm2buj3PYOywZzUY8rJ1KvlJhWwhrgZrQSC8p003+Sj387Moqn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=physik.fu-berlin.de; spf=pass smtp.mailfrom=zedat.fu-berlin.de; arc=none smtp.client-ip=130.133.4.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=physik.fu-berlin.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zedat.fu-berlin.de
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+          by outpost.zedat.fu-berlin.de (Exim 4.95)
+          with esmtps (TLS1.3)
+          tls TLS_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@zedat.fu-berlin.de>)
+          id 1rSHXV-0006I0-Hz; Tue, 23 Jan 2024 15:14:09 +0100
+Received: from p5dc556fd.dip0.t-ipconnect.de ([93.197.86.253] helo=z6.fritz.box)
+          by inpost2.zedat.fu-berlin.de (Exim 4.95)
+          with esmtpsa (TLS1.3)
+          tls TLS_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@physik.fu-berlin.de>)
+          id 1rSHXV-0046LF-9X; Tue, 23 Jan 2024 15:14:09 +0100
+Received: from glaubitz by z6.fritz.box with local (Exim 4.96)
+	(envelope-from <glaubitz@physik.fu-berlin.de>)
+	id 1rSHXU-00Fl8i-2t;
+	Tue, 23 Jan 2024 15:14:08 +0100
+From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+To: linux@roeck-us.net
+Cc: amir73il@gmail.com,
+	arnd@arndb.de,
+	christian@brauner.io,
+	dhowells@redhat.com,
+	fweimer@redhat.com,
+	kzak@redhat.com,
+	linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-man@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	mattlloydhouse@gmail.com,
+	mszeredi@redhat.com,
+	raven@themaw.net,
+	torvalds@linux-foundation.org,
+	viro@zeniv.linux.org.uk,
+	inux-sh@vger.kernel.org
+Subject: Re: [PATCH v4 5/6] add listmount(2) syscall
+Date: Tue, 23 Jan 2024 15:14:08 +0100
+Message-Id: <20240123141408.3756120-1-glaubitz@physik.fu-berlin.de>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <75b87a85-7d2c-4078-91e3-024ea36cfb42@roeck-us.net>
+References: <75b87a85-7d2c-4078-91e3-024ea36cfb42@roeck-us.net>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-DNSRBL: 
-X-SPAM-SOURCE-CHECK: pass
-X-MAIL:h3cspam02-ex.h3c.com 40NC4EU4014951
+Content-Transfer-Encoding: 8bit
+X-Original-Sender: glaubitz@physik.fu-berlin.de
+X-ZEDAT-Hint: PO
 
-DQo+PiBDaGFuZ2VzIHYzIC0+IHYyOg0KPj4gIC0gYWRkIGhlbHBlciBvZiBnZXR0aWQgaW5zdGVh
-ZCBvZiBfX05SX2dldHRpZA0KPj4gIC0gYWRkIGdjYy9nbGliYyB2ZXJzaW9uIGluZm8gaW4gY29t
-bWVudHMgQ2hhbmdlcyB2MSAtPiB2MjoNCj4+ICAtIGZpeCB3aGl0ZXNwYWNlIGVycm9yDQo+PiAg
-LSByZXBsYWNlIFNZU19nZXR0aWQgd2l0aCBfTlJfZ2V0dGlkDQo+PiANCj4+ICB0b29scy90ZXN0
-aW5nL3NlbGZ0ZXN0cy9sYW5kbG9jay9mc190ZXN0LmMgIHwgNSArKysrLSAgDQo+PiB0b29scy90
-ZXN0aW5nL3NlbGZ0ZXN0cy9sYW5kbG9jay9uZXRfdGVzdC5jIHwgNyArKysrKystDQo+PiAgMiBm
-aWxlcyBjaGFuZ2VkLCAxMCBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQ0KPj4gDQo+PiBk
-aWZmIC0tZ2l0IGEvdG9vbHMvdGVzdGluZy9zZWxmdGVzdHMvbGFuZGxvY2svZnNfdGVzdC5jIA0K
-Pj4gYi90b29scy90ZXN0aW5nL3NlbGZ0ZXN0cy9sYW5kbG9jay9mc190ZXN0LmMNCj4+IGluZGV4
-IDE4ZTFmODZhNjIzNC4uYTk5MmNmN2MwYWQxIDEwMDY0NA0KPj4gLS0tIGEvdG9vbHMvdGVzdGlu
-Zy9zZWxmdGVzdHMvbGFuZGxvY2svZnNfdGVzdC5jDQo+PiArKysgYi90b29scy90ZXN0aW5nL3Nl
-bGZ0ZXN0cy9sYW5kbG9jay9mc190ZXN0LmMNCj4+IEBAIC00NTcyLDcgKzQ1NzIsMTAgQEAgRklY
-VFVSRV9WQVJJQU5UKGxheW91dDNfZnMpDQo+PiAgLyogY2xhbmctZm9ybWF0IG9mZiAqLw0KPj4g
-IEZJWFRVUkVfVkFSSUFOVF9BREQobGF5b3V0M19mcywgdG1wZnMpIHsNCj4+ICAJLyogY2xhbmct
-Zm9ybWF0IG9uICovDQo+PiAtCS5tbnQgPSBtbnRfdG1wLA0KPj4gKwkubW50ID0gew0KPj4gKwkJ
-LnR5cGUgPSAidG1wZnMiLA0KPj4gKwkJLmRhdGEgPSAic2l6ZT00bSxtb2RlPTcwMCIsDQo+PiAr
-CX0sDQo+DQo+SSByZXF1ZXN0ZWQgc29tZSBjaGFuZ2VzIGhlcmUuDQo+DQoNCkNvdWxkIHlvdSBn
-aXZlIG1lIHNvbWUgaW5zcGlyYXRpb24gaG93IHRvIGZpeCBpdD8gDQppdCBsb29rcyBmaW5lIHRv
-IG1lIHRvIGFzc2lnbiB2YWx1ZSBhcyBhYm92ZSwgd2hpY2ggY29uc2lzdGVudCB3aXRoIG90aGVy
-IHBzZXVkbyBGUyB0ZXN0cy4NClRoYW5rcyBpbiBhZHZhbmNlLg0KDQo+PiAgCS5maWxlX3BhdGgg
-PSBmaWxlMV9zMWQxLA0KPj4gIH07DQo+PiANCiAgDQo=
+Hi Guenter,
+
+> with this patch in the tree, all sh4 builds fail with ICE.
+> 
+> during RTL pass: final
+> In file included from fs/namespace.c:11:
+> fs/namespace.c: In function '__se_sys_listmount':
+> include/linux/syscalls.h:258:9: internal compiler error: in change_address_1, at emit-rtl.c:2275
+> 
+> I tested with gcc 8.2, 11.3, 11.4, and 12.3. The compiler version
+> does not make a difference. Has anyone else seen the same problem ?
+> If so, any idea what to do about it ?
+
+I'm not seeing any problems building the SH kernel except some -Werror=missing-prototypes warnings.
+
+I'm using gcc 11.1 from here [1].
+
+Adrian
+
+PS: Please always CC linux-sh and the SH maintainers when reporting issues.
+
+> [1] https://mirrors.edge.kernel.org/pub/tools/crosstool/files/bin/x86_64/11.1.0/
+
+--
+ .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer
+`. `'   Physicist
+  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
 
