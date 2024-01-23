@@ -1,119 +1,137 @@
-Return-Path: <linux-api+bounces-579-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-575-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEF30839390
-	for <lists+linux-api@lfdr.de>; Tue, 23 Jan 2024 16:48:58 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DEA2839344
+	for <lists+linux-api@lfdr.de>; Tue, 23 Jan 2024 16:41:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 13FA7B2B331
-	for <lists+linux-api@lfdr.de>; Tue, 23 Jan 2024 15:48:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 404461C228AB
+	for <lists+linux-api@lfdr.de>; Tue, 23 Jan 2024 15:41:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BADC60DFC;
-	Tue, 23 Jan 2024 15:40:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25C0E60276;
+	Tue, 23 Jan 2024 15:35:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="XXbo1DEE"
+	dkim=pass (2048-bit key) header.d=tycho.pizza header.i=@tycho.pizza header.b="fBlX29H2";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="dgEPaiM3"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp-190c.mail.infomaniak.ch (smtp-190c.mail.infomaniak.ch [185.125.25.12])
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50CA96280F
-	for <linux-api@vger.kernel.org>; Tue, 23 Jan 2024 15:40:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.25.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E96C75FDCC;
+	Tue, 23 Jan 2024 15:35:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.111.4.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706024422; cv=none; b=pREo69E8IxHj3rlxhpm9Nxg+SqpR5uLkTqhCFRGnKlObjHaPSHz2/N1sW4LFCFwYz3j2FCsvO6x68zJi/V2irI5TnU3qUykMHcOHgVitPBSnYMvlw0jRG0Ttp+nsEFnO9C1tsvuDveqpV4jgtSfXArEysvBjsNvN4xiXP1QsshY=
+	t=1706024108; cv=none; b=lzNJEjhIdt7LfB5+1RhIypctyCMEfGCGMOUZ1vjkj7IJHgdt8CtMcHuqCWs2uzvxydnSj2WgSLDCVc6Ay+Y2tkWPz/lZLjlIZV2k51Z6zN/x16mEjnrOSlUj/INqMxKKQjOoy8TglMATgIkcjrO3YHxVQLHtfmRquLlMuqY9LWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706024422; c=relaxed/simple;
-	bh=zgqI9UR8YogjZoN9u8vWb4dHmJvB8ik8X67zHyKWp0E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a6TDUeJ+3rImn6OQ6XI1/uNeMRCeLLvb9P3v6UmqZti1Vrk9Hp6NQkpYWS0zMWefLPYhy2S8QCOW/H38e+MWcsBFWVJMSHDs7+ykap0k6Ri4QPt/lL4O0UPuO57skHHIuu/7Oe/Hdpr8JqpiX41ykiLZuixQcTRriEMH7HCOYKc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=XXbo1DEE; arc=none smtp.client-ip=185.125.25.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
-Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
-	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4TKB1N6n0DzMq5jw;
-	Tue, 23 Jan 2024 16:32:56 +0100 (CET)
-Received: from unknown by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4TKB1M6BnkzrB;
-	Tue, 23 Jan 2024 16:32:55 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
-	s=20191114; t=1706023976;
-	bh=zgqI9UR8YogjZoN9u8vWb4dHmJvB8ik8X67zHyKWp0E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XXbo1DEEM3NL5OR6r67arzFI93BlDNA3jzA0bdkXrlPcz9PWoynqbZ9DRchI+s6Hg
-	 sumZzKWpg5rsuUXtHAg+MW1vTX8Wek22Z+dFFd/K6v6792zx7BcdklDSFmE1Z7xIYb
-	 udJuqxRWB40sTpRe3IUczKgQk87Ey5o7YLkGSRLM=
-Date: Tue, 23 Jan 2024 16:32:52 +0100
-From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
-To: Huyadi <hu.yadi@h3c.com>
-Cc: "jmorris@namei.org" <jmorris@namei.org>, 
-	"serge@hallyn.com" <serge@hallyn.com>, "shuah@kernel.org" <shuah@kernel.org>, 
-	"mathieu.desnoyers@efficios.com" <mathieu.desnoyers@efficios.com>, "amir73il@gmail.com" <amir73il@gmail.com>, 
-	"brauner@kernel.org" <brauner@kernel.org>, "avagin@google.com" <avagin@google.com>, 
-	"linux-api@vger.kernel.org" <linux-api@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-security-module@vger.kernel.org" <linux-security-module@vger.kernel.org>, 
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>, "514118380@qq.com" <514118380@qq.com>, 
-	"konstantin.meskhidze@huawei.com" <konstantin.meskhidze@huawei.com>
-Subject: Re: =?utf-8?B?5Zue5aSN?= =?utf-8?Q?=3A?= [PATCH v4]
- selftests/landlock:Fix two build issues
-Message-ID: <20240123.deeT9hegh4vo@digikod.net>
-References: <20240115102409.19799-1-hu.yadi@h3c.com>
- <20240119.Ugaehae2ze5b@digikod.net>
- <adec399e50c74b30b59480d92c431241@h3c.com>
+	s=arc-20240116; t=1706024108; c=relaxed/simple;
+	bh=XcJc/yvMCH0RbyeBdmRrU6syGsXpx3+8eaxSeIwzZ+c=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=flIB3cmH5zNla5LNw09b8aSXdW7MDxX2p+ocQMHHAmk1NzSQGLmFGW4p0NWFKYWjDUnDEw1XCUMYQhCm4DGx2DfpfFmxUv4M/XNn66EO3ztOMWb2Q5LZFOeyQ27o2YRa+axGJ3yOyrCLYmNjh8b7qW7CpOaQ+79DvNs/vg/sFmU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tycho.pizza; spf=pass smtp.mailfrom=tycho.pizza; dkim=pass (2048-bit key) header.d=tycho.pizza header.i=@tycho.pizza header.b=fBlX29H2; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=dgEPaiM3; arc=none smtp.client-ip=66.111.4.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tycho.pizza
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tycho.pizza
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id CD27B5C01C5;
+	Tue, 23 Jan 2024 10:35:04 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Tue, 23 Jan 2024 10:35:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tycho.pizza; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=fm2; t=1706024104; x=1706110504; bh=cpXoKTh0mBiWlf0Tpz7Tl
+	cUg3DJUYpaHX2Su09+jA0s=; b=fBlX29H2GKnOsOdTnWheKvb5z7HjLMeIi1o6h
+	y5T5Odtf6rADsoffBEXIEHKzCAGqDJ3kjkXC9DlRg0CMOKcimfCWAigJO6eOLNpL
+	m0o1SnrSHqqcD4HyiSquik2WtrVZDOY6PrCGXE0RvfxDirdm4FbuSkg8dxHjyHIH
+	GE0Gzm3ARElfQuNna13DK40ThMSrxmDfuilQV4Y52+IK5d2dvJyv7CjCdRT3jL+b
+	9mdMbw1yqwMFyDgEhDMRxc2qo5uoUXw1DaRLCT/LCS/bIPYkEB1Rb3FJzLKB1IN+
+	C8TGlyNSp42TdPMuTjKJqSYw75kWlzuSyDO4EDopzn6WfIkfg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1706024104; x=1706110504; bh=cpXoKTh0mBiWlf0Tpz7TlcUg3DJU
+	YpaHX2Su09+jA0s=; b=dgEPaiM3Y4oX1IDgLIegPeyh4zh6oMZ2vJHohdGCS92g
+	FBzKO5BfQh4LadliUm4805B68V1+bkLooin4lKGpcOuRilaCWBF2yaKDCPwjm3p/
+	VMGWwuF4DbhNjAV3fTbS0m51b6D9Qqb/og9eAkQdHtnwnNUdLDeiHVbT+l4qEmWe
+	e/KKgmAQniU9AKD1C/QMFZPv1CCxIC0mvfAAUsqydkuwMr0JWrgS5Z6IWJ2drvtA
+	1CjSF+txfzpjOVDddiMNO3ZucKIHJddnKMJnhh9hIeGC6Yl0Cr8lPu3Xh5L/VGOv
+	SLhCRKO9ZB5+we4sQSKVA4I+8AhEDqYTfCb8I8D9jA==
+X-ME-Sender: <xms:qNyvZad-mdVR3C25zUPtYXnATsRYsJiCFSFzY4jyBWvZo-Wuq-d7xA>
+    <xme:qNyvZUMTD7Zrs1cQFdqu2CWwHjCoeYnRSxRKO5l_DYVcmYuBDVz3j9N9o0MlsYl1a
+    CPwItqJ1pgfNdgLFPs>
+X-ME-Received: <xmr:qNyvZbi93eKSQniq2kPm4JMcMLAuu1-OGuJHPlaYdirnqtwq0swEREX3osSLNf0ibic9PA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdekkedgjeejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepvfihtghhohcu
+    tehnuggvrhhsvghnuceothihtghhohesthihtghhohdrphhiiiiirgeqnecuggftrfgrth
+    htvghrnhepheeffeehleeftdfgjeegheelieefvdfghfeuudeuheehuefhhffhtefhiedv
+    geegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepth
+    ihtghhohesthihtghhohdrphhiiiiirg
+X-ME-Proxy: <xmx:qNyvZX-DYIs2e7X-Z5zhwtLRDOAU5ptt4g25_0-h6WxHHnWHdVghBw>
+    <xmx:qNyvZWvbk6USd5KEB8NVKqTLvW2K1-mMcuglJRrzaI_NvlDg_tUyvg>
+    <xmx:qNyvZeEqoei83qLCLw-l9sFUelWMBiLqbvn3zejMd27-Mlw5pLeZRw>
+    <xmx:qNyvZYI_2S7v59IVBvJ37iqkqXbKmCOFSMV7zLhHFWcSfpZYa-wAGw>
+Feedback-ID: i21f147d5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 23 Jan 2024 10:35:03 -0500 (EST)
+From: Tycho Andersen <tycho@tycho.pizza>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Oleg Nesterov <oleg@redhat.com>,
+	linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	Tycho Andersen <tandersen@netflix.com>
+Subject: [PATCH v3 0/3] pidfds for non thread group leaders
+Date: Tue, 23 Jan 2024 08:34:49 -0700
+Message-Id: <20240123153452.170866-1-tycho@tycho.pizza>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <adec399e50c74b30b59480d92c431241@h3c.com>
-X-Infomaniak-Routing: alpha
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jan 23, 2024 at 12:04:17PM +0000, Huyadi wrote:
-> 
-> >> Changes v3 -> v2:
-> >>  - add helper of gettid instead of __NR_gettid
-> >>  - add gcc/glibc version info in comments Changes v1 -> v2:
-> >>  - fix whitespace error
-> >>  - replace SYS_gettid with _NR_gettid
-> >> 
-> >>  tools/testing/selftests/landlock/fs_test.c  | 5 ++++-  
-> >> tools/testing/selftests/landlock/net_test.c | 7 ++++++-
-> >>  2 files changed, 10 insertions(+), 2 deletions(-)
-> >> 
-> >> diff --git a/tools/testing/selftests/landlock/fs_test.c 
-> >> b/tools/testing/selftests/landlock/fs_test.c
-> >> index 18e1f86a6234..a992cf7c0ad1 100644
-> >> --- a/tools/testing/selftests/landlock/fs_test.c
-> >> +++ b/tools/testing/selftests/landlock/fs_test.c
-> >> @@ -4572,7 +4572,10 @@ FIXTURE_VARIANT(layout3_fs)
-> >>  /* clang-format off */
-> >>  FIXTURE_VARIANT_ADD(layout3_fs, tmpfs) {
-> >>  	/* clang-format on */
-> >> -	.mnt = mnt_tmp,
-> >> +	.mnt = {
-> >> +		.type = "tmpfs",
-> >> +		.data = "size=4m,mode=700",
-> >> +	},
-> >
-> >I requested some changes here.
-> >
-> 
-> Could you give me some inspiration how to fix it? 
-> it looks fine to me to assign value as above, which consistent with other pseudo FS tests.
-> Thanks in advance.
+From: Tycho Andersen <tandersen@netflix.com>
 
-Just add and use this for the two tmpfs data:
-#define MNT_TMP_DATA "size=4m,mode=700"
+Hi all,
 
-You can also make the mnt_tmp variable static const.
+Finally picking this back up. I looked for a location where we could put
+the do_notify_pidfd() call so that we'd only need one for an
+embarassingly long time, but couldn't find anything that worked. So, we
+have a new call in a similar location in v1, just using the actual
+helper. Perhaps this makes sense, since we're adding a new feature.
+
+Hopefully all the tests even pass this time! I looked for a bit but
+couldn't figure out why they don't exit(0) when something failed. I'll
+keep looking at that.
+
+Thoughts welcome,
+
+Tycho
+
+Tycho Andersen (3):
+  pidfd: allow pidfd_open() on non-thread-group leaders
+  selftests/pidfd: add non-thread-group leader tests
+  clone: allow CLONE_THREAD | CLONE_PIDFD together
+
+ include/linux/sched/signal.h                  |   1 +
+ kernel/exit.c                                 |  11 +
+ kernel/fork.c                                 |   7 +-
+ kernel/pid.c                                  |  11 +-
+ kernel/signal.c                               |   2 +-
+ tools/testing/selftests/pidfd/.gitignore      |   1 +
+ tools/testing/selftests/pidfd/Makefile        |   3 +-
+ .../selftests/pidfd/pidfd_non_tgl_test.c      | 600 ++++++++++++++++++
+ 8 files changed, 619 insertions(+), 17 deletions(-)
+ create mode 100644 tools/testing/selftests/pidfd/pidfd_non_tgl_test.c
 
 
-> 
-> >>  	.file_path = file1_s1d1,
-> >>  };
-> >> 
->   
+base-commit: 610347effc2ecb5ededf5037e82240b151f883ab
+-- 
+2.34.1
+
 
