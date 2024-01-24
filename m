@@ -1,96 +1,140 @@
-Return-Path: <linux-api+bounces-627-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-628-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DB2B83B124
-	for <lists+linux-api@lfdr.de>; Wed, 24 Jan 2024 19:29:30 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DF2583B293
+	for <lists+linux-api@lfdr.de>; Wed, 24 Jan 2024 20:53:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C1039B2F089
-	for <lists+linux-api@lfdr.de>; Wed, 24 Jan 2024 18:03:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 061E62863E4
+	for <lists+linux-api@lfdr.de>; Wed, 24 Jan 2024 19:53:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1856E128366;
-	Wed, 24 Jan 2024 18:03:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E06E132C31;
+	Wed, 24 Jan 2024 19:53:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b="OGAnfko9"
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="A+/A63xh";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="lT+iXOVz"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail.codeweavers.com (mail.codeweavers.com [4.36.192.163])
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C04C27E778;
-	Wed, 24 Jan 2024 18:03:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.36.192.163
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5DBA131749;
+	Wed, 24 Jan 2024 19:53:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706119397; cv=none; b=Ef85waT4cRLHEiErkpqSeNm1qrUcmO+AAvzuIQa5pvMKRHwUH1MCnldHRb43mRl9Brj4tvfJJo4RolegjhMfWm0C855Fr1GYalWzb2NMnHvwdj+0n28bqJZ8C+Kut/klItFJ6gNDzfWQ/o2XTxUQEe9UB+ZXMbWxu7XgrPddQB8=
+	t=1706125997; cv=none; b=AFK+83K1CRKJ8dl/x8QwODOWfn0CfIi/MQE8E0iLxqsxJonTrdBo5UcA6TfC2sPjwGni+41mbG6E3GRAuZXst5RPJgVgZCKba4WzmE6LZzvSzrQ6ynqeSPZX4KAMestyn3csT+aPJ1HJOKwfxkTU5LL91THqB29GWL912wcKC5w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706119397; c=relaxed/simple;
-	bh=bTzKhd4Vdam5ERW3M7c5bvxorwduJzmfAqrXA6UqVAA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Y6CmXNaIKNOiqoXmfDzkbpKj29UC8XKqtT3B3eDr3o5rJf2ZOt/WxQQQU2rXwnq1Y2G9eE3BW8XdYknPFT2LDxyLA/F41GHlhgWms4pWBRtYLcjiNAFCELFXZbkCTg/uOhUNzGgZEH0bqKXolIL+bDBzYQAiRR6TZ23B1WawZjY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com; spf=pass smtp.mailfrom=codeweavers.com; dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b=OGAnfko9; arc=none smtp.client-ip=4.36.192.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeweavers.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=codeweavers.com; s=s1; h=Message-ID:Date:Subject:Cc:To:From:Sender;
-	bh=EgQaF8x2DRjGMV5K7O4i6mK/I6jmASKOSLI9NikLiVQ=; b=OGAnfko9CUjl52+4q4w3XK/FJu
-	v+hIFX9ql6Xu3SL4KhkEdM1w6L1383UDISKQLKxJq8+JB4D+Lwl5sil94/HsCOVc2mhWnVwbKvwj9
-	pj3V9+5dFdLzdBQbsXwl2aPx6wym4ai6UEvfm9Czwanb1Wfc7dMClF5Zhi9wVj8pxKqKEGcpEGjBz
-	6S3mGKpKPr0R9BeafF+NJ2uqV8GeoLSoJSF7oiuUbDaDP3p7O8gIjD09q+6Z0qgMMuJ3t7bsl21Ls
-	Ro+fZbXFsMWSQsMzhyLhUlLiUjALxYOVglyJG198wrN8w2Tps4aG0N80lJQDvL6xEMiqnSIoi3JC1
-	xOTTq5Sg==;
-Received: from cw137ip160.mn.codeweavers.com ([10.69.137.160] helo=camazotz.localnet)
-	by mail.codeweavers.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <zfigura@codeweavers.com>)
-	id 1rShaj-00EKfU-14;
-	Wed, 24 Jan 2024 12:03:13 -0600
-From: Elizabeth Figura <zfigura@codeweavers.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
- Arnd Bergmann <arnd@arndb.de>
-Cc: wine-devel@winehq.org,
- =?ISO-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
- Wolfram Sang <wsa@kernel.org>, Arkadiusz Hiler <ahiler@codeweavers.com>,
- Peter Zijlstra <peterz@infradead.org>
-Subject: Re: [RFC PATCH 8/9] ntsync: Introduce NTSYNC_IOC_PUT_MUTEX.
-Date: Wed, 24 Jan 2024 12:03:13 -0600
-Message-ID: <2171522.irdbgypaU6@camazotz>
-In-Reply-To: <4027ec4c-1e11-40fc-a9af-07732d7c3c1a@app.fastmail.com>
-References:
- <20240124004028.16826-1-zfigura@codeweavers.com>
- <20240124004028.16826-9-zfigura@codeweavers.com>
- <4027ec4c-1e11-40fc-a9af-07732d7c3c1a@app.fastmail.com>
+	s=arc-20240116; t=1706125997; c=relaxed/simple;
+	bh=SwgTspLxFGhapYw4Ru7+OVzFFI0NckTW4NA+OsvMalo=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=Mpjny2uK2xOARJnKsIEir2R0vnuZ7ZHU5oSCnpcGzK8ah5j62b+HmSXhPsbu4f1c39HfabqCXSkXbMY4tE/Ec1nLcCeIrUV90ads08arEuw+Zuyb2fM88xGWi646ssW++zrIytGBNrSKluyJ82qyJkf36Cw2sh5nO1BJaWvLok8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=A+/A63xh; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=lT+iXOVz; arc=none smtp.client-ip=64.147.123.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.west.internal (Postfix) with ESMTP id 221733200AD5;
+	Wed, 24 Jan 2024 14:53:14 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Wed, 24 Jan 2024 14:53:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1706125993; x=1706212393; bh=sDekHfYu/b
+	reQaJXZDRG+5CmXfkqyiEh3Ug/BHq3NCk=; b=A+/A63xhJvI6FAhB7d21eQqM+8
+	4ROkoAjIrPZecxvmfBU0MJwTTpkdq0v4aN4S98wIC1HXTsaLrlEqj/Zf/7p8nsKR
+	yqbVDC1ikBx/RdDXlxyCQP5AD+7dcRRdoMn6Pe+gZLG+2rGne4dgofSjxE9wFFfD
+	cg/77IYHLEULfVqSdM9gFvRDmqoyt5vc1+Us37AW81hE/em87PCqEQRVVOZYMGp5
+	uC7D5skD0Y+w1xqT/kF7ErVyMV3HOIIn4aYY1yg5XcYroQeaZaitELDKyzd8xaYK
+	OyzyD3oMHeJ6yjLxXaf5Mb1Z3Cs9Oaw+B0aaANp2bT+tD7FeH3o+BleFNFLw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1706125993; x=1706212393; bh=sDekHfYu/breQaJXZDRG+5CmXfkq
+	yiEh3Ug/BHq3NCk=; b=lT+iXOVzpz5ed7FAG5VvhFfsRT83wNtnNPI8oaMVsswF
+	+cRFVm7mci9ShMErww4nN6bNxJarfTlXVW9AbBbT2SuxD1qCFU4TNEgwdn4Ym+9P
+	YL6Sc/QfLKfrxcPL9i9Z2iPZvxPZ7V+DqssiqNJ7cbrcvq+/WSL1HX/UxKXRu9uo
+	l4nufx5n86Kp9Ici2xYXq8n3KFNYTr4tojw9vQ2zfbeELQib6YouEgtH7Jgduq3o
+	HWOX2S2YQ1OhTTmFS0cMCtH+fOfdDqDku8IIMdGIM/q3XbTvgbq1pdlbkczhOQdb
+	VfhPidkByjAgAWoIRKc4cNRLjA1A0MzKjS1l/pSSHQ==
+X-ME-Sender: <xms:qWqxZbmGqv2kbzjy1E6tOr7ZNBmnSmEDHls-Ch7R81SlowSoc6WjUg>
+    <xme:qWqxZe2uJx94oZk6SoHOZjdCiVcKIC80dg4J7oeVctk2_8vOYIrd2EqhoTM2joGkV
+    EY3Az7hC4zxitrU_p8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdeluddguddvjecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
+    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
+    htthgvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedt
+    keetffenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    grrhhnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:qWqxZRrB6qraNON4Ij3jtCBB16Q-I-xblqBwZhqrkoUPq609IH_htg>
+    <xmx:qWqxZTkATYRF39lVAtHehvB7BeExjy77z52gNhvOZ5tq6Tb3EEQPSg>
+    <xmx:qWqxZZ0SzGENy1GGBUAVB_nv8wlSST2uLQ_wsK3-0ySUVOWMzLThVw>
+    <xmx:qWqxZToMm9SBs95FdGS1XhmnuE5p-We-wQLVykLbeuUHJx1t8dJXNA>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 142D2B6008D; Wed, 24 Jan 2024 14:53:12 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-119-ga8b98d1bd8-fm-20240108.001-ga8b98d1b
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Message-Id: <3ec03a12-ee1b-45f8-9f03-258606763d1e@app.fastmail.com>
+In-Reply-To: <4864383.GXAFRqVoOG@camazotz>
+References: <20240124004028.16826-1-zfigura@codeweavers.com>
+ <20240124004028.16826-6-zfigura@codeweavers.com>
+ <18c814fa-b458-48f9-b7e8-88b23a1825e2@app.fastmail.com>
+ <4864383.GXAFRqVoOG@camazotz>
+Date: Wed, 24 Jan 2024 20:52:52 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Elizabeth Figura" <zfigura@codeweavers.com>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
+Cc: wine-devel@winehq.org,
+ =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
+ "Wolfram Sang" <wsa@kernel.org>, "Arkadiusz Hiler" <ahiler@codeweavers.com>,
+ "Peter Zijlstra" <peterz@infradead.org>
+Subject: Re: [RFC PATCH 5/9] ntsync: Introduce NTSYNC_IOC_WAIT_ANY.
+Content-Type: text/plain
 
-On Wednesday, 24 January 2024 01:42:19 CST Arnd Bergmann wrote:
-> On Wed, Jan 24, 2024, at 01:40, Elizabeth Figura wrote:
-> > @@ -738,6 +803,8 @@ static long ntsync_char_ioctl(struct file *file, 
-> > diff --git a/include/uapi/linux/ntsync.h b/include/uapi/linux/ntsync.h
-> > index 26d1b3d4847f..2e44e7e77776 100644
-> > --- a/include/uapi/linux/ntsync.h
-> > +++ b/include/uapi/linux/ntsync.h
-> > @@ -46,5 +46,7 @@ struct ntsync_wait_args {
-> >  					      struct ntsync_wait_args)
-> >  #define NTSYNC_IOC_CREATE_MUTEX		_IOWR(NTSYNC_IOC_BASE, 5, \
-> >  					      struct ntsync_mutex_args)
-> > +#define NTSYNC_IOC_PUT_MUTEX		_IOWR(NTSYNC_IOC_BASE, 6, \
-> > +					      struct ntsync_mutex_args)
-> > 
-> 
-> In your implementation, this argument is not written back to
-> user space, so I think this should be _IOW rather than than _IORW.
-> 
-> Again, no practical difference here.
+On Wed, Jan 24, 2024, at 19:02, Elizabeth Figura wrote:
+> On Wednesday, 24 January 2024 01:56:52 CST Arnd Bergmann wrote:
+>> On Wed, Jan 24, 2024, at 01:40, Elizabeth Figura wrote:
+>> 
+>> > +	if (args->timeout) {
+>> > +		struct timespec64 to;
+>> > +
+>> > +		if (get_timespec64(&to, u64_to_user_ptr(args->timeout)))
+>> > +			return -EFAULT;
+>> > +		if (!timespec64_valid(&to))
+>> > +			return -EINVAL;
+>> > +
+>> > +		timeout = timespec64_to_ns(&to);
+>> > +	}
+>> 
+>> Have you considered just passing the nanosecond value here?
+>> Since you do not appear to write it back, that would avoid
+>> the complexities of dealing with timespec layout differences
+>> and indirection.
+>
+> That'd be nicer in general. I think there was some documentation that advised
+> using timespec64 for new ioctl interfaces but it may have been outdated or
+> misread.
 
-Hm, but there is a put_user() at the end of the function, or am I missing something?
+It's probably something I wrote. It depends a bit on
+whether you have an absolute or relative timeout. If
+the timeout is relative to the current time as I understand
+it is here, a 64-bit number seems more logical to me.
 
+For absolute times, I would usually use a __kernel_timespec,
+especially if it's CLOCK_REALTIME. In this case you would
+also need to specify the time domain.
 
+      Arnd
 
