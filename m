@@ -1,67 +1,65 @@
-Return-Path: <linux-api+bounces-623-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-624-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F25683B07F
-	for <lists+linux-api@lfdr.de>; Wed, 24 Jan 2024 18:53:39 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2392683B115
+	for <lists+linux-api@lfdr.de>; Wed, 24 Jan 2024 19:25:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 48B37283F9E
-	for <lists+linux-api@lfdr.de>; Wed, 24 Jan 2024 17:53:38 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D4B72B367E6
+	for <lists+linux-api@lfdr.de>; Wed, 24 Jan 2024 17:59:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBC0512BE82;
-	Wed, 24 Jan 2024 17:51:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C25181272CF;
+	Wed, 24 Jan 2024 17:59:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b="ivKBBJjR"
+	dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b="YTSJPYIx"
 X-Original-To: linux-api@vger.kernel.org
 Received: from mail.codeweavers.com (mail.codeweavers.com [4.36.192.163])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65C7C12BF05;
-	Wed, 24 Jan 2024 17:51:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66F137765D;
+	Wed, 24 Jan 2024 17:59:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.36.192.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706118689; cv=none; b=bGIHhIe1sNUnT8blep+maY+oTlucC8jrNFTDzPgC6EA2My8cvfsqwAWUGv1vOv2PcH76Ju6YqyuAwYlttep9rHSYNtD0KEh9cljmjecLVdEFXJphOxqxtlq/y2cp7Jkza500+y7Lsph4u4Ewk020D3dv9fYcR2y5mBorxkDanEc=
+	t=1706119156; cv=none; b=EGF7NZwnwGAEx86xFzI0nkA/J2sqL6R63EQ6ut3W6mtmrI10Q5FG77NbHacRBSfkEeZesT/nXp80IM0D9KSt+iXhmLylc/ARCzF0txQrwm8d9PUyd0nCgbn/XWVdKeznNn4+hSoNZYBl4BZ48hEA0Sxc85IBwi0BLCSyBRiMz2Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706118689; c=relaxed/simple;
-	bh=g/sT0ZEANu/3hTClYbuhcQsedyor1GAxRK6GqvanH2I=;
+	s=arc-20240116; t=1706119156; c=relaxed/simple;
+	bh=lWzdvAHI0AUGKdM87ib+Hx1DbBZ6CPpgnwoLhZD6oZM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=C3hbSV41bTHnlmvmKj6uPYwUhU3XEAoLnc52tfpxD7PXT6WTAPVrXLfXis9CRTsX/cYzKjG0JAYqW9m87Bpi+s91zOwTEHt0tPt1mgJKn7foFZFd+dIrnXNA0NREalhgG2Dh1WGK+QoA16BYZIywrK4m1F9E3lltm0UkWeswR1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com; spf=pass smtp.mailfrom=codeweavers.com; dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b=ivKBBJjR; arc=none smtp.client-ip=4.36.192.163
+	 MIME-Version:Content-Type; b=Zu8MGaqPR0YBC/fh7lMcXgAG4R/7IM5teSBNRFR41+E2riYPxUj1UVspvyjaHkj2VkcbQt8BQx7sflFqlIV8+CYYRVJ0ObKZ7Q38fmbaLglU7ZJEAc4mwcCKMVr3CUFJl27MTVSqyZjxF2Gt2LaoceC2tbrN4t5qj/H7JO9HVgg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com; spf=pass smtp.mailfrom=codeweavers.com; dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b=YTSJPYIx; arc=none smtp.client-ip=4.36.192.163
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeweavers.com
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=codeweavers.com; s=s1; h=Message-ID:Date:Subject:Cc:To:From:Sender;
-	bh=E6tlfXJaHpkSHmWMRyZbFYGYiDDsxY+9eqdCUY3ZKA8=; b=ivKBBJjRDz27qMiWctzt/M/PlA
-	22Ypw0cTFROfDOzakN0aZD3OZCzxi5ETs1RvMgCM2ZVje7LNrH60byWD9jcnL7Z+De7YfkdTlbMN9
-	SvzpTurHBh2iqZZBApKUcIqagTd2IxJnfeUap02H0HwzzRpVlN9u5fiphEsvsm3vZmMShNbzonyOc
-	UyN5kgfcNxKJyzMhrD6f5z58iCRLU6ru3uCqcso68+6B+dVVQAJnI8FdKZVAet4wnrJsb4ADifrH0
-	uFdpW5+yf9nu0IPu+Jl09qOHuE607eue+8Zrqr4jGXqoRcm9fSaFhJpzotjoTTRkyhSpQ6zQG1GZ7
-	mbp/vgVw==;
+	bh=fMDr0QgETAeZqzF36U9g1hh7lAixkqmCVEiFhA8alDA=; b=YTSJPYIxwhWkZZCWRXnPBqV8De
+	fWoFZr5SIzQMCJHPdF6qpGZq4q4bskC5OY9KsB+0WsDoR9fmzyItMSYxijCJoYbarhGNd42qO6Qy2
+	EgMhF+6Htr/lLFjhjy0BynBLR3RLWmUkhVdcvHrzgcVXluEH83Kgc4UCloBRkcNZYIMVHX8TZ7MqR
+	u4dhIinqD7HWslLsfSuPp9Brd/LmFgZRL8EfkyjoT2Q7yaLT9lHIOL6LOVmcDFqyl99pijaC8TgFv
+	F+S57kcqcBGEPFFivMhdLLtuIhqO6Hxo6C3WlE0sza5uw9jIhSVcEEzu0V9SUcbG5MyzT5GC1HIC0
+	7o8QurWQ==;
 Received: from cw137ip160.mn.codeweavers.com ([10.69.137.160] helo=camazotz.localnet)
 	by mail.codeweavers.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <zfigura@codeweavers.com>)
-	id 1rShPF-00EJwf-2f;
-	Wed, 24 Jan 2024 11:51:21 -0600
+	id 1rShWr-00EKOM-1d;
+	Wed, 24 Jan 2024 11:59:13 -0600
 From: Elizabeth Figura <zfigura@codeweavers.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
- Arnd Bergmann <arnd@arndb.de>
-Cc: wine-devel@winehq.org,
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
+ linux-api@vger.kernel.org, wine-devel@winehq.org,
  =?ISO-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
  Wolfram Sang <wsa@kernel.org>, Arkadiusz Hiler <ahiler@codeweavers.com>,
  Peter Zijlstra <peterz@infradead.org>
 Subject:
- Re: [RFC PATCH 1/9] ntsync: Introduce the ntsync driver and character device.
-Date: Wed, 24 Jan 2024 11:51:21 -0600
-Message-ID: <2716075.mvXUDI8C0e@camazotz>
-In-Reply-To: <bd3f6fcb-2239-4fd3-bb9a-c772bbce5a44@app.fastmail.com>
+ Re: [RFC PATCH 2/9] ntsync: Reserve a minor device number and ioctl range.
+Date: Wed, 24 Jan 2024 11:59:13 -0600
+Message-ID: <4892238.31r3eYUQgx@camazotz>
+In-Reply-To: <2024012454-cosmos-sprint-7db7@gregkh>
 References:
  <20240124004028.16826-1-zfigura@codeweavers.com>
- <20240124004028.16826-2-zfigura@codeweavers.com>
- <bd3f6fcb-2239-4fd3-bb9a-c772bbce5a44@app.fastmail.com>
+ <1875326.tdWV9SEqCh@terabithia> <2024012454-cosmos-sprint-7db7@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -71,38 +69,24 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-On Wednesday, 24 January 2024 01:38:52 CST Arnd Bergmann wrote:
-> On Wed, Jan 24, 2024, at 01:40, Elizabeth Figura wrote:
-> > ntsync uses a misc device as the simplest and least intrusive uAPI interface.
-> >
-> > Each file description on the device represents an isolated NT instance, intended
-> > to correspond to a single NT virtual machine.
-> >
-> > Signed-off-by: Elizabeth Figura <zfigura@codeweavers.com>
+On Wednesday, 24 January 2024 06:32:13 CST Greg Kroah-Hartman wrote:
+> On Tue, Jan 23, 2024 at 09:43:09PM -0600, Elizabeth Figura wrote:
+> > > Why do you need a fixed minor number?  Can't your userspace handle
+> > > dynamic numbers?  What systems require a static value?
+> > 
+> > I believe I added this because it's necessary for MODULE_ALIAS (and, more 
+> > broadly, because I was following the example of vaguely comparable devices 
+> > like /dev/loop-control). I suppose I could instead just remove MODULE_ALIAS 
+> > (or even remove the ability to compile ntsync as a module entirely).
 > 
-> I'm looking at the ioctl interface to ensure it's well-formed.
+> Do you really need MODULE_ALIAS()?  Having it for char devices to be
+> auto-loaded is not generally considered a good idea anymore as systems
+> should have the module loaded before userspace goes and asks for it.
 > 
-> Your patches look ok from that perspective, but there are a
-> few minor things I would check for consistency here:
-> 
-> > +
-> > +static const struct file_operations ntsync_fops = {
-> > +	.owner		= THIS_MODULE,
-> > +	.open		= ntsync_char_open,
-> > +	.release	= ntsync_char_release,
-> > +	.unlocked_ioctl	= ntsync_char_ioctl,
-> > +	.compat_ioctl	= ntsync_char_ioctl,
-> > +	.llseek		= no_llseek,
-> > +};
-> 
-> The .compat_ioctl pointer should point to compat_ptr_ioctl()
-> since the actual ioctl commands all take pointers instead
-> of interpreting the argument as a number.
-> 
-> On x86 and arm64 this won't make a difference as compat_ptr()
-> is a nop.
+> It also reduces suprises when any random userspace program can cause
+> kernel modules to be loaded for no real reason.
 
-Thanks; will fix.
+I think there's no reason we can't make loading the system's problem. I'll remove it in v2.
 
 
 
