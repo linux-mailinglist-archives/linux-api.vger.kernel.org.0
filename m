@@ -1,44 +1,44 @@
-Return-Path: <linux-api+bounces-616-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-617-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BB7983A9BC
-	for <lists+linux-api@lfdr.de>; Wed, 24 Jan 2024 13:29:44 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E8BE83A9C8
+	for <lists+linux-api@lfdr.de>; Wed, 24 Jan 2024 13:32:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9E57B1C219D7
-	for <lists+linux-api@lfdr.de>; Wed, 24 Jan 2024 12:29:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B33321F27695
+	for <lists+linux-api@lfdr.de>; Wed, 24 Jan 2024 12:32:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2CBD963136;
-	Wed, 24 Jan 2024 12:29:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B1CD7762B;
+	Wed, 24 Jan 2024 12:32:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="n9pDCVXd"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="HsMsFxQv"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1E6B63132;
-	Wed, 24 Jan 2024 12:29:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F010576918;
+	Wed, 24 Jan 2024 12:32:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706099373; cv=none; b=j5ZW+yX0Mk5ZOA92Xo04CD0nik0z2hv1fGvhjUecxcTQsU6uiVlbh3eVgeT2mNfwDXAlbBEOwBlnZEdQ8YhtmmCPrdXi0DNaOVB3jKQ/US2yEsSGgqnXaKaLEixW2Lyy5GKPdXkVb3C+l9uhYW/GwZTcajvgD43YMWwDTyTQzWg=
+	t=1706099536; cv=none; b=sXd0UaH1ER/Nhg3Gozib6jiOzKcldv1aWizge1HcRWrQNXuTZMqorLHbbbvxzBcr06mq4qQcubCL0QKKXJMm+NEyfin38Q8P039XJN00yGxJNJ/KYbLhKPcMOVqW15q5j+4s0THg1PPW0gR7UXPHlpqMx/OrZaHSoOCNClw72j0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706099373; c=relaxed/simple;
-	bh=IzOfGdfJXN3HNbPaRtSQvSMPHR7T4ik2CCl3pxrUFgw=;
+	s=arc-20240116; t=1706099536; c=relaxed/simple;
+	bh=GD414r5uUfQKTl7+Hf0W3x6sPSQMHCgSnh3nUJhrXYo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T7E8T70kEtXoDtyUNXhbAFRUI7YTXu8DeZlwLrMt9X/M8on80kCo/a22uHix5zSzPVAlqwUWgCvLGRWFE0EV6tan+jyUa53j25qmgJxhPNCaa3hWRaqJ8BvuqkY+bhAYrN5C5koDVUlyEJWGx9Yfz7oHUJVoasa3E23BVctOJpg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=n9pDCVXd; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 041A9C433C7;
-	Wed, 24 Jan 2024 12:29:31 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=C+e13Aig0vqOP9ObEIZsmkO7wWPQGyTHi+iPcgJwOgHuabE+i7XTp/pqfeGhNntXRb6CpKDZs1L17Du28r4xhUlMf0dusiYS2f2h7GMLkfSCrwldTndl+upqh+U7661oDIiSSiMMdbcI9XjOfk89M/49LYpUpL7j9Jp8Uc3hyvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=HsMsFxQv; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44392C433C7;
+	Wed, 24 Jan 2024 12:32:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1706099372;
-	bh=IzOfGdfJXN3HNbPaRtSQvSMPHR7T4ik2CCl3pxrUFgw=;
+	s=korg; t=1706099535;
+	bh=GD414r5uUfQKTl7+Hf0W3x6sPSQMHCgSnh3nUJhrXYo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=n9pDCVXdgkLKPjjOruZNmL62cpZqpCYGHjAyVcFd9F1IsweGSkHZf+xMNRQ/WhUlp
-	 IhLULUDAXn1gmONmW/vrlboDuatOYfM3hU/zaw3vqs6rD8U0/B8tp/P6QRPYl/0D8l
-	 XHan51XoSkwy16nlQ3fvFtzmW9bcZ0JDpGrrq/hY=
-Date: Wed, 24 Jan 2024 04:29:30 -0800
+	b=HsMsFxQvYgqF/Nv7icAxBXrrdGaKv9+JWouJ+YFp0z1+A/tURCyu6VSW3kZNLiDR7
+	 942VuXoSIPVa2hsTj2P/WzCRrun9XNtQudqe503xDFqrGM6yqqIVg6b2iQ2XeZOAsi
+	 20YoFp+69COLxtwHyucg+E0Q7m4kIpm3BnFN/OMg=
+Date: Wed, 24 Jan 2024 04:32:13 -0800
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Elizabeth Figura <zfigura@codeweavers.com>
 Cc: Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
@@ -47,44 +47,46 @@ Cc: Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
 	Wolfram Sang <wsa@kernel.org>,
 	Arkadiusz Hiler <ahiler@codeweavers.com>,
 	Peter Zijlstra <peterz@infradead.org>
-Subject: Re: [RFC PATCH 0/9] NT synchronization primitive driver
-Message-ID: <2024012401-garter-empower-14bf@gregkh>
+Subject: Re: [RFC PATCH 2/9] ntsync: Reserve a minor device number and ioctl
+ range.
+Message-ID: <2024012454-cosmos-sprint-7db7@gregkh>
 References: <20240124004028.16826-1-zfigura@codeweavers.com>
- <2024012319-aptly-calculate-0f88@gregkh>
- <12365105.O9o76ZdvQC@camazotz>
+ <20240124004028.16826-3-zfigura@codeweavers.com>
+ <2024012356-dove-duke-f7f6@gregkh>
+ <1875326.tdWV9SEqCh@terabithia>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <12365105.O9o76ZdvQC@camazotz>
+In-Reply-To: <1875326.tdWV9SEqCh@terabithia>
 
-On Tue, Jan 23, 2024 at 07:37:01PM -0600, Elizabeth Figura wrote:
-> On Tuesday, 23 January 2024 18:59:35 CST Greg Kroah-Hartman wrote:
-> > On Tue, Jan 23, 2024 at 06:40:19PM -0600, Elizabeth Figura wrote:
-> > > == Patches ==
-> > > 
-> > > This is the first part of a 32-patch series. The series comprises 17 patches
-> > > which contain the actual implementation, 13 which provide self-tests, 1 to
-> > > update the MAINTAINERS file, and 1 to add API documentation.
-> > 
-> > 32 patches?  I only see 9 here, why not submit them all?
+On Tue, Jan 23, 2024 at 09:43:09PM -0600, Elizabeth Figura wrote:
+> > Why do you need a fixed minor number?  Can't your userspace handle
+> > dynamic numbers?  What systems require a static value?
 > 
-> Because Documentation/process/submitting-patches.rst makes a point of asking people not to submit large patch series (and it matches the expectation of other projects I've worked with—that patches would be submitted and reviewed a few at a time). I suppose I've misunderstood that advice, though.
+> I believe I added this because it's necessary for MODULE_ALIAS (and, more 
+> broadly, because I was following the example of vaguely comparable devices 
+> like /dev/loop-control). I suppose I could instead just remove MODULE_ALIAS 
+> (or even remove the ability to compile ntsync as a module entirely).
 
-32 patches isn't all that "large", we can handle that easily :)
+Do you really need MODULE_ALIAS()?  Having it for char devices to be
+auto-loaded is not generally considered a good idea anymore as systems
+should have the module loaded before userspace goes and asks for it.
 
-100+ patches is large, I guess it all depends, so I can understand the
-confusion.  You need to send us enough for us to be able to understand
-and review the code, this was a bit short for that.
+It also reduces suprises when any random userspace program can cause
+kernel modules to be loaded for no real reason.
 
-> I'll resend with the entire series. Sorry for the noise.
+> It's a bit difficult to figure out what's the preferred way to organize things 
+> like this (there not being a lot of precedent for this kind of driver) so I'd 
+> appreciate any direction.
 
-Ptches are NOT noise, we want to see them!
+For now, I'd just stick to a dynamic id, no module alias, and if it's
+ever needed in the future, it can be added.  But if you add it now, we
+can't ever remove it as it's user-visible functionality.
 
 thanks,
 
