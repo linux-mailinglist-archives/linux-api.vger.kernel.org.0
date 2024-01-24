@@ -1,201 +1,192 @@
-Return-Path: <linux-api+bounces-611-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-612-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4511C83A3FE
-	for <lists+linux-api@lfdr.de>; Wed, 24 Jan 2024 09:21:00 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D75A83A7D2
+	for <lists+linux-api@lfdr.de>; Wed, 24 Jan 2024 12:29:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5A51BB26A97
-	for <lists+linux-api@lfdr.de>; Wed, 24 Jan 2024 08:20:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C2A681C22044
+	for <lists+linux-api@lfdr.de>; Wed, 24 Jan 2024 11:29:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D010117551;
-	Wed, 24 Jan 2024 08:20:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F2CA1AADE;
+	Wed, 24 Jan 2024 11:28:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="X6Sbw5ps"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="eN88id3m";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="gWE91RCL"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0741F17552
-	for <linux-api@vger.kernel.org>; Wed, 24 Jan 2024 08:20:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706084427; cv=none; b=Q2B1Bf6Gkxkk5y63bO9KQiyAfcCC+Z4DR8vH04ZHUKwLal/r/RqQ7PlyoyT6LbCL3Y4YDuyKLOlCcntDTCfivoDrceyoPsoHgu3/37y6lMXCOsmOpOTkjROIR+fsRntjVKjk43NaKqnQvS3X5Qt0VLmqTfsjLNBTw/dCkUZxz6M=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706084427; c=relaxed/simple;
-	bh=V1slcYn21bNXk9V5C8Z6VKwUpsBDUlYBYxAW8Xe7/lU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bgajhIrMOEPTHkA557udPMJjOEiinfbPlgS5VqTpFC6bgtvyzJcjtbJGOe32IeArTYH721+2j7RybSScCf8cN6wvemRrsOQyzA9xW/1VvDXjlhsPJAOfGziL53O1Ga9bWvg9svB6b+o2AeEIbbNWTWvyDjOjHqhCKJKO5BZ4jyk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=X6Sbw5ps; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-55818b7053eso11544a12.0
-        for <linux-api@vger.kernel.org>; Wed, 24 Jan 2024 00:20:25 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E80181AAA5;
+	Wed, 24 Jan 2024 11:28:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706095739; cv=fail; b=ZqB85+G42OxQKZHIfVCqJ/J57Ddso7VaF8hvLnPeB7cgYxSj6HRqj34MMAsvMhcGuPMxKoutpV8GT7IODqICTapz9v9IBgjV9KeutCZr0BPFyRT/CpfyHkpoHKRekvkxdimU7RvchaN+Gig2ZMJYpAKjyViUz35TAH0as/WHydY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706095739; c=relaxed/simple;
+	bh=7p/LLIO3uDDR6gkPZf0s0oboHPVtb2MdMmvvavcx43o=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=F2H4u2poe5uiNei++dftj7YbN2fLYpD8EhuypkVoL6hmUjFmfT30I7ae2qm44h4uG9XMtsiH6XJQXIBq9y8DfhZxB6QrwO0uwfuhmvv9R6aWQWAeMI0K4xyimV9EK2GXL4ayUw670hv4r7CiWTj2Fy3oMfnonZ+NIexixA6AR4s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=eN88id3m; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=gWE91RCL; arc=fail smtp.client-ip=205.220.177.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 40OAwqw8026946;
+	Wed, 24 Jan 2024 11:28:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : content-transfer-encoding : content-type :
+ mime-version; s=corp-2023-11-20;
+ bh=DWgxgFL8puBkksddk6Rn/kN/9+BsZT0h06jfuQ7xWLA=;
+ b=eN88id3mBViM0MPqX/6IObFuvhIRkfxT5KD4GD+X6oOaQWvH4qxrnAVvEyKoK11EQ67D
+ eI8bcGWUU6V64el9WQW4ZGsjHJI5/L7a26RTe9X4eFPLY5aqDku0r+nVNgBjE4HmSNSn
+ d2C2/tTooIfuQaeHJArzZYyADLsTQ3Hi2zohZfR0gHRzv8Oi+iRUTcFv64yophuhpVlm
+ 2hRPi+KliCzoWtlfxhigWP/mgdPMCyj0OD44wYTbTDcDUo8fdd6Mz+atDNCuL86COKO5
+ Nm1QAR9CtvJ7rYTAmQGmpTdIAFkpOyUSUsPrXL3vuGPDpCL27JOX+zhvsPJS+ErYwR1p 9w== 
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3vr7cwhv0v-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 24 Jan 2024 11:28:45 +0000
+Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 40OAbrrf006305;
+	Wed, 24 Jan 2024 11:28:45 GMT
+Received: from nam04-bn8-obe.outbound.protection.outlook.com (mail-bn8nam04lp2041.outbound.protection.outlook.com [104.47.74.41])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3vs32se9ar-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 24 Jan 2024 11:28:44 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eQeEBOXbyfrU+N6keTb2XoYM5h2bO2M0Sy46bKLP5h3CoT/hZxc+z6QJazGhV8QNNIBpZm3ZDTqo9MXNbLwlr7PX6FjzBSIpg/N2LX86D6ePIMbjtkrpSNgxvOyuFu0ruNJPF71KYvWfll5CZW7FUH2psp4jhLPY52OeQEkKCcVP992ix7da3cxQRbjTUexN3cqvZFGDQ7djjncVHK3y227TRA6yPXYA7rR3cm8fQfbudA9vpUA9gOp8l/i6jrSE+8cJpBF1Ca6IsuVUs2iCaZYwrEX90CW5T+O6rLlt1sLloBO7okQFImOLz1+fd/lYdPQKislpELD+W0p2at3cOw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DWgxgFL8puBkksddk6Rn/kN/9+BsZT0h06jfuQ7xWLA=;
+ b=M7fUURrfv4/dIVphBVtkysv3LxUd/UlrECp01fiZcwTYLhYJUAR4XvX5RoDR7Xtt+e6jiCctYi2XV8WSuOOT458xyuy3+z2lCUX/44hUQsrL4H9EuZJtvEs8ej4yjI+IzUOL2xUdXB3V6yYCVZNU0RJaZ5O9sEgMtnp35pDUX/y9IgRJaWEOZPNY5NOyXs67KfLNzhNz6v5xGQjN+NUAi4ubVKPvPL1Nn9kXJgTe5dpyJtktoigm4cgo9Mz/mTsvj6XBG4G0KYzaKVfmbdC8Jxwo2BYpXOOUjpZ/7v9jD1pZ0Zt2MrmG9h7IbZG9xmTnXJlY0I16MjG1BNIyCNcEMQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1706084424; x=1706689224; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jjsqHxMZBRtxTxUYbNLydDXP9JAwq1MY641LAHVQss8=;
-        b=X6Sbw5psGSIi7KBm+5Eg/Z+CUy0Fs2MuiwTIpVYeULrq6lM8r7jsjeqSM7egImr6/g
-         xdrz82Wq2fYHVgPEl6k7uSD1pD5SXkOLH1cRi4VbvkXqxZWGK5BE0l4Bk6U301/MZ4HQ
-         a0JdIH6YfnhxMM8egUYWkrUOkoehh96lDs7/6pZrvV3zSgzuqWjXPXFYWbIoL3zMgZQW
-         op8uW3+I+cp3587KOu89R1PZI2iIb9PqaPshNYwprgxopJO/nEUV69etYhNSFoIOxtei
-         SBKavukmyrzQfU6yqa2e00s7jVLDoBb5KaO+VApSJFoJ4QJT/o0jnT4xIMqaCVYIQTc2
-         cANQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706084424; x=1706689224;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jjsqHxMZBRtxTxUYbNLydDXP9JAwq1MY641LAHVQss8=;
-        b=DYjouD9L6Ne02Mx8EVwStBDCW0sOqDDBAqv/yQ7wHWdgW6gx+h9GYLYa7MxZDnjnJ1
-         PEBEVYckQj4aWA42StDWgS0pbY1dWxCumDTx7qJHi7MoHzV0WT3kcSVnBUctoNE1E81d
-         D2p5Wb6i/IG7ahlySG4TzCCUcTajQc0CK453Oy7inIUOjuXyZ2j4uOCj7utQEV4LREvX
-         a906DzKNkUFPhMdFGpd1B+9bHy/tsbQf2uDq4IqDK2yV7VmjuMpBWhWKlc8FUzoEUrPE
-         Zp9t1JlHdHfM3Ue+xRY2fDWLE77uK/Wp/rHldMp//T9dnjFXQ8rrf81qFLcTqFFvCk5Z
-         qHxw==
-X-Gm-Message-State: AOJu0Ywz0zHEi7aTiGZr13spqggZWUWPyyJDRhQMGrlU+efFmqqOJvK3
-	DzCEzK7WUXwdbNJRyAq/Dz8U3glWcUNjhdjHQ1hBoDTcDHfHhD0mCQ7W8/ICgnlOjtjcOCp1SKv
-	874tVLGmOq0G6shp2Ayv0BbVNTAFilLOMR3Mp
-X-Google-Smtp-Source: AGHT+IHz4WfxrkWGJUNOWseJkH5AnLnDQaRvNbFcz/95E/NWPxNCQvP1kyyChOKaaGag+8A4H9iRGQ2u8INjs6UvIt4=
-X-Received: by 2002:a05:6402:368:b0:55a:5fe0:87e4 with SMTP id
- s8-20020a056402036800b0055a5fe087e4mr64407edw.0.1706084423970; Wed, 24 Jan
- 2024 00:20:23 -0800 (PST)
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DWgxgFL8puBkksddk6Rn/kN/9+BsZT0h06jfuQ7xWLA=;
+ b=gWE91RCLeroln6vjJvrAAxfxVVLbKdWbwa8JD/7hKn6pe2KnecdRvKwr7BTFus7aEEg6mclAz0fQuYnDiz+FIGyzC1RwHbnkiRPm8myVW9gbyXQDyA5AN2WaEj+oeNOGilQ/yNN9Z1MNPriQTM8zbw9qxqBDm30PMP/ZEJt/zsI=
+Received: from DM6PR10MB4313.namprd10.prod.outlook.com (2603:10b6:5:212::20)
+ by SJ0PR10MB5615.namprd10.prod.outlook.com (2603:10b6:a03:3d8::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.22; Wed, 24 Jan
+ 2024 11:28:08 +0000
+Received: from DM6PR10MB4313.namprd10.prod.outlook.com
+ ([fe80::f11:7303:66e7:286c]) by DM6PR10MB4313.namprd10.prod.outlook.com
+ ([fe80::f11:7303:66e7:286c%5]) with mapi id 15.20.7228.022; Wed, 24 Jan 2024
+ 11:28:08 +0000
+From: John Garry <john.g.garry@oracle.com>
+To: linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
+Cc: martin.petersen@oracle.com, djwong@kernel.org, david@fromorbit.com,
+        himanshu.madhani@oracle.com, hch@lst.de, viro@zeniv.linux.org.uk,
+        brauner@kernel.org, jack@suse.cz, John Garry <john.g.garry@oracle.com>
+Subject: [PATCH v2 0/3] man2: Document RWF_ATOMIC
+Date: Wed, 24 Jan 2024 11:27:28 +0000
+Message-Id: <20240124112731.28579-1-john.g.garry@oracle.com>
+X-Mailer: git-send-email 2.31.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: LO4P123CA0038.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:152::7) To DM6PR10MB4313.namprd10.prod.outlook.com
+ (2603:10b6:5:212::20)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240124025359.11419-1-jdamato@fastly.com>
-In-Reply-To: <20240124025359.11419-1-jdamato@fastly.com>
-From: Eric Dumazet <edumazet@google.com>
-Date: Wed, 24 Jan 2024 09:20:09 +0100
-Message-ID: <CANn89i+YKwrgpt8VnHrw4eeVpqRamLkTSr4u+g1mRDMZa6b+7Q@mail.gmail.com>
-Subject: Re: [net-next 0/3] Per epoll context busy poll support
-To: Joe Damato <jdamato@fastly.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	chuck.lever@oracle.com, jlayton@kernel.org, linux-api@vger.kernel.org, 
-	brauner@kernel.org, davem@davemloft.net, alexander.duyck@gmail.com, 
-	sridhar.samudrala@intel.com, kuba@kernel.org, Wei Wang <weiwan@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR10MB4313:EE_|SJ0PR10MB5615:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6c22e7b5-e271-406a-f417-08dc1ccf8a6c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	hycHOcqG3Dc9kxCL8Wo34YqmjjVUQCSHu7sTtXRfQ7gfwoLXTCrsLr9Zlco8Ad1WS0Byhtes/LISquoGNUMMHLlB13fluwKRTZ0YFvSyPIAhVuaMZmfXm4h0L/HJWPguD1erWNietSGABtezzl1V0yDN+dhPuHJODJs+mjJDYh5kddGsAmAc/GK8NtWtEQHOVkMQ6DwlGbogB1BwPF9wzk04jTY5iO+Vcf9MwwkB1UHoZC2qKidl03GRtP6EliMKXY2Ld+gW5d4T6A+0IG3C0auj7YE/9CL3+90JM2LtOSUsBPFZ7kRUtQ1VOOh9l0AOQoBQefzJql3onqQqbhlyw5/H8QtJrNtmxe3kD27x/d4fiEtdXdyA26kRT9jL0iAOJWwMZjqmsD5UggnRuGyD7VXPn85tPl8vauFrz9O8p4MNgM8vB95DXgRIULUqfQLdBLcR5VrgKWKAvZl6KOoqDy0+pvUY4hKAWZ4u07rpxTuZCg7vE1uLYhM7rzDi4guwBuyQ9weNUzaeArbrya6ijvfYDdxoYhM/H8yq8gtJ44riUkj6IwJQCvVhSswlo8UX
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR10MB4313.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(366004)(396003)(376002)(346002)(136003)(230922051799003)(1800799012)(64100799003)(451199024)(186009)(6506007)(26005)(83380400001)(2616005)(107886003)(1076003)(6512007)(41300700001)(36756003)(8936002)(8676002)(66476007)(4326008)(316002)(103116003)(2906002)(4744005)(5660300002)(66556008)(66946007)(86362001)(6666004)(6486002)(478600001)(38100700002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?dZoBOZx7BhnS2DiLLl/QKRKFRjH2QxN+evxqeZmvp8NOeG5BgjXTjibfV5Vz?=
+ =?us-ascii?Q?prasujPpTRAoS8o4aHlevu/NR8OVo6/GL8kR1THkA4yQjS7SVJw9wKK8Cpyc?=
+ =?us-ascii?Q?d5VxUo6m8xLlp+PuQLsKJtNxD/W/HVXfIJbQFvNqROfS7eY9ahCbAUJ29He1?=
+ =?us-ascii?Q?eO4bJuqFftNhMo7JqU6dUJzJ90+KbHJA7g8j5TAkyLNS9h82pLGAMhTtKnXa?=
+ =?us-ascii?Q?GNd1yplharaGwqpBXvLR8LTtyEEmDYur8ZXRkYkuP+BszJO+QZc+jnRJqfV7?=
+ =?us-ascii?Q?pbk/tHt3I7rx7k/GauVeFD40by8gJzSk4XmHepNh0D6Q5Cd6J8rESzivCm+R?=
+ =?us-ascii?Q?5JqQ19wQ2mRRwjXKpU+DlzsQ114TYXLLtBJn5Hi9iAmDTwRWpWvdNT7duPQ2?=
+ =?us-ascii?Q?K4hkU1rc7Ssjvl13pw51TBrGhZBSB5S7mr5Ae5leRQez/ZAvcqN9UG63mjw0?=
+ =?us-ascii?Q?dsK/51AMizPKv35JcUapNcX8CN7ogyBCc74g7T08gwfKuuUSwszsYwZigPoM?=
+ =?us-ascii?Q?S/gJ0VF/6aDQ0i6aqhv19z3DoStPMQbEsrhvEbOfpwFjqCCZpiAbC9IFzQ5N?=
+ =?us-ascii?Q?JluDcivhjNyzNYEBnttVrHUve1rsAADNM/5QHtx94MqriHAjaFpZuYxnDqCN?=
+ =?us-ascii?Q?OX3nLz0S4fgm4Fhs6ytG7ATz4LBaxFHq7N+WnnkBNOky1Mk19gfcj6mgGk7v?=
+ =?us-ascii?Q?tYKh9wl2qCmghMsqfki6sD4JywYHX1rw3L687kJ3Mztxg01SaR09ZSGa1t1/?=
+ =?us-ascii?Q?JldLKxXs4/n4LmOm0PRAlXWQ46A1Q5lixH2Dzxbk55fYk2dCqIUSK2s7bSBm?=
+ =?us-ascii?Q?cSP3xh/Q2QJkhdEg/zDeSSCFm9EIyXHKbr5dc/P7afvjdm7R7apYnKxhMWKy?=
+ =?us-ascii?Q?KvwQj/+jwKffWcxmaL22HcGw04jPs0M1Pr7A4K1ri0EqJVnjzUpwSVkFfjoK?=
+ =?us-ascii?Q?3GrO8EfCnWKAG2NlOYEYj+yM+4IGBHcMegoEhLKEhNFuYMMXmy0hnkkd3Fq+?=
+ =?us-ascii?Q?WdN0uJY6gyt5jdz971j4ZM6TEx4hy01au3AaV7Leoig2OHD+pSnSLtqrSfcG?=
+ =?us-ascii?Q?OlFSujjyBGr9CIr4spdco6oPWJHwcQD6dPZzoJaph9p1T3Y4H6VHOKzSAEnq?=
+ =?us-ascii?Q?MU1Rce5LWYC3bGSCBZhxoZRGTLXPO2xkeuUTEedPL4EGxPbquclwPI0Rhxp+?=
+ =?us-ascii?Q?B09ICm6tmTclDbI3shAC0VDA8jaFpxUiP7ycd7rNJBLuDzIBMmV+RGnyJwbB?=
+ =?us-ascii?Q?GP41jKb9OIqWvfIcz6/013ezGTmaDGWdRokGhgcNcxOTdBFD1VnNgyAdXKzq?=
+ =?us-ascii?Q?4WCrMZWn1RChwvuCAyz/bN8dJ1Bl+brWdSZrN1DshF1fWoxugXTWjAZzrQmT?=
+ =?us-ascii?Q?EFrz6+qCMWlM82yLm/EbRt0KRsIVjXXfs7q0x1u47DmI8GJPAbu3T3Bo+7sC?=
+ =?us-ascii?Q?jZO+47BSv1ZevEdXuoQnCUx5+I/89mUUGa+5yrPV7fJ+ugL48cxyIjvOa9CW?=
+ =?us-ascii?Q?YLiInaUHrm1v764bTF6aHcYh+poj99wntDaOhA3wVaJAurySxYmLg6sOsvEH?=
+ =?us-ascii?Q?UhgsO4ZZlmnkYjNMWzdcTFAE1ZM0eZZk84zMgGNEXUq9oqusUZBdcgh1MSh2?=
+ =?us-ascii?Q?iA=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
+	rCmjgIwHr3tE468/2d4XCmrglITDMu+mDIcrw+kzpW1GE8gfZgZHUKZYEN76tsNPPQSTOigK3sG2440PxFu44uNRhC2x/Ic2a2IEOoXNVKpHXAA3YeHVltcJRfvKCWNE4zFoxkFLyrf+iQPYMNTSc8gM8SMk0K1BJr8JEMkJmhqv6ZG5sQBqwe2TNTvhuud20C8PRqJrQyB+CCqsSILnsR2+BBnzauxmT8TV2TaLBN+1dBJYXf4kE012b0NdScVNHUhiNdGNE+X5ZxlC7ENjeyP0ghXbYWx2rb6JNcv5i2+qj/XzGCK5TIEGVy+WCSoqPSry/hElG0z3hBoY+9PdZJ+hPWt1E9tHVEpeG9zUeYSmR8Pe2iBZAq0KUk3VCvtcjyVR+ZH7yZ7wiIq1Gkz3BHj072JOj56BEIbUN8ceSug/D8rp2Bwgf7sVe0tE5DZsIDYCsNimFGP+5W4LuSJmPT54xwOdaNp5h4npaQjtubAZYpgbBPBlgaXB6sG7DpXphxgDEAZSNDElL4fRd+zryEPz4YceiYKQCj5Dl5dnXz37Gj6Ko/ENiyaHze+5YpcQT1H36yU7bC8heZPIJOFwEWKtLRxWZXe+7eO6YmRtiJk=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6c22e7b5-e271-406a-f417-08dc1ccf8a6c
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR10MB4313.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jan 2024 11:28:08.6988
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: FAZ6qV8lMrRnqTusbR9EF5S1BhcRaOAwLqOQ/W21GPbL/qzP5JeBsvXSSwcUIC6uddhs5/P1AzsR5k1t9VHwyA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB5615
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-01-24_06,2024-01-24_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 mlxlogscore=999
+ spamscore=0 mlxscore=0 adultscore=0 bulkscore=0 phishscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311290000 definitions=main-2401240082
+X-Proofpoint-ORIG-GUID: 3Fw4j-3mjNjMRhOKBSj-K3c4Go2HVLxp
+X-Proofpoint-GUID: 3Fw4j-3mjNjMRhOKBSj-K3c4Go2HVLxp
 
-On Wed, Jan 24, 2024 at 3:54=E2=80=AFAM Joe Damato <jdamato@fastly.com> wro=
-te:
->
-> Greetings:
->
-> TL;DR This builds on commit bf3b9f6372c4 ("epoll: Add busy poll support t=
-o
-> epoll with socket fds.") by allowing user applications to enable
-> epoll-based busy polling and set a busy poll packet budget on a per epoll
-> context basis.
->
-> To allow for this, two ioctls have been added for epoll contexts for
-> getting and setting a new struct, struct epoll_params.
->
-> This makes epoll-based busy polling much more usable for user
-> applications than the current system-wide sysctl and hardcoded budget.
->
-> Longer explanation:
->
-> Presently epoll has support for a very useful form of busy poll based on
-> the incoming NAPI ID (see also: SO_INCOMING_NAPI_ID [1]).
->
-> This form of busy poll allows epoll_wait to drive NAPI packet processing
-> which allows for a few interesting user application designs which can
-> reduce latency and also potentially improve L2/L3 cache hit rates by
-> deferring NAPI until userland has finished its work.
->
-> The documentation available on this is, IMHO, a bit confusing so please
-> allow me to explain how one might use this:
->
-> 1. Ensure each application thread has its own epoll instance mapping
-> 1-to-1 with NIC RX queues. An n-tuple filter would likely be used to
-> direct connections with specific dest ports to these queues.
->
-> 2. Optionally: Setup IRQ coalescing for the NIC RX queues where busy
-> polling will occur. This can help avoid the userland app from being
-> pre-empted by a hard IRQ while userland is running. Note this means that
-> userland must take care to call epoll_wait and not take too long in
-> userland since it now drives NAPI via epoll_wait.
->
-> 3. Ensure that all incoming connections added to an epoll instance
-> have the same NAPI ID. This can be done with a BPF filter when
-> SO_REUSEPORT is used or getsockopt + SO_INCOMING_NAPI_ID when a single
-> accept thread is used which dispatches incoming connections to threads.
->
-> 4. Lastly, busy poll must be enabled via a sysctl
-> (/proc/sys/net/core/busy_poll).
->
-> The unfortunate part about step 4 above is that this enables busy poll
-> system-wide which affects all user applications on the system,
-> including epoll-based network applications which were not intended to
-> be used this way or applications where increased CPU usage for lower
-> latency network processing is unnecessary or not desirable.
->
-> If the user wants to run one low latency epoll-based server application
-> with epoll-based busy poll, but would like to run the rest of the
-> applications on the system (which may also use epoll) without busy poll,
-> this system-wide sysctl presents a significant problem.
->
-> This change preserves the system-wide sysctl, but adds a mechanism (via
-> ioctl) to enable or disable busy poll for epoll contexts as needed by
-> individual applications, making epoll-based busy poll more usable.
->
+Document RWF_ATOMIC flag for pwritev2().
 
-I think this description missed the napi_defer_hard_irqs and
-gro_flush_timeout settings ?
+RWF_ATOMIC atomic is used for enabling torn-write protection.
 
-I would think that if an application really wants to make sure its
-thread is the only one
-eventually calling napi->poll(), we must make sure NIC interrupts stay mask=
-ed.
+We use RWF_ATOMIC as this is legacy name for similar feature proposed in
+the past.
 
-Current implementations of busy poll always release NAPI_STATE_SCHED bit wh=
-en
-returning to user space.
+Differences to v1:
+- Add statx max segments param
+- Expand readv.2 description
+- Document EINVAL
 
-It seems you want to make sure the application and only the
-application calls the napi->poll()
-at chosen times.
+Himanshu Madhani (2):
+  statx.2: Document STATX_WRITE_ATOMIC
+  readv.2: Document RWF_ATOMIC flag
 
-Some kind of contract is needed, and the presence of the hrtimer
-(currently only driven from dev->@gro_flush_timeout)
-would allow to do that correctly.
+John Garry (1):
+  io_submit.2: Document RWF_ATOMIC
 
-Whenever we 'trust' user space to perform the napi->poll shortly, we
-also want to arm the hrtimer to eventually detect
-the application took too long, to restart the other mechanisms (NIC irq bas=
-ed)
+ man2/io_submit.2 | 17 +++++++++++
+ man2/readv.2     | 73 +++++++++++++++++++++++++++++++++++++++++++++++-
+ man2/statx.2     | 29 +++++++++++++++++++
+ 3 files changed, 118 insertions(+), 1 deletion(-)
 
-Note that we added the kthread based napi polling, and we are working
-to add a busy polling feature to these kthreads.
-allowing to completely mask NIC interrupts and further reduce latencies.
+-- 
+2.31.1
 
-Thank you
-
-> Thanks,
-> Joe
->
-> [1]: https://lore.kernel.org/lkml/20170324170836.15226.87178.stgit@localh=
-ost.localdomain/
->
-> Joe Damato (3):
->   eventpoll: support busy poll per epoll instance
->   eventpoll: Add per-epoll busy poll packet budget
->   eventpoll: Add epoll ioctl for epoll_params
->
->  .../userspace-api/ioctl/ioctl-number.rst      |  1 +
->  fs/eventpoll.c                                | 99 ++++++++++++++++++-
->  include/uapi/linux/eventpoll.h                | 12 +++
->  3 files changed, 107 insertions(+), 5 deletions(-)
->
-> --
-> 2.25.1
->
 
