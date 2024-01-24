@@ -1,121 +1,135 @@
-Return-Path: <linux-api+bounces-607-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-608-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE75283A039
-	for <lists+linux-api@lfdr.de>; Wed, 24 Jan 2024 04:43:21 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C685A83A333
+	for <lists+linux-api@lfdr.de>; Wed, 24 Jan 2024 08:41:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 60C04B2827D
-	for <lists+linux-api@lfdr.de>; Wed, 24 Jan 2024 03:43:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 643CB1F25B61
+	for <lists+linux-api@lfdr.de>; Wed, 24 Jan 2024 07:41:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4EBA6105;
-	Wed, 24 Jan 2024 03:43:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C36AC168CD;
+	Wed, 24 Jan 2024 07:39:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b="JxWBDVLl"
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="QOzbeEOU";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="dkOCgmY7"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail.codeweavers.com (mail.codeweavers.com [4.36.192.163])
+Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4049DC120;
-	Wed, 24 Jan 2024 03:43:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.36.192.163
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C2D817550;
+	Wed, 24 Jan 2024 07:39:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706067793; cv=none; b=cH3kULNR/3T9stRbL9W8LgkNKn4Q8M0BwQAk4t5gGriDKtCBjJMVKVZB1y2aYPM9pfzb9/SsH74+ptl+KLsRrE7VidR8ZRBnM9P1HD/dsEef5DXmfImtJefmqq8Nur1y6puDSmzuCs/BikJmNggUn2ofbyIdAwdDyZdRKaIoX3o=
+	t=1706081957; cv=none; b=FA1KXYh2ac4DZL5oH0UReHdvELlbf8uzldoEYhEIpydjq6wACb6XsaU2fxtd68O7vFey6hfdnrQcJKqyLiMVdnA+C+VsvBynbK48UIAONjYs8tHA3gh3sM897xvScXHSBlzZZedQ43GiygVfHCJFwZi3/F0pCWonWTqZjHzAAPU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706067793; c=relaxed/simple;
-	bh=iO5HnuFMu7pUUj8dP2XGCJW3PAt14gadTX9j046o31M=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=R9MqY+klLbRq5MoQCjPvmvE5ETXUigl6zA/nyWlzVs7I05vQpP+LEaoueJr+sQARm8WzNIlSnZpvrXuRlDZQu1bBz69eKdKjGeybkV/W6MLC28JJXSOSKHOVAgQHKzNs/gSGI2+R4Y+kKFDwvHZ7ejeYvYAPNjDf8ojOY5pasdY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com; spf=pass smtp.mailfrom=codeweavers.com; dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b=JxWBDVLl; arc=none smtp.client-ip=4.36.192.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeweavers.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=codeweavers.com; s=s1; h=Message-ID:Date:Subject:Cc:To:From:Sender;
-	bh=tGCM2n4LHRSDdt8wWKFkazewP4vabbqwENB8cy55Cos=; b=JxWBDVLlIHKlFBC3gE2azcL+TM
-	4qzRWlgXwwyHHp9LOq+F9JcG9wwPjpE/6vDURVcx8Mmx3n6zqZ46bH9ttgN7+Oy/UefMz9govI6km
-	TCz2RvD+xPrX4bfk0/5dT5mchyVCrXx7BVZ/8hfm3GlTo+6hz3dDkMQwebtPRswhFgBtLRoiC8NKN
-	bwozwiWR7fiGiRupSCymlnD4f0mcyTFgh69JT0eLA66YmZWD788q3wp/VLxoLMqJxewXb4hY2jAeN
-	rchzhO4+I+pW+VPa70d1twzLFi6qET2hBiXUTFvlsgwGPqXdaiPguODss2AgMfkUUlcQyr65QSZVo
-	/xoYj8Mg==;
-Received: from [10.69.139.2] (helo=terabithia.localnet)
-	by mail.codeweavers.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <zfigura@codeweavers.com>)
-	id 1rSUAQ-00Ddbv-0s;
-	Tue, 23 Jan 2024 21:43:10 -0600
-From: Elizabeth Figura <zfigura@codeweavers.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
- linux-api@vger.kernel.org, wine-devel@winehq.org,
- =?ISO-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
- Wolfram Sang <wsa@kernel.org>, Arkadiusz Hiler <ahiler@codeweavers.com>,
- Peter Zijlstra <peterz@infradead.org>
-Subject:
- Re: [RFC PATCH 2/9] ntsync: Reserve a minor device number and ioctl range.
-Date: Tue, 23 Jan 2024 21:43:09 -0600
-Message-ID: <1875326.tdWV9SEqCh@terabithia>
-In-Reply-To: <2024012356-dove-duke-f7f6@gregkh>
-References:
- <20240124004028.16826-1-zfigura@codeweavers.com>
- <20240124004028.16826-3-zfigura@codeweavers.com>
- <2024012356-dove-duke-f7f6@gregkh>
+	s=arc-20240116; t=1706081957; c=relaxed/simple;
+	bh=D9xiLc3ZLn+kzRd73I0utR9rOr5+qDorAUvhecrJ/GQ=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=rk4d+uuo93C88/uLgtr1UPobC9sYW3ZgiZFcmRcIVSERq1tcPBbV5cLI1gHUge9Lm4TQwMtUrreJzMeqGbN+oYJopnOmCfcqULrQB6KPw4DtOqwS68qOwv/eE0UHcDWsznJF2tcq2BGEaXYAZOsd+kAz8H+t7GgPNC7GwBFMomQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=QOzbeEOU; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=dkOCgmY7; arc=none smtp.client-ip=64.147.123.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.west.internal (Postfix) with ESMTP id A8DFF3200B11;
+	Wed, 24 Jan 2024 02:39:13 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Wed, 24 Jan 2024 02:39:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1706081953; x=1706168353; bh=wS35TwK0K3
+	MUqOLWKIEUN4XToREr5MJPwePHWgqnUXE=; b=QOzbeEOUxsmmwCRvwyDa6uJOd0
+	V6VxJ1hz0dq/Z8IIYvaP+2gGafTMn8ojm5vuQiyMRLInJDVxnF5Ypf5p7I4Tltcr
+	J6JmwuZPrh+M/OdhQd/MF27syr1H0DRkpZRhE5nHzDRto0cS7zGVKql0XBXr20S9
+	UGATx6ivIusF0G4MY7ZagIwQ8CyyYJa0927bOUYOENJeSoqXSVohrjqN6zh1Yw85
+	uInG0bbNs7BkU6tCCFmvhsBiqrv7wp6AmbDFrRIfaNU2w8Gyt+5wDGskO0ddjtmk
+	HEddPhvQhlnC0UnWvbt23FV1lZvy7mHhvYWah8vWXC/8e2N2xLK+x+wfzCAQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1706081953; x=1706168353; bh=wS35TwK0K3MUqOLWKIEUN4XToREr
+	5MJPwePHWgqnUXE=; b=dkOCgmY7rJ8pgQjO+69dAeru9JMOqksLU/t8+Ej8tncT
+	P52reVCASyRKqwkrrawkhL3UlGknrUhzGH+W2v3DAHX5uO2Qp9lVAmw6G6njUrIG
+	kPQwQV2pWGtzOWEpTF6MxVAiWT8MTAAUnBJW0iAfIaPx46j2SDDYyIiuj4p00lIn
+	Z7vFQCoSxRthkybGOWFc92SgrW51nSpC8o07Qf5E4apnLuI/xq0tNGihTRfVgCao
+	krfcn8nYH2YDWSzeHYx4U7091KpDDIqDuyJC0m+kW+3DhdZ6iltX/MGxIRZgn7dR
+	PAL44zp+zc9HpBGy+uLANFYsuM9+ks9BEUPQy1zqbQ==
+X-ME-Sender: <xms:oL6wZVs90lvtw8jOEuZEd7hfbi6nC3pIj2JZd4JJoK1uXBwWlz4_Qg>
+    <xme:oL6wZef9fb0WVH6goh1IkMWO91itL7O0PVoMR-RDMbr4N3Rf3AeCenzj0bUVTSN-A
+    0IXbtC-HCxJIaLqQE0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdeltddgjeejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
+    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+    hrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:oL6wZYz9FjsvzEyjoS8bBg4jqi4PO5j3_sMN-j5aR8dInOBrS78YIg>
+    <xmx:oL6wZcMoiTpfelET3n5Lmn211_fohn0s0nVP40M3lXuiftsOWA_lzw>
+    <xmx:oL6wZV9RDRHGxeYLCEAEKIaFmCO9djhUsx7jGJl0n3nHzoZhB3T_cg>
+    <xmx:ob6wZVyvhY3tU3wPVckvSAFaJbtnUas_uS0Kz2rixbRBUf-VRO86xw>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id BDB43B6008F; Wed, 24 Jan 2024 02:39:12 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-119-ga8b98d1bd8-fm-20240108.001-ga8b98d1b
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Message-Id: <bd3f6fcb-2239-4fd3-bb9a-c772bbce5a44@app.fastmail.com>
+In-Reply-To: <20240124004028.16826-2-zfigura@codeweavers.com>
+References: <20240124004028.16826-1-zfigura@codeweavers.com>
+ <20240124004028.16826-2-zfigura@codeweavers.com>
+Date: Wed, 24 Jan 2024 08:38:52 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Elizabeth Figura" <zfigura@codeweavers.com>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
+Cc: wine-devel@winehq.org,
+ =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
+ "Wolfram Sang" <wsa@kernel.org>, "Arkadiusz Hiler" <ahiler@codeweavers.com>,
+ "Peter Zijlstra" <peterz@infradead.org>
+Subject: Re: [RFC PATCH 1/9] ntsync: Introduce the ntsync driver and character device.
+Content-Type: text/plain
 
-On Tuesday, 23 January 2024 18:54:02 CST Greg Kroah-Hartman wrote:
-> On Tue, Jan 23, 2024 at 06:40:21PM -0600, Elizabeth Figura wrote:
-> > Signed-off-by: Elizabeth Figura <zfigura@codeweavers.com>
-> > ---
-> 
-> Note, we can't take patches without any changelog text, and you don't
-> want us to :)
-> 
-> >  Documentation/admin-guide/devices.txt              | 3 ++-
-> >  Documentation/userspace-api/ioctl/ioctl-number.rst | 2 ++
-> >  drivers/misc/ntsync.c                              | 3 ++-
-> >  include/linux/miscdevice.h                         | 1 +
-> >  4 files changed, 7 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/Documentation/admin-guide/devices.txt
-> > b/Documentation/admin-guide/devices.txt index 94c98be1329a..041404397ee5
-> > 100644
-> > --- a/Documentation/admin-guide/devices.txt
-> > +++ b/Documentation/admin-guide/devices.txt
-> > @@ -376,8 +376,9 @@
-> > 
-> >  		240 = /dev/userio	Serio driver testing device
-> >  		241 = /dev/vhost-vsock	Host kernel driver for virtio 
-vsock
-> >  		242 = /dev/rfkill	Turning off radio transmissions 
-(rfkill)
-> > 
-> > +		243 = /dev/ntsync	NT synchronization primitive 
-device
-> > 
-> > -		243-254			Reserved for local use
-> > +		244-254			Reserved for local use
-> 
-> Why do you need a fixed minor number?  Can't your userspace handle
-> dynamic numbers?  What systems require a static value?
+On Wed, Jan 24, 2024, at 01:40, Elizabeth Figura wrote:
+> ntsync uses a misc device as the simplest and least intrusive uAPI interface.
+>
+> Each file description on the device represents an isolated NT instance, intended
+> to correspond to a single NT virtual machine.
+>
+> Signed-off-by: Elizabeth Figura <zfigura@codeweavers.com>
 
-I believe I added this because it's necessary for MODULE_ALIAS (and, more 
-broadly, because I was following the example of vaguely comparable devices 
-like /dev/loop-control). I suppose I could instead just remove MODULE_ALIAS 
-(or even remove the ability to compile ntsync as a module entirely).
+I'm looking at the ioctl interface to ensure it's well-formed.
 
-It's a bit difficult to figure out what's the preferred way to organize things 
-like this (there not being a lot of precedent for this kind of driver) so I'd 
-appreciate any direction.
+Your patches look ok from that perspective, but there are a
+few minor things I would check for consistency here:
 
---Zeb
+> +
+> +static const struct file_operations ntsync_fops = {
+> +	.owner		= THIS_MODULE,
+> +	.open		= ntsync_char_open,
+> +	.release	= ntsync_char_release,
+> +	.unlocked_ioctl	= ntsync_char_ioctl,
+> +	.compat_ioctl	= ntsync_char_ioctl,
+> +	.llseek		= no_llseek,
+> +};
 
+The .compat_ioctl pointer should point to compat_ptr_ioctl()
+since the actual ioctl commands all take pointers instead
+of interpreting the argument as a number.
 
+On x86 and arm64 this won't make a difference as compat_ptr()
+is a nop.
+
+     Arnd
 
