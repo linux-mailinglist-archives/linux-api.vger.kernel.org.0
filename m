@@ -1,57 +1,74 @@
-Return-Path: <linux-api+bounces-596-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-597-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F734839DFA
-	for <lists+linux-api@lfdr.de>; Wed, 24 Jan 2024 02:14:24 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B9E0839E36
+	for <lists+linux-api@lfdr.de>; Wed, 24 Jan 2024 02:27:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EB7B628D0E2
-	for <lists+linux-api@lfdr.de>; Wed, 24 Jan 2024 01:14:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5255E1F2B027
+	for <lists+linux-api@lfdr.de>; Wed, 24 Jan 2024 01:27:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D365410E6;
-	Wed, 24 Jan 2024 01:14:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9DCE710E6;
+	Wed, 24 Jan 2024 01:26:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="e+HrVT+5"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gV+XAYQB"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E4AA1FAA;
-	Wed, 24 Jan 2024 01:14:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09C0F185A
+	for <linux-api@vger.kernel.org>; Wed, 24 Jan 2024 01:26:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706058858; cv=none; b=i5NabR/bHDIMHhtIULXe6bBMuPFVHZghu3/QRkhDbsM0CTQgkoMUyT4a5Q8by9MhYc9dXyAlh5M4YrWWbGG0Ycz6IWI1lP6kVu0vHOHRF5Oz/U63qurpT5p3X2BLh220MgVvUDuXgFQNhAeN7o9PLhP/kWbfQVnLcmBv5a0hIDc=
+	t=1706059612; cv=none; b=uKgpZRPJnz2p1srGWIt2tqW+NFf5dDZpzZtN1omlalQSJ+A98J+acL2UKYwCdQSMiISE5+PRyS+LAl+IseZYUMOmDkDm2mSr4t32ZuX2IczRbldEh9XTCWMR/5pc8L/dE47rzRo4dgv8ab1oNsENZhV99HxXWot/VQ4SfobLWQo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706058858; c=relaxed/simple;
-	bh=qWcnJt0pf9bdDGsYcKVLk1NGTUvvib50FPZ8UjiLKug=;
+	s=arc-20240116; t=1706059612; c=relaxed/simple;
+	bh=OUE9f/qleU0xiD8NQz2GDqnq9GjdrISzx5tWwgLKeSQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IgAf7xmMxZEVTAmUUTh4XbUzlZ9bQ0rgVsChKofO0azItK1BsWjAehRvtzYXr53RxBbHDueXsZu2SGCqcUabpM9GAe2RSxx8+eTT8c8v0EbrEow72geq4bbOHQXWe3e7fAg/n4sGA2msU5yDKDlpwqq3h64Sz04Js0PSjI3Zrr8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=e+HrVT+5; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA5D3C433F1;
-	Wed, 24 Jan 2024 01:14:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1706058858;
-	bh=qWcnJt0pf9bdDGsYcKVLk1NGTUvvib50FPZ8UjiLKug=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=e+HrVT+5RZvgPrFmWTd5dXq9JwoZ2LyffRT5//NQHo8gKxQtSATCZqdkRqVpPGe1Y
-	 jsZA/B+5B38PgXqB0sJaJBEaPKPKUG9n7Y23iJ2DJKq6Dvz7GPHEKQY/jkQgJH3dU9
-	 zIsyfoJleOh/3IA6c/JSimg4qBvDW5BUZ0S25COg=
-Date: Tue, 23 Jan 2024 17:14:17 -0800
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Elizabeth Figura <zfigura@codeweavers.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org, wine-devel@winehq.org,
-	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
-	Wolfram Sang <wsa@kernel.org>,
-	Arkadiusz Hiler <ahiler@codeweavers.com>,
-	Peter Zijlstra <peterz@infradead.org>
-Subject: Re: [RFC PATCH 3/9] ntsync: Introduce NTSYNC_IOC_CREATE_SEM and
- NTSYNC_IOC_DELETE.
-Message-ID: <2024012301-dork-awry-c9ad@gregkh>
-References: <20240124004028.16826-1-zfigura@codeweavers.com>
- <20240124004028.16826-4-zfigura@codeweavers.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=JGAfxxsPMViqBoBl/cRXw1+lYI0aTBmKrmjR4ZlR4f6gmrR7/v63Cf1hIM+DSVEqQAKT/kA6QOWoUICOSo1VBLVDihwNyTMAY9qkAefiBPAzf4lBKO0ksYLs9LxuDkNpq5cgcbVHUG5zf32HXTCVOjhA6zHSsjbYAG52IdUSvgU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=gV+XAYQB; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1706059610;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OUE9f/qleU0xiD8NQz2GDqnq9GjdrISzx5tWwgLKeSQ=;
+	b=gV+XAYQBWjqlPkZedCi62yfJ6ZXl+FJ/C36tbr4E0VTaH5vTAz96UVUjcf30oMHdOZxLXh
+	4WevmoxW0CnoY1ISUjLdvmxiiFFxrSE58V2ZlA6jbxlPj3xjzG6KkarI3k+EwlCNUkktsY
+	QmyIyqbryaJt8Rd/HgmXMHKwf9H69cM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-451-DCk2LN3nOYSOJ7LOlXBz-w-1; Tue, 23 Jan 2024 20:26:46 -0500
+X-MC-Unique: DCk2LN3nOYSOJ7LOlXBz-w-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4187E84A292;
+	Wed, 24 Jan 2024 01:26:46 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.224.7])
+	by smtp.corp.redhat.com (Postfix) with SMTP id E7173C2590E;
+	Wed, 24 Jan 2024 01:26:44 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Wed, 24 Jan 2024 02:25:32 +0100 (CET)
+Date: Wed, 24 Jan 2024 02:25:30 +0100
+From: Oleg Nesterov <oleg@redhat.com>
+To: Tycho Andersen <tycho@tycho.pizza>
+Cc: Christian Brauner <brauner@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org, Tycho Andersen <tandersen@netflix.com>
+Subject: Re: [PATCH v3 1/3] pidfd: allow pidfd_open() on non-thread-group
+ leaders
+Message-ID: <20240124012529.GC26412@redhat.com>
+References: <20240123153452.170866-1-tycho@tycho.pizza>
+ <20240123153452.170866-2-tycho@tycho.pizza>
+ <20240123195608.GB9978@redhat.com>
+ <ZbArN3EYRfhrNs3o@tycho.pizza>
+ <20240123222231.GA25162@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -60,32 +77,20 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240124004028.16826-4-zfigura@codeweavers.com>
+In-Reply-To: <20240123222231.GA25162@redhat.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.8
 
-On Tue, Jan 23, 2024 at 06:40:22PM -0600, Elizabeth Figura wrote:
-> +static int ntsync_create_sem(struct ntsync_device *dev, void __user *argp)
-> +{
-> +	struct ntsync_sem_args __user *user_args = argp;
-> +	struct ntsync_sem_args args;
-> +	struct ntsync_obj *sem;
-> +	__u32 id;
-> +	int ret;
-> +
-> +	if (copy_from_user(&args, argp, sizeof(args)))
-> +		return -EFAULT;
-> +
-> +	if (args.count > args.max)
-> +		return -EINVAL;
+On 01/23, Oleg Nesterov wrote:
+>
+> But to be honest I can't understand test_non_tgl_poll_exit() at all. I don't
+> even understand why the process/thread created by fork_task_with_thread()
+> should ever exit. And why it creates the "writer" child... Never mind, too
+> late for me to read the code.
 
-No bounds checking on count or max?
+Ah, OK, it passes thread_wait_exit to fork_task_with_thread(), and this "fn"
+reads sk_pair and does exit() which is actually exit_group().
 
-What's the relationship between count and max?  Some sort of real
-documentation is needed here, the changelog needs to explain this.  Or
-somewhere, but as-is, this patch series is pretty unreviewable as I
-can't figure out how to review it because I don't know what it wants to
-do.
+Oleg.
 
-thanks,
-
-greg k-h
 
