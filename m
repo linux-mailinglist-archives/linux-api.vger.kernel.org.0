@@ -1,171 +1,124 @@
-Return-Path: <linux-api+bounces-599-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-600-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF687839E70
-	for <lists+linux-api@lfdr.de>; Wed, 24 Jan 2024 02:53:34 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96853839E78
+	for <lists+linux-api@lfdr.de>; Wed, 24 Jan 2024 02:56:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id ABB1A1F2A09A
-	for <lists+linux-api@lfdr.de>; Wed, 24 Jan 2024 01:53:34 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BBFB91C23472
+	for <lists+linux-api@lfdr.de>; Wed, 24 Jan 2024 01:56:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 813B81866;
-	Wed, 24 Jan 2024 01:53:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mkF8tY6k"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41BB615D2;
+	Wed, 24 Jan 2024 01:56:07 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from h3cspam02-ex.h3c.com (smtp.h3c.com [60.191.123.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B3921860;
-	Wed, 24 Jan 2024 01:53:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24E1115BE;
+	Wed, 24 Jan 2024 01:56:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.191.123.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706061206; cv=none; b=M32b8EH0YP+ddVDpBPk3fzZ50r/yIfuD89Ugsab7hmnPY0fCzTTfrZFQuDGyE//gD8gPtiGGtLirtlUqq2dtLCxk6JtbujUBewaaQPUApkMXIR8eCWeO7k9mRBlniOpoY12ETUow4v8XlSKqNLwBPI5UQFej15js/Aqmdu7y34E=
+	t=1706061367; cv=none; b=NiasLuxjxWwnJkYNDFHTesRiIZ+meof3RlQ8RSJ7jGTLro1Z6QdbRK00bue2mzAcz8qh1ER2sXmxcVY6KqL97aYrEEZ2Zs5AKjfK9eKGwIBlCRJE8VJAOJ1OP7VTovXHTpeo2ofCY5AIgu4u3yBI8M3t489lPpG7fNLR9DYtYIE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706061206; c=relaxed/simple;
-	bh=6anV9bsED/SQ83dHNmfrmB1sPazrK8p7SLusz+eOn4Q=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=kwrCqbwisiTMakuBvjQxyvJrlzf+0olHGTOxJN1Mau6wb8zwQ6mBdBC+vIOZndhwZRxPuIywBQaA3z6HHxQuBNSKQgUp7KdpN7jnpCpN1dwWxGnDBGVwus4n7x41skdSUKSM888FogYqhJyFhJxh87eYtPbg/GJ0D90WIZ1Ucfk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mkF8tY6k; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706061205; x=1737597205;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=6anV9bsED/SQ83dHNmfrmB1sPazrK8p7SLusz+eOn4Q=;
-  b=mkF8tY6kXhBA4rmMuxP2coiDvD99jJBJLm2CjCeOzWJpN5GbnTqQYLYl
-   SJ6VaHFpRW2eFmkGZPAGpsZA310CB9n+RYPXWBMKj8Utvxsv7cNWiELqi
-   GXDL6wHUtvTu0ggikyvPzbZ546VjcWIBiJwDlwuxjzm3GP29xYyYevE0J
-   WU/x1nnN7lqn1mmOVcFo+A+1xC3Y9XZLbYjTx9EO3UZPI8Kq8uqsuLgbP
-   R7ds2DlwQy/9dqewnGYlthWLhkiva0jnYZOQK6HWodkRNo4TcWeBQWtZd
-   BtyejV6DSuLbsQ74EJzoaPps6ELHo7NMb8qSBg6bHZFWLNfzKo4Fk+0Qd
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="9101883"
-X-IronPort-AV: E=Sophos;i="6.05,215,1701158400"; 
-   d="scan'208";a="9101883"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2024 17:53:24 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="735757106"
-X-IronPort-AV: E=Sophos;i="6.05,215,1701158400"; 
-   d="scan'208";a="735757106"
-Received: from yhuang6-desk2.sh.intel.com (HELO yhuang6-desk2.ccr.corp.intel.com) ([10.238.208.55])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2024 17:53:17 -0800
-From: "Huang, Ying" <ying.huang@intel.com>
-To: Gregory Price <gregory.price@memverge.com>
-Cc: Gregory Price <gourry.memverge@gmail.com>,  <linux-mm@kvack.org>,
-  <linux-kernel@vger.kernel.org>,  <linux-doc@vger.kernel.org>,
-  <linux-fsdevel@vger.kernel.org>,  <linux-api@vger.kernel.org>,
-  <corbet@lwn.net>,  <akpm@linux-foundation.org>,  <honggyu.kim@sk.com>,
-  <rakie.kim@sk.com>,  <hyeongtak.ji@sk.com>,  <mhocko@kernel.org>,
-  <vtavarespetr@micron.com>,  <jgroves@micron.com>,
-  <ravis.opensrc@micron.com>,  <sthanneeru@micron.com>,
-  <emirakhur@micron.com>,  <Hasan.Maruf@amd.com>,
-  <seungjun.ha@samsung.com>,  <hannes@cmpxchg.org>,
-  <dan.j.williams@intel.com>,  Srinivasulu Thanneeru
- <sthanneeru.opensrc@micron.com>
-Subject: Re: [PATCH v2 3/3] mm/mempolicy: introduce MPOL_WEIGHTED_INTERLEAVE
- for weighted interleaving
-In-Reply-To: <ZbAvR+U+tyLvsh8R@memverge.com> (Gregory Price's message of "Tue,
-	23 Jan 2024 16:27:35 -0500")
-References: <20240119175730.15484-1-gregory.price@memverge.com>
-	<20240119175730.15484-4-gregory.price@memverge.com>
-	<87jzo0vjkk.fsf@yhuang6-desk2.ccr.corp.intel.com>
-	<Za9GiqsZtcfKXc5m@memverge.com> <Za9LnN59SBWwdFdW@memverge.com>
-	<87a5owv454.fsf@yhuang6-desk2.ccr.corp.intel.com>
-	<ZbAvR+U+tyLvsh8R@memverge.com>
-Date: Wed, 24 Jan 2024 09:51:20 +0800
-Message-ID: <87jznzts6f.fsf@yhuang6-desk2.ccr.corp.intel.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	s=arc-20240116; t=1706061367; c=relaxed/simple;
+	bh=KzfL/eA5X9Q8Ecu3aHYbw/T9JAuqCN1j0cbZS03ao4c=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=CyqB0neKcUozh7oAt2ioQyza2P/p9Gc2K/MFNj90kk3XfevvOZ5SXLVNskMvH+V/hG3161c6Ut/tGJeifLEjsrXqOpHq6pd1yZT9OROajzuwwvADiand9eIomqk+wAC6srC2hxp8Dhi1F3XMv1HTCECKPCfkyoTSSF9EW1C4bN0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=h3c.com; spf=pass smtp.mailfrom=h3c.com; arc=none smtp.client-ip=60.191.123.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=h3c.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=h3c.com
+Received: from mail.maildlp.com ([172.25.15.154])
+	by h3cspam02-ex.h3c.com with ESMTP id 40O1sptq034324;
+	Wed, 24 Jan 2024 09:54:51 +0800 (GMT-8)
+	(envelope-from hu.yadi@h3c.com)
+Received: from DAG6EX09-BJD.srv.huawei-3com.com (unknown [10.153.34.11])
+	by mail.maildlp.com (Postfix) with ESMTP id 2F6EB2004BC6;
+	Wed, 24 Jan 2024 09:59:30 +0800 (CST)
+Received: from DAG6EX02-IMDC.srv.huawei-3com.com (10.62.14.11) by
+ DAG6EX09-BJD.srv.huawei-3com.com (10.153.34.11) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.27; Wed, 24 Jan 2024 09:54:52 +0800
+Received: from DAG6EX02-IMDC.srv.huawei-3com.com ([fe80::4c21:7c89:4f9d:e4c4])
+ by DAG6EX02-IMDC.srv.huawei-3com.com ([fe80::4c21:7c89:4f9d:e4c4%16]) with
+ mapi id 15.02.1258.027; Wed, 24 Jan 2024 09:54:52 +0800
+From: Huyadi <hu.yadi@h3c.com>
+To: =?utf-8?B?J01pY2thw6tsIFNhbGHDvG4n?= <mic@digikod.net>
+CC: "jmorris@namei.org" <jmorris@namei.org>,
+        "serge@hallyn.com"
+	<serge@hallyn.com>,
+        "shuah@kernel.org" <shuah@kernel.org>,
+        "mathieu.desnoyers@efficios.com" <mathieu.desnoyers@efficios.com>,
+        "amir73il@gmail.com" <amir73il@gmail.com>,
+        "brauner@kernel.org"
+	<brauner@kernel.org>,
+        "avagin@google.com" <avagin@google.com>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-security-module@vger.kernel.org"
+	<linux-security-module@vger.kernel.org>,
+        "linux-kselftest@vger.kernel.org"
+	<linux-kselftest@vger.kernel.org>,
+        "514118380@qq.com" <514118380@qq.com>,
+        "konstantin.meskhidze@huawei.com" <konstantin.meskhidze@huawei.com>
+Subject: =?utf-8?B?5Zue5aSNOiDlm57lpI06IFtQQVRDSCB2NF0gc2VsZnRlc3RzL2xhbmRsb2Nr?=
+ =?utf-8?Q?:Fix_two_build_issues?=
+Thread-Topic: =?utf-8?B?5Zue5aSNOiBbUEFUQ0ggdjRdIHNlbGZ0ZXN0cy9sYW5kbG9jazpGaXggdHdv?=
+ =?utf-8?Q?_build_issues?=
+Thread-Index: AQHaR51Te/ejhd6BskWKYK0XmAmChrDgkaUAgAbFurD//7YlAIABM8jQ
+Date: Wed, 24 Jan 2024 01:54:52 +0000
+Message-ID: <381b0dd202074938b527c5b27c86c34f@h3c.com>
+References: <20240115102409.19799-1-hu.yadi@h3c.com>
+ <20240119.Ugaehae2ze5b@digikod.net>
+ <adec399e50c74b30b59480d92c431241@h3c.com>
+ <20240123.deeT9hegh4vo@digikod.net>
+In-Reply-To: <20240123.deeT9hegh4vo@digikod.net>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-sender-location: DAG2
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ascii
+X-DNSRBL: 
+X-SPAM-SOURCE-CHECK: pass
+X-MAIL:h3cspam02-ex.h3c.com 40O1sptq034324
 
-Gregory Price <gregory.price@memverge.com> writes:
-
-> On Tue, Jan 23, 2024 at 04:35:19PM +0800, Huang, Ying wrote:
->> Gregory Price <gregory.price@memverge.com> writes:
->> 
->> > On Mon, Jan 22, 2024 at 11:54:34PM -0500, Gregory Price wrote:
->> >> > 
->> >> > Can the above code be simplified as something like below?
->> >> > 
->> >> >         resume_node = prev_node;
->> > ---         resume_weight = 0;
->> > +++         resume_weight = weights[node];
->> >> >         for (...) {
->> >> >                 ...
->> >> >         }
->> >> > 
->> >> 
->> >> I'll take another look at it, but this logic is annoying because of the
->> >> corner case:  me->il_prev can be NUMA_NO_NODE or an actual numa node.
->> >> 
->> >
->> > After a quick look, as long as no one objects to (me->il_prev) remaining
->> > NUMA_NO_NODE
->> 
->> MAX_NUMNODES-1 ?
->> 
->
-> When setting a new policy, the il_prev gets set to NUMA_NO_NODE. It's
-
-IIUC, it is set to MAX_NUMNODES-1 as below,
-
-@@ -846,7 +858,8 @@ static long do_set_mempolicy(unsigned short mode, unsigned short flags,
- 
- 	old = current->mempolicy;
- 	current->mempolicy = new;
--	if (new && new->mode == MPOL_INTERLEAVE)
-+	if (new && (new->mode == MPOL_INTERLEAVE ||
-+		    new->mode == MPOL_WEIGHTED_INTERLEAVE))
- 		current->il_prev = MAX_NUMNODES-1;
- 	task_unlock(current);
- 	mpol_put(old);
-
-I don't think we need to change this.
-
-> not harmful and is just (-1), which is functionally the same as
-> (MAX_NUMNODES-1) for the purpose of iterating the nodemask with
-> next_node_in(). So it's fine to set (resume_node = me->il_prev)
-> as discussed.
->
-> I have a cleaned up function I'll push when i fix up a few other spots.
->
->> > while having a weight assigned to pol->wil.cur_weight,
->> 
->> I think that it is OK.
->> 
->> And, IIUC, pol->wil.cur_weight can be 0, as in
->> weighted_interleave_nodes(), if it's 0, it will be assigned to default
->> weight for the node.
->> 
->
-> cur_weight is different than the global weights.  cur_weight tells us
-> how many pages are remaining to allocate for the current node.
->
-> (cur_weight = 0) can happen in two scenarios:
->   - initial setting of mempolicy (NUMA_NO_NODE w/ cur_weight=0)
->   - weighted_interleave_nodes decrements it down to 0
->
-> Now that i'm looking at it - the second condition should not exist, and
-> we can eliminate it. The logic in weighted_interleave_nodes is actually
-> annoyingly unclear at the moment, so I'm going to re-factor it a bit to
-> be more explicit.
-
-I am OK with either way.  Just a reminder, the first condition may be
-true in alloc_pages_bulk_array_weighted_interleave() and perhaps some
-other places.
-
---
-Best Regards,
-Huang, Ying
+DQo+T24gVHVlLCBKYW4gMjMsIDIwMjQgYXQgMTI6MDQ6MTdQTSArMDAwMCwgSHV5YWRpIHdyb3Rl
+Og0KPj4gDQo+PiA+PiBDaGFuZ2VzIHYzIC0+IHYyOg0KPj4gPj4gIC0gYWRkIGhlbHBlciBvZiBn
+ZXR0aWQgaW5zdGVhZCBvZiBfX05SX2dldHRpZA0KPj4gPj4gIC0gYWRkIGdjYy9nbGliYyB2ZXJz
+aW9uIGluZm8gaW4gY29tbWVudHMgQ2hhbmdlcyB2MSAtPiB2MjoNCj4+ID4+ICAtIGZpeCB3aGl0
+ZXNwYWNlIGVycm9yDQo+PiA+PiAgLSByZXBsYWNlIFNZU19nZXR0aWQgd2l0aCBfTlJfZ2V0dGlk
+DQo+PiA+PiANCj4+ID4+ICB0b29scy90ZXN0aW5nL3NlbGZ0ZXN0cy9sYW5kbG9jay9mc190ZXN0
+LmMgIHwgNSArKysrLSANCj4+ID4+IHRvb2xzL3Rlc3Rpbmcvc2VsZnRlc3RzL2xhbmRsb2NrL25l
+dF90ZXN0LmMgfCA3ICsrKysrKy0NCj4+ID4+ICAyIGZpbGVzIGNoYW5nZWQsIDEwIGluc2VydGlv
+bnMoKyksIDIgZGVsZXRpb25zKC0pDQo+PiA+PiANCj4+ID4+IGRpZmYgLS1naXQgYS90b29scy90
+ZXN0aW5nL3NlbGZ0ZXN0cy9sYW5kbG9jay9mc190ZXN0LmMNCj4+ID4+IGIvdG9vbHMvdGVzdGlu
+Zy9zZWxmdGVzdHMvbGFuZGxvY2svZnNfdGVzdC5jDQo+PiA+PiBpbmRleCAxOGUxZjg2YTYyMzQu
+LmE5OTJjZjdjMGFkMSAxMDA2NDQNCj4+ID4+IC0tLSBhL3Rvb2xzL3Rlc3Rpbmcvc2VsZnRlc3Rz
+L2xhbmRsb2NrL2ZzX3Rlc3QuYw0KPj4gPj4gKysrIGIvdG9vbHMvdGVzdGluZy9zZWxmdGVzdHMv
+bGFuZGxvY2svZnNfdGVzdC5jDQo+PiA+PiBAQCAtNDU3Miw3ICs0NTcyLDEwIEBAIEZJWFRVUkVf
+VkFSSUFOVChsYXlvdXQzX2ZzKQ0KPj4gPj4gIC8qIGNsYW5nLWZvcm1hdCBvZmYgKi8NCj4+ID4+
+ICBGSVhUVVJFX1ZBUklBTlRfQUREKGxheW91dDNfZnMsIHRtcGZzKSB7DQo+PiA+PiAgCS8qIGNs
+YW5nLWZvcm1hdCBvbiAqLw0KPj4gPj4gLQkubW50ID0gbW50X3RtcCwNCj4+ID4+ICsJLm1udCA9
+IHsNCj4+ID4+ICsJCS50eXBlID0gInRtcGZzIiwNCj4+ID4+ICsJCS5kYXRhID0gInNpemU9NG0s
+bW9kZT03MDAiLA0KPj4gPj4gKwl9LA0KPj4gPg0KPj4gPkkgcmVxdWVzdGVkIHNvbWUgY2hhbmdl
+cyBoZXJlLg0KPj4gPg0KPj4gDQo+PiBDb3VsZCB5b3UgZ2l2ZSBtZSBzb21lIGluc3BpcmF0aW9u
+IGhvdyB0byBmaXggaXQ/IA0KPj4gaXQgbG9va3MgZmluZSB0byBtZSB0byBhc3NpZ24gdmFsdWUg
+YXMgYWJvdmUsIHdoaWNoIGNvbnNpc3RlbnQgd2l0aCBvdGhlciBwc2V1ZG8gRlMgdGVzdHMuDQo+
+PiBUaGFua3MgaW4gYWR2YW5jZS4NCj4NCj5KdXN0IGFkZCBhbmQgdXNlIHRoaXMgZm9yIHRoZSB0
+d28gdG1wZnMgZGF0YToNCj4jZGVmaW5lIE1OVF9UTVBfREFUQSAic2l6ZT00bSxtb2RlPTcwMCIN
+Cj4NCj5Zb3UgY2FuIGFsc28gbWFrZSB0aGUgbW50X3RtcCB2YXJpYWJsZSBzdGF0aWMgY29uc3Qu
+DQoNCg0Kc3RhdGljIGNvbnN0IGlzIG5vdCB1c2VmdWwgZm9yIHRoZSBjYXNlLCB0aGUgZXJyb3Qg
+c3RpbGwsIGFuZCBJJ2xsIHVzZSBtYWNybyBkZWZpbml0aW9uIHRvIHNvbHZlIGl0Lg0KdGhhbmtz
+IHlvdXIgd2FybWx5IGluc3RydWN0aW9uLEknbGwgc2VuZCBuZXh0IHZlcnNpb24gLCBwbGVhc2Ug
+aGVscCB0byByZXZpZXcgaXQuDQoNCg0KPiANCj4gPj4gIAkuZmlsZV9wYXRoID0gZmlsZTFfczFk
+MSwNCj4gPj4gIH07DQo+ID4+IA0KPiAgICANCg==
 
