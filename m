@@ -1,50 +1,50 @@
-Return-Path: <linux-api+bounces-606-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-607-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE5C483A022
-	for <lists+linux-api@lfdr.de>; Wed, 24 Jan 2024 04:35:27 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE75283A039
+	for <lists+linux-api@lfdr.de>; Wed, 24 Jan 2024 04:43:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 710C01F2CA1D
-	for <lists+linux-api@lfdr.de>; Wed, 24 Jan 2024 03:35:27 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 60C04B2827D
+	for <lists+linux-api@lfdr.de>; Wed, 24 Jan 2024 03:43:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EAD8C150;
-	Wed, 24 Jan 2024 03:35:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4EBA6105;
+	Wed, 24 Jan 2024 03:43:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b="k03q1MTw"
+	dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b="JxWBDVLl"
 X-Original-To: linux-api@vger.kernel.org
 Received: from mail.codeweavers.com (mail.codeweavers.com [4.36.192.163])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B71BDC131;
-	Wed, 24 Jan 2024 03:35:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4049DC120;
+	Wed, 24 Jan 2024 03:43:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.36.192.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706067312; cv=none; b=pwgWn+MAgL8c7gS881fpGx/XUTEM9tTJqIVOgGazQCN+VpY9KjMR/ajCkT9Z0DCPLUD+0XGyN6eiIEjbkHjzNY0dvqFb6w6sQdXLqiOdl4P+aEKtBZ4pr0Tcn/+I/QaTYqggpAdXiF8O1JSDYfkb0RtD5xy7Oxaxw7LiD/UYjng=
+	t=1706067793; cv=none; b=cH3kULNR/3T9stRbL9W8LgkNKn4Q8M0BwQAk4t5gGriDKtCBjJMVKVZB1y2aYPM9pfzb9/SsH74+ptl+KLsRrE7VidR8ZRBnM9P1HD/dsEef5DXmfImtJefmqq8Nur1y6puDSmzuCs/BikJmNggUn2ofbyIdAwdDyZdRKaIoX3o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706067312; c=relaxed/simple;
-	bh=VXBPWnkkL+AQhwvJV7ZF0sajxS0QjAMs9aF6VeovhLE=;
+	s=arc-20240116; t=1706067793; c=relaxed/simple;
+	bh=iO5HnuFMu7pUUj8dP2XGCJW3PAt14gadTX9j046o31M=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pU+3QQFn8fkn41zO5N7+9PGN3GNTfDx0DZGtOUrfXisn7aDglvDEK+dZ0MZDSpOYH14/KZOtP/Faox/SsoBJt5sDzIGRLjWXw1st3Jk6g+w9qwIkEN1zMjlkMADacQu2AziYBbQ2PbodpT1+nRBt/JL0BYX/lo62tqqROzucMCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com; spf=pass smtp.mailfrom=codeweavers.com; dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b=k03q1MTw; arc=none smtp.client-ip=4.36.192.163
+	 MIME-Version:Content-Type; b=R9MqY+klLbRq5MoQCjPvmvE5ETXUigl6zA/nyWlzVs7I05vQpP+LEaoueJr+sQARm8WzNIlSnZpvrXuRlDZQu1bBz69eKdKjGeybkV/W6MLC28JJXSOSKHOVAgQHKzNs/gSGI2+R4Y+kKFDwvHZ7ejeYvYAPNjDf8ojOY5pasdY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com; spf=pass smtp.mailfrom=codeweavers.com; dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b=JxWBDVLl; arc=none smtp.client-ip=4.36.192.163
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeweavers.com
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=codeweavers.com; s=s1; h=Message-ID:Date:Subject:Cc:To:From:Sender;
-	bh=684JbBC38tKWKnzRDJ3Jbbmhn9UVaUIy+vs9EjmX8P4=; b=k03q1MTwsnTovFX5Ne+WnwRx5M
-	78y/9iLDybuNFQPth6y5dFuthSZVsXxdOlikUWKrYYslQ3Er7y+QYBsujtBfPSZp/y237UsI+rPih
-	Bmrw7UxNB02olEts4/DiTNrPU/qBL477NVEK2JJl/FEAzp8SYQaoRX/nYrwYFu2k2XzEzFEdIbmf5
-	DrqdVZkjyUF/xrwNfcLL6CTJ+WhNHrQjjyom428OrXVxRi/wC6EjAoLCPCn8bnXzPULRuMfRHyTS/
-	ARtZSzoWwxb2E3a3DADn6QZCQXEzmTvg1mAn1dX4VVX189gJ/yeZFcBUQh7CBJvBcQbM3W+PC/f82
-	Wks7Hp+A==;
+	bh=tGCM2n4LHRSDdt8wWKFkazewP4vabbqwENB8cy55Cos=; b=JxWBDVLlIHKlFBC3gE2azcL+TM
+	4qzRWlgXwwyHHp9LOq+F9JcG9wwPjpE/6vDURVcx8Mmx3n6zqZ46bH9ttgN7+Oy/UefMz9govI6km
+	TCz2RvD+xPrX4bfk0/5dT5mchyVCrXx7BVZ/8hfm3GlTo+6hz3dDkMQwebtPRswhFgBtLRoiC8NKN
+	bwozwiWR7fiGiRupSCymlnD4f0mcyTFgh69JT0eLA66YmZWD788q3wp/VLxoLMqJxewXb4hY2jAeN
+	rchzhO4+I+pW+VPa70d1twzLFi6qET2hBiXUTFvlsgwGPqXdaiPguODss2AgMfkUUlcQyr65QSZVo
+	/xoYj8Mg==;
 Received: from [10.69.139.2] (helo=terabithia.localnet)
 	by mail.codeweavers.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <zfigura@codeweavers.com>)
-	id 1rSU2a-00DdED-20;
-	Tue, 23 Jan 2024 21:35:04 -0600
+	id 1rSUAQ-00Ddbv-0s;
+	Tue, 23 Jan 2024 21:43:10 -0600
 From: Elizabeth Figura <zfigura@codeweavers.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
@@ -53,15 +53,14 @@ Cc: Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
  Wolfram Sang <wsa@kernel.org>, Arkadiusz Hiler <ahiler@codeweavers.com>,
  Peter Zijlstra <peterz@infradead.org>
 Subject:
- Re: [RFC PATCH 3/9] ntsync: Introduce NTSYNC_IOC_CREATE_SEM and
- NTSYNC_IOC_DELETE.
-Date: Tue, 23 Jan 2024 21:35:04 -0600
-Message-ID: <5746919.DvuYhMxLoT@terabithia>
-In-Reply-To: <2024012301-dork-awry-c9ad@gregkh>
+ Re: [RFC PATCH 2/9] ntsync: Reserve a minor device number and ioctl range.
+Date: Tue, 23 Jan 2024 21:43:09 -0600
+Message-ID: <1875326.tdWV9SEqCh@terabithia>
+In-Reply-To: <2024012356-dove-duke-f7f6@gregkh>
 References:
  <20240124004028.16826-1-zfigura@codeweavers.com>
- <20240124004028.16826-4-zfigura@codeweavers.com>
- <2024012301-dork-awry-c9ad@gregkh>
+ <20240124004028.16826-3-zfigura@codeweavers.com>
+ <2024012356-dove-duke-f7f6@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -71,42 +70,52 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-On Tuesday, 23 January 2024 19:14:17 CST Greg Kroah-Hartman wrote:
-> On Tue, Jan 23, 2024 at 06:40:22PM -0600, Elizabeth Figura wrote:
-> > +static int ntsync_create_sem(struct ntsync_device *dev, void __user
-> > *argp)
-> > +{
-> > +	struct ntsync_sem_args __user *user_args = argp;
-> > +	struct ntsync_sem_args args;
-> > +	struct ntsync_obj *sem;
-> > +	__u32 id;
-> > +	int ret;
-> > +
-> > +	if (copy_from_user(&args, argp, sizeof(args)))
-> > +		return -EFAULT;
-> > +
-> > +	if (args.count > args.max)
-> > +		return -EINVAL;
+On Tuesday, 23 January 2024 18:54:02 CST Greg Kroah-Hartman wrote:
+> On Tue, Jan 23, 2024 at 06:40:21PM -0600, Elizabeth Figura wrote:
+> > Signed-off-by: Elizabeth Figura <zfigura@codeweavers.com>
+> > ---
 > 
-> No bounds checking on count or max?
+> Note, we can't take patches without any changelog text, and you don't
+> want us to :)
 > 
-> What's the relationship between count and max?  
+> >  Documentation/admin-guide/devices.txt              | 3 ++-
+> >  Documentation/userspace-api/ioctl/ioctl-number.rst | 2 ++
+> >  drivers/misc/ntsync.c                              | 3 ++-
+> >  include/linux/miscdevice.h                         | 1 +
+> >  4 files changed, 7 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/Documentation/admin-guide/devices.txt
+> > b/Documentation/admin-guide/devices.txt index 94c98be1329a..041404397ee5
+> > 100644
+> > --- a/Documentation/admin-guide/devices.txt
+> > +++ b/Documentation/admin-guide/devices.txt
+> > @@ -376,8 +376,9 @@
+> > 
+> >  		240 = /dev/userio	Serio driver testing device
+> >  		241 = /dev/vhost-vsock	Host kernel driver for virtio 
+vsock
+> >  		242 = /dev/rfkill	Turning off radio transmissions 
+(rfkill)
+> > 
+> > +		243 = /dev/ntsync	NT synchronization primitive 
+device
+> > 
+> > -		243-254			Reserved for local use
+> > +		244-254			Reserved for local use
+> 
+> Why do you need a fixed minor number?  Can't your userspace handle
+> dynamic numbers?  What systems require a static value?
 
-Indeed, no bounds checking. The counter is just the semaphore's internal value 
-and has no meaning other than that.
+I believe I added this because it's necessary for MODULE_ALIAS (and, more 
+broadly, because I was following the example of vaguely comparable devices 
+like /dev/loop-control). I suppose I could instead just remove MODULE_ALIAS 
+(or even remove the ability to compile ntsync as a module entirely).
 
-It's basically like an EFD_SEMAPHORE, except that the maximum is configurable 
-rather than always being 2**64-2.
+It's a bit difficult to figure out what's the preferred way to organize things 
+like this (there not being a lot of precedent for this kind of driver) so I'd 
+appreciate any direction.
 
-> Some sort of real
-> documentation is needed here, the changelog needs to explain this.  Or
-> somewhere, but as-is, this patch series is pretty unreviewable as I
-> can't figure out how to review it because I don't know what it wants to
-> do.
-
-There is some comprehensive documentation in the series, but for ease of 
-review I will try to write a basic description of the API in each relevant 
-patch in v2.
+--Zeb
 
 
 
