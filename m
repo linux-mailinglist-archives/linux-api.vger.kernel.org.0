@@ -1,94 +1,126 @@
-Return-Path: <linux-api+bounces-617-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-618-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E8BE83A9C8
-	for <lists+linux-api@lfdr.de>; Wed, 24 Jan 2024 13:32:18 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 256BC83AAB7
+	for <lists+linux-api@lfdr.de>; Wed, 24 Jan 2024 14:13:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B33321F27695
-	for <lists+linux-api@lfdr.de>; Wed, 24 Jan 2024 12:32:17 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5892D1C279ED
+	for <lists+linux-api@lfdr.de>; Wed, 24 Jan 2024 13:13:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B1CD7762B;
-	Wed, 24 Jan 2024 12:32:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F197277F1E;
+	Wed, 24 Jan 2024 13:13:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="HsMsFxQv"
+	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="pJLnA000"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp-190a.mail.infomaniak.ch (smtp-190a.mail.infomaniak.ch [185.125.25.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F010576918;
-	Wed, 24 Jan 2024 12:32:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3CFC63116
+	for <linux-api@vger.kernel.org>; Wed, 24 Jan 2024 13:13:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.25.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706099536; cv=none; b=sXd0UaH1ER/Nhg3Gozib6jiOzKcldv1aWizge1HcRWrQNXuTZMqorLHbbbvxzBcr06mq4qQcubCL0QKKXJMm+NEyfin38Q8P039XJN00yGxJNJ/KYbLhKPcMOVqW15q5j+4s0THg1PPW0gR7UXPHlpqMx/OrZaHSoOCNClw72j0=
+	t=1706102023; cv=none; b=Ay4dH31Qh1gbNVfj2gQOTn9zriMDtZSNYv0H0omNI/1JrlTqA15kqYudkd9zfGi6Wmlit6qS5sPCnLOT6bLHDVGPp2nDXFoIjINPwryglIqzO0W0PwXgBYF4Y8/IT9cUyEZlU3L5mUs7o2dAGOabnF0JjGteBBeBphirFlxhPMw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706099536; c=relaxed/simple;
-	bh=GD414r5uUfQKTl7+Hf0W3x6sPSQMHCgSnh3nUJhrXYo=;
+	s=arc-20240116; t=1706102023; c=relaxed/simple;
+	bh=qhqzFPGC5WzUW9hc0+JQ5GCvzF1b+01JdIOCtqbDNnc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C+e13Aig0vqOP9ObEIZsmkO7wWPQGyTHi+iPcgJwOgHuabE+i7XTp/pqfeGhNntXRb6CpKDZs1L17Du28r4xhUlMf0dusiYS2f2h7GMLkfSCrwldTndl+upqh+U7661oDIiSSiMMdbcI9XjOfk89M/49LYpUpL7j9Jp8Uc3hyvs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=HsMsFxQv; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44392C433C7;
-	Wed, 24 Jan 2024 12:32:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1706099535;
-	bh=GD414r5uUfQKTl7+Hf0W3x6sPSQMHCgSnh3nUJhrXYo=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=fpQFP6GhAtC01TEm83ekTAEluZbkmEoWBu/p3dfEsKeinVOq+yrUd6Jm5rQyZh8nwyJJD32nOh5/3ra+aM+hDRivKlmDfqaDu9Xn9s/HnKJTpXqBN9VjdH5BZm3K96L6/ZBVdK8EyjSoaaM/5IWjf0PqlluQ0NfF9ZCsz5/5fP0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=pJLnA000; arc=none smtp.client-ip=185.125.25.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
+Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
+	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4TKkt530WvzMr0Hc;
+	Wed, 24 Jan 2024 14:13:33 +0100 (CET)
+Received: from unknown by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4TKkt42D4nz3f;
+	Wed, 24 Jan 2024 14:13:31 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
+	s=20191114; t=1706102013;
+	bh=qhqzFPGC5WzUW9hc0+JQ5GCvzF1b+01JdIOCtqbDNnc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HsMsFxQvYgqF/Nv7icAxBXrrdGaKv9+JWouJ+YFp0z1+A/tURCyu6VSW3kZNLiDR7
-	 942VuXoSIPVa2hsTj2P/WzCRrun9XNtQudqe503xDFqrGM6yqqIVg6b2iQ2XeZOAsi
-	 20YoFp+69COLxtwHyucg+E0Q7m4kIpm3BnFN/OMg=
-Date: Wed, 24 Jan 2024 04:32:13 -0800
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Elizabeth Figura <zfigura@codeweavers.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org, wine-devel@winehq.org,
-	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
-	Wolfram Sang <wsa@kernel.org>,
-	Arkadiusz Hiler <ahiler@codeweavers.com>,
-	Peter Zijlstra <peterz@infradead.org>
-Subject: Re: [RFC PATCH 2/9] ntsync: Reserve a minor device number and ioctl
- range.
-Message-ID: <2024012454-cosmos-sprint-7db7@gregkh>
-References: <20240124004028.16826-1-zfigura@codeweavers.com>
- <20240124004028.16826-3-zfigura@codeweavers.com>
- <2024012356-dove-duke-f7f6@gregkh>
- <1875326.tdWV9SEqCh@terabithia>
+	b=pJLnA000aRCpe3+5+q1jJUTDGHYKzn/NNj08aljm1lNuYMRQjnM0LIzbOCULqX9BS
+	 b1OvNM/w8UlNMipfxBDu4VCXKLxgCvKM1ye7V+mjbarRalNWVdtNahxgThs2p4MeeH
+	 5v+3DRfsUVESGFsfU1q+oDsiHkSFRmlUCjZl81ck=
+Date: Wed, 24 Jan 2024 14:13:28 +0100
+From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
+To: Hu Yadi <hu.yadi@h3c.com>
+Cc: jmorris@namei.org, serge@hallyn.com, shuah@kernel.org, 
+	mathieu.desnoyers@efficios.com, amir73il@gmail.com, brauner@kernel.org, avagin@google.com, 
+	linux-api@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, linux-kselftest@vger.kernel.org, 514118380@qq.com, 
+	konstantin.meskhidze@huawei.com
+Subject: Re: [PATCH] selftests/landlock:Fix fs_test build issues with old libc
+Message-ID: <20240124.oosahMu8chai@digikod.net>
+References: <20240124022908.42100-1-hu.yadi@h3c.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1875326.tdWV9SEqCh@terabithia>
+In-Reply-To: <20240124022908.42100-1-hu.yadi@h3c.com>
+X-Infomaniak-Routing: alpha
 
-On Tue, Jan 23, 2024 at 09:43:09PM -0600, Elizabeth Figura wrote:
-> > Why do you need a fixed minor number?  Can't your userspace handle
-> > dynamic numbers?  What systems require a static value?
+Thanks, it's merged with some fixes:
+https://git.kernel.org/mic/c/82852a3cc2152eb7c7b7007b6430faa979b08fad
+
+On Wed, Jan 24, 2024 at 10:29:08AM +0800, Hu Yadi wrote:
+> From: "Hu.Yadi" <hu.yadi@h3c.com>
+
+You might want to fix the extra dot in your name.
+
 > 
-> I believe I added this because it's necessary for MODULE_ALIAS (and, more 
-> broadly, because I was following the example of vaguely comparable devices 
-> like /dev/loop-control). I suppose I could instead just remove MODULE_ALIAS 
-> (or even remove the ability to compile ntsync as a module entirely).
+> Fixes: 04f9070e99a4 ("selftests/landlock: Add tests for pseudo filesystems")
+> 
+> one issues comes up while building selftest/landlock on my side
+> (gcc 7.3/glibc-2.28/kernel-4.19)
+> 
+> gcc -Wall -O2 -isystem   fs_test.c -lcap -o selftests/landlock/fs_test
+> fs_test.c:4575:9: error: initializer element is not constant
+>   .mnt = mnt_tmp,
+>          ^~~~~~~
+> 
+> Signed-off-by: Hu.Yadi <hu.yadi@h3c.com>
+> Suggested-by: Jiao <jiaoxupo@h3c.com>
+> Reviewed-by: Berlin <berlin@h3c.com>
+> ---
+>  tools/testing/selftests/landlock/fs_test.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/tools/testing/selftests/landlock/fs_test.c b/tools/testing/selftests/landlock/fs_test.c
+> index 18e1f86a6234..1f2584b4dfce 100644
+> --- a/tools/testing/selftests/landlock/fs_test.c
+> +++ b/tools/testing/selftests/landlock/fs_test.c
+> @@ -40,6 +40,7 @@ int renameat2(int olddirfd, const char *oldpath, int newdirfd,
+> 
+>  #define TMP_DIR "tmp"
+>  #define BINARY_PATH "./true"
+> +#define MNT_TMP_DATA "size=4m,mode=700"
 
-Do you really need MODULE_ALIAS()?  Having it for char devices to be
-auto-loaded is not generally considered a good idea anymore as systems
-should have the module loaded before userspace goes and asks for it.
+The idea was to reuse MNT_TMP_DATA for mnt_tmp too. I fixed that in the
+applied patch, see my next branch.
 
-It also reduces suprises when any random userspace program can cause
-kernel modules to be loaded for no real reason.
-
-> It's a bit difficult to figure out what's the preferred way to organize things 
-> like this (there not being a lot of precedent for this kind of driver) so I'd 
-> appreciate any direction.
-
-For now, I'd just stick to a dynamic id, no module alias, and if it's
-ever needed in the future, it can be added.  But if you add it now, we
-can't ever remove it as it's user-visible functionality.
-
-thanks,
-
-greg k-h
+> 
+>  /* Paths (sibling number and depth) */
+>  static const char dir_s1d1[] = TMP_DIR "/s1d1";
+> @@ -4572,7 +4573,10 @@ FIXTURE_VARIANT(layout3_fs)
+>  /* clang-format off */
+>  FIXTURE_VARIANT_ADD(layout3_fs, tmpfs) {
+>  	/* clang-format on */
+> -	.mnt = mnt_tmp,
+> +	.mnt = {
+> +		.type = "tmpfs",
+> +		.data = MNT_TMP_DATA,
+> +	},
+>  	.file_path = file1_s1d1,
+>  };
+> 
+> --
+> 2.23.0
+> 
+> 
 
