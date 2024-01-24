@@ -1,343 +1,190 @@
-Return-Path: <linux-api+bounces-621-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-622-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D99683AD31
-	for <lists+linux-api@lfdr.de>; Wed, 24 Jan 2024 16:25:18 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C7C8183AD7E
+	for <lists+linux-api@lfdr.de>; Wed, 24 Jan 2024 16:37:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AD731B2B764
-	for <lists+linux-api@lfdr.de>; Wed, 24 Jan 2024 15:20:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ECC951C212ED
+	for <lists+linux-api@lfdr.de>; Wed, 24 Jan 2024 15:37:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD6357A71A;
-	Wed, 24 Jan 2024 15:19:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 706B67A73C;
+	Wed, 24 Jan 2024 15:37:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b="Jv4x0F0g"
+	dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b="HEayDUUq"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E32CB7A708
-	for <linux-api@vger.kernel.org>; Wed, 24 Jan 2024 15:19:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD096747A
+	for <linux-api@vger.kernel.org>; Wed, 24 Jan 2024 15:37:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706109588; cv=none; b=H2TM1gBLy8iYXckImCTW89iBugB0x/VV85qX3ZUiuH3D5LhlQVfYOwDcWBCfGULnRXqehOcYADxFmfvF3ob7psrrVdUU15+T2cY+W5IjB1iemBQ3Xikwm8aII6WBZCagR33KCRFOVGbCt15AxHIgmcmInVykhfvCn5jJpEtYg34=
+	t=1706110668; cv=none; b=ZARPI9+1c9hlBYZf4vlV7cPWNjGrPkd1i6FACo+O2Qt6IrdkI1N61Fzr5e8OtoLhJmvl2ZjA5SG+tp0SCVenVA7NOsJLGq223cG5gLMkjy3woPD11+d2+cmpEpY5XVb3aiFuQQrEoJ9uTiblDHly15Q28XKC7+taPZImICLBlDc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706109588; c=relaxed/simple;
-	bh=OIusJLxhbXxmyhNGE3F6m6Lh/80U12JwHeDjWP3XY3k=;
+	s=arc-20240116; t=1706110668; c=relaxed/simple;
+	bh=1g0+jyA0TIHFlph50vci2p1M5IaEFEwQ/UdWafOlG3c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E8CAXb167PGWWKJTLSp9VACXDoeoG4OUL3foMI1xUpt0qD0Eur5SlLBDY0v6PdaUQBQd95Rq2Vk4czYEeDHuBGDglEcONSLR2Y96xa1PdMKez96cpFy5mM8GBb05RSe9Dm7brEoVWgHv/SzA+jSVt/eF3Nz/n2W4YD2jNUh8tlA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com; spf=pass smtp.mailfrom=fastly.com; dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b=Jv4x0F0g; arc=none smtp.client-ip=209.85.214.170
+	 Content-Type:Content-Disposition:In-Reply-To; b=M7DcgUXq8MkHYkVG7vBOtiVJwgCBO0NJqfR616ZDRIiszmpQWeXPa/YwApB73ykJ8eB4UZeDHG5sn+4SrQO0QwOB8j9b33p+8EHQm+UEyrC4N6fbyjM6NdeBKrr2mrcHl+XjBVhoc+HI2fskUyCGYKfB+N76+46rgLqd48XYCWs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com; spf=pass smtp.mailfrom=fastly.com; dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b=HEayDUUq; arc=none smtp.client-ip=209.85.214.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastly.com
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1d731314e67so19040215ad.1
-        for <linux-api@vger.kernel.org>; Wed, 24 Jan 2024 07:19:46 -0800 (PST)
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1d751bc0c15so30690445ad.2
+        for <linux-api@vger.kernel.org>; Wed, 24 Jan 2024 07:37:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fastly.com; s=google; t=1706109586; x=1706714386; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-transfer-encoding
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=GCPTIfro7gjKwSczT715QvfI3dAQ+k5lX6+XNUimdv4=;
-        b=Jv4x0F0gAn2ZAubQjaDcY95+9yt9UUUTKgBXbDVpxv3rcQKBcwYG7JVNXbCNiHI17B
-         SH1bx4+pNBMsYK8QznFiBPFUIG13UQ+DDv0swfu8X3G2uFk4K09xvdT7CwGgD6+hKaCv
-         Aaq8RP/iBEJVBMOlQX6ZQfoEWaMSYOWeKGCsA=
+        d=fastly.com; s=google; t=1706110666; x=1706715466; darn=vger.kernel.org;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ClQQw4qNd3GfJ3FxBTexyIn5PW1ERkPEgwB1ggWKE24=;
+        b=HEayDUUqxhH/MhU6x+dBWAYo1IiKZ+YLiUT7v0iTRu3HxOou73sFyNtbE2Fx+T7klj
+         T2nbLXpg3WDf9c/sQwPEL6HohjnL6XJt0EbSBkfB3M5lCktYdoxuhH9w+izlzmmNp1/C
+         ZuLvk9OA9yz8c8ToBYXKR9UoEF+QHg9fJrzqo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706109586; x=1706714386;
-        h=user-agent:in-reply-to:content-transfer-encoding
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GCPTIfro7gjKwSczT715QvfI3dAQ+k5lX6+XNUimdv4=;
-        b=YZIRWwO/WnIGfb/rxQwDr2JgRGylMQlW8imrWOKukUFxbUPuNL8KKOjMsoKh0gQwDM
-         hh5eL4xj4+JcrowwfQQC+DmQybhebEAfwYMKm85hQvoLsJmiZ34HfJ336hcNTyFWFJ4w
-         /QzzO6o5paSTb5Z2j3g4gff06BLtxM0BG30LPv20GjlIwpthIbGIByg7AVPtbxDHtCpk
-         TIC7ZapmyhiQR7IUw9LAyTnB02hDKIDkfUdSVIDQEGeJqJ6nRmunCJ6R8H/QlsBpd6sV
-         YHcTweHfRmt1sN4QMrj17Z3ey/dRfNY4xMZL1Auh6O6TQL8lRl5clOCegD5k/5nucore
-         QNpg==
-X-Gm-Message-State: AOJu0YydFie46oLPmLrUhmKRKZFtGVSSA/ywuskq5baxe9UXjmeyU906
-	tx7q/ocyFrddS9A0YR/a+SEHXeJnY7M875leR1AEvEP8pizusbjlzmANncApWF0=
-X-Google-Smtp-Source: AGHT+IFA6eRfCnUa7nllifPe0kGwNy09ZT1EBgLxXjqWc/wnwS38sfPlHpqeDvHgeYXekHXe/mN89Q==
-X-Received: by 2002:a17:903:41d2:b0:1d7:2279:15e9 with SMTP id u18-20020a17090341d200b001d7227915e9mr913512ple.122.1706109586064;
-        Wed, 24 Jan 2024 07:19:46 -0800 (PST)
+        d=1e100.net; s=20230601; t=1706110666; x=1706715466;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ClQQw4qNd3GfJ3FxBTexyIn5PW1ERkPEgwB1ggWKE24=;
+        b=FcQuIF9ofXW9FP+c60MxQ03+b44jZE5EnzsRtbBmKHHjll8UmYeAhmry1o/Z9lJFVn
+         mKL8RRFLLXfiESgTzad/jmddvemagZbyctFBB30kSkS535UFOGZ9lBowCPuOlEkaYxal
+         H/gUQtMF8+bfye9jUwMW4bCZBuYvl63Mmhlv8Z18kN2d+h72D5K5I9lYtcyqvTWy2/3t
+         i50UJ9m3o+49wytKnCv+lQ5OTYhwLXQZGCfsQxBNsu1E2Al96vJFv3xg6BAg7JHC+9D9
+         rgBwsFFIYkn8OOHW5XaayvGKYeDT9amaqHMOgsXKmwnRRdIP9fitV85WVn1YkDiwp7i1
+         htUg==
+X-Gm-Message-State: AOJu0YzbF3eSAfA1Bher++Z0dHsjeSRKRKcAAYtomcWgkN4/mRfC9YiN
+	K/uCJUvaYUKMMyY7SKBppnxw/ZMKwt64cUtON0B+n3/NuNPQ6tcfsFZdfp99tRI=
+X-Google-Smtp-Source: AGHT+IH6Rfx/MwuDQs1uCkM5orR22klptLn6TfM4VyPKF7Unf/mKIGimtKEELdAh98AsVGDpoCDzIw==
+X-Received: by 2002:a17:902:ea10:b0:1d7:461c:fe46 with SMTP id s16-20020a170902ea1000b001d7461cfe46mr1230604plg.31.1706110666275;
+        Wed, 24 Jan 2024 07:37:46 -0800 (PST)
 Received: from fastly.com (c-24-6-151-244.hsd1.ca.comcast.net. [24.6.151.244])
-        by smtp.gmail.com with ESMTPSA id jf7-20020a170903268700b001d76b1029c6sm3132620plb.2.2024.01.24.07.19.44
+        by smtp.gmail.com with ESMTPSA id kk6-20020a170903070600b001d720a7a616sm8703658plb.165.2024.01.24.07.37.45
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 24 Jan 2024 07:19:45 -0800 (PST)
-Date: Wed, 24 Jan 2024 07:19:43 -0800
+        Wed, 24 Jan 2024 07:37:45 -0800 (PST)
+Date: Wed, 24 Jan 2024 07:37:43 -0800
 From: Joe Damato <jdamato@fastly.com>
-To: Eric Dumazet <edumazet@google.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	chuck.lever@oracle.com, jlayton@kernel.org,
-	linux-api@vger.kernel.org, brauner@kernel.org, davem@davemloft.net,
+To: netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: chuck.lever@oracle.com, jlayton@kernel.org, linux-api@vger.kernel.org,
+	brauner@kernel.org, edumazet@google.com, davem@davemloft.net,
 	alexander.duyck@gmail.com, sridhar.samudrala@intel.com,
-	kuba@kernel.org, Wei Wang <weiwan@google.com>
-Subject: Re: [net-next 0/3] Per epoll context busy poll support
-Message-ID: <20240124151942.GA6565@fastly.com>
+	kuba@kernel.org
+Subject: Re: [net-next 3/3] eventpoll: Add epoll ioctl for epoll_params
+Message-ID: <20240124153742.GA6808@fastly.com>
 References: <20240124025359.11419-1-jdamato@fastly.com>
- <CANn89i+YKwrgpt8VnHrw4eeVpqRamLkTSr4u+g1mRDMZa6b+7Q@mail.gmail.com>
- <20240124142008.GA1448@fastly.com>
- <CANn89i+UiCRpu6M-hDga=dSTk1F5MjkgV=kKS6zC31pvOh78DQ@mail.gmail.com>
+ <20240124025359.11419-4-jdamato@fastly.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANn89i+UiCRpu6M-hDga=dSTk1F5MjkgV=kKS6zC31pvOh78DQ@mail.gmail.com>
+In-Reply-To: <20240124025359.11419-4-jdamato@fastly.com>
 User-Agent: Mutt/1.5.24 (2015-08-30)
 
-On Wed, Jan 24, 2024 at 03:38:19PM +0100, Eric Dumazet wrote:
-> On Wed, Jan 24, 2024 at 3:20 PM Joe Damato <jdamato@fastly.com> wrote:
-> >
-> > On Wed, Jan 24, 2024 at 09:20:09AM +0100, Eric Dumazet wrote:
-> > > On Wed, Jan 24, 2024 at 3:54 AM Joe Damato <jdamato@fastly.com> wrote:
-> > > >
-> > > > Greetings:
-> > > >
-> > > > TL;DR This builds on commit bf3b9f6372c4 ("epoll: Add busy poll support to
-> > > > epoll with socket fds.") by allowing user applications to enable
-> > > > epoll-based busy polling and set a busy poll packet budget on a per epoll
-> > > > context basis.
-> > > >
-> > > > To allow for this, two ioctls have been added for epoll contexts for
-> > > > getting and setting a new struct, struct epoll_params.
-> > > >
-> > > > This makes epoll-based busy polling much more usable for user
-> > > > applications than the current system-wide sysctl and hardcoded budget.
-> > > >
-> > > > Longer explanation:
-> > > >
-> > > > Presently epoll has support for a very useful form of busy poll based on
-> > > > the incoming NAPI ID (see also: SO_INCOMING_NAPI_ID [1]).
-> > > >
-> > > > This form of busy poll allows epoll_wait to drive NAPI packet processing
-> > > > which allows for a few interesting user application designs which can
-> > > > reduce latency and also potentially improve L2/L3 cache hit rates by
-> > > > deferring NAPI until userland has finished its work.
-> > > >
-> > > > The documentation available on this is, IMHO, a bit confusing so please
-> > > > allow me to explain how one might use this:
-> > > >
-> > > > 1. Ensure each application thread has its own epoll instance mapping
-> > > > 1-to-1 with NIC RX queues. An n-tuple filter would likely be used to
-> > > > direct connections with specific dest ports to these queues.
-> > > >
-> > > > 2. Optionally: Setup IRQ coalescing for the NIC RX queues where busy
-> > > > polling will occur. This can help avoid the userland app from being
-> > > > pre-empted by a hard IRQ while userland is running. Note this means that
-> > > > userland must take care to call epoll_wait and not take too long in
-> > > > userland since it now drives NAPI via epoll_wait.
-> > > >
-> > > > 3. Ensure that all incoming connections added to an epoll instance
-> > > > have the same NAPI ID. This can be done with a BPF filter when
-> > > > SO_REUSEPORT is used or getsockopt + SO_INCOMING_NAPI_ID when a single
-> > > > accept thread is used which dispatches incoming connections to threads.
-> > > >
-> > > > 4. Lastly, busy poll must be enabled via a sysctl
-> > > > (/proc/sys/net/core/busy_poll).
-> > > >
-> > > > The unfortunate part about step 4 above is that this enables busy poll
-> > > > system-wide which affects all user applications on the system,
-> > > > including epoll-based network applications which were not intended to
-> > > > be used this way or applications where increased CPU usage for lower
-> > > > latency network processing is unnecessary or not desirable.
-> > > >
-> > > > If the user wants to run one low latency epoll-based server application
-> > > > with epoll-based busy poll, but would like to run the rest of the
-> > > > applications on the system (which may also use epoll) without busy poll,
-> > > > this system-wide sysctl presents a significant problem.
-> > > >
-> > > > This change preserves the system-wide sysctl, but adds a mechanism (via
-> > > > ioctl) to enable or disable busy poll for epoll contexts as needed by
-> > > > individual applications, making epoll-based busy poll more usable.
-> > > >
-> > >
-> > > I think this description missed the napi_defer_hard_irqs and
-> > > gro_flush_timeout settings ?
-> >
-> > I'm not sure if those settings are strictly related to the change I am
-> > proposing which makes epoll-based busy poll something that can be
-> > enabled/disabled on a per-epoll context basis and allows the budget to be
-> > set as well, but maybe I am missing something? Sorry for my
-> > misunderstanding if so.
-> >
-> > IMHO: a single system-wide busy poll setting is difficult to use
-> > properly and it is unforunate that the packet budget is hardcoded. It would
-> > be extremely useful to be able to set both of these on a per-epoll basis
-> > and I think my suggested change helps to solve this.
-> >
-> > Please let me know.
-> >
-> > Re the two settings you noted:
-> >
-> > I didn't mention those in the interest of brevity, but yes they can be used
-> > instead of or in addition to what I've described above.
-> >
-> > While those settings are very useful, IMHO, they have their own issues
-> > because they are system-wide as well. If they were settable per-NAPI, that
-> > would make it much easier to use them because they could be enabled for the
-> > NAPIs which are being busy-polled by applications that support busy-poll.
-> >
-> > Imagine you have 3 types of apps running side-by-side:
-> >   - A low latency epoll-based busy poll app,
-> >   - An app where latency doesn't matter as much, and
-> >   - A latency sensitive legacy app which does not yet support epoll-based
-> >     busy poll.
-> >
-> > In the first two cases, the settings you mention would be helpful or not
-> > make any difference, but in the third case the system-wide impact might be
-> > undesirable because having IRQs fire might be important to keep latency
-> > down.
-> >
-> > If your comment was more that my cover letter should have mentioned these,
-> > I can include that in a future cover letter or suggest some kernel
-> > documentation which will discuss all of these features and how they relate
-> > to each other.
-> >
-> > >
-> > > I would think that if an application really wants to make sure its
-> > > thread is the only one
-> > > eventually calling napi->poll(), we must make sure NIC interrupts stay masked.
-> > >
-> > > Current implementations of busy poll always release NAPI_STATE_SCHED bit when
-> > > returning to user space.
-> > >
-> > > It seems you want to make sure the application and only the
-> > > application calls the napi->poll()
-> > > at chosen times.
-> > >
-> > > Some kind of contract is needed, and the presence of the hrtimer
-> > > (currently only driven from dev->@gro_flush_timeout)
-> > > would allow to do that correctly.
-> > >
-> > > Whenever we 'trust' user space to perform the napi->poll shortly, we
-> > > also want to arm the hrtimer to eventually detect
-> > > the application took too long, to restart the other mechanisms (NIC irq based)
-> >
-> > There is another change [1] I've been looking at from a research paper [2]
-> > which does something similar to what you've described above -- it keeps
-> > IRQs suppressed during busy polling. The paper suggests a performance
-> > improvement is measured when using a mechanism like this to keep IRQs off.
-> > Please see the paper for more details.
-> >
-> > I haven't had a chance to reach out to the authors or to tweak this patch
-> > to attempt an RFC / submission for it, but it seems fairly promising in my
-> > initial synthetic tests.
-> >
-> > When I tested their patch, as you might expect, no IRQs were generated at
-> > all for the NAPIs that were being busy polled, but the rest of the
-> > NAPIs and queues were generating IRQs as expected.
-> >
-> > Regardless of the above patch: I think my proposed change is helpful and
-> > the IRQ suppression bit can be handled in a separate change in the future.
-> > What do you think?
-> >
-> > > Note that we added the kthread based napi polling, and we are working
-> > > to add a busy polling feature to these kthreads.
-> > > allowing to completely mask NIC interrupts and further reduce latencies.
-> >
-> > I am aware of kthread based NAPI polling, yes, but I was not aware that
-> > busy polling was being considered as a feature for them, thanks for the
-> > head's up.
-> >
-> > > Thank you
-> >
-> > Thanks for your comments - I appreciate your time and attention.
-> >
-> > Could you let me know if your comments are meant as a n-ack or similar?
+On Wed, Jan 24, 2024 at 02:53:59AM +0000, Joe Damato wrote:
+> Add an ioctl for getting and setting epoll_params. User programs can use
+> this ioctl to get and set the busy poll usec time or packet budget
+> params for a specific epoll context.
 > 
-> Patch #2 needs the 'why' part, and why would we allow user space to
-> ask to poll up to 65535 packets...
-> There is a reason we have a warning in place when a driver attempts to
-> set a budget bigger than 64.
-
-Sure, thanks for pointing this out.
-
-I am happy to cap the budget to 64 if a user app requests a larger amount
-and I can add a netdev_warn when this happens, if you'd like.
-
-The 'why' has two reasons:
-  - Increasing the budget for fast NICs can help improve throughput
-    under load (i.e. the hardcoded amount might be too low for some users)
-  - other poll methods have user-configurable budget amounts
-    (SO_BUSY_POLL_BUDGET), so epoll stands out as an edge case where the
-    budget is hardcoded.
-
-I hope that reasoning is sufficient and I can include that more explicitly
-in the commit message.
-
-FWIW: My reading of SO_BUSY_POLL_BUDGET suggests that any budget amount
-up to U16_MAX will be accepted. I probably missed it somewhere, but I
-didn't see a warning in this case.
-
-I think in a v2 SO_BUSY_POLL_BUDGET and the epoll ioctl budget should
-be capped at the same amount for consistency and I am happy to agree to 64
-or 128 or similar as a cap.
-
-Let me know what you think and thanks again for your thoughts and detailed
-response.
-
-> You cited recent papers,  I wrote this one specific to linux busy
-> polling ( https://netdevconf.info/2.1/papers/BusyPollingNextGen.pdf )
-
-Thanks for sending this link, I'll need to take a closer look, but a quick
-read surfaced two things:
-
-  Their use is very limited, since they enforce busy polling
-  for all sockets, which is not desirable
-
-We agree on the limited usefulness of system-wide settings ;)
-
-  Another big problem is that Busy Polling was not really
-  deployed in production, because it works well when having
-  no more than one thread per NIC RX queue.
-
-I've been testing epoll-based busy poll in production with a few different
-NICs and application setups and it has been pretty helpful, but I agree
-that this is application architecture specific as you allude to in
-your next paragraph about the scheduler.
-
-Thanks for linking to the paper.
-
-It would be great if all of this context and information could be put in
-one place in the kernel docs. If I have time in the future, I'll propose a
-doc change to try to outline all of this.
-
-> Busy polling had been in the pipe, when Wei sent her patches and follow ups.
+> Signed-off-by: Joe Damato <jdamato@fastly.com>
+> ---
+>  .../userspace-api/ioctl/ioctl-number.rst      |  1 +
+>  fs/eventpoll.c                                | 41 +++++++++++++++++++
+>  include/uapi/linux/eventpoll.h                | 12 ++++++
+>  3 files changed, 54 insertions(+)
 > 
-> cb038357937ee4f589aab2469ec3896dce90f317 net: fix race between napi
-> kthread mode and busy poll
-> 5fdd2f0e5c64846bf3066689b73fc3b8dddd1c74 net: add sysfs attribute to
-> control napi threaded mode
-> 29863d41bb6e1d969c62fdb15b0961806942960e net: implement threaded-able
-> napi poll loop support
+> diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
+> index 457e16f06e04..b33918232f78 100644
+> --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
+> +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
+> @@ -309,6 +309,7 @@ Code  Seq#    Include File                                           Comments
+>  0x89  0B-DF  linux/sockios.h
+>  0x89  E0-EF  linux/sockios.h                                         SIOCPROTOPRIVATE range
+>  0x89  F0-FF  linux/sockios.h                                         SIOCDEVPRIVATE range
+> +0x8A  00-1F  linux/eventpoll.h
+>  0x8B  all    linux/wireless.h
+>  0x8C  00-3F                                                          WiNRADiO driver
+>                                                                       <http://www.winradio.com.au/>
+> diff --git a/fs/eventpoll.c b/fs/eventpoll.c
+> index 40bd97477b91..d973147c015c 100644
+> --- a/fs/eventpoll.c
+> +++ b/fs/eventpoll.c
+> @@ -869,6 +869,45 @@ static void ep_clear_and_put(struct eventpoll *ep)
+>  		ep_free(ep);
+>  }
+>  
+> +static long ep_eventpoll_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
+> +{
+> +	int ret;
+> +	struct eventpoll *ep;
+> +	struct epoll_params epoll_params;
+> +	void __user *uarg = (void __user *) arg;
+> +
+> +	if (!is_file_epoll(file))
+> +		return -EINVAL;
+> +
+> +	ep = file->private_data;
+> +
+> +	switch (cmd) {
+> +#ifdef CONFIG_NET_RX_BUSY_POLL
+> +	case EPIOCSPARAMS:
+> +		if (copy_from_user(&epoll_params, uarg, sizeof(epoll_params)))
+> +			return -EFAULT;
+> +
+> +		ep->busy_poll_usecs = epoll_params.busy_poll_usecs;
+> +		ep->busy_poll_budget = epoll_params.busy_poll_budget;
+> +		return 0;
+> +
+> +	case EPIOCGPARAMS:
+> +		memset(&epoll_params, 0, sizeof(epoll_params));
+> +		epoll_params.busy_poll_usecs = ep->busy_poll_usecs;
+> +		epoll_params.busy_poll_budget = ep->busy_poll_budget;
+> +		if (copy_to_user(uarg, &epoll_params, sizeof(epoll_params)))
+> +			return -EFAULT;
+> +
+> +		return 0;
+> +#endif
+> +	default:
+> +		ret = -EINVAL;
+> +		break;
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+>  static int ep_eventpoll_release(struct inode *inode, struct file *file)
+>  {
+>  	struct eventpoll *ep = file->private_data;
+> @@ -975,6 +1014,8 @@ static const struct file_operations eventpoll_fops = {
+>  	.release	= ep_eventpoll_release,
+>  	.poll		= ep_eventpoll_poll,
+>  	.llseek		= noop_llseek,
+> +	.unlocked_ioctl	= ep_eventpoll_ioctl,
+> +	.compat_ioctl   = compat_ptr_ioctl,
+>  };
+>  
+>  /*
+> diff --git a/include/uapi/linux/eventpoll.h b/include/uapi/linux/eventpoll.h
+> index cfbcc4cc49ac..9211103779c4 100644
+> --- a/include/uapi/linux/eventpoll.h
+> +++ b/include/uapi/linux/eventpoll.h
+> @@ -85,4 +85,16 @@ struct epoll_event {
+>  	__u64 data;
+>  } EPOLL_PACKED;
+>  
+> +struct epoll_params {
+> +	u64 busy_poll_usecs;
+> +	u16 busy_poll_budget;
+> +
+> +	/* for future fields */
+> +	uint8_t data[118];
 
-Thanks for letting me know. I think I'd seen these in passing, but hadn't
-remembered until you mentioned it now.
+Err, just noticed that this should be a u8, instead. Sorry I missed this.
 
-> I am saying that I am currently working to implement the kthread busy
-> polling implementation,
-> after fixing two bugs in SCTP and UDP (making me wondering if busy
-> polling is really used these days)
-
-Ah, I see. FWIW, I have so far only been trying to use it for TCP and so
-far I haven't hit any bugs.
-
-I was planning to use it with UDP in the future, though, once the TCP
-epoll-based busy polling stuff I am working on is done... so thanks in
-advance for the bug fixes in UDP.
-
-> I am also considering unifying napi_threaded_poll() and the
-> napi_busy_loop(), and seeing your patches
-> coming make this work more challenging.
-
-Sorry about that. I am happy to make modifications to my patches if there's
-anything I could do which would make your work easier in the future.
-
-Thanks,
-Joe
+I assume there will be other feedback to address, but if not, I've noted
+that I need to fix this in the v2.
 
