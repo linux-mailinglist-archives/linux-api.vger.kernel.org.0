@@ -1,365 +1,211 @@
-Return-Path: <linux-api+bounces-660-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-661-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 565EF83CB64
-	for <lists+linux-api@lfdr.de>; Thu, 25 Jan 2024 19:45:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBEF483CBA7
+	for <lists+linux-api@lfdr.de>; Thu, 25 Jan 2024 19:55:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 79BD61C245C1
-	for <lists+linux-api@lfdr.de>; Thu, 25 Jan 2024 18:45:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0D2791C26138
+	for <lists+linux-api@lfdr.de>; Thu, 25 Jan 2024 18:55:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E19AB13666F;
-	Thu, 25 Jan 2024 18:44:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67CED133982;
+	Thu, 25 Jan 2024 18:55:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EDrK9D2g"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pEy+Gu7S"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com [209.85.210.193])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 348EB135A7C;
-	Thu, 25 Jan 2024 18:44:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40C86135A48
+	for <linux-api@vger.kernel.org>; Thu, 25 Jan 2024 18:55:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706208252; cv=none; b=GT4wFuDDtzlxJmRJj737ptsGSskpf2l6pFb4wthOQmDA9ewf+6++9yocO2xKKZPJWYmhg9YcUL85MoZos6NCHHwvAeTegR49Zyw6w6mm/BRhkHccmhc9CwiQBJh8hm+amy7MVSyYKPhxy4mHmpB/YFglOynB//GHBDiAU6Frztg=
+	t=1706208918; cv=none; b=jj8hLn6gFWFSEqNSlknYezvWZAiajQC5ky7BL100a3nRwt+Fhm3lCFif2WECj2KymI+jQ3jcYvJy5+HBkyusanHhAjGEKNiFm0x3UnYrBawo6dsbz7FLL3XzztzWDHH4yiafPyKOfpWm/b/iSjd1wSG415ZVoPCNrs5+yOBUdRc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706208252; c=relaxed/simple;
-	bh=ecRKWJQhY4wR39DMh1DAJeETva8Uc2luxfi1zh9+yS0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=QJcqk7kWFDSAd5fPPCbWhstVe/++1lsK7UdsBFjpCiInCqvZDOVoZGLrAns1bg02LRs4DL4F4GMDh71puOKrfxLdanFlhfzYrvc4MgYWDA1uhaOF+LfwVafC9RZDngFdgJXuegsIA59hyj2cVJVw7/DvIeEPeIP3dvBgSgIavLs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EDrK9D2g; arc=none smtp.client-ip=209.85.210.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f193.google.com with SMTP id d2e1a72fcca58-6dc6f47302bso3586231b3a.1;
-        Thu, 25 Jan 2024 10:44:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706208250; x=1706813050; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aiHyh81A5rrvisQFQaV58YSJpwtynFeoOhG26thY/oo=;
-        b=EDrK9D2gKSAxlpFG5CvxVTYxQe6XmbOFPscf7bK3r+pVUP1GGs6bVRzXYBrZ3jlis5
-         b/CcoRKM4tBYEluwKO7O4UFhjh5Xi3DwZ6DHiOAZIVCsK5stY2+10HMfMQ6YaS4Uy+7u
-         XScPz/1kpYq0GAWDCiLlbG2ISNoIZYGNFvhatxuIdVOZXcaFHicALuWqBQgCr+Ko2/YY
-         t7otp4v57iQ2zzgFauaZAW2JkExSvvr2CivllkGP+951CgfLfzfFkBIFZBHI4B4Tuixr
-         bW/r7MDGlvzV+eYZ6MooN97UG7v9snd87c6PfL2cArh7shLBwLMN1Z3RYMxyzHHxddXf
-         GZKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706208250; x=1706813050;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aiHyh81A5rrvisQFQaV58YSJpwtynFeoOhG26thY/oo=;
-        b=CMHod1dmUhJmTn6HwIfBvqAPgLPcnlWHB99XPZW4oR4nziXg+SexhQHw+jwSRoz5HZ
-         pBtKrzKYSpCMXJ0+qHssB+aqG67ehtVw8PFLzXcGLQzV0ySpfkkkHwZXz1XFZltVWyXO
-         mNazbEg6OzlcEFuICSdaH3oGPbp9oQ5yBVcWTrggJa+Tc0TmS5pl+Q5hT10P6DlgQ7YL
-         CiVuoETGIgawYImAbTD1ewsGTTDNSXAGZfuUaLjzMO5fe8gRiM+lfXNBDyx1zjkaq+W/
-         1SB0Z7SApOxO0sAxwIN9hfhAd1II9axzB9ulZNCzXP3CepPuHtAP7Hz3nuS3wvofh+wr
-         Sj/w==
-X-Gm-Message-State: AOJu0Yyi46gdCDD8JfZ2Obwq5A0YiSx8im1R6UODbzPI3Iv6kk7LOTcD
-	whHYBI/78z7stWZQSg8U+dMaRp0BOIWRdjyp0PBzULgZwKyHA7Q=
-X-Google-Smtp-Source: AGHT+IGg7DSmaG2TFNg0cpW9ZTaAi3nnBJTCM2ZL3E6BfG30NMueGRRYhoyixqtu5WQyXV2EyJrwbQ==
-X-Received: by 2002:aa7:8a07:0:b0:6d0:8b0f:1091 with SMTP id m7-20020aa78a07000000b006d08b0f1091mr108795pfa.30.1706208248914;
-        Thu, 25 Jan 2024 10:44:08 -0800 (PST)
-Received: from fedora.mshome.net (pool-173-79-56-208.washdc.fios.verizon.net. [173.79.56.208])
-        by smtp.gmail.com with ESMTPSA id p14-20020aa7860e000000b006ddcf56fb78sm1815070pfn.62.2024.01.25.10.44.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Jan 2024 10:44:08 -0800 (PST)
-From: Gregory Price <gourry.memverge@gmail.com>
-X-Google-Original-From: Gregory Price <gregory.price@memverge.com>
-To: linux-mm@kvack.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-api@vger.kernel.org,
-	corbet@lwn.net,
-	akpm@linux-foundation.org,
-	gregory.price@memverge.com,
-	honggyu.kim@sk.com,
-	rakie.kim@sk.com,
-	hyeongtak.ji@sk.com,
-	mhocko@kernel.org,
-	ying.huang@intel.com,
-	vtavarespetr@micron.com,
-	jgroves@micron.com,
-	ravis.opensrc@micron.com,
-	sthanneeru@micron.com,
-	emirakhur@micron.com,
-	Hasan.Maruf@amd.com,
-	seungjun.ha@samsung.com,
-	hannes@cmpxchg.org,
-	dan.j.williams@intel.com
-Subject: [PATCH v3 4/4] mm/mempolicy: change cur_il_weight to atomic and carry the node with it
-Date: Thu, 25 Jan 2024 13:43:45 -0500
-Message-Id: <20240125184345.47074-5-gregory.price@memverge.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20240125184345.47074-1-gregory.price@memverge.com>
-References: <20240125184345.47074-1-gregory.price@memverge.com>
+	s=arc-20240116; t=1706208918; c=relaxed/simple;
+	bh=g+SYRAmnXVb6DyX/0SomqqJ8/DmYauIbTPIYSVrGVhc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=opxMxKV3RVne50fQAu3bsxcu2VChqayKI3P+60eCQpeYMjkctS/ku89pBx0mlkGgbaDu9nUYRzCo6saKYmjjh2pzYn4y8iImRSe8cHjINR15IwPx40HEIj03IzRSaRbRiN1whKl5GGHK+UgxJEkV4LaRZpvBGaTKIThorQtdwDA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pEy+Gu7S; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1A27C433B2
+	for <linux-api@vger.kernel.org>; Thu, 25 Jan 2024 18:55:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706208917;
+	bh=g+SYRAmnXVb6DyX/0SomqqJ8/DmYauIbTPIYSVrGVhc=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=pEy+Gu7S+IpF+ZPUWI1/A2li2kBVNIcVHeF62OqJ2X94My2UL5Om8CVD5ZT7volO8
+	 qihOUnrLpAZGmg0aLEBI0wgFiF5zby9VQa3F5AD7BClJsV37iaSn+c6QJtzhWADFSq
+	 P2NUrzGTT+kuoJVClevAEZOzXKWYk5jybc724s7fRPh5GOPuYd+5DWg9YSI1bIwZpO
+	 I8dmcBvthCMtCBPbGTVw8yd3nmCQ82W+azDjbAqefx0NZHsmpAC1GymVsEZr+fD7OP
+	 hC6+Y8iGfXjzhY7vH5qdapYss9WproYudis9bAX+rkvB++IkaC1lZIgkb/5EeYhXNx
+	 L0pNL6VG1oMpA==
+Received: by mail-ua1-f42.google.com with SMTP id a1e0cc1a2514c-7d2dfa73a0bso1845414241.3
+        for <linux-api@vger.kernel.org>; Thu, 25 Jan 2024 10:55:17 -0800 (PST)
+X-Gm-Message-State: AOJu0Yx9FC+CfQaaUb4gfHaYn9taxgcnZ5yEe3xHU99Ajwrp4HFDrMnY
+	bm/sHZqCrWIHUzMwygi/xFkVNaMMPTCfG4tM2dS3oIgjuqG6ebRUQ9SWuhBWgJcHr//fkKzPMsP
+	DbEQIAGPH7H9Zvrn4sWigcxd2ALvHinEwTPev
+X-Google-Smtp-Source: AGHT+IGWPfm/h8tdZxxC4/3EOBNgbDRnb5tbf3vWlU94Dr4vqO3jD+LdoWgtG+90f63JMV+JojcdYVC8+c0G1SasbvU=
+X-Received: by 2002:a05:6122:4f0a:b0:4bd:8926:8e15 with SMTP id
+ gh10-20020a0561224f0a00b004bd89268e15mr201992vkb.0.1706208916220; Thu, 25 Jan
+ 2024 10:55:16 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240124004028.16826-1-zfigura@codeweavers.com>
+ <CALCETrU+Eb5CdkqfYK8JvOiPA7K-6Bfs4uEWiu-U9oH95XfvKw@mail.gmail.com>
+ <5907233.BlLQTPImNI@camazotz> <10405963.nUPlyArG6x@terabithia>
+In-Reply-To: <10405963.nUPlyArG6x@terabithia>
+From: Andy Lutomirski <luto@kernel.org>
+Date: Thu, 25 Jan 2024 10:55:04 -0800
+X-Gmail-Original-Message-ID: <CALCETrVZFhH-dKCFpxj=nML2cn1EBc5wWHj9zhKK07TLSSqnDA@mail.gmail.com>
+Message-ID: <CALCETrVZFhH-dKCFpxj=nML2cn1EBc5wWHj9zhKK07TLSSqnDA@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/9] ntsync: Introduce the ntsync driver and character device.
+To: Elizabeth Figura <zfigura@codeweavers.com>
+Cc: Andy Lutomirski <luto@kernel.org>, wine-devel@winehq.org, Arnd Bergmann <arnd@arndb.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org, 
+	linux-api@vger.kernel.org, =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>, 
+	Wolfram Sang <wsa@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Alexandre Julliard <julliard@winehq.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-In the prior patch, we carry only the current weight for a weighted
-interleave round with us across calls through the allocator path.
+On Wed, Jan 24, 2024 at 7:42=E2=80=AFPM Elizabeth Figura
+<zfigura@codeweavers.com> wrote:
+>
+> On Wednesday, 24 January 2024 16:56:23 CST Elizabeth Figura wrote:
+> > On Wednesday, 24 January 2024 15:26:15 CST Andy Lutomirski wrote:
+> >
+> > > On Tue, Jan 23, 2024 at 4:59=E2=80=AFPM Elizabeth Figura
+> > > <zfigura@codeweavers.com> wrote:
+> > >
+> > > >
+> > > >
+> > > > ntsync uses a misc device as the simplest and least intrusive uAPI
+> > > > interface.
+> > >
+> > > >
+> > > >
+> > > > Each file description on the device represents an isolated NT insta=
+nce,
+> > > > intended to correspond to a single NT virtual machine.
+> > >
+> > >
+> > > If I understand this text right, and if I understood the code right,
+> > > you're saying that each open instance of the device represents an
+> > > entire universe of NT synchronization objects, and no security or
+> > > isolation is possible between those objects.  For single-process use,
+> > > this seems fine.  But fork() will be a bit odd (although NT doesn't
+> > > really believe in fork, so maybe this is fine).
+> > >
+> > > Except that NT has *named* semaphores and such.  And I'm pretty sure
+> > > I've written GUI programs that use named synchronization objects (IIR=
+C
+> > > they were events, and this was a *very* common pattern, regularly
+> > > discussed in MSDN, usenet, etc) to detect whether another instance of
+> > > the program is running.  And this all works on real Windows because
+> > > sessions have sufficiently separated namespaces, and the security all
+> > > works out about as any other security on Windows, etc.  But
+> > > implementing *that* on top of this
+> > > file-description-plus-integer-equals-object will be fundamentally
+> > > quite subject to one buggy program completely clobbering someone
+> > > else's state.
+> > >
+> > > Would it make sense and scale appropriately for an NT synchronization
+> > > *object* to be a Linux open file description?  Then SCM_RIGHTS could
+> > > pass them around, an RPC server could manage *named* objects, and
+> > > they'd generally work just like other "Object Manager" objects like,
+> > > say, files.
+> >
+> >
+> > It's a sensible concern. I think when I discussed this with Alexandre
+> > Julliard (the Wine maintainer, CC'd) the conclusion was this wasn't
+> > something we were concerned about.
+> >
+> > While the current model *does* allow for processes to arbitrarily mess
+> > with each other, accidentally or not, I think we're not concerned with
+> > the scope of that than we are about implementing a whole scheduler in
+> > user space.
+> >
+> > For one, you can't corrupt the wineserver state this way=E2=80=94winese=
+rver
+> > being sort of like a dedicated process that handles many of the things
+> > that a kernel would, and so sometimes needs to set or reset events, or
+> > perform NTSYNC_IOC_KILL_MUTEX, but never relies on ntsync object state.
+> > Whereas trying to implement a scheduler in user space would involve the
+> > wineserver taking locks, and hence other processes could deadlock.
+> >
+> > For two, it's probably a lot harder to mess with that internal state
+> > accidentally.
+> >
+> > [There is also a potential problem where some broken applications
+> > create a million (literally) sync objects. Making these into files runs
+> > into NOFILE. We did specifically push distributions and systemd to
+> > increase those limits because an older solution *did* use eventfds and
+> > *did* run into those limits. Since that push was successful I don't
+> > know if this is *actually* a concern anymore, but avoiding files is
+> > probably not a bad thing either.]
+>
+> Of course, looking at it from a kernel maintainer's perspective, it would=
+n't
+> be insane to do this anyway. If we at some point do start to care about c=
+ross-
+> process isolation in this way, or if another NT emulator wants to use thi=
+s
+> interface and does care about cross-process isolation, it'll be necessary=
+. At
+> least it'd make sense to make them separate files even if we don't implem=
+ent
+> granular permission handling just yet.
 
-node = next_node_in(current->il_prev, pol->nodemask)
-pol->cur_il_weight <--- this weight applies to the above node
+I'm not convinced that any complexity at all beyond using individual
+files is needed for granular permission handling.  Unless something
+actually needs permission bits on different files pointing at the same
+sync object (which I believe NT supports, but it's sort of an odd
+concept and I'm not immediately convinced that anything uses it),
+merely having individual files ought to do the trick.  Handling of who
+has permission to open a given named object can live in a daemon, and
+I'd guess that Wine even already implements this.
 
-This separation of data can cause a race condition.
+And keeping everything together gives me flashbacks of Windows 95 and
+Mac OS pre-X.  Sure, in principle the software wasn't malicious, but
+there was no shortage whatsoever of buggy crap out there, and systems
+were quite unstable.  Even just:
 
-If a cgroup-initiated task migration or mems_allowed change occurs
-from outside the context of the task, this can cause the weight to
-become stale, meaning we may end using that weight to allocate
-memory on the wrong node.
+CreateSemaphore();
+fork();
+sleep a few seconds;
+exit();
 
-Example:
-  1) task A sets (cur_il_weight = 8) and (current->il_prev) to
-     node0. node1 is the next set bit in pol->nodemask
-  2) rebind event occurs, removing node1 from the nodemask.
-     node2 is now the next set bit in pol->nodemask
-     cur_il_weight is now stale.
-  3) allocation occurs, next_node_in(il_prev, nodes) returns
-     node2. cur_il_weight is now applied to the wrong node.
+seems like it could corrupt the shared namespace world.  (Obviously no
+one would ever do that, right?)
 
-The upper level allocator logic must still enforce mems_allowed,
-so this isn't dangerous, but it is innaccurate.
+Also, handle leaks:
 
-Just clearing the weight is insufficient, as it creates two more
-race conditions.  The root of the issue is the separation of weight
-and node data between nodemask and cur_il_weight.
+while(true) {
+  make a subprocess, which creates a semaphore and crashes;
+}
 
-To solve this, update cur_il_weight to be an atomic_t, and place the
-node that the weight applies to in the upper bits of the field:
+>
+> The main question is, is NOFILE a realistic concern, and what other probl=
+ems
+> might there be, in terms of making these heavier objects? Besides memory =
+usage
+> I can't think of any, but of course I don't have much knowledge of this a=
+rea.
 
-atomic_t cur_il_weight
-	node bits 32:8
-	weight bits 7:0
+Years ago there was some discussion of making struct file
+lighter-weight for light-weight things that aren't files.  And, in any
+case, even the little integer indices in your code aren't free -- they
+just aren't accounted as files.
 
-Now retrieving or clearing the active interleave node and weight
-is a single atomic operation, and we are not dependent on the
-potentially changing state of (pol->nodemask) to determine what
-node the weight applies to.
+And struct file isn't *that* bad.  I bet it's not dramatically bigger,
+or even smaller, than whatever the Windows kernel stores for a
+semaphore handle.
 
-Two special observations:
-- if the weight is non-zero, cur_il_weight must *always* have a
-  valid node number, e.g. it cannot be NUMA_NO_NODE (-1).
-  This is because we steal the top byte for the weight.
-
-- MAX_NUMNODES is presently limited to 1024 or less on every
-  architecture. This would permanently limit MAX_NUMNODES to
-  an absolute maximum of (1 << 24) to avoid overflows.
-
-Per some reading and discussion, it appears that max nodes is
-limited to 1024 so that zone type still fits in page flags, so
-this method seemed preferable compared to the alternatives of
-trying to make all or part of mempolicy RCU protected (which
-may not be possible, since it is often referenced during code
-chunks which call operations that may sleep).
-
-Signed-off-by: Gregory Price <gregory.price@memverge.com>
----
- include/linux/mempolicy.h |  2 +-
- mm/mempolicy.c            | 93 +++++++++++++++++++++++++--------------
- 2 files changed, 61 insertions(+), 34 deletions(-)
-
-diff --git a/include/linux/mempolicy.h b/include/linux/mempolicy.h
-index c644d7bbd396..8108fc6e96ca 100644
---- a/include/linux/mempolicy.h
-+++ b/include/linux/mempolicy.h
-@@ -56,7 +56,7 @@ struct mempolicy {
- 	} w;
- 
- 	/* Weighted interleave settings */
--	u8 cur_il_weight;
-+	atomic_t cur_il_weight;
- };
- 
- /*
-diff --git a/mm/mempolicy.c b/mm/mempolicy.c
-index 5a517511658e..41b5fef0a6f5 100644
---- a/mm/mempolicy.c
-+++ b/mm/mempolicy.c
-@@ -321,7 +321,7 @@ static struct mempolicy *mpol_new(unsigned short mode, unsigned short flags,
- 	policy->mode = mode;
- 	policy->flags = flags;
- 	policy->home_node = NUMA_NO_NODE;
--	policy->cur_il_weight = 0;
-+	atomic_set(&policy->cur_il_weight, 0);
- 
- 	return policy;
- }
-@@ -356,6 +356,7 @@ static void mpol_rebind_nodemask(struct mempolicy *pol, const nodemask_t *nodes)
- 		tmp = *nodes;
- 
- 	pol->nodes = tmp;
-+	atomic_set(&pol->cur_il_weight, 0);
- }
- 
- static void mpol_rebind_preferred(struct mempolicy *pol,
-@@ -973,8 +974,10 @@ static long do_get_mempolicy(int *policy, nodemask_t *nmask,
- 			*policy = next_node_in(current->il_prev, pol->nodes);
- 		} else if (pol == current->mempolicy &&
- 				(pol->mode == MPOL_WEIGHTED_INTERLEAVE)) {
--			if (pol->cur_il_weight)
--				*policy = current->il_prev;
-+			int cweight = atomic_read(&pol->cur_il_weight);
-+
-+			if (cweight & 0xFF)
-+				*policy = cweight >> 8;
- 			else
- 				*policy = next_node_in(current->il_prev,
- 						       pol->nodes);
-@@ -1864,36 +1867,48 @@ static unsigned int weighted_interleave_nodes(struct mempolicy *policy)
- 	unsigned int node, next;
- 	struct task_struct *me = current;
- 	u8 __rcu *table;
-+	int cur_weight;
- 	u8 weight;
- 
--	node = next_node_in(me->il_prev, policy->nodes);
--	if (node == MAX_NUMNODES)
--		return node;
-+	cur_weight = atomic_read(&policy->cur_il_weight);
-+	node = cur_weight >> 8;
-+	weight = cur_weight & 0xff;
- 
--	/* on first alloc after setting mempolicy, acquire first weight */
--	if (unlikely(!policy->cur_il_weight)) {
-+	/* If nodemask was rebound, just fetch the next node */
-+	if (!weight || !node_isset(node, policy->nodes)) {
-+		node = next_node_in(me->il_prev, policy->nodes);
-+		/* can only happen if nodemask has become invalid */
-+		if (node == MAX_NUMNODES)
-+			return node;
- 		rcu_read_lock();
- 		table = rcu_dereference(iw_table);
- 		/* detect system-default values */
- 		weight = table ? table[node] : 1;
--		policy->cur_il_weight = weight ? weight : 1;
-+		weight = weight ? weight : 1;
- 		rcu_read_unlock();
- 	}
- 
- 	/* account for this allocation call */
--	policy->cur_il_weight--;
-+	weight--;
- 
- 	/* if now at 0, move to next node and set up that node's weight */
--	if (unlikely(!policy->cur_il_weight)) {
-+	if (unlikely(!weight)) {
- 		me->il_prev = node;
- 		next = next_node_in(node, policy->nodes);
--		rcu_read_lock();
--		table = rcu_dereference(iw_table);
--		/* detect system-default values */
--		weight = table ? table[next] : 1;
--		policy->cur_il_weight = weight ? weight : 1;
--		rcu_read_unlock();
--	}
-+		if (next != MAX_NUMNODES) {
-+			rcu_read_lock();
-+			table = rcu_dereference(iw_table);
-+			/* detect system-default values */
-+			weight = table ? table[next] : 1;
-+			weight = weight ? weight : 1;
-+			rcu_read_unlock();
-+			cur_weight = (next << 8) | weight;
-+		} else /* policy->nodes became invalid */
-+			cur_weight = 0;
-+	} else
-+		cur_weight = (node << 8) | weight;
-+
-+	atomic_set(&policy->cur_il_weight, cur_weight);
- 	return node;
- }
- 
-@@ -2385,6 +2400,7 @@ static unsigned long alloc_pages_bulk_array_weighted_interleave(gfp_t gfp,
- 	nodemask_t nodes;
- 	int nnodes, node, resume_node, next_node;
- 	int prev_node = me->il_prev;
-+	int cur_node_and_weight = atomic_read(&pol->cur_il_weight);
- 	int i;
- 
- 	if (!nr_pages)
-@@ -2394,10 +2410,11 @@ static unsigned long alloc_pages_bulk_array_weighted_interleave(gfp_t gfp,
- 	if (!nnodes)
- 		return 0;
- 
-+	node = cur_node_and_weight >> 8;
-+	weight = cur_node_and_weight & 0xff;
- 	/* Continue allocating from most recent node and adjust the nr_pages */
--	if (pol->cur_il_weight) {
--		node = next_node_in(prev_node, nodes);
--		node_pages = pol->cur_il_weight;
-+	if (weight && node_isset(node, nodes)) {
-+		node_pages = weight;
- 		if (node_pages > rem_pages)
- 			node_pages = rem_pages;
- 		nr_allocated = __alloc_pages_bulk(gfp, node, NULL, node_pages,
-@@ -2408,27 +2425,36 @@ static unsigned long alloc_pages_bulk_array_weighted_interleave(gfp_t gfp,
- 		 * if that's all the pages, no need to interleave, otherwise
- 		 * we need to set up the next interleave node/weight correctly.
- 		 */
--		if (rem_pages < pol->cur_il_weight) {
-+		if (rem_pages < weight) {
- 			/* stay on current node, adjust cur_il_weight */
--			pol->cur_il_weight -= rem_pages;
-+			weight -= rem_pages;
-+			atomic_set(&pol->cur_il_weight, ((node << 8) | weight));
- 			return total_allocated;
--		} else if (rem_pages == pol->cur_il_weight) {
-+		} else if (rem_pages == weight) {
- 			/* move to next node / weight */
- 			me->il_prev = node;
- 			next_node = next_node_in(node, nodes);
--			rcu_read_lock();
--			table = rcu_dereference(iw_table);
--			weight = table ? table[next_node] : 1;
--			/* detect system-default usage */
--			pol->cur_il_weight = weight ? weight : 1;
--			rcu_read_unlock();
-+			if (next_node == MAX_NUMNODES) {
-+				next_node = 0;
-+				weight = 0;
-+			} else {
-+				rcu_read_lock();
-+				table = rcu_dereference(iw_table);
-+				weight = table ? table[next_node] : 1;
-+				/* detect system-default usage */
-+				weight = weight ? weight : 1;
-+				rcu_read_unlock();
-+			}
-+			atomic_set(&pol->cur_il_weight,
-+				   ((next_node << 8) | weight));
- 			return total_allocated;
- 		}
- 		/* Otherwise we adjust nr_pages down, and continue from there */
--		rem_pages -= pol->cur_il_weight;
--		pol->cur_il_weight = 0;
-+		rem_pages -= weight;
- 		prev_node = node;
- 	}
-+	/* clear cur_il_weight in case of an allocation failure */
-+	atomic_set(&pol->cur_il_weight, 0);
- 
- 	/* create a local copy of node weights to operate on outside rcu */
- 	weights = kmalloc(nr_node_ids, GFP_KERNEL);
-@@ -2513,7 +2539,8 @@ static unsigned long alloc_pages_bulk_array_weighted_interleave(gfp_t gfp,
- 	}
- 	/* resume allocating from the calculated node and weight */
- 	me->il_prev = resume_node;
--	pol->cur_il_weight = resume_weight;
-+	resume_node = next_node_in(resume_node, nodes);
-+	atomic_set(&pol->cur_il_weight, ((resume_node << 8) | resume_weight));
- 	kfree(weights);
- 	return total_allocated;
- }
--- 
-2.39.1
-
+--Andy
 
