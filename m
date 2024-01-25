@@ -1,275 +1,161 @@
-Return-Path: <linux-api+bounces-645-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-646-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F6D883C463
-	for <lists+linux-api@lfdr.de>; Thu, 25 Jan 2024 15:11:32 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4367D83C8F8
+	for <lists+linux-api@lfdr.de>; Thu, 25 Jan 2024 17:59:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0FAC91F24A17
-	for <lists+linux-api@lfdr.de>; Thu, 25 Jan 2024 14:11:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E63E4296EFB
+	for <lists+linux-api@lfdr.de>; Thu, 25 Jan 2024 16:59:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F36F75EE63;
-	Thu, 25 Jan 2024 14:11:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D40EB131E2C;
+	Thu, 25 Jan 2024 16:48:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b4KhpNVP"
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="cJ70+Uo4";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="H7AnADWU"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C4EF2D627;
-	Thu, 25 Jan 2024 14:11:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1C62133409;
+	Thu, 25 Jan 2024 16:48:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706191886; cv=none; b=p9XRtmyKI4zK/SArI7BGdWApktB0DmFtEu8bef5rv+paCJGpI+0o01e28Qxq30FR5TmWrMxXHkAjUzHuyaa+jUZnua2cFieFMcy2kN1hVkln9nmMkbJ4esDELNxJqYPHjhIdknpqUdRVrVMAuW6He9YW2u4KpcenO3gQtLxp7Yo=
+	t=1706201305; cv=none; b=hUWj4eptoEF+oh5yzyV1nKFpQ69i5D1+T1Z/6K0yW2DZ46rKlnvGBJins0ukZIIXS9u2MHpBPSSCbepnBPxATb6pYwmT+++t5kf9dj3IgF6hp8dYLLUEyVoDhTCl+HNhZGLG9qb1hqjwOigguzFNKYNOiEo+XpaYZO+BZgdgVtA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706191886; c=relaxed/simple;
-	bh=0iQRw21OAU34dIrmX0/ZgzKF1HOn7qpSiAngu8dBphc=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 Mime-Version:Content-Type; b=tyaBMJ86UzcnXazijHzq3J7fU7Hbcb3LSm6VxHmLj19fuGZgPgjNa2uiGk23M3qsVRdz3JZte5Zck4MqyXmq1UNzmbRaBRUAyubcYpjkfUtd5qLqH9o8TEh2/JVL0EeMKPP1q4/chvcFJ5mSw0s0NE1ZYL+dHjEXB6a7vDrFtVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b4KhpNVP; arc=none smtp.client-ip=209.85.222.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-783137d8049so562842285a.2;
-        Thu, 25 Jan 2024 06:11:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706191884; x=1706796684; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:subject:references
-         :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IsREW+LG4sNq5C/r9JnpxuzCqtoBvg3yhlJSA/oDkwk=;
-        b=b4KhpNVPg48Vx/dlKvvd5I7Hnf4NbxntgJCoFZPf69jQGk3IuGWlflQdwbt+G4MFV3
-         SLh4CHgFm72SfDNT/xxF6FtEXu138wIo+gKuBxkPISKvWCXfO4RbGSRlyqc2J+zAPtqj
-         eT/VpSsN/7aOTipIpnoA+bcXEIEzOo1PLGEq8tb0JSibcUuXPCYYBQptLQIXWSi7Qnol
-         6IqvaDaJYqeZAljeQBUbcTFiZZ7/rTbLNRoF4sy7zdy4gdnMSkPoar1Y+WzbmPxrOfdc
-         mo+AOZrKRqMqK1Nhr5F8fahJ6D3MfpUmfJQdcr/eDLNYA2L2xz2fdAaa0U/7ajZIdqBW
-         +wCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706191884; x=1706796684;
-        h=content-transfer-encoding:mime-version:subject:references
-         :in-reply-to:message-id:cc:to:from:date:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=IsREW+LG4sNq5C/r9JnpxuzCqtoBvg3yhlJSA/oDkwk=;
-        b=SFKAfmaKJT1PxJS4v9717qA9xmyjH5N+Xs85kR9fximCWq87hlUF+DfDOB6r0OGbOX
-         ucIeO+OHGKwQPHI6ay6l4qo9Uioxwd1PuwwMzQjP2yCjr+TRqfetQk+rkBW8FUxDNKlW
-         z74Jv02WaUqyAtUzA09OOP1Sphr0xcMp3B9hhFdyshbLrZ8pKdsSSZGNnttsR7MEPhR5
-         ZtInELq+sz4DcJ0Hxekuavir3E2GAIdALcO0D9mSkIUY2Psv7m+lvlouRyfwhl4hzist
-         k7nR18fU5C3RALHzcrbuxIw8dHf0SW2e/oJW8g8BL4DpgMxFhSqpZJ7nQrI33biMa4pS
-         9qYw==
-X-Gm-Message-State: AOJu0YxzkATFAmT12oW8FcrumsGIcb4rqHkPecVwsTzU+1wv8tr1pPzN
-	p9HLLuIixHYnD/T3xNNVB9JcQ6Ec3+cIErYVUDlfs5T2/gloXHPE
-X-Google-Smtp-Source: AGHT+IESc/WCsWIwF12rCYDTPHDd/JRoJdCLpLJMm862gzu7IcvSlacaxx9b5yR5n8LgFX/JwaZnhg==
-X-Received: by 2002:ae9:ee11:0:b0:783:1683:548 with SMTP id i17-20020ae9ee11000000b0078316830548mr1273386qkg.64.1706191884150;
-        Thu, 25 Jan 2024 06:11:24 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCVANvkD/EXIPA6BqWO8Km7lx3jodwp9n6IoGzDEOlL4S1wSlngJIwHXe481sKsPDcHmaJDOEV5/whHYngeAWnhMbvH40oPKS/wXtzy3X7flR64RoG39d8DtwSVZt65UuXT7jCfY08uEJ9WdnnclfN952W2MOywpQ+gVXLWy2KRWzt9PXv9VIfZOSXtK50iY482y4erUniVA0PEIRnZCZet9ATuj11aiKxZxfagdzF+vcW6CQbOXqlXE0/i02fY9dXc29bC+WFPqehnTIpiA5fgOpb4qwxNqLXlQ4VXV+DqqrKrTyobL6FeLSSlXw6YXViaIZglGpR8rdXeWnpdMq28DSdAiVEGJVLV/3rgbUhC3JEJ586EP97hapha3vEyOfpPLdXiovxYYi96jggrO2k0b3/vvhDlcnumWr9MnYZ9kXfFJdtnFEIAqca/VOdy0
-Received: from localhost (131.65.194.35.bc.googleusercontent.com. [35.194.65.131])
-        by smtp.gmail.com with ESMTPSA id h22-20020a05620a10b600b00783949e7817sm4783779qkk.92.2024.01.25.06.11.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Jan 2024 06:11:23 -0800 (PST)
-Date: Thu, 25 Jan 2024 09:11:22 -0500
-From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-To: Joe Damato <jdamato@fastly.com>, 
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-Cc: netdev@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- chuck.lever@oracle.com, 
- jlayton@kernel.org, 
- linux-api@vger.kernel.org, 
- brauner@kernel.org, 
- edumazet@google.com, 
- davem@davemloft.net, 
- alexander.duyck@gmail.com, 
- sridhar.samudrala@intel.com, 
- kuba@kernel.org, 
- weiwan@google.com
-Message-ID: <65b26c0ada0c6_2b890a294ef@willemb.c.googlers.com.notmuch>
-In-Reply-To: <20240125042746.GA1294@fastly.com>
-References: <20240125003014.43103-1-jdamato@fastly.com>
- <20240125003014.43103-4-jdamato@fastly.com>
- <65b1cb7f73a6a_250560294bd@willemb.c.googlers.com.notmuch>
- <20240125042746.GA1294@fastly.com>
-Subject: Re: [net-next v2 3/4] eventpoll: Add epoll ioctl for epoll_params
+	s=arc-20240116; t=1706201305; c=relaxed/simple;
+	bh=IRwJ0TMkwrUt/pbqRLgyTYDNt0RpyKyPLiKJWU0pKOY=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=jgsNOtcWxZZMJS8z5JwtuuJt2a2/9kZfLP7Ww9lOo4hiWuhZ0hBtCLlXED502aYvt8F/hk/VIupBw8UPDYeKlNOaGvtphyBg8BLK4F96KJwKXCnAtLt9jT0RfSTU+Uiiy1911mVHNxjqv5LpF7jljlP8KwJSX/27N6R9Ljls5u8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=cJ70+Uo4; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=H7AnADWU; arc=none smtp.client-ip=64.147.123.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.west.internal (Postfix) with ESMTP id 3655D3200AFB;
+	Thu, 25 Jan 2024 11:48:22 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Thu, 25 Jan 2024 11:48:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1706201301;
+	 x=1706287701; bh=7RObLEsmqCUsuKu6leTIFIVyQ4Z62QVJOMWQ8jNtjjY=; b=
+	cJ70+Uo46ietnMAzKmBUR1zehbq4uYCQXos0JapO3J04wLdUnhEfZlj4YUxPPAg8
+	GFAOATWioJNivmbcs8hktjOzFeNyKvw+OSrZVRzuEkQvTMZ0vStfSNbQX6Tp8BOY
+	ED0nqO//B0oHxNoi1ZJiIVvJbbaObziJmCu3qQdsITDDvcupr5WaE3M11Ix71z9t
+	dXcXnmrFTbwdpccUPFJFiSWwUY2zD3mxKgJy3PscborZvvkk3llLBTXYmNDSMZV9
+	OADoHcK9KdxiZpb8RQlRRLiWaO/AxaoRS9fZ9j+KOqNJbmuWT9RovVqW4js6ABdc
+	PL8dy+cBv7xWpAA6cRHIEA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1706201301; x=
+	1706287701; bh=7RObLEsmqCUsuKu6leTIFIVyQ4Z62QVJOMWQ8jNtjjY=; b=H
+	7AnADWUn80T4NfwgQXzQE9E57BBsqQ1XTKHidubNzbHSOaFeD710YUmag9oIqiGR
+	SzL8mBxVm1FG7eKZkcVF77W7QvHB9RlV/yjW8ttJDi5xRQXYSLeOXa0rEIv+E7Ai
+	+N+iLNxPYH/8lYulHrYYwF0hVceHtr1jkCg0R8tUqpM1v431BiJrFRhSi4Ruxk93
+	uK7NkMSqkLCjH1wj22cx1tBx4wdxXirX8M9M/IuaIPg2z1SBf1f3mqDymiF+c32Q
+	Zjhtyn4aB0T1qbD7OJxjlsAdKv1l23ktn7PK6ntw7uM+tTw+Si+3u9nf2O4lSh9T
+	pbbrOm4ZveVc/emZMRYrw==
+X-ME-Sender: <xms:1ZCyZZu_m9agGzLlQ8qfJD6cZmnQ984BEtwC6hhW7C__FfAxF40bow>
+    <xme:1ZCyZSfzT6MCJk76BgT04TX9oVjUC4thPO3dMF_yyhbBjI0QjJwh71YAg-jGXykPE
+    VMOx0LwVEiv9kFPr-0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdelhecutefuodetggdotefrodftvfcurf
+    hrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefofgggkfgjfhffhffvvefutgfgsehtqhertderreejnecuhfhrohhmpedftehrnhgu
+    uceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvg
+    hrnhepgeefjeehvdelvdffieejieejiedvvdfhleeivdelveehjeelteegudektdfgjeev
+    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnh
+    gusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:1ZCyZczp006U4CnrXt2igNh3fOhYEiPqlQpRPEqugxjUqHMUjxbeoA>
+    <xmx:1ZCyZQNAO6k3L9iBA9GM84UokYiKqUGh4uPA8z24XBb4so36kDjZWA>
+    <xmx:1ZCyZZ-3xCIFWAN-6m75cZdEXRb9WVEbEDpD7yKNkBs_eg-Et4qGtQ>
+    <xmx:1ZCyZSOVSNeC82OU3Og8y9onoxsQ8MS2AGoMPBYyzjkEIkce5cIbdQ>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 04612B6008D; Thu, 25 Jan 2024 11:48:20 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-119-ga8b98d1bd8-fm-20240108.001-ga8b98d1b
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Message-Id: <63b3828d-8482-4435-9c98-50578bbbbe07@app.fastmail.com>
+In-Reply-To: <10405963.nUPlyArG6x@terabithia>
+References: <20240124004028.16826-1-zfigura@codeweavers.com>
+ <CALCETrU+Eb5CdkqfYK8JvOiPA7K-6Bfs4uEWiu-U9oH95XfvKw@mail.gmail.com>
+ <5907233.BlLQTPImNI@camazotz> <10405963.nUPlyArG6x@terabithia>
+Date: Thu, 25 Jan 2024 17:47:49 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Elizabeth Figura" <zfigura@codeweavers.com>,
+ "Andy Lutomirski" <luto@kernel.org>, wine-devel@winehq.org
+Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+ =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
+ "Wolfram Sang" <wsa@kernel.org>, "Peter Zijlstra" <peterz@infradead.org>,
+ "Alexandre Julliard" <julliard@winehq.org>
+Subject: Re: [RFC PATCH 1/9] ntsync: Introduce the ntsync driver and character device.
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Joe Damato wrote:
-> On Wed, Jan 24, 2024 at 09:46:23PM -0500, Willem de Bruijn wrote:
-> > Joe Damato wrote:
-> > > Add an ioctl for getting and setting epoll_params. User programs can use
-> > > this ioctl to get and set the busy poll usec time or packet budget
-> > > params for a specific epoll context.
-> > > 
-> > > Signed-off-by: Joe Damato <jdamato@fastly.com>
-> > 
-> > Please be sure to include the lists and people suggested by
-> > `get_maintainer.pl -f fs/eventpoll.c`.
-> 
-> Thanks - I must have done something wrong when trying to get the maintainer
-> list.
-> 
-> Should I resend this v2? Not sure what the appropriate thing to do is in
-> this case. My apologies.
+On Thu, Jan 25, 2024, at 04:42, Elizabeth Figura wrote:
+> On Wednesday, 24 January 2024 16:56:23 CST Elizabeth Figura wrote:
+>> On Wednesday, 24 January 2024 15:26:15 CST Andy Lutomirski wrote:
+>> > On Tue, Jan 23, 2024 at 4:59=E2=80=AFPM Elizabeth Figura <zfigura@c=
+odeweavers.com> wrote:
+>>=20
+>> [There is also a potential problem where some broken applications
+>> create a million (literally) sync objects. Making these into files ru=
+ns
+>> into NOFILE. We did specifically push distributions and systemd to
+>> increase those limits because an older solution *did* use eventfds and
+>> *did* run into those limits. Since that push was successful I don't
+>> know if this is *actually* a concern anymore, but avoiding files is
+>> probably not a bad thing either.]
+>
+> Of course, looking at it from a kernel maintainer's perspective, it wo=
+uldn't=20
+> be insane to do this anyway. If we at some point do start to care abou=
+t cross-
+> process isolation in this way, or if another NT emulator wants to use =
+this=20
+> interface and does care about cross-process isolation, it'll be necess=
+ary. At=20
+> least it'd make sense to make them separate files even if we don't imp=
+lement=20
+> granular permission handling just yet.
 
-If you don't get additional feedback in a few days and still prefer
-this option that might be an approach.
+I can think of a few other possible benefits of going with
+per-mutex file descriptors:
 
-After reading the below thread, compare the different possible APIs
-and either revise the code or perhaps add a small paragraph why you
-think this is the preferred path.
- 
-> > Adding ioctls is generally discouraged.
-> > 
-> > As this affects the behavior of epoll_wait, should this just be a
-> > flag to (a new variant of) epoll_wait?
-> 
-> I have no strong preference either way. It seems to me that adding a new
-> system call is a fairly significant change vs adding an ioctl, but I am
-> open to whatever is preferred by the maintainers.
-> 
-> I have no idea who would need to weigh-in to make this decision.
-> 
-> > Speaking from some experience with adding epoll_pwait2. I initially
-> > there added a stateful change that would affect wait behavior. The
-> > sensible feedback as the time was to just change the behavior of the
-> > syscall it affected. Even if that requires a syscall (which is not
-> > that different from an ioctl, if better defined).
-> > 
-> > The discussion in that thread may be informative to decide on API:
-> > https://lwn.net/ml/linux-kernel/20201116161001.1606608-1-willemdebruijn.kernel@gmail.com/
-> 
-> Interesting thread, thanks for sending.
-> 
-> > Agreed on the overall principle that it is preferable to be able to
-> > enable busypolling selectively. We already do for SO_BUSY_POLL and
-> > sysctl busy_read.
-> 
-> Thanks for taking a look and providing feedback.
-> 
-> >
-> > > ---
-> > >  .../userspace-api/ioctl/ioctl-number.rst      |  1 +
-> > >  fs/eventpoll.c                                | 47 +++++++++++++++++++
-> > >  include/uapi/linux/eventpoll.h                | 12 +++++
-> > >  3 files changed, 60 insertions(+)
-> > > 
-> > > diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> > > index 457e16f06e04..b33918232f78 100644
-> > > --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
-> > > +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> > > @@ -309,6 +309,7 @@ Code  Seq#    Include File                                           Comments
-> > >  0x89  0B-DF  linux/sockios.h
-> > >  0x89  E0-EF  linux/sockios.h                                         SIOCPROTOPRIVATE range
-> > >  0x89  F0-FF  linux/sockios.h                                         SIOCDEVPRIVATE range
-> > > +0x8A  00-1F  linux/eventpoll.h
-> > >  0x8B  all    linux/wireless.h
-> > >  0x8C  00-3F                                                          WiNRADiO driver
-> > >                                                                       <http://www.winradio.com.au/>
-> > > diff --git a/fs/eventpoll.c b/fs/eventpoll.c
-> > > index 40bd97477b91..c1ee0fe01da1 100644
-> > > --- a/fs/eventpoll.c
-> > > +++ b/fs/eventpoll.c
-> > > @@ -6,6 +6,8 @@
-> > >   *  Davide Libenzi <davidel@xmailserver.org>
-> > >   */
-> > >  
-> > > +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-> > > +
-> > >  #include <linux/init.h>
-> > >  #include <linux/kernel.h>
-> > >  #include <linux/sched/signal.h>
-> > > @@ -869,6 +871,49 @@ static void ep_clear_and_put(struct eventpoll *ep)
-> > >  		ep_free(ep);
-> > >  }
-> > >  
-> > > +static long ep_eventpoll_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
-> > > +{
-> > > +	int ret;
-> > > +	struct eventpoll *ep;
-> > > +	struct epoll_params epoll_params;
-> > > +	void __user *uarg = (void __user *) arg;
-> > > +
-> > > +	if (!is_file_epoll(file))
-> > > +		return -EINVAL;
-> > > +
-> > > +	ep = file->private_data;
-> > > +
-> > > +	switch (cmd) {
-> > > +#ifdef CONFIG_NET_RX_BUSY_POLL
-> > > +	case EPIOCSPARAMS:
-> > > +		if (copy_from_user(&epoll_params, uarg, sizeof(epoll_params)))
-> > > +			return -EFAULT;
-> > > +
-> > > +		if (epoll_params.busy_poll_budget > NAPI_POLL_WEIGHT)
-> > > +			pr_err("busy poll budget %u exceeds suggested maximum %u\n",
-> > > +					epoll_params.busy_poll_budget, NAPI_POLL_WEIGHT);
-> > > +
-> > > +		ep->busy_poll_usecs = epoll_params.busy_poll_usecs;
-> > > +		ep->busy_poll_budget = epoll_params.busy_poll_budget;
-> > > +		return 0;
-> > > +
-> > > +	case EPIOCGPARAMS:
-> > > +		memset(&epoll_params, 0, sizeof(epoll_params));
-> > > +		epoll_params.busy_poll_usecs = ep->busy_poll_usecs;
-> > > +		epoll_params.busy_poll_budget = ep->busy_poll_budget;
-> > > +		if (copy_to_user(uarg, &epoll_params, sizeof(epoll_params)))
-> > > +			return -EFAULT;
-> > > +
-> > > +		return 0;
-> > > +#endif
-> > > +	default:
-> > > +		ret = -EINVAL;
-> > > +		break;
-> > > +	}
-> > > +
-> > > +	return ret;
-> > > +}
-> > > +
-> > >  static int ep_eventpoll_release(struct inode *inode, struct file *file)
-> > >  {
-> > >  	struct eventpoll *ep = file->private_data;
-> > > @@ -975,6 +1020,8 @@ static const struct file_operations eventpoll_fops = {
-> > >  	.release	= ep_eventpoll_release,
-> > >  	.poll		= ep_eventpoll_poll,
-> > >  	.llseek		= noop_llseek,
-> > > +	.unlocked_ioctl	= ep_eventpoll_ioctl,
-> > > +	.compat_ioctl   = compat_ptr_ioctl,
-> > >  };
-> > >  
-> > >  /*
-> > > diff --git a/include/uapi/linux/eventpoll.h b/include/uapi/linux/eventpoll.h
-> > > index cfbcc4cc49ac..8eb0fdbce995 100644
-> > > --- a/include/uapi/linux/eventpoll.h
-> > > +++ b/include/uapi/linux/eventpoll.h
-> > > @@ -85,4 +85,16 @@ struct epoll_event {
-> > >  	__u64 data;
-> > >  } EPOLL_PACKED;
-> > >  
-> > > +struct epoll_params {
-> > > +	u64 busy_poll_usecs;
-> > > +	u16 busy_poll_budget;
-> > > +
-> > > +	/* for future fields */
-> > > +	u8 data[118];
-> > > +} EPOLL_PACKED;
-> > > +
-> > > +#define EPOLL_IOC_TYPE 0x8A
-> > > +#define EPIOCSPARAMS _IOW(EPOLL_IOC_TYPE, 0x01, struct epoll_params)
-> > > +#define EPIOCGPARAMS _IOR(EPOLL_IOC_TYPE, 0x02, struct epoll_params)
-> > > +
-> > >  #endif /* _UAPI_LINUX_EVENTPOLL_H */
-> > > -- 
-> > > 2.25.1
-> > > 
-> > 
-> > 
+- being able to use poll() for waiting on them individually in
+  combination with other file descriptor based events (socket,
+  signalfd, pidfd, ...)
 
+- replacing your logic around xarray with something a bit
+  simpler. As far as I can tell, your code is all correct here,
+  but it would be easier to understand if it looked more like
+  other code I'm familiar with.
 
+> The main question is, is NOFILE a realistic concern, and what other pr=
+oblems=20
+> might there be, in terms of making these heavier objects? Besides memo=
+ry usage=20
+> I can't think of any, but of course I don't have much knowledge of thi=
+s area.
+
+I would think that RLIMIT_NOFILE is a sensible way of
+managing this, at least this way it's possible to prevent
+exhausting memory with too many mutexes, but still raising
+the limit if you need more than whatever default one might
+come up with.
+
+     Arnd
 
