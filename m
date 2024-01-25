@@ -1,159 +1,184 @@
-Return-Path: <linux-api+bounces-641-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-642-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCB9683BB17
-	for <lists+linux-api@lfdr.de>; Thu, 25 Jan 2024 08:57:49 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C02A83BCB5
+	for <lists+linux-api@lfdr.de>; Thu, 25 Jan 2024 10:06:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5802E1F26D53
-	for <lists+linux-api@lfdr.de>; Thu, 25 Jan 2024 07:57:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5A1011C28482
+	for <lists+linux-api@lfdr.de>; Thu, 25 Jan 2024 09:06:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B46C513AC6;
-	Thu, 25 Jan 2024 07:57:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C1181BC50;
+	Thu, 25 Jan 2024 08:59:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=winehq.org header.i=@winehq.org header.b="rjA9eI3W"
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="f7Xz34JG"
 X-Original-To: linux-api@vger.kernel.org
-Received: from winehq.org (winehq.org [4.4.81.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D6BB17727;
-	Thu, 25 Jan 2024 07:57:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.4.81.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADC841BC5A
+	for <linux-api@vger.kernel.org>; Thu, 25 Jan 2024 08:59:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706169450; cv=none; b=Damsyt2RfCMlbXVQvA/mgoJIAPt9QC0cPefkD8ZI9sh3xOQQx0B+jMQ77geQ3S/tVKGk3saWklZCZxg1I4Mn9dZ4hSQFjhjAGFV6SN8jSl2XMirKkvrAa3+JtGZfiOp9CXBYu6Za+A+ynEElX5USevVExHG4jou93PvdrPmkMLQ=
+	t=1706173168; cv=none; b=ebE7s9zTrb23eXHyVe2YltyqlD1ZT55e94qJErpDV+20sNxZr2zb+lWDlZT1zYg1AKCA1gcLHAm/dU+bFYiS9NNqSAn76e9/dBE4CHGFzGYxsGAfvkNmxy/rAUgq/SASJTlRq2j/nBW3UF7ZezEEaxGBQfMk9Z3SG3ZrfYMQbFE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706169450; c=relaxed/simple;
-	bh=BG4b1dwAC0O5niSsIyr5Wwdb38kT2Xjz5+5JU87Krng=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=ffMODFNrUH4VWmJDTpOqOc4vVzwfmySCtgiD1PO341pXAeSmdckkD0vv9RNMF6YcC6sVhT+FfV2WvvwWe5UxkEfIKGDF0UhfoINCSCsgIJwgnRG8WR1On2IfuwUkOE10RwQ7gyLsGy+/ih3OQyUXrI1N8oSYYivf438GNdWPppc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=winehq.org; spf=pass smtp.mailfrom=winehq.org; dkim=pass (2048-bit key) header.d=winehq.org header.i=@winehq.org header.b=rjA9eI3W; arc=none smtp.client-ip=4.4.81.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=winehq.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=winehq.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=winehq.org;
-	s=s1; h=Message-ID:Date:Subject:Cc:To:From:Sender;
-	bh=Q4cMmITwA1uV9qSgRwQNyCfyNufbMRwq/yk11gxwcNs=; b=rjA9eI3WSXF89DvI/3xWF4yrxB
-	Z1p1KTHr71ogp+269uo0lbKOU51bN3EHBFNlIIBQEAP7dVhdDFnVEfuwgV0vVe0LRmB/Am0vOd2gc
-	TE0xVwlQMputrnXPbI4uDAUglmBINHZbGqPolV46KjJwK0TZqD771AKC5WlGRSvbwkzQMcxBElKDp
-	cJz7tWVHp/2cFFk+Fw63XS5wkq7LgG79azB9aU9AtAaxdSrNowW4hGpQHD6yepg5fBuhA9weDeGxY
-	vuG90pMtdHAFgVqdG14fDNvGiHpUoFnudxeJzYNkAzKsfz7MxB3X8ULv4eLqi2CmJ2nndZKifBTvy
-	L9joL4ZA==;
-Received: from xdsl-188-154-165-39.adslplus.ch ([188.154.165.39] helo=wine)
-	by winehq.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <julliard@winehq.org>)
-	id 1rSuMf-00A7IL-VV; Thu, 25 Jan 2024 01:41:35 -0600
-Received: from julliard by wine with local (Exim 4.97)
-	(envelope-from <julliard@winehq.org>)
-	id 1rSuMe-000000007Cb-0i9z;
-	Thu, 25 Jan 2024 08:41:32 +0100
-From: Alexandre Julliard <julliard@winehq.org>
-To: Elizabeth Figura <zfigura@codeweavers.com>
-Cc: Andy Lutomirski <luto@kernel.org>,  Arnd Bergmann <arnd@arndb.de>,  Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>,  linux-kernel@vger.kernel.org,
-  linux-api@vger.kernel.org,  wine-devel@winehq.org,  =?utf-8?Q?Andr=C3=A9?=
- Almeida
- <andrealmeid@igalia.com>,  Wolfram Sang <wsa@kernel.org>,  Arkadiusz Hiler
- <ahiler@codeweavers.com>,  Peter Zijlstra <peterz@infradead.org>
-Subject: Re: [RFC PATCH 1/9] ntsync: Introduce the ntsync driver and
- character device.
-In-Reply-To: <5907233.BlLQTPImNI@camazotz> (Elizabeth Figura's message of
-	"Wed, 24 Jan 2024 16:56:23 -0600")
-References: <20240124004028.16826-1-zfigura@codeweavers.com>
-	<20240124004028.16826-2-zfigura@codeweavers.com>
-	<CALCETrU+Eb5CdkqfYK8JvOiPA7K-6Bfs4uEWiu-U9oH95XfvKw@mail.gmail.com>
-	<5907233.BlLQTPImNI@camazotz>
-Date: Thu, 25 Jan 2024 08:41:32 +0100
-Message-ID: <87mssthnbn.fsf@wine>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	s=arc-20240116; t=1706173168; c=relaxed/simple;
+	bh=BkonSwvBSVAeVSj+/yM8srRNCH2JQwmNT8fjAm5M6zg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SLKshNQJygilt7UV66G57QPkWMvM53BiIlx7bCrivAQ23KSHSLjeD5ATuj2qkrxGzVDfyjVTtg49fZnwAK3niiwYxqgIe1C29Cc/gYjwGM7SHX3hQmhWNdR+WXF6RogOGBI8xAfmqeprvVBFs8gnq+djeNH/R/Dyv48oGUUhEs4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=f7Xz34JG; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-40e8fec0968so82690805e9.1
+        for <linux-api@vger.kernel.org>; Thu, 25 Jan 2024 00:59:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1706173165; x=1706777965; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=erSKDlQR5+PNHS3860P/F3Nu4Jwial5atVHAuQbFvdc=;
+        b=f7Xz34JGnQd430h9kD6EFEyb4rllPrTiM+1kG/iH9PbzGUDMgLYnkyurB337Ne8nS1
+         A4mmSWf59FDLXosdNjZ7arSXgp1DGran4RkkbEHdgJ6Lkx4jIFjSIUSfD5FflHXDpWx6
+         XK4Ypi2e7Y6NZRRmGEzvCfg8dy9E2dxuFtt0IdUwNpKfMn0MlWojVc+0RaSHNORRY1wm
+         j1tmYr943sanakZXVpGyDVDGOiDxZlZhRuWQ9DSLVd9uL6ZvvcxBHhzw4ETY4qRWkTBB
+         HS4dnhen0Kb3hi3p6QYq6bf/UkQTk7og1kSzmFiFw7szfxRC7lghDwQv1DpcmTdCaxlR
+         Q9Yg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706173165; x=1706777965;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=erSKDlQR5+PNHS3860P/F3Nu4Jwial5atVHAuQbFvdc=;
+        b=CHuB3xVjKpV5otCu37FLFkKH9GNMkCLyZsFhupWHOgmdtWZExAwpaK+l8zCL1Irh1p
+         NegKnvARPjFLgB18jFJhtYgfwpcekNaHGKhyvcXSEOQyOdBibUzGzZ/5emz/fYm7FGWh
+         FUonZST9gAsbo7afxmx6hYdXhkpFoSpIJK5A7Xyvg+X8mlrRbBvsFLDMv3QYA6OOYIPh
+         VQ6vHuCOmyElyRQVCIcJdgyS8y/Nupcip6uEWSHq2A4EYTk44lZ4RdzyXO2uMQjdvOoc
+         6S0igsVbMGQYFAIqNYbvBJ6+IQndV4Ap+GGZQYX/H8kwQ8u2CPz3xLa/RZwzhpMippn0
+         NcHA==
+X-Gm-Message-State: AOJu0YwTeQrraRdctqpBmkGh1YPtvp8McF4kHv/ONIhFBWHAtjkrNR0E
+	GeGCf0c+1Q//GmSlQqngYCcknSK6U0HwmC4zKw6O4DUrqyoEQC+ZcMwNqSKl1ZA=
+X-Google-Smtp-Source: AGHT+IE8NLFBdP26KgzjN7t3Eo6+D2rQKQrXWvEBi8qCf1k9BJWCKOFGza00RXHRn0+C9ey1X1qo3Q==
+X-Received: by 2002:a05:600c:1c99:b0:40e:cc93:2f6b with SMTP id k25-20020a05600c1c9900b0040ecc932f6bmr311011wms.151.1706173164937;
+        Thu, 25 Jan 2024 00:59:24 -0800 (PST)
+Received: from ?IPV6:2a10:bac0:b000:7589:7285:c2ff:fedd:7e3a? ([2a10:bac0:b000:7589:7285:c2ff:fedd:7e3a])
+        by smtp.gmail.com with ESMTPSA id g8-20020a05600c310800b0040e5945307esm1786225wmo.40.2024.01.25.00.59.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 25 Jan 2024 00:59:24 -0800 (PST)
+Message-ID: <f6448d5a-c04a-4d8f-9672-a14aa3061c3e@suse.com>
+Date: Thu, 25 Jan 2024 10:59:23 +0200
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Score: -8.6
-X-Spam-Report: Action: no action
- Symbol: FROM_HAS_DN(0.00)
- Symbol: FROM_EQ_ENVFROM(0.00)
- Symbol: RCVD_COUNT_TWO(0.00)
- Symbol: BAYES_HAM(-3.00)
- Symbol: TO_MATCH_ENVRCPT_ALL(0.00)
- Symbol: RCVD_TLS_LAST(0.00)
- Symbol: MID_RHS_NOT_FQDN(0.50)
- Symbol: MIME_GOOD(-0.10)
- Symbol: NEURAL_HAM(0.00)
- Symbol: RCPT_COUNT_SEVEN(0.00)
- Symbol: RCVD_VIA_SMTP_AUTH(0.00)
- Symbol: WHITELIST_SENDER_DOMAIN(-6.00)
- Symbol: ASN(0.00)
- Symbol: ARC_NA(0.00)
- Symbol: MIME_TRACE(0.00)
- Symbol: TO_DN_SOME(0.00)
- Message-ID: 87mssthnbn.fsf@wine
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 4/9] ntsync: Introduce NTSYNC_IOC_PUT_SEM.
+Content-Language: en-US
+To: Elizabeth Figura <zfigura@codeweavers.com>, Arnd Bergmann
+ <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
+Cc: wine-devel@winehq.org, =?UTF-8?Q?Andr=C3=A9_Almeida?=
+ <andrealmeid@igalia.com>, Wolfram Sang <wsa@kernel.org>,
+ Arkadiusz Hiler <ahiler@codeweavers.com>,
+ Peter Zijlstra <peterz@infradead.org>
+References: <20240124004028.16826-1-zfigura@codeweavers.com>
+ <20240124004028.16826-5-zfigura@codeweavers.com>
+From: Nikolay Borisov <nik.borisov@suse.com>
+In-Reply-To: <20240124004028.16826-5-zfigura@codeweavers.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Elizabeth Figura <zfigura@codeweavers.com> writes:
 
-> On Wednesday, 24 January 2024 15:26:15 CST Andy Lutomirski wrote:
->> On Tue, Jan 23, 2024 at 4:59=E2=80=AFPM Elizabeth Figura
->> <zfigura@codeweavers.com> wrote:
->> >
->> > ntsync uses a misc device as the simplest and least intrusive uAPI int=
-erface.
->> >
->> > Each file description on the device represents an isolated NT instance=
-, intended
->> > to correspond to a single NT virtual machine.
->>=20
->> If I understand this text right, and if I understood the code right,
->> you're saying that each open instance of the device represents an
->> entire universe of NT synchronization objects, and no security or
->> isolation is possible between those objects.  For single-process use,
->> this seems fine.  But fork() will be a bit odd (although NT doesn't
->> really believe in fork, so maybe this is fine).
->>=20
->> Except that NT has *named* semaphores and such.  And I'm pretty sure
->> I've written GUI programs that use named synchronization objects (IIRC
->> they were events, and this was a *very* common pattern, regularly
->> discussed in MSDN, usenet, etc) to detect whether another instance of
->> the program is running.  And this all works on real Windows because
->> sessions have sufficiently separated namespaces, and the security all
->> works out about as any other security on Windows, etc.  But
->> implementing *that* on top of this
->> file-description-plus-integer-equals-object will be fundamentally
->> quite subject to one buggy program completely clobbering someone
->> else's state.
->>=20
->> Would it make sense and scale appropriately for an NT synchronization
->> *object* to be a Linux open file description?  Then SCM_RIGHTS could
->> pass them around, an RPC server could manage *named* objects, and
->> they'd generally work just like other "Object Manager" objects like,
->> say, files.
->
-> It's a sensible concern. I think when I discussed this with Alexandre
-> Julliard (the Wine maintainer, CC'd) the conclusion was this wasn't
-> something we were concerned about.
->
-> While the current model *does* allow for processes to arbitrarily mess
-> with each other, accidentally or not, I think we're not concerned with
-> the scope of that than we are about implementing a whole scheduler in
-> user space.
 
-I may have misunderstood something in that dicussion then, because it
-would definitely be a concern. It's OK for a process to be able to mess
-up the state of any object that it has an NT handle to, but it shouldn't
-be possible to mess up the state of unrelated objects in other processes
-simply by passing the wrong integer id.
+On 24.01.24 г. 2:40 ч., Elizabeth Figura wrote:
+> This corresponds to the NT syscall NtReleaseSemaphore().
+> 
+> Signed-off-by: Elizabeth Figura <zfigura@codeweavers.com>
+> ---
+>   drivers/misc/ntsync.c       | 76 +++++++++++++++++++++++++++++++++++++
+>   include/uapi/linux/ntsync.h |  2 +
+>   2 files changed, 78 insertions(+)
+> 
+> diff --git a/drivers/misc/ntsync.c b/drivers/misc/ntsync.c
+> index 3287b94be351..d1c91c2a4f1a 100644
+> --- a/drivers/misc/ntsync.c
+> +++ b/drivers/misc/ntsync.c
+> @@ -21,9 +21,11 @@ enum ntsync_type {
+>   struct ntsync_obj {
+>   	struct rcu_head rhead;
+>   	struct kref refcount;
+> +	spinlock_t lock;
+>   
+>   	enum ntsync_type type;
+>   
+> +	/* The following fields are protected by the object lock. */
+>   	union {
+>   		struct {
+>   			__u32 count;
+> @@ -36,6 +38,19 @@ struct ntsync_device {
+>   	struct xarray objects;
+>   };
+>   
+> +static struct ntsync_obj *get_obj(struct ntsync_device *dev, __u32 id)
+> +{
+> +	struct ntsync_obj *obj;
+> +
+> +	rcu_read_lock();
+> +	obj = xa_load(&dev->objects, id);
+> +	if (obj && !kref_get_unless_zero(&obj->refcount))
+> +		obj = NULL;
+> +	rcu_read_unlock();
+> +
+> +	return obj;
+> +}
+> +
+>   static void destroy_obj(struct kref *ref)
+>   {
+>   	struct ntsync_obj *obj = container_of(ref, struct ntsync_obj, refcount);
+> @@ -48,6 +63,18 @@ static void put_obj(struct ntsync_obj *obj)
+>   	kref_put(&obj->refcount, destroy_obj);
+>   }
+>   
+> +static struct ntsync_obj *get_obj_typed(struct ntsync_device *dev, __u32 id,
+> +					enum ntsync_type type)
+> +{
+> +	struct ntsync_obj *obj = get_obj(dev, id);
+> +
+> +	if (obj && obj->type != type) {
+> +		put_obj(obj);
+> +		return NULL;
+> +	}
+> +	return obj;
+> +}
+> +
+>   static int ntsync_char_open(struct inode *inode, struct file *file)
+>   {
+>   	struct ntsync_device *dev;
+> @@ -81,6 +108,7 @@ static int ntsync_char_release(struct inode *inode, struct file *file)
+>   static void init_obj(struct ntsync_obj *obj)
+>   {
+>   	kref_init(&obj->refcount);
+> +	spin_lock_init(&obj->lock);
+>   }
+>   
+>   static int ntsync_create_sem(struct ntsync_device *dev, void __user *argp)
+> @@ -131,6 +159,52 @@ static int ntsync_delete(struct ntsync_device *dev, void __user *argp)
+>   	return 0;
+>   }
+>   
+> +/*
+> + * Actually change the semaphore state, returning -EOVERFLOW if it is made
+> + * invalid.
+> + */
+> +static int put_sem_state(struct ntsync_obj *sem, __u32 count)
 
-The concern is not so much about a malicious process going out of its
-way to corrupt others, because it could do that through the NT API just
-as well. But if a wayward pointer corrupts the client-side handle cache,
-that shouldn't take down the entire session.
+nit: Just a general observation - those functions that contains the 
+specific type in their name could take the exact object i.e struct ntsem 
+which will make the code somewhat more clear. Of course, this would mean 
+that the struct definition in patch 3 should be changed to also contain 
+a tag name.
 
---=20
-Alexandre Julliard
-julliard@winehq.org
 
