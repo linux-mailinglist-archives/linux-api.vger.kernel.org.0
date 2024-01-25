@@ -1,216 +1,272 @@
-Return-Path: <linux-api+bounces-662-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-663-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7356883CECF
-	for <lists+linux-api@lfdr.de>; Thu, 25 Jan 2024 22:46:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36CE383CFCD
+	for <lists+linux-api@lfdr.de>; Thu, 25 Jan 2024 23:59:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2193E28D0B7
-	for <lists+linux-api@lfdr.de>; Thu, 25 Jan 2024 21:46:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DE29028A28C
+	for <lists+linux-api@lfdr.de>; Thu, 25 Jan 2024 22:59:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 923B613A26D;
-	Thu, 25 Jan 2024 21:45:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D24EE12E5C;
+	Thu, 25 Jan 2024 22:57:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b="qljqlICx"
+	dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b="B58/m/Id"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail.codeweavers.com (mail.codeweavers.com [4.36.192.163])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f174.google.com (mail-il1-f174.google.com [209.85.166.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEF8B13666B;
-	Thu, 25 Jan 2024 21:45:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.36.192.163
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68C4512B8A
+	for <linux-api@vger.kernel.org>; Thu, 25 Jan 2024 22:57:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706219157; cv=none; b=S63ILvW6I/NtROHrH0v3OMzpdXqkUmVRAp1ggNvsShqLbks4OFVMAQUMIHgsllLMLMPv7IXAqk5+pQGTmo6hH653yDJ4LgTNzOHjdfibFQh+ZPdtdyaQ+elrbM/4hDg5gXHJ/m/0bltBvdmogs4RppEIS3UGSLQP9AgDfFS2e88=
+	t=1706223467; cv=none; b=fUgo8HA/t6YNDKssLZq1c6sEs7JyvSnOjrjM//JQ7Ug4vjko+37lyyrPpqBOVfHZzjYeuGEDH94b52KCeNte84T9pVedGL+yzg+hujR2BjlB36PxATUnIahEoCn175FptkTno30uqQqpvCrsY+y8fyBWDUQm22DP3+WrqBZjWS4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706219157; c=relaxed/simple;
-	bh=T1vP+k/175etl9+CVVlk2tbaxTnw0h8pgKQ1Lqx+83M=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Jmy43gdZ2JFQBmj5uZVCRRE7mv6YLwlLKJozwgg4+aX7X7YWQ8nKbygGqgLOKNf9/CklHyuUS/1Kz7GH42BIGgFCH73yJyRRsXJTOLKTuavIrOy71yw7Jn+k2p8hVXJrhUZJpLuKZmOMFO8oc7sDjRAJZutKLsQY9O6u2EukpAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com; spf=pass smtp.mailfrom=codeweavers.com; dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b=qljqlICx; arc=none smtp.client-ip=4.36.192.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeweavers.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=codeweavers.com; s=s1; h=Message-ID:Date:Subject:Cc:To:From:Sender;
-	bh=dttsVu32ot0ilvban4RoGCoXIHBDQaLnjQKeetjuAiI=; b=qljqlICxGLKQXRzvZlrEpGhgWc
-	vpOREsF1+y25HniQ+3BXnPoWhbMJ2sfeuFpv+EK4rBT4DtrkGSJMZc7sEcpDb/v615zJhCtRqKWqP
-	Km0rViCzvzq/tc5VcMEhqZGIxaKNKvIyIf41kmf82IMIttI9FO9omo8ZwN6ckmswMQNJFggIN1wnD
-	L5NO4NJ3k9WXbMODhnKNR5vwJ75i2DHsN6ZRHpfy3CqSMJsKwLATQdhdpWQuUQwG7H9TLyduO6jfj
-	sVsU4aXL5NsLG97Ky+H4vfs/WrzGvTZjtLuhO4hvxcwwpcEZJ5dS3J0cFuodQY7ePNTjpk/X4IVjb
-	yIVvLfFA==;
-Received: from cw137ip160.mn.codeweavers.com ([10.69.137.160] helo=camazotz.localnet)
-	by mail.codeweavers.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <zfigura@codeweavers.com>)
-	id 1rT7Xi-00FaX9-04;
-	Thu, 25 Jan 2024 15:45:50 -0600
-From: Elizabeth Figura <zfigura@codeweavers.com>
-To: Andy Lutomirski <luto@kernel.org>
-Cc: Andy Lutomirski <luto@kernel.org>, wine-devel@winehq.org,
- Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
- =?ISO-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
- Wolfram Sang <wsa@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
- Alexandre Julliard <julliard@winehq.org>
-Subject:
- Re: [RFC PATCH 1/9] ntsync: Introduce the ntsync driver and character device.
-Date: Thu, 25 Jan 2024 15:45:49 -0600
-Message-ID: <1992245.CNCIqqkGal@camazotz>
-In-Reply-To:
- <CALCETrVZFhH-dKCFpxj=nML2cn1EBc5wWHj9zhKK07TLSSqnDA@mail.gmail.com>
-References:
- <20240124004028.16826-1-zfigura@codeweavers.com>
- <10405963.nUPlyArG6x@terabithia>
- <CALCETrVZFhH-dKCFpxj=nML2cn1EBc5wWHj9zhKK07TLSSqnDA@mail.gmail.com>
+	s=arc-20240116; t=1706223467; c=relaxed/simple;
+	bh=6odP9Zfv4jT1UPPhYzIXbp8Wkc0XoPa8xwrrf2TyNnQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=CLR1mIW6tWD/KfKG3QHMEzXrJT8Aw2EOoIlgYJWrdIJ/1H5ctFXLKpP5d+FarsumElobQcclGw4VECD5Z1rncCz0oosvQTJJcjBLRT0Ha+H61lB3Ug7L7MHfFBmiKJMQYDk9qGHKX+/Pk52e0oQkVYkEJ71w9i8Wh9dotyMbpDg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com; spf=pass smtp.mailfrom=fastly.com; dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b=B58/m/Id; arc=none smtp.client-ip=209.85.166.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastly.com
+Received: by mail-il1-f174.google.com with SMTP id e9e14a558f8ab-361ae51a4c6so27348135ab.1
+        for <linux-api@vger.kernel.org>; Thu, 25 Jan 2024 14:57:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fastly.com; s=google; t=1706223464; x=1706828264; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=DmGx9+QDJXLKTo3H9MiyfX7TEgh1xSwvOnrY9VXnVdM=;
+        b=B58/m/IdEYEIh4nIv0EmFBOm4KbcmU6fOaU+HuIHrhpFJpz/MM3n8bRPbuqAbecug3
+         N6YzG3FjKiKEebsmKqjSkWs4Pg3AGfTud+81aSxHknxuks2j6eU4RO9yzC2qHQQ4ZlZY
+         ayecjUqmgf8t81yW5/d2MHYjH7AhLyrCDFL90=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706223464; x=1706828264;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DmGx9+QDJXLKTo3H9MiyfX7TEgh1xSwvOnrY9VXnVdM=;
+        b=QKM5ceryeawt5hxNI+i0Z0PWQrVYOwA51kKzCMhEO95y3sSm1TzigKOfKHBwEw8zeW
+         468+cSrf7DNbIWSOnPucCJy3QCzRmPwNAW6LaQSgOqDR3Y+fYoEkvIGv9bgz+5eq/7Rm
+         uYKIIisy3QAKfNfJX/mDrwad6xUmxjGyYSJKjZhyJ8lqkey8/J1vFoLTC+UcnypjqJpr
+         Bm2p3sWMf/3bzH/lY5cdaSJQwrHRkb57wdz+apl2hDH7UmFXtf2pCibQ/jJjMVS39Nid
+         JfScwT76UXCDWpFOhEdF8zFsYdqJEQFY3NhtB/4C9oEaYWcjg2Bk6ikjUTCHfXqfvN4v
+         Gqcw==
+X-Gm-Message-State: AOJu0Yz1yz07XoXuPKmRpUxK5UK+q8ofi+UqTbvvOHiFq920wfem3mYn
+	2NFfSGCBlixHfAwPJonxjs9kFXZdoxz51DwktLTceodhpuNQ0+sCEUA+yWxDTtY=
+X-Google-Smtp-Source: AGHT+IGJOlk8p0p+eepUvrJIZ2A7VA58foiJl5D62a/cdKG2oMDEtZHgf75lD945pBIByTtOFe6B7w==
+X-Received: by 2002:a92:290f:0:b0:35f:ced5:5555 with SMTP id l15-20020a92290f000000b0035fced55555mr437125ilg.25.1706223464499;
+        Thu, 25 Jan 2024 14:57:44 -0800 (PST)
+Received: from localhost.localdomain ([2620:11a:c018:0:ea8:be91:8d1:f59b])
+        by smtp.gmail.com with ESMTPSA id z24-20020a631918000000b005d68962e1a7sm19948pgl.24.2024.01.25.14.57.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Jan 2024 14:57:43 -0800 (PST)
+From: Joe Damato <jdamato@fastly.com>
+To: linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org
+Cc: chuck.lever@oracle.com,
+	jlayton@kernel.org,
+	linux-api@vger.kernel.org,
+	brauner@kernel.org,
+	edumazet@google.com,
+	davem@davemloft.net,
+	alexander.duyck@gmail.com,
+	sridhar.samudrala@intel.com,
+	kuba@kernel.org,
+	willemdebruijn.kernel@gmail.com,
+	weiwan@google.com,
+	Joe Damato <jdamato@fastly.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andrew Waterman <waterman@eecs.berkeley.edu>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Dominik Brodowski <linux@dominikbrodowski.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jan Kara <jack@suse.cz>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Julien Panis <jpanis@baylibre.com>,
+	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+	linux-fsdevel@vger.kernel.org (open list:FILESYSTEMS (VFS and infrastructure)),
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nathan Lynch <nathanl@linux.ibm.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Steve French <stfrench@microsoft.com>,
+	Thomas Huth <thuth@redhat.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH net-next v3 0/3] Per epoll context busy poll support
+Date: Thu, 25 Jan 2024 22:56:56 +0000
+Message-Id: <20240125225704.12781-1-jdamato@fastly.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Thursday, 25 January 2024 12:55:04 CST Andy Lutomirski wrote:
-> On Wed, Jan 24, 2024 at 7:42=E2=80=AFPM Elizabeth Figura
-> <zfigura@codeweavers.com> wrote:
-> >
-> > On Wednesday, 24 January 2024 16:56:23 CST Elizabeth Figura wrote:
-> > > On Wednesday, 24 January 2024 15:26:15 CST Andy Lutomirski wrote:
-> > >
-> > > > On Tue, Jan 23, 2024 at 4:59=E2=80=AFPM Elizabeth Figura
-> > > > <zfigura@codeweavers.com> wrote:
-> > > >
-> > > > >
-> > > > >
-> > > > > ntsync uses a misc device as the simplest and least intrusive uAPI
-> > > > > interface.
-> > > >
-> > > > >
-> > > > >
-> > > > > Each file description on the device represents an isolated NT ins=
-tance,
-> > > > > intended to correspond to a single NT virtual machine.
-> > > >
-> > > >
-> > > > If I understand this text right, and if I understood the code right,
-> > > > you're saying that each open instance of the device represents an
-> > > > entire universe of NT synchronization objects, and no security or
-> > > > isolation is possible between those objects.  For single-process us=
-e,
-> > > > this seems fine.  But fork() will be a bit odd (although NT doesn't
-> > > > really believe in fork, so maybe this is fine).
-> > > >
-> > > > Except that NT has *named* semaphores and such.  And I'm pretty sure
-> > > > I've written GUI programs that use named synchronization objects (I=
-IRC
-> > > > they were events, and this was a *very* common pattern, regularly
-> > > > discussed in MSDN, usenet, etc) to detect whether another instance =
-of
-> > > > the program is running.  And this all works on real Windows because
-> > > > sessions have sufficiently separated namespaces, and the security a=
-ll
-> > > > works out about as any other security on Windows, etc.  But
-> > > > implementing *that* on top of this
-> > > > file-description-plus-integer-equals-object will be fundamentally
-> > > > quite subject to one buggy program completely clobbering someone
-> > > > else's state.
-> > > >
-> > > > Would it make sense and scale appropriately for an NT synchronizati=
-on
-> > > > *object* to be a Linux open file description?  Then SCM_RIGHTS could
-> > > > pass them around, an RPC server could manage *named* objects, and
-> > > > they'd generally work just like other "Object Manager" objects like,
-> > > > say, files.
-> > >
-> > >
-> > > It's a sensible concern. I think when I discussed this with Alexandre
-> > > Julliard (the Wine maintainer, CC'd) the conclusion was this wasn't
-> > > something we were concerned about.
-> > >
-> > > While the current model *does* allow for processes to arbitrarily mess
-> > > with each other, accidentally or not, I think we're not concerned with
-> > > the scope of that than we are about implementing a whole scheduler in
-> > > user space.
-> > >
-> > > For one, you can't corrupt the wineserver state this way=E2=80=94wine=
-server
-> > > being sort of like a dedicated process that handles many of the things
-> > > that a kernel would, and so sometimes needs to set or reset events, or
-> > > perform NTSYNC_IOC_KILL_MUTEX, but never relies on ntsync object stat=
-e.
-> > > Whereas trying to implement a scheduler in user space would involve t=
-he
-> > > wineserver taking locks, and hence other processes could deadlock.
-> > >
-> > > For two, it's probably a lot harder to mess with that internal state
-> > > accidentally.
-> > >
-> > > [There is also a potential problem where some broken applications
-> > > create a million (literally) sync objects. Making these into files ru=
-ns
-> > > into NOFILE. We did specifically push distributions and systemd to
-> > > increase those limits because an older solution *did* use eventfds and
-> > > *did* run into those limits. Since that push was successful I don't
-> > > know if this is *actually* a concern anymore, but avoiding files is
-> > > probably not a bad thing either.]
-> >
-> > Of course, looking at it from a kernel maintainer's perspective, it wou=
-ldn't
-> > be insane to do this anyway. If we at some point do start to care about=
- cross-
-> > process isolation in this way, or if another NT emulator wants to use t=
-his
-> > interface and does care about cross-process isolation, it'll be necessa=
-ry. At
-> > least it'd make sense to make them separate files even if we don't impl=
-ement
-> > granular permission handling just yet.
->=20
-> I'm not convinced that any complexity at all beyond using individual
-> files is needed for granular permission handling.  Unless something
-> actually needs permission bits on different files pointing at the same
-> sync object (which I believe NT supports, but it's sort of an odd
-> concept and I'm not immediately convinced that anything uses it),
-> merely having individual files ought to do the trick.  Handling of who
-> has permission to open a given named object can live in a daemon, and
-> I'd guess that Wine even already implements this.
+Greetings:
 
-This is mostly correct. NT has file descriptors and descriptions (the
-former is called a "handle"), though unlike Unix access bits are
-specific to the *descriptor* (handle). I don't know if anything uses=20
-it, but we do currently implement that basic functionality, so I can't
-say that nothing does either.
+Welcome to v3. Cover letter updated from v2 to explain why ioctl and
+adjusted my cc_cmd to try to get the correct people in addition to folks
+who were added in v1 & v2. Labeled as net-next because it seems networking
+related to me even though it is fs code.
 
-So inasmuch as access to someone else's object is a concern, access to
-your object with bits you don't have permission for could be a concern
-along the same lines. However, from conversation with Alexandre I
-believe it'd be fine to just implement those checks in user space.
+TL;DR This builds on commit bf3b9f6372c4 ("epoll: Add busy poll support to
+epoll with socket fds.") by allowing user applications to enable
+epoll-based busy polling and set a busy poll packet budget on a per epoll
+context basis.
 
-> And keeping everything together gives me flashbacks of Windows 95 and
-> Mac OS pre-X.  Sure, in principle the software wasn't malicious, but
-> there was no shortage whatsoever of buggy crap out there, and systems
-> were quite unstable.  Even just:
->=20
-> CreateSemaphore();
-> fork();
-> sleep a few seconds;
-> exit();
->=20
-> seems like it could corrupt the shared namespace world.  (Obviously no
-> one would ever do that, right?)
->=20
-> Also, handle leaks:
->=20
-> while(true) {
->   make a subprocess, which creates a semaphore and crashes;
-> }
+This makes epoll-based busy polling much more usable for user
+applications than the current system-wide sysctl and hardcoded budget.
 
-=46or whatever it's worth, this particular thing wouldn't be a concern;
-Wine's "kernel" daemon already has to detect when a process dies and
-close all its outstanding handles.
+To allow for this, two ioctls have been added for epoll contexts for
+getting and setting a new struct, struct epoll_params.
 
+ioctl was chosen vs a new syscall after reviewing a suggestion by Willem
+de Bruijn [1]. I am open to using a new syscall instead of an ioctl, but it
+seemed that: 
+  - Busy poll affects all existing epoll_wait and epoll_pwait variants in
+    the same way, so new verions of many syscalls might be needed. It
+    seems much simpler for users to use the correct
+    epoll_wait/epoll_pwait for their app and add a call to ioctl to enable
+    or disable busy poll as needed. This also probably means less work to
+    get an existing epoll app using busy poll.
+
+  - previously added epoll_pwait2 helped to bring epoll closer to
+    existing syscalls (like pselect and ppoll) and this busy poll change
+    reflected as a new syscall would not have the same effect.
+
+Note: patch 1/4 uses an xor so that busy poll is only enabled if the
+per-context busy poll usecs is set or the system-wide sysctl. If both are
+enabled, busy polling does not happen. Calling this out specifically incase
+there are strong feelings about this one; I felt one xor the other made
+sense, but I am open to changing it.
+
+Longer explanation:
+
+Presently epoll has support for a very useful form of busy poll based on
+the incoming NAPI ID (see also: SO_INCOMING_NAPI_ID [2]).
+
+This form of busy poll allows epoll_wait to drive NAPI packet processing
+which allows for a few interesting user application designs which can
+reduce latency and also potentially improve L2/L3 cache hit rates by
+deferring NAPI until userland has finished its work.
+
+The documentation available on this is, IMHO, a bit confusing so please
+allow me to explain how one might use this:
+
+1. Ensure each application thread has its own epoll instance mapping
+1-to-1 with NIC RX queues. An n-tuple filter would likely be used to
+direct connections with specific dest ports to these queues.
+
+2. Optionally: Setup IRQ coalescing for the NIC RX queues where busy
+polling will occur. This can help avoid the userland app from being
+pre-empted by a hard IRQ while userland is running. Note this means that
+userland must take care to call epoll_wait and not take too long in
+userland since it now drives NAPI via epoll_wait.
+
+3. Optionally: Consider using napi_defer_hard_irqs and gro_flush_timeout to
+further restrict IRQ generation from the NIC. These settings are
+system-wide so their impact must be carefully weighed against the running
+applications.
+
+4. Ensure that all incoming connections added to an epoll instance
+have the same NAPI ID. This can be done with a BPF filter when
+SO_REUSEPORT is used or getsockopt + SO_INCOMING_NAPI_ID when a single
+accept thread is used which dispatches incoming connections to threads.
+
+5. Lastly, busy poll must be enabled via a sysctl
+(/proc/sys/net/core/busy_poll).
+
+Please see Eric Dumazet's paper about busy polling [3] and a recent
+academic paper about measured performance improvements of busy polling [4]
+(albeit with a modification that is not currently present in the kernel)
+for additional context.
+
+The unfortunate part about step 5 above is that this enables busy poll
+system-wide which affects all user applications on the system,
+including epoll-based network applications which were not intended to
+be used this way or applications where increased CPU usage for lower
+latency network processing is unnecessary or not desirable.
+
+If the user wants to run one low latency epoll-based server application
+with epoll-based busy poll, but would like to run the rest of the
+applications on the system (which may also use epoll) without busy poll,
+this system-wide sysctl presents a significant problem.
+
+This change preserves the system-wide sysctl, but adds a mechanism (via
+ioctl) to enable or disable busy poll for epoll contexts as needed by
+individual applications, making epoll-based busy poll more usable. Note
+that this change includes an xor allowing only the per-context busy poll or
+the system wide sysctl, not both. If both are enabled, busy polling does
+not happen. Calling this out specifically incase there are strong feelings
+about this one; I felt one xor the other made sense, but I am open to
+changing it.
+
+Thanks,
+Joe
+
+v2 -> v3:
+  - cover letter updated to mention why ioctl seems (to me) like a better
+    choice vs a new syscall.
+
+  - patch 3/4 was modified in 3 ways:
+    - when an unknown ioctl is received, -ENOIOCTLCMD is returned instead
+      of -EINVAL as the ioctl documentation requires.
+    - epoll_params.busy_poll_budget can only be set to a value larger than
+      NAPI_POLL_WEIGHT if code is run by privileged (CAP_NET_ADMIN) users.
+      Otherwise, -EPERM is returned.
+    - busy poll specific ioctl code moved out to its own function. On
+      kernels without busy poll support, -EOPNOTSUPP is returned. This also
+      makes the kernel build robot happier without littering the code with
+      more #ifdefs.
+
+  - dropped patch 4/4 after Eric Dumazet's review of it when it was sent
+    independently to the list [5].
+
+v1 -> v2:
+  - cover letter updated to make a mention of napi_defer_hard_irqs and
+    gro_flush_timeout as an added step 3 and to cite both Eric Dumazet's
+    busy polling paper and a paper from University of Waterloo for
+    additional context. Specifically calling out the xor in patch 1/4
+    incase it is missed by reviewers.
+
+  - Patch 2/4 has its commit message updated, but no functional changes.
+    Commit message now describes that allowing for a settable budget helps
+    to improve throughput and is more consistent with other busy poll
+    mechanisms that allow a settable budget via SO_BUSY_POLL_BUDGET.
+
+  - Patch 3/4 was modified to check if the epoll_params.busy_poll_budget
+    exceeds NAPI_POLL_WEIGHT. The larger value is allowed, but an error is
+    printed. This was done for consistency with netif_napi_add_weight,
+    which does the same.
+
+  - Patch 3/4 the struct epoll_params was updated to fix the type of the
+    data field; it was uint8_t and was changed to u8.
+
+  - Patch 4/4 added to check if SO_BUSY_POLL_BUDGET exceeds
+    NAPI_POLL_WEIGHT. The larger value is allowed, but an error is
+    printed. This was done for consistency with netif_napi_add_weight,
+    which does the same.
+
+[1]: https://lore.kernel.org/lkml/65b1cb7f73a6a_250560294bd@willemb.c.googlers.com.notmuch/
+[2]: https://lore.kernel.org/lkml/20170324170836.15226.87178.stgit@localhost.localdomain/
+[3]: https://netdevconf.info/2.1/papers/BusyPollingNextGen.pdf
+[4]: https://dl.acm.org/doi/pdf/10.1145/3626780
+[5]: https://lore.kernel.org/lkml/CANn89i+uXsdSVFiQT9fDfGw+h_5QOcuHwPdWi9J=5U6oLXkQTA@mail.gmail.com/
+
+Joe Damato (3):
+  eventpoll: support busy poll per epoll instance
+  eventpoll: Add per-epoll busy poll packet budget
+  eventpoll: Add epoll ioctl for epoll_params
+
+ .../userspace-api/ioctl/ioctl-number.rst      |   1 +
+ fs/eventpoll.c                                | 122 +++++++++++++++++-
+ include/uapi/linux/eventpoll.h                |  12 ++
+ 3 files changed, 130 insertions(+), 5 deletions(-)
+
+-- 
+2.25.1
 
 
