@@ -1,84 +1,82 @@
-Return-Path: <linux-api+bounces-646-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-647-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4367D83C8F8
-	for <lists+linux-api@lfdr.de>; Thu, 25 Jan 2024 17:59:07 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89ECC83C979
+	for <lists+linux-api@lfdr.de>; Thu, 25 Jan 2024 18:10:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E63E4296EFB
-	for <lists+linux-api@lfdr.de>; Thu, 25 Jan 2024 16:59:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 03ABF1F24741
+	for <lists+linux-api@lfdr.de>; Thu, 25 Jan 2024 17:10:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D40EB131E2C;
-	Thu, 25 Jan 2024 16:48:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C53F013BE8A;
+	Thu, 25 Jan 2024 17:02:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="cJ70+Uo4";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="H7AnADWU"
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="KTZN1ugO";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="t8gaVy5t"
 X-Original-To: linux-api@vger.kernel.org
 Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1C62133409;
-	Thu, 25 Jan 2024 16:48:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4AB3130E30;
+	Thu, 25 Jan 2024 17:02:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706201305; cv=none; b=hUWj4eptoEF+oh5yzyV1nKFpQ69i5D1+T1Z/6K0yW2DZ46rKlnvGBJins0ukZIIXS9u2MHpBPSSCbepnBPxATb6pYwmT+++t5kf9dj3IgF6hp8dYLLUEyVoDhTCl+HNhZGLG9qb1hqjwOigguzFNKYNOiEo+XpaYZO+BZgdgVtA=
+	t=1706202172; cv=none; b=lzyCZQHDME7uCsrri37L2S2qN/0filTdX6Sn5Fbtq1nHUyeaqZNqaRNeR8w3vP7ZgsZokDq08GXrA9svyVoOS367oleG6l54Uw3lGGSVtprNK8U59sUjcyVp1NYuuSCYLyIWlEJs8M/UB55OTX2CTfR6c5vUU2KI6bF3m42ukpQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706201305; c=relaxed/simple;
-	bh=IRwJ0TMkwrUt/pbqRLgyTYDNt0RpyKyPLiKJWU0pKOY=;
+	s=arc-20240116; t=1706202172; c=relaxed/simple;
+	bh=WqahYEHmiuKZoQTeca9wIJ0qlqP8F/wnrf3PfIlb3ug=;
 	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=jgsNOtcWxZZMJS8z5JwtuuJt2a2/9kZfLP7Ww9lOo4hiWuhZ0hBtCLlXED502aYvt8F/hk/VIupBw8UPDYeKlNOaGvtphyBg8BLK4F96KJwKXCnAtLt9jT0RfSTU+Uiiy1911mVHNxjqv5LpF7jljlP8KwJSX/27N6R9Ljls5u8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=cJ70+Uo4; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=H7AnADWU; arc=none smtp.client-ip=64.147.123.19
+	 Subject:Content-Type; b=ZHEi+qakEqMHsbTN+TFfstlwQNlKhB21uGraHvdjtFDvR0Q793o45MaqVm9etaFuJs5OzO1qjOVkSER+V+yFWUQjOgyMliXRKNVLknybMpQihQkv5pmgVZERFILJFdXFWVlD63AFwM+FLDKaGJ4U3lNdPh4A/NKtTFnXx0Kkxuc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=KTZN1ugO; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=t8gaVy5t; arc=none smtp.client-ip=64.147.123.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.west.internal (Postfix) with ESMTP id 3655D3200AFB;
-	Thu, 25 Jan 2024 11:48:22 -0500 (EST)
+	by mailout.west.internal (Postfix) with ESMTP id E23603200AED;
+	Thu, 25 Jan 2024 12:02:48 -0500 (EST)
 Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Thu, 25 Jan 2024 11:48:23 -0500
+  by compute5.internal (MEProxy); Thu, 25 Jan 2024 12:02:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1706201301;
-	 x=1706287701; bh=7RObLEsmqCUsuKu6leTIFIVyQ4Z62QVJOMWQ8jNtjjY=; b=
-	cJ70+Uo46ietnMAzKmBUR1zehbq4uYCQXos0JapO3J04wLdUnhEfZlj4YUxPPAg8
-	GFAOATWioJNivmbcs8hktjOzFeNyKvw+OSrZVRzuEkQvTMZ0vStfSNbQX6Tp8BOY
-	ED0nqO//B0oHxNoi1ZJiIVvJbbaObziJmCu3qQdsITDDvcupr5WaE3M11Ix71z9t
-	dXcXnmrFTbwdpccUPFJFiSWwUY2zD3mxKgJy3PscborZvvkk3llLBTXYmNDSMZV9
-	OADoHcK9KdxiZpb8RQlRRLiWaO/AxaoRS9fZ9j+KOqNJbmuWT9RovVqW4js6ABdc
-	PL8dy+cBv7xWpAA6cRHIEA==
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1706202168; x=1706288568; bh=BaQC6n5Uf0
+	h2jG2xEkFvdsaNKDAE+vFgA3Lv+DwHh0o=; b=KTZN1ugOuk2q1jONQMsU29eGYX
+	ayZ+Y9xbEfVTC5srdmO4xX/FU/LJi1IyxvrJBbZgDVMtA9Di1NZemJvlBVKOqIWc
+	4BQQCMeqkpYWf/sUtkdW3bpPLS5DRAYM5sV8g43XgQ4D6Bbq56FJctNIDtJusD3K
+	1WugZ0ePEl9/SLfyT8ll2qn2Wl0IUixzbk6SPsdiGLsPcKuRPCUvqHGbIe6tPzHR
+	UfDFp56zplZy0W4qZIKbwC7mj1t5lrSFWXLemGeo2IGMakKBgc/TvTUNsRDwmdKt
+	dwRzJHj0g5/DJYQ7KJuPTPEFmcgBvYuPABpTjFvZYOj71x0Xwi4OCSJC2knA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1706201301; x=
-	1706287701; bh=7RObLEsmqCUsuKu6leTIFIVyQ4Z62QVJOMWQ8jNtjjY=; b=H
-	7AnADWUn80T4NfwgQXzQE9E57BBsqQ1XTKHidubNzbHSOaFeD710YUmag9oIqiGR
-	SzL8mBxVm1FG7eKZkcVF77W7QvHB9RlV/yjW8ttJDi5xRQXYSLeOXa0rEIv+E7Ai
-	+N+iLNxPYH/8lYulHrYYwF0hVceHtr1jkCg0R8tUqpM1v431BiJrFRhSi4Ruxk93
-	uK7NkMSqkLCjH1wj22cx1tBx4wdxXirX8M9M/IuaIPg2z1SBf1f3mqDymiF+c32Q
-	Zjhtyn4aB0T1qbD7OJxjlsAdKv1l23ktn7PK6ntw7uM+tTw+Si+3u9nf2O4lSh9T
-	pbbrOm4ZveVc/emZMRYrw==
-X-ME-Sender: <xms:1ZCyZZu_m9agGzLlQ8qfJD6cZmnQ984BEtwC6hhW7C__FfAxF40bow>
-    <xme:1ZCyZSfzT6MCJk76BgT04TX9oVjUC4thPO3dMF_yyhbBjI0QjJwh71YAg-jGXykPE
-    VMOx0LwVEiv9kFPr-0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdelhecutefuodetggdotefrodftvfcurf
-    hrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefofgggkfgjfhffhffvvefutgfgsehtqhertderreejnecuhfhrohhmpedftehrnhgu
-    uceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvg
-    hrnhepgeefjeehvdelvdffieejieejiedvvdfhleeivdelveehjeelteegudektdfgjeev
-    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnh
-    gusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:1ZCyZczp006U4CnrXt2igNh3fOhYEiPqlQpRPEqugxjUqHMUjxbeoA>
-    <xmx:1ZCyZQNAO6k3L9iBA9GM84UokYiKqUGh4uPA8z24XBb4so36kDjZWA>
-    <xmx:1ZCyZZ-3xCIFWAN-6m75cZdEXRb9WVEbEDpD7yKNkBs_eg-Et4qGtQ>
-    <xmx:1ZCyZSOVSNeC82OU3Og8y9onoxsQ8MS2AGoMPBYyzjkEIkce5cIbdQ>
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1706202168; x=1706288568; bh=BaQC6n5Uf0h2jG2xEkFvdsaNKDAE
+	+vFgA3Lv+DwHh0o=; b=t8gaVy5tjB3mzwKydR4K3cgoWDhXoUkt/XHV2wQI8L+E
+	6rEALfT0MXaluMFoFOONEOvsXJ7c2BYvoJ47bi09j4nZyhwWoO9ZVsT4025+/rLG
+	hLVa/2+fqGl/lJtEhOvXMcAxLt30cHPmUkOfGGtOgLIuzrtt5YHsl5kNJgGYqZqL
+	3OKOX0wq4R+Q71rkg1YKydmNeOmIWRGDABfTv65iF8aeg1WfsyvbOaPdRwsg8ISj
+	hoUFmTGaMzRRTqpfgc7lz9FBhp645WmABAEa+X4rplEEOGb74S5ixjAEBUD4khGq
+	Saq9C75sSSG1EVa2BADgFI/h4hMmrGVlAWa1LWXHYg==
+X-ME-Sender: <xms:N5SyZWhqyNqq2NBhp7BFycUoijapUA4g405F_MZ3U5GXctfHjIanWg>
+    <xme:N5SyZXDaxMapVE9PYd3N5qlawr6fYp0eBmjwZ1berw7ukS3UQsic8pFLnSEjmgQgO
+    w83toIEdZfBYLhW4Hc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdelhedgtdegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
+    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+    hrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:N5SyZeH5sfRVU2WzeLl_87QpDc7c-ZREuOwcg1MFR8Wztip1Gjdz8w>
+    <xmx:N5SyZfT2ltRuKgtSh05dp1_QQMwHAat1r9KBoUB-dI1iaXCX4U-IxQ>
+    <xmx:N5SyZTwiWqNTrBYKdNsjRtJVv4I36aM6KndYpU-AmkR9i1M_9GjUHg>
+    <xmx:OJSyZak5RQBQ3QcZdI9QvXqh74t005QM-g6t68kNrgZDem1nVIGcbg>
 Feedback-ID: i56a14606:Fastmail
 Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 04612B6008D; Thu, 25 Jan 2024 11:48:20 -0500 (EST)
+	id AA9FEB6008D; Thu, 25 Jan 2024 12:02:47 -0500 (EST)
 X-Mailer: MessagingEngine.com Webmail Interface
 User-Agent: Cyrus-JMAP/3.11.0-alpha0-119-ga8b98d1bd8-fm-20240108.001-ga8b98d1b
 Precedence: bulk
@@ -87,75 +85,81 @@ List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <63b3828d-8482-4435-9c98-50578bbbbe07@app.fastmail.com>
-In-Reply-To: <10405963.nUPlyArG6x@terabithia>
+Message-Id: <d8631ec7-046e-4ef7-a1ff-71e4ecebe706@app.fastmail.com>
+In-Reply-To: <8367053.NyiUUSuA9g@camazotz>
 References: <20240124004028.16826-1-zfigura@codeweavers.com>
- <CALCETrU+Eb5CdkqfYK8JvOiPA7K-6Bfs4uEWiu-U9oH95XfvKw@mail.gmail.com>
- <5907233.BlLQTPImNI@camazotz> <10405963.nUPlyArG6x@terabithia>
-Date: Thu, 25 Jan 2024 17:47:49 +0100
+ <4864383.GXAFRqVoOG@camazotz>
+ <3ec03a12-ee1b-45f8-9f03-258606763d1e@app.fastmail.com>
+ <8367053.NyiUUSuA9g@camazotz>
+Date: Thu, 25 Jan 2024 18:02:26 +0100
 From: "Arnd Bergmann" <arnd@arndb.de>
 To: "Elizabeth Figura" <zfigura@codeweavers.com>,
- "Andy Lutomirski" <luto@kernel.org>, wine-devel@winehq.org
-Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
+Cc: wine-devel@winehq.org,
  =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
- "Wolfram Sang" <wsa@kernel.org>, "Peter Zijlstra" <peterz@infradead.org>,
- "Alexandre Julliard" <julliard@winehq.org>
-Subject: Re: [RFC PATCH 1/9] ntsync: Introduce the ntsync driver and character device.
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+ "Wolfram Sang" <wsa@kernel.org>, "Arkadiusz Hiler" <ahiler@codeweavers.com>,
+ "Peter Zijlstra" <peterz@infradead.org>
+Subject: Re: [RFC PATCH 5/9] ntsync: Introduce NTSYNC_IOC_WAIT_ANY.
+Content-Type: text/plain
 
-On Thu, Jan 25, 2024, at 04:42, Elizabeth Figura wrote:
-> On Wednesday, 24 January 2024 16:56:23 CST Elizabeth Figura wrote:
->> On Wednesday, 24 January 2024 15:26:15 CST Andy Lutomirski wrote:
->> > On Tue, Jan 23, 2024 at 4:59=E2=80=AFPM Elizabeth Figura <zfigura@c=
-odeweavers.com> wrote:
->>=20
->> [There is also a potential problem where some broken applications
->> create a million (literally) sync objects. Making these into files ru=
-ns
->> into NOFILE. We did specifically push distributions and systemd to
->> increase those limits because an older solution *did* use eventfds and
->> *did* run into those limits. Since that push was successful I don't
->> know if this is *actually* a concern anymore, but avoiding files is
->> probably not a bad thing either.]
+On Wed, Jan 24, 2024, at 23:28, Elizabeth Figura wrote:
+> On Wednesday, 24 January 2024 13:52:52 CST Arnd Bergmann wrote:
+>> On Wed, Jan 24, 2024, at 19:02, Elizabeth Figura wrote:
+
+>> > That'd be nicer in general. I think there was some documentation that advised
+>> > using timespec64 for new ioctl interfaces but it may have been outdated or
+>> > misread.
+>> 
+>> It's probably something I wrote. It depends a bit on
+>> whether you have an absolute or relative timeout. If
+>> the timeout is relative to the current time as I understand
+>> it is here, a 64-bit number seems more logical to me.
+>> 
+>> For absolute times, I would usually use a __kernel_timespec,
+>> especially if it's CLOCK_REALTIME. In this case you would
+>> also need to specify the time domain.
 >
-> Of course, looking at it from a kernel maintainer's perspective, it wo=
-uldn't=20
-> be insane to do this anyway. If we at some point do start to care abou=
-t cross-
-> process isolation in this way, or if another NT emulator wants to use =
-this=20
-> interface and does care about cross-process isolation, it'll be necess=
-ary. At=20
-> least it'd make sense to make them separate files even if we don't imp=
-lement=20
-> granular permission handling just yet.
+> Currently the interface does pass it as an absolute time, with the
+> domain implicitly being MONOTONIC. This particular choice comes from
+> process/botching-up-ioctls.rst, which is admittedly focused around GPU
+> ioctls, but the rationale of having easily restartable ioctls applies
+> here too.
 
-I can think of a few other possible benefits of going with
-per-mutex file descriptors:
+Ok, I was thinking of Documentation/driver-api/ioctl.rst, which
+has similar recommendations.
 
-- being able to use poll() for waiting on them individually in
-  combination with other file descriptor based events (socket,
-  signalfd, pidfd, ...)
+> (E.g. Wine does play games with signals, so we do want to be able to
+> interrupt arbitrary waits with EINTR. The "usual" fast path for ntsync
+> waits won't hit that, but we want to have it work.)
+>
+> On the other hand, if we can pass the timeout as relative, and write it
+> back on exit like ppoll() does [assuming that's not proscribed], that
+> would presumably be slightly better for performance.
 
-- replacing your logic around xarray with something a bit
-  simpler. As far as I can tell, your code is all correct here,
-  but it would be easier to understand if it looked more like
-  other code I'm familiar with.
+I've seen arguments go either way between absolute and relative
+times, just pick whatever works best for you here.
 
-> The main question is, is NOFILE a realistic concern, and what other pr=
-oblems=20
-> might there be, in terms of making these heavier objects? Besides memo=
-ry usage=20
-> I can't think of any, but of course I don't have much knowledge of thi=
-s area.
+> When writing the patch I just picked the recommended option, and didn't
+> bother doing any micro-optimizations afterward.
+>
+> What's the rationale for using timespec for absolute or written-back
+> timeouts, instead of dealing in ns directly? I'm afraid it's not
+> obvious to me.
 
-I would think that RLIMIT_NOFILE is a sensible way of
-managing this, at least this way it's possible to prevent
-exhausting memory with too many mutexes, but still raising
-the limit if you need more than whatever default one might
-come up with.
+There is no hard rule either way, I mainly didn't like the
+indirect pointer to the timespec that you have here. For
+traditional unix-style interfaces, a timespec with CLOCK_REALTIME
+times usually makes sense since that is what user space is
+already using elsewhere, but you probably don't need to
+worry about that. In theory, the single u64 CLOCK_REALTIME
+nanoseconds have the problem of no longer working after year
+2262, but with CLOCK_MONOTONIC that is not a concern anyway.
 
-     Arnd
+Between embedding a __u64 nanosecond value and embedding
+a __kernel_timespec, I would pick whichever avoids converting
+a __u64 back into a timespec, as that is an expensive
+operation at least on 32-bit code.
+
+       Arnd
 
