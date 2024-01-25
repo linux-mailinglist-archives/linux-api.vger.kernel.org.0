@@ -1,120 +1,108 @@
-Return-Path: <linux-api+bounces-651-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-652-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB92283CB01
-	for <lists+linux-api@lfdr.de>; Thu, 25 Jan 2024 19:30:31 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0CD583CB14
+	for <lists+linux-api@lfdr.de>; Thu, 25 Jan 2024 19:31:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CC5B41C26211
-	for <lists+linux-api@lfdr.de>; Thu, 25 Jan 2024 18:30:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F31661C21528
+	for <lists+linux-api@lfdr.de>; Thu, 25 Jan 2024 18:31:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D3DD134752;
-	Thu, 25 Jan 2024 18:22:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2DC8137C43;
+	Thu, 25 Jan 2024 18:26:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b="d3aGhRMi"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IX+HgYcT"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail.codeweavers.com (mail.codeweavers.com [4.36.192.163])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 162F51339B9;
-	Thu, 25 Jan 2024 18:22:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.36.192.163
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DFD2137C4D
+	for <linux-api@vger.kernel.org>; Thu, 25 Jan 2024 18:26:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706206928; cv=none; b=c5lHFe1tnUt9Y1/HHGkSpuXgvhshT4mgVEXKW5PAz0hLlD1+JWqMNKArvaFcvd53kp5IkeKuBTIDa4u2Dmp8kFsziR6UmXSIn5jf5kFT1t155QWGU105nKSxHxfiPImzvehGZTZqBuQsNzKR9mAFv7cKNfeA08Ev1yRlGLXOos4=
+	t=1706207201; cv=none; b=eBzheF7XAFcjgmvPpF/UwXCUi+nLrdK3V6ZVUzbjio64TbcrjZaRwbg0C57wtVW4Ro+wsqHku980GOMQTqhtjVDAgm5QDT0Sf57MiJdrvlmJpmeTS9VxGoxxPLgevWVGES4bo3Znwh57l/cYz0d4+6FUAXDxrH39yb9KXMg1FG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706206928; c=relaxed/simple;
-	bh=HbZRvOPmUoDoxMvnN1tcKFGHea0N3gtSkkLsdTvtCXQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MTYMBENjiAQKCWjfvmRioeoFsKpPMRa1Fj3PbvG7De9DuoUKD9crWZnd9VKVb/8z/FWZf59rX+QxwWP1A04x/Do0QiM/TM+GNrKRlplpKh9PXDagTEgIIkFarIdIr6QHHuAnAfBlkxVQyDOqUsNvMSmjmcxR64V32TI+SptRWss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com; spf=pass smtp.mailfrom=codeweavers.com; dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b=d3aGhRMi; arc=none smtp.client-ip=4.36.192.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeweavers.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=codeweavers.com; s=s1; h=Message-ID:Date:Subject:Cc:To:From:Sender;
-	bh=FgEoT584W6SjWCsE4sg8BnmzLjboNnQ+rbt0JzkUi6Q=; b=d3aGhRMiERnO/WXNeXVeDlrKOM
-	zgo4595Zg/mk9eEoBXDdRaWRDReNwAo5RyQSK7gSg5n7JWoGJ46RJpSejU5KgA1FQhr+SBP3uyd+e
-	b8sn+uQiq47KvWqLIV697u1+xs+Uc0N3o5nrnN6luUVTeAeKdD50bCiX7VkreVNDjmXNrG3KnPgD7
-	FAZrXN3cEsfFuPZEWzSH9mYIERjT/+Ze+GzF+KQ5TRmdYgas6trUCQrhr/aDE78MsIAC5CwjohuCc
-	N2eLVx7w2vot2rloT381XyiUzntm0RtfV28R6mEwyFOdxLLny71bGk/plJd/JEpIIOnObk476f1mk
-	33R2QZHw==;
-Received: from [10.69.139.15] (helo=terabithia.localnet)
-	by mail.codeweavers.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <zfigura@codeweavers.com>)
-	id 1rT4MS-00FQJx-2Y;
-	Thu, 25 Jan 2024 12:22:00 -0600
-From: Elizabeth Figura <zfigura@codeweavers.com>
-To: Andy Lutomirski <luto@kernel.org>, wine-devel@winehq.org,
- Arnd Bergmann <arnd@arndb.de>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
- =?ISO-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
- Wolfram Sang <wsa@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
- Alexandre Julliard <julliard@winehq.org>
-Subject:
- Re: [RFC PATCH 1/9] ntsync: Introduce the ntsync driver and character device.
-Date: Thu, 25 Jan 2024 12:21:59 -0600
-Message-ID: <3785748.kQq0lBPeGt@terabithia>
-In-Reply-To: <63b3828d-8482-4435-9c98-50578bbbbe07@app.fastmail.com>
-References:
- <20240124004028.16826-1-zfigura@codeweavers.com>
- <10405963.nUPlyArG6x@terabithia>
- <63b3828d-8482-4435-9c98-50578bbbbe07@app.fastmail.com>
+	s=arc-20240116; t=1706207201; c=relaxed/simple;
+	bh=p53X8di65S3zmcAB+leeB/kf78sYPEDljz8OXoCEywA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GHEanEe1/Sis4/5PvFL7vM+mU8Yd4iz0/cRxO8/qmyhlO3f3FH7O1UdiC49ci6Po6Nbl1f+bNNNaSCEJTLOc4dO3odfgGUau/TeWPr+GR7BSkaLbx5JUlrmvic+bhNyBE6Hw+Moa+jtWPrwPEwjL2o1CNyKQSlZ2/3jEie7OVO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=IX+HgYcT; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1706207198;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=p53X8di65S3zmcAB+leeB/kf78sYPEDljz8OXoCEywA=;
+	b=IX+HgYcT9ztAL2RsLZXwC9wvlMWfIXv6Q6i44/VfUcTHX0pQRrgyb33lmshs0R+R4OYuLY
+	D9ICWKxAUkWtOgTJlPJWWE468BhLIueXQhZeV3nQrcM04II6EP73hAokCpSPiq7UAW+Am5
+	P3GPUIr6zZsl7bnJSI0unuUfo1BXjeo=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-467-vM6f3SOxPyiC3_8HDtQbiA-1; Thu,
+ 25 Jan 2024 13:26:28 -0500
+X-MC-Unique: vM6f3SOxPyiC3_8HDtQbiA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A7C0C3C1E9C5;
+	Thu, 25 Jan 2024 18:26:21 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.225.14])
+	by smtp.corp.redhat.com (Postfix) with SMTP id 092A53C2E;
+	Thu, 25 Jan 2024 18:26:19 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Thu, 25 Jan 2024 19:25:08 +0100 (CET)
+Date: Thu, 25 Jan 2024 19:25:05 +0100
+From: Oleg Nesterov <oleg@redhat.com>
+To: Tycho Andersen <tycho@tycho.pizza>
+Cc: Christian Brauner <brauner@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org, Tycho Andersen <tandersen@netflix.com>,
+	"Eric W. Biederman" <ebiederm@xmission.com>
+Subject: Re: [PATCH v3 1/3] pidfd: allow pidfd_open() on non-thread-group
+ leaders
+Message-ID: <20240125182505.GD5513@redhat.com>
+References: <20240123153452.170866-1-tycho@tycho.pizza>
+ <20240123153452.170866-2-tycho@tycho.pizza>
+ <20240123195608.GB9978@redhat.com>
+ <ZbArN3EYRfhrNs3o@tycho.pizza>
+ <20240125140830.GA5513@redhat.com>
+ <20240125-tricksen-baugrube-3f78c487a23a@brauner>
+ <20240125175113.GC5513@redhat.com>
+ <ZbKigMNQM0Yklc/5@tycho.pizza>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZbKigMNQM0Yklc/5@tycho.pizza>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.1
 
-On Thursday, 25 January 2024 10:47:49 CST Arnd Bergmann wrote:
-> On Thu, Jan 25, 2024, at 04:42, Elizabeth Figura wrote:
-> > On Wednesday, 24 January 2024 16:56:23 CST Elizabeth Figura wrote:
-> >> On Wednesday, 24 January 2024 15:26:15 CST Andy Lutomirski wrote:
-> >> > On Tue, Jan 23, 2024 at 4:59=E2=80=AFPM Elizabeth Figura=20
-<zfigura@codeweavers.com> wrote:
-> >> [There is also a potential problem where some broken applications
-> >> create a million (literally) sync objects. Making these into files runs
-> >> into NOFILE. We did specifically push distributions and systemd to
-> >> increase those limits because an older solution *did* use eventfds and
-> >> *did* run into those limits. Since that push was successful I don't
-> >> know if this is *actually* a concern anymore, but avoiding files is
-> >> probably not a bad thing either.]
-> >=20
-> > Of course, looking at it from a kernel maintainer's perspective, it
-> > wouldn't be insane to do this anyway. If we at some point do start to
-> > care about cross- process isolation in this way, or if another NT
-> > emulator wants to use this interface and does care about cross-process
-> > isolation, it'll be necessary. At least it'd make sense to make them
-> > separate files even if we don't implement granular permission handling
-> > just yet.
->=20
-> I can think of a few other possible benefits of going with
-> per-mutex file descriptors:
->=20
-> - being able to use poll() for waiting on them individually in
->   combination with other file descriptor based events (socket,
->   signalfd, pidfd, ...)
+On 01/25, Tycho Andersen wrote:
+>
+> One of the things I don't like about PIDFD_THREAD is that it's hard to
+> tell whether an arbitrary thread is a leader or not. Right now we do
+> it by parsing /proc/pid/status, which shows all the stuff from
+> do_task_stat() that we don't care about but which is quite expensive
+> to compute. (Maybe there's a better way?)
+>
+> With PIDFD_THREAD we could could do it twice, once with the flag, get
+> EINVAL, and then do it again. But ideally we wouldn't have to.
 
-I can say for sure this isn't going to be useful for Wine, at least not wit=
-h=20
-the current design.
+Too late for me, most probably I misunderstood.
 
-It also doesn't really mesh well with the NT design in the first place.=20
-NTSYNC_IOC_WAIT_ANY differs from poll() in two major ways: it consumes stat=
-e=20
-of most object types, and (as coded here) it needs the owner thread ID to b=
-e=20
-specifically passed for mutexes.
+If you want the PIDFD_THREAD behaviour, you can always use this flag
+without any check...
 
+Could you spell?
 
-Anyway, as Alexandre has informed me I clearly have misunderstood our=20
-requirements, so I'm going to try to put together something using files=20
-instead.
-
+Oleg.
 
 
