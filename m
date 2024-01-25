@@ -1,245 +1,172 @@
-Return-Path: <linux-api+bounces-638-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-639-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A25583B752
-	for <lists+linux-api@lfdr.de>; Thu, 25 Jan 2024 03:46:35 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE1AC83B86C
+	for <lists+linux-api@lfdr.de>; Thu, 25 Jan 2024 04:42:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2D8911C22A1D
-	for <lists+linux-api@lfdr.de>; Thu, 25 Jan 2024 02:46:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4F1A51F229E9
+	for <lists+linux-api@lfdr.de>; Thu, 25 Jan 2024 03:42:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12D921866;
-	Thu, 25 Jan 2024 02:46:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48C4B6FB2;
+	Thu, 25 Jan 2024 03:42:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FXHjdc3F"
+	dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b="XN+AK6ff"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.codeweavers.com (mail.codeweavers.com [4.36.192.163])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B95A566A;
-	Thu, 25 Jan 2024 02:46:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDD5A6FAE;
+	Thu, 25 Jan 2024 03:42:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.36.192.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706150787; cv=none; b=GhPYKGhP1H60r8J/OTrae/3XgyPckvZu4dAIP7rVYST6wtOw7yj8jaCcTJTCE4R8T4A/gP4vSkYAcu22xQ45CSGaeG4fPHHfvsQ14MyjZLVOKJyqT9IGv/35FgpUe20FZAZgfE5eEZXHDALTxJZbskwdR86N1AXdQGadiUUDgGA=
+	t=1706154138; cv=none; b=X2xtsAWTyQeoKTTddcb/B5hgPVumC7NsQ4zIK6Ya/lAzH/+J4py36rZpTW/hUM3FRmnxu0MmxaGdbcA+Fx5XT0IT6PQZggjJDzLCZwJ1z72hppIVMCoJ/jsqD/etfOD2CiHq5S96syBYyP0irM4QbNxKA1M0PUMddgiPg8XxmJI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706150787; c=relaxed/simple;
-	bh=EIzoKUrWgYKQUkaf8D0oAhqrDucJuvoIW9UPgeX/fGU=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 Mime-Version:Content-Type; b=J9O+S06sC8OTdidLtCdd5en2aRBfSXYJEAidw7/9Sg4XL+0FiAtc95RgZiDgcauFVbIGfQ5sLLU6hQ9WYldigYx419SQ7tOkgKrMENwiuS6VoRXMKCHVkQUUE+MY1/cAlPQS9HNejFvde/SNQm0TeIygw6YZ6GbUcHjkYtTtrUA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FXHjdc3F; arc=none smtp.client-ip=209.85.222.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-783b7ec94d4so71314385a.1;
-        Wed, 24 Jan 2024 18:46:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706150784; x=1706755584; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:subject:references
-         :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mclETPRpYIW12ULS4u08qVFtz8ioPIiE9lpjrb3XQZQ=;
-        b=FXHjdc3Fa4HfYsxzC95t7Wv1ujxhHqoX7WvEVzYHDDVrP+uC+UT82yD1KPVhYN8DPL
-         YrHOFixe7uwOiafRO6ycyGbHPN23CoO8hgIfN2/Ymbj/9YSn5vmZDoblJTRZ8tP4Vw8S
-         1Oqu185xTYk5rQk/83/B74jew8VZvj3NmyCjYAoDvrWfUG5ztBB4h28ERwV2FdLn640L
-         m3IOBkEn56lDl5FW6b0xosVp8VMb0k5o9VVNqniOgEASDTZrKvcpvgA3axOY/eyrCwc1
-         9Ql/MXC+hvrQEBLJkQYNAqq44k3lj7NZ6BElsKNwFuoxwU6G4CNvlRRYdeWZkNQ8O7p2
-         9pWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706150784; x=1706755584;
-        h=content-transfer-encoding:mime-version:subject:references
-         :in-reply-to:message-id:cc:to:from:date:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=mclETPRpYIW12ULS4u08qVFtz8ioPIiE9lpjrb3XQZQ=;
-        b=RJlp049V2qHj3Syf2vzB0i/aCxGumUfdpEZfOKi+cKAtGOiGETMz4KwHg1s3msM979
-         GrnaJseVLzvLdrJilI04tendyfgdrcFeB4Culu4lCQwkOZTYGOPd9zETTEkJgX8hfcEB
-         wqSVw4vtczKAk/a7p1BpiAPloQOkE1UM1PdSKfdyWq4BLlnz/EejYUR8cGJ5NYQNBGQn
-         Qkox4bWfaQATAIzgTXkwbOxn1GZfA85C/69kcbKOBzDhyew5kbePMhyUSVldHUVFNX0T
-         scrD1so1fIlh4Jz1t5b81Hk/Nyt2W4GR/UPyADJYFM3yKyCMm9lLq0hyOCHqou7ZOzhU
-         mU3A==
-X-Gm-Message-State: AOJu0YxpqOsKa41rQh/fW2I+J4+PCmCa9cdGUQxlR5QrEq1YaUrDb/is
-	Zyr0wf63/DzHkY4VCYM2RGcbM3eXFrf4Py9+7wqfISD2mA66q/83
-X-Google-Smtp-Source: AGHT+IGodqpXMuBS2duJzFY8gsyfaK8nc5e7N19ugkz8byxjhCgqMXOvLVShxH5GPJ9IKkwIPiZC9A==
-X-Received: by 2002:ac8:5bd0:0:b0:42a:3b61:2cb2 with SMTP id b16-20020ac85bd0000000b0042a3b612cb2mr335697qtb.92.1706150783994;
-        Wed, 24 Jan 2024 18:46:23 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCUaYwuANash8EJ5tBSIC9R+pkqFfK+NtnyTeDrsfvzGojl/CgmpN7xQhIMlUFN4pAy51qLpMs4SAhww9SWTUe8oklUTiyeQQPoZPkv928Qw1iWXbmDQSSza/mB8tzY5Ve7eiaB2AEdCkUkYx5i1tAXk49ilD0yxquB//zdoLgupHkgNWYag7Du69HxdY/ylPq8GWleGKVfjgZDkoBoK2vqxJxsbwrn6DtQBbzdOxt6dfRW7ng2r+2LN2hHYUgSFn0msM65FjZlkeLUlUYVSMXQjSaGYcUiChXL8LuM/5oFO/vxSCLUy541q112kE5rT3rLjNdCVQ7mmVPhVml/64Y/0QDYkxEm5ngWT0sBtqh17E+3AeHckZP13ebFhYESP1MmZrVjOZxj/YFB8MGVO
-Received: from localhost (131.65.194.35.bc.googleusercontent.com. [35.194.65.131])
-        by smtp.gmail.com with ESMTPSA id cf12-20020a05622a400c00b00427f375c329sm4932508qtb.26.2024.01.24.18.46.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jan 2024 18:46:23 -0800 (PST)
-Date: Wed, 24 Jan 2024 21:46:23 -0500
-From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-To: Joe Damato <jdamato@fastly.com>, 
- netdev@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-Cc: chuck.lever@oracle.com, 
- jlayton@kernel.org, 
- linux-api@vger.kernel.org, 
- brauner@kernel.org, 
- edumazet@google.com, 
- davem@davemloft.net, 
- alexander.duyck@gmail.com, 
- sridhar.samudrala@intel.com, 
- kuba@kernel.org, 
- weiwan@google.com, 
- Joe Damato <jdamato@fastly.com>
-Message-ID: <65b1cb7f73a6a_250560294bd@willemb.c.googlers.com.notmuch>
-In-Reply-To: <20240125003014.43103-4-jdamato@fastly.com>
-References: <20240125003014.43103-1-jdamato@fastly.com>
- <20240125003014.43103-4-jdamato@fastly.com>
-Subject: Re: [net-next v2 3/4] eventpoll: Add epoll ioctl for epoll_params
+	s=arc-20240116; t=1706154138; c=relaxed/simple;
+	bh=GVIfoRSrCh6tdzuJ61LdUv6kvUUuyxps1ZM55/obhJo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=iKsUVUF509PJT5gxReDH2VqvFu1w61YcskKhBou9onA+J0bKXeHv59uSGM0NSI6XyjdW9tQJaKbh5BBWTQeVyRBgVFWH3vZaMyKj/ldgVj7PPqPl5FVI8+8KHxrS50iNdn05+BQdhvsaEZ94UGJ7Ke7yHjp7mQH7akk7aa+bZVg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com; spf=pass smtp.mailfrom=codeweavers.com; dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b=XN+AK6ff; arc=none smtp.client-ip=4.36.192.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeweavers.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=codeweavers.com; s=s1; h=Message-ID:Date:Subject:Cc:To:From:Sender;
+	bh=SzRFkiNt6Vcc+jBrSxbHVvrqks+TgE2qyykxd+Yu4WE=; b=XN+AK6ffBA6xsWA8om2UZeZrVg
+	eUUEUr8hJ5xWzHTpOR+cxJpt8za6/VGnSuPOsPuHtT94EpEsZnbMyKF4i+aG/s9faStfvQt2REVff
+	R8L47fXdeKrrdzSl1q9TK+dLdAxu/lsxWrnqkbd8ajt6VRrMnlthtzIxdWd79IhfR+S1b9huUqSnA
+	zyFXQEBqflpaSIUZee9gAFnbhfnWD1Dbriq7STuLp0q4xA6NZLuGAHtnrGFPAxStdVEHDm6BA3JiV
+	fz873fVfw8zOOTS6+AUnkNu3H//qH8VN+qAtAyxtl6kr1dIRk71WlJTac1CFZDD3SUEDV7H+C0pwf
+	v8m1CFqA==;
+Received: from [10.69.139.5] (helo=terabithia.localnet)
+	by mail.codeweavers.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <zfigura@codeweavers.com>)
+	id 1rSqcv-00ElYR-0i;
+	Wed, 24 Jan 2024 21:42:05 -0600
+From: Elizabeth Figura <zfigura@codeweavers.com>
+To: Andy Lutomirski <luto@kernel.org>, wine-devel@winehq.org
+Cc: Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+ wine-devel@winehq.org,
+ =?ISO-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+ Wolfram Sang <wsa@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+ Alexandre Julliard <julliard@winehq.org>,
+ Elizabeth Figura <zfigura@codeweavers.com>
+Subject:
+ Re: [RFC PATCH 1/9] ntsync: Introduce the ntsync driver and character device.
+Date: Wed, 24 Jan 2024 21:42:04 -0600
+Message-ID: <10405963.nUPlyArG6x@terabithia>
+In-Reply-To: <5907233.BlLQTPImNI@camazotz>
+References:
+ <20240124004028.16826-1-zfigura@codeweavers.com>
+ <CALCETrU+Eb5CdkqfYK8JvOiPA7K-6Bfs4uEWiu-U9oH95XfvKw@mail.gmail.com>
+ <5907233.BlLQTPImNI@camazotz>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 
-Joe Damato wrote:
-> Add an ioctl for getting and setting epoll_params. User programs can use
-> this ioctl to get and set the busy poll usec time or packet budget
-> params for a specific epoll context.
-> 
-> Signed-off-by: Joe Damato <jdamato@fastly.com>
+On Wednesday, 24 January 2024 16:56:23 CST Elizabeth Figura wrote:
+> On Wednesday, 24 January 2024 15:26:15 CST Andy Lutomirski wrote:
+>=20
+> > On Tue, Jan 23, 2024 at 4:59=E2=80=AFPM Elizabeth Figura
+> > <zfigura@codeweavers.com> wrote:
+> >=20
+> > >
+> > >
+> > > ntsync uses a misc device as the simplest and least intrusive uAPI
+> > > interface.
+> >
+> > >
+> > >
+> > > Each file description on the device represents an isolated NT instanc=
+e,
+> > > intended to correspond to a single NT virtual machine.
+> >=20
+> >=20
+> > If I understand this text right, and if I understood the code right,
+> > you're saying that each open instance of the device represents an
+> > entire universe of NT synchronization objects, and no security or
+> > isolation is possible between those objects.  For single-process use,
+> > this seems fine.  But fork() will be a bit odd (although NT doesn't
+> > really believe in fork, so maybe this is fine).
+> >=20
+> > Except that NT has *named* semaphores and such.  And I'm pretty sure
+> > I've written GUI programs that use named synchronization objects (IIRC
+> > they were events, and this was a *very* common pattern, regularly
+> > discussed in MSDN, usenet, etc) to detect whether another instance of
+> > the program is running.  And this all works on real Windows because
+> > sessions have sufficiently separated namespaces, and the security all
+> > works out about as any other security on Windows, etc.  But
+> > implementing *that* on top of this
+> > file-description-plus-integer-equals-object will be fundamentally
+> > quite subject to one buggy program completely clobbering someone
+> > else's state.
+> >=20
+> > Would it make sense and scale appropriately for an NT synchronization
+> > *object* to be a Linux open file description?  Then SCM_RIGHTS could
+> > pass them around, an RPC server could manage *named* objects, and
+> > they'd generally work just like other "Object Manager" objects like,
+> > say, files.
+>=20
+>=20
+> It's a sensible concern. I think when I discussed this with Alexandre
+> Julliard (the Wine maintainer, CC'd) the conclusion was this wasn't
+> something we were concerned about.
+>=20
+> While the current model *does* allow for processes to arbitrarily mess
+> with each other, accidentally or not, I think we're not concerned with
+> the scope of that than we are about implementing a whole scheduler in
+> user space.
+>=20
+> For one, you can't corrupt the wineserver state this way=E2=80=94wineserv=
+er
+> being sort of like a dedicated process that handles many of the things
+> that a kernel would, and so sometimes needs to set or reset events, or
+> perform NTSYNC_IOC_KILL_MUTEX, but never relies on ntsync object state.
+> Whereas trying to implement a scheduler in user space would involve the
+> wineserver taking locks, and hence other processes could deadlock.
+>=20
+> For two, it's probably a lot harder to mess with that internal state
+> accidentally.
+>=20
+> [There is also a potential problem where some broken applications
+> create a million (literally) sync objects. Making these into files runs
+> into NOFILE. We did specifically push distributions and systemd to
+> increase those limits because an older solution *did* use eventfds and
+> *did* run into those limits. Since that push was successful I don't
+> know if this is *actually* a concern anymore, but avoiding files is
+> probably not a bad thing either.]
 
-Please be sure to include the lists and people suggested by
-`get_maintainer.pl -f fs/eventpoll.c`.
+Of course, looking at it from a kernel maintainer's perspective, it wouldn'=
+t=20
+be insane to do this anyway. If we at some point do start to care about cro=
+ss-
+process isolation in this way, or if another NT emulator wants to use this=
+=20
+interface and does care about cross-process isolation, it'll be necessary. =
+At=20
+least it'd make sense to make them separate files even if we don't implemen=
+t=20
+granular permission handling just yet.
 
-Adding ioctls is generally discouraged.
+The main question is, is NOFILE a realistic concern, and what other problem=
+s=20
+might there be, in terms of making these heavier objects? Besides memory us=
+age=20
+I can't think of any, but of course I don't have much knowledge of this are=
+a.
 
-As this affects the behavior of epoll_wait, should this just be a
-flag to (a new variant of) epoll_wait?
-
-Speaking from some experience with adding epoll_pwait2. I initially
-there added a stateful change that would affect wait behavior. The
-sensible feedback as the time was to just change the behavior of the
-syscall it affected. Even if that requires a syscall (which is not
-that different from an ioctl, if better defined).
-
-The discussion in that thread may be informative to decide on API:
-https://lwn.net/ml/linux-kernel/20201116161001.1606608-1-willemdebruijn.kernel@gmail.com/
-
-Agreed on the overall principle that it is preferable to be able to
-enable busypolling selectively. We already do for SO_BUSY_POLL and
-sysctl busy_read.
-
-> ---
->  .../userspace-api/ioctl/ioctl-number.rst      |  1 +
->  fs/eventpoll.c                                | 47 +++++++++++++++++++
->  include/uapi/linux/eventpoll.h                | 12 +++++
->  3 files changed, 60 insertions(+)
-> 
-> diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> index 457e16f06e04..b33918232f78 100644
-> --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
-> +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> @@ -309,6 +309,7 @@ Code  Seq#    Include File                                           Comments
->  0x89  0B-DF  linux/sockios.h
->  0x89  E0-EF  linux/sockios.h                                         SIOCPROTOPRIVATE range
->  0x89  F0-FF  linux/sockios.h                                         SIOCDEVPRIVATE range
-> +0x8A  00-1F  linux/eventpoll.h
->  0x8B  all    linux/wireless.h
->  0x8C  00-3F                                                          WiNRADiO driver
->                                                                       <http://www.winradio.com.au/>
-> diff --git a/fs/eventpoll.c b/fs/eventpoll.c
-> index 40bd97477b91..c1ee0fe01da1 100644
-> --- a/fs/eventpoll.c
-> +++ b/fs/eventpoll.c
-> @@ -6,6 +6,8 @@
->   *  Davide Libenzi <davidel@xmailserver.org>
->   */
->  
-> +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-> +
->  #include <linux/init.h>
->  #include <linux/kernel.h>
->  #include <linux/sched/signal.h>
-> @@ -869,6 +871,49 @@ static void ep_clear_and_put(struct eventpoll *ep)
->  		ep_free(ep);
->  }
->  
-> +static long ep_eventpoll_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
-> +{
-> +	int ret;
-> +	struct eventpoll *ep;
-> +	struct epoll_params epoll_params;
-> +	void __user *uarg = (void __user *) arg;
-> +
-> +	if (!is_file_epoll(file))
-> +		return -EINVAL;
-> +
-> +	ep = file->private_data;
-> +
-> +	switch (cmd) {
-> +#ifdef CONFIG_NET_RX_BUSY_POLL
-> +	case EPIOCSPARAMS:
-> +		if (copy_from_user(&epoll_params, uarg, sizeof(epoll_params)))
-> +			return -EFAULT;
-> +
-> +		if (epoll_params.busy_poll_budget > NAPI_POLL_WEIGHT)
-> +			pr_err("busy poll budget %u exceeds suggested maximum %u\n",
-> +					epoll_params.busy_poll_budget, NAPI_POLL_WEIGHT);
-> +
-> +		ep->busy_poll_usecs = epoll_params.busy_poll_usecs;
-> +		ep->busy_poll_budget = epoll_params.busy_poll_budget;
-> +		return 0;
-> +
-> +	case EPIOCGPARAMS:
-> +		memset(&epoll_params, 0, sizeof(epoll_params));
-> +		epoll_params.busy_poll_usecs = ep->busy_poll_usecs;
-> +		epoll_params.busy_poll_budget = ep->busy_poll_budget;
-> +		if (copy_to_user(uarg, &epoll_params, sizeof(epoll_params)))
-> +			return -EFAULT;
-> +
-> +		return 0;
-> +#endif
-> +	default:
-> +		ret = -EINVAL;
-> +		break;
-> +	}
-> +
-> +	return ret;
-> +}
-> +
->  static int ep_eventpoll_release(struct inode *inode, struct file *file)
->  {
->  	struct eventpoll *ep = file->private_data;
-> @@ -975,6 +1020,8 @@ static const struct file_operations eventpoll_fops = {
->  	.release	= ep_eventpoll_release,
->  	.poll		= ep_eventpoll_poll,
->  	.llseek		= noop_llseek,
-> +	.unlocked_ioctl	= ep_eventpoll_ioctl,
-> +	.compat_ioctl   = compat_ptr_ioctl,
->  };
->  
->  /*
-> diff --git a/include/uapi/linux/eventpoll.h b/include/uapi/linux/eventpoll.h
-> index cfbcc4cc49ac..8eb0fdbce995 100644
-> --- a/include/uapi/linux/eventpoll.h
-> +++ b/include/uapi/linux/eventpoll.h
-> @@ -85,4 +85,16 @@ struct epoll_event {
->  	__u64 data;
->  } EPOLL_PACKED;
->  
-> +struct epoll_params {
-> +	u64 busy_poll_usecs;
-> +	u16 busy_poll_budget;
-> +
-> +	/* for future fields */
-> +	u8 data[118];
-> +} EPOLL_PACKED;
-> +
-> +#define EPOLL_IOC_TYPE 0x8A
-> +#define EPIOCSPARAMS _IOW(EPOLL_IOC_TYPE, 0x01, struct epoll_params)
-> +#define EPIOCGPARAMS _IOR(EPOLL_IOC_TYPE, 0x02, struct epoll_params)
-> +
->  #endif /* _UAPI_LINUX_EVENTPOLL_H */
-> -- 
-> 2.25.1
-> 
+Alternatively, maybe there's another more lightweight way to store per-proc=
+ess=20
+data?
 
 
 
