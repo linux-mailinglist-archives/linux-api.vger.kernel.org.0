@@ -1,251 +1,275 @@
-Return-Path: <linux-api+bounces-644-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-645-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B33B83C45B
-	for <lists+linux-api@lfdr.de>; Thu, 25 Jan 2024 15:10:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F6D883C463
+	for <lists+linux-api@lfdr.de>; Thu, 25 Jan 2024 15:11:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 72C761F240DB
-	for <lists+linux-api@lfdr.de>; Thu, 25 Jan 2024 14:10:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0FAC91F24A17
+	for <lists+linux-api@lfdr.de>; Thu, 25 Jan 2024 14:11:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2886633EC;
-	Thu, 25 Jan 2024 14:09:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F36F75EE63;
+	Thu, 25 Jan 2024 14:11:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PqrldruC"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b4KhpNVP"
 X-Original-To: linux-api@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D565160279
-	for <linux-api@vger.kernel.org>; Thu, 25 Jan 2024 14:09:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C4EF2D627;
+	Thu, 25 Jan 2024 14:11:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706191798; cv=none; b=ahcnXhBvG0U9HFw+sb98tgpe0MeGcxukgfnVGTMUXLYj3K5Zg/uM8uejXMxNY4cyKzWWIm8g7zTfiUOXlbs+zt0d08SftVk2F/vZgcu4pKW1TkuyZH0PGGbS2/UrmepmQQb7DiBJBUIdYV3gYSk9ue15JIwczFpwthD45QIF6Wo=
+	t=1706191886; cv=none; b=p9XRtmyKI4zK/SArI7BGdWApktB0DmFtEu8bef5rv+paCJGpI+0o01e28Qxq30FR5TmWrMxXHkAjUzHuyaa+jUZnua2cFieFMcy2kN1hVkln9nmMkbJ4esDELNxJqYPHjhIdknpqUdRVrVMAuW6He9YW2u4KpcenO3gQtLxp7Yo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706191798; c=relaxed/simple;
-	bh=S+4hMy1M89A/ViQObRAG9pigwG+uvKA4pnLBzzqhjo8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SBogzcej1QsoIDl3xyZFnKSJKZ4iC6GRwQjREW+sIm+4/7lc+ZwKymF1QQ5JSRfKrBRTQyeMgSy5ET1QQZpr9rC8evPwWe7OKFs/ktIUAJEs+gUrTJzeGnWZg6FHvjneTIyZZvS7Ib3hbuZwCfErKhr9hjjI5kaItDX2bWc7BUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PqrldruC; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1706191791;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jV3kBqGQnSVi6PRDgMj7+x6sh3ddpdE2IkidGSTX9R0=;
-	b=PqrldruCLGcoX/Ax1532kosEy5S3dd4EHe76NNmPEwAEn64adFHszz4p9A3EJkR1Ic7UJN
-	KyXrs3WtoqaasyCc6MHwD2EpZCP3MmQJifuKrtnjzqGsyzcIBeFR9uvsHmCvQMoOpLY2dD
-	DlwbM6dhItBlPNx6Vmyyt5nAJhQ7gQw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-622-L7VrF8nSOMiePghSFkTmPg-1; Thu, 25 Jan 2024 09:09:47 -0500
-X-MC-Unique: L7VrF8nSOMiePghSFkTmPg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 05598881C82;
-	Thu, 25 Jan 2024 14:09:47 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.225.14])
-	by smtp.corp.redhat.com (Postfix) with SMTP id 5FE632026F95;
-	Thu, 25 Jan 2024 14:09:45 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-	oleg@redhat.com; Thu, 25 Jan 2024 15:08:33 +0100 (CET)
-Date: Thu, 25 Jan 2024 15:08:31 +0100
-From: Oleg Nesterov <oleg@redhat.com>
-To: Tycho Andersen <tycho@tycho.pizza>
-Cc: Christian Brauner <brauner@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org, Tycho Andersen <tandersen@netflix.com>,
-	"Eric W. Biederman" <ebiederm@xmission.com>
-Subject: Re: [PATCH v3 1/3] pidfd: allow pidfd_open() on non-thread-group
- leaders
-Message-ID: <20240125140830.GA5513@redhat.com>
-References: <20240123153452.170866-1-tycho@tycho.pizza>
- <20240123153452.170866-2-tycho@tycho.pizza>
- <20240123195608.GB9978@redhat.com>
- <ZbArN3EYRfhrNs3o@tycho.pizza>
+	s=arc-20240116; t=1706191886; c=relaxed/simple;
+	bh=0iQRw21OAU34dIrmX0/ZgzKF1HOn7qpSiAngu8dBphc=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 Mime-Version:Content-Type; b=tyaBMJ86UzcnXazijHzq3J7fU7Hbcb3LSm6VxHmLj19fuGZgPgjNa2uiGk23M3qsVRdz3JZte5Zck4MqyXmq1UNzmbRaBRUAyubcYpjkfUtd5qLqH9o8TEh2/JVL0EeMKPP1q4/chvcFJ5mSw0s0NE1ZYL+dHjEXB6a7vDrFtVw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b4KhpNVP; arc=none smtp.client-ip=209.85.222.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-783137d8049so562842285a.2;
+        Thu, 25 Jan 2024 06:11:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706191884; x=1706796684; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IsREW+LG4sNq5C/r9JnpxuzCqtoBvg3yhlJSA/oDkwk=;
+        b=b4KhpNVPg48Vx/dlKvvd5I7Hnf4NbxntgJCoFZPf69jQGk3IuGWlflQdwbt+G4MFV3
+         SLh4CHgFm72SfDNT/xxF6FtEXu138wIo+gKuBxkPISKvWCXfO4RbGSRlyqc2J+zAPtqj
+         eT/VpSsN/7aOTipIpnoA+bcXEIEzOo1PLGEq8tb0JSibcUuXPCYYBQptLQIXWSi7Qnol
+         6IqvaDaJYqeZAljeQBUbcTFiZZ7/rTbLNRoF4sy7zdy4gdnMSkPoar1Y+WzbmPxrOfdc
+         mo+AOZrKRqMqK1Nhr5F8fahJ6D3MfpUmfJQdcr/eDLNYA2L2xz2fdAaa0U/7ajZIdqBW
+         +wCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706191884; x=1706796684;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=IsREW+LG4sNq5C/r9JnpxuzCqtoBvg3yhlJSA/oDkwk=;
+        b=SFKAfmaKJT1PxJS4v9717qA9xmyjH5N+Xs85kR9fximCWq87hlUF+DfDOB6r0OGbOX
+         ucIeO+OHGKwQPHI6ay6l4qo9Uioxwd1PuwwMzQjP2yCjr+TRqfetQk+rkBW8FUxDNKlW
+         z74Jv02WaUqyAtUzA09OOP1Sphr0xcMp3B9hhFdyshbLrZ8pKdsSSZGNnttsR7MEPhR5
+         ZtInELq+sz4DcJ0Hxekuavir3E2GAIdALcO0D9mSkIUY2Psv7m+lvlouRyfwhl4hzist
+         k7nR18fU5C3RALHzcrbuxIw8dHf0SW2e/oJW8g8BL4DpgMxFhSqpZJ7nQrI33biMa4pS
+         9qYw==
+X-Gm-Message-State: AOJu0YxzkATFAmT12oW8FcrumsGIcb4rqHkPecVwsTzU+1wv8tr1pPzN
+	p9HLLuIixHYnD/T3xNNVB9JcQ6Ec3+cIErYVUDlfs5T2/gloXHPE
+X-Google-Smtp-Source: AGHT+IESc/WCsWIwF12rCYDTPHDd/JRoJdCLpLJMm862gzu7IcvSlacaxx9b5yR5n8LgFX/JwaZnhg==
+X-Received: by 2002:ae9:ee11:0:b0:783:1683:548 with SMTP id i17-20020ae9ee11000000b0078316830548mr1273386qkg.64.1706191884150;
+        Thu, 25 Jan 2024 06:11:24 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCVANvkD/EXIPA6BqWO8Km7lx3jodwp9n6IoGzDEOlL4S1wSlngJIwHXe481sKsPDcHmaJDOEV5/whHYngeAWnhMbvH40oPKS/wXtzy3X7flR64RoG39d8DtwSVZt65UuXT7jCfY08uEJ9WdnnclfN952W2MOywpQ+gVXLWy2KRWzt9PXv9VIfZOSXtK50iY482y4erUniVA0PEIRnZCZet9ATuj11aiKxZxfagdzF+vcW6CQbOXqlXE0/i02fY9dXc29bC+WFPqehnTIpiA5fgOpb4qwxNqLXlQ4VXV+DqqrKrTyobL6FeLSSlXw6YXViaIZglGpR8rdXeWnpdMq28DSdAiVEGJVLV/3rgbUhC3JEJ586EP97hapha3vEyOfpPLdXiovxYYi96jggrO2k0b3/vvhDlcnumWr9MnYZ9kXfFJdtnFEIAqca/VOdy0
+Received: from localhost (131.65.194.35.bc.googleusercontent.com. [35.194.65.131])
+        by smtp.gmail.com with ESMTPSA id h22-20020a05620a10b600b00783949e7817sm4783779qkk.92.2024.01.25.06.11.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Jan 2024 06:11:23 -0800 (PST)
+Date: Thu, 25 Jan 2024 09:11:22 -0500
+From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+To: Joe Damato <jdamato@fastly.com>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+Cc: netdev@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ chuck.lever@oracle.com, 
+ jlayton@kernel.org, 
+ linux-api@vger.kernel.org, 
+ brauner@kernel.org, 
+ edumazet@google.com, 
+ davem@davemloft.net, 
+ alexander.duyck@gmail.com, 
+ sridhar.samudrala@intel.com, 
+ kuba@kernel.org, 
+ weiwan@google.com
+Message-ID: <65b26c0ada0c6_2b890a294ef@willemb.c.googlers.com.notmuch>
+In-Reply-To: <20240125042746.GA1294@fastly.com>
+References: <20240125003014.43103-1-jdamato@fastly.com>
+ <20240125003014.43103-4-jdamato@fastly.com>
+ <65b1cb7f73a6a_250560294bd@willemb.c.googlers.com.notmuch>
+ <20240125042746.GA1294@fastly.com>
+Subject: Re: [net-next v2 3/4] eventpoll: Add epoll ioctl for epoll_params
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZbArN3EYRfhrNs3o@tycho.pizza>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.4
+Mime-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-Add Eric.
+Joe Damato wrote:
+> On Wed, Jan 24, 2024 at 09:46:23PM -0500, Willem de Bruijn wrote:
+> > Joe Damato wrote:
+> > > Add an ioctl for getting and setting epoll_params. User programs can use
+> > > this ioctl to get and set the busy poll usec time or packet budget
+> > > params for a specific epoll context.
+> > > 
+> > > Signed-off-by: Joe Damato <jdamato@fastly.com>
+> > 
+> > Please be sure to include the lists and people suggested by
+> > `get_maintainer.pl -f fs/eventpoll.c`.
+> 
+> Thanks - I must have done something wrong when trying to get the maintainer
+> list.
+> 
+> Should I resend this v2? Not sure what the appropriate thing to do is in
+> this case. My apologies.
 
-On 01/23, Tycho Andersen wrote:
->
-> On Tue, Jan 23, 2024 at 08:56:08PM +0100, Oleg Nesterov wrote:
->
-> > So. When do we want to do do_notify_pidfd() ? Whe the task (leader or not)
-> > becomes a zombie (passes exit_notify) or when it is reaped by release_task?
->
-> It seems like we'd want it when exit_notify() is called in principle,
-> since that's when the pid actually dies.
+If you don't get additional feedback in a few days and still prefer
+this option that might be an approach.
 
-No the pid "dies" after this task is reaped, until then its nr is still
-in use and pid_task(PIDTYPE_PID) returns the exiting/exited task.
-
-> When it is reaped is "mostly unrelated".
-
-Then why pidfd_poll() can't simply check !task || task->exit_state ?
-
-Nevermind. So, currently pidfd_poll() succeeds when the leader can be
-reaped, iow the whole thread group has exited. But even if you are the
-parent, you can't expect that wait(WNOHANG) must succeed, the leader
-can be traced. I guess it is too late to change this behaviour.
-
-What if we add the new PIDFD_THREAD flag? With this flag
-
-	- sys_pidfd_open() doesn't require the must be a group leader
-
-	- pidfd_poll() succeeds when the task passes exit_notify() and
-	  becomes a zombie, even if it is a leader and has other threads.
-
-
-Please the the incomplete/untested patch below.
-
-	- The change in exit_notify() is sub-optimal, we can do better
-	  to avoid 2 do_notify_pidfd() calls from exit_notify(). But
-	  so far this is only for discussion, lets keep it simple.
-
-	- __pidfd_prepare() needs some minor cleanups regardless of
-	  this change, I'll send the patch...
-
-What do you think?
-
-And why is thread_group_exited() exported?
-
-Oleg.
-
-diff --git a/include/uapi/linux/pidfd.h b/include/uapi/linux/pidfd.h
-index 5406fbc13074..2e6461459877 100644
---- a/include/uapi/linux/pidfd.h
-+++ b/include/uapi/linux/pidfd.h
-@@ -7,6 +7,7 @@
- #include <linux/fcntl.h>
+After reading the below thread, compare the different possible APIs
+and either revise the code or perhaps add a small paragraph why you
+think this is the preferred path.
  
- /* Flags for pidfd_open().  */
--#define PIDFD_NONBLOCK O_NONBLOCK
-+#define PIDFD_NONBLOCK	O_NONBLOCK
-+#define PIDFD_THREAD	O_EXCL	// or anything else not used by anon_inode's
- 
- #endif /* _UAPI_LINUX_PIDFD_H */
-diff --git a/kernel/exit.c b/kernel/exit.c
-index dfb963d2f862..9f8526b7d717 100644
---- a/kernel/exit.c
-+++ b/kernel/exit.c
-@@ -752,6 +752,10 @@ static void exit_notify(struct task_struct *tsk, int group_dead)
- 		autoreap = true;
- 	}
- 
-+	/* unnecessary if do_notify_parent() was already called,
-+	   we can do better */
-+	do_notify_pidfd(tsk);
-+
- 	if (autoreap) {
- 		tsk->exit_state = EXIT_DEAD;
- 		list_add(&tsk->ptrace_entry, &dead);
-diff --git a/kernel/fork.c b/kernel/fork.c
-index c981fa6171c1..38f2c7423fb4 100644
---- a/kernel/fork.c
-+++ b/kernel/fork.c
-@@ -101,6 +101,7 @@
- #include <linux/user_events.h>
- #include <linux/iommu.h>
- #include <linux/rseq.h>
-+#include <uapi/linux/pidfd.h>
- 
- #include <asm/pgalloc.h>
- #include <linux/uaccess.h>
-@@ -2068,12 +2069,27 @@ static void pidfd_show_fdinfo(struct seq_file *m, struct file *f)
- }
- #endif
- 
-+static bool xxx_exited(struct pid *pid, int excl)
-+{
-+	struct task_struct *task;
-+	bool exited;
-+
-+	rcu_read_lock();
-+	task = pid_task(pid, PIDTYPE_PID);
-+	exited = !task ||
-+		(READ_ONCE(task->exit_state) && (excl || thread_group_empty(task)));
-+	rcu_read_unlock();
-+
-+	return exited;
-+}
-+
- /*
-  * Poll support for process exit notification.
-  */
- static __poll_t pidfd_poll(struct file *file, struct poll_table_struct *pts)
- {
- 	struct pid *pid = file->private_data;
-+	int excl = file->f_flags & PIDFD_THREAD;
- 	__poll_t poll_flags = 0;
- 
- 	poll_wait(file, &pid->wait_pidfd, pts);
-@@ -2083,7 +2099,7 @@ static __poll_t pidfd_poll(struct file *file, struct poll_table_struct *pts)
- 	 * If the thread group leader exits before all other threads in the
- 	 * group, then poll(2) should block, similar to the wait(2) family.
- 	 */
--	if (thread_group_exited(pid))
-+	if (xxx_exited(pid, excl))
- 		poll_flags = EPOLLIN | EPOLLRDNORM;
- 
- 	return poll_flags;
-@@ -2129,7 +2145,9 @@ static int __pidfd_prepare(struct pid *pid, unsigned int flags, struct file **re
- {
- 	int pidfd;
- 	struct file *pidfd_file;
-+	unsigned excl = flags & PIDFD_THREAD;
- 
-+	flags &= ~PIDFD_THREAD;
- 	if (flags & ~(O_NONBLOCK | O_RDWR | O_CLOEXEC))
- 		return -EINVAL;
- 
-@@ -2144,6 +2162,7 @@ static int __pidfd_prepare(struct pid *pid, unsigned int flags, struct file **re
- 		return PTR_ERR(pidfd_file);
- 	}
- 	get_pid(pid); /* held by pidfd_file now */
-+	pidfd_file->f_flags |= excl;
- 	*ret = pidfd_file;
- 	return pidfd;
- }
-@@ -2176,7 +2195,9 @@ static int __pidfd_prepare(struct pid *pid, unsigned int flags, struct file **re
-  */
- int pidfd_prepare(struct pid *pid, unsigned int flags, struct file **ret)
- {
--	if (!pid || !pid_has_task(pid, PIDTYPE_TGID))
-+	unsigned excl = flags & PIDFD_THREAD;
-+
-+	if (!pid || !pid_has_task(pid, excl ? PIDTYPE_PID : PIDTYPE_TGID))
- 		return -EINVAL;
- 
- 	return __pidfd_prepare(pid, flags, ret);
-diff --git a/kernel/pid.c b/kernel/pid.c
-index b52b10865454..5257197f9493 100644
---- a/kernel/pid.c
-+++ b/kernel/pid.c
-@@ -629,7 +629,7 @@ SYSCALL_DEFINE2(pidfd_open, pid_t, pid, unsigned int, flags)
- 	int fd;
- 	struct pid *p;
- 
--	if (flags & ~PIDFD_NONBLOCK)
-+	if (flags & ~(PIDFD_NONBLOCK | PIDFD_THREAD))
- 		return -EINVAL;
- 
- 	if (pid <= 0)
+> > Adding ioctls is generally discouraged.
+> > 
+> > As this affects the behavior of epoll_wait, should this just be a
+> > flag to (a new variant of) epoll_wait?
+> 
+> I have no strong preference either way. It seems to me that adding a new
+> system call is a fairly significant change vs adding an ioctl, but I am
+> open to whatever is preferred by the maintainers.
+> 
+> I have no idea who would need to weigh-in to make this decision.
+> 
+> > Speaking from some experience with adding epoll_pwait2. I initially
+> > there added a stateful change that would affect wait behavior. The
+> > sensible feedback as the time was to just change the behavior of the
+> > syscall it affected. Even if that requires a syscall (which is not
+> > that different from an ioctl, if better defined).
+> > 
+> > The discussion in that thread may be informative to decide on API:
+> > https://lwn.net/ml/linux-kernel/20201116161001.1606608-1-willemdebruijn.kernel@gmail.com/
+> 
+> Interesting thread, thanks for sending.
+> 
+> > Agreed on the overall principle that it is preferable to be able to
+> > enable busypolling selectively. We already do for SO_BUSY_POLL and
+> > sysctl busy_read.
+> 
+> Thanks for taking a look and providing feedback.
+> 
+> >
+> > > ---
+> > >  .../userspace-api/ioctl/ioctl-number.rst      |  1 +
+> > >  fs/eventpoll.c                                | 47 +++++++++++++++++++
+> > >  include/uapi/linux/eventpoll.h                | 12 +++++
+> > >  3 files changed, 60 insertions(+)
+> > > 
+> > > diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
+> > > index 457e16f06e04..b33918232f78 100644
+> > > --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
+> > > +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
+> > > @@ -309,6 +309,7 @@ Code  Seq#    Include File                                           Comments
+> > >  0x89  0B-DF  linux/sockios.h
+> > >  0x89  E0-EF  linux/sockios.h                                         SIOCPROTOPRIVATE range
+> > >  0x89  F0-FF  linux/sockios.h                                         SIOCDEVPRIVATE range
+> > > +0x8A  00-1F  linux/eventpoll.h
+> > >  0x8B  all    linux/wireless.h
+> > >  0x8C  00-3F                                                          WiNRADiO driver
+> > >                                                                       <http://www.winradio.com.au/>
+> > > diff --git a/fs/eventpoll.c b/fs/eventpoll.c
+> > > index 40bd97477b91..c1ee0fe01da1 100644
+> > > --- a/fs/eventpoll.c
+> > > +++ b/fs/eventpoll.c
+> > > @@ -6,6 +6,8 @@
+> > >   *  Davide Libenzi <davidel@xmailserver.org>
+> > >   */
+> > >  
+> > > +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> > > +
+> > >  #include <linux/init.h>
+> > >  #include <linux/kernel.h>
+> > >  #include <linux/sched/signal.h>
+> > > @@ -869,6 +871,49 @@ static void ep_clear_and_put(struct eventpoll *ep)
+> > >  		ep_free(ep);
+> > >  }
+> > >  
+> > > +static long ep_eventpoll_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
+> > > +{
+> > > +	int ret;
+> > > +	struct eventpoll *ep;
+> > > +	struct epoll_params epoll_params;
+> > > +	void __user *uarg = (void __user *) arg;
+> > > +
+> > > +	if (!is_file_epoll(file))
+> > > +		return -EINVAL;
+> > > +
+> > > +	ep = file->private_data;
+> > > +
+> > > +	switch (cmd) {
+> > > +#ifdef CONFIG_NET_RX_BUSY_POLL
+> > > +	case EPIOCSPARAMS:
+> > > +		if (copy_from_user(&epoll_params, uarg, sizeof(epoll_params)))
+> > > +			return -EFAULT;
+> > > +
+> > > +		if (epoll_params.busy_poll_budget > NAPI_POLL_WEIGHT)
+> > > +			pr_err("busy poll budget %u exceeds suggested maximum %u\n",
+> > > +					epoll_params.busy_poll_budget, NAPI_POLL_WEIGHT);
+> > > +
+> > > +		ep->busy_poll_usecs = epoll_params.busy_poll_usecs;
+> > > +		ep->busy_poll_budget = epoll_params.busy_poll_budget;
+> > > +		return 0;
+> > > +
+> > > +	case EPIOCGPARAMS:
+> > > +		memset(&epoll_params, 0, sizeof(epoll_params));
+> > > +		epoll_params.busy_poll_usecs = ep->busy_poll_usecs;
+> > > +		epoll_params.busy_poll_budget = ep->busy_poll_budget;
+> > > +		if (copy_to_user(uarg, &epoll_params, sizeof(epoll_params)))
+> > > +			return -EFAULT;
+> > > +
+> > > +		return 0;
+> > > +#endif
+> > > +	default:
+> > > +		ret = -EINVAL;
+> > > +		break;
+> > > +	}
+> > > +
+> > > +	return ret;
+> > > +}
+> > > +
+> > >  static int ep_eventpoll_release(struct inode *inode, struct file *file)
+> > >  {
+> > >  	struct eventpoll *ep = file->private_data;
+> > > @@ -975,6 +1020,8 @@ static const struct file_operations eventpoll_fops = {
+> > >  	.release	= ep_eventpoll_release,
+> > >  	.poll		= ep_eventpoll_poll,
+> > >  	.llseek		= noop_llseek,
+> > > +	.unlocked_ioctl	= ep_eventpoll_ioctl,
+> > > +	.compat_ioctl   = compat_ptr_ioctl,
+> > >  };
+> > >  
+> > >  /*
+> > > diff --git a/include/uapi/linux/eventpoll.h b/include/uapi/linux/eventpoll.h
+> > > index cfbcc4cc49ac..8eb0fdbce995 100644
+> > > --- a/include/uapi/linux/eventpoll.h
+> > > +++ b/include/uapi/linux/eventpoll.h
+> > > @@ -85,4 +85,16 @@ struct epoll_event {
+> > >  	__u64 data;
+> > >  } EPOLL_PACKED;
+> > >  
+> > > +struct epoll_params {
+> > > +	u64 busy_poll_usecs;
+> > > +	u16 busy_poll_budget;
+> > > +
+> > > +	/* for future fields */
+> > > +	u8 data[118];
+> > > +} EPOLL_PACKED;
+> > > +
+> > > +#define EPOLL_IOC_TYPE 0x8A
+> > > +#define EPIOCSPARAMS _IOW(EPOLL_IOC_TYPE, 0x01, struct epoll_params)
+> > > +#define EPIOCGPARAMS _IOR(EPOLL_IOC_TYPE, 0x02, struct epoll_params)
+> > > +
+> > >  #endif /* _UAPI_LINUX_EVENTPOLL_H */
+> > > -- 
+> > > 2.25.1
+> > > 
+> > 
+> > 
+
 
 
