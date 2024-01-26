@@ -1,63 +1,63 @@
-Return-Path: <linux-api+bounces-687-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-688-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C104383DE1E
-	for <lists+linux-api@lfdr.de>; Fri, 26 Jan 2024 16:58:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 905BE83DEE4
+	for <lists+linux-api@lfdr.de>; Fri, 26 Jan 2024 17:38:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 791C72823ED
-	for <lists+linux-api@lfdr.de>; Fri, 26 Jan 2024 15:58:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 47FC228A845
+	for <lists+linux-api@lfdr.de>; Fri, 26 Jan 2024 16:38:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 734A81D531;
-	Fri, 26 Jan 2024 15:58:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23ADE1D6BD;
+	Fri, 26 Jan 2024 16:38:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=memverge.com header.i=@memverge.com header.b="XG7svLqJ"
+	dkim=pass (1024-bit key) header.d=memverge.com header.i=@memverge.com header.b="GCHV494j"
 X-Original-To: linux-api@vger.kernel.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2075.outbound.protection.outlook.com [40.107.244.75])
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2079.outbound.protection.outlook.com [40.107.93.79])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC90A1D524;
-	Fri, 26 Jan 2024 15:58:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.75
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E78D1D545;
+	Fri, 26 Jan 2024 16:38:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.79
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706284686; cv=fail; b=ZmHKG9IjbZCn4ClllhYb4hEXnxdw4dpovPaW2+9YG1eFProG8x5dnFfzARH0Fyc2zQERm9UZi6LKXtcTNj1Rw62aXMu2EtNRxQWjZ2Z7nmGJH6P01eCvpJQPtoRlh2yUoZjY11KRDVqoCH9AWoZ0mqYXsJSG9Pr4p7XqBM/JZUM=
+	t=1706287096; cv=fail; b=t2F4qyKf8tslKKF22k31/rz5pFz7pYDQIBdxX1dA1U4Iw6B1LLEEljoJDu10j9uJRE8G1gfPRKJ3jt7xJNDppqFgO8eEZLcZAmJtNCaVFqLk+3EdyHgEJxDRBiWjGp+jbBo/Hd1VzPCkkjWQgAQ5v1MuI4k3KZfhphIpIgFlViQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706284686; c=relaxed/simple;
-	bh=lYcOliWRmbP/1ltfOlNR5RIqg8of5cYX81dLNWtLlDE=;
+	s=arc-20240116; t=1706287096; c=relaxed/simple;
+	bh=25RQDc0+dCvtN9XR5hMskUU7VDhwvLPiI+HpQ2qMVQk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=Nh/pIM3S2wUn2Bl8mSuibOTW5kw+EJrHkbEHKOGpD358Bv9cZYf+qAmZEYUWtaJEYZU3cH38fPNgYrCTaaqygRjIiSv2YOD6glLcZoT8veg5pYmQyuZaYmKz1swQmLYG7a5t+lpxxhdHXE3wnRG1FJSTdWv6BS+gw7KellCbwR0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=memverge.com; spf=pass smtp.mailfrom=memverge.com; dkim=pass (1024-bit key) header.d=memverge.com header.i=@memverge.com header.b=XG7svLqJ; arc=fail smtp.client-ip=40.107.244.75
+	 Content-Disposition:In-Reply-To:MIME-Version; b=tCrR9XhNS599NzSo+m33ibGInVFqn7H8nHNV8rA5o07FVTQGgvSAC+jwg4cxI4Sl2eW4m27XTKP1pRg5BzceSlm3R8XNxh2jeMUGLvN9dUm3o91SU7XxC9MIE0x/D910IPF4lSUKRsr4MWQDZCBh3wS+TSjYYshHWP2eCa+Ych8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=memverge.com; spf=pass smtp.mailfrom=memverge.com; dkim=pass (1024-bit key) header.d=memverge.com header.i=@memverge.com header.b=GCHV494j; arc=fail smtp.client-ip=40.107.93.79
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=memverge.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=memverge.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LHLxqprvVE02iUMSoN1G9ZqPgsLX5pcepiZfeVsXJA62Fjq2Cf4wVgajZHFycm3lijmMScvPdQ4hwJUE+CwLkb1NGX3B9zZ1D2ExAHMxqpQvQfDjjB7i3dutAVYJy6c7MoeZUr7VBywCmexsHUqv94+CLnwjodganp432h2tV9E/vXciRkNXmmavAy/LYNDLCmV2sLKfWQNHcvlze+kSxnSIau4Sfxm9ZMxHr9GSF3PeDmY/2WSz8EE/cZDiHdf3NynO7DFhZfbNqjhX3uraE3Xe/uTt6pEXCXallrYSVVY0pdyxnKje7Tdk5GcSFHsuGn8x+69qqNrHnTwvy09JqA==
+ b=TRd1+SywwMuQiYLpLiDm3SiXSgxlxohD3lzqvhtVp0KBMIgin+3im8AGP35HySinAZ8RGOhYgIS4CpW8r4aSMkaGQsA/Xgr6LENFdMF5E9l7DBY8re6z1TAHFIl6YkovKPUbquhlmJ/YLVmETUlZHBuWmAjjvJmJ1KtVbnwim2H61B0vYpgNAg9XQsM8cKO6JwMXt3pkja/RKBrxomptkRxACqO7QYg+JfvKFtRzgt3TmAlU4w7C9Lw4eGfIbmZ1RFwH7gUI+kKLROTUdrG4+CDO6d+CnMIhyJ8ajHAvYYdh1la4zsgQC6CIGNga1WxpSOjIgQ89aSTpr3cQM6Hs1A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pb130topw67USQiscNpzmFuEhJSAJxamPy+hXIECiUE=;
- b=HWaz9dnEQFT8/j91FQTcgWn+5ol9eJ+KnBNwrp/6Qms27O3vhGOi2gaFIX7pw9/v6plrRmiLT8+UpcPCCKJqhFeUigqPJtXn7xSfUIUTzy16whGoPLYnmF8qDt2WmjJlEPFiYM9Ywng8z7nukCt/zlF2zoIpzA2sfn4/WUXIZV0A0qq88zIe7n+4GcNNfscTBvarhQxrG1Gv2rfU0d/9Sjxe9YldEeOGDA+nXFeWSaM8pHrVoRFLpZVmjH2K3qR7ZOjgZK2R7KVD3QIlLV/wgBJyaKhke8VVL3TfPv8saeuNOxhRTdjCLAF0BabN2iARacbuBidWDcf4KW23Rcbycg==
+ bh=uyvE83uNCyl5GXlZUT2iW4d834QAQmbuEb0YkKBEjWw=;
+ b=nvaLV9k67y+XNKQ+lpVOR/Q4nh7CXZAsW9cKBpB27/qOt9xDc3Ng61jxnQdecy/mSbeldMmw1T8EIiIy1sLrq1R3BE1bXHFOAyW4i+09i+32w8wFjEBOGHJwEgWRNIc7vU984ajLV4k3bSjFvdCcfmxrKFxBFolLbXWmczOy2GpD3UDGRsBb0BZDSuWBxRUXSQEyrv8HZVm3pUzFnxV5w6AiroVGXCN89Px4LT03/wg76Tss5xiuvugShDW5FrmzJZS9vi0uesb2vOeUcfvu3IeDBXjSgMeaRNrp+Xj1fmi0SQEw3aXBg3cTRjLOs2uS3OYGV71uoG+hl+h4xW6RHA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
  dkim=pass header.d=memverge.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pb130topw67USQiscNpzmFuEhJSAJxamPy+hXIECiUE=;
- b=XG7svLqJ6gqCWA4/lyixVL3feOeUaP7w/ihv9NP6W/HMGaO9L1dLg2cexDjJlUxD+vhsh7DsQHhw3Hk3VYhtvbZN8KVb8fRsBDZLZoO6jtSU+c1LCaRA0dQOC8YI+XV+30Nnlg9qrn0oYTgcF2rIg7xB7kZOmp3CvXr56SVW9qs=
+ bh=uyvE83uNCyl5GXlZUT2iW4d834QAQmbuEb0YkKBEjWw=;
+ b=GCHV494juis3lREmlSvGzEalF5txu3B7kDKFydUu6+oJhnpRYW6MCEh4l3JGRY9vgEdLLGJb/OSJ1oA1b8PwKvuJzqVRcTTsqUj+ZsdqqgEMbgomBSl4a2d+aiom0w1x7Pz4bGP7L61cU5EZaK6mRIBSOd14eVmzvQlaIus8JOs=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=memverge.com;
 Received: from SJ0PR17MB5512.namprd17.prod.outlook.com (2603:10b6:a03:394::19)
- by BY5PR17MB3970.namprd17.prod.outlook.com (2603:10b6:a03:21d::16) with
+ by MW4PR17MB4537.namprd17.prod.outlook.com (2603:10b6:303:ba::12) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.27; Fri, 26 Jan
- 2024 15:57:59 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.26; Fri, 26 Jan
+ 2024 16:38:11 +0000
 Received: from SJ0PR17MB5512.namprd17.prod.outlook.com
  ([fe80::7a04:dc86:2799:2f15]) by SJ0PR17MB5512.namprd17.prod.outlook.com
  ([fe80::7a04:dc86:2799:2f15%5]) with mapi id 15.20.7228.023; Fri, 26 Jan 2024
- 15:57:59 +0000
-Date: Fri, 26 Jan 2024 10:57:51 -0500
+ 16:38:11 +0000
+Date: Fri, 26 Jan 2024 11:38:01 -0500
 From: Gregory Price <gregory.price@memverge.com>
 To: "Huang, Ying" <ying.huang@intel.com>
 Cc: Gregory Price <gourry.memverge@gmail.com>, linux-mm@kvack.org,
@@ -68,19 +68,18 @@ Cc: Gregory Price <gourry.memverge@gmail.com>, linux-mm@kvack.org,
 	vtavarespetr@micron.com, jgroves@micron.com,
 	ravis.opensrc@micron.com, sthanneeru@micron.com,
 	emirakhur@micron.com, Hasan.Maruf@amd.com, seungjun.ha@samsung.com,
-	hannes@cmpxchg.org, dan.j.williams@intel.com,
-	Srinivasulu Thanneeru <sthanneeru.opensrc@micron.com>
-Subject: Re: [PATCH v3 3/4] mm/mempolicy: introduce MPOL_WEIGHTED_INTERLEAVE
- for weighted interleaving
-Message-ID: <ZbPWf9HbUNA1MELh@memverge.com>
+	hannes@cmpxchg.org, dan.j.williams@intel.com
+Subject: Re: [PATCH v3 4/4] mm/mempolicy: change cur_il_weight to atomic and
+ carry the node with it
+Message-ID: <ZbPf6d2cQykdl3Eb@memverge.com>
 References: <20240125184345.47074-1-gregory.price@memverge.com>
- <20240125184345.47074-4-gregory.price@memverge.com>
- <87y1cclgcm.fsf@yhuang6-desk2.ccr.corp.intel.com>
+ <20240125184345.47074-5-gregory.price@memverge.com>
+ <87sf2klez8.fsf@yhuang6-desk2.ccr.corp.intel.com>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87y1cclgcm.fsf@yhuang6-desk2.ccr.corp.intel.com>
-X-ClientProxiedBy: SJ0PR03CA0196.namprd03.prod.outlook.com
- (2603:10b6:a03:2ef::21) To SJ0PR17MB5512.namprd17.prod.outlook.com
+In-Reply-To: <87sf2klez8.fsf@yhuang6-desk2.ccr.corp.intel.com>
+X-ClientProxiedBy: BYAPR07CA0061.namprd07.prod.outlook.com
+ (2603:10b6:a03:60::38) To SJ0PR17MB5512.namprd17.prod.outlook.com
  (2603:10b6:a03:394::19)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
@@ -89,152 +88,131 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR17MB5512:EE_|BY5PR17MB3970:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4e7161fa-f726-433c-28db-08dc1e8791d7
+X-MS-TrafficTypeDiagnostic: SJ0PR17MB5512:EE_|MW4PR17MB4537:EE_
+X-MS-Office365-Filtering-Correlation-Id: 88dba959-1831-475e-58f7-08dc1e8d2f1e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	yFnOD0sZD5ARSnVqreV3OnHDWE3YkWeHs4AVsTt52rhhLHDwvkfNaHZ5ok+Af8fQJrkz8h+3cqDTDLm8ueVDK5NjBFUQZrkc9p92AG1lTNGF5iVZr9gtAFG+wNreuiGGernUKUe1eFZswA3JrYTmW9YxalY2Dj1RgTV/xJYocrXGTRCOe8JDR9h/vuUh0uyZ5Dc1PGYoJcOlbUrFhlDrGZwWMMUrj/19YxDv8L1Lb+ghYEf7MTNRQXmF3XFx0j0Vja8sqXLB1vOOIEy9O48C1/Z66fyveftaoqroBujMaOUDcER4vY3B9SkdxMWjKViev5ZF9+5Z4WWY84FNVCsh17TM/9/Nttl1NTAR6zaSiIxLVuGKqwyaHarzh24HXgrRzT+VZTH0LB/VK8jAKK6KdVP9o2wkutM6e4Qfw0YiBxlPkdlwE2ZcZC9Ywuw/36sRLW86uSvnlQhKKoRhP8QtyKA4XJ2W5O0qmnvwTq4acMQ0SllltroAnZz0zj+LlLnhNrZDUPZTQksykJe+Fuzm/wTiCZsP2YuwTamHZResMYTQhK4+Rk8UMKL/I8yIYuPcqIhAqZ+2ndFmeZFC/S4NufQQI9b6bkAVDcmE5sHx8Xs=
+	kNzSFZE5u/LPp2srox+xt858t1kbyugRByX757vFZO13lPGXTHfKPPnKMzLYXQHA1kgf59wkisqjVDJVi2+lrJzyQkzTYpnl/WZGUwj3IKt/pv7zXMrRC6GpbW3YNw2aCr0500UnCgiF1vrb6wKznTbAbCqinSPwQ3y06en2ZK7QT22MUcnEyh6qFuE1dJB94Uafo2plDCdzEGzSNqybRD4eIVJtkA8kJ922VtPkIa8hOW+P5+Yib24TBrwLmQD/oyBeQ1f/Z7cbujGr7S5WqtZ4aq/eMiUumKUD5QC5d5k37llYTEyYN23xvf4l2Pv6chx3vmyqV+6FaH3iUGvCvebALLFUOugyRLu11FSnZ6gwmWTzUSe4sO1MSUdnAtLLnaf7uXr1u5IiexxGA2uP3HVwYgyKzJ5XOWLfyDMZAea3CMFH1PqHc++0H153lWXKv3TUizKArEM6FvattYC6cbzswPO86YUbeKTZwiVed6sBTBOo+lfxyOgs5DxuqvgijDPIyRgRYSqmKK5RGGM8d9VOPPFwyd5oCNjBUWaZy2+cw8P+u9lFrcc2nuu1Abn9Z2e817RgielLTybKGuTVl/ScjABeNF+/hnRIs91LkIo=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR17MB5512.namprd17.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(346002)(376002)(136003)(396003)(39830400003)(230922051799003)(1800799012)(186009)(64100799003)(451199024)(83380400001)(36756003)(2616005)(86362001)(4326008)(8936002)(8676002)(44832011)(5660300002)(38100700002)(26005)(316002)(66476007)(54906003)(66556008)(6916009)(66946007)(7416002)(966005)(41300700001)(6506007)(6666004)(6486002)(478600001)(2906002)(6512007)(16393002);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR17MB5512.namprd17.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(396003)(366004)(136003)(39840400004)(346002)(230922051799003)(64100799003)(451199024)(186009)(1800799012)(478600001)(6486002)(6666004)(2616005)(38100700002)(26005)(36756003)(41300700001)(83380400001)(86362001)(6506007)(6512007)(44832011)(8936002)(5660300002)(7416002)(8676002)(4326008)(2906002)(6916009)(66556008)(316002)(66946007)(66476007)(16393002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?YrH88WMf52Ju+zKKucgLzly9lNONU4Ol3zjv1fJLnoZ5PuA/i1EquPrjwi+p?=
- =?us-ascii?Q?iD7ieJvRcO7aSUl4NETyI9R9dwB6AGqRoRZFL9+p653bVIwTYOu79TU5WTmb?=
- =?us-ascii?Q?tU7Qh52t3E6aYa1dolyD8JdtH+OZiAwe7cC3LvbOUMU3Iysbd7AwZqcp8gup?=
- =?us-ascii?Q?mCOWwcajDH6NUXAEuNbM7PCoKskIax3c7ZlwqBkHtk/XbcTdGHe47Rjz2TGG?=
- =?us-ascii?Q?7hClHtbiilFq5JZ0/E/KkR+qGMhqqgvBFeGIMF9py35uyTRyj+VHQ2ch3O/R?=
- =?us-ascii?Q?LeP4mR0ztBHRVbpzEymX/Eh2f7G/C4zxRivTtRM1zdKMo4u/seJy/ZBBDord?=
- =?us-ascii?Q?5k8y7wKph9AP6d4AVNT2gqbj90ktLiT/Nf7VctgZ66NX1S1GqENJyF1mALOS?=
- =?us-ascii?Q?CWNe/Uw0s3N6EID1B93cFdtppA/C53pQevv+gIqOCNbXpLX9CJNuJfnTe3a1?=
- =?us-ascii?Q?2H8bp5IRnh4xc9e1CnsdAecPrfEVyfJopZu36q9kPE++UZZmesqTGIFtDMou?=
- =?us-ascii?Q?xjW+B9+mIpVCONDWKCjW9wwVDs64XOoLYG6T7sCqsWf9+5mZyT06vo7PWVOL?=
- =?us-ascii?Q?vYCDNSByBKABYkVhz8+81zNSUTDb9rhdHmoX0oDqFUOCzYP7rt6oXjfN1GWN?=
- =?us-ascii?Q?wDl7zwn1nfuauF0JE3cOXFn8SYy0sE+rSENcN6U7HcXTyHRvSIALjF862kFz?=
- =?us-ascii?Q?qzwzIY2D9qRTr+Cu9AkvT0ddNwBOTtBh3GfZqe1TZQ63oHpx4+ocSDUpZ681?=
- =?us-ascii?Q?n2M5+rsUZ05jJrqfPzK1iEnctLK0OPAqcFOGWB3HR/jPaI5XVRlBjTzngwDU?=
- =?us-ascii?Q?ehnn7m4ypvRHcqVa5FspRcQ5RGXbVomp6Tf6OJ3PrsE7Ujtf3XB9bh+qii1J?=
- =?us-ascii?Q?OO7OtMLYsCtUhK92niiAqr5+7L5tW5P+iSMMX6l3G3T7yFK7diZiEhR4MhRL?=
- =?us-ascii?Q?4FK0ItQ5YO/H4LyECjZZIvTSW/O+nRZEXskAuy0D2niDI4A8EW5KrkbWnQqB?=
- =?us-ascii?Q?7HxxBlEJce4j9xdJqo+1BQewkVjGBl1EBhRB0nvNs03sy3b4FyFfw/whRE7A?=
- =?us-ascii?Q?0bq11UqrT6+JIzjNyyOSQgOgZYK0rehvmZJIbQ5X94S3IFiw5TbcIlsjVmlF?=
- =?us-ascii?Q?2Z+/C7qA4f8MvswSxRGZdTfg0xAXwMK6JjI+U1Yy7N3V0os+X9Rtl6hwNu88?=
- =?us-ascii?Q?sR/NYv17TcdoC/Z05c7btaGr71Wnsi1D+Snhyf8mIyB9TLebDDIknZ2QupyA?=
- =?us-ascii?Q?YEOV449fweAPShMkBxx+0wSvYlBgfdctkwJWIBAdDSOUOS3K3DVuyNwJgVvC?=
- =?us-ascii?Q?Y5hXvbMAt8eZadEqHHMUB+8MbsaAdZd6Ra82uPNQQais7C5KX/LLosuVAua1?=
- =?us-ascii?Q?ettMWKMJmmkP12ZSCbjgAmmf3PnfP7hv9WpCsUgP8DMolhrcXPk0V3o/9fKX?=
- =?us-ascii?Q?s6zLpf+/g/RUs5WYG+3O8orpB8n855yZwIokcN1dXFMBoHTlzS7LtZwBoiu2?=
- =?us-ascii?Q?YHO+T6yW+TGtdCepforgr22/OaOZn8PTJ6vsJK7Q7wvdjgJ2FG5/Ebyfh3rs?=
- =?us-ascii?Q?3qkM2y2Qk0DJF4xtaiYben45TN7RQdLMDV1fnCW0xr/aoDqxXuVzfkxMZ5mj?=
- =?us-ascii?Q?qA=3D=3D?=
+	=?us-ascii?Q?Z+WugfFt/IfMKlE48oWzkeEtFD3c73JgpgUGNff7+eGpKhwtHRXjpWajW73O?=
+ =?us-ascii?Q?NANm9o/LnfC2mZF3N92Hf5XNA4J1xQfKkvogxwGfE8yDWcbxvh7kxLnJMYuh?=
+ =?us-ascii?Q?uIqz1LGm+yXJj+TF9ZdgArTBXf8hD6GhyXq3dJT+V4xWhhv9WpppvyHvJ8rM?=
+ =?us-ascii?Q?A1hs9sI5mnXPP7+8GyKnxX8BcG7ALGY6f92yz0RfGe+wm67WFoIGqr6aHj8T?=
+ =?us-ascii?Q?gwRObPT8FT2mndhdqgd7Htzk9GyDmFIUXeMqd+xdcOyAQ+Ph2oetcl9fJnuF?=
+ =?us-ascii?Q?8vQT+WlBNRbVfBSgkyKUyYfYiYHJAzv4WYcWXy4b9vFwoB9CJUr4fHhzAagP?=
+ =?us-ascii?Q?U3pmZnZslE8FG9zHHkl3y6ZpAAPKqFXJgc0Llu/COGUt75vmGPDjqsDjuovl?=
+ =?us-ascii?Q?IqIkJ3OeBs0Kai+KQ20rt7vx64T6+plFztptNC/grdpnXCsh8nVB4JbQ8nmX?=
+ =?us-ascii?Q?39cceuxS9roVStwLbHqqFu30AhW+byzeO2wcTtdLg/ScgSns73DjsPor3H5h?=
+ =?us-ascii?Q?uH+0LJ+TqP5iCjlOza3VarlM71kArvghS+9n6zYKCuJZYGu5NkrBeqxHzHqs?=
+ =?us-ascii?Q?U+Y5FlpwicEJUC1g3OfJ8MtFEROTmIG1qAO6vjYOD++YqjtneXY3plI6bYn+?=
+ =?us-ascii?Q?NFfwTWfIqQSU27wUE0oZi9xkpMMbLfA/GTIoVXiJA+F9lSnEmrPbhHUK4Bwq?=
+ =?us-ascii?Q?egQ1DdycELrvVt3l64HfxwnA2mih0kIJchCWZQU5UuO3pQyWUGhnHp98kOH7?=
+ =?us-ascii?Q?ncjxgHtvJUobjlkGEDGUAAKI3wqYn59bLzuktJODl1VPuQ0H36TDrG6qPFzS?=
+ =?us-ascii?Q?5gAD8eyfOao79A8fWZWO4aMme2grSLm2w6N2nZCXGbjZnRdaeYiR4J2jC0Qc?=
+ =?us-ascii?Q?3YSYXkspFHrRXNim310Hp0H2KNl/fy/vmagjM+qCicR0Djs7CJlf+O0HaIEH?=
+ =?us-ascii?Q?/azu8Xnd5SEcMHvo99hwFc+JjVfqHhWxt3kpwd8zI4gA7WBcy7aa7qtIP0Hh?=
+ =?us-ascii?Q?VBBJ5vinwZv0joLbJrjt0skXERUsbbmYzwhZLQWLoLFiLCDqwkt49j0noGVv?=
+ =?us-ascii?Q?3+IpWS4djnaVz1/X/s+/Km4DAxjka9473JV86W/X31WyK/WffujKZMEtAMU7?=
+ =?us-ascii?Q?LTamtTCdAIi4SzDoyemi28qkly4Voxxa/YLtRMd97VCkS5Wq1ijoiAgDFbVl?=
+ =?us-ascii?Q?0G8hbqjqLNBmbVYctFTGxMuyTlzWWO59Zqgk8IeaiG9qEHd0SNM7AjXC/Izy?=
+ =?us-ascii?Q?qZJB9V7YljVLclEfCQVg230h55I022ybpX6ZFB+yUFIKP6flwMCxp8qcLsHl?=
+ =?us-ascii?Q?ZGnPRPupQJxLCZ3js0wP4Ts3BxrgfvT4aIBIEgse5FXz2Qj2+xI3TTx9HuBL?=
+ =?us-ascii?Q?f7dATMb8Yu14wWTeiGZESfqWZHCuvCs99Rpdl7XDqdviQD31ROgrLCEiBPm9?=
+ =?us-ascii?Q?Ld/4peZ0EN7428dOdaO81I4N74x3gJPex7EcZX1MXrAQJY3Knw3vwX3QeOsV?=
+ =?us-ascii?Q?5UJWgB5eXTkNm4SjMjf9aFoW0o8/eJxQl4OSHzzg4zsNmVyiapqtaVwKb6ar?=
+ =?us-ascii?Q?MahM/VLMuHio+jsNRxfEUXvyiBC3eCT8PbuErewAAMQdonhXMHKba6an/ULi?=
+ =?us-ascii?Q?pg=3D=3D?=
 X-OriginatorOrg: memverge.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4e7161fa-f726-433c-28db-08dc1e8791d7
+X-MS-Exchange-CrossTenant-Network-Message-Id: 88dba959-1831-475e-58f7-08dc1e8d2f1e
 X-MS-Exchange-CrossTenant-AuthSource: SJ0PR17MB5512.namprd17.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2024 15:57:59.7590
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2024 16:38:11.0983
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DiiCuQHjpP1DUAoDCQw20CD2iYp+gRc4MVkMi9aHSDpsua+ITfw4kKE1J+0eYHL0D7YW/pjm/3RFlFcP+tf0ujaGRVK2Imyq8nrijqRR9vU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR17MB3970
+X-MS-Exchange-CrossTenant-UserPrincipalName: oe4gaOmOY38dGHbGizVvHnUEnlx5c5PGJs5QEk4eAB83HzK99r3R3oWxVRq/rA2PbLLxLWx3rYVWEwo7FkGsp9tKNDujiBPEZCSbiPmeOQo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR17MB4537
 
-On Fri, Jan 26, 2024 at 03:10:49PM +0800, Huang, Ying wrote:
+On Fri, Jan 26, 2024 at 03:40:27PM +0800, Huang, Ying wrote:
 > Gregory Price <gourry.memverge@gmail.com> writes:
 > 
-> > +		} else if (pol == current->mempolicy &&
-> > +				(pol->mode == MPOL_WEIGHTED_INTERLEAVE)) {
-> > +			if (pol->cur_il_weight)
-> > +				*policy = current->il_prev;
-> > +			else
-> > +				*policy = next_node_in(current->il_prev,
-> > +						       pol->nodes);
+> > Two special observations:
+> > - if the weight is non-zero, cur_il_weight must *always* have a
+> >   valid node number, e.g. it cannot be NUMA_NO_NODE (-1).
 > 
-> It appears that my previous comments about this is ignored.
-> 
-> https://lore.kernel.org/linux-mm/875xzkv3x2.fsf@yhuang6-desk2.ccr.corp.intel.com/
-> 
-> Please correct me if I am wrong.
->
-
-The fix is in the following patch.  I'd originally planned to squash the
-atomic patch into this one, but decided against it because it probably
-warranted isolated scrutiny.
-
-@@ -973,8 +974,10 @@ static long do_get_mempolicy(int *policy, nodemask_t *nmask,
-                        *policy = next_node_in(current->il_prev, pol->nodes);
-                } else if (pol == current->mempolicy &&
-                                (pol->mode == MPOL_WEIGHTED_INTERLEAVE)) {
--                       if (pol->cur_il_weight)
--                               *policy = current->il_prev;
-+                       int cweight = atomic_read(&pol->cur_il_weight);
-+
-+                       if (cweight & 0xFF)
-+                               *policy = cweight >> 8;
-
-in this we return the node the weight applies to, otherwise we return
-whatever is after il_prev.
-
-I can pull this fix ahead.
-
-> > +	/* if now at 0, move to next node and set up that node's weight */
-> > +	if (unlikely(!policy->cur_il_weight)) {
-> > +		me->il_prev = node;
-> > +		next = next_node_in(node, policy->nodes);
-> > +		rcu_read_lock();
-> > +		table = rcu_dereference(iw_table);
-> > +		/* detect system-default values */
-> > +		weight = table ? table[next] : 1;
-> > +		policy->cur_il_weight = weight ? weight : 1;
-> > +		rcu_read_unlock();
-> > +	}
-> 
-> It appears that the code could be more concise if we allow
-> policy->cur_il_weight == 0.  Duplicated code are in
-> alloc_pages_bulk_array_weighted_interleave() too.  Anyway, can we define
-> some function to reduce duplicated code.
+> IIUC, we don't need that, "MAX_NUMNODES-1" is used instead.
 > 
 
-This is kind of complicated by the next patch, which places the node and
-the weight into the same field to resolve the stale weight issue.
+Correct, I just thought it pertinent to call this out explicitly since
+I'm stealing the top byte, but the node value has traditionally been a
+full integer.
 
-In that patch (cur_il_weight = 0) means "cur_il_weight invalid",
-because the weight part can only be 0 when:
+This may be relevant should anyone try to carry, a random node value
+into this field. For example, if someone tried to copy policy->home_node
+into cur_il_weight for whatever reason.
 
-a) an error occuring during bulk allocation
-b) a rebind event
+It's worth breaking out a function to defend against this - plus to hide
+the bit operations directly as you recommend below.
 
-I'll take some time to think about whether we can do away with
-task->il_prev (as your next patch notes mentioned).
-
-
-> > +		/* Otherwise we adjust nr_pages down, and continue from there */
-> > +		rem_pages -= pol->cur_il_weight;
-> > +		pol->cur_il_weight = 0;
+> >  	/* Weighted interleave settings */
+> > -	u8 cur_il_weight;
+> > +	atomic_t cur_il_weight;
 > 
-> This break the rule to keep pol->cur_il_weight != 0 except after initial
-> setup.  Is it OK?
+> If we use this field for node and weight, why not change the field name?
+> For example, cur_wil_node_weight.
 > 
 
-The only way cur_il_weight can leave this function 0 at this point is if
-an error occurs (specifically the failure to kmalloc immediately next).
+ack.
 
-If we don't clear cur_il_weight here, then we have a stale weight, and
-the next allocation pass will over-allocate on the current node.
-
-This semantic also changes a bit in the next patch, but is basically the
-same.  If il_weight is 0, then either an error occurred or a rebind
-event occured.
-
-> > +				/* resume from this node w/ remaining weight */
-> > +				resume_node = prev_node;
-> > +				resume_weight = weight - (node_pages % weight);
+> > +			if (cweight & 0xFF)
+> > +				*policy = cweight >> 8;
 > 
-> resume_weight = weight - delta; ?
->
+> Please define some helper functions or macros instead of operate on bits
+> directly.
+> 
 
-ack
+ack.
+
+> >  			else
+> >  				*policy = next_node_in(current->il_prev,
+> >  						       pol->nodes);
+> 
+> If we record current node in pol->cur_il_weight, why do we still need
+> curren->il_prev.  Can we only use pol->cur_il_weight?  And if so, we can
+> even make current->il_prev a union.
+> 
+
+I just realized that there's a problem here for shared memory policies.
+
+from weighted_interleave_nodes, I do this:
+
+cur_weight = atomic_read(&policy->cur_il_weight);
+...
+weight--;
+...
+atomic_set(&policy->cur_il_weight, cur_weight);
+
+On a shared memory policy, this is a race condition.
+
+
+I don't think we can combine il_prev and cur_wil_node_weight because
+the task policy may be different than the current policy.
+
+i.e. it's totally valid to do the following:
+
+1) set_mempolicy(MPOL_INTERLEAVE)
+2) mbind(..., MPOL_WEIGHTED_INTERLEAVE)
+
+Using current->il_prev between these two policies, is just plain incorrect,
+so I will need to rethink this, and the existing code will need to be
+updated such that weighted_interleave does not use current->il_prev.
 
 ~Gregory
+
 
