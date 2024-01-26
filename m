@@ -1,217 +1,167 @@
-Return-Path: <linux-api+bounces-678-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-679-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A54783D545
-	for <lists+linux-api@lfdr.de>; Fri, 26 Jan 2024 10:03:02 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 820A183D7C1
+	for <lists+linux-api@lfdr.de>; Fri, 26 Jan 2024 11:19:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 948E81F286B9
-	for <lists+linux-api@lfdr.de>; Fri, 26 Jan 2024 09:03:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A14111C2F8AC
+	for <lists+linux-api@lfdr.de>; Fri, 26 Jan 2024 10:19:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A62A5D8F7;
-	Fri, 26 Jan 2024 07:42:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B6A441C74;
+	Fri, 26 Jan 2024 09:42:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YniWX0MJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gJhFkcfH"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E0265D75B;
-	Fri, 26 Jan 2024 07:42:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 744E741C73;
+	Fri, 26 Jan 2024 09:42:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706254952; cv=none; b=RTJ+p+9GAzSnVCltgbVyFFgjoTa4UV1vvHenjGlDDEOBFMCZmiLZcaVRU9/n0+i/CQPyNeuBwbioWmOrFZ0Por9JGwXDJQxLmtyrXXGtddXUOmsasDxXoPzObhagx1tVdHfWiOyWVKlfGakXyzl40mjOba0RQENEVKhrxHYrNrE=
+	t=1706262174; cv=none; b=VZL3eUVBAhKIHfhpIG4Nf3UjkSLoUtcL1o5jA2Uraf3O+OWfgSglgJuEy95W0bEfdRtsaBtVNUge259KQkICgVcibw0myKtHUG3QQaohiZ24fhvDoQDCyXjLavSPlk7bW6KlyyZcjJT2x9G8qWT6M1DSxkORgR4+EASStzlLtwE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706254952; c=relaxed/simple;
-	bh=hB+/FDgOotOkMi7XZ4G7xO3oHXwb0zbrKyD4k6wFPFI=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=dTbxxbsISoxm4H2Irvd7FUyXML0aaah9Em0niO6bi6BgFVk2bBttHzYGr+vUeIXNEGSJWVONacyDE4iAOFAuJFQYEAafjSeIX8r4IZwK0kMzmxyZlRiHF06PZbLIg9BwjkSL5F/P264Tk2yGJI+D4O1a3WIijL9DxJWBcT15dwU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YniWX0MJ; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706254950; x=1737790950;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=hB+/FDgOotOkMi7XZ4G7xO3oHXwb0zbrKyD4k6wFPFI=;
-  b=YniWX0MJzfL6rPSqfBzYn5DGGI+WgQnCOskZrSKhX69BfG0Xg5KmuLK+
-   v6crtK8k/9N1u7geJa1cJav/JTp4m0K0jpQU5q39Z6+lFiU6J2WL5pg+u
-   O94Gn56jtcaE20OJZ+pUS9yAUZR76LGy7IEpBdpudZrCBfQM2bKv7RxZM
-   Yi1LpJJ/DOfRjXtbX/6l8LGy88wWiNfWnbiKKEwFoMwiNDp6YvXjoeKk+
-   lBELNnn3y3C/LjM80bUu4ISLdP3WcaDS6NwHapvzlzRLOWMa1jmgkKsBp
-   d6VB+XIsanGypc8q+EBZ4L5WTgOCqhe9KMPDJDlxC8b6xDORgUU4IbdUK
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="2247860"
-X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="2247860"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2024 23:42:29 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
-   d="scan'208";a="2523694"
-Received: from yhuang6-desk2.sh.intel.com (HELO yhuang6-desk2.ccr.corp.intel.com) ([10.238.208.55])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2024 23:42:24 -0800
-From: "Huang, Ying" <ying.huang@intel.com>
-To: Gregory Price <gourry.memverge@gmail.com>
-Cc: linux-mm@kvack.org,  linux-kernel@vger.kernel.org,
-  linux-doc@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
-  linux-api@vger.kernel.org,  corbet@lwn.net,  akpm@linux-foundation.org,
-  gregory.price@memverge.com,  honggyu.kim@sk.com,  rakie.kim@sk.com,
-  hyeongtak.ji@sk.com,  mhocko@kernel.org,  vtavarespetr@micron.com,
-  jgroves@micron.com,  ravis.opensrc@micron.com,  sthanneeru@micron.com,
-  emirakhur@micron.com,  Hasan.Maruf@amd.com,  seungjun.ha@samsung.com,
-  hannes@cmpxchg.org,  dan.j.williams@intel.com
-Subject: Re: [PATCH v3 4/4] mm/mempolicy: change cur_il_weight to atomic and
- carry the node with it
-In-Reply-To: <20240125184345.47074-5-gregory.price@memverge.com> (Gregory
-	Price's message of "Thu, 25 Jan 2024 13:43:45 -0500")
-References: <20240125184345.47074-1-gregory.price@memverge.com>
-	<20240125184345.47074-5-gregory.price@memverge.com>
-Date: Fri, 26 Jan 2024 15:40:27 +0800
-Message-ID: <87sf2klez8.fsf@yhuang6-desk2.ccr.corp.intel.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	s=arc-20240116; t=1706262174; c=relaxed/simple;
+	bh=iU+dhx4uwlWJ+Zksl8w2gW5ZDavTpu20u5Ubln+mkOE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=B6wew9m2L9W8Ro4TeUXP2l9VQYHDxE6jMUBW2d/2CK1e30R6loRCEz+LVV7TRCqFbOemvfG3zatL5r7Z2sc6A88Mv6N67KWlAToIteu10tKA31bhbEZtAy9VzKyZJetawWNFzFGGnaIkHsSIVUzqsfQb9ibEIkAaqTrEWWxfadI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gJhFkcfH; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 152E2C433C7;
+	Fri, 26 Jan 2024 09:42:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706262173;
+	bh=iU+dhx4uwlWJ+Zksl8w2gW5ZDavTpu20u5Ubln+mkOE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gJhFkcfH5BAvpyB8BL40QECbmigZgT+0KVZRaZKcTaNK1vl+8xgwUNJ1FWwEgeoed
+	 t0iD8R8HxVOG4XLbtJZ7rJzvXym5241fE8MWIQJR/liF44Sjn0pWCY7Ilwd4b2cnY2
+	 5qbedr/7e+WCaZwO0wDCitPKaHrMuaxSdNfNLCYhpHf2Bb2/auVf5vUP3SkYISXamG
+	 xsy57pHzr/i57HYgIklfpRbI+V3msv8PDDZWqZ5vmoO9bvKkkJo2ca9KJoYH2CEn9j
+	 A5Hq+A638AI9Ml4C5vl4KbA20w2rZWZJjBAsLc4XYwvR3pecazLqwSiygkH8uHw0q8
+	 je5q3xn8Lpobg==
+Date: Fri, 26 Jan 2024 10:42:49 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Oleg Nesterov <oleg@redhat.com>
+Cc: Tycho Andersen <tycho@tycho.pizza>, linux-kernel@vger.kernel.org, 
+	linux-api@vger.kernel.org, Tycho Andersen <tandersen@netflix.com>, 
+	"Eric W. Biederman" <ebiederm@xmission.com>
+Subject: Re: [PATCH v3 1/3] pidfd: allow pidfd_open() on non-thread-group
+ leaders
+Message-ID: <20240126-lokal-aktualisieren-fef41d9bce9f@brauner>
+References: <20240123153452.170866-1-tycho@tycho.pizza>
+ <20240123153452.170866-2-tycho@tycho.pizza>
+ <20240123195608.GB9978@redhat.com>
+ <ZbArN3EYRfhrNs3o@tycho.pizza>
+ <20240125140830.GA5513@redhat.com>
+ <20240125-tricksen-baugrube-3f78c487a23a@brauner>
+ <20240125175113.GC5513@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ascii
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240125175113.GC5513@redhat.com>
 
-Gregory Price <gourry.memverge@gmail.com> writes:
+On Thu, Jan 25, 2024 at 06:51:14PM +0100, Oleg Nesterov wrote:
+> On 01/25, Christian Brauner wrote:
+> >
+> > > > When it is reaped is "mostly unrelated".
+> > >
+> > > Then why pidfd_poll() can't simply check !task || task->exit_state ?
+> > >
+> > > Nevermind. So, currently pidfd_poll() succeeds when the leader can be
+> >
+> > Hm, the comment right above mentions:
+> >
+> >         /*
+> >          * Inform pollers only when the whole thread group exits.
+> >          * If the thread group leader exits before all other threads in the
+> >          * group, then poll(2) should block, similar to the wait(2) family.
+> >          */
+> > > reaped, iow the whole thread group has exited.
+> 
+> Yes, but the comment doesn't contradict with what I have said?
 
-> In the prior patch, we carry only the current weight for a weighted
-> interleave round with us across calls through the allocator path.
->
-> node = next_node_in(current->il_prev, pol->nodemask)
-> pol->cur_il_weight <--- this weight applies to the above node
->
-> This separation of data can cause a race condition.
->
-> If a cgroup-initiated task migration or mems_allowed change occurs
-> from outside the context of the task, this can cause the weight to
-> become stale, meaning we may end using that weight to allocate
-> memory on the wrong node.
->
-> Example:
->   1) task A sets (cur_il_weight = 8) and (current->il_prev) to
->      node0. node1 is the next set bit in pol->nodemask
->   2) rebind event occurs, removing node1 from the nodemask.
->      node2 is now the next set bit in pol->nodemask
->      cur_il_weight is now stale.
->   3) allocation occurs, next_node_in(il_prev, nodes) returns
->      node2. cur_il_weight is now applied to the wrong node.
->
-> The upper level allocator logic must still enforce mems_allowed,
-> so this isn't dangerous, but it is innaccurate.
->
-> Just clearing the weight is insufficient, as it creates two more
-> race conditions.  The root of the issue is the separation of weight
-> and node data between nodemask and cur_il_weight.
->
-> To solve this, update cur_il_weight to be an atomic_t, and place the
-> node that the weight applies to in the upper bits of the field:
->
-> atomic_t cur_il_weight
-> 	node bits 32:8
-> 	weight bits 7:0
->
-> Now retrieving or clearing the active interleave node and weight
-> is a single atomic operation, and we are not dependent on the
-> potentially changing state of (pol->nodemask) to determine what
-> node the weight applies to.
->
-> Two special observations:
-> - if the weight is non-zero, cur_il_weight must *always* have a
->   valid node number, e.g. it cannot be NUMA_NO_NODE (-1).
+No, it doesn't. I'm trying to understand what you are suggesting though.
+Are you saying !task || tas->exit_state is enough and we shouldn't use
+the helper that was added in commit 38fd525a4c61 ("exit: Factor
+thread_group_exited out of pidfd_poll"). If so what does that buy us
+open-coding the check instead of using that helper? Is there an actual
+bug here?
 
-IIUC, we don't need that, "MAX_NUMNODES-1" is used instead.
+> > > But even if you are the
+> > > parent, you can't expect that wait(WNOHANG) must succeed, the leader
+> > > can be traced. I guess it is too late to change this behaviour.
+> >
+> > Hm, why is that an issue though?
+> 
+> Well, I didn't say this is a problem. I simply do not know how/why people
+> use pidfd_poll().
 
->   This is because we steal the top byte for the weight.
->
-> - MAX_NUMNODES is presently limited to 1024 or less on every
->   architecture. This would permanently limit MAX_NUMNODES to
->   an absolute maximum of (1 << 24) to avoid overflows.
->
-> Per some reading and discussion, it appears that max nodes is
-> limited to 1024 so that zone type still fits in page flags, so
-> this method seemed preferable compared to the alternatives of
-> trying to make all or part of mempolicy RCU protected (which
-> may not be possible, since it is often referenced during code
-> chunks which call operations that may sleep).
->
-> Signed-off-by: Gregory Price <gregory.price@memverge.com>
-> ---
->  include/linux/mempolicy.h |  2 +-
->  mm/mempolicy.c            | 93 +++++++++++++++++++++++++--------------
->  2 files changed, 61 insertions(+), 34 deletions(-)
->
-> diff --git a/include/linux/mempolicy.h b/include/linux/mempolicy.h
-> index c644d7bbd396..8108fc6e96ca 100644
-> --- a/include/linux/mempolicy.h
-> +++ b/include/linux/mempolicy.h
-> @@ -56,7 +56,7 @@ struct mempolicy {
->  	} w;
->  
->  	/* Weighted interleave settings */
-> -	u8 cur_il_weight;
-> +	atomic_t cur_il_weight;
+Sorry, I just have a hard time understanding what you wanted then. :)
 
-If we use this field for node and weight, why not change the field name?
-For example, cur_wil_node_weight.
+"I guess it is too late to change this behavior." made it sound like a)
+there's a problem and b) that you would prefer to change behavior. Thus,
+it seems that wait(WNOHANG) hanging when a traced leader of an empty
+thread-group has exited is a problem in your eyes.
 
->  };
->  
->  /*
-> diff --git a/mm/mempolicy.c b/mm/mempolicy.c
-> index 5a517511658e..41b5fef0a6f5 100644
-> --- a/mm/mempolicy.c
-> +++ b/mm/mempolicy.c
-> @@ -321,7 +321,7 @@ static struct mempolicy *mpol_new(unsigned short mode, unsigned short flags,
->  	policy->mode = mode;
->  	policy->flags = flags;
->  	policy->home_node = NUMA_NO_NODE;
-> -	policy->cur_il_weight = 0;
-> +	atomic_set(&policy->cur_il_weight, 0);
->  
->  	return policy;
->  }
-> @@ -356,6 +356,7 @@ static void mpol_rebind_nodemask(struct mempolicy *pol, const nodemask_t *nodes)
->  		tmp = *nodes;
->  
->  	pol->nodes = tmp;
-> +	atomic_set(&pol->cur_il_weight, 0);
->  }
->  
->  static void mpol_rebind_preferred(struct mempolicy *pol,
-> @@ -973,8 +974,10 @@ static long do_get_mempolicy(int *policy, nodemask_t *nmask,
->  			*policy = next_node_in(current->il_prev, pol->nodes);
->  		} else if (pol == current->mempolicy &&
->  				(pol->mode == MPOL_WEIGHTED_INTERLEAVE)) {
-> -			if (pol->cur_il_weight)
-> -				*policy = current->il_prev;
-> +			int cweight = atomic_read(&pol->cur_il_weight);
-> +
-> +			if (cweight & 0xFF)
-> +				*policy = cweight >> 8;
+> 
+> I mostly tried to explain why do I think that do_notify_pidfd() should
+> be always called from exit_notify() path, not by release_task(), even
+> if the task is not a leader.
+> 
+> > Because a program would rely on WNOHANG to hang on
+> > a ptraced leader? That seems esoteric imho.
+> 
+> To me it would be usefule, but lets not discuss this now. The "patch"
 
-Please define some helper functions or macros instead of operate on bits
-directly.
+Ok, that's good then. I would expect that at least stuff like rr makes
+use of pidfd and they might rely on this behavior - although I haven't
+checked their code.
 
->  			else
->  				*policy = next_node_in(current->il_prev,
->  						       pol->nodes);
+> I sent doesn't change the current behaviour.
 
-If we record current node in pol->cur_il_weight, why do we still need
-curren->il_prev.  Can we only use pol->cur_il_weight?  And if so, we can
-even make current->il_prev a union.
+Yeah, I got that but it would still be useful to understand the wider
+context you were adressing.
 
---
-Best Regards,
-Huang, Ying
+> 
+> > > What if we add the new PIDFD_THREAD flag? With this flag
+> > >
+> > > 	- sys_pidfd_open() doesn't require the must be a group leader
+> >
+> > Yes.
+> >
+> > >
+> > > 	- pidfd_poll() succeeds when the task passes exit_notify() and
+> > > 	  becomes a zombie, even if it is a leader and has other threads.
+> >
+> > Iiuc, if an existing user creates a pidfd for a thread-group leader and
+> > then polls that pidfd they would currently only get notified if the
+> > thread-group is empty and the leader has exited.
+> >
+> > If we now start notifying when the thread-group leader exits but the
+> > thread-group isn't empty then this would be a fairly big api change
+> 
+> Hmm... again, this patch doesn't (shouldn't) change the current behavior.
+> 
+> Please note "with this flag" above. If sys_pidfd_open() was called
+> without PIDFD_THREAD, then sys_pidfd_open() still requires that the
+> target task must be a group leader, and pidfd_poll() won't succeed
+> until the leader exits and thread_group_empty() is true.
 
-[snip]
+Yeah, I missed the PIDFD_THREAD flag suggestion. Sorry about that. Btw,
+I'm not sure whether you remember that but when we originally did the
+pidfd work you and I discussed thread support and already decided back
+then that having a flag like PIDFD_THREAD would likely be the way to go.
+
+The PIDFD_THREAD flag would be would be interesting because we could
+make pidfd_send_signal() support this flag as well to allow sending a
+signal to a specific thread. That's something that I had also wanted to
+support. And I've been asked for this a few times already. What do you
+think?
 
