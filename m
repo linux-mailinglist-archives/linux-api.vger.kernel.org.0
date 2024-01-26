@@ -1,114 +1,174 @@
-Return-Path: <linux-api+bounces-684-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-685-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB44983DA4F
-	for <lists+linux-api@lfdr.de>; Fri, 26 Jan 2024 13:52:30 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0242983DBFC
+	for <lists+linux-api@lfdr.de>; Fri, 26 Jan 2024 15:35:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7ECBA2921C4
-	for <lists+linux-api@lfdr.de>; Fri, 26 Jan 2024 12:52:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1649F1C21C20
+	for <lists+linux-api@lfdr.de>; Fri, 26 Jan 2024 14:35:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38CC119470;
-	Fri, 26 Jan 2024 12:52:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFBC2125D8;
+	Fri, 26 Jan 2024 14:34:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X3dPaX1k"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JSYsdEjF"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A95E51AACB;
-	Fri, 26 Jan 2024 12:52:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ABCB1CD32
+	for <linux-api@vger.kernel.org>; Fri, 26 Jan 2024 14:34:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706273546; cv=none; b=E22ewFTHnqiv2p76w8CB5CC/dB0VQjxRxUalJj1YZQw9VXTxcNV/eezL4HwCNYOnBSKg2lIZhiO3t0+BWqT4Mk7fIHAJan8CGDkkwV6eI3etMry3H50HcNMdUe6EUJqbyvfr0FMNlKBdS6fYoEL3FBvrvAFYiGqkK5pxSGXz3uY=
+	t=1706279689; cv=none; b=nalD4LCrgT9CmhT7F5kMthu5/VhSO3MzkdezJuXcATcmXgoNUUDCsrbyolwoC+fx1Q3wPBrMMUUF2LLqghi0pa69o5GrKOUwd0/uzmJYn6jJ6LdjcegHwpl3rqTEc3WXrNpXuMBf67oaIuj3jeQ1tMKDkUkfY9krnuig+EsvUGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706273546; c=relaxed/simple;
-	bh=5GztzeRJ7QonXydbXi0LYB9tRSovYETdbDIFz1v4Qmw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ECQBWKVFVisRP7HfE/iCddW0ljlVkFbUSSeiZFmIflBd3FfaCcwMRT6ON/3N1XCuiaZrplKHYQhkIJGVwSZWgtpp6x9KiwgD09VEHpenniR/zua60xAQ/lOJmw0QZKwK8ILQr1hVsjTuhdpoO1vs4c8keqNXP7o3hGXDJTE5yYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X3dPaX1k; arc=none smtp.client-ip=209.85.219.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-dc223463ee4so512969276.2;
-        Fri, 26 Jan 2024 04:52:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706273543; x=1706878343; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5GztzeRJ7QonXydbXi0LYB9tRSovYETdbDIFz1v4Qmw=;
-        b=X3dPaX1kU5zaWUFcAcAOVCIcookzalkK12TyPx6VDWOTpVGUPB/gE/2lrcSEDL7xpF
-         7grJ+gosUiJi8mM22t/bKossMnUVoWUF+LeB/KT7RWFD4yfPjUVb473EinXw8p18G63e
-         h2nOYcHDBf/ny5gbw+TUHW8wInox5pze0AwAdV3P2sysQBTEJ0LPAq372INPRxbX8pwF
-         V+Bk6LfktsNcLEXQh8fn11pHUz2RYcrpLGLKgp/O/DQuqZzuHuY/2zvgGvfAPIDCPlSE
-         VtpjcrOp5YrGd17T0h00b60k1jFFplfIKWbMTom4rClPHu2C631nfF4Qxr0vGEtAGL/E
-         3Fiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706273543; x=1706878343;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5GztzeRJ7QonXydbXi0LYB9tRSovYETdbDIFz1v4Qmw=;
-        b=BeD21kViSbaEtS+qLEhKEdgwKs6fGVbOPCahGKBtO5cCl/Z8tERR0UWsYYnR/OzSEf
-         Kbf/TfBRShTNMHTV6C9K1M1/LiRFsdVgOGEz8B1tAeWNhLgfOS+5VEYxwSctJAXqM29i
-         ND8976FHFbMSI4IQwLld9p4QdpBcZEWX36g0fDSp1ur/waPC6rfBhRN1XpHPp87rH2y2
-         G/Is1jyAdk2TOpNZYOM7/GgtGC51KN69bL54DFXrrxUi2kocGaug/j/16MR0OUy1/cXd
-         n5nVQoYbgErqwXSRsTzOvs3pQPTNV2sOOJFs7u0SUjOSxLs9ntzUy5GbTH8nEn+KGTSr
-         Jv/g==
-X-Gm-Message-State: AOJu0Yx6A6XIsJmdaWXrThazTILHsSbxyVOTWdCH/nhs2uuDVmrxlBuu
-	t7pawZ1cz8/1CnpA2wjTd3G9FW4U9nMNSD7Qrix+nxJIAb+aTpo34KWgq/Ge4d2SDZ0tzitqwmR
-	XYfS5sQMOoLYSE/0gwkPc650Outjn0VCpc1GDaSedlZk=
-X-Google-Smtp-Source: AGHT+IHDUz3d4JvNDFrSYoB+OTb7JyrHZFIFiZZTWGcIVjetZDWCyRBa0ecedY7Ar33Ir88A6iXAXmaWFCnMv/QwZK0=
-X-Received: by 2002:a5b:f09:0:b0:dc6:3610:c344 with SMTP id
- x9-20020a5b0f09000000b00dc63610c344mr899970ybr.13.1706273543622; Fri, 26 Jan
- 2024 04:52:23 -0800 (PST)
+	s=arc-20240116; t=1706279689; c=relaxed/simple;
+	bh=O6w5GtbETgqNvB2B4amLXS691CrcakgId1zH5rYgGV0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EusYDSaoorggo2qNjvn892zZTqaBOTL5/ZDaF3xlktZ00xBezgHnZWbOyUo/BE3PvACqky9+6JGgLet1sgdlkI5GcKE/HVsFBWOkHmMlGKyxGVNPK9/RCoPTxjsKArGC1nuI+3JO8yyHc3vJ8l8Mr6uIyC+FNTTboJ5HOdHfg3Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=JSYsdEjF; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1706279687;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jFn6EmRIbEx/AjhXTO5Xmd6giDPhExwD2qGwPUgkau4=;
+	b=JSYsdEjFWt0cqZh0DMu7Pik7owLOdHHx86MDRYlpA86bQ+FSl/9Yvr6MS4J7SJjvlNcehC
+	Po6crXJLWmXeVEq9iOvwM2Cf6ecTSQ0WsiWdAut1vj5QGaNg7LcbtxqdJK4SIiogSbTE5S
+	p3dsUYWz45d4feQpiGNsK5hSKp7q/RA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-653-c-Dmt-ZFP1yuGrm51Z23CQ-1; Fri, 26 Jan 2024 09:34:43 -0500
+X-MC-Unique: c-Dmt-ZFP1yuGrm51Z23CQ-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 53F7A85A58F;
+	Fri, 26 Jan 2024 14:34:43 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.224.164])
+	by smtp.corp.redhat.com (Postfix) with SMTP id 78EB8492BFA;
+	Fri, 26 Jan 2024 14:34:41 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Fri, 26 Jan 2024 15:33:29 +0100 (CET)
+Date: Fri, 26 Jan 2024 15:33:27 +0100
+From: Oleg Nesterov <oleg@redhat.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Tycho Andersen <tycho@tycho.pizza>, linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org, Tycho Andersen <tandersen@netflix.com>,
+	"Eric W. Biederman" <ebiederm@xmission.com>
+Subject: Re: [PATCH v3 1/3] pidfd: allow pidfd_open() on non-thread-group
+ leaders
+Message-ID: <20240126143326.GC7386@redhat.com>
+References: <20240123153452.170866-1-tycho@tycho.pizza>
+ <20240123153452.170866-2-tycho@tycho.pizza>
+ <20240123195608.GB9978@redhat.com>
+ <ZbArN3EYRfhrNs3o@tycho.pizza>
+ <20240125140830.GA5513@redhat.com>
+ <20240125-tricksen-baugrube-3f78c487a23a@brauner>
+ <20240125175113.GC5513@redhat.com>
+ <20240126-lokal-aktualisieren-fef41d9bce9f@brauner>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240118120347.61817-1-ioworker0@gmail.com> <CAK1f24=TfJvsDCEesaTa8rGP7ay62p6UiJem=XWnpFa9yfSA3A@mail.gmail.com>
- <CAK1f24nS8MEA3wcS4za-uSp7ZBxvd+xqMRf8-u=m5uCvTs8yJQ@mail.gmail.com> <CAK1f24kOYDOw26ov5TVpAyNP13hCjm=cDo4rooOTPDuv8L6Pnw@mail.gmail.com>
-In-Reply-To: <CAK1f24kOYDOw26ov5TVpAyNP13hCjm=cDo4rooOTPDuv8L6Pnw@mail.gmail.com>
-From: Lance Yang <ioworker0@gmail.com>
-Date: Fri, 26 Jan 2024 20:52:12 +0800
-Message-ID: <CAK1f24n0152CmPghBLQ7225=rwEuP6mMdBybWZz7heTLzemBqw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/1] mm/madvise: add MADV_F_COLLAPSE_LIGHT to process_madvise()
-To: akpm@linux-foundation.org, Michal Hocko <mhocko@suse.com>, 
-	"Zach O'Keefe" <zokeefe@google.com>, Yang Shi <shy828301@gmail.com>, 
-	David Hildenbrand <david@redhat.com>
-Cc: songmuchun@bytedance.com, peterx@redhat.com, mknyszek@google.com, 
-	minchan@kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-api@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240126-lokal-aktualisieren-fef41d9bce9f@brauner>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.10
 
-On Fri, Jan 26, 2024 at 6:15=E2=80=AFPM Lance Yang <ioworker0@gmail.com> wr=
-ote:
-[...]
-> > If the kernel supports a more relaxed (opportunistic)
-> > MADV_COLLAPSE, we will modify the THP settings as follows:
-> >
-> > echo madvise >/sys/kernel/mm/transparent_hugepage/enabled
-> > echo madvise >/sys/kernel/mm/transparent_hugepage/defrag
+On 01/26, Christian Brauner wrote:
 >
-> The correct THP settings should be:
-> echo always >/sys/kernel/mm/transparent_hugepage/enabled
-> echo madvise >/sys/kernel/mm/transparent_hugepage/defrag
+> No, it doesn't. I'm trying to understand what you are suggesting though.
+> Are you saying !task || tas->exit_state is enough
+
+If PIDFD_THREAD then I think it is enough. Otherwise we still need
+!task || (exit_state && thread_group_empty)
+
+> and we shouldn't use
+> the helper that was added in commit 38fd525a4c61 ("exit: Factor
+> thread_group_exited out of pidfd_poll"). If so what does that buy us
+> open-coding the check instead of using that helper? Is there an actual
+> bug here?
+
+The patch adds the new xxx_exited(task, excl) helper which checks
+
+	!task || (exit_state && (excl || thread_group_empty))
+
+yes, the naming is not good.
+
+> > Well, I didn't say this is a problem. I simply do not know how/why people
+> > use pidfd_poll().
 >
+> Sorry, I just have a hard time understanding what you wanted then. :)
+>
+> "I guess it is too late to change this behavior." made it sound like a)
+> there's a problem and b) that you would prefer to change behavior. Thus,
+> it seems that wait(WNOHANG) hanging when a traced leader of an empty
+> thread-group has exited is a problem in your eyes.
 
-Apologize for the confusion in my previous email.
+Again, I mostly tried to argue with do_notify_pidfd() called by realese_task().
 
-The third type of requirements prefers not to use huge pages at all.
-The correct THP settings should be:
-echo madvise >/sys/kernel/mm/transparent_hugepage/enabled
-echo defer+madvise >/sys/kernel/mm/transparent_hugepage/defrag
+I think that with PIDFD_THREAD set pidfd_poll() should succeed right
+after the exiting thread becomes a zombie (passes exit_notify), whether
+it is a leader or not.
 
-> >
-> > Then, we will use process_madvise(MADV_COLLAPSE, xx_relaxed_flag)
-> > to address the requirements of the second type.
-[...]
+Let me quote part of my reply to Tycho's patch
+
+	> +	/*
+	> +	 * If we're not the leader, notify any waiters on our pidfds. Note that
+	> +	 * we don't want to notify the leader until /everyone/ in the thread
+	> +	 * group is dead, viz. the condition below.
+	> +	 *
+	> +	 * We have to do this here, since __exit_signal() will
+	> +	 * __unhash_processes(), and break do_notify_pidfd()'s lookup.
+	> +	 */
+	> +	if (!thread_group_leader(p))
+	> +		do_notify_pidfd(p);
+
+	This doesn't look consistent.
+
+	If the task is a group leader do_notify_pidfd() is called by exit_notify()
+	when it becomes a zombie (if no other threads), before it is reaped by its
+	parent (unless autoreap).
+
+	If it is a sub-thread, it is called by release_task() above. Note that a
+	sub-thread can become a zombie too if it is traced.
+
+Not to mention that this is racy.
+
+I would not mind if we simply move do_notify_pidfd() from exit_notify() to
+release_task() and do it regardless of thread_group_leader(). And in some
+sense this looks more logical to me.
+
+But as I said:
+
+	- I do not know how/why people actually use poll(pidfd)
+
+	- it is too late to change the current behaviour
+
+Sorry for confusion.
+
+> I'm not sure whether you remember that but when we originally did the
+> pidfd work you and I discussed thread support and already decided back
+> then that having a flag like PIDFD_THREAD would likely be the way to go.
+
+All I can recall is that, yes, we had some discussions about pidfd in
+the past ;)
+
+> The PIDFD_THREAD flag would be would be interesting because we could
+> make pidfd_send_signal() support this flag
+
+Agreed,
+
+Oleg.
+
 
