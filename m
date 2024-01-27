@@ -1,184 +1,176 @@
-Return-Path: <linux-api+bounces-699-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-700-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3ECB683EE1C
-	for <lists+linux-api@lfdr.de>; Sat, 27 Jan 2024 16:55:58 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F2FC83EE8B
+	for <lists+linux-api@lfdr.de>; Sat, 27 Jan 2024 17:26:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C02D51F229A4
-	for <lists+linux-api@lfdr.de>; Sat, 27 Jan 2024 15:55:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 26E62284ADA
+	for <lists+linux-api@lfdr.de>; Sat, 27 Jan 2024 16:26:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F4D328E34;
-	Sat, 27 Jan 2024 15:55:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76D6C2C877;
+	Sat, 27 Jan 2024 16:20:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tycho.pizza header.i=@tycho.pizza header.b="lVxB7mZj";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="f7pxCGsB"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jF3MusBl"
 X-Original-To: linux-api@vger.kernel.org
-Received: from fout1-smtp.messagingengine.com (fout1-smtp.messagingengine.com [103.168.172.144])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 110051DFCF;
-	Sat, 27 Jan 2024 15:55:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.144
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4589060DC9;
+	Sat, 27 Jan 2024 16:20:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706370952; cv=none; b=pN0VUjvaHLlLQ3ckf3S19lQ0QxjMOIReiENjPOfKai6nUDYkYdzJld4c2dvKvHM8avR82vCwwmqkqc0umM+qO5n8RXYTPNvEPC6gwG54nNLP2FnS10BBjWC/iIm/tIZBqTAaklOOf1bviz1xhvT4Rhi2tji4F9PgC2Yk49pnziY=
+	t=1706372456; cv=none; b=PY+KhNjxBkJyXQwJaEiHMoOE6HoxG+DZUGYnS0Y2ZNzWVGfhablMNLHAKsdvlp84bXpuLoO0566ZWxkD/brWyJFCO2jNGHz+lOubJiwzWAd5+0y9OBRbuADo0CwmyBfMgoc/KYN/C2aZCs5JeCbytX/dMfQN9FHgosaDV9MWBa8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706370952; c=relaxed/simple;
-	bh=6pSCSML+JZghD5BCwhywGlyJjYkC36czSX7oYgXB6kI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QwLTvQIFjFp7yoHKg4G6fSe+eZk7pHHVgHTgaVAGgfK9kqRXEZd/BSWmU68R3rkwBsbskh698bb4FGY/8PDUaJOb0bgSIwMldXuRhnwgZDH7uphCd2V0WgJR2Z0OnfInh0VEes/mvgipeqqoCR4SeSMN4sVacWK8jaIJZnRfO/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tycho.pizza; spf=pass smtp.mailfrom=tycho.pizza; dkim=pass (2048-bit key) header.d=tycho.pizza header.i=@tycho.pizza header.b=lVxB7mZj; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=f7pxCGsB; arc=none smtp.client-ip=103.168.172.144
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tycho.pizza
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tycho.pizza
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.48])
-	by mailfout.nyi.internal (Postfix) with ESMTP id E1D4D138005D;
-	Sat, 27 Jan 2024 10:55:48 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute7.internal (MEProxy); Sat, 27 Jan 2024 10:55:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tycho.pizza; h=
-	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1706370948; x=1706457348; bh=XfDO2zRIy9
-	wsN7s/nMkXYnVjBmeZXSXaD7ior0H/odU=; b=lVxB7mZjA6tJNRWp3txpcXiHnh
-	FHpbqi1YB7ihEvndA27XeZudZmGvQT20qo0cfSfV2PDGYRPrcONjySGDwg+NRLAe
-	HH161jTvi1GZgm8i6bLcCAs0TajaGLgiqqloJWpOVhOCJzTE141AB8S5dV945wTx
-	RFbO7m5m5T4cCXE8R1Hnb2F7H8ELpOH/jflbqVj/JtEmCFu5REuVfqa52bwGXGFZ
-	DLWf4yPFNTcOmmlhfEnoYssQoNVmzJSy86Ws9n5++kCUNyqG4XEfZ0av4hM8vWFR
-	mSCdFgch1ABMs5Eb5CtumWzXgNL47YazthIZVPFybEvDK5ZtjjHdLVJr4eZA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1706370948; x=1706457348; bh=XfDO2zRIy9wsN7s/nMkXYnVjBmeZ
-	XSXaD7ior0H/odU=; b=f7pxCGsBi50yamg5NRNINORKpelSWzECMMUqPIyC6J6E
-	f2kOTL/u+dXKhVz6PEPARiVw6Tp0f2jUSrQvCSCFfkdUcp8IS33SQG/zSbv7NOQu
-	i+x43Gh4ZQuduk+2nI0QY1q9PqL1pWrlvKA9e+dnXVzkIrFl2DRaIW6hwrEI/HA+
-	PrOW8FUbjgeAjl9HhJjJhjU4Jt2InI85mCHeSSLH+m6JwF2eDHM4ROgCDd/UYPMJ
-	hbOcV2CpnFT/x0pWl2ZCcDMjCGdedTeyFumQw4v/7fj8BDxZ8rHNzgmqT0m9rTI+
-	GCEdAfYKxWhkZ5e06iQw90igFl8K8w6gm5V+G0mw+w==
-X-ME-Sender: <xms:hCe1ZTCocb6So8Ov_ro8422rLodtAp71dm9PiUnZqbOCLenuyi-Neg>
-    <xme:hCe1ZZjYtSd2uZ4g1AK9wypDDIHSbNpZHNXMkOppJ-10tKOEf0bEx6HyzaDhBh6_d
-    7wppt9Bb7std298TsI>
-X-ME-Received: <xmr:hCe1Zekghrzq4gOu0y00E8Q2rkc5BljEUrWOFnbnUrUXtjaBAUfls8kIzhG-PQaxSOsciBwxQe45Ob2T0FiJ9RqWlVqa>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdelledgkeduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepvfihtghh
-    ohcutehnuggvrhhsvghnuceothihtghhohesthihtghhohdrphhiiiiirgeqnecuggftrf
-    grthhtvghrnhepueettdetgfejfeffheffffekjeeuveeifeduleegjedutdefffetkeel
-    hfelleetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    epthihtghhohesthihtghhohdrphhiiiiirg
-X-ME-Proxy: <xmx:hCe1ZVzFXHD-SDgov7xNej7ntQBKG0cHcM8QBOK_7ehM0wQhyPSuQA>
-    <xmx:hCe1ZYR05CV5UHHGhW_0Ao6M0tbaC2Tf3LE0GNa8qy42PL2911AOSA>
-    <xmx:hCe1ZYbQisX4Hcfffk3vQkhT5OnOJdG6QGfWqEPuKluaolGw6YtSLQ>
-    <xmx:hCe1ZXF5WR8zoRqSBVEcH7aJOaFpRrrdKFsqjjfSTnNC1M5u_xHRlQ>
-Feedback-ID: i21f147d5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 27 Jan 2024 10:55:47 -0500 (EST)
-Date: Sat, 27 Jan 2024 08:55:46 -0700
-From: Tycho Andersen <tycho@tycho.pizza>
-To: Oleg Nesterov <oleg@redhat.com>
-Cc: Christian Brauner <brauner@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org, Tycho Andersen <tandersen@netflix.com>,
-	"Eric W. Biederman" <ebiederm@xmission.com>
-Subject: Re: [PATCH v3 1/3] pidfd: allow pidfd_open() on non-thread-group
- leaders
-Message-ID: <ZbUngjQMg+YUBAME@tycho.pizza>
-References: <20240123153452.170866-1-tycho@tycho.pizza>
- <20240123153452.170866-2-tycho@tycho.pizza>
- <20240123195608.GB9978@redhat.com>
- <ZbArN3EYRfhrNs3o@tycho.pizza>
- <20240125140830.GA5513@redhat.com>
- <ZbQpPknTTCyiyxrP@tycho.pizza>
- <20240127105410.GA13787@redhat.com>
+	s=arc-20240116; t=1706372456; c=relaxed/simple;
+	bh=vuJqFnZtTpTssMFoMa9G7Fw9QNg4vClPrMPI4Vl+fQo=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 Mime-Version:Content-Type; b=fafJxih7yCJwLVqGxaNM4DGQWx80i4IBNBWBGI3YjxUljNFdb+Ajn6UyfUoFh/pYQW1qvWtk7VOLERAZEMIPMI0hSdH9i2zcPtaDbobR1FO4g2PEH1ZIceyyRpz1WphrNYGgkwaHCckgfUX40bAIML/9vFBOUCYoTXvzTWotA0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jF3MusBl; arc=none smtp.client-ip=209.85.219.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-68c37bf73aaso9925036d6.2;
+        Sat, 27 Jan 2024 08:20:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706372452; x=1706977252; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=khozqR2J5qyGoQPqSuwAokWTqr1QO39YPwi2HTUl2g4=;
+        b=jF3MusBlQFXatW7qXIZGK2UaaN+1M9baONpaP/BIfrGdix5COoJp+mc1fQNsL24Qjw
+         xV+ASIUQhjc27doTnXRWVUUDo4UTFylG1IvsrJO87Q5dHCG+n8AGEfLocqIv2cy52a3J
+         s+7KIxvm54f+DLC5SlDlbOOf0qtfQyGqG+bFxFjpMSFO59AVQamlcSxC5v/XesvaS8m1
+         qA2uPtTbqdRtSE5Ks3IByQb1GLaKmd/lHk/e+S0DIiGj3VDirSN3oMv1bz9mOZTIOY7T
+         x5f++Yx5wtyqyyC0QpTHvTDnbBZpJsX3VKqkVbfyu3kpyHXXiVyN7c3saEkOT0i75cXN
+         /Xlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706372452; x=1706977252;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=khozqR2J5qyGoQPqSuwAokWTqr1QO39YPwi2HTUl2g4=;
+        b=JoNYKuC6NP42vw6qW6PekBOYr5OEQbp4p+HS0HreG7Db5PElSjZROKze6RSFhL5q6W
+         TfvNNzGD7nRKjG6D20runw8xszcZSZrspayeOzp3oaGUO7qL6HYOD5PU+H5375hItqQs
+         TPd14NmdavbSl0xbYv2z4pbfUUBina1hbeSraKuiMEzfuG7P5VYmLrth1xtm4nsHQdUp
+         HjxVz2z3YnwpDCbKFq/Y16aW/x1zYIuK5lJEsL/3+6HMbmF/Sf0cPbDoKpLpVdYaJn3d
+         kddguNUGcdQWG+XKp7Dep/kd9SxjIzBJFqvKsv4Pq1NSRIxsRB52QmD/iB+j1+8kRpSk
+         P5eg==
+X-Gm-Message-State: AOJu0YxRSBZsHQPEy47QB6CyuzKn62Pd1gU3QdKYJ+vplNj4V0XFbe8B
+	QvAxxjAtoEfyFVUbLRpxBAid54PtCbXKRLnJ0axAVBajaxPl/cPz
+X-Google-Smtp-Source: AGHT+IEtYpnrWB7Pm3yuX4jPsKtMVMAT7CxIrt/thqrPJmnt6o0+3z1I+ItZujRzlRejHx8eF/YXDg==
+X-Received: by 2002:a05:6214:d4b:b0:67f:c133:3922 with SMTP id 11-20020a0562140d4b00b0067fc1333922mr2597732qvr.129.1706372452055;
+        Sat, 27 Jan 2024 08:20:52 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCU3+LBrHc5Zp2e/HJFvVOcowk2itTDRWVCeBu9FGgIoLhx1ERum609+VtwSXCmHZuqS5yjQCmPIOTKaPjOQe/dQTVYgq22FobAr2B/krJF/ABfPP6m7x4EnV1WSKu3Favw3R/CbLgjf5/KoV1SK7vMijxAF6bl7l3CjFbqXYhiVyfr3NdcT1IalWJrnDIDvwQXAH+8vMcCn58UmXIbIdpGi+QIRmYUiAKDZeK8dweFrlaJHhu4odqc7bkwALp38FVz8uctVXmeUDwB2/lw9r84h8fC5wfZhacmiPwbaeYB3uK3FMUsy8WMyqwZXvQ662JodMK+Ckz8Vlrh7uJX+WpaEhUDH4HWu9luhqqgzcCnUIez7adveWXYigeEOT6Zs2Evn+zFaqWUOPBcTgbt4mcOuWRmZGrpy3P4iXeTwtZWOD0UK0KTMIWxIPwu4cEAA2yoetHwyrCqg1YG4B4J6RX3Q7rnAuGmWy0F4Gy6JaivBNAUqAkkiQZgBXJpME8ViDxeKurO8zLRLDOGIuFJPQ88yzzDp/OTK3y5gqH5eSq8NpgoEKKTj1WZFsCugbWRMRWNXvOegG169A2OY8YlYSBY4PUT5sbUgfxPMVKXw9UCzIkqmEqs1SBrOvjAuDw1VaUfY1RD1QerhxTAoKJLFboH6DAaoR5tB7H6C1ZgOQC0MGvtl5XP66jVYbk3z4nIo7ssbaJuvZFei+ixltrx+QSNWmB6p9dDBN4po1+Vyn1pRQo8ZgWv/HC+BAFi/v8Gywoc8ablY6S2+UpeRQTwJHYvapimI5O/v3A//4++ejuPmhlC+hAFzmidM7s5mCcyBZchB8mGo1SGwUnUTcXnlopGASubLZKb11JA4GUSgJYN7obbCcauHOF5YwR9g7BW1x1AfpwyR0pDLQzI6wG4HgQG9mxfQlJ0QswjplomeljUhaHVAE0x1mVra5t3f
+Received: from localhost (131.65.194.35.bc.googleusercontent.com. [35.194.65.131])
+        by smtp.gmail.com with ESMTPSA id ly9-20020a0562145c0900b0068509353fb6sm991500qvb.133.2024.01.27.08.20.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 27 Jan 2024 08:20:51 -0800 (PST)
+Date: Sat, 27 Jan 2024 11:20:51 -0500
+From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+To: Joe Damato <jdamato@fastly.com>, 
+ linux-kernel@vger.kernel.org, 
+ netdev@vger.kernel.org
+Cc: chuck.lever@oracle.com, 
+ jlayton@kernel.org, 
+ linux-api@vger.kernel.org, 
+ brauner@kernel.org, 
+ edumazet@google.com, 
+ davem@davemloft.net, 
+ alexander.duyck@gmail.com, 
+ sridhar.samudrala@intel.com, 
+ kuba@kernel.org, 
+ willemdebruijn.kernel@gmail.com, 
+ weiwan@google.com, 
+ Joe Damato <jdamato@fastly.com>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Andrew Waterman <waterman@eecs.berkeley.edu>, 
+ Arnd Bergmann <arnd@arndb.de>, 
+ Dominik Brodowski <linux@dominikbrodowski.net>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Jan Kara <jack@suse.cz>, 
+ Jiri Slaby <jirislaby@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ Julien Panis <jpanis@baylibre.com>, 
+ linux-doc@vger.kernel.org (open list:DOCUMENTATION), 
+ "(open list:FILESYSTEMS \\(VFS and infrastructure\\))" <linux-fsdevel@vger.kernel.org>, 
+ Michael Ellerman <mpe@ellerman.id.au>, 
+ Nathan Lynch <nathanl@linux.ibm.com> (open list:FILESYSTEMS \(VFS and infrastructure\)), 
+ Palmer Dabbelt <palmer@dabbelt.com>, 
+ Steve French <stfrench@microsoft.com>, 
+ Thomas Huth <thuth@redhat.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <65b52d6381de7_3a9e0b2943d@willemb.c.googlers.com.notmuch>
+In-Reply-To: <20240125225704.12781-1-jdamato@fastly.com>
+References: <20240125225704.12781-1-jdamato@fastly.com>
+Subject: Re: [PATCH net-next v3 0/3] Per epoll context busy poll support
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240127105410.GA13787@redhat.com>
+Mime-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-On Sat, Jan 27, 2024 at 11:54:32AM +0100, Oleg Nesterov wrote:
-> Hi Tycho,
+Joe Damato wrote:
+> Greetings:
 > 
-> On 01/26, Tycho Andersen wrote:
-> >
-> > On Thu, Jan 25, 2024 at 03:08:31PM +0100, Oleg Nesterov wrote:
-> > > What do you think?
-> >
-> > Thank you, it passes all my tests.
+> Welcome to v3. Cover letter updated from v2 to explain why ioctl and
+> adjusted my cc_cmd to try to get the correct people in addition to folks
+> who were added in v1 & v2. Labeled as net-next because it seems networking
+> related to me even though it is fs code.
 > 
-> Great, thanks!
+> TL;DR This builds on commit bf3b9f6372c4 ("epoll: Add busy poll support to
+> epoll with socket fds.") by allowing user applications to enable
+> epoll-based busy polling and set a busy poll packet budget on a per epoll
+> context basis.
 > 
-> OK, I'll make v2 on top of the recent
-> "pidfd: cleanup the usage of __pidfd_prepare's flags"
+> This makes epoll-based busy polling much more usable for user
+> applications than the current system-wide sysctl and hardcoded budget.
 > 
-> but we need to finish our discussion with Christian about the
-> usage of O_EXCL.
+> To allow for this, two ioctls have been added for epoll contexts for
+> getting and setting a new struct, struct epoll_params.
 > 
-> As for clone(CLONE_PIDFD | CLONE_THREAD), this is trivial but
-> I think this needs another discussion too, lets do this later.
-> 
-> > > +	/* unnecessary if do_notify_parent() was already called,
-> > > +	   we can do better */
-> > > +	do_notify_pidfd(tsk);
-> >
-> > "do better" here could be something like,
-> >
-> > [...snip...]
-> 
-> No, no, please see below.
-> 
-> For the moment, please forget about PIDFD_THREAD, lets discuss
-> the current behaviour.
-> 
-> > but even with that, there's other calls in the tree to
-> > do_notify_parent() that might double notify.
-> 
-> Yes, and we can't avoid this. Well, perhaps do_notify_parent()
-> can do something like
-> 
-> 	if (ptrace_reparented())
-> 		do_notify_pidfd();
-> 
-> so that only the "final" do_notify_parent() does do_notify_pidfd()
-> but this needs another discussion and in fact I don't think this
-> would be right or make much sense. Lets forget this for now.
+> ioctl was chosen vs a new syscall after reviewing a suggestion by Willem
+> de Bruijn [1]. I am open to using a new syscall instead of an ioctl, but it
+> seemed that: 
+>   - Busy poll affects all existing epoll_wait and epoll_pwait variants in
+>     the same way, so new verions of many syscalls might be needed. It
 
-It seems like (and the current pidfd_test enforces for some cases) we
-want exactly one notification for a task dying. I don't understand
-how we guarantee this now, with all of these calls.
+There is no need to support a new feature on legacy calls. Applications have
+to be upgraded to the new ioctl, so they can also be upgraded to the latest
+epoll_wait variant.
 
-> > This brings up another interesting behavior that I noticed while
-> > testing this, if you do a poll() on pidfd, followed quickly by a
-> > pidfd_getfd() on the same thread you just got an event on, you can
-> > sometimes get an EBADF from __pidfd_fget() instead of the more
-> > expected ESRCH higher up the stack.
-> 
-> exit_notify() is called after exit_files(). pidfd_getfd() returns
-> ESRCH if the exiting thread completes release_task(), otherwise it
-> returns EBADF because ->files == NULL. This too doesn't really
-> depend on PIDFD_THREAD.
+epoll_pwait extends epoll_wait with a sigmask.
+epoll_pwait2 extends extends epoll_pwait with nsec resolution timespec.
+Since they are supersets, nothing is lots by limiting to the most recent API.
 
-Yup, understood. It just seems like an inconsistency we might want to
-fix.
+In the discussion of epoll_pwait2 the addition of a forward looking flags
+argument was discussed, but eventually dropped. Based on the argument that
+adding a syscall is not a big task and does not warrant preemptive code.
+This decision did receive a suitably snarky comment from Jonathan Corbet [1].
 
-> > I wonder if it makes sense to abuse ->f_flags to add a PIDFD_NOTIFIED?
-> > Then we can refuse further pidfd syscall operations in a sane way, and
-> 
-> But how? We only have "struct pid *", how can we find all files
-> "attached" to this pid?
+It is definitely more boilerplate, but essentially it is as feasible to add an
+epoll_pwait3 that takes an optional busy poll argument. In which case, I also
+believe that it makes more sense to configure the behavior of the syscall
+directly, than through another syscall and state stored in the kernel.
 
-Yeah, we'd need some other linkage as Christian points out. But if
-there is a predicate we can write that says whether this task has been
-notified or not, it's not necessary. I just don't understand what that
-is. But maybe your patch will make it clearer.
+I don't think that the usec fine grain busy poll argument is all that useful.
+Documentation always suggests setting it to 50us or 100us, based on limited
+data. Main point is to set it to exceed the round-trip delay of whatever the
+process is trying to wait on. Overestimating is not costly, as the call
+returns as soon as the condition is met. An epoll_pwait3 flag EPOLL_BUSY_POLL
+with default 100us might be sufficient.
 
-Tycho
+[1] https://lwn.net/Articles/837816/
+
+
+>     seems much simpler for users to use the correct
+>     epoll_wait/epoll_pwait for their app and add a call to ioctl to enable
+>     or disable busy poll as needed. This also probably means less work to
+>     get an existing epoll app using busy poll.
+
 
