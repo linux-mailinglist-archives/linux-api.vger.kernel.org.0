@@ -1,144 +1,184 @@
-Return-Path: <linux-api+bounces-698-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-699-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18CA483EDB2
-	for <lists+linux-api@lfdr.de>; Sat, 27 Jan 2024 15:52:36 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ECB683EE1C
+	for <lists+linux-api@lfdr.de>; Sat, 27 Jan 2024 16:55:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4B6271C21193
-	for <lists+linux-api@lfdr.de>; Sat, 27 Jan 2024 14:52:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C02D51F229A4
+	for <lists+linux-api@lfdr.de>; Sat, 27 Jan 2024 15:55:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F6A828DD0;
-	Sat, 27 Jan 2024 14:52:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F4D328E34;
+	Sat, 27 Jan 2024 15:55:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=tycho.pizza header.i=@tycho.pizza header.b="lVxB7mZj";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="f7pxCGsB"
 X-Original-To: linux-api@vger.kernel.org
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+Received: from fout1-smtp.messagingengine.com (fout1-smtp.messagingengine.com [103.168.172.144])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D9B625779
-	for <linux-api@vger.kernel.org>; Sat, 27 Jan 2024 14:52:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.58.86.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 110051DFCF;
+	Sat, 27 Jan 2024 15:55:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.144
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706367144; cv=none; b=sGlaTdKk50TSxUuNvKo7k5oqtTuyMtluR7wQ16QQozmmyha5TjC7dXWO19XrC8neNFDmhi9GvJUOwNkrFlZfpJxlTWuPcSeW0iLc4zgK6sbjs43EAzt0ZkrTjy+ztKzAMDvjmqTr7Zb8Be3lBV2fL+x0sghY6DDJ+UkqYkY4+LQ=
+	t=1706370952; cv=none; b=pN0VUjvaHLlLQ3ckf3S19lQ0QxjMOIReiENjPOfKai6nUDYkYdzJld4c2dvKvHM8avR82vCwwmqkqc0umM+qO5n8RXYTPNvEPC6gwG54nNLP2FnS10BBjWC/iIm/tIZBqTAaklOOf1bviz1xhvT4Rhi2tji4F9PgC2Yk49pnziY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706367144; c=relaxed/simple;
-	bh=Be/y4DGVPbfmx4K3rGTzJCiIH9BNVn8X6ivVn+mUvI0=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 MIME-Version:Content-Type; b=k3MOdbrn6c+HMn7bTmaSd1fLNvMWhsVdY4pgZ0fIN7lgce/qTQhY4dDyhr2AE1+umn+V5LBzUN2AzTrCFzhQLsNM+aeVGrkgmsm+V2e9k8bKJPvt7v71gcQgQGutpfqE2tjepdXgmBqE8734LWwn0uCjVJxoX0KYrFr2GT+wjIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM; spf=pass smtp.mailfrom=aculab.com; arc=none smtp.client-ip=185.58.86.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aculab.com
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-89-lY5SiMHAMkCe7VPZSgwSoQ-1; Sat, 27 Jan 2024 14:52:18 +0000
-X-MC-Unique: lY5SiMHAMkCe7VPZSgwSoQ-1
-Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
- (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Sat, 27 Jan
- 2024 14:51:58 +0000
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.048; Sat, 27 Jan 2024 14:51:58 +0000
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Arnd Bergmann' <arnd@arndb.de>, Joe Damato <jdamato@fastly.com>, "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>
-CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Netdev
-	<netdev@vger.kernel.org>, Chuck Lever <chuck.lever@oracle.com>, Jeff Layton
-	<jlayton@kernel.org>, "linux-api@vger.kernel.org"
-	<linux-api@vger.kernel.org>, Christian Brauner <brauner@kernel.org>, "Eric
- Dumazet" <edumazet@google.com>, "David S . Miller" <davem@davemloft.net>,
-	"alexander.duyck@gmail.com" <alexander.duyck@gmail.com>, Sridhar Samudrala
-	<sridhar.samudrala@intel.com>, Jakub Kicinski <kuba@kernel.org>, "Willem de
- Bruijn" <willemdebruijn.kernel@gmail.com>, "weiwan@google.com"
-	<weiwan@google.com>, Jonathan Corbet <corbet@lwn.net>, Alexander Viro
-	<viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Michael Ellerman
-	<mpe@ellerman.id.au>, Nathan Lynch <nathanl@linux.ibm.com>, Steve French
-	<stfrench@microsoft.com>, Thomas Zimmermann <tzimmermann@suse.de>, Jiri Slaby
-	<jirislaby@kernel.org>, Julien Panis <jpanis@baylibre.com>, Andrew Waterman
-	<waterman@eecs.berkeley.edu>, Thomas Huth <thuth@redhat.com>, Palmer Dabbelt
-	<palmer@dabbelt.com>, "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	"open list:FILESYSTEMS (VFS and infrastructure)"
-	<linux-fsdevel@vger.kernel.org>
-Subject: RE: [PATCH net-next v3 3/3] eventpoll: Add epoll ioctl for
- epoll_params
-Thread-Topic: [PATCH net-next v3 3/3] eventpoll: Add epoll ioctl for
- epoll_params
-Thread-Index: AQHaUCR+m5BGvEW2OU6rGFqZjiahCbDtv1nw
-Date: Sat, 27 Jan 2024 14:51:58 +0000
-Message-ID: <f99dd6cfe7744ed8b9cfe9489aa499de@AcuMS.aculab.com>
-References: <20240125225704.12781-1-jdamato@fastly.com>
- <20240125225704.12781-4-jdamato@fastly.com>
- <2024012551-anyone-demeaning-867b@gregkh> <20240126001128.GC1987@fastly.com>
- <2024012525-outdoors-district-2660@gregkh> <20240126023630.GA1235@fastly.com>
- <57b62135-2159-493d-a6bb-47d5be55154a@app.fastmail.com>
-In-Reply-To: <57b62135-2159-493d-a6bb-47d5be55154a@app.fastmail.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
+	s=arc-20240116; t=1706370952; c=relaxed/simple;
+	bh=6pSCSML+JZghD5BCwhywGlyJjYkC36czSX7oYgXB6kI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QwLTvQIFjFp7yoHKg4G6fSe+eZk7pHHVgHTgaVAGgfK9kqRXEZd/BSWmU68R3rkwBsbskh698bb4FGY/8PDUaJOb0bgSIwMldXuRhnwgZDH7uphCd2V0WgJR2Z0OnfInh0VEes/mvgipeqqoCR4SeSMN4sVacWK8jaIJZnRfO/s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tycho.pizza; spf=pass smtp.mailfrom=tycho.pizza; dkim=pass (2048-bit key) header.d=tycho.pizza header.i=@tycho.pizza header.b=lVxB7mZj; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=f7pxCGsB; arc=none smtp.client-ip=103.168.172.144
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tycho.pizza
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tycho.pizza
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.48])
+	by mailfout.nyi.internal (Postfix) with ESMTP id E1D4D138005D;
+	Sat, 27 Jan 2024 10:55:48 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute7.internal (MEProxy); Sat, 27 Jan 2024 10:55:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tycho.pizza; h=
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1706370948; x=1706457348; bh=XfDO2zRIy9
+	wsN7s/nMkXYnVjBmeZXSXaD7ior0H/odU=; b=lVxB7mZjA6tJNRWp3txpcXiHnh
+	FHpbqi1YB7ihEvndA27XeZudZmGvQT20qo0cfSfV2PDGYRPrcONjySGDwg+NRLAe
+	HH161jTvi1GZgm8i6bLcCAs0TajaGLgiqqloJWpOVhOCJzTE141AB8S5dV945wTx
+	RFbO7m5m5T4cCXE8R1Hnb2F7H8ELpOH/jflbqVj/JtEmCFu5REuVfqa52bwGXGFZ
+	DLWf4yPFNTcOmmlhfEnoYssQoNVmzJSy86Ws9n5++kCUNyqG4XEfZ0av4hM8vWFR
+	mSCdFgch1ABMs5Eb5CtumWzXgNL47YazthIZVPFybEvDK5ZtjjHdLVJr4eZA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1706370948; x=1706457348; bh=XfDO2zRIy9wsN7s/nMkXYnVjBmeZ
+	XSXaD7ior0H/odU=; b=f7pxCGsBi50yamg5NRNINORKpelSWzECMMUqPIyC6J6E
+	f2kOTL/u+dXKhVz6PEPARiVw6Tp0f2jUSrQvCSCFfkdUcp8IS33SQG/zSbv7NOQu
+	i+x43Gh4ZQuduk+2nI0QY1q9PqL1pWrlvKA9e+dnXVzkIrFl2DRaIW6hwrEI/HA+
+	PrOW8FUbjgeAjl9HhJjJhjU4Jt2InI85mCHeSSLH+m6JwF2eDHM4ROgCDd/UYPMJ
+	hbOcV2CpnFT/x0pWl2ZCcDMjCGdedTeyFumQw4v/7fj8BDxZ8rHNzgmqT0m9rTI+
+	GCEdAfYKxWhkZ5e06iQw90igFl8K8w6gm5V+G0mw+w==
+X-ME-Sender: <xms:hCe1ZTCocb6So8Ov_ro8422rLodtAp71dm9PiUnZqbOCLenuyi-Neg>
+    <xme:hCe1ZZjYtSd2uZ4g1AK9wypDDIHSbNpZHNXMkOppJ-10tKOEf0bEx6HyzaDhBh6_d
+    7wppt9Bb7std298TsI>
+X-ME-Received: <xmr:hCe1Zekghrzq4gOu0y00E8Q2rkc5BljEUrWOFnbnUrUXtjaBAUfls8kIzhG-PQaxSOsciBwxQe45Ob2T0FiJ9RqWlVqa>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdelledgkeduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepvfihtghh
+    ohcutehnuggvrhhsvghnuceothihtghhohesthihtghhohdrphhiiiiirgeqnecuggftrf
+    grthhtvghrnhepueettdetgfejfeffheffffekjeeuveeifeduleegjedutdefffetkeel
+    hfelleetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epthihtghhohesthihtghhohdrphhiiiiirg
+X-ME-Proxy: <xmx:hCe1ZVzFXHD-SDgov7xNej7ntQBKG0cHcM8QBOK_7ehM0wQhyPSuQA>
+    <xmx:hCe1ZYR05CV5UHHGhW_0Ao6M0tbaC2Tf3LE0GNa8qy42PL2911AOSA>
+    <xmx:hCe1ZYbQisX4Hcfffk3vQkhT5OnOJdG6QGfWqEPuKluaolGw6YtSLQ>
+    <xmx:hCe1ZXF5WR8zoRqSBVEcH7aJOaFpRrrdKFsqjjfSTnNC1M5u_xHRlQ>
+Feedback-ID: i21f147d5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 27 Jan 2024 10:55:47 -0500 (EST)
+Date: Sat, 27 Jan 2024 08:55:46 -0700
+From: Tycho Andersen <tycho@tycho.pizza>
+To: Oleg Nesterov <oleg@redhat.com>
+Cc: Christian Brauner <brauner@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org, Tycho Andersen <tandersen@netflix.com>,
+	"Eric W. Biederman" <ebiederm@xmission.com>
+Subject: Re: [PATCH v3 1/3] pidfd: allow pidfd_open() on non-thread-group
+ leaders
+Message-ID: <ZbUngjQMg+YUBAME@tycho.pizza>
+References: <20240123153452.170866-1-tycho@tycho.pizza>
+ <20240123153452.170866-2-tycho@tycho.pizza>
+ <20240123195608.GB9978@redhat.com>
+ <ZbArN3EYRfhrNs3o@tycho.pizza>
+ <20240125140830.GA5513@redhat.com>
+ <ZbQpPknTTCyiyxrP@tycho.pizza>
+ <20240127105410.GA13787@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240127105410.GA13787@redhat.com>
 
-From: Arnd Bergmann
-> Sent: 26 January 2024 06:16
->=20
-> On Fri, Jan 26, 2024, at 03:36, Joe Damato wrote:
-> > On Thu, Jan 25, 2024 at 04:23:58PM -0800, Greg Kroah-Hartman wrote:
-> >> On Thu, Jan 25, 2024 at 04:11:28PM -0800, Joe Damato wrote:
-> >> > On Thu, Jan 25, 2024 at 03:21:46PM -0800, Greg Kroah-Hartman wrote:
-> >> > > On Thu, Jan 25, 2024 at 10:56:59PM +0000, Joe Damato wrote:
-> >> > > > +struct epoll_params {
-> >> > > > +=09u64 busy_poll_usecs;
-> >> > > > +=09u16 busy_poll_budget;
-> >> > > > +
-> >> > > > +=09/* for future fields */
-> >> > > > +=09u8 data[118];
-> >> > > > +} EPOLL_PACKED;
-> >> > >
+On Sat, Jan 27, 2024 at 11:54:32AM +0100, Oleg Nesterov wrote:
+> Hi Tycho,
+> 
+> On 01/26, Tycho Andersen wrote:
 > >
-> > Sure, that makes sense to me. I'll remove it in the v4 alongside the ot=
-her
-> > changes you've requested.
+> > On Thu, Jan 25, 2024 at 03:08:31PM +0100, Oleg Nesterov wrote:
+> > > What do you think?
 > >
-> > Thanks for your time and patience reviewing my code. I greatly apprecia=
-te
-> > your helpful comments and feedback.
->=20
-> Note that you should still pad the structure to its normal
-> alignment. On non-x86 targets this would currently mean a
-> multiple of 64 bits.
->=20
-> I would suggest dropping the EPOLL_PACKED here entirely and
-> just using a fully aligned structure on all architectures, like
->=20
-> struct epoll_params {
->       __aligned_u64 busy_poll_usecs;
->       __u16 busy_poll_budget;
->       __u8 __pad[6];
-> };
->=20
-> The explicit padding can help avoid leaking stack data when
-> a structure is copied back from kernel to userspace, so I would
-> just always use it in ioctl data structures.
+> > Thank you, it passes all my tests.
+> 
+> Great, thanks!
+> 
+> OK, I'll make v2 on top of the recent
+> "pidfd: cleanup the usage of __pidfd_prepare's flags"
+> 
+> but we need to finish our discussion with Christian about the
+> usage of O_EXCL.
+> 
+> As for clone(CLONE_PIDFD | CLONE_THREAD), this is trivial but
+> I think this needs another discussion too, lets do this later.
+> 
+> > > +	/* unnecessary if do_notify_parent() was already called,
+> > > +	   we can do better */
+> > > +	do_notify_pidfd(tsk);
+> >
+> > "do better" here could be something like,
+> >
+> > [...snip...]
+> 
+> No, no, please see below.
+> 
+> For the moment, please forget about PIDFD_THREAD, lets discuss
+> the current behaviour.
+> 
+> > but even with that, there's other calls in the tree to
+> > do_notify_parent() that might double notify.
+> 
+> Yes, and we can't avoid this. Well, perhaps do_notify_parent()
+> can do something like
+> 
+> 	if (ptrace_reparented())
+> 		do_notify_pidfd();
+> 
+> so that only the "final" do_notify_parent() does do_notify_pidfd()
+> but this needs another discussion and in fact I don't think this
+> would be right or make much sense. Lets forget this for now.
 
-Or just use 32bit types for both fields.
-Both values need erroring before they get that large.
-32bit of usec is about 20 seconds.
+It seems like (and the current pidfd_test enforces for some cases) we
+want exactly one notification for a task dying. I don't understand
+how we guarantee this now, with all of these calls.
 
-=09David
+> > This brings up another interesting behavior that I noticed while
+> > testing this, if you do a poll() on pidfd, followed quickly by a
+> > pidfd_getfd() on the same thread you just got an event on, you can
+> > sometimes get an EBADF from __pidfd_fget() instead of the more
+> > expected ESRCH higher up the stack.
+> 
+> exit_notify() is called after exit_files(). pidfd_getfd() returns
+> ESRCH if the exiting thread completes release_task(), otherwise it
+> returns EBADF because ->files == NULL. This too doesn't really
+> depend on PIDFD_THREAD.
 
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
-PT, UK
-Registration No: 1397386 (Wales)
+Yup, understood. It just seems like an inconsistency we might want to
+fix.
 
+> > I wonder if it makes sense to abuse ->f_flags to add a PIDFD_NOTIFIED?
+> > Then we can refuse further pidfd syscall operations in a sane way, and
+> 
+> But how? We only have "struct pid *", how can we find all files
+> "attached" to this pid?
+
+Yeah, we'd need some other linkage as Christian points out. But if
+there is a predicate we can write that says whether this task has been
+notified or not, it's not necessary. I just don't understand what that
+is. But maybe your patch will make it clearer.
+
+Tycho
 
