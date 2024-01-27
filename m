@@ -1,175 +1,182 @@
-Return-Path: <linux-api+bounces-694-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-695-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED46283EBF5
-	for <lists+linux-api@lfdr.de>; Sat, 27 Jan 2024 09:06:58 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0868083ECC2
+	for <lists+linux-api@lfdr.de>; Sat, 27 Jan 2024 11:56:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7727F284B83
-	for <lists+linux-api@lfdr.de>; Sat, 27 Jan 2024 08:06:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1FEC01C219F9
+	for <lists+linux-api@lfdr.de>; Sat, 27 Jan 2024 10:56:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A4DF1CF9B;
-	Sat, 27 Jan 2024 08:06:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D5E81D6B6;
+	Sat, 27 Jan 2024 10:55:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DoxHQRwq"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MmEY2Wns"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18F4E17721;
-	Sat, 27 Jan 2024 08:06:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E1171EB20
+	for <linux-api@vger.kernel.org>; Sat, 27 Jan 2024 10:55:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706342813; cv=none; b=nXFkc5ESkYirk5ythpDHbnIc7JGws3GYvpb2cRc2cAnlxCzjH2k9rzPxbqVkQIes8jg1sAorJu9U0YHNyncuxeSBzVxiIU5E5E37cq/qpfq3aG35F/+MjoD1eqj34TRtK3cdthK7N6ntLP/1C/t8+RXZTo3MWoalUcr0HIOIwzI=
+	t=1706352958; cv=none; b=M6+WotJa04sOie576HdIE40y1mhDCnkVMqkFz2T+drPGN3tmM3/jKrd3MqTOH6bkvKuKlxHjorsuBtqmek9e3mpPNu/eHkwT+24YPVGMw+ZWPJqqWO+zHIUtQSm8uHyIMHgrqWSqbayYSpYkWh/ZVVps5yk3IpleOlwkj/0On8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706342813; c=relaxed/simple;
-	bh=xJZ2TcuXVx0HQfLG7ro+wBJ7/ZMJJMbceBk/8o2W1nA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Xv1sAC+r7bll5aRtdzg0sK4OnZHyYoqfD59NtEnDsFpPmuNerOPsq40QkdVk/fvj1T2Rpg5uFadl3LofoUjqVbkTVUDa82Z4sjZ1qUcVoNFALij4aQ/W8nVhRg1VdPp1d6m7aHf9EIFQhashamHutZoR7FuZTHpqPdwti2w95sY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DoxHQRwq; arc=none smtp.client-ip=209.85.219.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-dc642cd955fso924300276.0;
-        Sat, 27 Jan 2024 00:06:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706342811; x=1706947611; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xJZ2TcuXVx0HQfLG7ro+wBJ7/ZMJJMbceBk/8o2W1nA=;
-        b=DoxHQRwq5RUczHmUgyw5taKgb0aK66V023c6Q+uj3h2TPKbd78fS13gqHxswooMNjy
-         1176ZdcE3zrY/oUUeU+JOlN8ONamX2YpdsXj5EWPWauzgnLbmwx4OfLVPDatSz/IzN8m
-         y1sOheFE3uGpSbnWm1xJ9nASaEWeydbD7+NAbiA5L57vy5UjLjsknafyQbr/UsrNgJY9
-         lnh3N5nK5hxjqnTP8yQfpsZ+LWDtXAYzoC+GQ9/MNDl+7wNQdgMDLnbvWnZNnTRYwSxA
-         63V4wPFPSnOUbM4Ory5AtCuoMEaPTRMr7festCP2WHgh9Jtc+I6HiGuiwxHz43yZaen1
-         6WqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706342811; x=1706947611;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xJZ2TcuXVx0HQfLG7ro+wBJ7/ZMJJMbceBk/8o2W1nA=;
-        b=th0oWFkB52+RJ4yMGqWz38ZqoJXM66k4xc4ia8GOkwlr+LInc0nCvsAum4ajnexcc0
-         7wvS4v2DRttHtrINP7GpMgx3TovCm9BASKvJCB/dt9J7ZmBaJ8cmw5wwOUN0h8YBik1S
-         xZ+0uTqmtJKjQSy+hkoqroRV29tM3lfa9y184rxG2cgKtXUlMsjjmhlJE4Cq30/pY0DF
-         dzBymlpfS4NURM3yvpzIPylboOATyNs+o+uaMLUVOyKAr1IG88yQF5AAisCoRKkIxNKE
-         Dye0j6m8+buWDwm1Nf5Gcb2+faZp0uWgWN9KQa+7YUANAiuFhYzO/icdr0ZOfl9Z2B4I
-         dYIQ==
-X-Gm-Message-State: AOJu0YzcZWjzIDZyYbIsaX6BQlus11Lly+yI4T/HhlN5tO6S1fRYFJnz
-	sOke0trErtzE2qHAkc+fcugnuRvAmiqUCPxjs7U2WIHukUyM0pSOBFYbXcMaWoBHIHOM/vLXbhy
-	jbGqlvCpXck2IiZ3LgRVe5sqsuByRnscsBKfCTZl3
-X-Google-Smtp-Source: AGHT+IE445rhgCPgk3Ky3+sDSrPR8Aq6mhKsin3MfmkfiDsbyxUYk8hj4tB88oSHwDfLTHQaYrrNcfHA626LSQFPk20=
-X-Received: by 2002:a81:b716:0:b0:602:b725:c762 with SMTP id
- v22-20020a81b716000000b00602b725c762mr797845ywh.56.1706342810937; Sat, 27 Jan
- 2024 00:06:50 -0800 (PST)
+	s=arc-20240116; t=1706352958; c=relaxed/simple;
+	bh=+2nxUypKCl4qZXxWoMbNPWaDEVm/qCE9a1uPbOpHh8Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CkJIdR6t4hmU0vCyWf76Axpq5LiyExTKcoGpUp7bhFBrC2cDuOorjR/pQKKqi8pLNXovEA/HUjuOvFtd653cD3/NaldJVcItJPK875jUMLn6EIV5LBoHamQxR4ELwkgSNsKFugsAoSNO9TANYY7fkV9aXwuk8BiolkBwqSMLkkI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=MmEY2Wns; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1706352955;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RhSpdrAEG/Xg7ifdmmn18ddjocywgcMnyaE1xYJmTF0=;
+	b=MmEY2Wns3v3xbQuMRjAzZzf7+MkfCte6f7OkDbuTs4YwMF1bAzRmo9g+DmA6fLPEel5Q8H
+	EOka98iA9c6MV9NJdt5PBLvOa1VOc4EY/F+eLhcx0gzA0lWu944fPPfzVzkO6gl0Ads/D/
+	4cbUicGOk4oKSs/ts8wDBLVN93SCCZg=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-574-yau6CuoZNXebOAapKq6-JA-1; Sat, 27 Jan 2024 05:55:50 -0500
+X-MC-Unique: yau6CuoZNXebOAapKq6-JA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BDFA085A58A;
+	Sat, 27 Jan 2024 10:55:49 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.224.41])
+	by smtp.corp.redhat.com (Postfix) with SMTP id D93C31121306;
+	Sat, 27 Jan 2024 10:55:47 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Sat, 27 Jan 2024 11:54:35 +0100 (CET)
+Date: Sat, 27 Jan 2024 11:54:32 +0100
+From: Oleg Nesterov <oleg@redhat.com>
+To: Tycho Andersen <tycho@tycho.pizza>
+Cc: Christian Brauner <brauner@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org, Tycho Andersen <tandersen@netflix.com>,
+	"Eric W. Biederman" <ebiederm@xmission.com>
+Subject: Re: [PATCH v3 1/3] pidfd: allow pidfd_open() on non-thread-group
+ leaders
+Message-ID: <20240127105410.GA13787@redhat.com>
+References: <20240123153452.170866-1-tycho@tycho.pizza>
+ <20240123153452.170866-2-tycho@tycho.pizza>
+ <20240123195608.GB9978@redhat.com>
+ <ZbArN3EYRfhrNs3o@tycho.pizza>
+ <20240125140830.GA5513@redhat.com>
+ <ZbQpPknTTCyiyxrP@tycho.pizza>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240118120347.61817-1-ioworker0@gmail.com> <ZakqQyL9t2ffNUIf@tiehlicka>
- <CAK1f24k+=Sskotbct+yGxpDKNv=qyXPkww5i2kaqfzwaUVO_GQ@mail.gmail.com>
- <ZapwWuVTIDeI3W8A@tiehlicka> <CAK1f24m9oxciHsAht4-cCWo_NT7x+bkoXUO2HOwgMCr0OnwpcA@mail.gmail.com>
- <Za5yvjZWVyYjgyfh@tiehlicka> <CAK1f24n+pTw=7atKGAbgBh8qKOTBPq-BEV7ZkLcgN3P0n3h3ug@mail.gmail.com>
- <CAK1f24=7fKU-+xRSOhrJrZ56=YoVfnkONZwNOJRS4yY4SzhANA@mail.gmail.com> <CAAa6QmRLfwhyh66bVVakp__Rkzpkt3zq2kAe9F-KN5sdFdqLAg@mail.gmail.com>
-In-Reply-To: <CAAa6QmRLfwhyh66bVVakp__Rkzpkt3zq2kAe9F-KN5sdFdqLAg@mail.gmail.com>
-From: Lance Yang <ioworker0@gmail.com>
-Date: Sat, 27 Jan 2024 16:06:39 +0800
-Message-ID: <CAK1f24=tfxgUpdPix1n-4fre70UVFhLbzEqEj7SthUMRJtT59g@mail.gmail.com>
-Subject: Re: [PATCH v2 1/1] mm/madvise: add MADV_F_COLLAPSE_LIGHT to process_madvise()
-To: "Zach O'Keefe" <zokeefe@google.com>
-Cc: Michal Hocko <mhocko@suse.com>, akpm@linux-foundation.org, david@redhat.com, 
-	songmuchun@bytedance.com, shy828301@gmail.com, peterx@redhat.com, 
-	mknyszek@google.com, minchan@kernel.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZbQpPknTTCyiyxrP@tycho.pizza>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.3
 
-How about MADV_F_COLLAPSE_NODEFRAG?
+Hi Tycho,
 
-On Sat, Jan 27, 2024 at 7:27=E2=80=AFAM Zach O'Keefe <zokeefe@google.com> w=
-rote:
+On 01/26, Tycho Andersen wrote:
 >
-> On Mon, Jan 22, 2024 at 6:35=E2=80=AFAM Lance Yang <ioworker0@gmail.com> =
-wrote:
-> >
-> > Hey Zach,
-> >
-> > What do you think about the semantic?
+> On Thu, Jan 25, 2024 at 03:08:31PM +0100, Oleg Nesterov wrote:
+> > What do you think?
 >
-> Hey Lance,
+> Thank you, it passes all my tests.
+
+Great, thanks!
+
+OK, I'll make v2 on top of the recent
+"pidfd: cleanup the usage of __pidfd_prepare's flags"
+
+but we need to finish our discussion with Christian about the
+usage of O_EXCL.
+
+As for clone(CLONE_PIDFD | CLONE_THREAD), this is trivial but
+I think this needs another discussion too, lets do this later.
+
+> > +	/* unnecessary if do_notify_parent() was already called,
+> > +	   we can do better */
+> > +	do_notify_pidfd(tsk);
 >
-> Sorry for the late reply.
+> "do better" here could be something like,
 >
-> I can see both sides of the argument; though I would argue that
-> "non-blocking" is equally as vague in this context. E.g. we'll "block" on
-> acquiring a number of different locks along the collapse path.
->
-> If you really want to talk about not entering direct reclaim /
-> compaction, then keeping with the sys/kernel/vm/thp notion of "defrag"
-> would be better, IMO. I don't feel that strongly about it though.
->
-> But I see you've provided some more use cases in another mail, so let
-> me pick up my thoughts over there.
->
-> Best,
-> Zach
->
->
->
-> > Thanks,
-> > Lance
-> >
-> > On Mon, Jan 22, 2024 at 10:14=E2=80=AFPM Lance Yang <ioworker0@gmail.co=
-m> wrote:
-> > >
-> > > On Mon, Jan 22, 2024 at 9:50=E2=80=AFPM Michal Hocko <mhocko@suse.com=
-> wrote:
-> > > >
-> > > > On Sat 20-01-24 10:09:32, Lance Yang wrote:
-> > > > [...]
-> > > > > Hey Michal,
-> > > > >
-> > > > > Thanks for your suggestion!
-> > > > >
-> > > > > It seems that the implementation should try but not too hard alig=
-ns well
-> > > > > with my desired behavior.
-> > > >
-> > > > The problem I have with this semantic is that it is really hard to
-> > > > define and then stick with. Our implementation might change over ti=
-me
-> > > > and what somebody considers good ATM might turn int "trying harder =
-than
-> > > > I wanted" later on.
-> > > >
-> > > > > Non-blocking in general is also a great idea.
-> > > > > Perhaps in the future, we can add a MADV_F_COLLAPSE_NOBLOCK
-> > > > > flag for scenarios where latency is extremely critical.
-> > > >
-> > > > Non blocking semantic is much easier to define and maintain. The ac=
-tual
-> > > > allocation/compaction implementation might change as well over time=
- but
-> > > > the userspace at least knows that the request will not block waitin=
-g for
-> > > > any required resources.
-> > >
-> > > I appreciate your insights!
-> > >
-> > > It makes sense that a non-blocking semantic is easier to define and m=
-aintain,
-> > > providing userspace with the certainty that requests won=E2=80=99t be=
- blocked.
-> > >
-> > > Thanks,
-> > > Lance
-> > >
-> > > >
-> > > > --
-> > > > Michal Hocko
-> > > > SUSE Labs
+> [...snip...]
+
+No, no, please see below.
+
+For the moment, please forget about PIDFD_THREAD, lets discuss
+the current behaviour.
+
+> but even with that, there's other calls in the tree to
+> do_notify_parent() that might double notify.
+
+Yes, and we can't avoid this. Well, perhaps do_notify_parent()
+can do something like
+
+	if (ptrace_reparented())
+		do_notify_pidfd();
+
+so that only the "final" do_notify_parent() does do_notify_pidfd()
+but this needs another discussion and in fact I don't think this
+would be right or make much sense. Lets forget this for now.
+
+Now. Even without PIDFD_THREAD, I think it makes sense to change
+do_notify_parent() to do
+
+	if (thread_group_empty(tsk))
+		do_notify_pidfd(tsk);
+
+thread_group_empty(tsk) can only be true if tsk is a group leader
+and it is the last thread. And this is exactly what pidfd_poll()
+currently needs.
+
+In fact I'd even prefer to do this in a separate patch for the
+documentation purposes.
+
+Now, PIDFD_THREAD can just add
+
+	if (!thread_group_empty(tsk))
+		do_notify_pidfd(tsk);
+
+right after "tsk->exit_state = EXIT_ZOMBIE", that is all.
+
+This also preserves the do_notify_pidfd/__wake_up_parent ordering.
+Not that I think this is important, just for consistency.
+
+> This brings up another interesting behavior that I noticed while
+> testing this, if you do a poll() on pidfd, followed quickly by a
+> pidfd_getfd() on the same thread you just got an event on, you can
+> sometimes get an EBADF from __pidfd_fget() instead of the more
+> expected ESRCH higher up the stack.
+
+exit_notify() is called after exit_files(). pidfd_getfd() returns
+ESRCH if the exiting thread completes release_task(), otherwise it
+returns EBADF because ->files == NULL. This too doesn't really
+depend on PIDFD_THREAD.
+
+> I wonder if it makes sense to abuse ->f_flags to add a PIDFD_NOTIFIED?
+> Then we can refuse further pidfd syscall operations in a sane way, and
+
+But how? We only have "struct pid *", how can we find all files
+"attached" to this pid?
+
+> also "do better" above by checking this flag from do_pidfd_notify()
+> before doing it again?
+
+and even it was possible, I don't think it makes a lot of sense, see
+also above.
+
+but perhaps I understood you...
+
+Oleg.
+
 
