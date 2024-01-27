@@ -1,94 +1,71 @@
-Return-Path: <linux-api+bounces-704-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-705-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A203683F004
-	for <lists+linux-api@lfdr.de>; Sat, 27 Jan 2024 21:45:05 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D595283F024
+	for <lists+linux-api@lfdr.de>; Sat, 27 Jan 2024 22:11:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5BCAD284C37
-	for <lists+linux-api@lfdr.de>; Sat, 27 Jan 2024 20:45:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 810AF285B79
+	for <lists+linux-api@lfdr.de>; Sat, 27 Jan 2024 21:11:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09E74154A6;
-	Sat, 27 Jan 2024 20:45:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6371A199D0;
+	Sat, 27 Jan 2024 21:11:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tycho.pizza header.i=@tycho.pizza header.b="T8q5Kipo";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="cufab6Lv"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hOgzVJxC"
 X-Original-To: linux-api@vger.kernel.org
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7F4E14A9D;
-	Sat, 27 Jan 2024 20:44:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.111.4.29
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52E7F19BA2
+	for <linux-api@vger.kernel.org>; Sat, 27 Jan 2024 21:11:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706388300; cv=none; b=FqsodCCzV/BnmZ5f6z0r/Vp+mqn2TU5mRcZwqopl48SKfS7WJzZVZ5f3VrmD7c21syNQQ+AgK0BSl5sHqXNhIX0ifVmHl2q4mUZy7ohqL9hKDorjpKEBWt+KlvMYSX5R9xCBvfYNcnCKy4OEXQIq8kdymPbnPmAGP7eIjQIIovs=
+	t=1706389894; cv=none; b=RnnH61py0m3CGshehAHL6v8oz667mhI7jjvmTHtZOsQd98ZcY+vXCoKPYzHymqOQaLbG8BsKxBKwpo3buKzPhxC5TyvfPp2Xi25H5OcUVOc5GcwcGWXorMvCa/vYBt/BBufT4WU+4T1IKePfPuKkc9NJxqQAaNwhrqQs9cpMwtE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706388300; c=relaxed/simple;
-	bh=7fJpC/F/2yX3YmpRJYR6iszdXsodW2fvEPdYddjhJBA=;
+	s=arc-20240116; t=1706389894; c=relaxed/simple;
+	bh=e9ssbtj5/gqXRUdezTmszQ5A3hRAEynVyD59GYaJgEc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aofmZQjMrafK63J42jkSpquapmWE0HdC3yVolxQj6oMDBJ9NPFZfyEmSgvdqXR21iST3p6dV81ZYQBsesNPH+yHhAKglqCq9licbkx4SIG03us9R+Yi69ceFqUEwfU/643jcajH22D4QzoENPmxcaJ/UR7aN5V0MKESmQkiUzm0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tycho.pizza; spf=pass smtp.mailfrom=tycho.pizza; dkim=pass (2048-bit key) header.d=tycho.pizza header.i=@tycho.pizza header.b=T8q5Kipo; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=cufab6Lv; arc=none smtp.client-ip=66.111.4.29
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tycho.pizza
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tycho.pizza
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.48])
-	by mailout.nyi.internal (Postfix) with ESMTP id AB53E5C00EB;
-	Sat, 27 Jan 2024 15:44:56 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute7.internal (MEProxy); Sat, 27 Jan 2024 15:44:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tycho.pizza; h=
-	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1706388296; x=1706474696; bh=zv9FvXgF0s
-	l4GXfUior97oaoRJoStoToMU42/qGdfcY=; b=T8q5Kipozu4vD+SyMGC1ggnno5
-	Zaap1Xql+FpwOSjeUsL8+LW2DVL3+gvdZd/aYp7ag5N92vW4GQghnkGBPC7OfZyn
-	4WRoTi1pJTK1omu/cUL1K0N2kZbW4/MqhhwqaG5UKZuIm5kSUZkltPvIJX1g3xOI
-	ZEDRwdFTDFbwszQ6eKyp8BEpdlTxPvv4mDLRHPxHahpHRdpegC9XJS4GW9LOXiiy
-	SNLbws5K1equFNaE3A3poB71+s8xKveNF0Hdyb5q8QN0GqSc9fNshf5u+XbuDZyY
-	NpK2QV5/OOgHBnrvgC8J7DgteAeIwz3/V+DHO4DBDOiambUPTxlCtlO9rsmQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1706388296; x=1706474696; bh=zv9FvXgF0sl4GXfUior97oaoRJoS
-	toToMU42/qGdfcY=; b=cufab6LvNxm+Ie3yjKh/amW520gARxbxdpCy9jkXxPa3
-	B/Df0WfAqWCBfbxO+NN6ZjXitW5JRcihpNzz3trYQaYAe2kafM/9xxjx9pktVNjH
-	FxZqbVdhGMzmdX2VBq2Zt5G75i4V7CDW4N4shoaWZBUoHP2Hlzk7gwfl8ajrckTU
-	AW5aRNA8DbhYy/1hTyyiSwcOOzGaCIfyLdmuRm89IHSGnvyJMVnVZ4UnUqk5D1pw
-	LWMzQf01Mw2qeA6F+GbnrUHdzbROuywooCxAoG/7AUIbA+jFIvpgQJh4K6seUI4f
-	TbKbwF5g3fyHRs7qagSgMJIhCUoXZPJ+p2FpqGTXqg==
-X-ME-Sender: <xms:SGu1ZW-JV-V_zgdhaGOskrUQvBRshlTlm74tTHlZc0lpalGDCx8LSg>
-    <xme:SGu1ZWtaCYijd7gCKV9BLfBqLM0LryIOWS_RG-UhTT5rAlb8lIxanmLsMI0U3hA3d
-    UUAJ-lx7jsUrDnc3ZU>
-X-ME-Received: <xmr:SGu1ZcD5O2-PdEdzv43myXDYHrJtz9Lwk2QnmQVGpAkLVVkcwKIn3-5C1X9gBNsU_LzPjGCOpN3NBbuA-Ov-XcZ8IL_X>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdelledgudeflecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefvhigt
-    hhhoucetnhguvghrshgvnhcuoehthigthhhosehthigthhhordhpihiiiigrqeenucggtf
-    frrghtthgvrhhnpeeutedttefgjeefffehffffkeejueevieefudelgeejuddtfeffteek
-    lefhleelteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
-    hmpehthigthhhosehthigthhhordhpihiiiigr
-X-ME-Proxy: <xmx:SGu1ZedCz0CcBsPlgKWaSxqp57CjA4X6YYxVU0npL9o6cbeyvp05Nw>
-    <xmx:SGu1ZbPKkgnzt9GfyuRvwU5JYuqqEPnaunxuNpgjAnxcFbP7oNvqJQ>
-    <xmx:SGu1ZYm8h43IS-zc7nQO66D6H0i3ELVST2qdvXxCswc72FT9_blg4w>
-    <xmx:SGu1ZW3vJvKeKN6ESERW9L_XPEyEW3evx7LYIVw8nC_usNAtXTHBFA>
-Feedback-ID: i21f147d5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 27 Jan 2024 15:44:55 -0500 (EST)
-Date: Sat, 27 Jan 2024 13:44:54 -0700
-From: Tycho Andersen <tycho@tycho.pizza>
-To: Oleg Nesterov <oleg@redhat.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=WJS8Lqno7OXQIPCPKyMPl+WmsUUyux34L2QJDW3q3JcfpPFB+nlnnc97TSHEJ+KRxj1ZF7t9n7NRv1UteRQ5LZyMQAwiZk4pFpwjVH462xG5FLmnePI7RNH0/kZ8EXjDypG5suHrtEhtap8PAdR/PlEOek+lEeAMCUuc2iqE/Po=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hOgzVJxC; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1706389891;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RxDG8FbkrxGkzjJwUDG8WjeC4k+DKoBsMZSfq3CWFgY=;
+	b=hOgzVJxCuPWI9wQ8IoS3JpVRkKuIjXAx7EHWEa0FADjgKZFnTtwWYTq9mMfoqxw2aTb16/
+	I62dDoo89iwKP9EONMdRdk5H9agAnb8ao8S/72mHMvEQDtc12Fo5C2yc83QTA1XzkUnVHh
+	ktDg8Xs+bP2vstIci7/MvkwU/ragofs=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-13-GEniBBKxMF2e41sgRC3b0w-1; Sat, 27 Jan 2024 16:11:29 -0500
+X-MC-Unique: GEniBBKxMF2e41sgRC3b0w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 150571013768;
+	Sat, 27 Jan 2024 21:11:29 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.224.37])
+	by smtp.corp.redhat.com (Postfix) with SMTP id A1C5E1121306;
+	Sat, 27 Jan 2024 21:11:27 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Sat, 27 Jan 2024 22:10:14 +0100 (CET)
+Date: Sat, 27 Jan 2024 22:10:12 +0100
+From: Oleg Nesterov <oleg@redhat.com>
+To: Tycho Andersen <tycho@tycho.pizza>
 Cc: Christian Brauner <brauner@kernel.org>, linux-kernel@vger.kernel.org,
 	linux-api@vger.kernel.org, Tycho Andersen <tandersen@netflix.com>,
 	"Eric W. Biederman" <ebiederm@xmission.com>
 Subject: Re: [PATCH v3 1/3] pidfd: allow pidfd_open() on non-thread-group
  leaders
-Message-ID: <ZbVrRgIvudX242ZU@tycho.pizza>
-References: <20240123153452.170866-2-tycho@tycho.pizza>
- <20240123195608.GB9978@redhat.com>
+Message-ID: <20240127210634.GE13787@redhat.com>
+References: <20240123195608.GB9978@redhat.com>
  <ZbArN3EYRfhrNs3o@tycho.pizza>
  <20240125140830.GA5513@redhat.com>
  <ZbQpPknTTCyiyxrP@tycho.pizza>
@@ -97,6 +74,7 @@ References: <20240123153452.170866-2-tycho@tycho.pizza>
  <20240127163117.GB13787@redhat.com>
  <ZbU7d0dpTY08JgIl@tycho.pizza>
  <20240127193127.GC13787@redhat.com>
+ <ZbVrRgIvudX242ZU@tycho.pizza>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -105,34 +83,35 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240127193127.GC13787@redhat.com>
+In-Reply-To: <ZbVrRgIvudX242ZU@tycho.pizza>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.3
 
-On Sat, Jan 27, 2024 at 08:31:27PM +0100, Oleg Nesterov wrote:
-> On 01/27, Tycho Andersen wrote:
+On 01/27, Tycho Andersen wrote:
+>
+> On Sat, Jan 27, 2024 at 08:31:27PM +0100, Oleg Nesterov wrote:
 > >
-> > > > > exit_notify() is called after exit_files(). pidfd_getfd() returns
-> > > > > ESRCH if the exiting thread completes release_task(), otherwise it
-> > > > > returns EBADF because ->files == NULL. This too doesn't really
-> > > > > depend on PIDFD_THREAD.
-> > > >
-> > > > Yup, understood. It just seems like an inconsistency we might want to
-> > > > fix.
-> > >
-> > > Not sure this worth "fixing"...
+> > On the second thought I am starting to understand your concern...
 > >
-> > Yep, maybe not. Just wanted to point it out.
-> 
-> On the second thought I am starting to understand your concern...
-> 
-> Indeed, in this case -EBADF is technically correct but it can confuse
-> the user which doesn't or can't know that this task/thread is exiting,
-> because EBADF looks as if the "int fd" argument was wrong.
-> 
-> Sorry I missed your point before.
+> > Indeed, in this case -EBADF is technically correct but it can confuse
+> > the user which doesn't or can't know that this task/thread is exiting,
+> > because EBADF looks as if the "int fd" argument was wrong.
+> >
+> > Sorry I missed your point before.
+>
+> No worries. I realized it's not so hard to fix with your new
+> xxx_exited() helper from the PIDFD_THREAD patch, so maybe worth
+> cleaning up after all?
 
-No worries. I realized it's not so hard to fix with your new
-xxx_exited() helper from the PIDFD_THREAD patch, so maybe worth
-cleaning up after all?
+OK, lets discuss this later.
 
-Tycho
+I'll (hopefully) send v2 on top of
+
+	pidfd: cleanup the usage of __pidfd_prepare's flags
+	pidfd: don't do_notify_pidfd() if !thread_group_empty()
+
+on Monday, will be busy tomorrow (family duties ;)
+
+Oleg.
+
 
