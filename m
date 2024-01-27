@@ -1,176 +1,128 @@
-Return-Path: <linux-api+bounces-700-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-701-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F2FC83EE8B
-	for <lists+linux-api@lfdr.de>; Sat, 27 Jan 2024 17:26:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BDF583EEB6
+	for <lists+linux-api@lfdr.de>; Sat, 27 Jan 2024 17:35:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 26E62284ADA
-	for <lists+linux-api@lfdr.de>; Sat, 27 Jan 2024 16:26:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 08BE828484C
+	for <lists+linux-api@lfdr.de>; Sat, 27 Jan 2024 16:35:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76D6C2C877;
-	Sat, 27 Jan 2024 16:20:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 204412206B;
+	Sat, 27 Jan 2024 16:33:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jF3MusBl"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DdFS4rez"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4589060DC9;
-	Sat, 27 Jan 2024 16:20:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7612056473
+	for <linux-api@vger.kernel.org>; Sat, 27 Jan 2024 16:33:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706372456; cv=none; b=PY+KhNjxBkJyXQwJaEiHMoOE6HoxG+DZUGYnS0Y2ZNzWVGfhablMNLHAKsdvlp84bXpuLoO0566ZWxkD/brWyJFCO2jNGHz+lOubJiwzWAd5+0y9OBRbuADo0CwmyBfMgoc/KYN/C2aZCs5JeCbytX/dMfQN9FHgosaDV9MWBa8=
+	t=1706373184; cv=none; b=eDDe7WcsoQQKQRrIan0JzHynVvAcq+kbec3X990paWaR1IeQYjyzCIDp6Rpg1sLJh6RznIyFEiiatXJGZkjT4uzpFtnLUKwYWV/Kknf33pG6OD69fNsbAiNly8436k0YH/Iz+e5UG4S9Y++9kIT30V2kJgcO0S4mS1lt3RRTe4g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706372456; c=relaxed/simple;
-	bh=vuJqFnZtTpTssMFoMa9G7Fw9QNg4vClPrMPI4Vl+fQo=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 Mime-Version:Content-Type; b=fafJxih7yCJwLVqGxaNM4DGQWx80i4IBNBWBGI3YjxUljNFdb+Ajn6UyfUoFh/pYQW1qvWtk7VOLERAZEMIPMI0hSdH9i2zcPtaDbobR1FO4g2PEH1ZIceyyRpz1WphrNYGgkwaHCckgfUX40bAIML/9vFBOUCYoTXvzTWotA0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jF3MusBl; arc=none smtp.client-ip=209.85.219.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-68c37bf73aaso9925036d6.2;
-        Sat, 27 Jan 2024 08:20:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706372452; x=1706977252; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:subject:references
-         :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=khozqR2J5qyGoQPqSuwAokWTqr1QO39YPwi2HTUl2g4=;
-        b=jF3MusBlQFXatW7qXIZGK2UaaN+1M9baONpaP/BIfrGdix5COoJp+mc1fQNsL24Qjw
-         xV+ASIUQhjc27doTnXRWVUUDo4UTFylG1IvsrJO87Q5dHCG+n8AGEfLocqIv2cy52a3J
-         s+7KIxvm54f+DLC5SlDlbOOf0qtfQyGqG+bFxFjpMSFO59AVQamlcSxC5v/XesvaS8m1
-         qA2uPtTbqdRtSE5Ks3IByQb1GLaKmd/lHk/e+S0DIiGj3VDirSN3oMv1bz9mOZTIOY7T
-         x5f++Yx5wtyqyyC0QpTHvTDnbBZpJsX3VKqkVbfyu3kpyHXXiVyN7c3saEkOT0i75cXN
-         /Xlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706372452; x=1706977252;
-        h=content-transfer-encoding:mime-version:subject:references
-         :in-reply-to:message-id:cc:to:from:date:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=khozqR2J5qyGoQPqSuwAokWTqr1QO39YPwi2HTUl2g4=;
-        b=JoNYKuC6NP42vw6qW6PekBOYr5OEQbp4p+HS0HreG7Db5PElSjZROKze6RSFhL5q6W
-         TfvNNzGD7nRKjG6D20runw8xszcZSZrspayeOzp3oaGUO7qL6HYOD5PU+H5375hItqQs
-         TPd14NmdavbSl0xbYv2z4pbfUUBina1hbeSraKuiMEzfuG7P5VYmLrth1xtm4nsHQdUp
-         HjxVz2z3YnwpDCbKFq/Y16aW/x1zYIuK5lJEsL/3+6HMbmF/Sf0cPbDoKpLpVdYaJn3d
-         kddguNUGcdQWG+XKp7Dep/kd9SxjIzBJFqvKsv4Pq1NSRIxsRB52QmD/iB+j1+8kRpSk
-         P5eg==
-X-Gm-Message-State: AOJu0YxRSBZsHQPEy47QB6CyuzKn62Pd1gU3QdKYJ+vplNj4V0XFbe8B
-	QvAxxjAtoEfyFVUbLRpxBAid54PtCbXKRLnJ0axAVBajaxPl/cPz
-X-Google-Smtp-Source: AGHT+IEtYpnrWB7Pm3yuX4jPsKtMVMAT7CxIrt/thqrPJmnt6o0+3z1I+ItZujRzlRejHx8eF/YXDg==
-X-Received: by 2002:a05:6214:d4b:b0:67f:c133:3922 with SMTP id 11-20020a0562140d4b00b0067fc1333922mr2597732qvr.129.1706372452055;
-        Sat, 27 Jan 2024 08:20:52 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCU3+LBrHc5Zp2e/HJFvVOcowk2itTDRWVCeBu9FGgIoLhx1ERum609+VtwSXCmHZuqS5yjQCmPIOTKaPjOQe/dQTVYgq22FobAr2B/krJF/ABfPP6m7x4EnV1WSKu3Favw3R/CbLgjf5/KoV1SK7vMijxAF6bl7l3CjFbqXYhiVyfr3NdcT1IalWJrnDIDvwQXAH+8vMcCn58UmXIbIdpGi+QIRmYUiAKDZeK8dweFrlaJHhu4odqc7bkwALp38FVz8uctVXmeUDwB2/lw9r84h8fC5wfZhacmiPwbaeYB3uK3FMUsy8WMyqwZXvQ662JodMK+Ckz8Vlrh7uJX+WpaEhUDH4HWu9luhqqgzcCnUIez7adveWXYigeEOT6Zs2Evn+zFaqWUOPBcTgbt4mcOuWRmZGrpy3P4iXeTwtZWOD0UK0KTMIWxIPwu4cEAA2yoetHwyrCqg1YG4B4J6RX3Q7rnAuGmWy0F4Gy6JaivBNAUqAkkiQZgBXJpME8ViDxeKurO8zLRLDOGIuFJPQ88yzzDp/OTK3y5gqH5eSq8NpgoEKKTj1WZFsCugbWRMRWNXvOegG169A2OY8YlYSBY4PUT5sbUgfxPMVKXw9UCzIkqmEqs1SBrOvjAuDw1VaUfY1RD1QerhxTAoKJLFboH6DAaoR5tB7H6C1ZgOQC0MGvtl5XP66jVYbk3z4nIo7ssbaJuvZFei+ixltrx+QSNWmB6p9dDBN4po1+Vyn1pRQo8ZgWv/HC+BAFi/v8Gywoc8ablY6S2+UpeRQTwJHYvapimI5O/v3A//4++ejuPmhlC+hAFzmidM7s5mCcyBZchB8mGo1SGwUnUTcXnlopGASubLZKb11JA4GUSgJYN7obbCcauHOF5YwR9g7BW1x1AfpwyR0pDLQzI6wG4HgQG9mxfQlJ0QswjplomeljUhaHVAE0x1mVra5t3f
-Received: from localhost (131.65.194.35.bc.googleusercontent.com. [35.194.65.131])
-        by smtp.gmail.com with ESMTPSA id ly9-20020a0562145c0900b0068509353fb6sm991500qvb.133.2024.01.27.08.20.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Jan 2024 08:20:51 -0800 (PST)
-Date: Sat, 27 Jan 2024 11:20:51 -0500
-From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-To: Joe Damato <jdamato@fastly.com>, 
- linux-kernel@vger.kernel.org, 
- netdev@vger.kernel.org
-Cc: chuck.lever@oracle.com, 
- jlayton@kernel.org, 
- linux-api@vger.kernel.org, 
- brauner@kernel.org, 
- edumazet@google.com, 
- davem@davemloft.net, 
- alexander.duyck@gmail.com, 
- sridhar.samudrala@intel.com, 
- kuba@kernel.org, 
- willemdebruijn.kernel@gmail.com, 
- weiwan@google.com, 
- Joe Damato <jdamato@fastly.com>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, 
- Andrew Waterman <waterman@eecs.berkeley.edu>, 
- Arnd Bergmann <arnd@arndb.de>, 
- Dominik Brodowski <linux@dominikbrodowski.net>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Jan Kara <jack@suse.cz>, 
- Jiri Slaby <jirislaby@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, 
- Julien Panis <jpanis@baylibre.com>, 
- linux-doc@vger.kernel.org (open list:DOCUMENTATION), 
- "(open list:FILESYSTEMS \\(VFS and infrastructure\\))" <linux-fsdevel@vger.kernel.org>, 
- Michael Ellerman <mpe@ellerman.id.au>, 
- Nathan Lynch <nathanl@linux.ibm.com> (open list:FILESYSTEMS \(VFS and infrastructure\)), 
- Palmer Dabbelt <palmer@dabbelt.com>, 
- Steve French <stfrench@microsoft.com>, 
- Thomas Huth <thuth@redhat.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <65b52d6381de7_3a9e0b2943d@willemb.c.googlers.com.notmuch>
-In-Reply-To: <20240125225704.12781-1-jdamato@fastly.com>
-References: <20240125225704.12781-1-jdamato@fastly.com>
-Subject: Re: [PATCH net-next v3 0/3] Per epoll context busy poll support
+	s=arc-20240116; t=1706373184; c=relaxed/simple;
+	bh=kCA9TsgWAj9jn5vlEBGgkwF7celX9k9TNJISTn56xmI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ocaThquUR3ty1nOCyhU8hiDYQcER2C7/JpV2YErteVLFZj4OYoOX3PDNG06zF2XPgrVWBuNSz+mpwFrQrJcbIhlDBqLLImggszvOZz3jAPtZqn89R9BAadqAvsQnn1X3n0J+/iehh8xDO1iU6YbHSQy8q63SN9vS0dt8+piOkLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=DdFS4rez; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1706373181;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kCA9TsgWAj9jn5vlEBGgkwF7celX9k9TNJISTn56xmI=;
+	b=DdFS4rez6b1FpM7VDRDPe9I/S/64LdhV4mdmdQICFscCFQJ0SeQh01D3U/JzhWycxb8DyO
+	zhZBASOAV5/AXicUiFd1palTkxlf1cBHmSKhN0Lz5g8dQg+xUu4amKudacOqHd4APNJR6p
+	5AaNaLIxfe/i0A/Sh+saF+egaovdiaw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-614-Fc0-O_u7Mjaip4MGg-JMYQ-1; Sat, 27 Jan 2024 11:32:55 -0500
+X-MC-Unique: Fc0-O_u7Mjaip4MGg-JMYQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 65637835381;
+	Sat, 27 Jan 2024 16:32:55 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.224.4])
+	by smtp.corp.redhat.com (Postfix) with SMTP id D52E42166B32;
+	Sat, 27 Jan 2024 16:32:53 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Sat, 27 Jan 2024 17:31:41 +0100 (CET)
+Date: Sat, 27 Jan 2024 17:31:39 +0100
+From: Oleg Nesterov <oleg@redhat.com>
+To: Tycho Andersen <tycho@tycho.pizza>
+Cc: Christian Brauner <brauner@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org, Tycho Andersen <tandersen@netflix.com>,
+	"Eric W. Biederman" <ebiederm@xmission.com>
+Subject: Re: [PATCH v3 1/3] pidfd: allow pidfd_open() on non-thread-group
+ leaders
+Message-ID: <20240127163117.GB13787@redhat.com>
+References: <20240123153452.170866-1-tycho@tycho.pizza>
+ <20240123153452.170866-2-tycho@tycho.pizza>
+ <20240123195608.GB9978@redhat.com>
+ <ZbArN3EYRfhrNs3o@tycho.pizza>
+ <20240125140830.GA5513@redhat.com>
+ <ZbQpPknTTCyiyxrP@tycho.pizza>
+ <20240127105410.GA13787@redhat.com>
+ <ZbUngjQMg+YUBAME@tycho.pizza>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZbUngjQMg+YUBAME@tycho.pizza>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.6
 
-Joe Damato wrote:
-> Greetings:
-> 
-> Welcome to v3. Cover letter updated from v2 to explain why ioctl and
-> adjusted my cc_cmd to try to get the correct people in addition to folks
-> who were added in v1 & v2. Labeled as net-next because it seems networking
-> related to me even though it is fs code.
-> 
-> TL;DR This builds on commit bf3b9f6372c4 ("epoll: Add busy poll support to
-> epoll with socket fds.") by allowing user applications to enable
-> epoll-based busy polling and set a busy poll packet budget on a per epoll
-> context basis.
-> 
-> This makes epoll-based busy polling much more usable for user
-> applications than the current system-wide sysctl and hardcoded budget.
-> 
-> To allow for this, two ioctls have been added for epoll contexts for
-> getting and setting a new struct, struct epoll_params.
-> 
-> ioctl was chosen vs a new syscall after reviewing a suggestion by Willem
-> de Bruijn [1]. I am open to using a new syscall instead of an ioctl, but it
-> seemed that: 
->   - Busy poll affects all existing epoll_wait and epoll_pwait variants in
->     the same way, so new verions of many syscalls might be needed. It
+On 01/27, Tycho Andersen wrote:
+>
+> It seems like (and the current pidfd_test enforces for some cases)
 
-There is no need to support a new feature on legacy calls. Applications have
-to be upgraded to the new ioctl, so they can also be upgraded to the latest
-epoll_wait variant.
+Which pidfd_test ?
 
-epoll_pwait extends epoll_wait with a sigmask.
-epoll_pwait2 extends extends epoll_pwait with nsec resolution timespec.
-Since they are supersets, nothing is lots by limiting to the most recent API.
+> we
+> want exactly one notification for a task dying.
 
-In the discussion of epoll_pwait2 the addition of a forward looking flags
-argument was discussed, but eventually dropped. Based on the argument that
-adding a syscall is not a big task and does not warrant preemptive code.
-This decision did receive a suitably snarky comment from Jonathan Corbet [1].
+This can't be right. EVERY user of poll_wait() or wait_event/etc
+must handle/tolerate the false wakeups.
 
-It is definitely more boilerplate, but essentially it is as feasible to add an
-epoll_pwait3 that takes an optional busy poll argument. In which case, I also
-believe that it makes more sense to configure the behavior of the syscall
-directly, than through another syscall and state stored in the kernel.
+> I don't understand
+> how we guarantee this now, with all of these calls.
 
-I don't think that the usec fine grain busy poll argument is all that useful.
-Documentation always suggests setting it to 50us or 100us, based on limited
-data. Main point is to set it to exceed the round-trip delay of whatever the
-process is trying to wait on. Overestimating is not costly, as the call
-returns as soon as the condition is met. An epoll_pwait3 flag EPOLL_BUSY_POLL
-with default 100us might be sufficient.
+I don't understand why do we need or even want to guarantee this.
 
-[1] https://lwn.net/Articles/837816/
+The extra wakeup must be always fine correctness-wise. Sure, it
+would be nice to avoid the unnecessary wakeups, and perhaps we
+can change wake_up_all() to pass a key to, say, only wake_up the
+PIDFD_THREAD waiters from exit_notify(). But certainly this is
+outside the scope of PIDFD_THREAD change we discuss.
 
+The changes in do_notify_parent() (I have already sent the patch) and
+in exit_notify() (proposed in my previous email) just ensure that,
+with the minimal changes, we avoid 2 do_notify_pidfd's from the same
+exit_notify() path.
 
->     seems much simpler for users to use the correct
->     epoll_wait/epoll_pwait for their app and add a call to ioctl to enable
->     or disable busy poll as needed. This also probably means less work to
->     get an existing epoll app using busy poll.
+> > exit_notify() is called after exit_files(). pidfd_getfd() returns
+> > ESRCH if the exiting thread completes release_task(), otherwise it
+> > returns EBADF because ->files == NULL. This too doesn't really
+> > depend on PIDFD_THREAD.
+>
+> Yup, understood. It just seems like an inconsistency we might want to
+> fix.
+
+Not sure this worth "fixing"...
+
+Oleg.
 
 
