@@ -1,178 +1,272 @@
-Return-Path: <linux-api+bounces-707-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-708-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3ECAC83FFEA
-	for <lists+linux-api@lfdr.de>; Mon, 29 Jan 2024 09:20:02 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FF7E8403C2
+	for <lists+linux-api@lfdr.de>; Mon, 29 Jan 2024 12:24:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C5FB8B219C6
-	for <lists+linux-api@lfdr.de>; Mon, 29 Jan 2024 08:19:59 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B3ECD1C22A76
+	for <lists+linux-api@lfdr.de>; Mon, 29 Jan 2024 11:24:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6338952F89;
-	Mon, 29 Jan 2024 08:19:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 631585B5D0;
+	Mon, 29 Jan 2024 11:24:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JIhpEHYY"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ib+ejaEx"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 551C652F7D;
-	Mon, 29 Jan 2024 08:19:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74B616024C
+	for <linux-api@vger.kernel.org>; Mon, 29 Jan 2024 11:24:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706516393; cv=none; b=CpRrJAC2ll/imTZJ2P/FSxufAu+JG1YjoHf5cn+/WAmQhKBEc4CgrLI0L+kLpHwW2bGaoHy6KgJYIBSuW9UpIyIErW1jGgZPemP7HpH+04xlHbjUCEEAzhOKh2cG7lDQvL8nGRTmC06l9T85rz2uaPCEz6uAzGI3/t1TqHT/TqI=
+	t=1706527479; cv=none; b=hTBeY6p88WgBwrMjaPBSRkPXJNmZ/LWuR92OOlB+JR9q77MetsHLuWRJC/lzeHVuwy5FHya/Mjw1Xab6C8qgjys3nZedHQn1n1o1AEEaHgTQ4wOGffcSCHn4CAKYUZRMtS9Ig4QgMkK/OO9uBx61meb5lCgXYQE5sgkHsl80too=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706516393; c=relaxed/simple;
-	bh=q9yLJZ27jvLejI0DqUZQHKwFIPnOnNb3BDVtGNN+2V8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=RJYQJ6u/J1sVUml+D6zngjlqj+H9vl+rpshN8y15mM9mjYIqMP5KQxFvwkYUsJxKjmdtn7haKMX7sQMpBDnKfi4Xg0qqAdrEs6DiXUhQyP5XHeEkUn3NIUroX5Qu0FHmx7Im6r9F/w4iSQPPiDva1jok24dTk/0VeyhO7YPz/Ow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JIhpEHYY; arc=none smtp.client-ip=134.134.136.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706516391; x=1738052391;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=q9yLJZ27jvLejI0DqUZQHKwFIPnOnNb3BDVtGNN+2V8=;
-  b=JIhpEHYYMvTxRTFQDg0GX6eNZ8ZrelCTytzl6lu3MLSj8do4/hyeMKdr
-   Pxr61zTtMSIsq6v8Ng5HsbrffwCcCKBWp5xxrRQr4ApC1xndMde+HBIYu
-   UcjWBmn+tDgGOQQNyY1A4JYZe39PIvX7c76rGpS97oGoMjBfyUHyv/Yie
-   puqXR4o8//dVHWt4KTttEn4MVPMcQDpO5WUUOx+CHi4H82k3hw9uXG1hb
-   cXC4HRGKBOrcEv8bpVq//efrh+O6Bjtzk6uWpJNbrOg4xZRtJskdvH2Hn
-   MVsMdx/90lTxckoJwhLIlyUYUAFTGCS7axdUQxvy9e07n8i3KHfJHrD3H
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10967"; a="406609298"
-X-IronPort-AV: E=Sophos;i="6.05,226,1701158400"; 
-   d="scan'208";a="406609298"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2024 00:19:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,226,1701158400"; 
-   d="scan'208";a="29701150"
-Received: from yhuang6-desk2.sh.intel.com (HELO yhuang6-desk2.ccr.corp.intel.com) ([10.238.208.55])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2024 00:19:43 -0800
-From: "Huang, Ying" <ying.huang@intel.com>
-To: Gregory Price <gregory.price@memverge.com>
-Cc: Gregory Price <gourry.memverge@gmail.com>,  <linux-mm@kvack.org>,
-  <linux-kernel@vger.kernel.org>,  <linux-doc@vger.kernel.org>,
-  <linux-fsdevel@vger.kernel.org>,  <linux-api@vger.kernel.org>,
-  <corbet@lwn.net>,  <akpm@linux-foundation.org>,  <honggyu.kim@sk.com>,
-  <rakie.kim@sk.com>,  <hyeongtak.ji@sk.com>,  <mhocko@kernel.org>,
-  <vtavarespetr@micron.com>,  <jgroves@micron.com>,
-  <ravis.opensrc@micron.com>,  <sthanneeru@micron.com>,
-  <emirakhur@micron.com>,  <Hasan.Maruf@amd.com>,
-  <seungjun.ha@samsung.com>,  <hannes@cmpxchg.org>,
-  <dan.j.williams@intel.com>
-Subject: Re: [PATCH v3 4/4] mm/mempolicy: change cur_il_weight to atomic and
- carry the node with it
-In-Reply-To: <ZbPf6d2cQykdl3Eb@memverge.com> (Gregory Price's message of "Fri,
-	26 Jan 2024 11:38:01 -0500")
-References: <20240125184345.47074-1-gregory.price@memverge.com>
-	<20240125184345.47074-5-gregory.price@memverge.com>
-	<87sf2klez8.fsf@yhuang6-desk2.ccr.corp.intel.com>
-	<ZbPf6d2cQykdl3Eb@memverge.com>
-Date: Mon, 29 Jan 2024 16:17:46 +0800
-Message-ID: <877cjsk0yd.fsf@yhuang6-desk2.ccr.corp.intel.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	s=arc-20240116; t=1706527479; c=relaxed/simple;
+	bh=M1eZFkZenuGschG9LJXhONAKU2yn51nzZ4is/X0qaLA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RJmBVu75e6+6yBrS9BNPcmVX2/9x8iqBUnvyhGyxDwV7NS8qUk3Ec2qrEyIjqfMSmNipgxl2ADYDJ3QOrP9Hu4lvgGrgKFfvDGkdi5FmToPkosxQbGDMZ/yGYS/LwYBnQaxDdIdHa7mniwniF/FvxVn1SLLNnC4rZXPa7EO2+nE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ib+ejaEx; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1706527476;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JNer/v8iFw3iF09xSTRkhGhoZsEuyh12Q2EV6DHDyCc=;
+	b=ib+ejaExuweKMHTbaoepJlr6KNFD7rtUrI19twvqU2Fs3ECtQ3HggS/siUaKvblquiVgRV
+	UgMoDrPAY76lcTQfI9c5+YUQOU69V+S+b8TJX7YrQTr+nQ/5bRmVUg/iwjQvLarE69JrPf
+	McQRl3Gq8qHBIMNrBXKiLYeAEGFBgxw=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-620-Phvqwf0aNS-LDx8ZAaLthQ-1; Mon,
+ 29 Jan 2024 06:24:32 -0500
+X-MC-Unique: Phvqwf0aNS-LDx8ZAaLthQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3CB933806635;
+	Mon, 29 Jan 2024 11:24:32 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.225.247])
+	by smtp.corp.redhat.com (Postfix) with SMTP id A7502152E;
+	Mon, 29 Jan 2024 11:24:30 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Mon, 29 Jan 2024 12:23:17 +0100 (CET)
+Date: Mon, 29 Jan 2024 12:23:15 +0100
+From: Oleg Nesterov <oleg@redhat.com>
+To: Tycho Andersen <tycho@tycho.pizza>
+Cc: Christian Brauner <brauner@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org, Tycho Andersen <tandersen@netflix.com>,
+	"Eric W. Biederman" <ebiederm@xmission.com>
+Subject: [RFC PATCH] pidfd: implement PIDFD_THREAD flag for pidfd_open()
+Message-ID: <20240129112313.GA11635@redhat.com>
+References: <ZbArN3EYRfhrNs3o@tycho.pizza>
+ <20240125140830.GA5513@redhat.com>
+ <ZbQpPknTTCyiyxrP@tycho.pizza>
+ <20240127105410.GA13787@redhat.com>
+ <ZbUngjQMg+YUBAME@tycho.pizza>
+ <20240127163117.GB13787@redhat.com>
+ <ZbU7d0dpTY08JgIl@tycho.pizza>
+ <20240127193127.GC13787@redhat.com>
+ <ZbVrRgIvudX242ZU@tycho.pizza>
+ <20240127210634.GE13787@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ascii
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240127210634.GE13787@redhat.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.1
 
-Gregory Price <gregory.price@memverge.com> writes:
+On 01/27, Oleg Nesterov wrote:
+>
+> I'll (hopefully) send v2 on top of
+>
+> 	pidfd: cleanup the usage of __pidfd_prepare's flags
+> 	pidfd: don't do_notify_pidfd() if !thread_group_empty()
+>
+> on Monday
 
-> On Fri, Jan 26, 2024 at 03:40:27PM +0800, Huang, Ying wrote:
->> Gregory Price <gourry.memverge@gmail.com> writes:
->> 
->> > Two special observations:
->> > - if the weight is non-zero, cur_il_weight must *always* have a
->> >   valid node number, e.g. it cannot be NUMA_NO_NODE (-1).
->> 
->> IIUC, we don't need that, "MAX_NUMNODES-1" is used instead.
->> 
->
-> Correct, I just thought it pertinent to call this out explicitly since
-> I'm stealing the top byte, but the node value has traditionally been a
-> full integer.
->
-> This may be relevant should anyone try to carry, a random node value
-> into this field. For example, if someone tried to copy policy->home_node
-> into cur_il_weight for whatever reason.
->
-> It's worth breaking out a function to defend against this - plus to hide
-> the bit operations directly as you recommend below.
->
->> >  	/* Weighted interleave settings */
->> > -	u8 cur_il_weight;
->> > +	atomic_t cur_il_weight;
->> 
->> If we use this field for node and weight, why not change the field name?
->> For example, cur_wil_node_weight.
->> 
->
-> ack.
->
->> > +			if (cweight & 0xFF)
->> > +				*policy = cweight >> 8;
->> 
->> Please define some helper functions or macros instead of operate on bits
->> directly.
->> 
->
-> ack.
->
->> >  			else
->> >  				*policy = next_node_in(current->il_prev,
->> >  						       pol->nodes);
->> 
->> If we record current node in pol->cur_il_weight, why do we still need
->> curren->il_prev.  Can we only use pol->cur_il_weight?  And if so, we can
->> even make current->il_prev a union.
->> 
->
-> I just realized that there's a problem here for shared memory policies.
->
-> from weighted_interleave_nodes, I do this:
->
-> cur_weight = atomic_read(&policy->cur_il_weight);
-> ...
-> weight--;
-> ...
-> atomic_set(&policy->cur_il_weight, cur_weight);
->
-> On a shared memory policy, this is a race condition.
->
->
-> I don't think we can combine il_prev and cur_wil_node_weight because
-> the task policy may be different than the current policy.
->
-> i.e. it's totally valid to do the following:
->
-> 1) set_mempolicy(MPOL_INTERLEAVE)
-> 2) mbind(..., MPOL_WEIGHTED_INTERLEAVE)
->
-> Using current->il_prev between these two policies, is just plain incorrect,
-> so I will need to rethink this, and the existing code will need to be
-> updated such that weighted_interleave does not use current->il_prev.
+Sorry, I don't have time to finish v2 today, I need to update the comments
+and write the changelog.
 
-IIUC, weighted_interleave_nodes() is only used for mempolicy of tasks
-(set_mempolicy()), as in the following code.
+But the patch itself is ready, I am sending it for review.
 
-+		*nid = (ilx == NO_INTERLEAVE_INDEX) ?
-+			weighted_interleave_nodes(pol) :
-+			weighted_interleave_nid(pol, ilx);
+Tycho, Christian, any comments?
 
-But, in contrast, it's bad to put task-local "current weight" in
-mempolicy.  So, I think that it's better to move cur_il_weight to
-task_struct.  And maybe combine it with current->il_prev.
+Oleg.
 
---
-Best Regards,
-Huang, Ying
+
+From c31780f6c1136a72048d24701ac6d8401fc1afda Mon Sep 17 00:00:00 2001
+From: Oleg Nesterov <oleg@redhat.com>
+Date: Sat, 27 Jan 2024 16:59:18 +0100
+Subject: [PATCH] pidfd: implement PIDFD_THREAD flag for pidfd_open()
+
+---
+ include/uapi/linux/pidfd.h |  3 ++-
+ kernel/exit.c              |  7 +++++++
+ kernel/fork.c              | 29 +++++++++++++++++++++++++++--
+ kernel/pid.c               |  2 +-
+ kernel/signal.c            |  4 +++-
+ 5 files changed, 40 insertions(+), 5 deletions(-)
+
+diff --git a/include/uapi/linux/pidfd.h b/include/uapi/linux/pidfd.h
+index 5406fbc13074..2e6461459877 100644
+--- a/include/uapi/linux/pidfd.h
++++ b/include/uapi/linux/pidfd.h
+@@ -7,6 +7,7 @@
+ #include <linux/fcntl.h>
+ 
+ /* Flags for pidfd_open().  */
+-#define PIDFD_NONBLOCK O_NONBLOCK
++#define PIDFD_NONBLOCK	O_NONBLOCK
++#define PIDFD_THREAD	O_EXCL
+ 
+ #endif /* _UAPI_LINUX_PIDFD_H */
+diff --git a/kernel/exit.c b/kernel/exit.c
+index dfb963d2f862..74fe6bfb9577 100644
+--- a/kernel/exit.c
++++ b/kernel/exit.c
+@@ -739,6 +739,13 @@ static void exit_notify(struct task_struct *tsk, int group_dead)
+ 		kill_orphaned_pgrp(tsk->group_leader, NULL);
+ 
+ 	tsk->exit_state = EXIT_ZOMBIE;
++	/*
++	 * sub-thread or delay_group_leader(), wake up the PIDFD_THREAD
++	 * waiters.
++	 */
++	if (!thread_group_empty(tsk))
++		do_notify_pidfd(tsk);
++
+ 	if (unlikely(tsk->ptrace)) {
+ 		int sig = thread_group_leader(tsk) &&
+ 				thread_group_empty(tsk) &&
+diff --git a/kernel/fork.c b/kernel/fork.c
+index 347641398f9d..977b58c0eac6 100644
+--- a/kernel/fork.c
++++ b/kernel/fork.c
+@@ -101,6 +101,7 @@
+ #include <linux/user_events.h>
+ #include <linux/iommu.h>
+ #include <linux/rseq.h>
++#include <uapi/linux/pidfd.h>
+ 
+ #include <asm/pgalloc.h>
+ #include <linux/uaccess.h>
+@@ -2050,6 +2051,8 @@ static void pidfd_show_fdinfo(struct seq_file *m, struct file *f)
+ 
+ 	seq_put_decimal_ll(m, "Pid:\t", nr);
+ 
++	/* TODO: report PIDFD_THREAD */
++
+ #ifdef CONFIG_PID_NS
+ 	seq_put_decimal_ll(m, "\nNSpid:\t", nr);
+ 	if (nr > 0) {
+@@ -2068,12 +2071,27 @@ static void pidfd_show_fdinfo(struct seq_file *m, struct file *f)
+ }
+ #endif
+ 
++static bool pidfd_task_exited(struct pid *pid, bool thread)
++{
++	struct task_struct *task;
++	bool exited;
++
++	rcu_read_lock();
++	task = pid_task(pid, PIDTYPE_PID);
++	exited = !task ||
++		(READ_ONCE(task->exit_state) && (thread || thread_group_empty(task)));
++	rcu_read_unlock();
++
++	return exited;
++}
++
+ /*
+  * Poll support for process exit notification.
+  */
+ static __poll_t pidfd_poll(struct file *file, struct poll_table_struct *pts)
+ {
+ 	struct pid *pid = file->private_data;
++	bool thread = file->f_flags & PIDFD_THREAD;
+ 	__poll_t poll_flags = 0;
+ 
+ 	poll_wait(file, &pid->wait_pidfd, pts);
+@@ -2083,7 +2101,7 @@ static __poll_t pidfd_poll(struct file *file, struct poll_table_struct *pts)
+ 	 * If the thread group leader exits before all other threads in the
+ 	 * group, then poll(2) should block, similar to the wait(2) family.
+ 	 */
+-	if (thread_group_exited(pid))
++	if (pidfd_task_exited(pid, thread))
+ 		poll_flags = EPOLLIN | EPOLLRDNORM;
+ 
+ 	return poll_flags;
+@@ -2141,6 +2159,11 @@ static int __pidfd_prepare(struct pid *pid, unsigned int flags, struct file **re
+ 		return PTR_ERR(pidfd_file);
+ 	}
+ 	get_pid(pid); /* held by pidfd_file now */
++	/*
++	 * anon_inode_getfile() ignores everything outside of the
++	 * O_ACCMODE | O_NONBLOCK mask, set PIDFD_THREAD manually.
++	 */
++	pidfd_file->f_flags |= (flags & PIDFD_THREAD);
+ 	*ret = pidfd_file;
+ 	return pidfd;
+ }
+@@ -2173,7 +2196,9 @@ static int __pidfd_prepare(struct pid *pid, unsigned int flags, struct file **re
+  */
+ int pidfd_prepare(struct pid *pid, unsigned int flags, struct file **ret)
+ {
+-	if (!pid || !pid_has_task(pid, PIDTYPE_TGID))
++	bool thread = flags & PIDFD_THREAD;
++
++	if (!pid || !pid_has_task(pid, thread ? PIDTYPE_PID : PIDTYPE_TGID));
+ 		return -EINVAL;
+ 
+ 	return __pidfd_prepare(pid, flags, ret);
+diff --git a/kernel/pid.c b/kernel/pid.c
+index c7a3e359f8f5..04bdd5ecf183 100644
+--- a/kernel/pid.c
++++ b/kernel/pid.c
+@@ -629,7 +629,7 @@ SYSCALL_DEFINE2(pidfd_open, pid_t, pid, unsigned int, flags)
+ 	int fd;
+ 	struct pid *p;
+ 
+-	if (flags & ~PIDFD_NONBLOCK)
++	if (flags & ~(PIDFD_NONBLOCK | PIDFD_THREAD))
+ 		return -EINVAL;
+ 
+ 	if (pid <= 0)
+diff --git a/kernel/signal.c b/kernel/signal.c
+index 9561a3962ca6..919cd33a0405 100644
+--- a/kernel/signal.c
++++ b/kernel/signal.c
+@@ -2051,7 +2051,8 @@ bool do_notify_parent(struct task_struct *tsk, int sig)
+ 	WARN_ON_ONCE(!tsk->ptrace &&
+ 	       (tsk->group_leader != tsk || !thread_group_empty(tsk)));
+ 	/*
+-	 * tsk is a group leader and has no threads, wake up the pidfd waiters.
++	 * tsk is a group leader and has no threads, wake up the !PIDFD_THREAD
++	 * waiters.
+ 	 */
+ 	if (thread_group_empty(tsk))
+ 		do_notify_pidfd(tsk);
+@@ -3926,6 +3927,7 @@ SYSCALL_DEFINE4(pidfd_send_signal, int, pidfd, int, sig,
+ 		prepare_kill_siginfo(sig, &kinfo);
+ 	}
+ 
++	/* TODO: respect PIDFD_THREAD */
+ 	ret = kill_pid_info(sig, &kinfo, pid);
+ 
+ err:
+-- 
+2.25.1.362.g51ebf55
+
+
 
