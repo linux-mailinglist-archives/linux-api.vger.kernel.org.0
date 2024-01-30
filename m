@@ -1,211 +1,170 @@
-Return-Path: <linux-api+bounces-718-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-719-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3BE5841B60
-	for <lists+linux-api@lfdr.de>; Tue, 30 Jan 2024 06:20:43 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8541E8420F3
+	for <lists+linux-api@lfdr.de>; Tue, 30 Jan 2024 11:15:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5B8E528A168
-	for <lists+linux-api@lfdr.de>; Tue, 30 Jan 2024 05:20:42 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 79536B2A131
+	for <lists+linux-api@lfdr.de>; Tue, 30 Jan 2024 10:15:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89E8A37719;
-	Tue, 30 Jan 2024 05:20:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F8B26089C;
+	Tue, 30 Jan 2024 10:14:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TEUMk/AC"
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="aTLvInhO"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A76DC38391;
-	Tue, 30 Jan 2024 05:20:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF80C6089B;
+	Tue, 30 Jan 2024 10:14:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706592034; cv=none; b=Z+FNZ+E8ZmWTv8GF6FDaPLVQimJ3+y0lGa3C2fLpc0LRMyWP2ipLqmba1K76fiFlRRt0f79QmeGWWxQkKihhwRozrh23T5CyjUZTptFhqYSoZwovNAB6TmPdgDqG9okzXiMoBaoehwyux3FMGhkEyyi+B9isDjk26SfrHGQWVNI=
+	t=1706609683; cv=none; b=FlKVzI8T3yY45ONBHEbPslHkaYPsxes+orGWnLXT6GoQ2ViDy6zC+fihfluSIrZytZpooI0mIzmU8nj3jUJ1yBz3RujKrnAZriMyyiL9PEB80x+0f1EqOLx+IOxCm76MI4OvUBypOd3Y5f9NtirKFdvS3aUNvq6SyBNzFlim1J4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706592034; c=relaxed/simple;
-	bh=H+kUUwQrQMb1IwmAFXXv1tRw7HnV6M5rIHAXOc0j4jI=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=H99DqpYVAry+OBEkikuT3HmWD5eN8Ld2pZWYM1CdXRh7Tl+OgCN+0m3nQnStFrzQyG5yT2TCaYTtQxKx89WXNW2QxtmeyPaaVrrHnUXYpm+qZ4DHhWoRChmtz6nV808BfSgs/HWtl5FEXDk/gac1WUJ+yBsKDPOYz8pmJGyUl4o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TEUMk/AC; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706592033; x=1738128033;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=H+kUUwQrQMb1IwmAFXXv1tRw7HnV6M5rIHAXOc0j4jI=;
-  b=TEUMk/AC0iWr24N6H/ASEDQF3rZBKzuTMhfM42rDyXjzFMoQM8v3/q2Q
-   srOl23H+RAVnRpW7cIVHCPtZcnb8wW8XcfHeX3RM9nMOk9JKPKW0XsMLB
-   nTGULwkxghWS6tmO9JkhXyzlU1GvhsYhpKejdXLoGpiZapbjpeUHbey72
-   qRTMFbFixpsaVbub9XHxxIQogi0DJXnpBSf3u5Mnti6StRz1SOar1zvJR
-   PyGMizGPDyRfH6KjQDUjqcb3qMbHrJ4a7ROKdAWoTg54Wj8lSTpK3ECyv
-   YU19rO6Sb4AyvTNl22rg2zdBa4BefgzCcVPcD+IcPNfgphWm/9OrMmF/1
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="16560415"
-X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; 
-   d="scan'208";a="16560415"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2024 21:20:33 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="737657907"
-X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; 
-   d="scan'208";a="737657907"
-Received: from yhuang6-desk2.sh.intel.com (HELO yhuang6-desk2.ccr.corp.intel.com) ([10.238.208.55])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2024 21:20:27 -0800
-From: "Huang, Ying" <ying.huang@intel.com>
-To: Gregory Price <gregory.price@memverge.com>
-Cc: Gregory Price <gourry.memverge@gmail.com>,  <linux-mm@kvack.org>,
-  <linux-kernel@vger.kernel.org>,  <linux-doc@vger.kernel.org>,
-  <linux-fsdevel@vger.kernel.org>,  <linux-api@vger.kernel.org>,
-  <corbet@lwn.net>,  <akpm@linux-foundation.org>,  <honggyu.kim@sk.com>,
-  <rakie.kim@sk.com>,  <hyeongtak.ji@sk.com>,  <mhocko@kernel.org>,
-  <vtavarespetr@micron.com>,  <jgroves@micron.com>,
-  <ravis.opensrc@micron.com>,  <sthanneeru@micron.com>,
-  <emirakhur@micron.com>,  <Hasan.Maruf@amd.com>,
-  <seungjun.ha@samsung.com>,  <hannes@cmpxchg.org>,
-  <dan.j.williams@intel.com>
-Subject: Re: [PATCH v3 4/4] mm/mempolicy: change cur_il_weight to atomic and
- carry the node with it
-In-Reply-To: <ZbhuJTBp68e8eLRv@memverge.com> (Gregory Price's message of "Mon,
-	29 Jan 2024 22:33:57 -0500")
-References: <20240125184345.47074-1-gregory.price@memverge.com>
-	<20240125184345.47074-5-gregory.price@memverge.com>
-	<87sf2klez8.fsf@yhuang6-desk2.ccr.corp.intel.com>
-	<ZbPf6d2cQykdl3Eb@memverge.com>
-	<877cjsk0yd.fsf@yhuang6-desk2.ccr.corp.intel.com>
-	<ZbfI3+nhgQlNKMPG@memverge.com> <ZbfqVHA9+38/j3Mq@memverge.com>
-	<875xzbika0.fsf@yhuang6-desk2.ccr.corp.intel.com>
-	<ZbhuJTBp68e8eLRv@memverge.com>
-Date: Tue, 30 Jan 2024 13:18:30 +0800
-Message-ID: <871q9ziel5.fsf@yhuang6-desk2.ccr.corp.intel.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	s=arc-20240116; t=1706609683; c=relaxed/simple;
+	bh=4OenpZVY4dbk5nXvN+goEJzBtcGnmrWCa+AaSJWh1NA=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=ZfHUdpJKY+Qvhnl0QemOZyRxl5af3NpxlMg5FD9Y5wPuKDhtUp6TVK63M1M11MAumdyYgI5bcIrIvzZ9XSvu0sKkY0g/lFrJH6Wuu8TLtnLTFwIRobnc2Ye90yM9gp7XMe1UxbHoBnrF9zmBO1xG49QKFNC98a0brVkzgwPeSJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=aTLvInhO; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+Received: from pps.filterd (m0353722.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 40UA9WOL004459;
+	Tue, 30 Jan 2024 10:12:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=upER89UEQid8jme3NrL4nYMZx1b2Ukd4Ox1S4tv0K6E=;
+ b=aTLvInhOgDFtWo+hahWtXRW09lRICEdOe3b6Q91S9mNs/doIfakYKAP0nELHZTabo3Xg
+ emX1+QOw8fLbkvWGYH1yxzvaV8W6LTEfZPvgpYGm9wDsoakTbsfI5RY7ar2PCYMBSOPq
+ m3eyJCkFL1IA8GOsm9jgpa3/xVeFB3E20CbVwqmKV9WZkAds106b3Cof77cRTc2banBx
+ 1+isQ3N2tZrLrNX7J20FGlaR0GskVO5Q734Ry6t2XXfx3PjB0jAHNhiIxbqGRkxohIa6
+ KhvS9S/a9P+JocfuHX+35v9aXyKGeuTW0ba+qYmYiHaKe8alZWRIUFWeXpOFlSPTMg9y SQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3vxy40g1q3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 30 Jan 2024 10:12:07 +0000
+Received: from m0353722.ppops.net (m0353722.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 40UAAtYa007474;
+	Tue, 30 Jan 2024 10:12:06 GMT
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3vxy40g1pp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 30 Jan 2024 10:12:06 +0000
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 40U7Z93l007979;
+	Tue, 30 Jan 2024 10:12:05 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3vwdnkwxkq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 30 Jan 2024 10:12:05 +0000
+Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
+	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 40UAC20W12386846
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 30 Jan 2024 10:12:02 GMT
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 33E5D20065;
+	Tue, 30 Jan 2024 10:12:02 +0000 (GMT)
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 652AC2005A;
+	Tue, 30 Jan 2024 10:12:01 +0000 (GMT)
+Received: from [9.179.18.183] (unknown [9.179.18.183])
+	by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Tue, 30 Jan 2024 10:12:01 +0000 (GMT)
+Message-ID: <eacbf3b3-b004-4086-8db1-82e75407bbaa@linux.ibm.com>
+Date: Tue, 30 Jan 2024 11:12:01 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: Several tst-robust* tests time out with recent Linux kernel
+Content-Language: en-US
+To: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
+        "peterz@infradead.org" <peterz@infradead.org>
+Cc: "xry111@xry111.site" <xry111@xry111.site>,
+        "hca@linux.ibm.com" <hca@linux.ibm.com>,
+        "andrealmeid@igalia.com" <andrealmeid@igalia.com>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "svens@linux.ibm.com" <svens@linux.ibm.com>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>
+References: <4bda9f2e06512e375e045f9e72edb205104af19c.camel@xry111.site>
+ <d69d50445284a5e0d98a64862877c1e6ec22a9a8.camel@xry111.site>
+ <20231114153100.GY8262@noisy.programming.kicks-ass.net>
+ <20231114154017.GI4779@noisy.programming.kicks-ass.net>
+ <87ttpowajb.fsf@oldenburg.str.redhat.com>
+ <20231114201402.GA25315@noisy.programming.kicks-ass.net>
+ <822f3a867e5661ce61cea075a00ce04a4e4733f3.camel@intel.com>
+ <20231115085102.GY3818@noisy.programming.kicks-ass.net>
+ <564119521b61b5a38f9bdfe6c7a41fcbb07049c9.camel@intel.com>
+ <158f6a47727a40c163e3fa6041a24388549c68f2.camel@intel.com>
+ <fc3fd07a-218d-406c-918b-e7f701968eb0@linux.ibm.com>
+ <eeb6d178dff61dfebf5a3ce9675486a3271b748c.camel@intel.com>
+From: Stefan Liebler <stli@linux.ibm.com>
+In-Reply-To: <eeb6d178dff61dfebf5a3ce9675486a3271b748c.camel@intel.com>
+Content-Type: text/plain; charset=UTF-8
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: zAaT6FhW-QCX8Kl-edW71T0vd8GHnCfD
+X-Proofpoint-GUID: QnaFMkxqxQUKrl7I6Cwi0p6BjCr660eX
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ascii
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-01-30_05,2024-01-29_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ bulkscore=0 malwarescore=0 suspectscore=0 adultscore=0 clxscore=1015
+ impostorscore=0 mlxscore=0 mlxlogscore=999 spamscore=0 phishscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311290000 definitions=main-2401300074
 
-Gregory Price <gregory.price@memverge.com> writes:
+On 29.01.24 23:23, Edgecombe, Rick P wrote:
+> On Fri, 2024-01-19 at 14:56 +0100, Stefan Liebler wrote:
+>> I've reduced the test (see attachement) and now have only one process
+>> with three threads.
+> 
+> This tests fails on my setup as well:
+> main: start 3 threads.
+> #0: started: fct=1
+> #1: started: fct=1
+> #2: started: fct=1
+> #2: mutex_timedlock failed with 22 (round=28772)
+> 
+> But, after this patch:
+> https://lore.kernel.org/all/20240116130810.ji1YCxpg@linutronix.de/
+> 
+> ...the attached test hangs.
+> 
+> However, the glibc test that was failing for me "nptl/tst-robustpi8"
+> passes with the linked patch applied. So I think that patch fixes the
+> issue I hit.
+> 
+> What is passing supposed to look like on the attached test?
 
-> On Tue, Jan 30, 2024 at 11:15:35AM +0800, Huang, Ying wrote:
->> Gregory Price <gregory.price@memverge.com> writes:
->> 
->> > On Mon, Jan 29, 2024 at 10:48:47AM -0500, Gregory Price wrote:
->> >> On Mon, Jan 29, 2024 at 04:17:46PM +0800, Huang, Ying wrote:
->> >> > Gregory Price <gregory.price@memverge.com> writes:
->> >> > 
->> >> > But, in contrast, it's bad to put task-local "current weight" in
->> >> > mempolicy.  So, I think that it's better to move cur_il_weight to
->> >> > task_struct.  And maybe combine it with current->il_prev.
->> >> > 
->> >> Style question: is it preferable add an anonymous union into task_struct:
->> >> 
->> >> union {
->> >>     short il_prev;
->> >>     atomic_t wil_node_weight;
->> >> };
->> >> 
->> >> Or should I break out that union explicitly in mempolicy.h?
->> >> 
->> >
->> > Having attempted this, it looks like including mempolicy.h into sched.h
->> > is a non-starter.  There are build issues likely associated from the
->> > nested include of uapi/linux/mempolicy.h
->> >
->> > So I went ahead and did the following.  Style-wise If it's better to just
->> > integrate this as an anonymous union in task_struct, let me know, but it
->> > seemed better to add some documentation here.
->> >
->> > I also added static get/set functions to mempolicy.c to touch these
->> > values accordingly.
->> >
->> > As suggested, I changed things to allow 0-weight in il_prev.node_weight
->> > adjusted the logic accordingly. Will be testing this for a day or so
->> > before sending out new patches.
->> >
->> 
->> Thanks about this again.  It seems that we don't need to touch
->> task->il_prev and task->il_weight during rebinding for weighted
->> interleave too.
->> 
->
-> It's not clear to me this is the case.  cpusets takes the task_lock to
-> change mems_allowed and rebind task->mempolicy, but I do not see the
-> task lock access blocking allocations.
->
-> Comments from cpusets suggest allocations can happen in parallel.
->
-> /*
->  * cpuset_change_task_nodemask - change task's mems_allowed and mempolicy
->  * @tsk: the task to change
->  * @newmems: new nodes that the task will be set
->  *
->  * We use the mems_allowed_seq seqlock to safely update both tsk->mems_allowed
->  * and rebind an eventual tasks' mempolicy. If the task is allocating in
->  * parallel, it might temporarily see an empty intersection, which results in
->  * a seqlock check and retry before OOM or allocation failure.
->  */
->
->
-> For normal interleave, this isn't an issue because it always proceeds to
-> the next node. The same is not true of weighted interleave, which may
-> have a hanging weight in task->il_weight.
+kernel commit "futex: Prevent the reuse of stale pi_state"
+https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/patch/?id=e626cb02ee8399fd42c415e542d031d185783903
 
-So, I added a check as follows,
+fixes the issue on s390x.
 
-node_isset(current->il_prev, policy->nodes)
+With this commit, the test runs to the end:
+main: start 3 threads.
+#0: started: fct=1
+#1: started: fct=1
+#2: started: fct=1
+#2: REACHED round 100000000. => exit
+#0: REACHED round 100000000. => exit
+#1: REACHED round 100000000. => exit
+main: end.
 
-If prev node is removed from nodemask, allocation will proceed to the
-next node.  Otherwise, it's safe to use current->il_weight.  
-
---
-Best Regards,
-Huang, Ying
-
-> That is why I looked to combine the two, so at least node/weight were
-> carried together.
->
->> unsigned int weighted_interleave_nodes(struct mempolicy *policy)
->> {
->>         unsigned int nid;
->>         struct task_struct *me = current;
->> 
->>         nid = me->il_prev;
->>         if (!me->il_weight || !node_isset(nid, policy->nodes)) {
->>                 nid = next_node_in(...);
->>                 me->il_prev = nid;
->>                 me->il_weight = weights[nid];
->>         }
->>         me->il_weight--;
->> 
->>         return nid;
->> }
->
-> I ended up with this:
->
-> static unsigned int weighted_interleave_nodes(struct mempolicy *policy)
-> {
->        unsigned int node;
->        u8 weight;
->
->        get_wil_prev(&node, &weight);
->        /* If nodemask was rebound, just fetch the next node */
->        if (!weight) {
->                node = next_node_in(node, policy->nodes);
->                /* can only happen if nodemask has become invalid */
->                if (node == MAX_NUMNODES)
->                        return node;
->                weight = get_il_weight(node);
->        }
->        weight--;
->        set_wil_prev(node, weight);
->        return node;
-> }
->
-> ~Gregory
+If you want you can reduce the number of rounds by compiling with
+-DROUNDS=XYZ or manually adjusting the ROUNDS macro define.
 
