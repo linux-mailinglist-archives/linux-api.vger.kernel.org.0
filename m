@@ -1,153 +1,102 @@
-Return-Path: <linux-api+bounces-772-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-773-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6221843AF5
-	for <lists+linux-api@lfdr.de>; Wed, 31 Jan 2024 10:22:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 026B68443EF
+	for <lists+linux-api@lfdr.de>; Wed, 31 Jan 2024 17:17:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 242D41C221F2
-	for <lists+linux-api@lfdr.de>; Wed, 31 Jan 2024 09:22:19 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 346F21C2653F
+	for <lists+linux-api@lfdr.de>; Wed, 31 Jan 2024 16:17:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6BCA60B85;
-	Wed, 31 Jan 2024 09:22:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1EE512BF13;
+	Wed, 31 Jan 2024 16:16:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wohi/Frx"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="CgORUqrJ"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 000A260885;
-	Wed, 31 Jan 2024 09:22:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F0D712BF04;
+	Wed, 31 Jan 2024 16:16:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706692928; cv=none; b=J8UJQ5KBv7R7jCcenqwVp4qz+5O1XFaVcfJap4fz6IhcQI5zaQNECnfagKWT/O+8HJYjskkyJLiWA8+zMc8M0nVveTzJmz7tdBhVqaDR+3v0+IcTj5MrZANH7JGMK3cY3246j4ZZyjJZGRPDhdfFRbCgEVBZqEBPC9cfy+snBYE=
+	t=1706717815; cv=none; b=DtlDLfrOpFKrgioGhjBUy4lPhId86mTNvTPgFy8Gnxm56g36zsTHfKIcfvqYmU20WLzuGyi/dUPDMYOcLNcGKsX2DLV6NUjGmGGE+hGCb3YOeQNMGpDKgwH0UFLLme1MZ3H7k9MyQrj4BkNGUUMGif3A9E5u0VCTos8y4Yup2lU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706692928; c=relaxed/simple;
-	bh=CIUpGUXPv7s5EVwneVuhL8R9G3KLULjDTGG/TKf9KI0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=C9bZLv4lchSpi5+CYuxQyK7QyqMP3rgimvDaz+cNzAdEM2NpuhRPiqzax3/H24hfWVwEs2/y5j+qzHpgBTcpHXdtn97038XWgNAQco8R5rCiDLD8fH1W3ZQEfKcEXK+sH5v9n4GLyiJQy/sCv2xZl3bEKXdzswxBKa3at8uTfUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wohi/Frx; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706692927; x=1738228927;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=CIUpGUXPv7s5EVwneVuhL8R9G3KLULjDTGG/TKf9KI0=;
-  b=Wohi/FrxDs8Yw8IVCJP877C7l70mB6IXxfzpTxQsRRncNWkrsxzmckIO
-   7hucbdRJQ72RB5VUtwJpNV+LbLL5jG9qZHTR0QfUi+sG0prPe5HPLCqlS
-   cgCSa998yKOmK9ofOdrrMSCj1x9NmrtdhXYGAtK0DXiGXwzE3o7ZR/cNm
-   UqkZlfWrzaUdno3VdwOejzNtCjUYWH2yLs4OBgPqatu09Y7CVBKiPpHVF
-   Hp0GRlGh49HrNQDxwMtmcrjQJ/rxuSka88NLXrgwub1bnEpEs6dXzvOpl
-   6Lx5tiBAbMiS/JGprmhHDUHa++nfXxdIVo3zypXJ1iKUPO9MRo8TeQmqc
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="2480966"
-X-IronPort-AV: E=Sophos;i="6.05,231,1701158400"; 
-   d="scan'208";a="2480966"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 01:21:54 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="738034755"
-X-IronPort-AV: E=Sophos;i="6.05,231,1701158400"; 
-   d="scan'208";a="738034755"
-Received: from yhuang6-desk2.sh.intel.com (HELO yhuang6-desk2.ccr.corp.intel.com) ([10.238.208.55])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 01:21:47 -0800
-From: "Huang, Ying" <ying.huang@intel.com>
-To: Gregory Price <gregory.price@memverge.com>
-Cc: Gregory Price <gourry.memverge@gmail.com>,  <linux-mm@kvack.org>,
-  <linux-kernel@vger.kernel.org>,  <linux-doc@vger.kernel.org>,
-  <linux-fsdevel@vger.kernel.org>,  <linux-api@vger.kernel.org>,
-  <corbet@lwn.net>,  <akpm@linux-foundation.org>,  <honggyu.kim@sk.com>,
-  <rakie.kim@sk.com>,  <hyeongtak.ji@sk.com>,  <mhocko@kernel.org>,
-  <vtavarespetr@micron.com>,  <jgroves@micron.com>,
-  <ravis.opensrc@micron.com>,  <sthanneeru@micron.com>,
-  <emirakhur@micron.com>,  <Hasan.Maruf@amd.com>,
-  <seungjun.ha@samsung.com>,  <hannes@cmpxchg.org>,
-  <dan.j.williams@intel.com>,  Srinivasulu Thanneeru
- <sthanneeru.opensrc@micron.com>
-Subject: Re: [PATCH v4 3/3] mm/mempolicy: introduce MPOL_WEIGHTED_INTERLEAVE
- for weighted interleaving
-In-Reply-To: <Zbn6FG3346jhrQga@memverge.com> (Gregory Price's message of "Wed,
-	31 Jan 2024 02:43:16 -0500")
-References: <20240130182046.74278-1-gregory.price@memverge.com>
-	<20240130182046.74278-4-gregory.price@memverge.com>
-	<877cjqgfzz.fsf@yhuang6-desk2.ccr.corp.intel.com>
-	<Zbn6FG3346jhrQga@memverge.com>
-Date: Wed, 31 Jan 2024 17:19:51 +0800
-Message-ID: <87y1c5g8qw.fsf@yhuang6-desk2.ccr.corp.intel.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	s=arc-20240116; t=1706717815; c=relaxed/simple;
+	bh=UWlq1EvrM0m1ICwPMbYYxNGA47wTvXH22WzmLVpjSio=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DYO+zqimSqrEDPrvrtPfhVH6616/+e8MtYUvpuvT3pjuhPLP58GKGfoEiXToJGa6vWvx7VEAqFzK8aOUWnFWNfumkLnaQLPhTkk8TaJZpu7ZM4SP5XvkvQ5Cc4OZqwMY/T3LUVfRnC/DHObq2kbDJXfUA6HUibIcN09F7ili5Xg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=CgORUqrJ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE299C43394;
+	Wed, 31 Jan 2024 16:16:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1706717814;
+	bh=UWlq1EvrM0m1ICwPMbYYxNGA47wTvXH22WzmLVpjSio=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CgORUqrJmMRy+gVz2WCDjKWTEcugunpPRz1KOkLESVexKQmfsQnJYdqUuBz3sUPZ5
+	 uarGdPXOwzHzLluU5h8xUdzXA/6nuIWUeZPHlK37WXT8q8/lDhrNKur26A4mv8mYh4
+	 u8PERyhH9A4LdAC+CI34Ay5qoQNbZssp3TOu4CAk=
+Date: Wed, 31 Jan 2024 08:16:54 -0800
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Jiri Slaby <jirislaby@kernel.org>
+Cc: Joe Damato <jdamato@fastly.com>, linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org, chuck.lever@oracle.com, jlayton@kernel.org,
+	linux-api@vger.kernel.org, brauner@kernel.org, edumazet@google.com,
+	davem@davemloft.net, alexander.duyck@gmail.com,
+	sridhar.samudrala@intel.com, kuba@kernel.org,
+	willemdebruijn.kernel@gmail.com, weiwan@google.com,
+	David.Laight@aculab.com, arnd@arndb.de,
+	Jonathan Corbet <corbet@lwn.net>,
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nathan Lynch <nathanl@linux.ibm.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Maik Broemme <mbroemme@libmpq.org>,
+	Steve French <stfrench@microsoft.com>,
+	Julien Panis <jpanis@baylibre.com>, Thomas Huth <thuth@redhat.com>,
+	Andrew Waterman <waterman@eecs.berkeley.edu>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+	"open list:FILESYSTEMS (VFS and infrastructure)" <linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH net-next v4 3/3] eventpoll: Add epoll ioctl for
+ epoll_params
+Message-ID: <2024013145-payment-enjoyment-6274@gregkh>
+References: <20240131014738.469858-1-jdamato@fastly.com>
+ <20240131014738.469858-4-jdamato@fastly.com>
+ <2024013001-prison-strum-899d@gregkh>
+ <20240131022756.GA4837@fastly.com>
+ <efee9789-4f05-4202-9a95-21d88f6307b0@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ascii
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <efee9789-4f05-4202-9a95-21d88f6307b0@kernel.org>
 
-Gregory Price <gregory.price@memverge.com> writes:
+On Wed, Jan 31, 2024 at 07:03:54AM +0100, Jiri Slaby wrote:
+> On 31. 01. 24, 3:27, Joe Damato wrote:
+> > On Tue, Jan 30, 2024 at 06:08:36PM -0800, Greg Kroah-Hartman wrote:
+> > > On Wed, Jan 31, 2024 at 01:47:33AM +0000, Joe Damato wrote:
+> > > > +struct epoll_params {
+> > > > +	__aligned_u64 busy_poll_usecs;
+> > > > +	__u16 busy_poll_budget;
+> > > > +
+> > > > +	/* pad the struct to a multiple of 64bits for alignment on all arches */
+> > > > +	__u8 __pad[6];
+> > > 
+> > > You HAVE to check this padding to be sure it is all 0, otherwise it can
+> > > never be used in the future for anything.
+> > 
+> > Is there some preferred mechanism for this in the kernel that I should be
+> > using or is this as simple as adding a for loop to check each u8 == 0 ?
+> 
+> You are likely looking for memchr_inv().
 
-> On Wed, Jan 31, 2024 at 02:43:12PM +0800, Huang, Ying wrote:
->> Gregory Price <gourry.memverge@gmail.com> writes:
->> >  
->> > +static unsigned int weighted_interleave_nodes(struct mempolicy *policy)
->> > +{
->> > +	unsigned int node = current->il_prev;
->> > +
->> > +	if (!current->il_weight || !node_isset(node, policy->nodes)) {
->> > +		node = next_node_in(node, policy->nodes);
->> > +		/* can only happen if nodemask is being rebound */
->> > +		if (node == MAX_NUMNODES)
->> > +			return node;
->> 
->> I feel a little unsafe to read policy->nodes at same time of writing in
->> rebound.  Is it better to use a seqlock to guarantee its consistency?
->> It's unnecessary to be a part of this series though.
->> 
->
-> I think this is handled already? It is definitely an explicit race
-> condition that is documented elsewhere:
->
-> /*
->  * mpol_rebind_policy - Migrate a policy to a different set of nodes
->  *
->  * Per-vma policies are protected by mmap_lock. Allocations using per-task
->  * policies are protected by task->mems_allowed_seq to prevent a premature
->  * OOM/allocation failure due to parallel nodemask modification.
->  */
-
-Thanks for pointing this out!
-
-If we use task->mems_allowed_seq reader side in
-weighted_interleave_nodes() we can guarantee the consistency of
-policy->nodes.  That may be not deserved, because it's not a big deal to
-allocate 1 page in a wrong node.
-
-It makes more sense to do that in
-alloc_pages_bulk_array_weighted_interleave(), because a lot of pages may
-be allocated there.
-
-> example from slub:
->
-> do {
-> 	cpuset_mems_cookie = read_mems_allowed_begin();
-> 	zonelist = node_zonelist(mempolicy_slab_node(), pc->flags);
-> 	...
-> } while (read_mems_allowed_retry(cpuset_mems_cookie));
->
-> quick perusal through other allocators, show similar checks.
->
-> page_alloc.c  -  check_retry_cpusetset()
-> filemap.c     -  filemap_alloc_folio()
->
-> If we ever want mempolicy to be swappable from outside the current task
-> context, this will have to change most likely - but that's another
-> feature for another day.
->
-
---
-Best Regards,
-Huang, Ying
+Ah, never noticed that, thanks!
 
