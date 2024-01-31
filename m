@@ -1,130 +1,132 @@
-Return-Path: <linux-api+bounces-780-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-781-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 304558446E3
-	for <lists+linux-api@lfdr.de>; Wed, 31 Jan 2024 19:12:15 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFA91844778
+	for <lists+linux-api@lfdr.de>; Wed, 31 Jan 2024 19:50:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A982F1F228BC
-	for <lists+linux-api@lfdr.de>; Wed, 31 Jan 2024 18:12:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9F6D41F26F72
+	for <lists+linux-api@lfdr.de>; Wed, 31 Jan 2024 18:50:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B276112FF77;
-	Wed, 31 Jan 2024 18:12:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CAA022095;
+	Wed, 31 Jan 2024 18:49:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amacapital-net.20230601.gappssmtp.com header.i=@amacapital-net.20230601.gappssmtp.com header.b="zxA9Jx+w"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Jg84FDUa"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1013651C2B
-	for <linux-api@vger.kernel.org>; Wed, 31 Jan 2024 18:12:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FC4D2135A
+	for <linux-api@vger.kernel.org>; Wed, 31 Jan 2024 18:49:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706724729; cv=none; b=LnJv96t5YCAEpBl8BM6pbuD8f2fDEP9/Annw+dtQ6BDlCrt5aDWuDE2u7OMD7bqlHj4m7M40l1+Ta8EwVOQ4defIvnMqZMWBrJ1sRmrtEKcfgEcwQHw9WuZo4E+WvPpYNX5mLIk2sEBTZjo+Q6nfpeZZ3vf6hK0RmCQWO7inlbQ=
+	t=1706726995; cv=none; b=A8tFSbJMs+/GOwDS9vUZ7SAIKCJITOSXhBuEnqHE5QfOCFAF7stvqvFnQZsj7u5tIiS1rgXbNXTQPQwMmBmxf4HkZTHHWORLhrL/JCZV6QiG3fq5PcNLdKQWll73oLwfcQ+H8M2fXGbM7gPuqIsDG5TRhqY9IXdFjx5jn1GjuTg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706724729; c=relaxed/simple;
-	bh=STgTLQoskTh+8DR2hD5JRM99Mcrb+r/d7oGmIrhDbR4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=G8vubF3yV9PKvKy2ENvEnThGc1+rZWFiNZuUHQ/Fi3hoA4xC8nQKUN4xirR4leC3CfvTHBdRAUf83Yfw2xclUiY/ZjWDf1ZJVEigYUTZrTT3axirfClwJ90TkItY94OEhO+UGOnjuMVJVNtchAr7mvaAJOyF0OQkVYCKj/nCz/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net; spf=pass smtp.mailfrom=amacapital.net; dkim=pass (2048-bit key) header.d=amacapital-net.20230601.gappssmtp.com header.i=@amacapital-net.20230601.gappssmtp.com header.b=zxA9Jx+w; arc=none smtp.client-ip=209.85.221.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
-Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-4bd9fd9eb7aso40629e0c.1
-        for <linux-api@vger.kernel.org>; Wed, 31 Jan 2024 10:12:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20230601.gappssmtp.com; s=20230601; t=1706724727; x=1707329527; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GGA0Zqk+riY1KRG9vwSmf4Mk+lzwyAYBV9JiVffdUNU=;
-        b=zxA9Jx+wpq6y2kh29ntpvVAdBb2QU4pBsQOGILAlLsouUWTz9yIPv6Zwfa9fvAApBD
-         2mQm+H/KIwLWgzQ7qy69FcXVUbQvYMkqTzBhvRxI7LMszqkgMdF42tiISehaPC2jwdFH
-         xst+II4syImd1pUKhpXJUvwYSk3sQgMWKcm56MX8e8DEVt/ZV8Dday9oL7nXnHC004r1
-         0vpWb0At0+7/DUaFVUgBrUmTmLhGSG5BT+Q/S1z8oR/rF+j45Wm5/rHJiLBO3/0BFw8W
-         NXr4CWiUO1m0amm6KBcc2iCQvjK/3czBAWVpJKaQ9i3xU6nXS8CeD8+12/8iqcmbHwMV
-         RSOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706724727; x=1707329527;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GGA0Zqk+riY1KRG9vwSmf4Mk+lzwyAYBV9JiVffdUNU=;
-        b=FBd60QF8VXllBHT5tY6Ud0o2Ysm63oOKcvjbEJZwg8V8xITEKte5DCMo+Ng7KH+AMw
-         ysXkZHpubXRk6d1JZPT68ZCHjUvnL6X/Q8jOvFGbg26QNvN/CDse3keeESwdwfqU9+Vt
-         XoZC15ybeehcfiALAPemMgEC32OEBvQRHxcOahkUX7SEL75jGpjmvzpKS1YJyrQwJ2Ym
-         JBHOGcZiDK8+4thCL5nwC6PM3caWOmtkDXFbRR0UIRWNLaN5o72+XIS2WUYdf61kcnTb
-         bZnXyqlIvJq2v3ELWnyXOpZrtzLxxfpr5/ZWlN9aiT1CO8d9NQpl3T8yTN7iaquPC59m
-         dBsw==
-X-Gm-Message-State: AOJu0Ywm0TnNMIX5dcvBOVn8syvLb5otRZL5Ph8fSH81Zqqr0coKR3nR
-	eLR5Ej25QjdAmwaAkWGx83/fLGXuMRtcAq9mVSP86Nn1kGrgw9vKxGcoSCsj1xmG3ueTRLNtjl5
-	+2UNdxVcnNn0+QGjKwSFjox5zXdImyMFG9Ecq
-X-Google-Smtp-Source: AGHT+IFkr7a2wSPfcQxL+NcIOkwv4R5ssE/UGOW4KTbxhGE7PmX0HB6/IYgYxwhNh4IPK32iKi1cD80qdVW5ZLu3IZA=
-X-Received: by 2002:a05:6122:c99:b0:4bd:3b1d:38b8 with SMTP id
- ba25-20020a0561220c9900b004bd3b1d38b8mr2470740vkb.1.1706724726988; Wed, 31
- Jan 2024 10:12:06 -0800 (PST)
+	s=arc-20240116; t=1706726995; c=relaxed/simple;
+	bh=X4u+dQV5QUMk/zja0MJJBmXhJnm57hYRFF/uFj0w7ks=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=B0fq/Nryri+YuaNcyLh7jXGfoVT1KZwpsO2XEjs/GjhLRnQcgh7NIm1vNP6d4dUxSDNS6S155JenE/6UR5AWOg/9kyTTFjwjc3z93aG1PjhgQUKxjbmMU4rEe1HhAed8t4A64TJYLq5H5zpgrwEyC5O/+G5u3vUO2LwKNOlwKYQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Jg84FDUa; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1706726992;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=l9U8CKXhwM8+HNsv/ZLK5nhFsmc+OFbd5U+w8VnN6xI=;
+	b=Jg84FDUapICGA1p6YwJ9aaaOiAvqSbNl5lbM//iwhgTGm7TM7BOIddQggIQ6Tzlqn+mwLO
+	nKo1O08HGFPUgoDt3/DOK0G3BL5h8+18hfX6hvM8YL5A24s9u0mKlBdUDCacuPLYeG15Mx
+	nl0efPoHzkPSAa//J1evLc2WQUU2K4Q=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-219-KU-iabKxMFWAVmHrBJ0N5w-1; Wed, 31 Jan 2024 13:49:47 -0500
+X-MC-Unique: KU-iabKxMFWAVmHrBJ0N5w-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 76D6B1064C64;
+	Wed, 31 Jan 2024 18:49:46 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.225.249])
+	by smtp.corp.redhat.com (Postfix) with SMTP id CAC2FC1ED63;
+	Wed, 31 Jan 2024 18:49:44 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Wed, 31 Jan 2024 19:48:31 +0100 (CET)
+Date: Wed, 31 Jan 2024 19:48:29 +0100
+From: Oleg Nesterov <oleg@redhat.com>
+To: Andy Lutomirski <luto@amacapital.net>
+Cc: Tycho Andersen <tycho@tycho.pizza>,
+	Christian Brauner <brauner@kernel.org>,
+	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+	Tycho Andersen <tandersen@netflix.com>,
+	"Eric W. Biederman" <ebiederm@xmission.com>
+Subject: Re: [RFC PATCH] pidfd: implement PIDFD_THREAD flag for pidfd_open()
+Message-ID: <20240131184829.GE2609@redhat.com>
+References: <ZbQpPknTTCyiyxrP@tycho.pizza>
+ <20240127105410.GA13787@redhat.com>
+ <ZbUngjQMg+YUBAME@tycho.pizza>
+ <20240127163117.GB13787@redhat.com>
+ <ZbU7d0dpTY08JgIl@tycho.pizza>
+ <20240127193127.GC13787@redhat.com>
+ <ZbVrRgIvudX242ZU@tycho.pizza>
+ <20240127210634.GE13787@redhat.com>
+ <20240129112313.GA11635@redhat.com>
+ <CALCETrUFDkt+K9zG8mczxzAFy9t-6Mx5Cz-Sx+it6a4nt+O0pg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <ZbArN3EYRfhrNs3o@tycho.pizza> <20240125140830.GA5513@redhat.com>
- <ZbQpPknTTCyiyxrP@tycho.pizza> <20240127105410.GA13787@redhat.com>
- <ZbUngjQMg+YUBAME@tycho.pizza> <20240127163117.GB13787@redhat.com>
- <ZbU7d0dpTY08JgIl@tycho.pizza> <20240127193127.GC13787@redhat.com>
- <ZbVrRgIvudX242ZU@tycho.pizza> <20240127210634.GE13787@redhat.com> <20240129112313.GA11635@redhat.com>
-In-Reply-To: <20240129112313.GA11635@redhat.com>
-From: Andy Lutomirski <luto@amacapital.net>
-Date: Wed, 31 Jan 2024 10:11:55 -0800
-Message-ID: <CALCETrUFDkt+K9zG8mczxzAFy9t-6Mx5Cz-Sx+it6a4nt+O0pg@mail.gmail.com>
-Subject: Re: [RFC PATCH] pidfd: implement PIDFD_THREAD flag for pidfd_open()
-To: Oleg Nesterov <oleg@redhat.com>
-Cc: Tycho Andersen <tycho@tycho.pizza>, Christian Brauner <brauner@kernel.org>, linux-kernel@vger.kernel.org, 
-	linux-api@vger.kernel.org, Tycho Andersen <tandersen@netflix.com>, 
-	"Eric W. Biederman" <ebiederm@xmission.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CALCETrUFDkt+K9zG8mczxzAFy9t-6Mx5Cz-Sx+it6a4nt+O0pg@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.8
 
-On Mon, Jan 29, 2024 at 3:24=E2=80=AFAM Oleg Nesterov <oleg@redhat.com> wro=
-te:
+On 01/31, Andy Lutomirski wrote:
 >
-> On 01/27, Oleg Nesterov wrote:
-> >
-> > I'll (hopefully) send v2 on top of
-> >
-> >       pidfd: cleanup the usage of __pidfd_prepare's flags
-> >       pidfd: don't do_notify_pidfd() if !thread_group_empty()
-> >
-> > on Monday
+> Right now, pidfd_send_signal() sends signals to processes, like so:
 >
-> Sorry, I don't have time to finish v2 today, I need to update the comment=
-s
-> and write the changelog.
+>  * The syscall currently only signals via PIDTYPE_PID which covers
+>  * kill(<positive-pid>, <signal>. It does not signal threads or process
+>  * groups.
 >
-> But the patch itself is ready, I am sending it for review.
->
-> Tycho, Christian, any comments?
+> This patch adds PIDFD_THREAD which, potentially confusingly, doesn't
+> change this (AFAICS).
 
-Right now, pidfd_send_signal() sends signals to processes, like so:
+Yes,
 
- * The syscall currently only signals via PIDTYPE_PID which covers
- * kill(<positive-pid>, <signal>. It does not signal threads or process
- * groups.
+> So at least that should be documented loudly
+> and clearly, IMO.
 
-This patch adds PIDFD_THREAD which, potentially confusingly, doesn't
-change this (AFAICS).  So at least that should be documented loudly
-and clearly, IMO.  But I actually just bumped in to this limitation in
-pidfd_send_signal(), like so:
+Please note
 
-https://github.com/systemd/systemd/issues/31093
+	/* TODO: respect PIDFD_THREAD */
 
-Specifically, systemd can't properly emulate Ctrl-C using pidfd_send_signal=
-().
+this patch adds into pidfd_send_signal().
 
-I don't know whether implementing the other signal types belongs as
-part of this patch, but they're at least thematically related.
+See also this part of discussion
 
---Andy
+	> > +	/* TODO: respect PIDFD_THREAD */
+	>
+	> So I've been thinking about this at the end of last week. Do we need to
+	> give userspace a way to send a thread-group wide signal even when a
+	> PIDFD_THREAD pidfd is passed? Or should we just not worry about this
+	> right now and wait until someone needs this?
+
+	I don't know. I am fine either way, but I think this needs a separate
+	patch and another discussion in any case. Anyway should be trivial,
+	pidfd_send_signal() has the "flags" argument.
+
+with Christian in https://lore.kernel.org/all/20240130112126.GA26108@redhat.com/
+
+Or did I misunderstand you?
+
+Oleg.
+
 
