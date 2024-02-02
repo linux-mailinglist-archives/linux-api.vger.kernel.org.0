@@ -1,248 +1,82 @@
-Return-Path: <linux-api+bounces-794-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-795-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59731846683
-	for <lists+linux-api@lfdr.de>; Fri,  2 Feb 2024 04:28:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC0C38470E3
+	for <lists+linux-api@lfdr.de>; Fri,  2 Feb 2024 14:13:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7CF751C26A60
-	for <lists+linux-api@lfdr.de>; Fri,  2 Feb 2024 03:28:17 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DF3511C245BA
+	for <lists+linux-api@lfdr.de>; Fri,  2 Feb 2024 13:13:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C5728479;
-	Fri,  2 Feb 2024 03:28:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58DBB4C6A;
+	Fri,  2 Feb 2024 13:13:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b="kLsPps1E"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FSksPsa2"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F14BEAEF
-	for <linux-api@vger.kernel.org>; Fri,  2 Feb 2024 03:28:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD15A38F97
+	for <linux-api@vger.kernel.org>; Fri,  2 Feb 2024 13:13:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706844493; cv=none; b=UlZ/tkBsahhaVBGpT506vFO48TsrltQzJ5XPqOKFZM2QXb2Fia7lxGSd+jeHeuPmZAMUQhBgcxXZx2RxNSLc7sGK2RA/1oxpGy32oSB0i07+jVp1R4N4DI2JqntSXImwbGag4L+85zRVUZtLwLvEks0uFO80a43K9B9INpqXHx4=
+	t=1706879593; cv=none; b=YiOYe856jUsGGv+B/Ol6Anuhpq6rzdmvUYj4tf817m/6S5byXP7w23xfZCqIhueu5PCiCuZz3Bcd5vobtq3paJK3/SA/A8ONgllHzAq49SmsMvtF4HyMaPPyOWgkdbSS9YTHfJC0re48dC7yXXJxFNNX8cJbPzYIYXhWPMpMpM4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706844493; c=relaxed/simple;
-	bh=tRsSz0rRGQGEurlNUDrfhHIIFpo2AzDD0v9zjA3NQHc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rNpOWE77ICvs5tSn+bK/YGshf0Zk2np3hi7Kc5uBmuRBpBsq2yRvCV22FPSJWOt9vYG98j7zwipMCqn6rxpCrij7wVsslxOnJCWvTMAFyuQ1PPaJttl+Z8jHrddnR7lqdiIxAszlTjETMxKWy7QaGo1iE3b14Tgtg344rJat9pA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com; spf=pass smtp.mailfrom=fastly.com; dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b=kLsPps1E; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastly.com
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1d7881b1843so13900905ad.3
-        for <linux-api@vger.kernel.org>; Thu, 01 Feb 2024 19:28:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fastly.com; s=google; t=1706844491; x=1707449291; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-transfer-encoding
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=OfF4/s9dcpinrBOfbHzFC1zqyW5aEfZvc1NtOczCj0U=;
-        b=kLsPps1ErIzsvaqGg5DraR+HHXd6GzlmvgpnnYOn4fExgH5VbpgsQspjRm3Af+0x+0
-         kTo9EisynNWzjUtoVCMT/0GM9dNYD8YbYSMQ+rIUmG7/OnqeJ2AJPlZQ2Cr4ed2c3Lcs
-         51KlUBfSwETLf85psFR7gk37zDSgYAp8uP6v0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706844491; x=1707449291;
-        h=user-agent:in-reply-to:content-transfer-encoding
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=OfF4/s9dcpinrBOfbHzFC1zqyW5aEfZvc1NtOczCj0U=;
-        b=XP6IioW/Bo04NZIBmqNuVF5kOsTLywlJnF0yhTwyNVWhzjp7Rzcg6BICuqiUcYF+5w
-         nam71clryLeDY6JpREVLwsnzxMXPQeksTnismdY4ufI4186RxKJgrneu9Ab7TvRvuYdj
-         pSVmD+ydegLr/58ThZNBvBcN6gKtE9fH4woYd92zpiTmXDcOuQq907RFiANGGSz39PR8
-         6nIZeLER6xCijFdWzsfNoJD9YLOKBXcPKWbRITcJYs4ml4o1Wf37lcgjFkM71Us6RXSS
-         IOefv8ceLKDW7q2TdEw+Lc2OyBicx848p2Fq9itqLe5cPUeKrk+R8jAdUk27XRXOtfoh
-         d1Bg==
-X-Gm-Message-State: AOJu0Yzxh0IjsUbbeRfdDm5xbRq+mRQUsWGmAcRTB3yN3Id5BaW8DTnH
-	sMTeJVbLD9WLgJ9XCerZAOctSVFQzC4nn0SzrMCwKwRuLHDrL8dDRy7hkouUpdI=
-X-Google-Smtp-Source: AGHT+IEDDqwj2U559sryBjaL/MexHTgUqHLuC2vNU8AmZ7xKqpKvYdvTBaNe2TTPjNNOHcqlAx7eGg==
-X-Received: by 2002:a17:902:e812:b0:1d8:fb17:a1fe with SMTP id u18-20020a170902e81200b001d8fb17a1femr1210673plg.48.1706844490595;
-        Thu, 01 Feb 2024 19:28:10 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCW47KZ1SfG40xqflewdxwUw3bVZfHLvv+EKuax55tIOa8B2y1KX4ptYyUNOyE2hvPLjlffr9yJXKXyp/PUXL/Xp+AUyCcm1a2Ods6KudB4WOTol/zmG/6BeJHGdMeJTJ2G3lZr6f4GkanMbD1baOao/plBvBiOGULGv4umGBIw4WHFXqYqqiHqFw0gCa62AX/YmCtX4tbrVNX7KXbSp4t2RWWZhmSKwfeHclrEk/3OK6krCwRcZHTQyGkrcK9ZkMgcpu8fgZJcjnqd/u6RePY5GeIy8LSoAvYwDzK5qLbC1Juh1iB3JtCxGte89ToEkzkCcJxtRFjaKT+1B2H13d/tzBoxLKeu6Fh4UJUuvmGr+uWw/3swMRdmAIMryw3bL5F/9xHiCm4Uwu7B4RQcgXA==
-Received: from fastly.com (c-24-6-151-244.hsd1.ca.comcast.net. [24.6.151.244])
-        by smtp.gmail.com with ESMTPSA id l5-20020a170902eb0500b001d8f81ecea1sm538319plb.172.2024.02.01.19.28.08
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 01 Feb 2024 19:28:09 -0800 (PST)
-Date: Thu, 1 Feb 2024 19:28:07 -0800
-From: Joe Damato <jdamato@fastly.com>
-To: "Samudrala, Sridhar" <sridhar.samudrala@intel.com>
-Cc: Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, chuck.lever@oracle.com,
-	jlayton@kernel.org, linux-api@vger.kernel.org, brauner@kernel.org,
-	davem@davemloft.net, alexander.duyck@gmail.com, kuba@kernel.org,
-	Wei Wang <weiwan@google.com>,
-	Amritha Nambiar <amritha.nambiar@intel.com>
-Subject: Re: [net-next 0/3] Per epoll context busy poll support
-Message-ID: <20240202032806.GA8708@fastly.com>
-References: <20240124025359.11419-1-jdamato@fastly.com>
- <CANn89i+YKwrgpt8VnHrw4eeVpqRamLkTSr4u+g1mRDMZa6b+7Q@mail.gmail.com>
- <5faf88de-5063-421f-ad78-ad24d931fd17@intel.com>
+	s=arc-20240116; t=1706879593; c=relaxed/simple;
+	bh=7S/SO1o8R2uNszq4h2vmFZrLGrDuPvYiEA1NZDU/cp4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Smw4pRYMn/dJgnshlS/y/OSnBfkSZk+w1YUmsc9KP0NWzL00e/KiSVtIoDE28Y0hA2wp9TqwlfQjQicuvR2Yv0ijezBEmkGbxjRLhDd34oQs298XXe76bKjnuk8wUd917v0VwSWQj0emPappWlaru02S/tICmVFItwsISwNetQ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FSksPsa2; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1706879590;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=7S/SO1o8R2uNszq4h2vmFZrLGrDuPvYiEA1NZDU/cp4=;
+	b=FSksPsa2SdRg5NPh+LacCmuai5oe/G0IlfOt43dc9i2UqDulX76Ry7GZpFbeP1nRJMODt3
+	FkdyfRl2dBksO0cZ6voaydUwAgPUbracZbCAaF01E+Oba1kKs50mpHjuOXFWDFMM6fDuQk
+	cOvvTVFqKYNbQzu7QH8UrVD2JZsVYS0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-277-xkv9_n6TP1uDBHEEG6A2qw-1; Fri, 02 Feb 2024 08:13:09 -0500
+X-MC-Unique: xkv9_n6TP1uDBHEEG6A2qw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C765C85A58E;
+	Fri,  2 Feb 2024 13:13:08 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.226.76])
+	by smtp.corp.redhat.com (Postfix) with SMTP id EC1581121306;
+	Fri,  2 Feb 2024 13:13:06 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Fri,  2 Feb 2024 14:11:53 +0100 (CET)
+Date: Fri, 2 Feb 2024 14:11:47 +0100
+From: Oleg Nesterov <oleg@redhat.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Andy Lutomirski <luto@amacapital.net>,
+	"Eric W. Biederman" <ebiederm@xmission.com>,
+	Tycho Andersen <tycho@tycho.pizza>, linux-api@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/3] pidfd_poll: report POLLHUP when pid_task() == NULL
+Message-ID: <20240202131147.GA25988@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <5faf88de-5063-421f-ad78-ad24d931fd17@intel.com>
 User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.3
 
-On Tue, Jan 30, 2024 at 12:54:50PM -0600, Samudrala, Sridhar wrote:
-> 
-> 
-> On 1/24/2024 2:20 AM, Eric Dumazet wrote:
-> >On Wed, Jan 24, 2024 at 3:54 AM Joe Damato <jdamato@fastly.com> wrote:
-> >>
-> >>Greetings:
-> >>
-> >>TL;DR This builds on commit bf3b9f6372c4 ("epoll: Add busy poll support to
-> >>epoll with socket fds.") by allowing user applications to enable
-> >>epoll-based busy polling and set a busy poll packet budget on a per epoll
-> >>context basis.
-> >>
-> >>To allow for this, two ioctls have been added for epoll contexts for
-> >>getting and setting a new struct, struct epoll_params.
-> >>
-> >>This makes epoll-based busy polling much more usable for user
-> >>applications than the current system-wide sysctl and hardcoded budget.
-> 
-> Agree. looking forward to see this patch series accepted soon.
-> 
-> >>
-> >>Longer explanation:
-> >>
-> >>Presently epoll has support for a very useful form of busy poll based on
-> >>the incoming NAPI ID (see also: SO_INCOMING_NAPI_ID [1]).
-> >>
-> >>This form of busy poll allows epoll_wait to drive NAPI packet processing
-> >>which allows for a few interesting user application designs which can
-> >>reduce latency and also potentially improve L2/L3 cache hit rates by
-> >>deferring NAPI until userland has finished its work.
-> >>
-> >>The documentation available on this is, IMHO, a bit confusing so please
-> >>allow me to explain how one might use this:
-> >>
-> >>1. Ensure each application thread has its own epoll instance mapping
-> >>1-to-1 with NIC RX queues. An n-tuple filter would likely be used to
-> >>direct connections with specific dest ports to these queues.
-> >>
-> >>2. Optionally: Setup IRQ coalescing for the NIC RX queues where busy
-> >>polling will occur. This can help avoid the userland app from being
-> >>pre-empted by a hard IRQ while userland is running. Note this means that
-> >>userland must take care to call epoll_wait and not take too long in
-> >>userland since it now drives NAPI via epoll_wait.
-> >>
-> >>3. Ensure that all incoming connections added to an epoll instance
-> >>have the same NAPI ID. This can be done with a BPF filter when
-> >>SO_REUSEPORT is used or getsockopt + SO_INCOMING_NAPI_ID when a single
-> >>accept thread is used which dispatches incoming connections to threads.
-> >>
-> >>4. Lastly, busy poll must be enabled via a sysctl
-> >>(/proc/sys/net/core/busy_poll).
-> >>
-> >>The unfortunate part about step 4 above is that this enables busy poll
-> >>system-wide which affects all user applications on the system,
-> >>including epoll-based network applications which were not intended to
-> >>be used this way or applications where increased CPU usage for lower
-> >>latency network processing is unnecessary or not desirable.
-> >>
-> >>If the user wants to run one low latency epoll-based server application
-> >>with epoll-based busy poll, but would like to run the rest of the
-> >>applications on the system (which may also use epoll) without busy poll,
-> >>this system-wide sysctl presents a significant problem.
-> >>
-> >>This change preserves the system-wide sysctl, but adds a mechanism (via
-> >>ioctl) to enable or disable busy poll for epoll contexts as needed by
-> >>individual applications, making epoll-based busy poll more usable.
-> >>
-> >
-> >I think this description missed the napi_defer_hard_irqs and
-> >gro_flush_timeout settings ?
-> >
-> >I would think that if an application really wants to make sure its
-> >thread is the only one
-> >eventually calling napi->poll(), we must make sure NIC interrupts stay masked.
-> >
-> >Current implementations of busy poll always release NAPI_STATE_SCHED bit when
-> >returning to user space.
-> >
-> >It seems you want to make sure the application and only the
-> >application calls the napi->poll()
-> >at chosen times.
-> >
-> >Some kind of contract is needed, and the presence of the hrtimer
-> >(currently only driven from dev->@gro_flush_timeout)
-> >would allow to do that correctly.
-> >
-> >Whenever we 'trust' user space to perform the napi->poll shortly, we
-> >also want to arm the hrtimer to eventually detect
-> >the application took too long, to restart the other mechanisms (NIC irq based)
-> >
-> >Note that we added the kthread based napi polling, and we are working
-> >to add a busy polling feature to these kthreads.
-> >allowing to completely mask NIC interrupts and further reduce latencies.
-> 
-> 
-> Good to know that you are looking into enabling busy polling for napi
-> kthreads.
-> We have something similar in our ice OOT driver that is implemented and we
-> call it 'independent pollers' as in this mode, busy polling will not be app
-> dependent or triggered by an application.
-> Here is a link to the slides we presented at netdev 0x16 driver workshop.
-> https://netdevconf.info/0x16/slides/48/netdev0x16_driver_workshop_ADQ.pdf
-> 
-> We haven't yet submitted the patches upstream as there is no kernel
-> interface to configure napi specific timeouts.
-> With the recent per-queue and per-napi netlink APIs that are accepted
-> upstream
-> https://lore.kernel.org/netdev/170147307026.5260.9300080745237900261.stgit@anambiarhost.jf.intel.com/
-> 
-> we are thinking of making timeout as a per-napi parameter and can be used as
-> an interface to enable napi kthread based busy polling.
+3/3 is the unrelated "while at it" change.
 
-I know I am replying to a stale thread on the patches I've submit (there is
-a v5 now [1]), but I just looked at your message - sorry I didn't reply
-sooner.
+Oleg.
 
-The per-queue and per-napi netlink APIs look extremely useful, thanks for
-pointing this out.
-
-In my development tree, I had added SIOCGIFNAME_BY_NAPI_ID which works
-similar to SIOCGIFNAME: it takes a NAPI ID and returns the IF name. This is
-useful on machines with multiple NICs where each NIC could be located in
-one of many different NUMA zones.
-
-The idea was that apps would use SO_INCOMING_NAPI_ID, distribute the NAPI
-ID to a worker thread which could then use SIOCGIFNAME_BY_NAPI_ID to
-compute which NIC the connection came in on. The app would then (via
-configuration) know where to pin that worker thread; ideally somewhere NUMA
-local to the NIC.
-
-I had assumed that such a change would be rejected, but I figured I'd send
-an RFC for it after the per epoll context stuff was done and see if anyone
-thought SIOCGIFNAME_BY_NAPI_ID would be useful for them, as well.
-
-> I think even the per-device napi_defer_hard_irqs and gro_flush_timeout
-> should become per-napi parameters.
-
-I agree.
-
-I had been contemplating implementing this until I tried a different method
-similar to an academic paper I was reading [2][3]. I think per-device
-defer_hard_irqs and gro_flush_timeout would be extremely useful and a
-better approach than the one I'm currently using.
-
-Is this something you are currently working? I may try implementing this,
-but didn't want to duplicate effort if you are already working on this.
-
-Thanks,
-Joe
-
-[1]: https://lore.kernel.org/all/20240131180811.23566-1-jdamato@fastly.com/
-[2]: https://dl.acm.org/doi/pdf/10.1145/3626780
-[3]: https://gitlab.uwaterloo.ca/p5cai/netstack-exp/-/blob/master/kernel-polling-5.15.79-base.patch?ref_type=heads
 
