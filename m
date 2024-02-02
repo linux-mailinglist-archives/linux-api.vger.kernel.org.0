@@ -1,102 +1,132 @@
-Return-Path: <linux-api+bounces-810-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-811-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6083A84774F
-	for <lists+linux-api@lfdr.de>; Fri,  2 Feb 2024 19:24:45 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3B10847943
+	for <lists+linux-api@lfdr.de>; Fri,  2 Feb 2024 20:12:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1CB2429079B
-	for <lists+linux-api@lfdr.de>; Fri,  2 Feb 2024 18:24:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6DAB81F246A6
+	for <lists+linux-api@lfdr.de>; Fri,  2 Feb 2024 19:12:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E601514D45B;
-	Fri,  2 Feb 2024 18:22:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6731F80625;
+	Fri,  2 Feb 2024 19:07:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I1TvU+Lj"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="euUQgM7d"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B890F152DEF;
-	Fri,  2 Feb 2024 18:22:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75EA8839E0
+	for <linux-api@vger.kernel.org>; Fri,  2 Feb 2024 19:06:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706898161; cv=none; b=M0gZ4babYzxRRI/SmSfVTIlWbNun2kQRmbLLXoG79yM/PkrczJ09WG+Xot9BUEWi5eJ44nAr0sa7bC9FEJkFnqHanECv+j1lYQJFBkUPaZC+44GQdtfxa4IjjWbFKuYsQWFY/cWS4zf+QU16iis/Pv62xg84u5O8xVBL8RCV4yY=
+	t=1706900820; cv=none; b=m9mYkRlPIH4c/jigQvjvQ+2sVy5EcDXEQsEQ7bey6NXI1X/FTbH77JMgc5yT13hOBNSnqm5zpj9hIyKHtmyZ+F+tYzHqLV0/yMoHwrdwLOuRdKQwRoFD5jvdrsgVIJCjSMWuugvpYCD66YnORQfzJ511Hri4z5PC54gLzoYdxFg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706898161; c=relaxed/simple;
-	bh=svlvAKv5Rsvu79CaMk7L2BcATKO9LgP+bcm0qXURTwE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kXT40s587iTqiLmrwCm3PglsnqX26GDXanspLQaEos6Q+x3gVLuUDWztlw0tlH4BmToxViyX52enzsEYPm1+fYGpciU6ZikEW7QcjRi7FK07cirEy1VQID4FCJAbjdr6+n7BgIlh1EWje8T5FFa7CMu0FPsPGjSEYNQhUGXqPOk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I1TvU+Lj; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9F75C433F1;
-	Fri,  2 Feb 2024 18:22:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706898161;
-	bh=svlvAKv5Rsvu79CaMk7L2BcATKO9LgP+bcm0qXURTwE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=I1TvU+LjPjr5qbLEIXhr7/DRLc7UIpceNQ5kWHZnw0xpTGQ94/KFqA+FR7dw+gIe9
-	 TAQY0kW36tFvSPdxJIwk/qePlR6anGBbBhKCAnuXDVvwO+u3737/q1pGdLwlnQORkO
-	 xSF61brZecFv2S2/NxndiIyhyEPiX6cS7v/2dSJOVKqTX0Aqfb3DGpLcjPUUf9ChVL
-	 wFwZeRnYRq/xjtfK8nVM+KWFYAstoemWARClHatdXrrEJP5i1KSnptzOc273mnBYOD
-	 4UDD4jrAbn8EpOUc62qfT90JE1ISVJtRHOoi4/JbYdDbpMYbe1ySHALb0wbjzs5ree
-	 q6FH+Kfhb/GWQ==
-Date: Fri, 2 Feb 2024 10:22:39 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Joe Damato <jdamato@fastly.com>
-Cc: "Samudrala, Sridhar" <sridhar.samudrala@intel.com>, Eric Dumazet
- <edumazet@google.com>, <netdev@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <chuck.lever@oracle.com>,
- <jlayton@kernel.org>, <linux-api@vger.kernel.org>, <brauner@kernel.org>,
- <davem@davemloft.net>, <alexander.duyck@gmail.com>, "Wei Wang"
- <weiwan@google.com>, Amritha Nambiar <amritha.nambiar@intel.com>
-Subject: Re: [net-next 0/3] Per epoll context busy poll support
-Message-ID: <20240202102239.274ca9bb@kernel.org>
-In-Reply-To: <f0b4d813-d7cb-428b-9c41-a2d86684f3f1@intel.com>
-References: <20240124025359.11419-1-jdamato@fastly.com>
-	<CANn89i+YKwrgpt8VnHrw4eeVpqRamLkTSr4u+g1mRDMZa6b+7Q@mail.gmail.com>
-	<5faf88de-5063-421f-ad78-ad24d931fd17@intel.com>
-	<20240202032806.GA8708@fastly.com>
-	<f0b4d813-d7cb-428b-9c41-a2d86684f3f1@intel.com>
+	s=arc-20240116; t=1706900820; c=relaxed/simple;
+	bh=dwvDik9e8en0dQjzXY4W2z8vsp3fk80/NMt6Sj0VM9o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YPokr0ynMKB2/e4RZ9WvA6mu7S8+YbhbMP0zXppOkLeDuNOTZ7pgQTOTe9c/R1wX2NHGUdqRVffqMAWuJMwcHni1ZCFxDs82arNclg6aCOC0yuFUO+L/ShHkWb8YIBmd0bxBlCQOjAm5ZgLEIWeBnIZkR0rwwcHdwzXcpHJTYx0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=euUQgM7d; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1706900817;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9RvkmEU5gtVAa6D4MSMfcWS5vVfixTS9eCiHPt3AK1c=;
+	b=euUQgM7dU6q/Z4u0y73cVjp+7YAFz+/QTa1Fw5fUmsVoN/3eMr5kcWdLEWHootiA9+55UI
+	s8EtA8E9mHbVdBPrXVMnTo2HvuvPIhZ9NzVqhEIhC8arqZevu6tRSTfz6N2ct2Ti3SgRD8
+	q9qUB9TcYKpn+mPRWScBWQUGYsUn7PE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-428-KU3gxnRRN8aZHQDimBDisQ-1; Fri, 02 Feb 2024 14:06:52 -0500
+X-MC-Unique: KU3gxnRRN8aZHQDimBDisQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 76A0585A58A;
+	Fri,  2 Feb 2024 19:06:51 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.226.76])
+	by smtp.corp.redhat.com (Postfix) with SMTP id 98102C154AB;
+	Fri,  2 Feb 2024 19:06:49 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Fri,  2 Feb 2024 20:05:36 +0100 (CET)
+Date: Fri, 2 Feb 2024 20:05:29 +0100
+From: Oleg Nesterov <oleg@redhat.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Andy Lutomirski <luto@amacapital.net>,
+	"Eric W. Biederman" <ebiederm@xmission.com>,
+	Tycho Andersen <tycho@tycho.pizza>, linux-api@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] pidfd_poll: report POLLHUP when pid_task() == NULL
+Message-ID: <20240202190529.GA28818@redhat.com>
+References: <20240202131147.GA25988@redhat.com>
+ <20240202131226.GA26018@redhat.com>
+ <20240202-arbeit-fruchtig-26880564a21a@brauner>
+ <20240202160704.GA5850@redhat.com>
+ <20240202-lackmantel-vervielfachen-4c0f0374219b@brauner>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240202-lackmantel-vervielfachen-4c0f0374219b@brauner>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.8
 
-On Fri, 2 Feb 2024 11:23:28 -0600 Samudrala, Sridhar wrote:
-> > I know I am replying to a stale thread on the patches I've submit (there is
-> > a v5 now [1]), but I just looked at your message - sorry I didn't reply
-> > sooner.
-> > 
-> > The per-queue and per-napi netlink APIs look extremely useful, thanks for
-> > pointing this out.
-> > 
-> > In my development tree, I had added SIOCGIFNAME_BY_NAPI_ID which works
-> > similar to SIOCGIFNAME: it takes a NAPI ID and returns the IF name. This is
-> > useful on machines with multiple NICs where each NIC could be located in
-> > one of many different NUMA zones.
-> > 
-> > The idea was that apps would use SO_INCOMING_NAPI_ID, distribute the NAPI
-> > ID to a worker thread which could then use SIOCGIFNAME_BY_NAPI_ID to
-> > compute which NIC the connection came in on. The app would then (via
-> > configuration) know where to pin that worker thread; ideally somewhere NUMA
-> > local to the NIC.
-> > 
-> > I had assumed that such a change would be rejected, but I figured I'd send
-> > an RFC for it after the per epoll context stuff was done and see if anyone
-> > thought SIOCGIFNAME_BY_NAPI_ID would be useful for them, as well.  
-> 
-> I think you should be able to get this functionality via the netdev-genl 
-> API to get napi parameters. It returns ifindex as one of the parameters 
-> and you should able to get the name from ifindex.
-> 
-> $ ./cli.py --spec netdev.yaml --do napi-get --json='{"id": 593}'
-> {'id': 593, 'ifindex': 12, 'irq': 291, 'pid': 3727}
+On 02/02, Christian Brauner wrote:
+>
+> > I think we need a simpler patch. I was going to send it as 4/4, but I'd
+> > like to think more, _perhaps_ we can also discriminate the PIDFD_THREAD
+> > and non-PIDFD_THREAD waiters. I'll try to make the patch(es) tomorrow or
+>
+> Right, I didn't go that far.
+>
+> > at least provided more info.
+> >
+> > 3 notes for now:
+> >
+> > 	1. we can't use wake_up_poll(), it passes nr_exclusive => 1
+>
+> Bah. So we need the same stuff we did for io_uring and use
+> __wake_up() directly. Or we add wake_up_all_poll() and convert the other
+> three callsites:
 
-FWIW we also have a C library to access those. Out of curiosity what's
-the programming language you'd use in user space, Joe?
+...
+
+> +#define wake_up_all_poll(x, m)                                                 \
+> +       __wake_up(x, TASK_NORMAL, 0, poll_to_key(m))
+
+Agreed, but I think this + s/wake_up/wake_up_all_poll/ conversions
+need a separate patch.
+
+
+> -void do_notify_pidfd(struct task_struct *task)
+> +void pidfd_wake_up_poll(struct task_struct *task, bool dead)
+>  {
+> -	struct pid *pid;
+> -
+>  	WARN_ON(task->exit_state == 0);
+> -	pid = task_pid(task);
+> -	wake_up_all(&pid->wait_pidfd);
+> +	WARN_ON(mask == 0);
+> +	wake_up_all_poll(&task_pid(task)->wait_pidfd,
+> +			 EPOLLIN | EPOLLRDNORM | dead ? EPOLLHUP : 0);
+
+No...
+
+This is still overcomplicated and is not right.
+
+Christian, I'll write another email tomorrow.
+
+Oleg.
+
 
