@@ -1,96 +1,125 @@
-Return-Path: <linux-api+bounces-801-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-802-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CDCD8473AD
-	for <lists+linux-api@lfdr.de>; Fri,  2 Feb 2024 16:50:01 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A282B847446
+	for <lists+linux-api@lfdr.de>; Fri,  2 Feb 2024 17:11:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2AEB21F2A292
-	for <lists+linux-api@lfdr.de>; Fri,  2 Feb 2024 15:50:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D508F1C251CE
+	for <lists+linux-api@lfdr.de>; Fri,  2 Feb 2024 16:11:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89A9114691A;
-	Fri,  2 Feb 2024 15:49:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A4541474DF;
+	Fri,  2 Feb 2024 16:08:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bYrXcY3W"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Mnryfs41"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60CFA179A5;
-	Fri,  2 Feb 2024 15:49:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5EAE13E200
+	for <linux-api@vger.kernel.org>; Fri,  2 Feb 2024 16:08:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706888977; cv=none; b=WTNjihGfnyOLdI9s7xsn9Ro5fjofIZnJm6kL2ORwaAWShnaNDOe7awGAJxBflZCwCG6l2OW1+gpx+SkgSpL1tWEKYjTpXRHIvjWfP+3eQ6ztSPXLAg2x3g8rID79rXqg3yjjbiXaoGbtsysYfHGNMXjmIcojzQX15Zrx59nouDQ=
+	t=1706890112; cv=none; b=EsxjQrqXhDtDcLkLRLRf3qkbt0wr124NhE1gnFZqxz7+wsJqDRDuPLwR8zkYXIQWcV+irqZK8x4xCy6Qdyvv4BIgdn4lRZL1FOrIDdnrU9qVWEvyDFGCiFJFYul23umwVTgqmWMZ92fOsKRhb0o8gKB5XZe2iNBNGuIaPIbAxQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706888977; c=relaxed/simple;
-	bh=63G+CJKkgiFAMm5syYVO7r8aaYTakNEk7YekvfGgbM8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=SRaWqPx3gmter/8SaBV/drtj9BXvpxLndwqYpO/z4ZEtwO01bPFebeKB44WD66oCYnbCeJtpkgyvMzg6e0dG4qxKnEIudH7NDfDHkbLJESGCkFTPYJcFkNyUHGk9mowC2nmL2tKTk4xV8b9fCGV1hRlzPhCrYhZBbVQHvWBaQQI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bYrXcY3W; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18E73C433F1;
-	Fri,  2 Feb 2024 15:49:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706888976;
-	bh=63G+CJKkgiFAMm5syYVO7r8aaYTakNEk7YekvfGgbM8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=bYrXcY3WjLa1QnpPMwhItz7KWoiJj9u/hXec44z4BpyMoS3zvyAW3r9crnszwJuUL
-	 zYbX2YSZIGj6/EYJIyMdB1IlxppD9Arb1oHgqZm/OEWGC7mJpPfA9rsoQ2jfslY0kF
-	 G3RQ+e93r+DI/9Bm9nomdMAIX0Un2v2VVa19S3/j2k8NakG7PziWFgfL7juHxMwe7G
-	 j9ONUyttVF85N+b7ejUgPqVr/sQ4TNpq1T9ycOhCsvPczQCSCH/AnceLMo2f73o10O
-	 0mvk7gF81E8VvhC7PhHkHiy6wJ6aM2Up79goi47vxAj5C9Btnf4sobuufR//LfSJbS
-	 y2kdcN+M8Mgug==
-From: Christian Brauner <brauner@kernel.org>
-To: Oleg Nesterov <oleg@redhat.com>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Andy Lutomirski <luto@amacapital.net>,
+	s=arc-20240116; t=1706890112; c=relaxed/simple;
+	bh=1JYwTqCJ4uEoMXlTYqJt81XgNj9XNyCI/UtWV9zdacU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WieDkpfiXlLqv0ZOBLNPqlmALb2H99sHUiGBJykQaAf7LLaJfofNOT+uGLuVhpy4wuJSn9h5nipBJ8nqiwYMltReV4huw9BFYe6Ps+QNbt+ec3kCD5Ooio1zA9RWwVF6U2cY+ygn2M3aGRUAw9FWIGLLBWy0M4nZzMinknU7Bck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Mnryfs41; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1706890109;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mKooBkJfrlPFWZGh8ggsnfNNsYh5keDnQCkz6nhWuPk=;
+	b=Mnryfs41gZGYDY3vA3USNuF/yQo8AOmcqxu7pjIhnwJIezZuINXirRDSM7jl+WJVdTCJz9
+	7k364f2c3Xv4gLB41+BbThRlZA5RNm2OlvQX25ujeeIRptujv2blRhn7e4p3CEn11T0aPB
+	pxToglKf3MBWcQQvfIkXPSdxoHiryu4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-513-uO0_bLxiPcyeNoLRLdLUIw-1; Fri, 02 Feb 2024 11:08:27 -0500
+X-MC-Unique: uO0_bLxiPcyeNoLRLdLUIw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1133988D01E;
+	Fri,  2 Feb 2024 16:08:27 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.226.76])
+	by smtp.corp.redhat.com (Postfix) with SMTP id 32E992166B31;
+	Fri,  2 Feb 2024 16:08:25 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Fri,  2 Feb 2024 17:07:11 +0100 (CET)
+Date: Fri, 2 Feb 2024 17:07:05 +0100
+From: Oleg Nesterov <oleg@redhat.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Andy Lutomirski <luto@amacapital.net>,
 	"Eric W. Biederman" <ebiederm@xmission.com>,
-	Tycho Andersen <tycho@tycho.pizza>,
-	linux-api@vger.kernel.org,
+	Tycho Andersen <tycho@tycho.pizza>, linux-api@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/3] pidfd_poll: report POLLHUP when pid_task() == NULL
-Date: Fri,  2 Feb 2024 16:49:04 +0100
-Message-ID: <20240202-zentral-direkt-72e2f4d7ca36@brauner>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240202131147.GA25988@redhat.com>
+Subject: Re: [PATCH 1/3] pidfd_poll: report POLLHUP when pid_task() == NULL
+Message-ID: <20240202160704.GA5850@redhat.com>
 References: <20240202131147.GA25988@redhat.com>
+ <20240202131226.GA26018@redhat.com>
+ <20240202-arbeit-fruchtig-26880564a21a@brauner>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1130; i=brauner@kernel.org; h=from:subject:message-id; bh=63G+CJKkgiFAMm5syYVO7r8aaYTakNEk7YekvfGgbM8=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMaTu5efoezOv9MTbt+Ip7NH5dozNJXHF4nLF7tbsF72/l 0zx6p7TUcrCIMbFICumyOLQbhIut5ynYrNRpgbMHFYmkCEMXJwCMJHUu4wM3823aQeJl1YyuG5/ tIRNc763tAr39mWfWP1XfjyinHFGj+E3m26fmIvPvPPmilOLzjyR+Zn+iznNTFf85PdJX7M+vjX lBgA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240202-arbeit-fruchtig-26880564a21a@brauner>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.6
 
-On Fri, 02 Feb 2024 14:11:47 +0100, Oleg Nesterov wrote:
-> 3/3 is the unrelated "while at it" change.
-> 
-> Oleg.
-> 
+On 02/02, Christian Brauner wrote:
+>
+> > TODO: change do_notify_pidfd() to use the keyed wakeups.
+>
+> How does the following appended patch look?
 
-Applied to the vfs.pidfd branch of the vfs/vfs.git tree.
-Patches in the vfs.pidfd branch should appear in linux-next soon.
+No, no.
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+I think we need a simpler patch. I was going to send it as 4/4, but I'd
+like to think more, _perhaps_ we can also discriminate the PIDFD_THREAD
+and non-PIDFD_THREAD waiters. I'll try to make the patch(es) tomorrow or
+at least provided more info.
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
+3 notes for now:
 
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
+	1. we can't use wake_up_poll(), it passes nr_exclusive => 1
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs.pidfd
+	2. exit_notify() should not pass EPOLLHUP to wake_up, we do
+	   not want to wake up the { .events = POLLHUP } waiters.
 
-[1/3] pidfd_poll: report POLLHUP when pid_task() == NULL
-      https://git.kernel.org/vfs/vfs/c/0ab0783b0160
-[2/3] pidfd: kill the no longer needed do_notify_pidfd() in de_thread()
-      https://git.kernel.org/vfs/vfs/c/afe79af3b522
-[3/3] pid: kill the obsolete PIDTYPE_PID code in transfer_pid()
-      https://git.kernel.org/vfs/vfs/c/082d11c164ae
+	3. we do not need to change __change_pid().
+
+	   Well, _perhaps_ it can/should use __wake_up_pollfree(), but
+	   I need to check if fs/select.c use "autoremove" or not.
+
+
+> -static __poll_t pidfd_poll(struct file *file, struct poll_table_struct *pts)
+> +static __poll_t pidfd_poll(struct file *file, poll_table *wait)
+>  {
+>  	struct pid *pid = file->private_data;
+>  	bool thread = file->f_flags & PIDFD_THREAD;
+>  	struct task_struct *task;
+>  	__poll_t poll_flags = 0;
+>  
+> -	poll_wait(file, &pid->wait_pidfd, pts);
+> +	poll_wait(file, &pid->wait_pidfd, wait);
+
+This is correct but only cosemtic and has nothing to do with what
+we discuss?
+
+Oleg.
+
 
