@@ -1,171 +1,209 @@
-Return-Path: <linux-api+bounces-817-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-818-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8802A847ACF
-	for <lists+linux-api@lfdr.de>; Fri,  2 Feb 2024 21:56:01 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6C3A847D70
+	for <lists+linux-api@lfdr.de>; Sat,  3 Feb 2024 01:05:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A39851C2585B
-	for <lists+linux-api@lfdr.de>; Fri,  2 Feb 2024 20:56:00 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EF7B7B226D3
+	for <lists+linux-api@lfdr.de>; Sat,  3 Feb 2024 00:05:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D80DF7E111;
-	Fri,  2 Feb 2024 20:55:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17FEE196;
+	Sat,  3 Feb 2024 00:05:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b="NbD/Fj1f"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m7H5wlvG"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29A1F7A723
-	for <linux-api@vger.kernel.org>; Fri,  2 Feb 2024 20:55:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6478636;
+	Sat,  3 Feb 2024 00:05:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706907351; cv=none; b=hDZp31yn0dYODjqYD69quOgvTKVEceTrwkDGyoTxtJ4bCiLz3AZbRkWJx6DbSnYjVWZ7+lXoB8k/pAodIOLYirrvk9Edcp4EiIUdbo8SWEYixR4HyK77qCE1ulo0rWzLe8cqqEgsX2rF3iRO58St3g99TdVSMnKoML9lJNcsvoE=
+	t=1706918725; cv=none; b=qRfgvA7KQxQaezVFEZ2JwwaItxIvbdPRf6D2WNN+2KKo1z8Il2ctcUqVIbrMkovOXu9EJYtSrkxuH7I/yVYCfXBDwdw4JtUdK9mEZAvp03G/WGX7qps89ekY+9+taPuZUeiao8W+iV3c12WLvL+Jw0RiSKPUDcFsY070HCCLYhI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706907351; c=relaxed/simple;
-	bh=Q3IL2wclKku6uCJCDZOhOybhrhzcE4XFHuOMnR/baLw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CSdSYXCVxK2WCM6To68qol5J5GM+nzP3yJhWUSyUbRZOv1adk8gP2Vjd0dlvwKWSZGbWzjmfeQqaJVlFBxTObZ8lzQmPPGPUqY6zplztSjz/OjihzI9ngGogunSgtQ4HAEa4BYeJcIW4z1MA/SvPKAXvmpEb2HA8bfivMeMJW8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com; spf=pass smtp.mailfrom=fastly.com; dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b=NbD/Fj1f; arc=none smtp.client-ip=209.85.216.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastly.com
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-2963cc5e8acso898307a91.2
-        for <linux-api@vger.kernel.org>; Fri, 02 Feb 2024 12:55:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fastly.com; s=google; t=1706907349; x=1707512149; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WZGxR4o9c4pYSgCi9H6AQReXwYkD08B5eCkb5+mQ4TY=;
-        b=NbD/Fj1f7GI3IonlhsaCmHCwdnGHoU+YVZMr23I+JoomXx6Q3CJnoL+xFot+S2q3Zb
-         I5s76H3B9DHkP86/oehlswmSXXlb/NGX0XeCVIEIoJnPHWwsoh9zitgFY8x0Ck6LYW70
-         IVYwoXiz9XHxz08YM8nHLS1zIl8Kiw03BJ7KQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706907349; x=1707512149;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WZGxR4o9c4pYSgCi9H6AQReXwYkD08B5eCkb5+mQ4TY=;
-        b=u0Uat9oXBe4wsOQloGvwWAmA8Trl2WcoK0QlZWHLwizpYfox4CuHaTOCAYlcRpTd+6
-         iLBbmfsVQ5PTJ0nD1zqU5cYaMMe5RCEHqWnhLfwSquAi6zm61W4+tRFoqea17XyWAjub
-         Nv0UOAtSxg1acpbYfs+JY95QvcuW/vvH938rXpIjhWb0JVsAD1IAetlqCzw9oabPxtxT
-         tK/1nNM042HF5wcmmyhlRvLlWJV46myM+E/bXiuVr24lv8KvNSCI6D6ubqxsw7M/XorI
-         ZRKPbwOuFf4ItExLoRwnQAG4leV/hVHdHTd/2RWLuMotCqE3AfwVD5lfrujoPqQ3NrTi
-         1HRQ==
-X-Gm-Message-State: AOJu0YxoJXBZ7MghburojvC4h86zyc+5l15V7CUlYWBbtrxoBL6i9UQz
-	tv8hYcaNBxWVQx06Hi7mRg4O5aEmiR+N6dWFK6ZmIc8WOsl1UXVN/sh7BTfphcM=
-X-Google-Smtp-Source: AGHT+IEidvjI5rEOFXviWvR25Q2r1BYhnGDU4zBTZGCuO+yclQX3B9a1DH5Hy6lNDg+2U8v9PbieNA==
-X-Received: by 2002:a17:90a:db0d:b0:296:321e:99ef with SMTP id g13-20020a17090adb0d00b00296321e99efmr3418060pjv.17.1706907349489;
-        Fri, 02 Feb 2024 12:55:49 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCU3qwOU9zuPWXhZEyUgneDFWUTTmCrL2wpY9reLblZfXsvU50SoGEuOS26C3mAsbQ4cPnFpA8YNPx0Rv8ceFPiPRCZ2ETaMxC0DvZZgp3xogbX5lMU/3COKwr8jJRh3dujGNieNV/po135dfl3aFy00zUJqKb/fIWAaQKX72/eds7/vwTh52o6Tq8PHCrSvJgCanOQ7/wqPh+n1dcO/BgHU2F8rd7XghUzfv/vMRdNzD58W8TSwYQDGIr5geZJfT4zG+Iz6pR3Wlsn7Jegxjpz7n9GdJiTj4IM98sJ95xuWz180FshZM2g9deI4crwARk/HIsG3uLS5z/tWjdhYuYxQThBVJ41svHPqCkNw9A77c2IcUyzZhrVJ6Rs2e+9ZbHRYAlxYaaxp6pahcf+zX9b+Ql0=
-Received: from fastly.com (c-24-6-151-244.hsd1.ca.comcast.net. [24.6.151.244])
-        by smtp.gmail.com with ESMTPSA id gj8-20020a17090b108800b0029604b0b7d1sm487987pjb.15.2024.02.02.12.55.48
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 02 Feb 2024 12:55:49 -0800 (PST)
-Date: Fri, 2 Feb 2024 12:55:46 -0800
-From: Joe Damato <jdamato@fastly.com>
-To: "Samudrala, Sridhar" <sridhar.samudrala@intel.com>
-Cc: Jakub Kicinski <kuba@kernel.org>, Eric Dumazet <edumazet@google.com>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	chuck.lever@oracle.com, jlayton@kernel.org,
-	linux-api@vger.kernel.org, brauner@kernel.org, davem@davemloft.net,
-	alexander.duyck@gmail.com, Wei Wang <weiwan@google.com>,
-	Amritha Nambiar <amritha.nambiar@intel.com>
-Subject: Re: [net-next 0/3] Per epoll context busy poll support
-Message-ID: <20240202205545.GA9484@fastly.com>
-References: <20240124025359.11419-1-jdamato@fastly.com>
- <CANn89i+YKwrgpt8VnHrw4eeVpqRamLkTSr4u+g1mRDMZa6b+7Q@mail.gmail.com>
- <5faf88de-5063-421f-ad78-ad24d931fd17@intel.com>
- <20240202032806.GA8708@fastly.com>
- <f0b4d813-d7cb-428b-9c41-a2d86684f3f1@intel.com>
- <20240202102239.274ca9bb@kernel.org>
- <20240202193332.GA8932@fastly.com>
- <20240202115828.6fd125bf@kernel.org>
- <20240202202344.GA9283@fastly.com>
- <0d030b68-0371-4460-8d76-cad129888496@intel.com>
+	s=arc-20240116; t=1706918725; c=relaxed/simple;
+	bh=ADET036q7av5d6Yajw8qW29bC06EEDm2pUfR64LXErM=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=EcDUw8rJKiNo8bh8O43XpUuZCmcmssaWWSo37p79p2t1ZstjB2/fIq2ULgtM72IAKpxvJSjI7v5NG78RHD88q301abMEywvCl8Ll60GG8xmEZ2/QaxVT3zafM5vyVqvXXE6jjxU2DNTwchyqDG1zMiRjoFy+KmYpSIigqMOOPKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m7H5wlvG; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C955C433C7;
+	Sat,  3 Feb 2024 00:05:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706918724;
+	bh=ADET036q7av5d6Yajw8qW29bC06EEDm2pUfR64LXErM=;
+	h=From:Subject:Date:To:Cc:From;
+	b=m7H5wlvGMIflskB2V2LNCSlNdSOkBWhdrO38vDOjn0bD0CqcIIfyc/b7S85r8oQcT
+	 NQR1JVNgd7XAapTnhvd9TwepVLrgAM6EEB0tfGeTXPBssX9t/I0COeIyTXjLXZ6Dzn
+	 7f37ivgQQjPF9KC0ywtT5/3fK8eYAYfFKU0igo+bbKIhnX02T25I456qq51jhCji0B
+	 C0Ush9k4+qWeuNmO5kAm0auz6QZgunbzIrW7ty4vM8WDTJTFh7xFjMkG36GS+NGB4e
+	 E0ZSmfgWMF0tq6dXPjTbyajK2df8caqjlrcUUjDwgwwvouyFeOaLAp0SvEhazFH8Hm
+	 2FrndW3Sfq71w==
+From: Mark Brown <broonie@kernel.org>
+Subject: [PATCH RFT v5 0/7] fork: Support shadow stacks in clone3()
+Date: Sat, 03 Feb 2024 00:04:56 +0000
+Message-Id: <20240203-clone3-shadow-stack-v5-0-322c69598e4b@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0d030b68-0371-4460-8d76-cad129888496@intel.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIACiDvWUC/23Nu04DMRAF0F+JXGPkGT/WUFHxAREdovBjnLUSr
+ ZEdbUDR/jvWUhCULe9czblX1qhmaux5d2WV5txymXrQDzsWRjcdiOfYM0OBEgQ88XAqE0neRhf
+ LhbezC0cOOioR0SctDeufn5VS/lrVd7Z/fWMf/Tjmdi71e12aYa1+UZSb6Axc8GjNEIXvfhQvR
+ 6oTnR5LPazgjH8IgNpGsCPegEzWWACt7xB5g6DYRmRH3OAtRUnoQrhD1C1itxHVEevRpkQqmcH
+ 8Q5Zl+QHMEaZJiwEAAA==
+To: "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>, 
+ Deepak Gupta <debug@rivosinc.com>, Szabolcs Nagy <Szabolcs.Nagy@arm.com>, 
+ "H.J. Lu" <hjl.tools@gmail.com>, Florian Weimer <fweimer@redhat.com>, 
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+ Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, 
+ Vincent Guittot <vincent.guittot@linaro.org>, 
+ Dietmar Eggemann <dietmar.eggemann@arm.com>, 
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, 
+ Mel Gorman <mgorman@suse.de>, 
+ Daniel Bristot de Oliveira <bristot@redhat.com>, 
+ Valentin Schneider <vschneid@redhat.com>, 
+ Christian Brauner <brauner@kernel.org>, Shuah Khan <shuah@kernel.org>
+Cc: linux-kernel@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>, 
+ Will Deacon <will@kernel.org>, Kees Cook <keescook@chromium.org>, 
+ jannh@google.com, bsegall@google.com, linux-kselftest@vger.kernel.org, 
+ linux-api@vger.kernel.org, Mark Brown <broonie@kernel.org>, 
+ David Hildenbrand <david@redhat.com>
+X-Mailer: b4 0.13-dev-a684c
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5783; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=ADET036q7av5d6Yajw8qW29bC06EEDm2pUfR64LXErM=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBlvYM3npsMX9TJ+rXiQ0MR0Q5jhU9ckhziWi5BnCOV
+ qmUQ+H6JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZb2DNwAKCRAk1otyXVSH0O0EB/
+ 9q7W39KKLWQLLXi4q1NOuQYVFhxUGNYybGDasHnhcRQElcx/0UJ7t6RIxdYvpsRR/CVm6k4WQLoM5i
+ wd9FlIPxvERr0Y1HGvktUQ4QKWTBWor9YvgEGjgvmVqR6IZlnrY2LMthdAyhP4mXto+2IQSXUOBLQa
+ 961D4KEDpcBeslzQ9t0yRMlIcyvq3ike15JsN55lowvAOe/LI0zyMEdI60UJFCIRnReUzpUaut30ac
+ igDJs+rKoF5JKwEAtMqgqAObX8UcEU6UOst/Ycwq1o9WsbocVpsYHPY6DNy/04usqX9Z1igSIjQUOL
+ dhLkftMeLi26qCqnHv49h53oAxILjS
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Fri, Feb 02, 2024 at 02:50:58PM -0600, Samudrala, Sridhar wrote:
-> 
-> 
-> On 2/2/2024 2:23 PM, Joe Damato wrote:
-> >On Fri, Feb 02, 2024 at 11:58:28AM -0800, Jakub Kicinski wrote:
-> >>On Fri, 2 Feb 2024 11:33:33 -0800 Joe Damato wrote:
-> >>>On Fri, Feb 02, 2024 at 10:22:39AM -0800, Jakub Kicinski wrote:
-> >>>>On Fri, 2 Feb 2024 11:23:28 -0600 Samudrala, Sridhar wrote:
-> >>>>>I think you should be able to get this functionality via the netdev-genl
-> >>>>>API to get napi parameters. It returns ifindex as one of the parameters
-> >>>>>and you should able to get the name from ifindex.
-> >>>>>
-> >>>>>$ ./cli.py --spec netdev.yaml --do napi-get --json='{"id": 593}'
-> >>>>>{'id': 593, 'ifindex': 12, 'irq': 291, 'pid': 3727}
-> >>>>
-> >>>>FWIW we also have a C library to access those. Out of curiosity what's
-> >>>>the programming language you'd use in user space, Joe?
-> >>>
-> >>>I am using C from user space.
-> >>
-> >>Ah, great! Here comes the advert.. :)
-> >>
-> >>   make -C tools/net/ynl/
-> >>
-> >>will generate the C lib for you. tools/net/ynl/generated/netdev-user.h
-> >>will have the full API. There are some samples in
-> >>tools/net/ynl/samples/. And basic info also here:
-> >>https://docs.kernel.org/next/userspace-api/netlink/intro-specs.html#ynl-lib
-> >>
-> >>You should be able to convert Sridhar's cli.py into an equivalent
-> >>in C in ~10 LoC.
-> >>
-> >>>Curious what you think about
-> >>>SIOCGIFNAME_BY_NAPI_ID, Jakub? I think it would be very useful, but not
-> >>>sure if such an extension would be accepted. I can send an RFC, if you'd
-> >>>like to take a look and consider it. I know you are busy and I don't want
-> >>>to add too much noise to the list if I can help it :)
-> >>
-> >>Nothing wrong with it in particular, but we went with the netlink API
-> >>because all the objects are related. There are interrupts, NAPI
-> >>instances, queues, page pools etc. and we need to show all sort of
-> >>attributes, capabilities, stats as well as the linking. So getsockopts
-> >>may not scale, or we'd need to create a monster mux getsockopt?
-> >>Plus with some luck the netlink API will send you notifications of
-> >>things changing.
-> >
-> >Yes this all makes sense. The notification on changes would be excellent,
-> >especially if NAPI IDs get changed for some reason  (e.g. the queue count
-> >is adjusted or the queues are rebuilt by the driver for some reason like a
-> >timeout, etc).
-> >
-> >I think the issue I'm solving with SIOCGIFNAME_BY_NAPI_ID is related, but
-> >different.
-> >
-> >In my case, SIOCGIFNAME_BY_NAPI_ID identifies which NIC a specific fd from
-> >accept arrived from.
-> >
-> >AFAICT, the netlink API wouldn't be able to help me answer that question. I
-> >could use SIOCGIFNAME_BY_NAPI_ID to tell me which NIC the fd is from and
-> >then use netlink to figure out which CPU to bind to (for example), but I
-> >think SIOCGIFNAME_BY_NAPI_ID is still needed.
-> 
-> The napi-get netlink api takes napi_id and returns ifindex, irq and pid
-> associated with the napi id. You can then pass ifindex to the SIOCGIFNAME
-> ioctl to get the interface name. So it is definitely possible without the
-> need for the new SIOCGIFNAME_BY_NAPI_ID
+The kernel has recently added support for shadow stacks, currently
+x86 only using their CET feature but both arm64 and RISC-V have
+equivalent features (GCS and Zicfiss respectively), I am actively
+working on GCS[1].  With shadow stacks the hardware maintains an
+additional stack containing only the return addresses for branch
+instructions which is not generally writeable by userspace and ensures
+that any returns are to the recorded addresses.  This provides some
+protection against ROP attacks and making it easier to collect call
+stacks.  These shadow stacks are allocated in the address space of the
+userspace process.
 
-Ah, I see. OK. In that case, I won't bother with the RFC for
-SIOCGIFNAME_BY_NAPI_ID.
+Our API for shadow stacks does not currently offer userspace any
+flexiblity for managing the allocation of shadow stacks for newly
+created threads, instead the kernel allocates a new shadow stack with
+the same size as the normal stack whenever a thread is created with the
+feature enabled.  The stacks allocated in this way are freed by the
+kernel when the thread exits or shadow stacks are disabled for the
+thread.  This lack of flexibility and control isn't ideal, in the vast
+majority of cases the shadow stack will be over allocated and the
+implicit allocation and deallocation is not consistent with other
+interfaces.  As far as I can tell the interface is done in this manner
+mainly because the shadow stack patches were in development since before
+clone3() was implemented.
 
-I'll give your suggestion a try next week after I make the driver changes
-needed to support it.
+Since clone3() is readily extensible let's add support for specifying a
+shadow stack when creating a new thread or process in a similar manner
+to how the normal stack is specified, keeping the current implicit
+allocation behaviour if one is not specified either with clone3() or
+through the use of clone().  The user must provide a shadow stack
+address and size, this must point to memory mapped for use as a shadow
+stackby map_shadow_stack() with a shadow stack token at the top of the
+stack.
+
+Please note that the x86 portions of this code are build tested only, I
+don't appear to have a system that can run CET avaible to me, I have
+done testing with an integration into my pending work for GCS.  There is
+some possibility that the arm64 implementation may require the use of
+clone3() and explicit userspace allocation of shadow stacks, this is
+still under discussion.
+
+Please further note that the token consumption done by clone3() is not
+currently implemented in an atomic fashion, Rick indicated that he would
+look into fixing this if people are OK with the implementation.
+
+A new architecture feature Kconfig option for shadow stacks is added as
+here, this was suggested as part of the review comments for the arm64
+GCS series and since we need to detect if shadow stacks are supported it
+seemed sensible to roll it in here.
+
+[1] https://lore.kernel.org/r/20231009-arm64-gcs-v6-0-78e55deaa4dd@kernel.org/
+
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+Changes in v5:
+- Rebase onto v6.8-rc2.
+- Rework ABI to have the user allocate the shadow stack memory with
+  map_shadow_stack() and a token.
+- Force inlining of the x86 shadow stack enablement.
+- Move shadow stack enablement out into a shared header for reuse by
+  other tests.
+- Link to v4: https://lore.kernel.org/r/20231128-clone3-shadow-stack-v4-0-8b28ffe4f676@kernel.org
+
+Changes in v4:
+- Formatting changes.
+- Use a define for minimum shadow stack size and move some basic
+  validation to fork.c.
+- Link to v3: https://lore.kernel.org/r/20231120-clone3-shadow-stack-v3-0-a7b8ed3e2acc@kernel.org
+
+Changes in v3:
+- Rebase onto v6.7-rc2.
+- Remove stale shadow_stack in internal kargs.
+- If a shadow stack is specified unconditionally use it regardless of
+  CLONE_ parameters.
+- Force enable shadow stacks in the selftest.
+- Update changelogs for RISC-V feature rename.
+- Link to v2: https://lore.kernel.org/r/20231114-clone3-shadow-stack-v2-0-b613f8681155@kernel.org
+
+Changes in v2:
+- Rebase onto v6.7-rc1.
+- Remove ability to provide preallocated shadow stack, just specify the
+  desired size.
+- Link to v1: https://lore.kernel.org/r/20231023-clone3-shadow-stack-v1-0-d867d0b5d4d0@kernel.org
+
+---
+Mark Brown (7):
+      Documentation: userspace-api: Add shadow stack API documentation
+      selftests: Provide helper header for shadow stack testing
+      mm: Introduce ARCH_HAS_USER_SHADOW_STACK
+      fork: Add shadow stack support to clone3()
+      selftests/clone3: Factor more of main loop into test_clone3()
+      selftests/clone3: Allow tests to flag if -E2BIG is a valid error code
+      selftests/clone3: Test shadow stack support
+
+ Documentation/userspace-api/index.rst             |   1 +
+ Documentation/userspace-api/shadow_stack.rst      |  41 +++++
+ arch/x86/Kconfig                                  |   1 +
+ arch/x86/include/asm/shstk.h                      |  11 +-
+ arch/x86/kernel/process.c                         |   2 +-
+ arch/x86/kernel/shstk.c                           |  91 +++++++---
+ fs/proc/task_mmu.c                                |   2 +-
+ include/linux/mm.h                                |   2 +-
+ include/linux/sched/task.h                        |   2 +
+ include/uapi/linux/sched.h                        |  13 +-
+ kernel/fork.c                                     |  61 +++++--
+ mm/Kconfig                                        |   6 +
+ tools/testing/selftests/clone3/clone3.c           | 211 ++++++++++++++++++----
+ tools/testing/selftests/clone3/clone3_selftests.h |   8 +
+ tools/testing/selftests/ksft_shstk.h              |  63 +++++++
+ 15 files changed, 430 insertions(+), 85 deletions(-)
+---
+base-commit: 41bccc98fb7931d63d03f326a746ac4d429c1dd3
+change-id: 20231019-clone3-shadow-stack-15d40d2bf536
+
+Best regards,
+-- 
+Mark Brown <broonie@kernel.org>
+
 
