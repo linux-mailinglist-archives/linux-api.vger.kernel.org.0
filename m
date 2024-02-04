@@ -1,249 +1,170 @@
-Return-Path: <linux-api+bounces-829-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-830-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08C9B84877C
-	for <lists+linux-api@lfdr.de>; Sat,  3 Feb 2024 17:47:07 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4D20848A39
+	for <lists+linux-api@lfdr.de>; Sun,  4 Feb 2024 02:33:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6EAB1285679
-	for <lists+linux-api@lfdr.de>; Sat,  3 Feb 2024 16:47:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1D9811C2213A
+	for <lists+linux-api@lfdr.de>; Sun,  4 Feb 2024 01:33:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4BCE65F47B;
-	Sat,  3 Feb 2024 16:47:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51A14A32;
+	Sun,  4 Feb 2024 01:33:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NItwncZ7"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="VoAxtBvh"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2378815E5BC;
-	Sat,  3 Feb 2024 16:47:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6C7C816;
+	Sun,  4 Feb 2024 01:33:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706978822; cv=none; b=VEZDxdvizWrZHXksB3M7lhU8rc5X9nYQYgNKLo1X2zZ4M0GDvJY7CiVB17RdNv52l9zfMezyHkMvlMjnCWowSM2tB+fXiAJj6VRgMQTZ2FylFFL08gEVhjvcpk0DwC28tPzGZ1Fig31seNhDcjMs1reQVZG8uZ3EF2+962IgZmI=
+	t=1707010401; cv=none; b=XSjotE5OQbFcajiZJO607nHve3j0r4BtbBGB5dFY1YVZNiunPz1rIZy77m3xiXG4CdPGR93DiQPD0pjnvjGy1lbBOJUX7G7w6VRUoMUsJhH5ZKAUCC/H59MAFxyPTQd1b3bBvPsshu2fHXYGAijVNIsUmtbWsPGnC8cIeucCFbQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706978822; c=relaxed/simple;
-	bh=VmBx6ehTLuOpKqQgN50mnKpaDr16oF6vA56/MJVwUag=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DDycc8Ebwl7HlNG0IxaH/Pfhr5lapF+sRf9J6zlVMToj4IC4krmElf0ZC906l3P4u58lgk5w0Z18pMa+IU7xjpVMr5EXQo+rMzY0v5AcDvvJJC2cQDA7VEaDBUHEItjWidn1fNwaDR9834GE0kFzUnMkiRf+YF6fXpkJyL5cp2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NItwncZ7; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F650C433C7;
-	Sat,  3 Feb 2024 16:46:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706978821;
-	bh=VmBx6ehTLuOpKqQgN50mnKpaDr16oF6vA56/MJVwUag=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NItwncZ7nKnjcEn68ISV4KLCWxschr4GhTevyzfk3XafiDnHFPXqUTsouJqVa5zTs
-	 F8y9mp6bjKIuaumiwGjp35R5b4jG4bP+qqhjfw+Avn36Ro7TjGybswyNV0zW7ECZ3T
-	 9+H4xzjofXg7ydVZaNsL0slPRd81lYj8b36lzl0nDNF+ah1VrmJaArwN2qWJDMiiby
-	 1TmHjgmMpiZtbzU5kxmVLRW7fGE9VMC0T5RDpOAmcroBa+AjBebqgMzT8/6nIiBSnh
-	 K2y3UwdGXz7vzNsEZN1mTWoaB6/r7dSm1qjSpj6PeO73u8Lzo3yTxr5Peh7S9ym2qp
-	 gYdsPTvXDpLyQ==
-Date: Sat, 3 Feb 2024 17:46:56 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Oleg Nesterov <oleg@redhat.com>
-Cc: Andy Lutomirski <luto@amacapital.net>, 
-	"Eric W. Biederman" <ebiederm@xmission.com>, Tycho Andersen <tycho@tycho.pizza>, linux-api@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] pidfd_poll: report POLLHUP when pid_task() == NULL
-Message-ID: <20240203-freuden-frucht-b598f8cca27d@brauner>
-References: <20240202131147.GA25988@redhat.com>
- <20240202131226.GA26018@redhat.com>
- <20240202-arbeit-fruchtig-26880564a21a@brauner>
- <20240202160704.GA5850@redhat.com>
- <20240202-lackmantel-vervielfachen-4c0f0374219b@brauner>
- <20240202190529.GA28818@redhat.com>
- <20240203120425.GA30029@redhat.com>
+	s=arc-20240116; t=1707010401; c=relaxed/simple;
+	bh=Iw/fEuyQ7mi/lXa3d20ylxNcCWQhhKBXMwjanLwFV3s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=oJQ2cbRnwSjch7IxI68Ndf2tzxlFBeEqkFLKAfu/V3gLnhnmk/uu/Bv0IuJTNtGPPpW/RuNMZTXYfNTrymWMTHpB9ho7UNzq6AY8tlzWsSrQbHAqNVxd1Eo/pveMOQWv/68yS+3luit/g1I7Y/yCSndeKkLYj0AUnZJOWrMElNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=VoAxtBvh; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=g/e21LICe/FNUov3txLgNkHBc/RFMYIe48KaXgpnzOM=; b=VoAxtBvhL+JmLBoXdctdEbQwPd
+	IrbezwTR6Lj9IqpfmGjRi/81ae1JiGXyAgqoC1CuW7aUFFM7vKeRtBUIJSSpYYEhH2SUbR3gi3EGL
+	pkiWs6xYlDWMIuP7GjeYmNJ0AxPxUfVWkFJnnKYgnt4BZU5RYMy9CGiAg78GvAmBIQrrDc3JkptMy
+	OHDEJ1GBQ9Hs9TL1om3iaJOWoVzv+DgtxPDP256f+eeAIgz46JkI454jgGx7ZWNvnxVP1Mh/Zg0Xs
+	lLBsu8TZjh3wLl/mEafPGF8O8VxiVBwhn3fBAs4RmT7jtqDOEygHSGgeEHHOnxPfyu9c1OgB9M9zK
+	akSWs3Ng==;
+Received: from [50.53.50.0] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rWRNY-0000000HWm3-1uVM;
+	Sun, 04 Feb 2024 01:33:04 +0000
+Message-ID: <0371ffc5-f6c9-4352-89d5-0e98afa9ad7f@infradead.org>
+Date: Sat, 3 Feb 2024 17:33:02 -0800
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240203120425.GA30029@redhat.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFT v5 1/7] Documentation: userspace-api: Add shadow stack
+ API documentation
+Content-Language: en-US
+To: Mark Brown <broonie@kernel.org>,
+ "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
+ Deepak Gupta <debug@rivosinc.com>, Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
+ "H.J. Lu" <hjl.tools@gmail.com>, Florian Weimer <fweimer@redhat.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+ Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
+ Mel Gorman <mgorman@suse.de>, Daniel Bristot de Oliveira
+ <bristot@redhat.com>, Valentin Schneider <vschneid@redhat.com>,
+ Christian Brauner <brauner@kernel.org>, Shuah Khan <shuah@kernel.org>
+Cc: linux-kernel@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
+ Will Deacon <will@kernel.org>, Kees Cook <keescook@chromium.org>,
+ jannh@google.com, linux-kselftest@vger.kernel.org, linux-api@vger.kernel.org
+References: <20240203-clone3-shadow-stack-v5-0-322c69598e4b@kernel.org>
+ <20240203-clone3-shadow-stack-v5-1-322c69598e4b@kernel.org>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20240203-clone3-shadow-stack-v5-1-322c69598e4b@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sat, Feb 03, 2024 at 01:04:26PM +0100, Oleg Nesterov wrote:
-> Christian, I apologize for my terse and unclear emails yesterday,
-> I was a bit busy.
+Hi,
 
-Oh don't worry, I didn't take it badly in any way. That was all totally
-ok me getting the keys api wrong is not your problem. ;)
+On 2/2/24 16:04, Mark Brown wrote:
+> There are a number of architectures with shadow stack features which we are
+> presenting to userspace with as consistent an API as we can (though there
+> are some architecture specifics). Especially given that there are some
+> important considerations for userspace code interacting directly with the
+> feature let's provide some documentation covering the common aspects.
+> 
+> Signed-off-by: Mark Brown <broonie@kernel.org>
+> ---
+>  Documentation/userspace-api/index.rst        |  1 +
+>  Documentation/userspace-api/shadow_stack.rst | 41 ++++++++++++++++++++++++++++
+>  2 files changed, 42 insertions(+)
+> 
 
-> 
-> On 02/02, Oleg Nesterov wrote:
-> >
-> > On 02/02, Christian Brauner wrote:
-> > >
-> > > > I think we need a simpler patch. I was going to send it as 4/4, but I'd
-> > > > like to think more, _perhaps_ we can also discriminate the PIDFD_THREAD
-> > > > and non-PIDFD_THREAD waiters. I'll try to make the patch(es) tomorrow or
-> > >
-> > > Right, I didn't go that far.
-> 
-> OK, so lets forget about the PIDFD_THREAD waiters for the moment.
-> Then everything is trivial, please see below.
-> 
-> > > > 	1. we can't use wake_up_poll(), it passes nr_exclusive => 1
-> > >
-> > > Bah. So we need the same stuff we did for io_uring and use
-> > > __wake_up() directly. Or we add wake_up_all_poll() and convert the other
-> > > three callsites:
-> >
-> > ...
-> >
-> > > +#define wake_up_all_poll(x, m)                                                 \
-> > > +       __wake_up(x, TASK_NORMAL, 0, poll_to_key(m))
-> >
-> > Agreed, but I think this + s/wake_up/wake_up_all_poll/ conversions
-> > need a separate patch.
-> 
-> And if it was not clear I like this change! In fact I thought about
-> the new helper too, but I didn't realize that it already have the
-> users.
-> 
-> > > -void do_notify_pidfd(struct task_struct *task)
-> > > +void pidfd_wake_up_poll(struct task_struct *task, bool dead)
-> > >  {
-> > > -	struct pid *pid;
-> > > -
-> > >  	WARN_ON(task->exit_state == 0);
-> > > -	pid = task_pid(task);
-> > > -	wake_up_all(&pid->wait_pidfd);
-> > > +	WARN_ON(mask == 0);
-> > > +	wake_up_all_poll(&task_pid(task)->wait_pidfd,
-> > > +			 EPOLLIN | EPOLLRDNORM | dead ? EPOLLHUP : 0);
-> >
-> > No...
-> >
-> > This is still overcomplicated and is not right.
->                                 ^^^^^^^^^^^^^^^^
-> Sorry, sorry, I misread your change, "dead" is always false so it has
-> no effect and thus the change is correct.
-> 
-> But why do we need this arg? All we need is the trivial one-liner:
-> 
-> --- a/kernel/signal.c
-> +++ b/kernel/signal.c
-> @@ -2025,7 +2025,8 @@ void do_notify_pidfd(struct task_struct *task)
->  
->  	WARN_ON(task->exit_state == 0);
->  	pid = task_pid(task);
-> -	wake_up_all(&pid->wait_pidfd);
-> +	__wake_up(&pid->wait_pidfd, TASK_NORMAL, 0,
-> +		  poll_to_key(EPOLLIN | EPOLLRDNORM));
 
-Ok, care to just send me a full patch for this?
-Just paste it here and I'll pick it.
+> diff --git a/Documentation/userspace-api/shadow_stack.rst b/Documentation/userspace-api/shadow_stack.rst
+> new file mode 100644
+> index 000000000000..c6e5ab795b60
+> --- /dev/null
+> +++ b/Documentation/userspace-api/shadow_stack.rst
+> @@ -0,0 +1,41 @@
+> +=============
+> +Shadow Stacks
+> +=============
+> +
+> +Introduction
+> +============
+> +
+> +Several architectures have features which provide backward edge
+> +control flow protection through a hardware maintained stack, only
+> +writeable by userspace through very limited operations.  This feature
+> +is referred to as shadow stacks on Linux, on x86 it is part of Intel
 
->  }
->  
->  /*
-> 
-> and I was going to send the patch above as 4/4, but then decided
-> to delay it, see below.
-> 
-> We can rename do_notify_pidfd() if you wish, and of course the
-> new wake_up_all_poll() helper you proposed makes sense, but this
-> is another story.
+                                   on Linux. On x86
 
-If at all then absolutely a separate patch.
+> +Control Enforcement Technology (CET), on arm64 it is Guarded Control
+> +Stacks feature (FEAT_GCS) and for RISC-V it is the Zicfiss extension.> +It is expected that this feature will normally be managed by the
+> +system dynamic linker and libc in ways broadly transparent to
+> +application code, this document covers interfaces and considerations
 
-> 
-> As for __change_pid(). In this case wake_up_all() is fine, we can
-> change it to use wake_up_all_poll() too for consistency, but this
-> is not strictly necessary and in fact "key = 0" makes a bit more
-> sense imo.
+               code. This                                considerations.
 
-Ok, I see.
+> +
+> +
+> +Enabling
+> +========
+> +
+> +Shadow stacks default to disabled when a userspace process is
+> +executed, they can be enabled for the current thread with a syscall:
 
-> 
-> And just in case... previously I said that (perhaps) it can use
-> __wake_up_pollfree() but no, this would be obviously wrong.
-> 
-> ------------------------------------------------------------------
-> Now let's recall about the PIDFD_THREAD waiters. exit_notify() does
-> 		
-> 	/*
-> 	 * sub-thread or delay_group_leader(), wake up the
-> 	 * PIDFD_THREAD waiters.
-> 	 */
-> 	if (!thread_group_empty(tsk))
-> 		do_notify_pidfd(tsk);
-> 
-> and it would be nice to not wakeup the non-PIDFD_THREAD waiters.
-> 
-> I was thinking about something like the changes below but
-> 
-> 	- I am NOT sure it will work! I need to read the code
-> 	  in fs/select.c
-> 
-> 	- in fact I am not sure this makes a lot of sense, and
-> 	  the hack in pidfd_poll() doesn't look very nice even
-> 	  _if_ it can work.
+   executed. They
 
-First, good idea to make this work. :)
-Second, I agree that this looks ugly. ;/
+> +
+> + - For x86 the ARCH_SHSTK_ENABLE arch_prctl()
+> +
+> +It is expected that this will normally be done by the dynamic linker.
+> +Any new threads created by a thread with shadow stacks enabled will
+> +themsleves have shadow stacks enabled.
 
-So here's a very likely a stupid idea. To make that clean we essentially
-need kernel private information that can't be set in userspace (Btw,
-look at EPOLL_URING_WAKE which is similar in that it cannot be set from
-userspace. It's not the same thing ofc but it is a private bit.). Which
-is the gist of your proposal in a way.
+   themselves
 
-So we would have to grab a new private bit in the epoll flag space. A
-subsystem (e.g., pidfd, seccomp) could use that private bit to avoid
-spurious wakeups such as this. I'm sure that this would be useful to
-others?
+> +
+> +
+> +Enablement considerations
+> +=========================
+> +
+> +- Returning from the function that enables shadow stacks without first
+> +  disabling them will cause a shadow stack exception.  This includes
+> +  any syscall wrapper or other library functions, the syscall will need
 
-It's not something we need to do right now but my point is that this
-would be more palatable if this coulde be made generally useful.
+                                          functions. The
 
-The only thing that's ugly is that we'd raise that bit in ->poll() but
-maybe that's acceptable through a helper? If we'd wanted to set it from
-epoll itself we'd need a new fop most likely. :/
+> +  to be inlined.
+> +- A lock feature allows userspace to prevent disabling of shadow stacks.
+> +- This that change the stack context like longjmp() or use of ucontext
 
-> 
-> --- a/kernel/fork.c
-> +++ b/kernel/fork.c
-> @@ -2081,6 +2081,13 @@ static __poll_t pidfd_poll(struct file *file, struct poll_table_struct *pts)
->  	struct task_struct *task;
->  	__poll_t poll_flags = 0;
->  
-> +	if (thread && pts && pts->_qproc) {
-> +		// We are not registered yet. Update the key to mark
-> +		// us a a PIDFD_THREAD waiter, __pollwait() will copy
-> +		// this ->_key to poll_table_entry->key.
-> +		if (pts->_key & EPOLLIN) // exclude the POLLHUP-only waiters
-> +			pts->_key |= EPOLLMSG; // random flag
-> +	}
->  	poll_wait(file, &pid->wait_pidfd, pts);
->  	/*
->  	 * Depending on PIDFD_THREAD, inform pollers when the thread
-> 
-> Now, do_notify_pidfd() can do
-> 
-> 	if (!thread_group_empty(tsk))
-> 		mask = EPOLLMSG; // matches the hack in pidfd_poll
-> 	else
-> 		mask = EPOLLIN | EPOLLRDNORM;
-> 
-> 	__wake_up(..., poll_to_key(mask));
-> 
-> Yes, in this case it makes more sense to pass !thread_group_empty()
-> as a "bool thread" argument.
-> 
-> ---------------------------------------------------------------------
-> 
-> What do you think?
-> 
-> I am starting to think that I shouldn't have delayed the 1st trivial
-> change. Feel free to push it, with or without rename, with or without
-> the new wake_up_all_poll() helper, I am fine either way. But please
-> don't add the new "int dead" argument, afaics it makes no sense.
+     Those
+?
 
-I would never go above your head, don't worry. :)
+> +  changes on signal return will need support from libc.
+> 
+
+-- 
+#Randy
 
