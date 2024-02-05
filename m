@@ -1,168 +1,170 @@
-Return-Path: <linux-api+bounces-831-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-832-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8250848D42
-	for <lists+linux-api@lfdr.de>; Sun,  4 Feb 2024 12:57:03 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8742584937F
+	for <lists+linux-api@lfdr.de>; Mon,  5 Feb 2024 06:50:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 175FB1C20CE1
-	for <lists+linux-api@lfdr.de>; Sun,  4 Feb 2024 11:57:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2854B1F21E84
+	for <lists+linux-api@lfdr.de>; Mon,  5 Feb 2024 05:50:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5FBF18EC0;
-	Sun,  4 Feb 2024 11:56:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D5E8BA2B;
+	Mon,  5 Feb 2024 05:50:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZY/WEtGX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UYbEG4ns"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4DE82208E;
-	Sun,  4 Feb 2024 11:56:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C01EAB667;
+	Mon,  5 Feb 2024 05:50:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707047817; cv=none; b=fHiWY+7b7Zs3RikbUbtlAo13XXvfMXvXN4mr4DQxEQ/ezvfzQacm2U6420PLiV+rL9vxDVS2+41x6FprIBQGMHZx6RypxuxiVfKP81L/k9PJI/ZWoX15+YJqsJe/5LlNk9PJEJJv3Xh0f4yFUTp0xuIEhSKtXBD6d+H5K4PbnuM=
+	t=1707112251; cv=none; b=UntQzH8ZXCDiUsP1PmUus0VIXTHRCvym61TNVEOGU4I1g/AxtJSfBb0GtJXx2QnV4CKXAl7dR1LKvt8/L/2TTfmhfro6qYnYjn7USrk937l8ABzPL/reETL0rzop3rjhu5wW2RnRSxm8w7F8DxKVQbG0hwvK2wLYVg2f99UMJBA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707047817; c=relaxed/simple;
-	bh=4MfqGCuyTV/WsAyZLhKLgr6v3KIUjtNQFKaYShJa5D0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FNlJLv5n50kKawFOK7kyT90GGb2KKqwavivynQhPtFlcmR4wL7aR0Gy7quMBSh77wlFuHIVPcr3RsNVidqDin+dIvt6YNLmgKZqeFp0nvo/3IMdwR5xkJ5e/HRW0VaX3CHab9uCwecG4oLm6AkBoiIo68RW+g3yttKAY6ZSPLAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZY/WEtGX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DE05C433C7;
-	Sun,  4 Feb 2024 11:56:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707047817;
-	bh=4MfqGCuyTV/WsAyZLhKLgr6v3KIUjtNQFKaYShJa5D0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZY/WEtGXriFjgcbMxABWAI4nFRroyGqI2w96wGZ9ydXf9+uL8mdZqzi+dGzo4Lf9A
-	 bQTQ7bhibCdYAIAU9P2v7NgeMdVO2JwRrFhz1EBhCZUkivhQ9ale4dK+SQyCpL9ltY
-	 vR1mZgXbXe+c3RC+Ef75Wj5FDvuvJPWzVIoPSwilsDgWUUgAw1PPqmbAFE2GJZaVjR
-	 PP958f8YXAXj91IZo569uUsbJsm+M2tLGiEKOfBTSY1pvkOSxezO/kp6V8/0P83l5H
-	 bue5JvBedmel6vfTkGxy4W5d7RMgyQqSAvKOxlpcl9IC1nTWZ+O5BlMlkpjEXbZ/bW
-	 gwK2DWtg278SA==
-Date: Sun, 4 Feb 2024 12:56:41 +0100
-From: Mike Rapoport <rppt@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
-	Deepak Gupta <debug@rivosinc.com>,
-	Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
-	"H.J. Lu" <hjl.tools@gmail.com>,
-	Florian Weimer <fweimer@redhat.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Daniel Bristot de Oliveira <bristot@redhat.com>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Kees Cook <keescook@chromium.org>,
-	jannh@google.com, linux-kselftest@vger.kernel.org,
-	linux-api@vger.kernel.org, David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH RFT v3 1/5] mm: Introduce ARCH_HAS_USER_SHADOW_STACK
-Message-ID: <Zb97eROjky1DIaiv@kernel.org>
-References: <20231120-clone3-shadow-stack-v3-0-a7b8ed3e2acc@kernel.org>
- <20231120-clone3-shadow-stack-v3-1-a7b8ed3e2acc@kernel.org>
+	s=arc-20240116; t=1707112251; c=relaxed/simple;
+	bh=lSM7C+vUc6UhPUqzZ2Tj67xDB4u+cxvZTB1BWRh9jbE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=pHSmu5Cx8w+ZBZxNwZjsdBGMuG//PWLCQQrxf6eKcKqR0R5+IoK6nEX17q1I07OaWRKNvgrE3waeSI4wk5ZfyOHBl43EmBX5wp9LgEXgH0xzVyJtWXAnB1pdhIajENb9oS8kIbWatvp9xGzQaIQIjYluFqtEsJGovTiy4WYzFpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UYbEG4ns; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1707112249; x=1738648249;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=lSM7C+vUc6UhPUqzZ2Tj67xDB4u+cxvZTB1BWRh9jbE=;
+  b=UYbEG4ns4Vr6SuQRLbaWTwCk7SsjxNJslorXD6lbt5q61j9JojRgkQcL
+   CjQTy1CSAzlYkpWUKt0ZNA81vMBPg1xARHH/jXwYLph7+vGGGV+5S9eiP
+   acpEdVzcDVT9SV1Ev9fD2s281iErCzhxhV4qB8aqdLVM13iSljA8Su477
+   BeGd+JZXEeqHYDCzrugQy66/Om8fb4CkAGVVOzWwKizez/ykLdbdom0LN
+   TrTguBP8KfIHw66+t+kzHKT3oElPkkv+4xdl/QKerBx2Wxk+sANLtuM1Z
+   MZNQg4W8OsKznZjk/2JAjohZUVBd/sNU1UHO+CK4xNi+ywEN86k+FF+kV
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10974"; a="25900774"
+X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
+   d="scan'208";a="25900774"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2024 21:50:47 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
+   d="scan'208";a="38038147"
+Received: from yhuang6-desk2.sh.intel.com (HELO yhuang6-desk2.ccr.corp.intel.com) ([10.238.208.55])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2024 21:50:41 -0800
+From: "Huang, Ying" <ying.huang@intel.com>
+To: Gregory Price <gourry.memverge@gmail.com>
+Cc: linux-mm@kvack.org,  linux-kernel@vger.kernel.org,
+  linux-doc@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
+  linux-api@vger.kernel.org,  corbet@lwn.net,  akpm@linux-foundation.org,
+  gregory.price@memverge.com,  honggyu.kim@sk.com,  rakie.kim@sk.com,
+  hyeongtak.ji@sk.com,  mhocko@kernel.org,  vtavarespetr@micron.com,
+  jgroves@micron.com,  ravis.opensrc@micron.com,  sthanneeru@micron.com,
+  emirakhur@micron.com,  Hasan.Maruf@amd.com,  seungjun.ha@samsung.com,
+  hannes@cmpxchg.org,  dan.j.williams@intel.com
+Subject: Re: [PATCH v5 4/4] mm/mempolicy: protect task interleave functions
+ with tsk->mems_allowed_seq
+In-Reply-To: <20240202170238.90004-5-gregory.price@memverge.com> (Gregory
+	Price's message of "Fri, 2 Feb 2024 12:02:38 -0500")
+References: <20240202170238.90004-1-gregory.price@memverge.com>
+	<20240202170238.90004-5-gregory.price@memverge.com>
+Date: Mon, 05 Feb 2024 13:48:44 +0800
+Message-ID: <87r0hr31hf.fsf@yhuang6-desk2.ccr.corp.intel.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231120-clone3-shadow-stack-v3-1-a7b8ed3e2acc@kernel.org>
+Content-Type: text/plain; charset=ascii
 
-On Mon, Nov 20, 2023 at 11:54:29PM +0000, Mark Brown wrote:
-> Since multiple architectures have support for shadow stacks and we need to
-> select support for this feature in several places in the generic code
-> provide a generic config option that the architectures can select.
-> 
-> Suggested-by: David Hildenbrand <david@redhat.com>
-> Acked-by: David Hildenbrand <david@redhat.com>
-> Signed-off-by: Mark Brown <broonie@kernel.org>
+Gregory Price <gourry.memverge@gmail.com> writes:
+
+> In the event of rebind, pol->nodemask can change at the same time as an
+> allocation occurs.  We can detect this with tsk->mems_allowed_seq and
+> prevent a miscount or an allocation failure from occurring.
+>
+> The same thing happens in the allocators to detect failure, but this
+> can prevent spurious failures in a much smaller critical section.
+>
+> Suggested-by: "Huang, Ying" <ying.huang@intel.com>
+> Signed-off-by: Gregory Price <gregory.price@memverge.com>
 > ---
->  arch/x86/Kconfig   | 1 +
->  fs/proc/task_mmu.c | 2 +-
->  include/linux/mm.h | 2 +-
->  mm/Kconfig         | 6 ++++++
->  4 files changed, 9 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-> index 3762f41bb092..14b7703a9a2b 100644
-> --- a/arch/x86/Kconfig
-> +++ b/arch/x86/Kconfig
-> @@ -1952,6 +1952,7 @@ config X86_USER_SHADOW_STACK
->  	depends on AS_WRUSS
->  	depends on X86_64
->  	select ARCH_USES_HIGH_VMA_FLAGS
-> +	select ARCH_HAS_USER_SHADOW_STACK
->  	select X86_CET
->  	help
->  	  Shadow stack protection is a hardware feature that detects function
-> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
-> index ef2eb12906da..f0a904aeee8e 100644
-> --- a/fs/proc/task_mmu.c
-> +++ b/fs/proc/task_mmu.c
-> @@ -699,7 +699,7 @@ static void show_smap_vma_flags(struct seq_file *m, struct vm_area_struct *vma)
->  #ifdef CONFIG_HAVE_ARCH_USERFAULTFD_MINOR
->  		[ilog2(VM_UFFD_MINOR)]	= "ui",
->  #endif /* CONFIG_HAVE_ARCH_USERFAULTFD_MINOR */
-> -#ifdef CONFIG_X86_USER_SHADOW_STACK
-> +#ifdef CONFIG_ARCH_HAS_USER_SHADOW_STACK
->  		[ilog2(VM_SHADOW_STACK)] = "ss",
->  #endif
->  	};
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index 418d26608ece..10462f354614 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -341,7 +341,7 @@ extern unsigned int kobjsize(const void *objp);
->  #endif
->  #endif /* CONFIG_ARCH_HAS_PKEYS */
+>  mm/mempolicy.c | 31 +++++++++++++++++++++++++------
+>  1 file changed, 25 insertions(+), 6 deletions(-)
+>
+> diff --git a/mm/mempolicy.c b/mm/mempolicy.c
+> index d8cc3a577986..ed0d5d2d456a 100644
+> --- a/mm/mempolicy.c
+> +++ b/mm/mempolicy.c
+> @@ -1878,11 +1878,17 @@ bool apply_policy_zone(struct mempolicy *policy, enum zone_type zone)
 >  
-> -#ifdef CONFIG_X86_USER_SHADOW_STACK
-> +#ifdef CONFIG_ARCH_HAS_USER_SHADOW_STACK
->  /*
->   * VM_SHADOW_STACK should not be set with VM_SHARED because of lack of
->   * support core mm.
-> diff --git a/mm/Kconfig b/mm/Kconfig
-> index 89971a894b60..6713bb3b0b48 100644
-> --- a/mm/Kconfig
-> +++ b/mm/Kconfig
-> @@ -1270,6 +1270,12 @@ config LOCK_MM_AND_FIND_VMA
->  	bool
->  	depends on !STACK_GROWSUP
->  
-> +config ARCH_HAS_USER_SHADOW_STACK
-> +	bool
-> +	help
-> +	  The architecture has hardware support for userspace shadow call
-> +          stacks (eg, x86 CET, arm64 GCS or RISC-V Zicfiss).
-
-The whitespace looks suspicious, I think there should be a leading tab.
-Otherwise
-
-Reviewed-by: Mike Rapoport (IBM) <rppt@kernel.org>
-
+>  static unsigned int weighted_interleave_nodes(struct mempolicy *policy)
+>  {
+> -	unsigned int node = current->il_prev;
+> -
+> -	if (!current->il_weight || !node_isset(node, policy->nodes)) {
+> +	unsigned int node;
+> +	unsigned int cpuset_mems_cookie;
 > +
->  source "mm/damon/Kconfig"
->  
->  endmenu
-> 
-> -- 
-> 2.30.2
-> 
+> +retry:
+> +	/* to prevent miscount use tsk->mems_allowed_seq to detect rebind */
+> +	cpuset_mems_cookie = read_mems_allowed_begin();
+> +	node = current->il_prev;
+> +	if (!node || !node_isset(node, policy->nodes)) {
+            ~~~~~
+            !current->il_weight ?
 
--- 
-Sincerely yours,
-Mike.
+--
+Best Regards,
+Huang, Ying
+
+>  		node = next_node_in(node, policy->nodes);
+> -		/* can only happen if nodemask is being rebound */
+> +		if (read_mems_allowed_retry(cpuset_mems_cookie))
+> +			goto retry;
+>  		if (node == MAX_NUMNODES)
+>  			return node;
+>  		current->il_prev = node;
+> @@ -1896,8 +1902,14 @@ static unsigned int weighted_interleave_nodes(struct mempolicy *policy)
+>  static unsigned int interleave_nodes(struct mempolicy *policy)
+>  {
+>  	unsigned int nid;
+> +	unsigned int cpuset_mems_cookie;
+> +
+> +	/* to prevent miscount, use tsk->mems_allowed_seq to detect rebind */
+> +	do {
+> +		cpuset_mems_cookie = read_mems_allowed_begin();
+> +		nid = next_node_in(current->il_prev, policy->nodes);
+> +	} while (read_mems_allowed_retry(cpuset_mems_cookie));
+>  
+> -	nid = next_node_in(current->il_prev, policy->nodes);
+>  	if (nid < MAX_NUMNODES)
+>  		current->il_prev = nid;
+>  	return nid;
+> @@ -2374,6 +2386,7 @@ static unsigned long alloc_pages_bulk_array_weighted_interleave(gfp_t gfp,
+>  		struct page **page_array)
+>  {
+>  	struct task_struct *me = current;
+> +	unsigned int cpuset_mems_cookie;
+>  	unsigned long total_allocated = 0;
+>  	unsigned long nr_allocated = 0;
+>  	unsigned long rounds;
+> @@ -2391,7 +2404,13 @@ static unsigned long alloc_pages_bulk_array_weighted_interleave(gfp_t gfp,
+>  	if (!nr_pages)
+>  		return 0;
+>  
+> -	nnodes = read_once_policy_nodemask(pol, &nodes);
+> +	/* read the nodes onto the stack, retry if done during rebind */
+> +	do {
+> +		cpuset_mems_cookie = read_mems_allowed_begin();
+> +		nnodes = read_once_policy_nodemask(pol, &nodes);
+> +	} while (read_mems_allowed_retry(cpuset_mems_cookie));
+> +
+> +	/* if the nodemask has become invalid, we cannot do anything */
+>  	if (!nnodes)
+>  		return 0;
 
