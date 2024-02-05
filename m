@@ -1,83 +1,78 @@
-Return-Path: <linux-api+bounces-834-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-835-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87A00849B06
-	for <lists+linux-api@lfdr.de>; Mon,  5 Feb 2024 13:54:23 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CA88849CA6
+	for <lists+linux-api@lfdr.de>; Mon,  5 Feb 2024 15:10:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 448EF1F25F04
-	for <lists+linux-api@lfdr.de>; Mon,  5 Feb 2024 12:54:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3274C2810F4
+	for <lists+linux-api@lfdr.de>; Mon,  5 Feb 2024 14:10:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D70EB482FC;
-	Mon,  5 Feb 2024 12:48:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 159C72375D;
+	Mon,  5 Feb 2024 14:10:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="mfp/C/w0"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="G6AZ4izM"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EBE02D056
-	for <linux-api@vger.kernel.org>; Mon,  5 Feb 2024 12:48:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20E9A249ED
+	for <linux-api@vger.kernel.org>; Mon,  5 Feb 2024 14:10:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707137291; cv=none; b=VnSjk7y7gxnnav+ZklhjKLFJwmIOoqB1EomvHVHqea7xTDnhixJoSXdCmG2JTZuK05Vh6w38FiYfZKKMhNzySnhatfC/J8FZMipT5WYVHpU4vKAWwLVQEA5VpuXyRSE/1fi5An59pDaktNDjS1zoR5OW3Ek9jolImiiLUt/0huU=
+	t=1707142214; cv=none; b=YEo19tLpz8N9vE7OUQs97SvDenug6Uq8y/ZETm0u9FMjyS5WvJVrIRG8CaRaF55tCLwjKQp/p+310PRVjj7hbUC+vpwuRr2FVRheXCNInBcZZ3oJ1myilWo+4npnORt+nLFcAa6mHwi7Av95pBTAcy1guOXPbbpwACdYNz5+i/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707137291; c=relaxed/simple;
-	bh=hMQsxleb2DgLiOtL+XcLnQPzsO2TotOD/Pmi3+oKloU=;
+	s=arc-20240116; t=1707142214; c=relaxed/simple;
+	bh=VlPtY6olNrjVao89eI0OmwV4oZkcWMIdDl7/nQOTaHE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k6sv0bpm3/uqeLSC882oaL6adC36Rnbv/hB2y/AFkoJ5hTt7urGgWAaphMvPaiYBikrkXAd/GbXdjBLaCHF8ncvMJQ/NlrcpojXxRx3mTFLOT7wpGbg5nlMUdIlX9oiwAQqvWKD1QSNzsS+t9YaeNayJoqgjpFZiHy7zU4vssbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=mfp/C/w0; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1d94b222a3aso35419745ad.2
-        for <linux-api@vger.kernel.org>; Mon, 05 Feb 2024 04:48:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1707137289; x=1707742089; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=jp4Q5U+zIlzWB/BXVKcZBw8dz1qw2kebfH71OdMWBLA=;
-        b=mfp/C/w0RUq0WdHImmd1e5PIByl8SjgLcocSUhdGKfJiLLA+Ej7uC5hh/b3uRhczvu
-         HrZQmgZu+7H6Rb3L3SiEI8GKfAM1wIU6MTYMj2kfvrhxWvDOsH+bLufs2C1T4ajflRdl
-         6vmu4EWt5mfJdSJChg1xgzRCt4aedwf9PI3cw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707137289; x=1707742089;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jp4Q5U+zIlzWB/BXVKcZBw8dz1qw2kebfH71OdMWBLA=;
-        b=BJVKxzUOmiUzW73d6iT6I8ctRh3dHwGEuFloCPVSddNmw5MIUS+oEc11ZSYN9VZ4UB
-         yN+HMUAiA41nSNUArsDloaWkSen1PyueNupk7FLlMhtAu1jnd5jETnmLPFrLe2avauVA
-         Z1ukeSkWawsSqISaGM1KE8+5JZpq6C8wZU0bf+KcuouH9lLl9FaBUUZSc65LDsJBp3ve
-         3Uzg7vRo7zHgntj1zzswn9JcyH2BuS5y4R3o0eC2quFsvSGtQxWkBalld4wKkIALBa6A
-         iQwOQo055DM2B3MoUnDdWrB3Jrr/NydSFIUsxZEkyu1rMmbiw10BjmaXyDC0CRAPd/oI
-         BmIQ==
-X-Gm-Message-State: AOJu0YyF9XjPwwEgKd40iVMuKyrmvcbawSTaPP8v4dmF9q436Vq/1DxH
-	yW/8Pn/jjHxNk5f8770woNtCZt9eOfxY6w1NUrgmA4Cf9no7WK0L8BwapqUOhA==
-X-Google-Smtp-Source: AGHT+IHYbwF4AZxr+BIBzkFZlJurA2gYc1bK0rKQHMh9C8dej+7vIsMA2pXzfcqyntpLUgE85vHpwA==
-X-Received: by 2002:a17:902:650c:b0:1d7:5943:21b8 with SMTP id b12-20020a170902650c00b001d7594321b8mr10194131plk.16.1707137289454;
-        Mon, 05 Feb 2024 04:48:09 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCUtCqunCXxFNFT2rH8Qo2NHg52HZy+4Sa2MQq2EyuiWJcNqHwBIykWLL0u4UqEOMaCvzCtpjJoWSPJUbo7DhzhZ89KO+u16Y1JBm7o5562Gp5pgdhGCm8ufKd7vcjieySULkIG/nzq0GkLQsstXEXl735jvLqddCGKwuHrNHkKp5ZiLBWIes7Vokht2n+r5MJeiPbiSiASXCuBhAAgdrAVebtCTsIVjqdKCwkMRQMYSwJsF6A0+Iz1F5wUcBFMa1Nqw08Pqw1euJtfaGsVLoDWOyTvqaNfiTKMjqmL/vrlUN5In9PeXNXXyH69zZaeBBLX2H/QFEFDCWpg/TUy18gJVkR0z9HhIcZhfZ7GxZndTXSPRoqSjSaq21UcPhGN2Z3TPQSo=
-Received: from www.outflux.net ([198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id kh3-20020a170903064300b001d8f99e4737sm6318404plb.49.2024.02.05.04.48.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Feb 2024 04:48:08 -0800 (PST)
-Date: Mon, 5 Feb 2024 04:48:08 -0800
-From: Kees Cook <keescook@chromium.org>
-To: Alexey Dobriyan <adobriyan@gmail.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Florian Weimer <fweimer@redhat.com>, linux-kernel@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-	x86@kernel.org, Eric Biederman <ebiederm@xmission.com>,
-	linux-mm@kvack.org
-Subject: Re: [PATCH v4] ELF: AT_PAGE_SHIFT_MASK -- supply userspace with
- available page shifts
-Message-ID: <202402050445.0331B94A73@keescook>
-References: <ecb049aa-bcac-45c7-bbb1-4612d094935a@p183>
+	 Content-Type:Content-Disposition:In-Reply-To; b=crH8xAXYIHbFbKWGUnhHr1D/IlLTlT6ei2SHOAX7n+ONIkWbSPzwE2fowCyrecRRvopbbD1ZUAaSuErrxok1xXDw8rm7DjLt66sbiAovf/PpGIbMHTTNf6T9hqYHvUEhxHuayrsAPduTgcoBlxYsT/oajC2dEiT22pLzOHUJK+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=G6AZ4izM; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1707142210;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=klU6EPOskgTXRS466DyWudV8fKqQ0vbbL3vzBLrKzXo=;
+	b=G6AZ4izMCsjCRULJSWCAlqhh8qYiOl2Xrci54FmEbD/M6CU3EG+CzohVu1/lCYkZ0lrCBI
+	5kLqqTkFSLKcwixQeuZyFN+y++O2wgjAcRH5+LAuLOALOuIR039GeNnJaqank3avMdNLPH
+	LhEOGJwmzAgscsYHWo55fQ2/yz4Z2HI=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-553-rOw9yvsHMbiS6h4KY0Sz_g-1; Mon,
+ 05 Feb 2024 09:10:07 -0500
+X-MC-Unique: rOw9yvsHMbiS6h4KY0Sz_g-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DF4EC1C09820;
+	Mon,  5 Feb 2024 14:10:06 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.225.165])
+	by smtp.corp.redhat.com (Postfix) with SMTP id 408372166B31;
+	Mon,  5 Feb 2024 14:10:05 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Mon,  5 Feb 2024 15:08:51 +0100 (CET)
+Date: Mon, 5 Feb 2024 15:08:49 +0100
+From: Oleg Nesterov <oleg@redhat.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Andy Lutomirski <luto@amacapital.net>,
+	"Eric W. Biederman" <ebiederm@xmission.com>,
+	Tycho Andersen <tycho@tycho.pizza>, linux-api@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] pidfd_poll: report POLLHUP when pid_task() == NULL
+Message-ID: <20240205140848.GA15853@redhat.com>
+References: <20240202131147.GA25988@redhat.com>
+ <20240202131226.GA26018@redhat.com>
+ <20240202-arbeit-fruchtig-26880564a21a@brauner>
+ <20240202160704.GA5850@redhat.com>
+ <20240202-lackmantel-vervielfachen-4c0f0374219b@brauner>
+ <20240202190529.GA28818@redhat.com>
+ <20240203120425.GA30029@redhat.com>
+ <20240203-freuden-frucht-b598f8cca27d@brauner>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -86,23 +81,133 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ecb049aa-bcac-45c7-bbb1-4612d094935a@p183>
+In-Reply-To: <20240203-freuden-frucht-b598f8cca27d@brauner>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.6
 
-On Mon, Feb 05, 2024 at 12:51:43PM +0300, Alexey Dobriyan wrote:
-> +#define ARCH_AT_PAGE_SHIFT_MASK					\
-> +	do {							\
-> +		u32 val = 1 << 12;				\
-> +		if (boot_cpu_has(X86_FEATURE_PSE)) {		\
-> +			val |= 1 << 21;				\
-> +		}						\
-> +		if (boot_cpu_has(X86_FEATURE_GBPAGES)) {	\
-> +			val |= 1 << 30;				\
-> +		}						\
+On 02/03, Christian Brauner wrote:
+>
+> On Sat, Feb 03, 2024 at 01:04:26PM +0100, Oleg Nesterov wrote:
+> >
+> > -	wake_up_all(&pid->wait_pidfd);
+> > +	__wake_up(&pid->wait_pidfd, TASK_NORMAL, 0,
+> > +		  poll_to_key(EPOLLIN | EPOLLRDNORM));
+>
+>
+> Ok, care to just send me a full patch for this?
 
-Can we use something besides literal "12", "21", and "30" values here?
+Will do in a minute,
 
--Kees
 
--- 
-Kees Cook
+
+> Second, I agree that this looks ugly. ;/
+
+Agreed ;)
+
+> So here's a very likely a stupid idea. To make that clean we essentially
+> need kernel private information that can't be set in userspace (Btw,
+> look at EPOLL_URING_WAKE which is similar in that it cannot be set from
+> userspace. It's not the same thing ofc but it is a private bit.). Which
+> is the gist of your proposal in a way.
+>
+> So we would have to grab a new private bit in the epoll flag space.
+
+Agreed, but just in case:
+
+	- EPOLLMSG (ab)used by this patch can't "leak" to userspace even
+	  if it was (erroneously) set in pollfd.events
+
+	- If EPOLLMSG was set by userspace nothing bad can happen, just
+	  poll(non-PIDFD_THREAD-pidfd) will get the spurious wakeups.
+
+So. I am attaching the patch for the record, in case we return to this
+later.
+
+It seems to work fine, but when I look into fs/eventpoll.c I suspect
+it is not epoll friendly. I _think_ that the neccessary fix is trivial,
+ep_item_poll() should just copy pt->_key to epi->event.events after
+vfs_poll(), but I am not sure. So lets forget it for now.
+
+Oleg.
+---
+
+diff --git a/include/linux/pid.h b/include/linux/pid.h
+index 8124d57752b9..7467cdb9735b 100644
+--- a/include/linux/pid.h
++++ b/include/linux/pid.h
+@@ -74,7 +74,7 @@ struct pid *pidfd_pid(const struct file *file);
+ struct pid *pidfd_get_pid(unsigned int fd, unsigned int *flags);
+ struct task_struct *pidfd_get_task(int pidfd, unsigned int *flags);
+ int pidfd_prepare(struct pid *pid, unsigned int flags, struct file **ret);
+-void do_notify_pidfd(struct task_struct *task);
++void do_notify_pidfd(struct task_struct *task, bool thread);
+ 
+ static inline struct pid *get_pid(struct pid *pid)
+ {
+diff --git a/kernel/exit.c b/kernel/exit.c
+index 493647fd7c07..c31f36d3a1ed 100644
+--- a/kernel/exit.c
++++ b/kernel/exit.c
+@@ -744,7 +744,7 @@ static void exit_notify(struct task_struct *tsk, int group_dead)
+ 	 * PIDFD_THREAD waiters.
+ 	 */
+ 	if (!thread_group_empty(tsk))
+-		do_notify_pidfd(tsk);
++		do_notify_pidfd(tsk, true);
+ 
+ 	if (unlikely(tsk->ptrace)) {
+ 		int sig = thread_group_leader(tsk) &&
+diff --git a/kernel/fork.c b/kernel/fork.c
+index 8d08a2d1b095..3b4474ff6f4a 100644
+--- a/kernel/fork.c
++++ b/kernel/fork.c
+@@ -2081,6 +2081,15 @@ static __poll_t pidfd_poll(struct file *file, struct poll_table_struct *pts)
+ 	struct task_struct *task;
+ 	__poll_t poll_flags = 0;
+ 
++	if (pts && pts->_qproc) {
++		/*
++		 * We are not registered yet. Update pts->_key to mark us as
++		 * a non POLLHUP-only PIDFD_THREAD waiter for do_notify_pidfd,
++		 * _pollwait() will copy this _key to poll_table_entry->key.
++		 */
++		if (thread && (pts->_key & (EPOLLIN | EPOLLRDNORM)))
++			pts->_key |= EPOLLMSG;
++	}
+ 	poll_wait(file, &pid->wait_pidfd, pts);
+ 	/*
+ 	 * Depending on PIDFD_THREAD, inform pollers when the thread
+diff --git a/kernel/signal.c b/kernel/signal.c
+index c3fac06937e2..f51070dec132 100644
+--- a/kernel/signal.c
++++ b/kernel/signal.c
+@@ -2019,14 +2019,15 @@ int send_sigqueue(struct sigqueue *q, struct pid *pid, enum pid_type type)
+ 	return ret;
+ }
+ 
+-void do_notify_pidfd(struct task_struct *task)
++void do_notify_pidfd(struct task_struct *task, bool thread)
+ {
++	/* see the usage of EPOLLMSG in pidfd_poll() */
++	__poll_t m = thread ? EPOLLMSG : EPOLLIN | EPOLLRDNORM;
+ 	struct pid *pid = task_pid(task);
+ 
+ 	WARN_ON(task->exit_state == 0);
+ 
+-	__wake_up(&pid->wait_pidfd, TASK_NORMAL, 0,
+-			poll_to_key(EPOLLIN | EPOLLRDNORM));
++	__wake_up(&pid->wait_pidfd, TASK_NORMAL, 0, poll_to_key(m));
+ }
+ 
+ /*
+@@ -2056,7 +2057,7 @@ bool do_notify_parent(struct task_struct *tsk, int sig)
+ 	 * non-PIDFD_THREAD waiters.
+ 	 */
+ 	if (thread_group_empty(tsk))
+-		do_notify_pidfd(tsk);
++		do_notify_pidfd(tsk, false);
+ 
+ 	if (sig != SIGCHLD) {
+ 		/*
+
 
