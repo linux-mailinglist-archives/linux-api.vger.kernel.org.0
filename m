@@ -1,78 +1,69 @@
-Return-Path: <linux-api+bounces-835-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-836-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CA88849CA6
-	for <lists+linux-api@lfdr.de>; Mon,  5 Feb 2024 15:10:19 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB13D849D76
+	for <lists+linux-api@lfdr.de>; Mon,  5 Feb 2024 15:57:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3274C2810F4
-	for <lists+linux-api@lfdr.de>; Mon,  5 Feb 2024 14:10:18 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0E6DC1C22993
+	for <lists+linux-api@lfdr.de>; Mon,  5 Feb 2024 14:57:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 159C72375D;
-	Mon,  5 Feb 2024 14:10:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0FBE92C19F;
+	Mon,  5 Feb 2024 14:56:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="G6AZ4izM"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CD2vQ05r"
 X-Original-To: linux-api@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20E9A249ED
-	for <linux-api@vger.kernel.org>; Mon,  5 Feb 2024 14:10:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B5522C68C
+	for <linux-api@vger.kernel.org>; Mon,  5 Feb 2024 14:56:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707142214; cv=none; b=YEo19tLpz8N9vE7OUQs97SvDenug6Uq8y/ZETm0u9FMjyS5WvJVrIRG8CaRaF55tCLwjKQp/p+310PRVjj7hbUC+vpwuRr2FVRheXCNInBcZZ3oJ1myilWo+4npnORt+nLFcAa6mHwi7Av95pBTAcy1guOXPbbpwACdYNz5+i/0=
+	t=1707145019; cv=none; b=RYhvsP9TihzkDUhKVQEaiYrLSwKn7Btg3OaZRU4wqGss8zHrplWY5UqgI7yU1YUzWaN1hOQRbbm60pjS3a49Wu7bvKvIHB+agE43HQZSq2+3Jhm6X4V10cXX237IOjouVDI09Oe99ETfeHPndlCF1NknGxL/ihVLsHJw3ftUacc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707142214; c=relaxed/simple;
-	bh=VlPtY6olNrjVao89eI0OmwV4oZkcWMIdDl7/nQOTaHE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=crH8xAXYIHbFbKWGUnhHr1D/IlLTlT6ei2SHOAX7n+ONIkWbSPzwE2fowCyrecRRvopbbD1ZUAaSuErrxok1xXDw8rm7DjLt66sbiAovf/PpGIbMHTTNf6T9hqYHvUEhxHuayrsAPduTgcoBlxYsT/oajC2dEiT22pLzOHUJK+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=G6AZ4izM; arc=none smtp.client-ip=170.10.129.124
+	s=arc-20240116; t=1707145019; c=relaxed/simple;
+	bh=yml1g8lIUP8NOhlaf1UJ6FHxeNTEQqWwTozbd2chOzM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=e3Z+pigT3Uj5zVAeuvmoJna+TMmqIm7rascMkrNcu63FiL6ngWfwxTKNWM4NI7E6bLTtPdvA2lW3vwods4JZx8PZqflRQmwlGYNus99D8kgFBOe3CIE0v6PFeUltkUpfpnsvb/RJSrQK04isnuD2ZjdxkPhCIcXe2dzqP0R/m1Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=CD2vQ05r; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1707142210;
+	s=mimecast20190719; t=1707145015;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=klU6EPOskgTXRS466DyWudV8fKqQ0vbbL3vzBLrKzXo=;
-	b=G6AZ4izMCsjCRULJSWCAlqhh8qYiOl2Xrci54FmEbD/M6CU3EG+CzohVu1/lCYkZ0lrCBI
-	5kLqqTkFSLKcwixQeuZyFN+y++O2wgjAcRH5+LAuLOALOuIR039GeNnJaqank3avMdNLPH
-	LhEOGJwmzAgscsYHWo55fQ2/yz4Z2HI=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-553-rOw9yvsHMbiS6h4KY0Sz_g-1; Mon,
- 05 Feb 2024 09:10:07 -0500
-X-MC-Unique: rOw9yvsHMbiS6h4KY0Sz_g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=3wWFKFwgxakmvKvguQj6wEaI43mBgwyBm4UjoRgLEUY=;
+	b=CD2vQ05rHYQ+o8Yg7hOq5voDSLH/Hr99N8QdIdjanEpG74rnysUEtyswydSp+xTT0IlfJP
+	ZKlXz5ziTOLmTIsdtKZo7W6R92Ghu18+iFClgoJe1bDxRRg2z5emQY3xMs5wQI5lduQDbj
+	r40Pt5RxFdQRuVShxXnrpmDjBnY+6kU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-220-nvK2DcrVMjCHItX-V9VBBA-1; Mon, 05 Feb 2024 09:56:51 -0500
+X-MC-Unique: nvK2DcrVMjCHItX-V9VBBA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DF4EC1C09820;
-	Mon,  5 Feb 2024 14:10:06 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6801C8432A3;
+	Mon,  5 Feb 2024 14:56:50 +0000 (UTC)
 Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.225.165])
-	by smtp.corp.redhat.com (Postfix) with SMTP id 408372166B31;
-	Mon,  5 Feb 2024 14:10:05 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with SMTP id BC7FB3C2E;
+	Mon,  5 Feb 2024 14:56:48 +0000 (UTC)
 Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-	oleg@redhat.com; Mon,  5 Feb 2024 15:08:51 +0100 (CET)
-Date: Mon, 5 Feb 2024 15:08:49 +0100
+	oleg@redhat.com; Mon,  5 Feb 2024 15:55:34 +0100 (CET)
+Date: Mon, 5 Feb 2024 15:55:32 +0100
 From: Oleg Nesterov <oleg@redhat.com>
 To: Christian Brauner <brauner@kernel.org>
 Cc: Andy Lutomirski <luto@amacapital.net>,
 	"Eric W. Biederman" <ebiederm@xmission.com>,
 	Tycho Andersen <tycho@tycho.pizza>, linux-api@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] pidfd_poll: report POLLHUP when pid_task() == NULL
-Message-ID: <20240205140848.GA15853@redhat.com>
-References: <20240202131147.GA25988@redhat.com>
- <20240202131226.GA26018@redhat.com>
- <20240202-arbeit-fruchtig-26880564a21a@brauner>
- <20240202160704.GA5850@redhat.com>
- <20240202-lackmantel-vervielfachen-4c0f0374219b@brauner>
- <20240202190529.GA28818@redhat.com>
- <20240203120425.GA30029@redhat.com>
- <20240203-freuden-frucht-b598f8cca27d@brauner>
+Subject: [PATCH] pidfd: clone: allow CLONE_THREAD | CLONE_PIDFD together
+Message-ID: <20240205145532.GA28823@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -81,133 +72,50 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240203-freuden-frucht-b598f8cca27d@brauner>
 User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.6
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.1
 
-On 02/03, Christian Brauner wrote:
->
-> On Sat, Feb 03, 2024 at 01:04:26PM +0100, Oleg Nesterov wrote:
-> >
-> > -	wake_up_all(&pid->wait_pidfd);
-> > +	__wake_up(&pid->wait_pidfd, TASK_NORMAL, 0,
-> > +		  poll_to_key(EPOLLIN | EPOLLRDNORM));
->
->
-> Ok, care to just send me a full patch for this?
+copy_process() just needs to pass PIDFD_THREAD to __pidfd_prepare()
+if clone_flags & CLONE_THREAD.
 
-Will do in a minute,
+We can also add another CLONE_ flag (or perhaps reuse CLONE_DETACHED)
+to enforce PIDFD_THREAD without CLONE_THREAD.
 
-
-
-> Second, I agree that this looks ugly. ;/
-
-Agreed ;)
-
-> So here's a very likely a stupid idea. To make that clean we essentially
-> need kernel private information that can't be set in userspace (Btw,
-> look at EPOLL_URING_WAKE which is similar in that it cannot be set from
-> userspace. It's not the same thing ofc but it is a private bit.). Which
-> is the gist of your proposal in a way.
->
-> So we would have to grab a new private bit in the epoll flag space.
-
-Agreed, but just in case:
-
-	- EPOLLMSG (ab)used by this patch can't "leak" to userspace even
-	  if it was (erroneously) set in pollfd.events
-
-	- If EPOLLMSG was set by userspace nothing bad can happen, just
-	  poll(non-PIDFD_THREAD-pidfd) will get the spurious wakeups.
-
-So. I am attaching the patch for the record, in case we return to this
-later.
-
-It seems to work fine, but when I look into fs/eventpoll.c I suspect
-it is not epoll friendly. I _think_ that the neccessary fix is trivial,
-ep_item_poll() should just copy pt->_key to epi->event.events after
-vfs_poll(), but I am not sure. So lets forget it for now.
-
-Oleg.
+Originally-from: Tycho Andersen <tycho@tycho.pizza>
+Signed-off-by: Oleg Nesterov <oleg@redhat.com>
 ---
+ kernel/fork.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/include/linux/pid.h b/include/linux/pid.h
-index 8124d57752b9..7467cdb9735b 100644
---- a/include/linux/pid.h
-+++ b/include/linux/pid.h
-@@ -74,7 +74,7 @@ struct pid *pidfd_pid(const struct file *file);
- struct pid *pidfd_get_pid(unsigned int fd, unsigned int *flags);
- struct task_struct *pidfd_get_task(int pidfd, unsigned int *flags);
- int pidfd_prepare(struct pid *pid, unsigned int flags, struct file **ret);
--void do_notify_pidfd(struct task_struct *task);
-+void do_notify_pidfd(struct task_struct *task, bool thread);
- 
- static inline struct pid *get_pid(struct pid *pid)
- {
-diff --git a/kernel/exit.c b/kernel/exit.c
-index 493647fd7c07..c31f36d3a1ed 100644
---- a/kernel/exit.c
-+++ b/kernel/exit.c
-@@ -744,7 +744,7 @@ static void exit_notify(struct task_struct *tsk, int group_dead)
- 	 * PIDFD_THREAD waiters.
- 	 */
- 	if (!thread_group_empty(tsk))
--		do_notify_pidfd(tsk);
-+		do_notify_pidfd(tsk, true);
- 
- 	if (unlikely(tsk->ptrace)) {
- 		int sig = thread_group_leader(tsk) &&
 diff --git a/kernel/fork.c b/kernel/fork.c
-index 8d08a2d1b095..3b4474ff6f4a 100644
+index 8d08a2d1b095..cd61ca87d0e6 100644
 --- a/kernel/fork.c
 +++ b/kernel/fork.c
-@@ -2081,6 +2081,15 @@ static __poll_t pidfd_poll(struct file *file, struct poll_table_struct *pts)
- 	struct task_struct *task;
- 	__poll_t poll_flags = 0;
- 
-+	if (pts && pts->_qproc) {
-+		/*
-+		 * We are not registered yet. Update pts->_key to mark us as
-+		 * a non POLLHUP-only PIDFD_THREAD waiter for do_notify_pidfd,
-+		 * _pollwait() will copy this _key to poll_table_entry->key.
-+		 */
-+		if (thread && (pts->_key & (EPOLLIN | EPOLLRDNORM)))
-+			pts->_key |= EPOLLMSG;
-+	}
- 	poll_wait(file, &pid->wait_pidfd, pts);
- 	/*
- 	 * Depending on PIDFD_THREAD, inform pollers when the thread
-diff --git a/kernel/signal.c b/kernel/signal.c
-index c3fac06937e2..f51070dec132 100644
---- a/kernel/signal.c
-+++ b/kernel/signal.c
-@@ -2019,14 +2019,15 @@ int send_sigqueue(struct sigqueue *q, struct pid *pid, enum pid_type type)
- 	return ret;
- }
- 
--void do_notify_pidfd(struct task_struct *task)
-+void do_notify_pidfd(struct task_struct *task, bool thread)
- {
-+	/* see the usage of EPOLLMSG in pidfd_poll() */
-+	__poll_t m = thread ? EPOLLMSG : EPOLLIN | EPOLLRDNORM;
- 	struct pid *pid = task_pid(task);
- 
- 	WARN_ON(task->exit_state == 0);
- 
--	__wake_up(&pid->wait_pidfd, TASK_NORMAL, 0,
--			poll_to_key(EPOLLIN | EPOLLRDNORM));
-+	__wake_up(&pid->wait_pidfd, TASK_NORMAL, 0, poll_to_key(m));
- }
- 
- /*
-@@ -2056,7 +2057,7 @@ bool do_notify_parent(struct task_struct *tsk, int sig)
- 	 * non-PIDFD_THREAD waiters.
- 	 */
- 	if (thread_group_empty(tsk))
--		do_notify_pidfd(tsk);
-+		do_notify_pidfd(tsk, false);
- 
- 	if (sig != SIGCHLD) {
+@@ -2311,9 +2311,8 @@ __latent_entropy struct task_struct *copy_process(
  		/*
+ 		 * - CLONE_DETACHED is blocked so that we can potentially
+ 		 *   reuse it later for CLONE_PIDFD.
+-		 * - CLONE_THREAD is blocked until someone really needs it.
+ 		 */
+-		if (clone_flags & (CLONE_DETACHED | CLONE_THREAD))
++		if (clone_flags & CLONE_DETACHED)
+ 			return ERR_PTR(-EINVAL);
+ 	}
+ 
+@@ -2536,8 +2535,10 @@ __latent_entropy struct task_struct *copy_process(
+ 	 * if the fd table isn't shared).
+ 	 */
+ 	if (clone_flags & CLONE_PIDFD) {
++		int flags = (clone_flags & CLONE_THREAD) ? PIDFD_THREAD : 0;
++
+ 		/* Note that no task has been attached to @pid yet. */
+-		retval = __pidfd_prepare(pid, 0, &pidfile);
++		retval = __pidfd_prepare(pid, flags, &pidfile);
+ 		if (retval < 0)
+ 			goto bad_fork_free_pid;
+ 		pidfd = retval;
+-- 
+2.25.1.362.g51ebf55
+
 
 
