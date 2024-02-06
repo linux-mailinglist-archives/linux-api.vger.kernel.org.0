@@ -1,117 +1,199 @@
-Return-Path: <linux-api+bounces-852-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-853-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A276384B86F
-	for <lists+linux-api@lfdr.de>; Tue,  6 Feb 2024 15:53:00 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA8F484BB3A
+	for <lists+linux-api@lfdr.de>; Tue,  6 Feb 2024 17:43:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 56ACB1F26FBF
-	for <lists+linux-api@lfdr.de>; Tue,  6 Feb 2024 14:53:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EEA001C24C14
+	for <lists+linux-api@lfdr.de>; Tue,  6 Feb 2024 16:43:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A459132C04;
-	Tue,  6 Feb 2024 14:52:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 117B315A4;
+	Tue,  6 Feb 2024 16:43:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tycho.pizza header.i=@tycho.pizza header.b="2hNU11hz";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="PxhQtply"
+	dkim=pass (2048-bit key) header.d=tycho.pizza header.i=@tycho.pizza header.b="nu9Rh70Y";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="fPeHNZdV"
 X-Original-To: linux-api@vger.kernel.org
-Received: from fhigh7-smtp.messagingengine.com (fhigh7-smtp.messagingengine.com [103.168.172.158])
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20408131E53;
-	Tue,  6 Feb 2024 14:52:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.158
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADC44523C;
+	Tue,  6 Feb 2024 16:43:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.111.4.29
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707231164; cv=none; b=FBMk2PVSUVsP/qmPphUFC6NmGaVrMKkXH0v740YSHrZwcpnyvsBA1keOhoy+Z6SkmhnlNrIiwzxkXQ8nb5rA3AURtN1WKsp+2MFGh70jlLhudyVbHc2WLd7YYqETe9hG9Ty23I9JGQ/4Ef80ECD5ry5dJcsmhxpndC5+hCEiSF0=
+	t=1707237806; cv=none; b=VDL49X5OPQYmt3kjCHWfoIIvMSvnnAOZKtS5Ji9SdJ/H2dBMFCFtyleaV3FcYOUmr1Wrjv7GrugQZLKMSYAkMAEY3NmMx4rQsrhaWYxbkeiGyxboKwRxqeBalJBM2SLKbAonKk/A1GMaa5zmk9o9K603AGJCkxHUcemCU9pByZc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707231164; c=relaxed/simple;
-	bh=R/742LRkouuAuethox2x2vtIJsIKE4T+HK1LMPu93+s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VBCbwrF/FcxWrBFMQkgCLye6iAhYC3skKHEgsICaOJn0OZZvksV1oXDCCgVgv0hWSLmCkUzmDhkhd7VBK437oK4Cr3/Jtyk7XtL384QWrRfNp/UXnm4Pdvwaj4YoImx3RzOq0AQRx27mSGudNycEW/Nh2FNIqSRlThbqykktkno=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tycho.pizza; spf=pass smtp.mailfrom=tycho.pizza; dkim=pass (2048-bit key) header.d=tycho.pizza header.i=@tycho.pizza header.b=2hNU11hz; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=PxhQtply; arc=none smtp.client-ip=103.168.172.158
+	s=arc-20240116; t=1707237806; c=relaxed/simple;
+	bh=H3sA3HP6yiXiZD2YbLYrofwBQrLibAkYudoYFsj7hBg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=KIyGxvjsU9uPLrA9IHf/0K/LSW7OLZikr8aSFjxuC8IobzG0D4Jr4tVbC9GFF1courJWrssYT3YV+WJioZldQwpMvRsZ1g5hBVacyxv3kZO4UAtI1YOdVQ6YNAPazCTvpI8xlJ7UrxC5FTyZoCAb0GlPVFIKR8vSSxlfs+DvrqQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tycho.pizza; spf=pass smtp.mailfrom=tycho.pizza; dkim=pass (2048-bit key) header.d=tycho.pizza header.i=@tycho.pizza header.b=nu9Rh70Y; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=fPeHNZdV; arc=none smtp.client-ip=66.111.4.29
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tycho.pizza
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tycho.pizza
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.48])
-	by mailfhigh.nyi.internal (Postfix) with ESMTP id 0DDF5114008D;
-	Tue,  6 Feb 2024 09:52:41 -0500 (EST)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id 8B6A45C00B1;
+	Tue,  6 Feb 2024 11:43:22 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute7.internal (MEProxy); Tue, 06 Feb 2024 09:52:41 -0500
+  by compute5.internal (MEProxy); Tue, 06 Feb 2024 11:43:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tycho.pizza; h=
-	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1707231161; x=1707317561; bh=Fd2EgqbFxv
-	tE/GJ2R79t8CbsMl7dcUlSu6Hik69SEuI=; b=2hNU11hze/lK2HnZ81Yq+0e3X0
-	WzYn3FVaMIa8MOVt9PNrgJxS7KJ/VR+q+bTlfHfw0ZoAcaHapXgEDeMNnjq7nfyK
-	Doa09EyBz+2cuF4H/uHe6I6C2Oum8CPQ/Kug75/foHx4h7aRgidAjpBmbw60lmdr
-	4QO5inVfGlDaX0aWe9qDiKAqb8RcsRIK5NFcZIRWTDAXD5ifRacv1IYYBWFwyLvz
-	JD4x/UuKP4ECVVq9HIXl7WzpNFXa16afqWJyDZi8A1X5HBqxdb6/3Elarm7zQqhf
-	yyjC27G9NVVb86aHVhOx0ML6l2AF2CxVI0xz5qig+kSFsqN1g0KWW9Ks7W5w==
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=fm2; t=1707237802; x=1707324202; bh=P4gQPZry16ZhlVFQebz1H
+	5tj4IjCcocpT+0mBjF4AJQ=; b=nu9Rh70Yppyf9WYoGytHNSIIjAypsbQkXswHO
+	0qi4/ncq6DXSkhvqWelFxV1Hxd3eUtQp5bGah/epE62g4bDAdBCVwWB88TFVfZKM
+	s0mtwm/YgDrzuOeAC7A8MoucFNIf/TfeVaTDIEm2+50ynI6LguR5a8f6kTyd8brs
+	ViaopX0LgEQwWPfjY3sI+fR/VQGW9n9kINHy0yA+4OzpDhpakFpmnSNknrF5LwWK
+	0k7ra67E4Py2H7JZUlcVY9SWSvDmNciU0oMCX9REkrWNQum/2qGPPZ51jyF2OnwB
+	eYAArbmPGN8ughBDCXQ5ZKaGcFMYbYsR9RT0pfE4495wAL0jQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
 	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1707231161; x=1707317561; bh=Fd2EgqbFxvtE/GJ2R79t8CbsMl7d
-	cUlSu6Hik69SEuI=; b=PxhQtplyTcojFzSGgmYlbpBx7uOUQyhGtdJG/0ttwfeO
-	qUB2ekHR9YirbggSssgFSi3i1xTDho8n0hT4OMZDfVII9ps+yhIb8w5j8lG69FF1
-	J+/+GuRqOZnqiLwXEQqIPdqBnqT2e7h4EouoX9A+E7915tBLPVG8xvRuwWAxXSF3
-	O7sc8ukp/zA1EKA4N3tl0Vrsn8ObCpgi8lThdidM/NgC/fPGU9WwVZr+U/mbY2Fn
-	6Amak1Bl7cF6qxaiX+2F0cD4G1ZQDgUEo3808F//jI+y83oC8ycg19PWNW4ELmTT
-	cuFtEg4MZtCC6twI91NOleCKhncYwVANcyv/vifaLw==
-X-ME-Sender: <xms:uEfCZQstBdf7ESZL-l7RypKCL9D5fPr2K0oQDzh2EHR1fPHKxnxxlg>
-    <xme:uEfCZdcrxouWN6N-CkTVKCHruUWXxU426wYRxigOT-vQ4zRi0v7SdWgf2bqymBTaV
-    tPTG4IPkgy4_VPJAo8>
-X-ME-Received: <xmr:uEfCZbwsWGJXLxsADBFggu0Ox0-O5UAMjF63gPibNRShusdsgIpDs2T2PFHazFweFWi7too7Fa2Z9f7BWB-a-OYXSwAv>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrtddtgdegtdcutefuodetggdotefrodftvf
+	fm3; t=1707237802; x=1707324202; bh=P4gQPZry16ZhlVFQebz1H5tj4IjC
+	cocpT+0mBjF4AJQ=; b=fPeHNZdVzy0/UatbEAy0/AoIwZPpCQOmJZ7Nawyy3jgu
+	fuQ9RvsZOaM0WI51JoQxCc050gqWa24LKOtNQUMlcOEYkPxm9WdkMO6RfGJLSVKb
+	2zhW462CYVKcNCw/3Fo5ZJ/BuU3S8dPZNIKvhZ3ga7gFqwuflg7CeOR22pKqh0Nc
+	SXbeyevpsyvTq68eXbu6CVYviZ6HqcnTkt25GvoGyoYFUasvLv8Oz/SIZ1rFqDoN
+	Z9dq78YzOYTWWL6ObR3F9pr0ktyS8AiQWaxs26wa2qOpbvrhNR9ojXkNvpfH7M8k
+	5J1L+Uvf32300UvzPI5kTpfMNYX+fHLdYYmxR+6unQ==
+X-ME-Sender: <xms:qmHCZczodrSt8kITMBydlvvQvXHcZQjxVxpXaE9r4N_A0IjNqMu_GQ>
+    <xme:qmHCZQSDznfm6sRm9d1JBg7AoZJM8-OG0BhTo7WpzejjA4uf2LlvsOWaIfVEhgfRB
+    j3zRHPHhrhj7nfWIUA>
+X-ME-Received: <xmr:qmHCZeW4s8Ptd7ih9j4Ovo3xHNGsK_KcaJCKIv7_V-UZZc-sdwLqvc7TDe4vxJ7ERL-oRKxt72TUPJk_r7yP2t5xRoNhcHt8sUFKheqd_w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrtddtgdeivdcutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvvefukfhfgggtuggjsehttdortddttddvnecuhfhrohhmpefvhigthhho
-    ucetnhguvghrshgvnhcuoehthigthhhosehthigthhhordhpihiiiigrqeenucggtffrrg
-    htthgvrhhnpeelffekveduvefftdejkefhtefhgeduhffghfejtdehieevjedtkeejveej
-    keeuieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hthigthhhosehthigthhhordhpihiiiigr
-X-ME-Proxy: <xmx:uEfCZTNg76HajRWw_mXDbHKTr18PHxW1MD238fZjPQg_nwl8wazqvw>
-    <xmx:uEfCZQ-MoSgqVKPN1xpnnJHI3aOrf9v4vfF8bXTD0MtxstzO65PRyA>
-    <xmx:uEfCZbW4WBElWaAQXCT8NnMUM0DJp313g2Tdd4kfG60Owjne_VdY9g>
-    <xmx:uUfCZQzrE9cKwfPLQw8jf3ruscWAyMtdEMvQt9K9FvtbUfA_cBpQYQ>
+    fjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefvhigthhhoucet
+    nhguvghrshgvnhcuoehthigthhhosehthigthhhordhpihiiiigrqeenucggtffrrghtth
+    gvrhhnpeehfeefheelfedtgfejgeehleeifedvgffhueduueehheeuhffhhfethfeivdeg
+    geenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehthi
+    gthhhosehthigthhhordhpihiiiigr
+X-ME-Proxy: <xmx:qmHCZajjohnMDCG3XO5QVHOrHbuQiXbBVDR1xnrmCXDBrlPKn6DvSg>
+    <xmx:qmHCZeCiBw4PqDCzyTZDVIxhGW5iEOAmgbi2gwB8jpBODiOKoe2d-Q>
+    <xmx:qmHCZbI1_LzThlKbK40yV1mcVYqORMimLbuOwKY4LVKXbv0RipDm4w>
+    <xmx:qmHCZQ0Z4GfJlD-FUl_pdFtntO1Zzwmfowz0IjOEbG5GfMdWz5bBZA>
 Feedback-ID: i21f147d5:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 6 Feb 2024 09:52:39 -0500 (EST)
-Date: Tue, 6 Feb 2024 07:52:38 -0700
+ 6 Feb 2024 11:43:21 -0500 (EST)
 From: Tycho Andersen <tycho@tycho.pizza>
-To: Oleg Nesterov <oleg@redhat.com>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Andy Lutomirski <luto@amacapital.net>,
-	"Eric W. Biederman" <ebiederm@xmission.com>,
-	linux-api@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] pidfd: clone: allow CLONE_THREAD | CLONE_PIDFD together
-Message-ID: <ZcJHtqqvxUoBJLRo@tycho.pizza>
-References: <20240205145532.GA28823@redhat.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Oleg Nesterov <oleg@redhat.com>,
+	"Eric W . Biederman" <ebiederm@xmission.com>,
+	linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	Tycho Andersen <tycho@tycho.pizza>,
+	Tycho Andersen <tandersen@netflix.com>
+Subject: [PATCH] pidfd: getfd should always report ESRCH if a task is exiting
+Date: Tue,  6 Feb 2024 09:43:08 -0700
+Message-Id: <20240206164308.62620-1-tycho@tycho.pizza>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240205145532.GA28823@redhat.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Feb 05, 2024 at 03:55:32PM +0100, Oleg Nesterov wrote:
-> copy_process() just needs to pass PIDFD_THREAD to __pidfd_prepare()
-> if clone_flags & CLONE_THREAD.
-> 
-> We can also add another CLONE_ flag (or perhaps reuse CLONE_DETACHED)
-> to enforce PIDFD_THREAD without CLONE_THREAD.
-> 
-> Originally-from: Tycho Andersen <tycho@tycho.pizza>
+From: Tycho Andersen <tandersen@netflix.com>
 
-Goes without saying I suppose, but,
+We can get EBADF from __pidfd_fget() if a task is currently exiting, which
+might be confusing. Let's check PF_EXITING, and just report ESRCH if so.
 
-Reviewed-by: Tycho Andersen <tandersen@netflix.com>
+I chose PF_EXITING, because it is set in exit_signals(), which is called
+before exit_files(). Since ->exit_status is mostly set after exit_files()
+in exit_notify(), using that still leaves a window open for the race.
 
-as well.
+Signed-off-by: Tycho Andersen <tandersen@netflix.com>
+---
+ kernel/pid.c                                  |  2 +-
+ .../selftests/pidfd/pidfd_getfd_test.c        | 31 ++++++++++++++++++-
+ 2 files changed, 31 insertions(+), 2 deletions(-)
 
-Tycho
+diff --git a/kernel/pid.c b/kernel/pid.c
+index de0bf2f8d18b..db8731f0ee45 100644
+--- a/kernel/pid.c
++++ b/kernel/pid.c
+@@ -688,7 +688,7 @@ static int pidfd_getfd(struct pid *pid, int fd)
+ 	int ret;
+ 
+ 	task = get_pid_task(pid, PIDTYPE_PID);
+-	if (!task)
++	if (!task || task->flags & PF_EXITING)
+ 		return -ESRCH;
+ 
+ 	file = __pidfd_fget(task, fd);
+diff --git a/tools/testing/selftests/pidfd/pidfd_getfd_test.c b/tools/testing/selftests/pidfd/pidfd_getfd_test.c
+index 0930e2411dfb..cd51d547b751 100644
+--- a/tools/testing/selftests/pidfd/pidfd_getfd_test.c
++++ b/tools/testing/selftests/pidfd/pidfd_getfd_test.c
+@@ -5,6 +5,7 @@
+ #include <fcntl.h>
+ #include <limits.h>
+ #include <linux/types.h>
++#include <poll.h>
+ #include <sched.h>
+ #include <signal.h>
+ #include <stdio.h>
+@@ -129,6 +130,7 @@ FIXTURE(child)
+ 	 * When it is closed, the child will exit.
+ 	 */
+ 	int sk;
++	bool ignore_child_result;
+ };
+ 
+ FIXTURE_SETUP(child)
+@@ -165,10 +167,14 @@ FIXTURE_SETUP(child)
+ 
+ FIXTURE_TEARDOWN(child)
+ {
++	int ret;
++
+ 	EXPECT_EQ(0, close(self->pidfd));
+ 	EXPECT_EQ(0, close(self->sk));
+ 
+-	EXPECT_EQ(0, wait_for_pid(self->pid));
++	ret = wait_for_pid(self->pid);
++	if (!self->ignore_child_result)
++		EXPECT_EQ(0, ret);
+ }
+ 
+ TEST_F(child, disable_ptrace)
+@@ -235,6 +241,29 @@ TEST(flags_set)
+ 	EXPECT_EQ(errno, EINVAL);
+ }
+ 
++TEST_F(child, no_strange_EBADF)
++{
++	struct pollfd fds;
++
++	self->ignore_child_result = true;
++
++	fds.fd = self->pidfd;
++	fds.events = POLLIN;
++
++	ASSERT_EQ(kill(self->pid, SIGKILL), 0);
++	ASSERT_EQ(poll(&fds, 1, 5000), 1);
++
++	/*
++	 * It used to be that pidfd_getfd() could race with the exiting thread
++	 * between exit_files() and release_task(), and get a non-null task
++	 * with a NULL files struct, and you'd get EBADF, which was slightly
++	 * confusing.
++	 */
++	errno = 0;
++	EXPECT_EQ(sys_pidfd_getfd(self->pidfd, self->remote_fd, 0), -1);
++	EXPECT_EQ(errno, ESRCH);
++}
++
+ #if __NR_pidfd_getfd == -1
+ int main(void)
+ {
+
+base-commit: 082d11c164aef02e51bcd9c7cbf1554a8e42d9b5
+-- 
+2.34.1
+
 
