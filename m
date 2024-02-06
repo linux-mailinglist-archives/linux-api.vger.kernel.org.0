@@ -1,59 +1,92 @@
-Return-Path: <linux-api+bounces-851-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-852-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D2AA84B695
-	for <lists+linux-api@lfdr.de>; Tue,  6 Feb 2024 14:40:19 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A276384B86F
+	for <lists+linux-api@lfdr.de>; Tue,  6 Feb 2024 15:53:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 602D61C23F31
-	for <lists+linux-api@lfdr.de>; Tue,  6 Feb 2024 13:40:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 56ACB1F26FBF
+	for <lists+linux-api@lfdr.de>; Tue,  6 Feb 2024 14:53:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07A8A131725;
-	Tue,  6 Feb 2024 13:40:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A459132C04;
+	Tue,  6 Feb 2024 14:52:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kVPpRnZn"
+	dkim=pass (2048-bit key) header.d=tycho.pizza header.i=@tycho.pizza header.b="2hNU11hz";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="PxhQtply"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh7-smtp.messagingengine.com (fhigh7-smtp.messagingengine.com [103.168.172.158])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D33E7130ADC;
-	Tue,  6 Feb 2024 13:40:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20408131E53;
+	Tue,  6 Feb 2024 14:52:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707226812; cv=none; b=sSA66zoxzrAmbS/hXJt/ko7soBgQN5EGF5ZJQEdec1IDy5F38YxNT7HDKeugGr86pwsUTPgx28J/rBr8RLIayaQi8pkkYFCx8JRyiaI+j1dB+dcS+kd76vTzdtSrdmFUdUusj2TA9NGZV1IUQ6zG8OqsPzOFOJSvvn6Nh8NktCA=
+	t=1707231164; cv=none; b=FBMk2PVSUVsP/qmPphUFC6NmGaVrMKkXH0v740YSHrZwcpnyvsBA1keOhoy+Z6SkmhnlNrIiwzxkXQ8nb5rA3AURtN1WKsp+2MFGh70jlLhudyVbHc2WLd7YYqETe9hG9Ty23I9JGQ/4Ef80ECD5ry5dJcsmhxpndC5+hCEiSF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707226812; c=relaxed/simple;
-	bh=YkVNUHuBGk93qbvqheqr1gUUEeEU4IZP6E7rtwwMssw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pRpqmkPFJtPwnvgefH+f0q0eXe/XojhBUZeORUkRhLFwF+4Rn8h9qtefuDGZtYxwM/2w7yuVT/p+7M3Y/XWJsZ3tgHZhTu6l1pnnX2ub7t/btFiPpE9BTvci0YZxhsn8u5kt9oU+pzd5TGlwUpgNuWsngnXQ9TShZwvFnANuBRA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kVPpRnZn; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FC7CC433F1;
-	Tue,  6 Feb 2024 13:40:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707226812;
-	bh=YkVNUHuBGk93qbvqheqr1gUUEeEU4IZP6E7rtwwMssw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=kVPpRnZnFtaMxwTo8tHP0GHU5KnSJoDoIVOn6UGPTSTCzxJguSke6MAk+bPKpO0YY
-	 RrbJ3L00/ms7jmrUjIbBDBnY9H/vXRJoByaJa1c2eIPqWu+5Y240H46zeuEgAnIT80
-	 O5CBY6HIa/H6KKDiK9+CiY2VY7KGfYnea07JBJlskSjPeGWhKOh7FoVLHQVRZ4QiG1
-	 Ddni2WOGkHoWohaVyyzsVPImmtVWsMajireA9OBal8YCQmJSnX1fvyZHDas4JAQ+eU
-	 MV+aDDK0rFK5Ca0RN7mU4XmYqNm5WjMCyehNhNdfz77GhF5CKBmXZOrBNDhyns9aTh
-	 cCSRgyrDSoV5g==
-From: Christian Brauner <brauner@kernel.org>
+	s=arc-20240116; t=1707231164; c=relaxed/simple;
+	bh=R/742LRkouuAuethox2x2vtIJsIKE4T+HK1LMPu93+s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VBCbwrF/FcxWrBFMQkgCLye6iAhYC3skKHEgsICaOJn0OZZvksV1oXDCCgVgv0hWSLmCkUzmDhkhd7VBK437oK4Cr3/Jtyk7XtL384QWrRfNp/UXnm4Pdvwaj4YoImx3RzOq0AQRx27mSGudNycEW/Nh2FNIqSRlThbqykktkno=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tycho.pizza; spf=pass smtp.mailfrom=tycho.pizza; dkim=pass (2048-bit key) header.d=tycho.pizza header.i=@tycho.pizza header.b=2hNU11hz; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=PxhQtply; arc=none smtp.client-ip=103.168.172.158
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tycho.pizza
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tycho.pizza
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.48])
+	by mailfhigh.nyi.internal (Postfix) with ESMTP id 0DDF5114008D;
+	Tue,  6 Feb 2024 09:52:41 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute7.internal (MEProxy); Tue, 06 Feb 2024 09:52:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tycho.pizza; h=
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1707231161; x=1707317561; bh=Fd2EgqbFxv
+	tE/GJ2R79t8CbsMl7dcUlSu6Hik69SEuI=; b=2hNU11hze/lK2HnZ81Yq+0e3X0
+	WzYn3FVaMIa8MOVt9PNrgJxS7KJ/VR+q+bTlfHfw0ZoAcaHapXgEDeMNnjq7nfyK
+	Doa09EyBz+2cuF4H/uHe6I6C2Oum8CPQ/Kug75/foHx4h7aRgidAjpBmbw60lmdr
+	4QO5inVfGlDaX0aWe9qDiKAqb8RcsRIK5NFcZIRWTDAXD5ifRacv1IYYBWFwyLvz
+	JD4x/UuKP4ECVVq9HIXl7WzpNFXa16afqWJyDZi8A1X5HBqxdb6/3Elarm7zQqhf
+	yyjC27G9NVVb86aHVhOx0ML6l2AF2CxVI0xz5qig+kSFsqN1g0KWW9Ks7W5w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1707231161; x=1707317561; bh=Fd2EgqbFxvtE/GJ2R79t8CbsMl7d
+	cUlSu6Hik69SEuI=; b=PxhQtplyTcojFzSGgmYlbpBx7uOUQyhGtdJG/0ttwfeO
+	qUB2ekHR9YirbggSssgFSi3i1xTDho8n0hT4OMZDfVII9ps+yhIb8w5j8lG69FF1
+	J+/+GuRqOZnqiLwXEQqIPdqBnqT2e7h4EouoX9A+E7915tBLPVG8xvRuwWAxXSF3
+	O7sc8ukp/zA1EKA4N3tl0Vrsn8ObCpgi8lThdidM/NgC/fPGU9WwVZr+U/mbY2Fn
+	6Amak1Bl7cF6qxaiX+2F0cD4G1ZQDgUEo3808F//jI+y83oC8ycg19PWNW4ELmTT
+	cuFtEg4MZtCC6twI91NOleCKhncYwVANcyv/vifaLw==
+X-ME-Sender: <xms:uEfCZQstBdf7ESZL-l7RypKCL9D5fPr2K0oQDzh2EHR1fPHKxnxxlg>
+    <xme:uEfCZdcrxouWN6N-CkTVKCHruUWXxU426wYRxigOT-vQ4zRi0v7SdWgf2bqymBTaV
+    tPTG4IPkgy4_VPJAo8>
+X-ME-Received: <xmr:uEfCZbwsWGJXLxsADBFggu0Ox0-O5UAMjF63gPibNRShusdsgIpDs2T2PFHazFweFWi7too7Fa2Z9f7BWB-a-OYXSwAv>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrtddtgdegtdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvvefukfhfgggtuggjsehttdortddttddvnecuhfhrohhmpefvhigthhho
+    ucetnhguvghrshgvnhcuoehthigthhhosehthigthhhordhpihiiiigrqeenucggtffrrg
+    htthgvrhhnpeelffekveduvefftdejkefhtefhgeduhffghfejtdehieevjedtkeejveej
+    keeuieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hthigthhhosehthigthhhordhpihiiiigr
+X-ME-Proxy: <xmx:uEfCZTNg76HajRWw_mXDbHKTr18PHxW1MD238fZjPQg_nwl8wazqvw>
+    <xmx:uEfCZQ-MoSgqVKPN1xpnnJHI3aOrf9v4vfF8bXTD0MtxstzO65PRyA>
+    <xmx:uEfCZbW4WBElWaAQXCT8NnMUM0DJp313g2Tdd4kfG60Owjne_VdY9g>
+    <xmx:uUfCZQzrE9cKwfPLQw8jf3ruscWAyMtdEMvQt9K9FvtbUfA_cBpQYQ>
+Feedback-ID: i21f147d5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 6 Feb 2024 09:52:39 -0500 (EST)
+Date: Tue, 6 Feb 2024 07:52:38 -0700
+From: Tycho Andersen <tycho@tycho.pizza>
 To: Oleg Nesterov <oleg@redhat.com>
 Cc: Christian Brauner <brauner@kernel.org>,
 	Andy Lutomirski <luto@amacapital.net>,
 	"Eric W. Biederman" <ebiederm@xmission.com>,
-	Tycho Andersen <tycho@tycho.pizza>,
-	linux-api@vger.kernel.org,
-	linux-kernel@vger.kernel.org
+	linux-api@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] pidfd: clone: allow CLONE_THREAD | CLONE_PIDFD together
-Date: Tue,  6 Feb 2024 14:40:01 +0100
-Message-ID: <20240206-gelandet-einrichten-6d3365011635@brauner>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240205145532.GA28823@redhat.com>
+Message-ID: <ZcJHtqqvxUoBJLRo@tycho.pizza>
 References: <20240205145532.GA28823@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
@@ -61,36 +94,24 @@ List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1076; i=brauner@kernel.org; h=from:subject:message-id; bh=YkVNUHuBGk93qbvqheqr1gUUEeEU4IZP6E7rtwwMssw=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMaQeMts8Qc3IyzLieEj6g6O5HrKVNaUPJYIjHTZdV3Zpu +d5eWlwRykLgxgXg6yYIotDu0m43HKeis1GmRowc1iZQIYwcHEKwET45jEy/HezC+RY/Ga5KG+f f120Y379Frew8AQViRmHZwreKEz/yvA/s37GmiuCVheuMvnyxd1zP251Qv/Ow7wXT6cJzRSytS5 lBwA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240205145532.GA28823@redhat.com>
 
-On Mon, 05 Feb 2024 15:55:32 +0100, Oleg Nesterov wrote:
+On Mon, Feb 05, 2024 at 03:55:32PM +0100, Oleg Nesterov wrote:
 > copy_process() just needs to pass PIDFD_THREAD to __pidfd_prepare()
 > if clone_flags & CLONE_THREAD.
 > 
 > We can also add another CLONE_ flag (or perhaps reuse CLONE_DETACHED)
 > to enforce PIDFD_THREAD without CLONE_THREAD.
 > 
-> 
-> [...]
+> Originally-from: Tycho Andersen <tycho@tycho.pizza>
 
-Applied to the vfs.pidfd branch of the vfs/vfs.git tree.
-Patches in the vfs.pidfd branch should appear in linux-next soon.
+Goes without saying I suppose, but,
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+Reviewed-by: Tycho Andersen <tandersen@netflix.com>
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
+as well.
 
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs.pidfd
-
-[1/1] pidfd: clone: allow CLONE_THREAD | CLONE_PIDFD together
-      https://git.kernel.org/vfs/vfs/c/572a94c5290e
+Tycho
 
