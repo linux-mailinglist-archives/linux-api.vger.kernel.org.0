@@ -1,88 +1,57 @@
-Return-Path: <linux-api+bounces-897-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-898-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0241684E75E
-	for <lists+linux-api@lfdr.de>; Thu,  8 Feb 2024 19:07:33 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2A9D84F247
+	for <lists+linux-api@lfdr.de>; Fri,  9 Feb 2024 10:26:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ACA0228397F
-	for <lists+linux-api@lfdr.de>; Thu,  8 Feb 2024 18:07:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 01BA71C21734
+	for <lists+linux-api@lfdr.de>; Fri,  9 Feb 2024 09:26:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43B3886AD7;
-	Thu,  8 Feb 2024 18:06:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C085D66B5E;
+	Fri,  9 Feb 2024 09:26:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b="L8u32hkt"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XRMPTmg8"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EBDF86130
-	for <linux-api@vger.kernel.org>; Thu,  8 Feb 2024 18:06:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9773F66B52;
+	Fri,  9 Feb 2024 09:26:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707415569; cv=none; b=X/F1yYiRZjVcY45J1WJWKXaWA9IAT626oNywe7CadPLFq7yIs0RsSjx6/zC/zs6p3hia4XrTGxe5mapqQIk/8UvMT3DmBdjBGEEpDbHz78p/mUgowHZZl6UNvfCnxafbIpBvfEZXP3iJ6RoZVj+MNKNymsRaTRkdVrlnpC6+/ZY=
+	t=1707470772; cv=none; b=dfYTQDy43a15VyXB7zRoOD/olD06WKUJJlREwIk0FhOBvb/U0mxx2ruICbKYeHLvwVh3Th7crbd4q4km7ysnvqAM1tgbNcTUYwAZwGQaD4//h2eak0KWyA3opALJeQ5eHmKwlF6f5Gbl/9Vpbl9ndPFAlRYVER7bPEMnfpIvJCM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707415569; c=relaxed/simple;
-	bh=xC5QCnXXBK7bvpi8MCxTQICVE6CAcA0xsrG3ESr1Sfc=;
+	s=arc-20240116; t=1707470772; c=relaxed/simple;
+	bh=wow+/fFaWTAWDZg9Wj6XbxsJzA3lOJSTAmd/BzzflAQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mEhF9LZ8GtP5Yqk8/0zjLeP5+ZLx0C2ukEapEbTMNEqObFUUN/N2XhZmQgzLUDwC8ZevWWTDdgkKvkARo34bSrnXIxpSl1wdYTf/Y5UGyEgT7dq3s/YBIU1PqJV2FlQN1qWueRimgxtK4ZWXmlNY6ctqFiheB5ohfwYnmGltpY0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com; spf=pass smtp.mailfrom=fastly.com; dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b=L8u32hkt; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastly.com
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1d911c2103aso509525ad.0
-        for <linux-api@vger.kernel.org>; Thu, 08 Feb 2024 10:06:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fastly.com; s=google; t=1707415567; x=1708020367; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-transfer-encoding
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=uyO9y1/60yNueYfFOT27jFz7V2JcKvZg+F1VRSMO9kI=;
-        b=L8u32hkt7a/1UvcUAPT1PeMkjqSG24Zl/gIwCABtn1Gvx65ADeRR6DOTVsXzkne0Aj
-         pNd7sg8LBtQjQEl7S2437rL4iluyZNQnrtF+GibmEknrJ2W8jr3yCuToyxvvTzU5OxiD
-         +lyM7rURcsr7hxD5acgXPsVdzDwh12DBArLzI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707415567; x=1708020367;
-        h=user-agent:in-reply-to:content-transfer-encoding
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=uyO9y1/60yNueYfFOT27jFz7V2JcKvZg+F1VRSMO9kI=;
-        b=ZHet1IGA9gP1utPG9CdnP6EOYPRd+3dzvEsqIf/vKv0qJg0P5Sr+lXY7RONBr4vgYn
-         lzBhUbDrJdNgWVPlPcy2uJRIWSX5ZQrl3ZL3gpNrIfCo3DoMaw34eKRtE4EHY0wbRc1A
-         fdQO+6aKjT9Nf4oZt7ZSaRKU2V5kDx2m3Ev7ntFYhH4pN3pA0Ts3usnTbzMdqghUwENy
-         At4nKXvOokKE0OwRWulH2KS13Cvo93fAAXRCvEqTrixpXisfCG0hG8EWfYiHe6KTi2jQ
-         EzjNQ10y8A2eiToxOu7bg1vJsWt1GpfYILh34ph9Pz5NKrBHJmfqg1ZYZrx/W+tuzbRH
-         GrkA==
-X-Gm-Message-State: AOJu0YwZhQRaB7sbLN6nQOgjyTCr1wHatR1wQJPi9vFIuNpJXgaNquMb
-	78gDseL2ULLLq/JOy6lZjpr5MUsHy4CgeyMW8vwacbJwillOwlJxjrXH4UyLDr4=
-X-Google-Smtp-Source: AGHT+IHrz2tFNy2QbiPOz4XPRzm4P+q7m8caXKrWJX+Ol8YJopme808b54diuilFRAG1eYJeWNDAnQ==
-X-Received: by 2002:a17:902:f54f:b0:1d9:8e37:56d6 with SMTP id h15-20020a170902f54f00b001d98e3756d6mr11434017plf.40.1707415566767;
-        Thu, 08 Feb 2024 10:06:06 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWS0j40QPWsdpPf1oTaRfWi3QohPenZFcRoP1MCYAoyp8E0jZdRYABg7JCWrjKxXQoVx1yBMwKiU4kYusKEjSlPSjT/hN148DQ1xpWyWq0iAWDyFN/auLMpJcmQp01DUgshjZaQv0ukkct555GkEQ2dKLOAU6ZxBWae3ncyukRs85HOHIKhb7FWa9VJ8JG3q6zqZK+fDl4OTcDAOSz/VFlVI0tpWmHBiswDvcSaoMqmqCTBHSSWXN3WxDp303QGKmeKNMI9Kn+pMolMKpaRV6E4JMdtH4Ob1/0+H972tJlyncQIqg9sV33nI11UsVLwNLn8sCx0ctgdFUReruGgIGwqWuQCL/9ZpTpXYiz4hTmKk6ZsiJ8Q+QvbR0yC2n6SZmS/s4XpwE+9KVwCxAit7zY/IT+2Vhgrf5LKzJP9OGQ9AO2KPQFXkOUitlU6u5W4z89IHgQR4moWfy3eVGfEVpbzNPKNOeMpMG/Z9BF93TNhjW091M6ibTksQ0GsOI0+vePh3FIaaj8r/nj8BXdobYXunYqjApilXiXHFV7x38YsUobDqgxu2+5/byP9j1kKi4hX5qOpVJ7yOnVfPoANLSyyZQZJ+0Wc7peDcDDk
-Received: from fastly.com (c-24-6-151-244.hsd1.ca.comcast.net. [24.6.151.244])
-        by smtp.gmail.com with ESMTPSA id lh5-20020a170903290500b001d8d56a8b9fsm44183plb.105.2024.02.08.10.06.04
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 08 Feb 2024 10:06:06 -0800 (PST)
-Date: Thu, 8 Feb 2024 10:06:02 -0800
-From: Joe Damato <jdamato@fastly.com>
-To: Eric Dumazet <edumazet@google.com>
-Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	chuck.lever@oracle.com, jlayton@kernel.org,
-	linux-api@vger.kernel.org, brauner@kernel.org, davem@davemloft.net,
-	alexander.duyck@gmail.com, sridhar.samudrala@intel.com,
-	kuba@kernel.org, willemdebruijn.kernel@gmail.com, weiwan@google.com,
-	David.Laight@aculab.com, arnd@arndb.de, sdf@google.com,
-	amritha.nambiar@intel.com, Alexander Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>,
-	"open list:FILESYSTEMS (VFS and infrastructure)" <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH net-next v6 1/4] eventpoll: support busy poll per epoll
- instance
-Message-ID: <20240208180601.GA3005@fastly.com>
-References: <20240205210453.11301-1-jdamato@fastly.com>
- <20240205210453.11301-2-jdamato@fastly.com>
- <CANn89iJY8mTn3PViBvTh_DewUKWjc0z3cvJvr8AcQgcbWC4G0Q@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=OWwTCJ2T6wLWo1zVseDJZrgwKjWBANX6QNyL93ehsvY/bEDYNfEcWRNHJlQWYHjEhRXXVO6T+QSUlK4KbWGdkh8GFQu3aOINIqlqEjCb6izSSlx8TuFXGyYj+7e1WiPcye98P/BNc4Lb/l9+Tdxu09zZ04ojyscR42s/UMAtD9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XRMPTmg8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DC15C433C7;
+	Fri,  9 Feb 2024 09:26:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707470772;
+	bh=wow+/fFaWTAWDZg9Wj6XbxsJzA3lOJSTAmd/BzzflAQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XRMPTmg8hbcMk95Fl/m868g1OIexPw7cT71ZY0hBQz1QU3UoSViUxSbiyyhVmWA/+
+	 Jm34qqmt48wNPRMgiPMEG2zgI27QJNksRkbI83L2ZIQ/9jCj3MkL8du4mKrcVOkWN3
+	 0Zzh670LXF1FlnqS474qvRTAVZWdrj+A9Ez0VMWXWL3vP1ORwWVZiPYJp8xsty7ema
+	 7aVkEiOULvAQmKz1HVFNrTNabo/X4YoYHqckOFygSOh1CVmHIgMFvKFXwjdC77CPPo
+	 ZYB1a8dV3VE/xAZKMYA6WE5EAqxZd9wshAEjL5I4q3pk5gJL4rLlplmt7VztTv+7Fc
+	 a+/sFDnqQJ1yg==
+Date: Fri, 9 Feb 2024 10:26:06 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Oleg Nesterov <oleg@redhat.com>
+Cc: "Eric W. Biederman" <ebiederm@xmission.com>, 
+	Andy Lutomirski <luto@amacapital.net>, Tycho Andersen <tycho@tycho.pizza>, linux-api@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] pidfd: change pidfd_send_signal() to respect PIDFD_THREAD
+Message-ID: <20240209-postfach-notorisch-f8443677b490@brauner>
+References: <20240207114549.GA12697@redhat.com>
+ <8734u32co5.fsf@email.froward.int.ebiederm.org>
+ <20240208155731.GH19801@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -91,144 +60,49 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANn89iJY8mTn3PViBvTh_DewUKWjc0z3cvJvr8AcQgcbWC4G0Q@mail.gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <20240208155731.GH19801@redhat.com>
 
-On Thu, Feb 08, 2024 at 06:46:25PM +0100, Eric Dumazet wrote:
-> On Mon, Feb 5, 2024 at 10:05 PM Joe Damato <jdamato@fastly.com> wrote:
+On Thu, Feb 08, 2024 at 04:57:31PM +0100, Oleg Nesterov wrote:
+> On 02/08, Eric W. Biederman wrote:
 > >
-> > Allow busy polling on a per-epoll context basis. The per-epoll context
-> > usec timeout value is preferred, but the pre-existing system wide sysctl
-> > value is still supported if it specified.
+> > Oleg Nesterov <oleg@redhat.com> writes:
 > >
-> > Signed-off-by: Joe Damato <jdamato@fastly.com>
-> > ---
-> >  fs/eventpoll.c | 49 +++++++++++++++++++++++++++++++++++++++++++++----
-> >  1 file changed, 45 insertions(+), 4 deletions(-)
+> > > Turn kill_pid_info() into kill_pid_info_type(), this allows to pass any
+> > > pid_type to group_send_sig_info(), despite its name it should work fine
+> > > even if type = PIDTYPE_PID.
+> > >
+> > > Change pidfd_send_signal() to use PIDTYPE_PID or PIDTYPE_TGID depending
+> > > on PIDFD_THREAD.
+> > >
+> > > While at it kill another TODO comment in pidfd_show_fdinfo(). As Christian
+> > > expains fdinfo reports f_flags, userspace can already detect PIDFD_THREAD.
+> > >
 > >
-> > diff --git a/fs/eventpoll.c b/fs/eventpoll.c
-> > index 3534d36a1474..ce75189d46df 100644
-> > --- a/fs/eventpoll.c
-> > +++ b/fs/eventpoll.c
-> > @@ -227,6 +227,8 @@ struct eventpoll {
-> >  #ifdef CONFIG_NET_RX_BUSY_POLL
-> >         /* used to track busy poll napi_id */
-> >         unsigned int napi_id;
-> > +       /* busy poll timeout */
-> > +       u64 busy_poll_usecs;
-> >  #endif
+> > I have a question here.
 > >
-> >  #ifdef CONFIG_DEBUG_LOCK_ALLOC
-> > @@ -386,12 +388,44 @@ static inline int ep_events_available(struct eventpoll *ep)
-> >                 READ_ONCE(ep->ovflist) != EP_UNACTIVE_PTR;
-> >  }
-> >
-> > +/**
-> > + * busy_loop_ep_timeout - check if busy poll has timed out. The timeout value
-> > + * from the epoll instance ep is preferred, but if it is not set fallback to
-> > + * the system-wide global via busy_loop_timeout.
-> > + *
-> > + * @start_time: The start time used to compute the remaining time until timeout.
-> > + * @ep: Pointer to the eventpoll context.
-> > + *
-> > + * Return: true if the timeout has expired, false otherwise.
-> > + */
-> > +static inline bool busy_loop_ep_timeout(unsigned long start_time, struct eventpoll *ep)
-> > +{
-> > +#ifdef CONFIG_NET_RX_BUSY_POLL
+> > Why is this based on group_send_sig_info instead of send_sig_info?
 > 
-> It seems this local helper is only called from code compiled when
-> CONFIG_NET_RX_BUSY_POLL
-> is set.
+> Well. send_sig_info() accepts "struct task_struct *", not "struct pid *",
+> it doesn't do check_kill_permission(), and it doesn't handle the possible
+> race with mt-exec.
 > 
-> Not sure why you need an #ifdef here.
+> > In particular I am asking are the intended semantics that the signal is
+> > sent to a single thread in a thread group and placed in the per thread
+> > queue, or is the signal sent to the entire thread group and placed
+> > in the thread group signal queue?
+> 
+> This depends on PIDFD_THREAD. If it is set then the signal goes to
+> the per thread queue.
+> 
+> > Because honestly right now using group_send_sig_info when
+> > the intended target of the signal is not the entire thread
+> > group is very confusing when reading your change.
+> 
+> Agreed, so perhaps it makes sense to rename it later. See
 
-Thanks, you are right.
-
-I'll move this down to be within CONFIG_NET_RX_BUSY_POLL and get rid of the
-#ifdef for the v7.
-
-Thanks for your review.
- 
-> > +       unsigned long bp_usec = READ_ONCE(ep->busy_poll_usecs);
-> > +
-> > +       if (bp_usec) {
-> > +               unsigned long end_time = start_time + bp_usec;
-> > +               unsigned long now = busy_loop_current_time();
-> > +
-> > +               return time_after(now, end_time);
-> > +       } else {
-> > +               return busy_loop_timeout(start_time);
-> > +       }
-> > +#endif
-> > +       return true;
-> > +}
-> > +
-> >  #ifdef CONFIG_NET_RX_BUSY_POLL
-> > +static bool ep_busy_loop_on(struct eventpoll *ep)
-> > +{
-> > +       return !!ep->busy_poll_usecs || net_busy_loop_on();
-> > +}
-> > +
-> >  static bool ep_busy_loop_end(void *p, unsigned long start_time)
-> >  {
-> >         struct eventpoll *ep = p;
-> >
-> > -       return ep_events_available(ep) || busy_loop_timeout(start_time);
-> > +       return ep_events_available(ep) || busy_loop_ep_timeout(start_time, ep);
-> >  }
-> >
-> >  /*
-> > @@ -404,7 +438,7 @@ static bool ep_busy_loop(struct eventpoll *ep, int nonblock)
-> >  {
-> >         unsigned int napi_id = READ_ONCE(ep->napi_id);
-> >
-> > -       if ((napi_id >= MIN_NAPI_ID) && net_busy_loop_on()) {
-> > +       if ((napi_id >= MIN_NAPI_ID) && ep_busy_loop_on(ep)) {
-> >                 napi_busy_loop(napi_id, nonblock ? NULL : ep_busy_loop_end, ep, false,
-> >                                BUSY_POLL_BUDGET);
-> >                 if (ep_events_available(ep))
-> > @@ -430,7 +464,8 @@ static inline void ep_set_busy_poll_napi_id(struct epitem *epi)
-> >         struct socket *sock;
-> >         struct sock *sk;
-> >
-> > -       if (!net_busy_loop_on())
-> > +       ep = epi->ep;
-> > +       if (!ep_busy_loop_on(ep))
-> >                 return;
-> >
-> >         sock = sock_from_file(epi->ffd.file);
-> > @@ -442,7 +477,6 @@ static inline void ep_set_busy_poll_napi_id(struct epitem *epi)
-> >                 return;
-> >
-> >         napi_id = READ_ONCE(sk->sk_napi_id);
-> > -       ep = epi->ep;
-> >
-> >         /* Non-NAPI IDs can be rejected
-> >          *      or
-> > @@ -466,6 +500,10 @@ static inline void ep_set_busy_poll_napi_id(struct epitem *epi)
-> >  {
-> >  }
-> >
-> > +static inline bool ep_busy_loop_on(struct eventpoll *ep)
-> > +{
-> > +       return false;
-> > +}
-> >  #endif /* CONFIG_NET_RX_BUSY_POLL */
-> >
-> >  /*
-> > @@ -2058,6 +2096,9 @@ static int do_epoll_create(int flags)
-> >                 error = PTR_ERR(file);
-> >                 goto out_free_fd;
-> >         }
-> > +#ifdef CONFIG_NET_RX_BUSY_POLL
-> > +       ep->busy_poll_usecs = 0;
-> > +#endif
-> >         ep->file = file;
-> >         fd_install(fd, file);
-> >         return fd;
-> > --
-> > 2.25.1
-> >
+Agreed. The function seems misnamed and incorrectly documented. It just
+seems that it's never been used with PIDTYPE_PID but it's perfectly
+capable of doing that. So maybe just put a patch on top renaming it to
+send_sig_info_type() and remove the old comment. But I can live without
+renaming it for now as well.
 
