@@ -1,112 +1,146 @@
-Return-Path: <linux-api+bounces-902-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-903-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0A2B84F52C
-	for <lists+linux-api@lfdr.de>; Fri,  9 Feb 2024 13:30:50 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41AA684F59E
+	for <lists+linux-api@lfdr.de>; Fri,  9 Feb 2024 14:07:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7C17A2852A5
-	for <lists+linux-api@lfdr.de>; Fri,  9 Feb 2024 12:30:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F024C2829C1
+	for <lists+linux-api@lfdr.de>; Fri,  9 Feb 2024 13:07:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E2CC34CDE;
-	Fri,  9 Feb 2024 12:30:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E038A2C6BA;
+	Fri,  9 Feb 2024 13:07:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MIwZgUUZ"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CtEB4PyE"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7435C1E503;
-	Fri,  9 Feb 2024 12:30:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 421453C466
+	for <linux-api@vger.kernel.org>; Fri,  9 Feb 2024 13:07:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707481844; cv=none; b=ZsOUFhzWF5QLVpdrTEfdOObaCYlyJWVL/F1Gdp5jVtBqjJ2PSYrDXQBZ4h/kju/s3pgHW5j5xenYUoZhi3DVJNDTcDoMgXRsWXkYnzBMLfmilDoZrtv0Dck3OmpRpx0NXNU50PrAaWXdaHobRjqfwrb/X40AsGraYzm2TYaagGk=
+	t=1707484065; cv=none; b=JptyN25OANcvvvzwBtSRw6EUXnsQ8mw3gXH0BvIDFtvnwp/MOaf40E3Nqect1by7BtRdA3CQezBtgknhKkZDTArkW7Mgxn4Q2t/vQ4Vi2nUZlqBj2xsZ/6BYPm2KVwAo2Pmltf1Y8WJIcYDbzWndPoba8Tt9PaYOJE4UcGNWjo8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707481844; c=relaxed/simple;
-	bh=uv5tY3bK883yOLeFdrV05/wqX5qFWeLR+48lvLQm/dw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lGcApFgu2vcgXATn9nEl+7aSU7j8ANdWIIULHV5HNB8e+eNiwGl7uwWQQcO5MfXrzFxt+guPHzEVfVYGRgxHd5wI8WBnSHFGZA8tEAkIKr/THkNwo72if8BiovGozBg9M6WQzofuh6E5BpD6Cq8IHOHOjOk9f/MJ2+B3Nnj/tMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MIwZgUUZ; arc=none smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-51168572090so1532277e87.0;
-        Fri, 09 Feb 2024 04:30:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707481840; x=1708086640; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Kj53K0srSTgaE2lo+BGlpZ9XqSxQFcHLvaITEUOH728=;
-        b=MIwZgUUZawE3B8ttVCg2ssn8Dj9fS9r1E4drUZ/T/P/cHJcEeTIza8cwU3nC8eV90Z
-         SFKyK6uF1vGT1GPiD+/RCeF+p8lQapp5X/MV0kKJmcAnpnKdAPEhmci/Aq24n9OOxm26
-         cqapuyj+EsOBEFAuni0EmRE8quN94z1E8+czQkykybvI1XRzUukRTMIQVrxoQ6EOvtzH
-         zL2PHcOiE0uNmVT+y4RPTW52jywxDh19iHzVrcQltnMOFx80LVjpS5Eic02pkAGV71XP
-         7rx4BNlQCz6+xUjtHmXn/3RcAQVUPFUTGsukfrTYrgH/BDzyBBXhtMSJZR9Ko2wriRx8
-         Aduw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707481840; x=1708086640;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Kj53K0srSTgaE2lo+BGlpZ9XqSxQFcHLvaITEUOH728=;
-        b=IE6LeCMFP5YkO45QO5nYFeC5I6nSD3ldsRJVi11apot884UDzreIMyBITrhFt7Nzd4
-         aP1pAO0S1v8/CfT9TAhmtB4YOQWVoKpgMA8/NoRoc2cIE3cjEp15MUjQM6ivyGXfjFwW
-         E2Z6WWs5Cl5KqONrak3fEiV9Ry4DenEpK8H8aGT4Dy+aOZDfqL6ZSTfMOb0bc8pbcMzR
-         O+NgU9Ehlk8tih5JcNEhNF6zXY8OmT/I3YpVd9KWRmnVhVVC6e9OGolAzCyXwV5R3ojP
-         zhRSFnywb8uENezYyl4lY6ONuwWh1KpxoQxLoYnuS7ejHX3pA5UpLCGpd8t3hQapnvXB
-         n0PQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUgHaD6r4C+0l3NvFSsW3YiLb6wLTQJ6yuFuXhojcQ5wKX+GITfWbRBMICtG/Adg4iREICDoN3IwWB74Y1Pit1+I8ArZxOz+c1L4CT7wWV110h5DCcAEM7CIlhhPzFJGhVXhN5Hhue3E287LxUKm2OtDH/xTOixRwlORgbv65u9wqc66Q==
-X-Gm-Message-State: AOJu0YyZDaFvEjDSz4VcuY08GEFgcxPIlsJGA17rFFPBIsFLF8M65A7T
-	XMlZDyUkeS9u+XrkQyNJMqtOtxNIDkKkGUcX3IvalTBHAL8jMHA=
-X-Google-Smtp-Source: AGHT+IE0JGLdElzMLusS908kDQz2q4c097RomGl8DCTI3zHrLOkKj8VzGPXp8eEsk9o5kuAHNwATqA==
-X-Received: by 2002:ac2:484a:0:b0:511:722a:31b8 with SMTP id 10-20020ac2484a000000b00511722a31b8mr970340lfy.1.1707481840235;
-        Fri, 09 Feb 2024 04:30:40 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUC7aVbUgyYUFqe4BOWij8oOhFJX8hexIUGnct5ga5313HbMHAvP3Cs92Baul/FbBOgNDFd2NvFoKTtR6kkGhB+NrAu1MY1ipTYcNGm3U7NDBy+x9aQ0VYAoE+LsXZ8YE/rNriusgogeB9hnUidNP/6qIR4GfvBhcZkwKg/HAZnbBc5gU20dlUA1Gngf1WK1JwPFmy+UnWl3UO/cP0kj6NQBvzXxovEj1pM4e/D0QBot0IIx3lYapYAb7WuzkJ3aKGysPbnZjWGn3mCcMOa6MVPbzigA+sZLWLytRz8pq0gvM3me69ChBMNIJGNpUthAhozSaglc/m580qhYqAVTWUkq6PbgxtOKPCyUNJWAZejFgPrnkBnGkgjsqj9V8+TI1r3Lgw=
-Received: from p183 ([46.53.249.38])
-        by smtp.gmail.com with ESMTPSA id 10-20020a05600c230a00b0040fdf204fe7sm488009wmo.38.2024.02.09.04.30.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Feb 2024 04:30:39 -0800 (PST)
-Date: Fri, 9 Feb 2024 15:30:37 +0300
-From: Alexey Dobriyan <adobriyan@gmail.com>
-To: Kees Cook <keescook@chromium.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Florian Weimer <fweimer@redhat.com>, linux-kernel@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-	x86@kernel.org, Eric Biederman <ebiederm@xmission.com>,
-	linux-mm@kvack.org
-Subject: Re: [PATCH v4] ELF: AT_PAGE_SHIFT_MASK -- supply userspace with
- available page shifts
-Message-ID: <acd02481-ca2e-412a-8c6b-d9dff1345139@p183>
-References: <ecb049aa-bcac-45c7-bbb1-4612d094935a@p183>
- <202402050445.0331B94A73@keescook>
+	s=arc-20240116; t=1707484065; c=relaxed/simple;
+	bh=m8jassYfZl6tuikeSEiIX+a4C49CIDjBm1/1K7ahF9Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=CRhk/+EOvcYVoOpJf6yDCOGG30A2Cjv8g6oWdiY3cHn8exElfAwueZr5e4srFgdonsJuLp9gEMTDdGK0A/vuHLoWCzVB3ZEkQqRzsCetfci8qJK4tjiXV70i7ErkSgfM5ah+A1mOOTqX+C0hNfRKJMhMKFPljadndVEyPzrT5uc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=CtEB4PyE; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1707484063;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=+eBS2N7zPOjGNh6UoPh24dMf610glEZ74qIH328t8qY=;
+	b=CtEB4PyEATliCUUSZlP4pTrlIlA50CtwTlYl8OiGdaYS3QjzaeSw36f1gNVtDaI2e4xr/C
+	3LYrB08NHfXytgPEHrUIkjXZJujWgbrLyk1dVj4404MIamR4f4G8cBc16y/4RshJCBoSF+
+	L9QpCEUpl8uTaPCGA+2S5O3wizWKmQ0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-470-WBcllOQQNVe5MNt3f9wJEA-1; Fri, 09 Feb 2024 08:07:39 -0500
+X-MC-Unique: WBcllOQQNVe5MNt3f9wJEA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6F54D83B7E5;
+	Fri,  9 Feb 2024 13:07:39 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.226.84])
+	by smtp.corp.redhat.com (Postfix) with SMTP id AE141111FF;
+	Fri,  9 Feb 2024 13:07:37 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Fri,  9 Feb 2024 14:06:23 +0100 (CET)
+Date: Fri, 9 Feb 2024 14:06:20 +0100
+From: Oleg Nesterov <oleg@redhat.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Andy Lutomirski <luto@amacapital.net>,
+	"Eric W. Biederman" <ebiederm@xmission.com>,
+	Tycho Andersen <tycho@tycho.pizza>, linux-api@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 1/2] signal: add the "int si_code" arg to
+ prepare_kill_siginfo()
+Message-ID: <20240209130620.GA8039@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202402050445.0331B94A73@keescook>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.5
 
-On Mon, Feb 05, 2024 at 04:48:08AM -0800, Kees Cook wrote:
-> On Mon, Feb 05, 2024 at 12:51:43PM +0300, Alexey Dobriyan wrote:
-> > +#define ARCH_AT_PAGE_SHIFT_MASK					\
-> > +	do {							\
-> > +		u32 val = 1 << 12;				\
-> > +		if (boot_cpu_has(X86_FEATURE_PSE)) {		\
-> > +			val |= 1 << 21;				\
-> > +		}						\
-> > +		if (boot_cpu_has(X86_FEATURE_GBPAGES)) {	\
-> > +			val |= 1 << 30;				\
-> > +		}						\
-> 
-> Can we use something besides literal "12", "21", and "30" values here?
+So that do_tkill() can use this helper too. This also simplifies
+the next patch.
 
-Ehh, no, why? Inside x86_64 the page shifts are very specific numbers,
-they won't change.
+TODO: perhaps we can kill prepare_kill_siginfo() and change the
+callers to use SEND_SIG_NOINFO,  but this needs some changes in
+__send_signal_locked() and TP_STORE_SIGINFO().
+
+Signed-off-by: Oleg Nesterov <oleg@redhat.com>
+---
+ kernel/signal.c | 15 +++++----------
+ 1 file changed, 5 insertions(+), 10 deletions(-)
+
+diff --git a/kernel/signal.c b/kernel/signal.c
+index c3fac06937e2..a8199fda0d61 100644
+--- a/kernel/signal.c
++++ b/kernel/signal.c
+@@ -3793,12 +3793,12 @@ COMPAT_SYSCALL_DEFINE4(rt_sigtimedwait_time32, compat_sigset_t __user *, uthese,
+ #endif
+ #endif
+ 
+-static inline void prepare_kill_siginfo(int sig, struct kernel_siginfo *info)
++static void prepare_kill_siginfo(int sig, struct kernel_siginfo *info, int si_code)
+ {
+ 	clear_siginfo(info);
+ 	info->si_signo = sig;
+ 	info->si_errno = 0;
+-	info->si_code = SI_USER;
++	info->si_code = si_code;
+ 	info->si_pid = task_tgid_vnr(current);
+ 	info->si_uid = from_kuid_munged(current_user_ns(), current_uid());
+ }
+@@ -3812,7 +3812,7 @@ SYSCALL_DEFINE2(kill, pid_t, pid, int, sig)
+ {
+ 	struct kernel_siginfo info;
+ 
+-	prepare_kill_siginfo(sig, &info);
++	prepare_kill_siginfo(sig, &info, SI_USER);
+ 
+ 	return kill_something_info(sig, &info, pid);
+ }
+@@ -3925,7 +3925,7 @@ SYSCALL_DEFINE4(pidfd_send_signal, int, pidfd, int, sig,
+ 		    (kinfo.si_code >= 0 || kinfo.si_code == SI_TKILL))
+ 			goto err;
+ 	} else {
+-		prepare_kill_siginfo(sig, &kinfo);
++		prepare_kill_siginfo(sig, &kinfo, SI_USER);
+ 	}
+ 
+ 	/* TODO: respect PIDFD_THREAD */
+@@ -3970,12 +3970,7 @@ static int do_tkill(pid_t tgid, pid_t pid, int sig)
+ {
+ 	struct kernel_siginfo info;
+ 
+-	clear_siginfo(&info);
+-	info.si_signo = sig;
+-	info.si_errno = 0;
+-	info.si_code = SI_TKILL;
+-	info.si_pid = task_tgid_vnr(current);
+-	info.si_uid = from_kuid_munged(current_user_ns(), current_uid());
++	prepare_kill_siginfo(sig, &info, SI_TKILL);
+ 
+ 	return do_send_specific(tgid, pid, sig, &info);
+ }
+-- 
+2.25.1.362.g51ebf55
+
+
 
