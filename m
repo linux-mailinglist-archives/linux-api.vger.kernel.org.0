@@ -1,47 +1,47 @@
-Return-Path: <linux-api+bounces-906-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-907-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D280B84F840
-	for <lists+linux-api@lfdr.de>; Fri,  9 Feb 2024 16:11:18 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A46484F853
+	for <lists+linux-api@lfdr.de>; Fri,  9 Feb 2024 16:15:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F21F91C250C3
-	for <lists+linux-api@lfdr.de>; Fri,  9 Feb 2024 15:11:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 35901288B32
+	for <lists+linux-api@lfdr.de>; Fri,  9 Feb 2024 15:15:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CF836DD18;
-	Fri,  9 Feb 2024 15:11:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B37906F06C;
+	Fri,  9 Feb 2024 15:15:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qXnBv+Pa"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J1tyFmwb"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E821E6D1CB;
-	Fri,  9 Feb 2024 15:11:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A5946EB65;
+	Fri,  9 Feb 2024 15:15:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707491474; cv=none; b=iRL7xWLffef9BAzzlPWQJF+i3F8kPD2p6obUT55UOSEAEkP05cM+EuTZzjTa61s2mCprMFI/PJ583q8dCBd3HkcENt333LXL8EddJbcX/2UYCr5hUiG0YLlAv0F5aThpm68WIH2ViewWFZVoZz7EWcdndREOTaY6X2HknXdVR/E=
+	t=1707491724; cv=none; b=FqmqiwFRNN29rEq2Bampqlbovekp+aiZWuiAH165auv+aJ4UwIlT4DmdLAnkdsWpv3uq50sbY8wGJnr73sdAuY1Y/1ilde4yj0L+EpIgfj2hQ+AKoAGR3Utq48ziE++l7bYHone1x1wAKQKEPBCxoEFCo8tpM/8Im8R39XGqReo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707491474; c=relaxed/simple;
-	bh=VwCqQlgMD5ijvTe1CDRtTpyuJtBMBP3AZJbX9C0U4eQ=;
+	s=arc-20240116; t=1707491724; c=relaxed/simple;
+	bh=vhoLSSlL/5ddek+ZFOhIOvsQoTmINNqk4DydXbkdtGc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JVToFPgd3os8xSN2CS9NPPH/iCnqIujeZ9cV64F/vX/xQ+mNFDxpYwvwzzG9ucQ5+7NIbK7bD4DQjYX/z2FNd+BDQie6qlt1LEzw4AZN20jNZE5Ucq/39CBRTNliy1eXWBw9FOHAJFJwb5yxhQWYo1oN9xixpIQQXxeIntjrJzg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qXnBv+Pa; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09CE5C43390;
-	Fri,  9 Feb 2024 15:11:11 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=aANSQgUeG9xQzCRAYkFtXegv2ESt3JeSvw2gcSu72OniYoLBVNY0ASU+b9rp7yr53NLkf+TlSO7AH3et+qvbMqJ+w9j8sy8KwT8F9r3QuV2Sc+uQj4Y/R33f9Rj8BJCzlN77Lr+MvYommIcacTDOfaJzFcz6ifceJitAO+BFZHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J1tyFmwb; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52316C433F1;
+	Fri,  9 Feb 2024 15:15:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707491473;
-	bh=VwCqQlgMD5ijvTe1CDRtTpyuJtBMBP3AZJbX9C0U4eQ=;
+	s=k20201202; t=1707491723;
+	bh=vhoLSSlL/5ddek+ZFOhIOvsQoTmINNqk4DydXbkdtGc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qXnBv+PaprGtyM8d1vEJZaPYs8z9ZiMmYRLvBJdHcpmfzTRm/hr6im4QePAIUKTEy
-	 Ddhf8E9NuKTx0XAcqCj2daArr6uwjZ2vgA1MRLQ9yjdJbvvq0me0993N9AHRn7+h9p
-	 /VbpybhSp8acS4pkGLAoYvsKB65Rc4x7JmCqLjUCtg6BmuYD3i+PtBO54qoCnJntm+
-	 +yDl0XaZYeiRc+yyEAsEueh9L4EGrdEQ0I7jcBvOBfY9xerDLGRTQNo6v2lC3BJGD5
-	 UCG4OrrnTTqOcxYPoNL7eTN12PoYV9m/DKJaIEGx7KM3rTXW9XBL/1Q9hnAyOmRqXo
-	 0ckgim5vRfscA==
-Date: Fri, 9 Feb 2024 16:11:09 +0100
+	b=J1tyFmwbVm6zKZ64DuT5j6bfXPbNK68FHowfNrIFTprDYA7b/2CUkMM5BJcQgv12E
+	 /s0lEnSuQlBHkCaoQxCoGv9MAdujszFLhG8a8DQT+KlZ0fFvr5YPOyWQtazx/aul3H
+	 VGo5T5dLkXXBiu8aPR8pZGbAV6cfbDdz8f2PplVXSX6yfTFu9yjZDdOYy5jGqL9TTO
+	 4GD5npkOL3Upa98GAmQLj9LQlwexMtzi2MvxzEj04IR7hRB+G1CwDpxw8JZDxQVPYC
+	 8PO130wg0RJf7r0b/fnUEdCXw/WTA7akiYT+VADlg86aNKNUmOWZV3gWiaPrKYU1TQ
+	 ZqUxFoHs6AbHw==
+Date: Fri, 9 Feb 2024 16:15:18 +0100
 From: Christian Brauner <brauner@kernel.org>
 To: Oleg Nesterov <oleg@redhat.com>
 Cc: Andy Lutomirski <luto@amacapital.net>, 
@@ -49,7 +49,7 @@ Cc: Andy Lutomirski <luto@amacapital.net>,
 	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v2 2/2] pidfd: change pidfd_send_signal() to respect
  PIDFD_THREAD
-Message-ID: <20240209-bockig-essverhalten-9d80946c0bf4@brauner>
+Message-ID: <20240209-stangen-feuerzeug-17c8662854c9@brauner>
 References: <20240209130620.GA8039@redhat.com>
  <20240209130650.GA8048@redhat.com>
 Precedence: bulk
@@ -76,6 +76,123 @@ On Fri, Feb 09, 2024 at 02:06:50PM +0100, Oleg Nesterov wrote:
 > Signed-off-by: Oleg Nesterov <oleg@redhat.com>
 > ---
 
-Looks good to me,
-Reviewed-by: Christian Brauner <brauner@kernel.org>
+How do you feel about the following (untested...) addition?
+I've played with PIDFD_SIGNAL_PROCESS_GROUP as well but that code is
+fairly new to me so I would need some more time.
+
+From a473512ed8de2e864961f7009e2f20ce4e7a0778 Mon Sep 17 00:00:00 2001
+From: Christian Brauner <brauner@kernel.org>
+Date: Fri, 9 Feb 2024 15:49:45 +0100
+Subject: [PATCH] [RFC] pidfd: allow to override signal scope in
+ pidfd_send_signal()
+
+Right now we determine the scope of the signal based on the type of
+pidfd. There are use-cases where it's useful to override the scope of
+the signal. For example in [1]. Add flags to determine the scope of the
+signal:
+
+(1) PIDFD_SIGNAL_THREAD: send signal to specific thread
+(2) PIDFD_SIGNAL_THREAD_GROUP: send signal to thread-group
+
+I've put off PIDFD_SIGNAL_PROCESS_GROUP for now since I need to stare at
+the code a bit longer how this would work.
+
+Link: https://github.com/systemd/systemd/issues/31093 [1]
+Signed-off-by: Christian Brauner <brauner@kernel.org>
+---
+ include/uapi/linux/pidfd.h |  4 ++++
+ kernel/signal.c            | 35 ++++++++++++++++++++++++++++-------
+ 2 files changed, 32 insertions(+), 7 deletions(-)
+
+diff --git a/include/uapi/linux/pidfd.h b/include/uapi/linux/pidfd.h
+index 2e6461459877..757ed5a668c6 100644
+--- a/include/uapi/linux/pidfd.h
++++ b/include/uapi/linux/pidfd.h
+@@ -10,4 +10,8 @@
+ #define PIDFD_NONBLOCK	O_NONBLOCK
+ #define PIDFD_THREAD	O_EXCL
+ 
++/* Flags for pidfd_send_signal(). */
++#define PIDFD_SIGNAL_THREAD		(1UL << 0)
++#define PIDFD_SIGNAL_THREAD_GROUP	(1UL << 1)
++
+ #endif /* _UAPI_LINUX_PIDFD_H */
+diff --git a/kernel/signal.c b/kernel/signal.c
+index 9578ce17d85d..1d6586964099 100644
+--- a/kernel/signal.c
++++ b/kernel/signal.c
+@@ -3872,6 +3872,9 @@ static struct pid *pidfd_to_pid(const struct file *file)
+ 	return tgid_pidfd_to_pid(file);
+ }
+ 
++#define PIDFD_SEND_SIGNAL_FLAGS \
++	(PIDFD_SIGNAL_THREAD | PIDFD_SIGNAL_THREAD_GROUP)
++
+ /**
+  * sys_pidfd_send_signal - Signal a process through a pidfd
+  * @pidfd:  file descriptor of the process
+@@ -3889,14 +3892,19 @@ static struct pid *pidfd_to_pid(const struct file *file)
+ SYSCALL_DEFINE4(pidfd_send_signal, int, pidfd, int, sig,
+ 		siginfo_t __user *, info, unsigned int, flags)
+ {
+-	int ret;
++	int ret, si_code;
+ 	struct fd f;
+ 	struct pid *pid;
+ 	kernel_siginfo_t kinfo;
+ 	bool thread;
++	enum pid_type si_scope;
+ 
+ 	/* Enforce flags be set to 0 until we add an extension. */
+-	if (flags)
++	if (flags & ~PIDFD_SEND_SIGNAL_FLAGS)
++		return -EINVAL;
++
++	/* Ensure that only a single signal scope determining flag is set. */
++	if (hweight32(flags & PIDFD_SEND_SIGNAL_FLAGS) > 1)
+ 		return -EINVAL;
+ 
+ 	f = fdget(pidfd);
+@@ -3914,7 +3922,22 @@ SYSCALL_DEFINE4(pidfd_send_signal, int, pidfd, int, sig,
+ 	if (!access_pidfd_pidns(pid))
+ 		goto err;
+ 
+-	thread = f.file->f_flags & PIDFD_THREAD;
++	switch (flags) {
++	case 0:
++		/* Infer scope from the type of pidfd. */
++		thread = (f.file->f_flags & PIDFD_THREAD);
++		si_scope = thread ? PIDTYPE_PID : PIDTYPE_TGID;
++		si_code = thread ? SI_TKILL : SI_USER;
++		break;
++	case PIDFD_SIGNAL_THREAD:
++		si_scope = PIDTYPE_PID;
++		si_code = SI_TKILL;
++		break;
++	case PIDFD_SIGNAL_THREAD_GROUP:
++		si_scope = PIDTYPE_TGID;
++		si_code = SI_USER;
++		break;
++	}
+ 
+ 	if (info) {
+ 		ret = copy_siginfo_from_user_any(&kinfo, info);
+@@ -3931,12 +3954,10 @@ SYSCALL_DEFINE4(pidfd_send_signal, int, pidfd, int, sig,
+ 		    (kinfo.si_code >= 0 || kinfo.si_code == SI_TKILL))
+ 			goto err;
+ 	} else {
+-		prepare_kill_siginfo(sig, &kinfo,
+-				     thread ? SI_TKILL : SI_USER);
++		prepare_kill_siginfo(sig, &kinfo, si_code);
+ 	}
+ 
+-	ret = kill_pid_info_type(sig, &kinfo, pid,
+-				 thread ? PIDTYPE_PID : PIDTYPE_TGID);
++	ret = kill_pid_info_type(sig, &kinfo, pid, si_scope);
+ err:
+ 	fdput(f);
+ 	return ret;
+-- 
+2.43.0
+
 
