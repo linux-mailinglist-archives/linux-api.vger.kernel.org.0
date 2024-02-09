@@ -1,104 +1,98 @@
-Return-Path: <linux-api+bounces-910-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-911-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7C4D84F8FF
-	for <lists+linux-api@lfdr.de>; Fri,  9 Feb 2024 16:58:12 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2257884F96F
+	for <lists+linux-api@lfdr.de>; Fri,  9 Feb 2024 17:16:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 599101F20F2F
-	for <lists+linux-api@lfdr.de>; Fri,  9 Feb 2024 15:58:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C88E6285FEB
+	for <lists+linux-api@lfdr.de>; Fri,  9 Feb 2024 16:16:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9523D7603C;
-	Fri,  9 Feb 2024 15:58:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D57EE762C5;
+	Fri,  9 Feb 2024 16:16:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fGsSJxPS"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uGpEGKIk"
 X-Original-To: linux-api@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08A2374E10
-	for <linux-api@vger.kernel.org>; Fri,  9 Feb 2024 15:58:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACAD874E17;
+	Fri,  9 Feb 2024 16:16:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707494288; cv=none; b=iiZ01etEnQgMCpjU2hkJC+XjSTmeqxe+yAEmAagDhlR53HLP14feMUD+LNTHp+t9AiLGZxGnehuxXT4rTIm9K98YW9EXdtrqHnpKEWt7RUqj5nJmcUt/y5DDb1khZcOnFbsVovekTYC5YXBz50Zui7HKKWtdxKfabbqL+JI3k6U=
+	t=1707495364; cv=none; b=h2+MQYXhEEdtETDnoJIOaoxl+zuFuYj4q0Wydwjon+IZB3QJxGO3qLNm03WyplaAC2SS9Z5zrH+8QTzJWU7La9f49hbclYvtJaNUn/EFYWTS4sP0l6J6bm8R5UgmnQCcqSbclAhIKvzb/NjYr5zoZrqH5awgvLA03H9JXZEET4E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707494288; c=relaxed/simple;
-	bh=9liaOJHkXmgoMLq2BOqbcJsWNZ7++m9AMPpRUz4DQBU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H8qwJiF+59sb/ISV3jXyKJqq5U9W8lg4q62VCHbBAQuuCa8306stevZeLYVWkaBRe4Geje/mmvDDUIO3narHOMu80ksI3w89YejBB/cgduJ5VHhDXG6py9dvx27XBX0teiW9k6HO1U3mR+0usZDgBcAonUbi7gtSfwApJ0pLGqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fGsSJxPS; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1707494285;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9liaOJHkXmgoMLq2BOqbcJsWNZ7++m9AMPpRUz4DQBU=;
-	b=fGsSJxPSMfL0lldyn+AeAdBg8YJm6gt1SL0H8CrwqbeXYnPDOyF+nXgLm1mB+O1uo6YFKf
-	RHLwPrNZ1HdBFYYCWjEdmJ4tEPfE1weWpoLUpnDnILnEXBrKuZ1sGUAPkIwMFy+yJYI/LV
-	Sy/YtkNDxAqOKeFd9Bhnfe4pk1yoFLM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-350-xcCQgqAgMLaBubu3R9dYCQ-1; Fri, 09 Feb 2024 10:58:04 -0500
-X-MC-Unique: xcCQgqAgMLaBubu3R9dYCQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0544B185A780;
-	Fri,  9 Feb 2024 15:58:04 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.226.84])
-	by smtp.corp.redhat.com (Postfix) with SMTP id 58FA840C9444;
-	Fri,  9 Feb 2024 15:58:02 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-	oleg@redhat.com; Fri,  9 Feb 2024 16:56:47 +0100 (CET)
-Date: Fri, 9 Feb 2024 16:56:45 +0100
-From: Oleg Nesterov <oleg@redhat.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Andy Lutomirski <luto@amacapital.net>,
+	s=arc-20240116; t=1707495364; c=relaxed/simple;
+	bh=HY7CClStAsX0getnIKIa/TlFZVB5sdICRUbb66V5RLY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=LmQ9VIJd5L1RBE6lO7lcXFzx5zfB9Nd2qgF9zXtQGJR4KpWqN3nACFlA0H8dMBsuTrfSjeEr0XYYYCtITNw4wO++o7YDp229cNUd8epJn0Iroeyth9ETljBpBKJsBrX16ig66yVGXRpct3EA9opaWcZbg1dJP+YNyb/qxU66S/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uGpEGKIk; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CCAEC433F1;
+	Fri,  9 Feb 2024 16:16:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707495364;
+	bh=HY7CClStAsX0getnIKIa/TlFZVB5sdICRUbb66V5RLY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=uGpEGKIkAC1JmD6lOOdiTmkTBbEMn8scsRqXfcET7WrGRUILvmTXO+CmK3xGd905k
+	 OfxleyPCJRb8vSLbzQmaonFWBEZmeZ9Iv25B3ybhLGC3CWgE1aYjbORwUWyhia+sDH
+	 NVT0bZ+l06F1hXddSuG8haJsVFrYtkvi8LmDzTuQuMJ1WoeyKKSCh98+saRiVVJeSN
+	 OeaMWK4518E5Hofd3dkzgrlXa+mFq6o/kPNDD20JZLQK3I2f08I//06dWoRNMpCEyc
+	 9AAlKCEUn+/NN7954XrCU3xb7uzlWisxiB5urO1YiUAdWBSv7h3hXgy4hnnrdL/0Nz
+	 ULe6XoK/MNvVg==
+From: Christian Brauner <brauner@kernel.org>
+To: Oleg Nesterov <oleg@redhat.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+	Andy Lutomirski <luto@amacapital.net>,
 	"Eric W. Biederman" <ebiederm@xmission.com>,
-	Tycho Andersen <tycho@tycho.pizza>, linux-api@vger.kernel.org,
+	Tycho Andersen <tycho@tycho.pizza>,
+	linux-api@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] pidfd: change pidfd_send_signal() to respect
- PIDFD_THREAD
-Message-ID: <20240209155644.GD3282@redhat.com>
+Subject: Re: [PATCH v2 1/2] signal: add the "int si_code" arg to prepare_kill_siginfo()
+Date: Fri,  9 Feb 2024 17:13:23 +0100
+Message-ID: <20240209-zeitraffer-antiseptisch-56312df26b2c@brauner>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240209130620.GA8039@redhat.com>
 References: <20240209130620.GA8039@redhat.com>
- <20240209130650.GA8048@redhat.com>
- <20240209-stangen-feuerzeug-17c8662854c9@brauner>
- <20240209154305.GC3282@redhat.com>
- <20240209-radeln-untrennbar-9d4ae05aa4cc@brauner>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240209-radeln-untrennbar-9d4ae05aa4cc@brauner>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.2
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1238; i=brauner@kernel.org; h=from:subject:message-id; bh=HY7CClStAsX0getnIKIa/TlFZVB5sdICRUbb66V5RLY=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMaQe8zeMf8Hbf+7kBe3YCcbhjdZXGTyZVrxPV1i7WM5x+ f2pzbY3O0pZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACbybj7DX1GmsOaDNXZRE8Wt dda1nZy47N/9cJ55V55pL0pLOLr52SNGhiUlsiobontzi1g1Ev4sifisv+5p5dw6luKFIjx/Pv8 R4QYA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-On 02/09, Christian Brauner wrote:
->
-> On Fri, Feb 09, 2024 at 04:43:05PM +0100, Oleg Nesterov wrote:
-> >
-> > So the question: do you think we also want PIDFD_SIGNAL_SESSION_GROUP?
->
-> Thought about this as well and my feeling is to wait until someone asks
-> for it. Right now, we have a reason to add PIDFD_SIGNAL_PROCESS_GROUP
-> because of Andy's use-case. If someone has a use-case for session groups
-> then yes. Otherwise I'd just not bother?
+On Fri, 09 Feb 2024 14:06:20 +0100, Oleg Nesterov wrote:
+> So that do_tkill() can use this helper too. This also simplifies
+> the next patch.
+> 
+> TODO: perhaps we can kill prepare_kill_siginfo() and change the
+> callers to use SEND_SIG_NOINFO,  but this needs some changes in
+> __send_signal_locked() and TP_STORE_SIGINFO().
+> 
+> [...]
 
-OK, agreed.
+Applied to the vfs.pidfd branch of the vfs/vfs.git tree.
+Patches in the vfs.pidfd branch should appear in linux-next soon.
 
-and I forgot to mention, if you want to add PIDFD_SIGNAL_PRGP you can
-look at __kill_pgrp_info().
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
-Oleg.
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
 
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs.pidfd
+
+[1/2] signal: add the "int si_code" arg to prepare_kill_siginfo()
+      https://git.kernel.org/vfs/vfs/c/3a363602809c
+[2/2] pidfd: change pidfd_send_signal() to respect PIDFD_THREAD
+      https://git.kernel.org/vfs/vfs/c/2885a4b3358d
 
