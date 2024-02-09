@@ -1,71 +1,94 @@
-Return-Path: <linux-api+bounces-916-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-917-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FA1C84FD38
-	for <lists+linux-api@lfdr.de>; Fri,  9 Feb 2024 20:55:33 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2B6A84FD49
+	for <lists+linux-api@lfdr.de>; Fri,  9 Feb 2024 21:01:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C6B1E1F27A68
-	for <lists+linux-api@lfdr.de>; Fri,  9 Feb 2024 19:55:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 67D6B288982
+	for <lists+linux-api@lfdr.de>; Fri,  9 Feb 2024 20:01:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B815C85299;
-	Fri,  9 Feb 2024 19:55:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B681A86ADE;
+	Fri,  9 Feb 2024 20:01:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="AwTi6Ub3"
+	dkim=pass (2048-bit key) header.d=tycho.pizza header.i=@tycho.pizza header.b="DAbw1HfX";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="yf1Pu1dw"
 X-Original-To: linux-api@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from fout4-smtp.messagingengine.com (fout4-smtp.messagingengine.com [103.168.172.147])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2474B84A45
-	for <linux-api@vger.kernel.org>; Fri,  9 Feb 2024 19:55:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD2B47FBBC;
+	Fri,  9 Feb 2024 20:01:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707508525; cv=none; b=c3LKGKIZYsN9MpnFmUji8Lqkt16k7+8H8QL/8/xAaO4J2gcWFSDj+5Ciztvg58xL9ISiAhaXi67t9gFkAnXcSV+45t9ic1khzyL3fPo9/qpR6YKwrfuoMC4hD6vrsegTDQx1RHeXdSjpAVRTJ97fI3Tgko0kLKREBnYLge8rtxw=
+	t=1707508902; cv=none; b=Z4ldSfn2RcyEcZzb0XbVRSQFmTn63j1NWO9Y+VwYJ4WA6CzGml5UHiW7zRfv4GYga5QY0UEfBKKZu/l+SY+7PHG3q7c1cqRv+ukOwhzlzVH8a1egZ759YVME/vn9QNoU+9hPh9XrYuHh/uY1/uMsd2PHmviKH3AahH+2WDxX/GI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707508525; c=relaxed/simple;
-	bh=ct4pYLqbWEvaFepWlnW0LcNyrdRiTi4jZVyKCOleQ9A=;
+	s=arc-20240116; t=1707508902; c=relaxed/simple;
+	bh=WL/rzBB2GfU053FLLg28Xuod+XynvPbNisV0axNODVs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=vCHX2MHYeArDRQXLVDeKTbBZesfC60//tSPIQTZTj6iXKHA5Zrq6hBiBvHwqV2ARehXoTAl6wksDEY6cyaL9Y/Pasf8R7Zr5SeWMQb00myr5YVzJsxajHx8ESPe8BSJiw87GD/gGo5XERP+IKPLUhBXU9bXy3/UIZP92oA1YUwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=AwTi6Ub3; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1707508522;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7Em5WxJdAGOzFKe0pJRNSvAunQeanzmTyzeJclMZdng=;
-	b=AwTi6Ub35CQk5GFtv61AJH8GODbhI3U6CrAhPhrMUnLKHzP0dDK/3wgNyZkwYjM/P8PDZx
-	J+TIAIY2co5tmZ1N/dqa4AGaBITRX5rk0Y9PuiAQkt1vNwkX1E7E9NoCO/vXc7JZcZPxhc
-	jcnX1n+qCdiV3eKqLMmOfPOkYVpy98E=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-292-OsTCtYDJO_q9nZf8IYR7-w-1; Fri,
- 09 Feb 2024 14:55:16 -0500
-X-MC-Unique: OsTCtYDJO_q9nZf8IYR7-w-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 37EF738130AE;
-	Fri,  9 Feb 2024 19:55:16 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.224.63])
-	by smtp.corp.redhat.com (Postfix) with SMTP id 90968492BE2;
-	Fri,  9 Feb 2024 19:55:14 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-	oleg@redhat.com; Fri,  9 Feb 2024 20:54:00 +0100 (CET)
-Date: Fri, 9 Feb 2024 20:53:58 +0100
-From: Oleg Nesterov <oleg@redhat.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=gBcI/pVnZJPVD9pOIFfh/7iLhc7snywxai7jof2Kwbf8NBGLgjJa0bJH1L0uMzPmx7Hq//MkVkjBKfk6ucnFmVzfZ9MR8WwpZO0k1+Vs3dJIFOjL6SeAwYNUEilF5utZBYm/M75jjUmU/obyvS6MO3U9nTBsbO8BNYk2CfezBGQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tycho.pizza; spf=pass smtp.mailfrom=tycho.pizza; dkim=pass (2048-bit key) header.d=tycho.pizza header.i=@tycho.pizza header.b=DAbw1HfX; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=yf1Pu1dw; arc=none smtp.client-ip=103.168.172.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tycho.pizza
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tycho.pizza
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+	by mailfout.nyi.internal (Postfix) with ESMTP id B16FC13800A0;
+	Fri,  9 Feb 2024 15:01:39 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute6.internal (MEProxy); Fri, 09 Feb 2024 15:01:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tycho.pizza; h=
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1707508899; x=1707595299; bh=7HHSZSBrGn
+	vXlR9ji0eRnBBMyU/kYyPlTorpNyRe0mk=; b=DAbw1HfXp/TaIjcGplAzidZYB6
+	EiPtcvqgmuMJQrWJ7TOja4UNfLfrTPKV+zVNNVsaxEjcYxdWajt/NXlpHOUZ4TnQ
+	p+u3CSb2urhqHRSi56ak2k4EQrPHkYrZoJIepyS5zRE1G/7YjhGXqpTdBuBZ3V2X
+	FkqUeJQbc8tM1s2zyNDHPW0q4MoatML6zl40bOhGiFJAaMOV9sJH5lofuJKzm+sD
+	D4XcyLBPzPf3GlsjWsRIV4HqSI1gbfqrHrQ3FWS56oeyPNdw4M7XAQysUP0dUmju
+	L+3eQ55sdBArJKRwUGzgwkVaxgkYlfyDhFsQqy5lS/A0xCPtmszMe82wCsdw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1707508899; x=1707595299; bh=7HHSZSBrGnvXlR9ji0eRnBBMyU/k
+	YyPlTorpNyRe0mk=; b=yf1Pu1dwEuy0SvpGiWStbqu7cGKH7y4QXdN8juMeDivS
+	tSI0aKfAYEEdNEWDWT9sJl7pRxZnd5IfekY19SVg39IwEYhAm6oo9hG41W07p5qx
+	cI5J0/qvJJTlHDmQQvk9pKFebKwNphxORxVbj11R/FVWpiXbhltzelp/GwLbAHAT
+	6EaIRqfxYWiZBMEKrWz4eC6GZTTpsyH5z8lBD0SbhvFf5UlqydWfoqufLeFyXFMg
+	5KSsoL+9zTBmPXqBNZeKaOEGatr6HRUe7/1WgUidCzoGHpDofcQwI71zQ/lQAPoj
+	3WOK8NHA8SyuZXZflQZCnaQIolfWAOqY15PoF3zcqg==
+X-ME-Sender: <xms:o4TGZW7_VdgqDcE3EVXb09Hd06YJmnvt80b9paehOhoN1D367VL-xg>
+    <xme:o4TGZf6xeIVtBcfrrY4P5rBcsYGhU4kJUG6EHDwhQnrxoOArZudQCt8NthyRJ9b92
+    YSo9bAmEv_IUCQOYJs>
+X-ME-Received: <xmr:o4TGZVdV1pV_BM9RiPb0TWsQTR_eW9MwclhnOAD4Ksq395rqMUnyl3f8RbY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrtdeigddufedtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepvfihtghh
+    ohcutehnuggvrhhsvghnuceothihtghhohesthihtghhohdrphhiiiiirgeqnecuggftrf
+    grthhtvghrnhepleevudetgefhheekueekhfduffethfehteeftdfhvefgteelvedvudev
+    teeufeehnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiii
+    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehthigthhhosehthigthhhordhpihii
+    iigr
+X-ME-Proxy: <xmx:o4TGZTLsBcDlKAzqPMg_EdAaJ1m3LADMbb6_9ziQixEojnRkaWEzCQ>
+    <xmx:o4TGZaJBFmu-XKDjpadqSJqUevwauBs9qW-hf8FI7CIT4VJLhfDq3Q>
+    <xmx:o4TGZUwasBW7t0r3zHVRQ9ngv0o8JbQxOjimaLkTQnhcA511y1xcUA>
+    <xmx:o4TGZS8cGkNEFpmbIXCJV79nPv8-2iygFyXWNuTM4xYge8DnU-ROdg>
+Feedback-ID: i21f147d5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 9 Feb 2024 15:01:38 -0500 (EST)
+Date: Fri, 9 Feb 2024 13:01:36 -0700
+From: Tycho Andersen <tycho@tycho.pizza>
 To: Christian Brauner <brauner@kernel.org>
-Cc: "Eric W. Biederman" <ebiederm@xmission.com>,
-	Andy Lutomirski <luto@amacapital.net>,
-	Tycho Andersen <tycho@tycho.pizza>, linux-api@vger.kernel.org,
+Cc: Oleg Nesterov <oleg@redhat.com>,
+	"Eric W. Biederman" <ebiederm@xmission.com>,
+	Andy Lutomirski <luto@amacapital.net>, linux-api@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v2 1/2] signal: add the "int si_code" arg to
  prepare_kill_siginfo()
-Message-ID: <20240209195332.GA24647@redhat.com>
+Message-ID: <ZcaEoKAQGgKOYyi+@tycho.pizza>
 References: <20240209130620.GA8039@redhat.com>
  <87sf21zjy8.fsf@email.froward.int.ebiederm.org>
  <20240209163914.GE3282@redhat.com>
@@ -79,11 +102,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <20240209-traben-geothermie-8c6aa7e1984f@brauner>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.10
 
-On 02/09, Christian Brauner wrote:
->
+On Fri, Feb 09, 2024 at 08:36:24PM +0100, Christian Brauner wrote:
 > On Fri, Feb 09, 2024 at 05:39:14PM +0100, Oleg Nesterov wrote:
 > > On 02/09, Eric W. Biederman wrote:
 > > >
@@ -99,17 +119,26 @@ On 02/09, Christian Brauner wrote:
 > > OK, will send V3 tomorrow.
 > 
 > Hm, I don't think that's necessary if you're happy to have me just fix
-> that up in tree.
-
-Thank you!!!
-
-looks obviously correct, but again, I will double check tomorrow just
-in case.
-
+> that up in tree. Here's the two patches updated. It was straightforward
 > but I have a baby on my lap so double check, please:
+> 
+> From 05ffda39f6f5c887cae319274366cbf856c88fe5 Mon Sep 17 00:00:00 2001
+> From: Oleg Nesterov <oleg@redhat.com>
+> Date: Fri, 9 Feb 2024 14:06:20 +0100
+> Subject: [PATCH 1/2] signal: fill in si_code in prepare_kill_siginfo()
+> 
+> So that do_tkill() can use this helper too. This also simplifies
+> the next patch.
+> 
+> TODO: perhaps we can kill prepare_kill_siginfo() and change the
+> callers to use SEND_SIG_NOINFO,  but this needs some changes in
+> __send_signal_locked() and TP_STORE_SIGINFO().
+> 
+> Signed-off-by: Oleg Nesterov <oleg@redhat.com>
+> Link: https://lore.kernel.org/r/20240209130620.GA8039@redhat.com
+> Signed-off-by: Christian Brauner <brauner@kernel.org>
 
-;) I'm familiar with this.
+Looks good to me as well,
 
-Oleg.
-
+Reviewed-by: Tycho Andersen <tandersen@netflix.com>
 
