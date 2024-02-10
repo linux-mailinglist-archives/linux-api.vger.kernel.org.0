@@ -1,62 +1,62 @@
-Return-Path: <linux-api+bounces-931-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-932-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E07E850463
-	for <lists+linux-api@lfdr.de>; Sat, 10 Feb 2024 13:32:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D45A85046D
+	for <lists+linux-api@lfdr.de>; Sat, 10 Feb 2024 13:48:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 35FFE281803
-	for <lists+linux-api@lfdr.de>; Sat, 10 Feb 2024 12:32:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7189728295E
+	for <lists+linux-api@lfdr.de>; Sat, 10 Feb 2024 12:48:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C369F46B8E;
-	Sat, 10 Feb 2024 12:31:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB4BB481BE;
+	Sat, 10 Feb 2024 12:48:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="AXReNp7G"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XIc0E/vV"
 X-Original-To: linux-api@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26BDF20E4
-	for <linux-api@vger.kernel.org>; Sat, 10 Feb 2024 12:31:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 261B547F42
+	for <linux-api@vger.kernel.org>; Sat, 10 Feb 2024 12:48:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707568318; cv=none; b=Hy0fv2sf7xej1OUtx+Hq9hawQ7s+3hfraFOHAYDk8Qj3DhAJOdTvjP/ipqluGb03n+7NYGEgP3lHK4uv4bx8O06pe1rS7rCargLJfxtcq2b4krJyT2tl+QUQT/mktp5Q/BTSfxobwEMBQ+rh6YOrobFZXLXI/FZQu3YT7f5i6Og=
+	t=1707569314; cv=none; b=Huv0CDJLxdobB4SSasPkknZiXyz8Q52IKOWt6fx7BEO9m9jUcLP2S53hT6nGRqLaHzEUtzuOsojEQG7dCQuBHSAXU+ORsll1SfyW6cxmzE+j+pMay21sKW2RH/i6mWMpuvxBJQww3klYkEZI0MdnCTHkBZRhGvquibjbWzLCyTI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707568318; c=relaxed/simple;
-	bh=b/+bunSHR5UhPdFTXfBKcRLs2qkDpn8Qrz7Q+Zf0Neg=;
+	s=arc-20240116; t=1707569314; c=relaxed/simple;
+	bh=5ZCGE2D6BjdHZDF56ZZ2sS6U790ZU0GDo6OY3wAA4II=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RvfuV+3c0fL1222liOWND8UpxQkirLC6Bup8A4+ltOA7VrkahbvhChiL4RInwr/fCRRDWWYCqHf3z4PKWUg9pBXICsQ999OhoiSuHjjp/GNweooNFcQS2J0Br/YgxXfGVY97HpR7VLLIS7pe3xSh3cH4xndbeaPY1uHCbR5KdwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=AXReNp7G; arc=none smtp.client-ip=170.10.133.124
+	 Content-Type:Content-Disposition:In-Reply-To; b=iOfUqmznkQgPbI/sc/OXVqstKjIsirKQY4KWlnoQy5XG+zKieVGAxbKkP6ONFe10I5kPJVy8+o393TbznMF565bXSewOmV1jpkDt075DLNQlJC9eHT7FJ1Dsd2JV8GsSczYeC4hnMEPBsEOhOrauhkfRQGQXuPgkw6Ji0vN+5WI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XIc0E/vV; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1707568316;
+	s=mimecast20190719; t=1707569311;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=rsa8Sa2RaRjXmbcIJ9/cp3lURU1N9XcuIpnY+VN8kcI=;
-	b=AXReNp7GN5C3BWNiOzedgxO5AcPjqEQzg5JXDGWoRX71UiqUNqCSA4NItOwGvlS2Eivn+5
-	m083+AV/XjCFvjioZ3FvR4QAXB/KPX2is3eFv1Xff+YSzOO+6H2ipqEUfKRsmgH2u4USSE
-	sEYLEVmsFHEpRS+9F0Z4WPElOTLNr1s=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-562-euPsEMJsOUOA3OZtIC3yHg-1; Sat,
- 10 Feb 2024 07:31:52 -0500
-X-MC-Unique: euPsEMJsOUOA3OZtIC3yHg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
+	bh=rEhCrduBe0d0dS/swjdcoc7IV7EN3jeoaehg+0ZcY7U=;
+	b=XIc0E/vVfTRMCl5O0cNWs/0iopceXxL5uWdMsLVZFrKy6mkH3Y3UCvAMFfxlzrlyCVi8vJ
+	tRq57zpr9Acf4hmHung9xUmbnMR8juSvovdMPbSlMRNIBc4yCWAeefPkGYdHjIfNBwqorG
+	VLbWpTQLMqDat7PK1BBEBiMVZdYIL+k=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-461-FBHrH_pdMsat5QBf9ecVqA-1; Sat, 10 Feb 2024 07:48:27 -0500
+X-MC-Unique: FBHrH_pdMsat5QBf9ecVqA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9B560380451B;
-	Sat, 10 Feb 2024 12:31:51 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 56419845DC0;
+	Sat, 10 Feb 2024 12:48:08 +0000 (UTC)
 Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.224.28])
-	by smtp.corp.redhat.com (Postfix) with SMTP id 13E2840C9444;
-	Sat, 10 Feb 2024 12:31:49 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with SMTP id 64580200B3BE;
+	Sat, 10 Feb 2024 12:48:09 +0000 (UTC)
 Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-	oleg@redhat.com; Sat, 10 Feb 2024 13:30:35 +0100 (CET)
-Date: Sat, 10 Feb 2024 13:30:33 +0100
+	oleg@redhat.com; Sat, 10 Feb 2024 13:47:10 +0100 (CET)
+Date: Sat, 10 Feb 2024 13:47:08 +0100
 From: Oleg Nesterov <oleg@redhat.com>
 To: Christian Brauner <brauner@kernel.org>
 Cc: Andy Lutomirski <luto@amacapital.net>,
@@ -65,7 +65,7 @@ Cc: Andy Lutomirski <luto@amacapital.net>,
 	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v2 2/2] pidfd: change pidfd_send_signal() to respect
  PIDFD_THREAD
-Message-ID: <20240210123033.GA27557@redhat.com>
+Message-ID: <20240210124708.GB27557@redhat.com>
 References: <20240209130620.GA8039@redhat.com>
  <20240209130650.GA8048@redhat.com>
  <20240209-stangen-feuerzeug-17c8662854c9@brauner>
@@ -73,6 +73,7 @@ References: <20240209130620.GA8039@redhat.com>
  <20240209-radeln-untrennbar-9d4ae05aa4cc@brauner>
  <20240209155644.GD3282@redhat.com>
  <20240210-abfinden-beimessen-2dbfea59b0da@brauner>
+ <20240210123033.GA27557@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -81,69 +82,75 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240210-abfinden-beimessen-2dbfea59b0da@brauner>
+In-Reply-To: <20240210123033.GA27557@redhat.com>
 User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.2
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.4
 
-Christian,
-
-Thanks again! the last 2 commits in vfs.pidfd look good to me.
-
-As for this patch, I am not sure I understand your concerns, and I
-have another concern, please see below.
-
-For the moment, please forget about PIDFD_THREAD.
-
-On 02/10, Christian Brauner wrote:
+On 02/10, Oleg Nesterov wrote:
 >
-> (1) kill(-1234) => kill process group with id 1234
-> (2) kill(0)     => kill process group of @current
+> On 02/10, Christian Brauner wrote:
+> >
+> > (1) kill(-1234) => kill process group with id 1234
+> > (2) kill(0)     => kill process group of @current
+> >
+> > which implementation wise is indicated by
+> >
+> > __kill_pgrp_info(..., pid ? find_vpid(-pid) ? task_pgrp(current))
+> >
+> > We're obviously not going to implement (2) as that doesn't really make a
+> > sense for pidfd_send_signal().
 >
-> which implementation wise is indicated by
+> Sure,
 >
-> __kill_pgrp_info(..., pid ? find_vpid(-pid) ? task_pgrp(current))
+> > But (1) is also wrong for pidfd_send_signal(). If we'd ever implement
+> > (1) it should be via pidfd_open(1234, PIDFD_PROCESS_GROUP).
 >
-> We're obviously not going to implement (2) as that doesn't really make a
-> sense for pidfd_send_signal().
+> Why do you think we need another flag for open() ?
+>
+> To me it looks fine if we allow to send the signal to pgrp if
+> flags & PIDFD_SIGNAL_PROCESS_GROUP.
+>
+> And pidfd_send_signal() can just do
+>
+> 	if (PIDFD_SIGNAL_THREAD_GROUP)
+> 		ret = __kill_pgrp_info(sig, kinfo, pid);
+> 	else
+> 		ret = kill_pid_info_type(...);
+>
+> (yes, yes, this needs tasklist, just a pseudo code to simpliy)
+>
+> Now lets recall about PIDFD_THREAD.
+>
+> If the target task is a group leader - there is no difference.
+>
+> If it is not a leader - then __kill_pgrp_info() will always return
+> -ESRCH, do_each_pid_task(PIDTYPE_PGID) won't find any task.
 
-Sure,
+To clarify, __kill_pgrp_info() should send the signal to pgrp
+identified by @pid, so it will return ESRCH if the target didn't
+do setpgid/etc.
 
-> But (1) is also wrong for pidfd_send_signal(). If we'd ever implement
-> (1) it should be via pidfd_open(1234, PIDFD_PROCESS_GROUP).
+> And personally I think this is all we need.
 
-Why do you think we need another flag for open() ?
+Yes. I don't think we should send a signal to task_pgrp(target).
 
-To me it looks fine if we allow to send the signal to pgrp if
-flags & PIDFD_SIGNAL_PROCESS_GROUP.
+And this matches sys_kill(). I mean,
 
-And pidfd_send_signal() can just do
+	pidfd = pidfd_open(1234);
+	pidfd_send_signal(pidfd, PIDFD_PROCESS_GROUP);
 
-	if (PIDFD_SIGNAL_THREAD_GROUP)
-		ret = __kill_pgrp_info(sig, kinfo, pid);
-	else
-		ret = kill_pid_info_type(...);
-		
-(yes, yes, this needs tasklist, just a pseudo code to simpliy)
+should act as kill(-1234).
 
-Now lets recall about PIDFD_THREAD.
-
-If the target task is a group leader - there is no difference.
-
-If it is not a leader - then __kill_pgrp_info() will always return
--ESRCH, do_each_pid_task(PIDTYPE_PGID) won't find any task.
-
-And personally I think this is all we need.
-
-------------------------------------------------------------------------------
-But if you want to make PIDFD_SIGNAL_THREAD_GROUP work even if the
-target task is not a leader, then yes, we need something like
-
-	task_pgrp(pid_task(pid, PIDTYPE_PID))
-
-like you did in the new kill_pgrp_info() helper in this patch.
-
-I won't argue, but do you think this makes a lot of sense?
-
-Oleg.
+> ------------------------------------------------------------------------------
+> But if you want to make PIDFD_SIGNAL_THREAD_GROUP work even if the
+> target task is not a leader, then yes, we need something like
+>
+> 	task_pgrp(pid_task(pid, PIDTYPE_PID))
+>
+> like you did in the new kill_pgrp_info() helper in this patch.
+>
+> I won't argue, but do you think this makes a lot of sense?
+>
+> Oleg.
 
 
