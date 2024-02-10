@@ -1,233 +1,149 @@
-Return-Path: <linux-api+bounces-930-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-931-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C19BC8503E1
-	for <lists+linux-api@lfdr.de>; Sat, 10 Feb 2024 11:23:24 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E07E850463
+	for <lists+linux-api@lfdr.de>; Sat, 10 Feb 2024 13:32:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9FE69B215D2
-	for <lists+linux-api@lfdr.de>; Sat, 10 Feb 2024 10:23:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 35FFE281803
+	for <lists+linux-api@lfdr.de>; Sat, 10 Feb 2024 12:32:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 286BC364A4;
-	Sat, 10 Feb 2024 10:23:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C369F46B8E;
+	Sat, 10 Feb 2024 12:31:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jAVZeQQH"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="AXReNp7G"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9ED03611E;
-	Sat, 10 Feb 2024 10:23:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26BDF20E4
+	for <linux-api@vger.kernel.org>; Sat, 10 Feb 2024 12:31:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707560597; cv=none; b=rfmlGfP7mv5eysK3yvYIXpMfCc7+H9aSQMZFCDhHjN/QK9vcTteQIEe58/UVXIEXk4eMR+sw3MRMTJmIbwT11j1cIi9Ay3NR4KhFPdHHC9+wPjIeXTeweIdTzPIoS1jWFPTaYYJVHIxTFS95lDLJilL+S9mqWshVDc9d2m74AOc=
+	t=1707568318; cv=none; b=Hy0fv2sf7xej1OUtx+Hq9hawQ7s+3hfraFOHAYDk8Qj3DhAJOdTvjP/ipqluGb03n+7NYGEgP3lHK4uv4bx8O06pe1rS7rCargLJfxtcq2b4krJyT2tl+QUQT/mktp5Q/BTSfxobwEMBQ+rh6YOrobFZXLXI/FZQu3YT7f5i6Og=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707560597; c=relaxed/simple;
-	bh=2NohwMntg56S0VFXTKPyYwyqPYjBkrLyO8gcG29B3Mo=;
+	s=arc-20240116; t=1707568318; c=relaxed/simple;
+	bh=b/+bunSHR5UhPdFTXfBKcRLs2qkDpn8Qrz7Q+Zf0Neg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DEoGw268O7YI9PiS3D1KksrMfqFYjkqV8tqtcD/05Y89VV2ZbOKI7PLgvlVcS86gqFODDXLro/l/DTSgTafsCWZ8Qhk7Rw7PPeiFHpqDwGRATlc6wHyWRhXKtGVVV9Y0FvZAi3MgTZGjyKh2JsdLCht5KzWbxez/dIn8xwEa07Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jAVZeQQH; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0F9CC433F1;
-	Sat, 10 Feb 2024 10:23:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707560596;
-	bh=2NohwMntg56S0VFXTKPyYwyqPYjBkrLyO8gcG29B3Mo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jAVZeQQH9UC1scU5hGFRc4k61xLYvTY2ARezjvcemJ6ZzbJmGtMcr6vgUGkVrTJxi
-	 iDf2FCglJ5/zZR67xDI4FArAJ40ISIVoeARw1vFWTLymmavKmpmxNQWyijhChhMO2S
-	 +ljePcFN6cyPiQVTpURFw0z4WSXvPpToAqoW3tovzWxY+QFzi2sOjK/jDDnVXogfk7
-	 G2LUErlmP3K7EQ79fgCfc9Le4BpFw7Wxhz5u1iA9DBYwaVWNrla8y8aFSpKtNqMy4J
-	 wOj7UBviwIvtJuHdfD9ftZcC8VjTEmug7ogVV5lOc35w65kMn8OnwlX2iOFbZWtNUd
-	 bJPbkYc1xhEUg==
-Date: Sat, 10 Feb 2024 11:23:12 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Oleg Nesterov <oleg@redhat.com>
-Cc: Andy Lutomirski <luto@amacapital.net>, 
-	"Eric W. Biederman" <ebiederm@xmission.com>, Tycho Andersen <tycho@tycho.pizza>, linux-api@vger.kernel.org, 
+	 Content-Type:Content-Disposition:In-Reply-To; b=RvfuV+3c0fL1222liOWND8UpxQkirLC6Bup8A4+ltOA7VrkahbvhChiL4RInwr/fCRRDWWYCqHf3z4PKWUg9pBXICsQ999OhoiSuHjjp/GNweooNFcQS2J0Br/YgxXfGVY97HpR7VLLIS7pe3xSh3cH4xndbeaPY1uHCbR5KdwI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=AXReNp7G; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1707568316;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rsa8Sa2RaRjXmbcIJ9/cp3lURU1N9XcuIpnY+VN8kcI=;
+	b=AXReNp7GN5C3BWNiOzedgxO5AcPjqEQzg5JXDGWoRX71UiqUNqCSA4NItOwGvlS2Eivn+5
+	m083+AV/XjCFvjioZ3FvR4QAXB/KPX2is3eFv1Xff+YSzOO+6H2ipqEUfKRsmgH2u4USSE
+	sEYLEVmsFHEpRS+9F0Z4WPElOTLNr1s=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-562-euPsEMJsOUOA3OZtIC3yHg-1; Sat,
+ 10 Feb 2024 07:31:52 -0500
+X-MC-Unique: euPsEMJsOUOA3OZtIC3yHg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9B560380451B;
+	Sat, 10 Feb 2024 12:31:51 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.224.28])
+	by smtp.corp.redhat.com (Postfix) with SMTP id 13E2840C9444;
+	Sat, 10 Feb 2024 12:31:49 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Sat, 10 Feb 2024 13:30:35 +0100 (CET)
+Date: Sat, 10 Feb 2024 13:30:33 +0100
+From: Oleg Nesterov <oleg@redhat.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Andy Lutomirski <luto@amacapital.net>,
+	"Eric W. Biederman" <ebiederm@xmission.com>,
+	Tycho Andersen <tycho@tycho.pizza>, linux-api@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v2 2/2] pidfd: change pidfd_send_signal() to respect
  PIDFD_THREAD
-Message-ID: <20240210-abfinden-beimessen-2dbfea59b0da@brauner>
+Message-ID: <20240210123033.GA27557@redhat.com>
 References: <20240209130620.GA8039@redhat.com>
  <20240209130650.GA8048@redhat.com>
  <20240209-stangen-feuerzeug-17c8662854c9@brauner>
  <20240209154305.GC3282@redhat.com>
  <20240209-radeln-untrennbar-9d4ae05aa4cc@brauner>
  <20240209155644.GD3282@redhat.com>
+ <20240210-abfinden-beimessen-2dbfea59b0da@brauner>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240209155644.GD3282@redhat.com>
+In-Reply-To: <20240210-abfinden-beimessen-2dbfea59b0da@brauner>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.2
 
-> and I forgot to mention, if you want to add PIDFD_SIGNAL_PRGP you can
-> look at __kill_pgrp_info().
+Christian,
 
-Yeah, I did that and there's a semantical twist in the old kill(2)
-system call that made me think:
+Thanks again! the last 2 commits in vfs.pidfd look good to me.
 
-(1) kill(-1234) => kill process group with id 1234
-(2) kill(0)     => kill process group of @current
+As for this patch, I am not sure I understand your concerns, and I
+have another concern, please see below.
 
-which implementation wise is indicated by
+For the moment, please forget about PIDFD_THREAD.
 
-__kill_pgrp_info(..., pid ? find_vpid(-pid) ? task_pgrp(current))
+On 02/10, Christian Brauner wrote:
+>
+> (1) kill(-1234) => kill process group with id 1234
+> (2) kill(0)     => kill process group of @current
+>
+> which implementation wise is indicated by
+>
+> __kill_pgrp_info(..., pid ? find_vpid(-pid) ? task_pgrp(current))
+>
+> We're obviously not going to implement (2) as that doesn't really make a
+> sense for pidfd_send_signal().
 
-We're obviously not going to implement (2) as that doesn't really make a
-sense for pidfd_send_signal().
+Sure,
 
-But (1) is also wrong for pidfd_send_signal(). If we'd ever implement
-(1) it should be via pidfd_open(1234, PIDFD_PROCESS_GROUP).
+> But (1) is also wrong for pidfd_send_signal(). If we'd ever implement
+> (1) it should be via pidfd_open(1234, PIDFD_PROCESS_GROUP).
 
-So if PIDFD_PROCESS_GROUP is set then we want to send a signal to the
-process group that @pidfd is in. Unless there's reasons we can't do
-this. I tried to draft this and what I have is a totally uncompiled
-draft.
+Why do you think we need another flag for open() ?
 
-I was unsure how best to cleanly express how to take the process group
-from the struct pid of that @pidfd. So I modeled it after how we do it
-for PIDTYPE_TGID.
+To me it looks fine if we allow to send the signal to pgrp if
+flags & PIDFD_SIGNAL_PROCESS_GROUP.
 
-From 8d886b07cc1b17cc6dd3a9ebf19c51212282b6f5 Mon Sep 17 00:00:00 2001
-From: Christian Brauner <brauner@kernel.org>
-Date: Fri, 9 Feb 2024 15:49:45 +0100
-Subject: [PATCH] [RFC] pidfd: allow to override signal scope in
- pidfd_send_signal()
+And pidfd_send_signal() can just do
 
-Right now we determine the scope of the signal based on the type of
-pidfd. There are use-cases where it's useful to override the scope of
-the signal. For example in [1]. Add flags to determine the scope of the
-signal:
+	if (PIDFD_SIGNAL_THREAD_GROUP)
+		ret = __kill_pgrp_info(sig, kinfo, pid);
+	else
+		ret = kill_pid_info_type(...);
+		
+(yes, yes, this needs tasklist, just a pseudo code to simpliy)
 
-(1) PIDFD_SIGNAL_THREAD: send signal to specific thread reference by @pidfd
-(2) PIDFD_SIGNAL_THREAD_GROUP: send signal to thread-group of @pidfd
-(2) PIDFD_SIGNAL_PROCESS_GROUP: send signal to process-group of @pidfd
+Now lets recall about PIDFD_THREAD.
 
-There's a semantical quirk in the old kill(2) system call that made me think:
+If the target task is a group leader - there is no difference.
 
-(1) kill(-1234) => kill process group with id 1234
-(2) kill(0)     => kill process group of @current
+If it is not a leader - then __kill_pgrp_info() will always return
+-ESRCH, do_each_pid_task(PIDTYPE_PGID) won't find any task.
 
-as indicated by
+And personally I think this is all we need.
 
-__kill_pgrp_info(..., pid ? find_vpid(-pid) ? task_pgrp(current))
+------------------------------------------------------------------------------
+But if you want to make PIDFD_SIGNAL_THREAD_GROUP work even if the
+target task is not a leader, then yes, we need something like
 
-We're obviously not going to implement (2) as that doesn't really make a
-lot of sense for pidfd_send_signal().
+	task_pgrp(pid_task(pid, PIDTYPE_PID))
 
-But (1) is also wrong for pidfd_send_signal(). If we'd ever implement
-(1) it should be via pidfd_open(..., PIDFD_PROCESS_GROUP).
+like you did in the new kill_pgrp_info() helper in this patch.
 
-Link: https://github.com/systemd/systemd/issues/31093 [1]
-Signed-off-by: Christian Brauner <brauner@kernel.org>
----
- include/uapi/linux/pidfd.h |  5 +++++
- kernel/signal.c            | 46 ++++++++++++++++++++++++++++++++++----
- 2 files changed, 47 insertions(+), 4 deletions(-)
+I won't argue, but do you think this makes a lot of sense?
 
-diff --git a/include/uapi/linux/pidfd.h b/include/uapi/linux/pidfd.h
-index 2e6461459877..72ec000a97cd 100644
---- a/include/uapi/linux/pidfd.h
-+++ b/include/uapi/linux/pidfd.h
-@@ -10,4 +10,9 @@
- #define PIDFD_NONBLOCK	O_NONBLOCK
- #define PIDFD_THREAD	O_EXCL
- 
-+/* Flags for pidfd_send_signal(). */
-+#define PIDFD_SIGNAL_THREAD		(1UL << 0)
-+#define PIDFD_SIGNAL_THREAD_GROUP	(1UL << 1)
-+#define PIDFD_SIGNAL_PROCESS_GROUP	(1UL << 2)
-+
- #endif /* _UAPI_LINUX_PIDFD_H */
-diff --git a/kernel/signal.c b/kernel/signal.c
-index 8b8169623850..f0f9a5a822b4 100644
---- a/kernel/signal.c
-+++ b/kernel/signal.c
-@@ -3873,6 +3873,23 @@ static struct pid *pidfd_to_pid(const struct file *file)
- 	return tgid_pidfd_to_pid(file);
- }
- 
-+static int kill_pgrp_info(int sig, struct kernel_siginfo *info, struct pid *pid)
-+{
-+	struct task_struct *p;
-+	int ret = -ESRCH;
-+
-+	read_lock(&tasklist_lock);
-+	p = pid_task(pid, PIDTYPE_PID);
-+	if (p)
-+		ret = __kill_pgrp_info(sig, info, task_pgrp(p));
-+	read_unlock(&tasklist_lock);
-+	return ret;
-+}
-+
-+#define PIDFD_SEND_SIGNAL_FLAGS                            \
-+	(PIDFD_SIGNAL_THREAD | PIDFD_SIGNAL_THREAD_GROUP | \
-+	 PIDFD_SIGNAL_PROCESS_GROUP)
-+
- /**
-  * sys_pidfd_send_signal - Signal a process through a pidfd
-  * @pidfd:  file descriptor of the process
-@@ -3897,7 +3914,11 @@ SYSCALL_DEFINE4(pidfd_send_signal, int, pidfd, int, sig,
- 	enum pid_type type;
- 
- 	/* Enforce flags be set to 0 until we add an extension. */
--	if (flags)
-+	if (flags & ~PIDFD_SEND_SIGNAL_FLAGS)
-+		return -EINVAL;
-+
-+	/* Ensure that only a single signal scope determining flag is set. */
-+	if (hweight32(flags & PIDFD_SEND_SIGNAL_FLAGS) > 1)
- 		return -EINVAL;
- 
- 	f = fdget(pidfd);
-@@ -3915,10 +3936,24 @@ SYSCALL_DEFINE4(pidfd_send_signal, int, pidfd, int, sig,
- 	if (!access_pidfd_pidns(pid))
- 		goto err;
- 
--	if (f.file->f_flags & PIDFD_THREAD)
-+	switch (flags) {
-+	case 0:
-+		/* Infer scope from the type of pidfd. */
-+		if (f.file->f_flags & PIDFD_THREAD)
-+			type = PIDTYPE_PID;
-+		else
-+			type = PIDTYPE_TGID;
-+		break;
-+	case PIDFD_SIGNAL_THREAD:
- 		type = PIDTYPE_PID;
--	else
-+		break;
-+	case PIDFD_SIGNAL_THREAD_GROUP:
- 		type = PIDTYPE_TGID;
-+		break;
-+	case PIDFD_SIGNAL_PROCESS_GROUP:
-+		type = PIDTYPE_PGID;
-+		break;
-+	}
- 
- 	if (info) {
- 		ret = copy_siginfo_from_user_any(&kinfo, info);
-@@ -3938,7 +3973,10 @@ SYSCALL_DEFINE4(pidfd_send_signal, int, pidfd, int, sig,
- 		prepare_kill_siginfo(sig, &kinfo, type);
- 	}
- 
--	ret = kill_pid_info_type(sig, &kinfo, pid, type);
-+	if (type == PIDFD_SIGNAL_PROCESS_GROUP)
-+		ret = kill_pgrp_info(sig, &kinfo, pid);
-+	else
-+		ret = kill_pid_info_type(sig, &kinfo, pid, type);
- err:
- 	fdput(f);
- 	return ret;
--- 
-2.43.0
-
-
+Oleg.
 
 
