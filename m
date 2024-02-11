@@ -1,110 +1,105 @@
-Return-Path: <linux-api+bounces-937-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-938-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5E6A8505B5
-	for <lists+linux-api@lfdr.de>; Sat, 10 Feb 2024 18:23:16 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2355850855
+	for <lists+linux-api@lfdr.de>; Sun, 11 Feb 2024 10:36:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 765D8B2281F
-	for <lists+linux-api@lfdr.de>; Sat, 10 Feb 2024 17:23:14 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7BD40B2173F
+	for <lists+linux-api@lfdr.de>; Sun, 11 Feb 2024 09:36:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E809B5D473;
-	Sat, 10 Feb 2024 17:22:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F77A59B52;
+	Sun, 11 Feb 2024 09:35:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u8K4oQ3I"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="r4A4yBvs"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEDC45380C;
-	Sat, 10 Feb 2024 17:22:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEAE059162
+	for <linux-api@vger.kernel.org>; Sun, 11 Feb 2024 09:35:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707585779; cv=none; b=eloccX4hyO2IMCWWpnFGAdRXDttyjwLYA7HO42vN9NHL6hPdfd/qHP2AwLRtDXAW+BwA4cpypw2vWYlpOAXzBtzvuvrOo1UhH0PkeocRJwbuHeI5L3gfdfOUQOj4vTmG5Z2v9gc64p3mOIUE4Qfyf0sOmKUm55fJNiv4w363OJw=
+	t=1707644150; cv=none; b=MzSFpgChxPGmmmoLLLI7rIqMNYUk7z5dvylpQcmXQl8kJc5THvbpoziqqE0w8WvqHgokbazv+WRon0hLhKDR2x9z6388BHvvDk97jA7K1iCSaXiKJRQ0BTlaXgRVREvXO+RmXT+UY1oJhBFKXJCOnf7bSyirRVs+OPY2F6xNEik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707585779; c=relaxed/simple;
-	bh=wU4lyT7QKhQe201ARBPkcpqXar4YYZc2vEKe20J8mTM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=roBLM+mWbd+yZiABnYUUS6jTlJ1qJDmBZ+oVSwe0b8eRf2ByP5NGVKzJbOBmvo87o1xsvM1YYrI0LA5rFL9MeAy6q5L+jXQqjglb/OoYiym+PyLUrVorR+byuH/rdt0NMsvtnr5Xi6WC4Liv+nGMAdYU5+Gv0URTbJqGHMxCvQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u8K4oQ3I; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B151C433F1;
-	Sat, 10 Feb 2024 17:22:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707585779;
-	bh=wU4lyT7QKhQe201ARBPkcpqXar4YYZc2vEKe20J8mTM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=u8K4oQ3ICJ5RGjRrS9mJ39grWPbL69RlywqjExMvsbQlk1hQNFmYoI/3R/Vne3ETW
-	 1cdBOBp1C52muk+MysV7vN2XQ+HIfN3InFYrBKoboHl+qGQxweQco8xq8P/9Sit1cj
-	 kOoZp3W8l1QyYvOHEFxgu7IkNpy02K552t1pYvJLq2SFaMgTGCDAI4ZRjB3AD2ON2g
-	 3gg7DkZ4ZXQ6vnaD2/Lrwq36W/WNM9AJF2US9OU7axaLrpIqPGW9+v4xE3Yo7pmggB
-	 rhwGZZUAKxjVCZypXpXsILNaQ8/15+Y6Q9xzIPzeIfvgSw8gzPBAzYe7KBVaYxhyfE
-	 cOvFQQYCuq+pA==
-Date: Sat, 10 Feb 2024 18:22:54 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Oleg Nesterov <oleg@redhat.com>
-Cc: Andy Lutomirski <luto@amacapital.net>, 
-	"Eric W. Biederman" <ebiederm@xmission.com>, Tycho Andersen <tycho@tycho.pizza>, linux-api@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] pidfd: change pidfd_send_signal() to respect
- PIDFD_THREAD
-Message-ID: <20240210-gemolken-gasteltern-2ca46a9d7fa2@brauner>
-References: <20240209-stangen-feuerzeug-17c8662854c9@brauner>
- <20240209154305.GC3282@redhat.com>
- <20240209-radeln-untrennbar-9d4ae05aa4cc@brauner>
- <20240209155644.GD3282@redhat.com>
- <20240210-abfinden-beimessen-2dbfea59b0da@brauner>
- <20240210123033.GA27557@redhat.com>
- <20240210-dackel-getan-619c70fefa62@brauner>
- <20240210131518.GC27557@redhat.com>
- <20240210-chihuahua-hinzog-3945b6abd44a@brauner>
- <20240210165133.GD27557@redhat.com>
+	s=arc-20240116; t=1707644150; c=relaxed/simple;
+	bh=TH4wZS24qpSRB2owdnOAq4iTMgyZlVFrxUPzmwbgadQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uiR2wzEgBM/DNn6eYDw8EKFWH6x2k7V1G1FvVpBJUVvNfjkf1oFxLfHtq8kPM+ZcMcUDiWUaK9BkfJWz01Et4k9jrp1xjTrfra69WUdMYSvRBBb2k4cqe/QodaDYjZn8E5E08nrUyj70/P9mHAbo3EZMi7P0/oQfS9GOpX+7QEQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=r4A4yBvs; arc=none smtp.client-ip=209.85.167.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5115f93fe57so7780e87.0
+        for <linux-api@vger.kernel.org>; Sun, 11 Feb 2024 01:35:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1707644145; x=1708248945; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TH4wZS24qpSRB2owdnOAq4iTMgyZlVFrxUPzmwbgadQ=;
+        b=r4A4yBvsjLYgXqrUYk1g7+Hha9nknbmYFOOeXcOLFRvu6pS3mogduSNZrTOx180v3k
+         +CBxzg5z0g72d/44Paf7+pkxBsWSxBoTSNTpcDDbMV4/hwiU6TkwnZMpTrueyki8l2/Y
+         24tAV8zVFYRvhRkQmG2ZJpZDgAE9+MqhgwnQxex/awC8es1xGI5PEqLQeZVzIP2ZGt1e
+         DGuaMMqcmnKrDl9Jn3G9cFa7+4G6R6ikmf/R6aQ6siv32eHTTb20w6NaQmDMAoBmQXmi
+         6ixjUo/J9URQ/JtWis+tLl8OtME5CUGvWDAG5QH1HGBxMc5EgRAUWmK28pWWWhEu9C98
+         hOhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707644145; x=1708248945;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TH4wZS24qpSRB2owdnOAq4iTMgyZlVFrxUPzmwbgadQ=;
+        b=TtxHdz0I4c92WSL2DofQ9ToHvBN44RxqRV00m6gCj0gLcP1FPFs70zW9b3Tsy9kjK1
+         qF7DEa5Z/hF8/xREK2+MIZhQrbN9t0GKURlb0MXZZkhjBNVuqQpf4ix7QeNSyQN0y7Jv
+         25O13n0DNINYUtt4lNTnIGmo7EtXY6rhkvMU/zIG4QyvQi6WCElxt7FL9qI5d6q7rOIS
+         Jer5/qyCPfJjxwG0TEuhuV2lQFV7QyIepOBzUW4MseHOL2Yb1MrRh3sm7YnMxk7zzodH
+         mopVB6UgMofOoVwqClWXKgVCg6jkIJkcYR/nf+mESrPf86+/0ew1EZDkuYRX6Qr0D3t3
+         66Hw==
+X-Gm-Message-State: AOJu0YyNIoWCTx6FDhwd4MY2hebzvhXNi4RQ4U0aq/6UBS9GWrBr2QJP
+	mCRzWEObIbraJuH9EhTnHvRPxjUPHoUEsw2dtZ0HFNpQgb9N5gVLrmMyLMrjtWvOt6nPwkBcYag
+	3m47Q6jIbaHWUXKzZvkdyNc62sSVfFJs3B4bs
+X-Google-Smtp-Source: AGHT+IH6GSO5X0Nc2TMuWJvjnMysLYSOkmwizWQnAr5k97RFt+AZfM1Nt+KJVr8tFK+KmAahy67pV89IjCQH61jhG4E=
+X-Received: by 2002:ac2:5e8e:0:b0:511:7373:3ca8 with SMTP id
+ b14-20020ac25e8e000000b0051173733ca8mr54923lfq.3.1707644144566; Sun, 11 Feb
+ 2024 01:35:44 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240210165133.GD27557@redhat.com>
+References: <20240209211528.51234-1-jdamato@fastly.com> <20240209211528.51234-2-jdamato@fastly.com>
+In-Reply-To: <20240209211528.51234-2-jdamato@fastly.com>
+From: Eric Dumazet <edumazet@google.com>
+Date: Sun, 11 Feb 2024 10:35:31 +0100
+Message-ID: <CANn89i+fBA1EQJdcgiwatcX4bdW0DXCEoHQC7ps-TboCt-p5hQ@mail.gmail.com>
+Subject: Re: [PATCH net-next v7 1/4] eventpoll: support busy poll per epoll instance
+To: Joe Damato <jdamato@fastly.com>
+Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+	chuck.lever@oracle.com, jlayton@kernel.org, linux-api@vger.kernel.org, 
+	brauner@kernel.org, davem@davemloft.net, alexander.duyck@gmail.com, 
+	sridhar.samudrala@intel.com, kuba@kernel.org, willemdebruijn.kernel@gmail.com, 
+	weiwan@google.com, David.Laight@aculab.com, arnd@arndb.de, sdf@google.com, 
+	amritha.nambiar@intel.com, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Jan Kara <jack@suse.cz>, 
+	"open list:FILESYSTEMS (VFS and infrastructure)" <linux-fsdevel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Feb 10, 2024 at 05:51:33PM +0100, Oleg Nesterov wrote:
-> On 02/10, Christian Brauner wrote:
-> >
-> > On Sat, Feb 10, 2024 at 02:15:18PM +0100, Oleg Nesterov wrote:
-> > > On 02/10, Christian Brauner wrote:
-> > > >
-> > > > The question is what is more useful for userspace when they do:
-> > > > pidfd_send_signal(1234, PIDFD_SEND_PROCESS_GROUP)?
-> > > >
-> > > > (1) They either mean to signal a process group that is headed by 1234.
-> > >
-> > > Yes, this is what I had in mind, see also another email from me.
-> > > Simple, clear, and matches kill(-1234).
-> >
-> > I went for a walk and kept thinking about this and I agree with you.
-> > It will require that 1234 will be a process group leader but I think
-> > that this is ok to require that.
-> 
-> Yes... but I am starting to understand why you mentioned the new
-> open PIDFD_PROCESS_GROUP flag... perhaps we can do something like
-> this later, but this needs more thinking.
-> 
-> > +	if (type == PIDFD_SIGNAL_PROCESS_GROUP)
-> > +		ret = kill_pgrp_info(sig, &kinfo, pid);
-> 
-> I guess you meant
-> 
-> 	if (type == PIDTYPE_PGID)
-> 
-> other than that,
+On Fri, Feb 9, 2024 at 10:15=E2=80=AFPM Joe Damato <jdamato@fastly.com> wro=
+te:
+>
+> Allow busy polling on a per-epoll context basis. The per-epoll context
+> usec timeout value is preferred, but the pre-existing system wide sysctl
+> value is still supported if it specified.
+>
+> busy_poll_usecs is a u32, but in a follow up patch the ioctl provided to
+> the user only allows setting a value from 0 to S32_MAX.
+>
+> Signed-off-by: Joe Damato <jdamato@fastly.com>
+> Acked-by: Stanislav Fomichev <sdf@google.com>
 
-Bahaa, yes of course.
-
-> 
-> Reviewed-by: Oleg Nesterov <oleg@redhat.com>
-
-Thanks!
+Reviewed-by: Eric Dumazet <edumazet@google.com>
 
