@@ -1,117 +1,141 @@
-Return-Path: <linux-api+bounces-946-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-947-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D54985290E
-	for <lists+linux-api@lfdr.de>; Tue, 13 Feb 2024 07:34:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62B5D853A44
+	for <lists+linux-api@lfdr.de>; Tue, 13 Feb 2024 19:52:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B62A4B214F0
-	for <lists+linux-api@lfdr.de>; Tue, 13 Feb 2024 06:34:39 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B5252B2857F
+	for <lists+linux-api@lfdr.de>; Tue, 13 Feb 2024 18:52:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14B3C13AD4;
-	Tue, 13 Feb 2024 06:34:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F84810A26;
+	Tue, 13 Feb 2024 18:51:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="2+ovmIoj"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UzjSO5Pa"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57D931426A
-	for <linux-api@vger.kernel.org>; Tue, 13 Feb 2024 06:34:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5DEF6087F;
+	Tue, 13 Feb 2024 18:51:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707806075; cv=none; b=qDRXUSGexze9enOGgVA84tzWT0Yd+QxAya1b2yXHBIWtQzGhKVCMyB/hDpZ8nH00Be70KuXMHP75kqlk8kIDvco3zeuJdn3R8i58MrgKGyVzhu3fjNua7PpuaN0cvfq1JnBV9rKf2SqENjKgYc3SuHughYp26KWgUZcC4MzE2DU=
+	t=1707850267; cv=none; b=orwnITpiSeIY/n15Ujl4mQ4KjleXWMC882l7wxyuAFy6jkWYuqXcc7YROo/91x2JD4ZScsxfuq3NGHSIJ/qOrsKnnU/d/BzukuoZ4xSmhpGJAOd0ITo9AR1QK9CatRZnOz3trM5U2jVHN2voWohLiE2m7nr5GXjoOTpGDTyjysg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707806075; c=relaxed/simple;
-	bh=mKruLP81k11KOUoI6CLV7eaQ8XK+33pFP3PO6J0iJaI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=a1mI04a5raEGaqzoeFAs80zWhwWwTYAATufPTQ2lBt3IHO4JU2UD9x60mYf9XoXz77tfAU7RnYTihAKyHHMIxS+HoR4y8OocJKMf/UY/zTgEUrIIMsO6jMUlj3RGOo+qXa9i0vC/dfpgR859Y6YO2uH1eGO6XatUEEB7rLWCPTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=2+ovmIoj; arc=none smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-56101dee221so4611a12.1
-        for <linux-api@vger.kernel.org>; Mon, 12 Feb 2024 22:34:33 -0800 (PST)
+	s=arc-20240116; t=1707850267; c=relaxed/simple;
+	bh=jeWKaG7vs09dK29mGycWBK7NeH7Y5V4KDjtQm2EvQs0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GfdMdFBhZ1WVOebsRDfKR7tbJHoqdxWBb1SODoKGd/Vm0dhh4Zx/dFfrgmq3lSfuDLhUsrI+xLTje7J0PScs2v9gweH4pHUSQ7Sc/b5M1tGE0DoX5KLk++EEPrzYCeiVBX2vluuzkl+Zd5pd5KJ+OkW/iTsLFu4XhAyncqyPrIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UzjSO5Pa; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-33b189ae5e8so2059417f8f.2;
+        Tue, 13 Feb 2024 10:51:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1707806071; x=1708410871; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WIm9WdyKzo3v62kbxut9xYgCk+tYqEBgc0eUHAV5Zlg=;
-        b=2+ovmIoju8lmDNJlrpfYfP087VESODXAiSkGrZteWzarRhwU4BwIFyCIQ7ikikNqrY
-         Ndy/coF8B0HoiG6QWXZrAWghrZ699IobY09TzGEO9dVqYbgd7+WWt0fLQgESL5tt04DG
-         EP3+ywXjwtoXdJ4J+mAVmG1CpAEvSDF45hofnGrdUlYB9vj2o4wQKsyAX7EcYNrv/zcG
-         fGJmsGkl+yBCcaieOzkton3VVKB1sp56irtmNuJDBH1Om+qnNJ9yc517ml7CP8xp2gFK
-         5+swdJD97vbtpzSyGtlclxQj07YHkFkjhkjgId3qXJMSDVZtGjazMp2iEgIrucxTo50Q
-         +MlQ==
+        d=gmail.com; s=20230601; t=1707850264; x=1708455064; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=VZSu/ICCwgH/MzK/59qpKGnX2HpFwqdrjeqh9wkkz7E=;
+        b=UzjSO5Pay3+O0KvU6NAv44EN5wrL5MdNFK7RXFYQ0S8VYVqTLsHxP1IGIAD8P7Whps
+         XXgevXtQ1AwPbTaEnChPf47l/pH6+sn6QgcA1YVgrn+/csuhQnJ+27jS2hSgL757sEIU
+         p9yA56ehE2gZweVsezfyE2/uXHikrUMXCJx46CIP7E27kG97vFuHdZexLNf9BdkhkN6B
+         OZz0LgWNC8tmSAB5w6r2wxxlikc519k5guYj/gZYrOR49PLBcMRFZb91oTPDzLaXCoQi
+         dU8v0wbYd8At8Rx4SF8cUYlt+oUirNw4Y29WNI6VY/OOoGve27XsF2VzC06vO4VxNANd
+         jQAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707806071; x=1708410871;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WIm9WdyKzo3v62kbxut9xYgCk+tYqEBgc0eUHAV5Zlg=;
-        b=d3332AEWbqQhGYrORUpn5CfNJKdqyp+aWz0pp9o4kib0qygrX1cZ/AjdN7xyOCrjDE
-         XAoqMF6gIQrx62aUPJ6ga2svvl8F4L0F7lJ90If+FKp7BGOkZTed9AjO4MfNcnO/Nd9I
-         W5kkOjiXxULBGZkXZptgrts7tOJUQnGtstW+ujD6up2MaIFRU5m0XieH1SdtJjAkwe81
-         jyzqPdpXl03y5lZFkWNk+Iieg3mjhqjqrgMkp8Ad+uIJLkuaJf5BjTvE5GVbcBZ8M9ko
-         GmSdaWyksx8y0Lh7KJLf73vfgks3ctge5uhPx5dcQs2oS8ERdEhvwnvyTwZEAveu7twf
-         4pgg==
-X-Forwarded-Encrypted: i=1; AJvYcCWJ6ylZkZbySqqS2WPyY0UHhZXHKiExHZBzVIWI+4R3wxb9pv233lTkHv3+KI8sM6I/JwtsPHFUIqZihK0puqE3S1DRtMUiAlv6
-X-Gm-Message-State: AOJu0Yz33whSBAkIC9Z/HsSrd2hdUQGCNrJlONObzPPr4iAWx0i7EGNX
-	r48pcKeowjDAttl1faKLzANqwPJDkhmERgQ1fw4ekpRhymqsO6c6DCW/M9OWVANLazWW9nl63Fr
-	6xDB3DKvTOzUcL4h+lJa+eW5v7jJqi5fjkJrZ
-X-Google-Smtp-Source: AGHT+IF/wXpV/blHGlNxQbtZJNK0epc6JpPwR38cJIbefYqx2cTJy1wPy/M8ipB1ttLExylgcqf+vmoP6JozNIHit60=
-X-Received: by 2002:a50:bae9:0:b0:560:2a1:44fc with SMTP id
- x96-20020a50bae9000000b0056002a144fcmr42153ede.1.1707806071396; Mon, 12 Feb
- 2024 22:34:31 -0800 (PST)
+        d=1e100.net; s=20230601; t=1707850264; x=1708455064;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VZSu/ICCwgH/MzK/59qpKGnX2HpFwqdrjeqh9wkkz7E=;
+        b=HS/dyugD9OUZIzGSeftA2dnU8RX5I7APogWgGXQ4Ko5K78j8aViiBQcd47gPnEmi48
+         ALNwAfyuavaKIPgF9qedyHkY005bUSTodK6Hjy+wwuWMbCqYp1HvjknCocKsFSPuXK27
+         vgcBpz0F9zZdaj9RCHj1J/XUcW9XewIiwbSoj/YXKNnj6ocoDIiMVgLsqZPpFFtDj5LM
+         iKQL+po8WmOL3FGlmlyOL2ouBXlr8MnIkGnFWh06fooGT6BSf39egF8Bs6jFg8mlCmVr
+         63vLfGLgfEJJmvRHene/jEtjYi4fu06InlbGe739jQTz8oVvcKHoXo7/AJH0CNV1V1+M
+         NWvg==
+X-Forwarded-Encrypted: i=1; AJvYcCUeS7ftFbG3+S6TG6YRUryxs5WLFHeu1L5HuUTXKppCp8K/wMVzZM25skNcXfkjrAtzuX4yIDJ3P2apv4Fdmz3uxxPlvzqgTvFJ5u4xy0vNGeWawozsFs0Nf+mTVmfFmULkIaAK7y6uAYU1gAHtwNhLF8Dm8XwVlzSZnCJph0bq2TfXhA==
+X-Gm-Message-State: AOJu0YwpN6Jn4pnSUVzi/FAsRl/20RWItXFc/5vUng48YOpaz9AiwUrp
+	m76umfB11TCHOV6PRpJ1sgn9KaWkB9If2w5NIfcNzLWsazQ94Mg=
+X-Google-Smtp-Source: AGHT+IG0G2DEzT2VVZoK3Ur9Db+zaKrR7asWSUiFE+IhNY+2eRdo3M5XI8ZHWzY4YMnBkLjtPRZSiQ==
+X-Received: by 2002:a5d:5143:0:b0:33c:d5a7:4fc with SMTP id u3-20020a5d5143000000b0033cd5a704fcmr126938wrt.16.1707850263837;
+        Tue, 13 Feb 2024 10:51:03 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVdWhlPicAlD80n1REmmnyM41Vxu9NbVAefRMubI/Mae9u8O2OkMFk6XQbd4ZfvDm6Va8tXFmGmYcPcwfefiYvg2PcwSGqStdmz55Is7vqjWps15xZhGuaBqlp/seoGUP3u47oqX4NIy1rbguTbKeH/VJd+PiEQIz2xpZcx4Er/BJ/f5647vYjL7OuDq2H1UXHelOuMORrC/08ImM5prPbDSW/Vl87TC6pkL+7CSw+0BePmnQYxRVJqbL+NXWtlkka1oCOQnV2M+eNAD0Dmpl4+FTjQt0mPHfYlUJzZxhqDqzHSBphi49Qg0di1VXrTgA/EnuuJoh4IvlgiSIM/OH2750HczDNW4VWRhbjE/D9FPZLRseGofHElYGO62mF+xzxLvXE=
+Received: from p183 ([46.53.249.38])
+        by smtp.gmail.com with ESMTPSA id dv5-20020a0560000d8500b0033b483d1abcsm10226994wrb.53.2024.02.13.10.51.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Feb 2024 10:51:03 -0800 (PST)
+Date: Tue, 13 Feb 2024 21:51:01 +0300
+From: Alexey Dobriyan <adobriyan@gmail.com>
+To: Kees Cook <keescook@chromium.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Florian Weimer <fweimer@redhat.com>, linux-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+	x86@kernel.org, Eric Biederman <ebiederm@xmission.com>,
+	linux-mm@kvack.org
+Subject: Re: [PATCH v4] ELF: AT_PAGE_SHIFT_MASK -- supply userspace with
+ available page shifts
+Message-ID: <54774e70-1e94-44f5-b318-fdfd5115041d@p183>
+References: <ecb049aa-bcac-45c7-bbb1-4612d094935a@p183>
+ <202402050445.0331B94A73@keescook>
+ <acd02481-ca2e-412a-8c6b-d9dff1345139@p183>
+ <202402091625.4DF63CDD0B@keescook>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240213061652.6342-1-jdamato@fastly.com> <20240213061652.6342-5-jdamato@fastly.com>
-In-Reply-To: <20240213061652.6342-5-jdamato@fastly.com>
-From: Eric Dumazet <edumazet@google.com>
-Date: Tue, 13 Feb 2024 07:34:18 +0100
-Message-ID: <CANn89i+JQdR9-X_mEfifSAGGxqJaWz+hzWcUjScNCz5zOA1yLA@mail.gmail.com>
-Subject: Re: [PATCH net-next v8 4/4] eventpoll: Add epoll ioctl for epoll_params
-To: Joe Damato <jdamato@fastly.com>
-Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
-	chuck.lever@oracle.com, jlayton@kernel.org, linux-api@vger.kernel.org, 
-	brauner@kernel.org, davem@davemloft.net, alexander.duyck@gmail.com, 
-	sridhar.samudrala@intel.com, kuba@kernel.org, willemdebruijn.kernel@gmail.com, 
-	weiwan@google.com, David.Laight@aculab.com, arnd@arndb.de, sdf@google.com, 
-	amritha.nambiar@intel.com, Jiri Slaby <jirislaby@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
-	Michael Ellerman <mpe@ellerman.id.au>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Nathan Lynch <nathanl@linux.ibm.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Julien Panis <jpanis@baylibre.com>, Steve French <stfrench@microsoft.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, 
-	"open list:FILESYSTEMS (VFS and infrastructure)" <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <202402091625.4DF63CDD0B@keescook>
 
-On Tue, Feb 13, 2024 at 7:17=E2=80=AFAM Joe Damato <jdamato@fastly.com> wro=
-te:
->
-> Add an ioctl for getting and setting epoll_params. User programs can use
-> this ioctl to get and set the busy poll usec time, packet budget, and
-> prefer busy poll params for a specific epoll context.
->
-> Parameters are limited:
->   - busy_poll_usecs is limited to <=3D s32_max
->   - busy_poll_budget is limited to <=3D NAPI_POLL_WEIGHT by unprivileged
->     users (!capable(CAP_NET_ADMIN))
->   - prefer_busy_poll must be 0 or 1
->   - __pad must be 0
->
-> Signed-off-by: Joe Damato <jdamato@fastly.com>
-> Acked-by: Stanislav Fomichev <sdf@google.com>
-> Reviewed-by: Jiri Slaby <jirislaby@kernel.org>
+On Fri, Feb 09, 2024 at 04:41:36PM -0800, Kees Cook wrote:
+> On Fri, Feb 09, 2024 at 03:30:37PM +0300, Alexey Dobriyan wrote:
+> > On Mon, Feb 05, 2024 at 04:48:08AM -0800, Kees Cook wrote:
+> > > On Mon, Feb 05, 2024 at 12:51:43PM +0300, Alexey Dobriyan wrote:
+> > > > +#define ARCH_AT_PAGE_SHIFT_MASK					\
+> > > > +	do {							\
+> > > > +		u32 val = 1 << 12;				\
+> > > > +		if (boot_cpu_has(X86_FEATURE_PSE)) {		\
+> > > > +			val |= 1 << 21;				\
+> > > > +		}						\
+> > > > +		if (boot_cpu_has(X86_FEATURE_GBPAGES)) {	\
+> > > > +			val |= 1 << 30;				\
+> > > > +		}						\
+> > > 
+> > > Can we use something besides literal "12", "21", and "30" values here?
+> > 
+> > Ehh, no, why? Inside x86_64 the page shifts are very specific numbers,
+> > they won't change.
+> 
+> Well, it's nicer to have meaningful words to describe these things.
 
-Reviewed-by: Eric Dumazet <edumazet@google.com>
+Not really. Inside specific arch page shifts are fixed, so using names
+is just more macros one need to remember.
 
-Thanks !
+If I were to invent names (which I wouldn't), the best names are
+
+	PAGE_SHIFT
+	PAGE_SHIFT2
+	PAGE_SHIFT3
+	...
+
+with PAGE_SHIFT2, PAGE_SHIFT3 being optional macros if arch doesn't support
+multiple page sizes.
+
+> In fact, PAGE_SHIFT already exists for 12, and HPAGE_SHIFT already exists
+> for 21. Please use those, and add another, perhaps GBPAGE_SHIFT, for 30.
+
+HPAGE_SHIFT is bad name, H doesn't describe anything unless arch is
+known. Hugepages is marketing name. If GBPAGE_SHIFT is good name,
+then HPAGE_SHIFT is bad name, it should've been MBPAGE_SHIFT, which
+wrong because it is 2 MiB not 1 MiB.
+
+BTW parisc has REAL_HPAGE_SHIFT !
 
