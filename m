@@ -1,108 +1,131 @@
-Return-Path: <linux-api+bounces-949-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-950-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AC618547C7
-	for <lists+linux-api@lfdr.de>; Wed, 14 Feb 2024 12:10:35 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95BA085495B
+	for <lists+linux-api@lfdr.de>; Wed, 14 Feb 2024 13:39:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EFF8BB21196
-	for <lists+linux-api@lfdr.de>; Wed, 14 Feb 2024 11:10:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C91A91C22C53
+	for <lists+linux-api@lfdr.de>; Wed, 14 Feb 2024 12:39:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 131B918E2F;
-	Wed, 14 Feb 2024 11:10:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C336535D7;
+	Wed, 14 Feb 2024 12:38:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E05J9c6z"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DB4QgFFC"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1AA718B14;
-	Wed, 14 Feb 2024 11:10:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65D6553E18
+	for <linux-api@vger.kernel.org>; Wed, 14 Feb 2024 12:38:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707909027; cv=none; b=h+LOgeECfT/S/RdudhvH4HqCQ2pXuTGrlBR1wgMw1XpWCZl2uERVrZPpPxP34yM+7ad8JhS/q03Vong6e8nUTbVhh/q/jF3xmhcKyUE7n+6aXGYvvgVMHbJrNpaAKNnUPmllWaUUUBUcIgXinKizfVef78yb/TTEylhLEmIbnHI=
+	t=1707914304; cv=none; b=k+jKLF8zJg7U7Fw/ajcQppE+SlYDDewCf6fAgTFnyN+tJrBXYv4q1qYjVnyqrLTgYid0fQRudUzY0QaA/V92snm/BwIVuNTIIh30qQ7uuXjR1MWaypxDWr+sfcAkcEcwmJ5mH8akOWjLFzEtHaVpIDgug0G1W1G67eMILLWB3I0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707909027; c=relaxed/simple;
-	bh=/N+Tr5D1cCwdzGyVTjVobKhxOLKQhp7GUjHGGqZReHw=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=KsHRzbf/oHXiwiHqDhBYnc0jcfgQyRyWjUKDPq6+lC9CKoO1gWA1kAenwRas7srcnvMDwSE8wATRQRbPDW/AwL6UIMOlmuS5ZcsDHYf7ZI7kKMAFw3W3QnXu892+IKpAQdG5CDrTmuZvWSU5NSAfl5+BcU8S20TkSqs2Qv30fTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E05J9c6z; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 3D530C433F1;
-	Wed, 14 Feb 2024 11:10:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707909026;
-	bh=/N+Tr5D1cCwdzGyVTjVobKhxOLKQhp7GUjHGGqZReHw=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=E05J9c6zjy/3kPry6R6UbtObeLdt6ciRvZaRUE8FGcM7/dCIRGfvgNEgLfQLk1+SA
-	 Z9F+GkB8OF2iKgwKw8hZhxz0+yOMMnjlJQMmlQRhOfsX3NbuntBYlM+JgdkuGm7p1F
-	 OVLnLUIPS55eHtpvWmoOotBxPgdfp4zbAiWvHBLeH4AUHspG8QzuQTy9isQpt0YuP/
-	 pBJwRQpoqnz9WlH3bcG8BXtZEkVNu2E0z8beEEAM9YOMc391H1xCeXHhIvfUe0FBWk
-	 OlfVs88mbDMzWkCkklwO3NHFsqAiPp+8e16jw0vKVTQYqX75Dng77y3Oqzybu/3J6W
-	 LOXJQqhj0ICIQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 1C735D84BCE;
-	Wed, 14 Feb 2024 11:10:26 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1707914304; c=relaxed/simple;
+	bh=5L00shtRx0u3K3qY4nS2i8Dv2Y+Jru41wZEr3M9uzfo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A4DCUP11lwO/pASfBiSYbAfYNSCocAqKMpllBT3wCpP9+BxDa1yQpURP+NDKpKdE5+fOuCG399P9cRR4MLjaKAm9oACBt/gKUeV7zKiM9BGWKDeUJTnV4wEnVfrUV+pikel6y1TFDhfRLpOKErk+0bQVTHhw83x0aZwbn9iqg7I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=DB4QgFFC; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1707914301;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oO8fV9kKnERG1FqkS8YQ493S/NllBnU42M5+nmWoL50=;
+	b=DB4QgFFCerdTGoyFkMEKVuGK/tVY3naNXs14RgbDxtiy3mYKFM5oM1lOiLwAHPTo0U0G4t
+	RrxRB80BW3dPRPWNioYjeRG8WUzuhTpUXOxboXXG4IM/1/yeX5A3x+gC9gLZIWjsmFUMDe
+	NG8Y+IXzqtlNzXqjQlYNOogwS3UIe+8=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-686-DiAhQK0yORKi6rXiTKTaKQ-1; Wed,
+ 14 Feb 2024 07:38:15 -0500
+X-MC-Unique: DiAhQK0yORKi6rXiTKTaKQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6D2702812FE5;
+	Wed, 14 Feb 2024 12:38:15 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.226.126])
+	by smtp.corp.redhat.com (Postfix) with SMTP id 910572166B36;
+	Wed, 14 Feb 2024 12:38:13 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Wed, 14 Feb 2024 13:36:58 +0100 (CET)
+Date: Wed, 14 Feb 2024 13:36:56 +0100
+From: Oleg Nesterov <oleg@redhat.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Andy Lutomirski <luto@amacapital.net>,
+	"Eric W. Biederman" <ebiederm@xmission.com>,
+	Tycho Andersen <tycho@tycho.pizza>, linux-api@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] pidfd: change pidfd_send_signal() to respect
+ PIDFD_THREAD
+Message-ID: <20240214123655.GB16265@redhat.com>
+References: <20240209-stangen-feuerzeug-17c8662854c9@brauner>
+ <20240209154305.GC3282@redhat.com>
+ <20240209-radeln-untrennbar-9d4ae05aa4cc@brauner>
+ <20240209155644.GD3282@redhat.com>
+ <20240210-abfinden-beimessen-2dbfea59b0da@brauner>
+ <20240210123033.GA27557@redhat.com>
+ <20240210-dackel-getan-619c70fefa62@brauner>
+ <20240210131518.GC27557@redhat.com>
+ <20240210-chihuahua-hinzog-3945b6abd44a@brauner>
+ <20240210165133.GD27557@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v8 0/4] Per epoll context busy poll support
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <170790902610.17376.12972731965636317765.git-patchwork-notify@kernel.org>
-Date: Wed, 14 Feb 2024 11:10:26 +0000
-References: <20240213061652.6342-1-jdamato@fastly.com>
-In-Reply-To: <20240213061652.6342-1-jdamato@fastly.com>
-To: Joe Damato <jdamato@fastly.com>
-Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
- chuck.lever@oracle.com, jlayton@kernel.org, linux-api@vger.kernel.org,
- brauner@kernel.org, edumazet@google.com, davem@davemloft.net,
- alexander.duyck@gmail.com, sridhar.samudrala@intel.com, kuba@kernel.org,
- willemdebruijn.kernel@gmail.com, weiwan@google.com, David.Laight@ACULAB.COM,
- arnd@arndb.de, sdf@google.com, amritha.nambiar@intel.com,
- viro@zeniv.linux.org.uk, gregkh@linuxfoundation.org, deller@gmx.de,
- jack@suse.cz, jirislaby@kernel.org, corbet@lwn.net, jpanis@baylibre.com,
- linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, mpe@ellerman.id.au,
- nathanl@linux.ibm.com, palmer@dabbelt.com, stfrench@microsoft.com,
- thuth@redhat.com, tzimmermann@suse.de
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240210165133.GD27557@redhat.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.6
 
-Hello:
+On 02/10, Oleg Nesterov wrote:
+>
+> On 02/10, Christian Brauner wrote:
+> >
+> > +	if (type == PIDFD_SIGNAL_PROCESS_GROUP)
+> > +		ret = kill_pgrp_info(sig, &kinfo, pid);
+>
+> I guess you meant
+>
+> 	if (type == PIDTYPE_PGID)
+>
+> other than that,
+>
+> Reviewed-by: Oleg Nesterov <oleg@redhat.com>
 
-This series was applied to netdev/net-next.git (main)
-by David S. Miller <davem@davemloft.net>:
+Yes, but there is another thing I hadn't thought of...
 
-On Tue, 13 Feb 2024 06:16:41 +0000 you wrote:
-> Greetings:
-> 
-> Welcome to v8.
-> 
-> TL;DR This builds on commit bf3b9f6372c4 ("epoll: Add busy poll support to
-> epoll with socket fds.") by allowing user applications to enable
-> epoll-based busy polling, set a busy poll packet budget, and enable or
-> disable prefer busy poll on a per epoll context basis.
-> 
-> [...]
+sys_pidfd_send_signal() does
 
-Here is the summary with links:
-  - [net-next,v8,1/4] eventpoll: support busy poll per epoll instance
-    https://git.kernel.org/netdev/net-next/c/85455c795c07
-  - [net-next,v8,2/4] eventpoll: Add per-epoll busy poll packet budget
-    https://git.kernel.org/netdev/net-next/c/c6aa2a7778d8
-  - [net-next,v8,3/4] eventpoll: Add per-epoll prefer busy poll option
-    https://git.kernel.org/netdev/net-next/c/de57a2510822
-  - [net-next,v8,4/4] eventpoll: Add epoll ioctl for epoll_params
-    https://git.kernel.org/netdev/net-next/c/18e2bf0edf4d
+	/* Only allow sending arbitrary signals to yourself. */
+	ret = -EPERM;
+	if ((task_pid(current) != pid) &&
+	    (kinfo.si_code >= 0 || kinfo.si_code == SI_TKILL))
+		goto err;
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+and I am not sure that task_pid(current) == pid should allow
+the "arbitrary signals" if PIDFD_SIGNAL_PROCESS_GROUP.
 
+Perhaps
+
+	/* Only allow sending arbitrary signals to yourself. */
+	ret = -EPERM;
+	if ((task_pid(current) != pid || type == PIDTYPE_PGID) &&
+	    (kinfo.si_code >= 0 || kinfo.si_code == SI_TKILL)
+		goto err;
+
+?
+
+Oleg.
 
 
