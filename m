@@ -1,150 +1,265 @@
-Return-Path: <linux-api+bounces-951-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-968-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98A9C85560D
-	for <lists+linux-api@lfdr.de>; Wed, 14 Feb 2024 23:37:11 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68E998557C5
+	for <lists+linux-api@lfdr.de>; Thu, 15 Feb 2024 00:57:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BE44D1C26F31
-	for <lists+linux-api@lfdr.de>; Wed, 14 Feb 2024 22:37:10 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B7393B2A95B
+	for <lists+linux-api@lfdr.de>; Wed, 14 Feb 2024 23:56:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6AA8B145B38;
-	Wed, 14 Feb 2024 22:34:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E47B149009;
+	Wed, 14 Feb 2024 23:53:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="IES6jhft"
+	dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b="n/nWFiGo"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from mail.codeweavers.com (mail.codeweavers.com [4.36.192.163])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9521D55E63;
-	Wed, 14 Feb 2024 22:34:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F7711487E0;
+	Wed, 14 Feb 2024 23:53:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.36.192.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707950068; cv=none; b=DlqeRoCw8hs9QaTjaPqRo62V634ka3ry+GudMhXE4kjmN4DT3LdXjUNCM4ALHVFZixU94nYKhumLmWHUgJcIXpObT7BbEgQUbPYh2WlE4WIZexYwJeuI77U+Id8feO7R4dHRDHIewowhUo8OW5j/r5wxKvrFAK2hXKdsOlvttPo=
+	t=1707954819; cv=none; b=fjDAxO/SbpZm3KM3J8vUxQOesVlRk1AGFCWpVx6UnCld9xCwsYs3h+1/5bxIg+FNYfR72o7BmI5h/fDBryxWRhfJVTZ87PIfnrf4AhtiN8tb7xIHnbfQWjz2wYX21FYEDYzG6f6/u2wmiEf1+2sH2yTJYCGJHomgaP3RQZP9qaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707950068; c=relaxed/simple;
-	bh=lK16tJ+rA71j9sfNq9u1nc1gFyGNYENJD/MUcT/DOWk=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=t2DsLKCy2cFq35bx5UD9JO4Hq7koKqR+1ekvs6vS6yVVAQxoVWf+X0yaTjpc1I1UB8GwIDhiQr8ZqgEbXzsrU7pVFMhoKHNkxjkEQ4dkIFnTU74dyLmmXJAo+Ss4+L5lhBbkVWpFNBPG4yCrjI6BPYXVhdFZQVPZBYVBBf0Iez4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=IES6jhft; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 41EMLfOc015876;
-	Wed, 14 Feb 2024 22:34:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- mime-version : to : cc : from : subject : content-type :
- content-transfer-encoding; s=pp1;
- bh=YaCnxeC1vZNqMAlZsLhMKvaeenQEHMsIYJyTFNiF+AU=;
- b=IES6jhft/4uq7lMwuENFVDv/krEl3ke4G/iFa69Y00mhR+LGrrjemioUGrGBDrXdx651
- gCIeY5gKLljsxTRhQDAc6dq/WCZt4uCLI3zxZWhAr/2PGVKWbbTyYZBvBW0pcN0bBcsW
- 5NcGgUbSaCBHQtAc2TgwJB1YLqw3WsIRjzI2tacS8SE6RKsH9LqjynvC7hb1V8zZKfdg
- W4PgqqrwgrH6Gke8Oa96YvBJxdn94QNBRL2eYLVC5wSuVzXwjeD4uglbWDwtEirsMKyl
- VE7QLUog2vIi9F1DPzYJrh8B+ToUVGsb0bpMsFesTpCynhOTwXuV0/Btzb6Gi1reCnkf NA== 
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3w95ew19u5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 14 Feb 2024 22:34:11 +0000
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 41ELXHgq024975;
-	Wed, 14 Feb 2024 22:34:11 GMT
-Received: from smtprelay06.wdc07v.mail.ibm.com ([172.16.1.73])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3w6mfpgx64-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 14 Feb 2024 22:34:11 +0000
-Received: from smtpav04.dal12v.mail.ibm.com (smtpav04.dal12v.mail.ibm.com [10.241.53.103])
-	by smtprelay06.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 41EMY7hC39059812
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 14 Feb 2024 22:34:10 GMT
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id BE88A580D3;
-	Wed, 14 Feb 2024 22:34:07 +0000 (GMT)
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 15CB4580BE;
-	Wed, 14 Feb 2024 22:34:07 +0000 (GMT)
-Received: from [9.61.99.202] (unknown [9.61.99.202])
-	by smtpav04.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Wed, 14 Feb 2024 22:34:06 +0000 (GMT)
-Message-ID: <a406b535-dc55-4856-8ae9-5a063644a1af@linux.ibm.com>
-Date: Wed, 14 Feb 2024 16:34:06 -0600
+	s=arc-20240116; t=1707954819; c=relaxed/simple;
+	bh=bVuwBFR3wNPjG4EZapnn+JxOCYHF1TYbNJ4S3BcO82k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=F7SSEWiHoWNfXVf8egygRjaBaqSkvsabrQawIy2B3/oCKkLughGzrjVZsVx22dIY+r6FSzbIhoDYwxam8/ANkcdT0GEhSiHfLr7jZwHr7Nk9c5SBSAIBIdk4mlpdnj1sT+fy5AnsmhxEw1yZpEolEzlZnZCih6XcZRBlXJJHwTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com; spf=pass smtp.mailfrom=codeweavers.com; dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b=n/nWFiGo; arc=none smtp.client-ip=4.36.192.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeweavers.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=codeweavers.com; s=s1; h=Message-ID:Date:Subject:Cc:To:From:Sender;
+	bh=zjekde2x30CdNsYziPe+SiVMfo8WJOaRbmjucF5cXTE=; b=n/nWFiGoWM9dRn9xOyNUxDI1pG
+	g8DCJKdEoW8j4KCRh3HFfyDOLq02aaHdDoDn/cjQyEOkAPDSD+d5fu0RQI55L0ATKnHG//B5sRWAB
+	+bSURT9adNFdy71EWutWHAuYp7bCBSj3wreIqXwyFoOy73yUd7Pwh4I3l6sYSVmJ4hjT1d+MCM9hC
+	c6RKNWdhcqu2ATbm/IzLM036Uokyo8f/sk1jR0ZLvqVZ3Kju5wSwTkcDXkRtP2jO12oIQkHboVhG4
+	WZ7UP/9+pVF2zTZdT3H5ATcU+uyi1gXzZ4AVOAbSemjauH/GUw7KZ03aHEvC3F6wST+ZcnUNSMeLL
+	b3+rlypQ==;
+Received: from cw137ip160.mn.codeweavers.com ([10.69.137.160] helo=camazotz.mn.codeweavers.com)
+	by mail.codeweavers.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <zfigura@codeweavers.com>)
+	id 1raOoV-00GbiL-08;
+	Wed, 14 Feb 2024 17:37:15 -0600
+From: Elizabeth Figura <zfigura@codeweavers.com>
+To: Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	wine-devel@winehq.org,
+	=?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
+	Wolfram Sang <wsa@kernel.org>,
+	Arkadiusz Hiler <ahiler@codeweavers.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Andy Lutomirski <luto@kernel.org>,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	Elizabeth Figura <zfigura@codeweavers.com>
+Subject: [PATCH 00/31] NT synchronization primitive driver
+Date: Wed, 14 Feb 2024 17:36:36 -0600
+Message-ID: <20240214233645.9273-1-zfigura@codeweavers.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>
-Cc: Adhemerval Zanella <adhemerval.zanella@linaro.org>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        Nick Piggin <npiggin@au1.ibm.com>,
-        Michael Ellerman <mpe@ellerman.id.au>, Arnd Bergmann <arnd@kernel.org>
-From: Peter Bergner <bergner@linux.ibm.com>
-Subject: [PATCH v2] uapi/auxvec: Define AT_HWCAP3 and AT_HWCAP4 aux vector,
- entries
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: TJPk-bPkib7XFvVei_OFewI8h97C-DRW
-X-Proofpoint-ORIG-GUID: TJPk-bPkib7XFvVei_OFewI8h97C-DRW
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-14_14,2024-02-14_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 clxscore=1011
- mlxlogscore=650 lowpriorityscore=0 suspectscore=0 bulkscore=0 mlxscore=0
- adultscore=0 impostorscore=0 priorityscore=1501 phishscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311290000
- definitions=main-2402140170
+Content-Transfer-Encoding: 8bit
 
-Changes from v1:
-- Add Acked-by lines.
+This patch series introduces a new char misc driver, /dev/ntsync, which is used
+to implement Windows NT synchronization primitives.
 
-The powerpc toolchain keeps a copy of the HWCAP bit masks in our TCB for fast
-access by the __builtin_cpu_supports built-in function.  The TCB space for
-the HWCAP entries - which are created in pairs - is an ABI extension, so
-waiting to create the space for HWCAP3 and HWCAP4 until we need them is
-problematical.  Define AT_HWCAP3 and AT_HWCAP4 in the generic uapi header
-so they can be used in glibc to reserve space in the powerpc TCB for their
-future use.
+This was previously submitted as an RFC [1]. Since there were no major changes
+requested to the last RFC revision, I've stripped the RFC prefix.
 
-I scanned through the Linux and GLIBC source codes looking for unused AT_*
-values and 29 and 30 did not seem to be used, so they are what I went
-with.  This has received Acked-by's from both GLIBC and Linux kernel
-developers and no reservations or Nacks from anyone.
+[1] https://lore.kernel.org/lkml/20240131021356.10322-1-zfigura@codeweavers.com/
 
-Arnd, we seem to have consensus on the patch below.  Is this something
-you could take and apply to your tree? 
+== Background ==
 
-Peter
+The Wine project emulates the Windows API in user space. One particular part of
+that API, namely the NT synchronization primitives, have historically been
+implemented via RPC to a dedicated "kernel" process. However, more recent
+applications use these APIs more strenuously, and the overhead of RPC has become
+a bottleneck.
+
+The NT synchronization APIs are too complex to implement on top of existing
+primitives without sacrificing correctness. Certain operations, such as
+NtPulseEvent() or the "wait-for-all" mode of NtWaitForMultipleObjects(), require
+direct control over the underlying wait queue, and implementing a wait queue
+sufficiently robust for Wine in user space is not possible. This proposed
+driver, therefore, implements the problematic interfaces directly in the Linux
+kernel.
+
+This driver was presented at Linux Plumbers Conference 2023. For those further
+interested in the history of synchronization in Wine and past attempts to solve
+this problem in user space, a recording of the presentation can be viewed here:
+
+    https://www.youtube.com/watch?v=NjU4nyWyhU8
 
 
-Signed-off-by: Peter Bergner <bergner@linux.ibm.com>
-Acked-by: Adhemerval Zanella <adhemerval.zanella@linaro.org> (glibc)
-Acked-by: Nicholas Piggin <npiggin@gmail.com> (powerpc)
-Acked-by: Szabolcs Nagy <szabolcs.nagy@arm.com> (arm)
+== Performance ==
 
----
- include/uapi/linux/auxvec.h | 2 ++
- 1 file changed, 2 insertions(+)
+The gain in performance varies wildly depending on the application in question
+and the user's hardware. For some games NT synchronization is not a bottleneck
+and no change can be observed, but for others frame rate improvements of 50 to
+150 percent are not atypical. The following table lists frame rate measurements
+from a variety of games on a variety of hardware, taken by users Dmitry
+Skvortsov, FuzzyQuils, OnMars, and myself:
 
-diff --git a/include/uapi/linux/auxvec.h b/include/uapi/linux/auxvec.h
-index 6991c4b8ab18..cc61cb9b3e9a 100644
---- a/include/uapi/linux/auxvec.h
-+++ b/include/uapi/linux/auxvec.h
-@@ -32,6 +32,8 @@
- #define AT_HWCAP2 26	/* extension of AT_HWCAP */
- #define AT_RSEQ_FEATURE_SIZE	27	/* rseq supported feature size */
- #define AT_RSEQ_ALIGN		28	/* rseq allocation alignment */
-+#define AT_HWCAP3 29	/* extension of AT_HWCAP */
-+#define AT_HWCAP4 30	/* extension of AT_HWCAP */
- 
- #define AT_EXECFN  31	/* filename of program */
- 
+Game                            Upstream        ntsync          improvement
+===========================================================================
+Anger Foot                       69              99              43%
+Call of Juarez                   99.8           224.1           125%
+Dirt 3                          110.6           860.7           678%
+Forza Horizon 5                 108             160              48%
+Lara Croft: Temple of Osiris    141             326             131%
+Metro 2033                      164.4           199.2            21%
+Resident Evil 2                  26              77             196%
+The Crew                         26              51              96%
+Tiny Tina's Wonderlands         130             360             177%
+Total War Saga: Troy            109             146              34%
+===========================================================================
+
+
+== Patches ==
+
+The intended semantics of the patches are broadly intended to match those of the
+corresponding Windows functions. For those not already familiar with the Windows
+functions (or their undocumented behaviour), patch 31/31 provides a detailed
+specification, and individual patches also include a brief description of the
+API they are implementing.
+
+The patches making use of this driver in Wine can be retrieved or browsed here:
+
+    https://repo.or.cz/wine/zf.git/shortlog/refs/heads/ntsync5
+
+
+== Implementation ==
+
+Some aspects of the implementation may deserve particular comment:
+
+* In the interest of performance, each object is governed only by a single
+  spinlock. However, NTSYNC_IOC_WAIT_ALL requires that the state of multiple
+  objects be changed as a single atomic operation. In order to achieve this, we
+  first take a device-wide lock ("wait_all_lock") any time we are going to lock
+  more than one object at a time.
+
+  The maximum number of objects that can be used in a vectored wait, and
+  therefore the maximum that can be locked simultaneously, is 64. This number is
+  NT's own limit.
+
+  The acquisition of multiple spinlocks will degrade performance. This is a
+  conscious choice, however. Wait-for-all is known to be a very rare operation
+  in practice, especially with counts that approach the maximum, and it is the
+  intent of the ntsync driver to optimize wait-for-any at the expense of
+  wait-for-all as much as possible.
+
+* NT mutexes are tied to their threads on an OS level, and the kernel includes
+  builtin support for "robust" mutexes. In order to keep the ntsync driver
+  self-contained and avoid touching more code than necessary, it does not hook
+  into task exit nor use pids.
+
+  Instead, the user space emulator is expected to manage thread IDs and pass
+  them as an argument to any relevant functions; this is the "owner" field of
+  ntsync_wait_args and ntsync_mutex_args.
+
+  When the emulator detects that a thread dies, it should therefore call
+  NTSYNC_IOC_MUTEX_KILL on any open mutexes.
+
+* ntsync is module-capable mostly because there was nothing preventing it, and
+  because it aided development. It is not a hard requirement, though.
+
+
+== Previous versions ==
+
+Changes from the last (v2) RFC:
+
+* Add a new wait flag NTSYNC_WAIT_REALTIME. I had originally missed a corner
+  case in NtWaitForMultipleObjects() related to its interaction with system time
+  adjustments. Essentially the function is sometimes supposed to respect system
+  time adjustments and sometimes supposed to ignore them, so in order to achieve
+  this I've added a function that controls which flag is being synchronized to.
+  Thanks Piotr Caban for catching this.
+
+* Add tests for overflowing semaphore and mutex counters, and a test for
+  exceeding NTSYNC_MAX_WAIT_COUNT, per Andi Kleen.
+
+* Add a more intense and realistic test involving multiple threads using the
+  same mutex to access data, per Andi Kleen.
+
+* Use check_add_overflow() instead of writing out overflow checking manually
+  [and thereby avoid relying on -fwrapv].
+
+* Add some missing headers that were being implicitly included: atomic.h,
+  hrtimer.h, ktime.h, sched.h, sched/signal.h, spinlock.h.
+
+* Link to RFC v2: https://lore.kernel.org/lkml/20240131021356.10322-1-zfigura@codeweavers.com/
+* Link to RFC v1: https://lore.kernel.org/lkml/20240124004028.16826-1-zfigura@codeweavers.com/
+
+Elizabeth Figura (31):
+  ntsync: Introduce the ntsync driver and character device.
+  ntsync: Introduce NTSYNC_IOC_CREATE_SEM.
+  ntsync: Introduce NTSYNC_IOC_SEM_POST.
+  ntsync: Introduce NTSYNC_IOC_WAIT_ANY.
+  ntsync: Introduce NTSYNC_IOC_WAIT_ALL.
+  ntsync: Introduce NTSYNC_IOC_CREATE_MUTEX.
+  ntsync: Introduce NTSYNC_IOC_MUTEX_UNLOCK.
+  ntsync: Introduce NTSYNC_IOC_MUTEX_KILL.
+  ntsync: Introduce NTSYNC_IOC_CREATE_EVENT.
+  ntsync: Introduce NTSYNC_IOC_EVENT_SET.
+  ntsync: Introduce NTSYNC_IOC_EVENT_RESET.
+  ntsync: Introduce NTSYNC_IOC_EVENT_PULSE.
+  ntsync: Introduce NTSYNC_IOC_SEM_READ.
+  ntsync: Introduce NTSYNC_IOC_MUTEX_READ.
+  ntsync: Introduce NTSYNC_IOC_EVENT_READ.
+  ntsync: Introduce alertable waits.
+  ntsync: Allow waits to use the REALTIME clock.
+  selftests: ntsync: Add some tests for semaphore state.
+  selftests: ntsync: Add some tests for mutex state.
+  selftests: ntsync: Add some tests for NTSYNC_IOC_WAIT_ANY.
+  selftests: ntsync: Add some tests for NTSYNC_IOC_WAIT_ALL.
+  selftests: ntsync: Add some tests for wakeup signaling with
+    WINESYNC_IOC_WAIT_ANY.
+  selftests: ntsync: Add some tests for wakeup signaling with
+    WINESYNC_IOC_WAIT_ALL.
+  selftests: ntsync: Add some tests for manual-reset event state.
+  selftests: ntsync: Add some tests for auto-reset event state.
+  selftests: ntsync: Add some tests for wakeup signaling with events.
+  selftests: ntsync: Add tests for alertable waits.
+  selftests: ntsync: Add some tests for wakeup signaling via alerts.
+  selftests: ntsync: Add a stress test for contended waits.
+  maintainers: Add an entry for ntsync.
+  docs: ntsync: Add documentation for the ntsync uAPI.
+
+ Documentation/userspace-api/index.rst         |    1 +
+ .../userspace-api/ioctl/ioctl-number.rst      |    2 +
+ Documentation/userspace-api/ntsync.rst        |  399 +++++
+ MAINTAINERS                                   |    9 +
+ drivers/misc/Kconfig                          |    9 +
+ drivers/misc/Makefile                         |    1 +
+ drivers/misc/ntsync.c                         | 1146 ++++++++++++++
+ include/uapi/linux/ntsync.h                   |   62 +
+ tools/testing/selftests/Makefile              |    1 +
+ .../testing/selftests/drivers/ntsync/Makefile |    8 +
+ tools/testing/selftests/drivers/ntsync/config |    1 +
+ .../testing/selftests/drivers/ntsync/ntsync.c | 1407 +++++++++++++++++
+ 12 files changed, 3046 insertions(+)
+ create mode 100644 Documentation/userspace-api/ntsync.rst
+ create mode 100644 drivers/misc/ntsync.c
+ create mode 100644 include/uapi/linux/ntsync.h
+ create mode 100644 tools/testing/selftests/drivers/ntsync/Makefile
+ create mode 100644 tools/testing/selftests/drivers/ntsync/config
+ create mode 100644 tools/testing/selftests/drivers/ntsync/ntsync.c
+
+
+base-commit: e21817acb23ece75d41a4fa7b40c85550f147389
 -- 
-2.39.3
+2.43.0
 
 
