@@ -1,139 +1,152 @@
-Return-Path: <linux-api+bounces-991-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-992-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D7D4856618
-	for <lists+linux-api@lfdr.de>; Thu, 15 Feb 2024 15:39:55 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09E75856D4F
+	for <lists+linux-api@lfdr.de>; Thu, 15 Feb 2024 20:04:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1EBA4B23986
-	for <lists+linux-api@lfdr.de>; Thu, 15 Feb 2024 14:39:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3C9381C23E4F
+	for <lists+linux-api@lfdr.de>; Thu, 15 Feb 2024 19:04:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CBBD13246D;
-	Thu, 15 Feb 2024 14:39:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F0D91386DF;
+	Thu, 15 Feb 2024 19:04:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="jsRvp+7k"
+	dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b="rg0Hdjtb"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from mail.codeweavers.com (mail.codeweavers.com [4.36.192.163])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CDC269DF0;
-	Thu, 15 Feb 2024 14:39:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B496E12D75F;
+	Thu, 15 Feb 2024 19:04:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.36.192.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708007984; cv=none; b=ILZ8QYz8RIg9PovoblJr3OlR6cTQuwnpPR6ipAdFhSD2iSw6dJt/1Js01VCErvCJw8yiGev/4Hae4pOaMMBDuXrPWddh5kymY9veUypRutCTpTQVlDYynqzcHTosh24MlqHYKDGI8iZ8/dju5M4X3i52FEUxb/nnbk/p2SgD7mY=
+	t=1708023860; cv=none; b=L75HLaHAQc4Q4n5G0rFZUIcIHkyGcQy/GjiCCzHgZ1aTMEx9u9JEqcbDsDv2dH+Ggc5xKcbgJnLt7xlqdgn+tMbTy2F2XigNwAzluWd4cJWqTGriQT92puAAqnNT8pX1CTxSHvBCMzP9KSapqy+4lTbKpsRerr530id7IfIOTkk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708007984; c=relaxed/simple;
-	bh=MV9oKZSV6w9tYnhYunre9EcN7ovtDZaJe8D0pVI4U2A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=F8s93wSPNV+OKLkToZQNnS7t+8dfLcQbAYh5lXg7ztgnwXBAgY2uw/1DrWNas/ZDbl/m2ubuJLGuhrQEMIdSUDfnLriFgg+TGxKJU6qcDrsvNIi5XtOq63XGXRmgvYWCGEIV1I6wfuUV/mB5dJrSD2yLccj38k8yQsNG8vU/PGs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=jsRvp+7k; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
-Received: from pps.filterd (m0353726.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 41FEa0Td022512;
-	Thu, 15 Feb 2024 14:39:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=zZurr08+4rCmi2p87VmKajNXUbdSQeh/Ml+DyrXsBJY=;
- b=jsRvp+7kedzUhComLQF4tv0eXIaGM2RShLJ2AHhUnsUehPlEmIrFeKtHeBQz5x8W2Woo
- dszYEPUFXpbSvpkkEnusY9IZnLt8SdUFDybty+7BFnq7nFNLDdij9O5wT7PW4iQxl5wJ
- jp9yj+4qezufi7RtUIuh+N9PUHQvAhD7SEnm1MrDp0apd7Q2iIcNuRqfm7Oe1xGRawf8
- 5WOS4yk2pCniZ6WtFpuM1ZfEUvQVLWlTmeWJZNF/J/XymUhEFE6pFgwnQSM3aVuUkoDW
- 8x67oTWrjzw2PjJXN/HMdxiPLNqd6u15Aoo4kmmLmLcnPx4If9PYhvsiLs2NhZVS/5JM 8A== 
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3w9m1991pk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 15 Feb 2024 14:39:32 +0000
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 41FDqAda004297;
-	Thu, 15 Feb 2024 14:39:30 GMT
-Received: from smtprelay01.wdc07v.mail.ibm.com ([172.16.1.68])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3w6kv0ng2w-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 15 Feb 2024 14:39:30 +0000
-Received: from smtpav04.dal12v.mail.ibm.com (smtpav04.dal12v.mail.ibm.com [10.241.53.103])
-	by smtprelay01.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 41FEdR8s24511196
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 15 Feb 2024 14:39:29 GMT
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 829C658062;
-	Thu, 15 Feb 2024 14:39:27 +0000 (GMT)
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id CD1825805A;
-	Thu, 15 Feb 2024 14:39:26 +0000 (GMT)
-Received: from [9.61.99.202] (unknown [9.61.99.202])
-	by smtpav04.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Thu, 15 Feb 2024 14:39:26 +0000 (GMT)
-Message-ID: <a50cf258-b861-40e5-8ca9-dec7721400ec@linux.ibm.com>
-Date: Thu, 15 Feb 2024 08:39:26 -0600
+	s=arc-20240116; t=1708023860; c=relaxed/simple;
+	bh=HYmJH9FlFar2LSJS4Rf0ZwmqXkUarTQN1CFW8NL4Nds=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jBwR6J/zybMzTPDQfek+aX8iy3WvutXxAZQcY1I6eSAsEXGkPXJqOFSEZTU8NRJaqBoiW8sa/mCIqmyvDzVszitWgCL3GSoQ3xRwSc220UOJ9f3M/8L0VEnpqTZl3oROLypQL6/v8UwZvRM0qyAzNklUns8z0ShfxJu/RQDW4aE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com; spf=pass smtp.mailfrom=codeweavers.com; dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b=rg0Hdjtb; arc=none smtp.client-ip=4.36.192.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeweavers.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=codeweavers.com; s=s1; h=Message-ID:Date:Subject:Cc:To:From:Sender;
+	bh=pIfAYq4N+gqGnpM/2pjkFTmquDU3bWf7IeLw/ovzE98=; b=rg0Hdjtbip4Ksba0pqUURE4fP9
+	GEGUhSU0N5X+FnuzqLGh2LjcSFAsjQpPJA7jMoQ2PYX3FdHNgjPL7QxNw3GDhmA6cQIJO8mCXahwd
+	TdyL+Mrj6o7J5uloSt4dYrI3WbLfeUr5PKmzDS6bolMORjmDf+zqgB583E/w/Bp1L5P7TdaMyBCng
+	ehhke1Kcr0SJW3qgw+FUDJYTE4u2CgRdxmt/S5UdkPmvd8tpd4gTaOEaumpq/hgoRrv07H17k6ds2
+	+6hoIFrJHD+5TIQp7veZFY0D1VZzBPu3kztUOYC2LZJM8lJX7s7Hxw8kaqeXXnOG4xNrqzqca1Ll4
+	K1+zg0/g==;
+Received: from cw137ip160.mn.codeweavers.com ([10.69.137.160] helo=camazotz.localnet)
+	by mail.codeweavers.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <zfigura@codeweavers.com>)
+	id 1rah1c-00HJp9-2j;
+	Thu, 15 Feb 2024 13:04:00 -0600
+From: Elizabeth Figura <zfigura@codeweavers.com>
+To: Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+ Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+ wine-devel@winehq.org,
+ =?ISO-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+ Wolfram Sang <wsa@kernel.org>, Arkadiusz Hiler <ahiler@codeweavers.com>,
+ Peter Zijlstra <peterz@infradead.org>, Andy Lutomirski <luto@kernel.org>,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject:
+ Re: [PATCH 01/31] ntsync: Introduce the ntsync driver and character device.
+Date: Thu, 15 Feb 2024 13:04:00 -0600
+Message-ID: <4897444.31r3eYUQgx@camazotz>
+In-Reply-To: <51a442ec-3835-4282-982b-734c0962141c@infradead.org>
+References:
+ <20240214233645.9273-1-zfigura@codeweavers.com>
+ <20240214233645.9273-2-zfigura@codeweavers.com>
+ <51a442ec-3835-4282-982b-734c0962141c@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] uapi/auxvec: Define AT_HWCAP3 and AT_HWCAP4 aux
- vector, entries
-Content-Language: en-US
-To: Arnd Bergmann <arnd@kernel.org>, linux-api@vger.kernel.org,
-        Linux-Arch <linux-arch@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>
-Cc: Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        Nick Piggin <npiggin@au1.ibm.com>,
-        Michael Ellerman <mpe@ellerman.id.au>
-References: <a406b535-dc55-4856-8ae9-5a063644a1af@linux.ibm.com>
- <aa657f01-7cb1-43f4-947e-173fc8a53f1f@app.fastmail.com>
-From: Peter Bergner <bergner@linux.ibm.com>
-In-Reply-To: <aa657f01-7cb1-43f4-947e-173fc8a53f1f@app.fastmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: U0zh-cXg3ppxx8BiWtZDI9TVoSkYhrAq
-X-Proofpoint-GUID: U0zh-cXg3ppxx8BiWtZDI9TVoSkYhrAq
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-15_13,2024-02-14_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 mlxscore=0
- impostorscore=0 spamscore=0 priorityscore=1501 mlxlogscore=319
- phishscore=0 malwarescore=0 suspectscore=0 bulkscore=0 lowpriorityscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311290000 definitions=main-2402150117
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 2/15/24 2:16 AM, Arnd Bergmann wrote:
-> On Wed, Feb 14, 2024, at 23:34, Peter Bergner wrote:
->> The powerpc toolchain keeps a copy of the HWCAP bit masks in our TCB for fast
->> access by the __builtin_cpu_supports built-in function.  The TCB space for
->> the HWCAP entries - which are created in pairs - is an ABI extension, so
->> waiting to create the space for HWCAP3 and HWCAP4 until we need them is
->> problematical.  Define AT_HWCAP3 and AT_HWCAP4 in the generic uapi header
->> so they can be used in glibc to reserve space in the powerpc TCB for their
->> future use.
->>
->> I scanned through the Linux and GLIBC source codes looking for unused AT_*
->> values and 29 and 30 did not seem to be used, so they are what I went
->> with.  This has received Acked-by's from both GLIBC and Linux kernel
->> developers and no reservations or Nacks from anyone.
->>
->> Arnd, we seem to have consensus on the patch below.  Is this something
->> you could take and apply to your tree? 
->>
+On Wednesday, 14 February 2024 19:57:23 CST Randy Dunlap wrote:
+> Hi,
 > 
-> I don't mind taking it, but it may be better to use the
-> powerpc tree if that is where it's actually being used.
+> On 2/14/24 15:36, Elizabeth Figura wrote:
+> > ntsync uses a misc device as the simplest and least intrusive uAPI interface.
+> > 
+> > Each file description on the device represents an isolated NT instance, intended
+> > to correspond to a single NT virtual machine.
+> > 
+> > Signed-off-by: Elizabeth Figura <zfigura@codeweavers.com>
+> > ---
+> >  drivers/misc/Kconfig  |  9 ++++++++
+> >  drivers/misc/Makefile |  1 +
+> >  drivers/misc/ntsync.c | 52 +++++++++++++++++++++++++++++++++++++++++++
+> >  3 files changed, 62 insertions(+)
+> >  create mode 100644 drivers/misc/ntsync.c
+> > 
+> > diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
+> > index 4fb291f0bf7c..bdd8a71bd853 100644
+> > --- a/drivers/misc/Kconfig
+> > +++ b/drivers/misc/Kconfig
+> > @@ -504,6 +504,15 @@ config OPEN_DICE
+> >  	  measured boot flow. Userspace can use CDIs for remote attestation
+> >  	  and sealing.
+> >  
+> > +config NTSYNC
+> > +	tristate "NT synchronization primitive emulation"
+> > +	help
+> > +	  This module provides kernel support for emulation of Windows NT
+> > +	  synchronization primitives. It is not a hardware driver.
+> > +
+> > +	  To compile this driver as a module, choose M here: the
+> > +	  module will be called ntsync.
+> > +
+> >  	  If unsure, say N.
+> 
+> It looks like the "If unsure" line belongs to the OPEN_DICE kconfig entry
+> above here. If you want one for NTSYNC, please add one.
 
-So this is not a powerpc only patch, but we may be the first arch
-to use it.  Szabolcs mentioned that aarch64 was pretty quickly filling
-up their AT_HWCAP2 and that they will eventually require using AT_HWCAP3
-as well.  If you still think this should go through the powerpc tree,
-I can check on that.
+Oops, looks like that was a bad rebase :-(
 
-Peter
+> 
+> >  
+> >  config VCPU_STALL_DETECTOR
+> 
+> 
+> > diff --git a/drivers/misc/ntsync.c b/drivers/misc/ntsync.c
+> > new file mode 100644
+> > index 000000000000..e4969ef90722
+> > --- /dev/null
+> > +++ b/drivers/misc/ntsync.c
+> > @@ -0,0 +1,52 @@
+> > +// SPDX-License-Identifier: GPL-2.0-only
+> > +/*
+> > + * ntsync.c - Kernel driver for NT synchronization primitives
+> > + *
+> > + * Copyright (C) 2024 Elizabeth Figura
+> 
+> It would be nice to have your email address above...
+> 
+> > + */
+> > +
+> 
+> > +
+> > +MODULE_AUTHOR("Elizabeth Figura");
+> 
+> but at least please add it in MODULE_AUTHOR(). Yes it's optional, but
+> roughly 7900 of 10400 entries do include it (according to my rough
+> grepping).
+> 
+> Yes, I know that it's in MAINTAINERS.
+
+Will add, thanks. As you guessed I did just pick an arbitrary module to copy.
 
 
 
