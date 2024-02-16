@@ -1,104 +1,123 @@
-Return-Path: <linux-api+bounces-999-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1000-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 515BC85827A
-	for <lists+linux-api@lfdr.de>; Fri, 16 Feb 2024 17:31:37 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D36068584F0
+	for <lists+linux-api@lfdr.de>; Fri, 16 Feb 2024 19:13:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E60CC1F22DCA
-	for <lists+linux-api@lfdr.de>; Fri, 16 Feb 2024 16:31:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 847871F221E7
+	for <lists+linux-api@lfdr.de>; Fri, 16 Feb 2024 18:13:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6145130AD9;
-	Fri, 16 Feb 2024 16:31:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3746C133997;
+	Fri, 16 Feb 2024 18:13:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f48dtKdO"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Q8gUlFb7"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC9151EA7A;
-	Fri, 16 Feb 2024 16:31:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 978B3132472
+	for <linux-api@vger.kernel.org>; Fri, 16 Feb 2024 18:13:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708101079; cv=none; b=tQ17h1dvegVbctUzf0Q8DzJcKrr8+g+85Psp32NUKxUbVvqnvq9gNhCwhDI/G93mZnGdKS9YeMKyndzEAL6NboFTckr7691JjWGMTVCIQTTITMOattH1AidivsebhVGUo9cyogC48QNUz3Ch3keKv4up2/+WwwtbneHR26gFs1Y=
+	t=1708107221; cv=none; b=ViL3Mc4JeLhXUSzkiOiRW1yb9r56c79SIfv48u3kfE92s6SBZk7g7duNli42BnR4xyoanphtXx6D8BuW2fVJrWUrv80h4F/EK7pTCXSTwvUoo1zvZRN7FAxMCb0DwWw1rGDEDenlFEMHucqB7BWzailnhxEv+jJ/9eI0wRZ+pss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708101079; c=relaxed/simple;
-	bh=mvhUG7Rm1RzkETXGdubqawFc+pot5tVe+dKejiOX1AQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Dvq1zsmJCG7GeKSPAVRhnPY6+Gd0V+PN94BUFtqshDiflPolNLgcIvGpuaQGnOKair472pZ+bXiNCGauUXTvuMwUe9uE9Hen+3+LGNr41uKFIHwZeC8ybOQiwexXIDRlFrQK2Ui1DJ8hbFlgoL43vU0M8QkvEaRfH0vR/2pCPA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f48dtKdO; arc=none smtp.client-ip=209.85.208.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2d21a68dd3bso9146431fa.1;
-        Fri, 16 Feb 2024 08:31:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708101076; x=1708705876; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=KKqRhlwnpPAoRAORBxhCFRSOC3qB0pNS/W30w/sCAcg=;
-        b=f48dtKdORptG0klWY3yvxHEdwmbe55DgI308r/1mWunyRY6wALuUZcbzCpZ7+eO9Dv
-         LhaytTnSjFGu4VVpHYmHlY7es2Dhz3kA5wMxoUtG9MxXNYFyfQPRTeETs5dMs29oZOqz
-         iXnn0dAGAfrmklPENam1VxtSPyiNQFhbJPPr/yXRE3VRwvjJ3oAVx1MKeFoKrPxfsH5k
-         BfMyEvtjUmu7x42D05DIDhBj4WC0G+9zt8wynh6mR6kbPggXmSOts7TG3xD09++yMmXN
-         a/UMr8UePR75bGa/9cCkNe1bRFneh93rLszZjNEs40bXWsChgnoXYRD7kwDqs7zvLBy3
-         Oqfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708101076; x=1708705876;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KKqRhlwnpPAoRAORBxhCFRSOC3qB0pNS/W30w/sCAcg=;
-        b=mEGBX2Q/9eS4f8BaUWTMbURfEy+qKbsfN4UAjBXIqNvTXz5vYCyUZsZiODFP0oB14P
-         xX9xYxM0c5gW4NgnJ5PzGzpt657zGS4DWgIpXIeR0lyca40Fm38Nv/N2Vm1XdAJRlgYc
-         fTbwxT4gPmCZbJhqypmyUkK67bVQTzefIkN0zlLuONWBsy0klAv8LWnU/FiORPyGWoDU
-         S50Ob8X98KnL7sa2nLtmCCSJDbjiU/uUw3w2Nulnki39rndr4/Ro1XTvWDuhKt609WsM
-         XM59wu8WT0gJb6/4LzrGr7pNVL5QyOahwlj7cvtaxkxOwSUk4tl39HfzHe7AWilsPmsw
-         LkXw==
-X-Forwarded-Encrypted: i=1; AJvYcCXqd5lH8t+wRIybSUBjSB73kju4ggE+BI8hl+oO9wAmbg2IHwWMEJKRUA1dkgp5zC5DqfZZQiV3URwY4qyKnxmjRjNyW+O2Qbq9d4s8RKnZGjx0IPA8LEDDBtaw5BTCWTfTDGy+qQijsfCUZl9VFSGh3JoonYzvwkJOENLwveCuImC16gyL9fhzMDI/g7bljit4+RNY0ldc7gFmzm3g9rVtBLE+
-X-Gm-Message-State: AOJu0YxD3efHIpBT3XQnXZWu91mM3R8Q6nlAGbpHLUy48hwJuilVf7FS
-	IBI6fX53thKaZUmnBz5ikhqdEpfO8NU7b5bNsN8/MVD+uEmdqZA=
-X-Google-Smtp-Source: AGHT+IF6Kx06xVo5O1YNA5lW9q32aL7kZEmHkTDV9jC0bLqcybt/Vrx991QKEa3fLPejtmQqakNnkA==
-X-Received: by 2002:a2e:8813:0:b0:2d0:e45c:5650 with SMTP id x19-20020a2e8813000000b002d0e45c5650mr4166062ljh.11.1708101075709;
-        Fri, 16 Feb 2024 08:31:15 -0800 (PST)
-Received: from p183 ([46.53.252.171])
-        by smtp.gmail.com with ESMTPSA id m41-20020a05600c3b2900b0041076fc2a61sm2893051wms.5.2024.02.16.08.31.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Feb 2024 08:31:14 -0800 (PST)
-Date: Fri, 16 Feb 2024 19:31:12 +0300
-From: Alexey Dobriyan <adobriyan@gmail.com>
-To: Elizabeth Figura <zfigura@codeweavers.com>
-Cc: Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-	=?utf-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>,
-	Wolfram Sang <wsa@kernel.org>,
-	Arkadiusz Hiler <ahiler@codeweavers.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Andy Lutomirski <luto@kernel.org>,
-	Elizabeth Figura <zfigura@codeweavers.com>,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH 00/31] NT synchronization primitive driver
-Message-ID: <5ae668e3-e275-40b0-af3c-6a459e3a0b87@p183>
+	s=arc-20240116; t=1708107221; c=relaxed/simple;
+	bh=B023sSGDBFQJqmvDlf6apONz6TB5blUVd9P3ksydNeE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Gr6zM+fmSmsDOCcNKC6h4dT0o1aenMmvB7A4bGYeT0KcyU6V8y5IgYFohG0Gt5XyDKKBTyw8S+4yZPLywroUjRcdi2oFOZtXjBcy70ZA/5xpMFbQDABMHeMQdXhJ5gme/71xP1bXk+nf0v4hHQhUqrwzpvSHFEwJyHcu9j2p240=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Q8gUlFb7; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1708107218;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/HgOK0yUuaGMKma7nesHwii4yqa8NnnopVqNm88A5WY=;
+	b=Q8gUlFb7dUCMAfzHTijv0PaqCYP/z8Yd+UjE4nJyu04NqvO+Ky7qYpNrjkKEqbtctUlcjv
+	9H2rkVQdbgBL1gPgN/QRcCLfM1U25S+Ko6ERKhTPLYUEk07Tactxxl9e7XWT4KhJ6KOtQI
+	UnvX0jvoLSqrwKVEiklEym//MKQbOqA=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-292-85dBkUWwNw-B9aBvz9mtCQ-1; Fri,
+ 16 Feb 2024 13:13:35 -0500
+X-MC-Unique: 85dBkUWwNw-B9aBvz9mtCQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 05DE41C04333;
+	Fri, 16 Feb 2024 18:13:35 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.226.116])
+	by smtp.corp.redhat.com (Postfix) with SMTP id 2A0B4112131D;
+	Fri, 16 Feb 2024 18:13:32 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Fri, 16 Feb 2024 19:12:17 +0100 (CET)
+Date: Fri, 16 Feb 2024 19:12:14 +0100
+From: Oleg Nesterov <oleg@redhat.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Andy Lutomirski <luto@amacapital.net>,
+	"Eric W. Biederman" <ebiederm@xmission.com>,
+	Tycho Andersen <tycho@tycho.pizza>, linux-api@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] pidfd: change pidfd_send_signal() to respect
+ PIDFD_THREAD
+Message-ID: <20240216181214.GA10393@redhat.com>
+References: <20240210-abfinden-beimessen-2dbfea59b0da@brauner>
+ <20240210123033.GA27557@redhat.com>
+ <20240210-dackel-getan-619c70fefa62@brauner>
+ <20240210131518.GC27557@redhat.com>
+ <20240210-chihuahua-hinzog-3945b6abd44a@brauner>
+ <20240210165133.GD27557@redhat.com>
+ <20240214123655.GB16265@redhat.com>
+ <20240216-albern-aufwiegen-1de327c7dafd@brauner>
+ <20240216130625.GA8723@redhat.com>
+ <20240216-ohnedies-improvisieren-58edcc102b6a@brauner>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240216-ohnedies-improvisieren-58edcc102b6a@brauner>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.3
 
-> drivers/misc/ntsync.c                         | 1146 ++++++++++++++
+On 02/16, Christian Brauner wrote:
+>
+> > SI_USER means that the target can trust the values of si_pid/si_uid
+> > in siginfo.
+>
+> Bah, what an annoying nonsense. I see that this can be used to emulate
+> stuff like SI_TIMER and SI_ASYNCIO. But I very much doubt the value of
+> e.g., emulating SI_DETHREAD. Maybe I'm missing something very obvious.
 
-Assuming this doesn't go into futex(2) or some other existing code...
+I don't understand...
 
-Can you start putting all of this into top-level "windows" directory?
-I suspect there will be more Windows stuff in the future.
+SI_USER/SI_TKILL means that the signal comes from the userspace (kill/etc),
+but siginfo was filled by the kernel so the receiver can trust it.
 
-So those who don't care about Windows can turn off just one config option
-(CONFIG_WINDOWS) and be done with it.
+> So wouldn't be better of just writing this as?
+>
+> if ((task_pid(current) != pid || type > PIDTYPE_TGID) &&
+>     (kinfo.si_code >= 0 || kinfo.si_code == SI_TKILL))
+>         goto err;
+>
+> So that we don't have to repeat the same exercise if we extend this to
+> anything above PIDTYPE_PGID?
 
-Name it "Linux Subsystem for Windows" for 146% better memes.
+Heh ;)
+
+I swear, this is how I wrote it originally, but then for some reason I
+thought it would raise the questions, so I changed it to check PIDTYPE_PGID.
+
+IOW, sure, I agree.
+
+Oleg.
+
 
