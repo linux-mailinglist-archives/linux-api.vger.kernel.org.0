@@ -1,135 +1,183 @@
-Return-Path: <linux-api+bounces-995-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-996-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7C7285754C
-	for <lists+linux-api@lfdr.de>; Fri, 16 Feb 2024 05:17:48 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 506BE857C89
+	for <lists+linux-api@lfdr.de>; Fri, 16 Feb 2024 13:28:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EA5671C211F5
-	for <lists+linux-api@lfdr.de>; Fri, 16 Feb 2024 04:17:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 06FB71F24D4C
+	for <lists+linux-api@lfdr.de>; Fri, 16 Feb 2024 12:28:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5840610962;
-	Fri, 16 Feb 2024 04:14:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A012578B68;
+	Fri, 16 Feb 2024 12:28:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="fy945UcM"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u29Siem9"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A69B4182AE;
-	Fri, 16 Feb 2024 04:14:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C91278B5F;
+	Fri, 16 Feb 2024 12:28:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708056855; cv=none; b=EJFWVN9n0wQrNfDc913BjV/h2jHFTPUqchMvLYQbBiCbYo4pVU3oxsRYsBlU2ZQVXSK7StYU5ma2KuFIMxgv9hycJ9ANy2OW5M3RBnQK9BQX1tuXQxPwBT8MlcN8+FvnEpVp+2CdwnDCgbI2+ZX8xTax5zN1IZoFtVLNlyHuwa4=
+	t=1708086510; cv=none; b=EnImLlfytqRbc5Z+bLi1DQ/Is8YqtlASwxaY+uc3eYKf83n/F37LFs0PMqoDkd5Uf5jmuoS9qiY1WD0K0A1o3nbNu9imFP+7EglMILuqQ4mT4szLQHn3NOrmFeAzuf+Jrc006baDZ3i4Ilw/L6goGY02v1/RFvejFtA7ysKc6Pk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708056855; c=relaxed/simple;
-	bh=KdfMx3qtwL3V+MMACICNC/k5ORbx+f53ihuYasAXbXE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gMD/044tnSl9LCpgS2gubiORljzARvP12eENqCvWnC43mb7RZ0F9uAqfOFMdP8cAtXzBeQoBjaJzwIYZ95Iy8703loZiDLvO9V5D867aPsN4T91P5gdJneTWDtpOnr1NdIlIuT/QbSoH29w2pxJfP/YqLoxokT5IBTR2tOmz9K4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=fy945UcM; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 41G3CJPU019202;
-	Fri, 16 Feb 2024 04:13:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=bLxNPSUeDM1zYoU0JmieJdwQm/KA7OT3+zW4QSPieE0=;
- b=fy945UcMGaXZolPWT1ZARC8XgJ+JtR4MDVcIytDOnagRJBTZOgvA21r2fi83CTQM7kI3
- GdWRsrinLwCrmthOcxlV2VXJCpmRBhPkpfTedSrBmiJ2khA05GObdIxutmF+6J5dTk6l
- PXAzK8bXVLjGhF6mEkQ8kajY8yTZi7fFumyIm5biBtpgcSmwmhWRDLyhM8pfwYqQqiNR
- lRK07CMbL1V97DVYAn5kagDNyQJxtlNMW6ShNNd2XEIE5OmlqODiOYesKfB8LUu7EsTR
- LiW71RiyBRPAwpJt5Liw6EIQWxHZ6zThtTJH2j4mAyXzWIEubqTEQsZOQz1dyYIx+oWx sA== 
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3w9ykj8x2w-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 16 Feb 2024 04:13:57 +0000
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 41G4Bmj1009896;
-	Fri, 16 Feb 2024 04:13:56 GMT
-Received: from smtprelay02.wdc07v.mail.ibm.com ([172.16.1.69])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 3w6npm8prg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 16 Feb 2024 04:13:56 +0000
-Received: from smtpav04.dal12v.mail.ibm.com (smtpav04.dal12v.mail.ibm.com [10.241.53.103])
-	by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 41G4Drjl19530426
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 16 Feb 2024 04:13:55 GMT
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2D6B858064;
-	Fri, 16 Feb 2024 04:13:53 +0000 (GMT)
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 763E15805A;
-	Fri, 16 Feb 2024 04:13:52 +0000 (GMT)
-Received: from [9.61.99.202] (unknown [9.61.99.202])
-	by smtpav04.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Fri, 16 Feb 2024 04:13:52 +0000 (GMT)
-Message-ID: <f651ea8d-795a-4511-92a1-3441d3467c35@linux.ibm.com>
-Date: Thu, 15 Feb 2024 22:13:51 -0600
+	s=arc-20240116; t=1708086510; c=relaxed/simple;
+	bh=/SEClanMb1zOTsu/SpJJ69zMCA76oCxBh7VA840dNk8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uYb/kpYxxWA4H9/VUuJskiyPSCWVc8DRirPJ6ohlZe/egOF2PWi/6gl+u/s5pxS40txsFOn0PcwlyhY0eFSBHk+/AfuT5ak05gLgMdoxVGAe7RSYa6LGhP+CkwmCGexnPmBr8atcuNOpFmsd4hTdoig0YSadiBitb7tX1pG2JXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u29Siem9; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFA9CC433F1;
+	Fri, 16 Feb 2024 12:28:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708086509;
+	bh=/SEClanMb1zOTsu/SpJJ69zMCA76oCxBh7VA840dNk8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=u29Siem9VAyc1Dqteg+8FLJoJJeIbdmOtuMnJWghjzE0QtDgNuuiZzZTs3JRv4PCG
+	 aB5/TKtX4EBTYHQN+AIBXHFVYrASm863is1GLMFSK2VCda/jrn6ejJQxMPR/JAN9sO
+	 zWKGWbxjaR2usvgSQNL3S86IaNNP5x79384QxFhYKnX19XOJ31bkWt1uuRCXrQoLiX
+	 ApGiW8uh2zXiGYm2ALdbuO1ymWmmCaeudnd69J3o1Bh7/tSjfiaTk3sxuICYmY+4OG
+	 XIP1TisohKO6RGlr0D/Pni1Oki9JT0mIoPardZ/Vm/ofIEnBB+SehIFeamf5oqcZiu
+	 kcnnfrNNNWqug==
+Date: Fri, 16 Feb 2024 13:28:24 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Oleg Nesterov <oleg@redhat.com>
+Cc: Andy Lutomirski <luto@amacapital.net>, 
+	"Eric W. Biederman" <ebiederm@xmission.com>, Tycho Andersen <tycho@tycho.pizza>, linux-api@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] pidfd: change pidfd_send_signal() to respect
+ PIDFD_THREAD
+Message-ID: <20240216-albern-aufwiegen-1de327c7dafd@brauner>
+References: <20240209154305.GC3282@redhat.com>
+ <20240209-radeln-untrennbar-9d4ae05aa4cc@brauner>
+ <20240209155644.GD3282@redhat.com>
+ <20240210-abfinden-beimessen-2dbfea59b0da@brauner>
+ <20240210123033.GA27557@redhat.com>
+ <20240210-dackel-getan-619c70fefa62@brauner>
+ <20240210131518.GC27557@redhat.com>
+ <20240210-chihuahua-hinzog-3945b6abd44a@brauner>
+ <20240210165133.GD27557@redhat.com>
+ <20240214123655.GB16265@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] uapi/auxvec: Define AT_HWCAP3 and AT_HWCAP4 aux
- vector, entries
-Content-Language: en-US
-To: Michael Ellerman <mpe@ellerman.id.au>, Arnd Bergmann <arnd@kernel.org>,
-        linux-api@vger.kernel.org, Linux-Arch <linux-arch@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>
-Cc: Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        Nick Piggin <npiggin@au1.ibm.com>
-References: <a406b535-dc55-4856-8ae9-5a063644a1af@linux.ibm.com>
- <aa657f01-7cb1-43f4-947e-173fc8a53f1f@app.fastmail.com>
- <a50cf258-b861-40e5-8ca9-dec7721400ec@linux.ibm.com>
- <87edddp48o.fsf@mail.lhotse>
-From: Peter Bergner <bergner@linux.ibm.com>
-In-Reply-To: <87edddp48o.fsf@mail.lhotse>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: GyEMjP-TllGv82einiGrI8xf55oCrydv
-X-Proofpoint-ORIG-GUID: GyEMjP-TllGv82einiGrI8xf55oCrydv
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-16_03,2024-02-14_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- malwarescore=0 impostorscore=0 phishscore=0 spamscore=0 priorityscore=1501
- mlxlogscore=713 clxscore=1015 bulkscore=0 suspectscore=0 mlxscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311290000 definitions=main-2402160031
+Content-Type: multipart/mixed; boundary="xjc36g5iq2xly2w4"
+Content-Disposition: inline
+In-Reply-To: <20240214123655.GB16265@redhat.com>
 
-On 2/15/24 7:49 PM, Michael Ellerman wrote:
-> Peter Bergner <bergner@linux.ibm.com> writes:
->> On 2/15/24 2:16 AM, Arnd Bergmann wrote:
->>> On Wed, Feb 14, 2024, at 23:34, Peter Bergner wrote:
->>>> Arnd, we seem to have consensus on the patch below.  Is this something
->>>> you could take and apply to your tree? 
->>>>
->>>
->>> I don't mind taking it, but it may be better to use the
->>> powerpc tree if that is where it's actually being used.
->>
->> So this is not a powerpc only patch, but we may be the first arch
->> to use it.  Szabolcs mentioned that aarch64 was pretty quickly filling
->> up their AT_HWCAP2 and that they will eventually require using AT_HWCAP3
->> as well.  If you still think this should go through the powerpc tree,
->> I can check on that.
+
+--xjc36g5iq2xly2w4
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+
+On Wed, Feb 14, 2024 at 01:36:56PM +0100, Oleg Nesterov wrote:
+> On 02/10, Oleg Nesterov wrote:
+> >
+> > On 02/10, Christian Brauner wrote:
+> > >
+> > > +	if (type == PIDFD_SIGNAL_PROCESS_GROUP)
+> > > +		ret = kill_pgrp_info(sig, &kinfo, pid);
+> >
+> > I guess you meant
+> >
+> > 	if (type == PIDTYPE_PGID)
+> >
+> > other than that,
+> >
+> > Reviewed-by: Oleg Nesterov <oleg@redhat.com>
 > 
-> I'm happy to take it with Arnd's ack.
+> Yes, but there is another thing I hadn't thought of...
 > 
-> I trimmed up the commit message a bit, see below.
+> sys_pidfd_send_signal() does
+> 
+> 	/* Only allow sending arbitrary signals to yourself. */
+> 	ret = -EPERM;
+> 	if ((task_pid(current) != pid) &&
+> 	    (kinfo.si_code >= 0 || kinfo.si_code == SI_TKILL))
+> 		goto err;
+> 
+> and I am not sure that task_pid(current) == pid should allow
+> the "arbitrary signals" if PIDFD_SIGNAL_PROCESS_GROUP.
+> 
+> Perhaps
+> 
+> 	/* Only allow sending arbitrary signals to yourself. */
+> 	ret = -EPERM;
+> 	if ((task_pid(current) != pid || type == PIDTYPE_PGID) &&
+> 	    (kinfo.si_code >= 0 || kinfo.si_code == SI_TKILL)
+> 		goto err;
 
-Perfect.  Thanks everyone!
+Honestly, we should probably just do:
 
-Peter
+if (kinfo->si_code != SI_USER)
+        goto err
+
+and be done with it. If we get regressions reports about this then it's
+easy to fix that up. But I find that unlikely. So why not try to get
+away with something much simpler. What do you think?
+
+--xjc36g5iq2xly2w4
+Content-Type: text/x-diff; charset=utf-8
+Content-Disposition: attachment;
+	filename="0001-signal-disallow-non-SI_USER-signals-in-pidfd_send_si.patch"
+
+From 82a0d641e6f0bcf1a81731e06462df6911ecdd4e Mon Sep 17 00:00:00 2001
+From: Christian Brauner <brauner@kernel.org>
+Date: Fri, 16 Feb 2024 13:21:11 +0100
+Subject: [PATCH] signal: disallow non-SI_USER signals in pidfd_send_signal()
+
+Oleg pointed out that the following condition:
+
+/* Only allow sending arbitrary signals to yourself. */
+ret = -EPERM;
+if ((task_pid(current) != pid) &&
+    (kinfo.si_code >= 0 || kinfo.si_code == SI_TKILL))
+        goto err;
+
+doesn't account for PIDFD_SIGNAL_PROCESS_GROUP. He suggested:
+
+/* Only allow sending arbitrary signals to yourself. */
+ret = -EPERM;
+if ((task_pid(current) != pid || type == PIDTYPE_PGID) &&
+    (kinfo.si_code >= 0 || kinfo.si_code == SI_TKILL)
+        goto err;
+
+but I think we should just go all the way and error out if userspace
+specifies anything else than SI_USER as si_code. It's probably an unused
+feature right now anyway and if someone needs it than it's easy to add
+back.
+
+Reported-by: Oleg Nesterov <oleg@redhat.com>
+Link: https://lore.kernel.org/r/20240214123655.GB16265@redhat.com
+Signed-off-by: Christian Brauner <brauner@kernel.org>
+---
+ kernel/signal.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
+
+diff --git a/kernel/signal.c b/kernel/signal.c
+index cf6539a6b1cb..92a80e8d6b22 100644
+--- a/kernel/signal.c
++++ b/kernel/signal.c
+@@ -3954,10 +3954,7 @@ SYSCALL_DEFINE4(pidfd_send_signal, int, pidfd, int, sig,
+ 		if (unlikely(sig != kinfo.si_signo))
+ 			goto err;
+ 
+-		/* Only allow sending arbitrary signals to yourself. */
+-		ret = -EPERM;
+-		if ((task_pid(current) != pid) &&
+-		    (kinfo.si_code >= 0 || kinfo.si_code == SI_TKILL))
++		if (kinfo.si_code != SI_USER)
+ 			goto err;
+ 	} else {
+ 		prepare_kill_siginfo(sig, &kinfo, type);
+-- 
+2.43.0
 
 
+--xjc36g5iq2xly2w4--
 
