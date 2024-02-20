@@ -1,73 +1,56 @@
-Return-Path: <linux-api+bounces-1038-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1039-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5AFA85B6A5
-	for <lists+linux-api@lfdr.de>; Tue, 20 Feb 2024 10:06:26 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C16F85B738
+	for <lists+linux-api@lfdr.de>; Tue, 20 Feb 2024 10:23:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9771D28B933
-	for <lists+linux-api@lfdr.de>; Tue, 20 Feb 2024 09:06:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 81BAB1C24122
+	for <lists+linux-api@lfdr.de>; Tue, 20 Feb 2024 09:23:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC6295CDC4;
-	Tue, 20 Feb 2024 09:04:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 819CF5F49E;
+	Tue, 20 Feb 2024 09:23:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="b97B3c17"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SsV8kq1x"
 X-Original-To: linux-api@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6307C64CCC
-	for <linux-api@vger.kernel.org>; Tue, 20 Feb 2024 09:04:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46D815F47D;
+	Tue, 20 Feb 2024 09:23:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708419863; cv=none; b=jqG8XfoHl/yafBTqsbJANlwIw0t03H/FfkDT3F62JNKQoJNRfdHVKwo9UhjYPiWtnuLLFVNHYki4xeskDcwUnZCQGkAsU0yGx/GKrdnKKZxX+4GIh+zYFZOSWAh/drkLqpwxK77g8e2B2gHZzvGEw3EJN8+2ibxpSpqsC+MIOQE=
+	t=1708420988; cv=none; b=f5t2ZlV9hEjK/fhcPkjWq/vV0c7ctacV9bkWRL9m8vy9FbCOd6jm4LpGDu8b0LUzzM2SDDZCtYOqU40bzvqtR9E68Cq708dhrqMhlRBtlUau6cyCZvYHfh8ivwjoMAGb0Z82hicn2IrBhMkF0xuSZmgCyptivGS6r1VGm87Ls9I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708419863; c=relaxed/simple;
-	bh=inr5XQBJ4gP+HBs5eVHAxHMefhyOxnWbYqKIi1snm08=;
+	s=arc-20240116; t=1708420988; c=relaxed/simple;
+	bh=osi20qLqP/u+YS8hH5ohNztjjzr2XsST9kPCkjDKYPY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mK4p1SpWeNbs56ZsPg5zaCjVK4TEj5hy8XOcggSNuy0z2BFCMvAOZqOW39uBgdJRWRhPsQgQ2TYCH62FQ7Rq1/jt/smx9qIzxwYCjk1LzFdnxOGxKKiybvAsZdRZSaSKNiWXZSo+xtkfyii//s52kQibVuUaVTysnWEy/7ir/38=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=b97B3c17; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1708419861;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=inr5XQBJ4gP+HBs5eVHAxHMefhyOxnWbYqKIi1snm08=;
-	b=b97B3c17BPi3b/I9pwGr1IZ6NfPQfvNS4aVt+MY/lgEW2JHo86WGSCN/9iAyQ4UL8pGy6g
-	8VPoraEnNOA2UaXD4/BMwcp+ialXw/KuQRxDJ2QkJ8q0iQxL0Eiid6IkQXwTkB0M5uoTw+
-	5owRePbm8WAuv/dUdFkrPA9f355gfAU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-17-F3ZS-YIEN_6VNDKVyB9QWQ-1; Tue, 20 Feb 2024 04:04:17 -0500
-X-MC-Unique: F3ZS-YIEN_6VNDKVyB9QWQ-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 246D085A58E;
-	Tue, 20 Feb 2024 09:04:17 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.224.160])
-	by smtp.corp.redhat.com (Postfix) with SMTP id 7BD33492BCC;
-	Tue, 20 Feb 2024 09:04:15 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-	oleg@redhat.com; Tue, 20 Feb 2024 10:02:58 +0100 (CET)
-Date: Tue, 20 Feb 2024 10:02:56 +0100
-From: Oleg Nesterov <oleg@redhat.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Andy Lutomirski <luto@amacapital.net>,
-	"Eric W. Biederman" <ebiederm@xmission.com>,
-	Tycho Andersen <tycho@tycho.pizza>, linux-api@vger.kernel.org,
+	 Content-Type:Content-Disposition:In-Reply-To; b=twatv7oUfGnjdYMaJAV24DDczJEM70PFnlTEfUdW02iH1jntqOtfGYMOT4mwUUBrvE6D4L1Ve3R8def/ZVp7WgnwyKtYI3mw1yhq8x22mAdBwFQPondjRemczNYKt8HvlBcM9dJGH5BcnVwVotDXUygjCRwbACmc4dXA7MMnIaI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SsV8kq1x; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAC01C433F1;
+	Tue, 20 Feb 2024 09:23:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708420987;
+	bh=osi20qLqP/u+YS8hH5ohNztjjzr2XsST9kPCkjDKYPY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=SsV8kq1x7HobSqAQRbMoEXYiEuOXiWsPHba7F7GqG7gv3Jk5m+Oknxx30WrTMeH2P
+	 VTtNCgj6RnaKXBVRNLfMOorXZG0G3x2DQYMVVhgPGh+27skeckZT2lJN6Ev8FcpQ+k
+	 CXeHm6njCG+KirlbynZu7SZKmpiPYo3y/UjHvv6RiHsVht0Ki2/K8qAbxNC2wCxkV8
+	 eNx4nCUlFS5GgYKiZYnpm7SAwQKoVQ3tlV/3/Vq6YpP3qou4MMH8caojd2o9j6eICd
+	 lyOFmzieO8Ghh8gM6yJlY8c/Y93VKdHP7M2rvHTsDmHaNX6o441HruQP+l9L16oVvg
+	 fb0Ue3K5csgbA==
+Date: Tue, 20 Feb 2024 10:22:59 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Oleg Nesterov <oleg@redhat.com>
+Cc: Andy Lutomirski <luto@amacapital.net>, 
+	"Eric W. Biederman" <ebiederm@xmission.com>, Tycho Andersen <tycho@tycho.pizza>, linux-api@vger.kernel.org, 
 	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v2 2/2] pidfd: change pidfd_send_signal() to respect
  PIDFD_THREAD
-Message-ID: <20240220090255.GA7783@redhat.com>
-References: <20240210-dackel-getan-619c70fefa62@brauner>
- <20240210131518.GC27557@redhat.com>
+Message-ID: <20240220-pragmatisch-parzelle-8a1d10a94fae@brauner>
+References: <20240210131518.GC27557@redhat.com>
  <20240210-chihuahua-hinzog-3945b6abd44a@brauner>
  <20240210165133.GD27557@redhat.com>
  <20240214123655.GB16265@redhat.com>
@@ -76,44 +59,126 @@ References: <20240210-dackel-getan-619c70fefa62@brauner>
  <20240216-ohnedies-improvisieren-58edcc102b6a@brauner>
  <20240216181214.GA10393@redhat.com>
  <20240220-einwurf-depesche-d8682be0370c@brauner>
+ <20240220090255.GA7783@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240220-einwurf-depesche-d8682be0370c@brauner>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.9
+In-Reply-To: <20240220090255.GA7783@redhat.com>
 
-On 02/20, Christian Brauner wrote:
->
-> On Fri, Feb 16, 2024 at 07:12:14PM +0100, Oleg Nesterov wrote:
-> > On 02/16, Christian Brauner wrote:
-> > >
-> > > > SI_USER means that the target can trust the values of si_pid/si_uid
-> > > > in siginfo.
-> > >
-> > > Bah, what an annoying nonsense. I see that this can be used to emulate
-> > > stuff like SI_TIMER and SI_ASYNCIO. But I very much doubt the value of
-> > > e.g., emulating SI_DETHREAD. Maybe I'm missing something very obvious.
+On Tue, Feb 20, 2024 at 10:02:56AM +0100, Oleg Nesterov wrote:
+> On 02/20, Christian Brauner wrote:
 > >
-> > I don't understand...
->
-> My question was what the purpose of being able to to set si_code to
-> e.g., SI_DETHREAD is and then to send a signal to yourself? Because it
-> looks like that's what rt_{tg}sigqueueinfo() and pidfd_send_signal()
-> allows the caller to do. I'm just trying to understand use-cases for
-> this.
+> > On Fri, Feb 16, 2024 at 07:12:14PM +0100, Oleg Nesterov wrote:
+> > > On 02/16, Christian Brauner wrote:
+> > > >
+> > > > > SI_USER means that the target can trust the values of si_pid/si_uid
+> > > > > in siginfo.
+> > > >
+> > > > Bah, what an annoying nonsense. I see that this can be used to emulate
+> > > > stuff like SI_TIMER and SI_ASYNCIO. But I very much doubt the value of
+> > > > e.g., emulating SI_DETHREAD. Maybe I'm missing something very obvious.
+> > >
+> > > I don't understand...
+> >
+> > My question was what the purpose of being able to to set si_code to
+> > e.g., SI_DETHREAD is and then to send a signal to yourself? Because it
+> > looks like that's what rt_{tg}sigqueueinfo() and pidfd_send_signal()
+> > allows the caller to do. I'm just trying to understand use-cases for
+> > this.
+> 
+> Ah. IIRC criu uses this hack to restore the pending (arbitrary) signals
+> collected at dump time.
+> 
+> I was a bit surprise sys_pidfd_send_signal() allows this hack too, I don't
 
-Ah. IIRC criu uses this hack to restore the pending (arbitrary) signals
-collected at dump time.
+I think that we simply mirrored the restrictions in the other system
+calls.
 
-I was a bit surprise sys_pidfd_send_signal() allows this hack too, I don't
-think that criu uses pidfd at restore time, but I do not know.
+> think that criu uses pidfd at restore time, but I do not know.
 
-Oleg.
+Hm, I just checked and it doesn't use pidfd_send_signal(). It uses
+pidfds but only for pid reuse detection for RPC clients.
+
+So right now si_code is blocked for >= 0 and for SI_TKILL. If we were to
+simply ensure that si_code can't be < 0 then this amounts to effectively
+blocking @info from being filled in by userspace at all. Because 0 is a
+valid value.
+
+So could we just _try_ and either ignore the @info argument completely
+or consistenly report EINVAL when @info is non-NULL and see if anyone
+reports a regression? If there ever is a valid use-case then we can just
+add a flag argument PIDFD_SIGNAL_INFO to indicate that @info should be
+taken into account.
+
+So something like the completely untested?
+
+diff --git a/kernel/signal.c b/kernel/signal.c
+index cf6539a6b1cb..2cca42175480 100644
+--- a/kernel/signal.c
++++ b/kernel/signal.c
+@@ -3849,22 +3849,6 @@ static bool access_pidfd_pidns(struct pid *pid)
+        return true;
+ }
+
+-static int copy_siginfo_from_user_any(kernel_siginfo_t *kinfo,
+-               siginfo_t __user *info)
+-{
+-#ifdef CONFIG_COMPAT
+-       /*
+-        * Avoid hooking up compat syscalls and instead handle necessary
+-        * conversions here. Note, this is a stop-gap measure and should not be
+-        * considered a generic solution.
+-        */
+-       if (in_compat_syscall())
+-               return copy_siginfo_from_user32(
+-                       kinfo, (struct compat_siginfo __user *)info);
+-#endif
+-       return copy_siginfo_from_user(kinfo, info);
+-}
+-
+ static struct pid *pidfd_to_pid(const struct file *file)
+ {
+        struct pid *pid;
+@@ -3911,6 +3895,10 @@ SYSCALL_DEFINE4(pidfd_send_signal, int, pidfd, int, sig,
+        if (hweight32(flags & PIDFD_SEND_SIGNAL_FLAGS) > 1)
+                return -EINVAL;
+
++       /* Currently unused. */
++       if (info)
++               return -EINVAL;
++
+        f = fdget(pidfd);
+        if (!f.file)
+                return -EBADF;
+@@ -3945,23 +3933,7 @@ SYSCALL_DEFINE4(pidfd_send_signal, int, pidfd, int, sig,
+                break;
+        }
+
+-       if (info) {
+-               ret = copy_siginfo_from_user_any(&kinfo, info);
+-               if (unlikely(ret))
+-                       goto err;
+-
+-               ret = -EINVAL;
+-               if (unlikely(sig != kinfo.si_signo))
+-                       goto err;
+-
+-               /* Only allow sending arbitrary signals to yourself. */
+-               ret = -EPERM;
+-               if ((task_pid(current) != pid) &&
+-                   (kinfo.si_code >= 0 || kinfo.si_code == SI_TKILL))
+-                       goto err;
+-       } else {
+-               prepare_kill_siginfo(sig, &kinfo, type);
+-       }
++       prepare_kill_siginfo(sig, &kinfo, type);
+
+        if (type == PIDTYPE_PGID)
+                ret = kill_pgrp_info(sig, &kinfo, pid);
 
 
