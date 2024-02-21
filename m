@@ -1,146 +1,102 @@
-Return-Path: <linux-api+bounces-1046-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1047-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9406C85D19B
-	for <lists+linux-api@lfdr.de>; Wed, 21 Feb 2024 08:42:48 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9223D85D593
+	for <lists+linux-api@lfdr.de>; Wed, 21 Feb 2024 11:32:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C56631C229B3
-	for <lists+linux-api@lfdr.de>; Wed, 21 Feb 2024 07:42:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4B513285F13
+	for <lists+linux-api@lfdr.de>; Wed, 21 Feb 2024 10:32:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 197D23AC16;
-	Wed, 21 Feb 2024 07:42:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15FA046B7;
+	Wed, 21 Feb 2024 10:31:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bpNqZ7zi"
+	dkim=pass (1024-bit key) header.d=xry111.site header.i=@xry111.site header.b="NGd6lt8p"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from xry111.site (xry111.site [89.208.246.23])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E43553A8FF;
-	Wed, 21 Feb 2024 07:42:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 897543C00;
+	Wed, 21 Feb 2024 10:31:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.208.246.23
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708501364; cv=none; b=u06Ex1giY2QDU/0Mk2QI89DMdcDKbLMBTGK1cXCOEk10UGIypzBGov1daaWMRXfQsnMb29hRjJaBXUWVQoGk6pYHOEt9JSzclun/mGdkGgk9QlYJzn0aLinGcieg4hQ9PtGOtpo7fYlY7R2gmuWMkx8XE8v4LOzjhVKFNtdxjyk=
+	t=1708511517; cv=none; b=JCkmnSrJ8ZCUVQyqscxIAyLvtXKrqyUqPomEpHpMScLh12fhOPGzRZGlhm4cjDHx5hcpbGoOUE8iHW/ygfOdUVh8T+O8t6Kl+eqXhahnLPVmxVKcrrX109rn2h/QMR1w9HxFBJhKRwCMV5ZTsTHpIjBt7c+J6DYklNU6nKG1Qek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708501364; c=relaxed/simple;
-	bh=uXAz7xXdcMNahPSHz+7qP/fjoRiyBQeWYpw6GfEaaLc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s+o8GCi8PLKbBEBYbcs7qysV4+pNkE6eMpTrgoVXR1EBPzPinXSaG3a783kdsv83ZbC5Ge6+6k+FWRVaKMb/WjbXdx8Llqy3kqioQy230wU7dKA6wvXcJHJc5c8ny+Q21osFmVZAQpy0jIUgAWXy53+YYnhMPw+O4XNZzu2RmCo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bpNqZ7zi; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0691C433C7;
-	Wed, 21 Feb 2024 07:42:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708501363;
-	bh=uXAz7xXdcMNahPSHz+7qP/fjoRiyBQeWYpw6GfEaaLc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bpNqZ7ziO14grUIYwy2MhFcYCRf2S/zmY0GlzrtHJIbBsYjeGHTmMMcfVaXJfFWRk
-	 y1LHfAfoFnJE5GKdlRe1ST9BLbfLq2Eu0tH0RPBKBTVUUwPdrUOjc6rRcitVkEoZXO
-	 7e1RoD1mBgafz0qfT4SBTeysmdoSFywhRB9pyIwcyo/DLpxsTruohTJUwD/hyYL+w7
-	 z5QgzRn/oqoTsbXq3G3VzHoZzv/gTu1loZ7rvBDiSY6woJOfzTmZ8Ph1/uIsDI9IBG
-	 XalnrB3PfinJQ7uZGUS2ocoQlJv3EFK5tmkNm6g3HiVKZAofC5hufbE2cJdkNz5jhK
-	 F9hC/IctSCApw==
-Date: Wed, 21 Feb 2024 08:42:39 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Oleg Nesterov <oleg@redhat.com>
-Cc: Andy Lutomirski <luto@amacapital.net>, 
-	"Eric W. Biederman" <ebiederm@xmission.com>, Tycho Andersen <tycho@tycho.pizza>, linux-api@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] pidfd: change pidfd_send_signal() to respect
- PIDFD_THREAD
-Message-ID: <20240221-zapfhahn-pulsschlag-e8f9d919c350@brauner>
-References: <20240216-albern-aufwiegen-1de327c7dafd@brauner>
- <20240216130625.GA8723@redhat.com>
- <20240216-ohnedies-improvisieren-58edcc102b6a@brauner>
- <20240216181214.GA10393@redhat.com>
- <20240220-einwurf-depesche-d8682be0370c@brauner>
- <20240220090255.GA7783@redhat.com>
- <20240220-pragmatisch-parzelle-8a1d10a94fae@brauner>
- <20240220110012.GB7783@redhat.com>
- <20240220-anlegen-feinmechaniker-3c2cfcc3ec01@brauner>
- <20240220162201.GD7783@redhat.com>
+	s=arc-20240116; t=1708511517; c=relaxed/simple;
+	bh=Oh3gvh1Pw1qxlpgIFh2j2ukWBybQ4o4q7lMKldkLy/E=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=syTUX/AuPkpbuDbie0HCWcCsRdyrNHXh4WWr0STFZ9wkcMx1sxvLyqM/4jlL+HjOAE8QhKDW11qeMWWggIGjHVYxrvXKGg/EHUE4w5Ylh6lFmbfwmG0TajLCtLwHWvHeUhzcCnbRZazSCrE0f2HAW7wNf1CWwNiXb841JcUMzxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xry111.site; spf=pass smtp.mailfrom=xry111.site; dkim=pass (1024-bit key) header.d=xry111.site header.i=@xry111.site header.b=NGd6lt8p; arc=none smtp.client-ip=89.208.246.23
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xry111.site
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xry111.site
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xry111.site;
+	s=default; t=1708511513;
+	bh=Oh3gvh1Pw1qxlpgIFh2j2ukWBybQ4o4q7lMKldkLy/E=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=NGd6lt8pyEA17xui9odAE9LSFX6wxR1ZmmYK8Gb06gBbOSfUJ3hh+cyXSeGNYKH5c
+	 AA87aRIpu9zAgNUIagytDHZR4HBh/2b6QoMaSvQQtqreWFrBHJiR0jjPl/FlKgqPLq
+	 vtLKOfDtXWmKRqTic+8hPNr9WqieNkpXUGvunf5o=
+Received: from [127.0.0.1] (unknown [IPv6:2001:470:683e::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-384) server-digest SHA384)
+	(Client did not present a certificate)
+	(Authenticated sender: xry111@xry111.site)
+	by xry111.site (Postfix) with ESMTPSA id A19CD6722C;
+	Wed, 21 Feb 2024 05:31:48 -0500 (EST)
+Message-ID: <2d25e3bb829cbca51387eb84985db919f50ccd37.camel@xry111.site>
+Subject: Re: Chromium sandbox on LoongArch and statx -- seccomp deep
+ argument inspection again?
+From: Xi Ruoyao <xry111@xry111.site>
+To: WANG Xuerui <kernel@xen0n.name>, linux-api@vger.kernel.org
+Cc: Arnd Bergmann <arnd@arndb.de>, Christian Brauner <brauner@kernel.org>, 
+ Kees Cook <keescook@chromium.org>, Huacai Chen <chenhuacai@kernel.org>,
+ Xuefeng Li <lixuefeng@loongson.cn>, Jianmin Lv <lvjianmin@loongson.cn>,
+ Xiaotian Wu <wuxiaotian@loongson.cn>, WANG Rui <wangrui@loongson.cn>, Miao
+ Wang <shankerwangmiao@gmail.com>, Icenowy Zheng <uwu@icenowy.me>, 
+ "loongarch@lists.linux.dev" <loongarch@lists.linux.dev>, linux-arch
+ <linux-arch@vger.kernel.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>
+Date: Wed, 21 Feb 2024 18:31:46 +0800
+In-Reply-To: <f1a1bc708be543eb647df57b5eb0c0ef035baf8b.camel@xry111.site>
+References: <599df4a3-47a4-49be-9c81-8e21ea1f988a@xen0n.name>
+	 <f1a1bc708be543eb647df57b5eb0c0ef035baf8b.camel@xry111.site>
+Autocrypt: addr=xry111@xry111.site; prefer-encrypt=mutual;
+ keydata=mDMEYnkdPhYJKwYBBAHaRw8BAQdAsY+HvJs3EVKpwIu2gN89cQT/pnrbQtlvd6Yfq7egugi0HlhpIFJ1b3lhbyA8eHJ5MTExQHhyeTExMS5zaXRlPoiTBBMWCgA7FiEEkdD1djAfkk197dzorKrSDhnnEOMFAmJ5HT4CGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQrKrSDhnnEOPHFgD8D9vUToTd1MF5bng9uPJq5y3DfpcxDp+LD3joA3U2TmwA/jZtN9xLH7CGDHeClKZK/ZYELotWfJsqRcthOIGjsdAPuDgEYnkdPhIKKwYBBAGXVQEFAQEHQG+HnNiPZseiBkzYBHwq/nN638o0NPwgYwH70wlKMZhRAwEIB4h4BBgWCgAgFiEEkdD1djAfkk197dzorKrSDhnnEOMFAmJ5HT4CGwwACgkQrKrSDhnnEOPjXgD/euD64cxwqDIqckUaisT3VCst11RcnO5iRHm6meNIwj0BALLmWplyi7beKrOlqKfuZtCLbiAPywGfCNg8LOTt4iMD
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.4 
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240220162201.GD7783@redhat.com>
 
-On Tue, Feb 20, 2024 at 05:22:02PM +0100, Oleg Nesterov wrote:
-> On 02/20, Christian Brauner wrote:
-> >
-> > On Tue, Feb 20, 2024 at 12:00:12PM +0100, Oleg Nesterov wrote:
-> > >
-> > > Perhaps we can kill the "task_pid(current) != pid" check and just return
-> > > EPERM if "kinfo.si_code >= 0 || kinfo.si_code == SI_TKILL", I don't think
-> > > anobody needs pidfd_send_send_signal() to signal yourself. See below.
-> >
-> > Yeah.
-> 
-> You have my ack in advance
-> 
-> > > > +       /* Currently unused. */
-> > > > +       if (info)
-> > > > +               return -EINVAL;
-> > >
-> > > Well, to me this looks like the unnecessary restriction... And why?
-> >
-> > Because right now we aren't sure that it's used
-> 
-> Yes, but...
-> 
-> > and we aren't sure what use-cases are there.
-> 
-> the same use-cases as for rt_sigqueueinfo() ?
+On Wed, 2024-02-21 at 14:31 +0800, Xi Ruoyao wrote:
+> On Wed, 2024-02-21 at 14:09 +0800, WANG Xuerui wrote:
+>=20
+> > - just restore fstat and be done with it;
+> > - add a flag to statx so we can do the equivalent of just fstat(fd,=20
+> > &out) with statx, and ensuring an error happens if path is not empty in=
+=20
+> > that case;
+>=20
+> It's worse than "just restore fstat" considering the performance.=C2=A0 R=
+ead
+> this thread:
+> https://sourceware.org/pipermail/libc-alpha/2023-September/151320.html
 
-Specifically for pidfd_send_signal() I mean. To me it seems very
-unlikely that anyone would be opening a pidfd to itself and then use
-pidfd_send_signal() when they could entirely avoid this - race free - by
-simply using *sigqueueinfo(). But I may be wrong of course.
+Hmm, but it looks like statx already suffers the same performance issue.
+And in this libc-alpha discussion Linus said:
 
-> 
-> Christian, I won't really argue but I still disagree.
-> 
-> Let me first repeat once again, I do not know what people do with pidfd
-> and pidfd_send_signal() in particular, so I won't be surprised if this
-> change won't cause any regression report.
+   If the user asked for 'fstat()', just give the user 'fstat()'.
+  =20
+So to me we should just add fstat (and use it in Glibc for LoongArch, only
+falling back to statx if fstat returns -ENOSYS), or am I missing something?
 
-Fwiw, that's fine as long as we'd fix it up.
-
-> 
-> But at the same time, I can easily imagine the following scenario: a
-> userspace programmer tries to use pidfd_send_signal(info != NULL), gets
-> -EINVAL, decides it can't/shouldn't work, and switches to sigqueueinfo()
-> without any report to lkml.
-> 
-> > Yes, absolutely. That was always the plan. See appended patch I put on top.
-> > I put you as author since you did spot this. Let me know if you don't
-> > want that.
-> 
-> Ah. Thanks Christian. I am fine either way, whatever is more convenient
-> for you.
-> 
-> But just in case, I won't mind at all if you simply fold this minor fix
-> into your PIDFD_SEND_PROCESS_GROUP patch, I certainly don't care about
-> the "From" tag ;)
-> 
-> A really, really minor/cosmetic nit below, feel free to ignore:
-> 
-> > -		if ((task_pid(current) != pid) &&
-> > +		if (((task_pid(current) != pid) || type > PIDTYPE_TGID) &&
-> 
-> we can remove the unnecessary parens around "task_pid(current) != pid"
-> or add the extra parens aroung "type > PIDTYPE_TGID".
-> 
-> I mean, the 1st operand of "&&" is
-> 
-> 	(task_pid(current) != pid) || type > PIDTYPE_TGID
-> 
-> and this looks a bit inconsistent to me.
-
-Ok, will do.
+--=20
+Xi Ruoyao <xry111@xry111.site>
+School of Aerospace Science and Technology, Xidian University
 
