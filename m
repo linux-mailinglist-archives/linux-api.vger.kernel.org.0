@@ -1,105 +1,122 @@
-Return-Path: <linux-api+bounces-1048-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1049-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EBE485D604
-	for <lists+linux-api@lfdr.de>; Wed, 21 Feb 2024 11:49:36 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92BA985D79A
+	for <lists+linux-api@lfdr.de>; Wed, 21 Feb 2024 13:03:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C3C12B2279B
-	for <lists+linux-api@lfdr.de>; Wed, 21 Feb 2024 10:49:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 413191F22BFA
+	for <lists+linux-api@lfdr.de>; Wed, 21 Feb 2024 12:03:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A70F3A1C1;
-	Wed, 21 Feb 2024 10:49:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7249B4D58A;
+	Wed, 21 Feb 2024 12:03:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=xen0n.name header.i=@xen0n.name header.b="jxfwViVl"
+	dkim=pass (1024-bit key) header.d=xry111.site header.i=@xry111.site header.b="Jj+yFUaN"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mailbox.box.xen0n.name (mail.xen0n.name [115.28.160.31])
+Received: from xry111.site (xry111.site [89.208.246.23])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90D3D3E49E;
-	Wed, 21 Feb 2024 10:49:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.28.160.31
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9171482DD;
+	Wed, 21 Feb 2024 12:03:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.208.246.23
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708512563; cv=none; b=qSOMC1l21bM0IiGify+BnqfftokMYI9jtIOEUOQMIQh9omIEBQNlD97rR+RBjYUHmgp9K9nUX7j7f8odWVGMPuW334tgiaqSXeCcWDbMRgVfn9RUhwdBktNJStPoF9Xr4/xHAjG6jfW/Q74tzmmqZsweSbc5Tacrxbm+XdJKPO4=
+	t=1708517023; cv=none; b=n2mkVUr8JYV4n9hx5xFl9nzMGrUpDErCJ6d4cjDeYYmaHJOdDyaO/y8wr3xaA7dmjXZDppt+JaUgn/5od9AVvO9KpHbOS2dhpXWP6+71C1yjreZ9st5NLR8XbgZG2+vKy6iTAv0I9mqs0IYj8Pb861/veLd2qPJo771hTIUe1qo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708512563; c=relaxed/simple;
-	bh=mxb+gMGUDBPnZJub2OxpXr5cGn1a7UGyvzYeTJOlnQQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ufl9zoH84K+9BmDf9a0XnDA1H/oJFbvC3+Mh6mR1ZeznNP8aYGbWyw61LrjE0kJ5Xcbkd2NDLFLj7NIp045Kc6Qgpv8/CPEQ5h9bwJV/F6UCLfcguOHL7ePvM4CxjuPJRtE9bH7iOmKFbO9RDccBJz0JVFetVjc9M7QrPxe3iTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=xen0n.name; spf=pass smtp.mailfrom=xen0n.name; dkim=pass (1024-bit key) header.d=xen0n.name header.i=@xen0n.name header.b=jxfwViVl; arc=none smtp.client-ip=115.28.160.31
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=xen0n.name
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xen0n.name
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xen0n.name; s=mail;
-	t=1708512558; bh=mxb+gMGUDBPnZJub2OxpXr5cGn1a7UGyvzYeTJOlnQQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=jxfwViVltVdU1XrVjxL2is6j6mZSDlh7cWd6cir0CWPkHl7p2jymVy/+9oUxCXArS
-	 GnEw1NKQGBRsTgbJzfEnBwqTW7QPrzQbHgJ1mH5oCtPCuo94UU/Qfhe5VzlXxDltY8
-	 qEjJkNmXM4BDIbSTQWnQZq3QTl/Zo2ZAOUpVUGcI=
-Received: from [IPV6:240e:388:8d00:6500:8954:615d:4577:1f21] (unknown [IPv6:240e:388:8d00:6500:8954:615d:4577:1f21])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 385B360094;
-	Wed, 21 Feb 2024 18:49:18 +0800 (CST)
-Message-ID: <f59d73fb-7d3e-4c55-821a-082032267978@xen0n.name>
-Date: Wed, 21 Feb 2024 18:49:17 +0800
+	s=arc-20240116; t=1708517023; c=relaxed/simple;
+	bh=G9lw+pWH4sUOkUH0bXaLYBB+FhlhFrbv+OlBmjcgIkQ=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Y0x1pTrNg1pSET66Z5jOUstzuFVw5l7BYO1nRa2a30s9R+54tOP4VehaAVz/9G7wbJhoRsSsakGC0ayEOB6FcDzIKVD199Ld9T6ru+Ok0cfqmAZlhdI58f1F47hQfv+sHxDvDXCYPS2iiaiPERHF9jaruSo22EZJoChnxfKX6Lk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xry111.site; spf=pass smtp.mailfrom=xry111.site; dkim=pass (1024-bit key) header.d=xry111.site header.i=@xry111.site header.b=Jj+yFUaN; arc=none smtp.client-ip=89.208.246.23
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xry111.site
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xry111.site
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xry111.site;
+	s=default; t=1708517016;
+	bh=G9lw+pWH4sUOkUH0bXaLYBB+FhlhFrbv+OlBmjcgIkQ=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=Jj+yFUaNwpoNaTbYAo72StJA+aH4ps7quIo42ug/l/UFyv9Pk5Yp3nIcAGLlf3Ebh
+	 2jVzjsZ8lBESomvHQu954Lpbj9kzja6ChBqVvrySsJq+RxkmijzskprQTCKT3NMoEo
+	 RXL/j6bPEZ5gTy9D5SAbUJ2ilXvKJaQ3Y855P99k=
+Received: from [IPv6:240e:358:118f:d600:dc73:854d:832e:7] (unknown [IPv6:240e:358:118f:d600:dc73:854d:832e:7])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-384) server-digest SHA384)
+	(Client did not present a certificate)
+	(Authenticated sender: xry111@xry111.site)
+	by xry111.site (Postfix) with ESMTPSA id 27E6C668DF;
+	Wed, 21 Feb 2024 07:03:25 -0500 (EST)
+Message-ID: <f2b7c35e25a51e9a9f8036a5c08e95ba1ec45831.camel@xry111.site>
+Subject: Re: Chromium sandbox on LoongArch and statx -- seccomp deep
+ argument inspection again?
+From: Xi Ruoyao <xry111@xry111.site>
+To: WANG Xuerui <kernel@xen0n.name>, linux-api@vger.kernel.org
+Cc: Arnd Bergmann <arnd@arndb.de>, Christian Brauner <brauner@kernel.org>, 
+ Kees Cook <keescook@chromium.org>, Huacai Chen <chenhuacai@kernel.org>,
+ Xuefeng Li <lixuefeng@loongson.cn>, Jianmin Lv <lvjianmin@loongson.cn>,
+ Xiaotian Wu <wuxiaotian@loongson.cn>, WANG Rui <wangrui@loongson.cn>, Miao
+ Wang <shankerwangmiao@gmail.com>, Icenowy Zheng <uwu@icenowy.me>, 
+ "loongarch@lists.linux.dev" <loongarch@lists.linux.dev>, linux-arch
+ <linux-arch@vger.kernel.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>
+Date: Wed, 21 Feb 2024 20:03:16 +0800
+In-Reply-To: <f59d73fb-7d3e-4c55-821a-082032267978@xen0n.name>
+References: <599df4a3-47a4-49be-9c81-8e21ea1f988a@xen0n.name>
+	 <f1a1bc708be543eb647df57b5eb0c0ef035baf8b.camel@xry111.site>
+	 <2d25e3bb829cbca51387eb84985db919f50ccd37.camel@xry111.site>
+	 <f59d73fb-7d3e-4c55-821a-082032267978@xen0n.name>
+Autocrypt: addr=xry111@xry111.site; prefer-encrypt=mutual;
+ keydata=mDMEYnkdPhYJKwYBBAHaRw8BAQdAsY+HvJs3EVKpwIu2gN89cQT/pnrbQtlvd6Yfq7egugi0HlhpIFJ1b3lhbyA8eHJ5MTExQHhyeTExMS5zaXRlPoiTBBMWCgA7FiEEkdD1djAfkk197dzorKrSDhnnEOMFAmJ5HT4CGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQrKrSDhnnEOPHFgD8D9vUToTd1MF5bng9uPJq5y3DfpcxDp+LD3joA3U2TmwA/jZtN9xLH7CGDHeClKZK/ZYELotWfJsqRcthOIGjsdAPuDgEYnkdPhIKKwYBBAGXVQEFAQEHQG+HnNiPZseiBkzYBHwq/nN638o0NPwgYwH70wlKMZhRAwEIB4h4BBgWCgAgFiEEkdD1djAfkk197dzorKrSDhnnEOMFAmJ5HT4CGwwACgkQrKrSDhnnEOPjXgD/euD64cxwqDIqckUaisT3VCst11RcnO5iRHm6meNIwj0BALLmWplyi7beKrOlqKfuZtCLbiAPywGfCNg8LOTt4iMD
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.4 
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Chromium sandbox on LoongArch and statx -- seccomp deep argument
- inspection again?
-Content-Language: en-US
-To: Xi Ruoyao <xry111@xry111.site>, linux-api@vger.kernel.org
-Cc: Arnd Bergmann <arnd@arndb.de>, Christian Brauner <brauner@kernel.org>,
- Kees Cook <keescook@chromium.org>, Huacai Chen <chenhuacai@kernel.org>,
- Xuefeng Li <lixuefeng@loongson.cn>, Jianmin Lv <lvjianmin@loongson.cn>,
- Xiaotian Wu <wuxiaotian@loongson.cn>, WANG Rui <wangrui@loongson.cn>,
- Miao Wang <shankerwangmiao@gmail.com>, Icenowy Zheng <uwu@icenowy.me>,
- "loongarch@lists.linux.dev" <loongarch@lists.linux.dev>,
- linux-arch <linux-arch@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <599df4a3-47a4-49be-9c81-8e21ea1f988a@xen0n.name>
- <f1a1bc708be543eb647df57b5eb0c0ef035baf8b.camel@xry111.site>
- <2d25e3bb829cbca51387eb84985db919f50ccd37.camel@xry111.site>
-From: WANG Xuerui <kernel@xen0n.name>
-In-Reply-To: <2d25e3bb829cbca51387eb84985db919f50ccd37.camel@xry111.site>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 
+On Wed, 2024-02-21 at 18:49 +0800, WANG Xuerui wrote:
+>=20
+> On 2/21/24 18:31, Xi Ruoyao wrote:
+> > On Wed, 2024-02-21 at 14:31 +0800, Xi Ruoyao wrote:
+> > > On Wed, 2024-02-21 at 14:09 +0800, WANG Xuerui wrote:
+> > >=20
+> > > > - just restore fstat and be done with it;
+> > > > - add a flag to statx so we can do the equivalent of just fstat(fd,
+> > > > &out) with statx, and ensuring an error happens if path is not empt=
+y in
+> > > > that case;
+> > > It's worse than "just restore fstat" considering the performance.=C2=
+=A0 Read
+> > > this thread:
+> > > https://sourceware.org/pipermail/libc-alpha/2023-September/151320.htm=
+l
+> > Hmm, but it looks like statx already suffers the same performance issue=
+.
+> > And in this libc-alpha discussion Linus said:
+> >=20
+> > =C2=A0=C2=A0=C2=A0 If the user asked for 'fstat()', just give the user =
+'fstat()'.
+> > =C2=A0=C2=A0=C2=A0=20
+> > So to me we should just add fstat (and use it in Glibc for LoongArch, o=
+nly
+> > falling back to statx if fstat returns -ENOSYS), or am I missing someth=
+ing?
+>=20
+> Or we could add a AT_STATX_NULL_PATH flag and mandate that `path` must
+> be NULL if this flag is present -- then with simple checks we could have=
+=20
+> statx(fd, NULL, AT_STATX_NULL_PATH, STATX_BASIC_STATS, &out) that's both=
+=20
+> fstat-like and fast.
 
-On 2/21/24 18:31, Xi Ruoyao wrote:
-> On Wed, 2024-02-21 at 14:31 +0800, Xi Ruoyao wrote:
->> On Wed, 2024-02-21 at 14:09 +0800, WANG Xuerui wrote:
->>
->>> - just restore fstat and be done with it;
->>> - add a flag to statx so we can do the equivalent of just fstat(fd,
->>> &out) with statx, and ensuring an error happens if path is not empty in
->>> that case;
->> It's worse than "just restore fstat" considering the performance.  Read
->> this thread:
->> https://sourceware.org/pipermail/libc-alpha/2023-September/151320.html
-> Hmm, but it looks like statx already suffers the same performance issue.
-> And in this libc-alpha discussion Linus said:
->
->     If the user asked for 'fstat()', just give the user 'fstat()'.
->     
-> So to me we should just add fstat (and use it in Glibc for LoongArch, only
-> falling back to statx if fstat returns -ENOSYS), or am I missing something?
+But then to take the advantage in Glibc fstat() implementation, we'll
+need to try AT_STATX_NULL_PATH first, then check for EFAULT (not
+ENOSYS!) and fall back to AT_EMPTY_PATH.  The EFAULT checking seems
+nasty to me...
 
-Or we could add a AT_STATX_NULL_PATH flag and mandate that `path` must 
-be NULL if this flag is present -- then with simple checks we could have 
-statx(fd, NULL, AT_STATX_NULL_PATH, STATX_BASIC_STATS, &out) that's both 
-fstat-like and fast.
-
--- 
-WANG "xen0n" Xuerui
-
-Linux/LoongArch mailing list: https://lore.kernel.org/loongarch/
-
+--=20
+Xi Ruoyao <xry111@xry111.site>
+School of Aerospace Science and Technology, Xidian University
 
