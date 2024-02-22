@@ -1,120 +1,137 @@
-Return-Path: <linux-api+bounces-1053-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1054-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F68B85EE46
-	for <lists+linux-api@lfdr.de>; Thu, 22 Feb 2024 01:48:20 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76A1185F644
+	for <lists+linux-api@lfdr.de>; Thu, 22 Feb 2024 11:56:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0A3091F22CDC
-	for <lists+linux-api@lfdr.de>; Thu, 22 Feb 2024 00:48:20 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E7F78B26734
+	for <lists+linux-api@lfdr.de>; Thu, 22 Feb 2024 10:56:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7747910A05;
-	Thu, 22 Feb 2024 00:48:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b="clEL9H+/"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A8323FB26;
+	Thu, 22 Feb 2024 10:56:36 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail.codeweavers.com (mail.codeweavers.com [4.36.192.163])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEAC928EF;
-	Thu, 22 Feb 2024 00:48:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.36.192.163
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07B303FB20;
+	Thu, 22 Feb 2024 10:56:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708562895; cv=none; b=YegFKcwefqMCInzdhM99QFk465yu/QcgFB5X3VbAzIYKiyOl5q8w59bFlZaMgrgmo+Ri7x6M25pnuaWk2+Slw7J3JKmbHwH8ZDewdPnab+kUomA8ciLnBwrVVc68tFPwj64V9yWg2B4hBYNCCDTbrErBYNMWccmp4vJOKfIlbNA=
+	t=1708599396; cv=none; b=Fls+nbbTjWjvsEwr6Dwb4KlFrKqJHVMLv9WBkYYPP9J2PzIe860wuG0at7HCfwEc3Bqs7J/x6+CgxYkP8hQ5fA99z/xmzaO1J91/O4bPK5kel1I5cxaAo3mNxXP/2P9RFH8OCw0DiYygsQp7n1as7Z6x6S5UOU1CtFLD5qfSROU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708562895; c=relaxed/simple;
-	bh=XI8ydxcy9WrRVyKDmwdrI04D8A6JcSoF6++PWlX5+V8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=H55ZHgaE77Sh23qHufGc+SooUPlbyo+h6f4gFEavN8+yQXZNEai05yGMcBCW632BG0iIycuu7T2R22t8BVkYk4ct5YVvYoLNLz9dFyCMEFFzYYohp5gGl1IBVxgFBAI9jf5XdtwnhunRjiY8y+dwOVBBKjCErVER6F2P+1hp82A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com; spf=pass smtp.mailfrom=codeweavers.com; dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b=clEL9H+/; arc=none smtp.client-ip=4.36.192.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeweavers.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=codeweavers.com; s=s1; h=Message-ID:Date:Subject:Cc:To:From:Sender;
-	bh=mT+tca9auPHS8Y/lU5QKQsbY2Tk2BeA5WfwDxORVpa4=; b=clEL9H+/ScDXJiqQr9ZrGcrVn7
-	IrktAY3+15JIHSY6qq0TCcBxLVSbw5w3P53J0jCIw/R9HsN58oHIEPhYK2lmGri5A4LF0jcSVi3R4
-	s7vCEInKo5tT6zl+hcHgaIn5L7H/b/KyDuUvDoZNY2siIpTVfs9Lk1YbIo3DeMmlf6WEr/gnNx+eq
-	Z+5sapTuPABKRk0THMuL6e1H4p+5DQFnXNiJSB1vJtjOy1fsMXmW+Ks5hxcRfSrib8hcaS/eFcRti
-	bnRVCiPgz0/yOXqFCOUJ53JYo0QFhOMLmxw6V1i1fYze3Xy/3pF7j2WR6iyZZzkyg9xB5TTugFL/G
-	rOPOsjnQ==;
-Received: from cw137ip160.mn.codeweavers.com ([10.69.137.160] helo=camazotz.localnet)
-	by mail.codeweavers.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <zfigura@codeweavers.com>)
-	id 1rcxFq-0055i2-09;
-	Wed, 21 Feb 2024 18:48:02 -0600
-From: Elizabeth Figura <zfigura@codeweavers.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jonathan Corbet <corbet@lwn.net>, shuah <shuah@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>
-Cc: linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
- wine-devel@winehq.org,
- =?ISO-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
- Wolfram Sang <wsa@kernel.org>, Arkadiusz Hiler <ahiler@codeweavers.com>,
- Peter Zijlstra <peterz@infradead.org>, Andy Lutomirski <luto@kernel.org>,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
- Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v2 17/31] ntsync: Allow waits to use the REALTIME clock.
-Date: Wed, 21 Feb 2024 18:48:01 -0600
-Message-ID: <3275980.aeNJFYEL58@camazotz>
-In-Reply-To: <830b0788-35e6-4cbd-b195-254d434ba0cd@app.fastmail.com>
-References:
- <20240219223833.95710-1-zfigura@codeweavers.com>
- <20240219223833.95710-18-zfigura@codeweavers.com>
- <830b0788-35e6-4cbd-b195-254d434ba0cd@app.fastmail.com>
+	s=arc-20240116; t=1708599396; c=relaxed/simple;
+	bh=8g+lYpN8PpwWg0/O+aRDucx/TvK0rLYZ+SiW1gOuKe4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QvBpPs/94nTQV0/CYgQAyrrh63pmSoEPGWjgzJSgpxv/93/PyIqwvGPv13UmxK0so86l1/xKQp0FeNUGqUceksg45JVIU9Q0OmYuTp6LNdw2ubaIWiNLCgFbXZayXJV214Wy6ULYcFkwTL0EjoPOCBky1qEtiAHCK0+9opYJd9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-6087192b092so17504617b3.0;
+        Thu, 22 Feb 2024 02:56:34 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708599393; x=1709204193;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=X6Mwqh7Sl6bufwbB2Ww13UZ/ncmsWLmvES2OI56tSlk=;
+        b=ryICKrceQLTd5gSoO39lN9v/nDdf8HkU18sgFKm4cSeJH0Tl0RfgjGV2S9PgvtBzuz
+         JKaDnwQmubuKUnIfClKm/PIubvMo4q3X25IwTzxLpLSKxY5lSYPtg8R6MNzKV73R/BzL
+         mXd3rg8MFXjCk7GMOfDn2Pzop4bB4KxrtLf5Mzu2c0dhi1MkvlGr3OlGe7upx+Az306n
+         22LYt3bj/8JC1jLnVAmlNIj/0UOlWl+EaVEBeh6T19r+xrAtEkOsHNpbGfHRyPUULres
+         hddmm5yzxTz8MqWP8julAjcPk+2tH286pkkWNlBs6wxv5NMgW1l7WBVqip9xDm4isyFq
+         HsYQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW4L+7EqyniWRfiNyiBBCr3Kp45NQ/uscYIzkNs01Q7q/esahGUjoW7ouFSJHm3I4tnsgiU3YkaBjmJ4URjY6xUGlnD/k8M/kdFY8ELVVdJOXQDstC4M9e819OWMVVpEZW0GyZR6lrYwM21B+ilB6gHIQk1MpMGKIj0y9xD9eaAjAhCzwj/B6WY4dzOV164/M2aemm/rjkNT82IqCV/UJczzXrt
+X-Gm-Message-State: AOJu0YzQDDpxbe/AGemyDJv+NaQZrLnEPrX8We6ns0zdVJLqBpJ1VA+f
+	WJy5668PEbNJsfYwocgqDLsfs4xd5fxO4kvBFeR9rTeeO2q8N3aQt0rgzWFYsso=
+X-Google-Smtp-Source: AGHT+IFuZhjL2WglPCgMJead0nQTTvgJizaaE4vI9V6/6UQESGu3ntQNF5P1ykGPZ/0gue7Drzsw4A==
+X-Received: by 2002:a05:690c:d17:b0:608:4bab:8b06 with SMTP id cn23-20020a05690c0d1700b006084bab8b06mr11205956ywb.45.1708599393609;
+        Thu, 22 Feb 2024 02:56:33 -0800 (PST)
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com. [209.85.219.173])
+        by smtp.gmail.com with ESMTPSA id k62-20020a816f41000000b006047d63bc78sm3016184ywc.72.2024.02.22.02.56.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 22 Feb 2024 02:56:33 -0800 (PST)
+Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-dcd94fb9e4dso1892988276.2;
+        Thu, 22 Feb 2024 02:56:33 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUe7BQqRfQKXOoI96vL9021illL2thEgWHvUESPfMZrg7GKFVIlNEKRMaEAegwnJvVclKsnmlUs1TGh0ZvYXmXn6Qh6XJpB7uhYkkvxlMboArxO3vgzWQJBuRba/4fAi4XTom246NwKdfzKFdohPxk3PTamKXzMko51qqWSzc0UniTCDNKU0yUoSu4p0dBAmauaLpoHTHdid4g+W8c5psW0Yf6j
+X-Received: by 2002:a81:ad28:0:b0:607:838f:8991 with SMTP id
+ l40-20020a81ad28000000b00607838f8991mr18891390ywh.38.1708599393207; Thu, 22
+ Feb 2024 02:56:33 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+References: <20240219223833.95710-1-zfigura@codeweavers.com> <20240219223833.95710-2-zfigura@codeweavers.com>
+In-Reply-To: <20240219223833.95710-2-zfigura@codeweavers.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 22 Feb 2024 11:56:21 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdX=aXYmUbVNOH9osDFB+nv7N=xpE76w_Ds190tV1-D9=w@mail.gmail.com>
+Message-ID: <CAMuHMdX=aXYmUbVNOH9osDFB+nv7N=xpE76w_Ds190tV1-D9=w@mail.gmail.com>
+Subject: Re: [PATCH v2 01/31] ntsync: Introduce the ntsync driver and
+ character device.
+To: Elizabeth Figura <zfigura@codeweavers.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org, 
+	linux-api@vger.kernel.org, wine-devel@winehq.org, 
+	=?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>, 
+	Wolfram Sang <wsa@kernel.org>, Arkadiusz Hiler <ahiler@codeweavers.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Andy Lutomirski <luto@kernel.org>, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tuesday, 20 February 2024 01:01:59 CST Arnd Bergmann wrote:
-> On Mon, Feb 19, 2024, at 23:38, Elizabeth Figura wrote:
-> > NtWaitForMultipleObjects() can receive a timeout in two forms, relative or
-> > absolute. Relative timeouts are unaffected by changes to the system time and do
-> > not count down while the system suspends; for absolute timeouts the opposite is
-> > true.
-> >
-> > In order to make the interface and implementation simpler, the ntsync driver
-> > only deals in absolute timeouts. However, we need to be able to emulate both
-> > behaviours apropos suspension and time adjustment, which is achieved by allowing
-> > either the MONOTONIC or REALTIME clock to be used.
-> >
-> > Signed-off-by: Elizabeth Figura <zfigura@codeweavers.com>
-> 
-> I understand that there is no practical problem in building
-> up the API one patch at a time in the initial merge, but
-> it still feels wrong to have an incompatible ABI change in
-> the middle of the series:
-> 
-> > @@ -35,6 +37,8 @@ struct ntsync_wait_args {
-> >  	__u32 owner;
-> >  	__u32 index;
-> >  	__u32 alert;
-> > +	__u32 flags;
-> > +	__u32 pad;
-> >  };
-> 
-> If this was patch to get merged at any later point, you'd have
-> to support both the shorter and the longer structure layout
-> with their distinct ioctl command codes.
-> 
-> If you do a v3 series, maybe just merge this patch into the
-> one that introduces the struct ntsync_wait_args. Overall,
-> you could probably have fewer but larger patches anyway
-> without harming the review process, but other than this
-> one that is not a problem.
+Hi Elizabeth,
 
-Oops, yes, that does feel wrong now that you point it out.
+On Mon, Feb 19, 2024 at 11:42=E2=80=AFPM Elizabeth Figura
+<zfigura@codeweavers.com> wrote:
+> ntsync uses a misc device as the simplest and least intrusive uAPI interf=
+ace.
+>
+> Each file description on the device represents an isolated NT instance, i=
+ntended
+> to correspond to a single NT virtual machine.
+>
+> Signed-off-by: Elizabeth Figura <zfigura@codeweavers.com>
 
-I'll squash this in v3, assuming there's a need for one.
+Thanks for your patch!
 
---Zeb
+> --- a/drivers/misc/Kconfig
+> +++ b/drivers/misc/Kconfig
+> @@ -506,6 +506,17 @@ config OPEN_DICE
+>
+>           If unsure, say N.
+>
+> +config NTSYNC
+> +       tristate "NT synchronization primitive emulation"
+> +       help
+> +         This module provides kernel support for emulation of Windows NT
+> +         synchronization primitives. It is not a hardware driver.
+> +
+> +         To compile this driver as a module, choose M here: the
+> +         module will be called ntsync.
+> +
+> +         If unsure, say N.
 
+Is it useful to have this feature on systems or architectures that
+are not supported by Windows NT?
 
+If not, this should depend on <something> || COMPILE_TEST.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
