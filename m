@@ -1,182 +1,235 @@
-Return-Path: <linux-api+bounces-1056-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1057-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EC118624C0
-	for <lists+linux-api@lfdr.de>; Sat, 24 Feb 2024 12:52:12 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BB40862974
+	for <lists+linux-api@lfdr.de>; Sun, 25 Feb 2024 07:51:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7A39AB211A7
-	for <lists+linux-api@lfdr.de>; Sat, 24 Feb 2024 11:52:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B7E3928211B
+	for <lists+linux-api@lfdr.de>; Sun, 25 Feb 2024 06:51:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7132736AF3;
-	Sat, 24 Feb 2024 11:52:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1F26D535;
+	Sun, 25 Feb 2024 06:51:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="agbs7gFA"
+	dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b="eI+5MeRm"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 429BE2D600;
-	Sat, 24 Feb 2024 11:52:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708775523; cv=none; b=HuGZFXLbjWTAv7dIWQSHHpgQLxtvTwGbHc64r28k58cAIAdIDFffV9i3K3wEuozO8583Dlq+6FNteyrTMH3cTDsphVpljMOgqD7VM2bxx++TxN35CmOmiAv6ZFFDer+dPc6E57E98qaAlo7XTkmM3iMOmZA9ZUIRglxFw01o6rs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708775523; c=relaxed/simple;
-	bh=4g8OwjNOEQC7wKeKC4V5VNwyJsG+w5py00LgSr9YfqE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uU/ALjpfTLmZKRqy6/CryNze7/offc1VSNWN4jrbJmuAqmmFwG7xFY0FfhnBuxYzW5XrnLqE7GzrOIjZdlGxbi7cyOceUMrBqDZ3oAeAmPXjJYNqUQZzNmPJKrgrdYX3YBV5scZ0gYq+EbJHIkflpi662+LCz/e8KPylGfz1rRI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=agbs7gFA; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C09BCC43390;
-	Sat, 24 Feb 2024 11:52:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708775522;
-	bh=4g8OwjNOEQC7wKeKC4V5VNwyJsG+w5py00LgSr9YfqE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=agbs7gFAyla56tBPuCfbNw8TO2S01CJ8grnKmz0vPfnAnuHWBO5Hlgu/KxG7Vm4ZS
-	 A1irkLaUpDzZ3Cq5wYRdoFhwyh3JDECSWFCjYsov/I6it4AESlKgm2CEEdPMMskqGL
-	 6MurRVQSXAVrl7Y4mgYkyz+68pfSmrsT1PGv1Q0WnGKChgT0+Obd2ekvv+1c4ltd68
-	 1CfLxmDkNxXWQj8BdVfIgn0f9WaJMTlS8Jp743SGy8bfp9r67ji7hN17S4iwkkqPQU
-	 ULMyK0Fkdo+6aV5W5X6Ud2voWyOG/3wfg+/+pp7LbtbpRcEykJv4pGPXcol1o+uTe1
-	 hh3rp65PhhBwA==
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a3ed9cae56fso228116266b.1;
-        Sat, 24 Feb 2024 03:52:02 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCULIWdd0r3ubrKC4+5YU53U5cB+8osYdBnA6lLJen9au4QKEwzQ8g84lEyxkr2/OF32zNprDZx4GFwfp3M+K3/L9fl03RWlSLaL3eKF+lOOblQw7CmBJ9XMaXMIVZ9GSU8KQ1NDfMBh2Q==
-X-Gm-Message-State: AOJu0YyzUwjD7rHYUWLeaeGTkpL/Hd+pQiuQk23yZ7CcIb5HsbV+wr8m
-	gfM8jpypDY4xqVCbcsmuHn4bR0Z2HoTnrZ4oCJw3+FcAKnntfiX4IiTuCmlsnC2m83hq3vm2rq9
-	c58cYE5h/+9VobfWnPExaUMxQelQ=
-X-Google-Smtp-Source: AGHT+IGGKv6kscJ4vtVEndiPQAxbP/arG0Xopt3YmHVKjPUXL1Cq6f7gsckyyXg0V/Ja/ym6gzJZ51NIwcPJPPQI0ms=
-X-Received: by 2002:a17:906:354d:b0:a3e:b57f:2b8a with SMTP id
- s13-20020a170906354d00b00a3eb57f2b8amr1929029eja.10.1708775521113; Sat, 24
- Feb 2024 03:52:01 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03438D2E5;
+	Sun, 25 Feb 2024 06:51:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1708843908; cv=pass; b=WYqoIOGc+eAxPZGkZNZa9224avFXa5vZ0aUqYl8HDyx1AU1Nbxo9atjlmDiWzV4x/Kg8XuDgqp7ittckZZ7Wfb3+a6xGVWoWJ68wbLSVFlvnxZnaT3IJPckU4eSISsMJmcCGJCcBRCUUQbH1UFAMqOY4cgysuUBg4lMJ+elhydM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1708843908; c=relaxed/simple;
+	bh=jx8A+6qk9M52TPmO5VORSWR7NjQm1UNXTBRRmCxfeE0=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=pOXQ5dZD2/4ayhW/FuUgUYwFDucFxzeD6wh6VVDCN4FJb8hvxP4FPFks3XQ41Q7Y7y1jDPZ5KhOFGj/tJHrF++4xuV60NxPglS3f6GaOZw0SSxH8yLBkun/4XsZTQvJ04FW/qmMUWs0z5Q78ifibxa7vkoEvifQ5tvoYG9Ur+d0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me; spf=pass smtp.mailfrom=icenowy.me; dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b=eI+5MeRm; arc=pass smtp.client-ip=136.143.188.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icenowy.me
+ARC-Seal: i=1; a=rsa-sha256; t=1708843872; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=Nd740hxcMyhDsi/gek143O+hXjPm0QGoZR8xLfScTVJDQDVIfYn3FV2AeBw3qezj82Zb8UvBdbgIE1LfI9N4KUaFjmwMcFQUGBYiP1y61I4cdh4zXbo86/O8U6kTfWQ55OCan8jzeAlELua/mXwUN3xyaHridnRE3rZEle4kY+E=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1708843872; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=jx8A+6qk9M52TPmO5VORSWR7NjQm1UNXTBRRmCxfeE0=; 
+	b=GFSOdYj2NySST7l30ryLYVsyEWrWW3TcEzE15WvR0ZCq5IGe18v14g+5OlTnfo5h6EfW5ZXXLFKJzvimzSdAsiKMsI62L0bJn5yASSpA+eC63KPOJqHC07QRCjqJSc9/HU4mlVLrJ79TfIH6RKAs5RtecAezVcD7kZuWqd1B998=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=icenowy.me;
+	spf=pass  smtp.mailfrom=uwu@icenowy.me;
+	dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1708843872;
+	s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
+	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
+	bh=jx8A+6qk9M52TPmO5VORSWR7NjQm1UNXTBRRmCxfeE0=;
+	b=eI+5MeRm/okgPz13la2RFz8jGxlpKjeMIOJKzUHLHEtAOf+uwqu/UCe1GXJAZOV7
+	xblx5AtaNBgZ3zeIhk3D3sTCTQd4QsFJ+0s1TfW1AuJGVPToy/uUMzwJ12i3d4vaX9W
+	Ro5L7dlJD+A4vXWWbjtw0vBCGUfuL6KtR+A1cPbKNCXyMDIuRZAKeLQ4HATyjuZhV/Z
+	YBVyIXC3+HTijMb+Ox8gZWRSCheJ4a2Of2TJsGDUuK2iBlqKk4zgGSeC8PwAeHjbflk
+	ujyt5Wlds0zvIZYlAhr7/hpdUg1nw2Scu5qRXX1PvAgE66uK/rEj/PrAUoxecZJks4s
+	jybuXkOa4g==
+Received: from edelgard.fodlan.icenowy.me (112.94.103.221 [112.94.103.221]) by mx.zohomail.com
+	with SMTPS id 1708843870885956.8294126820598; Sat, 24 Feb 2024 22:51:10 -0800 (PST)
+Message-ID: <f063e65df92228cac6e57b0c21de6b750cf47e42.camel@icenowy.me>
+Subject: Re: Chromium sandbox on LoongArch and statx -- seccomp deep
+ argument inspection again?
+From: Icenowy Zheng <uwu@icenowy.me>
+To: Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>
+Cc: linux-api@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, Christian
+ Brauner <brauner@kernel.org>, Kees Cook <keescook@chromium.org>, Xuefeng Li
+ <lixuefeng@loongson.cn>, Jianmin Lv <lvjianmin@loongson.cn>, Xiaotian Wu
+ <wuxiaotian@loongson.cn>, WANG Rui <wangrui@loongson.cn>, Miao Wang
+ <shankerwangmiao@gmail.com>, "loongarch@lists.linux.dev"
+ <loongarch@lists.linux.dev>, linux-arch <linux-arch@vger.kernel.org>, Linux
+ Kernel Mailing List <linux-kernel@vger.kernel.org>
+Date: Sun, 25 Feb 2024 14:51:05 +0800
+In-Reply-To: <CAAhV-H4oW70y-2ZSp=b-Ed3A7Jrxfg6xvO8YpjED6To=PF0NwA@mail.gmail.com>
+References: <599df4a3-47a4-49be-9c81-8e21ea1f988a@xen0n.name>
+	 <CAAhV-H4oW70y-2ZSp=b-Ed3A7Jrxfg6xvO8YpjED6To=PF0NwA@mail.gmail.com>
+Organization: Anthon Open-Source Community
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <599df4a3-47a4-49be-9c81-8e21ea1f988a@xen0n.name>
-In-Reply-To: <599df4a3-47a4-49be-9c81-8e21ea1f988a@xen0n.name>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Sat, 24 Feb 2024 19:51:50 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H4oW70y-2ZSp=b-Ed3A7Jrxfg6xvO8YpjED6To=PF0NwA@mail.gmail.com>
-Message-ID: <CAAhV-H4oW70y-2ZSp=b-Ed3A7Jrxfg6xvO8YpjED6To=PF0NwA@mail.gmail.com>
-Subject: Re: Chromium sandbox on LoongArch and statx -- seccomp deep argument
- inspection again?
-To: WANG Xuerui <kernel@xen0n.name>
-Cc: linux-api@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, 
-	Christian Brauner <brauner@kernel.org>, Kees Cook <keescook@chromium.org>, 
-	Xuefeng Li <lixuefeng@loongson.cn>, Jianmin Lv <lvjianmin@loongson.cn>, 
-	Xiaotian Wu <wuxiaotian@loongson.cn>, WANG Rui <wangrui@loongson.cn>, 
-	Miao Wang <shankerwangmiao@gmail.com>, Icenowy Zheng <uwu@icenowy.me>, 
-	"loongarch@lists.linux.dev" <loongarch@lists.linux.dev>, linux-arch <linux-arch@vger.kernel.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-ZohoMailClient: External
 
-Hi, Xuerui,
+=E5=9C=A8 2024-02-24=E6=98=9F=E6=9C=9F=E5=85=AD=E7=9A=84 19:51 +0800=EF=BC=
+=8CHuacai Chen=E5=86=99=E9=81=93=EF=BC=9A
+> Hi, Xuerui,
+>=20
+> On Wed, Feb 21, 2024 at 2:10=E2=80=AFPM WANG Xuerui <kernel@xen0n.name>
+> wrote:
+> >=20
+> > Hi,
+> >=20
+> > Recently, we -- community LoongArch porters -- have noticed a
+> > problem
+> > where the Chromium sandbox apparently wants to deny statx [^1] so
+> > it
+> > could properly inspect arguments after the sandboxed process later
+> > falls
+> > back to fstat. The reasoning behind the change was not clear in the
+> > patch; but we found out it's basically because there's currently
+> > not a
+> > "fd-only" version of statx, so that the sandbox has no way to
+> > ensure the
+> > path argument is empty without being able to peek into the
+> > sandboxed
+> > process's memory. For architectures able to do newfstatat though,
+> > the
+> > glibc falls back to newfstatat after getting -ENOSYS for statx,
+> > then the
+> > respective SIGSYS handler [^2] takes care of inspecting the path
+> > argument, transforming allowed newfstatat's into fstat instead
+> > which is
+> > allowed and has the same type of return value.
+> >=20
+> > But, as loongarch is the first architecture to not have fstat nor
+> > newfstatat, the LoongArch glibc does not attempt falling back at
+> > all
+> > when it gets -ENOSYS for statx -- and you see the problem there!
+> >=20
+> > Actually, back when the loongarch port was under review, people
+> > were
+> > aware of the same problem with sandboxing clone3 [^3], so clone was
+> > eventually kept. Unfortunately it seemed at that time no one had
+> > noticed
+> > statx, so besides restoring fstat/newfstatat to loongarch uapi (and
+> > postponing the problem further), it seems inevitable that we would
+> > need
+> > to tackle seccomp deep argument inspection; this is obviously a
+> > decision
+> > that shouldn't be taken lightly, so I'm posting this to restart the
+> > conversation to figure out a way forward together. We basically
+> > could do
+> > one of below:
+> >=20
+> > - just restore fstat and be done with it;
+> > - add a flag to statx so we can do the equivalent of just fstat(fd,
+> > &out) with statx, and ensuring an error happens if path is not
+> > empty in
+> > that case;
+> > - tackle the long-standing problem of seccomp deep argument
+> > inspection (!).
+> From my point of view, I prefer to "restore fstat", because we need
+> to
+> use the Chrome sandbox everyday (even though it hasn't been upstream
+> by now). But I also hope "seccomp deep argument inspection" can be
+> solved in the future.
 
-On Wed, Feb 21, 2024 at 2:10=E2=80=AFPM WANG Xuerui <kernel@xen0n.name> wro=
-te:
->
-> Hi,
->
-> Recently, we -- community LoongArch porters -- have noticed a problem
-> where the Chromium sandbox apparently wants to deny statx [^1] so it
-> could properly inspect arguments after the sandboxed process later falls
-> back to fstat. The reasoning behind the change was not clear in the
-> patch; but we found out it's basically because there's currently not a
-> "fd-only" version of statx, so that the sandbox has no way to ensure the
-> path argument is empty without being able to peek into the sandboxed
-> process's memory. For architectures able to do newfstatat though, the
-> glibc falls back to newfstatat after getting -ENOSYS for statx, then the
-> respective SIGSYS handler [^2] takes care of inspecting the path
-> argument, transforming allowed newfstatat's into fstat instead which is
-> allowed and has the same type of return value.
->
-> But, as loongarch is the first architecture to not have fstat nor
-> newfstatat, the LoongArch glibc does not attempt falling back at all
-> when it gets -ENOSYS for statx -- and you see the problem there!
->
-> Actually, back when the loongarch port was under review, people were
-> aware of the same problem with sandboxing clone3 [^3], so clone was
-> eventually kept. Unfortunately it seemed at that time no one had noticed
-> statx, so besides restoring fstat/newfstatat to loongarch uapi (and
-> postponing the problem further), it seems inevitable that we would need
-> to tackle seccomp deep argument inspection; this is obviously a decision
-> that shouldn't be taken lightly, so I'm posting this to restart the
-> conversation to figure out a way forward together. We basically could do
-> one of below:
->
-> - just restore fstat and be done with it;
-> - add a flag to statx so we can do the equivalent of just fstat(fd,
-> &out) with statx, and ensuring an error happens if path is not empty in
-> that case;
-> - tackle the long-standing problem of seccomp deep argument inspection (!=
-).
-From my point of view, I prefer to "restore fstat", because we need to
-use the Chrome sandbox everyday (even though it hasn't been upstream
-by now). But I also hope "seccomp deep argument inspection" can be
-solved in the future.
+My idea is this problem needs syscalls to be designed with deep
+argument inspection in mind; syscalls before this should be considered
+as historical error and get fixed by resotring old syscalls.
 
+>=20
+>=20
+> Huacai
+>=20
+> >=20
+> > Obviously, the simplest solution would be to "just restore fstat".
+> > But
+> > again, in my opinion this is not quite a solution but a workaround
+> > -- we
+> > have good reasons to keep just statx (mainly because its feature
+> > set is
+> > a strict superset of those of fstat/newfstatat), and we're not
+> > quite in
+> > a hurry to resolve this. Because one of the prerequisites for a new
+> > Chromium port is "inclusion in Debian stable" -- as the loong64
+> > port
+> > [^4] is progressing and the next Debian release would not happen
+> > until
+> > 2025, we still have time for a more "elegant" solution.
+> >=20
+> > Alternatively, we could also introduce a new flag for statx, maybe
+> > named
+> > AT_STATX_NO_PATH or something like that, so that statx would ignore
+> > the
+> > path altogether or error on non-empty paths if called with flags
+> > containing AT_EMPTY_PATH | AT_STATX_NO_PATH. This way a seccomp
+> > policy
+> > could allow statx calls only with such flags (that are passed via
+> > register and accessible) and maintain the same level of safety as
+> > with
+> > fstat. But there is also disadvantage to this approach: the flag
+> > would
+> > be useful only for sandboxes, because in other cases there's no
+> > need to
+> > avoid reading from &path. This is also more of a workaround to
+> > avoid the
+> > deep argument inspection problem.
+> >=20
+> > Lastly, should we decide to go the hardest way, according to a
+> > previous
+> > mail [^5] (about clone3) and the LPC 2019 discussion [^6] [^7], we
+> > probably would try the metadata-annotation-based and piece-by-piece
+> > approach, as it's expected to provide the most benefit and involve
+> > less
+> > code changes. The implementation, as I surmise, will involve
+> > modifying
+> > the generic syscall entrypoint for early copying of user data, and
+> > corresponding changes to seccomp plumbing so this information is
+> > properly exposed. I don't have a roadmap for non-generic-entry
+> > arches
+> > right now, and I also haven't started designing the new seccomp ABI
+> > for
+> > that. As a matter of fact, members of the LoongArch community
+> > (myself
+> > included) are still fresh to this area of expertise, so a bit more
+> > of
+> > your feedback will be appreciated.
+> >=20
+> > Thanks to Miao Wang from AOSC for doing much of the investigation.
+> >=20
+> > [^1]:
+> > https://chromium-review.googlesource.com/c/chromium/src/+/2823150
+> > [^2]:
+> > https://chromium.googlesource.com/chromium/src/sandbox/+/c085b51940bd/l=
+inux/seccomp-bpf-helpers/sigsys_handlers.cc#355
+> > [^3]:
+> > https://lore.kernel.org/linux-arch/20220511211231.GG7074@brightrain.aer=
+ifal.cx/
+> > [^4]: https://wiki.debian.org/Ports/loong64
+> > [^5]:
+> > https://lwn.net/ml/linux-kernel/201905301122.88FD40B3@keescook/
+> > [^6]: https://lwn.net/Articles/799557/
+> > [^7]:
+> > https://lpc.events/event/4/contributions/560/attachments/397/640/deep-a=
+rg-inspection.pdf
+> >=20
+> > --
+> > WANG "xen0n" Xuerui
+> >=20
+> > Linux/LoongArch mailing list:https://lore.kernel.org/loongarch/
+> >=20
 
-Huacai
-
->
-> Obviously, the simplest solution would be to "just restore fstat". But
-> again, in my opinion this is not quite a solution but a workaround -- we
-> have good reasons to keep just statx (mainly because its feature set is
-> a strict superset of those of fstat/newfstatat), and we're not quite in
-> a hurry to resolve this. Because one of the prerequisites for a new
-> Chromium port is "inclusion in Debian stable" -- as the loong64 port
-> [^4] is progressing and the next Debian release would not happen until
-> 2025, we still have time for a more "elegant" solution.
->
-> Alternatively, we could also introduce a new flag for statx, maybe named
-> AT_STATX_NO_PATH or something like that, so that statx would ignore the
-> path altogether or error on non-empty paths if called with flags
-> containing AT_EMPTY_PATH | AT_STATX_NO_PATH. This way a seccomp policy
-> could allow statx calls only with such flags (that are passed via
-> register and accessible) and maintain the same level of safety as with
-> fstat. But there is also disadvantage to this approach: the flag would
-> be useful only for sandboxes, because in other cases there's no need to
-> avoid reading from &path. This is also more of a workaround to avoid the
-> deep argument inspection problem.
->
-> Lastly, should we decide to go the hardest way, according to a previous
-> mail [^5] (about clone3) and the LPC 2019 discussion [^6] [^7], we
-> probably would try the metadata-annotation-based and piece-by-piece
-> approach, as it's expected to provide the most benefit and involve less
-> code changes. The implementation, as I surmise, will involve modifying
-> the generic syscall entrypoint for early copying of user data, and
-> corresponding changes to seccomp plumbing so this information is
-> properly exposed. I don't have a roadmap for non-generic-entry arches
-> right now, and I also haven't started designing the new seccomp ABI for
-> that. As a matter of fact, members of the LoongArch community (myself
-> included) are still fresh to this area of expertise, so a bit more of
-> your feedback will be appreciated.
->
-> Thanks to Miao Wang from AOSC for doing much of the investigation.
->
-> [^1]: https://chromium-review.googlesource.com/c/chromium/src/+/2823150
-> [^2]:
-> https://chromium.googlesource.com/chromium/src/sandbox/+/c085b51940bd/lin=
-ux/seccomp-bpf-helpers/sigsys_handlers.cc#355
-> [^3]:
-> https://lore.kernel.org/linux-arch/20220511211231.GG7074@brightrain.aerif=
-al.cx/
-> [^4]: https://wiki.debian.org/Ports/loong64
-> [^5]: https://lwn.net/ml/linux-kernel/201905301122.88FD40B3@keescook/
-> [^6]: https://lwn.net/Articles/799557/
-> [^7]:
-> https://lpc.events/event/4/contributions/560/attachments/397/640/deep-arg=
--inspection.pdf
->
-> --
-> WANG "xen0n" Xuerui
->
-> Linux/LoongArch mailing list:https://lore.kernel.org/loongarch/
->
 
