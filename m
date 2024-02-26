@@ -1,127 +1,259 @@
-Return-Path: <linux-api+bounces-1072-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1077-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9972867B2E
-	for <lists+linux-api@lfdr.de>; Mon, 26 Feb 2024 17:09:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47848867AE2
+	for <lists+linux-api@lfdr.de>; Mon, 26 Feb 2024 16:55:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 40ACBB39123
-	for <lists+linux-api@lfdr.de>; Mon, 26 Feb 2024 15:23:28 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 96819B2E02E
+	for <lists+linux-api@lfdr.de>; Mon, 26 Feb 2024 15:35:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C04A412BEBD;
-	Mon, 26 Feb 2024 15:21:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4EC812BEAF;
+	Mon, 26 Feb 2024 15:35:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QAFrZ5js"
 X-Original-To: linux-api@vger.kernel.org
-Received: from us-smtp-delivery-44.mimecast.com (us-smtp-delivery-44.mimecast.com [205.139.111.44])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0922012BEA1
-	for <linux-api@vger.kernel.org>; Mon, 26 Feb 2024 15:21:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.139.111.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3DDD12B15B;
+	Mon, 26 Feb 2024 15:35:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708960896; cv=none; b=hHEDeAC6GpZF+89FFolZDorjtw9NaaDQ8AYP9Krf4vzpXHs+Om0dm7siB0GsP5DwHWrN1lQZeetm8i8EqvBEltgm0B6SdbI1tImpH1Ajgqz7HPlQfGOvvkMd5+AviTEPOOglYJ0jSPtDnKbMXeSUMe3ZYeW80a/pRU3Zwcdvo3I=
+	t=1708961738; cv=none; b=PQyaydspEX2IyJwlMtkxE7UTkyZQLf9/iWb9S8OtJBmC02Y43kehOIltF9EaSpXEE0a5Q6ggPxVlf3XQKF15tsmeWYsLyOedZxsshF7rrCRs8Eay8fft3lvmFLaFtoZuBdHSfC8LGbUkHeo7jAr4HRjTasMc1suZzUrVxuVZZfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708960896; c=relaxed/simple;
-	bh=y3ktYAlWGlGh0UnsX6kzOaJ18fiNnqB5N6XWTMa6ZYo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Tf5aJiWXD0gTIdlvSbkXJuj7/hk55YNKx0yTQ7Lk4/ptXdfUdjYpuR2GcGfkJonSbHTJm165WrctG1EgXMQniz1U2YlBg2rSdceu1y10BjrXLLRqshxZJiiYQwyeRELkzPnQuN3sdxlucNaDEWWVwD34wI2qp4wWWshZ47gAM/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=fail smtp.mailfrom=kernel.org; arc=none smtp.client-ip=205.139.111.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=kernel.org
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-612-hUFdyclRNYa7u9Dzspq9HQ-1; Mon, 26 Feb 2024 10:21:27 -0500
-X-MC-Unique: hUFdyclRNYa7u9Dzspq9HQ-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AC846185A781;
-	Mon, 26 Feb 2024 15:21:26 +0000 (UTC)
-Received: from gentoo.redhat.com (unknown [10.45.224.64])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id ED5D3492BE2;
-	Mon, 26 Feb 2024 15:21:25 +0000 (UTC)
-From: Alexey Gladkov <legion@kernel.org>
-To: LKML <linux-kernel@vger.kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>
-Cc: linux-api@vger.kernel.org
-Subject: [RFC PATCH v2 5/5] fbcon: Allow to get max font width and height
-Date: Mon, 26 Feb 2024 16:21:14 +0100
-Message-ID: <ab4ce129aef39b81cd27f10d49142a1c64f87a37.1708960303.git.legion@kernel.org>
-In-Reply-To: <cover.1708960303.git.legion@kernel.org>
-References: <cover.1708011391.git.legion@kernel.org> <cover.1708960303.git.legion@kernel.org>
+	s=arc-20240116; t=1708961738; c=relaxed/simple;
+	bh=XI8VRq7ucg6AHJVkerSid+ikMVTAXLYHHE043YHYtTY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ixuwxTp60E19lnNjvdKMxQ4wU0fCaEU6ONIJHg5Y+xbYjRLdl5D1fzE42PjYHH3GR2PCjcxNk4aYJoB0gKK9kBd1EF4X6vJ2z/ECwD8uXyRu9rvNSVgbj2ivRq/I6oauhBymDCqITAFghOv8FDDc6arqZ+6j+1CcuCqWJ7KIYJ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QAFrZ5js; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A6FAC433F1;
+	Mon, 26 Feb 2024 15:35:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708961738;
+	bh=XI8VRq7ucg6AHJVkerSid+ikMVTAXLYHHE043YHYtTY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QAFrZ5js6pTW5ejTIi62NrMQ/I+5wBQ0Q8LzEDJfDbhfKSjVZCto9kAObygW/58T+
+	 s7l9DfyTlLqXxv+ITWetU3kO9hZ7AoijWG0ZLgENAOdTaTqbgHqDknrTLTJN1pr36H
+	 JsFwqDiv4p5Td0i5zBc6rv0+a/dHhCk3CrBu9qXSI+wcILeXVugZ0m9EIXuqm+D6kY
+	 Ybr0ShLv0drt0sz8H9xlkwNqMcHWv0O2ROxnEbxd4GTHG7tiAM4RoKt58nJqbynbCX
+	 4FB90PDKPKn5U9Y3GRKSI40i++bvl0wOwu0hsfPnKd5OUruSG2U9vbqyoNODZ61N6Q
+	 It34GQkc4CHBQ==
+Date: Mon, 26 Feb 2024 16:35:30 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: WANG Xuerui <kernel@xen0n.name>
+Cc: Arnd Bergmann <arnd@arndb.de>, Xi Ruoyao <xry111@xry111.site>, 
+	Icenowy Zheng <uwu@icenowy.me>, Huacai Chen <chenhuacai@kernel.org>, linux-api@vger.kernel.org, 
+	Kees Cook <keescook@chromium.org>, Xuefeng Li <lixuefeng@loongson.cn>, 
+	Jianmin Lv <lvjianmin@loongson.cn>, Xiaotian Wu <wuxiaotian@loongson.cn>, 
+	WANG Rui <wangrui@loongson.cn>, Miao Wang <shankerwangmiao@gmail.com>, 
+	"loongarch@lists.linux.dev" <loongarch@lists.linux.dev>, Linux-Arch <linux-arch@vger.kernel.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: Chromium sandbox on LoongArch and statx -- seccomp deep argument
+ inspection again?
+Message-ID: <20240226-altmodisch-gedeutet-91c5ba2f6071@brauner>
+References: <599df4a3-47a4-49be-9c81-8e21ea1f988a@xen0n.name>
+ <CAAhV-H4oW70y-2ZSp=b-Ed3A7Jrxfg6xvO8YpjED6To=PF0NwA@mail.gmail.com>
+ <f063e65df92228cac6e57b0c21de6b750cf47e42.camel@icenowy.me>
+ <24c47463f9b469bdc03e415d953d1ca926d83680.camel@xry111.site>
+ <61c5b883762ba4f7fc5a89f539dcd6c8b13d8622.camel@icenowy.me>
+ <3c396b7c-adec-4762-9584-5824f310bf7b@app.fastmail.com>
+ <6f7a8e320f3c2bd5e9b704bb8d1f311714cd8644.camel@xry111.site>
+ <b9fb0de1-bfb9-47a6-9730-325e7641c182@app.fastmail.com>
+ <20240226-graustufen-hinsehen-6c578a744806@brauner>
+ <7641391a-b109-49b3-84c8-7e72053210d8@xen0n.name>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.10
+In-Reply-To: <7641391a-b109-49b3-84c8-7e72053210d8@xen0n.name>
 
-Signed-off-by: Alexey Gladkov <legion@kernel.org>
----
- drivers/video/fbdev/core/fbcon.c | 22 +++++++++++++++++++++-
- 1 file changed, 21 insertions(+), 1 deletion(-)
+On Mon, Feb 26, 2024 at 10:00:05PM +0800, WANG Xuerui wrote:
+> On 2/26/24 21:32, Christian Brauner wrote:
+> > On Mon, Feb 26, 2024 at 10:20:23AM +0100, Arnd Bergmann wrote:
+> > > On Mon, Feb 26, 2024, at 08:09, Xi Ruoyao wrote:
+> > > > On Mon, 2024-02-26 at 07:56 +0100, Arnd Bergmann wrote:
+> > > > > On Mon, Feb 26, 2024, at 07:03, Icenowy Zheng wrote:
+> > > > > > 在 2024-02-25星期日的 15:32 +0800，Xi Ruoyao写道：
+> > > > > > > On Sun, 2024-02-25 at 14:51 +0800, Icenowy Zheng wrote:
+> > > > > > > > My idea is this problem needs syscalls to be designed with deep
+> > > > > > > > argument inspection in mind; syscalls before this should be
+> > > > > > > > considered
+> > > > > > > > as historical error and get fixed by resotring old syscalls.
+> > > > > > > 
+> > > > > > > I'd not consider fstat an error as using statx for fstat has a
+> > > > > > > performance impact (severe for some workflows), and Linus has
+> > > > > > > concluded
+> > > > > > 
+> > > > > > Sorry for clearance, I mean statx is an error in ABI design, not fstat.
+> > > > 
+> > > > I'm wondering why we decided to use AT_EMPTY_PATH/"" instead of
+> > > > "AT_NULL_PATH"/nullptr in the first place?
+> > > 
+> > > Not sure, but it's hard to change now since the libc
+> > > implementation won't easily know whether using the NULL
+> > > path is safe on a given kernel. It could check the kernel
+> > > version number, but that adds another bit of complexity in
+> > > the fast path and doesn't work on old kernels with the
+> > > feature backported.
+> > > 
+> > > > But it's not irrational to pass a path to syscall, as long as we still
+> > > > have the concept of file system (maybe in 2371 or some year we'll use a
+> > > > 128-bit UUID instead of path).
+> > > > 
+> > > > > The problem I see with the 'use use fstat' approach is that this
+> > > > > does not work on 32-bit architectures, unless we define a new
+> > > > > fstatat64_time64() syscall, which is one of the things that statx()
+> > > > 
+> > > > "fstat64_time64".  Using statx for fstatat should be just fine.
+> > > 
+> > > Right. It does feel wrong to have only an fstat() variant but not
+> > > fstatat() if we go there.
+> > > 
+> > > > Or maybe we can just introduce a new AT_something to make statx
+> > > > completely ignore pathname but behave like AT_EMPTY_PATH + "".
+> > > 
+> > > I think this is better than going back to fstat64_time64(), but
+> > > it's still not great because
+> > > 
+> > > - all the reserved flags on statx() are by definition incompatible
+> > >    with existing kernels that return -EINVAL for any flag they do
+> > >    not recognize.
+> > > 
+> > > - you still need to convince libc developers to actually use
+> > >    the flag despite the backwards compatibility problem, either
+> > >    with a fallback to the current behavior or a version check.
+> > > 
+> > > Using the NULL path as a fallback would solve the problem with
+> > > seccomp, but it would not make the normal case any faster.
+> > > 
+> > > > > was trying to avoid.
+> > > > 
+> > > > Oops.  I thought "newstat" should be using 64-bit time but it seems the
+> > > > "new" is not what I'd expected...  The "new" actually means "newer than
+> > > > Linux 0.9"! :(
+> > > > 
+> > > > Let's not use "new" in future syscall names...
+> > > 
+> > > Right, we definitely can't ever succeed. On some architectures
+> > > we even had "oldstat" and "stat" before "newstat" and "stat64",
+> > > and on some architectures we mix them up. E.g. x86_64 has fstat()
+> > > and fstatat64() with the same structure but doesn't define
+> > > __NR_newfstat. On mips64, there is a 'newstat' but it has 32-bit
+> > > timestamps unlike all other 64-bit architectures.
+> > > 
+> > > statx() was intended to solve these problems once and for all,
+> > > and it appears that we have failed again.
+> > 
+> > New apis don't invalidate old apis necessarily. That's just not going to
+> > work in an age where you have containerized workloads.
+> > 
+> > statx() is just the beginning of this. A container may have aritrary
+> > seccomp profiles that return ENOSYS or even EPERM for whatever reason
+> > for any new api that exists. So not implementing fstat() might already
+> > break container workloads.
+> > 
+> > Another example: You can't just skip on implementing mount() and only
+> > implement the new mount api for example. Because tools that look for api
+> > simplicity and don't need complex setup will _always_ continue to use
+> > mount() and have a right to do so.
+> > 
+> > And fwiw, mount() isn't fully inspectable by seccomp since forever. The
+> > list goes on and on.
+> > 
+> > But let's look at the original mail. Why are they denying statx() and
+> > what's that claim about it not being able to be rewritten to something
+> > safe? Looking at:
+> > 
+> > intptr_t SIGSYSFstatatHandler(const struct arch_seccomp_data& args,
+> >                                void* fs_denied_errno) {
+> >    if (args.nr == __NR_fstatat_default) {
+> >      if (*reinterpret_cast<const char*>(args.args[1]) == '\0' &&
+> >          args.args[3] == static_cast<uint64_t>(AT_EMPTY_PATH)) {
+> >        return syscall(__NR_fstat_default, static_cast<int>(args.args[0]),
+> >                       reinterpret_cast<default_stat_struct*>(args.args[2]));
+> >      }
+> >      return -reinterpret_cast<intptr_t>(fs_denied_errno);
+> >    }
+> > 
+> > What this does it to rewrite fstatat() to fstat() if it was made with
+> > AT_EMPTY_PATH and the path argument was "". That is easily doable for
+> > statx() because it has the exact same AT_EMPTY_PATH semantics that
+> > fstatat() has.
+> > 
+> > Plus, they can even filter on mask and rewrite that to something that
+> > they think is safe. For example, STATX_BASIC_STATS which is equivalent
+> > to what any fstat() call returns. So it's pretty difficult to understand
+> > what their actual gripe with statx() is.
+> > 
+> > It can't be that statx() passes a struct because fstatat() and fstat()
+> > do that too. So what exactly is that problem there?
+> 
+> From our investigation:
+> 
+> For (new)fstatat calls that the sandboxed process may make, this SIGSYS
+> handler either:
+> 
+> * turns allowed calls (those looking at fd's) into fstat's that only have
+> one argument (the fd) each, or
+> * denies the call,
 
-diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-index 1183e7a871f8..055d0d01243c 100644
---- a/drivers/video/fbdev/core/fbcon.c
-+++ b/drivers/video/fbdev/core/fbcon.c
-@@ -101,6 +101,9 @@ enum {
- 	FBCON_LOGO_DONTSHOW	= -3	/* do not show the logo */
- };
- 
-+#define FBCON_MAX_FONT_WIDTH 32
-+#define FBCON_MAX_FONT_HEIGHT 32
-+
- static struct fbcon_display fb_display[MAX_NR_CONSOLES];
- 
- static struct fb_info *fbcon_registered_fb[FB_MAX];
-@@ -2458,6 +2461,21 @@ static int fbcon_do_set_font(struct vc_data *vc, int w, int h, int charcount,
- 	return ret;
- }
- 
-+
-+static int fbcon_font_info(struct vc_data *vc, struct console_font_info *info)
-+{
-+	info->min_width = 0;
-+	info->min_height = 0;
-+
-+	info->max_width = FBCON_MAX_FONT_WIDTH;
-+	info->max_height = FBCON_MAX_FONT_HEIGHT;
-+
-+	info->flags = KD_FONT_INFO_FLAG_LOW_SIZE | KD_FONT_INFO_FLAG_HIGH_SIZE;
-+
-+	return 0;
-+}
-+
-+
- /*
-  *  User asked to set font; we are guaranteed that charcount does not exceed 512
-  *  but lets not assume that, since charcount of 512 is small for unicode support.
-@@ -2485,7 +2503,8 @@ static int fbcon_set_font(struct vc_data *vc, struct console_font *font,
- 	    h > FBCON_SWAP(info->var.rotate, info->var.yres, info->var.xres))
- 		return -EINVAL;
- 
--	if (font->width > 32 || font->height > 32)
-+	if (font->width > FBCON_MAX_FONT_WIDTH ||
-+	    font->height > FBCON_MAX_FONT_HEIGHT)
- 		return -EINVAL;
- 
- 	/* Make sure drawing engine can handle the font */
-@@ -3160,6 +3179,7 @@ static const struct consw fb_con = {
- 	.con_scroll 		= fbcon_scroll,
- 	.con_switch 		= fbcon_switch,
- 	.con_blank 		= fbcon_blank,
-+	.con_font_info 		= fbcon_font_info,
- 	.con_font_set 		= fbcon_set_font,
- 	.con_font_get 		= fbcon_get_font,
- 	.con_font_default	= fbcon_set_def_font,
--- 
-2.44.0
+Yes, but look at the filtering that they do:
 
+if (args.nr == __NR_fstatat_default) {
+	if (*reinterpret_cast<const char*>(args.args[1]) == '\0' &&
+	    args.args[3] == static_cast<uint64_t>(AT_EMPTY_PATH)) {
+
+So if you have a statx() call instead of an fstatat() call this is
+trivially:
+
+if (args.nr == __NR_statx) {
+	if (*reinterpret_cast<const char*>(args.args[1]) == '\0' &&
+	    args.args[2] == static_cast<uint64_t>(AT_EMPTY_PATH)) {
+
+maybe if they care about it also simply check
+args.args[3] == STATX_BASIC_STATS.
+
+And then just as with fstatat() rewrite it to fstat().
+
+> 
+> so the sandbox only ever sees fstat calls and no (new)fstatat's, and the
+> guarantee that only open fds can ever been stat'ed trivially holds.
+> 
+> With statx, however, there's no way of guaranteeing "only look at fd"
+> semantics without peeking into the path argument, because a non-empty path
+> makes AT_EMPTY_PATH ineffective, and the flags are not validated prior to
+> use making it near-impossible to introduce new semantics in a
+> backwards-compatible manner.
+
+I don't understand. That's exactly the same thing as for fstatat(). My
+point is that you can turn statx() into fstat() just like you can turn
+fstatat() into fstat(). So if you add fstat()/fstat64() what's left to
+do?
+
+> > What this tells me without knowing the exact reason is that they thought
+> > "Oh, if we just return ENOSYS then the workload or glibc will just
+> > always be able to fallback to fstat() or fstatat()". Which ultimately is
+> > the exact same thing that containers often assume.
+> > 
+> > So really, just skipping on various system calls isn't going to work.
+> > You can't just implement new system calls and forget about the rest
+> > unless you know exactly what workloads your architecure will run on.
+> > 
+> > Please implement fstat() or fstatat() and stop inventing hacks for
+> > statx() to make weird sandboxing rules work, please.
+> 
+> We have already provided fstat(at) on LoongArch for a while by
+> unconditionally doing statx and translating the returned structure -- see
+> the [glibc] and [golang] [golang-2] implementations for example -- without
+
+But you're doing that translation in userspace. I was talking about
+adding the fstat()/fstat64() system calls.
 
