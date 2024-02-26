@@ -1,117 +1,118 @@
-Return-Path: <linux-api+bounces-1078-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1079-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2554C867B26
-	for <lists+linux-api@lfdr.de>; Mon, 26 Feb 2024 17:08:11 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F2D8867C83
+	for <lists+linux-api@lfdr.de>; Mon, 26 Feb 2024 17:50:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4FC03B270C2
-	for <lists+linux-api@lfdr.de>; Mon, 26 Feb 2024 15:40:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EB5221F2A5EF
+	for <lists+linux-api@lfdr.de>; Mon, 26 Feb 2024 16:50:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E229612BF03;
-	Mon, 26 Feb 2024 15:40:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB9E712C800;
+	Mon, 26 Feb 2024 16:50:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pDxVS0q8"
+	dkim=pass (1024-bit key) header.d=xry111.site header.i=@xry111.site header.b="M1bF301I"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from xry111.site (xry111.site [89.208.246.23])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 874D212BEAF;
-	Mon, 26 Feb 2024 15:40:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8387A12BE8A;
+	Mon, 26 Feb 2024 16:50:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.208.246.23
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708962032; cv=none; b=n/wr0d2PaDruVpVlnqpNnZDK63R2c+y1YtfMI7GCjpEbxj5uNR2JFAEE4bimPzyMIR39r9TNu7DhCdylPzvEFKv2GKqH+DMmDeCg3erPmiwPHNd2PlARirh7T5BocvOGHHnsA+GH0qx97BDTzlxt3vT1Ed8+dwb4YZdYyzpCBbs=
+	t=1708966212; cv=none; b=Oyp3/Ef5R0Pek1a6l09yvZEAE2Gu9Q06/C5ZSJ0V+TqR9P5tZ6FR3lGvHEtxWyIdBgszSBNd5saiS9BtBqSAIeEaCFhbyDIoDIHIzpedrgBflNCYfEnXP5f8nr4ICpSNpxl/me8cnRdERqvWzFSQVJI8Q/VXSKvkPYhZ5sI1/oM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708962032; c=relaxed/simple;
-	bh=LqdZVF/5a5y9c7R0XJh34mAsJKHFvghTFVi0Kr3+2NY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nwC30FoeTXpKO/dNmwnO9GJXrNSRMXrZmgKg5AQFX/95eUR5VX2+WuDrRFU5OvLCLo7scsCVKbYanCm7Vo3IcpmhFL7qX2sTUAr0dT/t56SSBHZU0LN+NI3Ic4sd6jQNH3uVqMBjziUVb3/8SZEFRVhHhhrqNuGEv2KUFW+WdaE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pDxVS0q8; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38C92C433C7;
-	Mon, 26 Feb 2024 15:40:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708962032;
-	bh=LqdZVF/5a5y9c7R0XJh34mAsJKHFvghTFVi0Kr3+2NY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pDxVS0q8Z3vpInLZ2QGBmd3bVTIaQVmD0Lg1FYweLvPwIbiCpQkMP7ZsWJjB8XGxz
-	 gzfyUh1+Ri7hI47ZLD0r2BbaP4NKvMOkYaCvn8A6uukIq4ZRgoAEGku8/mMxhNqzkA
-	 yvH2C6zhpPfy58dvkw+7jlsSzx5UfhYSmHsA0+tq1nwW+D9zb3A5R/sPl88jfUmX1O
-	 C2bPKjjaN4znMiobBOe3M/Kr19GSPeS6tZECdBbtUYH87T3HRdbua3LgIychQrhL6L
-	 E4SFQz52hUoq8sS6Y1U0lSrRsoxaUm8Lk/mld0Yd6oJw3qUFfKO2RjYMYTv722TFJQ
-	 aki7mnG1lzw/g==
-Date: Mon, 26 Feb 2024 16:40:25 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Xi Ruoyao <xry111@xry111.site>, Icenowy Zheng <uwu@icenowy.me>, 
-	Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, linux-api@vger.kernel.org, 
-	Kees Cook <keescook@chromium.org>, Xuefeng Li <lixuefeng@loongson.cn>, 
-	Jianmin Lv <lvjianmin@loongson.cn>, Xiaotian Wu <wuxiaotian@loongson.cn>, 
-	WANG Rui <wangrui@loongson.cn>, Miao Wang <shankerwangmiao@gmail.com>, 
-	"loongarch@lists.linux.dev" <loongarch@lists.linux.dev>, Linux-Arch <linux-arch@vger.kernel.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: Chromium sandbox on LoongArch and statx -- seccomp deep argument
- inspection again?
-Message-ID: <20240226-sandbank-bewerben-219120323e29@brauner>
+	s=arc-20240116; t=1708966212; c=relaxed/simple;
+	bh=tYJtKOb5YnFqEfI64gUF97SWIUHpOFQPG5IqgXsQzxY=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=LbuFX22eOXoioXyZaUOWmxtTYiU6PB2htPVeWTX1j4StjWyHAMTQLMTOryGl++ykP6s0O87tyPsin8BK67obuNGapRFOmWluvGUMUKZMJclPfi+mf4xgNEqujhjyP/dDZpeyvUDc09xWKbhp4x7hF1HGEdYymLtBGBeUhXWxrIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xry111.site; spf=pass smtp.mailfrom=xry111.site; dkim=pass (1024-bit key) header.d=xry111.site header.i=@xry111.site header.b=M1bF301I; arc=none smtp.client-ip=89.208.246.23
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xry111.site
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xry111.site
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xry111.site;
+	s=default; t=1708966207;
+	bh=tYJtKOb5YnFqEfI64gUF97SWIUHpOFQPG5IqgXsQzxY=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=M1bF301I5pHXWIqKowEvXZnugysDMbfT3wTfA7qcjhKz9uSu0mytoul7Sj3riwCki
+	 0btIqqUngLHgyE1W1pUD3G4BtlxJJy1uSZXjH1kIty7wGFzyWFe6dEWHVVFxHYGzty
+	 /x1VA7kY0mPFaP7OgjjseuG8Cb3rkoXO1MKcVzR0=
+Received: from [IPv6:240e:358:11b4:ae00:dc73:854d:832e:5] (unknown [IPv6:240e:358:11b4:ae00:dc73:854d:832e:5])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-384) server-digest SHA384)
+	(Client did not present a certificate)
+	(Authenticated sender: xry111@xry111.site)
+	by xry111.site (Postfix) with ESMTPSA id F41D466C2D;
+	Mon, 26 Feb 2024 11:49:57 -0500 (EST)
+Message-ID: <8e5e31daa3b76dc80ff5ec6ad46191bfd87f7df7.camel@xry111.site>
+Subject: Re: Chromium sandbox on LoongArch and statx -- seccomp deep
+ argument inspection again?
+From: Xi Ruoyao <xry111@xry111.site>
+To: Christian Brauner <brauner@kernel.org>, Arnd Bergmann <arnd@arndb.de>
+Cc: Icenowy Zheng <uwu@icenowy.me>, Huacai Chen <chenhuacai@kernel.org>, 
+ WANG Xuerui <kernel@xen0n.name>, linux-api@vger.kernel.org, Kees Cook
+ <keescook@chromium.org>, Xuefeng Li <lixuefeng@loongson.cn>, Jianmin Lv
+ <lvjianmin@loongson.cn>, Xiaotian Wu <wuxiaotian@loongson.cn>, WANG Rui
+ <wangrui@loongson.cn>, Miao Wang <shankerwangmiao@gmail.com>,
+ "loongarch@lists.linux.dev" <loongarch@lists.linux.dev>, Linux-Arch
+ <linux-arch@vger.kernel.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>
+Date: Tue, 27 Feb 2024 00:49:51 +0800
+In-Reply-To: <20240226-sandbank-bewerben-219120323e29@brauner>
 References: <599df4a3-47a4-49be-9c81-8e21ea1f988a@xen0n.name>
- <CAAhV-H4oW70y-2ZSp=b-Ed3A7Jrxfg6xvO8YpjED6To=PF0NwA@mail.gmail.com>
- <f063e65df92228cac6e57b0c21de6b750cf47e42.camel@icenowy.me>
- <24c47463f9b469bdc03e415d953d1ca926d83680.camel@xry111.site>
- <61c5b883762ba4f7fc5a89f539dcd6c8b13d8622.camel@icenowy.me>
- <3c396b7c-adec-4762-9584-5824f310bf7b@app.fastmail.com>
- <6f7a8e320f3c2bd5e9b704bb8d1f311714cd8644.camel@xry111.site>
- <b9fb0de1-bfb9-47a6-9730-325e7641c182@app.fastmail.com>
- <20240226-graustufen-hinsehen-6c578a744806@brauner>
- <ef732971-bf70-4d8c-9fe8-3ca163a0c29c@app.fastmail.com>
+	 <CAAhV-H4oW70y-2ZSp=b-Ed3A7Jrxfg6xvO8YpjED6To=PF0NwA@mail.gmail.com>
+	 <f063e65df92228cac6e57b0c21de6b750cf47e42.camel@icenowy.me>
+	 <24c47463f9b469bdc03e415d953d1ca926d83680.camel@xry111.site>
+	 <61c5b883762ba4f7fc5a89f539dcd6c8b13d8622.camel@icenowy.me>
+	 <3c396b7c-adec-4762-9584-5824f310bf7b@app.fastmail.com>
+	 <6f7a8e320f3c2bd5e9b704bb8d1f311714cd8644.camel@xry111.site>
+	 <b9fb0de1-bfb9-47a6-9730-325e7641c182@app.fastmail.com>
+	 <20240226-graustufen-hinsehen-6c578a744806@brauner>
+	 <ef732971-bf70-4d8c-9fe8-3ca163a0c29c@app.fastmail.com>
+	 <20240226-sandbank-bewerben-219120323e29@brauner>
+Autocrypt: addr=xry111@xry111.site; prefer-encrypt=mutual;
+ keydata=mDMEYnkdPhYJKwYBBAHaRw8BAQdAsY+HvJs3EVKpwIu2gN89cQT/pnrbQtlvd6Yfq7egugi0HlhpIFJ1b3lhbyA8eHJ5MTExQHhyeTExMS5zaXRlPoiTBBMWCgA7FiEEkdD1djAfkk197dzorKrSDhnnEOMFAmJ5HT4CGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQrKrSDhnnEOPHFgD8D9vUToTd1MF5bng9uPJq5y3DfpcxDp+LD3joA3U2TmwA/jZtN9xLH7CGDHeClKZK/ZYELotWfJsqRcthOIGjsdAPuDgEYnkdPhIKKwYBBAGXVQEFAQEHQG+HnNiPZseiBkzYBHwq/nN638o0NPwgYwH70wlKMZhRAwEIB4h4BBgWCgAgFiEEkdD1djAfkk197dzorKrSDhnnEOMFAmJ5HT4CGwwACgkQrKrSDhnnEOPjXgD/euD64cxwqDIqckUaisT3VCst11RcnO5iRHm6meNIwj0BALLmWplyi7beKrOlqKfuZtCLbiAPywGfCNg8LOTt4iMD
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.4 
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ef732971-bf70-4d8c-9fe8-3ca163a0c29c@app.fastmail.com>
 
-On Mon, Feb 26, 2024 at 02:46:49PM +0100, Arnd Bergmann wrote:
-> On Mon, Feb 26, 2024, at 14:32, Christian Brauner wrote:
-> > On Mon, Feb 26, 2024 at 10:20:23AM +0100, Arnd Bergmann wrote:
-> >> On Mon, Feb 26, 2024, at 08:09, Xi Ruoyao wrote:
-> >
-> > What this tells me without knowing the exact reason is that they thought
-> > "Oh, if we just return ENOSYS then the workload or glibc will just
-> > always be able to fallback to fstat() or fstatat()". Which ultimately is
-> > the exact same thing that containers often assume.
-> >
-> > So really, just skipping on various system calls isn't going to work.
-> > You can't just implement new system calls and forget about the rest
-> > unless you know exactly what workloads your architecure will run on.
-> >
-> > Please implement fstat() or fstatat() and stop inventing hacks for
-> > statx() to make weird sandboxing rules work, please.
-> 
-> Do you mean we should add fstat64_time64() for all architectures
-> then? Would use use the same structure layout as statx for this,
-> the 64-bit version of the 'struct stat' layout from
-> include/uapi/asm-generic/stat.h, or something new that solves
-> the same problems?
-> 
-> I definitely don't want to see a new time32 API added to
-> mips64 and the 32-bit architectures, so the existing stat64
-> interface won't work as a statx replacement.
+On Mon, 2024-02-26 at 16:40 +0100, Christian Brauner wrote:
 
-I don't specifically care but the same way you don't want to see newer
-time32 apis added to architectures I don't want to have hacks in our
-system calls that aren't even a clear solution to the problem outlined
-in this thread.
+> > I definitely don't want to see a new time32 API added to
+> > mips64 and the 32-bit architectures, so the existing stat64
+> > interface won't work as a statx replacement.
+>=20
+> I don't specifically care but the same way you don't want to see newer
+> time32 apis added to architectures I don't want to have hacks in our
+> system calls that aren't even a clear solution to the problem outlined
+> in this thread.
 
-Short of adding fstatx() the problem isn't solved by a new flag to
-statx() as explained in my other mails. But I'm probably missing
-something here because I find this notion of "design system calls for
-seccomp and the Chromium sandbox" to be an absurd notion and it makes me
-a bit impatient.
+So we should have a fstat_whatever64, IMO.
 
-And fwiw, once mseal() lands seccomp should be a lot easier to get deep
-argument inspection.
+> Short of adding fstatx() the problem isn't solved by a new flag to
+> statx() as explained in my other mails. But I'm probably missing
+> something here because I find this notion of "design system calls for
+> seccomp and the Chromium sandbox" to be an absurd notion and it makes me
+> a bit impatient.
+
+I'm sharing the feeling on seccomp and/or (mis)uses of it, but using
+statx() or fstatat() for fstat() has a performance impact as they must
+inspect path (do a uaccess) and make sure it's an empty string, and
+Linus concluded "if the user want fstat, you should give the user fstat"
+for this issue:
+
+https://sourceware.org/pipermail/libc-alpha/2023-September/151365.html
+
+If it was just seccomp I'd not comment on this topic at all.
+
+--=20
+Xi Ruoyao <xry111@xry111.site>
+School of Aerospace Science and Technology, Xidian University
 
