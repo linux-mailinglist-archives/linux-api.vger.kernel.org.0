@@ -1,137 +1,129 @@
-Return-Path: <linux-api+bounces-1083-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1084-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 304AA86B7AE
-	for <lists+linux-api@lfdr.de>; Wed, 28 Feb 2024 19:51:31 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9939886B8B5
+	for <lists+linux-api@lfdr.de>; Wed, 28 Feb 2024 21:01:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 30F451C25F54
-	for <lists+linux-api@lfdr.de>; Wed, 28 Feb 2024 18:51:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 316A11F2367C
+	for <lists+linux-api@lfdr.de>; Wed, 28 Feb 2024 20:01:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1112D71ED1;
-	Wed, 28 Feb 2024 18:50:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8983F5E082;
+	Wed, 28 Feb 2024 20:01:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Jz8yh18x"
+	dkim=pass (2048-bit key) header.d=amacapital-net.20230601.gappssmtp.com header.i=@amacapital-net.20230601.gappssmtp.com header.b="1jRHfke3"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54F6271EC2
-	for <linux-api@vger.kernel.org>; Wed, 28 Feb 2024 18:50:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 404E05E069
+	for <linux-api@vger.kernel.org>; Wed, 28 Feb 2024 20:01:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709146246; cv=none; b=nZNE2QzXXT5ob3hDGyFaz/MAhGqWMfvO3q2737d5096R4qtlE4fhP1+RppZwMwpbrsw05AexJ5hZtU+b3SoWb7O5fjGNnTs+QIB3QYU2SK45ixNTX8KHYn7S1QXJE7UQQ4o2PMLYpV4+rTvnBeYgCDB73Q0gAisBSOqcs5vsEYE=
+	t=1709150463; cv=none; b=Y0XzcmQ/thTiZr6p9TkUjIN61MB8tZaH9JOJszkPikTugZj+M2m0mk6z/qr6RQ4wrepQ1DI7XbthdL6FVGWE+qFzjV9NWBN89AEcN0AP0kD0fZ8J0Zmu4jA/pkjhdiokPw8RUkWzBz1vIJTxgcSVngVD0M2MOaWHXvt+VLeBAJA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709146246; c=relaxed/simple;
-	bh=uCNk9xZssjz88SO3HgKmg/6pNPAs4j9cZ22qRa/0FUk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iClSr5lfn2Jv2g0Pkd2cwxaB9rsbVKmLB8iRsPpkJaRGg1UDuyIoCw2NBOLig2vA7U+b0WP2S07v9CiA2//BqaqWgN0FBu57X7tlXiNgT5685rwdCVoVp5Z4QLZbDiqzu+709ge8pAcOI1tRwCK2DqHNH6m1q16OOh+M/a+zArk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Jz8yh18x; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-412b493ed27so462965e9.2
-        for <linux-api@vger.kernel.org>; Wed, 28 Feb 2024 10:50:44 -0800 (PST)
+	s=arc-20240116; t=1709150463; c=relaxed/simple;
+	bh=OoLOaFtjiu5mHAEpVsVyKx/jaXG/BTwjD3qUzA1ql+0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mYWzviUASJ2kIZ5PYHYYWmVcURZF5rer8ZFszD/lyEJIK/Lc2XLypHbc7QrbTR8F26OoDzmMDIZvxMeNvjaNz/fJbXvVQOa0Ggi/zG28NorWm8dleSuKuD0m0fJlYDlJn5lU7XeZyum1SY9+2JLgSkZMFVYBMjSZgvuWXB7y6mY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net; spf=pass smtp.mailfrom=amacapital.net; dkim=pass (2048-bit key) header.d=amacapital-net.20230601.gappssmtp.com header.i=@amacapital-net.20230601.gappssmtp.com header.b=1jRHfke3; arc=none smtp.client-ip=209.85.221.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
+Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-4cea831ed57so9161e0c.1
+        for <linux-api@vger.kernel.org>; Wed, 28 Feb 2024 12:01:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1709146243; x=1709751043; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+        d=amacapital-net.20230601.gappssmtp.com; s=20230601; t=1709150460; x=1709755260; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Zzx4HJfLML4JQaG7fROeK+a0qZNaeaLXumU4hcnOH5U=;
-        b=Jz8yh18xpafJEnQQlffADR/JWLGW90uMfpbJK/V8qPEbJflGfIZ8msGjAds/C4hFOZ
-         hu6ikyWwAojPdrBeIjOhh4i2zzH3AQz8QXm36XuNgKBQ+P432WmD2Rf2DV9NyoxSidun
-         vaNUfc9ElXoq92QN5dQzELXifRLmvt6zoDSFLNbSAmOVJKHHZ4S6sRGAFutDRiDDHoXV
-         DW2Zq24Q+IfvGra77G9IDtsqHL84elno7uuxeoVc80LeynNO/Fzzo9SKCQUrETulwEN7
-         vwpxgWGTrq5yoNBIq5sxL/RXKAIRVbZb9YUEFBJOBCYPuoIz43jnL7FxY5zmjcC44LdF
-         5wNw==
+        bh=wNIoc5z9e1UL1YdttUpqhucICMbrEHRvuLe/Sh1Z598=;
+        b=1jRHfke36baS7LtteMU/AHdJM1PhWvMzIb9G5CjU3Wc4d71nBZ/gVvyoeE3O3Bakdj
+         zOFUhy0m+UH6C7ZClbBhFkbk+eB0SeeQvWQDnaOw/0C5y0woXx3CGyOmsvFv4Aympe7h
+         aTEpj1VrAlBU2wM/WV5UN0ALQqDVLyeaGs8UtCkGyYtZ+vJY9NWXawgkxwyKhI9W/EcN
+         4blQcKsVapDhMNKDguOjKAGM8ckdUzuNRJgsAVBS4T3y3P3E5rJ0+2Jg1jIuGkrUrXnw
+         0NfRugMSicD9yahdVaihtqSug5eRMmKjlX1MUIGVhoSE4UrCanL810G0SzHlOTzahwdJ
+         R+tQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709146243; x=1709751043;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1709150460; x=1709755260;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Zzx4HJfLML4JQaG7fROeK+a0qZNaeaLXumU4hcnOH5U=;
-        b=gkI5sV5yFzS2+wdMcb/pvHk3Gi3TgOpWoDJTeEGxNecfJ9WimE1Ef5+UvQDqjdPpga
-         AQvTwPqcApBwihy4gw1xnxhZ7yPiqUspjTFVTojO+FrRnHuE6EtSW3A8BbR901BR+Cej
-         55hjHfGkMV3WmxgZLNQraqPYSxJDuePWgHIn55P9xoN7c4/5g/QbYE/gY0Dmi5WeHzBj
-         VJ2nCGp7hH9dQIJqAHMRx3ocy2Ry/C+7W7U9CEJYyMbppISufhkISu/Yfa0yIZh+MTmI
-         dPiwqAYonLK+V10S0x79w778vibMhdlms3SVRqPVv7d8TIzrWzejRAHyIrQEkI/7kBMU
-         4zhg==
-X-Forwarded-Encrypted: i=1; AJvYcCWYeBNoPKdyRIPeE4je+YaANIYWiSic/cFgoTEsZHGRAHDe67Rkel7Reqc6HfUrIYIFfseZ89WYRolSU+6n9eXkrCSPe7Et8io5
-X-Gm-Message-State: AOJu0Ywb0l/BPQYXbLnRsm94qzbZ7ahB3mEeSPiMzgJG5lILDoY4sdhF
-	HkwMuNH3Ur3cS2MIcwmW/N+wUq1LQTj4Lr8d87vqhFUFHdvOZldLJ/CbxrwDZg==
-X-Google-Smtp-Source: AGHT+IG2H+YrKQ5fSobiXEyDPQnan1RYKk8JYEWcjEAIGT6HGiPQq/QjDtUbrthdPJ6TZz1M9/GBOQ==
-X-Received: by 2002:a05:600c:468c:b0:410:85ab:67f3 with SMTP id p12-20020a05600c468c00b0041085ab67f3mr81884wmo.21.1709146242594;
-        Wed, 28 Feb 2024 10:50:42 -0800 (PST)
-Received: from elver.google.com ([2a00:79e0:9c:201:e9d0:d027:ced7:cf52])
-        by smtp.gmail.com with ESMTPSA id l36-20020a05600c1d2400b00412aff7874esm2890521wms.48.2024.02.28.10.50.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Feb 2024 10:50:41 -0800 (PST)
-Date: Wed, 28 Feb 2024 19:50:36 +0100
-From: Marco Elver <elver@google.com>
-To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, linux-kernel@vger.kernel.org,
-	Thomas Gleixner <tglx@linutronix.de>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	"H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
-	linux-api@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
-	Florian Weimer <fw@deneb.enyo.de>, David.Laight@aculab.com,
-	carlos@redhat.com, Peter Oskolkov <posk@posk.io>,
-	Alexander Mikhalitsyn <alexander@mihalicyn.com>,
-	Chris Kennelly <ckennelly@google.com>, dvyukov@google.com
-Subject: Re: [PATCH 00/30] RSEQ node id and mm concurrency id extensions
-Message-ID: <Zd-AfDcQ-r04CMXk@elver.google.com>
-References: <20221122203932.231377-1-mathieu.desnoyers@efficios.com>
+        bh=wNIoc5z9e1UL1YdttUpqhucICMbrEHRvuLe/Sh1Z598=;
+        b=CIvZCBOU4TqtTOqNE0SLpLITioX27Cg3iSnkovlJty8o3W/HDx7dOaUyg6bpvK/orP
+         Jsjb+0dtx9CM9vuwUbtoI5lU/Fpez7fepOja5dgUUkXcCRyefXNC30CdDdoz1DKgK/DM
+         jOBsFWu8/VnYv2ETmOmf37+zVMbftbBS0YBO2hv0dfQjBCBO1AORU2GFAR/k1Y55+OGC
+         RC2cQjdhqZ59UPSObkSa8l2JgDVzQtjmP3yiIvs9j/K1dtWB2s2ZXyg+4F3X/Qu6R7k0
+         zX3sn6McgU/pSruZmZIm2OmXZkTlRmr62WcXXu47qmJX8xAGA+fM57nYqUZtKyX4nUDA
+         e9Lg==
+X-Forwarded-Encrypted: i=1; AJvYcCU+UkyRhfRSEGbokq+d7TjKXtfhJK2L5oWhT8qjbZdrTGMphwuyUVuGCyAyNN0sWxzO0Vww+HnnLZQyVaNymdXgceDj/LNE9dzK
+X-Gm-Message-State: AOJu0YwG70dpfMJUTFZt2ei5O59WlWDvfnNBKpTrWRliuS5EpbvQcuWq
+	le3BoFsNJhsCu8DVv2++0XOi2wV6zor+d38Y3uu9HQf7Ijsz+Pu+FqEFZLRwkzxBxymID+yLZMn
+	2XSKmLbZH9SsS02ISxxnCMXN1hFPlpqG3sJyV
+X-Google-Smtp-Source: AGHT+IHTBM+WR/AKVjuDKYcFjCDqCl2g6BPsVgzaaT0GitljWXCEQLn8iMCiISvoFBuY/pp5LEQPBVHtK28UNPL4pIA=
+X-Received: by 2002:a1f:cb84:0:b0:4d1:3f5d:50d4 with SMTP id
+ b126-20020a1fcb84000000b004d13f5d50d4mr725653vkg.8.1709150460121; Wed, 28 Feb
+ 2024 12:01:00 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221122203932.231377-1-mathieu.desnoyers@efficios.com>
-User-Agent: Mutt/2.2.12 (2023-09-09)
+References: <CALCETrUe23P_3YAUMT2dmqq62xAc7zN0PVYrcChm4cHGJMDmbg@mail.gmail.com>
+ <852606cd9cbc8da9c6735b4ad6216ba55408b767.camel@redhat.com> <CALCETrUZuhvR3GygBfyfLxeas+igNe51Tnx=HEnh9LoFutN-dQ@mail.gmail.com>
+In-Reply-To: <CALCETrUZuhvR3GygBfyfLxeas+igNe51Tnx=HEnh9LoFutN-dQ@mail.gmail.com>
+From: Andy Lutomirski <luto@amacapital.net>
+Date: Wed, 28 Feb 2024 12:00:48 -0800
+Message-ID: <CALCETrXTOQRaGf650+fdyH1yKJLFY-WTpXWkThakacV0GKA=eg@mail.gmail.com>
+Subject: Re: The sk_err mechanism is infuriating in userspace
+To: Paolo Abeni <pabeni@redhat.com>, "David S. Miller" <davem@davemloft.net>, 
+	Jakub Kicinski <kuba@kernel.org>
+Cc: Network Development <netdev@vger.kernel.org>, Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Mathieu, all,
+On Tue, Feb 6, 2024 at 9:24=E2=80=AFAM Andy Lutomirski <luto@amacapital.net=
+> wrote:
+>
+> On Tue, Feb 6, 2024 at 12:43=E2=80=AFAM Paolo Abeni <pabeni@redhat.com> w=
+rote:
+> >
+> > What about 'destination/port unreachable' and many other similar errors
+> > reported by sk_err? Which specific errors reported by sk_err does not
+> > indicate that anything is wrong with the socket ?
 
-On Tue, Nov 22, 2022 at 03:39PM -0500, Mathieu Desnoyers wrote:
-> Extend the rseq ABI to expose NUMA node ID, mm_cid, and mm_numa_cid
-> fields.
-> 
-> The NUMA node ID field allows implementing a faster getcpu(2) in libc.
-> 
-> The per-memory-map concurrency id (mm_cid) [1] allows ideal scaling
-> (down or up) of user-space per-cpu data structures. The concurrency ids
-> allocated within a memory map are tracked by the scheduler, which takes
-> into account the number of concurrently running threads, thus implicitly
-> considering the number of threads, the cpu affinity, the cpusets
-> applying to those threads, and the number of logical cores on the
-> system.
-> 
-> The NUMA-aware concurrency id (mm_numa_cid) is similar to the mm_cid,
-> except that it keeps track of the NUMA node ids with which each cid has
-> been associated. On NUMA systems, when a NUMA-aware concurrency ID is
-> observed by user-space to be associated with a NUMA node, it is
-> guaranteed to never change NUMA node unless a kernel-level NUMA
-> configuration change happens. This is useful for NUMA-aware per-cpu data
-> structures running in environments where a process or a set of processes
-> belonging to cpuset are pinned to a set of cores which belong to a
-> subset of the system's NUMA nodes.
-[...]
+I started writing a series to improve this in a backwards-compatible
+way, but now I'm wondering whether the current behavior may be
+partially a regression and not actually something well-enshrined in
+history.
 
-Just out of curiosity: is anyone aware of any libraries that have
-started using CIDs? It looks like the cost of CID assignment is always
-paid (even though it should be small), I'm trying to understand if after
-1.5 years there are common libraries that have started using it and what
-their exact usecase is.
+The nasty behavior in question is that, if a UDP or ping (or
+presumably TCP, but that case is not necessarily a problem) socket
+enables IP_RECVERR, then an ICMP error will asynchronously cause the
+next sendmsg() to fail.  The code that causes this seems to be ancient
+(I think it's sock_wait_for_wmem, which predates git, but I won't
+swear to that)
 
-I'm aware that TCMalloc was the inspiration for vCPUs [1], then renamed to
-CIDs, but am wondering if other users are out there.
+Looking at my own logs, though, a Linux 4.5.2 did not seem to
+regularly trigger this, and I'm getting it on a regular basis on 6.2
+and some newer kernels.  And, somewhat damningly (with IP addresses
+redacted):
 
-Thanks,
--- Marco
+$ traceroute -I 10.1.2.3
+traceroute to 10.1.2.3 (10.1.2.3), 30 hops max, 60 byte packets
+ 1  * * *
+ 2  10.5.6.7 (10.5.6.7)  0.593 ms  0.793 ms  0.988 ms
+ 3  10.8.9.10 (10.8.9.10)  1.247 ms  1.547 ms  1.881 ms
+ 4  10.11.12.13 (10.11.12.13)  1.032 ms  1.333 ms  1.679 ms
+send: No route to host
 
-[1] https://lore.kernel.org/lkml/20220218210633.23345-10-mathieu.desnoyers@efficios.com/
+Whoops, traceroute is getting a bogus return when it sends a packet,
+causing it to give up.  The real trace should be longer.
+
+So I'm wondering if maybe this behavior should be seen as a bug to be
+fixed and not a weird old API that needs to be preserved.
+
+--Andy
 
