@@ -1,172 +1,129 @@
-Return-Path: <linux-api+bounces-1093-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1094-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E6CA86F4EF
-	for <lists+linux-api@lfdr.de>; Sun,  3 Mar 2024 14:02:44 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C8D886F4F6
+	for <lists+linux-api@lfdr.de>; Sun,  3 Mar 2024 14:09:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EE3A51F214F2
-	for <lists+linux-api@lfdr.de>; Sun,  3 Mar 2024 13:02:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 413D81C20BEC
+	for <lists+linux-api@lfdr.de>; Sun,  3 Mar 2024 13:09:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E507BE62;
-	Sun,  3 Mar 2024 13:02:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74FEC9470;
+	Sun,  3 Mar 2024 13:09:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bdNFqbmH"
+	dkim=pass (2048-bit key) header.d=clisp.org header.i=@clisp.org header.b="YVhA7+Zl";
+	dkim=permerror (0-bit key) header.d=clisp.org header.i=@clisp.org header.b="xSojZEhC"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de [85.215.255.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36B89F9CD;
-	Sun,  3 Mar 2024 13:02:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709470959; cv=none; b=q2dUjaY9IguiWVYTIckETTQjkv3qL1UVf6PcERHY4fB1Lp8p45pM5mG2Xvii9l1zSt8kQ+cKNKL/ot4vHqkCYcUKSDQqd/Z9lIOwiuGsTxjIxdbpgxPBQ5mPIlv2Y8I7GMOxIA+O2lCiVSFOG55UFhDPz2o/5sbs7TwxAwiwlMY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709470959; c=relaxed/simple;
-	bh=ygoEEpZ6azYEb5HHiu98itSFP/0JLF70trcyRvJrE5s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g+TNlU9eVlFV5mAGRBj/CBeKv33lzIW6dxtGR+hRPml9akY42qO7LVBwq1xug+YByW0fP4JNGhUan0ArBREvX6FYqKB4fZZS++Znn8RHV2FBMQsxWZz8jBY7TFUiwbIxlE7LiBJqVVuegXOrcS2ziJjVEk2HVJ2EUyxIGukoczY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bdNFqbmH; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D011C433C7;
-	Sun,  3 Mar 2024 13:02:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709470959;
-	bh=ygoEEpZ6azYEb5HHiu98itSFP/0JLF70trcyRvJrE5s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bdNFqbmH6qG5aPJ4Fp+3oNehXVf66FYFfiv91aFOvJXqdDNcD6V2Ok/13kiu2Yskd
-	 oMQlfn7rTunBGVJH8RUEaFnCPtMyBHDLbSIBAYy0eJ3tjDNcrOmhlHo8AObkZAkIve
-	 U81B6rNpXTp5zjkIb1X7HpsWq+szVMU1rJKA1dQJCQwCVGeYQqHlXCjxctfjIihStH
-	 uY2pA9qyA8XhGpj2ir7qBH1k6+yVXa6foSlqOQaJ0XUMoNSTQl0/h5xvzNScRSYTwo
-	 q5tHlASr93dDdt7nCLC94LqCcmMALvQm5P1WtbFiFeXYZ7+heqK8JDHzv5wIkkqt1W
-	 00r5tPXyvKGxQ==
-Date: Sun, 3 Mar 2024 14:02:35 +0100
-From: Alejandro Colomar <alx@kernel.org>
-To: Bruno Haible <bruno@clisp.org>, linux-man@vger.kernel.org, 
-	Elliott Hughes <enh@google.com>
-Cc: Alejandro Colomar <alx@kernel.org>, 
-	Stefan Puiu <stefan.puiu@gmail.com>, GNU C Library <libc-alpha@sourceware.org>, 
-	linux-api@vger.kernel.org
-Subject: [PATCH v2 2/2] nanosleep.2: Use 'duration' rather than 'request'
-Message-ID: <20240303130233.18238-1-alx@kernel.org>
-X-Mailer: git-send-email 2.43.0
-References: <ZeRzS6mENO8kOh1W@debian>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBA75C121;
+	Sun,  3 Mar 2024 13:09:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=85.215.255.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1709471385; cv=pass; b=NxvqN5i7GgGrYUh40+OgDA2Vez9om0WsCIw80M7VrGYBfRsI5ubkkfHvevBL81PmTGhBHVi/xglGsh5FETZsBAlHemjkw3ebHQ6u9GD7t+WUF2RlXWFwKjzAJAvTJnN9PwPBYSZQqcQ4LZ2Qb01RfFisPP0FM1tqIl7XHAdh6OM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1709471385; c=relaxed/simple;
+	bh=mUuX4mnpBDCRfLaR9qmjQNXq7OlnixAF6yCxynJ9AIY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=iIaWkUW0SIZ7Ire/dqciD0UVu7K6cSRsoUfWtFZeUjFp6B89b7ZrtV5LquJh5T511G52ImZpm/26cZ8SA5ucXgFLLbl3jgopLg2c+39G0gQ3+oldp9MZoDmuTx+aLuW60upe6wW5SK9XSwyFjHUjiyVXiKPg6BfhDeSWZ458gkA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=clisp.org; spf=none smtp.mailfrom=clisp.org; dkim=pass (2048-bit key) header.d=clisp.org header.i=@clisp.org header.b=YVhA7+Zl; dkim=permerror (0-bit key) header.d=clisp.org header.i=@clisp.org header.b=xSojZEhC; arc=pass smtp.client-ip=85.215.255.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=clisp.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=clisp.org
+ARC-Seal: i=1; a=rsa-sha256; t=1709469937; cv=none;
+    d=strato.com; s=strato-dkim-0002;
+    b=YmnGNB7uLpMucbC3fEQY5+7oEIpHQFokWgT9GmpjWt2+ZzaOBlMR75A6P0k7YDAF2v
+    t7dtlHbfHg7mzs8sGn0bZ37PtxlzkMEyk9FYtzizq1hVt2pCTNsvMkvXmLtmid2cwDCB
+    iopZ6XiFtNOPQtZ8znzWiYYxBDe2JFObQ8ofDtho0aLPb67Or7EmcdvCNXwSOCYjF3kk
+    ThOi4OLEdnQ4gNjyvUYonjDApOFM/WnFPipWqPMPBmmCaw8UigZUlhZA9kUxNvms+8fd
+    dHX092m/iKV1bCfdIHkCSJg55y7n0JuIBQ/ffLrhN4jsy78M+tVDm/llaB5XkpDQiGvN
+    PYfw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1709469937;
+    s=strato-dkim-0002; d=strato.com;
+    h=References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Cc:Date:
+    From:Subject:Sender;
+    bh=BWIRmxVb+ArmmWzye3GMWad9GL4jsYTpD+Amb8r4H98=;
+    b=Blg2SI7H9gMYiT1r8pDJn//UNuDpomEmwhgWkmgEq0bxq1WI9D5NaopytULdDn5tNg
+    RMA08cVTxIyXC6o74XiBHGqmFN8stFBG6ph0cfur8bxlI8ijAkQPx7M5tm9CZnNAnQln
+    TGy/4CGiKMCBhP3y6sTmJmB9lP7/pGIkbdWCuikJfGdc8II/zaD1RmqzmZSOouG6UDnQ
+    EY6vSX2dujeZAEqN3rejN/3yKYSoPSOfQ6g6jXii+N/FQDizqjJLSaj5hyL5FNasttYy
+    BGp1RqbcXDxGTlyG2VsXXwxAE4MKDYKImqlRJQndNQ2OWjyb9PLopOwDYHCgA+enxaFE
+    +SNA==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo01
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1709469937;
+    s=strato-dkim-0002; d=clisp.org;
+    h=References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Cc:Date:
+    From:Subject:Sender;
+    bh=BWIRmxVb+ArmmWzye3GMWad9GL4jsYTpD+Amb8r4H98=;
+    b=YVhA7+ZlZhF2pNXYKd9H0BK/2akGR8N5AtnMGIFM3kLP3J8Fl+xsCBc3dToQg309CX
+    bLUC0A2ZF6w3ifBnStYS8uoqaoqEk4YbJKfq4K6dOR14oG8YORzPvzEys8tlVqo5UIop
+    wI4dElW2pYYXwEFi6hrcgVvgfmXHxol+spzQuaTG032c8gCYIiIhTdSlwDT8Vdsx0wLM
+    l0czqYOvpUQQ9meCAxOTvsNLwffxc+ip+rtKrqNgmtkflnJ5272mTiZ+DIutuCkZJLNI
+    EnbjaMyu1gZ8tYMbLwbPmojpJtLoYNolpVm95EIrBiAFvlups4ikwV3IqRdcnWMvGnos
+    Hb3g==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1709469937;
+    s=strato-dkim-0003; d=clisp.org;
+    h=References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Cc:Date:
+    From:Subject:Sender;
+    bh=BWIRmxVb+ArmmWzye3GMWad9GL4jsYTpD+Amb8r4H98=;
+    b=xSojZEhCv1Fi5wFngK1OuAQ+h3Wtp6xksL7RxjpRfkHrIGmSHcVuDYQiuDtFaVNfvK
+    LtiFyRmF2t/Jfvt3+BAA==
+X-RZG-AUTH: ":Ln4Re0+Ic/6oZXR1YgKryK8brlshOcZlIWs+iCP5vnk6shH0WWb0LN8XZoH94zq68+3cfpPH2qZYEItqMTA7sY+nxl9or98utQ=="
+Received: from nimes.localnet
+    by smtp.strato.de (RZmta 50.2.0 AUTH)
+    with ESMTPSA id h61273023CjbWpq
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+	(Client did not present a certificate);
+    Sun, 3 Mar 2024 13:45:37 +0100 (CET)
+From: Bruno Haible <bruno@clisp.org>
+To: Alejandro Colomar <alx@kernel.org>
+Cc: Elliott Hughes <enh@google.com>, Stefan Puiu <stefan.puiu@gmail.com>, linux-man@vger.kernel.org, GNU C Library <libc-alpha@sourceware.org>, linux-api@vger.kernel.org
+Subject: Re: [PATCH 2/2] clock_nanosleep.2, nanosleep.2: Use 'duration' rather than 'request'
+Date: Sun, 03 Mar 2024 13:45:37 +0100
+Message-ID: <5882437.otsE0voPBg@nimes>
+In-Reply-To: <20240303121454.16994-3-alx@kernel.org>
+References: <ZUIlirG-ypudgpbK@debian> <20240303121454.16994-3-alx@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="u3nmbnhrztjh4a3z"
-Content-Disposition: inline
-In-Reply-To: <ZeRzS6mENO8kOh1W@debian>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+
+Alejandro Colomar wrote:
+>  man2/clock_nanosleep.2 | 20 ++++++++++----------
+>  man2/nanosleep.2       | 12 ++++++------
+
+The change to nanosleep.2 seems mostly fine. Except that the
+term "requested relative duration" (line 142) raises questions;
+what about changing that to "requested duration"?
+
+The change to clock_nanosleep.2 seems wrong. There are two cases
+(quoting the old text):
+
+       If flags is 0, then the value specified in request is interpreted
+       as an interval relative to the  current  value  of  the  clock
+       specified by clockid.
+
+       If  flags  is  TIMER_ABSTIME,  then request is interpreted as an
+       absolute time as measured by the clock, clockid.  If request is
+       less than or equal to the current value of the clock, then
+       clock_nanosleep() returns immediately without suspending the  calling
+       thread.
+
+In the first case, the argument is a duration. In the second case, the
+argument is an absolute time point; it would be wrong and very confusing
+to denote it as "duration".
+
+Bruno
 
 
---u3nmbnhrztjh4a3z
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: [PATCH v2 2/2] nanosleep.2: Use 'duration' rather than 'request'
-MIME-Version: 1.0
 
-It seems much more clear.
-
-Suggested-by: Elliott Hughes <enh@google.com>
-Cc: Stefan Puiu <stefan.puiu@gmail.com>
-Cc: Bruno Haible <bruno@clisp.org>
-Signed-off-by: Alejandro Colomar <alx@kernel.org>
----
-
-v2:
-
--  2/2:
-   -  Drop changes to clock_nanosleep(2).  [Bruno]
-   -  Don't say "relative duration".  [Bruno]
-
--  1/2:  unchanged, so not resent.
-
- man2/nanosleep.2 | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
-
-diff --git a/man2/nanosleep.2 b/man2/nanosleep.2
-index a8d9f5a8a..e7132ee32 100644
---- a/man2/nanosleep.2
-+++ b/man2/nanosleep.2
-@@ -22,7 +22,7 @@ .SH SYNOPSIS
- .nf
- .B #include <time.h>
- .P
--.BI "int nanosleep(const struct timespec *" req ,
-+.BI "int nanosleep(const struct timespec *" duration ,
- .BI "              struct timespec *_Nullable " rem );
- .fi
- .P
-@@ -39,7 +39,7 @@ .SH DESCRIPTION
- .BR nanosleep ()
- suspends the execution of the calling thread
- until either at least the time specified in
--.I *req
-+.I *duration
- has elapsed, or the delivery of a signal
- that triggers the invocation of a handler in the calling thread or
- that terminates the process.
-@@ -80,7 +80,7 @@ .SH DESCRIPTION
- and it makes the task of resuming a sleep that has been
- interrupted by a signal handler easier.
- .SH RETURN VALUE
--On successfully sleeping for the requested interval,
-+On successfully sleeping for the requested duration,
- .BR nanosleep ()
- returns 0.
- If the call is interrupted by a signal handler or encounters an error,
-@@ -138,8 +138,9 @@ .SH VERSIONS
- service based upon this clock, including the
- .BR nanosleep ()
- function; ...
--Consequently, these time services shall expire when the requested relative
--interval elapses, independently of the new or old value of the clock.
-+Consequently,
-+these time services shall expire when the requested duration elapses,
-+independently of the new or old value of the clock.
- .RE
- .SH STANDARDS
- POSIX.1-2008.
-@@ -158,8 +159,8 @@ .SH HISTORY
- This special extension was removed in Linux 2.5.39,
- and is thus not available in Linux 2.6.0 and later kernels.
- .SH NOTES
--If the interval specified in
--.I req
-+If the
-+.I duration
- is not an exact multiple of the granularity underlying clock (see
- .BR time (7)),
- then the interval will be rounded up to the next multiple.
---=20
-2.43.0
-
-
---u3nmbnhrztjh4a3z
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmXkdOsACgkQnowa+77/
-2zJ5bhAAl1SllnYTog3qOc5Cg0A7Hor6a6ifZDNNc8kuYqxkxDO2XJL7+O7R84L0
-0EkA3C5Xbw1YkFu0xnZKBWY9pJEQu4sGorO2UaRP9WX24oYhk7zb9gLPktYrP2bH
-emrUgI2dMwMY2uyrVEHfDSgfjtjY0UFavt4S9a/esxqllQ4ZVf+u7VcHgtIoGopi
-/Sn0TB4IJ3/vT9A48ywBgmu29ddjxlwxfQf1Dlcni2sxKE8eU6gVNJCcduxmfYpD
-Uq9HE847jr4FwwaxmBGOM0IPUXGr5lJsYVBnUsW4GY96xPrJwOAYKBFZ2PXUgJ9k
-V3yFiRVMtFgLGhGMlVO6TEtAozY6v767erdJPpqzMZCNtFxzjK2qFrtd10iicJ7l
-gIs2Il5y93ZVpy1OfY2h8/F5Jb0UuYY3KyKvjjRQa5FsQWRsI26elB7ABXO1WYr3
-5l749x9GZMtTDT1zB9/KxD/VEPOJ93dxYJFYRqWL2G3DolIXUbz1mo/VGx6MePD7
-YvcMpAi8YuXV665zbuP4dra6WXX7h9qDnsgZwYIXRUe7DuP0LXWz67jU5TvWn/Pp
-pmZTEP+fDbSkKrR+RPz7zFEyTCcjpHAv3/1eF5P3+Wsx/v980YKbzUPVwkTXjYMK
-g0SzSxkkJk9o0j2c+yIUuU8b/rTrugv1IvGgKnX7W4c9JsO4TTY=
-=h3KE
------END PGP SIGNATURE-----
-
---u3nmbnhrztjh4a3z--
 
