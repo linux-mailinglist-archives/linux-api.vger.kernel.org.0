@@ -1,160 +1,168 @@
-Return-Path: <linux-api+bounces-1088-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1089-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78BB386EF6A
-	for <lists+linux-api@lfdr.de>; Sat,  2 Mar 2024 09:04:00 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6FF886F4BE
+	for <lists+linux-api@lfdr.de>; Sun,  3 Mar 2024 13:15:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 226F5B24844
-	for <lists+linux-api@lfdr.de>; Sat,  2 Mar 2024 08:03:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C63C92828E3
+	for <lists+linux-api@lfdr.de>; Sun,  3 Mar 2024 12:15:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CF8E125DE;
-	Sat,  2 Mar 2024 08:03:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F47CB664;
+	Sun,  3 Mar 2024 12:15:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ar6BLWrf"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nOw0mxvr"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37CDF11C82;
-	Sat,  2 Mar 2024 08:03:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06794BE68;
+	Sun,  3 Mar 2024 12:15:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709366632; cv=none; b=ZjVMCVmVjHEiVVZF1GOrk+g4FYoaBn8Kv/kr3nOLWtONa0QskbP4cV5nKG6YdZ5bUTj6VQXqSLazX7dzmUAvcDupE4CkofwLsECjHKr8NK1UtG36BLNO9eH+343M8RRqFhk6I9/9sXU/Qp8XA6k3yufRdtIoJe+LAHy071sJnDU=
+	t=1709468109; cv=none; b=Dp1llV4bYGAedaTz+Jq+aSraEjF4mSaNQBoMm0mFFAwaMX1rtjV9agiLqFj5ZIwAFKlgRZcRODzA3ETWmpl3d1jetjssQQDIs8T6kQqv/3fI3AyBDcwT5Bhj0zZ4D64Vi9c0g/EAQckU96QMi32Vl1OaRkwTodyOB0Q9ptipSOs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709366632; c=relaxed/simple;
-	bh=iLkoAAFp9B+Iiazgd42bfbnBTX49YWjdJO2wLKJivbQ=;
+	s=arc-20240116; t=1709468109; c=relaxed/simple;
+	bh=qREyyhvgSeHvXyhWgxFSWmj8iefZsN67LoZLcBk5n0Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=giuaeobuBwZ1LmeMsjNvB4JukrDzgqJ+raTdavjATvZFvMN60zNxHzJgU186xV91tecdkYGLKYnPcqWdVmaP2TT3N/i+Mb92lnVPLEsU/aASqULHK8Y6shqONgX7fEqcrUgrR2uZ2AP9XAKHU/bv+I11mnqExaG3N8OGNeL24nY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ar6BLWrf; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BA68C433F1;
-	Sat,  2 Mar 2024 08:03:51 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=FF8yDmDCAF4LzvZxmGoFxdmz14NolLJ9A13PQLCRNwo8zNwQPciQ7PaMIszZw8aj4pk3nc/hWO6xroP7kRpdxs4P+kix+ZznT93KRmeQxeFN5FLK3oLn8re87oYNagcskAdCnKJPPs+kG5eV5gWF1+iHLhGPHiLVzwIoeHuEkRg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nOw0mxvr; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0810EC433F1;
+	Sun,  3 Mar 2024 12:15:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709366631;
-	bh=iLkoAAFp9B+Iiazgd42bfbnBTX49YWjdJO2wLKJivbQ=;
+	s=k20201202; t=1709468108;
+	bh=qREyyhvgSeHvXyhWgxFSWmj8iefZsN67LoZLcBk5n0Q=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ar6BLWrfx01/2OynHfhCsdnHlK2Ew2UYQQu/PYWV9edoumn1NCcH0l81eYVcGqDL1
-	 cnYR5OKILRLmuUtQnDLuOqOSkISMlLiE4KJRQkMSBFPnukTF9Lw+2YmvNX/Jbq3PAJ
-	 qXWqCqXaVwF0yv9F4EXOahoYo8HxSScSoPSf38rRDiPD09oIZK0Dm/tTSnuL4TQajW
-	 Y+8CO+kThPe7PN+Pfdt1JeRvQcIytf2kGOzdtpqacH2pRXUd47fnQHJbHMnZAJTy2A
-	 riSp+PVmpjBxg3hkrmntxm1XdAO8Qj2cQjUxSvMnxk4e9WBdBlHacHGvw9eA/xcw23
-	 yHHgMsm4V2aVg==
-Date: Sat, 2 Mar 2024 00:03:49 -0800
-From: Saeed Mahameed <saeed@kernel.org>
-To: Vegard Nossum <vegard.nossum@oracle.com>
-Cc: Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-api@vger.kernel.org,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Leon Romanovsky <leonro@nvidia.com>,
-	Jason Gunthorpe <jgg@nvidia.com>, Jiri Pirko <jiri@nvidia.com>,
-	Leonid Bloch <lbloch@nvidia.com>, Itay Avraham <itayavr@nvidia.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	David Ahern <dsahern@kernel.org>,
-	Aron Silverton <aron.silverton@oracle.com>,
-	Christoph Hellwig <hch@infradead.org>,
-	andrew.gospodarek@broadcom.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V4 3/5] misc: mlx5ctl: Add info ioctl
-Message-ID: <ZeLdZbB02OcuoWku@x130>
-References: <20240207072435.14182-1-saeed@kernel.org>
- <20240207072435.14182-4-saeed@kernel.org>
- <bb259840-35b6-4483-8e76-8046cae1269b@oracle.com>
+	b=nOw0mxvrUyYIyzSanOwyNGEDZQHgPSZwnZL6rdMKfmt0REdJxbJsVw4jxqF6BTOLE
+	 JWO2sLGSP28/9mXQL5//XPl1gH/+hIdwmJqVnhoX2nHtR8/PtNAk9VcBKD6lNTBLAB
+	 k6M1wGkBy06uYXRAbYmpuCahGbKzwQuI3r9YG8oRGQRdNVq30Ucy+0RnEznmY1OCCI
+	 gUvCbm85ChK/tQtIdYZKZFV0g6oTwAmtsqQJO8qeKrGIZHuJBeECU+dHErOwo3w4Az
+	 yLyhBzv5256Nf7/RxMnmN4TihHjvxR1yJSP7PzDj3JjccHF56ylSYbUOoO3wni9aBR
+	 jAFnS7HePUrBQ==
+Date: Sun, 3 Mar 2024 13:15:05 +0100
+From: Alejandro Colomar <alx@kernel.org>
+To: Elliott Hughes <enh@google.com>, Stefan Puiu <stefan.puiu@gmail.com>, 
+	Bruno Haible <bruno@clisp.org>, linux-man@vger.kernel.org
+Cc: Alejandro Colomar <alx@kernel.org>, 
+	GNU C Library <libc-alpha@sourceware.org>, linux-api@vger.kernel.org
+Subject: [PATCH 0/2] Use terms consistently in function parameter names.
+Message-ID: <20240303121454.16994-1-alx@kernel.org>
+X-Mailer: git-send-email 2.43.0
+References: <ZUIlirG-ypudgpbK@debian>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="wfsmp4pwh5henpd6"
 Content-Disposition: inline
-In-Reply-To: <bb259840-35b6-4483-8e76-8046cae1269b@oracle.com>
+In-Reply-To: <ZUIlirG-ypudgpbK@debian>
 
-On 29 Feb 12:47, Vegard Nossum wrote:
->
->On 07/02/2024 08:24, Saeed Mahameed wrote:
->>+static int mlx5ctl_info_ioctl(struct file *file,
->>+			      struct mlx5ctl_info __user *arg,
->>+			      size_t usize)
->>+{
->>+	struct mlx5ctl_fd *mfd = file->private_data;
->>+	size_t ksize = sizeof(struct mlx5ctl_info);
->>+	struct mlx5ctl_dev *mcdev = mfd->mcdev;
->>+	struct mlx5_core_dev *mdev = mcdev->mdev;
->>+	struct mlx5ctl_info *info;
->>+	int err = 0;
->>+
->>+	if (usize < ksize)
->>+		return -EINVAL;
->>+
->>+	info = kzalloc(ksize, GFP_KERNEL);
->>+	if (!info)
->>+		return -ENOMEM;
->
->struct mlx5ctl_info is small, why not put it on the stack or even copy
->it directly from the original object, assuming it has no holes/padding?
->
 
-There's no original object, but yes storing it on the stack should work.
+--wfsmp4pwh5henpd6
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: [PATCH 0/2] Use terms consistently in function parameter names.
+MIME-Version: 1.0
 
->>+
->>+	info->dev_uctx_cap = MLX5_CAP_GEN(mdev, uctx_cap);
->>+	info->uctx_cap = mfd->uctx_cap;
->>+	info->uctx_uid = mfd->uctx_uid;
->>+	info->ucap = mfd->ucap;
->>+
->>+	if (copy_to_user(arg, info, ksize))
->>+		err = -EFAULT;
->>+
->>+	kfree(info);
->>+	return err;
->>+}
->
->Is there even a remote possibility of extending this structure in the
->future? If so the size check will not allow you to be backwards
->compatible. Should there be a version field in there or would you
->just add a new ioctl altogether? Adding linux-api@vger.kernel.org to Cc.
->
+Hi!
 
-This was my original implementation, but Greg's preference is to allow no
-extension to the ioctl structures, in case of extension required, new IOCTL
-and structure should be introduced.
+I finally wrote this patch.  I had it in my todo for too long.
 
->>diff --git a/include/uapi/misc/mlx5ctl.h b/include/uapi/misc/mlx5ctl.h
->>new file mode 100644
->>index 000000000000..9be944128025
->>--- /dev/null
->>+++ b/include/uapi/misc/mlx5ctl.h
->>@@ -0,0 +1,20 @@
->>+/* SPDX-License-Identifier: BSD-3-Clause OR GPL-2.0 WITH Linux-syscall-note */
->>+/* Copyright (c) 2023, NVIDIA CORPORATION & AFFILIATES. All rights reserved. */
->>+
->>+#ifndef __MLX5CTL_IOCTL_H__
->>+#define __MLX5CTL_IOCTL_H__
->>+
->>+struct mlx5ctl_info {
->>+	__u16 uctx_uid; /* current process allocated UCTX UID */
->>+	__u16 reserved1; /* explicit padding must be zero */
->>+	__u32 uctx_cap; /* current process effective UCTX cap */
->>+	__u32 dev_uctx_cap; /* device's UCTX capabilities */
->>+	__u32 ucap; /* process user capability */
->>+};
->>+
->>+#define MLX5CTL_IOCTL_MAGIC 0x5c
->>+
->>+#define MLX5CTL_IOCTL_INFO \
->>+	_IOR(MLX5CTL_IOCTL_MAGIC, 0x0, struct mlx5ctl_info)
->>+
->>+#endif /* __MLX5CTL_IOCTL_H__ */
->
->Should you add anything to Documentation/ABI/ ? (Or add other
->documentation for this driver?)
->
+In <time.h> functions, use duration, instead of request, as suggested by
+Elliott.
 
-The driver doesn't expose any sysfs other than the IOCTLs, but yes
-a documentation might be useful to make sure ABI is stable, most of the
-other drivers point out to the uapi header for documentation.
+In ctl functions and similar, there was a lot of variation:
 
+-  command
+-  cmd
+-  request
+-  req
+-  option
+-  operation
+-  op
+
+And they all meant the same thing.  We have similar problems in the
+names of the constants, which have similar variability.
+
+In the case of the function parameters, we can easily rename them.  I
+chose 'op', as it seems a reasonable (and short) name, and most of the
+documentation already used the term 'operation' to refer to the
+parameter, even in cases where the parameter was names differently.
+
+I would like to ask to kernel maintainers and libc implementations to
+add some consistency here too, and rename the parameters accordingly,
+for consistency, or at least use your own consistency, if you don't like
+this one, but stick to some rules.
+
+In the case of constants, we can't rename them.  Too bad.  But I'd like
+to ask programmers to have this in mind for when new constants are
+added, so that some consistency is followed.  (This was something that
+made me doubt about using 'op', because most constants seem to use
+'_CMD_' in their names.  If you prefer 'cmd' for the parameter names for
+that reason, let's discuss it.)
+
+Have a lovely day!
+Alex
+
+
+Alejandro Colomar (2):
+  man*/: epoll_*(), fcntl(), flock(), ioctl(), msgctl(), *prctl(),
+    ptrace(), quotactl(), reboot(), semctl(), shmctl(), lockf():
+    Consistently use 'op' and 'operation'
+  clock_nanosleep.2, nanosleep.2: Use 'duration' rather than 'request'
+
+ man2/arch_prctl.2          | 12 +++---
+ man2/clock_nanosleep.2     | 20 ++++-----
+ man2/epoll_wait.2          |  4 +-
+ man2/fcntl.2               | 70 +++++++++++++++----------------
+ man2/flock.2               |  6 +--
+ man2/ioctl.2               | 30 +++++++-------
+ man2/ioctl_console.2       |  8 ++--
+ man2/ioctl_fideduperange.2 |  2 +-
+ man2/ioctl_getfsmap.2      |  6 +--
+ man2/ioctl_ns.2            |  2 +-
+ man2/ioctl_tty.2           | 10 ++---
+ man2/ioctl_userfaultfd.2   | 10 ++---
+ man2/msgctl.2              | 16 ++++----
+ man2/nanosleep.2           | 12 +++---
+ man2/prctl.2               | 84 +++++++++++++++++++-------------------
+ man2/ptrace.2              | 60 +++++++++++++--------------
+ man2/quotactl.2            | 34 +++++++--------
+ man2/reboot.2              | 19 +++++----
+ man2/semctl.2              | 22 +++++-----
+ man2/shmctl.2              | 20 +++++----
+ man3/lockf.3               | 11 ++---
+ 21 files changed, 233 insertions(+), 225 deletions(-)
+
+--=20
+2.43.0
+
+
+--wfsmp4pwh5henpd6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmXkackACgkQnowa+77/
+2zLx6A/+JurxBBdZMKFu/0xWH0u/ByoKTj86x8rQFsh0MB6NLid4Mhm9u/t8t5vF
+X2MpVSLA6N2PEQbSdAOpoExE+RnJmyOOYvlnjba6WHjaMRPOWyi7SXZggctUreV5
+Pjq7VBKdTmLUmMqvV8ydsRPFqNawA8FQcnMQN7C5XGK3sdyC4mY+qpRBSvGym/zS
+0thYAtfzmPPmHqi8zRd5nvZDIwCgh2sN2x2JlbgTgw/FYL5xmRpjwR3+S7jDXbcp
+DkLd+B/w3aDa1JkQMCK2j5fk8AsNfbNzF9yn5ol+Gf7b/Lfdfdgn6UQ/L6L8tNUc
+4szK/7g8WW1mHJpJo2ely8WrRuH/hx58n1sFBcA4gOziEBUC66lWut7sy5Wbi08K
+IVxD1x0PcvBrKm3e2TKHwHkw8nR2HaHupyPg3KaahlBQ8A68eCyCK4oXcVbMgeqn
+oP18NtiuuMcPINBdG31V7TkO/tvVYNhYqVhOA0n1Ui+VUj3n4NFJItR33G5caXYR
+AnPrJoEBHHYJ6ELM0t2VvWGz/tWvFKBlWHfBm7Wlx6sYpqLgTlV3zGCVb+ljtj3I
++m/w8p3/+B7d3IOiy6GDKM0kFDY4yPS7Qrcx+2wkORe/GjB/yKZSULhGMSPp2C1y
+HGuqk53trRwEl3+F5vFRzS502srTZXK/7DrNuUbWEPVUt5vM/9M=
+=ZcOj
+-----END PGP SIGNATURE-----
+
+--wfsmp4pwh5henpd6--
 
