@@ -1,121 +1,96 @@
-Return-Path: <linux-api+bounces-1101-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1102-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8287C872A25
-	for <lists+linux-api@lfdr.de>; Tue,  5 Mar 2024 23:23:06 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32BD4875A08
+	for <lists+linux-api@lfdr.de>; Thu,  7 Mar 2024 23:12:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CCD39B26D87
-	for <lists+linux-api@lfdr.de>; Tue,  5 Mar 2024 22:23:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E15BE2835A4
+	for <lists+linux-api@lfdr.de>; Thu,  7 Mar 2024 22:12:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A56512D1FC;
-	Tue,  5 Mar 2024 22:22:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA3B013DB99;
+	Thu,  7 Mar 2024 22:12:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="sB1T2/pm"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="B/e8h3Xe"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0305C12D1E4
-	for <linux-api@vger.kernel.org>; Tue,  5 Mar 2024 22:22:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB28D13BAEF;
+	Thu,  7 Mar 2024 22:12:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709677354; cv=none; b=eI8EfuCof8PKnUnCO6+xeyaFO8gJlvy6oYInoxd/JxIgTbWWNkaaqdwT43BNR3IxRt5+E3JUUD3Lg6bPO+jspal8h8FUmFtOfRG08FFuA6Y4seqQVkWQrC/YOmrYIQ8KbBk7KUQROIfOtEtkyyULJeDLPpO2NphHixTkp4GY9pE=
+	t=1709849526; cv=none; b=bIVCdL0lqUs+2hxlQGHD7MJy8kjUA2bm1vJit8cUrQZjCbP3Ri6wPjiz+xi7CxwzIFHLlkNMn8OHypaO4BnoUcOVIxpIWcIzPoiPLX7T1taQMIf408heeDrzEwQY5rSOPbiGKBbvit8m57AWJQ5Fv4KxiiXmSmfCol5H5coWbSY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709677354; c=relaxed/simple;
-	bh=Emvxl3JaeBEA6fYlQxKLyhCiR/NwJv573H4jjTs207U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=r82rTHp4f5Ur5XchsqrjnepUX9j1zDOU9KrtRcA4ct89AjRvQ0TzZEMV2999teiZweEPUAMja2y1nx0xduJ+a2BhYTBUOvZ7opYzfmBCKuploVapdQLdlpMgE+TGnVX/RlAt684/unkhilot/GZWi4kzFDl57u2P5iIIJiMJXd0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=sB1T2/pm; arc=none smtp.client-ip=209.85.219.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-68ee2c0a237so1978226d6.1
-        for <linux-api@vger.kernel.org>; Tue, 05 Mar 2024 14:22:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1709677352; x=1710282152; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=f4yaOCyORqK7Y6K5fYLxtn4q3HQqcLmWrnXZYR8L2IA=;
-        b=sB1T2/pmBEPE7FVPZI41DdC+J8zVPxCrJWUXq0V7NFgb14U4RTG2xhxWr1ZX5WgNhJ
-         Ie/JTeDTKpNxu08HDk58HlvBtJwWEZhkACUWQ/Z6zjyfFQI8EZdp1VFfvt/OIvyvZNwm
-         2+du1UZPfF9h+EflZDX7IyDxatgcuWUBtZh57y+JY6SnPathV6jLzeUYmgVY85HdeTy7
-         gqP1WOUlRPh6LctcNljraS+3ckzVKNY29yCNTgRIeok3/ny5t17U+0sy6IclvwK6Satb
-         WrqLxvML5vUlDULhV7TkjChRR/eTDW7URw0Iy01opXviioWBeOP33eB/5ho/RNsvmMUj
-         kAgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709677352; x=1710282152;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=f4yaOCyORqK7Y6K5fYLxtn4q3HQqcLmWrnXZYR8L2IA=;
-        b=kyPLgP4bN210RW3StWyANNpa2UwUad5DxMB7o06Yau3fvHX2B+45yf9wQmGwDVcEj1
-         gQfQC8L7rI0NE5uzKan3MJ+LZmWaycWdxbAXEP1LCM0Zcq+NWxgEbVZy4Jzmu58CdniJ
-         FMqt1qR2zLG3qb7XTqwy5a7w1guhWCBpQMuKM+nlaZBqB1qLkMV24kolIyPTdjKhDQFP
-         ULeTrYos5PXSguA5CLFggQy3HSa3RcKGyVcjwe1XqQF/IJBhdetEOOcTqDsrG/ncFL7u
-         MXX/s9DNoKSyZpXZTQE+pE+ECVAnDfLwrXThuNUV/HgJZfPtKrFwMfyPup5GaVa6fFyI
-         BwKA==
-X-Forwarded-Encrypted: i=1; AJvYcCUcDugPOp/5DPf6Uc2zfvDW3UHCwhwioTDV/a1xBq53cvb5G5PNwSq0U+ln0KDO9jzvlBg6hhcCKhOGI7CUmjDyPSNwHy5qoIU5
-X-Gm-Message-State: AOJu0Yy7fF1F0SosfXeeOV2Yt0LexEle1mI+Ovde0ZlQxYPG+D7XGL5T
-	01E+M5QlT98ohYKkY5mGcaxgTkaigB9cvZQuUsNod6+0sd1OHrghxGxJLMxYeCEs1ZpqUw0u82l
-	NHl1IYSnpyI5W/p22kjLwTm/mfn4hsiXWHdGN
-X-Google-Smtp-Source: AGHT+IEXsP4T2G6jGTP+d7kkEuiOFndfFglwLO/54VRu/s6qVyb4XmHsU+ChPOKu5pt1ZGfntquz6f6Y2H3XwDSmX3Q=
-X-Received: by 2002:ad4:4eef:0:b0:690:2139:b50e with SMTP id
- dv15-20020ad44eef000000b006902139b50emr5804567qvb.18.1709677351705; Tue, 05
- Mar 2024 14:22:31 -0800 (PST)
+	s=arc-20240116; t=1709849526; c=relaxed/simple;
+	bh=qv8+spMNjo+8OovqII5cP9bZdZgkXALJcuSfu6n5vvU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UxNDukiFQ1ux6PMr/SNXrIvAQDdL0p/hrvLgALpYfOdCwYvJd2j3PY41tKw2bVi2Hv8V+s6E5tfPWBDt3/IqluRx5fIL/vQ+j2uJIlvcNAJfdN8FTVRzZ1eFkyLvQZ1kkiluUBuaQPJmZ5kg5nnnip7PutWjYlUPNwPte4DapJs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=B/e8h3Xe; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA0EFC433F1;
+	Thu,  7 Mar 2024 22:12:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1709849526;
+	bh=qv8+spMNjo+8OovqII5cP9bZdZgkXALJcuSfu6n5vvU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=B/e8h3Xe/bwwVojLCUzEbzD1vJb03wkXcvFdwpIN7zgCuL9UzlPe/d/KEog+HT+j0
+	 tmbv+RuNV/k7Cw9fugQCEScWqz65P6+M21SQFmr9SnTeTe7GIpqdMaiZbOBYSt3Ws8
+	 tVs+pGew39WQS5iXbWMdbN3hyri7Vd9PV80y208E=
+Date: Thu, 7 Mar 2024 22:12:04 +0000
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Elizabeth Figura <zfigura@codeweavers.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org, wine-devel@winehq.org,
+	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+	Wolfram Sang <wsa@kernel.org>,
+	Arkadiusz Hiler <ahiler@codeweavers.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Andy Lutomirski <luto@kernel.org>, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v2 02/31] ntsync: Introduce NTSYNC_IOC_CREATE_SEM.
+Message-ID: <2024030721-expletive-repose-0a89@gregkh>
+References: <20240219223833.95710-1-zfigura@codeweavers.com>
+ <20240219223833.95710-3-zfigura@codeweavers.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <ZUIlirG-ypudgpbK@debian> <20240303121454.16994-3-alx@kernel.org>
- <5882437.otsE0voPBg@nimes> <ZeRzS6mENO8kOh1W@debian> <CAJgzZor8TTSysM=TiTXQdVtHMZPQWu5YOhPmb8PAevdVd-c31Q@mail.gmail.com>
- <ZeZohz1sLcIN6kxA@debian> <CAJgzZoog1qS4BOYaKDnLsA3RzL-61r=33tP-XK2xvOwa008jJw@mail.gmail.com>
- <ZeZxSydsfskaQ5Vw@debian>
-In-Reply-To: <ZeZxSydsfskaQ5Vw@debian>
-From: enh <enh@google.com>
-Date: Tue, 5 Mar 2024 14:22:20 -0800
-Message-ID: <CAJgzZopTu=mQWcDGGHKnTRE3i+ksoLd37NwWg2fTaaGUkv9aFw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] clock_nanosleep.2, nanosleep.2: Use 'duration' rather
- than 'request'
-To: Alejandro Colomar <alx@kernel.org>
-Cc: Bruno Haible <bruno@clisp.org>, Stefan Puiu <stefan.puiu@gmail.com>, linux-man@vger.kernel.org, 
-	GNU C Library <libc-alpha@sourceware.org>, linux-api@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240219223833.95710-3-zfigura@codeweavers.com>
 
-On Mon, Mar 4, 2024 at 5:11=E2=80=AFPM Alejandro Colomar <alx@kernel.org> w=
-rote:
->
-> On Mon, Mar 04, 2024 at 04:56:13PM -0800, enh wrote:
-> > > > int clock_nanosleep(clockid_t __clock, int __flags, const struct
-> > > > timespec* _Nonnull __time, struct timespec* _Nullable __remainder);
-> > >
-> > > Hmmmm, that's the best name, meaningfully, I think.  But I've been
-> > > trying to avoid it.  I don't like using names of standard functions i=
-n
-> > > identifiers; it might confuse.  As an alternative, I thought of 't'.
-> > > What do you think?
-> >
-> > as you can see, i've taken the "the leading `__` means we get to
-> > trample whatever we like" approach :-)
-> >
-> > (we build bionic with hidden visibility and an explicit list of
-> > symbols for the linker to export, so we'd have to be trying quite hard
-> > to trip over ourselves.)
->
-> Yeah, I was worried about the manual page  :)
+On Mon, Feb 19, 2024 at 04:38:04PM -0600, Elizabeth Figura wrote:
+> This corresponds to the NT syscall NtCreateSemaphore().
+> 
+> Semaphores are one of three types of object to be implemented in this driver,
+> the others being mutexes and events.
+> 
+> An NT semaphore contains a 32-bit counter, and is signaled and can be acquired
+> when the counter is nonzero. The counter has a maximum value which is specified
+> at creation time. The initial value of the semaphore is also specified at
+> creation time. There are no restrictions on the maximum and initial value.
+> 
+> Each object is exposed as an file, to which any number of fds may be opened.
+> When all fds are closed, the object is deleted.
+> 
+> Objects hold a pointer to the ntsync_device that created them. The device's
+> reference count is driven by struct file.
+> 
+> Signed-off-by: Elizabeth Figura <zfigura@codeweavers.com>
 
-yeah, i think "t + extra text" makes sense there. i just try to be as
-brief as possible in the doc comments on the assumption that most
-readers will be seeing them in IDE pop-ups, and anyone who wants lots
-of text will click through to the man page anyway. and at that point
-they're your problem :-)
+I want to take these, but I need someone who knows how to review
+locking/sync primitives to give it a review to verify that it is working
+properly within the kernel constraints we have here.
 
-> --
-> <https://www.alejandro-colomar.es/>
-> Looking for a remote C programming job at the moment.
+Anyone want to give it a review?
+
+thanks,
+
+greg k-h
 
