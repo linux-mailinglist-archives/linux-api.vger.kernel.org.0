@@ -1,314 +1,156 @@
-Return-Path: <linux-api+bounces-1114-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1115-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3ACF879602
-	for <lists+linux-api@lfdr.de>; Tue, 12 Mar 2024 15:24:45 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 302DA879787
+	for <lists+linux-api@lfdr.de>; Tue, 12 Mar 2024 16:28:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C77431C2275A
-	for <lists+linux-api@lfdr.de>; Tue, 12 Mar 2024 14:24:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D3B0E1F26137
+	for <lists+linux-api@lfdr.de>; Tue, 12 Mar 2024 15:28:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B90FA7BB05;
-	Tue, 12 Mar 2024 14:24:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8D287C0B3;
+	Tue, 12 Mar 2024 15:28:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RaCO4OmZ"
+	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="HLp8TxPN"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sonic304-27.consmr.mail.ne1.yahoo.com (sonic304-27.consmr.mail.ne1.yahoo.com [66.163.191.153])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86E3D7BAF6;
-	Tue, 12 Mar 2024 14:24:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DE5258AD4
+	for <linux-api@vger.kernel.org>; Tue, 12 Mar 2024 15:28:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.163.191.153
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710253456; cv=none; b=JxMh4WCObDJWrKmNZC0Yfm8E08tTNpbx6te6GlY7wkVOlWtHPxedUj8hGSCTEQHCeFmxuVaWsabylPIqhJMCWOJLf8p4TEpyYPN2uoH4LkAXoa9PmvnQxvFrp7Trx4KgNws9dHq8sX+lE9rCveW308FwwHHMygX9FqpZAQU1X0c=
+	t=1710257286; cv=none; b=fBt7IBCoSiPc3+LM2UKdyyiaMMOsqxnaKrsNHkCNuJMYYclyFFEnAk683MKQ39aPAIzZRcrNS+xPTR16/9JYQaE8xmWr9HVaJERMG9XXOqSylLTjn9IViFDWML4PkdZnckhfEIwIaDWTHOqjWCWVEw0BaMDhUXMJ0LOO43AwfYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710253456; c=relaxed/simple;
-	bh=q6T87hUD5gO8HiHv1jhJS969Nl+81V50e8kMxP7/ldY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DMZHmV27/dLkzBws4I1iFi1LUmEP1nWXdliWYqApqSeyz83AEXxgLFIbLUiSrTARzYHaYLbxHPjVb9ygciLFg8+58mNElg602sUgkNCULctASxTSv3annaBi/WRwAGUU2lpOxDpaTM/H/S4658lRDDWab8Rh0LCpfAACfc9qscM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RaCO4OmZ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 412B4C43394;
-	Tue, 12 Mar 2024 14:24:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710253456;
-	bh=q6T87hUD5gO8HiHv1jhJS969Nl+81V50e8kMxP7/ldY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=RaCO4OmZ+q0+oNKx8K06PtTZVOYs3I8UUZiOAAkOl2/SMpmFUF9yQvJhhuetTg8QR
-	 ICzmzW26NLjOjxriPkRChGkKoQSOBHsd1PYJeRpmGxntQrwvz3R9l6fLHVviE6KntR
-	 PiKLgdxjEZeUm4+hmNcjLdyXFYMd5j33GvsZ3dJ1AZJZxhqRBoTT0PMI+yu27Bw6FF
-	 y+LtvCY+R/48LHdEIn44l5fKWhlJB+qyTZ6dLfmP0V1cpwQzqPoDo+mfB1carZiIKN
-	 ChleVdq159G21ulUzQt0Qjq2AJSkmWBRRTSikxSG+Ax0/wQV/Gp1ABcgmVez1DY77b
-	 LQLpmsRLaKf1A==
-From: legion@kernel.org
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>
-Cc: Alexey Gladkov <legion@kernel.org>,
-	LKML <linux-kernel@vger.kernel.org>,
-	kbd@lists.linux.dev,
-	linux-api@vger.kernel.org,
-	linux-fbdev@vger.kernel.org,
-	linux-serial@vger.kernel.org
-Subject: [PATCH v3 2/2] VT: Allow to get max font width and height
-Date: Tue, 12 Mar 2024 15:23:58 +0100
-Message-ID: <78fcb9ad77b88edee8768806ce6a4d23f6d33118.1710252966.git.legion@kernel.org>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <cover.1710252966.git.legion@kernel.org>
-References: <cover.1708960303.git.legion@kernel.org> <cover.1710252966.git.legion@kernel.org>
+	s=arc-20240116; t=1710257286; c=relaxed/simple;
+	bh=5MJYpTNTNhUetTcUdghPwxeLV+FyZFcY1u3AGIcpjZU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YtQgtiMhIuE30eoqjuLGC8Er/EwYyFYD5wvwc70eNB3coiXtNycz3W4ZATiaFpLYbgZ3ry+JmhRu6+8TjiXN/S2Mw8IrlfphArlKxU5ZkDr9sYKbjcCtOTE4wZ77XbsrAsocuLuRmQm6eI+4MbIGiWvsOomAdERBtmdMfwcoq54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=schaufler-ca.com; spf=none smtp.mailfrom=schaufler-ca.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=HLp8TxPN; arc=none smtp.client-ip=66.163.191.153
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=schaufler-ca.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=schaufler-ca.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1710257277; bh=eGVPF7E1Lj3mHWTls/amPaEcn2mVOw9rawL5hlgBYKk=; h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To; b=HLp8TxPNIJPkz69Ui9a1WEYC+4KHxartu8SSitkH+R/E0rOxA/cQZTqH5pzOdagGyB+e02y2NzwkI7zbRgYXHpJYhwNhNWjh/14TUFeZzchzvA0dMGdZ4b0qOy81pSGgy22H04sEGQP3gLFQl080UOxKBNVMLws76XL1HxdwJyk2yH65/cEAnTndAS/8AyaF8SURHLZ8ue3RtiwE+5mjhCBDk/XubHX7h6sJxNqpJchakr4Vz1hFrzf65HEhNJjH+YiGnLN5aTjMEkjJX8uNWjSIgBK9VRnLz+Y2V25IXBTOe6BuWSHpkothLXri+htAXK9KEwQIzW+4JdhsMbcBPQ==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1710257277; bh=pmU62dXCIh+9gCpNR5ZrCUiEvNUy09Rq4Fk7k3ky77b=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=IbuCwWkdw2pyEaY6b8p0eBRXRtuLHgDRqAgkiQnLqsCi/h1nxl5FihYR8wRqMEVa+33Lg+sUEcDkb3Ix4fOnLAu9gZBQkbQyEUz/eQcp52ksdvzVmq/BTcQ6UOvfkqHALF8cc/12SXdTulwnrLyKzOptH3T7/+pWDtv0c3mH3vOKkTekbsnlhr7at4fdseqasoITf5SigDuayrW784FG0QpvNAJGoLGuoYl2d0LEUXkY/OeldpsUDhw0e4aoNVA6Ep2YIBZVFcMeqbylTgOroUmiQGTryKT3S8aefteJH8gdK2eOVUBJmdB2EsGrsPY1olZyj6od5np7c7snbIMffw==
+X-YMail-OSG: b7OktG4VM1lWpvB9IRXTkQhMZIpWJbBRSPqfCu7rii1FCDHMrOQyacOsWI6kFL4
+ d.n4mdfaGo15ZDP63JchbdRxwpTD0TFbCWHBroKr3YhStRtM4jlNfvZyhdGCfiw9Ufz.i3qb7f.a
+ S5pbrvqQtiAtJqDbz9TPEstRy9zUb3Bij.4tVZkW392UIkU0NAAtz9gB6XmjyH1Gqk_92rh2VeuW
+ ZZwwpCPcHuNcfrMSihoYuH_Z3_fS8NLJM66Vffgxcpx5eUVDtRh02sbWpxkbaZEodJhN5.eAodp0
+ grjw89tSagGTMt.Aq8qOvnIStaBm0toWJM9PqkyB47IP7fgwC3GoIgkV.bcQXgSe9IjAOZ2hyj6V
+ AcdOQbP5D8cbAOdLIk7ycTjxLu4uej.B6VVKshzGEXFYCNcnuryxHJhLFIqIgLqcQtaS2mRqyzrv
+ Jse4FtX_8qMeGjB7Whdj7Y3VzJDtvhnE.nq31sWrtluTm57JZK715xaGEOmcwpHiJDEmb2cV5qIe
+ 7LuQuB03QygjGfcJmJz340rZmbacVmIGtkKgNC4Rgc7YzMdTPuZEVYYcuDijGXDlQQS3rzCY.LFQ
+ v120AEm46e6W7W60kotgGaw_9uAXcMgvFDaYKkkwo7XOfqg7pI01NMFIaqGaMI6LGbwX004627PQ
+ RsL3YbUsEHe281Q1iRw9EQunJftNJEO7SaTMUmJgVUWBBWUht87D9oZls3NfmhAlPeSGA65BAsbs
+ wumr9l997vQc6EUO.cxVkq0a9gbVD1lQSTcDQB3cy4_B2LlN4Pti95p75jYS2ZXVRrbWMVOQkyEP
+ TZ8kO3GjlegHX3oykL.4qPvfSpiYzNYO4VNQqn_Cu0rG16EsZwowoMt1Pug6ddjfFjGROrwbk82q
+ xgLigTsllzzy4P3K3KX7HnAsC5IhQAMVkKAG7CgPsfbuPdjHu_1_ZRwBRsssUq3aNfFvSPXmO0_m
+ 5EZvN9GynKBiCuqlWfcTKArswzRWOzUtMfGIS1IjSsivu5TE3LAEs.y9ZSpdZLjTzF0q7WAYTerl
+ 1mi3hnGGgg6PS53F3uvZoGekTV3KArEmY66hKhpYoVvlWiwdcZzBIB4uDqJAepQWtR9iVOl5CJry
+ X8JSUM1U.QWL0iK2ScNmzw4ho_sS9FvRHv6O7Jhr.mkEiuof8ZAatTpWo4pIrCKPeYHjHHRIzES8
+ L45GivdLxKXQgvofmZFj7lHbjjdqYCALHWoPIEj8lqUoziSq4n1IFJw6AgOfcAT5uY9UiNvjew3P
+ m4sbRHMCo1RBdIAP5yMlYnbV3ZGFajmVkeC6Sgom8E03sNADJA.Mz5g_eyRlnKKMW4tAAeztJY5u
+ uGP6GyLPfaCjg.cBdTrDQDMJnr1Rqh7mU_usugKuqeQ2BVIeAKhRYXqDQNtCAYwgDQYKhpyqYxYQ
+ LACd7qBzaB2zYoZLzNir3DlSziAuPUg06GH0ePfrDslsSywn4rFCJQDY9EAp1ynLzSpZ7qDtUdFO
+ 1WOHojMRtzQ8a2pW32Kp7KiShk1IqLifoVREndrJ2Z1JPshLZVjDxaa32hZ1JOlUkBAtv9RXacfX
+ 0IY_hqTfk7x8._xPxhsbgSXmRh4NA1CHrcvg7OlGnZhU0n3IvizlcND_uDAveImQqZzs1NTcZIWo
+ WF02mLOKXDs7q18lbT_FtDfvDTCdusq8PuzQB3mmUgtmxjeddACvrGfGSvgslqQKqKyDvq9HlTNf
+ rO95FjMuel.nsayWHv.TZWrla4dNuyaaKYWxt1rTMWhmxmWTx03qtgYHio.YS9CKtnmgv1kdMBGD
+ zyZP5z.GW6DS.SjtmpX2.cZP6KEvmLgTM4M9WnS3VNTWyWy4W3aTmdIYgV870iWcSgXgdUGOdv5M
+ sjBWZ449ZmXQlfl5ORf.Hae48jFQONt73MlEyL8zyLr1TSEAq4dARuqVHbEcy3vuh4J30I2K2EZt
+ edkfJVHsoKMqsY5zr_ZXJnmwczRe7DwC1vPOkwer1k56xEx2nsRTKRKIoo3gEGPA5EubtVWDQpNn
+ vDRKqTY0cLeMZxp2.eJQonIvD5omO_qp3Jtj5ijMRYlrUTxDlrbyzD09PuMv7lOMejSRnwVdBB3r
+ I.zO1CjXgBNLhWyMaK4wgKSSX5VqQMBbbmj6JY.46s9.3vdAI6DFdAFKvIFmq.sWNDnaEwfIT5jo
+ 681ZiWJASXFwl6g6gefVkdDObqrl_hcl.Lj_VsoyK9eX0YihdjNhCC6W0_WeaHgwTem9slhfBDmv
+ WoQ68vyp98ovW2FFD9AhbMVBdXLQazOA_Z__NET8IuMayknlK2wPxqvQkF438XLs1SR5UT4GM6zy
+ M6GMHB5Mz5p_lXwWh7_A-
+X-Sonic-MF: <casey@schaufler-ca.com>
+X-Sonic-ID: 67f0e72b-458e-49c0-991a-8ad2498ed3aa
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic304.consmr.mail.ne1.yahoo.com with HTTP; Tue, 12 Mar 2024 15:27:57 +0000
+Received: by hermes--production-gq1-5c57879fdf-hrd4s (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID fcf6ea82c067483bfc22e1d02e0654ff;
+          Tue, 12 Mar 2024 15:27:51 +0000 (UTC)
+Message-ID: <f122b3a9-1208-4c0b-9289-73eb070a8337@schaufler-ca.com>
+Date: Tue, 12 Mar 2024 08:27:49 -0700
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v15 05/11] LSM: Create lsm_list_modules system call
+Content-Language: en-US
+To: Paul Moore <paul@paul-moore.com>, "Dmitry V. Levin" <ldv@strace.io>
+Cc: linux-security-module@vger.kernel.org, jmorris@namei.org,
+ serge@hallyn.com, keescook@chromium.org, john.johansen@canonical.com,
+ penguin-kernel@i-love.sakura.ne.jp, stephen.smalley.work@gmail.com,
+ linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, mic@digikod.net,
+ Casey Schaufler <casey@schaufler-ca.com>
+References: <20230912205658.3432-1-casey@schaufler-ca.com>
+ <20230912205658.3432-6-casey@schaufler-ca.com>
+ <20240312101630.GA903@altlinux.org>
+ <CAHC9VhRgjNT2YnVgCqMJnyr227qUjmfrWZ+LBnu_DGxnJZgeKw@mail.gmail.com>
+From: Casey Schaufler <casey@schaufler-ca.com>
+In-Reply-To: <CAHC9VhRgjNT2YnVgCqMJnyr227qUjmfrWZ+LBnu_DGxnJZgeKw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Mailer: WebService/1.1.22129 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
 
-From: Alexey Gladkov <legion@kernel.org>
+On 3/12/2024 6:25 AM, Paul Moore wrote:
+> On Tue, Mar 12, 2024 at 6:16 AM Dmitry V. Levin <ldv@strace.io> wrote:
+>> On Tue, Sep 12, 2023 at 01:56:50PM -0700, Casey Schaufler wrote:
+>> [...]
+>>> --- a/security/lsm_syscalls.c
+>>> +++ b/security/lsm_syscalls.c
+>>> @@ -55,3 +55,42 @@ SYSCALL_DEFINE4(lsm_get_self_attr, unsigned int, attr, struct lsm_ctx __user *,
+>>>  {
+>>>       return security_getselfattr(attr, ctx, size, flags);
+>>>  }
+>>> +
+>>> +/**
+>>> + * sys_lsm_list_modules - Return a list of the active security modules
+>>> + * @ids: the LSM module ids
+>>> + * @size: pointer to size of @ids, updated on return
+>>> + * @flags: reserved for future use, must be zero
+>>> + *
+>>> + * Returns a list of the active LSM ids. On success this function
+>>> + * returns the number of @ids array elements. This value may be zero
+>>> + * if there are no LSMs active. If @size is insufficient to contain
+>>> + * the return data -E2BIG is returned and @size is set to the minimum
+>>> + * required size. In all other cases a negative value indicating the
+>>> + * error is returned.
+>>> + */
+>>> +SYSCALL_DEFINE3(lsm_list_modules, u64 __user *, ids, size_t __user *, size,
+>>> +             u32, flags)
+>> I'm sorry but the size of userspace size_t is different from the kernel one
+>> on 32-bit compat architectures.
+> D'oh, yes, thanks for pointing that out.  It would have been nice to
+> have caught that before v6.8 was released, but I guess it's better
+> than later.
+>
+>> Looks like there has to be a COMPAT_SYSCALL_DEFINE3(lsm_list_modules, ...)
+>> now.  Other two added lsm syscalls also have this issue.
+> Considering that Linux v6.8, and by extension these syscalls, are only
+> a few days old, I think I'd rather see us just modify the syscalls and
+> avoid the compat baggage.  I'm going to be shocked if anyone has
+> shifted to using the new syscalls yet, and even if they have (!!),
+> moving from a "size_t" type to a "u64" should be mostly transparent
+> for the majority of native 64-bit systems.  Those running the absolute
+> latest kernels on 32-bit systems with custom or bleeding edge
+> userspace *may* see a slight hiccup, but I think that user count is in
+> the single digits, if not zero.
+>
+> Let's fix this quickly with /size_t/u64/ in v6.8.1 and avoid the
+> compat shim if we can.
+>
+> Casey, do you have time to put together a patch for this (you should
+> fix the call chains below the syscalls too)?  If not, please let me
+> know and I'll get a patch out ASAP.
 
-The Console drivers has more restrictive font size limits than vt_ioctl.
-This leads to errors that are difficult to handle. If a font whose size
-is not supported is used, an EINVAL error will be returned, which is
-also returned in case of errors in the font itself. At the moment there
-is no way to understand what font sizes the current console driver
-supports.
+Grumble. Yes, I'll get right on it.
 
-To solve this problem, we need to transfer information about the
-supported font to userspace from the console driver.
-
-Signed-off-by: Alexey Gladkov <legion@kernel.org>
----
- drivers/video/console/newport_con.c | 21 +++++++++++++++++----
- drivers/video/console/sticon.c      | 25 +++++++++++++++++++++++--
- drivers/video/console/vgacon.c      | 21 ++++++++++++++++++++-
- drivers/video/fbdev/core/fbcon.c    | 22 +++++++++++++++++++++-
- 4 files changed, 81 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/video/console/newport_con.c b/drivers/video/console/newport_con.c
-index e8e4f82cd4a1..87f174a95fa8 100644
---- a/drivers/video/console/newport_con.c
-+++ b/drivers/video/console/newport_con.c
-@@ -33,6 +33,9 @@
- 
- #define NEWPORT_LEN	0x10000
- 
-+#define NEWPORT_MAX_FONT_WIDTH 8
-+#define NEWPORT_MAX_FONT_HEIGHT 16
-+
- #define FONT_DATA ((unsigned char *)font_vga_8x16.data)
- 
- static unsigned char *font_data[MAX_NR_CONSOLES];
-@@ -328,8 +331,8 @@ static void newport_init(struct vc_data *vc, int init)
- {
- 	int cols, rows;
- 
--	cols = newport_xsize / 8;
--	rows = newport_ysize / 16;
-+	cols = newport_xsize / NEWPORT_MAX_FONT_WIDTH;
-+	rows = newport_ysize / NEWPORT_MAX_FONT_HEIGHT;
- 	vc->vc_can_do_color = 1;
- 	if (init) {
- 		vc->vc_cols = cols;
-@@ -507,8 +510,8 @@ static int newport_set_font(int unit, struct console_font *op, unsigned int vpit
- 
- 	/* ladis: when I grow up, there will be a day... and more sizes will
- 	 * be supported ;-) */
--	if ((w != 8) || (h != 16) || (vpitch != 32)
--	    || (op->charcount != 256 && op->charcount != 512))
-+	if ((w != NEWPORT_MAX_FONT_WIDTH) || (h != NEWPORT_MAX_FONT_HEIGHT) ||
-+	    (vpitch != 32) || (op->charcount != 256 && op->charcount != 512))
- 		return -EINVAL;
- 
- 	if (!(new_data = kmalloc(FONT_EXTRA_WORDS * sizeof(int) + size,
-@@ -569,6 +572,15 @@ static int newport_font_default(struct vc_data *vc, struct console_font *op, cha
- 	return newport_set_def_font(vc->vc_num, op);
- }
- 
-+static int newport_font_info(struct vc_data *vc, struct console_font_info *info)
-+{
-+	info->min_width = info->max_width = NEWPORT_MAX_FONT_WIDTH;
-+	info->min_height = info->max_height = NEWPORT_MAX_FONT_HEIGHT;
-+	info->flags = KD_FONT_INFO_FLAG_LOW_SIZE | KD_FONT_INFO_FLAG_HIGH_SIZE;
-+
-+	return 0;
-+}
-+
- static int newport_font_set(struct vc_data *vc, struct console_font *font,
- 			    unsigned int vpitch, unsigned int flags)
- {
-@@ -688,6 +700,7 @@ const struct consw newport_con = {
- 	.con_scroll	  = newport_scroll,
- 	.con_switch	  = newport_switch,
- 	.con_blank	  = newport_blank,
-+	.con_font_info	  = newport_font_info,
- 	.con_font_set	  = newport_font_set,
- 	.con_font_default = newport_font_default,
- 	.con_save_screen  = newport_save_screen
-diff --git a/drivers/video/console/sticon.c b/drivers/video/console/sticon.c
-index 992a4fa431aa..d32ca458eb77 100644
---- a/drivers/video/console/sticon.c
-+++ b/drivers/video/console/sticon.c
-@@ -56,6 +56,11 @@
- #define BLANK 0
- static int vga_is_gfx;
- 
-+#define STICON_MIN_FONT_WIDTH 6
-+#define STICON_MIN_FONT_HEIGHT 6
-+#define STICON_MAX_FONT_WIDTH 32
-+#define STICON_MAX_FONT_HEIGHT 32
-+
- #define STI_DEF_FONT	sticon_sti->font
- 
- /* borrowed from fbcon.c */
-@@ -180,8 +185,10 @@ static int sticon_set_font(struct vc_data *vc, struct console_font *op,
- 	struct sti_cooked_font *cooked_font;
- 	unsigned char *data = op->data, *p;
- 
--	if ((w < 6) || (h < 6) || (w > 32) || (h > 32) || (vpitch != 32)
--	    || (op->charcount != 256 && op->charcount != 512))
-+	if (!in_range(w, STICON_MIN_FONT_WIDTH, STICON_MAX_FONT_WIDTH) ||
-+	    !in_range(h, STICON_MIN_FONT_HEIGHT, STICON_MAX_FONT_HEIGHT) ||
-+	    (vpitch != 32) ||
-+	    (op->charcount != 256 && op->charcount != 512))
- 		return -EINVAL;
- 	pitch = ALIGN(w, 8) / 8;
- 	bpc = pitch * h;
-@@ -273,6 +280,19 @@ static int sticon_font_set(struct vc_data *vc, struct console_font *font,
- 	return sticon_set_font(vc, font, vpitch);
- }
- 
-+static int sticon_font_info(struct vc_data *vc, struct console_font_info *info)
-+{
-+	info->min_width = STICON_MIN_FONT_WIDTH;
-+	info->min_height = STICON_MIN_FONT_HEIGHT;
-+
-+	info->max_width = STICON_MAX_FONT_WIDTH;
-+	info->max_height = STICON_MAX_FONT_HEIGHT;
-+
-+	info->flags = KD_FONT_INFO_FLAG_LOW_SIZE | KD_FONT_INFO_FLAG_HIGH_SIZE;
-+
-+	return 0;
-+}
-+
- static void sticon_init(struct vc_data *c, int init)
- {
-     struct sti_struct *sti = sticon_sti;
-@@ -371,6 +391,7 @@ static const struct consw sti_con = {
- 	.con_scroll		= sticon_scroll,
- 	.con_switch		= sticon_switch,
- 	.con_blank		= sticon_blank,
-+	.con_font_info		= sticon_font_info,
- 	.con_font_set		= sticon_font_set,
- 	.con_font_default	= sticon_font_default,
- 	.con_build_attr		= sticon_build_attr,
-diff --git a/drivers/video/console/vgacon.c b/drivers/video/console/vgacon.c
-index 8ef1579fa57f..b75d31ef3353 100644
---- a/drivers/video/console/vgacon.c
-+++ b/drivers/video/console/vgacon.c
-@@ -61,6 +61,10 @@ static struct vgastate vgastate;
- #define BLANK 0x0020
- 
- #define VGA_FONTWIDTH       8   /* VGA does not support fontwidths != 8 */
-+
-+#define VGACON_MAX_FONT_WIDTH VGA_FONTWIDTH
-+#define VGACON_MAX_FONT_HEIGHT 32
-+
- /*
-  *  Interface used by the world
-  */
-@@ -1013,6 +1017,19 @@ static int vgacon_adjust_height(struct vc_data *vc, unsigned fontheight)
- 	return 0;
- }
- 
-+static int vgacon_font_info(struct vc_data *vc, struct console_font_info *info)
-+{
-+	info->min_width = VGACON_MAX_FONT_WIDTH;
-+	info->min_height = 0;
-+
-+	info->max_width = VGACON_MAX_FONT_WIDTH;
-+	info->max_height = VGACON_MAX_FONT_HEIGHT;
-+
-+	info->flags = KD_FONT_INFO_FLAG_LOW_SIZE | KD_FONT_INFO_FLAG_HIGH_SIZE;
-+
-+	return 0;
-+}
-+
- static int vgacon_font_set(struct vc_data *c, struct console_font *font,
- 			   unsigned int vpitch, unsigned int flags)
- {
-@@ -1022,7 +1039,8 @@ static int vgacon_font_set(struct vc_data *c, struct console_font *font,
- 	if (vga_video_type < VIDEO_TYPE_EGAM)
- 		return -EINVAL;
- 
--	if (font->width != VGA_FONTWIDTH || font->height > 32 || vpitch != 32 ||
-+	if (font->width != VGACON_MAX_FONT_WIDTH ||
-+	    font->height > VGACON_MAX_FONT_HEIGHT || vpitch != 32 ||
- 	    (charcount != 256 && charcount != 512))
- 		return -EINVAL;
- 
-@@ -1177,6 +1195,7 @@ const struct consw vga_con = {
- 	.con_scroll = vgacon_scroll,
- 	.con_switch = vgacon_switch,
- 	.con_blank = vgacon_blank,
-+	.con_font_info = vgacon_font_info,
- 	.con_font_set = vgacon_font_set,
- 	.con_font_get = vgacon_font_get,
- 	.con_resize = vgacon_resize,
-diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-index 46823c2e2ba1..e10abe416159 100644
---- a/drivers/video/fbdev/core/fbcon.c
-+++ b/drivers/video/fbdev/core/fbcon.c
-@@ -101,6 +101,9 @@ enum {
- 	FBCON_LOGO_DONTSHOW	= -3	/* do not show the logo */
- };
- 
-+#define FBCON_MAX_FONT_WIDTH 32
-+#define FBCON_MAX_FONT_HEIGHT 32
-+
- static struct fbcon_display fb_display[MAX_NR_CONSOLES];
- 
- static struct fb_info *fbcon_registered_fb[FB_MAX];
-@@ -2456,6 +2459,21 @@ static int fbcon_do_set_font(struct vc_data *vc, int w, int h, int charcount,
- 	return ret;
- }
- 
-+
-+static int fbcon_font_info(struct vc_data *vc, struct console_font_info *info)
-+{
-+	info->min_width = 0;
-+	info->min_height = 0;
-+
-+	info->max_width = FBCON_MAX_FONT_WIDTH;
-+	info->max_height = FBCON_MAX_FONT_HEIGHT;
-+
-+	info->flags = KD_FONT_INFO_FLAG_LOW_SIZE | KD_FONT_INFO_FLAG_HIGH_SIZE;
-+
-+	return 0;
-+}
-+
-+
- /*
-  *  User asked to set font; we are guaranteed that charcount does not exceed 512
-  *  but lets not assume that, since charcount of 512 is small for unicode support.
-@@ -2483,7 +2501,8 @@ static int fbcon_set_font(struct vc_data *vc, struct console_font *font,
- 	    h > FBCON_SWAP(info->var.rotate, info->var.yres, info->var.xres))
- 		return -EINVAL;
- 
--	if (font->width > 32 || font->height > 32)
-+	if (font->width > FBCON_MAX_FONT_WIDTH ||
-+	    font->height > FBCON_MAX_FONT_HEIGHT)
- 		return -EINVAL;
- 
- 	/* Make sure drawing engine can handle the font */
-@@ -3158,6 +3177,7 @@ static const struct consw fb_con = {
- 	.con_scroll 		= fbcon_scroll,
- 	.con_switch 		= fbcon_switch,
- 	.con_blank 		= fbcon_blank,
-+	.con_font_info 		= fbcon_font_info,
- 	.con_font_set 		= fbcon_set_font,
- 	.con_font_get 		= fbcon_get_font,
- 	.con_font_default	= fbcon_set_def_font,
--- 
-2.44.0
-
+>
+> Thanks all.
+>
 
