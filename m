@@ -1,175 +1,193 @@
-Return-Path: <linux-api+bounces-1124-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1125-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2FAD879E53
-	for <lists+linux-api@lfdr.de>; Tue, 12 Mar 2024 23:18:13 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AF7B879F99
+	for <lists+linux-api@lfdr.de>; Wed, 13 Mar 2024 00:17:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 686B228401F
-	for <lists+linux-api@lfdr.de>; Tue, 12 Mar 2024 22:18:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8E85D1C2102C
+	for <lists+linux-api@lfdr.de>; Tue, 12 Mar 2024 23:17:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A76D144020;
-	Tue, 12 Mar 2024 22:18:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F25B046B80;
+	Tue, 12 Mar 2024 23:17:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="r0C0C2SI"
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="d3cKdCrS"
 X-Original-To: linux-api@vger.kernel.org
-Received: from sonic304-28.consmr.mail.ne1.yahoo.com (sonic304-28.consmr.mail.ne1.yahoo.com [66.163.191.154])
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10E02143C65
-	for <linux-api@vger.kernel.org>; Tue, 12 Mar 2024 22:18:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.163.191.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FA4346551
+	for <linux-api@vger.kernel.org>; Tue, 12 Mar 2024 23:17:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710281884; cv=none; b=fGZbxkx49SSiXQh9cuP1adHgkQddUKWswOwFsRcE0iD8VSvlv9/UNmnAsv2u/yRxXcCsIHKv4ICXPRIlFcoCF6FJM0ZtBF66KOT9BRQxcQJKgdgB7kXvP9E+TvZSK5pPWmRtT8V3vJjYeAZv5skM869osMTUQHr3okAOYF3eCzU=
+	t=1710285446; cv=none; b=KOXclZJqu+IKeJeRW0F/F3Iykds09EXAHIOtxIB2VofL47XgT8QzFNdXQEkTKXvalo3YAf2m0yELgmroT2f0g8CG8TycfN2crdt9AujUjPYgnQFcyzBm6bGxEqH7ph8x2/y63XB60fIDmI+G2JbsQDLMb0diw5tGbw8zn25G4lM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710281884; c=relaxed/simple;
-	bh=LxBZsL4ZKcp3qAuFjvIpzSZpTTruya38TrtBb2rbClU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KakqAR2VNJUEmkzdj0aAhyWzL88Q4WxTMtCk7IDKz/cIv3NVJEy4xYod1sh2xt6e5rSoD81ZWHzLFiN+0pK11/z7VK0MQIrgcPsOmtYHXpCpyZUgjSYI1qjcQhn/l/I+RlK+wpQbnEJYgccmF3oDoNkVHvC7rvBxcFYjvggT0PM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=schaufler-ca.com; spf=none smtp.mailfrom=schaufler-ca.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=r0C0C2SI; arc=none smtp.client-ip=66.163.191.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=schaufler-ca.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=schaufler-ca.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1710281881; bh=cFD7ONlouEHnUtHjfk+IrWvMDGAOr1AAuZlJ0ofkVJg=; h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To; b=r0C0C2SIKPsbUAIYbQ2YjPpYnOO1nsFpYRFu2poPE49kKpHEiOH9Te0yF6zZUvMkTvmkz+L7qSnXS0DqIUM5HlajmyQbAztU0J+WDJ817HpLpOI7jlwFb2hdoDAoMj0lwOt8mkAiSHisFPmfGKgKqJY/I+GFGWQTqbNKDdbiRiYgAXs+Lzo/FnOHxQSs5SwJIvNQeWePBjT2Drixf5RQ2MADDrzuOq7HdYY6cDo6Bycjb8kb+WATx9ZeNhqLZV5Fv9wSTXII1aP0N+PI3wOmlznXPES504rFtE6qZ7AMkfsNnxo4jcink+mJNKgiSOLYgf1yg15K6rN6S7UuwBfwOA==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1710281881; bh=ck9M1Z5SblsUqxjiJgS0BLrX9mk3288KMTcmCY21nI9=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=mH+69afhWYkow7pv7Rk4J7TyceTqwfCquHdzw6E90uDbP+KSk/uce1ljGx0jkR2kyLzXAdSKzGBtHUcXJKJeGHSA8TzY/W1pGP2dTB1hKfNFLtAz5JOmJfdQyKVKYDDaBv0kLsqzk05rzAu0Y27UmXWum6nOf58ZD0Us4OTYmmYrSqAVX7dINHQlNrCpnQSjaeWav/fcb8yXgxmz2/ANF1HpmbjXHItOIXaqbMR5Zi+zOuLq4nFoZ/d4VHzfch8NfSnQfeP8EYq1pvPi4ugKThTm2wbK8aDNk72YPkAepryAo6wS2sVlWYAUNKDokXY+giwsxJUy+M5bisg5rzJiog==
-X-YMail-OSG: QMaYU7AVM1lPRBG8aMEZCazgi5DOyGL3BjGUid9ey3DFW6xtVVwpmJAwbTSCWwF
- J6SALxiiHsLVv74RSJJUlcUbU5N3vNH3mrLjGsYlFJpno2avvbYZldAf4GpjEwkMh5mZaY_TwyQh
- 6Gg8eWyghA.NjAlpt9lU_9imjzMQrR0Tpg682yEQHjGymWO3qxLJQWC9bSljGLT4_NwlknhUKarA
- FRYfxhydIWXoS391lQXQShJ6PizNffFHutu_Dqaa2mcosxLZUO8d6VbAE5LZjKExy1mJlI0HQKpf
- UOhObaIGB.thSLgyvYcIlkf5ptzCJ2.FmRocRPXKb8axNosaucAF3H2qg8gt1r6QS0byBm66D_.e
- JQOLshPO7XyKVw3iP5oqfglS38D3bjuKH8UrBFbJORYf.9ffUDNT7A.GQh13ARnp_fE8PcpSUdN1
- WnOQjhZ1IcChc7st0yej6ikRCVFQZav24PDkeZa1B9QVUYFxxx7NO86H0xe7QR_GcCm8o9LjxTkA
- yXHapcsYfHk6Fk2ThsVtJWyD47020D2vEDHM.GElxyzcMk2cLh4ZEyaVdZJJ6tdvHbVLItr.RveV
- 4MXz9JnaZSdjFhXklK48fYVAzPzbZf.d6Cgmeyr7eCLRvu_mYqJ1kn8Z.I7GOrYgeqQxKBF9K83V
- lppQdGsQENCxYTNyIZVhnnIvleTiFe.BA0Moy9sv7w0aeX_2YQ5Y9uKxQdY4_Yg67t3MlNksPoiw
- fD9ceWbKkGD8lcBfacl3VpSBUan1IMvQBNJBIhxY6g1NgqmY_Eg3gzpic2vzV14.ehbG8X8Limd7
- mF1IvxXJGUdRzkI3Ayi_uQhiScGS0CAYlpBGfdOwizaNA_nIkiIdU9OUG93e1ONz9KZXfxNq0Zuq
- 9v9XClkd9Mrs3hVceBwiAevJxWBHm.eeBo.Gd0GCbo5ANu8KVHlm7AyVwgHmr.hOW48nEEnA9fBa
- IG4vmGnurhXdoJzzeT3XrlCPd_LUv8_jfCSPPAI_JLQrYR.6UlQsbnErJ2CBhH8bOKs.Fthm6M0w
- CcBT7VSaRzdgAguvaMR.zfrC9IhWSBu6VYESwE2P.tRPEEW1nlWL6TKH5DGi2AdWpfgw7h.Hnzcv
- vNU6lcRf8QiF85W7ZRAwIdNg.AuoBEIvw6Fv_Su5NVKRcxjK_TjcRPM7d.v1td3t2ztsQyIMJysg
- LyI9D0FaUEwozBWWzKKbevgOv2gYMZwxUBE9S3nAh3K_wJdjDUnQImgcB.lj4FT8lcI6rcYp6jve
- .gX5IJYM8W_cpT0r0haHnGFPA485gijlZ89Mp0emkuSQW4cBf3nHXncf8_ILo1ecnqUFf4MkN8yW
- 6uyJFmwt8xvoGg2kE8VcycgHRwpCcACH06WzVR7TqN.DBCI52kB2UU2j55lza9IfAe4icYo034at
- SPjOKh7hQz49RnEEdSZCsRcZWfcNqrRAo1SwwSYU3LOrB78M6betjMGJgP4gSbPoI1Fc8CtFxKT4
- NXsf8MxkHIDG0JUADEubF6qJkX_ANr05uj7eb0zN4O.NEFocatQAd99UrUB.aCa4_xRL_xCBmcGz
- PMoOVopjfkfTpn0tTbSwf8uZ9tfHX4T2Wf8S63NPtpabeIziyKsTDc0zkRR7tOsJSLD5HM0uJcy1
- 7fTC.7h3lY3YluKun0ou._AH8.UVSiRIFFuGdAAicTpyTXzc_9ZQyjvZBFGoDIMYxMPu6UdvjuKI
- eFhKDfZQtsyjHfA3UnhvaBNyVMz0g07PR.UkPaiauV62e2q.gjPtxXvyV8oj1J_E_70zdGwIQzRF
- JBGA0SFcUNTAlxaeZnDa5HQ4cFcGZszojrUOD9F2Y3BJRlaKt8BZYawUSU1Xl0AReBeeORZ4Ygus
- oaYKkzimczyNV1WBVqz9dwhmWmCGWJhO0egsknpriO0L_vrGAJI7PPk2GciGl4bwsw0S8rHzthyM
- guNEfvs5.nclU7nAh7IFpScWQ.wN0wJj_qd0sE4dQBMOkSerJs2UJUpHny8Wi5bKtZpXY6QZovFR
- TJNEHPF3R2P1k5KHe8f1RjJIM02BIdvYRLqwaZiC8TdNlniOgqAQPp2qLBzJY0miv5eEPfY1hypm
- QHvIQjJwrwzdXoZ40DtHQAjJOWKxYtb4UMzcU3Yl8zLogMeK9iE2i9QPnRXn_R0DqHULmUFq791F
- GKe8HV1Dri9pkCcTZSi6HBiiYEr.452SUEKG6VdLJwZMEGAiRgWmWyKwanSMdOXC8viTm23JYOHs
- 7l7ovH9cdCBDdjj7YbKOSyGeMoBvcN9nuRvJ9ra7B9d3Tczs9R_384Vx4MQLWKhLw6a5DxWavdz2
- 693SIdxbphSZhSb3qof6Z
-X-Sonic-MF: <casey@schaufler-ca.com>
-X-Sonic-ID: 88345881-4a5c-47cc-8a2c-1b5e13162dc8
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic304.consmr.mail.ne1.yahoo.com with HTTP; Tue, 12 Mar 2024 22:18:01 +0000
-Received: by hermes--production-gq1-5c57879fdf-c7xks (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 6b2784b44c0f9833033c3e8816efaad5;
-          Tue, 12 Mar 2024 22:17:58 +0000 (UTC)
-Message-ID: <ad5333de-0c89-4191-a217-014f3953a1df@schaufler-ca.com>
-Date: Tue, 12 Mar 2024 15:17:56 -0700
+	s=arc-20240116; t=1710285446; c=relaxed/simple;
+	bh=mEVVZfaqQll7hPHGOE2jyppJk2XufCVC8jkqkZ3Q1hs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rCoa1hiG50MC5jc21Bj5LXU9TFVe7KmxWZ144csX/9m+wwkmH4Qz3J5ei+dIvAzxhXh6waep8DXp//zsGj0D6yCCmUtuBl2YONtEI/LELmaoZYSWIJShGWHkVGY4IG8E1QVGHD6/dguxZ+shpc7a4tHoPley2uoxHiGoDslLv8c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=d3cKdCrS; arc=none smtp.client-ip=209.85.128.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-609fb19ae76so54143807b3.2
+        for <linux-api@vger.kernel.org>; Tue, 12 Mar 2024 16:17:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1710285444; x=1710890244; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Bry8Qeic+As0rVPkAapNZ1WCNptnnv3zdt3A6f6/O8k=;
+        b=d3cKdCrSWccKwsYC6H7cO9rq9tph94RMmEiuO8nBKCv9OEtoNOaKM4S4xEm2r62nXG
+         x0FsCBEhnMK3517290W9wz8RWVD/Di5eEAkaSptLeo+o0Y1rT/JziA4PhQGEC2GhK12b
+         mVAbIXq1PUSxoBPd/tbEiJPYNeqp+pRA39LrOvIqFzrK8+xmFqRfptPHwldch7GJogyz
+         caTz5Tga1USVEpMwAqjwuMhKMUVjxVixwiJcAO01wwNyzn6ghO2DdvW7yKPlb2LH9JQt
+         GhlhKj4U62gYctZejhNwsDjih9EA2U974fdj3XM+P3vNHqbf0ygI1MJzkTNLuSwomF52
+         1s7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710285444; x=1710890244;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Bry8Qeic+As0rVPkAapNZ1WCNptnnv3zdt3A6f6/O8k=;
+        b=YmhdwGglgeltFb0Sxf4w3INpEj8LBiDKS6pSh77dXWBYnPYLy2oZcwQoI90v1/+ffA
+         II2gpssX0IzNW5mEBv2XXS23Y0LNxdNHqRHJYvygoEu/qgXhkkAhMkamLnXBWtEtpN8I
+         jukQ/01ynNkXfMfQR0VuDw/+DmawUFch5pnxAWvYN6FabuxMJgFT8C9VhqPXV+SRKZn7
+         ntCzOK3re2jGh7btlOuX/GwubjBLjgRx/iW1L+RRuiOsVzTFVWJyNL8fy4t/9ZpmFfH9
+         frXEC8LQIbeV/OIvgkdRySLEsXqmAX7YVcll0P3WPNkICHwSzcuanBRe+Y0TlO7UtsbL
+         42eg==
+X-Forwarded-Encrypted: i=1; AJvYcCVO9D9eXDCrlgRN3ji2LbFq2pZxU+AFSv07TTQM+IlPAr0JdJJpVU2MmKwbJkDFPGvMh5VXdUkD1h+Chu6OjdHAT1KkKQw/VPcP
+X-Gm-Message-State: AOJu0YynOT0Q26y2pYKuPLu0MNa4Csq5oDUB72ubQWhFRxX9ZvJJ1MxJ
+	EWqbXB7hWAiUg9lowUFX7VUEo1W+D5rN/kJTp5fCzmka0xhcfhwaRQM99cjGQ1zdMYq/h/yFtIP
+	qNLkCpRb37G4sxqfBQihzOHLIjLtsStWW2Mvm
+X-Google-Smtp-Source: AGHT+IGxgNlSk8iECd52HZgQnxnv4ZmO0xEy9uERtH6eteP0xP4NePdMcxhqXSkh3Si2f4B2CjhzJOAdogg6nXOAuh8=
+X-Received: by 2002:a0d:f907:0:b0:60a:431b:c989 with SMTP id
+ j7-20020a0df907000000b0060a431bc989mr978119ywf.26.1710285443999; Tue, 12 Mar
+ 2024 16:17:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+References: <20230912205658.3432-1-casey@schaufler-ca.com> <20230912205658.3432-6-casey@schaufler-ca.com>
+ <20240312101630.GA903@altlinux.org> <CAHC9VhRgjNT2YnVgCqMJnyr227qUjmfrWZ+LBnu_DGxnJZgeKw@mail.gmail.com>
+ <f122b3a9-1208-4c0b-9289-73eb070a8337@schaufler-ca.com> <CAHC9VhRfwjsGiHXBRcWA6S9+H_kj0vMdQC0gyHr3ZnX-u7KzRQ@mail.gmail.com>
+ <f4f5d993-552b-483a-9a3e-1be99ea48757@schaufler-ca.com> <20240312182820.GA5122@altlinux.org>
+ <CAHC9VhTw2h6V3Z4fut8vHf59kOJeYqDrPqbRmRDNtZmVnM4g6Q@mail.gmail.com> <ad5333de-0c89-4191-a217-014f3953a1df@schaufler-ca.com>
+In-Reply-To: <ad5333de-0c89-4191-a217-014f3953a1df@schaufler-ca.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Tue, 12 Mar 2024 19:17:13 -0400
+Message-ID: <CAHC9VhSmZvxkmjeUuYyUZjKDLGpacweLod7rnmeYrWwZH444Sg@mail.gmail.com>
 Subject: Re: [PATCH v15 05/11] LSM: Create lsm_list_modules system call
-Content-Language: en-US
-To: Paul Moore <paul@paul-moore.com>, "Dmitry V. Levin" <ldv@strace.io>
-Cc: linux-security-module@vger.kernel.org, jmorris@namei.org,
- serge@hallyn.com, keescook@chromium.org, john.johansen@canonical.com,
- penguin-kernel@i-love.sakura.ne.jp, stephen.smalley.work@gmail.com,
- linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, mic@digikod.net,
- Casey Schaufler <casey@schaufler-ca.com>
-References: <20230912205658.3432-1-casey@schaufler-ca.com>
- <20230912205658.3432-6-casey@schaufler-ca.com>
- <20240312101630.GA903@altlinux.org>
- <CAHC9VhRgjNT2YnVgCqMJnyr227qUjmfrWZ+LBnu_DGxnJZgeKw@mail.gmail.com>
- <f122b3a9-1208-4c0b-9289-73eb070a8337@schaufler-ca.com>
- <CAHC9VhRfwjsGiHXBRcWA6S9+H_kj0vMdQC0gyHr3ZnX-u7KzRQ@mail.gmail.com>
- <f4f5d993-552b-483a-9a3e-1be99ea48757@schaufler-ca.com>
- <20240312182820.GA5122@altlinux.org>
- <CAHC9VhTw2h6V3Z4fut8vHf59kOJeYqDrPqbRmRDNtZmVnM4g6Q@mail.gmail.com>
-From: Casey Schaufler <casey@schaufler-ca.com>
-In-Reply-To: <CAHC9VhTw2h6V3Z4fut8vHf59kOJeYqDrPqbRmRDNtZmVnM4g6Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Mailer: WebService/1.1.22129 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
+To: Casey Schaufler <casey@schaufler-ca.com>
+Cc: "Dmitry V. Levin" <ldv@strace.io>, linux-security-module@vger.kernel.org, jmorris@namei.org, 
+	serge@hallyn.com, keescook@chromium.org, john.johansen@canonical.com, 
+	penguin-kernel@i-love.sakura.ne.jp, stephen.smalley.work@gmail.com, 
+	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, mic@digikod.net
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 3/12/2024 3:06 PM, Paul Moore wrote:
-> On Tue, Mar 12, 2024 at 2:28 PM Dmitry V. Levin <ldv@strace.io> wrote:
->> On Tue, Mar 12, 2024 at 10:44:38AM -0700, Casey Schaufler wrote:
->>> On 3/12/2024 10:06 AM, Paul Moore wrote:
->>>> On Tue, Mar 12, 2024 at 11:27 AM Casey Schaufler <casey@schaufler-ca.com> wrote:
->>>>> On 3/12/2024 6:25 AM, Paul Moore wrote:
->>>>>> On Tue, Mar 12, 2024 at 6:16 AM Dmitry V. Levin <ldv@strace.io> wrote:
->>>>>>> On Tue, Sep 12, 2023 at 01:56:50PM -0700, Casey Schaufler wrote:
->>>>>>> [...]
->>>>>>>> --- a/security/lsm_syscalls.c
->>>>>>>> +++ b/security/lsm_syscalls.c
->>>>>>>> @@ -55,3 +55,42 @@ SYSCALL_DEFINE4(lsm_get_self_attr, unsigned int, attr, struct lsm_ctx __user *,
->>>>>>>>  {
->>>>>>>>       return security_getselfattr(attr, ctx, size, flags);
->>>>>>>>  }
->>>>>>>> +
->>>>>>>> +/**
->>>>>>>> + * sys_lsm_list_modules - Return a list of the active security modules
->>>>>>>> + * @ids: the LSM module ids
->>>>>>>> + * @size: pointer to size of @ids, updated on return
->>>>>>>> + * @flags: reserved for future use, must be zero
->>>>>>>> + *
->>>>>>>> + * Returns a list of the active LSM ids. On success this function
->>>>>>>> + * returns the number of @ids array elements. This value may be zero
->>>>>>>> + * if there are no LSMs active. If @size is insufficient to contain
->>>>>>>> + * the return data -E2BIG is returned and @size is set to the minimum
->>>>>>>> + * required size. In all other cases a negative value indicating the
->>>>>>>> + * error is returned.
->>>>>>>> + */
->>>>>>>> +SYSCALL_DEFINE3(lsm_list_modules, u64 __user *, ids, size_t __user *, size,
->>>>>>>> +             u32, flags)
->>>>>>> I'm sorry but the size of userspace size_t is different from the kernel one
->>>>>>> on 32-bit compat architectures.
->>>>>> D'oh, yes, thanks for pointing that out.  It would have been nice to
->>>>>> have caught that before v6.8 was released, but I guess it's better
->>>>>> than later.
->>>>>>
->>>>>>> Looks like there has to be a COMPAT_SYSCALL_DEFINE3(lsm_list_modules, ..)
->>>>>>> now.  Other two added lsm syscalls also have this issue.
->>>>>> Considering that Linux v6.8, and by extension these syscalls, are only
->>>>>> a few days old, I think I'd rather see us just modify the syscalls and
->>>>>> avoid the compat baggage.  I'm going to be shocked if anyone has
->>>>>> shifted to using the new syscalls yet, and even if they have (!!),
->>>>>> moving from a "size_t" type to a "u64" should be mostly transparent
->>>>>> for the majority of native 64-bit systems.  Those running the absolute
->>>>>> latest kernels on 32-bit systems with custom or bleeding edge
->>>>>> userspace *may* see a slight hiccup, but I think that user count is in
->>>>>> the single digits, if not zero.
->>>>>>
->>>>>> Let's fix this quickly with /size_t/u64/ in v6.8.1 and avoid the
->>>>>> compat shim if we can.
->>>>>>
->>>>>> Casey, do you have time to put together a patch for this (you should
->>>>>> fix the call chains below the syscalls too)?  If not, please let me
->>>>>> know and I'll get a patch out ASAP.
->>>>> Grumble. Yes, I'll get right on it.
->>>> Great, thanks Casey.
->>> Look like lsm_get_self_attr() needs the same change. lsm_set_self_attr()
->>> doesn't, need it, but I'm tempted to change it as well for consistency.
->>> Thoughts?
->> As lsm_get_self_attr() has the same issue, it needs the same treatment.
->>
->> lsm_set_self_attr() could be left unchanged.  In fact, changing the type
->> of syscall arguments from size_t to an explicit 64-bit type would be
->> problematic because 32-bit syscalls cannot have 64-bit arguments.
-> You might as well convert all of the size_t parameters, pointers or
-> otherwise, in the three syscalls to u32 Casey.
+On Tue, Mar 12, 2024 at 6:18=E2=80=AFPM Casey Schaufler <casey@schaufler-ca=
+.com> wrote:
+> On 3/12/2024 3:06 PM, Paul Moore wrote:
+> > On Tue, Mar 12, 2024 at 2:28=E2=80=AFPM Dmitry V. Levin <ldv@strace.io>=
+ wrote:
+> >> On Tue, Mar 12, 2024 at 10:44:38AM -0700, Casey Schaufler wrote:
+> >>> On 3/12/2024 10:06 AM, Paul Moore wrote:
+> >>>> On Tue, Mar 12, 2024 at 11:27=E2=80=AFAM Casey Schaufler <casey@scha=
+ufler-ca.com> wrote:
+> >>>>> On 3/12/2024 6:25 AM, Paul Moore wrote:
+> >>>>>> On Tue, Mar 12, 2024 at 6:16=E2=80=AFAM Dmitry V. Levin <ldv@strac=
+e.io> wrote:
+> >>>>>>> On Tue, Sep 12, 2023 at 01:56:50PM -0700, Casey Schaufler wrote:
+> >>>>>>> [...]
+> >>>>>>>> --- a/security/lsm_syscalls.c
+> >>>>>>>> +++ b/security/lsm_syscalls.c
+> >>>>>>>> @@ -55,3 +55,42 @@ SYSCALL_DEFINE4(lsm_get_self_attr, unsigned i=
+nt, attr, struct lsm_ctx __user *,
+> >>>>>>>>  {
+> >>>>>>>>       return security_getselfattr(attr, ctx, size, flags);
+> >>>>>>>>  }
+> >>>>>>>> +
+> >>>>>>>> +/**
+> >>>>>>>> + * sys_lsm_list_modules - Return a list of the active security =
+modules
+> >>>>>>>> + * @ids: the LSM module ids
+> >>>>>>>> + * @size: pointer to size of @ids, updated on return
+> >>>>>>>> + * @flags: reserved for future use, must be zero
+> >>>>>>>> + *
+> >>>>>>>> + * Returns a list of the active LSM ids. On success this functi=
+on
+> >>>>>>>> + * returns the number of @ids array elements. This value may be=
+ zero
+> >>>>>>>> + * if there are no LSMs active. If @size is insufficient to con=
+tain
+> >>>>>>>> + * the return data -E2BIG is returned and @size is set to the m=
+inimum
+> >>>>>>>> + * required size. In all other cases a negative value indicatin=
+g the
+> >>>>>>>> + * error is returned.
+> >>>>>>>> + */
+> >>>>>>>> +SYSCALL_DEFINE3(lsm_list_modules, u64 __user *, ids, size_t __u=
+ser *, size,
+> >>>>>>>> +             u32, flags)
+> >>>>>>> I'm sorry but the size of userspace size_t is different from the =
+kernel one
+> >>>>>>> on 32-bit compat architectures.
+> >>>>>> D'oh, yes, thanks for pointing that out.  It would have been nice =
+to
+> >>>>>> have caught that before v6.8 was released, but I guess it's better
+> >>>>>> than later.
+> >>>>>>
+> >>>>>>> Looks like there has to be a COMPAT_SYSCALL_DEFINE3(lsm_list_modu=
+les, ..)
+> >>>>>>> now.  Other two added lsm syscalls also have this issue.
+> >>>>>> Considering that Linux v6.8, and by extension these syscalls, are =
+only
+> >>>>>> a few days old, I think I'd rather see us just modify the syscalls=
+ and
+> >>>>>> avoid the compat baggage.  I'm going to be shocked if anyone has
+> >>>>>> shifted to using the new syscalls yet, and even if they have (!!),
+> >>>>>> moving from a "size_t" type to a "u64" should be mostly transparen=
+t
+> >>>>>> for the majority of native 64-bit systems.  Those running the abso=
+lute
+> >>>>>> latest kernels on 32-bit systems with custom or bleeding edge
+> >>>>>> userspace *may* see a slight hiccup, but I think that user count i=
+s in
+> >>>>>> the single digits, if not zero.
+> >>>>>>
+> >>>>>> Let's fix this quickly with /size_t/u64/ in v6.8.1 and avoid the
+> >>>>>> compat shim if we can.
+> >>>>>>
+> >>>>>> Casey, do you have time to put together a patch for this (you shou=
+ld
+> >>>>>> fix the call chains below the syscalls too)?  If not, please let m=
+e
+> >>>>>> know and I'll get a patch out ASAP.
+> >>>>> Grumble. Yes, I'll get right on it.
+> >>>> Great, thanks Casey.
+> >>> Look like lsm_get_self_attr() needs the same change. lsm_set_self_att=
+r()
+> >>> doesn't, need it, but I'm tempted to change it as well for consistenc=
+y.
+> >>> Thoughts?
+> >> As lsm_get_self_attr() has the same issue, it needs the same treatment=
+.
+> >>
+> >> lsm_set_self_attr() could be left unchanged.  In fact, changing the ty=
+pe
+> >> of syscall arguments from size_t to an explicit 64-bit type would be
+> >> problematic because 32-bit syscalls cannot have 64-bit arguments.
+> > You might as well convert all of the size_t parameters, pointers or
+> > otherwise, in the three syscalls to u32 Casey.
+>
+> Well, nuts. So much for that coin flip. V2 coming real soon.
 
-Well, nuts. So much for that coin flip. V2 coming real soon.
+Yeah, sorry for the false starts today ...
 
+--=20
+paul-moore.com
 
