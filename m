@@ -1,166 +1,358 @@
-Return-Path: <linux-api+bounces-1142-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1143-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F3F987C090
-	for <lists+linux-api@lfdr.de>; Thu, 14 Mar 2024 16:45:21 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61E3787C098
+	for <lists+linux-api@lfdr.de>; Thu, 14 Mar 2024 16:46:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 330E21C20923
-	for <lists+linux-api@lfdr.de>; Thu, 14 Mar 2024 15:45:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 182BF2853A2
+	for <lists+linux-api@lfdr.de>; Thu, 14 Mar 2024 15:46:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D17071B52;
-	Thu, 14 Mar 2024 15:45:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C32171B42;
+	Thu, 14 Mar 2024 15:46:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="NCdKil5s"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j1g3KvcG"
 X-Original-To: linux-api@vger.kernel.org
-Received: from sonic315-26.consmr.mail.ne1.yahoo.com (sonic315-26.consmr.mail.ne1.yahoo.com [66.163.190.152])
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D3A170CDE
-	for <linux-api@vger.kernel.org>; Thu, 14 Mar 2024 15:45:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.163.190.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A89B470CDE;
+	Thu, 14 Mar 2024 15:46:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710431117; cv=none; b=PcCvY7EhUBi8SSlJLIjGu0y+pi6DQ4KZJcSgXkKq8nKQeXqxRBffrQX5ohybQILIssKgIFavEEgpUkuURg1C8i6OlA1r3Z9/1zM6pjrowWeT/Rno46qsIJqdUbnBkE1kIaK8fdy0WlnO3RlcjL/MXqLPAL6OLJ5/zXH9u7lGitE=
+	t=1710431204; cv=none; b=HjPRS+jR1t35u2mwwMOCCYO0sA3KbPx3KFwYECb1LkDmhriuv7+lQI4RZp/tzzrtCm+b0X3WeEBtrp618/jjIH5iccEknKL13jV3b429rO/Rr+sxIjdayX/1dTFivCNY2pK42fRth/uGxhc9JhKfH1/llBVPuI90pL5KaxXeLmw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710431117; c=relaxed/simple;
-	bh=X6GVf77QHFHhrmJdArapDFzCy+gK/1Zhmshh68BMYQE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EV7xY5EVyZWCoQvPGFcQAZ4CfF4c7aO8ltBoaBSuS8G5AX1msxiAFVxtZCoWY9b21t9krehq92DHi+VpBe66zuartVs8f1LlMZ5o6vN4cF6NmPx0cV/2J2Z3hNvZoyzARZ4mJ4b4ZHnKTzYT3NEUfBwJ0aYpliJyH5BR7TrKJJ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=schaufler-ca.com; spf=none smtp.mailfrom=schaufler-ca.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=NCdKil5s; arc=none smtp.client-ip=66.163.190.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=schaufler-ca.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=schaufler-ca.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1710431114; bh=8EdGV2Ns74qItVMaHvWmbG1wZxhXh/FfHvPHV0OlpOc=; h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To; b=NCdKil5sEtfvyvhM5af1/zqWMUswzlPPEX4/aqiL5QlQGvxd2rZJRHgdEg3Shzm1xaAEU9BgAZHCSsKd563AK87wH/s/MPQr8k8kQJyNjR657Zy24SSC2+F1L/ELTlyOKooWyHYSWCHnOBKdSjlVpAMfleIbLaG1LDXhiDAgaLA8GP6eaKusdxG6AmouRYfVYhGvDu6yWjb6EY9TpjhcpPaA/XEemrUTmjhbRAERuRMxg81i8TSGgl/itWXf1PNwG9jLIaWre6mT4rCIfAEQ6/Y5Pndr+sJ4nbFdgsK+3fmI2ptJUd2F1HCMkz56fgM9laCd3h8ZBL0NxcHZWkCgnQ==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1710431114; bh=BRi+Xj8uw/pP48hQAO/VOLHbt298B27x+mDkZuyEXYC=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=hngavXBPi+5u/51/rw7rwEJo+216xHHh01wAc9/QCTHXzscMukav1tehCReKPQDflP0ViBrRgsZpLvqlGwQyY+88iIl5HSim83VB8wHSYLGumcjKxBMCiRoMGqN5uz8jt75/X0Df4CoZU2MQybQ9oYzU/WxtYGHXiwdqeY2MvLzsngpRPcoS6tuTmtpCYP+ZFbNAVCCjsFxenu4lFc9JaCsHSD6lTBH43wEz0a4vpf9PQN50oUhMZKzam4l+bEqCXsvm+gc9Y9W3+AnIfQn1wlQmZ32FQwAHyHmBNj0r1VL+58rYJUUj2qho7srW7ZfdZ2DXUKIkDsIown9AWtc9iA==
-X-YMail-OSG: OswY.MEVM1lw2YJNbe9jOi94L8qZp2dTKN1PX8OmM9C7h5zz86qA28zh2ztwhYi
- XaRl1TpWTNfUW30jCCA6BDZ87u.9da6mlwy98blU0i90rQpZTfHPpt20KmyE0BfDbliTpx6LKIz4
- U9eOWhr5QBEHheoCXIrOYJwWZmu3phRWKlKabjDLadqYdRB8K4WH5au1bf.WYe1zvyIqi_OpCjbI
- TwQz8slGTaLiI0N0OQx2cFd3As5fQ1diqJKMG_QHW9zzGcKfubJg8TU7pHfxZq7sGqkxKNLgaOQI
- qkZUxhaCMinrqubPT4Rxcxikd5RZL5wj9FDFdK5wHYOAzkE9AJIETnVB0uImMHYbc6n_rVKFr9f.
- 4mRNz2uWmVsa2DaZu5oGo6IKd71Vi403ns2tj15iJ30ucoMS54J7rtQgADw6EvxSMuXrj7lSa_kC
- QtZHpf9Wuv6llt7WjdWGcKgphz4mfjZFBHbM6P5b7UPF5XnlayUSxUrYau_Bl9X7h.zooQl2yQBS
- 4xLuusnKbu74Gs294BZYGqiaWdWHKsRFCFos2xgUMs07wpW7l7.m_iR7N6GXDe8DGDghA6BgfTur
- TpoTXNldsM9bMH7CJR0ZBzQ0axevPwJCiUmI7CK6iYzTq6t0w6n0BSDYI9kznXEMBSHxIH1y7Oo3
- PoKL1Og0_IUTYi9Q3xE8B_7PotnBHtkIwSU9aHzi6U7pYBiOHALzHRASKex753xeIiwt8BZNy6Me
- kY2RjKai3S4P9vB7HjUKPltOHjutpFfhzP2mkuC3eI1ou4s6B6QKpHDGU.EvVKewvuOFMIW3v6sf
- 6GibJd6eEel04Si4oP_NqiGBrtl2cT1N6Yh5u0_iEdAKC4EH8o7cTR2I.OKTxEeRcODCiACl.bbG
- as1gHxkmcG7OytqDBuwglluv5bn9mk5nDopRHDgvyAf5goTTkOeSQ27_HD3lkHHrI_z.vlu7c_kJ
- 5w3XR8agxNFPKwjcaJzvWpMx7LG0mniRHTo2p6HwEUPAjhG43aLnp1jPIQTIrnN_zYX.ePBsY7KI
- 9KvOBdiMWP1JBOoKh2DGCKeM6gOdrUCPWFi4Kppyw2I0O9MDdjEkQvYr6mP_qq.lsQBQoK7I1o8x
- pWJZBXVP7d8rJ.gH92OUAvWY6lmoQCc8U9Tget44tKUMtWUbNgBTxs1yiXN0ECGBCwq63XJNIwcu
- xnUvwxRjvtXjmojF2mwHzDb.XMwEx9T8DbAq.mwTGYrsmMtjdBSTPrgwMtw1vw8ioNyWDNX1XxVM
- Uc2rEp24FFHrGou429zqm2OhXW5DQbzplMR_qSCrnlbRrZul.O5GhZfHQesCuMrQpmnRbWp5Ol9M
- 0OdOjAVMQq5bAwXNeVKBTeDUdoPhaMzBEfbDwmizm9Vi4JN1CIruUjO8XsqrKXzzceIcFG0uJPuV
- R.Ra0v98Q4.hgVtCa6IRu5IZqPXOziol9V6fgJ499pcBDDDYRtMbfDG8.RNjCrARhh5o7ZnqPg8c
- QaHX5lSvpylbUm9J21QHjKpBCXNoBIGKNWgdYQs_YxLRr1GCl5OWZowKQdb014YAGrEFTaTxSmxR
- trhbqVNbKinaX55X6.eGyhgyhOsEz8GraA2DRk4qIxvRsuOJnEzLhe3Iq5ZuBGhplsUiCfn9U5qw
- 423tQF_Req52FgbW72CuWIdoqZr_S9SM1oIXBVtQ9LM7fN.dBftLWErwMPZVown8NZ0EgPeDIbba
- JkNVltdPjjiYgslE6w.nuRgHu5GYrS7w1q1W4EHIDG2zlKuBVb8kNUAgdG3e2JiQgw5jAQV_EWLA
- pbOWh178kKgKGgXywSnYK.J1QdGCQRUqPXigSDApS1_M94TsK5xbPTv6P2VXkuIQpMXyiR1mLLkL
- TmZm_ZknP2PuqUdXqxANc_6ibrBZpsJ4CbXuO3AFS.tsm0d8dMNdAA9SSBsEYCZ9hBRRsnG1b5sk
- dpYJloyzgpjEKP69A9Y11gs0mgpPKQgMdnUQY3KisjwIM1xkjPPf8SWkIVbipyqDEp6F0eOJhkuB
- ha07IZyH6Be_Qjp6.2xxMxOTUj93DO2X6PIsyvIYZxbpvXQ1jYCoXV7bgU7EG5T4Lz5dO6KFRg24
- Z_3_qZ1PMyBrUeB5hPG1ydLGk3xmxlOWCT67IZxLDXl40bOfoN2kg7Asgb.KJxpT.fH5zewS3y2o
- IPZc3pK1ma4J0krJUUC1TSclXNN2h_wbBduCdDPmKEAQmGagxoKrq8lha9eOxLL36RMfqt3d2qMz
- s1hU6SxAkfgNPaRGk9iJCZc.as1sLneRk.w4PGpxxum4_an5RUJ7vjeyePImQpI1CFLDBypMo6De
- srvd2DlOIcJtSKNIBt9I-
-X-Sonic-MF: <casey@schaufler-ca.com>
-X-Sonic-ID: 8795c96f-0b92-45b7-bdeb-0068ece329e6
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic315.consmr.mail.ne1.yahoo.com with HTTP; Thu, 14 Mar 2024 15:45:14 +0000
-Received: by hermes--production-gq1-5c57879fdf-tnlsv (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 6288dba7af8c7caaec0833e884a1eb80;
-          Thu, 14 Mar 2024 15:45:10 +0000 (UTC)
-Message-ID: <22cc14d6-0c5f-47d7-9505-44c595d67a29@schaufler-ca.com>
-Date: Thu, 14 Mar 2024 08:45:09 -0700
+	s=arc-20240116; t=1710431204; c=relaxed/simple;
+	bh=oynWwKzA+0qEynlkdHoX9Q6l9nj+lEyOj7BCH09ZPG4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sxyPksmHkip5xvdNKpUU5GPFL231fXdGx7+/jjixTWabYfD42Oi4s1ljtO0BvHloeCv/9vxxe3JF0ip7M4+tuv3BAXvozx6hZd6siu1AVATF56RIjaPJXOM3ROVRQW3KeppNND/hrlI9cTZHgOBB3bmXnZ1d7AEPTeG7nkieOsU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j1g3KvcG; arc=none smtp.client-ip=209.85.219.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-dc25e12cc63so2074170276.0;
+        Thu, 14 Mar 2024 08:46:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1710431201; x=1711036001; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1/0zUkiPOILO/41SCjmzy5gU7e3o5AEa1dCgcttcrlk=;
+        b=j1g3KvcGw9T60rpGCp5HJPXzWVhYQGug6KtuTvkS4aFH+pmBi0PePKj90kDeqwGPVf
+         +Qwg8H3hdDeMPYkqnwpt3WUH4XXKFrO2km+nG6Tlh1sDaQubRtYxBIun2tbHT2IjvoVF
+         AZjgldjObbC1GL/FoOw5DA8eNA0ftr2T8RtduJNHZJdO78u2ajYk5dXvEL8OjGQf2ahG
+         fiLTXCa4UtJ5UcwNfpgWjW8Id3wt8/h6Nsociu1dlHhsyVkQa+UcUHez+ceMcpVHGAXq
+         luLeOhgf46BJrGhYv2Rc94Zk3t+hMBYqtwgv2zozsdHjeuFBDs+k7CHgwmNoF8MXQH9b
+         rH/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710431201; x=1711036001;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1/0zUkiPOILO/41SCjmzy5gU7e3o5AEa1dCgcttcrlk=;
+        b=iVIUgFzoUodJzpq01+MEgipRF66kDeyb65zgkLM499DeW/EPX3qOEFk0o/Lj8px/Z0
+         tAw70MjyWScLAo1f28nPFoQLqKmwZoir2Q0VN+eRoGee6emBHIB2KoR/7WDkSMxFliMk
+         qFcDA4hfN/ZBK6Vf0vbHpRlyK9ok/4jHbfS4nwoXS+G+Cg8d3MiZsgPOqPm+mxZF0gxb
+         wDXAvLGtAmkfExPfS56MInchQeXaBI2gKfx9jNX7VMtY5jeT3i25H9K/r5h3MrdiJFHN
+         KxKXuT3Eje8ORH2eZaPyUPhwNf/i0aih/cKrkIGoHhNrc2TyjAY7FhOgZJjFXjXftJj6
+         sYgQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXYxN7+JFJ8HdswOjinWKS3E7nMqw1drf0cucaqx8XGWjNVdmHyerBEGae64XEps47lneHH4//vLkWUUCmyc6w9QhSlS5XErUuDu5si1AxPZ+i5g6qLWnQdf2i17uXaq5uU16/85HTy0ymmjqTP6q+OBBxSp5clHIkZHrBWqpz34jiojQ0MluLfELiu5df5YTURsOQO8tbA+/AcYg==
+X-Gm-Message-State: AOJu0YwpFY11Kvt6FU4AgfC4s5DBCALR1WZB09OiMx/5Nm7RMrq6MPuv
+	QKNstZxNobFQ4Mnzu5K+ykB0cfbaXlU96qdL6N9kr83oLwa19979rlskdz0Cw/xU6yArZXygNmJ
+	CUPDkAtXnyGpYa6Y40ZFw6X07rsc=
+X-Google-Smtp-Source: AGHT+IFWpDcrqPH8bTrfukl8C/qZJ0doZ+8wMTevLQt0xt9L6RzqWz8jGpLBgjlktd2V0/1FHh6G74lG9WC2EQCm/OI=
+X-Received: by 2002:a25:acc2:0:b0:dc7:421d:bcc0 with SMTP id
+ x2-20020a25acc2000000b00dc7421dbcc0mr1406120ybd.32.1710431201553; Thu, 14 Mar
+ 2024 08:46:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] LSM: use 32 bit compatible data types in LSM syscalls.
-Content-Language: en-US
-To: Paul Moore <paul@paul-moore.com>, "Dmitry V. Levin" <ldv@strace.io>,
- LSM List <linux-security-module@vger.kernel.org>
-Cc: Linux kernel mailing list <linux-kernel@vger.kernel.org>,
- linux-api@vger.kernel.org, =?UTF-8?Q?Micka=C3=ABl_Sala=C3=BCn?=
- <mic@digikod.net>, James Morris <jmorris@namei.org>,
- Serge Hallyn <serge@hallyn.com>, John Johansen
- <john.johansen@canonical.com>,
- Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
- Stephen Smalley <stephen.smalley.work@gmail.com>,
- Casey Schaufler <casey@schaufler-ca.com>
-References: <da4d181d-16b9-4e0f-a744-ac61702e0b63@schaufler-ca.com>
- <ef972e0088964722adffc596d38b0463@paul-moore.com>
- <CAHC9VhQc-DEf=kSxbG-Mvz8jq-gxkaCe2jHb2a9LsJLQydj1zQ@mail.gmail.com>
-From: Casey Schaufler <casey@schaufler-ca.com>
-In-Reply-To: <CAHC9VhQc-DEf=kSxbG-Mvz8jq-gxkaCe2jHb2a9LsJLQydj1zQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Mailer: WebService/1.1.22129 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
+References: <20240314090540.14091-1-maimon.sagi@gmail.com> <87a5n1m5j1.ffs@tglx>
+In-Reply-To: <87a5n1m5j1.ffs@tglx>
+From: Sagi Maimon <maimon.sagi@gmail.com>
+Date: Thu, 14 Mar 2024 17:46:30 +0200
+Message-ID: <CAMuE1bHOm2Y1bOpggStMOjZhN5TaxoC1gJea5Mdrc+mormQg0g@mail.gmail.com>
+Subject: Re: [PATCH v7] posix-timers: add clock_compare system call
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: richardcochran@gmail.com, luto@kernel.org, datglx@linutronix.de, 
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, 
+	hpa@zytor.com, arnd@arndb.de, geert@linux-m68k.org, peterz@infradead.org, 
+	hannes@cmpxchg.org, sohil.mehta@intel.com, rick.p.edgecombe@intel.com, 
+	nphamcs@gmail.com, palmer@sifive.com, keescook@chromium.org, 
+	legion@kernel.org, mark.rutland@arm.com, mszeredi@redhat.com, 
+	casey@schaufler-ca.com, reibax@gmail.com, davem@davemloft.net, 
+	brauner@kernel.org, linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, 
+	linux-arch@vger.kernel.org, netdev@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 3/14/2024 8:30 AM, Paul Moore wrote:
-> On Wed, Mar 13, 2024 at 4:07 PM Paul Moore <paul@paul-moore.com> wrote:
->> On Mar 13, 2024 Casey Schaufler <casey@schaufler-ca.com> wrote:
->>> LSM: use 32 bit compatible data types in LSM syscalls.
->>>
->>> Change the size parameters in lsm_list_modules(), lsm_set_self_attr()
->>> and lsm_get_self_attr() from size_t to u32. This avoids the need to
->>> have different interfaces for 32 and 64 bit systems.
->>>
->>> Cc: stable@vger.kernel.org
->>> Fixes: a04a1198088a: ("LSM: syscalls for current process attributes")
->>> Fixes: ad4aff9ec25f: ("LSM: Create lsm_list_modules system call")
->>> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
->>> Reported-and-reviewed-by: Dmitry V. Levin <ldv@strace.io>
->>> ---
->>>  include/linux/lsm_hook_defs.h                        |  4 ++--
->>>  include/linux/security.h                             |  8 ++++----
->>>  security/apparmor/lsm.c                              |  4 ++--
->>>  security/lsm_syscalls.c                              | 10 +++++-----
->>>  security/security.c                                  | 12 ++++++------
->>>  security/selinux/hooks.c                             |  4 ++--
->>>  security/smack/smack_lsm.c                           |  4 ++--
->>>  tools/testing/selftests/lsm/common.h                 |  6 +++---
->>>  tools/testing/selftests/lsm/lsm_get_self_attr_test.c | 10 +++++-----
->>>  tools/testing/selftests/lsm/lsm_list_modules_test.c  |  8 ++++----
->>>  tools/testing/selftests/lsm/lsm_set_self_attr_test.c |  6 +++---
->>>  11 files changed, 38 insertions(+), 38 deletions(-)
->> Okay, this looks better, I'm going to merge this into lsm/stable-6.9
->> and put it through the usual automated testing as well as a kselftest
->> run to make sure everything there is still okay.  Assuming all goes
->> well and no one raises any objections, I'll likely send this up to
->> Linus tomorrow.
-> I had to squash the code snippet below into the patch to address a
-> build problem identified by the kernel build robot.  I'm going to keep
-> Casey's sign-off and Dmitry's reported-reviewed tag as I feel this
-> change is minor, but if anyone has any objections please let me know
-> soon.
-
-Looks fine to me. Thank you.
-
+On Thu, Mar 14, 2024 at 1:12=E2=80=AFPM Thomas Gleixner <tglx@linutronix.de=
+> wrote:
 >
-> [NOTE: cut-n-paste'd into email, likely whitespace damage, but you get the idea]
+> On Thu, Mar 14 2024 at 11:05, Sagi Maimon wrote:
+> > Some user space applications need to read a couple of different clocks.
+> > Each read requires moving from user space to kernel space.
+> > Reading each clock separately (syscall) introduces extra
+> > unpredictable/unmeasurable delay. Minimizing this delay contributes to =
+user
+> > space actions on these clocks (e.g. synchronization etc).
 >
-> diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
-> index 77eb9b0e7685..e619ac10cd23 100644
-> --- a/include/linux/syscalls.h
-> +++ b/include/linux/syscalls.h
-> @@ -960,10 +960,10 @@ asmlinkage long sys_cachestat(unsigned int fd,
->                struct cachestat __user *cstat, unsigned int flags);
-> asmlinkage long sys_map_shadow_stack(unsigned long addr, unsigned long size, un
-> signed int flags);
-> asmlinkage long sys_lsm_get_self_attr(unsigned int attr, struct lsm_ctx *ctx,
-> -                                     size_t *size, __u32 flags);
-> +                                     u32 *size, u32 flags);
-> asmlinkage long sys_lsm_set_self_attr(unsigned int attr, struct lsm_ctx *ctx,
-> -                                     size_t size, __u32 flags);
-> -asmlinkage long sys_lsm_list_modules(u64 *ids, size_t *size, u32 flags);
-> +                                     u32 size, u32 flags);
-> +asmlinkage long sys_lsm_list_modules(u64 *ids, u32 *size, u32 flags);
+> I asked for a proper description of the actual problem several times now
+> and you still provide some handwaving blurb. Feel free to ignore me, but
+> then please don't be surprised if I ignore you too.
 >
-> /*
->  * Architecture-specific system calls
+> Also why does reading two random clocks make any sense at all? Your code
+> allows to read CLOCK_TAI and CLOCK_THREAD_CPUTIME_ID. What for?
+>
+> This is about PTP, no?
+>
+> Again you completely fail to explain why the existing PTP ioctls are not
+> sufficient for the purpose and why you need to provide a new interface
+> which is completely ill defined.
+>
+> > arch/x86/entry/syscalls/syscall_64.tbl |   1 +
+> > drivers/ptp/ptp_clock.c                |  34 ++++--
+> > include/linux/posix-clock.h            |   2 +
+> > include/linux/syscalls.h               |   4 +
+> > include/uapi/asm-generic/unistd.h      |   5 +-
+> > kernel/time/posix-clock.c              |  25 +++++
+> > kernel/time/posix-timers.c             | 138 +++++++++++++++++++++++++
+> > kernel/time/posix-timers.h             |   2 +
+>
+> This needs to be split up into:
+>
+>      1) Infrastructure in posix-timers.c
+>      2) Wire up the syscall in x86
+>      3) Infrastructure in posix-clock.c
+>      4) Usage in ptp_clock.c
+>
+> and not as a big lump of everything.
+>
+> > +/**
+> > + * clock_compare - Get couple of clocks time stamps
+>
+> So the name of the syscall suggest that it compares two clocks, but the
+> actual functionality is to read two clocks.
+>
+> This does not make any sense at all. Naming matters.
+>
+> > + * @clock_a: clock a ID
+> > + * @clock_b: clock b ID
+> > + * @tp_a:            Pointer to a user space timespec64 for clock a st=
+orage
+> > + * @tp_b:            Pointer to a user space timespec64 for clock b st=
+orage
+> > + *
+> > + * clock_compare gets time sample of two clocks.
+> > + * Supported clocks IDs: PHC, virtual PHC and various system clocks.
+> > + *
+> > + * In case of PHC that supports crosstimespec and the other clock is M=
+onotonic raw
+> > + * or system time, crosstimespec will be used to synchronously capture
+> > + * system/device time stamp.
+> > + *
+> > + * In other cases: Read clock_a twice (before, and after reading clock=
+_b) and
+> > + * average these times =E2=80=93 to be as close as possible to the tim=
+e we read clock_b.
+> > + *
+> > + * Returns:
+> > + *   0               Success. @tp_a and @tp_b contains the time stamps
+> > + *   -EINVAL         @clock a or b ID is not a valid clock ID
+> > + *   -EFAULT         Copying the time stamp to @tp_a or @tp_b faulted
+> > + *   -EOPNOTSUPP     Dynamic POSIX clock does not support crosstimespe=
+c()
+> > + **/
+> > +SYSCALL_DEFINE5(clock_compare, const clockid_t, clock_a, const clockid=
+_t, clock_b,
+> > +             struct __kernel_timespec __user *, tp_a, struct __kernel_=
+timespec __user *,
+> > +             tp_b, s64 __user *, offs_err)
+> > +{
+> > +     struct timespec64 ts_a, ts_a1, ts_b, ts_a2;
+> > +     struct system_device_crosststamp xtstamp_a1, xtstamp_a2, xtstamp_=
+b;
+> > +     const struct k_clock *kc_a, *kc_b;
+> > +     ktime_t ktime_a;
+> > +     s64 ts_offs_err =3D 0;
+> > +     int error =3D 0;
+> > +     bool crosstime_support_a =3D false;
+> > +     bool crosstime_support_b =3D false;
+>
+> Please read and follow the documentation provided at:
+>
+> https://www.kernel.org/doc/html/latest/process/maintainer-tip.html
+>
+I have missed this part on prviews reply.
+I have read the documentation above and I think that the variable
+declarations at the beginning of a function is in reverse fir tree
+order
+meaning from big to small, but I guess that I am missing something,
+can you please explain what is wrong with the variable declaration,
+so I can fix it.
+> > +     kc_a =3D clockid_to_kclock(clock_a);
+> > +     if (!kc_a) {
+> > +             error =3D -EINVAL;
+> > +             return error;
+>
+> What's wrong about 'return -EINVAL;' ?
+>
+> > +     }
+> > +
+> > +     kc_b =3D clockid_to_kclock(clock_b);
+> > +     if (!kc_b) {
+> > +             error =3D -EINVAL;
+> > +             return error;
+> > +     }
+> > +
+> > +     // In case crosstimespec supported and b clock is Monotonic raw o=
+r system
+> > +     // time, synchronously capture system/device time stamp
+>
+> Please don't use C++ comments.
+>
+> > +     if (clock_a < 0) {
+>
+> This is just wrong. posix-clocks ar not the only ones which have a
+> negative clock id. See clockid_to_kclock()
+>
+> > +             error =3D kc_a->clock_get_crosstimespec(clock_a, &xtstamp=
+_a1);
+>
+> What's a crosstimespec?
+>
+> This function fills in a system_device_crosststamp, so why not name it
+> so that the purpose of the function is obvious?
+>
+> ptp_clock::info::getcrosststamp() has a reasonable name. So why do you
+> need to come up with something which makes the code obfuscated?
+>
+> > +             if (!error) {
+> > +                     if (clock_b =3D=3D CLOCK_MONOTONIC_RAW) {
+> > +                             ts_b =3D ktime_to_timespec64(xtstamp_a1.s=
+ys_monoraw);
+> > +                             ts_a1 =3D ktime_to_timespec64(xtstamp_a1.=
+device);
+> > +                             goto out;
+> > +                     } else if (clock_b =3D=3D CLOCK_REALTIME) {
+> > +                             ts_b =3D ktime_to_timespec64(xtstamp_a1.s=
+ys_realtime);
+> > +                             ts_a1 =3D ktime_to_timespec64(xtstamp_a1.=
+device);
+> > +                             goto out;
+> > +                     } else {
+> > +                             crosstime_support_a =3D true;
+>
+> Right. If clock_b is anything else than CLOCK_MONOTONIC_RAW or
+> CLOCK_REALTIME then this is true.
+>
+> > +                     }
+> > +             }
+>
+> So in case of an error, this just keeps going with an uninitialized
+> xtstamp_a1 and if the clock_b part succeeds it continues and operates on
+> garbage.
+>
+> > +     }
+> > +
+> > +     // In case crosstimespec supported and a clock is Monotonic raw o=
+r system
+> > +     // time, synchronously capture system/device time stamp
+> > +     if (clock_b < 0) {
+> > +             // Synchronously capture system/device time stamp
+> > +             error =3D kc_b->clock_get_crosstimespec(clock_b, &xtstamp=
+_b);
+> > +             if (!error) {
+> > +                     if (clock_a =3D=3D CLOCK_MONOTONIC_RAW) {
+> > +                             ts_a1 =3D ktime_to_timespec64(xtstamp_b.s=
+ys_monoraw);
+> > +                             ts_b =3D ktime_to_timespec64(xtstamp_b.de=
+vice);
+> > +                             goto out;
+> > +                     } else if (clock_a =3D=3D CLOCK_REALTIME) {
+> > +                             ts_a1 =3D ktime_to_timespec64(xtstamp_b.s=
+ys_realtime);
+> > +                             ts_b =3D ktime_to_timespec64(xtstamp_b.de=
+vice);
+> > +                             goto out;
+> > +                     } else {
+> > +                             crosstime_support_b =3D true;
+> > +                     }
+> > +             }
+> > +     }
+> > +
+> > +     if (crosstime_support_a)
+> > +             error =3D kc_a->clock_get_crosstimespec(clock_a, &xtstamp=
+_a1);
+>
+> What? crosstime_support_a is only true when the exactly same call
+> returned success. Why does it need to be called here again?
+>
+> > +     else
+> > +             error =3D kc_a->clock_get_timespec(clock_a, &ts_a1);
+> > +
+> > +     if (error)
+> > +             return error;
+> > +
+> > +     if (crosstime_support_b)
+> > +             error =3D kc_b->clock_get_crosstimespec(clock_b, &xtstamp=
+_b);
+> > +     else
+> > +             error =3D kc_b->clock_get_timespec(clock_b, &ts_b);
+> > +
+> > +     if (error)
+> > +             return error;
+> > +
+> > +     if (crosstime_support_a)
+> > +             error =3D kc_a->clock_get_crosstimespec(clock_a, &xtstamp=
+_a2);
+> > +     else
+> > +             error =3D kc_a->clock_get_timespec(clock_a, &ts_a2);
+> > +
+> > +     if (error)
+> > +             return error;
+>
+> The logic and the code flow here are unreadable garbage and there are
+> zero comments what this is supposed to do.
+>
+> > +     if (crosstime_support_a) {
+> > +             ktime_a =3D ktime_sub(xtstamp_a2.device, xtstamp_a1.devic=
+e);
+> > +             ts_offs_err =3D ktime_divns(ktime_a, 2);
+> > +             ktime_a =3D ktime_add_ns(xtstamp_a1.device, (u64)ts_offs_=
+err);
+> > +             ts_a1 =3D ktime_to_timespec64(ktime_a);
+>
+> This is just wrong.
+>
+>      read(a1);
+>      read(b);
+>      read(a2);
+>
+> You _CANNOT_ assume that (a1 + ((a2 - a1) / 2) is anywhere close to the
+> point in time where 'b' is read. This code is preemtible and
+> interruptible. I explained this to you before.
+>
+> Your explanation in the comment above the function is just wishful
+> thinking.
+>
+> > + * In other cases: Read clock_a twice (before, and after reading clock=
+_b) and
+> > + * average these times =E2=80=93 to be as close as possible to the tim=
+e we read clock_b.
+>
+> Can you please sit down and provide a precise technical description of
+> the problem you are trying to solve and explain your proposed solution
+> at the conceptual level instead of throwing out random implementations
+> every few days?
+>
+> Thanks,
+>
+>         tglx
+>
 >
 
