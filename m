@@ -1,58 +1,58 @@
-Return-Path: <linux-api+bounces-1174-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1175-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8723D887639
-	for <lists+linux-api@lfdr.de>; Sat, 23 Mar 2024 01:42:16 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DDCD0887C67
+	for <lists+linux-api@lfdr.de>; Sun, 24 Mar 2024 12:04:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0B8A1B20C09
-	for <lists+linux-api@lfdr.de>; Sat, 23 Mar 2024 00:42:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 724811F21485
+	for <lists+linux-api@lfdr.de>; Sun, 24 Mar 2024 11:04:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0E4C7FD;
-	Sat, 23 Mar 2024 00:42:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6953B17591;
+	Sun, 24 Mar 2024 11:04:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="eiKbLkSa";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="bEAsb7Bi"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="t7zxPixu";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="0zP5b/bm"
 X-Original-To: linux-api@vger.kernel.org
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B24A621;
-	Sat, 23 Mar 2024 00:42:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBC92171B6;
+	Sun, 24 Mar 2024 11:04:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711154527; cv=none; b=iSiUYe2YXPzo+EXjz5iGdfS6RMsUyBoNVqABA8Q2Zn9z7nIlz38gKCSjIVazGs+xESRIhjwnLQMHn9VsiRj+A2dsdINQPMRi7SZcoE7F8xk2TpwOuUvgZoBNHOqHMs2Cj5/Vy9iv2g1b+Wt2eLRa3tw1W6JfNIDTqE9hr0smYWU=
+	t=1711278267; cv=none; b=oVqCPF1Se4RQfCcQz+VHvJWsBxVZhclnn60wwuTydp8C2o/gqvxsqVTNxJpbSJ9gYpwudEQQUPjlO5onDr+uXVRvC9adJd+Ryv6TEmnagbQIScPISN5MZc2NkgfZmnL4PV/eXl0ZRHQpyDp1K1YGXT3NQXW7JFNNHFn2RH/u1To=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711154527; c=relaxed/simple;
-	bh=VG76lI2ZKWeJag+zZx5VSi9z780CgVU/nTzoEV6nJ/k=;
+	s=arc-20240116; t=1711278267; c=relaxed/simple;
+	bh=oVWt1URKKwcX1yBL2A/VUlUd8pg+WwR5QCUkGAW00E8=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=PVK0rk/6igFmaC5AlEfw6l+5Zn6bMEreDompw5sGmNmbrYemZB9i0Z9OHZ20kC97iOHlEOWo2kgBkasAFCsyfp0PQlHukuOUhnDCg3Ot5uVsymTDKmSRBYLH517JNmfeWkXhhjLvylZKdZra2Rz7Tj//TQU1fuGGkOs4Fq/WH8E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=eiKbLkSa; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=bEAsb7Bi; arc=none smtp.client-ip=193.142.43.55
+	 MIME-Version:Content-Type; b=ZwhjuIlr3QFth+i4t4U5wl7GHSJk7sC2MqPyVjJYkzTWws5iEj6WS6rJvWGSIlH9myVN0xW+WrRtD8/hFeyd0L4ESQqN0r+JpvVoggfhrNewAkfOsLqr1z4Sj7udOA/m6FWVc45IvP7QgtDYgTaSeO1DCjNCtpgDNmL2oWodg5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=t7zxPixu; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=0zP5b/bm; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-From: Thomas Gleixner <tglx@linutronix.de>
+From: Kurt Kanzenbach <kurt@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1711154524;
+	s=2020; t=1711278262;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=KASqGBVESWShyton5ws5e4AKhW61Ak7l2WXOYTqetwM=;
-	b=eiKbLkSalN507RpSncW2Q0She6oTlcjn691pienBGqKa0vhUbbjV/P8TGbsUTZ9rli01yG
-	dyxB4IHmoZPP+0qGtgtI5RJ5bzWsx42Ct53B8wwpvS0ZTiIBDrB0el2QdQTQvcFDr2i+ST
-	yahaEu7JFs30yQtddWZo3ThoSmQw4chIBztghQtVhJibQWqkCd78Atk4OVXPrBO1srA7+D
-	wYk4FiHRhpOsCl6tFbQbJySLx/hGc4Ka7XfqIpXC23n8sFBhwqpRpq5TmO8IhyNVZGvxkM
-	Y8wNXsLee2mrRXIlAsaVObcvcN58u0TY48QSdV2xu0bn87rYO9tYW/ZYBu99jw==
+	bh=2/mH+jshQDq36UblDsSyrijdM7u3yitlRALbmDQiFhQ=;
+	b=t7zxPixu7qaYG51JCvo1ZOQWA/ACxTuuj8zFnDgHzHPztgwklM3NQLGEeGfO8BtnUwz/9i
+	pMirW20R4/jgtZHyn4BZtu2Aw10yVVIbYif1WtvymjBtuXW6Zq1kE8o3Ub5vLfyVU7QfxG
+	0UvoNfkcKVyNQgQNJYAtQZTDia3pdd9N/ttYXkZL5zIN0Qlcjw7QPiLkgaz6k5y0x62R9d
+	gb4gV1ENpfo41Fs4Vh9hxDWidwK3q5uwumbcrHQ6ypY/0fa2+ZRexzovLfG0d0Iuv2RrWA
+	6nfB/08D+O2qpTLhxDIfCO1B7j8WuvenOW9n9RbCBDfUh2ZAZfAWfLtdRXNmtg==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1711154524;
+	s=2020e; t=1711278262;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=KASqGBVESWShyton5ws5e4AKhW61Ak7l2WXOYTqetwM=;
-	b=bEAsb7BiaPv5dpKF5KRSx4jaDSbh7g9U7wvowQ8/NtAsAQQjF4NWC0du72bGnC+wSwa+3g
-	zHHp7MNaCI/T+nCQ==
-To: Sagi Maimon <maimon.sagi@gmail.com>
+	bh=2/mH+jshQDq36UblDsSyrijdM7u3yitlRALbmDQiFhQ=;
+	b=0zP5b/bmPCg1ZQGyVupWSN3TpJwnNzP0yHkov/wwsnDRr2CvA/XIPR6n90Ossh1xnUewt0
+	gBjxUzMze3k1OaAQ==
+To: Thomas Gleixner <tglx@linutronix.de>, Sagi Maimon <maimon.sagi@gmail.com>
 Cc: richardcochran@gmail.com, luto@kernel.org, mingo@redhat.com,
  bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
  arnd@arndb.de, geert@linux-m68k.org, peterz@infradead.org,
@@ -64,51 +64,64 @@ Cc: richardcochran@gmail.com, luto@kernel.org, mingo@redhat.com,
  linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
  netdev@vger.kernel.org
 Subject: Re: [PATCH v7] posix-timers: add clock_compare system call
-In-Reply-To: <878r29hjds.ffs@tglx>
-References: <878r29hjds.ffs@tglx>
-Date: Sat, 23 Mar 2024 01:42:03 +0100
-Message-ID: <875xxdhj8k.ffs@tglx>
+In-Reply-To: <875xxdhj8k.ffs@tglx>
+References: <878r29hjds.ffs@tglx> <875xxdhj8k.ffs@tglx>
+Date: Sun, 24 Mar 2024 12:04:20 +0100
+Message-ID: <87msqnrivf.fsf@kurt.kurt.home>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; boundary="=-=-=";
+	micalg=pgp-sha512; protocol="application/pgp-signature"
+
+--=-=-=
 Content-Type: text/plain
 
-On Sat, Mar 23 2024 at 01:38, Thomas Gleixner wrote:
-> PTP_SYS_OFFSET_EXTENDED moves the outer sample points as close as
-> possible to the actual PCH read and provides both outer samples to user
-> space for analysis. It was introduced for a reason, no?
+On Sat Mar 23 2024, Thomas Gleixner wrote:
+> On Sat, Mar 23 2024 at 01:38, Thomas Gleixner wrote:
+>> PTP_SYS_OFFSET_EXTENDED moves the outer sample points as close as
+>> possible to the actual PCH read and provides both outer samples to user
+>> space for analysis. It was introduced for a reason, no?
+>
+> That said, it's a sad state of affairs that 16 drivers which did exist
+> before the introduction of the gettimex64() callback have not been
+> converted over to it within 4.5 years.
+>
+> What's even worse is that 14 drivers have been merged _after_ the
+> gettimex64() callback got introduced without implementing it:
+>
 
-That said, it's a sad state of affairs that 16 drivers which did exist
-before the introduction of the gettimex64() callback have not been
-converted over to it within 4.5 years.
+[...]
 
-What's even worse is that 14 drivers have been merged _after_ the
-gettimex64() callback got introduced without implementing it:
+> 2020-11-05   drivers/net/dsa/hirschmann/hellcreek_ptp.c
 
-2019-02-12   drivers/net/ethernet/freescale/enetc/enetc_ptp.c
-2019-10-24   drivers/net/ethernet/aquantia/atlantic/aq_ptp.c
-2019-11-15   drivers/net/dsa/ocelot/felix_vsc9959.c
-2020-01-12   drivers/net/ethernet/xscale/ptp_ixp46x.c
-2020-06-20   drivers/net/ethernet/mscc/ocelot_vsc7514.c
-2020-06-24   drivers/net/phy/mscc/mscc_ptp.c
-2020-08-24   drivers/net/ethernet/marvell/octeontx2/nic/otx2_ptp.c
-2020-11-05   drivers/net/dsa/hirschmann/hellcreek_ptp.c
-2022-02-01   drivers/net/ethernet/microchip/lan966x/lan966x_ptp.c
-2022-03-04   drivers/net/ethernet/microchip/sparx5/sparx5_ptp.c
-2022-05-10   drivers/net/ethernet/sfc/siena/ptp.c
-2022-11-02   drivers/net/ethernet/renesas/rcar_gen4_ptp.c
-2023-01-13   drivers/net/dsa/microchip/ksz_ptp.c
-2023-03-22   drivers/net/wireless/intel/iwlwifi/mvm/ptp.c
+Oh, my bad. Let me switch this one to gettimex64() then.
 
-Not Sagi's fault at all, but it's telling and coherent with the approach
-to solve the problem at hand.
+Thanks,
+Kurt
 
-See the previous reply for the observation on the letters P and C in PTP.
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Oh well,
+-----BEGIN PGP SIGNATURE-----
 
-        tglx
+iQJHBAEBCgAxFiEEvLm/ssjDfdPf21mSwZPR8qpGc4IFAmYACLQTHGt1cnRAbGlu
+dXRyb25peC5kZQAKCRDBk9HyqkZzgkX6D/0Up3j+XE9kDqSQoc2pu9NoxF6Srmub
+lTxnMPB7Vq5dkXM1EYUhK4Mji31dmYDdt70y0O9DrAke9RcGbWk3v45Yb2fMMWNe
+UHjol/JoZIuFdqOw8Tm8soYkB76mf1vTBgZvwDJrmBoJhVYHGZgpQhd7/VxRp1Kn
+TON3EpUj1kH9BoZTmzai8NFVivqMPrkdJTtErYZckaD7uO3lqxzTQsQ1C3SPaqZM
+TGe/WHSDudT6vov8ousEzNxoHPJt/JcJj9CFJnyYVk1wtaGBrbuU68tht4AgBd7o
+v6jiTKxpGFFqtMZISPLUgYasPwUjxCgsrEVxQmQGBzZOG+nHfP+kKKEwgafV+HSc
+jZOK52LBnaaVCdGIlwEMJUOpk8AVN6rReeUqWIHJEcezKUVn6Elo3RRyrH33aq5t
+L6sm3k1IzMGHwyhmLgp6ep/YDBHgWbSJ3qXyEr7Bet7Zq99IiynTLg11GX68QSc2
+MVBb1zldKucN3BnFl2B6sqwexbtxPNGNm5dXPJWKLLIdmh47kVFOH4+0fvwBpveu
+5Gwp5q+JZYSlqit9SfLkt2jRORt1MZmwxn4JH06+23CQ+fT/+uQBZMA8AfUtK4PJ
+7+R8WDXAZnr/ZDjXzv5zJbj49Z3X8CPKFFGWfQdCC16VMpUQPDLLslO4nZFnrXtM
+Ig6ltOiLusm+Ew==
+=e9pu
+-----END PGP SIGNATURE-----
+--=-=-=--
 
