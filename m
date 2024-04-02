@@ -1,201 +1,106 @@
-Return-Path: <linux-api+bounces-1218-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1219-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CA9F895520
-	for <lists+linux-api@lfdr.de>; Tue,  2 Apr 2024 15:19:54 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 969A1895B1A
+	for <lists+linux-api@lfdr.de>; Tue,  2 Apr 2024 19:51:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2290C1F20EDA
-	for <lists+linux-api@lfdr.de>; Tue,  2 Apr 2024 13:19:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1894B2860FD
+	for <lists+linux-api@lfdr.de>; Tue,  2 Apr 2024 17:51:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BA768289C;
-	Tue,  2 Apr 2024 13:19:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE0AD15AADB;
+	Tue,  2 Apr 2024 17:51:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MwXOKwDD"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i4lAQWCO"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D471C8062A;
-	Tue,  2 Apr 2024 13:19:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8638D175A1;
+	Tue,  2 Apr 2024 17:51:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712063989; cv=none; b=ckOkC0VKLtTLG9zZNW2r0GDGIuMY2lftj1PWvokDYZlLc1UGmcd0wV3Nh8ISFk0D8ZSTJ8bynMjOBfK3Nd+RZmsnWcwWeehmzrkz4BuPszRxyoSOjufLKMbvxIhqn4fX4q/3Ofi/uwbFkPn5h8nUrACVNG/JxXpy5O5UtwE8eYg=
+	t=1712080281; cv=none; b=BB9Eo8mNrMThiEsCp+iwn2sWgrY7HMkcd2ZhWd0LRWGloA0pnX8XriPc9uoImoAo0/v2QF577RKh6Ik5Gq020QJZ8rk+zjaGpBgp7A0/RC76seFq7yeNbGomnjoTdxeloEt2/UN+zqJm4y2ROB/Cgx19cTMYmE+8YGFcKx34bJQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712063989; c=relaxed/simple;
-	bh=6D05Yya3KxK0OkWkNXVX0Mp3DXfWGd2Ns0Ca9ovdfaw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=reVBf5iEw0F8eFHbyJp5nBkjllSnp+qvML/xJ02FEoWyhrE0zNG7fSGVOr/RePAbuTelviO3mkEMkjEdn5DNn1eW7y1KaHhxtxsflBh3LESYU+eqmEA+dAsosfbanDMdL/wnelL8tN9mtSYoxlq6IgC4HN+IaxA6UZdUTKLxKIk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MwXOKwDD; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EAE6C43390;
-	Tue,  2 Apr 2024 13:19:46 +0000 (UTC)
+	s=arc-20240116; t=1712080281; c=relaxed/simple;
+	bh=pbmjb20B1InrpmiwIan89p4AaKAD2iHVwkaPjFQm56M=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=TCqWYqy6uLGci/6JTZZZDvYBqUlBRZgxARqA+RihY2ROOlSGU1ZbKCPHygOrVz8oXz5iH5ZbHdXXBmfL5m8Kd70Foc1kETfsRJ8TSDIv7vZQN5e3XMHK6EmIGPuSNkjEUN9TEzY6+8vNUiErtjVawpTFhuVSenrYpqYub1w75jo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i4lAQWCO; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6627CC43399;
+	Tue,  2 Apr 2024 17:51:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712063988;
-	bh=6D05Yya3KxK0OkWkNXVX0Mp3DXfWGd2Ns0Ca9ovdfaw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MwXOKwDDFThNQSSdwFoyIDPuzphqyMHtPg1wzAPeJNlw7LZilwgpYtOb5qPMLjVpV
-	 CYUxFWbal2HMJeC93LtARxsmlb6Xu2PACLlFnYHIjXWlmS6M7tWn5kMUJ+qupt3FAv
-	 U7fR66IQmSw/jK5b6N9x64B8O/rca4SOIhBepo5bAO1g9f+6nUpApx/hJ1JlMQAnFk
-	 Vt3XjdtRfWGVvAnfqY43tgY9tNw2FLYYI90+yZA41lRIHs5PSTjZn1p04QirVPulpo
-	 cI7UT62Ym4BcKJKH4D826Xqw5qw7ekg3r8hSuDN2oigtUp8rACw2FP0YND2Aex/qpZ
-	 aRT7q6NBPsanQ==
-Date: Tue, 2 Apr 2024 15:19:43 +0200
+	s=k20201202; t=1712080280;
+	bh=pbmjb20B1InrpmiwIan89p4AaKAD2iHVwkaPjFQm56M=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=i4lAQWCOpgw/0kB5CqskoMyMrSicQqcqLmj7z1KISVBlyIoEsH68NdanqtndCHE9F
+	 /n3diSDDmwW76s0NROrTwRk70a0EM3JZ3Di6Y+KDVoa4bwv8QSne9V7KWkwO4zZeVt
+	 QI6rCRDH+yl2ADHt9hx4tsLS9tXWwuPwhIjpR6QTwul0FmsfULkSVru+f8+sDFCTD8
+	 J4iScOzBf0j33z6h7BOqeaQobfxzHdRaxSFw6YYNj2kKXToemm54WfTbjWTaLYthvD
+	 HUDHxvOcgn+Z5x+Uje5nhFtCsOGCFLrssqmcSyKkH5KTd8s9SmhgTtNbN7iV3OJ1Um
+	 0tU+Ok1B7kqgg==
 From: Alexey Gladkov <legion@kernel.org>
-To: Jiri Slaby <jirislaby@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	LKML <linux-kernel@vger.kernel.org>, kbd@lists.linux.dev,
-	linux-api@vger.kernel.org, linux-fbdev@vger.kernel.org,
-	linux-serial@vger.kernel.org, Helge Deller <deller@gmx.de>
-Subject: Re: [RESEND PATCH v3 1/2] VT: Add KDFONTINFO ioctl
-Message-ID: <ZgwF72yHH_0-A4FW@example.org>
-References: <cover.1710252966.git.legion@kernel.org>
- <cover.1712053848.git.legion@kernel.org>
- <ed056326540f04b72c97a276fbcc316e1b2f6371.1712053848.git.legion@kernel.org>
- <74ca50e0-61b1-4d4c-85dd-a5d920548c04@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+	kbd@lists.linux.dev,
+	linux-api@vger.kernel.org,
+	linux-fbdev@vger.kernel.org,
+	linux-serial@vger.kernel.org
+Subject: [PATCH v4 0/3] VT: Add ability to get font requirements
+Date: Tue,  2 Apr 2024 19:50:43 +0200
+Message-ID: <cover.1712080158.git.legion@kernel.org>
+X-Mailer: git-send-email 2.44.0
+In-Reply-To: <74ca50e0-61b1-4d4c-85dd-a5d920548c04@kernel.org>
+References: <74ca50e0-61b1-4d4c-85dd-a5d920548c04@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <74ca50e0-61b1-4d4c-85dd-a5d920548c04@kernel.org>
 
-On Tue, Apr 02, 2024 at 01:02:20PM +0200, Jiri Slaby wrote:
-> Hi,
-> 
-> On 02. 04. 24, 12:32, Alexey Gladkov wrote:
-> > Each driver has its own restrictions on font size. There is currently no
-> > way to understand what the requirements are. The new ioctl allows
-> > userspace to get the minmum and maximum font size values.
-> 
-> minimum
+We now have KD_FONT_OP_SET_TALL, but in fact such large fonts cannot be
+loaded. No console driver supports tall fonts. Unfortunately, userspace
+cannot distinguish the lack of support in the driver from errors in the
+font itself. In all cases, EINVAL will be returned.
 
-Typo. Sorry.
+This patchset adds a separate ioctl to obtain the font parameters
+supported by the console driver.
 
-> > Acked-by: Helge Deller <deller@gmx.de>
-> > Signed-off-by: Alexey Gladkov <legion@kernel.org>
-> > ---
-> >   drivers/tty/vt/vt.c       | 24 ++++++++++++++++++++++++
-> >   drivers/tty/vt/vt_ioctl.c | 13 +++++++++++++
-> >   include/linux/console.h   |  2 ++
-> >   include/linux/vt_kern.h   |  1 +
-> >   include/uapi/linux/kd.h   | 13 ++++++++++++-
-> >   5 files changed, 52 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/tty/vt/vt.c b/drivers/tty/vt/vt.c
-> > index 156efda7c80d..8c2a3d98b5ec 100644
-> > --- a/drivers/tty/vt/vt.c
-> > +++ b/drivers/tty/vt/vt.c
-> > @@ -4680,6 +4680,30 @@ int con_font_op(struct vc_data *vc, struct console_font_op *op)
-> >   	return -ENOSYS;
-> >   }
-> >   
-> > +int con_font_info(struct vc_data *vc, struct console_font_info *info)
-> > +{
-> > +	int rc = -EINVAL;
-> 
-> This initialization appears to be unneeded.
-> 
-> > +
-> > +	info->min_height = 0;
-> > +	info->max_height = max_font_height;
-> > +
-> > +	info->min_width = 0;
-> > +	info->max_width = max_font_width;
-> > +
-> > +	info->flags = KD_FONT_INFO_FLAG_LOW_SIZE | KD_FONT_INFO_FLAG_HIGH_SIZE;
-> > +
-> > +	console_lock();
-> > +	if (vc->vc_mode != KD_TEXT)
-> > +		rc = -EINVAL;
-> > +	else if (vc->vc_sw->con_font_info)
-> > +		rc = vc->vc_sw->con_font_info(vc, info);
-> > +	else
-> > +		rc = -ENOSYS;
-> > +	console_unlock();
-> > +
-> > +	return rc;
-> > +}
-> > +
-> >   /*
-> >    *	Interface exported to selection and vcs.
-> >    */
-> > diff --git a/drivers/tty/vt/vt_ioctl.c b/drivers/tty/vt/vt_ioctl.c
-> > index 8c685b501404..b3b4e4b69366 100644
-> > --- a/drivers/tty/vt/vt_ioctl.c
-> > +++ b/drivers/tty/vt/vt_ioctl.c
-> > @@ -479,6 +479,19 @@ static int vt_k_ioctl(struct tty_struct *tty, unsigned int cmd,
-> >   		break;
-> >   	}
-> >   
-> > +	case KDFONTINFO: {
-> > +		struct console_font_info fnt_info;
-> > +
-> > +		if (copy_from_user(&fnt_info, up, sizeof(fnt_info)))
-> > +			return -EFAULT;
-> 
-> Who uses the copied values?
+v4:
+* Rebased on v6.9-rc1 and conflicts have been fixed.
+* Do not copy KDFONTINFO data from the userspace.
+* Header include/uapi/linux/kd.h uses _IOC macros to define ioctls.
 
-No one. I did it by analogy with KDFONTOP. Thanks!
+v3:
+* Added the use of the in_range macro.
+* Squashed the commits that add ioctl to console divers.
 
-> > +		ret = con_font_info(vc, &fnt_info);
-> > +		if (ret)
-> > +			return ret;
-> > +		if (copy_to_user(up, &fnt_info, sizeof(fnt_info)))
-> 
-> We should do the preferred sizeof(*up) here...
-> 
-> > +			return -EFAULT;
-> > +		break;
-> > +	}
-> > +
-> >   	default:
-> >   		return -ENOIOCTLCMD;
-> >   	}
-> ...
-> > --- a/include/uapi/linux/kd.h
-> > +++ b/include/uapi/linux/kd.h
-> > @@ -183,8 +183,19 @@ struct console_font {
-> >   
-> >   #define KD_FONT_FLAG_DONT_RECALC 	1	/* Don't recalculate hw charcell size [compat] */
-> >   
-> > +#define KDFONTINFO	0x4B73	/* font information */
-> 
-> Why not properly define the number using IOC() et al.? K (that 0x4b) is 
-> even reserved for kd.h.
+v2:
+* Instead of the KDFONTOP extension, a new ioctl has been added to
+  obtain font information.
 
-I just did the same as the numbers above. This entire header does not use
-IOC().
+Alexey Gladkov (3):
+  VT: Use macros to define ioctls
+  VT: Add KDFONTINFO ioctl
+  VT: Allow to get max font width and height
 
-Should I convert this header as a separate commit?
-
-> > +#define KD_FONT_INFO_FLAG_LOW_SIZE	(1U << 0) /* 256 */
-> > +#define KD_FONT_INFO_FLAG_HIGH_SIZE	(1U << 1) /* 512 */
-> 
-> _BITUL()
-
-Make sense. I will use it.
-
-> > +struct console_font_info {
-> > +	unsigned int min_width, min_height;	/* minimal font size */
-> > +	unsigned int max_width, max_height;	/* maximum font size */
-> > +	unsigned int flags;			/* KD_FONT_INFO_FLAG_* */
-> 
-> This does not look like a well-defined™ and extendable uapi structure. 
-> While it won't change anything here, still use fixed-length __u32.
-> 
-> And you should perhaps add some reserved fields. Do not repeat the same 
-> mistakes as your predecessors with the current kd uapi.
-
-I thought about it, but I thought it would be overengineering.
-Can you suggest how best to do this?
+ drivers/tty/vt/vt.c                 |  24 ++++++
+ drivers/tty/vt/vt_ioctl.c           |  11 +++
+ drivers/video/console/newport_con.c |  21 +++++-
+ drivers/video/console/sticon.c      |  25 ++++++-
+ drivers/video/console/vgacon.c      |  21 +++++-
+ drivers/video/fbdev/core/fbcon.c    |  16 ++++
+ include/linux/console.h             |   3 +
+ include/linux/vt_kern.h             |   1 +
+ include/uapi/linux/kd.h             | 109 ++++++++++++++++------------
+ 9 files changed, 176 insertions(+), 55 deletions(-)
 
 -- 
-Rgrds, legion
+2.44.0
 
 
