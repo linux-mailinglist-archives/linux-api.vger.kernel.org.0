@@ -1,146 +1,201 @@
-Return-Path: <linux-api+bounces-1217-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1218-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B015E895177
-	for <lists+linux-api@lfdr.de>; Tue,  2 Apr 2024 13:09:43 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CA9F895520
+	for <lists+linux-api@lfdr.de>; Tue,  2 Apr 2024 15:19:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 277ED1F2379F
-	for <lists+linux-api@lfdr.de>; Tue,  2 Apr 2024 11:09:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2290C1F20EDA
+	for <lists+linux-api@lfdr.de>; Tue,  2 Apr 2024 13:19:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6566460DFB;
-	Tue,  2 Apr 2024 11:09:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BA768289C;
+	Tue,  2 Apr 2024 13:19:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MwXOKwDD"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8E34604BB;
-	Tue,  2 Apr 2024 11:09:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D471C8062A;
+	Tue,  2 Apr 2024 13:19:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712056178; cv=none; b=omqOCpQrRqhd0cO2+pjIdJMbdx4Cb9WaZJV4qGB3TFs+nC1h51rpYGbm+BVFG0wpHAT+kn+lQAHrU4td1SIlClDtqum2rTZjC3xDvBkyWxkIc2k3x3gi6kH4FA7ik+FYcVj36vf1FRIG6aQdql25BVZgCdulIrAuFdTYHs3cdes=
+	t=1712063989; cv=none; b=ckOkC0VKLtTLG9zZNW2r0GDGIuMY2lftj1PWvokDYZlLc1UGmcd0wV3Nh8ISFk0D8ZSTJ8bynMjOBfK3Nd+RZmsnWcwWeehmzrkz4BuPszRxyoSOjufLKMbvxIhqn4fX4q/3Ofi/uwbFkPn5h8nUrACVNG/JxXpy5O5UtwE8eYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712056178; c=relaxed/simple;
-	bh=Pz2W/JmvhcbrLHGMtbP+oMEqjfIqVmg5RzHfv2V/y3o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PHG2lqA6fmIZJzF2wRzczgQySNZPM/AjsSJLbwfu8hX76JsFjYwadKCglGnMJdsj2xpzqmSRoIL/1HVWzTNQow6ILNmWQ5GUIeZcKNafglFjIaeVK4b4yLnTngnB28tUWGNf+1jVsa2jR3xIlw2FIGv5VaqQL2AA5vGhyGoHPhs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-513e89d0816so5923103e87.0;
-        Tue, 02 Apr 2024 04:09:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712056175; x=1712660975;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QL/SUQMEvTD3atN+VbztFSimA7sFWSFKuIGeBQT4IQc=;
-        b=JFFAynjMXh/yh/ZM1pgpbvZfi/Sj9x+gf1OTQ4ZzrqGIilE23jk/OmBOW1WLc+FrAN
-         GW+5+QWTmywkbD/X5YbdMlXwsIBTEJeF5+zbCWg45Ncebk8Y83gAOtg8PyGR5uPeCIxN
-         9Lyc6hFKXimw88v1hMLXZRpEvhxdN7NYX2xbknhS4tHL2LwSywWrtQJym2pFVOE8+shi
-         yTXFnTl1lUhP68fLj+ZWhauBJH4saUUQGp7DnfgXIVkys8d0eJ6ccOyHxsdPRNb/cPb5
-         u+DRZmJGlKxLsUgAnCDBgJbqngvgV52yUBgmw+rU7xucjwcEcOJljypS59lwQYa/dP9L
-         HM6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWaqtVljsE77uXhXsgJbfyVHQ5JEqEjA+KGV6V9Rfb2Hhxno+Rk0oS12XjSybkAEk5JZgLF37xCJmS6V8m3codn4i7sMT69oM0jPSmLcVgdQwiGJL6V2x2r+zSDAzPVlNM64VuTgw52Sblte3ElOFo/2oCSdwm2NlOpj56U6Wwui576VyCEbPFaKdmHc1/fL2b0Imandmzxkn9XcVvALuEIGxU=
-X-Gm-Message-State: AOJu0YwEqPgtUvU+6m9pMq2Kp4FTLqZI3VI0bYVXxHYq5WeCWNwqFJNs
-	kl6lEyHnG6IjDmf3WERpCsY9vs6rGUvqdXRPse22DO3cyr6Yi7yUCrIJUgz/Zl4=
-X-Google-Smtp-Source: AGHT+IF0YdHd7ok9JRJmyKYA0oAkP/eBrCU6csCg08svcx755Oi82Vnlkarv6abMZpR0ABaLmAz/Hw==
-X-Received: by 2002:ac2:5edc:0:b0:513:e17d:cf37 with SMTP id d28-20020ac25edc000000b00513e17dcf37mr7474872lfq.19.1712056174555;
-        Tue, 02 Apr 2024 04:09:34 -0700 (PDT)
-Received: from ?IPV6:2a0b:e7c0:0:107::aaaa:69? ([2a0b:e7c0:0:107::aaaa:69])
-        by smtp.gmail.com with ESMTPSA id u15-20020a05600c00cf00b00414041032casm13502060wmm.1.2024.04.02.04.09.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 Apr 2024 04:09:33 -0700 (PDT)
-Message-ID: <b3e0cb29-9487-4709-8150-77bff3e80920@kernel.org>
-Date: Tue, 2 Apr 2024 13:09:32 +0200
+	s=arc-20240116; t=1712063989; c=relaxed/simple;
+	bh=6D05Yya3KxK0OkWkNXVX0Mp3DXfWGd2Ns0Ca9ovdfaw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=reVBf5iEw0F8eFHbyJp5nBkjllSnp+qvML/xJ02FEoWyhrE0zNG7fSGVOr/RePAbuTelviO3mkEMkjEdn5DNn1eW7y1KaHhxtxsflBh3LESYU+eqmEA+dAsosfbanDMdL/wnelL8tN9mtSYoxlq6IgC4HN+IaxA6UZdUTKLxKIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MwXOKwDD; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EAE6C43390;
+	Tue,  2 Apr 2024 13:19:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712063988;
+	bh=6D05Yya3KxK0OkWkNXVX0Mp3DXfWGd2Ns0Ca9ovdfaw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MwXOKwDDFThNQSSdwFoyIDPuzphqyMHtPg1wzAPeJNlw7LZilwgpYtOb5qPMLjVpV
+	 CYUxFWbal2HMJeC93LtARxsmlb6Xu2PACLlFnYHIjXWlmS6M7tWn5kMUJ+qupt3FAv
+	 U7fR66IQmSw/jK5b6N9x64B8O/rca4SOIhBepo5bAO1g9f+6nUpApx/hJ1JlMQAnFk
+	 Vt3XjdtRfWGVvAnfqY43tgY9tNw2FLYYI90+yZA41lRIHs5PSTjZn1p04QirVPulpo
+	 cI7UT62Ym4BcKJKH4D826Xqw5qw7ekg3r8hSuDN2oigtUp8rACw2FP0YND2Aex/qpZ
+	 aRT7q6NBPsanQ==
+Date: Tue, 2 Apr 2024 15:19:43 +0200
+From: Alexey Gladkov <legion@kernel.org>
+To: Jiri Slaby <jirislaby@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	LKML <linux-kernel@vger.kernel.org>, kbd@lists.linux.dev,
+	linux-api@vger.kernel.org, linux-fbdev@vger.kernel.org,
+	linux-serial@vger.kernel.org, Helge Deller <deller@gmx.de>
+Subject: Re: [RESEND PATCH v3 1/2] VT: Add KDFONTINFO ioctl
+Message-ID: <ZgwF72yHH_0-A4FW@example.org>
+References: <cover.1710252966.git.legion@kernel.org>
+ <cover.1712053848.git.legion@kernel.org>
+ <ed056326540f04b72c97a276fbcc316e1b2f6371.1712053848.git.legion@kernel.org>
+ <74ca50e0-61b1-4d4c-85dd-a5d920548c04@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/2] VT: Allow to get max font width and height
-To: Oleg Bulatov <oleg@bulatov.me>, legion@kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- LKML <linux-kernel@vger.kernel.org>, kbd@lists.linux.dev,
- linux-api@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-serial@vger.kernel.org
-References: <cover.1708960303.git.legion@kernel.org>
- <cover.1710252966.git.legion@kernel.org>
- <78fcb9ad77b88edee8768806ce6a4d23f6d33118.1710252966.git.legion@kernel.org>
- <c3wrf2h7h45h2vee7gc42zmy43rsh7niueknvsrlsibnae4pdw@4u6b4qulfe6r>
-Content-Language: en-US
-From: Jiri Slaby <jirislaby@kernel.org>
-Autocrypt: addr=jirislaby@kernel.org; keydata=
- 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
-In-Reply-To: <c3wrf2h7h45h2vee7gc42zmy43rsh7niueknvsrlsibnae4pdw@4u6b4qulfe6r>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <74ca50e0-61b1-4d4c-85dd-a5d920548c04@kernel.org>
 
-On 13. 03. 24, 18:40, Oleg Bulatov wrote:
-> On Tue, Mar 12, 2024 at 03:23:58PM +0100, legion@kernel.org wrote:
->>   drivers/video/console/newport_con.c | 21 +++++++++++++++++----
->>   drivers/video/console/sticon.c      | 25 +++++++++++++++++++++++--
->>   drivers/video/console/vgacon.c      | 21 ++++++++++++++++++++-
->>   drivers/video/fbdev/core/fbcon.c    | 22 +++++++++++++++++++++-
->>   4 files changed, 81 insertions(+), 8 deletions(-)
+On Tue, Apr 02, 2024 at 01:02:20PM +0200, Jiri Slaby wrote:
+> Hi,
 > 
-> newport_con.c is an interesting one, apparently it's for SGI Indy and
-> Indigo2, both are discontinued in 1997. Do we still have a way to test
-> this driver?
+> On 02. 04. 24, 12:32, Alexey Gladkov wrote:
+> > Each driver has its own restrictions on font size. There is currently no
+> > way to understand what the requirements are. The new ioctl allows
+> > userspace to get the minmum and maximum font size values.
+> 
+> minimum
 
-I doubt that.
+Typo. Sorry.
 
-Care to submit a removal patch? I am afraid, there is no other way to 
-find out anyway...
+> > Acked-by: Helge Deller <deller@gmx.de>
+> > Signed-off-by: Alexey Gladkov <legion@kernel.org>
+> > ---
+> >   drivers/tty/vt/vt.c       | 24 ++++++++++++++++++++++++
+> >   drivers/tty/vt/vt_ioctl.c | 13 +++++++++++++
+> >   include/linux/console.h   |  2 ++
+> >   include/linux/vt_kern.h   |  1 +
+> >   include/uapi/linux/kd.h   | 13 ++++++++++++-
+> >   5 files changed, 52 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/tty/vt/vt.c b/drivers/tty/vt/vt.c
+> > index 156efda7c80d..8c2a3d98b5ec 100644
+> > --- a/drivers/tty/vt/vt.c
+> > +++ b/drivers/tty/vt/vt.c
+> > @@ -4680,6 +4680,30 @@ int con_font_op(struct vc_data *vc, struct console_font_op *op)
+> >   	return -ENOSYS;
+> >   }
+> >   
+> > +int con_font_info(struct vc_data *vc, struct console_font_info *info)
+> > +{
+> > +	int rc = -EINVAL;
+> 
+> This initialization appears to be unneeded.
+> 
+> > +
+> > +	info->min_height = 0;
+> > +	info->max_height = max_font_height;
+> > +
+> > +	info->min_width = 0;
+> > +	info->max_width = max_font_width;
+> > +
+> > +	info->flags = KD_FONT_INFO_FLAG_LOW_SIZE | KD_FONT_INFO_FLAG_HIGH_SIZE;
+> > +
+> > +	console_lock();
+> > +	if (vc->vc_mode != KD_TEXT)
+> > +		rc = -EINVAL;
+> > +	else if (vc->vc_sw->con_font_info)
+> > +		rc = vc->vc_sw->con_font_info(vc, info);
+> > +	else
+> > +		rc = -ENOSYS;
+> > +	console_unlock();
+> > +
+> > +	return rc;
+> > +}
+> > +
+> >   /*
+> >    *	Interface exported to selection and vcs.
+> >    */
+> > diff --git a/drivers/tty/vt/vt_ioctl.c b/drivers/tty/vt/vt_ioctl.c
+> > index 8c685b501404..b3b4e4b69366 100644
+> > --- a/drivers/tty/vt/vt_ioctl.c
+> > +++ b/drivers/tty/vt/vt_ioctl.c
+> > @@ -479,6 +479,19 @@ static int vt_k_ioctl(struct tty_struct *tty, unsigned int cmd,
+> >   		break;
+> >   	}
+> >   
+> > +	case KDFONTINFO: {
+> > +		struct console_font_info fnt_info;
+> > +
+> > +		if (copy_from_user(&fnt_info, up, sizeof(fnt_info)))
+> > +			return -EFAULT;
+> 
+> Who uses the copied values?
 
-thanks,
+No one. I did it by analogy with KDFONTOP. Thanks!
+
+> > +		ret = con_font_info(vc, &fnt_info);
+> > +		if (ret)
+> > +			return ret;
+> > +		if (copy_to_user(up, &fnt_info, sizeof(fnt_info)))
+> 
+> We should do the preferred sizeof(*up) here...
+> 
+> > +			return -EFAULT;
+> > +		break;
+> > +	}
+> > +
+> >   	default:
+> >   		return -ENOIOCTLCMD;
+> >   	}
+> ...
+> > --- a/include/uapi/linux/kd.h
+> > +++ b/include/uapi/linux/kd.h
+> > @@ -183,8 +183,19 @@ struct console_font {
+> >   
+> >   #define KD_FONT_FLAG_DONT_RECALC 	1	/* Don't recalculate hw charcell size [compat] */
+> >   
+> > +#define KDFONTINFO	0x4B73	/* font information */
+> 
+> Why not properly define the number using IOC() et al.? K (that 0x4b) is 
+> even reserved for kd.h.
+
+I just did the same as the numbers above. This entire header does not use
+IOC().
+
+Should I convert this header as a separate commit?
+
+> > +#define KD_FONT_INFO_FLAG_LOW_SIZE	(1U << 0) /* 256 */
+> > +#define KD_FONT_INFO_FLAG_HIGH_SIZE	(1U << 1) /* 512 */
+> 
+> _BITUL()
+
+Make sense. I will use it.
+
+> > +struct console_font_info {
+> > +	unsigned int min_width, min_height;	/* minimal font size */
+> > +	unsigned int max_width, max_height;	/* maximum font size */
+> > +	unsigned int flags;			/* KD_FONT_INFO_FLAG_* */
+> 
+> This does not look like a well-defined™ and extendable uapi structure. 
+> While it won't change anything here, still use fixed-length __u32.
+> 
+> And you should perhaps add some reserved fields. Do not repeat the same 
+> mistakes as your predecessors with the current kd uapi.
+
+I thought about it, but I thought it would be overengineering.
+Can you suggest how best to do this?
+
 -- 
-js
-suse labs
+Rgrds, legion
 
 
