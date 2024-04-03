@@ -1,158 +1,223 @@
-Return-Path: <linux-api+bounces-1228-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1229-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FBA78963FC
-	for <lists+linux-api@lfdr.de>; Wed,  3 Apr 2024 07:28:05 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E632B897187
+	for <lists+linux-api@lfdr.de>; Wed,  3 Apr 2024 15:49:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C34C51C22646
-	for <lists+linux-api@lfdr.de>; Wed,  3 Apr 2024 05:28:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 706FB1F21EFA
+	for <lists+linux-api@lfdr.de>; Wed,  3 Apr 2024 13:49:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3442E4655D;
-	Wed,  3 Apr 2024 05:28:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18F241487E3;
+	Wed,  3 Apr 2024 13:48:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="oy6vBAjo";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="dMSZN9SO"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81F4246425;
-	Wed,  3 Apr 2024 05:27:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 151F51487E0;
+	Wed,  3 Apr 2024 13:48:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712122080; cv=none; b=OZhPv4KidiiCCb5Zuny9iV71Yp8Zq/BlroTGU32ed2FNdRplZqqLruz/M73YL6R1rsfqzf6N9+PXxBC+tHNv2+Q4zAXxb/KnTRqWBF6vVTnS7Io885vTD/fC6FE72YNDziI3xb/bvxJeHvpejxxGUUohMXHjduJpcrelMD5x3oQ=
+	t=1712152136; cv=none; b=H2EU761yLj/E15F90edItcfk8gmMa7tAAilDkB7dFwbJ4r4Y6S73yw3qiSta2Y+xZuYAre2yMhsHTIc0TopWDnMscdDAW/vhxZOtBNR282v4/7npjsQJH9fw4Xle6y6khnbP7k+rblsJ//9axFBCtwtjVctRTZ6/nS0w3SdLCfU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712122080; c=relaxed/simple;
-	bh=nQ1AADJtSUrelDGKIEVmDJob3+HQS5CIkO5KdKa2Y6w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=T7JdEtXcLZJBYXjInPFiLnyBiFZCYZd/rpDc7edkhZhe9SalEI0uAHEkWEEyybMng78kuOgk18Uk177P8pDcgPZkjwkB/nuJ9FxDOjr8mSf/k4izLrp9mPGZYnNYCjeB4O0D3dy9ceWF/yirxcsBUpneJNUwBjzuVSf8DdsKSQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-515a68d45faso6729814e87.3;
-        Tue, 02 Apr 2024 22:27:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712122077; x=1712726877;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3e61jTEyzLr/0dQ2X4DGlvWfgoJOocw130xaEPJzMOg=;
-        b=Uy955x2OKmlCSGIXTqwnI7VDJW3pH7Wru9fgmoKl1Fb/2U4YiH4rzXRXB+Kh00xkBe
-         SiUOMAD5uflVJBuYSJ8IOQCs98G5HK9hKWM8aXGKSYu5T7Mnvo2WWUUJvdnNe//32JPN
-         8bbvXNXOwAU2v307RjEtyD0pOzJ6ejtwqzSDCQl0DTt52sx1VK2Ojw0SpDDHhrxbK/jo
-         GoMGQh5aTHr8ZcywnsZo0biYZVuL/O2ZO8LehpLPV6eW3JBadw2xHrkK9ZJ7XD5CrwpW
-         kCW2z87bsR2j6Bxz/dVZbfO3i0xXQvBxw/F59jn0ffTP80fdykGufy2ugBpuHPGruu9O
-         pZag==
-X-Forwarded-Encrypted: i=1; AJvYcCXnU5DBPDrwQtmgA9VuxjOTUrMGmr3I6aiX6JKZT+BBPIC/btZfKdd7Bldi5cK9BSjiibRnXHF5z5+JUA8dHFk7XSkTSAYmGhTEnNSEJxQDg5RbpLWNfOZTCoJ9Dt0i4daTApog3HE3T9ziam3K5N7kOixX132BTg7OFqDdG57khOkxMwnMB9ejjmHvtFiIaYXOBilNf1V/u6QIdA+U9vxQBjs=
-X-Gm-Message-State: AOJu0YytvDIO+aOc6Ub/mv+mInK0Zlu0wzkZgZ1qv7qp2gc2HirYeckn
-	1KIcF5PvnzMYZngmAJ+7qjsqBFDasVvTN1QOj5UPECbQTOf25qSg
-X-Google-Smtp-Source: AGHT+IErwZY+85fAkT8g4r68ExVUmiUc+8PVg7MkDKyZQ5FBQE/f1myNVL3Vw902yQKzsTH9GdsjCA==
-X-Received: by 2002:a05:6512:acc:b0:515:9ae1:9a6e with SMTP id n12-20020a0565120acc00b005159ae19a6emr10439127lfu.67.1712122076369;
-        Tue, 02 Apr 2024 22:27:56 -0700 (PDT)
-Received: from ?IPV6:2a0b:e7c0:0:107::aaaa:69? ([2a0b:e7c0:0:107::aaaa:69])
-        by smtp.gmail.com with ESMTPSA id l6-20020a05600c4f0600b0041469869d11sm23278276wmq.47.2024.04.02.22.27.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 Apr 2024 22:27:56 -0700 (PDT)
-Message-ID: <6bb4f4fb-573c-4f63-967c-2cb08514fc91@kernel.org>
-Date: Wed, 3 Apr 2024 07:27:55 +0200
+	s=arc-20240116; t=1712152136; c=relaxed/simple;
+	bh=qoTFFleE42BgrSkvKarf5pCVIY29rDDpqfsHaC7hnc4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=DbG+SG7UMjorrLj/SqvSlsrs/E63jKC8d6+8Fhrf4fBux+52UYbEAX0lk/+n3EdQs+0HB7g2LFfSwesrpTB/jo7q6Tvh7n9mR2X0JgKh6VD/EKCllDtuhLvzPZIPsHqrGA3Ob9KlpWyVZRWkefDdCUUASPO7HPTkFAeEYbbjy8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=oy6vBAjo; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=dMSZN9SO; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1712152132;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=e7kLxvWk/5gRltzRCZSO2/VhtuBBFwcoV8m7fx6icxE=;
+	b=oy6vBAjox1TNAs+TZf+sluJyIhyG+yUvn4oR5PmJNKXZgJRpLiUL8ueqPNp11qni1Sgji0
+	C1dZpA4PrxvLDIjWNzybh4s97wN0RB7g6l5zSgoyzVTyn46APfr4Pdgfw5/q6iSR2pwNib
+	EI4JoU2J2MbavCyfuLMtjcZO17ty2AWmnHGkBFtJbBLyrABDRnOF+V2Xrky0dDrBHc50F3
+	0N2uehmxvltD/2eeiHwbSWrB87AL0y+jhgGKU/JqMhvAF0NL9QSwRWASew/93Yezpnms+l
+	IOo6gGF+KgJnEjGVf61SG1xQLOx/bx0UxeTi1cIa8a8wsHeNgzXoK3TphkBDig==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1712152132;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=e7kLxvWk/5gRltzRCZSO2/VhtuBBFwcoV8m7fx6icxE=;
+	b=dMSZN9SOEbyPVeTuY2xmvA7+bdIbzh65aIqcDnmKw45YoP7FeZHZuu6ZtEdkGIRAEoE+9C
+	ebusyTmb9oxT05Aw==
+To: =?utf-8?B?TWFoZXNoIEJhbmRld2FyICjgpK7gpLngpYfgpLYg4KSs4KSC4KSh4KWH4KS1?=
+ =?utf-8?B?4KS+4KSwKQ==?= <maheshb@google.com>
+Cc: Sagi Maimon <maimon.sagi@gmail.com>, richardcochran@gmail.com,
+ luto@kernel.org, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, arnd@arndb.de,
+ geert@linux-m68k.org, peterz@infradead.org, hannes@cmpxchg.org,
+ sohil.mehta@intel.com, rick.p.edgecombe@intel.com, nphamcs@gmail.com,
+ palmer@sifive.com, keescook@chromium.org, legion@kernel.org,
+ mark.rutland@arm.com, mszeredi@redhat.com, casey@schaufler-ca.com,
+ reibax@gmail.com, davem@davemloft.net, brauner@kernel.org,
+ linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-arch@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH v7] posix-timers: add clock_compare system call
+In-Reply-To: <CAF2d9jjg0PEgPorXdrBHVkvz-fmUV7UXUPqnpQGVEvgXTpHY0A@mail.gmail.com>
+References: <CAMuE1bHBky9NGP22PVHKdi2+WniwxiLSmMnwRM6wm36sU8W4jA@mail.gmail.com>
+ <878r29hjds.ffs@tglx>
+ <CAMuE1bF9ioo39_08Eh26X4WOtnvJ1geJ=WRVt5DhU8gEbYJNdA@mail.gmail.com>
+ <87o7asdd65.ffs@tglx>
+ <CAF2d9jjA8iM1AoPUhQPK62tdd7gPnCnt51f_NMhOAs546rU3dA@mail.gmail.com>
+ <87il10ce1g.ffs@tglx>
+ <CAF2d9jj6km7aVSqgcOE-b-A-WDH2TJNGzGy-5MRyw5HrzbqhaA@mail.gmail.com>
+ <877chfcrx3.ffs@tglx>
+ <CAF2d9jjg0PEgPorXdrBHVkvz-fmUV7UXUPqnpQGVEvgXTpHY0A@mail.gmail.com>
+Date: Wed, 03 Apr 2024 15:48:51 +0200
+Message-ID: <871q7md0ak.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RESEND PATCH v3 1/2] VT: Add KDFONTINFO ioctl
-To: Alexey Gladkov <legion@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- LKML <linux-kernel@vger.kernel.org>, kbd@lists.linux.dev,
- linux-api@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-serial@vger.kernel.org, Helge Deller <deller@gmx.de>
-References: <cover.1710252966.git.legion@kernel.org>
- <cover.1712053848.git.legion@kernel.org>
- <ed056326540f04b72c97a276fbcc316e1b2f6371.1712053848.git.legion@kernel.org>
- <74ca50e0-61b1-4d4c-85dd-a5d920548c04@kernel.org>
- <ZgwF72yHH_0-A4FW@example.org>
-Content-Language: en-US
-From: Jiri Slaby <jirislaby@kernel.org>
-Autocrypt: addr=jirislaby@kernel.org; keydata=
- xsFNBE6S54YBEACzzjLwDUbU5elY4GTg/NdotjA0jyyJtYI86wdKraekbNE0bC4zV+ryvH4j
- rrcDwGs6tFVrAHvdHeIdI07s1iIx5R/ndcHwt4fvI8CL5PzPmn5J+h0WERR5rFprRh6axhOk
- rSD5CwQl19fm4AJCS6A9GJtOoiLpWn2/IbogPc71jQVrupZYYx51rAaHZ0D2KYK/uhfc6neJ
- i0WqPlbtIlIrpvWxckucNu6ZwXjFY0f3qIRg3Vqh5QxPkojGsq9tXVFVLEkSVz6FoqCHrUTx
- wr+aw6qqQVgvT/McQtsI0S66uIkQjzPUrgAEtWUv76rM4ekqL9stHyvTGw0Fjsualwb0Gwdx
- ReTZzMgheAyoy/umIOKrSEpWouVoBt5FFSZUyjuDdlPPYyPav+hpI6ggmCTld3u2hyiHji2H
- cDpcLM2LMhlHBipu80s9anNeZhCANDhbC5E+NZmuwgzHBcan8WC7xsPXPaiZSIm7TKaVoOcL
- 9tE5aN3jQmIlrT7ZUX52Ff/hSdx/JKDP3YMNtt4B0cH6ejIjtqTd+Ge8sSttsnNM0CQUkXps
- w98jwz+Lxw/bKMr3NSnnFpUZaxwji3BC9vYyxKMAwNelBCHEgS/OAa3EJoTfuYOK6wT6nadm
- YqYjwYbZE5V/SwzMbpWu7Jwlvuwyfo5mh7w5iMfnZE+vHFwp/wARAQABzSFKaXJpIFNsYWJ5
- IDxqaXJpc2xhYnlAa2VybmVsLm9yZz7CwXcEEwEIACEFAlW3RUwCGwMFCwkIBwIGFQgJCgsC
- BBYCAwECHgECF4AACgkQvSWxBAa0cEnVTg//TQpdIAr8Tn0VAeUjdVIH9XCFw+cPSU+zMSCH
- eCZoA/N6gitEcnvHoFVVM7b3hK2HgoFUNbmYC0RdcSc80pOF5gCnACSP9XWHGWzeKCARRcQR
- 4s5YD8I4VV5hqXcKo2DFAtIOVbHDW+0okOzcecdasCakUTr7s2fXz97uuoc2gIBB7bmHUGAH
- XQXHvdnCLjDjR+eJN+zrtbqZKYSfj89s/ZHn5Slug6w8qOPT1sVNGG+eWPlc5s7XYhT9z66E
- l5C0rG35JE4PhC+tl7BaE5IwjJlBMHf/cMJxNHAYoQ1hWQCKOfMDQ6bsEr++kGUCbHkrEFwD
- UVA72iLnnnlZCMevwE4hc0zVhseWhPc/KMYObU1sDGqaCesRLkE3tiE7X2cikmj/qH0CoMWe
- gjnwnQ2qVJcaPSzJ4QITvchEQ+tbuVAyvn9H+9MkdT7b7b2OaqYsUP8rn/2k1Td5zknUz7iF
- oJ0Z9wPTl6tDfF8phaMIPISYrhceVOIoL+rWfaikhBulZTIT5ihieY9nQOw6vhOfWkYvv0Dl
- o4GRnb2ybPQpfEs7WtetOsUgiUbfljTgILFw3CsPW8JESOGQc0Pv8ieznIighqPPFz9g+zSu
- Ss/rpcsqag5n9rQp/H3WW5zKUpeYcKGaPDp/vSUovMcjp8USIhzBBrmI7UWAtuedG9prjqfO
- wU0ETpLnhgEQAM+cDWLL+Wvc9cLhA2OXZ/gMmu7NbYKjfth1UyOuBd5emIO+d4RfFM02XFTI
- t4MxwhAryhsKQQcA4iQNldkbyeviYrPKWjLTjRXT5cD2lpWzr+Jx7mX7InV5JOz1Qq+P+nJW
- YIBjUKhI03ux89p58CYil24Zpyn2F5cX7U+inY8lJIBwLPBnc9Z0An/DVnUOD+0wIcYVnZAK
- DiIXODkGqTg3fhZwbbi+KAhtHPFM2fGw2VTUf62IHzV+eBSnamzPOBc1XsJYKRo3FHNeLuS8
- f4wUe7bWb9O66PPFK/RkeqNX6akkFBf9VfrZ1rTEKAyJ2uqf1EI1olYnENk4+00IBa+BavGQ
- 8UW9dGW3nbPrfuOV5UUvbnsSQwj67pSdrBQqilr5N/5H9z7VCDQ0dhuJNtvDSlTf2iUFBqgk
- 3smln31PUYiVPrMP0V4ja0i9qtO/TB01rTfTyXTRtqz53qO5dGsYiliJO5aUmh8swVpotgK4
- /57h3zGsaXO9PGgnnAdqeKVITaFTLY1ISg+Ptb4KoliiOjrBMmQUSJVtkUXMrCMCeuPDGHo7
- 39Xc75lcHlGuM3yEB//htKjyprbLeLf1y4xPyTeeF5zg/0ztRZNKZicgEmxyUNBHHnBKHQxz
- 1j+mzH0HjZZtXjGu2KLJ18G07q0fpz2ZPk2D53Ww39VNI/J9ABEBAAHCwV8EGAECAAkFAk6S
- 54YCGwwACgkQvSWxBAa0cEk3tRAAgO+DFpbyIa4RlnfpcW17AfnpZi9VR5+zr496n2jH/1ld
- wRO/S+QNSA8qdABqMb9WI4BNaoANgcg0AS429Mq0taaWKkAjkkGAT7mD1Q5PiLr06Y/+Kzdr
- 90eUVneqM2TUQQbK+Kh7JwmGVrRGNqQrDk+gRNvKnGwFNeTkTKtJ0P8jYd7P1gZb9Fwj9YLx
- jhn/sVIhNmEBLBoI7PL+9fbILqJPHgAwW35rpnq4f/EYTykbk1sa13Tav6btJ+4QOgbcezWI
- wZ5w/JVfEJW9JXp3BFAVzRQ5nVrrLDAJZ8Y5ioWcm99JtSIIxXxt9FJaGc1Bgsi5K/+dyTKL
- wLMJgiBzbVx8G+fCJJ9YtlNOPWhbKPlrQ8+AY52Aagi9WNhe6XfJdh5g6ptiOILm330mkR4g
- W6nEgZVyIyTq3ekOuruftWL99qpP5zi+eNrMmLRQx9iecDNgFr342R9bTDlb1TLuRb+/tJ98
- f/bIWIr0cqQmqQ33FgRhrG1+Xml6UXyJ2jExmlO8JljuOGeXYh6ZkIEyzqzffzBLXZCujlYQ
- DFXpyMNVJ2ZwPmX2mWEoYuaBU0JN7wM+/zWgOf2zRwhEuD3A2cO2PxoiIfyUEfB9SSmffaK/
- S4xXoB6wvGENZ85Hg37C7WDNdaAt6Xh2uQIly5grkgvWppkNy4ZHxE+jeNsU7tg=
-In-Reply-To: <ZgwF72yHH_0-A4FW@example.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On 02. 04. 24, 15:19, Alexey Gladkov wrote:
->>> --- a/include/uapi/linux/kd.h
->>> +++ b/include/uapi/linux/kd.h
-...
->>> +struct console_font_info {
->>> +	unsigned int min_width, min_height;	/* minimal font size */
->>> +	unsigned int max_width, max_height;	/* maximum font size */
->>> +	unsigned int flags;			/* KD_FONT_INFO_FLAG_* */
->>
->> This does not look like a well-defined™ and extendable uapi structure.
->> While it won't change anything here, still use fixed-length __u32.
->>
->> And you should perhaps add some reserved fields. Do not repeat the same
->> mistakes as your predecessors with the current kd uapi.
-> 
-> I thought about it, but I thought it would be overengineering.
+On Tue, Apr 02 2024 at 16:37, Mahesh Bandewar (=E0=A4=AE=E0=A4=B9=E0=A5=87=
+=E0=A4=B6 =E0=A4=AC=E0=A4=82=E0=A4=A1=E0=A5=87=E0=A4=B5=E0=A4=BE=E0=A4=B0) =
+wrote:
+> On Tue, Apr 2, 2024 at 3:37=E2=80=AFPM Thomas Gleixner <tglx@linutronix.d=
+e> wrote:
+> The modification that you have proposed (in a couple of posts back)
+> would work but it's still not ideal since the pre/post ts are not
+> close enough as they are currently  (properly implemented!)
+> gettimex64() would have. The only way to do that would be to have
+> another ioctl as I have proposed which is a superset of current
+> gettimex64 and pre-post collection is the closest possible.
 
-It would not. UAPI structs are set in stone once released.
+Errm. What I posted as sketch _is_ using gettimex64() with the extra
+twist of the flag vs. a clockid (which is an implementation detail) and
+the difference that I carry the information in ptp_system_timestamp
+instead of needing a new argument clockid to all existing callbacks
+because the modification to ptp_read_prets() and postts() will just be
+sufficient, no?
 
-And in this case, it's likely you would want to know more info about 
-fonts in the future.
+For the case where the driver does not provide gettimex64() then the
+extension of the original offset ioctl is still providing a better
+mechanism than the proposed syscall.
 
-> Can you suggest how best to do this?
+I also clearly said that all drivers should be converted over to
+gettimex64().
 
-Given you have flags in there already (to state that the structure 
-contains more), just add an array of u32 reserved[] space. 3 or 5, I 
-would say (to align the struct to 64bit).
+> Having said that, the 'flag' modification proposal is a good backup
+> for the drivers that don't have good implementation (close enough but
+> not ideal). Also, you don't need a new ioctl-op. So if we really want
+> precision, I believe, we need a new ioctl op (with supporting
+> implementation similar to the mlx4 code above). but we want to save
+> the new ioctl-op and have less precision then proposed modification
+> would work fine.
 
-thanks,
--- 
-js
-suse labs
+I disagree. The existing gettimex64() is good enough if the driver
+implements it correctly today. If not then those drivers need to be
+fixed independent of this.
 
+So assumed that a driver does:
+
+gettimex64()
+   ptp_prets(sts);
+   read_clock();
+   ptp_postts(sts);
+=20=20=20
+today then having:
+
+static inline void ptp_read_system_prets(struct ptp_system_timestamp *sts)
+{
+	if (sts) {
+		if (sts->flags & PTP_SYS_OFFSET_MONO_RAW)
+			ktime_get_raw_ts64(&sts->pre_ts);
+		else
+			ktime_get_real_ts64(&sts->pre_ts);
+	}
+}
+
+static inline void ptp_read_system_postts(struct ptp_system_timestamp *sts)
+{
+	if (sts) {
+		if (sts->flags & PTP_SYS_OFFSET_MONO_RAW)
+			ktime_get_raw_ts64(&sts->post_ts);
+		else
+			ktime_get_real_ts64(&sts->post_ts);
+	}
+}
+
+or
+
+static inline void ptp_read_system_prets(struct ptp_system_timestamp *sts)
+{
+	if (sts) {
+		switch (sts->clockid) {
+                case CLOCK_MONOTONIC_RAW:
+                	time_get_raw_ts64(&sts->pre_ts);
+                        break;
+                case CLOCK_REALTIME:
+			ktime_get_real_ts64(&sts->pre_ts);
+                        break;
+                }=20=20=20=20=20=20=20=20
+	}
+}
+
+static inline void ptp_read_system_postts(struct ptp_system_timestamp *sts)
+{
+	if (sts) {
+		switch (sts->clockid) {
+                case CLOCK_MONOTONIC_RAW:
+                	time_get_raw_ts64(&sts->post_ts);
+                        break;
+                case CLOCK_REALTIME:
+			ktime_get_real_ts64(&sts->post_ts);
+                        break;
+                }=20=20=20=20=20=20=20=20
+	}
+}
+
+is doing the exact same thing as your proposal but without touching any
+driver which implements gettimex64() correctly at all.
+
+While your proposal requires to touch every single driver for no reason,
+no?
+
+It is just an implementation detail whether you use a flag or a
+clockid. You can carry the clockid for the clocks which actually can be
+read in that context in a reserved field of PTP_SYS_OFFSET_EXTENDED:
+
+struct ptp_sys_offset_extended {
+	unsigned int	n_samples; /* Desired number of measurements. */
+	clockid_t	clockid;
+	unsigned int	rsv[2];    /* Reserved for future use. */
+};
+
+and in the IOCTL:
+
+        if (extoff->clockid !=3D CLOCK_MONOTONIC_RAW)
+        	return -EINVAL;
+
+	sts.clockid =3D extoff->clockid;
+
+and it all just works, no?
+
+I have no problem to decide that PTP_SYS_OFFSET will not get this
+treatment and the drivers have to be converted over to
+PTP_SYS_OFFSET_EXTENDED.
+
+But adding yet another callback just to carry a clockid as argument is a
+more than pointless exercise as I demonstrated.
+
+Thanks,
+
+        tglx
 
