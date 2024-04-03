@@ -1,196 +1,78 @@
-Return-Path: <linux-api+bounces-1225-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1226-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16015896043
-	for <lists+linux-api@lfdr.de>; Wed,  3 Apr 2024 01:38:04 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E8A18963B5
+	for <lists+linux-api@lfdr.de>; Wed,  3 Apr 2024 06:55:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 39C1B1C22339
-	for <lists+linux-api@lfdr.de>; Tue,  2 Apr 2024 23:38:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0E9191F22138
+	for <lists+linux-api@lfdr.de>; Wed,  3 Apr 2024 04:55:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93AC05645B;
-	Tue,  2 Apr 2024 23:37:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2697E4596F;
+	Wed,  3 Apr 2024 04:55:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="OAYCq5yZ"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="aqEy1tPI"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A358153378
-	for <linux-api@vger.kernel.org>; Tue,  2 Apr 2024 23:37:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7B4F17997;
+	Wed,  3 Apr 2024 04:55:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712101079; cv=none; b=jFqaVvFm4VeDVAYN397A2RmzhvJy7aJOqoHhUgWnUTNe3cOSn4fTLnke8uVbWRQfa7leiqKFWC0DqNFh2Hf1sZETU6EKVEIpi6PP1lk+t6VPyImW5SuHo3kyopDQv1Z7G2lXD324HG12LH/cHIDfBnh6uG2sMUln1LiBrY4QFjQ=
+	t=1712120112; cv=none; b=SvByVV+PfoYk9NuLjA9iym3DjcLFYwSvh6f8gLOjsPqdNbDR4DnQhMT88ju44BFJ9sSpIW3nxVlZBb+gjd3b3FCQsoRu9TZWTFTl7KxI/AGND1R+rVS8FmPTTFSt6o0z54otlOkolxW08g2ZPQklHqM+N0X9jqq1hGWPJuxaX3E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712101079; c=relaxed/simple;
-	bh=hvPiRv3KsQLdWizngJXKCVUmWxlr4l53whIB5Ke5SX8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aPZcBGl6EBK3TUljt1O9BH/5m/R8ouoat1mZA3HHi6tSLyMhdatGJ0JeACoHbESiz4oYoCZHvTO180chQB6BYpa2XiPtpeeQxpwxG/oJh5hKh8BjY8vs+CQT8hldYr9doxZ8Sg7dg7KHmOd6Nsnb60BbHfxtBvid+2LjViPQSpA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=OAYCq5yZ; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4156a2aeb43so18772865e9.3
-        for <linux-api@vger.kernel.org>; Tue, 02 Apr 2024 16:37:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1712101076; x=1712705876; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OwZit2uJpb4ATUGreTeGd8J2lZLTvOZvhInFnpA6D9M=;
-        b=OAYCq5yZsYKnB1/1amKdWQOUlqgBLRJ5y/n0bbdyw0XqHzr+Y1PpkES5anenyeOIr4
-         OF1vd9gZWAXGtvrEi++Iwjtu/3yZhs8E9DT76dYfH0zJpFOCDCLDroX7JtREk/moj3Pn
-         7QJK7ClPQo3+B0FF3z/XFUf2u+AftlYWqURuxR5Pi3RTU+pqiS4xPCad730H7YZTwAbj
-         5Zmas056bqCpa0ZgFtiYci9EzB8gRdhkamdOmyFAjifT/bhKOrkIiEexzeJzgQFIwMZo
-         NNgrjV891sQqFxgcEymOAvjACF37HbXbc9MsGyLTAnXHXeIGOSF8azcJIM67yulFWiCr
-         giWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712101076; x=1712705876;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OwZit2uJpb4ATUGreTeGd8J2lZLTvOZvhInFnpA6D9M=;
-        b=C/rL0y5JXhTXCmj5i/k0YSjUhpqgsazGjqBsA8yOgeTyx/z4KJbKrWDFB6QHh5VddS
-         bVsRrIN9e/24RRkUjSyq9eK5ZioSPM07USa0NYa/Ucb27jN8ADXzcqgnQ2NpchkJ5R93
-         j0ufByCJWzjpzst855uTkp6WK1nnsn5rF+6rouiuDtzhUDW0wVqmE6JOvFK/4JzHRNIc
-         YdEBPWhNApHMkTqZvSpbFLtVsaRoXHMg5Ipo26ZByKImi/hmcHeckGo6Amv3iSelC96T
-         tILQMHsv+niJepmqAj0vUVL2r86kSPAFdFyVqTWHuID/oC5VdfO1MKZeaUfAjO+PbRhg
-         yMKw==
-X-Forwarded-Encrypted: i=1; AJvYcCVt7CMDMf+HeaW8RX/WOwYW/uktCMCqc/KUBs/Dbqxm7KlPdU/2t+iCG8hteAp2ojgTgZKylzmzxfMTlt5K6iPG8ndWaX3k/Xxj
-X-Gm-Message-State: AOJu0YwRohyykxNmafERN7+fDS/F3NWXDEkwketmp0fKUHvYqwYgfLyI
-	YSD9xTuG/JyrcskvWkuHO5fSJbHhpNTQ9b+/12s71BoBUgF8uvhZCQ5OATMpYVitJ5oElQPPDMU
-	UVE9egBd9OFqFtCoTIcg9kmN/tKAcIqMvYgwM
-X-Google-Smtp-Source: AGHT+IGUuktUVDBrbWL9KEuXP/v3yRKNY56LFpGqSgsq21J6mATQaiBUxxvdh3kRU5kUGsDQRG842ENwNRmL6shqRPw=
-X-Received: by 2002:a5d:5221:0:b0:343:823c:6d57 with SMTP id
- i1-20020a5d5221000000b00343823c6d57mr1092726wra.45.1712101075793; Tue, 02 Apr
- 2024 16:37:55 -0700 (PDT)
+	s=arc-20240116; t=1712120112; c=relaxed/simple;
+	bh=vazJuyjxoofb9Ekbi6HE7j4yNVxw4yDdMhz8fsrfbD8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y/1sGcelgOy/ThiTJT7CUTbyd9a4e3nviZPDGPkdDa1mGatqR1QfzU5pU8sVopUFbJJMO0JxhBwgEZY5Fgu1HN9Ibn0vz/0xWRb4H88Jyj8sA/I1asC/lxxqAK9fqVe5GlZa/DcIUuWHQGJJ1ufb5U0a/VbTpEME3tL8qF6NQ30=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=aqEy1tPI; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC5EBC433F1;
+	Wed,  3 Apr 2024 04:55:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1712120111;
+	bh=vazJuyjxoofb9Ekbi6HE7j4yNVxw4yDdMhz8fsrfbD8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=aqEy1tPISGkUi+taHmCJF0UGi7x/IGRDep1+clsJP8SKVYwED8SnpttONe7u6OEZ9
+	 x4QXAg5cGX/ldD1Tdlt+RhfaZOR1ocC16gaBuJYwpKjTSTNdeZVXisv5E1gpXFvT+g
+	 odZY3JDuQSAVhLkhB3wJgYsfn4dpgZdBUP3SHtdE=
+Date: Wed, 3 Apr 2024 06:55:08 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Alexey Gladkov <legion@kernel.org>
+Cc: Jiri Slaby <jirislaby@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+	kbd@lists.linux.dev, linux-api@vger.kernel.org,
+	linux-fbdev@vger.kernel.org, linux-serial@vger.kernel.org,
+	Helge Deller <deller@gmx.de>
+Subject: Re: [PATCH v4 2/3] VT: Add KDFONTINFO ioctl
+Message-ID: <2024040306-unleash-scrubbed-1c2b@gregkh>
+References: <74ca50e0-61b1-4d4c-85dd-a5d920548c04@kernel.org>
+ <cover.1712080158.git.legion@kernel.org>
+ <7cd32f988a147d7617742c9e074c753de0c6bc1f.1712080158.git.legion@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAMuE1bHBky9NGP22PVHKdi2+WniwxiLSmMnwRM6wm36sU8W4jA@mail.gmail.com>
- <878r29hjds.ffs@tglx> <CAMuE1bF9ioo39_08Eh26X4WOtnvJ1geJ=WRVt5DhU8gEbYJNdA@mail.gmail.com>
- <87o7asdd65.ffs@tglx> <CAF2d9jjA8iM1AoPUhQPK62tdd7gPnCnt51f_NMhOAs546rU3dA@mail.gmail.com>
- <87il10ce1g.ffs@tglx> <CAF2d9jj6km7aVSqgcOE-b-A-WDH2TJNGzGy-5MRyw5HrzbqhaA@mail.gmail.com>
- <877chfcrx3.ffs@tglx>
-In-Reply-To: <877chfcrx3.ffs@tglx>
-From: =?UTF-8?B?TWFoZXNoIEJhbmRld2FyICjgpK7gpLngpYfgpLYg4KSs4KSC4KSh4KWH4KS14KS+4KSwKQ==?= <maheshb@google.com>
-Date: Tue, 2 Apr 2024 16:37:27 -0700
-Message-ID: <CAF2d9jjg0PEgPorXdrBHVkvz-fmUV7UXUPqnpQGVEvgXTpHY0A@mail.gmail.com>
-Subject: Re: [PATCH v7] posix-timers: add clock_compare system call
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: Sagi Maimon <maimon.sagi@gmail.com>, richardcochran@gmail.com, luto@kernel.org, 
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, 
-	hpa@zytor.com, arnd@arndb.de, geert@linux-m68k.org, peterz@infradead.org, 
-	hannes@cmpxchg.org, sohil.mehta@intel.com, rick.p.edgecombe@intel.com, 
-	nphamcs@gmail.com, palmer@sifive.com, keescook@chromium.org, 
-	legion@kernel.org, mark.rutland@arm.com, mszeredi@redhat.com, 
-	casey@schaufler-ca.com, reibax@gmail.com, davem@davemloft.net, 
-	brauner@kernel.org, linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, 
-	linux-arch@vger.kernel.org, netdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7cd32f988a147d7617742c9e074c753de0c6bc1f.1712080158.git.legion@kernel.org>
 
-On Tue, Apr 2, 2024 at 3:37=E2=80=AFPM Thomas Gleixner <tglx@linutronix.de>=
- wrote:
->
-> On Tue, Apr 02 2024 at 14:16, Mahesh Bandewar (=E0=A4=AE=E0=A4=B9=E0=A5=
-=87=E0=A4=B6 =E0=A4=AC=E0=A4=82=E0=A4=A1=E0=A5=87=E0=A4=B5=E0=A4=BE=E0=A4=
-=B0) wrote:
-> > On Tue, Apr 2, 2024 at 2:25=E2=80=AFAM Thomas Gleixner <tglx@linutronix=
-.de> wrote:
-> >> Works as well. I'm not seing the point for CLOCK_MONOTONIC and the
-> >> change logs are not really telling anything about the problem being
-> >> solved....
-> >>
-> > https://lore.kernel.org/lkml/20240104212431.3275688-1-maheshb@google.co=
-m/T/#:~:text=3D*%20[PATCHv3%20net%2Dnext%200/3]%20add%20ptp_gettimex64any()=
-%20API,21:24%20Mahesh%20Bandewar%200%20siblings%2C%200%20replies;
-> >
-> > This is the cover letter where I tried to explain the need for this.
->
-> The justification for a patch needs to be in the change log and not in
-> the cover letter because the cover letter is not part of the git
-> history.
->
-ack
+On Tue, Apr 02, 2024 at 07:50:45PM +0200, Alexey Gladkov wrote:
+> +struct console_font_info {
+> +	unsigned int min_width, min_height;	/* minimal font size */
+> +	unsigned int max_width, max_height;	/* maximum font size */
+> +	unsigned int flags;			/* KD_FONT_INFO_FLAG_* */
+> +};
 
-> > Granted, my current use case is for CLOCK_MONOTONIC_RAW but just
-> > because I don't have a use case doesn't mean someone else may not have
-> > it and hence added it.
->
-> Then why did you not five other clock IDs? Someone else might have a
-> use case, no?
->
-> While a syscall/ioctl should be flexible for future use, the kernel does
-> not add features just because there might be some use case. It's
-> documented how this works.
->
-I see your point. I don't mind removing the CLOCK_MONOTONIC for now
-and just have CLOCK_REALTIME and CLOCK_MONOTONIC_RAW support. Also as
-I mentioned, it will be just a matter of adding new clock-ids and
-support for the pre/post-ts for respective clock-ids if needed in the
-future.
+As Jiri said, this will not work for an ioctl structure at all, sorry.
+Please read the kernel documentation about how to write a new ioctl for
+how to do this correctly (hint, you can not use 'unsigned int' in a
+structure that crosses the kernel/user boundry for new ioctls.)
 
-The modification that you have proposed (in a couple of posts back)
-would work but it's still not ideal since the pre/post ts are not
-close enough as they are currently  (properly implemented!)
-gettimex64() would have. The only way to do that would be to have
-another ioctl as I have proposed which is a superset of current
-gettimex64 and pre-post collection is the closest possible.
+thanks,
 
-Here is my sample mlx4 (since I use that) of the new ioctl method
-(just for the reference)
-
---- a/drivers/net/ethernet/mellanox/mlx4/main.c
-+++ b/drivers/net/ethernet/mellanox/mlx4/main.c
-@@ -43,6 +43,7 @@
- #include <linux/io-mapping.h>
- #include <linux/delay.h>
- #include <linux/etherdevice.h>
-+#include <linux/ptp_clock_kernel.h>
- #include <net/devlink.h>
-
- #include <uapi/rdma/mlx4-abi.h>
-@@ -1929,7 +1930,7 @@ static void unmap_bf_area(struct mlx4_dev *dev)
-                io_mapping_free(mlx4_priv(dev)->bf_mapping);
- }
-
--u64 mlx4_read_clock(struct mlx4_dev *dev)
-+u64 mlx4_read_clock(struct mlx4_dev *dev, struct ptp_system_timestamp
-*sts, int clkid)
- {
-        u32 clockhi, clocklo, clockhi1;
-        u64 cycles;
-@@ -1937,7 +1938,13 @@ u64 mlx4_read_clock(struct mlx4_dev *dev)
-        struct mlx4_priv *priv =3D mlx4_priv(dev);
-
-        for (i =3D 0; i < 10; i++) {
--               clockhi =3D swab32(readl(priv->clock_mapping));
-+               if (sts) {
-+                       ptp_read_any_prets(sts, clkid);
-+                       clockhi =3D swab32(readl(priv->clock_mapping));
-+                       ptp_read_any_postts(sts, clkid);
-+               } else {
-+                       clockhi =3D swab32(readl(priv->clock_mapping));
-+               }
-                clocklo =3D swab32(readl(priv->clock_mapping + 4));
-                clockhi1 =3D swab32(readl(priv->clock_mapping));
-                if (clockhi =3D=3D clockhi1)
-
-Having said that, the 'flag' modification proposal is a good backup
-for the drivers that don't have good implementation (close enough but
-not ideal). Also, you don't need a new ioctl-op. So if we really want
-precision, I believe, we need a new ioctl op (with supporting
-implementation similar to the mlx4 code above). but we want to save
-the new ioctl-op and have less precision then proposed modification
-would work fine.
-
-> Thanks,
->
->         tglx
->
+greg k-h
 
