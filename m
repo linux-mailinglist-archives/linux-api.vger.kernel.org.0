@@ -1,61 +1,61 @@
-Return-Path: <linux-api+bounces-1227-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1228-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43EFE8963C8
-	for <lists+linux-api@lfdr.de>; Wed,  3 Apr 2024 07:05:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FBA78963FC
+	for <lists+linux-api@lfdr.de>; Wed,  3 Apr 2024 07:28:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4B40C1C230AD
-	for <lists+linux-api@lfdr.de>; Wed,  3 Apr 2024 05:05:26 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C34C51C22646
+	for <lists+linux-api@lfdr.de>; Wed,  3 Apr 2024 05:28:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1ED1481B9;
-	Wed,  3 Apr 2024 05:05:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3442E4655D;
+	Wed,  3 Apr 2024 05:28:00 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F0413FE37;
-	Wed,  3 Apr 2024 05:05:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81F4246425;
+	Wed,  3 Apr 2024 05:27:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712120719; cv=none; b=DPkwXUTFLmfXZghx/E6OwqMS5pNWSV6nHeIUXxJxhj2RZXrlC6JivnPKaE6RJkgjriR2tRegnhrNxhkHlpEcJcPG2WGtTUxtNXjXsFn4g+U2X+j2WM2rKKNPF7sPMp9mnXjWVATC9wvOrFDU9TbD9l5u01nFQjkyisE7+bZWr5k=
+	t=1712122080; cv=none; b=OZhPv4KidiiCCb5Zuny9iV71Yp8Zq/BlroTGU32ed2FNdRplZqqLruz/M73YL6R1rsfqzf6N9+PXxBC+tHNv2+Q4zAXxb/KnTRqWBF6vVTnS7Io885vTD/fC6FE72YNDziI3xb/bvxJeHvpejxxGUUohMXHjduJpcrelMD5x3oQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712120719; c=relaxed/simple;
-	bh=aHUR5HJDnC3O9uH33glNcmXzhfDjVK7VHTG5hNICwys=;
+	s=arc-20240116; t=1712122080; c=relaxed/simple;
+	bh=nQ1AADJtSUrelDGKIEVmDJob3+HQS5CIkO5KdKa2Y6w=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hm0Bz+6KmI+bzL/X6+F4vcMNaGJRxAMbwWJKbBDF0sJVep7WJ54s1tC/ZBTAAYttoNrrcwwa/9ER2JtwjwNI68F7BdNPP+lgzDpOj+EWZxcT7d19/DP5P0B1deOyIMMap8XwRpIzs7ptoCO/xjwxUo2ZKFxM4+jFTiDvrBfhXpY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.52
+	 In-Reply-To:Content-Type; b=T7JdEtXcLZJBYXjInPFiLnyBiFZCYZd/rpDc7edkhZhe9SalEI0uAHEkWEEyybMng78kuOgk18Uk177P8pDcgPZkjwkB/nuJ9FxDOjr8mSf/k4izLrp9mPGZYnNYCjeB4O0D3dy9ceWF/yirxcsBUpneJNUwBjzuVSf8DdsKSQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-515d55ab035so2781383e87.2;
-        Tue, 02 Apr 2024 22:05:17 -0700 (PDT)
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-515a68d45faso6729814e87.3;
+        Tue, 02 Apr 2024 22:27:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712120716; x=1712725516;
+        d=1e100.net; s=20230601; t=1712122077; x=1712726877;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YEvcw3g9+Gve6vcNPPTuwFs6cAwm1uzLANZwSCj4W5Q=;
-        b=dbBdCPwCSUHQ6rP7ZFT+YOIrYi0VFS9s1D/i3WWCNoIr4x2roC3RxpYqSGPuO1riaJ
-         f5Nowgqm0JU14+kvtqTUsAbTCuuuJ3CHOU4ZjFZU0+UufTuPBzydmDGmjYMwlqI5f+41
-         yCFbPz8+9epWgWuMmvLa7RsPris7NlHJwGa7hg4MTjgeQZkwBLZc29Bc0IeC4+afZEJf
-         vo6MRgkXjyttL4PumGZU+X7i0+GYXbqnZtX5IH3XKKpNRepFzjmEfjDWVB0cSGv07zm1
-         tpsmg5XGss5vUWjMiETAxhSoZdiebJNCme0JDL1tpL/9SIKnfXqRGlVG2MRD6CqNB/r7
-         3YVQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVd2tpSakBrrjbUqee5mpvIYxNAAuIGBNb3vJbtuMcr4HfsSIbFF2Y3FCnY1OLc4Y8466V5arKUeoCL1APkoCQH4srT0PMDJSeG8BcOBHFXf2I30xAgtQqTpkuKRU2EDG92MLkH4F4CVK0/MOfr/+eWieVAYaYdXVrpuD/eGGPysGpElYY=
-X-Gm-Message-State: AOJu0Yz7/LUSKM2qqFLykxsLY9tjnHNfoZDNT7qXtQHNN7EvxkPvuBLP
-	XhL/6KyMryZGRaZhR8g9SfH8OAfVc/+zfCVShSvayuysAfR81wMY
-X-Google-Smtp-Source: AGHT+IFJB4icCKS9Vxed+4kXEBNoxd194M09DKqKEAXd5k0IM8YQkZGTfhenihGFk2Rtul/T3XXceg==
-X-Received: by 2002:a2e:9896:0:b0:2d7:9d4:f31c with SMTP id b22-20020a2e9896000000b002d709d4f31cmr8346706ljj.15.1712120715944;
-        Tue, 02 Apr 2024 22:05:15 -0700 (PDT)
+        bh=3e61jTEyzLr/0dQ2X4DGlvWfgoJOocw130xaEPJzMOg=;
+        b=Uy955x2OKmlCSGIXTqwnI7VDJW3pH7Wru9fgmoKl1Fb/2U4YiH4rzXRXB+Kh00xkBe
+         SiUOMAD5uflVJBuYSJ8IOQCs98G5HK9hKWM8aXGKSYu5T7Mnvo2WWUUJvdnNe//32JPN
+         8bbvXNXOwAU2v307RjEtyD0pOzJ6ejtwqzSDCQl0DTt52sx1VK2Ojw0SpDDHhrxbK/jo
+         GoMGQh5aTHr8ZcywnsZo0biYZVuL/O2ZO8LehpLPV6eW3JBadw2xHrkK9ZJ7XD5CrwpW
+         kCW2z87bsR2j6Bxz/dVZbfO3i0xXQvBxw/F59jn0ffTP80fdykGufy2ugBpuHPGruu9O
+         pZag==
+X-Forwarded-Encrypted: i=1; AJvYcCXnU5DBPDrwQtmgA9VuxjOTUrMGmr3I6aiX6JKZT+BBPIC/btZfKdd7Bldi5cK9BSjiibRnXHF5z5+JUA8dHFk7XSkTSAYmGhTEnNSEJxQDg5RbpLWNfOZTCoJ9Dt0i4daTApog3HE3T9ziam3K5N7kOixX132BTg7OFqDdG57khOkxMwnMB9ejjmHvtFiIaYXOBilNf1V/u6QIdA+U9vxQBjs=
+X-Gm-Message-State: AOJu0YytvDIO+aOc6Ub/mv+mInK0Zlu0wzkZgZ1qv7qp2gc2HirYeckn
+	1KIcF5PvnzMYZngmAJ+7qjsqBFDasVvTN1QOj5UPECbQTOf25qSg
+X-Google-Smtp-Source: AGHT+IErwZY+85fAkT8g4r68ExVUmiUc+8PVg7MkDKyZQ5FBQE/f1myNVL3Vw902yQKzsTH9GdsjCA==
+X-Received: by 2002:a05:6512:acc:b0:515:9ae1:9a6e with SMTP id n12-20020a0565120acc00b005159ae19a6emr10439127lfu.67.1712122076369;
+        Tue, 02 Apr 2024 22:27:56 -0700 (PDT)
 Received: from ?IPV6:2a0b:e7c0:0:107::aaaa:69? ([2a0b:e7c0:0:107::aaaa:69])
-        by smtp.gmail.com with ESMTPSA id v14-20020a05600c470e00b00415f496b9b7sm4598776wmo.39.2024.04.02.22.05.15
+        by smtp.gmail.com with ESMTPSA id l6-20020a05600c4f0600b0041469869d11sm23278276wmq.47.2024.04.02.22.27.55
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 Apr 2024 22:05:15 -0700 (PDT)
-Message-ID: <211f3c45-7064-475b-b9e1-f6adbbba8879@kernel.org>
-Date: Wed, 3 Apr 2024 07:05:14 +0200
+        Tue, 02 Apr 2024 22:27:56 -0700 (PDT)
+Message-ID: <6bb4f4fb-573c-4f63-967c-2cb08514fc91@kernel.org>
+Date: Wed, 3 Apr 2024 07:27:55 +0200
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -63,15 +63,17 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/3] VT: Add KDFONTINFO ioctl
-To: Alexey Gladkov <legion@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, kbd@lists.linux.dev,
+Subject: Re: [RESEND PATCH v3 1/2] VT: Add KDFONTINFO ioctl
+To: Alexey Gladkov <legion@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ LKML <linux-kernel@vger.kernel.org>, kbd@lists.linux.dev,
  linux-api@vger.kernel.org, linux-fbdev@vger.kernel.org,
  linux-serial@vger.kernel.org, Helge Deller <deller@gmx.de>
-References: <74ca50e0-61b1-4d4c-85dd-a5d920548c04@kernel.org>
- <cover.1712080158.git.legion@kernel.org>
- <7cd32f988a147d7617742c9e074c753de0c6bc1f.1712080158.git.legion@kernel.org>
+References: <cover.1710252966.git.legion@kernel.org>
+ <cover.1712053848.git.legion@kernel.org>
+ <ed056326540f04b72c97a276fbcc316e1b2f6371.1712053848.git.legion@kernel.org>
+ <74ca50e0-61b1-4d4c-85dd-a5d920548c04@kernel.org>
+ <ZgwF72yHH_0-A4FW@example.org>
 Content-Language: en-US
 From: Jiri Slaby <jirislaby@kernel.org>
 Autocrypt: addr=jirislaby@kernel.org; keydata=
@@ -116,49 +118,37 @@ Autocrypt: addr=jirislaby@kernel.org; keydata=
  f/bIWIr0cqQmqQ33FgRhrG1+Xml6UXyJ2jExmlO8JljuOGeXYh6ZkIEyzqzffzBLXZCujlYQ
  DFXpyMNVJ2ZwPmX2mWEoYuaBU0JN7wM+/zWgOf2zRwhEuD3A2cO2PxoiIfyUEfB9SSmffaK/
  S4xXoB6wvGENZ85Hg37C7WDNdaAt6Xh2uQIly5grkgvWppkNy4ZHxE+jeNsU7tg=
-In-Reply-To: <7cd32f988a147d7617742c9e074c753de0c6bc1f.1712080158.git.legion@kernel.org>
+In-Reply-To: <ZgwF72yHH_0-A4FW@example.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-First, there was no need to send this v4 so quickly. Provided we have 
-not settled in v3... This makes the review process painful.
-
-And then:
-
-On 02. 04. 24, 19:50, Alexey Gladkov wrote:
-> Each driver has its own restrictions on font size. There is currently no
-> way to understand what the requirements are. The new ioctl allows
-> userspace to get the minimum and maximum font size values.
-> 
-> Acked-by: Helge Deller <deller@gmx.de>
-> Signed-off-by: Alexey Gladkov <legion@kernel.org>
+On 02. 04. 24, 15:19, Alexey Gladkov wrote:
+>>> --- a/include/uapi/linux/kd.h
+>>> +++ b/include/uapi/linux/kd.h
 ...
-> --- a/drivers/tty/vt/vt_ioctl.c
-> +++ b/drivers/tty/vt/vt_ioctl.c
-> @@ -479,6 +479,17 @@ static int vt_k_ioctl(struct tty_struct *tty, unsigned int cmd,
->   		break;
->   	}
->   
-> +	case KDFONTINFO: {
-> +		struct console_font_info fnt_info;
-> +
-> +		ret = con_font_info(vc, &fnt_info);
-> +		if (ret)
-> +			return ret;
-> +		if (copy_to_user(up, &fnt_info, sizeof(fnt_info)))
+>>> +struct console_font_info {
+>>> +	unsigned int min_width, min_height;	/* minimal font size */
+>>> +	unsigned int max_width, max_height;	/* maximum font size */
+>>> +	unsigned int flags;			/* KD_FONT_INFO_FLAG_* */
+>>
+>> This does not look like a well-defined™ and extendable uapi structure.
+>> While it won't change anything here, still use fixed-length __u32.
+>>
+>> And you should perhaps add some reserved fields. Do not repeat the same
+>> mistakes as your predecessors with the current kd uapi.
+> 
+> I thought about it, but I thought it would be overengineering.
 
-sizeof, I already commented.
+It would not. UAPI structs are set in stone once released.
 
-Now you leak info to userspace unless everyone sets everything in 
-fnt_info. IOW, do memset() above.
+And in this case, it's likely you would want to know more info about 
+fonts in the future.
 
-> +			return -EFAULT;
-> +		break;
-> +	}
-> +
->   	default:
->   		return -ENOIOCTLCMD;
->   	}
+> Can you suggest how best to do this?
+
+Given you have flags in there already (to state that the structure 
+contains more), just add an array of u32 reserved[] space. 3 or 5, I 
+would say (to align the struct to 64bit).
 
 thanks,
 -- 
