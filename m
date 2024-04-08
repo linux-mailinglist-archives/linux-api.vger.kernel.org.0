@@ -1,149 +1,214 @@
-Return-Path: <linux-api+bounces-1241-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1242-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AA9689B6A3
-	for <lists+linux-api@lfdr.de>; Mon,  8 Apr 2024 05:54:17 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id CADCB89C940
+	for <lists+linux-api@lfdr.de>; Mon,  8 Apr 2024 18:02:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8BA811C20F55
-	for <lists+linux-api@lfdr.de>; Mon,  8 Apr 2024 03:54:16 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0D7A8B241E2
+	for <lists+linux-api@lfdr.de>; Mon,  8 Apr 2024 16:02:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1769046B8;
-	Mon,  8 Apr 2024 03:54:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B6811422AB;
+	Mon,  8 Apr 2024 16:02:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V8pnCjng"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H9DGKylv"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8A3D1FC8;
-	Mon,  8 Apr 2024 03:54:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CA4522091;
+	Mon,  8 Apr 2024 16:02:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712548448; cv=none; b=d2LBDbFGCHizf/h5naSyPLfJkOTugpkMNrBAiQLzlu1Cv0RnUA8iXa3wFLknJgngviKSTLLVnTle7Rbe6Hq2tduxKngNVaNUUPnRyAFSw8McCdpeuRJ/YKccM13idbv3bzAFavsywux5q4L96SBaPqLIC8koUMiuSkDa94iiguI=
+	t=1712592138; cv=none; b=NCAkzf3pbxnzveCREpi2mHRHT2zG/dXTHaT7q0tFb9wiF6CaOBPW9zOdly7i/YsOG4AbiSc115FqbwHyzMDAOhM36gc0VbqzFfukk/kDj8Z08KoVgd1jSwqhYTdWmC6+1CVQcchVPLID2Fh5+gehDiaNTP7iIggEEl2xd1Mxras=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712548448; c=relaxed/simple;
-	bh=ldaL5TI2vG8hJ2dJM8jnvwvFwNTV8s/Opak7rNRuJkQ=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=kFwO1wyPGg9OKGZ74Z+N9L3IWrxc4FWVCq0VyDy8oda5aOLzrSdSaMFnxLHFS4MQ0ewkPg0jM6mKBAWFTJKS2iRB0CGeQ/viVQHPnYrDcQuYafE2Q+k5U7SfdX8JfV+a3DBCaQk7Cz7TqPuhv2+FasYq9BIWzG3Y3TzH1mGW3Ew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V8pnCjng; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D0C4C433F1;
-	Mon,  8 Apr 2024 03:54:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712548447;
-	bh=ldaL5TI2vG8hJ2dJM8jnvwvFwNTV8s/Opak7rNRuJkQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=V8pnCjngV44K8vktUDKHOC10cJlaZI7dD9ILMpqODQeiAnMyYymlg53uHnn4bTvpS
-	 nfLjZNy9IFergsvkjz3kVlipshMlKutYpIQ/qvSAysMYCeNE/GOPyJR0q5l+jBv4GQ
-	 juwA/wdWVwJmpITYG3zBVWrb8UddARMslSkOidhLvadEHiWGo3gz68lFc8p/XJbGjv
-	 sme6r9YOgeC8Va9i73956WqXI5AouL6Od/VbEjWtauRBfZcnEWiD8JWlVLUE1sj0ev
-	 fFqm9Eg0aOkN8ElM0H+yqIqovds1KEL4n/KLJMI1odWcEc/unLDhq2BHPxNYepOWyD
-	 erQfeKBReg/xQ==
-Date: Mon, 8 Apr 2024 12:54:01 +0900
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+	s=arc-20240116; t=1712592138; c=relaxed/simple;
+	bh=DsV1N+RIyVPFhY9ohymknnp1vY6EQwDm/UwNOvg54ek=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tqYvwTY9q/qfpP/lhDDsiFlD8gFsg/7n+kM4XDwGa45l+TqWVZ1dkPv2RnEtQKIJ8XXpl4BvFnXX+U/MagYv5gSisDZ0vffNEn8ssq2vdAsCjBLLOO/r4IF6dnjSmYEa0MRxhjW0oRGAImCoDIXQaldILKEXuKTCIdeTIc9PeDQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H9DGKylv; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4162b74f2a1so28504565e9.3;
+        Mon, 08 Apr 2024 09:02:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1712592135; x=1713196935; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Lgj52WXFs3LmWD1cqpXTyIxxrakcLGvncSgOBzL0ZMw=;
+        b=H9DGKylvkG9akjbCtSdIp9tsHFmJN+oIb/XfwqslJRpkg63moo8PDkqpLRiIZn4BkH
+         7ix6PreWG89tMjecDMgPrDxfoYPrfudkjIqQx/H4X2srF05msQDSz/CYviAIWTvi2Prl
+         W+2cbVqki4IKhbMK+JXGDjOmyU2+9Z5HAPUGKsUijjb4WlJ+T0wdAaFRjACgDOQ/28dD
+         YAZGLG0w4ZoWrh+Q0MC1tyHN40HXAfnPJHq5RfYAoZUcp+rdkZaNAi28/BPGgRW+YixK
+         ZJXGqJN/k8bbqaHGvZ+dB6IOcovEuo6dxxnh3Bbk+2q7VqdBzr/N3g5odUE2zFFx7+jn
+         2FaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712592135; x=1713196935;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Lgj52WXFs3LmWD1cqpXTyIxxrakcLGvncSgOBzL0ZMw=;
+        b=jZTRrDuo+T2bXtW9R9c2Vmq3cdpMoxG0ZAJjTG3ami6xVheVgTCNv9IgzssFEOx8JN
+         j+aFm5bu+m39QoopilQxgaV2NaMUjfLuc8VgE22P7PxqPgH6gLuJENdvqUFaa3fCBcte
+         QPQIyCl0r3b78JLiYIlz4rd6PTKS/H0yq+nvVQnLxmrIUMhXVChSrzM7iaPs/dzeW7sB
+         l01H4IfaG0zXluPhf7gKFM0gaqaeS8ago5A81tcK+mzC8cUclyOt/wmTFYgVOu5br1D4
+         /OGoElL46UjC4zWPt00tXTt/f50QbSRWAFxObvMazkmPdbc+UYoJWXOT7YBQZg3pL4Nn
+         +9Cg==
+X-Forwarded-Encrypted: i=1; AJvYcCVm02BwfCLo5d19t65Y/Az2DEiRGDZI6QOv2fSON9bM85sNo5Un9XqXxws7J0AAxwAqJfutvnGBJiwJ4zOFkdmjC1RJd41eTApFjqKHGGEe5p8HBYJOT85U0r1zFeVLcMFXbyc6XZ9ZyKD4kIpJahPnLTdugD8Ruk/S8U1glGTX/eUFhpmIFq4x1Obi/kvkquIlVRJx7UQt0Uu43Oar2JMP
+X-Gm-Message-State: AOJu0Yxz4hSTB47K2uuJYKYAawWifK0zqRpTCIgHojZP8ioyKYgJVL45
+	gMDN6i+c2sk8W2hb4SUngQ7BBSMGtsyb8196Xw2pAz3wdMuF+ev/
+X-Google-Smtp-Source: AGHT+IGdszYLuUuRs9COV+xJUeakdZvTqC/ekAOo5huejMNRYzmLOl/jbRaits7AYT74QaZd4JioLg==
+X-Received: by 2002:a05:600c:4f83:b0:416:5a88:4b49 with SMTP id n3-20020a05600c4f8300b004165a884b49mr3499009wmq.15.1712592135309;
+        Mon, 08 Apr 2024 09:02:15 -0700 (PDT)
+Received: from krava (212-147-51-13.fix.access.vtx.ch. [212.147.51.13])
+        by smtp.gmail.com with ESMTPSA id c9-20020a05600c0a4900b0041638a085d3sm9396272wmq.15.2024.04.08.09.02.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Apr 2024 09:02:14 -0700 (PDT)
+From: Jiri Olsa <olsajiri@gmail.com>
+X-Google-Original-From: Jiri Olsa <jolsa@kernel.org>
+Date: Mon, 8 Apr 2024 18:02:13 +0200
 To: Oleg Nesterov <oleg@redhat.com>
-Cc: Jiri Olsa <olsajiri@gmail.com>, Andrii Nakryiko
- <andrii.nakryiko@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, Alexei
- Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
- Andrii Nakryiko <andrii@kernel.org>, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, bpf@vger.kernel.org, Song Liu
- <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>, John Fastabend
- <john.fastabend@gmail.com>, Peter Zijlstra <peterz@infradead.org>, Thomas
- Gleixner <tglx@linutronix.de>, "Borislav Petkov (AMD)" <bp@alien8.de>,
- x86@kernel.org, linux-api@vger.kernel.org
+Cc: Jiri Olsa <olsajiri@gmail.com>, Masami Hiramatsu <mhiramat@kernel.org>,
+	Andrii Nakryiko <andrii.nakryiko@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, bpf@vger.kernel.org,
+	Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	"Borislav Petkov (AMD)" <bp@alien8.de>, x86@kernel.org,
+	linux-api@vger.kernel.org
 Subject: Re: [PATCHv2 1/3] uprobe: Add uretprobe syscall to speed up return
  probe
-Message-Id: <20240408125401.d4f100d184b11bc01fcd0308@kernel.org>
-In-Reply-To: <20240406175558.GC3060@redhat.com>
-References: <20240403230937.c3bd47ee47c102cd89713ee8@kernel.org>
-	<CAEf4BzZ2RFfz8PNgJ4ENZ0us4uX=DWhYFimXdtWms-VvGXOjgQ@mail.gmail.com>
-	<20240404095829.ec5db177f29cd29e849169fa@kernel.org>
-	<CAEf4BzYH60TwvBipHWB_kUqZZ6D-iUVnnFsBv06imRikK3o-bg@mail.gmail.com>
-	<20240405005405.9bcbe5072d2f32967501edb3@kernel.org>
-	<20240404161108.GG7153@redhat.com>
-	<20240405102203.825c4a2e9d1c2be5b2bffe96@kernel.org>
-	<Zg-8r63tPSkuhN7p@krava>
-	<20240405110230.GA22839@redhat.com>
-	<20240406120536.57374198f3f45e809d7e4efa@kernel.org>
-	<20240406175558.GC3060@redhat.com>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Message-ID: <ZhQVBYQYr5ph33Uu@krava>
+References: <Zg0lvUIB4WdRUGw_@krava>
+ <20240403230937.c3bd47ee47c102cd89713ee8@kernel.org>
+ <CAEf4BzZ2RFfz8PNgJ4ENZ0us4uX=DWhYFimXdtWms-VvGXOjgQ@mail.gmail.com>
+ <20240404095829.ec5db177f29cd29e849169fa@kernel.org>
+ <CAEf4BzYH60TwvBipHWB_kUqZZ6D-iUVnnFsBv06imRikK3o-bg@mail.gmail.com>
+ <20240405005405.9bcbe5072d2f32967501edb3@kernel.org>
+ <20240404161108.GG7153@redhat.com>
+ <20240405102203.825c4a2e9d1c2be5b2bffe96@kernel.org>
+ <Zg-8r63tPSkuhN7p@krava>
+ <20240405110230.GA22839@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240405110230.GA22839@redhat.com>
 
-On Sat, 6 Apr 2024 19:55:59 +0200
-Oleg Nesterov <oleg@redhat.com> wrote:
-
-> On 04/06, Masami Hiramatsu wrote:
+On Fri, Apr 05, 2024 at 01:02:30PM +0200, Oleg Nesterov wrote:
+> On 04/05, Jiri Olsa wrote:
 > >
-> > On Fri, 5 Apr 2024 13:02:30 +0200
-> > Oleg Nesterov <oleg@redhat.com> wrote:
-> >
-> > > With or without this patch userpace can also do
+> > On Fri, Apr 05, 2024 at 10:22:03AM +0900, Masami Hiramatsu wrote:
 > > >
-> > > 	foo() { <-- retprobe1
-> > > 		bar() {
-> > > 			jump to xol_area
-> > > 		}
+> > > I think this expects setjmp/longjmp as below
+> > >
+> > > foo() { <- retprobe1
+> > > 	setjmp()
+> > > 	bar() { <- retprobe2
+> > > 		longjmp()
 > > > 	}
+> > > } <- return to trampoline
 > > >
-> > > handle_trampoline() will handle retprobe1.
+> > > In this case, we need to skip retprobe2's instance.
+> 
+> Yes,
+> 
+> > > My concern is, if we can not find appropriate return instance, what happen?
+> > > e.g.
+> > >
+> > > foo() { <-- retprobe1
+> > >    bar() { # sp is decremented
+> > >        sys_uretprobe() <-- ??
+> > >     }
+> > > }
+> > >
+> > > It seems sys_uretprobe() will handle retprobe1 at that point instead of
+> > > SIGILL.
 > >
-> > This is OK because the execution path has been changed to trampoline,
+> > yes, and I think it's fine, you get the consumer called in wrong place,
+> > but it's your fault and kernel won't crash
 > 
-> Agreed, in this case the misuse is more clear. But please see below.
+> Agreed.
 > 
-> > but the above will continue running bar() after sys_uretprobe().
+> With or without this patch userpace can also do
 > 
-> .. and most probably crash
+> 	foo() { <-- retprobe1
+> 		bar() {
+> 			jump to xol_area
+> 		}
+> 	}
+> 
+> handle_trampoline() will handle retprobe1.
+> 
+> > this can be fixed by checking the syscall is called from the trampoline
+> > and prevent handle_trampoline call if it's not
+> 
+> Yes, but I still do not think this makes a lot of sense. But I won't argue.
+> 
+> And what should sys_uretprobe() do if it is not called from the trampoline?
+> I'd prefer force_sig(SIGILL) to punish the abuser ;) OK, OK, EINVAL.
 
-Yes, unless it returns with longjmp(). (but this is rare case and
-maybe malicious program.)
+so the similar behaviour with int3 ends up with immediate SIGTRAP
+and not invoking pending uretprobe consumers, like:
+
+  - setup uretprobe for foo
+  - foo() {
+      executes int 3 -> sends SIGTRAP
+    }
+
+because the int3 handler checks if it got executed from the uretprobe's
+trampoline.. if not it treats that int3 as regular trap
+
+while for uretprobe syscall we have at the moment following behaviour:
+
+  - setup uretprobe for foo
+  - foo() {
+     uretprobe_syscall -> executes foo's uretprobe consumers
+    }
+  - at some point we get to the 'ret' instruction that jump into uretprobe
+    trampoline and the uretprobe_syscall won't find pending uretprobe and
+    will send SIGILL
+
+
+so I think we should mimic int3 behaviour and:
+
+  - setup uretprobe for foo
+  - foo() {
+     uretprobe_syscall -> check if we got executed from uretprobe's
+     trampoline and send SIGILL if that's not the case
+
+I think it's better to have the offending process killed right away,
+rather than having more undefined behaviour, waiting for final 'ret'
+instruction that jumps to uretprobe trampoline and causes SIGILL
 
 > 
-> > > sigreturn() can be "improved" too. Say, it could validate sigcontext->ip
-> > > and return -EINVAL if this addr is not valid. But why?
-> >
-> > Because sigreturn() never returns, but sys_uretprobe() will return.
+> I agree very much with Andrii,
 > 
-> You mean, sys_uretprobe() returns to the next insn after syscall.
+>        sigreturn()  exists only to allow the implementation of signal handlers.  It should never be
+>        called directly.  Details of the arguments (if any) passed to sigreturn() vary depending  on
+>        the architecture.
 > 
-> Almost certainly yes, but this is not necessarily true. If one of consumers
-> changes regs->sp sys_uretprobe() "returns" to another location, just like
-> sys_rt_sigreturn().
-> 
-> That said.
-> 
-> Masami, it is not that I am trying to prove that you are "wrong" ;) No.
-> 
-> I see your points even if I am biased, I understand that my objections are
-> not 100% "fair".
-> 
-> I am just trying to explain why, rightly or not, I care much less about the
-> abuse of sys_uretprobe().
+> this is how sys_uretprobe() should be treated/documented.
 
-I would like to clear that the abuse of this syscall will not possible to harm
-the normal programs, and even if it is used by malicious code (e.g. injected by
-stack overflow) it doesn't cause a problem. At least thsese points are cleared,
-and documented. it is easier to push it as new Linux API.
+yes, will include man page patch in new version
 
-Thank you,
+jirka
 
 > 
-> Thanks!
+> sigreturn() can be "improved" too. Say, it could validate sigcontext->ip
+> and return -EINVAL if this addr is not valid. But why?
 > 
 > Oleg.
 > 
-> 
-
-
--- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
 
