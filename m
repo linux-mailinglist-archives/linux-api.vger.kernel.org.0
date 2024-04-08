@@ -1,50 +1,50 @@
-Return-Path: <linux-api+bounces-1240-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1241-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3D9489B653
-	for <lists+linux-api@lfdr.de>; Mon,  8 Apr 2024 05:17:10 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AA9689B6A3
+	for <lists+linux-api@lfdr.de>; Mon,  8 Apr 2024 05:54:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 846541F222F0
-	for <lists+linux-api@lfdr.de>; Mon,  8 Apr 2024 03:17:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8BA811C20F55
+	for <lists+linux-api@lfdr.de>; Mon,  8 Apr 2024 03:54:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92424EDF;
-	Mon,  8 Apr 2024 03:17:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1769046B8;
+	Mon,  8 Apr 2024 03:54:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZyUYHtHT"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V8pnCjng"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D9BB6FA8;
-	Mon,  8 Apr 2024 03:17:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8A3D1FC8;
+	Mon,  8 Apr 2024 03:54:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712546224; cv=none; b=tYVArEFvIjb9BxOJeej0SG4DkBmoury+EqI3cpEGWh4M9JEkLAF1xIAMZoI19zR3xffVPq8hqtFYLptwaaN9U8VKIGud+KQAQZiYRofxSbf/jouhVgR+6vs8oCnx3W0k/VethtUL62oazUNiS5ZZewk7l8o1NrII12vAOsDmiq4=
+	t=1712548448; cv=none; b=d2LBDbFGCHizf/h5naSyPLfJkOTugpkMNrBAiQLzlu1Cv0RnUA8iXa3wFLknJgngviKSTLLVnTle7Rbe6Hq2tduxKngNVaNUUPnRyAFSw8McCdpeuRJ/YKccM13idbv3bzAFavsywux5q4L96SBaPqLIC8koUMiuSkDa94iiguI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712546224; c=relaxed/simple;
-	bh=88xy5ncDJIYZXTN7bl3r8g56wJn0PxbweOPTs/roHCw=;
+	s=arc-20240116; t=1712548448; c=relaxed/simple;
+	bh=ldaL5TI2vG8hJ2dJM8jnvwvFwNTV8s/Opak7rNRuJkQ=;
 	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=UcZuCi6fTHrFAo9WkRiC1h+Rbp9s98vYQ9VszgNMdaCLnUvBKGnppPo6MwIrjTGcc8fQHh7OM/UQWaj79YLVWrrykYjFpNjHFzjSJkIVxqDSA4uvCYBRNUkJR6j44AQTwPAreTSEv18TnR+Y/+IwJug3H+b2CIaN4FLuBcBi+70=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZyUYHtHT; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F18CFC433C7;
-	Mon,  8 Apr 2024 03:16:59 +0000 (UTC)
+	 Mime-Version:Content-Type; b=kFwO1wyPGg9OKGZ74Z+N9L3IWrxc4FWVCq0VyDy8oda5aOLzrSdSaMFnxLHFS4MQ0ewkPg0jM6mKBAWFTJKS2iRB0CGeQ/viVQHPnYrDcQuYafE2Q+k5U7SfdX8JfV+a3DBCaQk7Cz7TqPuhv2+FasYq9BIWzG3Y3TzH1mGW3Ew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V8pnCjng; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D0C4C433F1;
+	Mon,  8 Apr 2024 03:54:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712546224;
-	bh=88xy5ncDJIYZXTN7bl3r8g56wJn0PxbweOPTs/roHCw=;
+	s=k20201202; t=1712548447;
+	bh=ldaL5TI2vG8hJ2dJM8jnvwvFwNTV8s/Opak7rNRuJkQ=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ZyUYHtHTQhKODKjnshXcOh/ThkToFRTSnqBmTTyiXmfdqVvUGvDpFgtFv6y0CX0i2
-	 N+uf4vuOTZqzxAAvYglXPWOiWX7Tm+xP7RdhHcU8+vfaxRLIWBBJGR72blU3qHKrmZ
-	 UR6eb37f4kkGT8pkfjWoiQPXUVYobVQWTY32f171Dbtql4XC3LvYqLkfNefKr3TWdn
-	 GZin3RVDKASvgMnXdND7GADgx0SxhLAR8If7Q89aua45ku3iFhqkAHBYrQYiCjNK8c
-	 jH8BkDVU1shiWB+keBsxv3JFuZS3F6Gc9bGhE02ZZrjaA5gAli5PCr5cDBRCqTzsvk
-	 LD3bvQZJCP3UA==
-Date: Mon, 8 Apr 2024 12:16:57 +0900
+	b=V8pnCjngV44K8vktUDKHOC10cJlaZI7dD9ILMpqODQeiAnMyYymlg53uHnn4bTvpS
+	 nfLjZNy9IFergsvkjz3kVlipshMlKutYpIQ/qvSAysMYCeNE/GOPyJR0q5l+jBv4GQ
+	 juwA/wdWVwJmpITYG3zBVWrb8UddARMslSkOidhLvadEHiWGo3gz68lFc8p/XJbGjv
+	 sme6r9YOgeC8Va9i73956WqXI5AouL6Od/VbEjWtauRBfZcnEWiD8JWlVLUE1sj0ev
+	 fFqm9Eg0aOkN8ElM0H+yqIqovds1KEL4n/KLJMI1odWcEc/unLDhq2BHPxNYepOWyD
+	 erQfeKBReg/xQ==
+Date: Mon, 8 Apr 2024 12:54:01 +0900
 From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To: Jiri Olsa <olsajiri@gmail.com>
-Cc: Oleg Nesterov <oleg@redhat.com>, Andrii Nakryiko
+To: Oleg Nesterov <oleg@redhat.com>
+Cc: Jiri Olsa <olsajiri@gmail.com>, Andrii Nakryiko
  <andrii.nakryiko@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, Alexei
  Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
  Andrii Nakryiko <andrii@kernel.org>, linux-kernel@vger.kernel.org,
@@ -55,12 +55,9 @@ Cc: Oleg Nesterov <oleg@redhat.com>, Andrii Nakryiko
  x86@kernel.org, linux-api@vger.kernel.org
 Subject: Re: [PATCHv2 1/3] uprobe: Add uretprobe syscall to speed up return
  probe
-Message-Id: <20240408121657.5603eb93a55ba22a29b0c24b@kernel.org>
-In-Reply-To: <Zg-8r63tPSkuhN7p@krava>
-References: <20240402093302.2416467-2-jolsa@kernel.org>
-	<20240403100708.233575a8ac2a5bac2192d180@kernel.org>
-	<Zg0lvUIB4WdRUGw_@krava>
-	<20240403230937.c3bd47ee47c102cd89713ee8@kernel.org>
+Message-Id: <20240408125401.d4f100d184b11bc01fcd0308@kernel.org>
+In-Reply-To: <20240406175558.GC3060@redhat.com>
+References: <20240403230937.c3bd47ee47c102cd89713ee8@kernel.org>
 	<CAEf4BzZ2RFfz8PNgJ4ENZ0us4uX=DWhYFimXdtWms-VvGXOjgQ@mail.gmail.com>
 	<20240404095829.ec5db177f29cd29e849169fa@kernel.org>
 	<CAEf4BzYH60TwvBipHWB_kUqZZ6D-iUVnnFsBv06imRikK3o-bg@mail.gmail.com>
@@ -68,6 +65,9 @@ References: <20240402093302.2416467-2-jolsa@kernel.org>
 	<20240404161108.GG7153@redhat.com>
 	<20240405102203.825c4a2e9d1c2be5b2bffe96@kernel.org>
 	<Zg-8r63tPSkuhN7p@krava>
+	<20240405110230.GA22839@redhat.com>
+	<20240406120536.57374198f3f45e809d7e4efa@kernel.org>
+	<20240406175558.GC3060@redhat.com>
 X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
@@ -78,46 +78,71 @@ Mime-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Fri, 5 Apr 2024 10:56:15 +0200
-Jiri Olsa <olsajiri@gmail.com> wrote:
+On Sat, 6 Apr 2024 19:55:59 +0200
+Oleg Nesterov <oleg@redhat.com> wrote:
 
-> > 
-> > Can we avoid this with below strict check?
-> > 
-> > if (ri->stack != regs->sp + expected_offset)
-> > 	goto sigill;
+> On 04/06, Masami Hiramatsu wrote:
+> >
+> > On Fri, 5 Apr 2024 13:02:30 +0200
+> > Oleg Nesterov <oleg@redhat.com> wrote:
+> >
+> > > With or without this patch userpace can also do
+> > >
+> > > 	foo() { <-- retprobe1
+> > > 		bar() {
+> > > 			jump to xol_area
+> > > 		}
+> > > 	}
+> > >
+> > > handle_trampoline() will handle retprobe1.
+> >
+> > This is OK because the execution path has been changed to trampoline,
 > 
-> hm the current uprobe 'alive' check makes sure the return_instance is above
-> or at the same stack address, not sure we can match it exactly, need to think
-> about that more
+> Agreed, in this case the misuse is more clear. But please see below.
 > 
-> > 
-> > expected_offset should be 16 (push * 3 - ret) on x64 if we ri->stack is the
-> > regs->sp right after call.
+> > but the above will continue running bar() after sys_uretprobe().
 > 
-> the syscall trampoline already updates the regs->sp before calling
-> handle_trampoline
+> .. and most probably crash
+
+Yes, unless it returns with longjmp(). (but this is rare case and
+maybe malicious program.)
+
 > 
->         regs->sp += sizeof(r11_cx_ax);
+> > > sigreturn() can be "improved" too. Say, it could validate sigcontext->ip
+> > > and return -EINVAL if this addr is not valid. But why?
+> >
+> > Because sigreturn() never returns, but sys_uretprobe() will return.
+> 
+> You mean, sys_uretprobe() returns to the next insn after syscall.
+> 
+> Almost certainly yes, but this is not necessarily true. If one of consumers
+> changes regs->sp sys_uretprobe() "returns" to another location, just like
+> sys_rt_sigreturn().
+> 
+> That said.
+> 
+> Masami, it is not that I am trying to prove that you are "wrong" ;) No.
+> 
+> I see your points even if I am biased, I understand that my objections are
+> not 100% "fair".
+> 
+> I am just trying to explain why, rightly or not, I care much less about the
+> abuse of sys_uretprobe().
 
-Yes, that is "push * 3" part. And "- ret"  is that the stack entry is consumed
-by the "ret", which is stored by call.
-
-1: |--------| <- sp at function entry == ri->stack
-0: |ret-addr| <- call pushed it
-
-0: |ret-addr| <- sp at return trampoline
-
-3: |r11     | <- regs->sp at syscall
-2: |rcx     |
-1: |rax     | <- ri->stack
-0: |ret-addr|
-
-(Note: The lower the line, the larger the address.)
-
-Thus, we can check the stack address by (regs->sp + 16 == ri->stack).
+I would like to clear that the abuse of this syscall will not possible to harm
+the normal programs, and even if it is used by malicious code (e.g. injected by
+stack overflow) it doesn't cause a problem. At least thsese points are cleared,
+and documented. it is easier to push it as new Linux API.
 
 Thank you,
+
+> 
+> Thanks!
+> 
+> Oleg.
+> 
+> 
+
 
 -- 
 Masami Hiramatsu (Google) <mhiramat@kernel.org>
