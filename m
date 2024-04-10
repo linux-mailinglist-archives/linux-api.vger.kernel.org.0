@@ -1,107 +1,116 @@
-Return-Path: <linux-api+bounces-1249-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1250-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC6E389FD07
-	for <lists+linux-api@lfdr.de>; Wed, 10 Apr 2024 18:36:21 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0087989FDCE
+	for <lists+linux-api@lfdr.de>; Wed, 10 Apr 2024 19:11:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 195881C21E80
-	for <lists+linux-api@lfdr.de>; Wed, 10 Apr 2024 16:36:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AB2401F22A9A
+	for <lists+linux-api@lfdr.de>; Wed, 10 Apr 2024 17:11:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C1BF17B4E7;
-	Wed, 10 Apr 2024 16:36:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E76DC17BB1A;
+	Wed, 10 Apr 2024 17:11:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hJWktyAE"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ZnTku62o"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C5651779A9;
-	Wed, 10 Apr 2024 16:36:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 958B717BB05;
+	Wed, 10 Apr 2024 17:11:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712766977; cv=none; b=gUNaOCJZQIQQRbQgJcJgo1w50YgAXHHwdl1cq3058iz2he9Wne9gGxpz/+0eeZ1NxIH8ePUt351IuhPcLZpnUiQ+qDfp5+HcfVTc5SMcCOlDjEhxlK9Ek8/ifMa+68weDPhnENqoBuGKQ6z6eyJwYKSplCwA0nhRysLJvsWAiDQ=
+	t=1712769067; cv=none; b=V3SdrRAbuTSisGadFvug41mw9YWew2E6a3iSwTP3FiWzO6PPTDP2kupxo2/m27unLNyoEUWBwXGCfjf8H7Qlk3Fa7trMwTlubBJ1iO4XQS8+Z18KQo8R2Lea8yiKcXJyg/lGg1shcrgxOT5G/X6KaApwWZFePObGfVa7x/2nV70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712766977; c=relaxed/simple;
-	bh=va6aJQDCMR2Z82GIPrLoBSIBd2Bs9Em2LFb+DW3sePg=;
+	s=arc-20240116; t=1712769067; c=relaxed/simple;
+	bh=ZGMs4eaw7dazW68rXM4OhUV3d8QFUB+5AWT1J8PJOOg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Tl7ZMDqY8yNeAU9HEha5duSf19hs/9TKCo2viBTyYuYG3+3qTyWtDpXWq2NHaHCqP5dIFIMWQLxyWFghC35ujJA8cLWXtszI/+xDc7nBq6q5yk6mMcfgBPXpUmnCgujVJK56IFPKB5S7XpkArL22mmJuqJGDvwRycFwsB1FHJps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hJWktyAE; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08E27C433F1;
-	Wed, 10 Apr 2024 16:36:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712766976;
-	bh=va6aJQDCMR2Z82GIPrLoBSIBd2Bs9Em2LFb+DW3sePg=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=abwVUnv8nNgZVUGZkaxLRcXHCD16NWZlbcVqRvLFHmUdHjk0jPAKNhWznd+CkLZxZY7KOWb1SZmflQil+zxOpaQhGfDjiE7JiRdoavw0SmgNqqiuK8peBpcNI1TRIVfhgz23UX53qLz5osB2j3hRloYwQpp8eCCaYI4j13dQ5ig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ZnTku62o; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A503BC433F1;
+	Wed, 10 Apr 2024 17:11:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1712769067;
+	bh=ZGMs4eaw7dazW68rXM4OhUV3d8QFUB+5AWT1J8PJOOg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hJWktyAEKduiTPIVXOuA9YcJrobuE94Y3FtLE3/zgzQ+xGs57CPEIuvPx6yPdFTxQ
-	 4oNzU/41oBNCEf91OPo+v6EDV/Zr7BBgJ9QlmssvXr8+MAblRmp3gcwSihl9KSSRDw
-	 7jA80OPbu7HYoYm1HvPQ7S083R5L9dqSJgcR3o1h91te/2EsuHWvcc9j62L5hYL5aY
-	 j0f+t80N4qijG67S/7T/2tFP9T/Kfp3bJz3DJ8ghj7ncJMVIWQqBmQiLJTQTdXkNCg
-	 OIGgxnlZEwhFT/sEVDjMTVezlYbvG8fct7/iIiTj+1SZ6D0NC1xoG7FS980rcEB7fJ
-	 cAMthVoOVOScw==
-Date: Wed, 10 Apr 2024 18:36:11 +0200
-From: Alexey Gladkov <legion@kernel.org>
-To: Jiri Slaby <jirislaby@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	LKML <linux-kernel@vger.kernel.org>, kbd@lists.linux.dev,
-	linux-api@vger.kernel.org, linux-fbdev@vger.kernel.org,
-	linux-serial@vger.kernel.org, Helge Deller <deller@gmx.de>
-Subject: Re: [PATCH v4 2/3] VT: Add KDFONTINFO ioctl
-Message-ID: <Zha_-zPHCW8iYT_4@example.org>
-References: <74ca50e0-61b1-4d4c-85dd-a5d920548c04@kernel.org>
- <cover.1712080158.git.legion@kernel.org>
- <7cd32f988a147d7617742c9e074c753de0c6bc1f.1712080158.git.legion@kernel.org>
- <211f3c45-7064-475b-b9e1-f6adbbba8879@kernel.org>
+	b=ZnTku62oSu7dzbXbtHbKdxdkZCjWSlQNPYz08CqnLdYPDMoHOvRdowI3qIZEDv+Kd
+	 FEWutw6k+OWB7ROvHbbUJhZdiv/Io/ybnrUY3zzG6JF9ZukipycH0eOs31K8DHk66Q
+	 0ieea41dUD4O24dSNLKPn0s7FRDHoryWqXvVX9+I=
+Date: Wed, 10 Apr 2024 19:11:03 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Alexey Gladkov <legion@kernel.org>
+Cc: Jiri Slaby <jirislaby@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+	kbd@lists.linux.dev, linux-api@vger.kernel.org,
+	linux-fbdev@vger.kernel.org, linux-serial@vger.kernel.org,
+	Helge Deller <deller@gmx.de>
+Subject: Re: [RESEND PATCH v3 1/2] VT: Add KDFONTINFO ioctl
+Message-ID: <2024041027-overload-striking-c9a5@gregkh>
+References: <cover.1710252966.git.legion@kernel.org>
+ <cover.1712053848.git.legion@kernel.org>
+ <ed056326540f04b72c97a276fbcc316e1b2f6371.1712053848.git.legion@kernel.org>
+ <74ca50e0-61b1-4d4c-85dd-a5d920548c04@kernel.org>
+ <ZgwF72yHH_0-A4FW@example.org>
+ <6bb4f4fb-573c-4f63-967c-2cb08514fc91@kernel.org>
+ <Zha-X8QS_8L9eF0r@example.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <211f3c45-7064-475b-b9e1-f6adbbba8879@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Zha-X8QS_8L9eF0r@example.org>
 
-On Wed, Apr 03, 2024 at 07:05:14AM +0200, Jiri Slaby wrote:
-> First, there was no need to send this v4 so quickly. Provided we have 
-> not settled in v3... This makes the review process painful.
-> 
-> And then:
-> 
-> On 02. 04. 24, 19:50, Alexey Gladkov wrote:
-> > Each driver has its own restrictions on font size. There is currently no
-> > way to understand what the requirements are. The new ioctl allows
-> > userspace to get the minimum and maximum font size values.
+On Wed, Apr 10, 2024 at 06:29:19PM +0200, Alexey Gladkov wrote:
+> On Wed, Apr 03, 2024 at 07:27:55AM +0200, Jiri Slaby wrote:
+> > On 02. 04. 24, 15:19, Alexey Gladkov wrote:
+> > >>> --- a/include/uapi/linux/kd.h
+> > >>> +++ b/include/uapi/linux/kd.h
+> > ...
+> > >>> +struct console_font_info {
+> > >>> +	unsigned int min_width, min_height;	/* minimal font size */
+> > >>> +	unsigned int max_width, max_height;	/* maximum font size */
+> > >>> +	unsigned int flags;			/* KD_FONT_INFO_FLAG_* */
+> > >>
+> > >> This does not look like a well-defined™ and extendable uapi structure.
+> > >> While it won't change anything here, still use fixed-length __u32.
+> > >>
+> > >> And you should perhaps add some reserved fields. Do not repeat the same
+> > >> mistakes as your predecessors with the current kd uapi.
+> > > 
+> > > I thought about it, but I thought it would be overengineering.
 > > 
-> > Acked-by: Helge Deller <deller@gmx.de>
-> > Signed-off-by: Alexey Gladkov <legion@kernel.org>
-> ...
-> > --- a/drivers/tty/vt/vt_ioctl.c
-> > +++ b/drivers/tty/vt/vt_ioctl.c
-> > @@ -479,6 +479,17 @@ static int vt_k_ioctl(struct tty_struct *tty, unsigned int cmd,
-> >   		break;
-> >   	}
-> >   
-> > +	case KDFONTINFO: {
-> > +		struct console_font_info fnt_info;
-> > +
-> > +		ret = con_font_info(vc, &fnt_info);
-> > +		if (ret)
-> > +			return ret;
-> > +		if (copy_to_user(up, &fnt_info, sizeof(fnt_info)))
+> > It would not. UAPI structs are set in stone once released.
+> > 
+> > And in this case, it's likely you would want to know more info about 
+> > fonts in the future.
+> > 
+> > > Can you suggest how best to do this?
+> > 
+> > Given you have flags in there already (to state that the structure 
+> > contains more), just add an array of u32 reserved[] space. 3 or 5, I 
+> > would say (to align the struct to 64bit).
 > 
-> sizeof, I already commented.
+> struct console_font_info {
+>        __u32 min_width, min_height;    /* minimal font size */
+>        __u32 max_width, max_height;    /* maximum font size */
+>        __u32  flags;                   /* KD_FONT_INFO_FLAG_* */
+>        __u32 reserved[5];              /* This field is reserved forfuture use. Must be 0. */
+> };
+> 
+> So, struct should be like this ?
+> 
+> I wouldn't add the version to the flags. Maybe it would be better to add a
+> separate field with the version?
 
-I'm not sure I understand. sizeof(*up), but 'up' is 'void __user *up'.
+Versions do not work for ioctls, just use flags for stuff.  And you
+might want to put flags first?
 
-> Now you leak info to userspace unless everyone sets everything in 
-> fnt_info. IOW, do memset() above.
+thanks,
 
-Yes. I miss it. Sorry.
-
--- 
-Rgrds, legion
-
+greg k-h
 
