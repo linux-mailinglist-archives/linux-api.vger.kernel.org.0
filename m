@@ -1,377 +1,114 @@
-Return-Path: <linux-api+bounces-1247-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1248-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E84DC89F117
-	for <lists+linux-api@lfdr.de>; Wed, 10 Apr 2024 13:45:29 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77A1589FCD4
+	for <lists+linux-api@lfdr.de>; Wed, 10 Apr 2024 18:29:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 17BDA1C22DA9
-	for <lists+linux-api@lfdr.de>; Wed, 10 Apr 2024 11:45:29 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7C3F7B26C3E
+	for <lists+linux-api@lfdr.de>; Wed, 10 Apr 2024 16:29:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2952315A488;
-	Wed, 10 Apr 2024 11:45:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6230017B4F1;
+	Wed, 10 Apr 2024 16:29:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hfoDkDZm"
 X-Original-To: linux-api@vger.kernel.org
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A563D15958A;
-	Wed, 10 Apr 2024 11:45:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2621C15ADBF;
+	Wed, 10 Apr 2024 16:29:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712749526; cv=none; b=Exndx3SmMtNvDf4jwO2DUKUVznnQXwzKqwgwuEzTE6y86cQ6xph8OcrUXdrKN2+S5CgGzQHG0H+l55nTNMdmRqDTmnOXaU0De1sd2HJtI+pHWEdILda/yUuasfU0i87Eq99VOVHbRYBFGgl9w7r+VDotIJohbQZgaySXPwdKBk4=
+	t=1712766565; cv=none; b=o7a9b2h1vww+M5ZUttEXH7O00dDKPabwg660/D43XZQqPjcPJ2u+KJufugeBW11+Lwe92WOQHy7mW3srXUBehoX9fnWu3lx2pqduvpv0neR3a3zH/RvXprud9p/TWKDY5oo9GNzXCllHCUhTD1Fy5LCYScVurE7ATRLhQt5ga6o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712749526; c=relaxed/simple;
-	bh=/L8YranAUwm1ifaVgmtTP4OpW+lmj/F3rMFKXqB+Sx4=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=c8NFoPF7nrhOqgge9Fj6Hu8bLIydGgoH4VhgX4qaeZmF85IALeQYjqTiwtgCM9ggYTbEv5Cy7IcDHlyPieqFikuyr/bF5h08EDfx1HE4KBBtYoNW+wPodzd/qc55nDyWzKqQRtIn1Rr3r3fhoXZIkLulpr0foUn8jGlUSVOL/C8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.231])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4VF19D33pdz6K9Hb;
-	Wed, 10 Apr 2024 19:40:32 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
-	by mail.maildlp.com (Postfix) with ESMTPS id AC2351408F9;
-	Wed, 10 Apr 2024 19:45:19 +0800 (CST)
-Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.35; Wed, 10 Apr
- 2024 12:45:19 +0100
-Date: Wed, 10 Apr 2024 12:45:17 +0100
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: Dan Williams <dan.j.williams@intel.com>
-CC: <linux-cxl@vger.kernel.org>, Sreenivas Bagalkote
-	<sreenivas.bagalkote@broadcom.com>, Brett Henning
-	<brett.henning@broadcom.com>, Harold Johnson <harold.johnson@broadcom.com>,
-	Sumanesh Samanta <sumanesh.samanta@broadcom.com>,
-	<linux-kernel@vger.kernel.org>, Davidlohr Bueso <dave@stgolabs.net>, "Dave
- Jiang" <dave.jiang@intel.com>, Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>, "Ira Weiny" <ira.weiny@intel.com>,
-	<linuxarm@huawei.com>, <linux-api@vger.kernel.org>, Lorenzo Pieralisi
-	<lpieralisi@kernel.org>, "Natu, Mahesh" <mahesh.natu@intel.com>
-Subject: Re: RFC: Restricting userspace interfaces for CXL fabric management
-Message-ID: <20240410124517.000075f2@Huawei.com>
-In-Reply-To: <66109191f3d6d_2583ad29468@dwillia2-xfh.jf.intel.com.notmuch>
-References: <20240321174423.00007e0d@Huawei.com>
-	<66109191f3d6d_2583ad29468@dwillia2-xfh.jf.intel.com.notmuch>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+	s=arc-20240116; t=1712766565; c=relaxed/simple;
+	bh=YSAPIOtYNplSycjf3v7XSTEn1r+NDjIrTJDrbvJR6wQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DSwwGr6g8CXPJmYzVSmFJA7IgeUryVwdMnkqGtw88RdTA/io4qVlbMzLdV6XZ+Sfz9saRakrra90f5tPe/YM9ps2nH1w5RID5kpQIl6xRCE/8wlDQmVfvghdFE2FkFgkNquy2InEO/ZTMM0JeQvq5iS9NuXBNzQ496jwRJTCr/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hfoDkDZm; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5E97C433F1;
+	Wed, 10 Apr 2024 16:29:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712766564;
+	bh=YSAPIOtYNplSycjf3v7XSTEn1r+NDjIrTJDrbvJR6wQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hfoDkDZmkfM1oz64jIu5UjxX41RaJQV5t+KnioNgququptp/uL1Ngg3yuFw1jrM/Y
+	 Avy/wg6bFnwXimgGm2fPCTdKORiXvuF0RWNGJpH7/YgrC40a9EBz0Xs9rieevLBPMt
+	 bma23ZzR1JhK3g7R4/R7mMGL+wxGQLxJi8gjMnNQUoXxG/jNS4IWef++uCTdR6yZDo
+	 gUchAkh8ExprvWjL093grl2C0CGwdLVq5zlN4LWAxGkyJqKPKaHzA4mUkFeDkTUMJn
+	 BooX7ewcIzpZI91f2IykdEFzrSV9im+noRy4iUgJCnXr0dJ62xpQ84nyIc7gkUpzpU
+	 XPDKOkCeDKp6A==
+Date: Wed, 10 Apr 2024 18:29:19 +0200
+From: Alexey Gladkov <legion@kernel.org>
+To: Jiri Slaby <jirislaby@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	LKML <linux-kernel@vger.kernel.org>, kbd@lists.linux.dev,
+	linux-api@vger.kernel.org, linux-fbdev@vger.kernel.org,
+	linux-serial@vger.kernel.org, Helge Deller <deller@gmx.de>
+Subject: Re: [RESEND PATCH v3 1/2] VT: Add KDFONTINFO ioctl
+Message-ID: <Zha-X8QS_8L9eF0r@example.org>
+References: <cover.1710252966.git.legion@kernel.org>
+ <cover.1712053848.git.legion@kernel.org>
+ <ed056326540f04b72c97a276fbcc316e1b2f6371.1712053848.git.legion@kernel.org>
+ <74ca50e0-61b1-4d4c-85dd-a5d920548c04@kernel.org>
+ <ZgwF72yHH_0-A4FW@example.org>
+ <6bb4f4fb-573c-4f63-967c-2cb08514fc91@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: lhrpeml500002.china.huawei.com (7.191.160.78) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <6bb4f4fb-573c-4f63-967c-2cb08514fc91@kernel.org>
 
-On Fri, 5 Apr 2024 17:04:34 -0700
-Dan Williams <dan.j.williams@intel.com> wrote:
+On Wed, Apr 03, 2024 at 07:27:55AM +0200, Jiri Slaby wrote:
+> On 02. 04. 24, 15:19, Alexey Gladkov wrote:
+> >>> --- a/include/uapi/linux/kd.h
+> >>> +++ b/include/uapi/linux/kd.h
+> ...
+> >>> +struct console_font_info {
+> >>> +	unsigned int min_width, min_height;	/* minimal font size */
+> >>> +	unsigned int max_width, max_height;	/* maximum font size */
+> >>> +	unsigned int flags;			/* KD_FONT_INFO_FLAG_* */
+> >>
+> >> This does not look like a well-defined™ and extendable uapi structure.
+> >> While it won't change anything here, still use fixed-length __u32.
+> >>
+> >> And you should perhaps add some reserved fields. Do not repeat the same
+> >> mistakes as your predecessors with the current kd uapi.
+> > 
+> > I thought about it, but I thought it would be overengineering.
+> 
+> It would not. UAPI structs are set in stone once released.
+> 
+> And in this case, it's likely you would want to know more info about 
+> fonts in the future.
+> 
+> > Can you suggest how best to do this?
+> 
+> Given you have flags in there already (to state that the structure 
+> contains more), just add an array of u32 reserved[] space. 3 or 5, I 
+> would say (to align the struct to 64bit).
 
-Hi Dan,
+struct console_font_info {
+       __u32 min_width, min_height;    /* minimal font size */
+       __u32 max_width, max_height;    /* maximum font size */
+       __u32  flags;                   /* KD_FONT_INFO_FLAG_* */
+       __u32 reserved[5];              /* This field is reserved forfuture use. Must be 0. */
+};
 
-> Jonathan Cameron wrote:
-> > Hi All,
-> >=20
-> > This is has come up in a number of discussions both on list and in priv=
-ate,
-> > so I wanted to lay out a potential set of rules when deciding whether o=
-r not
-> > to provide a user space interface for a particular feature of CXL Fabric
-> > Management.  The intent is to drive discussion, not to simply tell peop=
-le
-> > a set of rules.  I've brought this to the public lists as it's a Linux =
-kernel
-> > policy discussion, not a standards one.
-> >=20
-> > Whilst I'm writing the RFC this my attempt to summarize a possible
-> > position rather than necessarily being my personal view.
-> >=20
-> > It's a straw man - shoot at it!
-> >=20
-> > Not everyone in this discussion is familiar with relevant kernel or CXL=
- concepts
-> > so I've provided more info than I normally would. =20
->=20
-> Thanks for writing this up Jonathan!
->=20
-> [..]
-> > 2) Unfiltered userspace use of mailbox for Fabric Management - BMC kern=
-els
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D
-> >=20
-> > (This would just be a kernel option that we'd advise normal server
-> > distributions not to turn on. Would be enabled by openBMC etc)
-> >=20
-> > This is fine - there is some work to do, but the switch-cci PCI driver
-> > will hopefully be ready for upstream merge soon. There is no filtering =
-of
-> > accesses. Think of this as similar to all the damage you can do via
-> > MCTP from a BMC. Similarly it is likely that much of the complexity
-> > of the actual commands will be left to user space tooling:=20
-> > https://gitlab.com/jic23/cxl-fmapi-tests has some test examples.
-> >=20
-> > Whether Kconfig help text is strong enough to ensure this only gets
-> > enabled for BMC targeted distros is an open question we can address
-> > alongside an updated patch set. =20
->=20
-> It is not clear to me that this material makes sense to house in
-> drivers/ vs tools/ or even out-of-tree just for maintenance burden
-> relief of keeping the universes separated. What does the Linux kernel
-> project get out of carrying this in mainline alongside the inband code?
+So, struct should be like this ?
 
-I'm not sure what you mean by in band.  Aim here was to discuss
-in-band drivers for switch CCI etc. Same reason from a kernel point of
-view for why we include embedded drivers.  I'll interpret in band
-as host driven and not inband as FM-API stuff.
-=20
-> I do think the mailbox refactoring to support non-CXL use cases is
-> interesting, but only so far as refactoring is consumed for inband use
-> cases like RAS API.
+I wouldn't add the version to the flags. Maybe it would be better to add a
+separate field with the version?
 
-If I read this right, I disagree with the 'only so far' bit.
-
-In all substantial ways we should support BMC use case of the Linux Kernel
-at a similar level to how we support forms of Linux Distros.  It may
-not be our target market as developers for particular parts of our companie=
-s,
-but we should not block those who want to support it.
-
-We should support them in drivers/ - maybe with example userspace code
-in tools.  Linux distros on BMCs is a big market, there are a number
-of different distros using (and in some cases contributing to) the
-upstream kernel. Not everyone is using openBMC so there is not one
-common place where downstream patches could be carried.
-=46rom a personal point of view, I like that for the same reasons that
-I like there being multiple Linux sever focused distros. It's a sign
-of a healthy ecosystem to have diverse options taking the mainline
-kernel as their starting point.
-
-BMCs are just another embedded market, and like other embedded markets
-we want to encourage upstream first etc.=20
-openBMC has a policy on this:
-https://github.com/openbmc/docs/blob/master/kernel-development.md
-"The OpenBMC project maintains a kernel tree for use by the project.
-The tree's general development policy is that code must be upstream
-first." There are paths to bypass that for openBMC so it's a little
-more relaxed than some enterprise distros (today, their policies used
-to look very similar to this) but we should not be telling
-them they need to carry support downstream.  If we are
-going to tell them that, we need to be able to point at a major
-sticking point for maintenance burden.  So far I don't see the
-additional complexity as remotely close reaching that bar.
-
-So I think we do want switch-cci support and for that matter the equivalent
-for MHDs in the upstream kernel.
-
-One place I think there is some wiggle room is the taint on use of raw
-commands.  Leaving removal of that for BMC kernels as a patch they need
-to carry downstream doesn't seem too burdensome. I'm sure they'll push
-back if it is a problem for them!  So I think we can kick that question
-into the future.
-
-Addressing maintenance burden, there is a question of where we split
-the stack.  Ignore MHDs for now (I won't go into why in this forum...)
-
-The current proposal is (simplified to ignore some sharing in lookup code e=
-tc
-that I can rip out if we think it might be a long term problem)
-
-     _____________          _____________________
-    |             |        |                     |
-    | Switch CCI  |        |  Type 3 Driver stack|=20
-    |_____________|        |_____________________|
-           |___________________________|              Whatever GPU etc
-                  _______|_______                   _______|______
-                 |               |                 |              |
-                 |  CXL MBOX     |                 | RAS API etc  |
-                 |_______________|                 |______________|
-                             |_____________________________|
-                                           |
-                                  _________|______
-                                 |                |
-                                 |   MMPT mbox    |
-                                 |________________|
-
-Switch CCI Driver: PCI driver doing everything beyond the CXL mbox specific=
- bit.
-Type 3 Stack: All the normal stack just with the CXL Mailbox specific stuff=
- factored
-              out. Note we can move different amounts of shared logic in he=
-re, but
-              in essence it deals with the extra layer on top of the raw MM=
-PT mbox.
-MMPT Mbox: Mailbox as per the PCI spec.
-RAS API:   Shared RAS API specific infrastructure used by other drivers.
-
-If we see a significant maintenance burden, maybe we duplicate the CXL spec=
-ific
-MBOX layer - I can see advantages in that as there is some stuff not releva=
-nt
-to the Switch CCI.  There will be some duplication of logic however such
-as background command support (which is CXL only IIUC)  We can even use
-a difference IOCTL number so the two can diverge if needed in the long run.
-
-e.g. If it makes it easier to get upstream, we can merrily duplicated code
-so that only the bit common with RAS API etc is shared (assuming the
-actually end up with MMPT, not the CXL mailbox which is what their current
-publicly available spec talks about and I assume is a pref MMPT left over?)
-
-     _____________          _____________________
-    |             |        |                     |
-    | Switch CCI  |        |  Type 3 Driver stack|=20
-    |_____________|        |_____________________|
-           |                           |              Whatever GPU etc
-    _______|_______             _______|_______        ______|_______
-   |               |           |               |      |              |
-   |  CXL MBOX     |           |  CXL MBOX     |      | RAS API etc  |
-   |_______________|           |_______________|      |______________|
-           |_____________________________|____________________|
-                                         |
-                                 ________|______
-                                |               |
-                                |   MMPT mbox   |
-                                |_______________|
-
-
-> > (On to the one that the "debate" is about)
-> >=20
-> > 3) Unfiltered user space use of mailbox for Fabric Management - Distro =
-kernels
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-> > (General purpose Linux Server Distro (Redhat, Suse etc))
-> >=20
-> > This is equivalent of RAW command support on CXL Type 3 memory devices.
-> > You can enable those in a distro kernel build despite the scary config
-> > help text, but if you use it the kernel is tainted. The result
-> > of the taint is to add a flag to bug reports and print a big message to=
- say
-> > that you've used a feature that might result in you shooting yourself
-> > in the foot.
-> >=20
-> > The taint is there because software is not at first written to deal with
-> > everything that can happen smoothly (e.g. surprise removal) It's hard
-> > to survive some of these events, so is never on the initial feature list
-> > for any bus, so this flag is just to indicate we have entered a world
-> > where almost all bets are off wrt to stability.  We might not know what
-> > a command does so we can't assess the impact (and no one trusts vendor
-> > commands to report affects right in the Command Effects Log - which
-> > in theory tells you if a command can result problems). =20
->=20
-> That is a secondary reason that the taint is there. Yes, it helps
-> upstream not waste their time on bug reports from proprietary use cases,
-> but the effect of that is to make "raw" command mode unattractive for
-> deploying solutions at scale. It clarifies that this interface is a
-> debug-tool that enterprise environment need not worry about.
->=20
-> The more salient reason for the taint, speaking only for myself as a
-> Linux kernel community member not for $employer, is to encourage open
-> collaboration. Take firmware-update for example that is a standard
-> command with known side effects that is inaccessible via the ioctl()
-> path. It is placed behind an ABI that is easier to maintain and reason
-> about. Everyone has the firmware update tool if they have the 'cat'
-> command. Distros appreciate the fact that they do not need ship yet
-> another vendor device-update tool, vendors get free tooling and end
-> users also appreciate one flow for all devices.
->=20
-> As I alluded here [1], I am not against innovation outside of the
-> specification, but it needs to be open, and it needs to plausibly become
-> if not a de jure standard at least a de facto standard.
->=20
-> [1]: https://lore.kernel.org/all/CAPcyv4gDShAYih5iWabKg_eTHhuHm54vEAei8Zk=
-cmHnPp3B0cw@mail.gmail.com/
-
-Agree with all this.
-
->=20
-> > A concern was raised about GAE/FAST/LDST tables for CXL Fabrics
-> > (a r3.1 feature) but, as I understand it, these are intended for a
-> > host to configure and should not have side effects on other hosts?
-> > My working assumption is that the kernel driver stack will handle
-> > these (once we catch up with the current feature backlog!) Currently
-> > we have no visibility of what the OS driver stack for a fabrics will
-> > actually look like - the spec is just the starting point for that.
-> > (patches welcome ;)
-> >=20
-> > The various CXL upstream developers and maintainers may have
-> > differing views of course, but my current understanding is we want
-> > to support 1 and 2, but are very resistant to 3! =20
->=20
-> 1, yes, 2, need to see the patches, and agree on 3.
-
-If we end up with top architecture of the diagrams above, 2 will look pretty
-similar to last version of the switch-cci patches.  So raw commands only + =
-taint.
-Factoring out MMPT is another layer that doesn't make that much difference =
-in
-practice to this discussion. Good to have, but the reuse here would be one =
-layer
-above that.
-
-Or we just say go for second proposed architecture and 0 impact on the
-CXL specific code, just reuse of the MMPT layer.  I'd imagine people will g=
-et
-grumpy on code duplication (and we'll spend years rejecting patch sets that
-try to share the cdoe) but there should be no maintenance burden as
-a result.
-
->=20
-> > General Notes
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >=20
-> > One side aspect of why we really don't like unfiltered userspace access=
- to any
-> > of these devices is that people start building non standard hacks in an=
-d we
-> > lose the ecosystem advantages. Forcing a considered discussion + patches
-> > to let a particular command be supported, drives standardization. =20
->=20
-> Like I said above, I think this is not a side aspect. It is fundamental
-> to the viability Linux as a project. This project only works because
-> organizations with competing goals realize they need some common
-> infrastructure and that there is little to be gained by competing on the
-> commons.
->=20
-> > https://lore.kernel.org/linux-cxl/CAPcyv4gDShAYih5iWabKg_eTHhuHm54vEAei=
-8ZkcmHnPp3B0cw@mail.gmail.com/
-> > provides some history on vendor specific extensions and why in general =
-we
-> > won't support them upstream. =20
->=20
-> Oh, you linked my writeup... I will leave the commentary I added here in =
-case
-> restating it helps.
->=20
-> > To address another question raised in an earlier discussion:
-> > Putting these Fabric Management interfaces behind guard rails of some t=
-ype
-> > (e.g. CONFIG_IM_A_BMC_AND_CAN_MAKE_A_MESS) does not encourage the risk
-> > of non standard interfaces, because we will be even less likely to acce=
-pt
-> > those upstream!
-> >=20
-> > If anyone needs more details on any aspect of this please ask.
-> > There are a lot of things involved and I've only tried to give a fairly
-> > minimal illustration to drive the discussion. I may well have missed
-> > something crucial. =20
->=20
-> You captured it well, and this is open source so I may have missed
-> something crucial as well.
->=20
-
-Thanks for detailed reply!
-
-Jonathan
-
+-- 
+Rgrds, legion
 
 
