@@ -1,116 +1,150 @@
-Return-Path: <linux-api+bounces-1250-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1251-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0087989FDCE
-	for <lists+linux-api@lfdr.de>; Wed, 10 Apr 2024 19:11:14 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E73288A0017
+	for <lists+linux-api@lfdr.de>; Wed, 10 Apr 2024 20:54:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AB2401F22A9A
-	for <lists+linux-api@lfdr.de>; Wed, 10 Apr 2024 17:11:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2CEBC1C24B1E
+	for <lists+linux-api@lfdr.de>; Wed, 10 Apr 2024 18:54:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E76DC17BB1A;
-	Wed, 10 Apr 2024 17:11:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3643415B0E4;
+	Wed, 10 Apr 2024 18:54:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ZnTku62o"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O6BdMVwY"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 958B717BB05;
-	Wed, 10 Apr 2024 17:11:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACF4963E;
+	Wed, 10 Apr 2024 18:54:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712769067; cv=none; b=V3SdrRAbuTSisGadFvug41mw9YWew2E6a3iSwTP3FiWzO6PPTDP2kupxo2/m27unLNyoEUWBwXGCfjf8H7Qlk3Fa7trMwTlubBJ1iO4XQS8+Z18KQo8R2Lea8yiKcXJyg/lGg1shcrgxOT5G/X6KaApwWZFePObGfVa7x/2nV70=
+	t=1712775273; cv=none; b=gulFIRdLf4dxWDd9sc5yCkUcODrozfHlZn9C49S415Pw81dcE1agpW0kmqg4UZHTkGlCNvi/UhRZIEBy9r+YXUD2WxD2Rvf1ZFD+JPisX/TkyX86RH4AP5/t7XsUkuSz8jRfjYya2VoRm5vV7v5wv9eF43GL+IJ6zri9gVmqHjY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712769067; c=relaxed/simple;
-	bh=ZGMs4eaw7dazW68rXM4OhUV3d8QFUB+5AWT1J8PJOOg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=abwVUnv8nNgZVUGZkaxLRcXHCD16NWZlbcVqRvLFHmUdHjk0jPAKNhWznd+CkLZxZY7KOWb1SZmflQil+zxOpaQhGfDjiE7JiRdoavw0SmgNqqiuK8peBpcNI1TRIVfhgz23UX53qLz5osB2j3hRloYwQpp8eCCaYI4j13dQ5ig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ZnTku62o; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A503BC433F1;
-	Wed, 10 Apr 2024 17:11:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1712769067;
-	bh=ZGMs4eaw7dazW68rXM4OhUV3d8QFUB+5AWT1J8PJOOg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZnTku62oSu7dzbXbtHbKdxdkZCjWSlQNPYz08CqnLdYPDMoHOvRdowI3qIZEDv+Kd
-	 FEWutw6k+OWB7ROvHbbUJhZdiv/Io/ybnrUY3zzG6JF9ZukipycH0eOs31K8DHk66Q
-	 0ieea41dUD4O24dSNLKPn0s7FRDHoryWqXvVX9+I=
-Date: Wed, 10 Apr 2024 19:11:03 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Alexey Gladkov <legion@kernel.org>
-Cc: Jiri Slaby <jirislaby@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-	kbd@lists.linux.dev, linux-api@vger.kernel.org,
-	linux-fbdev@vger.kernel.org, linux-serial@vger.kernel.org,
-	Helge Deller <deller@gmx.de>
-Subject: Re: [RESEND PATCH v3 1/2] VT: Add KDFONTINFO ioctl
-Message-ID: <2024041027-overload-striking-c9a5@gregkh>
-References: <cover.1710252966.git.legion@kernel.org>
- <cover.1712053848.git.legion@kernel.org>
- <ed056326540f04b72c97a276fbcc316e1b2f6371.1712053848.git.legion@kernel.org>
- <74ca50e0-61b1-4d4c-85dd-a5d920548c04@kernel.org>
- <ZgwF72yHH_0-A4FW@example.org>
- <6bb4f4fb-573c-4f63-967c-2cb08514fc91@kernel.org>
- <Zha-X8QS_8L9eF0r@example.org>
+	s=arc-20240116; t=1712775273; c=relaxed/simple;
+	bh=RH0CGcQudRQ007V38SiSJ7/a6bBa9HHc37Qr4ZBEku4=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=WBpwTW7ofFZgtNPJhSIgBBNQHkjFBhhlNd4JqtNRhVWjAyugzFxMZAhJs3kI9lXR7Na3FTwl0FqYjrdRzezTvH+AolROoIr11BGOO2VadS3CtFABSX5nlZbZrP5eKGLOsZYcCElzS8qrrb9Y+QeWpMKTajk/fSo0OO/cI9yk6uk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O6BdMVwY; arc=none smtp.client-ip=209.85.167.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-3bbbc6e51d0so3015311b6e.3;
+        Wed, 10 Apr 2024 11:54:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1712775271; x=1713380071; darn=vger.kernel.org;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=0xD9LsoG01n3s9+dlYoOVodKafjjk33yWzb85+W56js=;
+        b=O6BdMVwYeFKS+EAO00v2p76wAvq7taFJxvXZ+mqfra/Ug9B3/a0Zxd6PJvNx9BaV24
+         QpQQpnrJHVkV6FNkwtXpsWgSsxi3ZP/mmHZGnXZcj+YtmW+cqhFJMNm4q9Jhc5+LCxyb
+         fVPWyCAIhrvCG7ndQWTj/Pzvcqx8pkGEyfAwbdRTOcugS+y6pd23qTlPI18VNmp8vOif
+         E1FkDQPa6Dt1JiOHc3fDIjUZYS8k/Sn39w6Lu6ZJpe2Xpc6E6qYApROkGz6M0+E4iiub
+         h95ZHsbg2f4NLUOOZ+gKrbTZ/gWQI1ujgrmgukWmGNv0SNqV2tOUVGf1YfsjNBK9IXi7
+         54Bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712775271; x=1713380071;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0xD9LsoG01n3s9+dlYoOVodKafjjk33yWzb85+W56js=;
+        b=q8l7Du3Qdra8I7mzBnzIU0BGDtcw9HixsS2ryMOd88TOBxfLbNn0CDmVqJlq2t8EVw
+         UBIn7eiFVZGEetarLm+xHNiuxvbN25GHoySfNQjweD4KWktJzq5VL9laiQ6O6sM+qTdE
+         AELmvCinDSDIvGSEK4O3yJ+r0/fEpwGFgkXjg2R3QlzZRPF4sPqvtHSxDSBJksym8JeN
+         jXADGSVAquJn/cLca9lIFRZNg8WoOrPn9y+ZzTMBXynfZAMN4JYiz16DGY/7qklJqxWT
+         itkNu9X/PdBySWI9NfyoJwJw5NOB1gSEoHNvozjucB9GHAnkbh/FGQsMY7RBmuztnNAX
+         FCRg==
+X-Forwarded-Encrypted: i=1; AJvYcCXOyrTgIr2OvZeqQK9RF+FS3qFu1T01osAdjwwBtiyCPjL7Yv7ZIF1A1xPkSKTiVhW6UCTo43yy/7jbg4MAozdAuPc03IvsFhOt
+X-Gm-Message-State: AOJu0Yw99QtGHSFodCNMHip97RjvGrYpMBxJiD5eZlrcSAkvwtq/TvGA
+	5XDZiT1eFfmJXrrjw4l8OFh80+PJH3Riu5lezhCjq+P2x1mM/8UqVYTBrIC6U04Bog2V6xypX8t
+	IliaGislZyiPSeKlM3f3WZOSxWJqVa0nci1o=
+X-Google-Smtp-Source: AGHT+IFzn2cqcJVegdHH0Ndtyd3UPoZJjLO/IIhkvUc33AmEqXh30mM2e8NZ5Y+R3eqS39+r9T+ZvNbMEDfJEufgufs=
+X-Received: by 2002:a05:6808:18f:b0:3c6:be9:f4f9 with SMTP id
+ w15-20020a056808018f00b003c60be9f4f9mr2438849oic.28.1712775270737; Wed, 10
+ Apr 2024 11:54:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Zha-X8QS_8L9eF0r@example.org>
+From: arlr <carl.rosdahl05@gmail.com>
+Date: Wed, 10 Apr 2024 22:54:18 +0200
+Message-ID: <CAGfdVaw_TU__+XJQyOSHncGFziE206c7=UVbfjvPHnq14xOVjg@mail.gmail.com>
+Subject: [PATCH] uapi: add missing const qualifier to cast in some byteorder functions
+To: linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Apr 10, 2024 at 06:29:19PM +0200, Alexey Gladkov wrote:
-> On Wed, Apr 03, 2024 at 07:27:55AM +0200, Jiri Slaby wrote:
-> > On 02. 04. 24, 15:19, Alexey Gladkov wrote:
-> > >>> --- a/include/uapi/linux/kd.h
-> > >>> +++ b/include/uapi/linux/kd.h
-> > ...
-> > >>> +struct console_font_info {
-> > >>> +	unsigned int min_width, min_height;	/* minimal font size */
-> > >>> +	unsigned int max_width, max_height;	/* maximum font size */
-> > >>> +	unsigned int flags;			/* KD_FONT_INFO_FLAG_* */
-> > >>
-> > >> This does not look like a well-defined™ and extendable uapi structure.
-> > >> While it won't change anything here, still use fixed-length __u32.
-> > >>
-> > >> And you should perhaps add some reserved fields. Do not repeat the same
-> > >> mistakes as your predecessors with the current kd uapi.
-> > > 
-> > > I thought about it, but I thought it would be overengineering.
-> > 
-> > It would not. UAPI structs are set in stone once released.
-> > 
-> > And in this case, it's likely you would want to know more info about 
-> > fonts in the future.
-> > 
-> > > Can you suggest how best to do this?
-> > 
-> > Given you have flags in there already (to state that the structure 
-> > contains more), just add an array of u32 reserved[] space. 3 or 5, I 
-> > would say (to align the struct to 64bit).
-> 
-> struct console_font_info {
->        __u32 min_width, min_height;    /* minimal font size */
->        __u32 max_width, max_height;    /* maximum font size */
->        __u32  flags;                   /* KD_FONT_INFO_FLAG_* */
->        __u32 reserved[5];              /* This field is reserved forfuture use. Must be 0. */
-> };
-> 
-> So, struct should be like this ?
-> 
-> I wouldn't add the version to the flags. Maybe it would be better to add a
-> separate field with the version?
+Add missing const qualifiers to cast in __{le,be}{16,32,64}_to_cpup.
 
-Versions do not work for ioctls, just use flags for stuff.  And you
-might want to put flags first?
+Signed-off-by: Carl Rosdahl <carl.rosdahl05@gmail.com>
+---
+reduced testcase (on exported headers):
+$ cc -c -o /dev/null -Wcast-qual -xc usr/include/linux/byteorder/big_endian.h
+$ cc -c -o /dev/null -Wcast-qual -xc usr/include/linux/byteorder/little_endian.h
 
-thanks,
-
-greg k-h
+diff --git a/include/uapi/linux/byteorder/big_endian.h
+b/include/uapi/linux/byteorder/big_endian.h
+index 80aa5c41a763..e59ec4f8bd92 100644
+--- a/include/uapi/linux/byteorder/big_endian.h
++++ b/include/uapi/linux/byteorder/big_endian.h
+@@ -48,7 +48,7 @@ static __always_inline __le64 __cpu_to_le64p(const __u64 *p)
+ }
+ static __always_inline __u64 __le64_to_cpup(const __le64 *p)
+ {
+-    return __swab64p((__u64 *)p);
++    return __swab64p((const __u64 *)p);
+ }
+ static __always_inline __le32 __cpu_to_le32p(const __u32 *p)
+ {
+@@ -56,7 +56,7 @@ static __always_inline __le32 __cpu_to_le32p(const __u32 *p)
+ }
+ static __always_inline __u32 __le32_to_cpup(const __le32 *p)
+ {
+-    return __swab32p((__u32 *)p);
++    return __swab32p((const __u32 *)p);
+ }
+ static __always_inline __le16 __cpu_to_le16p(const __u16 *p)
+ {
+@@ -64,7 +64,7 @@ static __always_inline __le16 __cpu_to_le16p(const __u16 *p)
+ }
+ static __always_inline __u16 __le16_to_cpup(const __le16 *p)
+ {
+-    return __swab16p((__u16 *)p);
++    return __swab16p((const __u16 *)p);
+ }
+ static __always_inline __be64 __cpu_to_be64p(const __u64 *p)
+ {
+diff --git a/include/uapi/linux/byteorder/little_endian.h
+b/include/uapi/linux/byteorder/little_endian.h
+index cd98982e7523..65204e600fbf 100644
+--- a/include/uapi/linux/byteorder/little_endian.h
++++ b/include/uapi/linux/byteorder/little_endian.h
+@@ -72,7 +72,7 @@ static __always_inline __be64 __cpu_to_be64p(const __u64 *p)
+ }
+ static __always_inline __u64 __be64_to_cpup(const __be64 *p)
+ {
+-    return __swab64p((__u64 *)p);
++    return __swab64p((const __u64 *)p);
+ }
+ static __always_inline __be32 __cpu_to_be32p(const __u32 *p)
+ {
+@@ -80,7 +80,7 @@ static __always_inline __be32 __cpu_to_be32p(const __u32 *p)
+ }
+ static __always_inline __u32 __be32_to_cpup(const __be32 *p)
+ {
+-    return __swab32p((__u32 *)p);
++    return __swab32p((const __u32 *)p);
+ }
+ static __always_inline __be16 __cpu_to_be16p(const __u16 *p)
+ {
+@@ -88,7 +88,7 @@ static __always_inline __be16 __cpu_to_be16p(const __u16 *p)
+ }
+ static __always_inline __u16 __be16_to_cpup(const __be16 *p)
+ {
+-    return __swab16p((__u16 *)p);
++    return __swab16p((const __u16 *)p);
+ }
+ #define __cpu_to_le64s(x) do { (void)(x); } while (0)
+ #define __le64_to_cpus(x) do { (void)(x); } while (0)
 
