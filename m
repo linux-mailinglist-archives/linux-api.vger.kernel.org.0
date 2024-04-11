@@ -1,275 +1,281 @@
-Return-Path: <linux-api+bounces-1254-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1255-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id B43CF8A0963
-	for <lists+linux-api@lfdr.de>; Thu, 11 Apr 2024 09:13:05 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC8628A15AC
+	for <lists+linux-api@lfdr.de>; Thu, 11 Apr 2024 15:35:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1608EB26A5C
-	for <lists+linux-api@lfdr.de>; Thu, 11 Apr 2024 07:13:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1B69D1C21E8D
+	for <lists+linux-api@lfdr.de>; Thu, 11 Apr 2024 13:35:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20CC013DDAF;
-	Thu, 11 Apr 2024 07:11:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28C071514E7;
+	Thu, 11 Apr 2024 13:34:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ALAdr+l0"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="mecmvzr5"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AA4613DBA8;
-	Thu, 11 Apr 2024 07:11:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD3D41514C6;
+	Thu, 11 Apr 2024 13:34:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712819516; cv=none; b=EjAboDk9LTxJ6HZ4+TVOy77MdzOyci8JUwqzP//81k7YqxrOn2mQ7AcU/dQRVt+ythjfforv3l5uzyyhzhp0yGVTNXlv3TZS8lsjKqn4QBKrPXcYcA91KkoYnINvlaNAzcWlSfAp37kucRg+oJC6Ksa64yqe8YMfefzQciMVW84=
+	t=1712842467; cv=none; b=nnwKXftJg1oPELOz52AFfu2CuEpKolsd9E931kK2Bzeru7yB5EZM8q9q6hoJWuseGmiSj3KMYtO4M6oZnsu/OTOYr39Sh16B13eBhQuDVYjAptpdPWX1qDcVRl8LSTWgyvMg9teZ2r68lkOPbvObvNbv01QiShrc6LotmG9Lkss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712819516; c=relaxed/simple;
-	bh=foAx51dmM/Nc1MbYnYMHtZiVXid4Ya2CqTPwNkd5KJc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KJPqXFzB95226khYICDx2FXaJcMKqaDBmU4oZtFXmnL7cHFu0YZu5/gG+/itJxP8fIYmsebEbrfgi/eYAdWrVToSjSljp/wm/q9E1JUGhW3NOoL0W1oZ1XINqL2Aa/Gz9VZjEvGIDc9YKeWvZt9KtSzE7KecZoOl/r25SbCurQI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ALAdr+l0; arc=none smtp.client-ip=209.85.219.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-dde0b30ebe2so6418370276.0;
-        Thu, 11 Apr 2024 00:11:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712819513; x=1713424313; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qTHSIMuZ7gmHtraT80hduj6De1QkHuQBkMKb5QVg53s=;
-        b=ALAdr+l0yZPbysZv0x1C4ckegg8FMJq6WmadwKlmhHW3RSipYga3zCdIOG2OStcdfR
-         4kniwQKrCsmzd849bdbIA/27C7wbmT6YHPTFqydegA8ae3KmVIfJEVsj/NNbDB5drNtD
-         UTTjuT4FS+l2OY5nEz9mJrlxTB7MDQZhRSc4huFLHBkS6xsibXUhnaATjhMQNXGbbseP
-         9tBxh66XN8rh2FKoVOfLi6kFiJqTkJb3XsgoI7lEQB15uZGAnjCW6JlTX0ytuFRQhGgm
-         imMHTc/CrbcU7QtGosx004CZQLKZDgOtJpg0+J3tzyajKCcMIsTSm8jQ6hGE9st06CRX
-         SeUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712819513; x=1713424313;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qTHSIMuZ7gmHtraT80hduj6De1QkHuQBkMKb5QVg53s=;
-        b=LC17VC7zCXpiKevNMMOMO9XmLak/2NnX4FjCA9ZFvH0Qif+Jqxqz+lYbtQ2ehpt8+F
-         jNmnRPnPGmr/WqR2JEz6zB70zZaLlKLTRzGVm3g6fwZrVlSR94l352sCB0eVszty1v18
-         7OBD3oF1SwD+6+VhVj8TNrGDOu7YodvOxc/Oy73Bm6f4LzcOyHbS8NcL0kl9TSmqqE5a
-         6LUZmKjjDRed7NwC7RaxgGLyusMWQr0q3MnHmC0M0ao+I2v4wAGjYNfFhImRpI+3TgpB
-         UHEN7n1QZob73WYnQpb9d2ynxyeVzhPR6dW/V7/Fxt6NXRLDq0lu33NBDE9W17JMCbWg
-         rr6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXG8beQpUR9PMLX81QZ4mJnJoaOzJnLMcBTVFomjo59V+uas2fUIrDncP6nXSjjAe0qmz7CjSHt7arrZMQrZOVJ9iHGc7E2EaNPOK22W+QFOI72HUMjTBunObrMcjbQvnWNl05IR6GJqmSTSQW6JT5PHKT1Y7JjBzYr5mC8Y0SLasM/VtP0o9ZZefvqqF7KwSmmQArOYa3fAYl0hw==
-X-Gm-Message-State: AOJu0YzGZh5zhJcMcHY96pszbIzTN4YA7by/k4zOLyrHk65Tm5kNntLR
-	gEKJUXphiNMiytBbx83/hTrhcUeDBI20idL60Nz5u5cgKBlz8UUuPtOCwiw3n1CEfah1i5DLYy+
-	1BQSTEH0U8AECcC5Z+Bu/iSIx1y4=
-X-Google-Smtp-Source: AGHT+IFrTcyKKJbRPGiPRaGZMd0mdJY3O5OdCMRcLAvdIxKOb5KeqUye7ddtBV9WNYbK4UH+ovB44WPSoycCvCmtq0Q=
-X-Received: by 2002:a25:814d:0:b0:dcd:1d44:f6c1 with SMTP id
- j13-20020a25814d000000b00dcd1d44f6c1mr4641650ybm.16.1712819513073; Thu, 11
- Apr 2024 00:11:53 -0700 (PDT)
+	s=arc-20240116; t=1712842467; c=relaxed/simple;
+	bh=jqJuramCDR7jmfxW4yTxzq1cOltP2kf08eFDobz423U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LAZeu+IoH5RdLPzjUi/4KnEACq5sMxLjV6SEhuCuQrHcKXZBCNiagbFct6f1dyPK3nmBGGLCWJtGL/bGftXfTE7LP52HP9F40Cbu/H+O6k0UEZpgjAjsGCflhwvM2eJMYWqDn2gTBV9DNetAACsljdO09GFHnJJ4wfW6cYoIecs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=mecmvzr5; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFD55C113CD;
+	Thu, 11 Apr 2024 13:34:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1712842466;
+	bh=jqJuramCDR7jmfxW4yTxzq1cOltP2kf08eFDobz423U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mecmvzr55gWeALLBb1riwK2ND7lPfeh33a0/ekf2kbfDTOXf/IxKv+GLeoYE42W4O
+	 N7xqV7WvuRjztComG5Av621tejs8M08DUxThcgc+oz079aylN44EoVnqKm2M7DGcHn
+	 Tr2PNbYq1k664b12Ok1PGwxJeEBRfwr4XGwoxa04=
+Date: Thu, 11 Apr 2024 15:34:23 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Elizabeth Figura <zfigura@codeweavers.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org, wine-devel@winehq.org,
+	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+	Wolfram Sang <wsa@kernel.org>,
+	Arkadiusz Hiler <ahiler@codeweavers.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Andy Lutomirski <luto@kernel.org>, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v3 04/30] ntsync: Introduce NTSYNC_IOC_WAIT_ANY.
+Message-ID: <2024041111-handsaw-scruffy-27f3@gregkh>
+References: <20240329000621.148791-1-zfigura@codeweavers.com>
+ <20240329000621.148791-5-zfigura@codeweavers.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAMuE1bHBky9NGP22PVHKdi2+WniwxiLSmMnwRM6wm36sU8W4jA@mail.gmail.com>
- <878r29hjds.ffs@tglx> <CAMuE1bF9ioo39_08Eh26X4WOtnvJ1geJ=WRVt5DhU8gEbYJNdA@mail.gmail.com>
- <87o7asdd65.ffs@tglx> <CAF2d9jjA8iM1AoPUhQPK62tdd7gPnCnt51f_NMhOAs546rU3dA@mail.gmail.com>
- <87il10ce1g.ffs@tglx> <CAF2d9jj6km7aVSqgcOE-b-A-WDH2TJNGzGy-5MRyw5HrzbqhaA@mail.gmail.com>
- <877chfcrx3.ffs@tglx> <CAF2d9jjg0PEgPorXdrBHVkvz-fmUV7UXUPqnpQGVEvgXTpHY0A@mail.gmail.com>
- <871q7md0ak.ffs@tglx> <CAF2d9jikELOQa_9Kk+oF_=_7NZTn9DuAw=s9KQR6-EfWTiW5RQ@mail.gmail.com>
-In-Reply-To: <CAF2d9jikELOQa_9Kk+oF_=_7NZTn9DuAw=s9KQR6-EfWTiW5RQ@mail.gmail.com>
-From: Sagi Maimon <maimon.sagi@gmail.com>
-Date: Thu, 11 Apr 2024 10:11:41 +0300
-Message-ID: <CAMuE1bFkmj70DO66PfvBPjM1d_JDEwTkOyz6o6wO_C0uyJ_0zw@mail.gmail.com>
-Subject: Re: [PATCH v7] posix-timers: add clock_compare system call
-To: =?UTF-8?B?TWFoZXNoIEJhbmRld2FyICjgpK7gpLngpYfgpLYg4KSs4KSC4KSh4KWH4KS14KS+4KSwKQ==?= <maheshb@google.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, richardcochran@gmail.com, luto@kernel.org, 
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, 
-	hpa@zytor.com, arnd@arndb.de, geert@linux-m68k.org, peterz@infradead.org, 
-	hannes@cmpxchg.org, sohil.mehta@intel.com, rick.p.edgecombe@intel.com, 
-	nphamcs@gmail.com, palmer@sifive.com, keescook@chromium.org, 
-	legion@kernel.org, mark.rutland@arm.com, mszeredi@redhat.com, 
-	casey@schaufler-ca.com, reibax@gmail.com, davem@davemloft.net, 
-	brauner@kernel.org, linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, 
-	linux-arch@vger.kernel.org, netdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240329000621.148791-5-zfigura@codeweavers.com>
 
-Hi Mahesh
-What is the status of your patch?
-if your patch is upstreamed , then it will have all I need.
-But, If not , I will upstream my patch.
-BR,
+On Thu, Mar 28, 2024 at 07:05:55PM -0500, Elizabeth Figura wrote:
+> This corresponds to part of the functionality of the NT syscall
+> NtWaitForMultipleObjects(). Specifically, it implements the behaviour where
+> the third argument (wait_any) is TRUE, and it does not handle alertable waits.
+> Those features have been split out into separate patches to ease review.
+> 
+> NTSYNC_IOC_WAIT_ANY is a vectored wait function similar to poll(). Unlike
+> poll(), it "consumes" objects when they are signaled. For semaphores, this means
+> decreasing one from the internal counter. At most one object can be consumed by
+> this function.
+> 
+> Up to 64 objects can be waited on at once. As soon as one is signaled, the
+> object with the lowest index is consumed, and that index is returned via the
+> "index" field.
 
-On Thu, Apr 11, 2024 at 5:56=E2=80=AFAM Mahesh Bandewar (=E0=A4=AE=E0=A4=B9=
-=E0=A5=87=E0=A4=B6 =E0=A4=AC=E0=A4=82=E0=A4=A1=E0=A5=87=E0=A4=B5=E0=A4=BE=
-=E0=A4=B0)
-<maheshb@google.com> wrote:
->
-> On Wed, Apr 3, 2024 at 6:48=E2=80=AFAM Thomas Gleixner <tglx@linutronix.d=
-e> wrote:
-> >
-> > On Tue, Apr 02 2024 at 16:37, Mahesh Bandewar (=E0=A4=AE=E0=A4=B9=E0=A5=
-=87=E0=A4=B6 =E0=A4=AC=E0=A4=82=E0=A4=A1=E0=A5=87=E0=A4=B5=E0=A4=BE=E0=A4=
-=B0) wrote:
-> > > On Tue, Apr 2, 2024 at 3:37=E2=80=AFPM Thomas Gleixner <tglx@linutron=
-ix.de> wrote:
-> > > The modification that you have proposed (in a couple of posts back)
-> > > would work but it's still not ideal since the pre/post ts are not
-> > > close enough as they are currently  (properly implemented!)
-> > > gettimex64() would have. The only way to do that would be to have
-> > > another ioctl as I have proposed which is a superset of current
-> > > gettimex64 and pre-post collection is the closest possible.
-> >
-> > Errm. What I posted as sketch _is_ using gettimex64() with the extra
-> > twist of the flag vs. a clockid (which is an implementation detail) and
-> > the difference that I carry the information in ptp_system_timestamp
-> > instead of needing a new argument clockid to all existing callbacks
-> > because the modification to ptp_read_prets() and postts() will just be
-> > sufficient, no?
-> >
-> OK, that makes sense.
->
-> > For the case where the driver does not provide gettimex64() then the
-> > extension of the original offset ioctl is still providing a better
-> > mechanism than the proposed syscall.
-> >
-> > I also clearly said that all drivers should be converted over to
-> > gettimex64().
-> >
-> I agree. Honestly that should have been mandatory and
-> ptp_register_clock() should fail otherwise! Probably should have been
-> part of gettimex64 implementation :(
->
-> I don't think we can do anything other than just hoping all driver
-> implementations include gettimex64 implementation.
->
-> > > Having said that, the 'flag' modification proposal is a good backup
-> > > for the drivers that don't have good implementation (close enough but
-> > > not ideal). Also, you don't need a new ioctl-op. So if we really want
-> > > precision, I believe, we need a new ioctl op (with supporting
-> > > implementation similar to the mlx4 code above). but we want to save
-> > > the new ioctl-op and have less precision then proposed modification
-> > > would work fine.
-> >
-> > I disagree. The existing gettimex64() is good enough if the driver
-> > implements it correctly today. If not then those drivers need to be
-> > fixed independent of this.
-> >
-> > So assumed that a driver does:
-> >
-> > gettimex64()
-> >    ptp_prets(sts);
-> >    read_clock();
-> >    ptp_postts(sts);
-> >
-> > today then having:
-> >
-> > static inline void ptp_read_system_prets(struct ptp_system_timestamp *s=
-ts)
-> > {
-> >         if (sts) {
-> >                 if (sts->flags & PTP_SYS_OFFSET_MONO_RAW)
-> >                         ktime_get_raw_ts64(&sts->pre_ts);
-> >                 else
-> >                         ktime_get_real_ts64(&sts->pre_ts);
-> >         }
-> > }
-> >
-> > static inline void ptp_read_system_postts(struct ptp_system_timestamp *=
-sts)
-> > {
-> >         if (sts) {
-> >                 if (sts->flags & PTP_SYS_OFFSET_MONO_RAW)
-> >                         ktime_get_raw_ts64(&sts->post_ts);
-> >                 else
-> >                         ktime_get_real_ts64(&sts->post_ts);
-> >         }
-> > }
-> >
-> > or
-> >
-> > static inline void ptp_read_system_prets(struct ptp_system_timestamp *s=
-ts)
-> > {
-> >         if (sts) {
-> >                 switch (sts->clockid) {
-> >                 case CLOCK_MONOTONIC_RAW:
-> >                         time_get_raw_ts64(&sts->pre_ts);
-> >                         break;
-> >                 case CLOCK_REALTIME:
-> >                         ktime_get_real_ts64(&sts->pre_ts);
-> >                         break;
-> >                 }
-> >         }
-> > }
-> >
-> > static inline void ptp_read_system_postts(struct ptp_system_timestamp *=
-sts)
-> > {
-> >         if (sts) {
-> >                 switch (sts->clockid) {
-> >                 case CLOCK_MONOTONIC_RAW:
-> >                         time_get_raw_ts64(&sts->post_ts);
-> >                         break;
-> >                 case CLOCK_REALTIME:
-> >                         ktime_get_real_ts64(&sts->post_ts);
-> >                         break;
-> >                 }
-> >         }
-> > }
-> >
-> > is doing the exact same thing as your proposal but without touching any
-> > driver which implements gettimex64() correctly at all.
-> >
-> I see. Yes, this makes sense.
->
-> > While your proposal requires to touch every single driver for no reason=
-,
-> > no?
-> >
-> > It is just an implementation detail whether you use a flag or a
-> > clockid. You can carry the clockid for the clocks which actually can be
-> > read in that context in a reserved field of PTP_SYS_OFFSET_EXTENDED:
-> >
-> > struct ptp_sys_offset_extended {
-> >         unsigned int    n_samples; /* Desired number of measurements. *=
-/
-> >         clockid_t       clockid;
-> >         unsigned int    rsv[2];    /* Reserved for future use. */
-> > };
-> >
-> > and in the IOCTL:
-> >
-> >         if (extoff->clockid !=3D CLOCK_MONOTONIC_RAW)
-> >                 return -EINVAL;
-> >
-> >         sts.clockid =3D extoff->clockid;
-> >
-> > and it all just works, no?
-> >
-> Yes, this should work. However, I didn't check if struct
-> ptp_system_timestamp is used in some other context.
->
-> > I have no problem to decide that PTP_SYS_OFFSET will not get this
-> > treatment and the drivers have to be converted over to
-> > PTP_SYS_OFFSET_EXTENDED.
-> >
-> > But adding yet another callback just to carry a clockid as argument is =
-a
-> > more than pointless exercise as I demonstrated.
-> >
-> Agreed. As I said, I thought we cannot change the gettimex64() without
-> breaking the compatibility but the fact that CLOCK_REALTIME is "0"
-> works well for the backward compatibility case.
->
-> I can spin up an updated patch/series that updates gettimex64
-> implementation instead of adding a new ioctl-op If you all agree.
->
-> thanks,
-> --mahesh..
->
-> > Thanks,
-> >
-> >         tglx
+So it's kind of like our internal locks already?  Or futex?
+
+> 
+> A timeout is supported. The timeout is passed as a u64 nanosecond value, which
+> represents absolute time measured against either the MONOTONIC or REALTIME clock
+> (controlled by the flags argument). If U64_MAX is passed, the ioctl waits
+> indefinitely.
+> 
+> This ioctl validates that all objects belong to the relevant device. This is not
+> necessary for any technical reason related to NTSYNC_IOC_WAIT_ANY, but will be
+> necessary for NTSYNC_IOC_WAIT_ALL introduced in the following patch.
+> 
+> Two u32s of padding are left in the ntsync_wait_args structure; one will be used
+> by a patch later in the series (which is split out to ease review).
+> 
+> Signed-off-by: Elizabeth Figura <zfigura@codeweavers.com>
+> ---
+>  drivers/misc/ntsync.c       | 250 ++++++++++++++++++++++++++++++++++++
+>  include/uapi/linux/ntsync.h |  16 +++
+>  2 files changed, 266 insertions(+)
+> 
+> diff --git a/drivers/misc/ntsync.c b/drivers/misc/ntsync.c
+> index 3c2f743c58b0..c6f84a5fc8c0 100644
+> --- a/drivers/misc/ntsync.c
+> +++ b/drivers/misc/ntsync.c
+> @@ -6,11 +6,16 @@
+>   */
+>  
+>  #include <linux/anon_inodes.h>
+> +#include <linux/atomic.h>
+>  #include <linux/file.h>
+>  #include <linux/fs.h>
+> +#include <linux/hrtimer.h>
+> +#include <linux/ktime.h>
+>  #include <linux/miscdevice.h>
+>  #include <linux/module.h>
+>  #include <linux/overflow.h>
+> +#include <linux/sched.h>
+> +#include <linux/sched/signal.h>
+>  #include <linux/slab.h>
+>  #include <linux/spinlock.h>
+>  #include <uapi/linux/ntsync.h>
+> @@ -30,6 +35,8 @@ enum ntsync_type {
+>   *
+>   * Both rely on struct file for reference counting. Individual
+>   * ntsync_obj objects take a reference to the device when created.
+> + * Wait operations take a reference to each object being waited on for
+> + * the duration of the wait.
+>   */
+>  
+>  struct ntsync_obj {
+> @@ -47,12 +54,56 @@ struct ntsync_obj {
+>  			__u32 max;
+>  		} sem;
+>  	} u;
+> +
+> +	struct list_head any_waiters;
+> +};
+> +
+> +struct ntsync_q_entry {
+> +	struct list_head node;
+> +	struct ntsync_q *q;
+> +	struct ntsync_obj *obj;
+> +	__u32 index;
+> +};
+> +
+> +struct ntsync_q {
+> +	struct task_struct *task;
+> +	__u32 owner;
+> +
+> +	/*
+> +	 * Protected via atomic_try_cmpxchg(). Only the thread that wins the
+> +	 * compare-and-swap may actually change object states and wake this
+> +	 * task.
+> +	 */
+> +	atomic_t signaled;
+
+This feels odd, why are you duplicating a normal lock functionality
+here?
+
+> +
+> +	__u32 count;
+> +	struct ntsync_q_entry entries[];
+>  };
+>  
+>  struct ntsync_device {
+>  	struct file *file;
+>  };
+>  
+> +static void try_wake_any_sem(struct ntsync_obj *sem)
+> +{
+> +	struct ntsync_q_entry *entry;
+> +
+> +	lockdep_assert_held(&sem->lock);
+> +
+> +	list_for_each_entry(entry, &sem->any_waiters, node) {
+> +		struct ntsync_q *q = entry->q;
+> +		int signaled = -1;
+> +
+> +		if (!sem->u.sem.count)
+> +			break;
+> +
+> +		if (atomic_try_cmpxchg(&q->signaled, &signaled, entry->index)) {
+> +			sem->u.sem.count--;
+> +			wake_up_process(q->task);
+> +		}
+
+You are waking up _all_ "locks" that with the atomic_try_cmpxchg() call,
+right?  Not just the "first".
+
+Or am I confused?
+
+> +	}
+> +}
+> +
+>  /*
+>   * Actually change the semaphore state, returning -EOVERFLOW if it is made
+>   * invalid.
+> @@ -88,6 +139,8 @@ static int ntsync_sem_post(struct ntsync_obj *sem, void __user *argp)
+>  
+>  	prev_count = sem->u.sem.count;
+>  	ret = post_sem_state(sem, args);
+> +	if (!ret)
+> +		try_wake_any_sem(sem);
+>  
+>  	spin_unlock(&sem->lock);
+>  
+> @@ -141,6 +194,7 @@ static struct ntsync_obj *ntsync_alloc_obj(struct ntsync_device *dev,
+>  	obj->dev = dev;
+>  	get_file(dev->file);
+>  	spin_lock_init(&obj->lock);
+> +	INIT_LIST_HEAD(&obj->any_waiters);
+>  
+>  	return obj;
+>  }
+> @@ -191,6 +245,200 @@ static int ntsync_create_sem(struct ntsync_device *dev, void __user *argp)
+>  	return put_user(fd, &user_args->sem);
+>  }
+>  
+> +static struct ntsync_obj *get_obj(struct ntsync_device *dev, int fd)
+> +{
+> +	struct file *file = fget(fd);
+> +	struct ntsync_obj *obj;
+> +
+> +	if (!file)
+> +		return NULL;
+> +
+> +	if (file->f_op != &ntsync_obj_fops) {
+> +		fput(file);
+> +		return NULL;
+> +	}
+> +
+> +	obj = file->private_data;
+> +	if (obj->dev != dev) {
+> +		fput(file);
+> +		return NULL;
+> +	}
+> +
+> +	return obj;
+> +}
+> +
+> +static void put_obj(struct ntsync_obj *obj)
+> +{
+> +	fput(obj->file);
+> +}
+> +
+> +static int ntsync_schedule(const struct ntsync_q *q, const struct ntsync_wait_args *args)
+> +{
+> +	ktime_t timeout = ns_to_ktime(args->timeout);
+> +	clockid_t clock = CLOCK_MONOTONIC;
+> +	ktime_t *timeout_ptr;
+> +	int ret = 0;
+> +
+> +	timeout_ptr = (args->timeout == U64_MAX ? NULL : &timeout);
+> +
+> +	if (args->flags & NTSYNC_WAIT_REALTIME)
+> +		clock = CLOCK_REALTIME;
+> +
+> +	do {
+> +		if (signal_pending(current)) {
+> +			ret = -ERESTARTSYS;
+> +			break;
+> +		}
+> +
+> +		set_current_state(TASK_INTERRUPTIBLE);
+> +		if (atomic_read(&q->signaled) != -1) {
+> +			ret = 0;
+> +			break;
+
+What happens if the value changes right after you read it?
+
+Rolling your own lock is tricky, and needs review from the locking
+maintainers.  And probably some more documentation as to what is
+happening and why our normal types of locks can't be used here?
+
+thanks,
+
+greg k-h
 
