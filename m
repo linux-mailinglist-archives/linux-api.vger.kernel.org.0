@@ -1,151 +1,159 @@
-Return-Path: <linux-api+bounces-1299-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1300-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04F3D8A712C
-	for <lists+linux-api@lfdr.de>; Tue, 16 Apr 2024 18:19:34 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 83A858A7631
+	for <lists+linux-api@lfdr.de>; Tue, 16 Apr 2024 23:18:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B5E25285A67
-	for <lists+linux-api@lfdr.de>; Tue, 16 Apr 2024 16:19:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4054128414C
+	for <lists+linux-api@lfdr.de>; Tue, 16 Apr 2024 21:18:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D218D131BB9;
-	Tue, 16 Apr 2024 16:19:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8EE435CDD0;
+	Tue, 16 Apr 2024 21:18:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="n6oZDMS0"
+	dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b="UcoBE2bl"
 X-Original-To: linux-api@vger.kernel.org
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from mail.codeweavers.com (mail.codeweavers.com [4.36.192.163])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65B4012F387;
-	Tue, 16 Apr 2024 16:19:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FD0A5A7AA;
+	Tue, 16 Apr 2024 21:18:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.36.192.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713284369; cv=none; b=lh4RxGFEoFRh6UAFdakO15yszLmlXshAntE/2Vff5ttQ/G3rx9sWMzgqllXWwR9JS4ybCAsCBZRiOKVVsT71GzypRcMKSy9/Ouw3RdAlOGzxaoSUEhCRY3BV67ronbkFU97ZL9UrjYwq88leWVg0qQ/wLLVZtPN7tH03VpYmNWU=
+	t=1713302306; cv=none; b=GtIVvLuFp6qj1Og+7dGg7avWkicY8i028QrXXAEAcf4RUaABmjwATH0DoFv0DxygfgNu5Qoo4Pi57QQo5HDDPqtD+UXHI/QsMYoKYroHjfc9JJrh67VdImhGzvwnYyNYW2NDpVTEzvc26vf5yncs3UZM31jByCr1pxeunINShOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713284369; c=relaxed/simple;
-	bh=3zAPfjvHteJBBddQNYzl55aQUUjHHppgPi7ePDJmnxg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=trZaFr1yc+gUKGk0qeGLIShlKsPACRgLiQKFeqiyfxMkNXhe0fbdfuD89SCOxYXf6BIq79dA88cDMzkJw6+I4eR9nqZgjYQ4drGru0n/nETPSDhZKTrIZA7rrY8CvLEH+0w+1loIegJhu7QLK9x6eRLGRgiMwtBoB7yFbw0YdbA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=n6oZDMS0; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1713302306; c=relaxed/simple;
+	bh=EvbyO7bvRMSDVVZLdFcnu53/hqhD2C/fYZh1qMNWwQg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=A5fkIU/NzoA7x2lYsaau5K+m1zZwG83a1amXpj3NQNvXoPxht5eWW9sMKp+VN3T9zgjxnX2L2GF5+g5Ka5s7NMGIOtjVBPF9ikrcJGutFqz8NxLdTOdYy/xNyeuNhXtlXfUj18tvbGLA3lMcXlTrOAgzw8HY5uttAQqnG+m9LbE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com; spf=pass smtp.mailfrom=codeweavers.com; dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b=UcoBE2bl; arc=none smtp.client-ip=4.36.192.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeweavers.com
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=7Xh9QahWZwTjmL2IMPLsv4+7DG/WtPClJRGihDEPKvo=; b=n6oZDMS0oxpy46eVB6FiyrfWLd
-	rAK7xR44f9IZl5U2MJX65xNnu1i+rMDlGhugRD9htFwKlOoFSgqk8DRlZD4XhW4zGqtKnRehuwsp/
-	EFHzCP4zqGxa8VbgMSR2NEYSMFqK27id8cVxPiNeWy0DxEtRU89UOdnEGzazvZHEOEMDmBDjGMf6L
-	U0zhs4xx+pDGGqesbyaR5L4p3aW7XHWQ/p3Wu3o2q5m9Wrp/yBQu+hTRpnLhixgJ7wyprk//+XyqM
-	rOIExHsz57qXdMWU4kiASQSsN3H6IyoiE4Ik2i6i2Ar1gUc+6KHaoOOq3qWyzdvTCLAYyph90htdc
-	dAtX2orw==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rwlWf-0000000B9dS-2K6S;
-	Tue, 16 Apr 2024 16:19:18 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 3544C30047C; Tue, 16 Apr 2024 18:19:17 +0200 (CEST)
-Date: Tue, 16 Apr 2024 18:19:17 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Elizabeth Figura <zfigura@codeweavers.com>
+	d=codeweavers.com; s=s1; h=Message-ID:Date:Subject:Cc:To:From:Sender;
+	bh=39jrlTIKZR26vKSUZInqjb2tqQ7GhCKjcflbulzLrL0=; b=UcoBE2blPfk3dLKdpY2OXEveoB
+	89b/qtGoeh044tool43dYwHilWB0RTRjibZyHFWwUuNaloioplc6WAmLhf3rDjCAiJ1oRo72mi5Mq
+	UTgk7ZX7C+7g2godKsjZw6pt8CBcElWNquWCvWp+pfRlzaDqTE6fYDvFIBMhs2qGFQwEbi8VqZpRi
+	EzFDpo0b+fzDAd8LuyhIabLZZTj+eQzSoeTV4zW66rTEJuHacFchvLZDKDNeexuXAg0SooTLtQ3aY
+	avJSQHNuQ2qZzxXbKS2Gf5bwbn4V8SU1EseP018JfcO4X48Qvgs6x+dLvKdDzJnxGnNGcjVKzHQm/
+	/PIY4Esw==;
+Received: from [10.69.139.14] (helo=terabithia.localnet)
+	by mail.codeweavers.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <zfigura@codeweavers.com>)
+	id 1rwqC2-00GSyt-23;
+	Tue, 16 Apr 2024 16:18:18 -0500
+From: Elizabeth Figura <zfigura@codeweavers.com>
+To: Peter Zijlstra <peterz@infradead.org>
 Cc: Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-	wine-devel@winehq.org,
-	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
-	Wolfram Sang <wsa@kernel.org>,
-	Arkadiusz Hiler <ahiler@codeweavers.com>,
-	Andy Lutomirski <luto@kernel.org>, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+ linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+ wine-devel@winehq.org,
+ =?ISO-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+ Wolfram Sang <wsa@kernel.org>, Arkadiusz Hiler <ahiler@codeweavers.com>,
+ Andy Lutomirski <luto@kernel.org>, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+ Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+ Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>
 Subject: Re: [PATCH v4 00/30] NT synchronization primitive driver
-Message-ID: <20240416161917.GD12673@noisy.programming.kicks-ass.net>
-References: <20240416010837.333694-1-zfigura@codeweavers.com>
- <20240416081421.GB31647@noisy.programming.kicks-ass.net>
- <20240416155014.GB12673@noisy.programming.kicks-ass.net>
+Date: Tue, 16 Apr 2024 16:18:17 -0500
+Message-ID: <23472492.6Emhk5qWAg@terabithia>
+In-Reply-To: <20240416161917.GD12673@noisy.programming.kicks-ass.net>
+References:
+ <20240416010837.333694-1-zfigura@codeweavers.com>
  <20240416155345.GC12673@noisy.programming.kicks-ass.net>
+ <20240416161917.GD12673@noisy.programming.kicks-ass.net>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240416155345.GC12673@noisy.programming.kicks-ass.net>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Tue, Apr 16, 2024 at 05:53:45PM +0200, Peter Zijlstra wrote:
-> On Tue, Apr 16, 2024 at 05:50:14PM +0200, Peter Zijlstra wrote:
-> > On Tue, Apr 16, 2024 at 10:14:21AM +0200, Peter Zijlstra wrote:
-> > 
-> > > > Some aspects of the implementation may deserve particular comment:
-> > > > 
-> > > > * In the interest of performance, each object is governed only by a single
-> > > >   spinlock. However, NTSYNC_IOC_WAIT_ALL requires that the state of multiple
-> > > >   objects be changed as a single atomic operation. In order to achieve this, we
-> > > >   first take a device-wide lock ("wait_all_lock") any time we are going to lock
-> > > >   more than one object at a time.
-> > > > 
-> > > >   The maximum number of objects that can be used in a vectored wait, and
-> > > >   therefore the maximum that can be locked simultaneously, is 64. This number is
-> > > >   NT's own limit.
-> > 
-> > AFAICT:
-> > 
-> > 	spin_lock(&dev->wait_all_lock);
-> > 	  list_for_each_entry(entry, &obj->all_waiters, node)
-> > 	    for (i=0; i<count; i++)
-> > 	      spin_lock_nest_lock(q->entries[i].obj->lock, &dev->wait_all_lock);
-> > 
-> > Where @count <= NTSYNC_MAX_WAIT_COUNT.
-> > 
-> > So while this nests at most 65 spinlocks, there is no actual bound on
-> > the amount of nested lock sections in total. That is, all_waiters list
-> > can be grown without limits.
-> > 
-> > Can we pretty please make wait_all_lock a mutex ?
+On Tuesday, 16 April 2024 11:19:17 CDT Peter Zijlstra wrote:
+> On Tue, Apr 16, 2024 at 05:53:45PM +0200, Peter Zijlstra wrote:
+> > On Tue, Apr 16, 2024 at 05:50:14PM +0200, Peter Zijlstra wrote:
+> > > On Tue, Apr 16, 2024 at 10:14:21AM +0200, Peter Zijlstra wrote:
+> > > > > Some aspects of the implementation may deserve particular comment:
+> > > > > 
+> > > > > * In the interest of performance, each object is governed only by a
+> > > > > single
+> > > > > 
+> > > > >   spinlock. However, NTSYNC_IOC_WAIT_ALL requires that the state of
+> > > > >   multiple
+> > > > >   objects be changed as a single atomic operation. In order to
+> > > > >   achieve this, we first take a device-wide lock ("wait_all_lock")
+> > > > >   any time we are going to lock more than one object at a time.
+> > > > >   
+> > > > >   The maximum number of objects that can be used in a vectored wait,
+> > > > >   and
+> > > > >   therefore the maximum that can be locked simultaneously, is 64.
+> > > > >   This number is NT's own limit.
+> > > 
+> > > AFAICT:
+> > > 	spin_lock(&dev->wait_all_lock);
+> > > 	
+> > > 	  list_for_each_entry(entry, &obj->all_waiters, node)
+> > > 	  
+> > > 	    for (i=0; i<count; i++)
+> > > 	    
+> > > 	      spin_lock_nest_lock(q->entries[i].obj->lock,
+> > > 	      &dev->wait_all_lock);
+> > > 
+> > > Where @count <= NTSYNC_MAX_WAIT_COUNT.
+> > > 
+> > > So while this nests at most 65 spinlocks, there is no actual bound on
+> > > the amount of nested lock sections in total. That is, all_waiters list
+> > > can be grown without limits.
+> > > 
+> > > Can we pretty please make wait_all_lock a mutex ?
+
+That should be fine, at least.
+
+> > Hurmph, it's worse, you do that list walk while holding some obj->lock
+> > spinlokc too. Still need to figure out how all that works....
 > 
-> Hurmph, it's worse, you do that list walk while holding some obj->lock
-> spinlokc too. Still need to figure out how all that works....
+> So the point of having that other lock around is so that things like:
+> 
+> 	try_wake_all_obj(dev, sem)
+> 	try_wake_any_sem(sem)
+> 
+> are done under the same lock?
 
-So the point of having that other lock around is so that things like:
+The point of having the other lock around is that try_wake_all() needs to lock 
+multiple objects at the same time. It's a way of avoiding lock inversion.
 
-	try_wake_all_obj(dev, sem)
-	try_wake_any_sem(sem)
+Consider task A does a wait-for-all on objects X, Y, Z. Then task B signals Y, 
+so we do try_wake_all_obj() on Y, which does try_wake_all() on A's queue 
+entry; that needs to check X and Z and consume the state of all three objects 
+atomically. Another task could be trying to signal Z at the same time and 
+could hit a task waiting on Z, Y, X, and that causes inversion.
 
-are done under the same lock?
+The simple and easy way to implement everything is just to have a global lock 
+on the whole device, but this is kind of known to be a performance bottleneck 
+(this was NT's BKL, and they ditched it starting with Vista or 7 or 
+something).
 
-Where I seem to note that both those functions do that same list
-iteration.
+Instead we use a lock per object, and normally in the wait-for-any case we 
+only ever need to grab one lock at a time, but when we need to do a wait-for-
+all we need to lock multiple objects at once, and we grab the outer lock to 
+avoid potential lock inversion.
 
-Can't you write things like:
+> Where I seem to note that both those functions do that same list
+> iteration.
 
-static void try_wake_all_obj(struct nysync_device *dev,
-			     struct ntsync_obj *obj,
-			     void (*wake_obj)(struct ntsync_obj *obj))
-{
-	list_for_each_entry(entry, &obj->all_waiters, node) {
-		spin_lock(&obj->lock);
-		try_wake_all(dev, event->q, obj);
-		wake_obj(obj);
-		spin_unlock(&obj->lock);
-	}
-}
+Over different lists. I don't know if there's a better way to name things to 
+make that clearer.
 
-And then instead of the above, write:
+There's the "any" wait queue, which tasks which do a wait-for-any add 
+themselves to, and the "all" wait queue, which tasks that do a wait-for-all 
+add themselves to. Signaling an object could potentially wake up either one, 
+but checking whether a task is eligible is a different process.
 
-	try_wake_all_obj(dev, sem, wake_sem);
 
-[[ Also, should not something like try_wake_any_sem -- wake_sem in the
-   above -- have something like:
-
-	WARN_ON_ONCE(sem->type != NTSYNC_TYPE_SEM);
-]]
-
-  
 
