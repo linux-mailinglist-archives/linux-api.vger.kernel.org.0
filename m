@@ -1,97 +1,88 @@
-Return-Path: <linux-api+bounces-1303-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1304-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC4338A77B9
-	for <lists+linux-api@lfdr.de>; Wed, 17 Apr 2024 00:20:05 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA6748A7BCA
+	for <lists+linux-api@lfdr.de>; Wed, 17 Apr 2024 07:25:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 68F251F23EE3
-	for <lists+linux-api@lfdr.de>; Tue, 16 Apr 2024 22:20:05 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4B7C8B226B8
+	for <lists+linux-api@lfdr.de>; Wed, 17 Apr 2024 05:25:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE42984E0D;
-	Tue, 16 Apr 2024 22:19:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D18A524CA;
+	Wed, 17 Apr 2024 05:24:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b="ShQQv/MH"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="KbK5xaDt"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail.codeweavers.com (mail.codeweavers.com [4.36.192.163])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F58D811F8;
-	Tue, 16 Apr 2024 22:19:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.36.192.163
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE1BB3C68C;
+	Wed, 17 Apr 2024 05:24:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713305943; cv=none; b=XLDo3RAHCGnbgHgm9hG5e+H5UPDcWi3YSgw+KOY/JXg4zdeBTX9JyeCbHwYrR9yDo7zYCjd1wLe8Nw3dNOxb2HOibJh9fCu6ZEQYQyaUAoWSGJY4lHJv3H+UScyr1YKjYEnIT6JhUl49FpkynX0lCCEYLNC4bBfmdQpTdEwhb3k=
+	t=1713331499; cv=none; b=K/8jHhwsN78vlVBovvXi5renYgbdYlEhOTAlSmI7L2FE6xQCA+hIp/+WF/6dm36AJKqX3uGEcGqFUl7t7yA1kK7CkPuSXuWTqLFfJQHSpVJIQoxyyRPWHJmt/AZDEuffyNGZ5SSx25Nk/6XIcIsOzmHCe2jAM31wrUwj+sDVRhg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713305943; c=relaxed/simple;
-	bh=2UTgKuAbrwfWuorBNpc3DoDq6mu+gQFxigrPLV5qftU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TitTj6dpCEmX58pbTrJdzubyM6sZw+r7PZDjBfbXLFQ0irTD/IH5SK/CNE/1nWfEJk9LLU3/6vv5Z1avP6eqnj1mZAArY2y8zpPB8ywn62sdQEMhUTIaeKKPLyrkEVGmIKEVax0YljeZ0N9wmF0abCycyU9GYIqkaFd2TRVgT34=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com; spf=pass smtp.mailfrom=codeweavers.com; dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b=ShQQv/MH; arc=none smtp.client-ip=4.36.192.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeweavers.com
+	s=arc-20240116; t=1713331499; c=relaxed/simple;
+	bh=7rKJ7+aUCMuSiNXhwbE4neIbRD9mUgAthiVxifFFieM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dXGthkJBV0oHSvuJOuZ9fivt6wJjnEYjZ60yfIqx5ScLY3zAa30YHR30Hi2QITDSAf6sPAUTZzeSqJHFK3FQx51h99heFji9ny3lMlXwrQmS1ny/on+0TJYYLn865VyPbYtLyVci7VaDEEX7oE5eZD7B5MOdqwxLt94Q/1NSn1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=KbK5xaDt; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=codeweavers.com; s=s1; h=Message-ID:Date:Subject:Cc:To:From:Sender;
-	bh=LjIgFuPbUWQTQ78rm1vu5j/huuLNGgrNm+YPodOSqE0=; b=ShQQv/MHydPLbBH6mC4Cus80Xh
-	Cd/y0Jq20egXeGhhrajocUzcMMi6eRAb27GMj5TF+8l7LGK8uVh8syE4ouMIAiRCqRn9zNVqVXTIQ
-	8WxVviYUjOF+H+xopFnSeGciC6EVEuc+kZbUuNGGjNsAuJPUyBAL0InlpHO1pZgGiQY6MvMzry+wu
-	V9r57YdjOWQTy1WjEdp/GQIgKJNGVfpxdou5zRROR2EmbA9Cd/63Ki/ZfEicMl+RKmF4MZNQYL2B0
-	B28WYRfSUMHQuiQ4Y4KkMCfUlwbvL2dmo5afYjCTuLNxwCIl8fAbJZ/Zpc+fQbtLBID23YRaCWGdW
-	fcoIsLbQ==;
-Received: from [10.69.139.14] (helo=terabithia.localnet)
-	by mail.codeweavers.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <zfigura@codeweavers.com>)
-	id 1rwr8j-00GVN4-1I;
-	Tue, 16 Apr 2024 17:18:57 -0500
-From: Elizabeth Figura <zfigura@codeweavers.com>
-To: Peter Zijlstra <peterz@infradead.org>, wine-devel@winehq.org
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=0Zb05ELMV8IYVpONILa//RiQ8KMHjDy5dS1Ui7wZZIk=; b=KbK5xaDtW9UhzyDh8OdiTg+ZZX
+	uR93nvOWYmyia9U6xBV1hqAwhN4waN69Ese3JEAVDYFv7KQQXiBSaR7G1eUlLGsyPn91f/d2qzcVd
+	hlVJJYwhB5gxkpW5RhjeLnDLNA95rkEPwFQ06I2bmx1UZHlr0ahbR7drrMAgCk0zkLaO2fREW8RtL
+	bPzqgSifjMPJVauO8nbLV5EfkwnXBxdAvurPcA1ZPPHo9H8DkcvlJIuY4FbuRlz61NVCJPC/kyPjR
+	1tkuJ7dKZ4Z/aa++phY/zPLqy97BmEc7CFoNjMikPWp9kQ9/d7nit+cgA5kXAw8YSgrrES2aaIjPc
+	5LY3DFxg==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rwxjU-0000000BPLd-03kV;
+	Wed, 17 Apr 2024 05:23:24 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 4410930040C; Wed, 17 Apr 2024 07:21:19 +0200 (CEST)
+Date: Wed, 17 Apr 2024 07:21:19 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Elizabeth Figura <zfigura@codeweavers.com>
 Cc: Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
- linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
- wine-devel@winehq.org,
- =?ISO-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
- Wolfram Sang <wsa@kernel.org>, Andy Lutomirski <luto@kernel.org>,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
- Randy Dunlap <rdunlap@infradead.org>, Ingo Molnar <mingo@redhat.com>,
- Will Deacon <will@kernel.org>, Waiman Long <longman@redhat.com>,
- Boqun Feng <boqun.feng@gmail.com>, Elizabeth Figura <zfigura@codeweavers.com>
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+	wine-devel@winehq.org,
+	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+	Wolfram Sang <wsa@kernel.org>,
+	Arkadiusz Hiler <ahiler@codeweavers.com>,
+	Andy Lutomirski <luto@kernel.org>, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>
 Subject: Re: [PATCH v4 00/30] NT synchronization primitive driver
-Date: Tue, 16 Apr 2024 17:18:56 -0500
-Message-ID: <3743440.MHq7AAxBmi@terabithia>
-In-Reply-To: <4340072.ejJDZkT8p0@terabithia>
-References:
- <20240416010837.333694-1-zfigura@codeweavers.com>
- <20240416081421.GB31647@noisy.programming.kicks-ass.net>
- <4340072.ejJDZkT8p0@terabithia>
+Message-ID: <20240417052119.GH30852@noisy.programming.kicks-ass.net>
+References: <20240416010837.333694-1-zfigura@codeweavers.com>
+ <20240416155345.GC12673@noisy.programming.kicks-ass.net>
+ <20240416161917.GD12673@noisy.programming.kicks-ass.net>
+ <23472492.6Emhk5qWAg@terabithia>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <23472492.6Emhk5qWAg@terabithia>
 
-On Tuesday, 16 April 2024 16:18:24 CDT Elizabeth Figura wrote:
-> On Tuesday, 16 April 2024 03:14:21 CDT Peter Zijlstra wrote:
-> > I don't support GE has it in his builds? Last time I tried, building
-> > Wine was a bit of a pain.
->=20
-> It doesn't seem so. I tried to build a GE-compatible ntsync build, upload=
-ed
-> here (thanks Arek for hosting):
->=20
->     https://f002.backblazeb2.com/file/wine-ntsync/ntsync-wine.tar.xz
+On Tue, Apr 16, 2024 at 04:18:17PM -0500, Elizabeth Figura wrote:
 
-Oops, the initial version I uploaded had broken paths. Should be fixed now.
+> Over different lists. I don't know if there's a better way to name things to 
+> make that clearer.
 
-(It's also broken on an unpatched kernel unless explicitly disabled with=20
-WINE_DISABLE_FAST_SYNC=3D1. Not sure what I messed up there=E2=80=94it shou=
-ld fall back=20
-cleanly=E2=80=94but hopefully shouldn't be too important for testing.)
-
-
+D'oh, reading hard. I'll stare more.
 
