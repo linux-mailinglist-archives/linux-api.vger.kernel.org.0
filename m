@@ -1,153 +1,234 @@
-Return-Path: <linux-api+bounces-1316-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1317-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 787638A8C98
-	for <lists+linux-api@lfdr.de>; Wed, 17 Apr 2024 22:04:17 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C9208A92EC
+	for <lists+linux-api@lfdr.de>; Thu, 18 Apr 2024 08:18:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 18A1B1F2167D
-	for <lists+linux-api@lfdr.de>; Wed, 17 Apr 2024 20:04:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CC0DC1F215FB
+	for <lists+linux-api@lfdr.de>; Thu, 18 Apr 2024 06:18:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43A7247F7D;
-	Wed, 17 Apr 2024 20:03:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EFB45B217;
+	Thu, 18 Apr 2024 06:18:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b="P1f3RaYc"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Ib04HZiD"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail.codeweavers.com (mail.codeweavers.com [4.36.192.163])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D24D641C7C;
-	Wed, 17 Apr 2024 20:03:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.36.192.163
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B87DE3399B;
+	Thu, 18 Apr 2024 06:18:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713384190; cv=none; b=Jsn+b/kuZDMGT1oGoPfbhBl6fu4duMtk4GPmE3TbvTV2p5wjbZ4fndlGTFBzHcJuCQk815QyAOeNKzPq4togTFj+LsYQ1Zzlv3i+HTz3Wsa0l8EfnDBmH7asbtG8g+LNg8LmYTgyYasJRqolY14YdFoRpEHcjE42Oim77U4r2+c=
+	t=1713421116; cv=none; b=BbjU1K+vkcF3t1mBuGmhuwtRNTYNm6aX7Or9Qeykfk7EPWA+UVJ9sNDdQRaEwQRAB7fNyVFYaeLdluXpBSuaj9XHHbxak9uSKtIdofIasvXLTZeINMxubjHLHvmtTHhmzN9qc0+sQ0Emc72zictYH+WZrdNRTm/+npxc0KcwQ9k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713384190; c=relaxed/simple;
-	bh=1gUuVn+QjUd7F5bm51RwKzR6j6BmbQzEDGn5JENwhyo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=euCeY19nJTf2cp1TmWC2DGO+7rSHMjtn9zp1sPk8eWO5FfYKhaa3saYXfh3M8l2pe3Ssejh+L5lfqPSFk733ic2Vp+CPpcO1Pc4lqV/XhyOSfP0IzFzCOhYE8l/89zT3UsQSQj+27XfkzmwELCHqzA7CczlQzjEyfL/54rlqT/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com; spf=pass smtp.mailfrom=codeweavers.com; dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b=P1f3RaYc; arc=none smtp.client-ip=4.36.192.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeweavers.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=codeweavers.com; s=s1; h=Message-ID:Date:Subject:Cc:To:From:Sender;
-	bh=8xZy/0NtF+dV+KHcJxF6iRNziuvt+mIUzs1R/Wc34/k=; b=P1f3RaYcYjmQe13JJtjSwquN0U
-	U4p4slLzfeBTaq/2KgWu+sL0pIHjRSKxKTGGdt7yYjj9++wr68kfwE5+WrCm7qWqgCWmuh4l4Wlkg
-	ibi9u/l/QNtS9BMqlDHfkItTqOWIqTR1qvYMBvdN9gmTKo4y/K0l4rLpMpZR1lLUT/P/PWvKXiRVY
-	Abq5b+5glRFq0RcQYJTL1QKMSd0EQbu8PHwcFsLhpts2Y0xOfZcicDWeWvmpGdn5MxIyw++A4GZkk
-	/27UKEb1GyF9ARASBfGcnfYPftM4BH+jg5O62lcjreJ/aPYCoYFkwlC7WA0Xg/JY3Ph04Ovzwn3+Y
-	lFXytdEA==;
-Received: from cw137ip160.mn.codeweavers.com ([10.69.137.160] helo=camazotz.localnet)
-	by mail.codeweavers.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <zfigura@codeweavers.com>)
-	id 1rxBUn-00HOiY-26;
-	Wed, 17 Apr 2024 15:03:07 -0500
-From: Elizabeth Figura <zfigura@codeweavers.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
- linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
- wine-devel@winehq.org,
- =?ISO-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
- Wolfram Sang <wsa@kernel.org>, Arkadiusz Hiler <ahiler@codeweavers.com>,
- Andy Lutomirski <luto@kernel.org>, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
- Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
- Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>
-Subject: Re: [PATCH v4 02/27] ntsync: Introduce NTSYNC_IOC_WAIT_ALL.
-Date: Wed, 17 Apr 2024 15:03:05 -0500
-Message-ID: <3479054.QJadu78ljV@camazotz>
-In-Reply-To: <20240417113703.GL30852@noisy.programming.kicks-ass.net>
-References:
- <20240416010837.333694-1-zfigura@codeweavers.com>
- <20240416010837.333694-3-zfigura@codeweavers.com>
- <20240417113703.GL30852@noisy.programming.kicks-ass.net>
+	s=arc-20240116; t=1713421116; c=relaxed/simple;
+	bh=MxnTVDtDjnYwfWZDmuJOc6TliL4mkFOANDo/r2/ykOg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EverwrPDuwczzq10kcVY/7qj1qBWOI9ig9Ge1vbMVsw/NvH3Dhzofe1dPJSHymt1FK9A4o1HPnw+VRO0E5x6cH4J3SaW89eGsyqXBp+hHhWkezAtqqZDwWNZo390eNAEkMseQ2PEEFw7BrqD2nNAl1A66hJIqw847d58ptCYe9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Ib04HZiD; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72AFFC113CC;
+	Thu, 18 Apr 2024 06:18:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1713421116;
+	bh=MxnTVDtDjnYwfWZDmuJOc6TliL4mkFOANDo/r2/ykOg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Ib04HZiDbQY4HtKDMisUutqYWrKXQs//XzrOde2lUrG5XmHRiYouk7r2AMpt6Tk2v
+	 YEZXcVxYot9ibdzLThxNeuvGudMQt1Blyi3wS2dgQNkUkmjmjjLzVDSZeHpMh/d8st
+	 NitWmywximUzQ7d6mPjrEu2ErPiyyqeKik/8chXk=
+Date: Thu, 18 Apr 2024 08:18:33 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Alexey Gladkov <legion@kernel.org>
+Cc: Jiri Slaby <jirislaby@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+	kbd@lists.linux.dev, linux-api@vger.kernel.org,
+	linux-fbdev@vger.kernel.org, linux-serial@vger.kernel.org,
+	Helge Deller <deller@gmx.de>
+Subject: Re: [PATCH v5 2/3] VT: Add KDFONTINFO ioctl
+Message-ID: <2024041830-feisty-gristle-5fd0@gregkh>
+References: <cover.1712080158.git.legion@kernel.org>
+ <cover.1713375378.git.legion@kernel.org>
+ <bd2755e7b6ebe9b49e82d04d9908a176e0fe2f15.1713375378.git.legion@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bd2755e7b6ebe9b49e82d04d9908a176e0fe2f15.1713375378.git.legion@kernel.org>
 
-On Wednesday, 17 April 2024 06:37:03 CDT Peter Zijlstra wrote:
-> On Mon, Apr 15, 2024 at 08:08:12PM -0500, Elizabeth Figura wrote:
-> > +	if (atomic_read(&sem->all_hint) > 0) {
-> > +		spin_lock(&dev->wait_all_lock);
-> > +		spin_lock_nest_lock(&sem->lock, &dev->wait_all_lock);
-> > =20
-> > +		prev_count =3D sem->u.sem.count;
-> > +		ret =3D post_sem_state(sem, args);
-> > +		if (!ret) {
-> > +			try_wake_all_obj(dev, sem);
-> > +			try_wake_any_sem(sem);
-> > +		}
-> > =20
-> > +		spin_unlock(&sem->lock);
-> > +		spin_unlock(&dev->wait_all_lock);
-> > +	} else {
-> > +		spin_lock(&sem->lock);
-> > +
-> > +		prev_count =3D sem->u.sem.count;
-> > +		ret =3D post_sem_state(sem, args);
-> > +		if (!ret)
-> > +			try_wake_any_sem(sem);
-> > +
-> > +		spin_unlock(&sem->lock);
-> > +	}
-> > =20
-> >  	if (!ret && put_user(prev_count, user_args))
-> >  		ret =3D -EFAULT;
->=20
-> vs.
->=20
-> > +	/* queue ourselves */
-> > +
-> > +	spin_lock(&dev->wait_all_lock);
-> > +
-> > +	for (i =3D 0; i < args.count; i++) {
-> > +		struct ntsync_q_entry *entry =3D &q->entries[i];
-> > +		struct ntsync_obj *obj =3D entry->obj;
-> > +
-> > +		atomic_inc(&obj->all_hint);
-> > +
-> > +		/*
-> > +		 * obj->all_waiters is protected by dev->wait_all_lock rather
-> > +		 * than obj->lock, so there is no need to acquire obj->lock
-> > +		 * here.
-> > +		 */
-> > +		list_add_tail(&entry->node, &obj->all_waiters);
-> > +	}
->=20
-> This looks racy, consider:
->=20
-> 	atomic_read(all_hints) /* 0 */
->=20
-> 				spin_lock(wait_all_lock)
-> 				atomic_inc(all_hint)	/* 1 */
-> 				list_add_tail()
->=20
-> 	spin_lock(sem->lock)
-> 	/* try_wake_all_obj() missing */
->=20
->=20
->=20
->=20
-> I've not yet thought about if this is harmful or not, but if not, it
-> definitely needs a comment.
->=20
-> Anyway, I need a break, maybe more this evening.
+On Wed, Apr 17, 2024 at 07:37:36PM +0200, Alexey Gladkov wrote:
+> Each driver has its own restrictions on font size. There is currently no
+> way to understand what the requirements are. The new ioctl allows
+> userspace to get the minimum and maximum font size values.
 
-Ach. I wrote this with the idea that the race isn't meaningful, but
-looking at it again you're right=E2=80=94there is a harmful race here.
+Is there any userspace code that uses this yet that we can point to
+here?
 
-I think it should be fixable by moving the atomic_read inside the lock,
-though.
+I know tty ioctls are woefully undocumented, but could there be some
+documentation here?
 
+> 
+> Acked-by: Helge Deller <deller@gmx.de>
+> Signed-off-by: Alexey Gladkov <legion@kernel.org>
+> ---
+>  drivers/tty/vt/vt.c       | 24 ++++++++++++++++++++++++
+>  drivers/tty/vt/vt_ioctl.c | 13 +++++++++++++
+>  include/linux/console.h   |  3 +++
+>  include/linux/vt_kern.h   |  1 +
+>  include/uapi/linux/kd.h   | 14 ++++++++++++++
+>  5 files changed, 55 insertions(+)
+> 
+> diff --git a/drivers/tty/vt/vt.c b/drivers/tty/vt/vt.c
+> index 9b5b98dfc8b4..e8db0e9ea674 100644
+> --- a/drivers/tty/vt/vt.c
+> +++ b/drivers/tty/vt/vt.c
+> @@ -4851,6 +4851,30 @@ int con_font_op(struct vc_data *vc, struct console_font_op *op)
+>  	return -ENOSYS;
+>  }
+>  
+> +int con_font_info(struct vc_data *vc, struct console_font_info *info)
+> +{
+> +	int rc;
+> +
+> +	info->min_height = 0;
+> +	info->max_height = max_font_height;
+> +
+> +	info->min_width = 0;
+> +	info->max_width = max_font_width;
+> +
+> +	info->flags = KD_FONT_INFO_FLAG_LOW_SIZE | KD_FONT_INFO_FLAG_HIGH_SIZE;
+> +
+> +	console_lock();
+> +	if (vc->vc_mode != KD_TEXT)
+> +		rc = -EINVAL;
+> +	else if (vc->vc_sw->con_font_info)
+> +		rc = vc->vc_sw->con_font_info(vc, info);
+> +	else
+> +		rc = -ENOSYS;
+> +	console_unlock();
+> +
+> +	return rc;
+> +}
+> +
+>  /*
+>   *	Interface exported to selection and vcs.
+>   */
+> diff --git a/drivers/tty/vt/vt_ioctl.c b/drivers/tty/vt/vt_ioctl.c
+> index 4b91072f3a4e..9a2f8081f650 100644
+> --- a/drivers/tty/vt/vt_ioctl.c
+> +++ b/drivers/tty/vt/vt_ioctl.c
+> @@ -479,6 +479,19 @@ static int vt_k_ioctl(struct tty_struct *tty, unsigned int cmd,
+>  		break;
+>  	}
+>  
+> +	case KDFONTINFO: {
+> +		struct console_font_info fnt_info;
+> +
+> +		memset(&fnt_info, 0, sizeof(fnt_info));
+> +
+> +		ret = con_font_info(vc, &fnt_info);
 
+Shouldn't con_font_info() memset it first?  No need to do it in the
+caller.
+
+> +		if (ret)
+> +			return ret;
+> +		if (copy_to_user(up, &fnt_info, sizeof(fnt_info)))
+> +			return -EFAULT;
+> +		break;
+> +	}
+> +
+>  	default:
+>  		return -ENOIOCTLCMD;
+>  	}
+> diff --git a/include/linux/console.h b/include/linux/console.h
+> index 31a8f5b85f5d..4b798322aa01 100644
+> --- a/include/linux/console.h
+> +++ b/include/linux/console.h
+> @@ -21,6 +21,7 @@
+>  #include <linux/vesa.h>
+>  
+>  struct vc_data;
+> +struct console_font_info;
+>  struct console_font_op;
+>  struct console_font;
+>  struct module;
+> @@ -102,6 +103,8 @@ struct consw {
+>  	bool	(*con_switch)(struct vc_data *vc);
+>  	bool	(*con_blank)(struct vc_data *vc, enum vesa_blank_mode blank,
+>  			     bool mode_switch);
+> +	int	(*con_font_info)(struct vc_data *vc,
+> +				 struct console_font_info *info);
+
+To make the names more obvious, how about:
+	con_font_info_get()?
+
+>  	int	(*con_font_set)(struct vc_data *vc,
+>  				const struct console_font *font,
+>  				unsigned int vpitch, unsigned int flags);
+> diff --git a/include/linux/vt_kern.h b/include/linux/vt_kern.h
+> index d008c3d0a9bb..383b3a4f6113 100644
+> --- a/include/linux/vt_kern.h
+> +++ b/include/linux/vt_kern.h
+> @@ -33,6 +33,7 @@ void do_blank_screen(int entering_gfx);
+>  void do_unblank_screen(int leaving_gfx);
+>  void poke_blanked_console(void);
+>  int con_font_op(struct vc_data *vc, struct console_font_op *op);
+> +int con_font_info(struct vc_data *vc, struct console_font_info *info);
+>  int con_set_cmap(unsigned char __user *cmap);
+>  int con_get_cmap(unsigned char __user *cmap);
+>  void scrollback(struct vc_data *vc);
+> diff --git a/include/uapi/linux/kd.h b/include/uapi/linux/kd.h
+> index 8ddb2219a84b..68b715ad4d5c 100644
+> --- a/include/uapi/linux/kd.h
+> +++ b/include/uapi/linux/kd.h
+> @@ -185,6 +185,20 @@ struct console_font {
+>  
+>  #define KD_FONT_FLAG_DONT_RECALC 	1	/* Don't recalculate hw charcell size [compat] */
+>  
+> +/* font information */
+> +
+> +#define KD_FONT_INFO_FLAG_LOW_SIZE	_BITUL(0) /* 256 */
+> +#define KD_FONT_INFO_FLAG_HIGH_SIZE	_BITUL(1) /* 512 */
+
+I don't understand why bit 0 and bit 1 have those comments after them.
+That's confusing (i.e. bit 0 is NOT 256...)
+
+> +
+> +struct console_font_info {
+> +	__u32  flags;			/* KD_FONT_INFO_FLAG_* */
+
+Why are there flags if you are only setting these 2 values?  What are
+the flags for?
+
+If this is going to be a "multiplexed" type of structure, then make it a
+union?  Or maybe we are totally over thinking this whole thing.
+
+All you want is the min/max font size of the console, right?  So perhaps
+the whole structure is just:
+
+> +	__u32 min_width, min_height;	/* minimal font size */
+> +	__u32 max_width, max_height;	/* maximum font size */
+
+Those 4 variables?  Why have anything else here at all?  For any new
+thing you wish to discover, have it be a new ioctl?
+
+> +	__u32 reserved[5];		/* This field is reserved for future use. Must be 0. */
+
+I understand the "must be 0" but this is a read-only structure, so
+saying "it will be set to 0" might be better?"  Or something like that?
+
+> +};
+> +
+> +#define KDFONTINFO	_IOR(KD_IOCTL_BASE, 0x73, struct console_font_info)
+
+As mentioned above how about KDFONTINFOGET?
+
+thanks,
+
+greg k-h
 
