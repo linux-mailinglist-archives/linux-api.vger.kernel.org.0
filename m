@@ -1,484 +1,258 @@
-Return-Path: <linux-api+bounces-1319-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1320-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DA7C8A9645
-	for <lists+linux-api@lfdr.de>; Thu, 18 Apr 2024 11:35:38 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 714988A975A
+	for <lists+linux-api@lfdr.de>; Thu, 18 Apr 2024 12:27:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2CEB31F231CA
-	for <lists+linux-api@lfdr.de>; Thu, 18 Apr 2024 09:35:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 28A8B281760
+	for <lists+linux-api@lfdr.de>; Thu, 18 Apr 2024 10:27:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35CE815AD87;
-	Thu, 18 Apr 2024 09:35:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7ED815B986;
+	Thu, 18 Apr 2024 10:27:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="WBSI2Lo7"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lZYNYMlL"
 X-Original-To: linux-api@vger.kernel.org
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B24C215AD93;
-	Thu, 18 Apr 2024 09:35:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A325C15AD88;
+	Thu, 18 Apr 2024 10:27:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713432932; cv=none; b=JuUMOljPoh+euiw+z5VdcZtnLLEYf6NoLynkHvGFR5WonDVqkCtu3ejZUweSIHeLoHEkQTC6vk8Ed+GQEKJ/3paP2ENvl04CxbMx3oDOTepU3DtGeA3gTc/52iqgiR7RPAA9Zb/Gr5iK9n4wn/S7kB+pWySVnbn2RRly1h6oOto=
+	t=1713436028; cv=none; b=jNXeQJ0qDXR/pDS18lNLQ75xaGDebWXGXZBQBzp4OQszf1gn+RSjoNKOcMR3hfem+0uEuH4FdXbsogFoupPMCBr6S270D2/+xIxpBAVaUEKT6BBQWOA40tHQeRxrypqC0QmI/Eo/7Y/9bScFGbadPvP4gb2vMqXUzFBdSj0DpgM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713432932; c=relaxed/simple;
-	bh=+0kwtJoZt9tJauUmdcEXI5iVzfFnGfehiVYt+0ac7ZQ=;
+	s=arc-20240116; t=1713436028; c=relaxed/simple;
+	bh=snJLjn63STpeMflAGhp2j2GxYJy8Px6zZ4o/bbeFQLE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kq2rn5ZKFMC+sY3QGYCYNS1aMgR6ZzZEVBTcO8IctuKELw2zmHuPy2M/iZ3Z7/injOBuKEuK21lDsr8A1rU4rE1Hr82zr/Y9exU9QFrpoth8FX4VtQ/Ev9KfTvRpHXIJLjEjtuyWElTY/BDQhBCHTPVkqPC7T1k0IDYNi5bGxjY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=WBSI2Lo7; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=oGTILeKlc6FTPHbw4RWanUk3Gk5WS73q7r0ZL6hmbeM=; b=WBSI2Lo7KyxcxRncGNM3Aqqb2a
-	TtMi/VxdoqBKPSXEEbbFXCsKNSCQgp1+u7tIBQ37qRBS0PxdAxjLLyHJgJ8dMBK+hXutRYoPFMAgA
-	+xGWCxVYWfh3Iy3e043YfoYZP06AXvCHUqVXVbYHgNX76dnfiI1fjQN3k0ldPFsWfG1uwQuwdTzoh
-	HqgTtI8NruY+2/nvYFhFpSw+3HnSXrzux3FOAk1pblabXMxcn/VL5mAFaB0jRyEZiCYD8ktdzlTS6
-	4spoD9Gr+hb5Wju62icQRtusgD6Z04Eg/mZ6xjLEAUCNcN0ySY5hkPDeJ7Igbu0FU2gt7nU5UGPLU
-	d0T3nt+g==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rxOAh-0000000Bw9a-3p7z;
-	Thu, 18 Apr 2024 09:35:12 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 90DF7300362; Thu, 18 Apr 2024 11:35:11 +0200 (CEST)
-Date: Thu, 18 Apr 2024 11:35:11 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Elizabeth Figura <zfigura@codeweavers.com>
-Cc: Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-	wine-devel@winehq.org,
-	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
-	Wolfram Sang <wsa@kernel.org>,
-	Arkadiusz Hiler <ahiler@codeweavers.com>,
-	Andy Lutomirski <luto@kernel.org>, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>
-Subject: Re: [PATCH v4 02/27] ntsync: Introduce NTSYNC_IOC_WAIT_ALL.
-Message-ID: <20240418093511.GQ40213@noisy.programming.kicks-ass.net>
-References: <20240416010837.333694-1-zfigura@codeweavers.com>
- <20240416010837.333694-3-zfigura@codeweavers.com>
- <20240417113703.GL30852@noisy.programming.kicks-ass.net>
- <3479054.QJadu78ljV@camazotz>
+	 Content-Type:Content-Disposition:In-Reply-To; b=KZZzyv8LA0QwpWWfNhqdg6HNJo6jn9dIl+qiileaFaLXp7sFfOLoI6XB8Aa/yODEPZTGpTC2fOGNRm/y0oz/BCNfkJ5bRlqNNbH5qjqpATfBuBfR7QuypvXg9tJOXWZOa6wvlxmhKQPmFvWAHT7GoxF+wbqeBOa8VL0aLBRZoZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lZYNYMlL; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 580AEC113CC;
+	Thu, 18 Apr 2024 10:27:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713436028;
+	bh=snJLjn63STpeMflAGhp2j2GxYJy8Px6zZ4o/bbeFQLE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lZYNYMlL6+m5qAygccM2JtYn9DVn+P1lAFPGiWSoqdWfRBDA9GXziZwMOri0QZf1W
+	 Iwutv+zX2BIYkDUooZ7CNqfm+mg2s4mGHS2auJeUNaIqjL44wonuI3wj6icZWhr8xz
+	 P1FilN4xeyx+x5fhxQqU3i+b4/dCH0bbkqaJS+XJZguP+rmFtnErBvcWSSB2cHKul9
+	 vwAn+xc9IGbWCErkYRBgCnv5YlA3xw+KE/k6lIydtfa/cdYPpHqrIUtNncQhYOCpL/
+	 ucUq/ycAn3QVbe07+0V5+tp9bp5gU7AAJlg3eQZS2yez3dGzl0w0C50ZtwUQ0/fkBC
+	 d1V+t7cnjJCqg==
+Date: Thu, 18 Apr 2024 12:27:02 +0200
+From: Alexey Gladkov <legion@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Jiri Slaby <jirislaby@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+	kbd@lists.linux.dev, linux-api@vger.kernel.org,
+	linux-fbdev@vger.kernel.org, linux-serial@vger.kernel.org,
+	Helge Deller <deller@gmx.de>
+Subject: Re: [PATCH v5 2/3] VT: Add KDFONTINFO ioctl
+Message-ID: <ZiD1dih_LQik_zWS@example.org>
+References: <cover.1712080158.git.legion@kernel.org>
+ <cover.1713375378.git.legion@kernel.org>
+ <bd2755e7b6ebe9b49e82d04d9908a176e0fe2f15.1713375378.git.legion@kernel.org>
+ <2024041830-feisty-gristle-5fd0@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3479054.QJadu78ljV@camazotz>
+In-Reply-To: <2024041830-feisty-gristle-5fd0@gregkh>
 
-On Wed, Apr 17, 2024 at 03:03:05PM -0500, Elizabeth Figura wrote:
-
-> Ach. I wrote this with the idea that the race isn't meaningful, but
-> looking at it again you're right—there is a harmful race here.
+On Thu, Apr 18, 2024 at 08:18:33AM +0200, Greg Kroah-Hartman wrote:
+> On Wed, Apr 17, 2024 at 07:37:36PM +0200, Alexey Gladkov wrote:
+> > Each driver has its own restrictions on font size. There is currently no
+> > way to understand what the requirements are. The new ioctl allows
+> > userspace to get the minimum and maximum font size values.
 > 
-> I think it should be fixable by moving the atomic_read inside the lock,
-> though.
+> Is there any userspace code that uses this yet that we can point to
+> here?
 
-Right, I've ended up with the (as yet untested) below. I'll see if I can
-find time later to actually test things.
+Yes. I have a code that uses this. It waits for this ioctl to appear in
+the kernel.
 
----
+https://git.kernel.org/pub/scm/linux/kernel/git/legion/kbd.git/commit/?h=kdfontinfo-v1&id=e2ad0117ca8e46cedd8668934db7b04e9054d5d7
 
---- a/drivers/misc/ntsync.c
-+++ b/drivers/misc/ntsync.c
-@@ -18,6 +18,7 @@
- #include <linux/sched/signal.h>
- #include <linux/slab.h>
- #include <linux/spinlock.h>
-+#include <linux/mutex.h>
- #include <uapi/linux/ntsync.h>
- 
- #define NTSYNC_NAME	"ntsync"
-@@ -43,6 +44,7 @@ enum ntsync_type {
- 
- struct ntsync_obj {
- 	spinlock_t lock;
-+	int dev_locked;
- 
- 	enum ntsync_type type;
- 
-@@ -132,7 +134,7 @@ struct ntsync_device {
- 	 * wait_all_lock is taken first whenever multiple objects must be locked
- 	 * at the same time.
- 	 */
--	spinlock_t wait_all_lock;
-+	struct mutex wait_all_lock;
- 
- 	struct file *file;
- };
-@@ -157,6 +159,56 @@ static bool is_signaled(struct ntsync_ob
- }
- 
- /*
-+ * XXX write coherent comment on the locking
-+ */
-+
-+static void dev_lock_obj(struct ntsync_device *dev, struct ntsync_obj *obj)
-+{
-+	lockdep_assert_held(&dev->wait_all_lock);
-+	WARN_ON_ONCE(obj->dev != dev);
-+	spin_lock(&obj->lock);
-+	obj->dev_locked = 1;
-+	spin_unlock(&obj->lock);
-+}
-+
-+static void dev_unlock_obj(struct ntsync_device *dev, struct ntsync_obj *obj)
-+{
-+	lockdep_assert_held(&dev->wait_all_lock);
-+	WARN_ON_ONCE(obj->dev != dev);
-+	spin_lock(&obj->lock);
-+	obj->dev_locked = 0;
-+	spin_unlock(&obj->lock);
-+}
-+
-+static void obj_lock(struct ntsync_obj *obj)
-+{
-+	struct ntsync_device *dev = obj->dev;
-+
-+	for (;;) {
-+		spin_lock(&obj->lock);
-+		if (likely(!obj->dev_locked))
-+			break;
-+
-+		spin_unlock(&obj->lock);
-+		mutex_lock(&dev->wait_all_lock);
-+		spin_lock(&obj->lock);
-+		/*
-+		 * obj->dev_locked should be set and released under the same
-+		 * wait_all_lock section, since we now own this lock, it should
-+		 * be clear.
-+		 */
-+		WARN_ON_ONCE(obj->dev_locked);
-+		spin_unlock(&obj->lock);
-+		mutex_unlock(&dev->wait_all_lock);
-+	}
-+}
-+
-+static void obj_unlock(struct ntsync_obj *obj)
-+{
-+	spin_unlock(&obj->lock);
-+}
-+
-+/*
-  * "locked_obj" is an optional pointer to an object which is already locked and
-  * should not be locked again. This is necessary so that changing an object's
-  * state and waking it can be a single atomic operation.
-@@ -175,7 +227,7 @@ static void try_wake_all(struct ntsync_d
- 
- 	for (i = 0; i < count; i++) {
- 		if (q->entries[i].obj != locked_obj)
--			spin_lock_nest_lock(&q->entries[i].obj->lock, &dev->wait_all_lock);
-+			dev_lock_obj(dev, q->entries[i].obj);
- 	}
- 
- 	for (i = 0; i < count; i++) {
-@@ -211,7 +263,7 @@ static void try_wake_all(struct ntsync_d
- 
- 	for (i = 0; i < count; i++) {
- 		if (q->entries[i].obj != locked_obj)
--			spin_unlock(&q->entries[i].obj->lock);
-+			dev_unlock_obj(dev, q->entries[i].obj);
- 	}
- }
- 
-@@ -231,6 +283,7 @@ static void try_wake_any_sem(struct ntsy
- 	struct ntsync_q_entry *entry;
- 
- 	lockdep_assert_held(&sem->lock);
-+	WARN_ON_ONCE(sem->type != NTSYNC_TYPE_SEM);
- 
- 	list_for_each_entry(entry, &sem->any_waiters, node) {
- 		struct ntsync_q *q = entry->q;
-@@ -251,6 +304,7 @@ static void try_wake_any_mutex(struct nt
- 	struct ntsync_q_entry *entry;
- 
- 	lockdep_assert_held(&mutex->lock);
-+	WARN_ON_ONCE(mutex->type != NTSYNC_TYPE_MUTEX);
- 
- 	list_for_each_entry(entry, &mutex->any_waiters, node) {
- 		struct ntsync_q *q = entry->q;
-@@ -302,6 +356,7 @@ static int post_sem_state(struct ntsync_
- 	__u32 sum;
- 
- 	lockdep_assert_held(&sem->lock);
-+	WARN_ON_ONCE(sem->type != NTSYNC_TYPE_SEM);
- 
- 	if (check_add_overflow(sem->u.sem.count, count, &sum) ||
- 	    sum > sem->u.sem.max)
-@@ -316,6 +371,7 @@ static int ntsync_sem_post(struct ntsync
- 	struct ntsync_device *dev = sem->dev;
- 	__u32 __user *user_args = argp;
- 	__u32 prev_count;
-+	bool all = false;
- 	__u32 args;
- 	int ret;
- 
-@@ -325,28 +381,27 @@ static int ntsync_sem_post(struct ntsync
- 	if (sem->type != NTSYNC_TYPE_SEM)
- 		return -EINVAL;
- 
--	if (atomic_read(&sem->all_hint) > 0) {
--		spin_lock(&dev->wait_all_lock);
--		spin_lock_nest_lock(&sem->lock, &dev->wait_all_lock);
--
--		prev_count = sem->u.sem.count;
--		ret = post_sem_state(sem, args);
--		if (!ret) {
-+	obj_lock(sem);
-+	all = atomic_read(&sem->all_hint);
-+	if (unlikely(all)) {
-+		obj_unlock(sem);
-+		mutex_lock(&dev->wait_all_lock);
-+		dev_lock_obj(dev, sem);
-+	}
-+
-+	prev_count = sem->u.sem.count;
-+	ret = post_sem_state(sem, args);
-+	if (!ret) {
-+		if (all)
- 			try_wake_all_obj(dev, sem);
--			try_wake_any_sem(sem);
--		}
-+		try_wake_any_sem(sem);
-+	}
- 
--		spin_unlock(&sem->lock);
--		spin_unlock(&dev->wait_all_lock);
-+	if (all) {
-+		dev_unlock_obj(dev, sem);
-+		mutex_unlock(&dev->wait_all_lock);
- 	} else {
--		spin_lock(&sem->lock);
--
--		prev_count = sem->u.sem.count;
--		ret = post_sem_state(sem, args);
--		if (!ret)
--			try_wake_any_sem(sem);
--
--		spin_unlock(&sem->lock);
-+		obj_unlock(sem);
- 	}
- 
- 	if (!ret && put_user(prev_count, user_args))
-@@ -376,6 +431,7 @@ static int ntsync_mutex_unlock(struct nt
- 	struct ntsync_mutex_args __user *user_args = argp;
- 	struct ntsync_device *dev = mutex->dev;
- 	struct ntsync_mutex_args args;
-+	bool all = false;
- 	__u32 prev_count;
- 	int ret;
- 
-@@ -387,28 +443,27 @@ static int ntsync_mutex_unlock(struct nt
- 	if (mutex->type != NTSYNC_TYPE_MUTEX)
- 		return -EINVAL;
- 
--	if (atomic_read(&mutex->all_hint) > 0) {
--		spin_lock(&dev->wait_all_lock);
--		spin_lock_nest_lock(&mutex->lock, &dev->wait_all_lock);
--
--		prev_count = mutex->u.mutex.count;
--		ret = unlock_mutex_state(mutex, &args);
--		if (!ret) {
-+	obj_lock(mutex);
-+	all = atomic_read(&mutex->all_hint);
-+	if (unlikely(all)) {
-+		obj_unlock(mutex);
-+		mutex_lock(&dev->wait_all_lock);
-+		dev_lock_obj(dev, mutex);
-+	}
-+
-+	prev_count = mutex->u.mutex.count;
-+	ret = unlock_mutex_state(mutex, &args);
-+	if (!ret) {
-+		if (all)
- 			try_wake_all_obj(dev, mutex);
--			try_wake_any_mutex(mutex);
--		}
-+		try_wake_any_mutex(mutex);
-+	}
- 
--		spin_unlock(&mutex->lock);
--		spin_unlock(&dev->wait_all_lock);
-+	if (all) {
-+		dev_unlock_obj(dev, mutex);
-+		mutex_unlock(&dev->wait_all_lock);
- 	} else {
--		spin_lock(&mutex->lock);
--
--		prev_count = mutex->u.mutex.count;
--		ret = unlock_mutex_state(mutex, &args);
--		if (!ret)
--			try_wake_any_mutex(mutex);
--
--		spin_unlock(&mutex->lock);
-+		obj_unlock(mutex);
- 	}
- 
- 	if (!ret && put_user(prev_count, &user_args->count))
-@@ -437,6 +492,7 @@ static int kill_mutex_state(struct ntsyn
- static int ntsync_mutex_kill(struct ntsync_obj *mutex, void __user *argp)
- {
- 	struct ntsync_device *dev = mutex->dev;
-+	bool all = false;
- 	__u32 owner;
- 	int ret;
- 
-@@ -448,26 +504,26 @@ static int ntsync_mutex_kill(struct ntsy
- 	if (mutex->type != NTSYNC_TYPE_MUTEX)
- 		return -EINVAL;
- 
--	if (atomic_read(&mutex->all_hint) > 0) {
--		spin_lock(&dev->wait_all_lock);
--		spin_lock_nest_lock(&mutex->lock, &dev->wait_all_lock);
-+	obj_lock(mutex);
-+	all = atomic_read(&mutex->all_hint);
-+	if (unlikely(all)) {
-+		obj_unlock(mutex);
-+		mutex_lock(&dev->wait_all_lock);
-+		dev_lock_obj(dev, mutex);
-+	}
- 
--		ret = kill_mutex_state(mutex, owner);
--		if (!ret) {
-+	ret = kill_mutex_state(mutex, owner);
-+	if (!ret) {
-+		if (all)
- 			try_wake_all_obj(dev, mutex);
--			try_wake_any_mutex(mutex);
--		}
-+		try_wake_any_mutex(mutex);
-+	}
- 
--		spin_unlock(&mutex->lock);
--		spin_unlock(&dev->wait_all_lock);
-+	if (all) {
-+		dev_unlock_obj(dev, mutex);
-+		mutex_unlock(&dev->wait_all_lock);
- 	} else {
--		spin_lock(&mutex->lock);
--
--		ret = kill_mutex_state(mutex, owner);
--		if (!ret)
--			try_wake_any_mutex(mutex);
--
--		spin_unlock(&mutex->lock);
-+		obj_unlock(mutex);
- 	}
- 
- 	return ret;
-@@ -477,35 +533,35 @@ static int ntsync_event_set(struct ntsyn
- {
- 	struct ntsync_device *dev = event->dev;
- 	__u32 prev_state;
-+	bool all = false;
- 
- 	if (event->type != NTSYNC_TYPE_EVENT)
- 		return -EINVAL;
- 
--	if (atomic_read(&event->all_hint) > 0) {
--		spin_lock(&dev->wait_all_lock);
--		spin_lock_nest_lock(&event->lock, &dev->wait_all_lock);
-+	obj_lock(event);
-+	all = atomic_read(&event->all_hint);
-+	if (unlikely(all)) {
-+		obj_unlock(event);
-+		mutex_lock(&dev->wait_all_lock);
-+		dev_lock_obj(dev, event);
-+	}
- 
--		prev_state = event->u.event.signaled;
--		event->u.event.signaled = true;
-+	prev_state = event->u.event.signaled;
-+	event->u.event.signaled = true;
-+	if (all)
- 		try_wake_all_obj(dev, event);
--		try_wake_any_event(event);
--		if (pulse)
--			event->u.event.signaled = false;
--
--		spin_unlock(&event->lock);
--		spin_unlock(&dev->wait_all_lock);
-+	try_wake_any_event(event);
-+	if (pulse)
-+		event->u.event.signaled = false;
-+
-+	if (all) {
-+		dev_unlock_obj(dev, event);
-+		mutex_unlock(&dev->wait_all_lock);
- 	} else {
--		spin_lock(&event->lock);
--
--		prev_state = event->u.event.signaled;
--		event->u.event.signaled = true;
--		try_wake_any_event(event);
--		if (pulse)
--			event->u.event.signaled = false;
--
--		spin_unlock(&event->lock);
-+		obj_unlock(event);
- 	}
- 
-+
- 	if (put_user(prev_state, (__u32 __user *)argp))
- 		return -EFAULT;
- 
-@@ -984,7 +1040,7 @@ static int ntsync_wait_all(struct ntsync
- 
- 	/* queue ourselves */
- 
--	spin_lock(&dev->wait_all_lock);
-+	mutex_lock(&dev->wait_all_lock);
- 
- 	for (i = 0; i < args.count; i++) {
- 		struct ntsync_q_entry *entry = &q->entries[i];
-@@ -1004,7 +1060,7 @@ static int ntsync_wait_all(struct ntsync
- 
- 	try_wake_all(dev, q, NULL);
- 
--	spin_unlock(&dev->wait_all_lock);
-+	mutex_unlock(&dev->wait_all_lock);
- 
- 	/* sleep */
- 
-@@ -1012,7 +1068,7 @@ static int ntsync_wait_all(struct ntsync
- 
- 	/* and finally, unqueue */
- 
--	spin_lock(&dev->wait_all_lock);
-+	mutex_lock(&dev->wait_all_lock);
- 
- 	for (i = 0; i < args.count; i++) {
- 		struct ntsync_q_entry *entry = &q->entries[i];
-@@ -1029,7 +1085,7 @@ static int ntsync_wait_all(struct ntsync
- 		put_obj(obj);
- 	}
- 
--	spin_unlock(&dev->wait_all_lock);
-+	mutex_unlock(&dev->wait_all_lock);
- 
- 	signaled = atomic_read(&q->signaled);
- 	if (signaled != -1) {
-@@ -1056,7 +1112,7 @@ static int ntsync_char_open(struct inode
- 	if (!dev)
- 		return -ENOMEM;
- 
--	spin_lock_init(&dev->wait_all_lock);
-+	mutex_init(&dev->wait_all_lock);
- 
- 	file->private_data = dev;
- 	dev->file = file;
+> I know tty ioctls are woefully undocumented, but could there be some
+> documentation here?
+
+Yes, this is a big problem for this interface. The ioctl_console(2)
+describes PIO_FONT/PIO_FONTX, which is no longer supported, but does not
+describe KDFONTOP at all, which is exactly used by userspace.
+
+My TODO has a task to fix this.
+
+But I would suggest creating documentation in the kernel because life
+shows that man-page is far behind what is implemented.
+
+> > 
+> > Acked-by: Helge Deller <deller@gmx.de>
+> > Signed-off-by: Alexey Gladkov <legion@kernel.org>
+> > ---
+> >  drivers/tty/vt/vt.c       | 24 ++++++++++++++++++++++++
+> >  drivers/tty/vt/vt_ioctl.c | 13 +++++++++++++
+> >  include/linux/console.h   |  3 +++
+> >  include/linux/vt_kern.h   |  1 +
+> >  include/uapi/linux/kd.h   | 14 ++++++++++++++
+> >  5 files changed, 55 insertions(+)
+> > 
+> > diff --git a/drivers/tty/vt/vt.c b/drivers/tty/vt/vt.c
+> > index 9b5b98dfc8b4..e8db0e9ea674 100644
+> > --- a/drivers/tty/vt/vt.c
+> > +++ b/drivers/tty/vt/vt.c
+> > @@ -4851,6 +4851,30 @@ int con_font_op(struct vc_data *vc, struct console_font_op *op)
+> >  	return -ENOSYS;
+> >  }
+> >  
+> > +int con_font_info(struct vc_data *vc, struct console_font_info *info)
+> > +{
+> > +	int rc;
+> > +
+> > +	info->min_height = 0;
+> > +	info->max_height = max_font_height;
+> > +
+> > +	info->min_width = 0;
+> > +	info->max_width = max_font_width;
+> > +
+> > +	info->flags = KD_FONT_INFO_FLAG_LOW_SIZE | KD_FONT_INFO_FLAG_HIGH_SIZE;
+> > +
+> > +	console_lock();
+> > +	if (vc->vc_mode != KD_TEXT)
+> > +		rc = -EINVAL;
+> > +	else if (vc->vc_sw->con_font_info)
+> > +		rc = vc->vc_sw->con_font_info(vc, info);
+> > +	else
+> > +		rc = -ENOSYS;
+> > +	console_unlock();
+> > +
+> > +	return rc;
+> > +}
+> > +
+> >  /*
+> >   *	Interface exported to selection and vcs.
+> >   */
+> > diff --git a/drivers/tty/vt/vt_ioctl.c b/drivers/tty/vt/vt_ioctl.c
+> > index 4b91072f3a4e..9a2f8081f650 100644
+> > --- a/drivers/tty/vt/vt_ioctl.c
+> > +++ b/drivers/tty/vt/vt_ioctl.c
+> > @@ -479,6 +479,19 @@ static int vt_k_ioctl(struct tty_struct *tty, unsigned int cmd,
+> >  		break;
+> >  	}
+> >  
+> > +	case KDFONTINFO: {
+> > +		struct console_font_info fnt_info;
+> > +
+> > +		memset(&fnt_info, 0, sizeof(fnt_info));
+> > +
+> > +		ret = con_font_info(vc, &fnt_info);
+> 
+> Shouldn't con_font_info() memset it first?  No need to do it in the
+> caller.
+> 
+> > +		if (ret)
+> > +			return ret;
+> > +		if (copy_to_user(up, &fnt_info, sizeof(fnt_info)))
+> > +			return -EFAULT;
+> > +		break;
+> > +	}
+> > +
+> >  	default:
+> >  		return -ENOIOCTLCMD;
+> >  	}
+> > diff --git a/include/linux/console.h b/include/linux/console.h
+> > index 31a8f5b85f5d..4b798322aa01 100644
+> > --- a/include/linux/console.h
+> > +++ b/include/linux/console.h
+> > @@ -21,6 +21,7 @@
+> >  #include <linux/vesa.h>
+> >  
+> >  struct vc_data;
+> > +struct console_font_info;
+> >  struct console_font_op;
+> >  struct console_font;
+> >  struct module;
+> > @@ -102,6 +103,8 @@ struct consw {
+> >  	bool	(*con_switch)(struct vc_data *vc);
+> >  	bool	(*con_blank)(struct vc_data *vc, enum vesa_blank_mode blank,
+> >  			     bool mode_switch);
+> > +	int	(*con_font_info)(struct vc_data *vc,
+> > +				 struct console_font_info *info);
+> 
+> To make the names more obvious, how about:
+> 	con_font_info_get()?
+> 
+> >  	int	(*con_font_set)(struct vc_data *vc,
+> >  				const struct console_font *font,
+> >  				unsigned int vpitch, unsigned int flags);
+> > diff --git a/include/linux/vt_kern.h b/include/linux/vt_kern.h
+> > index d008c3d0a9bb..383b3a4f6113 100644
+> > --- a/include/linux/vt_kern.h
+> > +++ b/include/linux/vt_kern.h
+> > @@ -33,6 +33,7 @@ void do_blank_screen(int entering_gfx);
+> >  void do_unblank_screen(int leaving_gfx);
+> >  void poke_blanked_console(void);
+> >  int con_font_op(struct vc_data *vc, struct console_font_op *op);
+> > +int con_font_info(struct vc_data *vc, struct console_font_info *info);
+> >  int con_set_cmap(unsigned char __user *cmap);
+> >  int con_get_cmap(unsigned char __user *cmap);
+> >  void scrollback(struct vc_data *vc);
+> > diff --git a/include/uapi/linux/kd.h b/include/uapi/linux/kd.h
+> > index 8ddb2219a84b..68b715ad4d5c 100644
+> > --- a/include/uapi/linux/kd.h
+> > +++ b/include/uapi/linux/kd.h
+> > @@ -185,6 +185,20 @@ struct console_font {
+> >  
+> >  #define KD_FONT_FLAG_DONT_RECALC 	1	/* Don't recalculate hw charcell size [compat] */
+> >  
+> > +/* font information */
+> > +
+> > +#define KD_FONT_INFO_FLAG_LOW_SIZE	_BITUL(0) /* 256 */
+> > +#define KD_FONT_INFO_FLAG_HIGH_SIZE	_BITUL(1) /* 512 */
+> 
+> I don't understand why bit 0 and bit 1 have those comments after them.
+> That's confusing (i.e. bit 0 is NOT 256...)
+> 
+> > +
+> > +struct console_font_info {
+> > +	__u32  flags;			/* KD_FONT_INFO_FLAG_* */
+> 
+> Why are there flags if you are only setting these 2 values?  What are
+> the flags for?
+> 
+> If this is going to be a "multiplexed" type of structure, then make it a
+> union?  Or maybe we are totally over thinking this whole thing.
+> 
+> All you want is the min/max font size of the console, right?  So perhaps
+> the whole structure is just:
+> 
+> > +	__u32 min_width, min_height;	/* minimal font size */
+> > +	__u32 max_width, max_height;	/* maximum font size */
+> 
+> Those 4 variables?  Why have anything else here at all?  For any new
+> thing you wish to discover, have it be a new ioctl?
+> 
+> > +	__u32 reserved[5];		/* This field is reserved for future use. Must be 0. */
+> 
+> I understand the "must be 0" but this is a read-only structure, so
+> saying "it will be set to 0" might be better?"  Or something like that?
+> 
+> > +};
+> > +
+> > +#define KDFONTINFO	_IOR(KD_IOCTL_BASE, 0x73, struct console_font_info)
+> 
+> As mentioned above how about KDFONTINFOGET?
+> 
+> thanks,
+> 
+> greg k-h
+> 
+
+-- 
+Rgrds, legion
+
 
