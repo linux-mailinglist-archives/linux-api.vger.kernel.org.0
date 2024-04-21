@@ -1,116 +1,198 @@
-Return-Path: <linux-api+bounces-1324-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1325-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F02898AB61B
-	for <lists+linux-api@lfdr.de>; Fri, 19 Apr 2024 22:46:26 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDC558AC0FD
+	for <lists+linux-api@lfdr.de>; Sun, 21 Apr 2024 21:42:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 237F41C21607
-	for <lists+linux-api@lfdr.de>; Fri, 19 Apr 2024 20:46:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6946E2810F6
+	for <lists+linux-api@lfdr.de>; Sun, 21 Apr 2024 19:42:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD3B02AEF5;
-	Fri, 19 Apr 2024 20:46:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B4143FE37;
+	Sun, 21 Apr 2024 19:42:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b="fR9v3p+z"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gZaB4ytO"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail.codeweavers.com (mail.codeweavers.com [4.36.192.163])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6802229CE5;
-	Fri, 19 Apr 2024 20:46:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.36.192.163
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEA3D111AD;
+	Sun, 21 Apr 2024 19:42:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713559581; cv=none; b=D4jite2ZiTQdsOGGx7UUM23yZYnjyOC5nLKI9WPMNeQRboxVjyCF7FwA6HbiG2/cCElJNIfuVu+eXvQwEsIF0VCVbEy81bLDXafi+sejbV4G+x3A2RwbFqhcHCxX6T0BEPteG1WmXL0VFG4mg48jd9YjIqeYl4qDoQQZTmRVPbc=
+	t=1713728534; cv=none; b=Y0iP/TnWWvS6vxVPoZ1p5h+wxd4tyBHmXE6fVEN2OnvDiP7A4cpV2O57K83gwkWKwtpgnWxTvRM8XfC4wqkV/FdPhAYEdFx0/uHlPlkklhfMZ/7UVX4XsGuv9osqjh/nEzg+Gc+xWXwTUCVzRj8c1AynBLEe2eiRIyL4TxbHIIE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713559581; c=relaxed/simple;
-	bh=Q0n2p3Gl2XGwFRL69wM+4Pn8DrdIQvix54nl3TqcDfI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NYnhi/OzRzzfGL5LxbED5XEctWb/2+xE54e5HaTiGYk+UZBJkZPjjILic0FZSSo/YQEDV0BS3VUkWIbuyrPOenMmO7WQUSmeZJNuDmr6riBjbnMjKLywPQUtQJf9itR8/J9f3Pidz5gcAoakDjem0bFq5XKaUyz9DpwRnXtiOiY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com; spf=pass smtp.mailfrom=codeweavers.com; dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b=fR9v3p+z; arc=none smtp.client-ip=4.36.192.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeweavers.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=codeweavers.com; s=s1; h=Message-ID:Date:Subject:Cc:To:From:Sender;
-	bh=5p2yQvQe15hu1/dZghXrbNWOB2J/4kqzCzCcLTivdwE=; b=fR9v3p+zjVf9sCIqkYiQdMIBvS
-	FQWQVZ71cUCDyVhziOVnArmJjPymIm2os81/0UHq/3QVttuvtt4/WXtfa2arno+JquVqpETCQzu8j
-	WEN74vvkg3kh8B+URuhpz+FpbM+nnmYSrkz5OW0/2pXVxXHgAkkcPhbb+T+jF7DkFSdA6NXxkHGb2
-	a8ZtvB9ROZMZAbLXO8w6xshaP/5lW+FZ6GPMvA+V/fP0/CXdGFYcJFAQL2RQdTIJ3p0Fu0lVgABRx
-	GMqAq0xAcPtwtt+QZBQXBARwETz2JXk+TFEI9Ip6q/TsffEH+Wpu2x5I8J6Ka3l5B306VEtmGY9Kw
-	zf83hOmQ==;
-Received: from cw137ip160.mn.codeweavers.com ([10.69.137.160] helo=camazotz.localnet)
-	by mail.codeweavers.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <zfigura@codeweavers.com>)
-	id 1rxv7X-001bTU-1M;
-	Fri, 19 Apr 2024 15:46:07 -0500
-From: Elizabeth Figura <zfigura@codeweavers.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: wine-devel@winehq.org, Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
- linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
- =?ISO-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
- Wolfram Sang <wsa@kernel.org>, Andy Lutomirski <luto@kernel.org>,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
- Randy Dunlap <rdunlap@infradead.org>, Ingo Molnar <mingo@redhat.com>,
- Will Deacon <will@kernel.org>, Waiman Long <longman@redhat.com>,
- Boqun Feng <boqun.feng@gmail.com>
-Subject: Re: [PATCH v4 00/30] NT synchronization primitive driver
-Date: Fri, 19 Apr 2024 15:46:07 -0500
-Message-ID: <4560699.LvFx2qVVIh@camazotz>
-In-Reply-To: <20240419161611.GA23130@noisy.programming.kicks-ass.net>
-References:
- <20240416010837.333694-1-zfigura@codeweavers.com>
- <3743440.MHq7AAxBmi@terabithia>
- <20240419161611.GA23130@noisy.programming.kicks-ass.net>
+	s=arc-20240116; t=1713728534; c=relaxed/simple;
+	bh=gIKpSlxxyTXiwHNJi87AQFzch96UtGO6YnydbxDTCHc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jXR24WQttGjSbhbeja/ECtq7hZgx+Pn1TtDXwn6m8OCWstTmOOZVncWuDqOFeCirZcVK7dEae9M3UGSUnTQs4pg7xey9Kakiy/pdHQ0ZI5hzUguTWQVFvj3F/DGUxb/7sSvhJn0bdoBBjwVkBjxrbPGY4RD24CcIiWWbO3nl1Qk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gZaB4ytO; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3B45C113CE;
+	Sun, 21 Apr 2024 19:42:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713728533;
+	bh=gIKpSlxxyTXiwHNJi87AQFzch96UtGO6YnydbxDTCHc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=gZaB4ytOauw4EDbDgzzkzYtw9H4vlC15TA4wv1npMAVnmpSBWwVGGle4ZZ4OuGcKb
+	 8gZMdv4SSAgNOiPIcFiQ7g0dwaEoic2o4RVjbBfWKuOsJEffM3iv0g3lh4f/4SIEP3
+	 0jnAtlHq5Qeb1LhU5lPBYVf1+acY4/6DXklt5tDor6obCY+Hz+DzzhZcTjspvifM4B
+	 p5Am065u4yKELu0nMn2iyEj2mjGmVTiQ6w/gfXOC1V9XADRh15aMfLMKXevDSL17M0
+	 Loqsz9NwRBPN0FvVKz/yfimG36sK/jlQTl+Ow7xSqNh47Zsn80GjLoc9XajrH42syt
+	 tQh3tdNJ1cgKQ==
+From: Jiri Olsa <jolsa@kernel.org>
+To: Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	x86@kernel.org,
+	bpf@vger.kernel.org,
+	Song Liu <songliubraving@fb.com>,
+	Yonghong Song <yhs@fb.com>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	"Borislav Petkov (AMD)" <bp@alien8.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Andy Lutomirski <luto@kernel.org>
+Subject: [PATCHv3 bpf-next 0/7] uprobe: uretprobe speed up
+Date: Sun, 21 Apr 2024 21:41:59 +0200
+Message-ID: <20240421194206.1010934-1-jolsa@kernel.org>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Friday, 19 April 2024 11:16:11 CDT Peter Zijlstra wrote:
-> On Tue, Apr 16, 2024 at 05:18:56PM -0500, Elizabeth Figura wrote:
-> > On Tuesday, 16 April 2024 16:18:24 CDT Elizabeth Figura wrote:
-> > > On Tuesday, 16 April 2024 03:14:21 CDT Peter Zijlstra wrote:
-> > > > I don't support GE has it in his builds? Last time I tried, building
-> > > > Wine was a bit of a pain.
-> > >=20
-> > > It doesn't seem so. I tried to build a GE-compatible ntsync build, up=
-loaded
-> > > here (thanks Arek for hosting):
-> > >=20
-> > >     https://f002.backblazeb2.com/file/wine-ntsync/ntsync-wine.tar.xz
-> >=20
-> > Oops, the initial version I uploaded had broken paths. Should be fixed =
-now.
-> >=20
-> > (It's also broken on an unpatched kernel unless explicitly disabled wit=
-h=20
-> > WINE_DISABLE_FAST_SYNC=3D1. Not sure what I messed up there=E2=80=94it =
-should fall back=20
-> > cleanly=E2=80=94but hopefully shouldn't be too important for testing.)
->=20
-> So I've tried using that wine build with lutris, and I can't get it to
-> start EGS or anything else.
->=20
-> I even added a printk to the ntsync driver for every open, to see if it
-> gets that far, but I'm not even getting that :/
+hi,
+as part of the effort on speeding up the uprobes [0] coming with
+return uprobe optimization by using syscall instead of the trap
+on the uretprobe trampoline.
 
-That's odd, it works for me, both as a standalone build and with
-lutris...
+The speed up depends on instruction type that uprobe is installed
+and depends on specific HW type, please check patch 1 for details.
 
-Does /dev/ntsync exist (module is loaded) and have nonzero permissions?
-I forgot to mention that's necessary, sorry.
+Patches 1-6 are based on bpf-next/master, but path 1 and 2 are
+apply-able on linux-trace.git tree probes/for-next branch.
+Patch 7 is based on man-pages master.
 
-Otherwise I can try to look at an strace, or a Wine debug log. I don't
-think there's an easy way to get the latter with Lutris, but something
-like `WINEDEBUG=3D+all ./wine winecfg 2>log` should work.
+v3 changes:
+  - added source ip check if the uretprobe syscall is called from
+    trampoline and sending SIGILL to process if it's not
+  - keep x86 compat process to use standard breakpoint
+  - split syscall wiring into separate change
+  - ran ltp and syzkaller locally, no issues found [Masami]
+  - building uprobe_compat binary in selftests which breaks
+    CI atm because of missing 32-bit delve packages, I will
+    need to fix that in separate changes once this is acked
+  - added man page change
+  - there were several changes so I removed acks [Oleg Andrii]
+
+Also available at:
+  https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git
+  uretprobe_syscall
+
+thanks,
+jirka
 
 
+Notes to check list items in Documentation/process/adding-syscalls.rst:
+
+- System Call Alternatives
+  New syscall seems like the best way in here, becase we need
+  just to quickly enter kernel with no extra arguments processing,
+  which we'd need to do if we decided to use another syscall.
+
+- Designing the API: Planning for Extension
+  The uretprobe syscall is very specific and most likely won't be
+  extended in the future.
+
+  At the moment it does not take any arguments and even if it does
+  in future, it's allowed to be called only from trampoline prepared
+  by kernel, so there'll be no broken user.
+
+- Designing the API: Other Considerations
+  N/A because uretprobe syscall does not return reference to kernel
+  object.
+
+- Proposing the API
+  Wiring up of the uretprobe system call si in separate change,
+  selftests and man page changes are part of the patchset.
+
+- Generic System Call Implementation
+  There's no CONFIG option for the new functionality because it
+  keeps the same behaviour from the user POV.
+
+- x86 System Call Implementation
+  It's 64-bit syscall only.
+
+- Compatibility System Calls (Generic)
+  N/A uretprobe syscall has no arguments and is not supported
+  for compat processes.
+
+- Compatibility System Calls (x86)
+  N/A uretprobe syscall is not supported for compat processes.
+
+- System Calls Returning Elsewhere
+  N/A.
+
+- Other Details
+  N/A.
+
+- Testing
+  Adding new bpf selftests and ran ltp on top of this change.
+
+- Man Page
+  Attached.
+
+- Do not call System Calls in the Kernel
+  N/A.
+
+
+[0] https://lore.kernel.org/bpf/ZeCXHKJ--iYYbmLj@krava/
+---
+Jiri Olsa (6):
+      uprobe: Wire up uretprobe system call
+      uprobe: Add uretprobe syscall to speed up return probe
+      selftests/bpf: Add uretprobe syscall test for regs integrity
+      selftests/bpf: Add uretprobe syscall test for regs changes
+      selftests/bpf: Add uretprobe syscall call from user space test
+      selftests/bpf: Add uretprobe compat test
+
+ arch/x86/entry/syscalls/syscall_64.tbl                    |   1 +
+ arch/x86/kernel/uprobes.c                                 | 115 ++++++++++++++++++++++++++++++
+ include/linux/syscalls.h                                  |   2 +
+ include/linux/uprobes.h                                   |   3 +
+ include/uapi/asm-generic/unistd.h                         |   5 +-
+ kernel/events/uprobes.c                                   |  24 +++++--
+ kernel/sys_ni.c                                           |   2 +
+ tools/include/linux/compiler.h                            |   4 ++
+ tools/testing/selftests/bpf/.gitignore                    |   1 +
+ tools/testing/selftests/bpf/Makefile                      |   6 +-
+ tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c     | 123 +++++++++++++++++++++++++++++++-
+ tools/testing/selftests/bpf/prog_tests/uprobe_syscall.c   | 362 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ tools/testing/selftests/bpf/progs/uprobe_syscall.c        |  15 ++++
+ tools/testing/selftests/bpf/progs/uprobe_syscall_call.c   |  15 ++++
+ tools/testing/selftests/bpf/progs/uprobe_syscall_compat.c |  13 ++++
+ 15 files changed, 681 insertions(+), 10 deletions(-)
+ create mode 100644 tools/testing/selftests/bpf/prog_tests/uprobe_syscall.c
+ create mode 100644 tools/testing/selftests/bpf/progs/uprobe_syscall.c
+ create mode 100644 tools/testing/selftests/bpf/progs/uprobe_syscall_call.c
+ create mode 100644 tools/testing/selftests/bpf/progs/uprobe_syscall_compat.c
+
+
+Jiri Olsa (1):
+      man2: Add uretprobe syscall page
+
+ man2/uretprobe.2 | 40 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 40 insertions(+)
+ create mode 100644 man2/uretprobe.2
 
