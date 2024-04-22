@@ -1,47 +1,47 @@
-Return-Path: <linux-api+bounces-1333-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1334-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD1828AD045
-	for <lists+linux-api@lfdr.de>; Mon, 22 Apr 2024 17:08:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93CE18AD04F
+	for <lists+linux-api@lfdr.de>; Mon, 22 Apr 2024 17:09:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 926011F21E48
-	for <lists+linux-api@lfdr.de>; Mon, 22 Apr 2024 15:08:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 21D271F2126F
+	for <lists+linux-api@lfdr.de>; Mon, 22 Apr 2024 15:09:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38D36152531;
-	Mon, 22 Apr 2024 15:07:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC29C152523;
+	Mon, 22 Apr 2024 15:09:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rzzItP2/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fllOCsPj"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B518152521;
-	Mon, 22 Apr 2024 15:07:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89B2F15250F;
+	Mon, 22 Apr 2024 15:09:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713798457; cv=none; b=jNrg5daMbtr018uc5thzZp3PUaWueheWBVUu+8SXpPJMAsq9uYM7wfc3R06vhLNdlb2zYJNGHiGBzg22cbRwYDDJCIY4Icif4j6XsSCyts4R02/m205ugmGlN1GogdWqgsfRHxkeib/+jpSG0TuyiQ6WLdoZUGzmnKWAd1H3bL4=
+	t=1713798590; cv=none; b=l9vs4VMba266LMJBGGgdsYTgLZgLvNeXqRHznCMmTfmXDhweIHc3pvJAckzcVJhn4gXOdKMzk9dZ1Cj23BGz6OZn0puDpIYCTh9vfC9evcSCRlegs9p7Co3xibryGexqjojLlkUf6LSVVj8EmHUjGMV9GPwyea6nA2VZ6EyqA0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713798457; c=relaxed/simple;
-	bh=9gL/4UlZA/kW/pnMl559dwLrf9AiXozcEdYa08TOlpQ=;
+	s=arc-20240116; t=1713798590; c=relaxed/simple;
+	bh=dD+RaCJlFAvcn/MSlipnM9iqz2i1DunU7FHyskt1hFw=;
 	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=ezmJv5YO8C8So5BHPQmxzDFjimqd6lXs6r+lZRFkATuTyVolfjPM/UqvaF0wp4qIBraqW1nfpzNn5lmofvb1npp7SYsCSrBsdPjPiWeOyt+rWAaxfKZhxJWHG0xUvExVjKPkxJMOp+EztLK3J9jkkSMwBr4SzoJ3pODQdaN75Xg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rzzItP2/; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDCF3C32781;
-	Mon, 22 Apr 2024 15:07:31 +0000 (UTC)
+	 Mime-Version:Content-Type; b=Fyev5rE+Vf9EpFFmmXoG1F2eRmNPbDF9muKqlWjCykIy7qYJ3Os4uVUP7NscZShq/FuDTP/ceNrU95Au0BPhcldIY+Q1t8iQEMVIQV9Q4nodGiAY2mTcJuzqRUlVtg7Ntv9FftX/1lEOQA0xQe8urDsq1JoArBE++rulhdN2DKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fllOCsPj; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04CB0C113CC;
+	Mon, 22 Apr 2024 15:09:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713798456;
-	bh=9gL/4UlZA/kW/pnMl559dwLrf9AiXozcEdYa08TOlpQ=;
+	s=k20201202; t=1713798590;
+	bh=dD+RaCJlFAvcn/MSlipnM9iqz2i1DunU7FHyskt1hFw=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=rzzItP2/R0evw0aSPWMiigg9UGmnBkw8ZN6K7fvAQlb2QKa3Ce12lBg44agS4ncDu
-	 sraKypj4jLlWkgwF1Emb9sVIW/0dfDIAJuKwOjqZG4xRzLt2cjqrBwT3ohLq2Gbcy1
-	 AFRTgCS/yEhQoGVaSyGzEXaNbMVF2l0KN94ZRqhH1b0Fxthlr/Fg5CZpKSu4yApjGA
-	 momJjKpTW+5egCrYP8fR9ejr4e+ZzVKkavsyULLZprL8JgJDvebd7TztooGnRiB0EW
-	 MLjAYgjtDVfuoMMUKBI9bzdmjVr/FkzK3LDArEpGLsK/Pp5+PZeGC018nMgRKKIHOk
-	 ndDr6bUXYGtpA==
-Date: Tue, 23 Apr 2024 00:07:29 +0900
+	b=fllOCsPjlq5CBY03FDusf6h5mfLNopP+yd2Q32x3xjIWfF7OldDHBM3nTftFfgmQ5
+	 Hy1iejIsX7Cotw4BPlMqsolhcxmfkcGJaC6EZzuNDabRPisdTRcf7ykNNkefccpiZg
+	 PTLuRqDzGTBJGapvQp5t5Dnop9VEl+FkIMnul1fkBa0bN5aAzz5qd/PvdecP/9VCQA
+	 QIiir5gLkO6n4ux1St+D5N2ZQoNfWI1e4nJoB0gn10z3hhOE590dpRJ9x8nepZ8PW2
+	 4KZjMFU2C0dVy1tMXbOW2xJp6UXfubdlGXtMgBjV7r2bK3F8Y2ezp7lD06ieIgIdN4
+	 ExQvHsQBFxWMA==
+Date: Tue, 23 Apr 2024 00:09:43 +0900
 From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
 To: Jiri Olsa <jolsa@kernel.org>
 Cc: Steven Rostedt <rostedt@goodmis.org>, Oleg Nesterov <oleg@redhat.com>,
@@ -53,11 +53,10 @@ Cc: Steven Rostedt <rostedt@goodmis.org>, Oleg Nesterov <oleg@redhat.com>,
  <john.fastabend@gmail.com>, Peter Zijlstra <peterz@infradead.org>, Thomas
  Gleixner <tglx@linutronix.de>, "Borislav Petkov (AMD)" <bp@alien8.de>, Ingo
  Molnar <mingo@redhat.com>, Andy Lutomirski <luto@kernel.org>
-Subject: Re: [PATCH 7/7] man2: Add uretprobe syscall page
-Message-Id: <20240423000729.f1d58443100c3994afca0a7f@kernel.org>
-In-Reply-To: <20240421194206.1010934-8-jolsa@kernel.org>
+Subject: Re: [PATCHv3 bpf-next 0/7] uprobe: uretprobe speed up
+Message-Id: <20240423000943.478ccf1e735a63c6c1b4c66b@kernel.org>
+In-Reply-To: <20240421194206.1010934-1-jolsa@kernel.org>
 References: <20240421194206.1010934-1-jolsa@kernel.org>
-	<20240421194206.1010934-8-jolsa@kernel.org>
 X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
@@ -68,77 +67,146 @@ Mime-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Sun, 21 Apr 2024 21:42:06 +0200
+Hi Jiri,
+
+On Sun, 21 Apr 2024 21:41:59 +0200
 Jiri Olsa <jolsa@kernel.org> wrote:
 
-> Adding man page for new uretprobe syscall.
+> hi,
+> as part of the effort on speeding up the uprobes [0] coming with
+> return uprobe optimization by using syscall instead of the trap
+> on the uretprobe trampoline.
 > 
-> Signed-off-by: Jiri Olsa <jolsa@kernel.org>
-> ---
->  man2/uretprobe.2 | 40 ++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 40 insertions(+)
->  create mode 100644 man2/uretprobe.2
+> The speed up depends on instruction type that uprobe is installed
+> and depends on specific HW type, please check patch 1 for details.
 > 
-> diff --git a/man2/uretprobe.2 b/man2/uretprobe.2
-> new file mode 100644
-> index 000000000000..c0343a88bb57
-> --- /dev/null
-> +++ b/man2/uretprobe.2
-> @@ -0,0 +1,40 @@
-> +.\" Copyright (C) 2024, Jiri Olsa <jolsa@kernel.org>
-> +.\"
-> +.\" SPDX-License-Identifier: Linux-man-pages-copyleft
-> +.\"
-> +.TH uretprobe 2 (date) "Linux man-pages (unreleased)"
-> +.SH NAME
-> +uretprobe \- execute pending return uprobes
-> +.SH SYNOPSIS
-> +.nf
-> +.B int uretprobe(void)
-> +.fi
-> +.SH DESCRIPTION
-> +On x86_64 architecture the kernel is using uretprobe syscall to trigger
-> +uprobe return probe consumers instead of using standard breakpoint instruction.
-> +The reason is that it's much faster to do syscall than breakpoint trap
-> +on x86_64 architecture.
+> Patches 1-6 are based on bpf-next/master, but path 1 and 2 are
+> apply-able on linux-trace.git tree probes/for-next branch.
+> Patch 7 is based on man-pages master.
 
-Do we specify the supported architecture as this? Currently it is supported
-only on x86-64, but it could be extended later, right?
+Thanks for updated! I reviewed the series and just except for the
+manpage, it looks good to me.
 
-This should be just noted as NOTES. Something like "This syscall is initially
-introduced on x86-64 because a syscall is faster than a breakpoint trap on it.
-But this will be extended to the architectures whose syscall is faster than
-breakpoint trap."
+Reviewed-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+
+for the series.
+If Linux API maintainers are OK, I can pick this in probes/for-next.
+(BTW, who will pick the manpage patch?)
 
 Thank you,
 
-> +
-> +The uretprobe syscall is not supposed to be called directly by user, it's allowed
-> +to be invoked only through user space trampoline provided by kernel.
-> +When called from outside of this trampoline, the calling process will receive
-> +.BR SIGILL .
-> +
-> +.SH RETURN VALUE
-> +.BR uretprobe()
-> +return value is specific for given architecture.
-> +
-> +.SH VERSIONS
-> +This syscall is not specified in POSIX,
-> +and details of its behavior vary across systems.
-> +.SH STANDARDS
-> +None.
-> +.SH NOTES
-> +.BR uretprobe()
-> +exists only to allow the invocation of return uprobe consumers.
-> +It should
-> +.B never
-> +be called directly.
-> +Details of the arguments (if any) passed to
-> +.BR uretprobe ()
-> +and the return value are specific for given architecture.
-> -- 
-> 2.44.0
 > 
+> v3 changes:
+>   - added source ip check if the uretprobe syscall is called from
+>     trampoline and sending SIGILL to process if it's not
+>   - keep x86 compat process to use standard breakpoint
+>   - split syscall wiring into separate change
+>   - ran ltp and syzkaller locally, no issues found [Masami]
+>   - building uprobe_compat binary in selftests which breaks
+>     CI atm because of missing 32-bit delve packages, I will
+>     need to fix that in separate changes once this is acked
+>   - added man page change
+>   - there were several changes so I removed acks [Oleg Andrii]
+> 
+> Also available at:
+>   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git
+>   uretprobe_syscall
+> 
+> thanks,
+> jirka
+> 
+> 
+> Notes to check list items in Documentation/process/adding-syscalls.rst:
+> 
+> - System Call Alternatives
+>   New syscall seems like the best way in here, becase we need
+>   just to quickly enter kernel with no extra arguments processing,
+>   which we'd need to do if we decided to use another syscall.
+> 
+> - Designing the API: Planning for Extension
+>   The uretprobe syscall is very specific and most likely won't be
+>   extended in the future.
+> 
+>   At the moment it does not take any arguments and even if it does
+>   in future, it's allowed to be called only from trampoline prepared
+>   by kernel, so there'll be no broken user.
+> 
+> - Designing the API: Other Considerations
+>   N/A because uretprobe syscall does not return reference to kernel
+>   object.
+> 
+> - Proposing the API
+>   Wiring up of the uretprobe system call si in separate change,
+>   selftests and man page changes are part of the patchset.
+> 
+> - Generic System Call Implementation
+>   There's no CONFIG option for the new functionality because it
+>   keeps the same behaviour from the user POV.
+> 
+> - x86 System Call Implementation
+>   It's 64-bit syscall only.
+> 
+> - Compatibility System Calls (Generic)
+>   N/A uretprobe syscall has no arguments and is not supported
+>   for compat processes.
+> 
+> - Compatibility System Calls (x86)
+>   N/A uretprobe syscall is not supported for compat processes.
+> 
+> - System Calls Returning Elsewhere
+>   N/A.
+> 
+> - Other Details
+>   N/A.
+> 
+> - Testing
+>   Adding new bpf selftests and ran ltp on top of this change.
+> 
+> - Man Page
+>   Attached.
+> 
+> - Do not call System Calls in the Kernel
+>   N/A.
+> 
+> 
+> [0] https://lore.kernel.org/bpf/ZeCXHKJ--iYYbmLj@krava/
+> ---
+> Jiri Olsa (6):
+>       uprobe: Wire up uretprobe system call
+>       uprobe: Add uretprobe syscall to speed up return probe
+>       selftests/bpf: Add uretprobe syscall test for regs integrity
+>       selftests/bpf: Add uretprobe syscall test for regs changes
+>       selftests/bpf: Add uretprobe syscall call from user space test
+>       selftests/bpf: Add uretprobe compat test
+> 
+>  arch/x86/entry/syscalls/syscall_64.tbl                    |   1 +
+>  arch/x86/kernel/uprobes.c                                 | 115 ++++++++++++++++++++++++++++++
+>  include/linux/syscalls.h                                  |   2 +
+>  include/linux/uprobes.h                                   |   3 +
+>  include/uapi/asm-generic/unistd.h                         |   5 +-
+>  kernel/events/uprobes.c                                   |  24 +++++--
+>  kernel/sys_ni.c                                           |   2 +
+>  tools/include/linux/compiler.h                            |   4 ++
+>  tools/testing/selftests/bpf/.gitignore                    |   1 +
+>  tools/testing/selftests/bpf/Makefile                      |   6 +-
+>  tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c     | 123 +++++++++++++++++++++++++++++++-
+>  tools/testing/selftests/bpf/prog_tests/uprobe_syscall.c   | 362 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  tools/testing/selftests/bpf/progs/uprobe_syscall.c        |  15 ++++
+>  tools/testing/selftests/bpf/progs/uprobe_syscall_call.c   |  15 ++++
+>  tools/testing/selftests/bpf/progs/uprobe_syscall_compat.c |  13 ++++
+>  15 files changed, 681 insertions(+), 10 deletions(-)
+>  create mode 100644 tools/testing/selftests/bpf/prog_tests/uprobe_syscall.c
+>  create mode 100644 tools/testing/selftests/bpf/progs/uprobe_syscall.c
+>  create mode 100644 tools/testing/selftests/bpf/progs/uprobe_syscall_call.c
+>  create mode 100644 tools/testing/selftests/bpf/progs/uprobe_syscall_compat.c
+> 
+> 
+> Jiri Olsa (1):
+>       man2: Add uretprobe syscall page
+> 
+>  man2/uretprobe.2 | 40 ++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 40 insertions(+)
+>  create mode 100644 man2/uretprobe.2
 
 
 -- 
