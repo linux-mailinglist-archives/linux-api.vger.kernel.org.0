@@ -1,74 +1,74 @@
-Return-Path: <linux-api+bounces-1337-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1338-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFA488AD5B5
-	for <lists+linux-api@lfdr.de>; Mon, 22 Apr 2024 22:15:26 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19AD78AD5C7
+	for <lists+linux-api@lfdr.de>; Mon, 22 Apr 2024 22:25:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3B72E1F214F0
-	for <lists+linux-api@lfdr.de>; Mon, 22 Apr 2024 20:15:26 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2B8641C20D29
+	for <lists+linux-api@lfdr.de>; Mon, 22 Apr 2024 20:25:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6704F1553BD;
-	Mon, 22 Apr 2024 20:15:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CD6E1553BD;
+	Mon, 22 Apr 2024 20:25:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BtAz2R+n"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gh0PyTvB"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB77A15539E;
-	Mon, 22 Apr 2024 20:15:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95FD415535D;
+	Mon, 22 Apr 2024 20:25:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713816921; cv=none; b=YibNI7v8yMmrkUu1p2AMZkuR9vbyk3oFeO8frSE0YJR8yLCn8OaYRgWOSluySWnFEOSuCGtuU8ULa0P415vx85yY7XMXQtiyX9feailvsHnfVpcddTphL3YTwtZevQuS5rsZsuSp93SH8rCBMQEAuTTcpIrxhOq4ROWQC046OB8=
+	t=1713817533; cv=none; b=rQzqJEhOmB2XF8Idd2UTDTSfmp5esBsAWqX0qAJMtrirdq9nkxysTBkfx+hGGzh8l8qEvSe9Dk6o75LgIHiASxZiJ/OIk66S52wt/JiRE/gEDxc+R5StAcLpvmoVfCOf6Km+XqzmYmllmB7ASgetMg3YecUkkHSCVLh3DH+6aZ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713816921; c=relaxed/simple;
-	bh=CO9sWn4TGwS+F6HGsjPCnompyAUQtRvkshYYjb0v0KM=;
+	s=arc-20240116; t=1713817533; c=relaxed/simple;
+	bh=YjFau6lGb9LTELqCEb2X2127G9ZwnIlW8kYv21dRJJA=;
 	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ux4Ny+e8eMdT1draNTl/NLYZ70vW7PDLtrqhP6Iv3DondZnpzykuJ/meVXhkMQ9pnKyIc4bQYCfKWy2SPzlYuOH9T2SYMNNd2UMAyHp4vajcBQxIS+7JE92ZR1b9p/T2o2h8gGRxp18TW54Cr7PBxiwYf6miVSVQ3f2Thkd/Em0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BtAz2R+n; arc=none smtp.client-ip=209.85.128.42
+	 Content-Type:Content-Disposition:In-Reply-To; b=uz01MX3q+BR9HA7r0Met38v4BJEZfYKwZtaPZILQRbyuvEmv4jyvytVUBFoUIHrpNO3GGGoq4H+XoJU17oZwRJzvFZltmJIuyz/XKdCi5cqclctYDD6kqtKFBIZUOTkb7ijgnvWr8KC2R94joC+I6gwMFpXCwdb+M+YgdxldpH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gh0PyTvB; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-41aa2f6ff00so3741005e9.3;
-        Mon, 22 Apr 2024 13:15:19 -0700 (PDT)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-41aa21b06b3so4139585e9.0;
+        Mon, 22 Apr 2024 13:25:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713816918; x=1714421718; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1713817529; x=1714422329; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/Eu3JFTPdyU8Z03j2EuYpTwgYH2/Fv3qtXMU2BdFdug=;
-        b=BtAz2R+nC/KvxGa5WfpGt90866DOXerVcmJiaX/5SXuSwWEfX6gQcoy6hLy4PIQyvF
-         ST1qFFp5RQyTeHJfzKTaerj60GjYW2SL4c3Vp/VCtFol7WSFrxyb1h71S3V3eFN3yHxt
-         03q/3c8BX7kKxpk86DDMPh7iRTzAN/cQhn88tiIPWSY1Xealwiww+CdVeL4SuykdWPD1
-         yeJv57RtZb3oYq/xhtkwr2IbAD8lPUn2ZrtDOL7H2W9xYx/Yp2UCdwbZHvODTpkyHVQv
-         fv1nSh8luw978+b8PTt/qdASrEPoeQmgpY0TTSh5DtCdt4TjNE2uTOPwRnmp0YmvvDlh
-         6vHA==
+        bh=xLiWlfsmSMobonfpzJOKL/uqlF5pCv8voW0Gv0gZ6Xg=;
+        b=Gh0PyTvBauqIoQuzFwPzAT9cIllRID2jLxH/W8N+oJUukbTuuXgj+iNlz/R5uH2162
+         O3Fl7cdKLs540cAgmrg5BIqjpTBnYz03oPE590YpFFgU5aaeps3Emef8r+ZblBPuqEMF
+         uMg42sbGgeDfa0VQG4ZjAEEa7q2azc8hjpXyX2N17u0UPNhhPngH1Ra+ZMD8G+IJ+W9B
+         aa+POBd78H1LoI5DNgjBpWs4wxeYu1Wd8jS3Etr4zKwnnP+WSuYwIFbzxWKTKUjhrSuZ
+         1yUDVEYT0oPvbYIWEF6Wvea8BTjnRq0pX1hjE0oYnKfgY2HyimlH8SuF0MOh/V/1BwjX
+         MftA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713816918; x=1714421718;
+        d=1e100.net; s=20230601; t=1713817529; x=1714422329;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/Eu3JFTPdyU8Z03j2EuYpTwgYH2/Fv3qtXMU2BdFdug=;
-        b=Q5Ey15UaTcIEhLGyAkyrOgwtMRNXwYuAVxXVbYPrb/VEmz5981P/C/on5DseIEBw16
-         iW2d1PvJGd8BK80LcbHupWWe5ZiNGFGNai6ujuZxPJlaY1mFjR47mGLL2cjcHxV1k5R8
-         yvqcQaiiEjcEtHlHCa6psNgGZ9GXY416aCsNf3fIqlBa+m7x/chkm+YkNt3uRWSIsnos
-         SQ/gbOsjQeb8L6IaLU9OZDUvJ1Q0+ugkyshWfpk+pz222ymGhj+GK8060H8IVyx+AvWA
-         TeolA4GH5pHzBNntkAXqSamq2l0cwOVBK6HHHdlG5zNPxd/D8h5tT4+dojlo/uDKMFt6
-         2LVA==
-X-Forwarded-Encrypted: i=1; AJvYcCWixELHkYf1yCqVR0QGmOdcm8+9eSSzWppsVnCaYmdxL7MZXZr1S3jJ4HRIoC6VJt9oULuVE9V7ykOMbsNev4iqY572k9Wu1MxWEeXzYmUKlxha/9M26NLsKvnxGAXE0O3o0bddzWGU0XLhxg1P6CENavVKI3WBvKeFXJlwzxGtH/C2kGlLg6GfIu4Mp/+482x1GA+GHha085pnScvw/Ktc
-X-Gm-Message-State: AOJu0YyC6uQLx/VIcBb/eHeBDqn058dIrshsNdeyr0w4BrSC66QQrxnS
-	k3+55PDqGVuEy1O7+R0j5IgoW/KKUHA0kyIygs+1iXfw//APIywyBMXt4d1n
-X-Google-Smtp-Source: AGHT+IEThdBxdECz8bVPhQn5PHEhOkpePD5RpVqY08kUXP0btFQF0IfQfHbI4K1uwo6S0T0C5e1Dbw==
-X-Received: by 2002:a05:600c:1c21:b0:418:ee1e:3445 with SMTP id j33-20020a05600c1c2100b00418ee1e3445mr10483617wms.26.1713816917679;
-        Mon, 22 Apr 2024 13:15:17 -0700 (PDT)
+        bh=xLiWlfsmSMobonfpzJOKL/uqlF5pCv8voW0Gv0gZ6Xg=;
+        b=lzA32fT7e6IVhv98ah6lzfGzBq1ujzlLUNQKxCJ72UUHImZwCMmsy/sPqrVVLnJ2Mm
+         rwkgjtrE8d0jYn8gbxtk0xENqQoHvBCr49w7NX4rALMPdhvwescFiNbzY3nQ6JqBEoj1
+         mbMtHRm1FcRynnHiROR+BAI8v3YBlm39n63Nw2ZkVuiskxjf22qo/8db/pZmcbLhHQ34
+         YI79WLgSMRu5QixmfXAno0qrvLQ96jEH2HWExL2tWHWCssTh1jUIPokbAINHqz+bGH5r
+         9cK3Nuft1nDuVHrKM1EIw2XwULWH7xpIug6dLcG7tadLXxzbmUKUYmBiv7vWAgWT6rIj
+         87nA==
+X-Forwarded-Encrypted: i=1; AJvYcCXEgou/2UoJKC2RJHvfiiYuKKJOaw/KMtTsq2DvHUctatnfGPCPQzWYIbPRBF53xG8JyHGnBeRlKWhT1dGX95kmH2yGdtEIzHFz1Wp8kfWR6heeDYmnMtwGV6zHC7qpEqA7UKTAdfWo9By+5wsbpcgx/dskr3s73eWa+hyZspxveVSVZ/WLmbqehHP1HgqDFhMq08MRRGjfS/3p91LOn/xZ
+X-Gm-Message-State: AOJu0YzYt9KRGFV3SsOmXtjiBWj8U3E6EtJTUdQ0HCzi/toCeYeJdWja
+	vpo2nlOhsKZhtWtkoXhwyQ7gdPFjC4FOEG2AlkQNC+ZCxCAuc+cS
+X-Google-Smtp-Source: AGHT+IFdhuSfTDsPTFsuDuTro4BCnnKCqf/kS6VlPXSQ+kB2rJD85vAd/+j/R7CUUdiaTnwaZ5wk8g==
+X-Received: by 2002:a05:600c:1c9b:b0:416:4641:5947 with SMTP id k27-20020a05600c1c9b00b0041646415947mr9806179wms.34.1713817528960;
+        Mon, 22 Apr 2024 13:25:28 -0700 (PDT)
 Received: from krava ([83.240.62.18])
-        by smtp.gmail.com with ESMTPSA id s6-20020a05600c45c600b00418244d459esm17861156wmo.4.2024.04.22.13.15.16
+        by smtp.gmail.com with ESMTPSA id f17-20020a05600c4e9100b004182b87aaacsm17888971wmq.14.2024.04.22.13.25.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Apr 2024 13:15:17 -0700 (PDT)
+        Mon, 22 Apr 2024 13:25:28 -0700 (PDT)
 From: Jiri Olsa <olsajiri@gmail.com>
 X-Google-Original-From: Jiri Olsa <jolsa@kernel.org>
-Date: Mon, 22 Apr 2024 22:15:14 +0200
+Date: Mon, 22 Apr 2024 22:25:25 +0200
 To: Masami Hiramatsu <mhiramat@kernel.org>
 Cc: Steven Rostedt <rostedt@goodmis.org>, Oleg Nesterov <oleg@redhat.com>,
 	Alexei Starovoitov <ast@kernel.org>,
@@ -82,11 +82,10 @@ Cc: Steven Rostedt <rostedt@goodmis.org>, Oleg Nesterov <oleg@redhat.com>,
 	Thomas Gleixner <tglx@linutronix.de>,
 	"Borislav Petkov (AMD)" <bp@alien8.de>,
 	Ingo Molnar <mingo@redhat.com>, Andy Lutomirski <luto@kernel.org>
-Subject: Re: [PATCH 7/7] man2: Add uretprobe syscall page
-Message-ID: <ZibFUqtwELfVTHfq@krava>
+Subject: Re: [PATCHv3 bpf-next 0/7] uprobe: uretprobe speed up
+Message-ID: <ZibHtXFcHr_sJdP9@krava>
 References: <20240421194206.1010934-1-jolsa@kernel.org>
- <20240421194206.1010934-8-jolsa@kernel.org>
- <20240423000729.f1d58443100c3994afca0a7f@kernel.org>
+ <20240423000943.478ccf1e735a63c6c1b4c66b@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -95,92 +94,158 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240423000729.f1d58443100c3994afca0a7f@kernel.org>
+In-Reply-To: <20240423000943.478ccf1e735a63c6c1b4c66b@kernel.org>
 
-On Tue, Apr 23, 2024 at 12:07:29AM +0900, Masami Hiramatsu wrote:
-> On Sun, 21 Apr 2024 21:42:06 +0200
+On Tue, Apr 23, 2024 at 12:09:43AM +0900, Masami Hiramatsu wrote:
+> Hi Jiri,
+> 
+> On Sun, 21 Apr 2024 21:41:59 +0200
 > Jiri Olsa <jolsa@kernel.org> wrote:
 > 
-> > Adding man page for new uretprobe syscall.
+> > hi,
+> > as part of the effort on speeding up the uprobes [0] coming with
+> > return uprobe optimization by using syscall instead of the trap
+> > on the uretprobe trampoline.
 > > 
-> > Signed-off-by: Jiri Olsa <jolsa@kernel.org>
-> > ---
-> >  man2/uretprobe.2 | 40 ++++++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 40 insertions(+)
-> >  create mode 100644 man2/uretprobe.2
+> > The speed up depends on instruction type that uprobe is installed
+> > and depends on specific HW type, please check patch 1 for details.
 > > 
-> > diff --git a/man2/uretprobe.2 b/man2/uretprobe.2
-> > new file mode 100644
-> > index 000000000000..c0343a88bb57
-> > --- /dev/null
-> > +++ b/man2/uretprobe.2
-> > @@ -0,0 +1,40 @@
-> > +.\" Copyright (C) 2024, Jiri Olsa <jolsa@kernel.org>
-> > +.\"
-> > +.\" SPDX-License-Identifier: Linux-man-pages-copyleft
-> > +.\"
-> > +.TH uretprobe 2 (date) "Linux man-pages (unreleased)"
-> > +.SH NAME
-> > +uretprobe \- execute pending return uprobes
-> > +.SH SYNOPSIS
-> > +.nf
-> > +.B int uretprobe(void)
-> > +.fi
-> > +.SH DESCRIPTION
-> > +On x86_64 architecture the kernel is using uretprobe syscall to trigger
-> > +uprobe return probe consumers instead of using standard breakpoint instruction.
-> > +The reason is that it's much faster to do syscall than breakpoint trap
-> > +on x86_64 architecture.
+> > Patches 1-6 are based on bpf-next/master, but path 1 and 2 are
+> > apply-able on linux-trace.git tree probes/for-next branch.
+> > Patch 7 is based on man-pages master.
 > 
-> Do we specify the supported architecture as this? Currently it is supported
-> only on x86-64, but it could be extended later, right?
-
-yes, that's the idea, but I can't really speak other than x86 ;-)
-so not sure abour other archs details
-
+> Thanks for updated! I reviewed the series and just except for the
+> manpage, it looks good to me.
 > 
-> This should be just noted as NOTES. Something like "This syscall is initially
-> introduced on x86-64 because a syscall is faster than a breakpoint trap on it.
-> But this will be extended to the architectures whose syscall is faster than
-> breakpoint trap."
+> Reviewed-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+> 
+> for the series.
+> If Linux API maintainers are OK, I can pick this in probes/for-next.
 
-'s/will be extended/might be will be extended/' seems better to me,
-other than that it looks ok
+great, thanks
 
-thanks,
+> (BTW, who will pick the manpage patch?)
+
+ugh, I cc-ed linux-api but not linux-man@vger.kernel.org
+I'll add that for new version
+
 jirka
-
 
 > 
 > Thank you,
 > 
-> > +
-> > +The uretprobe syscall is not supposed to be called directly by user, it's allowed
-> > +to be invoked only through user space trampoline provided by kernel.
-> > +When called from outside of this trampoline, the calling process will receive
-> > +.BR SIGILL .
-> > +
-> > +.SH RETURN VALUE
-> > +.BR uretprobe()
-> > +return value is specific for given architecture.
-> > +
-> > +.SH VERSIONS
-> > +This syscall is not specified in POSIX,
-> > +and details of its behavior vary across systems.
-> > +.SH STANDARDS
-> > +None.
-> > +.SH NOTES
-> > +.BR uretprobe()
-> > +exists only to allow the invocation of return uprobe consumers.
-> > +It should
-> > +.B never
-> > +be called directly.
-> > +Details of the arguments (if any) passed to
-> > +.BR uretprobe ()
-> > +and the return value are specific for given architecture.
-> > -- 
-> > 2.44.0
 > > 
+> > v3 changes:
+> >   - added source ip check if the uretprobe syscall is called from
+> >     trampoline and sending SIGILL to process if it's not
+> >   - keep x86 compat process to use standard breakpoint
+> >   - split syscall wiring into separate change
+> >   - ran ltp and syzkaller locally, no issues found [Masami]
+> >   - building uprobe_compat binary in selftests which breaks
+> >     CI atm because of missing 32-bit delve packages, I will
+> >     need to fix that in separate changes once this is acked
+> >   - added man page change
+> >   - there were several changes so I removed acks [Oleg Andrii]
+> > 
+> > Also available at:
+> >   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git
+> >   uretprobe_syscall
+> > 
+> > thanks,
+> > jirka
+> > 
+> > 
+> > Notes to check list items in Documentation/process/adding-syscalls.rst:
+> > 
+> > - System Call Alternatives
+> >   New syscall seems like the best way in here, becase we need
+> >   just to quickly enter kernel with no extra arguments processing,
+> >   which we'd need to do if we decided to use another syscall.
+> > 
+> > - Designing the API: Planning for Extension
+> >   The uretprobe syscall is very specific and most likely won't be
+> >   extended in the future.
+> > 
+> >   At the moment it does not take any arguments and even if it does
+> >   in future, it's allowed to be called only from trampoline prepared
+> >   by kernel, so there'll be no broken user.
+> > 
+> > - Designing the API: Other Considerations
+> >   N/A because uretprobe syscall does not return reference to kernel
+> >   object.
+> > 
+> > - Proposing the API
+> >   Wiring up of the uretprobe system call si in separate change,
+> >   selftests and man page changes are part of the patchset.
+> > 
+> > - Generic System Call Implementation
+> >   There's no CONFIG option for the new functionality because it
+> >   keeps the same behaviour from the user POV.
+> > 
+> > - x86 System Call Implementation
+> >   It's 64-bit syscall only.
+> > 
+> > - Compatibility System Calls (Generic)
+> >   N/A uretprobe syscall has no arguments and is not supported
+> >   for compat processes.
+> > 
+> > - Compatibility System Calls (x86)
+> >   N/A uretprobe syscall is not supported for compat processes.
+> > 
+> > - System Calls Returning Elsewhere
+> >   N/A.
+> > 
+> > - Other Details
+> >   N/A.
+> > 
+> > - Testing
+> >   Adding new bpf selftests and ran ltp on top of this change.
+> > 
+> > - Man Page
+> >   Attached.
+> > 
+> > - Do not call System Calls in the Kernel
+> >   N/A.
+> > 
+> > 
+> > [0] https://lore.kernel.org/bpf/ZeCXHKJ--iYYbmLj@krava/
+> > ---
+> > Jiri Olsa (6):
+> >       uprobe: Wire up uretprobe system call
+> >       uprobe: Add uretprobe syscall to speed up return probe
+> >       selftests/bpf: Add uretprobe syscall test for regs integrity
+> >       selftests/bpf: Add uretprobe syscall test for regs changes
+> >       selftests/bpf: Add uretprobe syscall call from user space test
+> >       selftests/bpf: Add uretprobe compat test
+> > 
+> >  arch/x86/entry/syscalls/syscall_64.tbl                    |   1 +
+> >  arch/x86/kernel/uprobes.c                                 | 115 ++++++++++++++++++++++++++++++
+> >  include/linux/syscalls.h                                  |   2 +
+> >  include/linux/uprobes.h                                   |   3 +
+> >  include/uapi/asm-generic/unistd.h                         |   5 +-
+> >  kernel/events/uprobes.c                                   |  24 +++++--
+> >  kernel/sys_ni.c                                           |   2 +
+> >  tools/include/linux/compiler.h                            |   4 ++
+> >  tools/testing/selftests/bpf/.gitignore                    |   1 +
+> >  tools/testing/selftests/bpf/Makefile                      |   6 +-
+> >  tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c     | 123 +++++++++++++++++++++++++++++++-
+> >  tools/testing/selftests/bpf/prog_tests/uprobe_syscall.c   | 362 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+> >  tools/testing/selftests/bpf/progs/uprobe_syscall.c        |  15 ++++
+> >  tools/testing/selftests/bpf/progs/uprobe_syscall_call.c   |  15 ++++
+> >  tools/testing/selftests/bpf/progs/uprobe_syscall_compat.c |  13 ++++
+> >  15 files changed, 681 insertions(+), 10 deletions(-)
+> >  create mode 100644 tools/testing/selftests/bpf/prog_tests/uprobe_syscall.c
+> >  create mode 100644 tools/testing/selftests/bpf/progs/uprobe_syscall.c
+> >  create mode 100644 tools/testing/selftests/bpf/progs/uprobe_syscall_call.c
+> >  create mode 100644 tools/testing/selftests/bpf/progs/uprobe_syscall_compat.c
+> > 
+> > 
+> > Jiri Olsa (1):
+> >       man2: Add uretprobe syscall page
+> > 
+> >  man2/uretprobe.2 | 40 ++++++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 40 insertions(+)
+> >  create mode 100644 man2/uretprobe.2
 > 
 > 
 > -- 
