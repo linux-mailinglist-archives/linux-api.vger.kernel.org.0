@@ -1,98 +1,115 @@
-Return-Path: <linux-api+bounces-1361-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1362-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15BB18B07CE
-	for <lists+linux-api@lfdr.de>; Wed, 24 Apr 2024 12:57:26 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id F09648B0F8C
+	for <lists+linux-api@lfdr.de>; Wed, 24 Apr 2024 18:18:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C6ABA2824FC
-	for <lists+linux-api@lfdr.de>; Wed, 24 Apr 2024 10:57:24 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 855D1B22A4E
+	for <lists+linux-api@lfdr.de>; Wed, 24 Apr 2024 16:09:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D46B1598FD;
-	Wed, 24 Apr 2024 10:57:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9896916078B;
+	Wed, 24 Apr 2024 16:09:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b="aHWX6URs"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kOnJkNb7"
 X-Original-To: linux-api@vger.kernel.org
-Received: from forward500c.mail.yandex.net (forward500c.mail.yandex.net [178.154.239.208])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5F36142E62;
-	Wed, 24 Apr 2024 10:57:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.208
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BC3015FCE1;
+	Wed, 24 Apr 2024 16:09:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713956241; cv=none; b=m3radUQssZGcZR3ioTjb1MQskSDnel+GHE0d7ZNCmBwBFiUhwT8oxhPwSUJWeWcsvFFJU8Uwa4ZnM1oo4MKN/yzpz5cOaM0FLXgAP+tZ6waH4mazfc+TGLwwX74bwAxx3ZrZR7rTpUR+zXf5Y4Ky4jOU4oL+R3oOyEHm442+rGk=
+	t=1713974992; cv=none; b=LYB8IBJldO5pJumsN+LW3gsOGWOcecb0Z1AG8fEyB1Idko09K/pfeuIiqy+77C1GY2vMvetGGkbxfnMzFmaV4OsA7U8vQk+fqLmw+WoALCHHnAUeN18seLog+fjudzgCJluhpgcbNCM/kdFWUTNUhM+/1x9N6Ynz6HAB4vIHBAE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713956241; c=relaxed/simple;
-	bh=Tpknc1WS+aLV5Cxqz1NO1ZCEXDAP8+u3fI3aOx5+9VQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=prOgcCI7V8+pmHHPV8uSXS3xtPuDCGE7HoHuPsdez3rzBZQ/1FL5CriJMIMPnML/XIsJ1KBAUST8S1F5NUShkCfAmZ/L/K6VbTGTYZxuqeMRrKZqQLMepzEv40/o+pqY8fts4j0fTmU6bhPL8J0JbZSKXW8F3PSmMLbsuyhvQcg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru; spf=pass smtp.mailfrom=yandex.ru; dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b=aHWX6URs; arc=none smtp.client-ip=178.154.239.208
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex.ru
-Received: from mail-nwsmtp-smtp-production-main-24.iva.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-24.iva.yp-c.yandex.net [IPv6:2a02:6b8:c0c:9309:0:640:3b75:0])
-	by forward500c.mail.yandex.net (Yandex) with ESMTPS id 4E59861636;
-	Wed, 24 Apr 2024 13:57:11 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-24.iva.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id 9vIYOJTo7Gk0-0xNd6Gyy;
-	Wed, 24 Apr 2024 13:57:10 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
-	t=1713956230; bh=PW4InI6RvH6mgnnXE9HYRckmIzWlFOBQopwKxQoJMTc=;
-	h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
-	b=aHWX6URsvGY9GfJ08EiIqvHVi0dly45Vh5O6Q+ZOTyxDfkNc5ORaPf7IaobMkzrAA
-	 9Jo0iXVHVbmgUE3c513+Yo49C2x1HtTc9YXT7ecCU5H9oteq2GRdB7+YIxGthm5272
-	 MM42/0p13z6yHj5CShN+ssTAVQMbebEA1M7iaQgI=
-Authentication-Results: mail-nwsmtp-smtp-production-main-24.iva.yp-c.yandex.net; dkim=pass header.i=@yandex.ru
-Message-ID: <0e2e48be-86a8-418c-95b1-e8ca17469198@yandex.ru>
-Date: Wed, 24 Apr 2024 13:57:09 +0300
+	s=arc-20240116; t=1713974992; c=relaxed/simple;
+	bh=vtglwBCGL+0puqiFJlOQ5BXPiuyd/55Dv6QNeAzciuI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VwsMIt8aF2rZAvflGUxvnK9HXJWehKBHrRHTsnEGjH5ttYf6rORRtuubrC76GasmoI5H68/BPdmYf7+W5z/taNuuF73Sf3LR0Hn4u7kL7RDyGHcTP8KeCxm3xYsZK9CIbdtvddi7DtCV7KX+R2seaYMKiOzT6olgWEUEM7PaeI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kOnJkNb7; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33ECBC113CD;
+	Wed, 24 Apr 2024 16:09:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713974992;
+	bh=vtglwBCGL+0puqiFJlOQ5BXPiuyd/55Dv6QNeAzciuI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kOnJkNb7HRZwQKQUDqp82Gpcp6DepEa8SyImi/aVcGhdiW5Uw2KIIcVhv7slfFQp0
+	 o3tvxjZ+916iwpJwU/J5ovQk6j8e3YM/XrS+9/x4sKbsprhSr+ftUpO+E+xLdylOYh
+	 hDTzQEf4SIbhCQP8TAS8Aomi5HayO1SRZ/QwbAxTh08zqJIyBTUdCnAwBKROnPiYYU
+	 5i/6tN+Uv9fHZ/W4ca5SkHll1ebX4LZ7BtqB1akPmKujnHrSpuWVF3ghcyVAkkEk66
+	 Cepuw0UwhGsRDUCGgQZ5lAIMdnx7fxvSsaoak8LsJ1MzHCdUvjXXkt9xU8oASx7lMu
+	 7qx8f9IxVdmkQ==
+Date: Wed, 24 Apr 2024 18:09:43 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Stas Sergeev <stsp2@yandex.ru>
+Cc: linux-kernel@vger.kernel.org, Stefan Metzmacher <metze@samba.org>, 
+	Eric Biederman <ebiederm@xmission.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Andy Lutomirski <luto@kernel.org>, Jan Kara <jack@suse.cz>, Jeff Layton <jlayton@kernel.org>, 
+	Chuck Lever <chuck.lever@oracle.com>, Alexander Aring <alex.aring@gmail.com>, 
+	David Laight <David.Laight@aculab.com>, linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
+	Paolo Bonzini <pbonzini@redhat.com>, Christian =?utf-8?B?R8O2dHRzY2hl?= <cgzones@googlemail.com>
+Subject: Re: [PATCH v4 0/2] implement OA2_INHERIT_CRED flag for openat2()
+Message-ID: <20240424-schummeln-zitieren-9821df7cbd49@brauner>
+References: <20240424105248.189032-1-stsp2@yandex.ru>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/2] implement OA2_INHERIT_CRED flag for openat2()
-Content-Language: en-US
-To: Andy Lutomirski <luto@amacapital.net>
-Cc: linux-kernel@vger.kernel.org, Stefan Metzmacher <metze@samba.org>,
- Eric Biederman <ebiederm@xmission.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>, Andy Lutomirski <luto@kernel.org>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Jeff Layton <jlayton@kernel.org>, Chuck Lever <chuck.lever@oracle.com>,
- Alexander Aring <alex.aring@gmail.com>, linux-fsdevel@vger.kernel.org,
- linux-api@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Christian_G=C3=B6ttsche?= <cgzones@googlemail.com>
-References: <20240423110148.13114-1-stsp2@yandex.ru>
- <4D2A1543-273F-417F-921B-E9F994FBF2E8@amacapital.net>
-From: stsp <stsp2@yandex.ru>
-In-Reply-To: <4D2A1543-273F-417F-921B-E9F994FBF2E8@amacapital.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240424105248.189032-1-stsp2@yandex.ru>
 
-23.04.2024 19:44, Andy Lutomirski пишет:
->> On Apr 23, 2024, at 4:02 AM, Stas Sergeev <stsp2@yandex.ru> wrote:
->>
->> ﻿This patch-set implements the OA2_INHERIT_CRED flag for openat2() syscall.
->> It is needed to perform an open operation with the creds that were in
->> effect when the dir_fd was opened. This allows the process to pre-open
->> some dirs and switch eUID (and other UIDs/GIDs) to the less-privileged
->> user, while still retaining the possibility to open/create files within
->> the pre-opened directory set.
-> I like the concept, as it’s a sort of move toward a capability system. But I think that making a dirfd into this sort of capability would need to be much more explicit. Right now, any program could do this entirely by accident, and applying OA2_INHERIT_CRED to an fd fished out of /proc seems hazardous.
+On Wed, Apr 24, 2024 at 01:52:46PM +0300, Stas Sergeev wrote:
+> This patch-set implements the OA2_INHERIT_CRED flag for openat2() syscall.
+> It is needed to perform an open operation with the creds that were in
+> effect when the dir_fd was opened. This allows the process to pre-open
+> some dirs and switch eUID (and other UIDs/GIDs) to the less-privileged
+> user, while still retaining the possibility to open/create files within
+> the pre-opened directory set.
+> 
+> The sand-boxing is security-oriented: symlinks leading outside of a
+> sand-box are rejected. /proc magic links are rejected.
+> The more detailed description (including security considerations)
+> is available in the log messages of individual patches.
+> 
+> Changes in v4:
+> - add optimizations suggested by David Laight <David.Laight@ACULAB.COM>
+> - move security checks to build_open_flags()
+> - force RESOLVE_NO_MAGICLINKS as suggested by Andy Lutomirski <luto@kernel.org>
+> 
+> Changes in v3:
+> - partially revert v2 changes to avoid overriding capabilities.
+>   Only the bare minimum is overridden: fsuid, fsgid and group_info.
+>   Document the fact the full cred override is unwanted, as it may
+>   represent an unneeded security risk.
+> 
+> Changes in v2:
+> - capture full struct cred instead of just fsuid/fsgid.
+>   Suggested by Stefan Metzmacher <metze@samba.org>
 
-While I still don't quite understand
-the threat of /proc symlinks, I posted
-v4 which disallows them.
+This smells ripe enough to serve as an attack vector in non-obvious
+ways. And in general this has the potential to confuse the hell out
+unsuspecting userspace. They can now suddenly get sent such
+special-sauce files such as this that they have no way of recognizing as
+there's neither an FMODE_* flag nor is the OA2_* flag recorded so it's
+not available in F_GETFL.
 
-> So perhaps if an open file description for a directory could have something like FMODE_CRED, and if OA2_INHERIT_CRED also blocked .., magic links, symlinks to anywhere above the dirfd (or maybe all symlinks) and absolute path lookups, then this would be okay.
+There's not even a way to restrict that new flag because no LSM ever
+sees it. So that behavior might break LSM assumptions as well.
 
-So I think this all is now done.
+And it is effectively usable to steal credentials. If process A opens a
+directory with uid/gid 0 then sends that directory fd via AF_UNIX or
+something to process B then process B can inherit the uid/gid of process
+A by specifying OA2_* with no way for process A to prevent this - not
+even through an LSM.
 
-> Also, there are lots of ways that f_cred could be relevant: fsuid/fsgid, effective capabilities and security labels. And it gets more complex if this ever gets extended to support connecting or sending to a socket or if someone opens a device node.  Does CAP_SYS_ADMIN carry over?
-Not any more, nothin is carried but
-fsuid, fsgid, groupinfo.
+The permission checking model that we have right now is already baroque.
+I see zero reason to add more complexity for the sake of "lightweight
+sandboxing". We have LSMs and namespaces for stuff like this.
 
-Thank you.
+NAK.
 
