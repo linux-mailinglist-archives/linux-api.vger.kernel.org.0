@@ -1,70 +1,67 @@
-Return-Path: <linux-api+bounces-1367-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1368-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4B438B188A
-	for <lists+linux-api@lfdr.de>; Thu, 25 Apr 2024 03:44:17 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA4BD8B18E1
+	for <lists+linux-api@lfdr.de>; Thu, 25 Apr 2024 04:31:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6D6061F241C5
-	for <lists+linux-api@lfdr.de>; Thu, 25 Apr 2024 01:44:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8B85A2868A4
+	for <lists+linux-api@lfdr.de>; Thu, 25 Apr 2024 02:31:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7FC8F9F0;
-	Thu, 25 Apr 2024 01:44:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F29711711;
+	Thu, 25 Apr 2024 02:31:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="l192Y4uT"
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="MSUEozUS"
 X-Original-To: linux-api@vger.kernel.org
 Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45E8410A0A;
-	Thu, 25 Apr 2024 01:44:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1736917F0;
+	Thu, 25 Apr 2024 02:31:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714009450; cv=none; b=SxXfg2DSXtS2IUinH83zg3IQMypDf2q4atZ7czslBtm3B6tkUeq/OAZBBHUQmYf7z9re0000XiLn+7BACvmVbRucgNw1ytGBYqmvCEflNH/s1bbSMlNLn1raAMaNng/ZGgs2DDAI2WWsNz1NcjlxC/5cdXOCPw2vk5B/xUmSB44=
+	t=1714012295; cv=none; b=EJ37bnKMynDiK0Dgqp5ET/yNfNCDc73F8cpeTpkauko78oztZKguoJ6QcGMAk5nZSrt2l++A2XIW+SWfZCThfIpL+8PgpevAFJUXoYOQGLI+NE31aOzqhiacJUA9eh6izqBBqevyEmuHrVfVo4dkdZWm7GGN9sO6WkbK7sg6NmM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714009450; c=relaxed/simple;
-	bh=rV/A03jIZW1y0g5q45g9NzDUZlMGGsmwEFTnMP9wheQ=;
+	s=arc-20240116; t=1714012295; c=relaxed/simple;
+	bh=ARzfkq7YcdKT4xz/cUqUlVMU5c8TPIVAaHLUeTeELbw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SmNFIGCmmDq/9Ni+lVlXvoYeLS0m5A4plP/0wr/h9qybartA2n6wTdBuwN1C6UA2P+jTNH6QcIcgLIl6Dsic8nOmqohcR5srQ8IT2JLQ1+DQj5Mns2iLRNCAQWo9+IOtOGJ9FeEJCmBt54Lxk7Pj/XeeaxrYt9YHqt/r0HXKiNE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=l192Y4uT; arc=none smtp.client-ip=62.89.141.173
+	 Content-Type:Content-Disposition:In-Reply-To; b=IEAnf9gtf0XfziczJiys0s8zCFcreubE/Zgbbe44HZjrMHyF8fBSxClZQ/dP6xMi0taK1M8fFe6LalJ67UASNMNgzMZamZrNZqRA5iXeXRGD8EV6I9PeDW0LuXyGGxscPqBudAozdqem4es6QBw1dWt0LeD12JzYDza4yZE3b1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=MSUEozUS; arc=none smtp.client-ip=62.89.141.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=0QPUxVsvhoTHhWPZA9B73OH+l2QpvxncXISUjO3pjIA=; b=l192Y4uTA9QaUOpENAX93/ZlAf
-	cQ4W9w9FnI+vCPocvnaUvJfDLyChWOKc8zYq2u5gBG1sXvrd6Gtvr2eRQ96LOx14c7kDWx61eRhxH
-	9A6mhpbMOTTQJzG1+KxDO5dMBcNBRjt9UJYdzX3c0OGd5KTYLCE1FDrn1sO249FgU6upKrfrV/4xS
-	IgYOgx0Mxd/AcqdJJqIBObfoDAEvHbSPFVfzvkSmJ+a14E22nmVw7AqDiiM9dv5TE9TmgVywATpV6
-	Jt6VAP+mloeSbSHHxw8beiQGymTAm9tiYVeKFTngaXs+LeUQME2Xw/70Y9uNTu3MOgNqm46OQdr8I
-	y1chXGMg==;
+	bh=f3k/PjvK9lAek9tiVMgNp+BViodAxP3rcx424XtNi30=; b=MSUEozUSQoux6VChf23xTp6fPw
+	5xDGvJRnC73gTe4qn2HhX9dZCAq6ZBbXat5JZ7/PlyhMV6Wwc0CkTPM0fkqj08Nqwj4VwjNmZJ09j
+	rg3j4WHeozmt/suOty9EpbRiaqfrq7YtMStvQBnrBXM/khtw4H89QPLpbt0pEFQJMSVkSujSXPKQz
+	EO5kQSdVCnnMpmyEAT5sk1m2vkmfJQmOMEWQuX7GFjxelhc24+DbOza80/SdUlN9xfwlujVnhL38t
+	beId3xP/kgnEGJ0eNztSoueXClpHi02fn2Oy6dYlw6KtzuMnth7VtbSWEBcsBxcQrNAxdNHin60ZY
+	zD4aIFcQ==;
 Received: from viro by zeniv.linux.org.uk with local (Exim 4.96 #2 (Red Hat Linux))
-	id 1rzo9W-003GR2-0S;
-	Thu, 25 Apr 2024 01:43:58 +0000
-Date: Thu, 25 Apr 2024 02:43:58 +0100
+	id 1rzotT-003JDu-2Q;
+	Thu, 25 Apr 2024 02:31:27 +0000
+Date: Thu, 25 Apr 2024 03:31:27 +0100
 From: Al Viro <viro@zeniv.linux.org.uk>
-To: Andy Lutomirski <luto@amacapital.net>
-Cc: stsp <stsp2@yandex.ru>, linux-kernel@vger.kernel.org,
-	Stefan Metzmacher <metze@samba.org>,
+To: Stas Sergeev <stsp2@yandex.ru>
+Cc: linux-kernel@vger.kernel.org, Stefan Metzmacher <metze@samba.org>,
 	Eric Biederman <ebiederm@xmission.com>,
 	Andy Lutomirski <luto@kernel.org>,
 	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
 	Jeff Layton <jlayton@kernel.org>,
 	Chuck Lever <chuck.lever@oracle.com>,
 	Alexander Aring <alex.aring@gmail.com>,
+	David Laight <David.Laight@aculab.com>,
 	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
 	Paolo Bonzini <pbonzini@redhat.com>,
-	Christian =?iso-8859-1?Q?G=F6ttsche?= <cgzones@googlemail.com>,
-	Aleksa Sarai <cyphar@cyphar.com>
-Subject: Re: [PATCH v2 0/2] implement OA2_INHERIT_CRED flag for openat2()
-Message-ID: <20240425014358.GG2118490@ZenIV>
-References: <20240423110148.13114-1-stsp2@yandex.ru>
- <4D2A1543-273F-417F-921B-E9F994FBF2E8@amacapital.net>
- <0e2e48be-86a8-418c-95b1-e8ca17469198@yandex.ru>
- <CALCETrWswr5jAzD9BkdCqLX=d8vReO8O9dVmZfL7HXdvwkft9g@mail.gmail.com>
+	Christian =?iso-8859-1?Q?G=F6ttsche?= <cgzones@googlemail.com>
+Subject: Re: [PATCH 2/2] openat2: add OA2_INHERIT_CRED flag
+Message-ID: <20240425023127.GH2118490@ZenIV>
+References: <20240424105248.189032-1-stsp2@yandex.ru>
+ <20240424105248.189032-3-stsp2@yandex.ru>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -73,29 +70,54 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CALCETrWswr5jAzD9BkdCqLX=d8vReO8O9dVmZfL7HXdvwkft9g@mail.gmail.com>
+In-Reply-To: <20240424105248.189032-3-stsp2@yandex.ru>
 Sender: Al Viro <viro@ftp.linux.org.uk>
 
-On Wed, Apr 24, 2024 at 05:43:02PM -0700, Andy Lutomirski wrote:
+On Wed, Apr 24, 2024 at 01:52:48PM +0300, Stas Sergeev wrote:
+> @@ -3793,8 +3828,23 @@ static struct file *path_openat(struct nameidata *nd,
+>  			error = do_o_path(nd, flags, file);
+>  	} else {
+>  		const char *s = path_init(nd, flags);
+> -		file = alloc_empty_file(open_flags, current_cred());
+> -		error = PTR_ERR_OR_ZERO(file);
+> +		const struct cred *old_cred = NULL;
+> +
+> +		error = 0;
+> +		if (open_flags & OA2_INHERIT_CRED) {
+> +			/* Only work with O_CLOEXEC dirs. */
+> +			if (!get_close_on_exec(nd->dfd))
+> +				error = -EPERM;
+> +
+> +			if (!error)
+> +				old_cred = openat2_override_creds(nd);
+> +		}
+> +		if (!error) {
+> +			file = alloc_empty_file(open_flags, current_cred());
 
-> I like that, but you're blocking it the wrong way.  My concern is that
-> someone does dfd = open("/proc/PID/fd/3") and then openat(dfd, ...,
-> OA2_INHERIT_CRED);  IIRC open("/proc/PID/fd/3") is extremely magical
-> and returns the _same open file description_ (struct file) as PID's fd
-> 3.
+Consider the following, currently absolutely harmless situation:
+	* process is owned by luser:students.
+	* descriptor 69 refers to root-opened root directory (O_RDONLY)
+What's the expected result of
+	fcntl(69, F_SEFTD, O_CLOEXEC);
+	opening "etc/shadow" with dirfd equal to 69 and your flag given
+	subsequent read() from the resulting descriptor?
 
-No, it doesn't.  We could implement that, but if we do that'll be
-*not* a part of procfs and it's going to be limited to current task
-only.
+At which point will the kernel say "go fuck yourself, I'm not letting you
+read that file", provided that attacker passes that new flag of yours?
 
-There are two different variants of /dev/fd/* semantics - one is
-"opening /dev/fd/42 is an equivalent of dup(42)", another is
-"opening /dev/fd/42 is an equivalent of opening the same fs object
-that is currently accessed via descriptor 42".  Linux is doing the
-latter, and we can't switch - that would break a lot of userland
-software, including a lot of scripts.
+As a bonus question, how about opening it for _write_, seeing that this
+is an obvious instant roothole?
 
-I'm not saying I like the series, but this particular objection is bogus -
-open via procfs symlinks is *not* an equivalent of dup() and that is not
-going to change.
+Again, currently the setup that has a root-opened directory in descriptor
+table of a non-root process is safe.
+
+Incidentally, suppose you have the same process run with stdin opened
+(r/o) by root.  F_SETFD it to O_CLOEXEC, then use your open with
+dirfd being 0, pathname - "" and flags - O_RDWR.
+
+AFAICS, without an explicit opt-in by the original opener it's
+a non-starter, and TBH I doubt that even with such opt-in (FMODE_CRED,
+whatever) it would be a good idea - it gives too much.
+
+NAKed-by: Al Viro <viro@zeniv.linux.org.uk>
 
