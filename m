@@ -1,235 +1,168 @@
-Return-Path: <linux-api+bounces-1384-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1385-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0556E8B262E
-	for <lists+linux-api@lfdr.de>; Thu, 25 Apr 2024 18:19:09 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D404B8B278D
+	for <lists+linux-api@lfdr.de>; Thu, 25 Apr 2024 19:26:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B05DC28199E
-	for <lists+linux-api@lfdr.de>; Thu, 25 Apr 2024 16:19:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 044371C216D5
+	for <lists+linux-api@lfdr.de>; Thu, 25 Apr 2024 17:26:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99E6314C581;
-	Thu, 25 Apr 2024 16:19:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nS4ksS9a"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BF1F14E2DF;
+	Thu, 25 Apr 2024 17:26:13 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9A0A12BF22;
-	Thu, 25 Apr 2024 16:19:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.13
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714061944; cv=fail; b=YDtxG/kUKF7DwN5FP4I7rR0/rDRgl6U/79XTm7XbDr+U5xandclwABQ+0Oa7r5/nJriBm1aTIHfSPvYsBGcUKgQcnpXTR8NCqlKjFt8+zbjiss5xps+SmJ7fCraj6JjZ+z2YpJb+UCU6t9YP6yn2D52sTOZaJlaAO0/xNwsrHt4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714061944; c=relaxed/simple;
-	bh=EW8HaJ3HSvp80syRR+KepiX+L9A3iVzXrsfk6knmHyE=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=AgV/gTMoB/J42IJjWX9CdY+mSObuMYFF6jSptAVwBQLFTfwgh6f8W65W4TODK8tcdT0dTRPmcoicUkqv8GPdtVKZDtmNUQSMC+7Dr1B8NuREDjuRt5AH+auJzbhNjbf7mhtcIXTTLBsRkB8mWUOPaHtObOYtbiwiym90Bfq9UYE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nS4ksS9a; arc=fail smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714061943; x=1745597943;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=EW8HaJ3HSvp80syRR+KepiX+L9A3iVzXrsfk6knmHyE=;
-  b=nS4ksS9ao8peOO+OypA9qebVTNqcXxlRi9hzAXQzLj+4003+dZwfAStR
-   OIyK366pU2S4SM4/9JA5T1El2y/jGb+h0k4b1iJLljy6+zDujBFUfibhN
-   JvIuvnGsdHT8P3tWv41TaGwQdl7FZ4MQINGr6vLCxJfqGfC87zb6Jiz4f
-   13MxwhF5Ko7gXrl6pGxn3S4gZagQgbxjMCS1TfF/i0Am+g5wsqAvxl77K
-   nGkbSwlWWDyO9pEvEAwqrYFBJz0fSqDDkMGCWY6ce7WHdaDNPWynV15wg
-   UWxE3Sso+HKXgI6kXWOs6Je4qnaRTDuIWh0QvK0FUmWyL2j+tQzinPCOs
-   A==;
-X-CSE-ConnectionGUID: W9DiRicSTsusolWFapZkQQ==
-X-CSE-MsgGUID: J9O/G7I9SiyGju96j2ZAeA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11055"; a="12697489"
-X-IronPort-AV: E=Sophos;i="6.07,229,1708416000"; 
-   d="scan'208";a="12697489"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2024 09:19:00 -0700
-X-CSE-ConnectionGUID: +0vJPFpfRJSybzExFB3jSQ==
-X-CSE-MsgGUID: wIHX9jInQe6z2NascEfydA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,229,1708416000"; 
-   d="scan'208";a="29919504"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by orviesa005.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 25 Apr 2024 09:19:01 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Thu, 25 Apr 2024 09:19:00 -0700
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Thu, 25 Apr 2024 09:18:59 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Thu, 25 Apr 2024 09:18:59 -0700
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.100)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Thu, 25 Apr 2024 09:18:59 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WGzUfeom//wcn//HxIwk5He5gjbPyXt4wc4iOag9qCEz4vOOT4b13DKgRCExklU8w2qW6t1/5eOAI70g60/Ap8JyIXcquY8ZyAGO6r4CHIhFbZsd4BlkaREFogjtuhsUoW0yIiBlQOyWRWSbYlAUER7Pjgb9fxfgD7/xrOJ0RsoMo4ZS0v+bCCg/0v18vNuyzAnzCAdw2FSlF1nArtpb0+3/gdMm3dHkw93IyP0vWuCQF82Dw5ef0WWmUG3NNvTYX12+Op7hUTrCWwfaDqd96g/2sr4eIGUGdaa829sl42eMEnDkBNuntrIhtQlWGMbuhsxDJoKpAZF8SwYZmvFeJQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hWspJJIfdnSbCDNENHT2+yyFXxenrDUlBaNCDDG8eTc=;
- b=ifzq/Ot0OThjNcgyqF/gNQ6tiy4NDCJe2kLOCuYHmRTFd+zyTWqfjHa/NzOtWVMflDwklaNRpEQn+0qTQTToWItnDrC9ICdRuu4tT+93Zjl/U810O6U4sPjLFpk8xHeZ2E8a2GqeER/bsjwrvncZVsP7blXKoSl43cU6QpulWIq2ZgBrc5aNM4+xLvYiR5cVUFpdqndl+O1tMg11EFdMI8siNvAH3KNy8RHJxZLofsp8vV2RpbgNgv25kIUZalXq5rsqYV6fN5xuiBCit37kGcczpcIqduPtSMXVzxJKVJB7kF5a1lJ+fvwbEtMb8C15EBVU9utzGeOGi5zHY9JcAg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH8PR11MB8107.namprd11.prod.outlook.com (2603:10b6:510:256::6)
- by SA1PR11MB7063.namprd11.prod.outlook.com (2603:10b6:806:2b5::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7519.21; Thu, 25 Apr
- 2024 16:18:57 +0000
-Received: from PH8PR11MB8107.namprd11.prod.outlook.com
- ([fe80::82fd:75df:40d7:ed71]) by PH8PR11MB8107.namprd11.prod.outlook.com
- ([fe80::82fd:75df:40d7:ed71%4]) with mapi id 15.20.7452.046; Thu, 25 Apr 2024
- 16:18:57 +0000
-Date: Thu, 25 Apr 2024 09:18:53 -0700
-From: Dan Williams <dan.j.williams@intel.com>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>, Dan Williams
-	<dan.j.williams@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56BA014B077;
+	Thu, 25 Apr 2024 17:26:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1714065973; cv=none; b=mYv8Rl7rlnniw1lt4LQSc3UOxGWZY9ulbvMUqeBdal2qyI4jIA0AdJNp9Z085aYQbdegnJLaD3gHoxrlJYzlMSFAE7yNzBwdy7EiDSLHeogU8kwv7CDDab8IzTzcgGzDW38ZH0YKtPOwweaXj/DuOZMqETjIaPEpcHGYCAwREqw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1714065973; c=relaxed/simple;
+	bh=3mQMCNkjITWlTa2ZzqZEImLGvvbd5agAGSP3TETx2I4=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jHw1+J3V6YdnHqa1ixi7DHC6wz/DEkC55nGAHpNFPXkHKo3hxiUHwIYFGV3xY7KmjxNwPWAJkpdbOfkTlZ0+WJ1LnNGq11W8lj2GYxTWZ89rd9GC16paSy+HFp/6uhiW42jnG1FlpxL2NJyqYA3DeY2G31qOBI5Rs4ft80atOjk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.216])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4VQN4H6QSvz67GVD;
+	Fri, 26 Apr 2024 01:23:43 +0800 (CST)
+Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
+	by mail.maildlp.com (Postfix) with ESMTPS id BC294140C98;
+	Fri, 26 Apr 2024 01:26:06 +0800 (CST)
+Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.35; Thu, 25 Apr
+ 2024 18:26:06 +0100
+Date: Thu, 25 Apr 2024 18:26:05 +0100
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: Dan Williams <dan.j.williams@intel.com>
 CC: <linux-cxl@vger.kernel.org>, Sreenivas Bagalkote
 	<sreenivas.bagalkote@broadcom.com>, Brett Henning
 	<brett.henning@broadcom.com>, Harold Johnson <harold.johnson@broadcom.com>,
 	Sumanesh Samanta <sumanesh.samanta@broadcom.com>,
 	<linux-kernel@vger.kernel.org>, Davidlohr Bueso <dave@stgolabs.net>, "Dave
  Jiang" <dave.jiang@intel.com>, Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>, "Ira Weiny" <ira.weiny@intel.com>,
 	<linuxarm@huawei.com>, <linux-api@vger.kernel.org>, Lorenzo Pieralisi
-	<lpieralisi@kernel.org>, "Natu, Mahesh" <mahesh.natu@intel.com>
+	<lpieralisi@kernel.org>, "Natu, Mahesh" <mahesh.natu@intel.com>,
+	<gregkh@linuxfoundation.org>
 Subject: Re: RFC: Restricting userspace interfaces for CXL fabric management
-Message-ID: <662a826dbeeff_b6e02943c@dwillia2-mobl3.amr.corp.intel.com.notmuch>
+Message-ID: <20240425182605.00005f22@Huawei.com>
+In-Reply-To: <662a826dbeeff_b6e02943c@dwillia2-mobl3.amr.corp.intel.com.notmuch>
 References: <20240321174423.00007e0d@Huawei.com>
- <66109191f3d6d_2583ad29468@dwillia2-xfh.jf.intel.com.notmuch>
- <20240410124517.000075f2@Huawei.com>
- <66284d5e8ac01_690a29431@dwillia2-xfh.jf.intel.com.notmuch>
- <20240425123344.000001a9@Huawei.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20240425123344.000001a9@Huawei.com>
-X-ClientProxiedBy: MW4PR04CA0154.namprd04.prod.outlook.com
- (2603:10b6:303:85::9) To PH8PR11MB8107.namprd11.prod.outlook.com
- (2603:10b6:510:256::6)
+	<66109191f3d6d_2583ad29468@dwillia2-xfh.jf.intel.com.notmuch>
+	<20240410124517.000075f2@Huawei.com>
+	<66284d5e8ac01_690a29431@dwillia2-xfh.jf.intel.com.notmuch>
+	<20240425123344.000001a9@Huawei.com>
+	<662a826dbeeff_b6e02943c@dwillia2-mobl3.amr.corp.intel.com.notmuch>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR11MB8107:EE_|SA1PR11MB7063:EE_
-X-MS-Office365-Filtering-Correlation-Id: bf106bb6-b8b0-430b-7aff-08dc6543685b
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230031|366007|376005|1800799015|7416005;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?J4Q1EJFjZnWvx1p2N+/5A/efQK7fHfobBuqNGmvNw3wu505JgGDFRak+Sn3C?=
- =?us-ascii?Q?SEdNgqwSGKxDrlUmkPu9+ce/J2HmAaV6Y7Q6x/z2uf0NDAL8D/HGWbvWlUXt?=
- =?us-ascii?Q?ZpJaKJqG6YYCKFTbxhWoQXQRrJNQk8wWgvchV9ygy1lMpfvVGal0OKLk3PL/?=
- =?us-ascii?Q?WEMjOhoSrFqrSGaECaMLN2vNMjHvmf/Z2v/4sxj8QX5A5FtfTPCZEjvpq4oq?=
- =?us-ascii?Q?1WJmCPqdaULjQBqtIfGVlWIPCJRt3Xlwf4FQf3Ka3fGS+a45JlIeU+HnMFwS?=
- =?us-ascii?Q?E2yRcnCMfy0PwXP19D9i6rhIsRublGW5eV9mhsseJGA1GYpT+BjaQ4R8Tly+?=
- =?us-ascii?Q?vA++AxiRHaQYXHZH9PF+q/uvdVeNyAdCBxxtGF5jRK78y8zqP8oG5IJiKjL0?=
- =?us-ascii?Q?ZQcP2rAWrb7JeXfnhtC7RJmashEm1q/kvbofiCv6tSHx8Ro7VmtAa60OD2cn?=
- =?us-ascii?Q?9lqd9mUbrLvHSmFfQFIgXdLbG3zMETccpb4OThuzjtBkokDZjuHd65qyfKo4?=
- =?us-ascii?Q?MtB+u/N/+T9KWGfVOunDv2TNH0jk7rYuMMfQIG51xtiWjBJ5/CqlJJOzzFwN?=
- =?us-ascii?Q?8XcGwtbNqSbWeqpyx0WHJ7FFut3/X7S5qkwyzLA1x79GMybWdvgwamikOpSz?=
- =?us-ascii?Q?DO36JjX6bTagk7JG9m76W5roPlVkI/6ASCUB1ucE0QjAe+jkfbZ/ys9bOd/x?=
- =?us-ascii?Q?fx8OokfLbM0sCCAD1fM6Gya7M/klauLziPRh5kXoNPeELBFF0QYosDqkwUld?=
- =?us-ascii?Q?X4xbOMPSuFAt+jOHHTleiK4AkPfGZwdBdfjO+J3RkxUsRsz+HqV8EeNWCxIg?=
- =?us-ascii?Q?BGlGRrYSVN0WgA5o0J8lMa+Vrco+gzrqvsWHPbXuJ9w5DYnGf3fL+dk2KwaW?=
- =?us-ascii?Q?zD7Qn/p1cnWiSs10+Q+U4YfQF4rH2ZehvLZ5XxUrUe2TN62FL7R97pOBBK0T?=
- =?us-ascii?Q?qi1t77X5AIbpBaEUh2mGoOYvp3nUH0fxy6Sikq54rpE+2+8eendTuAd4iIpg?=
- =?us-ascii?Q?470E1/MwXp+IffAuBzz7F/fVnsutxl4fbb5MtBc3ytYugQZPp6Qc8JRz2dqm?=
- =?us-ascii?Q?VWDnBXcsSGe+ApTkl9Mzz77uQM90qrALkI+0dcNU27jybct2zVSsp3wWQT4U?=
- =?us-ascii?Q?mmNpHEIciH33ZBmHS8cR27XZ23/75np4txyS0R9XPU5mIE7SYIeImoOpMpvi?=
- =?us-ascii?Q?5eBTQyQy4qPwLHSdaKTe7Ha7tRtOd1zJY+cXHCsjAnXS3BnxP7VvVF9zfRCT?=
- =?us-ascii?Q?0lmiB9ebS77FJn+YC2J6scpXEYwhijA5CP5BvlFUxA=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR11MB8107.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(1800799015)(7416005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Nx96QE+gB17Xw8eXcjk3fO3WJ4k3VU1LB1YntVBVgeKCHaKWKPdofUW1gax0?=
- =?us-ascii?Q?GK7dEyzDlI9yt8y3G8VSg3xjreH18zbgsU/IIYmDmwJLtKN6/IlWi1Mix5BI?=
- =?us-ascii?Q?vMSahMI2cy3J0JIPKdUFr32xKEfD/v5CSp0gUsHh6bAW+t/FaHgddhj3Cie6?=
- =?us-ascii?Q?vUlaoTnPwRRC4duSdGfhM4xe7t+Ft5yoTNI5Jxt/fWlESEPZ1FtS6n6epyWS?=
- =?us-ascii?Q?L8f56CCxPgKQDC7vgdyB+8qQbMr5X+hCVbxozDigOkBHfc5yEmGIp+emoEXn?=
- =?us-ascii?Q?HZ/SmxhT2KZbeIDWQTEfOw+0Mqp/UhqdhnFSaNki3ACMvZCDENpB8cEF34lM?=
- =?us-ascii?Q?6ufIssvqx4v5ezVqiRTeNCpvmx0oOAfHmC9olPV1paV9RYZ9apwNL99yoSA9?=
- =?us-ascii?Q?+u5lsFH9pQopk5zTwVGKv8Gw+y2fVK5PLkaRDNO2NUba0g5SCNxcFh4T5HlX?=
- =?us-ascii?Q?X4Vi85ZdaWZvb7L0zBwQ7MKm3+DWrFNcEFEK162fsYM2C/HnvhmZkLAQCB/J?=
- =?us-ascii?Q?7Ds4DOWMZRdujonoSbpD7q3a8B7zlZ6GorxI6ITxhRM3hZdCGisSA5Gpvkjp?=
- =?us-ascii?Q?LF4IafNv8lh3xBKW2oqudnZJVZYDW2JNHYspEFHY4M8J8MvDIKqtFjq+O52r?=
- =?us-ascii?Q?aYvycAI3SgV42PeRzWfDzne07VOL4t3MxFwI5+QAAuKXxGQ+iPhiAqt0IPAS?=
- =?us-ascii?Q?0vG14SDpijR9eepIEWQX4SXdc0dKs/l1hiouFkwk/BOIr6x9WOvQClxx4NLs?=
- =?us-ascii?Q?bQJT9DkMIuyLhrEQ0pRsf8dyAMnaJza3vSdfegG9ZhNxO5Z1V4VcQPheypc/?=
- =?us-ascii?Q?OiLdPBQymWqGLX77V7lwwolYj0Z8mwPXn2k1Pajs1KwmzJ+A5rqSiTcRRvUR?=
- =?us-ascii?Q?sXds9frpzUN6+SvVwcovMzj/SmYsdbyRP16doFUMuRPGjmpsodSKURtDEfgC?=
- =?us-ascii?Q?qno9fwQFhbEjqKFV4007vtHsmUXdCsyJi28rMpZqo8WcR0zL/L+aLfpbtKQ1?=
- =?us-ascii?Q?vwgdbtbEJuZ3yFL91S8ofNf7i+CCc0Ey7Tg5nFy9rWWHxsWHNFefJponduGe?=
- =?us-ascii?Q?nPFeYY7NJprKSHY0yMXH+7BnCeMXL1OaswNyuDql0U3r396ECgXz++ft+13M?=
- =?us-ascii?Q?DP25mb+Yze4cASz+bqOSNKJ6Uus/z2Bsmj/Mb/Sp3Ko7WhyiptllB1F9iEcB?=
- =?us-ascii?Q?2GE+6ATO+tqwiOyOsfbJayoWX7dXxrFtJD8VFuywP5Fn5V6OTVtoLHj/0+bY?=
- =?us-ascii?Q?FrnkUbxpjixruYn+MiLGAE6QLxuprr0m0sR9Bq1/sfB5F3NJrRax0TKUZRMq?=
- =?us-ascii?Q?5zZ5E+zH55mwJzi9958hpsUJBjGuVpMZO/rMKaSRARtKXY11zz6twq1odmmZ?=
- =?us-ascii?Q?5g6wwM+SvNVHIH/Gnn9wzOM78cj4u5zUaqFvyDtmaW0eEW0FTwLZayR3BzKB?=
- =?us-ascii?Q?1E5JokSAzxdynoLqhU5kW+1Ni0u64Pp7bDLvriSHSdpWi5jDXo5kI1BcK/SD?=
- =?us-ascii?Q?BYgH+XznBPKRPS6ljOXxprowiX9NGfR/wgGHxfPPuoXzVCGQ6QzjrH2fdeAw?=
- =?us-ascii?Q?fNM4ppP6P1WORo5sizRmciw8mp0eiBeiCW3WiEFbfyx3LC7gx+IHJ8pqps4+?=
- =?us-ascii?Q?Ng=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: bf106bb6-b8b0-430b-7aff-08dc6543685b
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB8107.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Apr 2024 16:18:56.9945
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lD3i8NmPFAlB9MctKHMcvr506gjKtr9FST2BemrpTB3M13d+Ny/NfS61dmjBqRGT/hBb9SpKdFMMYnBqZm0yi5qQBgMM+YOiB5RPDbE72XM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB7063
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml100003.china.huawei.com (7.191.160.210) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
 
-Jonathan Cameron wrote:
-[..]
-> > Also, the assertion that these kernels will be built with
-> > CONFIG_SECURITY_LOCKDOWN_LSM=n and likely CONFIG_STRICT_DEVMEM=n, then
-> > the entire user-mode driver ABI is available for use. CXL commands are
-> > simple polled mmio, does Linux really benefit from carrying drivers in
-> > the kernel that the kernel itself does not care about?
+On Thu, 25 Apr 2024 09:18:53 -0700
+Dan Williams <dan.j.williams@intel.com> wrote:
+
+> Jonathan Cameron wrote:
+> [..]
+> > > Also, the assertion that these kernels will be built with
+> > > CONFIG_SECURITY_LOCKDOWN_LSM=n and likely CONFIG_STRICT_DEVMEM=n, then
+> > > the entire user-mode driver ABI is available for use. CXL commands are
+> > > simple polled mmio, does Linux really benefit from carrying drivers in
+> > > the kernel that the kernel itself does not care about?  
+> > 
+> > Sure we could it in userspace...  It's bad engineering, limits the design
+> > to polling only and uses a bunch of interfaces we put a lot of effort into
+> > telling people not to use except for debug.
+> > 
+> > I really don't see the advantage in pushing a project/group of projects
+> > all of which are picking the upstream kernel up directly, to do a dirty
+> > hack. We loose all the advantages of a proper well maintained kernel
+> > driver purely on the argument that one use model is not the same as
+> > this one.  Sensible security lockdown requirements is fine (along
+> > with all the other kernel features that must be disable for that
+> > to work), making open kernel development on for a large Linux
+> > market harder is not.  
 > 
-> Sure we could it in userspace...  It's bad engineering, limits the design
-> to polling only and uses a bunch of interfaces we put a lot of effort into
-> telling people not to use except for debug.
+> The minimum requirement for justifying an in kernel driver is that
+> something else in the kernel consumes that facility. So, again, I want
+> to get back to specifics what else in the kernel is going to leverage
+> the Switch CCI mailbox?
+
+Why?  I've never heard of such as a requirement and numerous drivers
+provide fairly direct access to hardware. Sometimes there is a subsystem
+aiding the data formatting etc, but fundamentally that's a convenience.
+
+Taking this to a silly level, on this basis all networking drivers would
+not be in the kernel.  They are there mainly to provide userspace access to
+a network.  Any of the hardware access subsystems such hwmon, input, IIO
+etc are primarily about providing a convenient way to get data to/from
+a device.  They are kernel drivers because that is the cleaner path
+for data marshaling, interrupt handling etc.
+
+In kernel users are a perfectly valid reason to have a kernel driver,
+but it's far from the only one.  None of the AI accelerators have in kernel
+users today (maybe they will in future). Sure there are other arguments
+that mean only a few such devices have been upstreamed, but it's not
+that they need in kernel users. If it's really an issue I'll just submit
+it to driver/misc and Greg can take a view on whether it's an acceptable
+device to have driver for... (after he's asked the obvious question of
+why aren't the CXL folk taking it!) +cc Greg to save providing info later.
+
+For background this is a PCI function with a mailbox used for switch
+configuration. The mailbox is identical to the one found on CXL type3
+devices. Whole thing defined in the CXL spec. It gets a little complex
+because you can tunnel commands to devices connected to the switch,
+potentially affecting other hosts.  Typical Linux device doing this
+would be a BMC, but there have been repeated questions about providing
+a subset of access to any Linux system (avoiding the foot guns)
+Whole thing fully discoverable - proposal is a standard PCI driver.
+
 > 
-> I really don't see the advantage in pushing a project/group of projects
-> all of which are picking the upstream kernel up directly, to do a dirty
-> hack. We loose all the advantages of a proper well maintained kernel
-> driver purely on the argument that one use model is not the same as
-> this one.  Sensible security lockdown requirements is fine (along
-> with all the other kernel features that must be disable for that
-> to work), making open kernel development on for a large Linux
-> market harder is not.
+> The generic-Type-3-device mailbox has an in kernel driver because the
+> kernel has need to send mailbox commands internally and it is
+> fundamental to RAS and provisioning flows that the kernel have this
+> coordination. What are the motivations for an in-band Switch CCI command
+> submission path?
+> 
+> It could be the case that you have a self-evident example in mind that I
+> have thus far failed to realize.
+> 
 
-The minimum requirement for justifying an in kernel driver is that
-something else in the kernel consumes that facility. So, again, I want
-to get back to specifics what else in the kernel is going to leverage
-the Switch CCI mailbox?
+There are possibilities, but for now it's a transport driver just like
+MCTP etc with a well defined chardev interface, with documented ioctl
+interface etc (which I'd keep inline with one the CXL mailbox uses
+just to avoid reinventing the wheel - I'd prefer to use that directly
+to avoid divergence but I don't care that much).
 
-The generic-Type-3-device mailbox has an in kernel driver because the
-kernel has need to send mailbox commands internally and it is
-fundamental to RAS and provisioning flows that the kernel have this
-coordination. What are the motivations for an in-band Switch CCI command
-submission path?
+As far as I can see, with the security / blast radius concern alleviated
+by disabling this if lockdown is in use + taint for unaudited commands
+(and a nasty sounding config similar to the cxl mailbox one)
+there is little reason not to take such a driver into the kernel.
+It has next to no maintenance impact outside of itself and a bit of
+library code which I've proposed pushing down to the level of MMPT
+(so PCI not CXL) if you think that is necessary. 
 
-It could be the case that you have a self-evident example in mind that I
-have thus far failed to realize.
+We want interrupt handling and basic access controls / command
+interface to userspace.
+
+Apologies if I'm grumpy - several long days of battling cpu hotplug code.
+
+Jonathan
+
+
 
