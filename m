@@ -1,144 +1,203 @@
-Return-Path: <linux-api+bounces-1400-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1401-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 700638B3D3D
-	for <lists+linux-api@lfdr.de>; Fri, 26 Apr 2024 18:53:55 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EEE28B3E63
+	for <lists+linux-api@lfdr.de>; Fri, 26 Apr 2024 19:39:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7705E1C230B2
-	for <lists+linux-api@lfdr.de>; Fri, 26 Apr 2024 16:53:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 08F841F26FF5
+	for <lists+linux-api@lfdr.de>; Fri, 26 Apr 2024 17:39:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E20D156C6A;
-	Fri, 26 Apr 2024 16:53:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB5371649DA;
+	Fri, 26 Apr 2024 17:38:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="pE1T08Fu";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="aqFcdXIb"
 X-Original-To: linux-api@vger.kernel.org
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from flow3-smtp.messagingengine.com (flow3-smtp.messagingengine.com [103.168.172.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38A751DDD6;
-	Fri, 26 Apr 2024 16:53:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE42D145B0F;
+	Fri, 26 Apr 2024 17:38:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714150430; cv=none; b=kjz4KwnDYOl0xkvMeOEsJK6VRFOHZPo2pTXa8kry4LNwC1bABw357EQX/mDN3z8t0JbK66ptiZQpeeh9G1EWIXTPhRKU3VdTrWXJ6WeIcxWWI6ndni8IsLSs+QvYt+jm+KASlEMf57s/UMfDcaG28a09kJI4kJlo9XbYQGMGmqE=
+	t=1714153127; cv=none; b=X7a+K6UN4mK0LsKHo0IzL9llPspgTIUJZ8Fe1AjXmUnlu1sn0/Tk/3jqR/oncj07+KBsLX1FIdN56fHw/cLhcvUr4bl9ydfXxUWcBwhht1ZCBJnIV6kbTD08P9a9jiVF1xVV1jy8u3jIAtoya66iSxNSXTFXoNUg6KVzioJ/lvU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714150430; c=relaxed/simple;
-	bh=qBWR0niH5zgeEw2mYz3NYV00URwQJyobXGWPG0AH2zs=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=t1wz7ObQMB/3Dsb/falXkVftVQfukWbxs+j9DLucVDHH1b/NOnAIryd0GK7uf0NaBWDoFfSrp/NNBryiusmx3C7uquD1LyPcHsEFo5HW+GnQTUoFVmpFjZF2i83RZtBBMDTxW1d7BB64d0SHiw5KElTE6HCJuPvtRfqYqr8NZHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.31])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4VQzJL0WlTz6K6JG;
-	Sat, 27 Apr 2024 00:51:14 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
-	by mail.maildlp.com (Postfix) with ESMTPS id 33455140A70;
-	Sat, 27 Apr 2024 00:53:43 +0800 (CST)
-Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.35; Fri, 26 Apr
- 2024 17:53:42 +0100
-Date: Fri, 26 Apr 2024 17:53:41 +0100
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: Dan Williams <dan.j.williams@intel.com>
-CC: <linux-cxl@vger.kernel.org>, Sreenivas Bagalkote
-	<sreenivas.bagalkote@broadcom.com>, Brett Henning
-	<brett.henning@broadcom.com>, Harold Johnson <harold.johnson@broadcom.com>,
-	Sumanesh Samanta <sumanesh.samanta@broadcom.com>,
-	<linux-kernel@vger.kernel.org>, Davidlohr Bueso <dave@stgolabs.net>, "Dave
- Jiang" <dave.jiang@intel.com>, Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>, "Ira Weiny" <ira.weiny@intel.com>,
-	<linuxarm@huawei.com>, <linux-api@vger.kernel.org>, Lorenzo Pieralisi
-	<lpieralisi@kernel.org>, "Natu, Mahesh" <mahesh.natu@intel.com>,
-	<gregkh@linuxfoundation.org>
-Subject: Re: RFC: Restricting userspace interfaces for CXL fabric management
-Message-ID: <20240426175341.00002e67@Huawei.com>
-In-Reply-To: <662bd36caae55_a96f2943f@dwillia2-mobl3.amr.corp.intel.com.notmuch>
-References: <20240321174423.00007e0d@Huawei.com>
-	<66109191f3d6d_2583ad29468@dwillia2-xfh.jf.intel.com.notmuch>
-	<20240410124517.000075f2@Huawei.com>
-	<66284d5e8ac01_690a29431@dwillia2-xfh.jf.intel.com.notmuch>
-	<20240425123344.000001a9@Huawei.com>
-	<662a826dbeeff_b6e02943c@dwillia2-mobl3.amr.corp.intel.com.notmuch>
-	<20240425182605.00005f22@Huawei.com>
-	<662aae2fe4887_a96f294bf@dwillia2-mobl3.amr.corp.intel.com.notmuch>
-	<20240426094550.00002e37@Huawei.com>
-	<662bd36caae55_a96f2943f@dwillia2-mobl3.amr.corp.intel.com.notmuch>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+	s=arc-20240116; t=1714153127; c=relaxed/simple;
+	bh=wl2WeNXK9401gewnNEkP62crFh93PXjbpWk6KFoepOg=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=Y8SGQ32kfI8Kwf0xVrYeacufgyssYCHjxU+kKAQBk4O4/QvJlD8VtfHb2AJUZ2py1HDAxRBaykGIPwuP7dSTM2LxdxIy4pBG3OsLoyhD+DzAklo7ThJQvmGICvw0XbXkF0s4x4+4raW4th9GGKZO9ZPvoNvzYyqoMJTHSMh+FRQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=pE1T08Fu; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=aqFcdXIb; arc=none smtp.client-ip=103.168.172.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailflow.nyi.internal (Postfix) with ESMTP id BDA42200567;
+	Fri, 26 Apr 2024 13:38:43 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Fri, 26 Apr 2024 13:38:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1714153123;
+	 x=1714160323; bh=LvCKd10h8SxIpHH2VnKSem369EuCERsZx0vTF5ejpQk=; b=
+	pE1T08FuMVdjjQLWiDkQO7xl56PeI7A1H3IWG3+rFD9emD//4B5RuAiqikq3csH2
+	HcrEwfg47R7YMmaz8Ciyl2cvIz4VVX096uNe1CYFtwsais2/erVg/FW25ZTMJvXr
+	zpR/9AJQ+kMYwmkwNH/UDIyDG/M/RiXZfW1Gpp3WoGzKEMmORD8LrQExf4Uw72vT
+	cf90JKVFYzecW30Y+7oynhwhYveQbKpD0A+7InyVTw6kiDVyu6WAufjR97YB+AAf
+	0ZE2OG1WQzxkmWcmeCmxI8V9AL9FQ/NFoFlVnxKbEzgyPDaqo7Ijv+GlzReYpZG8
+	UpsdbHxgZ38tWGTiNz9nEw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1714153123; x=
+	1714160323; bh=LvCKd10h8SxIpHH2VnKSem369EuCERsZx0vTF5ejpQk=; b=a
+	qFcdXIb7SbWdXzU54WGeWh/iceHLfbpvJPUdGWHPNnK5IEK/9AtOR5J2UG7I0kdd
+	gA+bX/lBwFYGTyhrH0iOL1YwgOqj4CO02fhLgSpzb0errJKY1KqMkKtdiEMGW0IU
+	avALV8VE2nPoBWWc5kPZjknu85rpxsTco30NFcpJL3ouXip8e9tY6t5C0m3yG4DV
+	i9SMC7BAXFVXlTkQ12jergSGdPKhcHmwu/rclcCs4OnoitPkDQ5s/pDGcdD2HxtV
+	6evA3UfMGPMVusCn1+pAQOhpgJIj12adXuHnNCAk7/cjvkYwvImsSZiLSUZbVdMm
+	WuinBDiPHs317sdol2J0w==
+X-ME-Sender: <xms:ouYrZlQDaCE-0s0WHFCeHepar9j_x9KR9n-h0TbsH_sTOOeSUGEhag>
+    <xme:ouYrZuz-rN1jLTr59v2lbblMmuUk9xavewvaecIEfqOvR0end1N-WP7C8qOmizXin
+    NZnEkLDPhLks8tH0J0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudelledgudduhecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefofgggkfgjfhffhffvvefutgfgsehtqhertderreejnecuhfhrohhmpedf
+    tehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrf
+    grthhtvghrnhepgeefjeehvdelvdffieejieejiedvvdfhleeivdelveehjeelteegudek
+    tdfgjeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    eprghrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:ouYrZq3qoHAOs6UtEYzZ6Kv2th-k72ltAmHA5-EvubaY_DFzTZHiZA>
+    <xmx:ouYrZtDFuilIk3W0hJ0M4DWNRr0ldDoQ2Q3XrafF-t-T9hsqUZG79w>
+    <xmx:ouYrZujdQoqwaHSJ1S_IBnSUNzyXxkERFFQZf5-Uajue3KXw-499-Q>
+    <xmx:ouYrZhqInTTtQzq1IvTwSb8HCKj4UX1i6i_KpDS_TtRK6OBmlMiQ4w>
+    <xmx:o-YrZpX13ubRldSgrPH3yzrzP3OzJ7dh3_1MWs-FrW6tvLtURlDPgFda>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 324F9B60099; Fri, 26 Apr 2024 13:38:42 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-386-g4cb8e397f9-fm-20240415.001-g4cb8e397
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml500002.china.huawei.com (7.191.160.78) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
+Message-Id: <63ae53af-023d-444c-9571-8aef9e87ebc0@app.fastmail.com>
+In-Reply-To: <20240426162042.191916-1-cgoettsche@seltendoof.de>
+References: <20240426162042.191916-1-cgoettsche@seltendoof.de>
+Date: Fri, 26 Apr 2024 19:38:18 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: cgzones@googlemail.com
+Cc: x86@kernel.org, linux-alpha@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-ia64@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
+ linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, audit@vger.kernel.org,
+ Linux-Arch <linux-arch@vger.kernel.org>, linux-api@vger.kernel.org,
+ linux-security-module@vger.kernel.org, selinux@vger.kernel.org,
+ "Richard Henderson" <richard.henderson@linaro.org>,
+ "Ivan Kokshaysky" <ink@jurassic.park.msu.ru>,
+ "Matt Turner" <mattst88@gmail.com>,
+ "Russell King" <linux@armlinux.org.uk>,
+ "Catalin Marinas" <catalin.marinas@arm.com>,
+ "Will Deacon" <will@kernel.org>,
+ "Geert Uytterhoeven" <geert@linux-m68k.org>,
+ "Michal Simek" <monstr@monstr.eu>,
+ "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>,
+ "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
+ "Helge Deller" <deller@gmx.de>, "Michael Ellerman" <mpe@ellerman.id.au>,
+ "Nicholas Piggin" <npiggin@gmail.com>,
+ "Christophe Leroy" <christophe.leroy@csgroup.eu>,
+ "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
+ "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
+ "Heiko Carstens" <hca@linux.ibm.com>,
+ "Vasily Gorbik" <gor@linux.ibm.com>,
+ "Alexander Gordeev" <agordeev@linux.ibm.com>,
+ "Christian Borntraeger" <borntraeger@linux.ibm.com>,
+ "Sven Schnelle" <svens@linux.ibm.com>,
+ "Yoshinori Sato" <ysato@users.sourceforge.jp>,
+ "Rich Felker" <dalias@libc.org>,
+ "John Paul Adrian Glaubitz" <glaubitz@physik.fu-berlin.de>,
+ "David S . Miller" <davem@davemloft.net>,
+ "Andreas Larsson" <andreas@gaisler.com>,
+ "Andy Lutomirski" <luto@kernel.org>,
+ "Thomas Gleixner" <tglx@linutronix.de>, "Ingo Molnar" <mingo@redhat.com>,
+ "Borislav Petkov" <bp@alien8.de>,
+ "Dave Hansen" <dave.hansen@linux.intel.com>,
+ "H. Peter Anvin" <hpa@zytor.com>, "Chris Zankel" <chris@zankel.net>,
+ "Max Filippov" <jcmvbkbc@gmail.com>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
+ "Paul Moore" <paul@paul-moore.com>, "Eric Paris" <eparis@redhat.com>,
+ "Jens Axboe" <axboe@kernel.dk>,
+ "Pavel Begunkov" <asml.silence@gmail.com>,
+ "Peter Zijlstra" <peterz@infradead.org>,
+ "Sohil Mehta" <sohil.mehta@intel.com>,
+ "Palmer Dabbelt" <palmer@sifive.com>,
+ "Miklos Szeredi" <mszeredi@redhat.com>, "Nhat Pham" <nphamcs@gmail.com>,
+ "Casey Schaufler" <casey@schaufler-ca.com>,
+ "Florian Fainelli" <florian.fainelli@broadcom.com>,
+ "Kees Cook" <keescook@chromium.org>,
+ "Rick Edgecombe" <rick.p.edgecombe@intel.com>,
+ "Mark Rutland" <mark.rutland@arm.com>, io-uring@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] fs/xattr: add *at family syscalls
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 26 Apr 2024 09:16:44 -0700
-Dan Williams <dan.j.williams@intel.com> wrote:
-
-> Jonathan Cameron wrote:
-> [..]
-> > To give people an incentive to play the standards game we have to
-> > provide an alternative.  Userspace libraries will provide some incentive
-> > to standardize if we have enough vendors (we don't today - so they will
-> > do their own libraries), but it is a lot easier to encourage if we
-> > exercise control over the interface.  
-> 
-> Yes, and I expect you and I are not far off on what can be done
-> here.
-> 
-> However, lets cut to a sentiment hanging over this discussion. Referring
-> to vendor specific commands:
-> 
->     "CXL spec has them for a reason and they need to be supported."
-> 
-> ...that is an aggressive "vendor specific first" sentiment that
-> generates an aggressive "userspace drivers" reaction, because the best
-> way to get around community discussions about what ABI makes sense is
-> userspace drivers.
-> 
-> Now, if we can step back to where this discussion started, where typical
-> Linux collaboration shines, and where I think you and I are more aligned
-> than this thread would indicate, is "vendor specific last". Lets
-> carefully consider the vendor specific commands that are candidates to
-> be de facto cross vendor semantics if not de jure standards.
+On Fri, Apr 26, 2024, at 18:20, Christian G=C3=B6ttsche wrote:
+> From: Christian G=C3=B6ttsche <cgzones@googlemail.com>
 >
+> Add the four syscalls setxattrat(), getxattrat(), listxattrat() and
+> removexattrat().  Those can be used to operate on extended attributes,
+> especially security related ones, either relative to a pinned directory
+> or on a file descriptor without read access, avoiding a
+> /proc/<pid>/fd/<fd> detour, requiring a mounted procfs.
+>
+> One use case will be setfiles(8) setting SELinux file contexts
+> ("security.selinux") without race conditions and without a file
+> descriptor opened with read access requiring SELinux read permission.
+>
+> Use the do_{name}at() pattern from fs/open.c.
+>
+> Pass the value of the extended attribute, its length, and for
+> setxattrat(2) the command (XATTR_CREATE or XATTR_REPLACE) via an added
+> struct xattr_args to not exceed six syscall arguments and not
+> merging the AT_* and XATTR_* flags.
+>
+> Signed-off-by: Christian G=C3=B6ttsche <cgzones@googlemail.com>
+> CC: x86@kernel.org
+> CC: linux-alpha@vger.kernel.org
+> CC: linux-kernel@vger.kernel.org
+> CC: linux-arm-kernel@lists.infradead.org
+> CC: linux-ia64@vger.kernel.org
+> CC: linux-m68k@lists.linux-m68k.org
+> CC: linux-mips@vger.kernel.org
+> CC: linux-parisc@vger.kernel.org
+> CC: linuxppc-dev@lists.ozlabs.org
+> CC: linux-s390@vger.kernel.org
+> CC: linux-sh@vger.kernel.org
+> CC: sparclinux@vger.kernel.org
+> CC: linux-fsdevel@vger.kernel.org
+> CC: audit@vger.kernel.org
+> CC: linux-arch@vger.kernel.org
+> CC: linux-api@vger.kernel.org
+> CC: linux-security-module@vger.kernel.org
+> CC: selinux@vger.kernel.org
 
-Agreed. I'd go a little further and say I generally have much more warm and
-fuzzy feelings when what is a vendor defined command (today) maps to more
-or less the same bit of code for a proposed standards ECN.
+I checked that the syscalls are all well-formed regarding
+argument types, number of arguments and (absence of)
+compat handling, and that they are wired up correctly
+across architectures
 
-IP rules prevent us commenting on specific proposals, but there will be
-things we review quicker and with a lighter touch vs others where we
-ask lots of annoying questions about generality of the feature etc.
-Given the effort we are putting in on the kernel side we all want CXL
-to succeed and will do our best to encourage activities that make that
-more likely. There are other standards bodies available... which may
-make more sense for some features.
+I did not look at the actual implementation in detail.
 
-Command interfaces are not a good place to compete and maintain secrecy.
-If vendors want to do that, then they don't get the pony of upstream
-support. They get to convince distros to do a custom kernel build for them:
-Good luck with that, some of those folk are 'blunt' in their responses to
-such requests.
-
-My proposal is we go forward with a bunch of the CXL spec defined commands
-to show the 'how' and consider specific proposals for upstream support
-of vendor defined commands on a case by case basis (so pretty much
-what you say above). Maybe after a few are done we can formalize some
-rules of thumb help vendors makes such proposals, though maybe some
-will figure out it is a better and longer term solution to do 'standards
-first development'.
-
-I think we do need to look at the safety filtering of tunneled
-commands but don't see that as a particularly tricky addition -
-for the simple non destructive commands at least.
-
-Jonathan
-
+Reviewed-by: Arnd Bergmann <arnd@arndb.de>
 
