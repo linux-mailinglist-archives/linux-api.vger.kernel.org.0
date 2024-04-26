@@ -1,108 +1,300 @@
-Return-Path: <linux-api+bounces-1391-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1392-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8525C8B350D
-	for <lists+linux-api@lfdr.de>; Fri, 26 Apr 2024 12:15:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5E738B3544
+	for <lists+linux-api@lfdr.de>; Fri, 26 Apr 2024 12:27:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CC11EB2103E
-	for <lists+linux-api@lfdr.de>; Fri, 26 Apr 2024 10:15:07 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DA367B23933
+	for <lists+linux-api@lfdr.de>; Fri, 26 Apr 2024 10:27:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E140142E68;
-	Fri, 26 Apr 2024 10:15:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6DE3143C53;
+	Fri, 26 Apr 2024 10:27:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="rQRPqrFJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UQgJv2Be"
 X-Original-To: linux-api@vger.kernel.org
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54C6013D53C;
-	Fri, 26 Apr 2024 10:15:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F2B4143889;
+	Fri, 26 Apr 2024 10:27:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714126503; cv=none; b=aJKXtkYEqm/3eoIKGPy5qU7iPTMP/o6V3zGIo4rgNr2ye0gc9gQelNsIQvXKwNz936IhjQnWlbwIK3R2D95J+qDP4G364vlV7iliEq+s1GvlBJayFlsfouJ3cAB5i2Ma3RQRsI1r/JzZDPu6hgOmKWbqI4MVcPyh7TdC1GMM/Dk=
+	t=1714127227; cv=none; b=LzULGTOIKA5u4L40yfCzF00K9ON+64W+YCIQr6RcqoKENdBukR4hgZsxUcdThB+2SHqnX5mWTEIW36L8an2n/gEwpXfEf4wHNlVnAZ9xqHyJlC+moumyYJTvB+lhlJtLbHeb48rqCw0IFkqyN669lWLVQbZiwh9R174zoc6vxOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714126503; c=relaxed/simple;
-	bh=ALcIRln45Y/G2JaG5UVvoiGMeRWE02AZbGsl22MTiPw=;
+	s=arc-20240116; t=1714127227; c=relaxed/simple;
+	bh=ogdfpTSv7psc3Klm1D9XfroiXN2VW40F38W066AD6Dc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l/9/1n9hxt2/RjG0s5/VLv7RzIikA0Kggq4oNMGO7CAzHSHGd/cLprtWXo8q/F4VR7opqcUiBHZEhnH3fvRB1IoZW1nWnmXwJYOi0gUUmnlxIKXiO+V62n5g5pYviEt8CsbTIgQuesFex8wMUtsG+1oFWnwcubbmkaMn1QSmg+A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=rQRPqrFJ; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=ryVjswdoVqQB3NDQl33vADKSu7VWuONlL8jqOs+n9Sc=; b=rQRPqrFJRAj/wPN4+4jEVy5+g6
-	DkVhX3SxFUbWNnMCLhscqUhlHshGMr3IIXxvs1pePUypW+E/rp8SF6BTwgkeBbwi+Co0Pyoka4lG/
-	FUuaWXY8IsgUZynPjdIb+JmW1g9RmkcbF9V4hzEPJ5mCuAOFTWVupuig5rXp/EoHP/jeFBKNNqT9L
-	C7b5b/b2wgVP8QbeuwNoNCa+ElthXH3shJKTuIruKaTJuIBTZwIrkMSyzay6LytNickkC4QhVbcgK
-	NMQdK4Wfv5PzKS02/chz/QDtiA/MdrYTej0+wjIhkRghMu0qsTWHMderpRfW7qdfmof+oM3xwfIru
-	9l4U4qKQ==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s0IbH-0000000FHLR-0ngO;
-	Fri, 26 Apr 2024 10:14:39 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id C6DD63003EA; Fri, 26 Apr 2024 12:14:38 +0200 (CEST)
-Date: Fri, 26 Apr 2024 12:14:38 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Florian Weimer <fweimer@redhat.com>
-Cc: =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Thomas Gleixner <tglx@linutronix.de>, linux-kernel@vger.kernel.org,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	"H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
-	linux-api@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
-	David.Laight@aculab.com, carlos@redhat.com,
-	Peter Oskolkov <posk@posk.io>,
-	Alexander Mikhalitsyn <alexander@mihalicyn.com>,
-	Chris Kennelly <ckennelly@google.com>,
-	Ingo Molnar <mingo@redhat.com>, Darren Hart <dvhart@infradead.org>,
-	Davidlohr Bueso <dave@stgolabs.net>, libc-alpha@sourceware.org,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Noah Goldstein <goldstein.w.n@gmail.com>,
-	Daniel Colascione <dancol@google.com>, longman@redhat.com,
-	kernel-dev@igalia.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=PyxNEOtzY3v4M09axyky/QDxx47DEBG92YfEkFjR7Hj1LJRkSmtCN1yAIwiLbc7ZsDp7zNzTO0ZLxYu84grl/YltEPe2pSIlODVS+pKRv/7QSccAqiCKEUTm1q9TjOf1haHDHAfPlLyMoJApy5JRC+bRHeyMS7T4b69WL3q74gc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UQgJv2Be; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27913C113CD;
+	Fri, 26 Apr 2024 10:26:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714127227;
+	bh=ogdfpTSv7psc3Klm1D9XfroiXN2VW40F38W066AD6Dc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UQgJv2Be/d3f7gY4YhCGiZ0nGCXTvXtF2lPoaOp8IvkvodT5XjgiaHz5C4NLUeZez
+	 /jZxQw52aEsmg5BRaBxrOZVL2xZGpI/5NDrT2ndx/IkxWkM/1f2pUeB3SZyzl6FGE5
+	 onzdvpPGAiCnB6b6d7OFml9shofr4lNXi4DdQtAeg8Qz2kZ5ayaapf27d0fHhjuN/9
+	 9vk/bZulZVRR+mLNev30oQKEjxw7vcowhW2/lMJupR3Ia3nZHvZ00hD7z33c4iNkSZ
+	 +et4evTt8wY83wZd/mwDkmnWoYuB2TwKRbuSNMdHvR32j2Vrg7Mgu64ubgBE5dIuvs
+	 a2vPuR57n6gaA==
+Date: Fri, 26 Apr 2024 12:26:57 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: =?utf-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>
+Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@linutronix.de>, 
+	linux-kernel@vger.kernel.org, "Paul E . McKenney" <paulmck@kernel.org>, 
+	Boqun Feng <boqun.feng@gmail.com>, "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>, 
+	linux-api@vger.kernel.org, Florian Weimer <fw@deneb.enyo.de>, David.Laight@aculab.com, 
+	carlos@redhat.com, Peter Oskolkov <posk@posk.io>, 
+	Alexander Mikhalitsyn <alexander@mihalicyn.com>, Chris Kennelly <ckennelly@google.com>, 
+	Ingo Molnar <mingo@redhat.com>, Darren Hart <dvhart@infradead.org>, 
+	Davidlohr Bueso <dave@stgolabs.net>, libc-alpha@sourceware.org, Steven Rostedt <rostedt@goodmis.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Noah Goldstein <goldstein.w.n@gmail.com>, 
+	Daniel Colascione <dancol@google.com>, longman@redhat.com, kernel-dev@igalia.com
 Subject: Re: [RFC PATCH 0/1] Add FUTEX_SPIN operation
-Message-ID: <20240426101438.GA39183@noisy.programming.kicks-ass.net>
+Message-ID: <20240426-gaumen-zweibeinig-3490b06e86c2@brauner>
 References: <20240425204332.221162-1-andrealmeid@igalia.com>
- <875xw44fxk.fsf@oldenburg.str.redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <875xw44fxk.fsf@oldenburg.str.redhat.com>
+In-Reply-To: <20240425204332.221162-1-andrealmeid@igalia.com>
 
-On Fri, Apr 26, 2024 at 11:43:51AM +0200, Florian Weimer wrote:
-> * Andr� Almeida:
+On Thu, Apr 25, 2024 at 05:43:31PM -0300, André Almeida wrote:
+> Hi,
 > 
-> > With FUTEX2_SPIN flag set during a futex_wait(), the futex value is
-> > expected to be the PID of the lock owner. Then, the kernel gets the
-> > task_struct of the corresponding PID, and checks if it's running. It
-> > spins until the futex is awaken, the task is scheduled out or if a
-> > timeout happens.  If the lock owner is scheduled out at any time, then
-> > the syscall follows the normal path of sleeping as usual.
+> In the last LPC, Mathieu Desnoyers and I presented[0] a proposal to extend the
+> rseq interface to be able to implement spin locks in userspace correctly. Thomas
+> Gleixner agreed that this is something that Linux could improve, but asked for
+> an alternative proposal first: a futex operation that allows to spin a user
+> lock inside the kernel. This patchset implements a prototype of this idea for
+> further discussion.
 > 
-> PID or TID?
+> With FUTEX2_SPIN flag set during a futex_wait(), the futex value is expected to
+> be the PID of the lock owner. Then, the kernel gets the task_struct of the
+> corresponding PID, and checks if it's running. It spins until the futex
+> is awaken, the task is scheduled out or if a timeout happens.  If the lock owner
+> is scheduled out at any time, then the syscall follows the normal path of
+> sleeping as usual.
+> 
+> If the futex is awaken and we are spinning, we can return to userspace quickly,
+> avoid the scheduling out and in again to wake from a futex_wait(), thus
+> speeding up the wait operation.
+> 
+> I didn't manage to find a good mechanism to prevent race conditions between
+> setting *futex = PID in userspace and doing find_get_task_by_vpid(PID) in kernel
+> space, giving that there's enough room for the original PID owner exit and such
+> PID to be relocated to another unrelated task in the system. I didn't performed
 
-TID, just like PI_LOCK I would presume.
+One option would be to also allow pidfds. Starting with v6.9 they can be
+used to reference individual threads.
 
-> I think we'd like to have at least one, possibly more, bits for free
-> use, so the kernel ID comparison should at least mask off the MSB,
-> possibly more.
+So for the really fast case where you have multiple threads and you
+somehow may really do care about the impact of the atomic_long_inc() on
+pidfd_file->f_count during fdget() (for the single-threaded case the
+increment is elided), callers can pass the TID. But in cases where the
+inc and put aren't a performance sensitive, you can use pidfds.
 
-Yeah, it should be using FUTEX_TID_MASK -- just like PI_LOCK :-)
+So something like the _completely untested_ below:
 
-I suppose the question is if this thing should then also imply
-FUTEX_WAITERS or not.
+diff --git a/kernel/futex/waitwake.c b/kernel/futex/waitwake.c
+index 94feac92cf4f..b842680aa7e0 100644
+--- a/kernel/futex/waitwake.c
++++ b/kernel/futex/waitwake.c
+@@ -4,6 +4,9 @@
+ #include <linux/sched/task.h>
+ #include <linux/sched/signal.h>
+ #include <linux/freezer.h>
++#include <linux/cleanup.h>
++#include <linux/file.h>
++#include <uapi/linux/pidfd.h>
+ 
+ #include "futex.h"
+ 
+@@ -385,19 +388,29 @@ static int futex_spin(struct futex_hash_bucket *hb, struct futex_q *q,
+ 		       struct hrtimer_sleeper *timeout, void __user *uaddr, u32 val)
+ {
+ 	struct task_struct *p;
+-	u32 pid, uval;
++	struct pid *pid;
++	u32 pidfd, uval;
+ 	unsigned int i = 0;
+ 
+ 	if (futex_get_value_locked(&uval, uaddr))
+ 		return -EFAULT;
+ 
+-	pid = uval;
++	pidfd = uval;
++	CLASS(fd, f)(pidfd);
+ 
+-	p = find_get_task_by_vpid(pid);
+-	if (!p) {
+-		printk("%s: no task found with PID %d\n", __func__, pid);
+-		return -EAGAIN;
+-	}
++	if (!f.file)
++		return -EBADF;
++
++	pid = pidfd_pid(f.file);
++	if (IS_ERR(pid))
++		return PTR_ERR(pid);
++
++	if (f.file->f_flags & PIDFD_THREAD)
++		p = get_pid_task(pid, PIDTYPE_PID); /* individual thread */
++	else
++		p = get_pid_task(pid, PIDTYPE_TGID); /* thread-group leader */
++	if (!p)
++		return -ESRCH;
+ 
+ 	if (unlikely(p->flags & PF_KTHREAD)) {
+ 		put_task_struct(p);
+
+
+> benchmarks so far, as I hope to clarify if this interface makes sense prior to
+> doing measurements on it.
+> 
+> This implementation has some debug prints to make it easy to inspect what the
+> kernel is doing, so you can check if the futex woke during spinning or if
+> just slept as the normal path:
+> 
+> [ 6331] futex_spin: spinned 64738 times, sleeping
+> [ 6331] futex_spin: woke after 1864606 spins
+> [ 6332] futex_spin: woke after 1820906 spins
+> [ 6351] futex_spin: spinned 1603293 times, sleeping
+> [ 6352] futex_spin: woke after 1848199 spins
+> 
+> [0] https://lpc.events/event/17/contributions/1481/
+> 
+> You can find a small snippet to play with this interface here:
+> 
+> ---
+> 
+> /*
+>  * futex2_spin example, by André Almeida <andrealmeid@igalia.com>
+>  *
+>  * gcc spin.c -o spin
+>  */
+> 
+> #define _GNU_SOURCE
+> #include <err.h>
+> #include <errno.h>
+> #include <linux/futex.h>
+> #include <linux/sched.h>
+> #include <pthread.h>
+> #include <stdint.h>
+> #include <stdio.h>
+> #include <stdlib.h>
+> #include <sys/mman.h>
+> #include <unistd.h>
+> 
+> #define __NR_futex_wake 454
+> #define __NR_futex_wait 455
+> 
+> #define WAKE_WAIT_US	10000
+> #define FUTEX2_SPIN	0x08
+> #define STACK_SIZE	(1024 * 1024)
+> 
+> #define FUTEX2_SIZE_U32	0x02
+> #define FUTEX2_PRIVATE	FUTEX_PRIVATE_FLAG
+> 
+> #define timeout_ns  30000000
+> 
+> void *futex;
+> 
+> static inline int futex2_wake(volatile void *uaddr, unsigned long mask, int nr, unsigned int flags)
+> {
+> 	return syscall(__NR_futex_wake, uaddr, mask, nr, flags);
+> }
+> 
+> static inline int futex2_wait(volatile void *uaddr, unsigned long val, unsigned long mask,
+> 			      unsigned int flags, struct timespec *timo, clockid_t clockid)
+> {
+> 	return syscall(__NR_futex_wait, uaddr, val, mask, flags, timo, clockid);
+> }
+> 
+> void waiter_fn()
+> {
+> 	struct timespec to;
+> 	unsigned int flags = FUTEX2_PRIVATE | FUTEX2_SIZE_U32 | FUTEX2_SPIN;
+> 
+> 	uint32_t child_pid = *(uint32_t *) futex;
+> 
+> 	clock_gettime(CLOCK_MONOTONIC, &to);
+> 	to.tv_nsec += timeout_ns;
+> 	if (to.tv_nsec >= 1000000000) {
+> 		to.tv_sec++;
+> 		to.tv_nsec -= 1000000000;
+> 	}
+> 
+> 	printf("waiting on PID %d...\n", child_pid);
+> 	if (futex2_wait(futex, child_pid, ~0U, flags, &to, CLOCK_MONOTONIC))
+> 		printf("waiter failed errno %d\n", errno);
+> 
+> 	puts("waiting done");
+> }
+> 
+> int function(int n)
+> {
+> 	return n + n;
+> }
+> 
+> #define CHILD_LOOPS 500000
+> 
+> static int child_fn(void *arg)
+> {
+> 	int i, n = 2;
+> 
+> 	for (i = 0; i < CHILD_LOOPS; i++)
+> 		n = function(n);
+> 
+> 	futex2_wake(futex, ~0U, 1, FUTEX2_SIZE_U32 | FUTEX_PRIVATE_FLAG);
+> 
+> 	puts("child thread is done");
+> 
+> 	return 0;
+> }
+> 
+> int main() {
+> 	uint32_t child_pid = 0;
+> 	char *stack;
+> 
+> 	futex = &child_pid;
+> 
+> 	stack = mmap(NULL, STACK_SIZE, PROT_READ | PROT_WRITE,
+> 			MAP_PRIVATE | MAP_ANONYMOUS | MAP_STACK, -1, 0);
+> 
+> 	if (stack == MAP_FAILED)
+> 		err(EXIT_FAILURE, "mmap");
+> 
+> 	child_pid = clone(child_fn, stack + STACK_SIZE, CLONE_VM, NULL);
+> 
+> 	waiter_fn();
+> 
+> 	usleep(WAKE_WAIT_US * 10);
+> 
+> 	return 0;
+> }
+> 
+> ---
+> 
+> André Almeida (1):
+>   futex: Add FUTEX_SPIN operation
+> 
+>  include/uapi/linux/futex.h |  2 +-
+>  kernel/futex/futex.h       |  6 ++-
+>  kernel/futex/waitwake.c    | 79 +++++++++++++++++++++++++++++++++++++-
+>  3 files changed, 83 insertions(+), 4 deletions(-)
+> 
+> -- 
+> 2.44.0
+> 
 
