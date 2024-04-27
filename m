@@ -1,91 +1,71 @@
-Return-Path: <linux-api+bounces-1407-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1408-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5790E8B43CB
-	for <lists+linux-api@lfdr.de>; Sat, 27 Apr 2024 04:13:34 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id B876B8B45BF
+	for <lists+linux-api@lfdr.de>; Sat, 27 Apr 2024 13:12:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7ABC01C20AE9
-	for <lists+linux-api@lfdr.de>; Sat, 27 Apr 2024 02:13:33 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E56C9B213BE
+	for <lists+linux-api@lfdr.de>; Sat, 27 Apr 2024 11:12:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFFDC39850;
-	Sat, 27 Apr 2024 02:13:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BAB65482C2;
+	Sat, 27 Apr 2024 11:12:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Iu7eeWHu"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="LqqAeS9U"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3796B38DD3;
-	Sat, 27 Apr 2024 02:13:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DBC244C8D;
+	Sat, 27 Apr 2024 11:12:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714184008; cv=none; b=lo0oHMiCGayxhiye/ZAH72vk66y3QkX6D3E390CQdBSzVrl2TsMlzRwHpLZR2psd/1LKIj16rYT7m6cRSR3HemuC51RJgLVRKMzNBeU6TxdbtRw/z6Vq86txWvewEP0RoSDm1aPmSBYutg4ZplvYWjXflmwcFAlr4ytOfzHx3vM=
+	t=1714216358; cv=none; b=bQ5v2VFvxy8oOaFT6YsQamlYXcrud0ECPUNDGtK/A+PtMoMrFUlviIpj1w659lXLfMaYD277767RG30160uKUWs/paWCK6opItN6r6evrS84ZT9UbsDgNd8bO8IxjJFQufCtqNGtY4Jdu4YqhlKbfsPt/hlil7mR9u1mPFS2Qbo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714184008; c=relaxed/simple;
-	bh=mUMUrbQLiUpX9NYt2dA5/tf55Sg+3Kcz3fQlfMcnBZc=;
+	s=arc-20240116; t=1714216358; c=relaxed/simple;
+	bh=tr79Artks8dAf9QK673sxTgZ9h7swDRJ+v3dL9mwHDE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WCjQKJ138w1RUPpKAJU8tnAO0hJP9hUedcjh+bz8npnCMt1yFrB/IvId3Y5GXFlHlASxxhGfmr4WDrcRFJwzGIkobXW+UklO1Oj4Kq0f4z+fIVLMBLEtpwZfCOFIvuNBK2pJJpfJld07fK1UimWuX8AuWhtP6RyWnZaBav0KYZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Iu7eeWHu; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714184007; x=1745720007;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mUMUrbQLiUpX9NYt2dA5/tf55Sg+3Kcz3fQlfMcnBZc=;
-  b=Iu7eeWHuRCx0cAlUwMw+Z/IA75Qh64rw+x2aaQrtNOkfFtUvFfIni3th
-   QOHYrw7PMy1KkefpuFitBSQp2jQLNSfyiuz6Qhm3jNVIJRp7fSRe3B8bg
-   VcJO8pNrVi2jf2BK14RMZD2jDZPbm06fWSf/p9rjplGvyqmHH/SZS/H68
-   vt+xI1M5xNFYaAIUMwBvb/Nj5LocboQ+LsebdQtapIIKqahaXnn6ZomOo
-   XuQ3DsiOI0FqeHc7QNUPQzAPfR9+K6sYx77ta4vPAMl0JWfuzws3Wwv1y
-   by+2AFs3QOmts0W80xgwP8azuWmE32DPisjW9pa5PKj5v4qrlyQ5JJcHC
-   A==;
-X-CSE-ConnectionGUID: t2MQr63tSvy+4NQFLLcaBg==
-X-CSE-MsgGUID: LioEa0Y1TyWit1hvYBa/UQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11056"; a="9807451"
-X-IronPort-AV: E=Sophos;i="6.07,234,1708416000"; 
-   d="scan'208";a="9807451"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 19:13:26 -0700
-X-CSE-ConnectionGUID: wFzIK+9URxC4/DWnIoBvmQ==
-X-CSE-MsgGUID: 8TidxXTOQ6KewX51Jb2KBg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,234,1708416000"; 
-   d="scan'208";a="30228341"
-Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 26 Apr 2024 19:13:21 -0700
-Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1s0XZ0-0004ZK-1O;
-	Sat, 27 Apr 2024 02:13:18 +0000
-Date: Sat, 27 Apr 2024 10:12:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Stas Sergeev <stsp2@yandex.ru>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Stas Sergeev <stsp2@yandex.ru>,
-	Stefan Metzmacher <metze@samba.org>,
-	Eric Biederman <ebiederm@xmission.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andy Lutomirski <luto@kernel.org>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Jeff Layton <jlayton@kernel.org>,
-	Chuck Lever <chuck.lever@oracle.com>,
-	Alexander Aring <alex.aring@gmail.com>,
-	David Laight <David.Laight@aculab.com>,
-	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Christian =?iso-8859-1?Q?G=F6ttsche?= <cgzones@googlemail.com>,
-	Arnd Bergmann <arnd@arndb.de>, Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jens Axboe <axboe@kernel.dk>, Kuniyuki Iwashima <kuniyu@amazon.com>,
-	Pavel Begunkov <asml.silence@gmail.com>, linux-arch@vger.kernel.org,
-	netdev@vger.kernel.org
-Subject: Re: [PATCH v5 2/3] open: add O_CRED_ALLOW flag
-Message-ID: <202404270923.bAeBIJt1-lkp@intel.com>
-References: <20240426133310.1159976-3-stsp2@yandex.ru>
+	 Content-Type:Content-Disposition:In-Reply-To; b=jOnJ/78hRI0vazPtiGMiuV7WEDsYSP8Jx+sD5wvWIG2yErrtLhNYEmI83tYgvTxQcXiGrMTDNpOMnjOj2tqr5TB/HK1uXYDzrUo8i8ov3zok/lECGmiobJLcR6tyPO8/DwVDk9PuxTSr+t+d/Quu8a8W4Exrh+GvE9JDtvNQeP0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=LqqAeS9U; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 630C2C113CE;
+	Sat, 27 Apr 2024 11:12:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1714216357;
+	bh=tr79Artks8dAf9QK673sxTgZ9h7swDRJ+v3dL9mwHDE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LqqAeS9UqZArFJv9wFxwNbNEYqtnYI+JWc9J4k6bQp633ND4Q80LzxyWTuvLGtXpZ
+	 h9GsDQ6bAmDlL+Edfn8198q1drntIrka1pMykjFmjBRMHzorwJ9smAZMs/FqurMhS4
+	 Qtj9YT+0GBolm8u4MlwLdCGnmL1yqjxDmFwAGTfA=
+Date: Sat, 27 Apr 2024 13:12:33 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Harold Johnson <harold.johnson@broadcom.com>
+Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Dan Williams <dan.j.williams@intel.com>, linux-cxl@vger.kernel.org,
+	Sreenivas Bagalkote <sreenivas.bagalkote@broadcom.com>,
+	Brett Henning <brett.henning@broadcom.com>,
+	Sumanesh Samanta <sumanesh.samanta@broadcom.com>,
+	linux-kernel@vger.kernel.org, Davidlohr Bueso <dave@stgolabs.net>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Ira Weiny <ira.weiny@intel.com>, linuxarm@huawei.com,
+	linux-api@vger.kernel.org,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	"Natu, Mahesh" <mahesh.natu@intel.com>
+Subject: Re: RFC: Restricting userspace interfaces for CXL fabric management
+Message-ID: <2024042708-outscore-dreadful-2c21@gregkh>
+References: <20240410124517.000075f2@Huawei.com>
+ <66284d5e8ac01_690a29431@dwillia2-xfh.jf.intel.com.notmuch>
+ <20240425123344.000001a9@Huawei.com>
+ <662a826dbeeff_b6e02943c@dwillia2-mobl3.amr.corp.intel.com.notmuch>
+ <20240425182605.00005f22@Huawei.com>
+ <662aae2fe4887_a96f294bf@dwillia2-mobl3.amr.corp.intel.com.notmuch>
+ <20240426094550.00002e37@Huawei.com>
+ <662bd36caae55_a96f2943f@dwillia2-mobl3.amr.corp.intel.com.notmuch>
+ <20240426175341.00002e67@Huawei.com>
+ <6351024b5d6206c4e9a8cd98d1a09d43@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -94,76 +74,74 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240426133310.1159976-3-stsp2@yandex.ru>
+In-Reply-To: <6351024b5d6206c4e9a8cd98d1a09d43@mail.gmail.com>
 
-Hi Stas,
+On Fri, Apr 26, 2024 at 02:25:29PM -0500, Harold Johnson wrote:
+> A few examples:
+> a) Temperature monitoring of a component or internal chip die
+> temperatures.  Could CXL define a standard OpCode to gather temperatures,
+> yes it could; but is this really part of CXL?  Then how many temperature
+> elements and what does each element mean?  This enters into the
+> implementation and therefore is vendor specific.  Unless the CXL spec
+> starts to define the implementation, something along the lines of "thou
+> shall have an average die temperature, rather than specific temperatures
+> across a die", etc.
+> 
+> b) Error counters, metrics, internal counters, etc.  Could CXL define a
+> set of common error counters, absolutely.  PCIe has done some of this.
+> However, a specific implementation may have counters and error reporting
+> that are meaningful only to a specific design and a specific
+> implementation rather than a "least common denominator" approach of a
+> standard body.
+> 
+> c) Performance counters, metric, indicators, etc.  Performance can be very
+> implementation specific and tweaking performance is likely to be
+> implementation specific.  Yes, generic and a least common denominator
+> elements could be created, but are likely to limiting in realizing the
+> maximum performance of an implementation.
+> 
+> d) Logs, errors and debug information.  In addition to spec defined
+> logging of CXL topology errors, specific designs will have logs, crash
+> dumps, debug data that is very specific to a implementation.  There are
+> likely to be cases where a product that conforms to a specification like
+> CXL, may have features that don't directly have anything to do with CXL,
+> but where a standards based management interface can be used to configure,
+> manage, and collect data for a non-CXL feature.
 
-kernel test robot noticed the following build errors:
+All of the above should be able to be handled by vendor-specific KERNEL
+drivers that feed the needed information to the proper user/kernel apis
+that the kernel already provides.
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.9-rc5 next-20240426]
-[cannot apply to arnd-asm-generic/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+So while innovating at the hardware level is fine, follow the ways that
+everyone has done this for other specification types (USB, PCI, etc.)
+and just allow vendor drivers to provide the information.  Don't do this
+in crazy userspace drivers which will circumvent the whole reason we
+have standard kernel/user apis in the first place for these types of
+things.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Stas-Sergeev/fs-reorganize-path_openat/20240426-214030
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20240426133310.1159976-3-stsp2%40yandex.ru
-patch subject: [PATCH v5 2/3] open: add O_CRED_ALLOW flag
-config: parisc-allnoconfig (https://download.01.org/0day-ci/archive/20240427/202404270923.bAeBIJt1-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240427/202404270923.bAeBIJt1-lkp@intel.com/reproduce)
+> e) Innovation.  I believe that innovation should be encouraged.  There may
+> be designs that support CXL, but that also incorporate unique and
+> innovative features or functions that might service a niche market.  The
+> AI space is ripe for innovation and perhaps specialized features that may
+> not make sense for the overall CXL specification.
+> 
+> I think that in most cases Vendor specific opcodes are not used to
+> circumvent the standards, but are used when the standards group has no
+> interested in driving into the standard certain features that are clearly
+> either implementation specific or are vendor specific additions that have
+> a specific appeal to a select class of customer, but yet are not relevant
+> to a specific standard.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404270923.bAeBIJt1-lkp@intel.com/
+Then fight this out in the specification groups, which are highly
+political, and do not push that into the kernel space please.  Again,
+this is nothing new, we have all done this for specs for decades now,
+allow vendor additions to the spec and handle that in the kernel and all
+should be ok, right?
 
-All errors (new ones prefixed by >>):
+Or am I missing something obvious here where we would NOT want to do
+what all other specs have done?
 
-   In file included from <command-line>:
-   fs/fcntl.c: In function 'fcntl_init':
->> include/linux/compiler_types.h:449:45: error: call to '__compiletime_assert_297' declared with attribute error: BUILD_BUG_ON failed: 22 - 1 != HWEIGHT32( (VALID_OPEN_FLAGS & ~(O_NONBLOCK | O_NDELAY)) | __FMODE_EXEC | __FMODE_NONOTIFY)
-     449 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:430:25: note: in definition of macro '__compiletime_assert'
-     430 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:449:9: note: in expansion of macro '_compiletime_assert'
-     449 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   fs/fcntl.c:1042:9: note: in expansion of macro 'BUILD_BUG_ON'
-    1042 |         BUILD_BUG_ON(22 - 1 /* for O_RDONLY being 0 */ !=
-         |         ^~~~~~~~~~~~
+thanks,
 
-
-vim +/__compiletime_assert_297 +449 include/linux/compiler_types.h
-
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  435  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  436  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  437  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  438  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  439  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  440   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  441   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  442   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  443   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  444   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  445   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  446   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  447   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  448  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @449  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  450  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+greg k-h
 
