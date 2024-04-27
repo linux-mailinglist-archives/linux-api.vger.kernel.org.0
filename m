@@ -1,147 +1,143 @@
-Return-Path: <linux-api+bounces-1408-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1412-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id B876B8B45BF
-	for <lists+linux-api@lfdr.de>; Sat, 27 Apr 2024 13:12:46 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1371A8B4625
+	for <lists+linux-api@lfdr.de>; Sat, 27 Apr 2024 13:32:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E56C9B213BE
-	for <lists+linux-api@lfdr.de>; Sat, 27 Apr 2024 11:12:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C4A4528837B
+	for <lists+linux-api@lfdr.de>; Sat, 27 Apr 2024 11:32:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BAB65482C2;
-	Sat, 27 Apr 2024 11:12:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3B6C4EB3A;
+	Sat, 27 Apr 2024 11:31:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="LqqAeS9U"
+	dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b="EuDIhThW"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from forward203a.mail.yandex.net (forward203a.mail.yandex.net [178.154.239.90])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DBC244C8D;
-	Sat, 27 Apr 2024 11:12:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66C5A4D5AC;
+	Sat, 27 Apr 2024 11:31:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.90
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714216358; cv=none; b=bQ5v2VFvxy8oOaFT6YsQamlYXcrud0ECPUNDGtK/A+PtMoMrFUlviIpj1w659lXLfMaYD277767RG30160uKUWs/paWCK6opItN6r6evrS84ZT9UbsDgNd8bO8IxjJFQufCtqNGtY4Jdu4YqhlKbfsPt/hlil7mR9u1mPFS2Qbo=
+	t=1714217508; cv=none; b=qGrjyPYbR4K8YSd986u91+SGNAnzEYrVIEyoNjuxsm8/e2yFIG0cudbxg4GFY5+BjD01m3zzOC7EmvgJtiiyYmpj5padz3FJtV9fGE3WdUTPMML2lwg0xGA+j4xExLNnI9PPHi7Pm8zBzFyuc7Q2TCC5MrwWa3GzgYmoxy3U9P4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714216358; c=relaxed/simple;
-	bh=tr79Artks8dAf9QK673sxTgZ9h7swDRJ+v3dL9mwHDE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jOnJ/78hRI0vazPtiGMiuV7WEDsYSP8Jx+sD5wvWIG2yErrtLhNYEmI83tYgvTxQcXiGrMTDNpOMnjOj2tqr5TB/HK1uXYDzrUo8i8ov3zok/lECGmiobJLcR6tyPO8/DwVDk9PuxTSr+t+d/Quu8a8W4Exrh+GvE9JDtvNQeP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=LqqAeS9U; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 630C2C113CE;
-	Sat, 27 Apr 2024 11:12:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1714216357;
-	bh=tr79Artks8dAf9QK673sxTgZ9h7swDRJ+v3dL9mwHDE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LqqAeS9UqZArFJv9wFxwNbNEYqtnYI+JWc9J4k6bQp633ND4Q80LzxyWTuvLGtXpZ
-	 h9GsDQ6bAmDlL+Edfn8198q1drntIrka1pMykjFmjBRMHzorwJ9smAZMs/FqurMhS4
-	 Qtj9YT+0GBolm8u4MlwLdCGnmL1yqjxDmFwAGTfA=
-Date: Sat, 27 Apr 2024 13:12:33 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Harold Johnson <harold.johnson@broadcom.com>
-Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Dan Williams <dan.j.williams@intel.com>, linux-cxl@vger.kernel.org,
-	Sreenivas Bagalkote <sreenivas.bagalkote@broadcom.com>,
-	Brett Henning <brett.henning@broadcom.com>,
-	Sumanesh Samanta <sumanesh.samanta@broadcom.com>,
-	linux-kernel@vger.kernel.org, Davidlohr Bueso <dave@stgolabs.net>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Ira Weiny <ira.weiny@intel.com>, linuxarm@huawei.com,
+	s=arc-20240116; t=1714217508; c=relaxed/simple;
+	bh=hI1bSFK6/X4iALDRDEAUD7sApxCEtoFPFoe6Z2HMYwE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=tDKcrr0jGCjgcLJ+K+dornbT07FlaNbMTXl63pZCMadqUaPnwH+xNT4LU0pLCwdLN+J+7HMGCxRDEYAmN4gFr4qHOAX/sNkZgQWkn0PT8kh+xqrzp0YdkX8M77pwN2b3BYy0ZptE57+MIufEQM5AUyjfHwWPp0Yle3+9o13GMzs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru; spf=pass smtp.mailfrom=yandex.ru; dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b=EuDIhThW; arc=none smtp.client-ip=178.154.239.90
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex.ru
+Received: from forward100a.mail.yandex.net (forward100a.mail.yandex.net [IPv6:2a02:6b8:c0e:500:1:45:d181:d100])
+	by forward203a.mail.yandex.net (Yandex) with ESMTPS id 53EFA666E2;
+	Sat, 27 Apr 2024 14:25:07 +0300 (MSK)
+Received: from mail-nwsmtp-smtp-production-main-51.vla.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-51.vla.yp-c.yandex.net [IPv6:2a02:6b8:c0d:2a02:0:640:77d9:0])
+	by forward100a.mail.yandex.net (Yandex) with ESMTPS id A48A546C9B;
+	Sat, 27 Apr 2024 14:24:58 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-51.vla.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id uOMFvPQXlqM0-vvZKY9q8;
+	Sat, 27 Apr 2024 14:24:57 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
+	t=1714217097; bh=XCfS/LUmhc1w0qDiOkcF2eV7jBKumbvKS05niUxy/Rs=;
+	h=Message-ID:Date:Cc:Subject:To:From;
+	b=EuDIhThWEd0NuT9ktrUH0zZfx5d+4ZSJ5kNqdgYliEsonvmrnVqEdod08AwZZZ75k
+	 1MyPi99TC0t+mZIAUhdQTqzDeLVnWso6EXI60hlPeO8NJ/fqjjmcxQX7bV6QCFVaWT
+	 EfxPiWRmGCF6CCPWsbWhT1APTCdkjpxLURpHUAuo=
+Authentication-Results: mail-nwsmtp-smtp-production-main-51.vla.yp-c.yandex.net; dkim=pass header.i=@yandex.ru
+From: Stas Sergeev <stsp2@yandex.ru>
+To: linux-kernel@vger.kernel.org
+Cc: Stas Sergeev <stsp2@yandex.ru>,
+	Stefan Metzmacher <metze@samba.org>,
+	Eric Biederman <ebiederm@xmission.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andy Lutomirski <luto@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Jeff Layton <jlayton@kernel.org>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Alexander Aring <alex.aring@gmail.com>,
+	David Laight <David.Laight@ACULAB.COM>,
+	linux-fsdevel@vger.kernel.org,
 	linux-api@vger.kernel.org,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	"Natu, Mahesh" <mahesh.natu@intel.com>
-Subject: Re: RFC: Restricting userspace interfaces for CXL fabric management
-Message-ID: <2024042708-outscore-dreadful-2c21@gregkh>
-References: <20240410124517.000075f2@Huawei.com>
- <66284d5e8ac01_690a29431@dwillia2-xfh.jf.intel.com.notmuch>
- <20240425123344.000001a9@Huawei.com>
- <662a826dbeeff_b6e02943c@dwillia2-mobl3.amr.corp.intel.com.notmuch>
- <20240425182605.00005f22@Huawei.com>
- <662aae2fe4887_a96f294bf@dwillia2-mobl3.amr.corp.intel.com.notmuch>
- <20240426094550.00002e37@Huawei.com>
- <662bd36caae55_a96f2943f@dwillia2-mobl3.amr.corp.intel.com.notmuch>
- <20240426175341.00002e67@Huawei.com>
- <6351024b5d6206c4e9a8cd98d1a09d43@mail.gmail.com>
+	Paolo Bonzini <pbonzini@redhat.com>,
+	=?UTF-8?q?Christian=20G=C3=B6ttsche?= <cgzones@googlemail.com>
+Subject: [PATCH v6 0/3] implement OA2_CRED_INHERIT flag for openat2()
+Date: Sat, 27 Apr 2024 14:24:48 +0300
+Message-ID: <20240427112451.1609471-1-stsp2@yandex.ru>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6351024b5d6206c4e9a8cd98d1a09d43@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, Apr 26, 2024 at 02:25:29PM -0500, Harold Johnson wrote:
-> A few examples:
-> a) Temperature monitoring of a component or internal chip die
-> temperatures.  Could CXL define a standard OpCode to gather temperatures,
-> yes it could; but is this really part of CXL?  Then how many temperature
-> elements and what does each element mean?  This enters into the
-> implementation and therefore is vendor specific.  Unless the CXL spec
-> starts to define the implementation, something along the lines of "thou
-> shall have an average die temperature, rather than specific temperatures
-> across a die", etc.
-> 
-> b) Error counters, metrics, internal counters, etc.  Could CXL define a
-> set of common error counters, absolutely.  PCIe has done some of this.
-> However, a specific implementation may have counters and error reporting
-> that are meaningful only to a specific design and a specific
-> implementation rather than a "least common denominator" approach of a
-> standard body.
-> 
-> c) Performance counters, metric, indicators, etc.  Performance can be very
-> implementation specific and tweaking performance is likely to be
-> implementation specific.  Yes, generic and a least common denominator
-> elements could be created, but are likely to limiting in realizing the
-> maximum performance of an implementation.
-> 
-> d) Logs, errors and debug information.  In addition to spec defined
-> logging of CXL topology errors, specific designs will have logs, crash
-> dumps, debug data that is very specific to a implementation.  There are
-> likely to be cases where a product that conforms to a specification like
-> CXL, may have features that don't directly have anything to do with CXL,
-> but where a standards based management interface can be used to configure,
-> manage, and collect data for a non-CXL feature.
+This patch-set implements the OA2_CRED_INHERIT flag for openat2() syscall.
+It is needed to perform an open operation with the creds that were in
+effect when the dir_fd was opened, if the dir was opened with O_CRED_ALLOW
+flag. This allows the process to pre-open some dirs and switch eUID
+(and other UIDs/GIDs) to the less-privileged user, while still retaining
+the possibility to open/create files within the pre-opened directory set.
 
-All of the above should be able to be handled by vendor-specific KERNEL
-drivers that feed the needed information to the proper user/kernel apis
-that the kernel already provides.
+The sand-boxing is security-oriented: symlinks leading outside of a
+sand-box are rejected. /proc magic links are rejected. fds opened with
+O_CRED_ALLOW are always closed on exec() and cannot be passed via unix
+socket.
+The more detailed description (including security considerations)
+is available in the log messages of individual patches.
 
-So while innovating at the hardware level is fine, follow the ways that
-everyone has done this for other specification types (USB, PCI, etc.)
-and just allow vendor drivers to provide the information.  Don't do this
-in crazy userspace drivers which will circumvent the whole reason we
-have standard kernel/user apis in the first place for these types of
-things.
+Changes in v6:
+- it appears open flags bit 23 is already taken on parisc, and bit 24
+  is taken on alpha. Move O_CRED_ALLOW to bit 25.
+- added selftests for both O_CRED_ALLOW and O_CRED_INHERIT additions
 
-> e) Innovation.  I believe that innovation should be encouraged.  There may
-> be designs that support CXL, but that also incorporate unique and
-> innovative features or functions that might service a niche market.  The
-> AI space is ripe for innovation and perhaps specialized features that may
-> not make sense for the overall CXL specification.
-> 
-> I think that in most cases Vendor specific opcodes are not used to
-> circumvent the standards, but are used when the standards group has no
-> interested in driving into the standard certain features that are clearly
-> either implementation specific or are vendor specific additions that have
-> a specific appeal to a select class of customer, but yet are not relevant
-> to a specific standard.
+Changes in v5:
+- rename OA2_INHERIT_CRED to OA2_CRED_INHERIT
+- add an "opt-in" flag O_CRED_ALLOW as was suggested by many reviewers
+- stop using 64bit types, as suggested by
+  Christian Brauner <brauner@kernel.org>
+- add BUILD_BUG_ON() for VALID_OPENAT2_FLAGS, based on Christian Brauner's
+  comments
+- fixed problems reported by patch-testing bot
+- made O_CRED_ALLOW fds not passable via unix sockets and exec(),
+  based on Christian Brauner's comments
 
-Then fight this out in the specification groups, which are highly
-political, and do not push that into the kernel space please.  Again,
-this is nothing new, we have all done this for specs for decades now,
-allow vendor additions to the spec and handle that in the kernel and all
-should be ok, right?
+Changes in v4:
+- add optimizations suggested by David Laight <David.Laight@ACULAB.COM>
+- move security checks to build_open_flags()
+- force RESOLVE_NO_MAGICLINKS as suggested by Andy Lutomirski <luto@kernel.org>
 
-Or am I missing something obvious here where we would NOT want to do
-what all other specs have done?
+Changes in v3:
+- partially revert v2 changes to avoid overriding capabilities.
+  Only the bare minimum is overridden: fsuid, fsgid and group_info.
+  Document the fact the full cred override is unwanted, as it may
+  represent an unneeded security risk.
 
-thanks,
+Changes in v2:
+- capture full struct cred instead of just fsuid/fsgid.
+  Suggested by Stefan Metzmacher <metze@samba.org>
 
-greg k-h
+CC: Stefan Metzmacher <metze@samba.org>
+CC: Eric Biederman <ebiederm@xmission.com>
+CC: Alexander Viro <viro@zeniv.linux.org.uk>
+CC: Andy Lutomirski <luto@kernel.org>
+CC: Christian Brauner <brauner@kernel.org>
+CC: Jan Kara <jack@suse.cz>
+CC: Jeff Layton <jlayton@kernel.org>
+CC: Chuck Lever <chuck.lever@oracle.com>
+CC: Alexander Aring <alex.aring@gmail.com>
+CC: David Laight <David.Laight@ACULAB.COM>
+CC: linux-fsdevel@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: linux-api@vger.kernel.org
+CC: Paolo Bonzini <pbonzini@redhat.com>
+CC: Christian Göttsche <cgzones@googlemail.com>
+
+-- 
+2.44.0
+
 
