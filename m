@@ -1,163 +1,178 @@
-Return-Path: <linux-api+bounces-1416-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1417-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD8BD8B4B91
-	for <lists+linux-api@lfdr.de>; Sun, 28 Apr 2024 13:49:15 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 331D08B4CD3
+	for <lists+linux-api@lfdr.de>; Sun, 28 Apr 2024 18:41:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D0F9B1C20C2F
-	for <lists+linux-api@lfdr.de>; Sun, 28 Apr 2024 11:49:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AD92D1F2164E
+	for <lists+linux-api@lfdr.de>; Sun, 28 Apr 2024 16:41:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD7735BAE4;
-	Sun, 28 Apr 2024 11:49:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10EFA73189;
+	Sun, 28 Apr 2024 16:41:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ivitera.com header.i=@ivitera.com header.b="LhMYoc9Q";
-	dkim=pass (1024-bit key) header.d=ivitera.com header.i=@ivitera.com header.b="BlwRuTRa"
+	dkim=pass (2048-bit key) header.d=amacapital-net.20230601.gappssmtp.com header.i=@amacapital-net.20230601.gappssmtp.com header.b="NW6/8fqJ"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.ivitera.com (smtp.ivitera.com [88.101.85.59])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3118C5B694;
-	Sun, 28 Apr 2024 11:49:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=88.101.85.59
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 612A573165
+	for <linux-api@vger.kernel.org>; Sun, 28 Apr 2024 16:41:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714304953; cv=none; b=oxTQvEEwXqEGwehBO75KMI/SjPYmR6FjzDN7iKxBiBi6BvnpP/7C2fJA9TKAZhdO03zJRpL8lHjut7ViBvOQqgBoqjMlN0zguDqC8Mi/9CSN66efGb7g6m7KHFZTNkyzDlQ73+m+GyiODAScBiw7ZRd5BO+aVPdNkutvftB1DBk=
+	t=1714322494; cv=none; b=Z4E73rj/27885VxksjPQccjaq8m2fJ68UkQcv10iiQrMAWXX+6jGicOwo+qQ/jTEo5ruXzKinOBxATob5/aWZZwexIUj3+gm+TiOCPykN/V0qtpzBRFR3khTnmljyM/LwSmLOUUM0ZR/qZni4YKI0YHu8E8hl85mmzhsiTBW28w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714304953; c=relaxed/simple;
-	bh=a3jtrhFLmJsd3Ue/6VPSau0Q462286ZMvv6PDrJlj9k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gn/8lbxbj2jg+aEOXiKzt5k/cwfTTbH2wvsOxm0cobXq88LuTicgcOnwC8Gn1VMg0ThsjrlpQf8Q6JFhdVk52IxFwaeHxWgwpLID4t8DfRgCrRkLemhiZz0WRkcgiSwLXWaPdsjzXR5ZjTbNUr/kacLWrvHN9DizDUzr9nolWDQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ivitera.com; spf=pass smtp.mailfrom=ivitera.com; dkim=pass (1024-bit key) header.d=ivitera.com header.i=@ivitera.com header.b=LhMYoc9Q; dkim=pass (1024-bit key) header.d=ivitera.com header.i=@ivitera.com header.b=BlwRuTRa; arc=none smtp.client-ip=88.101.85.59
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ivitera.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ivitera.com
-Received: from localhost (localhost [127.0.0.1])
-	by smtp.ivitera.com (Postfix) with ESMTP id 8B5E1160136;
-	Sun, 28 Apr 2024 13:49:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ivitera.com; s=mail;
-	t=1714304941; bh=a3jtrhFLmJsd3Ue/6VPSau0Q462286ZMvv6PDrJlj9k=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=LhMYoc9QjBGMa5qc4n0OK2y6qZ4ouIg7wZCpeDpxR4Ax2y4qIttfughGcZbCTP+/Z
-	 hve7yTUTctZdw0sKKVy/IZhhFe98yMEyPpAaaem01VpWjsD3lf3SwJ2KIylrpYBD6G
-	 IksWcPdh+fyeDGSo4R5N/V70RikkvJO69k60xYa4=
-Received: from smtp.ivitera.com ([127.0.0.1])
-	by localhost (localhost [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id VeLKYB4rjy5u; Sun, 28 Apr 2024 13:49:01 +0200 (CEST)
-Received: from [192.168.105.22] (dustin.pilsfree.net [81.201.58.138])
-	(Authenticated sender: pavel)
-	by smtp.ivitera.com (Postfix) with ESMTPSA id B81331600E5;
-	Sun, 28 Apr 2024 13:49:00 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ivitera.com; s=mail;
-	t=1714304940; bh=a3jtrhFLmJsd3Ue/6VPSau0Q462286ZMvv6PDrJlj9k=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=BlwRuTRaKZucHtdx16mb91suWp2Ulyzm4P2i1tN+LCpvVBARCqX0abSnkPhnhQqrD
-	 glzY8MThjaSjbMKnOVMBqRfUgOIGaxsCs3RDCrbhnpEzXB3Gn+Sacw8TKv1d4XvbGt
-	 mSuqhtNMsCXc8sauYYGRArdRpEw7XZa8158AHsmo=
-Message-ID: <817d5f6c-0f9d-7f88-b5ca-26c3547730fb@ivitera.com>
-Date: Sun, 28 Apr 2024 13:49:00 +0200
+	s=arc-20240116; t=1714322494; c=relaxed/simple;
+	bh=e9kozUVYrHIwrCQGcfpV/ZYobiatodQ1z9SiykSi/TI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=J73xYDNMdohcUlz91J9ZSOn5ia/LIRsoYZDhOndcoFiRk4rx6XTw0U3vcZbX82cXRjQX8O+O/iZwv5lL3/kiiCwuAO5MhMG9JCUW/HvLplNux48VX6x0FUBFH93FS+/FoFUwh3ch1PDsG4jZTSaK7muFPa1h0WGDg0u4L68T1kU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net; spf=pass smtp.mailfrom=amacapital.net; dkim=pass (2048-bit key) header.d=amacapital-net.20230601.gappssmtp.com header.i=@amacapital-net.20230601.gappssmtp.com header.b=NW6/8fqJ; arc=none smtp.client-ip=209.85.221.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
+Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-4affeacaff9so804707e0c.3
+        for <linux-api@vger.kernel.org>; Sun, 28 Apr 2024 09:41:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amacapital-net.20230601.gappssmtp.com; s=20230601; t=1714322491; x=1714927291; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=34jZPs9Eiu4Qw7ZtmIIlooQKHvZkQc1XBH5UVUDjhOE=;
+        b=NW6/8fqJ+KdO/DzZrbNCTHib82w9uzAfVxzbzF5B174BLRoEJo1OlmWTErs4rBQI1Z
+         r00CQkONj79FwD5v3l1P2uOvR3yX4Tbo79HOZw1svG64XX7ksPBYy7E4HlsQb2xJG6QT
+         BnkLBfFkT9qz3L6gM3Rb6YN9BQjWQof4fCOnR9DloKu7i0fBMKV+cbCiOGQbjaIO+6oF
+         4VLTPAkYRktWEJmAHsJUOg1mS2scXHK1k/kr2lDgRkHbjfyBY/sTKrZjNw1eYOe36Oej
+         PhcMckUbpvccKIUrq1v08nnAt5jFpYfnABQr3IOLxePNRj1mzC34SUPxgK+KWOvAQlXS
+         M38g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714322491; x=1714927291;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=34jZPs9Eiu4Qw7ZtmIIlooQKHvZkQc1XBH5UVUDjhOE=;
+        b=vYQvS7eArta5GFW0lxQM1y0eszz/qeufTQTdr+IOpD40XUN/Th6TDkCHyCbvVHqANL
+         zVQ+bzN4P5k68TSQqkXQcbQE3YLFZv7lvc55zPvpfE/5G8lkX7D846IIWBXBRb/KJK4P
+         TWnY1c3RUoEwxIS+57u4jzMzoC6em4GdOxL2gFzlzE73W/f+m6axRVWELyK2vUGCK1pZ
+         ta70MmHhEqO27tWgr14BmTPznnEGrxgCN1SlmfxKlEvuRk5qERoj6qe5ZBAufEzAOSlN
+         ZEL3C/ECoKKV19087yz1kV4ybTig2jMUUjJjmlZaQ6AHXhFofZfaJvPstHP53zdAzj4j
+         FuOQ==
+X-Forwarded-Encrypted: i=1; AJvYcCViAnIvTwtWaN7ivJ06HhRPPKgtaTze88vu0PR7Z0NJWQRQyQ1aVbLY9pdyHFaus56YXb78VyJGwBR9/zAZp9gThW64crsG6csd
+X-Gm-Message-State: AOJu0YzgeO1irCWZR4d6TmVOvam24uw9UVwSZXDLx2UikIvgNn6XbQhJ
+	2QY2YAt4Q+U56JfwKeUiGZUxsVrx9MGbYE/7FJ6uYAyOlbq/kUK1uE8r8RQlBfCtHlDz+cscd9x
+	YfBROlOq0/wHoGu7ySCzu2fOhxOmbC18vvQs7
+X-Google-Smtp-Source: AGHT+IHLdpt/9XWo4+d0fq5u+aGoe2Xweu2bbEMtHa8Q4gbQxrfJ/vnch45Ynf8rpTHz6dgnxhOkWQ1+y1wLqy+FQw8=
+X-Received: by 2002:a05:6122:251e:b0:4da:704f:7fc6 with SMTP id
+ cl30-20020a056122251e00b004da704f7fc6mr8248281vkb.15.1714322491304; Sun, 28
+ Apr 2024 09:41:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v2] usb: gadget: f_uac2: Expose all string descriptors
- through configfs.
-Content-Language: en-US
-To: Chris Wulff <Chris.Wulff@biamp.com>,
- "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- James Gruber <jimmyjgruber@gmail.com>, Lee Jones <lee@kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
- Takashi Iwai <tiwai@suse.de>
-References: <CO1PR17MB54195BE778868AFDFE2DCB36E1112@CO1PR17MB5419.namprd17.prod.outlook.com>
- <c9928edb-8b2d-1948-40b8-c16e34cea3e2@ivitera.com>
- <CO1PR17MB541989646698286B2B13CF23E1112@CO1PR17MB5419.namprd17.prod.outlook.com>
- <9b40e148-f3eb-f8f5-bf2d-37a0a0629417@ivitera.com>
- <CO1PR17MB541942196F9A2F73CF8B5B14E1152@CO1PR17MB5419.namprd17.prod.outlook.com>
-From: Pavel Hofman <pavel.hofman@ivitera.com>
-In-Reply-To: <CO1PR17MB541942196F9A2F73CF8B5B14E1152@CO1PR17MB5419.namprd17.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20240426133310.1159976-1-stsp2@yandex.ru>
+In-Reply-To: <20240426133310.1159976-1-stsp2@yandex.ru>
+From: Andy Lutomirski <luto@amacapital.net>
+Date: Sun, 28 Apr 2024 09:41:20 -0700
+Message-ID: <CALCETrUL3zXAX94CpcQYwj1omwO+=-1Li+J7Bw2kpAw4d7nsyw@mail.gmail.com>
+Subject: Re: [PATCH v5 0/3] implement OA2_CRED_INHERIT flag for openat2()
+To: Stas Sergeev <stsp2@yandex.ru>, Aleksa Sarai <cyphar@cyphar.com>, 
+	"Serge E. Hallyn" <serge@hallyn.com>
+Cc: linux-kernel@vger.kernel.org, Stefan Metzmacher <metze@samba.org>, 
+	Eric Biederman <ebiederm@xmission.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Andy Lutomirski <luto@kernel.org>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Jeff Layton <jlayton@kernel.org>, Chuck Lever <chuck.lever@oracle.com>, 
+	Alexander Aring <alex.aring@gmail.com>, David Laight <David.Laight@aculab.com>, 
+	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
+	Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Christian_G=C3=B6ttsche?= <cgzones@googlemail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 27. 04. 24 18:27, Chris Wulff wrote:
->> From: Pavel Hofman <pavel.hofman@ivitera.com>
->>>>> +             p_it_name               playback input terminal name
->>>>> +             p_ot_name               playback output terminal name
->>>>> +             p_fu_name               playback function unit name
->>>>> +             p_alt0_name             playback alt mode 0 name
->>>>> +             p_alt1_name             playback alt mode 1 name
->>>>
->>>> Nacked-by: Pavel Hofman <pavel.hofman@ivitera.com>
-> ...
->> If the params in the upper level were to stand as defaults for the
->> altsettings (and for the existing altsetting 1 if no specific altset
->> subdir configs were given), maybe the naming xxx_alt1_xxx could become a
->> bit confusing. E.g. p_altx_name or p_alt_non0_name?
-> 
-> I've been prototyping this a bit to see how it will work. My current configfs
-> structure looks something like:
-> 
-> (all existing properties)
-> c_it_name
-> c_it_ch_name
-> c_fu_name
-> c_ot_name
-> p_it_name
-> p_it_ch_name
-> p_fu_name
-> p_ot_name
-> num_alt_modes (settable to 2..5 in my prototype)
-> 
-> alt.0
->   c_alt_name
->   p_alt_name
-> alt.1 (for alt.1, alt.2, etc.)
->   c_alt_name
->   p_alt_name
->   c_ssize
->   p_ssize
->   (Additional properties here for other things that are settable for each alt mode,
->    but the only one I've implemented in my prototype so far is sample size.)
-> 
+> On Apr 26, 2024, at 6:39=E2=80=AFAM, Stas Sergeev <stsp2@yandex.ru> wrote=
+:
+> =EF=BB=BFThis patch-set implements the OA2_CRED_INHERIT flag for openat2(=
+) syscall.
+> It is needed to perform an open operation with the creds that were in
+> effect when the dir_fd was opened, if the dir was opened with O_CRED_ALLO=
+W
+> flag. This allows the process to pre-open some dirs and switch eUID
+> (and other UIDs/GIDs) to the less-privileged user, while still retaining
+> the possibility to open/create files within the pre-opened directory set.
+>
 
-Hats off to your speed, that's amazing. IMO this is a perfect config
-layout, logical, extensible, easy to generate manually as well as with a
-script.
+I=E2=80=99ve been contemplating this, and I want to propose a different sol=
+ution.
+
+First, the problem Stas is solving is quite narrow and doesn=E2=80=99t
+actually need kernel support: if I want to write a user program that
+sandboxes itself, I have at least three solutions already.  I can make
+a userns and a mountns; I can use landlock; and I can have a separate
+process that brokers filesystem access using SCM_RIGHTS.
+
+But what if I want to run a container, where the container can access
+a specific host directory, and the contained application is not aware
+of the exact technology being used?  I recently started using
+containers in anger in a production setting, and =E2=80=9Canger=E2=80=9D wa=
+s
+definitely the right word: binding part of a filesystem in is
+*miserable*.  Getting the DAC rules right is nasty.  LSMs are worse.
+Podman=E2=80=99s =E2=80=9Cbind,relabel=E2=80=9D feature is IMO utterly disg=
+usting.  I think I
+actually gave up on making one of my use cases work on a Fedora
+system.
+
+Here=E2=80=99s what I wanted to do, logically, in production: pick a host
+directory, pick a host *principal* (UID, GID, label, etc), and have
+the *entire container* access the directory as that principal. This is
+what happens automatically if I run the whole container as a userns
+with only a single UID mapped, but I don=E2=80=99t really want to do that f=
+or
+a whole variety and of reasons.
+
+So maybe reimagining Stas=E2=80=99 feature a bit can actually solve this
+problem.  Instead of a special dirfd, what if there was a special
+subtree (in the sense of open_tree) that captures a set of creds and
+does all opens inside the subtree using those creds?
+
+This isn=E2=80=99t a fully formed proposal, but I *think* it should be
+generally fairly safe for even an unprivileged user to clone a subtree
+with a specific flag set to do this. Maybe a capability would be
+needed (CAP_CAPTURE_CREDS?), but it would be nice to allow delegating
+this to a daemon if a privilege is needed, and getting the API right
+might be a bit tricky.
+
+Then two different things could be done:
+
+1. The subtree could be used unmounted or via /proc magic links. This
+would be for programs that are aware of this interface.
+
+2. The subtree could be mounted, and accessed through the mount would
+use the captured creds.
+
+(Hmm. What would a new open_tree() pointing at this special subtree do?)
 
 
-> This brings up a few questions:
-> 
-> Is a property for setting the number of alt modes preferred, or being able to
-> make directories like some other things (eg, "mkdir alt.5" would add alt mode 5)?
-> The former is what I started with, but I am leaning towards the latter as it is a bit
-> more flexible (you could create alt modes of any index, though I'm not entirely
-> sure why you'd want to.) It does involve a bit more dynamic memory allocation,
-> but nothing crazy.
+With all this done, if userspace wired it up, a container user could
+do something like:
 
-I am not sure the arbitrary index of alt mode would be useful (is it
-even allowed in USB specs?). But I may not have understood your question
-properly.
+=E2=80=94bind-capture-creds source=3Ddest
 
-The num_alt_modes property - can the number be perhaps aquired from the
-number of created directories? Or would that number of alt modes be
-created automatically (all same with default values), and the properties
-in alt.X dirs would subsequently only modify their respective values?
+And the contained program would access source *as the user who started
+the container*, and this would just work without relabeling or
+fiddling with owner uids or gids or ACLs, and it would continue to
+work even if the container has multiple dynamically allocated subuids
+mapped (e.g. one for =E2=80=9Croot=E2=80=9D and one for the actual applicat=
+ion).
 
-> 
-> And second, should the alt.x directories go back to the defaults if you remove
-> and re-create them? I'm assuming it makes sense to do that, just putting it out
-> there since my current prototype doesn't work that way.
+Bonus points for the ability to revoke the creds in an already opened
+subtree. Or even for the creds to automatically revoke themselves when
+the opener exits (or maybe when a specific cred-pinning fd goes away).
 
-IIUC just creating the alt.X directory would create the alt X mode, with
-default properties from the top-level configs or with the source-code
-defaults.
+(This should work for single files as well as for directories.)
 
-Thanks a lot,
+New LSM hooks or extensions of existing hooks might be needed to make
+LSMs comfortable with this.
 
-Pavel.
+What do you all think?
 
