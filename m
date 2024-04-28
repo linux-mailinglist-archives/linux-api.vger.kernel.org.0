@@ -1,148 +1,163 @@
-Return-Path: <linux-api+bounces-1415-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1416-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AA258B4995
-	for <lists+linux-api@lfdr.de>; Sun, 28 Apr 2024 06:33:10 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD8BD8B4B91
+	for <lists+linux-api@lfdr.de>; Sun, 28 Apr 2024 13:49:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 48D87B21280
-	for <lists+linux-api@lfdr.de>; Sun, 28 Apr 2024 04:33:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D0F9B1C20C2F
+	for <lists+linux-api@lfdr.de>; Sun, 28 Apr 2024 11:49:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3DE5A23;
-	Sun, 28 Apr 2024 04:33:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD7735BAE4;
+	Sun, 28 Apr 2024 11:49:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=trudheim.com header.i=@trudheim.com header.b="Ge/n5cN7"
+	dkim=pass (1024-bit key) header.d=ivitera.com header.i=@ivitera.com header.b="LhMYoc9Q";
+	dkim=pass (1024-bit key) header.d=ivitera.com header.i=@ivitera.com header.b="BlwRuTRa"
 X-Original-To: linux-api@vger.kernel.org
-Received: from pio-pvt-msa1.bahnhof.se (pio-pvt-msa1.bahnhof.se [79.136.2.40])
+Received: from smtp.ivitera.com (smtp.ivitera.com [88.101.85.59])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C284B19F;
-	Sun, 28 Apr 2024 04:32:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.136.2.40
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3118C5B694;
+	Sun, 28 Apr 2024 11:49:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=88.101.85.59
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714278781; cv=none; b=F0nJF+0rj4/y985ZdpBXeJ6ol/t/1uf+T+EsII9kIohLNLmD/WHBBtyzHrv4ldTmLnfwT6o+GyefnJiXqiKpXa9aNM5qlxuKWCYTWdT3R3YejOgW8vL62DCrS4FyJ7XUojEbfrl6GU8O2Ap9JvCocfml1POuT+a/b2Xz1AXfBzE=
+	t=1714304953; cv=none; b=oxTQvEEwXqEGwehBO75KMI/SjPYmR6FjzDN7iKxBiBi6BvnpP/7C2fJA9TKAZhdO03zJRpL8lHjut7ViBvOQqgBoqjMlN0zguDqC8Mi/9CSN66efGb7g6m7KHFZTNkyzDlQ73+m+GyiODAScBiw7ZRd5BO+aVPdNkutvftB1DBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714278781; c=relaxed/simple;
-	bh=HMrm9rNMfGcHoEG7S4kdJ/HDvK8wpZH670y877FeSrc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fOdRoumXRU3rkFQaBG3Ijk7GU6d8dNgP0HmlVfC0TAXDM2GhoHNsbMVXYkkAXlu6lqMGXBes44QdtM3Nb+n+1Fbd4PFy+8Vt2Rp1KjKPp0UAhiZ76cS0vdhyrRtppQLL3UdvwVKVdIpg4kc8a/dGpc5dC0aiOrYWh8yOF4n5h1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=trudheim.com; spf=pass smtp.mailfrom=trudheim.com; dkim=fail (2048-bit key) header.d=trudheim.com header.i=@trudheim.com header.b=Ge/n5cN7 reason="signature verification failed"; arc=none smtp.client-ip=79.136.2.40
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=trudheim.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=trudheim.com
+	s=arc-20240116; t=1714304953; c=relaxed/simple;
+	bh=a3jtrhFLmJsd3Ue/6VPSau0Q462286ZMvv6PDrJlj9k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gn/8lbxbj2jg+aEOXiKzt5k/cwfTTbH2wvsOxm0cobXq88LuTicgcOnwC8Gn1VMg0ThsjrlpQf8Q6JFhdVk52IxFwaeHxWgwpLID4t8DfRgCrRkLemhiZz0WRkcgiSwLXWaPdsjzXR5ZjTbNUr/kacLWrvHN9DizDUzr9nolWDQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ivitera.com; spf=pass smtp.mailfrom=ivitera.com; dkim=pass (1024-bit key) header.d=ivitera.com header.i=@ivitera.com header.b=LhMYoc9Q; dkim=pass (1024-bit key) header.d=ivitera.com header.i=@ivitera.com header.b=BlwRuTRa; arc=none smtp.client-ip=88.101.85.59
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ivitera.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ivitera.com
 Received: from localhost (localhost [127.0.0.1])
-	by pio-pvt-msa1.bahnhof.se (Postfix) with ESMTP id A5C213F3CD;
-	Sun, 28 Apr 2024 06:25:41 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: 0.199
-X-Spam-Level:
-Authentication-Results: pio-pvt-msa1.bahnhof.se (amavisd-new);
-	dkim=fail (2048-bit key)
-	reason="fail (OpenSSL error: data too small for key size)"
-	header.d=trudheim.com
-Received: from pio-pvt-msa1.bahnhof.se ([127.0.0.1])
-	by localhost (pio-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ioErA7ij4ibj; Sun, 28 Apr 2024 06:25:41 +0200 (CEST)
-Received: 
-	by pio-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id D375A3F784;
-	Sun, 28 Apr 2024 06:25:39 +0200 (CEST)
-Received: from acer.trudheim.com (acer.trudheim.com [IPv6:2001:470:28:a8::44])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by trudheim.com (Postfix) with ESMTPSA id 02822ECA9F3;
-	Sun, 28 Apr 2024 06:25:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=trudheim.com;
-	s=trudheim; t=1714278337;
-	bh=HMrm9rNMfGcHoEG7S4kdJ/HDvK8wpZH670y877FeSrc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Ge/n5cN7ibL0LaFVcwBy96e4OANeUsHHDs/z7e5BFo25LRPquoATlu6c3n0uzmnP4
-	 esOQQHUe1xGLfBzX9r+nlgWOEGvJlTYM6Fzoo0xdvZ5lev8cGKaGJob132+Tq4Klr2
-	 SPM/A4A3sbicpFwhb7XxOjJ1iLYK+bJg7xw0AzaA=
-Date: Sun, 28 Apr 2024 06:25:35 +0200
-From: Sirius <sirius@trudheim.com>
-To: Dan Williams <dan.j.williams@intel.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>,
-	Harold Johnson <harold.johnson@broadcom.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	linux-cxl@vger.kernel.org,
-	Sreenivas Bagalkote <sreenivas.bagalkote@broadcom.com>,
-	Brett Henning <brett.henning@broadcom.com>,
-	Sumanesh Samanta <sumanesh.samanta@broadcom.com>,
-	linux-kernel@vger.kernel.org, Davidlohr Bueso <dave@stgolabs.net>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Ira Weiny <ira.weiny@intel.com>, linuxarm@huawei.com,
-	linux-api@vger.kernel.org,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	"Natu, Mahesh" <mahesh.natu@intel.com>
-Subject: Re: RFC: Restricting userspace interfaces for CXL fabric management
-Message-ID: <Zi3Pv1GrCY6bSk4e@acer.trudheim.com>
-References: <20240425123344.000001a9@Huawei.com>
- <662a826dbeeff_b6e02943c@dwillia2-mobl3.amr.corp.intel.com.notmuch>
- <20240425182605.00005f22@Huawei.com>
- <662aae2fe4887_a96f294bf@dwillia2-mobl3.amr.corp.intel.com.notmuch>
- <20240426094550.00002e37@Huawei.com>
- <662bd36caae55_a96f2943f@dwillia2-mobl3.amr.corp.intel.com.notmuch>
- <20240426175341.00002e67@Huawei.com>
- <6351024b5d6206c4e9a8cd98d1a09d43@mail.gmail.com>
- <2024042708-outscore-dreadful-2c21@gregkh>
- <662d263dd17c7_b6e0294ab@dwillia2-mobl3.amr.corp.intel.com.notmuch>
+	by smtp.ivitera.com (Postfix) with ESMTP id 8B5E1160136;
+	Sun, 28 Apr 2024 13:49:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ivitera.com; s=mail;
+	t=1714304941; bh=a3jtrhFLmJsd3Ue/6VPSau0Q462286ZMvv6PDrJlj9k=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=LhMYoc9QjBGMa5qc4n0OK2y6qZ4ouIg7wZCpeDpxR4Ax2y4qIttfughGcZbCTP+/Z
+	 hve7yTUTctZdw0sKKVy/IZhhFe98yMEyPpAaaem01VpWjsD3lf3SwJ2KIylrpYBD6G
+	 IksWcPdh+fyeDGSo4R5N/V70RikkvJO69k60xYa4=
+Received: from smtp.ivitera.com ([127.0.0.1])
+	by localhost (localhost [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id VeLKYB4rjy5u; Sun, 28 Apr 2024 13:49:01 +0200 (CEST)
+Received: from [192.168.105.22] (dustin.pilsfree.net [81.201.58.138])
+	(Authenticated sender: pavel)
+	by smtp.ivitera.com (Postfix) with ESMTPSA id B81331600E5;
+	Sun, 28 Apr 2024 13:49:00 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ivitera.com; s=mail;
+	t=1714304940; bh=a3jtrhFLmJsd3Ue/6VPSau0Q462286ZMvv6PDrJlj9k=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=BlwRuTRaKZucHtdx16mb91suWp2Ulyzm4P2i1tN+LCpvVBARCqX0abSnkPhnhQqrD
+	 glzY8MThjaSjbMKnOVMBqRfUgOIGaxsCs3RDCrbhnpEzXB3Gn+Sacw8TKv1d4XvbGt
+	 mSuqhtNMsCXc8sauYYGRArdRpEw7XZa8158AHsmo=
+Message-ID: <817d5f6c-0f9d-7f88-b5ca-26c3547730fb@ivitera.com>
+Date: Sun, 28 Apr 2024 13:49:00 +0200
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <662d263dd17c7_b6e0294ab@dwillia2-mobl3.amr.corp.intel.com.notmuch>
-Autocrypt: addr=sirius@trudheim.com; keydata=
-	mDMEZfWzYhYJKwYBBAHaRw8BAQdA12OXNGLFcQh7/u0TP9+LmaZCQcDJ5ikNVUR6Uv++NQy0HFN
-	pcml1cyA8c2lyaXVzQHRydWRoZWltLmNvbT6IkAQTFggAOBYhBP4MEykW8GvNTTxpa4Pq//Pg5C
-	PuBQJl9bNiAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEIPq//Pg5CPuatYA/3QLv92lC
-	7xfhdf7NgmqipA+DXyobhzn9JgwLpRQQcu0AQD77L+EQ3aiyga7NR15r2IRC4DDLFK9Mnsbvi+K
-	ZHmdBbg4BGX1s2ISCisGAQQBl1UBBQEBB0AZotbLXS2sTulJhpCsxrd9be2zedV47TV8CInC4nt
-	9PQMBCAeIeAQYFggAIBYhBP4MEykW8GvNTTxpa4Pq//Pg5CPuBQJl9bNiAhsMAAoJEIPq//Pg5C
-	PubFIA/3d2DFaXz0WJ1zq/tSacU7fckFQ7KFwddlyI7Y+IiosmAQCnBrV+e1iJXnZRSZCGBu+Xt
-	BMLXZe+WKVyzQ0/AWV5Ag==
-X-MailScanner-ID: 02822ECA9F3.AA808
-X-MailScanner: Found to be clean
-X-MailScanner-From: sirius@trudheim.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v2] usb: gadget: f_uac2: Expose all string descriptors
+ through configfs.
+Content-Language: en-US
+To: Chris Wulff <Chris.Wulff@biamp.com>,
+ "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ James Gruber <jimmyjgruber@gmail.com>, Lee Jones <lee@kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+ Takashi Iwai <tiwai@suse.de>
+References: <CO1PR17MB54195BE778868AFDFE2DCB36E1112@CO1PR17MB5419.namprd17.prod.outlook.com>
+ <c9928edb-8b2d-1948-40b8-c16e34cea3e2@ivitera.com>
+ <CO1PR17MB541989646698286B2B13CF23E1112@CO1PR17MB5419.namprd17.prod.outlook.com>
+ <9b40e148-f3eb-f8f5-bf2d-37a0a0629417@ivitera.com>
+ <CO1PR17MB541942196F9A2F73CF8B5B14E1152@CO1PR17MB5419.namprd17.prod.outlook.com>
+From: Pavel Hofman <pavel.hofman@ivitera.com>
+In-Reply-To: <CO1PR17MB541942196F9A2F73CF8B5B14E1152@CO1PR17MB5419.namprd17.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-In days of yore (Sat, 27 Apr 2024), Dan Williams thus quoth: 
-> Greg KH wrote:
-> [..]
-> > So while innovating at the hardware level is fine, follow the ways that
-> > everyone has done this for other specification types (USB, PCI, etc.)
-> > and just allow vendor drivers to provide the information.  Don't do this
-> > in crazy userspace drivers which will circumvent the whole reason we
-> > have standard kernel/user apis in the first place for these types of
-> > things.
+On 27. 04. 24 18:27, Chris Wulff wrote:
+>> From: Pavel Hofman <pavel.hofman@ivitera.com>
+>>>>> +             p_it_name               playback input terminal name
+>>>>> +             p_ot_name               playback output terminal name
+>>>>> +             p_fu_name               playback function unit name
+>>>>> +             p_alt0_name             playback alt mode 0 name
+>>>>> +             p_alt1_name             playback alt mode 1 name
+>>>>
+>>>> Nacked-by: Pavel Hofman <pavel.hofman@ivitera.com>
+> ...
+>> If the params in the upper level were to stand as defaults for the
+>> altsettings (and for the existing altsetting 1 if no specific altset
+>> subdir configs were given), maybe the naming xxx_alt1_xxx could become a
+>> bit confusing. E.g. p_altx_name or p_alt_non0_name?
 > 
-> Right, standard kernel/user apis is the requirement.
+> I've been prototyping this a bit to see how it will work. My current configfs
+> structure looks something like:
 > 
-> The suggestion of opaque vendor passthrough tunnels, and every vendor
-> ships their custom tool to do what should be common flows, is where this
-> discussion went off the rails.
+> (all existing properties)
+> c_it_name
+> c_it_ch_name
+> c_fu_name
+> c_ot_name
+> p_it_name
+> p_it_ch_name
+> p_fu_name
+> p_ot_name
+> num_alt_modes (settable to 2..5 in my prototype)
+> 
+> alt.0
+>   c_alt_name
+>   p_alt_name
+> alt.1 (for alt.1, alt.2, etc.)
+>   c_alt_name
+>   p_alt_name
+>   c_ssize
+>   p_ssize
+>   (Additional properties here for other things that are settable for each alt mode,
+>    but the only one I've implemented in my prototype so far is sample size.)
+> 
 
-One aspect of this is Fabric Management (thinking CXL3 here). It is not
-desirable that every vendor of CXL hardware require their own
-(proprietary) fabric management software. From a user perspective, that is
-absolutely horrible. Users can, and will, mix and match CXL hardware
-according to their needs (or wallet), and them having to run multiple
-fabric management solutions (which in worst case are conflicting with each
-other) to manage things is .. suboptimal.
+Hats off to your speed, that's amazing. IMO this is a perfect config
+layout, logical, extensible, easy to generate manually as well as with a
+script.
 
-By all means - innovate - but do it in such a way that interoperability
-and manageability is the priority. Special sauce vendor lock-in is a
-surefire way to kill CXL where it stands - don't do it.
 
--- 
-Kind regards,
+> This brings up a few questions:
+> 
+> Is a property for setting the number of alt modes preferred, or being able to
+> make directories like some other things (eg, "mkdir alt.5" would add alt mode 5)?
+> The former is what I started with, but I am leaning towards the latter as it is a bit
+> more flexible (you could create alt modes of any index, though I'm not entirely
+> sure why you'd want to.) It does involve a bit more dynamic memory allocation,
+> but nothing crazy.
 
-/S
+I am not sure the arbitrary index of alt mode would be useful (is it
+even allowed in USB specs?). But I may not have understood your question
+properly.
+
+The num_alt_modes property - can the number be perhaps aquired from the
+number of created directories? Or would that number of alt modes be
+created automatically (all same with default values), and the properties
+in alt.X dirs would subsequently only modify their respective values?
+
+> 
+> And second, should the alt.x directories go back to the defaults if you remove
+> and re-create them? I'm assuming it makes sense to do that, just putting it out
+> there since my current prototype doesn't work that way.
+
+IIUC just creating the alt.X directory would create the alt X mode, with
+default properties from the top-level configs or with the source-code
+defaults.
+
+Thanks a lot,
+
+Pavel.
 
