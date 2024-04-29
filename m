@@ -1,95 +1,61 @@
-Return-Path: <linux-api+bounces-1426-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1427-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3A4A8B527A
-	for <lists+linux-api@lfdr.de>; Mon, 29 Apr 2024 09:39:58 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7395F8B53E5
+	for <lists+linux-api@lfdr.de>; Mon, 29 Apr 2024 11:12:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3931A1F21366
-	for <lists+linux-api@lfdr.de>; Mon, 29 Apr 2024 07:39:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2AB5E1F22057
+	for <lists+linux-api@lfdr.de>; Mon, 29 Apr 2024 09:12:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 197E014A8D;
-	Mon, 29 Apr 2024 07:39:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED03E1CAAC;
+	Mon, 29 Apr 2024 09:12:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IGr7PBjU"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cp7ycruY"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CFEFF9C3;
-	Mon, 29 Apr 2024 07:39:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0A5E17BCB;
+	Mon, 29 Apr 2024 09:12:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714376392; cv=none; b=Am4xWMzoLqJhuSuBs4UdmuP6tkBFfTF3EdyERxZ6EO3Ui2LlE81PNEfKGfkn3lHjoBN2YWkGBdhmFzvNQBhVVFvEv4ByVD5sR+DXm+m1Zk95PBBIY/j0DX6iIgJG7GFccnoffsXlt33/nYmyAHWGkTXT5pA9PgQUK8BatkC1pgM=
+	t=1714381966; cv=none; b=Rd873q7qpj8g8jqmf82Cum2CQohOugnrzryK0Sv6jp1qj1d2T04F8tj6cYKAoQfA8qhw7wo2v3PfKij/15crYI16plLaa91OKD3+G18JpfEBfYR0maZaDDouLmu4LDDn+yiCqXgv8spBUvqSDu3H9zp7xaDu4PtfGpCApxN9IiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714376392; c=relaxed/simple;
-	bh=UphalLt9XY0n2jI2YjP5Yut1haELAieKBS8EabKM3wM=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LvkPMh8jMFTA10Ju283GpSp7o/L62eyhxQenevVUnjlKJi0hkCAMPQabckHsQCHjdwWObfLKMcJl47w/8E2lF6d5hmXWs1pERvE20qSVASbT+TjeSBskflSfaUaMUhFqalkkRs4iFXkT14wFgM+/hsF0UA2z+XW7MOZ7y2jTlHI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IGr7PBjU; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a58fc650f8fso78196866b.1;
-        Mon, 29 Apr 2024 00:39:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714376388; x=1714981188; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:date:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=n4Xjp3YBgOOmdabmdq2j2HuYSlJlL8M+66Vr2XUSO3E=;
-        b=IGr7PBjUlf7rpFRjNM336aDYyBamyUJuWoEp42ixge9HbmEvKJO5PJLjz5OD0dF0/f
-         FsuSSwPC+hdKFQMgHhKsH5sscyxJdQkdER0u75aecJb41EF6TiexRU/uOcA6Tr9VxxN5
-         YwcK8ipjD0L6bP3dOx2WFcJe54hm7HB3tY+djl8cov/q828RPYaXqr2zaTVrEHqhNwcH
-         r7JZUjez6qk0S/ADjWwybSz8lJ/6BdkqdHsAsn5+sJax0TvwfzhuLmZ6u11qEg10nh2+
-         XqZZnpMb/XYr0r3yqTDAdqfzRh0TTlrL9CyPQxjAJLW547vDVVg0Nkfjafc5lVqBsFRL
-         IFCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714376388; x=1714981188;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:date:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=n4Xjp3YBgOOmdabmdq2j2HuYSlJlL8M+66Vr2XUSO3E=;
-        b=iQiFDPuPIraSEsUMODwv/TSwdFgbFsa3Wpk9DiTgaMt7WEPHnsRwg/4FGIFemYMQ/a
-         WmwQyBJRKN+xNAYUuj9862uFudUIjNeFU9cuc+PFnuSTOIPK9NUiQT31DQTvGqIdws6v
-         T2IyuLnQ5DpgY6q/6+gXbix4QR9+eWe4ljrlTUWtZwlUShnYuutIs87uYrFg0gRGGcFt
-         PKhPEn28Lqk2kQDLET/bN4kYqckcU6ebJOmgTN0Oarvc658YCBDaqyYWuGxdwKwqBOej
-         kj6xpOpCEo0Obn7CWHEi6cQNKAP0S0uXqKu0XGeeKOR1QKmid+fJmQJXbLd2RMcO9Fg/
-         caxw==
-X-Forwarded-Encrypted: i=1; AJvYcCU4JOACjNII6X94kKp6ff1/+zCkU6eTV/yMXJZhvEhxMa92y9E3AODYIbGt3HW2lTj7zcA/as6CTHWWd+yHBNwjh7syZ3yfPiDTW2idMqfbpG0VKGGxRmp56OcUN5qU22DZhrvnF751KpJHvflT9iqps2+L4gSj8B2ilSTaDdn/9vWnH0WAbAmVqulakZqnWa2IA0oFIxsZnj74ACcH+kOv
-X-Gm-Message-State: AOJu0YzZ914A9On5vZxU34EPvD8VcDYCnd/ZNK3ATQ/pzVH+br9Wurd2
-	IS23cIGn44KHgtzqlH+/QyfXM89l8W6SoFyBHYjFQ9jUyGQNTAzh
-X-Google-Smtp-Source: AGHT+IEqa9yRIrp06/04PheOKBHYtCM/9AiTrchW8jE3vbnQfjoFvAGyutkxxq/zdb66waj1MFjGgg==
-X-Received: by 2002:a17:906:a192:b0:a55:b11d:ccbb with SMTP id s18-20020a170906a19200b00a55b11dccbbmr5847170ejy.74.1714376388241;
-        Mon, 29 Apr 2024 00:39:48 -0700 (PDT)
-Received: from krava (2001-1ae9-1c2-4c00-726e-c10f-8833-ff22.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:726e:c10f:8833:ff22])
-        by smtp.gmail.com with ESMTPSA id lu10-20020a170906faca00b00a52299d8eecsm13440610ejb.135.2024.04.29.00.39.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Apr 2024 00:39:47 -0700 (PDT)
-From: Jiri Olsa <olsajiri@gmail.com>
-X-Google-Original-From: Jiri Olsa <jolsa@kernel.org>
-Date: Mon, 29 Apr 2024 09:39:44 +0200
-To: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Cc: Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-	x86@kernel.org, bpf@vger.kernel.org,
-	Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	"Borislav Petkov (AMD)" <bp@alien8.de>,
-	Ingo Molnar <mingo@redhat.com>, Andy Lutomirski <luto@kernel.org>
-Subject: Re: [PATCHv3 bpf-next 6/7] selftests/bpf: Add uretprobe compat test
-Message-ID: <Zi9OwCwluxTo-Azd@krava>
-References: <20240421194206.1010934-1-jolsa@kernel.org>
- <20240421194206.1010934-7-jolsa@kernel.org>
- <CAEf4BzYU-y+vptqXpuALYecJJgPt+CTcbo+=Q9QXnu4vNwem+g@mail.gmail.com>
+	s=arc-20240116; t=1714381966; c=relaxed/simple;
+	bh=rsGj0P8emcKb8hKu9ORzTWwrGWwZ6ES5DkeLfKwLzQY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BNKnXpyoMwHy1rS1qjqF3qmogzr5umqgut3SJJNffuDOXZ9ffdszM7mEu065mvXpB8WCaVrds2JoR5Xn5/izgVvBgQ2I+FHRP+6vOR9Rl762MQh9lIp29Gks06OISaV5LK9TEBfSWRvTY9LS47u2qw2CTYGQl1ak9oSQRyqGLmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cp7ycruY; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1F57C113CD;
+	Mon, 29 Apr 2024 09:12:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714381966;
+	bh=rsGj0P8emcKb8hKu9ORzTWwrGWwZ6ES5DkeLfKwLzQY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Cp7ycruYXV7fRH86kj7Y1D1E71XzyLYhW96Mt5mpFGp/wKKJfCpS4Iq7+wyWRvWwC
+	 +HEtCIvs8RAbkpwoZ5vM4kfmJPZbPhr8bSYqd0qO8An0qpq4LlxQtAFQ73FXnmZ+GA
+	 Bb+8VZs/7w25/+f7SRxvfzauo5+Ox1LAbeliZssb99mOdHZkjrodD2gkceLydgwnAM
+	 X7uKYEwOB7X0jVKIaS0IWaNpo6Vu0CMbjmxIwtxULZR6cmq63p/Yph00iAxC7RsUuA
+	 GbP/Pc9koYev24eUXsnzFxcHCMJL7SorHZl2/bE7/AJBRtyuFjHkuvbmfaC46PCpqC
+	 tFyxL9uRXRzug==
+Date: Mon, 29 Apr 2024 11:12:39 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Andy Lutomirski <luto@amacapital.net>
+Cc: Stas Sergeev <stsp2@yandex.ru>, Aleksa Sarai <cyphar@cyphar.com>, 
+	"Serge E. Hallyn" <serge@hallyn.com>, linux-kernel@vger.kernel.org, 
+	Stefan Metzmacher <metze@samba.org>, Eric Biederman <ebiederm@xmission.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Andy Lutomirski <luto@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Jeff Layton <jlayton@kernel.org>, Chuck Lever <chuck.lever@oracle.com>, 
+	Alexander Aring <alex.aring@gmail.com>, David Laight <David.Laight@aculab.com>, 
+	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>, 
+	Christian =?utf-8?B?R8O2dHRzY2hl?= <cgzones@googlemail.com>
+Subject: Re: [PATCH v5 0/3] implement OA2_CRED_INHERIT flag for openat2()
+Message-ID: <20240429-donnerstag-behilflich-a083311d8e00@brauner>
+References: <20240426133310.1159976-1-stsp2@yandex.ru>
+ <CALCETrUL3zXAX94CpcQYwj1omwO+=-1Li+J7Bw2kpAw4d7nsyw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -99,153 +65,103 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAEf4BzYU-y+vptqXpuALYecJJgPt+CTcbo+=Q9QXnu4vNwem+g@mail.gmail.com>
+In-Reply-To: <CALCETrUL3zXAX94CpcQYwj1omwO+=-1Li+J7Bw2kpAw4d7nsyw@mail.gmail.com>
 
-On Fri, Apr 26, 2024 at 11:06:53AM -0700, Andrii Nakryiko wrote:
-> On Sun, Apr 21, 2024 at 12:43 PM Jiri Olsa <jolsa@kernel.org> wrote:
+On Sun, Apr 28, 2024 at 09:41:20AM -0700, Andy Lutomirski wrote:
+> > On Apr 26, 2024, at 6:39 AM, Stas Sergeev <stsp2@yandex.ru> wrote:
+> > ﻿This patch-set implements the OA2_CRED_INHERIT flag for openat2() syscall.
+> > It is needed to perform an open operation with the creds that were in
+> > effect when the dir_fd was opened, if the dir was opened with O_CRED_ALLOW
+> > flag. This allows the process to pre-open some dirs and switch eUID
+> > (and other UIDs/GIDs) to the less-privileged user, while still retaining
+> > the possibility to open/create files within the pre-opened directory set.
 > >
-> > Adding test that adds return uprobe inside 32 bit task
-> > and verify the return uprobe and attached bpf programs
-> > get properly executed.
-> >
-> > Signed-off-by: Jiri Olsa <jolsa@kernel.org>
-> > ---
-> >  tools/testing/selftests/bpf/.gitignore        |  1 +
-> >  tools/testing/selftests/bpf/Makefile          |  6 ++-
-> >  .../selftests/bpf/prog_tests/uprobe_syscall.c | 40 +++++++++++++++++++
-> >  .../bpf/progs/uprobe_syscall_compat.c         | 13 ++++++
-> >  4 files changed, 59 insertions(+), 1 deletion(-)
-> >  create mode 100644 tools/testing/selftests/bpf/progs/uprobe_syscall_compat.c
-> >
-> > diff --git a/tools/testing/selftests/bpf/.gitignore b/tools/testing/selftests/bpf/.gitignore
-> > index f1aebabfb017..69d71223c0dd 100644
-> > --- a/tools/testing/selftests/bpf/.gitignore
-> > +++ b/tools/testing/selftests/bpf/.gitignore
-> > @@ -45,6 +45,7 @@ test_cpp
-> >  /veristat
-> >  /sign-file
-> >  /uprobe_multi
-> > +/uprobe_compat
-> >  *.ko
-> >  *.tmp
-> >  xskxceiver
-> > diff --git a/tools/testing/selftests/bpf/Makefile b/tools/testing/selftests/bpf/Makefile
-> > index edc73f8f5aef..d170b63eca62 100644
-> > --- a/tools/testing/selftests/bpf/Makefile
-> > +++ b/tools/testing/selftests/bpf/Makefile
-> > @@ -134,7 +134,7 @@ TEST_GEN_PROGS_EXTENDED = test_sock_addr test_skb_cgroup_id_user \
-> >         xskxceiver xdp_redirect_multi xdp_synproxy veristat xdp_hw_metadata \
-> >         xdp_features bpf_test_no_cfi.ko
-> >
-> > -TEST_GEN_FILES += liburandom_read.so urandom_read sign-file uprobe_multi
-> > +TEST_GEN_FILES += liburandom_read.so urandom_read sign-file uprobe_multi uprobe_compat
 > 
-> you need to add uprobe_compat to TRUNNER_EXTRA_FILES as well, no?
-
-ah right
-
-> > diff --git a/tools/testing/selftests/bpf/prog_tests/uprobe_syscall.c b/tools/testing/selftests/bpf/prog_tests/uprobe_syscall.c
-> > index 9233210a4c33..3770254d893b 100644
-> > --- a/tools/testing/selftests/bpf/prog_tests/uprobe_syscall.c
-> > +++ b/tools/testing/selftests/bpf/prog_tests/uprobe_syscall.c
-> > @@ -11,6 +11,7 @@
-> >  #include <sys/wait.h>
-> >  #include "uprobe_syscall.skel.h"
-> >  #include "uprobe_syscall_call.skel.h"
-> > +#include "uprobe_syscall_compat.skel.h"
-> >
-> >  __naked unsigned long uretprobe_regs_trigger(void)
-> >  {
-> > @@ -291,6 +292,35 @@ static void test_uretprobe_syscall_call(void)
-> >                  "read_trace_pipe_iter");
-> >         ASSERT_EQ(found, 0, "found");
-> >  }
-> > +
-> > +static void trace_pipe_compat_cb(const char *str, void *data)
-> > +{
-> > +       if (strstr(str, "uretprobe compat") != NULL)
-> > +               (*(int *)data)++;
-> > +}
-> > +
-> > +static void test_uretprobe_compat(void)
-> > +{
-> > +       struct uprobe_syscall_compat *skel = NULL;
-> > +       int err, found = 0;
-> > +
-> > +       skel = uprobe_syscall_compat__open_and_load();
-> > +       if (!ASSERT_OK_PTR(skel, "uprobe_syscall_compat__open_and_load"))
-> > +               goto cleanup;
-> > +
-> > +       err = uprobe_syscall_compat__attach(skel);
-> > +       if (!ASSERT_OK(err, "uprobe_syscall_compat__attach"))
-> > +               goto cleanup;
-> > +
-> > +       system("./uprobe_compat");
-> > +
-> > +       ASSERT_OK(read_trace_pipe_iter(trace_pipe_compat_cb, &found, 1000),
-> > +                "read_trace_pipe_iter");
+> I’ve been contemplating this, and I want to propose a different solution.
 > 
-> why so complicated? can't you just set global variable that it was called
+> First, the problem Stas is solving is quite narrow and doesn’t
+> actually need kernel support: if I want to write a user program that
+> sandboxes itself, I have at least three solutions already.  I can make
+> a userns and a mountns; I can use landlock; and I can have a separate
+> process that brokers filesystem access using SCM_RIGHTS.
+> 
+> But what if I want to run a container, where the container can access
+> a specific host directory, and the contained application is not aware
+> of the exact technology being used?  I recently started using
+> containers in anger in a production setting, and “anger” was
+> definitely the right word: binding part of a filesystem in is
+> *miserable*.  Getting the DAC rules right is nasty.  LSMs are worse.
 
-hm, we execute separate uprobe_compat (32bit) process that triggers the bpf
-program, so we can't use global variable.. using the trace_pipe was the only
-thing that was easy to do
+Nowadays it's extremely simple due tue open_tree(OPEN_TREE_CLONE) and
+move_mount(). I rewrote the bind-mount logic in systemd based on that
+and util-linux uses that as well now.
+https://brauner.io/2023/02/28/mounting-into-mount-namespaces.html
 
-jirka
+> Podman’s “bind,relabel” feature is IMO utterly disgusting.  I think I
+> actually gave up on making one of my use cases work on a Fedora
+> system.
+> 
+> Here’s what I wanted to do, logically, in production: pick a host
+> directory, pick a host *principal* (UID, GID, label, etc), and have
+> the *entire container* access the directory as that principal. This is
+> what happens automatically if I run the whole container as a userns
+> with only a single UID mapped, but I don’t really want to do that for
+> a whole variety and of reasons.
+
+You're describing idmapped mounts for the most part which are upstream
+and are used in exactly that way by a lot of userspace.
 
 > 
-> > +       ASSERT_EQ(found, 1, "found");
-> > +
-> > +cleanup:
-> > +       uprobe_syscall_compat__destroy(skel);
-> > +}
-> >  #else
-> >  static void test_uretprobe_regs_equal(void)
-> >  {
-> > @@ -306,6 +336,11 @@ static void test_uretprobe_syscall_call(void)
-> >  {
-> >         test__skip();
-> >  }
-> > +
-> > +static void test_uretprobe_compat(void)
-> > +{
-> > +       test__skip();
-> > +}
-> >  #endif
-> >
-> >  void test_uprobe_syscall(void)
-> > @@ -320,3 +355,8 @@ void serial_test_uprobe_syscall_call(void)
-> >  {
-> >         test_uretprobe_syscall_call();
-> >  }
-> > +
-> > +void serial_test_uprobe_syscall_compat(void)
+> So maybe reimagining Stas’ feature a bit can actually solve this
+> problem.  Instead of a special dirfd, what if there was a special
+> subtree (in the sense of open_tree) that captures a set of creds and
+> does all opens inside the subtree using those creds?
+
+That would mean override creds in the VFS layer when accessing a
+specific subtree which is a terrible idea imho. Not just because it will
+quickly become a potential dos when you do that with a lot of subtrees
+it will also have complex interactions with overlayfs.
+
 > 
-> and then no need for serial_test?
+> This isn’t a fully formed proposal, but I *think* it should be
+> generally fairly safe for even an unprivileged user to clone a subtree
+> with a specific flag set to do this. Maybe a capability would be
+> needed (CAP_CAPTURE_CREDS?), but it would be nice to allow delegating
+> this to a daemon if a privilege is needed, and getting the API right
+> might be a bit tricky.
 > 
-> > +{
-> > +       test_uretprobe_compat();
-> > +}
-> > diff --git a/tools/testing/selftests/bpf/progs/uprobe_syscall_compat.c b/tools/testing/selftests/bpf/progs/uprobe_syscall_compat.c
-> > new file mode 100644
-> > index 000000000000..f8adde7f08e2
-> > --- /dev/null
-> > +++ b/tools/testing/selftests/bpf/progs/uprobe_syscall_compat.c
-> > @@ -0,0 +1,13 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +#include <linux/bpf.h>
-> > +#include <bpf/bpf_helpers.h>
-> > +#include <bpf/bpf_tracing.h>
-> > +
-> > +char _license[] SEC("license") = "GPL";
-> > +
-> > +SEC("uretprobe.multi/./uprobe_compat:main")
-> > +int uretprobe_compat(struct pt_regs *ctx)
-> > +{
-> > +       bpf_printk("uretprobe compat\n");
-> > +       return 0;
-> > +}
-> > --
-> > 2.44.0
-> >
+> Then two different things could be done:
+> 
+> 1. The subtree could be used unmounted or via /proc magic links. This
+> would be for programs that are aware of this interface.
+> 
+> 2. The subtree could be mounted, and accessed through the mount would
+> use the captured creds.
+> 
+> (Hmm. What would a new open_tree() pointing at this special subtree do?)
+> 
+> 
+> With all this done, if userspace wired it up, a container user could
+> do something like:
+> 
+> —bind-capture-creds source=dest
+> 
+> And the contained program would access source *as the user who started
+> the container*, and this would just work without relabeling or
+> fiddling with owner uids or gids or ACLs, and it would continue to
+> work even if the container has multiple dynamically allocated subuids
+> mapped (e.g. one for “root” and one for the actual application).
+> 
+> Bonus points for the ability to revoke the creds in an already opened
+> subtree. Or even for the creds to automatically revoke themselves when
+> the opener exits (or maybe when a specific cred-pinning fd goes away).
+> 
+> (This should work for single files as well as for directories.)
+> 
+> New LSM hooks or extensions of existing hooks might be needed to make
+> LSMs comfortable with this.
+> 
+> What do you all think?
+
+I think the problem you're describing is already mostly solved.
 
