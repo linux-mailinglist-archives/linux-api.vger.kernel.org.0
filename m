@@ -1,145 +1,194 @@
-Return-Path: <linux-api+bounces-1424-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1425-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id F103D8B4F21
-	for <lists+linux-api@lfdr.de>; Mon, 29 Apr 2024 03:13:06 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 830808B5264
+	for <lists+linux-api@lfdr.de>; Mon, 29 Apr 2024 09:33:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1736F1C2121C
-	for <lists+linux-api@lfdr.de>; Mon, 29 Apr 2024 01:13:06 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 39904281DB6
+	for <lists+linux-api@lfdr.de>; Mon, 29 Apr 2024 07:33:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5307639B;
-	Mon, 29 Apr 2024 01:13:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81EAC1401B;
+	Mon, 29 Apr 2024 07:33:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b="i8bCA03Z"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TYkQM4bK"
 X-Original-To: linux-api@vger.kernel.org
-Received: from forward500a.mail.yandex.net (forward500a.mail.yandex.net [178.154.239.80])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4DA57F;
-	Mon, 29 Apr 2024 01:12:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.80
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C91E9EED4;
+	Mon, 29 Apr 2024 07:33:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714353181; cv=none; b=qnLIdcBUi9tesTL2EmCtyVnRzQrIePerBGqsaISNGY+h3dF3/yslJD7NLae/P0ebBHXZG2AnDzkiwS/O7GYEyPVHJM9rABdlptGdw4ILpOjBVRN6KuuwuxvpvVSdero4lTKr8BJg1Tdf8JFxQMpPCjrmNmPKYktqgfqfDk1NRXM=
+	t=1714376004; cv=none; b=GPdPlT3YOS44/f67sWmCqNoGaAk0EHUPvFrat26uiOnyESkpP9qugT4q+unYNna5EHuP3fmGzp98soDei5avXtdkL6IWwTM1/Z02JdxqNbrHAB8iai9V9CfML8cVJLqmy5sYjj+GFEJEja7+CDn1+eEFHQHc5z8AhxUQqyUqIIY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714353181; c=relaxed/simple;
-	bh=atZTjMvbp/J9uFNSUp7SmwuYN/0G1ObO2MY7u9rDM18=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=dqN3ueeFofg3TGR1uEd57ElmXWLG/1VdGaBdPTHKul1j2N6OhpxEEL0rTP9Fze/dmbzcCQDGHfovTNHHRTBYVcdNxXcys7+OzI8uJKlaYulaiLz3dJJkY93/i8/gs4ElgN6aZWxOzrunHUoF6uHI+HwWarZXs5guOnipvWT7Q2U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru; spf=pass smtp.mailfrom=yandex.ru; dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b=i8bCA03Z; arc=none smtp.client-ip=178.154.239.80
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex.ru
-Received: from mail-nwsmtp-smtp-production-main-81.vla.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-81.vla.yp-c.yandex.net [IPv6:2a02:6b8:c0f:570c:0:640:ca74:0])
-	by forward500a.mail.yandex.net (Yandex) with ESMTPS id 0DBA160E11;
-	Mon, 29 Apr 2024 04:12:54 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-81.vla.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id pCESEr1uC0U0-N8n5dLns;
-	Mon, 29 Apr 2024 04:12:52 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
-	t=1714353172; bh=JbpFPDnYYOMMsam7KnZq1vujrIs611gr9o5FFJ/T4I4=;
-	h=In-Reply-To:Cc:Date:References:To:From:Subject:Message-ID;
-	b=i8bCA03ZOoqiZUGgIkgPsnsvM6PQg7Off+6jOkXlfLqxgqxmeruErexcs9PZkwcEG
-	 kdvOD6IvUfUGvCdvMUmSlRoMfPrdbJctP6VymDRBj1N2nkTF0L53s4hhJjdk87yLic
-	 c5d8Y34wJv11ocOSdzo+fEOVYGJz27d92wTxsFmw=
-Authentication-Results: mail-nwsmtp-smtp-production-main-81.vla.yp-c.yandex.net; dkim=pass header.i=@yandex.ru
-Message-ID: <35f7149a-728d-47a8-8884-347d87d5680e@yandex.ru>
-Date: Mon, 29 Apr 2024 04:12:50 +0300
+	s=arc-20240116; t=1714376004; c=relaxed/simple;
+	bh=xCAsyKsm0O2P5yVQziSDwhD1A5O80jRdVMDkGgybmbE=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PQQW485q0b0MNh3nbe5NuIScGNTKYkJBC0pzZcwAXms+aXZv5APnyoZdlqRRN0qSPblN1iZpbFcrtI9CA+J+r3vVv2TgUVcuhn4F0+Ch/DoBpYlgyJzi2sStDpwlcQR8SdV8b8rpb5xza5VInuLfhPXCbL/p55gux4eU5wg/+rY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TYkQM4bK; arc=none smtp.client-ip=209.85.218.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a52223e004dso432997166b.2;
+        Mon, 29 Apr 2024 00:33:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714376001; x=1714980801; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=aP2AX+lZetOMlju+FKo5C17Zuw89jaRcaprqSG8AZqE=;
+        b=TYkQM4bKL04oKQXRb+jPZPWaY7FLsgEg8l8JaSEbHeF34gt/zthTHhRXZN1qiM3f97
+         j4Zd8V/8a/jXgYnKCOlvupsrgRU0DhGyz8zqGBs0ZTPn0pzWf8qi4Ps1N3jaNL7b8hiO
+         Q3L0fLcydElOsmzKA5FqzlpwP/bcfDoSObUTpvXz3cJo78li0w3H72F/TWjzk2zHJz9b
+         4/u2iHxWdLj83EZ3sRz40x4sHtRtylIhFeoQ/m7pLxG2amo+Nqjlozb2dIwgTvT5xX6p
+         FBbj3W06QWQuPuCLPzY17KWjVYTcwycMnMrLzHAhiLLtb2Fply1nwcXuAJubEyWNNRsq
+         Wp1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714376001; x=1714980801;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=aP2AX+lZetOMlju+FKo5C17Zuw89jaRcaprqSG8AZqE=;
+        b=EUGpHkLGXPM2xoZQ9ssHfinRQSDCFYSA58/L+hkESQ91rcHmsSlMXHvcN0yQWVTxmN
+         wTi2yF805zDdpPpCkGXHBCoTdWoSyNinB9HexqKaE79a4anGE1vG4Gnt0/NB9ew6IVHo
+         Dz0EflDYSxn6VkHLokiGgef5UiRiv355QJ/lMrBeP8sZ1/LfgQEbFvCjpSKEhe+zYXEc
+         mY49XGyaT/vcpGER4eccVUhBnwvJgwFh6YeC/54h/LPENOvTdtFr+7xQ79fmwtq+wR95
+         lj7MkUjLNBDWW7zrm+JsVIvEmGcBaR9yifmQyGDtOPA/+EhWkNTCjYCrA0Zv6/Dq+kqJ
+         imKQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWo1whroiDru7xHWDAeAak+VuLm92hlKmf+IJeXx02nFTtglZhYm+WXji2cwNi7U3STNk5hfxhAKp6/op/CJVcQzPTNG6VbpCQuUigkYBbfIleeoeSQW3BzUW95aTmO3C5ZBMH1q5ILyW8GT2PxooXZV6bZo84JVUVIr3Tl7GxNGt97+3G2TXBW97MXq8kpxfYKs+G+G6uS5zNBbkPE+FRS
+X-Gm-Message-State: AOJu0Yyistrf1R7HIVIAhSVqdIFCQuXttoBdR6pEtuTrl2fHl2RbZq3S
+	7lhWGsaPxNZ8cA+sTgyk16HJL5p/U4MCf9vGOBfRq+l3BUZU1TNa
+X-Google-Smtp-Source: AGHT+IGqylCf/ldo7kntYAX4/5eM2LWZUh5alQVvgKY0qk6DcwG4GzloggwFhM2IkqtpPIozmLqwoQ==
+X-Received: by 2002:a17:906:38c8:b0:a58:9707:685b with SMTP id r8-20020a17090638c800b00a589707685bmr8036509ejd.16.1714376000620;
+        Mon, 29 Apr 2024 00:33:20 -0700 (PDT)
+Received: from krava (2001-1ae9-1c2-4c00-726e-c10f-8833-ff22.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:726e:c10f:8833:ff22])
+        by smtp.gmail.com with ESMTPSA id er1-20020a170907738100b00a58bf5ebc68sm4416505ejc.146.2024.04.29.00.33.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Apr 2024 00:33:20 -0700 (PDT)
+From: Jiri Olsa <olsajiri@gmail.com>
+X-Google-Original-From: Jiri Olsa <jolsa@kernel.org>
+Date: Mon, 29 Apr 2024 09:33:17 +0200
+To: Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+	x86@kernel.org, bpf@vger.kernel.org,
+	Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	"Borislav Petkov (AMD)" <bp@alien8.de>,
+	Ingo Molnar <mingo@redhat.com>, Andy Lutomirski <luto@kernel.org>
+Subject: Re: [PATCHv3 bpf-next 5/7] selftests/bpf: Add uretprobe syscall call
+ from user space test
+Message-ID: <Zi9NPfII8I7nWz6O@krava>
+References: <20240421194206.1010934-1-jolsa@kernel.org>
+ <20240421194206.1010934-6-jolsa@kernel.org>
+ <CAEf4BzbWr9s2HiWU=7=okwH7PR8LHGFj2marmaOxKW61BWKHGg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 0/3] implement OA2_CRED_INHERIT flag for openat2()
-Content-Language: en-US
-From: stsp <stsp2@yandex.ru>
-To: Andy Lutomirski <luto@amacapital.net>
-Cc: Aleksa Sarai <cyphar@cyphar.com>, "Serge E. Hallyn" <serge@hallyn.com>,
- linux-kernel@vger.kernel.org, Stefan Metzmacher <metze@samba.org>,
- Eric Biederman <ebiederm@xmission.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>, Andy Lutomirski <luto@kernel.org>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Jeff Layton <jlayton@kernel.org>, Chuck Lever <chuck.lever@oracle.com>,
- Alexander Aring <alex.aring@gmail.com>,
- David Laight <David.Laight@aculab.com>, linux-fsdevel@vger.kernel.org,
- linux-api@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Christian_G=C3=B6ttsche?= <cgzones@googlemail.com>
-References: <20240426133310.1159976-1-stsp2@yandex.ru>
- <CALCETrUL3zXAX94CpcQYwj1omwO+=-1Li+J7Bw2kpAw4d7nsyw@mail.gmail.com>
- <8e186307-bed2-4b5c-9bc6-bdc70171cc93@yandex.ru>
- <CALCETrVioWt0HUt9K1vzzuxo=Hs89AjLDUjz823s4Lwn_Y0dJw@mail.gmail.com>
- <33bbaf98-db4f-4ea6-9f34-d1bebf06c0aa@yandex.ru>
- <CALCETrXPgabERgWAru7PNz6A5rc6BTG9k2RRmjU71kQs4rSsPQ@mail.gmail.com>
- <eae8e7e6-9c03-4c8e-ab61-cf7060d74d6d@yandex.ru>
-In-Reply-To: <eae8e7e6-9c03-4c8e-ab61-cf7060d74d6d@yandex.ru>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAEf4BzbWr9s2HiWU=7=okwH7PR8LHGFj2marmaOxKW61BWKHGg@mail.gmail.com>
 
-29.04.2024 01:12, stsp пишет:
-> freely pass device nodes around, then
-> perhaps the ability to pass an r/o dir fd
-> that can suddenly give creds, is probably
-> not something new...
-Actually there is probably something
-new anyway. The process knows to close
-all sensitive files before dropping privs.
-But this may not be the case with dirs,
-because dir_fd pretty much invalidates
-itself when you drop privs: you'll get
-EPERM from openat() if you no longer
-have rights to open the file, and dir_fd
-doesn't help.
-Which is why someone may neglect
-to close dir_fd before dropping privs,
-but with O_CRED_ALLOW that would
-be a mistake.
+On Fri, Apr 26, 2024 at 11:03:29AM -0700, Andrii Nakryiko wrote:
+> On Sun, Apr 21, 2024 at 12:43 PM Jiri Olsa <jolsa@kernel.org> wrote:
+> >
+> > Adding test to verify that when called from outside of the
+> > trampoline provided by kernel, the uretprobe syscall will cause
+> > calling process to receive SIGILL signal and the attached bpf
+> > program is no executed.
+> >
+> > Signed-off-by: Jiri Olsa <jolsa@kernel.org>
+> > ---
+> >  .../selftests/bpf/prog_tests/uprobe_syscall.c | 92 +++++++++++++++++++
+> >  .../selftests/bpf/progs/uprobe_syscall_call.c | 15 +++
+> >  2 files changed, 107 insertions(+)
+> >  create mode 100644 tools/testing/selftests/bpf/progs/uprobe_syscall_call.c
+> >
+> 
+> See nits below, but overall LGTM
+> 
+> Acked-by: Andrii Nakryiko <andrii@kernel.org>
+> 
+> [...]
+> 
+> > @@ -219,6 +301,11 @@ static void test_uretprobe_regs_change(void)
+> >  {
+> >         test__skip();
+> >  }
+> > +
+> > +static void test_uretprobe_syscall_call(void)
+> > +{
+> > +       test__skip();
+> > +}
+> >  #endif
+> >
+> >  void test_uprobe_syscall(void)
+> > @@ -228,3 +315,8 @@ void test_uprobe_syscall(void)
+> >         if (test__start_subtest("uretprobe_regs_change"))
+> >                 test_uretprobe_regs_change();
+> >  }
+> > +
+> > +void serial_test_uprobe_syscall_call(void)
+> 
+> does it need to be serial? non-serial are still run sequentially
+> within a process (there is no multi-threading), it's more about some
+> global effects on system.
 
-Or what about this scenario: receiver
-gets this fd thinking its some useful and
-harmless file fd that would be needed
-even after priv drop. So he makes sure
-with F_GETFL that this fd is O_RDONLY
-and doesn't close it. But it appears to be
-malicious O_CRED_ALLOW dir_fd, which
-basically exposes many files for a write.
+plz see below
 
-So I am concerned about the cases where
-an fd was not closed before a priv drop,
-because the process didn't realize the threat.
+> 
+> > +{
+> > +       test_uretprobe_syscall_call();
+> > +}
+> > diff --git a/tools/testing/selftests/bpf/progs/uprobe_syscall_call.c b/tools/testing/selftests/bpf/progs/uprobe_syscall_call.c
+> > new file mode 100644
+> > index 000000000000..5ea03bb47198
+> > --- /dev/null
+> > +++ b/tools/testing/selftests/bpf/progs/uprobe_syscall_call.c
+> > @@ -0,0 +1,15 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +#include "vmlinux.h"
+> > +#include <bpf/bpf_helpers.h>
+> > +#include <string.h>
+> > +
+> > +struct pt_regs regs;
+> > +
+> > +char _license[] SEC("license") = "GPL";
+> > +
+> > +SEC("uretprobe//proc/self/exe:uretprobe_syscall_call")
+> > +int uretprobe(struct pt_regs *regs)
+> > +{
+> > +       bpf_printk("uretprobe called");
+> 
+> debugging leftover? we probably don't want to pollute trace_pipe from test
 
-> But if the*whole point*  of opening the fd was to capture privileges
-> and preserve them across a privilege drop, and the program loads
-> malicious code after dropping privs, then that's a risk that's taken
-> intentionally.
-If you opened an fd yourself, then yes.
-You know what have you opened, and
-you care to close sensitive fds before
-dropping privs, or you take the risk.
-But if you requested something from
-another process and got some fd as
-the result, the kernel doesn't guarantee
-you got an fd to what you have requested.
-You can get a malicious fd, which is not
-"so" possible when you open an fd yourself.
-So if you want to keep such an fd open,
-you will probably at least make sure its
-read-only, its not a device node (with fstat)
-and so on.
-All checks pass, and oops, O_CRED_ALLOW...
+the reason for this is to make sure the bpf program was not executed,
 
-So why my patch makes O_CRED_ALLOW
-non-passable? Because the receiver has
-no way to see the potential harm within
-such fd. So if he intended to keep an fd
-open after some basic safety checks, he
-will be tricked.
-So while I think its a rather bad idea to
-leave the received fds open after priv drop,
-I don't completely exclude the possibility
-that someone did that, together with a few
-safety checks which would be tricked by
-O_CRED_ALLOW.
+the test makes sure the child gets killed with SIGILL and also that
+the bpf program was not executed by checking the trace_pipe and
+making sure nothing was received
+
+the trace_pipe reading is also why it's serial
+
+jirka
+
+> 
+> > +       return 0;
+> > +}
+> > --
+> > 2.44.0
+> >
 
