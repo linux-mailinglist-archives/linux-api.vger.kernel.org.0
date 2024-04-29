@@ -1,313 +1,196 @@
-Return-Path: <linux-api+bounces-1428-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1429-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DECD8B5814
-	for <lists+linux-api@lfdr.de>; Mon, 29 Apr 2024 14:20:37 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCAC08B5F46
+	for <lists+linux-api@lfdr.de>; Mon, 29 Apr 2024 18:42:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 592742895F0
-	for <lists+linux-api@lfdr.de>; Mon, 29 Apr 2024 12:20:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5C8491F21174
+	for <lists+linux-api@lfdr.de>; Mon, 29 Apr 2024 16:42:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CE3D7C6CA;
-	Mon, 29 Apr 2024 12:18:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 450CF8562C;
+	Mon, 29 Apr 2024 16:42:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YwtcTq69"
 X-Original-To: linux-api@vger.kernel.org
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A3D8548EC;
-	Mon, 29 Apr 2024 12:18:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE0B31DA23;
+	Mon, 29 Apr 2024 16:42:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714393105; cv=none; b=drlm01zFyzFhLLKzsd5r9OOVnecah66vsmI7apcnd+cMgtmEr5Tncg8DTbh+DA84i/M2V03Uok6676P8jGemjQkb5TgaiVy0sFpxLedGqTZ/ECwKtNHsvEdtBIXvomYxCALRJXUPRG02sofi0id+tgKGfi2Vk025rqje9itJN9M=
+	t=1714408928; cv=none; b=hIHeNtk0FSLUYfNqPaKm4rxb+ShUq1JCIMH+xX4WXuGKCUDj7a2gBqk/kgHSyDpDUe40AcPJkj7lvrdbmSaeXijRHt66d/KpfsdTc67Gc6bbhszIwBwEfEy9w20YLvhA1MhWT9T88BADP1BS2hNJ9gahCcvOmrY2VDGuFR7Nxt8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714393105; c=relaxed/simple;
-	bh=NPHXUVH74K4y2grEbTSYpPMd8SrTf/Vc1B0Gzk0Q5/s=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uzksINruIFmKBakNs2ESt2cq4XbUP4EMskZma+Jzab01Cs+RuwsGaCp0WktAx/lB/AgzzOhrFh6u+RxnHX05a8Jbfrr3pSFMJsvtiKr2LYMC1zurorw4hf1AyB8OA+sX7W4hEi/7YAtQ3t4nhxTRVwW98fpb8sJl7MfJ2X6j76A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.231])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4VSj305HQtz6K5p5;
-	Mon, 29 Apr 2024 20:15:40 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
-	by mail.maildlp.com (Postfix) with ESMTPS id 1BB27140B63;
-	Mon, 29 Apr 2024 20:18:18 +0800 (CST)
-Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.35; Mon, 29 Apr
- 2024 13:18:17 +0100
-Date: Mon, 29 Apr 2024 13:18:16 +0100
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: Harold Johnson <harold.johnson@broadcom.com>
-CC: Dan Williams <dan.j.williams@intel.com>, <linux-cxl@vger.kernel.org>,
-	Sreenivas Bagalkote <sreenivas.bagalkote@broadcom.com>, Brett Henning
-	<brett.henning@broadcom.com>, Sumanesh Samanta
-	<sumanesh.samanta@broadcom.com>, <linux-kernel@vger.kernel.org>, "Davidlohr
- Bueso" <dave@stgolabs.net>, Dave Jiang <dave.jiang@intel.com>, "Alison
- Schofield" <alison.schofield@intel.com>, Vishal Verma
-	<vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
-	<linuxarm@huawei.com>, <linux-api@vger.kernel.org>, Lorenzo Pieralisi
-	<lpieralisi@kernel.org>, "Natu, Mahesh" <mahesh.natu@intel.com>,
-	<gregkh@linuxfoundation.org>
-Subject: Re: RFC: Restricting userspace interfaces for CXL fabric management
-Message-ID: <20240429131816.00005177@Huawei.com>
-In-Reply-To: <6351024b5d6206c4e9a8cd98d1a09d43@mail.gmail.com>
-References: <20240321174423.00007e0d@Huawei.com>
-	<66109191f3d6d_2583ad29468@dwillia2-xfh.jf.intel.com.notmuch>
-	<20240410124517.000075f2@Huawei.com>
-	<66284d5e8ac01_690a29431@dwillia2-xfh.jf.intel.com.notmuch>
-	<20240425123344.000001a9@Huawei.com>
-	<662a826dbeeff_b6e02943c@dwillia2-mobl3.amr.corp.intel.com.notmuch>
-	<20240425182605.00005f22@Huawei.com>
-	<662aae2fe4887_a96f294bf@dwillia2-mobl3.amr.corp.intel.com.notmuch>
-	<20240426094550.00002e37@Huawei.com>
-	<662bd36caae55_a96f2943f@dwillia2-mobl3.amr.corp.intel.com.notmuch>
-	<20240426175341.00002e67@Huawei.com>
-	<6351024b5d6206c4e9a8cd98d1a09d43@mail.gmail.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+	s=arc-20240116; t=1714408928; c=relaxed/simple;
+	bh=UhXiadpeGI3efarCSZ4ivzcXZaiIy+ZRiyi3kVtsmMQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sw5nmJgIgsmxq7WvvWnYNr4tSkbbd9c0T1nYzIFJ1g53ppPH5JIaAzsnTOeBHaO9Jyw+W6wkir5Sj735ZT9dXOKQKiHGHyFRN/oEfqvJEd+/ZkX91tL/fuDZpLzbI2++p+jNHLk1PSJkjspi2PRSBtJg2Ik8WPsx4TPfTi94gZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YwtcTq69; arc=none smtp.client-ip=209.85.215.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-6082fd3e96eso3332122a12.1;
+        Mon, 29 Apr 2024 09:42:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714408926; x=1715013726; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9Jd7Oanm4nSiWiwnB9IwoLbTq10zAou5UxTuvdRgHBc=;
+        b=YwtcTq69BLrnegOzbP0ZHEsAbgDVTfh1D8rmsZrBj0Y0iXaqLGRNNjE7pgbhPwxdgE
+         +Xsvx3i2jAGHgdO1Ytbk+lzWIQCO/PBHTl0TOrE7zwRixbaBB7+qHBu0j5sfECjMBOhj
+         QHyYJDewiagQo5rZTLQQUll7XCDZU/MoG/EgFIQny2+/OuPN8UyAdobppuVMUtUuEjwI
+         zLIWFYTz/OHQmnc42rhuaasj6xE+V+rNKfgrqY3MtOyvurcXfILdexOm0Sm8tlDYT5ZA
+         UYd/PbckhzF5rhaOBPD8xqjy8uuOfuFHXnshf5MufDuepSOYAXyxGBho7/UW5HZLYzV1
+         OOZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714408926; x=1715013726;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9Jd7Oanm4nSiWiwnB9IwoLbTq10zAou5UxTuvdRgHBc=;
+        b=X0+jBWh2+o+ZapjgZWvavk93V6Esnm6Q2d0ytRjOZ47GVUeL4f78FCVk9yRYHURrEY
+         hOSIiGskWmcxJeBNUMaAjbRGdAca4jDRAENrBIAaUXkJJBsT1AS9eTF8eAborBLJYjaa
+         Qo2yc/IlG1N29bgRoAHDxK2J2/yjqBZKz2yJXaBYzggah9Eq4ybP57+lZrkC/UfeEBzg
+         hAPhY7nGCI8Jr4Xarn1nbwr5RYHnbKgfEO/OFkxKvBEmftPF6dnrec5oJcQjAAPZV1UB
+         /WOqUsXw3NSqNqt24wvBZzzPOorfTmj9XGHSAfPejQU/lUHGI2ToFlAtFOX4936r8gMB
+         iLWg==
+X-Forwarded-Encrypted: i=1; AJvYcCUE9Fo8gV36+gQS1yViSYqZ7R+CFHbI266kxLc4H4YC3qa8f61kb+eumkmCPW6o23wHxgzz5Iil92D02iqZOWZc64DfFHI2mqUmn3FJS7SIuHe7FD2ESUOYMolKvY26K1DQ+kkLq4F71TfKzA9ZD5SXQS6PQFN7Iaa3jT6LocxRAHdC2QxL8t62CZk/NTGIKkv4lBOSdZnlslihkSJWPjws
+X-Gm-Message-State: AOJu0YwVKi04TnE6NZzPz8cclDUaVQL7r9apxXOajrwI9x8EZAWPGDAD
+	K1tzWBR+MhV1TtR7GONP8PczBl7KVq5pBO5tyOILxZJAJ9jh8hdcN3j7NAnNECi6M3vhCOJGzY9
+	orBtiFroZsAq9rY2LeUvVnHEzsQs=
+X-Google-Smtp-Source: AGHT+IE4IxzjkZnZxeSMThIyMWUmuVBhMxbEPOeKEToWqcmhE/J9jTcxCoAmje/rhqZ2jx6YJT0zAmHXpRs/eYj05/A=
+X-Received: by 2002:a17:90a:df02:b0:2ad:fa29:3989 with SMTP id
+ gp2-20020a17090adf0200b002adfa293989mr9166083pjb.19.1714408926072; Mon, 29
+ Apr 2024 09:42:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml500005.china.huawei.com (7.191.163.240) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
+References: <20240421194206.1010934-1-jolsa@kernel.org> <20240421194206.1010934-6-jolsa@kernel.org>
+ <CAEf4BzbWr9s2HiWU=7=okwH7PR8LHGFj2marmaOxKW61BWKHGg@mail.gmail.com> <Zi9NPfII8I7nWz6O@krava>
+In-Reply-To: <Zi9NPfII8I7nWz6O@krava>
+From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Date: Mon, 29 Apr 2024 09:41:53 -0700
+Message-ID: <CAEf4BzY8K6GXtdRkmo3b=ZnW=6jQZnDMtBbGOQpP8m7boTJRpg@mail.gmail.com>
+Subject: Re: [PATCHv3 bpf-next 5/7] selftests/bpf: Add uretprobe syscall call
+ from user space test
+To: Jiri Olsa <olsajiri@gmail.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Oleg Nesterov <oleg@redhat.com>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-api@vger.kernel.org, x86@kernel.org, 
+	bpf@vger.kernel.org, Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>, 
+	John Fastabend <john.fastabend@gmail.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Thomas Gleixner <tglx@linutronix.de>, "Borislav Petkov (AMD)" <bp@alien8.de>, Ingo Molnar <mingo@redhat.com>, 
+	Andy Lutomirski <luto@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 26 Apr 2024 14:25:29 -0500
-Harold Johnson <harold.johnson@broadcom.com> wrote:
-
-> Perhaps a bit more color on a few specifics might be helpful.
-> 
-> I think that there will always be a class of vendor specific APIs/Opcodes
-> that are related to an implementation of a standard instead of the
-> standard itself.  I've been party to discussion on not creating CXL
-> defined API/Opcodes that get into the realm of specifying an
-> implementation.  There are also a class of data that can be collected from
-> a specific implementation that is helpful for debug, for health
-> monitoring, and perhaps performance monitoring where the implementation
-> matters and therefore are not easily abstracted to a standard.
-
-Hi Harold,
-
-Let's divert into a few specifics to give some routes to implementing these.
-Some of them are extensions of things already well handled.  Tweaks
-and extensions in the 'spirit' of the existing spec are both places where
-adding some richness to the spec is probably not too difficult and where
-there may be some flexibility.
-
-In some cases the definitions in the specification almost certainly
-came after your design.
-
-> 
-> A few examples:
-> a) Temperature monitoring of a component or internal chip die
-> temperatures.  Could CXL define a standard OpCode to gather temperatures,
-> yes it could; but is this really part of CXL?  Then how many temperature
-> elements and what does each element mean?  This enters into the
-> implementation and therefore is vendor specific.  Unless the CXL spec
-> starts to define the implementation, something along the lines of "thou
-> shall have an average die temperature, rather than specific temperatures
-> across a die", etc.
-
-There is a general temperature monitoring and trip thresholds etc in the
-spec via get Health Info and event logs. That covers a single value,
-so not as extensive as what you refer to but it's a start. Whilst you
-are right that the specification should not mandate N temperatures in
-specific locations, it would be a reasonable request to allow for a
-wider set of monitors with some level of description.  The intent
-being that generic software can discover what is there and present
-that info for logging / monitoring.
-Whilst the exact meaning will vary by device, some broad scoping is
-easy enough (memory controller vs various FRUs perhaps) and that is useful
-to providing generic users space software.  hmwon has long handled this
-sort of data from whole systems where very similar aspects of 'what does
-this monitor actually mean' apply.  Sometimes that does need device
-specific mapping files - so there is precedence that may be helpful here.
-
-> 
-> b) Error counters, metrics, internal counters, etc.  Could CXL define a
-> set of common error counters, absolutely.  PCIe has done some of this.
-> However, a specific implementation may have counters and error reporting
-> that are meaningful only to a specific design and a specific
-> implementation rather than a "least common denominator" approach of a
-> standard body.
-> 
-> c) Performance counters, metric, indicators, etc.  Performance can be very
-> implementation specific and tweaking performance is likely to be
-> implementation specific.  Yes, generic and a least common denominator
-> elements could be created, but are likely to limiting in realizing the
-> maximum performance of an implementation.
-These two are somewhat related.
-
-This selection falls into two broad categories.
-- Opaque logging and reporting needed just for debug.  There are patches
-  on list for Vendor Debug Log.  They haven't merged yet though I think,
-  so good to get your input on that series.  Intent of that feature is
-  opaque logs.  There will never be a useful general tool for that stuff,
-  conversely no general userspace tools will use them as a result.
-  It's likely vendor engineer only territory.
-
-- Counters that useful at runtime.
-  The CXL PMU spec is rich and flexible. In common with CPU PMUs the perf driver
-  allows for direct specification of events to count. The same issue with
-  implementation specific counters occurs in CPUs.  Whilst you can keep
-  the meaning of events opaque, if you do you loose out on useable general
-  purpose software (e.g. perftool).  Alternatively some of this can be
-  pushed into perf tool description files. 
-  The advantage of pushing counters in to the main specification is that
-  they work out of the box as the CPMU driver will report those directly
-  (no need for perf tool to work with raw event codes).
-  At the moment that driver implements part of the CPMU spec. If there are
-  features you need (free running counters come to mind) then shout
-  / patches welcome.  We decided to play wait and see with the CPMU driver as
-  it wasn't clear if the full flexibility was needed for real devices.
-
-> 
-> d) Logs, errors and debug information.  In addition to spec defined
-> logging of CXL topology errors, specific designs will have logs, crash
-> dumps, debug data that is very specific to a implementation.  There are
-> likely to be cases where a product that conforms to a specification like
-> CXL, may have features that don't directly have anything to do with CXL,
-> but where a standards based management interface can be used to configure,
-> manage, and collect data for a non-CXL feature.
-
-There are standard interfaces defined for some of this stuff as well.
-Last I checked the discussion revolved around component state dump
-only being safe to use if the background command abort was supported,
-as that was needed to ensure the kernel was not locked out for an indefinite
-amount of time.
-
-If you are looking at other standards being run to configure CXL devices
-excellent, but those standards should be accessed using whatever the
-appropriate kernel interfaces.  Could you give some examples for this one?
-
-> 
-> e) Innovation.  I believe that innovation should be encouraged.  There may
-> be designs that support CXL, but that also incorporate unique and
-> innovative features or functions that might service a niche market.  The
-> AI space is ripe for innovation and perhaps specialized features that may
-> not make sense for the overall CXL specification.
-
-Agreed - but those may need specific drivers.
-
-> 
-> I think that in most cases Vendor specific opcodes are not used to
-> circumvent the standards, but are used when the standards group has no
-> interested in driving into the standard certain features that are clearly
-> either implementation specific or are vendor specific additions that have
-> a specific appeal to a select class of customer, but yet are not relevant
-> to a specific standard.
-> 
-> At the end of the day, customer want products that solve a specific
-> problem.  Sometimes vendor can address market segments or niches that a
-> standard group has no interest in supporting.  It can also take months,
-> and in some cases years to reach an agreement on what standardized feature
-> should look like.  I also believe that there can be competitive reasons
-> why there might be a group that wants to slow down a vendor's
-> implementation for fear of losing market share.
-
-Whilst I appreciate the way this can slow down adoption / kernel support
-it's a path that is still worth it in the end.
-
-As Dan and others have put it, there are other routes than the main
-CXL standard. Those should allow tighter collaboration on smaller topics
-to define common standards.
-
-Thanks,
-
-Jonathan
-
-
-> 
-> Thanks
-> Harold Johnson
-> 
-> 
-> -----Original Message-----
-> From: Jonathan Cameron [mailto:Jonathan.Cameron@Huawei.com]
-> Sent: Friday, April 26, 2024 11:54 AM
-> To: Dan Williams
-> Cc: linux-cxl@vger.kernel.org; Sreenivas Bagalkote; Brett Henning; Harold
-> Johnson; Sumanesh Samanta; linux-kernel@vger.kernel.org; Davidlohr Bueso;
-> Dave Jiang; Alison Schofield; Vishal Verma; Ira Weiny;
-> linuxarm@huawei.com; linux-api@vger.kernel.org; Lorenzo Pieralisi; Natu,
-> Mahesh; gregkh@linuxfoundation.org
-> Subject: Re: RFC: Restricting userspace interfaces for CXL fabric
-> management
-> 
-> On Fri, 26 Apr 2024 09:16:44 -0700
-> Dan Williams <dan.j.williams@intel.com> wrote:
-> 
-> > Jonathan Cameron wrote:
-> > [..]  
-> > > To give people an incentive to play the standards game we have to
-> > > provide an alternative.  Userspace libraries will provide some  
-> incentive
-> > > to standardize if we have enough vendors (we don't today - so they  
-> will
-> > > do their own libraries), but it is a lot easier to encourage if we
-> > > exercise control over the interface.  
+On Mon, Apr 29, 2024 at 12:33=E2=80=AFAM Jiri Olsa <olsajiri@gmail.com> wro=
+te:
+>
+> On Fri, Apr 26, 2024 at 11:03:29AM -0700, Andrii Nakryiko wrote:
+> > On Sun, Apr 21, 2024 at 12:43=E2=80=AFPM Jiri Olsa <jolsa@kernel.org> w=
+rote:
+> > >
+> > > Adding test to verify that when called from outside of the
+> > > trampoline provided by kernel, the uretprobe syscall will cause
+> > > calling process to receive SIGILL signal and the attached bpf
+> > > program is no executed.
+> > >
+> > > Signed-off-by: Jiri Olsa <jolsa@kernel.org>
+> > > ---
+> > >  .../selftests/bpf/prog_tests/uprobe_syscall.c | 92 +++++++++++++++++=
+++
+> > >  .../selftests/bpf/progs/uprobe_syscall_call.c | 15 +++
+> > >  2 files changed, 107 insertions(+)
+> > >  create mode 100644 tools/testing/selftests/bpf/progs/uprobe_syscall_=
+call.c
+> > >
 > >
-> > Yes, and I expect you and I are not far off on what can be done
-> > here.
+> > See nits below, but overall LGTM
 > >
-> > However, lets cut to a sentiment hanging over this discussion. Referring
-> > to vendor specific commands:
+> > Acked-by: Andrii Nakryiko <andrii@kernel.org>
 > >
-> >     "CXL spec has them for a reason and they need to be supported."
+> > [...]
 > >
-> > ...that is an aggressive "vendor specific first" sentiment that
-> > generates an aggressive "userspace drivers" reaction, because the best
-> > way to get around community discussions about what ABI makes sense is
-> > userspace drivers.
+> > > @@ -219,6 +301,11 @@ static void test_uretprobe_regs_change(void)
+> > >  {
+> > >         test__skip();
+> > >  }
+> > > +
+> > > +static void test_uretprobe_syscall_call(void)
+> > > +{
+> > > +       test__skip();
+> > > +}
+> > >  #endif
+> > >
+> > >  void test_uprobe_syscall(void)
+> > > @@ -228,3 +315,8 @@ void test_uprobe_syscall(void)
+> > >         if (test__start_subtest("uretprobe_regs_change"))
+> > >                 test_uretprobe_regs_change();
+> > >  }
+> > > +
+> > > +void serial_test_uprobe_syscall_call(void)
 > >
-> > Now, if we can step back to where this discussion started, where typical
-> > Linux collaboration shines, and where I think you and I are more aligned
-> > than this thread would indicate, is "vendor specific last". Lets
-> > carefully consider the vendor specific commands that are candidates to
-> > be de facto cross vendor semantics if not de jure standards.
-> >  
-> 
-> Agreed. I'd go a little further and say I generally have much more warm
-> and
-> fuzzy feelings when what is a vendor defined command (today) maps to more
-> or less the same bit of code for a proposed standards ECN.
-> 
-> IP rules prevent us commenting on specific proposals, but there will be
-> things we review quicker and with a lighter touch vs others where we
-> ask lots of annoying questions about generality of the feature etc.
-> Given the effort we are putting in on the kernel side we all want CXL
-> to succeed and will do our best to encourage activities that make that
-> more likely. There are other standards bodies available... which may
-> make more sense for some features.
-> 
-> Command interfaces are not a good place to compete and maintain secrecy.
-> If vendors want to do that, then they don't get the pony of upstream
-> support. They get to convince distros to do a custom kernel build for
-> them:
-> Good luck with that, some of those folk are 'blunt' in their responses to
-> such requests.
-> 
-> My proposal is we go forward with a bunch of the CXL spec defined commands
-> to show the 'how' and consider specific proposals for upstream support
-> of vendor defined commands on a case by case basis (so pretty much
-> what you say above). Maybe after a few are done we can formalize some
-> rules of thumb help vendors makes such proposals, though maybe some
-> will figure out it is a better and longer term solution to do 'standards
-> first development'.
-> 
-> I think we do need to look at the safety filtering of tunneled
-> commands but don't see that as a particularly tricky addition -
-> for the simple non destructive commands at least.
-> 
-> Jonathan
-> 
+> > does it need to be serial? non-serial are still run sequentially
+> > within a process (there is no multi-threading), it's more about some
+> > global effects on system.
+>
+> plz see below
+>
+> >
+> > > +{
+> > > +       test_uretprobe_syscall_call();
+> > > +}
+> > > diff --git a/tools/testing/selftests/bpf/progs/uprobe_syscall_call.c =
+b/tools/testing/selftests/bpf/progs/uprobe_syscall_call.c
+> > > new file mode 100644
+> > > index 000000000000..5ea03bb47198
+> > > --- /dev/null
+> > > +++ b/tools/testing/selftests/bpf/progs/uprobe_syscall_call.c
+> > > @@ -0,0 +1,15 @@
+> > > +// SPDX-License-Identifier: GPL-2.0
+> > > +#include "vmlinux.h"
+> > > +#include <bpf/bpf_helpers.h>
+> > > +#include <string.h>
+> > > +
+> > > +struct pt_regs regs;
+> > > +
+> > > +char _license[] SEC("license") =3D "GPL";
+> > > +
+> > > +SEC("uretprobe//proc/self/exe:uretprobe_syscall_call")
+> > > +int uretprobe(struct pt_regs *regs)
+> > > +{
+> > > +       bpf_printk("uretprobe called");
+> >
+> > debugging leftover? we probably don't want to pollute trace_pipe from t=
+est
+>
+> the reason for this is to make sure the bpf program was not executed,
+>
+> the test makes sure the child gets killed with SIGILL and also that
+> the bpf program was not executed by checking the trace_pipe and
+> making sure nothing was received
+>
+> the trace_pipe reading is also why it's serial
 
+you could have attached BPF program from parent process and use a
+global variable (and thus eliminate all the trace_pipe system-wide
+dependency), but ok, it's fine by me the way this is done
+
+>
+> jirka
+>
+> >
+> > > +       return 0;
+> > > +}
+> > > --
+> > > 2.44.0
+> > >
 
