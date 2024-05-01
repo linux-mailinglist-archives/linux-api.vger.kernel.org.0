@@ -1,223 +1,119 @@
-Return-Path: <linux-api+bounces-1432-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1433-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 397018B7B50
-	for <lists+linux-api@lfdr.de>; Tue, 30 Apr 2024 17:19:49 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EFEC8B921E
+	for <lists+linux-api@lfdr.de>; Thu,  2 May 2024 01:16:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 583DF1C2241D
-	for <lists+linux-api@lfdr.de>; Tue, 30 Apr 2024 15:19:48 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 939C3B217F3
+	for <lists+linux-api@lfdr.de>; Wed,  1 May 2024 23:16:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84FAD140E26;
-	Tue, 30 Apr 2024 15:19:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EC60168B14;
+	Wed,  1 May 2024 23:16:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=seltendoof.de header.i=@seltendoof.de header.b="YieStm/f"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D+DaOK4a"
 X-Original-To: linux-api@vger.kernel.org
-Received: from server02.seltendoof.de (server02.seltendoof.de [168.119.48.163])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4447A152799;
-	Tue, 30 Apr 2024 15:19:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.48.163
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9E6B168B0E;
+	Wed,  1 May 2024 23:16:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714490382; cv=none; b=p3z3fHhd/FJ/e8h0HGfjvXLai1yjf714QRNqJmblk+LkhMZWIIDN380zl1+NLvtopuI0gUnDZWyVYV6YZArByUbF90ZKnDGJfvdIdPuLQNWlFM57o6LO8bCIk64qHaxpvzfL5xIbG4kF9KrrReyiop2K5dqSrgcKLVdwm0Vm1NA=
+	t=1714605384; cv=none; b=IbavUmyKX2Sp1KhEeZ9h8E9YofQKB+/NnQJNMMAJz5dUpqR4TjsSHkGa2OtgiZkPYIaEkdj0AMGFanEjKNNZLnCJtgjyvwfbD/jPUBZFm+sP06pL+l/WQZyp2W/HmGL39+SM4i5Hyx7Ji8imVEAePQJu7jeU3Ipq7lIZnlrP9S0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714490382; c=relaxed/simple;
-	bh=3E7LMLmQaL5tGcWs1QA023J3ddzjIGbmnfR3mFYjJhE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=WtwqxlFcnbg7ST2/cn+yyuaCwDTcGBBriYbjmCoXB97MuclcYWvyxCb0DsVJ/MtqCFD7bKt8tWmdDLC7Bvq+sbapjvE9huilppPST0gs4NvKdQ8vWLOyxCHjc2JwDJypYkEcRcLqa15yVmx346owRSpqfWTmsJlRppGc0OZb3cI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=seltendoof.de; spf=pass smtp.mailfrom=seltendoof.de; dkim=pass (2048-bit key) header.d=seltendoof.de header.i=@seltendoof.de header.b=YieStm/f; arc=none smtp.client-ip=168.119.48.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=seltendoof.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seltendoof.de
-From: =?UTF-8?q?Christian=20G=C3=B6ttsche?= <cgoettsche@seltendoof.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seltendoof.de;
-	s=2023072701; t=1714490373;
-	h=from:from:reply-to:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:  content-transfer-encoding:content-transfer-encoding;
-	bh=qUFnqnB6znIDj+q1NPyYoIZ8zE7Eb30cXcMkX9V8te8=;
-	b=YieStm/fos4plj+5Ek/rF7kivqnOKzhbGlbaVKsjn1Gw+zNmiQIxJgveo8SWf6+AMwtCGN
-	CeIaurK0s4NnFnCSnQm6e0Uj3qZqEgSxaTlX/yKMSVyYiJ6m1dGSpaowCotc2qGEKNJ9Uw
-	qmlrZ8WYGQ0jrHHFUNVDOsO9PoDwA472NoV15Qu2vw/dl/ZpO5WWPyTW81vXdcFRjF3wU4
-	oO1W6ZULxpa9NICTJEywCCI55em3Jw9m/1wKJ9deK/jKVecaoEWB9R1ajXaEL6Siu0bJc8
-	12b4Ur1naQKhHOvtXwar45HEQXxD8fAACvVu9yf02oQo4k6TdXBlvaf3y+iORA==
-To: brauner@kernel.org
-Cc: =?UTF-8?q?Christian=20G=C3=B6ttsche?= <cgzones@googlemail.com>,
-	Jan Kara <jack@suse.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Kees Cook <keescook@chromium.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Casey Schaufler <casey@schaufler-ca.com>,
-	"peterz@infradead.org" <peterz@infradead.org>,
-	Sohil Mehta <sohil.mehta@intel.com>,
-	Miklos Szeredi <mszeredi@redhat.com>,
-	Mark Rutland <mark.rutland@arm.com>,
+	s=arc-20240116; t=1714605384; c=relaxed/simple;
+	bh=LVTRxX7tLq7xv4yBLH62hWiZmad+nFmuL0ld8JvIORw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=j9XMhyXFb87shUXVMHRGTB+6cG5TnH5+6NXyxUML9R2iMi5NlF5hbvYFRDIvUPhjSVbi70lWySa4kGA7soYlN3xv1l3LaWFakslzGxQdhtYezl4wGxdg0HCCKHOCmMmrEG5bn9Amkjh9h7zVpz0zayDIxAv+fmJO05HfiF3Uxk0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D+DaOK4a; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-6ed3cafd766so6605345b3a.0;
+        Wed, 01 May 2024 16:16:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714605382; x=1715210182; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Kmcu32QBa6xSD4oxR6+wMTBjSGBoEIYCz1OYpSWw4To=;
+        b=D+DaOK4aHuApvGchp9R0IGIaqh34ygppx6eB1TOayy6hXpEyAMzxC4dXCMS1QC74uR
+         u+gN6bZlyyi3KJSSmZ0dLxHB3p07TjUXcfFzaZ4Qww2DWT8zoOifPPyqIGoY/Cr4VxO1
+         fAPbjHIy5HyH2LnTiNGyEw3CQCqv/3r7el3mkk0d3P0HGd4EqJOc8zXmYtMlMWh0Q2RN
+         JwpY3q3k3UOurfzk4caHdtc2V/7BPMVmQMy2ypP7Hja7I6oZ1ZGr4Y3abXF+DQHsFCTp
+         ft2FUuyGi5ZrdaOEZm4hA0ll9/2BLLtaJbuaZwI+28l/9+fOix+aHTLrxhLHXdc5y0A7
+         c4VQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714605382; x=1715210182;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Kmcu32QBa6xSD4oxR6+wMTBjSGBoEIYCz1OYpSWw4To=;
+        b=GrZpjYQeUuk5VQd+rzNrBPkGRxcV8Bb4SLSPsgQSWdBEWrlDxor3JAcTh0gZeGgN3C
+         INqyfd/oLj53WxmWhTDcQpa4BpHHNIDderaHcLCUYblwvaWib1Eu6LwAr5O7d3p5g+Hm
+         pbpBivBhVM4k8cGr6YCqaB2q3jEGXTCSen7EuFQWvjGJ1LvN+kkCCi0DjnyX1PjW6QA8
+         2VbLYu1XxOVi327c6GRz4Lzku5UycZMKwWV0s30EBslyt9J9pGjftppUcE97G4WZawxH
+         /HaTiPWqDlVHisSJbgw/w5Kyrg1syLO4ulf3dZYmopubVO7Tj/ilXbbEJ/TGn1AjvQwQ
+         OaZQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWWrwcIX/RtQM2DlD+a981G0Wbq1R6+v8sHsOf+lEP2JFkKa+WJewOa05szp4DilP2eVbgDrzobBgk5igizDEx5R7oeDLTbsRl6VExbZH8glvShidOu2bdj6lQ7znZ1Iap8ET6b20e0QBGKvlbqJPDejk4MGRyPXQMs8Nwy1Z4UzYw+RENz
+X-Gm-Message-State: AOJu0YwBNKudxFmzZEUph4Y5wZ19aIo9rcMIlUM8obgBp0QCtRdlIH9S
+	20SfJSBBLgGtF4D3pFsLre9TmP6cI5OC4rQ3SZ14Wsof7i9S53F3
+X-Google-Smtp-Source: AGHT+IHnTxtHsZ+glQR9x2lWb15F0oxsmnPv3fVD4DBzufkpvyplQ3E8IYw96+JvLkK9lFLm0fVsAQ==
+X-Received: by 2002:a05:6a00:1390:b0:6e6:ccec:fdc0 with SMTP id t16-20020a056a00139000b006e6ccecfdc0mr494980pfg.33.1714605381730;
+        Wed, 01 May 2024 16:16:21 -0700 (PDT)
+Received: from jbongio9100214.lan (2606-6000-cfc0-0025-4c92-9b61-6920-c02c.res6.spectrum.com. [2606:6000:cfc0:25:4c92:9b61:6920:c02c])
+        by smtp.googlemail.com with ESMTPSA id gs18-20020a056a004d9200b006f3fda86d15sm6323389pfb.78.2024.05.01.16.16.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 May 2024 16:16:20 -0700 (PDT)
+From: Jeremy Bongio <bongiojp@gmail.com>
+To: Ted Tso <tytso@mit.edu>
+Cc: linux-ext4@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org
-Subject: [PATCH] fs/xattr: unify *at syscalls
-Date: Tue, 30 Apr 2024 17:19:14 +0200
-Message-ID: <20240430151917.30036-1-cgoettsche@seltendoof.de>
-Reply-To: cgzones@googlemail.com
+	linux-api@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	Jeremy Bongio <jbongio@google.com>
+Subject: [RFC PATCH 0/1] Change failover behavior for DIRECT writes in ext4/block fops
+Date: Wed,  1 May 2024 16:15:32 -0700
+Message-ID: <20240501231533.3128797-1-bongiojp@gmail.com>
+X-Mailer: git-send-email 2.45.0.rc1.225.g2a3ae87e7f-goog
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Christian Göttsche <cgzones@googlemail.com>
+From: Jeremy Bongio <jbongio@google.com>
 
-Use the same parameter ordering for all four newly added *xattrat
-syscalls:
+In kernel 6.9, for an O_DIRECT write:
+xfs - Will fallback to a sync, buffered write for -ENOTBLK (for reflink CoW)
+ext2/3/4 - will fallback to a sync, buffered write for short writes.
+       If iomap returns -ENOTBLK, write will return status of 0.
+block fops - will fallback to a sync, buffered write for short writes.
+zonefs - Will fallback to a sync, buffered write for -ENOTBLK.
+         Will return the bytes written for a short write, no fallback.
 
-    dirfd, pathname, at_flags, ...
+Relevant commit:
+60263d5889e6d "iomap: fall back to buffered writes for invalidation failures"
 
-Also consistently use unsigned int as the type for at_flags.
+In most cases, I think users would be surprised if an O_DIRECT write request
+silently resulted in a buffered request.
 
-Suggested-by: Jan Kara <jack@suse.com>
-Signed-off-by: Christian Göttsche <cgzones@googlemail.com>
----
- fs/xattr.c               | 36 +++++++++++++++++++-----------------
- include/linux/syscalls.h |  8 +++++---
- 2 files changed, 24 insertions(+), 20 deletions(-)
+The iomap_dio_rw() return code -ENOTBLK means page invalidation failed before
+submitting the bio.
 
-diff --git a/fs/xattr.c b/fs/xattr.c
-index 45603e74c632..454304046d7d 100644
---- a/fs/xattr.c
-+++ b/fs/xattr.c
-@@ -931,17 +931,18 @@ listxattr(struct dentry *d, char __user *list, size_t size)
- 	return error;
- }
- 
--static ssize_t do_listxattrat(int dfd, const char __user *pathname, char __user *list,
--			      size_t size, int flags)
-+static ssize_t do_listxattrat(int dfd, const char __user *pathname,
-+			      unsigned int at_flags,
-+			      char __user *list, size_t size)
- {
- 	struct path path;
- 	ssize_t error = 0;
- 	int lookup_flags;
- 
--	if ((flags & ~(AT_SYMLINK_NOFOLLOW | AT_EMPTY_PATH)) != 0)
-+	if ((at_flags & ~(AT_SYMLINK_NOFOLLOW | AT_EMPTY_PATH)) != 0)
- 		return -EINVAL;
- 
--	if (flags & AT_EMPTY_PATH && vfs_empty_path(dfd, pathname)) {
-+	if (at_flags & AT_EMPTY_PATH && vfs_empty_path(dfd, pathname)) {
- 		CLASS(fd, f)(dfd);
- 
- 		if (!f.file)
-@@ -965,22 +966,23 @@ static ssize_t do_listxattrat(int dfd, const char __user *pathname, char __user
- 	return error;
- }
- 
--SYSCALL_DEFINE5(listxattrat, int, dfd, const char __user *, pathname, char __user *, list,
--		size_t, size, int, flags)
-+SYSCALL_DEFINE5(listxattrat, int, dfd, const char __user *, pathname,
-+		unsigned int, at_flags,
-+		char __user *, list, size_t, size)
- {
--	return do_listxattrat(dfd, pathname, list, size, flags);
-+	return do_listxattrat(dfd, pathname, at_flags, list, size);
- }
- 
- SYSCALL_DEFINE3(listxattr, const char __user *, pathname, char __user *, list,
- 		size_t, size)
- {
--	return do_listxattrat(AT_FDCWD, pathname, list, size, 0);
-+	return do_listxattrat(AT_FDCWD, pathname, 0, list, size);
- }
- 
- SYSCALL_DEFINE3(llistxattr, const char __user *, pathname, char __user *, list,
- 		size_t, size)
- {
--	return do_listxattrat(AT_FDCWD, pathname, list, size, AT_SYMLINK_NOFOLLOW);
-+	return do_listxattrat(AT_FDCWD, pathname, AT_SYMLINK_NOFOLLOW, list, size);
- }
- 
- SYSCALL_DEFINE3(flistxattr, int, fd, char __user *, list, size_t, size)
-@@ -1019,17 +1021,17 @@ removexattr(struct mnt_idmap *idmap, struct dentry *d,
- }
- 
- static int do_removexattrat(int dfd, const char __user *pathname,
--			    const char __user *name, int flags)
-+			    unsigned int at_flags, const char __user *name)
- {
- 	struct path path;
- 	int error;
- 	int lookup_flags;
- 
--	if ((flags & ~(AT_SYMLINK_NOFOLLOW | AT_EMPTY_PATH)) != 0)
-+	if ((at_flags & ~(AT_SYMLINK_NOFOLLOW | AT_EMPTY_PATH)) != 0)
- 		return -EINVAL;
- 
--	lookup_flags = (flags & AT_SYMLINK_NOFOLLOW) ? 0 : LOOKUP_FOLLOW;
--	if (flags & AT_EMPTY_PATH)
-+	lookup_flags = (at_flags & AT_SYMLINK_NOFOLLOW) ? 0 : LOOKUP_FOLLOW;
-+	if (at_flags & AT_EMPTY_PATH)
- 		lookup_flags |= LOOKUP_EMPTY;
- retry:
- 	error = user_path_at(dfd, pathname, lookup_flags, &path);
-@@ -1049,21 +1051,21 @@ static int do_removexattrat(int dfd, const char __user *pathname,
- }
- 
- SYSCALL_DEFINE4(removexattrat, int, dfd, const char __user *, pathname,
--		const char __user *, name, int, flags)
-+		unsigned int, at_flags, const char __user *, name)
- {
--	return do_removexattrat(dfd, pathname, name, flags);
-+	return do_removexattrat(dfd, pathname, at_flags, name);
- }
- 
- SYSCALL_DEFINE2(removexattr, const char __user *, pathname,
- 		const char __user *, name)
- {
--	return do_removexattrat(AT_FDCWD, pathname, name, 0);
-+	return do_removexattrat(AT_FDCWD, pathname, 0, name);
- }
- 
- SYSCALL_DEFINE2(lremovexattr, const char __user *, pathname,
- 		const char __user *, name)
- {
--	return do_removexattrat(AT_FDCWD, pathname, name, AT_SYMLINK_NOFOLLOW);
-+	return do_removexattrat(AT_FDCWD, pathname, AT_SYMLINK_NOFOLLOW, name);
- }
- 
- SYSCALL_DEFINE2(fremovexattr, int, fd, const char __user *, name)
-diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
-index e06fffc48535..ca3cba698602 100644
---- a/include/linux/syscalls.h
-+++ b/include/linux/syscalls.h
-@@ -356,15 +356,17 @@ asmlinkage long sys_fgetxattr(int fd, const char __user *name,
- 			      void __user *value, size_t size);
- asmlinkage long sys_listxattr(const char __user *path, char __user *list,
- 			      size_t size);
--asmlinkage long sys_listxattrat(int dfd, const char __user *path, char __user *list,
--			      size_t size, int flags);
-+asmlinkage long sys_listxattrat(int dfd, const char __user *path,
-+				unsigned int at_flags,
-+				char __user *list, size_t size);
- asmlinkage long sys_llistxattr(const char __user *path, char __user *list,
- 			       size_t size);
- asmlinkage long sys_flistxattr(int fd, char __user *list, size_t size);
- asmlinkage long sys_removexattr(const char __user *path,
- 				const char __user *name);
- asmlinkage long sys_removexattrat(int dfd, const char __user *path,
--				const char __user *name, int flags);
-+				  unsigned int at_flags,
-+				  const char __user *name);
- asmlinkage long sys_lremovexattr(const char __user *path,
- 				 const char __user *name);
- asmlinkage long sys_fremovexattr(int fd, const char __user *name);
+Is falling back to buffered IO for short writes or -ENOTBLK desirable in ext4
+or block fops?
+
+Jeremy Bongio (1):
+  Remove buffered failover for ext4 and block fops direct writes.
+
+ block/fops.c   |  3 ---
+ fs/ext4/file.c | 27 ---------------------------
+ 2 files changed, 30 deletions(-)
+
 -- 
-2.43.0
+2.44.0.769.g3c40516874-goog
 
 
