@@ -1,141 +1,107 @@
-Return-Path: <linux-api+bounces-1449-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1450-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C7AB8B9AD1
-	for <lists+linux-api@lfdr.de>; Thu,  2 May 2024 14:25:48 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E76178B9B3C
+	for <lists+linux-api@lfdr.de>; Thu,  2 May 2024 15:03:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6BAB31C21C3A
-	for <lists+linux-api@lfdr.de>; Thu,  2 May 2024 12:25:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A4189282247
+	for <lists+linux-api@lfdr.de>; Thu,  2 May 2024 13:03:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7168884A35;
-	Thu,  2 May 2024 12:24:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 976DB8288F;
+	Thu,  2 May 2024 13:03:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NkiS0twE"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dGfl1koh"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4289D7F481;
-	Thu,  2 May 2024 12:24:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6448182498;
+	Thu,  2 May 2024 13:03:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714652687; cv=none; b=Zk6ucTsmduAYMLNCwFfkdvN13YEmbWUQeGirSLhW6cDqfiAwEe0vXzVSMm1y9E4dDg+UZcdlyhQzm6dUd30QdpjJRjXcUYqc4c7yEdZKt1qpV6btmEdToWgzu1sLESwEju3siqD7FN+JB84eeXZqaPvIDDqfGW48vpkQgGaMIPQ=
+	t=1714654981; cv=none; b=Tj4y7oPGEZGyeIsTUsE31a+CXO0QuyYfWSimmj1QsNZi4R1bXknbdTG8Zp4vx9CQUuoYsaHfYX3gjhj7q+g8d48TxWE9YdpIgU9RhQtE0K+WNV0j/uimHtm+3QLUcYwODF9PUpJGoHliYNTHkzi/ZfDXsZnpewtlS0wZXno36R0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714652687; c=relaxed/simple;
-	bh=IxSJTvmJyyluDOgbN3Qv5eq4m8dBC+x6ly4U5xSNfi8=;
+	s=arc-20240116; t=1714654981; c=relaxed/simple;
+	bh=3owJXZqQKDlXM66fGaGPZa02w52uxImomYF9LMzgu3U=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BMRdLeshHT1NlQDhlNocuzxMiz6W63wJf7M5SBh3ilm0LGFbY4KoWpQ8KfomaGn19ECPu7BDXvUqccM4T33GREdN9oaCXzA4nlQtqSB8dT+XRTP1G8OOHwIwb9lgNreLCm5UT5tOZvu8rvI9BGKH/v9Ct9fvGewxZJWn7JuBpOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NkiS0twE; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11B3CC113CC;
-	Thu,  2 May 2024 12:24:41 +0000 (UTC)
+	 MIME-Version:Content-Type; b=Z2VwANajyowWk39A/X3wTtHCt6RRtVMmXyeaY29+vuBDAihjqWA2cwVLdOnhxHEkBhLwiXXsUTKKAHdp6nhAkvssdX5y8P9+/2imyV1348ljgbA4kvW2d6O11WZMpV9boGfytgfSRoLXH2A8rC1/g7Yrv4mDfQ3PFOGrCUGKZ48=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dGfl1koh; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5EA2C113CC;
+	Thu,  2 May 2024 13:02:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714652686;
-	bh=IxSJTvmJyyluDOgbN3Qv5eq4m8dBC+x6ly4U5xSNfi8=;
+	s=k20201202; t=1714654981;
+	bh=3owJXZqQKDlXM66fGaGPZa02w52uxImomYF9LMzgu3U=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=NkiS0twE1DcVIJty0dIiyfLue//ziLF3Br/jp/DRl4zBOr4neTnq8rTX1yTUdGXcB
-	 GEtXJnpJCRqAfn78vy1MPxMH2nr7ogcHv+OXLZTKquohizzO7Ma13iOiA/njI+AaCG
-	 wCi5qvXE2KpVNQ/FzlDGAqytSftpjCBpmDZhU6VxS9eGH1hJW5eFgy6/vIAfPSwUQc
-	 TwdkyCATEmtDutDB60ihVBEfqj64oiO3Qa4LcjPtR+VVU+1u6mQ7nz1ea7Zn7+E1BY
-	 sUrwuJjfyUFuRujYAOIelYTj3V1RLXNaiH7bBVdWvBR37I4c4UexTy9gctjYija7UE
-	 jKGmdjuy8XGtA==
-From: Jiri Olsa <jolsa@kernel.org>
-To: Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>
-Cc: linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org,
-	linux-man@vger.kernel.org,
-	x86@kernel.org,
-	bpf@vger.kernel.org,
-	Song Liu <songliubraving@fb.com>,
-	Yonghong Song <yhs@fb.com>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Peter Zijlstra <peterz@infradead.org>,
+	b=dGfl1koh6Y7gdMSVQbhEOifZUKx3KCVuEOMk4QSZwo6EGVpnsvBYbzXNQ3RrhPKHF
+	 gTtVKsJ/SBShnz5kt0UynrqEf5oK8gNabqpzKUXbSEoKGWm6sBaAn2eMvNemWyQD49
+	 EIuK1xJTQ/aDKXzsqlpJL+B4EB/cjMXoUPWIU0U/pI4YHdGZsXQ0wKYTEH5Pf6T4Gk
+	 WMI6VlyjgOF7G/+tA68fLLdapkmJ1LtkPhPsuw8EDSzuUMGPhaRqUqmrHLXtQ23qGh
+	 bDjoU4jVQ2GTc3Co5UPzoXZiweLtquwjbbootjM6vNyjpkLy6WVV061JdZUCzBZZhX
+	 KeQymeCCKG1aA==
+From: Christian Brauner <brauner@kernel.org>
+To: Christian Goettsche <cgoettsche@seltendoof.de>
+Cc: Christian Brauner <brauner@kernel.org>,
+	Christian Goettsche <cgzones@googlemail.com>,
+	Jan Kara <jack@suse.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>,
+	Arnd Bergmann <arnd@arndb.de>,
 	Thomas Gleixner <tglx@linutronix.de>,
-	"Borislav Petkov (AMD)" <bp@alien8.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Andy Lutomirski <luto@kernel.org>
-Subject: [PATCHv4 7/7] man2: Add uretprobe syscall page
-Date: Thu,  2 May 2024 14:23:13 +0200
-Message-ID: <20240502122313.1579719-8-jolsa@kernel.org>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240502122313.1579719-1-jolsa@kernel.org>
-References: <20240502122313.1579719-1-jolsa@kernel.org>
+	Kees Cook <keescook@chromium.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Casey Schaufler <casey@schaufler-ca.com>,
+	peterz@infradead.org,
+	Sohil Mehta <sohil.mehta@intel.com>,
+	Miklos Szeredi <mszeredi@redhat.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org
+Subject: Re: [PATCH] fs/xattr: unify *at syscalls
+Date: Thu,  2 May 2024 15:02:32 +0200
+Message-ID: <20240502-nagel-geschirr-33c262989d99@brauner>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240430151917.30036-1-cgoettsche@seltendoof.de>
+References: <20240430151917.30036-1-cgoettsche@seltendoof.de>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1012; i=brauner@kernel.org; h=from:subject:message-id; bh=3owJXZqQKDlXM66fGaGPZa02w52uxImomYF9LMzgu3U=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMaQZ9/3+rJRo8l5+5hvv6R9i3GeXzFk4N/pT4gfLzWe8g 1UPSLSydJSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEwkqY7hr2xTsuBW11WaJRoM EWK6z47bf/b77y2o2//qawSv0d7HFowMf7u3XqjUnnEzdfKGX5U7Ei49vvWJMYPx7bPQ2eeT51T fYQUA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
 
-Adding man page for new uretprobe syscall.
+On Tue, 30 Apr 2024 17:19:14 +0200, Christian Göttsche wrote:
+> Use the same parameter ordering for all four newly added *xattrat
+> syscalls:
+> 
+>     dirfd, pathname, at_flags, ...
+> 
+> Also consistently use unsigned int as the type for at_flags.
+> 
+> [...]
 
-Signed-off-by: Jiri Olsa <jolsa@kernel.org>
----
- man2/uretprobe.2 | 45 +++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 45 insertions(+)
- create mode 100644 man2/uretprobe.2
+Applied to the vfs.xattr branch of the vfs/vfs.git tree.
+Patches in the vfs.xattr branch should appear in linux-next soon.
 
-diff --git a/man2/uretprobe.2 b/man2/uretprobe.2
-new file mode 100644
-index 000000000000..08fe6a670430
---- /dev/null
-+++ b/man2/uretprobe.2
-@@ -0,0 +1,45 @@
-+.\" Copyright (C) 2024, Jiri Olsa <jolsa@kernel.org>
-+.\"
-+.\" SPDX-License-Identifier: Linux-man-pages-copyleft
-+.\"
-+.TH uretprobe 2 (date) "Linux man-pages (unreleased)"
-+.SH NAME
-+uretprobe \- execute pending return uprobes
-+.SH SYNOPSIS
-+.nf
-+.B int uretprobe(void)
-+.fi
-+.SH DESCRIPTION
-+Kernel is using
-+.BR uretprobe()
-+syscall to trigger uprobe return probe consumers instead of using
-+standard breakpoint instruction.
-+
-+The uretprobe syscall is not supposed to be called directly by user, it's allowed
-+to be invoked only through user space trampoline provided by kernel.
-+When called from outside of this trampoline, the calling process will receive
-+.BR SIGILL .
-+
-+.SH RETURN VALUE
-+.BR uretprobe()
-+return value is specific for given architecture.
-+
-+.SH VERSIONS
-+This syscall is not specified in POSIX,
-+and details of its behavior vary across systems.
-+.SH STANDARDS
-+None.
-+.SH NOTES
-+.BR uretprobe()
-+syscall is initially introduced on x86-64 architecture, because doing syscall
-+is faster than doing breakpoint trap on it. It might be extended to other
-+architectures.
-+
-+.BR uretprobe()
-+syscall exists only to allow the invocation of return uprobe consumers.
-+It should
-+.B never
-+be called directly.
-+Details of the arguments (if any) passed to
-+.BR uretprobe ()
-+and the return value are specific for given architecture.
--- 
-2.44.0
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs.xattr
+
+[1/1] fs/xattr: unify *at syscalls
+      https://git.kernel.org/vfs/vfs/c/1d5e73c8c531
 
