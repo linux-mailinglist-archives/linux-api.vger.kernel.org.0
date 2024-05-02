@@ -1,127 +1,86 @@
-Return-Path: <linux-api+bounces-1435-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1436-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3893A8B9277
-	for <lists+linux-api@lfdr.de>; Thu,  2 May 2024 01:45:22 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 472168B944F
+	for <lists+linux-api@lfdr.de>; Thu,  2 May 2024 07:45:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E421D2828BD
-	for <lists+linux-api@lfdr.de>; Wed,  1 May 2024 23:45:20 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F2CDDB21A36
+	for <lists+linux-api@lfdr.de>; Thu,  2 May 2024 05:45:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCB6D168B0A;
-	Wed,  1 May 2024 23:45:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1663220323;
+	Thu,  2 May 2024 05:45:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="CjKthMws"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="DMR9I+e6"
 X-Original-To: linux-api@vger.kernel.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DFE742A96;
-	Wed,  1 May 2024 23:45:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.60.130.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B6C31E494;
+	Thu,  2 May 2024 05:45:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714607117; cv=none; b=SXGHDzsKhtY785H1j5tDaMuuHOUxJtB/jKyRaQ7W6moeckR/APWVLsQlPRfGCn3bzPfU0PtVSr7/dEAC9kddv8k49puc6z+VOPy3Z7oqu3pUztsX7Q/OW3aIDFNtuJwSxW1I5qrtiLaWC87MD6M8tu0sekWc/O7+OBj+uuos3J4=
+	t=1714628709; cv=none; b=KP+ZDS+vXLH8TqmN/Se/uKX+PNpml2upBRHHGPUfkDliuBZ7zLfLqdSG8J2ENWoCwTaa/4morETyO5BbjZYMQTeigcLRp8H+7zjb9nDZfv2KSLA/dk+yEN8xSvrA16rQbIConXvzMBbZmxL6CSavGYgOuzmq8ztWlcX8ecNsJZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714607117; c=relaxed/simple;
-	bh=G4pqX1RMSl4RCZYG0IsdfgPoTzDclcLMoFT8Uh1hu1Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LBU0NQc69g3pTNCDVPBDCReUIh+2e3Ud52ZaO6LhNDZ+aNN1MMRKk4gYTRBOEsMPX7TFm+7yAPqDHM8u1Tuhilu54xG/qXmo6BswN17bkdRIEuL/8zKjWzSHZnds5cHoZ9zFrCLkk5Pm0LnkGDWf5CecVepUoeUS9mSvyPdZQNk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=CjKthMws; arc=none smtp.client-ip=178.60.130.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=Ut6b0SDeFkL5LMt8SlT7mycy5WHbPm1GhBrY2OAen2o=; b=CjKthMwsLJXjsFlsgkKRHaOJGD
-	2WpPy8u5p46Z1R6MfHGCNl48S1JRNPwHK/cJmsjI7Rzn0UeF2TCRXmsf7g74zGEVBNe1oOxUqXgDg
-	5VOqxkfsWnmKV6GH/3m/mosxHIqKm2Ic7z3aZpeM2PdYxUHYkF7yzJ5epiVQ90DSDtuFXoO6pxXhH
-	XYwnaK+5yaH1F7DC/ejrh2YDh4d/8G3C0iUl33yXtZpBWtVy7qi5W8RvQLPLKTOwHTaTCAUt8CoHP
-	0mPbb51pBnan9zydhbUMlyF5qpLdVBnAfBhuLPhWtN4Ue0wIDcD6bikaB0Byd+YfAkwn3Nqg9LePM
-	o/emag1w==;
-Received: from 201-42-129-95.dsl.telesp.net.br ([201.42.129.95] helo=[192.168.1.111])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1s2Jd0-002mpu-CW; Thu, 02 May 2024 01:44:46 +0200
-Message-ID: <f052ff72-72c9-4b83-9285-2cd9d52e5f72@igalia.com>
-Date: Wed, 1 May 2024 20:44:36 -0300
+	s=arc-20240116; t=1714628709; c=relaxed/simple;
+	bh=IXN/mfvF6cGl3Hq0J/SzZeRjYZXcjAMPFguqTJ2l1N4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JeLW9FokrHLFTAZS5NX7yFJmuN44QufARK4rS1AdBOClCBhjFQ5owoWxdtO2OV2iFhCpHFuqg1QvprIVPbvRvbRZEOTkVn5lN9jbbWZqkDdP6Wgo6dWjxALk11TWycwXvpWog6GMp4RVuZi8lBGyIPMiud+0N62ExxLIl6/gNTw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=DMR9I+e6; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=xk8NY8yS0I7BW3IiVNcNaWblOMXw9d4l6MbCzMzN5rM=; b=DMR9I+e6ihjS8ejEzjOFgU2Ctk
+	u4cIMWc9s/FKldKGzPfscbmSGHFhGa28QkRh/0/kIdOwQPs7pGZgZbMdSnhhCP1W1d72xzP7Cg6V4
+	EbNh/6ZZH36I4f9JX6U4y0Rg0Kz+/qdu8aOA3mnWICgmOuUC8UBl1C51IHUzghjcasWYrFlijEWZP
+	KOhKLMoWHxMroa6TljN910WxGRerxgTesBKlhzo17vAPKKkYs/s495zTUG6Mn59ZN5r5q5WsSVCjn
+	Yr9YDbAqFD6gWFIyYjtGqt3a8rUHXi/BLmFxEMNIsM5KIVzcH9xk2zYpZQW2msWjITM26JHxV89UB
+	CikSHXMQ==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1s2PFi-0000000BYGx-2wbq;
+	Thu, 02 May 2024 05:45:06 +0000
+Date: Wed, 1 May 2024 22:45:06 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Jeremy Bongio <bongiojp@gmail.com>
+Cc: Ted Tso <tytso@mit.edu>, linux-ext4@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+	linux-block@vger.kernel.org, Jeremy Bongio <jbongio@google.com>
+Subject: Re: [RFC PATCH 1/1] Remove buffered failover for ext4 and block fops
+ direct writes.
+Message-ID: <ZjMoYkUsQnd33mXm@infradead.org>
+References: <20240501231533.3128797-1-bongiojp@gmail.com>
+ <20240501231533.3128797-2-bongiojp@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 0/1] Add FUTEX_SPIN operation
-To: Christian Brauner <brauner@kernel.org>
-Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@linutronix.de>,
- linux-kernel@vger.kernel.org, "Paul E . McKenney" <paulmck@kernel.org>,
- Boqun Feng <boqun.feng@gmail.com>, "H . Peter Anvin" <hpa@zytor.com>,
- Paul Turner <pjt@google.com>, linux-api@vger.kernel.org,
- Florian Weimer <fw@deneb.enyo.de>, David.Laight@aculab.com,
- carlos@redhat.com, Peter Oskolkov <posk@posk.io>,
- Alexander Mikhalitsyn <alexander@mihalicyn.com>,
- Chris Kennelly <ckennelly@google.com>, Ingo Molnar <mingo@redhat.com>,
- Darren Hart <dvhart@infradead.org>, Davidlohr Bueso <dave@stgolabs.net>,
- libc-alpha@sourceware.org, Steven Rostedt <rostedt@goodmis.org>,
- Jonathan Corbet <corbet@lwn.net>, Noah Goldstein <goldstein.w.n@gmail.com>,
- Daniel Colascione <dancol@google.com>, longman@redhat.com,
- kernel-dev@igalia.com
-References: <20240425204332.221162-1-andrealmeid@igalia.com>
- <20240426-gaumen-zweibeinig-3490b06e86c2@brauner>
-Content-Language: en-US
-From: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
-In-Reply-To: <20240426-gaumen-zweibeinig-3490b06e86c2@brauner>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240501231533.3128797-2-bongiojp@gmail.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Hi Christian,
-
-Em 26/04/2024 07:26, Christian Brauner escreveu:
-> On Thu, Apr 25, 2024 at 05:43:31PM -0300, André Almeida wrote:
->> Hi,
->>
->> In the last LPC, Mathieu Desnoyers and I presented[0] a proposal to extend the
->> rseq interface to be able to implement spin locks in userspace correctly. Thomas
->> Gleixner agreed that this is something that Linux could improve, but asked for
->> an alternative proposal first: a futex operation that allows to spin a user
->> lock inside the kernel. This patchset implements a prototype of this idea for
->> further discussion.
->>
->> With FUTEX2_SPIN flag set during a futex_wait(), the futex value is expected to
->> be the PID of the lock owner. Then, the kernel gets the task_struct of the
->> corresponding PID, and checks if it's running. It spins until the futex
->> is awaken, the task is scheduled out or if a timeout happens.  If the lock owner
->> is scheduled out at any time, then the syscall follows the normal path of
->> sleeping as usual.
->>
->> If the futex is awaken and we are spinning, we can return to userspace quickly,
->> avoid the scheduling out and in again to wake from a futex_wait(), thus
->> speeding up the wait operation.
->>
->> I didn't manage to find a good mechanism to prevent race conditions between
->> setting *futex = PID in userspace and doing find_get_task_by_vpid(PID) in kernel
->> space, giving that there's enough room for the original PID owner exit and such
->> PID to be relocated to another unrelated task in the system. I didn't performed
+On Wed, May 01, 2024 at 04:15:33PM -0700, Jeremy Bongio wrote:
+> From: Jeremy Bongio <jbongio@google.com>
 > 
-> One option would be to also allow pidfds. Starting with v6.9 they can be
-> used to reference individual threads.
+> ext4 and block fops would both failover to syncronous, buffered writes if
+> the direct IO results in a short write where only a portion of the request
+> was completed.
 > 
-> So for the really fast case where you have multiple threads and you
-> somehow may really do care about the impact of the atomic_long_inc() on
-> pidfd_file->f_count during fdget() (for the single-threaded case the
-> increment is elided), callers can pass the TID. But in cases where the
-> inc and put aren't a performance sensitive, you can use pidfds.
-> 
+> This patch changes the behavior to simply return the number of bytes
+> written if the direct write is short.
 
-Thank you very much for making the effort here, much appreciated :)
+Please don't combine ext4 and block changes in a single patch.  Please
+also explain why you want to change things.
 
-While I agree that pidfds would fix the PID race conditions, I will move 
-this interface to support TIDs instead, as noted by Florian and Peter. 
-With TID the race conditions are diminished I reckon?
+AFAIK this is simply the historic behavior of the old direct I/O code
+that's been around forever.  I think the XFS semantics make a lot more
+sense, but people might rely on this one way or another.
+
 
