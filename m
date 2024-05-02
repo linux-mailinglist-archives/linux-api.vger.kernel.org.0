@@ -1,60 +1,69 @@
-Return-Path: <linux-api+bounces-1451-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1452-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 320D28B9B42
-	for <lists+linux-api@lfdr.de>; Thu,  2 May 2024 15:04:39 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25C378B9B50
+	for <lists+linux-api@lfdr.de>; Thu,  2 May 2024 15:08:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BC8F11F219E3
-	for <lists+linux-api@lfdr.de>; Thu,  2 May 2024 13:04:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0E9541C21CD0
+	for <lists+linux-api@lfdr.de>; Thu,  2 May 2024 13:08:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2289281AC7;
-	Thu,  2 May 2024 13:04:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41C7A824A7;
+	Thu,  2 May 2024 13:08:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iC/n65fl"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LEP+fCsl"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EADCD32C60;
-	Thu,  2 May 2024 13:04:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19A957580A;
+	Thu,  2 May 2024 13:08:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714655073; cv=none; b=CMMvVAO1weEEPKIAJjF9bXzfdcO1VchZusAzMfIaVkYMTqKDYvSAni5mV8OfvV0OUoZbzlK1hcc+acfuSxncc3PN0qp/mMKD/YpmOwky2OhRf2Gw/vNLhUCE4jxLDmirIKsv9gQdjaY5sCN+sZD1bX6kfj2qCDycoX2jSbAPn6Y=
+	t=1714655292; cv=none; b=KKYWM63XaXRfKBIkeH+L2S6+jqAFNT0V74ohbbyB2WUhiEGXhFjamb39y+QecTJQsf1c/fkIP9JpZF8MbqXNYqQKbCLuwkTunbMyS0mED2wl5EnMiFntkI4NU5ejTgHjmvZfPf3ZllQ/c9XXm7dQ57A9Z6mtryyZpPADyQw138I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714655073; c=relaxed/simple;
-	bh=LxYoy5aryNP2HMhsf2xv0naIvXnZbLmH+o8waQE0UrY=;
+	s=arc-20240116; t=1714655292; c=relaxed/simple;
+	bh=k5KOH2RHPzrvgy56nRKWhjolv43Wf2+3vKU6xOlkz+o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kWD5SlOC25PN080cxgouhoC8R17s7t+i+foj04XMnt+tuFKfIqQj+BJYAmj/AxzMIhAmnlwr/5ZvWOupH5doRCbGgh+dF/jkP4G0c4EPn59nJBlww7GfE6PIT0Tra3d0ZxihHLETKQm2g86YVwKWYHEIWRgzDH8E5AQzAl1z4so=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iC/n65fl; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FFD2C113CC;
-	Thu,  2 May 2024 13:04:28 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=r5zMPpI+UeWes/C5cpSZOT6d2BF37WoJ948lKU2uihyqbu2uXYzDlBwrfNSBLz9/C8I+bEg3xTYeT77sz2I2iSoMSpEN1CHObwhUtIOJv0VGdhPRAI6077PVKea9q8pjrm2NUidjmk0KAQ0uAbPDKZ5iwEBur2jqk11r2qlEnUI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LEP+fCsl; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F122C113CC;
+	Thu,  2 May 2024 13:08:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714655072;
-	bh=LxYoy5aryNP2HMhsf2xv0naIvXnZbLmH+o8waQE0UrY=;
+	s=k20201202; t=1714655291;
+	bh=k5KOH2RHPzrvgy56nRKWhjolv43Wf2+3vKU6xOlkz+o=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iC/n65flUWWkvVzlWCRqHhOK18rapNIuK5TRG/60Hb4VkQXdaXhjcSKi45tYurzXB
-	 QYxWML007PwZWEYaYC5JoKXVbpDce+u5GoYgOZE0SB7ENfrm6za00f8roLirVb1LZ2
-	 Ed5nKsebg88bbdxqn0+wtWQv00XkjpiY3aUBactJVBXkEmZs916WErcTaPTL6ZXc/Y
-	 vLeU2lJk/uHNzbaFk5bqxi0Bj/LKMSfbi5KmylDzMX+PScS9S3Nx7y39QHfXx9U74V
-	 qykma9KTEkX+aTgm91VfnSQOKKwOqen6N6WIBBZyofgr0nbg9NQWQd/khkmpQBBeza
-	 mvfQlsROA9dWg==
-Date: Thu, 2 May 2024 15:04:26 +0200
+	b=LEP+fCslkDiCXBWoib3/vE2nA3zyjK6T+9NcChZhIsb6rZbSukPaaVSgmsKsOuxXN
+	 WQwftKhXPr1O7EK/iL6q+hVLYS9eOqu0p+g2nMYiCrS9swQbWDgY7caLHOQRvNj7e/
+	 KxkMpehYRJsise3+duVhFqC6I037uK07URGiQtnoqm1iovoxMT21W6wqEXKPkAw0KS
+	 TZ08f/sm49oxZee39RLL/FwgScmwgJzGAvWPq5pMl3SY85/TNK52iEq8A65bUnIutZ
+	 SadWpDqsn2hVh9fuQbRORxcFa+h2gHP9Q9omgD+37Z4j8zlJMqjhV36J7l0TzwPVG8
+	 U7TXOZnC21frg==
+Date: Thu, 2 May 2024 15:08:02 +0200
 From: Christian Brauner <brauner@kernel.org>
-To: Jan Kara <jack@suse.cz>
-Cc: cgzones@googlemail.com, Jan Kara <jack@suse.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Arnd Bergmann <arnd@arndb.de>, 
-	Thomas Gleixner <tglx@linutronix.de>, Kees Cook <keescook@chromium.org>, 
-	Geert Uytterhoeven <geert@linux-m68k.org>, Casey Schaufler <casey@schaufler-ca.com>, 
-	"peterz@infradead.org" <peterz@infradead.org>, Sohil Mehta <sohil.mehta@intel.com>, 
-	Miklos Szeredi <mszeredi@redhat.com>, Mark Rutland <mark.rutland@arm.com>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
-Subject: Re: [PATCH] fs/xattr: unify *at syscalls
-Message-ID: <20240502-wegweisend-hippen-75aae5b9da3f@brauner>
-References: <20240430151917.30036-1-cgoettsche@seltendoof.de>
- <20240502103716.avdfm6r3ma2wfxjj@quack3>
+To: Florian Weimer <fweimer@redhat.com>
+Cc: =?utf-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Thomas Gleixner <tglx@linutronix.de>, linux-kernel@vger.kernel.org, 
+	"Paul E . McKenney" <paulmck@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, 
+	"H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>, linux-api@vger.kernel.org, 
+	David.Laight@aculab.com, carlos@redhat.com, Peter Oskolkov <posk@posk.io>, 
+	Alexander Mikhalitsyn <alexander@mihalicyn.com>, Chris Kennelly <ckennelly@google.com>, 
+	Ingo Molnar <mingo@redhat.com>, Darren Hart <dvhart@infradead.org>, 
+	Davidlohr Bueso <dave@stgolabs.net>, libc-alpha@sourceware.org, Steven Rostedt <rostedt@goodmis.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Noah Goldstein <goldstein.w.n@gmail.com>, 
+	Daniel Colascione <dancol@google.com>, longman@redhat.com, kernel-dev@igalia.com
+Subject: Re: [RFC PATCH 0/1] Add FUTEX_SPIN operation
+Message-ID: <20240502-notversorgung-unerreichbar-2b2d434194cf@brauner>
+References: <20240425204332.221162-1-andrealmeid@igalia.com>
+ <20240426-gaumen-zweibeinig-3490b06e86c2@brauner>
+ <f052ff72-72c9-4b83-9285-2cd9d52e5f72@igalia.com>
+ <20240502-gezeichnet-besonderen-d277879cd669@brauner>
+ <8734r0o81v.fsf@oldenburg.str.redhat.com>
+ <20240502-sporen-pirschen-039688cd9efe@brauner>
+ <871q6kmra1.fsf@oldenburg.str.redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -63,25 +72,28 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240502103716.avdfm6r3ma2wfxjj@quack3>
+In-Reply-To: <871q6kmra1.fsf@oldenburg.str.redhat.com>
 
-On Thu, May 02, 2024 at 12:37:16PM +0200, Jan Kara wrote:
-> On Tue 30-04-24 17:19:14, Christian Göttsche wrote:
-> > From: Christian Göttsche <cgzones@googlemail.com>
-> > 
-> > Use the same parameter ordering for all four newly added *xattrat
-> > syscalls:
-> > 
-> >     dirfd, pathname, at_flags, ...
-> > 
-> > Also consistently use unsigned int as the type for at_flags.
-> > 
-> > Suggested-by: Jan Kara <jack@suse.com>
-> > Signed-off-by: Christian Göttsche <cgzones@googlemail.com>
+On Thu, May 02, 2024 at 12:39:34PM +0200, Florian Weimer wrote:
+> * Christian Brauner:
 > 
-> Thanks! The change looks good to me. Christian, do you plan to fold this
-> into the series you've taken to your tree?
+> >> From a glibc perspective, we typically cannot use long-term file
+> >> descriptors (that are kept open across function calls) because some
+> >> applications do not expect them, or even close them behind our back.
+> >
+> > Yeah, good point. Note, I suggested it as an extension not as a
+> > replacement for the TID. I still think it would be a useful extension in
+> > general.
+> 
+> Applications will need a way to determine when it is safe to close the
+> pidfd, though.  If we automate this in glibc (in the same way we handle
+> thread stack deallocation for example), I think we are essentially back
+> to square one, except that pidfd collisions are much more likely than
+> TID collisions, especially on systems that have adjusted kernel.pid_max.
+> (File descriptor allocation is designed to maximize collisions, after
+> all.)
 
-Yep, that's the plan.
+(Note that with pidfs (current mainline), pidfds have 64bit unique inode
+numbers that are unique for the lifetime of the system. So they can
+reliably be compared via statx() and so on.)
 
