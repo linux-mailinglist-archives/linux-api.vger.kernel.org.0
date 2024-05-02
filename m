@@ -1,76 +1,49 @@
-Return-Path: <linux-api+bounces-1460-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1461-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D11B8BA171
-	for <lists+linux-api@lfdr.de>; Thu,  2 May 2024 22:13:31 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E5188BA2F8
+	for <lists+linux-api@lfdr.de>; Fri,  3 May 2024 00:06:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 39C722847CE
-	for <lists+linux-api@lfdr.de>; Thu,  2 May 2024 20:13:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 39B311C22762
+	for <lists+linux-api@lfdr.de>; Thu,  2 May 2024 22:06:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D05E18132E;
-	Thu,  2 May 2024 20:13:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 554DB57C99;
+	Thu,  2 May 2024 22:06:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BYA8wDFB"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xz2nzq1s"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 793231802C4;
-	Thu,  2 May 2024 20:13:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E74157C94;
+	Thu,  2 May 2024 22:06:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714680799; cv=none; b=If2RI4y2im+E8gBd1GveRyqdBcev2QjjLc1LqNWxwytGANXKXcVwu21PexrrL7ZhoCFU88cqgzCW7Ll39PCG6e6bOfjzDuf8Up9omJbWdsb0PqAHmdgxVq9MaKRrMOGkRAfgohIdGcTHBwa9fV5WgGFUKHVA2giJ9GX0hR0sxZw=
+	t=1714687593; cv=none; b=Q/d6tevbaxQ0RXEaOW6r+aEgMkMCl41WkP8JnRlk+6LIPgb02Q+m7raqHLL39hyyahSnbPJUuivUDIM7Iqucu8O4tNmRECMc638u9KVv1gWNbSV9Ltrn0hBbcxlkoMK/BJTfMqco07CLnmbU83+nIY/0yID4SoYet+6y4PmYucw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714680799; c=relaxed/simple;
-	bh=jk87aWQc77TF92KtV0+wN3JD3XrihNgxj8GvIBdQSv8=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hULknYto/TdLmSEMmSj6qZHt3mxy3z2437i2f/kcLInWLjr/FLQEQ6UAcPy1AHTIpD6NlPf/KBpTF33Odct88Au4jEDN7+psg0N+nlp0awd4ZgZ2DgFz3Roex45H9o4BUwrUhgDW5EzYo/JGc/HhPR+yaSP/B00M/ToMvJRcDN8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BYA8wDFB; arc=none smtp.client-ip=209.85.208.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2d8b2389e73so100995631fa.3;
-        Thu, 02 May 2024 13:13:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714680795; x=1715285595; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:date:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=A/VFRhG6UVmzgaQgZ92iFW2gF72/w57usEzS+XlOtLM=;
-        b=BYA8wDFByjZGdP/bBWc5vIMKfRxNpUKqFRAuYwdfN6vrCPAhCmx3q4qX7AMTdeuIs9
-         ne/oq5lUFXLsHZQ0BWoV8xVXYebRIaMPsQir6jKalZHjGLTlVNOlu3sg2rce/9rfEN4x
-         AHCCIss0w5z8oFditayaTAU4tVMhn648GFZAYiFt0LdKV98qLwLVoXKc9mDgweF4CtpR
-         dIIYKdt1WaPsZzaq20aR8sSPs9dsOPfTwoiIGF3l5JcXuAoaIEvPvLM1Npno3+D3DPOj
-         4XCt0jOaqXXQsZZumJSk9hJDosm2l8leY2GDrJdPCBTTFNByT+pvc31aCleSS/SdOkiY
-         TEYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714680795; x=1715285595;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:date:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=A/VFRhG6UVmzgaQgZ92iFW2gF72/w57usEzS+XlOtLM=;
-        b=Xx96iigaxcRkFMtyeYxwq3hnrXJsZHi4I6eC9moLH/b1FKA0fF4IcQv7rpalh0fLRi
-         XRyMs4v5QjozUGKow1bTeWQ+ukt1xI194AH9+ec+Md+MJ4pOriEAeLL7CzpQoD9bjnIH
-         21ia8qa+/1l86rclmyz0ggwOmGfYRtas7d72l6bPvaCWfDzLxzdh5pEHxMloRmjTUJrP
-         4O5aKVS9+/Mu0O8kIM44I4rIEXM0GHOILD26NxrExUd/eBX/pVnr7HsnByIe8rpy5Yqn
-         Y2NjtbSQAaI2MvhPfSWJKHlLYpt/VLI9+Ro2RmdhdltkLKZoSJuLOUol+eN7nel2O3T+
-         Grfw==
-X-Forwarded-Encrypted: i=1; AJvYcCVmRCS9u4U800QaLcWY3i4IqbWijkd+Ho/F9RPB9CWyeKT/cLnM3lBorNxHezpVKBZXJwMwa+I27Yj7Mb5J2D88s5umVpV4BkGnq7tdC2Q7PtKHHahfV4ywCp3HpTyS3cnURp5ggGymYXUgaYwACIpqIKgb5g/jmAkWtM8+J+slMFRNnrVHa1FHP3ZsIH1G+aXogxHc/axVF2hXz3ZVOs8diDP28cdrsNWWW+ZsJKegO24++72b40Byx+Ii
-X-Gm-Message-State: AOJu0YyIvaEeZqzHwlB5Gw58KlqT4+aw9BYddOWa2TMfnpbFXdewGDJ1
-	WWx9kakVJcDzQGOjrnyQjzH9b+TwJ84AR++bldl0547UyoKcUD+a
-X-Google-Smtp-Source: AGHT+IFGfNaIMa/U0YcNFPZC/U92e0WGxqwV9yD85i1pkJ8ivQCSt+etW0CCzqk9pKTDT95SYuPUDQ==
-X-Received: by 2002:a2e:b601:0:b0:2de:7cc5:7a27 with SMTP id r1-20020a2eb601000000b002de7cc57a27mr490128ljn.5.1714680795256;
-        Thu, 02 May 2024 13:13:15 -0700 (PDT)
-Received: from krava ([83.240.62.36])
-        by smtp.gmail.com with ESMTPSA id j5-20020aa7c0c5000000b005723bcad44bsm851328edp.41.2024.05.02.13.13.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 May 2024 13:13:14 -0700 (PDT)
-From: Jiri Olsa <olsajiri@gmail.com>
-X-Google-Original-From: Jiri Olsa <jolsa@kernel.org>
-Date: Thu, 2 May 2024 22:13:12 +0200
-To: Alejandro Colomar <alx@kernel.org>
+	s=arc-20240116; t=1714687593; c=relaxed/simple;
+	bh=syfFdI9oig8Vhc/96bXStdHXCWO+OS9oOsgISmm950E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EZNboEo6gPpuGSJ0GI07n5TB3/gMmO5mRAWIcqAllAR3BnJVg3J8Y7oPhbnmAIZ8BxhxE3xYHVIAwq7qHUiNyZouf7tToxWhWUjQiyfP3cyiMpVxzdBshcN5tAuP52VJS/9VGLNGHS4puJoVOTtyzD2N2UWslaxt1dcAfrHSu2E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xz2nzq1s; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5895EC113CC;
+	Thu,  2 May 2024 22:06:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714687592;
+	bh=syfFdI9oig8Vhc/96bXStdHXCWO+OS9oOsgISmm950E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Xz2nzq1sLtikjGzD9kfULQLCNfapBQ+334N2Mm/AFOaoamdMN2HE2QKlgZF/Wy+aT
+	 A/6U4lFq4IFUwavZDkYghfgGykoX53x59pA38cbOKR3R3aE+73sZhDo7L2TA2WBA4c
+	 bLWkewleSRnC6e9iqv+nQ2MOILQD7sJ/rIadgVMoAXVVcC33HT0aktQCDr3IP1+/V8
+	 d7ytvO0sTGgQAqf2efFbjURfKbL0Zx7Veh0mgaTC/c4uatQrYN9TVWgegbVNNd8r9n
+	 BQ4UiOPNAEWdC2HZ/7rp2nF6VslyRk3IjgU4gjNz5K95oLKWli62UUwDrfZsb4DPnk
+	 Do6N+MA5bQwDQ==
+Date: Fri, 3 May 2024 00:06:25 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: Jiri Olsa <olsajiri@gmail.com>
 Cc: Steven Rostedt <rostedt@goodmis.org>,
 	Masami Hiramatsu <mhiramat@kernel.org>,
 	Oleg Nesterov <oleg@redhat.com>,
@@ -86,116 +59,92 @@ Cc: Steven Rostedt <rostedt@goodmis.org>,
 	"Borislav Petkov (AMD)" <bp@alien8.de>,
 	Ingo Molnar <mingo@redhat.com>, Andy Lutomirski <luto@kernel.org>
 Subject: Re: [PATCHv4 7/7] man2: Add uretprobe syscall page
-Message-ID: <ZjPz2PWrW2BjXxlw@krava>
+Message-ID: <ZjQOYplF4EbsfQ0v@debian>
 References: <20240502122313.1579719-1-jolsa@kernel.org>
  <20240502122313.1579719-8-jolsa@kernel.org>
  <ZjOYf_g2qRrhDoQD@debian>
+ <ZjPz2PWrW2BjXxlw@krava>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Ek6osrwvrJr1a4yE"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZjOYf_g2qRrhDoQD@debian>
+In-Reply-To: <ZjPz2PWrW2BjXxlw@krava>
 
-On Thu, May 02, 2024 at 03:43:27PM +0200, Alejandro Colomar wrote:
-> Hi Jiri,
-> 
-> On Thu, May 02, 2024 at 02:23:13PM +0200, Jiri Olsa wrote:
-> > Adding man page for new uretprobe syscall.
-> > 
-> > Signed-off-by: Jiri Olsa <jolsa@kernel.org>
-> > ---
-> >  man2/uretprobe.2 | 45 +++++++++++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 45 insertions(+)
-> >  create mode 100644 man2/uretprobe.2
-> > 
-> > diff --git a/man2/uretprobe.2 b/man2/uretprobe.2
-> > new file mode 100644
-> > index 000000000000..08fe6a670430
-> > --- /dev/null
-> > +++ b/man2/uretprobe.2
-> > @@ -0,0 +1,45 @@
-> > +.\" Copyright (C) 2024, Jiri Olsa <jolsa@kernel.org>
-> > +.\"
-> > +.\" SPDX-License-Identifier: Linux-man-pages-copyleft
-> > +.\"
-> > +.TH uretprobe 2 (date) "Linux man-pages (unreleased)"
-> > +.SH NAME
-> > +uretprobe \- execute pending return uprobes
-> > +.SH SYNOPSIS
-> > +.nf
-> > +.B int uretprobe(void)
-> > +.fi
-> > +.SH DESCRIPTION
-> > +Kernel is using
-> > +.BR uretprobe()
-> > +syscall to trigger uprobe return probe consumers instead of using
-> > +standard breakpoint instruction.
-> > +
-> 
-> Please use .P instead of a blank.  See man-pages(7):
-> 
->    Formatting conventions (general)
->      Paragraphs should be separated by suitable markers (usually either
->      .P or .IP).  Do not separate paragraphs using blank lines, as this
->      results in poor rendering in some output formats  (such  as  Post‐
->      Script and PDF).
 
-ok, will do
+--Ek6osrwvrJr1a4yE
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 3 May 2024 00:06:25 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: Jiri Olsa <olsajiri@gmail.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+	linux-man@vger.kernel.org, x86@kernel.org, bpf@vger.kernel.org,
+	Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	"Borislav Petkov (AMD)" <bp@alien8.de>,
+	Ingo Molnar <mingo@redhat.com>, Andy Lutomirski <luto@kernel.org>
+Subject: Re: [PATCHv4 7/7] man2: Add uretprobe syscall page
 
-> 
-> > +The uretprobe syscall is not supposed to be called directly by user, it's allowed
-> 
-> s/by user/by the user/
+Hi Jiri,
 
-ok
+On Thu, May 02, 2024 at 10:13:12PM +0200, Jiri Olsa wrote:
+> > You could add a HISTORY section.
+>=20
+> ok, IIUC for this syscall it should contain just kernel version where
+> it got merged, right?
 
-> 
-> > +to be invoked only through user space trampoline provided by kernel.
-> 
-> s/user space/user-space/
+Yep.
 
-ok
+>=20
+> >=20
+> > Have a lovely day!
+>=20
+> thanks for review,
+> jirka
 
-> 
-> Missing a few 'the' too, here and in the rest of the page.
+Thanks for the page.
 
-ok, will check
+Have a lovely night!
+Alex
 
-> 
-> > +When called from outside of this trampoline, the calling process will receive
-> > +.BR SIGILL .
-> > +
-> > +.SH RETURN VALUE
-> > +.BR uretprobe()
-> 
-> You're missing a space here:
-> 
-> .BR uretprobe ()
+--=20
+<https://www.alejandro-colomar.es/>
+A client is hiring kernel driver, mm, and/or crypto developers;
+contact me if interested.
 
-ok
+--Ek6osrwvrJr1a4yE
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> 
-> > +return value is specific for given architecture.
-> > +
-> > +.SH VERSIONS
-> > +This syscall is not specified in POSIX,
-> > +and details of its behavior vary across systems.
-> > +.SH STANDARDS
-> > +None.
-> 
-> You could add a HISTORY section.
+-----BEGIN PGP SIGNATURE-----
 
-ok, IIUC for this syscall it should contain just kernel version where
-it got merged, right?
+iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmY0DmEACgkQnowa+77/
+2zJBMg/+PU0T3fJzB+wZdvQff5c7oLjdndWW+DkZtasvCkeVOUiqBI7ePfBI7DXT
+VRFsrYMOoYnlTLS2suag2r0O/zf+QzvyRM83sp2l2/PqLBwHRWBVaDv2VEa/JBXf
+FrMaSI1BeRPpsdIJdOchHPzfbOB5Hlmqqyfc6tMJlffECGkcLIceZ1sE3U1lUWv5
+CBMOlzoWyB4wTUqUuHtgsxk2nChoH+oQ0xD00oY7GLHVkgjKIfTJGx78wsyBnFI6
+1kZ0xRoHKWBOzy/UHuR1A4vbcND0B2BxDPmgEUibAI4rrjsw1rpeDyXaamJA5HlT
+A33e4OVbJYXKl9lZjzBroY0knpZVpXltDCCAYcKGAtHeD1TDDF1581M7BZqDGTnQ
+o4MUIml7+pQQlFmwYKFiEIoHDpijlhf8m9rHI/kSrwtQO4t5ajyc3y86L4XzkYiG
+ENyMJ/VWE82qvv1WIW81xpsjA+3RA6cGLaLt8p6dEw5dD9PHDDl5KNHkypgviJEo
+oB3mN/1cNijOJ5I0vs5F2Wwm8CP1VGQQuCyeSanGeKcSBUksKvdQHuEMzcu2CRKP
+jqUYYbyqqGyrimuEeibJBqWGB3PtfMJNk6FNURQh8sKkJlrFzN7P3zhvWXViwzTJ
+oY2Bdz5wczHpsnj+9uqwvc0KTMW1GJHyXRHX79ztNxJIz9cFbjE=
+=Nvto
+-----END PGP SIGNATURE-----
 
-> 
-> Have a lovely day!
-
-thanks for review,
-jirka
+--Ek6osrwvrJr1a4yE--
 
