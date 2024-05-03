@@ -1,165 +1,146 @@
-Return-Path: <linux-api+bounces-1470-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1471-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 970BB8BB4FA
-	for <lists+linux-api@lfdr.de>; Fri,  3 May 2024 22:39:32 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C99438BB7D4
+	for <lists+linux-api@lfdr.de>; Sat,  4 May 2024 01:02:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4B99928800F
-	for <lists+linux-api@lfdr.de>; Fri,  3 May 2024 20:39:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 647011F23445
+	for <lists+linux-api@lfdr.de>; Fri,  3 May 2024 23:02:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 611E923775;
-	Fri,  3 May 2024 20:39:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D012282492;
+	Fri,  3 May 2024 23:01:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SS+wrDCX"
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="zCe+/lF3"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B5C2134B1;
-	Fri,  3 May 2024 20:39:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 664B458ABC
+	for <linux-api@vger.kernel.org>; Fri,  3 May 2024 23:01:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714768768; cv=none; b=oQ1jcfyL//8oOwatv6DY58fYegc1FXplyOWz9Noi2Cnlpu5iI3AeZ8YHAyM0ESI2G4fUCWaEdsY6ZmoPec6q0/bVupvW6U2z6sD+9D0U5lKIVsjThQt5AE037A1Q5H1f38F8AhH+Hb5MWnzjobMPerC94AcIHxMDLjSxDrkS3CE=
+	t=1714777318; cv=none; b=Fiil8pfD51dIcGcj7TJ7DEvjoM54Pd3yX/aH729sA7Lnu1SI8MsrLdzM8agREHSxtgoA9y7fRP+GDoftda1tFfBDyKz+N7Lh9uEPzybVPq/wq4QsCKYxfQ1sUj0mc1C0Zybn8oQ6DiAJUs6RmX4k4/W+vMOzC3PUJgmtKi0DMkA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714768768; c=relaxed/simple;
-	bh=Rep+x/1IhbTWBkGtXMfFkyJ0D8lQ+OKZafkHQtxPmB4=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MLXy3WJbGeXWBi9xlmKm0rcQlIh6uq+tA2EhDTnjbYEvU+p+crNYVqtqeStcshbdHUvyhkor4642txrlqCPrx40nRJ4gZigX4z8dLpGSG/Bq9KsTERxqhtJSBFQxvysrGZMUDxmT9s5+kuYq++uFJ+0B3hhFHv9rxxq5y/FClgg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SS+wrDCX; arc=none smtp.client-ip=209.85.167.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-51ae2e37a87so66967e87.2;
-        Fri, 03 May 2024 13:39:26 -0700 (PDT)
+	s=arc-20240116; t=1714777318; c=relaxed/simple;
+	bh=4+92T3dF1pCkzFJyIvWH9pdOMABziRyYEtERHQRUflQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SptrdcLP1ianSj5OSeA2qVp9QmW0rU8nd1afDbasbLg2aDXLer0EsomrVzF7a9LyQx26Awgg3zhXFqpN7mEP34wvKmmn2ne0DutrhMyxtlTh7yJ27PrvPnYdYObFAa5oz8ZKhoo3TBtH+kKErQOYE8Fuqz+lIPr+xFumPF8y7GU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=zCe+/lF3; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1ecddf96313so1488445ad.2
+        for <linux-api@vger.kernel.org>; Fri, 03 May 2024 16:01:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714768765; x=1715373565; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:date:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=ZqsBll30nF6InCu+LuZTkxYmMemHYMNhisoQizv1i44=;
-        b=SS+wrDCXD//5KDkWwl2IHUGbJ6QuUtX0DQ8cBHr1orczGAVx7kC4bZOoQH1lYEL3uy
-         mGmrY3N2+BDwijlUWCP3EY9FyLmpEvgEZtHQ3evGQz+MeLzUBgSXm013yoByJa+RDCTl
-         qD0i99mECxjckP2m32IE2lIvozLpJpf8J3CH22jqXe3JvgO9BLHHR0tpt83iTzPxmC9f
-         L9ehHRXOyUWClEW/d9GFh5hT2detQq/LwWYG8svEdzY0Uyz+kue4yBVTmFv5q1c6bKPi
-         fQqG/7qfFe19hl0SGNqvCy6NiUlnv8A25MEJq4Bpnn+mCpzPOhRlELEAVHh+zAnsZI0l
-         gaYA==
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1714777317; x=1715382117; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=4+92T3dF1pCkzFJyIvWH9pdOMABziRyYEtERHQRUflQ=;
+        b=zCe+/lF34YSpkLm2TxtBbKSM5HvQTiKwAV3/44wZGfe5OEzwrVa15OMDxIqPZ6I5Ir
+         fuY3gGUb1FAi2faOv0IGo2pG5+C0IrtWoAvDo27Rm59TDonSdrohlP/jS86LM+nBFEtr
+         GQ3wWvTpg2+gE2rC84ee/b9iJ/8BqenQTpLVlydzmF1Q0OR+SG+iFBTc7vA2g6AR9wul
+         m/yFYwnkqQjsc8A+msgyA4Sd2DrAZoqHoiIs/JMbDHBl0iLiHDMXXc9ty8yA5mVjjUPu
+         NIXwFUvpRU7gKebDzlcSK+ISTKqFUA3d5KvW+ehUNElxgrnfJxbe9q+O7QQnllgNc6za
+         k4nA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714768765; x=1715373565;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:date:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZqsBll30nF6InCu+LuZTkxYmMemHYMNhisoQizv1i44=;
-        b=wlNGUY0uLE54+gmdOBW6qyOdkWCYn+ibVUSmYdPYVZJ5DJtEJxQ5VWnkH/gumnQCEJ
-         0tqxeXr1s9mSzxTB/fq3O6Na7GXe64Sm8tc/227nclWskVCSxdpXSwyRxwS7eVyCSPxN
-         EsDfvLeyuVN7AZ2CMKNRnaC1Xqb5J3R6rMJmAyl7oMe7PDik746oSgqEopjgUA20FTGQ
-         +F5N0zw43TlzKab68W1lscQF6gDwaGWnZJg4jAz/HW0fO2a5/vBZADdGe1VNaNfYrQdh
-         pSIMcTlLq86hDzRRr2EOpmC2wvIF3cpgHtLUb7y+ZcOwIWlMyuKULM9YD4CzDNoikOdq
-         NQ6g==
-X-Forwarded-Encrypted: i=1; AJvYcCU/KCHhZw/5tAlWJnWWA3p2TNTLsVds79sTrMpjA1CWp77y+S0quEBub13X8f0Y8fGa9A1uWOPb8uEv804qxAR1z9TAiS4ejQVNB1LPM2UE/6tdHnOZ6xFdwx0x/yEOMSuS7Sij2PmNDA+yXBLBANiobW+2wAV1LW5pBfDI8uceTArfn1yPznvfwZZygPBz6byucdXgevfY1/jajvQL7gLBcVh9mRQ9qNhsxXVdmKe5sdS+SZjt5gta58ym
-X-Gm-Message-State: AOJu0YwTaK1xMDGuPQxYeFfii0lcnntzVt79QSu22j8Ta3IZIy3izSKS
-	W1kqi3wMZQS8aiV2C5552HoKJGNDm1OsUC3KeIyFdvG0d0Z9Aemy
-X-Google-Smtp-Source: AGHT+IEO04P5Df9q/LsX2fv5yYDz2bukf7fwPopZc+/ml9FBu8Ry9bPZOljmvYWZfe7I6pDfREzbzQ==
-X-Received: by 2002:a19:644b:0:b0:51c:cd8d:2865 with SMTP id b11-20020a19644b000000b0051ccd8d2865mr2454181lfj.44.1714768764410;
-        Fri, 03 May 2024 13:39:24 -0700 (PDT)
-Received: from krava ([83.240.62.36])
-        by smtp.gmail.com with ESMTPSA id bk15-20020a170906b0cf00b00a52244ab819sm2141858ejb.170.2024.05.03.13.39.22
+        d=1e100.net; s=20230601; t=1714777317; x=1715382117;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4+92T3dF1pCkzFJyIvWH9pdOMABziRyYEtERHQRUflQ=;
+        b=mNUTMG5TMYL6QhGzFBb8hkTzpULvvoNvny6/pPYZ8bNeZHMyHvECnqfreGU5vhc2aZ
+         2H2NmRFfvH8WpQ3U8eGgzR02fJMghOyQyaG3xgNZferBytBCD19qSkCgHVkLkpSOaKiw
+         3Q1pdQxKymR3QFKPATqwArvNKLSOY9EcuW2G2fmvWSchAqRmx5M/iiofz1Xif6ZgYzWN
+         0xTsWjtO5pM4C/rXvpow9uF8cvpwitOw9V0ZN97a76HUptRXiFIrBpc+AgHuJggUlmdA
+         jQ9S11bFhswXUzq7ItFHuatGL02zo5At/hMaxdtMGM7dzpNNHTzSA0BiH/6AeqdYwU2F
+         3wTw==
+X-Forwarded-Encrypted: i=1; AJvYcCXK6a0bUdO/bt28Ge+raQSOm8VV3NFwWY429Oe0RDBjOCrdlzC2ISnfscunSvZ5d1eW6VuxB4CUG4ph2rLfxRTHU/ZMAtrQ0IiW
+X-Gm-Message-State: AOJu0YzhvP/TaOvIs/BXiaIywx+Uvj0CAav6+QgV74Oq6DckPuelmu72
+	P3jjkOdTLR+TD5+ifPwfudZssry8fyTabvUg8aSQvG9f9q4UoawzNj4dUapYD+g=
+X-Google-Smtp-Source: AGHT+IHzq6AzE/NVvcqxm4ol0K1axCLWE5IjNbsp5PyIHu/cbS2sPY/kkICJk49x3bkJcMIgzsAwYg==
+X-Received: by 2002:a17:903:32cf:b0:1e2:ca65:68c2 with SMTP id i15-20020a17090332cf00b001e2ca6568c2mr5565119plr.51.1714777316672;
+        Fri, 03 May 2024 16:01:56 -0700 (PDT)
+Received: from debug.ba.rivosinc.com ([64.71.180.162])
+        by smtp.gmail.com with ESMTPSA id f7-20020a170902684700b001eab1a1a752sm3841345pln.120.2024.05.03.16.01.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 May 2024 13:39:23 -0700 (PDT)
-From: Jiri Olsa <olsajiri@gmail.com>
-X-Google-Original-From: Jiri Olsa <jolsa@kernel.org>
-Date: Fri, 3 May 2024 22:39:21 +0200
-To: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Cc: Jiri Olsa <olsajiri@gmail.com>, Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-	linux-man@vger.kernel.org, x86@kernel.org, bpf@vger.kernel.org,
-	Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	"Borislav Petkov (AMD)" <bp@alien8.de>,
-	Ingo Molnar <mingo@redhat.com>, Andy Lutomirski <luto@kernel.org>
-Subject: Re: [PATCHv4 bpf-next 0/7] uprobe: uretprobe speed up
-Message-ID: <ZjVLedyQFBoHh-T_@krava>
+        Fri, 03 May 2024 16:01:56 -0700 (PDT)
+Date: Fri, 3 May 2024 16:01:53 -0700
+From: Deepak Gupta <debug@rivosinc.com>
+To: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+Cc: "olsajiri@gmail.com" <olsajiri@gmail.com>,
+	"songliubraving@fb.com" <songliubraving@fb.com>,
+	"luto@kernel.org" <luto@kernel.org>,
+	"mhiramat@kernel.org" <mhiramat@kernel.org>,
+	"andrii@kernel.org" <andrii@kernel.org>,
+	"linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+	"john.fastabend@gmail.com" <john.fastabend@gmail.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"mingo@redhat.com" <mingo@redhat.com>,
+	"rostedt@goodmis.org" <rostedt@goodmis.org>,
+	"ast@kernel.org" <ast@kernel.org>,
+	"tglx@linutronix.de" <tglx@linutronix.de>,
+	"yhs@fb.com" <yhs@fb.com>, "oleg@redhat.com" <oleg@redhat.com>,
+	"linux-man@vger.kernel.org" <linux-man@vger.kernel.org>,
+	"daniel@iogearbox.net" <daniel@iogearbox.net>,
+	"peterz@infradead.org" <peterz@infradead.org>,
+	"linux-trace-kernel@vger.kernel.org" <linux-trace-kernel@vger.kernel.org>,
+	"bp@alien8.de" <bp@alien8.de>,
+	"bpf@vger.kernel.org" <bpf@vger.kernel.org>,
+	"x86@kernel.org" <x86@kernel.org>,
+	"broonie@kernel.org" <broonie@kernel.org>
+Subject: Re: [PATCHv4 bpf-next 2/7] uprobe: Add uretprobe syscall to speed up
+ return probe
+Message-ID: <ZjVs4bxi7CpWhtEQ@debug.ba.rivosinc.com>
 References: <20240502122313.1579719-1-jolsa@kernel.org>
- <CAEf4BzYxsRMx9M_AiLavTHFpndSmZqOM8QcYhDTbBviSpv1r+A@mail.gmail.com>
- <ZjPx0fncg-8brFBk@krava>
- <CAEf4Bzb-dM+464JvW96KuxwOTfRQA1pxZRWM+pA7AfSWtWwqZw@mail.gmail.com>
+ <20240502122313.1579719-3-jolsa@kernel.org>
+ <20240503113453.GK40213@noisy.programming.kicks-ass.net>
+ <ZjTg2cunShA6VbpY@krava>
+ <725e2000dc56d55da4097cface4109c17fe5ad1a.camel@intel.com>
+ <ZjU4ganRF1Cbiug6@krava>
+ <6c143c648e2eff6c4d4b5e4700d1a8fbcc0f8cbc.camel@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAEf4Bzb-dM+464JvW96KuxwOTfRQA1pxZRWM+pA7AfSWtWwqZw@mail.gmail.com>
+In-Reply-To: <6c143c648e2eff6c4d4b5e4700d1a8fbcc0f8cbc.camel@intel.com>
 
-On Fri, May 03, 2024 at 11:03:24AM -0700, Andrii Nakryiko wrote:
-> On Thu, May 2, 2024 at 1:04 PM Jiri Olsa <olsajiri@gmail.com> wrote:
-> >
-> > On Thu, May 02, 2024 at 09:43:02AM -0700, Andrii Nakryiko wrote:
-> > > On Thu, May 2, 2024 at 5:23 AM Jiri Olsa <jolsa@kernel.org> wrote:
-> > > >
-> > > > hi,
-> > > > as part of the effort on speeding up the uprobes [0] coming with
-> > > > return uprobe optimization by using syscall instead of the trap
-> > > > on the uretprobe trampoline.
-> > > >
-> > > > The speed up depends on instruction type that uprobe is installed
-> > > > and depends on specific HW type, please check patch 1 for details.
-> > > >
-> > > > Patches 1-6 are based on bpf-next/master, but path 1 and 2 are
-> > > > apply-able on linux-trace.git tree probes/for-next branch.
-> > > > Patch 7 is based on man-pages master.
-> > > >
-> > > > v4 changes:
-> > > >   - added acks [Oleg,Andrii,Masami]
-> > > >   - reworded the man page and adding more info to NOTE section [Masami]
-> > > >   - rewrote bpf tests not to use trace_pipe [Andrii]
-> > > >   - cc-ed linux-man list
-> > > >
-> > > > Also available at:
-> > > >   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git
-> > > >   uretprobe_syscall
-> > > >
-> > >
-> > > It looks great to me, thanks! Unfortunately BPF CI build is broken,
-> > > probably due to some of the Makefile additions, please investigate and
-> > > fix (or we'll need to fix something on BPF CI side), but it looks like
-> > > you'll need another revision, unfortunately.
-> > >
-> > > pw-bot: cr
-> > >
-> > >   [0] https://github.com/kernel-patches/bpf/actions/runs/8923849088/job/24509002194
-> >
-> > yes, I think it's missing the 32-bit libc for uprobe_compat binary,
-> > probably it needs to be added to github.com:libbpf/ci.git setup-build-env/action.yml ?
-> > hm but I'm not sure how to test it, need to check
-> 
-> You can create a custom PR directly against Github repo
-> (kernel-patches/bpf) and BPF CI will run all the tests on your custom
-> code. This way you can iterate without spamming the mailing list.
+On Fri, May 03, 2024 at 07:38:18PM +0000, Edgecombe, Rick P wrote:
+>+Some more shadow stack folks from other archs. We are discussing how uretprobes
+>work with shadow stack.
+>
+>Context:
+>https://lore.kernel.org/lkml/ZjU4ganRF1Cbiug6@krava/
 
-I'm running CI tests like that, but I think I need to change the action
-which is in other repo (github.com:libbpf/ci.git)
+Thanks Rick.
 
-> 
-> But I'm just wondering if it's worth complicating setup just for
-> testing this x32 compat mode. So maybe just dropping one of those
-> patches would be better?
+Yeah I didn't give enough attention to uprobes either.
+Although now that I think for RISC-V shadow stack, it shouldn't be an issue.
+On RISC-V return addresses don't get pushed as part of call instruction.
+There is a distinct instruction "shadow stack push of return address" in prolog.
+Similarly in epilog there is distinct instruction "shadow stack pop and check with
+link register".
 
-well, we had compat process crashing on uretprobe because of this change,
-so I rather keep the test.. or it can go in later on when the CI stuff is
-figured out.. I got busy with the shadow stack issue today, will check on
-the CI PR next week
+On RISC-V, uretprobe would install a uprobe on function start and when it's hit.
+It'll replace pt_regs->ra = trampoline_handler. As function will resume, trampoline
+addr will get pushed and popped. Although trampoline_handler would have to be enlightened
+to eventually return to original return site.
 
-jirka
+>
+>On Fri, 2024-05-03 at 21:18 +0200, Jiri Olsa wrote:
+>>
+>> hack below seems to fix it for the current uprobe setup,
+>> we need similar fix for the uretprobe syscall trampoline setup
+>
+>It seems like a reasonable direction.
+>
+>Security-wise, applications cannot do this on themselves, or it is an otherwise
+>privileged thing right?
+>
+>
 
