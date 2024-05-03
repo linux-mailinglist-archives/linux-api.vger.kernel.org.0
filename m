@@ -1,248 +1,235 @@
-Return-Path: <linux-api+bounces-1466-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1467-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 544EF8BB3CC
-	for <lists+linux-api@lfdr.de>; Fri,  3 May 2024 21:18:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86FC18BB43D
+	for <lists+linux-api@lfdr.de>; Fri,  3 May 2024 21:38:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C1D661F257D5
-	for <lists+linux-api@lfdr.de>; Fri,  3 May 2024 19:18:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F293D1F217DC
+	for <lists+linux-api@lfdr.de>; Fri,  3 May 2024 19:38:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F27B158201;
-	Fri,  3 May 2024 19:18:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95C5A158A04;
+	Fri,  3 May 2024 19:38:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JKvL27KE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AULhwV6U"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70AC1156F2A;
-	Fri,  3 May 2024 19:18:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714763912; cv=none; b=GWh4xyXLoX5n3UzBQ1GPZtSdql1Y2eJS5hBQ/gnKmuwPx3pJ5RpkBXkeoyGLpz2GDp7SyKH0dxysIcSXaLzmzNZde8c7dtb2JufGW2TI6kanbestIlhnZf7idRdABV1lv1PA453jkOfRZ+T+70qtqaVMdfij9eVoLS98hewGy2A=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714763912; c=relaxed/simple;
-	bh=Cf9LoRUpPjAh+yLyJB4d5K3369qJcbMglaMH7KY/O5I=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R6dvo/0RlTIO+RlFBLpLX3jtcuzM5dtA7ux0pf+PlYAYIiAxoSr+nUo7HCIFT5Sh4Q8L2dWHbx/ff2mktOVb16Fnq6tvdZHAoXTh7EWdklUSJMA0/7OYlqGdMAtsm00qpd2hI3GWQAgcmoMqG230vKuL9Md4Tgti4RmJ8j4jGhw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JKvL27KE; arc=none smtp.client-ip=209.85.218.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a5544fd07easo1465701066b.0;
-        Fri, 03 May 2024 12:18:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714763909; x=1715368709; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:date:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=6aq4UQcdpcKwckp57zb2we9p40MZ5pzcBeJbE0PaEe8=;
-        b=JKvL27KE2qSmFTbHT3DnJk19eRmc8tYNVLIn9YU8X8PHBQY8wr+OTwPnUvu8SqFEwO
-         Fsl55q2iBrbqxPwtCjEMe5Qq6dbVLMs1XHUc2u0t1avjjNNKrCOQ1RpmQKCkFL1vEuK4
-         5qohQiAxOjScYix4+Sn1JbXJy5esXQGaKiBU+LxUgW5oce2CoLQxDhgvmgvFfDYVxmVV
-         MBLX7R5op/LIkvoALgG7YF/biubKWnDdj0otdO+zkPY6epQmpbqXUTJMkrVSIOMvlqJ8
-         2Mad6loI+QVpJcmyLkyUgCrpEBwQtA8oBBgyo6LkbPSd9WGVItsL352VAkEW+Yq23Yxz
-         IsOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714763909; x=1715368709;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:date:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6aq4UQcdpcKwckp57zb2we9p40MZ5pzcBeJbE0PaEe8=;
-        b=NH7UWAIP1jO0w5s9zPT2mxfbBxbUrDOtYUUo/UtslBKTM24yT9rGMh95ZkePh+12db
-         5Wv7dCJJBpVfd0Qmr5A9yJTBVsP7m3Jm3N36bwb4W5NbvnMoevh2/srOeJzDFfp1DzS5
-         BcYQtNawAynqIYKAhDb5A6Od1V9FfCQHFd67nYnZQOeFKu3X/FmG3PH4ZwGNxThNMiQe
-         udKEGVPpUg16eP0qhlcu+TQonjLqHQgMA5JOr5aIEtImNNYPZ/rcCSPYH+RlHTFQnDa5
-         rJU6N8m7tCaD7it+XS3HIZ9HioPcJ1PBc1KBO2HQMMR61RY5z65PVW9WoVLUUIUFGgn3
-         phug==
-X-Forwarded-Encrypted: i=1; AJvYcCUF8uU+Cf5fglxcldK2PPkjBXJZRZ5sSw/F7bIJE+OpAg08YJrYiEhSxU8PnhCnd8Kcdif2Y4WI5y50OLowInF+eXGu9uQDPD5geK57SSupWawySRftdaYBUkhcsanu+Myi8RwBUPiFBGKXQoeW4ePLDrZmvTLQ+QUo6AeoOgZjvEcr/bJgRJFpZ6HjcEmFd3GUVogTPW802CaWA4p6EkyvpkgqCfmOmjlkVg4FwlscbzAsev9BTo8ShQxk
-X-Gm-Message-State: AOJu0YzTnx/MLXyp4ijHlhB1lwcx/8pkCdRS1UuquTCPbzaNt21VFOKN
-	GeBY2R1zk/FLmN5kg63HzcQFZnUW+4PeSM/3k8J6g4iVQpZEpBql
-X-Google-Smtp-Source: AGHT+IH3PC/LlW/jHmTN85qf2LBTbgiAMP6Up8zHTigpFCHasVU/hv3IlOZVVnIm5jTFS2fJ/94rdQ==
-X-Received: by 2002:a50:9993:0:b0:570:5e7f:62cb with SMTP id m19-20020a509993000000b005705e7f62cbmr2156480edb.29.1714763908575;
-        Fri, 03 May 2024 12:18:28 -0700 (PDT)
-Received: from krava ([83.240.62.36])
-        by smtp.gmail.com with ESMTPSA id d17-20020a056402517100b0056fe755f1e6sm1978876ede.91.2024.05.03.12.18.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 May 2024 12:18:28 -0700 (PDT)
-From: Jiri Olsa <olsajiri@gmail.com>
-X-Google-Original-From: Jiri Olsa <jolsa@kernel.org>
-Date: Fri, 3 May 2024 21:18:25 +0200
-To: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-Cc: "olsajiri@gmail.com" <olsajiri@gmail.com>,
-	"peterz@infradead.org" <peterz@infradead.org>,
-	"songliubraving@fb.com" <songliubraving@fb.com>,
-	"luto@kernel.org" <luto@kernel.org>,
-	"mhiramat@kernel.org" <mhiramat@kernel.org>,
-	"andrii@kernel.org" <andrii@kernel.org>,
-	"linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-	"john.fastabend@gmail.com" <john.fastabend@gmail.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 007A213957E;
+	Fri,  3 May 2024 19:38:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.14
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1714765105; cv=fail; b=Exu7IWedNYhv84cb0ZqoRrfxD2zJb6vquVzHdsapMDE7xDmHT/sdpKvQXtjdBBeLPD+Qb7stM9mQEyNn7y3eB8YV/0N2TVD38M15wCI+LldDcm+flToKeNd79dN1UaygFNzwXz6DyeHuqUA2a7RcOcq2QXAwzyyKDvSSSpeor2Q=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1714765105; c=relaxed/simple;
+	bh=cB1g9yShoIeB7D/S3En+8zv0N4QEyImp+mVTNcNx2uU=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=SFh9oVc2OFbEx53+rSt3eWRyhiTK7NcMXbekbPig/ZLnSz8Z4L+UobPOadLGhpJldAl+l0/5ep1gD5UIdg56IA8+cnRjLxzHPUn5/JTsAorku5pP2EQySMxhkTVxrelryrbMMARLK5WTywB7dnX0PDYp8Vy59I5FIMnsmXbj1bo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AULhwV6U; arc=fail smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714765104; x=1746301104;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=cB1g9yShoIeB7D/S3En+8zv0N4QEyImp+mVTNcNx2uU=;
+  b=AULhwV6UjvRhaWxdzcd+C7PL7pV9cIJRGtCTMqQt/Y4wBpRJsTfO/bHZ
+   PFuSzJud/Q+LRPsIi1ahOUtLSl6d/rGXLNF/tZd1oG5YWewA9J8b5tq0W
+   6wTZvd3xZO6jqBie0cX4Mv8wpdYPsUobu3K2Bd8mhLz1SoWI8YQnjBTJ1
+   +BnK7EDqs1hWdYBheO+0nwn6j3mMyscKXXA1Wit05KPFOH3uhj4rETUYn
+   pTQz+r3QL1EuPYitbTQFgyQJnlYbMv6xwVM4hYjG1rGo46Nfj6ke2Tujp
+   MWWDWUY6fVYnBPeIhLlmCAoi2baG5uyQr7owaeVeflhOAGgt5hfjs0ett
+   Q==;
+X-CSE-ConnectionGUID: chiBpKjBTvKlYmj4HQk3wg==
+X-CSE-MsgGUID: WI8JcrUsQXGc/n7zv85Dfg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11063"; a="10802129"
+X-IronPort-AV: E=Sophos;i="6.07,251,1708416000"; 
+   d="scan'208";a="10802129"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2024 12:38:23 -0700
+X-CSE-ConnectionGUID: i/eBckQ1Tp6JHuUVN+QZ3Q==
+X-CSE-MsgGUID: /0TDC2/qS8m+ky32Lkuqrw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,251,1708416000"; 
+   d="scan'208";a="27421241"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by orviesa010.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 03 May 2024 12:38:22 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Fri, 3 May 2024 12:38:21 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Fri, 3 May 2024 12:38:21 -0700
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.41) by
+ edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Fri, 3 May 2024 12:38:21 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FazcrYkoDuHK/Y6mXJZ84RHXvFM4+0iuX6Tu3+JjYomapWVPqndxnWJtnpVlY1LEqF6vy11Cl6YDL0rzUmfbKpWzM/2A+Iz7ktbHU0t0Idji90VKVRhctya/B7MLMbU2iLRhpBnjA3f+z6Rpl4sEAokP7/kQotWPD31WODZBuMPzi9olZ63K1tj0jIv+D5hsjmCidouosyUwIGb9SY+6ItQF+eLcDSRDYgY8j9ah+SvqrLVGlBW8Q3rlXtquNShlywVi4E2C+oWhOVN8KLxIRzr/x652/pYqBW2Xz1QFUr/QmbbUGtGgh66DRwgeGU6ellfROOASijamN2/9sfAinw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=cB1g9yShoIeB7D/S3En+8zv0N4QEyImp+mVTNcNx2uU=;
+ b=A3+kpxnVpQN3MwEKsXXDU4dEf7lmoAa1YQCIVGeI4+iDlDQFkhI5q4NnJj3gYu5Rsc+GUBbunuuEmzfQvfctuc5x8FkhLFt4lCViCPL80OohLDrc5VWX+4Sq6PGUIqbrcFxkiCh/At5DOZgjfyvVDLFqTbW2OILLmd8wcBFbuBmUWX8wFj0NdpoChBBnF87290A0kAGUzs92d8cF/JGGnqpNmjdlhMXYALoVJKGCxI7++n0ziN1MPqLkdkf4LnePal+lBfthqF9CgUS8qC3sHhEteKw3Vof/CyBSvW+4Ak5tIJa/F6cQl2qZCr9Fzvj7d281Et6FWx22FkkgkWtwoQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from MN0PR11MB5963.namprd11.prod.outlook.com (2603:10b6:208:372::10)
+ by SN7PR11MB6725.namprd11.prod.outlook.com (2603:10b6:806:267::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.30; Fri, 3 May
+ 2024 19:38:19 +0000
+Received: from MN0PR11MB5963.namprd11.prod.outlook.com
+ ([fe80::edb2:a242:e0b8:5ac9]) by MN0PR11MB5963.namprd11.prod.outlook.com
+ ([fe80::edb2:a242:e0b8:5ac9%3]) with mapi id 15.20.7519.031; Fri, 3 May 2024
+ 19:38:19 +0000
+From: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+To: "olsajiri@gmail.com" <olsajiri@gmail.com>
+CC: "songliubraving@fb.com" <songliubraving@fb.com>, "luto@kernel.org"
+	<luto@kernel.org>, "mhiramat@kernel.org" <mhiramat@kernel.org>,
+	"andrii@kernel.org" <andrii@kernel.org>, "linux-api@vger.kernel.org"
+	<linux-api@vger.kernel.org>, "john.fastabend@gmail.com"
+	<john.fastabend@gmail.com>, "debug@rivosinc.com" <debug@rivosinc.com>,
 	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"mingo@redhat.com" <mingo@redhat.com>,
-	"rostedt@goodmis.org" <rostedt@goodmis.org>,
-	"ast@kernel.org" <ast@kernel.org>,
-	"tglx@linutronix.de" <tglx@linutronix.de>,
-	"yhs@fb.com" <yhs@fb.com>,
-	"linux-man@vger.kernel.org" <linux-man@vger.kernel.org>,
-	"oleg@redhat.com" <oleg@redhat.com>,
-	"daniel@iogearbox.net" <daniel@iogearbox.net>,
+	"mingo@redhat.com" <mingo@redhat.com>, "rostedt@goodmis.org"
+	<rostedt@goodmis.org>, "ast@kernel.org" <ast@kernel.org>,
+	"tglx@linutronix.de" <tglx@linutronix.de>, "yhs@fb.com" <yhs@fb.com>,
+	"oleg@redhat.com" <oleg@redhat.com>, "linux-man@vger.kernel.org"
+	<linux-man@vger.kernel.org>, "daniel@iogearbox.net" <daniel@iogearbox.net>,
+	"peterz@infradead.org" <peterz@infradead.org>,
 	"linux-trace-kernel@vger.kernel.org" <linux-trace-kernel@vger.kernel.org>,
-	"bpf@vger.kernel.org" <bpf@vger.kernel.org>,
-	"bp@alien8.de" <bp@alien8.de>, "x86@kernel.org" <x86@kernel.org>
+	"bp@alien8.de" <bp@alien8.de>, "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
+	"x86@kernel.org" <x86@kernel.org>, "broonie@kernel.org" <broonie@kernel.org>
 Subject: Re: [PATCHv4 bpf-next 2/7] uprobe: Add uretprobe syscall to speed up
  return probe
-Message-ID: <ZjU4ganRF1Cbiug6@krava>
+Thread-Topic: [PATCHv4 bpf-next 2/7] uprobe: Add uretprobe syscall to speed up
+ return probe
+Thread-Index: AQHanU4GpcFda+6iuUm0ZMN/pIdOBLGFejyAgAAvKwCAADlUgIAABY4A
+Date: Fri, 3 May 2024 19:38:18 +0000
+Message-ID: <6c143c648e2eff6c4d4b5e4700d1a8fbcc0f8cbc.camel@intel.com>
 References: <20240502122313.1579719-1-jolsa@kernel.org>
- <20240502122313.1579719-3-jolsa@kernel.org>
- <20240503113453.GK40213@noisy.programming.kicks-ass.net>
- <ZjTg2cunShA6VbpY@krava>
- <725e2000dc56d55da4097cface4109c17fe5ad1a.camel@intel.com>
+	 <20240502122313.1579719-3-jolsa@kernel.org>
+	 <20240503113453.GK40213@noisy.programming.kicks-ass.net>
+	 <ZjTg2cunShA6VbpY@krava>
+	 <725e2000dc56d55da4097cface4109c17fe5ad1a.camel@intel.com>
+	 <ZjU4ganRF1Cbiug6@krava>
+In-Reply-To: <ZjU4ganRF1Cbiug6@krava>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+user-agent: Evolution 3.44.4-0ubuntu2 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MN0PR11MB5963:EE_|SN7PR11MB6725:EE_
+x-ms-office365-filtering-correlation-id: ebcc986c-75bd-438d-55b1-08dc6ba895bf
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230031|376005|7416005|1800799015|366007|38070700009;
+x-microsoft-antispam-message-info: =?utf-8?B?aXFmT2pkc2NlR1pZK2pIUXpxZjZNUmE3WXJ3SnErdTZRcnl6dXB2U0hCS2Q5?=
+ =?utf-8?B?d1huY3pvb0MyWTNGeTlsTEhxYy9OU0FRWmkzRUtpS3FxWXY0SnU5VElxdkNC?=
+ =?utf-8?B?MFdYUUhCNDBIbTlHa3BnMGh4K20wbmhWOEtsRGMwcVlBc1NxZjFFVW5ScjNP?=
+ =?utf-8?B?U293ejc4NFY5YWlaUHgxQm40NldiYUdwV0dTSE80NCtBZHBLMFFDa0NFOC9C?=
+ =?utf-8?B?V3Bpc281MkFWaG00MlNYSGhvM1FuSjdraEtkTEUwQ0ladnN3MjBDdFE1YmQ4?=
+ =?utf-8?B?a1FJTVZYdVJES29VSTJFbG1mRk13L0pTWnJWVkh4OXp1cXk3MGNsbDVHcHpS?=
+ =?utf-8?B?dm4vcVlNNGZ1U2VGWHhKOXRrb0lmMFRha2lqd0d2cmZDc21uN1FpM0FyemxZ?=
+ =?utf-8?B?cFBBMVBEdVY5amMxankvYXlCYUlUOXhhMFRsT29YcTBNRVlJK2k1dHM1Y2c5?=
+ =?utf-8?B?eHJLbkRYa1ZjcUhEQzNoM1pyWXE3ZUUwSXl0dHBpalRrMkYvWmJBUERQUWo2?=
+ =?utf-8?B?QXBkUnRrYkdyaXByTmNCRUlDbXpjdkwrWUFkV2R5emxiUWRwRkN1NE9NaVAz?=
+ =?utf-8?B?TklPclVrbUM2N09XVEpuUkRqa1JPeHlwWEl5R2tWSEx1cnhyS3RtcEJ6Zmpo?=
+ =?utf-8?B?T1BvbTUyd1NnYThZMXJPb0w0c01xbkViKzBDK1l6NC9kWCtzSnEyVkFOcW9L?=
+ =?utf-8?B?YjZ1dEExaFFyUEt4d2c3MXZZVHA2MW1CSWViYWgrR3JaSDJSd05HcHJlb0tj?=
+ =?utf-8?B?SXpqSTlueFpyV0l3QTUxOVZGbHJRRnQ5V004dmlTVHBqQkZKbGRibkg5TGxB?=
+ =?utf-8?B?TGJXVmxzZTlub2ZtNDcvbHliMU9MQWtmUnVlWnZJMWZNaitvVlczQlQycDUw?=
+ =?utf-8?B?dWVEVDM2c1A3UEQvK2RhTVBCbmJQc1JIanV2RWY1WU5iWFpXMzJVZHdLNmNa?=
+ =?utf-8?B?bU1HNjlWTUV0WGR6dFk2MU1QNy9vcTRmNlM4SW5uMHMvUHI3cnhVRmZ1OWZp?=
+ =?utf-8?B?WWxtTUx2TVlNV1lUWmZxWE55RE9ibVBmMWFyM0N5dFB0c0hhd2E5WklDcU1o?=
+ =?utf-8?B?TVJWZm05OC9nR2dZaVVZNXhSaVdUVllHcklCWnRTZkcrSVhiRFhKUTl5NjVy?=
+ =?utf-8?B?UnkwMW4vbkZnRWlBWWlHbXUxYlFMRzN0UXpuQW8yT2w5UEo3RTF5K0RORmpW?=
+ =?utf-8?B?VEJQUGRXWm5lZE9lWUszSzB1R1hNa3hFZGIwYXdZV1pEcXhRcjZzSmtqMzZQ?=
+ =?utf-8?B?Y0xVWXB6VGpuRFVJdjlaYWN0TEs3U01VUXFoeDhNQ01UUDNGcUlxSzU4T0c4?=
+ =?utf-8?B?N2V0TG9wVDJsL1NyVitxcnpsbHpmTUw2UHpnK0FOcGJtQUpsWkRLTmFPM3kw?=
+ =?utf-8?B?ZlJlOFRHUzI3WWJtRFJ6cDJxeDVoa1QzajlwdDdUd1NMRy9vRHBvczVxZU9W?=
+ =?utf-8?B?eHR5T2p3ODZlTWEyRmVlODBUTEtNNnp6L0xsdkc5RmFac2piOUhmVm9YYVhT?=
+ =?utf-8?B?NWd2L0FJYU14eUtIcFBRemZpTDBISDduN1IxamVFWVViV3d5MGdjQVdWYldN?=
+ =?utf-8?B?VlJVRzYyYnQvQ2dEK3VnL0o1eFI2T3pCTG9zazJFVXdUa0dpTmhwUS9VU2hi?=
+ =?utf-8?B?b2ZVakFSNUVTZis5ZGJPZUhxaGpycE9sdHJYUnFlNWo4Q3RKOHVFeFFPQlRQ?=
+ =?utf-8?B?alJBR2daVC9xQUhxUWpxcUloeVE2N1N5a2N6VkRIOTNacmlHczgzeVZBPT0=?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB5963.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(7416005)(1800799015)(366007)(38070700009);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?NXhlODRyK0wzRnp1SWlQMmlwSXA1SUJHQlBsd0dpbm5BT1poRHMvUjRHOUdk?=
+ =?utf-8?B?MDVLQ01nZXJZbjNiOTdkMEx3MlpGaWxrS01yK3RMNDlIYWtCaEdHR0xPTzUx?=
+ =?utf-8?B?citIbkd1OXB5Z2JNODZGdlY2N2tBNGhkYk9ZM2poRzFqWkFXOUM2Y2V2c1N6?=
+ =?utf-8?B?cUNjU3NQS0NIbTZ6MWFyYUc4Um0rNjNGb0RmMjRJM1Y2THBNM1pWK0xPaEUv?=
+ =?utf-8?B?djF6UHAyYVdkTVpoUDlHaytQOVl0empiMks2Z21yckxPbklGK0NSekRROTRh?=
+ =?utf-8?B?UTNkKzhtMlFLSXVHM2hKdVFiZE9uNXB1enBQaHlhSkpBTG1DWmg3WkRSNWJ4?=
+ =?utf-8?B?cHhhaFZGejYwd0pkNnlhZ1dWVFFGc2F1VGNLdmRaVHRDWldHTWlLZHJSRlBB?=
+ =?utf-8?B?YmdwZzVIVnQ4eXkwemo5bkt5TFVaem9pdFVFUUozSlpHNjQxZWMvcW5qYUtH?=
+ =?utf-8?B?Yy95Q3JpZUloVkw2R2doRnppS1dxRTBZdWczVGhzZW1wb2pUL2hVQ1E3Z3M1?=
+ =?utf-8?B?a3pQRmNmc2c2Q3NtSWZWN0lybUxVUmNOaXpZLytjY1F0N3grWml6clhIQ29o?=
+ =?utf-8?B?QkxNQmFvSEt6cDFYY3lOTUZpdUtFa3RNczQxeWpNektxd2RoVXBOcFZndlJk?=
+ =?utf-8?B?VkJzQlRMMXI4UU55K2Z5bnUxQzNiR3FuR2Q1NzhrQW5RTlgyUUtGMk83Qm9Z?=
+ =?utf-8?B?Y1JHUTArdFAvZFkxaUR0SktOL2dXR1N6UkczU05Nakt6aHM0SVJGMlordHVB?=
+ =?utf-8?B?TTlJVUpKVlZlSTlOdXZDTVdQZVo0UGRqajZqcEExekxIMXBUU1RiSDA3RGdI?=
+ =?utf-8?B?VjRhVHd4K21ZN3crREQ0SWt3WTM0NGZMdGN4VzV3RllZOW02dVZUbjk4RlNa?=
+ =?utf-8?B?dFRlN1JOVWZxalNXSzNKNnJ3UmdBUisyQ01OOUF6ZjNDVjMwM1JqNzFBZHVZ?=
+ =?utf-8?B?dHlJWnU0N0RWYWRYQVlrcGdpNkdPMk5vNTRtRW9jUTJmNnp1NUNITDNwQ0h6?=
+ =?utf-8?B?MmlnMjF5dEVpZTN1ZVNBTTI3bG1uUk1nVVJpVGd0UXh3SVZobWhzc0d6eW1E?=
+ =?utf-8?B?RTl0eVVYMFZGMVcrM3ZyVU1aL3FrbS9zOXdteVkrTU4rb2JQTnFFRjE5YS8y?=
+ =?utf-8?B?U0FtUnBjY1VHSG1FRWIvZ3pnT2tQcmtTaE1MbSs2dlVvSnZFWmtrMElNYnhD?=
+ =?utf-8?B?VEs2VGFabS9XOUNXcDFCajZSbEJWckxnWTV5MEsrV3J5dExqSmdFUDh5WkNo?=
+ =?utf-8?B?VzdLeEt3UVVNN0oxWThjYk9nOHRIeERxWVpPOWR1NkpuZ0lObzh1NkRjU2Uw?=
+ =?utf-8?B?Ly92SGhkM1E5c3U5VFR4TzRTeWZMNlFtK2o1MjgrR1BrSG8wVmxaeitJM1RQ?=
+ =?utf-8?B?V2xYQ3BoM1pXYzhzN2JmRTFZY1hheGRXM2NVUjlPd294ZDhON2dWUTF0a01M?=
+ =?utf-8?B?VlVRd3lFV1hoYmxqb3pxVFN5KzVveVFhZEZCVW1YSENodXB2VDdQYVdRTjIz?=
+ =?utf-8?B?cjhDUzF6bGN3WVhmZEJOcXhsTkZPdHEwQ1VJSEFKQ0Z6L0NHSWZVOGwydE93?=
+ =?utf-8?B?dzM1dXVUaHpsdWZHbUM5VjRiU0p2cVJhTjF6bkgvMXpLQm9yQkJEc1h3L2gy?=
+ =?utf-8?B?UWJCMEhlODBKTUY3eURJZjJldnNLMDNQdmUzU3MvRStzV3BtWDZ4dlc1dlls?=
+ =?utf-8?B?NmlLeWQyeklLaXZzTkdLdUxXQmtmdTFuTkV5KzgvZXJNR0ZZbysvNmJ6bllE?=
+ =?utf-8?B?ZEYwTG5VTW05ZlBxMWp4VWdveTVaUGh4RkpSQnBPVFFsM1FkYmRLZXcxZmlw?=
+ =?utf-8?B?anMvSml5bmkweW5JTEtkcWtCd1UvTWZpUUM2MkxJUnhlM1Awd0tUc1Z0OUha?=
+ =?utf-8?B?cXUwd0x0MWhUdmE4ZWd0YndOMGoxVER6SFZtSTJadlhWRDB4MjFvVzRpR1p0?=
+ =?utf-8?B?TE5XYitIT08vaEYvVlFHallMcnQ3TVlBNmlaU0RFeDYzZ0xmWXVaSDNxKzhm?=
+ =?utf-8?B?Qll4eGNkWG9pMS91NUMzYk1iTC9HbW8xU3NNVTZuY1FhSnd4OHpqZk5rYnJY?=
+ =?utf-8?B?ODRFdHl3VlFyNW1Rd1NoajFtSGU2ZEVVTjhvTGdXMmdXZXJ5Z3A1YVRLVkdZ?=
+ =?utf-8?B?dmxUUFlxNCsrdUxHVXRhbW4yYVZLMDd6N09weEJVamU3RWtGOWVpQ3pUdmlz?=
+ =?utf-8?Q?vvgjJql9pofwQhRiRhuZVuA=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <EB3679E696137B4EB7BBBDE07AB3A94F@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <725e2000dc56d55da4097cface4109c17fe5ad1a.camel@intel.com>
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB5963.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ebcc986c-75bd-438d-55b1-08dc6ba895bf
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 May 2024 19:38:19.0221
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: YTki1asemeN3Y7gabE6IpZpLuGSmzzWeOdik621ApS2loU6TMW2+utwwpA/C2huPakwOfafEZemAGj5WYo32qS8w80bvy/qilzuyxFvjw+Q=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB6725
+X-OriginatorOrg: intel.com
 
-On Fri, May 03, 2024 at 03:53:15PM +0000, Edgecombe, Rick P wrote:
-> On Fri, 2024-05-03 at 15:04 +0200, Jiri Olsa wrote:
-> > On Fri, May 03, 2024 at 01:34:53PM +0200, Peter Zijlstra wrote:
-> > > On Thu, May 02, 2024 at 02:23:08PM +0200, Jiri Olsa wrote:
-> > > > Adding uretprobe syscall instead of trap to speed up return probe.
-> > > > 
-> > > > At the moment the uretprobe setup/path is:
-> > > > 
-> > > >    - install entry uprobe
-> > > > 
-> > > >    - when the uprobe is hit, it overwrites probed function's return
-> > > > address
-> > > >      on stack with address of the trampoline that contains breakpoint
-> > > >      instruction
-> > > > 
-> > > >    - the breakpoint trap code handles the uretprobe consumers execution
-> > > > and
-> > > >      jumps back to original return address
-> 
-> Hi,
-> 
-> I worked on the x86 shadow stack support.
-> 
-> I didn't know uprobes did anything like this. In hindsight I should have looked
-> more closely. The current upstream behavior is to overwrite the return address
-> on the stack?
-> 
-> Stupid uprobes question - what is actually overwriting the return address on the
-> stack? Is it the kernel? If so perhaps the kernel could just update the shadow
-> stack at the same time.
-
-yes, it's in kernel - arch_uretprobe_hijack_return_addr .. so I guess
-we need to update the shadow stack with the new return value as well
-
-> 
-> > > > 
-> > > > This patch replaces the above trampoline's breakpoint instruction with new
-> > > > ureprobe syscall call. This syscall does exactly the same job as the trap
-> > > > with some more extra work:
-> > > > 
-> > > >    - syscall trampoline must save original value for rax/r11/rcx registers
-> > > >      on stack - rax is set to syscall number and r11/rcx are changed and
-> > > >      used by syscall instruction
-> > > > 
-> > > >    - the syscall code reads the original values of those registers and
-> > > >      restore those values in task's pt_regs area
-> > > > 
-> > > >    - only caller from trampoline exposed in '[uprobes]' is allowed,
-> > > >      the process will receive SIGILL signal otherwise
-> > > > 
-> > > 
-> > > Did you consider shadow stacks? IIRC we currently have userspace shadow
-> > > stack support available, and that will utterly break all of this.
-> > 
-> > nope.. I guess it's the extra ret instruction in the trampoline that would
-> > make it crash?
-> 
-> The original behavior seems problematic for shadow stack IIUC. I'm not sure of
-> the additional breakage with the new behavior.
-
-I can see it's broken also for current uprobes
-
-> 
-> Roughly, how shadow stack works is there is an additional protected stack for
-> the app thread. The HW pushes to from the shadow stack with CALL, and pops from
-> it with RET. But it also continues to push and pop from the normal stack. On
-> pop, if the values don't match between the two stacks, an exception is
-> generated. The whole point is to prevent the app from overwriting its stack
-> return address to return to random places.
-> 
-> Userspace cannot (normally) write to the shadow stack, but the kernel can do
-> this or adust the SSP (shadow stack pointer). So in the kernel (for things like
-> sigreturn) there is an ability to do what is needed. Ptracers also can do things
-> like this.
-
-hack below seems to fix it for the current uprobe setup,
-we need similar fix for the uretprobe syscall trampoline setup
-
-jirka
-
-
----
-diff --git a/arch/x86/include/asm/shstk.h b/arch/x86/include/asm/shstk.h
-index 42fee8959df7..99a0948a3b79 100644
---- a/arch/x86/include/asm/shstk.h
-+++ b/arch/x86/include/asm/shstk.h
-@@ -21,6 +21,7 @@ unsigned long shstk_alloc_thread_stack(struct task_struct *p, unsigned long clon
- void shstk_free(struct task_struct *p);
- int setup_signal_shadow_stack(struct ksignal *ksig);
- int restore_signal_shadow_stack(void);
-+void uprobe_change_stack(unsigned long addr);
- #else
- static inline long shstk_prctl(struct task_struct *task, int option,
- 			       unsigned long arg2) { return -EINVAL; }
-diff --git a/arch/x86/kernel/shstk.c b/arch/x86/kernel/shstk.c
-index 59e15dd8d0f8..d2c4dbe5843c 100644
---- a/arch/x86/kernel/shstk.c
-+++ b/arch/x86/kernel/shstk.c
-@@ -577,3 +577,11 @@ long shstk_prctl(struct task_struct *task, int option, unsigned long arg2)
- 		return wrss_control(true);
- 	return -EINVAL;
- }
-+
-+void uprobe_change_stack(unsigned long addr)
-+{
-+	unsigned long ssp;
-+
-+	ssp = get_user_shstk_addr();
-+	write_user_shstk_64((u64 __user *)ssp, (u64)addr);
-+}
-diff --git a/arch/x86/kernel/uprobes.c b/arch/x86/kernel/uprobes.c
-index 81e6ee95784d..88afbeaacb8f 100644
---- a/arch/x86/kernel/uprobes.c
-+++ b/arch/x86/kernel/uprobes.c
-@@ -348,7 +348,7 @@ void *arch_uprobe_trampoline(unsigned long *psize)
- 	 * only for native 64-bit process, the compat process still uses
- 	 * standard breakpoint.
- 	 */
--	if (user_64bit_mode(regs)) {
-+	if (0 && user_64bit_mode(regs)) {
- 		*psize = uretprobe_syscall_end - uretprobe_syscall_entry;
- 		return uretprobe_syscall_entry;
- 	}
-@@ -1191,8 +1191,10 @@ arch_uretprobe_hijack_return_addr(unsigned long trampoline_vaddr, struct pt_regs
- 		return orig_ret_vaddr;
- 
- 	nleft = copy_to_user((void __user *)regs->sp, &trampoline_vaddr, rasize);
--	if (likely(!nleft))
-+	if (likely(!nleft)) {
-+		uprobe_change_stack(trampoline_vaddr);
- 		return orig_ret_vaddr;
-+	}
- 
- 	if (nleft != rasize) {
- 		pr_err("return address clobbered: pid=%d, %%sp=%#lx, %%ip=%#lx\n",
+K1NvbWUgbW9yZSBzaGFkb3cgc3RhY2sgZm9sa3MgZnJvbSBvdGhlciBhcmNocy4gV2UgYXJlIGRp
+c2N1c3NpbmcgaG93IHVyZXRwcm9iZXMNCndvcmsgd2l0aCBzaGFkb3cgc3RhY2suDQoNCkNvbnRl
+eHQ6DQpodHRwczovL2xvcmUua2VybmVsLm9yZy9sa21sL1pqVTRnYW5SRjFDYml1ZzZAa3JhdmEv
+DQoNCk9uIEZyaSwgMjAyNC0wNS0wMyBhdCAyMToxOCArMDIwMCwgSmlyaSBPbHNhIHdyb3RlOg0K
+PiANCj4gaGFjayBiZWxvdyBzZWVtcyB0byBmaXggaXQgZm9yIHRoZSBjdXJyZW50IHVwcm9iZSBz
+ZXR1cCwNCj4gd2UgbmVlZCBzaW1pbGFyIGZpeCBmb3IgdGhlIHVyZXRwcm9iZSBzeXNjYWxsIHRy
+YW1wb2xpbmUgc2V0dXANCg0KSXQgc2VlbXMgbGlrZSBhIHJlYXNvbmFibGUgZGlyZWN0aW9uLg0K
+DQpTZWN1cml0eS13aXNlLCBhcHBsaWNhdGlvbnMgY2Fubm90IGRvIHRoaXMgb24gdGhlbXNlbHZl
+cywgb3IgaXQgaXMgYW4gb3RoZXJ3aXNlDQpwcml2aWxlZ2VkIHRoaW5nIHJpZ2h0Pw0KDQoNCg==
 
