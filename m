@@ -1,43 +1,51 @@
-Return-Path: <linux-api+bounces-1472-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1473-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 885908BBE13
-	for <lists+linux-api@lfdr.de>; Sat,  4 May 2024 22:40:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 938018BBE25
+	for <lists+linux-api@lfdr.de>; Sat,  4 May 2024 23:12:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B35411C20A92
-	for <lists+linux-api@lfdr.de>; Sat,  4 May 2024 20:40:24 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BEA3A1C20B54
+	for <lists+linux-api@lfdr.de>; Sat,  4 May 2024 21:12:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B91B56B79;
-	Sat,  4 May 2024 20:40:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9F9C84A37;
+	Sat,  4 May 2024 21:11:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b="slPbuUc2"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mx3.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
+Received: from forward501c.mail.yandex.net (forward501c.mail.yandex.net [178.154.239.209])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A5D91DFEB;
-	Sat,  4 May 2024 20:40:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=141.14.17.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9E3B57C9A;
+	Sat,  4 May 2024 21:11:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.209
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714855219; cv=none; b=Z+D/f3rXnxMusu+O73paledxuZ+5Uxw0k2S+4YIbF5B3g7k0q1FqZZDO+q0oG/LFkYmoa0v9ZijanykXquOsaLAd29JtuaTY/IJ68adufhqQ95VTg9mJq3Vb8DoEPZQ/hvAKZYXVAX8Jcc+vP2wDzzE1GrRv9fPTTpVVPzBmFGU=
+	t=1714857116; cv=none; b=hNWGGTMnhXk8752WzopOyedofe/sbRtCsk21ZWaDCA8xUn/xL/p94cnF3EaM62VkW+CXBLIbBpKQh6vt9M6h6g0RO7yi8Mc0hAnbB8Fuzzwe23cH/j/5QezpjN1+jKrfBau4D7TRW90OVTsJGvkrjDljKgHo7NW+F3yfWfiGyeg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714855219; c=relaxed/simple;
-	bh=k/XD+dv3MxZmFwZdPoHXkMTpr91p/aWWjGh7RYBOmyE=;
+	s=arc-20240116; t=1714857116; c=relaxed/simple;
+	bh=Y46KvSj8aOYClih0SfoEYsp6AkbAmD5E3/REAhbZ5H4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=C74EHbBOInNJFFtSlkP6Ob0yk4guCYsZexRA5CkP0RX1Ay4BEyFcogxADiiNLL0ZanNhUMlpemIt7GSAa29C6warE5/kQCVD412WjWx4lRs3PrZb2nvMwjLfnrCT18oEYn0RM38sDoqWDIIhkNJGC0wM7KmiB1WnN0d+XE2gsgU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de; spf=pass smtp.mailfrom=molgen.mpg.de; arc=none smtp.client-ip=141.14.17.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=molgen.mpg.de
-Received: from [192.168.2.30] (p4fee269d.dip0.t-ipconnect.de [79.238.38.157])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: buczek)
-	by mx.molgen.mpg.de (Postfix) with ESMTPSA id D3CFC61E5FE01;
-	Sat,  4 May 2024 22:39:00 +0200 (CEST)
-Message-ID: <bf4a737a-0c5b-4349-886d-4013683818ce@molgen.mpg.de>
-Date: Sat, 4 May 2024 22:38:59 +0200
+	 In-Reply-To:Content-Type; b=bAzrODzpu0e+xr8RZ4wntDpFfcTtEx/wWtUWvEx58M3aJNF7mgqMfUAvW/1zlfO6US4G/O4d8T4dxS4Pe4car+WUoZo//RHKtvX3dA9dzmxWaNJIMHr+cpGD9snY6WCgUScaOK1VWxmQxx7QRcoXaOJPhO4ITgh/c7JRcpcvd+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru; spf=pass smtp.mailfrom=yandex.ru; dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b=slPbuUc2; arc=none smtp.client-ip=178.154.239.209
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex.ru
+Received: from mail-nwsmtp-smtp-production-main-78.myt.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-78.myt.yp-c.yandex.net [IPv6:2a02:6b8:c12:39ad:0:640:62fe:0])
+	by forward501c.mail.yandex.net (Yandex) with ESMTPS id 45DEC60AA6;
+	Sun,  5 May 2024 00:11:45 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-78.myt.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id gBddwhTxU8c0-DLitvI3Q;
+	Sun, 05 May 2024 00:11:43 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
+	t=1714857104; bh=qu1Z4qXkl0rii4qXTlrRxPjlamjfNzJe5s7ny/pBNdU=;
+	h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+	b=slPbuUc2eQYMjsyN99pW1eUKCnq5y3ETZ0tON2j8zhWjy0qQL5ZVcQB9owgDwbqIK
+	 odfKpQnarQBxe/nfTJbo0oUBSzKyGTtHz3PfpGCj5IylE8HVMP/Jvu6NOsmErXzSc2
+	 6h/Cbz0LxmL7Ov4YCkAcmYkItSsdyXl/BQ8dmKvc=
+Authentication-Results: mail-nwsmtp-smtp-production-main-78.myt.yp-c.yandex.net; dkim=pass header.i=@yandex.ru
+Message-ID: <9c043e69-46af-4e21-8d52-4fd8b2e24404@yandex.ru>
+Date: Sun, 5 May 2024 00:11:41 +0300
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -46,7 +54,8 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v6 3/3] openat2: add OA2_CRED_INHERIT flag
-To: Stas Sergeev <stsp2@yandex.ru>, linux-kernel@vger.kernel.org
+Content-Language: en-US
+To: Donald Buczek <buczek@molgen.mpg.de>, linux-kernel@vger.kernel.org
 Cc: Stefan Metzmacher <metze@samba.org>,
  Eric Biederman <ebiederm@xmission.com>,
  Alexander Viro <viro@zeniv.linux.org.uk>, Andy Lutomirski <luto@kernel.org>,
@@ -58,118 +67,58 @@ Cc: Stefan Metzmacher <metze@samba.org>,
  =?UTF-8?Q?Christian_G=C3=B6ttsche?= <cgzones@googlemail.com>
 References: <20240427112451.1609471-1-stsp2@yandex.ru>
  <20240427112451.1609471-4-stsp2@yandex.ru>
-Content-Language: en-US
-From: Donald Buczek <buczek@molgen.mpg.de>
-In-Reply-To: <20240427112451.1609471-4-stsp2@yandex.ru>
+ <bf4a737a-0c5b-4349-886d-4013683818ce@molgen.mpg.de>
+From: stsp <stsp2@yandex.ru>
+In-Reply-To: <bf4a737a-0c5b-4349-886d-4013683818ce@molgen.mpg.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 4/27/24 13:24, Stas Sergeev wrote:
-> This flag performs the open operation with the fs credentials
-> (fsuid, fsgid, group_info) that were in effect when dir_fd was opened.
-> dir_fd must be opened with O_CRED_ALLOW, or EPERM is returned.
-> 
-> Selftests are added to check for these properties as well as for
-> the invalid flag combinations.
-> 
-> This allows the process to pre-open some directories and then
-> change eUID (and all other UIDs/GIDs) to a less-privileged user,
-> retaining the ability to open/create files within these directories.
-> 
-> Design goal:
-> The idea is to provide a very light-weight sandboxing, where the
-> process, without the use of any heavy-weight techniques like chroot
-> within namespaces, can restrict the access to the set of pre-opened
-> directories.
-> This patch is just a first step to such sandboxing. If things go
-> well, in the future the same extension can be added to more syscalls.
-> These should include at least unlinkat(), renameat2() and the
-> not-yet-upstreamed setxattrat().
-> 
-> Security considerations:
-> - Only the bare minimal set of credentials is overridden:
->    fsuid, fsgid and group_info. The rest, for example capabilities,
->    are not overridden to avoid unneeded security risks.
-> - To avoid sandboxing escape, this patch makes sure the restricted
->    lookup modes are used. Namely, RESOLVE_BENEATH or RESOLVE_IN_ROOT.
-> - Magic /proc symlinks are discarded, as suggested by
->    Andy Lutomirski <luto@kernel.org>> - O_CRED_ALLOW fds cannot be passed via unix socket and are always
->    closed on exec() to prevent "unsuspecting userspace" from not being
->    able to fully drop privs.
-
-What about hard links?
-
-== snip ==
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <stdio.h>
-#include <errno.h>
-#include <stdlib.h>
-#include <stdarg.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <linux/openat2.h>
-
-#define O_CRED_ALLOW 0x2000000
-#define OA2_CRED_INHERIT (1UL << 28)
-
-#define SYS_openat2 437
-long openat2(int dirfd, const char *pathname, struct open_how *how, size_t size) {
-     return syscall(SYS_openat2, dirfd, pathname, how, size);
-}
-
-
-__attribute__ ((noreturn, format(printf, 1, 2)))
-static void die(const char *restrict fmt, ...) {
-     va_list ap;
-     va_start(ap, fmt);
-     vfprintf(stderr, fmt, ap);
-     va_end(ap);
-     _exit(1);
-}
-
-int main() {
-
-     unlink("/tmp/d/test.dat");
-     unlink("/tmp/d/hostname");
-     if (rmdir("/tmp/d") != 0 && errno != ENOENT)
-         die("/tmp/d: %m\n");
-     
-     umask(0);
-     if (mkdir("/tmp/d", 0777) != 0)
-         die("/tmp/d: %m\n");
-
-     int dirfd = open("/tmp/d", O_RDONLY + O_CRED_ALLOW);
-     if (dirfd == -1)
-         die("/tmp/d: %m\n");
-
-     if (setuid(1000) != 0)
-         die("setuid: %m\n");
-
-     if (link("/etc/hostname", "/tmp/d/hostname") == -1)
-         die ("/etc/hostname: %m\n");
-
-     if(openat(dirfd, "hostname", O_RDWR) != -1)
-         die("/tmp/d/hostname could be opened by uid 1000");
-
-     {   struct open_how how = { .flags = O_RDWR + OA2_CRED_INHERIT, .resolve = RESOLVE_BENEATH };
-         if (openat2(dirfd, "hostname", &how, sizeof(how)) == -1)
-             die("hostname: %m\n");
-         printf("able to open /etc/hostname RDWR \n");
-     }
-}
-
-== snip ==
-
-
-buczek@dose:~$ gcc -O0 -Wall -Wextra -Werror -g -o test test.c
-buczek@dose:~$ sudo ./test
-able to open /etc/hostname RDWR
-buczek@dose:~$
-
-
--- 
-Donald Buczek
-buczek@molgen.mpg.de
-Tel: +49 30 8413 1433
+04.05.2024 23:38, Donald Buczek пишет:
+> On 4/27/24 13:24, Stas Sergeev wrote:
+>> This flag performs the open operation with the fs credentials
+>> (fsuid, fsgid, group_info) that were in effect when dir_fd was opened.
+>> dir_fd must be opened with O_CRED_ALLOW, or EPERM is returned.
+>>
+>> Selftests are added to check for these properties as well as for
+>> the invalid flag combinations.
+>>
+>> This allows the process to pre-open some directories and then
+>> change eUID (and all other UIDs/GIDs) to a less-privileged user,
+>> retaining the ability to open/create files within these directories.
+>>
+>> Design goal:
+>> The idea is to provide a very light-weight sandboxing, where the
+>> process, without the use of any heavy-weight techniques like chroot
+>> within namespaces, can restrict the access to the set of pre-opened
+>> directories.
+>> This patch is just a first step to such sandboxing. If things go
+>> well, in the future the same extension can be added to more syscalls.
+>> These should include at least unlinkat(), renameat2() and the
+>> not-yet-upstreamed setxattrat().
+>>
+>> Security considerations:
+>> - Only the bare minimal set of credentials is overridden:
+>>    fsuid, fsgid and group_info. The rest, for example capabilities,
+>>    are not overridden to avoid unneeded security risks.
+>> - To avoid sandboxing escape, this patch makes sure the restricted
+>>    lookup modes are used. Namely, RESOLVE_BENEATH or RESOLVE_IN_ROOT.
+>> - Magic /proc symlinks are discarded, as suggested by
+>>    Andy Lutomirski <luto@kernel.org>> - O_CRED_ALLOW fds cannot be 
+>> passed via unix socket and are always
+>>    closed on exec() to prevent "unsuspecting userspace" from not being
+>>    able to fully drop privs.
+>
+> What about hard links?
+Well, you set umask to 0 in your example.
+If you didn't do that, the dir wouldn't have
+0777 perms, and the hard link would not
+be created.
+But yes, that demonstrates the unsafe
+usage scenario, i.e. unsafe directory perms
+immediately lead to a security hole.
+Maybe O_CRED_ALLOW should check for
+safe perms, or maybe it shouldn't... So far
+there are no signs of this patch to ever be
+accepted, so I am not sure if more complexity
+needs to be added to it.
 
