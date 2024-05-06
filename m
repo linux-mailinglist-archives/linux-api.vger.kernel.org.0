@@ -1,124 +1,215 @@
-Return-Path: <linux-api+bounces-1473-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1474-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 938018BBE25
-	for <lists+linux-api@lfdr.de>; Sat,  4 May 2024 23:12:01 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id AEE358BC823
+	for <lists+linux-api@lfdr.de>; Mon,  6 May 2024 09:14:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BEA3A1C20B54
-	for <lists+linux-api@lfdr.de>; Sat,  4 May 2024 21:12:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5FE1B2817E4
+	for <lists+linux-api@lfdr.de>; Mon,  6 May 2024 07:14:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9F9C84A37;
-	Sat,  4 May 2024 21:11:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9ABF059155;
+	Mon,  6 May 2024 07:14:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b="slPbuUc2"
+	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="V08lBjsV"
 X-Original-To: linux-api@vger.kernel.org
-Received: from forward501c.mail.yandex.net (forward501c.mail.yandex.net [178.154.239.209])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9E3B57C9A;
-	Sat,  4 May 2024 21:11:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.209
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 873284F213;
+	Mon,  6 May 2024 07:14:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714857116; cv=none; b=hNWGGTMnhXk8752WzopOyedofe/sbRtCsk21ZWaDCA8xUn/xL/p94cnF3EaM62VkW+CXBLIbBpKQh6vt9M6h6g0RO7yi8Mc0hAnbB8Fuzzwe23cH/j/5QezpjN1+jKrfBau4D7TRW90OVTsJGvkrjDljKgHo7NW+F3yfWfiGyeg=
+	t=1714979667; cv=none; b=gOGaHs9eceQQiCiAzPoU1iPU+MW8LqifZEzdmoK/2iVqrLe+6QxxZCL4Y7CXZ1FXniI8t1e/raxxB+1roVDvxwLrBgO3xybH+vTqTUHB3OausBX/79hE8ajHSjjOHUDi++GMdRHMPjxk5n1Qsm5mQtsA+9AmKdzx9z/rhZLZtzE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714857116; c=relaxed/simple;
-	bh=Y46KvSj8aOYClih0SfoEYsp6AkbAmD5E3/REAhbZ5H4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bAzrODzpu0e+xr8RZ4wntDpFfcTtEx/wWtUWvEx58M3aJNF7mgqMfUAvW/1zlfO6US4G/O4d8T4dxS4Pe4car+WUoZo//RHKtvX3dA9dzmxWaNJIMHr+cpGD9snY6WCgUScaOK1VWxmQxx7QRcoXaOJPhO4ITgh/c7JRcpcvd+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru; spf=pass smtp.mailfrom=yandex.ru; dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b=slPbuUc2; arc=none smtp.client-ip=178.154.239.209
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex.ru
-Received: from mail-nwsmtp-smtp-production-main-78.myt.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-78.myt.yp-c.yandex.net [IPv6:2a02:6b8:c12:39ad:0:640:62fe:0])
-	by forward501c.mail.yandex.net (Yandex) with ESMTPS id 45DEC60AA6;
-	Sun,  5 May 2024 00:11:45 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-78.myt.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id gBddwhTxU8c0-DLitvI3Q;
-	Sun, 05 May 2024 00:11:43 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
-	t=1714857104; bh=qu1Z4qXkl0rii4qXTlrRxPjlamjfNzJe5s7ny/pBNdU=;
-	h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
-	b=slPbuUc2eQYMjsyN99pW1eUKCnq5y3ETZ0tON2j8zhWjy0qQL5ZVcQB9owgDwbqIK
-	 odfKpQnarQBxe/nfTJbo0oUBSzKyGTtHz3PfpGCj5IylE8HVMP/Jvu6NOsmErXzSc2
-	 6h/Cbz0LxmL7Ov4YCkAcmYkItSsdyXl/BQ8dmKvc=
-Authentication-Results: mail-nwsmtp-smtp-production-main-78.myt.yp-c.yandex.net; dkim=pass header.i=@yandex.ru
-Message-ID: <9c043e69-46af-4e21-8d52-4fd8b2e24404@yandex.ru>
-Date: Sun, 5 May 2024 00:11:41 +0300
+	s=arc-20240116; t=1714979667; c=relaxed/simple;
+	bh=Dygdq8cppKEQPzRYXrG1OaW8DCB7aL6OMePXXxzqQrE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LO+gI5nVrBT5c9zHAbGxcVMLcw/0qDoukfBTRQlEbFuXTjQ+ojg61RCmd8Aywv9cOt6AaBz2xIzV7btOG0owuVWIYrm9w0KrO/Vk3UL2uhooetgjPE2x9l5TtjprrchpqcFtXRR6YBNKwk7QXiXW90eCLAyQ6q2WKayCaLOjEZU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=V08lBjsV; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4VXt240Nltz9stm;
+	Mon,  6 May 2024 09:14:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
+	t=1714979660;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+vucf9U0kG+ujJlNP6bEQbpSKQ0yhjin8ohNdx+U0rI=;
+	b=V08lBjsVYZMjGEWylhBA7aFdmYPot3jrdjyhP7oWrp7uS/yxxzQORvW/Vwe9SBLObNaCiH
+	awa4JkZ7XuD0P+QjgfyFkP+UwZh5cr+rM9x0YYlezN5I7Hno55Zu0V8BfQr604yd+GxbmU
+	EjuierlnobZ6eLFqo8o33rFNgTVcYd+STo6kggFSResZ9yuUIxwBKqO/VU6NcNS/q8e+Wl
+	QC7EHVl6iScw3T5AnXiJj2zUN/lpWZLX+AVAQacYBYntB3ENJJ1vl7NHRpGOUQ5i4iZbLX
+	EaUX+pTPE5YTAhEQ8CWfi9b37lmGJ4UlCYmlT2X3Ba778F52hG3prXBkOInVjA==
+Date: Mon, 6 May 2024 17:13:59 +1000
+From: Aleksa Sarai <cyphar@cyphar.com>
+To: Andy Lutomirski <luto@amacapital.net>
+Cc: Stas Sergeev <stsp2@yandex.ru>, "Serge E. Hallyn" <serge@hallyn.com>, 
+	linux-kernel@vger.kernel.org, Stefan Metzmacher <metze@samba.org>, 
+	Eric Biederman <ebiederm@xmission.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Andy Lutomirski <luto@kernel.org>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Jeff Layton <jlayton@kernel.org>, Chuck Lever <chuck.lever@oracle.com>, 
+	Alexander Aring <alex.aring@gmail.com>, David Laight <David.Laight@aculab.com>, 
+	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>, 
+	Christian =?utf-8?B?R8O2dHRzY2hl?= <cgzones@googlemail.com>
+Subject: Re: [PATCH v5 0/3] implement OA2_CRED_INHERIT flag for openat2()
+Message-ID: <20240428.171236-tangy.giblet.idle.helpline-y9LqufL7EAAV@cyphar.com>
+References: <20240426133310.1159976-1-stsp2@yandex.ru>
+ <CALCETrUL3zXAX94CpcQYwj1omwO+=-1Li+J7Bw2kpAw4d7nsyw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 3/3] openat2: add OA2_CRED_INHERIT flag
-Content-Language: en-US
-To: Donald Buczek <buczek@molgen.mpg.de>, linux-kernel@vger.kernel.org
-Cc: Stefan Metzmacher <metze@samba.org>,
- Eric Biederman <ebiederm@xmission.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>, Andy Lutomirski <luto@kernel.org>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Jeff Layton <jlayton@kernel.org>, Chuck Lever <chuck.lever@oracle.com>,
- Alexander Aring <alex.aring@gmail.com>,
- David Laight <David.Laight@ACULAB.COM>, linux-fsdevel@vger.kernel.org,
- linux-api@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Christian_G=C3=B6ttsche?= <cgzones@googlemail.com>
-References: <20240427112451.1609471-1-stsp2@yandex.ru>
- <20240427112451.1609471-4-stsp2@yandex.ru>
- <bf4a737a-0c5b-4349-886d-4013683818ce@molgen.mpg.de>
-From: stsp <stsp2@yandex.ru>
-In-Reply-To: <bf4a737a-0c5b-4349-886d-4013683818ce@molgen.mpg.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="swbizyhwpvawptrc"
+Content-Disposition: inline
+In-Reply-To: <CALCETrUL3zXAX94CpcQYwj1omwO+=-1Li+J7Bw2kpAw4d7nsyw@mail.gmail.com>
+X-Rspamd-Queue-Id: 4VXt240Nltz9stm
 
-04.05.2024 23:38, Donald Buczek пишет:
-> On 4/27/24 13:24, Stas Sergeev wrote:
->> This flag performs the open operation with the fs credentials
->> (fsuid, fsgid, group_info) that were in effect when dir_fd was opened.
->> dir_fd must be opened with O_CRED_ALLOW, or EPERM is returned.
->>
->> Selftests are added to check for these properties as well as for
->> the invalid flag combinations.
->>
->> This allows the process to pre-open some directories and then
->> change eUID (and all other UIDs/GIDs) to a less-privileged user,
->> retaining the ability to open/create files within these directories.
->>
->> Design goal:
->> The idea is to provide a very light-weight sandboxing, where the
->> process, without the use of any heavy-weight techniques like chroot
->> within namespaces, can restrict the access to the set of pre-opened
->> directories.
->> This patch is just a first step to such sandboxing. If things go
->> well, in the future the same extension can be added to more syscalls.
->> These should include at least unlinkat(), renameat2() and the
->> not-yet-upstreamed setxattrat().
->>
->> Security considerations:
->> - Only the bare minimal set of credentials is overridden:
->>    fsuid, fsgid and group_info. The rest, for example capabilities,
->>    are not overridden to avoid unneeded security risks.
->> - To avoid sandboxing escape, this patch makes sure the restricted
->>    lookup modes are used. Namely, RESOLVE_BENEATH or RESOLVE_IN_ROOT.
->> - Magic /proc symlinks are discarded, as suggested by
->>    Andy Lutomirski <luto@kernel.org>> - O_CRED_ALLOW fds cannot be 
->> passed via unix socket and are always
->>    closed on exec() to prevent "unsuspecting userspace" from not being
->>    able to fully drop privs.
->
-> What about hard links?
-Well, you set umask to 0 in your example.
-If you didn't do that, the dir wouldn't have
-0777 perms, and the hard link would not
-be created.
-But yes, that demonstrates the unsafe
-usage scenario, i.e. unsafe directory perms
-immediately lead to a security hole.
-Maybe O_CRED_ALLOW should check for
-safe perms, or maybe it shouldn't... So far
-there are no signs of this patch to ever be
-accepted, so I am not sure if more complexity
-needs to be added to it.
+
+--swbizyhwpvawptrc
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On 2024-04-28, Andy Lutomirski <luto@amacapital.net> wrote:
+> > On Apr 26, 2024, at 6:39=E2=80=AFAM, Stas Sergeev <stsp2@yandex.ru> wro=
+te:
+> > =EF=BB=BFThis patch-set implements the OA2_CRED_INHERIT flag for openat=
+2() syscall.
+> > It is needed to perform an open operation with the creds that were in
+> > effect when the dir_fd was opened, if the dir was opened with O_CRED_AL=
+LOW
+> > flag. This allows the process to pre-open some dirs and switch eUID
+> > (and other UIDs/GIDs) to the less-privileged user, while still retaining
+> > the possibility to open/create files within the pre-opened directory se=
+t.
+> >
+>=20
+> I=E2=80=99ve been contemplating this, and I want to propose a different s=
+olution.
+>=20
+> First, the problem Stas is solving is quite narrow and doesn=E2=80=99t
+> actually need kernel support: if I want to write a user program that
+> sandboxes itself, I have at least three solutions already.  I can make
+> a userns and a mountns; I can use landlock; and I can have a separate
+> process that brokers filesystem access using SCM_RIGHTS.
+>=20
+> But what if I want to run a container, where the container can access
+> a specific host directory, and the contained application is not aware
+> of the exact technology being used?  I recently started using
+> containers in anger in a production setting, and =E2=80=9Canger=E2=80=9D =
+was
+> definitely the right word: binding part of a filesystem in is
+> *miserable*.  Getting the DAC rules right is nasty.  LSMs are worse.
+> Podman=E2=80=99s =E2=80=9Cbind,relabel=E2=80=9D feature is IMO utterly di=
+sgusting.  I think I
+> actually gave up on making one of my use cases work on a Fedora
+> system.
+>=20
+> Here=E2=80=99s what I wanted to do, logically, in production: pick a host
+> directory, pick a host *principal* (UID, GID, label, etc), and have
+> the *entire container* access the directory as that principal. This is
+> what happens automatically if I run the whole container as a userns
+> with only a single UID mapped, but I don=E2=80=99t really want to do that=
+ for
+> a whole variety and of reasons.
+>=20
+> So maybe reimagining Stas=E2=80=99 feature a bit can actually solve this
+> problem.  Instead of a special dirfd, what if there was a special
+> subtree (in the sense of open_tree) that captures a set of creds and
+> does all opens inside the subtree using those creds?
+>=20
+> This isn=E2=80=99t a fully formed proposal, but I *think* it should be
+> generally fairly safe for even an unprivileged user to clone a subtree
+> with a specific flag set to do this. Maybe a capability would be
+> needed (CAP_CAPTURE_CREDS?), but it would be nice to allow delegating
+> this to a daemon if a privilege is needed, and getting the API right
+> might be a bit tricky.
+
+Tying this to an actual mount rather than a file handle sounds like a
+more plausible proposal than OA2_CRED_INHERIT, but it just seems that
+this is going to re-create all of the work that went into id-mapped
+mounts but with the extra-special step of making the generic VFS
+permissions no longer work normally (unless the idea is that everything
+would pretend to be owned by current_fsuid()?).
+
+IMHO it also isn't enough to just make open work, you need to make all
+operations work (which leads to a non-trivial amount of
+filesystem-specific handling), which is just idmapped mounts. A lot of
+work was put into making sure that is safe, and collapsing owners seems
+like it will cause a lot of headaches.
+
+I also find it somewhat amusing that this proposal is to basically give
+up on multi-user permissions for this one directory tree because it's
+too annoying to deal with. In that case, isn't chmod 777 a simpler
+solution? (I'm being a bit flippant, of course there is a difference,
+but the net result is that all users in the container would have the
+same permissions with all of the fun issues that implies.)
+
+In short, AFAICS idmapped mounts pretty much solve this problem (minus
+the ability to collapse users, which I suspect is not a good idea in
+general)?
+
+> Then two different things could be done:
+>=20
+> 1. The subtree could be used unmounted or via /proc magic links. This
+> would be for programs that are aware of this interface.
+>=20
+> 2. The subtree could be mounted, and accessed through the mount would
+> use the captured creds.
+>=20
+> (Hmm. What would a new open_tree() pointing at this special subtree do?)
+>=20
+>=20
+> With all this done, if userspace wired it up, a container user could
+> do something like:
+>=20
+> =E2=80=94bind-capture-creds source=3Ddest
+>=20
+> And the contained program would access source *as the user who started
+> the container*, and this would just work without relabeling or
+> fiddling with owner uids or gids or ACLs, and it would continue to
+> work even if the container has multiple dynamically allocated subuids
+> mapped (e.g. one for =E2=80=9Croot=E2=80=9D and one for the actual applic=
+ation).
+>=20
+> Bonus points for the ability to revoke the creds in an already opened
+> subtree. Or even for the creds to automatically revoke themselves when
+> the opener exits (or maybe when a specific cred-pinning fd goes away).
+>=20
+> (This should work for single files as well as for directories.)
+>=20
+> New LSM hooks or extensions of existing hooks might be needed to make
+> LSMs comfortable with this.
+>=20
+> What do you all think?
+
+--=20
+Aleksa Sarai
+Senior Software Engineer (Containers)
+SUSE Linux GmbH
+<https://www.cyphar.com/>
+
+--swbizyhwpvawptrc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCZjiDNgAKCRAol/rSt+lE
+b4AgAQD3c5xKhJcmOlaL6i9Mj5Pz1CQQ1VkmIRj6GYk5SX/OTgD/UhuXPIbd1+Tb
+M1BFJxkpa+9FRHnJz8gxnUjbtoA0kwo=
+=8MgE
+-----END PGP SIGNATURE-----
+
+--swbizyhwpvawptrc--
 
