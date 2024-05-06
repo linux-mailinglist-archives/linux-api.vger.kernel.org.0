@@ -1,133 +1,90 @@
-Return-Path: <linux-api+bounces-1477-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1478-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A46B48BD3DE
-	for <lists+linux-api@lfdr.de>; Mon,  6 May 2024 19:34:35 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A7F78BD579
+	for <lists+linux-api@lfdr.de>; Mon,  6 May 2024 21:35:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5FA6628582D
-	for <lists+linux-api@lfdr.de>; Mon,  6 May 2024 17:34:34 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2AFB5B21767
+	for <lists+linux-api@lfdr.de>; Mon,  6 May 2024 19:35:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E2CB157498;
-	Mon,  6 May 2024 17:34:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q+wdtp9m"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F8F215AACB;
+	Mon,  6 May 2024 19:35:08 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A7F7157480
-	for <linux-api@vger.kernel.org>; Mon,  6 May 2024 17:34:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04FE8158DC7
+	for <linux-api@vger.kernel.org>; Mon,  6 May 2024 19:35:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.58.86.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715016869; cv=none; b=YYKCwSkp60RbnYSx6Fu8CHvnTMZCPNbihN/q2UvMVsw4s/2aEv04l0MkNatY08kXGl4vXHOZoLjzMjeSFc4Xapg7Tdlx+419vA2UvlHzeWEobZoU6l3wQtbA2qjTKsw0d4VTldO4xltrJqthB3XvfeCxeipmR3Tx9QF6kKlHXSg=
+	t=1715024108; cv=none; b=I/bPQECp+i6rl6FwlGd19i792VGLdoeGlZbtsFcWnDZngyboMlZmDoYzjEoEDxXxLESmRy/F+Gq3lrrO89u1A+6/2eFURKSlsQZio0p34KP9hqie/ZqlwcZWdma8IgChthjLw4dPF53fka5jWBqLbgWoq+9EwxGQ0VGuhyH/Jho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715016869; c=relaxed/simple;
-	bh=N/Cl1VgIzjxIHfpr4FV+iTL6dI3E1P0L0sOAp1/Q/tY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZQYLjWiNbQtSdDlxmo7pIgdNiMkndcoU22X+2HZwmG9vliZlk9dvTKieEApLZ/YMZeijn/5XoDDWv671zVylL779CalTsDm/g3KKkXrAWDr+oDTo/6lnmWKluBovFq16Kx5xAvi70jlGYlvS6pgaK6ty/ACq6KEbshIvTda+IoU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q+wdtp9m; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F20E8C4DDE9
-	for <linux-api@vger.kernel.org>; Mon,  6 May 2024 17:34:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715016869;
-	bh=N/Cl1VgIzjxIHfpr4FV+iTL6dI3E1P0L0sOAp1/Q/tY=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Q+wdtp9mG3+BycV8DzlmzxfA0XcO2ZwNevcJafgO1Pn7Ea5b3AZHWkDpdJ7UQcsre
-	 NF9qOYqYy++fw9L6ol4e6nMvlfMbWOFx4bEIVAeAiyx5JSYvaiaEKT3pscSUCUjaRn
-	 5gucDjbsHOl3ffEJuxMhcoE5THO++eGdMxMNDQtFnIf2ivSgl4oeP7iUGnEw7x406N
-	 e0hT2qSjV46uG35kxbe95qhz6Vbyk3C8VA/HjeJbSPAPpmwpNGyGjuEBI+4XYjshoc
-	 LC4Hh9DziIjRT0sZiFZ5C3q1ByWgeNE5X5SFnNwvlJnpeCR5x9kgmd3RPxcBAbQR31
-	 z/rPQiTJ359sA==
-Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-23db0b5dd28so1561730fac.2
-        for <linux-api@vger.kernel.org>; Mon, 06 May 2024 10:34:28 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXUR9wSpWva2Vg1gLSuXj/QGNnFB5U0ByiCOzVWEbNcLhXfeWMLziMV9rsef5sBpLcf9zv/CoNMC0Xwz6lNvF5yksMRPm4Acwpj
-X-Gm-Message-State: AOJu0YxmfXqzPEJ+/771LdtG+NBhdk5EM3NncUVtKoG8eRcGqdKbCigb
-	ZsaaU7MisQEyzI8oLOvfa320huAK+hEACc49uX9K/TLI9C72L/92x12eu6AFI9HO0GVp6KuP0x0
-	+r4eeeGYc0Rz8uLX42jSc9jUKIeqofZkSHEcn
-X-Google-Smtp-Source: AGHT+IGeEkyd9/ecXTKRvSMEhABoiDcgycle+ebD63V9wpAW6Icf2bUBHPTL3WKDxwW/DA9QnCw2BpuJ/GbXWPX4plE=
-X-Received: by 2002:a05:6870:1b0a:b0:23b:c31f:ee76 with SMTP id
- hl10-20020a0568701b0a00b0023bc31fee76mr12950767oab.52.1715016868026; Mon, 06
- May 2024 10:34:28 -0700 (PDT)
+	s=arc-20240116; t=1715024108; c=relaxed/simple;
+	bh=r0WUpWmKbYhSZY5mZSEV3lVk9p3x2tNUijIrZnlk1oY=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 MIME-Version:Content-Type; b=iLC+haPNThgWJ4K4DL/KlitRWutCxPih52FW6lYM+C0buA5ZQ3xXDsD23PSPH7/dLjBthVrtW+k/1pOaNgXnzvpQKdbdqu3pajACNWWXsM5tp6ZqBxt+qhKmZotY1nPlSQymSNjWmxYLvADsLCAXyrKWzdyByFCVzMGlGQDUvwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM; spf=pass smtp.mailfrom=aculab.com; arc=none smtp.client-ip=185.58.86.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aculab.com
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-83-XDilHoh7OGOqbgSr_C4z7g-1; Mon, 06 May 2024 20:35:04 +0100
+X-MC-Unique: XDilHoh7OGOqbgSr_C4z7g-1
+Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
+ (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Mon, 6 May
+ 2024 20:34:24 +0100
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.048; Mon, 6 May 2024 20:34:24 +0100
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Andy Lutomirski' <luto@amacapital.net>, Aleksa Sarai <cyphar@cyphar.com>
+CC: Stas Sergeev <stsp2@yandex.ru>, "Serge E. Hallyn" <serge@hallyn.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Stefan
+ Metzmacher" <metze@samba.org>, Eric Biederman <ebiederm@xmission.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>, Andy Lutomirski <luto@kernel.org>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Jeff Layton
+	<jlayton@kernel.org>, Chuck Lever <chuck.lever@oracle.com>, Alexander Aring
+	<alex.aring@gmail.com>, "linux-fsdevel@vger.kernel.org"
+	<linux-fsdevel@vger.kernel.org>, "linux-api@vger.kernel.org"
+	<linux-api@vger.kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
+	=?utf-8?B?Q2hyaXN0aWFuIEfDtnR0c2NoZQ==?= <cgzones@googlemail.com>
+Subject: RE: [PATCH v5 0/3] implement OA2_CRED_INHERIT flag for openat2()
+Thread-Topic: [PATCH v5 0/3] implement OA2_CRED_INHERIT flag for openat2()
+Thread-Index: AQHan9rzUUvHBi3CRk+0pc3o5ZO9aLGKmP4A
+Date: Mon, 6 May 2024 19:34:24 +0000
+Message-ID: <f8fafe1953ed41828a4c98187964477b@AcuMS.aculab.com>
+References: <20240426133310.1159976-1-stsp2@yandex.ru>
+ <CALCETrUL3zXAX94CpcQYwj1omwO+=-1Li+J7Bw2kpAw4d7nsyw@mail.gmail.com>
+ <20240428.171236-tangy.giblet.idle.helpline-y9LqufL7EAAV@cyphar.com>
+ <CALCETrU2VwCF-o7E5sc8FN_LBs3Q-vNMBf7N4rm0PAWFRo5QWw@mail.gmail.com>
+In-Reply-To: <CALCETrU2VwCF-o7E5sc8FN_LBs3Q-vNMBf7N4rm0PAWFRo5QWw@mail.gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240426133310.1159976-1-stsp2@yandex.ru> <CALCETrUL3zXAX94CpcQYwj1omwO+=-1Li+J7Bw2kpAw4d7nsyw@mail.gmail.com>
- <20240428.171236-tangy.giblet.idle.helpline-y9LqufL7EAAV@cyphar.com> <CALCETrU2VwCF-o7E5sc8FN_LBs3Q-vNMBf7N4rm0PAWFRo5QWw@mail.gmail.com>
-In-Reply-To: <CALCETrU2VwCF-o7E5sc8FN_LBs3Q-vNMBf7N4rm0PAWFRo5QWw@mail.gmail.com>
-From: Andy Lutomirski <luto@kernel.org>
-Date: Mon, 6 May 2024 10:34:16 -0700
-X-Gmail-Original-Message-ID: <CALCETrUZp2P1PXwJeL7ryda_qSLGsgHf5X0Zpw8piiT58k-cYg@mail.gmail.com>
-Message-ID: <CALCETrUZp2P1PXwJeL7ryda_qSLGsgHf5X0Zpw8piiT58k-cYg@mail.gmail.com>
-Subject: Re: [PATCH v5 0/3] implement OA2_CRED_INHERIT flag for openat2()
-To: Aleksa Sarai <cyphar@cyphar.com>
-Cc: Stas Sergeev <stsp2@yandex.ru>, "Serge E. Hallyn" <serge@hallyn.com>, linux-kernel@vger.kernel.org, 
-	Stefan Metzmacher <metze@samba.org>, Eric Biederman <ebiederm@xmission.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Andy Lutomirski <luto@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Jeff Layton <jlayton@kernel.org>, 
-	Chuck Lever <chuck.lever@oracle.com>, Alexander Aring <alex.aring@gmail.com>, 
-	David Laight <David.Laight@aculab.com>, linux-fsdevel@vger.kernel.org, 
-	linux-api@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>, 
-	=?UTF-8?Q?Christian_G=C3=B6ttsche?= <cgzones@googlemail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 
-On Mon, May 6, 2024 at 10:29=E2=80=AFAM Andy Lutomirski <luto@amacapital.ne=
-t> wrote:
->
-> Replying to a couple emails at once...
->
-> On Mon, May 6, 2024 at 12:14=E2=80=AFAM Aleksa Sarai <cyphar@cyphar.com> =
-wrote:
+Li4uDQo+IFNvIEkgd2FudCBhIHdheSB0byBnaXZlICphbiBlbnRpcmUgY29udGFpbmVyKiBhY2Nl
+c3MgdG8gYSBkaXJlY3RvcnkuDQo+IENsYXNzaWMgVU5JWCBEQUMgaXMganVzdCAqd3JvbmcqIGZv
+ciB0aGlzIHVzZSBjYXNlLiAgTWF5YmUgaWRtYXBzDQo+IGNvdWxkIGxlYXJuIGEgd2F5IHRvIHNx
+dWFzaCBtdWx0aXBsZSBpZHMgZG93biB0byBvbmUuICBPciBtYXliZQ0KPiBzb21ldGhpbmcgbGlr
+ZSBteSBzaWxseSBjcmVkZW50aWFsLWNhcHR1cmluZyBtb3VudCBwcm9wb3NhbCBjb3VsZA0KPiB3
+b3JrLiAgQnV0IHRoZSBzdGF0dXMgcXVvIGlzIG5vdCBhY3R1YWxseSBhbWF6aW5nIElNTy4NCg0K
+SXNuJ3QgdGhhdCB3aGF0IGdpZHMgYXJlIGZvciA6LSkNCg0KCURhdmlkDQoNCi0NClJlZ2lzdGVy
+ZWQgQWRkcmVzcyBMYWtlc2lkZSwgQnJhbWxleSBSb2FkLCBNb3VudCBGYXJtLCBNaWx0b24gS2V5
+bmVzLCBNSzEgMVBULCBVSw0KUmVnaXN0cmF0aW9uIE5vOiAxMzk3Mzg2IChXYWxlcykNCg==
 
-> > I also find it somewhat amusing that this proposal is to basically give
-> > up on multi-user permissions for this one directory tree because it's
-> > too annoying to deal with. In that case, isn't chmod 777 a simpler
-> > solution? (I'm being a bit flippant, of course there is a difference,
-> > but the net result is that all users in the container would have the
-> > same permissions with all of the fun issues that implies.)
-> >
-> > In short, AFAICS idmapped mounts pretty much solve this problem (minus
-> > the ability to collapse users, which I suspect is not a good idea in
-> > general)?
-> >
->
-> With my kernel hat on, maybe I agree.  But with my *user* hat on, I
-> think I pretty strongly disagree.  Look, idmapis lousy for
-> unprivileged use:
->
-> $ install -m 0700 -d test_directory
-> $ echo 'hi there' >test_directory/file
-> $ podman run -it --rm
-> --mount=3Dtype=3Dbind,src=3Dtest_directory,dst=3D/tmp,idmap [debian-slim]
-> # cat /tmp/file
-> hi there
->
-> <-- Hey, look, this kind of works!
->
-> # setpriv --reuid=3D1 ls /tmp
-> ls: cannot open directory '/tmp': Permission denied
->
-> <-- Gee, thanks, Linux!
-
-I should add: this is lousy even for privileged use.  On a normal
-non-containerized system:
-
-$ ls -ld /var/lib/mysql
-drwxr-xr-x. 3 mysql mysql 4096 Sep 20  2023 /var/lib/mysql
-
-This makes perfect sense.
-
-But if I want to run mysql in a container in a sane way, my only real
-choice is either to trust the container manager quite strongly (so it
-only maps this directory into the correct container) or, if I want to
-separate out management of this container into its own UID (which is a
-good practice), then I'm forced to do some kind of fragile hack like
-making a directory only accessible to the correct UID and then
-creating a 0777 directory inside it and bind-mounting *that*.
 
