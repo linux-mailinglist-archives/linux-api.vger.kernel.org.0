@@ -1,371 +1,277 @@
-Return-Path: <linux-api+bounces-1475-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1476-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C60138BCC71
-	for <lists+linux-api@lfdr.de>; Mon,  6 May 2024 12:56:31 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 413EE8BD3D3
+	for <lists+linux-api@lfdr.de>; Mon,  6 May 2024 19:30:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E8EEF1C21554
-	for <lists+linux-api@lfdr.de>; Mon,  6 May 2024 10:56:30 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3D6DFB20CEF
+	for <lists+linux-api@lfdr.de>; Mon,  6 May 2024 17:30:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BD6D14264C;
-	Mon,  6 May 2024 10:56:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A613F15747D;
+	Mon,  6 May 2024 17:30:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lnlGjZpy"
+	dkim=pass (2048-bit key) header.d=amacapital-net.20230601.gappssmtp.com header.i=@amacapital-net.20230601.gappssmtp.com header.b="BUPvsMWm"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A139E757EA;
-	Mon,  6 May 2024 10:56:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2D90745D9
+	for <linux-api@vger.kernel.org>; Mon,  6 May 2024 17:30:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714992986; cv=none; b=AUhxb7a2E3vk7mHI1kZ9r0LOi7ByzmJ4Sz5KJC/iACLHAd3IHXKKqJi3CnLa3ckYr7oPK+x2G5Tp7IOEEVCesUaKL8xKeBlc48VpMLvsBXkvpgmALWVrtxmFrU5kdevwX3XvVevpA5bTliuNJ4FIAvt2YXpJg5uEhHivMB9rVW8=
+	t=1715016606; cv=none; b=Q9HXifeL+QEfwdiQz5MCBxo3PXUvIrnAjIt9L2xsh3009LfHgdrqNZA/brqyTe+2rAAn6HBXUTSG2iRqwbqECqJYFjhi9qW4yCgsPfEZFvmKf3rbF5dy6OvLBJAGUkDSVe6zjJ9Ma3HE5zXHFpZ2hRdRkhZwpsK4yf6ysOBP4YU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714992986; c=relaxed/simple;
-	bh=9NMb3EO3F0DiZNApYRXR91yw6W3gYPuvTxhlybc4//M=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YD5Mvfz2Mmrk5SJfvwKe3B8WyKhS8ueUgj8Ds6FD22X+bMZEIRHpBAfEb/CYyDhqXs5YZ+OyLJwkFGRRyncOoFxL1jR5i0eL2ibi/Sxs6H0veuC7vjJRdA1i2nHIRNAnrQCju86Q3TvwyS5ubVbEcZ+0iX+YmiEFkmyAYEKJd9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lnlGjZpy; arc=none smtp.client-ip=209.85.167.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-51f1b378ca5so2854885e87.1;
-        Mon, 06 May 2024 03:56:24 -0700 (PDT)
+	s=arc-20240116; t=1715016606; c=relaxed/simple;
+	bh=2m0Apzo9xFxDXw8sTML7iaX9VanueAJ0oBXUB2ncRpw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=D4mTiZkH3HBN+lhSBF5X8+E2ysSnVbncZXOvDqBJwJkFoPwaskUPV8zasZqqRrVo8Q4zhoVzxsVjPchIb/2+twVpvDV1cfkJpa3XoWaAlGllcBPwj6GYoyFPnqsbqc+9Xb55zNgst+TVQd98YctznCtG+j6yDF9QIL6cBQwZibI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net; spf=pass smtp.mailfrom=amacapital.net; dkim=pass (2048-bit key) header.d=amacapital-net.20230601.gappssmtp.com header.i=@amacapital-net.20230601.gappssmtp.com header.b=BUPvsMWm; arc=none smtp.client-ip=209.85.221.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
+Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-4df32efa5baso711806e0c.2
+        for <linux-api@vger.kernel.org>; Mon, 06 May 2024 10:30:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714992983; x=1715597783; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:date:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=BJIBSGbrgOG9NZBqdWmimHdMF70VT1B2wz13vLxdkPs=;
-        b=lnlGjZpypPGy5SwST+GkLjxQ+n/wMDWmm0PJ+yrB/wQOYddPpAb2CdYa7whtZEv8Sn
-         UOUeLISO2cxILNyLgXS1L3s3NJ0bGT6SL/8ZlQDnEG8sVDbAPWYVAnYYCxJ0o4nKbYpz
-         eFs9rRBCDKzE+hUjWhf3m7JeisKE1K0P9/tq88Ev1+TlVU8RfgCrOBaHWtPhlOyAir9/
-         8P1Jw2rChxadmQDYjgZzMKaNMxSHYW5aprOlFlLG5/SOESAugUedF6Sqp/ZgIoZOMqx1
-         ob8xI+WabuTWMMPpAV62t2qmWTtCQ8nzK7Itxx6cVav874ReLD5ca/ufYYtIFmsg2WUx
-         xpUQ==
+        d=amacapital-net.20230601.gappssmtp.com; s=20230601; t=1715016604; x=1715621404; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cK5ZIv+/3lQIzy70C0Ibh9w+v+69s0hinhfnxG/B7mw=;
+        b=BUPvsMWmCd4X2qaPPkpGLxsQXM16NTbxbaiVA2WdYwJM9ais3+u7Z+Hcw2xY4N5yJa
+         lLS1yodK7osJcAbc9lGXMPUeRTG9qpf5qYRV0Bz6z4l/1G3EDkXQLwnos9ARNUcdlzm3
+         ebklOdTlswwfC0tu6+fAeBHhZiCfu1Xqo1FGJLTE3geirF1iSvIhtGTkCKSDJWmqTkJP
+         4C+Dnbzx/UcBYRApRz8c4fCQonZsUhcQw/9S952M+jsSs8Ayxpr3ICkWBTUdvy7VUlL+
+         Ni0SiCAUQ6hS8/qN0X2A/2SjMB6TMWNg6L9Lj0Dolnf7C2r+qwWUqU/YmlRckvIGd0t0
+         clHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714992983; x=1715597783;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:date:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BJIBSGbrgOG9NZBqdWmimHdMF70VT1B2wz13vLxdkPs=;
-        b=e5cFkbV34NaOpVJ9eFmxZNx3xyelsaUDilHcyVkTClNmo1ERgKbX7otLiV7dkQrbcz
-         jCRcEdjjWDESjuzUI4NKk6/Ccf4w1aDz/jGbFW5Erv4CPk0VOUg/xPl7pi7AGkZ5qiEp
-         4se/NEsE6J18Kc2h4nsjW346YxlhykPX5Hz1c5LpnPU34t+qQ59TnxXebcbCpTFAFNxM
-         AjKhGA4NHeh1NgiSC6jaUDzVkkWingUgvu7TzA9vIc/tSqm9uoTa1X0A263Gv9tBBHFx
-         44gr9+Js6cm+ePpuyWE36XFRKJv7sDGQofaGSEL7wT5Jj3fOmwm6CkO9AvtMexbC0EJK
-         gynw==
-X-Forwarded-Encrypted: i=1; AJvYcCW6DmT1m9B9Fs0FLyt7/n5fnqgpSXT78TsZSMqgflEC/Eul0KHwFYz6QrB0vMfjVp1EXdXojFJVTYqVl1tmUNbJgeVjk8JxL4Yde0H279i9sxD0Ggcr6urC2OVgX0YNiovIunsykWUcAyy10QBcJq6rzV77I2FbNMXWFENRIs2JBsrTCnBROLubaLu9ECZrRLn5ESpSrQ5Crd7fycR4iGszGEybHL4l+BV5YIGA8DA1PVnCZIkIx0qU+psm
-X-Gm-Message-State: AOJu0Yw8dDpGkcqSi5/STPiDKu3XYkDK/txyhO2ejzKRwh4gP5bUdz2E
-	juj1Kiqo6RwkxaRclViJfNM78TQ3JGrzmNsqFGQv/xBLie+16SC2
-X-Google-Smtp-Source: AGHT+IHCyK3/NNaNYRQTAL/JlLw+JMtaPREdI4MoupuAb10ad8JIR+dA1NVUrOJvGL0InQatybz/Ug==
-X-Received: by 2002:ac2:5932:0:b0:51f:2a80:a982 with SMTP id v18-20020ac25932000000b0051f2a80a982mr8741080lfi.47.1714992982348;
-        Mon, 06 May 2024 03:56:22 -0700 (PDT)
-Received: from krava (ip4-95-82-160-96.cust.nbox.cz. [95.82.160.96])
-        by smtp.gmail.com with ESMTPSA id el24-20020a170907285800b00a59b9263f59sm2194092ejc.102.2024.05.06.03.56.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 May 2024 03:56:21 -0700 (PDT)
-From: Jiri Olsa <olsajiri@gmail.com>
-X-Google-Original-From: Jiri Olsa <jolsa@kernel.org>
-Date: Mon, 6 May 2024 12:56:19 +0200
-To: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-Cc: "olsajiri@gmail.com" <olsajiri@gmail.com>,
-	"songliubraving@fb.com" <songliubraving@fb.com>,
-	"luto@kernel.org" <luto@kernel.org>,
-	"mhiramat@kernel.org" <mhiramat@kernel.org>,
-	"andrii@kernel.org" <andrii@kernel.org>,
-	"debug@rivosinc.com" <debug@rivosinc.com>,
-	"john.fastabend@gmail.com" <john.fastabend@gmail.com>,
-	"linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"mingo@redhat.com" <mingo@redhat.com>,
-	"rostedt@goodmis.org" <rostedt@goodmis.org>,
-	"ast@kernel.org" <ast@kernel.org>,
-	"tglx@linutronix.de" <tglx@linutronix.de>,
-	"linux-man@vger.kernel.org" <linux-man@vger.kernel.org>,
-	"oleg@redhat.com" <oleg@redhat.com>, "yhs@fb.com" <yhs@fb.com>,
-	"daniel@iogearbox.net" <daniel@iogearbox.net>,
-	"peterz@infradead.org" <peterz@infradead.org>,
-	"linux-trace-kernel@vger.kernel.org" <linux-trace-kernel@vger.kernel.org>,
-	"bp@alien8.de" <bp@alien8.de>,
-	"bpf@vger.kernel.org" <bpf@vger.kernel.org>,
-	"x86@kernel.org" <x86@kernel.org>,
-	"broonie@kernel.org" <broonie@kernel.org>
-Subject: Re: [PATCHv4 bpf-next 2/7] uprobe: Add uretprobe syscall to speed up
- return probe
-Message-ID: <Zji3U131RJtQDdA_@krava>
-References: <20240502122313.1579719-1-jolsa@kernel.org>
- <20240502122313.1579719-3-jolsa@kernel.org>
- <20240503113453.GK40213@noisy.programming.kicks-ass.net>
- <ZjTg2cunShA6VbpY@krava>
- <725e2000dc56d55da4097cface4109c17fe5ad1a.camel@intel.com>
- <ZjU4ganRF1Cbiug6@krava>
- <6c143c648e2eff6c4d4b5e4700d1a8fbcc0f8cbc.camel@intel.com>
- <ZjVGZeY-_ySqgfER@krava>
- <d2e0e53581e26358ee0b3d188a07795878938d2f.camel@intel.com>
+        d=1e100.net; s=20230601; t=1715016604; x=1715621404;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cK5ZIv+/3lQIzy70C0Ibh9w+v+69s0hinhfnxG/B7mw=;
+        b=tdiCpB1ISQCHS78oZozSjziIg2E0nDmQ+wkv+GQ8fUehJMNgqkEtaYElPhAg3K/6Gs
+         RVcgCfhPyl6ndPUFrftXZAh5nCgXWTb6khduFNUG4VZo3hBGpghH0HB/kEAgtfgFzfIu
+         GXrOLULl08ft18Nu4m0edHxKK0h5RZyw65y0IAkf6hP2SSUNeUBL0mBGKxmmUIxQYxoP
+         EFM2gx6n0Jtdo8Mq1sTFe+yDw34mfwqeVDN64LkFUD0gx0+BmKfTamggAitWP0SaXuVG
+         jSqvS4UoI43dJcbKQhgPifWJX0pd/bt+Qo8sySArYGamuY5TVbLQRyOQjpr2zqPHjluJ
+         eqwA==
+X-Forwarded-Encrypted: i=1; AJvYcCXsnoar03WoA8RLmHZlTl39sjHPpIqUmw+MpXm3/a0cmCLKoFlFZT1Q2t99rJbLuhJlRfjSCFn23TxZr6HvS0ixoWGiFXlKAIC2
+X-Gm-Message-State: AOJu0YwgHQlMweT4XjSqeBnZCAKucabRjh96+gjThETq6+rIRltR5o7j
+	DPfqGPlnlplKEOtQ9ZhErmixHsznHmDja0IhIRE9P+77I3W8oMsEUIguN4wuInvgPLAVJ7Q/ugw
+	8778WO4nPolnSOKkp99cRBIaOkbciWXSd3bkr
+X-Google-Smtp-Source: AGHT+IEUiIcy0GOYu8BB1OirIXvX5Yu34V0OsXJvQrj6CB8J0noq/BJOsBMaSMkgqcHRU1CL2GM1OR8B88hj8PARo8U=
+X-Received: by 2002:a05:6122:4105:b0:4df:235b:8ba1 with SMTP id
+ ce5-20020a056122410500b004df235b8ba1mr9922482vkb.7.1715016603540; Mon, 06 May
+ 2024 10:30:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <d2e0e53581e26358ee0b3d188a07795878938d2f.camel@intel.com>
+References: <20240426133310.1159976-1-stsp2@yandex.ru> <CALCETrUL3zXAX94CpcQYwj1omwO+=-1Li+J7Bw2kpAw4d7nsyw@mail.gmail.com>
+ <20240428.171236-tangy.giblet.idle.helpline-y9LqufL7EAAV@cyphar.com>
+In-Reply-To: <20240428.171236-tangy.giblet.idle.helpline-y9LqufL7EAAV@cyphar.com>
+From: Andy Lutomirski <luto@amacapital.net>
+Date: Mon, 6 May 2024 10:29:52 -0700
+Message-ID: <CALCETrU2VwCF-o7E5sc8FN_LBs3Q-vNMBf7N4rm0PAWFRo5QWw@mail.gmail.com>
+Subject: Re: [PATCH v5 0/3] implement OA2_CRED_INHERIT flag for openat2()
+To: Aleksa Sarai <cyphar@cyphar.com>
+Cc: Stas Sergeev <stsp2@yandex.ru>, "Serge E. Hallyn" <serge@hallyn.com>, linux-kernel@vger.kernel.org, 
+	Stefan Metzmacher <metze@samba.org>, Eric Biederman <ebiederm@xmission.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Andy Lutomirski <luto@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Jeff Layton <jlayton@kernel.org>, 
+	Chuck Lever <chuck.lever@oracle.com>, Alexander Aring <alex.aring@gmail.com>, 
+	David Laight <David.Laight@aculab.com>, linux-fsdevel@vger.kernel.org, 
+	linux-api@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>, 
+	=?UTF-8?Q?Christian_G=C3=B6ttsche?= <cgzones@googlemail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 03, 2024 at 08:35:24PM +0000, Edgecombe, Rick P wrote:
-> On Fri, 2024-05-03 at 22:17 +0200, Jiri Olsa wrote:
-> > when uretprobe is created, kernel overwrites the return address on user
-> > stack to point to user space trampoline, so the setup is in kernel hands
-> 
-> I mean for uprobes in general. I'm didn't have any specific ideas in mind, but
-> in general when we give the kernel more abilities around shadow stack we have to
-> think if attackers could use it to work around shadow stack protections.
-> 
-> > 
-> > with the hack below on top of this patchset I'm no longer seeing shadow
-> > stack app crash on uretprobe.. I'll try to polish it and send out next
-> > week, any suggestions are welcome ;-)
-> 
-> Thanks. Some comments below.
-> 
-> > 
-> > thanks,
-> > jirka
-> > 
-> > 
-> > ---
-> > diff --git a/arch/x86/include/asm/shstk.h b/arch/x86/include/asm/shstk.h
-> > index 42fee8959df7..d374305a6851 100644
-> > --- a/arch/x86/include/asm/shstk.h
-> > +++ b/arch/x86/include/asm/shstk.h
-> > @@ -21,6 +21,8 @@ unsigned long shstk_alloc_thread_stack(struct task_struct
-> > *p, unsigned long clon
-> >  void shstk_free(struct task_struct *p);
-> >  int setup_signal_shadow_stack(struct ksignal *ksig);
-> >  int restore_signal_shadow_stack(void);
-> > +void uprobe_change_stack(unsigned long addr);
-> > +void uprobe_push_stack(unsigned long addr);
-> 
-> Maybe name them:
-> shstk_update_last_frame();
-> shstk_push_frame();
+Replying to a couple emails at once...
 
-ok
+On Mon, May 6, 2024 at 12:14=E2=80=AFAM Aleksa Sarai <cyphar@cyphar.com> wr=
+ote:
+>
+> On 2024-04-28, Andy Lutomirski <luto@amacapital.net> wrote:
+> > > On Apr 26, 2024, at 6:39=E2=80=AFAM, Stas Sergeev <stsp2@yandex.ru> w=
+rote:
+> > > =EF=BB=BFThis patch-set implements the OA2_CRED_INHERIT flag for open=
+at2() syscall.
+> > > It is needed to perform an open operation with the creds that were in
+> > > effect when the dir_fd was opened, if the dir was opened with O_CRED_=
+ALLOW
+> > > flag. This allows the process to pre-open some dirs and switch eUID
+> > > (and other UIDs/GIDs) to the less-privileged user, while still retain=
+ing
+> > > the possibility to open/create files within the pre-opened directory =
+set.
+> > >
+> >
+> > I=E2=80=99ve been contemplating this, and I want to propose a different=
+ solution.
+> >
+> > First, the problem Stas is solving is quite narrow and doesn=E2=80=99t
+> > actually need kernel support: if I want to write a user program that
+> > sandboxes itself, I have at least three solutions already.  I can make
+> > a userns and a mountns; I can use landlock; and I can have a separate
+> > process that brokers filesystem access using SCM_RIGHTS.
+> >
+> > But what if I want to run a container, where the container can access
+> > a specific host directory, and the contained application is not aware
+> > of the exact technology being used?  I recently started using
+> > containers in anger in a production setting, and =E2=80=9Canger=E2=80=
+=9D was
+> > definitely the right word: binding part of a filesystem in is
+> > *miserable*.  Getting the DAC rules right is nasty.  LSMs are worse.
+> > Podman=E2=80=99s =E2=80=9Cbind,relabel=E2=80=9D feature is IMO utterly =
+disgusting.  I think I
+> > actually gave up on making one of my use cases work on a Fedora
+> > system.
+> >
+> > Here=E2=80=99s what I wanted to do, logically, in production: pick a ho=
+st
+> > directory, pick a host *principal* (UID, GID, label, etc), and have
+> > the *entire container* access the directory as that principal. This is
+> > what happens automatically if I run the whole container as a userns
+> > with only a single UID mapped, but I don=E2=80=99t really want to do th=
+at for
+> > a whole variety and of reasons.
+> >
+> > So maybe reimagining Stas=E2=80=99 feature a bit can actually solve thi=
+s
+> > problem.  Instead of a special dirfd, what if there was a special
+> > subtree (in the sense of open_tree) that captures a set of creds and
+> > does all opens inside the subtree using those creds?
+> >
+> > This isn=E2=80=99t a fully formed proposal, but I *think* it should be
+> > generally fairly safe for even an unprivileged user to clone a subtree
+> > with a specific flag set to do this. Maybe a capability would be
+> > needed (CAP_CAPTURE_CREDS?), but it would be nice to allow delegating
+> > this to a daemon if a privilege is needed, and getting the API right
+> > might be a bit tricky.
+>
+> Tying this to an actual mount rather than a file handle sounds like a
+> more plausible proposal than OA2_CRED_INHERIT, but it just seems that
+> this is going to re-create all of the work that went into id-mapped
+> mounts but with the extra-special step of making the generic VFS
+> permissions no longer work normally (unless the idea is that everything
+> would pretend to be owned by current_fsuid()?).
 
-> 
-> 
-> >  #else
-> >  static inline long shstk_prctl(struct task_struct *task, int option,
-> >                                unsigned long arg2) { return -EINVAL; }
-> > diff --git a/arch/x86/kernel/shstk.c b/arch/x86/kernel/shstk.c
-> > index 59e15dd8d0f8..804c446231d9 100644
-> > --- a/arch/x86/kernel/shstk.c
-> > +++ b/arch/x86/kernel/shstk.c
-> > @@ -577,3 +577,24 @@ long shstk_prctl(struct task_struct *task, int option,
-> > unsigned long arg2)
-> >                 return wrss_control(true);
-> >         return -EINVAL;
-> >  }
-> > +
-> > +void uprobe_change_stack(unsigned long addr)
-> > +{
-> > +       unsigned long ssp;
-> 
-> Probably want something like:
-> 
-> 	if (!features_enabled(ARCH_SHSTK_SHSTK))
-> 		return;
+I was assuming that the owner uid and gid would be show to stat, etc
+as usual.  But the permission checks would be done against the
+captured creds.
 
-ok
+>
+> IMHO it also isn't enough to just make open work, you need to make all
+> operations work (which leads to a non-trivial amount of
+> filesystem-specific handling), which is just idmapped mounts. A lot of
+> work was put into making sure that is safe, and collapsing owners seems
+> like it will cause a lot of headaches.
+>
+> I also find it somewhat amusing that this proposal is to basically give
+> up on multi-user permissions for this one directory tree because it's
+> too annoying to deal with. In that case, isn't chmod 777 a simpler
+> solution? (I'm being a bit flippant, of course there is a difference,
+> but the net result is that all users in the container would have the
+> same permissions with all of the fun issues that implies.)
+>
+> In short, AFAICS idmapped mounts pretty much solve this problem (minus
+> the ability to collapse users, which I suspect is not a good idea in
+> general)?
+>
 
-> 
-> So this doesn't try the below if shadow stack is disabled.
-> 
-> > +
-> > +       ssp = get_user_shstk_addr();
-> > +       write_user_shstk_64((u64 __user *)ssp, (u64)addr);
-> > +}
-> 
-> Can we know that there was a valid return address just before this point on the
-> stack? Or could it be a sigframe or something?
+With my kernel hat on, maybe I agree.  But with my *user* hat on, I
+think I pretty strongly disagree.  Look, idmapis lousy for
+unprivileged use:
 
-when uprobe hijack the return address it assumes it's on the top of the stack,
-so it's saved and replaced with address of the user space trampoline
+$ install -m 0700 -d test_directory
+$ echo 'hi there' >test_directory/file
+$ podman run -it --rm
+--mount=3Dtype=3Dbind,src=3Dtest_directory,dst=3D/tmp,idmap [debian-slim]
+# cat /tmp/file
+hi there
 
-> 
-> > +
-> > +void uprobe_push_stack(unsigned long addr)
-> > +{
-> > +       unsigned long ssp;
-> 
-> 	if (!features_enabled(ARCH_SHSTK_SHSTK))
-> 		return;
-> 
-> > +
-> > +       ssp = get_user_shstk_addr();
-> > +       ssp -= SS_FRAME_SIZE;
-> > +       write_user_shstk_64((u64 __user *)ssp, (u64)addr);
-> > +
-> > +       fpregs_lock_and_load();
-> > +       wrmsrl(MSR_IA32_PL3_SSP, ssp);
-> > +       fpregs_unlock();
-> > +}
-> > diff --git a/arch/x86/kernel/uprobes.c b/arch/x86/kernel/uprobes.c
-> > index 81e6ee95784d..259457838020 100644
-> > --- a/arch/x86/kernel/uprobes.c
-> > +++ b/arch/x86/kernel/uprobes.c
-> > @@ -416,6 +416,7 @@ SYSCALL_DEFINE0(uretprobe)
-> >         regs->r11 = regs->flags;
-> >         regs->cx  = regs->ip;
-> >  
-> > +       uprobe_push_stack(r11_cx_ax[2]);
-> 
-> I'm concerned this could be used to push arbitrary frames to the shadow stack.
-> Couldn't an attacker do a jump to the point that calls this syscall? Maybe this
-> is what peterz was raising.
+<-- Hey, look, this kind of works!
 
-of course never say never, but here's my reasoning why I think it's ok
+# setpriv --reuid=3D1 ls /tmp
+ls: cannot open directory '/tmp': Permission denied
 
-the page with the syscall trampoline is mapped in user space and can be
-found in procfs maps file under '[uprobes]' name
-
-the syscall can be called only from this trampoline, if it's called from
-anywhere else the calling process receives SIGILL
-
-now if you run the uretprobe syscall without any pending uretprobe for
-the task it will receive SIGILL before it gets to the point of pushing
-address on the shadow stack
-
-and to configure the uretprobe you need to have CAP_PERFMON or CAP_SYS_ADMIN
-
-if you'd actually managed to get the pending uretprobe instance, the shadow
-stack entry is going to be used/pop-ed right away in the trampoline with
-the ret instruction
-
-and as I mentioned above it's ensured that the syscall is returning to the
-trampoline and it can't be called from any other place
-
-> 
-> >         return regs->ax;
-> >  
-> >  sigill:
-> > @@ -1191,8 +1192,10 @@ arch_uretprobe_hijack_return_addr(unsigned long
-> > trampoline_vaddr, struct pt_regs
-> >                 return orig_ret_vaddr;
-> >  
-> >         nleft = copy_to_user((void __user *)regs->sp, &trampoline_vaddr,
-> > rasize);
-> > -       if (likely(!nleft))
-> > +       if (likely(!nleft)) {
-> > +               uprobe_change_stack(trampoline_vaddr);
-> >                 return orig_ret_vaddr;
-> > +       }
-> >  
-> >         if (nleft != rasize) {
-> >                 pr_err("return address clobbered: pid=%d, %%sp=%#lx,
-> > %%ip=%#lx\n",
-> 
-
-I'll try to add uprobe test under tools/testing/selftests/x86/test_shadow_stack.c
-and send that and change below as part of new version
-
-thanks for the comments,
-jirka
+<-- Gee, thanks, Linux!
 
 
----
-diff --git a/arch/x86/include/asm/shstk.h b/arch/x86/include/asm/shstk.h
-index 42fee8959df7..2e1ddcf98242 100644
---- a/arch/x86/include/asm/shstk.h
-+++ b/arch/x86/include/asm/shstk.h
-@@ -21,6 +21,8 @@ unsigned long shstk_alloc_thread_stack(struct task_struct *p, unsigned long clon
- void shstk_free(struct task_struct *p);
- int setup_signal_shadow_stack(struct ksignal *ksig);
- int restore_signal_shadow_stack(void);
-+int shstk_update_last_frame(unsigned long val);
-+int shstk_push_frame(unsigned long val);
- #else
- static inline long shstk_prctl(struct task_struct *task, int option,
- 			       unsigned long arg2) { return -EINVAL; }
-@@ -31,6 +33,8 @@ static inline unsigned long shstk_alloc_thread_stack(struct task_struct *p,
- static inline void shstk_free(struct task_struct *p) {}
- static inline int setup_signal_shadow_stack(struct ksignal *ksig) { return 0; }
- static inline int restore_signal_shadow_stack(void) { return 0; }
-+static inline int shstk_update_last_frame(unsigned long val) { return 0; }
-+static inline int shstk_push_frame(unsigned long val) { return 0; }
- #endif /* CONFIG_X86_USER_SHADOW_STACK */
- 
- #endif /* __ASSEMBLY__ */
-diff --git a/arch/x86/kernel/shstk.c b/arch/x86/kernel/shstk.c
-index 59e15dd8d0f8..66434dfde52e 100644
---- a/arch/x86/kernel/shstk.c
-+++ b/arch/x86/kernel/shstk.c
-@@ -577,3 +577,32 @@ long shstk_prctl(struct task_struct *task, int option, unsigned long arg2)
- 		return wrss_control(true);
- 	return -EINVAL;
- }
-+
-+int shstk_update_last_frame(unsigned long val)
-+{
-+	unsigned long ssp;
-+
-+	if (!features_enabled(ARCH_SHSTK_SHSTK))
-+		return 0;
-+
-+	ssp = get_user_shstk_addr();
-+	return write_user_shstk_64((u64 __user *)ssp, (u64)val);
-+}
-+
-+int shstk_push_frame(unsigned long val)
-+{
-+	unsigned long ssp;
-+
-+	if (!features_enabled(ARCH_SHSTK_SHSTK))
-+		return 0;
-+
-+	ssp = get_user_shstk_addr();
-+	ssp -= SS_FRAME_SIZE;
-+	if (write_user_shstk_64((u64 __user *)ssp, (u64)val))
-+		return -EFAULT;
-+
-+	fpregs_lock_and_load();
-+	wrmsrl(MSR_IA32_PL3_SSP, ssp);
-+	fpregs_unlock();
-+	return 0;
-+}
-diff --git a/arch/x86/kernel/uprobes.c b/arch/x86/kernel/uprobes.c
-index 81e6ee95784d..ae6c3458a675 100644
---- a/arch/x86/kernel/uprobes.c
-+++ b/arch/x86/kernel/uprobes.c
-@@ -406,6 +406,11 @@ SYSCALL_DEFINE0(uretprobe)
- 	 * trampoline's ret instruction
- 	 */
- 	r11_cx_ax[2] = regs->ip;
-+
-+	/* make the shadow stack follow that */
-+	if (shstk_push_frame(regs->ip))
-+		goto sigill;
-+
- 	regs->ip = ip;
- 
- 	err = copy_to_user((void __user *)regs->sp, r11_cx_ax, sizeof(r11_cx_ax));
-@@ -1191,8 +1196,13 @@ arch_uretprobe_hijack_return_addr(unsigned long trampoline_vaddr, struct pt_regs
- 		return orig_ret_vaddr;
- 
- 	nleft = copy_to_user((void __user *)regs->sp, &trampoline_vaddr, rasize);
--	if (likely(!nleft))
-+	if (likely(!nleft)) {
-+		if (shstk_update_last_frame(trampoline_vaddr)) {
-+			force_sig(SIGSEGV);
-+			return -1;
-+		}
- 		return orig_ret_vaddr;
-+	}
- 
- 	if (nleft != rasize) {
- 		pr_err("return address clobbered: pid=%d, %%sp=%#lx, %%ip=%#lx\n",
+Obviously this is a made up example.  But it's quite analogous to a
+real example.  Suppose I want to make a directory that will contain
+some MySQL data.  I don't want to share this directory with anyone
+else, so I set its mode to 0700.  Then I want to fire up an
+unprivileged MySQL container, so I build or download it, and then I
+run it and bind my directory to /var/lib/mysql and I run it.  I don't
+need to think about UIDs or anything because it's 2024 and containers
+just work.  Okay, I need to setenforce 0 because I'm on Fedora and
+SELinux makes absolutely no sense in a container world, but I can live
+with that.
+
+Except that it doesn't work!  Because unless I want to manually futz
+with the idmaps to get mysql to have access to the directory inside
+the container, only *root* gets to get in.  But I bet that even
+futzing with the idmap doesn't work, because software like mysql often
+expects that root *and* a user can access data.  And some software
+even does privilege separation and uses more than one UID.
+
+So I want a way to give *an entire container* access to a directory.
+Classic UNIX DAC is just *wrong* for this use case.  Maybe idmaps
+could learn a way to squash multiple ids down to one.  Or maybe
+something like my silly credential-capturing mount proposal could
+work.  But the status quo is not actually amazing IMO.
+
+I haven't looked at the idmap implementation nearly enough to have any
+opinion as to whether squashing UID is practical or whether there's
+any sensible way to specify it in the configuration.
+
+> On Apr 29, 2024, at 2:12=E2=80=AFAM, Christian Brauner <brauner@kernel.or=
+g> wrote:
+>
+> Nowadays it's extremely simple due tue open_tree(OPEN_TREE_CLONE) and
+> move_mount(). I rewrote the bind-mount logic in systemd based on that
+> and util-linux uses that as well now.
+> https://brauner.io/2023/02/28/mounting-into-mount-namespaces.html
+>
+
+Yep, I remember that.
+
+>> Podman=E2=80=99s =E2=80=9Cbind,relabel=E2=80=9D feature is IMO utterly d=
+isgusting.  I think I
+>> actually gave up on making one of my use cases work on a Fedora
+>> system.
+>>
+>> Here=E2=80=99s what I wanted to do, logically, in production: pick a hos=
+t
+>> directory, pick a host *principal* (UID, GID, label, etc), and have
+>> the *entire container* access the directory as that principal. This is
+>> what happens automatically if I run the whole container as a userns
+>> with only a single UID mapped, but I don=E2=80=99t really want to do tha=
+t for
+>> a whole variety and of reasons.
+>
+> You're describing idmapped mounts for the most part which are upstream
+> and are used in exactly that way by a lot of userspace.
+>
+
+See above...
+
+>>
+>> So maybe reimagining Stas=E2=80=99 feature a bit can actually solve this
+>> problem.  Instead of a special dirfd, what if there was a special
+>> subtree (in the sense of open_tree) that captures a set of creds and
+>> does all opens inside the subtree using those creds?
+>
+> That would mean override creds in the VFS layer when accessing a
+> specific subtree which is a terrible idea imho. Not just because it will
+> quickly become a potential dos when you do that with a lot of subtrees
+> it will also have complex interactions with overlayfs.
+
+I was deliberately talking about semantics, not implementation. This
+may well be impossible to implement straightforwardly.
 
