@@ -1,143 +1,137 @@
-Return-Path: <linux-api+bounces-1480-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1482-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 534E48BD8B8
-	for <lists+linux-api@lfdr.de>; Tue,  7 May 2024 02:50:45 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1D3A8BDC8F
+	for <lists+linux-api@lfdr.de>; Tue,  7 May 2024 09:42:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E66A11F248AD
-	for <lists+linux-api@lfdr.de>; Tue,  7 May 2024 00:50:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6D8AA28222A
+	for <lists+linux-api@lfdr.de>; Tue,  7 May 2024 07:42:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B637210F2;
-	Tue,  7 May 2024 00:50:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0A0813C3D4;
+	Tue,  7 May 2024 07:42:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b="jvSsoX4H"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kwcYuXFS"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail.codeweavers.com (mail.codeweavers.com [4.36.192.163])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C529389;
-	Tue,  7 May 2024 00:50:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.36.192.163
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C4AE13BAE9;
+	Tue,  7 May 2024 07:42:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715043040; cv=none; b=NBLMv0tibUvjbdoOTsR+CPIkLNxfsBoS7mk6/o18GXfVjixqqdz94Db5Mpt6feeKTXJDKdt9ZFTBbu3VF3Ar+KCh4eXYZLwnY91YQGcZypOEpOt0kYeCN3zkcSYFbksNmF0cBmL+QxmX661zwa+VVz0ckgAmi2lqQKQqGP5LPdk=
+	t=1715067769; cv=none; b=VQM3/uMnEcN1k8bymCBresYpX7slGKLr2JZmrM5xouRLDt8TgpiGBn601UIm2u1ZmMubUwEh5AEyFdC7j2uj1eLT1yhviv9JCIdL/MpAAqZR5jknhcqsGVJ8zRw+jZimd4CxIS3kQew1SpR35mMwBm++Fnb3LL0R4Sa9u10psM8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715043040; c=relaxed/simple;
-	bh=ZFwYXSUEUJ7GtWn4g6K2L0ODS19vwoG9t774Aj8p1Ak=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CJAjmx6niz9q1ALccWlI3r8+XBI07cosm9xbfeg6p5Q8dqvrVI5yVyN4SHZmh0Yql1wf1nXQQ5aPCvKYzA2MBIe/i537JtjqDDQfqS8BNKs/xNRBxG82zSTIKOk7qf4xTKpSNX0ZC22WE5JYQfoh3si1G5fP7rXHvqKbdSbn844=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com; spf=pass smtp.mailfrom=codeweavers.com; dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b=jvSsoX4H; arc=none smtp.client-ip=4.36.192.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeweavers.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=codeweavers.com; s=s1; h=Message-ID:Date:Subject:Cc:To:From:Sender;
-	bh=ZRma+TmGKw3NTq5BF25piq4ird9OossEUWl7xifP6as=; b=jvSsoX4HQtDd4ZWS8FuW7Csjj0
-	vRkmivbaWCgzWBDvERJE/2jR2sqbPuMGBo7C//qSVgXGrQzqimil/U+QRsQAiHgd0bhlguC3SDgs3
-	fwEeL7wROiuQsQ83dYpXM7/ZxYgxx6TOLFH2JbM/tXkG8AgiZKeppskKkVm5jbV4PU4WKwBKS3dle
-	AgUqwtpHG2hjnnVhmTNodGRi5AkxiDU+I9l+sTADWodzS7/lEhSDKMWWUAVnq4XO56nMcCkSid8RK
-	937Sh3ecNzUWXlgtJJCotaLAdm6Kp6h4xmjqM+Cb69Hns1MyMvChBh1uQ+HGGcCZlKBH43DVRqj+B
-	Is6ZQG0A==;
-Received: from [10.69.139.6] (helo=watership.localnet)
-	by mail.codeweavers.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <zfigura@codeweavers.com>)
-	id 1s492T-00Fgi0-0B;
-	Mon, 06 May 2024 19:50:37 -0500
-From: Elizabeth Figura <zfigura@codeweavers.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: wine-devel@winehq.org, Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
- linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
- =?ISO-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
- Wolfram Sang <wsa@kernel.org>, Andy Lutomirski <luto@kernel.org>,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
- Randy Dunlap <rdunlap@infradead.org>, Ingo Molnar <mingo@redhat.com>,
- Will Deacon <will@kernel.org>, Waiman Long <longman@redhat.com>,
- Boqun Feng <boqun.feng@gmail.com>, Elizabeth Figura <zfigura@codeweavers.com>
-Subject: Re: [PATCH v4 00/30] NT synchronization primitive driver
-Date: Mon, 06 May 2024 19:50:34 -0500
-Message-ID: <3923517.aeNJFYEL58@watership>
-In-Reply-To: <4560699.LvFx2qVVIh@camazotz>
-References:
- <20240416010837.333694-1-zfigura@codeweavers.com>
- <20240419161611.GA23130@noisy.programming.kicks-ass.net>
- <4560699.LvFx2qVVIh@camazotz>
+	s=arc-20240116; t=1715067769; c=relaxed/simple;
+	bh=mi3mXWnBFgpXPxlG257vqa4x77kAtsjGzS+btNQZe28=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kaaRfdyJBfddeHBhyeLXAsLWI7N+bI/JJHXzdftJ1kA3LfiRiES1CJQIOdX+UCCNDClsL/bGFYyJWMYYgPHKidWQViUKTXS6rnIdnT43ezOeG0inc1VJo4WdmYjyR58ktrbHoda5LjrpV7aA8IQPhhTIN0FYunIow5FwttEcQuk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kwcYuXFS; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEF88C2BBFC;
+	Tue,  7 May 2024 07:42:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715067769;
+	bh=mi3mXWnBFgpXPxlG257vqa4x77kAtsjGzS+btNQZe28=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kwcYuXFS1rY4n6mNBVtmRT1XBNZmpqVk6pq/YRV3g3QbnOM+waK0fNUpKwhFMp+Z2
+	 PYG9wZGheNahTisSY1g61QlJCRDIleNcVsmFhZzM11mmByNjORLiboHISsjU6ZIivQ
+	 8bLkMNw/q9BwtsjCZS7Ye46qhfjzlevAaGhSpDcrJAQhhb4NkT/fngVYcK0esR3D9o
+	 2e/x9FDCPhfzSDwOZusWXq9OBjyvQY3ssjrRF7J5LNMUxC/ypcgPva6uqn203wMT3j
+	 09kyzgrYaM9smHVBcWqiraGg6H9L147uFKvtwqicegDRWd5W0svdf3JajjdVUncd5R
+	 1P8x8QqJ934PA==
+Date: Tue, 7 May 2024 09:42:42 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Andy Lutomirski <luto@amacapital.net>
+Cc: Aleksa Sarai <cyphar@cyphar.com>, Stas Sergeev <stsp2@yandex.ru>, 
+	"Serge E. Hallyn" <serge@hallyn.com>, linux-kernel@vger.kernel.org, 
+	Stefan Metzmacher <metze@samba.org>, Eric Biederman <ebiederm@xmission.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Andy Lutomirski <luto@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Jeff Layton <jlayton@kernel.org>, Chuck Lever <chuck.lever@oracle.com>, 
+	Alexander Aring <alex.aring@gmail.com>, David Laight <David.Laight@aculab.com>, 
+	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>, 
+	Christian =?utf-8?B?R8O2dHRzY2hl?= <cgzones@googlemail.com>
+Subject: Re: [PATCH v5 0/3] implement OA2_CRED_INHERIT flag for openat2()
+Message-ID: <20240507-verpennen-defekt-b6f2c9a46916@brauner>
+References: <20240426133310.1159976-1-stsp2@yandex.ru>
+ <CALCETrUL3zXAX94CpcQYwj1omwO+=-1Li+J7Bw2kpAw4d7nsyw@mail.gmail.com>
+ <20240428.171236-tangy.giblet.idle.helpline-y9LqufL7EAAV@cyphar.com>
+ <CALCETrU2VwCF-o7E5sc8FN_LBs3Q-vNMBf7N4rm0PAWFRo5QWw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CALCETrU2VwCF-o7E5sc8FN_LBs3Q-vNMBf7N4rm0PAWFRo5QWw@mail.gmail.com>
 
-On Friday, April 19, 2024 3:46:07=E2=80=AFPM CDT Elizabeth Figura wrote:
-> On Friday, 19 April 2024 11:16:11 CDT Peter Zijlstra wrote:
->=20
-> > On Tue, Apr 16, 2024 at 05:18:56PM -0500, Elizabeth Figura wrote:
-> >=20
-> > > On Tuesday, 16 April 2024 16:18:24 CDT Elizabeth Figura wrote:
-> > >=20
-> > > > On Tuesday, 16 April 2024 03:14:21 CDT Peter Zijlstra wrote:
-> > > >=20
-> > > > > I don't support GE has it in his builds? Last time I tried,
-> > > > > building
-> > > > > Wine was a bit of a pain.
-> > > >=20
-> > > >=20
-> > > > It doesn't seem so. I tried to build a GE-compatible ntsync build,
-> > > > uploaded
- here (thanks Arek for hosting):
-> > > >=20
-> > > >=20
-> > > >     https://f002.backblazeb2.com/file/wine-ntsync/ntsync-wine.tar.xz
-> > >=20
-> > >=20
-> > > Oops, the initial version I uploaded had broken paths. Should be fixed
-> > > now.
-=20
-> > > (It's also broken on an unpatched kernel unless explicitly disabled w=
-ith
-> > >=20
-> > > WINE_DISABLE_FAST_SYNC=3D1. Not sure what I messed up there=E2=80=94i=
-t should fall
-> > > back=20
- cleanly=E2=80=94but hopefully shouldn't be too important for testing.)
-> >=20
-> >=20
-> > So I've tried using that wine build with lutris, and I can't get it to
-> > start EGS or anything else.
-> >=20
-> > I even added a printk to the ntsync driver for every open, to see if it
-> > gets that far, but I'm not even getting that :/
->=20
->=20
-> That's odd, it works for me, both as a standalone build and with
-> lutris...
->=20
-> Does /dev/ntsync exist (module is loaded) and have nonzero permissions?
-> I forgot to mention that's necessary, sorry.
->=20
-> Otherwise I can try to look at an strace, or a Wine debug log. I don't
-> think there's an easy way to get the latter with Lutris, but something
-> like `WINEDEBUG=3D+all ./wine winecfg 2>log` should work.
->=20
->=20
+> With my kernel hat on, maybe I agree.  But with my *user* hat on, I
+> think I pretty strongly disagree.  Look, idmapis lousy for
+> unprivileged use:
+> 
+> $ install -m 0700 -d test_directory
+> $ echo 'hi there' >test_directory/file
+> $ podman run -it --rm
+> --mount=type=bind,src=test_directory,dst=/tmp,idmap [debian-slim]
 
-It's also possible that the build was made against too new libraries. I've=
-=20
-created a new build, built and tested on stock Debian 12, and with some ext=
-ra=20
-debugging:
+$ podman run -it --rm --mount=type=bind,src=test_directory,dst=/tmp,idmap [debian-slim]
 
-https://f002.backblazeb2.com/file/wine-ntsync/ntsync-wine2.tar.xz
+as an unprivileged user doesn't use idmapped mounts at all. So I'm not
+sure what this is showing. I suppose you're talking about idmaps in
+general.
 
-Hopefully that's good enough to test with, or at least gives more of a hint=
- as=20
-to why it fails?
+> # cat /tmp/file
+> hi there
+> 
+> <-- Hey, look, this kind of works!
+> 
+> # setpriv --reuid=1 ls /tmp
+> ls: cannot open directory '/tmp': Permission denied
+> 
+> <-- Gee, thanks, Linux!
+> 
+> 
+> Obviously this is a made up example.  But it's quite analogous to a
+> real example.  Suppose I want to make a directory that will contain
+> some MySQL data.  I don't want to share this directory with anyone
+> else, so I set its mode to 0700.  Then I want to fire up an
+> unprivileged MySQL container, so I build or download it, and then I
+> run it and bind my directory to /var/lib/mysql and I run it.  I don't
+> need to think about UIDs or anything because it's 2024 and containers
+> just work.  Okay, I need to setenforce 0 because I'm on Fedora and
+> SELinux makes absolutely no sense in a container world, but I can live
+> with that.
+> 
+> Except that it doesn't work!  Because unless I want to manually futz
+> with the idmaps to get mysql to have access to the directory inside
+> the container, only *root* gets to get in.  But I bet that even
+> futzing with the idmap doesn't work, because software like mysql often
+> expects that root *and* a user can access data.  And some software
+> even does privilege separation and uses more than one UID.
 
+If the directory is 700 and it's owned by say root:root on the host and
+you want to share that with arbitrary container users then this isn't
+something you can do today (ignoring group permissions and ACLs for the
+sake of your argument) even on the host so that's not a limitation of
+userns or idmapped mounts. That means many to one mappings of uids/gids.
 
+> So I want a way to give *an entire container* access to a directory.
+> Classic UNIX DAC is just *wrong* for this use case.  Maybe idmaps
+> could learn a way to squash multiple ids down to one.  Or maybe
+
+Many idmappings to one is in principle possible and I've noted that idea
+down as a possible extension at
+https://github.com/uapi-group/kernel-features quite a while (2 years?) ago.
+
+> I haven't looked at the idmap implementation nearly enough to have any
+> opinion as to whether squashing UID is practical or whether there's
+
+It's doable. The interesting bit to me was that if we want to allow
+writes we'd need a way to determine what the uid/gid would be to write
+down. Imho, that's not super difficult to solve though. The most obvious
+one is that userspace can just determine it when creating the idmapped
+mount.
 
