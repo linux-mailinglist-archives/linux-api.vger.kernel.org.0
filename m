@@ -1,92 +1,195 @@
-Return-Path: <linux-api+bounces-1485-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1486-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D97028BDDB2
-	for <lists+linux-api@lfdr.de>; Tue,  7 May 2024 11:03:21 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C29F8BE02E
+	for <lists+linux-api@lfdr.de>; Tue,  7 May 2024 12:53:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 166A71C23432
-	for <lists+linux-api@lfdr.de>; Tue,  7 May 2024 09:03:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8B5A01F22C2F
+	for <lists+linux-api@lfdr.de>; Tue,  7 May 2024 10:53:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44C0E14D6FB;
-	Tue,  7 May 2024 09:02:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC22614F9ED;
+	Tue,  7 May 2024 10:53:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b="URRyXl5p"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sd9lJi5H"
 X-Original-To: linux-api@vger.kernel.org
-Received: from forward501c.mail.yandex.net (forward501c.mail.yandex.net [178.154.239.209])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16A9E14D6EE;
-	Tue,  7 May 2024 09:02:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.209
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A8D614EC77;
+	Tue,  7 May 2024 10:53:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715072546; cv=none; b=TWAXUz8zqNAhZHgp95M8kxHabFFCbZgjsVKDYFKleYwShkRpvyVPLkdzqgwht05FavkT57C8ReOBJsbkmY7MpUT2rpR9795iCmaoT2jbV5PYWTy32JSGXRYVEooE1puRGHeU4fcEfQ4D2ylEB9SkeI34zmlKsz7AFYyPd++NEJM=
+	t=1715079209; cv=none; b=nOZrUeMM/Y6EIQpsk87qMqADa8QIKThtQtTyYJy3GwtAebQL+fXiz3zkzKqqFGMwDeVFEs+S72NnXXW5EysPN0+uoYftSmoDnUiX5utTr4en82MOrPGjVOmQP8MrC+K2rKVdvpNOYZ/t8FK19f/0cM/tWKZmXEZkO6CXALOw/7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715072546; c=relaxed/simple;
-	bh=6uh8ifxHE5uS7W3QOLk171FF199PCmZvPR8VQGKwOU4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HgnI+o7nQfDE1WHgbLX3EoAtBu7vLtStwjew/sjFLVVFzUKHkt0KMkrmqxzZM8mCdMYT5S25hmU5ts/NVN/ZFjlc47fc49vzWiytdChCh7hE/rPrYRe50rQrrH7IPH6H0A5sFdAgMbiQ9NHJJnI7GWigpBeMwXuMWYJWU7doeMI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru; spf=pass smtp.mailfrom=yandex.ru; dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b=URRyXl5p; arc=none smtp.client-ip=178.154.239.209
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex.ru
-Received: from mail-nwsmtp-smtp-production-main-45.myt.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-45.myt.yp-c.yandex.net [IPv6:2a02:6b8:c12:4a21:0:640:2a87:0])
-	by forward501c.mail.yandex.net (Yandex) with ESMTPS id 5043C60AEF;
-	Tue,  7 May 2024 12:02:13 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-45.myt.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id A2UoZZEXmiE0-lvz16yjz;
-	Tue, 07 May 2024 12:02:11 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
-	t=1715072532; bh=6uh8ifxHE5uS7W3QOLk171FF199PCmZvPR8VQGKwOU4=;
-	h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
-	b=URRyXl5p7TM+JG7sJGaDL948M/XhkeO3pZaPL1fgL8Bjms4MwfqOR33DW3NL9b/Jp
-	 e2vlVjEPAZr4maOPUGUd+3ZvUIX8cJnmKCvHcJg/AjkBn1gKHfkA6pxOgfJCP3zesw
-	 xiFfOVxdUlgsNzfjNv8lr3SbJkq0+lYJg1x/DmeQ=
-Authentication-Results: mail-nwsmtp-smtp-production-main-45.myt.yp-c.yandex.net; dkim=pass header.i=@yandex.ru
-Message-ID: <5b5cc31f-a5be-4f64-a97b-7708466ace82@yandex.ru>
-Date: Tue, 7 May 2024 12:02:10 +0300
+	s=arc-20240116; t=1715079209; c=relaxed/simple;
+	bh=zRCYiOQHPnfhs1z3DR2elwt2Yar4HKiZO0wVgLYg+Vg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hEqIG2sksvVU9Z7qrWCJ2ddzJKAUgJQFvs5XZXH8mOHkioRlsMc1pwr/cEYvsVbdim2kwlUzZElWQENkfYmPYQ9q4Ru95AVXSFdoPUxA4lXsKIEbL9Te8FXyfvzU/TWjpRCdqn99sDd4k6Zqsa3flon5BQVXOtFl5j18L/Xrw78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sd9lJi5H; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2481C2BBFC;
+	Tue,  7 May 2024 10:53:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715079209;
+	bh=zRCYiOQHPnfhs1z3DR2elwt2Yar4HKiZO0wVgLYg+Vg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=sd9lJi5HBDDMQcb1fyizgnog+zrbmj5jPa0DvXupXs6nqIMgdu6hI3V4VMe3GjB4f
+	 lo2xNa1OWmjwKh8uY1kkVCEeOCjtqo6YXMIyhMInI0TXtmOy7KbvyBGRkiSG7tlFZa
+	 yt8KkxFd5HryeNJ9NpGX/3djDR8zx7QkrnD3GEsTJ7Q28SdhvGw9yKAJ2XRIzDyfXg
+	 lKQsWQERWl44PwOYWS/WjAdtjfolJLSINidU0Q6tz4q+t2rLtwIUiOUnlbAg9aZFck
+	 nbfsMm+qNHypPzPGTs3Qj5BPBzZMDTLJnEcypgrn3JwbGxrF0E1emYkYDi7UKWGlJo
+	 RcZZQlVaWwAhw==
+From: Jiri Olsa <jolsa@kernel.org>
+To: Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	linux-man@vger.kernel.org,
+	x86@kernel.org,
+	bpf@vger.kernel.org,
+	Song Liu <songliubraving@fb.com>,
+	Yonghong Song <yhs@fb.com>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	"Borislav Petkov (AMD)" <bp@alien8.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	"Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
+	Deepak Gupta <debug@rivosinc.com>
+Subject: [PATCHv5 bpf-next 0/8] uprobe: uretprobe speed up
+Date: Tue,  7 May 2024 12:53:13 +0200
+Message-ID: <20240507105321.71524-1-jolsa@kernel.org>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 0/3] implement OA2_CRED_INHERIT flag for openat2()
-Content-Language: en-US
-To: Aleksa Sarai <cyphar@cyphar.com>
-Cc: linux-kernel@vger.kernel.org, Stefan Metzmacher <metze@samba.org>,
- Eric Biederman <ebiederm@xmission.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>, Andy Lutomirski <luto@kernel.org>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Jeff Layton <jlayton@kernel.org>, Chuck Lever <chuck.lever@oracle.com>,
- Alexander Aring <alex.aring@gmail.com>,
- David Laight <David.Laight@aculab.com>, linux-fsdevel@vger.kernel.org,
- linux-api@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Christian_G=C3=B6ttsche?= <cgzones@googlemail.com>
-References: <20240427112451.1609471-1-stsp2@yandex.ru>
- <20240506.071502-teak.lily.alpine.girls-aiKJgErDohK@cyphar.com>
-From: stsp <stsp2@yandex.ru>
-In-Reply-To: <20240506.071502-teak.lily.alpine.girls-aiKJgErDohK@cyphar.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-07.05.2024 10:50, Aleksa Sarai пишет:
-> If you are a privileged process which plans to change users,
+hi,
+as part of the effort on speeding up the uprobes [0] coming with
+return uprobe optimization by using syscall instead of the trap
+on the uretprobe trampoline.
 
-Not privileged at all.
-But I think what you say is still possible
-with userns?
+The speed up depends on instruction type that uprobe is installed
+and depends on specific HW type, please check patch 1 for details.
+
+Patches 1-7 are based on bpf-next/master, but path 1 and 2 are
+apply-able on linux-trace.git tree probes/for-next branch.
+Patch 8 is based on man-pages master.
+
+v5 changes:
+- added shadow stack support for uretprobe [peterz]
+- reworded man page + typos [Alejandro Colom]
+- added pipe ASSERT_OK [Andrii]
+- added acks [Andrii]
+- removed compat test for now before ci is fixed
+
+Also available at:
+  https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git
+  uretprobe_syscall
+
+thanks,
+jirka
 
 
-> A new attack I just thought of while writing this mail is that because
-> there is no RESOLVE_NO_XDEV requirement, it should be possible for the
-> process to get an arbitrary write primitive by creating a new
-> userns+mountns and then bind-mounting / underneath the directory.
-Doesn't this need a write perm to a
-directory? In his case this is not a threat,
-because you are not supposed to have a
-write perm to that dir. OA2_CRED_INHERIT
-is the only way to write.
+Notes to check list items in Documentation/process/adding-syscalls.rst:
+
+- System Call Alternatives
+  New syscall seems like the best way in here, because we need
+  just to quickly enter kernel with no extra arguments processing,
+  which we'd need to do if we decided to use another syscall.
+
+- Designing the API: Planning for Extension
+  The uretprobe syscall is very specific and most likely won't be
+  extended in the future.
+
+  At the moment it does not take any arguments and even if it does
+  in future, it's allowed to be called only from trampoline prepared
+  by kernel, so there'll be no broken user.
+
+- Designing the API: Other Considerations
+  N/A because uretprobe syscall does not return reference to kernel
+  object.
+
+- Proposing the API
+  Wiring up of the uretprobe system call is in separate change,
+  selftests and man page changes are part of the patchset.
+
+- Generic System Call Implementation
+  There's no CONFIG option for the new functionality because it
+  keeps the same behaviour from the user POV.
+
+- x86 System Call Implementation
+  It's 64-bit syscall only.
+
+- Compatibility System Calls (Generic)
+  N/A uretprobe syscall has no arguments and is not supported
+  for compat processes.
+
+- Compatibility System Calls (x86)
+  N/A uretprobe syscall is not supported for compat processes.
+
+- System Calls Returning Elsewhere
+  N/A.
+
+- Other Details
+  N/A.
+
+- Testing
+  Adding new bpf selftests and ran ltp on top of this change.
+
+- Man Page
+  Attached.
+
+- Do not call System Calls in the Kernel
+  N/A.
+
+
+[0] https://lore.kernel.org/bpf/ZeCXHKJ--iYYbmLj@krava/
+---
+Jiri Olsa (7):
+      uprobe: Wire up uretprobe system call
+      uprobe: Add uretprobe syscall to speed up return probe
+      selftests/bpf: Add uretprobe syscall test for regs integrity
+      selftests/bpf: Add uretprobe syscall test for regs changes
+      selftests/bpf: Add uretprobe syscall call from user space test
+      x86/shstk: Add return uprobe support
+      selftests/x86: Add return uprobe shadow stack test
+
+ arch/x86/entry/syscalls/syscall_64.tbl                      |   1 +
+ arch/x86/include/asm/shstk.h                                |   4 ++
+ arch/x86/kernel/shstk.c                                     |  29 +++++++++
+ arch/x86/kernel/uprobes.c                                   | 127 +++++++++++++++++++++++++++++++++++-
+ include/linux/syscalls.h                                    |   2 +
+ include/linux/uprobes.h                                     |   3 +
+ include/uapi/asm-generic/unistd.h                           |   5 +-
+ kernel/events/uprobes.c                                     |  24 +++++--
+ kernel/sys_ni.c                                             |   2 +
+ tools/include/linux/compiler.h                              |   4 ++
+ tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c       | 123 ++++++++++++++++++++++++++++++++++-
+ tools/testing/selftests/bpf/prog_tests/uprobe_syscall.c     | 325 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ tools/testing/selftests/bpf/progs/uprobe_syscall.c          |  15 +++++
+ tools/testing/selftests/bpf/progs/uprobe_syscall_executed.c |  17 +++++
+ tools/testing/selftests/x86/test_shadow_stack.c             | 142 ++++++++++++++++++++++++++++++++++++++++
+ 15 files changed, 813 insertions(+), 10 deletions(-)
+ create mode 100644 tools/testing/selftests/bpf/prog_tests/uprobe_syscall.c
+ create mode 100644 tools/testing/selftests/bpf/progs/uprobe_syscall.c
+ create mode 100644 tools/testing/selftests/bpf/progs/uprobe_syscall_executed.c
+
+Jiri Olsa (1):
+      man2: Add uretprobe syscall page
+
+ man2/uretprobe.2 | 50 ++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 50 insertions(+)
+ create mode 100644 man2/uretprobe.2
 
