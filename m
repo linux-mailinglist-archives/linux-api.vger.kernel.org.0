@@ -1,148 +1,134 @@
-Return-Path: <linux-api+bounces-1494-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1495-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 572088BE074
-	for <lists+linux-api@lfdr.de>; Tue,  7 May 2024 12:58:11 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C9538BE17D
+	for <lists+linux-api@lfdr.de>; Tue,  7 May 2024 13:58:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E22001F2825C
-	for <lists+linux-api@lfdr.de>; Tue,  7 May 2024 10:58:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6DE6A1C21F3D
+	for <lists+linux-api@lfdr.de>; Tue,  7 May 2024 11:58:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1565A156F39;
-	Tue,  7 May 2024 10:55:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53EA2156864;
+	Tue,  7 May 2024 11:58:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hXgJTo8F"
+	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="pww/xPVw"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DACB614EC4D;
-	Tue,  7 May 2024 10:55:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77667156C72;
+	Tue,  7 May 2024 11:58:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715079311; cv=none; b=LEWrJFxryrFgoBk5uuz9u9kYZ2UP2Hrtarq41rBBB2w8Sr8uQ5FZVqwj5/YEuxnZKtDADH3sKgQFEvXiVpELU/ESKwrsfYXSYnC/3UbgVTVVNmUBE+tl6j35ToiVUyFXwuOTw4zlbYhCS+volqSv3MMjgsHrrGo48iF3P/3SJV8=
+	t=1715083125; cv=none; b=e86sAzGQk69FdLDKHtGD3fh0wD9JwzAjSDs3qrPKIyTML5JydtFspR5LaxXm+cF2xrxdRjQTaiOH4N3r3ZGm01Vgs0epQ25dpGPHXjJuHGZla721MTq5mu9V4UAtPdWE+Vj/GccafWuYsXlmXsi8EzcmdeUDFnfwlqFO0A3EzwI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715079311; c=relaxed/simple;
-	bh=YOJAMtCe8DK1ux8SakApe84VXlSr5Oi60Hn13JG7aeE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=T9Y/3K7NCPy39adYdVnaXRj+YNfLv2iGfwqLXxRHCfDkRTcuyC9xwYoffLiAZ3cPjmiKvkmTQ/JI81wkcAQXTy/H7kkagcV9di6W+oO8QAN+zhm6dl9SQeacjfKmFN8HESzBc7dIh5LVP7/FE+MnhEiem1UdGbYNK/4oatGSTc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hXgJTo8F; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 591AFC2BBFC;
-	Tue,  7 May 2024 10:55:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715079310;
-	bh=YOJAMtCe8DK1ux8SakApe84VXlSr5Oi60Hn13JG7aeE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=hXgJTo8FdTyeyQiASmgfgUOm4EvxnCORiGM3pHBT6jFPxPh4c+niH0HnaiEWp/GX0
-	 COlf5kA99GDqMrGwcLIAaKkvH1uV83qJXgnGCgbt71t4+0yuW8s6tVVONfHoyFsegP
-	 7b2Zgx2YdZ44jAR3CEdeXmv4NYClE7EwBRENHZ38gGNWfx9HZvxqz9FsIxEXS1blmr
-	 lq8/c59Zr7V7wTNhBVux/kUpX0oWOP9rR3NeikvGVyWkaULiYzyC4nj8r0CgW5b+Mq
-	 hbh2XuVnqwxR5UwwD8jlAdq2ExY8fZT//hBNjUYt4zGNAAScXcVemskf4Ic+WMdVv2
-	 By8lQWXPsEWEA==
-From: Jiri Olsa <jolsa@kernel.org>
-To: Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>
-Cc: linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org,
-	linux-man@vger.kernel.org,
-	x86@kernel.org,
-	bpf@vger.kernel.org,
-	Song Liu <songliubraving@fb.com>,
-	Yonghong Song <yhs@fb.com>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	"Borislav Petkov (AMD)" <bp@alien8.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	"Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
-	Deepak Gupta <debug@rivosinc.com>
-Subject: [PATCHv5 8/8] man2: Add uretprobe syscall page
-Date: Tue,  7 May 2024 12:53:21 +0200
-Message-ID: <20240507105321.71524-9-jolsa@kernel.org>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240507105321.71524-1-jolsa@kernel.org>
-References: <20240507105321.71524-1-jolsa@kernel.org>
+	s=arc-20240116; t=1715083125; c=relaxed/simple;
+	bh=1JLVOeG+T1ele47nAYsMj1m+TdlREm1qkH259oH7ICA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=l/7zMV7Ji6GxXV6xxBx4SwZYkUI/QRpe2sEXBG4eoJoaMW6mu0h4wq+qgloYUgTp3i2RZuVfTW5tlrWCjsL8mksrd2TX+KiftgfbLTVC3FySoKCj+vJ203rhPh4bHRVBqfuupIafxU389Ee79yZqfF47sbiNCoulYYO+OAuzFHI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=pww/xPVw; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4VYcHg1Rhbz9t20;
+	Tue,  7 May 2024 13:58:39 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
+	t=1715083119;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1JLVOeG+T1ele47nAYsMj1m+TdlREm1qkH259oH7ICA=;
+	b=pww/xPVwzAxKY9c+J6AjFCTmE1QyYGSxoX3yWPBl9TzdYgW3yAWivr9neoQpGqjdgdSktC
+	tGOUZdOlran81AEROkYnm+0HXcIi02eEit1thF1eBBQEjNf5+aP9cvldlD3UeNFGOwkjoq
+	WR9CypPZy+0c0+q4wAvysE+Rtyuh32NYsnFv/TyW24tokAtHMLE8Nxt287rmgzUlKv4Dig
+	x8uX7c0MWkWd6KJ9g8wZOK8GL+LAMAWziJqxzIP7pZSFQwF3ltkwHYEi8ZJm1r1fpv/+s+
+	3a7hZ5EwApGMvcVfBB/ZrIzwtNppqHGCzMAtGKcwvL80z+KjTQD2XZm+Fh5m5g==
+Date: Tue, 7 May 2024 21:58:20 +1000
+From: Aleksa Sarai <cyphar@cyphar.com>
+To: stsp <stsp2@yandex.ru>
+Cc: linux-kernel@vger.kernel.org, Stefan Metzmacher <metze@samba.org>, 
+	Eric Biederman <ebiederm@xmission.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Andy Lutomirski <luto@kernel.org>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Jeff Layton <jlayton@kernel.org>, Chuck Lever <chuck.lever@oracle.com>, 
+	Alexander Aring <alex.aring@gmail.com>, David Laight <David.Laight@aculab.com>, 
+	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>, 
+	Christian =?utf-8?B?R8O2dHRzY2hl?= <cgzones@googlemail.com>
+Subject: Re: [PATCH v6 0/3] implement OA2_CRED_INHERIT flag for openat2()
+Message-ID: <20240507.110127-muggy.duff.trained.hobby-u9ZNUZ9CW5k@cyphar.com>
+References: <20240427112451.1609471-1-stsp2@yandex.ru>
+ <20240506.071502-teak.lily.alpine.girls-aiKJgErDohK@cyphar.com>
+ <5b5cc31f-a5be-4f64-a97b-7708466ace82@yandex.ru>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="paylazfw3lu3brm2"
+Content-Disposition: inline
+In-Reply-To: <5b5cc31f-a5be-4f64-a97b-7708466ace82@yandex.ru>
 
-Adding man page for new uretprobe syscall.
 
-Signed-off-by: Jiri Olsa <jolsa@kernel.org>
----
- man2/uretprobe.2 | 50 ++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 50 insertions(+)
- create mode 100644 man2/uretprobe.2
+--paylazfw3lu3brm2
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/man2/uretprobe.2 b/man2/uretprobe.2
-new file mode 100644
-index 000000000000..690fe3b1a44f
---- /dev/null
-+++ b/man2/uretprobe.2
-@@ -0,0 +1,50 @@
-+.\" Copyright (C) 2024, Jiri Olsa <jolsa@kernel.org>
-+.\"
-+.\" SPDX-License-Identifier: Linux-man-pages-copyleft
-+.\"
-+.TH uretprobe 2 (date) "Linux man-pages (unreleased)"
-+.SH NAME
-+uretprobe \- execute pending return uprobes
-+.SH SYNOPSIS
-+.nf
-+.B int uretprobe(void)
-+.fi
-+.SH DESCRIPTION
-+The
-+.BR uretprobe ()
-+syscall is an alternative to breakpoint instructions for
-+triggering return uprobe consumers.
-+.P
-+Calls to
-+.BR uretprobe ()
-+suscall are only made from the user-space trampoline provided by the kernel.
-+Calls from any other place result in a
-+.BR SIGILL .
-+
-+.SH RETURN VALUE
-+The
-+.BR uretprobe ()
-+syscall return value is architecture-specific.
-+
-+.SH VERSIONS
-+This syscall is not specified in POSIX,
-+and details of its behavior vary across systems.
-+.SH STANDARDS
-+None.
-+.SH HISTORY
-+TBD
-+.SH NOTES
-+The
-+.BR uretprobe ()
-+syscall was initially introduced for the x86_64 architecture where it was shown
-+to be faster than breakpoint traps. It might be extended to other architectures.
-+.P
-+The
-+.BR uretprobe ()
-+syscall exists only to allow the invocation of return uprobe consumers.
-+It should
-+.B never
-+be called directly.
-+Details of the arguments (if any) passed to
-+.BR uretprobe ()
-+and the return value are architecture-specific.
--- 
-2.44.0
+On 2024-05-07, stsp <stsp2@yandex.ru> wrote:
+> 07.05.2024 10:50, Aleksa Sarai =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > If you are a privileged process which plans to change users,
+>=20
+> Not privileged at all. But I think what you say is still possible with
+> userns?
 
+It is possible to configure MOUNT_ATTR_IDMAP in a user namespace but
+there are some restrictions that I suspect will make this complicated.
+If you try to do something with a regular filesystem you'll probably run
+into issues because you won't have CAP_SYS_ADMIN in the super block's
+userns. But you could probably do it with tmpfs.
+
+> > A new attack I just thought of while writing this mail is that because
+> > there is no RESOLVE_NO_XDEV requirement, it should be possible for the
+> > process to get an arbitrary write primitive by creating a new
+> > userns+mountns and then bind-mounting / underneath the directory.
+> Doesn't this need a write perm to a
+> directory? In his case this is not a threat,
+> because you are not supposed to have a
+> write perm to that dir. OA2_CRED_INHERIT
+> is the only way to write.
+
+No, bind-mounts don't require write permission. As long as you can
+resolve the target path you can bind-mount on top of it, so if there's a
+subdirectory you can bind-mount / underneath (and if there is only a
+file you can bind-mount any file you want to access/overwrite instead).
+
+There are restrictions on mounting through /proc/self/fd/... but they
+don't apply here (all files opened by a process doing setns/unshare have
+their vfsmounts updated to be from the new mount namespace, meaning you
+can do mounts through them with /proc/self/fd/... without issue.)
+
+--=20
+Aleksa Sarai
+Senior Software Engineer (Containers)
+SUSE Linux GmbH
+<https://www.cyphar.com/>
+
+--paylazfw3lu3brm2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCZjoXXAAKCRAol/rSt+lE
+bwBpAQDJLvNL6vyCxjxPYD9pP16jEV0rj3t7mnaAuDs1gq4CYwEAgA8SmbRKKmKq
+NYHAIR8GuMIKwyGzCC1o6VMeQ5reHgc=
+=o7No
+-----END PGP SIGNATURE-----
+
+--paylazfw3lu3brm2--
 
