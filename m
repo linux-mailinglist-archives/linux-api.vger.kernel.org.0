@@ -1,143 +1,92 @@
-Return-Path: <linux-api+bounces-1484-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1485-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 318208BDCB7
-	for <lists+linux-api@lfdr.de>; Tue,  7 May 2024 09:51:27 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D97028BDDB2
+	for <lists+linux-api@lfdr.de>; Tue,  7 May 2024 11:03:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 972A71F23868
-	for <lists+linux-api@lfdr.de>; Tue,  7 May 2024 07:51:26 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 166A71C23432
+	for <lists+linux-api@lfdr.de>; Tue,  7 May 2024 09:03:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44F7813C3EE;
-	Tue,  7 May 2024 07:51:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44C0E14D6FB;
+	Tue,  7 May 2024 09:02:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="dCkyrJBG"
+	dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b="URRyXl5p"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from forward501c.mail.yandex.net (forward501c.mail.yandex.net [178.154.239.209])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D57F078274;
-	Tue,  7 May 2024 07:51:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16A9E14D6EE;
+	Tue,  7 May 2024 09:02:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.209
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715068282; cv=none; b=mo4qSMbCY2q2lLs/SzkmW7vfa2xjFfd6IqBMIa2JRjP0PNju2LKgTdVTwb5mX3ASmWw/Eg3bNWcSffxgVGl/0aUgmB2bwCb6ORA7uey70ubgGve0npIYPnbi3DIGm5SBZI23st8MAcnnouh6M2wkm4LBgIX16viQnX2pZ+yE2fc=
+	t=1715072546; cv=none; b=TWAXUz8zqNAhZHgp95M8kxHabFFCbZgjsVKDYFKleYwShkRpvyVPLkdzqgwht05FavkT57C8ReOBJsbkmY7MpUT2rpR9795iCmaoT2jbV5PYWTy32JSGXRYVEooE1puRGHeU4fcEfQ4D2ylEB9SkeI34zmlKsz7AFYyPd++NEJM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715068282; c=relaxed/simple;
-	bh=Yt1ERYjJEdTGYm8TRtzABKvuMdbrTzwn9Sc8/9cixag=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IvESmCZTO1G/FG6foVNfWGZsZNE8einqZMxrYx2RWEgBYOq085KteR1+q6k9nQWZZKZJHw1lGM1ioPKTKz63MbejxJZosmZDm6LK6XSnVkJ7/3ojVt/dgpsh8UqQEr5VHOiYLYZny3thR02QVJaa4ba6B2c2X6OxsF3qU+VvscE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=dCkyrJBG; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4VYVpB3Qxsz9sls;
-	Tue,  7 May 2024 09:51:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
-	t=1715068274;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Yt1ERYjJEdTGYm8TRtzABKvuMdbrTzwn9Sc8/9cixag=;
-	b=dCkyrJBG5z7WLTGoSi3Di7SZ1dymYcoHun/rKWymCVjq6wOgRGVO65Y12Xt1MWmNUsWezI
-	vV424TbvVZnEV6NCJoGw8WpQTDzyR2gzcIqFjQgiF02bZRQITTXUZiJdWtnttUXuBllZEa
-	UdEWR8Z1jhyjoS9s4BRi49T62IoRQelINWy9jUrMK27lchoPA1wNlXKVPrKdIPwnnbhbXq
-	qXVFeA7Cfozrt36mPhtTahiuEVHo8T2+OLR7uZaYwt/Hqa4/hHhu0X0dTAteABkpx/dPPT
-	bNkw1/ynZ+viD6psUfEgo+W3iz/A/U7bQENQbEUC4ubVUYTFOqgLPxe8Dk+QDA==
-Date: Tue, 7 May 2024 17:50:58 +1000
-From: Aleksa Sarai <cyphar@cyphar.com>
-To: Stas Sergeev <stsp2@yandex.ru>
-Cc: linux-kernel@vger.kernel.org, Stefan Metzmacher <metze@samba.org>, 
-	Eric Biederman <ebiederm@xmission.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Andy Lutomirski <luto@kernel.org>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Jeff Layton <jlayton@kernel.org>, Chuck Lever <chuck.lever@oracle.com>, 
-	Alexander Aring <alex.aring@gmail.com>, David Laight <David.Laight@aculab.com>, 
-	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>, 
-	Christian =?utf-8?B?R8O2dHRzY2hl?= <cgzones@googlemail.com>
-Subject: Re: [PATCH v6 0/3] implement OA2_CRED_INHERIT flag for openat2()
-Message-ID: <20240506.071502-teak.lily.alpine.girls-aiKJgErDohK@cyphar.com>
-References: <20240427112451.1609471-1-stsp2@yandex.ru>
+	s=arc-20240116; t=1715072546; c=relaxed/simple;
+	bh=6uh8ifxHE5uS7W3QOLk171FF199PCmZvPR8VQGKwOU4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HgnI+o7nQfDE1WHgbLX3EoAtBu7vLtStwjew/sjFLVVFzUKHkt0KMkrmqxzZM8mCdMYT5S25hmU5ts/NVN/ZFjlc47fc49vzWiytdChCh7hE/rPrYRe50rQrrH7IPH6H0A5sFdAgMbiQ9NHJJnI7GWigpBeMwXuMWYJWU7doeMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru; spf=pass smtp.mailfrom=yandex.ru; dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b=URRyXl5p; arc=none smtp.client-ip=178.154.239.209
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex.ru
+Received: from mail-nwsmtp-smtp-production-main-45.myt.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-45.myt.yp-c.yandex.net [IPv6:2a02:6b8:c12:4a21:0:640:2a87:0])
+	by forward501c.mail.yandex.net (Yandex) with ESMTPS id 5043C60AEF;
+	Tue,  7 May 2024 12:02:13 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-45.myt.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id A2UoZZEXmiE0-lvz16yjz;
+	Tue, 07 May 2024 12:02:11 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
+	t=1715072532; bh=6uh8ifxHE5uS7W3QOLk171FF199PCmZvPR8VQGKwOU4=;
+	h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+	b=URRyXl5p7TM+JG7sJGaDL948M/XhkeO3pZaPL1fgL8Bjms4MwfqOR33DW3NL9b/Jp
+	 e2vlVjEPAZr4maOPUGUd+3ZvUIX8cJnmKCvHcJg/AjkBn1gKHfkA6pxOgfJCP3zesw
+	 xiFfOVxdUlgsNzfjNv8lr3SbJkq0+lYJg1x/DmeQ=
+Authentication-Results: mail-nwsmtp-smtp-production-main-45.myt.yp-c.yandex.net; dkim=pass header.i=@yandex.ru
+Message-ID: <5b5cc31f-a5be-4f64-a97b-7708466ace82@yandex.ru>
+Date: Tue, 7 May 2024 12:02:10 +0300
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="lyexfaaq2zqn7bci"
-Content-Disposition: inline
-In-Reply-To: <20240427112451.1609471-1-stsp2@yandex.ru>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 0/3] implement OA2_CRED_INHERIT flag for openat2()
+Content-Language: en-US
+To: Aleksa Sarai <cyphar@cyphar.com>
+Cc: linux-kernel@vger.kernel.org, Stefan Metzmacher <metze@samba.org>,
+ Eric Biederman <ebiederm@xmission.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, Andy Lutomirski <luto@kernel.org>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Jeff Layton <jlayton@kernel.org>, Chuck Lever <chuck.lever@oracle.com>,
+ Alexander Aring <alex.aring@gmail.com>,
+ David Laight <David.Laight@aculab.com>, linux-fsdevel@vger.kernel.org,
+ linux-api@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Christian_G=C3=B6ttsche?= <cgzones@googlemail.com>
+References: <20240427112451.1609471-1-stsp2@yandex.ru>
+ <20240506.071502-teak.lily.alpine.girls-aiKJgErDohK@cyphar.com>
+From: stsp <stsp2@yandex.ru>
+In-Reply-To: <20240506.071502-teak.lily.alpine.girls-aiKJgErDohK@cyphar.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+
+07.05.2024 10:50, Aleksa Sarai пишет:
+> If you are a privileged process which plans to change users,
+
+Not privileged at all.
+But I think what you say is still possible
+with userns?
 
 
---lyexfaaq2zqn7bci
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On 2024-04-27, Stas Sergeev <stsp2@yandex.ru> wrote:
-> This patch-set implements the OA2_CRED_INHERIT flag for openat2() syscall.
-> It is needed to perform an open operation with the creds that were in
-> effect when the dir_fd was opened, if the dir was opened with O_CRED_ALLOW
-> flag. This allows the process to pre-open some dirs and switch eUID
-> (and other UIDs/GIDs) to the less-privileged user, while still retaining
-> the possibility to open/create files within the pre-opened directory set.
->=20
-> The sand-boxing is security-oriented: symlinks leading outside of a
-> sand-box are rejected. /proc magic links are rejected. fds opened with
-> O_CRED_ALLOW are always closed on exec() and cannot be passed via unix
-> socket.
-> The more detailed description (including security considerations)
-> is available in the log messages of individual patches.
-
-(I meant to reply last week but I couldn't get my mail server to send
-mail...)
-
-It seems to me that this can already be implemented using
-MOUNT_ATTR_IDMAP, without creating a new form of credential overriding
-within the filesystem (and with such a deceptively simple
-implementation...)
-
-If you are a privileged process which plans to change users, you can
-create a detached tree with a user mapping that gives that user access
-to only that tree. This is far more effective at restricting possible
-attacks because id-mapped mounts don't override credentials during VFS
-operations (meaning that if you miss something, you have a big problem),
-instead they only affect uid-related operations within the filesystem
-for that mount. Since this implementation does no inherit
-CAP_DAC_OVERRIDE, being able to rewrite uid/gids is all you need.
-
-A new attack I just thought of while writing this mail is that because
-there is no RESOLVE_NO_XDEV requirement, it should be possible for the
-process to get an arbitrary write primitive by creating a new
-userns+mountns and then bind-mounting / underneath the directory. Since
-O_CRED_INHERIT uses override_creds, it doesn't care about whether
-something about the O_CRED_ALLOW directory changed afterwards. Yes, you
-can "just fix this" by adding a RESOLVE_NO_XDEV requirement too, but
-given that there have been 2-3 security issues with this design found
-already, it makes me feel really uneasy. Using id-mapped mounts avoids
-this issue because the new mount will not have the id-mapping applied
-and thus there is no security issue.
-
---=20
-Aleksa Sarai
-Senior Software Engineer (Containers)
-SUSE Linux GmbH
-<https://www.cyphar.com/>
-
---lyexfaaq2zqn7bci
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCZjndYQAKCRAol/rSt+lE
-b2oOAQCmKy2OE9MgmZTVxlKN+/Sdcj0IpZ+qML12Z2Jmhr8r6QD+JguvCHBD2QUw
-5QTi+WIy7+VPoIpn+aXJKiYsm0xm4AU=
-=VQBl
------END PGP SIGNATURE-----
-
---lyexfaaq2zqn7bci--
+> A new attack I just thought of while writing this mail is that because
+> there is no RESOLVE_NO_XDEV requirement, it should be possible for the
+> process to get an arbitrary write primitive by creating a new
+> userns+mountns and then bind-mounting / underneath the directory.
+Doesn't this need a write perm to a
+directory? In his case this is not a threat,
+because you are not supposed to have a
+write perm to that dir. OA2_CRED_INHERIT
+is the only way to write.
 
