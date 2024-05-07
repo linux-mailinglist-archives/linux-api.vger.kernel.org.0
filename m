@@ -1,63 +1,98 @@
-Return-Path: <linux-api+bounces-1482-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1483-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1D3A8BDC8F
-	for <lists+linux-api@lfdr.de>; Tue,  7 May 2024 09:42:54 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 398548BDCA7
+	for <lists+linux-api@lfdr.de>; Tue,  7 May 2024 09:47:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6D8AA28222A
-	for <lists+linux-api@lfdr.de>; Tue,  7 May 2024 07:42:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5C3761C2084C
+	for <lists+linux-api@lfdr.de>; Tue,  7 May 2024 07:47:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0A0813C3D4;
-	Tue,  7 May 2024 07:42:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33EAF13C667;
+	Tue,  7 May 2024 07:47:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kwcYuXFS"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y6yLdX/O"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C4AE13BAE9;
-	Tue,  7 May 2024 07:42:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72BC813C3E2;
+	Tue,  7 May 2024 07:47:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715067769; cv=none; b=VQM3/uMnEcN1k8bymCBresYpX7slGKLr2JZmrM5xouRLDt8TgpiGBn601UIm2u1ZmMubUwEh5AEyFdC7j2uj1eLT1yhviv9JCIdL/MpAAqZR5jknhcqsGVJ8zRw+jZimd4CxIS3kQew1SpR35mMwBm++Fnb3LL0R4Sa9u10psM8=
+	t=1715068027; cv=none; b=eClr/XTeKsN+2a1cItAq3oLDO2kLP/hxUgjmR6tZzBQ5NXWcnfRQ8Yq5N5hw9Nit1m6lUJ46y54uwCCFkJXBoXxlsQvR2NgL5dRY0cvyKuFPKUPc+LXve+EzyA28NTz0FP/HqXEyNWxUH6+ieQivky6DOMX3zJdT38LD/0nTHso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715067769; c=relaxed/simple;
-	bh=mi3mXWnBFgpXPxlG257vqa4x77kAtsjGzS+btNQZe28=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kaaRfdyJBfddeHBhyeLXAsLWI7N+bI/JJHXzdftJ1kA3LfiRiES1CJQIOdX+UCCNDClsL/bGFYyJWMYYgPHKidWQViUKTXS6rnIdnT43ezOeG0inc1VJo4WdmYjyR58ktrbHoda5LjrpV7aA8IQPhhTIN0FYunIow5FwttEcQuk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kwcYuXFS; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEF88C2BBFC;
-	Tue,  7 May 2024 07:42:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715067769;
-	bh=mi3mXWnBFgpXPxlG257vqa4x77kAtsjGzS+btNQZe28=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kwcYuXFS1rY4n6mNBVtmRT1XBNZmpqVk6pq/YRV3g3QbnOM+waK0fNUpKwhFMp+Z2
-	 PYG9wZGheNahTisSY1g61QlJCRDIleNcVsmFhZzM11mmByNjORLiboHISsjU6ZIivQ
-	 8bLkMNw/q9BwtsjCZS7Ye46qhfjzlevAaGhSpDcrJAQhhb4NkT/fngVYcK0esR3D9o
-	 2e/x9FDCPhfzSDwOZusWXq9OBjyvQY3ssjrRF7J5LNMUxC/ypcgPva6uqn203wMT3j
-	 09kyzgrYaM9smHVBcWqiraGg6H9L147uFKvtwqicegDRWd5W0svdf3JajjdVUncd5R
-	 1P8x8QqJ934PA==
-Date: Tue, 7 May 2024 09:42:42 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Andy Lutomirski <luto@amacapital.net>
-Cc: Aleksa Sarai <cyphar@cyphar.com>, Stas Sergeev <stsp2@yandex.ru>, 
-	"Serge E. Hallyn" <serge@hallyn.com>, linux-kernel@vger.kernel.org, 
-	Stefan Metzmacher <metze@samba.org>, Eric Biederman <ebiederm@xmission.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Andy Lutomirski <luto@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Jeff Layton <jlayton@kernel.org>, Chuck Lever <chuck.lever@oracle.com>, 
-	Alexander Aring <alex.aring@gmail.com>, David Laight <David.Laight@aculab.com>, 
-	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>, 
-	Christian =?utf-8?B?R8O2dHRzY2hl?= <cgzones@googlemail.com>
-Subject: Re: [PATCH v5 0/3] implement OA2_CRED_INHERIT flag for openat2()
-Message-ID: <20240507-verpennen-defekt-b6f2c9a46916@brauner>
-References: <20240426133310.1159976-1-stsp2@yandex.ru>
- <CALCETrUL3zXAX94CpcQYwj1omwO+=-1Li+J7Bw2kpAw4d7nsyw@mail.gmail.com>
- <20240428.171236-tangy.giblet.idle.helpline-y9LqufL7EAAV@cyphar.com>
- <CALCETrU2VwCF-o7E5sc8FN_LBs3Q-vNMBf7N4rm0PAWFRo5QWw@mail.gmail.com>
+	s=arc-20240116; t=1715068027; c=relaxed/simple;
+	bh=yf4Yg/+Zl+Y89cEZ893/e5GdcQqcjBTYy7kKVYel4w4=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=shqJJTF5Bo6YWQfd5pZAX10weFsjh38AHaBznaAqetpcljhzhXeRK9KN+Jxl2uJxPhGzVcqCgnPu9SFc0SJBmq8iJJFhCkXrm3V779gSniW3wztWiQgPv8ve5mllVaI4JHdAwoW1qtHsOmDgigHvdJ7yWie/lQ1yc+BeCHcm5fY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y6yLdX/O; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-41b79451128so18982705e9.0;
+        Tue, 07 May 2024 00:47:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1715068024; x=1715672824; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=7W8Lgnc2QmcYuA3PD75NwVh4l9qkIidlX6ZKt/45er0=;
+        b=Y6yLdX/Ozo/hVRqaKh/PCZRZcGCetgUSnoJzo8zsSBACd0DgjeOv1g0jqkXFHzR1ZN
+         RGoRaluxoVDznDc2kJls718pQ/G7wE/3qtKlFsSwNm+MWIf113MSyWrZ1TuzPYmrMk6V
+         RQyZdMJVWp7zAInSB9bmWBFN1zSOICKhaGQ6Vxa4JdbR0OXqqw2LNxrvfBBoAxT1ds+1
+         IE16cZdJGdJBzzWaD0r0m19UhuI4ivpKlyX7441QhgsMAYl3l3ldfhIdibh/YWkPmnWZ
+         JUbr8e3ZNRfpnRACL/NYwyoZPMtcpsXzbZtByG8wgP6nkelZaL3IlGph7m0plXMQegS2
+         Xg3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715068024; x=1715672824;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7W8Lgnc2QmcYuA3PD75NwVh4l9qkIidlX6ZKt/45er0=;
+        b=kbgEnkYdRoCKT2M0C6XUFH+jflhtz3+H/ExeFAI67yw/hjFkVtjMC+GBeqXAjAh/xx
+         I73zdh9Jq8yg8gKE8qHVlDT3GVywNyvd7WtdKIdPln15WAveqYXBl2KH9GvplKIEh9kW
+         jhGAcyDmrKCLs/2MH3cdMyLYCrbYsPKGJ+ViLX9g+esgNzwaRChQSPOmZ/MLn8LRbzZ6
+         e1nH/ne1spAKZTYOMjhVDIcIRLYmrmLc2motmH3eFuY2dztgm9tyKuRQBmctsq/+WSh6
+         Vko/x+XvexDiJV1lLveoNHW5qju33l7bV3JTWImzPguwzoUi0qUWQe3lpEXGIgz7tl6h
+         K++Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWkDZu4wHlzSQq5ihGA9HqMgqCX8KvQWkqs20+q6GF36YcRvIG8TCJn6/CJ6HX7K7zxdB9Oj6XhuQa+v7j7N3ARW7icN33BKRGy/bz1TlnXxfX2e5hoFGGWc0OdED9gVQ/xC48qgRFCZVcNrzShfT+mFLeBL5cztaYMKJFkDhXVTA7P4UiA3PMfTV5PVQWzja/YajnupEBqKryWqgKE5eFXUFYUiB+sJlim8AalE1krg1M8tDBFSoql7ZLt
+X-Gm-Message-State: AOJu0YyOOApIaISHBr3cvka2BuRa+4jqdBUIElO8UgIsw549Rh9Q+XSQ
+	oFWaqBpHN6JYGiUdj2ybKQ1bKceNQuHS+z/UMM5XFz8z/F4Yeqqu
+X-Google-Smtp-Source: AGHT+IGsz8f0uMjryXajrRZUilHY9JjH8CEEtXxBaBPMnzG03cteHqU06c9qmaP7T8e5hgNlLiPcnw==
+X-Received: by 2002:a05:600c:3c93:b0:419:f2a0:138e with SMTP id bg19-20020a05600c3c9300b00419f2a0138emr9382664wmb.34.1715068023534;
+        Tue, 07 May 2024 00:47:03 -0700 (PDT)
+Received: from krava (2001-1ae9-1c2-4c00-726e-c10f-8833-ff22.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:726e:c10f:8833:ff22])
+        by smtp.gmail.com with ESMTPSA id g7-20020a05600c4ec700b0041902ebc87esm18626956wmq.35.2024.05.07.00.47.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 May 2024 00:47:03 -0700 (PDT)
+From: Jiri Olsa <olsajiri@gmail.com>
+X-Google-Original-From: Jiri Olsa <jolsa@kernel.org>
+Date: Tue, 7 May 2024 09:47:00 +0200
+To: Jiri Olsa <olsajiri@gmail.com>
+Cc: Andrii Nakryiko <andrii.nakryiko@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+	linux-man@vger.kernel.org, x86@kernel.org, bpf@vger.kernel.org,
+	Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	"Borislav Petkov (AMD)" <bp@alien8.de>,
+	Ingo Molnar <mingo@redhat.com>, Andy Lutomirski <luto@kernel.org>
+Subject: Re: [PATCHv4 bpf-next 0/7] uprobe: uretprobe speed up
+Message-ID: <ZjncdFBtsZnABvva@krava>
+References: <20240502122313.1579719-1-jolsa@kernel.org>
+ <CAEf4BzYxsRMx9M_AiLavTHFpndSmZqOM8QcYhDTbBviSpv1r+A@mail.gmail.com>
+ <ZjPx0fncg-8brFBk@krava>
+ <CAEf4Bzb-dM+464JvW96KuxwOTfRQA1pxZRWM+pA7AfSWtWwqZw@mail.gmail.com>
+ <ZjVLedyQFBoHh-T_@krava>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -66,72 +101,72 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CALCETrU2VwCF-o7E5sc8FN_LBs3Q-vNMBf7N4rm0PAWFRo5QWw@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZjVLedyQFBoHh-T_@krava>
 
-> With my kernel hat on, maybe I agree.  But with my *user* hat on, I
-> think I pretty strongly disagree.  Look, idmapis lousy for
-> unprivileged use:
+On Fri, May 03, 2024 at 10:39:21PM +0200, Jiri Olsa wrote:
+> On Fri, May 03, 2024 at 11:03:24AM -0700, Andrii Nakryiko wrote:
+> > On Thu, May 2, 2024 at 1:04 PM Jiri Olsa <olsajiri@gmail.com> wrote:
+> > >
+> > > On Thu, May 02, 2024 at 09:43:02AM -0700, Andrii Nakryiko wrote:
+> > > > On Thu, May 2, 2024 at 5:23 AM Jiri Olsa <jolsa@kernel.org> wrote:
+> > > > >
+> > > > > hi,
+> > > > > as part of the effort on speeding up the uprobes [0] coming with
+> > > > > return uprobe optimization by using syscall instead of the trap
+> > > > > on the uretprobe trampoline.
+> > > > >
+> > > > > The speed up depends on instruction type that uprobe is installed
+> > > > > and depends on specific HW type, please check patch 1 for details.
+> > > > >
+> > > > > Patches 1-6 are based on bpf-next/master, but path 1 and 2 are
+> > > > > apply-able on linux-trace.git tree probes/for-next branch.
+> > > > > Patch 7 is based on man-pages master.
+> > > > >
+> > > > > v4 changes:
+> > > > >   - added acks [Oleg,Andrii,Masami]
+> > > > >   - reworded the man page and adding more info to NOTE section [Masami]
+> > > > >   - rewrote bpf tests not to use trace_pipe [Andrii]
+> > > > >   - cc-ed linux-man list
+> > > > >
+> > > > > Also available at:
+> > > > >   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git
+> > > > >   uretprobe_syscall
+> > > > >
+> > > >
+> > > > It looks great to me, thanks! Unfortunately BPF CI build is broken,
+> > > > probably due to some of the Makefile additions, please investigate and
+> > > > fix (or we'll need to fix something on BPF CI side), but it looks like
+> > > > you'll need another revision, unfortunately.
+> > > >
+> > > > pw-bot: cr
+> > > >
+> > > >   [0] https://github.com/kernel-patches/bpf/actions/runs/8923849088/job/24509002194
+> > >
+> > > yes, I think it's missing the 32-bit libc for uprobe_compat binary,
+> > > probably it needs to be added to github.com:libbpf/ci.git setup-build-env/action.yml ?
+> > > hm but I'm not sure how to test it, need to check
+> > 
+> > You can create a custom PR directly against Github repo
+> > (kernel-patches/bpf) and BPF CI will run all the tests on your custom
+> > code. This way you can iterate without spamming the mailing list.
 > 
-> $ install -m 0700 -d test_directory
-> $ echo 'hi there' >test_directory/file
-> $ podman run -it --rm
-> --mount=type=bind,src=test_directory,dst=/tmp,idmap [debian-slim]
-
-$ podman run -it --rm --mount=type=bind,src=test_directory,dst=/tmp,idmap [debian-slim]
-
-as an unprivileged user doesn't use idmapped mounts at all. So I'm not
-sure what this is showing. I suppose you're talking about idmaps in
-general.
-
-> # cat /tmp/file
-> hi there
+> I'm running CI tests like that, but I think I need to change the action
+> which is in other repo (github.com:libbpf/ci.git)
 > 
-> <-- Hey, look, this kind of works!
+> > 
+> > But I'm just wondering if it's worth complicating setup just for
+> > testing this x32 compat mode. So maybe just dropping one of those
+> > patches would be better?
 > 
-> # setpriv --reuid=1 ls /tmp
-> ls: cannot open directory '/tmp': Permission denied
-> 
-> <-- Gee, thanks, Linux!
-> 
-> 
-> Obviously this is a made up example.  But it's quite analogous to a
-> real example.  Suppose I want to make a directory that will contain
-> some MySQL data.  I don't want to share this directory with anyone
-> else, so I set its mode to 0700.  Then I want to fire up an
-> unprivileged MySQL container, so I build or download it, and then I
-> run it and bind my directory to /var/lib/mysql and I run it.  I don't
-> need to think about UIDs or anything because it's 2024 and containers
-> just work.  Okay, I need to setenforce 0 because I'm on Fedora and
-> SELinux makes absolutely no sense in a container world, but I can live
-> with that.
-> 
-> Except that it doesn't work!  Because unless I want to manually futz
-> with the idmaps to get mysql to have access to the directory inside
-> the container, only *root* gets to get in.  But I bet that even
-> futzing with the idmap doesn't work, because software like mysql often
-> expects that root *and* a user can access data.  And some software
-> even does privilege separation and uses more than one UID.
+> well, we had compat process crashing on uretprobe because of this change,
+> so I rather keep the test.. or it can go in later on when the CI stuff is
+> figured out.. I got busy with the shadow stack issue today, will check on
+> the CI PR next week
 
-If the directory is 700 and it's owned by say root:root on the host and
-you want to share that with arbitrary container users then this isn't
-something you can do today (ignoring group permissions and ACLs for the
-sake of your argument) even on the host so that's not a limitation of
-userns or idmapped mounts. That means many to one mappings of uids/gids.
+ok, it's not as easy as just adding the package.. I don't want to delay
+this on my missing github skills, I'll skip the test in next version and
+submit it separately when the github ci is ready for that
 
-> So I want a way to give *an entire container* access to a directory.
-> Classic UNIX DAC is just *wrong* for this use case.  Maybe idmaps
-> could learn a way to squash multiple ids down to one.  Or maybe
-
-Many idmappings to one is in principle possible and I've noted that idea
-down as a possible extension at
-https://github.com/uapi-group/kernel-features quite a while (2 years?) ago.
-
-> I haven't looked at the idmap implementation nearly enough to have any
-> opinion as to whether squashing UID is practical or whether there's
-
-It's doable. The interesting bit to me was that if we want to allow
-writes we'd need a way to determine what the uid/gid would be to write
-down. Imho, that's not super difficult to solve though. The most obvious
-one is that userspace can just determine it when creating the idmapped
-mount.
+jirka
 
