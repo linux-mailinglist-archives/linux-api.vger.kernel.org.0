@@ -1,123 +1,130 @@
-Return-Path: <linux-api+bounces-1496-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1497-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23B188BE298
-	for <lists+linux-api@lfdr.de>; Tue,  7 May 2024 14:56:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDA4A8BE9EB
+	for <lists+linux-api@lfdr.de>; Tue,  7 May 2024 18:57:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A6005283F44
-	for <lists+linux-api@lfdr.de>; Tue,  7 May 2024 12:55:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8823428C208
+	for <lists+linux-api@lfdr.de>; Tue,  7 May 2024 16:57:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41BE915B961;
-	Tue,  7 May 2024 12:55:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E02453E16;
+	Tue,  7 May 2024 16:57:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b="szMkz5XQ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZT8ZsJjc"
 X-Original-To: linux-api@vger.kernel.org
-Received: from forward500a.mail.yandex.net (forward500a.mail.yandex.net [178.154.239.80])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F28015B153;
-	Tue,  7 May 2024 12:55:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.80
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3805B43687;
+	Tue,  7 May 2024 16:57:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715086554; cv=none; b=lkyRw0wCtQjqgCMedezZ215X9JHBuZFdxwS9DdRtiN/iynYrJvxR/2zeO+EKyZtL+6ZQgKn8/Al4412tgHK0YNuEPBWhdBuDfgWiDTwx4BeeWCQ0B6V/in6YMe+PYwuxwumhd6FCKESr2eek33n/DIZLJRXu+fvMgcgV7r0M/ds=
+	t=1715101072; cv=none; b=dGjTdKM8w5XjVSJ/Huam0bqlqusJhMaYAAEKgHRsOnw5s4IaVXgyc0+WxrzTyxG/VjWtiAXQjRdLox0GLlG7wPVY/EKbyjB0btlP0Ayj5+pEv5Sy2u2+PpdH/JRTBkYyoTdNg58itxJoMmTIhrPpHS/zCXG5/7PuNfYhNWec7x0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715086554; c=relaxed/simple;
-	bh=7mLQ4noYOwaZz0uIOPLa+mJodEytp0OT+zTex7p1R9I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mR5WtHVhTbpXfW3Ql19fJiZYapBA4PEPF7fc6tO87EgnSocJx/b8bbkRI4Cru+zO/WfwfTxjfwK97rXml1iXGFjTunQPqmWhAsxthXr3jI+8AVzrqMzSz9zvRBShbUqMOsYomf+f+fPuSz1jXtC0ELRxduh8JBCl98Z1Mn7aPRM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru; spf=pass smtp.mailfrom=yandex.ru; dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b=szMkz5XQ; arc=none smtp.client-ip=178.154.239.80
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex.ru
-Received: from mail-nwsmtp-smtp-production-main-55.vla.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-55.vla.yp-c.yandex.net [IPv6:2a02:6b8:c0d:230c:0:640:f8e:0])
-	by forward500a.mail.yandex.net (Yandex) with ESMTPS id 3390E61277;
-	Tue,  7 May 2024 15:48:25 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-55.vla.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id MmXuqmAmDqM0-G4BR5X7Q;
-	Tue, 07 May 2024 15:48:24 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
-	t=1715086104; bh=zAPclAFMPPKUlH6qpuAnNZJMeX8QiDYjKI0Oitzf9Wg=;
-	h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
-	b=szMkz5XQXmyp2MPWrKjBmUyCNvF4aEiWBUHmeQuOvbJ+FrIwFO5zMOe5s9r3DFbuY
-	 y3OvHyeI6zCWBYm8xV4pmdhi/ldtf9ACwxzz9kUvbTK84BTzHgCL8jB+0xLQIhuhwa
-	 SIuvfx3CMflI8RM6yWMNn/teOn3X4MbK3GIdz2fk=
-Authentication-Results: mail-nwsmtp-smtp-production-main-55.vla.yp-c.yandex.net; dkim=pass header.i=@yandex.ru
-Message-ID: <7fcb3f51-468f-444d-9dd4-fa4028f018fc@yandex.ru>
-Date: Tue, 7 May 2024 15:48:22 +0300
+	s=arc-20240116; t=1715101072; c=relaxed/simple;
+	bh=FP0ElEzdfWrFJOFrGuCbCMsFbslobdXDgrTN9rgKL8o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pt7sLRFELJohEYrFQjbl70lS+DoSp11lLuwcNjCxwMnMf7XJJ2hjpwN8DQlO7yC4lvJ3rgQDumb9a0FvbyHcLPQja3HQFk7D9C7ApFZzrmM4hO8T7VsPUfwFY2oLrDrce8Zid4uSddH3IzM6w8wKTEBblAyseOBZqyxLOZwBMpM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZT8ZsJjc; arc=none smtp.client-ip=209.85.216.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-2b432be5cc9so2403268a91.3;
+        Tue, 07 May 2024 09:57:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1715101070; x=1715705870; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eE31Eu7TV3EXJzBcDGMth8eM0CNdcvipjciguAMPYxc=;
+        b=ZT8ZsJjcYWzhA8r32jk+kosx8TGMaIPyzOmX2wbw/0ezqCrO+v/WX3ldSqd385rpaD
+         LXMpU31bForGjTHelp3vddCG7+r0hiExvloDJ8jz48bnQVoC8dD216r9Cz7pQIzJkt29
+         FGVM7LbF45Ltd4d+I24RyAnMZ3IUPv7JCRse8yetjaBrkP/SpSUDPeDUpXc8cJ9dChov
+         L+O/QxdLwLXh7qMJtR30/Gv2xSaayD9fBDLhWK304dj2fiyOKWf7AM1l/gEKbZ3xM4uu
+         /bgaGsq/D4sm8mFEqZv3eCTAGPJtz1Q0F+O1lJ6dM1cRplT7wTgRuD0jvo0bbAF6lUd5
+         YlyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715101070; x=1715705870;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=eE31Eu7TV3EXJzBcDGMth8eM0CNdcvipjciguAMPYxc=;
+        b=deNAfdXU5sTp++f7xTQTFZ+K9A3mR2L7Y2+vO+NJUmpWxEAlpWGaZb/IsCXQBpmivL
+         6Be8/tV8z5x3K0iojq8vCv6fhtfTZt3P6UPJC5yWyhDUqr6fJZpM8GsDZzEn0BvxTBb0
+         wptGynj9EG3YKrs7WD/QrUW6NYotB3r+XoHFDLzI5RYKkHrfIIEcp/+VW4ehRcFuYvdX
+         7NjmuFnt9o4BN2eiINaTGThVDY2ICK+uaZUMdV5Gap5jtosrzcy1max/1bUeVtD0m+SP
+         m/ETctZEiIzn8HEiJyPwI/lR/2vkz2/NZOLMIjb862UdRUjkgavINQVLdbjzwWybaCRB
+         ZkxQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW0IPFV9MixY30R+0HGMxfw3Go2bOYnprYZKgQDMxH1XNh8eiLmRk+ppscCVqq0UqcTMhHDG9ZtQS+f6amyxkIfOvU6Vyq9mzojogCtX/tyobcmHoCayhYW4wgrVWwFrqEByChMFXtj2h4f0pDUHMXhV8XA7B29bh25ChGxOcFeMp9rlnVkh4kyNFJGN9ykJ9NTxIGH6DbJyU6HlVHu4YFB6AF25jHjHbLscBjizl2GWE2GXjdSZzVny7hZ
+X-Gm-Message-State: AOJu0YxxV7kmX37664ih2r7D1vjLgZNMzE81o3AFxdhk8L8ebE8PThn9
+	MV0rPWinFQ6rbRuyMlV3e+ZvJDFP8d4NvfZZG/8twR7vzn+ic/Vi1rZ5pNAkS07v2p+whaVM/7W
+	tXWGWjHbVcnjC22LjXukC/+TeeSk=
+X-Google-Smtp-Source: AGHT+IFCvOCTLmh+vR5MnBpK3/YRcqFHtkZuMt2ZICN4OeIQqhzuC5AVJClKepVlRCu/ozUA1GJbduUjtNqkOz5da18=
+X-Received: by 2002:a17:90a:cf14:b0:2b3:ed2:1a91 with SMTP id
+ 98e67ed59e1d1-2b616ae2ca0mr110952a91.45.1715101070491; Tue, 07 May 2024
+ 09:57:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 0/3] implement OA2_CRED_INHERIT flag for openat2()
-Content-Language: en-US
-To: Aleksa Sarai <cyphar@cyphar.com>
-Cc: linux-kernel@vger.kernel.org, Stefan Metzmacher <metze@samba.org>,
- Eric Biederman <ebiederm@xmission.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>, Andy Lutomirski <luto@kernel.org>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Jeff Layton <jlayton@kernel.org>, Chuck Lever <chuck.lever@oracle.com>,
- Alexander Aring <alex.aring@gmail.com>,
- David Laight <David.Laight@aculab.com>, linux-fsdevel@vger.kernel.org,
- linux-api@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Christian_G=C3=B6ttsche?= <cgzones@googlemail.com>
-References: <20240427112451.1609471-1-stsp2@yandex.ru>
- <20240506.071502-teak.lily.alpine.girls-aiKJgErDohK@cyphar.com>
- <5b5cc31f-a5be-4f64-a97b-7708466ace82@yandex.ru>
- <20240507.110127-muggy.duff.trained.hobby-u9ZNUZ9CW5k@cyphar.com>
-From: stsp <stsp2@yandex.ru>
-In-Reply-To: <20240507.110127-muggy.duff.trained.hobby-u9ZNUZ9CW5k@cyphar.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20240507105321.71524-1-jolsa@kernel.org> <20240507105321.71524-6-jolsa@kernel.org>
+In-Reply-To: <20240507105321.71524-6-jolsa@kernel.org>
+From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Date: Tue, 7 May 2024 09:57:37 -0700
+Message-ID: <CAEf4Bzbb0on_GA3Gnzc09Yy-1H3hAZa+AQ9hyXgvd830cJZS4w@mail.gmail.com>
+Subject: Re: [PATCHv5 bpf-next 5/8] selftests/bpf: Add uretprobe syscall call
+ from user space test
+To: Jiri Olsa <jolsa@kernel.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Oleg Nesterov <oleg@redhat.com>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-api@vger.kernel.org, 
+	linux-man@vger.kernel.org, x86@kernel.org, bpf@vger.kernel.org, 
+	Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>, 
+	John Fastabend <john.fastabend@gmail.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Thomas Gleixner <tglx@linutronix.de>, "Borislav Petkov (AMD)" <bp@alien8.de>, Ingo Molnar <mingo@redhat.com>, 
+	Andy Lutomirski <luto@kernel.org>, "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>, 
+	Deepak Gupta <debug@rivosinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-07.05.2024 14:58, Aleksa Sarai пишет:
-> On 2024-05-07, stsp <stsp2@yandex.ru> wrote:
->> 07.05.2024 10:50, Aleksa Sarai пишет:
->>> If you are a privileged process which plans to change users,
->> Not privileged at all. But I think what you say is still possible with
->> userns?
-> It is possible to configure MOUNT_ATTR_IDMAP in a user namespace but
-> there are some restrictions that I suspect will make this complicated.
-> If you try to do something with a regular filesystem you'll probably run
-> into issues because you won't have CAP_SYS_ADMIN in the super block's
-> userns. But you could probably do it with tmpfs.
+On Tue, May 7, 2024 at 3:54=E2=80=AFAM Jiri Olsa <jolsa@kernel.org> wrote:
+>
+> Adding test to verify that when called from outside of the
+> trampoline provided by kernel, the uretprobe syscall will cause
+> calling process to receive SIGILL signal and the attached bpf
+> program is not executed.
+>
+> Reviewed-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+> Signed-off-by: Jiri Olsa <jolsa@kernel.org>
+> ---
+>  .../selftests/bpf/prog_tests/uprobe_syscall.c | 95 +++++++++++++++++++
+>  .../bpf/progs/uprobe_syscall_executed.c       | 17 ++++
+>  2 files changed, 112 insertions(+)
+>  create mode 100644 tools/testing/selftests/bpf/progs/uprobe_syscall_exec=
+uted.c
+>
 
-Then its likely not a replacement for
-my proposal, as I really don't need that
-on tmpfs.
-Perhaps right now I can use the helper
-process and an rpc as a replacement.
-This is much more work and is slower,
-but more or less can approximate my
-original design decision quite precisely.
-Another disadvantage of an rpc approach
-is that the fds I get from the helper
-process, can not be trusted, as in this
-case kernel doesn't guarantee the fd
-actually refers to the resource I requested.
-I've seen a few OSes where rpc is checked
-by a trusted entity to avoid such problem.
+Acked-by: Andrii Nakryiko <andrii@kernel.org>
 
->>> A new attack I just thought of while writing this mail is that because
->>> there is no RESOLVE_NO_XDEV requirement, it should be possible for the
->>> process to get an arbitrary write primitive by creating a new
->>> userns+mountns and then bind-mounting / underneath the directory.
->> Doesn't this need a write perm to a
->> directory? In his case this is not a threat,
->> because you are not supposed to have a
->> write perm to that dir. OA2_CRED_INHERIT
->> is the only way to write.
-> No, bind-mounts don't require write permission.
+> diff --git a/tools/testing/selftests/bpf/prog_tests/uprobe_syscall.c b/to=
+ols/testing/selftests/bpf/prog_tests/uprobe_syscall.c
+> index 1a50cd35205d..3ef324c2db50 100644
+> --- a/tools/testing/selftests/bpf/prog_tests/uprobe_syscall.c
+> +++ b/tools/testing/selftests/bpf/prog_tests/uprobe_syscall.c
+> @@ -7,7 +7,10 @@
+>  #include <unistd.h>
+>  #include <asm/ptrace.h>
+>  #include <linux/compiler.h>
+> +#include <linux/stringify.h>
+> +#include <sys/wait.h>
+>  #include "uprobe_syscall.skel.h"
+> +#include "uprobe_syscall_executed.skel.h"
+>
 
-Oh, isn't this a problem by itself?
-Yes, in this case my patch needs to
-avoid RESOLVE_NO_XDEV, but I find this a harsh restriction. Maybe the 
-bind mount was done before a priv drop? Then it is fully legitimate. 
-Anyway, I don't know if I should work on it or not, as there seem to be 
-no indication of a possible acceptance.
-
+[...]
 
