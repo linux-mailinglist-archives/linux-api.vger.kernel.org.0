@@ -1,524 +1,293 @@
-Return-Path: <linux-api+bounces-1507-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1508-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37F8E8C4598
-	for <lists+linux-api@lfdr.de>; Mon, 13 May 2024 19:03:38 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 087198C45C7
+	for <lists+linux-api@lfdr.de>; Mon, 13 May 2024 19:12:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E236728185E
-	for <lists+linux-api@lfdr.de>; Mon, 13 May 2024 17:03:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 89B391F21CFC
+	for <lists+linux-api@lfdr.de>; Mon, 13 May 2024 17:12:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DDE217E;
-	Mon, 13 May 2024 17:03:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC67C1CF8D;
+	Mon, 13 May 2024 17:12:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="ep8gjuRL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IW20ub14"
 X-Original-To: linux-api@vger.kernel.org
-Received: from sonic312-30.consmr.mail.ne1.yahoo.com (sonic312-30.consmr.mail.ne1.yahoo.com [66.163.191.211])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B248C1B812
-	for <linux-api@vger.kernel.org>; Mon, 13 May 2024 17:03:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.163.191.211
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715619813; cv=none; b=C1U1+GHwfduaJvh0fyeF1Ecfehm11gq14V06sXIOQKsZzCsxwdYI/XNSWPHDxnQlHqzb/3UQ8kF1cXx4i2k2cj+5OOjlF/Vc5lOWQ8CVne/pqUORywb2n5JgcAkEto5wBEyTKL5mokvSPbJRi/zulgHadWXdRemADYqnLCUkqiQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715619813; c=relaxed/simple;
-	bh=264xfPQhqEaDYgR3vlLkTy6+mnzgDvzU7XOtbtYQD2c=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Content-Type:
-	 References; b=A7QvWGmWTEiZFo7bNlPjA37SOfXdAMcv6p1FoyaXOY1vnUGP0RdcEJbTJQjN6d7moXmYznoGKXSt0+cIDVlMsHaD/zbt3g7FELQIEnDgG0voMYNabfiTe3XaGzDzmU9iQ9mUbqyBeb8WEfbpGHmLrsapQmcZMT6oPweNmE/dquA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=schaufler-ca.com; spf=none smtp.mailfrom=schaufler-ca.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=ep8gjuRL; arc=none smtp.client-ip=66.163.191.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=schaufler-ca.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=schaufler-ca.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1715619804; bh=0RjjGJ9qBfBFLhQpYyzG5//Y/ea7w9QbM84KCn9DrFQ=; h=Date:From:Subject:To:References:From:Subject:Reply-To; b=ep8gjuRLtlbguSCBGAITPlZ9jZUPb2tGD5QiffxDzPboE/Oqq90nuk7Aw//61Aw6H4EQGdHI5FlNjoh7zimhBn8AhsPZ6zk4nN9fyXt0+mDTDeuvKFBaSkGUkHHSA8aiembG3Wr7SjJnLgwi4w6bnkQR/Fx22cCVGrp+GfBDTopOlssVIIpWu+NTXss9W/KJuwifQyHfC56NBHKkEW4VttXRd9pMDp24Z92goSMrrWKSmwhlWh8g7i2x5cFuXT1lD79r/GQN7mfO+78R1vd5BhUSUc16avEaOSHvuUfCMkZTlrly40ZDixeBNToZ1PUG/ZVaRKaEAVCwtfKTpVcOgA==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1715619804; bh=azMPhVYMytBUkB+apgGzZ1/5CqS4er7YqwE6XS/WVOj=; h=X-Sonic-MF:Date:From:Subject:To:From:Subject; b=Zybgeh6tVoxULA8Llu/I3FKen+CpwmM65u4khw8c7XabwWvQZEKqLWH5x3CesbfrMRfAHL2QtIyZVhOkULVj9DltZtpSliYv6+watuf6xIh5tqE+4tcIY6JfRXqjSs9a9EdtkYMThRF+rka4fGW7+3ZcaxC3sF4L5eHv/x9+80uxWnl7oXs2mgznZsGOH23vOxYKrHNpJpt/veH7B2EDASFsl4j+1BM86nJU6/2gTZNHUXqmoqC/gpRJYAFp/r1WhYiYrBNNJAQnrDN+kbkQthS0QX4/AGWHZ4HCo1nJSBRd1jjdgdQEsZQdlAbaC9FBZ7/PHM0hZO2mjSFB5NHcrg==
-X-YMail-OSG: zuNt6q8VM1l0_BhXtl1RS9rl.HbOUkXz77QF2kiJfebNPiT39t98jU9lIiq5MX7
- wgcndv2WSJTK0vppJFMvxolkosaUDNq_RTnRvQZeZkfnq_MaU.y6MUyYEwa9tQ.FsWpYzhDwt06F
- wDP6Ubn7IqP7tzHbgE7JcpDJgC1SLe2ePo3FFZEzn3gsOSDON.Qezb3xhHCYifnWwHdvEshSacwN
- jNLaJbCrM.NCus1ji7LXqG2zcMA7kNj3uTMSXgGmMATiV9dfawgFvq36fWeDPOoSUGmx10fbb.7r
- Vy60QIrVWlk2OVSfhBf65dZTrEhqdHmg_u8HqqZNnYLAcK1UEobgc9wZOZaFTctwT46yBcHnjHfG
- Et9wQcXUtTlaFEnahRcJl1ZskUa7tJLbWjTRV_XAhuxLzbZJoHe42fnUPmE7bufoUTZ_dUjcfo0X
- IZEt84caRs5dvMKYbyAAv3XUyhTdcVLcJww2DzHkzk9JV2Xu090TfrfxLPorfuMpvMvU08cMCud9
- fMsRkkAoiMyUbzKcHAFhqFmmfZLk3BSiz28aAkrkKfhZAlFvktm8.bGvilMiAsZPBzIBoWueWftA
- J7HOSpLbD8oFam8369ntd38oA465Xc_oJ4X.W35chdn.qQoRSbDZvxQhs0D2JoquHVSPGOxS5tjP
- DXESattY61.kXJpqfqoosX9R3YLuEVLMRgkzl_eryhTyICSrFYEzQUH9_7EhXXGLASk.BCXf0mkv
- w_JoQmoFx1optnRlXT89nFYZvgdCghdUU21DiyUoJwhA5_uNOY0j7rnlZoajxaYqlwxdk_Vq_aSD
- _Lnehtau_HSyyH9BYJLIiB8UEwzQEzSDd6KtMK8v7Bj3Gs.Rj9MdHF4CJrU3QoSsnY8z8t7l83fk
- KfZwavQSXRUE2gEp870hdBKy3f5_IU3SPVxKcX9BOrWNHQFzA5redJWuVotZ7qZUDjBmgT6V_SOv
- ayKfU_aZcNWyZLFFyVppz09fEGt3yarwSNy0P0Jmu6kGZVE9IcrpC7mVzITYJ5QpLon0lk.2Ux6_
- JcmADIZrUV_CPiRJCm8i3Vt6c9rOPxbDC5RT_RenWf5IJiKhY3Ucb6dBgznzKuuTxLaZmHVeEsLs
- WNCMvjb84avWRjT61GRi2FlM_HLXwDXLENSwqbpkWSkkiufXr_Grtu37c0s3GS0xjixSfNE32XAR
- VKkAVDxQQWPbt.2StFLg0bbfRKsWiU8gEQg51wUlfjs.KxBdtic8pwlycfbTSMTFp_oNkjYX2ZZ6
- hjzOcVdhtbjDbCdgA4pJbR1N3.UyaOyOEzbhXb76GwzXDQ.MH9y2RhEkgKWxzcHuYBlKaVWlpOuS
- K3zuxxjfpOiQfnVv7YutXUfaxD7tIp4.jRBKvwi7NPQdN7SQ09dlIICUTSsnRdKOeTio3RVikPgY
- sJNoZjh3Zi2jYkUry95g428hKArck2By3uoTMGJlKaWJi1Q2A8.DR09DXC7yLugmgCajziaTVBOu
- atgI5WEucYLgfl4WdEr7GOMdbws1UHMq8mStj.7PVG_I93u.fFf7lz7CbQiJIUg7fi0oQuqvgdCu
- MIBlf2SmiG19gthjUvRSYT.e6_jSzV.WQlD8.QVlS16kJSyQ5ziTZ_YzWoT99Y8j8kTKBD3e8uO9
- en5ONW5ncLXWaMm2YLkLf3tnjwAemOhpcwF8AMY056RYUKaym4OhfYcxJfFGsbLhSpJbAsGpJz0a
- 1IIVVYjV1faL_EAq.cW2MppG74uYdju7q0st7RuT0EKLV2f3p6wP2.PuCtmNevrxknlW7rycsA_F
- iE9vabeShz7sxpX9MIyiZMRXGc3f_lWXiT3BJ09R3Na8l7ZR3DQ9Mm7q.YIPb2RJqF1pbWkoImtx
- OCE5y5OLsSFhwEjqOGekHt8rCU_WW96fv4WYx6d67wTHGKQz_DGaBlPBd33tOimL0dcoLn3er349
- Y9VPb_pncWbHmAk.Woi7aECzXn0x1fXrYFd4GWaT4Y0tQUFJNA2OfyqHsbhlNIsLPASDJvx.c9C7
- eD6Tfjtp7Hv34cGJz.QDlCXuuxLfwx0u5mbJb2alnw8EArq8nTbM_xePCHf2Bdg3jAMmDn1tamNq
- 9CaJPHzFuInDoeK.c1izpR2sw_Rsj8kDQaJJ6c45KIFhjVNo3Vk7ry3l2vJmiYPE8AA_slNc6pHr
- GnI_76RLamtmY2SwgreI7WwcnkjC6jrCrGqF6085NfdlRcnzQLQM0CDpoVqexy4uT8bVz6E6JNI6
- Dy1yZsokvExm2tl5y_fdj3mLKaXXLFRFVB6b5mrK8ZtisBHPRwDqACK3D9guyuN5tQ9gS_ukPFZA
- B
-X-Sonic-MF: <casey@schaufler-ca.com>
-X-Sonic-ID: b38e5669-04b5-4ba7-b399-a2f92cbae551
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic312.consmr.mail.ne1.yahoo.com with HTTP; Mon, 13 May 2024 17:03:24 +0000
-Received: by hermes--production-gq1-59c575df44-2njcf (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID cad3b826ef9d8e34576611626bd7335b;
-          Mon, 13 May 2024 17:03:18 +0000 (UTC)
-Message-ID: <763db426-6f60-4d36-b3f9-b316008889f7@schaufler-ca.com>
-Date: Mon, 13 May 2024 10:03:16 -0700
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A79701CD3F;
+	Mon, 13 May 2024 17:12:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1715620358; cv=fail; b=B3HOfQe64G7aCwoMvgvVimWY8RMxswej1lSIL19/1sD+pvbMP0urzpQ8/HiwHwklU6ezYoMCSs362qh0AzVzq77DkaK1QAxSXYt+/yBKNSdOk/wiOUvcZ7EHkkfCZPCmzdlnJtvt/JNbb+aJU4UppwRCfcf7xoqeOsbU2FGDoLs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1715620358; c=relaxed/simple;
+	bh=HpXSrPcvhVzrJ/809G+Gz0Cyv8D4MCo6XsqSlY6BbFg=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=igmkqZnOZo9zp709f6PKcmDLjMfkRBtRKQfJuUVqsuXBvVHvt54SfMBRIILdboMh1s5+6UZ8NJMYCvCa5V8ATXF+J0sJHtQDnc5b7GHoaxfj99Bg5kgkc2fZVVpLmKCmBZK+wVRWK2Zn+casGKGEqQkr1Gi6z7y03MNEqqRbfE0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IW20ub14; arc=fail smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1715620357; x=1747156357;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=HpXSrPcvhVzrJ/809G+Gz0Cyv8D4MCo6XsqSlY6BbFg=;
+  b=IW20ub14BOqZENkXT0KSSgr9hivJvq+iacBMhCaiNZ+q4pbTsvzJsBGw
+   404rTIpY3lBsySWgNEhvC15kiasgsjMGc9+UNkxs9HXNhv08yNjEJQmjW
+   pgONyG6ri9EUQ0eqH5582DuTfGGUQGm8qx09SkdJaXo2A4GzdFAjbqYly
+   MzlJFlfTj2d8vTcJwELmUt5K7I/DKaPg1juxs2r7OfQX6FK6Z3QfeXrip
+   AX3XxzBbDeH+kfeANxcnvAl+pAs7rlMc/T+znJOq55Ca+tZi/x102X0HG
+   pgFBVN89s4yRQVbYzieVZ8ArkIH0arpK9d45rAZPqwoZZny767YitUZ8z
+   w==;
+X-CSE-ConnectionGUID: byK21pvoTr+heQt+wjgMBg==
+X-CSE-MsgGUID: wNV4s96zS0yhk0uiIFsTkg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11072"; a="11743042"
+X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; 
+   d="scan'208";a="11743042"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2024 10:12:36 -0700
+X-CSE-ConnectionGUID: UnRUZy/RR/yxeiDlbHRJPQ==
+X-CSE-MsgGUID: +076CkguTw27qUzy8s9yFA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,158,1712646000"; 
+   d="scan'208";a="30959004"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by orviesa007.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 13 May 2024 10:12:35 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Mon, 13 May 2024 10:12:35 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Mon, 13 May 2024 10:12:34 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Mon, 13 May 2024 10:12:34 -0700
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.40) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Mon, 13 May 2024 10:12:34 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SXelhBn4vdfqvn5GLYx4X5zJkzL871gSBruup+wHyQHcQg3U5FsccGiP3bggsyBE0z5yd4sg3mO5t+FNqJdy1yIc64tvEF48KyNIFsOcYyyXnwvu5FC6OsX+s3cOZMgj2cNS6xNBM0uC4rIOsJ/rmPYjoHLsr7T4qipmoHLwDqDstmNtnjVp/T66/taqMpXMBya0tKiEzO4sAwPcUgWvs0yioDE8BpLT+AYS/B+i3QGFXnEjgZZ2tnHuPQJMbs42WTHb9xOhw5Q5nbeYcxFzla6PG00TIM0ijf5e/SUx0sW/CDvCuYMpfGK7pxtnhuDrmTfgGwGhT7NhOyIymRRPPw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HpXSrPcvhVzrJ/809G+Gz0Cyv8D4MCo6XsqSlY6BbFg=;
+ b=GWcW+KyioSi1UAvTeY16sZRipZnhHzXqrD9SXJs7sv90tAkczD/0OpNgNWFapvm7KQInAgzZiiTZsroec/dUhWPIblXMCaBl7qhd5wBoU67tknOXoNp5D5JKopl1MrOCKqgv+oYE12sZPnSZX6qJsLdxFACWInOVE+kjJVS8HO6zv0EwkSbggHtpDZysUc3w/DwcpCCfB2AIGeUnRuPWpaX3Yo8iXCrd3+5ZGFPlnuDKbxK/S1jEfpolXF/oM4uPAvqfZ3THfbLM4sZ8B9cIfsmEPE4b0k28w5eyJ7bzJs7SNMW2im7lamgJQ9mkDUc7Bqc4IncCLF96ucMh2vQkzA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from MN0PR11MB5963.namprd11.prod.outlook.com (2603:10b6:208:372::10)
+ by MW4PR11MB6886.namprd11.prod.outlook.com (2603:10b6:303:224::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.55; Mon, 13 May
+ 2024 17:12:31 +0000
+Received: from MN0PR11MB5963.namprd11.prod.outlook.com
+ ([fe80::edb2:a242:e0b8:5ac9]) by MN0PR11MB5963.namprd11.prod.outlook.com
+ ([fe80::edb2:a242:e0b8:5ac9%3]) with mapi id 15.20.7544.052; Mon, 13 May 2024
+ 17:12:31 +0000
+From: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+To: "olsajiri@gmail.com" <olsajiri@gmail.com>, "mhiramat@kernel.org"
+	<mhiramat@kernel.org>
+CC: "songliubraving@fb.com" <songliubraving@fb.com>, "luto@kernel.org"
+	<luto@kernel.org>, "andrii@kernel.org" <andrii@kernel.org>,
+	"debug@rivosinc.com" <debug@rivosinc.com>, "john.fastabend@gmail.com"
+	<john.fastabend@gmail.com>, "linux-api@vger.kernel.org"
+	<linux-api@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "mingo@redhat.com" <mingo@redhat.com>,
+	"rostedt@goodmis.org" <rostedt@goodmis.org>, "ast@kernel.org"
+	<ast@kernel.org>, "tglx@linutronix.de" <tglx@linutronix.de>, "yhs@fb.com"
+	<yhs@fb.com>, "oleg@redhat.com" <oleg@redhat.com>,
+	"linux-man@vger.kernel.org" <linux-man@vger.kernel.org>,
+	"daniel@iogearbox.net" <daniel@iogearbox.net>, "peterz@infradead.org"
+	<peterz@infradead.org>, "linux-trace-kernel@vger.kernel.org"
+	<linux-trace-kernel@vger.kernel.org>, "bp@alien8.de" <bp@alien8.de>,
+	"bpf@vger.kernel.org" <bpf@vger.kernel.org>, "x86@kernel.org"
+	<x86@kernel.org>
+Subject: Re: [PATCHv5 bpf-next 6/8] x86/shstk: Add return uprobe support
+Thread-Topic: [PATCHv5 bpf-next 6/8] x86/shstk: Add return uprobe support
+Thread-Index: AQHaoGz/NDbwXOtepku5mG5JmKvX1LGMCSqAgAKMVwCAAIRoAIADdFkAgAJm6gCAAHtzAA==
+Date: Mon, 13 May 2024 17:12:31 +0000
+Message-ID: <c56ae75e9cf0878ac46185a14a18f6ff7e8f891a.camel@intel.com>
+References: <20240507105321.71524-1-jolsa@kernel.org>
+	 <20240507105321.71524-7-jolsa@kernel.org>
+	 <a08a955c74682e9dc6eb6d49b91c6968c9b62f75.camel@intel.com>
+	 <ZjyJsl_u_FmYHrki@krava>
+	 <a8b7be15e6dbb1e8f2acaee7dae21fec7775194c.camel@intel.com>
+	 <Zj_enIB_J6pGJ6Nu@krava>
+	 <20240513185040.416d62bc4a71e79367c1cd9c@kernel.org>
+In-Reply-To: <20240513185040.416d62bc4a71e79367c1cd9c@kernel.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+user-agent: Evolution 3.44.4-0ubuntu2 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MN0PR11MB5963:EE_|MW4PR11MB6886:EE_
+x-ms-office365-filtering-correlation-id: 499b65fb-2319-4cdd-111d-08dc736fe022
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230031|1800799015|7416005|366007|376005|38070700009;
+x-microsoft-antispam-message-info: =?utf-8?B?VzRqS0h2bVNNa29ETXYyMjFsRmdYTGVwdTlnNlg0V0x0WjZvRUtzdFRTSmpv?=
+ =?utf-8?B?eStVVDA4UHBwTkNzNG92eTF0VjkvdlJoMnNlenUvdVpaN2JiZWdjNXlQMEpN?=
+ =?utf-8?B?WXhjdm9aZGZGMUlhbG1SNUJtRmNnNy9RNWh2SUVaVWlOdzdhc2ZMVXRNMnJQ?=
+ =?utf-8?B?YVlNTVhJelNwdzJrK0xQTXFaTGhIK1lQaDBSdjBHWHZ4N0wyLzc2V3NMT2Iz?=
+ =?utf-8?B?bU1QdXB2MlZ5Mkh5dGNtNXNYeXZPbHhqT2NOZTdwbDdTa3RNN3VBSTVkbXFx?=
+ =?utf-8?B?RzBZWlFJTmhkNlU5SjRnZGE1eFNDODR0VVIvVnNLQkwzd2ZMUU1vMFVRVDc3?=
+ =?utf-8?B?YjkrR2lMZDd2amJMRCtBOCtSRnF2cmZXZjVzUFRhSFB2bUczSkdmWlZCdVYz?=
+ =?utf-8?B?U05oZ3dsTVZJeFJrUnJJMzBOOVZxa0dZU2JXbS92Y2ZZRXJZaTVMYm5JTG04?=
+ =?utf-8?B?dWpZTzAvQmhBSXI4cjI4VXhEd3REaWErVnB1bVVqbWE0bzVnaTdyOWVYNTJC?=
+ =?utf-8?B?WU0zKzBxbWdQbWU0L0s4bHRReEhrN1RCQS9iVnhpbHRubVUrM3ZEQjMyTmlI?=
+ =?utf-8?B?UGNMeGdWdmlSV1VGd1R3RFoxRzd2eXp1ekE5ZUJEd01GVXZQU2dLUVV6WndH?=
+ =?utf-8?B?RXZ6NWJPNmdCM3RGMDhKUmsrZ3A0bTlpVmFqdXE5V0tYS2lYRnNnYzJrSXd4?=
+ =?utf-8?B?V3VQQ21SbXpkc05SaEU1VU9FS0l5dmplYzRnNTlrc3B3emxhdnFsMHdobzRS?=
+ =?utf-8?B?ZlhHTlRDQ0hJMkk5MDBXQmUvbjVCVmlxNzRVN29reEw5Kzl6WnJXcjJqT1Q0?=
+ =?utf-8?B?QzZIczdFdkQ0b3hvWVRBYkFYNE5QcUs1c1VQSHJVcUc5SVBTbjE2b0pKU1di?=
+ =?utf-8?B?N28xa2JONWtKOEtncnR2bTlqMEVDR29KbnVSU2txR0VySlBGMHl2Q1JpRTRl?=
+ =?utf-8?B?TjRyQ2RJQXpBS1dsWWRsd3BBQzdKSCtlMGRnRkU2SkxhM2cvRDMxS1VWS2JV?=
+ =?utf-8?B?ZTZPSFFYT3l4UjlyMzYxNkk1TW5wc1luWDFsQlBFTXBTY0IwSTBVR3g5SHN3?=
+ =?utf-8?B?WjFIam5LbzY1NGRvKzUzaUd5UC9kbUNnUWxNelltWWJ1MU9DRzl5Ulgwajkz?=
+ =?utf-8?B?N0pLSit0T3JmOURMYW5vaFkrQmJwS0dDSSs0ZHJESFQ1aXZCT2NTVy9JcFFR?=
+ =?utf-8?B?OHcwZFVzOGNRQXY1MjhuNkJFTHE5THZPL0ZQRVpuVTA3QjVpamJmcExGVHhF?=
+ =?utf-8?B?WE1CTmtrMDl2V0xFY1NmZTZyNGczZ1BUTWIvRFZYSHQ0TVhOdkdUdWRsZDJl?=
+ =?utf-8?B?bEFLV2E3Y0RwR1dWaWQyQjNPVFdXMkttaGtOSnFDVForMWx1OEI5S1dKOU9t?=
+ =?utf-8?B?ZWlpdmNzanRpNXB3NURnZG5iQVBSVlkzNDB6Ym5Uc1hEdFM1elZ0ZUh1YVNw?=
+ =?utf-8?B?b1NEa0xjemlJV0NnTExCMjJTZ095a3pReTV3WUsyOHNEcVdCeXNPQ1Y3UURB?=
+ =?utf-8?B?VEprZ0tuWEkzcG5vMmVVOUljUGRQeXQySFg3THovbVFCWWlqT2lnOHVGbTJu?=
+ =?utf-8?B?bEs2cC9JQUR6SzcvWGhBOThBelVUeFo1Nm5lMi9JQjA0Z25SMGpFQUh0WEd6?=
+ =?utf-8?B?OG5YemFEVExWaUlyZ1VaSDU5ZXZRbVlLcnZ3bHZvUitWZDBJeEZLR01jY3o3?=
+ =?utf-8?B?TWRReGs5QlhlYlRqM0JFK2NIQnpoaWxvdURBaGtWRERqaUFMOXJ5UEpIYmQw?=
+ =?utf-8?B?U3BSTi8yV0c4S3NSY3RVeENDOE5PNGx3MStFamhmYUtIaGxaeXlEMkkwbTlt?=
+ =?utf-8?B?WlBoSFFSNGxDSStvV2VsQT09?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB5963.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(7416005)(366007)(376005)(38070700009);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?SlVIaWdEYTNQZjNNbVg3S3VXWURQMWoxSlNaRFcySXdPOTdNby9iRGtIWisv?=
+ =?utf-8?B?QkFSaUFVZ01sSDRRcS9hMGJEUXNoRzFWbjJRcUdVS3FRUEtuZ0xPV2VVV1o1?=
+ =?utf-8?B?d3VPQ0xmY3JRK3Raekk2dEVST2l4U05Ya3pSaGp5M3dEM0ZXdUp2RldQZGlY?=
+ =?utf-8?B?RGkrM0NBd1dLU29CT1I5czgybitXczI4eHpLR0c2a05aU3lyT3RzVk9NZjhW?=
+ =?utf-8?B?Y3BXZjJlUjkxZzg2MGp1QlVxaTJtcFlVQjhOR1dtd2NsSFBWb1JuMitjZnhM?=
+ =?utf-8?B?eDljc2hkNktaOTFtYXRtK1kra0wxTko1bk85b0o0S1ZveVRZY1JiQ0R2ZWFl?=
+ =?utf-8?B?akZzZGxyVUZ1S1h0dmx4NEt4Y2c2WUMzMFJnZzNyTTdFS0hTVWpwMHNpZG9G?=
+ =?utf-8?B?ZmwzQXJiRFZMYUJ4V0I5YmVva05tcVFaRXVsWHN1V2g0bFVkMU9heUJjQUUz?=
+ =?utf-8?B?YUl4VjV6Q0cyODBLY0FSVm5qb3JGbjQvMTBVQW82cnhrZGpkUlFsb1p4czdO?=
+ =?utf-8?B?bFFha05tNWtUc3k0cG8rQWdVTVdPOFdYTlMwUnRNd3RHOFVDYm9LRGpSRSsv?=
+ =?utf-8?B?cTFkcUFSS2tCeTVhYkE3K1FGSUZmYTNKNDJ3Zmd6djAzTDZUcjlCY08yRWtM?=
+ =?utf-8?B?OXBpNFBWQXREK2NZRnljS1ovUzdhb0l0WWJxU09ydHZGWlZuYmxPWXRTOXVP?=
+ =?utf-8?B?SG90VjlQeDduOHFFbWwzN0FkL0wyVkljTnhmdHZiSDdNbU1UcnE0ZzN6ZG5U?=
+ =?utf-8?B?Y1RKZ0ltOVlTNE5JYVFKdzM0TnQyUnFYMy95Qm5RK25rM29FWkV0SW10T29y?=
+ =?utf-8?B?anViMnM3UEhWV1ZQYUFEUk5vVnM1dk1LR1JvTGlDMFJ3cjVNZVV2WVVaUWl4?=
+ =?utf-8?B?RXhqdjVjMVpSZ3gyRW1BaVZmZFkwd010SnZXaXpENkRlNmtxMHQ5eEtPWVU4?=
+ =?utf-8?B?bDdEdTFPWGQ5VVNyT1B3WEpmV25MeGZiMzQ3a0JvVTF5Ym9wQ1piOHpVb2Vu?=
+ =?utf-8?B?VS9rQVZ4bEZ5U21vRkYrUTdPNUNieXFNVFZmUlVqV3R3YU82RllJVHZkRzJm?=
+ =?utf-8?B?NkpNU1hYRGFyVFNTOTJHSkI3VlJLdm9OSWlkbXpKWDRaQmt5dk9jNHVESVNH?=
+ =?utf-8?B?NXNMalUvcUJNdm9iazdsWVZPNkpNbHFKTU1hdEJhbGxMVkZEaXpoM2J4aWlQ?=
+ =?utf-8?B?dG1uWXJ0UmJEdENYb3N0Z000cFFwNlRTRkNFMlhpWXF0Q2cxbnFPM3dpTEFv?=
+ =?utf-8?B?ZHkzTGVFLy9XMG5rN29zN0FrcDhxOExRK1VEQmp5L3Z3QmtOR3NLZTBjZEZU?=
+ =?utf-8?B?VGR2Yjc0QjgwWmhpeWMvS1hiT05lWmdkY29WL2RMdjdjeFJDRTRnZFlXaldq?=
+ =?utf-8?B?OEVEZnhmMlRyeUgyNmdNN3lwOGNjQ3BYbUVxYTRzU1p0WVhvYVBQNTVEbk9D?=
+ =?utf-8?B?Y2xMRGNOa2hJMk9zSEpsMnAwV3dFK2FTTGw2ZGdsYjVad216R2x1TXJMajhI?=
+ =?utf-8?B?U2c4VlY1SVcyZDNYOEZPWmxCNExXT3BwMkdqL25Icnd6Vmt2RCs1Qzc0Ymd4?=
+ =?utf-8?B?NDVYR3VCSk5OYk9NWVduUmZLNUl3UjUyUVlMY2hydHdPVzlmK3Vud0syU2di?=
+ =?utf-8?B?UUlHRjZXL2hoRC8vRkVXeGE5ajdPNFBMTGZEUVhtSm01QmFyWDNaaDlOMkZL?=
+ =?utf-8?B?eSs2KzlXN1hCMHdCbEk1T3poT2hTWm9mR3c2elZ3enZRYzlwNDduS1d4ZndV?=
+ =?utf-8?B?Nit4Z1ovTEVxYmNZUXpNUkhOV05CNlVwV3BVaWJlTkplNG4vZHI5U3I3QUJh?=
+ =?utf-8?B?U1A0a0JIc2tCdlRjUm1LNitMaWNhRGdsOW9IbEp4dlpWT0R4WWFyUHY3bCtT?=
+ =?utf-8?B?eUM0UnJhd3hod29ucUVXL2gwQjgzYllnUEZUS0dnTDB4b3hiay9OaHJlTUhu?=
+ =?utf-8?B?SDNnN2liWGU1VkJBNzhybFozeXBjcEQwd0UxckhhRVk2d1pEcTVCc2EwT0cr?=
+ =?utf-8?B?Um5iKzNXazNNakR5d1BVVk4wNGMzeU9yUkdvYlpnN0lnbW5XMEpNdjYvQlRa?=
+ =?utf-8?B?K0dHNUhSRzI3QXd6bWlDL0N5bEExb0tjTEgxcEpKMGF0S3QreGxaZ1RiWk5J?=
+ =?utf-8?B?WXZ0TFo3TlA4R0d2bXVjYjVRNmNkckkvZEh4S2ZSbllrY2lKbGZETk1mMm5S?=
+ =?utf-8?B?WHc9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <0A34234D48A4EE4BB27F52BF11E9F173@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-From: Casey Schaufler <casey@schaufler-ca.com>
-Subject: [RFC PATCH] LSM, net: Add SO_PEERCONTEXT for peer LSM data
-To: LSM List <linux-security-module@vger.kernel.org>, netdev@vger.kernel.org,
- linux-api@vger.kernel.org,
- Linux kernel mailing list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-References: <763db426-6f60-4d36-b3f9-b316008889f7.ref@schaufler-ca.com>
-X-Mailer: WebService/1.1.22321 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB5963.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 499b65fb-2319-4cdd-111d-08dc736fe022
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 May 2024 17:12:31.8292
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: NtZG6kk9YUoQVP1DFlEINw/ICdloqBCbupyLlbEQKkZYzxb1jEhMz2YnTfrBb0wlOwjBBA8ws0wG83m+M/PKyq028P7rW81atzNsW5KamiM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB6886
+X-OriginatorOrg: intel.com
 
-We recently introduced system calls to access process attributes that
-are used by Linux Security Modules (LSM). An important aspect of these
-system calls is that they provide the LSM attribute data in a format
-that identifies the LSM to which the data applies. Another aspect is that
-it can be used to provide multiple instances of the attribute for the
-case where more than one LSM supplies the attribute.
-
-We wish to take advantage of this format for data about network peers.
-The existing mechanism, SO_PEERSEC, provides peer security data as a
-text string. This is sufficient when the LSM providing the information
-is known by the user of SO_PEERSEC, and there is only one LSM providing
-the information. It fails, however, if the user does not know which
-LSM is providing the information.
-
-Discussions about extending SO_PEERSEC to accomodate either the new
-format or some other encoding scheme invariably lead to the conclusion
-that doing so would lead to tears. Hence, we introduce SO_PEERCONTEXT
-which uses the same API data as the LSM system calls.
-
-Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
----
- arch/alpha/include/uapi/asm/socket.h  |  1 +
- arch/mips/include/uapi/asm/socket.h   |  1 +
- arch/parisc/include/uapi/asm/socket.h |  1 +
- arch/sparc/include/uapi/asm/socket.h  |  1 +
- include/linux/lsm_hook_defs.h         |  2 +
- include/linux/security.h              | 18 ++++++++
- include/uapi/asm-generic/socket.h     |  1 +
- net/core/sock.c                       |  4 ++
- security/apparmor/lsm.c               | 39 ++++++++++++++++
- security/security.c                   | 86 +++++++++++++++++++++++++++++++++++
- security/selinux/hooks.c              | 35 ++++++++++++++
- security/smack/smack_lsm.c            | 25 ++++++++++
- 12 files changed, 214 insertions(+)
-
-diff --git a/arch/alpha/include/uapi/asm/socket.h b/arch/alpha/include/uapi/asm/socket.h
-index e94f621903fe..e49ed0a765ce 100644
---- a/arch/alpha/include/uapi/asm/socket.h
-+++ b/arch/alpha/include/uapi/asm/socket.h
-@@ -139,6 +139,7 @@
- 
- #define SO_PASSPIDFD		76
- #define SO_PEERPIDFD		77
-+#define SO_PEERCONTEXT		78
- 
- #if !defined(__KERNEL__)
- 
-diff --git a/arch/mips/include/uapi/asm/socket.h b/arch/mips/include/uapi/asm/socket.h
-index 60ebaed28a4c..e647f065b3c9 100644
---- a/arch/mips/include/uapi/asm/socket.h
-+++ b/arch/mips/include/uapi/asm/socket.h
-@@ -150,6 +150,7 @@
- 
- #define SO_PASSPIDFD		76
- #define SO_PEERPIDFD		77
-+#define SO_PEERCONTEXT		78
- 
- #if !defined(__KERNEL__)
- 
-diff --git a/arch/parisc/include/uapi/asm/socket.h b/arch/parisc/include/uapi/asm/socket.h
-index be264c2b1a11..4f48bef863bc 100644
---- a/arch/parisc/include/uapi/asm/socket.h
-+++ b/arch/parisc/include/uapi/asm/socket.h
-@@ -131,6 +131,7 @@
- 
- #define SO_PASSPIDFD		0x404A
- #define SO_PEERPIDFD		0x404B
-+#define SO_PEERCONTEXT		0x404C
- 
- #if !defined(__KERNEL__)
- 
-diff --git a/arch/sparc/include/uapi/asm/socket.h b/arch/sparc/include/uapi/asm/socket.h
-index 682da3714686..b54c56056323 100644
---- a/arch/sparc/include/uapi/asm/socket.h
-+++ b/arch/sparc/include/uapi/asm/socket.h
-@@ -132,6 +132,7 @@
- 
- #define SO_PASSPIDFD             0x0055
- #define SO_PEERPIDFD             0x0056
-+#define SO_PEERCONTEXT           0x0057
- 
- #if !defined(__KERNEL__)
- 
-diff --git a/include/linux/lsm_hook_defs.h b/include/linux/lsm_hook_defs.h
-index 27e6384ec779..d923acb40c20 100644
---- a/include/linux/lsm_hook_defs.h
-+++ b/include/linux/lsm_hook_defs.h
-@@ -336,6 +336,8 @@ LSM_HOOK(int, 0, socket_shutdown, struct socket *sock, int how)
- LSM_HOOK(int, 0, socket_sock_rcv_skb, struct sock *sk, struct sk_buff *skb)
- LSM_HOOK(int, -ENOPROTOOPT, socket_getpeersec_stream, struct socket *sock,
- 	 sockptr_t optval, sockptr_t optlen, unsigned int len)
-+LSM_HOOK(int, -ENOPROTOOPT, socket_getpeerctx_stream, struct socket *sock,
-+	 sockptr_t optval, sockptr_t optlen, unsigned int len)
- LSM_HOOK(int, -ENOPROTOOPT, socket_getpeersec_dgram, struct socket *sock,
- 	 struct sk_buff *skb, u32 *secid)
- LSM_HOOK(int, 0, sk_alloc_security, struct sock *sk, int family, gfp_t priority)
-diff --git a/include/linux/security.h b/include/linux/security.h
-index a54543ded9fc..d4f449b7deea 100644
---- a/include/linux/security.h
-+++ b/include/linux/security.h
-@@ -563,6 +563,8 @@ int security_inode_getsecctx(struct inode *inode, struct lsmcontext *cp);
- int security_locked_down(enum lockdown_reason what);
- int lsm_fill_user_ctx(struct lsm_ctx __user *uctx, u32 *uctx_len,
- 		      void *val, size_t val_len, u64 id, u64 flags);
-+int lsm_fill_socket_ctx(sockptr_t optval, sockptr_t optlen, void *val,
-+			size_t val_len, u64 id, u64 flags);
- #else /* CONFIG_SECURITY */
- 
- static inline int call_blocking_lsm_notifier(enum lsm_event event, void *data)
-@@ -1552,6 +1554,12 @@ static inline int lsm_fill_user_ctx(struct lsm_ctx __user *uctx,
- {
- 	return -EOPNOTSUPP;
- }
-+static inline int lsm_fill_socket_ctx(sockptr_t optval, sockptr_t optlen,
-+				      void *val, size_t val_len, u64 id,
-+				      u64 flags)
-+{
-+	return -EOPNOTSUPP;
-+}
- #endif	/* CONFIG_SECURITY */
- 
- #if defined(CONFIG_SECURITY) && defined(CONFIG_WATCH_QUEUE)
-@@ -1599,6 +1607,8 @@ int security_socket_shutdown(struct socket *sock, int how);
- int security_sock_rcv_skb(struct sock *sk, struct sk_buff *skb);
- int security_socket_getpeersec_stream(struct socket *sock, sockptr_t optval,
- 				      sockptr_t optlen, unsigned int len);
-+int security_socket_getpeerctx_stream(struct socket *sock, sockptr_t optval,
-+				      sockptr_t optlen, unsigned int len);
- int security_socket_getpeersec_dgram(struct socket *sock, struct sk_buff *skb, u32 *secid);
- int security_sk_alloc(struct sock *sk, int family, gfp_t priority);
- void security_sk_free(struct sock *sk);
-@@ -1744,6 +1754,14 @@ static inline int security_socket_getpeersec_stream(struct socket *sock,
- 	return -ENOPROTOOPT;
- }
- 
-+static inline int security_socket_getpeerctx_stream(struct socket *sock,
-+						    sockptr_t optval,
-+						    sockptr_t optlen,
-+						    unsigned int len)
-+{
-+	return -ENOPROTOOPT;
-+}
-+
- static inline int security_socket_getpeersec_dgram(struct socket *sock, struct sk_buff *skb, u32 *secid)
- {
- 	return -ENOPROTOOPT;
-diff --git a/include/uapi/asm-generic/socket.h b/include/uapi/asm-generic/socket.h
-index 8ce8a39a1e5f..e0166ff53670 100644
---- a/include/uapi/asm-generic/socket.h
-+++ b/include/uapi/asm-generic/socket.h
-@@ -134,6 +134,7 @@
- 
- #define SO_PASSPIDFD		76
- #define SO_PEERPIDFD		77
-+#define SO_PEERCONTEXT		78
- 
- #if !defined(__KERNEL__)
- 
-diff --git a/net/core/sock.c b/net/core/sock.c
-index 0963689a5950..251346eccfa5 100644
---- a/net/core/sock.c
-+++ b/net/core/sock.c
-@@ -1849,6 +1849,10 @@ int sk_getsockopt(struct sock *sk, int level, int optname,
- 		return security_socket_getpeersec_stream(sock,
- 							 optval, optlen, len);
- 
-+	case SO_PEERCONTEXT:
-+		return security_socket_getpeerctx_stream(sock,
-+							 optval, optlen, len);
-+
- 	case SO_MARK:
- 		v.val = READ_ONCE(sk->sk_mark);
- 		break;
-diff --git a/security/apparmor/lsm.c b/security/apparmor/lsm.c
-index c478493f3eaf..66d4ecd6afcb 100644
---- a/security/apparmor/lsm.c
-+++ b/security/apparmor/lsm.c
-@@ -1357,6 +1357,43 @@ static int apparmor_socket_getpeersec_stream(struct socket *sock,
- 	return error;
- }
- 
-+/**
-+ * apparmor_socket_getpeerctx_stream - get security context of peer
-+ * @sock: socket that we are trying to get the peer context of
-+ * @optval: output - buffer to copy peer name to
-+ * @optlen: output - size of copied name in @optval
-+ * @len: size of @optval buffer
-+ * Returns: 0 on success, -errno of failure
-+ *
-+ * Note: for tcp only valid if using ipsec or cipso on lan
-+ */
-+static int apparmor_socket_getpeerctx_stream(struct socket *sock,
-+					     sockptr_t optval, sockptr_t optlen,
-+					     unsigned int len)
-+{
-+	char *name = NULL;
-+	int slen, error = 0;
-+	struct aa_label *label;
-+	struct aa_label *peer;
-+
-+	label = begin_current_label_crit_section();
-+	peer = sk_peer_label(sock->sk);
-+	if (IS_ERR(peer)) {
-+		error = PTR_ERR(peer);
-+		goto done;
-+	}
-+	slen = aa_label_asxprint(&name, labels_ns(label), peer,
-+				 FLAG_SHOW_MODE | FLAG_VIEW_SUBNS |
-+				 FLAG_HIDDEN_UNCONFINED, GFP_KERNEL);
-+
-+	error = lsm_fill_socket_ctx(optval, optlen, name, slen,
-+				    LSM_ID_APPARMOR, 0);
-+done:
-+	end_current_label_crit_section(label);
-+	kfree(name);
-+	return error;
-+}
-+
- /**
-  * apparmor_sock_graft - Initialize newly created socket
-  * @sk: child sock
-@@ -1466,6 +1503,8 @@ static struct security_hook_list apparmor_hooks[] __ro_after_init = {
- #endif
- 	LSM_HOOK_INIT(socket_getpeersec_stream,
- 		      apparmor_socket_getpeersec_stream),
-+	LSM_HOOK_INIT(socket_getpeerctx_stream,
-+		      apparmor_socket_getpeerctx_stream),
- 	LSM_HOOK_INIT(sock_graft, apparmor_sock_graft),
- #ifdef CONFIG_NETWORK_SECMARK
- 	LSM_HOOK_INIT(inet_conn_request, apparmor_inet_conn_request),
-diff --git a/security/security.c b/security/security.c
-index e387614cb054..fd4919c28e8f 100644
---- a/security/security.c
-+++ b/security/security.c
-@@ -874,6 +874,64 @@ int lsm_fill_user_ctx(struct lsm_ctx __user *uctx, u32 *uctx_len,
- 	return rc;
- }
- 
-+/**
-+ * lsm_fill_socket_ctx - Fill a socket lsm_ctx structure
-+ * @optval: a socket LSM context to be filled
-+ * @optlen: uctx size
-+ * @val: the new LSM context value
-+ * @val_len: the size of the new LSM context value
-+ * @id: LSM id
-+ * @flags: LSM defined flags
-+ *
-+ * Fill all of the fields in a lsm_ctx structure.  If @optval is NULL
-+ * simply calculate the required size to output via @optlen and return
-+ * success.
-+ *
-+ * Returns 0 on success, -E2BIG if userspace buffer is not large enough,
-+ * -EFAULT on a copyout error, -ENOMEM if memory can't be allocated.
-+ */
-+int lsm_fill_socket_ctx(sockptr_t optval, sockptr_t optlen, void *val,
-+			size_t val_len, u64 id, u64 flags)
-+{
-+	struct lsm_ctx *nctx = NULL;
-+	unsigned int nctx_len;
-+	int loptlen;
-+	int rc = 0;
-+
-+	if (copy_from_sockptr(&loptlen, optlen, sizeof(int)))
-+		return -EFAULT;
-+
-+	nctx_len = ALIGN(struct_size(nctx, ctx, val_len), sizeof(void *));
-+	if (nctx_len > loptlen && !sockptr_is_null(optval))
-+		rc = -E2BIG;
-+
-+	/* no buffer - return success/0 and set @uctx_len to the req size */
-+	if (sockptr_is_null(optval) || rc)
-+		goto out;
-+
-+	nctx = kzalloc(nctx_len, GFP_KERNEL);
-+	if (!nctx) {
-+		rc = -ENOMEM;
-+		goto out;
-+	}
-+	nctx->id = id;
-+	nctx->flags = flags;
-+	nctx->len = nctx_len;
-+	nctx->ctx_len = val_len;
-+	memcpy(nctx->ctx, val, val_len);
-+
-+	if (copy_to_sockptr(optval, nctx, nctx_len))
-+		rc = -EFAULT;
-+
-+	kfree(nctx);
-+out:
-+	if (copy_to_sockptr(optlen, &nctx_len, sizeof(int)))
-+		rc = -EFAULT;
-+
-+	return rc;
-+}
-+
-+
- /*
-  * The default value of the LSM hook is defined in linux/lsm_hook_defs.h and
-  * can be accessed with:
-@@ -4743,6 +4801,34 @@ int security_socket_getpeersec_stream(struct socket *sock, sockptr_t optval,
- 	return LSM_RET_DEFAULT(socket_getpeersec_stream);
- }
- 
-+/**
-+ * security_socket_getpeerctx_stream() - Get the remote peer label
-+ * @sock: socket
-+ * @optval: destination buffer
-+ * @optlen: size of peer label copied into the buffer
-+ * @len: maximum size of the destination buffer
-+ *
-+ * This hook allows the security module to provide peer socket security state
-+ * for unix or connected tcp sockets to userspace via getsockopt
-+ * SO_GETPEERCONTEXT.  For tcp sockets this can be meaningful if the socket
-+ * is associated with an ipsec SA.
-+ *
-+ * Return: Returns 0 if all is well, otherwise, typical getsockopt return
-+ *         values.
-+ */
-+int security_socket_getpeerctx_stream(struct socket *sock, sockptr_t optval,
-+				      sockptr_t optlen, unsigned int len)
-+{
-+	struct security_hook_list *hp;
-+
-+	hlist_for_each_entry(hp, &security_hook_heads.socket_getpeerctx_stream,
-+			     list)
-+		return hp->hook.socket_getpeerctx_stream(sock, optval, optlen,
-+							 len);
-+
-+	return LSM_RET_DEFAULT(socket_getpeerctx_stream);
-+}
-+
- /**
-  * security_socket_getpeersec_dgram() - Get the remote peer label
-  * @sock: socket
-diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
-index 83d30579e568..3c34cbc2b197 100644
---- a/security/selinux/hooks.c
-+++ b/security/selinux/hooks.c
-@@ -5221,6 +5221,39 @@ static int selinux_socket_getpeersec_stream(struct socket *sock,
- 	return err;
- }
- 
-+static int selinux_socket_getpeerctx_stream(struct socket *sock,
-+					    sockptr_t optval, sockptr_t optlen,
-+					    unsigned int len)
-+{
-+	int err = 0;
-+	char *scontext = NULL;
-+	u32 scontext_len;
-+	struct sk_security_struct *sksec = selinux_sock(sock->sk);
-+	u32 peer_sid = SECSID_NULL;
-+
-+	if (sksec->sclass == SECCLASS_UNIX_STREAM_SOCKET ||
-+	    sksec->sclass == SECCLASS_TCP_SOCKET ||
-+	    sksec->sclass == SECCLASS_SCTP_SOCKET)
-+		peer_sid = sksec->peer_sid;
-+	if (peer_sid == SECSID_NULL)
-+		return -ENOPROTOOPT;
-+
-+	err = security_sid_to_context(peer_sid, &scontext,
-+				      &scontext_len);
-+	if (err)
-+		return err;
-+	if (scontext_len > len) {
-+		err = -ERANGE;
-+		goto out_len;
-+	}
-+
-+	err = lsm_fill_socket_ctx(optval, optlen, scontext, scontext_len,
-+				  LSM_ID_SELINUX, 0);
-+out_len:
-+	kfree(scontext);
-+	return err;
-+}
-+
- static int selinux_socket_getpeersec_dgram(struct socket *sock,
- 					   struct sk_buff *skb, u32 *secid)
- {
-@@ -7345,6 +7378,8 @@ static struct security_hook_list selinux_hooks[] __ro_after_init = {
- 	LSM_HOOK_INIT(socket_sock_rcv_skb, selinux_socket_sock_rcv_skb),
- 	LSM_HOOK_INIT(socket_getpeersec_stream,
- 			selinux_socket_getpeersec_stream),
-+	LSM_HOOK_INIT(socket_getpeerctx_stream,
-+			selinux_socket_getpeerctx_stream),
- 	LSM_HOOK_INIT(socket_getpeersec_dgram, selinux_socket_getpeersec_dgram),
- 	LSM_HOOK_INIT(sk_free_security, selinux_sk_free_security),
- 	LSM_HOOK_INIT(sk_clone_security, selinux_sk_clone_security),
-diff --git a/security/smack/smack_lsm.c b/security/smack/smack_lsm.c
-index 3380a9e91fb8..dd0ea4da7eeb 100644
---- a/security/smack/smack_lsm.c
-+++ b/security/smack/smack_lsm.c
-@@ -4297,6 +4297,30 @@ static int smack_socket_getpeersec_stream(struct socket *sock,
- 	return rc;
- }
- 
-+/**
-+ * smack_socket_getpeerctx_stream - pull in packet label
-+ * @sock: the socket
-+ * @optval: user's destination
-+ * @optlen: size thereof
-+ * @len: max thereof
-+ *
-+ * returns zero on success, an error code otherwise
-+ */
-+static int smack_socket_getpeerctx_stream(struct socket *sock,
-+					  sockptr_t optval, sockptr_t optlen,
-+					  unsigned int len)
-+{
-+	struct socket_smack *ssp;
-+	size_t slen;
-+	char *rcp = "";
-+
-+	ssp = smack_sock(sock->sk);
-+	if (ssp->smk_packet)
-+		rcp = ssp->smk_packet->smk_known;
-+	slen = strlen(rcp) + 1;
-+
-+	return lsm_fill_socket_ctx(optval, optlen, rcp, slen, LSM_ID_SMACK, 0);
-+}
- 
- /**
-  * smack_socket_getpeersec_dgram - pull in packet label
-@@ -5206,6 +5230,7 @@ static struct security_hook_list smack_hooks[] __ro_after_init = {
- 	LSM_HOOK_INIT(socket_sendmsg, smack_socket_sendmsg),
- 	LSM_HOOK_INIT(socket_sock_rcv_skb, smack_socket_sock_rcv_skb),
- 	LSM_HOOK_INIT(socket_getpeersec_stream, smack_socket_getpeersec_stream),
-+	LSM_HOOK_INIT(socket_getpeerctx_stream, smack_socket_getpeerctx_stream),
- 	LSM_HOOK_INIT(socket_getpeersec_dgram, smack_socket_getpeersec_dgram),
- 	LSM_HOOK_INIT(sk_alloc_security, smack_sk_alloc_security),
- #ifdef SMACK_IPV6_PORT_LABELING
-
+T24gTW9uLCAyMDI0LTA1LTEzIGF0IDE4OjUwICswOTAwLCBNYXNhbWkgSGlyYW1hdHN1IHdyb3Rl
+Og0KPiA+IEkgZ3Vlc3MgaXQncyBkb2FibGUsIHdlJ2QgbmVlZCB0byBrZWVwIGJvdGggdHJhbXBv
+bGluZXMgYXJvdW5kLCBiZWNhdXNlDQo+ID4gc2hhZG93IHN0YWNrIGlzIGVuYWJsZWQgYnkgYXBw
+IGR5bmFtaWNhbGx5IGFuZCB1c2Ugb25lIGJhc2VkIG9uIHRoZQ0KPiA+IHN0YXRlIG9mIHNoYWRv
+dyBzdGFjayB3aGVuIHVyZXRwcm9iZSBpcyBpbnN0YWxsZWQNCj4gPiANCj4gPiBzbyB5b3UncmUg
+d29ycmllZCB0aGUgb3B0aW1pemVkIHN5c2NhbGwgcGF0aCBjb3VsZCBiZSBzb21laG93IGV4cGxv
+aXRlZA0KPiA+IHRvIGFkZCBkYXRhIG9uIHNoYWRvdyBzdGFjaz8NCg0KU2hhZG93IHN0YWNrIGFs
+bG93cyBmb3IgbW9kaWZpY2F0aW9uIHRvIHRoZSBzaGFkb3cgc3RhY2sgb25seSB0aHJvdWdoIGEg
+ZmV3DQpsaW1pdGVkIHdheXMgKGNhbGwsIHJldCwgZXRjKS7CoFRoZSBrZXJuZWwgaGFzIHRoZSBh
+YmlsaXR5IHRvIHdyaXRlIHRocm91Z2gNCnNoYWRvdyBzdGFjayBwcm90ZWN0aW9ucyAoZm9yIGV4
+YW1wbGUgd2hlbiBwdXNoaW5nIGFuZCBwb3BwaW5nIHNpZ25hbCBmcmFtZXMpLA0KYnV0IHRoZSB3
+YXlzIGluIHdoaWNoIGl0IGRvZXMgdGhpcyBhcmUgbGltaXRlZCBpbiBvcmRlciB0byB0cnkgdG8g
+cHJldmVudA0KcHJvdmlkaW5nIGV4dHJhIGNhcGFiaWxpdGllcyB0byBhdHRhY2tlcnMgd2FudGlu
+ZyB0byBjcmFmdCB0aGVpciBvd24gc2hhZG93DQpzdGFja3MuDQoNCkJ1dCB0aGUgSFcgZmVhdHVy
+ZXMgaGF2ZSBvcHRpb25hbCBhYmlsaXRpZXMgdG8gYWxsb3cgZXh0cmEgcGF0dGVybnMgb2Ygc2hh
+ZG93DQpzdGFjayBtb2RpZmljYXRpb24gZm9yIHVzZXJzcGFjZSBhcyB3ZWxsLiBUaGlzIGNhbiBm
+YWNpbGl0YXRlIHVudXN1YWwgcGF0dGVybnMNCm9mIHN0YWNrIG1vZGlmaWNhdGlvbiAobGlrZSBp
+biB0aGlzIHNlcmllcykuIEZvciwgeDg2IHRoZXJlIGlzIHRoZSBhYmlsaXR5IHRvDQphbGxvdyBh
+biBpbnN0cnVjdGlvbiAoY2FsbGVkIFdSU1MpIHN1Y2ggdGhhdCB1c2Vyc3BhY2UgY2FuIGFsc28g
+d3JpdGUgYXJiaXRyYXJ5DQpkYXRhIHRvIHRoZSBzaGFkb3cgc3RhY2suIEFybSBoYXMgc29tZXRo
+aW5nIGxpa2VzIHRoYXQsIHBsdXMgYW4gaW5zdHJ1Y3Rpb24gdG8NCnB1c2ggdG8gdGhlIHNoYWRv
+dyBzdGFjay4NCg0KVGhlcmUgd2FzIHNvbWUgZGViYXRlIGFib3V0IHdoZXRoZXIgdG8gdXNlIHRo
+ZXNlIGZlYXR1cmVzLCBhcyBnbGliYyBjb3VsZCBub3QNCnBlcmZlY3RseSBtYXRjaCBjb21wYXRp
+YmlsaXR5IGZvciBmZWF0dXJlcyB0aGF0IHBsYXkgd2l0aCB0aGUgc3RhY2sgbGlrZQ0KbG9uZ2pt
+cCgpLiBBcyBpbiwgd2l0aG91dCB1c2luZyB0aG9zZSBleHRyYSBIVyBjYXBhYmlsaXRpZXMsIHNv
+bWUgYXBwcyB3b3VsZA0KcmVxdWlyZSBtb2RpZmljYXRpb25zIHRvIHdvcmsgd2l0aCBzaGFkb3cg
+c3RhY2suDQoNClRoZXJlIGhhcyBiZWVuIGEgbG90IG9mIGRlc2lnbiB0ZW5zaW9uIGJldHdlZW4g
+c2VjdXJpdHksIHBlcmZvcm1hbmNlIGFuZA0KY29tcGF0aWJpbGl0eSBpbiBmaWd1cmluZyBvdXQg
+aG93IHRvIGZpdCB0aGlzIGZlYXR1cmUgaW50byBleGlzdGluZyBzb2Z0d2FyZS4gSW4NCnRoZSBl
+bmQgdGhlIGNvbnNlbnN1cyB3YXMgdG8gbm90IHVzZSB0aGVzZSBleHRyYSBIVyBjYXBhYmlsaXRp
+ZXMsIGFuZCBsZWFuDQp0b3dhcmRzIHNlY3VyaXR5IGluIHRoZSBpbXBsZW1lbnRhdGlvbi7CoFRv
+IHRyeSB0byBzdW1tYXJpemUgdGhlIGRlYmF0ZSwgdGhpcyB3YXMNCmJlY2F1c2Ugd2UgY291bGQg
+Z2V0IHByZXR0eSBjbG9zZSB0byBjb21wYXRpYmlsaXR5IHdpdGhvdXQgZW5hYmxpbmcgdGhlc2Ug
+ZXh0cmENCmZlYXR1cmVzLg0KDQpTbyBzaW5jZSB0aGlzIHNvbHV0aW9uIGRvZXMgc29tZXRoaW5n
+IGxpa2UgZW5hYmxpbmcgdGhlc2UgZXh0cmEgY2FwYWJpbGl0aWVzIGluDQpzb2Z0d2FyZSB0aGF0
+IHdlcmUgcHVycG9zZWx5IGRpc2FibGVkIGluIEhXLCBpdCByYWlzZXMgZXllYnJvd3MuIEdsaWJj
+IGhhcyBzb21lDQpvcGVyYXRpb25zIHRoYXQgbm93IGhhdmUgZXh0cmEgc3RlcHMgYmVjYXVzZSBv
+ZiBzaGFkb3cgc3RhY2suIFNvIGlmIHdlIGNvdWxkIGRvDQpzb21ldGhpbmcgdGhhdCB3YXMgc3Rp
+bGwgZnVuY3Rpb25hbCwgYnV0IHNsb3dlciBhbmQgbW9yZSBzZWN1cmUsIHRoZW4gaXQgc2VlbXMN
+CnJvdWdobHkgaW4gbGluZSB3aXRoIHRoZSB0cmFkZW9mZnMgd2UgaGF2ZSBnb25lIHdpdGggc28g
+ZmFyLg0KDQpCdXQgc2hhZG93IHN0YWNrIGlzIG5vdCBpbiB3aWRlc3ByZWFkIHVzZSB5ZXQsIHNv
+IHdoZXRoZXIgd2UgaGF2ZSB0aGUgZmluYWwNCnRyYWRlb2ZmcyBzZXR0bGVkIGlzIHN0aWxsIG9w
+ZW4gSSB0aGluay4gRm9yIGV4YW1wbGUsIG90aGVyIGxpYmNzIGhhdmUgZXhwcmVzc2VkDQppbnRl
+cmVzdCBpbiB1c2luZyBXUlNTLg0KDQpJJ20gYWxzbyBub3QgY2xlYXIgb24gdGhlIHR5cGljYWwg
+dXNlIG9mIHVyZXRwcm9iZXMgKGRlYnVnZ2luZyB2cyBwcm9kdWN0aW9uKS4NCkFuZCB3aGV0aGVy
+IHNoYWRvdyBzdGFjayArIGRlYnVnZ2luZyArIHByb2R1Y3Rpb24gd2lsbCBoYXBwZW4gc2VlbXMg
+cHJldHR5DQp1bmtub3duLg0KDQo+IA0KPiBHb29kIHBvaW50LiBGb3IgdGhlIHNlY3VyaXR5IGNv
+bmNlcm5pbmcgKGUuZy4gbGVha2luZyBzZW5zaXRpdmUgaW5mb3JtYXRpb24NCj4gZnJvbSBzZWN1
+cmUgcHJvY2VzcyB3aGljaCB1c2VzIHNoYWRvdyBzdGFjayksIHdlIG5lZWQgYW5vdGhlciBsaW1p
+dGF0aW9uDQo+IHdoaWNoIHByb2hpYml0cyBwcm9iaW5nIHN1Y2ggcHJvY2VzcyBldmVuIGZvciBk
+ZWJ1Z2dpbmcuIEJ1dCBJIHRoaW5rIHRoYXQNCj4gbmVlZHMgYW5vdGhlciBzZXJpZXMgb2YgcGF0
+Y2hlcy4gV2UgYWxzbyBuZWVkIHRvIGRpc2N1c3Mgd2hlbiBpdCBzaG91bGQgYmUNCj4gcHJvaGli
+aXRlZCBhbmQgaG93IChlLmcuIGF1ZGl0IGludGVyZmFjZT8gU0VMaW51eD8pLg0KPiBCdXQgSSB0
+aGluayB0aGlzIHNlcmllcyBpcyBqdXN0IG9wdGltaXppbmcgY3VycmVudGx5IGF2YWlsYWJsZSB1
+cHJvYmVzIHdpdGgNCj4gYSBuZXcgc3lzY2FsbC4gSSBkb24ndCB0aGluayBpdCBjaGFuZ2VzIHN1
+Y2ggc2VjdXJpdHkgY29uY2VybmluZy4NCg0KUGF0Y2ggNiBhZGRzIHN1cHBvcnQgZm9yIHNoYWRv
+dyBzdGFjayBmb3IgdXJldHByb2Jlcy4gQ3VycmVudGx5IHRoZXJlIGlzIG5vDQpzdXBwb3J0Lg0K
+DQpQZXRlcnogaGFkIGFza2VkIHRoYXQgdGhlIG5ldyBzb2x1dGlvbiBjb25zaWRlciBzaGFkb3cg
+c3RhY2sgc3VwcG9ydCwgc28gSSB0aGluaw0KdGhhdCBpcyBob3cgdGhpcyBzZXJpZXMgZ3JldyBr
+aW5kIG9mIHR3byBnb2FsczogbmV3IGZhc3RlciB1cmV0cHJvYmVzIGFuZA0KaW5pdGlhbCBzaGFk
+b3cgc3RhY2sgc3VwcG9ydC4NCg0KDQo=
 
