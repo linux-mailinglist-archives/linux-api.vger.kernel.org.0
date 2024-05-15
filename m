@@ -1,141 +1,105 @@
-Return-Path: <linux-api+bounces-1521-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1522-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1816E8C69E4
-	for <lists+linux-api@lfdr.de>; Wed, 15 May 2024 17:43:51 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 024C48C6F33
+	for <lists+linux-api@lfdr.de>; Thu, 16 May 2024 01:32:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 495761C21457
-	for <lists+linux-api@lfdr.de>; Wed, 15 May 2024 15:43:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AD2B81F214B0
+	for <lists+linux-api@lfdr.de>; Wed, 15 May 2024 23:32:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8B7F155A59;
-	Wed, 15 May 2024 15:43:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DC374F5F9;
+	Wed, 15 May 2024 23:32:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NwHJeUni"
+	dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b="aZJnNRCo"
 X-Original-To: linux-api@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mail.codeweavers.com (mail.codeweavers.com [4.36.192.163])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A2DF155A53
-	for <linux-api@vger.kernel.org>; Wed, 15 May 2024 15:43:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3A564D5A5;
+	Wed, 15 May 2024 23:32:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.36.192.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715787826; cv=none; b=K9fXNgJPJQjKHuAgvkEBBIVTTPcjiq73YN9NdyfVNJ9kUbi3aRlzHB+Y3VIGow1wTImWKeCsWdqjb4Lltf5m2CDA+KeSh3f03mkjiEMj5PlsduyKyHFQpxG3hOUIYn07XyFF0mV0DjHtAbg1b2Bi/CcxMuBlsczy9/AfNyTb6bM=
+	t=1715815962; cv=none; b=f1NawSIY0TUBux0MGXBqY122a/RvGUS6u9XdFIoXx13JDqWGXxei5Zm/aW4FmCTLoxKkqPaalGYpogJZKRahmPeMQG7G71w6Z8AREgGUNKRpUTkovJHZoV2RYc6Uhddjtjnx2yV9TfG5drzy8Ls3NSztxvVxszxlepdi3DWTG7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715787826; c=relaxed/simple;
-	bh=sVxFSbL3YtTiW/g14Gv6p0q8nZLKnH+spwUtKK9cJ9A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JSJ9GumFapW4Jv8Ijy4vmbUTs+o3+fm0CjHc1wKB3K6bo3z5frPB3sQ4afUYXnAoitRWO5oheHFNNMVcV8TZElbasX/uyEH1Z/L8qz5YxeMttNZrzvkhqyL1EF59vXm6tUEapTkDyP4vU58pYtS5zJQ9qTtIJZ/WcwBWYaK45hU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=NwHJeUni; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1715787824;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=sVxFSbL3YtTiW/g14Gv6p0q8nZLKnH+spwUtKK9cJ9A=;
-	b=NwHJeUniLMcY2PIjcN02rOodzkNgo6EYitlRQF3ZNCThMeNi4vkgNdjP54QzRm2nUWnL2k
-	gF9pJTCLRaTIuWgkhS/D+g5eNxAinK7ZXOHcaZGOZHMg1MC0b+6vaTdoAd1fR658gStg+E
-	TLdglxN10gm2tWtINu03xoPMeKTSa/Q=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-361-WrPe04tvN8qa89qxw5DYcg-1; Wed, 15 May 2024 11:43:35 -0400
-X-MC-Unique: WrPe04tvN8qa89qxw5DYcg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 867498016E9;
-	Wed, 15 May 2024 15:43:34 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.226.39])
-	by smtp.corp.redhat.com (Postfix) with SMTP id C19983C27;
-	Wed, 15 May 2024 15:43:29 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-	oleg@redhat.com; Wed, 15 May 2024 17:42:08 +0200 (CEST)
-Date: Wed, 15 May 2024 17:42:03 +0200
-From: Oleg Nesterov <oleg@redhat.com>
-To: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-Cc: "olsajiri@gmail.com" <olsajiri@gmail.com>,
-	"songliubraving@fb.com" <songliubraving@fb.com>,
-	"luto@kernel.org" <luto@kernel.org>,
-	"mhiramat@kernel.org" <mhiramat@kernel.org>,
-	"andrii@kernel.org" <andrii@kernel.org>,
-	"debug@rivosinc.com" <debug@rivosinc.com>,
-	"john.fastabend@gmail.com" <john.fastabend@gmail.com>,
-	"linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"mingo@redhat.com" <mingo@redhat.com>,
-	"rostedt@goodmis.org" <rostedt@goodmis.org>,
-	"ast@kernel.org" <ast@kernel.org>,
-	"tglx@linutronix.de" <tglx@linutronix.de>,
-	"linux-man@vger.kernel.org" <linux-man@vger.kernel.org>,
-	"yhs@fb.com" <yhs@fb.com>,
-	"daniel@iogearbox.net" <daniel@iogearbox.net>,
-	"peterz@infradead.org" <peterz@infradead.org>,
-	"linux-trace-kernel@vger.kernel.org" <linux-trace-kernel@vger.kernel.org>,
-	"bp@alien8.de" <bp@alien8.de>,
-	"bpf@vger.kernel.org" <bpf@vger.kernel.org>,
-	"x86@kernel.org" <x86@kernel.org>
-Subject: Re: [PATCHv5 bpf-next 6/8] x86/shstk: Add return uprobe support
-Message-ID: <20240515154202.GE6821@redhat.com>
-References: <20240507105321.71524-7-jolsa@kernel.org>
- <a08a955c74682e9dc6eb6d49b91c6968c9b62f75.camel@intel.com>
- <ZjyJsl_u_FmYHrki@krava>
- <a8b7be15e6dbb1e8f2acaee7dae21fec7775194c.camel@intel.com>
- <Zj_enIB_J6pGJ6Nu@krava>
- <20240513185040.416d62bc4a71e79367c1cd9c@kernel.org>
- <c56ae75e9cf0878ac46185a14a18f6ff7e8f891a.camel@intel.com>
- <ZkKE3qT1X_Jirb92@krava>
- <20240515113525.GB6821@redhat.com>
- <0fa9634e9ac0d30d513eefe6099f5d8d354d93c1.camel@intel.com>
+	s=arc-20240116; t=1715815962; c=relaxed/simple;
+	bh=kNIfUSqmELR44cA1YYeUiPS/oNMg9kNiAuiUGNZMCbI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=c89AswlQlD3v7U6MRgRj5+dRJBUiz6ueEWH6B3eRi4VBHl6sfFe9csPvR76H59PvbxQ5buC14rkFcqbpYU2zSB28ypQPWyBb8MtHVAJ4IXE36478oDZa8VZp5nJi0L3fkO9z9P5WAsArtACU1oEdrgXubPMH5/apWCQxhBgVBnY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com; spf=pass smtp.mailfrom=codeweavers.com; dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b=aZJnNRCo; arc=none smtp.client-ip=4.36.192.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeweavers.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=codeweavers.com; s=s1; h=Message-ID:Date:Subject:Cc:To:From:Sender;
+	bh=kNIfUSqmELR44cA1YYeUiPS/oNMg9kNiAuiUGNZMCbI=; b=aZJnNRCoU4VdBtKnFF2KaV3kkk
+	H/MnU0t8TpOaClSFgLOcARfnRydTZRKZF4lEySoZF5MdxuK3dCAuZnhauaBUw/EgTy1cuxJTXWps9
+	gTnZhGETkt32V4J+P9tOsZoRWrL7ui4X8jCrqFoAV2L/r4N/kJ0deokolHOw4Ly6aiE+jnW9QyFiW
+	h39hO6ClKz8UCmoeAUwLyVfjNWdqx7kziiVEn+FBD2WmLVqcCYXDGuUChuaawgovf9fifN2qydGDx
+	GudVNON6odyAwWU/UppZkPacdf3qJ6/9hqsaNoPPQnaRJYhqWZsNv96w13xRkLbIkfupCDCsZyC7o
+	S9uZ6e9A==;
+Received: from [10.69.139.9] (helo=watership.localnet)
+	by mail.codeweavers.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <zfigura@codeweavers.com>)
+	id 1s7O6n-005nPN-1T;
+	Wed, 15 May 2024 18:32:29 -0500
+From: Elizabeth Figura <zfigura@codeweavers.com>
+To: Peter Zijlstra <peterz@infradead.org>, wine-devel@winehq.org
+Cc: Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+ linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+ wine-devel@winehq.org,
+ =?ISO-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+ Wolfram Sang <wsa@kernel.org>, Andy Lutomirski <luto@kernel.org>,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ Randy Dunlap <rdunlap@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ Will Deacon <will@kernel.org>, Waiman Long <longman@redhat.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Elizabeth Figura <zfigura@codeweavers.com>
+Subject: Re: [PATCH v4 00/30] NT synchronization primitive driver
+Date: Wed, 15 May 2024 18:32:26 -0500
+Message-ID: <2322852.ElGaqSPkdT@watership>
+In-Reply-To: <1790266.VLH7GnMWUR@camazotz>
+References:
+ <20240416010837.333694-1-zfigura@codeweavers.com>
+ <20240417100132.GK30852@noisy.programming.kicks-ass.net>
+ <1790266.VLH7GnMWUR@camazotz>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0fa9634e9ac0d30d513eefe6099f5d8d354d93c1.camel@intel.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.1
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-On 05/15, Edgecombe, Rick P wrote:
->
-> On Wed, 2024-05-15 at 13:35 +0200, Oleg Nesterov wrote:
-> >
-> > > I'm ok with not using optimized uretprobe when shadow stack is detected
-> > > as enabled and we go with current uretprobe in that case
-> >
-> > But how can we detect it? Again, suppose userspace does
->
-> the rdssp instruction returns the value of the shadow stack pointer. On non-
-> shadow stack it is a nop. So you could check if the SSP is non-zero to find if
-> shadow stack is enabled.
+On Wednesday, April 17, 2024 3:02:13=E2=80=AFPM CDT Elizabeth Figura wrote:
+> > > Except for the "unowned" semantics of zero, the actual value of the
+> > > owner identifier is not interpreted by the ntsync driver at all. The
+> > > intended use is to store a thread identifier; however, the ntsync
+> > > driver does not actually validate that a calling thread provides
+> > > consistent or unique identifiers.
+> >=20
+> > Why not verify it? Seems simple enough to put in a TID check, esp. if NT
+> > mandates the same.
+>=20
+> I mostly figured it'd be simplest to leave the driver completely
+> agnostic, but I don't think there's any reason we can't use the real
+> TID for most calls.
 
-But again, the ret-probed function can enable it before it returns? And we
-need to check if it is enabled on the function entry if we want to avoid
-sys_uretprobe() in this case. Although I don't understand why we want to
-avoid it.
+While trying to implement this I did realize a reason: if a Linux thread di=
+es=20
+and a new Wine thread is created which happens to have the same Linux TID=20
+*before* Wine notices the thread death, that thread's TID will be conflated=
+=20
+with the thread that died. I don't think we can guarantee that we notice=20
+thread death before we notice a request to create a new Wine thread.
 
-> This would catch most cases, but I guess there is the
-> possibility of it getting enabled in a signal that hit between checking and the
-> rest of operation.
+Using Wine-managed TIDs avoids this by virtue of ensuring that a Wine TID i=
+s=20
+not reused until the associated Wine thread has been cleaned up.
 
-Or from signal handler.
-
-> Is this uretprobe stuff signal safe in general?
-
-In what sense?
-
-I forgot everything about this code but I can't recall any problem with signals.
-
-Except it doesn't support sigaltstack() + siglongjmp().
-
-Oleg.
 
 
