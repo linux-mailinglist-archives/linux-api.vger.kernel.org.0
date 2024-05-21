@@ -1,135 +1,222 @@
-Return-Path: <linux-api+bounces-1573-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1574-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E704B8CB4DE
-	for <lists+linux-api@lfdr.de>; Tue, 21 May 2024 22:49:20 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A91A58CB4F2
+	for <lists+linux-api@lfdr.de>; Tue, 21 May 2024 22:54:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 684A31F215CD
-	for <lists+linux-api@lfdr.de>; Tue, 21 May 2024 20:49:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1A2701F22BF3
+	for <lists+linux-api@lfdr.de>; Tue, 21 May 2024 20:54:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28E93149C42;
-	Tue, 21 May 2024 20:49:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 181C9149C4D;
+	Tue, 21 May 2024 20:54:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="bGOtEg9z"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p3R4WUv+"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87EE11494AD
-	for <linux-api@vger.kernel.org>; Tue, 21 May 2024 20:49:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4D2C7F49F;
+	Tue, 21 May 2024 20:54:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716324547; cv=none; b=mKYFN0Q00gf9aF2Ra5ekPv/3t84wCLZPhJPwz0b3PhQKYW8cve7RNNDSdYm7WB8L+PlP05Duz5eYVYhmy/2QMdFs25heLjJgU1zoJQL7M0TkT1zKVum8ZCE3PpKbbbjsTt6S73tY+BvPS3mlrTi3W7LB52s7akARqxME4nLmk7k=
+	t=1716324883; cv=none; b=Exc5fpEEO6ibZO9gT8yGC+HqOELd0Yh+IHRUF3lxhZwCtJlM4fWXJe2hQcUt18zWp2hE7pP81AnzGGNDv2y1tvPhSk6h+FSxvTmgnMSMHwnF9hJ15/hxfPpIPrQT6JRmZAvV81ZNIyg9p/yGU9y01zM/SPfAa3YvwndHRttVvaU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716324547; c=relaxed/simple;
-	bh=693jQWAREfUdV/HbHgjOUtkEmsrn6/m+v+a7zyIHVAs=;
+	s=arc-20240116; t=1716324883; c=relaxed/simple;
+	bh=VTAL4Yq+4Yy+z4E1P9/Al5QouIguhAlWKRwZdyxg52M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hUbF+rSvDTx94Z9Lam9vPfLysqshzXrg/hNsHi/SbjyksJq5QjaRyuB2Kmcf+0JJRU1DJO7NFRk88v40NpKWMccw3AD3zKMytahCOXrYUjNNqQoqy6iNzv8ExncfFpuyLgWfaMsGruftVub6/uo7YDYAle/rrILpaUbVdAAExZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=bGOtEg9z; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1e3c3aa8938so107527235ad.1
-        for <linux-api@vger.kernel.org>; Tue, 21 May 2024 13:49:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1716324545; x=1716929345; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Rx+dQv0EXvgLDA60wWUrjQl9mWisglv5nVrYagP1xdM=;
-        b=bGOtEg9ziXoNqwXkpqdc4PZ9a/dAbvsOdVOv6Ku83BXj1uzMRgUexqjLybC6vjdwuF
-         vyl5BeGOLjczKNcCkP/tIjHejxsaGNV1t1mptXMu8OHmNVQUVRr1aFPnnrhS+z7u9rSi
-         TyEsregyM6IsQNW8QbmTkWsVfnJ3mZnyqD95NnLJ649AXvr958c52PadJUiNq6PoD9aX
-         5LE815kSLpBWQ9xLvQSEDW9VCUFIgrYXOiFuQ4+2lTiTvo81nZFHYjvdMVPDT7ZwcZb8
-         mHVe/kOcJg60Ee14FH4DclNTU8v481dskopZPkQVXtpuo2pu6aNhYA05mXo3veNx73Y9
-         WMDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716324545; x=1716929345;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Rx+dQv0EXvgLDA60wWUrjQl9mWisglv5nVrYagP1xdM=;
-        b=s2NXQNXCbSSHp5sMW26ZbDVnXSSm386NjDZb4nzy80JbknZUpEn4lVCySmda4AmU9K
-         NCBoP1wPmcu+zjzUJ+jiFsx8l3Y0isKP3/NYsk56UNvzdcrhg1c9P4cFhdLUFC4BF3zk
-         PMNqqzqk2QuKzIk9xbF5jyHt5zvaVptPaBK2VkfQb8QSFWTvKXL1VZ09QfXOovhAXwdL
-         UEZZkz7UMnKj06/J2bRBcC9ADqLFB8jClnonyJI5xxksvIabSFX0Dxbl3HyGM59DD3/W
-         ClKgH7R7UT4SxTg2K1jyCS8L59XAXOkYUgxm/1RLs2ao2gnupylT7Wdq69Lp/b4WVtPH
-         1S+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCU5DaMjnn25yzj5zE8MIr4aWal5M583B80C6wja+K/5DNptPRVRTgmNAU0wBg9EeZf3d1xDPv4fvnnajxsb62XdYdVciBlzHXbV
-X-Gm-Message-State: AOJu0YwN9d14uzBX8Jx+BoLJEYoQ+1RF6wc0ixNqw47iYpwtWYIYuoXK
-	sQe69PMkCTQGonNIu8ln2jG8WKEw//TvdxkPopNxA5uoDF+lUH9d9wkicccaxnA=
-X-Google-Smtp-Source: AGHT+IHlwL8HnlxOnwn8kJ0fVFV55sB/RolsKAbelV78JZZEngYsdS/7UN3t2OKQs87EBwQocJT9nA==
-X-Received: by 2002:a17:903:8c6:b0:1dd:bf6a:2b97 with SMTP id d9443c01a7336-1f31ca37710mr787045ad.60.1716324544792;
-        Tue, 21 May 2024 13:49:04 -0700 (PDT)
-Received: from debug.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f0958d1e3csm114310545ad.191.2024.05.21.13.49.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 May 2024 13:49:04 -0700 (PDT)
-Date: Tue, 21 May 2024 13:49:01 -0700
-From: Deepak Gupta <debug@rivosinc.com>
-To: Jiri Olsa <jolsa@kernel.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-	linux-man@vger.kernel.org, x86@kernel.org, bpf@vger.kernel.org,
-	Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	"Borislav Petkov (AMD)" <bp@alien8.de>,
-	Ingo Molnar <mingo@redhat.com>, Andy Lutomirski <luto@kernel.org>,
-	"Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-Subject: Re: [PATCHv6 bpf-next 0/9] uprobe: uretprobe speed up
-Message-ID: <Zk0IvZU834RQ7YKp@debug.ba.rivosinc.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=LgoOYfwjNTV6X+e1N4uzm9lBoe62enYByhJsIvrYKZFLey/6pWkDkte8uGfMfOhkdj5KsAmYUGWOFl7tVYyJWRa7K1tYjK4OG4IJ4JbDURnTtyZ1R1cheYs/suUu4ZPjMyCheA/YKJI8Ve35CohK2sqP3n2KdWyXUQ683/28HH8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p3R4WUv+; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36512C2BD11;
+	Tue, 21 May 2024 20:54:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1716324882;
+	bh=VTAL4Yq+4Yy+z4E1P9/Al5QouIguhAlWKRwZdyxg52M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=p3R4WUv+kc/24r928j3pVsWQOsB1N0CAxB+kS0SRf4sVQt1P9rmjuVCATNP0BskN1
+	 UZIVV9K7bwQUYHqrOXICo9acVb86X28vnucfNX8pN5GatbMsIk0f5sw8mE6fZMdbqG
+	 Qgsx526A/UNVH23sOavMMLmrVuc868S5NZG8jZXc6/g1op8sjrp/yITmzUKqMcUMVq
+	 NN5bbt5OxsyDoNO5lGYeauRkDgyHp1zkBlHteWrZqXlLzMckRJMjQZpFxLBl7kC0Yj
+	 HQuBnFAv+gOK+J4pyHzNRpgzudw1kYi1YZq7PuQsRtItIM2CJm2REQVv4DlgHov6YS
+	 bhwkDrRP2/m0Q==
+Date: Tue, 21 May 2024 22:54:36 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: Jiri Olsa <olsajiri@gmail.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-api@vger.kernel.org, linux-man@vger.kernel.org, x86@kernel.org, bpf@vger.kernel.org, 
+	Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>, 
+	John Fastabend <john.fastabend@gmail.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Thomas Gleixner <tglx@linutronix.de>, "Borislav Petkov (AMD)" <bp@alien8.de>, 
+	Ingo Molnar <mingo@redhat.com>, Andy Lutomirski <luto@kernel.org>, 
+	"Edgecombe, Rick P" <rick.p.edgecombe@intel.com>, Deepak Gupta <debug@rivosinc.com>
+Subject: Re: [PATCHv6 9/9] man2: Add uretprobe syscall page
+Message-ID: <o5pkz3eenii6p6sm7dl2fsgy4fqqaq2qbn2rbxddhkvaarvwgm@dkjjknb44qp2>
 References: <20240521104825.1060966-1-jolsa@kernel.org>
+ <20240521104825.1060966-10-jolsa@kernel.org>
+ <j6qxudmvwccpqnle4evabxbswdygmx35bgqwhemuzsjs5iuydv@fk2iumwucifx>
+ <ZkyKKwfhNZxrGWsa@krava>
+ <Zk0C_vm3T2L79-_W@krava>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ccdqohwx336ci7ml"
 Content-Disposition: inline
-In-Reply-To: <20240521104825.1060966-1-jolsa@kernel.org>
+In-Reply-To: <Zk0C_vm3T2L79-_W@krava>
 
-On Tue, May 21, 2024 at 12:48:16PM +0200, Jiri Olsa wrote:
->hi,
->as part of the effort on speeding up the uprobes [0] coming with
->return uprobe optimization by using syscall instead of the trap
->on the uretprobe trampoline.
 
-I understand this provides an optimization on x86. I believe primary reason
-is syscall is straight-line microcode and short sequence while trap delivery
-still does all the GDT / IDT and segmentation checks and it makes delivery
-of the trap slow.
+--ccdqohwx336ci7ml
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: Jiri Olsa <olsajiri@gmail.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-api@vger.kernel.org, linux-man@vger.kernel.org, x86@kernel.org, bpf@vger.kernel.org, 
+	Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>, 
+	John Fastabend <john.fastabend@gmail.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Thomas Gleixner <tglx@linutronix.de>, "Borislav Petkov (AMD)" <bp@alien8.de>, 
+	Ingo Molnar <mingo@redhat.com>, Andy Lutomirski <luto@kernel.org>, 
+	"Edgecombe, Rick P" <rick.p.edgecombe@intel.com>, Deepak Gupta <debug@rivosinc.com>
+Subject: Re: [PATCHv6 9/9] man2: Add uretprobe syscall page
+References: <20240521104825.1060966-1-jolsa@kernel.org>
+ <20240521104825.1060966-10-jolsa@kernel.org>
+ <j6qxudmvwccpqnle4evabxbswdygmx35bgqwhemuzsjs5iuydv@fk2iumwucifx>
+ <ZkyKKwfhNZxrGWsa@krava>
+ <Zk0C_vm3T2L79-_W@krava>
+MIME-Version: 1.0
+In-Reply-To: <Zk0C_vm3T2L79-_W@krava>
 
-So doing syscall improves that. Although it seems x86 is going to get rid of 
-that as part of FRED [1, 2]. And linux kernel support for FRED is already upstream [2].
-So I am imagining x86 hardware already exists with FRED support.
+Hi Jirka,
 
-On other architectures, I believe trap delivery for breakpoint instruction
-is same as syscall instruction.
+On Tue, May 21, 2024 at 10:24:30PM GMT, Jiri Olsa wrote:
+> how about the change below?
 
-Given that x86 trap delivery is pretty much going following the suit here and
-intend to make trap delivery cost similar to syscall delivery.
+Much better.  I still have a few comments below.  :-)
 
-Sorry for being buzzkill here but ...
-Is it worth introducing this syscall which otherwise has no use on other arches
-and x86 (and x86 kernel) has already taken steps to match trap delivery latency with
-syscall latency would have similar cost?
+>=20
+> thanks,
+> jirka
+>=20
+>=20
+> ---
+> diff --git a/man/man2/uretprobe.2 b/man/man2/uretprobe.2
+> new file mode 100644
+> index 000000000000..959b7a47102b
+> --- /dev/null
+> +++ b/man/man2/uretprobe.2
+> @@ -0,0 +1,55 @@
+> +.\" Copyright (C) 2024, Jiri Olsa <jolsa@kernel.org>
+> +.\"
+> +.\" SPDX-License-Identifier: Linux-man-pages-copyleft
+> +.\"
+> +.TH uretprobe 2 (date) "Linux man-pages (unreleased)"
+> +.SH NAME
+> +uretprobe \- execute pending return uprobes
+> +.SH SYNOPSIS
+> +.nf
+> +.B int uretprobe(void)
+> +.fi
+> +.SH DESCRIPTION
+> +The
+> +.BR uretprobe ()
+> +system call is an alternative to breakpoint instructions for triggering =
+return
+> +uprobe consumers.
+> +.P
+> +Calls to
+> +.BR uretprobe ()
+> +system call are only made from the user-space trampoline provided by the=
+ kernel.
+> +Calls from any other place result in a
+> +.BR SIGILL .
+> +.SH RETURN VALUE
+> +The
+> +.BR uretprobe ()
+> +system call return value is architecture-specific.
+> +.SH ERRORS
+> +.BR SIGILL
 
-Did you do any study of this on FRED enabled x86 CPUs?
+This should be a tagged paragraph, preceeded with '.TP'.  See any manual
+page with an ERRORS section for an example.
 
-[1] - https://www.intel.com/content/www/us/en/content-details/780121/flexible-return-and-event-delivery-fred-specification.html
-[2] - https://docs.kernel.org/arch/x86/x86_64/fred.html
+Also, BR is Bold alternating with Roman, but this is just bold, so it
+should use '.B'.
 
->
->The speed up depends on instruction type that uprobe is installed
->and depends on specific HW type, please check patch 1 for details.
->
+=2ETP
+=2EB SIGILL
+
+> +The
+> +.BR uretprobe ()
+> +system call was called by user.
+> +.SH VERSIONS
+> +Details of the
+> +.BR uretprobe ()
+> +system call behavior vary across systems.
+> +.SH STANDARDS
+> +None.
+> +.SH HISTORY
+> +TBD
+> +.SH NOTES
+> +The
+> +.BR uretprobe ()
+> +system call was initially introduced for the x86_64 architecture where i=
+t was shown
+
+We have a strong-ish limit at column 80.  Please break after
+'architecture', which is a clause boundary.
+
+Have a lovely night!
+Alex
+
+> +to be faster than breakpoint traps.
+> +It might be extended to other architectures.
+> +.P
+> +The
+> +.BR uretprobe ()
+> +system call exists only to allow the invocation of return uprobe consume=
+rs.
+> +It should
+> +.B never
+> +be called directly.
+> +Details of the arguments (if any) passed to
+> +.BR uretprobe ()
+> +and the return value are architecture-specific.
+>=20
+
+--=20
+<https://www.alejandro-colomar.es/>
+
+--ccdqohwx336ci7ml
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmZNCgsACgkQnowa+77/
+2zJIQQ/7BAgwH2hW3N8bbbBv85y8HA8GsAtUZDSO9flK1GsoZlmwsR8dbWJmbE1v
+395U8q21JqlOEGlk98ES9n2ssEsq5dLEx1eIPlYuADlc0+PFOEJRhBnXS/td1+mM
+ADJm+e9tyc8PIpuB1ysLeeRfmovWUDxEubm5q+qzJ+n1k5ZMiGmLPmDor5afLDyR
+iug3Yyv4+5g+FzqE23vudpJ5pcv6eRVVbYuZ8gwIpY7hfwVvQ4MQed339XL8bZun
+qa2mKy0dMME/SNc5rDKoJ4t0KvbfWGH6UKM9iXVEu8xZZuGnxyjmpwGBYNxBz4c1
+UN3ep5j+ufqlTydspd2vQYZEN6cOTRONd5bC0kH0ZAFJsbIlyxX7IOBtjbbKRv59
+o23M6bfUEpz7sfxdrODpP45gYV5JQTz3/GCRv8rGiDN1SlkCZl7wXK0Zigop5l+D
+VxDs+E57YtcLQYU1u8qHJpMQsjzEC6uIOtI6/0FBHMeoon6JKxBZZrYZO3YfmWwd
+8ZQSJctgTL//aQQRLc7a/fCuscWtWA03QWuCmFxy6020l9Hkkh43bzUyQRFRx543
+WdjLslYj0AQkvOmhxp1jEXEhqDCYQBDvyqoS24gIFOAEraSIlRYJK9bcDwhRVHcz
+IZKE8tzJ81Dtlkfzi2H59LciIAvVKXze40tjsHL2hWfhfgJVQgE=
+=lj6M
+-----END PGP SIGNATURE-----
+
+--ccdqohwx336ci7ml--
 
