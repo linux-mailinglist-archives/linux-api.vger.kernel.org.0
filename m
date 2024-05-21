@@ -1,106 +1,279 @@
-Return-Path: <linux-api+bounces-1570-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1571-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AC118CB3F2
-	for <lists+linux-api@lfdr.de>; Tue, 21 May 2024 21:01:49 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 873438CB4A7
+	for <lists+linux-api@lfdr.de>; Tue, 21 May 2024 22:24:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5C3831C21D8A
-	for <lists+linux-api@lfdr.de>; Tue, 21 May 2024 19:01:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 18B6D1F22707
+	for <lists+linux-api@lfdr.de>; Tue, 21 May 2024 20:24:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF242147C9F;
-	Tue, 21 May 2024 19:01:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41E181494B3;
+	Tue, 21 May 2024 20:24:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Ht+jIFBk"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HKN2yFP/"
 X-Original-To: linux-api@vger.kernel.org
 Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CA2769DF7
-	for <linux-api@vger.kernel.org>; Tue, 21 May 2024 19:01:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69B1C3FB8B;
+	Tue, 21 May 2024 20:24:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716318103; cv=none; b=TIuhn75A9xuvycQqpc3kxGxgDsqfMQsc4mLbFm/TPMelMdY8fKqI1vQc7pHj2lrYCX+xQPq9RzkxiOyCts1zuA4qm5kyXrNtPMmkkw7QsvliItXje6Ex9/e2qHI8FBWlyHvkRwnLMRAWzRrhuyG+r5m+GzLvqHq2fdbq9JhRbIo=
+	t=1716323077; cv=none; b=p5DiG7qPvdlDPi9gGGVJx02T4v6WhB7QCLvEs3GkLC8XmSDWiDrvIOvPcx16n7tPF/innPlq6O6dxUqGy2vTwT4Nk+Rg2ltiB40BDP4lwWHVJZG/djsKuJKeRxynxl7b9tA3seON06apEZ7y6eWgM25il/d7dsplCtGPx4hR7fM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716318103; c=relaxed/simple;
-	bh=8ix/SXPQG+wpfYFllBOv3clmJtpOeRZmoQkniDsFhak=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FuJcKrTeUyXbJNkazKuqnBJNOPuGn3i/YQSuEQQ4UyPMM7ZeDNCMMhZLPiNh+xIdedO1livBsnzLWRolcxON4JmLZQRz3M1QwzDt3MF9JO3KYb2mnl2X6dgYI+rqf7EHiGnEEs+2CFN2tCtDL/82xwsnT0cOA9GcioS2kwAoEeI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Ht+jIFBk; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5750a8737e5so2670a12.0
-        for <linux-api@vger.kernel.org>; Tue, 21 May 2024 12:01:41 -0700 (PDT)
+	s=arc-20240116; t=1716323077; c=relaxed/simple;
+	bh=/UG2kuAuMTEuajL7u1UkPBllsxmrQaa1uMNhHwaSNKQ=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZZYX8FkJnFlgfmDEdM4DT5cJRJ1jHtQWX4ziQ/sVw1NVid257a7w9cfczRgyW3GsWo1o6vPi+PHj5hib/LDPquPMxU4sYGgjbIu0b1ks2fF1ebHNrgXl1zvtrgPT62HKTw3S99emBRI2HXepCen51izSzIIe5cHJRHamGef4nrw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HKN2yFP/; arc=none smtp.client-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-574f7c0bab4so420744a12.0;
+        Tue, 21 May 2024 13:24:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1716318100; x=1716922900; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8ix/SXPQG+wpfYFllBOv3clmJtpOeRZmoQkniDsFhak=;
-        b=Ht+jIFBk3cNQ4LouwQ98RYvh7hB2eYM2ZbgCefBqRQRo0b01KQfg+wFBUHu50gKV5g
-         wF41rDN07fNTqVHWvgbrAm7X3Y1gxjlW6PEbfBvkn7sytcQCC4zifIaBpcZYwXE+BfXC
-         03cGODrOk5d3Xp5xy9vrhkZ9JO5ZDto0cs5LjTZvX/sIjssCHFEefC5xFH4/tXLb1eS0
-         RnnVFHyYbrDpsoI43e2NPliiwFhSvW+LDdV6/Otk5AygJ2YOD6P7E4ZdhziJcQOV75Sa
-         FOMD7a3jLAvoGNte0WvnFr3I95fA2vo8spEeNxI7LuZXmBlly1j0Jr//v4cYm7K5m6kb
-         PICg==
+        d=gmail.com; s=20230601; t=1716323074; x=1716927874; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=OYnvnXcE3D/kvzMwZLCJA06YMqi27boOmTrkHntlVqc=;
+        b=HKN2yFP/lyi/+RWnO83w3FarOOZ5AwzDMNfV9eQ6XJHAnM9Spx7haut7ndYa/c322F
+         gwjwdXhPpoeMaQTPVlnfRSAeulOIQvAiGDSrPycFQgJZW/T2JNLQB8UA8Ocr7rDnewCk
+         F9Zf3YgOstAxA4B0kq2ziixP9GGeD48sH4BpmXmoopEWb4TJoDFo5a+U7eIwrW8Wba33
+         adr/tCB/9XKTudjAgvPT4ebo8WYqCujfkpfFHNOL0kUzXFJ1DGAH+4QSfJWwiX98oNL0
+         UdX0uSnUyI+0zLfs+UBb4uqTLGVcI38XMuCpeZahllEWLFxd8jPVgQ+Tdm0p/Gv8fy6d
+         jvwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716318100; x=1716922900;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8ix/SXPQG+wpfYFllBOv3clmJtpOeRZmoQkniDsFhak=;
-        b=VG/2zp+G1qGKUfRkLV3ddEcGg0nQxsImHQW4tHnz+vKrsmG9HzPl7/SZeY5S9FlnvL
-         y4mgHenWVkTqlxlFYASNO+hnPnMvbT0GbwG7lZUB942lvqpacb7DocLS2zdrf8zygly3
-         pV8HR5DZDx3IyUYG24rT3mvO8/wZtORqN8bXpdd8EMsAteD2dQ7B94OEXWGYzwxvJsZH
-         Px84e7afOwyU/znvErBCEn5OTcu786b/FUSUS0g0ypddQAr0UPaLpxMJm3l59SfyNYhQ
-         qS2tBwNYCdC1nJpfTSM9LoQF9VF2HGaOlDQ6lpdEVd9Fs+lxIjfF0tUN2rC960+u/2E0
-         QBmQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVNpZ8CqlFJiLmSqqZJFOf0yhrPdCsxfEdqdoBH1GqGoShjSNNczlt8nT3zoNGRy0xa+LNxLBwx6LE5ezcgazMMp6tpqpHc7q0U
-X-Gm-Message-State: AOJu0YxQectvZBXxZbHVYkHlQk8L/Oja30EYJB5kp+v34wEeakB8B2JQ
-	i8yR23Z/mT45iERrrnSb3cRW/SutVXS2n2D3LSeDgK/2IYZ3Ux/CdohQ6BjjC3L5AkNK9ShjhKS
-	bf0buDIqNgiPpqsQmIjuAa5gzNkHkZ9UNlnu9
-X-Google-Smtp-Source: AGHT+IGsZHMYwB17/rHm2GPw8sDf3nKxTSkcIsaApOp5bux/QDPAPBCrzCKud52Dm0FNps4wM/XTSDtjC7pz3lXd3Qs=
-X-Received: by 2002:a05:6402:3594:b0:572:a154:7081 with SMTP id
- 4fb4d7f45d1cf-5782fc1d68amr18531a12.4.1716318100237; Tue, 21 May 2024
- 12:01:40 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1716323074; x=1716927874;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OYnvnXcE3D/kvzMwZLCJA06YMqi27boOmTrkHntlVqc=;
+        b=SwyDfhpBXo06nlxACwqlQYy6T+bBwo9Vt/+0kPUYoeV9FPia3CdqSQTEvRaEJX4LLa
+         vvZ6sRHt+q1iTZhAMkueJtUm0DcdQRtzjjwgT/q6tBzwcPCtJwuabn8hikY5uBG2swcG
+         OuFxvlbjslvj9/jVEyQmwCUe89vw4kX/cxMKfPBAd6IUSeewVCpfszbpCUQdwrOuyg7f
+         G5aneuTVT42SnDwgMuyUziXhPsyoUhF2ovQ3HZhak4gBS8IOGiHxan4paJVVCj8AjaFs
+         t61Va39012UQvapsk/smlqYCfOPbFhOwA8ywbGLxDfFQMv/ov0PkkduUHTQhEm27Heh5
+         Bdjw==
+X-Forwarded-Encrypted: i=1; AJvYcCWh82GU1Un3d1QzOFtcNCVD8YRNq0HKw2NaRqLg8XlRpDR4MsXSMZE+SVA5gy6BPYF+hXLJMT3qL9pC8XbD6RVkVQQbRHKojuJIVN8a6aPgsCZ022nfkr0jLTwul7Ssg4Y/ecijqVFHRkMl2LhNoRC/keCp5J7wKztNxe5rQ0WbwH324tF8drI44EHHbOZVlsHM9XHtybpr2NqgfVEGGTxnz4TwESZnzboXdiPHZkO79wYWHfFfk/aSVMZ0
+X-Gm-Message-State: AOJu0YzRrISSvPkbm6pZrnhV7d4Um2R5L+CoRk8NjiVP3kTde77W1WC7
+	6FZ6/pPzOJycXRb5NB59jbsp18An5jGF/lDFNK96gc7ZWXx6bmna
+X-Google-Smtp-Source: AGHT+IEiOq3YhqETpKwsUd1R/rNi0bETGeC8Gk4xXoSQWd28rw7Q0HtpnLbLaW3hdtGHuy7n+J5naQ==
+X-Received: by 2002:a50:d4d1:0:b0:575:17ca:7f7b with SMTP id 4fb4d7f45d1cf-57831140f4cmr129623a12.15.1716323073367;
+        Tue, 21 May 2024 13:24:33 -0700 (PDT)
+Received: from krava ([83.240.61.240])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5733becfbd3sm17643868a12.44.2024.05.21.13.24.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 May 2024 13:24:33 -0700 (PDT)
+From: Jiri Olsa <olsajiri@gmail.com>
+X-Google-Original-From: Jiri Olsa <jolsa@kernel.org>
+Date: Tue, 21 May 2024 22:24:30 +0200
+To: Jiri Olsa <olsajiri@gmail.com>
+Cc: Alejandro Colomar <alx@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+	linux-man@vger.kernel.org, x86@kernel.org, bpf@vger.kernel.org,
+	Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	"Borislav Petkov (AMD)" <bp@alien8.de>,
+	Ingo Molnar <mingo@redhat.com>, Andy Lutomirski <luto@kernel.org>,
+	"Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
+	Deepak Gupta <debug@rivosinc.com>
+Subject: Re: [PATCHv6 9/9] man2: Add uretprobe syscall page
+Message-ID: <Zk0C_vm3T2L79-_W@krava>
+References: <20240521104825.1060966-1-jolsa@kernel.org>
+ <20240521104825.1060966-10-jolsa@kernel.org>
+ <j6qxudmvwccpqnle4evabxbswdygmx35bgqwhemuzsjs5iuydv@fk2iumwucifx>
+ <ZkyKKwfhNZxrGWsa@krava>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240427112451.1609471-1-stsp2@yandex.ru>
-In-Reply-To: <20240427112451.1609471-1-stsp2@yandex.ru>
-From: Jann Horn <jannh@google.com>
-Date: Tue, 21 May 2024 21:01:02 +0200
-Message-ID: <CAG48ez0rOch3wemsmrL-ocadG1YeJ6Lyhz1uLxJod22Unbb_GA@mail.gmail.com>
-Subject: Re: [PATCH v6 0/3] implement OA2_CRED_INHERIT flag for openat2()
-To: Stas Sergeev <stsp2@yandex.ru>
-Cc: linux-kernel@vger.kernel.org, Stefan Metzmacher <metze@samba.org>, 
-	Eric Biederman <ebiederm@xmission.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Andy Lutomirski <luto@kernel.org>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Jeff Layton <jlayton@kernel.org>, Chuck Lever <chuck.lever@oracle.com>, 
-	Alexander Aring <alex.aring@gmail.com>, David Laight <David.Laight@aculab.com>, 
-	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
-	Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Christian_G=C3=B6ttsche?= <cgzones@googlemail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZkyKKwfhNZxrGWsa@krava>
 
-On Sat, Apr 27, 2024 at 1:24=E2=80=AFPM Stas Sergeev <stsp2@yandex.ru> wrot=
-e:
-> This patch-set implements the OA2_CRED_INHERIT flag for openat2() syscall=
-.
-> It is needed to perform an open operation with the creds that were in
-> effect when the dir_fd was opened, if the dir was opened with O_CRED_ALLO=
-W
-> flag. This allows the process to pre-open some dirs and switch eUID
-> (and other UIDs/GIDs) to the less-privileged user, while still retaining
-> the possibility to open/create files within the pre-opened directory set.
+On Tue, May 21, 2024 at 01:48:59PM +0200, Jiri Olsa wrote:
+> On Tue, May 21, 2024 at 01:36:25PM +0200, Alejandro Colomar wrote:
+> > Hi Jiri,
+> > 
+> > On Tue, May 21, 2024 at 12:48:25PM GMT, Jiri Olsa wrote:
+> > > Adding man page for new uretprobe syscall.
+> > > 
+> > > Signed-off-by: Jiri Olsa <jolsa@kernel.org>
+> > > ---
+> > >  man2/uretprobe.2 | 50 ++++++++++++++++++++++++++++++++++++++++++++++++
+> > >  1 file changed, 50 insertions(+)
+> > >  create mode 100644 man2/uretprobe.2
+> > > 
+> > > diff --git a/man2/uretprobe.2 b/man2/uretprobe.2
+> > > new file mode 100644
+> > > index 000000000000..690fe3b1a44f
+> > > --- /dev/null
+> > > +++ b/man2/uretprobe.2
+> > > @@ -0,0 +1,50 @@
+> > > +.\" Copyright (C) 2024, Jiri Olsa <jolsa@kernel.org>
+> > > +.\"
+> > > +.\" SPDX-License-Identifier: Linux-man-pages-copyleft
+> > > +.\"
+> > > +.TH uretprobe 2 (date) "Linux man-pages (unreleased)"
+> > > +.SH NAME
+> > > +uretprobe \- execute pending return uprobes
+> > > +.SH SYNOPSIS
+> > > +.nf
+> > > +.B int uretprobe(void)
+> > > +.fi
+> > 
+> > What header file provides this system call?
+> 
+> there's no header, it's used/called only by user space trampoline
+> provided by kernel, it's not expected to be called by user
+> 
+> > 
+> > > +.SH DESCRIPTION
+> > > +The
+> > > +.BR uretprobe ()
+> > > +syscall is an alternative to breakpoint instructions for
+> > > +triggering return uprobe consumers.
+> > > +.P
+> > > +Calls to
+> > > +.BR uretprobe ()
+> > > +suscall are only made from the user-space trampoline provided by the kernel.
+> > 
+> > s/suscall/system call/
+> 
+> ugh leftover sry
+> 
+> > 
+> > > +Calls from any other place result in a
+> > > +.BR SIGILL .
+> > 
+> > Maybe add an ERRORS section?
+> > 
+> > > +
+> > 
+> > We don't use blank lines; it causes a groff(1) warning, and other
+> > problems.  Instead, use '.P'.
+> > 
+> > > +.SH RETURN VALUE
+> > > +The
+> > > +.BR uretprobe ()
+> > > +syscall return value is architecture-specific.
+> > > +
+> > 
+> > .P
+> > 
+> > > +.SH VERSIONS
+> > > +This syscall is not specified in POSIX,
+> > 
+> > Redundant with "STANDARDS: None.".
+> > 
+> > > +and details of its behavior vary across systems.
+> > 
+> > Keep this.
+> 
+> ok
+> 
+> > 
+> > > +.SH STANDARDS
+> > > +None.
+> > > +.SH HISTORY
+> > > +TBD
+> > > +.SH NOTES
+> > > +The
+> > > +.BR uretprobe ()
+> > > +syscall was initially introduced for the x86_64 architecture where it was shown
+> > > +to be faster than breakpoint traps. It might be extended to other architectures.
+> > 
+> > Please use semantic newlines.
+> > 
+> > $ MANWIDTH=72 man man-pages | sed -n '/Use semantic newlines/,/^$/p'
+> >    Use semantic newlines
+> >      In the source of a manual page, new sentences should be started on
+> >      new lines, long sentences should be split  into  lines  at  clause
+> >      breaks  (commas,  semicolons, colons, and so on), and long clauses
+> >      should be split at phrase boundaries.  This convention,  sometimes
+> >      known as "semantic newlines", makes it easier to see the effect of
+> >      patches, which often operate at the level of individual sentences,
+> >      clauses, or phrases.
+> 
 
-As Andy Lutomirski mentioned before, Linux already has Landlock
-(https://docs.kernel.org/userspace-api/landlock.html) for unprivileged
-filesystem sandboxing. What benefits does OA2_CRED_INHERIT have
-compared to Landlock?
+how about the change below?
+
+thanks,
+jirka
+
+
+---
+diff --git a/man/man2/uretprobe.2 b/man/man2/uretprobe.2
+new file mode 100644
+index 000000000000..959b7a47102b
+--- /dev/null
++++ b/man/man2/uretprobe.2
+@@ -0,0 +1,55 @@
++.\" Copyright (C) 2024, Jiri Olsa <jolsa@kernel.org>
++.\"
++.\" SPDX-License-Identifier: Linux-man-pages-copyleft
++.\"
++.TH uretprobe 2 (date) "Linux man-pages (unreleased)"
++.SH NAME
++uretprobe \- execute pending return uprobes
++.SH SYNOPSIS
++.nf
++.B int uretprobe(void)
++.fi
++.SH DESCRIPTION
++The
++.BR uretprobe ()
++system call is an alternative to breakpoint instructions for triggering return
++uprobe consumers.
++.P
++Calls to
++.BR uretprobe ()
++system call are only made from the user-space trampoline provided by the kernel.
++Calls from any other place result in a
++.BR SIGILL .
++.SH RETURN VALUE
++The
++.BR uretprobe ()
++system call return value is architecture-specific.
++.SH ERRORS
++.BR SIGILL
++The
++.BR uretprobe ()
++system call was called by user.
++.SH VERSIONS
++Details of the
++.BR uretprobe ()
++system call behavior vary across systems.
++.SH STANDARDS
++None.
++.SH HISTORY
++TBD
++.SH NOTES
++The
++.BR uretprobe ()
++system call was initially introduced for the x86_64 architecture where it was shown
++to be faster than breakpoint traps.
++It might be extended to other architectures.
++.P
++The
++.BR uretprobe ()
++system call exists only to allow the invocation of return uprobe consumers.
++It should
++.B never
++be called directly.
++Details of the arguments (if any) passed to
++.BR uretprobe ()
++and the return value are architecture-specific.
 
