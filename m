@@ -1,256 +1,164 @@
-Return-Path: <linux-api+bounces-1576-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1577-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBCB08CBC7A
-	for <lists+linux-api@lfdr.de>; Wed, 22 May 2024 09:55:12 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id E03EA8CBD57
+	for <lists+linux-api@lfdr.de>; Wed, 22 May 2024 10:55:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 93241282905
-	for <lists+linux-api@lfdr.de>; Wed, 22 May 2024 07:55:11 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 52FACB20B79
+	for <lists+linux-api@lfdr.de>; Wed, 22 May 2024 08:55:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDB507E563;
-	Wed, 22 May 2024 07:55:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31C5E7F470;
+	Wed, 22 May 2024 08:55:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KiWSTZc2"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="brEPUscw"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15BEB7D3F5;
-	Wed, 22 May 2024 07:55:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D7E646522;
+	Wed, 22 May 2024 08:55:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716364505; cv=none; b=hXvjPu8p2DpVbaQcXMcf8qfA4Axa4/FT6USY5Y43einn5jF/heH8TIw7KIPUpK3NHDXGhbW8M2kDhgMhOkkLt4vfB2418sbBv+V0EhWnl5SSOBGEwjM06AbirGjDxmT/ad5vdWRYRfDeMO+b08AvLFhITD9mYl3ZQZXtU8USzhc=
+	t=1716368124; cv=none; b=qZ+Wk+smrqjkkwkv9GK9Eic/YkVG06aX5TJqRncgVQEP5D/jq4CL0mDCimk7tcJLgyoMGIytxmU+XAyk27xHeafF3wqVJ74eG7CGZfXaF6ntIdSGXfl0FC0XR+JOGmXWrDau5OUT2anadxCq/9yBC6ndBYKIFd1mcZzplNJaxA0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716364505; c=relaxed/simple;
-	bh=DdDjo/FDiOgPMkdXr0NfnzwZ3Z18E8np1Z5caXxRP9Y=;
+	s=arc-20240116; t=1716368124; c=relaxed/simple;
+	bh=5MbnzzSEIr8suB+6SA9cqi6nf2bLYWxzZ9I6mZm6lQw=;
 	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VL8kv+Dz9IIo+MiSlOWyvwlysiSkxcOtInqnS3Dx/nFa1tnf4eHhsaf7APXJrTUprz9sM8ASqP4E7ZHOlYUjLThos4uewv5bIzRzL+rlCkftNjLs0prke6pMIcT4kmha77r1Q1VXObL4FbGFxzW+9FWG8zoQikS9nvGexUUAR6E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KiWSTZc2; arc=none smtp.client-ip=209.85.221.53
+	 Content-Type:Content-Disposition:In-Reply-To; b=XrVNF9oYReIapy9Azrqo2unv5kYzaRW7RfIZBPXiRlIPxEccYX0Rk6c3qgpR1quVEAuiPxRAUbQvnGNNUEPAD2k36d76E59L8BUFofz3sKpFPwi0ZPNnICCtYmNg8/oyooRAfBuFrxuuuejc16B3sepgMXYL2Y/luX60jbpibzs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=brEPUscw; arc=none smtp.client-ip=209.85.208.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-354de97586cso319102f8f.0;
-        Wed, 22 May 2024 00:55:02 -0700 (PDT)
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-572c65cea55so1150588a12.0;
+        Wed, 22 May 2024 01:55:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716364501; x=1716969301; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Uzr0sl4QQMjCNSxyJObQ0Q87Cq15Drd+3aEObwMgsYs=;
-        b=KiWSTZc2/u7OYCikImaM+3ByyRKamq+owzP7o6LkQjnBrU6iyvx1rxeDZ+egEhQ6qe
-         8mdRaA4nUiHUy17waEkYt+JPu7uDKH6074WXufPMcKBT+LyRqOhyfZ0vg8yPCxqWNNgO
-         F6agQ+AcBoMKXMJlT9Sbfqsx1zU/F2TtL5ooujmqMzDEkCnCa3svE6Iv03u0s8F24/6S
-         kf+urGtAOUi2mxEMH4hwBFTtHtYY/wfHDT0jouI4FMsKnUR6nhilewbc80mHB/+7+jfa
-         cMXtCENnaTbdThBji+wFTCZyQ7NgH5FeO0+4fTS+Ruf2lOnXal+svvANO5YuOHnfGIHW
-         2l6A==
+        d=gmail.com; s=20230601; t=1716368121; x=1716972921; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=ZsKIVJXsn0LOYaTET+hKEKwlMg9X9Tb+9iNScZ+Rm2U=;
+        b=brEPUscw78aeSsPckUzHKsGSuBaCRPWcvzg7ziIU6oC+OGXnkALvxaq3TQpHknjdYc
+         gE2aTcTuOP0LNXCfMshFETJL1dlwvD4/gHJMGRw8GfxiVC+tj0ctNwNfguTqsXUkOcyC
+         l3fW7xX9xFIXGzI2mWC+9MlDuIBWVd28G0ThXopYuj3WcZOk8bhyBN/DvM+AE2uaYuiX
+         QLoycEHSQo/QPOyJwLqfmZi0ain7TDhoKvSYFX583Wt1Fn/wu+PHyK+bGGkc6DZOUBfr
+         mYfK1+FNyoxBueY3aJnSeg+Tcz6Ldg/ywRlqg/nIFj9B+3UqxLUXSCSUUp/SW6Mznk8a
+         Pt4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716364501; x=1716969301;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Uzr0sl4QQMjCNSxyJObQ0Q87Cq15Drd+3aEObwMgsYs=;
-        b=MA33ExrkEnHwQKZK8HaL5RBRo5VgK7UyTcEPdwMZOmjQJWwrp46/gYpMoWsWo2bpWc
-         dGlRSrE2G/SnrsQ9G/N4mDFg7lKXaj5aB+D0lTZdb0koaZTLepxthvy7Xc35Y5AeGbX+
-         yNqXMWpcZS/qvnGSqZNhnc+xzLeCoKuW4Lo4lMak8A/+UjoDwHRFCXmd2EkEolvsjWMa
-         9B4xJWkt5OAqDZbtWo69/AFHF9YK9vIQzsHo6wF8RVNYBKz8tv2UMJpOvT2B0aIBoDSP
-         ntF/eNvHDv/N6j1K4IFlEU6ZnaX0S8t6K1tSnnKuOFzoTElRMuAeIxvC7ztY1smEDaQi
-         ZNOg==
-X-Forwarded-Encrypted: i=1; AJvYcCWGJqlzP2osCirgpVrtU9NAEm3rBRczcjLDYyrO6KUAKeyWXXUuO7hj2rfs2mU4HMR3Leej1VjpQYKg4v4g72UiNwKnpdPaCyrRrZXi3ZeCFlMA5uDw9+WoRiWaGsLQ92lv9o7oG7xfGrfl6dP9VYjkYc3zG6QsuF3S410pUz4LY8JN7W5Mof7FgCqj1AHsQzlsBdh/cA4EFRJraDWLZHks33wgWw9Hsnvhd+kQvTeYrDaBpzWdcdXWqImJ
-X-Gm-Message-State: AOJu0Yygv4MOCXkg9psnwRFnTDN7mJFWzw+0dwr7tIj+oKKnP4HwFnGM
-	+yvH0C+PtPhm67tPgulhzzpwHH2ga+O5vRTc60Y6IfSrLiOfM1J5
-X-Google-Smtp-Source: AGHT+IFlFYN8l/AArJT6QXVg4LOkcTXz9Zoe+wcrglUn97ZwbHHO866jMAGQGE+l61RC7QCEmvV+qw==
-X-Received: by 2002:adf:ea0c:0:b0:351:debf:a3a2 with SMTP id ffacd0b85a97d-354d8d85d63mr780762f8f.52.1716364500858;
-        Wed, 22 May 2024 00:55:00 -0700 (PDT)
-Received: from krava ([212.20.115.60])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3518d817ee2sm29904561f8f.2.2024.05.22.00.54.59
+        d=1e100.net; s=20230601; t=1716368121; x=1716972921;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZsKIVJXsn0LOYaTET+hKEKwlMg9X9Tb+9iNScZ+Rm2U=;
+        b=oBoba0S883S/vnFuu4gDhL3yPmv5kjQFpAqY8ySEbu/nWbWCSbj+R+u2w0/pfg5YgG
+         1ABu2DU+z1atPsS1BDMZ/kLpL0TpUGP5Z/V07X/P5P6LcizXg5a2BXE8nzdK5MBPL6ay
+         zWsGNoj1hLn1gTMix3nUMtnnZeKO5BLTIvnkR2jC+52dvFeh4MJbQAVmJ9jWaE6WKJPB
+         TZtWGbMJ3Lf35VgJ7DZ+4SeuunanrjbvRqs+OFl1E7UZwxNPA9bL1cA9r+zqTBRiRMAW
+         GxssvFYtv6GuQZ22F//IUJ8mz012Q9hKW69aqSOa5ZT+/+LCgiE8a/8X7ODZ/2xcrj1Q
+         w6hQ==
+X-Forwarded-Encrypted: i=1; AJvYcCULzxguAMLzhPkb4+Ek6muLBIMjkI2rFBnaERRoa5wWlewXzZUzGA6ytspr+32cRIUs9Qi3KOIj0ogeTP0pJH66ms4NmqaEbg7vKFTtpG3Mc1CQ2S/50i83G7/7stRKGA3atEC8yl7LLlk/YjqfRVlAobdSTu24qm5W/U4jWW2NXKy8PvplIY/TqeFXqn4k9vMb8c99HzJXT9XNlpCC4MoaonBAyTaabgAxVICykfmx2KgZBnAZGzzSNkFh
+X-Gm-Message-State: AOJu0YxxZQisqubVm1llOUBOMSNkmwDWGAPV17i4HBlMuNeHEUfyVyBD
+	IfcAIz61It8Dgew26fYNnjrQNRy7SXy03quZN1Rqqbyev7BZYBhN
+X-Google-Smtp-Source: AGHT+IGglvHN3H2cK8ueaZOg82/YsEcPTFpr4/QkUF0qp/x5ObIxq6iuHLnuXNRCHJ2cMG/cJT/iRw==
+X-Received: by 2002:a50:8d5e:0:b0:572:2fdf:b965 with SMTP id 4fb4d7f45d1cf-5752b432b79mr11104430a12.7.1716368120602;
+        Wed, 22 May 2024 01:55:20 -0700 (PDT)
+Received: from krava (2001-1ae9-1c2-4c00-726e-c10f-8833-ff22.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:726e:c10f:8833:ff22])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5733bea65b5sm18240841a12.6.2024.05.22.01.55.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 May 2024 00:55:00 -0700 (PDT)
+        Wed, 22 May 2024 01:55:20 -0700 (PDT)
 From: Jiri Olsa <olsajiri@gmail.com>
 X-Google-Original-From: Jiri Olsa <jolsa@kernel.org>
-Date: Wed, 22 May 2024 09:54:58 +0200
-To: Alejandro Colomar <alx@kernel.org>
-Cc: Jiri Olsa <olsajiri@gmail.com>, Steven Rostedt <rostedt@goodmis.org>,
+Date: Wed, 22 May 2024 10:55:17 +0200
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc: Deepak Gupta <debug@rivosinc.com>, Steven Rostedt <rostedt@goodmis.org>,
 	Masami Hiramatsu <mhiramat@kernel.org>,
 	Oleg Nesterov <oleg@redhat.com>,
 	Alexei Starovoitov <ast@kernel.org>,
 	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-	linux-man@vger.kernel.org, x86@kernel.org, bpf@vger.kernel.org,
-	Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	LKML <linux-kernel@vger.kernel.org>,
+	linux-trace-kernel <linux-trace-kernel@vger.kernel.org>,
+	Linux API <linux-api@vger.kernel.org>,
+	linux-man <linux-man@vger.kernel.org>, X86 ML <x86@kernel.org>,
+	bpf <bpf@vger.kernel.org>, Song Liu <songliubraving@fb.com>,
+	Yonghong Song <yhs@fb.com>,
 	John Fastabend <john.fastabend@gmail.com>,
 	Peter Zijlstra <peterz@infradead.org>,
 	Thomas Gleixner <tglx@linutronix.de>,
 	"Borislav Petkov (AMD)" <bp@alien8.de>,
 	Ingo Molnar <mingo@redhat.com>, Andy Lutomirski <luto@kernel.org>,
-	"Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
-	Deepak Gupta <debug@rivosinc.com>
-Subject: Re: [PATCHv6 9/9] man2: Add uretprobe syscall page
-Message-ID: <Zk2k0ttdR7abKSuv@krava>
+	"Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+Subject: Re: [PATCHv6 bpf-next 0/9] uprobe: uretprobe speed up
+Message-ID: <Zk2y9XMZfLtys1GB@krava>
 References: <20240521104825.1060966-1-jolsa@kernel.org>
- <20240521104825.1060966-10-jolsa@kernel.org>
- <j6qxudmvwccpqnle4evabxbswdygmx35bgqwhemuzsjs5iuydv@fk2iumwucifx>
- <ZkyKKwfhNZxrGWsa@krava>
- <Zk0C_vm3T2L79-_W@krava>
- <o5pkz3eenii6p6sm7dl2fsgy4fqqaq2qbn2rbxddhkvaarvwgm@dkjjknb44qp2>
+ <Zk0IvZU834RQ7YKp@debug.ba.rivosinc.com>
+ <CAADnVQ+2Q1992e9mRtWOavHfqKsFUxPp4f6MAAJg90TK_KTpew@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <o5pkz3eenii6p6sm7dl2fsgy4fqqaq2qbn2rbxddhkvaarvwgm@dkjjknb44qp2>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAADnVQ+2Q1992e9mRtWOavHfqKsFUxPp4f6MAAJg90TK_KTpew@mail.gmail.com>
 
-On Tue, May 21, 2024 at 10:54:36PM +0200, Alejandro Colomar wrote:
-> Hi Jirka,
-> 
-> On Tue, May 21, 2024 at 10:24:30PM GMT, Jiri Olsa wrote:
-> > how about the change below?
-> 
-> Much better.  I still have a few comments below.  :-)
-> 
-> > 
-> > thanks,
-> > jirka
-> > 
-> > 
-> > ---
-> > diff --git a/man/man2/uretprobe.2 b/man/man2/uretprobe.2
-> > new file mode 100644
-> > index 000000000000..959b7a47102b
-> > --- /dev/null
-> > +++ b/man/man2/uretprobe.2
-> > @@ -0,0 +1,55 @@
-> > +.\" Copyright (C) 2024, Jiri Olsa <jolsa@kernel.org>
-> > +.\"
-> > +.\" SPDX-License-Identifier: Linux-man-pages-copyleft
-> > +.\"
-> > +.TH uretprobe 2 (date) "Linux man-pages (unreleased)"
-> > +.SH NAME
-> > +uretprobe \- execute pending return uprobes
-> > +.SH SYNOPSIS
-> > +.nf
-> > +.B int uretprobe(void)
-> > +.fi
-> > +.SH DESCRIPTION
-> > +The
-> > +.BR uretprobe ()
-> > +system call is an alternative to breakpoint instructions for triggering return
-> > +uprobe consumers.
-> > +.P
-> > +Calls to
-> > +.BR uretprobe ()
-> > +system call are only made from the user-space trampoline provided by the kernel.
-> > +Calls from any other place result in a
-> > +.BR SIGILL .
-> > +.SH RETURN VALUE
-> > +The
-> > +.BR uretprobe ()
-> > +system call return value is architecture-specific.
-> > +.SH ERRORS
-> > +.BR SIGILL
-> 
-> This should be a tagged paragraph, preceeded with '.TP'.  See any manual
-> page with an ERRORS section for an example.
-> 
-> Also, BR is Bold alternating with Roman, but this is just bold, so it
-> should use '.B'.
-> 
-> .TP
-> .B SIGILL
+On Tue, May 21, 2024 at 01:57:33PM -0700, Alexei Starovoitov wrote:
+> On Tue, May 21, 2024 at 1:49 PM Deepak Gupta <debug@rivosinc.com> wrote:
+> >
+> > On Tue, May 21, 2024 at 12:48:16PM +0200, Jiri Olsa wrote:
+> > >hi,
+> > >as part of the effort on speeding up the uprobes [0] coming with
+> > >return uprobe optimization by using syscall instead of the trap
+> > >on the uretprobe trampoline.
+> >
+> > I understand this provides an optimization on x86. I believe primary reason
+> > is syscall is straight-line microcode and short sequence while trap delivery
+> > still does all the GDT / IDT and segmentation checks and it makes delivery
+> > of the trap slow.
+> >
+> > So doing syscall improves that. Although it seems x86 is going to get rid of
+> > that as part of FRED [1, 2]. And linux kernel support for FRED is already upstream [2].
+> > So I am imagining x86 hardware already exists with FRED support.
+> >
+> > On other architectures, I believe trap delivery for breakpoint instruction
+> > is same as syscall instruction.
+> >
+> > Given that x86 trap delivery is pretty much going following the suit here and
+> > intend to make trap delivery cost similar to syscall delivery.
+> >
+> > Sorry for being buzzkill here but ...
+> > Is it worth introducing this syscall which otherwise has no use on other arches
+> > and x86 (and x86 kernel) has already taken steps to match trap delivery latency with
+> > syscall latency would have similar cost?
+> >
+> > Did you do any study of this on FRED enabled x86 CPUs?
 
-ok
+nope.. interesting, will check, thanks
 
 > 
-> > +The
-> > +.BR uretprobe ()
-> > +system call was called by user.
-> > +.SH VERSIONS
-> > +Details of the
-> > +.BR uretprobe ()
-> > +system call behavior vary across systems.
-> > +.SH STANDARDS
-> > +None.
-> > +.SH HISTORY
-> > +TBD
-> > +.SH NOTES
-> > +The
-> > +.BR uretprobe ()
-> > +system call was initially introduced for the x86_64 architecture where it was shown
-> 
-> We have a strong-ish limit at column 80.  Please break after
-> 'architecture', which is a clause boundary.
-> 
+> afaik CPUs with FRED do not exist on the market and it's
+> not clear when they will be available.
+> And when they finally will be on the shelves
+> the overhead of FRED vs int3 would still have to be measured.
+> int3 with FRED might still be higher than syscall with FRED.
 
-ok, thanks
++1, also it's not really a complicated change and the wiring of the
+new syscall to uretprobe is really simple and we could go back to int3
+with just one single patch if we see no longer any benefit to it,
+but at the moment it provides speed up
 
 jirka
 
-
----
-diff --git a/man/man2/uretprobe.2 b/man/man2/uretprobe.2
-new file mode 100644
-index 000000000000..5b5f340b59b6
---- /dev/null
-+++ b/man/man2/uretprobe.2
-@@ -0,0 +1,56 @@
-+.\" Copyright (C) 2024, Jiri Olsa <jolsa@kernel.org>
-+.\"
-+.\" SPDX-License-Identifier: Linux-man-pages-copyleft
-+.\"
-+.TH uretprobe 2 (date) "Linux man-pages (unreleased)"
-+.SH NAME
-+uretprobe \- execute pending return uprobes
-+.SH SYNOPSIS
-+.nf
-+.B int uretprobe(void)
-+.fi
-+.SH DESCRIPTION
-+The
-+.BR uretprobe ()
-+system call is an alternative to breakpoint instructions for triggering return
-+uprobe consumers.
-+.P
-+Calls to
-+.BR uretprobe ()
-+system call are only made from the user-space trampoline provided by the kernel.
-+Calls from any other place result in a
-+.BR SIGILL .
-+.SH RETURN VALUE
-+The
-+.BR uretprobe ()
-+system call return value is architecture-specific.
-+.SH ERRORS
-+.TP
-+.B SIGILL
-+The
-+.BR uretprobe ()
-+system call was called by user.
-+.SH VERSIONS
-+Details of the
-+.BR uretprobe ()
-+system call behavior vary across systems.
-+.SH STANDARDS
-+None.
-+.SH HISTORY
-+TBD
-+.SH NOTES
-+The
-+.BR uretprobe ()
-+system call was initially introduced for the x86_64 architecture
-+where it was shown to be faster than breakpoint traps.
-+It might be extended to other architectures.
-+.P
-+The
-+.BR uretprobe ()
-+system call exists only to allow the invocation of return uprobe consumers.
-+It should
-+.B never
-+be called directly.
-+Details of the arguments (if any) passed to
-+.BR uretprobe ()
-+and the return value are architecture-specific.
+> 
+> >
+> > [1] - https://www.intel.com/content/www/us/en/content-details/780121/flexible-return-and-event-delivery-fred-specification.html
+> > [2] - https://docs.kernel.org/arch/x86/x86_64/fred.html
+> >
+> > >
+> > >The speed up depends on instruction type that uprobe is installed
+> > >and depends on specific HW type, please check patch 1 for details.
+> > >
 
