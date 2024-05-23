@@ -1,101 +1,44 @@
-Return-Path: <linux-api+bounces-1579-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1580-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB43C8CC0AE
-	for <lists+linux-api@lfdr.de>; Wed, 22 May 2024 13:52:32 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B08F98CCF1B
+	for <lists+linux-api@lfdr.de>; Thu, 23 May 2024 11:25:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 39F321F219A5
-	for <lists+linux-api@lfdr.de>; Wed, 22 May 2024 11:52:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E14A81C224D2
+	for <lists+linux-api@lfdr.de>; Thu, 23 May 2024 09:25:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29FAE13D533;
-	Wed, 22 May 2024 11:52:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QTS0mQxV"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2CD2713D521;
+	Thu, 23 May 2024 09:23:21 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71C6713D52B;
-	Wed, 22 May 2024 11:52:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+Received: from vmicros1.altlinux.org (vmicros1.altlinux.org [194.107.17.57])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7AD6D13D517;
+	Thu, 23 May 2024 09:23:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.107.17.57
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716378747; cv=none; b=kcwKnWgvPo7Lc6A9Nz2uUWGpOonY5y6WK+1EuJqaccLQU6rZ42bB5RO7/0NOM3ePGJJsp0pHeKvfeXoXBCr3e+FITNRNjfQ5BzjsMxU/Kb0jQiiLQNDEveTJ1aqK7WxgZ4+e46VGfL9HjLXdTuTzLwZPfmkYWK8vS9Zl5AXVOx0=
+	t=1716456201; cv=none; b=IeOYvQQriOnQpCcrFne6D+Yaf9WQTmFCSo6rcfQn3AVgUzFW06FFbRL5pTUIkKEUw1qUrvuox5Zmed7Bxer6y2X2dnoCboqHAxZLORLcZ2IfwgexUIVy5wm3SLTULVKPbetWunqOMHSIs+V7gHex/0bBN58PSFT6uPKzKCEbNzU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716378747; c=relaxed/simple;
-	bh=V0ezwHb1SaiH1+ZYoXStNv5UQt4JId9YALb5RVn1Ucg=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RIgmgWHh5TBmflwLpdMm5QT7jL8/0pfmt0iU0DhFFwes4ydF2WOYf2jOrEB+HUwwLppPLaVYB7FiCdu7Pswofur2/54UKKXGc13BSla4d7aEf9vNiKb29fOG1HMNvlV33t1P6lsjnGt9pxXp6lh+cZL3RZyUSO6AGCBE8CIWxM4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QTS0mQxV; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a5a88339780so957421966b.0;
-        Wed, 22 May 2024 04:52:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716378744; x=1716983544; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2NZDi+r+QkvMtUro+zrAmR/vp+4eEqWnBDxJ0ocZk70=;
-        b=QTS0mQxVKuYpkYFd4xHjvbC5PCdjAlWft83wvb8Kuyt7xqnMb5r43mQakXOO/EH78a
-         knlLqWeHix+JyLQ5LNc70rG8eEl/0y3CgTVKf8Ful0JC5UgRP5lTIJB7cLKv1m1CIoZD
-         CapcGdslDBrJpq1gCvwvaddtVVHuDcjlhDlJQcBopCEFD0FrFo90I49rikiA7FqanzGt
-         e5NNdrMWgeUi7P0U3+M7wVTG9XO02UB04lIR5arWfJ4FjMGTjiThE9xWHD6F5OplBwD2
-         QxLA6p08wnngMk23/a3A+EJR+UhMjhP+8ryXZovggwi66abtXPhQ/N7Z2l2ZNaqm2Rza
-         vUcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716378744; x=1716983544;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2NZDi+r+QkvMtUro+zrAmR/vp+4eEqWnBDxJ0ocZk70=;
-        b=Gfob/p5cWXjhaeVJ2PLeQFHo2v2tKyiPq5UC3b27ftRmedErTUhFaojJDIkceLqofs
-         lU6gs5T/lfDe/w+TpnxFqgwhxRg39zttNLzJoH7NphJMtPm33EaChivE7hQyIo3XM34P
-         12kla5e0jpe7Zbzu/XkcE00sN+pENUnOtGw8FnrEjJPekNUCwMr/F4vZ+gk27b2NPI1B
-         mZn4wQaH03wY/eMcj/IqgcOLVGkEtQBkbcOI5sECgW6/NRpXdlGIhLsYFcxa2ZHMHAhQ
-         8iVNPo+HzhRQ8fI8559iebQd0qXD6rggLVhMjKWVWYp5TQNrgARymaIoB8fcRgl6rpVp
-         lDkw==
-X-Forwarded-Encrypted: i=1; AJvYcCVsG6cKf7GKDKMlifRRISzIXU1x0pbjRullOFIt5AiQGWgFJH7FFYN3E0ttPpjwTr6n0TVpR9iLfw3Q4Ds9lpV7z3WhxG35QQaJjWputnrTj84+DQieeG8AQHJA08hMDHt/O+PPcW1Y8iN6HLtLuuIDdyHL1KNXw/ckI4y7U9X1SjFDG5Eq1n05Dp/Z5nnHpGHfKtvQAapCbMZWQu9yX6YsjNBhVns7JHC8RXmyY5KoA81DyHyhNQJjUfqK
-X-Gm-Message-State: AOJu0YwLVLYtdERM8iK/p+skzzdZ2dxVSrWGrVxN7hgQyYEWxTm9AEeW
-	MgIV9U+gRYEa1iQqPoZrKrroiIVDkERqbKjL8GYxpsyvhxswIfuX
-X-Google-Smtp-Source: AGHT+IG0tIXBxMyZCTnOq3svjh4Vc3mtAvxvyuEgllvUJQwfYc+QzEtuie6pZpf9ZLtwIAorl/GhfQ==
-X-Received: by 2002:a17:906:4716:b0:a5a:2d30:b8c1 with SMTP id a640c23a62f3a-a622807afb0mr114977366b.14.1716378743470;
-        Wed, 22 May 2024 04:52:23 -0700 (PDT)
-Received: from krava (2001-1ae9-1c2-4c00-726e-c10f-8833-ff22.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:726e:c10f:8833:ff22])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a5cdce8f916sm929375466b.223.2024.05.22.04.52.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 May 2024 04:52:23 -0700 (PDT)
-From: Jiri Olsa <olsajiri@gmail.com>
-X-Google-Original-From: Jiri Olsa <jolsa@kernel.org>
-Date: Wed, 22 May 2024 13:52:20 +0200
-To: Alejandro Colomar <alx@kernel.org>
-Cc: Jiri Olsa <olsajiri@gmail.com>, Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-	linux-man@vger.kernel.org, x86@kernel.org, bpf@vger.kernel.org,
-	Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	"Borislav Petkov (AMD)" <bp@alien8.de>,
-	Ingo Molnar <mingo@redhat.com>, Andy Lutomirski <luto@kernel.org>,
-	"Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
-	Deepak Gupta <debug@rivosinc.com>
-Subject: Re: [PATCHv6 9/9] man2: Add uretprobe syscall page
-Message-ID: <Zk3cdJKGbzwbda2e@krava>
-References: <20240521104825.1060966-1-jolsa@kernel.org>
- <20240521104825.1060966-10-jolsa@kernel.org>
- <j6qxudmvwccpqnle4evabxbswdygmx35bgqwhemuzsjs5iuydv@fk2iumwucifx>
- <ZkyKKwfhNZxrGWsa@krava>
- <Zk0C_vm3T2L79-_W@krava>
- <o5pkz3eenii6p6sm7dl2fsgy4fqqaq2qbn2rbxddhkvaarvwgm@dkjjknb44qp2>
- <Zk2k0ttdR7abKSuv@krava>
- <vqw4ibum2hfnxjkfp7io5ugmwaeok4tynchi3utmzp6xnsmjig@fbjxwmm6u6v3>
+	s=arc-20240116; t=1716456201; c=relaxed/simple;
+	bh=sSl4mdMNsQfCaeLKfYHltVf4jsmx6GOt1H4ZYsJwLU4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=mZSml2izJydfogB7yhzeoIRU2z3uiO8TrtjNJu7VGcUwFKHiNjRS0AXUc/REmf/ZuqKfUulWbpTQlRr9S9cqwrn1B7cOvfRTuQljs2oavdNULJXDhhGKlx1RMxkLYJuZrhUJMGY42OciRwLL+Uu4h1+HH5Lvgl4a5OiuZ5OdkAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strace.io; spf=pass smtp.mailfrom=altlinux.org; arc=none smtp.client-ip=194.107.17.57
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strace.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altlinux.org
+Received: from mua.local.altlinux.org (mua.local.altlinux.org [192.168.1.14])
+	by vmicros1.altlinux.org (Postfix) with ESMTP id 2029972C8F5;
+	Thu, 23 May 2024 12:23:11 +0300 (MSK)
+Received: by mua.local.altlinux.org (Postfix, from userid 508)
+	id 072C67CCB39; Thu, 23 May 2024 12:23:10 +0300 (IDT)
+Date: Thu, 23 May 2024 12:23:10 +0300
+From: "Dmitry V. Levin" <ldv@strace.io>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Alexey Gladkov <legion@kernel.org>, Jiri Slaby <jirislaby@kernel.org>,
+	linux-api@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] uapi: linux/kd.h: include missing header
+Message-ID: <20240523092310.GA31777@altlinux.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -104,97 +47,31 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <vqw4ibum2hfnxjkfp7io5ugmwaeok4tynchi3utmzp6xnsmjig@fbjxwmm6u6v3>
 
-On Wed, May 22, 2024 at 12:59:46PM +0200, Alejandro Colomar wrote:
-> Hi Jirka,
-> 
-> On Wed, May 22, 2024 at 09:54:58AM GMT, Jiri Olsa wrote:
-> > ok, thanks
-> > 
-> > jirka
-> > 
-> > 
-> > ---
-> > diff --git a/man/man2/uretprobe.2 b/man/man2/uretprobe.2
-> > new file mode 100644
-> > index 000000000000..5b5f340b59b6
-> > --- /dev/null
-> > +++ b/man/man2/uretprobe.2
-> > @@ -0,0 +1,56 @@
-> > +.\" Copyright (C) 2024, Jiri Olsa <jolsa@kernel.org>
-> > +.\"
-> > +.\" SPDX-License-Identifier: Linux-man-pages-copyleft
-> > +.\"
-> > +.TH uretprobe 2 (date) "Linux man-pages (unreleased)"
-> > +.SH NAME
-> > +uretprobe \- execute pending return uprobes
-> > +.SH SYNOPSIS
-> > +.nf
-> > +.B int uretprobe(void)
-> > +.fi
-> > +.SH DESCRIPTION
-> > +The
-> > +.BR uretprobe ()
-> > +system call is an alternative to breakpoint instructions for triggering return
-> > +uprobe consumers.
-> > +.P
-> > +Calls to
-> > +.BR uretprobe ()
-> > +system call are only made from the user-space trampoline provided by the kernel.
-> > +Calls from any other place result in a
-> > +.BR SIGILL .
-> > +.SH RETURN VALUE
-> > +The
-> > +.BR uretprobe ()
-> > +system call return value is architecture-specific.
-> > +.SH ERRORS
-> > +.TP
-> > +.B SIGILL
-> > +The
-> > +.BR uretprobe ()
-> > +system call was called by user.
-> 
-> Maybe 'a user-space program'?
-> Anyway, LGTM.  Thanks!
-> 
-> 	Reviewed-by: Alejandro Colomar <alx@kernel.org>
+Given that linux/kd.h now uses macros defined in linux/ioctl.h,
+do not rely on that header being already included by linux/kd.h users
+and include linux/ioctl.h explicitly.
 
-ok, will change, thanks a lot
+This bug was found by strace CI.
 
-jirka
+Fixes: 8c467f330059 ("VT: Use macros to define ioctls")
+Signed-off-by: Dmitry V. Levin <ldv@strace.io>
+---
+ include/uapi/linux/kd.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-> 
-> Have a lovely day!
-> Alex
-> 
-> > +.SH VERSIONS
-> > +Details of the
-> > +.BR uretprobe ()
-> > +system call behavior vary across systems.
-> > +.SH STANDARDS
-> > +None.
-> > +.SH HISTORY
-> > +TBD
-> > +.SH NOTES
-> > +The
-> > +.BR uretprobe ()
-> > +system call was initially introduced for the x86_64 architecture
-> > +where it was shown to be faster than breakpoint traps.
-> > +It might be extended to other architectures.
-> > +.P
-> > +The
-> > +.BR uretprobe ()
-> > +system call exists only to allow the invocation of return uprobe consumers.
-> > +It should
-> > +.B never
-> > +be called directly.
-> > +Details of the arguments (if any) passed to
-> > +.BR uretprobe ()
-> > +and the return value are architecture-specific.
-> 
-> -- 
-> <https://www.alejandro-colomar.es/>
-
-
+diff --git a/include/uapi/linux/kd.h b/include/uapi/linux/kd.h
+index 8ddb2219a84b..8fcce939ba25 100644
+--- a/include/uapi/linux/kd.h
++++ b/include/uapi/linux/kd.h
+@@ -3,6 +3,7 @@
+ #define _UAPI_LINUX_KD_H
+ #include <linux/types.h>
+ #include <linux/compiler.h>
++#include <linux/ioctl.h>
+ 
+ /* 0x4B is 'K', to avoid collision with termios and vt */
+ #define KD_IOCTL_BASE	'K'
+-- 
+ldv
 
