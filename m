@@ -1,180 +1,342 @@
-Return-Path: <linux-api+bounces-1595-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1596-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80B3C8CDB78
-	for <lists+linux-api@lfdr.de>; Thu, 23 May 2024 22:39:05 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C00F08CDBAB
+	for <lists+linux-api@lfdr.de>; Thu, 23 May 2024 22:58:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A49AC1C2112F
-	for <lists+linux-api@lfdr.de>; Thu, 23 May 2024 20:39:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E23BF1C22271
+	for <lists+linux-api@lfdr.de>; Thu, 23 May 2024 20:58:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4F9C84DF9;
-	Thu, 23 May 2024 20:39:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ABFC9127B65;
+	Thu, 23 May 2024 20:57:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.b="t+wTssY6"
+	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="Kdh1MfS+"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtpout.efficios.com (smtpout.efficios.com [167.114.26.122])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0D7D84DF4;
-	Thu, 23 May 2024 20:38:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=167.114.26.122
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CD62126F36;
+	Thu, 23 May 2024 20:57:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716496740; cv=none; b=FoBdQhMxCxG/QcjSzCusJa3mLXeLcjqvz3R9/4BITXUU4wgYAytTjJL/z2yh7XtKMsQbwUHYtj4kjEaOuci/8kIxtKAjSLhj2gwM6EpRbiMdwnEQHc7Uh7fEniMiQP2+ziUsDMuA/ExjFS2XhM/1VGPcHf4r9rcy0fCMBChdYd8=
+	t=1716497873; cv=none; b=jLV0GiOIeMVkIjWg7K0a8IkgQsRx07JHg1Rvx6zlzFo4KtbKLtHULwitUNLPUUY1gn/BpmOhhU8GhNLxEvsnqvqL7+4roLoFys1/mxyslzFZNZi4Q6TVmqFpzMW/dy3nAommzxZ5n1KQFrVp1reTpvdQYjMn4e1/RIu/mvsnBrE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716496740; c=relaxed/simple;
-	bh=boIZfxh8E99Yr4LDyD87A58BERRdGEHApGNbwW5KdbM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AQfyAkEli2j3c+yPc5P1BC924+Rbma0BVymANPApzLH0gKEoLl2MqUDuQAjSWIYjIGufgsV00Q5IEiZI0/HDp4ZEMIfNxsCPChjW4RoECieufiexZ3tjOvmvzQChjZhB5RS9LsPnXWsfjxUXHLESTpENxzbMun9vYjLd+q8yHX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com; spf=pass smtp.mailfrom=efficios.com; dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.b=t+wTssY6; arc=none smtp.client-ip=167.114.26.122
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=efficios.com;
-	s=smtpout1; t=1716496737;
-	bh=boIZfxh8E99Yr4LDyD87A58BERRdGEHApGNbwW5KdbM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=t+wTssY60KYJxr7EopwBqhHV9gb1dMIB7fYQsRiHjKY/pkBPfND/jp5llYbIEYlXg
-	 AO7YnFSUZNN60xsUgjQXmJc5sfDPYBnBQ/eXhxJFlYPoU8+jVK58JZRQmHpZHahU0f
-	 1puIA6BhDvmc/mNbJCo8EJQsrXWqk3Ut9ktsQy6kWjK2MpPsb8njYfNjO9kmLJieJf
-	 xJgYQZhUxWsKzcJSbYS28/97MsBgDQYGly1+aACxVURgpbeRmYbbIT2XZsp0h+LuD3
-	 O5XkGA0GnSq1jg++pO9CND771uwcUGLBfqouhLL4zZPHPM345lcAPZkzMKVYRLrBFo
-	 VHgQPK8LF+TxA==
-Received: from [172.16.0.134] (192-222-143-198.qc.cable.ebox.net [192.222.143.198])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4Vlg4d2qQVz10dh;
-	Thu, 23 May 2024 16:38:57 -0400 (EDT)
-Message-ID: <156dc43f-fdcf-4643-83d9-b374452b0929@efficios.com>
-Date: Thu, 23 May 2024 16:39:33 -0400
+	s=arc-20240116; t=1716497873; c=relaxed/simple;
+	bh=NJn6MLTQTNErU5Eoq/tTA+6eCKCQ76jbApbAUWEdt38=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=nrsRwgxyQDBMkYj/HNBdIrdOdk1BEJHaDSM+TcDsi6utUwggjiIGgq0mUmFynadp6PU34OximdQ0akWMr3AEAAimHemxm3aXnTTNDMah24zrRDaE6SWPx/e1bA66ZhEr8kqXB0fbo0/ARK69sHSWS2MkozPT1w2ujlQbUr/bsfU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=Kdh1MfS+; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4VlgVL0y0Xz9t3R;
+	Thu, 23 May 2024 22:57:46 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
+	t=1716497866;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=j36WhCaHkgE+WBH+Nt4uVRki6lOiFluehQWImsMWgQo=;
+	b=Kdh1MfS+Kb2/2U1LiBiac3zEN5sl86RNy2HME1Y5FoPzgldMlicPycWr5TN7otkIi2iQjd
+	LulPtryGb8sy7nguE2yDZSFefxvu2aKRbNW1IWIe8mqbKin4GcYcTY0LfVjt+N93nDnb3g
+	l0TS7HVHrx+Redy12UEndNp+dQ2gLFZUmuBaken+I8oy9tD57ePnXTp0UuD5ghxSrIzAfi
+	S8lk7M5Rd4Oub9ps245oZ4o+e5aJ3QVHKSZStOosxShe6jus66vaLljvSWtg9fXmXYD3FW
+	lVenUeE2QWUXeOoc1nXWr2DCnlwoY+hC332lqcWnzJgxDayjVFjT8ABLyFMIyQ==
+From: Aleksa Sarai <cyphar@cyphar.com>
+Date: Thu, 23 May 2024 13:57:32 -0700
+Subject: [PATCH RFC v2] fhandle: expose u64 mount id to
+ name_to_handle_at(2)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/1] Add FUTEX_SPIN operation
-To: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
- Peter Zijlstra <peterz@infradead.org>
-Cc: linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
- "Paul E . McKenney" <paulmck@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
- "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
- linux-api@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
- Florian Weimer <fw@deneb.enyo.de>, David.Laight@ACULAB.COM,
- carlos@redhat.com, Peter Oskolkov <posk@posk.io>,
- Alexander Mikhalitsyn <alexander@mihalicyn.com>,
- Chris Kennelly <ckennelly@google.com>, Ingo Molnar <mingo@redhat.com>,
- Darren Hart <dvhart@infradead.org>, Davidlohr Bueso <dave@stgolabs.net>,
- libc-alpha@sourceware.org, Steven Rostedt <rostedt@goodmis.org>,
- Jonathan Corbet <corbet@lwn.net>, Noah Goldstein <goldstein.w.n@gmail.com>,
- longman@redhat.com, kernel-dev@igalia.com
-References: <20240523200704.281514-1-andrealmeid@igalia.com>
-From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Content-Language: en-US
-In-Reply-To: <20240523200704.281514-1-andrealmeid@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240523-exportfs-u64-mount-id-v2-1-f9f959f17eb1@cyphar.com>
+X-B4-Tracking: v=1; b=H4sIALutT2YC/3WNTQ6CMBCFr0Jm7RhaGQOuTEw8gFvDgpapdAElL
+ RAI6d1tcO3y/X1vh8DecoBbtoPnxQbrhiTkKQPdNcOH0bZJg8xlkZMg5HV0fjIB52uBvZuHKTW
+ wYqVIU6nooiFtR8/Grgf3Da/nA+pkdjZMzm/H1yKO6IeV+R/sIlCgITJtJQWpku96G7vGn7Xro
+ Y4xfgHGHbgjwAAAAA==
+To: Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ Chuck Lever <chuck.lever@oracle.com>, Jeff Layton <jlayton@kernel.org>, 
+ Amir Goldstein <amir73il@gmail.com>, Alexander Aring <alex.aring@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, 
+ Aleksa Sarai <cyphar@cyphar.com>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=11473; i=cyphar@cyphar.com;
+ h=from:subject:message-id; bh=NJn6MLTQTNErU5Eoq/tTA+6eCKCQ76jbApbAUWEdt38=;
+ b=owGbwMvMwCWmMf3Xpe0vXfIZT6slMaT5rz3qMXWbGefBtRoVvDsyVmalsy/49Djvx6qql+47Q
+ z2nXJQW6ShlYRDjYpAVU2TZ5ucZumn+4ivJn1aywcxhZQIZwsDFKQAT+eHCyPAnqCTSa4Oo0qPC
+ uV9+FDTve3yr+Vn1jo9+17sVV4R8iMxkZLjvdNO/o3iNraTqpKd7HA7UVspLLmAxX/P1tPQ6lrP
+ pmiwA
+X-Developer-Key: i=cyphar@cyphar.com; a=openpgp;
+ fpr=C9C370B246B09F6DBCFC744C34401015D1D2D386
+X-Rspamd-Queue-Id: 4VlgVL0y0Xz9t3R
 
-On 2024-05-23 16:07, André Almeida wrote:
-> Hi,
-> 
-> In the last LPC, Mathieu Desnoyers and I presented[0] a proposal to extend the
-> rseq interface to be able to implement spin locks in userspace correctly. Thomas
-> Gleixner agreed that this is something that Linux could improve, but asked for
-> an alternative proposal first: a futex operation that allows to spin a user
-> lock inside the kernel. This patchset implements a prototype of this idea for
-> further discussion.
-> 
-> With FUTEX2_SPIN flag set during a futex_wait(), the futex value is expected to
-> be the TID of the lock owner. Then, the kernel gets the task_struct of the
-> corresponding TID, and checks if it's running. It spins until the futex
-> is awaken, the task is scheduled out or if a timeout happens.  If the lock owner
-> is scheduled out at any time, then the syscall follows the normal path of
-> sleeping as usual. The user input is masked with FUTEX_TID_MASK so we have some
-> bits to play.
-> 
-> If the futex is awaken and we are spinning, we can return to userspace quickly,
-> avoid the scheduling out and in again to wake from a futex_wait(), thus
-> speeding up the wait operation. The user input is masked with FUTEX_TID_MASK so
-> we have some bits to play.
-> 
-> Christian Brauner suggested using pidfd to avoid race conditions, and I will
-> implement that in the next patch iteration. I benchmarked the implementation
-> measuring the time required to wait for a futex for a simple loop using the code
-> at [2]. In my setup, the total wait time for 1000 futexes using the spin method
-> was almost 10% lower than just using the normal futex wait:
-> 
-> 	Testing with FUTEX2_SPIN | FUTEX_WAIT
-> 	Total wait time: 8650089 usecs
-> 
-> 	Testing with FUTEX_WAIT
-> 	Total wait time: 9447291 usecs
-> 
-> However, as I played with how long the lock owner would be busy, the
-> benchmark results of spinning vs no spinning would match, showing that the
-> spinning will be effective for some specific scheduling scenarios, but depending
-> on the wait time, there's no big difference either spinning or not.
-> 
-> [0] https://lpc.events/event/17/contributions/1481/
-> 
-> You can find a small snippet to play with this interface here:
-> 
-> [1] https://gist.github.com/andrealmeid/f0b8c93a3c7a5c50458247c47f7078e1
+Now that we provide a unique 64-bit mount ID interface in statx, we can
+now provide a race-free way for name_to_handle_at(2) to provide a file
+handle and corresponding mount without needing to worry about racing
+with /proc/mountinfo parsing.
 
-What exactly are you trying to benchmark here ? I've looked at this toy
-program, and I suspect that most of the delay you observe is due to
-initial scheduling of a newly cloned thread, because this is what is
-repeatedly being done in the delay you measure.
+While this is not necessary if you are using AT_EMPTY_PATH and don't
+care about an extra statx(2) call, users that pass full paths into
+name_to_handle_at(2) need to know which mount the file handle comes from
+(to make sure they don't try to open_by_handle_at a file handle from a
+different filesystem) and switching to AT_EMPTY_PATH would require
+allocating a file for every name_to_handle_at(2) call, turning
 
-I would recommend to change this benchmark program to measure something
-meaningful, e.g.:
+  err = name_to_handle_at(-EBADF, "/foo/bar/baz", &handle, &mntid,
+                          AT_HANDLE_MNT_ID_UNIQUE);
 
-- N threads repeatedly contending on a lock, until a "stop" flag is set,
-- run for "duration" seconds, after which main() sets a "stop" flag.
-- delay loop of "work_delay" us within the lock critical section,
-- delay loop of "inactive_delay" us between locking attempts,
-- measure the time it takes to grab the lock, report stats on this,
-- measure the total number of operations done within the given
-   "duration".
-- report statistics on the number of operations per thread to see
-   the impact on fairness,
+into
 
-The run the program with the following constraints:
+  int fd = openat(-EBADF, "/foo/bar/baz", O_PATH | O_CLOEXEC);
+  err1 = name_to_handle_at(fd, "", &handle, &unused_mntid, AT_EMPTY_PATH);
+  err2 = statx(fd, "", AT_EMPTY_PATH, STATX_MNT_ID_UNIQUE, &statxbuf);
+  mntid = statxbuf.stx_mnt_id;
+  close(fd);
 
-- Pin one thread per core, with nb thread <= nb cores. This should
-   be a best case scenario for spinning.
-- Pin all threads to a single core. when nb threads > nb cores, this
-   should be the worse scenario for spinning.
-- Groups things between those two extremes to see how things evolve.
+Unlike AT_HANDLE_FID, as per Amir's suggestion, AT_HANDLE_MNT_ID_UNIQUE
+uses a new AT_* bit from the historically-unused 0xFF range (which we
+now define as being the "per-syscall" range for AT_* bits).
 
-I would not be surprised that if you measure relevant delays, you will
-observe much better speedups than what you currently have.
+Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
+---
+Changes in v2:
+- Fixed a few minor compiler warnings and a buggy copy_to_user() check.
+- Rename AT_HANDLE_UNIQUE_MOUNT_ID -> AT_HANDLE_MNT_ID_UNIQUE to match statx.
+- Switched to using an AT_* bit from 0xFF and defining that range as
+  being "per-syscall" for future usage.
+- Sync tools/ copy of <linux/fcntl.h> to include changes.
+- v1: <https://lore.kernel.org/r/20240520-exportfs-u64-mount-id-v1-1-f55fd9215b8e@cyphar.com>
+---
+ fs/fhandle.c                     | 29 ++++++++++++++++++++++-------
+ include/linux/syscalls.h         |  2 +-
+ include/uapi/linux/fcntl.h       | 28 +++++++++++++++++++++-------
+ tools/include/uapi/linux/fcntl.h | 28 +++++++++++++++++++++-------
+ 4 files changed, 65 insertions(+), 22 deletions(-)
 
-Thanks,
+diff --git a/fs/fhandle.c b/fs/fhandle.c
+index 8a7f86c2139a..c6e90161b900 100644
+--- a/fs/fhandle.c
++++ b/fs/fhandle.c
+@@ -16,7 +16,8 @@
+ 
+ static long do_sys_name_to_handle(const struct path *path,
+ 				  struct file_handle __user *ufh,
+-				  int __user *mnt_id, int fh_flags)
++				  void __user *mnt_id, bool unique_mntid,
++				  int fh_flags)
+ {
+ 	long retval;
+ 	struct file_handle f_handle;
+@@ -69,9 +70,19 @@ static long do_sys_name_to_handle(const struct path *path,
+ 	} else
+ 		retval = 0;
+ 	/* copy the mount id */
+-	if (put_user(real_mount(path->mnt)->mnt_id, mnt_id) ||
+-	    copy_to_user(ufh, handle,
+-			 struct_size(handle, f_handle, handle_bytes)))
++	if (unique_mntid) {
++		if (put_user(real_mount(path->mnt)->mnt_id_unique,
++			     (u64 __user *) mnt_id))
++			retval = -EFAULT;
++	} else {
++		if (put_user(real_mount(path->mnt)->mnt_id,
++			     (int __user *) mnt_id))
++			retval = -EFAULT;
++	}
++	/* copy the handle */
++	if (retval != -EFAULT &&
++		copy_to_user(ufh, handle,
++			     struct_size(handle, f_handle, handle_bytes)))
+ 		retval = -EFAULT;
+ 	kfree(handle);
+ 	return retval;
+@@ -83,6 +94,7 @@ static long do_sys_name_to_handle(const struct path *path,
+  * @name: name that should be converted to handle.
+  * @handle: resulting file handle
+  * @mnt_id: mount id of the file system containing the file
++ *          (u64 if AT_HANDLE_MNT_ID_UNIQUE, otherwise int)
+  * @flag: flag value to indicate whether to follow symlink or not
+  *        and whether a decodable file handle is required.
+  *
+@@ -92,7 +104,7 @@ static long do_sys_name_to_handle(const struct path *path,
+  * value required.
+  */
+ SYSCALL_DEFINE5(name_to_handle_at, int, dfd, const char __user *, name,
+-		struct file_handle __user *, handle, int __user *, mnt_id,
++		struct file_handle __user *, handle, void __user *, mnt_id,
+ 		int, flag)
+ {
+ 	struct path path;
+@@ -100,7 +112,8 @@ SYSCALL_DEFINE5(name_to_handle_at, int, dfd, const char __user *, name,
+ 	int fh_flags;
+ 	int err;
+ 
+-	if (flag & ~(AT_SYMLINK_FOLLOW | AT_EMPTY_PATH | AT_HANDLE_FID))
++	if (flag & ~(AT_SYMLINK_FOLLOW | AT_EMPTY_PATH | AT_HANDLE_FID |
++		     AT_HANDLE_MNT_ID_UNIQUE))
+ 		return -EINVAL;
+ 
+ 	lookup_flags = (flag & AT_SYMLINK_FOLLOW) ? LOOKUP_FOLLOW : 0;
+@@ -109,7 +122,9 @@ SYSCALL_DEFINE5(name_to_handle_at, int, dfd, const char __user *, name,
+ 		lookup_flags |= LOOKUP_EMPTY;
+ 	err = user_path_at(dfd, name, lookup_flags, &path);
+ 	if (!err) {
+-		err = do_sys_name_to_handle(&path, handle, mnt_id, fh_flags);
++		err = do_sys_name_to_handle(&path, handle, mnt_id,
++					    flag & AT_HANDLE_MNT_ID_UNIQUE,
++					    fh_flags);
+ 		path_put(&path);
+ 	}
+ 	return err;
+diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+index e619ac10cd23..99c5a783a01e 100644
+--- a/include/linux/syscalls.h
++++ b/include/linux/syscalls.h
+@@ -863,7 +863,7 @@ asmlinkage long sys_fanotify_mark(int fanotify_fd, unsigned int flags,
+ 				  const char  __user *pathname);
+ asmlinkage long sys_name_to_handle_at(int dfd, const char __user *name,
+ 				      struct file_handle __user *handle,
+-				      int __user *mnt_id, int flag);
++				      void __user *mnt_id, int flag);
+ asmlinkage long sys_open_by_handle_at(int mountdirfd,
+ 				      struct file_handle __user *handle,
+ 				      int flags);
+diff --git a/include/uapi/linux/fcntl.h b/include/uapi/linux/fcntl.h
+index c0bcc185fa48..9ed9d65842c1 100644
+--- a/include/uapi/linux/fcntl.h
++++ b/include/uapi/linux/fcntl.h
+@@ -87,22 +87,24 @@
+ #define DN_ATTRIB	0x00000020	/* File changed attibutes */
+ #define DN_MULTISHOT	0x80000000	/* Don't remove notifier */
+ 
++#define AT_FDCWD		-100    /* Special value used to indicate
++                                           openat should use the current
++                                           working directory. */
++#define AT_SYMLINK_NOFOLLOW	0x100   /* Do not follow symbolic links.  */
++
+ /*
+- * The constants AT_REMOVEDIR and AT_EACCESS have the same value.  AT_EACCESS is
+- * meaningful only to faccessat, while AT_REMOVEDIR is meaningful only to
++ * The constants AT_REMOVEDIR and AT_EACCESS have the same value.  AT_EACCESS
++ * is meaningful only to faccessat, while AT_REMOVEDIR is meaningful only to
+  * unlinkat.  The two functions do completely different things and therefore,
+  * the flags can be allowed to overlap.  For example, passing AT_REMOVEDIR to
+  * faccessat would be undefined behavior and thus treating it equivalent to
+  * AT_EACCESS is valid undefined behavior.
+  */
+-#define AT_FDCWD		-100    /* Special value used to indicate
+-                                           openat should use the current
+-                                           working directory. */
+-#define AT_SYMLINK_NOFOLLOW	0x100   /* Do not follow symbolic links.  */
+ #define AT_EACCESS		0x200	/* Test access permitted for
+                                            effective IDs, not real IDs.  */
+ #define AT_REMOVEDIR		0x200   /* Remove directory instead of
+                                            unlinking file.  */
++
+ #define AT_SYMLINK_FOLLOW	0x400   /* Follow symbolic links.  */
+ #define AT_NO_AUTOMOUNT		0x800	/* Suppress terminal automount traversal */
+ #define AT_EMPTY_PATH		0x1000	/* Allow empty relative pathname */
+@@ -114,10 +116,22 @@
+ 
+ #define AT_RECURSIVE		0x8000	/* Apply to the entire subtree */
+ 
+-/* Flags for name_to_handle_at(2). We reuse AT_ flag space to save bits... */
++/*
++ * All new purely-syscall-specific AT_* flags should consider using bits from
++ * 0xFF, but the bits used by RENAME_* (0x7) should be avoided in case users
++ * decide to pass AT_* flags to renameat2() by accident. These flag bits are
++ * free for re-use by other syscall's syscall-specific flags without worry.
++ */
++
++/*
++ * Flags for name_to_handle_at(2). To save AT_ flag space we re-use the
++ * AT_EACCESS/AT_REMOVEDIR bit for AT_HANDLE_FID.
++ */
+ #define AT_HANDLE_FID		AT_REMOVEDIR	/* file handle is needed to
+ 					compare object identity and may not
+ 					be usable to open_by_handle_at(2) */
++#define AT_HANDLE_MNT_ID_UNIQUE	0x80	/* return the u64 unique mount id */
++
+ #if defined(__KERNEL__)
+ #define AT_GETATTR_NOSEC	0x80000000
+ #endif
+diff --git a/tools/include/uapi/linux/fcntl.h b/tools/include/uapi/linux/fcntl.h
+index 282e90aeb163..f671312ca481 100644
+--- a/tools/include/uapi/linux/fcntl.h
++++ b/tools/include/uapi/linux/fcntl.h
+@@ -85,22 +85,24 @@
+ #define DN_ATTRIB	0x00000020	/* File changed attibutes */
+ #define DN_MULTISHOT	0x80000000	/* Don't remove notifier */
+ 
++#define AT_FDCWD		-100    /* Special value used to indicate
++                                           openat should use the current
++                                           working directory. */
++#define AT_SYMLINK_NOFOLLOW	0x100   /* Do not follow symbolic links.  */
++
+ /*
+- * The constants AT_REMOVEDIR and AT_EACCESS have the same value.  AT_EACCESS is
+- * meaningful only to faccessat, while AT_REMOVEDIR is meaningful only to
++ * The constants AT_REMOVEDIR and AT_EACCESS have the same value.  AT_EACCESS
++ * is meaningful only to faccessat, while AT_REMOVEDIR is meaningful only to
+  * unlinkat.  The two functions do completely different things and therefore,
+  * the flags can be allowed to overlap.  For example, passing AT_REMOVEDIR to
+  * faccessat would be undefined behavior and thus treating it equivalent to
+  * AT_EACCESS is valid undefined behavior.
+  */
+-#define AT_FDCWD		-100    /* Special value used to indicate
+-                                           openat should use the current
+-                                           working directory. */
+-#define AT_SYMLINK_NOFOLLOW	0x100   /* Do not follow symbolic links.  */
+ #define AT_EACCESS		0x200	/* Test access permitted for
+                                            effective IDs, not real IDs.  */
+ #define AT_REMOVEDIR		0x200   /* Remove directory instead of
+                                            unlinking file.  */
++
+ #define AT_SYMLINK_FOLLOW	0x400   /* Follow symbolic links.  */
+ #define AT_NO_AUTOMOUNT		0x800	/* Suppress terminal automount traversal */
+ #define AT_EMPTY_PATH		0x1000	/* Allow empty relative pathname */
+@@ -112,10 +114,22 @@
+ 
+ #define AT_RECURSIVE		0x8000	/* Apply to the entire subtree */
+ 
+-/* Flags for name_to_handle_at(2). We reuse AT_ flag space to save bits... */
++/*
++ * All new purely-syscall-specific AT_* flags should consider using bits from
++ * 0xFF, but the bits used by RENAME_* (0x7) should be avoided in case users
++ * decide to pass AT_* flags to renameat2() by accident. These flag bits are
++ * free for re-use by other syscall's syscall-specific flags without worry.
++ */
++
++/*
++ * Flags for name_to_handle_at(2). To save AT_ flag space we re-use the
++ * AT_EACCESS/AT_REMOVEDIR bit for AT_HANDLE_FID.
++ */
+ #define AT_HANDLE_FID		AT_REMOVEDIR	/* file handle is needed to
+ 					compare object identity and may not
+ 					be usable to open_by_handle_at(2) */
++#define AT_HANDLE_MNT_ID_UNIQUE	0x80 /* returned mount id is the u64 unique mount id */
++
+ #if defined(__KERNEL__)
+ #define AT_GETATTR_NOSEC	0x80000000
+ #endif
 
-Mathieu
+---
+base-commit: 584bbf439d0fa83d728ec49f3a38c581bdc828b4
+change-id: 20240515-exportfs-u64-mount-id-9ebb5c58b53c
 
-> 
-> Changelog:
-> 
-> v1: - s/PID/TID
->      - masked user input with FUTEX_TID_MASK
->      - add benchmark tool to the cover letter
->      - dropped debug prints
->      - added missing put_task_struct()
-> 
-> André Almeida (1):
->    futex: Add FUTEX_SPIN operation
-> 
->   include/uapi/linux/futex.h |  2 +-
->   kernel/futex/futex.h       |  6 ++-
->   kernel/futex/waitwake.c    | 78 +++++++++++++++++++++++++++++++++++++-
->   3 files changed, 82 insertions(+), 4 deletions(-)
-> 
-
+Best regards,
 -- 
-Mathieu Desnoyers
-EfficiOS Inc.
-https://www.efficios.com
+Aleksa Sarai <cyphar@cyphar.com>
 
 
