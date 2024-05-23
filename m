@@ -1,51 +1,51 @@
-Return-Path: <linux-api+bounces-1594-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1595-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 865888CDB48
-	for <lists+linux-api@lfdr.de>; Thu, 23 May 2024 22:20:03 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80B3C8CDB78
+	for <lists+linux-api@lfdr.de>; Thu, 23 May 2024 22:39:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 00912B2131D
-	for <lists+linux-api@lfdr.de>; Thu, 23 May 2024 20:20:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A49AC1C2112F
+	for <lists+linux-api@lfdr.de>; Thu, 23 May 2024 20:39:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB08284D34;
-	Thu, 23 May 2024 20:19:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4F9C84DF9;
+	Thu, 23 May 2024 20:39:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.b="umfVpYwE"
+	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.b="t+wTssY6"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtpout.efficios.com (smtpout.efficios.com [167.114.26.122])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4F5884D26;
-	Thu, 23 May 2024 20:19:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0D7D84DF4;
+	Thu, 23 May 2024 20:38:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=167.114.26.122
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716495585; cv=none; b=twb7SWH2HkU4ge63Vm77mvCCHxXrCHEBmk7Tw8Ts+Sbf9nEzNypkzGGEB2NnatzmbDPf+gQPzU6Mr1ym+VB08UcMnXFMZcRa0zNhNkwSiDh9u6hJtJ6hsg9s8HLcFUOcjszAEOPp5httliSfGVTe+LDhf/W+XfHREReKG43RO9w=
+	t=1716496740; cv=none; b=FoBdQhMxCxG/QcjSzCusJa3mLXeLcjqvz3R9/4BITXUU4wgYAytTjJL/z2yh7XtKMsQbwUHYtj4kjEaOuci/8kIxtKAjSLhj2gwM6EpRbiMdwnEQHc7Uh7fEniMiQP2+ziUsDMuA/ExjFS2XhM/1VGPcHf4r9rcy0fCMBChdYd8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716495585; c=relaxed/simple;
-	bh=DmtE3NmDfeuWXwvfKTneK6k7HMV4HXj51KzM63yhWco=;
+	s=arc-20240116; t=1716496740; c=relaxed/simple;
+	bh=boIZfxh8E99Yr4LDyD87A58BERRdGEHApGNbwW5KdbM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pDQJW9dIaVCohDCE4VS7g/rWoeV+2shO7IeLMwAwLmYu6IWLo/qlSJpzhj88DyEVhimN/+pwIfJ41Bd0/GQVntciqUdtlFa64uU+qYFhZ5dws2Wjr6MuGViEQ1mXc9Gs4SI4zDxLND05iYq2gjE8a1WO6v0BhHuuogG5ZeoIy0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com; spf=pass smtp.mailfrom=efficios.com; dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.b=umfVpYwE; arc=none smtp.client-ip=167.114.26.122
+	 In-Reply-To:Content-Type; b=AQfyAkEli2j3c+yPc5P1BC924+Rbma0BVymANPApzLH0gKEoLl2MqUDuQAjSWIYjIGufgsV00Q5IEiZI0/HDp4ZEMIfNxsCPChjW4RoECieufiexZ3tjOvmvzQChjZhB5RS9LsPnXWsfjxUXHLESTpENxzbMun9vYjLd+q8yHX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com; spf=pass smtp.mailfrom=efficios.com; dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.b=t+wTssY6; arc=none smtp.client-ip=167.114.26.122
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=efficios.com;
-	s=smtpout1; t=1716495581;
-	bh=DmtE3NmDfeuWXwvfKTneK6k7HMV4HXj51KzM63yhWco=;
+	s=smtpout1; t=1716496737;
+	bh=boIZfxh8E99Yr4LDyD87A58BERRdGEHApGNbwW5KdbM=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=umfVpYwE4XiDyWL8dEt2yo1JMis6pngumarv4ZxNgvohxA0ncOapHILTr2ADJnA1Y
-	 II052msbqiMz3jrhE2WiNsx1h5trLVtbd3trxAOw3ZRY1B3gnJil5L1ICOl/XNe9TT
-	 pYHed4mPQ9GRRJPYgxC0alZ9SaYmF9MG/t8fktfaYH9HryxK9jLH53rz9mURFwJhiD
-	 VE9KZQS8BmJQmCTzt5m9u4UYnFEKmiKZji9HWszPg3fTfl4mfsbSy8OHyHnfdVt5Ky
-	 CDIQteUZudFjkx7iTmfJ4VnAS6hil0pnyvEfqaXHsT1EQbIoThIiwQedzGgepbuTSo
-	 tV7xpgx0LphGQ==
+	b=t+wTssY60KYJxr7EopwBqhHV9gb1dMIB7fYQsRiHjKY/pkBPfND/jp5llYbIEYlXg
+	 AO7YnFSUZNN60xsUgjQXmJc5sfDPYBnBQ/eXhxJFlYPoU8+jVK58JZRQmHpZHahU0f
+	 1puIA6BhDvmc/mNbJCo8EJQsrXWqk3Ut9ktsQy6kWjK2MpPsb8njYfNjO9kmLJieJf
+	 xJgYQZhUxWsKzcJSbYS28/97MsBgDQYGly1+aACxVURgpbeRmYbbIT2XZsp0h+LuD3
+	 O5XkGA0GnSq1jg++pO9CND771uwcUGLBfqouhLL4zZPHPM345lcAPZkzMKVYRLrBFo
+	 VHgQPK8LF+TxA==
 Received: from [172.16.0.134] (192-222-143-198.qc.cable.ebox.net [192.222.143.198])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4VlffP05fSz116k;
-	Thu, 23 May 2024 16:19:40 -0400 (EDT)
-Message-ID: <62825712-36bc-483c-9bca-db3d9233b0d2@efficios.com>
-Date: Thu, 23 May 2024 16:20:16 -0400
+	by smtpout.efficios.com (Postfix) with ESMTPSA id 4Vlg4d2qQVz10dh;
+	Thu, 23 May 2024 16:38:57 -0400 (EDT)
+Message-ID: <156dc43f-fdcf-4643-83d9-b374452b0929@efficios.com>
+Date: Thu, 23 May 2024 16:39:33 -0400
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -53,7 +53,7 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/1] futex: Add FUTEX_SPIN operation
+Subject: Re: [PATCH v2 0/1] Add FUTEX_SPIN operation
 To: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
  Peter Zijlstra <peterz@infradead.org>
 Cc: linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
@@ -67,145 +67,110 @@ Cc: linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
  Darren Hart <dvhart@infradead.org>, Davidlohr Bueso <dave@stgolabs.net>,
  libc-alpha@sourceware.org, Steven Rostedt <rostedt@goodmis.org>,
  Jonathan Corbet <corbet@lwn.net>, Noah Goldstein <goldstein.w.n@gmail.com>,
- Daniel Colascione <dancol@google.com>, longman@redhat.com,
- kernel-dev@igalia.com
+ longman@redhat.com, kernel-dev@igalia.com
 References: <20240523200704.281514-1-andrealmeid@igalia.com>
- <20240523200704.281514-2-andrealmeid@igalia.com>
 From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 Content-Language: en-US
-In-Reply-To: <20240523200704.281514-2-andrealmeid@igalia.com>
+In-Reply-To: <20240523200704.281514-1-andrealmeid@igalia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
 On 2024-05-23 16:07, André Almeida wrote:
-> Add a new mode for futex wait, the futex spin.
+> Hi,
 > 
-> Given the FUTEX2_SPIN flag, parse the futex value as the TID of the lock
-> owner. Then, before going to the normal wait path, spins while the lock
-> owner is running in a different CPU, to avoid the whole context switch
-> operation and to quickly return to userspace. If the lock owner is not
-> running, just sleep as the normal futex wait path.
+> In the last LPC, Mathieu Desnoyers and I presented[0] a proposal to extend the
+> rseq interface to be able to implement spin locks in userspace correctly. Thomas
+> Gleixner agreed that this is something that Linux could improve, but asked for
+> an alternative proposal first: a futex operation that allows to spin a user
+> lock inside the kernel. This patchset implements a prototype of this idea for
+> further discussion.
 > 
-> The user value is masked with FUTEX_TID_MASK, to allow some bits for
-> future use.
+> With FUTEX2_SPIN flag set during a futex_wait(), the futex value is expected to
+> be the TID of the lock owner. Then, the kernel gets the task_struct of the
+> corresponding TID, and checks if it's running. It spins until the futex
+> is awaken, the task is scheduled out or if a timeout happens.  If the lock owner
+> is scheduled out at any time, then the syscall follows the normal path of
+> sleeping as usual. The user input is masked with FUTEX_TID_MASK so we have some
+> bits to play.
 > 
-> The check for the owner to be running or not is important to avoid
-> spinning for something that won't be released quickly. Userspace is
-> responsible on providing the proper TID, the kernel does a basic check.
+> If the futex is awaken and we are spinning, we can return to userspace quickly,
+> avoid the scheduling out and in again to wake from a futex_wait(), thus
+> speeding up the wait operation. The user input is masked with FUTEX_TID_MASK so
+> we have some bits to play.
 > 
-> Signed-off-by: André Almeida <andrealmeid@igalia.com>
-> ---
+> Christian Brauner suggested using pidfd to avoid race conditions, and I will
+> implement that in the next patch iteration. I benchmarked the implementation
+> measuring the time required to wait for a futex for a simple loop using the code
+> at [2]. In my setup, the total wait time for 1000 futexes using the spin method
+> was almost 10% lower than just using the normal futex wait:
+> 
+> 	Testing with FUTEX2_SPIN | FUTEX_WAIT
+> 	Total wait time: 8650089 usecs
+> 
+> 	Testing with FUTEX_WAIT
+> 	Total wait time: 9447291 usecs
+> 
+> However, as I played with how long the lock owner would be busy, the
+> benchmark results of spinning vs no spinning would match, showing that the
+> spinning will be effective for some specific scheduling scenarios, but depending
+> on the wait time, there's no big difference either spinning or not.
+> 
+> [0] https://lpc.events/event/17/contributions/1481/
+> 
+> You can find a small snippet to play with this interface here:
+> 
+> [1] https://gist.github.com/andrealmeid/f0b8c93a3c7a5c50458247c47f7078e1
 
-[...]
+What exactly are you trying to benchmark here ? I've looked at this toy
+program, and I suspect that most of the delay you observe is due to
+initial scheduling of a newly cloned thread, because this is what is
+repeatedly being done in the delay you measure.
 
-> +
-> +static int futex_spin(struct futex_hash_bucket *hb, struct futex_q *q,
-> +		       struct hrtimer_sleeper *timeout, u32 uval)
-> +{
-> +	struct task_struct *p;
-> +	pid_t pid = uval & FUTEX_TID_MASK;
-> +
-> +	p = find_get_task_by_vpid(pid);
-> +
-> +	/* no task found, maybe it already exited */
-> +	if (!p) {
-> +		futex_q_unlock(hb);
-> +		return -EAGAIN;
-> +	}
-> +
-> +	/* can't spin in a kernel task */
-> +	if (unlikely(p->flags & PF_KTHREAD)) {
-> +		put_task_struct(p);
-> +		futex_q_unlock(hb);
-> +		return -EPERM;
-> +	}
-> +
-> +	futex_queue(q, hb);
-> +
-> +	if (timeout)
-> +		hrtimer_sleeper_start_expires(timeout, HRTIMER_MODE_ABS);
-> +
-> +	while (1) {
+I would recommend to change this benchmark program to measure something
+meaningful, e.g.:
 
-Infinite loops in other kernel/futex/ files appear to use "for (;;) {"
-instead.
+- N threads repeatedly contending on a lock, until a "stop" flag is set,
+- run for "duration" seconds, after which main() sets a "stop" flag.
+- delay loop of "work_delay" us within the lock critical section,
+- delay loop of "inactive_delay" us between locking attempts,
+- measure the time it takes to grab the lock, report stats on this,
+- measure the total number of operations done within the given
+   "duration".
+- report statistics on the number of operations per thread to see
+   the impact on fairness,
 
-> +		if (likely(!plist_node_empty(&q->list))) {
-> +			if (timeout && !timeout->task)
-> +				goto exit;
-> +
-> +			if (task_on_cpu(p)) {
-> +				/* spin */
+The run the program with the following constraints:
 
-You may want to add a "cpu_relax();" here to lessen the
-power consumption of this busy-loop.
+- Pin one thread per core, with nb thread <= nb cores. This should
+   be a best case scenario for spinning.
+- Pin all threads to a single core. when nb threads > nb cores, this
+   should be the worse scenario for spinning.
+- Groups things between those two extremes to see how things evolve.
 
-> +				continue;
-> +			} else {
-> +				/* task is not running, sleep */
-> +				break;
-> +			}
-> +		} else {
-> +			goto exit;
-> +		}
-> +	}
-> +
-> +	/* spinning didn't work, go to the normal path */
-> +	set_current_state(TASK_INTERRUPTIBLE|TASK_FREEZABLE);
-
-I wonder if flipping the order between:
-
-         set_current_state(TASK_INTERRUPTIBLE|TASK_FREEZABLE);
-         futex_queue(q, hb);
-
-as done in futex_wait_queue() and what is done here matters ?
-Does it introduce a race where a wakeup could be missed ?
-
-If it's an issue, then setting the current state could be done
-before invoking futex_queue(), and whenever the spin exits,
-set it back to TASK_RUNNING.
-
-
-> +
-> +	if (likely(!plist_node_empty(&q->list))) {
-> +		if (!timeout || timeout->task)
-> +			schedule();
-> +	}
-> +
-> +	__set_current_state(TASK_RUNNING);
-> +
-> +exit:
-> +	put_task_struct(p);
-> +	return 0;
-> +}
-> +
->   /**
->    * futex_unqueue_multiple - Remove various futexes from their hash bucket
->    * @v:	   The list of futexes to unqueue
-> @@ -665,8 +732,15 @@ int __futex_wait(u32 __user *uaddr, unsigned int flags, u32 val,
->   	if (ret)
->   		return ret;
->   
-> -	/* futex_queue and wait for wakeup, timeout, or a signal. */
-> -	futex_wait_queue(hb, &q, to);
-> +	if (flags & FLAGS_SPIN) {
-> +		ret = futex_spin(hb, &q, to, val);
-The empty line below could be removed.
+I would not be surprised that if you measure relevant delays, you will
+observe much better speedups than what you currently have.
 
 Thanks,
 
 Mathieu
 
-> +
-> +		if (ret)
-> +			return ret;
-> +	} else {
-> +		/* futex_queue and wait for wakeup, timeout, or a signal. */
-> +		futex_wait_queue(hb, &q, to);
-> +	}
->   
->   	/* If we were woken (and unqueued), we succeeded, whatever. */
->   	if (!futex_unqueue(&q))
+> 
+> Changelog:
+> 
+> v1: - s/PID/TID
+>      - masked user input with FUTEX_TID_MASK
+>      - add benchmark tool to the cover letter
+>      - dropped debug prints
+>      - added missing put_task_struct()
+> 
+> André Almeida (1):
+>    futex: Add FUTEX_SPIN operation
+> 
+>   include/uapi/linux/futex.h |  2 +-
+>   kernel/futex/futex.h       |  6 ++-
+>   kernel/futex/waitwake.c    | 78 +++++++++++++++++++++++++++++++++++++-
+>   3 files changed, 82 insertions(+), 4 deletions(-)
+> 
 
 -- 
 Mathieu Desnoyers
