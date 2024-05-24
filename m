@@ -1,112 +1,76 @@
-Return-Path: <linux-api+bounces-1598-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1599-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D66EA8CE1CB
-	for <lists+linux-api@lfdr.de>; Fri, 24 May 2024 09:52:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2DF48CE236
+	for <lists+linux-api@lfdr.de>; Fri, 24 May 2024 10:18:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 147041C20D64
-	for <lists+linux-api@lfdr.de>; Fri, 24 May 2024 07:52:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 00BC01C2140D
+	for <lists+linux-api@lfdr.de>; Fri, 24 May 2024 08:18:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9360D82D7A;
-	Fri, 24 May 2024 07:52:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D1BF1292DD;
+	Fri, 24 May 2024 08:18:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="hWZIpCr6"
 X-Original-To: linux-api@vger.kernel.org
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFC2D374FF
-	for <linux-api@vger.kernel.org>; Fri, 24 May 2024 07:52:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.58.86.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1FB81292D0;
+	Fri, 24 May 2024 08:18:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716537167; cv=none; b=LSbo+7BFvXb16dmUrm0vE5wh3ka7+DGzO9SVge3b4Np4AKIyYpCwky2cWbzuVHOTwXBe/9aAkDwh7X53Mc2P/jCkHSW4Tu0JvexxxnayTn+YWw5ibdWJM4qRE+gdEdpO43UmgGHHpUuehj1MzfafoloaW6aYLnCO2gOxqjS7BgE=
+	t=1716538687; cv=none; b=MsIkkU7Y6tHWKjPmO7FsvDJFDwRVYlreCMBQP56lDFDbEWvLh+h9Q5r16EIjwInanqaJUdJt+vIUjA77+jhnPrytYomC4NE+9m0TYR5Hi3uVHNR2eyUN/JMQKb92y6Q1wFYLZKyYZ29P9NKO6/7+U+VMXXL0ZJsBXeqvQrdew/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716537167; c=relaxed/simple;
-	bh=0WCNFDXp1xMSbC4bwKH3Ol6IPf4WEDGeRYHim8+28wU=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 MIME-Version:Content-Type; b=gi0O3Z4uY/ejDlSoi3flmKLk0wcei7CihF48IR5T0obtgBd4dq1JEXJGgyi/kzQ0F3L5/CaX4XSWyfwk6x/ZInVfrZq5jmcz1JOfHSLDr7vQGMY3aM4NYKAqEz2k4vB4PQXiKN47qWy9zk0cDL/QO+xFdXCjYZLRUFyC6fIc2+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM; spf=pass smtp.mailfrom=aculab.com; arc=none smtp.client-ip=185.58.86.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aculab.com
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-199-p_PFq1w1MwCWhi6R7Pg5-g-1; Fri, 24 May 2024 08:52:37 +0100
-X-MC-Unique: p_PFq1w1MwCWhi6R7Pg5-g-1
-Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
- (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Fri, 24 May
- 2024 08:52:05 +0100
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.048; Fri, 24 May 2024 08:52:05 +0100
-From: David Laight <David.Laight@ACULAB.COM>
-To: =?utf-8?B?J0FuZHLDqSBBbG1laWRhJw==?= <andrealmeid@igalia.com>, "Mathieu
- Desnoyers" <mathieu.desnoyers@efficios.com>, Peter Zijlstra
-	<peterz@infradead.org>
-CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Thomas
- Gleixner" <tglx@linutronix.de>, "Paul E . McKenney" <paulmck@kernel.org>,
-	Boqun Feng <boqun.feng@gmail.com>, "H . Peter Anvin" <hpa@zytor.com>, "Paul
- Turner" <pjt@google.com>, "linux-api@vger.kernel.org"
-	<linux-api@vger.kernel.org>, Christian Brauner <brauner@kernel.org>, "Florian
- Weimer" <fw@deneb.enyo.de>, "carlos@redhat.com" <carlos@redhat.com>, "Peter
- Oskolkov" <posk@posk.io>, Alexander Mikhalitsyn <alexander@mihalicyn.com>,
-	Chris Kennelly <ckennelly@google.com>, Ingo Molnar <mingo@redhat.com>,
-	"Darren Hart" <dvhart@infradead.org>, Davidlohr Bueso <dave@stgolabs.net>,
-	"libc-alpha@sourceware.org" <libc-alpha@sourceware.org>, Steven Rostedt
-	<rostedt@goodmis.org>, Jonathan Corbet <corbet@lwn.net>, Noah Goldstein
-	<goldstein.w.n@gmail.com>, Daniel Colascione <dancol@google.com>,
-	"longman@redhat.com" <longman@redhat.com>, "kernel-dev@igalia.com"
-	<kernel-dev@igalia.com>
-Subject: RE: [PATCH v2 1/1] futex: Add FUTEX_SPIN operation
-Thread-Topic: [PATCH v2 1/1] futex: Add FUTEX_SPIN operation
-Thread-Index: AQHarUzWukUXPS/11kKDb3WyV7rGCLGmAfcw
-Date: Fri, 24 May 2024 07:52:05 +0000
-Message-ID: <16a6a6f28cc547b7a0a27ae6eebcca43@AcuMS.aculab.com>
-References: <20240523200704.281514-1-andrealmeid@igalia.com>
- <20240523200704.281514-2-andrealmeid@igalia.com>
-In-Reply-To: <20240523200704.281514-2-andrealmeid@igalia.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
+	s=arc-20240116; t=1716538687; c=relaxed/simple;
+	bh=AbpBb4SoeryfpDXDfbidLfrYC8TWLUiF5wG1wSMxyjo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JGetKbt2TezxNZ+unI14fVlQX0yGWDlJ5v0XkZs6tsffVhChlFzsxPiq0k5STUJFnBimzaVQyQdc1uZ+ZytSxsvBxNEv39lv3AwpFqfuO0B9httvMJ1n33thRKD1SLuAE+kY88RcJSS8A8f3VpwTZuFNp7RK7zKMINVqul0jkkg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=hWZIpCr6; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=AbpBb4SoeryfpDXDfbidLfrYC8TWLUiF5wG1wSMxyjo=; b=hWZIpCr6tviREUMFWAuUp4umW9
+	NZWn0004AbZVadOJsQS3lqt3L6PEWltNr1UilzcQUMAxde60wR4ht4KwMwWKoU5X0DfpJpqD8YbYG
+	22HkWcjNNZMshRc+io0jryT2aa5bcQcMoFr0M6lnNbU2cINVO3JzpT1i8TPHe32l7AhObONCL5i/O
+	fXhwQw8bbCU7nFFDdE/mJ4WbMcGHGA99R56TAsydb9ku8EQLv8JCy6ibtgC8eeNs0MnC7uezI8ffe
+	cu+YDVT5EYwrvcF5yiKXhFeVrGs38R02hMo6WwvQn7MxsmynQAQprDu8xGaoJl2qs2rh4DsfOZTCp
+	3wbExWWA==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1sAQ7o-00000008Mbk-0faT;
+	Fri, 24 May 2024 08:18:04 +0000
+Date: Fri, 24 May 2024 01:18:04 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Bastian Germann <bage@debian.org>
+Cc: linux-xfs@vger.kernel.org, "Darrick J . Wong" <djwong@kernel.org>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	linux-mips@vger.kernel.org, linux-api@vger.kernel.org
+Subject: Re: [PATCH v2] xfs_io: make MADV_SOFT_OFFLINE conditional
+Message-ID: <ZlBNPDomQpTfAmt2@infradead.org>
+References: <20240522223748.9986-1-bage@debian.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240522223748.9986-1-bage@debian.org>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-RnJvbTogQW5kcsOpIEFsbWVpZGENCj4gU2VudDogMjMgTWF5IDIwMjQgMjE6MDcNCj4gDQo+IEFk
-ZCBhIG5ldyBtb2RlIGZvciBmdXRleCB3YWl0LCB0aGUgZnV0ZXggc3Bpbi4NCj4gDQo+IEdpdmVu
-IHRoZSBGVVRFWDJfU1BJTiBmbGFnLCBwYXJzZSB0aGUgZnV0ZXggdmFsdWUgYXMgdGhlIFRJRCBv
-ZiB0aGUgbG9jaw0KPiBvd25lci4gVGhlbiwgYmVmb3JlIGdvaW5nIHRvIHRoZSBub3JtYWwgd2Fp
-dCBwYXRoLCBzcGlucyB3aGlsZSB0aGUgbG9jaw0KPiBvd25lciBpcyBydW5uaW5nIGluIGEgZGlm
-ZmVyZW50IENQVSwgdG8gYXZvaWQgdGhlIHdob2xlIGNvbnRleHQgc3dpdGNoDQo+IG9wZXJhdGlv
-biBhbmQgdG8gcXVpY2tseSByZXR1cm4gdG8gdXNlcnNwYWNlLiBJZiB0aGUgbG9jayBvd25lciBp
-cyBub3QNCj4gcnVubmluZywganVzdCBzbGVlcCBhcyB0aGUgbm9ybWFsIGZ1dGV4IHdhaXQgcGF0
-aC4NCj4gDQo+IFRoZSB1c2VyIHZhbHVlIGlzIG1hc2tlZCB3aXRoIEZVVEVYX1RJRF9NQVNLLCB0
-byBhbGxvdyBzb21lIGJpdHMgZm9yDQo+IGZ1dHVyZSB1c2UuDQo+IA0KPiBUaGUgY2hlY2sgZm9y
-IHRoZSBvd25lciB0byBiZSBydW5uaW5nIG9yIG5vdCBpcyBpbXBvcnRhbnQgdG8gYXZvaWQNCj4g
-c3Bpbm5pbmcgZm9yIHNvbWV0aGluZyB0aGF0IHdvbid0IGJlIHJlbGVhc2VkIHF1aWNrbHkuIFVz
-ZXJzcGFjZSBpcw0KPiByZXNwb25zaWJsZSBvbiBwcm92aWRpbmcgdGhlIHByb3BlciBUSUQsIHRo
-ZSBrZXJuZWwgZG9lcyBhIGJhc2ljIGNoZWNrLg0KDQpUaGUga2VybmVsIG5lZWRzIHRvIGRvIHNv
-bWV0aGluZyB0byBzdG9wIGEgdXNlci1wcm9jZXNzIHNwaW5uaW5nIGluLWtlcm5lbA0KaW5kZWZp
-bml0ZWx5Lg0KDQouLi4NCj4gK3N0YXRpYyBpbmxpbmUgYm9vbCB0YXNrX29uX2NwdShzdHJ1Y3Qg
-dGFza19zdHJ1Y3QgKnApDQo+ICt7DQo+ICsjaWZkZWYgQ09ORklHX1NNUA0KPiArCXJldHVybiAh
-IShwLT5vbl9jcHUpOw0KPiArI2Vsc2UNCj4gKwlyZXR1cm4gZmFsc2U7DQo+ICsjZW5kaWYNCj4g
-K30NCg0KSSBzdXNwZWN0IHRoYXQgaXNuJ3QgZ29pbmcgdG8gd29yayBpbiBhIFZNIHdoZXJlIHRo
-ZSBlbnRpcmUgJ2NwdScNCmNhbiBiZSBzbGVlcGluZy4NCg0KVGhpcyBpcyBzaW1pbGFyIHRvIHRo
-ZSAoSSBkb24ndCB0aGluayB3b3JrcyBwcm9wZXJseSkgY2hlY2sNCmluIHRoZSAnb3NxJyAob3B0
-aW1pc3RpYyBzcGluIHF1ZXVlKSB1c2VkIHdoZW4gd2FpdGluZyBmb3INCnRoZSB0aHJlYWQgc3Bp
-bm5pbmcgb24gYSBtdXRleC9yd2xvY2sgdG8gY2hhbmdlIHN0YXRlLg0KDQpJSVJDIHRoYXQgY29k
-ZSBhbHNvIGNoZWNrcyB3aGV0aGVyIHRoZSBjdXJyZW50IHRocmVhZCBzaG91bGQNCmJlIHByZS1l
-bXB0ZWQgYnkgYSBoaWdoZXIgcHJpb3JpdHkgcHJvY2Vzcy4NCg0KCURhdmlkDQoNCi0NClJlZ2lz
-dGVyZWQgQWRkcmVzcyBMYWtlc2lkZSwgQnJhbWxleSBSb2FkLCBNb3VudCBGYXJtLCBNaWx0b24g
-S2V5bmVzLCBNSzEgMVBULCBVSw0KUmVnaXN0cmF0aW9uIE5vOiAxMzk3Mzg2IChXYWxlcykNCg==
+> +#ifdef MADV_SOFT_OFFLINE
+
+Can you add a comment here that this is missing on mips as of Linux
+6.9?
+
+Also adding the mips maintainer so he can add it, as missing a madvise
+random feature on a random architecture looks like a bug that should be
+fixed.
 
 
