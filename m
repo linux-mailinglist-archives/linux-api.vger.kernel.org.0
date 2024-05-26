@@ -1,87 +1,83 @@
-Return-Path: <linux-api+bounces-1601-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1602-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BB2B8CEEA6
-	for <lists+linux-api@lfdr.de>; Sat, 25 May 2024 13:25:28 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85E738CF311
+	for <lists+linux-api@lfdr.de>; Sun, 26 May 2024 11:26:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8C3351C20A8A
-	for <lists+linux-api@lfdr.de>; Sat, 25 May 2024 11:25:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4278E282983
+	for <lists+linux-api@lfdr.de>; Sun, 26 May 2024 09:26:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4AF131A83;
-	Sat, 25 May 2024 11:25:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D07A08BEC;
+	Sun, 26 May 2024 09:25:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="K8OssRaN"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="hpO+942e"
 X-Original-To: linux-api@vger.kernel.org
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22040208CA;
-	Sat, 25 May 2024 11:25:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FEE78F54;
+	Sun, 26 May 2024 09:25:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716636324; cv=none; b=B2jyME4JtvPipdiXampFliE750DHPZsXGzbEJOp2VMLvYXv0mvKbccPD4TD1RS4ZnmhUSAO/tF08F4kgZxJHuzkGvOa3fIDPyI5Zg+PNsXrvCTjuRig45oPl7r9jrCNeCGH6v653156ktjgKe8ubtqeCeB3j5UyHea82t78YQyY=
+	t=1716715541; cv=none; b=Ls6MlNDyDJaYoP8bwnloBQbnrkweoMquuacYpH0GqwASBIS88U7EKnqp5goDxIUD2EHcJHdJPuPS5dLTtCxHMSVSmoKoh8Vzc1YYbvb1DrZCrwUaXlqgWPRLNw3RV6mHePMANRmVL754uC2srNjW7AWTnTgCnVfYcDfYUJUSe7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716636324; c=relaxed/simple;
-	bh=lyAM/tBraUaivTSqVpDtdzYQDwPph0gQ4F1yGKtmYvg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LAs8uaP4LinHhdgEHocjlq8F91lFITyiXHYJgyTgwOMW5bQNc5gVA+ksknU8t2tKE01oCu5muGNYXpUSU+6Y/aN7ccIlIjHKo1YokrB4beUoWfjDyak7TWvCvybiEodBo0TajAF3cQip8KdIwWEJgG4gqkA/Vmn9Vxjqnfu6jrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=K8OssRaN; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-	Reply-To:Content-ID:Content-Description;
-	bh=zCkqzdYte65um3TtRP0XYZF8yZbFnXz5HUvdaLbNJr4=; b=K8OssRaNgSBfwKviWP02A2CM7+
-	ZCubjH/HFYfnl65AOFifLwmuvZtNbfBOGOKfN8NIH5F4qZCDYOSRt+kCeum8hY3zqyst8+knLZwb+
-	a6uBCPYhJaVlCychknk9PUd9OJ6bL1ZihKHzJVskD+VuyqueGoA3G1by/Q3RSLEt3XNapqaXJrNhg
-	6PRfKndPICr+4Mo2NXIBIw5QiCNvZPsq52OjKZ48FhmeTWfkGmKCjTvPSvBCLb7VkHLFL1UTab6/8
-	bqLQYeNzYqrgsHaWLuOjb5ouQpSIsa0/c3qAD4Ut7ynFZzeneCvbgXLjW2sd1iqdoZTyfWQAwiLHd
-	ZQ6Ono0w==;
-Received: from authenticated user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128)
-	(Exim 4.94.2)
-	(envelope-from <bage@debian.org>)
-	id 1sApWK-00GNrA-Tx; Sat, 25 May 2024 11:25:05 +0000
-Message-ID: <57f845bb-9b67-4c09-9e21-701872c936e3@debian.org>
-Date: Sat, 25 May 2024 13:25:01 +0200
+	s=arc-20240116; t=1716715541; c=relaxed/simple;
+	bh=J3+xwB/7tX6Bth1ZZZOnPESeYeIK5qF5WnmoEBO+q5w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=o2qAmq/68Th4F892GZSTGJB/IW/6eyAuFAynTOIlVLyxgxda3ApVX66Rn+R6LA+C8AN41E5bb3wr09nJVBq+778Ml14ks+Y+fO4WUroMxEn9ogQFbIHTLu2RvvRaUkguD5eMj5H6F1X70enhsUTCI1FPr8BXw1mW43+QcrUqX3s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=hpO+942e; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=D7h0RhNkAKCic1Da42IZ3OgM6xXPiv190nM0wcYEFcg=; b=hpO+942ekCMbNp/hrhH5qKrYdX
+	qceekPpSF2doKYsp7ncNpU4saNLeCFGJoOGvO5XdMPt6ftuSEAPsQv7NAPmNAaKzI2ADfe2PKK+J0
+	rUqaroxmw0TEHUMQtFF3NUWbNJ4ix3BQxOO7Hmgo71z1xf31vnK640NH2JV75MPOD1grAxAhItkAR
+	wNdDEPBWZn/CESAi3dZNVlrWEq0D90TpLROmj3rTLV72X9k1sm3zMRDYkK62RxR/FqKDO8teppyA2
+	YLrA87ZjjpldN2mnlaejkPoej/0ggLAnyZBBYRodIeY4srlY9CTuY98PT0un15ilHaZO4gjmZGFS/
+	CPCdIexg==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1sBA8E-0000000CQp5-39By;
+	Sun, 26 May 2024 09:25:34 +0000
+Date: Sun, 26 May 2024 02:25:34 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Aleksa Sarai <cyphar@cyphar.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Jeff Layton <jlayton@kernel.org>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Alexander Aring <alex.aring@gmail.com>,
+	linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
+Subject: Re: [PATCH RFC v2] fhandle: expose u64 mount id to
+ name_to_handle_at(2)
+Message-ID: <ZlMADupKkN0ITgG5@infradead.org>
+References: <20240523-exportfs-u64-mount-id-v2-1-f9f959f17eb1@cyphar.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] xfs_io: make MADV_SOFT_OFFLINE conditional
-To: Christoph Hellwig <hch@infradead.org>
-Cc: linux-xfs@vger.kernel.org, "Darrick J . Wong" <djwong@kernel.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-mips@vger.kernel.org,
- linux-api@vger.kernel.org
-References: <20240522223748.9986-1-bage@debian.org>
- <ZlBNPDomQpTfAmt2@infradead.org>
-Content-Language: de-DE
-From: Bastian Germann <bage@debian.org>
-In-Reply-To: <ZlBNPDomQpTfAmt2@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Debian-User: bage
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240523-exportfs-u64-mount-id-v2-1-f9f959f17eb1@cyphar.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Am 24.05.24 um 10:18 schrieb Christoph Hellwig:
->> +#ifdef MADV_SOFT_OFFLINE
-> 
-> Can you add a comment here that this is missing on mips as of Linux
-> 6.9?
+On Thu, May 23, 2024 at 01:57:32PM -0700, Aleksa Sarai wrote:
+> Now that we provide a unique 64-bit mount ID interface in statx, we can
+> now provide a race-free way for name_to_handle_at(2) to provide a file
+> handle and corresponding mount without needing to worry about racing
+> with /proc/mountinfo parsing.
 
-Sure.
-
-> Also adding the mips maintainer so he can add it, as missing a madvise
-> random feature on a random architecture looks like a bug that should be
-> fixed.
-
-There are more of this class of bugs which f82b77462b ("tools include:
-Add mman macros needed by perf for all arch") presents.
+file handles are not tied to mounts, they are tied to super_blocks,
+and they can survive reboots or (less relevant) remounts.  This thus
+seems like a very confusing if not wrong interfaces.
 
 
