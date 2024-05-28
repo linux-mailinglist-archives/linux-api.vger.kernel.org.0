@@ -1,99 +1,120 @@
-Return-Path: <linux-api+bounces-1625-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1626-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22B758D1907
-	for <lists+linux-api@lfdr.de>; Tue, 28 May 2024 12:56:51 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7C128D1A29
+	for <lists+linux-api@lfdr.de>; Tue, 28 May 2024 13:48:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CD9001F25ECD
-	for <lists+linux-api@lfdr.de>; Tue, 28 May 2024 10:56:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 895691F23F84
+	for <lists+linux-api@lfdr.de>; Tue, 28 May 2024 11:48:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A9CD16B757;
-	Tue, 28 May 2024 10:56:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D58BA16D309;
+	Tue, 28 May 2024 11:48:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="3Oe28dRK"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Eh73VSsR"
 X-Original-To: linux-api@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C380F17E8F0;
-	Tue, 28 May 2024 10:56:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD07113F431;
+	Tue, 28 May 2024 11:48:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716893805; cv=none; b=Q4Gh0Ic5jAHpoejdliKniMw5DeQZ4axCHEHrL0DgY9nR/ZBigYp5+98V77RhhFTcTEitna7NJo+JoEzD0LDu2WyPaGQYcUehFghWnAYJPF3mWhXSBTt8iarpXQ1+MouN//fEOkaioCo+iKVMIA5nXSyBSBF3uta3zKzKCqE5fuc=
+	t=1716896885; cv=none; b=Ayx2SI3e3QgIOob2BNJWeRs81M39wu6hHeM88+kN3eysQmGTbslgBOz7tlvquBNWB6wbfKrIv2hKnthPu+z3e1EVpSceoqIzUX5cwmBBYPybSkkT7+M2PcFASf8nAnnhh9foaHdLnrSwcwdarfCDw7cShlmkre2nL5486KWB31w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716893805; c=relaxed/simple;
-	bh=HZTSW9bk0tYqiV8s902Z5erz0IAIj3Ddec7NKMcXKuE=;
+	s=arc-20240116; t=1716896885; c=relaxed/simple;
+	bh=GzdgGk9rOCUWEGE9r3V+BUQkxDVfOj5AFZJklbVzbeY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DcdnhwZ2rcIZkHGoaw3TRsKZvG7l/KfeKtSbWu8FXHqGFNiE2NkI96KR2HX5MYMluzj/b7t4YzdtGRP1wCb2cnx21MBaFY9JwetzFRIZjT0/dQEF/D0rASFxTCC7riltQO7CRD1tbUgPBb8fuD48d3HVIt5IbOL24RNIOdVpGBo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=3Oe28dRK; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=/V95dGngcEuYhnc9wQ2EmcS5NmDhpxdlRNxDZQXorMo=; b=3Oe28dRKP+yOmfYUOcyQY9Z3tw
-	pfqgCiwn9vLXOe6WZnGtMfdZjYrwA1TfPbw3EXjTlX+TYFBQji9oZhbACS8EwKYk2qqMI6kxrINsj
-	8YDC4j59DjrB7GKkn+Ps8sFCLUynKPzBVL9k1geDfthmvu4V9PvhvXCs7nqU/goTLUQkVGDqZd+i/
-	6rapaEXOCmcN8zBYT2szMbkciaEBhbHn0Dc+PhrTGyXvlJBmpw+PlK2z6CSaWl/OK5N2lGDhdqo0p
-	RyPmSYsxxycJEDYe4kcqoawHE+5khkOWOXBPCUCbUQGOnQPfYv6jn7+6uYaKOoHqw9OnJjfs0cyYk
-	q1tJcZzQ==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sBuVY-00000000HqA-0021;
-	Tue, 28 May 2024 10:56:44 +0000
-Date: Tue, 28 May 2024 03:56:43 -0700
-From: "hch@infradead.org" <hch@infradead.org>
-To: Jan Kara <jack@suse.cz>
-Cc: "hch@infradead.org" <hch@infradead.org>,
-	Trond Myklebust <trondmy@hammerspace.com>,
-	"chuck.lever@oracle.com" <chuck.lever@oracle.com>,
-	"linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"brauner@kernel.org" <brauner@kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"alex.aring@gmail.com" <alex.aring@gmail.com>,
-	"cyphar@cyphar.com" <cyphar@cyphar.com>,
-	"viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-	"jlayton@kernel.org" <jlayton@kernel.org>,
-	"amir73il@gmail.com" <amir73il@gmail.com>,
-	"linux-nfs@vger.kernel.org" <linux-nfs@vger.kernel.org>
-Subject: Re: [PATCH RFC v2] fhandle: expose u64 mount id to
- name_to_handle_at(2)
-Message-ID: <ZlW4a6Zdt9SPTt80@infradead.org>
-References: <20240523-exportfs-u64-mount-id-v2-1-f9f959f17eb1@cyphar.com>
- <ZlMADupKkN0ITgG5@infradead.org>
- <30137c868039a3ae17f4ae74d07383099bfa4db8.camel@hammerspace.com>
- <ZlRzNquWNalhYtux@infradead.org>
- <86065f6a4f3d2f3d78f39e7a276a2d6e25bfbc9d.camel@hammerspace.com>
- <ZlS0_DWzGk24GYZA@infradead.org>
- <20240528101152.kyvtx623djnxwonm@quack3>
+	 Content-Type:Content-Disposition:In-Reply-To; b=qnF3LnP+2bNxy27ENMM1Bg+77UvbU7S4Wa82U+Hy/D2TJdG52K34Wnrt/8g9KmY4FYEg2bD1J0Hh3WQqL0LWPHqpQ4U27Wq04drnd1gTOyaCE6Etai98m0U5eSOX15GeVLAKeCAYJdZLlEiXRgIcDAoYGylUah8SvXKggCFJhH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Eh73VSsR; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CFD8C3277B;
+	Tue, 28 May 2024 11:48:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1716896885;
+	bh=GzdgGk9rOCUWEGE9r3V+BUQkxDVfOj5AFZJklbVzbeY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Eh73VSsReKg0cyMRe+bYjeonroJf71rAzlupl1FLqN+YPkZ3ptmOoqYaXboCq5prq
+	 FmUbc1io3NlnhOmAU/WnVf/mBWOgGp37oH6UZvIynq6jpUtlfUZD0oZhUQfmc8bj7/
+	 ot+BUUWtqaIum0GZJZlN2YjOj82jSG68mISGGQydmV9lh5EPb5aIjYeSJ/Qgw0eDMo
+	 o+7xBoxEZvR3Y7GQsZ8LPsVcoxE16JC1JLP1DRtGxdmc28VxRIP2IJAQEK22gLcuxS
+	 alaAI8YBNP4TgDCF/WRPtFqsxnMtj3x/agu19192Gx0rZObiSmx5JY7t8du0W03bIN
+	 sOSnvOCwi+r4Q==
+Date: Tue, 28 May 2024 13:48:02 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: linux-api@vger.kernel.org
+Cc: linux-man@vger.kernel.org, libc-alpha@sourceware.org, 
+	Alejandro Colomar <alx@kernel.org>
+Subject: [PATCH v1 0/2] uapi/linux/prctl: Use the L and UL integer suffixes
+ for certain constants
+Message-ID: <20240528114750.106187-1-alx@kernel.org>
+X-Mailer: git-send-email 2.45.1
+References: <x6r3yc6l34g4k5g3tm6ywecdqux54xlpid7bp2fa7hvm43luc7@6fjgaxgm5uyj>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="cgyn2bljkc5pggwf"
 Content-Disposition: inline
-In-Reply-To: <20240528101152.kyvtx623djnxwonm@quack3>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <x6r3yc6l34g4k5g3tm6ywecdqux54xlpid7bp2fa7hvm43luc7@6fjgaxgm5uyj>
 
-On Tue, May 28, 2024 at 12:11:52PM +0200, Jan Kara wrote:
-> So some fanotify users may use open_by_handle_at() and name_to_handle_at()
-> but we specifically designed fanotify to not depend on this mount id
-> feature of the API (because it wasn't really usable couple of years ago
-> when we were designing this with Amir). fanotify returns fsid + fhandle in
-> its events and userspace is expected to build a mapping of fsid ->
-> "whatever it needs to identify a filesystem" when placing fanotify marks.
-> If it wants to open file / directory where events happened, then this
-> usually means keeping fsid -> "some open fd on fs" mapping so that it can
-> then use open_by_handle_at() for opening.
 
-Which seems like another argument for my version of the handles to
-include the fsid.  Although IIRC the fanotify fsid is only 64 bits which
-isn't really good entropy, so we might have to rev that as well.
+--cgyn2bljkc5pggwf
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: linux-api@vger.kernel.org
+Cc: linux-man@vger.kernel.org, libc-alpha@sourceware.org, 
+	Alejandro Colomar <alx@kernel.org>
+Subject: [PATCH v1 0/2] uapi/linux/prctl: Use the L and UL integer suffixes
+ for certain constants
+References: <x6r3yc6l34g4k5g3tm6ywecdqux54xlpid7bp2fa7hvm43luc7@6fjgaxgm5uyj>
+MIME-Version: 1.0
+In-Reply-To: <x6r3yc6l34g4k5g3tm6ywecdqux54xlpid7bp2fa7hvm43luc7@6fjgaxgm5uyj>
 
+
+Alejandro Colomar (2):
+  uapi/linux/prctl: Use the L integer suffix for enumerations of width
+    long
+  uapi/linux/prctl: Use the UL integer suffix for bit fields of width
+    long
+
+ include/uapi/linux/prctl.h | 186 ++++++++++++++++++-------------------
+ 1 file changed, 93 insertions(+), 93 deletions(-)
+
+Range-diff against v0:
+-:  ------------ > 1:  eb1cdf3e2f33 uapi/linux/prctl: Use the L integer suf=
+fix for enumerations of width long
+-:  ------------ > 2:  16f5bd565191 uapi/linux/prctl: Use the UL integer su=
+ffix for bit fields of width long
+--=20
+2.45.1
+
+
+--cgyn2bljkc5pggwf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmZVxHIACgkQnowa+77/
+2zKgVA//cGJeI6y+z9KTFaVtjiwsh/mQutLnTUl6+syryQRBj1E1BXMovJnfBz1r
++BP8fnZcGsbspAj9NNoNrU43TiT8j7T0i55vn5AIafLRnYrvF6eR+mSrxe5MuJc3
+7FEJCmaxCoGS7g8ui0iLgQT6b2bep4epzplRDokHpqvw/O26Mnluu9PC0jzS8hQH
+0MuwbpkJ1X7nkvEtphHE10QZMi+5KIDrzin52gDaJnx16ODMYl4kJTUkYHPjAQOs
+Uo0JT6yk8RL1e4QsW42d/Ik7U23PkREWN85iMRTrH9lj2ws9nrxiGOebEkyl8r61
+pokwFyYCx3IPEpPYXWh32wJC9grCYNOnhqVWFr/p1+BR/lKDGYChNEMh6jzjo/xU
+8SsC7DfeD71oqtEezgQNygkSpt3WAzZQr4bsVDF7GLME0ajH/YVglcvrk367Oxw6
+rwIkF86Z3oLsB5gW4Nb9rk7voC2QE7daEcjQVYvbb3qDEsKPoim6mwlixTdD/5Ur
+qUzIC2IK4CMN+9vxT9rPRRWdfsFERzPt6KR0NfrPYoI7NEYUSqqPizE6nflplX0N
+vEnUdhs1XvDGQ4aXVCaDGOkVx2AoZmDJI/litXEjItD8v20MkIFWhgJbYeNIs+CN
+YMxscF2J2xEJUk3fmN099h+jLiE4K+toj03KXeVWKjYspHwaZJ8=
+=jubp
+-----END PGP SIGNATURE-----
+
+--cgyn2bljkc5pggwf--
 
