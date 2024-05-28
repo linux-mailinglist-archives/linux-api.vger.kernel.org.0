@@ -1,100 +1,95 @@
-Return-Path: <linux-api+bounces-1615-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1616-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51DDE8D0897
-	for <lists+linux-api@lfdr.de>; Mon, 27 May 2024 18:30:53 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1347A8D14DC
+	for <lists+linux-api@lfdr.de>; Tue, 28 May 2024 09:05:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 03FA91F2385D
-	for <lists+linux-api@lfdr.de>; Mon, 27 May 2024 16:30:53 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7B0FEB21CD6
+	for <lists+linux-api@lfdr.de>; Tue, 28 May 2024 07:05:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA5E615D5CF;
-	Mon, 27 May 2024 16:29:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BBF4535C8;
+	Tue, 28 May 2024 07:05:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="kZyC3pE9"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eom72jNj"
 X-Original-To: linux-api@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79E867346C;
-	Mon, 27 May 2024 16:29:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AD2D45024;
+	Tue, 28 May 2024 07:05:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716827390; cv=none; b=TF0kIyuT6VFtpoqt90s35NUH8ohEeWnl26KaKgsy0It0HkhEe8qe6yOFQfiWUEwVIl+w53Z55av0LLToCLbu8WMxF5bXLA1fYzSnDHr7Zp6tnU9O/DU2PkEU2HkjOEU1jH8RqbNgJmPIgLC5utD470QhsI52CDRcfm/Z1h3ksow=
+	t=1716879924; cv=none; b=DY1NYl6pWmtxSgAYTLomb63XGO/X3PiEuc24oL4nDI3B9tbTZ6W2Ddfq2BXwHzDMiBQDk8mMlj0/f436KjRro/3tUCVGVNIS4AoDDbp78T9u7gPHT6Hof+9I3WTKC06wdR/RuOfrexrfI7UneqCH8w0J/Ti4AzCoh8IDOawrkY4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716827390; c=relaxed/simple;
-	bh=aRoI7xtsmkM04Wifif6pMbPQqrT8YiNfoLqdNjPbItA=;
+	s=arc-20240116; t=1716879924; c=relaxed/simple;
+	bh=AJop6tQXrPDYxKxJR+T1Rffiqt/FIeu65U1e97Oj0gU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iz8Fs/816Sh6TFN564XctlfwBZ+/wfgJ+e/10Iq9TxXcfYVvU+F2EAFwIGZN1Mu5yWBo+icYw09HN6qsO/rNDBkMmpLFVrj2d/jSIuqRD8DjPTeK/j0nopoPiedNQAeQEq4SOJwxMTCwK93ESwWq+Qqa9AK/0mnuEbk4Pb2D57k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=kZyC3pE9; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=Fe3M1WbTvAZeXMfbjuO8H7fTMStHiUlxRCcFwILoi+4=; b=kZyC3pE9swZXYLzz8yt3pUxTp2
-	/wqUOtShL76yRoPFsx9iwX/lZDip6D8a2JAF3nE6WkONLGSDL8ETYEQFkPopmvcDWZhvA9ZZXMSLr
-	nWTrMyx6ITOcrcba+BCZnbjwJfK2EUrLu3yVC/BN7SweM9X3VBo037kruAppcin61/XenD2n4xu2q
-	FGIWh5/RkrV++5MD10M9PWWOWML8/CzcNWqw6R4R/ls6LN7ENFYL9hlycOIlt1wnz3huLCC1T0SNp
-	EhYrN47f6vcdD/SxCZMD76gOCQKv7RqTHY1WlVKJiy85arZ1tz4KMXJVApgY7W4AGPbbFLv7b+ps1
-	4m6EMf7g==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sBdEK-0000000FrSL-22Qr;
-	Mon, 27 May 2024 16:29:48 +0000
-Date: Mon, 27 May 2024 09:29:48 -0700
-From: "hch@infradead.org" <hch@infradead.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q+UACKw+L1hyJEvKD7AkOVjGg7yaTFOQYTTG5MgtdUZBmNFJdU5ZakwKW6/wmaPJwDgxX16//ufAh1VezeIBBGs9RgpM4jxSW1KsXmY1XDvDf5U6ktyuq4ofFbqRSWoeJH1m+AGl1Wj8nTOL38wMdxgFI/vqu+G/jRsBtviU8fc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eom72jNj; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2373FC3277B;
+	Tue, 28 May 2024 07:05:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1716879923;
+	bh=AJop6tQXrPDYxKxJR+T1Rffiqt/FIeu65U1e97Oj0gU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=eom72jNj3HosJ7FhOQZg1BOvkvv+TbQkvdMqQvXp6DUAwncaYyXag1KhYIrU2KUt4
+	 SfI/QjZvWLC6+tmKpCjdGiHDsebwnmfPivr4bzGLAHtBoxCZ4/hjRDzAM5ivkxmWWg
+	 t3td3HpR69p60eyFuhhm2T2YWAcNxuALz7c9NqxvxEIUmOCWWJmrRBDt4wcjtWCO9F
+	 TYk228KTde9hrnrxbYaYWIJL5ECp0xD5cx7LouREsZa8Msbt847nxJiTRfRBCMRVfn
+	 0Rj3nbSbLjJ244Wlhpt7wF4CI8SJlTphxmOwufB7iUsOj6JVTKPzUeztCNyQzRoZKI
+	 26v5JC4X2+BFA==
+Date: Tue, 28 May 2024 09:05:17 +0200
+From: Christian Brauner <brauner@kernel.org>
 To: Trond Myklebust <trondmy@hammerspace.com>
-Cc: "hch@infradead.org" <hch@infradead.org>, "jack@suse.cz" <jack@suse.cz>,
-	"chuck.lever@oracle.com" <chuck.lever@oracle.com>,
-	"linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"brauner@kernel.org" <brauner@kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"alex.aring@gmail.com" <alex.aring@gmail.com>,
-	"cyphar@cyphar.com" <cyphar@cyphar.com>,
-	"viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-	"jlayton@kernel.org" <jlayton@kernel.org>,
-	"amir73il@gmail.com" <amir73il@gmail.com>,
-	"linux-nfs@vger.kernel.org" <linux-nfs@vger.kernel.org>
+Cc: "hch@infradead.org" <hch@infradead.org>, "jack@suse.cz" <jack@suse.cz>, 
+	"chuck.lever@oracle.com" <chuck.lever@oracle.com>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
+	"linux-api@vger.kernel.org" <linux-api@vger.kernel.org>, "alex.aring@gmail.com" <alex.aring@gmail.com>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "cyphar@cyphar.com" <cyphar@cyphar.com>, 
+	"viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>, "jlayton@kernel.org" <jlayton@kernel.org>, 
+	"amir73il@gmail.com" <amir73il@gmail.com>, "linux-nfs@vger.kernel.org" <linux-nfs@vger.kernel.org>
 Subject: Re: [PATCH RFC v2] fhandle: expose u64 mount id to
  name_to_handle_at(2)
-Message-ID: <ZlS0_DWzGk24GYZA@infradead.org>
+Message-ID: <20240528-restbetrag-zocken-df1f009dee04@brauner>
 References: <20240523-exportfs-u64-mount-id-v2-1-f9f959f17eb1@cyphar.com>
  <ZlMADupKkN0ITgG5@infradead.org>
- <30137c868039a3ae17f4ae74d07383099bfa4db8.camel@hammerspace.com>
- <ZlRzNquWNalhYtux@infradead.org>
- <86065f6a4f3d2f3d78f39e7a276a2d6e25bfbc9d.camel@hammerspace.com>
+ <20240526.184753-detached.length.shallow.contents-jWkMukeD7VAC@cyphar.com>
+ <ZlRy7EBaV04F2UaI@infradead.org>
+ <20240527-hagel-thunfisch-75781b0cf75d@brauner>
+ <20240527-raufen-skorpion-fa81805b3273@brauner>
+ <49b6c50a50e517b6eb61d40af6fd1fd6e9c09cb2.camel@hammerspace.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <86065f6a4f3d2f3d78f39e7a276a2d6e25bfbc9d.camel@hammerspace.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <49b6c50a50e517b6eb61d40af6fd1fd6e9c09cb2.camel@hammerspace.com>
 
-On Mon, May 27, 2024 at 03:38:40PM +0000, Trond Myklebust wrote:
-> > It
-> > does not matter what mount you use to access it.
+On Mon, May 27, 2024 at 03:47:33PM +0000, Trond Myklebust wrote:
+> On Mon, 2024-05-27 at 15:17 +0200, Christian Brauner wrote:
+> > 
+> > Returning the 64bit mount id makes this race-free because we now have
+> > statmount():
+> > 
+> > u64 mnt_id = 0;
+> > name_to_handle_at(AT_FDCWD, "/path/to/file", &handle, &mnt_id, 0);
+> > statmount(mnt_id);
+> > 
+> > Which gets you the device number which one can use to figure out the
+> > uuid without ever having to open a single file (We could even expose
+> > the
+> > UUID of the filesystem through statmount() if we wanted to.).
+> > 
 > 
-> Sure. However if you are providing a path argument, then presumably you
-> need to know which file system (aka super_block) it eventually resolves
-> to.
+> It is not race free. statmount() depends on the filesystem still being
+> mounted somewhere in your namespace, which is not guaranteed above.
 
-Except that you can't, at least not without running into potential
-races.  The only way to fix a race vs unmount/remount is to include
-the fsid part in the kernel generated file handle.
-
-> 
-> If your use case isn't NFS servers, then what use case are you
-> targeting, and how do you expect those applications to use this API?
-
-The main user of the open by handle syscalls seems to be fanotify
-magic.
-
+The unsigned 64bit mount is not recyclable. It is a unique identifier
+for a mount for the lifetime of the system. Even if bumped on every
+cycle it will still take hundreds of years to overflow.
 
