@@ -1,77 +1,75 @@
-Return-Path: <linux-api+bounces-1645-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1646-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFBC48D2D27
-	for <lists+linux-api@lfdr.de>; Wed, 29 May 2024 08:24:29 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id B5FBB8D2D5B
+	for <lists+linux-api@lfdr.de>; Wed, 29 May 2024 08:34:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 73A68B280F7
-	for <lists+linux-api@lfdr.de>; Wed, 29 May 2024 06:24:27 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4581DB29D9E
+	for <lists+linux-api@lfdr.de>; Wed, 29 May 2024 06:34:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 670CA15EFC9;
-	Wed, 29 May 2024 06:24:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1467215CD71;
+	Wed, 29 May 2024 06:34:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="0xSCbsz6"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="uENoG1Zn"
 X-Original-To: linux-api@vger.kernel.org
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E54E315F3F3;
-	Wed, 29 May 2024 06:24:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC73515B14D;
+	Wed, 29 May 2024 06:34:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716963862; cv=none; b=hVCzmQc8piphhmG4VHAjczv3DE9J4VNzQEvv9+rBU1nE6JuSA4IJWsBJ4nYzCTbk7FX8Y3Ftf6NKLJVL6IbhKIJ/g1OHHQT4o8cXGO99nyiw48rAJg/DS07KO+unEd9hXxvKT849B0jG03UxapNIfIznReknpaBxGDCUi+31uiM=
+	t=1716964474; cv=none; b=kWqjYfVIX1IUenJ9BmdGgDZjUppJAuqTafgMSMRWwbiGfsHi5s7FJAmimFrZhJ5Rjwv0nl0Tyw+gLGmw/6MoBRiafP4FkIzwemhfkCMVlvw6C+MCZ4bdI15fusUjU6KbJJdNFrPVK/6QVQnO7REfAT33GmiZMkKK//AeaBSlYH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716963862; c=relaxed/simple;
-	bh=pPM9ny+kNaumhJIGu8VXl7ieb63WgdrNQQ2r3r86KrU=;
+	s=arc-20240116; t=1716964474; c=relaxed/simple;
+	bh=UJG3C7EBMDjny9IFJF1bwm2VemwEnL8DukEB9yRxuiY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DdX1Mj5XTaavgOOPFoMOGPw81qR9hNb2GMN+BGc5WsTeJqZ9fDIY2TxvuqYSsPikSLeE/pagbKcrAGyBYRt+TBRUsH75W3ijhUG/vCYfTiTcB3bc+R06kM8Um76QToW0YQmslJpg3kupXC9fDi5gjdhd5bj1/R01p1HFNB95zAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=0xSCbsz6; arc=none smtp.client-ip=198.137.202.133
+	 Content-Type:Content-Disposition:In-Reply-To; b=i9cM2oNh7ngOB+I1a8PwEoKXhmKvFlEQ+YIslRxy4pE+lI1l2qHQ0e+jAo5Kcx/ULXhT4m2Eao+c8x+bmpz7qR1xXpk1JAByYhjJFo9H95y2Tl9E6gPgu+hSS+tXW0QteYfagNdZlhRWMiwLIPXsCamtS8fJRlsBbmUQ85qH1oY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=uENoG1Zn; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
 	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=pPM9ny+kNaumhJIGu8VXl7ieb63WgdrNQQ2r3r86KrU=; b=0xSCbsz68/CidLV/kgNWdm4vmd
-	DcnHmjJHBjSaNDwa/7FUP0m+3soqGA6wk+873Rz5SWPyQWnEI7EN29rP3kiCiGHApMqCzQX/seZvu
-	CXlg1l52hShvokbOux46Z1WneHxAEN3EIkXY7xwtt7smMWt9uFUz8ce/yF09LPAuQomDg1MqWJPrY
-	Noom52EDsVmhX/jDbfsU2tYaP3iV2+Xs11XVxaEv1MSI83BkG0Tog5UknTKEsvRVq4oiYSSfjPdWO
-	x3/Pc+ifQSc/kuzL5jEBbm+66V2MPFr0NeZumYqgKKijtP3hGo6XGtPZGdZLa4Zh3k9XAetf8yHuF
-	Nnlq5K3Q==;
+	bh=Rx87dGz3DyMKaLnAETMLgQ1KIZQ/AQu9Pno6waQB1SQ=; b=uENoG1ZnzwGU2je4euK44xlcX/
+	s+rFRqQvb2EDF5T3605za7qYSwhyhGWSqfkrjPFtQwI9hRAl+4EVg1WdlzAMtUg0d2UUbW60qFKRw
+	dsP0DZ5ORvaE80Xt/luLVDa0V6bu55dGz+bkwubLx4CAqYT9kKoCtaxk0Z4npO93Oy+zUT0zUmrlq
+	T2J+5dFzyuvZq+73+t2kWscrX6qyNFjCVLnJrn4ANxdhmbaxSewKl4vQDI1jCdp/J01NUFdMOd+D4
+	QPrKyT8hWL74Ee4SInYYEdYlPimc+djRE4aQdUT4xS3iSEzaMTunAcpE2AVp+DUcJqX/+EKG9qrqd
+	fveMldCg==;
 Received: from hch by bombadil.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sCCjS-00000002zuE-2aAy;
-	Wed, 29 May 2024 06:24:18 +0000
-Date: Tue, 28 May 2024 23:24:18 -0700
-From: "hch@infradead.org" <hch@infradead.org>
-To: Dave Chinner <david@fromorbit.com>
-Cc: "hch@infradead.org" <hch@infradead.org>, Jan Kara <jack@suse.cz>,
-	Trond Myklebust <trondmy@hammerspace.com>,
-	"chuck.lever@oracle.com" <chuck.lever@oracle.com>,
-	"linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"brauner@kernel.org" <brauner@kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"alex.aring@gmail.com" <alex.aring@gmail.com>,
-	"cyphar@cyphar.com" <cyphar@cyphar.com>,
-	"viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-	"jlayton@kernel.org" <jlayton@kernel.org>,
-	"amir73il@gmail.com" <amir73il@gmail.com>,
-	"linux-nfs@vger.kernel.org" <linux-nfs@vger.kernel.org>
+	id 1sCCtI-000000031cF-3Anh;
+	Wed, 29 May 2024 06:34:28 +0000
+Date: Tue, 28 May 2024 23:34:28 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Christoph Hellwig <hch@infradead.org>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Aleksa Sarai <cyphar@cyphar.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Jeff Layton <jlayton@kernel.org>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Alexander Aring <alex.aring@gmail.com>,
+	linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
 Subject: Re: [PATCH RFC v2] fhandle: expose u64 mount id to
  name_to_handle_at(2)
-Message-ID: <ZlbKEr15IXO2jxXd@infradead.org>
-References: <20240523-exportfs-u64-mount-id-v2-1-f9f959f17eb1@cyphar.com>
- <ZlMADupKkN0ITgG5@infradead.org>
- <30137c868039a3ae17f4ae74d07383099bfa4db8.camel@hammerspace.com>
- <ZlRzNquWNalhYtux@infradead.org>
- <86065f6a4f3d2f3d78f39e7a276a2d6e25bfbc9d.camel@hammerspace.com>
- <ZlS0_DWzGk24GYZA@infradead.org>
- <20240528101152.kyvtx623djnxwonm@quack3>
- <ZlW4a6Zdt9SPTt80@infradead.org>
- <ZlZn/fcphsx8u/Ph@dread.disaster.area>
+Message-ID: <ZlbMdNiwLsLF-gp0@infradead.org>
+References: <ZlRy7EBaV04F2UaI@infradead.org>
+ <20240527133430.ifjo2kksoehtuwrn@quack3>
+ <ZlSzotIrVPGrC6vt@infradead.org>
+ <20240528-wachdienst-weitreichend-42f8121bf764@brauner>
+ <ZlWVkJwwJ0-B-Zyl@infradead.org>
+ <20240528-gesell-evakuieren-899c08cbfa06@brauner>
+ <ZlW4IWMYxtwbeI7I@infradead.org>
+ <20240528-gipfel-dilemma-948a590a36fd@brauner>
+ <ZlXaj9Qv0bm9PAjX@infradead.org>
+ <CAJfpegvznUGTYxxTzB5QQHWtNrCfSkWvGscacfZ67Gn+6XoD8w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -80,19 +78,18 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZlZn/fcphsx8u/Ph@dread.disaster.area>
+In-Reply-To: <CAJfpegvznUGTYxxTzB5QQHWtNrCfSkWvGscacfZ67Gn+6XoD8w@mail.gmail.com>
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On Wed, May 29, 2024 at 09:25:49AM +1000, Dave Chinner wrote:
-> But no-one has bothered to reply or acknowledge my comments so I'll
-> point them out again and repeat: Filehandles generated by
-> the kernel for unprivileged use *must* be self describing and self
-> validating as the kernel must be able to detect and prevent
-> unprivelged users from generating custom filehandles that can be
-> used to access files outside the restricted scope of their
-> container.
+On Tue, May 28, 2024 at 03:28:18PM +0200, Miklos Szeredi wrote:
+> > open_by_handle_at looks up the superblock based on that identifier.
+> 
+> The open file needs a specific mount, holding the superblock is not
+> sufficient.
 
-We must not generate file handle for unprivileged use at all, as they
-bypass all the path based access controls.
+A strut file needs a vfsmount, yes.  And it better be reachable by
+the calling process.  And maybe an optional restriction to a specific
+mount by the caller might be useful, but I can't see how it is
+required.
 
 
