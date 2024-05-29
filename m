@@ -1,117 +1,117 @@
-Return-Path: <linux-api+bounces-1649-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1650-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBBE58D2E79
-	for <lists+linux-api@lfdr.de>; Wed, 29 May 2024 09:40:35 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2064D8D2EB4
+	for <lists+linux-api@lfdr.de>; Wed, 29 May 2024 09:44:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A6894289450
-	for <lists+linux-api@lfdr.de>; Wed, 29 May 2024 07:40:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D00F82816FC
+	for <lists+linux-api@lfdr.de>; Wed, 29 May 2024 07:44:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 929CF167D98;
-	Wed, 29 May 2024 07:40:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 449F5167D9F;
+	Wed, 29 May 2024 07:44:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oSIW1bsK"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IuFc0cXg"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6432D167D82;
-	Wed, 29 May 2024 07:40:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1221E167D82;
+	Wed, 29 May 2024 07:44:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716968408; cv=none; b=LSb3NmkJVXP24vd65VULe/SQGFmEBz4MuLFBrnUyOkfzRFbowSOeEg9x2EwZ65gPGuZ2Nn3jGFnsSqTDCmcHviIswJYi0ENhdrGlsRAXW4v7iV5NUYUM8gHSUEzVoddKAZIcFvfkwyMQpWZRkcx06tGV0Uio/zYjWUk/U3oDHxA=
+	t=1716968668; cv=none; b=gFhNPInb1Z9vCxDiF5SMUUvof204Rrg9mqWttxc+J+tXJDlVqmQu2cD8plgxDlwEOjuKPMX2UQMFSz6wbmGY/j3enBEV8XFf+M8h4JGo+q/D+Biw3WxQoTMTDAfAXR0flpR7EfJfcI9UYsg+JavDNfzU/ryosjc+bleUrr7plkM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716968408; c=relaxed/simple;
-	bh=fYdRJDyAIc+5o5Dbk1DjBWhpxgCjUP+fOk/zHS1zwnc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QPrZOu5YmbJHc4NYNoCTL0TG4PoNK45Z4mDG5dPRYOmXRZs4anGsCBUOS17jv5qpsQIjuW1zhC7YDYbiedYUPYq/707D787fVEq3UTW8TL8y0OCbXy6SWnDQllaVjm8NHnWvIvQp8Qek8Znq6Wg/vnQUDCTj9WMlMdq5ML1VjPA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oSIW1bsK; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6E99C2BD10;
-	Wed, 29 May 2024 07:40:04 +0000 (UTC)
+	s=arc-20240116; t=1716968668; c=relaxed/simple;
+	bh=AzzDMJdA28GXgKKNDPed4G6wzS0vsyy1cTbdGo0qXx4=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=SQYB5ZuJrbdLDzkWoZiGB8xmKHFsNCGYRoRwVpbsH1NSkZLBa9WolELGvsmaumbp3ISFQWeDAj0Xs92qQQqrGt54CLkxt1DkaAmlmjgcap6WpW+6mxcWVDjNbu1UAvQ9CvHqB2DOoNQh0sxpCJjFmlUoB6q1FhqxSj2+afyKdDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IuFc0cXg; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F07FEC32786;
+	Wed, 29 May 2024 07:44:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716968407;
-	bh=fYdRJDyAIc+5o5Dbk1DjBWhpxgCjUP+fOk/zHS1zwnc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oSIW1bsKD/EAqn+s8PblXjVl3IuvA6Y/+Dquf8C9YubXIElluFUBcOh+88Dgjzrhy
-	 ElRMC+w1kRG/i1gN7A6CAxlRfcsScnfOpPgCh61hrT6lRRPLUgRux8txeNv2FHLA1L
-	 GDazokt0/5OANj2uuFXH48I/Ddx4hOxxRh5lrYO6m8RLwGcXAp1U9ttcmuXPE8/fTL
-	 k+f7YGUO/BgCulmeNnA7WVTM84Of+1x24JzSSbeeGPEyiSM2T92cssnTl2POyZrY7D
-	 p1ni0u9m0i9JYBZZM9WacOw+5LXLnNGnOJhJwv9dJgNFr0wyUN0veMYTL0k7fr8VFF
-	 3NH+V2AcRCfcA==
-Date: Wed, 29 May 2024 09:40:01 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Jan Kara <jack@suse.cz>, Aleksa Sarai <cyphar@cyphar.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Chuck Lever <chuck.lever@oracle.com>, 
-	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
-	Alexander Aring <alex.aring@gmail.com>, linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
-Subject: Re: [PATCH RFC v2] fhandle: expose u64 mount id to
- name_to_handle_at(2)
-Message-ID: <20240529-marzipan-verspannungen-48b760c2f66b@brauner>
-References: <20240526.184753-detached.length.shallow.contents-jWkMukeD7VAC@cyphar.com>
- <ZlRy7EBaV04F2UaI@infradead.org>
- <20240527133430.ifjo2kksoehtuwrn@quack3>
- <ZlSzotIrVPGrC6vt@infradead.org>
- <20240528-wachdienst-weitreichend-42f8121bf764@brauner>
- <ZlWVkJwwJ0-B-Zyl@infradead.org>
- <20240528-gesell-evakuieren-899c08cbfa06@brauner>
- <ZlW4IWMYxtwbeI7I@infradead.org>
- <20240528-gipfel-dilemma-948a590a36fd@brauner>
- <ZlXaj9Qv0bm9PAjX@infradead.org>
+	s=k20201202; t=1716968667;
+	bh=AzzDMJdA28GXgKKNDPed4G6wzS0vsyy1cTbdGo0qXx4=;
+	h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
+	b=IuFc0cXg7QZcBM/e78aPfrhBLd64oyBQbj++bPzquLHjN1El6N7G2cxjH1GnojcRA
+	 UAKgr8AanpQgN8kkqaHAe8P0V7JngaFfbCjhgzUImu22Xgy+mGBaWrA9phVcoHfHqO
+	 UPXcvCCmHqylLRul5mz4vw/TWykgIHybn23Iry3+RSb0wmoETVk5GDR59Vy9XVXEoj
+	 qi2YbSTTRB2zolkkfCW3W6YbxsKuatjmKdN6zpVfi0iYx38TvZehfY2onAdGON1EVG
+	 bx0Iddop5HCFibaQ+9aiEJq4H/zC3vZMNTddS9VtdcCgX5afQqorzRtPF97+YQCRGM
+	 RpgA1b5BXBrsA==
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailfauth.nyi.internal (Postfix) with ESMTP id BCF861200032;
+	Wed, 29 May 2024 03:44:25 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Wed, 29 May 2024 03:44:25 -0400
+X-ME-Sender: <xms:2dxWZp09F_zgveTjUahiJYfxfKwtcrUDlCKk32Euwgn0mJ4j1L61iw>
+    <xme:2dxWZgFm8nF-9Ui0ZZ7M9s3S74-EbNno_ppR7o3eiP9PBwU4VVX9Mwf5E3EFr1T6e
+    b3zKIoYXPnRMYtlWtQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdektddgudekucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusehkvghrnhgvlhdrohhrgheqnecuggftrf
+    grthhtvghrnhepvdeviefgtedugeevieelvdfgveeuvdfgteegfeeiieejjeffgeeghedu
+    gedtveehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    eprghrnhguodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduvdekhedujedt
+    vdegqddvkeejtddtvdeigedqrghrnhgupeepkhgvrhhnvghlrdhorhhgsegrrhhnuggsrd
+    guvg
+X-ME-Proxy: <xmx:2dxWZp6sJipIZmP3vYTZHtAJI65-auL8_Lbf2Jz0zwZDFGgV9xRydw>
+    <xmx:2dxWZm3fGByL6p01B6SN1ErYS7B7tw5cia8zk88c15tNPpxLkoY03Q>
+    <xmx:2dxWZsHTEgrpqSJk7YbP9EskBR6ulP_ZET3rojqM-BTs7H52ghit3w>
+    <xmx:2dxWZn8rFkl481g5QNQpWGJcK2hD297RINDbNuaqutcHZ77_zknmiA>
+    <xmx:2dxWZpkwNrdA9PO5hp2wfEY6MB5IcP2qaLlJdlASDuJ4HazGG-WRRemt>
+Feedback-ID: i36794607:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 7935EB6008D; Wed, 29 May 2024 03:44:25 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-491-g033e30d24-fm-20240520.001-g033e30d2
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ZlXaj9Qv0bm9PAjX@infradead.org>
+Message-Id: <b779241d-36d8-4728-a126-9340bc569a2d@app.fastmail.com>
+In-Reply-To: <0da9785e-ba44-4718-9d08-4e96c1ba7ab2@kernel.org>
+References: <cover.1712080158.git.legion@kernel.org>
+ <cover.1713375378.git.legion@kernel.org>
+ <e4229fe2933a003341e338b558ab1ea8b63a51f6.1713375378.git.legion@kernel.org>
+ <2024041836-most-ablaze-f417@gregkh>
+ <0da9785e-ba44-4718-9d08-4e96c1ba7ab2@kernel.org>
+Date: Wed, 29 May 2024 09:44:04 +0200
+From: "Arnd Bergmann" <arnd@kernel.org>
+To: "Jiri Slaby" <jirislaby@kernel.org>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Alexey Gladkov" <legion@kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, kbd@lists.linux.dev,
+ linux-api@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-serial@vger.kernel.org, "Alexander Viro" <viro@zeniv.linux.org.uk>
+Subject: Re: [PATCH v5 1/3] VT: Use macros to define ioctls
+Content-Type: text/plain
 
-On Tue, May 28, 2024 at 06:22:23AM -0700, Christoph Hellwig wrote:
-> On Tue, May 28, 2024 at 02:04:16PM +0200, Christian Brauner wrote:
-> > Can you please explain how opening an fd based on a handle returned from
-> > name_to_handle_at() and not using a mount file descriptor for
-> > open_by_handle_at() would work?
-> 
-> Same as NFS file handles:
-> 
-> name_to_handle_at returns a handle that includes a file system
-> identifier.
-> 
-> open_by_handle_at looks up the superblock based on that identifier.
-> 
-> For the identifier I could imagin three choices:
-> 
->  1) use the fsid as returned in statfs and returned by fsnotify.
->     The downside is that it is "only" 64-bit.  The upside is that
->     we have a lot of plumbing for it
->  2) fixed 128-bit identifier to provide more entropy
->  3) a variable length identifier, which is more similar to NFS,
->     but also a lot more complicated
-> 
-> We'd need a global lookup structure to find the sb by id.  The simplest
-> one would be a simple linear loop over super_blocks which isn't terribly
-> efficient, but probably better than whatever userspace is doing to
-> find a mount fd right now.
-> 
-> Let me cook up a simple prototype for 1) as it shouldn't be more than
-> a few hundred lines of code.
+On Wed, May 29, 2024, at 09:29, Jiri Slaby wrote:
+> On 18. 04. 24, 8:18, Greg Kroah-Hartman wrote:
+>> 
+>> This is a nice cleanup, thanks for doing it, I'll just take this one
+>> change now if you don't object.
+>
+> Unfortunately, _IOC_NONE is 1 on some archs as noted by Arnd, and this 
+> commit changed the kd ioctl values in there which broke stuff as noted 
+> by Al.
+>
+> We either:
+> * use _IOC(0, X, Y) in here, instead of _IO(X, Y), or
+> * define KDIOC(X) as _IOC(0, KD_IOCTL_BASE, X), or
+> * revert the commit which landed to -rc1 already.
 
-Yeah, that's exactly what I figured and no that's not something we
-should do.
+I would prefer a simple revert, as the other options may
+end up more confusing. Another option might be a new
+global macro, if we then go an convert all plain ioctl
+command numbers to that.
 
-Not just can have a really large number of superblocks if you have mount
-namespaces and large container workloads that interface also needs to be
-highly privileged.
-
-Plus, you do have filesystems like btrfs that can be mounted multiple
-times with the same uuid.
-
-And in general users will still need to be able to legitimately use a
-mount fd and not care about the handle type used with it.
+      Arnd
 
