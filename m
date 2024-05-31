@@ -1,63 +1,74 @@
-Return-Path: <linux-api+bounces-1655-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1656-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F0DA8D592C
-	for <lists+linux-api@lfdr.de>; Fri, 31 May 2024 05:59:26 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86C7A8D5C7B
+	for <lists+linux-api@lfdr.de>; Fri, 31 May 2024 10:15:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6AC70286E50
-	for <lists+linux-api@lfdr.de>; Fri, 31 May 2024 03:59:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 42DF2289B17
+	for <lists+linux-api@lfdr.de>; Fri, 31 May 2024 08:15:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4E8357CA2;
-	Fri, 31 May 2024 03:59:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBFC680BE5;
+	Fri, 31 May 2024 08:14:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZHuUihYY"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="hsfv1nU3"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 714A9208B0;
-	Fri, 31 May 2024 03:59:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ACCB78276;
+	Fri, 31 May 2024 08:14:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717127960; cv=none; b=pQCzfh/xCKfhh5+74Isq9nSXKzYQxQDehEjejzlnDdD/XjfhF87+R2IUew2yWI77Ts+GYen1bMHPuCGlT14WpDN0NJB1rQkbthS+KgI+7DnmzxA+pZx91UM3IpoDe2BRFdOYZO2q40ynOgF18nhXaePE+LjC2yUtoVTYQbJ4KVk=
+	t=1717143260; cv=none; b=ngNXqkjmuGzpwGy6u4bUyeKInPMGh3GADVgzDnIvkQr5c+/dJ9N1SZXPJYlv4Ij6lfmt3iCliec34ES04rMTkzOHtEg1QYgWgK4okekW1K6fXf0508cVyAXKgdqO1GU2F4GPj2fNcOvMIS0Eym7DhURQ9Qg0rZMCz28STeOyTcI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717127960; c=relaxed/simple;
-	bh=ij84ftjLq17UMND5+v6nnm7ghMRL7JGp0DPy0qootgA=;
+	s=arc-20240116; t=1717143260; c=relaxed/simple;
+	bh=L2wsg+UyGOMk0Z8wJlmeo08VtpIEFKjlqtaUhQDmXUo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pn8Htg3AWQ77SvgR/GpUaYuJpdF7+JAEk4UDJe8JroFACKRcBnE6NuUSHjtjty2ZCFjLonFKmfP3xfD8oPxRnxlMTY3be2e+Vf9db76b+GKO9oHePHnBmb9+QFrQ7n0V99BhoNBJY4rwNdQZAttBQkshFMKEJqwA5FkrlG0ZIa4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZHuUihYY; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80F39C116B1;
-	Fri, 31 May 2024 03:59:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717127960;
-	bh=ij84ftjLq17UMND5+v6nnm7ghMRL7JGp0DPy0qootgA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZHuUihYY3H1mZo+OnyfBgJCQi6EDgy2Hus3yDQojqJxyJHM72Le9e9JXg9PE8D29Q
-	 hi9L33nMEg4Pq0iI+zKB8zG708Qp7bfpuRDSWmp3YSMtCX141hqhHryS0DvD8CVm4L
-	 fv0Q3CmTmnsQJyL1dOAtpRwAxCZDEVIgxWwo3U8WlE9FcGqdIasY3DOgPxOD0i8aJP
-	 TGx5XnzU9zB5Pkpu59XKmKfLSwEb7SlHehrvO9+WZJZIr8TcKGGqXW75ODNvCERoyN
-	 73ntDcXnJJYp3O4xRVHHyPA1mdpcRjgLSujSiX4Y82V/+0m89IGsnNagoBr77K+UCP
-	 Xu59fDNYqwqJA==
-Date: Thu, 30 May 2024 20:59:17 -0700
-From: Eric Biggers <ebiggers@kernel.org>
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: linux-kernel@vger.kernel.org, patches@lists.linux.dev,
-	tglx@linutronix.de, linux-crypto@vger.kernel.org,
-	linux-api@vger.kernel.org, x86@kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
-	Carlos O'Donell <carlos@redhat.com>,
-	Florian Weimer <fweimer@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
-	Jann Horn <jannh@google.com>,
-	Christian Brauner <brauner@kernel.org>,
-	David Hildenbrand <dhildenb@redhat.com>
-Subject: Re: [PATCH v16 2/5] random: add vgetrandom_alloc() syscall
-Message-ID: <20240531035917.GD6505@sol.localdomain>
-References: <20240528122352.2485958-1-Jason@zx2c4.com>
- <20240528122352.2485958-3-Jason@zx2c4.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=qghIkjK7OE9rd4mQaqHX6lNK+Uwh9Vlon/8RKuRtsKeGZvDcfmP9HpfaAp691rpoFEg4kzBHufwbahMoi1ict8RKTvIDR2Zgcwm7Rs7mv2N1ZV0HOQAxxljkLoxYOmTbrJxz+njwl8pBTFV7sV1GgFV9J4LMSHUgZVNaEl57nK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=hsfv1nU3; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=zCPwI73R4MJQqX+IZ9CDgIEhpJs+l0IYh+oqHsV7kBQ=; b=hsfv1nU3pxWAGTPmsBQnTuh8pp
+	WHIwLFYZ1Hink6MH2uwDexSiqz9mOEU9Lqw5reCTaPE/vnkTsYkew/6XnRbbePMnqHLsqIriKOsqO
+	nN0RqaREbXpipEsSuBdZ1UySx6WgPstFPDbZ+Sc9FA8oTpCc4rzouziREPQRDdzUmAUy06Y6LrqYG
+	tjfEXez5qeTV8T96lmsU9b9EIZrn7nmMOKgKT4JSmLY5HwuO+V61UwEv+7ycyAjFkRbkZBbeXMdj9
+	peQXyRbt/oasf4aZQLN7clcZ32eWRKMTT96iIIMsigVQJ6Bol2cO6fIWy02vi487cdMjL4tei3J15
+	4+GB8cCg==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1sCxOv-00000009aJO-42ve;
+	Fri, 31 May 2024 08:14:13 +0000
+Date: Fri, 31 May 2024 01:14:13 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Christoph Hellwig <hch@infradead.org>, Jan Kara <jack@suse.cz>,
+	Aleksa Sarai <cyphar@cyphar.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Jeff Layton <jlayton@kernel.org>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Alexander Aring <alex.aring@gmail.com>,
+	linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
+Subject: Re: [PATCH RFC v2] fhandle: expose u64 mount id to
+ name_to_handle_at(2)
+Message-ID: <ZlmG1Rss6gTgbSVT@infradead.org>
+References: <ZlRy7EBaV04F2UaI@infradead.org>
+ <20240527133430.ifjo2kksoehtuwrn@quack3>
+ <ZlSzotIrVPGrC6vt@infradead.org>
+ <20240528-wachdienst-weitreichend-42f8121bf764@brauner>
+ <ZlWVkJwwJ0-B-Zyl@infradead.org>
+ <20240528-gesell-evakuieren-899c08cbfa06@brauner>
+ <ZlW4IWMYxtwbeI7I@infradead.org>
+ <20240528-gipfel-dilemma-948a590a36fd@brauner>
+ <ZlXaj9Qv0bm9PAjX@infradead.org>
+ <20240529-marzipan-verspannungen-48b760c2f66b@brauner>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -66,42 +77,31 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240528122352.2485958-3-Jason@zx2c4.com>
+In-Reply-To: <20240529-marzipan-verspannungen-48b760c2f66b@brauner>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On Tue, May 28, 2024 at 02:19:51PM +0200, Jason A. Donenfeld wrote:
-> +/**
-> + * sys_vgetrandom_alloc - Allocate opaque states for use with vDSO getrandom().
-> + *
-> + * @num:	   On input, a pointer to a suggested hint of how many states to
-> + * 		   allocate, and on return the number of states actually allocated.
-> + *
-> + * @size_per_each: On input, must be zero. On return, the size of each state allocated,
-> + * 		   so that the caller can split up the returned allocation into
-> + * 		   individual states.
-> + *
-> + * @addr:	   Reserved, must be zero.
-> + *
-> + * @flags:	   Reserved, must be zero.
-> + *
-> + * The getrandom() vDSO function in userspace requires an opaque state, which
-> + * this function allocates by mapping a certain number of special pages into
-> + * the calling process. It takes a hint as to the number of opaque states
-> + * desired, and provides the caller with the number of opaque states actually
-> + * allocated, the size of each one in bytes, and the address of the first
-> + * state, which may be split up into @num states of @size_per_each bytes each,
-> + * by adding @size_per_each to the returned first state @num times, while
-> + * ensuring that no single state straddles a page boundary.
-> + *
-> + * Returns the address of the first state in the allocation on success, or a
-> + * negative error value on failure.
-> + *
-> + * The returned address of the first state may be passed to munmap(2) with a
-> + * length of `(size_t)num * (size_t)size_per_each`, in order to deallocate the
-> + * memory, after which it is invalid to pass it to vDSO getrandom().
+On Wed, May 29, 2024 at 09:40:01AM +0200, Christian Brauner wrote:
+> Yeah, that's exactly what I figured and no that's not something we
+> should do.
+> 
+> Not just can have a really large number of superblocks if you have mount
+> namespaces and large container workloads that interface also needs to be
+> highly privileged.
 
-Wouldn't a munmap with '(size_t)num * (size_t)size_per_each' be potentially too
-short, due to how the allocation is sized such that states don't cross page
-boundaries?
+Again, that would be the most trivial POC.  We can easily do hash.
 
-- Eric
+> Plus, you do have filesystems like btrfs that can be mounted multiple
+> times with the same uuid.
+
+Which doesn't matter.  Just like for NFS file handles the fs identifier
+identifier plus the file part of the file handle need to be unique.
+
+> And in general users will still need to be able to legitimately use a
+> mount fd and not care about the handle type used with it.
+
+I don't understand what you mean.  If we hand out file handles with
+fsid that of course needs to be keyed off a new flag for both
+name_to_handle and open_by_hnalde that makes them not interchangable
+to handles generated without that flag.
+
 
