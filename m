@@ -1,68 +1,72 @@
-Return-Path: <linux-api+bounces-1667-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1668-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9BA28D6F67
-	for <lists+linux-api@lfdr.de>; Sat,  1 Jun 2024 12:56:56 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69B5A8D6F6C
+	for <lists+linux-api@lfdr.de>; Sat,  1 Jun 2024 12:58:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E5DDFB20CEF
-	for <lists+linux-api@lfdr.de>; Sat,  1 Jun 2024 10:56:53 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2522B282EF6
+	for <lists+linux-api@lfdr.de>; Sat,  1 Jun 2024 10:58:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62BD414EC41;
-	Sat,  1 Jun 2024 10:56:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB68814EC46;
+	Sat,  1 Jun 2024 10:58:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="jxWlgk+Z"
+	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="eYq1ylhk"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16E5A208A4;
-	Sat,  1 Jun 2024 10:56:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A1C9208A4;
+	Sat,  1 Jun 2024 10:58:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717239409; cv=none; b=LuVD/gsEYlVkpfF5/3r6BmZ12r23hMeNMaZxSQT0JmfV0tWgizr4SEeRx0ABykp7xjgvN5xM0pdm+UJocHjgQHs3qSZvGncACnF1Egv3zeTtvepGsUuHNFv+8loTrQde5/ejdnQixwzF8RCpJ3cZJTCFpPxBY9vzVlhlLkg2oj8=
+	t=1717239494; cv=none; b=st3J9CPOzNyHo952QpuE/DoSLgG3c0MmZAB86BT/r6YcERBMJs85bDxxRsg/ljCImKsEGNssPsWsMRjryk3tM/vrvNg7hFksSDIGTQc3ix5AkqcATMmC5gOH4eMJHKWSM+B28pjsNSFQkEd+aU1+zwEKpFgJGDhqiSO/iHkKN1Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717239409; c=relaxed/simple;
-	bh=41DY8TV8S+YxvFiEAbKmnGhANeol4FJ3Mp4MdCpmIck=;
+	s=arc-20240116; t=1717239494; c=relaxed/simple;
+	bh=wlnpLq+45J4tfLZFkhftuMQPmEq2WrajzpJIs6Fj/hk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l71T74QMv8ruHcPdlJ3OYw4jLXLBqTIMODQ5BJTIfjAb7jlOMz7G0AXbczP7CdlBzmukeilcRMZKn7Rwi718Rx5Pm//m2YKTp0NG13JmarfF35Lk7aoLGyTe5Ese/bAjtZou7CZzP0U/vS86GBee1ocUgjE1AgKylqyvQiyGJIY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b=jxWlgk+Z; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CF40C116B1;
-	Sat,  1 Jun 2024 10:56:46 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=mRfg4n+U/gaZ/bF1Z/JYgkLdCcvtMAW1AEaCm9JyNEyzMdGtQTIbqqC/2GR2bRkS7AelJdgHH1qqz7vneIuYJxlMTcOAtMhmNVM9ekN4PkJcWmcgPBdcH5Z4i3tDGScFHbXxA7iT2m+5kRQlhoyBfz168cVXQsCQlYVzP5ENR94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b=eYq1ylhk; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD51AC116B1;
+	Sat,  1 Jun 2024 10:58:12 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
-	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="jxWlgk+Z"
+	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="eYq1ylhk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
-	t=1717239405;
+	t=1717239490;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=F3C8N1q5G5CmnDvpi3COJ8xyMm2eULKtCWXP4Sq6GaE=;
-	b=jxWlgk+ZWOpZZh5mjiYsYeT/ujL0Csc153a4DS7n5KhpFm2UZaHWVIpItNQEQwnh76T0Vp
-	VN/fbYyhjP/HQWQEvumkcMGyMOUQjoLcxrXSQSoVRzyBcc0pSpukUXkcdDReiYMpvZ9t5N
-	qRJXEQKGpsiYqCh4XdXcwNEkBWpL4zw=
+	bh=rRRJ0TcbQymOl5qbgMPazXzODCKq3LQRPQG3lk7mexg=;
+	b=eYq1ylhkfkVMl4Wa2klcb9OTPRym7AB6TOi2siOM5nXpkbGtlvmG1alalBB48r18P1GcFu
+	pfO1CtOvigwoTmajePI63BjHo3mY8um8toV9l+aa8+CBRsmRxBnCcN10pj/nWKxp4/LpiP
+	FUulbAb9ZnxwjoXbxnwI3ueWWtUXM0Q=
 Received: 
-	by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id c390d7bc (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Sat, 1 Jun 2024 10:56:43 +0000 (UTC)
-Date: Sat, 1 Jun 2024 12:56:40 +0200
+	by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 386d20b2 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Sat, 1 Jun 2024 10:58:10 +0000 (UTC)
+Date: Sat, 1 Jun 2024 12:58:07 +0200
 From: "Jason A. Donenfeld" <Jason@zx2c4.com>
 To: Eric Biggers <ebiggers@kernel.org>
-Cc: linux-kernel@vger.kernel.org, patches@lists.linux.dev,
-	tglx@linutronix.de, linux-crypto@vger.kernel.org,
-	linux-api@vger.kernel.org, x86@kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>, linux-kernel@vger.kernel.org,
+	patches@lists.linux.dev, tglx@linutronix.de,
+	linux-crypto@vger.kernel.org, linux-api@vger.kernel.org,
+	x86@kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
 	Carlos O'Donell <carlos@redhat.com>,
 	Florian Weimer <fweimer@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
 	Jann Horn <jannh@google.com>,
 	Christian Brauner <brauner@kernel.org>,
 	David Hildenbrand <dhildenb@redhat.com>
-Subject: Re: [PATCH v16 2/5] random: add vgetrandom_alloc() syscall
-Message-ID: <Zlr-aMJdAEgHOj9-@zx2c4.com>
+Subject: Re: [PATCH v16 3/5] arch: allocate vgetrandom_alloc() syscall number
+Message-ID: <Zlr-v8vd0JHKYtM-@zx2c4.com>
 References: <20240528122352.2485958-1-Jason@zx2c4.com>
- <20240528122352.2485958-3-Jason@zx2c4.com>
- <20240531035917.GD6505@sol.localdomain>
+ <20240528122352.2485958-4-Jason@zx2c4.com>
+ <CAMuHMdVJ8KpaqnWeHCMbJdf-Am6uY0N+uFM+OVxWTZH37TQvxw@mail.gmail.com>
+ <ZlXX0cFl5RANHNOQ@zx2c4.com>
+ <CAHmME9qZ2Xm68HQqfOmasWRoaW4xfAFAiLfw-pFbhq2i0rHz=w@mail.gmail.com>
+ <20240531022621.GC1502@sol.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -71,49 +75,40 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240531035917.GD6505@sol.localdomain>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240531022621.GC1502@sol.localdomain>
 
-On Thu, May 30, 2024 at 08:59:17PM -0700, Eric Biggers wrote:
-> On Tue, May 28, 2024 at 02:19:51PM +0200, Jason A. Donenfeld wrote:
-> > +/**
-> > + * sys_vgetrandom_alloc - Allocate opaque states for use with vDSO getrandom().
-> > + *
-> > + * @num:	   On input, a pointer to a suggested hint of how many states to
-> > + * 		   allocate, and on return the number of states actually allocated.
-> > + *
-> > + * @size_per_each: On input, must be zero. On return, the size of each state allocated,
-> > + * 		   so that the caller can split up the returned allocation into
-> > + * 		   individual states.
-> > + *
-> > + * @addr:	   Reserved, must be zero.
-> > + *
-> > + * @flags:	   Reserved, must be zero.
-> > + *
-> > + * The getrandom() vDSO function in userspace requires an opaque state, which
-> > + * this function allocates by mapping a certain number of special pages into
-> > + * the calling process. It takes a hint as to the number of opaque states
-> > + * desired, and provides the caller with the number of opaque states actually
-> > + * allocated, the size of each one in bytes, and the address of the first
-> > + * state, which may be split up into @num states of @size_per_each bytes each,
-> > + * by adding @size_per_each to the returned first state @num times, while
-> > + * ensuring that no single state straddles a page boundary.
-> > + *
-> > + * Returns the address of the first state in the allocation on success, or a
-> > + * negative error value on failure.
-> > + *
-> > + * The returned address of the first state may be passed to munmap(2) with a
-> > + * length of `(size_t)num * (size_t)size_per_each`, in order to deallocate the
-> > + * memory, after which it is invalid to pass it to vDSO getrandom().
+On Thu, May 30, 2024 at 07:26:21PM -0700, Eric Biggers wrote:
+> On Tue, May 28, 2024 at 03:28:58PM +0200, Jason A. Donenfeld wrote:
+> > On Tue, May 28, 2024 at 3:10 PM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+> > >
+> > > On Tue, May 28, 2024 at 03:08:00PM +0200, Geert Uytterhoeven wrote:
+> > > > Hi Jason,
+> > > >
+> > > > On Tue, May 28, 2024 at 2:24 PM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+> > > > > Add vgetrandom_alloc() as syscall 462 (or 572 on alpha) by adding it to
+> > > > > all of the various syscall.tbl and unistd.h files.
+> > > > >
+> > > > > Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> > > > > Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> > > >
+> > > > As of commit ff388fe5c481d39c ("mseal: wire up mseal syscall") in
+> > > > v6.10-rc1, 462 is already taken.
+> > > >
+> > > > v17 ++ ;-)
+> > >
+> > > Oy! Thanks. I should have thought to rebase on rc1 anyway before posting
+> > > this.
+> > 
+> > Sorted in https://git.kernel.org/pub/scm/linux/kernel/git/crng/random.git/log/?h=vdso
+> > for the time being.
+> > 
 > 
-> Wouldn't a munmap with '(size_t)num * (size_t)size_per_each' be potentially too
-> short, due to how the allocation is sized such that states don't cross page
-> boundaries?
+> Please also get in the habit of using the --base option to git format-patch, so
+> that it's actually possible to apply patches without guessing the base commit.
 
-You're right, I think. The calculation should instead be something like:
-
-    DIV_ROUND_UP(num, PAGE_SIZE / size_per_each) * PAGE_SIZE
-
-Does that seem correct to you?
+I recall you mentioning this to me in the past. I'll experiment with it
+for the v+1.
 
 Jason
 
