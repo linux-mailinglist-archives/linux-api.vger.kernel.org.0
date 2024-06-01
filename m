@@ -1,269 +1,143 @@
-Return-Path: <linux-api+bounces-1665-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1666-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDC368D6CBA
-	for <lists+linux-api@lfdr.de>; Sat,  1 Jun 2024 01:07:17 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CDEC8D6EC3
+	for <lists+linux-api@lfdr.de>; Sat,  1 Jun 2024 10:12:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D5F181C25713
-	for <lists+linux-api@lfdr.de>; Fri, 31 May 2024 23:07:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 933D01F237FB
+	for <lists+linux-api@lfdr.de>; Sat,  1 Jun 2024 08:12:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD6D184E0E;
-	Fri, 31 May 2024 23:06:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88D671B5A4;
+	Sat,  1 Jun 2024 08:12:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amacapital-net.20230601.gappssmtp.com header.i=@amacapital-net.20230601.gappssmtp.com header.b="wB9Bcuj7"
+	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="SxrpDJHg"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0A99824BF
-	for <linux-api@vger.kernel.org>; Fri, 31 May 2024 23:06:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88514182AE;
+	Sat,  1 Jun 2024 08:12:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717196813; cv=none; b=ECRbE9F7GMt9E48X5LN0Awudh+ZDSKB5CSSbNBa7TQoLiWDSRZkteOqHGbUG6WYWlFy6CMaTuTKMlH9k6/eJ0l/GdKvby0dMB8Ck1+90NeNci2uFOkKmdTGt8a9xscsvitVSLqEdLqUJaoL48hqWhrQ+FTrM+eH56lQ/iLWUP8M=
+	t=1717229573; cv=none; b=Pnx+Ussx7d18479wVODtTlMiiNh7GtXZLc1GRu2tEZOuTaEHYS9S66LZA9LVxqTLuza06SbcevEfY/KoENAE5piB3IGPuigP32uFSIqtVXg33RiqGtOaQn2iOYDzdem/YK6eeTY9TZ74NxwsJJYbzQ3RvWQhYScv0fUnKqFq3+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717196813; c=relaxed/simple;
-	bh=5P7SqAWOzhMiqoDFx3QmiBn7DYJTmsrcDYi6rn1x67U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=j66hdBNNN2rVGGH2W/yJ9uboh83GmjQevyBYrQ5+jbfIB4ylWR6sa7duAf8I6F3dAjkWAN+8mM6qM0RgPxyzUiEm27y0DGucylSPniHeLl/GyfaYwkC9HwrRu46xsikRm6zKH/Gu+uPf7e424rN5xaSosQFbcNh7iS2dakzBxBA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net; spf=pass smtp.mailfrom=amacapital.net; dkim=pass (2048-bit key) header.d=amacapital-net.20230601.gappssmtp.com header.i=@amacapital-net.20230601.gappssmtp.com header.b=wB9Bcuj7; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a68b54577aaso1121266b.3
-        for <linux-api@vger.kernel.org>; Fri, 31 May 2024 16:06:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20230601.gappssmtp.com; s=20230601; t=1717196810; x=1717801610; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eyHLaILVYS3X8bT62V44NUMw4Rtb28b6MzSGdES42nM=;
-        b=wB9Bcuj7ErfLrIDtBZQTDr61ud/zRNybcme3XxreVUUVzSvcIOqKTjv5xnefaJu1bI
-         pLSPGgrMVL56XZTIPlmJoBWcc4uKooUEdmiX67GqZrBzGVQ2vCuBrpnY9ZhCYaws5Qo8
-         5kFuaqgpHbgJwPa28PL7TMqQtXb53Mtjusts8vTu/ghbctfZ5KaVqqni+QMUdELYVifT
-         zgpVCasqDpJ0gOLWZL3z/afu6DH1egvpPUptSk8jamfkCWvlUvsarBTwZdnK+6SHwhDO
-         q3yhGehSPF4CHUdm4vWrhJAEfXKkxKxuQDpkntYmeZxWXEBX0V6dgkTFrlHmuAzJ/Ujj
-         AhwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717196810; x=1717801610;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=eyHLaILVYS3X8bT62V44NUMw4Rtb28b6MzSGdES42nM=;
-        b=jczrTGkJKH96bb+iyn1RI41PvP9SC7LMJTEJKD0Eb8gm1PJPGmiMFKcS6PC4QknHib
-         Ub1pKeRQ7W5Un/yoVpiAaLc16HDHwLobWDHTf8nvdUej9D2h2y90gaFjEgRd5TYDxVQ8
-         ttUvgbTFwknalCfOeCgd6+zAN/U6Yiy4aihcj+/sI7KNdH7oxPjPlkop51UmZSG+c9bT
-         GxjcyAAQo4J35xVWgUwu+FGpJA7PubTSwuRNxRWFAIxmfcY0ut8sZ/cuEurgQqmAYsaV
-         GC7Haka7PcFLelCwnuwKLnoHZCmv3Y/YrwlBKss+n8aUgk4HqXcPcjft1YYrQUsIuac0
-         M5kw==
-X-Forwarded-Encrypted: i=1; AJvYcCVoIrVhHwmhVKxqQu3o7bc5kJg7mRWAPXF0OxN17d7Ak/mE9mlBbUZflRrXcyRi9SjMZnZd+nXeB9647fGNl2N4fLYw/z6TyzPD
-X-Gm-Message-State: AOJu0YyWGXq2vRiSP5cITNf6z8fBNThelPbZLAHh/nc0+zth4/P1tC69
-	XYvndyoUF3a4VSTZZdsJi03onrpJrsHfiRL/7R19FOcHkdxH1uIEhZQAufa1vt2N68lSYjuQoEL
-	HxskpCtHmg6OBDNsI88dMhchWPVqaxMeBXRvk
-X-Google-Smtp-Source: AGHT+IEOlR34bXuxQqGt2PFNT5TRWY3/+xwI26oviRFffNo6Dmsc8TmF/2kOV72l7b/SwPzHbmJnmQyullweIjU1Qtc=
-X-Received: by 2002:a17:906:a050:b0:a66:4cf6:b9c with SMTP id
- a640c23a62f3a-a6820be9310mr200072666b.45.1717196809795; Fri, 31 May 2024
- 16:06:49 -0700 (PDT)
+	s=arc-20240116; t=1717229573; c=relaxed/simple;
+	bh=LMFNHZx2OS+11E4fqkCWlelAlM1P1mIosQaCLmNtFR4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D/OL2TG/YbIdp0q9mVeTnYErYBMFx2Zpyo7b0leAjOUyLB3WHL0G8a8sG8IstCkiAAi+MOPDjlliTm1Jkc1CqbJ64clp3I4Dg+2tkCSiMpnknwPCE0AtZ5yjBagxetKVLytU7Uk79qP7IgYgOnT/O72hl9xmT2H34tBjMnYUDVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=SxrpDJHg; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4Vrt5W24kgz9scH;
+	Sat,  1 Jun 2024 10:12:47 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
+	t=1717229567;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LMFNHZx2OS+11E4fqkCWlelAlM1P1mIosQaCLmNtFR4=;
+	b=SxrpDJHgUtluler1JGk8nbuRCkNIYoh0Mb/8TDntRHxtK43Cm2m4Th+NayLYW4zcvtubsW
+	PQi0yAPSfjNhLRBnbqG+BwmkG/cfJjS1FH604dZBWW4WJEpUzSmicvpHkbLQH8pw4q21uR
+	O7ZlC6qz0k4osz+EjXLbCgXwaiVKN013z+8iLNX4s4veQbcPXMWsO573P0TJ4Xp5gEABN6
+	M6G7tXCBbsAw8HSMNjqImCyev+JjsB3Zz+nqirjstRIsJLRNuIZSPOxLT8ASSAeS+toaXR
+	yGFdSlNYew44o2RnsYC+0193surm6O19EYSlbw6N20+/IPRJVmp6bkfkFIgpNA==
+Date: Sat, 1 Jun 2024 01:12:31 -0700
+From: Aleksa Sarai <cyphar@cyphar.com>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Christoph Hellwig <hch@infradead.org>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Chuck Lever <chuck.lever@oracle.com>, 
+	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
+	Alexander Aring <alex.aring@gmail.com>, linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
+Subject: Re: [PATCH RFC v2] fhandle: expose u64 mount id to
+ name_to_handle_at(2)
+Message-ID: <20240529.013815-fishy.value.nervous.brutes-FzobWXrzoo2@cyphar.com>
+References: <ZlRy7EBaV04F2UaI@infradead.org>
+ <20240527133430.ifjo2kksoehtuwrn@quack3>
+ <ZlSzotIrVPGrC6vt@infradead.org>
+ <20240528-wachdienst-weitreichend-42f8121bf764@brauner>
+ <ZlWVkJwwJ0-B-Zyl@infradead.org>
+ <20240528-gesell-evakuieren-899c08cbfa06@brauner>
+ <ZlW4IWMYxtwbeI7I@infradead.org>
+ <20240528-gipfel-dilemma-948a590a36fd@brauner>
+ <ZlXaj9Qv0bm9PAjX@infradead.org>
+ <CAJfpegvznUGTYxxTzB5QQHWtNrCfSkWvGscacfZ67Gn+6XoD8w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240528122352.2485958-1-Jason@zx2c4.com> <20240528122352.2485958-5-Jason@zx2c4.com>
-In-Reply-To: <20240528122352.2485958-5-Jason@zx2c4.com>
-From: Andy Lutomirski <luto@amacapital.net>
-Date: Fri, 31 May 2024 16:06:37 -0700
-Message-ID: <CALCETrUgPwVsMwkxkCyuqBKyqouyejikxxyGuBDxnWWKskYG8A@mail.gmail.com>
-Subject: Re: [PATCH v16 4/5] random: introduce generic vDSO getrandom() implementation
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: linux-kernel@vger.kernel.org, patches@lists.linux.dev, tglx@linutronix.de, 
-	linux-crypto@vger.kernel.org, linux-api@vger.kernel.org, x86@kernel.org, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>, "Carlos O'Donell" <carlos@redhat.com>, 
-	Florian Weimer <fweimer@redhat.com>, Arnd Bergmann <arnd@arndb.de>, Jann Horn <jannh@google.com>, 
-	Christian Brauner <brauner@kernel.org>, David Hildenbrand <dhildenb@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="vqvnbffrehhkwad2"
+Content-Disposition: inline
+In-Reply-To: <CAJfpegvznUGTYxxTzB5QQHWtNrCfSkWvGscacfZ67Gn+6XoD8w@mail.gmail.com>
+
+
+--vqvnbffrehhkwad2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-> On May 28, 2024, at 5:25=E2=80=AFAM, Jason A. Donenfeld <Jason@zx2c4.com>=
- wrote:
->
-> =EF=BB=BFProvide a generic C vDSO getrandom() implementation, which opera=
-tes on
-> an opaque state returned by vgetrandom_alloc() and produces random bytes
-> the same way as getrandom(). This has a the API signature:
->
->  ssize_t vgetrandom(void *buffer, size_t len, unsigned int flags, void *o=
-paque_state);
+On 2024-05-28, Miklos Szeredi <miklos@szeredi.hu> wrote:
+> On Tue, 28 May 2024 at 15:24, Christoph Hellwig <hch@infradead.org> wrote:
+> >
+> > On Tue, May 28, 2024 at 02:04:16PM +0200, Christian Brauner wrote:
+> > > Can you please explain how opening an fd based on a handle returned f=
+rom
+> > > name_to_handle_at() and not using a mount file descriptor for
+> > > open_by_handle_at() would work?
+> >
+> > Same as NFS file handles:
+> >
+> > name_to_handle_at returns a handle that includes a file system
+> > identifier.
+> >
+> > open_by_handle_at looks up the superblock based on that identifier.
+>=20
+> The open file needs a specific mount, holding the superblock is not suffi=
+cient.
 
-> +/**
-> + * type vdso_kernel_ulong - unsigned long type that matches kernel's uns=
-igned long
-> + *
-> + * Data shared between userspace and the kernel must operate the same wa=
-y in both 64-bit code and in
-> + * 32-bit compat code, over the same potentially 64-bit kernel. This typ=
-e represents the size of an
-> + * unsigned long as used by kernel code. This isn't necessarily the same=
- as an unsigned long as used
-> + * by userspace, however.
+Not to mention that providing a mount fd is what allows for extensions
+like Christian's proposed method of allowing restricted forms of
+open_by_handle_at() to be used by unprivileged users.
 
-Why is this better than using plain u64?  It=E2=80=99s certainly more
-complicated. It also rather fundamentally breaks CRIU on 32-bit
-userspace (although CRIU may well be unable to keep vgetrandom working
-after a restore onto a different kernel anyway).  Admittedly 32-bit
-userspace is a slowly dying breed, but still.
+If file handles really are going to end up being the "correct" mechanism
+of referencing inodes by userspace, then future API designs really need
+to stop assuming that the user is capable(CAP_DAC_READ_SEARCH). Being
+able to open any file in any superblock the kernel knows about
+(presumably using a kernel-internal mount if we are getting rid of the
+mount fd) is also capable(CAP_SYS_ADMIN) territory.
 
-> + *
-> + *                 +-------------------+-------------------+------------=
-------+-------------------+
-> + *                 | 32-bit userspace  | 32-bit userspace  | 64-bit user=
-space | 64-bit userspace  |
-> + *                 | unsigned long     | vdso_kernel_ulong | unsigned lo=
-ng    | vdso_kernel_ulong |
-> + * +---------------+-------------------+-------------------+------------=
-------+-------------------+
-> + * | 32-bit kernel | =E2=9C=93 same size       | =E2=9C=93 same size    =
-   |
-> + * | unsigned long |                   |                   |
-> + * +---------------+-------------------+-------------------+------------=
-------+-------------------+
-> + * | 64-bit kernel | =E2=9C=98 different size! | =E2=9C=93 same size    =
-   | =E2=9C=93 same size      | =E2=9C=93 same size       |
-> + * | unsigned long |                   |                   |            =
-      |                   |
-> + * +---------------+-------------------+-------------------+------------=
-------+-------------------+
-> + */
-> +#ifdef CONFIG_64BIT
-> +typedef u64 vdso_kernel_ulong;
-> +#else
-> +typedef u32 vdso_kernel_ulong;
-> +#endif
-> +
-> +#endif /* __VDSO_TYPES_H */
-> diff --git a/lib/vdso/getrandom.c b/lib/vdso/getrandom.c
-> new file mode 100644
-> index 000000000000..4d9bb59985f8
-> --- /dev/null
-> +++ b/lib/vdso/getrandom.c
-> @@ -0,0 +1,226 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (C) 2022 Jason A. Donenfeld <Jason@zx2c4.com>. All Rights R=
-eserved.
-> + */
-> +
-> +#include <linux/cache.h>
-> +#include <linux/kernel.h>
-> +#include <linux/time64.h>
-> +#include <vdso/datapage.h>
-> +#include <vdso/getrandom.h>
-> +#include <asm/vdso/getrandom.h>
-> +#include <asm/vdso/vsyscall.h>
-> +
-> +#define MEMCPY_AND_ZERO_SRC(type, dst, src, len) do {                \
-> +    while (len >=3D sizeof(type)) {                        \
-> +        __put_unaligned_t(type, __get_unaligned_t(type, src), dst);    \
-> +        __put_unaligned_t(type, 0, src);                \
-> +        dst +=3D sizeof(type);                        \
-> +        src +=3D sizeof(type);                        \
-> +        len -=3D sizeof(type);                        \
-> +    }                                    \
-> +} while (0)
-> +
-> +static void memcpy_and_zero_src(void *dst, void *src, size_t len)
-> +{
-> +    if (IS_ENABLED(CONFIG_HAVE_EFFICIENT_UNALIGNED_ACCESS)) {
-> +        if (IS_ENABLED(CONFIG_64BIT))
-> +            MEMCPY_AND_ZERO_SRC(u64, dst, src, len);
-> +        MEMCPY_AND_ZERO_SRC(u32, dst, src, len);
-> +        MEMCPY_AND_ZERO_SRC(u16, dst, src, len);
-> +    }
-> +    MEMCPY_AND_ZERO_SRC(u8, dst, src, len);
-> +}
-> +
-> +/**
-> + * __cvdso_getrandom_data - Generic vDSO implementation of getrandom() s=
-yscall.
-> + * @rng_info:        Describes state of kernel RNG, memory shared with k=
-ernel.
-> + * @buffer:        Destination buffer to fill with random bytes.
-> + * @len:        Size of @buffer in bytes.
-> + * @flags:        Zero or more GRND_* flags.
-> + * @opaque_state:    Pointer to an opaque state area.
-> + *
-> + * This implements a "fast key erasure" RNG using ChaCha20, in the same =
-way that the kernel's
-> + * getrandom() syscall does. It periodically reseeds its key from the ke=
-rnel's RNG, at the same
-> + * schedule that the kernel's RNG is reseeded. If the kernel's RNG is no=
-t ready, then this always
-> + * calls into the syscall.
-> + *
-> + * @opaque_state *must* be allocated using the vgetrandom_alloc() syscal=
-l.  Unless external locking
-> + * is used, one state must be allocated per thread, as it is not safe to=
- call this function
-> + * concurrently with the same @opaque_state. However, it is safe to call=
- this using the same
-> + * @opaque_state that is shared between main code and signal handling co=
-de, within the same thread.
-> + *
-> + * Returns the number of random bytes written to @buffer, or a negative =
-value indicating an error.
-> + */
-> +static __always_inline ssize_t
-> +__cvdso_getrandom_data(const struct vdso_rng_data *rng_info, void *buffe=
-r, size_t len,
-> +               unsigned int flags, void *opaque_state)
+Would the idea be to sign or MAC every file handle to avoid userspace
+being able to brute-force the file handle of anything the system sees?
+What happens if the key has to change? Then the handles aren't globally
+unique anymore...
 
-I don=E2=80=99t love this function signature. I generally think that, if
-you=E2=80=99re going to have user code pass a pointer to kernel code, eithe=
-r
-make the buffer have a well defined, constant size or pass a length.
-As it stands, one cannot locally prove that user code that calls it is
-memory-safe. In fact, any caller that has the misfortune of running
-under CRIU is *not* memory safe if CRIU allows the vDSO to be
-preserved. Ouch.  (CRIU has some special code for this.  I'm not 100%
-clear on all the details.)  One could maybe sort of get away with
-treating the provided opaque_state as a completely opaque value and
-not a pointer, but then the mechanism for allocating these states
-should be adjusted accordingly.
+--=20
+Aleksa Sarai
+Senior Software Engineer (Containers)
+SUSE Linux GmbH
+<https://www.cyphar.com/>
 
-One thing that occurs to me is that, if this thing were to be made
-CRIU-safe, the buffer could have a magic number that changes any time
-the data structure changes, and the vDSO could check, at the beginning
-and end of the call, that the magic number is correct.  Doing this
-would require using a special VMA type instead of just a wipe-on-fork
-mapping, which could plausibly be a good thing anyway.  (Hmm, we don't
-just want WIPEONFORK.  We should probably also wipe on swap-out and,
-more importantly, we should absolutely wipe on any sort of CRIU-style
-checkpointing.  Perhaps a special VMA would be a good thing for
-multiple reasons.
+--vqvnbffrehhkwad2
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
-> +{
-> +    ssize_t ret =3D min_t(size_t, INT_MAX & PAGE_MASK /* =3D MAX_RW_COUN=
-T */, len);
-> +    struct vgetrandom_state *state =3D opaque_state;
-> +    size_t batch_len, nblocks, orig_len =3D len;
-> +    unsigned long current_generation;
-> +    void *orig_buffer =3D buffer;
-> +    u32 counter[2] =3D { 0 };
-> +    bool in_use, have_retried =3D false;
-> +
-> +    /* The state must not straddle a page, since pages can be zeroed at =
-any time. */
-> +    if (unlikely(((unsigned long)opaque_state & ~PAGE_MASK) + sizeof(*st=
-ate) > PAGE_SIZE))
-> +        goto fallback_syscall;
+iHQEABYKAB0WIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCZlrX6wAKCRAol/rSt+lE
+b2bqAP0T/6Iuty/9sh3poXGM+BjEe4lGjwd3ua5vliIiOVnAAwD4hT34tVHtbEh1
+ROagk+0w0w57LSeHB7EhfS36MZ0YAQ==
+=MuBc
+-----END PGP SIGNATURE-----
 
-This is weird. Either the provided pointer is valid or it isn=E2=80=99t.
-Reasonable outcomes are a segfault if the pointer is bad or success
-(or fallback if needed for some reason) if the pointer is good.  Why
-is there specific code to catch a specific sort of pointer screwup
-here?
+--vqvnbffrehhkwad2--
 
