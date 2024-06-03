@@ -1,192 +1,128 @@
-Return-Path: <linux-api+bounces-1669-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1670-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93D508D7FFD
-	for <lists+linux-api@lfdr.de>; Mon,  3 Jun 2024 12:30:36 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCEA48D8895
+	for <lists+linux-api@lfdr.de>; Mon,  3 Jun 2024 20:27:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4A0F62818BA
-	for <lists+linux-api@lfdr.de>; Mon,  3 Jun 2024 10:30:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F07FE1C225D5
+	for <lists+linux-api@lfdr.de>; Mon,  3 Jun 2024 18:27:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 598E3374DD;
-	Mon,  3 Jun 2024 10:30:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E7411384B6;
+	Mon,  3 Jun 2024 18:27:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="fVrusnO7";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="DvKDZNoN";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="fVrusnO7";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="DvKDZNoN"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="BSMO5vOY"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82974107A8;
-	Mon,  3 Jun 2024 10:30:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF79D138495
+	for <linux-api@vger.kernel.org>; Mon,  3 Jun 2024 18:27:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717410632; cv=none; b=OoDbtXPbxRgIHPk2sT07czLtfKBw23EhcVKRhHHE0ahpYgJRJbx3jPc5LG28jbCm6iu/K5esMAvwgC/qvDS6UEot12koXdSD20hsFuGfXF6R5zEqE6GBnaK3edzOjx7fdQFo+I5m8MJ9gTwGwqDSkO/e8bsKjc16Upd8Rc+ZChY=
+	t=1717439250; cv=none; b=n8HbTzxs/hFo3UjzOYyTk40c6lS2+6QIzSmDj8MD6DLwYLtFwv83SWeyi0AWfTOqOPTIswgpqP9AnOXx9euizXchC4McLp3PjLYxGNOSuwlQUNYhHsjlDzbGoDQg0dgqrRfP8w283zLmX9RqY5KG29vI252+7sC0YGKpQW+V9I0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717410632; c=relaxed/simple;
-	bh=8qWOa1I4dRA0wwSvjQqmRvvLXU43Y0o1KGD3d+SozDk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZY69fwR7SBiK0w4QhLKhS3EZgFa0FSvF89IFHRP2u9l/MA/AyfR3HIqDhsCHTa4s6eGzjbMtUqRf4cLSjjR8sMmx7MAG55uDrTDZTamCa8bzM1n10tIb2yD1tMAshT0G7N3dArrVxTieEHf2gM9BT1IgyxqW5NfP5KhQ2AIxAig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=fVrusnO7; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=DvKDZNoN; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=fVrusnO7; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=DvKDZNoN; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 7DFA520034;
-	Mon,  3 Jun 2024 10:30:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1717410628; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HeD93ByCizJOPJifc4qjUJkUjOsezUwSyhkRRSdDXTI=;
-	b=fVrusnO7cteskuNXJi2yj0cacsltGC1p0Pp8PEfe/nvMDgCPAdOtEjO7ILMdvWGdn9KWKI
-	tuxOHuXQAvpbNQuSS2klTjPrvnVjHN3RmBBkH0HnpJEaKJz2qbKSX+E9B4+udGCtR9dvrF
-	PHw7TuLDKFGLCwZyRifY5MBYFKs9/l8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1717410628;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HeD93ByCizJOPJifc4qjUJkUjOsezUwSyhkRRSdDXTI=;
-	b=DvKDZNoNqfMSQ+/I5NWHq6R5gElN2NQoOmzE91Z70XJZgtUCLvQcP/s6MyRaeyPhuI/4De
-	0o0hKauf7I/iPHAQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1717410628; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HeD93ByCizJOPJifc4qjUJkUjOsezUwSyhkRRSdDXTI=;
-	b=fVrusnO7cteskuNXJi2yj0cacsltGC1p0Pp8PEfe/nvMDgCPAdOtEjO7ILMdvWGdn9KWKI
-	tuxOHuXQAvpbNQuSS2klTjPrvnVjHN3RmBBkH0HnpJEaKJz2qbKSX+E9B4+udGCtR9dvrF
-	PHw7TuLDKFGLCwZyRifY5MBYFKs9/l8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1717410628;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HeD93ByCizJOPJifc4qjUJkUjOsezUwSyhkRRSdDXTI=;
-	b=DvKDZNoNqfMSQ+/I5NWHq6R5gElN2NQoOmzE91Z70XJZgtUCLvQcP/s6MyRaeyPhuI/4De
-	0o0hKauf7I/iPHAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6E41413A93;
-	Mon,  3 Jun 2024 10:30:28 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id POOkGkSbXWZeFgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 03 Jun 2024 10:30:28 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id F12E9A086D; Mon,  3 Jun 2024 12:30:23 +0200 (CEST)
-Date: Mon, 3 Jun 2024 12:30:23 +0200
-From: Jan Kara <jack@suse.cz>
-To: Aleksa Sarai <cyphar@cyphar.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>,
-	Christoph Hellwig <hch@infradead.org>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Chuck Lever <chuck.lever@oracle.com>,
-	Jeff Layton <jlayton@kernel.org>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Alexander Aring <alex.aring@gmail.com>,
-	linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
-Subject: Re: [PATCH RFC v2] fhandle: expose u64 mount id to
- name_to_handle_at(2)
-Message-ID: <20240603103023.dh2npfl76wbmyvsx@quack3>
-References: <20240527133430.ifjo2kksoehtuwrn@quack3>
- <ZlSzotIrVPGrC6vt@infradead.org>
- <20240528-wachdienst-weitreichend-42f8121bf764@brauner>
- <ZlWVkJwwJ0-B-Zyl@infradead.org>
- <20240528-gesell-evakuieren-899c08cbfa06@brauner>
- <ZlW4IWMYxtwbeI7I@infradead.org>
- <20240528-gipfel-dilemma-948a590a36fd@brauner>
- <ZlXaj9Qv0bm9PAjX@infradead.org>
- <CAJfpegvznUGTYxxTzB5QQHWtNrCfSkWvGscacfZ67Gn+6XoD8w@mail.gmail.com>
- <20240529.013815-fishy.value.nervous.brutes-FzobWXrzoo2@cyphar.com>
+	s=arc-20240116; t=1717439250; c=relaxed/simple;
+	bh=a2ix+CxhqvYcsQIN8fnCjkHy/IPdu8haOIon0MmL5S8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=JwCgP/2UmA9dgfFKUAMeKsF9VjmqsWUdlzdb3D8dADhHipagDJqfSVsE4fo6aDLl4+CDXX1WJGKm2riqN9w0dUAYzzdQjnSlc6sKIvCANJ9NiTdpHwZgSaAkIMV0743Duso1Mx2+9eZlLVoAcuBofGMIIwpH8IKJnrwpAN+CqPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=BSMO5vOY; arc=none smtp.client-ip=209.85.215.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-6c8c880f526so1453519a12.3
+        for <linux-api@vger.kernel.org>; Mon, 03 Jun 2024 11:27:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1717439248; x=1718044048; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZQZ7pJhWzrnWrAArcMbWFf+ClUA0PNfqT/R1+wW2GPg=;
+        b=BSMO5vOYCYPy5iQBI+Ghb2MyGAZh/JSRZpK5e/mZa0fY9T9j6YkixA+JURrKev7F+s
+         /2hrLaampD4vpjnWNCZxTA6PZRSd8GfEK2VDB+fSl6ViN/ymY42iWhz+YRatBVKNZ2gP
+         1M5+ynpCLz2dEWj1Zd5uJddIxPosd9CLXG5sZyS5mSQW/zsio1/nKYaePAk6KzBCsXo/
+         9RY2TeTKB8/KrqhGy2YL1hZrhzkmE4aY1sp9SA6Qq3Bkp1C1m/+s2zorVLo3WLqLNII7
+         9z3C86W1UqHYwJhFn7qAafwN1hNEsoUZCWZqZ0w/3ROm+qVHiUGwH7vftfC/4En/Qrg2
+         346g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717439248; x=1718044048;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZQZ7pJhWzrnWrAArcMbWFf+ClUA0PNfqT/R1+wW2GPg=;
+        b=S6v1XDJ0HIb1eWwdrb6SuSZ3FyCLDuVViPmG2DjC0cCwDm89Z7UYqc85ma/md2a8if
+         rqUrBFSeb9Dwo5jBfY4qSeNqkru32/rT0ObVNEUjutc2NpBOw68yDTTIkFPVehIFm79L
+         mjc/JwG/z0CqT/0bz+gV+vNIhzWT6xPNubnm+NdQW8T8WSx/24CSTlu+qWy5C1z4kyd+
+         ZnEakKcWwjdO1A4p89YazyTBh41/FIQv/Zd3htXF8OzrCyGGaAgUl15fpBS9ETvO5/Rc
+         61+Ui0TqFoevK+DNhoFGAuZqfOWjmUR462GXcQEBeKglr8Y/vR3w92QKT+VRcHBqCGK+
+         scNg==
+X-Forwarded-Encrypted: i=1; AJvYcCU7RSKB+L2kX2HYvlEsUhCcgAsk9s+0iJXWsmiKsPhDcrECnAOQlvhwPMSSlHHTorFT4hc6HA/mmLrFUuqSnjOiyyX/sFLaOnz7
+X-Gm-Message-State: AOJu0Yw6K5iNSY6deiEboaqpO7fjhFMI5YlTQ1XuYUzyXETl54zGawSK
+	vyvUZEZHlmKOQ5ZRIsEOo5vnN7otHvjCZzeXR0TUXPtV7gNWZCeaueltWSlpig==
+X-Google-Smtp-Source: AGHT+IG9pOSZfsbyN0C6+FoYiF185CBi2wu43FjbL73OSlUP60i5AI74/j2vAb6zJ6bCnI6Vjzs60g==
+X-Received: by 2002:a05:6a21:3393:b0:1b2:5e40:bc63 with SMTP id adf61e73a8af0-1b26f18577bmr10388643637.28.1717439247870;
+        Mon, 03 Jun 2024 11:27:27 -0700 (PDT)
+Received: from google.com (226.75.127.34.bc.googleusercontent.com. [34.127.75.226])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70259fe3e6asm3682729b3a.52.2024.06.03.11.27.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Jun 2024 11:27:27 -0700 (PDT)
+Date: Mon, 3 Jun 2024 18:27:23 +0000
+From: Carlos Llamas <cmllamas@google.com>
+To: linux-mm@kvack.org
+Cc: Mike Kravetz <mike.kravetz@oracle.com>, Andi Kleen <ak@linux.intel.com>,
+	Hugh Dickins <hughd@google.com>, Edward Liaw <edliaw@google.com>,
+	kernel-team@android.com, linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org
+Subject: Header conflicts with shmget() and SHM_HUGE_2MB
+Message-ID: <Zl4LC9lTNptB2xTJ@google.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240529.013815-fishy.value.nervous.brutes-FzobWXrzoo2@cyphar.com>
-X-Spam-Flag: NO
-X-Spam-Score: -2.30
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_RCPT(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[szeredi.hu,infradead.org,kernel.org,suse.cz,zeniv.linux.org.uk,oracle.com,gmail.com,vger.kernel.org];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[infradead.org:email,suse.com:email]
+Content-Transfer-Encoding: 8bit
 
-On Sat 01-06-24 01:12:31, Aleksa Sarai wrote:
-> On 2024-05-28, Miklos Szeredi <miklos@szeredi.hu> wrote:
-> > On Tue, 28 May 2024 at 15:24, Christoph Hellwig <hch@infradead.org> wrote:
-> > >
-> > > On Tue, May 28, 2024 at 02:04:16PM +0200, Christian Brauner wrote:
-> > > > Can you please explain how opening an fd based on a handle returned from
-> > > > name_to_handle_at() and not using a mount file descriptor for
-> > > > open_by_handle_at() would work?
-> > >
-> > > Same as NFS file handles:
-> > >
-> > > name_to_handle_at returns a handle that includes a file system
-> > > identifier.
-> > >
-> > > open_by_handle_at looks up the superblock based on that identifier.
-> > 
-> > The open file needs a specific mount, holding the superblock is not sufficient.
-> 
-> Not to mention that providing a mount fd is what allows for extensions
-> like Christian's proposed method of allowing restricted forms of
-> open_by_handle_at() to be used by unprivileged users.
-> 
-> If file handles really are going to end up being the "correct" mechanism
-> of referencing inodes by userspace, then future API designs really need
-> to stop assuming that the user is capable(CAP_DAC_READ_SEARCH). Being
-> able to open any file in any superblock the kernel knows about
-> (presumably using a kernel-internal mount if we are getting rid of the
-> mount fd) is also capable(CAP_SYS_ADMIN) territory.
+Hi, I'm trying to figure out how one would use SHM_HUGE_{2MB/1GB}
+defines through shmget() from userspace. After having a look at the
+man-pages I thought the #include pattern would be similar to that of
+mmap(), e.g.:
 
-Well, but this is already handled - name_to_handle_at() with AT_HANDLE_FID
-is completely unpriviledged operation. Unpriviledged userspace can use
-fhandle for comparisons with other file handles but that's all it is good
-for (similarly as inode number you get from statx(2) but does not have the
-problem with inode number uniqueness on btrfs, bcachefs, etc.). I don't
-expect unpriviledged userspace to be able to more with the fhandle it got.
+  #include <sys/mman.h>
+  #include <linux/mman.h>
+  [...]
+  	mmap(NULL, size, prot, flags | MAP_HUGETLB | MAP_HUGE_2MB,
+	     fd, 0);
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+However, when doing the shmem equivalent with the headers I get several
+redefinition conflicts. When attempting to compile something like this:
+
+  #include <sys/shm.h>
+  #include <linux/shm.h>
+  [...]
+  	shmid = shmget(key, size, flags | SHM_HUGETLB | SHM_HUGE_2MB);
+
+I run into the following type of issues:
+
+  /usr/include/linux/shm.h:26:8: error: redefinition of ‘struct shmid_ds’
+     26 | struct shmid_ds {
+        |        ^~~~~~~~
+  In file included from /usr/include/x86_64-linux-gnu/bits/shm.h:45,
+                   from /usr/include/x86_64-linux-gnu/sys/shm.h:30:
+  /usr/include/x86_64-linux-gnu/bits/types/struct_shmid_ds.h:24:8: note: originally defined here
+     24 | struct shmid_ds
+        |        ^~~~~~~~
+
+I can see such definitions are tagged as "obsolete" in the uapi headers.
+Do we need some ifndef protection with the glibc headers?
+
+What is the advice to follow for userspace? Skip <linux/shm.h> and
+openly redefine the SHM_HUGE_* wherever needed?
+
+Thanks,
+--
+Carlos Llamas
 
