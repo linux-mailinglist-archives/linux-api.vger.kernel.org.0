@@ -1,73 +1,75 @@
-Return-Path: <linux-api+bounces-1671-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1672-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45BFA8D8A31
-	for <lists+linux-api@lfdr.de>; Mon,  3 Jun 2024 21:28:51 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 557A68FA9EA
+	for <lists+linux-api@lfdr.de>; Tue,  4 Jun 2024 07:22:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0011228D809
-	for <lists+linux-api@lfdr.de>; Mon,  3 Jun 2024 19:28:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8671D1C21813
+	for <lists+linux-api@lfdr.de>; Tue,  4 Jun 2024 05:22:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 917ED13AA3B;
-	Mon,  3 Jun 2024 19:28:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F2B213D53F;
+	Tue,  4 Jun 2024 05:22:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DtULPL35"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="EkwUzVRb"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2002913A876;
-	Mon,  3 Jun 2024 19:28:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CF877C6D5;
+	Tue,  4 Jun 2024 05:22:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717442884; cv=none; b=RynVYxbfEbulBE0hIZQI0BEVEHoOIjpx4jyG1iIF9Y7zxr73jIwZb2F7JQZWPRIaKcDe0TITkZGkErFOEHLgb5FVpCylqzIH+MdixVj+VcyIgdWzfQL3aYhgMnKAgt086Nrv45Wkx1HbP0rz8tI06FPQUwaWNts7xbmXZswG2ZI=
+	t=1717478547; cv=none; b=U+cXNIyQrJ9GdkXIwMVcvuQuPB7OIhXz33vbqwYRb90UNs4UHbcacTCErpFdHvvDEmY7/das18PcmjA0qy5YXCo4uzNoX+e7hIhC4sX5fAYQ9oN83gjbcHtVoPDCZ7mjnT5TGtYmCavLHJ/k4ItptX6NMj3Ajw3GtLHVXz9To9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717442884; c=relaxed/simple;
-	bh=mrEwpiqCjvVJnCAY5cT1wSsEx33Z3Jwicz4IDjznKRA=;
+	s=arc-20240116; t=1717478547; c=relaxed/simple;
+	bh=mr8J9SWdsAEvT+DfxSemt3ZV6Jo5MqmVNgY1EU4+3qo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZvsGJVOJypIGKoFsjozqtU8+QWTWVtL2RZJMnLfidCl4LYF9NXwK4IoqUL526MjD1ZoUKkQieP0cnKYsCqel5+TCj9PP83r5J7IAu3/+FNQPUR6TVcpGMTVG3DW3hYsY2daolucr1jmVeukdEx6cMcWNI3GQNcefc5PDnV6S2D8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DtULPL35; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717442883; x=1748978883;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mrEwpiqCjvVJnCAY5cT1wSsEx33Z3Jwicz4IDjznKRA=;
-  b=DtULPL35lnE6XZMlMTtadzQDJZzVWIY1UOitHVR127devIx+ONpKaXgD
-   QZRSEcUFCwqedza5/Nr3uIEwPyFEzprPVthYOGW6vI1MUdfQp19yfIY5z
-   qcbhSdOuGL3WqrHXvw8ibWyYKSMWh7E+MJ+Xmd4JynMz4F4eIE3Kzmny9
-   DiN2yEyDDy9iPe7HXrz0Gs+avfPac/2BfuxF5lcORIIFZmazjjZ89m+y2
-   XN42dofPvPCsc8FGPMaWVd8Ml87nvFPddDnCG5Q8qqnTh45Q6dCxaNHk3
-   LYgz+WZD6sz96Qy9XzEwJT4slxOYPtos0ZWn4zttArmKFY5mlD0XfaglS
-   A==;
-X-CSE-ConnectionGUID: IYtcsytRSC2XFRPjEGn65A==
-X-CSE-MsgGUID: wrNlg7UpRG2mOzk0IKZVdQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11092"; a="14078552"
-X-IronPort-AV: E=Sophos;i="6.08,212,1712646000"; 
-   d="scan'208";a="14078552"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2024 12:28:01 -0700
-X-CSE-ConnectionGUID: sl/BujAzTGeKoHWIeAFxPA==
-X-CSE-MsgGUID: fkKcjmoyT2GabTTHpQHK1Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,212,1712646000"; 
-   d="scan'208";a="36959388"
-Received: from tassilo.jf.intel.com (HELO tassilo) ([10.54.38.190])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2024 12:28:00 -0700
-Date: Mon, 3 Jun 2024 12:27:56 -0700
-From: Andi Kleen <ak@linux.intel.com>
-To: Carlos Llamas <cmllamas@google.com>
-Cc: linux-mm@kvack.org, Mike Kravetz <mike.kravetz@oracle.com>,
-	Hugh Dickins <hughd@google.com>, Edward Liaw <edliaw@google.com>,
-	kernel-team@android.com, linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org
-Subject: Re: Header conflicts with shmget() and SHM_HUGE_2MB
-Message-ID: <Zl4ZPIesxcxI-QE2@tassilo>
-References: <Zl4LC9lTNptB2xTJ@google.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=oIVNi5uvan8yZZ2WFblYXseVIrsap3E+Rkib993mOI7OG7zdhgYKcV/63ejctyel4+ELcjplZhD+tAhZ5O2dZ5dZvAfEb47ZFKK9vRkwT5cPCNxoH17OmNeUDiKXVe+Zb+7sFryV5nglu2F0w0hPFN51NVJ0tdwlEnzqSFx8PHI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=EkwUzVRb; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=1mOyWxoB94x5TWgcP2yO2aQH6LrzarpsrO8qe7Bl0N4=; b=EkwUzVRbUjCUAryPsum/6jNKfP
+	TzkL+n4jlvpRo+Q4sJaGt3s8z75bqjCl/ri13WcRaHciG43y+4zdbvFeeaku4FC3bKtquzL8gW+92
+	EB1XPbfDarMHN2xuINhmSd4ljpIr0PCxOCRsIb0tOz10zwBHg58IYV9cQbsJvGZQP6QrMYwn9FXoU
+	FPwMf6lifDua5cGX/WBqWXijWnzN+HMnGR5Y2nC/QD1EGA0YREYy2gp0q8Lb7yaxfpb/729GRToj9
+	j47jKSZsOWTEw1XEas+B5hk5Tus1v4/+TPBfLxBodrN6QZjWOXYXsb7vO0KSLFJg2D99kmacsc3m7
+	E/1jURLQ==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1sEMco-00000001GJE-30tG;
+	Tue, 04 Jun 2024 05:22:22 +0000
+Date: Mon, 3 Jun 2024 22:22:22 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Aleksa Sarai <cyphar@cyphar.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>,
+	Christoph Hellwig <hch@infradead.org>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Jeff Layton <jlayton@kernel.org>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Alexander Aring <alex.aring@gmail.com>,
+	linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
+Subject: Re: [PATCH RFC v2] fhandle: expose u64 mount id to
+ name_to_handle_at(2)
+Message-ID: <Zl6kjsiGl0pm-p-o@infradead.org>
+References: <20240527133430.ifjo2kksoehtuwrn@quack3>
+ <ZlSzotIrVPGrC6vt@infradead.org>
+ <20240528-wachdienst-weitreichend-42f8121bf764@brauner>
+ <ZlWVkJwwJ0-B-Zyl@infradead.org>
+ <20240528-gesell-evakuieren-899c08cbfa06@brauner>
+ <ZlW4IWMYxtwbeI7I@infradead.org>
+ <20240528-gipfel-dilemma-948a590a36fd@brauner>
+ <ZlXaj9Qv0bm9PAjX@infradead.org>
+ <CAJfpegvznUGTYxxTzB5QQHWtNrCfSkWvGscacfZ67Gn+6XoD8w@mail.gmail.com>
+ <20240529.013815-fishy.value.nervous.brutes-FzobWXrzoo2@cyphar.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -76,18 +78,28 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Zl4LC9lTNptB2xTJ@google.com>
+In-Reply-To: <20240529.013815-fishy.value.nervous.brutes-FzobWXrzoo2@cyphar.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-> I can see such definitions are tagged as "obsolete" in the uapi headers.
-> Do we need some ifndef protection with the glibc headers?
+On Sat, Jun 01, 2024 at 01:12:31AM -0700, Aleksa Sarai wrote:
+> Not to mention that providing a mount fd is what allows for extensions
+> like Christian's proposed method of allowing restricted forms of
+> open_by_handle_at() to be used by unprivileged users.
 
-They should be still supported, but also the more generic macro.
-> 
-> What is the advice to follow for userspace? Skip <linux/shm.h> and
-> openly redefine the SHM_HUGE_* wherever needed?
+As mentioned there I find the concept of an unprivileged
+open_by_handle_at extremely questionable as it trivially gives access to
+any inode on the file systems.
 
-glibc (or other C libraries if not using linux/shm) should add the
-defines.  Short term you would need to redefine on your own yes.
+> If file handles really are going to end up being the "correct" mechanism
+> of referencing inodes by userspace,
 
--Andi
+They aren't.
+
+> then future API designs really need
+> to stop assuming that the user is capable(CAP_DAC_READ_SEARCH).
+
+There is no way to support open by handle for unprivileged users.  The
+concept of an inode number based file handle simply does not work for
+that at all.
+
 
