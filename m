@@ -1,180 +1,129 @@
-Return-Path: <linux-api+bounces-1686-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1687-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06542900995
-	for <lists+linux-api@lfdr.de>; Fri,  7 Jun 2024 17:51:20 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E256290099C
+	for <lists+linux-api@lfdr.de>; Fri,  7 Jun 2024 17:52:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CB0031C216F4
-	for <lists+linux-api@lfdr.de>; Fri,  7 Jun 2024 15:51:18 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1C3511C21D9E
+	for <lists+linux-api@lfdr.de>; Fri,  7 Jun 2024 15:52:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC644199255;
-	Fri,  7 Jun 2024 15:51:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1708199255;
+	Fri,  7 Jun 2024 15:52:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="eBXPt1Sc"
+	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="c1GvCtqY"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14E7019885E
-	for <linux-api@vger.kernel.org>; Fri,  7 Jun 2024 15:51:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B21B8DDD9;
+	Fri,  7 Jun 2024 15:52:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717775475; cv=none; b=cEFStGG3yNQYpc8cH4V6H0+xpPow0ziHSWUA8jhCG9oh+Gd9qKGI5WdCs/+2tDe7/c8oL9sID+pcTVvIqfSJPe6sedLIeKeuDMwcaD+BXG0N6/wIwo/kYnvrdZeEgdXe7VqUb/Ak3RnrAIRNghuFYMEbFDzCHlJwU5neqXk+m+k=
+	t=1717775541; cv=none; b=ZTV14BMwwo2wWe4bbKbBIEFX1D6JwetU1bCfm1j62oxi0/TdH3eFMIHjk59S3Nnd+ITp/UCo+6sT21YujzPqnWPW5gEO6U6gSq7m64R1FX22gjNht4n2sliEeO3AJey7Went8pUzh+SctXWLLPPrTVOmiEu8rCu1Nmf5tt0dRQ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717775475; c=relaxed/simple;
-	bh=B/nWxWSuvalMGnUtnURKHG5HNXcPjMpI5YfholgjWCY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IuXjjKKzFKCAmcSJPqyf1HDaPVxD5W2+n2MRCtMfHg4ZbSeAJYIg1UvbYWGGIYuFlV2G5s/RPL3odXloufQpTaZy6N5MlfI+WbHjipvKMhfql6M2qr9Mgy68ViGkQAgAAEFrSLaBwgUm09fxyPnu5FXcqXSrE8f0+sfwiUCGodg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=eBXPt1Sc; arc=none smtp.client-ip=209.85.208.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-57c5ec83886so9940a12.1
-        for <linux-api@vger.kernel.org>; Fri, 07 Jun 2024 08:51:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1717775472; x=1718380272; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KPvYVfHAHLIq4Iro9sltEbUBk0XQCsjazy7jWcwOLxU=;
-        b=eBXPt1ScTIT0K0Oz4PFoIrcoQL1W3t9usM9cleIFx2nMSSUC+QQkpsVRz2i96oz0aL
-         HfMF2jIzUq7YBE8qC+pon9LqjG0uYqX+g7huL54eNMsMtTf70WEzDdVn5Vu3hlnLyAP1
-         EZD+u7hMINh6sje92yG9ynhQaLo6t+pwGPi85OcqEr548YiPOy6j009YEwG97KU9gYCN
-         8vgdKxii6v45tli8riidUXqvNpwAA3kV0dXC7x5GlGM84Pyhr/Xwl8DWcDV1Jl9pvCb5
-         RNb46uriv1RN3ntuNKW4P+9YpmXJwmUYJqHtGJM2Vpc+v5LUM6DPBunLK8d6RDfRRmUa
-         7hGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717775472; x=1718380272;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KPvYVfHAHLIq4Iro9sltEbUBk0XQCsjazy7jWcwOLxU=;
-        b=oxdrOKFHpbyIFkHGXRQGpvdXlQeUR7J6iEKmu3SsjyOWO3AAVFYya4AIsEkB7Lnfgb
-         yLfWI+N1avqdRa7ZHslVrj/WTDYMW3Zu40veRo91EgeGiPXK1nH0/nC6RD7unSLHe9Xm
-         MPAmzls97+Yv/K0iSTdKHLIeDsIhcH+ZG9MgaEdjHMIaeuzbj9W66qBjnKUDJUvk/T88
-         KSTVHNZgLa3xSWgbUXYcugz/r7XOhTyopzZW2eYdmiYYO5dm3vALvAIH1C9gGPqVE35Q
-         xh0Hl3rKZqZCSE2k1DycXhQo9IWc+TR90rdDSUSpOvSzVcwWsVQrSySMPWkZd9n9c1si
-         8bgw==
-X-Forwarded-Encrypted: i=1; AJvYcCW8ERLfFBXi8OR8kl+ZQTeWtZM/hsgwc0Ketgu/3fdusp1xtiH1UvXgAy2XZ8chXToltgS6q2JzQ4pdHsl4I2DapP0gJNrdA6x+
-X-Gm-Message-State: AOJu0YzJ+CG+6tpRJCEjeYv4g7rTnlvDX1JGHPL+jeZO+UGzlnFOdbtq
-	pYBUIQQZSovIBr429KE50HTv9Zura9fcn8Om9aca0TzP74YgH6DRdc4lsNGFIRym2usHI2NIT4A
-	TFg7/BbohdngeN17moH9zxjOw9o4mWlc5mldJ
-X-Google-Smtp-Source: AGHT+IFeaOng9QTrsWteV8BPFpGm8tSsyktUl7ikHk3iad/5dvNpRpMcHTMxQVUYRtOOO2V2JmvFuTBVrMMVB25rokM=
-X-Received: by 2002:aa7:c0c5:0:b0:57c:5ffb:9917 with SMTP id
- 4fb4d7f45d1cf-57c5ffb99b5mr135769a12.4.1717775472242; Fri, 07 Jun 2024
- 08:51:12 -0700 (PDT)
+	s=arc-20240116; t=1717775541; c=relaxed/simple;
+	bh=H+jEhDsTeSoJa3PREo5ewf9PlBRNnWWXpO7tjlti/rE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dbjymKmtuc5gIWF91jY2xpwyaOrcClYP14lWlGEDdBub+/c0tRkK5XDZvXGLo7Zb5uUEYy5Tr8ZrxnH5fMfesF5x2cOUtfiLNgx3lfXnHPSVZ903tHTyaBCSXkiGNLuXrXe2LaNZaz9p0AprX4TArlEaPaLCp8Hjs/yDWK6cKMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b=c1GvCtqY; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9568C2BBFC;
+	Fri,  7 Jun 2024 15:52:19 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="c1GvCtqY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
+	t=1717775537;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OqZentEsHB+VTIXa72lmbuScoE7+wMZ7RejT1HxIpTo=;
+	b=c1GvCtqYeLorT7klYXeKUhlD0Sb4HPPmHB605U7lEehIJJfJEY3gwQ2C1mJ7EeTR0pr6xX
+	xO3fDf1X4/xOJMDsK+z6VDFrn6rXq2hcV7xkYUWdNJC9mBR+ZE64xPYmrqtiGgnc+QeBXP
+	5lLbyq5T4fZSnwl2GPyaceaCXqFj5f4=
+Received: 
+	by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 253ee02d (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Fri, 7 Jun 2024 15:52:17 +0000 (UTC)
+Date: Fri, 7 Jun 2024 17:52:12 +0200
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: Andy Lutomirski <luto@amacapital.net>
+Cc: linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+	tglx@linutronix.de, linux-crypto@vger.kernel.org,
+	linux-api@vger.kernel.org, x86@kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
+	Carlos O'Donell <carlos@redhat.com>,
+	Florian Weimer <fweimer@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
+	Jann Horn <jannh@google.com>,
+	Christian Brauner <brauner@kernel.org>,
+	David Hildenbrand <dhildenb@redhat.com>
+Subject: Re: [PATCH v16 4/5] random: introduce generic vDSO getrandom()
+ implementation
+Message-ID: <ZmMsrHWTLMS4W08w@zx2c4.com>
+References: <20240528122352.2485958-1-Jason@zx2c4.com>
+ <20240528122352.2485958-5-Jason@zx2c4.com>
+ <CALCETrUgPwVsMwkxkCyuqBKyqouyejikxxyGuBDxnWWKskYG8A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240528122352.2485958-1-Jason@zx2c4.com> <20240528122352.2485958-2-Jason@zx2c4.com>
- <CAG48ez0P3EDXC0uLLPjSjx3i6qB3fcdZbL2kYyuK6fZ_nJeN5w@mail.gmail.com>
- <Zlm-26QuqOSpXQg7@zx2c4.com> <CAG48ez3VhWpJnzHHn4NAJdrsd1Ts9hs0zvHa6Pqwatu4wV63Kw@mail.gmail.com>
- <ZmMamtll1Yq1yfxc@zx2c4.com> <CAG48ez0pan8aLGjHtoDdrpiP+e5YrGeuD_RzDXgzUwkUvWYLjA@mail.gmail.com>
-In-Reply-To: <CAG48ez0pan8aLGjHtoDdrpiP+e5YrGeuD_RzDXgzUwkUvWYLjA@mail.gmail.com>
-From: Jann Horn <jannh@google.com>
-Date: Fri, 7 Jun 2024 17:50:34 +0200
-Message-ID: <CAG48ez1k0J013tYLfmnT8NXRpG_5BR10xnH8r-yRvTLpJe-nLA@mail.gmail.com>
-Subject: Re: [PATCH v16 1/5] mm: add VM_DROPPABLE for designating always
- lazily freeable mappings
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: linux-kernel@vger.kernel.org, patches@lists.linux.dev, tglx@linutronix.de, 
-	linux-crypto@vger.kernel.org, linux-api@vger.kernel.org, x86@kernel.org, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>, "Carlos O'Donell" <carlos@redhat.com>, 
-	Florian Weimer <fweimer@redhat.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Christian Brauner <brauner@kernel.org>, David Hildenbrand <dhildenb@redhat.com>, linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CALCETrUgPwVsMwkxkCyuqBKyqouyejikxxyGuBDxnWWKskYG8A@mail.gmail.com>
 
-On Fri, Jun 7, 2024 at 5:12=E2=80=AFPM Jann Horn <jannh@google.com> wrote:
-> On Fri, Jun 7, 2024 at 4:35=E2=80=AFPM Jason A. Donenfeld <Jason@zx2c4.co=
-m> wrote:
-> > On Fri, May 31, 2024 at 03:00:26PM +0200, Jann Horn wrote:
-> > > On Fri, May 31, 2024 at 2:13=E2=80=AFPM Jason A. Donenfeld <Jason@zx2=
-c4.com> wrote:
-> > > > On Fri, May 31, 2024 at 12:48:58PM +0200, Jann Horn wrote:
-> > > > > On Tue, May 28, 2024 at 2:24=E2=80=AFPM Jason A. Donenfeld <Jason=
-@zx2c4.com> wrote:
-> > > > > > c) If there's not enough memory to service a page fault, it's n=
-ot fatal.
-> > > > > [...]
-> > > > > > @@ -5689,6 +5689,10 @@ vm_fault_t handle_mm_fault(struct vm_are=
-a_struct *vma, unsigned long address,
-> > > > > >
-> > > > > >         lru_gen_exit_fault();
-> > > > > >
-> > > > > > +       /* If the mapping is droppable, then errors due to OOM =
-aren't fatal. */
-> > > > > > +       if (vma->vm_flags & VM_DROPPABLE)
-> > > > > > +               ret &=3D ~VM_FAULT_OOM;
-> > > > >
-> > > > > Can you remind me how this is supposed to work? If we get an OOM
-> > > > > error, and the error is not fatal, does that mean we'll just keep
-> > > > > hitting the same fault handler over and over again (until we happ=
-en to
-> > > > > have memory available again I guess)?
-> > > >
-> > > > Right, it'll just keep retrying. I agree this isn't great, which is=
- why
-> > > > in the 2023 patchset, I had additional code to simply skip the faul=
-ting
-> > > > instruction, and then the userspace code would notice the inconsist=
-ency
-> > > > and fallback to the syscall. This worked pretty well. But it meant
-> > > > decoding the instruction and in general skipping instructions is we=
-ird,
-> > > > and that made this patchset very very contentious. Since the skippi=
-ng
-> > > > behavior isn't actually required by the /security goals/ of this, I
-> > > > figured I'd just drop that. And maybe we can all revisit it togethe=
-r
-> > > > sometime down the line. But for now I'm hoping for something a litt=
-le
-> > > > easier to swallow.
-> > >
-> > > In that case, since we need to be able to populate this memory to mak=
-e
-> > > forward progress, would it make sense to remove the parts of the patc=
-h
-> > > that treat the allocation as if it was allowed to silently fail (the
-> > > "__GFP_NOWARN | __GFP_NORETRY" and the "ret &=3D ~VM_FAULT_OOM")? I
-> > > think that would also simplify this a bit by making this type of
-> > > memory a little less special.
+On Fri, May 31, 2024 at 04:06:37PM -0700, Andy Lutomirski wrote:
+> > On May 28, 2024, at 5:25 AM, Jason A. Donenfeld <Jason@zx2c4.com> wrote:
 > >
-> > The whole point, though, is that it needs to not fail or warn. It's
-> > memory that can be dropped/zeroed at any moment, and the code is
-> > deliberately robust to that.
->
-> Sure - but does it have to be more robust than accessing a newly
-> allocated piece of memory [which hasn't been populated with anonymous
-> pages yet] or bringing a swapped-out page back from swap?
->
-> I'm not an expert on OOM handling, but my understanding is that the
-> kernel tries _really_ hard to avoid failing low-order GFP_KERNEL
-> allocations, with the help of the OOM killer. My understanding is that
-> those allocations basically can't fail with a NULL return unless the
-> process has already been killed or it is in a memcg_kmem cgroup that
-> contains only processes that have been marked as exempt from OOM
-> killing. (Or if you're using error injection to explicitly tell the
-> kernel to fail the allocation.)
-> My understanding is that normal outcomes of an out-of-memory situation
-> are things like the OOM killer killing processes (including
-> potentially the calling one) to free up memory, or the OOM killer
-> panic()ing the whole system as a last resort; but getting a NULL
-> return from page_alloc(GFP_KERNEL) without getting killed is not one
-> of those outcomes.
+> > Provide a generic C vDSO getrandom() implementation, which operates on
+> > an opaque state returned by vgetrandom_alloc() and produces random bytes
+> > the same way as getrandom(). This has a the API signature:
+> >
+> >  ssize_t vgetrandom(void *buffer, size_t len, unsigned int flags, void *opaque_state);
+> 
+> > +/**
+> > + * type vdso_kernel_ulong - unsigned long type that matches kernel's unsigned long
+> > + *
+> > + * Data shared between userspace and the kernel must operate the same way in both 64-bit code and in
+> > + * 32-bit compat code, over the same potentially 64-bit kernel. This type represents the size of an
+> > + * unsigned long as used by kernel code. This isn't necessarily the same as an unsigned long as used
+> > + * by userspace, however.
+> 
+> Why is this better than using plain u64?  It’s certainly more
+> complicated. It also rather fundamentally breaks CRIU on 32-bit
+> userspace (although CRIU may well be unable to keep vgetrandom working
+> after a restore onto a different kernel anyway).  Admittedly 32-bit
+> userspace is a slowly dying breed, but still.
 
-Or, from a different angle: You're trying to allocate memory, and you
-can't make forward progress until that memory has been allocated
-(unless the process is killed). That's what GFP_KERNEL is for. Stuff
-like "__GFP_NOWARN | __GFP_NORETRY" is for when you have a backup plan
-that lets you make progress (perhaps in a slightly less efficient way,
-or by dropping some incoming data, or something like that), and it
-hints to the page allocator that it doesn't have to try hard to
-reclaim memory if it can't find free memory quickly.
+That came out of this conversation: https://lore.kernel.org/all/878rjs7mcx.fsf@oldenburg.str.redhat.com/
+(And I'd like single instruction increments, which means long, not u64
+on 32-bit machines.)
+
+> > +{
+> > +    ssize_t ret = min_t(size_t, INT_MAX & PAGE_MASK /* = MAX_RW_COUNT */, len);
+> > +    struct vgetrandom_state *state = opaque_state;
+> > +    size_t batch_len, nblocks, orig_len = len;
+> > +    unsigned long current_generation;
+> > +    void *orig_buffer = buffer;
+> > +    u32 counter[2] = { 0 };
+> > +    bool in_use, have_retried = false;
+> > +
+> > +    /* The state must not straddle a page, since pages can be zeroed at any time. */
+> > +    if (unlikely(((unsigned long)opaque_state & ~PAGE_MASK) + sizeof(*state) > PAGE_SIZE))
+> > +        goto fallback_syscall;
+> 
+> This is weird. Either the provided pointer is valid or it isn’t.
+> Reasonable outcomes are a segfault if the pointer is bad or success
+> (or fallback if needed for some reason) if the pointer is good.  Why
+> is there specific code to catch a specific sort of pointer screwup
+> here?
+
+I guess I could make it return -EFAULT in this case, rather than
+silently succeeding.
+
+Jason
 
