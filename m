@@ -1,105 +1,156 @@
-Return-Path: <linux-api+bounces-1691-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1692-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F713900BF3
-	for <lists+linux-api@lfdr.de>; Fri,  7 Jun 2024 20:40:52 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D80590210D
+	for <lists+linux-api@lfdr.de>; Mon, 10 Jun 2024 14:00:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 43A0C287752
-	for <lists+linux-api@lfdr.de>; Fri,  7 Jun 2024 18:40:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9A97628755F
+	for <lists+linux-api@lfdr.de>; Mon, 10 Jun 2024 12:00:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D59D13FD84;
-	Fri,  7 Jun 2024 18:40:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5E9277113;
+	Mon, 10 Jun 2024 12:00:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amacapital-net.20230601.gappssmtp.com header.i=@amacapital-net.20230601.gappssmtp.com header.b="lIFmfqmE"
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="Wnz26ipn";
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="Wnz26ipn"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F277A13D8A0
-	for <linux-api@vger.kernel.org>; Fri,  7 Jun 2024 18:40:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B9961F171;
+	Mon, 10 Jun 2024 12:00:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717785650; cv=none; b=IP7XS96YIElSVAtjq2LaToGW+gLkrTdu2WJS03Iw1hCQ9grwEOC42KQY2TAkDqkBjJlWCk93lSbhKN0XQTkF/KSMy0uUA9OYhiTIbclJEkrq5Q0l7HcAdtbYllBrq+jrkei5itCFOLumATDKp9cc7njJ4u1CqgsdUC+bp5096gM=
+	t=1718020829; cv=none; b=lf72g5Azr7ED5tKEYfRuK3/6jj6DTuLuMQIW+BL76CFnTtx7a6uZTrr2SisYCYjEy++vjRmbrW+DM6Zeqnxa90l2s6Lz5aPAVn6lQe74Xu8uYoe8IrC0+g6EwWb5sjFpJW0eT52WrbnzTMCw6t8YGMIH0FvUuBCFTgyPHxIGdto=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717785650; c=relaxed/simple;
-	bh=nLT1CS3bAADtDvYR/iyCMdc1XfAIDAMUu13CcxexJ8U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=I5FduQwtYBOc7VzMMA9J1scM+lyL6A179AgVtV7Ofm3JMGL0CmYREpdwXLoNZY/loyN4WF8F0OxnnNtFy2TIXCm6QucbbWyWEbDeL9zDiqJQ9vxb+H53R24ax0ySCvVlTTbF7VIrB4B8D5APmdBAB7Fx6EFlYRiC+FOHgHnmDM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net; spf=pass smtp.mailfrom=amacapital.net; dkim=pass (2048-bit key) header.d=amacapital-net.20230601.gappssmtp.com header.i=@amacapital-net.20230601.gappssmtp.com header.b=lIFmfqmE; arc=none smtp.client-ip=209.85.167.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
-Received: by mail-oi1-f180.google.com with SMTP id 5614622812f47-3d20697239aso1487994b6e.1
-        for <linux-api@vger.kernel.org>; Fri, 07 Jun 2024 11:40:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20230601.gappssmtp.com; s=20230601; t=1717785648; x=1718390448; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VWP3oVZEyR0+a+YIhKNFwQ+oDZLDTYUDKfQwa7N72nY=;
-        b=lIFmfqmEbNvXbeyH1jERzARJtTWuAvqn8uqb5SK7/PMlu5+bWUAmknsp5f1oG/eEGU
-         2k7Ykj0gM3WIHu6hZtiEjhFZgBOsLLMSq1rTjGP6vgEZnxK8gzr+ytbTtnkf9q39Cgx+
-         1r1FqudUiDptvrkVDye7NpeMW6irl7xOtOzfmLOnK7kgpnAX5oxaskeoorRvA9HhEmVt
-         +4WImlEm4LQseVwMZRcD25us6e6AANqC9NMTMMFBNaDP8T7TFdSwd8FHX8XVEwWt4I4J
-         ymmTTYL1XE/qlUM0+qdP4PHPYRWPZIPQt+DHQyZij8D0hJox5HXez+0G/7QSJC5tkxFJ
-         u4nw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717785648; x=1718390448;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VWP3oVZEyR0+a+YIhKNFwQ+oDZLDTYUDKfQwa7N72nY=;
-        b=V91HV3WAR3rSlbIGxKqnb2rk/OE+ZfdidFUW3hzIHAtYppfVqpQTvrnGBpaPx1p+u3
-         lML4/TG/RyQgl6UsaxWn705K21Psr2RbvnF9cK+CEahYtXtjwwkNQ+mGjqd93WYaDYXq
-         V0D1Y0s1Wp7gjwI1saAq0Ag/uz2oi5frhj0V7rfi/jV+L+0j3GW8uApwVv9HBFL1R4Hm
-         GOfzLg7CaZ0DLRfZdBeG01IZ8GsZOoM+GwH0WZSba+Y6346RdGJuHk86niuuSalYykUO
-         gadSbasZ4b95DlE4od3tuIHR4dlyBPXdp78REI2NE0iviNXfzFw1K0Lq7cFS5njrpbNp
-         7RKA==
-X-Forwarded-Encrypted: i=1; AJvYcCXgk6eR6XSyw9jHuW7mvHViQSnc5kuaoaAKcBF+lVeeMPZxgkcTHElkOepzDN5RW9HBi+KpOkz6oy1RU6HkwEJE37IXxYg97RzS
-X-Gm-Message-State: AOJu0YyNaPE10Ss3JXLwwlqImHSJusXKGK7o9EiGG3K7Lp3xZGO0s+94
-	fe62Ew2hEpAoHLS5D4ZXmHrurQqUC+lcOiPf4wYQfJ8pojQxCX5bzNW9P5Rxf4QDchfl/oxlZJ0
-	IcxNgVn6gnYTpKvc52H/tGhLplOry0bj/O0kO
-X-Google-Smtp-Source: AGHT+IGM13uj3U+ARgcKJSVs/VmcSppJ4o+ZTjupN8yH80mNMzyyWgUWj/akZRB539Rs2Rn6cvM6cRncobvhndjrU8I=
-X-Received: by 2002:a05:6871:e015:b0:250:7353:c8f2 with SMTP id
- 586e51a60fabf-254647efd11mr3404898fac.43.1717785646594; Fri, 07 Jun 2024
- 11:40:46 -0700 (PDT)
+	s=arc-20240116; t=1718020829; c=relaxed/simple;
+	bh=acUR3zUJwolkHUEToKVKtJFNeC9oRwyTpo2IsGwK7Hw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KYlUgTSfGLRIzqG8vZGBGAQ2FYKuVmG2XEY046+MvIKke505FxO0Np/WuqTGGIN4DZ8wAVdH/qt5bu97dcHw6WfwnELb9+uuH4t+sWcqeoe+Uk2k7ogHzQ+7nQdjqR3XzmNMyQ1ADuHDgK9HbHphz2Kh1rqKVb3VMuFOouFZSCA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=Wnz26ipn; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=Wnz26ipn; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 51A411F7F0;
+	Mon, 10 Jun 2024 12:00:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1718020826; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8a0YO74G5ZN6eUsTagdB66KLLDnxZNwj4Mba32IuxoE=;
+	b=Wnz26ipn69xTzQFmPeEPoPPT/LMjAAyDQB0T1j6WPf4TE5WsHZmWjg13mUi4LMriSZGOWF
+	ej+OP9Van/MA3afU3UV0ZL+32iv+dE6eV9FAl/zouKoafQNMM3Y28gyC3feWC5wiGh9wQX
+	8DvTmh5Wbo/GaJ0/Tl/D3qzljrlX0bQ=
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.com header.s=susede1 header.b=Wnz26ipn
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1718020826; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8a0YO74G5ZN6eUsTagdB66KLLDnxZNwj4Mba32IuxoE=;
+	b=Wnz26ipn69xTzQFmPeEPoPPT/LMjAAyDQB0T1j6WPf4TE5WsHZmWjg13mUi4LMriSZGOWF
+	ej+OP9Van/MA3afU3UV0ZL+32iv+dE6eV9FAl/zouKoafQNMM3Y28gyC3feWC5wiGh9wQX
+	8DvTmh5Wbo/GaJ0/Tl/D3qzljrlX0bQ=
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 325AB13A7F;
+	Mon, 10 Jun 2024 12:00:26 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 3cJMCdrqZmYEGgAAD6G6ig
+	(envelope-from <mhocko@suse.com>); Mon, 10 Jun 2024 12:00:26 +0000
+Date: Mon, 10 Jun 2024 14:00:21 +0200
+From: Michal Hocko <mhocko@suse.com>
+To: Jann Horn <jannh@google.com>
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, linux-kernel@vger.kernel.org,
+	patches@lists.linux.dev, tglx@linutronix.de,
+	linux-crypto@vger.kernel.org, linux-api@vger.kernel.org,
+	x86@kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
+	Carlos O'Donell <carlos@redhat.com>,
+	Florian Weimer <fweimer@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
+	Christian Brauner <brauner@kernel.org>,
+	David Hildenbrand <dhildenb@redhat.com>, linux-mm@kvack.org
+Subject: Re: [PATCH v16 1/5] mm: add VM_DROPPABLE for designating always
+ lazily freeable mappings
+Message-ID: <Zmbq1dGPIYdRLw5_@tiehlicka>
+References: <20240528122352.2485958-1-Jason@zx2c4.com>
+ <20240528122352.2485958-2-Jason@zx2c4.com>
+ <CAG48ez0P3EDXC0uLLPjSjx3i6qB3fcdZbL2kYyuK6fZ_nJeN5w@mail.gmail.com>
+ <Zlm-26QuqOSpXQg7@zx2c4.com>
+ <CAG48ez3VhWpJnzHHn4NAJdrsd1Ts9hs0zvHa6Pqwatu4wV63Kw@mail.gmail.com>
+ <ZmMamtll1Yq1yfxc@zx2c4.com>
+ <CAG48ez0pan8aLGjHtoDdrpiP+e5YrGeuD_RzDXgzUwkUvWYLjA@mail.gmail.com>
+ <CAG48ez1k0J013tYLfmnT8NXRpG_5BR10xnH8r-yRvTLpJe-nLA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240528122352.2485958-1-Jason@zx2c4.com> <20240528122352.2485958-2-Jason@zx2c4.com>
-In-Reply-To: <20240528122352.2485958-2-Jason@zx2c4.com>
-From: Andy Lutomirski <luto@amacapital.net>
-Date: Fri, 7 Jun 2024 11:40:33 -0700
-Message-ID: <CALCETrVJFefyDT6U3QoHdZvNh=3nqk=3AK88eRuqdn4W4t8vsA@mail.gmail.com>
-Subject: Re: [PATCH v16 1/5] mm: add VM_DROPPABLE for designating always
- lazily freeable mappings
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: linux-kernel@vger.kernel.org, patches@lists.linux.dev, tglx@linutronix.de, 
-	linux-crypto@vger.kernel.org, linux-api@vger.kernel.org, x86@kernel.org, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>, "Carlos O'Donell" <carlos@redhat.com>, 
-	Florian Weimer <fweimer@redhat.com>, Arnd Bergmann <arnd@arndb.de>, Jann Horn <jannh@google.com>, 
-	Christian Brauner <brauner@kernel.org>, David Hildenbrand <dhildenb@redhat.com>, linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAG48ez1k0J013tYLfmnT8NXRpG_5BR10xnH8r-yRvTLpJe-nLA@mail.gmail.com>
+X-Spam-Flag: NO
+X-Spam-Score: -4.01
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 51A411F7F0
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.com:s=susede1];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	MISSING_XM_UA(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DWL_DNSWL_BLOCKED(0.00)[suse.com:dkim];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:dkim];
+	DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	DKIM_TRACE(0.00)[suse.com:+]
 
-On Tue, May 28, 2024 at 5:24=E2=80=AFAM Jason A. Donenfeld <Jason@zx2c4.com=
-> wrote:
->
-> The vDSO getrandom() implementation works with a buffer allocated with a
-> new system call that has certain requirements:
->
-> - It shouldn't be written to core dumps.
->   * Easy: VM_DONTDUMP.
+On Fri 07-06-24 17:50:34, Jann Horn wrote:
+[...]
+> Or, from a different angle: You're trying to allocate memory, and you
+> can't make forward progress until that memory has been allocated
+> (unless the process is killed). That's what GFP_KERNEL is for. Stuff
+> like "__GFP_NOWARN | __GFP_NORETRY" is for when you have a backup plan
+> that lets you make progress (perhaps in a slightly less efficient way,
+> or by dropping some incoming data, or something like that), and it
+> hints to the page allocator that it doesn't have to try hard to
+> reclaim memory if it can't find free memory quickly.
 
-I'll bite: why shouldn't it be written to core dumps?
+Correct. A psedu-busy wait for allocation to succeed sounds like a very
+bad idea to imprint into ABI. Is there really any design requirement to
+make these mappings to never cause the OOM killer?
 
-The implementation is supposed to be forward-secret: an attacker who
-gets the state can't predict prior outputs.  And a core-dumped process
-is dead: there won't be future outputs.
+Making the content dropable under memory pressure because it is
+inherently recoverable is something else (this is essentially an
+implicit MADV_FREE semantic) but putting a requirement on the memory
+allocation on the fault sounds just wrong to me.
+
+-- 
+Michal Hocko
+SUSE Labs
 
