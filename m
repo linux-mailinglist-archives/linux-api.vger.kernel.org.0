@@ -1,105 +1,240 @@
-Return-Path: <linux-api+bounces-1694-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1695-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3866D902792
-	for <lists+linux-api@lfdr.de>; Mon, 10 Jun 2024 19:15:28 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B1DC902ACE
+	for <lists+linux-api@lfdr.de>; Mon, 10 Jun 2024 23:46:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DFD0C1F21EDD
-	for <lists+linux-api@lfdr.de>; Mon, 10 Jun 2024 17:15:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C6C65284B2B
+	for <lists+linux-api@lfdr.de>; Mon, 10 Jun 2024 21:46:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C86B1442F1;
-	Mon, 10 Jun 2024 17:15:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B891E4D8C4;
+	Mon, 10 Jun 2024 21:46:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b="DnX772Ec"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WBcfXOCN"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail.codeweavers.com (mail.codeweavers.com [4.36.192.163])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2BC477F2F;
-	Mon, 10 Jun 2024 17:15:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.36.192.163
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8265D6AB6;
+	Mon, 10 Jun 2024 21:46:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718039723; cv=none; b=YsXSXwMCxLfx2Y8zpyk36QUC6XDWx6WXY+dd2KnbeNV0vGvVNjzlEQOhinfgOTJpbas9V5u0I6HH2YJXXJi9ME9QNr4MXgVZIG3JYpQoFImWOgiiMzTe1T1t8ors7drKkGIEd+wDaIoHLV0hmejXtpq46j6ezHNfvATgyZo34Ak=
+	t=1718056009; cv=none; b=tNSGxUWQG81EUWqxlOtzAX48vh8/BmAtCG7ERX4SNj+jfgAZu0TtbuHmq8qPnA/N1JBc1WWi/8m7a8IM3TKE0gyss9ojTOj5+ICsnnNCwwQMXCuYePSr9kb604YcYoTfom2k1NhyR+B+tDyOJFKSRlJdm6sG4+gdIJekCvp8JkI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718039723; c=relaxed/simple;
-	bh=tZhK0yK9PUCBDyPTcAJrUy48YWTdR49HUbCN3uazuz0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TKMkTotGI9/l59H10SOz1UZ94xrFdxIR3wSgDF4Pu+b2nELB1vyKdgKyy8KKdEZhkFjTu9KJNLae0gXQ5PeK7VImHpmeNF/M4OqVdk+ug0bPLXnfyPXnAV1E0sTwfiE18nHTCCvT6Ni+/5ENB44TKZ4Kcuyy4u3iF5QDdd2iG8w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com; spf=pass smtp.mailfrom=codeweavers.com; dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b=DnX772Ec; arc=none smtp.client-ip=4.36.192.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeweavers.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=codeweavers.com; s=s1; h=Message-ID:Date:Subject:Cc:To:From:Sender;
-	bh=tZhK0yK9PUCBDyPTcAJrUy48YWTdR49HUbCN3uazuz0=; b=DnX772Ecy7Sytu4dDSC25WhQIM
-	p5J1nPDMk23g5W9HIGqwfixQXSHf83CTiGTFcbIG2EtOfYpF1nbnMN4YIecI9884NVGDBMKen38lx
-	H5A17OKO6ibWhAVY6DtoBGmmJe3P2sjGNsycECNyftwTeT74mFPKtsqkRDQ5H7m6GxIOHmcNDK8xB
-	f/ZPLptOxLwz897jhfiz716tUV14MPVge41NhrFJYrM3savy+WZ+fBG1fn2KHLi2FDuyp7Ht2MrjI
-	faduXUalJ6gir2AtcAqDE1HZu5VMSRtquUGHVqLX2x+lr7mZNrNiWJLrOzYvHJvZDHBgKyJ8MSvz5
-	6BNpqxqA==;
-Received: from [10.69.139.13] (helo=uriel.localnet)
-	by mail.codeweavers.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <zfigura@codeweavers.com>)
-	id 1sGiM6-00H4i2-0f;
-	Mon, 10 Jun 2024 11:58:50 -0500
-From: Elizabeth Figura <zfigura@codeweavers.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
- linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
- wine-devel@winehq.org,
- =?ISO-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
- Wolfram Sang <wsa@kernel.org>, Arkadiusz Hiler <ahiler@codeweavers.com>,
- Andy Lutomirski <luto@kernel.org>, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
- Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
- Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>
-Subject: Re: [PATCH v5 00/28] NT synchronization primitive driver
-Date: Mon, 10 Jun 2024 11:58:48 -0500
-Message-ID: <2325658.ElGaqSPkdT@uriel>
-In-Reply-To: <20240519202454.1192826-1-zfigura@codeweavers.com>
-References: <20240519202454.1192826-1-zfigura@codeweavers.com>
+	s=arc-20240116; t=1718056009; c=relaxed/simple;
+	bh=7OBszLOSVa3SJfz0oOSikJ/3PkDA/j9tpVJwjUuZJ0A=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=rh3L+XGkEB2suvyMvj1f+1IvbVkCxx+tMmAi4tcNBQgjj+LRymqR6UlcNcok2kSAp9zDANQFr7NE3oipOAsFcyelbpCwQViWil+ByWGTQSTNCY5qOvBNX+s2HxFYvqePiVHIvDQL00LNvu/Vwz8QDCYNPDDZQOoo3JbSz2E0Wp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WBcfXOCN; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4D7AC2BBFC;
+	Mon, 10 Jun 2024 21:46:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718056009;
+	bh=7OBszLOSVa3SJfz0oOSikJ/3PkDA/j9tpVJwjUuZJ0A=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=WBcfXOCNRjJNH0sAOgsdbMUHjfuTr2hvUI7/L/gqO6jMxMuMeDGQqnSUI+HvIRiOL
+	 t1rmbSCDelYJKxDpXwfxqkDipUaJJzm4XJorWD75OYdnbfjCP0Vi+ygdzINAs83dLs
+	 ObMnZ57MaxLTp2iX9CgyKAXpsUuEBiHuNVdtz6q3/zuEkmLe/WA/MRh+I0jzaqXxNE
+	 WSp5X74zRBORhkVL/x8Qqha2lLuOnoKLd3E+KRlzeYIgsnpJAo5NS+jeftgs6mnsga
+	 os8Vwy7HqZRb4Ffi2bbams5WeVi0OHEbHW/SCUcr7AwG2LSpEnGFVp9Ufizt5RiZN5
+	 d0BbvfQZvlvbw==
+Date: Tue, 11 Jun 2024 06:46:41 +0900
+From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To: Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>, Oleg Nesterov <oleg@redhat.com>,
+ Jiri Olsa <jolsa@kernel.org>, Alexei Starovoitov <ast@kernel.org>, Daniel
+ Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-api@vger.kernel.org, linux-man@vger.kernel.org, x86@kernel.org,
+ bpf@vger.kernel.org, Song Liu <songliubraving@fb.com>, Yonghong Song
+ <yhs@fb.com>, John Fastabend <john.fastabend@gmail.com>, Peter Zijlstra
+ <peterz@infradead.org>, Thomas Gleixner <tglx@linutronix.de>,
+ "Borislav Petkov (AMD)" <bp@alien8.de>, Ingo Molnar <mingo@redhat.com>,
+ Andy Lutomirski <luto@kernel.org>, "Edgecombe, Rick P"
+ <rick.p.edgecombe@intel.com>, Deepak Gupta <debug@rivosinc.com>, Linus
+ Torvalds <torvalds@linux-foundation.org>
+Subject: Re: [PATCHv7 bpf-next 0/9] uprobe: uretprobe speed up
+Message-Id: <20240611064641.9021829459211782902e4fb2@kernel.org>
+In-Reply-To: <CAEf4Bzbc99bwGcmtCa3iekXSvSrxMQzfnTViT5Y-dn8qbvJy7A@mail.gmail.com>
+References: <20240523121149.575616-1-jolsa@kernel.org>
+	<CAEf4Bza-+=04GG7Tg4U4pCQ28Oy_2F_5872EPDsX6X3Y=jhEuw@mail.gmail.com>
+	<CAEf4Bzbc99bwGcmtCa3iekXSvSrxMQzfnTViT5Y-dn8qbvJy7A@mail.gmail.com>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Mime-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sunday, May 19, 2024 3:24:26=E2=80=AFPM CDT Elizabeth Figura wrote:
-> This patch series implements a new char misc driver, /dev/ntsync, which is
-> used to implement Windows NT synchronization primitives.
->=20
-> NT synchronization primitives are unique in that the wait functions both =
-are
-> vectored, operate on multiple types of object with different behaviour
-> (mutex, semaphore, event), and affect the state of the objects they wait
-> on. This model is not compatible with existing kernel synchronization
-> objects or interfaces, and therefore the ntsync driver implements its own
-> wait queues and locking.
->=20
-> This patch series is rebased against the "char-misc-next" branch of
-> gregkh/char-misc.git.
+On Wed, 5 Jun 2024 09:42:45 -0700
+Andrii Nakryiko <andrii.nakryiko@gmail.com> wrote:
 
-Hi Peter,
+> On Fri, May 31, 2024 at 10:52 AM Andrii Nakryiko
+> <andrii.nakryiko@gmail.com> wrote:
+> >
+> > On Thu, May 23, 2024 at 5:11 AM Jiri Olsa <jolsa@kernel.org> wrote:
+> > >
+> > > hi,
+> > > as part of the effort on speeding up the uprobes [0] coming with
+> > > return uprobe optimization by using syscall instead of the trap
+> > > on the uretprobe trampoline.
+> > >
+> > > The speed up depends on instruction type that uprobe is installed
+> > > and depends on specific HW type, please check patch 1 for details.
+> > >
+> > > Patches 1-8 are based on bpf-next/master, but patch 2 and 3 are
+> > > apply-able on linux-trace.git tree probes/for-next branch.
+> > > Patch 9 is based on man-pages master.
+> > >
+> > > v7 changes:
+> > > - fixes in man page [Alejandro Colomar]
+> > > - fixed patch #1 fixes tag [Oleg]
+> > >
+> > > Also available at:
+> > >   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git
+> > >   uretprobe_syscall
+> > >
+> > > thanks,
+> > > jirka
+> > >
+> > >
+> > > Notes to check list items in Documentation/process/adding-syscalls.rst:
+> > >
+> > > - System Call Alternatives
+> > >   New syscall seems like the best way in here, because we need
+> > >   just to quickly enter kernel with no extra arguments processing,
+> > >   which we'd need to do if we decided to use another syscall.
+> > >
+> > > - Designing the API: Planning for Extension
+> > >   The uretprobe syscall is very specific and most likely won't be
+> > >   extended in the future.
+> > >
+> > >   At the moment it does not take any arguments and even if it does
+> > >   in future, it's allowed to be called only from trampoline prepared
+> > >   by kernel, so there'll be no broken user.
+> > >
+> > > - Designing the API: Other Considerations
+> > >   N/A because uretprobe syscall does not return reference to kernel
+> > >   object.
+> > >
+> > > - Proposing the API
+> > >   Wiring up of the uretprobe system call is in separate change,
+> > >   selftests and man page changes are part of the patchset.
+> > >
+> > > - Generic System Call Implementation
+> > >   There's no CONFIG option for the new functionality because it
+> > >   keeps the same behaviour from the user POV.
+> > >
+> > > - x86 System Call Implementation
+> > >   It's 64-bit syscall only.
+> > >
+> > > - Compatibility System Calls (Generic)
+> > >   N/A uretprobe syscall has no arguments and is not supported
+> > >   for compat processes.
+> > >
+> > > - Compatibility System Calls (x86)
+> > >   N/A uretprobe syscall is not supported for compat processes.
+> > >
+> > > - System Calls Returning Elsewhere
+> > >   N/A.
+> > >
+> > > - Other Details
+> > >   N/A.
+> > >
+> > > - Testing
+> > >   Adding new bpf selftests and ran ltp on top of this change.
+> > >
+> > > - Man Page
+> > >   Attached.
+> > >
+> > > - Do not call System Calls in the Kernel
+> > >   N/A.
+> > >
+> > >
+> > > [0] https://lore.kernel.org/bpf/ZeCXHKJ--iYYbmLj@krava/
+> > > ---
+> > > Jiri Olsa (8):
+> > >       x86/shstk: Make return uprobe work with shadow stack
+> > >       uprobe: Wire up uretprobe system call
+> > >       uprobe: Add uretprobe syscall to speed up return probe
+> > >       selftests/x86: Add return uprobe shadow stack test
+> > >       selftests/bpf: Add uretprobe syscall test for regs integrity
+> > >       selftests/bpf: Add uretprobe syscall test for regs changes
+> > >       selftests/bpf: Add uretprobe syscall call from user space test
+> > >       selftests/bpf: Add uretprobe shadow stack test
+> > >
+> >
+> > Masami, Steven,
+> >
+> > It seems like the series is ready to go in. Are you planning to take
+> > the first 4 patches through your linux-trace tree?
+> 
+> Another ping. It's been two weeks since Jiri posted the last revision
+> that got no more feedback to be addressed and everyone seems to be
+> happy with it.
 
-Sorry to bother, but now that the Linux merge window is closed could I
-request a review of this revision of the ntsync patch set, please (or a
-review from another locking maintainer)?
+Sorry about late reply. I agree that this is OK to go, since no other
+comments. Let me pick this up to probes/for-next branch.
 
-I believe I've addressed all of the comments from the last review,
-except those which would have changed the existing userspace API
-(although since the driver isn't really functional yet, maybe this
-would have been fine to do anyway?)
+> 
+> This is an important speed up improvement for uprobe infrastructure in
+> general and for BPF ecosystem in particular. "Uprobes are slow" is one
+> of the top complaints from production BPF users, and sys_uretprobe
+> approach is significantly improving the situation for return uprobes
+> (aka uretprobes), potentially enabling new use cases that previously
+> could have been too expensive to trace in practice and reducing the
+> overhead of the existing ones.
+> 
+> I'd appreciate the engagement from linux-trace maintainers on this
+> patch set. Given it's important for BPF and that a big part of the
+> patch set is BPF-based selftests, we'd also be happy to route all this
+> through the bpf-next tree (which would actually make logistics for us
+> much easier, but that's not the main concern). But regardless of the
+> tree, it would be nice to make a decision and go forward with it.
 
-Thanks,
-Zeb
+I think it would be better to include those patches together in 
+linux-tree. Can you review and ack to the last patch ? ([9/9])
+
+Thank you,
+
+> 
+> Thank you!
+> 
+> >
+> > >  arch/x86/entry/syscalls/syscall_64.tbl                      |   1 +
+> > >  arch/x86/include/asm/shstk.h                                |   4 +
+> > >  arch/x86/kernel/shstk.c                                     |  16 ++++
+> > >  arch/x86/kernel/uprobes.c                                   | 124 ++++++++++++++++++++++++++++-
+> > >  include/linux/syscalls.h                                    |   2 +
+> > >  include/linux/uprobes.h                                     |   3 +
+> > >  include/uapi/asm-generic/unistd.h                           |   5 +-
+> > >  kernel/events/uprobes.c                                     |  24 ++++--
+> > >  kernel/sys_ni.c                                             |   2 +
+> > >  tools/include/linux/compiler.h                              |   4 +
+> > >  tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c       | 123 ++++++++++++++++++++++++++++-
+> > >  tools/testing/selftests/bpf/prog_tests/uprobe_syscall.c     | 385 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+> > >  tools/testing/selftests/bpf/progs/uprobe_syscall.c          |  15 ++++
+> > >  tools/testing/selftests/bpf/progs/uprobe_syscall_executed.c |  17 ++++
+> > >  tools/testing/selftests/x86/test_shadow_stack.c             | 145 ++++++++++++++++++++++++++++++++++
+> > >  15 files changed, 860 insertions(+), 10 deletions(-)
+> > >  create mode 100644 tools/testing/selftests/bpf/prog_tests/uprobe_syscall.c
+> > >  create mode 100644 tools/testing/selftests/bpf/progs/uprobe_syscall.c
+> > >  create mode 100644 tools/testing/selftests/bpf/progs/uprobe_syscall_executed.c
+> > >
+> > > Jiri Olsa (1):
+> > >       man2: Add uretprobe syscall page
+> > >
+> > >  man/man2/uretprobe.2 | 56 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+> > >  1 file changed, 56 insertions(+)
+> > >  create mode 100644 man/man2/uretprobe.2
 
 
+-- 
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
 
