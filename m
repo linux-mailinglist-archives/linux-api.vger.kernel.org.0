@@ -1,52 +1,52 @@
-Return-Path: <linux-api+bounces-1695-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1696-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B1DC902ACE
-	for <lists+linux-api@lfdr.de>; Mon, 10 Jun 2024 23:46:55 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9C7A902B41
+	for <lists+linux-api@lfdr.de>; Tue, 11 Jun 2024 00:02:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C6C65284B2B
-	for <lists+linux-api@lfdr.de>; Mon, 10 Jun 2024 21:46:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BD6381C22F62
+	for <lists+linux-api@lfdr.de>; Mon, 10 Jun 2024 22:02:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B891E4D8C4;
-	Mon, 10 Jun 2024 21:46:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDF1737143;
+	Mon, 10 Jun 2024 22:02:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WBcfXOCN"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QyE3dy4S"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8265D6AB6;
-	Mon, 10 Jun 2024 21:46:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B87CC63D0;
+	Mon, 10 Jun 2024 22:02:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718056009; cv=none; b=tNSGxUWQG81EUWqxlOtzAX48vh8/BmAtCG7ERX4SNj+jfgAZu0TtbuHmq8qPnA/N1JBc1WWi/8m7a8IM3TKE0gyss9ojTOj5+ICsnnNCwwQMXCuYePSr9kb604YcYoTfom2k1NhyR+B+tDyOJFKSRlJdm6sG4+gdIJekCvp8JkI=
+	t=1718056939; cv=none; b=GbKF52FXBESLPWW3aeXctyIwnbMDqccDpdNj8OjfYnXv09RPuNOw5uc46PyWslnekv2dkjRrAFW0uhH3/mdNmqiVlKx0weeKuvZ2kjdf4WAKYSlHwsj1DhaZHQBdLaFukJd6esdTTEUl2UCjkVFC4txTNLIhJvm0NzEVFcyBzRE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718056009; c=relaxed/simple;
-	bh=7OBszLOSVa3SJfz0oOSikJ/3PkDA/j9tpVJwjUuZJ0A=;
+	s=arc-20240116; t=1718056939; c=relaxed/simple;
+	bh=MqAQpkevHGNOOFgJUiEdfPRWQVNm7nE45c3VrxEicIA=;
 	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=rh3L+XGkEB2suvyMvj1f+1IvbVkCxx+tMmAi4tcNBQgjj+LRymqR6UlcNcok2kSAp9zDANQFr7NE3oipOAsFcyelbpCwQViWil+ByWGTQSTNCY5qOvBNX+s2HxFYvqePiVHIvDQL00LNvu/Vwz8QDCYNPDDZQOoo3JbSz2E0Wp8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WBcfXOCN; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4D7AC2BBFC;
-	Mon, 10 Jun 2024 21:46:43 +0000 (UTC)
+	 Mime-Version:Content-Type; b=jMG1bhL1oXOCpb4kPQ/u42iFcjtr+Pg2h3+HSQcNXBVjl3H7LhfSAJlayds/w4YQqthgPGuHlJtfuf1yOaAVi1y2oavJQBDq6C5ZBdgne2z9WPwK7PjDBEoRNBjBTKyAEiDpWq7VyR/gkj10jxU0QuOqWWzE4ARSAGPFABi8Ttg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QyE3dy4S; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3304FC2BBFC;
+	Mon, 10 Jun 2024 22:02:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718056009;
-	bh=7OBszLOSVa3SJfz0oOSikJ/3PkDA/j9tpVJwjUuZJ0A=;
+	s=k20201202; t=1718056939;
+	bh=MqAQpkevHGNOOFgJUiEdfPRWQVNm7nE45c3VrxEicIA=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=WBcfXOCNRjJNH0sAOgsdbMUHjfuTr2hvUI7/L/gqO6jMxMuMeDGQqnSUI+HvIRiOL
-	 t1rmbSCDelYJKxDpXwfxqkDipUaJJzm4XJorWD75OYdnbfjCP0Vi+ygdzINAs83dLs
-	 ObMnZ57MaxLTp2iX9CgyKAXpsUuEBiHuNVdtz6q3/zuEkmLe/WA/MRh+I0jzaqXxNE
-	 WSp5X74zRBORhkVL/x8Qqha2lLuOnoKLd3E+KRlzeYIgsnpJAo5NS+jeftgs6mnsga
-	 os8Vwy7HqZRb4Ffi2bbams5WeVi0OHEbHW/SCUcr7AwG2LSpEnGFVp9Ufizt5RiZN5
-	 d0BbvfQZvlvbw==
-Date: Tue, 11 Jun 2024 06:46:41 +0900
+	b=QyE3dy4SuC3VRsPWts6pHstZn3YX31KuhAybYrIPKs9yDsBuc8E2afjL4TWoup+Vx
+	 fJ8TduCIsN4pgTs5G8dvxj/2xR6381diQc1Lrhwj6cfKuM6IOYtlX78K+4kfgpqtHy
+	 Yzcdcz7SOyWhf/Yq0MmWmYGQorvieRfXhWUqQl2RpFTfRTceDYMTPWQWQASJqgI7Na
+	 eabkoLgghbQ34Zbvh7bX7vknHTJjq8ZP/2e2eBg12DcGfnxmo77P2gxPQD0Y9XM/Gb
+	 YzmSPHOIX8Wxe0rX3EhbLpRDku2W8ydGL+zRdEuE18kIUcKsrCnlxA0izqpKtrUyoc
+	 lnVy4rK4tl4RA==
+Date: Tue, 11 Jun 2024 07:02:12 +0900
 From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To: Andrii Nakryiko <andrii.nakryiko@gmail.com>
+To: Jiri Olsa <jolsa@kernel.org>
 Cc: Steven Rostedt <rostedt@goodmis.org>, Oleg Nesterov <oleg@redhat.com>,
- Jiri Olsa <jolsa@kernel.org>, Alexei Starovoitov <ast@kernel.org>, Daniel
- Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
+ <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
  linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
  linux-api@vger.kernel.org, linux-man@vger.kernel.org, x86@kernel.org,
  bpf@vger.kernel.org, Song Liu <songliubraving@fb.com>, Yonghong Song
@@ -54,14 +54,13 @@ Cc: Steven Rostedt <rostedt@goodmis.org>, Oleg Nesterov <oleg@redhat.com>,
  <peterz@infradead.org>, Thomas Gleixner <tglx@linutronix.de>,
  "Borislav Petkov (AMD)" <bp@alien8.de>, Ingo Molnar <mingo@redhat.com>,
  Andy Lutomirski <luto@kernel.org>, "Edgecombe, Rick P"
- <rick.p.edgecombe@intel.com>, Deepak Gupta <debug@rivosinc.com>, Linus
- Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [PATCHv7 bpf-next 0/9] uprobe: uretprobe speed up
-Message-Id: <20240611064641.9021829459211782902e4fb2@kernel.org>
-In-Reply-To: <CAEf4Bzbc99bwGcmtCa3iekXSvSrxMQzfnTViT5Y-dn8qbvJy7A@mail.gmail.com>
+ <rick.p.edgecombe@intel.com>, Deepak Gupta <debug@rivosinc.com>
+Subject: Re: [PATCHv7 bpf-next 8/9] selftests/bpf: Add uretprobe shadow
+ stack test
+Message-Id: <20240611070212.79cef453d0615e3af5af1fb0@kernel.org>
+In-Reply-To: <20240523121149.575616-9-jolsa@kernel.org>
 References: <20240523121149.575616-1-jolsa@kernel.org>
-	<CAEf4Bza-+=04GG7Tg4U4pCQ28Oy_2F_5872EPDsX6X3Y=jhEuw@mail.gmail.com>
-	<CAEf4Bzbc99bwGcmtCa3iekXSvSrxMQzfnTViT5Y-dn8qbvJy7A@mail.gmail.com>
+	<20240523121149.575616-9-jolsa@kernel.org>
 X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
@@ -69,170 +68,120 @@ List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, 5 Jun 2024 09:42:45 -0700
-Andrii Nakryiko <andrii.nakryiko@gmail.com> wrote:
+On Thu, 23 May 2024 14:11:48 +0200
+Jiri Olsa <jolsa@kernel.org> wrote:
 
-> On Fri, May 31, 2024 at 10:52 AM Andrii Nakryiko
-> <andrii.nakryiko@gmail.com> wrote:
-> >
-> > On Thu, May 23, 2024 at 5:11 AM Jiri Olsa <jolsa@kernel.org> wrote:
-> > >
-> > > hi,
-> > > as part of the effort on speeding up the uprobes [0] coming with
-> > > return uprobe optimization by using syscall instead of the trap
-> > > on the uretprobe trampoline.
-> > >
-> > > The speed up depends on instruction type that uprobe is installed
-> > > and depends on specific HW type, please check patch 1 for details.
-> > >
-> > > Patches 1-8 are based on bpf-next/master, but patch 2 and 3 are
-> > > apply-able on linux-trace.git tree probes/for-next branch.
-> > > Patch 9 is based on man-pages master.
-> > >
-> > > v7 changes:
-> > > - fixes in man page [Alejandro Colomar]
-> > > - fixed patch #1 fixes tag [Oleg]
-> > >
-> > > Also available at:
-> > >   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git
-> > >   uretprobe_syscall
-> > >
-> > > thanks,
-> > > jirka
-> > >
-> > >
-> > > Notes to check list items in Documentation/process/adding-syscalls.rst:
-> > >
-> > > - System Call Alternatives
-> > >   New syscall seems like the best way in here, because we need
-> > >   just to quickly enter kernel with no extra arguments processing,
-> > >   which we'd need to do if we decided to use another syscall.
-> > >
-> > > - Designing the API: Planning for Extension
-> > >   The uretprobe syscall is very specific and most likely won't be
-> > >   extended in the future.
-> > >
-> > >   At the moment it does not take any arguments and even if it does
-> > >   in future, it's allowed to be called only from trampoline prepared
-> > >   by kernel, so there'll be no broken user.
-> > >
-> > > - Designing the API: Other Considerations
-> > >   N/A because uretprobe syscall does not return reference to kernel
-> > >   object.
-> > >
-> > > - Proposing the API
-> > >   Wiring up of the uretprobe system call is in separate change,
-> > >   selftests and man page changes are part of the patchset.
-> > >
-> > > - Generic System Call Implementation
-> > >   There's no CONFIG option for the new functionality because it
-> > >   keeps the same behaviour from the user POV.
-> > >
-> > > - x86 System Call Implementation
-> > >   It's 64-bit syscall only.
-> > >
-> > > - Compatibility System Calls (Generic)
-> > >   N/A uretprobe syscall has no arguments and is not supported
-> > >   for compat processes.
-> > >
-> > > - Compatibility System Calls (x86)
-> > >   N/A uretprobe syscall is not supported for compat processes.
-> > >
-> > > - System Calls Returning Elsewhere
-> > >   N/A.
-> > >
-> > > - Other Details
-> > >   N/A.
-> > >
-> > > - Testing
-> > >   Adding new bpf selftests and ran ltp on top of this change.
-> > >
-> > > - Man Page
-> > >   Attached.
-> > >
-> > > - Do not call System Calls in the Kernel
-> > >   N/A.
-> > >
-> > >
-> > > [0] https://lore.kernel.org/bpf/ZeCXHKJ--iYYbmLj@krava/
-> > > ---
-> > > Jiri Olsa (8):
-> > >       x86/shstk: Make return uprobe work with shadow stack
-> > >       uprobe: Wire up uretprobe system call
-> > >       uprobe: Add uretprobe syscall to speed up return probe
-> > >       selftests/x86: Add return uprobe shadow stack test
-> > >       selftests/bpf: Add uretprobe syscall test for regs integrity
-> > >       selftests/bpf: Add uretprobe syscall test for regs changes
-> > >       selftests/bpf: Add uretprobe syscall call from user space test
-> > >       selftests/bpf: Add uretprobe shadow stack test
-> > >
-> >
-> > Masami, Steven,
-> >
-> > It seems like the series is ready to go in. Are you planning to take
-> > the first 4 patches through your linux-trace tree?
+> Adding uretprobe shadow stack test that runs all existing
+> uretprobe tests with shadow stack enabled if it's available.
 > 
-> Another ping. It's been two weeks since Jiri posted the last revision
-> that got no more feedback to be addressed and everyone seems to be
-> happy with it.
 
-Sorry about late reply. I agree that this is OK to go, since no other
-comments. Let me pick this up to probes/for-next branch.
+According to the document and sample code, this looks good to me.
 
+Reviewed-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+
+Thanks,
+
+> Signed-off-by: Jiri Olsa <jolsa@kernel.org>
+> ---
+>  .../selftests/bpf/prog_tests/uprobe_syscall.c | 60 +++++++++++++++++++
+>  1 file changed, 60 insertions(+)
 > 
-> This is an important speed up improvement for uprobe infrastructure in
-> general and for BPF ecosystem in particular. "Uprobes are slow" is one
-> of the top complaints from production BPF users, and sys_uretprobe
-> approach is significantly improving the situation for return uprobes
-> (aka uretprobes), potentially enabling new use cases that previously
-> could have been too expensive to trace in practice and reducing the
-> overhead of the existing ones.
+> diff --git a/tools/testing/selftests/bpf/prog_tests/uprobe_syscall.c b/tools/testing/selftests/bpf/prog_tests/uprobe_syscall.c
+> index 3ef324c2db50..fda456401284 100644
+> --- a/tools/testing/selftests/bpf/prog_tests/uprobe_syscall.c
+> +++ b/tools/testing/selftests/bpf/prog_tests/uprobe_syscall.c
+> @@ -9,6 +9,9 @@
+>  #include <linux/compiler.h>
+>  #include <linux/stringify.h>
+>  #include <sys/wait.h>
+> +#include <sys/syscall.h>
+> +#include <sys/prctl.h>
+> +#include <asm/prctl.h>
+>  #include "uprobe_syscall.skel.h"
+>  #include "uprobe_syscall_executed.skel.h"
+>  
+> @@ -297,6 +300,56 @@ static void test_uretprobe_syscall_call(void)
+>  	close(go[1]);
+>  	close(go[0]);
+>  }
+> +
+> +/*
+> + * Borrowed from tools/testing/selftests/x86/test_shadow_stack.c.
+> + *
+> + * For use in inline enablement of shadow stack.
+> + *
+> + * The program can't return from the point where shadow stack gets enabled
+> + * because there will be no address on the shadow stack. So it can't use
+> + * syscall() for enablement, since it is a function.
+> + *
+> + * Based on code from nolibc.h. Keep a copy here because this can't pull
+> + * in all of nolibc.h.
+> + */
+> +#define ARCH_PRCTL(arg1, arg2)					\
+> +({								\
+> +	long _ret;						\
+> +	register long _num  asm("eax") = __NR_arch_prctl;	\
+> +	register long _arg1 asm("rdi") = (long)(arg1);		\
+> +	register long _arg2 asm("rsi") = (long)(arg2);		\
+> +								\
+> +	asm volatile (						\
+> +		"syscall\n"					\
+> +		: "=a"(_ret)					\
+> +		: "r"(_arg1), "r"(_arg2),			\
+> +		  "0"(_num)					\
+> +		: "rcx", "r11", "memory", "cc"			\
+> +	);							\
+> +	_ret;							\
+> +})
+> +
+> +#ifndef ARCH_SHSTK_ENABLE
+> +#define ARCH_SHSTK_ENABLE	0x5001
+> +#define ARCH_SHSTK_DISABLE	0x5002
+> +#define ARCH_SHSTK_SHSTK	(1ULL <<  0)
+> +#endif
+> +
+> +static void test_uretprobe_shadow_stack(void)
+> +{
+> +	if (ARCH_PRCTL(ARCH_SHSTK_ENABLE, ARCH_SHSTK_SHSTK)) {
+> +		test__skip();
+> +		return;
+> +	}
+> +
+> +	/* Run all of the uretprobe tests. */
+> +	test_uretprobe_regs_equal();
+> +	test_uretprobe_regs_change();
+> +	test_uretprobe_syscall_call();
+> +
+> +	ARCH_PRCTL(ARCH_SHSTK_DISABLE, ARCH_SHSTK_SHSTK);
+> +}
+>  #else
+>  static void test_uretprobe_regs_equal(void)
+>  {
+> @@ -312,6 +365,11 @@ static void test_uretprobe_syscall_call(void)
+>  {
+>  	test__skip();
+>  }
+> +
+> +static void test_uretprobe_shadow_stack(void)
+> +{
+> +	test__skip();
+> +}
+>  #endif
+>  
+>  void test_uprobe_syscall(void)
+> @@ -322,4 +380,6 @@ void test_uprobe_syscall(void)
+>  		test_uretprobe_regs_change();
+>  	if (test__start_subtest("uretprobe_syscall_call"))
+>  		test_uretprobe_syscall_call();
+> +	if (test__start_subtest("uretprobe_shadow_stack"))
+> +		test_uretprobe_shadow_stack();
+>  }
+> -- 
+> 2.45.1
 > 
-> I'd appreciate the engagement from linux-trace maintainers on this
-> patch set. Given it's important for BPF and that a big part of the
-> patch set is BPF-based selftests, we'd also be happy to route all this
-> through the bpf-next tree (which would actually make logistics for us
-> much easier, but that's not the main concern). But regardless of the
-> tree, it would be nice to make a decision and go forward with it.
-
-I think it would be better to include those patches together in 
-linux-tree. Can you review and ack to the last patch ? ([9/9])
-
-Thank you,
-
-> 
-> Thank you!
-> 
-> >
-> > >  arch/x86/entry/syscalls/syscall_64.tbl                      |   1 +
-> > >  arch/x86/include/asm/shstk.h                                |   4 +
-> > >  arch/x86/kernel/shstk.c                                     |  16 ++++
-> > >  arch/x86/kernel/uprobes.c                                   | 124 ++++++++++++++++++++++++++++-
-> > >  include/linux/syscalls.h                                    |   2 +
-> > >  include/linux/uprobes.h                                     |   3 +
-> > >  include/uapi/asm-generic/unistd.h                           |   5 +-
-> > >  kernel/events/uprobes.c                                     |  24 ++++--
-> > >  kernel/sys_ni.c                                             |   2 +
-> > >  tools/include/linux/compiler.h                              |   4 +
-> > >  tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c       | 123 ++++++++++++++++++++++++++++-
-> > >  tools/testing/selftests/bpf/prog_tests/uprobe_syscall.c     | 385 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-> > >  tools/testing/selftests/bpf/progs/uprobe_syscall.c          |  15 ++++
-> > >  tools/testing/selftests/bpf/progs/uprobe_syscall_executed.c |  17 ++++
-> > >  tools/testing/selftests/x86/test_shadow_stack.c             | 145 ++++++++++++++++++++++++++++++++++
-> > >  15 files changed, 860 insertions(+), 10 deletions(-)
-> > >  create mode 100644 tools/testing/selftests/bpf/prog_tests/uprobe_syscall.c
-> > >  create mode 100644 tools/testing/selftests/bpf/progs/uprobe_syscall.c
-> > >  create mode 100644 tools/testing/selftests/bpf/progs/uprobe_syscall_executed.c
-> > >
-> > > Jiri Olsa (1):
-> > >       man2: Add uretprobe syscall page
-> > >
-> > >  man/man2/uretprobe.2 | 56 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-> > >  1 file changed, 56 insertions(+)
-> > >  create mode 100644 man/man2/uretprobe.2
 
 
 -- 
