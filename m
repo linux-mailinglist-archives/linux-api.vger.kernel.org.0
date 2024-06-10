@@ -1,91 +1,105 @@
-Return-Path: <linux-api+bounces-1693-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1694-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03D42902545
-	for <lists+linux-api@lfdr.de>; Mon, 10 Jun 2024 17:18:30 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3866D902792
+	for <lists+linux-api@lfdr.de>; Mon, 10 Jun 2024 19:15:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A185F1F2301C
-	for <lists+linux-api@lfdr.de>; Mon, 10 Jun 2024 15:18:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DFD0C1F21EDD
+	for <lists+linux-api@lfdr.de>; Mon, 10 Jun 2024 17:15:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7553142E62;
-	Mon, 10 Jun 2024 15:16:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C86B1442F1;
+	Mon, 10 Jun 2024 17:15:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b="DnX772Ec"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.codeweavers.com (mail.codeweavers.com [4.36.192.163])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DAC882483;
-	Mon, 10 Jun 2024 15:16:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2BC477F2F;
+	Mon, 10 Jun 2024 17:15:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.36.192.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718032579; cv=none; b=B4nFFNh0fhfFR1BUHFPKk4bSFroJWGD1mixVQ3v6G/HTHpV71QM2ptdt7un1oDA2JvDHL8ywwW02Sj2dyDEu0BmiFezkdLfz2rRY31OBLO1Ef6kN+GsXOL6Os/99WoUPbSWAAx4jIl7e6g0cOaSGmQYelzjfxyuKXtyOoC0oO5k=
+	t=1718039723; cv=none; b=YsXSXwMCxLfx2Y8zpyk36QUC6XDWx6WXY+dd2KnbeNV0vGvVNjzlEQOhinfgOTJpbas9V5u0I6HH2YJXXJi9ME9QNr4MXgVZIG3JYpQoFImWOgiiMzTe1T1t8ors7drKkGIEd+wDaIoHLV0hmejXtpq46j6ezHNfvATgyZo34Ak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718032579; c=relaxed/simple;
-	bh=7WETetKobdT3s6/DNAZaGWym4aHxPPI1/kHjkxitoXU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=P4nYVsbhnK1wlq64iPc8zp/5t5qF2F3wf4F3hi5L1BcB8L4Hxli6hx7RwmD+Th2NgcDTHa9TibKMzFdlZ/yQgYU1Fw+/kTzsgp3Z35y1fUemhQKRO5KNWhKqKqxjw+5kMcbiT/XXNriQE5FgIK2/2kKKl9AEDmIXB7FB3hQvx30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8C33C2BBFC;
-	Mon, 10 Jun 2024 15:16:15 +0000 (UTC)
-Date: Mon, 10 Jun 2024 11:16:14 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Cc: Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
- Jiri Olsa <jolsa@kernel.org>, Alexei Starovoitov <ast@kernel.org>, Daniel
- Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-api@vger.kernel.org, linux-man@vger.kernel.org, x86@kernel.org,
- bpf@vger.kernel.org, Song Liu <songliubraving@fb.com>, Yonghong Song
- <yhs@fb.com>, John Fastabend <john.fastabend@gmail.com>, Peter Zijlstra
- <peterz@infradead.org>, Thomas Gleixner <tglx@linutronix.de>, "Borislav
- Petkov (AMD)" <bp@alien8.de>, Ingo Molnar <mingo@redhat.com>, Andy
- Lutomirski <luto@kernel.org>, "Edgecombe, Rick P"
- <rick.p.edgecombe@intel.com>, Deepak Gupta <debug@rivosinc.com>, Linus
- Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [PATCHv7 bpf-next 0/9] uprobe: uretprobe speed up
-Message-ID: <20240610111614.1448e721@rorschach.local.home>
-In-Reply-To: <CAEf4Bzbc99bwGcmtCa3iekXSvSrxMQzfnTViT5Y-dn8qbvJy7A@mail.gmail.com>
-References: <20240523121149.575616-1-jolsa@kernel.org>
-	<CAEf4Bza-+=04GG7Tg4U4pCQ28Oy_2F_5872EPDsX6X3Y=jhEuw@mail.gmail.com>
-	<CAEf4Bzbc99bwGcmtCa3iekXSvSrxMQzfnTViT5Y-dn8qbvJy7A@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1718039723; c=relaxed/simple;
+	bh=tZhK0yK9PUCBDyPTcAJrUy48YWTdR49HUbCN3uazuz0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=TKMkTotGI9/l59H10SOz1UZ94xrFdxIR3wSgDF4Pu+b2nELB1vyKdgKyy8KKdEZhkFjTu9KJNLae0gXQ5PeK7VImHpmeNF/M4OqVdk+ug0bPLXnfyPXnAV1E0sTwfiE18nHTCCvT6Ni+/5ENB44TKZ4Kcuyy4u3iF5QDdd2iG8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com; spf=pass smtp.mailfrom=codeweavers.com; dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b=DnX772Ec; arc=none smtp.client-ip=4.36.192.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeweavers.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=codeweavers.com; s=s1; h=Message-ID:Date:Subject:Cc:To:From:Sender;
+	bh=tZhK0yK9PUCBDyPTcAJrUy48YWTdR49HUbCN3uazuz0=; b=DnX772Ecy7Sytu4dDSC25WhQIM
+	p5J1nPDMk23g5W9HIGqwfixQXSHf83CTiGTFcbIG2EtOfYpF1nbnMN4YIecI9884NVGDBMKen38lx
+	H5A17OKO6ibWhAVY6DtoBGmmJe3P2sjGNsycECNyftwTeT74mFPKtsqkRDQ5H7m6GxIOHmcNDK8xB
+	f/ZPLptOxLwz897jhfiz716tUV14MPVge41NhrFJYrM3savy+WZ+fBG1fn2KHLi2FDuyp7Ht2MrjI
+	faduXUalJ6gir2AtcAqDE1HZu5VMSRtquUGHVqLX2x+lr7mZNrNiWJLrOzYvHJvZDHBgKyJ8MSvz5
+	6BNpqxqA==;
+Received: from [10.69.139.13] (helo=uriel.localnet)
+	by mail.codeweavers.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <zfigura@codeweavers.com>)
+	id 1sGiM6-00H4i2-0f;
+	Mon, 10 Jun 2024 11:58:50 -0500
+From: Elizabeth Figura <zfigura@codeweavers.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+ linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+ wine-devel@winehq.org,
+ =?ISO-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+ Wolfram Sang <wsa@kernel.org>, Arkadiusz Hiler <ahiler@codeweavers.com>,
+ Andy Lutomirski <luto@kernel.org>, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+ Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+ Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>
+Subject: Re: [PATCH v5 00/28] NT synchronization primitive driver
+Date: Mon, 10 Jun 2024 11:58:48 -0500
+Message-ID: <2325658.ElGaqSPkdT@uriel>
+In-Reply-To: <20240519202454.1192826-1-zfigura@codeweavers.com>
+References: <20240519202454.1192826-1-zfigura@codeweavers.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-On Wed, 5 Jun 2024 09:42:45 -0700
-Andrii Nakryiko <andrii.nakryiko@gmail.com> wrote:
+On Sunday, May 19, 2024 3:24:26=E2=80=AFPM CDT Elizabeth Figura wrote:
+> This patch series implements a new char misc driver, /dev/ntsync, which is
+> used to implement Windows NT synchronization primitives.
+>=20
+> NT synchronization primitives are unique in that the wait functions both =
+are
+> vectored, operate on multiple types of object with different behaviour
+> (mutex, semaphore, event), and affect the state of the objects they wait
+> on. This model is not compatible with existing kernel synchronization
+> objects or interfaces, and therefore the ntsync driver implements its own
+> wait queues and locking.
+>=20
+> This patch series is rebased against the "char-misc-next" branch of
+> gregkh/char-misc.git.
 
-> Another ping. It's been two weeks since Jiri posted the last revision
-> that got no more feedback to be addressed and everyone seems to be
-> happy with it.
+Hi Peter,
 
-Sorry, there's been a lot going on.
+Sorry to bother, but now that the Linux merge window is closed could I
+request a review of this revision of the ntsync patch set, please (or a
+review from another locking maintainer)?
 
-> 
-> This is an important speed up improvement for uprobe infrastructure in
-> general and for BPF ecosystem in particular. "Uprobes are slow" is one
-> of the top complaints from production BPF users, and sys_uretprobe
-> approach is significantly improving the situation for return uprobes
-> (aka uretprobes), potentially enabling new use cases that previously
-> could have been too expensive to trace in practice and reducing the
-> overhead of the existing ones.
-> 
-> I'd appreciate the engagement from linux-trace maintainers on this
-> patch set. Given it's important for BPF and that a big part of the
-> patch set is BPF-based selftests, we'd also be happy to route all this
-> through the bpf-next tree (which would actually make logistics for us
-> much easier, but that's not the main concern). But regardless of the
-> tree, it would be nice to make a decision and go forward with it.
+I believe I've addressed all of the comments from the last review,
+except those which would have changed the existing userspace API
+(although since the driver isn't really functional yet, maybe this
+would have been fine to do anyway?)
 
-I'll be talking with Masami about this later today.
+Thanks,
+Zeb
 
--- Steve
+
 
