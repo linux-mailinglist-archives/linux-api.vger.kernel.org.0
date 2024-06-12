@@ -1,59 +1,56 @@
-Return-Path: <linux-api+bounces-1723-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1724-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DBA5905682
-	for <lists+linux-api@lfdr.de>; Wed, 12 Jun 2024 17:12:18 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D027E9058CB
+	for <lists+linux-api@lfdr.de>; Wed, 12 Jun 2024 18:28:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E0B27B283C5
-	for <lists+linux-api@lfdr.de>; Wed, 12 Jun 2024 15:12:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 036871C2109B
+	for <lists+linux-api@lfdr.de>; Wed, 12 Jun 2024 16:28:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36A44181D0E;
-	Wed, 12 Jun 2024 15:08:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C5D374413;
+	Wed, 12 Jun 2024 16:28:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pP/MAU2s"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ooAJ6IVN"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DF4B181BB9;
-	Wed, 12 Jun 2024 15:08:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D93FD1DFF0;
+	Wed, 12 Jun 2024 16:28:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718204881; cv=none; b=sGe3nO1DarEUjF+ecsxBF1WmTcita7GYhPezTAS9O7zsDqnHQHkSTWZsRA8mF0DjG+Ug+15NbixvAIcceKqQtHIhTpWl11WrO4iqQHEd42dcwATVVHq4t4Z1g+5VFw24KtnV/+Jz8Yb5YUCFtlf1tLklfarZoaal202i4dDztNU=
+	t=1718209734; cv=none; b=tXNvrOToWuq5Ad4zlnUS0A16K2VO4rZ2tbK5dOzAKf5IhE6X4G1OATMnDfBZKK2N3NwJbftGXbLUKgblopXsJRotptU5AUA4XICpDbos02Ax434EVVqU9REpjFvjH0cEzOghjsxXShAV03qu+6TCHmouI1hGfx9o4OVKOmryxh4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718204881; c=relaxed/simple;
-	bh=K07trwj7udv3HyR7GkYDWIorvePD6kxkcC/UqWfcFms=;
+	s=arc-20240116; t=1718209734; c=relaxed/simple;
+	bh=LPae+WJLd4Uh0XyD4sO1ssmu8Chnf3aXYZIxelrrKc8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ri+O00WK7/ox99oNondJU+dvo2D/cBroeufz9cAmeBi0UbD26wKOsr1sVha5S20v/Nnjz6PG0Y8NsqqsZI04SH/9vQn5Y5NPEsTxh3mLGah5PwG/CoqXKK93OsotQE4jtvfHpX7F9ur7CFiqTyQg7OuYnyXKsVh+CAKkqi0ONvI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pP/MAU2s; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52ED1C4AF1C;
-	Wed, 12 Jun 2024 15:07:59 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=si5wIJsH247/+yli4tLw4hzOZuwZzl7uzTgHO9I5SdjEE/qjPsO863J89u6iqW6HYendwLIYgW5aNdUn8MY4+nV8cBMVk0B7b+HTNSb1hWLInqmFZ1YRyMTP/QV2NkEkmQoNC2oY8ZqgGKy7GpKtrLyz/IcRnOEraredZzJNx5g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ooAJ6IVN; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1622DC116B1;
+	Wed, 12 Jun 2024 16:28:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718204880;
-	bh=K07trwj7udv3HyR7GkYDWIorvePD6kxkcC/UqWfcFms=;
+	s=k20201202; t=1718209734;
+	bh=LPae+WJLd4Uh0XyD4sO1ssmu8Chnf3aXYZIxelrrKc8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pP/MAU2szf5F6V6nyuYH7k/OPaxji5eYOB9b89g5jYzWFlHObGWdAsUVkVB4aR3WC
-	 R4Ki5h8XOi9EOdjs0WuGj2slvsWe5MMQVoENWPYtHN/nbuzdWuiaGSCOVCm45kP25e
-	 DkByqApXGXAGLIpKde+L+h3Sp/hkx9jTIfQAYcScMO+PRopQCGsiBZYix0ThGZSqlI
-	 T+qzecnmFnVo0YdJ5m008PWtG5POqDQz2JQcGlRjBzSVggH2wmfTzmDYfNvLKOW70M
-	 nd/kg7fqIylDuI9FSy0iMH/h/bSt5J5ZdHGFAc9awH2groT91JxR3e0TrL4as1py35
-	 +jvkvmyxF+j+g==
-Date: Wed, 12 Jun 2024 17:07:57 +0200
+	b=ooAJ6IVNE7UJOqyjqkWWZXI6OnqFW9dqxjRLj9A8n+8jH/1w0mN0vLPhnMi4i5/01
+	 dnt3LnqwQnsV4INWMHA6ak5C7NMRUen45gwPMaHvs2u1BZCpXr+CJBFNLWB4L+XPud
+	 auU62y83ekkfsuOLrNt+Xeu+H+3zHU7M9wKWUbLsP/DKF56yAyVAc6gVo3yw7/ajH0
+	 Qq9mi2dSQ2iBpkS0HYhS4OhIPDGg5SS3juKm7T7ng6GqVmTvAp1z8tnR8UMxL8Xv1x
+	 +Rj1bWg9HQQvzDKgynG8d6Xrpu2DYaMpBTokQbBN+0hQCCkeL0ah9JITWMhofsT9EH
+	 8ZoA06NJbIfLA==
+Date: Wed, 12 Jun 2024 18:28:50 +0200
 From: Alejandro Colomar <alx@kernel.org>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: linux-api@vger.kernel.org, linux-man@vger.kernel.org, 
-	Andrew Morton <akpm@linux-foundation.org>, Palmer Dabbelt <palmer@rivosinc.com>, libc-alpha@sourceware.org
-Subject: Re: [PATCH] uapi/asm/termbits: Use the U integer suffix for bit
- fields
-Message-ID: <2pidbxaqueutqekele3bc5cp7l64aodvpz2sb7nmdaanxo7ado@cozt6nahapwa>
-References: <2024061222-scuttle-expanse-6438@gregkh>
- <20240612131633.449937-2-alx@kernel.org>
- <2024061214-absolute-deranged-14bf@gregkh>
- <tkfp53faunf5jlszu5k6jwwxgsl72faffiux7c3pykmnowapy6@wap3bvtvoebi>
- <2024061223-saddlebag-gallantly-c35f@gregkh>
+To: Paul Eggert <eggert@cs.ucla.edu>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Palmer Dabbelt <palmer@rivosinc.com>, linux-api@vger.kernel.org, libc-alpha@sourceware.org, 
+	linux-man@vger.kernel.org
+Subject: Re: termios constants should be unsigned
+Message-ID: <mdidkojqnhvf5b22vh3c4b6ajmq5miuyr3ole26kx2qkmnbfh3@woy2ghe5eyve>
+References: <a7kfppfptkzvqys6cblwjudlpoghsycjglw57hxe2ywvruzkbd@e6nqpnxgwfnq>
+ <87af5e8f-0dcb-44a0-94de-757cad7d5ded@cs.ucla.edu>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -61,85 +58,86 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="cd6ct4cnap6y5ej5"
+	protocol="application/pgp-signature"; boundary="u5ef5bv676bhegop"
 Content-Disposition: inline
-In-Reply-To: <2024061223-saddlebag-gallantly-c35f@gregkh>
+In-Reply-To: <87af5e8f-0dcb-44a0-94de-757cad7d5ded@cs.ucla.edu>
 
 
---cd6ct4cnap6y5ej5
+--u5ef5bv676bhegop
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 From: Alejandro Colomar <alx@kernel.org>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: linux-api@vger.kernel.org, linux-man@vger.kernel.org, 
-	Andrew Morton <akpm@linux-foundation.org>, Palmer Dabbelt <palmer@rivosinc.com>, libc-alpha@sourceware.org
-Subject: Re: [PATCH] uapi/asm/termbits: Use the U integer suffix for bit
- fields
-References: <2024061222-scuttle-expanse-6438@gregkh>
- <20240612131633.449937-2-alx@kernel.org>
- <2024061214-absolute-deranged-14bf@gregkh>
- <tkfp53faunf5jlszu5k6jwwxgsl72faffiux7c3pykmnowapy6@wap3bvtvoebi>
- <2024061223-saddlebag-gallantly-c35f@gregkh>
+To: Paul Eggert <eggert@cs.ucla.edu>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Palmer Dabbelt <palmer@rivosinc.com>, linux-api@vger.kernel.org, libc-alpha@sourceware.org, 
+	linux-man@vger.kernel.org
+Subject: Re: termios constants should be unsigned
+References: <a7kfppfptkzvqys6cblwjudlpoghsycjglw57hxe2ywvruzkbd@e6nqpnxgwfnq>
+ <87af5e8f-0dcb-44a0-94de-757cad7d5ded@cs.ucla.edu>
 MIME-Version: 1.0
-In-Reply-To: <2024061223-saddlebag-gallantly-c35f@gregkh>
+In-Reply-To: <87af5e8f-0dcb-44a0-94de-757cad7d5ded@cs.ucla.edu>
 
-Hi Greg,
+Hi Paul,
 
-On Wed, Jun 12, 2024 at 04:21:25PM GMT, Greg KH wrote:
-> On Wed, Jun 12, 2024 at 04:00:18PM +0200, Alejandro Colomar wrote:
-> > I expect that these specific values and the operations done on them
-> > probably don't trigger UB, since the shifts are done by a controlled
-> > amount, and there are justa few operations done on them.
+On Wed, Jun 12, 2024 at 07:55:14AM GMT, Paul Eggert wrote:
+> On 2024-06-12 05:16, Alejandro Colomar wrote:
+> > tcgets.c:53:24:
+> >   error: implicit conversion changes signedness: 'int' to 'tcflag_t' (a=
+ka
+> >   'unsigned int') [clang-diagnostic-sign-conversion,-warnings-as-errors]
 >=20
-> These, for the most part, are NOT used as shifts.
-
-Quoting the EXAMPLES section in the manual page:
-
-	tio.c_cflag &=3D ~(CBAUD << IBSHIFT);
-
-(And yeah, that shift is presumably controlled, so that it doesn't
-overflow, which is why I mean these are presumably just fine.)
-
-> > TL;DR: The kernel isn't broken, but improving this would allow users to
-> > enable stricter warnings, which is a good thing.
+> This is a bug in Clang not glibc, and if you're worried about it I suggest
+> sending a bug report to the Clang folks about the false positive.
 >=20
-> Enable it where?
+> Even GCC's -Wsign-conversion, which is at least smart enough to not warn
+> about benign conversions like that, is too often so chatty that it's best
+> avoided.
+>=20
+> A lot of this stuff is pedanticism that dates back to the bad old days wh=
+en
+> the C standard allowed ones' complement and signed magnitude representati=
+ons
+> of signed integers. Although it can be amusing to worry about that
+> possibility (I know I've done it) it's never been a practical worry, and
+> even the motivation of pedanticism is going away now that C23 requires tw=
+o's
+> complement.
 
-I meant in user space programs that use termbits stuff.  (That this may
-also allow the kernel to eventually have stricter warnings, I don't
-know.  It might help.  But mostly meant it for user space.)
+I know; I think I have -Weverything enabled in that run, which is known
+for its pedanticity.  I usually disable it when it triggers a warning,
+since they are usually nonsense.  But in this case, adding U is a net
+improvement, without downsides (or I can't see them).
 
-So, if I have a user-space program (or more likely a library) which
-wraps these ioctls, I'd prefer to be able to enable the warnings I
-reported, to preclude any mistakes in my code.  That would need the
-constants to be unsigned, to avoid false negatives.
+So, while the kernel and glibc are just fine with this implicit
+conversion, they would be equally fine and even better without the
+conversion.  Not a bug, but rather a slight improvement.
 
-Cheers,
+Have a lovely day!
 Alex
 
 --=20
 <https://www.alejandro-colomar.es/>
 
---cd6ct4cnap6y5ej5
+--u5ef5bv676bhegop
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmZpucwACgkQnowa+77/
-2zKIbQ//QcaN3uSVmE7y8sXus/WOQBQM4F6N/Xrz/My8l0UqqbWqzEW7Uoa2kTQO
-8wqsccSxKYiGZPVf2Qf/Cjt5SSyVlHaxk/sGDga4Xnghcr8yB6ddVwwUXWenBGvD
-GS8T9+ObLrCMVyId8sSJEjswxka/bqApjfJ5AtEvaXGlrYjKyzljP/eScQMIwSwW
-hjL9YaKmjuoLNe5GRrhddwIvsVMcb6mge3I+un+Sq8kIylj8zKTUR2g4ivzhOgIt
-JLxK3gVxCYabWpOr8zsa9VfCqDNgtHl+gaUillcOvyNJCZbkxPo3OnDRxdiCfAFE
-Gt7+d6C+OCbOwWoXROuXiAyI/LOcPwk40sf9wSu7Mi8KzITLaHgTLwYMQRFfOCaH
-8uVqGsh8ox1DZ1/b+Gu/d/vpyTFAFZ86tk2iqvfR64jiUlOG5Vtpp+N4afV7GdRs
-yQinoWumlVvXA4g1fFA6KJqwNPAO1pScHFRZ81fwk81L56q8mC2YHtUDK40eD/On
-MjeH9vd9MNldfgdZCOfg+3hXzjEHOVp9PHjFcIPnR62pg02Zk3AvmdtVjuBAs5zK
-8BgkzuPcKcRMLcDUkxgsboSpAJ+mFk8jXcTpc02yp+3bcsAmYTccIUS1YyzgG3DC
-19JRpIHoyPwHLR7iMT5PR59/820WLd3rx3kwRiPfFbQa2D3Carg=
-=+enL
+iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmZpzLkACgkQnowa+77/
+2zIXGBAAk7UQ8dXCy714MXl59HRDggJWt4qmXRWslhy4AWT+bTYNBZKL/kM+GvUY
+9C5DwOUEP1703W2tY3bZEhUo0JF6eIMgZDX2aQTx1SH+KIw/dM/GRkn7HJ4jNg6V
+v5F1mGJnV0oVEXhzpoP2oFwZG/nqw9RFVY5ZCX0RrMfAUmUFmZOQNaTvsPAYStwj
+Ha8YdJbXVl0fGF3B2nj9CFjj2fH96+vJJGdvqZxJpyGVnZ2uhhhfZ0A+Z5CffcrG
+6++7YQrUHDMiB+likYke7ohUqZO4joAwm7D8cTgmphrX7Xps0alBUpCxjijKf84R
+l8mXmzxrGzF4JGHy7vnoT2txsi+P3tm1PWrz0PRfdjTZh86/7krnu/f4N7a/trLB
+pKpdxxKZCXYQskNFQOIeSPPJWFR/Ec/moo6/AECJ7a5kFAJDbkksWXyssFfXpPDD
+9Z3T4VGlZaQMVoTMvrBSz+cmsTRUYwVc3ppB4+C5KPBw+7njF8ClVT5alLomh9AM
+/yz/SpezE9Kr+QNYLMoQCp24gggcEnZIhCzMu2P5NQG1+kAVOeZyMkpvBx+uAn65
+uaorsGqoJkRpRenjld8PWRVLX6fprLRN6rr1q4UgazBIl9Dia/MkZEqfbtHIygRI
+SyQPwjwwE3i+zEwxK5tZ8VpuFTKqgQhBd1tJrBBXRz3Asi2Yrqs=
+=JDn8
 -----END PGP SIGNATURE-----
 
---cd6ct4cnap6y5ej5--
+--u5ef5bv676bhegop--
 
