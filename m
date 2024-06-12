@@ -1,137 +1,164 @@
-Return-Path: <linux-api+bounces-1732-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1733-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCD51905E0C
-	for <lists+linux-api@lfdr.de>; Wed, 12 Jun 2024 23:55:10 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 227ED905E5B
+	for <lists+linux-api@lfdr.de>; Thu, 13 Jun 2024 00:22:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5384428600F
-	for <lists+linux-api@lfdr.de>; Wed, 12 Jun 2024 21:55:09 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C052F1F219C9
+	for <lists+linux-api@lfdr.de>; Wed, 12 Jun 2024 22:22:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2574127B62;
-	Wed, 12 Jun 2024 21:54:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8353786277;
+	Wed, 12 Jun 2024 22:22:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Szo8MSB4"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Oy3kd3ru"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 685F68526C
-	for <linux-api@vger.kernel.org>; Wed, 12 Jun 2024 21:54:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A1C71DFF0;
+	Wed, 12 Jun 2024 22:22:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718229297; cv=none; b=gClxj1cbomp7X4mXiEuNBxGeeMZxdxD0K1D5AQy51vqaJqc0W0D45r5Bkroav4loobqDluqguWvI8DSBxB1vJAPnXG++SC9CPjw7amT9qVhj9aKm4452j3En749G0ZZcnTReJIMiDzlXjUNVk7rZUek3CHIBSZaaqitbFp91DEs=
+	t=1718230965; cv=none; b=fH355OV3FY/lRvRWNIaM2jKdh6tRacx5tL3mffhSMG4xK4YVFOdpfDn2muT+Ccnz1M2gNMyFkVvGOO+6d08fhr4aKX7cRMLANcpTA+4Vvwfmjlw9Sle+UOV73IQpVL0Qq+NyDUPI1XnQuOOTzqgAlCymz2EBwS1OxHuGKwzRSLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718229297; c=relaxed/simple;
-	bh=j+5KelaD/4KELpEe6q0DQCGWyXRXbSSnxQxKsvvWrR4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZN9RzVxoL0+hEBCkcu/4XbqqJ7rbMphCHjRAQH5FkOmgyWAKDyJYblsIzVFcQS4ShbLoi5jTOgHZu6gI57ciMm2rnixoWHacXOU9c9vCJra0w+nGj6fzVymVwDVKZJLaBBRTfpvKCpMZ/oe7zXKynXmxPnzTLvL7TvkdZgrzFcs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Szo8MSB4; arc=none smtp.client-ip=209.85.219.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-6aedd5167d1so1710156d6.1
-        for <linux-api@vger.kernel.org>; Wed, 12 Jun 2024 14:54:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1718229295; x=1718834095; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0niQXskQ/wT+JZAsg2ie0yp0nVNXepGBuevZDm3X/6I=;
-        b=Szo8MSB4hUUzVEu9I8Dc4FOWuHDxBdIEvFC+FhkZkEC3CiT8XqByurI+pNxtPJl4hS
-         J489K495MuC4DW9aQDS8cU0kEr0pO0YT41ZY/W6hCAJJ2SD/4mkGpmEu1ZFbgvqM/PRq
-         q9lQyzQfsEm2QdnOuRFuAeSsORH8Li3k2Yk48nsjSbhVdXZotbaHkDHYpx0hrmZbAJGb
-         x4W1qELr7Q3yW6rGbv6ye9tm+K+bH/PgNV3oVe6u+QM3QjUKU56anOfhdalil9ZTEjD/
-         32VSXNV5k1d4wC0XtLwtzFsRtYbO624esdXnmcWShNnCQk1Je6IaBizsujGuVyUeA0zE
-         9Vww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718229295; x=1718834095;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0niQXskQ/wT+JZAsg2ie0yp0nVNXepGBuevZDm3X/6I=;
-        b=i6EOZ+Z0F97Ck6/Z9YkPDlDcQ52+Ae+WWbk+OeeC6A4stNjQ+QbhuKyF79bfq71MMN
-         N7aPKA5dWnYy1XvY2CEbzfUWsW4m1Cep85P39zQlEknQSSRjK92n2Kt9nVDpTXXordZo
-         5QVmQgNNtp9+jJ+yCVG50OOaTtQ9L4spZ7nvQvEI9VNh1mvnxVxTUFQZDEac/s5E9GED
-         stmBHn56JQ6W8/eju2Ej1Op4Qx/dXe8yJenCSXp/zGG/rNqjrAPylnNsFjRLD1Ezuuet
-         6FoMIjplKLQnbroCg6b2p58HEe121M9IrkSXYsHnB9y7FhzbalIuFlGqh3N3SjpnCrt1
-         L3tw==
-X-Forwarded-Encrypted: i=1; AJvYcCUrBLpVxlloleZylWh1zEnRmYEmNQ7IvC/QrJH1qQXOPKv4DaxbmTN4hbftUJ6o2OuH2lrFbaIeLGEVYsZ+I8+Dm3x963IQcGzf
-X-Gm-Message-State: AOJu0YwcHk8Pclm1VFrmHEwTZy133ctoP/ZMwQHcc5bI069BObYiXFWd
-	+xt62juedvEJZaL+TXrAsdtJRAjaA43ZMROT8r0YBO69uArhx5MWLEcxJG8ez7ooy0d+jaVM16R
-	VXksdaubSclBaOyhijLAudFM95POurobQiFEZ
-X-Google-Smtp-Source: AGHT+IHG2n4kSZQnL7JamAKSLlJC5ZGJuNHEiaj/X9WnydQDgcR0qoCO3uoxx8DVbFaUJpsGgKTe9s6ylUcRYkBQY0A=
-X-Received: by 2002:a05:6214:3202:b0:6b0:65dd:a241 with SMTP id
- 6a1803df08f44-6b19196d8camr37904236d6.18.1718229295140; Wed, 12 Jun 2024
- 14:54:55 -0700 (PDT)
+	s=arc-20240116; t=1718230965; c=relaxed/simple;
+	bh=wora6/GK3AC9I3pp/xG4QqMLwFqaBLUohknys16mO9Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MYiKfQm6jqyKnJKrT0u3LmKr6w8h9+RNb/1iOICmkpPCKijnDeY3xQvn5BSfAK2MYojllD572pRAkzpwRkftDa+FUVt+JAzMVhPak1xIpExU1gUgmOxAolOd7he6IDt/EAG9a/PNDPw4wV+YXTL9WaGFlkSK2+kw0BCj5Hz0xes=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Oy3kd3ru; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F80FC116B1;
+	Wed, 12 Jun 2024 22:22:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718230964;
+	bh=wora6/GK3AC9I3pp/xG4QqMLwFqaBLUohknys16mO9Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Oy3kd3ruXyPZpI4hd5nCd7+5EEOcj0J5TxmCsBNMpGAPpCobIKj1BWo6UytR8gj2G
+	 ujNtR8O9STuTHFZgXg5VcoIrTpsqMIUrym486VvnkymvjnPimgDEE0FirGbTVpmAb3
+	 MY0O22vDR7dp600sy9PPw1bQMWQjFlQUaZQcBmbb+lJDig4EgeLAHTrhkPuQNRlpRi
+	 U6j00lHFc7XW6hrnuQMr8fzjcR/0y7I2g3Ynr5OpiDR21hCtJIMXMx1ZDgN74C2ZMF
+	 3ZU23N6NULQd7zR96NtvbX/svO7AxWjNxbs9uYmr+RpG+n2RKOoPuavRuctBVnTsvo
+	 ncyNY2n3B42KA==
+Date: Thu, 13 Jun 2024 00:22:41 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: enh <enh@google.com>
+Cc: Paul Eggert <eggert@cs.ucla.edu>, 
+	Andrew Morton <akpm@linux-foundation.org>, Palmer Dabbelt <palmer@rivosinc.com>, linux-api@vger.kernel.org, 
+	libc-alpha@sourceware.org, linux-man@vger.kernel.org
+Subject: Re: termios constants should be unsigned
+Message-ID: <bb5dmeeekrlmrah4f3tvuw7qopsmbzq66vvh5k4vr4pamztuv7@dojfexrz545o>
+References: <a7kfppfptkzvqys6cblwjudlpoghsycjglw57hxe2ywvruzkbd@e6nqpnxgwfnq>
+ <87af5e8f-0dcb-44a0-94de-757cad7d5ded@cs.ucla.edu>
+ <mdidkojqnhvf5b22vh3c4b6ajmq5miuyr3ole26kx2qkmnbfh3@woy2ghe5eyve>
+ <CAJgzZorNc3gNVbiibz+DibrMLxc2dQoOS5NtL+RQUkSD-GMYaA@mail.gmail.com>
+ <5rfohnr4rs3tkfs7y3f7rth36c67pvcwv4q52onrjohdjtpo7m@stvcsncq7z4f>
+ <CAJgzZorzcAP5wNa-UCMyarmjgwVBveg0c0Dj36ByVEacnOHrnw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <a7kfppfptkzvqys6cblwjudlpoghsycjglw57hxe2ywvruzkbd@e6nqpnxgwfnq>
- <87af5e8f-0dcb-44a0-94de-757cad7d5ded@cs.ucla.edu> <mdidkojqnhvf5b22vh3c4b6ajmq5miuyr3ole26kx2qkmnbfh3@woy2ghe5eyve>
- <CAJgzZorNc3gNVbiibz+DibrMLxc2dQoOS5NtL+RQUkSD-GMYaA@mail.gmail.com> <5rfohnr4rs3tkfs7y3f7rth36c67pvcwv4q52onrjohdjtpo7m@stvcsncq7z4f>
-In-Reply-To: <5rfohnr4rs3tkfs7y3f7rth36c67pvcwv4q52onrjohdjtpo7m@stvcsncq7z4f>
-From: enh <enh@google.com>
-Date: Wed, 12 Jun 2024 17:54:43 -0400
-Message-ID: <CAJgzZorzcAP5wNa-UCMyarmjgwVBveg0c0Dj36ByVEacnOHrnw@mail.gmail.com>
-Subject: Re: termios constants should be unsigned
-To: Alejandro Colomar <alx@kernel.org>
-Cc: Paul Eggert <eggert@cs.ucla.edu>, Andrew Morton <akpm@linux-foundation.org>, 
-	Palmer Dabbelt <palmer@rivosinc.com>, linux-api@vger.kernel.org, libc-alpha@sourceware.org, 
-	linux-man@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="gv3msdy22qpr4hpq"
+Content-Disposition: inline
+In-Reply-To: <CAJgzZorzcAP5wNa-UCMyarmjgwVBveg0c0Dj36ByVEacnOHrnw@mail.gmail.com>
+
+
+--gv3msdy22qpr4hpq
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: enh <enh@google.com>
+Cc: Paul Eggert <eggert@cs.ucla.edu>, 
+	Andrew Morton <akpm@linux-foundation.org>, Palmer Dabbelt <palmer@rivosinc.com>, linux-api@vger.kernel.org, 
+	libc-alpha@sourceware.org, linux-man@vger.kernel.org
+Subject: Re: termios constants should be unsigned
+References: <a7kfppfptkzvqys6cblwjudlpoghsycjglw57hxe2ywvruzkbd@e6nqpnxgwfnq>
+ <87af5e8f-0dcb-44a0-94de-757cad7d5ded@cs.ucla.edu>
+ <mdidkojqnhvf5b22vh3c4b6ajmq5miuyr3ole26kx2qkmnbfh3@woy2ghe5eyve>
+ <CAJgzZorNc3gNVbiibz+DibrMLxc2dQoOS5NtL+RQUkSD-GMYaA@mail.gmail.com>
+ <5rfohnr4rs3tkfs7y3f7rth36c67pvcwv4q52onrjohdjtpo7m@stvcsncq7z4f>
+ <CAJgzZorzcAP5wNa-UCMyarmjgwVBveg0c0Dj36ByVEacnOHrnw@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAJgzZorzcAP5wNa-UCMyarmjgwVBveg0c0Dj36ByVEacnOHrnw@mail.gmail.com>
 
-On Wed, Jun 12, 2024 at 3:01=E2=80=AFPM Alejandro Colomar <alx@kernel.org> =
-wrote:
->
-> On Wed, Jun 12, 2024 at 01:47:03PM GMT, enh wrote:
-> > hacked these changes into AOSP, and it did break one bit of existing
-> > code that was already working around the sign differences --- this
-> > warning was enabled but the code had a cast to make the _other_ side
-> > of the comparison signed (rather than make this side of the comparison
-> > unsigned).
->
-> BTW, that seems to be a bogus way to workaround this; the cast should
-> have been on the other side.  I'd say whoever maintains that code should
-> probably fix that to use unsigned types.
+Hi Elliott,
 
-indeed. i've already sent out such a change :-)
+On Wed, Jun 12, 2024 at 05:54:43PM GMT, enh wrote:
+> > BTW, that seems to be a bogus way to workaround this; the cast should
+> > have been on the other side.  I'd say whoever maintains that code should
+> > probably fix that to use unsigned types.
+>=20
+> indeed. i've already sent out such a change :-)
+>=20
+> >  These constants are meant to
+> > be 'tcflag_t', so a cast should be to that type, or the type of the
+> > other side of the comparison, but casting to 'int' just for silencing a
+> > waring seems nuts.
+>=20
+> i suspect the reasoning was one of readability --- keeping the [short]
+> constants legible at the cost of making the expression slightly
+> longer.
+>=20
+> > This makes me wonder if breaking _those_ users could be a good thing...
+>=20
+> like Paul Eggert said somewhere else today --- only if we're finding
+> real bugs. and so far we're not.
+>=20
+> it's like the warn_unused_result argument. a purist would argue that
+> every function should have that annotation, because you should always
+> check for errors, and if you're not already doing so, your code is
+> already broken. whereas a pragmatist would argue that most people are
+> just going to add the "shut up, compiler" cast (or disable the warning
+> entirely) if their already-working code suddenly starts spamming
+> warnings next time they build it.
+>=20
+> while my bar for that might not be as high as my bar for ABI breakage,
+> my source compatibility bar is still pretty high. it would be almost
+> unethical of me to make app developers do random busywork. i have to
+> be pretty confident (as with, say, "you just passed an fd > 1024 to an
+> fd_set function/macro and thus corrupted memory") that their code is
+> _definitely_ wrong. (and even there, that's going to have to be a
+> runtime check!)
 
->  These constants are meant to
-> be 'tcflag_t', so a cast should be to that type, or the type of the
-> other side of the comparison, but casting to 'int' just for silencing a
-> waring seems nuts.
+Yeah, I can agree with that.  I'm that kind of pedantic purist for my
+own code, and it's painful that historic accidents like this one don't
+allow me to be so in my own code.  But I agree that fixing the entire
+world when their code is braindamaged but works is asking too much.
 
-i suspect the reasoning was one of readability --- keeping the [short]
-constants legible at the cost of making the expression slightly
-longer.
+I'll just disable that pedantic warning when I use termbits.  :)
 
-> This makes me wonder if breaking _those_ users could be a good thing...
+Btw, thanks for fixing that brain-damaged cast.  ;-)
 
-like Paul Eggert said somewhere else today --- only if we're finding
-real bugs. and so far we're not.
+Have a lovely night!
+Alex
 
-it's like the warn_unused_result argument. a purist would argue that
-every function should have that annotation, because you should always
-check for errors, and if you're not already doing so, your code is
-already broken. whereas a pragmatist would argue that most people are
-just going to add the "shut up, compiler" cast (or disable the warning
-entirely) if their already-working code suddenly starts spamming
-warnings next time they build it.
+--=20
+<https://www.alejandro-colomar.es/>
 
-while my bar for that might not be as high as my bar for ABI breakage,
-my source compatibility bar is still pretty high. it would be almost
-unethical of me to make app developers do random busywork. i have to
-be pretty confident (as with, say, "you just passed an fd > 1024 to an
-fd_set function/macro and thus corrupted memory") that their code is
-_definitely_ wrong. (and even there, that's going to have to be a
-runtime check!)
+--gv3msdy22qpr4hpq
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> --
-> <https://www.alejandro-colomar.es/>
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmZqH7AACgkQnowa+77/
+2zKZbQ//bnQoFyceZ3KOQPPBeNP+onIPQDyehc/PbqnMveyhtSe+49gozKi+NdPC
+Vs9XW6EayZ1SNTdABXMIX7AySXR4UPtS85Nw97M4vinRTy4iBtICupx465J72Pkx
+QhoGvBoVk9WiuzsDS/eI6zmj/flvwATBjHFF78Kmq2ZP+Q/ij9nb9VGEri0bOX/D
+rdFwhN+fbO9PwUoaC2PakL+PPlatnaXbqrqPu548FZp+gZEJK/t/XHXVMf/kASjp
+S45T+sdhfGKbtbeRcyCfAunn7JwUSNcDUCe8Jj/7Z+TqvDcX/T0+MIB2lckYtnOI
+GcS586u/4VmlSbakez+65hXzVuwfmjrgNLHPwkyk9DjqbfURxoHFQROO0S3XuK5Z
+raX3UAy2d+pxVHSmYpL6vi5skjuzZ8wPWIoXnr8wdB/9SpYD6RaA+Djyj1bnAWVl
+O13EiH5TJDsJ9IrjAaswsyF3g18g4gm1BK4W9UOz3d3ljoBiVCSEmHRP5l6kKbjg
+p3LJp8AJlh2P3ESW3qtkA0Fuq2ot86bN8kYCUktWLc2+D249/DfrdBGTKGHxZNto
+DeRsPvtl5YLnL22sD1GAVgzqI92bNBCalVQRPrjLuASaXpF++kLlyDq5myrEXi3W
+G6liYvJOT3rScsN0wK9BbO5UZCY6OFoiKLc2QwzMeQGbCShAtRw=
+=/0Q+
+-----END PGP SIGNATURE-----
+
+--gv3msdy22qpr4hpq--
 
