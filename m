@@ -1,164 +1,117 @@
-Return-Path: <linux-api+bounces-1733-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1734-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 227ED905E5B
-	for <lists+linux-api@lfdr.de>; Thu, 13 Jun 2024 00:22:51 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E3D49070FB
+	for <lists+linux-api@lfdr.de>; Thu, 13 Jun 2024 14:32:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C052F1F219C9
-	for <lists+linux-api@lfdr.de>; Wed, 12 Jun 2024 22:22:50 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CC821B229F7
+	for <lists+linux-api@lfdr.de>; Thu, 13 Jun 2024 12:32:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8353786277;
-	Wed, 12 Jun 2024 22:22:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9504014265E;
+	Thu, 13 Jun 2024 12:32:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Oy3kd3ru"
+	dkim=pass (2048-bit key) header.d=owlfolio.org header.i=@owlfolio.org header.b="uOKTDpVs";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="fpuC6+rc"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from wfout3-smtp.messagingengine.com (wfout3-smtp.messagingengine.com [64.147.123.146])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A1C71DFF0;
-	Wed, 12 Jun 2024 22:22:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80E2B384;
+	Thu, 13 Jun 2024 12:32:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718230965; cv=none; b=fH355OV3FY/lRvRWNIaM2jKdh6tRacx5tL3mffhSMG4xK4YVFOdpfDn2muT+Ccnz1M2gNMyFkVvGOO+6d08fhr4aKX7cRMLANcpTA+4Vvwfmjlw9Sle+UOV73IQpVL0Qq+NyDUPI1XnQuOOTzqgAlCymz2EBwS1OxHuGKwzRSLw=
+	t=1718281947; cv=none; b=aBr/znKIf67X9ZfLScEYLU1z/uZxtk6xA2865HMpOZLFNuMpalMp0sjmS8E7lv53YSk0fZVLgjYZQt1etKakVJsnKI8FuXIBCtzzNr9fAC9TzWqQERmX601vxcPMjSB31IfM8sB6/cJUAnWSEUC8G7WVMtv5yx0QFagfKEAlmZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718230965; c=relaxed/simple;
-	bh=wora6/GK3AC9I3pp/xG4QqMLwFqaBLUohknys16mO9Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MYiKfQm6jqyKnJKrT0u3LmKr6w8h9+RNb/1iOICmkpPCKijnDeY3xQvn5BSfAK2MYojllD572pRAkzpwRkftDa+FUVt+JAzMVhPak1xIpExU1gUgmOxAolOd7he6IDt/EAG9a/PNDPw4wV+YXTL9WaGFlkSK2+kw0BCj5Hz0xes=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Oy3kd3ru; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F80FC116B1;
-	Wed, 12 Jun 2024 22:22:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718230964;
-	bh=wora6/GK3AC9I3pp/xG4QqMLwFqaBLUohknys16mO9Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Oy3kd3ruXyPZpI4hd5nCd7+5EEOcj0J5TxmCsBNMpGAPpCobIKj1BWo6UytR8gj2G
-	 ujNtR8O9STuTHFZgXg5VcoIrTpsqMIUrym486VvnkymvjnPimgDEE0FirGbTVpmAb3
-	 MY0O22vDR7dp600sy9PPw1bQMWQjFlQUaZQcBmbb+lJDig4EgeLAHTrhkPuQNRlpRi
-	 U6j00lHFc7XW6hrnuQMr8fzjcR/0y7I2g3Ynr5OpiDR21hCtJIMXMx1ZDgN74C2ZMF
-	 3ZU23N6NULQd7zR96NtvbX/svO7AxWjNxbs9uYmr+RpG+n2RKOoPuavRuctBVnTsvo
-	 ncyNY2n3B42KA==
-Date: Thu, 13 Jun 2024 00:22:41 +0200
-From: Alejandro Colomar <alx@kernel.org>
-To: enh <enh@google.com>
-Cc: Paul Eggert <eggert@cs.ucla.edu>, 
-	Andrew Morton <akpm@linux-foundation.org>, Palmer Dabbelt <palmer@rivosinc.com>, linux-api@vger.kernel.org, 
-	libc-alpha@sourceware.org, linux-man@vger.kernel.org
-Subject: Re: termios constants should be unsigned
-Message-ID: <bb5dmeeekrlmrah4f3tvuw7qopsmbzq66vvh5k4vr4pamztuv7@dojfexrz545o>
-References: <a7kfppfptkzvqys6cblwjudlpoghsycjglw57hxe2ywvruzkbd@e6nqpnxgwfnq>
- <87af5e8f-0dcb-44a0-94de-757cad7d5ded@cs.ucla.edu>
- <mdidkojqnhvf5b22vh3c4b6ajmq5miuyr3ole26kx2qkmnbfh3@woy2ghe5eyve>
- <CAJgzZorNc3gNVbiibz+DibrMLxc2dQoOS5NtL+RQUkSD-GMYaA@mail.gmail.com>
- <5rfohnr4rs3tkfs7y3f7rth36c67pvcwv4q52onrjohdjtpo7m@stvcsncq7z4f>
- <CAJgzZorzcAP5wNa-UCMyarmjgwVBveg0c0Dj36ByVEacnOHrnw@mail.gmail.com>
+	s=arc-20240116; t=1718281947; c=relaxed/simple;
+	bh=g1W5nsxXD3g2wzkJjdXONv96BUw83J0qUTyM1mdcxJw=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:
+	 Subject:Content-Type; b=Nbv0FtYhO+VaNc5ThtYLYxPmzFopeCibrzUtMIuzwadkco1ejRvLDIXTYIvXi+hk4uvrkiTlISnQL12LEakLMwj47a0Q2NygdxT81MmB4xkYiV+ElnZSlDIG4IpxtcJB6rkazeMoxQimC07bJzQulz97NBaEOyrkc6ncyd2t+Zo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=owlfolio.org; spf=pass smtp.mailfrom=owlfolio.org; dkim=pass (2048-bit key) header.d=owlfolio.org header.i=@owlfolio.org header.b=uOKTDpVs; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=fpuC6+rc; arc=none smtp.client-ip=64.147.123.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=owlfolio.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=owlfolio.org
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailfout.west.internal (Postfix) with ESMTP id 3EF4D1C000E9;
+	Thu, 13 Jun 2024 08:32:23 -0400 (EDT)
+Received: from imap45 ([10.202.2.95])
+  by compute5.internal (MEProxy); Thu, 13 Jun 2024 08:32:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=owlfolio.org; h=
+	cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1718281942; x=1718368342; bh=g1W5nsxXD3
+	g2wzkJjdXONv96BUw83J0qUTyM1mdcxJw=; b=uOKTDpVslHU1Kew2elddU0GmN/
+	3DmWmzc0IDQiiNly6XCB0ScR2j7OXWzvs/7NkDC9X64h3I1nJsmRzqSoWdpA+8uv
+	4gu0gGCMNB2BXUk/cTPdYZqPrq7FsEXO2JLDqatAwQuFlzBUUa60OkLhjYUfis73
+	3X72VL5eUheUcyxX/F99W8AJnK/2GMGAq2o8rEbPD+DIGhvoDFh5+CnfXeWRkmsx
+	E8/IJ5EHcIf5Pzuurg9WAKoj/esqpG3hvpyB4001lFVYYGeJVJVEL+N+mPZIlYR9
+	hNAXXI1Kj6ecmXhBcAJY/MS57tbM2++bymaYVfHf5OEjVbsuaVQx0kwTLqmQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1718281942; x=1718368342; bh=g1W5nsxXD3g2wzkJjdXONv96BUw8
+	3J0qUTyM1mdcxJw=; b=fpuC6+rcxLVKLPIMC9QH5M6nWX6jbBxVKcTCMCZ27X9J
+	Q9REx4fpmb2kqQW6xlnJ/dn/g/kGp6IgqeX0AclBoO6WsPMfaXChIZvFd7MGTS/o
+	2bCmKZoiLKhYPZ8uSS5H2cR0eqX1i+1yoRZXZj+j53nZFaWSzBGjoXvetoeVQtyv
+	W0rpGcFDhwxFOatA1R92IxyGq43wAWLlTIXoIEK22XY+3AQozk/j9r7lkkqvW12d
+	4JlUnFOFPbhTz3FEagRxS2qos4iZQANbQQ60RAH48KcAVE6L9UBoRk5NO8Is2Y1n
+	IBtzjFLyMlNq80++PfWaYTFM60w9mUixiBL+1Ua2kg==
+X-ME-Sender: <xms:1uZqZtSuKwX0sls1a2OQ5akch0P7HdN3Y9a7uQX0MD8iO5twgZWhFg>
+    <xme:1uZqZmwEEr463537jDHFTYDtfTEWuwfMeFQA6UrAfogPA8W1Y6zbNXQvm35ufP1t1
+    eUnKcaHmMny9cdvc-8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfedujedgheduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdgkrggt
+    khcuhggvihhnsggvrhhgfdcuoeiirggtkhesohiflhhfohhlihhordhorhhgqeenucggtf
+    frrghtthgvrhhnpefhuefhveeuffetfffgjeetgfekkeehfedtfeelgfehffffveehkeel
+    fefgheffudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+    hmpeiirggtkhesohiflhhfohhlihhordhorhhg
+X-ME-Proxy: <xmx:1uZqZi1CldBIXzFvXhtwMHHqzvjQOIR22EAhAjuJGOlhM08FBk_Plw>
+    <xmx:1uZqZlAHYTW0wn26BJSmJfF2sffsbQGX-FD_I2y9lKiV17wymebKlw>
+    <xmx:1uZqZmjB5UAqKuxf1YjQ3PFotd1_-7V5pILuMaUsl64x4rG3AQKcaA>
+    <xmx:1uZqZpplXQrF0XxB95i2IqSEE3cj4K0-p-PkGWGXDoMNTaezmSWrGg>
+    <xmx:1uZqZhVx8gqbInQ6Zv5F0HzcBf4U1K24Kt1jFe8WKW1y_KpKCAa5fvsg>
+Feedback-ID: i876146a2:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 3CF58272007C; Thu, 13 Jun 2024 08:32:22 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-515-g87b2bad5a-fm-20240604.001-g87b2bad5
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="gv3msdy22qpr4hpq"
-Content-Disposition: inline
-In-Reply-To: <CAJgzZorzcAP5wNa-UCMyarmjgwVBveg0c0Dj36ByVEacnOHrnw@mail.gmail.com>
-
-
---gv3msdy22qpr4hpq
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: enh <enh@google.com>
-Cc: Paul Eggert <eggert@cs.ucla.edu>, 
-	Andrew Morton <akpm@linux-foundation.org>, Palmer Dabbelt <palmer@rivosinc.com>, linux-api@vger.kernel.org, 
-	libc-alpha@sourceware.org, linux-man@vger.kernel.org
-Subject: Re: termios constants should be unsigned
+Message-Id: <f6ee2bd3-c1b7-4769-a313-b62f42c450ca@app.fastmail.com>
+In-Reply-To: <87af5e8f-0dcb-44a0-94de-757cad7d5ded@cs.ucla.edu>
 References: <a7kfppfptkzvqys6cblwjudlpoghsycjglw57hxe2ywvruzkbd@e6nqpnxgwfnq>
  <87af5e8f-0dcb-44a0-94de-757cad7d5ded@cs.ucla.edu>
- <mdidkojqnhvf5b22vh3c4b6ajmq5miuyr3ole26kx2qkmnbfh3@woy2ghe5eyve>
- <CAJgzZorNc3gNVbiibz+DibrMLxc2dQoOS5NtL+RQUkSD-GMYaA@mail.gmail.com>
- <5rfohnr4rs3tkfs7y3f7rth36c67pvcwv4q52onrjohdjtpo7m@stvcsncq7z4f>
- <CAJgzZorzcAP5wNa-UCMyarmjgwVBveg0c0Dj36ByVEacnOHrnw@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAJgzZorzcAP5wNa-UCMyarmjgwVBveg0c0Dj36ByVEacnOHrnw@mail.gmail.com>
+Date: Thu, 13 Jun 2024 08:32:01 -0400
+From: "Zack Weinberg" <zack@owlfolio.org>
+To: "Paul Eggert" <eggert@cs.ucla.edu>, "Alejandro Colomar" <alx@kernel.org>,
+ "Andrew Morton" <akpm@linux-foundation.org>,
+ "Palmer Dabbelt" <palmer@rivosinc.com>, linux-api@vger.kernel.org,
+ "GNU libc development" <libc-alpha@sourceware.org>,
+ 'linux-man' <linux-man@vger.kernel.org>
+Subject: Re: termios constants should be unsigned
+Content-Type: text/plain
 
-Hi Elliott,
+On Wed, Jun 12, 2024, at 10:55 AM, Paul Eggert wrote:
+> A lot of this stuff is pedanticism that dates back to the bad old days
+> when the C standard allowed ones' complement and signed magnitude
+> representations of signed integers. Although it can be amusing to
+> worry about that possibility (I know I've done it) it's never been a
+> practical worry, and even the motivation of pedanticism is going away
+> now that C23 requires two's complement.
 
-On Wed, Jun 12, 2024 at 05:54:43PM GMT, enh wrote:
-> > BTW, that seems to be a bogus way to workaround this; the cast should
-> > have been on the other side.  I'd say whoever maintains that code should
-> > probably fix that to use unsigned types.
->=20
-> indeed. i've already sent out such a change :-)
->=20
-> >  These constants are meant to
-> > be 'tcflag_t', so a cast should be to that type, or the type of the
-> > other side of the comparison, but casting to 'int' just for silencing a
-> > waring seems nuts.
->=20
-> i suspect the reasoning was one of readability --- keeping the [short]
-> constants legible at the cost of making the expression slightly
-> longer.
->=20
-> > This makes me wonder if breaking _those_ users could be a good thing...
->=20
-> like Paul Eggert said somewhere else today --- only if we're finding
-> real bugs. and so far we're not.
->=20
-> it's like the warn_unused_result argument. a purist would argue that
-> every function should have that annotation, because you should always
-> check for errors, and if you're not already doing so, your code is
-> already broken. whereas a pragmatist would argue that most people are
-> just going to add the "shut up, compiler" cast (or disable the warning
-> entirely) if their already-working code suddenly starts spamming
-> warnings next time they build it.
->=20
-> while my bar for that might not be as high as my bar for ABI breakage,
-> my source compatibility bar is still pretty high. it would be almost
-> unethical of me to make app developers do random busywork. i have to
-> be pretty confident (as with, say, "you just passed an fd > 1024 to an
-> fd_set function/macro and thus corrupted memory") that their code is
-> _definitely_ wrong. (and even there, that's going to have to be a
-> runtime check!)
+Unless C23 eliminated *all* the cases where an operation on unsigned
+integers is well-defined but the same operation on signed integers is
+undefined, and last I checked it had not, there is still a need for
+caution around conversions that change signedness.
 
-Yeah, I can agree with that.  I'm that kind of pedantic purist for my
-own code, and it's painful that historic accidents like this one don't
-allow me to be so in my own code.  But I agree that fixing the entire
-world when their code is braindamaged but works is asking too much.
-
-I'll just disable that pedantic warning when I use termbits.  :)
-
-Btw, thanks for fixing that brain-damaged cast.  ;-)
-
-Have a lovely night!
-Alex
-
---=20
-<https://www.alejandro-colomar.es/>
-
---gv3msdy22qpr4hpq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmZqH7AACgkQnowa+77/
-2zKZbQ//bnQoFyceZ3KOQPPBeNP+onIPQDyehc/PbqnMveyhtSe+49gozKi+NdPC
-Vs9XW6EayZ1SNTdABXMIX7AySXR4UPtS85Nw97M4vinRTy4iBtICupx465J72Pkx
-QhoGvBoVk9WiuzsDS/eI6zmj/flvwATBjHFF78Kmq2ZP+Q/ij9nb9VGEri0bOX/D
-rdFwhN+fbO9PwUoaC2PakL+PPlatnaXbqrqPu548FZp+gZEJK/t/XHXVMf/kASjp
-S45T+sdhfGKbtbeRcyCfAunn7JwUSNcDUCe8Jj/7Z+TqvDcX/T0+MIB2lckYtnOI
-GcS586u/4VmlSbakez+65hXzVuwfmjrgNLHPwkyk9DjqbfURxoHFQROO0S3XuK5Z
-raX3UAy2d+pxVHSmYpL6vi5skjuzZ8wPWIoXnr8wdB/9SpYD6RaA+Djyj1bnAWVl
-O13EiH5TJDsJ9IrjAaswsyF3g18g4gm1BK4W9UOz3d3ljoBiVCSEmHRP5l6kKbjg
-p3LJp8AJlh2P3ESW3qtkA0Fuq2ot86bN8kYCUktWLc2+D249/DfrdBGTKGHxZNto
-DeRsPvtl5YLnL22sD1GAVgzqI92bNBCalVQRPrjLuASaXpF++kLlyDq5myrEXi3W
-G6liYvJOT3rScsN0wK9BbO5UZCY6OFoiKLc2QwzMeQGbCShAtRw=
-=/0Q+
------END PGP SIGNATURE-----
-
---gv3msdy22qpr4hpq--
+zw
 
