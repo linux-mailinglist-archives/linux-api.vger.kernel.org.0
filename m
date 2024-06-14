@@ -1,51 +1,51 @@
-Return-Path: <linux-api+bounces-1741-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1742-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CB959092BF
-	for <lists+linux-api@lfdr.de>; Fri, 14 Jun 2024 21:07:52 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11F909092C2
+	for <lists+linux-api@lfdr.de>; Fri, 14 Jun 2024 21:08:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F14FF1F2265D
-	for <lists+linux-api@lfdr.de>; Fri, 14 Jun 2024 19:07:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 26C191C20C73
+	for <lists+linux-api@lfdr.de>; Fri, 14 Jun 2024 19:08:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEFFA1A3BA1;
-	Fri, 14 Jun 2024 19:07:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D69E91A2FC0;
+	Fri, 14 Jun 2024 19:07:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="YFFHNOJq"
+	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="Gab0yCyn"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 784D31A0AF0;
-	Fri, 14 Jun 2024 19:07:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A97B51A0AF0;
+	Fri, 14 Jun 2024 19:07:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718392043; cv=none; b=V6jdwoxt22y2V8uX48/egi2/CvQ2VRU44kpXYkPmmvvY3wZrAIIf2olAA1hgzEYADXwQCo3QPTvsX5gboCmY7gXqo2YptSdbB83MNvOM3/72fS004t5eX44hYKsixQLAyvtFJtJltzY6Y6tFaFEAEi+kuS9fgEMcSD6SePXWHwE=
+	t=1718392049; cv=none; b=HXzXTdDuF+ZhcnKfaEV/sVq9Js/20A1HnPvvoyO10xFiJ3r7vSbCqdaA9xuvr71BTM2w4GEoq5Eq64FfP03kqFgEZ/Ipfrhrb0CUXObkrY1UXAxVwmbEFaIm9rhrCoTTpfHp4xHNJrddz7Gej1S2ZQup/5xPtg/9XkLchQjIxic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718392043; c=relaxed/simple;
-	bh=cjKUcU9ivYcNiXaNsoQ/AZnBfHEatK/l35HVpXvfi7I=;
+	s=arc-20240116; t=1718392049; c=relaxed/simple;
+	bh=+VwfXW4VMlkJBydXwuXQw0Kma0zfq2BtR7bH+hwjmPQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NhdW9ZkelBUPgMtwYCNfJD8NCXFOUbH10Uxoq+6VLdtA1Ur9zbIzDhOxzkFeOZDUX8BElxZKxt2fZBLigldoqoIWEkcnEvp4hav/aAkujdBCT1Lumb6CT6g/mOodfCJMom9ZYwaeBhL5+k31pm8SPPxAke3VGCcryGhitxPKhiE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b=YFFHNOJq; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6FB1C4AF1C;
-	Fri, 14 Jun 2024 19:07:21 +0000 (UTC)
+	 MIME-Version; b=Y/peZuFiL0litUtLujBzRntLz4fSzKX+t1paXvuEJQ4R2JyYvjhkHhLNmzxiNdoKTlR2O6KoJawnyiL+YUti8MUuy4k7YXl9RXX3IiP/tG1s1zmnxwIwH8CfghV2RODMcIF4fj+Sc75XgHULGTaDe6qGQH6MJfA8JBgO5y8uIko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b=Gab0yCyn; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41436C4AF4D;
+	Fri, 14 Jun 2024 19:07:28 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
-	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="YFFHNOJq"
+	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="Gab0yCyn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
-	t=1718392041;
+	t=1718392047;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=LS9WUwEbDhWKdjSB+8gHfqW7BcUaULtdi2b4TdH8hlE=;
-	b=YFFHNOJqzHuAyseY93m67stQfTD6rqlgx2pktPSnr3abi9nx/4YcptM894YhaenPEkB1HT
-	FHypDM6Mh6lw639lcgb3C3DeG/+cNi7koSJNx/FE8fqDFSZ30zSGP4X1/g3MMFJaqEOn07
-	AS6C4RciazwOtU2u5rqkyen7Fd0KqEs=
+	bh=/zOZOY+4oMO/AcAO2q91em/I4IHX2env/b0ApBbdD+Q=;
+	b=Gab0yCynC0Jy+Qzv9HejX3Lfwy6L9DsYttnFUXjAAPXKxgULSFMj7fOudVoAX4kPJO80Mq
+	mijQsf46U4txx6hJl8u/69tj1UqLPmy8I4Ud6PaVAPZMAqsANdUc+SSl7UXabuz5qKgq1b
+	jU+5p+k4z3bDlPpifZjYO+QQ1z6dYIo=
 Received: 
-	by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 9aeed0e8 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Fri, 14 Jun 2024 19:07:20 +0000 (UTC)
+	by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 02cd6e3e (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Fri, 14 Jun 2024 19:07:27 +0000 (UTC)
 From: "Jason A. Donenfeld" <Jason@zx2c4.com>
 To: linux-kernel@vger.kernel.org,
 	patches@lists.linux.dev,
@@ -61,10 +61,11 @@ Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
 	Arnd Bergmann <arnd@arndb.de>,
 	Jann Horn <jannh@google.com>,
 	Christian Brauner <brauner@kernel.org>,
-	David Hildenbrand <dhildenb@redhat.com>
-Subject: [PATCH v17 2/5] random: add vgetrandom_alloc() syscall
-Date: Fri, 14 Jun 2024 21:06:37 +0200
-Message-ID: <20240614190646.2081057-3-Jason@zx2c4.com>
+	David Hildenbrand <dhildenb@redhat.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: [PATCH v17 3/5] arch: allocate vgetrandom_alloc() syscall number
+Date: Fri, 14 Jun 2024 21:06:38 +0200
+Message-ID: <20240614190646.2081057-4-Jason@zx2c4.com>
 In-Reply-To: <20240614190646.2081057-1-Jason@zx2c4.com>
 References: <20240614190646.2081057-1-Jason@zx2c4.com>
 Precedence: bulk
@@ -75,363 +76,260 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The vDSO getrandom() works over an opaque per-thread state of an
-unexported size, which must be marked VM_WIPEONFORK, VM_DONTDUMP,
-VM_NORESERVE, and VM_DROPPABLE for proper operation. Over time, the
-nuances of these allocations may change or grow or even differ based on
-architectural features.
+Add vgetrandom_alloc() as syscall 463 (or 573 on alpha) by adding it to
+all of the various syscall.tbl and unistd.h files.
 
-The syscall has the signature:
-
-  void *vgetrandom_alloc(unsigned int *num, unsigned int *size_per_each,
-                         unsigned long addr, unsigned int flags);
-
-This takes a hinted number of opaque states in `num`, and returns a
-pointer to an array of opaque states, the number actually allocated back
-in `num`, and the size in bytes of each one in `size_per_each`, enabling
-a libc to slice up the returned array into a state per each thread,
-while ensuring that no single state straddles a page boundary. (The
-`flags` and `addr` arguments, as well as the `*size_per_each` input
-value, are reserved for the future and are forced to be zero zero for
-now.)
-
-Libc is expected to allocate a chunk of these on first use, and then
-dole them out to threads as they're created, allocating more when
-needed. The returned address of the first state may be passed to
-munmap(2) with a length of `DIV_ROUND_UP(num, PAGE_SIZE / size_per_each)
-* PAGE_SIZE`, in order to deallocate the memory.
-
-We very intentionally do *not* leave state allocation for vDSO
-getrandom() up to userspace itself, but rather provide this new syscall
-for such allocations. vDSO getrandom() must not store its state in just
-any old memory address, but rather just ones that the kernel specially
-allocates for it, leaving the particularities of those allocations up to
-the kernel.
-
-The allocation of states is intended to be integrated into libc's thread
-management. As an illustrative example, the following code might be used
-to do the same outside of libc. Though, vgetrandom_alloc() is not
-expected to be exposed outside of libc, and the pthread usage here is
-expected to be elided into libc internals. This allocation scheme is
-very naive and does not shrink; other implementations may choose to be
-more complex.
-
-  static void *vgetrandom_alloc(unsigned int *num, unsigned int *size_per_each)
-  {
-    *size_per_each = 0; /* Must be zero on input. */
-    return (void *)syscall(__NR_vgetrandom_alloc, &num, &size_per_each,
-                           0 /* reserved @addr */, 0 /* reserved @flags */);
-  }
-
-  static struct {
-    pthread_mutex_t lock;
-    void **states;
-    size_t len, cap;
-  } grnd_allocator = {
-    .lock = PTHREAD_MUTEX_INITIALIZER
-  };
-
-  static void *vgetrandom_get_state(void)
-  {
-    void *state = NULL;
-
-    pthread_mutex_lock(&grnd_allocator.lock);
-    if (!grnd_allocator.len) {
-      size_t new_cap;
-      size_t page_size = getpagesize();
-      unsigned int num = sysconf(_SC_NPROCESSORS_ONLN); /* Could be arbitrary, just a hint. */
-      unsigned int size_per_each;
-      void *new_block = vgetrandom_alloc(&num, &size_per_each);
-      void *new_states;
-
-      if (new_block == MAP_FAILED)
-        goto out;
-      new_cap = grnd_allocator.cap + num;
-      new_states = reallocarray(grnd_allocator.states, new_cap, sizeof(*grnd_allocator.states));
-      if (!new_states) {
-        munmap(new_block, DIV_ROUND_UP(num, page_size / size_per_each) * page_size);
-        goto out;
-      }
-      grnd_allocator.cap = new_cap;
-      grnd_allocator.states = new_states;
-
-      for (size_t i = 0; i < num; ++i) {
-        grnd_allocator.states[i] = new_block;
-        if (((uintptr_t)new_block & (page_size - 1)) + size_per_each > page_size)
-          new_block = (void *)(((uintptr_t)new_block + page_size) & (page_size - 1));
-        else
-          new_block += size_per_each;
-      }
-      grnd_allocator.len = num;
-    }
-    state = grnd_allocator.states[--grnd_allocator.len];
-
-  out:
-    pthread_mutex_unlock(&grnd_allocator.lock);
-    return state;
-  }
-
-  static void vgetrandom_put_state(void *state)
-  {
-    if (!state)
-      return;
-    pthread_mutex_lock(&grnd_allocator.lock);
-    grnd_allocator.states[grnd_allocator.len++] = state;
-    pthread_mutex_unlock(&grnd_allocator.lock);
-  }
-
+Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
 Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
 ---
- MAINTAINERS              |   1 +
- drivers/char/random.c    | 133 +++++++++++++++++++++++++++++++++++++++
- include/linux/syscalls.h |   3 +
- include/vdso/getrandom.h |  16 +++++
- kernel/sys_ni.c          |   3 +
- lib/vdso/Kconfig         |   6 ++
- 6 files changed, 162 insertions(+)
- create mode 100644 include/vdso/getrandom.h
+ arch/alpha/kernel/syscalls/syscall.tbl              | 1 +
+ arch/arm/tools/syscall.tbl                          | 1 +
+ arch/arm64/include/asm/unistd32.h                   | 2 ++
+ arch/m68k/kernel/syscalls/syscall.tbl               | 1 +
+ arch/microblaze/kernel/syscalls/syscall.tbl         | 1 +
+ arch/mips/kernel/syscalls/syscall_n32.tbl           | 1 +
+ arch/mips/kernel/syscalls/syscall_n64.tbl           | 1 +
+ arch/mips/kernel/syscalls/syscall_o32.tbl           | 1 +
+ arch/parisc/kernel/syscalls/syscall.tbl             | 1 +
+ arch/powerpc/kernel/syscalls/syscall.tbl            | 1 +
+ arch/s390/kernel/syscalls/syscall.tbl               | 1 +
+ arch/sh/kernel/syscalls/syscall.tbl                 | 1 +
+ arch/sparc/kernel/syscalls/syscall.tbl              | 1 +
+ arch/x86/entry/syscalls/syscall_32.tbl              | 1 +
+ arch/x86/entry/syscalls/syscall_64.tbl              | 1 +
+ arch/xtensa/kernel/syscalls/syscall.tbl             | 1 +
+ include/uapi/asm-generic/unistd.h                   | 5 ++++-
+ tools/include/uapi/asm-generic/unistd.h             | 5 ++++-
+ tools/perf/arch/mips/entry/syscalls/syscall_n64.tbl | 1 +
+ tools/perf/arch/powerpc/entry/syscalls/syscall.tbl  | 1 +
+ tools/perf/arch/s390/entry/syscalls/syscall.tbl     | 1 +
+ tools/perf/arch/x86/entry/syscalls/syscall_64.tbl   | 1 +
+ 22 files changed, 29 insertions(+), 2 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index d6c90161c7bf..365de271415c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -18749,6 +18749,7 @@ T:	git https://git.kernel.org/pub/scm/linux/kernel/git/crng/random.git
- F:	Documentation/devicetree/bindings/rng/microsoft,vmgenid.yaml
- F:	drivers/char/random.c
- F:	drivers/virt/vmgenid.c
-+F:	include/vdso/getrandom.h
+diff --git a/arch/alpha/kernel/syscalls/syscall.tbl b/arch/alpha/kernel/syscalls/syscall.tbl
+index 74720667fe09..8c38193bf86a 100644
+--- a/arch/alpha/kernel/syscalls/syscall.tbl
++++ b/arch/alpha/kernel/syscalls/syscall.tbl
+@@ -502,3 +502,4 @@
+ 570	common	lsm_set_self_attr		sys_lsm_set_self_attr
+ 571	common	lsm_list_modules		sys_lsm_list_modules
+ 572	common  mseal				sys_mseal
++573	common	vgetrandom_alloc		sys_vgetrandom_alloc
+diff --git a/arch/arm/tools/syscall.tbl b/arch/arm/tools/syscall.tbl
+index 2ed7d229c8f9..118e41178905 100644
+--- a/arch/arm/tools/syscall.tbl
++++ b/arch/arm/tools/syscall.tbl
+@@ -476,3 +476,4 @@
+ 460	common	lsm_set_self_attr		sys_lsm_set_self_attr
+ 461	common	lsm_list_modules		sys_lsm_list_modules
+ 462	common	mseal				sys_mseal
++463	common	vgetrandom_alloc		sys_vgetrandom_alloc
+diff --git a/arch/arm64/include/asm/unistd32.h b/arch/arm64/include/asm/unistd32.h
+index 266b96acc014..e84fa30ccd30 100644
+--- a/arch/arm64/include/asm/unistd32.h
++++ b/arch/arm64/include/asm/unistd32.h
+@@ -931,6 +931,8 @@ __SYSCALL(__NR_lsm_set_self_attr, sys_lsm_set_self_attr)
+ __SYSCALL(__NR_lsm_list_modules, sys_lsm_list_modules)
+ #define __NR_mseal 462
+ __SYSCALL(__NR_mseal, sys_mseal)
++#define __NR_vgetrandom_alloc 463
++__SYSCALL(__NR_vgetrandom_alloc, sys_vgetrandom_alloc)
  
- RAPIDIO SUBSYSTEM
- M:	Matt Porter <mporter@kernel.crashing.org>
-diff --git a/drivers/char/random.c b/drivers/char/random.c
-index 2597cb43f438..2dd7329e76a4 100644
---- a/drivers/char/random.c
-+++ b/drivers/char/random.c
-@@ -8,6 +8,7 @@
-  * into roughly six sections, each with a section header:
-  *
-  *   - Initialization and readiness waiting.
-+ *   - vDSO support helpers.
-  *   - Fast key erasure RNG, the "crng".
-  *   - Entropy accumulation and extraction routines.
-  *   - Entropy collection routines.
-@@ -39,6 +40,7 @@
- #include <linux/blkdev.h>
- #include <linux/interrupt.h>
- #include <linux/mm.h>
-+#include <linux/mman.h>
- #include <linux/nodemask.h>
- #include <linux/spinlock.h>
- #include <linux/kthread.h>
-@@ -56,6 +58,9 @@
- #include <linux/sched/isolation.h>
- #include <crypto/chacha.h>
- #include <crypto/blake2s.h>
-+#ifdef CONFIG_VDSO_GETRANDOM
-+#include <vdso/getrandom.h>
-+#endif
- #include <asm/archrandom.h>
- #include <asm/processor.h>
- #include <asm/irq.h>
-@@ -169,6 +174,134 @@ int __cold execute_with_initialized_rng(struct notifier_block *nb)
- 				__func__, (void *)_RET_IP_, crng_init)
- 
- 
-+
-+/********************************************************************
-+ *
-+ * vDSO support helpers.
-+ *
-+ * The actual vDSO function is defined over in lib/vdso/getrandom.c,
-+ * but this section contains the kernel-mode helpers to support that.
-+ *
-+ ********************************************************************/
-+
-+#ifdef CONFIG_VDSO_GETRANDOM
-+/**
-+ * sys_vgetrandom_alloc - Allocate opaque states for use with vDSO getrandom().
-+ *
-+ * @num:	   On input, a pointer to a suggested hint of how many states to
-+ * 		   allocate, and on return the number of states actually allocated.
-+ *
-+ * @size_per_each: On input, must be zero. On return, the size of each state allocated,
-+ * 		   so that the caller can split up the returned allocation into
-+ * 		   individual states.
-+ *
-+ * @addr:	   Reserved, must be zero.
-+ *
-+ * @flags:	   Reserved, must be zero.
-+ *
-+ * The getrandom() vDSO function in userspace requires an opaque state, which
-+ * this function allocates by mapping a certain number of special pages into
-+ * the calling process. It takes a hint as to the number of opaque states
-+ * desired, and provides the caller with the number of opaque states actually
-+ * allocated, the size of each one in bytes, and the address of the first
-+ * state, which may be split up into @num states of @size_per_each bytes each,
-+ * by adding @size_per_each to the returned first state @num times, while
-+ * ensuring that no single state straddles a page boundary.
-+ *
-+ * Returns the address of the first state in the allocation on success, or a
-+ * negative error value on failure.
-+ *
-+ * The returned address of the first state may be passed to munmap(2) with a
-+ * length of `DIV_ROUND_UP(num, PAGE_SIZE / size_per_each) * PAGE_SIZE`, in
-+ * order to deallocate the memory, after which it is invalid to pass it to vDSO
-+ * getrandom().
-+ *
-+ * States allocated by this function must not be dereferenced, written, read,
-+ * or otherwise manipulated. The *only* supported operations are:
-+ *   - Splitting up the states in intervals of @size_per_each, no more than
-+ *     @num times from the first state, while ensuring that no single state
-+ *     straddles a page boundary.
-+ *   - Passing a state to the getrandom() vDSO function's @opaque_state
-+ *     parameter, but not passing the same state at the same time to two such
-+ *     calls.
-+ *   - Passing the first state and the total length to munmap(2), as described
-+ *     above.
-+ * All other uses are undefined behavior, which is subject to change or removal.
-+ */
-+SYSCALL_DEFINE4(vgetrandom_alloc, unsigned int __user *, num,
-+		unsigned int __user *, size_per_each, unsigned long, addr,
-+		unsigned int, flags)
-+{
-+	size_t state_size, alloc_size, num_states;
-+	unsigned long pages_addr, populate;
-+	unsigned int num_hint;
-+	vm_flags_t vm_flags;
-+	int ret;
-+
-+	/*
-+	 * @flags and @addr are currently unused, so in order to reserve them
-+	 * for the future, force them to be set to zero by current callers.
-+	 */
-+	if (flags || addr)
-+		return -EINVAL;
-+
-+	/*
-+	 * Also enforce that *size_per_each is zero on input, in case this becomes
-+	 * useful later on.
-+	 */
-+	if (get_user(num_hint, size_per_each))
-+		return -EFAULT;
-+	if (num_hint)
-+		return -EINVAL;
-+
-+	if (get_user(num_hint, num))
-+		return -EFAULT;
-+
-+	state_size = sizeof(struct vgetrandom_state);
-+	num_states = clamp_t(size_t, num_hint, 1, (SIZE_MAX & PAGE_MASK) / state_size);
-+	alloc_size = PAGE_ALIGN(num_states * state_size);
-+	/*
-+	 * States cannot straddle page boundaries, so calculate the number of
-+	 * states that can fit inside of a page without being split, and then
-+	 * multiply that out by the number of pages allocated.
-+	 */
-+	num_states = (PAGE_SIZE / state_size) * (alloc_size / PAGE_SIZE);
-+
-+	vm_flags =
-+		/*
-+		 * Don't allow state to be written to swap, to preserve forward secrecy.
-+		 * But also don't mlock it or pre-reserve it, and allow it to
-+		 * be discarded under memory pressure. If no memory is available, returns
-+		 * zeros rather than segfaulting.
-+		 */
-+		VM_DROPPABLE | VM_NORESERVE |
-+
-+		/* Don't allow the state to survive forks, to prevent random number re-use. */
-+		VM_WIPEONFORK |
-+
-+		/* Don't write random state into coredumps. */
-+		VM_DONTDUMP;
-+
-+	if (mmap_write_lock_killable(current->mm))
-+		return -EINTR;
-+	pages_addr = do_mmap(NULL, 0, alloc_size, PROT_READ | PROT_WRITE,
-+			     MAP_PRIVATE | MAP_ANONYMOUS, vm_flags, 0, &populate, NULL);
-+	mmap_write_unlock(current->mm);
-+	if (IS_ERR_VALUE(pages_addr))
-+		return pages_addr;
-+
-+	ret = -EFAULT;
-+	if (put_user(num_states, num) || put_user(state_size, size_per_each))
-+		goto err_unmap;
-+
-+	return pages_addr;
-+
-+err_unmap:
-+	vm_munmap(pages_addr, alloc_size);
-+	return ret;
-+}
-+#endif
-+
- /*********************************************************************
-  *
-  * Fast key erasure RNG, the "crng".
-diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
-index 9104952d323d..56368ea4f510 100644
---- a/include/linux/syscalls.h
-+++ b/include/linux/syscalls.h
-@@ -906,6 +906,9 @@ asmlinkage long sys_seccomp(unsigned int op, unsigned int flags,
- 			    void __user *uargs);
- asmlinkage long sys_getrandom(char __user *buf, size_t count,
- 			      unsigned int flags);
-+asmlinkage long sys_vgetrandom_alloc(unsigned int __user *num,
-+				     unsigned int __user *size_per_each,
-+				     unsigned long addr, unsigned int flags);
- asmlinkage long sys_memfd_create(const char __user *uname_ptr, unsigned int flags);
- asmlinkage long sys_bpf(int cmd, union bpf_attr *attr, unsigned int size);
- asmlinkage long sys_execveat(int dfd, const char __user *filename,
-diff --git a/include/vdso/getrandom.h b/include/vdso/getrandom.h
-new file mode 100644
-index 000000000000..e3ceb1976386
---- /dev/null
-+++ b/include/vdso/getrandom.h
-@@ -0,0 +1,16 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright (C) 2022 Jason A. Donenfeld <Jason@zx2c4.com>. All Rights Reserved.
-+ */
-+
-+#ifndef _VDSO_GETRANDOM_H
-+#define _VDSO_GETRANDOM_H
-+
-+/**
-+ * struct vgetrandom_state - State used by vDSO getrandom() and allocated by vgetrandom_alloc().
-+ *
-+ * Currently empty, as the vDSO getrandom() function has not yet been implemented.
-+ */
-+struct vgetrandom_state { int placeholder; };
-+
-+#endif /* _VDSO_GETRANDOM_H */
-diff --git a/kernel/sys_ni.c b/kernel/sys_ni.c
-index d7eee421d4bc..6b17fadb0f59 100644
---- a/kernel/sys_ni.c
-+++ b/kernel/sys_ni.c
-@@ -272,6 +272,9 @@ COND_SYSCALL(pkey_free);
- /* memfd_secret */
- COND_SYSCALL(memfd_secret);
- 
-+/* random */
-+COND_SYSCALL(vgetrandom_alloc);
-+
  /*
-  * Architecture specific weak syscall entries.
-  */
-diff --git a/lib/vdso/Kconfig b/lib/vdso/Kconfig
-index c46c2300517c..99661b731834 100644
---- a/lib/vdso/Kconfig
-+++ b/lib/vdso/Kconfig
-@@ -38,3 +38,9 @@ config GENERIC_VDSO_OVERFLOW_PROTECT
- 	  in the hotpath.
+  * Please add new compat syscalls above this comment and update
+diff --git a/arch/m68k/kernel/syscalls/syscall.tbl b/arch/m68k/kernel/syscalls/syscall.tbl
+index 22a3cbd4c602..bd919d1a8231 100644
+--- a/arch/m68k/kernel/syscalls/syscall.tbl
++++ b/arch/m68k/kernel/syscalls/syscall.tbl
+@@ -462,3 +462,4 @@
+ 460	common	lsm_set_self_attr		sys_lsm_set_self_attr
+ 461	common	lsm_list_modules		sys_lsm_list_modules
+ 462	common	mseal				sys_mseal
++463	common	vgetrandom_alloc		sys_vgetrandom_alloc
+diff --git a/arch/microblaze/kernel/syscalls/syscall.tbl b/arch/microblaze/kernel/syscalls/syscall.tbl
+index 2b81a6bd78b2..d3d3c017a5bb 100644
+--- a/arch/microblaze/kernel/syscalls/syscall.tbl
++++ b/arch/microblaze/kernel/syscalls/syscall.tbl
+@@ -468,3 +468,4 @@
+ 460	common	lsm_set_self_attr		sys_lsm_set_self_attr
+ 461	common	lsm_list_modules		sys_lsm_list_modules
+ 462	common	mseal				sys_mseal
++463	common	vgetrandom_alloc		sys_vgetrandom_alloc
+diff --git a/arch/mips/kernel/syscalls/syscall_n32.tbl b/arch/mips/kernel/syscalls/syscall_n32.tbl
+index cc869f5d5693..9b1bda3d8383 100644
+--- a/arch/mips/kernel/syscalls/syscall_n32.tbl
++++ b/arch/mips/kernel/syscalls/syscall_n32.tbl
+@@ -401,3 +401,4 @@
+ 460	n32	lsm_set_self_attr		sys_lsm_set_self_attr
+ 461	n32	lsm_list_modules		sys_lsm_list_modules
+ 462	n32	mseal				sys_mseal
++463	n32	vgetrandom_alloc		sys_vgetrandom_alloc
+diff --git a/arch/mips/kernel/syscalls/syscall_n64.tbl b/arch/mips/kernel/syscalls/syscall_n64.tbl
+index 1464c6be6eb3..33710f855c46 100644
+--- a/arch/mips/kernel/syscalls/syscall_n64.tbl
++++ b/arch/mips/kernel/syscalls/syscall_n64.tbl
+@@ -377,3 +377,4 @@
+ 460	n64	lsm_set_self_attr		sys_lsm_set_self_attr
+ 461	n64	lsm_list_modules		sys_lsm_list_modules
+ 462	n64	mseal				sys_mseal
++463	n64	vgetrandom_alloc		sys_vgetrandom_alloc
+diff --git a/arch/mips/kernel/syscalls/syscall_o32.tbl b/arch/mips/kernel/syscalls/syscall_o32.tbl
+index 008ebe60263e..97698956cdce 100644
+--- a/arch/mips/kernel/syscalls/syscall_o32.tbl
++++ b/arch/mips/kernel/syscalls/syscall_o32.tbl
+@@ -450,3 +450,4 @@
+ 460	o32	lsm_set_self_attr		sys_lsm_set_self_attr
+ 461	o32	lsm_list_modules		sys_lsm_list_modules
+ 462	o32	mseal				sys_mseal
++463	o32	vgetrandom_alloc		sys_vgetrandom_alloc
+diff --git a/arch/parisc/kernel/syscalls/syscall.tbl b/arch/parisc/kernel/syscalls/syscall.tbl
+index b13c21373974..5fbbb25699b9 100644
+--- a/arch/parisc/kernel/syscalls/syscall.tbl
++++ b/arch/parisc/kernel/syscalls/syscall.tbl
+@@ -461,3 +461,4 @@
+ 460	common	lsm_set_self_attr		sys_lsm_set_self_attr
+ 461	common	lsm_list_modules		sys_lsm_list_modules
+ 462	common	mseal				sys_mseal
++463	common	vgetrandom_alloc		sys_vgetrandom_alloc
+diff --git a/arch/powerpc/kernel/syscalls/syscall.tbl b/arch/powerpc/kernel/syscalls/syscall.tbl
+index 3656f1ca7a21..b1c3ae68014c 100644
+--- a/arch/powerpc/kernel/syscalls/syscall.tbl
++++ b/arch/powerpc/kernel/syscalls/syscall.tbl
+@@ -549,3 +549,4 @@
+ 460	common	lsm_set_self_attr		sys_lsm_set_self_attr
+ 461	common	lsm_list_modules		sys_lsm_list_modules
+ 462	common	mseal				sys_mseal
++463	common	vgetrandom_alloc		sys_vgetrandom_alloc
+diff --git a/arch/s390/kernel/syscalls/syscall.tbl b/arch/s390/kernel/syscalls/syscall.tbl
+index bd0fee24ad10..1188429316c1 100644
+--- a/arch/s390/kernel/syscalls/syscall.tbl
++++ b/arch/s390/kernel/syscalls/syscall.tbl
+@@ -465,3 +465,4 @@
+ 460  common	lsm_set_self_attr	sys_lsm_set_self_attr		sys_lsm_set_self_attr
+ 461  common	lsm_list_modules	sys_lsm_list_modules		sys_lsm_list_modules
+ 462  common	mseal			sys_mseal			sys_mseal
++463  common	vgetrandom_alloc	sys_vgetrandom_alloc		sys_vgetrandom_alloc
+diff --git a/arch/sh/kernel/syscalls/syscall.tbl b/arch/sh/kernel/syscalls/syscall.tbl
+index bbf83a2db986..06cec74502f7 100644
+--- a/arch/sh/kernel/syscalls/syscall.tbl
++++ b/arch/sh/kernel/syscalls/syscall.tbl
+@@ -465,3 +465,4 @@
+ 460	common	lsm_set_self_attr		sys_lsm_set_self_attr
+ 461	common	lsm_list_modules		sys_lsm_list_modules
+ 462	common	mseal				sys_mseal
++463	common	vgetrandom_alloc		sys_vgetrandom_alloc
+diff --git a/arch/sparc/kernel/syscalls/syscall.tbl b/arch/sparc/kernel/syscalls/syscall.tbl
+index ac6c281ccfe0..a3816995d08c 100644
+--- a/arch/sparc/kernel/syscalls/syscall.tbl
++++ b/arch/sparc/kernel/syscalls/syscall.tbl
+@@ -508,3 +508,4 @@
+ 460	common	lsm_set_self_attr		sys_lsm_set_self_attr
+ 461	common	lsm_list_modules		sys_lsm_list_modules
+ 462	common	mseal 				sys_mseal
++463	common	vgetrandom_alloc		sys_vgetrandom_alloc
+diff --git a/arch/x86/entry/syscalls/syscall_32.tbl b/arch/x86/entry/syscalls/syscall_32.tbl
+index 7fd1f57ad3d3..821990638567 100644
+--- a/arch/x86/entry/syscalls/syscall_32.tbl
++++ b/arch/x86/entry/syscalls/syscall_32.tbl
+@@ -467,3 +467,4 @@
+ 460	i386	lsm_set_self_attr	sys_lsm_set_self_attr
+ 461	i386	lsm_list_modules	sys_lsm_list_modules
+ 462	i386	mseal 			sys_mseal
++463	i386	vgetrandom_alloc	sys_vgetrandom_alloc
+diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
+index a396f6e6ab5b..441443ba2ae6 100644
+--- a/arch/x86/entry/syscalls/syscall_64.tbl
++++ b/arch/x86/entry/syscalls/syscall_64.tbl
+@@ -384,6 +384,7 @@
+ 460	common	lsm_set_self_attr	sys_lsm_set_self_attr
+ 461	common	lsm_list_modules	sys_lsm_list_modules
+ 462 	common  mseal			sys_mseal
++463	common	vgetrandom_alloc	sys_vgetrandom_alloc
  
- endif
+ #
+ # Due to a historical design error, certain syscalls are numbered differently
+diff --git a/arch/xtensa/kernel/syscalls/syscall.tbl b/arch/xtensa/kernel/syscalls/syscall.tbl
+index 67083fc1b2f5..b9f64edd0b18 100644
+--- a/arch/xtensa/kernel/syscalls/syscall.tbl
++++ b/arch/xtensa/kernel/syscalls/syscall.tbl
+@@ -433,3 +433,4 @@
+ 460	common	lsm_set_self_attr		sys_lsm_set_self_attr
+ 461	common	lsm_list_modules		sys_lsm_list_modules
+ 462	common	mseal 				sys_mseal
++463	common	vgetrandom_alloc		sys_vgetrandom_alloc
+diff --git a/include/uapi/asm-generic/unistd.h b/include/uapi/asm-generic/unistd.h
+index d983c48a3b6a..e94210483f60 100644
+--- a/include/uapi/asm-generic/unistd.h
++++ b/include/uapi/asm-generic/unistd.h
+@@ -845,8 +845,11 @@ __SYSCALL(__NR_lsm_list_modules, sys_lsm_list_modules)
+ #define __NR_mseal 462
+ __SYSCALL(__NR_mseal, sys_mseal)
+ 
++#define __NR_vgetrandom_alloc 463
++__SYSCALL(__NR_vgetrandom_alloc, sys_vgetrandom_alloc)
 +
-+config VDSO_GETRANDOM
-+	bool
-+	select NEED_VM_DROPPABLE
-+	help
-+	  Selected by architectures that support vDSO getrandom().
+ #undef __NR_syscalls
+-#define __NR_syscalls 463
++#define __NR_syscalls 464
+ 
+ /*
+  * 32 bit systems traditionally used different
+diff --git a/tools/include/uapi/asm-generic/unistd.h b/tools/include/uapi/asm-generic/unistd.h
+index 75f00965ab15..93ad41d563a1 100644
+--- a/tools/include/uapi/asm-generic/unistd.h
++++ b/tools/include/uapi/asm-generic/unistd.h
+@@ -842,8 +842,11 @@ __SYSCALL(__NR_lsm_set_self_attr, sys_lsm_set_self_attr)
+ #define __NR_lsm_list_modules 461
+ __SYSCALL(__NR_lsm_list_modules, sys_lsm_list_modules)
+ 
++#define __NR_vgetrandom_alloc 463
++__SYSCALL(__NR_vgetrandom_alloc, sys_vgetrandom_alloc)
++
+ #undef __NR_syscalls
+-#define __NR_syscalls 462
++#define __NR_syscalls 464
+ 
+ /*
+  * 32 bit systems traditionally used different
+diff --git a/tools/perf/arch/mips/entry/syscalls/syscall_n64.tbl b/tools/perf/arch/mips/entry/syscalls/syscall_n64.tbl
+index 532b855df589..e22932472146 100644
+--- a/tools/perf/arch/mips/entry/syscalls/syscall_n64.tbl
++++ b/tools/perf/arch/mips/entry/syscalls/syscall_n64.tbl
+@@ -376,3 +376,4 @@
+ 459	n64	lsm_get_self_attr		sys_lsm_get_self_attr
+ 460	n64	lsm_set_self_attr		sys_lsm_set_self_attr
+ 461	n64	lsm_list_modules		sys_lsm_list_modules
++463	n64	vgetrandom_alloc		sys_vgetrandom_alloc
+diff --git a/tools/perf/arch/powerpc/entry/syscalls/syscall.tbl b/tools/perf/arch/powerpc/entry/syscalls/syscall.tbl
+index 17173b82ca21..ebdb199833d8 100644
+--- a/tools/perf/arch/powerpc/entry/syscalls/syscall.tbl
++++ b/tools/perf/arch/powerpc/entry/syscalls/syscall.tbl
+@@ -548,3 +548,4 @@
+ 459	common	lsm_get_self_attr		sys_lsm_get_self_attr
+ 460	common	lsm_set_self_attr		sys_lsm_set_self_attr
+ 461	common	lsm_list_modules		sys_lsm_list_modules
++463	common	vgetrandom_alloc		sys_vgetrandom_alloc
+diff --git a/tools/perf/arch/s390/entry/syscalls/syscall.tbl b/tools/perf/arch/s390/entry/syscalls/syscall.tbl
+index 095bb86339a7..ccb29b16fe80 100644
+--- a/tools/perf/arch/s390/entry/syscalls/syscall.tbl
++++ b/tools/perf/arch/s390/entry/syscalls/syscall.tbl
+@@ -464,3 +464,4 @@
+ 459  common	lsm_get_self_attr	sys_lsm_get_self_attr		sys_lsm_get_self_attr
+ 460  common	lsm_set_self_attr	sys_lsm_set_self_attr		sys_lsm_set_self_attr
+ 461  common	lsm_list_modules	sys_lsm_list_modules		sys_lsm_list_modules
++463  common	vgetrandom_alloc	sys_vgetrandom_alloc		sys_vgetrandom_alloc
+diff --git a/tools/perf/arch/x86/entry/syscalls/syscall_64.tbl b/tools/perf/arch/x86/entry/syscalls/syscall_64.tbl
+index 7e8d46f4147f..eb42a7b284ca 100644
+--- a/tools/perf/arch/x86/entry/syscalls/syscall_64.tbl
++++ b/tools/perf/arch/x86/entry/syscalls/syscall_64.tbl
+@@ -383,6 +383,7 @@
+ 459	common	lsm_get_self_attr	sys_lsm_get_self_attr
+ 460	common	lsm_set_self_attr	sys_lsm_set_self_attr
+ 461	common	lsm_list_modules	sys_lsm_list_modules
++463	common	vgetrandom_alloc	sys_vgetrandom_alloc
+ 
+ #
+ # Due to a historical design error, certain syscalls are numbered differently
 -- 
 2.45.2
 
