@@ -1,276 +1,278 @@
-Return-Path: <linux-api+bounces-1772-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1773-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6CD691140D
-	for <lists+linux-api@lfdr.de>; Thu, 20 Jun 2024 23:05:46 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69D1191143B
+	for <lists+linux-api@lfdr.de>; Thu, 20 Jun 2024 23:17:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D847F1C22116
-	for <lists+linux-api@lfdr.de>; Thu, 20 Jun 2024 21:05:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1A41828348D
+	for <lists+linux-api@lfdr.de>; Thu, 20 Jun 2024 21:17:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DA177BB17;
-	Thu, 20 Jun 2024 21:05:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2CB94778C;
+	Thu, 20 Jun 2024 21:17:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="IOll1FDb"
+	dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b="qOqKFpzH";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="mObbYhUw"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout4-smtp.messagingengine.com (fout4-smtp.messagingengine.com [103.168.172.147])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33CB97581F
-	for <linux-api@vger.kernel.org>; Thu, 20 Jun 2024 21:05:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BAE31C680;
+	Thu, 20 Jun 2024 21:17:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718917532; cv=none; b=tJA84B/paw+wcJQK5Y7q3rUJyCp6gqgeHki9OCDNOOY0c6ExqB53zlQqxGhqgmb6/0lzAwxCYtlW6Umona6IXW6YpdanmVEVKLwFhqmsLwY+bc3s2klpw/njlEiK0X9ZFawT06L7EiwEbkw8RODKtzZSGJiJKDap0HYHTQa6VW4=
+	t=1718918272; cv=none; b=eki78AsNMhBg8aJFYgZ+vG2AQX4gn/883yk13quTOI51ZaIiQ5r/CIqmoygGpyt6585aBmk7OvpBVRnQvgY36DUbkQ4UKFthR1I9Njuu2V7ebJCo8FZJX1vcWivjstJ/zNIoHiFwBWhGF8ENpK9pBRATX4nRmufTm7CLhOP3s+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718917532; c=relaxed/simple;
-	bh=mg+X7y4AeKUnrgakVmUQbP1hixJ/v7TNpOM2HJ3IhXg=;
-	h=Date:Message-ID:MIME-Version:Content-Type:Content-Disposition:
-	 From:To:Subject:References:In-Reply-To; b=Xk2AW6IDD0DbIg0SZ/MF0z7F3hiEGVPxg4rxG1fE8YtXzoe9LDU6nnmHhjOf24rVH0s1H25IsYLaybhuYcd4WpoD/gFPr1uqj5Mrgsw4qXw2Vz8t2EVHCL1f2qTAVKcmm5V+2hF7ABbD9Oz+ZdQPDkrOlda2PsaEnoLNi5T8/P0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=IOll1FDb; arc=none smtp.client-ip=209.85.219.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-6ad86f3cc34so6641606d6.1
-        for <linux-api@vger.kernel.org>; Thu, 20 Jun 2024 14:05:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1718917528; x=1719522328; darn=vger.kernel.org;
-        h=in-reply-to:references:subject:to:from:content-transfer-encoding
-         :content-disposition:mime-version:message-id:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=nsfCpB+dAhdiD/N3v6ggI+eNymd+g4KZSDaOf75av9o=;
-        b=IOll1FDbw7zhvPiy3k1IL6zDcVI9INl844dOa/XeeuD/xRRZ1V52i1fSo5KtqsO5RQ
-         kcf9tYTc1dpmp6OyCpPcv01UQZVVLEBfL+Pk5BzQoa9fYMfcV0jhjQGvUGwMXkkiBvEX
-         lINxdgAqMyGG52lIQ5joKUbGbcMO5PKgMHLQ0vkAzCjIej0Q1bRwoQ9KHJwuR7aklSrK
-         R5yBSecN8kKpY2zIcO2TC8rzo3806a0K8Am4QkbkTovRm96PRzeH9BR5F7xqS2BLbD1K
-         5C5nbmIUOnO7DW3BjW2yu76hsn/gtvXDd+xIFpohScasZ4Gk7u7G9rTfl4GHknMt7Qhv
-         MExA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718917528; x=1719522328;
-        h=in-reply-to:references:subject:to:from:content-transfer-encoding
-         :content-disposition:mime-version:message-id:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=nsfCpB+dAhdiD/N3v6ggI+eNymd+g4KZSDaOf75av9o=;
-        b=gcaI4kz3ZfB89AaBuYuQ5yMENiMhxCJWsDrW4Rxy5N/v52/5Afwh5eTGwm8daliopn
-         0A9ft/8cVD0cuOAJAsCI6/TLz1cmgBhxT4YLH1KxmLzrU9l8VjqNwTd3F6MYYb3wmO8v
-         mFwFl7GtNwhU/zqQ24eBQA97wf5JwRzdqE1LQCaHDriTAJRWGsLkHn5goAshF7SI/9+K
-         RDjz1jPLArX9yMTBLNpb/O27UfFlJM40mWLsyF+1/gBpkxvogPw2T+oNQF7OwKBhWb5j
-         SDyfL7GAjTyznOBNEeWsjcUP46gxVGB7u4EZ4h5gfP8BZoYhs3bTSjOZUJTh8Ry7wSQ/
-         1Lvw==
-X-Forwarded-Encrypted: i=1; AJvYcCVGcM5NWGADJKWHTo5uIX4TdPDVZ0zIyaaXuhqRT/69fjfMABFyx4IKOUKu+irkGaVsyM/t5jfjrqxEVBN3ekbVtdePI66GaAZa
-X-Gm-Message-State: AOJu0Yydatz0nMS9v0xsvE2zKex+LlaSkp+HWYLsc+sYftD44AIkWCCl
-	b1G/jA+5ZNJvnuhGzvEkwzA6Rjkms9N5a+TBYsij6mdZwiAVqtOHJ3tggLIf9Q==
-X-Google-Smtp-Source: AGHT+IEg/efvOeBU00ll/tsNr2NMecKZloltnZsQEGNrcMSYAsM9HZzR1J3C3pxMop0HsequrRDhrA==
-X-Received: by 2002:a0c:f7c2:0:b0:6b4:f7bc:6e3 with SMTP id 6a1803df08f44-6b501e20b8bmr66532976d6.23.1718917527920;
-        Thu, 20 Jun 2024 14:05:27 -0700 (PDT)
-Received: from localhost ([70.22.175.108])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6b51ef67c12sm111026d6.126.2024.06.20.14.05.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Jun 2024 14:05:27 -0700 (PDT)
-Date: Thu, 20 Jun 2024 17:05:27 -0400
-Message-ID: <83ef6981a29c441b58b525e9292c866a@paul-moore.com>
+	s=arc-20240116; t=1718918272; c=relaxed/simple;
+	bh=T2gwHDdc9Tod8b6ktA6VzB1vpXhcZb4a8lvBsxKXk14=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=WQigrP8/fUi2LG47rT3tvdLfgxNQ8FTqlfiYqZZZf+j21fDQESRoF65H0+fr0mxICzAYVJ4MquB5ndnW+r2XXR9bTtP+6DIM4xV9+zGrUZHshKsZ5tFbayEHocLW1xnQu3HX8CyMEY8tDpFNJFMDmXj47S3CJsFS7cJqDz+72iU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev; spf=none smtp.mailfrom=ljones.dev; dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b=qOqKFpzH; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=mObbYhUw; arc=none smtp.client-ip=103.168.172.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ljones.dev
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailfout.nyi.internal (Postfix) with ESMTP id F0AF9138010C;
+	Thu, 20 Jun 2024 17:17:48 -0400 (EDT)
+Received: from imap41 ([10.202.2.91])
+  by compute2.internal (MEProxy); Thu, 20 Jun 2024 17:17:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ljones.dev; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1718918268; x=1719004668; bh=LAJs70sW5j
+	F761s2Vy7XDvqb/IgHN1Sn0OrYklHiPlY=; b=qOqKFpzHAIJqkhW691+ydiuNOL
+	mTLlrzPAqEiNAC91yj1yiPVrPllfi0JhY0haDbMfVmy8Mi0A10rtf6qLyrSV7xH6
+	xBSDTqBM+duo/FWm3N4HvebxdLkm+5GHOhVtZ6dDNKjNK+8I7NxkCfymHmlhGufz
+	pxAVmu3RTZ7lYdyxgQQrDp+lcIEC12X19wjmZWzFQXFW6z+NYR1RbZ9/L8d7EZ09
+	kvLlN9QNQRgJqjFsloTv045RUUJuWKnsLsM/avuJwbvAQedLYqIE0458L9oraSE4
+	qSzQ1L1bme8vK+hl1pXtBC3unlk9naDEuyeLiGFuyIyL1L6/GMEiWdYjGZbQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1718918268; x=1719004668; bh=LAJs70sW5jF761s2Vy7XDvqb/IgH
+	N1Sn0OrYklHiPlY=; b=mObbYhUwL+H03anOcCxQZGsOjvW31oY8Snh4yJAyn9Ph
+	pJR90lagSw46cIWZOFLF7iU4EfkoLfMuoPGqG6mmjbPHzK6pOHvi5ITvyb6bfS/m
+	w+ACZO8bEyv96e6cA8XsW0cTT8GeVMh0y7wmP+GxWFUShLVu1JBKa6552yw18mbC
+	AchsnSyRszr0islGwAdLLjYfTDYsmiy9YQ4z3HFIlxB5ONslmfdxlMXNjdX13F8t
+	ENJTTJ1g3BbbXiiW5BUR9d+KszO+pV3oVu6GPhmUL4H+WxXueyQ3zeE2NlS58FE/
+	uPeS4dkpnG3XeCBVJIajtysVUB4t8FXdAjwcIB67LQ==
+X-ME-Sender: <xms:fJx0ZkNPgjdETLhwgRxjoq5scfOnBF-JNtn6p7S1qCsCrjZTKAnZfg>
+    <xme:fJx0Zq8NbCmt4CidPcRQx0U2skC2VZWIGm6lmt-6A8gJ5j4HWoOsAOGo3W5_uBg-G
+    G5npgS836ECy_Rikzg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfeefvddgudeiudcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdfn
+    uhhkvgculfhonhgvshdfuceolhhukhgvsehljhhonhgvshdruggvvheqnecuggftrfgrth
+    htvghrnhepleffveevfffhueetteetveetleetuddugfejvdeljeetteelhfeiiedugfev
+    leefnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
+    dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehluhhkvgeslhhjohhnvghsrdguvghv
+X-ME-Proxy: <xmx:fJx0ZrRlAQ7S91LTLbQTFDVpkC-lGKXRHZapG0GUgNrKzzuDaBrexg>
+    <xmx:fJx0Zstxy1aJGpS5Bn8t-aUjcpS3FWL5jR1XX1LpsVxi2n7Rglm5IQ>
+    <xmx:fJx0ZseZQ-p9K5C6XweCDq81MCBdUDJJ6x_bPeP7Li3xlDPeE3BurQ>
+    <xmx:fJx0Zg3gS1F1Sdxd9u4UqsbLzXD47mF7I-yGLYxqpmV6T3or026CDw>
+    <xmx:fJx0ZhEpZS_eVEfJDgLNfu1SNN40h2dLNzYwhS5_v0J1YnFh94sYZjLQ>
+Feedback-ID: i5ec1447f:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 1BADD2340080; Thu, 20 Jun 2024 17:17:48 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-522-ga39cca1d5-fm-20240610.002-ga39cca1d
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 
-Content-Type: text/plain; charset=utf-8 
-Content-Disposition: inline 
-Content-Transfer-Encoding: 8bit
-From: Paul Moore <paul@paul-moore.com>
-To: Casey Schaufler <casey@schaufler-ca.com>, LSM List <linux-security-module@vger.kernel.org>, netdev@vger.kernel.org, linux-api@vger.kernel.org, Linux kernel mailing list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH RFC] LSM, net: Add SO_PEERCONTEXT for peer LSM data
-References: <763db426-6f60-4d36-b3f9-b316008889f7@schaufler-ca.com>
-In-Reply-To: <763db426-6f60-4d36-b3f9-b316008889f7@schaufler-ca.com>
+MIME-Version: 1.0
+Message-Id: <19cb366a-e6d8-4608-98c9-0fad389363ee@app.fastmail.com>
+In-Reply-To: <20240620082223.20178-3-dev@doubly.so>
+References: <20240620082223.20178-1-dev@doubly.so>
+ <20240620082223.20178-3-dev@doubly.so>
+Date: Fri, 21 Jun 2024 09:17:27 +1200
+From: "Luke Jones" <luke@ljones.dev>
+To: "Devin Bayer" <dev@doubly.so>, corentin.chary@gmail.com
+Cc: "Hans de Goede" <hdegoede@redhat.com>,
+ platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-api@vger.kernel.org,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Subject: Re: [PATCH 2/2] platform/x86: asus-wmi: support newer fan_boost_mode dev_id
+Content-Type: text/plain
 
-On May 13, 2024 Casey Schaufler <casey@schaufler-ca.com> wrote:
+On Thu, 20 Jun 2024, at 8:22 PM, Devin Bayer wrote:
+> Support changing the fan mode (silent, performance, standard). I reused
+> the existing fan_boost_mode sysfs entry.
 > 
-> We recently introduced system calls to access process attributes that
-> are used by Linux Security Modules (LSM). An important aspect of these
-> system calls is that they provide the LSM attribute data in a format
-> that identifies the LSM to which the data applies. Another aspect is that
-> it can be used to provide multiple instances of the attribute for the
-> case where more than one LSM supplies the attribute.
-> 
-> We wish to take advantage of this format for data about network peers.
-> The existing mechanism, SO_PEERSEC, provides peer security data as a
-> text string. This is sufficient when the LSM providing the information
-> is known by the user of SO_PEERSEC, and there is only one LSM providing
-> the information. It fails, however, if the user does not know which
-> LSM is providing the information.
-> 
-> Discussions about extending SO_PEERSEC to accomodate either the new
-
-Spelling nitpick -> "accommodate" :)
-
-> format or some other encoding scheme invariably lead to the conclusion
-> that doing so would lead to tears. Hence, we introduce SO_PEERCONTEXT
-> which uses the same API data as the LSM system calls.
-> 
-> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
+> Signed-off-by: Devin Bayer <dev@doubly.so>
 > ---
->  arch/alpha/include/uapi/asm/socket.h  |  1 +
->  arch/mips/include/uapi/asm/socket.h   |  1 +
->  arch/parisc/include/uapi/asm/socket.h |  1 +
->  arch/sparc/include/uapi/asm/socket.h  |  1 +
->  include/linux/lsm_hook_defs.h         |  2 +
->  include/linux/security.h              | 18 ++++++++
->  include/uapi/asm-generic/socket.h     |  1 +
->  net/core/sock.c                       |  4 ++
->  security/apparmor/lsm.c               | 39 ++++++++++++++++
->  security/security.c                   | 86 +++++++++++++++++++++++++++++++++++
->  security/selinux/hooks.c              | 35 ++++++++++++++
->  security/smack/smack_lsm.c            | 25 ++++++++++
->  12 files changed, 214 insertions(+)
-
-...
-
-> diff --git a/include/uapi/asm-generic/socket.h b/include/uapi/asm-generic/socket.h
-> index 8ce8a39a1e5f..e0166ff53670 100644
-> --- a/include/uapi/asm-generic/socket.h
-> +++ b/include/uapi/asm-generic/socket.h
-> @@ -134,6 +134,7 @@
+> drivers/platform/x86/asus-wmi.c            | 87 ++++++++++++++++++++--
+> include/linux/platform_data/x86/asus-wmi.h |  1 +
+> 2 files changed, 82 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
+> index 5585f15e7920..e27b8f86d57b 100644
+> --- a/drivers/platform/x86/asus-wmi.c
+> +++ b/drivers/platform/x86/asus-wmi.c
+> @@ -73,7 +73,6 @@ module_param(fnlock_default, bool, 0444);
+> #define NOTIFY_LID_FLIP_ROG 0xbd
 >  
->  #define SO_PASSPIDFD		76
->  #define SO_PEERPIDFD		77
-> +#define SO_PEERCONTEXT		78
+> #define ASUS_WMI_FNLOCK_BIOS_DISABLED BIT(0)
+> -#define ASUS_WMI_DEVID_CAMERA_LED 0x00060079
 
-Bikeshed time ... how about SO_PEERLSMCTX since we are returning a
-lsm_ctx struct?
+Be careful not to introduce extraneous changes.
 
-> diff --git a/security/security.c b/security/security.c
-> index e387614cb054..fd4919c28e8f 100644
-> --- a/security/security.c
-> +++ b/security/security.c
-> @@ -874,6 +874,64 @@ int lsm_fill_user_ctx(struct lsm_ctx __user *uctx, u32 *uctx_len,
->  	return rc;
->  }
 >  
-> +/**
-> + * lsm_fill_socket_ctx - Fill a socket lsm_ctx structure
-> + * @optval: a socket LSM context to be filled
-> + * @optlen: uctx size
-
-"@optlen: @optval size"
-
-> + * @val: the new LSM context value
-> + * @val_len: the size of the new LSM context value
-> + * @id: LSM id
-> + * @flags: LSM defined flags
-> + *
-> + * Fill all of the fields in a lsm_ctx structure.  If @optval is NULL
-> + * simply calculate the required size to output via @optlen and return
-> + * success.
-> + *
-> + * Returns 0 on success, -E2BIG if userspace buffer is not large enough,
-> + * -EFAULT on a copyout error, -ENOMEM if memory can't be allocated.
-> + */
-> +int lsm_fill_socket_ctx(sockptr_t optval, sockptr_t optlen, void *val,
-> +			size_t val_len, u64 id, u64 flags)
+> #define ASUS_MID_FAN_DESC "mid_fan"
+> #define ASUS_GPU_FAN_DESC "gpu_fan"
+> @@ -94,6 +93,10 @@ module_param(fnlock_default, bool, 0444);
+> #define ASUS_FAN_BOOST_MODE_SILENT_MASK 0x02
+> #define ASUS_FAN_BOOST_MODES_MASK 0x03
+>  
+> +#define ASUS_FAN_BOOST_MODE2_NORMAL 0
+> +#define ASUS_FAN_BOOST_MODE2_SILENT 1
+> +#define ASUS_FAN_BOOST_MODE2_OVERBOOST 2
+> +
+> #define ASUS_THROTTLE_THERMAL_POLICY_DEFAULT 0
+> #define ASUS_THROTTLE_THERMAL_POLICY_OVERBOOST 1
+> #define ASUS_THROTTLE_THERMAL_POLICY_SILENT 2
+> @@ -268,6 +271,7 @@ struct asus_wmi {
+> int agfn_pwm;
+>  
+> bool fan_boost_mode_available;
+> + u32 fan_boost_mode_dev_id;
+> u8 fan_boost_mode_mask;
+> u8 fan_boost_mode;
+>  
+> @@ -3019,14 +3023,14 @@ static int asus_wmi_fan_init(struct asus_wmi *asus)
+>  
+> /* Fan mode *******************************************************************/
+>  
+> -static int fan_boost_mode_check_present(struct asus_wmi *asus)
+> +static int fan_boost_mode1_check_present(struct asus_wmi *asus)
+> {
+> u32 result;
+> int err;
+>  
+> - asus->fan_boost_mode_available = false;
+> + asus->fan_boost_mode_dev_id = ASUS_WMI_DEVID_FAN_BOOST_MODE;
+>  
+> - err = asus_wmi_get_devstate(asus, ASUS_WMI_DEVID_FAN_BOOST_MODE,
+> + err = asus_wmi_get_devstate(asus, asus->fan_boost_mode_dev_id,
+>     &result);
+> if (err) {
+> if (err == -ENODEV)
+> @@ -3044,16 +3048,87 @@ static int fan_boost_mode_check_present(struct asus_wmi *asus)
+> return 0;
+> }
+>  
+> +static int fan_boost_mode2_check_present(struct asus_wmi *asus)
 > +{
-> +	struct lsm_ctx *nctx = NULL;
-> +	unsigned int nctx_len;
-> +	int loptlen;
-
-u32?
-
-> +	int rc = 0;
+> + u32 result;
+> + int err;
 > +
-> +	if (copy_from_sockptr(&loptlen, optlen, sizeof(int)))
-> +		return -EFAULT;
-
-It seems the current guidance prefers copy_safe_from_sockptr(), see
-the note in include/linux/sockptr.h. 
-
-> +	nctx_len = ALIGN(struct_size(nctx, ctx, val_len), sizeof(void *));
-> +	if (nctx_len > loptlen && !sockptr_is_null(optval))
-> +		rc = -E2BIG;
-
-Why do we care if @optval is NULL or not?  We are in a -E2BIG state,
-we're not copying anything into @optval anyway.  In fact, why are we
-doing the @rc check below?  Do it here like we do in lsm_fill_user_ctx().
-
-  if (nctx_len > loptlen) {
-    rc = -E2BIG;
-    goto out;
-  }
-
-> +	/* no buffer - return success/0 and set @uctx_len to the req size */
-
-"... set @opt_len ... "
-
-> +	if (sockptr_is_null(optval) || rc)
-> +		goto out;
-
-Do the @rc check above, not here.
-
-> +	nctx = kzalloc(nctx_len, GFP_KERNEL);
-> +	if (!nctx) {
-> +		rc = -ENOMEM;
-> +		goto out;
-> +	}
-> +	nctx->id = id;
-> +	nctx->flags = flags;
-> +	nctx->len = nctx_len;
-> +	nctx->ctx_len = val_len;
-> +	memcpy(nctx->ctx, val, val_len);
+> + asus->fan_boost_mode_mask = ASUS_FAN_BOOST_MODES_MASK;
+> + asus->fan_boost_mode_dev_id = ASUS_WMI_DEVID_FAN_BOOST_MODE2;
 > +
-> +	if (copy_to_sockptr(optval, nctx, nctx_len))
-> +		rc = -EFAULT;
-
-This is always going to copy to the start of @optval which means we
-are going to keep overwriting previous values in the multi-LSM case.
-I think we likely want copy_to_sockptr_offset(), or similar.  See my
-comment in security_socket_getpeerctx_stream().
-
-> +	kfree(nctx);
-> +out:
-> +	if (copy_to_sockptr(optlen, &nctx_len, sizeof(int)))
-> +		rc = -EFAULT;
+> + err = asus_wmi_get_devstate(asus, ASUS_WMI_DEVID_FAN_BOOST_MODE2,
+> +     &result);
+> + if (err) {
+> + if (err == -ENODEV)
+> + return 0;
+> + else
+> + return err;
+> + }
 > +
-> +	return rc;
+> + if (! (result & ASUS_WMI_DSTS_PRESENCE_BIT))
+> + return 0;
+> +
+> + asus->fan_boost_mode_available = true;
+> +
+> + if (result & ASUS_FAN_BOOST_MODE2_SILENT) {
+> + asus->fan_boost_mode = ASUS_FAN_BOOST_MODE_SILENT;
+> + } else if(result & ASUS_FAN_BOOST_MODE2_OVERBOOST) {
+> + asus->fan_boost_mode = ASUS_FAN_BOOST_MODE_OVERBOOST;
+> + } else {
+> + asus->fan_boost_mode = ASUS_FAN_BOOST_MODE_NORMAL;
+> + }
+> +
+> + return 0;
 > +}
 > +
-> +
->  /*
->   * The default value of the LSM hook is defined in linux/lsm_hook_defs.h and
->   * can be accessed with:
-> @@ -4743,6 +4801,34 @@ int security_socket_getpeersec_stream(struct socket *sock, sockptr_t optval,
->  	return LSM_RET_DEFAULT(socket_getpeersec_stream);
->  }
->  
-> +/**
-> + * security_socket_getpeerctx_stream() - Get the remote peer label
-> + * @sock: socket
-> + * @optval: destination buffer
-> + * @optlen: size of peer label copied into the buffer
-> + * @len: maximum size of the destination buffer
-> + *
-> + * This hook allows the security module to provide peer socket security state
-> + * for unix or connected tcp sockets to userspace via getsockopt
-> + * SO_GETPEERCONTEXT.  For tcp sockets this can be meaningful if the socket
-> + * is associated with an ipsec SA.
-> + *
-> + * Return: Returns 0 if all is well, otherwise, typical getsockopt return
-> + *         values.
-> + */
-> +int security_socket_getpeerctx_stream(struct socket *sock, sockptr_t optval,
-> +				      sockptr_t optlen, unsigned int len)
+> +static int fan_boost_mode_check_present(struct asus_wmi *asus)
 > +{
-> +	struct security_hook_list *hp;
+> + int err;
 > +
-> +	hlist_for_each_entry(hp, &security_hook_heads.socket_getpeerctx_stream,
-> +			     list)
-> +		return hp->hook.socket_getpeerctx_stream(sock, optval, optlen,
-> +							 len);
+> + asus->fan_boost_mode_available = false;
 > +
-> +	return LSM_RET_DEFAULT(socket_getpeerctx_stream);
+> + err = fan_boost_mode1_check_present(asus);
+> + if (err)
+> + return err;
+> +
+> + if (!asus->fan_boost_mode_available) {
+> + err = fan_boost_mode2_check_present(asus);
+> + }
+> +
+> + return err;
 > +}
+> +
+> static int fan_boost_mode_write(struct asus_wmi *asus)
+> {
+> u32 retval;
+> u8 value;
+> + u8 hw_value;
+> int err;
+>  
+> value = asus->fan_boost_mode;
+>  
+> - pr_info("Set fan boost mode: %u\n", value);
+> - err = asus_wmi_set_devstate(ASUS_WMI_DEVID_FAN_BOOST_MODE, value,
+> + /* transform userspace values into hardware values */
+> + if(asus->fan_boost_mode_dev_id == ASUS_WMI_DEVID_FAN_BOOST_MODE2) {
+> + switch(value) {
+> + case ASUS_FAN_BOOST_MODE_SILENT:
+> + hw_value = ASUS_FAN_BOOST_MODE2_SILENT;
+> + break;
+> + case ASUS_FAN_BOOST_MODE_OVERBOOST:
+> + hw_value = ASUS_FAN_BOOST_MODE2_OVERBOOST;
+> + break;
+> + case ASUS_FAN_BOOST_MODE_NORMAL:
+> + hw_value = ASUS_FAN_BOOST_MODE2_NORMAL;
+> + break;
+> + default:
+> + return -EINVAL;
+> +
+> + }
+> + } else {
+> + hw_value = value;
+> + }
+> +
+> + pr_info("Set fan boost mode: user=%u hw=%u\n", value, hw_value);
+> + err = asus_wmi_set_devstate(asus->fan_boost_mode_dev_id, hw_value,
+>     &retval);
+>  
+> sysfs_notify(&asus->platform_device->dev.kobj, NULL,
+> diff --git a/include/linux/platform_data/x86/asus-wmi.h b/include/linux/platform_data/x86/asus-wmi.h
+> index b3c35e33f1e7..62982f67d632 100644
+> --- a/include/linux/platform_data/x86/asus-wmi.h
+> +++ b/include/linux/platform_data/x86/asus-wmi.h
+> @@ -65,6 +65,7 @@
+> /* Writing a brightness re-enables the screen if disabled */
+> #define ASUS_WMI_DEVID_SCREENPAD_LIGHT 0x00050032
+> #define ASUS_WMI_DEVID_FAN_BOOST_MODE 0x00110018
+> +#define ASUS_WMI_DEVID_FAN_BOOST_MODE2 0x00110019
+> #define ASUS_WMI_DEVID_THROTTLE_THERMAL_POLICY 0x00120075
+>  
+> /* Misc */
+> -- 
+> 2.45.2
+> 
+> 
 
-Don't we need the same magic that we have in security_getselfattr() to
-handle the multi-LSM case?
 
---
-paul-moore.com
+Thank you for the work on this. But I must point out that the same 0x00110019 method has already been submitted as a patch to work with the existing "throttle_thermal" functionality, which itself is also tied to platoform_profile class support.
+
+See https://lore.kernel.org/platform-driver-x86/20240609144849.2532-1-mohamed.ghanmi@supcom.tn/T/#mcd18e74676084e21d5c15af84bc08d8c6b375fb9
+
+If you could submit only the first patch instead please?
 
