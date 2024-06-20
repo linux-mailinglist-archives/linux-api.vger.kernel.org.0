@@ -1,143 +1,411 @@
-Return-Path: <linux-api+bounces-1758-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1759-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EF7990E9E6
-	for <lists+linux-api@lfdr.de>; Wed, 19 Jun 2024 13:42:14 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB99890FA75
+	for <lists+linux-api@lfdr.de>; Thu, 20 Jun 2024 02:53:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A6871B210D0
-	for <lists+linux-api@lfdr.de>; Wed, 19 Jun 2024 11:42:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 613771F224EB
+	for <lists+linux-api@lfdr.de>; Thu, 20 Jun 2024 00:53:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C89B713CF82;
-	Wed, 19 Jun 2024 11:37:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 487D3AD49;
+	Thu, 20 Jun 2024 00:53:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="U6suwMUA"
 X-Original-To: linux-api@vger.kernel.org
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D779E8173C
-	for <linux-api@vger.kernel.org>; Wed, 19 Jun 2024 11:37:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.58.85.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E34DAD2C;
+	Thu, 20 Jun 2024 00:53:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718797046; cv=none; b=VFypSh31LoMGpaAqwBooP7/6ByomvHRR9r9vgwFrx5xkSY+rbgwDrACUeXyz8LSpTDy6viJU2BC1n/nh2SpBKOIN60TaAKlna+bxzxigR564OeNH5ww8+aU6GpqwJR/hecbaETUI28IsUWRgLGoxOC7XmhWVnLOWdLIUBndmuEI=
+	t=1718844834; cv=none; b=c5rvMlmFgAncJuu1w6Zvo2dvnyatO6JxqbNTKGxHoq93X6pZh82YNTnrBZ69SVCuf5tyzZxDCFLk9a7cijfe/HBAAeg2Jwo1B7ha9dzIdNS76EDDfjj6KZU9u9v1mVGB4iB3wGjVOwzLUG6QHFSjDLAuKTSz+UETZSm0KIL6HFo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718797046; c=relaxed/simple;
-	bh=BSHkKLrECWLAlbeSl4v1U37C/da+oM2lEsa5kkc5HAU=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 MIME-Version:Content-Type; b=unRPwLeo7aW7P1fj2D30PiK99Akuco8KOg9as2mIOVHS1s/u5b6UHr7Zc0Bd+tVycxI7F1jCzaIKwcSO6NzfCLjBiTWbiFUVt8KMpSg1//AZY95qTZ/B4BNaksRBh7yH5BnCd5OO/IK4RLJn7O7LlltjV9Su9oNJBPhNubxweEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM; spf=pass smtp.mailfrom=aculab.com; arc=none smtp.client-ip=185.58.85.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aculab.com
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-194-CS909xtoNvSfQqELdIGVDA-1; Wed, 19 Jun 2024 12:37:22 +0100
-X-MC-Unique: CS909xtoNvSfQqELdIGVDA-1
-Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
- (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Wed, 19 Jun
- 2024 12:36:46 +0100
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.048; Wed, 19 Jun 2024 12:36:46 +0100
-From: David Laight <David.Laight@ACULAB.COM>
-To: "'Jason A. Donenfeld'" <Jason@zx2c4.com>, Andy Lutomirski
-	<luto@amacapital.net>
-CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"patches@lists.linux.dev" <patches@lists.linux.dev>, "tglx@linutronix.de"
-	<tglx@linutronix.de>, "linux-crypto@vger.kernel.org"
-	<linux-crypto@vger.kernel.org>, "linux-api@vger.kernel.org"
-	<linux-api@vger.kernel.org>, "x86@kernel.org" <x86@kernel.org>, "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>, Adhemerval Zanella Netto
-	<adhemerval.zanella@linaro.org>, Carlos O'Donell <carlos@redhat.com>,
-	"Florian Weimer" <fweimer@redhat.com>, Arnd Bergmann <arnd@arndb.de>, Jann
- Horn <jannh@google.com>, Christian Brauner <brauner@kernel.org>, David
- Hildenbrand <dhildenb@redhat.com>
-Subject: RE: [PATCH v17 4/5] random: introduce generic vDSO getrandom()
- implementation
-Thread-Topic: [PATCH v17 4/5] random: introduce generic vDSO getrandom()
- implementation
-Thread-Index: AQHawbWRB8EYMZoZREup+2i1zqOfJbHO9S3w
-Date: Wed, 19 Jun 2024 11:36:46 +0000
-Message-ID: <e860c5fdea5b4d26b1d95d32e2662a9d@AcuMS.aculab.com>
-References: <20240614190646.2081057-1-Jason@zx2c4.com>
- <20240614190646.2081057-5-Jason@zx2c4.com>
- <CALCETrVQtQO87U3SEgQyHfkNKsrcS8PjeZrsy2MPAU7gQY70XA@mail.gmail.com>
- <ZnDQ-HQH8NlmCcIr@zx2c4.com>
- <CALCETrWzXQMXjvL+nGq-+aLVUeiABJ46DACtLnrLXxmwh9s_dg@mail.gmail.com>
- <ZnHftrP3H410gScf@zx2c4.com>
-In-Reply-To: <ZnHftrP3H410gScf@zx2c4.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
+	s=arc-20240116; t=1718844834; c=relaxed/simple;
+	bh=vJ2om6Jt/fZF7yWrt+0OcUPOXXOluxLtl/Q5a4/iCI4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=FE+lksYoqQu1qBc6CF9WH8pjExkzr10LBDQc/T/bL+MNbfRWQArWEJ78+L8xACATdZUr+mOZdKcLq4jk+j3XJsPeZFfNKPnHKXa76p0LYzJhJ02E1B+Hd4/Injg7dmtsJzRM5wZCu82Xx0tLmxu66uLbsdeTM/FQDyQ7Jbs82ho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b=U6suwMUA; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3388DC2BBFC;
+	Thu, 20 Jun 2024 00:53:52 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="U6suwMUA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
+	t=1718844829;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=I+Y+6sfKRgBuj7M2BqM34pB93922da0+D6tZzhOd4n4=;
+	b=U6suwMUAMHyJ7xhjUT4wx++ekcD8zcOdiWynm5NTnCWwa6fAi+g0EDv8negeHV0RXD1Kxt
+	XfdK7TpGLQsGK8syQBa80Lf+W18VNQmZ8gmYNGxpi+xFI3Hw/QxKV8yuo1VcHo7r9YXqNa
+	KYjNAPNRnDqk7eBd2SgZ7j8PSD71PA4=
+Received: 
+	by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id f4804026 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Thu, 20 Jun 2024 00:53:49 +0000 (UTC)
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: linux-kernel@vger.kernel.org,
+	patches@lists.linux.dev,
+	tglx@linutronix.de
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
+	linux-crypto@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	x86@kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
+	Carlos O'Donell <carlos@redhat.com>,
+	Florian Weimer <fweimer@redhat.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Jann Horn <jannh@google.com>,
+	Christian Brauner <brauner@kernel.org>,
+	David Hildenbrand <dhildenb@redhat.com>
+Subject: [PATCH v18 0/5] implement getrandom() in vDSO
+Date: Thu, 20 Jun 2024 02:53:32 +0200
+Message-ID: <20240620005339.1273434-1-Jason@zx2c4.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 8bit
 
-RnJvbTogSmFzb24gQS4gRG9uZW5mZWxkDQo+IFNlbnQ6IDE4IEp1bmUgMjAyNCAyMDoyOA0KPiBP
-biBUdWUsIEp1biAxOCwgMjAyNCBhdCAxMDo1NToxN0FNIC0wNzAwLCBBbmR5IEx1dG9taXJza2kg
-d3JvdGU6DQo+ID4gT24gTW9uLCBKdW4gMTcsIDIwMjQgYXQgNToxMuKAr1BNIEphc29uIEEuIERv
-bmVuZmVsZCA8SmFzb25AengyYzQuY29tPiB3cm90ZToNCj4gPiA+DQo+ID4gPiBIaSBBbmR5LA0K
-PiA+ID4NCj4gPiA+IE9uIE1vbiwgSnVuIDE3LCAyMDI0IGF0IDA1OjA2OjIyUE0gLTA3MDAsIEFu
-ZHkgTHV0b21pcnNraSB3cm90ZToNCj4gPiA+ID4gT24gRnJpLCBKdW4gMTQsIDIwMjQgYXQgMTI6
-MDjigK9QTSBKYXNvbiBBLiBEb25lbmZlbGQgPEphc29uQHp4MmM0LmNvbT4gd3JvdGU6DQo+ID4g
-PiA+ID4NCj4gPiA+ID4gPiBQcm92aWRlIGEgZ2VuZXJpYyBDIHZEU08gZ2V0cmFuZG9tKCkgaW1w
-bGVtZW50YXRpb24sIHdoaWNoIG9wZXJhdGVzIG9uDQo+ID4gPiA+ID4gYW4gb3BhcXVlIHN0YXRl
-IHJldHVybmVkIGJ5IHZnZXRyYW5kb21fYWxsb2MoKSBhbmQgcHJvZHVjZXMgcmFuZG9tIGJ5dGVz
-DQo+ID4gPiA+ID4gdGhlIHNhbWUgd2F5IGFzIGdldHJhbmRvbSgpLiBUaGlzIGhhcyBhIHRoZSBB
-UEkgc2lnbmF0dXJlOg0KPiA+ID4gPiA+DQo+ID4gPiA+ID4gICBzc2l6ZV90IHZnZXRyYW5kb20o
-dm9pZCAqYnVmZmVyLCBzaXplX3QgbGVuLCB1bnNpZ25lZCBpbnQgZmxhZ3MsIHZvaWQgKm9wYXF1
-ZV9zdGF0ZSk7DQo+ID4gPiA+DQo+ID4gPiA+IExhc3QgdGltZSBhcm91bmQsIEkgbWVudGlvbmVk
-IHNvbWUgcG90ZW50aWFsIGlzc3VlcyB3aXRoIHRoaXMgZnVuY3Rpb24NCj4gPiA+ID4gc2lnbmF0
-dXJlLCBhbmQgSSBkaWRuJ3Qgc2VlIGFueSBhbnN3ZXIuICBNeSBzcGVjaWZpYyBvYmplY3Rpb24g
-d2FzIHRvDQo+ID4gPiA+IHRoZSBmYWN0IHRoYXQgdGhlIGNhbGxlciBwYXNzZXMgaW4gYSBwb2lu
-dGVyIGJ1dCBub3QgYSBsZW5ndGgsIGFuZA0KPiA+ID4gPiB0aGlzIHBvdGVudGlhbGx5IG1ha2Vz
-IHJlYXNvbmluZyBhYm91dCBtZW1vcnkgc2FmZXR5IGF3a3dhcmQsDQo+ID4gPiA+IGVzcGVjaWFs
-bHkgaWYgYW55dGhpbmcgbGlrZSBDUklVIGlzIGludm9sdmVkLg0KPiA+ID4NCj4gPiA+IE9oLCBJ
-IHVuZGVyc3Rvb2QgdGhpcyBiYWNrd2FyZHMgbGFzdCB0aW1lIC0gSSB0aG91Z2h0IHlvdSB3ZXJl
-DQo+ID4gPiBjcml0aWNpemluZyB0aGUgc2l6ZV90IGxlbiBhcmd1bWVudCwgd2hpY2ggZGlkbid0
-IG1ha2UgYW55IHNlbnNlLg0KPiA+ID4NCj4gPiA+IFJlLXJlYWRpbmcgbm93LCB3aGF0IHlvdSdy
-ZSBzdWdnZXN0aW5nIGlzIHRoYXQgSSBhZGQgYW4gYWRkaXRpb25hbA0KPiA+ID4gYXJndW1lbnQg
-Y2FsbGVkIGBzaXplX3Qgb3BhcXVlX2xlbmAsIGFuZCB0aGVuIHRoZSBpbXBsZW1lbnRhdGlvbiBk
-b2VzDQo+ID4gPiBzb21ldGhpbmcgbGlrZToNCj4gPiA+DQo+ID4gPiAgICAgaWYgKG9wYXF1ZV9s
-ZW4gIT0gc2l6ZW9mKHN0cnVjdCB2Z2V0cmFuZG9tX3N0YXRlKSkNCj4gPiA+ICAgICAgICAgZ290
-byBmYWxsYmFja19zeXNjYWxsOw0KPiA+ID4NCj4gPiA+IFdpdGggdGhlIHJlYXNvbmluZyB0aGF0
-IGZhbGxpbmcgYmFjayB0byBzeXNjYWxsIGlzIGJldHRlciB0aGFuIHJldHVybmluZw0KPiA+ID4g
-LUVJTlZBTCwgYmVjYXVzZSB0aGF0IGNvdWxkIGhhcHBlbiBpbiBhIG5hdHVyYWwgd2F5IGR1ZSB0
-byBDUklVLiBJbg0KPiA+ID4gY29udHJhc3QsIHlvdXIgb2JqZWN0aW9uIHRvIG9wYXF1ZV9zdGF0
-ZSBub3QgYmVpbmcgYWxpZ25lZCBmYWxsaW5nIGJhY2sNCj4gPiA+IHRvIHRoZSBzeXNjYWxsIHdh
-cyB0aGF0IGl0IHNob3VsZCBuZXZlciBoYXBwZW4gZXZlciwgc28gLUVGQVVMVCBpcyBtb3JlDQo+
-ID4gPiBmaXR0aW5nLg0KPiA+ID4NCj4gPiA+IElzIHRoYXQgY29ycmVjdD8NCj4gPg0KPiA+IE15
-IGFsdGVybmF0aXZlIHN1Z2dlc3Rpb24sIHdoaWNoIGlzIGZhciBsZXNzIHdlbGwgZm9ybWVkLCB3
-b3VsZCBiZSB0bw0KPiA+IG1ha2UgdGhlIG9wYXF1ZSBhcmd1bWVudCBiZSBzb21laG93IG5vdCBw
-b2ludGVyLWxpa2UgYW5kIGJlIG1vcmUgb2YgYW4NCj4gPiBvcGFxdWUgaGFuZGxlLiAgU28gaXQg
-d291bGQgYmUgdWludHB0cl90IGluc3RlYWQgb2Ygdm9pZCAqLCBhbmQgdGhlDQo+ID4gdXNlciBB
-UEkgd291bGQgYmUgYnVpbHQgYXJvdW5kIHRoZSB1c2VyIGdldHRpbmcgYSBsaXN0IG9mIGhhbmRs
-ZXMNCj4gPiBpbnN0ZWFkIG9mIGEgYmxvY2sgb2YgbWVtb3J5Lg0KPiA+DQo+ID4gVGhlIGJlbmVm
-aXQgd291bGQgYmUgYSB0aW55IGJpdCBsZXNzIG92ZXJoZWFkIChwb3RlbnRpYWxseSksIGJ1dCB0
-aGUNCj4gPiBBUEkgd291bGQgbmVlZCBzdWJzdGFudGlhbGx5IG1vcmUgcmV3b3JrLiAgSSdtIG5v
-dCBjb252aW5jZWQgdGhhdCB0aGlzDQo+ID4gd291bGQgYmUgd29ydGh3aGlsZS4NCj4gDQo+IEkn
-ZCB0aG91Z2h0IGFib3V0IHRoaXMgdG9vIC0tIGEgV2luZG93cy1zdHlsZSBoYW5kbGUgc3lzdGVt
-IC0tIGJ1dA0KPiBpdCBzZWVtZWQgY29tcGxpY2F0ZWQgYW5kIGp1c3Qgbm90IHdvcnRoIGl0LCBz
-byB0aGUgc2ltcGxpY2l0eSBoZXJlDQo+IHNlZW1zIG1vcmUgYXBwZWFsaW5nLiBJJ20gaGFwcHkg
-dG8gdGFrZSB5b3VyIHN1Z2dlc3Rpb24gb2YgYW4gb3BhcXVlX2xlbg0KPiBhcmd1bWVudCAoYW5k
-IGl0J3MgYWxyZWFkeSBpbXBsZW1lbnRlZCBpbiBteSAidmRzbyIgYnJhbmNoKSwgYW5kDQo+IGxl
-YXZpbmcgaXQgYXQgdGhhdC4NCg0KVGhleSBkb24ndCB3b3JrIGVpdGhlci4uLg0KDQpQcm9iYWJs
-eSBiZXN0IGlzIHRvIG1ha2UgaXQgJ3N0cnVjdCB2Z2V0cmFuZG9tX3N0YXRlIConIGJ1dCBuZXZl
-cg0KYWN0dWFsbHkgZGVmaW5lIHRoYXQgc3RydWN0dXJlIGluIGFueSB1c2VyIGhlYWRlci4NClRo
-ZW4gYXQgbGVhc3QgdGhlIGFwcGxpY2F0aW9uIGdldHMgc29tZSB0eXBlIGNoZWNraW5nIGZyb20g
-dGhlIGNvbXBpbGVyDQp0aGF0IHRoZSBjb3JyZWN0IHBvaW50ZXIgaXMgYmVpbmcgcGFzc2VkLg0K
-DQpEZXBlbmRpbmcgb24gd2hlcmUvaG93IHRoZSBkYXRhIGlzIGFsbG9jYXRlZCB5b3UgbWF5IHRo
-ZW4gbm90IG5lZWQNCmEgbGVuZ3RoPyANCg0KCURhdmlkDQoNCi0NClJlZ2lzdGVyZWQgQWRkcmVz
-cyBMYWtlc2lkZSwgQnJhbWxleSBSb2FkLCBNb3VudCBGYXJtLCBNaWx0b24gS2V5bmVzLCBNSzEg
-MVBULCBVSw0KUmVnaXN0cmF0aW9uIE5vOiAxMzk3Mzg2IChXYWxlcykNCg==
+Changes v14->{present}:
+----------------------
+This is back after a bit of a hiatus. In the last attempt to do this in
+the beginning of 2023, I think we reached consensus on a few things --
+the use case, the vDSO implementation and semantics, its integration
+with libc, the test code and documentation, and so forth. It was
+basically "ready to go". Almost. But there was a lingering issue that
+bogged this down, which is that it demanded some new mm semantics that
+weren't very popular.
+
+In particular, the series from last year made use of the x86 instruction
+decoder to just skip over faulting instructions. I still think this is
+nifty, but it's not actually essential for the semantics needed, and I
+can understand why this was by far the largest objection. So all of that
+is dropped, which simplifies quite a bit.
+
+In another avenue of the mm discussion, Andy had mentioned using
+_install_special_mapping() instead of the VM_DROPPABLE work, and I spent
+a long while looking into this, and attempted several times to code up a
+working implementation that used that. But the semantics really just
+weren't possible without adding hooks to lots of other core code, and
+duplicating a lot of code that really ought not to be. So I've kept the
+VM_DROPPABLE patch here, but because the x86 instruction decoding stuff
+has been removed, that patch is actually a lot smaller and simpler and I
+don't think should be too controversial. In terms of actual C code, it
+only adds around 6 lines, and is compact enough that you can just grep
+for VM_DROPPABLE to see the whole thing.
+
+The original cover letter is produced below. I'm eager to finally get
+this patchset moving, and sorry for the delay in producing the v+1 from
+before.
+
+Assuming this goes well, the plan would be to take this through my
+random.git tree for 6.11. And if the mm part looks fine, I'll get this
+cooking in linux-next ASAP.
+
+Thanks ahead of time for taking a look at it.
+
+Changes v17->v18:
+- Commit message typos.
+- Rebase on later 6.10 commit, because some conflicts got introduced that are
+  easily resolved this way.
+- Add line breaks to cflags in kselftests makefile. There may be more makefile
+  fixups in store, but those depend on other patches John posted on LKML that
+  haven't landed yet, so that'll have to be fixed later.
+- Add "opaque_len" argument to vgetrandom() to address CRIU concerns.
+- Use proper smp ordering for generation changes, and document pairing of release/acquires.
+
+Changes v16->v17:
+- Generate patchset using --base.
+- Rebase on 6.10-rc1, which means bumping the syscall number to 463.
+- Adjust documentation and example code to specify proper munmap() deallocation
+  calculation.
+- Use %xmm0 instead of %xmm8 as temp register for more compact encoding.
+- Documentation comment syntax fixups.
+- If page-straddling address is passed to vgetrandom, rather than falling back
+  to the syscall, return -EFAULT.
+- Get rid of vdso_kernel_ulong type and just use u64 uniformly.
+- Don't include crypto/chacha.h inside of a vdso header, to keep kernel code
+  out of the vdso user code.
+- Balance christmas trees.
+- Improve comments of vgetrandom() function.
+- Get rid of NOWARN|NORETRY memory allocation logic, and also don't clear the
+  OOM flag on failure. This is kind of a problem, but Jann and Michal thought
+  that it was better to crash than for userspace to keep retrying instructions.
+  And the pre-v14 series that tried to skip the instruction instead of retrying
+  was marred by controversy. So just table this for later; it's probably not
+  essential now.
+
+Changes v15->v16:
+- DavidH pointed out a missing swap edge case in 1/5.
+- Mostly just a resend because I forgot --cc-cover, and sent it during
+  the merge window. 
+
+--------------
+
+Useful links:
+
+- This series:
+  - https://git.kernel.org/pub/scm/linux/kernel/git/crng/random.git/log/?h=vdso
+
+- Glibc patches by Adhemerval and me against glibc-2.39:
+  - https://git.zx2c4.com/glibc/log/?h=vdso
+
+- You may also want these if you're daily driving this as I am on a normal
+  desktop system:
+  - systemd patch: https://github.com/systemd/systemd/pull/25519
+  - libseccomp patch: https://github.com/seccomp/libseccomp/pull/395
+
+- In case you're actually interested in the v≤14 design where faults were
+  non-fatal and instructions were skipped (which I think is more coherent, even
+  if the implementation is controversial), this lives in my branch here:
+  - https://git.kernel.org/pub/scm/linux/kernel/git/crng/random.git/log/?h=jd/vdso-skip-insn
+  Note that I'm *not* actually proposing this for upstream at this time. But it
+  may be of conversational interest.
+
+-------------
+
+Two statements:
+
+  1) Userspace wants faster cryptographically secure random numbers of
+     arbitrary size, big or small.
+
+  2) Userspace is currently unable to safely roll its own RNG with the
+     same security profile as getrandom().
+
+Statement (1) has been debated for years, with arguments ranging from
+"we need faster cryptographically secure card shuffling!" to "the only
+things that actually need good randomness are keys, which are few and
+far between" to "actually, TLS CBC nonces are frequent" and so on. I
+don't intend to wade into that debate substantially, except to note that
+recently glibc added arc4random(), whose goal is to return a
+cryptographically secure uint32_t, and there are real user reports of it
+being too slow. So here we are.
+
+Statement (2) is more interesting. The kernel is the nexus of all
+entropic inputs that influence the RNG. It is in the best position, and
+probably the only position, to decide anything at all about the current
+state of the RNG and of its entropy. One of the things it uniquely knows
+about is when reseeding is necessary.
+
+For example, when a virtual machine is forked, restored, or duplicated,
+it's imparative that the RNG doesn't generate the same outputs. For this
+reason, there's a small protocol between hypervisors and the kernel that
+indicates this has happened, alongside some ID, which the RNG uses to
+immediately reseed, so as not to return the same numbers. Were userspace
+to expand a getrandom() seed from time T1 for the next hour, and at some
+point T2 < hour, the virtual machine forked, userspace would continue to
+provide the same numbers to two (or more) different virtual machines,
+resulting in potential cryptographic catastrophe. Something similar
+happens on resuming from hibernation (or even suspend), with various
+compromise scenarios there in mind.
+
+There's a more general reason why userspace rolling its own RNG from a
+getrandom() seed is fraught. There's a lot of attention paid to this
+particular Linuxism we have of the RNG being initialized and thus
+non-blocking or uninitialized and thus blocking until it is initialized.
+These are our Two Big States that many hold to be the holy
+differentiating factor between safe and not safe, between
+cryptographically secure and garbage. The fact is, however, that the
+distinction between these two states is a hand-wavy wishy-washy inexact
+approximation. Outside of a few exceptional cases (e.g. a HW RNG is
+available), we actually don't really ever know with any rigor at all
+when the RNG is safe and ready (nor when it's compromised). We do the
+best we can to "estimate" it, but entropy estimation is fundamentally
+impossible in the general case. So really, we're just doing guess work,
+and hoping it's good and conservative enough. Let's then assume that
+there's always some potential error involved in this differentiator.
+
+In fact, under the surface, the RNG is engineered around a different
+principle, and that is trying to *use* new entropic inputs regularly and
+at the right specific moments in time. For example, close to boot time,
+the RNG reseeds itself more often than later. At certain events, like VM
+fork, the RNG reseeds itself immediately. The various heuristics for
+when the RNG will use new entropy and how often is really a core aspect
+of what the RNG has some potential to do decently enough (and something
+that will probably continue to improve in the future from random.c's
+present set of algorithms). So in your mind, put away the metal
+attachment to the Two Big States, which represent an approximation with
+a potential margin of error. Instead keep in mind that the RNG's primary
+operating heuristic is how often and exactly when it's going to reseed.
+
+So, if userspace takes a seed from getrandom() at point T1, and uses it
+for the next hour (or N megabytes or some other meaningless metric),
+during that time, potential errors in the Two Big States approximation
+are amplified. During that time potential reseeds are being lost,
+forgotten, not reflected in the output stream. That's not good.
+
+The simplest statement you could make is that userspace RNGs that expand
+a getrandom() seed at some point T1 are nearly always *worse*, in some
+way, than just calling getrandom() every time a random number is
+desired.
+
+For those reasons, after some discussion on libc-alpha, glibc's
+arc4random() now just calls getrandom() on each invocation. That's
+trivially safe, and gives us latitude to then make the safe thing faster
+without becoming unsafe at our leasure. Card shuffling isn't
+particularly fast, however.
+
+How do we rectify this? By putting a safe implementation of getrandom()
+in the vDSO, which has access to whatever information a
+particular iteration of random.c is using to make its decisions. I use
+that careful language of "particular iteration of random.c", because the
+set of things that a vDSO getrandom() implementation might need for making
+decisions as good as the kernel's will likely change over time. This
+isn't just a matter of exporting certain *data* to userspace. We're not
+going to commit to a "data API" where the various heuristics used are
+exposed, locking in how the kernel works for decades to come, and then
+leave it to various userspaces to roll something on top and shoot
+themselves in the foot and have all sorts of complexity disasters.
+Rather, vDSO getrandom() is supposed to be the *same exact algorithm*
+that runs in the kernel, except it's been hoisted into userspace as
+much as possible. And so vDSO getrandom() and kernel getrandom() will
+always mirror each other hermetically.
+
+API-wise, the vDSO gains this function:
+
+  ssize_t vgetrandom(void *buffer, size_t len, unsigned int flags, void *opaque_state);
+
+The return value and the first 3 arguments are the same as ordinary
+getrandom(), while the last argument is a pointer to some state
+allocated with vgetrandom_alloc(), explained below. Were all four
+arguments passed to the getrandom syscall, nothing different would
+happen, and the functions would have the exact same behavior.
+
+Then, we introduce a new syscall:
+
+  void *vgetrandom_alloc(unsigned int *num, unsigned int *size_per_each,
+                         unsigned long addr, unsigned int flags);
+
+This takes a hinted number of opaque states in `num`, and returns a
+pointer to an array of opaque states, the number actually allocated back
+in `num`, and the size in bytes of each one in `size_per_each`, enabling
+a libc to slice up the returned array into a state per each thread. (The
+`flags` and `addr` arguments, as well as the `*size_per_each` input
+value, are reserved for the future and are forced to be zero for now.)
+
+Libc is expected to allocate a chunk of these on first use, and then
+dole them out to threads as they're created, allocating more when
+needed. The returned address of the first state may be passed to
+munmap(2) with a length of `num * size_per_each`, in order to deallocate
+the memory.
+
+We very intentionally do *not* leave state allocation up to the caller
+of vgetrandom, but provide vgetrandom_alloc for that allocation. There
+are too many weird things that can go wrong, and it's important that
+vDSO does not provide too generic of a mechanism. It's not going to
+store its state in just any old memory address. It'll do it only in ones
+it allocates.
+
+Right now this means it uses a new mm flag called VM_DROPPABLE, along
+with VM_WIPEONFORK. In the future maybe there will be other interesting
+page flags or anti-heartbleed measures, or other platform-specific
+kernel-specific things that can be set from the syscall. Again, it's
+important that the kernel has a say in how this works rather than
+agreeing to operate on any old address; memory isn't neutral.
+
+The interesting meat of the implementation is in lib/vdso/getrandom.c,
+as generic C code, and it aims to mainly follow random.c's buffered fast
+key erasure logic. Before the RNG is initialized, it falls back to the
+syscall. Right now it uses a simple generation counter to make its decisions
+on reseeding (though this could be made more extensive over time).
+
+The actual place that has the most work to do is in all of the other
+files. Most of the vDSO shared page infrastructure is centered around
+gettimeofday, and so the main structs are all in arrays for different
+timestamp types, and attached to time namespaces, and so forth. I've
+done the best I could to add onto this in an unintrusive way.
+
+In my test results, performance is pretty stellar (around 15x for uint32_t
+generation), and it seems to be working. There's an extended example in the
+second commit of this series, showing how the syscall and the vDSO function
+are meant to be used together.
+
+Cc: linux-crypto@vger.kernel.org
+Cc: linux-api@vger.kernel.org
+Cc: x86@kernel.org
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>
+Cc: Carlos O'Donell <carlos@redhat.com>
+Cc: Florian Weimer <fweimer@redhat.com>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Jann Horn <jannh@google.com>
+Cc: Christian Brauner <brauner@kernel.org>
+Cc: David Hildenbrand <dhildenb@redhat.com>
+
+Jason A. Donenfeld (5):
+  mm: add VM_DROPPABLE for designating always lazily freeable mappings
+  random: add vgetrandom_alloc() syscall
+  arch: allocate vgetrandom_alloc() syscall number
+  random: introduce generic vDSO getrandom() implementation
+  x86: vdso: Wire up getrandom() vDSO implementation
+
+ MAINTAINERS                                   |   2 +
+ arch/alpha/kernel/syscalls/syscall.tbl        |   1 +
+ arch/arm/tools/syscall.tbl                    |   1 +
+ arch/arm64/include/asm/unistd32.h             |   2 +
+ arch/m68k/kernel/syscalls/syscall.tbl         |   1 +
+ arch/microblaze/kernel/syscalls/syscall.tbl   |   1 +
+ arch/mips/kernel/syscalls/syscall_n32.tbl     |   1 +
+ arch/mips/kernel/syscalls/syscall_n64.tbl     |   1 +
+ arch/mips/kernel/syscalls/syscall_o32.tbl     |   1 +
+ arch/parisc/kernel/syscalls/syscall.tbl       |   1 +
+ arch/powerpc/kernel/syscalls/syscall.tbl      |   1 +
+ arch/s390/kernel/syscalls/syscall.tbl         |   1 +
+ arch/sh/kernel/syscalls/syscall.tbl           |   1 +
+ arch/sparc/kernel/syscalls/syscall.tbl        |   1 +
+ arch/x86/Kconfig                              |   1 +
+ arch/x86/entry/syscalls/syscall_32.tbl        |   1 +
+ arch/x86/entry/syscalls/syscall_64.tbl        |   1 +
+ arch/x86/entry/vdso/Makefile                  |   3 +-
+ arch/x86/entry/vdso/vdso.lds.S                |   2 +
+ arch/x86/entry/vdso/vgetrandom-chacha.S       | 178 +++++++++++
+ arch/x86/entry/vdso/vgetrandom.c              |  17 +
+ arch/x86/include/asm/vdso/getrandom.h         |  55 ++++
+ arch/x86/include/asm/vdso/vsyscall.h          |   2 +
+ arch/x86/include/asm/vvar.h                   |  16 +
+ arch/xtensa/kernel/syscalls/syscall.tbl       |   1 +
+ drivers/char/random.c                         | 148 ++++++++-
+ fs/proc/task_mmu.c                            |   3 +
+ include/linux/mm.h                            |   8 +
+ include/linux/syscalls.h                      |   3 +
+ include/trace/events/mmflags.h                |   7 +
+ include/uapi/asm-generic/unistd.h             |   5 +-
+ include/vdso/datapage.h                       |  11 +
+ include/vdso/getrandom.h                      |  46 +++
+ kernel/sys_ni.c                               |   3 +
+ lib/vdso/Kconfig                              |   6 +
+ lib/vdso/getrandom.c                          | 236 ++++++++++++++
+ mm/Kconfig                                    |   3 +
+ mm/mprotect.c                                 |   2 +-
+ mm/rmap.c                                     |   8 +-
+ tools/include/uapi/asm-generic/unistd.h       |   5 +-
+ .../arch/mips/entry/syscalls/syscall_n64.tbl  |   1 +
+ .../arch/powerpc/entry/syscalls/syscall.tbl   |   1 +
+ .../perf/arch/s390/entry/syscalls/syscall.tbl |   1 +
+ .../arch/x86/entry/syscalls/syscall_64.tbl    |   1 +
+ tools/testing/selftests/vDSO/.gitignore       |   2 +
+ tools/testing/selftests/vDSO/Makefile         |  17 +
+ .../testing/selftests/vDSO/vdso_test_chacha.c |  43 +++
+ .../selftests/vDSO/vdso_test_getrandom.c      | 293 ++++++++++++++++++
+ 48 files changed, 1138 insertions(+), 8 deletions(-)
+ create mode 100644 arch/x86/entry/vdso/vgetrandom-chacha.S
+ create mode 100644 arch/x86/entry/vdso/vgetrandom.c
+ create mode 100644 arch/x86/include/asm/vdso/getrandom.h
+ create mode 100644 include/vdso/getrandom.h
+ create mode 100644 lib/vdso/getrandom.c
+ create mode 100644 tools/testing/selftests/vDSO/vdso_test_chacha.c
+ create mode 100644 tools/testing/selftests/vDSO/vdso_test_getrandom.c
+
+
+base-commit: c286c21ff94252f778515b21b6bebe749454a852
+-- 
+2.45.2
 
 
