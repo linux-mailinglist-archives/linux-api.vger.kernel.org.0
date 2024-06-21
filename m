@@ -1,214 +1,301 @@
-Return-Path: <linux-api+bounces-1779-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1780-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C686B912084
-	for <lists+linux-api@lfdr.de>; Fri, 21 Jun 2024 11:28:04 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B4B4912AE2
+	for <lists+linux-api@lfdr.de>; Fri, 21 Jun 2024 18:07:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 02F481C23735
-	for <lists+linux-api@lfdr.de>; Fri, 21 Jun 2024 09:28:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 303B7282EB0
+	for <lists+linux-api@lfdr.de>; Fri, 21 Jun 2024 16:07:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5FF116E894;
-	Fri, 21 Jun 2024 09:27:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1453115FA84;
+	Fri, 21 Jun 2024 16:07:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b="fTbZFX1f";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="rl414+6C"
+	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="qXSVxcs+"
 X-Original-To: linux-api@vger.kernel.org
-Received: from fhigh1-smtp.messagingengine.com (fhigh1-smtp.messagingengine.com [103.168.172.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sonic316-26.consmr.mail.ne1.yahoo.com (sonic316-26.consmr.mail.ne1.yahoo.com [66.163.187.152])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C859816E87A;
-	Fri, 21 Jun 2024 09:27:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB4A5156C47
+	for <linux-api@vger.kernel.org>; Fri, 21 Jun 2024 16:06:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.163.187.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718962075; cv=none; b=bX+YrkgiCNYGEwLBAw6BJ2n5G51ezYanDrioXaHLf6zfuaaJhluyv/6xA8rizqssG3caZkjasuGb8Y0WNt8Pjc2ks1c0M3B/9GpJHRQADCNIh5hiRC6yxDG2L1ieHBLMs9xoovcqB1bmofY+KpgHk75dPVN89hAhriNerHcQRF0=
+	t=1718986022; cv=none; b=Eko6JCmwNswA8qg2LVj3n+XR9qwZLXklC6gmKLeLQjWhx13E/7Ju0/hYagpajNPrgI6VHCNSHgGBViv905h4s1tSIEFDuIQYsn4BaCNQmkuDfcwQdgXRC4p9rGvG2FHTV94yuLpUZmJK5pDPDht54cEO4mIKs86qvgPmacZd2A8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718962075; c=relaxed/simple;
-	bh=nM7LTszmPvuuu0dhLJaLtzxRSfEmV8pfdUFj7EveWxs=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=OPmZcWzHVYqUvPsXUyhMf8KEkeH5d8H9w5S41uQY1VgbUsxgHgPQXyywfrLuHUPUyshdY8pMwZqbo4SBxUE47+LRAlhDtCQqkz60gWpZusgLAoPosk/vd8kJV2tfs1DfauBER0xGk90qFu0gzu5MnkE4VJG9PRfmQorbhXcF7IU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev; spf=none smtp.mailfrom=ljones.dev; dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b=fTbZFX1f; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=rl414+6C; arc=none smtp.client-ip=103.168.172.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ljones.dev
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailfhigh.nyi.internal (Postfix) with ESMTP id C1A2011401F4;
-	Fri, 21 Jun 2024 05:27:52 -0400 (EDT)
-Received: from imap41 ([10.202.2.91])
-  by compute2.internal (MEProxy); Fri, 21 Jun 2024 05:27:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ljones.dev; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1718962072; x=1719048472; bh=Y8IBkZlexo
-	lr5cfgEz+BjS3AEENMDxiAYHTFGs+LnYY=; b=fTbZFX1fL2lnK1lURKuiCY7uwW
-	UnNTjJ8sZ/NsLG0EkTlAr86muPsYwRuKg9jiYTdE5Sscj/JCYyi4EWghTVKl3W0P
-	fNaJJr+FUR1V3GvzX97magDd32gcEYdS1KjOKNDazy744OCHf52ofJAsE0dJQtMO
-	MDvFWqjAMHqoz8Y+U33iBjX56Ep2X3MZnUvSw0Jw73MehRvVj2DLpYhOhCmTfKaf
-	iPTIphXkgWywT4893sPptLXWrKPKlGVTzrjQ7+ybW3HV3JbvQLxKXEk5TZ3TkvcY
-	AoU+/BUa70uGzHZ4PhW88Ovus5XDUsKnvCXYTx7Ggh0WhV2gnpnhtNgX1SEg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1718962072; x=1719048472; bh=Y8IBkZlexolr5cfgEz+BjS3AEENM
-	DxiAYHTFGs+LnYY=; b=rl414+6C5SXYCYF2IVbg3yzepwyeIRDkxwcOzsPa7Ho4
-	wV6zJMtAl9iw7HebLxvfeg1Q0mePjhwpQ92tVPLz0O0tGecYv1v5g/KSVVVI/0NB
-	1n26XmwgVMDlHxFL3tuB/mzWqnvbA5gXnyRr99II6/Y4eV45yfMhRW6xmiJWBzPk
-	JwbFLEQkvyLbDO/wEs+prYOw3uLJ9Re/jAGwUmV8QJSq0KlsCFC89mnPfCVYp5St
-	hwRxrNh4ksx0v2Bu9g5AG33ZayUqepR32YAQ2uEyQocB6y5WuduZUsnUJtBwvWwZ
-	LowUV23MJgV+BvH3w4RlxHJCyFkyUiMmv008+JWh/Q==
-X-ME-Sender: <xms:mEd1ZkYWClx-m9mr8ueH9SMKtcGGfHAWZ8UKcmWy9s6Kj2k9OzlPJQ>
-    <xme:mEd1ZvZ7zMQW4nYZWX5oc_iwN8C-DrpViDlkSlywj_lcM9Ws3gtgby3EoKFBnjKg5
-    I-_tNHqSRBbujOPE7A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfeefgedgudeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedfnfhu
-    khgvucflohhnvghsfdcuoehluhhkvgeslhhjohhnvghsrdguvghvqeenucggtffrrghtth
-    gvrhhnpeelffevveffhfeuteetteevteelteduudfgjedvleejteetlefhieeiudfgveel
-    feenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
-    enucfrrghrrghmpehmrghilhhfrhhomheplhhukhgvsehljhhonhgvshdruggvvh
-X-ME-Proxy: <xmx:mEd1Zu8jmBSlALriWRB0I5yG16vGL_gKcg0wdwB9rtzcwlDrD9lL9w>
-    <xmx:mEd1ZupyRxyWzzlkeedtC2siqLK6sa4-_zx3ZcwYDgFHWLZw-UPVQg>
-    <xmx:mEd1ZvrtpVM2PDK14pLKRT1jsqC9jk20yfuXbnEeKtpYF9_HHQKVOg>
-    <xmx:mEd1ZsSL02A6uhHucJKbx6hiuYF75BI-zMlxDHw6_PojWi5qy1b0Jw>
-    <xmx:mEd1ZgCQ0sMdyEFy-TQmg33AgJfEdU0aijj3ViVaU3e3dxDD9Ua7w_F9>
-Feedback-ID: i5ec1447f:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 7E79A2340082; Fri, 21 Jun 2024 05:27:52 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-522-ga39cca1d5-fm-20240610.002-ga39cca1d
+	s=arc-20240116; t=1718986022; c=relaxed/simple;
+	bh=4JXEbivYBcsxYTgIWZVnh5SdG3somsUbAFEAVWYGAQQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=F5ac567Y1Gtd30Idi8cb/g4sXPy/VQNVluEoMZmrLOWnNVLgknutiZZ+xSLZwWjAtGQchlAp2/mi4TZEUQuyG4pSVMjZ2Q0OseyAu5x6m1IY7ZIkA6vQzRrHpPR7qCVt5uEz0uTAsJhhXnodue23y85hyrn0D+Ng4o9EHy5ERDc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=schaufler-ca.com; spf=none smtp.mailfrom=schaufler-ca.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=qXSVxcs+; arc=none smtp.client-ip=66.163.187.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=schaufler-ca.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=schaufler-ca.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1718986018; bh=OUlshDAGcf4r9tpcl9XAZhSVZg2AM0tLoTIMQEFIi2o=; h=Date:Subject:To:References:From:In-Reply-To:From:Subject:Reply-To; b=qXSVxcs+GtEjbZ0d5k+4l2SAnxGZ90p8r7pSM+sPQh0gwiWK7oGOPt5A/djfgiWq3axN8FuWsOFcEd4VoiiaLQjnrZnE4KpF0HL3p4wcQEQVLCfR//kRrNPfMqeWmQ6UnqotKJJguw532wrh9Htx/3jxi0q1bNTIx9oOVTzal8v3Y46/Sp7Dmwct4LWKvmvBYPp8H4P53BoRpBRCZdFn7YAHCAjTjOqhMXYkS/3XL0UlEm648T/Wa2QxsDyguB2hpqCTlQiiAHDKG+iQ3tj4lmX0SlcPy4XxfQuCy0nv4ohAkCMZeKFwE7YiSNFUZYpcL4BkZJ4JLKPeSepJJkngYA==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1718986018; bh=UhRdylbyR4htXfQ3ksARAjZ+RHaqucn3VSCr8yka/PI=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=k5vdivu9A40A7njFYrRvHuSrHcq6MDFQ4uOP6lf2zpAcGjgw7pbMhMkq/HUOtB5VS8MnXBXxMRID1MmG1I/ovptzCojf3kq7Ezuyl/J7Znr59053iXGSIuLhlwgnBzjK6uSvzWP+rdq+0rQK4qcdEtV+eYvWjVkAQ3ZE21tUIhHh3CLGjdiQflS60u3lhE0P+rmdun1cnfbZ3zV48B/YSTwtfnX011aBu0YPsPBI5q42CI9YZkBph6y5tmuK+9R63bQeKz5HFlsZHdKmCPk72Xu7lDSYVuIscWiHynOig52r4A8UCxB3ntfSlXFiPQQShdGWW8ekfDG1PMSpJPhztQ==
+X-YMail-OSG: UOgmaHYVM1l.B2Lrwvs9KpB9HMayDYjTI.v_pcGE.wyV8yJdV__a0iUF6w8M_ZQ
+ 9DjlRcCmrDJAhwYa_DkAW._pe1YFEAdBPbisx6IBljY6jPDBVytM15A3b9y_ICOOf6Y2gQyZZQEG
+ vbd2Ra5Z5dETlmzIeIem5nfBDxGPXM1pS9AQQLiG8TTrc9bp1D8vFoxjewkEv.hgn.vFmLHmFiOk
+ F690WplsukRvEIs6ORdxhnao6.LAE601yD5uRlvFI0F2xivoOQxcfl7IkyeelamXEfWJXhJqi0mt
+ m5X6mp56a_Gh3YoMT2OP.MUPl5qWpfqu_pvLuaYwF4QfB87ApZ7_J3Q7AQJPNoMwqcS6y7Ns2dge
+ 9i3gRXrET3MvwMizhVvjrhr05YyzZqyypfOdvxvWi5fNLqHE8vLbTqWHjC3LPIinledP0Oizg8iC
+ ej3v0aVoGCou.qFqoLnLLKEzpkrVPxC1g826XwPCOLCde4QgW1JcNCAO0Lm7S7DnqJUgI7AeQsir
+ .E3QINU30eyLN27Xw_crEpXNJaGkBuGXMPMebwXz7T2yVOgXBVarAoLG9EjeO.icxB.4Km9yQi4r
+ _SieKbYMH1vuLQxciuDMp_O7_Jo.hodJyD8LlL9JPw38l43TUDCTvJpsSL7hy9s036PLrBveClYF
+ eDbEtIVfEb4YJTf9ElyIrvYOKiNDU61pA4waE0vaA.a6036kUAQi4rjqszjaEG73uKevvXLuut9U
+ RSbOb6PAMSdPFZI9nu2SzqKUTs7gDFAWYcekbebo_fbyy6Rb4ryZkDLaUEM.pRYDBYihY6tCnEjP
+ mcbJ0v21C1a4JlKj6h6.ts6rWqiXZDU7OHKxyAmK9pT.E0iYVloph6MPEUEwwHnOJf08eZUHvcWB
+ ON._nTJNBbw10Je5FWqkz77Ca8_2kgcBTrSkCsmzeziJpPTpqIKZMLSD9rh67uIqajVByCXKKcFp
+ 5xeHHXNHYLdWiZMhyi2C3lFunwBdK6JQPqLq62hA0D9PwH19C1QSTGg1J7OZehcMEYkrvKm35Cey
+ 6GlqyiC7W2AT0a5bGyotkT6hrwpyyUuINqiYBcC1zWbpqoZXi3Eom_jNBVTpwvwJfPopb2QNoOJ8
+ 64qDnw2fj93bG9Lc27MP9W6MKLW3QpRe8HcX6GOC._NfQthkrcwjkgTLHfPGWEKCChwlRvqgBSNY
+ b_qOYv_tqcePaCCtN.tus.xdI7qVNoGRS_LcqH3hqbGf1oBzQXDIc1sgypqGoCs62Vr1a0F2YEf1
+ MX3DjJH6pp2jarQG2BgP1jrHWzNyCdwHPZdwA7zM9NKn5T8BW18OwsAm7ziVT1vebnbkW_hlmXFx
+ lA9ERpKKBEB7AYpH2B2.343nl2pJ7jnrLGV3hCkf4i6J8Q0TRF68_lfwSQ0a1lglJsDxXC_qPmXd
+ BQuc0YZ79q2QNaUvSYM.aCsKnovkTLoXfuGhYX_.fIktvZYhSkydkUZc56t1F1PAuCb4rC2jGkjp
+ rpngP_51S0IuaTBR5XtdzSzVupHco63RcaAS0Zu3iGqf8s24Ku4mdnAATcX1BtEvohK0dIxPuEos
+ oitPQJMCvG_BN4pZSQDGuyhVAeYm.GM1fLquHub6fQrb4wvqIssazbb58JiN.NUU2ESj1.RGllLx
+ z1IOcg_QAymfklby7q8FFoOZ_fRuL38bHX95Vfhxc6jbcQpr9akYcAq76U4dPRrevo7zalZ0xgdN
+ rMYxWlGZvQfuhRBvZbIGgAhPxQwqnMjJd9N9SWpC93I9g1S5QAWQvYCR48IdbRZRWNZJETdn76AK
+ pThh8UpEzWYOxyaxKVPfDzIPm92kp_lUyxV4Sb_QpFrLsYqrYRbYvcMjg6HDAP7DC1YEs811wqad
+ ayFe7IrbomLVkvRjQskGjt65kVsBUd3alLX6iNZ_aUA48kmGeKlF5jUw0iatgnj358cIaarUO7dC
+ YUwZawNqdEQyEdFmqagmEoCCIjSdL9q2Na8c7Lg0fmDEUYo4yt606buaBldxbgivtrlQbq1.hdbR
+ f_5IFiDe66qpM9V1PoWMwKKgcHNGHYBIrx_6m2bfiBKZ.QtA5tUnk.UI_ejS4Q3rFyiMwqKl9vji
+ eAPYIl1sRp4Javo.3VcYbK1N82X1vfOUJ4gR9ovSbF4TDICFRC5qbgyoLKvwwHWuk5WrgbJ2nxAw
+ 2gKVpMPJW70ZUXk_ZeRrzcExGs11R5z6s9SSOimuV0UIwXSGTVqKh5pMN6.kaYV8O6iaBejXCMK8
+ G3i3Cjsw2qH1R5rpPQF4n7h6WTVs0EZfhJjG.1s8kSan7AdOlq_Xtt42lX6y2STwOtAWH
+X-Sonic-MF: <casey@schaufler-ca.com>
+X-Sonic-ID: 63602443-7919-45b5-95cb-a0501af045f3
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic316.consmr.mail.ne1.yahoo.com with HTTP; Fri, 21 Jun 2024 16:06:58 +0000
+Received: by hermes--production-gq1-5b4c49485c-4rmzt (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID a6ae495510b30a623b4b0801ff5ab356;
+          Fri, 21 Jun 2024 16:06:55 +0000 (UTC)
+Message-ID: <c59a4954-913b-4672-b502-21aa683d7cdb@schaufler-ca.com>
+Date: Fri, 21 Jun 2024 09:06:53 -0700
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <ab40d5d2-a14a-4cb2-b315-b4cb66654f9e@app.fastmail.com>
-In-Reply-To: <20240621085745.233107-1-dev@doubly.so>
-References: <20240621085745.233107-1-dev@doubly.so>
-Date: Fri, 21 Jun 2024 21:27:32 +1200
-From: "Luke Jones" <luke@ljones.dev>
-To: "Devin Bayer" <dev@doubly.so>, corentin.chary@gmail.com
-Cc: "Hans de Goede" <hdegoede@redhat.com>,
- platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC] LSM, net: Add SO_PEERCONTEXT for peer LSM data
+To: Paul Moore <paul@paul-moore.com>,
+ LSM List <linux-security-module@vger.kernel.org>, netdev@vger.kernel.org,
  linux-api@vger.kernel.org,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Subject: Re: [PATCH v2] platform/x86: asus-wmi: support the disable camera LED on F10
- of Zenbook 2023
-Content-Type: text/plain
+ Linux kernel mailing list <linux-kernel@vger.kernel.org>,
+ Casey Schaufler <casey@schaufler-ca.com>
+References: <763db426-6f60-4d36-b3f9-b316008889f7@schaufler-ca.com>
+ <83ef6981a29c441b58b525e9292c866a@paul-moore.com>
+Content-Language: en-US
+From: Casey Schaufler <casey@schaufler-ca.com>
+In-Reply-To: <83ef6981a29c441b58b525e9292c866a@paul-moore.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Mailer: WebService/1.1.22407 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
 
-On Fri, 21 Jun 2024, at 8:57 PM, Devin Bayer wrote:
-> Adds a sysfs entry for the LED on F10 above the crossed out camera icon on 2023 Zenbooks.
-> 
-> v2
-> - Changed name from `platform::camera` to `asus::camera`
-> - Separated patch from patchset
-> 
-> v1
-> - https://lore.kernel.org/platform-driver-x86/20240620082223.20178-1-dev@doubly.so/
-> 
-> Signed-off-by: Devin Bayer <dev@doubly.so>
-> ---
-> drivers/platform/x86/asus-wmi.c            | 36 ++++++++++++++++++++++
-> include/linux/platform_data/x86/asus-wmi.h |  2 ++
-> 2 files changed, 38 insertions(+)
-> 
-> diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
-> index 3f07bbf809ef..20b7ed6a27b5 100644
-> --- a/drivers/platform/x86/asus-wmi.c
-> +++ b/drivers/platform/x86/asus-wmi.c
-> @@ -73,6 +73,7 @@ module_param(fnlock_default, bool, 0444);
-> #define NOTIFY_LID_FLIP_ROG 0xbd
->  
-> #define ASUS_WMI_FNLOCK_BIOS_DISABLED BIT(0)
-> +#define ASUS_WMI_DEVID_CAMERA_LED 0x00060079
->  
-> #define ASUS_MID_FAN_DESC "mid_fan"
-> #define ASUS_GPU_FAN_DESC "gpu_fan"
-> @@ -227,6 +228,7 @@ struct asus_wmi {
-> struct led_classdev lightbar_led;
-> int lightbar_led_wk;
-> struct led_classdev micmute_led;
-> + struct led_classdev camera_led;
-> struct workqueue_struct *led_workqueue;
-> struct work_struct tpd_led_work;
-> struct work_struct wlan_led_work;
-> @@ -1533,6 +1535,27 @@ static int micmute_led_set(struct led_classdev *led_cdev,
-> return err < 0 ? err : 0;
-> }
->  
-> +static enum led_brightness camera_led_get(struct led_classdev *led_cdev)
-> +{
-> + struct asus_wmi *asus;
-> + u32 result;
-> +
-> + asus = container_of(led_cdev, struct asus_wmi, camera_led);
-> + asus_wmi_get_devstate(asus, ASUS_WMI_DEVID_CAMERA_LED, &result);
-> +
-> + return result & ASUS_WMI_DSTS_BRIGHTNESS_MASK;
-> +}
-> +
-> +static int camera_led_set(struct led_classdev *led_cdev,
-> +    enum led_brightness brightness)
-> +{
-> + int state = brightness != LED_OFF;
-> + int err;
-> +
-> + err = asus_wmi_set_devstate(ASUS_WMI_DEVID_CAMERA_LED, state, NULL);
-> + return err < 0 ? err : 0;
-> +}
-> +
-> static void asus_wmi_led_exit(struct asus_wmi *asus)
-> {
-> led_classdev_unregister(&asus->kbd_led);
-> @@ -1540,6 +1563,7 @@ static void asus_wmi_led_exit(struct asus_wmi *asus)
-> led_classdev_unregister(&asus->wlan_led);
-> led_classdev_unregister(&asus->lightbar_led);
-> led_classdev_unregister(&asus->micmute_led);
-> + led_classdev_unregister(&asus->camera_led);
->  
-> if (asus->led_workqueue)
-> destroy_workqueue(asus->led_workqueue);
-> @@ -1631,6 +1655,18 @@ static int asus_wmi_led_init(struct asus_wmi *asus)
-> goto error;
-> }
->  
-> + if (asus_wmi_dev_is_present(asus, ASUS_WMI_DEVID_CAMERA_LED)) {
-> + asus->camera_led.name = "asus::camera";
-> + asus->camera_led.max_brightness = 1;
-> + asus->camera_led.brightness_get = camera_led_get;
-> + asus->camera_led.brightness_set_blocking = camera_led_set;
-> +
-> + rv = led_classdev_register(&asus->platform_device->dev,
-> + &asus->camera_led);
-> + if (rv)
-> + goto error;
-> + }
-> +
-> error:
-> if (rv)
-> asus_wmi_led_exit(asus);
-> diff --git a/include/linux/platform_data/x86/asus-wmi.h b/include/linux/platform_data/x86/asus-wmi.h
-> index ab1c7deff118..fb0b00f7d292 100644
-> --- a/include/linux/platform_data/x86/asus-wmi.h
-> +++ b/include/linux/platform_data/x86/asus-wmi.h
-> @@ -50,6 +50,8 @@
-> #define ASUS_WMI_DEVID_LED5 0x00020015
-> #define ASUS_WMI_DEVID_LED6 0x00020016
-> #define ASUS_WMI_DEVID_MICMUTE_LED 0x00040017
-> +#define ASUS_WMI_DEVID_CAMERA_LED_NEG 0x00060078
-> +#define ASUS_WMI_DEVID_CAMERA_LED 0x00060079
->  
-> /* Backlight and Brightness */
-> #define ASUS_WMI_DEVID_ALS_ENABLE 0x00050001 /* Ambient Light Sensor */
-> -- 
-> 2.45.2
-> 
+On 6/20/2024 2:05 PM, Paul Moore wrote:
+> On May 13, 2024 Casey Schaufler <casey@schaufler-ca.com> wrote:
+>> We recently introduced system calls to access process attributes that
+>> are used by Linux Security Modules (LSM). An important aspect of these
+>> system calls is that they provide the LSM attribute data in a format
+>> that identifies the LSM to which the data applies. Another aspect is that
+>> it can be used to provide multiple instances of the attribute for the
+>> case where more than one LSM supplies the attribute.
+>>
+>> We wish to take advantage of this format for data about network peers.
+>> The existing mechanism, SO_PEERSEC, provides peer security data as a
+>> text string. This is sufficient when the LSM providing the information
+>> is known by the user of SO_PEERSEC, and there is only one LSM providing
+>> the information. It fails, however, if the user does not know which
+>> LSM is providing the information.
+>>
+>> Discussions about extending SO_PEERSEC to accomodate either the new
+> Spelling nitpick -> "accommodate" :)
 
-If Hans and Ilpo have no other comments regarding the written C code:
+Thanks.
 
-Signed-off-by: Luke D. Jones <luke@ljones.dev>
+>> format or some other encoding scheme invariably lead to the conclusion
+>> that doing so would lead to tears. Hence, we introduce SO_PEERCONTEXT
+>> which uses the same API data as the LSM system calls.
+>>
+>> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
+>> ---
+>>  arch/alpha/include/uapi/asm/socket.h  |  1 +
+>>  arch/mips/include/uapi/asm/socket.h   |  1 +
+>>  arch/parisc/include/uapi/asm/socket.h |  1 +
+>>  arch/sparc/include/uapi/asm/socket.h  |  1 +
+>>  include/linux/lsm_hook_defs.h         |  2 +
+>>  include/linux/security.h              | 18 ++++++++
+>>  include/uapi/asm-generic/socket.h     |  1 +
+>>  net/core/sock.c                       |  4 ++
+>>  security/apparmor/lsm.c               | 39 ++++++++++++++++
+>>  security/security.c                   | 86 +++++++++++++++++++++++++++++++++++
+>>  security/selinux/hooks.c              | 35 ++++++++++++++
+>>  security/smack/smack_lsm.c            | 25 ++++++++++
+>>  12 files changed, 214 insertions(+)
+> ..
+>
+>> diff --git a/include/uapi/asm-generic/socket.h b/include/uapi/asm-generic/socket.h
+>> index 8ce8a39a1e5f..e0166ff53670 100644
+>> --- a/include/uapi/asm-generic/socket.h
+>> +++ b/include/uapi/asm-generic/socket.h
+>> @@ -134,6 +134,7 @@
+>>  
+>>  #define SO_PASSPIDFD		76
+>>  #define SO_PEERPIDFD		77
+>> +#define SO_PEERCONTEXT		78
+> Bikeshed time ... how about SO_PEERLSMCTX since we are returning a
+> lsm_ctx struct?
+
+Sure.
+
+
+>> diff --git a/security/security.c b/security/security.c
+>> index e387614cb054..fd4919c28e8f 100644
+>> --- a/security/security.c
+>> +++ b/security/security.c
+>> @@ -874,6 +874,64 @@ int lsm_fill_user_ctx(struct lsm_ctx __user *uctx, u32 *uctx_len,
+>>  	return rc;
+>>  }
+>>  
+>> +/**
+>> + * lsm_fill_socket_ctx - Fill a socket lsm_ctx structure
+>> + * @optval: a socket LSM context to be filled
+>> + * @optlen: uctx size
+> "@optlen: @optval size"
+
+Thank you.
+
+
+>> + * @val: the new LSM context value
+>> + * @val_len: the size of the new LSM context value
+>> + * @id: LSM id
+>> + * @flags: LSM defined flags
+>> + *
+>> + * Fill all of the fields in a lsm_ctx structure.  If @optval is NULL
+>> + * simply calculate the required size to output via @optlen and return
+>> + * success.
+>> + *
+>> + * Returns 0 on success, -E2BIG if userspace buffer is not large enough,
+>> + * -EFAULT on a copyout error, -ENOMEM if memory can't be allocated.
+>> + */
+>> +int lsm_fill_socket_ctx(sockptr_t optval, sockptr_t optlen, void *val,
+>> +			size_t val_len, u64 id, u64 flags)
+>> +{
+>> +	struct lsm_ctx *nctx = NULL;
+>> +	unsigned int nctx_len;
+>> +	int loptlen;
+> u32?
+
+Probably. I'll revise in line with your comment below.
+
+>> +	int rc = 0;
+>> +
+>> +	if (copy_from_sockptr(&loptlen, optlen, sizeof(int)))
+>> +		return -EFAULT;
+> It seems the current guidance prefers copy_safe_from_sockptr(), see
+> the note in include/linux/sockptr.h.
+
+Always a good idea to follow guidance.
+
+>> +	nctx_len = ALIGN(struct_size(nctx, ctx, val_len), sizeof(void *));
+>> +	if (nctx_len > loptlen && !sockptr_is_null(optval))
+>> +		rc = -E2BIG;
+> Why do we care if @optval is NULL or not?  We are in a -E2BIG state,
+> we're not copying anything into @optval anyway.  In fact, why are we
+> doing the @rc check below?  Do it here like we do in lsm_fill_user_ctx().
+>
+>   if (nctx_len > loptlen) {
+>     rc = -E2BIG;
+>     goto out;
+>   }
+
+That's a bit sloppy on my part. I'll clean it up.
+
+
+>> +	/* no buffer - return success/0 and set @uctx_len to the req size */
+> "... set @opt_len ... "
+
+Yes.
+
+>> +	if (sockptr_is_null(optval) || rc)
+>> +		goto out;
+> Do the @rc check above, not here.
+>
+>> +	nctx = kzalloc(nctx_len, GFP_KERNEL);
+>> +	if (!nctx) {
+>> +		rc = -ENOMEM;
+>> +		goto out;
+>> +	}
+>> +	nctx->id = id;
+>> +	nctx->flags = flags;
+>> +	nctx->len = nctx_len;
+>> +	nctx->ctx_len = val_len;
+>> +	memcpy(nctx->ctx, val, val_len);
+>> +
+>> +	if (copy_to_sockptr(optval, nctx, nctx_len))
+>> +		rc = -EFAULT;
+> This is always going to copy to the start of @optval which means we
+> are going to keep overwriting previous values in the multi-LSM case.
+
+The multiple LSM case isn't handled in this version. I don't want this
+patch to depend on multiple LSM support.
+
+> I think we likely want copy_to_sockptr_offset(), or similar.  See my
+> comment in security_socket_getpeerctx_stream().
+>
+>> +	kfree(nctx);
+>> +out:
+>> +	if (copy_to_sockptr(optlen, &nctx_len, sizeof(int)))
+>> +		rc = -EFAULT;
+>> +
+>> +	return rc;
+>> +}
+>> +
+>> +
+>>  /*
+>>   * The default value of the LSM hook is defined in linux/lsm_hook_defs.h and
+>>   * can be accessed with:
+>> @@ -4743,6 +4801,34 @@ int security_socket_getpeersec_stream(struct socket *sock, sockptr_t optval,
+>>  	return LSM_RET_DEFAULT(socket_getpeersec_stream);
+>>  }
+>>  
+>> +/**
+>> + * security_socket_getpeerctx_stream() - Get the remote peer label
+>> + * @sock: socket
+>> + * @optval: destination buffer
+>> + * @optlen: size of peer label copied into the buffer
+>> + * @len: maximum size of the destination buffer
+>> + *
+>> + * This hook allows the security module to provide peer socket security state
+>> + * for unix or connected tcp sockets to userspace via getsockopt
+>> + * SO_GETPEERCONTEXT.  For tcp sockets this can be meaningful if the socket
+>> + * is associated with an ipsec SA.
+>> + *
+>> + * Return: Returns 0 if all is well, otherwise, typical getsockopt return
+>> + *         values.
+>> + */
+>> +int security_socket_getpeerctx_stream(struct socket *sock, sockptr_t optval,
+>> +				      sockptr_t optlen, unsigned int len)
+>> +{
+>> +	struct security_hook_list *hp;
+>> +
+>> +	hlist_for_each_entry(hp, &security_hook_heads.socket_getpeerctx_stream,
+>> +			     list)
+>> +		return hp->hook.socket_getpeerctx_stream(sock, optval, optlen,
+>> +							 len);
+>> +
+>> +	return LSM_RET_DEFAULT(socket_getpeerctx_stream);
+>> +}
+> Don't we need the same magic that we have in security_getselfattr() to
+> handle the multi-LSM case?
+
+Yes. I would like to move this ahead independently of the multi-LSM support.
+Putting the multi-LSM magic in is unnecessary and rather pointless until then.
+
+> --
+> paul-moore.com
+
+Thank you for the review. Expect v2 before very long.
+
 
