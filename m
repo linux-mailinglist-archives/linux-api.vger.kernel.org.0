@@ -1,159 +1,220 @@
-Return-Path: <linux-api+bounces-1782-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1783-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B911913039
-	for <lists+linux-api@lfdr.de>; Sat, 22 Jun 2024 00:21:00 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FC229139F9
+	for <lists+linux-api@lfdr.de>; Sun, 23 Jun 2024 13:26:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A4F23B26231
-	for <lists+linux-api@lfdr.de>; Fri, 21 Jun 2024 22:20:57 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 072B01F21C3C
+	for <lists+linux-api@lfdr.de>; Sun, 23 Jun 2024 11:26:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F58916DEB5;
-	Fri, 21 Jun 2024 22:20:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73FF312EBE3;
+	Sun, 23 Jun 2024 11:26:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="f1H1GzaO"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eUJD0CbC"
 X-Original-To: linux-api@vger.kernel.org
-Received: from sonic309-27.consmr.mail.ne1.yahoo.com (sonic309-27.consmr.mail.ne1.yahoo.com [66.163.184.153])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D379036127
-	for <linux-api@vger.kernel.org>; Fri, 21 Jun 2024 22:20:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.163.184.153
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4321312BF1B;
+	Sun, 23 Jun 2024 11:26:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719008450; cv=none; b=PJPm2kFTe1hT6iUcVyP3fsaLCN0C2uIqefTEfcAHxl76jjwIXpSBnSKa4HpigATnCiL+Fz/sxxFLmHoIri2qlhRuA+O/F69wuHs8ineretkzPEsVKTseH/cXveyFZ6BAG8b1Fc9ottHEfBGeawhoO3/anwRy3JRy0d4S2uWEG+Y=
+	t=1719141964; cv=none; b=oLkXhuw75ZKPgFFotljBrRCYLMcunaEeXEhMe97GdXMcD7C84rHdhpLOKnG1luE2sY6d9FylmzVWD9qPxI0pysFYHy/sUYDaUfr8jStDxL9F6fAz1rDZoyj0tQgPKJb2lo1yuvYTWbtLY9qYObRWQkzlZq8rPSlx6b/hAjHNM5U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719008450; c=relaxed/simple;
-	bh=/3OUXbxbh4HVBBwvgsX+pbK2kz+8OtQOGQtbeuGta1o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tlDOkw4Jin8DMk+nBIY0PtQxuwMEq/ktANT2PUUYpFrPiqLEQP5OrlADFk27RhovFT8/lUecaH9GQsBxZhoUGoXSCi2OGzSqQ5EolC5Ljc42YAWwjGed9+8Jl79jHGCxcikdGRXeQqWRRGx2uFG5oY7jnHPtr0crH+lFhhnS/a0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=schaufler-ca.com; spf=none smtp.mailfrom=schaufler-ca.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=f1H1GzaO; arc=none smtp.client-ip=66.163.184.153
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=schaufler-ca.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=schaufler-ca.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1719008442; bh=W93MUuqF8YI2qTC2EngAWFfgxbIWTzpfO4cxB6FzZ44=; h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To; b=f1H1GzaO/qJPM0bY67XxMK80TZseYXCar/CkT56+QTnXcXqz2f+uEvemnyxg3lXAXPCte7mCbBofnDzfWy25GKDkkj6k0KOblY5ZNvbGJfSIGOk3cvumu8s4GqgNlFQUAyy1HQi5VENkeyW9+HTdEkpV7+R0YY1eDs7vHOmMU29qHthyJo+wgi7vcSyqgecggHv7I7aEx9g0RA2cvAwj0EN336exRhiJdI2X3aAEl7xPvdToCKFT9CzgCFRBdTMsAVVUMDrMT5oTwLx8phkoPhCdlQkhJoIHBaqWffx1HgX9EUv0h9AcepxRTxroE3CXT+0tuV/M8brFe2O4aFW74w==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1719008442; bh=zoiWL/ms5GUeexgdKMt5tdj5YOGSnUmULwGpMG402Ss=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=rw9ZldEHbt0JSei3RspNplodkHPtEMnn6jOEB7bExSjx0V4VvL+ma58YyVORHPx9s1AVDqYGTkiDPSYE/bzO/5LUYOkMQJFqwn4oM1p4sHHC28h3WogWBGM15jNkCp60Iyy73oZu1XQsvV0cGrD2OGTGnLCn0luoXDm3uU0CpI28e9uFYEauRNocuL7Emw6fh3ySgDZWkmiOVMTjZb29ZyFvO3UQQYd2zY6YOKpJp/Qk17+UA7oUqjJjPdewZjPD1e4x4h4nEjMeZ6DaAEPKFQX353TvtUhBcW+CFUyKlfA6qexDXyw3KG32Rv4ykJCNCo9AJqwvSIUlVqMThedvOA==
-X-YMail-OSG: xHIJgvYVM1l_e5pHrqiy_yh8PxQUmnnZNw03DwldaoYhvIGtjxoRyA1hUkbJVF2
- SyOTADNPwKlhsH4_83zkPIKbRq.Q0DDQVZXhiAYJiSXcCpI4pkxrfdfI3vWbH_etfKHXhHTVjZSE
- HA9zfNysDePb7ZPyH_ti6YBa2UBkPKPpnnvew_UvKOdqFRm71QQRYfAegjLsmc9dSBpn_3HWkfhq
- 2x0HKa_ysth7HW2P1UYkZvIszKuYDsub_iF_rSh8nYr65Q1fDLOSK9UpkwRw1a12c3eFmJlbg0gG
- Ps.qhuEdAr69Y3LbxLYIrKwm1QmlWSyFaCxW4GRYkAmyhSzc8GD..EoXavTvvE8fvz8AAOZYWO2Q
- o3oiK8stAertTzEtGqR0VWSFo1XxCDtA2Im6C9LiZ99jz75WJ.24MDm1a5yBTXJFqFBe0p13NiRI
- laAyoDkDOk1F11Zw.0bvEP5UrWMudvqUqBMOcoVmVQHQCeUBz8ignD9gGW8tWJmNH5YIn9OL1EAC
- sLK6kt9hL_Pg00d2R.TgEfim0FuBicqwA1PecLiM4YD_llWpfGSbZ1LIDtys8G2TXmDsA52XupJx
- PMZjxcX8z7U_Z4l19e7ijxZrDfSkg02CsUczSeAbhYVo.NUZLs_Rb6nmI.15KZLAmHmqd_xQlpSE
- HmNNwR.v7AxvawVtBWhMpYm4Fien70j10RRBAXyJ3xDHBseTIV7f_f1eAJzEQfKRtHy1jSFI_5O6
- 9W4ox2yyxPEAeIyvRTDJ3DpJXsE_QCHuPUaY23.mIkOVS6vbqAUc6Jes1P2vRpSC2fto3GRdtTCt
- BuaJOI1owyBSFNasUaLZb3jT1bVk.4EKVT2a56pf.sHQCSbSxXgGi6aJ0BJffqA2gp_i8u1oSZ3f
- 6N.WKA.hUb2iRQ7lBTIaV.2JXAVAuRJdP0_rCTSyDr443NZTQ_GHzuY3STxDEXNsHP2BX2lIa2JT
- UPUwrhHrgTQGt40I8FtCXt0fPc.do3fDAEvnbMj3yd5kzy34.U2DukQcJ3ykWDIRnZKgwaQBFlbT
- 2SPn6B6Yfte1JmW9oVQBt6Bcr0eQv.Jwsjrus0mnWb1DVqrjLzOZuLMlwC3u0oxqaRTJfpvyZcQD
- k_bAPui8HfxrlGg_yH.wqVeDrUAvUUuOv66uKwagBp2Eyl_eVayXfj3f2RzP2xxd8enU.owi.whw
- 4j1OiGmAUtbNINy3mzjjRpaIQoFuR577yzUkFvYzKka61bZN61J_YbfDuPhwUlBePngWeWdasony
- XyvXRR9ac5F2y3agMebnLJSGv0E0n1RJurZ12HYCGD_mRUNfVTw_vyGNYReqT.7d32FalsrkhXNM
- YE7X70zZYy.QvxBzsj9hBywvB1wAn131GV3nDNvyu03jd9V32qpkMJUAeZ2O0s36i_sjiky2RBnE
- IR9_V9wk3p3jbdJ7umKG0BtTNjwHO2yc.K1TxmSmTGg.YyAgWznGK4qarj.5z_LAWmyAVyNnpFVI
- EUIeRBnK.jdm.oeBa_etlm.RFulscNElPDHZJaIfhlqoxSiSf0pApy_vsW756ibuOUjqt9RIaFfy
- FiaURzn6l_1w4u6FvRoYbgGCOW1tSciD3ceLtTOCX_0Az.et8w67gzyvtLQ9wApkF8Pru3jCYO3U
- SqnGkd1jqaq.D.BWNalIaF3QkpLZor5mF09f1GiHTJTmQLzRtdMbbmXBF6cDdoHhmBSgAFBWvScq
- b.DzMpIcEfNHzmK.O17slhHyZ_jfQFXwhAIJAbifTkTVWxx.PwMVxHWIpeLuhEukWJgfAF8Off20
- VCejX_LNPVoO5MDUVNnB.UeFvWep7en17N7Y6GMQ3jmJWoF7EUmjPdDrF.JPqiWCXfeksdI5Cwfx
- oKAkT7Eci3JBKS0SDAE9z3tItrRYpvceo37.dySQuLtrLhJa0ImT69QsKnCtTEo95RjTqcDKLJL0
- dxMhgkNhQdt3.dTjhhaQdvRTgawMLhdFz5vaILGYncO00Zy03VhwmPwkoaYJG2GlPcd.flgMobOs
- 3tsHIk32BxbadWd5a5QpKTxIP9VT4cScMqPZr0iu.ikEYWkmxj15JdbnXchSsW7B_J_QDOGtprtl
- bKecFPJEE5a1OCuLLQKrB1xulpgMCgz24Ns60rT13dXBf4iSvPUG_fruCb1xupgZhY4HVVIHS0uD
- SHd1H0ZWEvi9xgJFapzZbp_zTk1SpF3cNUx3FPJc6.k7Y2YYZ2rba22bJEOwnDg5Y6dpidlYfXBz
- YOknam3R1lChQ7W0ePQWNYxezpArxdnk8PnmZkKVtSmrwCXzeAxdoz3O1wLXzb.2IT3Ln8viyS9w
- -
-X-Sonic-MF: <casey@schaufler-ca.com>
-X-Sonic-ID: 40e448d0-786a-4711-84b1-e00c610a0ba3
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic309.consmr.mail.ne1.yahoo.com with HTTP; Fri, 21 Jun 2024 22:20:42 +0000
-Received: by hermes--production-gq1-5b4c49485c-75jqb (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID fa3be147b3108ab3bb88dd26f261d3a7;
-          Fri, 21 Jun 2024 22:00:25 +0000 (UTC)
-Message-ID: <2cddc480-f911-44e3-b415-33e0cec2964c@schaufler-ca.com>
-Date: Fri, 21 Jun 2024 15:00:22 -0700
+	s=arc-20240116; t=1719141964; c=relaxed/simple;
+	bh=n73qLstihOUso6THGt4MThsoV4+BipZJ1B2cja+oGFM=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=rGyuLNWeeahGu0Urx7Y5/B1VeVWFEbHbxO6M0Rulm0XcatxZ3QsCoLuVGtL+y4CH7JbTa9pKzY5epw0bFdKAXe7gqtbI5nxjNVPeLi1Kf8YoQmBjVMrlVUr1rcVIl1l5IBewi5qnzG75o6gHZpptYNylD/XLcBHH7D4yFIeox5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eUJD0CbC; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF92CC2BD10;
+	Sun, 23 Jun 2024 11:25:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719141963;
+	bh=n73qLstihOUso6THGt4MThsoV4+BipZJ1B2cja+oGFM=;
+	h=From:Subject:Date:To:Cc:From;
+	b=eUJD0CbCOqVeOM1asXlIeQVV3v1zAiHgEtF0XCHqN0Vf1Kn5Qpet6Xyc37z+ELMRK
+	 E9DiS9XApKr7Zn4abU8z4Ow4BnOwtGCcM1tIQ3s3Y3LVbJvLJHmJDuYia2VJWmJIOT
+	 Rp65+PG64fJdigS7ddnu9g+HBBBYSm8E88OCQAalb0ta2L28mnSwfr6NYWNgSJQiVv
+	 ceQ5q0j+LFJ25HbBJsBezn/Rn58iujbJv9gXdwTAk8GmWZKCSNLXK1zhjanjYhuc59
+	 sQiDDU4hYArGlaWWRqMGXvxHdP/Ow1o+J5eh5a5/T3JziDqX4+Cqctg/tRsqOAqrO+
+	 UYs7K38XXbAjg==
+From: Mark Brown <broonie@kernel.org>
+Subject: [PATCH RFT v6 0/9] fork: Support shadow stacks in clone3()
+Date: Sun, 23 Jun 2024 12:23:42 +0100
+Message-Id: <20240623-clone3-shadow-stack-v6-0-9ee7783b1fb9@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC] LSM, net: Add SO_PEERCONTEXT for peer LSM data
-To: Paul Moore <paul@paul-moore.com>
-Cc: LSM List <linux-security-module@vger.kernel.org>, netdev@vger.kernel.org,
- linux-api@vger.kernel.org,
- Linux kernel mailing list <linux-kernel@vger.kernel.org>,
- Casey Schaufler <casey@schaufler-ca.com>
-References: <763db426-6f60-4d36-b3f9-b316008889f7@schaufler-ca.com>
- <83ef6981a29c441b58b525e9292c866a@paul-moore.com>
- <c59a4954-913b-4672-b502-21aa683d7cdb@schaufler-ca.com>
- <CAHC9VhRjbWuFeprjNP3r7tU27cW6bEZytWq-3XTjzoN7Ki-zzQ@mail.gmail.com>
-Content-Language: en-US
-From: Casey Schaufler <casey@schaufler-ca.com>
-In-Reply-To: <CAHC9VhRjbWuFeprjNP3r7tU27cW6bEZytWq-3XTjzoN7Ki-zzQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Mailer: WebService/1.1.22407 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAL8FeGYC/3XQy2rDMBAF0F8JWldFGj0sZ9VVPiB0V7rQYxSLB
+ KtIwW0J/vcKl9IUu8s7wz0DcyMVS8JK9rsbKTilmvLYgn7YET/Y8YQ0hZYJMBCc8Z76Sx5R0Dr
+ YkN9pvVp/plwFyQK4qIQmrflWMKaPRX0hx8MzeW3DIdVrLp/LpYkvq28UxCY6ccpoMLoLzDU/s
+ KczlhEvj7mcFnCCX4RzuY1AQ5zmIhptOFdqhYg7BNg2IhpiO2cwCATr/QqR94jZRmRDjAMTI8q
+ oO71C1A8iGbB/fqIaIgC87lVvULo/yDzPX2gCBo3QAQAA
+To: "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>, 
+ Deepak Gupta <debug@rivosinc.com>, Szabolcs Nagy <Szabolcs.Nagy@arm.com>, 
+ "H.J. Lu" <hjl.tools@gmail.com>, Florian Weimer <fweimer@redhat.com>, 
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+ Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, 
+ Vincent Guittot <vincent.guittot@linaro.org>, 
+ Dietmar Eggemann <dietmar.eggemann@arm.com>, 
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, 
+ Mel Gorman <mgorman@suse.de>, 
+ Daniel Bristot de Oliveira <bristot@redhat.com>, 
+ Valentin Schneider <vschneid@redhat.com>, 
+ Christian Brauner <brauner@kernel.org>, Shuah Khan <shuah@kernel.org>
+Cc: linux-kernel@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>, 
+ Will Deacon <will@kernel.org>, jannh@google.com, bsegall@google.com, 
+ linux-kselftest@vger.kernel.org, linux-api@vger.kernel.org, 
+ Mark Brown <broonie@kernel.org>, Kees Cook <kees@kernel.org>, 
+ David Hildenbrand <david@redhat.com>
+X-Mailer: b4 0.14-dev-d4707
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6303; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=n73qLstihOUso6THGt4MThsoV4+BipZJ1B2cja+oGFM=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBmeAY962k/VeTx4/xZqO6Lnu+NJEEykrNGpoaM6MSl
+ pJBtbh2JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZngGPQAKCRAk1otyXVSH0Gz1B/
+ wLlbZadLxX5LPeWcPRkqU2GdGdLVfJX4e1LVytTHTsiUKaWlVS3etlJqN5+j6R1+nr1MsJfXJoX8D0
+ mYbwRH1LUMVk7eVSzKXGbwME8GXLsyj/SwGuFuuStQQBojbWU1Z+1bMmbGf5Rm64cBv0D+a5MigKEA
+ RrehFRD1nCQ7bP9XJoS+R/dRy2RcErGYGJeuzc37A2Hn2a4LvTU4E8QHy2OagvvxKKXrwjCU+ZrPfi
+ bzdk9fbQ7ugAmt6I/ub8jLPZCc68+gFbDEDuxmkPshJEslEkm9CxVilaCvgyaqZwR+pfMB6bVsMH++
+ WFk+3M81cv+sBwcxO4JKCOpzzAzW22
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On 6/21/2024 12:41 PM, Paul Moore wrote:
-> On Fri, Jun 21, 2024 at 12:06 PM Casey Schaufler <casey@schaufler-ca.com> wrote:
->> On 6/20/2024 2:05 PM, Paul Moore wrote:
->>> On May 13, 2024 Casey Schaufler <casey@schaufler-ca.com> wrote:
-> ..
->
->>>> +/**
->>>> + * security_socket_getpeerctx_stream() - Get the remote peer label
->>>> + * @sock: socket
->>>> + * @optval: destination buffer
->>>> + * @optlen: size of peer label copied into the buffer
->>>> + * @len: maximum size of the destination buffer
->>>> + *
->>>> + * This hook allows the security module to provide peer socket security state
->>>> + * for unix or connected tcp sockets to userspace via getsockopt
->>>> + * SO_GETPEERCONTEXT.  For tcp sockets this can be meaningful if the socket
->>>> + * is associated with an ipsec SA.
->>>> + *
->>>> + * Return: Returns 0 if all is well, otherwise, typical getsockopt return
->>>> + *         values.
->>>> + */
->>>> +int security_socket_getpeerctx_stream(struct socket *sock, sockptr_t optval,
->>>> +                                  sockptr_t optlen, unsigned int len)
->>>> +{
->>>> +    struct security_hook_list *hp;
->>>> +
->>>> +    hlist_for_each_entry(hp, &security_hook_heads.socket_getpeerctx_stream,
->>>> +                         list)
->>>> +            return hp->hook.socket_getpeerctx_stream(sock, optval, optlen,
->>>> +                                                     len);
->>>> +
->>>> +    return LSM_RET_DEFAULT(socket_getpeerctx_stream);
->>>> +}
->>> Don't we need the same magic that we have in security_getselfattr() to
->>> handle the multi-LSM case?
->> Yes. I would like to move this ahead independently of the multi-LSM support.
->> Putting the multi-LSM magic in is unnecessary and rather pointless until then.
-> Starting with the LSM syscalls, I want any new user visible API that
-> can support multiple LSMs to have support for multiple LSMs.  Yes, the
-> setselfattr API doesn't support multiple LSMs, but that is because we
-> agreed there was never going to be a way to safely support that usage.
-> In this particular case, that same argument does not apply, we could
-> have multiple LSMs returning a socket's network peer information (even
-> if we don't currently see that), so let's make sure our API supports
-> it from the start.
+The kernel has recently added support for shadow stacks, currently
+x86 only using their CET feature but both arm64 and RISC-V have
+equivalent features (GCS and Zicfiss respectively), I am actively
+working on GCS[1].  With shadow stacks the hardware maintains an
+additional stack containing only the return addresses for branch
+instructions which is not generally writeable by userspace and ensures
+that any returns are to the recorded addresses.  This provides some
+protection against ROP attacks and making it easier to collect call
+stacks.  These shadow stacks are allocated in the address space of the
+userspace process.
 
-OK. I'll put that in v2 as well.
+Our API for shadow stacks does not currently offer userspace any
+flexiblity for managing the allocation of shadow stacks for newly
+created threads, instead the kernel allocates a new shadow stack with
+the same size as the normal stack whenever a thread is created with the
+feature enabled.  The stacks allocated in this way are freed by the
+kernel when the thread exits or shadow stacks are disabled for the
+thread.  This lack of flexibility and control isn't ideal, in the vast
+majority of cases the shadow stack will be over allocated and the
+implicit allocation and deallocation is not consistent with other
+interfaces.  As far as I can tell the interface is done in this manner
+mainly because the shadow stack patches were in development since before
+clone3() was implemented.
 
->
-> Unrelated to the above, it would also be good to datagram support as a
-> patch 2/2 thing in a future version of this patchset.  Please be
-> careful not to carry over the mistakes we made with SCM_SECURITY (see
-> the GH discussion linked below).
+Since clone3() is readily extensible let's add support for specifying a
+shadow stack when creating a new thread or process in a similar manner
+to how the normal stack is specified, keeping the current implicit
+allocation behaviour if one is not specified either with clone3() or
+through the use of clone().  The user must provide a shadow stack
+address and size, this must point to memory mapped for use as a shadow
+stackby map_shadow_stack() with a shadow stack token at the top of the
+stack.
 
-That's "in my queue". I didn't want to spend time on it until I got
-feedback on this one.
+Please note that the x86 portions of this code are build tested only, I
+don't appear to have a system that can run CET avaible to me, I have
+done testing with an integration into my pending work for GCS.  There is
+some possibility that the arm64 implementation may require the use of
+clone3() and explicit userspace allocation of shadow stacks, this is
+still under discussion.
 
->
-> * https://github.com/SELinuxProject/selinux-kernel/issues/24
->
+Please further note that the token consumption done by clone3() is not
+currently implemented in an atomic fashion, Rick indicated that he would
+look into fixing this if people are OK with the implementation.
+
+A new architecture feature Kconfig option for shadow stacks is added as
+here, this was suggested as part of the review comments for the arm64
+GCS series and since we need to detect if shadow stacks are supported it
+seemed sensible to roll it in here.
+
+[1] https://lore.kernel.org/r/20231009-arm64-gcs-v6-0-78e55deaa4dd@kernel.org/
+
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+Changes in v6:
+- Rebase onto v6.10-rc3.
+- Ensure we don't try to free the parent shadow stack in error paths of
+  x86 arch code.
+- Spelling fixes in userspace API document.
+- Additional cleanups and improvements to the clone3() tests to support
+  the shadow stack tests.
+- Link to v5: https://lore.kernel.org/r/20240203-clone3-shadow-stack-v5-0-322c69598e4b@kernel.org
+
+Changes in v5:
+- Rebase onto v6.8-rc2.
+- Rework ABI to have the user allocate the shadow stack memory with
+  map_shadow_stack() and a token.
+- Force inlining of the x86 shadow stack enablement.
+- Move shadow stack enablement out into a shared header for reuse by
+  other tests.
+- Link to v4: https://lore.kernel.org/r/20231128-clone3-shadow-stack-v4-0-8b28ffe4f676@kernel.org
+
+Changes in v4:
+- Formatting changes.
+- Use a define for minimum shadow stack size and move some basic
+  validation to fork.c.
+- Link to v3: https://lore.kernel.org/r/20231120-clone3-shadow-stack-v3-0-a7b8ed3e2acc@kernel.org
+
+Changes in v3:
+- Rebase onto v6.7-rc2.
+- Remove stale shadow_stack in internal kargs.
+- If a shadow stack is specified unconditionally use it regardless of
+  CLONE_ parameters.
+- Force enable shadow stacks in the selftest.
+- Update changelogs for RISC-V feature rename.
+- Link to v2: https://lore.kernel.org/r/20231114-clone3-shadow-stack-v2-0-b613f8681155@kernel.org
+
+Changes in v2:
+- Rebase onto v6.7-rc1.
+- Remove ability to provide preallocated shadow stack, just specify the
+  desired size.
+- Link to v1: https://lore.kernel.org/r/20231023-clone3-shadow-stack-v1-0-d867d0b5d4d0@kernel.org
+
+---
+Mark Brown (9):
+      Documentation: userspace-api: Add shadow stack API documentation
+      selftests: Provide helper header for shadow stack testing
+      mm: Introduce ARCH_HAS_USER_SHADOW_STACK
+      fork: Add shadow stack support to clone3()
+      selftests/clone3: Remove redundant flushes of output streams
+      selftests/clone3: Factor more of main loop into test_clone3()
+      selftests/clone3: Explicitly handle child exits due to signals
+      selftests/clone3: Allow tests to flag if -E2BIG is a valid error code
+      selftests/clone3: Test shadow stack support
+
+ Documentation/userspace-api/index.rst             |   1 +
+ Documentation/userspace-api/shadow_stack.rst      |  41 ++++
+ arch/x86/Kconfig                                  |   1 +
+ arch/x86/include/asm/shstk.h                      |  11 +-
+ arch/x86/kernel/process.c                         |   2 +-
+ arch/x86/kernel/shstk.c                           | 104 +++++++---
+ fs/proc/task_mmu.c                                |   2 +-
+ include/linux/mm.h                                |   2 +-
+ include/linux/sched/task.h                        |  13 ++
+ include/uapi/linux/sched.h                        |  13 +-
+ kernel/fork.c                                     |  76 ++++++--
+ mm/Kconfig                                        |   6 +
+ tools/testing/selftests/clone3/clone3.c           | 225 ++++++++++++++++++----
+ tools/testing/selftests/clone3/clone3_selftests.h |  40 +++-
+ tools/testing/selftests/ksft_shstk.h              |  63 ++++++
+ 15 files changed, 512 insertions(+), 88 deletions(-)
+---
+base-commit: 83a7eefedc9b56fe7bfeff13b6c7356688ffa670
+change-id: 20231019-clone3-shadow-stack-15d40d2bf536
+
+Best regards,
+-- 
+Mark Brown <broonie@kernel.org>
+
 
