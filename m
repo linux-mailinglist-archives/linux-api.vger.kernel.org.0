@@ -1,93 +1,158 @@
-Return-Path: <linux-api+bounces-1802-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1803-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A585691C017
-	for <lists+linux-api@lfdr.de>; Fri, 28 Jun 2024 15:57:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54C1E91C07B
+	for <lists+linux-api@lfdr.de>; Fri, 28 Jun 2024 16:09:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 48D5A284954
-	for <lists+linux-api@lfdr.de>; Fri, 28 Jun 2024 13:57:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0ED872863F2
+	for <lists+linux-api@lfdr.de>; Fri, 28 Jun 2024 14:09:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 127D21BE845;
-	Fri, 28 Jun 2024 13:57:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81AFF1BF31A;
+	Fri, 28 Jun 2024 14:09:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="X48moTLe";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="s3g8O5Kb"
+	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="L5byYxpa"
 X-Original-To: linux-api@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F049015D5A1;
-	Fri, 28 Jun 2024 13:57:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3712C1BE843;
+	Fri, 28 Jun 2024 14:09:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719583072; cv=none; b=fU4cqzELeQJh/UGD5XP3UyxkX24Jt5A9y/zIslWf8LwgsmIseTee2qTN9GCrMGLlvI0nsfBzChXCtl19ZdyB0bUV/jorzETUX/EbYAYW40f/ndYpKIU2e4psx9mkExl8Zl3LSyKpgwvd7y0iiPaHQ5yC8vfRkm73i5Z1ZPCJcfQ=
+	t=1719583750; cv=none; b=U1VMM65vetFpPfSP1PaDgh5Em4FchndeBWivp2wgjJ8c4+VMuqToXl9xm5EghpudIIUToC3RqHa7yJry/28LigSr460iWMQmvd4lUd09niZ6DigCjnLK2fW/L4BNr0//EsXmmNMcHJ5hpVJcOxJOoGza656uDhyO3GeSU3UA/HA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719583072; c=relaxed/simple;
-	bh=6dB9gyixxZaNNrLZkws68I/STGMKTO/uLclTGj6eKhE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=HBsB3p153OR+G8L7LpYyokw8InUsZFoQbPm9zcyqLqhjcUzC3sm8/Ov0bhsa0/4m4JEsmnRs8mqvI81JEG8UIflt5vQEJiJOhKSY//JEzE/xz+cXqTVNrp1iSTSBxWxbngSKyCYcO+35NDPtTH9mtuvmdAQv7gY9wpgOqrHojXE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=X48moTLe; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=s3g8O5Kb; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1719583067;
+	s=arc-20240116; t=1719583750; c=relaxed/simple;
+	bh=PoxoWWl88O12e6KbvoEyRiWn5b5ve/LBlpPDCEhGhsI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QI+AjVJWP0QTSbTjDOrLYMkNOBOog5bJ/OptEiFqmZdayoV6qlwFdeDw8jDfbCo7bptokXnGZ5TF5KSwJaONQ0PTMomjtZgdiKIv0geTszO90L5leTktQnlz+x95J7Rz5VtNnLJPL3eOWzqSaYETZI2XM0hJxMG8Ab0R89HUpy4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b=L5byYxpa; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3304BC116B1;
+	Fri, 28 Jun 2024 14:09:08 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="L5byYxpa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
+	t=1719583746;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=6dB9gyixxZaNNrLZkws68I/STGMKTO/uLclTGj6eKhE=;
-	b=X48moTLewdTFXTRsJNnCKnwLBaQvCaLc6Ogsy7zmy4Lyhw9iJQ2JgLiX0RxTsrB2lEOiXr
-	Byl7Ozl0URCKHHvxGIyh4Y2ef26qJnBQWerRSppEvR1Y+DWHpoWcn+ABYU/sj7zFi92RuL
-	MyQJjlP77tH1hvnJBmWvWsL1KlGncc5Gw6rgoWxdIGWXCzocRV+e9s51Vn0XzhpGrnsBmP
-	42uivhJfGVYUmtasn+Ksxyk/90d8OO8tHkbGW+UE+aAVxktMiKLUZW2wiV8KvU7IEJ97Bx
-	Yie5Mb0hyOVy13pq745MQjpaGFVCG8o40VICgsPqJyiwHwegq2SPS7IF7+AwmQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1719583067;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6dB9gyixxZaNNrLZkws68I/STGMKTO/uLclTGj6eKhE=;
-	b=s3g8O5KbccSbxbx6A2UqbfeRrrmPK26QrZ+tgBUHBqEMj++emV8ZPnJeqmuRsyvUt6lOY/
-	dXRLWKiQnj7cfZBw==
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>, linux-kernel@vger.kernel.org,
- patches@lists.linux.dev
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, linux-crypto@vger.kernel.org,
- linux-api@vger.kernel.org, x86@kernel.org, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Adhemerval Zanella Netto
- <adhemerval.zanella@linaro.org>, Carlos O'Donell <carlos@redhat.com>,
- Florian Weimer <fweimer@redhat.com>, Arnd Bergmann <arnd@arndb.de>, Jann
- Horn <jannh@google.com>, Christian Brauner <brauner@kernel.org>, David
- Hildenbrand <dhildenb@redhat.com>, Samuel Neves <sneves@dei.uc.pt>
-Subject: Re: [PATCH v18 5/5] x86: vdso: Wire up getrandom() vDSO implementation
-In-Reply-To: <20240620005339.1273434-6-Jason@zx2c4.com>
+	bh=J9G/8NSfD5bhb15ffQL7z+PnF+QkyW7FSyBk5NRxv10=;
+	b=L5byYxpa+NDlWYcN1RTTJibXvDJ5F9efTq0kO48Ze/QE2GCBmnGaNPM/R7dxzJ5S4Pjpvb
+	+5Eup6rRM20VxMq5Y/buyBUM+W1+Y+xy80UDu/gNrelTynZvhbzg3Y/bUCDzaB+3UlZcig
+	JooVYqDIomzZCidMd60ZHRjU8z294Lc=
+Received: 
+	by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 5ff92fdc (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Fri, 28 Jun 2024 14:09:05 +0000 (UTC)
+Date: Fri, 28 Jun 2024 16:09:01 +0200
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: Aleksa Sarai <cyphar@cyphar.com>, linux-kernel@vger.kernel.org,
+	patches@lists.linux.dev, linux-crypto@vger.kernel.org,
+	linux-api@vger.kernel.org, x86@kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
+	Carlos O'Donell <carlos@redhat.com>,
+	Florian Weimer <fweimer@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
+	Jann Horn <jannh@google.com>,
+	Christian Brauner <brauner@kernel.org>,
+	David Hildenbrand <dhildenb@redhat.com>
+Subject: Re: [PATCH v18 2/5] random: add vgetrandom_alloc() syscall
+Message-ID: <Zn7D_YBC2SXTa_jX@zx2c4.com>
 References: <20240620005339.1273434-1-Jason@zx2c4.com>
- <20240620005339.1273434-6-Jason@zx2c4.com>
-Date: Fri, 28 Jun 2024 15:57:47 +0200
-Message-ID: <87pls1xj8k.ffs@tglx>
+ <20240620005339.1273434-3-Jason@zx2c4.com>
+ <20240620.020423-puny.wheat.mobile.arm-1wWnJHwWYyAl@cyphar.com>
+ <ZnQeCRjgNXEAQjEo@zx2c4.com>
+ <87v81txjb7.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <87v81txjb7.ffs@tglx>
 
-On Thu, Jun 20 2024 at 02:53, Jason A. Donenfeld wrote:
-> Hook up the generic vDSO implementation to the x86 vDSO data page. Since
-> the existing vDSO infrastructure is heavily based on the timekeeping
-> functionality, which works over arrays of bases, a new macro is
-> introduced for vvars that are not arrays.
->
-> The vDSO function requires a ChaCha20 implementation that does not write
-> to the stack, yet can still do an entire ChaCha20 permutation, so
-> provide this using SSE2, since this is userland code that must work on
-> all x86-64 processors. There's a simple test for this code as well.
->
-> Reviewed-by: Samuel Neves <sneves@dei.uc.pt> # for vgetrandom-chacha.S
-> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+On Fri, Jun 28, 2024 at 03:56:12PM +0200, Thomas Gleixner wrote:
+> Jason!
+> 
+> On Thu, Jun 20 2024 at 14:18, Jason A. Donenfeld wrote:
+> > On Wed, Jun 19, 2024 at 07:13:26PM -0700, Aleksa Sarai wrote:
+> >> Then again, I guess since libc is planned to be the primary user,
+> >> creating a new syscall in a decade if necessary is probably not that big
+> >> of an issue.
+> >
+> > I'm not sure going the whole big struct thing is really necessary, and
+> > for an additional reason: this is only meant to be used with the vDSO
+> > function, which is also coupled with the kernel. It doesn't return
+> > information that's made to be used (or allowed to be used) anywhere
+> > else. So both the vdso code and the syscall code are part of the same
+> > basic thing that will evolve together. So I'm not convinced extensible
+> > struct really makes sense for this, as neat as it is.
+> >
+> > If there's wide consensus that it's desirable, in contrast to what I'm
+> > saying, I'm not vehemently opposed to it and could do it, but it just
+> > seems like massive overkill and not at all necessary. Things are
+> > intentionally as simple and straightforward as can be.
+> 
+> Right, but the problem is that this is a syscall, so people are free to
+> explore it even without the vdso part. Now when you want to change it
+> later then you are caught in the no-regression trap.
+> 
+> So making it extensible with backwards compability in place (add the
+> unused flag field and check for 0) will allow you to expand without
+> breaking users.
 
-Reviewed-by: Thomas Gleixner <tglx@linutronix.de>
+Okay, so it sounds like you're also in camp-struct. I guess let's do it
+then. This opens up a few questions, but I think we can get them sorted.
+Right now this version of the patch has this signature:
+
+  void *vgetrandom_alloc(unsigned int *num, unsigned int *size_per_each,
+                         unsigned long addr, unsigned int flags);
+
+The semantics are currently:
+
+- [in] unsigned int num - desired number of states
+- [in] unsigned long addr - reserved, nothing
+- [in] unsigned int flags - reserved, nothing
+- [out] unsigned int num - actual number of states
+- [out] unsigned int size_per_each - size of each state
+- [out] void* return value - the allocated thing
+
+Following Aleksa's suggestion, we keep the `[out] void* return value` as
+a return value, but move all the other into a struct:
+
+    void *vgetrandom_alloc(struct vgetrandom_args *arg, size_t size);
+
+So now the struct can become:
+
+    struct vgetrandom_args {
+        [in] u64 flags;
+        [in/out] u32 num;
+        [out] u32 size_per_each;
+    }
+
+Alternatively, this now opens the possibility to incorporate Eric's
+suggestion of also returning the number of allocated bytes, which is
+perhaps definitely to deal with, but I didn't do because I wanted
+symmetry in the argument list. So doing that, now we have:
+
+    struct vgetrandom_args {
+        [in] u64 flags;
+        [in/out] u32 num;
+        [out] u32 size_per_each;
+        [out] u64 bytes_allocated;
+    }
+
+Does that seem reasonable? There's a little bit of mixing of ins and
+outs within the struct, and the return value is still a return value,
+rather than a `[out] void *ret` inside of the struct. But maybe that's
+fine. Also I used u32 there for the two smaller arguments, but maybe
+that's silly and we should go straight to u64?
+
+Anyway, how does that look to you?
+
+Jason
 
