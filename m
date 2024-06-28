@@ -1,177 +1,111 @@
-Return-Path: <linux-api+bounces-1799-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1800-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57DA591BA50
-	for <lists+linux-api@lfdr.de>; Fri, 28 Jun 2024 10:46:43 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F51E91C008
+	for <lists+linux-api@lfdr.de>; Fri, 28 Jun 2024 15:56:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 01AAE1F229C1
-	for <lists+linux-api@lfdr.de>; Fri, 28 Jun 2024 08:46:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 10EAF1F213BE
+	for <lists+linux-api@lfdr.de>; Fri, 28 Jun 2024 13:56:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55D8E14A609;
-	Fri, 28 Jun 2024 08:46:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FB8F1BE25F;
+	Fri, 28 Jun 2024 13:56:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=doubly.so header.i=@doubly.so header.b="NGGZVuxZ"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="1TQgy6sC";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="9hT6haFB"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D9041103;
-	Fri, 28 Jun 2024 08:46:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEA2815D5A1;
+	Fri, 28 Jun 2024 13:56:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719564396; cv=none; b=RETP/v5IJoyySwDNv1se1HT2hdIEjyIM0H1Ps9n1L1wKuSqY7+/Kdah4r4XZl3XPuGo8SpKfYTdZkdeIrUnfO2dxDlYvHl/moGO3KXNiA9w1zGoecEJPANdei5IAFr9H6BE17B/BTbbh2eO49F055ZUZSmoy7u9Bn6ehbLLMunA=
+	t=1719582975; cv=none; b=eZVv4+mSkJcCTww037w2l4T2s3MHfGeMHaXnGYnYegGjKMmnsfdR14WfUUdySukNWI9dagiHBT+34WeZg68uxScgbS/Vb4e7Hvs2iMpzm9hsVgCR5eujGADUpvVrD4tbfkdwZrvqcSJC/q9DzO+6J43qcG2UZg86bcatgK/XU9o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719564396; c=relaxed/simple;
-	bh=daoP4o6NCVravagG1KU3tV/ZSt7sXmSsS6DECAgo7QY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gVF/7m+RX66gttxqNrAghJuO6sqzu5HjMx2QfshKD6BJ37ixSiY+q6BfuveQTYF63S5Q+sqO9pxt3lVMHlDrqPPwS+0KXcSruuuHgUtK0MPE4sNN6kNbtdSdSnPsNSwiOVjilr2pGriAIr0lCuH6pFYYWxqsfBbMKnG2D+EySRw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=doubly.so; spf=pass smtp.mailfrom=doubly.so; dkim=pass (2048-bit key) header.d=doubly.so header.i=@doubly.so header.b=NGGZVuxZ; arc=none smtp.client-ip=80.241.56.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=doubly.so
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=doubly.so
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4W9TYv6fVHz9sSD;
-	Fri, 28 Jun 2024 10:46:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=doubly.so; s=MBO0001;
-	t=1719564387;
+	s=arc-20240116; t=1719582975; c=relaxed/simple;
+	bh=YwsaHrOzPvhBj063sIEundMu75Zcsby1a7cfcxtbVCA=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=EDWzE9norvg01WgMdz/ZSKDDian5Sk8z3hmj0Ti7nthmFPaTNYbaaBGH+qxmUwVsgdZ2hXlebwLvrxOQQXX5h4/kmubHFAJKUF8K4A5bNZuqwE5lFsntzbcZkbM75cH2I9WUFYwTa6lXNcOb4Q4n5zJqm40JcSpEBN+Q8OQ5SJ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=1TQgy6sC; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=9hT6haFB; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1719582972;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=dggIXAiX5MvgM14eZ2cfk9y9wjzYfTJJ6oAvTLM9diU=;
-	b=NGGZVuxZ9oRI2pMUaNCHikjQfOPM3zJAZAVzNarXLqSdqWrPd3UOh3rlmKyRiBXGf5W5Yy
-	UtvveltLPaXArxXG+nAHsGi6z7xXkVhNMWF4EqkyBrjkpYzLkM1tsa9+pYSRMKW6W3Ei2b
-	Jvw9bqmnuNqTO3K78CXYzdhEVaGGYodD5vqlQ0i/2T+QBDdJCPVBWjAxRmVRwMXcHTNgRq
-	/ywnF2Ec9hUWxrnM6X6f5DCItbQ3b7S/VEZKOHz9IjyCQF5wZUtGmakjpBgQ/tccw3kQax
-	+rPNHRfUNllvoWSE/RcLX15s7oLZ+R2kLIJiJxgd/eW8NPdwhSa0+Hm7AkL3ww==
-From: Devin Bayer <dev@doubly.so>
-To: corentin.chary@gmail.com,
-	luke@ljones.dev
-Cc: hdegoede@redhat.com,
-	platform-driver-x86@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org,
-	ilpo.jarvinen@linux.intel.com,
-	Devin Bayer <dev@doubly.so>
-Subject: [PATCH v3] platform/x86: asus-wmi: support the disable camera LED on F10 of Zenbook 2023
-Date: Fri, 28 Jun 2024 10:46:03 +0200
-Message-ID: <20240628084603.217106-1-dev@doubly.so>
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0I16KSpDuZeoDhB1Yd2cM6pzj9GT5uR+PgHOxVDH1co=;
+	b=1TQgy6sCUUCHUJ22HcBZ3+yTp0qQsDGGFWy88Zp21iDRkETrhKlK9HI8oYG6r23qQ6VyAj
+	90M6THlVoGSq5I5ENtegYYlOSRcLMyd/SQgPJRKQQmhr+TaPPL9cUolXxmUblrhyRD4LCF
+	FbCBfpZbY8i20NNmVc91gWvPg+kHBZHfzrOmeGmItmC3qxt1MlLrPaaQ4sLaGTSPqRlxZR
+	uRJGkRPCSQBQ52hPf9gP7xR7DL5qw9O9rInkRH3xhGCc0HbyI0NvSlP0R/vfnLAawI3jmU
+	Z5A4JVOSUwqvC1PTked86oGXHSJZNiSBVJ6f0fVJTDh/7W8bvzDvL45hCZXTqw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1719582972;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0I16KSpDuZeoDhB1Yd2cM6pzj9GT5uR+PgHOxVDH1co=;
+	b=9hT6haFBPNQuDLiNL3jknk1S40faMnJp6rLW6MBxSaEb0GjnoSfuKHQCSjCTzzFUPCpJEE
+	cUoJzhIWfczTftAA==
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>, Aleksa Sarai <cyphar@cyphar.com>
+Cc: linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+ linux-crypto@vger.kernel.org, linux-api@vger.kernel.org, x86@kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Adhemerval Zanella Netto
+ <adhemerval.zanella@linaro.org>, Carlos O'Donell <carlos@redhat.com>,
+ Florian Weimer <fweimer@redhat.com>, Arnd Bergmann <arnd@arndb.de>, Jann
+ Horn <jannh@google.com>, Christian Brauner <brauner@kernel.org>, David
+ Hildenbrand <dhildenb@redhat.com>
+Subject: Re: [PATCH v18 2/5] random: add vgetrandom_alloc() syscall
+In-Reply-To: <ZnQeCRjgNXEAQjEo@zx2c4.com>
+References: <20240620005339.1273434-1-Jason@zx2c4.com>
+ <20240620005339.1273434-3-Jason@zx2c4.com>
+ <20240620.020423-puny.wheat.mobile.arm-1wWnJHwWYyAl@cyphar.com>
+ <ZnQeCRjgNXEAQjEo@zx2c4.com>
+Date: Fri, 28 Jun 2024 15:56:12 +0200
+Message-ID: <87v81txjb7.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 4W9TYv6fVHz9sSD
+Content-Type: text/plain
 
-Adds a sysfs entry for the LED on F10 above the crossed out camera icon on 2023 Zenbooks.
+Jason!
 
-v3
-- add docs for WMI devices
-- remove duplicate #define
+On Thu, Jun 20 2024 at 14:18, Jason A. Donenfeld wrote:
+> On Wed, Jun 19, 2024 at 07:13:26PM -0700, Aleksa Sarai wrote:
+>> Then again, I guess since libc is planned to be the primary user,
+>> creating a new syscall in a decade if necessary is probably not that big
+>> of an issue.
+>
+> I'm not sure going the whole big struct thing is really necessary, and
+> for an additional reason: this is only meant to be used with the vDSO
+> function, which is also coupled with the kernel. It doesn't return
+> information that's made to be used (or allowed to be used) anywhere
+> else. So both the vdso code and the syscall code are part of the same
+> basic thing that will evolve together. So I'm not convinced extensible
+> struct really makes sense for this, as neat as it is.
+>
+> If there's wide consensus that it's desirable, in contrast to what I'm
+> saying, I'm not vehemently opposed to it and could do it, but it just
+> seems like massive overkill and not at all necessary. Things are
+> intentionally as simple and straightforward as can be.
 
-v2
-- Changed name from `platform::camera` to `asus::camera`
-- Separated patch from patchset
+Right, but the problem is that this is a syscall, so people are free to
+explore it even without the vdso part. Now when you want to change it
+later then you are caught in the no-regression trap.
 
-v1
-- https://lore.kernel.org/platform-driver-x86/20240620082223.20178-1-dev@doubly.so/
+So making it extensible with backwards compability in place (add the
+unused flag field and check for 0) will allow you to expand without
+breaking users.
 
-Signed-off-by: Devin Bayer <dev@doubly.so>
----
- drivers/platform/x86/asus-wmi.c            | 35 ++++++++++++++++++++++
- include/linux/platform_data/x86/asus-wmi.h |  4 +++
- 2 files changed, 39 insertions(+)
+Thanks,
 
-diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
-index 3f07bbf809ef..4a9ad8b313e6 100644
---- a/drivers/platform/x86/asus-wmi.c
-+++ b/drivers/platform/x86/asus-wmi.c
-@@ -227,6 +227,7 @@ struct asus_wmi {
- 	struct led_classdev lightbar_led;
- 	int lightbar_led_wk;
- 	struct led_classdev micmute_led;
-+	struct led_classdev camera_led;
- 	struct workqueue_struct *led_workqueue;
- 	struct work_struct tpd_led_work;
- 	struct work_struct wlan_led_work;
-@@ -1533,6 +1534,27 @@ static int micmute_led_set(struct led_classdev *led_cdev,
- 	return err < 0 ? err : 0;
- }
- 
-+static enum led_brightness camera_led_get(struct led_classdev *led_cdev)
-+{
-+	struct asus_wmi *asus;
-+	u32 result;
-+
-+	asus = container_of(led_cdev, struct asus_wmi, camera_led);
-+	asus_wmi_get_devstate(asus, ASUS_WMI_DEVID_CAMERA_LED, &result);
-+
-+	return result & ASUS_WMI_DSTS_BRIGHTNESS_MASK;
-+}
-+
-+static int camera_led_set(struct led_classdev *led_cdev,
-+			   enum led_brightness brightness)
-+{
-+	int state = brightness != LED_OFF;
-+	int err;
-+
-+	err = asus_wmi_set_devstate(ASUS_WMI_DEVID_CAMERA_LED, state, NULL);
-+	return err < 0 ? err : 0;
-+}
-+
- static void asus_wmi_led_exit(struct asus_wmi *asus)
- {
- 	led_classdev_unregister(&asus->kbd_led);
-@@ -1540,6 +1562,7 @@ static void asus_wmi_led_exit(struct asus_wmi *asus)
- 	led_classdev_unregister(&asus->wlan_led);
- 	led_classdev_unregister(&asus->lightbar_led);
- 	led_classdev_unregister(&asus->micmute_led);
-+	led_classdev_unregister(&asus->camera_led);
- 
- 	if (asus->led_workqueue)
- 		destroy_workqueue(asus->led_workqueue);
-@@ -1631,6 +1654,18 @@ static int asus_wmi_led_init(struct asus_wmi *asus)
- 			goto error;
- 	}
- 
-+	if (asus_wmi_dev_is_present(asus, ASUS_WMI_DEVID_CAMERA_LED)) {
-+		asus->camera_led.name = "asus::camera";
-+		asus->camera_led.max_brightness = 1;
-+		asus->camera_led.brightness_get = camera_led_get;
-+		asus->camera_led.brightness_set_blocking = camera_led_set;
-+
-+		rv = led_classdev_register(&asus->platform_device->dev,
-+						&asus->camera_led);
-+		if (rv)
-+			goto error;
-+	}
-+
- error:
- 	if (rv)
- 		asus_wmi_led_exit(asus);
-diff --git a/include/linux/platform_data/x86/asus-wmi.h b/include/linux/platform_data/x86/asus-wmi.h
-index ab1c7deff118..d020fcbbcfb7 100644
---- a/include/linux/platform_data/x86/asus-wmi.h
-+++ b/include/linux/platform_data/x86/asus-wmi.h
-@@ -51,6 +51,10 @@
- #define ASUS_WMI_DEVID_LED6		0x00020016
- #define ASUS_WMI_DEVID_MICMUTE_LED		0x00040017
- 
-+/* Disable Camera LED */
-+#define ASUS_WMI_DEVID_CAMERA_LED_NEG	0x00060078 /* 0 = on (unused) */
-+#define ASUS_WMI_DEVID_CAMERA_LED	0x00060079 /* 1 = on */
-+
- /* Backlight and Brightness */
- #define ASUS_WMI_DEVID_ALS_ENABLE	0x00050001 /* Ambient Light Sensor */
- #define ASUS_WMI_DEVID_BACKLIGHT	0x00050011
-
-base-commit: 103a4e4a4351d3d5214c4f54fdf89f0f81b692ef
--- 
-2.45.2
-
+        tglx
 
