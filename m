@@ -1,172 +1,177 @@
-Return-Path: <linux-api+bounces-1798-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1799-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 059F6917442
-	for <lists+linux-api@lfdr.de>; Wed, 26 Jun 2024 00:31:35 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57DA591BA50
+	for <lists+linux-api@lfdr.de>; Fri, 28 Jun 2024 10:46:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 35D0C1C22B99
-	for <lists+linux-api@lfdr.de>; Tue, 25 Jun 2024 22:31:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 01AAE1F229C1
+	for <lists+linux-api@lfdr.de>; Fri, 28 Jun 2024 08:46:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 966F417D350;
-	Tue, 25 Jun 2024 22:31:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55D8E14A609;
+	Fri, 28 Jun 2024 08:46:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="A970dsMG"
+	dkim=pass (2048-bit key) header.d=doubly.so header.i=@doubly.so header.b="NGGZVuxZ"
 X-Original-To: linux-api@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F635149C6E;
-	Tue, 25 Jun 2024 22:31:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D9041103;
+	Fri, 28 Jun 2024 08:46:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719354688; cv=none; b=nHVVfPDoxKf+7Yc5Hhk2OUYzzLElOgSeIIpajNWRmTl0T9RBLNk/g0lDdab3iU4AQtSWwwQb9Q483vMw+fb0P63j5mGgv2s1N1CJWfLHoG8KgAHR+GAo5UPi4CkyjNleUo2xD7ZZ4jHlYnz0WPNojAkwdXFy5Wc2QUNNYHpQj08=
+	t=1719564396; cv=none; b=RETP/v5IJoyySwDNv1se1HT2hdIEjyIM0H1Ps9n1L1wKuSqY7+/Kdah4r4XZl3XPuGo8SpKfYTdZkdeIrUnfO2dxDlYvHl/moGO3KXNiA9w1zGoecEJPANdei5IAFr9H6BE17B/BTbbh2eO49F055ZUZSmoy7u9Bn6ehbLLMunA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719354688; c=relaxed/simple;
-	bh=NNHWeZcyyS4P5K0t1W/YqG4GhaBLe/fDc32RMTJakEc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rTsqhVdBgWid+LNL/ZYYHOw6EbEYX0ar3YkbImrcYgmRzkSuLmHXPnAQgUZdaggZnjWn9Bq2D3T1rSyLT4nV+b39YqBfpWBBy/7F+XzLdSXtSj3nXY6xMbxomKykiKFz4J2WdZXUz1MYx/qqghC+f/3tH/7Dxc32h54AqxuZ+ZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=A970dsMG; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=gBGJpt/3ReVlJkwGEJYBKb36lu8imtdr3lQE4kDPaL8=; b=A970dsMGTdJ4wDpvciuf0s05a+
-	SgpFHcVFFi89sw6juxMHz1f9m09GSU9WMzTxxqqZ6FkGPAzoU31ynfjqzhHjYvjAjNtxhXBNwKRnB
-	uhBla1pjIR2aJffXePgeTh0o7ekivLAHDDbDRlnuH6iqjJOlKyXwKjIR09E55CZ/CWzwNkS1zBBh/
-	wIFQTaXTaXGq3LIha1ZVopP8vFDFvSKDCnbR4E37CByy2VdIcICuk2aFaoXVetrp+K3s+ygF7m2kT
-	oLyrKlBiNfqMqqhi9tH8OOJMGyEuToh+o2XS+6gua+w8AGc080/JbdJw9AcP6HkhOBMejJZj6BKju
-	lGM1B+fQ==;
-Received: from [50.53.4.147] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sMEgw-00000004hHz-017F;
-	Tue, 25 Jun 2024 22:31:10 +0000
-Message-ID: <d935fe05-9e52-487b-8873-3a35cd6b037e@infradead.org>
-Date: Tue, 25 Jun 2024 15:31:08 -0700
+	s=arc-20240116; t=1719564396; c=relaxed/simple;
+	bh=daoP4o6NCVravagG1KU3tV/ZSt7sXmSsS6DECAgo7QY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gVF/7m+RX66gttxqNrAghJuO6sqzu5HjMx2QfshKD6BJ37ixSiY+q6BfuveQTYF63S5Q+sqO9pxt3lVMHlDrqPPwS+0KXcSruuuHgUtK0MPE4sNN6kNbtdSdSnPsNSwiOVjilr2pGriAIr0lCuH6pFYYWxqsfBbMKnG2D+EySRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=doubly.so; spf=pass smtp.mailfrom=doubly.so; dkim=pass (2048-bit key) header.d=doubly.so header.i=@doubly.so header.b=NGGZVuxZ; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=doubly.so
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=doubly.so
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4W9TYv6fVHz9sSD;
+	Fri, 28 Jun 2024 10:46:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=doubly.so; s=MBO0001;
+	t=1719564387;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=dggIXAiX5MvgM14eZ2cfk9y9wjzYfTJJ6oAvTLM9diU=;
+	b=NGGZVuxZ9oRI2pMUaNCHikjQfOPM3zJAZAVzNarXLqSdqWrPd3UOh3rlmKyRiBXGf5W5Yy
+	UtvveltLPaXArxXG+nAHsGi6z7xXkVhNMWF4EqkyBrjkpYzLkM1tsa9+pYSRMKW6W3Ei2b
+	Jvw9bqmnuNqTO3K78CXYzdhEVaGGYodD5vqlQ0i/2T+QBDdJCPVBWjAxRmVRwMXcHTNgRq
+	/ywnF2Ec9hUWxrnM6X6f5DCItbQ3b7S/VEZKOHz9IjyCQF5wZUtGmakjpBgQ/tccw3kQax
+	+rPNHRfUNllvoWSE/RcLX15s7oLZ+R2kLIJiJxgd/eW8NPdwhSa0+Hm7AkL3ww==
+From: Devin Bayer <dev@doubly.so>
+To: corentin.chary@gmail.com,
+	luke@ljones.dev
+Cc: hdegoede@redhat.com,
+	platform-driver-x86@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	ilpo.jarvinen@linux.intel.com,
+	Devin Bayer <dev@doubly.so>
+Subject: [PATCH v3] platform/x86: asus-wmi: support the disable camera LED on F10 of Zenbook 2023
+Date: Fri, 28 Jun 2024 10:46:03 +0200
+Message-ID: <20240628084603.217106-1-dev@doubly.so>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFT v6 1/9] Documentation: userspace-api: Add shadow stack
- API documentation
-To: Mark Brown <broonie@kernel.org>,
- "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
- Deepak Gupta <debug@rivosinc.com>, Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
- "H.J. Lu" <hjl.tools@gmail.com>, Florian Weimer <fweimer@redhat.com>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
- Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>,
- Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
- Mel Gorman <mgorman@suse.de>, Daniel Bristot de Oliveira
- <bristot@redhat.com>, Valentin Schneider <vschneid@redhat.com>,
- Christian Brauner <brauner@kernel.org>, Shuah Khan <shuah@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
- Will Deacon <will@kernel.org>, jannh@google.com,
- linux-kselftest@vger.kernel.org, linux-api@vger.kernel.org,
- Kees Cook <kees@kernel.org>
-References: <20240623-clone3-shadow-stack-v6-0-9ee7783b1fb9@kernel.org>
- <20240623-clone3-shadow-stack-v6-1-9ee7783b1fb9@kernel.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240623-clone3-shadow-stack-v6-1-9ee7783b1fb9@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 4W9TYv6fVHz9sSD
 
-Hi,
+Adds a sysfs entry for the LED on F10 above the crossed out camera icon on 2023 Zenbooks.
 
-On 6/23/24 4:23 AM, Mark Brown wrote:
-> There are a number of architectures with shadow stack features which we are
-> presenting to userspace with as consistent an API as we can (though there
-> are some architecture specifics). Especially given that there are some
-> important considerations for userspace code interacting directly with the
-> feature let's provide some documentation covering the common aspects.
-> 
-> Signed-off-by: Mark Brown <broonie@kernel.org>
-> ---
->  Documentation/userspace-api/index.rst        |  1 +
->  Documentation/userspace-api/shadow_stack.rst | 41 ++++++++++++++++++++++++++++
->  2 files changed, 42 insertions(+)
-> 
+v3
+- add docs for WMI devices
+- remove duplicate #define
 
-Fix run-on sentences...
+v2
+- Changed name from `platform::camera` to `asus::camera`
+- Separated patch from patchset
 
-> diff --git a/Documentation/userspace-api/shadow_stack.rst b/Documentation/userspace-api/shadow_stack.rst
-> new file mode 100644
-> index 000000000000..c576ad3d7ec1
-> --- /dev/null
-> +++ b/Documentation/userspace-api/shadow_stack.rst
-> @@ -0,0 +1,41 @@
-> +=============
-> +Shadow Stacks
-> +=============
-> +
-> +Introduction
-> +============
-> +
-> +Several architectures have features which provide backward edge
-> +control flow protection through a hardware maintained stack, only
-> +writeable by userspace through very limited operations.  This feature
-> +is referred to as shadow stacks on Linux, on x86 it is part of Intel
+v1
+- https://lore.kernel.org/platform-driver-x86/20240620082223.20178-1-dev@doubly.so/
 
-                                      Linux. On x86
+Signed-off-by: Devin Bayer <dev@doubly.so>
+---
+ drivers/platform/x86/asus-wmi.c            | 35 ++++++++++++++++++++++
+ include/linux/platform_data/x86/asus-wmi.h |  4 +++
+ 2 files changed, 39 insertions(+)
 
-> +Control Enforcement Technology (CET), on arm64 it is Guarded Control
+diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
+index 3f07bbf809ef..4a9ad8b313e6 100644
+--- a/drivers/platform/x86/asus-wmi.c
++++ b/drivers/platform/x86/asus-wmi.c
+@@ -227,6 +227,7 @@ struct asus_wmi {
+ 	struct led_classdev lightbar_led;
+ 	int lightbar_led_wk;
+ 	struct led_classdev micmute_led;
++	struct led_classdev camera_led;
+ 	struct workqueue_struct *led_workqueue;
+ 	struct work_struct tpd_led_work;
+ 	struct work_struct wlan_led_work;
+@@ -1533,6 +1534,27 @@ static int micmute_led_set(struct led_classdev *led_cdev,
+ 	return err < 0 ? err : 0;
+ }
+ 
++static enum led_brightness camera_led_get(struct led_classdev *led_cdev)
++{
++	struct asus_wmi *asus;
++	u32 result;
++
++	asus = container_of(led_cdev, struct asus_wmi, camera_led);
++	asus_wmi_get_devstate(asus, ASUS_WMI_DEVID_CAMERA_LED, &result);
++
++	return result & ASUS_WMI_DSTS_BRIGHTNESS_MASK;
++}
++
++static int camera_led_set(struct led_classdev *led_cdev,
++			   enum led_brightness brightness)
++{
++	int state = brightness != LED_OFF;
++	int err;
++
++	err = asus_wmi_set_devstate(ASUS_WMI_DEVID_CAMERA_LED, state, NULL);
++	return err < 0 ? err : 0;
++}
++
+ static void asus_wmi_led_exit(struct asus_wmi *asus)
+ {
+ 	led_classdev_unregister(&asus->kbd_led);
+@@ -1540,6 +1562,7 @@ static void asus_wmi_led_exit(struct asus_wmi *asus)
+ 	led_classdev_unregister(&asus->wlan_led);
+ 	led_classdev_unregister(&asus->lightbar_led);
+ 	led_classdev_unregister(&asus->micmute_led);
++	led_classdev_unregister(&asus->camera_led);
+ 
+ 	if (asus->led_workqueue)
+ 		destroy_workqueue(asus->led_workqueue);
+@@ -1631,6 +1654,18 @@ static int asus_wmi_led_init(struct asus_wmi *asus)
+ 			goto error;
+ 	}
+ 
++	if (asus_wmi_dev_is_present(asus, ASUS_WMI_DEVID_CAMERA_LED)) {
++		asus->camera_led.name = "asus::camera";
++		asus->camera_led.max_brightness = 1;
++		asus->camera_led.brightness_get = camera_led_get;
++		asus->camera_led.brightness_set_blocking = camera_led_set;
++
++		rv = led_classdev_register(&asus->platform_device->dev,
++						&asus->camera_led);
++		if (rv)
++			goto error;
++	}
++
+ error:
+ 	if (rv)
+ 		asus_wmi_led_exit(asus);
+diff --git a/include/linux/platform_data/x86/asus-wmi.h b/include/linux/platform_data/x86/asus-wmi.h
+index ab1c7deff118..d020fcbbcfb7 100644
+--- a/include/linux/platform_data/x86/asus-wmi.h
++++ b/include/linux/platform_data/x86/asus-wmi.h
+@@ -51,6 +51,10 @@
+ #define ASUS_WMI_DEVID_LED6		0x00020016
+ #define ASUS_WMI_DEVID_MICMUTE_LED		0x00040017
+ 
++/* Disable Camera LED */
++#define ASUS_WMI_DEVID_CAMERA_LED_NEG	0x00060078 /* 0 = on (unused) */
++#define ASUS_WMI_DEVID_CAMERA_LED	0x00060079 /* 1 = on */
++
+ /* Backlight and Brightness */
+ #define ASUS_WMI_DEVID_ALS_ENABLE	0x00050001 /* Ambient Light Sensor */
+ #define ASUS_WMI_DEVID_BACKLIGHT	0x00050011
 
-                                  (CET); on arm64
-
-> +Stacks feature (FEAT_GCS) and for RISC-V it is the Zicfiss extension.
-
-                  (FEAT_GCS); and for
-
-> +It is expected that this feature will normally be managed by the
-> +system dynamic linker and libc in ways broadly transparent to
-> +application code, this document covers interfaces and considerations.
-
-               code. This document
-
-> +
-> +
-> +Enabling
-> +========
-> +
-> +Shadow stacks default to disabled when a userspace process is
-> +executed, they can be enabled for the current thread with a syscall:
-
-   executed. They
-
-> +
-> + - For x86 the ARCH_SHSTK_ENABLE arch_prctl()
-> +
-> +It is expected that this will normally be done by the dynamic linker.
-> +Any new threads created by a thread with shadow stacks enabled will
-> +themselves have shadow stacks enabled.
-> +
-> +
-> +Enablement considerations
-> +=========================
-> +
-> +- Returning from the function that enables shadow stacks without first
-> +  disabling them will cause a shadow stack exception.  This includes
-> +  any syscall wrapper or other library functions, the syscall will need
-
-                                          functions. The syscall
-
-> +  to be inlined.
-> +- A lock feature allows userspace to prevent disabling of shadow stacks.
-> +- Those that change the stack context like longjmp() or use of ucontext
-> +  changes on signal return will need support from libc.
-> 
-
+base-commit: 103a4e4a4351d3d5214c4f54fdf89f0f81b692ef
 -- 
-~Randy
+2.45.2
+
 
