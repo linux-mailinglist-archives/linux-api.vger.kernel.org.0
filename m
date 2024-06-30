@@ -1,104 +1,91 @@
-Return-Path: <linux-api+bounces-1808-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1809-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E65F91D1A4
-	for <lists+linux-api@lfdr.de>; Sun, 30 Jun 2024 14:41:01 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1BD591D42C
+	for <lists+linux-api@lfdr.de>; Sun, 30 Jun 2024 23:36:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 89B8C1C20FA3
-	for <lists+linux-api@lfdr.de>; Sun, 30 Jun 2024 12:41:00 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 25586B20BEC
+	for <lists+linux-api@lfdr.de>; Sun, 30 Jun 2024 21:36:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9237E13C689;
-	Sun, 30 Jun 2024 12:40:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD20547F60;
+	Sun, 30 Jun 2024 21:36:31 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71AC37E572;
-	Sun, 30 Jun 2024 12:40:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from vmicros1.altlinux.org (vmicros1.altlinux.org [194.107.17.57])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B0E53EA9B;
+	Sun, 30 Jun 2024 21:36:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.107.17.57
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719751256; cv=none; b=ItngGkuSNZvHkD7llfCdsyM/Deii5bm93Vj7VU/S1YWk1I17K1MwvPZn6zEml39eTOWx5F4YzZN8k1j3D5JSRzUw9tqzg5mAw1DOPHnqaJ44wW4pOL6KboxkfRoAs433ia5pedWNa7l/e6TpTqhoUwwAiBAbF30Fv66v7f/VNYQ=
+	t=1719783391; cv=none; b=HqmYE3oUvpXwsrbmF93sHg8JUH94ouqio01hFTgt4fj4kJTrls5kUDwUtiHWgTaBu7+JipusgM7QX8bPXomdR4OQeJtCd2jyZ3ePR3r9sMNpeywRN9IVrYD8Krc1aP3R9yLvxOUK46SupOn4WJSaI7VKdoNK2HuFPJUgKzi7hYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719751256; c=relaxed/simple;
-	bh=XueVtoABFp4BgyvUh4hGtMOzXKjORvFjOeyUviTBzdE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tUGlWMrYnCXJtyDP9cIxFQG7hT6mE8UQtbxRSMrjKabeQdNbNJawT1UBTgxbNTHqXEC0XZUWZeFxo6vgU8F0D2cp5WaVqMmiY0wSRYAqyOqtufU5LHLCLFitRfUclMAtXf6knSP9bbqwwGjkAqMYKZPkMoqPAJMciTjInbG0xKc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79949C2BD10;
-	Sun, 30 Jun 2024 12:40:54 +0000 (UTC)
-Date: Sun, 30 Jun 2024 08:40:53 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: "Dmitry V. Levin" <ldv@strace.io>
-Cc: Vincent Donnefort <vdonnefort@google.com>, mhiramat@kernel.org,
- mathieu.desnoyers@efficios.com, kernel-team@android.com,
- rdunlap@infradead.org, rppt@kernel.org, david@redhat.com,
- linux-trace-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-api@vger.kernel.org, linux-kernel@vger.kernel.org, Linus Torvalds
- <torvalds@linux-foundation.org>
-Subject: Re: [PATCH v23 3/5] tracing: Allow user-space mapping of the
- ring-buffer
-Message-ID: <20240630084053.0b506916@rorschach.local.home>
-In-Reply-To: <20240630105322.GA17573@altlinux.org>
-References: <20240510140435.3550353-1-vdonnefort@google.com>
-	<20240510140435.3550353-4-vdonnefort@google.com>
-	<20240630105322.GA17573@altlinux.org>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1719783391; c=relaxed/simple;
+	bh=ia4RVuCgBczpk1ifE6xgRj55S+Jnfhj9ts2Uhz9veW8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=eCkGMPem/LFW5SHVWJBIWUw6m51lXnNuSPcZr189ZWdmgN2BfxIylAXA1YosFoP4agva3LbAyhAKMijqkE1Q2l9wF0V2ycwrmm228kvEwswycpfrC2BmFuZceDu5kKunZ2rCFqTJoTdh8mvzLz+iFeniX3IpanDm7hTcm1X5ECY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strace.io; spf=pass smtp.mailfrom=altlinux.org; arc=none smtp.client-ip=194.107.17.57
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strace.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altlinux.org
+Received: from mua.local.altlinux.org (mua.local.altlinux.org [192.168.1.14])
+	by vmicros1.altlinux.org (Postfix) with ESMTP id BD3FC72C8CC;
+	Mon,  1 Jul 2024 00:36:26 +0300 (MSK)
+Received: by mua.local.altlinux.org (Postfix, from userid 508)
+	id AB61B7CCB3A; Mon,  1 Jul 2024 00:36:26 +0300 (IDT)
+Date: Sun, 30 Jun 2024 21:36:26 +0000
+From: "Dmitry V. Levin" <ldv@strace.io>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: Vincent Donnefort <vdonnefort@google.com>,
+	David Hildenbrand <david@redhat.com>, linux-api@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] uapi: change TRACE_MMAP_IOCTL_GET_READER to avoid collision
+ with TCGETS
+Message-ID: <20240630213626.GA23566@altlinux.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sun, 30 Jun 2024 13:53:23 +0300
-"Dmitry V. Levin" <ldv@strace.io> wrote:
+The number that was initially chosen for TRACE_MMAP_IOCTL_GET_READER,
+unfortunately, collides with TCGETS on most of architectures.
 
-> On Fri, May 10, 2024 at 03:04:32PM +0100, Vincent Donnefort wrote:
-> [...]
-> > diff --git a/include/uapi/linux/trace_mmap.h b/include/uapi/linux/trace_mmap.h
-> > index b682e9925539..bd1066754220 100644
-> > --- a/include/uapi/linux/trace_mmap.h
-> > +++ b/include/uapi/linux/trace_mmap.h
-> > @@ -43,4 +43,6 @@ struct trace_buffer_meta {
-> >  	__u64	Reserved2;
-> >  };
-> >  
-> > +#define TRACE_MMAP_IOCTL_GET_READER		_IO('T', 0x1)
-> > +  
-> 
-> I'm sorry but among all the numbers this one was probably the least
-> fortunate choice because it collides with TCGETS on most of architectures.
+For example, this is how strace output would look like when
+support for this value of TRACE_MMAP_IOCTL_GET_READER is added:
 
-Hmm, that is unfortunate.
+$ strace -e ioctl stty
+ioctl(0, TCGETS or TRACE_MMAP_IOCTL_GET_READER, {c_iflag=ICRNL|IXON, c_oflag=NL0|CR0|TAB0|BS0|VT0|FF0|OPOST|ONLCR,
++c_cflag=B38400|CS8|CREAD, c_lflag=ISIG|ICANON|ECHO|ECHOE|ECHOK|IEXTEN|ECHOCTL|ECHOKE, ...}) = 0
 
-> 
-> For example, this is how strace output would look like when
-> TRACE_MMAP_IOCTL_GET_READER support is added:
-> 
-> $ strace -e ioctl stty
-> ioctl(0, TCGETS or TRACE_MMAP_IOCTL_GET_READER, {c_iflag=ICRNL|IXON, c_oflag=NL0|CR0|TAB0|BS0|VT0|FF0|OPOST|ONLCR, c_cflag=B38400|CS8|CREAD, c_lflag=ISIG|ICANON|ECHO|ECHOE|ECHOK|IEXTEN|ECHOCTL|ECHOKE, ...}) = 0
-> 
-> Even though ioctl numbers are inherently not unique, TCGETS is
-> a very traditional one, so it would be great if you could change
-> TRACE_MMAP_IOCTL_GET_READER to avoid this collision.
-> 
-> Given that _IO('T', 0x1) is _IOC(_IOC_NONE, 'T', 0x1, 0),
-> something like _IOC(_IOC_NONE, 'T', 0x1, 0x1) should be OK.
+Even though ioctl numbers are inherently not unique, TCGETS
+is a very traditional one, so let's change the value of
+TRACE_MMAP_IOCTL_GET_READER a bit to avoid this collision.
 
-Well, it may not be too late to update this as it hasn't been
-officially released in 6.10 yet. It's still only in the -rc and the
-library doesn't rely on this yet (I've been holding off until 6.10 was
-officially released before releasing the library that uses it).
+Given that _IO('T', 0x1) is _IOC(_IOC_NONE, 'T', 0x1, 0),
+something like _IOC(_IOC_NONE, 'T', 0x1, 0x1) should be OK.
 
-I can send a patch this week to update it. Or feel free to send a patch
-yourself.
+Fixes: cf9f0f7c4c5bb ("tracing: Allow user-space mapping of the ring-buffer")
+Signed-off-by: Dmitry V. Levin <ldv@strace.io>
+---
+ include/uapi/linux/trace_mmap.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks,
-
--- Steve
+diff --git a/include/uapi/linux/trace_mmap.h b/include/uapi/linux/trace_mmap.h
+index bd1066754220..cb858f1b8367 100644
+--- a/include/uapi/linux/trace_mmap.h
++++ b/include/uapi/linux/trace_mmap.h
+@@ -43,6 +43,6 @@ struct trace_buffer_meta {
+ 	__u64	Reserved2;
+ };
+ 
+-#define TRACE_MMAP_IOCTL_GET_READER		_IO('T', 0x1)
++#define TRACE_MMAP_IOCTL_GET_READER		_IOC(_IOC_NONE, 'T', 0x1, 0x1)
+ 
+ #endif /* _TRACE_MMAP_H_ */
+-- 
+ldv
 
