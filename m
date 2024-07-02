@@ -1,117 +1,123 @@
-Return-Path: <linux-api+bounces-1817-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1818-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49BBB91E1BD
-	for <lists+linux-api@lfdr.de>; Mon,  1 Jul 2024 16:00:45 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B10691F06D
+	for <lists+linux-api@lfdr.de>; Tue,  2 Jul 2024 09:43:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7A3F41C2347B
-	for <lists+linux-api@lfdr.de>; Mon,  1 Jul 2024 14:00:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EAC4E1F23F9D
+	for <lists+linux-api@lfdr.de>; Tue,  2 Jul 2024 07:43:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BCC482D9A;
-	Mon,  1 Jul 2024 14:00:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56A271422B6;
+	Tue,  2 Jul 2024 07:42:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="fSv+muiq"
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="OshYRO+R"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60A2C14AD36;
-	Mon,  1 Jul 2024 14:00:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06B9D4CB23;
+	Tue,  2 Jul 2024 07:42:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719842413; cv=none; b=es6h+zxrS5h5DHHhOs+FjyKQE/EcYknP0ItbFy/8ke9lTsv/O+ZqZ2p4DV2uzNwMOV2Bi2lnL3YB12u7sJ0x6L39bRo6TsPZSpTlBCh6/yZffJ8f2DCTlM/CJeDHziSdyIgMn2wU1FNFwyNu+KeeMaRcXz4v8Ovp68C4OVK71CQ=
+	t=1719906176; cv=none; b=V7YH7+VRLODwSvZI1MV0RI/rxMnODh+MHue0SsPKfzFhYo/GwGRpoxaBGooy5djsB63npcrsrmgeENQVYsV5m9lRLCoYnoMCa1Dn7y6weGLbavQZ/mIYmtMmyHw6Un26Efs2jF4TWl5y4gpU7gjqAR7pcKB1OI4FCceVXBnibwE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719842413; c=relaxed/simple;
-	bh=qTEQjVk0tKxOKX1m6lN2tYIgvkZrJ7LGYmq75GF9S9o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YYSoSUDJnUo1KPheDHnfvLVUqt70vwbXVjdy7ZvSMKuH3Yqjy+RPxnYuxCru0mD0JajiGYZbA8PO1+FRmYaJ/DGTcVNCrRXuxG8Mf8joxHu7aeRnVJQEQKahF3yljC86nWM36/RhWRhxIW6c4VSGqF4BaWlp9gVAoybjxahLB3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b=fSv+muiq; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81907C4AF0D;
-	Mon,  1 Jul 2024 14:00:12 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
-	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="fSv+muiq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
-	t=1719842409;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZItOz8mD+QC05vJ9N7C1vvN7W60Qy3m66+OR2/u/3EU=;
-	b=fSv+muiqQJqN3a6x1gkiA6fJvKljNCDkfK5dya7Gt0NNaqUE+9a8Cpz4uC/55j3ttKFp05
-	F9bza5WFJuchyRT2tGaJawPbMLflS945YXKSgg1mNBjffwxBtpQbmfkOWQS5M5nEc92GS2
-	8UhqVk0+Pr2JE1sJdxCDLurUYZrOt3Q=
-Received: 
-	by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 9e4c9795 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Mon, 1 Jul 2024 14:00:08 +0000 (UTC)
-Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-5c2284616f7so2019931eaf.1;
-        Mon, 01 Jul 2024 07:00:08 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVSLkXkdWsAhjSs7bOLtbGAXoyj17HxNERaZXBTAfMPg2Vfp3iE/6M4GrOc3NQjIJR0M/uIyC9y5rLiLuWvaDU9T+HOCnf/W0yq19h6KxjSUbwyjZEjy1Nqisplx3VnXXJWSyhzku7QAprPBfA+PGrRkyHnKy4lKjutcqYl61PtQtUlVl6c
-X-Gm-Message-State: AOJu0YzoUBUOHXB/gS6KHqS5mluPL0OxQ6BsW1jJrcmJFUl6p/Wyf+cp
-	wQCTVA3hEQJRWo9U2zlheyTS/WaDtzSNFPfBRfBSJ+FpJnK7r7/phlcio6qYPMeE2ix/4hTaPMs
-	w9RSXIsaLWFMtVJms8Zi8nkNuYuU=
-X-Google-Smtp-Source: AGHT+IE1jxyGiueUEPSswOQsUIiXDbT8crZPdJRtiuqOnv85BhhtzLC+FOcAwhNrOHuWJUxUmx2IxcgL+w6Ca0JK8c0=
-X-Received: by 2002:a05:6870:4153:b0:25d:5f08:6b0b with SMTP id
- 586e51a60fabf-25db3414cfcmr5460274fac.18.1719842406764; Mon, 01 Jul 2024
- 07:00:06 -0700 (PDT)
+	s=arc-20240116; t=1719906176; c=relaxed/simple;
+	bh=b9oO32qfFgklf7sETD8/dcIhc/Mu840qILzRUiMTpP4=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=SRVdjxAvNkRauoJP4T7ggZiLCyzJ1I7ArehIkiYDZF2JytK6u6QVs7sq15Od0/xAxs/FnnoLm/0X4cWcofnHuWtxdFOM+vYcdJbWBN4f27gDQMgbIz+6w6jI3EwnWlcLshxm/QG/5ovD1MQAHGFLv01HSbYlkUTgaUmdPDF/zMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=OshYRO+R; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9194C116B1;
+	Tue,  2 Jul 2024 07:42:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1719906175;
+	bh=b9oO32qfFgklf7sETD8/dcIhc/Mu840qILzRUiMTpP4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=OshYRO+RqtW//uVs0njfZO7RS9kJp7HLUpkuV1+ecHPNjZ4TMDFd+ugEBS0Pi7c1j
+	 4NzTC/LyznWWg2EQLbG1xW5vZ28wBuRKvTHc7rpWhFih0+wqUumCbAP7TXxdJ0vmlT
+	 +XaG2OR5kNm6vFn4gpH1YXOJO7gEKW7cQ4RcGDmU=
+Date: Tue, 2 Jul 2024 00:42:54 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc: linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+ tglx@linutronix.de, linux-crypto@vger.kernel.org,
+ linux-api@vger.kernel.org, x86@kernel.org, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Adhemerval Zanella Netto
+ <adhemerval.zanella@linaro.org>, Carlos O'Donell <carlos@redhat.com>,
+ Florian Weimer <fweimer@redhat.com>, Arnd Bergmann <arnd@arndb.de>, Jann
+ Horn <jannh@google.com>, Christian Brauner <brauner@kernel.org>, David
+ Hildenbrand <dhildenb@redhat.com>, linux-mm@kvack.org
+Subject: Re: [PATCH v19 1/5] mm: add VM_DROPPABLE for designating always
+ lazily freeable mappings
+Message-Id: <20240702004254.3ab2db4a98cb7fdd245407cb@linux-foundation.org>
+In-Reply-To: <20240701135801.3698-2-Jason@zx2c4.com>
+References: <20240701135801.3698-1-Jason@zx2c4.com>
+	<20240701135801.3698-2-Jason@zx2c4.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20240620005339.1273434-1-Jason@zx2c4.com> <20240620005339.1273434-3-Jason@zx2c4.com>
- <20240620.020423-puny.wheat.mobile.arm-1wWnJHwWYyAl@cyphar.com>
- <ZnQeCRjgNXEAQjEo@zx2c4.com> <87v81txjb7.ffs@tglx> <Zn7D_YBC2SXTa_jX@zx2c4.com>
- <ZoKYoBp_bSRP_fqn@zx2c4.com>
-In-Reply-To: <ZoKYoBp_bSRP_fqn@zx2c4.com>
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Date: Mon, 1 Jul 2024 15:59:55 +0200
-X-Gmail-Original-Message-ID: <CAHmME9p-VTJnwCJK7qko_k4X=L_WqiCk9vrif=GbpJE3ZPP1PA@mail.gmail.com>
-Message-ID: <CAHmME9p-VTJnwCJK7qko_k4X=L_WqiCk9vrif=GbpJE3ZPP1PA@mail.gmail.com>
-Subject: Re: [PATCH v18 2/5] random: add vgetrandom_alloc() syscall
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: Aleksa Sarai <cyphar@cyphar.com>, linux-kernel@vger.kernel.org, 
-	patches@lists.linux.dev, linux-crypto@vger.kernel.org, 
-	linux-api@vger.kernel.org, x86@kernel.org, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>, "Carlos O'Donell" <carlos@redhat.com>, 
-	Florian Weimer <fweimer@redhat.com>, Arnd Bergmann <arnd@arndb.de>, Jann Horn <jannh@google.com>, 
-	Christian Brauner <brauner@kernel.org>, David Hildenbrand <dhildenb@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jul 1, 2024 at 1:53=E2=80=AFPM Jason A. Donenfeld <Jason@zx2c4.com>=
- wrote:
->
-> On Fri, Jun 28, 2024 at 04:09:01PM +0200, Jason A. Donenfeld wrote:
-> > fine. Also I used u32 there for the two smaller arguments, but maybe
-> > that's silly and we should go straight to u64?
->
-> Judging by `struct clone_args`, it looks like I've got to use
-> __aligned_u64 for every argument:
->
->     struct clone_args {
->         __aligned_u64 flags;
->         __aligned_u64 pidfd;
->         __aligned_u64 child_tid;
->         __aligned_u64 parent_tid;
->         __aligned_u64 exit_signal;
->         __aligned_u64 stack;
->         __aligned_u64 stack_size;
->         __aligned_u64 tls;
->         __aligned_u64 set_tid;
->         __aligned_u64 set_tid_size;
->         __aligned_u64 cgroup;
->     };
->     #define CLONE_ARGS_SIZE_VER0 64 /* sizeof first published struct */
->     #define CLONE_ARGS_SIZE_VER1 80 /* sizeof second published struct */
->     #define CLONE_ARGS_SIZE_VER2 88 /* sizeof third published struct */
->
-> So okay, I'll do that, and will have an ARGS_SIZE_VER0 macro too.
+On Mon,  1 Jul 2024 15:57:55 +0200 "Jason A. Donenfeld" <Jason@zx2c4.com> wrote:
 
-This is now covered by v19 of this patchset:
-https://lore.kernel.org/lkml/20240701135801.3698-1-Jason@zx2c4.com/
+> The vDSO getrandom() implementation works with a buffer allocated with a
+> new system call that has certain requirements:
+> 
+> - It shouldn't be written to core dumps.
+>   * Easy: VM_DONTDUMP.
+> - It should be zeroed on fork.
+>   * Easy: VM_WIPEONFORK.
+> 
+> - It shouldn't be written to swap.
+>   * Uh-oh: mlock is rlimited.
+>   * Uh-oh: mlock isn't inherited by forks.
+> 
+> It turns out that the vDSO getrandom() function has three really nice
+> characteristics that we can exploit to solve this problem:
+> 
+> 1) Due to being wiped during fork(), the vDSO code is already robust to
+>    having the contents of the pages it reads zeroed out midway through
+>    the function's execution.
+> 
+> 2) In the absolute worst case of whatever contingency we're coding for,
+>    we have the option to fallback to the getrandom() syscall, and
+>    everything is fine.
+> 
+> 3) The buffers the function uses are only ever useful for a maximum of
+>    60 seconds -- a sort of cache, rather than a long term allocation.
+> 
+> These characteristics mean that we can introduce VM_DROPPABLE, which
+> has the following semantics:
+> 
+> a) It never is written out to swap.
+> b) Under memory pressure, mm can just drop the pages (so that they're
+>    zero when read back again).
+> c) It is inherited by fork.
+> d) It doesn't count against the mlock budget, since nothing is locked.
+> 
+> This is fairly simple to implement, with the one snag that we have to
+> use 64-bit VM_* flags, but this shouldn't be a problem, since the only
+> consumers will probably be 64-bit anyway.
+> 
+> This way, allocations used by vDSO getrandom() can use:
+> 
+>     VM_DROPPABLE | VM_DONTDUMP | VM_WIPEONFORK | VM_NORESERVE
+> 
+> And there will be no problem with using memory when not in use, not
+> wiping on fork(), coredumps, or writing out to swap.
+
+The patch is impressively comment-free.  It is a little harsh to make
+readers go poking around in the git history to figure out what
+VM_DROPPABLE is, and why it exists.
+
+Seems hard to test that this mode is working correctly.  Can you think
+of a way for userspace to check this?  And if so, add it to selftests?
+
 
