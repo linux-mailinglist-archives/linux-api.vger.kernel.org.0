@@ -1,115 +1,101 @@
-Return-Path: <linux-api+bounces-1825-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1826-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77764924653
-	for <lists+linux-api@lfdr.de>; Tue,  2 Jul 2024 19:33:56 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F4E592468D
+	for <lists+linux-api@lfdr.de>; Tue,  2 Jul 2024 19:37:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AABF41C20AC7
-	for <lists+linux-api@lfdr.de>; Tue,  2 Jul 2024 17:33:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1A74E28174C
+	for <lists+linux-api@lfdr.de>; Tue,  2 Jul 2024 17:37:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2324D1BE86C;
-	Tue,  2 Jul 2024 17:33:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A284E1BE225;
+	Tue,  2 Jul 2024 17:37:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.b="EGvKwXxK"
 X-Original-To: linux-api@vger.kernel.org
-Received: from vmicros1.altlinux.org (vmicros1.altlinux.org [194.107.17.57])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7700B1BD50C;
-	Tue,  2 Jul 2024 17:33:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.107.17.57
+Received: from smtpout.efficios.com (smtpout.efficios.com [167.114.26.122])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E44563D978;
+	Tue,  2 Jul 2024 17:37:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=167.114.26.122
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719941630; cv=none; b=LRXSfHLuc2Bp1jm8c/ZglYdN6CWzTt4Cb37Ei4PCZTpsAqeSOaPXHVxtr7Jf8kyV/Agn5EiH12bfk9Rsw160vxsBQ87T2twjuh3NfWGIZ107luo83cXaUm82i+G7+ho34w/ZEhnI+J9nObFBjy1y/qyGZUXhTsNfd0RoagOt2I4=
+	t=1719941860; cv=none; b=ngxz4F+tEHWAXhSuhJxNKEa1eC/2ZOKXd/6E/dK6kxOs7tmScNNeEOouf5nzsMktAbtIJyNzGCuBoT8yR9T2p8sddSC7VGyB9OOmTQSUyKdhcX1YBGKHBsPTAbtmfkOQoAFDCaZNgaRPawkT8eku56VRLW6SV+GRgKs4wiFdxYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719941630; c=relaxed/simple;
-	bh=Z0xtPjIqXFptQeYP2r3VxJ7kkk1vhuKPqDQr1WYTpKg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ru3gwUbmQBXjPeEcmVzAc4eTC1vIKag1kcX6UkL2wIphhqCFUfBAtRZXZTJATLuWbEtzOZ3yu44Sn9GmRfsJmAxD2R7dipbDEQsblhH9DsH76QRtNCKdXKmnOgpXv1Bz0f4xHFeDxQbn/Pmrxo+oyjl5fnR7xwvsDnJODQQTyAI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strace.io; spf=pass smtp.mailfrom=altlinux.org; arc=none smtp.client-ip=194.107.17.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strace.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altlinux.org
-Received: from mua.local.altlinux.org (mua.local.altlinux.org [192.168.1.14])
-	by vmicros1.altlinux.org (Postfix) with ESMTP id 611CD72C8CC;
-	Tue,  2 Jul 2024 20:33:46 +0300 (MSK)
-Received: by mua.local.altlinux.org (Postfix, from userid 508)
-	id 53DB67CCB3A; Tue,  2 Jul 2024 20:33:46 +0300 (IDT)
-Date: Tue, 2 Jul 2024 20:33:46 +0300
-From: "Dmitry V. Levin" <ldv@strace.io>
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Vincent Donnefort <vdonnefort@google.com>, mhiramat@kernel.org,
-	kernel-team@android.com, rdunlap@infradead.org, rppt@kernel.org,
-	david@redhat.com, linux-trace-kernel@vger.kernel.org,
-	linux-mm@kvack.org, linux-api@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [PATCH v23 3/5] tracing: Allow user-space mapping of the
- ring-buffer
-Message-ID: <20240702173346.GA16408@altlinux.org>
-References: <20240510140435.3550353-1-vdonnefort@google.com>
- <20240510140435.3550353-4-vdonnefort@google.com>
- <20240630105322.GA17573@altlinux.org>
- <20240630084053.0b506916@rorschach.local.home>
- <9a9c8ea4-8e17-4e7e-95fe-7b51441a228c@efficios.com>
- <20240702111807.13d2dd2c@rorschach.local.home>
+	s=arc-20240116; t=1719941860; c=relaxed/simple;
+	bh=/2A8bz/WUlwR9rk6cjNCv2bK6UDxNPWNhwZ6FREREq8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MM/Trxjit+iDBDspeAScGqzbnwBa7Lrec9BMSdHhOC3D4HgmATlh1MBj43Gw8AcmJtFpq9Dbw8vNS1Fm1hkrwF8Da+ucO+uTsNaxWB0e0WzCPTV149ndrt9LvyzvphXee2RpS2WGfzQ2UcJqUJ8n2S3ux1wOhuP0er/oKun+9G8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com; spf=pass smtp.mailfrom=efficios.com; dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.b=EGvKwXxK; arc=none smtp.client-ip=167.114.26.122
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=efficios.com;
+	s=smtpout1; t=1719941856;
+	bh=/2A8bz/WUlwR9rk6cjNCv2bK6UDxNPWNhwZ6FREREq8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=EGvKwXxKye1hcoiqUR/QpqOSiNHnwQdrAWhPy1kCoXaFVTJAhNlf5Ahqbs+u/J6+o
+	 HN5FzpuSri5CjlJyuvpq7Qv+lM1VSV9ahoAAeM1Ay/d+XTdVHtXmexrhiNkBHCAZlN
+	 cn9IGIONz7ja2bPol25hYE7oNlZNnUD1Hx6Dr2IuwI3nCu/wEVfIDDosEdd2COMuaB
+	 2/37JXLQEn9a0Zicx/6irek+RDat/hASSgVB8nmeFbTwLFGFXAkXzQdQrqN5S6ZtM1
+	 0Ui27WVRB5QOZLMZmyRAew5WYTVqb5Hxhep8VHlkIRupm+1F7I1bKJrISlUb6LPKix
+	 gpeoc99Cz1CVQ==
+Received: from [172.16.0.134] (192-222-143-198.qc.cable.ebox.net [192.222.143.198])
+	by smtpout.efficios.com (Postfix) with ESMTPSA id 4WD98w1p5Vz18f6;
+	Tue,  2 Jul 2024 13:37:36 -0400 (EDT)
+Message-ID: <d62eef15-f6c9-4299-b4ff-4b0d5631c35e@efficios.com>
+Date: Tue, 2 Jul 2024 13:37:50 -0400
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240702111807.13d2dd2c@rorschach.local.home>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v23 3/5] tracing: Allow user-space mapping of the
+ ring-buffer
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: Beau Belgrave <beaub@linux.microsoft.com>, "Dmitry V. Levin"
+ <ldv@strace.io>, Vincent Donnefort <vdonnefort@google.com>,
+ mhiramat@kernel.org, kernel-team@android.com, rdunlap@infradead.org,
+ rppt@kernel.org, david@redhat.com, linux-trace-kernel@vger.kernel.org,
+ linux-mm@kvack.org, linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Linus Torvalds <torvalds@linux-foundation.org>
+References: <20240510140435.3550353-1-vdonnefort@google.com>
+ <20240510140435.3550353-4-vdonnefort@google.com>
+ <20240630105322.GA17573@altlinux.org>
+ <20240630084053.0b506916@rorschach.local.home>
+ <9a9c8ea4-8e17-4e7e-95fe-7b51441a228c@efficios.com>
+ <20240702111807.13d2dd2c@rorschach.local.home>
+ <cb02f5a0-d6a3-4228-9cbb-473fd392ee48@efficios.com>
+ <20240702125126.50a6267c@rorschach.local.home>
+Content-Language: en-US
+From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+In-Reply-To: <20240702125126.50a6267c@rorschach.local.home>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jul 02, 2024 at 11:18:07AM -0400, Steven Rostedt wrote:
-> On Tue, 2 Jul 2024 10:36:03 -0400
+On 2024-07-02 12:51, Steven Rostedt wrote:
+> On Tue, 2 Jul 2024 11:32:53 -0400
 > Mathieu Desnoyers <mathieu.desnoyers@efficios.com> wrote:
 > 
-> > > I can send a patch this week to update it. Or feel free to send a patch
-> > > yourself.  
-> > 
-> > You need to reserve an unused ioctl Code and Seq# range within:
-> > 
-> > Documentation/userspace-api/ioctl/ioctl-number.rst
+>> If we use '*' for user events already, perhaps we'd want to consider
+>> using the same range for the ring buffer ioctls ? Arguably one is
+>> about instrumentation and the other is about ring buffer interaction
+>> (data transport), but those are both related to tracing.
 > 
-> Ug, it's been so long, I completely forgot about that file.
-> 
-> Thanks for catching this.
-> 
-> > 
-> > Otherwise this duplicate will confuse all system call instrumentation
-> > tooling.
-> 
-> Agreed, what if we did this then:
-> 
-> -- Steve
-> 
-> diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> index a141e8e65c5d..9a97030c6c8d 100644
-> --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
-> +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> @@ -186,6 +186,7 @@ Code  Seq#    Include File                                           Comments
->  'Q'   all    linux/soundcard.h
->  'R'   00-1F  linux/random.h                                          conflict!
->  'R'   01     linux/rfkill.h                                          conflict!
-> +'R'   20-2F  linux/trace_mmap.h
->  'R'   C0-DF  net/bluetooth/rfcomm.h
->  'R'   E0     uapi/linux/fsl_mc.h
->  'S'   all    linux/cdrom.h                                           conflict!
+> Yeah, but I still rather keep them separate.
 
-Just in case, I've checked the list of ioctls known to strace and can
-confirm that there are no users of 'R' ioctl code in 0x20..0x2f range yet.
+No objection, I'm OK either way.
 
-By the way, this file is definitely not up to date, the 'R' part of it
-should have contained the following:
+Thanks,
 
-'R'   00-1F  uapi/linux/random.h                                     conflict!
-'R'   01-02  uapi/linux/rfkill.h                                     conflict!
-'R'   01-0D  uapi/misc/fastrpc.h                                     conflict!
-'R'   C0-DF  net/bluetooth/rfcomm.h
-'R'   E0     uapi/linux/fsl_mc.h
-
+Mathieu
 
 -- 
-ldv
+Mathieu Desnoyers
+EfficiOS Inc.
+https://www.efficios.com
+
 
