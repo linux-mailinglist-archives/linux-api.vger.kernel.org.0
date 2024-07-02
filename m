@@ -1,123 +1,135 @@
-Return-Path: <linux-api+bounces-1818-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1819-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B10691F06D
-	for <lists+linux-api@lfdr.de>; Tue,  2 Jul 2024 09:43:01 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD170924104
+	for <lists+linux-api@lfdr.de>; Tue,  2 Jul 2024 16:35:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EAC4E1F23F9D
-	for <lists+linux-api@lfdr.de>; Tue,  2 Jul 2024 07:43:00 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 44E0CB2750E
+	for <lists+linux-api@lfdr.de>; Tue,  2 Jul 2024 14:35:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56A271422B6;
-	Tue,  2 Jul 2024 07:42:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 037C41B582F;
+	Tue,  2 Jul 2024 14:35:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="OshYRO+R"
+	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.b="FtlD4jZv"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtpout.efficios.com (smtpout.efficios.com [167.114.26.122])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06B9D4CB23;
-	Tue,  2 Jul 2024 07:42:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 317CE1E50F;
+	Tue,  2 Jul 2024 14:35:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=167.114.26.122
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719906176; cv=none; b=V7YH7+VRLODwSvZI1MV0RI/rxMnODh+MHue0SsPKfzFhYo/GwGRpoxaBGooy5djsB63npcrsrmgeENQVYsV5m9lRLCoYnoMCa1Dn7y6weGLbavQZ/mIYmtMmyHw6Un26Efs2jF4TWl5y4gpU7gjqAR7pcKB1OI4FCceVXBnibwE=
+	t=1719930949; cv=none; b=IUIQR8wr+d8EhzCl4SCNmO2yO4rgVH4o1fl+qeix6xBRS0DwJrDPub22xB2E3sxxjooLFwuFAa1ke6kjVtY9Om3my8LMEd/S+896H6WMUEdBIFYpI0l1aRJuZjJZpD3p7wvD4mWwwGmlpgBekV9jM1SO205+0PolDf8+1ORuF8M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719906176; c=relaxed/simple;
-	bh=b9oO32qfFgklf7sETD8/dcIhc/Mu840qILzRUiMTpP4=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=SRVdjxAvNkRauoJP4T7ggZiLCyzJ1I7ArehIkiYDZF2JytK6u6QVs7sq15Od0/xAxs/FnnoLm/0X4cWcofnHuWtxdFOM+vYcdJbWBN4f27gDQMgbIz+6w6jI3EwnWlcLshxm/QG/5ovD1MQAHGFLv01HSbYlkUTgaUmdPDF/zMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=OshYRO+R; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9194C116B1;
-	Tue,  2 Jul 2024 07:42:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1719906175;
-	bh=b9oO32qfFgklf7sETD8/dcIhc/Mu840qILzRUiMTpP4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=OshYRO+RqtW//uVs0njfZO7RS9kJp7HLUpkuV1+ecHPNjZ4TMDFd+ugEBS0Pi7c1j
-	 4NzTC/LyznWWg2EQLbG1xW5vZ28wBuRKvTHc7rpWhFih0+wqUumCbAP7TXxdJ0vmlT
-	 +XaG2OR5kNm6vFn4gpH1YXOJO7gEKW7cQ4RcGDmU=
-Date: Tue, 2 Jul 2024 00:42:54 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: linux-kernel@vger.kernel.org, patches@lists.linux.dev,
- tglx@linutronix.de, linux-crypto@vger.kernel.org,
- linux-api@vger.kernel.org, x86@kernel.org, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Adhemerval Zanella Netto
- <adhemerval.zanella@linaro.org>, Carlos O'Donell <carlos@redhat.com>,
- Florian Weimer <fweimer@redhat.com>, Arnd Bergmann <arnd@arndb.de>, Jann
- Horn <jannh@google.com>, Christian Brauner <brauner@kernel.org>, David
- Hildenbrand <dhildenb@redhat.com>, linux-mm@kvack.org
-Subject: Re: [PATCH v19 1/5] mm: add VM_DROPPABLE for designating always
- lazily freeable mappings
-Message-Id: <20240702004254.3ab2db4a98cb7fdd245407cb@linux-foundation.org>
-In-Reply-To: <20240701135801.3698-2-Jason@zx2c4.com>
-References: <20240701135801.3698-1-Jason@zx2c4.com>
-	<20240701135801.3698-2-Jason@zx2c4.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1719930949; c=relaxed/simple;
+	bh=WX5kDqC4tJpN29x0TQP8aggg4HMYizhSJ7+/HkfdHwk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZJeNTn7EwWJRvyfo8mqnx/lMVPXiEhpQYwbsOQ5i82A4k1q9lYoC6xQMP1LufjHHCKPQVcTMLseoF1Rz0k6ECafmD8RSiljr3p7tkJPsj453cpoh0Y7f3s6Nmx0nZ0ccuDVXD5YqgSS7QbnEVLGo8cXK/SQ8gAP1PbNehMCCe9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com; spf=pass smtp.mailfrom=efficios.com; dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.b=FtlD4jZv; arc=none smtp.client-ip=167.114.26.122
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=efficios.com;
+	s=smtpout1; t=1719930944;
+	bh=WX5kDqC4tJpN29x0TQP8aggg4HMYizhSJ7+/HkfdHwk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=FtlD4jZvXq217zYnd/L5G9ScVzmrDJTpOBnDM4WKRtXaeZ9tAAh42XBiudMdP+L6c
+	 v3PrjxkCa6qkpji5bCsYuot8IdJyhOtPSIsvhgK6HIJr3rx4uumJ1chLTH7RQWqofW
+	 YzeBtYcJ6wfsiLTXLjyfZ9LX8jo5z86HBCJwUEsxezJl0wNH/fYxX7aASSdDvhHPWM
+	 2byCcOOcQFPQShT4crZ7sMBqIABOjFHAG9HkKugXsJN3sUTHQs3+bE3VVD1/OXP2pA
+	 FvOWqhfi6EnnN2fkB8OA995ejiSM+J7tv8fVqUkOiQiIgpGBihmBRkODHR83QkNUJ8
+	 WzmdQKdJlItdA==
+Received: from [172.16.0.134] (192-222-143-198.qc.cable.ebox.net [192.222.143.198])
+	by smtpout.efficios.com (Postfix) with ESMTPSA id 4WD5745522z17vy;
+	Tue,  2 Jul 2024 10:35:44 -0400 (EDT)
+Message-ID: <9a9c8ea4-8e17-4e7e-95fe-7b51441a228c@efficios.com>
+Date: Tue, 2 Jul 2024 10:36:03 -0400
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v23 3/5] tracing: Allow user-space mapping of the
+ ring-buffer
+To: Steven Rostedt <rostedt@goodmis.org>, "Dmitry V. Levin" <ldv@strace.io>
+Cc: Vincent Donnefort <vdonnefort@google.com>, mhiramat@kernel.org,
+ kernel-team@android.com, rdunlap@infradead.org, rppt@kernel.org,
+ david@redhat.com, linux-trace-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Linus Torvalds <torvalds@linux-foundation.org>
+References: <20240510140435.3550353-1-vdonnefort@google.com>
+ <20240510140435.3550353-4-vdonnefort@google.com>
+ <20240630105322.GA17573@altlinux.org>
+ <20240630084053.0b506916@rorschach.local.home>
+From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Content-Language: en-US
+In-Reply-To: <20240630084053.0b506916@rorschach.local.home>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Mon,  1 Jul 2024 15:57:55 +0200 "Jason A. Donenfeld" <Jason@zx2c4.com> wrote:
+On 2024-06-30 08:40, Steven Rostedt wrote:
+> On Sun, 30 Jun 2024 13:53:23 +0300
+> "Dmitry V. Levin" <ldv@strace.io> wrote:
+> 
+>> On Fri, May 10, 2024 at 03:04:32PM +0100, Vincent Donnefort wrote:
+>> [...]
+>>> diff --git a/include/uapi/linux/trace_mmap.h b/include/uapi/linux/trace_mmap.h
+>>> index b682e9925539..bd1066754220 100644
+>>> --- a/include/uapi/linux/trace_mmap.h
+>>> +++ b/include/uapi/linux/trace_mmap.h
+>>> @@ -43,4 +43,6 @@ struct trace_buffer_meta {
+>>>   	__u64	Reserved2;
+>>>   };
+>>>   
+>>> +#define TRACE_MMAP_IOCTL_GET_READER		_IO('T', 0x1)
+>>> +
+>>
+>> I'm sorry but among all the numbers this one was probably the least
+>> fortunate choice because it collides with TCGETS on most of architectures.
+> 
+> Hmm, that is unfortunate.
+> 
+>>
+>> For example, this is how strace output would look like when
+>> TRACE_MMAP_IOCTL_GET_READER support is added:
+>>
+>> $ strace -e ioctl stty
+>> ioctl(0, TCGETS or TRACE_MMAP_IOCTL_GET_READER, {c_iflag=ICRNL|IXON, c_oflag=NL0|CR0|TAB0|BS0|VT0|FF0|OPOST|ONLCR, c_cflag=B38400|CS8|CREAD, c_lflag=ISIG|ICANON|ECHO|ECHOE|ECHOK|IEXTEN|ECHOCTL|ECHOKE, ...}) = 0
+>>
+>> Even though ioctl numbers are inherently not unique, TCGETS is
+>> a very traditional one, so it would be great if you could change
+>> TRACE_MMAP_IOCTL_GET_READER to avoid this collision.
+>>
+>> Given that _IO('T', 0x1) is _IOC(_IOC_NONE, 'T', 0x1, 0),
+>> something like _IOC(_IOC_NONE, 'T', 0x1, 0x1) should be OK.
+> 
+> Well, it may not be too late to update this as it hasn't been
+> officially released in 6.10 yet. It's still only in the -rc and the
+> library doesn't rely on this yet (I've been holding off until 6.10 was
+> officially released before releasing the library that uses it).
+> 
+> I can send a patch this week to update it. Or feel free to send a patch
+> yourself.
 
-> The vDSO getrandom() implementation works with a buffer allocated with a
-> new system call that has certain requirements:
-> 
-> - It shouldn't be written to core dumps.
->   * Easy: VM_DONTDUMP.
-> - It should be zeroed on fork.
->   * Easy: VM_WIPEONFORK.
-> 
-> - It shouldn't be written to swap.
->   * Uh-oh: mlock is rlimited.
->   * Uh-oh: mlock isn't inherited by forks.
-> 
-> It turns out that the vDSO getrandom() function has three really nice
-> characteristics that we can exploit to solve this problem:
-> 
-> 1) Due to being wiped during fork(), the vDSO code is already robust to
->    having the contents of the pages it reads zeroed out midway through
->    the function's execution.
-> 
-> 2) In the absolute worst case of whatever contingency we're coding for,
->    we have the option to fallback to the getrandom() syscall, and
->    everything is fine.
-> 
-> 3) The buffers the function uses are only ever useful for a maximum of
->    60 seconds -- a sort of cache, rather than a long term allocation.
-> 
-> These characteristics mean that we can introduce VM_DROPPABLE, which
-> has the following semantics:
-> 
-> a) It never is written out to swap.
-> b) Under memory pressure, mm can just drop the pages (so that they're
->    zero when read back again).
-> c) It is inherited by fork.
-> d) It doesn't count against the mlock budget, since nothing is locked.
-> 
-> This is fairly simple to implement, with the one snag that we have to
-> use 64-bit VM_* flags, but this shouldn't be a problem, since the only
-> consumers will probably be 64-bit anyway.
-> 
-> This way, allocations used by vDSO getrandom() can use:
-> 
->     VM_DROPPABLE | VM_DONTDUMP | VM_WIPEONFORK | VM_NORESERVE
-> 
-> And there will be no problem with using memory when not in use, not
-> wiping on fork(), coredumps, or writing out to swap.
+You need to reserve an unused ioctl Code and Seq# range within:
 
-The patch is impressively comment-free.  It is a little harsh to make
-readers go poking around in the git history to figure out what
-VM_DROPPABLE is, and why it exists.
+Documentation/userspace-api/ioctl/ioctl-number.rst
 
-Seems hard to test that this mode is working correctly.  Can you think
-of a way for userspace to check this?  And if so, add it to selftests?
+Otherwise this duplicate will confuse all system call instrumentation
+tooling.
+
+Thanks,
+
+Mathieu
+
+
+-- 
+Mathieu Desnoyers
+EfficiOS Inc.
+https://www.efficios.com
 
 
