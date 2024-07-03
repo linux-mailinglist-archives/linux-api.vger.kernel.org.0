@@ -1,124 +1,97 @@
-Return-Path: <linux-api+bounces-1834-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1835-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEDE29268CC
-	for <lists+linux-api@lfdr.de>; Wed,  3 Jul 2024 21:04:54 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9911F926B8A
+	for <lists+linux-api@lfdr.de>; Thu,  4 Jul 2024 00:26:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 24E89B24C5B
-	for <lists+linux-api@lfdr.de>; Wed,  3 Jul 2024 19:04:52 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CA0EC1C2173C
+	for <lists+linux-api@lfdr.de>; Wed,  3 Jul 2024 22:26:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC6031862A8;
-	Wed,  3 Jul 2024 19:04:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FADC18E779;
+	Wed,  3 Jul 2024 22:26:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="jkxC1dbc"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="iYeJHUmc"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD95F178367;
-	Wed,  3 Jul 2024 19:04:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7B13136643;
+	Wed,  3 Jul 2024 22:26:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720033486; cv=none; b=APRS/9AOikMnTF5L8p/DZ9RBPu7C0MlFeHQMFCjlg2X9YNKINBKIkI07NqBR0pb1T36Zgdis4gcwBfgTXSdOvTxkRj7cElHi8F9//VJxQeW0bFxOnPbF0c/HsuK1jlcMHFm6JF7nNdynux/B0alq/+RQ18EvEmH1a1nUiq3cZGc=
+	t=1720045612; cv=none; b=axtVdd4ySRD8+4d7E4hJLSnfZsmmtlTkSimtIDpP1C9PvyuRXXq2Q67HB4LbTBTta8S24I4Zm5I9C4U1Qs26rMUBf+3ON16Qt6wCrYyasoNzL7M99Yp7oiqDFO7N2hGf8Yt8L8R8smbuUUGZG6WBHTfEA7KKIbZnqjRfhmK1PuM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720033486; c=relaxed/simple;
-	bh=Oc81FuqP3fYxQZO2NIeym9OJaFkN9S77RiMCzQDI9Yw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ffb85zmI+BWAU1guRNGkk2q5vSQZYUF8ALtl0ea7HcJgLJc7Fsx28/HUEhhEssybwx4N5iVEte+Ncllb0nZQaOhA9Gtpbtc64ElxCtJOXAoCWxBkSwawRy6PuAi4JXiimRNv6FEsg3+lgH/BP/DMk6XO8J7UECnLG1b+6XEoS/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b=jkxC1dbc; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A08C8C4AF07;
-	Wed,  3 Jul 2024 19:04:45 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
-	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="jkxC1dbc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
-	t=1720033483;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Oc81FuqP3fYxQZO2NIeym9OJaFkN9S77RiMCzQDI9Yw=;
-	b=jkxC1dbceZx7Be7QJL7a7Ic39wHGYwkBltLiS8mY+H1iZtPBT9TDTthP2QeMMSw9n3UhZu
-	ayr2cBoMf01X1+Uudntkvb8Bup8CzkZYMoIzQHr1tw3p2t5H7pSU3x8O9e5e+2pdsfOywC
-	GRP6njc2YYiqHQ8+J+a6V9ddjs5ivcY=
-Received: 
-	by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id e9f2ad1b (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Wed, 3 Jul 2024 19:04:43 +0000 (UTC)
-Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-5c46c8b0defso999751eaf.1;
-        Wed, 03 Jul 2024 12:04:42 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWNs+ymo17PqtjizDZU9F25M6bnOOGhzawprrVJBN5LHej/HgBOK25UHMKebg6bnMNlQTR/oR3JPye9lyAP6MQGIAXfz3upVqlZQhAd4Ap2ByQ6gAvy0UIZdhgQOwe5lh6Jg24kkjeS
-X-Gm-Message-State: AOJu0YztoHExiL6NdjrEF51aEEiL6GnYFbjV4CtBBpzCo+5vE2RYyKre
-	GN8uVJ2clpTnj5EEQX9x9ioaFeQc5cRM0CFK2nRU1ZrmeYjphPy5oLCYiwIcbo/Frj0FCkLdaPs
-	p6ZzEHrOarpFJmKhnme91EMZ3q5k=
-X-Google-Smtp-Source: AGHT+IF/1JsRrNHrx673Yy+3KzYSc//OID5zS/adculNKhtga+UJFUlkNMK+w1t4qZ56KmzV+zu/1jP+s2nmIVvVD0s=
-X-Received: by 2002:a05:6870:6590:b0:25e:1976:37c0 with SMTP id
- 586e51a60fabf-25e19763d7fmr1558743fac.6.1720033481764; Wed, 03 Jul 2024
- 12:04:41 -0700 (PDT)
+	s=arc-20240116; t=1720045612; c=relaxed/simple;
+	bh=oypge0eDe1k0diy+whdltG9WV8gATeebYZ5wxQnvQxI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bclmlOh3AywcSC3FRGztN+wK3DT61sL9WT6f2xJ7juWopunmrtYjFnwPyr4UO8mFss2/LvL4EfvBEfLeUuxZlmQFIs41yIoUXfMsoFvIuzkMqI/+/gMgdAezB/43L0I8Bh4xRW7PP/RJWYA3YksGbAcFm6ubkun4/KZYVCQ6s2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=iYeJHUmc; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+Received: from CPC-beaub-VBQ1L. (unknown [4.155.48.126])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 6DDD520B7001;
+	Wed,  3 Jul 2024 15:26:50 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 6DDD520B7001
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1720045610;
+	bh=VxOS5jnbA0Lf+6v1MBAkXU6TPJciosuFNl3HvdPNn6c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=iYeJHUmcJAvo9XetcxRm48+P4V1WJQBWYGeMQJIVJk11tNhseVXjjCOLPi+V/wKS9
+	 2vKzvOZNl5UoSS+gdJvqbw/oC5yktnm71yqL+g649SzJMcjcbRkw83ATX80eeWuOxA
+	 R5dXbgloSUJbwjpZKZ/+eQqNADRGrMf2hQbSngtk=
+Date: Wed, 3 Jul 2024 22:26:46 +0000
+From: Beau Belgrave <beaub@linux.microsoft.com>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	"Dmitry V. Levin" <ldv@strace.io>,
+	Vincent Donnefort <vdonnefort@google.com>, mhiramat@kernel.org,
+	kernel-team@android.com, rdunlap@infradead.org, rppt@kernel.org,
+	david@redhat.com, linux-trace-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-api@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: [PATCH v23 3/5] tracing: Allow user-space mapping of the
+ ring-buffer
+Message-ID: <20240703222646.GA2025-beaub@linux.microsoft.com>
+References: <20240510140435.3550353-1-vdonnefort@google.com>
+ <20240510140435.3550353-4-vdonnefort@google.com>
+ <20240630105322.GA17573@altlinux.org>
+ <20240630084053.0b506916@rorschach.local.home>
+ <9a9c8ea4-8e17-4e7e-95fe-7b51441a228c@efficios.com>
+ <20240702111807.13d2dd2c@rorschach.local.home>
+ <cb02f5a0-d6a3-4228-9cbb-473fd392ee48@efficios.com>
+ <20240702125126.50a6267c@rorschach.local.home>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240703183115.1075219-1-Jason@zx2c4.com> <20240703183115.1075219-4-Jason@zx2c4.com>
- <fa6eb1f8-b681-4c3f-bf5f-4ca19da78b17@app.fastmail.com>
-In-Reply-To: <fa6eb1f8-b681-4c3f-bf5f-4ca19da78b17@app.fastmail.com>
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Date: Wed, 3 Jul 2024 21:04:30 +0200
-X-Gmail-Original-Message-ID: <CAHmME9ouVcCt6C6XdvvKACbCBLV1DaAuv_NP8=fXFN1UMeUu_Q@mail.gmail.com>
-Message-ID: <CAHmME9ouVcCt6C6XdvvKACbCBLV1DaAuv_NP8=fXFN1UMeUu_Q@mail.gmail.com>
-Subject: Re: [PATCH v20 3/5] arch: allocate vgetrandom_alloc() syscall number
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: linux-kernel@vger.kernel.org, patches@lists.linux.dev, 
-	Thomas Gleixner <tglx@linutronix.de>, linux-crypto@vger.kernel.org, 
-	linux-api@vger.kernel.org, x86@kernel.org, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>, "Carlos O'Donell" <carlos@redhat.com>, 
-	Florian Weimer <fweimer@redhat.com>, Jann Horn <jannh@google.com>, 
-	Christian Brauner <brauner@kernel.org>, David Hildenbrand <dhildenb@redhat.com>, 
-	Geert Uytterhoeven <geert@linux-m68k.org>, =?UTF-8?Q?Christian_G=C3=B6ttsche?= <cgzones@googlemail.com>, 
-	Jiri Olsa <jolsa@kernel.org>, Stephen Rothwell <sfr@canb.auug.org.au>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240702125126.50a6267c@rorschach.local.home>
 
-Hi Arnd,
+On Tue, Jul 02, 2024 at 12:51:26PM -0400, Steven Rostedt wrote:
+> On Tue, 2 Jul 2024 11:32:53 -0400
+> Mathieu Desnoyers <mathieu.desnoyers@efficios.com> wrote:
+> 
+> > If we use '*' for user events already, perhaps we'd want to consider
+> > using the same range for the ring buffer ioctls ? Arguably one is
+> > about instrumentation and the other is about ring buffer interaction
+> > (data transport), but those are both related to tracing.
+> 
+> Yeah, but I still rather keep them separate.
+> 
+> Beau, care to send a patch adding an entry into that ioctl document for
+> user events?
+> 
+> -- Steve
 
-On Wed, Jul 3, 2024 at 8:59=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> wrote:
->
-> On Wed, Jul 3, 2024, at 20:31, Jason A. Donenfeld wrote:
-> > Add vgetrandom_alloc() as syscall 463 (or 573 on alpha) by adding it to
-> > all of the various syscall.tbl and unistd.h files.
-> >
-> > Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> > Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
->
-> I checked that the system calls are all hooked up correctly
-> across all architectures:
->
-> Acked-by: Arnd Bergmann <arnd@arndb.de>
+Sure thing, sent one out [1].
 
-Thanks.
+Thanks,
+-Beau
 
-> Unfortunately we now have three syscalls scheduled for
-> the number 463, the other ones being uretprobe (only
-> for arc, arm64, csky, hexagon, loongarch, nios2, openrisc,
-> riscv and x86 for some reason) and setxattrat (on
-> all architectures).
->
-> It would be nice if you could all coordinate on this to
-> pick unique numbers.
-
-Stephen and I were just talking about this when looking at the linux-next m=
-erge.
-
-Dibs on 463! Just kidding.
-
-There's going to be merge conflicts anyway, due to the __NR_syscalls
-counter changing. So I figured this is something Linus typically just
-handles based on what order he merges things in. But I actually don't
-know. What's the best way to handle this?
-
-Jason
+1. https://lore.kernel.org/linux-doc/20240703222501.1547-1-beaub@linux.microsoft.com/
 
