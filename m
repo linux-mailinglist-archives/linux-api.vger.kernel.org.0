@@ -1,344 +1,233 @@
-Return-Path: <linux-api+bounces-1861-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1862-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE9BE9296FC
-	for <lists+linux-api@lfdr.de>; Sun,  7 Jul 2024 09:42:54 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F08F929736
+	for <lists+linux-api@lfdr.de>; Sun,  7 Jul 2024 11:02:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7BC751F2164E
-	for <lists+linux-api@lfdr.de>; Sun,  7 Jul 2024 07:42:54 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 659CDB21290
+	for <lists+linux-api@lfdr.de>; Sun,  7 Jul 2024 09:02:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B332EF511;
-	Sun,  7 Jul 2024 07:42:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 927B8125DE;
+	Sun,  7 Jul 2024 09:01:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QpgboM9b"
+	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="bIkt82a7"
 X-Original-To: linux-api@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp-190a.mail.infomaniak.ch (smtp-190a.mail.infomaniak.ch [185.125.25.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FC78F4EB
-	for <linux-api@vger.kernel.org>; Sun,  7 Jul 2024 07:42:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D1FAF4EB
+	for <linux-api@vger.kernel.org>; Sun,  7 Jul 2024 09:01:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.25.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720338168; cv=none; b=RnsG6PMrkFsLJT7gjo1ZsJZQH6VE2tgxMWWVAsaqTwStf0uaVTCwLwa9VC1BdNC8VB3haGD0tgn6ShHlOA3kXPlpB2Au7mmJmV/JyUBAnvQzvtZsIZA8k/QU5F/fdAE2AWUuFMRvkAePKk6ki9zuQEeGj+2+AfQEtaCMhoe0JUU=
+	t=1720342914; cv=none; b=AohJSCOHcxMCEdR2NLQZiFvxghTUvDcRs8MWrtCupcgyaN4UwkgGrByamC/h6RbuU14GJO7c9hiRNLBOcbEFHhcPEdAmzkfzkZK/tp1njEIBCENPFdzeQJLqHfePuDzrJmGO3QHXMjMcGUTA9sm772v7aY0a2FkOdGLh4TNio6A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720338168; c=relaxed/simple;
-	bh=Sv+6qZ4MNyt9/6rZwo6Evmz0uv3eMfEBiZfsAHo+q7I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=levpfo4lGg8E54NhOPIjWjQm9bKcA0HnwLkqlU2zad8hcg9mkICmqlJGVpfPI6XheygkWaL7UyNSiQ9+fhgabD5rx/S8B0wPB5+ktvkxwX8cr88pD0LhySBJ7E8M6JWIL5e/M67IiUliCbQmQkbtA4QxMNbJ8DRJ+lHzTB9iY7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QpgboM9b; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1720338164;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=t3RKNkkrdFkLgQjs+IVFjp0LP5x1dcd1kPadp8bz1kc=;
-	b=QpgboM9bY3/kvxYiqj6825gBBchFCHFy/Eq0tt7RFpMTNn/pHXnlCjzk54GYqsPE89YRY7
-	QXyLgXcWcbir68bN1FEJXa+l5HbuUv139bWDBjS6gyOBquclxjpKOMx0h64oYRYWnt24js
-	T8fxLR5NWjOO75NklXbJ3lm0+cEiwWA=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-421-G5JRhx_1OL-nmZIemmr61g-1; Sun, 07 Jul 2024 03:42:42 -0400
-X-MC-Unique: G5JRhx_1OL-nmZIemmr61g-1
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-4265cf3085aso10301775e9.2
-        for <linux-api@vger.kernel.org>; Sun, 07 Jul 2024 00:42:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720338161; x=1720942961;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=t3RKNkkrdFkLgQjs+IVFjp0LP5x1dcd1kPadp8bz1kc=;
-        b=FeuZh6MMhf1KgCOvli8BStwgIWEXYYps/malbU1ddp9fp2Tq6stAHkJ12hxl40/1FD
-         FTz2jg+DCF4zjT7C50+TBgw4WPi6AGDJgdGdgU0QsAlfhGozpThK2eHRdeV4fnhgnISf
-         To0+SHbJZpIRu5zLdInaMeNgfXmEjT2ih7T46nN3UoXmPKcYXBSd7ops16DKfwPjD0pq
-         tqrWqQ20LoFzMAq7ZccT3hR8YvCMtUEc1Q/evlj43Ey3Oo/DMmbI3AIA1WrnfdhrD6nd
-         TQWGPNoWAx0YpDCQJt2hGHkxw8RqoNeq7LrI6VTMMYCnMTKJbOH0a2ruPYpNk57wf7dN
-         gKPg==
-X-Forwarded-Encrypted: i=1; AJvYcCUB1SbVe6jJoczL5SYowhnTsHAqFFwNQ+NNs0jy1lc7j72yGR9G8/oc2xuCWjgqQ6YO82W5mV+Td7p8KVRtfGFHgNBUKC8LM+0R
-X-Gm-Message-State: AOJu0YyQMLPhgWLzW6Ccx+Q9kaJyyyhX+DwIvMtY1rBwNP9Nps6tOkAF
-	lmljOWKKtL3NMFrZQjBvxgmZzr5ju+Yd1qUGywpvO3qXQV6tGVzK0i5R2l89yYecryqPq3jo0kJ
-	fQO/gqfJ4oYgbkgnr2pFkZl7aL6nAIdeblIlYe1Pc7MhFrFnpjJBy/PcT++wWBg+fjQ==
-X-Received: by 2002:a05:600c:5128:b0:426:6861:a1ab with SMTP id 5b1f17b1804b1-4266861a3cemr1399315e9.39.1720338161388;
-        Sun, 07 Jul 2024 00:42:41 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGPdLqH2Vbsk5rcWJKxb4mM7C511LBkpl/vWHl3XqkRvS1lIuRjmD6yUygaTWAcwdjEYySUDg==
-X-Received: by 2002:a05:600c:5128:b0:426:6861:a1ab with SMTP id 5b1f17b1804b1-4266861a3cemr1399245e9.39.1720338160833;
-        Sun, 07 Jul 2024 00:42:40 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c72f:c00:10f0:d1a8:c206:17ac? (p200300cbc72f0c0010f0d1a8c20617ac.dip0.t-ipconnect.de. [2003:cb:c72f:c00:10f0:d1a8:c206:17ac])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4264a21cc59sm119763395e9.25.2024.07.07.00.42.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 07 Jul 2024 00:42:40 -0700 (PDT)
-Message-ID: <1583c837-a4d5-4a8a-9c1d-2c64548cd199@redhat.com>
-Date: Sun, 7 Jul 2024 09:42:38 +0200
+	s=arc-20240116; t=1720342914; c=relaxed/simple;
+	bh=8vDD3Vs0nX7RWoUIPW9UfV0zdvhLtFiF3W2BsPp7AJ0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KtKhX6aJR4+0dtutzCwNjFCcMnBuoH3oLsP+HjKgUvwNGnDB/C3koAZxMb0+UAHMu+DxXHF9q2wfO7lRn+328PgdcSZgHTpnvuRQByA/ylJhhThJJDkLkigcTP0KLhPAHVIT4uVLOqMTrfeyWSTKyzWAnb7FQ4UG/RZ1tNoGK08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=bIkt82a7; arc=none smtp.client-ip=185.125.25.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
+Received: from smtp-4-0000.mail.infomaniak.ch (smtp-4-0000.mail.infomaniak.ch [10.7.10.107])
+	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4WH1TM21N8zf5n;
+	Sun,  7 Jul 2024 11:01:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
+	s=20191114; t=1720342903;
+	bh=ccGFCfJj+0USx7pg3qPSDeXuTuHIjg7grW1wNNxHys8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bIkt82a7I8VPRqv3rTQdA+pgpoxitwyozvqGeJ4KUWValN2cRICPwmkUdzbgGzxDa
+	 IUWbccgD9cibggSsBHFiciIxPs5pAFPXpwu5dk9dvBHycOPrRLo9DcjvGweGvSvlz3
+	 hjjD6U5FN41zUmMGThnwwb0k4cncBRpi7n+Dw6bw=
+Received: from unknown by smtp-4-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4WH1TH2v0lzFns;
+	Sun,  7 Jul 2024 11:01:39 +0200 (CEST)
+Date: Sun, 7 Jul 2024 11:01:36 +0200
+From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
+To: Andy Lutomirski <luto@kernel.org>
+Cc: Al Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Kees Cook <keescook@chromium.org>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Paul Moore <paul@paul-moore.com>, Theodore Ts'o <tytso@mit.edu>, 
+	Alejandro Colomar <alx@kernel.org>, Aleksa Sarai <cyphar@cyphar.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Casey Schaufler <casey@schaufler-ca.com>, Christian Heimes <christian@python.org>, 
+	Dmitry Vyukov <dvyukov@google.com>, Eric Biggers <ebiggers@kernel.org>, 
+	Eric Chiang <ericchiang@google.com>, Fan Wu <wufan@linux.microsoft.com>, 
+	Florian Weimer <fweimer@redhat.com>, Geert Uytterhoeven <geert@linux-m68k.org>, 
+	James Morris <jamorris@linux.microsoft.com>, Jan Kara <jack@suse.cz>, Jann Horn <jannh@google.com>, 
+	Jeff Xu <jeffxu@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Jordan R Abrahams <ajordanr@google.com>, Lakshmi Ramasubramanian <nramas@linux.microsoft.com>, 
+	Luca Boccassi <bluca@debian.org>, Luis Chamberlain <mcgrof@kernel.org>, 
+	"Madhavan T . Venkataraman" <madvenka@linux.microsoft.com>, Matt Bobrowski <mattbobrowski@google.com>, 
+	Matthew Garrett <mjg59@srcf.ucam.org>, Matthew Wilcox <willy@infradead.org>, 
+	Miklos Szeredi <mszeredi@redhat.com>, Mimi Zohar <zohar@linux.ibm.com>, 
+	Nicolas Bouchinet <nicolas.bouchinet@ssi.gouv.fr>, Scott Shell <scottsh@microsoft.com>, 
+	Shuah Khan <shuah@kernel.org>, Stephen Rothwell <sfr@canb.auug.org.au>, 
+	Steve Dower <steve.dower@python.org>, Steve Grubb <sgrubb@redhat.com>, 
+	Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>, Vincent Strubel <vincent.strubel@ssi.gouv.fr>, 
+	Xiaoming Ni <nixiaoming@huawei.com>, Yin Fengwei <fengwei.yin@intel.com>, 
+	kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org
+Subject: Re: [RFC PATCH v19 1/5] exec: Add a new AT_CHECK flag to execveat(2)
+Message-ID: <20240706.fiquaeCodoo8@digikod.net>
+References: <20240704190137.696169-1-mic@digikod.net>
+ <20240704190137.696169-2-mic@digikod.net>
+ <CALCETrWYu=PYJSgyJ-vaa+3BGAry8Jo8xErZLiGR3U5h6+U0tA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v21 1/4] mm: add VM_DROPPABLE for designating always
- lazily freeable mappings
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>, linux-kernel@vger.kernel.org,
- patches@lists.linux.dev, tglx@linutronix.de
-Cc: linux-crypto@vger.kernel.org, linux-api@vger.kernel.org, x86@kernel.org,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
- Carlos O'Donell <carlos@redhat.com>, Florian Weimer <fweimer@redhat.com>,
- Arnd Bergmann <arnd@arndb.de>, Jann Horn <jannh@google.com>,
- Christian Brauner <brauner@kernel.org>,
- David Hildenbrand <dhildenb@redhat.com>, linux-mm@kvack.org
-References: <20240707002658.1917440-1-Jason@zx2c4.com>
- <20240707002658.1917440-2-Jason@zx2c4.com>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <20240707002658.1917440-2-Jason@zx2c4.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CALCETrWYu=PYJSgyJ-vaa+3BGAry8Jo8xErZLiGR3U5h6+U0tA@mail.gmail.com>
+X-Infomaniak-Routing: alpha
 
-On 07.07.24 02:26, Jason A. Donenfeld wrote:
-
-Hi,
-
-having more generic support for VM_DROPPABLE sounds great, I was myself 
-at some point looking for something like that.
-
-> The vDSO getrandom() implementation works with a buffer allocated with a
-> new system call that has certain requirements:
+On Sat, Jul 06, 2024 at 04:52:42PM +0800, Andy Lutomirski wrote:
+> On Fri, Jul 5, 2024 at 3:03 AM Mickaël Salaün <mic@digikod.net> wrote:
+> >
+> > Add a new AT_CHECK flag to execveat(2) to check if a file would be
+> > allowed for execution.  The main use case is for script interpreters and
+> > dynamic linkers to check execution permission according to the kernel's
+> > security policy. Another use case is to add context to access logs e.g.,
+> > which script (instead of interpreter) accessed a file.  As any
+> > executable code, scripts could also use this check [1].
+> >
 > 
-> - It shouldn't be written to core dumps.
->    * Easy: VM_DONTDUMP.
-> - It should be zeroed on fork.
->    * Easy: VM_WIPEONFORK.
-> 
-> - It shouldn't be written to swap.
->    * Uh-oh: mlock is rlimited.
->    * Uh-oh: mlock isn't inherited by forks.
-> 
-> It turns out that the vDSO getrandom() function has three really nice
-> characteristics that we can exploit to solve this problem:
-> 
-> 1) Due to being wiped during fork(), the vDSO code is already robust to
->     having the contents of the pages it reads zeroed out midway through
->     the function's execution.
-> 
-> 2) In the absolute worst case of whatever contingency we're coding for,
->     we have the option to fallback to the getrandom() syscall, and
->     everything is fine.
-> 
-> 3) The buffers the function uses are only ever useful for a maximum of
->     60 seconds -- a sort of cache, rather than a long term allocation.
-> 
-> These characteristics mean that we can introduce VM_DROPPABLE, which
-> has the following semantics:
-> 
-> a) It never is written out to swap.
-> b) Under memory pressure, mm can just drop the pages (so that they're
->     zero when read back again).
-> c) It is inherited by fork.
-> d) It doesn't count against the mlock budget, since nothing is locked.
-> 
-> This is fairly simple to implement, with the one snag that we have to
-> use 64-bit VM_* flags, but this shouldn't be a problem, since the only
-> consumers will probably be 64-bit anyway.
-> 
-> This way, allocations used by vDSO getrandom() can use:
-> 
->      VM_DROPPABLE | VM_DONTDUMP | VM_WIPEONFORK | VM_NORESERVE
-> 
-> And there will be no problem with using memory when not in use, not
-> wiping on fork(), coredumps, or writing out to swap.
-> 
-> In order to let vDSO getrandom() use this, expose these via mmap(2) as
-> well, giving MAP_WIPEONFORK, MAP_DONTDUMP, and MAP_DROPPABLE.
+> Can you give a worked-out example of how this is useful?
 
-
-Patch subject would be better to talk about MAP_DROPPABLE now.
-
-But I don't immediately see why MAP_WIPEONFORK and MAP_DONTDUMP have to 
-be mmap() flags. Using mmap(MAP_NORESERVE|MAP_DROPPABLE) with madvise() 
-to configure these (for users that require that) should be good enough, 
-just like they are for existing users.
-
-Thinking out loud, also MAP_DROPPABLE only sets a VMA flag (and does 
-snot affect memory commitiing like MAP_NORESERVE), right? So 
-MAP_DROPPABLE could easily become a madvise() option as well?
-
-(as you know, we only have limited mmap bits but plenty of madvise 
-numbers available)
-
-
-Interestingly, when looking into something comparable in the past I 
-stumbled over "vrange" [1], which would have had a slightly different 
-semantic (signal on reaccess). And that did turn out to be more sutibale 
-for madvise() flags [2], whereby vrange evolved into 
-MADV_VOLATILE/MADV_NONVOLATILE
-
-A sticky MADV_VOLATILE vs. MADV_NONVOLATILE would actually sound pretty 
-handy. (again, with your semantics, not the signal-on-reaccess kind of 
-thing)
-
-([2] is in general a good read; hey, it's been 10 years since that was 
-brought up the last time!)
-
-
-There needs to be better reasoning why we have to consume three mmap 
-bits for something that can likely be achieved without any.
-
-Maybe that was discussed with Linus and there is a pretty good reason 
-for that.
-
-I'll also mention that I am unsure how MAP_DROPPABLE is supposed to 
-interact with mlock. Maybe just like MADV_FREE currently does (no idea 
-if that will work as intended ;) ).
-
-
-[1] https://lwn.net/Articles/590991/
-[2] https://lwn.net/Articles/602650/
+Which part?  Please take a look at CLIP OS, chromeOS, and PEP 578 use
+cases and related code (see cover letter).
 
 > 
-> Finally, the provided self test ensures that this is working as desired.
+> I assume the idea is that a program could open a file, then pass the
+> fd to execveat() to get the kernel's idea of whether it's permissible
+> to execute it.  And then the program would interpret the file, which
+> is morally like executing it.  And there would be a big warning in the
+> manpage that passing a *path* is subject to a TOCTOU race.
+
+yes
+
 > 
-> Cc: linux-mm@kvack.org
-> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
-> ---
+> This type of usage will do the wrong thing if LSM policy intends to
+> lock down the task if the task were to actually exec the file.  I
 
+Why? LSMs should currently only change the bprm's credentials not the
+current's credentials.  If needed, we can extend the current patch
+series with LSM specific patches for them to check bprm->is_check.
 
-[...]
+> personally think this is a mis-design (let the program doing the
+> exec-ing lock itself down, possibly by querying a policy, but having
+> magic happen on exec seems likely to do the wrong thing more often
+> that it does the wright thing), but that ship sailed a long time ago.
 
-> diff --git a/mm/mprotect.c b/mm/mprotect.c
-> index 8c6cd8825273..57b8dad9adcc 100644
-> --- a/mm/mprotect.c
-> +++ b/mm/mprotect.c
-> @@ -623,7 +623,7 @@ mprotect_fixup(struct vma_iterator *vmi, struct mmu_gather *tlb,
->   				may_expand_vm(mm, oldflags, nrpages))
->   			return -ENOMEM;
->   		if (!(oldflags & (VM_ACCOUNT|VM_WRITE|VM_HUGETLB|
-> -						VM_SHARED|VM_NORESERVE))) {
-> +				  VM_SHARED|VM_NORESERVE|VM_DROPPABLE))) {
->   			charged = nrpages;
->   			if (security_vm_enough_memory_mm(mm, charged))
->   				return -ENOMEM;
+The execveat+AT_CHECK is only a check that doesn't impact the caller.
+Maybe you're talking about process transition with future LSM changes?
+In this case, we could add another flag, but I'm convinced it would be
+confusing for users.  Anyway, let LSMs experiment with that and we'll
+come up with a new flag if needed.  The current approach is a good and
+useful piece to fill a gap in Linux access control systems.
 
-I don't quite understand this change here. If MAP_DROPPABLE does not 
-affect memory accounting during mmap(), it should not affect the same 
-during mprotect(). VM_NORESERVE / MAP_NORESERVE is responsible for that.
+> 
+> So maybe what's actually needed is a rather different API: a way to
+> check *and perform* the security transition for an exec without
+> actually execing.  This would need to be done NO_NEW_PRIVS style for
+> reasons that are hopefully obvious, but it would permit:
 
-Did I missing something where MAP_DROPPABLE changes the memory 
-accounting during mmap()?
+NO_NEW_PRIVS is not that obvious in this case because the restrictions
+are enforced by user space, not the kernel.  NO_NEW_PRIVS makes sense to
+avoid kernel restrictions be requested by a malicious/unprivileged
+process to change the behavior of a (child) privileged/trusted process.
+We are not in this configuration here.  The only change would be for
+ptrace, which is a good thing either way and should not harm SUID
+processes but avoid confused deputy attack for them too.
 
-> diff --git a/mm/rmap.c b/mm/rmap.c
-> index e8fc5ecb59b2..56d7535d5cf6 100644
-> --- a/mm/rmap.c
-> +++ b/mm/rmap.c
-> @@ -1397,7 +1397,10 @@ void folio_add_new_anon_rmap(struct folio *folio, struct vm_area_struct *vma,
->   	VM_WARN_ON_FOLIO(folio_test_hugetlb(folio), folio);
->   	VM_BUG_ON_VMA(address < vma->vm_start ||
->   			address + (nr << PAGE_SHIFT) > vma->vm_end, vma);
-> -	__folio_set_swapbacked(folio);
-> +	/* VM_DROPPABLE mappings don't swap; instead they're just dropped when
-> +	 * under memory pressure. */
-> +	if (!(vma->vm_flags & VM_DROPPABLE))
-> +		__folio_set_swapbacked(folio);
->   	__folio_set_anon(folio, vma, address, true);
->   
->   	if (likely(!folio_test_large(folio))) {
-> @@ -1841,7 +1844,11 @@ static bool try_to_unmap_one(struct folio *folio, struct vm_area_struct *vma,
->   				 * plus the rmap(s) (dropped by discard:).
->   				 */
->   				if (ref_count == 1 + map_count &&
-> -				    !folio_test_dirty(folio)) {
-> +				    (!folio_test_dirty(folio) ||
-> +				     /* Unlike MADV_FREE mappings, VM_DROPPABLE
-> +				      * ones can be dropped even if they've
-> +				      * been dirtied. */
+If this is about an LSM changing the caller's credentials, then yes it
+might want to set additional flags, but that would be specific to their
+implementation, not part of this patch.
 
-We use
+> 
+> fd = open(some script);
+> if (do_exec_transition_without_exec(fd) != 0)
+>   return;  // don't actually do it
+> 
+> // OK, we may have just lost privileges.  But that's okay, because we
+> meant to do that.
+> // Make sure we've munmapped anything sensitive and erased any secrets
+> from memory,
+> // and then interpret the script!
+> 
+> I think this would actually be straightforward to implement in the
+> kernel -- one would need to make sure that all the relevant
+> no_new_privs checks are looking in the right place (as the task might
+> not actually have no_new_privs set, but LSM_UNSAFE_NO_NEW_PRIVS would
+> still be set), but I don't see any reason this would be
+> insurmountable, nor do I expect there would be any fundamental
+> problems.
 
-/*
-  * Comment start
-  * Comment end
-  */
+OK, that's what is described below with security_bprm_creds_for_exec().
+Each LSM can implement this change with the current patch series, but
+that should be part of a dedicated patch series per LSM, for those
+willing to leverage this new feature.
 
-styled comments in MM.
+> 
+> 
+> > This is different than faccessat(2) which only checks file access
+> > rights, but not the full context e.g. mount point's noexec, stack limit,
+> > and all potential LSM extra checks (e.g. argv, envp, credentials).
+> > Since the use of AT_CHECK follows the exact kernel semantic as for a
+> > real execution, user space gets the same error codes.
+> >
+> > With the information that a script interpreter is about to interpret a
+> > script, an LSM security policy can adjust caller's access rights or log
+> > execution request as for native script execution (e.g. role transition).
+> > This is possible thanks to the call to security_bprm_creds_for_exec().
+> >
+> > Because LSMs may only change bprm's credentials, use of AT_CHECK with
+> > current kernel code should not be a security issue (e.g. unexpected role
+> > transition).  LSMs willing to update the caller's credential could now
+> > do so when bprm->is_check is set.  Of course, such policy change should
+> > be in line with the new user space code.
+> >
+> > Because AT_CHECK is dedicated to user space interpreters, it doesn't
+> > make sense for the kernel to parse the checked files, look for
+> > interpreters known to the kernel (e.g. ELF, shebang), and return ENOEXEC
+> > if the format is unknown.  Because of that, security_bprm_check() is
+> > never called when AT_CHECK is used.
+> >
+> > It should be noted that script interpreters cannot directly use
+> > execveat(2) (without this new AT_CHECK flag) because this could lead to
+> > unexpected behaviors e.g., `python script.sh` could lead to Bash being
+> > executed to interpret the script.  Unlike the kernel, script
+> > interpreters may just interpret the shebang as a simple comment, which
+> > should not change for backward compatibility reasons.
+> >
+> > Because scripts or libraries files might not currently have the
+> > executable permission set, or because we might want specific users to be
+> > allowed to run arbitrary scripts, the following patch provides a dynamic
+> > configuration mechanism with the SECBIT_SHOULD_EXEC_CHECK and
+> > SECBIT_SHOULD_EXEC_RESTRICT securebits.
+> 
+> Can you explain what those bits do?  And why they're useful?
 
-> +				     (vma->vm_flags & VM_DROPPABLE))) {
->   					dec_mm_counter(mm, MM_ANONPAGES);
->   					goto discard;
->   				}
-> @@ -1851,7 +1858,10 @@ static bool try_to_unmap_one(struct folio *folio, struct vm_area_struct *vma,
->   				 * discarded. Remap the page to page table.
->   				 */
->   				set_pte_at(mm, address, pvmw.pte, pteval);
-> -				folio_set_swapbacked(folio);
-> +				/* Unlike MADV_FREE mappings, VM_DROPPABLE ones
-> +				 * never get swap backed on failure to drop. */
-> +				if (!(vma->vm_flags & VM_DROPPABLE))
-> +					folio_set_swapbacked(folio);
->   				ret = false;
->   				page_vma_mapped_walk_done(&pvmw);
->   				break;
+I didn't want to duplicate the comments above their definition
+explaining their usage.  Please let me know if it's not enough.
 
-A note that in mm/mm-stable, "madvise_free_huge_pmd" exists to optimize 
-MADV_FREE on PMDs. I suspect we'd want to extend that one as well for 
-dropping support, but likely it would also only be a performance 
-improvmeent and not affect functonality if not handled.
+> 
+> >
+> > This is a redesign of the CLIP OS 4's O_MAYEXEC:
+> > https://github.com/clipos-archive/src_platform_clip-patches/blob/f5cb330d6b684752e403b4e41b39f7004d88e561/1901_open_mayexec.patch
+> > This patch has been used for more than a decade with customized script
+> > interpreters.  Some examples can be found here:
+> > https://github.com/clipos-archive/clipos4_portage-overlay/search?q=O_MAYEXEC
+> 
+> This one at least returns an fd, so it looks less likely to get
+> misused in a way that adds a TOCTOU race.
 
--- 
-Cheers,
-
-David / dhildenb
-
+We can use both an FD or a path name with execveat(2).  See discussion
+with Kees and comment from Linus.
 
