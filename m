@@ -1,233 +1,172 @@
-Return-Path: <linux-api+bounces-1862-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1863-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F08F929736
-	for <lists+linux-api@lfdr.de>; Sun,  7 Jul 2024 11:02:05 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A808992994A
+	for <lists+linux-api@lfdr.de>; Sun,  7 Jul 2024 20:20:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 659CDB21290
-	for <lists+linux-api@lfdr.de>; Sun,  7 Jul 2024 09:02:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CAF4C1C209F3
+	for <lists+linux-api@lfdr.de>; Sun,  7 Jul 2024 18:20:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 927B8125DE;
-	Sun,  7 Jul 2024 09:01:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BA7B57CB4;
+	Sun,  7 Jul 2024 18:20:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="bIkt82a7"
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="OtnvDFwN"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp-190a.mail.infomaniak.ch (smtp-190a.mail.infomaniak.ch [185.125.25.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D1FAF4EB
-	for <linux-api@vger.kernel.org>; Sun,  7 Jul 2024 09:01:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.25.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C9C655E4C
+	for <linux-api@vger.kernel.org>; Sun,  7 Jul 2024 18:20:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720342914; cv=none; b=AohJSCOHcxMCEdR2NLQZiFvxghTUvDcRs8MWrtCupcgyaN4UwkgGrByamC/h6RbuU14GJO7c9hiRNLBOcbEFHhcPEdAmzkfzkZK/tp1njEIBCENPFdzeQJLqHfePuDzrJmGO3QHXMjMcGUTA9sm772v7aY0a2FkOdGLh4TNio6A=
+	t=1720376408; cv=none; b=HgitFYIU9iVUN0WCTlG+5oCogisUbLi3xVPGZQIAC7aRWCG4r6LIpiBCPQQGAMVlf/m2JBQTz+QPp5r+QEQZz++EizrVIJxf5RAWgKYUhV96sjzkK47ic3cw/a8wnnw2DQtYYTkyHrduWDwkDFzF15AqbCOcOevruBbM1LNEbow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720342914; c=relaxed/simple;
-	bh=8vDD3Vs0nX7RWoUIPW9UfV0zdvhLtFiF3W2BsPp7AJ0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KtKhX6aJR4+0dtutzCwNjFCcMnBuoH3oLsP+HjKgUvwNGnDB/C3koAZxMb0+UAHMu+DxXHF9q2wfO7lRn+328PgdcSZgHTpnvuRQByA/ylJhhThJJDkLkigcTP0KLhPAHVIT4uVLOqMTrfeyWSTKyzWAnb7FQ4UG/RZ1tNoGK08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=bIkt82a7; arc=none smtp.client-ip=185.125.25.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
-Received: from smtp-4-0000.mail.infomaniak.ch (smtp-4-0000.mail.infomaniak.ch [10.7.10.107])
-	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4WH1TM21N8zf5n;
-	Sun,  7 Jul 2024 11:01:43 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
-	s=20191114; t=1720342903;
-	bh=ccGFCfJj+0USx7pg3qPSDeXuTuHIjg7grW1wNNxHys8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bIkt82a7I8VPRqv3rTQdA+pgpoxitwyozvqGeJ4KUWValN2cRICPwmkUdzbgGzxDa
-	 IUWbccgD9cibggSsBHFiciIxPs5pAFPXpwu5dk9dvBHycOPrRLo9DcjvGweGvSvlz3
-	 hjjD6U5FN41zUmMGThnwwb0k4cncBRpi7n+Dw6bw=
-Received: from unknown by smtp-4-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4WH1TH2v0lzFns;
-	Sun,  7 Jul 2024 11:01:39 +0200 (CEST)
-Date: Sun, 7 Jul 2024 11:01:36 +0200
-From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
-To: Andy Lutomirski <luto@kernel.org>
-Cc: Al Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Kees Cook <keescook@chromium.org>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Paul Moore <paul@paul-moore.com>, Theodore Ts'o <tytso@mit.edu>, 
-	Alejandro Colomar <alx@kernel.org>, Aleksa Sarai <cyphar@cyphar.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Casey Schaufler <casey@schaufler-ca.com>, Christian Heimes <christian@python.org>, 
-	Dmitry Vyukov <dvyukov@google.com>, Eric Biggers <ebiggers@kernel.org>, 
-	Eric Chiang <ericchiang@google.com>, Fan Wu <wufan@linux.microsoft.com>, 
-	Florian Weimer <fweimer@redhat.com>, Geert Uytterhoeven <geert@linux-m68k.org>, 
-	James Morris <jamorris@linux.microsoft.com>, Jan Kara <jack@suse.cz>, Jann Horn <jannh@google.com>, 
-	Jeff Xu <jeffxu@google.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Jordan R Abrahams <ajordanr@google.com>, Lakshmi Ramasubramanian <nramas@linux.microsoft.com>, 
-	Luca Boccassi <bluca@debian.org>, Luis Chamberlain <mcgrof@kernel.org>, 
-	"Madhavan T . Venkataraman" <madvenka@linux.microsoft.com>, Matt Bobrowski <mattbobrowski@google.com>, 
-	Matthew Garrett <mjg59@srcf.ucam.org>, Matthew Wilcox <willy@infradead.org>, 
-	Miklos Szeredi <mszeredi@redhat.com>, Mimi Zohar <zohar@linux.ibm.com>, 
-	Nicolas Bouchinet <nicolas.bouchinet@ssi.gouv.fr>, Scott Shell <scottsh@microsoft.com>, 
-	Shuah Khan <shuah@kernel.org>, Stephen Rothwell <sfr@canb.auug.org.au>, 
-	Steve Dower <steve.dower@python.org>, Steve Grubb <sgrubb@redhat.com>, 
-	Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>, Vincent Strubel <vincent.strubel@ssi.gouv.fr>, 
-	Xiaoming Ni <nixiaoming@huawei.com>, Yin Fengwei <fengwei.yin@intel.com>, 
-	kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-security-module@vger.kernel.org
-Subject: Re: [RFC PATCH v19 1/5] exec: Add a new AT_CHECK flag to execveat(2)
-Message-ID: <20240706.fiquaeCodoo8@digikod.net>
-References: <20240704190137.696169-1-mic@digikod.net>
- <20240704190137.696169-2-mic@digikod.net>
- <CALCETrWYu=PYJSgyJ-vaa+3BGAry8Jo8xErZLiGR3U5h6+U0tA@mail.gmail.com>
+	s=arc-20240116; t=1720376408; c=relaxed/simple;
+	bh=IgVGCT2xxQj0d6AEWv1d2oISYtXfXK5QvKatWJYOnV0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Y+rHqeinV/i94SjU8dvrUFlf7jU+YuMIz9/REAtRz/mMY9nn60XomoJLhAKF2zqo0S0zIXbyXVE92/D6gbMkXC2guKdpvxwq8SKusB4FX/eIxfeLiQrqn9KodQASHos6n5LxCj4gNtwMsZnEVsM+0saJBKXKZIBwAbGp3qQni0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=OtnvDFwN; arc=none smtp.client-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-58ba3e38027so3679158a12.1
+        for <linux-api@vger.kernel.org>; Sun, 07 Jul 2024 11:20:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google; t=1720376404; x=1720981204; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=5v0Nkh0XR+jIko5z42PL5jDgcJnA00NhojDwz4yKzQ4=;
+        b=OtnvDFwNsYv6zEsIeeKcxWS5u7WCwSKpU2ArUPjM55V0TKxMVYUNkLQQlueSlTCDMQ
+         RCkd8L0yoW3hhyZpaulYwt1f1XmC5/m62F0EWirtaamOY1I5Hl1Eo0OTq6JDc2XvTXd6
+         juIIdgXRZTCVeSFmbRiSnLrd3oxi/D0svkpq4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720376404; x=1720981204;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5v0Nkh0XR+jIko5z42PL5jDgcJnA00NhojDwz4yKzQ4=;
+        b=hpOyz0T8kxOQMFNsaQxtBHTIdqjT9BDu7HIfu9TuTY5fzBNiqc+KD+tCKtqe6h7re3
+         vOkXBaVk9zbJuMKCtW+7iFVxOyTyKfQQLKxRt67dseN8y9m8dZqGOZQr7dDU44FH26U4
+         X/icozuchA0fpWgjnVpd6R2/hRM7QA2jQQVF2SKuOAeG746ZCHHWJR/S4iHxC1whgt/v
+         xnl5DWFnBc5Pz6leNVdQGZxaWC4IZpRGuZuYS5BlQFQkyLs9uS3SgUGqSDA7h/br25nz
+         yVMeNf10KxyvN+cFPezKA73zjsfGnJAfm8s9zZrHyNdMm/rKXyBydqBSxQb3Nc3Ewk4J
+         Iviw==
+X-Forwarded-Encrypted: i=1; AJvYcCU47Pbu9xG5wI9VngaokF1PWTkNfhmkuJcxmoxb4Z3EesQn6RasKzx2bkEDrMu+bVDbemZyw2MUykMo33wXe1iTy00hRGKqljJq
+X-Gm-Message-State: AOJu0Yx5vwEZAV0oDT/r/qhOT/m7pk5p+jgzBB4O1ATvzzEwvaSCFPCW
+	X9x3aDdLQ3O9KNclEH8+uAX5fWlhkJf/VTwByKefu8mYqAcfoFGJAI5woxA/utHDam41nay/1uJ
+	bzwZuew==
+X-Google-Smtp-Source: AGHT+IGBmHmD/EESMU633tAeOPC8X7M6oP4IE7hsdJ4jZLVElvm/wj5D+fMDQ82L8ywWsKM/Y7rBlA==
+X-Received: by 2002:a05:6402:d0a:b0:58b:7b90:94e2 with SMTP id 4fb4d7f45d1cf-58e5cd15d55mr7854401a12.38.1720376404435;
+        Sun, 07 Jul 2024 11:20:04 -0700 (PDT)
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com. [209.85.218.41])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-58fd14aad6dsm2967821a12.86.2024.07.07.11.20.03
+        for <linux-api@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 07 Jul 2024 11:20:03 -0700 (PDT)
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a7527afa23cso388543966b.2
+        for <linux-api@vger.kernel.org>; Sun, 07 Jul 2024 11:20:03 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXAZdj+s89Z1VqNBbD6THdbBknkMp9JyoOppQNjZ4EtOl/LfDeoK/vU1X5oVy2gWIBa9H3Jy39mTzbDuTgUJOdt81NFbe6F0xae
+X-Received: by 2002:a17:906:bc94:b0:a6f:58a6:fed8 with SMTP id
+ a640c23a62f3a-a77ba46f8femr721323266b.28.1720376402830; Sun, 07 Jul 2024
+ 11:20:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CALCETrWYu=PYJSgyJ-vaa+3BGAry8Jo8xErZLiGR3U5h6+U0tA@mail.gmail.com>
-X-Infomaniak-Routing: alpha
+References: <20240707002658.1917440-1-Jason@zx2c4.com> <20240707002658.1917440-2-Jason@zx2c4.com>
+ <1583c837-a4d5-4a8a-9c1d-2c64548cd199@redhat.com>
+In-Reply-To: <1583c837-a4d5-4a8a-9c1d-2c64548cd199@redhat.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Sun, 7 Jul 2024 11:19:46 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wjs-9DVeoc430BDOv+dkpDkdVvkEsSJxNVZ+sO51H1dJA@mail.gmail.com>
+Message-ID: <CAHk-=wjs-9DVeoc430BDOv+dkpDkdVvkEsSJxNVZ+sO51H1dJA@mail.gmail.com>
+Subject: Re: [PATCH v21 1/4] mm: add VM_DROPPABLE for designating always
+ lazily freeable mappings
+To: David Hildenbrand <david@redhat.com>
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, linux-kernel@vger.kernel.org, patches@lists.linux.dev, 
+	tglx@linutronix.de, linux-crypto@vger.kernel.org, linux-api@vger.kernel.org, 
+	x86@kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>, "Carlos O'Donell" <carlos@redhat.com>, 
+	Florian Weimer <fweimer@redhat.com>, Arnd Bergmann <arnd@arndb.de>, Jann Horn <jannh@google.com>, 
+	Christian Brauner <brauner@kernel.org>, David Hildenbrand <dhildenb@redhat.com>, linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Sat, Jul 06, 2024 at 04:52:42PM +0800, Andy Lutomirski wrote:
-> On Fri, Jul 5, 2024 at 3:03 AM Mickaël Salaün <mic@digikod.net> wrote:
-> >
-> > Add a new AT_CHECK flag to execveat(2) to check if a file would be
-> > allowed for execution.  The main use case is for script interpreters and
-> > dynamic linkers to check execution permission according to the kernel's
-> > security policy. Another use case is to add context to access logs e.g.,
-> > which script (instead of interpreter) accessed a file.  As any
-> > executable code, scripts could also use this check [1].
-> >
-> 
-> Can you give a worked-out example of how this is useful?
+On Sun, 7 Jul 2024 at 00:42, David Hildenbrand <david@redhat.com> wrote:
+>
+> But I don't immediately see why MAP_WIPEONFORK and MAP_DONTDUMP have to
+> be mmap() flags.
 
-Which part?  Please take a look at CLIP OS, chromeOS, and PEP 578 use
-cases and related code (see cover letter).
+I don't think they have to be mmap() flags, but that said, I think
+it's technically the better alternative than saying "you have to
+madvise things later".
 
-> 
-> I assume the idea is that a program could open a file, then pass the
-> fd to execveat() to get the kernel's idea of whether it's permissible
-> to execute it.  And then the program would interpret the file, which
-> is morally like executing it.  And there would be a big warning in the
-> manpage that passing a *path* is subject to a TOCTOU race.
+I very much understand the "we don't have a lot of MAP_xyz flags and
+we don't want to waste them" argument, but at the same time
 
-yes
+ (a) we _do_ have those flags
 
-> 
-> This type of usage will do the wrong thing if LSM policy intends to
-> lock down the task if the task were to actually exec the file.  I
+ (b) picking a worse interface seems bad
 
-Why? LSMs should currently only change the bprm's credentials not the
-current's credentials.  If needed, we can extend the current patch
-series with LSM specific patches for them to check bprm->is_check.
+ (c) we could actually use the PROT_xyz bits, which we have a ton of
 
-> personally think this is a mis-design (let the program doing the
-> exec-ing lock itself down, possibly by querying a policy, but having
-> magic happen on exec seems likely to do the wrong thing more often
-> that it does the wright thing), but that ship sailed a long time ago.
+And yes, (c) is ugly, but is it uglier than "use two system calls to
+do one thing"? I mean, "flags" and "prot" are just two sides of the
+same coin in the end, the split is kind of arbitrary, and "prot" only
+has four bits right now, and one of them is historical and useless,
+and actually happens to be *exactly* this kind of MAP_xyz bit.
 
-The execveat+AT_CHECK is only a check that doesn't impact the caller.
-Maybe you're talking about process transition with future LSM changes?
-In this case, we could add another flag, but I'm convinced it would be
-confusing for users.  Anyway, let LSMs experiment with that and we'll
-come up with a new flag if needed.  The current approach is a good and
-useful piece to fill a gap in Linux access control systems.
+(In case it's not clear, I'm talking about PROT_SEM, which is very
+much a behavioral bit for broken architectures that we've actually
+never implemented).
 
-> 
-> So maybe what's actually needed is a rather different API: a way to
-> check *and perform* the security transition for an exec without
-> actually execing.  This would need to be done NO_NEW_PRIVS style for
-> reasons that are hopefully obvious, but it would permit:
+We also have PROT_GROSDOWN and PROT_GROWSUP , which is basically a
+"match MAP_GROWSxyz and change the mprotect() limits appropriately"
 
-NO_NEW_PRIVS is not that obvious in this case because the restrictions
-are enforced by user space, not the kernel.  NO_NEW_PRIVS makes sense to
-avoid kernel restrictions be requested by a malicious/unprivileged
-process to change the behavior of a (child) privileged/trusted process.
-We are not in this configuration here.  The only change would be for
-ptrace, which is a good thing either way and should not harm SUID
-processes but avoid confused deputy attack for them too.
+So I actually think we could use the PROT_xyz bits, and anybody who
+says "those are for PROT_READ and PROT_WRITE is already very very
+wrong.
 
-If this is about an LSM changing the caller's credentials, then yes it
-might want to set additional flags, but that would be specific to their
-implementation, not part of this patch.
+Again - not pretty, but mappens to match reality.
 
-> 
-> fd = open(some script);
-> if (do_exec_transition_without_exec(fd) != 0)
->   return;  // don't actually do it
-> 
-> // OK, we may have just lost privileges.  But that's okay, because we
-> meant to do that.
-> // Make sure we've munmapped anything sensitive and erased any secrets
-> from memory,
-> // and then interpret the script!
-> 
-> I think this would actually be straightforward to implement in the
-> kernel -- one would need to make sure that all the relevant
-> no_new_privs checks are looking in the right place (as the task might
-> not actually have no_new_privs set, but LSM_UNSAFE_NO_NEW_PRIVS would
-> still be set), but I don't see any reason this would be
-> insurmountable, nor do I expect there would be any fundamental
-> problems.
+> Interestingly, when looking into something comparable in the past I
+> stumbled over "vrange" [1], which would have had a slightly different
+> semantic (signal on reaccess).
 
-OK, that's what is described below with security_bprm_creds_for_exec().
-Each LSM can implement this change with the current patch series, but
-that should be part of a dedicated patch series per LSM, for those
-willing to leverage this new feature.
+We literally talked about exactly this with Jason, except unlike you I
+couldn't find the historical archive (I tried in vain to find
+something from lore).
 
-> 
-> 
-> > This is different than faccessat(2) which only checks file access
-> > rights, but not the full context e.g. mount point's noexec, stack limit,
-> > and all potential LSM extra checks (e.g. argv, envp, credentials).
-> > Since the use of AT_CHECK follows the exact kernel semantic as for a
-> > real execution, user space gets the same error codes.
-> >
-> > With the information that a script interpreter is about to interpret a
-> > script, an LSM security policy can adjust caller's access rights or log
-> > execution request as for native script execution (e.g. role transition).
-> > This is possible thanks to the call to security_bprm_creds_for_exec().
-> >
-> > Because LSMs may only change bprm's credentials, use of AT_CHECK with
-> > current kernel code should not be a security issue (e.g. unexpected role
-> > transition).  LSMs willing to update the caller's credential could now
-> > do so when bprm->is_check is set.  Of course, such policy change should
-> > be in line with the new user space code.
-> >
-> > Because AT_CHECK is dedicated to user space interpreters, it doesn't
-> > make sense for the kernel to parse the checked files, look for
-> > interpreters known to the kernel (e.g. ELF, shebang), and return ENOEXEC
-> > if the format is unknown.  Because of that, security_bprm_check() is
-> > never called when AT_CHECK is used.
-> >
-> > It should be noted that script interpreters cannot directly use
-> > execveat(2) (without this new AT_CHECK flag) because this could lead to
-> > unexpected behaviors e.g., `python script.sh` could lead to Bash being
-> > executed to interpret the script.  Unlike the kernel, script
-> > interpreters may just interpret the shebang as a simple comment, which
-> > should not change for backward compatibility reasons.
-> >
-> > Because scripts or libraries files might not currently have the
-> > executable permission set, or because we might want specific users to be
-> > allowed to run arbitrary scripts, the following patch provides a dynamic
-> > configuration mechanism with the SECBIT_SHOULD_EXEC_CHECK and
-> > SECBIT_SHOULD_EXEC_RESTRICT securebits.
-> 
-> Can you explain what those bits do?  And why they're useful?
+  https://lore.kernel.org/lkml/CAHk-=whRpLyY+U9mkKo8O=2_BXNk=7sjYeObzFr3fGi0KLjLJw@mail.gmail.com/
 
-I didn't want to duplicate the comments above their definition
-explaining their usage.  Please let me know if it's not enough.
+I do think that a "explicit populate and get a signal on access" is a
+very valid model, but I think the "zero on access" is a more
+immediately real model.
 
-> 
-> >
-> > This is a redesign of the CLIP OS 4's O_MAYEXEC:
-> > https://github.com/clipos-archive/src_platform_clip-patches/blob/f5cb330d6b684752e403b4e41b39f7004d88e561/1901_open_mayexec.patch
-> > This patch has been used for more than a decade with customized script
-> > interpreters.  Some examples can be found here:
-> > https://github.com/clipos-archive/clipos4_portage-overlay/search?q=O_MAYEXEC
-> 
-> This one at least returns an fd, so it looks less likely to get
-> misused in a way that adds a TOCTOU race.
+And we actually have had the "get signal on access" before: that's
+what VM_DONTCOPY is.
 
-We can use both an FD or a path name with execveat(2).  See discussion
-with Kees and comment from Linus.
+And it was the *less* useful model, which is why we added
+VM_WIPEONCOPY, because that's the semantics people actually wanted.
+
+So I think the "signal on thrown out data access" is interesting, but
+not necessarily the *more* interesting case.
+
+And I think if we do want that case, I think having MAP_DROPPABLE have
+those semantics for MAP_SHARED would be the way to go. IOW, starting
+off with the "zero on next access after drop" case doesn't make it any
+harder to then later add a "fault on next access after drop" version.
+
+> There needs to be better reasoning why we have to consume three mmap
+> bits for something that can likely be achieved without any.
+
+I think it goes the other way: why are MAP_xyz bits so precious to
+make this harder to actually use?
+
+Together with that whole "maybe use PROT_xyz bits instead" discussion?
+
+               Linus
 
