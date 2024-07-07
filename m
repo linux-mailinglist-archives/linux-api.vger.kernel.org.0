@@ -1,499 +1,344 @@
-Return-Path: <linux-api+bounces-1860-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1861-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77D08929629
-	for <lists+linux-api@lfdr.de>; Sun,  7 Jul 2024 02:28:22 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE9BE9296FC
+	for <lists+linux-api@lfdr.de>; Sun,  7 Jul 2024 09:42:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9A5F51C216AA
-	for <lists+linux-api@lfdr.de>; Sun,  7 Jul 2024 00:28:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7BC751F2164E
+	for <lists+linux-api@lfdr.de>; Sun,  7 Jul 2024 07:42:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02E181103;
-	Sun,  7 Jul 2024 00:27:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B332EF511;
+	Sun,  7 Jul 2024 07:42:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="LQnor/7r"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QpgboM9b"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C33DA12B95;
-	Sun,  7 Jul 2024 00:27:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FC78F4EB
+	for <linux-api@vger.kernel.org>; Sun,  7 Jul 2024 07:42:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720312047; cv=none; b=T+JYNAe2XQxBRnUhK8NUjMPBFelM0+DGlOnUfH4Q8bwc6acyi148+0aQ7yDWkdb24qx6BmfNEOh1Zv/NpY4sRaQX81ghQDjzQx7oYuXV2lcOQOR7upyUE5YAjKmyDfUI+u3XZFEiIWnm7CBUaEWUlc9MF4yWXwBSQPWhDptCnBo=
+	t=1720338168; cv=none; b=RnsG6PMrkFsLJT7gjo1ZsJZQH6VE2tgxMWWVAsaqTwStf0uaVTCwLwa9VC1BdNC8VB3haGD0tgn6ShHlOA3kXPlpB2Au7mmJmV/JyUBAnvQzvtZsIZA8k/QU5F/fdAE2AWUuFMRvkAePKk6ki9zuQEeGj+2+AfQEtaCMhoe0JUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720312047; c=relaxed/simple;
-	bh=eb76rZ1Tg9DNQHzIxI2FU+u9Yp06iC6M811D+lVbpGA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=p7sQhe9W2IHIyA2BGTrOkKhFGKcDXyYxSuBSirgeGQnoA2ZDP+Adk4uFgg35g1c5hvemmwBmeWS1IBiXIuhchQ1VyxUUbghm9S3qfWNIP923tpqwQmSVuWG6OI7z36UPPCG61jqwK+rgHZyb4fGEPuYD/hG0JKGspLWbdiZhnd8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b=LQnor/7r; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C44BBC32786;
-	Sun,  7 Jul 2024 00:27:24 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
-	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="LQnor/7r"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
-	t=1720312043;
+	s=arc-20240116; t=1720338168; c=relaxed/simple;
+	bh=Sv+6qZ4MNyt9/6rZwo6Evmz0uv3eMfEBiZfsAHo+q7I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=levpfo4lGg8E54NhOPIjWjQm9bKcA0HnwLkqlU2zad8hcg9mkICmqlJGVpfPI6XheygkWaL7UyNSiQ9+fhgabD5rx/S8B0wPB5+ktvkxwX8cr88pD0LhySBJ7E8M6JWIL5e/M67IiUliCbQmQkbtA4QxMNbJ8DRJ+lHzTB9iY7I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QpgboM9b; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1720338164;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pxiAM5M3/r5avrLgTNbVfZIpNPfXzHvpvzDSuwiv7+8=;
-	b=LQnor/7r+nWjrNGtnVUbjapxX7YQN0sADpsMFRVg3APjrWw2fF1Lwmql1NDdW26xjr4bcd
-	dyVxFfkg+Bdko7Yanm3SENM8jZATvfr6HAUKiZUyjhxUw9eafFGiJnepA2FxbffDDofURN
-	8jAU0Pm64Gv6r3n68poD/XhDhCiaQ6g=
-Received: 
-	by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 1c6a62cc (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Sun, 7 Jul 2024 00:27:23 +0000 (UTC)
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: linux-kernel@vger.kernel.org,
-	patches@lists.linux.dev,
-	tglx@linutronix.de
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
-	linux-crypto@vger.kernel.org,
-	linux-api@vger.kernel.org,
-	x86@kernel.org,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
-	Carlos O'Donell <carlos@redhat.com>,
-	Florian Weimer <fweimer@redhat.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Jann Horn <jannh@google.com>,
-	Christian Brauner <brauner@kernel.org>,
-	David Hildenbrand <dhildenb@redhat.com>,
-	linux-kselftest@vger.kernel.org
-Subject: [PATCH v21 4/4] selftests/vDSO: add tests for vgetrandom
-Date: Sun,  7 Jul 2024 02:26:54 +0200
-Message-ID: <20240707002658.1917440-5-Jason@zx2c4.com>
-In-Reply-To: <20240707002658.1917440-1-Jason@zx2c4.com>
-References: <20240707002658.1917440-1-Jason@zx2c4.com>
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=t3RKNkkrdFkLgQjs+IVFjp0LP5x1dcd1kPadp8bz1kc=;
+	b=QpgboM9bY3/kvxYiqj6825gBBchFCHFy/Eq0tt7RFpMTNn/pHXnlCjzk54GYqsPE89YRY7
+	QXyLgXcWcbir68bN1FEJXa+l5HbuUv139bWDBjS6gyOBquclxjpKOMx0h64oYRYWnt24js
+	T8fxLR5NWjOO75NklXbJ3lm0+cEiwWA=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-421-G5JRhx_1OL-nmZIemmr61g-1; Sun, 07 Jul 2024 03:42:42 -0400
+X-MC-Unique: G5JRhx_1OL-nmZIemmr61g-1
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-4265cf3085aso10301775e9.2
+        for <linux-api@vger.kernel.org>; Sun, 07 Jul 2024 00:42:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720338161; x=1720942961;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=t3RKNkkrdFkLgQjs+IVFjp0LP5x1dcd1kPadp8bz1kc=;
+        b=FeuZh6MMhf1KgCOvli8BStwgIWEXYYps/malbU1ddp9fp2Tq6stAHkJ12hxl40/1FD
+         FTz2jg+DCF4zjT7C50+TBgw4WPi6AGDJgdGdgU0QsAlfhGozpThK2eHRdeV4fnhgnISf
+         To0+SHbJZpIRu5zLdInaMeNgfXmEjT2ih7T46nN3UoXmPKcYXBSd7ops16DKfwPjD0pq
+         tqrWqQ20LoFzMAq7ZccT3hR8YvCMtUEc1Q/evlj43Ey3Oo/DMmbI3AIA1WrnfdhrD6nd
+         TQWGPNoWAx0YpDCQJt2hGHkxw8RqoNeq7LrI6VTMMYCnMTKJbOH0a2ruPYpNk57wf7dN
+         gKPg==
+X-Forwarded-Encrypted: i=1; AJvYcCUB1SbVe6jJoczL5SYowhnTsHAqFFwNQ+NNs0jy1lc7j72yGR9G8/oc2xuCWjgqQ6YO82W5mV+Td7p8KVRtfGFHgNBUKC8LM+0R
+X-Gm-Message-State: AOJu0YyQMLPhgWLzW6Ccx+Q9kaJyyyhX+DwIvMtY1rBwNP9Nps6tOkAF
+	lmljOWKKtL3NMFrZQjBvxgmZzr5ju+Yd1qUGywpvO3qXQV6tGVzK0i5R2l89yYecryqPq3jo0kJ
+	fQO/gqfJ4oYgbkgnr2pFkZl7aL6nAIdeblIlYe1Pc7MhFrFnpjJBy/PcT++wWBg+fjQ==
+X-Received: by 2002:a05:600c:5128:b0:426:6861:a1ab with SMTP id 5b1f17b1804b1-4266861a3cemr1399315e9.39.1720338161388;
+        Sun, 07 Jul 2024 00:42:41 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGPdLqH2Vbsk5rcWJKxb4mM7C511LBkpl/vWHl3XqkRvS1lIuRjmD6yUygaTWAcwdjEYySUDg==
+X-Received: by 2002:a05:600c:5128:b0:426:6861:a1ab with SMTP id 5b1f17b1804b1-4266861a3cemr1399245e9.39.1720338160833;
+        Sun, 07 Jul 2024 00:42:40 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c72f:c00:10f0:d1a8:c206:17ac? (p200300cbc72f0c0010f0d1a8c20617ac.dip0.t-ipconnect.de. [2003:cb:c72f:c00:10f0:d1a8:c206:17ac])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4264a21cc59sm119763395e9.25.2024.07.07.00.42.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 07 Jul 2024 00:42:40 -0700 (PDT)
+Message-ID: <1583c837-a4d5-4a8a-9c1d-2c64548cd199@redhat.com>
+Date: Sun, 7 Jul 2024 09:42:38 +0200
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v21 1/4] mm: add VM_DROPPABLE for designating always
+ lazily freeable mappings
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>, linux-kernel@vger.kernel.org,
+ patches@lists.linux.dev, tglx@linutronix.de
+Cc: linux-crypto@vger.kernel.org, linux-api@vger.kernel.org, x86@kernel.org,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
+ Carlos O'Donell <carlos@redhat.com>, Florian Weimer <fweimer@redhat.com>,
+ Arnd Bergmann <arnd@arndb.de>, Jann Horn <jannh@google.com>,
+ Christian Brauner <brauner@kernel.org>,
+ David Hildenbrand <dhildenb@redhat.com>, linux-mm@kvack.org
+References: <20240707002658.1917440-1-Jason@zx2c4.com>
+ <20240707002658.1917440-2-Jason@zx2c4.com>
+From: David Hildenbrand <david@redhat.com>
+Content-Language: en-US
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <20240707002658.1917440-2-Jason@zx2c4.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This adds two tests for vgetrandom. The first one, vdso_test_chacha,
-simply checks that the assembly implementation of chacha20 matches that
-of libsodium, a basic sanity check that should catch most errors. The
-second, vdso_test_getrandom, is a full "libc-like" implementation of the
-userspace side of vgetrandom() support. It's meant to be used also as
-example code for libcs that might be integrating this.
+On 07.07.24 02:26, Jason A. Donenfeld wrote:
 
-Cc: linux-kselftest@vger.kernel.org
-Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
----
- tools/include/asm/rwonce.h                    |   0
- tools/testing/selftests/vDSO/.gitignore       |   2 +
- tools/testing/selftests/vDSO/Makefile         |  15 +
- .../testing/selftests/vDSO/vdso_test_chacha.c |  43 +++
- .../selftests/vDSO/vdso_test_getrandom.c      | 288 ++++++++++++++++++
- 5 files changed, 348 insertions(+)
- create mode 100644 tools/include/asm/rwonce.h
- create mode 100644 tools/testing/selftests/vDSO/vdso_test_chacha.c
- create mode 100644 tools/testing/selftests/vDSO/vdso_test_getrandom.c
+Hi,
 
-diff --git a/tools/include/asm/rwonce.h b/tools/include/asm/rwonce.h
-new file mode 100644
-index 000000000000..e69de29bb2d1
-diff --git a/tools/testing/selftests/vDSO/.gitignore b/tools/testing/selftests/vDSO/.gitignore
-index a8dc51af5a9c..30d5c8f0e5c7 100644
---- a/tools/testing/selftests/vDSO/.gitignore
-+++ b/tools/testing/selftests/vDSO/.gitignore
-@@ -6,3 +6,5 @@ vdso_test_correctness
- vdso_test_gettimeofday
- vdso_test_getcpu
- vdso_standalone_test_x86
-+vdso_test_getrandom
-+vdso_test_chacha
-diff --git a/tools/testing/selftests/vDSO/Makefile b/tools/testing/selftests/vDSO/Makefile
-index d53a4d8008f9..12fdae3b3201 100644
---- a/tools/testing/selftests/vDSO/Makefile
-+++ b/tools/testing/selftests/vDSO/Makefile
-@@ -3,6 +3,7 @@ include ../lib.mk
- 
- uname_M := $(shell uname -m 2>/dev/null || echo not)
- ARCH ?= $(shell echo $(uname_M) | sed -e s/i.86/x86/ -e s/x86_64/x86/)
-+SODIUM := $(shell pkg-config --libs libsodium 2>/dev/null)
- 
- TEST_GEN_PROGS := $(OUTPUT)/vdso_test_gettimeofday $(OUTPUT)/vdso_test_getcpu
- TEST_GEN_PROGS += $(OUTPUT)/vdso_test_abi
-@@ -11,9 +12,19 @@ ifeq ($(ARCH),$(filter $(ARCH),x86 x86_64))
- TEST_GEN_PROGS += $(OUTPUT)/vdso_standalone_test_x86
- endif
- TEST_GEN_PROGS += $(OUTPUT)/vdso_test_correctness
-+ifeq ($(uname_M),x86_64)
-+TEST_GEN_PROGS += $(OUTPUT)/vdso_test_getrandom
-+ifneq ($(SODIUM),)
-+TEST_GEN_PROGS += $(OUTPUT)/vdso_test_chacha
-+endif
-+endif
- 
- CFLAGS := -std=gnu99
- CFLAGS_vdso_standalone_test_x86 := -nostdlib -fno-asynchronous-unwind-tables -fno-stack-protector
-+CFLAGS_vdso_test_getrandom := -isystem $(top_srcdir)/tools/include -isystem $(top_srcdir)/include/uapi
-+CFLAGS_vdso_test_chacha := $(SODIUM) -idirafter $(top_srcdir)/tools/include -isystem $(top_srcdir)/include \
-+			   -isystem $(top_srcdir)/arch/$(ARCH)/include \
-+			   -D__ASSEMBLY__ -DBULID_VDSO -DCONFIG_FUNCTION_ALIGNMENT=0 -Wa,--noexecstack
- LDFLAGS_vdso_test_correctness := -ldl
- ifeq ($(CONFIG_X86_32),y)
- LDLIBS += -lgcc_s
-@@ -33,3 +44,7 @@ $(OUTPUT)/vdso_test_correctness: vdso_test_correctness.c
- 		vdso_test_correctness.c \
- 		-o $@ \
- 		$(LDFLAGS_vdso_test_correctness)
-+$(OUTPUT)/vdso_test_getrandom: CFLAGS += $(CFLAGS_vdso_test_getrandom)
-+$(OUTPUT)/vdso_test_getrandom: parse_vdso.c
-+$(OUTPUT)/vdso_test_chacha: CFLAGS += $(CFLAGS_vdso_test_chacha)
-+$(OUTPUT)/vdso_test_chacha: $(top_srcdir)/arch/$(ARCH)/entry/vdso/vgetrandom-chacha.S
-diff --git a/tools/testing/selftests/vDSO/vdso_test_chacha.c b/tools/testing/selftests/vDSO/vdso_test_chacha.c
-new file mode 100644
-index 000000000000..e38f44e5f803
---- /dev/null
-+++ b/tools/testing/selftests/vDSO/vdso_test_chacha.c
-@@ -0,0 +1,43 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2022-2024 Jason A. Donenfeld <Jason@zx2c4.com>. All Rights Reserved.
-+ */
-+
-+#include <sodium/crypto_stream_chacha20.h>
-+#include <sys/random.h>
-+#include <string.h>
-+#include <stdint.h>
-+#include "../kselftest.h"
-+
-+extern void __arch_chacha20_blocks_nostack(uint8_t *dst_bytes, const uint8_t *key, uint32_t *counter, size_t nblocks);
-+
-+int main(int argc, char *argv[])
-+{
-+	enum { TRIALS = 1000, BLOCKS = 128, BLOCK_SIZE = 64 };
-+	static const uint8_t nonce[8] = { 0 };
-+	uint32_t counter[2];
-+	uint8_t key[32];
-+	uint8_t output1[BLOCK_SIZE * BLOCKS], output2[BLOCK_SIZE * BLOCKS];
-+
-+	ksft_print_header();
-+	ksft_set_plan(1);
-+
-+	for (unsigned int trial = 0; trial < TRIALS; ++trial) {
-+		if (getrandom(key, sizeof(key), 0) != sizeof(key)) {
-+			printf("getrandom() failed!\n");
-+			return KSFT_SKIP;
-+		}
-+		crypto_stream_chacha20(output1, sizeof(output1), nonce, key);
-+		for (unsigned int split = 0; split < BLOCKS; ++split) {
-+			memset(output2, 'X', sizeof(output2));
-+			memset(counter, 0, sizeof(counter));
-+			if (split)
-+				__arch_chacha20_blocks_nostack(output2, key, counter, split);
-+			__arch_chacha20_blocks_nostack(output2 + split * BLOCK_SIZE, key, counter, BLOCKS - split);
-+			if (memcmp(output1, output2, sizeof(output1)))
-+				return KSFT_FAIL;
-+		}
-+	}
-+	ksft_test_result_pass("chacha: PASS\n");
-+	return KSFT_PASS;
-+}
-diff --git a/tools/testing/selftests/vDSO/vdso_test_getrandom.c b/tools/testing/selftests/vDSO/vdso_test_getrandom.c
-new file mode 100644
-index 000000000000..69f5833590d2
---- /dev/null
-+++ b/tools/testing/selftests/vDSO/vdso_test_getrandom.c
-@@ -0,0 +1,288 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2022-2024 Jason A. Donenfeld <Jason@zx2c4.com>. All Rights Reserved.
-+ */
-+
-+#include <assert.h>
-+#include <pthread.h>
-+#include <stdint.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <time.h>
-+#include <unistd.h>
-+#include <signal.h>
-+#include <sys/auxv.h>
-+#include <sys/mman.h>
-+#include <sys/random.h>
-+#include <sys/syscall.h>
-+#include <sys/types.h>
-+#include <linux/random.h>
-+
-+#include "../kselftest.h"
-+#include "parse_vdso.h"
-+
-+#ifndef timespecsub
-+#define	timespecsub(tsp, usp, vsp)					\
-+	do {								\
-+		(vsp)->tv_sec = (tsp)->tv_sec - (usp)->tv_sec;		\
-+		(vsp)->tv_nsec = (tsp)->tv_nsec - (usp)->tv_nsec;	\
-+		if ((vsp)->tv_nsec < 0) {				\
-+			(vsp)->tv_sec--;				\
-+			(vsp)->tv_nsec += 1000000000L;			\
-+		}							\
-+	} while (0)
-+#endif
-+
-+static struct {
-+	pthread_mutex_t lock;
-+	void **states;
-+	size_t len, cap;
-+} grnd_allocator = {
-+	.lock = PTHREAD_MUTEX_INITIALIZER
-+};
-+
-+static struct {
-+	ssize_t(*fn)(void *, size_t, unsigned long, void *, size_t);
-+	pthread_key_t key;
-+	pthread_once_t initialized;
-+	struct vgetrandom_opaque_params params;
-+} grnd_ctx = {
-+	.initialized = PTHREAD_ONCE_INIT
-+};
-+
-+static void *vgetrandom_get_state(void)
-+{
-+	void *state = NULL;
-+
-+	pthread_mutex_lock(&grnd_allocator.lock);
-+	if (!grnd_allocator.len) {
-+		size_t page_size = getpagesize();
-+		size_t new_cap;
-+		size_t alloc_size, num = sysconf(_SC_NPROCESSORS_ONLN); /* Just a decent heuristic. */
-+		void *new_block, *new_states;
-+
-+		alloc_size = (num * grnd_ctx.params.size_of_opaque_state + page_size - 1) & (~(page_size - 1));
-+		num = (page_size / grnd_ctx.params.size_of_opaque_state) * (alloc_size / page_size);
-+		new_block = mmap(0, alloc_size, grnd_ctx.params.mmap_prot, grnd_ctx.params.mmap_flags, -1, 0);
-+		if (new_block == MAP_FAILED)
-+			return NULL;
-+
-+		new_cap = grnd_allocator.cap + num;
-+		new_states = reallocarray(grnd_allocator.states, new_cap, sizeof(*grnd_allocator.states));
-+		if (!new_states)
-+			goto unmap;
-+		grnd_allocator.cap = new_cap;
-+		grnd_allocator.states = new_states;
-+
-+		for (size_t i = 0; i < num; ++i) {
-+			if (((uintptr_t)new_block & (page_size - 1)) + grnd_ctx.params.size_of_opaque_state > page_size)
-+				new_block = (void *)(((uintptr_t)new_block + page_size - 1) & (~(page_size - 1)));
-+			grnd_allocator.states[i] = new_block;
-+			new_block += grnd_ctx.params.size_of_opaque_state;
-+		}
-+		grnd_allocator.len = num;
-+		goto success;
-+
-+	unmap:
-+		munmap(new_block, alloc_size);
-+		goto out;
-+	}
-+success:
-+	state = grnd_allocator.states[--grnd_allocator.len];
-+
-+out:
-+	pthread_mutex_unlock(&grnd_allocator.lock);
-+	return state;
-+}
-+
-+static void vgetrandom_put_state(void *state)
-+{
-+	if (!state)
-+		return;
-+	pthread_mutex_lock(&grnd_allocator.lock);
-+	grnd_allocator.states[grnd_allocator.len++] = state;
-+	pthread_mutex_unlock(&grnd_allocator.lock);
-+}
-+
-+static void vgetrandom_init(void)
-+{
-+	if (pthread_key_create(&grnd_ctx.key, vgetrandom_put_state) != 0)
-+		return;
-+	unsigned long sysinfo_ehdr = getauxval(AT_SYSINFO_EHDR);
-+	if (!sysinfo_ehdr) {
-+		printf("AT_SYSINFO_EHDR is not present!\n");
-+		exit(KSFT_SKIP);
-+	}
-+	vdso_init_from_sysinfo_ehdr(sysinfo_ehdr);
-+	grnd_ctx.fn = (__typeof__(grnd_ctx.fn))vdso_sym("LINUX_2.6", "__vdso_getrandom");
-+	if (!grnd_ctx.fn) {
-+		printf("__vdso_getrandom is missing!\n");
-+		exit(KSFT_FAIL);
-+	}
-+	if (grnd_ctx.fn(NULL, 0, 0, &grnd_ctx.params, ~0UL) != 0) {
-+		printf("failed to fetch vgetrandom params!\n");
-+		exit(KSFT_FAIL);
-+	}
-+}
-+
-+static ssize_t vgetrandom(void *buf, size_t len, unsigned long flags)
-+{
-+	void *state;
-+
-+	pthread_once(&grnd_ctx.initialized, vgetrandom_init);
-+	state = pthread_getspecific(grnd_ctx.key);
-+	if (!state) {
-+		state = vgetrandom_get_state();
-+		if (pthread_setspecific(grnd_ctx.key, state) != 0) {
-+			vgetrandom_put_state(state);
-+			state = NULL;
-+		}
-+		if (!state) {
-+			printf("vgetrandom_get_state failed!\n");
-+			exit(KSFT_FAIL);
-+		}
-+	}
-+	return grnd_ctx.fn(buf, len, flags, state, grnd_ctx.params.size_of_opaque_state);
-+}
-+
-+enum { TRIALS = 25000000, THREADS = 256 };
-+
-+static void *test_vdso_getrandom(void *)
-+{
-+	for (size_t i = 0; i < TRIALS; ++i) {
-+		unsigned int val;
-+		ssize_t ret = vgetrandom(&val, sizeof(val), 0);
-+		assert(ret == sizeof(val));
-+	}
-+	return NULL;
-+}
-+
-+static void *test_libc_getrandom(void *)
-+{
-+	for (size_t i = 0; i < TRIALS; ++i) {
-+		unsigned int val;
-+		ssize_t ret = getrandom(&val, sizeof(val), 0);
-+		assert(ret == sizeof(val));
-+	}
-+	return NULL;
-+}
-+
-+static void *test_syscall_getrandom(void *)
-+{
-+	for (size_t i = 0; i < TRIALS; ++i) {
-+		unsigned int val;
-+		ssize_t ret = syscall(__NR_getrandom, &val, sizeof(val), 0);
-+		assert(ret == sizeof(val));
-+	}
-+	return NULL;
-+}
-+
-+static void bench_single(void)
-+{
-+	struct timespec start, end, diff;
-+
-+	clock_gettime(CLOCK_MONOTONIC, &start);
-+	test_vdso_getrandom(NULL);
-+	clock_gettime(CLOCK_MONOTONIC, &end);
-+	timespecsub(&end, &start, &diff);
-+	printf("   vdso: %u times in %lu.%09lu seconds\n", TRIALS, diff.tv_sec, diff.tv_nsec);
-+
-+	clock_gettime(CLOCK_MONOTONIC, &start);
-+	test_libc_getrandom(NULL);
-+	clock_gettime(CLOCK_MONOTONIC, &end);
-+	timespecsub(&end, &start, &diff);
-+	printf("   libc: %u times in %lu.%09lu seconds\n", TRIALS, diff.tv_sec, diff.tv_nsec);
-+
-+	clock_gettime(CLOCK_MONOTONIC, &start);
-+	test_syscall_getrandom(NULL);
-+	clock_gettime(CLOCK_MONOTONIC, &end);
-+	timespecsub(&end, &start, &diff);
-+	printf("syscall: %u times in %lu.%09lu seconds\n", TRIALS, diff.tv_sec, diff.tv_nsec);
-+}
-+
-+static void bench_multi(void)
-+{
-+	struct timespec start, end, diff;
-+	pthread_t threads[THREADS];
-+
-+	clock_gettime(CLOCK_MONOTONIC, &start);
-+	for (size_t i = 0; i < THREADS; ++i)
-+		assert(pthread_create(&threads[i], NULL, test_vdso_getrandom, NULL) == 0);
-+	for (size_t i = 0; i < THREADS; ++i)
-+		pthread_join(threads[i], NULL);
-+	clock_gettime(CLOCK_MONOTONIC, &end);
-+	timespecsub(&end, &start, &diff);
-+	printf("   vdso: %u x %u times in %lu.%09lu seconds\n", TRIALS, THREADS, diff.tv_sec, diff.tv_nsec);
-+
-+	clock_gettime(CLOCK_MONOTONIC, &start);
-+	for (size_t i = 0; i < THREADS; ++i)
-+		assert(pthread_create(&threads[i], NULL, test_libc_getrandom, NULL) == 0);
-+	for (size_t i = 0; i < THREADS; ++i)
-+		pthread_join(threads[i], NULL);
-+	clock_gettime(CLOCK_MONOTONIC, &end);
-+	timespecsub(&end, &start, &diff);
-+	printf("   libc: %u x %u times in %lu.%09lu seconds\n", TRIALS, THREADS, diff.tv_sec, diff.tv_nsec);
-+
-+	clock_gettime(CLOCK_MONOTONIC, &start);
-+	for (size_t i = 0; i < THREADS; ++i)
-+		assert(pthread_create(&threads[i], NULL, test_syscall_getrandom, NULL) == 0);
-+	for (size_t i = 0; i < THREADS; ++i)
-+		pthread_join(threads[i], NULL);
-+	clock_gettime(CLOCK_MONOTONIC, &end);
-+	timespecsub(&end, &start, &diff);
-+	printf("   syscall: %u x %u times in %lu.%09lu seconds\n", TRIALS, THREADS, diff.tv_sec, diff.tv_nsec);
-+}
-+
-+static void fill(void)
-+{
-+	uint8_t weird_size[323929];
-+	for (;;)
-+		vgetrandom(weird_size, sizeof(weird_size), 0);
-+}
-+
-+static void kselftest(void)
-+{
-+	uint8_t weird_size[1263];
-+
-+	ksft_print_header();
-+	ksft_set_plan(1);
-+
-+	for (size_t i = 0; i < 1000; ++i) {
-+		ssize_t ret = vgetrandom(weird_size, sizeof(weird_size), 0);
-+		if (ret != sizeof(weird_size))
-+			exit(KSFT_FAIL);
-+	}
-+
-+	ksft_test_result_pass("getrandom: PASS\n");
-+	exit(KSFT_PASS);
-+}
-+
-+static void usage(const char *argv0)
-+{
-+	fprintf(stderr, "Usage: %s [bench-single|bench-multi|fill]\n", argv0);
-+}
-+
-+int main(int argc, char *argv[])
-+{
-+	if (argc == 1) {
-+		kselftest();
-+		return 0;
-+	}
-+
-+	if (argc != 2) {
-+		usage(argv[0]);
-+		return 1;
-+	}
-+	if (!strcmp(argv[1], "bench-single"))
-+		bench_single();
-+	else if (!strcmp(argv[1], "bench-multi"))
-+		bench_multi();
-+	else if (!strcmp(argv[1], "fill"))
-+		fill();
-+	else {
-+		usage(argv[0]);
-+		return 1;
-+	}
-+	return 0;
-+}
+having more generic support for VM_DROPPABLE sounds great, I was myself 
+at some point looking for something like that.
+
+> The vDSO getrandom() implementation works with a buffer allocated with a
+> new system call that has certain requirements:
+> 
+> - It shouldn't be written to core dumps.
+>    * Easy: VM_DONTDUMP.
+> - It should be zeroed on fork.
+>    * Easy: VM_WIPEONFORK.
+> 
+> - It shouldn't be written to swap.
+>    * Uh-oh: mlock is rlimited.
+>    * Uh-oh: mlock isn't inherited by forks.
+> 
+> It turns out that the vDSO getrandom() function has three really nice
+> characteristics that we can exploit to solve this problem:
+> 
+> 1) Due to being wiped during fork(), the vDSO code is already robust to
+>     having the contents of the pages it reads zeroed out midway through
+>     the function's execution.
+> 
+> 2) In the absolute worst case of whatever contingency we're coding for,
+>     we have the option to fallback to the getrandom() syscall, and
+>     everything is fine.
+> 
+> 3) The buffers the function uses are only ever useful for a maximum of
+>     60 seconds -- a sort of cache, rather than a long term allocation.
+> 
+> These characteristics mean that we can introduce VM_DROPPABLE, which
+> has the following semantics:
+> 
+> a) It never is written out to swap.
+> b) Under memory pressure, mm can just drop the pages (so that they're
+>     zero when read back again).
+> c) It is inherited by fork.
+> d) It doesn't count against the mlock budget, since nothing is locked.
+> 
+> This is fairly simple to implement, with the one snag that we have to
+> use 64-bit VM_* flags, but this shouldn't be a problem, since the only
+> consumers will probably be 64-bit anyway.
+> 
+> This way, allocations used by vDSO getrandom() can use:
+> 
+>      VM_DROPPABLE | VM_DONTDUMP | VM_WIPEONFORK | VM_NORESERVE
+> 
+> And there will be no problem with using memory when not in use, not
+> wiping on fork(), coredumps, or writing out to swap.
+> 
+> In order to let vDSO getrandom() use this, expose these via mmap(2) as
+> well, giving MAP_WIPEONFORK, MAP_DONTDUMP, and MAP_DROPPABLE.
+
+
+Patch subject would be better to talk about MAP_DROPPABLE now.
+
+But I don't immediately see why MAP_WIPEONFORK and MAP_DONTDUMP have to 
+be mmap() flags. Using mmap(MAP_NORESERVE|MAP_DROPPABLE) with madvise() 
+to configure these (for users that require that) should be good enough, 
+just like they are for existing users.
+
+Thinking out loud, also MAP_DROPPABLE only sets a VMA flag (and does 
+snot affect memory commitiing like MAP_NORESERVE), right? So 
+MAP_DROPPABLE could easily become a madvise() option as well?
+
+(as you know, we only have limited mmap bits but plenty of madvise 
+numbers available)
+
+
+Interestingly, when looking into something comparable in the past I 
+stumbled over "vrange" [1], which would have had a slightly different 
+semantic (signal on reaccess). And that did turn out to be more sutibale 
+for madvise() flags [2], whereby vrange evolved into 
+MADV_VOLATILE/MADV_NONVOLATILE
+
+A sticky MADV_VOLATILE vs. MADV_NONVOLATILE would actually sound pretty 
+handy. (again, with your semantics, not the signal-on-reaccess kind of 
+thing)
+
+([2] is in general a good read; hey, it's been 10 years since that was 
+brought up the last time!)
+
+
+There needs to be better reasoning why we have to consume three mmap 
+bits for something that can likely be achieved without any.
+
+Maybe that was discussed with Linus and there is a pretty good reason 
+for that.
+
+I'll also mention that I am unsure how MAP_DROPPABLE is supposed to 
+interact with mlock. Maybe just like MADV_FREE currently does (no idea 
+if that will work as intended ;) ).
+
+
+[1] https://lwn.net/Articles/590991/
+[2] https://lwn.net/Articles/602650/
+
+> 
+> Finally, the provided self test ensures that this is working as desired.
+> 
+> Cc: linux-mm@kvack.org
+> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> ---
+
+
+[...]
+
+> diff --git a/mm/mprotect.c b/mm/mprotect.c
+> index 8c6cd8825273..57b8dad9adcc 100644
+> --- a/mm/mprotect.c
+> +++ b/mm/mprotect.c
+> @@ -623,7 +623,7 @@ mprotect_fixup(struct vma_iterator *vmi, struct mmu_gather *tlb,
+>   				may_expand_vm(mm, oldflags, nrpages))
+>   			return -ENOMEM;
+>   		if (!(oldflags & (VM_ACCOUNT|VM_WRITE|VM_HUGETLB|
+> -						VM_SHARED|VM_NORESERVE))) {
+> +				  VM_SHARED|VM_NORESERVE|VM_DROPPABLE))) {
+>   			charged = nrpages;
+>   			if (security_vm_enough_memory_mm(mm, charged))
+>   				return -ENOMEM;
+
+I don't quite understand this change here. If MAP_DROPPABLE does not 
+affect memory accounting during mmap(), it should not affect the same 
+during mprotect(). VM_NORESERVE / MAP_NORESERVE is responsible for that.
+
+Did I missing something where MAP_DROPPABLE changes the memory 
+accounting during mmap()?
+
+> diff --git a/mm/rmap.c b/mm/rmap.c
+> index e8fc5ecb59b2..56d7535d5cf6 100644
+> --- a/mm/rmap.c
+> +++ b/mm/rmap.c
+> @@ -1397,7 +1397,10 @@ void folio_add_new_anon_rmap(struct folio *folio, struct vm_area_struct *vma,
+>   	VM_WARN_ON_FOLIO(folio_test_hugetlb(folio), folio);
+>   	VM_BUG_ON_VMA(address < vma->vm_start ||
+>   			address + (nr << PAGE_SHIFT) > vma->vm_end, vma);
+> -	__folio_set_swapbacked(folio);
+> +	/* VM_DROPPABLE mappings don't swap; instead they're just dropped when
+> +	 * under memory pressure. */
+> +	if (!(vma->vm_flags & VM_DROPPABLE))
+> +		__folio_set_swapbacked(folio);
+>   	__folio_set_anon(folio, vma, address, true);
+>   
+>   	if (likely(!folio_test_large(folio))) {
+> @@ -1841,7 +1844,11 @@ static bool try_to_unmap_one(struct folio *folio, struct vm_area_struct *vma,
+>   				 * plus the rmap(s) (dropped by discard:).
+>   				 */
+>   				if (ref_count == 1 + map_count &&
+> -				    !folio_test_dirty(folio)) {
+> +				    (!folio_test_dirty(folio) ||
+> +				     /* Unlike MADV_FREE mappings, VM_DROPPABLE
+> +				      * ones can be dropped even if they've
+> +				      * been dirtied. */
+
+We use
+
+/*
+  * Comment start
+  * Comment end
+  */
+
+styled comments in MM.
+
+> +				     (vma->vm_flags & VM_DROPPABLE))) {
+>   					dec_mm_counter(mm, MM_ANONPAGES);
+>   					goto discard;
+>   				}
+> @@ -1851,7 +1858,10 @@ static bool try_to_unmap_one(struct folio *folio, struct vm_area_struct *vma,
+>   				 * discarded. Remap the page to page table.
+>   				 */
+>   				set_pte_at(mm, address, pvmw.pte, pteval);
+> -				folio_set_swapbacked(folio);
+> +				/* Unlike MADV_FREE mappings, VM_DROPPABLE ones
+> +				 * never get swap backed on failure to drop. */
+> +				if (!(vma->vm_flags & VM_DROPPABLE))
+> +					folio_set_swapbacked(folio);
+>   				ret = false;
+>   				page_vma_mapped_walk_done(&pvmw);
+>   				break;
+
+A note that in mm/mm-stable, "madvise_free_huge_pmd" exists to optimize 
+MADV_FREE on PMDs. I suspect we'd want to extend that one as well for 
+dropping support, but likely it would also only be a performance 
+improvmeent and not affect functonality if not handled.
+
 -- 
-2.45.2
+Cheers,
+
+David / dhildenb
 
 
