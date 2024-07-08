@@ -1,81 +1,81 @@
-Return-Path: <linux-api+bounces-1891-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1892-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C9CB92AA49
-	for <lists+linux-api@lfdr.de>; Mon,  8 Jul 2024 22:06:10 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id E860092AA50
+	for <lists+linux-api@lfdr.de>; Mon,  8 Jul 2024 22:06:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C24C61F22DF2
-	for <lists+linux-api@lfdr.de>; Mon,  8 Jul 2024 20:06:09 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4DBC0B20E53
+	for <lists+linux-api@lfdr.de>; Mon,  8 Jul 2024 20:06:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BED02233A;
-	Mon,  8 Jul 2024 20:06:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8BE72262B;
+	Mon,  8 Jul 2024 20:06:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bE7c3Ouw"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LnqwapQA"
 X-Original-To: linux-api@vger.kernel.org
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80CB51CD23
-	for <linux-api@vger.kernel.org>; Mon,  8 Jul 2024 20:06:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29D4F22334
+	for <linux-api@vger.kernel.org>; Mon,  8 Jul 2024 20:06:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720469164; cv=none; b=EgxqfE0gpr4/DSJ186iD4932rSAUfkUX5sIHLYDwMyrkhgMyLR/lYd2ghLQcRO95mM7hK/Imgad3t+XyInDWUAEJ7j8RKGlvef/dPxI8ApOGrTA5874K2CI6ODo9YF2tHnB7dwDvhh9hU8nzNY4GLV8DWF6ZOKn6BLrJTafKSJ4=
+	t=1720469210; cv=none; b=lZ/K7RkX63Rl/fgZ6fBnReiC59c58CNljMVwqzy50Hs6uX4L/9gBC8FGibQe/orEovikn3Jc//310ef4cwFBly60Khmi5xHJOfRxWGHrNMjS6tdX8M/p+MeTDC8WV/oIrWZzxGmgTzKrknd9KNeK2VqOdSrvGhm7cnCKETEMb4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720469164; c=relaxed/simple;
-	bh=aRagdgTlsE3MWGFlwzI6ef72f+KQMUPg1M2pXIo5ZqY=;
+	s=arc-20240116; t=1720469210; c=relaxed/simple;
+	bh=lopMJKNUkM5mdilFcbxOlowjhB72XNJu1hZbshGnERQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VKvM5ADg6+Zy41hu22GVLZyg0bAVnSBwwl+Ub2Hx5M2C6HG9dDsW90d4ZiTfqcIbC1biPWX1YucLwFBVWlF96bf4DKg+Ot/2RuM/agUaRI1Y5tD64Y2NLGQyeSUqPsDeVemGHd967pIxgn3HaeHatEe666GHvMNFZGm4tfoRSXA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=bE7c3Ouw; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:Content-Type; b=J+FXun+vTk2bngmh+BKgpwcHfOoj4oG2FOU4Ivkn0gg+0y0fBPcgauQt/Aw+un8PfITMmocXIp6UDS+Y9KzX6h4rb5OvMSptXdr3YvKwXte0MLJsdLElbWITSu/e9thk8KrW9vtYcYXcQwIqyqNmusVj9IasCxz8lzsvkMz1VJ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LnqwapQA; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1720469162;
+	s=mimecast20190719; t=1720469208;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=j2lTC/uV+6KmvXYNZup4rA4eKjMMz1SsHbPB0aVLD3U=;
-	b=bE7c3OuwjhP+5SSY4w9lA9AF/MWu9vn+gZ60p3zN3xjHUikoo9oOgbcpmDq+6Bd/fgQ4Rt
-	uxDSer4WVMpeLL8QR6Kn5f50+b08L6Aq7wee1QBkR9uK5OAzt45glSPa60jd0XPf0Jp1YY
-	AAKTAGbSETbxkdF4klet6mLzXCuF5zA=
-Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
- [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=ufhtylmYb0l9ME9pQ71j54Ozfhc8pZ6jpAyIxmjbQ/M=;
+	b=LnqwapQASNNRRiG/ufczNJ479981WcHAjexfiyDWV/ZWDk6NjKPHdft9Ez1vt1PxCvPe06
+	4wEAFFrQTDZ3r33chllkkCujFVyK0k7rRDdCmJ0qrcoOEsatVGdB71pz83swror8WlhjYW
+	F1NB8qW2JXHIlUwj7NY0pi8lX4lId2I=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-257-Mh8XVzcvNu6-6dAh5zUBYQ-1; Mon, 08 Jul 2024 16:06:01 -0400
-X-MC-Unique: Mh8XVzcvNu6-6dAh5zUBYQ-1
-Received: by mail-lj1-f199.google.com with SMTP id 38308e7fff4ca-2ee81ff717fso45757181fa.3
-        for <linux-api@vger.kernel.org>; Mon, 08 Jul 2024 13:06:00 -0700 (PDT)
+ us-mta-173-6oSgxSn1Nu-ehZ52Jx_uag-1; Mon, 08 Jul 2024 16:06:46 -0400
+X-MC-Unique: 6oSgxSn1Nu-ehZ52Jx_uag-1
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-42667cc80e8so11536775e9.2
+        for <linux-api@vger.kernel.org>; Mon, 08 Jul 2024 13:06:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720469159; x=1721073959;
+        d=1e100.net; s=20230601; t=1720469205; x=1721074005;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
          :content-language:from:references:cc:to:subject:user-agent
          :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=j2lTC/uV+6KmvXYNZup4rA4eKjMMz1SsHbPB0aVLD3U=;
-        b=BTIvqi2nRNIqpAZXPmxssWhGuFXYpmTJZUknmhAvE/fxs/SzAf0TpbHLBSI3XESWFc
-         7EvfxQGrVKRcOnLn3N0iXNul4X5MckhhBFr+zubYpMV6vWmTern7K+afK0WJYaqouAfI
-         jNJlEEpnFqg+YZCjeF7Q8fQa5ExXL0F04joXH8QyWlMNxMLRFV14jvy99/jr6SRmLGe3
-         0Uyr6A4ViifCG4HLry46nS2P2VZwO4AU3I40T8H4JQT1cbQssFC8jzRASgcbND3P+paB
-         945w89Z/Xv1XsFz3i3m/+ZnD1AA81deMKycQlbH7pKBNxFloNnmp/kPPJbgyAMJfBoCo
-         vuyg==
-X-Forwarded-Encrypted: i=1; AJvYcCUSg3u8pRAsG0rFsDGFuwRuutuSmNh+v3y83C05OFTW/IdoOWNxDE8QPDtk3ulz+/vietkR7ilVeA4DjZciPd0e4UIY6e65Lzcc
-X-Gm-Message-State: AOJu0Yzgi2h99YBYGhLbQZi25sMSOesxzN6eYYgAJc9rmSA7LSka1gsM
-	ARdzGy+C8yWZFeAAQd4Hlbz8I2/qxKCwyTQymybOgEUxGpDgYxvx8Ls/LHsMKnMM6XmNnqd12ez
-	gEqBSSBdXIkb+ybskBZ22AISSuUsggeMqFudy4IMMzcwcVmVwgUcxdH36xA==
-X-Received: by 2002:a19:ac4b:0:b0:52c:84a2:d848 with SMTP id 2adb3069b0e04-52eb99d5f90mr212442e87.65.1720469159542;
-        Mon, 08 Jul 2024 13:05:59 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEOutunBjtATYlYPcPc2RtJuaPBHwhpp2F+6BNL1SdYd55rueYzXjB88TMPhrVMThULXxhZ7w==
-X-Received: by 2002:a19:ac4b:0:b0:52c:84a2:d848 with SMTP id 2adb3069b0e04-52eb99d5f90mr212419e87.65.1720469159140;
-        Mon, 08 Jul 2024 13:05:59 -0700 (PDT)
+        bh=ufhtylmYb0l9ME9pQ71j54Ozfhc8pZ6jpAyIxmjbQ/M=;
+        b=Eh8Q/6DYzFj5u+iQuMpjjrFIyQLDnBYeu0RGsbjQ+0y0qNz6+vLi7xMZZaGAWw0mgR
+         X6kfFc37LeNDyFXZVG1DPFTU/Ix+HHgyK0+SqLD2OPQjInWINz150iSHvDeGRwWg0fod
+         O+7u53caOlvuCt59a0Pr9V/BfTlzk7WmPagcmBbZRbhMP+eSpUKBBH7D51xdQN5KOxV+
+         csnVJM1S9oYm44UTxQdgQkGblNhq569QYK6Oxdvh/7pgSQdtdV1gL/uqMrnmVZgwyWRe
+         VEg5XyH99aUeLltC2A+idFGDiPuL5rJ8zYTxI1lm62gPLYGFWN7DxdsnD2yTBe/uPmoF
+         F/Lg==
+X-Forwarded-Encrypted: i=1; AJvYcCVC/qI62xiOW9dCiD/XVqntRMlGnebMZxHEM7Dd/pc9jOOVDBJKsFoS9npAhJn5Q+BjYKBxtL8rr7kerpA4nKJxPMmbIJrO7kBS
+X-Gm-Message-State: AOJu0YwPu1bItmDT374HOSiT7i5BWwam+v77O+GBII3QF7nRvaZlPPLR
+	rSyFSYA9nh0MVxZHKO2QScN0xH4/fj3hKaGfG2nz0Q5DBE+X6ZD88PC+2K+pQ7vHkbOXDctO6xf
+	ThBylMJg+jrIyKZsIH3ovphto5hRfvQOe2NfSf0N3kDIgCTTVpAaoiPRxag==
+X-Received: by 2002:a05:600c:896:b0:426:64a2:5375 with SMTP id 5b1f17b1804b1-426707cbf60mr4187865e9.1.1720469205666;
+        Mon, 08 Jul 2024 13:06:45 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFY3cy8KO7R2bm9GD3OsyrOijDD4r+Wzecwv9hQQdddOHxtAoBS7yAbuwECbpXjcjqzix6Adw==
+X-Received: by 2002:a05:600c:896:b0:426:64a2:5375 with SMTP id 5b1f17b1804b1-426707cbf60mr4187585e9.1.1720469205258;
+        Mon, 08 Jul 2024 13:06:45 -0700 (PDT)
 Received: from ?IPV6:2003:cb:c744:2200:bad7:95bd:e25e:a9e? (p200300cbc7442200bad795bde25e0a9e.dip0.t-ipconnect.de. [2003:cb:c744:2200:bad7:95bd:e25e:a9e])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4266f6f5a27sm10282465e9.23.2024.07.08.13.05.57
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4266f6f5f25sm10628625e9.26.2024.07.08.13.06.43
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Jul 2024 13:05:58 -0700 (PDT)
-Message-ID: <3492ea69-54cd-4ba3-b328-2e76542ccc32@redhat.com>
-Date: Mon, 8 Jul 2024 22:05:57 +0200
+        Mon, 08 Jul 2024 13:06:44 -0700 (PDT)
+Message-ID: <75cf01cd-8a45-4a79-b06c-cdf2d68cdd53@redhat.com>
+Date: Mon, 8 Jul 2024 22:06:43 +0200
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -104,8 +104,7 @@ References: <20240707002658.1917440-1-Jason@zx2c4.com>
  <6705c6c8-8b6a-4d03-ae0f-aa83442ec0ab@redhat.com>
  <CAHk-=wi=XvCZ9r897LjEb4ZarLzLtKN1p+Fyig+F2fmQDF8GSA@mail.gmail.com>
  <7439da2e-4a60-4643-9804-17e99ce6e312@redhat.com>
- <8bf64731-9e5c-4c8c-b46b-5b18ae3110a1@redhat.com>
- <ZovwO8KJ5Cv5fa26@zx2c4.com>
+ <Zovv4lzM38EHtnms@zx2c4.com>
 From: David Hildenbrand <david@redhat.com>
 Content-Language: en-US
 Autocrypt: addr=david@redhat.com; keydata=
@@ -153,26 +152,48 @@ Autocrypt: addr=david@redhat.com; keydata=
  jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
  WNyWQQ==
 Organization: Red Hat
-In-Reply-To: <ZovwO8KJ5Cv5fa26@zx2c4.com>
+In-Reply-To: <Zovv4lzM38EHtnms@zx2c4.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 08.07.24 15:57, Jason A. Donenfeld wrote:
-> On Mon, Jul 08, 2024 at 10:23:10AM +0200, David Hildenbrand wrote:
->>> As a side note, I'll raise that I am not a particular fan of the
->>> "droppable" terminology, at least with the "read 0s" approach.
->>>
->>>    From a user perspective, the memory might suddenly lose its state and
->>> read as 0s just like volatile memory when it loses power. "dropping
->>> pages" sounds more like an implementation detail.
->>
->> Long story short: it's the hypervisor that could be effectively
->> dropping/zeroing out that memory, not the guest VM. "NONVOLATILE" might
->> be clearer than "DROPPABLE".
+On 08.07.24 15:55, Jason A. Donenfeld wrote:
+> Hi David,
 > 
-> Surely you mean "VOLATILE", not "NONVOLATILE", right?
+> On Mon, Jul 08, 2024 at 10:11:24AM +0200, David Hildenbrand wrote:
+>> The semantics are much more intuitive. No need for separate mmap flags.
+> 
+> Agreed.
+>   
+>> Likely we'll have to adjust mlock() as well. Also, I think we should
+>> just bail out with hugetlb as well.
+> 
+> Ack.
+> 
+>> Further, maybe we want to disallow madvise() clearing these flags here,
+>> just to be consistent.
+> 
+> Good thinking.
+> 
+>> As a side note, I'll raise that I am not a particular fan of the
+>> "droppable" terminology, at least with the "read 0s" approach.
+>>
+>>   From a user perspective, the memory might suddenly lose its state and
+>> read as 0s just like volatile memory when it loses power. "dropping
+>> pages" sounds more like an implementation detail.
+>>
+>> Something like MAP_VOLATILE might be more intuitive (similar to the
+>> proposed MADV_VOLATILE).
+>>
+>> But naming is hard, just mentioning to share my thought :)
+> 
+> Naming is hard, but *renaming* is annoying. I like droppable simply
+> because that's what I've been calling it in my head. MAP_VOLATILE is
+> fine with me though, and seems reasonable enough. So I'll name it that,
+> and then please don't change your mind about it later so I won't have to
+> rename everything again. :)
 
-Yes, typo :)
+:) Nah. But wait with any remaining until more than one person thinks 
+it's a good idea.
 
 -- 
 Cheers,
