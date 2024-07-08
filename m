@@ -1,81 +1,81 @@
-Return-Path: <linux-api+bounces-1870-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1871-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79695929E14
-	for <lists+linux-api@lfdr.de>; Mon,  8 Jul 2024 10:11:43 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72CA6929E3B
+	for <lists+linux-api@lfdr.de>; Mon,  8 Jul 2024 10:23:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2DA6F1F21124
-	for <lists+linux-api@lfdr.de>; Mon,  8 Jul 2024 08:11:43 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C7FE6B22CE5
+	for <lists+linux-api@lfdr.de>; Mon,  8 Jul 2024 08:23:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BEA03D3B8;
-	Mon,  8 Jul 2024 08:11:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DD303DBBF;
+	Mon,  8 Jul 2024 08:23:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="AQj/i6xA"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CVb2Xeaq"
 X-Original-To: linux-api@vger.kernel.org
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA2953BBEB
-	for <linux-api@vger.kernel.org>; Mon,  8 Jul 2024 08:11:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A266138FB0
+	for <linux-api@vger.kernel.org>; Mon,  8 Jul 2024 08:23:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720426295; cv=none; b=GStjw3cWeuxwxEesMO2V0jYFJ+sQmqkm15W49l0pAinWBXoOnRVfzISyPg2umk7Oa53avR/sHor53Zh8H/3+CaouVkz1tMZv33zQ3EtNoHXmZafJ03YSgOC/JGVTlBZGZadkddwYlBnweHRZ5zaqK198lpAJsl9RTJsG2sIw/lU=
+	t=1720427000; cv=none; b=r6mozhfKI7Hl/YKr0Xs2jF6KM5FRjz8hGGi5gULxVz6udHSqgLib+3YF9X0boBGA6tHeeSIIj/Irk6kEpHCYpfCT6hCjmj1K7FxRYd066kGaqt8GdJC26Kzy/A5/7DzQzO6cyL72DW+wVt4lOz3W6AsYk9ZVixbkbJE7JZj3Teg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720426295; c=relaxed/simple;
-	bh=2oLuXobac5roJSa3IO5/5qzJKdTUjyDWzEQLC8i5HaQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VeYvCKmtzdTV72jAsolSdMiIhNNlphotBbUkz9ILlnXJGmha5EFXRYgjn2S3GSFN7yANJLmErDZd1PDC+UZnQdvQeID6vOqvZivBo1ZtupGPvvbCUDFNoKf1tZ9h2a2KL8dGfwDrtxKRGkvWofmNP9vhi3/FHZg/4ftOqBwg5Ek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=AQj/i6xA; arc=none smtp.client-ip=170.10.133.124
+	s=arc-20240116; t=1720427000; c=relaxed/simple;
+	bh=u9mN5ZVUNKs/SnqYF+TXngxMJE/RrZZ3YGgiYU4pUlc=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=fxxIjLqwGy4zx+n+pZ8YVC1N9Tk8T3KCVMuFbbRJbGr5VtD0ylrDutfk79EQ646Tn7M5IORRi8jOEIGWJbe3pQVP0mN24smetcUmLzU+AX131r/st0KVSPpeWOEet+GdBDWKhTiVb0IS40PZGck4vVO9ggKtmWxbUki3FwgxYZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=CVb2Xeaq; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1720426293;
+	s=mimecast20190719; t=1720426997;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=Gp+JU/F91iJfi0msXelpd8IVzKHprY8FUr3nyaI8s/Y=;
-	b=AQj/i6xA+LYqxDIsG7aKzr3LV8xfKBA5DUMG18vctmCDJXIBjNWXZcDt3N6h6roZXon5i/
-	7KZXxScnwcOO8zN06vVw8fNHN4TjmLM1z9tfsxy7Y9zZ66udZA27o9u6rBlGtPH03j9bmm
-	X35Jia3m97cBPZUbyCdvCB84i7J7omU=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=MFZguN8EVoK7OymJmQKuCA2IoYCB5NF4rjLMBNd7sSM=;
+	b=CVb2XeaqwoofH6LynmhyPWcPROBzLZJ95x1xLZt7bVaCXGFX6AEK6z0h77S7zXlWPuoYiJ
+	yFEUi0w1rczkOJB0CkmErR9OLdc5WpYBc+1eRvt22KLFcTCj649UIwR2uZ9T/rJK42OkR8
+	D+cJy4iw3A/nDvmFydqwd0ksZI2q+4Y=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-688-pq6s-uh2Pu2r4aVD6c3snw-1; Mon, 08 Jul 2024 04:11:28 -0400
-X-MC-Unique: pq6s-uh2Pu2r4aVD6c3snw-1
-Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-a77c539bfbcso246853166b.1
-        for <linux-api@vger.kernel.org>; Mon, 08 Jul 2024 01:11:28 -0700 (PDT)
+ us-mta-68-8r7PlrCVP8uphQ_5D7tO1g-1; Mon, 08 Jul 2024 04:23:15 -0400
+X-MC-Unique: 8r7PlrCVP8uphQ_5D7tO1g-1
+Received: by mail-ed1-f71.google.com with SMTP id 4fb4d7f45d1cf-57851ae6090so3262397a12.3
+        for <linux-api@vger.kernel.org>; Mon, 08 Jul 2024 01:23:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720426287; x=1721031087;
+        d=1e100.net; s=20230601; t=1720426994; x=1721031794;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
+         :content-language:references:cc:to:from:subject:user-agent
          :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=Gp+JU/F91iJfi0msXelpd8IVzKHprY8FUr3nyaI8s/Y=;
-        b=WQs7vnySBLMkiN1X0JxetZ8K68UtQMSFlxP/uFh2suixSibGV/NFXd8TtjgFLNvf8R
-         1rDlZ2JtgacyrOKEhSFm6RTkR/J4ZrzO6CFlRpNgAPv5zSmh/esMZIRLySgEZQgsMkNN
-         6/hQSJPE7UcvWJGGke1bvA1gNolqFrzS2oBw32poGIwYcUz3/7CHctJ48PAfSQI0/cnQ
-         b72K0dKBCqECpS0MYIEi1LPKLhUE2TDxSDBaMFRQOCcd3XwJJ5d2P8gnKDVMVFwp2uoG
-         NdwrecxTsMcG1Va87C8vE5Jgnvs3bH1mXI0Jg5+bvfR8tLDAHxvEGWSYWLYCmUD5VKNN
-         kpiw==
-X-Forwarded-Encrypted: i=1; AJvYcCVH6dtNPvP07eQod1Q/UdZ/og9Dxg0KtpfHkvoXslBMK+Oy7eSIWVm1hz1I0fbVb7h7/A5yNYmGW+VFfhiZJv2AXrRsWPjBDEh7
-X-Gm-Message-State: AOJu0YxBF/nAGECuCQzP1ozHYRGGtFHZR6KxAgAhYIc0R/SgFxXixeGu
-	cQTbdEPsI91QG/TgOu31aUm43PHpeg61emAnhIwjycE7NBcNjwYozmPJ5L2+xui9WhNQ41DIOxR
-	WUM1z6kbxD/eqaPWXCvJbPOa24foaUYZMZv7ajYXiSZ3HUCc2TGPM9g0wEg==
-X-Received: by 2002:a05:6402:311c:b0:58c:adad:cbb with SMTP id 4fb4d7f45d1cf-58e5cc0b694mr5634049a12.38.1720426287092;
-        Mon, 08 Jul 2024 01:11:27 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IERhu1ncMdDmYLIvyQzpQhR84SA4zIqAfzm6r9bAw/Jyk06nNBrd+LkPTmKZbo4Xr0uenl3oQ==
-X-Received: by 2002:a05:6402:311c:b0:58c:adad:cbb with SMTP id 4fb4d7f45d1cf-58e5cc0b694mr5634038a12.38.1720426286701;
-        Mon, 08 Jul 2024 01:11:26 -0700 (PDT)
+        bh=MFZguN8EVoK7OymJmQKuCA2IoYCB5NF4rjLMBNd7sSM=;
+        b=THILHPIcmgjDJdX050S9/4nVA1dFbn7STmECbACQuiNB8dO7+OBQoELhiyemjDzB0l
+         3C0Qt53RaQQr3wmRAdY6CgCmvTpa0Z1QHSYEhRqk1jQlqPXBReC+05zWcAKSHizVxDXS
+         MXj7HJ6SeVhDhEHJPZ/4LxpN4TD/hHIlj6o5h6cAha6asTixbHNmbJUxq/yPahNIR2Po
+         Vc0t2qWZrkTTcT/ETjjLLQKac5TZBrdWvSjUjfNWexi9nOI89PYYqeVCQ5zUMkEzfHhF
+         c8ePD8JDP4XL3p/lLiK1j10FovOJMAi68BRCim51gkVG0ymLczd3xkTbYwp4ElhEDI+i
+         zADA==
+X-Forwarded-Encrypted: i=1; AJvYcCWZcJHowGJx8SQj/fWfWQ9vf8+85GaQ90Ev5pr6nf+gP6UC+efDTFy4gsXq0UN5sb849TJtXU0BXs0MP3vRj9um/2Qn4wrQr5qt
+X-Gm-Message-State: AOJu0YxAf5GTZXEvEKe8Eyfk05Jo2qQjpfMAXvNSCBE/xpylBR/o3EOI
+	sbam/STyZBOstPrKp9HSmbV8ORfk5lZ/YL+wvBOKHxgPFTaES/jDP0yX3AxVSi0o1v+2Am0gLy2
+	otdvOIqeaYapPG0Qjm9pIzbHubfVDwjnUJ+FRWiQ6V1ZnOEk7FoTk1qd95g==
+X-Received: by 2002:a05:6402:1ed4:b0:57d:466a:246 with SMTP id 4fb4d7f45d1cf-58e5a8e8d16mr7877319a12.8.1720426994411;
+        Mon, 08 Jul 2024 01:23:14 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEI7JB2DQx/fSTi7SMHizXA4YiB8BrliEg6vtno1cAdZYwZNeZhUcg0gPX1yenfeB1h1VEyFg==
+X-Received: by 2002:a05:6402:1ed4:b0:57d:466a:246 with SMTP id 4fb4d7f45d1cf-58e5a8e8d16mr7877294a12.8.1720426993994;
+        Mon, 08 Jul 2024 01:23:13 -0700 (PDT)
 Received: from [100.81.188.195] ([178.24.249.36])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-593c7f2845fsm411567a12.95.2024.07.08.01.11.25
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-58fe866155esm3527497a12.20.2024.07.08.01.23.11
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Jul 2024 01:11:26 -0700 (PDT)
-Message-ID: <7439da2e-4a60-4643-9804-17e99ce6e312@redhat.com>
-Date: Mon, 8 Jul 2024 10:11:24 +0200
+        Mon, 08 Jul 2024 01:23:13 -0700 (PDT)
+Message-ID: <8bf64731-9e5c-4c8c-b46b-5b18ae3110a1@redhat.com>
+Date: Mon, 8 Jul 2024 10:23:10 +0200
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -85,6 +85,7 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v21 1/4] mm: add VM_DROPPABLE for designating always
  lazily freeable mappings
+From: David Hildenbrand <david@redhat.com>
 To: Linus Torvalds <torvalds@linux-foundation.org>
 Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, linux-kernel@vger.kernel.org,
  patches@lists.linux.dev, tglx@linutronix.de, linux-crypto@vger.kernel.org,
@@ -103,7 +104,7 @@ References: <20240707002658.1917440-1-Jason@zx2c4.com>
  <CAHk-=wibRRHVH5D4XvX1maQDCT-o4JLkANXHMoZoWdn=tN0TLA@mail.gmail.com>
  <6705c6c8-8b6a-4d03-ae0f-aa83442ec0ab@redhat.com>
  <CAHk-=wi=XvCZ9r897LjEb4ZarLzLtKN1p+Fyig+F2fmQDF8GSA@mail.gmail.com>
-From: David Hildenbrand <david@redhat.com>
+ <7439da2e-4a60-4643-9804-17e99ce6e312@redhat.com>
 Content-Language: en-US
 Autocrypt: addr=david@redhat.com; keydata=
  xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
@@ -150,123 +151,33 @@ Autocrypt: addr=david@redhat.com; keydata=
  jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
  WNyWQQ==
 Organization: Red Hat
-In-Reply-To: <CAHk-=wi=XvCZ9r897LjEb4ZarLzLtKN1p+Fyig+F2fmQDF8GSA@mail.gmail.com>
+In-Reply-To: <7439da2e-4a60-4643-9804-17e99ce6e312@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 08.07.24 02:08, Linus Torvalds wrote:
-> On Sun, 7 Jul 2024 at 14:01, David Hildenbrand <david@redhat.com> wrote:
->>
->> At least MAP_DROPPABLE doesn't quite make sense with hugetlb, but at least
->> the other ones do have semantics with hugetlb?
+> As a side note, I'll raise that I am not a particular fan of the
+> "droppable" terminology, at least with the "read 0s" approach.
 > 
-> Hmm.
-> 
-> How about we just say that VM_DROPPABLE really is something separate
-> from MAP_PRIVATE or MAP_SHARED..
+>   From a user perspective, the memory might suddenly lose its state and
+> read as 0s just like volatile memory when it loses power. "dropping
+> pages" sounds more like an implementation detail.
 
-So it would essentially currently imply MAP_ANON|MAP_PRIVATE, without 
-COW (not shared with a child process).
+Just to raise why I consider "dropping" an implementation detail: in 
+combination with a previous idea I had of exposing "nonvolatile" memory 
+to VMs, the following might be interesting:
 
-Then, we should ignore any fd+offset that is passed (or bail out); I 
-assume that's what your proposal below does automatically without diving 
-into the code.
+A hypervisor could expose special "nonvolatile memory" as separate guest 
+physical memory region to a VM.
 
-> 
-> And then we make the rule be that VM_DROPPABLE is never dumped and
-> always dropped on fork, just to make things simpler.
+We could use that special memory to back these MAP_XXX regions in our 
+guest, in addition to trying to make use of them in the guest kernel, 
+for example for something similar to cleancache.
 
-The semantics are much more intuitive. No need for separate mmap flags.
+Long story short: it's the hypervisor that could be effectively 
+dropping/zeroing out that memory, not the guest VM. "NONVOLATILE" might 
+be clearer than "DROPPABLE".
 
-> 
-> It not only avoids a flag, but it actually makes sense: the pages
-> aren't stable for dumping anyway, and not copying them on fork() not
-> only avoids some overhead, but makes it much more reliable and
-> testable.
-> 
-> IOW, how about taking this approach:
-> 
->     --- a/include/uapi/linux/mman.h
->     +++ b/include/uapi/linux/mman.h
->     @@ -17,5 +17,6 @@
->      #define MAP_SHARED  0x01            /* Share changes */
->      #define MAP_PRIVATE 0x02            /* Changes are private */
->      #define MAP_SHARED_VALIDATE 0x03    /* share + validate extension flags */
->     +#define MAP_DROPPABLE       0x08    /* 4 is not in MAP_TYPE on parisc? */
-> 
->      /*
-> 
-> with do_mmap() doing:
-> 
->     --- a/mm/mmap.c
->     +++ b/mm/mmap.c
->     @@ -1369,6 +1369,23 @@ unsigned long do_mmap(struct file *file,
->                          pgoff = 0;
->                          vm_flags |= VM_SHARED | VM_MAYSHARE;
->                          break;
->     +            case MAP_DROPPABLE:
->     +                    /*
->     +                     * A locked or stack area makes no sense to
->     +                     * be droppable.
->     +                     *
->     +                     * Also, since droppable pages can just go
->     +                     * away at any time, it makes no sense to
->     +                     * copy them on fork or dump them.
->     +                     */
->     +                    if (flags & MAP_LOCKED)
->     +                            return -EINVAL;
-
-Likely we'll have to adjust mlock() as well. Also, I think we should 
-just bail out with hugetlb as well.
-
->     +                    if (vm_flags & (VM_GROWSDOWN|VM_GROWSUP))
->     +                            return -EINVAL;
->     +
->     +                    vm_flags |= VM_DROPPABLE;
->     +                    vm_flags |= VM_WIPEONFORK | VM_DONTDUMP;
-
-Further, maybe we want to disallow madvise() clearing these flags here, 
-just to be consistent.
-
->     +                    fallthrough;
->                  case MAP_PRIVATE:
->                          /*
->                           * Set pgoff according to addr for anon_vma.
-> 
-> which looks rather simple.
-> 
-> The only oddity is that parisc thing - every other archiecture has the
-> MAP_TYPE bits being 0xf, but parisc uses 0x2b (also four bits, but
-> instead of the low four bits it's 00101011 - strange).
-
-I assume, changing that would have the risk of breaking stupid user 
-space, right? (that sets a bit without any semantics)
-
-> 
-> So using 8 as a MAP_TYPE bit for MAP_DROPPABLE works everywhere, and
-> if we eventually want to do a "signaling" MAP_DROPPABLE we could use
-> 9.
-
-Sounds good enough.
-
-> 
-> This has the added advantage that if somebody does this on an old
-> kernel,. they *will* get an error. Because unlike the 'flag' bits in
-> general, the MAP_TYPE bit space has always been tested.
-> 
-> Hmm?
-
-As a side note, I'll raise that I am not a particular fan of the 
-"droppable" terminology, at least with the "read 0s" approach.
-
- From a user perspective, the memory might suddenly lose its state and 
-read as 0s just like volatile memory when it loses power. "dropping 
-pages" sounds more like an implementation detail.
-
-Something like MAP_VOLATILE might be more intuitive (similar to the 
-proposed MADV_VOLATILE).
-
-But naming is hard, just mentioning to share my thought :)
+But again, naming is hard ... :)
 
 -- 
 Cheers,
