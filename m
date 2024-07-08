@@ -1,259 +1,261 @@
-Return-Path: <linux-api+bounces-1895-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1896-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7630592AA87
-	for <lists+linux-api@lfdr.de>; Mon,  8 Jul 2024 22:26:37 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27F4D92AAAB
+	for <lists+linux-api@lfdr.de>; Mon,  8 Jul 2024 22:37:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EEB971F2271E
-	for <lists+linux-api@lfdr.de>; Mon,  8 Jul 2024 20:26:36 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 75D09B21450
+	for <lists+linux-api@lfdr.de>; Mon,  8 Jul 2024 20:37:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 321C814C582;
-	Mon,  8 Jul 2024 20:26:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 657043BB50;
+	Mon,  8 Jul 2024 20:37:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FNOv9xVu"
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="GJxdClp3"
 X-Original-To: linux-api@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 963AD14B94E
-	for <linux-api@vger.kernel.org>; Mon,  8 Jul 2024 20:26:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4323A29;
+	Mon,  8 Jul 2024 20:37:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720470390; cv=none; b=pBk2aNZ0ZonF7INGLD1lmbPxVKC8yoTz71GY4TMrS7bRFlCjDArr8iJHVIK98pXlArZtmkzBRfR7ugrb9j0Rntnyt0YfXiVk3jmejKW6OBLyERne2mGxDx8gZA6Ww2i6b5CjPsOWXjQ+f9zkAim+zKssvyj78MDNSkk3VdqeaJc=
+	t=1720471038; cv=none; b=fpUziBePc9yu3gDQl5B+956pBKlIInJNG1cC/nJUuxx3AVfd3LzHx+83TaEtVF0J+tADQ2esrLaW/N0vxx5Nu1OBbeOEH+s+R3gO8l/DoebXSSyjV7z0fQ3om7s0eDlQqHCiful7siEpaSuj3nbScPYWWWo5ZixnPRVBuiY6UgE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720470390; c=relaxed/simple;
-	bh=5V6IYhUe6otq5OC2GxRILyVlsLk6NROneiWtR7NjlIc=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=OSR8avUBMHVawWGshm3NwQ1BQnfGvoOx0bcWZNQkAgXXBCVaD/oiSl7Z94YANBlIoWywc3iNtB2NzliHzK9ZIJziVkv2Y1FgmOURp1NTfpS6t8RuYCO+fa2xOaJZcwcpnKxWHzFkTSLn6Q+0IjZzI9lgHAnmAZiwL9wsWg2LbAE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FNOv9xVu; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1720470387;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=mVMG4RVloX1DfGSanxoh3xfYdOdQv6AUQ/gWHyAHjGs=;
-	b=FNOv9xVunoNU0nHZejHfTl4M1V3Yb+N2FvCWN1FjWB7Y6mEgvATi9cWPDC4hjv7ayXtPCP
-	n9djuqXGJcJ39+lM1uOTo3Q4cOXg728SXExZWyoKmpjrQO0BGH/DMXkTJoTdh5Bn/eadHy
-	oNxxMndy3npNFAQDRIFuqTcx+cwpqRQ=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-591-hSjQV1owNryLMf5fbaPhmw-1; Mon, 08 Jul 2024 16:26:25 -0400
-X-MC-Unique: hSjQV1owNryLMf5fbaPhmw-1
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-36710f4d5c9so2714894f8f.3
-        for <linux-api@vger.kernel.org>; Mon, 08 Jul 2024 13:26:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720470384; x=1721075184;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:from:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=mVMG4RVloX1DfGSanxoh3xfYdOdQv6AUQ/gWHyAHjGs=;
-        b=ZqQdnoUrNmjqrbYumyItjII+XAPt93WhNP4OBy9pao5HpBds0/koA6Ko1DjUt47NLQ
-         y+kiBvQVWHaj+ztCmCiyvbw9gi8W0fv1v0kY2S5m1Y+ksMkOfu5wc4qaIw34obZBSKDQ
-         DFMhw26NTrOxQ6r1lVg/7ryMWmDQyeuCx0utPebLwCb6BmEekGwz9w4ANcOlFuWgp2MM
-         OgTxq+zNAk7mpznENDwjXDfmg/BTMIit1+VSzYv+yotxtXOQ6kwsMEDqhrcVDvLhsF+Q
-         UVZyDzYqP0Lv2Xnne4V9rPSQUYDGWO8HAANqG3odPmoxzERUv33fcIvAxx781I5pTiS2
-         lojA==
-X-Forwarded-Encrypted: i=1; AJvYcCVaEuG7lOfHcT+iqBcuRx7y+EmZ6p1d9Ur62lMMDOlFc3LnYsPVW0ZCFjgfndpIr446TZOWUXOmwOJIQqGMGSPStPezs2wPeeFg
-X-Gm-Message-State: AOJu0YxetUzsh0PmnIZOT9w8Va0N165y89czsT2nhZdljoRMJNvZ1m7C
-	CnoQuZTkwzXD/webKl3bp47+PlToeOnPLAG2fXHQ9eA3OKE0XBkzURrekY+yIs7yvGza/FmsqiH
-	H6GnGxHRS284qMJ/xAJBYSydLxymXhXSicsU7EcpMTEodyjIjBE5PZfek+w==
-X-Received: by 2002:a05:6000:1564:b0:366:ddc2:a14a with SMTP id ffacd0b85a97d-367cea964f7mr432604f8f.40.1720470384143;
-        Mon, 08 Jul 2024 13:26:24 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFtC7PX61wT1RNLMUAy6Dpe+mwu9S4XRQy3FYYepcl5EH3nIFv6WEb7mDkQBcFjeZ5hQnO1nQ==
-X-Received: by 2002:a05:6000:1564:b0:366:ddc2:a14a with SMTP id ffacd0b85a97d-367cea964f7mr432573f8f.40.1720470383644;
-        Mon, 08 Jul 2024 13:26:23 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c744:2200:bad7:95bd:e25e:a9e? (p200300cbc7442200bad795bde25e0a9e.dip0.t-ipconnect.de. [2003:cb:c744:2200:bad7:95bd:e25e:a9e])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-367cde8491dsm642729f8f.45.2024.07.08.13.26.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Jul 2024 13:26:23 -0700 (PDT)
-Message-ID: <f14e5df9-5805-426a-bcbe-d19b038fcf30@redhat.com>
-Date: Mon, 8 Jul 2024 22:26:21 +0200
+	s=arc-20240116; t=1720471038; c=relaxed/simple;
+	bh=JTpsJ4BLsqwl1tMAbcghItB5dY+DDbryHsbxbYy99ew=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=DOmAeS1Rg3f+37XRHouVOKtaqzRPauH84Lrp5+sPQu8XUHvVvVfDiK76b2bHFSHznUitvIPCKQ5NMGLfbix1+EvGZKgm4FlGYnSV1tA0Mw2iu/ShbcexDXy+yOeTz8lJzk0fJFbruSPKOEGTJmIJ2E0cFvIRZq5QKNdFB3bMNK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=GJxdClp3; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 468GSgar022732;
+	Mon, 8 Jul 2024 20:35:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=
+	message-id:subject:from:to:cc:date:in-reply-to:references
+	:content-type:content-transfer-encoding:mime-version; s=pp1; bh=
+	CxgxLsMfcgEUGG2AWRuuw2fi5FzNeGA6j6CPtR3F6bc=; b=GJxdClp3WxyMXnqE
+	bBREpQh9CN6I51cP+LBGgngbCtNdpuo13librI+ftvNXrMdPGc75VePQ5Y3hlSGM
+	sYJNjvaSz5CblUOF+jyeefhrB3UOaZWNLZznFo1Ym4hAodwaU2yFFB50VUOyeVMx
+	SG8YeeTPwpoBaL1uA1rDZtrxp57/XGQFEkL+Wvx5VaW7sArZku7RsphqCEbZ+2Uj
+	SoEWNlA73iM+/kwaFLfGT4a0dgayWX+liRqMp8bYHnGH/nKSHICTGOAHgOQBqtK5
+	kofUhF9jTVpxBiCinq3Yox6wOYsYLHWROqqgjcVpIwHp9Md5V9FA5A4MLUbVXWdg
+	XtzGwA==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 408knm0jhw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 08 Jul 2024 20:35:49 +0000 (GMT)
+Received: from m0356517.ppops.net (m0356517.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 468KZmVD010338;
+	Mon, 8 Jul 2024 20:35:48 GMT
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 408knm0jhp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 08 Jul 2024 20:35:48 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 468JjYcX013901;
+	Mon, 8 Jul 2024 20:35:46 GMT
+Received: from smtprelay05.dal12v.mail.ibm.com ([172.16.1.7])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 407gn0h1pd-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 08 Jul 2024 20:35:46 +0000
+Received: from smtpav01.wdc07v.mail.ibm.com (smtpav01.wdc07v.mail.ibm.com [10.39.53.228])
+	by smtprelay05.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 468KZhOE54133212
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 8 Jul 2024 20:35:45 GMT
+Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 73C7F5804B;
+	Mon,  8 Jul 2024 20:35:43 +0000 (GMT)
+Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 7BA115805B;
+	Mon,  8 Jul 2024 20:35:39 +0000 (GMT)
+Received: from li-5cd3c5cc-21f9-11b2-a85c-a4381f30c2f3.ibm.com (unknown [9.61.72.224])
+	by smtpav01.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Mon,  8 Jul 2024 20:35:39 +0000 (GMT)
+Message-ID: <55b4f6291e8d83d420c7d08f4233b3d304ce683d.camel@linux.ibm.com>
+Subject: Re: [RFC PATCH v19 0/5] Script execution control (was O_MAYEXEC)
+From: Mimi Zohar <zohar@linux.ibm.com>
+To: =?ISO-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
+        Al Viro
+ <viro@zeniv.linux.org.uk>,
+        Christian Brauner <brauner@kernel.org>,
+        Kees
+ Cook <keescook@chromium.org>,
+        Linus Torvalds
+ <torvalds@linux-foundation.org>,
+        Paul Moore <paul@paul-moore.com>, "Theodore Ts'o" <tytso@mit.edu>
+Cc: Alejandro Colomar <alx.manpages@gmail.com>,
+        Aleksa Sarai
+ <cyphar@cyphar.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy
+ Lutomirski <luto@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Casey
+ Schaufler <casey@schaufler-ca.com>,
+        Christian Heimes
+ <christian@python.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Eric Biggers
+ <ebiggers@kernel.org>,
+        Eric Chiang <ericchiang@google.com>,
+        Fan Wu
+ <wufan@linux.microsoft.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        Geert
+ Uytterhoeven <geert@linux-m68k.org>,
+        James Morris
+ <jamorris@linux.microsoft.com>, Jan Kara <jack@suse.cz>,
+        Jann Horn
+ <jannh@google.com>, Jeff Xu <jeffxu@google.com>,
+        Jonathan Corbet
+ <corbet@lwn.net>,
+        Jordan R Abrahams <ajordanr@google.com>,
+        Lakshmi
+ Ramasubramanian <nramas@linux.microsoft.com>,
+        Luca Boccassi
+ <bluca@debian.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        "Madhavan T .
+ Venkataraman" <madvenka@linux.microsoft.com>,
+        Matt Bobrowski
+ <mattbobrowski@google.com>,
+        Matthew Garrett <mjg59@srcf.ucam.org>,
+        Matthew
+ Wilcox <willy@infradead.org>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Nicolas
+ Bouchinet <nicolas.bouchinet@ssi.gouv.fr>,
+        Scott Shell
+ <scottsh@microsoft.com>, Shuah Khan <shuah@kernel.org>,
+        Stephen Rothwell
+ <sfr@canb.auug.org.au>,
+        Steve Dower <steve.dower@python.org>, Steve Grubb
+ <sgrubb@redhat.com>,
+        Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>,
+        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
+        Xiaoming Ni
+ <nixiaoming@huawei.com>,
+        Yin Fengwei <fengwei.yin@intel.com>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org
+Date: Mon, 08 Jul 2024 16:35:38 -0400
+In-Reply-To: <20240704190137.696169-1-mic@digikod.net>
+References: <20240704190137.696169-1-mic@digikod.net>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5 (3.28.5-26.el8_10) 
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: xfgBL0ZavfhoiN98qDf8nNW4jFF4_Skx
+X-Proofpoint-ORIG-GUID: 0zv7xLsYvghyVjWtpLVEhBOkEbPIHn4V
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v21 1/4] mm: add VM_DROPPABLE for designating always
- lazily freeable mappings
-From: David Hildenbrand <david@redhat.com>
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- linux-kernel@vger.kernel.org, patches@lists.linux.dev, tglx@linutronix.de,
- linux-crypto@vger.kernel.org, linux-api@vger.kernel.org, x86@kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
- Carlos O'Donell <carlos@redhat.com>, Florian Weimer <fweimer@redhat.com>,
- Arnd Bergmann <arnd@arndb.de>, Jann Horn <jannh@google.com>,
- Christian Brauner <brauner@kernel.org>,
- David Hildenbrand <dhildenb@redhat.com>, linux-mm@kvack.org
-References: <20240707002658.1917440-1-Jason@zx2c4.com>
- <20240707002658.1917440-2-Jason@zx2c4.com>
- <1583c837-a4d5-4a8a-9c1d-2c64548cd199@redhat.com>
- <CAHk-=wjs-9DVeoc430BDOv+dkpDkdVvkEsSJxNVZ+sO51H1dJA@mail.gmail.com>
- <e2f104ac-b6d9-4583-b999-8f975c60d469@redhat.com>
- <CAHk-=wibRRHVH5D4XvX1maQDCT-o4JLkANXHMoZoWdn=tN0TLA@mail.gmail.com>
- <6705c6c8-8b6a-4d03-ae0f-aa83442ec0ab@redhat.com>
- <CAHk-=wi=XvCZ9r897LjEb4ZarLzLtKN1p+Fyig+F2fmQDF8GSA@mail.gmail.com>
- <7439da2e-4a60-4643-9804-17e99ce6e312@redhat.com>
- <Zovv4lzM38EHtnms@zx2c4.com> <Zov6SZZCKrqmigua@zx2c4.com>
- <75d6c45d-deea-464d-b0fd-b36e5d73b898@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <75d6c45d-deea-464d-b0fd-b36e5d73b898@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-07-08_11,2024-07-05_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 adultscore=0
+ suspectscore=0 spamscore=0 bulkscore=0 lowpriorityscore=0 impostorscore=0
+ clxscore=1015 malwarescore=0 priorityscore=1501 mlxlogscore=999 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2406140001
+ definitions=main-2407080151
 
-On 08.07.24 22:21, David Hildenbrand wrote:
-> On 08.07.24 16:40, Jason A. Donenfeld wrote:
->> Hi David, Linus,
->>
->> Below is what I understand the suggestions about the UX to be. The full
->> commit is in https://git.zx2c4.com/linux-rng/log/ but here's the part
->> we've been discussing. I've held off on David's suggestion changing
->> "DROPPABLE" to "VOLATILE" to give Linus some time to wake up on the west
->> coast and voice his preference for "DROPPABLE". But the rest is in
->> place.
->>
->> Jason
->>
->> diff --git a/include/uapi/linux/mman.h b/include/uapi/linux/mman.h
->> index a246e11988d5..e89d00528f2f 100644
->> --- a/include/uapi/linux/mman.h
->> +++ b/include/uapi/linux/mman.h
->> @@ -17,6 +17,7 @@
->>    #define MAP_SHARED	0x01		/* Share changes */
->>    #define MAP_PRIVATE	0x02		/* Changes are private */
->>    #define MAP_SHARED_VALIDATE 0x03	/* share + validate extension flags */
->> +#define MAP_DROPPABLE	0x08		/* Zero memory under memory pressure. */
->>    
->>    /*
->>     * Huge page size encoding when MAP_HUGETLB is specified, and a huge page
->> diff --git a/mm/madvise.c b/mm/madvise.c
->> index a77893462b92..cba5bc652fc4 100644
->> --- a/mm/madvise.c
->> +++ b/mm/madvise.c
->> @@ -1068,13 +1068,16 @@ static int madvise_vma_behavior(struct vm_area_struct *vma,
->>    		new_flags |= VM_WIPEONFORK;
->>    		break;
->>    	case MADV_KEEPONFORK:
->> +		if (vma->vm_flags & VM_DROPPABLE)
->> +			return -EINVAL;
->>    		new_flags &= ~VM_WIPEONFORK;
->>    		break;
->>    	case MADV_DONTDUMP:
->>    		new_flags |= VM_DONTDUMP;
->>    		break;
->>    	case MADV_DODUMP:
->> -		if (!is_vm_hugetlb_page(vma) && new_flags & VM_SPECIAL)
->> +		if ((!is_vm_hugetlb_page(vma) && new_flags & VM_SPECIAL) ||
->> +		    (vma->vm_flags & VM_DROPPABLE))
->>    			return -EINVAL;
->>    		new_flags &= ~VM_DONTDUMP;
->>    		break;
->> diff --git a/mm/mlock.c b/mm/mlock.c
->> index 30b51cdea89d..b87b3d8cc9cc 100644
->> --- a/mm/mlock.c
->> +++ b/mm/mlock.c
->> @@ -485,7 +485,7 @@ static int mlock_fixup(struct vma_iterator *vmi, struct vm_area_struct *vma,
->>    
->>    	if (newflags == oldflags || (oldflags & VM_SPECIAL) ||
->>    	    is_vm_hugetlb_page(vma) || vma == get_gate_vma(current->mm) ||
->> -	    vma_is_dax(vma) || vma_is_secretmem(vma))
->> +	    vma_is_dax(vma) || vma_is_secretmem(vma) || (oldflags & VM_DROPPABLE))
->>    		/* don't set VM_LOCKED or VM_LOCKONFAULT and don't count */
->>    		goto out;
->>    
->> diff --git a/mm/mmap.c b/mm/mmap.c
->> index 83b4682ec85c..b3d38179dd42 100644
->> --- a/mm/mmap.c
->> +++ b/mm/mmap.c
->> @@ -1369,6 +1369,34 @@ unsigned long do_mmap(struct file *file, unsigned long addr,
->>    			pgoff = 0;
->>    			vm_flags |= VM_SHARED | VM_MAYSHARE;
->>    			break;
->> +		case MAP_DROPPABLE:
->> +			/*
->> +			 * A locked or stack area makes no sense to be droppable.
->> +			 *
->> +			 * Also, since droppable pages can just go away at any time
->> +			 * it makes no sense to copy them on fork or dump them.
->> +			 *
->> +			 * And don't attempt to combine with hugetlb for now.
->> +			 */
->> +			if (flags & (MAP_LOCKED | MAP_HUGETLB))
->> +			        return -EINVAL;
->> +			if (vm_flags & (VM_GROWSDOWN | VM_GROWSUP))
->> +			        return -EINVAL;
->> +
->> +			vm_flags |= VM_DROPPABLE;
->> +
->> +			/*
->> +			 * If the pages can be dropped, then it doesn't make
->> +			 * sense to reserve them.
->> +			 */
->> +			vm_flags |= VM_NORESERVE;
+Hi Mickaël,
+
+On Thu, 2024-07-04 at 21:01 +0200, Mickaël Salaün wrote:
+> Hi,
 > 
-> That is certainly interesting. Nothing that we might not be able to
+> The ultimate goal of this patch series is to be able to ensure that
+> direct file execution (e.g. ./script.sh) and indirect file execution
+> (e.g. sh script.sh) lead to the same result, especially from a security
+> point of view.
+> 
+> Overview
+> --------
+> 
+> This patch series is a new approach of the initial O_MAYEXEC feature,
+> and a revamp of the previous patch series.  Taking into account the last
+> reviews [1], we now stick to the kernel semantic for file executability.
+> One major change is the clear split between access check and policy
+> management.
+> 
+> The first patch brings the AT_CHECK flag to execveat(2).  The goal is to
+> enable user space to check if a file could be executed (by the kernel).
+> Unlike stat(2) that only checks file permissions, execveat2(2) +
+> AT_CHECK take into account the full context, including mount points
+> (noexec), caller's limits, and all potential LSM extra checks (e.g.
+> argv, envp, credentials).
+> 
+> The second patch brings two new securebits used to set or get a security
+> policy for a set of processes.  For this to be meaningful, all
+> executable code needs to be trusted.  In practice, this means that
+> (malicious) users can be restricted to only run scripts provided (and
+> trusted) by the system.
+> 
+> [1] https://lore.kernel.org/r/CAHk-=wjPGNLyzeBMWdQu+kUdQLHQugznwY7CvWjmvNW47D5sog@mail.gmail.com
+> 
+> Script execution
+> ----------------
+> 
+> One important thing to keep in mind is that the goal of this patch
+> series is to get the same security restrictions with these commands:
+> * ./script.py
+> * python script.py
+> * python < script.py
+> * python -m script.pyT
 
-"Nothing" -> "I'll note that" :)
+This is really needed, but is it the "only" purpose of this patch set or can it
+be used to also monitor files the script opens (for read) with the intention of
+executing.
 
--- 
-Cheers,
+> 
+> However, on secure systems, we should be able to forbid these commands
+> because there is no way to reliably identify the origin of the script:
+> * xargs -a script.py -d '\r' -- python -c
+> * cat script.py | python
+> * python
+> 
+> Background
+> ----------
+> 
+> Compared to the previous patch series, there is no more dedicated
+> syscall nor sysctl configuration.  This new patch series only add new
+> flags: one for execveat(2) and four for prctl(2).
+> 
+> This kind of script interpreter restriction may already be used in
+> hardened systems, which may need to fork interpreters and install
+> different versions of the binaries.  This mechanism should enable to
+> avoid the use of duplicate binaries (and potential forked source code)
+> for secure interpreters (e.g. secure Python [2]) by making it possible
+> to dynamically enforce restrictions or not.
+> 
+> The ability to control script execution is also required to close a
+> major IMA measurement/appraisal interpreter integrity [3].
 
-David / dhildenb
+Definitely.  But it isn't limited to controlling script execution, but also
+measuring the script.  Will it be possible to measure and appraise the indirect
+script calls with this patch set?
+
+Mimi
+
+> This new execveat + AT_CHECK should not be confused with the O_EXEC flag
+> (for open) which is intended for execute-only, which obviously doesn't
+> work for scripts.
+> 
+> I gave a talk about controlling script execution where I explain the
+> previous approaches [4].  The design of the WIP RFC I talked about
+> changed quite a bit since then.
+> 
+> [2] https://github.com/zooba/spython
+> [3] https://lore.kernel.org/lkml/20211014130125.6991-1-zohar@linux.ibm.com/
+> [4] https://lssna2023.sched.com/event/1K7bO
+> 
 
 
