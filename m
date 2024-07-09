@@ -1,77 +1,84 @@
-Return-Path: <linux-api+bounces-1900-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1901-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1CF992AE1D
-	for <lists+linux-api@lfdr.de>; Tue,  9 Jul 2024 04:18:12 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B14892B388
+	for <lists+linux-api@lfdr.de>; Tue,  9 Jul 2024 11:18:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8D6061F219AB
-	for <lists+linux-api@lfdr.de>; Tue,  9 Jul 2024 02:18:12 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 382ADB20AB4
+	for <lists+linux-api@lfdr.de>; Tue,  9 Jul 2024 09:18:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C67F4347A2;
-	Tue,  9 Jul 2024 02:18:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57EE5154457;
+	Tue,  9 Jul 2024 09:18:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="KN/jvw/U"
+	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="ZTiHpEnf"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp-8fab.mail.infomaniak.ch (smtp-8fab.mail.infomaniak.ch [83.166.143.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C5612C1AC;
-	Tue,  9 Jul 2024 02:18:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40B93154434
+	for <linux-api@vger.kernel.org>; Tue,  9 Jul 2024 09:18:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.166.143.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720491487; cv=none; b=cDxhICgKPMuA9KRMPiTSww0LbukDvG3C84TyvbE/p5HINmJKAhLsbRyI3S1XlB6whAvg1pXbGFaC9HoZZIjsC3eSHAnmdy6Q2yDH1rkuhzwhejEW+/dWFDqs8wZt/lp4VQkxgwbfdKKtzJLI97njoeWrZ81wifZhlNCHNFWkD0w=
+	t=1720516703; cv=none; b=n0e0yXxo7lz9lLRz1+hz22erdFVQ+XasYm8DCCFndEJYnZwQTOneapKqcBrwFWfwskn2z+TkTRoiLp9IKippjXRdjX2lL0QKgYHIHZwqbtE9/50nIZDBI6Y02Mavb+T9gJf0BvhhnAZOr+jUja0PrhkhfArpU5erTsse7P7uQ+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720491487; c=relaxed/simple;
-	bh=sQpw2n0NaOOsrwQoFWy5PaDNmaERqzAgtz/ScLWKs7A=;
+	s=arc-20240116; t=1720516703; c=relaxed/simple;
+	bh=eVK1yU/K1gUCeypMeHvP2ycH4mth7QtdS8bCm7eN+/0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MEHSbOTSVMf7RvPF7+jeSqHGweQtgNSREh12ZLsUHxKjkEN1bZSQGsixzZXRZVH/vFRE5ohsshAEgAQgQ/sf3OE0+IpaC84LVvAG7srVTTKRmtbUJdiikld0inqZC/lYarxnbiUFka6xkStMTu0FpT5yb+HUb80AANQCDUwvR9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b=KN/jvw/U; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C6D6C116B1;
-	Tue,  9 Jul 2024 02:18:05 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
-	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="KN/jvw/U"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
-	t=1720491483;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SG/nhRJ5sb1lI6oh+MAWi0fczWmHK6PqjjxjYpcpOV4=;
-	b=KN/jvw/Uc89zg8Kt77Xfog7E285Xcl2tdf9W0YRz3BOiCS3+imXctZmnwPAmIUpCSBfK6e
-	n6mdgXUPFPORrbaOWCG/Hcm8MvCU+4PyDTyIZ80b4goZ00TRfM4l+fBEvYkg6/BiYID8rE
-	ad8gUp/6uXjU8SeH0RZVPZgBm3p2y6o=
-Received: 
-	by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 2946a661 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Tue, 9 Jul 2024 02:18:03 +0000 (UTC)
-Date: Tue, 9 Jul 2024 04:17:56 +0200
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
-	linux-kernel@vger.kernel.org, patches@lists.linux.dev,
-	tglx@linutronix.de, linux-crypto@vger.kernel.org,
-	linux-api@vger.kernel.org, x86@kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
-	Carlos O'Donell <carlos@redhat.com>,
-	Florian Weimer <fweimer@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
-	Jann Horn <jannh@google.com>,
-	Christian Brauner <brauner@kernel.org>,
-	David Hildenbrand <dhildenb@redhat.com>, linux-mm@kvack.org
-Subject: Re: [PATCH v21 1/4] mm: add VM_DROPPABLE for designating always
- lazily freeable mappings
-Message-ID: <Zoyd1DYuD7cmJbgx@zx2c4.com>
-References: <1583c837-a4d5-4a8a-9c1d-2c64548cd199@redhat.com>
- <CAHk-=wjs-9DVeoc430BDOv+dkpDkdVvkEsSJxNVZ+sO51H1dJA@mail.gmail.com>
- <e2f104ac-b6d9-4583-b999-8f975c60d469@redhat.com>
- <CAHk-=wibRRHVH5D4XvX1maQDCT-o4JLkANXHMoZoWdn=tN0TLA@mail.gmail.com>
- <6705c6c8-8b6a-4d03-ae0f-aa83442ec0ab@redhat.com>
- <CAHk-=wi=XvCZ9r897LjEb4ZarLzLtKN1p+Fyig+F2fmQDF8GSA@mail.gmail.com>
- <7439da2e-4a60-4643-9804-17e99ce6e312@redhat.com>
- <Zovv4lzM38EHtnms@zx2c4.com>
- <Zov6SZZCKrqmigua@zx2c4.com>
- <75d6c45d-deea-464d-b0fd-b36e5d73b898@redhat.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=lnqzvPm8BG/tHqVUDk8lfT2jbV68b8U98+piqM9vl5Jidr7K/zEAvHPG1nApi74zKZVEpG+PGK2K9Ixf1IiVp9mWyNWLxFI+tkNBomr0o+kzwjzXGBMNDN6UiAVL9fgu+J+la7/hgiK5r9TBmYX23kNLVJT4UWjY9b5sRLe2qWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=ZTiHpEnf; arc=none smtp.client-ip=83.166.143.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
+Received: from smtp-4-0001.mail.infomaniak.ch (smtp-4-0001.mail.infomaniak.ch [10.7.10.108])
+	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4WJFlW6pv4z5T6;
+	Tue,  9 Jul 2024 11:18:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
+	s=20191114; t=1720516695;
+	bh=v/JFEHCX3gZ0MVpHje3ikJ9/D0FTAcZwjQbECtZLdZE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZTiHpEnfNR3mlatCxWux7y7Eu0qGDnEqSh+8W8s09JC/3VLLlbrWZwmN1jeWX5Vho
+	 ndmFxLkDKg4N0dPsk7JixdJH7Olf3q4BBy/rLZ/oO3L8jaUA2xpIdzwOIgKnGlTAP3
+	 N7+HAeqyif99g6G9CBVvsU6dg8SkNZKc9yNMrgvw=
+Received: from unknown by smtp-4-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4WJFlH1ZZFzVjC;
+	Tue,  9 Jul 2024 11:18:03 +0200 (CEST)
+Date: Tue, 9 Jul 2024 11:18:00 +0200
+From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
+To: Jeff Xu <jeffxu@google.com>
+Cc: Florian Weimer <fweimer@redhat.com>, Al Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Kees Cook <keescook@chromium.org>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Paul Moore <paul@paul-moore.com>, Theodore Ts'o <tytso@mit.edu>, 
+	Alejandro Colomar <alx@kernel.org>, Aleksa Sarai <cyphar@cyphar.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Andy Lutomirski <luto@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Casey Schaufler <casey@schaufler-ca.com>, Christian Heimes <christian@python.org>, 
+	Dmitry Vyukov <dvyukov@google.com>, Eric Biggers <ebiggers@kernel.org>, 
+	Eric Chiang <ericchiang@google.com>, Fan Wu <wufan@linux.microsoft.com>, 
+	Geert Uytterhoeven <geert@linux-m68k.org>, James Morris <jamorris@linux.microsoft.com>, 
+	Jan Kara <jack@suse.cz>, Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Jordan R Abrahams <ajordanr@google.com>, Lakshmi Ramasubramanian <nramas@linux.microsoft.com>, 
+	Luca Boccassi <bluca@debian.org>, Luis Chamberlain <mcgrof@kernel.org>, 
+	"Madhavan T . Venkataraman" <madvenka@linux.microsoft.com>, Matt Bobrowski <mattbobrowski@google.com>, 
+	Matthew Garrett <mjg59@srcf.ucam.org>, Matthew Wilcox <willy@infradead.org>, 
+	Miklos Szeredi <mszeredi@redhat.com>, Mimi Zohar <zohar@linux.ibm.com>, 
+	Nicolas Bouchinet <nicolas.bouchinet@ssi.gouv.fr>, Scott Shell <scottsh@microsoft.com>, 
+	Shuah Khan <shuah@kernel.org>, Stephen Rothwell <sfr@canb.auug.org.au>, 
+	Steve Dower <steve.dower@python.org>, Steve Grubb <sgrubb@redhat.com>, 
+	Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>, Vincent Strubel <vincent.strubel@ssi.gouv.fr>, 
+	Xiaoming Ni <nixiaoming@huawei.com>, Yin Fengwei <fengwei.yin@intel.com>, 
+	kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org
+Subject: Re: [RFC PATCH v19 1/5] exec: Add a new AT_CHECK flag to execveat(2)
+Message-ID: <20240709.gae4cu4Aiv6s@digikod.net>
+References: <20240704190137.696169-1-mic@digikod.net>
+ <20240704190137.696169-2-mic@digikod.net>
+ <87bk3bvhr1.fsf@oldenburg.str.redhat.com>
+ <CALmYWFu_JFyuwYhDtEDWxEob8JHFSoyx_SCcsRVKqSYyyw30Rg@mail.gmail.com>
+ <87ed83etpk.fsf@oldenburg.str.redhat.com>
+ <CALmYWFvkUnevm=npBeaZVkK_PXm=A8MjgxFXkASnERxoMyhYBg@mail.gmail.com>
+ <87r0c3dc1c.fsf@oldenburg.str.redhat.com>
+ <CALmYWFvA7VPz06Tg8E-R_Jqn2cxMiWPPC6Vhy+vgqnofT0GELg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -80,21 +87,59 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <75d6c45d-deea-464d-b0fd-b36e5d73b898@redhat.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CALmYWFvA7VPz06Tg8E-R_Jqn2cxMiWPPC6Vhy+vgqnofT0GELg@mail.gmail.com>
+X-Infomaniak-Routing: alpha
 
-Hi David,
+On Mon, Jul 08, 2024 at 10:52:36AM -0700, Jeff Xu wrote:
+> On Mon, Jul 8, 2024 at 10:33 AM Florian Weimer <fweimer@redhat.com> wrote:
+> >
+> > * Jeff Xu:
+> >
+> > > On Mon, Jul 8, 2024 at 9:26 AM Florian Weimer <fweimer@redhat.com> wrote:
+> > >>
+> > >> * Jeff Xu:
+> > >>
+> > >> > Will dynamic linkers use the execveat(AT_CHECK) to check shared
+> > >> > libraries too ?  or just the main executable itself.
+> > >>
+> > >> I expect that dynamic linkers will have to do this for everything they
+> > >> map.
+> > > Then all the objects (.so, .sh, etc.) will go through  the check from
+> > > execveat's main  to security_bprm_creds_for_exec(), some of them might
+> > > be specific for the main executable ?
 
-On Mon, Jul 08, 2024 at 10:21:09PM +0200, David Hildenbrand wrote:
-> BTW, I was just trying to understand how MADV_FREE + MAP_DROPPABLE would 
-> behave without any swap space around.
+Yes, we should check every executable code (including seccomp filters)
+to get a consistent policy.
+
+What do you mean by "specific for the main executable"?
+
+> >
+> > If we want to avoid that, we could have an agreed-upon error code which
+> > the LSM can signal that it'll never fail AT_CHECK checks, so we only
+> > have to perform the extra system call once.
+
+I'm not sure to follow.  Either we check executable code or we don't,
+but it doesn't make sense to only check some parts (except for migration
+of user space code in a system, which is one purpose of the securebits
+added with the next patch).
+
+The idea with AT_CHECK is to unconditionnaly check executable right the
+same way it is checked when a file is executed.  User space can decide
+to check that or not according to its policy (i.e. securebits).
+
+> >
+> Right, something like that.
+> I would prefer not having AT_CHECK specific code in LSM code as an
+> initial goal, if that works, great.
+
+LSMs should not need to change anything, but they are free to implement
+new access right according to AT_CHECK.
+
 > 
-> Did you experiment with that?
-
-You mean on a system without any swap configured? That's actually my
-primary test environment for this. It behaves as expected: when ram
-fills up and the scanner is trying to reclaim what it can,
-folio_test_swapbacked(folio) is false, and the memory gets freed. After,
-reads fault in a zero page. So it's working as expected.
-
-Jason
+> -Jeff
+> 
+> > Thanks,
+> > Florian
+> >
 
