@@ -1,160 +1,100 @@
-Return-Path: <linux-api+bounces-1899-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1900-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0889992ABBD
-	for <lists+linux-api@lfdr.de>; Tue,  9 Jul 2024 00:08:13 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1CF992AE1D
+	for <lists+linux-api@lfdr.de>; Tue,  9 Jul 2024 04:18:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2B0411C215AE
-	for <lists+linux-api@lfdr.de>; Mon,  8 Jul 2024 22:08:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8D6061F219AB
+	for <lists+linux-api@lfdr.de>; Tue,  9 Jul 2024 02:18:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4592714F9DF;
-	Mon,  8 Jul 2024 22:08:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C67F4347A2;
+	Tue,  9 Jul 2024 02:18:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="c6txaJqS"
+	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="KN/jvw/U"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D7E014F9C5
-	for <linux-api@vger.kernel.org>; Mon,  8 Jul 2024 22:08:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C5612C1AC;
+	Tue,  9 Jul 2024 02:18:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720476485; cv=none; b=e7m4oaZau4pD8GShRB2CkOrbPZr5pL+jkCMsXfGG1rwdIsaYcfZW41VOA1+u79sNkFRtV82jj3XZyUOb9H5uvekN/mpUXFATTvefLBy2Mfc1QL+nhqN04hBXBMKmXDgH+W+Zo3xAE0Zx9bpDRkJR1NYUlRnz1t9ddyEUuwaRb+U=
+	t=1720491487; cv=none; b=cDxhICgKPMuA9KRMPiTSww0LbukDvG3C84TyvbE/p5HINmJKAhLsbRyI3S1XlB6whAvg1pXbGFaC9HoZZIjsC3eSHAnmdy6Q2yDH1rkuhzwhejEW+/dWFDqs8wZt/lp4VQkxgwbfdKKtzJLI97njoeWrZ81wifZhlNCHNFWkD0w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720476485; c=relaxed/simple;
-	bh=l03sVvdiatScP8Ji7LS+51efo1XSZO8mK8zgUFzmJb0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PVVY75mdUTrjEpw+8u9AvQz+GkNxhMZbTDE2CUtm4DQAK+TCD6p5VbxAoCaOlml2cboc4qD3hozR9u05CFGhhBRVKLnJVOIM5q4IuftiDtX1Wqcz0kzSCuH+/GJOFCDoFOcd4MGb1+CBiwci8BzIcUoSlpGHKXINUN+Z6ZvDvEI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=c6txaJqS; arc=none smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-58ce966a1d3so2787a12.1
-        for <linux-api@vger.kernel.org>; Mon, 08 Jul 2024 15:08:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1720476482; x=1721081282; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Z7bTn4O9eTr2aCFrLSGHovaOIDt2y0TRFcSEpZcps+A=;
-        b=c6txaJqS6Ki2CUPrvyQzKfnl8agf/jflzpSrhBegMCgJMdzWyE1yPGl3EHeUnjRqS7
-         FZr0smtAZkCeRoGHgRD8zKTFVpxlbw2DDkrZ9FZE4KLkobwe6E8L4CReaAT2jeid8VOq
-         R5+U+p/a3RvQxjOwd/XAte1z9TrMsmVWV3Mtqf2+KssLNK/Px1qL3+4aVyEBhsi7xlK+
-         jcY3AqzrUE3bak3fj25i6lrQbtSDnzaRHqx6dIkzvPYqI6qZwQsjnaAP2+e4PJTeWSCK
-         c/JKePu8wg4B2VJn6c4DrJTSM7FbdWLPNQYErl5x6m2cpqmJdaiX44c7d0oug5cU0V6w
-         agZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720476482; x=1721081282;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Z7bTn4O9eTr2aCFrLSGHovaOIDt2y0TRFcSEpZcps+A=;
-        b=iqivjPY4I/9bQ7mqo+ZfaZpiJWS6Jf78u0mOkAWJYg6BIiyBqMOrngphTbACpp+Bjh
-         xQCaR6zeVTyhhMuuCJ6xuEsFWr61GmNa54T7KNafqaJHK/IRusuabqLow9s/S5bOqSIU
-         VSWOWwxhBjf3SZkQ+/mUizZoQsVgLfpSB5Ffx2IRktk4PGS77NeM4cNXwisezoE3MWve
-         OS/9zMMG9aD0DveGvwGERdU+yvwGJVpfL9q9EifGgVFiv4dGLZBiF3vzHj2jwpMWU3iP
-         /IEkDi4Ba8RBnLfcGSn2eC7RbC/ETjCvESGN1b8j/Mtykp45/M5w4P0L1bV4/9N014bK
-         zdWA==
-X-Forwarded-Encrypted: i=1; AJvYcCWA2tzyqN+vV5TciCwogLAqyXCtD8Jvt5pxOabcmsJZcpnSsv4X9ZkfaxJVBJDZMOtS/JNSoqdBEPXAJgPQlof2tMgFyFr938w8
-X-Gm-Message-State: AOJu0Yw7ybsDs8x/UokHQ8P52FNqMPYXaVm5WwB/Og7lGa0lYpIjucov
-	nwTfVAX1hsrUPaurYe+RXs4irWHwxvItjtGh38cZOZRl2SFLb6NncobSe+1gA3ApeyqavDCG+Bt
-	/FfuhrOQ7j7pSI7QTdU9CWOPAysbXxauBwcZB
-X-Google-Smtp-Source: AGHT+IHvwrZF+sD8hiUMuOI0mETWWoP7JD1Mi+rw83YkQOqjyP7kYFiISHKE1V9Tv7EGbEO+Y6qMxWIETtxF0JNU+kY=
-X-Received: by 2002:a50:9fc1:0:b0:58b:21f2:74e6 with SMTP id
- 4fb4d7f45d1cf-594cf64511dmr86189a12.0.1720476481691; Mon, 08 Jul 2024
- 15:08:01 -0700 (PDT)
+	s=arc-20240116; t=1720491487; c=relaxed/simple;
+	bh=sQpw2n0NaOOsrwQoFWy5PaDNmaERqzAgtz/ScLWKs7A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MEHSbOTSVMf7RvPF7+jeSqHGweQtgNSREh12ZLsUHxKjkEN1bZSQGsixzZXRZVH/vFRE5ohsshAEgAQgQ/sf3OE0+IpaC84LVvAG7srVTTKRmtbUJdiikld0inqZC/lYarxnbiUFka6xkStMTu0FpT5yb+HUb80AANQCDUwvR9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b=KN/jvw/U; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C6D6C116B1;
+	Tue,  9 Jul 2024 02:18:05 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="KN/jvw/U"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
+	t=1720491483;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SG/nhRJ5sb1lI6oh+MAWi0fczWmHK6PqjjxjYpcpOV4=;
+	b=KN/jvw/Uc89zg8Kt77Xfog7E285Xcl2tdf9W0YRz3BOiCS3+imXctZmnwPAmIUpCSBfK6e
+	n6mdgXUPFPORrbaOWCG/Hcm8MvCU+4PyDTyIZ80b4goZ00TRfM4l+fBEvYkg6/BiYID8rE
+	ad8gUp/6uXjU8SeH0RZVPZgBm3p2y6o=
+Received: 
+	by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 2946a661 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Tue, 9 Jul 2024 02:18:03 +0000 (UTC)
+Date: Tue, 9 Jul 2024 04:17:56 +0200
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+	linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+	tglx@linutronix.de, linux-crypto@vger.kernel.org,
+	linux-api@vger.kernel.org, x86@kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
+	Carlos O'Donell <carlos@redhat.com>,
+	Florian Weimer <fweimer@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
+	Jann Horn <jannh@google.com>,
+	Christian Brauner <brauner@kernel.org>,
+	David Hildenbrand <dhildenb@redhat.com>, linux-mm@kvack.org
+Subject: Re: [PATCH v21 1/4] mm: add VM_DROPPABLE for designating always
+ lazily freeable mappings
+Message-ID: <Zoyd1DYuD7cmJbgx@zx2c4.com>
+References: <1583c837-a4d5-4a8a-9c1d-2c64548cd199@redhat.com>
+ <CAHk-=wjs-9DVeoc430BDOv+dkpDkdVvkEsSJxNVZ+sO51H1dJA@mail.gmail.com>
+ <e2f104ac-b6d9-4583-b999-8f975c60d469@redhat.com>
+ <CAHk-=wibRRHVH5D4XvX1maQDCT-o4JLkANXHMoZoWdn=tN0TLA@mail.gmail.com>
+ <6705c6c8-8b6a-4d03-ae0f-aa83442ec0ab@redhat.com>
+ <CAHk-=wi=XvCZ9r897LjEb4ZarLzLtKN1p+Fyig+F2fmQDF8GSA@mail.gmail.com>
+ <7439da2e-4a60-4643-9804-17e99ce6e312@redhat.com>
+ <Zovv4lzM38EHtnms@zx2c4.com>
+ <Zov6SZZCKrqmigua@zx2c4.com>
+ <75d6c45d-deea-464d-b0fd-b36e5d73b898@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240704190137.696169-1-mic@digikod.net> <20240704190137.696169-3-mic@digikod.net>
- <CALmYWFscz5W6xSXD-+dimzbj=TykNJEDa0m5gvBx93N-J+3nKA@mail.gmail.com>
- <CALmYWFsLUhkU5u1NKH8XWvSxbFKFOEq+A_eqLeDsN29xOEAYgg@mail.gmail.com>
- <20240708.quoe8aeSaeRi@digikod.net> <CALmYWFuVJiRZgB0ye9eR95dvBOigoOVShgS9i_ESjEre-H5pLA@mail.gmail.com>
- <ef3281ad-48a5-4316-b433-af285806540d@python.org>
-In-Reply-To: <ef3281ad-48a5-4316-b433-af285806540d@python.org>
-From: Jeff Xu <jeffxu@google.com>
-Date: Mon, 8 Jul 2024 15:07:24 -0700
-Message-ID: <CALmYWFuFE=V7sGp0_K+2Vuk6F0chzhJY88CP1CAE9jtd=rqcoQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v19 2/5] security: Add new SHOULD_EXEC_CHECK and
- SHOULD_EXEC_RESTRICT securebits
-To: Steve Dower <steve.dower@python.org>
-Cc: =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>, 
-	Al Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	Kees Cook <keescook@chromium.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
-	Paul Moore <paul@paul-moore.com>, "Theodore Ts'o" <tytso@mit.edu>, Alejandro Colomar <alx@kernel.org>, 
-	Aleksa Sarai <cyphar@cyphar.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Andy Lutomirski <luto@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Casey Schaufler <casey@schaufler-ca.com>, Christian Heimes <christian@python.org>, 
-	Dmitry Vyukov <dvyukov@google.com>, Eric Biggers <ebiggers@kernel.org>, 
-	Eric Chiang <ericchiang@google.com>, Fan Wu <wufan@linux.microsoft.com>, 
-	Florian Weimer <fweimer@redhat.com>, Geert Uytterhoeven <geert@linux-m68k.org>, 
-	James Morris <jamorris@linux.microsoft.com>, Jan Kara <jack@suse.cz>, 
-	Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Jordan R Abrahams <ajordanr@google.com>, Lakshmi Ramasubramanian <nramas@linux.microsoft.com>, 
-	Luca Boccassi <bluca@debian.org>, Luis Chamberlain <mcgrof@kernel.org>, 
-	"Madhavan T . Venkataraman" <madvenka@linux.microsoft.com>, Matt Bobrowski <mattbobrowski@google.com>, 
-	Matthew Garrett <mjg59@srcf.ucam.org>, Matthew Wilcox <willy@infradead.org>, 
-	Miklos Szeredi <mszeredi@redhat.com>, Mimi Zohar <zohar@linux.ibm.com>, 
-	Nicolas Bouchinet <nicolas.bouchinet@ssi.gouv.fr>, Scott Shell <scottsh@microsoft.com>, 
-	Shuah Khan <shuah@kernel.org>, Stephen Rothwell <sfr@canb.auug.org.au>, Steve Grubb <sgrubb@redhat.com>, 
-	Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>, 
-	Vincent Strubel <vincent.strubel@ssi.gouv.fr>, Xiaoming Ni <nixiaoming@huawei.com>, 
-	Yin Fengwei <fengwei.yin@intel.com>, kernel-hardening@lists.openwall.com, 
-	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-security-module@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <75d6c45d-deea-464d-b0fd-b36e5d73b898@redhat.com>
 
-On Mon, Jul 8, 2024 at 2:25=E2=80=AFPM Steve Dower <steve.dower@python.org>=
- wrote:
->
-> On 08/07/2024 22:15, Jeff Xu wrote:
-> > IIUC:
-> > CHECK=3D0, RESTRICT=3D0: do nothing, current behavior
-> > CHECK=3D1, RESTRICT=3D0: permissive mode - ignore AT_CHECK results.
-> > CHECK=3D0, RESTRICT=3D1: call AT_CHECK, deny if AT_CHECK failed, no exc=
-eption.
-> > CHECK=3D1, RESTRICT=3D1: call AT_CHECK, deny if AT_CHECK failed, except
-> > those in the "checked-and-allowed" list.
->
-> I had much the same question for Micka=C3=ABl while working on this.
->
-> Essentially, "CHECK=3D0, RESTRICT=3D1" means to restrict without checking=
-.
-> In the context of a script or macro interpreter, this just means it will
-> never interpret any scripts. Non-binary code execution is fully disabled
-> in any part of the process that respects these bits.
->
-I see, so Micka=C3=ABl does mean this will block all scripts.
-I guess, in the context of dynamic linker, this means: no more .so
-loading, even "dlopen" is called by an app ?  But this will make the
-execve()  fail.
+Hi David,
 
-> "CHECK=3D1, RESTRICT=3D1" means to restrict unless AT_CHECK passes. This
-> case is the allow list (or whatever mechanism is being used to determine
-> the result of an AT_CHECK check). The actual mechanism isn't the
-> business of the script interpreter at all, it just has to refuse to
-> execute anything that doesn't pass the check. So a generic interpreter
-> can implement a generic mechanism and leave the specifics to whoever
-> configures the machine.
->
-In the context of dynamic linker. this means:
-if .so passed the AT_CHECK, ldopen() can still load it.
-If .so fails the AT_CHECK, ldopen() will fail too.
+On Mon, Jul 08, 2024 at 10:21:09PM +0200, David Hildenbrand wrote:
+> BTW, I was just trying to understand how MADV_FREE + MAP_DROPPABLE would 
+> behave without any swap space around.
+> 
+> Did you experiment with that?
 
-Thanks
--Jeff
+You mean on a system without any swap configured? That's actually my
+primary test environment for this. It behaves as expected: when ram
+fills up and the scanner is trying to reclaim what it can,
+folio_test_swapbacked(folio) is false, and the memory gets freed. After,
+reads fault in a zero page. So it's working as expected.
 
-> The other two case are more obvious. "CHECK=3D0, RESTRICT=3D0" is the
-> zero-overhead case, while "CHECK=3D1, RESTRICT=3D0" might log, warn, or
-> otherwise audit the result of the check, but it won't restrict execution.
->
-> Cheers,
-> Steve
+Jason
 
