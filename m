@@ -1,140 +1,324 @@
-Return-Path: <linux-api+bounces-1902-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1903-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24BCA92B4B2
-	for <lists+linux-api@lfdr.de>; Tue,  9 Jul 2024 12:06:35 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AF7192BA8B
+	for <lists+linux-api@lfdr.de>; Tue,  9 Jul 2024 15:07:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 567FB1C21C1D
-	for <lists+linux-api@lfdr.de>; Tue,  9 Jul 2024 10:06:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DBC381F22783
+	for <lists+linux-api@lfdr.de>; Tue,  9 Jul 2024 13:07:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F29D155CA9;
-	Tue,  9 Jul 2024 10:06:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2710C15B980;
+	Tue,  9 Jul 2024 13:05:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Jmxx1qkT"
+	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="mTflRnaH"
 X-Original-To: linux-api@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BBA8155C8E
-	for <linux-api@vger.kernel.org>; Tue,  9 Jul 2024 10:06:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9A92158D83;
+	Tue,  9 Jul 2024 13:05:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720519590; cv=none; b=eCVxGAb8PyhyS5GJfkofBTUq1e/IqN6Qy5sEOnRed5YsxaAWMlqmf2yeh0g5InT6cRtESd9C1GNphipSjLa1ogsyLUf4XkrhWh6wwQ3LIuW7CaKOGJAnDP9TTWM128dEhKmGD1X5EMuiOAFxKSgsUoUOqA5cSB14Ys7z7GtupFo=
+	t=1720530342; cv=none; b=PUqQ1XtLIRz2witLdxAqq4BmAfptHH7tZnSSivpFyw7xnsgXvWdpx2ZVen4o7jllK4pmN5ZnV4hk5Xquig2FS9tkDZslGYlazg+jkRQNXRcBqitd3kZx9lP5upYbrF2dlfEL4E2RQYb3wuABVn7NQKTnkGWKQuPHEQMd9A8VNqk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720519590; c=relaxed/simple;
-	bh=/KRfE1rWf1wyqso3Vkt58rj1kXw2cVDyjzWknY+bgYk=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=LSlo+GXQco6o6hfaWTBXcCPIFiLD0OjtsrsLUNTipjV2izzIFo+LKEwVWXt5zuaYS7n2JT7Qug7nfTbJJOtM3JVrFtckf2v/y8mZSejA2aAvOzzhODuywrs1BFXoj00Ttpk2YJjh3vJrTDaIDwE5GxsqgCpN/LbOBtgx7EvPlTE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Jmxx1qkT; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1720519588;
+	s=arc-20240116; t=1720530342; c=relaxed/simple;
+	bh=ARrsQLAg/ASkIVBcIlLW0uP1cAwwTUaOptxcyYVIGzk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=GJzpTh+pzeBdMWATTnJXyBE/wdXQ+ltiihHGlGQKJfRFO0uQ5ei2cp0iDxPLhy2kC697MFSrt0UIa+dwGWYjve8Ecy99ggdcDeWAwoNtlDcn7Y2DIxkRyokj9o4leKGyZddnry6dIeYf9RWO+9NEgMAY//96+YoMjigrjBIwQx4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b=mTflRnaH; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B9FDC32786;
+	Tue,  9 Jul 2024 13:05:39 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="mTflRnaH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
+	t=1720530333;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tjTUnc7IhcTY8yXbQZCHDpYRmcDVvOi7wtfkPwMCZy4=;
-	b=Jmxx1qkTxK7lv9nfnILaf/LRMAbZ0ZrxJsn9+rR2fGMZ3N0JczgUYyEgq6X4gqeiXBm3SP
-	91Nb3Ubn7bF44Uc96BfLUZCE/1eKPCbEtPCvp2tNpx1JvyV+tlm+a8PG1EjzNF/GBQG9fE
-	RRSVW0Pm/eGfzhoKPvOkd5n749e0TNQ=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-361-UiV9XaiFPlaMJoCqgi_zcA-1; Tue,
- 09 Jul 2024 06:06:20 -0400
-X-MC-Unique: UiV9XaiFPlaMJoCqgi_zcA-1
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 4F23819560A1;
-	Tue,  9 Jul 2024 10:06:12 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (unknown [10.45.224.64])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id ED1F13000181;
-	Tue,  9 Jul 2024 10:05:53 +0000 (UTC)
-From: Florian Weimer <fweimer@redhat.com>
-To: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
-Cc: Jeff Xu <jeffxu@google.com>,  Al Viro <viro@zeniv.linux.org.uk>,
-  Christian Brauner <brauner@kernel.org>,  Kees Cook
- <keescook@chromium.org>,  Linus Torvalds <torvalds@linux-foundation.org>,
-  Paul Moore <paul@paul-moore.com>,  Theodore Ts'o <tytso@mit.edu>,
-  Alejandro Colomar <alx@kernel.org>,  Aleksa Sarai <cyphar@cyphar.com>,
-  Andrew Morton <akpm@linux-foundation.org>,  Andy Lutomirski
- <luto@kernel.org>,  Arnd Bergmann <arnd@arndb.de>,  Casey Schaufler
- <casey@schaufler-ca.com>,  Christian Heimes <christian@python.org>,
-  Dmitry Vyukov <dvyukov@google.com>,  Eric Biggers <ebiggers@kernel.org>,
-  Eric Chiang <ericchiang@google.com>,  Fan Wu <wufan@linux.microsoft.com>,
-  Geert Uytterhoeven <geert@linux-m68k.org>,  James Morris
- <jamorris@linux.microsoft.com>,  Jan Kara <jack@suse.cz>,  Jann Horn
- <jannh@google.com>,  Jonathan Corbet <corbet@lwn.net>,  Jordan R Abrahams
- <ajordanr@google.com>,  Lakshmi Ramasubramanian
- <nramas@linux.microsoft.com>,  Luca Boccassi <bluca@debian.org>,  Luis
- Chamberlain <mcgrof@kernel.org>,  "Madhavan T . Venkataraman"
- <madvenka@linux.microsoft.com>,  Matt Bobrowski
- <mattbobrowski@google.com>,  Matthew Garrett <mjg59@srcf.ucam.org>,
-  Matthew Wilcox <willy@infradead.org>,  Miklos Szeredi
- <mszeredi@redhat.com>,  Mimi Zohar <zohar@linux.ibm.com>,  Nicolas
- Bouchinet <nicolas.bouchinet@ssi.gouv.fr>,  Scott Shell
- <scottsh@microsoft.com>,  Shuah Khan <shuah@kernel.org>,  Stephen Rothwell
- <sfr@canb.auug.org.au>,  Steve Dower <steve.dower@python.org>,  Steve
- Grubb <sgrubb@redhat.com>,  Thibaut Sautereau
- <thibaut.sautereau@ssi.gouv.fr>,  Vincent Strubel
- <vincent.strubel@ssi.gouv.fr>,  Xiaoming Ni <nixiaoming@huawei.com>,  Yin
- Fengwei <fengwei.yin@intel.com>,  kernel-hardening@lists.openwall.com,
-  linux-api@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
-  linux-integrity@vger.kernel.org,  linux-kernel@vger.kernel.org,
-  linux-security-module@vger.kernel.org
-Subject: Re: [RFC PATCH v19 1/5] exec: Add a new AT_CHECK flag to execveat(2)
-In-Reply-To: <20240709.gae4cu4Aiv6s@digikod.net> (=?utf-8?Q?=22Micka=C3=AB?=
- =?utf-8?Q?l_Sala=C3=BCn=22's?= message
-	of "Tue, 9 Jul 2024 11:18:00 +0200")
-References: <20240704190137.696169-1-mic@digikod.net>
-	<20240704190137.696169-2-mic@digikod.net>
-	<87bk3bvhr1.fsf@oldenburg.str.redhat.com>
-	<CALmYWFu_JFyuwYhDtEDWxEob8JHFSoyx_SCcsRVKqSYyyw30Rg@mail.gmail.com>
-	<87ed83etpk.fsf@oldenburg.str.redhat.com>
-	<CALmYWFvkUnevm=npBeaZVkK_PXm=A8MjgxFXkASnERxoMyhYBg@mail.gmail.com>
-	<87r0c3dc1c.fsf@oldenburg.str.redhat.com>
-	<CALmYWFvA7VPz06Tg8E-R_Jqn2cxMiWPPC6Vhy+vgqnofT0GELg@mail.gmail.com>
-	<20240709.gae4cu4Aiv6s@digikod.net>
-Date: Tue, 09 Jul 2024 12:05:50 +0200
-Message-ID: <87ed82283l.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=CvATs55KyorkIpNaw1Hrw39huAw0P4fvSkg+BxM7rl8=;
+	b=mTflRnaH520Mv1kFExF/lnB+uQg8mFx51PQQOYldIAWg2EHcNgmxAv20woo376R1ABpIlr
+	tzflCtMkl9uBqhErKrPRvEF0Gw1o6y9ZIvVH3aavRzsnhkmHI+6WHuP822KxWxU6a2dchG
+	7YKv4NyWRtIklE/ooQ2HS965d5T9ijQ=
+Received: 
+	by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 49ebf4af (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Tue, 9 Jul 2024 13:05:30 +0000 (UTC)
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: linux-kernel@vger.kernel.org,
+	patches@lists.linux.dev,
+	tglx@linutronix.de
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
+	linux-crypto@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	x86@kernel.org,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
+	Carlos O'Donell <carlos@redhat.com>,
+	Florian Weimer <fweimer@redhat.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Jann Horn <jannh@google.com>,
+	Christian Brauner <brauner@kernel.org>,
+	David Hildenbrand <dhildenb@redhat.com>
+Subject: [PATCH v22 0/4] implement getrandom() in vDSO
+Date: Tue,  9 Jul 2024 15:05:08 +0200
+Message-ID: <20240709130513.98102-1-Jason@zx2c4.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-* Micka=C3=ABl Sala=C3=BCn:
+The plan for this series is to take it through my random.git tree for 6.11.
+It's cooking in linux-next now.
 
->> > If we want to avoid that, we could have an agreed-upon error code which
->> > the LSM can signal that it'll never fail AT_CHECK checks, so we only
->> > have to perform the extra system call once.
->
-> I'm not sure to follow.  Either we check executable code or we don't,
-> but it doesn't make sense to only check some parts (except for migration
-> of user space code in a system, which is one purpose of the securebits
-> added with the next patch).
->
-> The idea with AT_CHECK is to unconditionnaly check executable right the
-> same way it is checked when a file is executed.  User space can decide
-> to check that or not according to its policy (i.e. securebits).
+Changes v21->v22:
+- Only add MAP_DROPPABLE, not the other MAP_*s, but make it imply the other
+  relevant flags.
+- Ensure that mlock() and madvise() can't undo MAP_DROPPABLE implications.
+- Since MAP_DROPPABLE is generally useful, remove conditional Kconfig
+  scafolding around it.
+- Follow mm/ standards on comment style.
+- Base atop latest selftest PR, to avoid merge conflicts in 6.11.
+- Update glibc patches.
 
-I meant it purely as a performance optimization, to skip future system
-calls if we know they won't provide any useful information for this
-process.  In the grand scheme of things, the extra system call probably
-does not matter because we already have to do costly things like mmap.
+Changes v20->v21:
+- After extensive conversation with Linus, we're nixing the entire
+  vgetrandom_alloc() syscall, in favor of just exposing the functionality
+  needed through mmap() and having the kernel communicate to the caller what
+  arguments/sizes it should pass to mmap(). This simplifies the series
+  considerably. It also means that the first commit adds some new MAP_*
+  constants for mmap().
+- Separate vDSO selftests out into separate commit.
 
-Thanks,
-Florian
+--------------
+
+Useful links:
+
+- This series:
+  - https://git.kernel.org/pub/scm/linux/kernel/git/crng/random.git/log/
+
+- Glibc patches by Adhemerval and me against glibc-2.39:
+  - https://git.zx2c4.com/glibc/log/?h=vdso
+
+- In case you're actually interested in the v≤14 design where faults were
+  non-fatal and instructions were skipped (which I think is more coherent, even
+  if the implementation is controversial), this lives in my branch here:
+  - https://git.kernel.org/pub/scm/linux/kernel/git/crng/random.git/log/?h=jd/vdso-skip-insn
+  Note that I'm *not* actually proposing this for upstream at this time. But it
+  may be of conversational interest.
+
+-------------
+
+Two statements:
+
+  1) Userspace wants faster cryptographically secure random numbers of
+     arbitrary size, big or small.
+
+  2) Userspace is currently unable to safely roll its own RNG with the
+     same security profile as getrandom().
+
+Statement (1) has been debated for years, with arguments ranging from
+"we need faster cryptographically secure card shuffling!" to "the only
+things that actually need good randomness are keys, which are few and
+far between" to "actually, TLS CBC nonces are frequent" and so on. I
+don't intend to wade into that debate substantially, except to note that
+recently glibc added arc4random(), whose goal is to return a
+cryptographically secure uint32_t, and there are real user reports of it
+being too slow. So here we are.
+
+Statement (2) is more interesting. The kernel is the nexus of all
+entropic inputs that influence the RNG. It is in the best position, and
+probably the only position, to decide anything at all about the current
+state of the RNG and of its entropy. One of the things it uniquely knows
+about is when reseeding is necessary.
+
+For example, when a virtual machine is forked, restored, or duplicated,
+it's imparative that the RNG doesn't generate the same outputs. For this
+reason, there's a small protocol between hypervisors and the kernel that
+indicates this has happened, alongside some ID, which the RNG uses to
+immediately reseed, so as not to return the same numbers. Were userspace
+to expand a getrandom() seed from time T1 for the next hour, and at some
+point T2 < hour, the virtual machine forked, userspace would continue to
+provide the same numbers to two (or more) different virtual machines,
+resulting in potential cryptographic catastrophe. Something similar
+happens on resuming from hibernation (or even suspend), with various
+compromise scenarios there in mind.
+
+There's a more general reason why userspace rolling its own RNG from a
+getrandom() seed is fraught. There's a lot of attention paid to this
+particular Linuxism we have of the RNG being initialized and thus
+non-blocking or uninitialized and thus blocking until it is initialized.
+These are our Two Big States that many hold to be the holy
+differentiating factor between safe and not safe, between
+cryptographically secure and garbage. The fact is, however, that the
+distinction between these two states is a hand-wavy wishy-washy inexact
+approximation. Outside of a few exceptional cases (e.g. a HW RNG is
+available), we actually don't really ever know with any rigor at all
+when the RNG is safe and ready (nor when it's compromised). We do the
+best we can to "estimate" it, but entropy estimation is fundamentally
+impossible in the general case. So really, we're just doing guess work,
+and hoping it's good and conservative enough. Let's then assume that
+there's always some potential error involved in this differentiator.
+
+In fact, under the surface, the RNG is engineered around a different
+principle, and that is trying to *use* new entropic inputs regularly and
+at the right specific moments in time. For example, close to boot time,
+the RNG reseeds itself more often than later. At certain events, like VM
+fork, the RNG reseeds itself immediately. The various heuristics for
+when the RNG will use new entropy and how often is really a core aspect
+of what the RNG has some potential to do decently enough (and something
+that will probably continue to improve in the future from random.c's
+present set of algorithms). So in your mind, put away the metal
+attachment to the Two Big States, which represent an approximation with
+a potential margin of error. Instead keep in mind that the RNG's primary
+operating heuristic is how often and exactly when it's going to reseed.
+
+So, if userspace takes a seed from getrandom() at point T1, and uses it
+for the next hour (or N megabytes or some other meaningless metric),
+during that time, potential errors in the Two Big States approximation
+are amplified. During that time potential reseeds are being lost,
+forgotten, not reflected in the output stream. That's not good.
+
+The simplest statement you could make is that userspace RNGs that expand
+a getrandom() seed at some point T1 are nearly always *worse*, in some
+way, than just calling getrandom() every time a random number is
+desired.
+
+For those reasons, after some discussion on libc-alpha, glibc's
+arc4random() now just calls getrandom() on each invocation. That's
+trivially safe, and gives us latitude to then make the safe thing faster
+without becoming unsafe at our leasure. Card shuffling isn't
+particularly fast, however.
+
+How do we rectify this? By putting a safe implementation of getrandom()
+in the vDSO, which has access to whatever information a
+particular iteration of random.c is using to make its decisions. I use
+that careful language of "particular iteration of random.c", because the
+set of things that a vDSO getrandom() implementation might need for making
+decisions as good as the kernel's will likely change over time. This
+isn't just a matter of exporting certain *data* to userspace. We're not
+going to commit to a "data API" where the various heuristics used are
+exposed, locking in how the kernel works for decades to come, and then
+leave it to various userspaces to roll something on top and shoot
+themselves in the foot and have all sorts of complexity disasters.
+Rather, vDSO getrandom() is supposed to be the *same exact algorithm*
+that runs in the kernel, except it's been hoisted into userspace as
+much as possible. And so vDSO getrandom() and kernel getrandom() will
+always mirror each other hermetically.
+
+API-wise, the vDSO gains this function:
+
+  ssize_t vgetrandom(void *buffer, size_t len, unsigned int flags,
+                     void *opaque_state, size_t opaque_len);
+
+The return value and the first 3 arguments are the same as ordinary
+getrandom(), while the penultimate argument is a pointer to some state
+allocated with the right flags passed to mmap(2), explained below. Were all
+five arguments passed to the getrandom syscall, nothing different would happen,
+and the functions would have the exact same behavior.
+
+If vgetrandom(NULL, 0, 0, &params, ~0UL) is called, then params gets populated
+with information about what flags and prot fields to pass to mmap(2), as well
+as how big each state should be, so that the caller can slice up returned
+memory from mmap(2) into chunks for passing to vgetrandom().
+
+Libc is expected to allocate a chunk of these on first use, and then
+dole them out to threads as they're created, allocating more when
+needed.
+
+The interesting meat of the implementation is in lib/vdso/getrandom.c,
+as generic C code, and it aims to mainly follow random.c's buffered fast
+key erasure logic. Before the RNG is initialized, it falls back to the
+syscall. Right now it uses a simple generation counter to make its decisions
+on reseeding (though this could be made more extensive over time).
+
+The actual place that has the most work to do is in all of the other
+files. Most of the vDSO shared page infrastructure is centered around
+gettimeofday, and so the main structs are all in arrays for different
+timestamp types, and attached to time namespaces, and so forth. I've
+done the best I could to add onto this in an unintrusive way.
+
+In my test results, performance is pretty stellar (around 15x for uint32_t
+generation), and it seems to be working. There's an extended example in the
+last commit of this series, showing how the syscall and the vDSO function
+are meant to be used together.
+
+Cc: linux-crypto@vger.kernel.org
+Cc: linux-api@vger.kernel.org
+Cc: x86@kernel.org
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>
+Cc: Carlos O'Donell <carlos@redhat.com>
+Cc: Florian Weimer <fweimer@redhat.com>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Jann Horn <jannh@google.com>
+Cc: Christian Brauner <brauner@kernel.org>
+Cc: David Hildenbrand <dhildenb@redhat.com>
+
+Jason A. Donenfeld (4):
+  mm: add MAP_DROPPABLE for designating always lazily freeable mappings
+  random: introduce generic vDSO getrandom() implementation
+  x86: vdso: Wire up getrandom() vDSO implementation
+  selftests/vDSO: add tests for vgetrandom
+
+ MAINTAINERS                                   |   4 +
+ arch/x86/Kconfig                              |   1 +
+ arch/x86/entry/vdso/Makefile                  |   3 +-
+ arch/x86/entry/vdso/vdso.lds.S                |   2 +
+ arch/x86/entry/vdso/vgetrandom-chacha.S       | 178 +++++++++++
+ arch/x86/entry/vdso/vgetrandom.c              |  17 ++
+ arch/x86/include/asm/vdso/getrandom.h         |  55 ++++
+ arch/x86/include/asm/vdso/vsyscall.h          |   2 +
+ arch/x86/include/asm/vvar.h                   |  16 +
+ drivers/char/random.c                         |  18 +-
+ fs/proc/task_mmu.c                            |   1 +
+ include/linux/mm.h                            |   7 +
+ include/trace/events/mmflags.h                |   7 +
+ include/uapi/linux/mman.h                     |   1 +
+ include/uapi/linux/random.h                   |  15 +
+ include/vdso/datapage.h                       |  11 +
+ include/vdso/getrandom.h                      |  46 +++
+ lib/vdso/Kconfig                              |   5 +
+ lib/vdso/getrandom.c                          | 251 +++++++++++++++
+ mm/madvise.c                                  |   5 +-
+ mm/mlock.c                                    |   2 +-
+ mm/mmap.c                                     |  30 ++
+ mm/rmap.c                                     |  22 +-
+ tools/include/asm/rwonce.h                    |   0
+ tools/include/uapi/linux/mman.h               |   1 +
+ tools/testing/selftests/mm/.gitignore         |   1 +
+ tools/testing/selftests/mm/Makefile           |   1 +
+ tools/testing/selftests/mm/droppable.c        |  53 ++++
+ tools/testing/selftests/vDSO/.gitignore       |   2 +
+ tools/testing/selftests/vDSO/Makefile         |  18 ++
+ .../testing/selftests/vDSO/vdso_test_chacha.c |  43 +++
+ .../selftests/vDSO/vdso_test_getrandom.c      | 288 ++++++++++++++++++
+ 32 files changed, 1099 insertions(+), 7 deletions(-)
+ create mode 100644 arch/x86/entry/vdso/vgetrandom-chacha.S
+ create mode 100644 arch/x86/entry/vdso/vgetrandom.c
+ create mode 100644 arch/x86/include/asm/vdso/getrandom.h
+ create mode 100644 include/vdso/getrandom.h
+ create mode 100644 lib/vdso/getrandom.c
+ create mode 100644 tools/include/asm/rwonce.h
+ create mode 100644 tools/testing/selftests/mm/droppable.c
+ create mode 100644 tools/testing/selftests/vDSO/vdso_test_chacha.c
+ create mode 100644 tools/testing/selftests/vDSO/vdso_test_getrandom.c
+
+
+base-commit: 22a40d14b572deb80c0648557f4bd502d7e83826
+prerequisite-patch-id: 9a45c4b77033012b2c2cbbec24fd8b2a7a5daf84
+prerequisite-patch-id: 8b773921433de1e8b9fd5a8f3d6107258c133c2a
+prerequisite-patch-id: afd1b07bd24fe3c93d1fef782ba9064e95d1534c
+prerequisite-patch-id: a5cbcafe6072a173a8f20eac5cc7e545be50ae20
+prerequisite-patch-id: 59640753e9c60e5d23ede9a20ed5c933a47b3f97
+-- 
+2.45.2
 
 
