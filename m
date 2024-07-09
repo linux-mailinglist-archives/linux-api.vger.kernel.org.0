@@ -1,103 +1,164 @@
-Return-Path: <linux-api+bounces-1908-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1909-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B792792C254
-	for <lists+linux-api@lfdr.de>; Tue,  9 Jul 2024 19:24:56 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56B4892C38D
+	for <lists+linux-api@lfdr.de>; Tue,  9 Jul 2024 20:58:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 34E2CB29F91
-	for <lists+linux-api@lfdr.de>; Tue,  9 Jul 2024 17:12:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7A2921C22876
+	for <lists+linux-api@lfdr.de>; Tue,  9 Jul 2024 18:58:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6046D17B023;
-	Tue,  9 Jul 2024 16:44:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82CF2182A40;
+	Tue,  9 Jul 2024 18:58:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lw6ojkf0"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="sa5BsQzN"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5B9517B020
-	for <linux-api@vger.kernel.org>; Tue,  9 Jul 2024 16:44:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC8A817B02B
+	for <linux-api@vger.kernel.org>; Tue,  9 Jul 2024 18:58:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720543486; cv=none; b=W5PB1b53QH8ljJf9fR3pVa+E5Tvyj6PFuSdG1GK9jVDG5ENcFlBwE0olOxp0la7kzE2xUtrToxQVptqXyT/a8f28/Z5w6XkqYdzq7SgDh5Rl+juKdwgYA2Auzr1Zcsk3ZClJskz48PWmzS1nrFNrCixtCyMwpSIIQZoXKhAonN8=
+	t=1720551488; cv=none; b=bO2ZIAfXKRRWf0mQCdeAM5YYFqkYs4Apw5sDOlKfq64iG2r+FOTTQ5uEguXDMJIOUe5/47wfSlbIA36ZvnygAvTLR1zCtjuRV98OxDLghT10QZSvguu+4MwkTe3L2Ejss1YEA01Ux/Mk3Z8AlxMi1REN7P+XF6aeEidz3XEiYF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720543486; c=relaxed/simple;
-	bh=sKMWfKD0a8y3lioSP7aEsIJMfJkjJGUBrPrhUwmrFLY=;
-	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=dprAQ8/yaDmF7HxmHdiS10MuxM+Y9OmjRv3e5ygDywy0ozT4gkNl+FRDee8uhPKaQCNQF0LdpjOSzaf8zknM4kcsXYFfFoggIGhEh9rrxhGof/EAkURx+8Xn8sWbBI1JjhM8Y3OW9oqYpxIoKkeE9n2HauRIaFjQ4D88yyp1BX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lw6ojkf0; arc=none smtp.client-ip=209.85.208.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2eeb1ba0481so22234961fa.2
-        for <linux-api@vger.kernel.org>; Tue, 09 Jul 2024 09:44:44 -0700 (PDT)
+	s=arc-20240116; t=1720551488; c=relaxed/simple;
+	bh=vgV3NNlzFKCiU3pBnrqOOxg16OSb3pUQ2G39Zbsbj1Q=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HFhEgNQwgJhNx8bJl5QMomKvBxjJSiNMYvipVgQLisb+nDInPgHILIo19EUGwMfjFQiqTBffLFNEIWL1tnHjvCRuju4cTH3LM/dxLV5nhdg4BmxW/Qm29OKb4dK61V4zpPvJyj1p9ynvlH7NDWHCDG9m1cq7LKMttmDdf4SGXUI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=sa5BsQzN; arc=none smtp.client-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-58ce966a1d3so2520a12.1
+        for <linux-api@vger.kernel.org>; Tue, 09 Jul 2024 11:58:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720543483; x=1721148283; darn=vger.kernel.org;
-        h=content-transfer-encoding:autocrypt:subject:from:content-language
-         :to:user-agent:mime-version:date:message-id:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1720551485; x=1721156285; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=nfVzzvPcEXh+9wtoNctw2ZP65S8MXvk68WvR8Ct5VlE=;
-        b=lw6ojkf0RUEXMMdjJI9RUKRbmEW97VYGZ3FbGy88re181ZGFT7Ij6soHL9DMzKjBm5
-         rBYAPsFErPXcjjjwVlBA4kQ2tqXlRfHUJ/OPBbv8uGfeonERavKhoJMsm9HoiS9K7g3Z
-         A6SvchkR8XN0BhwC7GADuJ4Q96byXMXkFvCWG3ChiwUzOj0MJES6cJR8E640krlB+4lx
-         TypjoG6BxwCiTHFiuQxqaQxVW0J32y4A2lIC3FWmsirwcTloWaFoTJDy79dPSYluNTO5
-         93uOm5vkvm0QB4TYhJjv+xwV6bx3RKPpqlObcFIFJZ94kHoibnxSewhRcVS7x7jm63BG
-         owHA==
+        bh=zAoQUSx9bhpcdjQTt+qmhPqP+zZAnIGtZqlOI0lzq4w=;
+        b=sa5BsQzNzOOcSPF9OfoPAP207D5WndvlKepdTyJgMU8ybS4vX3ZOPl+9Hv9bzFYd/O
+         XhaQdi6jl9KabAjFmVJT8ItjVBtHJhFYGNkFIJZAQTWcyc5lxNQ7lzhHoEgbuK4Le8Kn
+         LSnYsZf0vlgpQjnhSd+7pwu3h0XC9zqEL3yh91FGpwDnsCCrlx/5AyS9jPRaavA2mdr7
+         Bs5ySs7DjRQh+5GI+qbRdsHbr9bLvoDiG04oRQtVA+5Jj+WPw2rOBgoDQfdT4C+vJvP2
+         dHDu3dewG3VaQZ06i/8DQUpQSAJOPqWpMXqneQjVwK8KmQJdt8sOpr1BKZYaJafXcPQ8
+         HSJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720543483; x=1721148283;
-        h=content-transfer-encoding:autocrypt:subject:from:content-language
-         :to:user-agent:mime-version:date:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=nfVzzvPcEXh+9wtoNctw2ZP65S8MXvk68WvR8Ct5VlE=;
-        b=nzCab1cNwWThCQNiyvcK3XUtX/GW4l3RPkOfVBCmszPoccwI+Leh/gfj73euSj06MN
-         5zZLpesG2F3dtsuWutt9rI9xv6E89uqINgh20/6JWGJrhoeyQMuGy6biNTCLmJVQEjtt
-         T4BSEU0FdIPaAwtm+I519YR4tixOGEw16I92wwyDUOLU57D59wScSoNS/kTOlW3JJGL0
-         gbdz7MROyhs8xgt88z8Z21EjKHZS1MK/v65xWgDkwc2DGg98elvUxiUm+h9d4T1VktVj
-         19/Y7Yg4FTufjhsR8WlxUSVwmV/KDby0sQrKcfUNeJSWvPd6JPdkWvYdN31OzAJwGyDg
-         Yz3w==
-X-Gm-Message-State: AOJu0YztEwnPG9XEWpTat+BO24HedUWfw/OdO3L2NUm8Pc+QZPIha8Op
-	HFf0WRzdAmNKPYujadCcBFF6y55OjhlDuujhh4ZuC5jxGCSw3LXw1qrMuw==
-X-Google-Smtp-Source: AGHT+IF4jqE5kX4tM9jYTlA+BRxd2GoMdGsBQeknQ/qKyvSIzUYnDcda5nYsWPfkVSDvRR+b7bB4Ug==
-X-Received: by 2002:a05:651c:8b:b0:2ec:4d82:9e93 with SMTP id 38308e7fff4ca-2eeb3198608mr20276211fa.44.1720543482670;
-        Tue, 09 Jul 2024 09:44:42 -0700 (PDT)
-Received: from ?IPV6:2804:431:cfcd:af15::536f:6e69? ([2804:431:cfcd:af15::536f:6e69])
-        by smtp.googlemail.com with ESMTPSA id 38308e7fff4ca-2eeb33fff27sm2405201fa.28.2024.07.09.09.44.41
-        for <linux-api@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Jul 2024 09:44:42 -0700 (PDT)
-Message-ID: <f01d236a-e713-4953-be8b-1484201f8190@gmail.com>
-Date: Tue, 9 Jul 2024 13:44:36 -0300
+        d=1e100.net; s=20230601; t=1720551485; x=1721156285;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zAoQUSx9bhpcdjQTt+qmhPqP+zZAnIGtZqlOI0lzq4w=;
+        b=BfRIKbcM9G18emLU4+pYjY7Fh+EFje3yA71cH+ecOZ/DAZ7+Y8M8tdlKuJuT9vV1w3
+         spdvJBOuguss3M1R89HuqmebCLMLNlViN6zjuNcPLXiJb6a7WuhEwEliyorvmYZuhLZp
+         0Mfo3tlMGyI1tPMwz3n1eiJ6bvq80/yy67EfKYQIkmugcDSUGyNznBnqKsgWs8Lxjivn
+         2F1J4MhjJ1eT8wV88IzbZRiRbA/xsZC1wrmhzGlU2zYwy4dtMKx6qeCP83vLnyJvWV3K
+         /IN1YLwI/Th5OpvbBUFbHODUYgFHt8u3z44lZnfrJa/SqFlv1E0Mx9KaDkYyRvX/uGMK
+         gXkQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVvsdw9fJuzyZVbkaw4BeCyNtpK+YSHyjxv3uFV3AMMLK8SynxgjNGUg9qSdRuPGEWYzMtKCsbPSii5TnJFeXqxL3c+RH5C0HUL
+X-Gm-Message-State: AOJu0YxmqdT3aFnoxUD4NpovPhKv0/ETxYxG14SjjKJdAWRc8atgEp1a
+	Fh7CKL5NbCbv4C9lrqgzcoQuJ7cJgiL647zwTUjsOYRx0P7Yp1qctfFUN5a72IjSZ/de6ltaiew
+	dbnIoRo5hzdiSGhg4Oc0nyctvysYhK+xs2ink
+X-Google-Smtp-Source: AGHT+IECwTUCWfNd/m0r/4U5ddqq9szdLi7Tw8glyBT6PX7+eYxwo4Ic0ZuXywbnuTJaGnFDZBWSOOJzFKOrzR9sUWE=
+X-Received: by 2002:a50:9f84:0:b0:58b:dfaa:a5ca with SMTP id
+ 4fb4d7f45d1cf-596d4daf533mr28844a12.6.1720551484754; Tue, 09 Jul 2024
+ 11:58:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: linux-api@vger.kernel.org
-Content-Language: en-US
-From: "Soni \"They/Them\" L." <fakedme@gmail.com>
-Subject: mprotect PROT_SIGNAL
-Autocrypt: addr=fakedme@gmail.com; keydata=
- xjMEXwNi3hYJKwYBBAHaRw8BAQdA54PbCsby/5RoB/LcXM0ErtTf8Dg9vIlUXrCXz/Au4r3N
- J1NvbmkgIlRoZXkvVGhlbSIgTC4gPGZha2VkbWVAZ21haWwuY29tPsKWBBMWCAA+FiEEsMoE
- IRiJ1JxhKZryJ/4WYf4YmMwFAl8DYt4CGwMFCQlmAYAFCwkIBwIGFQoJCAsCBBYCAwECHgEC
- F4AACgkQJ/4WYf4YmMxGkAD9Ff/RRgDI+jEotQrJP5fgJECAUEeSiwquzAolp2ersZkA/1wr
- FdAe6U4id6efkAEtjfEJJ+GmU2vgSPXzqieza6kEzjgEXwNi3hIKKwYBBAGXVQEFAQEHQKmF
- MuXpl3lzDyXP3c76bJm1midZrosIYpAuoGqD19lYAwEIB8J+BBgWCAAmFiEEsMoEIRiJ1Jxh
- KZryJ/4WYf4YmMwFAl8DYt4CGwwFCQlmAYAACgkQJ/4WYf4YmMxgTQEA+UNWbiMf1MtDpP3Q
- B+HhsKvvRShHeYxkPgSY7lDicboBAOOz5E1jPI62uV0Xe2dM8n7TN+0zLw2fDXJlZFuCoVUD
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20240704190137.696169-1-mic@digikod.net> <20240704190137.696169-2-mic@digikod.net>
+ <87bk3bvhr1.fsf@oldenburg.str.redhat.com> <CALmYWFu_JFyuwYhDtEDWxEob8JHFSoyx_SCcsRVKqSYyyw30Rg@mail.gmail.com>
+ <87ed83etpk.fsf@oldenburg.str.redhat.com> <CALmYWFvkUnevm=npBeaZVkK_PXm=A8MjgxFXkASnERxoMyhYBg@mail.gmail.com>
+ <87r0c3dc1c.fsf@oldenburg.str.redhat.com> <CALmYWFvA7VPz06Tg8E-R_Jqn2cxMiWPPC6Vhy+vgqnofT0GELg@mail.gmail.com>
+ <20240709.gae4cu4Aiv6s@digikod.net>
+In-Reply-To: <20240709.gae4cu4Aiv6s@digikod.net>
+From: Jeff Xu <jeffxu@google.com>
+Date: Tue, 9 Jul 2024 11:57:27 -0700
+Message-ID: <CALmYWFsvKq+yN4qHhBamxyjtcy9myg8_t3Nc=5KErG=DDaDAEA@mail.gmail.com>
+Subject: Re: [RFC PATCH v19 1/5] exec: Add a new AT_CHECK flag to execveat(2)
+To: =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
+Cc: Florian Weimer <fweimer@redhat.com>, Al Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Kees Cook <keescook@chromium.org>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Paul Moore <paul@paul-moore.com>, 
+	"Theodore Ts'o" <tytso@mit.edu>, Alejandro Colomar <alx@kernel.org>, Aleksa Sarai <cyphar@cyphar.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Andy Lutomirski <luto@kernel.org>, 
+	Arnd Bergmann <arnd@arndb.de>, Casey Schaufler <casey@schaufler-ca.com>, 
+	Christian Heimes <christian@python.org>, Dmitry Vyukov <dvyukov@google.com>, 
+	Eric Biggers <ebiggers@kernel.org>, Eric Chiang <ericchiang@google.com>, 
+	Fan Wu <wufan@linux.microsoft.com>, Geert Uytterhoeven <geert@linux-m68k.org>, 
+	James Morris <jamorris@linux.microsoft.com>, Jan Kara <jack@suse.cz>, 
+	Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Jordan R Abrahams <ajordanr@google.com>, Lakshmi Ramasubramanian <nramas@linux.microsoft.com>, 
+	Luca Boccassi <bluca@debian.org>, Luis Chamberlain <mcgrof@kernel.org>, 
+	"Madhavan T . Venkataraman" <madvenka@linux.microsoft.com>, Matt Bobrowski <mattbobrowski@google.com>, 
+	Matthew Garrett <mjg59@srcf.ucam.org>, Matthew Wilcox <willy@infradead.org>, 
+	Miklos Szeredi <mszeredi@redhat.com>, Mimi Zohar <zohar@linux.ibm.com>, 
+	Nicolas Bouchinet <nicolas.bouchinet@ssi.gouv.fr>, Scott Shell <scottsh@microsoft.com>, 
+	Shuah Khan <shuah@kernel.org>, Stephen Rothwell <sfr@canb.auug.org.au>, 
+	Steve Dower <steve.dower@python.org>, Steve Grubb <sgrubb@redhat.com>, 
+	Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>, 
+	Vincent Strubel <vincent.strubel@ssi.gouv.fr>, Xiaoming Ni <nixiaoming@huawei.com>, 
+	Yin Fengwei <fengwei.yin@intel.com>, kernel-hardening@lists.openwall.com, 
+	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-we'd like an mprotect PROT_SIGNAL flag for a compiler we're making
+On Tue, Jul 9, 2024 at 2:18=E2=80=AFAM Micka=C3=ABl Sala=C3=BCn <mic@digiko=
+d.net> wrote:
+>
+> On Mon, Jul 08, 2024 at 10:52:36AM -0700, Jeff Xu wrote:
+> > On Mon, Jul 8, 2024 at 10:33=E2=80=AFAM Florian Weimer <fweimer@redhat.=
+com> wrote:
+> > >
+> > > * Jeff Xu:
+> > >
+> > > > On Mon, Jul 8, 2024 at 9:26=E2=80=AFAM Florian Weimer <fweimer@redh=
+at.com> wrote:
+> > > >>
+> > > >> * Jeff Xu:
+> > > >>
+> > > >> > Will dynamic linkers use the execveat(AT_CHECK) to check shared
+> > > >> > libraries too ?  or just the main executable itself.
+> > > >>
+> > > >> I expect that dynamic linkers will have to do this for everything =
+they
+> > > >> map.
+> > > > Then all the objects (.so, .sh, etc.) will go through  the check fr=
+om
+> > > > execveat's main  to security_bprm_creds_for_exec(), some of them mi=
+ght
+> > > > be specific for the main executable ?
+>
+> Yes, we should check every executable code (including seccomp filters)
+> to get a consistent policy.
+>
+> What do you mean by "specific for the main executable"?
+>
+I meant:
 
-PROT_SIGNAL - marks the pages as unmapped while running signal handlers
+The check is for the exe itself, not .so, etc.
 
-this would be very useful, do you think you could provide it?
+For example:  /usr/bin/touch is checked.
+not the shared objects:
+ldd /usr/bin/touch
+linux-vdso.so.1 (0x00007ffdc988f000)
+libc.so.6 =3D> /lib/x86_64-linux-gnu/libc.so.6 (0x00007f59b6757000)
+/lib64/ld-linux-x86-64.so.2 (0x00007f59b6986000)
 
-(not much more to say about it, it's supposed to do what it says on the 
-tin, we want to unmap pages in signal handlers so as to catch bugs 
-without causing memory corruption.)
+Basically, I asked if the check can be extended to shared-objects,
+seccomp filters, etc, without modifying existing LSMs.
+you pointed out "LSM should not need to be updated with this patch
+series.", which already answered my question.
+
+Thanks.
+-Jeff
+
+-Jeff
 
