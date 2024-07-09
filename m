@@ -1,49 +1,51 @@
-Return-Path: <linux-api+bounces-1903-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1904-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AF7192BA8B
-	for <lists+linux-api@lfdr.de>; Tue,  9 Jul 2024 15:07:10 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1AF392BA8E
+	for <lists+linux-api@lfdr.de>; Tue,  9 Jul 2024 15:07:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DBC381F22783
-	for <lists+linux-api@lfdr.de>; Tue,  9 Jul 2024 13:07:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E5C6E1C224B9
+	for <lists+linux-api@lfdr.de>; Tue,  9 Jul 2024 13:07:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2710C15B980;
-	Tue,  9 Jul 2024 13:05:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2CBF161904;
+	Tue,  9 Jul 2024 13:05:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="mTflRnaH"
+	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="ERR3F/o6"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9A92158D83;
-	Tue,  9 Jul 2024 13:05:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70B021581E5;
+	Tue,  9 Jul 2024 13:05:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720530342; cv=none; b=PUqQ1XtLIRz2witLdxAqq4BmAfptHH7tZnSSivpFyw7xnsgXvWdpx2ZVen4o7jllK4pmN5ZnV4hk5Xquig2FS9tkDZslGYlazg+jkRQNXRcBqitd3kZx9lP5upYbrF2dlfEL4E2RQYb3wuABVn7NQKTnkGWKQuPHEQMd9A8VNqk=
+	t=1720530349; cv=none; b=Z2Wirc0MX4GLibMuybAi9/njpOKeh0PQ50vuxKQCxW+NugRbFooopqk4Z5ABiWEc9JJawLvBRmO0Aq6+FBlM3n9XIB3BYhKEuuuDBCJfGWeAbimkaCSOywCxGxic0kcmfqoTlXjmxtj7rVRLoll+iwdVXQaskzlWG35WH+mA2wI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720530342; c=relaxed/simple;
-	bh=ARrsQLAg/ASkIVBcIlLW0uP1cAwwTUaOptxcyYVIGzk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=GJzpTh+pzeBdMWATTnJXyBE/wdXQ+ltiihHGlGQKJfRFO0uQ5ei2cp0iDxPLhy2kC697MFSrt0UIa+dwGWYjve8Ecy99ggdcDeWAwoNtlDcn7Y2DIxkRyokj9o4leKGyZddnry6dIeYf9RWO+9NEgMAY//96+YoMjigrjBIwQx4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b=mTflRnaH; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B9FDC32786;
-	Tue,  9 Jul 2024 13:05:39 +0000 (UTC)
+	s=arc-20240116; t=1720530349; c=relaxed/simple;
+	bh=9wdZ5sVt0c4A/D3Yh/yobH8NMbbI7CHMST996cSp6bE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=nsyjF0kPjkdOHzqT2UKOW9AZcDTZ/dczesMKftushhphjr4XnWKQI9Rln6tc4jKOaoqhSUU1AAA3ZgGfewObcDrOtkV/JXDDPCTYqRXXr+YBXNzb1U0eTukV+/ICv+AWKadBQxeb3hygxAxH1p/rToWw/YoiGIujHjaL2rhqQ58=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b=ERR3F/o6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B34EC4AF16;
+	Tue,  9 Jul 2024 13:05:47 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
-	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="mTflRnaH"
+	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="ERR3F/o6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
-	t=1720530333;
+	t=1720530342;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=CvATs55KyorkIpNaw1Hrw39huAw0P4fvSkg+BxM7rl8=;
-	b=mTflRnaH520Mv1kFExF/lnB+uQg8mFx51PQQOYldIAWg2EHcNgmxAv20woo376R1ABpIlr
-	tzflCtMkl9uBqhErKrPRvEF0Gw1o6y9ZIvVH3aavRzsnhkmHI+6WHuP822KxWxU6a2dchG
-	7YKv4NyWRtIklE/ooQ2HS965d5T9ijQ=
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ubjl3tE6+mQntptDlzqV+aY5O8n98Zz2oPpx+dM0WuA=;
+	b=ERR3F/o6XUuSSpHV0vnp/yiwaz7nAwUCMR0mosvGnH6GNOu6JFXuQOu9fWmy4BrKwdX0GW
+	LfVlln/Eeqvs5pvlKDtNxEajdc0hDnVmOVQnGpGwURAruY8AdEGPKQNRiESr2WYH2r4IjQ
+	lyiJsRpNEIz1GaMRW7ObvZPNOtBoSkI=
 Received: 
-	by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 49ebf4af (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Tue, 9 Jul 2024 13:05:30 +0000 (UTC)
+	by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 7b0d0d59 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Tue, 9 Jul 2024 13:05:42 +0000 (UTC)
 From: "Jason A. Donenfeld" <Jason@zx2c4.com>
 To: linux-kernel@vger.kernel.org,
 	patches@lists.linux.dev,
@@ -60,264 +62,372 @@ Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
 	Arnd Bergmann <arnd@arndb.de>,
 	Jann Horn <jannh@google.com>,
 	Christian Brauner <brauner@kernel.org>,
-	David Hildenbrand <dhildenb@redhat.com>
-Subject: [PATCH v22 0/4] implement getrandom() in vDSO
-Date: Tue,  9 Jul 2024 15:05:08 +0200
-Message-ID: <20240709130513.98102-1-Jason@zx2c4.com>
+	David Hildenbrand <dhildenb@redhat.com>,
+	linux-mm@kvack.org
+Subject: [PATCH v22 1/4] mm: add MAP_DROPPABLE for designating always lazily freeable mappings
+Date: Tue,  9 Jul 2024 15:05:09 +0200
+Message-ID: <20240709130513.98102-2-Jason@zx2c4.com>
+In-Reply-To: <20240709130513.98102-1-Jason@zx2c4.com>
+References: <20240709130513.98102-1-Jason@zx2c4.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The plan for this series is to take it through my random.git tree for 6.11.
-It's cooking in linux-next now.
+The vDSO getrandom() implementation works with a buffer allocated with a
+new system call that has certain requirements:
 
-Changes v21->v22:
-- Only add MAP_DROPPABLE, not the other MAP_*s, but make it imply the other
-  relevant flags.
-- Ensure that mlock() and madvise() can't undo MAP_DROPPABLE implications.
-- Since MAP_DROPPABLE is generally useful, remove conditional Kconfig
-  scafolding around it.
-- Follow mm/ standards on comment style.
-- Base atop latest selftest PR, to avoid merge conflicts in 6.11.
-- Update glibc patches.
+- It shouldn't be written to core dumps.
+  * Easy: VM_DONTDUMP.
+- It should be zeroed on fork.
+  * Easy: VM_WIPEONFORK.
 
-Changes v20->v21:
-- After extensive conversation with Linus, we're nixing the entire
-  vgetrandom_alloc() syscall, in favor of just exposing the functionality
-  needed through mmap() and having the kernel communicate to the caller what
-  arguments/sizes it should pass to mmap(). This simplifies the series
-  considerably. It also means that the first commit adds some new MAP_*
-  constants for mmap().
-- Separate vDSO selftests out into separate commit.
+- It shouldn't be written to swap.
+  * Uh-oh: mlock is rlimited.
+  * Uh-oh: mlock isn't inherited by forks.
 
---------------
+It turns out that the vDSO getrandom() function has three really nice
+characteristics that we can exploit to solve this problem:
 
-Useful links:
+1) Due to being wiped during fork(), the vDSO code is already robust to
+   having the contents of the pages it reads zeroed out midway through
+   the function's execution.
 
-- This series:
-  - https://git.kernel.org/pub/scm/linux/kernel/git/crng/random.git/log/
+2) In the absolute worst case of whatever contingency we're coding for,
+   we have the option to fallback to the getrandom() syscall, and
+   everything is fine.
 
-- Glibc patches by Adhemerval and me against glibc-2.39:
-  - https://git.zx2c4.com/glibc/log/?h=vdso
+3) The buffers the function uses are only ever useful for a maximum of
+   60 seconds -- a sort of cache, rather than a long term allocation.
 
-- In case you're actually interested in the v≤14 design where faults were
-  non-fatal and instructions were skipped (which I think is more coherent, even
-  if the implementation is controversial), this lives in my branch here:
-  - https://git.kernel.org/pub/scm/linux/kernel/git/crng/random.git/log/?h=jd/vdso-skip-insn
-  Note that I'm *not* actually proposing this for upstream at this time. But it
-  may be of conversational interest.
+These characteristics mean that we can introduce VM_DROPPABLE, which
+has the following semantics:
 
--------------
+a) It never is written out to swap.
+b) Under memory pressure, mm can just drop the pages (so that they're
+   zero when read back again).
+c) It is inherited by fork.
+d) It doesn't count against the mlock budget, since nothing is locked.
 
-Two statements:
+This is fairly simple to implement, with the one snag that we have to
+use 64-bit VM_* flags, but this shouldn't be a problem, since the only
+consumers will probably be 64-bit anyway.
 
-  1) Userspace wants faster cryptographically secure random numbers of
-     arbitrary size, big or small.
+This way, allocations used by vDSO getrandom() can use:
 
-  2) Userspace is currently unable to safely roll its own RNG with the
-     same security profile as getrandom().
+    VM_DROPPABLE | VM_DONTDUMP | VM_WIPEONFORK | VM_NORESERVE
 
-Statement (1) has been debated for years, with arguments ranging from
-"we need faster cryptographically secure card shuffling!" to "the only
-things that actually need good randomness are keys, which are few and
-far between" to "actually, TLS CBC nonces are frequent" and so on. I
-don't intend to wade into that debate substantially, except to note that
-recently glibc added arc4random(), whose goal is to return a
-cryptographically secure uint32_t, and there are real user reports of it
-being too slow. So here we are.
+And there will be no problem with using memory when not in use, not
+wiping on fork(), coredumps, or writing out to swap.
 
-Statement (2) is more interesting. The kernel is the nexus of all
-entropic inputs that influence the RNG. It is in the best position, and
-probably the only position, to decide anything at all about the current
-state of the RNG and of its entropy. One of the things it uniquely knows
-about is when reseeding is necessary.
+In order to let vDSO getrandom() use this, expose these via mmap(2) as
+MAP_DROPPABLE.
 
-For example, when a virtual machine is forked, restored, or duplicated,
-it's imparative that the RNG doesn't generate the same outputs. For this
-reason, there's a small protocol between hypervisors and the kernel that
-indicates this has happened, alongside some ID, which the RNG uses to
-immediately reseed, so as not to return the same numbers. Were userspace
-to expand a getrandom() seed from time T1 for the next hour, and at some
-point T2 < hour, the virtual machine forked, userspace would continue to
-provide the same numbers to two (or more) different virtual machines,
-resulting in potential cryptographic catastrophe. Something similar
-happens on resuming from hibernation (or even suspend), with various
-compromise scenarios there in mind.
+Finally, the provided self test ensures that this is working as desired.
 
-There's a more general reason why userspace rolling its own RNG from a
-getrandom() seed is fraught. There's a lot of attention paid to this
-particular Linuxism we have of the RNG being initialized and thus
-non-blocking or uninitialized and thus blocking until it is initialized.
-These are our Two Big States that many hold to be the holy
-differentiating factor between safe and not safe, between
-cryptographically secure and garbage. The fact is, however, that the
-distinction between these two states is a hand-wavy wishy-washy inexact
-approximation. Outside of a few exceptional cases (e.g. a HW RNG is
-available), we actually don't really ever know with any rigor at all
-when the RNG is safe and ready (nor when it's compromised). We do the
-best we can to "estimate" it, but entropy estimation is fundamentally
-impossible in the general case. So really, we're just doing guess work,
-and hoping it's good and conservative enough. Let's then assume that
-there's always some potential error involved in this differentiator.
-
-In fact, under the surface, the RNG is engineered around a different
-principle, and that is trying to *use* new entropic inputs regularly and
-at the right specific moments in time. For example, close to boot time,
-the RNG reseeds itself more often than later. At certain events, like VM
-fork, the RNG reseeds itself immediately. The various heuristics for
-when the RNG will use new entropy and how often is really a core aspect
-of what the RNG has some potential to do decently enough (and something
-that will probably continue to improve in the future from random.c's
-present set of algorithms). So in your mind, put away the metal
-attachment to the Two Big States, which represent an approximation with
-a potential margin of error. Instead keep in mind that the RNG's primary
-operating heuristic is how often and exactly when it's going to reseed.
-
-So, if userspace takes a seed from getrandom() at point T1, and uses it
-for the next hour (or N megabytes or some other meaningless metric),
-during that time, potential errors in the Two Big States approximation
-are amplified. During that time potential reseeds are being lost,
-forgotten, not reflected in the output stream. That's not good.
-
-The simplest statement you could make is that userspace RNGs that expand
-a getrandom() seed at some point T1 are nearly always *worse*, in some
-way, than just calling getrandom() every time a random number is
-desired.
-
-For those reasons, after some discussion on libc-alpha, glibc's
-arc4random() now just calls getrandom() on each invocation. That's
-trivially safe, and gives us latitude to then make the safe thing faster
-without becoming unsafe at our leasure. Card shuffling isn't
-particularly fast, however.
-
-How do we rectify this? By putting a safe implementation of getrandom()
-in the vDSO, which has access to whatever information a
-particular iteration of random.c is using to make its decisions. I use
-that careful language of "particular iteration of random.c", because the
-set of things that a vDSO getrandom() implementation might need for making
-decisions as good as the kernel's will likely change over time. This
-isn't just a matter of exporting certain *data* to userspace. We're not
-going to commit to a "data API" where the various heuristics used are
-exposed, locking in how the kernel works for decades to come, and then
-leave it to various userspaces to roll something on top and shoot
-themselves in the foot and have all sorts of complexity disasters.
-Rather, vDSO getrandom() is supposed to be the *same exact algorithm*
-that runs in the kernel, except it's been hoisted into userspace as
-much as possible. And so vDSO getrandom() and kernel getrandom() will
-always mirror each other hermetically.
-
-API-wise, the vDSO gains this function:
-
-  ssize_t vgetrandom(void *buffer, size_t len, unsigned int flags,
-                     void *opaque_state, size_t opaque_len);
-
-The return value and the first 3 arguments are the same as ordinary
-getrandom(), while the penultimate argument is a pointer to some state
-allocated with the right flags passed to mmap(2), explained below. Were all
-five arguments passed to the getrandom syscall, nothing different would happen,
-and the functions would have the exact same behavior.
-
-If vgetrandom(NULL, 0, 0, &params, ~0UL) is called, then params gets populated
-with information about what flags and prot fields to pass to mmap(2), as well
-as how big each state should be, so that the caller can slice up returned
-memory from mmap(2) into chunks for passing to vgetrandom().
-
-Libc is expected to allocate a chunk of these on first use, and then
-dole them out to threads as they're created, allocating more when
-needed.
-
-The interesting meat of the implementation is in lib/vdso/getrandom.c,
-as generic C code, and it aims to mainly follow random.c's buffered fast
-key erasure logic. Before the RNG is initialized, it falls back to the
-syscall. Right now it uses a simple generation counter to make its decisions
-on reseeding (though this could be made more extensive over time).
-
-The actual place that has the most work to do is in all of the other
-files. Most of the vDSO shared page infrastructure is centered around
-gettimeofday, and so the main structs are all in arrays for different
-timestamp types, and attached to time namespaces, and so forth. I've
-done the best I could to add onto this in an unintrusive way.
-
-In my test results, performance is pretty stellar (around 15x for uint32_t
-generation), and it seems to be working. There's an extended example in the
-last commit of this series, showing how the syscall and the vDSO function
-are meant to be used together.
-
-Cc: linux-crypto@vger.kernel.org
-Cc: linux-api@vger.kernel.org
-Cc: x86@kernel.org
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>
-Cc: Carlos O'Donell <carlos@redhat.com>
-Cc: Florian Weimer <fweimer@redhat.com>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: Jann Horn <jannh@google.com>
-Cc: Christian Brauner <brauner@kernel.org>
-Cc: David Hildenbrand <dhildenb@redhat.com>
-
-Jason A. Donenfeld (4):
-  mm: add MAP_DROPPABLE for designating always lazily freeable mappings
-  random: introduce generic vDSO getrandom() implementation
-  x86: vdso: Wire up getrandom() vDSO implementation
-  selftests/vDSO: add tests for vgetrandom
-
- MAINTAINERS                                   |   4 +
- arch/x86/Kconfig                              |   1 +
- arch/x86/entry/vdso/Makefile                  |   3 +-
- arch/x86/entry/vdso/vdso.lds.S                |   2 +
- arch/x86/entry/vdso/vgetrandom-chacha.S       | 178 +++++++++++
- arch/x86/entry/vdso/vgetrandom.c              |  17 ++
- arch/x86/include/asm/vdso/getrandom.h         |  55 ++++
- arch/x86/include/asm/vdso/vsyscall.h          |   2 +
- arch/x86/include/asm/vvar.h                   |  16 +
- drivers/char/random.c                         |  18 +-
- fs/proc/task_mmu.c                            |   1 +
- include/linux/mm.h                            |   7 +
- include/trace/events/mmflags.h                |   7 +
- include/uapi/linux/mman.h                     |   1 +
- include/uapi/linux/random.h                   |  15 +
- include/vdso/datapage.h                       |  11 +
- include/vdso/getrandom.h                      |  46 +++
- lib/vdso/Kconfig                              |   5 +
- lib/vdso/getrandom.c                          | 251 +++++++++++++++
- mm/madvise.c                                  |   5 +-
- mm/mlock.c                                    |   2 +-
- mm/mmap.c                                     |  30 ++
- mm/rmap.c                                     |  22 +-
- tools/include/asm/rwonce.h                    |   0
- tools/include/uapi/linux/mman.h               |   1 +
- tools/testing/selftests/mm/.gitignore         |   1 +
- tools/testing/selftests/mm/Makefile           |   1 +
- tools/testing/selftests/mm/droppable.c        |  53 ++++
- tools/testing/selftests/vDSO/.gitignore       |   2 +
- tools/testing/selftests/vDSO/Makefile         |  18 ++
- .../testing/selftests/vDSO/vdso_test_chacha.c |  43 +++
- .../selftests/vDSO/vdso_test_getrandom.c      | 288 ++++++++++++++++++
- 32 files changed, 1099 insertions(+), 7 deletions(-)
- create mode 100644 arch/x86/entry/vdso/vgetrandom-chacha.S
- create mode 100644 arch/x86/entry/vdso/vgetrandom.c
- create mode 100644 arch/x86/include/asm/vdso/getrandom.h
- create mode 100644 include/vdso/getrandom.h
- create mode 100644 lib/vdso/getrandom.c
- create mode 100644 tools/include/asm/rwonce.h
+Cc: linux-mm@kvack.org
+Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+---
+ fs/proc/task_mmu.c                     |  1 +
+ include/linux/mm.h                     |  7 ++++
+ include/trace/events/mmflags.h         |  7 ++++
+ include/uapi/linux/mman.h              |  1 +
+ mm/madvise.c                           |  5 ++-
+ mm/mlock.c                             |  2 +-
+ mm/mmap.c                              | 30 +++++++++++++++
+ mm/rmap.c                              | 22 +++++++++--
+ tools/include/uapi/linux/mman.h        |  1 +
+ tools/testing/selftests/mm/.gitignore  |  1 +
+ tools/testing/selftests/mm/Makefile    |  1 +
+ tools/testing/selftests/mm/droppable.c | 53 ++++++++++++++++++++++++++
+ 12 files changed, 126 insertions(+), 5 deletions(-)
  create mode 100644 tools/testing/selftests/mm/droppable.c
- create mode 100644 tools/testing/selftests/vDSO/vdso_test_chacha.c
- create mode 100644 tools/testing/selftests/vDSO/vdso_test_getrandom.c
 
-
-base-commit: 22a40d14b572deb80c0648557f4bd502d7e83826
-prerequisite-patch-id: 9a45c4b77033012b2c2cbbec24fd8b2a7a5daf84
-prerequisite-patch-id: 8b773921433de1e8b9fd5a8f3d6107258c133c2a
-prerequisite-patch-id: afd1b07bd24fe3c93d1fef782ba9064e95d1534c
-prerequisite-patch-id: a5cbcafe6072a173a8f20eac5cc7e545be50ae20
-prerequisite-patch-id: 59640753e9c60e5d23ede9a20ed5c933a47b3f97
+diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+index 71e5039d940d..46f0b0fe9ee3 100644
+--- a/fs/proc/task_mmu.c
++++ b/fs/proc/task_mmu.c
+@@ -708,6 +708,7 @@ static void show_smap_vma_flags(struct seq_file *m, struct vm_area_struct *vma)
+ 		[ilog2(VM_SHADOW_STACK)] = "ss",
+ #endif
+ #ifdef CONFIG_64BIT
++		[ilog2(VM_DROPPABLE)] = "dp",
+ 		[ilog2(VM_SEALED)] = "sl",
+ #endif
+ 	};
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index eb7c96d24ac0..e078c2890bf8 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -406,6 +406,13 @@ extern unsigned int kobjsize(const void *objp);
+ #define VM_ALLOW_ANY_UNCACHED		VM_NONE
+ #endif
+ 
++#ifdef CONFIG_64BIT
++#define VM_DROPPABLE_BIT	40
++#define VM_DROPPABLE		BIT(VM_DROPPABLE_BIT)
++#else
++#define VM_DROPPABLE		VM_NONE
++#endif
++
+ #ifdef CONFIG_64BIT
+ /* VM is sealed, in vm_flags */
+ #define VM_SEALED	_BITUL(63)
+diff --git a/include/trace/events/mmflags.h b/include/trace/events/mmflags.h
+index e46d6e82765e..b63d211bd141 100644
+--- a/include/trace/events/mmflags.h
++++ b/include/trace/events/mmflags.h
+@@ -165,6 +165,12 @@ IF_HAVE_PG_ARCH_X(arch_3)
+ # define IF_HAVE_UFFD_MINOR(flag, name)
+ #endif
+ 
++#ifdef CONFIG_64BIT
++# define IF_HAVE_VM_DROPPABLE(flag, name) {flag, name},
++#else
++# define IF_HAVE_VM_DROPPABLE(flag, name)
++#endif
++
+ #define __def_vmaflag_names						\
+ 	{VM_READ,			"read"		},		\
+ 	{VM_WRITE,			"write"		},		\
+@@ -197,6 +203,7 @@ IF_HAVE_VM_SOFTDIRTY(VM_SOFTDIRTY,	"softdirty"	)		\
+ 	{VM_MIXEDMAP,			"mixedmap"	},		\
+ 	{VM_HUGEPAGE,			"hugepage"	},		\
+ 	{VM_NOHUGEPAGE,			"nohugepage"	},		\
++IF_HAVE_VM_DROPPABLE(VM_DROPPABLE,	"droppable"	)		\
+ 	{VM_MERGEABLE,			"mergeable"	}		\
+ 
+ #define show_vma_flags(flags)						\
+diff --git a/include/uapi/linux/mman.h b/include/uapi/linux/mman.h
+index a246e11988d5..e89d00528f2f 100644
+--- a/include/uapi/linux/mman.h
++++ b/include/uapi/linux/mman.h
+@@ -17,6 +17,7 @@
+ #define MAP_SHARED	0x01		/* Share changes */
+ #define MAP_PRIVATE	0x02		/* Changes are private */
+ #define MAP_SHARED_VALIDATE 0x03	/* share + validate extension flags */
++#define MAP_DROPPABLE	0x08		/* Zero memory under memory pressure. */
+ 
+ /*
+  * Huge page size encoding when MAP_HUGETLB is specified, and a huge page
+diff --git a/mm/madvise.c b/mm/madvise.c
+index a77893462b92..cba5bc652fc4 100644
+--- a/mm/madvise.c
++++ b/mm/madvise.c
+@@ -1068,13 +1068,16 @@ static int madvise_vma_behavior(struct vm_area_struct *vma,
+ 		new_flags |= VM_WIPEONFORK;
+ 		break;
+ 	case MADV_KEEPONFORK:
++		if (vma->vm_flags & VM_DROPPABLE)
++			return -EINVAL;
+ 		new_flags &= ~VM_WIPEONFORK;
+ 		break;
+ 	case MADV_DONTDUMP:
+ 		new_flags |= VM_DONTDUMP;
+ 		break;
+ 	case MADV_DODUMP:
+-		if (!is_vm_hugetlb_page(vma) && new_flags & VM_SPECIAL)
++		if ((!is_vm_hugetlb_page(vma) && new_flags & VM_SPECIAL) ||
++		    (vma->vm_flags & VM_DROPPABLE))
+ 			return -EINVAL;
+ 		new_flags &= ~VM_DONTDUMP;
+ 		break;
+diff --git a/mm/mlock.c b/mm/mlock.c
+index 30b51cdea89d..b87b3d8cc9cc 100644
+--- a/mm/mlock.c
++++ b/mm/mlock.c
+@@ -485,7 +485,7 @@ static int mlock_fixup(struct vma_iterator *vmi, struct vm_area_struct *vma,
+ 
+ 	if (newflags == oldflags || (oldflags & VM_SPECIAL) ||
+ 	    is_vm_hugetlb_page(vma) || vma == get_gate_vma(current->mm) ||
+-	    vma_is_dax(vma) || vma_is_secretmem(vma))
++	    vma_is_dax(vma) || vma_is_secretmem(vma) || (oldflags & VM_DROPPABLE))
+ 		/* don't set VM_LOCKED or VM_LOCKONFAULT and don't count */
+ 		goto out;
+ 
+diff --git a/mm/mmap.c b/mm/mmap.c
+index 83b4682ec85c..8aeedeb784c2 100644
+--- a/mm/mmap.c
++++ b/mm/mmap.c
+@@ -1369,6 +1369,36 @@ unsigned long do_mmap(struct file *file, unsigned long addr,
+ 			pgoff = 0;
+ 			vm_flags |= VM_SHARED | VM_MAYSHARE;
+ 			break;
++		case MAP_DROPPABLE:
++			if (VM_DROPPABLE == VM_NONE)
++				return -ENOTSUPP;
++			/*
++			 * A locked or stack area makes no sense to be droppable.
++			 *
++			 * Also, since droppable pages can just go away at any time
++			 * it makes no sense to copy them on fork or dump them.
++			 *
++			 * And don't attempt to combine with hugetlb for now.
++			 */
++			if (flags & (MAP_LOCKED | MAP_HUGETLB))
++			        return -EINVAL;
++			if (vm_flags & (VM_GROWSDOWN | VM_GROWSUP))
++			        return -EINVAL;
++
++			vm_flags |= VM_DROPPABLE;
++
++			/*
++			 * If the pages can be dropped, then it doesn't make
++			 * sense to reserve them.
++			 */
++			vm_flags |= VM_NORESERVE;
++
++			/*
++			 * Likewise, they're volatile enough that they
++			 * shouldn't survive forks or coredumps.
++			 */
++			vm_flags |= VM_WIPEONFORK | VM_DONTDUMP;
++			fallthrough;
+ 		case MAP_PRIVATE:
+ 			/*
+ 			 * Set pgoff according to addr for anon_vma.
+diff --git a/mm/rmap.c b/mm/rmap.c
+index e8fc5ecb59b2..1f9b5a9cb121 100644
+--- a/mm/rmap.c
++++ b/mm/rmap.c
+@@ -1397,7 +1397,12 @@ void folio_add_new_anon_rmap(struct folio *folio, struct vm_area_struct *vma,
+ 	VM_WARN_ON_FOLIO(folio_test_hugetlb(folio), folio);
+ 	VM_BUG_ON_VMA(address < vma->vm_start ||
+ 			address + (nr << PAGE_SHIFT) > vma->vm_end, vma);
+-	__folio_set_swapbacked(folio);
++	/*
++	 * VM_DROPPABLE mappings don't swap; instead they're just dropped when
++	 * under memory pressure.
++	 */
++	if (!(vma->vm_flags & VM_DROPPABLE))
++		__folio_set_swapbacked(folio);
+ 	__folio_set_anon(folio, vma, address, true);
+ 
+ 	if (likely(!folio_test_large(folio))) {
+@@ -1841,7 +1846,13 @@ static bool try_to_unmap_one(struct folio *folio, struct vm_area_struct *vma,
+ 				 * plus the rmap(s) (dropped by discard:).
+ 				 */
+ 				if (ref_count == 1 + map_count &&
+-				    !folio_test_dirty(folio)) {
++				    (!folio_test_dirty(folio) ||
++				     /*
++				      * Unlike MADV_FREE mappings, VM_DROPPABLE
++				      * ones can be dropped even if they've
++				      * been dirtied.
++				      */
++				     (vma->vm_flags & VM_DROPPABLE))) {
+ 					dec_mm_counter(mm, MM_ANONPAGES);
+ 					goto discard;
+ 				}
+@@ -1851,7 +1862,12 @@ static bool try_to_unmap_one(struct folio *folio, struct vm_area_struct *vma,
+ 				 * discarded. Remap the page to page table.
+ 				 */
+ 				set_pte_at(mm, address, pvmw.pte, pteval);
+-				folio_set_swapbacked(folio);
++				/*
++				 * Unlike MADV_FREE mappings, VM_DROPPABLE ones
++				 * never get swap backed on failure to drop.
++				 */
++				if (!(vma->vm_flags & VM_DROPPABLE))
++					folio_set_swapbacked(folio);
+ 				ret = false;
+ 				page_vma_mapped_walk_done(&pvmw);
+ 				break;
+diff --git a/tools/include/uapi/linux/mman.h b/tools/include/uapi/linux/mman.h
+index a246e11988d5..e89d00528f2f 100644
+--- a/tools/include/uapi/linux/mman.h
++++ b/tools/include/uapi/linux/mman.h
+@@ -17,6 +17,7 @@
+ #define MAP_SHARED	0x01		/* Share changes */
+ #define MAP_PRIVATE	0x02		/* Changes are private */
+ #define MAP_SHARED_VALIDATE 0x03	/* share + validate extension flags */
++#define MAP_DROPPABLE	0x08		/* Zero memory under memory pressure. */
+ 
+ /*
+  * Huge page size encoding when MAP_HUGETLB is specified, and a huge page
+diff --git a/tools/testing/selftests/mm/.gitignore b/tools/testing/selftests/mm/.gitignore
+index 0b9ab987601c..a8beeb43c2b5 100644
+--- a/tools/testing/selftests/mm/.gitignore
++++ b/tools/testing/selftests/mm/.gitignore
+@@ -49,3 +49,4 @@ hugetlb_fault_after_madv
+ hugetlb_madv_vs_map
+ mseal_test
+ seal_elf
++droppable
+diff --git a/tools/testing/selftests/mm/Makefile b/tools/testing/selftests/mm/Makefile
+index 3b49bc3d0a3b..e3e5740e13e1 100644
+--- a/tools/testing/selftests/mm/Makefile
++++ b/tools/testing/selftests/mm/Makefile
+@@ -73,6 +73,7 @@ TEST_GEN_FILES += ksm_functional_tests
+ TEST_GEN_FILES += mdwe_test
+ TEST_GEN_FILES += hugetlb_fault_after_madv
+ TEST_GEN_FILES += hugetlb_madv_vs_map
++TEST_GEN_FILES += droppable
+ 
+ ifneq ($(ARCH),arm64)
+ TEST_GEN_FILES += soft-dirty
+diff --git a/tools/testing/selftests/mm/droppable.c b/tools/testing/selftests/mm/droppable.c
+new file mode 100644
+index 000000000000..f3d9ecf96890
+--- /dev/null
++++ b/tools/testing/selftests/mm/droppable.c
+@@ -0,0 +1,53 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (C) 2024 Jason A. Donenfeld <Jason@zx2c4.com>. All Rights Reserved.
++ */
++
++#include <assert.h>
++#include <stdbool.h>
++#include <stdint.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <unistd.h>
++#include <signal.h>
++#include <sys/mman.h>
++#include <linux/mman.h>
++
++#include "../kselftest.h"
++
++int main(int argc, char *argv[])
++{
++	size_t alloc_size = 134217728;
++	size_t page_size = getpagesize();
++	void *alloc;
++	pid_t child;
++
++	ksft_print_header();
++	ksft_set_plan(1);
++
++	alloc = mmap(0, alloc_size, PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_DROPPABLE, -1, 0);
++	assert(alloc != MAP_FAILED);
++	memset(alloc, 'A', alloc_size);
++	for (size_t i = 0; i < alloc_size; i += page_size)
++		assert(*(uint8_t *)(alloc + i));
++
++	child = fork();
++	assert(child >= 0);
++	if (!child) {
++		for (;;)
++			*(char *)malloc(page_size) = 'B';
++	}
++
++	for (bool done = false; !done;) {
++		for (size_t i = 0; i < alloc_size; i += page_size) {
++			if (!*(uint8_t *)(alloc + i)) {
++				done = true;
++				break;
++			}
++		}
++	}
++	kill(child, SIGTERM);
++
++	ksft_test_result_pass("MAP_DROPPABLE: PASS\n");
++	exit(KSFT_PASS);
++}
 -- 
 2.45.2
 
