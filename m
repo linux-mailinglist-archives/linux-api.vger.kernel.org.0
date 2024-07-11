@@ -1,138 +1,174 @@
-Return-Path: <linux-api+bounces-1928-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1929-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id C268B92DF55
-	for <lists+linux-api@lfdr.de>; Thu, 11 Jul 2024 07:15:10 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3276A92E2DB
+	for <lists+linux-api@lfdr.de>; Thu, 11 Jul 2024 10:58:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 61F9DB21650
-	for <lists+linux-api@lfdr.de>; Thu, 11 Jul 2024 05:15:08 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 563C81C225BC
+	for <lists+linux-api@lfdr.de>; Thu, 11 Jul 2024 08:58:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87CEE5821A;
-	Thu, 11 Jul 2024 05:15:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B9EF15574C;
+	Thu, 11 Jul 2024 08:58:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="LQy8RKob"
+	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="HZzzUjw8"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp-8fa9.mail.infomaniak.ch (smtp-8fa9.mail.infomaniak.ch [83.166.143.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2976F4EB55
-	for <linux-api@vger.kernel.org>; Thu, 11 Jul 2024 05:15:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12E9B1514DC;
+	Thu, 11 Jul 2024 08:57:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.166.143.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720674905; cv=none; b=cpe1Lk4tun7a9LVtecJLbB3HenMC3fP9ZWlhQ4DgTXUgF8cL/QY6zQ1u3NZynr2lKAN7D8sIgK9yQbtsGXIRd7UpcobIvwBrF7EPEKwtgiU9Ad8BzUTqFWa3uaLZBEnf/lJ2s8VDR2S0FSdplQ5tt8NBcj2zxpFJg2MZnxIYzcE=
+	t=1720688281; cv=none; b=RaKPdNG7tKyEPKGf8UW7cvGxH1beC6hFG900F4zi4csF99MhBM5Qkg+0AqtJGr+PM4LT31a9acFEXdCqGsaEesw22l3JJZh6lGW/hTTnsxE0ql5VTawyn1QnQzZTXghp554eX0ix50M931NXDkeoOCiwaJw8nLp0tLmQcIWaoy8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720674905; c=relaxed/simple;
-	bh=nGrmC0u5rsERqyefhRnP7/QKTu/yo7p7qovzWnDCLCk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Hiu646sICUnG1I/rc4r070kkPupBw5+r5UPucC5cXlDv7OTEQ+AZKgsz4SDHTXnIHFlAQM5btXY0D8e1Z3ut8fGZ3cTF/M96ZrGgVE6VvDyGl3APGxnN6TLlzUYD8GanH6zeN6+ggD1ukS06R92CNaaZJF7235z3/X8XJvFALGA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=LQy8RKob; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-52ea79e689eso648728e87.1
-        for <linux-api@vger.kernel.org>; Wed, 10 Jul 2024 22:15:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1720674901; x=1721279701; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=jtRyIrmKJ/IBvDIrDZPP2KUo8CcYvxcVDEjZhvnGRqk=;
-        b=LQy8RKobEGS4wOxjuJjAlLoZrxMw8LRxOYEx75AW+Eu1qd7pdNRjQNtpHNs0pcFz90
-         3wnyFCC+4cabzWRuAhACc5KpME0ZQrA7f/va8MONanxofrKiYbhzGFvvh0PKuledpitB
-         Y+mycBkQLynB/nWSFsOY2lyRVLt3WhB6zBNwc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720674901; x=1721279701;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jtRyIrmKJ/IBvDIrDZPP2KUo8CcYvxcVDEjZhvnGRqk=;
-        b=kTmNZ6mj++6+ah+IaUP8h5RB5CZP1NM+7Jgrdyis0+K2l8fkO9TUgjSJvD8+ydPP90
-         ne+FZpz1vOt+u1DZ7PGXyx7+0EvFOxmrdBfF91GDtGNQuM4KVgbyCb6BbjeA0A2IP8fY
-         bjend9SuPypVF2pKAsOPVdTzdj/Cj4dQK74NII7JVoFuxee2p6Ytx/HtBkb/NC8/ujt+
-         c4QYTND4r5PzjB5rs0tDWxetMNA72VZl8gVdEcb7On7N+JN/ynB4CZjGNVku9h/2vPRP
-         3bSGRl/WK3ZqlxP55VovCFbZnJtZ1IkuJaDOkJr+4QsU2jSVf+bEF6taYVbyQMejQKPp
-         neqA==
-X-Forwarded-Encrypted: i=1; AJvYcCVMQ/fWihoNb6jDlY3Ar9I5WMe3bIgdFlzfqGq/OiYzrUkCqsiaL5QxAPKEeJqolfybCl8XLtV/fDSha5tMeqV+aNJr9GAXEvu5
-X-Gm-Message-State: AOJu0YyPwwehhl6+9zn5ecKE+Y5EvhQLegYYstHrS8OCz4vOrwYyEA0t
-	VNm+lNH3anL4ThP5lF5zTXHyVBRS4/hK4QU9LaTQZoD50ogVEQIZJHYVrzBA+4/BanZIYarnFeh
-	kluE=
-X-Google-Smtp-Source: AGHT+IGKtcrLmV8BX4JSFPcIX9IlcM239v171oco9lKHkpt/J4ckLCf8bp7bBuoPQzpLMToTaz0hZw==
-X-Received: by 2002:a05:6512:1110:b0:52c:d2ab:693a with SMTP id 2adb3069b0e04-52eb99d28c5mr6764126e87.54.1720674901030;
-        Wed, 10 Jul 2024 22:15:01 -0700 (PDT)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com. [209.85.128.44])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a780a7ffa13sm221000366b.129.2024.07.10.22.15.00
-        for <linux-api@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Jul 2024 22:15:00 -0700 (PDT)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4257d5fc9b7so3348475e9.2
-        for <linux-api@vger.kernel.org>; Wed, 10 Jul 2024 22:15:00 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVhN/AMI3gRk4cNhX2t09h0F9R2iJtd3c+mDiIRIiwfmAf8vBqTI8cvgAhWVfxZOABhnP/tZJUgM8gdrQsOZxMawNKBNurcsweu
-X-Received: by 2002:a05:6402:134f:b0:58d:77e0:5c29 with SMTP id
- 4fb4d7f45d1cf-594bb181cb8mr5703709a12.10.1720674440224; Wed, 10 Jul 2024
- 22:07:20 -0700 (PDT)
+	s=arc-20240116; t=1720688281; c=relaxed/simple;
+	bh=5qdlkIUXePdQbQ6tcGsIR0SkqQQqqPEPCuRj3ix32Ls=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qYObQrVw03EsCutOzB5AqLlXB2yXKmxaWEDAL7IngregDUtGH4ozxtTgj5lN2/dlHt0CZrNELbCY1N9PwLwUcpF7x3aSrsBVDs7E5rY1UVaw0ZlZa3klgytGso8Rra1OHMFrU/l/Y4E5MkO6neneU/5VvNnL30K4Z0KmC6T39Fw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=HZzzUjw8; arc=none smtp.client-ip=83.166.143.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
+Received: from smtp-4-0001.mail.infomaniak.ch (smtp-4-0001.mail.infomaniak.ch [10.7.10.108])
+	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4WKTC13dJNz4lx;
+	Thu, 11 Jul 2024 10:57:49 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
+	s=20191114; t=1720688269;
+	bh=GfpDJTHUlFGNz4hRlFHHf6Z/4olbS9aXzyMulHHeow8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HZzzUjw849M7NY6xsNUpYqhsGbFchucvpMppMz14wLhpotEOHN5Qqv4iy+qxGAg3g
+	 O23dQCHUItTr3LNn+Yj323dDXmEdwne3XNbPckHNQKSLuhw9ARFg5zTLN81sZB5ef1
+	 NLyZffTATZvsTENeZcx45tOhK/1XbJIMmD/k1x70=
+Received: from unknown by smtp-4-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4WKTBx4H8FzV1N;
+	Thu, 11 Jul 2024 10:57:45 +0200 (CEST)
+Date: Thu, 11 Jul 2024 10:57:42 +0200
+From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
+To: Kees Cook <kees@kernel.org>
+Cc: Jeff Xu <jeffxu@google.com>, Steve Dower <steve.dower@python.org>, 
+	Al Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Paul Moore <paul@paul-moore.com>, Theodore Ts'o <tytso@mit.edu>, 
+	Alejandro Colomar <alx@kernel.org>, Aleksa Sarai <cyphar@cyphar.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Andy Lutomirski <luto@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Casey Schaufler <casey@schaufler-ca.com>, Christian Heimes <christian@python.org>, 
+	Dmitry Vyukov <dvyukov@google.com>, Eric Biggers <ebiggers@kernel.org>, 
+	Eric Chiang <ericchiang@google.com>, Fan Wu <wufan@linux.microsoft.com>, 
+	Florian Weimer <fweimer@redhat.com>, Geert Uytterhoeven <geert@linux-m68k.org>, 
+	James Morris <jamorris@linux.microsoft.com>, Jan Kara <jack@suse.cz>, Jann Horn <jannh@google.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Jordan R Abrahams <ajordanr@google.com>, 
+	Lakshmi Ramasubramanian <nramas@linux.microsoft.com>, Luca Boccassi <bluca@debian.org>, 
+	Luis Chamberlain <mcgrof@kernel.org>, "Madhavan T . Venkataraman" <madvenka@linux.microsoft.com>, 
+	Matt Bobrowski <mattbobrowski@google.com>, Matthew Garrett <mjg59@srcf.ucam.org>, 
+	Matthew Wilcox <willy@infradead.org>, Miklos Szeredi <mszeredi@redhat.com>, 
+	Mimi Zohar <zohar@linux.ibm.com>, Nicolas Bouchinet <nicolas.bouchinet@ssi.gouv.fr>, 
+	Scott Shell <scottsh@microsoft.com>, Shuah Khan <shuah@kernel.org>, 
+	Stephen Rothwell <sfr@canb.auug.org.au>, Steve Grubb <sgrubb@redhat.com>, 
+	Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>, Vincent Strubel <vincent.strubel@ssi.gouv.fr>, 
+	Xiaoming Ni <nixiaoming@huawei.com>, Yin Fengwei <fengwei.yin@intel.com>, 
+	kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org
+Subject: Re: [RFC PATCH v19 2/5] security: Add new SHOULD_EXEC_CHECK and
+ SHOULD_EXEC_RESTRICT securebits
+Message-ID: <20240711.sequuGhee0th@digikod.net>
+References: <CALmYWFscz5W6xSXD-+dimzbj=TykNJEDa0m5gvBx93N-J+3nKA@mail.gmail.com>
+ <CALmYWFsLUhkU5u1NKH8XWvSxbFKFOEq+A_eqLeDsN29xOEAYgg@mail.gmail.com>
+ <20240708.quoe8aeSaeRi@digikod.net>
+ <CALmYWFuVJiRZgB0ye9eR95dvBOigoOVShgS9i_ESjEre-H5pLA@mail.gmail.com>
+ <ef3281ad-48a5-4316-b433-af285806540d@python.org>
+ <CALmYWFuFE=V7sGp0_K+2Vuk6F0chzhJY88CP1CAE9jtd=rqcoQ@mail.gmail.com>
+ <20240709.aech3geeMoh0@digikod.net>
+ <CALmYWFuOXAiT05Pi2rZ1nUAKDGe9JyTH7fro2EYS1fh3zeGV5Q@mail.gmail.com>
+ <20240710.eiKohpa4Phai@digikod.net>
+ <202407100921.687BE1A6@keescook>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240709130513.98102-1-Jason@zx2c4.com> <20240709130513.98102-2-Jason@zx2c4.com>
- <378f23cb-362e-413a-b221-09a5352e79f2@redhat.com> <9b400450-46bc-41c7-9e89-825993851101@redhat.com>
- <Zo8q7ePlOearG481@zx2c4.com> <Zo9gXAlF-82_EYX1@zx2c4.com> <bf51a483-8725-4222-937f-3d6c66876d34@redhat.com>
-In-Reply-To: <bf51a483-8725-4222-937f-3d6c66876d34@redhat.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Wed, 10 Jul 2024 22:07:03 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wh=vzhiDSNaLJdmjkhLqevB8+rhE49pqh0uBwhsV=1ccQ@mail.gmail.com>
-Message-ID: <CAHk-=wh=vzhiDSNaLJdmjkhLqevB8+rhE49pqh0uBwhsV=1ccQ@mail.gmail.com>
-Subject: Re: [PATCH v22 1/4] mm: add MAP_DROPPABLE for designating always
- lazily freeable mappings
-To: David Hildenbrand <david@redhat.com>
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, linux-kernel@vger.kernel.org, patches@lists.linux.dev, 
-	tglx@linutronix.de, linux-crypto@vger.kernel.org, linux-api@vger.kernel.org, 
-	x86@kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>, "Carlos O'Donell" <carlos@redhat.com>, 
-	Florian Weimer <fweimer@redhat.com>, Arnd Bergmann <arnd@arndb.de>, Jann Horn <jannh@google.com>, 
-	Christian Brauner <brauner@kernel.org>, David Hildenbrand <dhildenb@redhat.com>, linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <202407100921.687BE1A6@keescook>
+X-Infomaniak-Routing: alpha
 
-On Wed, 10 Jul 2024 at 21:46, David Hildenbrand <david@redhat.com> wrote:
->
-> Maybe we can find ways of simply never marking these pages dirty, so we
-> don't have to special-case that code where we don't really have a VMA at
-> hand?
+On Wed, Jul 10, 2024 at 09:26:14AM -0700, Kees Cook wrote:
+> On Wed, Jul 10, 2024 at 11:58:25AM +0200, Mickaël Salaün wrote:
+> > Here is another proposal:
+> > 
+> > We can change a bit the semantic by making it the norm to always check
+> > file executability with AT_CHECK, and using the securebits to restrict
+> > file interpretation and/or command injection (e.g. user supplied shell
+> > commands).  Non-executable checked files can be reported/logged at the
+> > kernel level, with audit, configured by sysadmins.
+> > 
+> > New securebits (feel free to propose better names):
+> > 
+> > - SECBIT_EXEC_RESTRICT_FILE: requires AT_CHECK to pass.
+> 
+> Would you want the enforcement of this bit done by userspace or the
+> kernel?
+> 
+> IIUC, userspace would always perform AT_CHECK regardless of
+> SECBIT_EXEC_RESTRICT_FILE, and then which would happen?
+> 
+> 1) userspace would ignore errors from AT_CHECK when
+>    SECBIT_EXEC_RESTRICT_FILE is unset
 
-That's one option. Jason's patch basically goes "ignore folio dirty
-bit for these pages".
+Yes, that's the idea.
 
-Your suggestion basically says "don't turn folios dirty in the first place".
+> 
+> or
+> 
+> 2) kernel would allow all AT_CHECK when SECBIT_EXEC_RESTRICT_FILE is
+>    unset
+> 
+> I suspect 1 is best and what you intend, given that
+> SECBIT_EXEC_DENY_INTERACTIVE can only be enforced by userspace.
 
-It's mainly the pte_dirty games in mm/vmscan.c that does it
-(walk_pte_range), but also the tear-down in mm/memory.c
-(zap_present_folio_ptes). Possibly others that I didn't think of.
+Indeed. We don't want AT_CHECK's behavior to change according to
+securebits.
 
-Both do have access to the vma, although in the case of
-walk_pte_range() we don't actually pass it down because we haven't
-needed it).
+> 
+> > - SECBIT_EXEC_DENY_INTERACTIVE: deny any command injection via
+> >   command line arguments, environment variables, or configuration files.
+> >   This should be ignored by dynamic linkers.  We could also have an
+> >   allow-list of shells for which this bit is not set, managed by an
+> >   LSM's policy, if the native securebits scoping approach is not enough.
+> > 
+> > Different modes for script interpreters:
+> > 
+> > 1. RESTRICT_FILE=0 DENY_INTERACTIVE=0 (default)
+> >    Always interpret scripts, and allow arbitrary user commands.
+> >    => No threat, everyone and everything is trusted, but we can get
+> >    ahead of potential issues with logs to prepare for a migration to a
+> >    restrictive mode.
+> > 
+> > 2. RESTRICT_FILE=1 DENY_INTERACTIVE=0
+> >    Deny script interpretation if they are not executable, and allow
+> >    arbitrary user commands.
+> >    => Threat: (potential) malicious scripts run by trusted (and not
+> >       fooled) users.  That could protect against unintended script
+> >       executions (e.g. sh /tmp/*.sh).
+> >    ==> Makes sense for (semi-restricted) user sessions.
+> > 
+> > 3. RESTRICT_FILE=1 DENY_INTERACTIVE=1
+> >    Deny script interpretation if they are not executable, and also deny
+> >    any arbitrary user commands.
+> >    => Threat: malicious scripts run by untrusted users.
+> >    ==> Makes sense for system services executing scripts.
+> > 
+> > 4. RESTRICT_FILE=0 DENY_INTERACTIVE=1
+> >    Always interpret scripts, but deny arbitrary user commands.
+> >    => Goal: monitor/measure/assess script content (e.g. with IMA/EVM) in
+> >       a system where the access rights are not (yet) ready.  Arbitrary
+> >       user commands would be much more difficult to monitor.
+> >    ==> First step of restricting system services that should not
+> >        directly pass arbitrary commands to shells.
+> 
+> I like these bits!
 
-There's also page_vma_mkclean_one(), try_to_unmap_one() and
-try_to_migrate_one().  And possibly many others I haven't even thought
-about.
-
-So quite a few places that do that "transfer dirty bit from pte to folio".
-
-The other approach might be to just let all the dirty handling happen
-- make droppable pages have a "page->mapping" (and not be anonymous),
-and have the mapping->a_ops->writepage() just always return success
-immediately.
-
-That might actually be a conceptually simpler model. MAP_DROPPABLE
-becomes a shared mapping that just has a really cheap writeback that
-throws the data away. No need to worry about swap cache or anything
-like that, because that's just for anonymous pages.
-
-I say "conceptually simpler", because right now the patch does depend
-on just using the regular anon page faulting etc code.
-
-                 Linus
+Good! Jeff, Steve, Florian, Matt, others, what do you think?
 
