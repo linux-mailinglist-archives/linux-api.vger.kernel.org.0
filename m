@@ -1,138 +1,120 @@
-Return-Path: <linux-api+bounces-1924-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1925-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CB9892D69B
-	for <lists+linux-api@lfdr.de>; Wed, 10 Jul 2024 18:36:57 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91ACA92DD74
+	for <lists+linux-api@lfdr.de>; Thu, 11 Jul 2024 02:45:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 16D08283939
-	for <lists+linux-api@lfdr.de>; Wed, 10 Jul 2024 16:36:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 484E11F228F7
+	for <lists+linux-api@lfdr.de>; Thu, 11 Jul 2024 00:45:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5682D1991CC;
-	Wed, 10 Jul 2024 16:32:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77DEFD524;
+	Thu, 11 Jul 2024 00:44:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=python.org header.i=@python.org header.b="orCNdDWu"
+	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="I/hoIoKX"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail.python.org (mail.python.org [188.166.95.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74A1C1991BF;
-	Wed, 10 Jul 2024 16:32:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.166.95.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 345E4D50F;
+	Thu, 11 Jul 2024 00:44:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720629168; cv=none; b=QRMCvKT17gnDdQm0lUGoBkK/GAyXiCzxXnAfLtARjMaLFL2q8m191CVQVgRWX+guW6upQ44JJlXWyvPWEnhjs6rcH9tKfSTkbK+Wa+vPsCHPbR0pJ9JZ/wxISKRyDwNe2D0KV/xUCD09vMNdH3LfJbhJKzfWz0cVxRyzgqPca4s=
+	t=1720658678; cv=none; b=s0DVLyncPpkNfY0ZJ+k+FOYwvtxwV+U5DSY5CNb6mrNDo1r9sEpcaW2Z9NdJDboVK+kqJvU4S8ohddnKlNkUH7CCZjWfHTckJ3kvKAYvBVz8oWdHG1MxS6jBu7rqFbfqLqG7PZ0VwHHHCMQzcGivR9BsLi6maau51lohzbfzz2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720629168; c=relaxed/simple;
-	bh=h2ueXzl9+sWF3YmpYxvon1twDz2ALcDQP5/oXQTST5o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZFKPnw1saapKzrck/ekbHq0qrHjwtsFqlXBpDySb/SdRi5n29DCEQIXLtCXYuI8iW7GRjLWx3dew61Bu9J+WCE0E6Ej9FjkHK7CRnJFQaLJcCC6F7uQs9tq6e42B2jZ9s2i2HBU6UMDNyYli58uHm+Zay+Gi8aIVr+V2p5TP4VE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=python.org; spf=pass smtp.mailfrom=python.org; dkim=pass (1024-bit key) header.d=python.org header.i=@python.org header.b=orCNdDWu; arc=none smtp.client-ip=188.166.95.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=python.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=python.org
-Received: from [192.168.1.83] (unknown [2.29.184.121])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.python.org (Postfix) with ESMTPSA id 4WK3LD4nhrznVC3;
-	Wed, 10 Jul 2024 12:32:36 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=python.org; s=200901;
-	t=1720629158; bh=h2ueXzl9+sWF3YmpYxvon1twDz2ALcDQP5/oXQTST5o=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=orCNdDWudCwG90M687meldIOq5/EKuuIheRaXFPgs6pRjZnOQvl0JDohh68MAjUiI
-	 s4xIkd1yVurO4t3vSs1/vto/eK5p0gW0i5Yz0uvn0sdyeMtjkbfXJE5u9zsPFpqDN1
-	 iXEmSBDTMNFhv/jRjzG1bSRS5+61zKFeOr4ihtow=
-Message-ID: <296b11b2-5ff2-488b-ac4c-7945aabd7b3c@python.org>
-Date: Wed, 10 Jul 2024 17:32:36 +0100
+	s=arc-20240116; t=1720658678; c=relaxed/simple;
+	bh=GIZPiUQln2wXE2St0t7kbSMk1OgDtc8MEfd3ocTmFDE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hCQXPYcZlNa8un/L3IzpIRQVZnYj1e/GTSqabnVw8yL/5tKh1q4oPY1zYnnxquAag5430I6Rb8T6UaZ+SEtAi8YHSRfYvCMRmcENoR0sv7ONw6UWC0kljNFxRgbKHJseZmeLtHCHpSXQjzUGwX1SCon8r4DV6c6diGeis12aP+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b=I/hoIoKX; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4082BC32781;
+	Thu, 11 Jul 2024 00:44:36 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="I/hoIoKX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
+	t=1720658674;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kuZ1HiO9Y8r/sLpAoJXiKvAt2rOz6kI6hysFfLehduw=;
+	b=I/hoIoKXpOqAebd3Q6dksAur7IWQreJQrmqOgPBMkC41LbV+Gs3qlm8HJ0RI+AFTxwd953
+	viC6VBVudlnaoF2hIZUN2etOR/EiC0Xh3yyaw7xLtvuCCWqidFzW3T36Y5ndCbsFbEXgTF
+	tv3YxeXL9aOyryZYPrRJhqe4InMV1jc=
+Received: 
+	by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 78ba0ae2 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Thu, 11 Jul 2024 00:44:33 +0000 (UTC)
+Date: Thu, 11 Jul 2024 02:44:29 +0200
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+	tglx@linutronix.de, linux-crypto@vger.kernel.org,
+	linux-api@vger.kernel.org, x86@kernel.org,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
+	Carlos O'Donell <carlos@redhat.com>,
+	Florian Weimer <fweimer@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
+	Jann Horn <jannh@google.com>,
+	Christian Brauner <brauner@kernel.org>,
+	David Hildenbrand <dhildenb@redhat.com>, linux-mm@kvack.org
+Subject: Re: [PATCH v22 1/4] mm: add MAP_DROPPABLE for designating always
+ lazily freeable mappings
+Message-ID: <Zo8q7ePlOearG481@zx2c4.com>
+References: <20240709130513.98102-1-Jason@zx2c4.com>
+ <20240709130513.98102-2-Jason@zx2c4.com>
+ <378f23cb-362e-413a-b221-09a5352e79f2@redhat.com>
+ <9b400450-46bc-41c7-9e89-825993851101@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v19 2/5] security: Add new SHOULD_EXEC_CHECK and
- SHOULD_EXEC_RESTRICT securebits
-Content-Language: en-GB
-To: =?UTF-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>,
- Jeff Xu <jeffxu@google.com>
-Cc: Al Viro <viro@zeniv.linux.org.uk>, Christian Brauner
- <brauner@kernel.org>, Kees Cook <keescook@chromium.org>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Paul Moore <paul@paul-moore.com>, Theodore Ts'o <tytso@mit.edu>,
- Alejandro Colomar <alx@kernel.org>, Aleksa Sarai <cyphar@cyphar.com>,
- Andrew Morton <akpm@linux-foundation.org>, Andy Lutomirski
- <luto@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Casey Schaufler <casey@schaufler-ca.com>,
- Christian Heimes <christian@python.org>, Dmitry Vyukov <dvyukov@google.com>,
- Eric Biggers <ebiggers@kernel.org>, Eric Chiang <ericchiang@google.com>,
- Fan Wu <wufan@linux.microsoft.com>, Florian Weimer <fweimer@redhat.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- James Morris <jamorris@linux.microsoft.com>, Jan Kara <jack@suse.cz>,
- Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
- Jordan R Abrahams <ajordanr@google.com>,
- Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
- Luca Boccassi <bluca@debian.org>, Luis Chamberlain <mcgrof@kernel.org>,
- "Madhavan T . Venkataraman" <madvenka@linux.microsoft.com>,
- Matt Bobrowski <mattbobrowski@google.com>,
- Matthew Garrett <mjg59@srcf.ucam.org>, Matthew Wilcox <willy@infradead.org>,
- Miklos Szeredi <mszeredi@redhat.com>, Mimi Zohar <zohar@linux.ibm.com>,
- Nicolas Bouchinet <nicolas.bouchinet@ssi.gouv.fr>,
- Scott Shell <scottsh@microsoft.com>, Shuah Khan <shuah@kernel.org>,
- Stephen Rothwell <sfr@canb.auug.org.au>, Steve Grubb <sgrubb@redhat.com>,
- Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>,
- Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
- Xiaoming Ni <nixiaoming@huawei.com>, Yin Fengwei <fengwei.yin@intel.com>,
- kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org
-References: <20240704190137.696169-1-mic@digikod.net>
- <20240704190137.696169-3-mic@digikod.net>
- <CALmYWFscz5W6xSXD-+dimzbj=TykNJEDa0m5gvBx93N-J+3nKA@mail.gmail.com>
- <CALmYWFsLUhkU5u1NKH8XWvSxbFKFOEq+A_eqLeDsN29xOEAYgg@mail.gmail.com>
- <20240708.quoe8aeSaeRi@digikod.net>
- <CALmYWFuVJiRZgB0ye9eR95dvBOigoOVShgS9i_ESjEre-H5pLA@mail.gmail.com>
- <ef3281ad-48a5-4316-b433-af285806540d@python.org>
- <CALmYWFuFE=V7sGp0_K+2Vuk6F0chzhJY88CP1CAE9jtd=rqcoQ@mail.gmail.com>
- <20240709.aech3geeMoh0@digikod.net>
- <CALmYWFuOXAiT05Pi2rZ1nUAKDGe9JyTH7fro2EYS1fh3zeGV5Q@mail.gmail.com>
- <20240710.eiKohpa4Phai@digikod.net>
-From: Steve Dower <steve.dower@python.org>
-In-Reply-To: <20240710.eiKohpa4Phai@digikod.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <9b400450-46bc-41c7-9e89-825993851101@redhat.com>
 
-On 10/07/2024 10:58, Mickaël Salaün wrote:
-> On Tue, Jul 09, 2024 at 02:57:43PM -0700, Jeff Xu wrote:
->>> Hmm, I'm not sure this "CHECK=0, RESTRICT=1" configuration would make
->>> sense for a dynamic linker except maybe if we want to only allow static
->>> binaries?
->>>
->>> The CHECK and RESTRICT securebits are designed to make it possible a
->>> "permissive mode" and an enforcement mode with the related locked
->>> securebits.  This is why this "CHECK=0, RESTRICT=1" combination looks a
->>> bit weird.  We can replace these securebits with others but I didn't
->>> find a better (and simple) option.  I don't think this is an issue
->>> because with any security policy we can create unusable combinations.
->>> The three other combinations makes a lot of sense though.
->>>
->> If we need only handle 3  combinations,  I would think something like
->> below is easier to understand, and don't have wield state like
->> CHECK=0, RESTRICT=1
+Hi David,
+
+On Wed, Jul 10, 2024 at 06:05:34AM +0200, David Hildenbrand wrote:
+> BTW, do we have to handle the folio_set_swapbacked() in sort_folio() as well?
 > 
-> The "CHECK=0, RESTRICT=1" is useful for script interpreter instances
-> that should not interpret any command from users e.g., but only execute
-> script files.
+> 
+> 	/* dirty lazyfree */
+> 	if (type == LRU_GEN_FILE && folio_test_anon(folio) && folio_test_dirty(folio)) {
+> 		success = lru_gen_del_folio(lruvec, folio, true);
+> 		VM_WARN_ON_ONCE_FOLIO(!success, folio);
+> 		folio_set_swapbacked(folio);
+> 		lruvec_add_folio_tail(lruvec, folio);
+> 		return true;
+> 	}
+> 
+> Maybe more difficult because we don't have a VMA here ... hmm
+> 
+> IIUC, we have to make sure that no folio_set_swapbacked() would ever get
+> performed on these folios, correct?
 
-I see this case as being most relevant to something that doesn't usually 
-need any custom scripts, but may have it. For example, macros in a 
-document, or pre/post-install scripts for a package manager.
+Hmmm, I'm trying to figure out what to do here, and if we have to do
+something. All three conditions in that if statement will be true for a
+folio in a droppable mapping. That's supposed to match MADV_FREE
+mappings.
 
-For something whose sole purpose is to execute scripts, it doesn't make 
-much sense. But there are other cases that can be reasonably controlled 
-with this option.
+What is the context of this, though? It's scanning pages for good ones
+to evict into swap, right? So if it encounters one that's an MADV_FREE
+page, it actually just wants to delete it, rather than sending it to
+swap. So it looks like it does just that, and then sets the swapbacked
+bit back to true, in case the folio is used for something differnet
+later?
 
-Cheers,
-Steve
+If that's correct, then I don't think we need to do anything for this
+one.
+
+If that's not correct, then we'll need to propagate the droppableness
+to the folio level. But hopefully we don't need to do that.
+
+What's your analysis of this like?
+
+Jason
 
