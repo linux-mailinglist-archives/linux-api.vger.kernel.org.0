@@ -1,81 +1,81 @@
-Return-Path: <linux-api+bounces-1941-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1942-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3EAE92EF3A
-	for <lists+linux-api@lfdr.de>; Thu, 11 Jul 2024 20:56:36 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D4A292EF50
+	for <lists+linux-api@lfdr.de>; Thu, 11 Jul 2024 21:08:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1A1FFB20BDE
-	for <lists+linux-api@lfdr.de>; Thu, 11 Jul 2024 18:56:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8CE3E1F21E97
+	for <lists+linux-api@lfdr.de>; Thu, 11 Jul 2024 19:08:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FDDF16E878;
-	Thu, 11 Jul 2024 18:56:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B1D616E894;
+	Thu, 11 Jul 2024 19:08:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Sjl+/RW7"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="D1C/t0+5"
 X-Original-To: linux-api@vger.kernel.org
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0077716DEAE
-	for <linux-api@vger.kernel.org>; Thu, 11 Jul 2024 18:56:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F01F7288B5
+	for <linux-api@vger.kernel.org>; Thu, 11 Jul 2024 19:08:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720724189; cv=none; b=AW7/inCEVWPwdLA0HZ6X9M/lxlQDbbkY8sjTuHcvn4Rp19QKedIjn/0qrVYNlr2WChFHXuFQL4P6IyIMObbu3fyVRhu3H566Inr2iL9d/zJC1r7V+742hqmHdGz6MAzaAdyPK41BGitykJt5X2LJNf7OW3XTzS5GE2GjY9xUGGM=
+	t=1720724885; cv=none; b=JVeOJNKJrwacfgxTv7JqGZUm99U6iZowji46cgnrbMji3LHe0n/uEtBSy+ZM38uM24oo1XCJjN6BwcD5kPx6GcPyObWG87PYUbpX+yOFqiP2aeQ05Gkt1/5Ckrqf+JdQ3eevjoSe6ERoUbHN6qvyiiVyZRqs2vxKtvIWAJuK31I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720724189; c=relaxed/simple;
-	bh=BvzN/zrI1Lg3aYVeeaVXdZJS1wjmXQPsNWjPosdonw8=;
+	s=arc-20240116; t=1720724885; c=relaxed/simple;
+	bh=6kogFYB4OR6TKsjTDplZW+tTdaQ1xknBPxEFwwPmg10=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=K+sZGiHMNTOCA4VNJRaypVeJUrm4keMSc240eBr/NCdy+jsa/p+cGcb+mSo7sKLDsCmtXI28hJdl6pFoAFcqzHsek/c6WLHvgJyUSlkPtQd4JcwFvn9K7Cbk4OMUWDQEail7WRLfVYhAPXH1tdB1SMUmg1k0L3XCfkfe20hc7ts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Sjl+/RW7; arc=none smtp.client-ip=170.10.133.124
+	 In-Reply-To:Content-Type; b=IUxSLzzLtsn+pY+JOwsB77ucFsKb5htRHxNUCcfa/Lkcg1QPgfxDGNn5dGE220jvIlX+i4uNGeS9xTy+Rs3Tji8GCBZ72tnYm0zGda+NZ3uBHYPmfhQ1/GU4I1OMOniVf0GfW8xqAzWiw9YLqB26duhq1N+UyT4xd2JD+P8Z8t8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=D1C/t0+5; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1720724187;
+	s=mimecast20190719; t=1720724882;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=8h7F4MlqrWHgk+nNfd6Cl6q2WvAakceBMWnBSEiYFJk=;
-	b=Sjl+/RW7yl96FM7AlXAl01wUmIOWkXeRPTNP+zei/FirWR20DUNsqZEJCAdWxPtsqbxlZz
-	LS5sUqPjfZlrKooRbc3/7yX2i8PaDp+cXFiA9cl3jiVRC7tExQzMzHDmnMsRICTNWuXCNU
-	4luHl3ABUI/McS+v+N4kXhH2Rhee+xc=
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=gN118Bf0dMZbC4SSR++jWEtpRjXul+fiQ4mzACL/3FA=;
+	b=D1C/t0+5vgM8HYqxhgogenejcITVejFIh8mGcKuXqVkm/aSbQZTpVXqpe8xE26aG/imYI2
+	+qwatApUyK12NWEXnP5DJl9yO6RZm4JrNpGUVtbsykbawy7gOemTlIv/fW+t66ZlDc6w3O
+	W7y+MGk1/4Kk3SoCdmcgr2yJzOdxxkI=
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
+ [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-694-pCW68TYVNt2zOKvuGZHssQ-1; Thu, 11 Jul 2024 14:56:24 -0400
-X-MC-Unique: pCW68TYVNt2zOKvuGZHssQ-1
-Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-2c974ec599cso901307a91.1
-        for <linux-api@vger.kernel.org>; Thu, 11 Jul 2024 11:56:24 -0700 (PDT)
+ us-mta-438-f2bApqJdNxCvSp2qmDRgLw-1; Thu, 11 Jul 2024 15:08:01 -0400
+X-MC-Unique: f2bApqJdNxCvSp2qmDRgLw-1
+Received: by mail-pf1-f197.google.com with SMTP id d2e1a72fcca58-70af6961edfso1027405b3a.1
+        for <linux-api@vger.kernel.org>; Thu, 11 Jul 2024 12:08:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720724183; x=1721328983;
+        d=1e100.net; s=20230601; t=1720724880; x=1721329680;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
          :content-language:from:references:cc:to:subject:user-agent
          :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=8h7F4MlqrWHgk+nNfd6Cl6q2WvAakceBMWnBSEiYFJk=;
-        b=t5vY60dAeHKFTvAaWxXzMiO6ae30kLu++1XLv/2SasulcqavC6PiM4PTO69RK9dRCk
-         m+xojEfa/wByfKprRZpVuZcVU6rVCVnUhNavZTWuFDi9s93xHbcMQRl3ESU6jAhsCD61
-         gipgEtb7Oy4jXxQkXcSdDPG3j52B8MotrWFApYcRZwa8II9hBdxSdKYBc8WYm5780vdP
-         TQ5oB4hLNP0kmCxaaR06uTyxC5jYsrUP3oeZnL9mnj1ajcVN8K1Bl0UXzGLnQf0lwak8
-         oNb1HgmOft44fmTkpTAQ9xfSwG2Ra9HVFlDznkApuCpmcjGHAO1nKgOrrdrCEPsFuw/8
-         AGdw==
-X-Forwarded-Encrypted: i=1; AJvYcCXoMFsceDuv1AKPnuYLpirWaLz7ppbzeSDIvi49xX5o4u0w/lecznLHEqLwUzRWr75Q5mQFqMzMHcCxoAalGQeeIlpafXoAniYw
-X-Gm-Message-State: AOJu0YzRH8jSxkrUUQR+MCdLog3RLd7BJXkH78TLlQ4fK89Rkmj4N5aU
-	kwFtiR2SIwndSjM1/dPYejiZcSZBu3pyGjguUFy/UtvYxea+xXURsqm0E4ikCVBqw6jb8yTLi8n
-	rNjQh2ZBfldNRcqDoKfQ263OQJmr3Lq0Rqg8EfZNfGNC9bCulpbPtLMRTnQ==
-X-Received: by 2002:a17:90a:e648:b0:2c8:f3b5:7dd1 with SMTP id 98e67ed59e1d1-2cac6e3ede4mr664297a91.16.1720724183524;
-        Thu, 11 Jul 2024 11:56:23 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGCeGooxyB497nu/OI0/YZImP0In9UtmI/QnPSNNDvRuaucq4SMLS65EYW8tw2xfvfuPAj8dQ==
-X-Received: by 2002:a17:90a:e648:b0:2c8:f3b5:7dd1 with SMTP id 98e67ed59e1d1-2cac6e3ede4mr664261a91.16.1720724183031;
-        Thu, 11 Jul 2024 11:56:23 -0700 (PDT)
-Received: from [10.35.209.243] ([208.115.86.77])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2c99a950c37sm14149003a91.13.2024.07.11.11.56.21
+        bh=gN118Bf0dMZbC4SSR++jWEtpRjXul+fiQ4mzACL/3FA=;
+        b=AFAaWlu3rjRENhubidcaKXGktCyafyCZZrs7sgyuTeO/R9fgzOzJ7qOJQgtnzacGT5
+         yGbXuI0Rs/6VfU4ut0UyzfpeAr73HucZFnyhAFg2cCYv6vrMz2+0+ll9CjufU3eaEEWI
+         JcAMQqfPajELDJrsq38roEtDsGRRoMmyJJAfLwir7aguAbnQSM3KkLspXHh9Mi7UncM3
+         1PFoSSPNhsLAeYpBck5UXKubZgKjxzCvQq3vcKfdZzgi+hgweLgoetQ2o5wbJ5xJDlLD
+         46D5Y0Wni0igy9AEESAezpezaIizEekBEtLFhD0OpYaTpqKi/VooiTfG5RCztlXT3Raw
+         W7ZQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUtFkFJKM0sLWQDUVAX8dbtFqccrPmuSXSqHKEmNr74Yi/7wZB1k9S1tcHyulbITFzgU0gDw90vs/GpWgfW/JHP7i/q9Mv8iBRU
+X-Gm-Message-State: AOJu0YwTI7nhNyepZuI+4l3Z6lajGv9YPFj975B6hpVCnaQhCKPjN+2A
+	duhRxZv3zY6+Sy5JuI96WD5HuvujA8gLbeoydR5Gk8KJTwiZCsKGD4J3et2PQWUPEv37zVq8Cuj
+	W73u+ck756o6L5RjtNm6qsQgE19wJSVO1Zx7scN9K/CXDRu+kU3SfgfxDyA==
+X-Received: by 2002:a05:6a00:1c9a:b0:70a:ffc2:ab with SMTP id d2e1a72fcca58-70b4364ff01mr9404099b3a.26.1720724880281;
+        Thu, 11 Jul 2024 12:08:00 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEHjeNGhXBJQW4LrMH9bg1VvNK4tctYuPaCd5OYA1ndZsyAlmuQ3OEsDQ9sB1zzDupJjW1PUQ==
+X-Received: by 2002:a05:6a00:1c9a:b0:70a:ffc2:ab with SMTP id d2e1a72fcca58-70b4364ff01mr9404072b3a.26.1720724879837;
+        Thu, 11 Jul 2024 12:07:59 -0700 (PDT)
+Received: from [10.35.209.243] ([208.115.86.72])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70b4398002bsm6224007b3a.148.2024.07.11.12.07.58
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Jul 2024 11:56:22 -0700 (PDT)
-Message-ID: <443146f4-9db8-4a19-91f1-b6822fad8ce8@redhat.com>
-Date: Thu, 11 Jul 2024 20:56:21 +0200
+        Thu, 11 Jul 2024 12:07:59 -0700 (PDT)
+Message-ID: <37da7835-0d76-463e-b074-455e405b138b@redhat.com>
+Date: Thu, 11 Jul 2024 21:07:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -85,25 +85,25 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v22 1/4] mm: add MAP_DROPPABLE for designating always
  lazily freeable mappings
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- linux-kernel@vger.kernel.org, patches@lists.linux.dev, tglx@linutronix.de,
- linux-crypto@vger.kernel.org, linux-api@vger.kernel.org, x86@kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc: linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+ tglx@linutronix.de, linux-crypto@vger.kernel.org, linux-api@vger.kernel.org,
+ x86@kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
  Carlos O'Donell <carlos@redhat.com>, Florian Weimer <fweimer@redhat.com>,
  Arnd Bergmann <arnd@arndb.de>, Jann Horn <jannh@google.com>,
  Christian Brauner <brauner@kernel.org>,
  David Hildenbrand <dhildenb@redhat.com>, linux-mm@kvack.org
-References: <bf51a483-8725-4222-937f-3d6c66876d34@redhat.com>
+References: <20240709130513.98102-1-Jason@zx2c4.com>
+ <20240709130513.98102-2-Jason@zx2c4.com>
+ <378f23cb-362e-413a-b221-09a5352e79f2@redhat.com>
+ <9b400450-46bc-41c7-9e89-825993851101@redhat.com>
+ <Zo8q7ePlOearG481@zx2c4.com> <Zo9gXAlF-82_EYX1@zx2c4.com>
+ <bf51a483-8725-4222-937f-3d6c66876d34@redhat.com>
  <CAHk-=wh=vzhiDSNaLJdmjkhLqevB8+rhE49pqh0uBwhsV=1ccQ@mail.gmail.com>
- <ZpAR0CgLc28gEkV3@zx2c4.com> <ZpATx21F_01SBRnO@zx2c4.com>
- <98798483-dfcd-451e-94bb-57d830bf68d8@redhat.com>
- <54b6de32-f127-4928-9f4a-acb8653e5c81@redhat.com>
- <ZpAcWvij59AzUD9u@zx2c4.com> <ZpAc118_U7p3u2gZ@zx2c4.com>
- <ZpAfigBHfHdVeyNO@zx2c4.com>
- <8586b19c-2e14-4164-888f-8c3b86f3f963@redhat.com>
- <ZpAqbh3TnB9hIRRh@zx2c4.com>
+ <ZpAR0CgLc28gEkV3@zx2c4.com>
+ <CAHk-=whGE_w46zVk=7S0zOcWv4Dp3EYtuJtzU92ab3pSnnmpHw@mail.gmail.com>
 From: David Hildenbrand <david@redhat.com>
 Content-Language: en-US
 Autocrypt: addr=david@redhat.com; keydata=
@@ -151,35 +151,90 @@ Autocrypt: addr=david@redhat.com; keydata=
  jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
  WNyWQQ==
 Organization: Red Hat
-In-Reply-To: <ZpAqbh3TnB9hIRRh@zx2c4.com>
+In-Reply-To: <CAHk-=whGE_w46zVk=7S0zOcWv4Dp3EYtuJtzU92ab3pSnnmpHw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 11.07.24 20:54, Jason A. Donenfeld wrote:
-> On Thu, Jul 11, 2024 at 08:24:07PM +0200, David Hildenbrand wrote:
->>> And PG_large_rmappable seems to only be used for hugetlb branches.
+On 11.07.24 19:57, Linus Torvalds wrote:
+> On Thu, 11 Jul 2024 at 10:09, Jason A. Donenfeld <Jason@zx2c4.com> wrote:
 >>
->> It should be set for THP/large folios.
+>> When I was working on this patchset this year with the syscall, this is
+>> similar somewhat to the initial approach I was taking with setting up a
+>> special mapping. It turned into kind of a mess and I couldn't get it
+>> working. There's a lot of functionality built around anonymous pages
+>> that would need to be duplicated (I think?).
 > 
-> And it's tested too, apparently.
+> Yeah, I was kind of assuming that. You'd need to handle VM_DROPPABLE
+> in the fault path specially, the way we currently split up based on
+> vma_is_anonymous(), eg
 > 
-> Okay, well, how disappointing is this below? Because I'm running out of
-> tricks for flag reuse.
+>          if (vma_is_anonymous(vmf->vma))
+>                  return do_anonymous_page(vmf);
+>          else
+>                  return do_fault(vmf);
 > 
-> diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
-> index b9e914e1face..c1ea49a7f198 100644
-> --- a/include/linux/page-flags.h
-> +++ b/include/linux/page-flags.h
-> @@ -110,6 +110,7 @@ enum pageflags {
->   	PG_workingset,
->   	PG_error,
->   	PG_owner_priv_1,	/* Owner use. If pagecache, fs may use*/
-> +	PG_owner_priv_2,
+> in do_pte_missing() etc.
+> 
+> I don't actually think it would be too hard, but it's a more
+> "conceptual" change, and it's probably not worth it.
+> 
+>> Alright, an hour later of fiddling, and it doesn't actually work (yet?)
+>> -- the selftest fails. A diff follows below.
+> 
+> May I suggest a slightly different approach: do what we did for "pte_mkwrite()".
+> 
+> It needed the vma too, for not too dissimilar reasons: special dirty
+> bit handling for the shadow stack. See
+> 
+>    bb3aadf7d446 ("x86/mm: Start actually marking _PAGE_SAVED_DIRTY")
+>    b497e52ddb2a ("x86/mm: Teach pte_mkwrite() about stack memory")
+> 
+> and now we have "pte_mkwrite_novma()" with the old semantics for the
+> legacy cases that didn't get converted - whether it's because the
+> architecture doesn't have the issue, or because it's a kernel pte.
+> 
+> And the conversion was actually quite pain-free, because we have
+> 
+>    #ifndef pte_mkwrite
+>    static inline pte_t pte_mkwrite(pte_t pte, struct vm_area_struct *vma)
+>    {
+>          return pte_mkwrite_novma(pte);
+>    }
+>    #endif
+> 
+> so all any architecture that didn't want this needed to do was to
+> rename their pte_mkwrite() to pte_mkwrite_novma() and they were done.
+> In fact, that was done first as basically semantically no-op patches:
+> 
+>     2f0584f3f4bd ("mm: Rename arch pte_mkwrite()'s to pte_mkwrite_novma()")
+>     6ecc21bb432d ("mm: Move pte/pmd_mkwrite() callers with no VMA to _novma()")
+>     161e393c0f63 ("mm: Make pte_mkwrite() take a VMA")
+> 
+> which made this all very pain-free (and was largely a sed script, I think).
+> 
+>> -                   !pte_dirty(pte) && !PageDirty(page))
+>> +                   !pte_dirty(pte) && !PageDirty(page) &&
+>> +                   !(vma->vm_flags & VM_DROPPABLE))
+> 
+> So instead of this kind of thing, we'd have
+> 
+>> -                   !pte_dirty(pte) && !PageDirty(page))
+>> +                   !pte_dirty(pte, vma) && !PageDirty(page) &&
+> 
+> and the advantage here is that you can't miss anybody by mistake. The
+> compiler will be very unhappy if you don't pass in the vma, and then
+> any places that would be converted to "pte_dirty_novma()"
+> 
+> We don't actually have all that many users of pte_dirty(), so it
+> doesn't look too nasty. And if we make the pte_dirty() semantics
+> depend on the vma, I really think we should do it the same way we did
+> pte_mkwrite().
 
-Oh no, no new page flags please :)
+We also have these folio_mark_dirty() calls, for example in 
+unpin_user_pages_dirty_lock(). Hm ... so preventing the folio from 
+getting dirtied is likely shaky.
 
-Maybe just follow what Linux suggested: pass vma to pte_dirty() and 
-always return false for these special VMAs.
+I guess we need a way to just reliably identify these folios :/.
 
 -- 
 Cheers,
