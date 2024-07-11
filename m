@@ -1,81 +1,81 @@
-Return-Path: <linux-api+bounces-1954-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1955-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29AD392F08D
-	for <lists+linux-api@lfdr.de>; Thu, 11 Jul 2024 22:59:23 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EC8C92F08F
+	for <lists+linux-api@lfdr.de>; Thu, 11 Jul 2024 22:59:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4DB7B1C22838
-	for <lists+linux-api@lfdr.de>; Thu, 11 Jul 2024 20:59:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0482F284084
+	for <lists+linux-api@lfdr.de>; Thu, 11 Jul 2024 20:59:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8DE1B19EEC5;
-	Thu, 11 Jul 2024 20:59:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BDD019EEC4;
+	Thu, 11 Jul 2024 20:59:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XmrH8rrW"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CiebzYfJ"
 X-Original-To: linux-api@vger.kernel.org
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BBC919EEB8
-	for <linux-api@vger.kernel.org>; Thu, 11 Jul 2024 20:59:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2F4916E894
+	for <linux-api@vger.kernel.org>; Thu, 11 Jul 2024 20:59:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720731554; cv=none; b=bVCB0/Db0cpiXxZ7Baau0eGwNj1fzjfUWMou+wkhRgVaeoVJKsLJUNFO+OQDbIuKgHPzgmNSUZAJzF9mPxlhcRw97clC9etBRiZ24T+h54MUMrM8vQ53yrf8e1g4TPaQXNuvG72f6WZ/cRagMyCvgfJfGNBPZiIUfaxT0gbvy6Y=
+	t=1720731565; cv=none; b=ROcW2xGr8EKh13R1kc3mp1qdEi7b50vfJONL0ovHno3O1pQHpIFIxy3zjiV+C0WRMv1+Q20TA4yJ6S5OoG+/VbS0FC+ITAA7YsR4MLKJd0iMkWZQcdzCXWPK+4PQotlLqR1+8t1zQfFtQHMDcFhuTLpZfNABNNYfiQSfJE2N/Xo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720731554; c=relaxed/simple;
-	bh=YGCy8/XzgD9q9tYGn9G38Ra+VL//ENX4T5zehGmjrgw=;
+	s=arc-20240116; t=1720731565; c=relaxed/simple;
+	bh=QQsgAsDAjlmdZlcOkXsBLSszukt65MSwcRGa9RewC/I=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=I+Zi2/4d8pmuAZHA2vwSfpyVczhOTI/llvi7C1R206qe0IYieSQ1gwcUcffn/Jsp+okTIKDk7KB86Z1VEwfWLj99fJtGL6uv5qcYRnF/5tArPqY4Fc5Qmom6S9eWTAkV21myDqyMncIWmNWI+1+1OZ/UmIzQza/yxcK44HdAyQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XmrH8rrW; arc=none smtp.client-ip=170.10.133.124
+	 In-Reply-To:Content-Type; b=B2Bkz+w+bfmQL0xWqDj1Gwqj8ollj5qb+OyVgHbQdpfmFer4au0ZfdNJjdG8QYIM6HHgIwUPofX/wxAf2SEGCaOiM8PqKgIegRaKtIqApr2oEVwl0JnpJzkato0L9r50+mnpyoUCBi362iH3T+M6CjY6+OLpP6xpQVw3SOpL6cw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=CiebzYfJ; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1720731551;
+	s=mimecast20190719; t=1720731562;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=zXifGiy9cirPgt179LI62P9UXVyjpkXbhG8GKQeCghw=;
-	b=XmrH8rrW8mw6Z3+TkYO7i1UbXeUpfSiQipKzZH7d1PA5BnXMGREBpEdv8Nhrwvicmq3VBG
-	EFQEdQ9Yrj+voGGbyhgNXyalikW56SWzJDhCvM7iTCbNxMDEVRnefh5juKE6/2FO7uishx
-	RByMyqTF3J+CDKs/WSN1Vebz+FG4SKo=
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
- [209.85.214.197]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=LZQ+a9DmpNAaUKr5Arm0el2gXwdPADPIa0ljBv25PlY=;
+	b=CiebzYfJzn4VfbHCGrsTCeHZjdZKEo9M/2xLBsL8G5gOKYeMgQ4CAGHrPV5QTyk+Op05M8
+	u/KudJi6AOd1w3bqccjKycaNudLqQ/6RMFa0pROaL/HbVd1OvBwcttg4c6L2IetOlN4NBG
+	ehZdiXbq8GB1HEKfzEEYmGX0AyPW17g=
+Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com
+ [209.85.210.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-632-IILktD4qNue2EVDTxI-_Ag-1; Thu, 11 Jul 2024 16:59:09 -0400
-X-MC-Unique: IILktD4qNue2EVDTxI-_Ag-1
-Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-1fb168d630cso8759915ad.0
-        for <linux-api@vger.kernel.org>; Thu, 11 Jul 2024 13:59:09 -0700 (PDT)
+ us-mta-400-VbejUEYtMNWlyzePyBsOYw-1; Thu, 11 Jul 2024 16:59:21 -0400
+X-MC-Unique: VbejUEYtMNWlyzePyBsOYw-1
+Received: by mail-ot1-f69.google.com with SMTP id 46e09a7af769-703775b7dbeso1279518a34.1
+        for <linux-api@vger.kernel.org>; Thu, 11 Jul 2024 13:59:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720731549; x=1721336349;
+        d=1e100.net; s=20230601; t=1720731560; x=1721336360;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
          :content-language:from:references:cc:to:subject:user-agent
          :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=zXifGiy9cirPgt179LI62P9UXVyjpkXbhG8GKQeCghw=;
-        b=Jtrn6bntYkEtxfyeat8VpqkzCRdAEPU+7uVNS80L3Vg1MSYoAILumR7X4Ml7Hb1fsM
-         OISFIdbfMjm04V9TLtN9tZJfELU5becC3FxrOhQDLuFQCqR0ZvYSyb2LeYrEcg2xv5Kh
-         o6tLfZ/bpD7BLOwgsyCSOl9hK8gxLkqCg/knrySnsnuS/qPS5RBSwKC0hBwJFAM4Gniu
-         KX9G6tzjTLEhkxDO7BGmeuS2PD9AAidZHaSIOENo+gGTpQ0REmbcpT1nFna4XuKPCEBV
-         ibthpq5KVNyw+wvS5sJSmdaNtLxbl3P9CeiWcS+cpTZt9HGvH8jw2RpyeWxvE1qcrOI0
-         ncyQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVLfwNZnsMUNi6DzXNbi4vqbo/sTW3Ga5aP7QRkWrzdgVLO1kPT0gGwc1D+1jC/ygxHcSfJiz6Bcqzuq5H/jgjO2CIfF2jWFHt6
-X-Gm-Message-State: AOJu0Yx/i+NjJWYFmOEdUKP1UAJUoHzpRZSO9YPCxxmU9NKJA/sdsZLk
-	ckxxwF7gpBmq8jZqDyHdr9TU3xtQS7SReih2l0T+C8kvEWLRysQmgJiMA+3wnyVFyNaTLE3+r2k
-	wgnCRJVyBH9YDggPzX3c7Rty779P4f0QSM3jwF27ly5EcJj3Wm8yAD6Bv1A==
-X-Received: by 2002:a17:902:e5ca:b0:1fb:484a:d0 with SMTP id d9443c01a7336-1fbb6ea43b7mr86918785ad.54.1720731548671;
-        Thu, 11 Jul 2024 13:59:08 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGjoPXYyNaAorl0l5+ZqAXAxXREpJhiFgdiuRaj1yx69KDyImpVEOb6v3YXt8odns9amQqgWw==
-X-Received: by 2002:a17:902:e5ca:b0:1fb:484a:d0 with SMTP id d9443c01a7336-1fbb6ea43b7mr86918445ad.54.1720731548032;
-        Thu, 11 Jul 2024 13:59:08 -0700 (PDT)
+        bh=LZQ+a9DmpNAaUKr5Arm0el2gXwdPADPIa0ljBv25PlY=;
+        b=itj+cvtf0zMWWygyV4EC5fpCRyz9ccJkmXrTYKfFPPPfOaj+Fo2KEe35pmCI/j0B+K
+         ERgW5CtDsYqMfTsXRhYlU0bpUOor3tAKX14woOpu053IafIyX7F7iOATxOUe1WF115F5
+         l+mqy/OEQ97kbUYTp+mAIwX9JV0EYQVFQwo9KIQffljUXuB2Fr0+XRAi8Kd4/DSKx866
+         ZQKHJQai/fPHD8puOav07wffu2RPwEwK6dgqo2Acm7Pd/Uw8E9xykxMUmFbN2BbzdCPc
+         EKFE709ZHU2G0BkDt31xhIWV+ensTud5N2C50lcpNOpoNq4MSpEJuEGoINUfNVLPBMBR
+         vZSw==
+X-Forwarded-Encrypted: i=1; AJvYcCXgsnKNCI8qpJsj8fHL3e+8ipAlZkcfFafy1Gyq22cdU1GHe6q/52itSUsIiA3C5ZYBd1vx+i5DYj4anLI+o49O38Q45SpMxrsJ
+X-Gm-Message-State: AOJu0YxcJ7//n+7MuyBs0/DehXIRTGxG4CZubFTrgkEDzBQHyh7h9u6Z
+	RUJ7qNNk8uhfdRui6IUi3FQ+nfzr/dDekN+HHYV45KiHKUdUdnDz3qY2XY30ToLz1so9JNcLE9v
+	FjW0aAJLjO4hyvaBYpZ3BANB9DF45EnU68DQYaPreMxBTn220FMUR4x+nPMVIQ0ZmHv5r
+X-Received: by 2002:a05:6359:459f:b0:1ab:f2b3:f018 with SMTP id e5c5f4694b2df-1abf2b3f356mr829569355d.0.1720731560651;
+        Thu, 11 Jul 2024 13:59:20 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IES9jTxXw9aqKIz5yO9tX4m+yDeq6TI47YACdc8XKO2Tsd7kHzFe6TfXf8OAFM3rZSFS7A7pQ==
+X-Received: by 2002:a05:6359:459f:b0:1ab:f2b3:f018 with SMTP id e5c5f4694b2df-1abf2b3f356mr829567355d.0.1720731560266;
+        Thu, 11 Jul 2024 13:59:20 -0700 (PDT)
 Received: from [172.20.2.228] ([4.28.11.157])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fbb6a108a9sm54818295ad.61.2024.07.11.13.59.06
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-77d60117addsm4705877a12.20.2024.07.11.13.59.18
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Jul 2024 13:59:07 -0700 (PDT)
-Message-ID: <6f045e34-8b88-49f7-957a-69130f6de949@redhat.com>
-Date: Thu, 11 Jul 2024 22:59:06 +0200
+        Thu, 11 Jul 2024 13:59:19 -0700 (PDT)
+Message-ID: <ac230cd8-11b0-48f2-94dd-6195967c08e9@redhat.com>
+Date: Thu, 11 Jul 2024 22:59:18 +0200
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -85,9 +85,8 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v22 1/4] mm: add MAP_DROPPABLE for designating always
  lazily freeable mappings
-To: Yu Zhao <yuzhao@google.com>
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
- Linus Torvalds <torvalds@linux-foundation.org>,
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>, Yu Zhao <yuzhao@google.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
  linux-kernel@vger.kernel.org, patches@lists.linux.dev, tglx@linutronix.de,
  linux-crypto@vger.kernel.org, linux-api@vger.kernel.org, x86@kernel.org,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -96,11 +95,7 @@ Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
  Arnd Bergmann <arnd@arndb.de>, Jann Horn <jannh@google.com>,
  Christian Brauner <brauner@kernel.org>,
  David Hildenbrand <dhildenb@redhat.com>, linux-mm@kvack.org
-References: <bf51a483-8725-4222-937f-3d6c66876d34@redhat.com>
- <CAHk-=wh=vzhiDSNaLJdmjkhLqevB8+rhE49pqh0uBwhsV=1ccQ@mail.gmail.com>
- <ZpAR0CgLc28gEkV3@zx2c4.com> <ZpATx21F_01SBRnO@zx2c4.com>
- <98798483-dfcd-451e-94bb-57d830bf68d8@redhat.com>
- <54b6de32-f127-4928-9f4a-acb8653e5c81@redhat.com>
+References: <54b6de32-f127-4928-9f4a-acb8653e5c81@redhat.com>
  <ZpAcWvij59AzUD9u@zx2c4.com> <ZpAc118_U7p3u2gZ@zx2c4.com>
  <ZpAfigBHfHdVeyNO@zx2c4.com>
  <8586b19c-2e14-4164-888f-8c3b86f3f963@redhat.com>
@@ -109,8 +104,7 @@ References: <bf51a483-8725-4222-937f-3d6c66876d34@redhat.com>
  <1c8632b4-06a5-49da-be0c-6fc7ac2b3257@redhat.com>
  <2c464271-1c61-4cd8-bd4e-4bd8aa01fa00@redhat.com>
  <CAOUHufYsxCb=taWWfUbuzi1Hmmug=ThQMoTjsxrtFkt=UXEu6w@mail.gmail.com>
- <da3ea234-d6dd-4809-b2f5-fbfedacb9748@redhat.com>
- <CAOUHufZuMdN31WnbwctyFv+o8nAfVBaiHZa9Ud_cz6QAoNQHxw@mail.gmail.com>
+ <ZpA-iuAItDxBSfBS@zx2c4.com>
 From: David Hildenbrand <david@redhat.com>
 Content-Language: en-US
 Autocrypt: addr=david@redhat.com; keydata=
@@ -158,104 +152,32 @@ Autocrypt: addr=david@redhat.com; keydata=
  jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
  WNyWQQ==
 Organization: Red Hat
-In-Reply-To: <CAOUHufZuMdN31WnbwctyFv+o8nAfVBaiHZa9Ud_cz6QAoNQHxw@mail.gmail.com>
+In-Reply-To: <ZpA-iuAItDxBSfBS@zx2c4.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 11.07.24 21:58, Yu Zhao wrote:
-> On Thu, Jul 11, 2024 at 1:53 PM David Hildenbrand <david@redhat.com> wrote:
->>
->> On 11.07.24 21:49, Yu Zhao wrote:
->>> On Thu, Jul 11, 2024 at 1:20 PM David Hildenbrand <david@redhat.com> wrote:
->>>>
->>>> On 11.07.24 21:18, David Hildenbrand wrote:
->>>>> On 11.07.24 20:56, David Hildenbrand wrote:
->>>>>> On 11.07.24 20:54, Jason A. Donenfeld wrote:
->>>>>>> On Thu, Jul 11, 2024 at 08:24:07PM +0200, David Hildenbrand wrote:
->>>>>>>>> And PG_large_rmappable seems to only be used for hugetlb branches.
->>>>>>>>
->>>>>>>> It should be set for THP/large folios.
->>>>>>>
->>>>>>> And it's tested too, apparently.
->>>>>>>
->>>>>>> Okay, well, how disappointing is this below? Because I'm running out of
->>>>>>> tricks for flag reuse.
->>>>>>>
->>>>>>> diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
->>>>>>> index b9e914e1face..c1ea49a7f198 100644
->>>>>>> --- a/include/linux/page-flags.h
->>>>>>> +++ b/include/linux/page-flags.h
->>>>>>> @@ -110,6 +110,7 @@ enum pageflags {
->>>>>>>               PG_workingset,
->>>>>>>               PG_error,
->>>>>>>               PG_owner_priv_1,        /* Owner use. If pagecache, fs may use*/
->>>>>>> +   PG_owner_priv_2,
->>>>>>
->>>>>> Oh no, no new page flags please :)
->>>>>>
->>>>>> Maybe just follow what Linux suggested: pass vma to pte_dirty() and
->>>>>> always return false for these special VMAs.
->>>>>
->>>>> ... or look into removing that one case that gives us headake.
->>>>>
->>>>> No idea what would happen if we do the following:
->>>>>
->>>>> CCing Yu Zhao.
->>>>>
->>>>> diff --git a/mm/vmscan.c b/mm/vmscan.c
->>>>> index 0761f91b407f..d1dfbd4fd38d 100644
->>>>> --- a/mm/vmscan.c
->>>>> +++ b/mm/vmscan.c
->>>>> @@ -4280,14 +4280,9 @@ static bool sort_folio(struct lruvec *lruvec, struct folio *folio, struct scan_c
->>>>>                     return true;
->>>>>             }
->>>>>
->>>>> -       /* dirty lazyfree */
->>>>> -       if (type == LRU_GEN_FILE && folio_test_anon(folio) && folio_test_dirty(folio)) {
->>>>> -               success = lru_gen_del_folio(lruvec, folio, true);
->>>>> -               VM_WARN_ON_ONCE_FOLIO(!success, folio);
->>>>> -               folio_set_swapbacked(folio);
->>>>> -               lruvec_add_folio_tail(lruvec, folio);
->>>>> -               return true;
->>>>> -       }
->>>>> +       /* lazyfree: we may not be allowed to set swapbacked: MAP_DROPPABLE */
->>>>> +       if (type == LRU_GEN_FILE && folio_test_anon(folio) && folio_test_dirty(folio))
->>>>> +               return false;
->>>
->>> This is an optimization to avoid an unnecessary trip to
->>> shrink_folio_list(), so it's safe to delete the entire 'if' block, and
->>> that would be preferable than leaving a dangling 'if'.
->>
->> Great, thanks.
->>
->>>
->>>> Note that something is unclear to me: are we maybe running into that
->>>> code also if folio_set_swapbacked() is already set and we are not in the
->>>> lazyfree path (in contrast to what is documented)?
->>>
->>> Not sure what you mean: either rmap sees pte_dirty() and does
->>> folio_mark_dirty() and then folio_set_swapbacked(); or MGLRU does the
->>> same sequence, with the first two steps in walk_pte_range() and the
->>> last one here.
->>
->> Let me rephrase:
->>
->> Checking for lazyfree is
->>
->> "folio_test_anon(folio) && !folio_test_swapbacked(folio)"
->>
->> Testing for dirtied lazyfree is
->>
->> "folio_test_anon(folio) && !folio_test_swapbacked(folio) &&
->>    folio_test)dirty(folio)"
->>
->> So I'm wondering about the missing folio_test_swapbacked() test.
+On 11.07.24 22:20, Jason A. Donenfeld wrote:
+> Hi David,
 > 
-> It's not missing: type == LRU_GEN_FILE means folio_is_file_lru(),
-> which in turn means !folio_test_swapbacked().
+> On Thu, Jul 11, 2024 at 01:49:42PM -0600, Yu Zhao wrote:
+>> On Thu, Jul 11, 2024 at 1:20 PM David Hildenbrand <david@redhat.com> wrote:
+>>>> -       /* dirty lazyfree */
+>>>> -       if (type == LRU_GEN_FILE && folio_test_anon(folio) && folio_test_dirty(folio)) {
+>>>> -               success = lru_gen_del_folio(lruvec, folio, true);
+>>>> -               VM_WARN_ON_ONCE_FOLIO(!success, folio);
+>>>> -               folio_set_swapbacked(folio);
+>>>> -               lruvec_add_folio_tail(lruvec, folio);
+>>>> -               return true;
+>>>> -       }
 > 
+>> This is an optimization to avoid an unnecessary trip to
+>> shrink_folio_list(), so it's safe to delete the entire 'if' block, and
+>> that would be preferable than leaving a dangling 'if'.
+> 
+> Alright, I'll just remove that entire chunk then, for v+1 of this patch?
+> That sounds prettttty okay.
 
-Ahh, got it, thanks!
+Yes!
 
 -- 
 Cheers,
