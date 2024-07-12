@@ -1,51 +1,51 @@
-Return-Path: <linux-api+bounces-1959-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1960-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1DE092F393
-	for <lists+linux-api@lfdr.de>; Fri, 12 Jul 2024 03:41:07 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F3BE92F397
+	for <lists+linux-api@lfdr.de>; Fri, 12 Jul 2024 03:41:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 98164283D48
-	for <lists+linux-api@lfdr.de>; Fri, 12 Jul 2024 01:41:06 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B6ECEB23344
+	for <lists+linux-api@lfdr.de>; Fri, 12 Jul 2024 01:41:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB72C881E;
-	Fri, 12 Jul 2024 01:40:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D7B18827;
+	Fri, 12 Jul 2024 01:40:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="N4hCkGom"
+	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="aPWYt3iZ"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8647312E5D;
-	Fri, 12 Jul 2024 01:40:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DF3317996;
+	Fri, 12 Jul 2024 01:40:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720748421; cv=none; b=VrMEmWpFXgcWXV1c1p52qEux9hyKZS8iwaVUJjC6Wh7ENlw6YxWKyD75wT5MqGKd2i06Wwu6z9epwCyYEAPK72mLctcyimq9YpHvR3oNgIjy63dHrYLYWv5fUYmLXP+1AYP/7ns6o23NX+OBc1LKaejtCKVELeXrNcaySWabNUE=
+	t=1720748425; cv=none; b=O/Yvi1oLvM7cm+BKD2dSlfByjt9uG52JpeIE6vhInmblK+AckKGad5owjD5WfVdYYqRyjGTGPvaRIv2MufCqFE2cEi0yzpDEIwKWZCUCVnLqe0nqN5C87I4uQr38OUaVB7EGE5YRT21esCP3PHL/iS+KgL9/R51NhcWU1s4WD9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720748421; c=relaxed/simple;
-	bh=noTQ/fiG0wnFzJF0CCSTTXbibKV6D+iBxqpe/mq9S+Q=;
+	s=arc-20240116; t=1720748425; c=relaxed/simple;
+	bh=uecZlJVT4vH9D94xc2mOXtwOmKYsRMYnsecnyQbXlTA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cFi46RHHk++ywgaFTAEtPN4lReOe5a/se13rsprwUVo/JWO0cY9ps728PfRC0tJB61JPemCmcWN7P8pysI4tcwk4iwo6vp77RhTt+AoWk53ytatg2w6zXyrTcXFKHpM+8YqeN2icGjkb7kKWJVu9xvs6jwcW9UkXJFj6fvaNBss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b=N4hCkGom; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2550C116B1;
-	Fri, 12 Jul 2024 01:40:19 +0000 (UTC)
+	 MIME-Version; b=FRh35I22KMiJ+I+Z33G+2kFadyhoaioZXwFjKtoziyYIoCoDqL1C25R7bYh5mLcSQO0YPV0W1IlO0LUy9z7f5MujyBIG8cZe9cr1D3qnnLU6Wy1TnLDKEpuzTI3HKCHYyqaV0QoVs/MlweFL3iBj5zTbOsGKrcpJ/fIeCzblxzQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b=aPWYt3iZ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F28EC116B1;
+	Fri, 12 Jul 2024 01:40:23 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
-	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="N4hCkGom"
+	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="aPWYt3iZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
-	t=1720748419;
+	t=1720748422;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=RdJpMtH5DrsLGJ86WtcPumeyanoOOlmZTi+btIHhTAs=;
-	b=N4hCkGomv0cQl0KUf+MsJhjQhzuvrT0qUQP/GT6azXInbyC/NkC0e7nicsaM1PDQ83U4M9
-	t7/rrZ5V7L7t21aR6f0LWlCyO2BpIwPZSExoTjHTuZJEtOgPJKiuktqqZaFKpMgBIe0O7V
-	+ZhVG/661v5KMJkqat/aeYoTeUFrqnM=
+	bh=35H80sNGME82rSV0FFJzXL/gogjUcGpzNocvktKVta8=;
+	b=aPWYt3iZyO1kCG0WrqRbFkGYUIt2AVG6XPwCEm4WMAlhgRQXSLs0Nor0efighAJspOciZ7
+	IuSBSQEW88PAzljpsJdnwPy3+0FC+SfZrYVFhh/y6pIlrfkX3Wd83gCltBBFVkkwQPRp2J
+	LeO0O9By06ujxzVjMdBx9yPA53HjZjI=
 Received: 
-	by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id d66df3e0 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Fri, 12 Jul 2024 01:40:19 +0000 (UTC)
+	by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 0260eb3b (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Fri, 12 Jul 2024 01:40:22 +0000 (UTC)
 From: "Jason A. Donenfeld" <Jason@zx2c4.com>
 To: linux-kernel@vger.kernel.org,
 	patches@lists.linux.dev,
@@ -62,12 +62,10 @@ Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
 	Arnd Bergmann <arnd@arndb.de>,
 	Jann Horn <jannh@google.com>,
 	Christian Brauner <brauner@kernel.org>,
-	David Hildenbrand <dhildenb@redhat.com>,
-	linux-mm@kvack.org,
-	David Hildenbrand <david@redhat.com>
-Subject: [PATCH v23 1/4] mm: add MAP_DROPPABLE for designating always lazily freeable mappings
-Date: Fri, 12 Jul 2024 03:40:05 +0200
-Message-ID: <20240712014009.281406-2-Jason@zx2c4.com>
+	David Hildenbrand <dhildenb@redhat.com>
+Subject: [PATCH v23 2/4] random: introduce generic vDSO getrandom() implementation
+Date: Fri, 12 Jul 2024 03:40:06 +0200
+Message-ID: <20240712014009.281406-3-Jason@zx2c4.com>
 In-Reply-To: <20240712014009.281406-1-Jason@zx2c4.com>
 References: <20240712014009.281406-1-Jason@zx2c4.com>
 Precedence: bulk
@@ -78,448 +76,528 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The vDSO getrandom() implementation works with a buffer allocated with a
-new system call that has certain requirements:
+Provide a generic C vDSO getrandom() implementation, which operates on
+an opaque state returned by vgetrandom_alloc() and produces random bytes
+the same way as getrandom(). This has the following API signature:
 
-- It shouldn't be written to core dumps.
-  * Easy: VM_DONTDUMP.
-- It should be zeroed on fork.
-  * Easy: VM_WIPEONFORK.
+  ssize_t vgetrandom(void *buffer, size_t len, unsigned int flags,
+                     void *opaque_state, size_t opaque_len);
 
-- It shouldn't be written to swap.
-  * Uh-oh: mlock is rlimited.
-  * Uh-oh: mlock isn't inherited by forks.
+The return value and the first three arguments are the same as ordinary
+getrandom(), while the last two arguments are a pointer to the opaque
+allocated state and its size. Were all five arguments passed to the
+getrandom() syscall, nothing different would happen, and the functions
+would have the exact same behavior.
 
-- It shouldn't reserve actual memory, but it also shouldn't crash when
-  page faulting in memory if none is available
-  * Uh-oh: VM_NORESERVE means segfaults.
+The actual vDSO RNG algorithm implemented is the same one implemented by
+drivers/char/random.c, using the same fast-erasure techniques as that.
+Should the in-kernel implementation change, so too will the vDSO one.
 
-It turns out that the vDSO getrandom() function has three really nice
-characteristics that we can exploit to solve this problem:
+It requires an implementation of ChaCha20 that does not use any stack,
+in order to maintain forward secrecy if a multi-threaded program forks
+(though this does not account for a similar issue with SA_SIGINFO
+copying registers to the stack), so this is left as an
+architecture-specific fill-in. Stack-less ChaCha20 is an easy algorithm
+to implement on a variety of architectures, so this shouldn't be too
+onerous.
 
-1) Due to being wiped during fork(), the vDSO code is already robust to
-   having the contents of the pages it reads zeroed out midway through
-   the function's execution.
+Initially, the state is keyless, and so the first call makes a
+getrandom() syscall to generate that key, and then uses it for
+subsequent calls. By keeping track of a generation counter, it knows
+when its key is invalidated and it should fetch a new one using the
+syscall. Later, more than just a generation counter might be used.
 
-2) In the absolute worst case of whatever contingency we're coding for,
-   we have the option to fallback to the getrandom() syscall, and
-   everything is fine.
+Since MADV_WIPEONFORK is set on the opaque state, the key and related
+state is wiped during a fork(), so secrets don't roll over into new
+processes, and the same state doesn't accidentally generate the same
+random stream. The generation counter, as well, is always >0, so that
+the 0 counter is a useful indication of a fork() or otherwise
+uninitialized state.
 
-3) The buffers the function uses are only ever useful for a maximum of
-   60 seconds -- a sort of cache, rather than a long term allocation.
+If the kernel RNG is not yet initialized, then the vDSO always calls the
+syscall, because that behavior cannot be emulated in userspace, but
+fortunately that state is short lived and only during early boot. If it
+has been initialized, then there is no need to inspect the `flags`
+argument, because the behavior does not change post-initialization
+regardless of the `flags` value.
 
-These characteristics mean that we can introduce VM_DROPPABLE, which
-has the following semantics:
+Since the opaque state passed to it is mutated, vDSO getrandom() is not
+reentrant, when used with the same opaque state, which libc should be
+mindful of.
 
-a) It never is written out to swap.
-b) Under memory pressure, mm can just drop the pages (so that they're
-   zero when read back again).
-c) It is inherited by fork.
-d) It doesn't count against the mlock budget, since nothing is locked.
-e) If there's not enough memory to service a page fault, it's not fatal,
-   and no signal is sent.
+The function works over an opaque per-thread state of a particular size,
+which must be marked VM_WIPEONFORK, VM_DONTDUMP, VM_NORESERVE, and
+VM_DROPPABLE for proper operation. Over time, the nuances of these
+allocations may change or grow or even differ based on architectural
+features.
 
-This way, allocations used by vDSO getrandom() can use:
+The opaque state passed to vDSO getrandom() must be allocated using the
+mmap_flags and mmap_prot parameters provided by the vgetrandom_opaque_params
+struct, which also contains the size of each state. That struct can be
+obtained with a call to vgetrandom(NULL, 0, 0, &params, ~0UL). Then,
+libc can call mmap(2) and slice up the returned array into a state per
+each thread, while ensuring that no single state straddles a page
+boundary. Libc is expected to allocate a chunk of these on first use,
+and then dole them out to threads as they're created, allocating more
+when needed.
 
-    VM_DROPPABLE | VM_DONTDUMP | VM_WIPEONFORK | VM_NORESERVE
+vDSO getrandom() provides the ability for userspace to generate random
+bytes quickly and safely, and is intended to be integrated into libc's
+thread management. As an illustrative example, the introduced code in
+the vdso_test_getrandom self test later in this series might be used to
+do the same outside of libc. In a libc the various pthread-isms are
+expected to be elided into libc internals.
 
-And there will be no problem with OOMing, crashing on overcommitment,
-using memory when not in use, not wiping on fork(), coredumps, or
-writing out to swap.
-
-In order to let vDSO getrandom() use this, expose these via mmap(2) as
-MAP_DROPPABLE.
-
-Note that this involves removing the MADV_FREE special case from
-sort_folio(), which according to Yu Zhao is unnecessary and will simply
-result in an extra call to shrink_folio_list() in the worst case. The
-chunk removed reenables the swapbacked flag, which we don't want for
-VM_DROPPABLE, and we can't conditionalize it here because there isn't a
-vma reference available.
-
-Finally, the provided self test ensures that this is working as desired.
-
-Cc: linux-mm@kvack.org
-Acked-by: David Hildenbrand <david@redhat.com>
+Reviewed-by: Thomas Gleixner <tglx@linutronix.de>
 Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
 ---
- fs/proc/task_mmu.c                     |  1 +
- include/linux/mm.h                     |  7 ++++
- include/linux/userfaultfd_k.h          |  3 ++
- include/trace/events/mmflags.h         |  7 ++++
- include/uapi/linux/mman.h              |  1 +
- mm/ksm.c                               |  2 +-
- mm/madvise.c                           |  5 ++-
- mm/memory.c                            |  4 ++
- mm/mempolicy.c                         |  3 ++
- mm/mlock.c                             |  2 +-
- mm/mmap.c                              | 30 +++++++++++++++
- mm/rmap.c                              | 22 +++++++++--
- mm/vmscan.c                            |  9 -----
- tools/include/uapi/linux/mman.h        |  1 +
- tools/testing/selftests/mm/.gitignore  |  1 +
- tools/testing/selftests/mm/Makefile    |  1 +
- tools/testing/selftests/mm/droppable.c | 53 ++++++++++++++++++++++++++
- 17 files changed, 137 insertions(+), 15 deletions(-)
- create mode 100644 tools/testing/selftests/mm/droppable.c
+ MAINTAINERS                 |   2 +
+ drivers/char/random.c       |  18 ++-
+ include/uapi/linux/random.h |  15 +++
+ include/vdso/datapage.h     |  11 ++
+ include/vdso/getrandom.h    |  46 +++++++
+ lib/vdso/Kconfig            |   5 +
+ lib/vdso/getrandom.c        | 251 ++++++++++++++++++++++++++++++++++++
+ 7 files changed, 347 insertions(+), 1 deletion(-)
+ create mode 100644 include/vdso/getrandom.h
+ create mode 100644 lib/vdso/getrandom.c
 
-diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
-index 71e5039d940d..46f0b0fe9ee3 100644
---- a/fs/proc/task_mmu.c
-+++ b/fs/proc/task_mmu.c
-@@ -708,6 +708,7 @@ static void show_smap_vma_flags(struct seq_file *m, struct vm_area_struct *vma)
- 		[ilog2(VM_SHADOW_STACK)] = "ss",
- #endif
- #ifdef CONFIG_64BIT
-+		[ilog2(VM_DROPPABLE)] = "dp",
- 		[ilog2(VM_SEALED)] = "sl",
- #endif
- 	};
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index eb7c96d24ac0..e078c2890bf8 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -406,6 +406,13 @@ extern unsigned int kobjsize(const void *objp);
- #define VM_ALLOW_ANY_UNCACHED		VM_NONE
- #endif
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 2a4d4b3a9b40..7edb30b4abf0 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -18745,6 +18745,8 @@ T:	git https://git.kernel.org/pub/scm/linux/kernel/git/crng/random.git
+ F:	Documentation/devicetree/bindings/rng/microsoft,vmgenid.yaml
+ F:	drivers/char/random.c
+ F:	drivers/virt/vmgenid.c
++F:	include/vdso/getrandom.h
++F:	lib/vdso/getrandom.c
  
-+#ifdef CONFIG_64BIT
-+#define VM_DROPPABLE_BIT	40
-+#define VM_DROPPABLE		BIT(VM_DROPPABLE_BIT)
-+#else
-+#define VM_DROPPABLE		VM_NONE
-+#endif
-+
- #ifdef CONFIG_64BIT
- /* VM is sealed, in vm_flags */
- #define VM_SEALED	_BITUL(63)
-diff --git a/include/linux/userfaultfd_k.h b/include/linux/userfaultfd_k.h
-index 05d59f74fc88..a12bcf042551 100644
---- a/include/linux/userfaultfd_k.h
-+++ b/include/linux/userfaultfd_k.h
-@@ -218,6 +218,9 @@ static inline bool vma_can_userfault(struct vm_area_struct *vma,
- {
- 	vm_flags &= __VM_UFFD_FLAGS;
- 
-+	if (vm_flags & VM_DROPPABLE)
-+		return false;
-+
- 	if ((vm_flags & VM_UFFD_MINOR) &&
- 	    (!is_vm_hugetlb_page(vma) && !vma_is_shmem(vma)))
- 		return false;
-diff --git a/include/trace/events/mmflags.h b/include/trace/events/mmflags.h
-index e46d6e82765e..b63d211bd141 100644
---- a/include/trace/events/mmflags.h
-+++ b/include/trace/events/mmflags.h
-@@ -165,6 +165,12 @@ IF_HAVE_PG_ARCH_X(arch_3)
- # define IF_HAVE_UFFD_MINOR(flag, name)
- #endif
- 
-+#ifdef CONFIG_64BIT
-+# define IF_HAVE_VM_DROPPABLE(flag, name) {flag, name},
-+#else
-+# define IF_HAVE_VM_DROPPABLE(flag, name)
-+#endif
-+
- #define __def_vmaflag_names						\
- 	{VM_READ,			"read"		},		\
- 	{VM_WRITE,			"write"		},		\
-@@ -197,6 +203,7 @@ IF_HAVE_VM_SOFTDIRTY(VM_SOFTDIRTY,	"softdirty"	)		\
- 	{VM_MIXEDMAP,			"mixedmap"	},		\
- 	{VM_HUGEPAGE,			"hugepage"	},		\
- 	{VM_NOHUGEPAGE,			"nohugepage"	},		\
-+IF_HAVE_VM_DROPPABLE(VM_DROPPABLE,	"droppable"	)		\
- 	{VM_MERGEABLE,			"mergeable"	}		\
- 
- #define show_vma_flags(flags)						\
-diff --git a/include/uapi/linux/mman.h b/include/uapi/linux/mman.h
-index a246e11988d5..e89d00528f2f 100644
---- a/include/uapi/linux/mman.h
-+++ b/include/uapi/linux/mman.h
-@@ -17,6 +17,7 @@
- #define MAP_SHARED	0x01		/* Share changes */
- #define MAP_PRIVATE	0x02		/* Changes are private */
- #define MAP_SHARED_VALIDATE 0x03	/* share + validate extension flags */
-+#define MAP_DROPPABLE	0x08		/* Zero memory under memory pressure. */
- 
+ RAPIDIO SUBSYSTEM
+ M:	Matt Porter <mporter@kernel.crashing.org>
+diff --git a/drivers/char/random.c b/drivers/char/random.c
+index 2597cb43f438..b02a12436750 100644
+--- a/drivers/char/random.c
++++ b/drivers/char/random.c
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: (GPL-2.0 OR BSD-3-Clause)
  /*
-  * Huge page size encoding when MAP_HUGETLB is specified, and a huge page
-diff --git a/mm/ksm.c b/mm/ksm.c
-index 34c4820e0d3d..8778eb7c40f8 100644
---- a/mm/ksm.c
-+++ b/mm/ksm.c
-@@ -717,7 +717,7 @@ static bool vma_ksm_compatible(struct vm_area_struct *vma)
- {
- 	if (vma->vm_flags & (VM_SHARED  | VM_MAYSHARE   | VM_PFNMAP  |
- 			     VM_IO      | VM_DONTEXPAND | VM_HUGETLB |
--			     VM_MIXEDMAP))
-+			     VM_MIXEDMAP| VM_DROPPABLE))
- 		return false;		/* just ignore the advice */
- 
- 	if (vma_is_dax(vma))
-diff --git a/mm/madvise.c b/mm/madvise.c
-index a77893462b92..cba5bc652fc4 100644
---- a/mm/madvise.c
-+++ b/mm/madvise.c
-@@ -1068,13 +1068,16 @@ static int madvise_vma_behavior(struct vm_area_struct *vma,
- 		new_flags |= VM_WIPEONFORK;
- 		break;
- 	case MADV_KEEPONFORK:
-+		if (vma->vm_flags & VM_DROPPABLE)
-+			return -EINVAL;
- 		new_flags &= ~VM_WIPEONFORK;
- 		break;
- 	case MADV_DONTDUMP:
- 		new_flags |= VM_DONTDUMP;
- 		break;
- 	case MADV_DODUMP:
--		if (!is_vm_hugetlb_page(vma) && new_flags & VM_SPECIAL)
-+		if ((!is_vm_hugetlb_page(vma) && new_flags & VM_SPECIAL) ||
-+		    (vma->vm_flags & VM_DROPPABLE))
- 			return -EINVAL;
- 		new_flags &= ~VM_DONTDUMP;
- 		break;
-diff --git a/mm/memory.c b/mm/memory.c
-index d10e616d7389..18fe893ce96d 100644
---- a/mm/memory.c
-+++ b/mm/memory.c
-@@ -5690,6 +5690,10 @@ vm_fault_t handle_mm_fault(struct vm_area_struct *vma, unsigned long address,
- 
- 	lru_gen_exit_fault();
- 
-+	/* If the mapping is droppable, then errors due to OOM aren't fatal. */
-+	if (vma->vm_flags & VM_DROPPABLE)
-+		ret &= ~VM_FAULT_OOM;
-+
- 	if (flags & FAULT_FLAG_USER) {
- 		mem_cgroup_exit_user_fault();
- 		/*
-diff --git a/mm/mempolicy.c b/mm/mempolicy.c
-index aec756ae5637..32291ab25960 100644
---- a/mm/mempolicy.c
-+++ b/mm/mempolicy.c
-@@ -2300,6 +2300,9 @@ struct folio *vma_alloc_folio_noprof(gfp_t gfp, int order, struct vm_area_struct
- 	pgoff_t ilx;
- 	struct page *page;
- 
-+	if (vma->vm_flags & VM_DROPPABLE)
-+		gfp |= __GFP_NOWARN;
-+
- 	pol = get_vma_policy(vma, addr, order, &ilx);
- 	page = alloc_pages_mpol_noprof(gfp | __GFP_COMP, order,
- 				       pol, ilx, numa_node_id());
-diff --git a/mm/mlock.c b/mm/mlock.c
-index 30b51cdea89d..b87b3d8cc9cc 100644
---- a/mm/mlock.c
-+++ b/mm/mlock.c
-@@ -485,7 +485,7 @@ static int mlock_fixup(struct vma_iterator *vmi, struct vm_area_struct *vma,
- 
- 	if (newflags == oldflags || (oldflags & VM_SPECIAL) ||
- 	    is_vm_hugetlb_page(vma) || vma == get_gate_vma(current->mm) ||
--	    vma_is_dax(vma) || vma_is_secretmem(vma))
-+	    vma_is_dax(vma) || vma_is_secretmem(vma) || (oldflags & VM_DROPPABLE))
- 		/* don't set VM_LOCKED or VM_LOCKONFAULT and don't count */
- 		goto out;
- 
-diff --git a/mm/mmap.c b/mm/mmap.c
-index 83b4682ec85c..8aeedeb784c2 100644
---- a/mm/mmap.c
-+++ b/mm/mmap.c
-@@ -1369,6 +1369,36 @@ unsigned long do_mmap(struct file *file, unsigned long addr,
- 			pgoff = 0;
- 			vm_flags |= VM_SHARED | VM_MAYSHARE;
- 			break;
-+		case MAP_DROPPABLE:
-+			if (VM_DROPPABLE == VM_NONE)
-+				return -ENOTSUPP;
-+			/*
-+			 * A locked or stack area makes no sense to be droppable.
-+			 *
-+			 * Also, since droppable pages can just go away at any time
-+			 * it makes no sense to copy them on fork or dump them.
-+			 *
-+			 * And don't attempt to combine with hugetlb for now.
-+			 */
-+			if (flags & (MAP_LOCKED | MAP_HUGETLB))
-+			        return -EINVAL;
-+			if (vm_flags & (VM_GROWSDOWN | VM_GROWSUP))
-+			        return -EINVAL;
-+
-+			vm_flags |= VM_DROPPABLE;
-+
-+			/*
-+			 * If the pages can be dropped, then it doesn't make
-+			 * sense to reserve them.
-+			 */
-+			vm_flags |= VM_NORESERVE;
-+
-+			/*
-+			 * Likewise, they're volatile enough that they
-+			 * shouldn't survive forks or coredumps.
-+			 */
-+			vm_flags |= VM_WIPEONFORK | VM_DONTDUMP;
-+			fallthrough;
- 		case MAP_PRIVATE:
- 			/*
- 			 * Set pgoff according to addr for anon_vma.
-diff --git a/mm/rmap.c b/mm/rmap.c
-index e8fc5ecb59b2..1f9b5a9cb121 100644
---- a/mm/rmap.c
-+++ b/mm/rmap.c
-@@ -1397,7 +1397,12 @@ void folio_add_new_anon_rmap(struct folio *folio, struct vm_area_struct *vma,
- 	VM_WARN_ON_FOLIO(folio_test_hugetlb(folio), folio);
- 	VM_BUG_ON_VMA(address < vma->vm_start ||
- 			address + (nr << PAGE_SHIFT) > vma->vm_end, vma);
--	__folio_set_swapbacked(folio);
-+	/*
-+	 * VM_DROPPABLE mappings don't swap; instead they're just dropped when
-+	 * under memory pressure.
+- * Copyright (C) 2017-2022 Jason A. Donenfeld <Jason@zx2c4.com>. All Rights Reserved.
++ * Copyright (C) 2017-2024 Jason A. Donenfeld <Jason@zx2c4.com>. All Rights Reserved.
+  * Copyright Matt Mackall <mpm@selenic.com>, 2003, 2004, 2005
+  * Copyright Theodore Ts'o, 1994, 1995, 1996, 1997, 1998, 1999. All rights reserved.
+  *
+@@ -56,6 +56,10 @@
+ #include <linux/sched/isolation.h>
+ #include <crypto/chacha.h>
+ #include <crypto/blake2s.h>
++#ifdef CONFIG_VDSO_GETRANDOM
++#include <vdso/getrandom.h>
++#include <vdso/datapage.h>
++#endif
+ #include <asm/archrandom.h>
+ #include <asm/processor.h>
+ #include <asm/irq.h>
+@@ -271,6 +275,15 @@ static void crng_reseed(struct work_struct *work)
+ 	if (next_gen == ULONG_MAX)
+ 		++next_gen;
+ 	WRITE_ONCE(base_crng.generation, next_gen);
++#ifdef CONFIG_VDSO_GETRANDOM
++	/* base_crng.generation's invalid value is ULONG_MAX, while
++	 * _vdso_rng_data.generation's invalid value is 0, so add one to the
++	 * former to arrive at the latter. Use smp_store_release so that this
++	 * is ordered with the write above to base_crng.generation. Pairs with
++	 * the smp_rmb() before the syscall in the vDSO code.
 +	 */
-+	if (!(vma->vm_flags & VM_DROPPABLE))
-+		__folio_set_swapbacked(folio);
- 	__folio_set_anon(folio, vma, address, true);
++	smp_store_release(&_vdso_rng_data.generation, next_gen + 1);
++#endif
+ 	if (!static_branch_likely(&crng_is_ready))
+ 		crng_init = CRNG_READY;
+ 	spin_unlock_irqrestore(&base_crng.lock, flags);
+@@ -721,6 +734,9 @@ static void __cold _credit_init_bits(size_t bits)
+ 		if (static_key_initialized && system_unbound_wq)
+ 			queue_work(system_unbound_wq, &set_ready);
+ 		atomic_notifier_call_chain(&random_ready_notifier, 0, NULL);
++#ifdef CONFIG_VDSO_GETRANDOM
++		WRITE_ONCE(_vdso_rng_data.is_ready, true);
++#endif
+ 		wake_up_interruptible(&crng_init_wait);
+ 		kill_fasync(&fasync, SIGIO, POLL_IN);
+ 		pr_notice("crng init done\n");
+diff --git a/include/uapi/linux/random.h b/include/uapi/linux/random.h
+index e744c23582eb..2a3fe4c2cdc9 100644
+--- a/include/uapi/linux/random.h
++++ b/include/uapi/linux/random.h
+@@ -55,4 +55,19 @@ struct rand_pool_info {
+ #define GRND_RANDOM	0x0002
+ #define GRND_INSECURE	0x0004
  
- 	if (likely(!folio_test_large(folio))) {
-@@ -1841,7 +1846,13 @@ static bool try_to_unmap_one(struct folio *folio, struct vm_area_struct *vma,
- 				 * plus the rmap(s) (dropped by discard:).
- 				 */
- 				if (ref_count == 1 + map_count &&
--				    !folio_test_dirty(folio)) {
-+				    (!folio_test_dirty(folio) ||
-+				     /*
-+				      * Unlike MADV_FREE mappings, VM_DROPPABLE
-+				      * ones can be dropped even if they've
-+				      * been dirtied.
-+				      */
-+				     (vma->vm_flags & VM_DROPPABLE))) {
- 					dec_mm_counter(mm, MM_ANONPAGES);
- 					goto discard;
- 				}
-@@ -1851,7 +1862,12 @@ static bool try_to_unmap_one(struct folio *folio, struct vm_area_struct *vma,
- 				 * discarded. Remap the page to page table.
- 				 */
- 				set_pte_at(mm, address, pvmw.pte, pteval);
--				folio_set_swapbacked(folio);
-+				/*
-+				 * Unlike MADV_FREE mappings, VM_DROPPABLE ones
-+				 * never get swap backed on failure to drop.
-+				 */
-+				if (!(vma->vm_flags & VM_DROPPABLE))
-+					folio_set_swapbacked(folio);
- 				ret = false;
- 				page_vma_mapped_walk_done(&pvmw);
- 				break;
-diff --git a/mm/vmscan.c b/mm/vmscan.c
-index 2e34de9cd0d4..5ef0ee4610d6 100644
---- a/mm/vmscan.c
-+++ b/mm/vmscan.c
-@@ -4265,15 +4265,6 @@ static bool sort_folio(struct lruvec *lruvec, struct folio *folio, struct scan_c
- 		return true;
- 	}
++/**
++ * struct vgetrandom_opaque_params - arguments for allocating memory for vgetrandom
++ *
++ * @size_per_opaque_state:	Size of each state that is to be passed to vgetrandom().
++ * @mmap_prot:			Value of the prot argument in mmap(2).
++ * @mmap_flags:			Value of the flags argument in mmap(2).
++ * @reserved:			Reserved for future use.
++ */
++struct vgetrandom_opaque_params {
++	__u32 size_of_opaque_state;
++	__u32 mmap_prot;
++	__u32 mmap_flags;
++	__u32 reserved[13];
++};
++
+ #endif /* _UAPI_LINUX_RANDOM_H */
+diff --git a/include/vdso/datapage.h b/include/vdso/datapage.h
+index d04d394db064..05e5787beb73 100644
+--- a/include/vdso/datapage.h
++++ b/include/vdso/datapage.h
+@@ -113,6 +113,16 @@ struct vdso_data {
+ 	struct arch_vdso_data	arch_data;
+ };
  
--	/* dirty lazyfree */
--	if (type == LRU_GEN_FILE && folio_test_anon(folio) && folio_test_dirty(folio)) {
--		success = lru_gen_del_folio(lruvec, folio, true);
--		VM_WARN_ON_ONCE_FOLIO(!success, folio);
--		folio_set_swapbacked(folio);
--		lruvec_add_folio_tail(lruvec, folio);
--		return true;
--	}
--
- 	/* promoted */
- 	if (gen != lru_gen_from_seq(lrugen->min_seq[type])) {
- 		list_move(&folio->lru, &lrugen->folios[gen][type][zone]);
-diff --git a/tools/include/uapi/linux/mman.h b/tools/include/uapi/linux/mman.h
-index a246e11988d5..e89d00528f2f 100644
---- a/tools/include/uapi/linux/mman.h
-+++ b/tools/include/uapi/linux/mman.h
-@@ -17,6 +17,7 @@
- #define MAP_SHARED	0x01		/* Share changes */
- #define MAP_PRIVATE	0x02		/* Changes are private */
- #define MAP_SHARED_VALIDATE 0x03	/* share + validate extension flags */
-+#define MAP_DROPPABLE	0x08		/* Zero memory under memory pressure. */
- 
++/**
++ * struct vdso_rng_data - vdso RNG state information
++ * @generation:	counter representing the number of RNG reseeds
++ * @is_ready:	boolean signaling whether the RNG is initialized
++ */
++struct vdso_rng_data {
++	u64	generation;
++	u8	is_ready;
++};
++
  /*
-  * Huge page size encoding when MAP_HUGETLB is specified, and a huge page
-diff --git a/tools/testing/selftests/mm/.gitignore b/tools/testing/selftests/mm/.gitignore
-index 0b9ab987601c..a8beeb43c2b5 100644
---- a/tools/testing/selftests/mm/.gitignore
-+++ b/tools/testing/selftests/mm/.gitignore
-@@ -49,3 +49,4 @@ hugetlb_fault_after_madv
- hugetlb_madv_vs_map
- mseal_test
- seal_elf
-+droppable
-diff --git a/tools/testing/selftests/mm/Makefile b/tools/testing/selftests/mm/Makefile
-index 3b49bc3d0a3b..e3e5740e13e1 100644
---- a/tools/testing/selftests/mm/Makefile
-+++ b/tools/testing/selftests/mm/Makefile
-@@ -73,6 +73,7 @@ TEST_GEN_FILES += ksm_functional_tests
- TEST_GEN_FILES += mdwe_test
- TEST_GEN_FILES += hugetlb_fault_after_madv
- TEST_GEN_FILES += hugetlb_madv_vs_map
-+TEST_GEN_FILES += droppable
+  * We use the hidden visibility to prevent the compiler from generating a GOT
+  * relocation. Not only is going through a GOT useless (the entry couldn't and
+@@ -124,6 +134,7 @@ struct vdso_data {
+  */
+ extern struct vdso_data _vdso_data[CS_BASES] __attribute__((visibility("hidden")));
+ extern struct vdso_data _timens_data[CS_BASES] __attribute__((visibility("hidden")));
++extern struct vdso_rng_data _vdso_rng_data __attribute__((visibility("hidden")));
  
- ifneq ($(ARCH),arm64)
- TEST_GEN_FILES += soft-dirty
-diff --git a/tools/testing/selftests/mm/droppable.c b/tools/testing/selftests/mm/droppable.c
+ /**
+  * union vdso_data_store - Generic vDSO data page
+diff --git a/include/vdso/getrandom.h b/include/vdso/getrandom.h
 new file mode 100644
-index 000000000000..f3d9ecf96890
+index 000000000000..a8b7c14b0ae0
 --- /dev/null
-+++ b/tools/testing/selftests/mm/droppable.c
-@@ -0,0 +1,53 @@
-+// SPDX-License-Identifier: GPL-2.0
++++ b/include/vdso/getrandom.h
+@@ -0,0 +1,46 @@
++/* SPDX-License-Identifier: GPL-2.0 */
 +/*
-+ * Copyright (C) 2024 Jason A. Donenfeld <Jason@zx2c4.com>. All Rights Reserved.
++ * Copyright (C) 2022-2024 Jason A. Donenfeld <Jason@zx2c4.com>. All Rights Reserved.
 + */
 +
-+#include <assert.h>
-+#include <stdbool.h>
-+#include <stdint.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <unistd.h>
-+#include <signal.h>
-+#include <sys/mman.h>
-+#include <linux/mman.h>
++#ifndef _VDSO_GETRANDOM_H
++#define _VDSO_GETRANDOM_H
 +
-+#include "../kselftest.h"
++#include <linux/types.h>
 +
-+int main(int argc, char *argv[])
++#define CHACHA_KEY_SIZE         32
++#define CHACHA_BLOCK_SIZE       64
++
++/**
++ * struct vgetrandom_state - State used by vDSO getrandom().
++ *
++ * @batch:	One and a half ChaCha20 blocks of buffered RNG output.
++ *
++ * @key:	Key to be used for generating next batch.
++ *
++ * @batch_key:	Union of the prior two members, which is exactly two full
++ * 		ChaCha20 blocks in size, so that @batch and @key can be filled
++ * 		together.
++ *
++ * @generation:	Snapshot of @rng_info->generation in the vDSO data page at
++ *		the time @key was generated.
++ *
++ * @pos:	Offset into @batch of the next available random byte.
++ *
++ * @in_use:	Reentrancy guard for reusing a state within the same thread
++ *		due to signal handlers.
++ */
++struct vgetrandom_state {
++	union {
++		struct {
++			u8	batch[CHACHA_BLOCK_SIZE * 3 / 2];
++			u32	key[CHACHA_KEY_SIZE / sizeof(u32)];
++		};
++		u8		batch_key[CHACHA_BLOCK_SIZE * 2];
++	};
++	u64			generation;
++	u8			pos;
++	bool 			in_use;
++};
++
++#endif /* _VDSO_GETRANDOM_H */
+diff --git a/lib/vdso/Kconfig b/lib/vdso/Kconfig
+index c46c2300517c..82fe827af542 100644
+--- a/lib/vdso/Kconfig
++++ b/lib/vdso/Kconfig
+@@ -38,3 +38,8 @@ config GENERIC_VDSO_OVERFLOW_PROTECT
+ 	  in the hotpath.
+ 
+ endif
++
++config VDSO_GETRANDOM
++	bool
++	help
++	  Selected by architectures that support vDSO getrandom().
+diff --git a/lib/vdso/getrandom.c b/lib/vdso/getrandom.c
+new file mode 100644
+index 000000000000..b230f0b10832
+--- /dev/null
++++ b/lib/vdso/getrandom.c
+@@ -0,0 +1,251 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (C) 2022-2024 Jason A. Donenfeld <Jason@zx2c4.com>. All Rights Reserved.
++ */
++
++#include <linux/cache.h>
++#include <linux/kernel.h>
++#include <linux/time64.h>
++#include <vdso/datapage.h>
++#include <vdso/getrandom.h>
++#include <asm/vdso/getrandom.h>
++#include <asm/vdso/vsyscall.h>
++#include <asm/unaligned.h>
++#include <uapi/linux/mman.h>
++
++#define MEMCPY_AND_ZERO_SRC(type, dst, src, len) do {				\
++	while (len >= sizeof(type)) {						\
++		__put_unaligned_t(type, __get_unaligned_t(type, src), dst);	\
++		__put_unaligned_t(type, 0, src);				\
++		dst += sizeof(type);						\
++		src += sizeof(type);						\
++		len -= sizeof(type);						\
++	}									\
++} while (0)
++
++static void memcpy_and_zero_src(void *dst, void *src, size_t len)
 +{
-+	size_t alloc_size = 134217728;
-+	size_t page_size = getpagesize();
-+	void *alloc;
-+	pid_t child;
++	if (IS_ENABLED(CONFIG_HAVE_EFFICIENT_UNALIGNED_ACCESS)) {
++		if (IS_ENABLED(CONFIG_64BIT))
++			MEMCPY_AND_ZERO_SRC(u64, dst, src, len);
++		MEMCPY_AND_ZERO_SRC(u32, dst, src, len);
++		MEMCPY_AND_ZERO_SRC(u16, dst, src, len);
++	}
++	MEMCPY_AND_ZERO_SRC(u8, dst, src, len);
++}
 +
-+	ksft_print_header();
-+	ksft_set_plan(1);
++/**
++ * __cvdso_getrandom_data - Generic vDSO implementation of getrandom() syscall.
++ * @rng_info:		Describes state of kernel RNG, memory shared with kernel.
++ * @buffer:		Destination buffer to fill with random bytes.
++ * @len:		Size of @buffer in bytes.
++ * @flags:		Zero or more GRND_* flags.
++ * @opaque_state:	Pointer to an opaque state area.
++ * @opaque_len:		Length of opaque state area.
++ *
++ * This implements a "fast key erasure" RNG using ChaCha20, in the same way that the kernel's
++ * getrandom() syscall does. It periodically reseeds its key from the kernel's RNG, at the same
++ * schedule that the kernel's RNG is reseeded. If the kernel's RNG is not ready, then this always
++ * calls into the syscall.
++ *
++ * If @buffer, @len, and @flags are 0, and @opaque_len is ~0UL, then @opaque_state is populated
++ * with a struct vgetrandom_opaque_params and the function returns 0; if it does not return 0,
++ * this function should not be used.
++ *
++ * @opaque_state *must* be allocated by calling mmap(2) using the mmap_prot and mmap_flags fields
++ * from the struct vgetrandom_opaque_params, and states must not straddle pages. Unless external
++ * locking is used, one state must be allocated per thread, as it is not safe to call this function
++ * concurrently with the same @opaque_state. However, it is safe to call this using the same
++ * @opaque_state that is shared between main code and signal handling code, within the same thread.
++ *
++ * Returns:	The number of random bytes written to @buffer, or a negative value indicating an error.
++ */
++static __always_inline ssize_t
++__cvdso_getrandom_data(const struct vdso_rng_data *rng_info, void *buffer, size_t len,
++		       unsigned int flags, void *opaque_state, size_t opaque_len)
++{
++	ssize_t ret = min_t(size_t, INT_MAX & PAGE_MASK /* = MAX_RW_COUNT */, len);
++	struct vgetrandom_state *state = opaque_state;
++	size_t batch_len, nblocks, orig_len = len;
++	bool in_use, have_retried = false;
++	unsigned long current_generation;
++	void *orig_buffer = buffer;
++	u32 counter[2] = { 0 };
 +
-+	alloc = mmap(0, alloc_size, PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_DROPPABLE, -1, 0);
-+	assert(alloc != MAP_FAILED);
-+	memset(alloc, 'A', alloc_size);
-+	for (size_t i = 0; i < alloc_size; i += page_size)
-+		assert(*(uint8_t *)(alloc + i));
-+
-+	child = fork();
-+	assert(child >= 0);
-+	if (!child) {
-+		for (;;)
-+			*(char *)malloc(page_size) = 'B';
++	if (unlikely(opaque_len == ~0UL && !buffer && !len && !flags)) {
++		*(struct vgetrandom_opaque_params *)opaque_state = (struct vgetrandom_opaque_params) {
++			.size_of_opaque_state = sizeof(*state),
++			.mmap_prot = PROT_READ | PROT_WRITE,
++			.mmap_flags = MAP_DROPPABLE | MAP_ANONYMOUS
++		};
++		return 0;
 +	}
 +
-+	for (bool done = false; !done;) {
-+		for (size_t i = 0; i < alloc_size; i += page_size) {
-+			if (!*(uint8_t *)(alloc + i)) {
-+				done = true;
-+				break;
-+			}
++	/* The state must not straddle a page, since pages can be zeroed at any time. */
++	if (unlikely(((unsigned long)opaque_state & ~PAGE_MASK) + sizeof(*state) > PAGE_SIZE))
++		return -EFAULT;
++
++	/* If the caller passes the wrong size, which might happen due to CRIU, fallback. */
++	if (unlikely(opaque_len != sizeof(*state)))
++		goto fallback_syscall;
++
++	/*
++	 * If the kernel's RNG is not yet ready, then it's not possible to provide random bytes from
++	 * userspace, because A) the various @flags require this to block, or not, depending on
++	 * various factors unavailable to userspace, and B) the kernel's behavior before the RNG is
++	 * ready is to reseed from the entropy pool at every invocation.
++	 */
++	if (unlikely(!READ_ONCE(rng_info->is_ready)))
++		goto fallback_syscall;
++
++	/*
++	 * This condition is checked after @rng_info->is_ready, because before the kernel's RNG is
++	 * initialized, the @flags parameter may require this to block or return an error, even when
++	 * len is zero.
++	 */
++	if (unlikely(!len))
++		return 0;
++
++	/*
++	 * @state->in_use is basic reentrancy protection against this running in a signal handler
++	 * with the same @opaque_state, but obviously not atomic wrt multiple CPUs or more than one
++	 * level of reentrancy. If a signal interrupts this after reading @state->in_use, but before
++	 * writing @state->in_use, there is still no race, because the signal handler will run to
++	 * its completion before returning execution.
++	 */
++	in_use = READ_ONCE(state->in_use);
++	if (unlikely(in_use))
++		/* The syscall simply fills the buffer and does not touch @state, so fallback. */
++		goto fallback_syscall;
++	WRITE_ONCE(state->in_use, true);
++
++retry_generation:
++	/*
++	 * @rng_info->generation must always be read here, as it serializes @state->key with the
++	 * kernel's RNG reseeding schedule.
++	 */
++	current_generation = READ_ONCE(rng_info->generation);
++
++	/*
++	 * If @state->generation doesn't match the kernel RNG's generation, then it means the
++	 * kernel's RNG has reseeded, and so @state->key is reseeded as well.
++	 */
++	if (unlikely(state->generation != current_generation)) {
++		/*
++		 * Write the generation before filling the key, in case of fork. If there is a fork
++		 * just after this line, the parent and child will get different random bytes from
++		 * the syscall, which is good. However, were this line to occur after the getrandom
++		 * syscall, then both child and parent could have the same bytes and the same
++		 * generation counter, so the fork would not be detected. Therefore, write
++		 * @state->generation before the call to the getrandom syscall.
++		 */
++		WRITE_ONCE(state->generation, current_generation);
++
++		/*
++		 * Prevent the syscall from being reordered wrt current_generation. Pairs with the
++		 * smp_store_release(&_vdso_rng_data.generation) in random.c.
++		 */
++		smp_rmb();
++
++		/* Reseed @state->key using fresh bytes from the kernel. */
++		if (getrandom_syscall(state->key, sizeof(state->key), 0) != sizeof(state->key)) {
++			/*
++			 * If the syscall failed to refresh the key, then @state->key is now
++			 * invalid, so invalidate the generation so that it is not used again, and
++			 * fallback to using the syscall entirely.
++			 */
++			WRITE_ONCE(state->generation, 0);
++
++			/*
++			 * Set @state->in_use to false only after the last write to @state in the
++			 * line above.
++			 */
++			WRITE_ONCE(state->in_use, false);
++
++			goto fallback_syscall;
 +		}
-+	}
-+	kill(child, SIGTERM);
 +
-+	ksft_test_result_pass("MAP_DROPPABLE: PASS\n");
-+	exit(KSFT_PASS);
++		/*
++		 * Set @state->pos to beyond the end of the batch, so that the batch is refilled
++		 * using the new key.
++		 */
++		state->pos = sizeof(state->batch);
++	}
++
++	/* Set len to the total amount of bytes that this function is allowed to read, ret. */
++	len = ret;
++more_batch:
++	/*
++	 * First use bytes out of @state->batch, which may have been filled by the last call to this
++	 * function.
++	 */
++	batch_len = min_t(size_t, sizeof(state->batch) - state->pos, len);
++	if (batch_len) {
++		/* Zeroing at the same time as memcpying helps preserve forward secrecy. */
++		memcpy_and_zero_src(buffer, state->batch + state->pos, batch_len);
++		state->pos += batch_len;
++		buffer += batch_len;
++		len -= batch_len;
++	}
++
++	if (!len) {
++		/* Prevent the loop from being reordered wrt ->generation. */
++		barrier();
++
++		/*
++		 * Since @rng_info->generation will never be 0, re-read @state->generation, rather
++		 * than using the local current_generation variable, to learn whether a fork
++		 * occurred or if @state was zeroed due to memory pressure. Primarily, though, this
++		 * indicates whether the kernel's RNG has reseeded, in which case generate a new key
++		 * and start over.
++		 */
++		if (unlikely(READ_ONCE(state->generation) != READ_ONCE(rng_info->generation))) {
++			/*
++			 * Prevent this from looping forever in case of low memory or racing with a
++			 * user force-reseeding the kernel's RNG using the ioctl.
++			 */
++			if (have_retried) {
++				WRITE_ONCE(state->in_use, false);
++				goto fallback_syscall;
++			}
++
++			have_retried = true;
++			buffer = orig_buffer;
++			goto retry_generation;
++		}
++
++		/*
++		 * Set @state->in_use to false only when there will be no more reads or writes of
++		 * @state.
++		 */
++		WRITE_ONCE(state->in_use, false);
++		return ret;
++	}
++
++	/* Generate blocks of RNG output directly into @buffer while there's enough room left. */
++	nblocks = len / CHACHA_BLOCK_SIZE;
++	if (nblocks) {
++		__arch_chacha20_blocks_nostack(buffer, state->key, counter, nblocks);
++		buffer += nblocks * CHACHA_BLOCK_SIZE;
++		len -= nblocks * CHACHA_BLOCK_SIZE;
++	}
++
++	BUILD_BUG_ON(sizeof(state->batch_key) % CHACHA_BLOCK_SIZE != 0);
++
++	/* Refill the batch and overwrite the key, in order to preserve forward secrecy. */
++	__arch_chacha20_blocks_nostack(state->batch_key, state->key, counter,
++				       sizeof(state->batch_key) / CHACHA_BLOCK_SIZE);
++
++	/* Since the batch was just refilled, set the position back to 0 to indicate a full batch. */
++	state->pos = 0;
++	goto more_batch;
++
++fallback_syscall:
++	return getrandom_syscall(orig_buffer, orig_len, flags);
++}
++
++static __always_inline ssize_t
++__cvdso_getrandom(void *buffer, size_t len, unsigned int flags, void *opaque_state, size_t opaque_len)
++{
++	return __cvdso_getrandom_data(__arch_get_vdso_rng_data(), buffer, len, flags, opaque_state, opaque_len);
 +}
 -- 
 2.45.2
