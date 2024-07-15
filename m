@@ -1,120 +1,160 @@
-Return-Path: <linux-api+bounces-1968-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1969-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7E4C930DAD
-	for <lists+linux-api@lfdr.de>; Mon, 15 Jul 2024 07:47:07 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84233930EE0
+	for <lists+linux-api@lfdr.de>; Mon, 15 Jul 2024 09:35:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 338AAB20D8A
-	for <lists+linux-api@lfdr.de>; Mon, 15 Jul 2024 05:47:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3AC191F21669
+	for <lists+linux-api@lfdr.de>; Mon, 15 Jul 2024 07:35:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99B4613A863;
-	Mon, 15 Jul 2024 05:46:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC57C2B9B9;
+	Mon, 15 Jul 2024 07:35:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i48NpiMO"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QRmdB0Lp"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66D52D2EE;
-	Mon, 15 Jul 2024 05:46:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FF36B64E;
+	Mon, 15 Jul 2024 07:35:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721022419; cv=none; b=KmyXOAnLhBHCp5wGL7KTl4SZz2uBLB1NexCv+LTri5l/4hfg8GmsznUVWT0lmZTqMybtwWFCnbONzD4yvgGADEKKZbYAzwgQoCIFfwmvzIn7A7x7YlgAnx7hrLOyFGgXeuuL7QEtV9OV0L07pOGmx9GuzmVUgspHDC3+ONzXoXE=
+	t=1721028907; cv=none; b=jP4PNzi4OGSnYDxLFqcqN/3ZfTFsRtRZxDxihzBERgw7EtQJkhLmRowIceKE4pGZpR5zmR/L/ZCZu1gZOlonUKDf68Va2oVCAmwBy+vuEceJcfJ2kNNTFWmF/cKmWXxtT7PTJ1L0YEaCv57u5TkCV+OuxbSIXdtazbgc5NhZFEI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721022419; c=relaxed/simple;
-	bh=v2vMWYHn7MG7zOqKves+1/98n0hJ9KsdGPe/87XOnKg=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=Ujtksl0KHPR/b8QkdbqQSj4J337oGMZDdxFqFoSDFTXH+C8Jq6hNffsRhLqr2Y+DIU+Z7uEZRf6HTS8qqWnJpojTi5CMtvlKapHThkqko4QWwPLkKaZyzyzjE/6HTiUupEC0aoV+tn44vEOhCj+r5mznJFGZjitu/Q8MfJQyBIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i48NpiMO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A120C4AF0A;
-	Mon, 15 Jul 2024 05:46:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721022418;
-	bh=v2vMWYHn7MG7zOqKves+1/98n0hJ9KsdGPe/87XOnKg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=i48NpiMOjZ559FSxGxl2x6GcUiuHGIcQSbvRu+ZQLYrFHcH0qAnTmu3AMP3K83V+n
-	 257PEY2PUqkkFzCgc9qIcsvF7KpmmE2FpIoOvqpr6FUKFthe6E2rFXDssDBTuN4pJD
-	 G0xf0eZyT3c08c3p+eGMMrZ5aN5ocZYWjO3Iqsb8OXBwuBCNj7eCS449LwhxO/H5ra
-	 zcFqdxR8pSizeWez4F3LXs82jrRIcsriyCxLdPek9juRLnh69SOYV8aTuCRRFIZRoI
-	 HZ6Xw8fUlJlizkw9znO8NDJh9RBaIraIO3bx3DNr8uLbtZIVNQM5H2PdzyNbPhbmX5
-	 8QSrX2DaHM9fg==
-Date: Mon, 15 Jul 2024 14:46:51 +0900
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Cc: Jiri Olsa <jolsa@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
- Peter Zijlstra <peterz@infradead.org>, Andrii Nakryiko <andrii@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-api@vger.kernel.org,
- x86@kernel.org, bpf@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
- "Borislav Petkov (AMD)" <bp@alien8.de>, Ingo Molnar <mingo@redhat.com>,
- Andy Lutomirski <luto@kernel.org>, Deepak Gupta <debug@rivosinc.com>,
- Stephen Rothwell <sfr@canb.auug.org.au>
+	s=arc-20240116; t=1721028907; c=relaxed/simple;
+	bh=3WWL/jBQa0NLTVwdJTJpRNQUJfoVD8NFt+CYd5SjHNs=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D7wRLq3PaQMuvx/2PXUsRUTl2NyhGLw3cg/fM1Wqdn5NP/xpFFkt1isVZLG7dXpS6xGyEEcdRKX7+GdsjaRqnqnXLNwZujTvx1Gbey76I68Iq7vwEsYTseAQKN+DCoun7+aL2WWb+kcauEZVhbZwMklggYr37joYniqqea+SHT0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QRmdB0Lp; arc=none smtp.client-ip=209.85.218.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a77e85cb9b4so450534466b.0;
+        Mon, 15 Jul 2024 00:35:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1721028904; x=1721633704; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=BcOgtWAypcf1P+ThgUe+PPTLQr2PLitubGeopMxoiNw=;
+        b=QRmdB0LpWSxpFrtD6u3x/0Pmxzf3oIYJEdVCfscgw3yZxIwLvxHZBEHJtgETD++oLb
+         uKRfOdES3LjmOSBg+fSgv5iycg4A6gfCw250/xdqgxozFj284aZM3HaleAjas5ISuj/B
+         VE2RRNNUqzUifLIkfYCenGgA48V1ODevIMNBzRsQeFybLF/fukEHqckfbzOqOsd/xvBq
+         tJO4LU7KYEvz9h7prGQ0CX85FaUDKJFfwYjVZtClTh1o1/2r2I/yiS0g3y3ky8kF+Rs9
+         dLgW7ryeA2MguEcYkB7DffBnl1d1XfYCH+rKcOonWWuoFiZigDgR09Z9aRQ6xe/wEirE
+         XBAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721028904; x=1721633704;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=BcOgtWAypcf1P+ThgUe+PPTLQr2PLitubGeopMxoiNw=;
+        b=JaMzFlECL8VV2ZgnfDMmNJ6BY8LpF88E/wiVF48mYEoUqItVGPEef2rjk0lDVmnuvX
+         0ALxNNy8BJhACbuo9Ui9hQBySUPWFpAWAkl/P/o6TBpNaHQOyXN9HslHOVl7bEZIqQPQ
+         4oJlgU8RlelZkK3J7dnht57Evf6EdVt8/sm+JYUyJAGaS/KIUY4tbRFDgbpyY8n4b81f
+         rno874iuFQDMaHihIHDglLeQ71D+uCrg2AnLVNFy+8ePbbL2Qxn0rfszmV8ENoKIJZxf
+         ZikT7UplKurqRfofhVpA89gaTEK6fBjM4X4ltJ7K2ueURk8DR0qlLJSqfmrHfPnwceLQ
+         vu6A==
+X-Forwarded-Encrypted: i=1; AJvYcCVEnksMe66S4JSP+ntgnAhQSJ879+QcaqElPyVeHNuumTnYJ/nzEYWCGO6yZhl74jiDdvnxG9m3TL/DNQkm7CFbQiQQ/Yj3LWwVfXZYLz5/pQ6K4lkReIbkRG00WRdbBwcISqywnH8gzBcZlntfQxPW2jPZlnpEcHzXWFXEAJsuWCu6FV1FTS1KrJAxYRVc6kX7ZLuO8WP5W3Bg32yzjX/8
+X-Gm-Message-State: AOJu0Yznmiy6LlVKv5aSa+TIutT1zxpqIrGLF+hKSWx2NIf58xFEyMwZ
+	U25frPjyg48/MoQBRvIgDDX1YN2CRxZOzo9gdv+op88bcBzLY+3z
+X-Google-Smtp-Source: AGHT+IEKVP1zAahjz9aKLXWmRMsyrpaqAkpZLrsO+kL6HBBMg6LMXmL28y8wrOQyOfMmBNzrpCxAQQ==
+X-Received: by 2002:a17:907:d93:b0:a77:b3c4:cd28 with SMTP id a640c23a62f3a-a780b68a287mr1551287666b.9.1721028904192;
+        Mon, 15 Jul 2024 00:35:04 -0700 (PDT)
+Received: from krava ([2a00:102a:5016:2f5f:f580:e408:137f:9c83])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a79bc822bfasm187916866b.222.2024.07.15.00.35.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Jul 2024 00:35:03 -0700 (PDT)
+From: Jiri Olsa <olsajiri@gmail.com>
+X-Google-Original-From: Jiri Olsa <jolsa@kernel.org>
+Date: Mon, 15 Jul 2024 09:34:57 +0200
+To: Masami Hiramatsu <mhiramat@kernel.org>
+Cc: Andrii Nakryiko <andrii.nakryiko@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Andrii Nakryiko <andrii@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org, x86@kernel.org, bpf@vger.kernel.org,
+	Thomas Gleixner <tglx@linutronix.de>,
+	"Borislav Petkov (AMD)" <bp@alien8.de>,
+	Ingo Molnar <mingo@redhat.com>, Andy Lutomirski <luto@kernel.org>,
+	Deepak Gupta <debug@rivosinc.com>,
+	Stephen Rothwell <sfr@canb.auug.org.au>
 Subject: Re: [PATCH 2/2] selftests/bpf: Change uretprobe syscall number in
  uprobe_syscall test
-Message-Id: <20240715144651.98ef93f04a96a7aa9109d55e@kernel.org>
-In-Reply-To: <CAEf4BzY3Xo-g02r9TY9tHq49JLrrYoUNoXN=WXhJ02q4xUbGbA@mail.gmail.com>
+Message-ID: <ZpTRIa2_sk4hKAQU@krava>
 References: <20240712135228.1619332-1-jolsa@kernel.org>
-	<20240712135228.1619332-3-jolsa@kernel.org>
-	<CAEf4BzY3Xo-g02r9TY9tHq49JLrrYoUNoXN=WXhJ02q4xUbGbA@mail.gmail.com>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+ <20240712135228.1619332-3-jolsa@kernel.org>
+ <CAEf4BzY3Xo-g02r9TY9tHq49JLrrYoUNoXN=WXhJ02q4xUbGbA@mail.gmail.com>
+ <20240715144651.98ef93f04a96a7aa9109d55e@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240715144651.98ef93f04a96a7aa9109d55e@kernel.org>
 
-On Fri, 12 Jul 2024 11:27:30 -0700
-Andrii Nakryiko <andrii.nakryiko@gmail.com> wrote:
-
-> On Fri, Jul 12, 2024 at 6:53 AM Jiri Olsa <jolsa@kernel.org> wrote:
-> >
-> > Fixing the syscall number value.
-> >
-> > Fixes: 9e7f74e64ae5 ("selftests/bpf: Add uretprobe syscall call from user space test")
-> > Signed-off-by: Jiri Olsa <jolsa@kernel.org>
-> > ---
-> >  tools/testing/selftests/bpf/prog_tests/uprobe_syscall.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
+On Mon, Jul 15, 2024 at 02:46:51PM +0900, Masami Hiramatsu wrote:
+> On Fri, 12 Jul 2024 11:27:30 -0700
+> Andrii Nakryiko <andrii.nakryiko@gmail.com> wrote:
 > 
-> is this selftest in probes/for-next already? If yes, I'd combine these
-> two patches to avoid any bisection problems
+> > On Fri, Jul 12, 2024 at 6:53 AM Jiri Olsa <jolsa@kernel.org> wrote:
+> > >
+> > > Fixing the syscall number value.
+> > >
+> > > Fixes: 9e7f74e64ae5 ("selftests/bpf: Add uretprobe syscall call from user space test")
+> > > Signed-off-by: Jiri Olsa <jolsa@kernel.org>
+> > > ---
+> > >  tools/testing/selftests/bpf/prog_tests/uprobe_syscall.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > 
+> > is this selftest in probes/for-next already? If yes, I'd combine these
+> > two patches to avoid any bisection problems
+
+yes it's all there.. I don't mind squashing it, I just did not want
+to combine kernel and user space parts.. up to Masami I guess
+
+> > 
+> > but either way
+> > 
+> > Acked-by: Andrii Nakryiko <andrii@kernel.org>
 > 
-> but either way
-> 
-> Acked-by: Andrii Nakryiko <andrii@kernel.org>
+> Thanks, let me pick it to for-next branch.
 
-Thanks, let me pick it to for-next branch.
-
-Thank you,
+thanks,
+jirka
 
 > 
+> Thank you,
 > 
-> > diff --git a/tools/testing/selftests/bpf/prog_tests/uprobe_syscall.c b/tools/testing/selftests/bpf/prog_tests/uprobe_syscall.c
-> > index c8517c8f5313..bd8c75b620c2 100644
-> > --- a/tools/testing/selftests/bpf/prog_tests/uprobe_syscall.c
-> > +++ b/tools/testing/selftests/bpf/prog_tests/uprobe_syscall.c
-> > @@ -216,7 +216,7 @@ static void test_uretprobe_regs_change(void)
-> >  }
-> >
-> >  #ifndef __NR_uretprobe
-> > -#define __NR_uretprobe 463
-> > +#define __NR_uretprobe 467
-> >  #endif
-> >
-> >  __naked unsigned long uretprobe_syscall_call_1(void)
-> > --
-> > 2.45.2
-> >
-
-
--- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
+> > 
+> > 
+> > > diff --git a/tools/testing/selftests/bpf/prog_tests/uprobe_syscall.c b/tools/testing/selftests/bpf/prog_tests/uprobe_syscall.c
+> > > index c8517c8f5313..bd8c75b620c2 100644
+> > > --- a/tools/testing/selftests/bpf/prog_tests/uprobe_syscall.c
+> > > +++ b/tools/testing/selftests/bpf/prog_tests/uprobe_syscall.c
+> > > @@ -216,7 +216,7 @@ static void test_uretprobe_regs_change(void)
+> > >  }
+> > >
+> > >  #ifndef __NR_uretprobe
+> > > -#define __NR_uretprobe 463
+> > > +#define __NR_uretprobe 467
+> > >  #endif
+> > >
+> > >  __naked unsigned long uretprobe_syscall_call_1(void)
+> > > --
+> > > 2.45.2
+> > >
+> 
+> 
+> -- 
+> Masami Hiramatsu (Google) <mhiramat@kernel.org>
 
