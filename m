@@ -1,105 +1,105 @@
-Return-Path: <linux-api+bounces-1972-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1973-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73D1D932106
-	for <lists+linux-api@lfdr.de>; Tue, 16 Jul 2024 09:14:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DA359325BA
+	for <lists+linux-api@lfdr.de>; Tue, 16 Jul 2024 13:36:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9FAFA1C218B7
-	for <lists+linux-api@lfdr.de>; Tue, 16 Jul 2024 07:14:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AE65D1C21CC0
+	for <lists+linux-api@lfdr.de>; Tue, 16 Jul 2024 11:36:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F8CD224D2;
-	Tue, 16 Jul 2024 07:14:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 019341991C5;
+	Tue, 16 Jul 2024 11:36:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="kT1s73ju"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lyqlKVxe"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp-bc09.mail.infomaniak.ch (smtp-bc09.mail.infomaniak.ch [45.157.188.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7078237171
-	for <linux-api@vger.kernel.org>; Tue, 16 Jul 2024 07:13:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.157.188.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88EFE55897
+	for <linux-api@vger.kernel.org>; Tue, 16 Jul 2024 11:36:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721114040; cv=none; b=lEpYQ8teErMjg8Snf+DEEIYPvqnvgPuqqoQCokhFVP/v+DyhL4yifSF5a7LWxII7ozqByS3jaJNbtsyCcbCNzrK0ZUd8XC0M/CmPXaHXikjAGWq4S0BSOMl1LuMQfHYPetBuyDcmwsz4jD9GVtiQ/nBcUMNUDcewkjMQOE0eWUI=
+	t=1721129761; cv=none; b=GdY9MPd2tlKpq99czKXvJnsaqnAEBrA95SuFx+tQBstuTqHkWmUEYcRhZ/doZsZiJLFdV2HAy38QQDt8FOqjjhSOqRkWA4g/7tCyzWBlML6Atx6NWokVRW3GLEWn2ZGDo82bCPx5an032SQn5f2J4xL69zlCBrlgdw/KeKFbqAo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721114040; c=relaxed/simple;
-	bh=om5UofC4ryHM94Wlsk4/cAWNj8IrCD8xKsDi+0pvYEI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IuAL3KVEodU6sokAFHyaOGLKDrYYJeuTfaGBCEikcy7WGV6+Q3FVIh4hhrex10jjL0Ytlmj6AfU5ASsUrpk0pBkm3FOuO1MeJxBna1P8BHJzH/1OvSzEs6ac+OcpwJMb3Swm6JBfGFdQZ8O7GriVf7L4uw3+vms6QhwvrzEs47M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=kT1s73ju; arc=none smtp.client-ip=45.157.188.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
-Received: from smtp-4-0001.mail.infomaniak.ch (smtp-4-0001.mail.infomaniak.ch [10.7.10.108])
-	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4WNVfn1WqqzlGb;
-	Tue, 16 Jul 2024 09:13:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
-	s=20191114; t=1721114033;
-	bh=Pgvv7MQ5tPNIpIpwnO7JzPSqhpV+bSm8Xa4gUvwKzv8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kT1s73ju4LMuNR9iv/HUc1o8CwZJ5xCxOz/+egyw3P7sbZeW2jRv16p+ElhwyUtEA
-	 zvYnMjKHWvc/qG6EqgzzBjF8lkQqacaFr+P3FuSQ58elSfbJjsGYZnsmUg1ZWS8FKD
-	 1oJ6pWXDMHcM7ab84mB83LrO7VC6Cvd3MjkJ0lkk=
-Received: from unknown by smtp-4-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4WNVff3KMVzQHl;
-	Tue, 16 Jul 2024 09:13:46 +0200 (CEST)
-Date: Tue, 16 Jul 2024 09:13:44 +0200
-From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Al Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Kees Cook <keescook@chromium.org>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Paul Moore <paul@paul-moore.com>, Theodore Ts'o <tytso@mit.edu>, 
-	Alejandro Colomar <alx@kernel.org>, Aleksa Sarai <cyphar@cyphar.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Andy Lutomirski <luto@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Casey Schaufler <casey@schaufler-ca.com>, Christian Heimes <christian@python.org>, 
-	Dmitry Vyukov <dvyukov@google.com>, Eric Biggers <ebiggers@kernel.org>, 
-	Eric Chiang <ericchiang@google.com>, Fan Wu <wufan@linux.microsoft.com>, 
-	Florian Weimer <fweimer@redhat.com>, Geert Uytterhoeven <geert@linux-m68k.org>, 
-	James Morris <jamorris@linux.microsoft.com>, Jan Kara <jack@suse.cz>, Jann Horn <jannh@google.com>, 
-	Jeff Xu <jeffxu@google.com>, Jordan R Abrahams <ajordanr@google.com>, 
-	Lakshmi Ramasubramanian <nramas@linux.microsoft.com>, Luca Boccassi <bluca@debian.org>, 
-	Luis Chamberlain <mcgrof@kernel.org>, "Madhavan T . Venkataraman" <madvenka@linux.microsoft.com>, 
-	Matt Bobrowski <mattbobrowski@google.com>, Matthew Garrett <mjg59@srcf.ucam.org>, 
-	Matthew Wilcox <willy@infradead.org>, Miklos Szeredi <mszeredi@redhat.com>, 
-	Mimi Zohar <zohar@linux.ibm.com>, Nicolas Bouchinet <nicolas.bouchinet@ssi.gouv.fr>, 
-	Scott Shell <scottsh@microsoft.com>, Shuah Khan <shuah@kernel.org>, 
-	Stephen Rothwell <sfr@canb.auug.org.au>, Steve Dower <steve.dower@python.org>, 
-	Steve Grubb <sgrubb@redhat.com>, Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>, 
-	Vincent Strubel <vincent.strubel@ssi.gouv.fr>, Xiaoming Ni <nixiaoming@huawei.com>, 
-	Yin Fengwei <fengwei.yin@intel.com>, kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-security-module@vger.kernel.org
-Subject: Re: [RFC PATCH v19 0/5] Script execution control (was O_MAYEXEC)
-Message-ID: <20240716.bebeeX1aequi@digikod.net>
-References: <20240704190137.696169-1-mic@digikod.net>
- <8734oawguu.fsf@trenco.lwn.net>
+	s=arc-20240116; t=1721129761; c=relaxed/simple;
+	bh=9u1aTHcNBkRJvWOW94arN5xGDqvGf2duJg3jg1Sch1c=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=fN2UfdYXb1Eh2lOGLlaifup2JAbIlBmc8YishHtnZOpWxuhme7cuSPdOijSYbhYXeupJdP6jzMzAqD0IU2Vf0ErmxPTNabtIGSqv53OfRHX4Oz2uyed0K1usJAz8EgyCKu3MVU+QL/Z6Qwos/eirelMuMHuPTuYQG1vCTtGiEzg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lyqlKVxe; arc=none smtp.client-ip=209.85.210.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-70211abf4cbso3642691a34.3
+        for <linux-api@vger.kernel.org>; Tue, 16 Jul 2024 04:36:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1721129759; x=1721734559; darn=vger.kernel.org;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=T82xgTiZeLnfrmbWJsDkjudRwKXsnzcZ/xgyYUSgJoQ=;
+        b=lyqlKVxeH2LrDGHUeHUHQRA+cX0DTmIJk7sIiVzf6p20uLK6Y0f1rLCrWVnsOPXiPv
+         +LpHmdcBRm2BKMGLPzpWKbh2v5U8mAhYL4V+fAuTJ2HGO5rCK1oAGuc4fzfl9dqUDAXZ
+         vdq5AkxxPatyddmL8HaC17aXcDxR5sMIw7QKDEogaIGc1BWN2/K4siUsQVsX39a/H3VF
+         H0J8vw+RQNPnd+BSY3a0xOoABzcamlew/M/8+HoN7RxQmg76Q+dLzThl4iXUzY3HizA3
+         Y8MVwJGaHXW9vftx/5vN38xLsyZEb9HzLptce34A9gR21Bf2s76sWBMnR0KSD8L1/rG3
+         1Lxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721129759; x=1721734559;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=T82xgTiZeLnfrmbWJsDkjudRwKXsnzcZ/xgyYUSgJoQ=;
+        b=s85wr44/JS6OC8jar9Oc1myTIuFuGjz6nVH5PrOyD0v3u8yI0GlDWSiQeHBO03epxf
+         tVb/YPrZWKR5WZ/RPBKY1KqJQSZfds1GNo44Z6K3ttRgl9taTHDc9AztBsGJgLeR1ox2
+         aWzb0MT0SVJUtoKki6k95x/8L6vSegiqXArZ9dNDNKxJoLSMRlP4tIYb5pg3x59KIQyB
+         +2RtQfgSyZwlpyEFZzb5v0OI+ZRlVfDSgpr9pfevuBY15XWeCP7S6Qa/V8wR3NeiPGMG
+         SqLUdpIB9kKEVXFlgISQSKHuwF1vO08nAYhBZMHNoA+vl+Q7sgdU42zutwlLE9Rl99XD
+         yoLQ==
+X-Gm-Message-State: AOJu0YxdxTI0JQHfBTMvXFuivA4CRZ8/8sUjb1FytVtZaN0GpIe2r34G
+	Y/nGDjCbI3NIZ7qLo26yF8ly8Za3KdYpApC27XgumTIRjwBoB7UwBDRJHlHlmJptvX4q6ReDGWj
+	nUATDn+aWANAcNmdTVZvGFp1DX6IYLdiJ2Y0=
+X-Google-Smtp-Source: AGHT+IGDxBGp/UBRisgtJZ/G3oWZZbdJ9RAPJbK2g8PS19jEatvmSuQwK91EmR1poDKhK7Y+VKiA5hbW8kJlv6I8V2w=
+X-Received: by 2002:a05:6870:c1d2:b0:25e:1f67:b3c2 with SMTP id
+ 586e51a60fabf-260bdd5b993mr1629761fac.1.1721129759208; Tue, 16 Jul 2024
+ 04:35:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <8734oawguu.fsf@trenco.lwn.net>
-X-Infomaniak-Routing: alpha
+From: Mathias Dufresne <mathias.dufresne@gmail.com>
+Date: Tue, 16 Jul 2024 13:35:45 +0200
+Message-ID: <CABwLUpt7jT594p-un1yxBN8ewvY+OfJhMdUSRmAuJAYDW2jNMQ@mail.gmail.com>
+Subject: [question] about NFS4 ACLs
+To: linux-api@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Jul 15, 2024 at 02:16:41PM -0600, Jonathan Corbet wrote:
-> Mickaël Salaün <mic@digikod.net> writes:
-> 
-> FYI:
-> 
-> > User space patches can be found here:
-> > https://github.com/clipos-archive/clipos4_portage-overlay/search?q=O_MAYEXEC
-> 
-> That link appears to be broken.
+Hi everyone,
 
-Unfortunately, GitHub's code search links only work with an account.
-git grep prints a similar output though.
+I'm posting here as I don't really know where to start...  I'm a
+sysadmin with almost no knowledge regarding what I'll speak about.
 
-> 
-> Thanks,
-> 
-> jon
+For some Samba related reasons, I dived into NFS4 ACLs support on
+Linux and from what I understood, Linux is almost the last system to
+refuse to support this kind of ACLs.
+
+From what I understood (I insist as I'm not sure my understanding is
+good enough) an API could be built to reside on Kernel side then
+software developers would be able to write something to use that API.
+These API accesses are, in my mind, doable by FS modules as by FS
+clients, both in user land and so regardless of the licence used by
+these codes.
+
+As I found quite a bit of literature on that subject, I believe that
+adding such an API, if possible, would please a decent bunch of
+people.
+
+So, first question: am I completely wrong about the feasibility and/or
+the way things could work?
+Then, is there a reason to not add this feature to our beloved Kernel
+tree? Except time to work on it...
+
+My apologies for the noise and best regards,
+
+Mathias Dufresne
 
