@@ -1,136 +1,401 @@
-Return-Path: <linux-api+bounces-1983-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-1984-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D7F9932F54
-	for <lists+linux-api@lfdr.de>; Tue, 16 Jul 2024 19:48:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E579F93372E
+	for <lists+linux-api@lfdr.de>; Wed, 17 Jul 2024 08:34:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 518721F21881
-	for <lists+linux-api@lfdr.de>; Tue, 16 Jul 2024 17:48:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 752C61F23DF3
+	for <lists+linux-api@lfdr.de>; Wed, 17 Jul 2024 06:34:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9384219FA6C;
-	Tue, 16 Jul 2024 17:48:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7956B18026;
+	Wed, 17 Jul 2024 06:34:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="QQQ+S7I2"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="icW7o23Z"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp-bc0b.mail.infomaniak.ch (smtp-bc0b.mail.infomaniak.ch [45.157.188.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2C2B54BD4
-	for <linux-api@vger.kernel.org>; Tue, 16 Jul 2024 17:48:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.157.188.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 478E6156E4
+	for <linux-api@vger.kernel.org>; Wed, 17 Jul 2024 06:34:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721152098; cv=none; b=jZJFmruL9JPTJqToqZXQuPKFO2sd0sqhFeZN8YyltczeLukR3Q0MnLaS+FC79bUp2f9NfsY2dxdNtwLsN+RFtBQ2GxDyLHpuPzUguU1MZLdfW5NaJyoZ6emcAa4JikJHvWIl4PhbGWxC33cz/qOQVGOzmqxIhU9nIcdNbwp98uU=
+	t=1721198079; cv=none; b=bqhoi5oP9kNqiG+iyVF90JspVrEhSVK3WUZECkQE87b+iiiB/GVHQAzTXcNmxCZ/NEOMuYQx8BlIvh3LymcCdkpnpgLWrbwPzcYKIZkEuZBG1v+zUr3Vx7/vC0xG45LAHm3ipkXGOgOt8bjh2xzaOM8HJVkeVJkWwGeAJMTF1wo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721152098; c=relaxed/simple;
-	bh=NiVYgJ9EX5zgNqw3xIpFnIScG6qQ7oONoRUqdjLrXPI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RpupEjS13QQhyz8LgX3kG4C54uD1vmtsTSj4Dw23SNr8nn5/kTK+ZZtfY/SU811anmoY6YSkdvZe+6oxo1F7vZKviP7295jYZOv7UIMl4RcWSGFWT/9XyRbneN058SF/cgIf8UUZdPlR/kjbEHgT60pQ48c2j8cPYIa5QwQKleI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=QQQ+S7I2; arc=none smtp.client-ip=45.157.188.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
-Received: from smtp-3-0001.mail.infomaniak.ch (smtp-3-0001.mail.infomaniak.ch [10.4.36.108])
-	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4WNmkc3CDmzk6Q;
-	Tue, 16 Jul 2024 19:48:08 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
-	s=20191114; t=1721152088;
-	bh=LWblpPfF9wNYIYfX15oQl6tTRp3rZAKkmPWjrsQep60=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QQQ+S7I2Ua4od8sW/6D1JC9ivlgTH1sZMkaw8jYNQtPma8Ip6DbG40h1NpdimI7Xc
-	 F/k0WwtFrl7pTIGzv0AQntKmgMTJmCu5m09toaI5LhDwng++5GebvyVFtv5GfZB3yN
-	 VtdK+y0E4iqnH4BuYwNCr38mLDQw/yAs+Enhz0wE=
-Received: from unknown by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4WNmkS378YzxCQ;
-	Tue, 16 Jul 2024 19:48:00 +0200 (CEST)
-Date: Tue, 16 Jul 2024 19:47:59 +0200
-From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
-To: Boris Lukashev <blukashev@sempervictus.com>
-Cc: James Bottomley <James.Bottomley@hansenpartnership.com>, 
-	Roberto Sassu <roberto.sassu@huaweicloud.com>, Mimi Zohar <zohar@linux.ibm.com>, 
-	Al Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	Kees Cook <keescook@chromium.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
-	Paul Moore <paul@paul-moore.com>, Theodore Ts'o <tytso@mit.edu>, 
-	Alejandro Colomar <alx@kernel.org>, Aleksa Sarai <cyphar@cyphar.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Andy Lutomirski <luto@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Casey Schaufler <casey@schaufler-ca.com>, Christian Heimes <christian@python.org>, 
-	Dmitry Vyukov <dvyukov@google.com>, Eric Biggers <ebiggers@kernel.org>, 
-	Eric Chiang <ericchiang@google.com>, Fan Wu <wufan@linux.microsoft.com>, 
-	Florian Weimer <fweimer@redhat.com>, Geert Uytterhoeven <geert@linux-m68k.org>, 
-	James Morris <jamorris@linux.microsoft.com>, Jan Kara <jack@suse.cz>, Jann Horn <jannh@google.com>, 
-	Jeff Xu <jeffxu@google.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Jordan R Abrahams <ajordanr@google.com>, Lakshmi Ramasubramanian <nramas@linux.microsoft.com>, 
-	Luca Boccassi <bluca@debian.org>, Luis Chamberlain <mcgrof@kernel.org>, 
-	"Madhavan T . Venkataraman" <madvenka@linux.microsoft.com>, Matt Bobrowski <mattbobrowski@google.com>, 
-	Matthew Garrett <mjg59@srcf.ucam.org>, Matthew Wilcox <willy@infradead.org>, 
-	Miklos Szeredi <mszeredi@redhat.com>, Nicolas Bouchinet <nicolas.bouchinet@ssi.gouv.fr>, 
-	Scott Shell <scottsh@microsoft.com>, Shuah Khan <shuah@kernel.org>, 
-	Stephen Rothwell <sfr@canb.auug.org.au>, Steve Dower <steve.dower@python.org>, 
-	Steve Grubb <sgrubb@redhat.com>, Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>, 
-	Vincent Strubel <vincent.strubel@ssi.gouv.fr>, Xiaoming Ni <nixiaoming@huawei.com>, 
-	Yin Fengwei <fengwei.yin@intel.com>, kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-security-module@vger.kernel.org
-Subject: Re: [RFC PATCH v19 0/5] Script execution control (was O_MAYEXEC)
-Message-ID: <20240716.shaliZ2chohj@digikod.net>
-References: <20240704190137.696169-1-mic@digikod.net>
- <55b4f6291e8d83d420c7d08f4233b3d304ce683d.camel@linux.ibm.com>
- <20240709.AhJ7oTh1biej@digikod.net>
- <9e3df65c2bf060b5833558e9f8d82dcd2fe9325a.camel@huaweicloud.com>
- <ee1ae815b6e75021709612181a6a4415fda543a4.camel@HansenPartnership.com>
- <E608EDB8-72E8-4791-AC9B-8FF9AC753FBE@sempervictus.com>
+	s=arc-20240116; t=1721198079; c=relaxed/simple;
+	bh=ZzRqnXG/WymFGcHQ28vvNVgpLtd5zSuwSo7JLsh90Ts=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Ecds+Ccahsr/JNwtM9FAjH0zf8HD92OTZRPLuats3mh6gPtfzgagpC+tWXR+kEZvbzkTlut+hJixgugoUXvZRGBm9wSIDslh6HypfjAhbZ5rRcoGtFj5W0/CkNgz1Y1WoPx24qWYa+QrFwn9vXeese5qN/gC6n61NpoUwpfh9Zs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=icW7o23Z; arc=none smtp.client-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-58c0abd6b35so10820a12.0
+        for <linux-api@vger.kernel.org>; Tue, 16 Jul 2024 23:34:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1721198075; x=1721802875; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=53iyz8JF6uRIbfZMKSJA71iqZou/dHPJqNT+l8ZIpu8=;
+        b=icW7o23ZnbM6w2HLagbsR0m92WRVAq3x7NXlcm5IGTiOeo5mjd3DLpVYZfvJKvur8g
+         099HoNUzR4l1FIZ7hm7VC9B2OBWSvht371lbiBjw6iklFqZbTY7YQiARQnTDshHzlmRB
+         4pPr9StZd/lckZAzKDedoMKoB30khfn2S1QDq+pJCHL0cCeeOLMExSNe5Rbtq2dBe4Bs
+         Y2uAn9Cy5elQWH3SrBZX11z7TI6vbJO/lWRX2UAM3Yk1tuexC1bbUrBDV/OReamei/87
+         2TUoyqJdEjhL1eBBHO85nERIKTb762vCLSr13L9QuMITARW65ZX9bZeHBkItxRsgLXai
+         9msg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721198075; x=1721802875;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=53iyz8JF6uRIbfZMKSJA71iqZou/dHPJqNT+l8ZIpu8=;
+        b=XOT7bZFmBEsQ1sRJuQIngoP6UjV+PuDPt2a6X/4trFvtr+T98CX4KtXTldzijX/X+g
+         qHoCMK8Bxm2TVP5ACFUuYILQ5l3nupZEM90scGzXsHJpMObr5F5O8Nt1ngAbD3rnJx0W
+         NLKmSZ1LAnUdCtEgAYz7BwfyRSVnTXbm5LG4dKj2Ui7c0VxvS+bPj6wKsH3ugfHGrv1+
+         3fmccH+fG4GZOzj0kVV0NLiqEwRcwkOabH4veMI4Mjay8Yp4p42kuWwFuwMVGA9xt8tP
+         SaoFJUpnWD8lx89l8IJ8V7oJPNf4iRDrjw2ain/2W+TW5gZhr/ozkUphGcwIIoPneOoR
+         cIpw==
+X-Forwarded-Encrypted: i=1; AJvYcCX8ILKXeYJ6VikvYM4msp1uhnOd3lF7Crv2IRMQksjRnbEz0Z1b45fDaHgcWP3D35Bht7RNRiino+vl4X4fakxPxyQdi9yBtwla
+X-Gm-Message-State: AOJu0YwXFWIL59EpjhY6TzTAguE8mdBWuwgYKNq6moAafDoIClBh075O
+	2TCT5R3LdAq5VmFg1ItrUTosfg6r/WPmP/On/fup6GqQb0ej1NZaXy8vkAV195p1yxSGJ1JshIO
+	sALPv6Z6ymYlwoBGzssW013NVQsCTiK2FEhtA
+X-Google-Smtp-Source: AGHT+IEcQ87b2S98giZRUUEjfFRjwWGAXq1R+jlPbWJt+wEQ7hF7bnbsQBGW927UFsWh0HyFwsGHVuNdH0qfDvnYI6Y=
+X-Received: by 2002:a50:9b54:0:b0:59f:9f59:9b07 with SMTP id
+ 4fb4d7f45d1cf-5a01aa1de7bmr158260a12.4.1721198074196; Tue, 16 Jul 2024
+ 23:34:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <E608EDB8-72E8-4791-AC9B-8FF9AC753FBE@sempervictus.com>
-X-Infomaniak-Routing: alpha
+References: <20240704190137.696169-1-mic@digikod.net> <20240704190137.696169-2-mic@digikod.net>
+In-Reply-To: <20240704190137.696169-2-mic@digikod.net>
+From: Jeff Xu <jeffxu@google.com>
+Date: Tue, 16 Jul 2024 23:33:55 -0700
+Message-ID: <CALmYWFss7qcpR9D_r3pbP_Orxs55t3y3yXJsac1Wz=Hk9Di0Nw@mail.gmail.com>
+Subject: Re: [RFC PATCH v19 1/5] exec: Add a new AT_CHECK flag to execveat(2)
+To: =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
+Cc: Al Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Kees Cook <keescook@chromium.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
+	Paul Moore <paul@paul-moore.com>, "Theodore Ts'o" <tytso@mit.edu>, 
+	Alejandro Colomar <alx.manpages@gmail.com>, Aleksa Sarai <cyphar@cyphar.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Andy Lutomirski <luto@kernel.org>, 
+	Arnd Bergmann <arnd@arndb.de>, Casey Schaufler <casey@schaufler-ca.com>, 
+	Christian Heimes <christian@python.org>, Dmitry Vyukov <dvyukov@google.com>, 
+	Eric Biggers <ebiggers@kernel.org>, Eric Chiang <ericchiang@google.com>, 
+	Fan Wu <wufan@linux.microsoft.com>, Florian Weimer <fweimer@redhat.com>, 
+	Geert Uytterhoeven <geert@linux-m68k.org>, James Morris <jamorris@linux.microsoft.com>, 
+	Jan Kara <jack@suse.cz>, Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Jordan R Abrahams <ajordanr@google.com>, Lakshmi Ramasubramanian <nramas@linux.microsoft.com>, 
+	Luca Boccassi <bluca@debian.org>, Luis Chamberlain <mcgrof@kernel.org>, 
+	"Madhavan T . Venkataraman" <madvenka@linux.microsoft.com>, Matt Bobrowski <mattbobrowski@google.com>, 
+	Matthew Garrett <mjg59@srcf.ucam.org>, Matthew Wilcox <willy@infradead.org>, 
+	Miklos Szeredi <mszeredi@redhat.com>, Mimi Zohar <zohar@linux.ibm.com>, 
+	Nicolas Bouchinet <nicolas.bouchinet@ssi.gouv.fr>, Scott Shell <scottsh@microsoft.com>, 
+	Shuah Khan <shuah@kernel.org>, Stephen Rothwell <sfr@canb.auug.org.au>, 
+	Steve Dower <steve.dower@python.org>, Steve Grubb <sgrubb@redhat.com>, 
+	Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>, 
+	Vincent Strubel <vincent.strubel@ssi.gouv.fr>, Xiaoming Ni <nixiaoming@huawei.com>, 
+	Yin Fengwei <fengwei.yin@intel.com>, kernel-hardening@lists.openwall.com, 
+	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-(adding back other people in Cc)
+On Thu, Jul 4, 2024 at 12:02=E2=80=AFPM Micka=C3=ABl Sala=C3=BCn <mic@digik=
+od.net> wrote:
+>
+> Add a new AT_CHECK flag to execveat(2) to check if a file would be
+> allowed for execution.  The main use case is for script interpreters and
+> dynamic linkers to check execution permission according to the kernel's
+> security policy. Another use case is to add context to access logs e.g.,
+> which script (instead of interpreter) accessed a file.  As any
+> executable code, scripts could also use this check [1].
+>
+> This is different than faccessat(2) which only checks file access
+> rights, but not the full context e.g. mount point's noexec, stack limit,
+> and all potential LSM extra checks (e.g. argv, envp, credentials).
+> Since the use of AT_CHECK follows the exact kernel semantic as for a
+> real execution, user space gets the same error codes.
+>
+So we concluded that execveat(AT_CHECK) will be used to check the
+exec, shared object, script and config file (such as seccomp config),
+I'm still thinking  execveat(AT_CHECK) vs faccessat(AT_CHECK) in
+different use cases:
 
-On Tue, Jul 16, 2024 at 01:29:43PM -0400, Boris Lukashev wrote:
-> Wouldn't count those shell chickens - awk alone is enough and we can
-> use ssh and openssl clients (all in metasploit public code). As one of
-> the people who makes novel shell types, I can assure you that this
-> effort is only going to slow skiddies and only until the rest of us
-> publish mitigations for this mitigation :)
+execveat clearly has less code change, but that also means: we can't
+add logic specific to exec (i.e. logic that can't be applied to
+config) for this part (from do_execveat_common to
+security_bprm_creds_for_exec) in future.  This would require some
+agreement/sign-off, I'm not sure from whom.
 
-Security is not binary. :)
+--------------------------
+now looked at user cases (focus on elf for now)
 
-Not all Linux systems are equals. Some hardened systems need this kind
-of feature and they can get guarantees because they fully control and
-trust their executable binaries (e.g. CLIP OS, chromeOS) or they
-properly sandbox them.  See context in the cover letter.
+1> ld.so /tmp/a.out, /tmp/a.out is on non-exec mount
+dynamic linker will first call execveat(fd, AT_CHECK) then execveat(fd)
 
-awk is a script interpreter that should be patched too, like other Linux
-tools.
+2> execve(/usr/bin/some.out) and some.out has dependency on /tmp/a.so
+/usr/bin/some.out will pass AT_CHECK
 
-> 
-> -Boris (RageLtMan)
-> 
-> On July 16, 2024 12:12:49 PM EDT, James Bottomley <James.Bottomley@HansenPartnership.com> wrote:
-> >On Tue, 2024-07-16 at 17:57 +0200, Roberto Sassu wrote:
-> >> But the Clip OS 4 patch does not cover the redirection case:
-> >> 
-> >> # ./bash < /root/test.sh
-> >> Hello World
-> >> 
-> >> Do you have a more recent patch for that?
-> >
-> >How far down the rabbit hole do you want to go?  You can't forbid a
-> >shell from executing commands from stdin because logging in then won't
-> >work.  It may be possible to allow from a tty backed file and not from
-> >a file backed one, but you still have the problem of the attacker
-> >manually typing in the script.
-> >
-> >The saving grace for this for shells is that they pretty much do
-> >nothing on their own (unlike python) so you can still measure all the
-> >executables they call out to, which provides reasonable safety.
-> >
-> >James
-> >
+3> execve(usr/bin/some.out) and some.out uses custom /tmp/ld.so
+/usr/bin/some.out will pass AT_CHECK, however, it uses a custom
+/tmp/ld.so (I assume this is possible  for elf header will set the
+path for ld.so because kernel has no knowledge of that, and
+binfmt_elf.c allocate memory for ld.so during execveat call)
+
+4> dlopen(/tmp/a.so)
+I assume dynamic linker will call execveat(AT_CHECK), before map a.so
+into memory.
+
+For case 1>
+Alternative solution: Because AT_CHECK is always called, I think we
+can avoid the first AT_CHECK call, and check during execveat(fd),
+this means the kernel will enforce SECBIT_EXEC_RESTRICT_FILE =3D 1, the
+benefit is that there is no TOCTOU and save one round trip of syscall
+for a succesful execveat() case.
+
+For case 2>
+dynamic linker will call execve(AT_CHECK), then mmap(fd) into memory.
+However,  the process can all open then mmap() directly, it seems
+minimal effort for an attacker to walk around such a defence from
+dynamic linker.
+
+Alternative solution:
+dynamic linker call AT_CHECK for each .so, kernel will save the state
+(associated with fd)
+kernel will check fd state at the time of mmap(fd, executable memory)
+and enforce SECBIT_EXEC_RESTRICT_FILE =3D 1
+
+Alternative solution 2:
+a new syscall to load the .so and enforce the AT_CHECK in kernel
+
+This also means, for the solution to be complete, we might want to
+block creation of executable anonymous memory (e.g. by seccomp, ),
+unless the user space can harden the creation of  executable anonymous
+memory in some way.
+
+For case 3>
+I think binfmt_elf.c in the kernel needs to check the ld.so to make
+sure it passes AT_CHECK, before loading it into memory.
+
+For case 4>
+same as case 2.
+
+Consider those cases: I think:
+a> relying purely on userspace for enforcement does't seem to be
+effective,  e.g. it is trivial  to call open(), then mmap() it into
+executable memory.
+b> if both user space and kernel need to call AT_CHECK, the faccessat
+seems to be a better place for AT_CHECK, e.g. kernel can call
+do_faccessat(AT_CHECK) and userspace can call faccessat(). This will
+avoid complicating the execveat() code path.
+
+What do you think ?
+
+Thanks
+-Jeff
+
+> With the information that a script interpreter is about to interpret a
+> script, an LSM security policy can adjust caller's access rights or log
+> execution request as for native script execution (e.g. role transition).
+> This is possible thanks to the call to security_bprm_creds_for_exec().
+>
+> Because LSMs may only change bprm's credentials, use of AT_CHECK with
+> current kernel code should not be a security issue (e.g. unexpected role
+> transition).  LSMs willing to update the caller's credential could now
+> do so when bprm->is_check is set.  Of course, such policy change should
+> be in line with the new user space code.
+>
+> Because AT_CHECK is dedicated to user space interpreters, it doesn't
+> make sense for the kernel to parse the checked files, look for
+> interpreters known to the kernel (e.g. ELF, shebang), and return ENOEXEC
+> if the format is unknown.  Because of that, security_bprm_check() is
+> never called when AT_CHECK is used.
+>
+> It should be noted that script interpreters cannot directly use
+> execveat(2) (without this new AT_CHECK flag) because this could lead to
+> unexpected behaviors e.g., `python script.sh` could lead to Bash being
+> executed to interpret the script.  Unlike the kernel, script
+> interpreters may just interpret the shebang as a simple comment, which
+> should not change for backward compatibility reasons.
+>
+> Because scripts or libraries files might not currently have the
+> executable permission set, or because we might want specific users to be
+> allowed to run arbitrary scripts, the following patch provides a dynamic
+> configuration mechanism with the SECBIT_SHOULD_EXEC_CHECK and
+> SECBIT_SHOULD_EXEC_RESTRICT securebits.
+>
+> This is a redesign of the CLIP OS 4's O_MAYEXEC:
+> https://github.com/clipos-archive/src_platform_clip-patches/blob/f5cb330d=
+6b684752e403b4e41b39f7004d88e561/1901_open_mayexec.patch
+> This patch has been used for more than a decade with customized script
+> interpreters.  Some examples can be found here:
+> https://github.com/clipos-archive/clipos4_portage-overlay/search?q=3DO_MA=
+YEXEC
+>
+> Cc: Al Viro <viro@zeniv.linux.org.uk>
+> Cc: Christian Brauner <brauner@kernel.org>
+> Cc: Kees Cook <keescook@chromium.org>
+> Cc: Paul Moore <paul@paul-moore.com>
+> Link: https://docs.python.org/3/library/io.html#io.open_code [1]
+> Signed-off-by: Micka=C3=ABl Sala=C3=BCn <mic@digikod.net>
+> Link: https://lore.kernel.org/r/20240704190137.696169-2-mic@digikod.net
+> ---
+>
+> New design since v18:
+> https://lore.kernel.org/r/20220104155024.48023-3-mic@digikod.net
+> ---
+>  fs/exec.c                  |  5 +++--
+>  include/linux/binfmts.h    |  7 ++++++-
+>  include/uapi/linux/fcntl.h | 30 ++++++++++++++++++++++++++++++
+>  kernel/audit.h             |  1 +
+>  kernel/auditsc.c           |  1 +
+>  5 files changed, 41 insertions(+), 3 deletions(-)
+>
+> diff --git a/fs/exec.c b/fs/exec.c
+> index 40073142288f..ea2a1867afdc 100644
+> --- a/fs/exec.c
+> +++ b/fs/exec.c
+> @@ -931,7 +931,7 @@ static struct file *do_open_execat(int fd, struct fil=
+ename *name, int flags)
+>                 .lookup_flags =3D LOOKUP_FOLLOW,
+>         };
+>
+> -       if ((flags & ~(AT_SYMLINK_NOFOLLOW | AT_EMPTY_PATH)) !=3D 0)
+> +       if ((flags & ~(AT_SYMLINK_NOFOLLOW | AT_EMPTY_PATH | AT_CHECK)) !=
+=3D 0)
+>                 return ERR_PTR(-EINVAL);
+>         if (flags & AT_SYMLINK_NOFOLLOW)
+>                 open_exec_flags.lookup_flags &=3D ~LOOKUP_FOLLOW;
+> @@ -1595,6 +1595,7 @@ static struct linux_binprm *alloc_bprm(int fd, stru=
+ct filename *filename, int fl
+>                 bprm->filename =3D bprm->fdpath;
+>         }
+>         bprm->interp =3D bprm->filename;
+> +       bprm->is_check =3D !!(flags & AT_CHECK);
+>
+>         retval =3D bprm_mm_init(bprm);
+>         if (!retval)
+> @@ -1885,7 +1886,7 @@ static int bprm_execve(struct linux_binprm *bprm)
+>
+>         /* Set the unchanging part of bprm->cred */
+>         retval =3D security_bprm_creds_for_exec(bprm);
+> -       if (retval)
+> +       if (retval || bprm->is_check)
+>                 goto out;
+>
+>         retval =3D exec_binprm(bprm);
+> diff --git a/include/linux/binfmts.h b/include/linux/binfmts.h
+> index 70f97f685bff..8ff9c9e33aed 100644
+> --- a/include/linux/binfmts.h
+> +++ b/include/linux/binfmts.h
+> @@ -42,7 +42,12 @@ struct linux_binprm {
+>                  * Set when errors can no longer be returned to the
+>                  * original userspace.
+>                  */
+> -               point_of_no_return:1;
+> +               point_of_no_return:1,
+> +               /*
+> +                * Set by user space to check executability according to =
+the
+> +                * caller's environment.
+> +                */
+> +               is_check:1;
+>         struct file *executable; /* Executable to pass to the interpreter=
+ */
+>         struct file *interpreter;
+>         struct file *file;
+> diff --git a/include/uapi/linux/fcntl.h b/include/uapi/linux/fcntl.h
+> index c0bcc185fa48..bcd05c59b7df 100644
+> --- a/include/uapi/linux/fcntl.h
+> +++ b/include/uapi/linux/fcntl.h
+> @@ -118,6 +118,36 @@
+>  #define AT_HANDLE_FID          AT_REMOVEDIR    /* file handle is needed =
+to
+>                                         compare object identity and may n=
+ot
+>                                         be usable to open_by_handle_at(2)=
+ */
+> +
+> +/*
+> + * AT_CHECK only performs a check on a regular file and returns 0 if exe=
+cution
+> + * of this file would be allowed, ignoring the file format and then the =
+related
+> + * interpreter dependencies (e.g. ELF libraries, script's shebang).  AT_=
+CHECK
+> + * should only be used if SECBIT_SHOULD_EXEC_CHECK is set for the callin=
+g
+> + * thread.  See securebits.h documentation.
+> + *
+> + * Programs should use this check to apply kernel-level checks against f=
+iles
+> + * that are not directly executed by the kernel but directly passed to a=
+ user
+> + * space interpreter instead.  All files that contain executable code, f=
+rom the
+> + * point of view of the interpreter, should be checked.  The main purpos=
+e of
+> + * this flag is to improve the security and consistency of an execution
+> + * environment to ensure that direct file execution (e.g. ./script.sh) a=
+nd
+> + * indirect file execution (e.g. sh script.sh) lead to the same result. =
+ For
+> + * instance, this can be used to check if a file is trustworthy accordin=
+g to
+> + * the caller's environment.
+> + *
+> + * In a secure environment, libraries and any executable dependencies sh=
+ould
+> + * also be checked.  For instance dynamic linking should make sure that =
+all
+> + * libraries are allowed for execution to avoid trivial bypass (e.g. usi=
+ng
+> + * LD_PRELOAD).  For such secure execution environment to make sense, on=
+ly
+> + * trusted code should be executable, which also requires integrity guar=
+antees.
+> + *
+> + * To avoid race conditions leading to time-of-check to time-of-use issu=
+es,
+> + * AT_CHECK should be used with AT_EMPTY_PATH to check against a file
+> + * descriptor instead of a path.
+> + */
+> +#define AT_CHECK               0x10000
+> +
+>  #if defined(__KERNEL__)
+>  #define AT_GETATTR_NOSEC       0x80000000
+>  #endif
+> diff --git a/kernel/audit.h b/kernel/audit.h
+> index a60d2840559e..8ebdabd2ab81 100644
+> --- a/kernel/audit.h
+> +++ b/kernel/audit.h
+> @@ -197,6 +197,7 @@ struct audit_context {
+>                 struct open_how openat2;
+>                 struct {
+>                         int                     argc;
+> +                       bool                    is_check;
+>                 } execve;
+>                 struct {
+>                         char                    *name;
+> diff --git a/kernel/auditsc.c b/kernel/auditsc.c
+> index 6f0d6fb6523f..b6316e284342 100644
+> --- a/kernel/auditsc.c
+> +++ b/kernel/auditsc.c
+> @@ -2662,6 +2662,7 @@ void __audit_bprm(struct linux_binprm *bprm)
+>
+>         context->type =3D AUDIT_EXECVE;
+>         context->execve.argc =3D bprm->argc;
+> +       context->execve.is_check =3D bprm->is_check;
+>  }
+>
+>
+> --
+> 2.45.2
+>
 
