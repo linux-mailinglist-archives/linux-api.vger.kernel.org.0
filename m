@@ -1,134 +1,107 @@
-Return-Path: <linux-api+bounces-2027-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2028-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F8C693F12A
-	for <lists+linux-api@lfdr.de>; Mon, 29 Jul 2024 11:30:45 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2408C93F270
+	for <lists+linux-api@lfdr.de>; Mon, 29 Jul 2024 12:18:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D0567284D9E
-	for <lists+linux-api@lfdr.de>; Mon, 29 Jul 2024 09:30:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 02FD61C216DC
+	for <lists+linux-api@lfdr.de>; Mon, 29 Jul 2024 10:18:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2573142E7C;
-	Mon, 29 Jul 2024 09:30:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8701814290E;
+	Mon, 29 Jul 2024 10:18:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ENmdq1hJ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SWEOwGUu"
 X-Original-To: linux-api@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBC9E1419A1
-	for <linux-api@vger.kernel.org>; Mon, 29 Jul 2024 09:30:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D96625F873;
+	Mon, 29 Jul 2024 10:18:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722245403; cv=none; b=fdy60wXii5/c4O9NQgo9GFU8A1Ppxr99xyJjDXtmvQYnLaNIsraAOU7Vs9NOy8XUjhyMtEWj1OLtKkSwKksTCguGg0mOAaNogCWcAZBHmASWcefYPx86ARqSuZWZSqHvkIIP7jdOsYTy+i9PWkFsQWwn7XxizuEB+l+o71LDS2Y=
+	t=1722248307; cv=none; b=PHKAL9Ez4eT8MJbB5sIKjVnrkRnN4sozXmXs2UEO/9DIbp9zchGyDR0EvP42nUPVkdQ5llL6dPdVD/UieYge+nE5C8RYJgtF3imzW6g9awQEOhW1TwGcthnHyBUyEy2UdyDiAcmlvG/ihQrcTfqnFmxo5NkM+AI9aIfYI5y/jYM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722245403; c=relaxed/simple;
-	bh=u5RBreyVfXRXoOakitt/Ifw1gmojIQrfXV5ulIFhMQM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=BouKm2ke/lKatvk3xyKmVpk6GAyPU7fDs+VF4iPwq0z+TkVQkpvhZd9pRviT1KO3K70PhAtoMaAPWnWbCyI4pwLM+jVpfZJpKizq8rPEh1xTeutKPtDYBPv9z8V0xWk2/DzPaIJDecpqa4o+EtGQB/FxGNwCVf4zuFvo53jqAyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ENmdq1hJ; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1722245400;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IZTAP+nDSgd5C9ys1nFKui+wNX+zNnEPNP6ru+kr8iY=;
-	b=ENmdq1hJXyu69lQ1iDeAUzwfMD1YZxD69tKIGID7gfpAaUrs9h7Mfm/UzTkkZYOMfMrDFl
-	zEgeiBak+tyD0rp4P2IUSjyf8T2RuqK/aZg72K5zROQh/gstEOgC2h7iL2cD+RS50MPwjx
-	Gbl6HHmyGVkXv96JmBy7tMljBcZcWaM=
-Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-76-4mD4iOlSM5qQFIZtJyOz1w-1; Mon,
- 29 Jul 2024 05:29:56 -0400
-X-MC-Unique: 4mD4iOlSM5qQFIZtJyOz1w-1
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id F2B801955D44;
-	Mon, 29 Jul 2024 09:29:54 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (unknown [10.45.224.31])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 9C8AE19560AE;
-	Mon, 29 Jul 2024 09:29:52 +0000 (UTC)
-From: Florian Weimer <fweimer@redhat.com>
-To: Aleksa Sarai <cyphar@cyphar.com>
-Cc: linux-fsdevel@vger.kernel.org,  linux-kernel@vger.kernel.org,
-  linux-api@vger.kernel.org,  Dave Chinner <dchinner@redhat.com>
+	s=arc-20240116; t=1722248307; c=relaxed/simple;
+	bh=Z6i/dw05jrVzJC72UKVz7DRgDDdCVqz4Gjyw/0WlU+A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ui6TrtsvGIZ/fu1nyeWJfbgPAzpy95od7Oplzi0Tn5WxB0tcfbQxDWJU2+YKGVy++9RZm1Pen2rpD2iZn0vmz+VIwyIEkC1TxhM1BHNIjlQ+bGKiuqrIN2RhrOcjDilmrlrBe2jYEDdsO0CBEVoUVQhih8h7Hhn3B7C+2ZxgumA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SWEOwGUu; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4266f3e0df8so14541895e9.2;
+        Mon, 29 Jul 2024 03:18:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1722248304; x=1722853104; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Z6i/dw05jrVzJC72UKVz7DRgDDdCVqz4Gjyw/0WlU+A=;
+        b=SWEOwGUurjcGK4Y5bBgpCo/RSjSvq22HC3S6rnrD3Tlwyq2X1M77Ru8G7jQqPiDrb6
+         KTxARP0HIxp4uMpv8MMQqCIknmiZNl9OQ7Zu1a1hJxK7F0ACPtGhyyg7KATfjf80Cy35
+         6aESajfpwvrDqt+4iZg3jRuD/E7cO9tgRYkF7Q1WjyuJAZ7akHIdXKyX1qs5WOdOmRMF
+         BO2Svh3rCZN6v+7c04Xoozf0eN/FpTswck8+Adc87to1UPyXuNSMdD5TraXehreNclGd
+         S5zkjQCB3r8MhSmmKsn3ljcYenC4mPQ6W3X6IrM1IksakyESY9jkHH9p3iZjKql2eYVk
+         IuVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722248304; x=1722853104;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Z6i/dw05jrVzJC72UKVz7DRgDDdCVqz4Gjyw/0WlU+A=;
+        b=qUWdWXtALjcp2445FHYsLjvEd+j48dt8Iy2HnkfE7Q349qk26a6mE68afhPL1w6oqU
+         ezZFiQhLyXUDdOYCISaEv1ZKqnif8n6HkSpbv0ojpBIvDYWNzcBIg900jo9QI45JycHG
+         LzyiBEOShRYBHWik1jckn8RIJ9ESNthL9y12euBCAep4iyEcChzUc1VXBJ+tCcNVOZ1G
+         1l8S+vnBiCzuqxbhThpoWNkV77kH2u7ZHFBHIJFnk2zJNUHD0+d4rBd0kppvoESI8U+3
+         JAhTPNx6U7PBdONSDM3QgoijeF3/xZj8oDSqU2cglXuotgBBgPi9ZrzyPAy5O/1bJyL3
+         Kxiw==
+X-Forwarded-Encrypted: i=1; AJvYcCWPfTnq/H/xNuEFYeQX7FKGtNPMLMLY7XBRvfcpduLAiCrZl29tNUQzQqdKp15558H5hfKkFJ1zwRLgyl8SEASy5GCUQ68V1X7DhOf/A/Q0Omj3R480xJzOStr/QNCF1koCjY1GQgNM
+X-Gm-Message-State: AOJu0YxQyCrTcnbGOUhAPaBaxJfOifDslxlJdOPvuCEMkzFSEPD4xHJG
+	s+DI1zmToikUEfRbH2DKw/qEhmQRUt4MDZNKFvw4cCF9p9JtjAXj
+X-Google-Smtp-Source: AGHT+IG18514HKOtzbkzR3RJchNZQb9L6S2W9H0FE6f4Po2yJ5snbzks/hMJqXWbFpwjG108dfDbMw==
+X-Received: by 2002:a05:600c:1c83:b0:426:622d:9e6b with SMTP id 5b1f17b1804b1-42811dd79fbmr46403635e9.23.1722248303867;
+        Mon, 29 Jul 2024 03:18:23 -0700 (PDT)
+Received: from f (cst-prg-68-42.cust.vodafone.cz. [46.135.68.42])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36b367f0e26sm11838333f8f.47.2024.07.29.03.18.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jul 2024 03:18:23 -0700 (PDT)
+Date: Mon, 29 Jul 2024 12:18:15 +0200
+From: Mateusz Guzik <mjguzik@gmail.com>
+To: Florian Weimer <fweimer@redhat.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-api@vger.kernel.org, Dave Chinner <dchinner@redhat.com>
 Subject: Re: Testing if two open descriptors refer to the same inode
-In-Reply-To: <20240729.085339-ebony.subplot.isolated.pops-b8estyg9vB9Q@cyphar.com>
-	(Aleksa Sarai's message of "Mon, 29 Jul 2024 19:09:56 +1000")
+Message-ID: <ghqndyn4x7ujxvybbwet5vxiahus4zey6nkfsv6he3d4en6ehu@bq5s23lstzor>
 References: <874j88sn4d.fsf@oldenburg.str.redhat.com>
-	<20240729.085339-ebony.subplot.isolated.pops-b8estyg9vB9Q@cyphar.com>
-Date: Mon, 29 Jul 2024 11:29:49 +0200
-Message-ID: <87a5i0r1f6.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <874j88sn4d.fsf@oldenburg.str.redhat.com>
 
-* Aleksa Sarai:
+On Mon, Jul 29, 2024 at 08:55:46AM +0200, Florian Weimer wrote:
+> It was pointed out to me that inode numbers on Linux are no longer
+> expected to be unique per file system, even for local file systems.
 
-> On 2024-07-29, Florian Weimer <fweimer@redhat.com> wrote:
->> It was pointed out to me that inode numbers on Linux are no longer
->> expected to be unique per file system, even for local file systems.
->> Applications sometimes need to check if two (open) files are the same.
->> For example, a program may want to use a temporary file if is invoked
->> with input and output files referring to the same file.
->
-> Based on the discussions we had at LSF/MM, I believe the "correct" way
-> now is to do
->
->   name_to_handle_at(fd, "", ..., AT_EMPTY_PATH|AT_HANDLE_FID)
->
-> and then use the fhandle as the key to compare inodes. AT_HANDLE_FID is
-> needed for filesystems that don't support decoding file handles, and was
-> added in Linux 6.6[1]. However, I think this inode issue is only
-> relevant for btree filesystems, and I think both btrfs and bcachefs both
-> support decoding fhandles so this should work on fairly old kernels
-> without issue (though I haven't checked).
+I don't know if I'm parsing this correctly.
 
-> [1]: commit 96b2b072ee62 ("exportfs: allow exporting non-decodeable file handles to userspace")
+Are you claiming on-disk inode numbers are not guaranteed unique per
+filesystem? It sounds like utter breakage, with capital 'f'.
 
+I know the 32-bit inode allocation code can result in unintentional
+duplicates after wrap around (see get_next_ino), but that's for
+in-memory stuff only(?) like pipes, so perhaps tolerable.
 
-Thanks, it's not too bad.  The name_to_handle_at manual page says that
-the handle is supposed to be treated as an opaque value, although it
-mentions AT_HANDLE_FID.  I think this needs to be fixed that it's
-expected to compare the handle bytes, and also say whether it's
-necessary to compare the type or not.
+Anyhow, the kernel recently got F_DUPFD_QUERY which tests if the *file*
+object is the same.
 
-> Lennart suggested there should be a way to get this information from
-> statx(2) so that you can get this new inode identifier without doing a
-> bunch of extra syscalls to verify that inode didn't change between the
-> two syscalls. I have a patchset for this, but I suspect it's too ugly
-> (we can't return the full file handle so we need to hash it). I'll send
-> an RFC later this week or next.
-
-Hashing these things is rather nasty because it makes things impossible
-to test.
-
->> How can we check for this?  The POSIX way is to compare st_ino and
->> st_dev in stat output, but if inode numbers are not unique, that will
->> result in files falsely being reported as identical.  It's harmless in
->> the temporary file case, but it in other scenarios, it may result in
->> data loss.
->
-> (Another problem is that st_dev can be different for the same mount due
-> to subvolumes.)
-
-Uh-oh.  If st_dev are different, is it still possible that truncating
-one path will affect the other with the different st_dev value?
-
-Thanks,
-Florian
-
+While the above is not what's needed here, I guess it sets a precedent
+for F_DUPINODE_QUERY (or whatever other name) to be added to handily
+compare inode pointers. It may be worthwhile regardless of the above.
+(or maybe kcmp could be extended?)
 
