@@ -1,148 +1,88 @@
-Return-Path: <linux-api+bounces-2024-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2025-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 836B593DFCA
-	for <lists+linux-api@lfdr.de>; Sat, 27 Jul 2024 16:52:30 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2201293EDAF
+	for <lists+linux-api@lfdr.de>; Mon, 29 Jul 2024 08:56:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 373502821B8
-	for <lists+linux-api@lfdr.de>; Sat, 27 Jul 2024 14:52:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 533721C219C6
+	for <lists+linux-api@lfdr.de>; Mon, 29 Jul 2024 06:56:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3122E18005C;
-	Sat, 27 Jul 2024 14:52:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FDAD85283;
+	Mon, 29 Jul 2024 06:55:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lncNx9HQ"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Qd/0Xo5F"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0832D18003C;
-	Sat, 27 Jul 2024 14:52:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADD1484A57
+	for <linux-api@vger.kernel.org>; Mon, 29 Jul 2024 06:55:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722091948; cv=none; b=SyPkDnhfjBJoGKeBu+plbhos/7vTOPWZ/y8Z1PzcYuP1TxF/wRJJLh2hWtSLvISJWZO1Uojtz82kmnQKDL5aYBDt5bDP9tBa5pGMS4CfgeSfLN170YkZLnOnI+hBRoraR39WwIiQiUKwXL90H2cPTAAHK5Kz9jEKxxIS4WxiPCc=
+	t=1722236158; cv=none; b=tGkPvnmIo7td6iiI4+7oB9Mlu/6vp2BnaAWe6xoFcM1Pa5soe6Zzh/Ai53LyUITXbLGtSP/3bmATDlgxDwcYBD0w6sMNxwl6e7FiOq8zw8g3Bz6M/nKWAKAwFhjQiY2W6xTEPrHIKsGSp9S4FF5Rq9glQNSZ9Zj3IYD8xyCWrwE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722091948; c=relaxed/simple;
-	bh=0Ge04KZaXmhBALYkF9YhaUs12VROdjcctkz500gCsIU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Y6xc0PbsRpNZDU9IY/6qogFOlQ5hCz5/YcOdl9Tvhry1Xy9eal9c5DprYUNv2fnhK264OPbUFc9qSwjYm12IaUVZwCbYxTpgABvF2sqPj6YQoUTuIZsJc6phsfH/Q/zoEhAz01wPBsgWRKkbxDs6Aje1v8WV4MW2ByAf0cn+PVI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lncNx9HQ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id DBA65C4AF07;
-	Sat, 27 Jul 2024 14:52:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722091947;
-	bh=0Ge04KZaXmhBALYkF9YhaUs12VROdjcctkz500gCsIU=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=lncNx9HQdKeIJWJgeDjENtgT2tB7EtQ4YxZqz2SKypi7wRo2iK8Sn5YtTt3sSYd+B
-	 Va/HrWgtDm1vye1QIkUe5IiaxAEgTM6BiQmEHbCzMEs/ZcKf6o5mL9JIQziDJHHTwq
-	 2wgJQwohM1araY7KshyTm15i6CPZ5TYnUm90CcX1Yk10PaJy5qJH6OJYgjwOka4RLq
-	 QTqSh8tFB3iNRQkZxXfdIMfdc15dpN9pzlIcr2mfzfPM4H5tR7bV/jP0CVYg+TFeSP
-	 T1TT9Zi64a4HPzUiEh4rvmTOuArLO7mxSftexUJfN2jbMfpE4TCwpuzj7VnBsZAbl2
-	 c/wL7iSZN2n9A==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3A29C3DA4A;
-	Sat, 27 Jul 2024 14:52:27 +0000 (UTC)
-From: Andy Pan via B4 Relay <devnull+i.andypan.me@kernel.org>
-Date: Sat, 27 Jul 2024 14:52:17 +0000
-Subject: [PATCH v2] epoll.7: clarify the event distribution under
- edge-triggered mode
+	s=arc-20240116; t=1722236158; c=relaxed/simple;
+	bh=o2f/k3fbOpy78TNOpxriyb94GrXVBTxBCSOf7g2Gy5M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=t5swfPfatMMmpwNemmXaavCjgbf6Px8RK35QE1VtghJ3cMghSvApKuXSG48BZWGS91r/W3xLqcdVu/twn9yD0Vdha0uQaP8rQc+3mcpWKl6vEuqMp8xbjdq+2qrdaklCcyv3y5n5WChy7wwMUh00+XCillhWmImQegyBTVZuLMk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Qd/0Xo5F; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1722236155;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=7AWP/0qHqZ7Y61Eby5XenXroJ56XWtIdeweoRPAf8bU=;
+	b=Qd/0Xo5Fhpfvndm8v0ePQmsqP6ZhiozeNKWk983rdtEF277s7ILEEjswtPO2BvAJNIgTS5
+	8kX5AwKxTZVxRTqJZVCWa+N98h9+iySW+6L37Hjd6ZeU8fG2S57KwGHrurcR1jeTdGkyLp
+	gwNCnnX5Y6bJ3/VbVJZy5CNyZnyay+Y=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-172-ZuWaro6hMICjUhdJNh-ZdQ-1; Mon,
+ 29 Jul 2024 02:55:52 -0400
+X-MC-Unique: ZuWaro6hMICjUhdJNh-ZdQ-1
+Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 4B61419560B1;
+	Mon, 29 Jul 2024 06:55:51 +0000 (UTC)
+Received: from oldenburg.str.redhat.com (unknown [10.45.224.31])
+	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 404B51955D42;
+	Mon, 29 Jul 2024 06:55:48 +0000 (UTC)
+From: Florian Weimer <fweimer@redhat.com>
+To: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-api@vger.kernel.org
+Cc: Dave Chinner <dchinner@redhat.com>
+Subject: Testing if two open descriptors refer to the same inode
+Date: Mon, 29 Jul 2024 08:55:46 +0200
+Message-ID: <874j88sn4d.fsf@oldenburg.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240727-epoll-et-desc-v2-1-c99b2ac66775@andypan.me>
-X-B4-Tracking: v=1; b=H4sIAKAJpWYC/3XMQQ6CMBCF4auQWTumFLTWlfcwLFqYyiTYNi0hE
- sLdrexd/i953waZElOGe7VBooUzB19CniroR+NfhDyUBilkK5RUSDFME9KMA+UeRUtGm4sWrrF
- QPjGR48/hPbvSI+c5pPXgl/q3/pOWGmtstLDG9Vd1s/ph/LBG489vgm7f9y9TuJ/6qwAAAA==
-To: Alejandro Colomar <alx@kernel.org>
-Cc: linux-man@vger.kernel.org, linux-api@vger.kernel.org, 
- Andy Pan <i@andypan.me>
-X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1722091946; l=3291;
- i=i@andypan.me; s=20240727; h=from:subject:message-id;
- bh=FEZtoMXszoRwev9xfXPnAge3Rf7kCy6kqW7B5PqXjns=;
- b=j/Y685MHW8wIn/bEqw0mx5x4u1yHIXnKRMFKoHIe6dDSxxjNI9fpwJPaS2K1dIjo0tLAHtOKZ
- W7jUhB6Qlq0Cg/IzFhVenUAUXj6gvP6UiA5/RP8QinPZavJafjPyTIr
-X-Developer-Key: i=i@andypan.me; a=ed25519;
- pk=ZLGY5dzAGPy8bpSKbl9Jfyp/Ud0eac0BY5cKedQXMcw=
-X-Endpoint-Received: by B4 Relay for i@andypan.me/20240727 with auth_id=190
-X-Original-From: Andy Pan <i@andypan.me>
-Reply-To: i@andypan.me
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
 
-From: Andy Pan <i@andypan.me>
+It was pointed out to me that inode numbers on Linux are no longer
+expected to be unique per file system, even for local file systems.
+Applications sometimes need to check if two (open) files are the same.
+For example, a program may want to use a temporary file if is invoked
+with input and output files referring to the same file.
 
-For the moment, the edge-triggered epoll generates an event for each
-receipt of a chunk of data, that is to say, epoll_wait() will return
-and tell us a monitored file descriptor is ready whenever there is a
-new activity on that FD since we were last informed about that FD.
-This is not a real _edge_ implementation for epoll, but it's been
-working this way for years and plenty of projects are relying on it.
+How can we check for this?  The POSIX way is to compare st_ino and
+st_dev in stat output, but if inode numbers are not unique, that will
+result in files falsely being reported as identical.  It's harmless in
+the temporary file case, but it in other scenarios, it may result in
+data loss.
 
-There are several renowned open-source projects relying on this feature
-for notification function (with eventfd), such as nginx [1], netty [2],
-tokio [3], libevent [4], ect. [5] These projects are widely used in today's
-Internet infrastructures. Thus, changing this behavior of epoll ET will
-fundamentally break them and cause a significant negative impact.
-Linux has changed it for pipe before [6], breaking some Android libraries,
-which had got "reverted" somehow. [7] [8]
-
-Nevertheless, the paragraph in the manual pages describing this
-characteristic of epoll ET seems ambiguous, I think a more explict
-sentence should be used to clarify it. We're improving the notification
-mechanism for libuv recently by exploiting this feature with eventfd,
-which brings us a significant performance boost. [9]
-
-Therefore, we (as well as the maintainers of nginx, netty, tokio, etc.)
-would have a sense of security to build an enhanced notification function
-based on this feature if there is a guarantee of retaining this implementation
-of epoll ET for the backward compatibility in the man pages.
-
-[1]: https://github.com/nginx/nginx/blob/efc6a217b92985a1ee211b6bb7337cd2f62deb90/src/event/modules/ngx_epoll_module.c#L386-L457
-[2]: https://github.com/netty/netty/pull/9192
-[3]: https://github.com/tokio-rs/mio/blob/309daae21ecb1d46203a7dbc0cf4c80310240cba/src/sys/unix/waker.rs#L111-L143
-[4]: https://github.com/libevent/libevent/blob/525f5d0a14c9c103be750f2ca175328c25505ea4/event.c#L2597-L2614
-[5]: https://github.com/libuv/libuv/pull/4400#issuecomment-2123798748
-[6]: https://lkml.iu.edu/hypermail/linux/kernel/2010.1/04363.html
-[7]: https://github.com/torvalds/linux/commit/3a34b13a88caeb2800ab44a4918f230041b37dd9
-[8]: https://github.com/torvalds/linux/commit/3b844826b6c6affa80755254da322b017358a2f4
-[9]: https://github.com/libuv/libuv/pull/4400#issuecomment-2103232402
-
-Signed-off-by: Andy Pan <i@andypan.me>
----
-I've added it to the commit description, please take a look again, thanks!
----
-Changes in v2:
-- [PATCH v2] epoll.7: add git commit description
-- Link to v1: https://lore.kernel.org/r/20240727-epoll-et-desc-v1-1-390bafc678b9@andypan.me
----
- man/man7/epoll.7 | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/man/man7/epoll.7 b/man/man7/epoll.7
-index 951500131..361d9db99 100644
---- a/man/man7/epoll.7
-+++ b/man/man7/epoll.7
-@@ -172,6 +172,7 @@ .SS Level-triggered and edge-triggered
- Since even with edge-triggered
- .BR epoll ,
- multiple events can be generated upon receipt of multiple chunks of data,
-+that is, an event will be generated upon each receipt of a chunk of data,
- the caller has the option to specify the
- .B EPOLLONESHOT
- flag, to tell
-
----
-base-commit: cbc0a111e4dceea2037c51098de33e6bc8c16a5c
-change-id: 20240727-epoll-et-desc-04ea9a590f3b
-
-Best regards,
--- 
-Andy Pan <i@andypan.me>
-
+Thanks,
+Florian
 
 
