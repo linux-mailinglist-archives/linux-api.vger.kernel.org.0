@@ -1,71 +1,71 @@
-Return-Path: <linux-api+bounces-2051-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2052-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA6B8941FE2
-	for <lists+linux-api@lfdr.de>; Tue, 30 Jul 2024 20:42:10 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ECC4941FE7
+	for <lists+linux-api@lfdr.de>; Tue, 30 Jul 2024 20:42:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CE8621C239F6
-	for <lists+linux-api@lfdr.de>; Tue, 30 Jul 2024 18:42:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 920411C2368A
+	for <lists+linux-api@lfdr.de>; Tue, 30 Jul 2024 18:42:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6940F1AA3DC;
-	Tue, 30 Jul 2024 18:41:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4522218B46A;
+	Tue, 30 Jul 2024 18:41:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="N+Pw+dTI"
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="azuwJn1D"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 451601AA3D1
-	for <linux-api@vger.kernel.org>; Tue, 30 Jul 2024 18:41:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 175DB169397
+	for <linux-api@vger.kernel.org>; Tue, 30 Jul 2024 18:41:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722364912; cv=none; b=DSzs4DcdDHkN3MBeXRsXortGdBAplPEhZPH4SVtVCWawn1WAdaP0WxY3jOmV9QCnmG4G3mEwhpvcxbThjcirnf1P4n+sJ9/nRPejv8O2DfBvxJG5ID7jQVmpZls4eAmcthfRv/4GF1xXEQ/L/0m5CUpht/2sEtxQVBBJ/7DTO5M=
+	t=1722364917; cv=none; b=lJTtR7rC69NrwHQMXn6bDiVFWyheQ2VA1Y+gth+R5hQefmukgqhUqrgHJYLMUTkSJFlH7M//m9YxlfShG38R/yjoKt4+njT1dIiavcVtPiZvSCLU3MglocxiTNOC4MElASRhN8OfwFCbVl1e2zQ2gBUZgX4iJMxqQTO8+Ha2O14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722364912; c=relaxed/simple;
-	bh=8U98s/x9klh3R1w6W5giSFPu50LKMrDr3xkDem20ovU=;
+	s=arc-20240116; t=1722364917; c=relaxed/simple;
+	bh=dRcVp0Z7DoqqrWdM+KQxiL42PINqxpG662XC4ml1djE=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=F7mzSSxrlXjVBNuAja4OlUEaDM10L+z2tAzqP4yuIOEOfSi7ZXINp/VxfHWoNEgglzB5I2u6DGNgFshrMyqWHX8Kr2ZKZ2h8MVhfFc2oeT1tgci0mKQTRJbJfMHBYXRfIN80xWVDaf9rOUfG6ttaKSMoK4+k9hAgRReTRoeYDbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=N+Pw+dTI; arc=none smtp.client-ip=209.85.167.173
+	 MIME-Version; b=VtQgjPlnNvoaoAYHYzC5q5fZpCmPWCxxFiA1nPLFkefnR4wpw3ngSGbTUgAQYjP5TZkLYtQ2+mGyFgLJ2RT/gwBz5XJ3QLRqk5WKjSuMmiCH+MoJvBKgipszd/QN5NY8iRsGlucWvegvxRyNaqOn+g6mGU3RPuLHlUjgh1QnBsU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=azuwJn1D; arc=none smtp.client-ip=209.85.128.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
-Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-3db14339fb0so3339034b6e.2
-        for <linux-api@vger.kernel.org>; Tue, 30 Jul 2024 11:41:50 -0700 (PDT)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-65f9708c50dso38813977b3.2
+        for <linux-api@vger.kernel.org>; Tue, 30 Jul 2024 11:41:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1722364909; x=1722969709; darn=vger.kernel.org;
+        d=bytedance.com; s=google; t=1722364913; x=1722969713; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BikDbh1/9SQRd/kB9M3Eiu6ynP/hqf/DKnY/EEbSCvw=;
-        b=N+Pw+dTIBOonZAMRwaWpPTXXLjcLZGhKYt7Qw15QeFMjczQ0OtfUyzUtKaeD7SP91g
-         kqdajdep9ypI8z34Ug+5Wizauo+xpj53/G5cMquY8odJjl1GUWdxtP62ez8Nskh8pZi+
-         KWz3Bde3bFQ75tgrhQzj2CzfiK+udABX4Zc5te8o4Pt5R5OahuhXQ1DzrEZC5tzwxoE0
-         geghNVldj/RVAaFNIlm9j/UYHF5AIOD5iHk9Ii7jq237ssoPBpKsR6YsKlNJCpgcvps9
-         vvqb7oekb3mW/CXRwN5gILDqf+iCQGj4XrgKo1DLQ4sI4nwnGXE140J/iOAMxdqIGXeR
-         pEEw==
+        bh=rPnJjIq98SiA+JXhukXzURjAkFL/DxtFbjsUcIfNX/M=;
+        b=azuwJn1DruXA7Z3idgopnUCvXwCiQkBpIVYex79mAflg36qoatXMT+BBcedHxltL9H
+         DEqQByKt5NFTjm/mNC6l/3IyVsLJk50ijryFoGvmGLRhN7nKYleRBCF5coeYAEZDOklG
+         k562fT6wYRcNEo/wTl+Itlpetx2aD3Y493d5ZKJNHgZLcgZnA2GAejq2yW2eCcf4kxn7
+         y1mjaCjNZiHKKebRHgf8IlV8umEHvUshGgSRuPHJrEfTT6CyaDZrsB8FZ9gxVd6XbFn+
+         DePdaJqzFhwaZByxSW+PanVwoOVmxfEBiDY7ZmnNFWkn7D967g0OocTg6+ml+8PlozM3
+         OBHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722364909; x=1722969709;
+        d=1e100.net; s=20230601; t=1722364913; x=1722969713;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=BikDbh1/9SQRd/kB9M3Eiu6ynP/hqf/DKnY/EEbSCvw=;
-        b=lcacxptPK6kNsXFgAt1t9FUXjU1/c9SmyfEjR1tl9H2sj0X+KUDyjTP3xyuD9GXW7w
-         Oyj76UgueUms8w9HT1G6RzaY4JYsiRaU09WmYCL/Npq9AmFxNOHGw99IxiopSsWqBwDL
-         n5mdUr4VmKeglIuESMZqLWMnZkJZXTtp4SVWa80IGnbCwye+xZaNjxfJW84Eqv7eD9sl
-         i795+dJEmYS6RnwK6XNpO47i1NSNEfEAP+YCaNRQpPx/ySWzJaHbu5/TdtGfPgkT1Dxt
-         vvK5g6U/ms8TveYHiqDF/QUiAwHFAfEDmcde7pSe2XNtr9DY0nSdMwdh6QCOR2Qu47ul
-         m+0A==
-X-Gm-Message-State: AOJu0YxfcTQle4a2dk9DaGJnv2bcmJSkjLxxQWzKOTpNzq3HdJxmFrCB
-	Hy/srDILf6CgD2eUPfJW1+p4ownxvsAiHNltnEZElvqBMjR+9FBSdZslBwEb7Ts=
-X-Google-Smtp-Source: AGHT+IHmEFKIeORqg/Jp5LW/faNuIRskuviRnwXbCec0ZGE8Hd/p/5viL9PkgWoYAhj4ZtwgZOhnlQ==
-X-Received: by 2002:a05:6358:591a:b0:1ac:671a:f39f with SMTP id e5c5f4694b2df-1adbe30dbcbmr1511840855d.11.1722364909193;
-        Tue, 30 Jul 2024 11:41:49 -0700 (PDT)
+        bh=rPnJjIq98SiA+JXhukXzURjAkFL/DxtFbjsUcIfNX/M=;
+        b=J8XsnNigICPwTnjiBWgFScasa3T4F84vf4oNqwox8SxZNpgN2iUY0bLN7BIg95IibF
+         oWjiUrX++CHsJRW0OlLQ11tb+ymyb6KqBp77KdqPjUsMcU6q5TodXNGQxZvKu5fwmd3C
+         2O9kpF52HaIas6aTmxtSEoZGLs/+7DHSVbAZJ1m+A+xjFh6b6vql3e6a12dhmtumvUv+
+         RZPwRaq56g5KF1CxRZUqvuRB8zZ7YXdI3wA6f0Np8RPL0lbf1+XJ5VBcmjfwRxLA05Sv
+         uvpmdMNcx6ZI8ybcmoMlsuNLhdDRROxsH9Oi+pF5Ollv+ag/7nmm8lTddyEgvtGBXKpf
+         Id6w==
+X-Gm-Message-State: AOJu0YylbssW7A1XSQYJL+n6a66I4hRh7lA7ueP3xegUQRBOuCdSQVhJ
+	IcMM1kPSVj3P+ey6+piguG4mUQlOUhDRhLUWbe56vy1r5qJWWE6xV3ooddstsqU=
+X-Google-Smtp-Source: AGHT+IEryLVpO7mWHAYjPE/Ggq/E9tDXYa/U1l8LGbTJENtvyJIBzIceolRcnGS9FGQKyr5d7l2SVw==
+X-Received: by 2002:a05:6902:1029:b0:e0b:4aa4:1704 with SMTP id 3f1490d57ef6-e0b5446cb77mr15436368276.18.1722364912943;
+        Tue, 30 Jul 2024 11:41:52 -0700 (PDT)
 Received: from n191-036-066.byted.org ([139.177.233.173])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6bb3fb07bf7sm66132716d6.137.2024.07.30.11.41.48
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6bb3fb07bf7sm66132716d6.137.2024.07.30.11.41.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jul 2024 11:41:48 -0700 (PDT)
+        Tue, 30 Jul 2024 11:41:52 -0700 (PDT)
 From: zijianzhang@bytedance.com
 To: netdev@vger.kernel.org
 Cc: linux-api@vger.kernel.org,
@@ -82,9 +82,9 @@ Cc: linux-api@vger.kernel.org,
 	cong.wang@bytedance.com,
 	xiaochun.lu@bytedance.com,
 	Zijian Zhang <zijianzhang@bytedance.com>
-Subject: [PATCH net-next v8 1/3] sock: support copying cmsgs to the user space in sendmsg
-Date: Tue, 30 Jul 2024 18:41:18 +0000
-Message-Id: <20240730184120.4089835-2-zijianzhang@bytedance.com>
+Subject: [PATCH net-next v8 2/3] sock: add MSG_ZEROCOPY notification mechanism based on msg_control
+Date: Tue, 30 Jul 2024 18:41:19 +0000
+Message-Id: <20240730184120.4089835-3-zijianzhang@bytedance.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20240730184120.4089835-1-zijianzhang@bytedance.com>
 References: <20240730184120.4089835-1-zijianzhang@bytedance.com>
@@ -98,226 +98,243 @@ Content-Transfer-Encoding: 8bit
 
 From: Zijian Zhang <zijianzhang@bytedance.com>
 
-Users can pass msg_control as a placeholder to recvmsg, and get some info
-from the kernel upon returning of it, but it's not available for sendmsg.
-Recvmsg uses put_cmsg to copy info back to the user, while ____sys_sendmsg
-creates a kernel copy of msg_control and passes that to the callees,
-put_cmsg in sendmsg path will write into this kernel buffer.
-
-If users want to get info after returning of sendmsg, they typically have
-to call recvmsg on the MSG_ERRQUEUE of the socket, incurring extra system
-call overhead. This commit supports copying cmsg from the kernel space to
-the user space upon returning of sendmsg to mitigate this overhead.
+The MSG_ZEROCOPY flag enables copy avoidance for socket send calls.
+However, zerocopy is not a free lunch. Apart from the management of user
+pages, the combination of poll + recvmsg to receive notifications incurs
+unignorable overhead in the applications. We try to mitigate this overhead
+with a new notification mechanism based on msg_control. Leveraging the
+general framework to copy cmsgs to the user space, we copy zerocopy
+notifications to the user upon returning of sendmsgs.
 
 Signed-off-by: Zijian Zhang <zijianzhang@bytedance.com>
 Signed-off-by: Xiaochun Lu <xiaochun.lu@bytedance.com>
 ---
- include/linux/socket.h |  8 ++++++
- include/net/sock.h     |  2 +-
- net/core/sock.c        |  6 ++--
- net/ipv4/ip_sockglue.c |  2 +-
- net/ipv6/datagram.c    |  2 +-
- net/socket.c           | 63 ++++++++++++++++++++++++++++++++++++++----
- 6 files changed, 72 insertions(+), 11 deletions(-)
+ arch/alpha/include/uapi/asm/socket.h  |  2 +
+ arch/mips/include/uapi/asm/socket.h   |  2 +
+ arch/parisc/include/uapi/asm/socket.h |  2 +
+ arch/sparc/include/uapi/asm/socket.h  |  2 +
+ include/linux/socket.h                |  2 +-
+ include/uapi/asm-generic/socket.h     |  2 +
+ include/uapi/linux/socket.h           | 23 +++++++++
+ net/core/sock.c                       | 72 +++++++++++++++++++++++++--
+ 8 files changed, 102 insertions(+), 5 deletions(-)
 
+diff --git a/arch/alpha/include/uapi/asm/socket.h b/arch/alpha/include/uapi/asm/socket.h
+index e94f621903fe..7c32d9dbe47f 100644
+--- a/arch/alpha/include/uapi/asm/socket.h
++++ b/arch/alpha/include/uapi/asm/socket.h
+@@ -140,6 +140,8 @@
+ #define SO_PASSPIDFD		76
+ #define SO_PEERPIDFD		77
+ 
++#define SCM_ZC_NOTIFICATION	78
++
+ #if !defined(__KERNEL__)
+ 
+ #if __BITS_PER_LONG == 64
+diff --git a/arch/mips/include/uapi/asm/socket.h b/arch/mips/include/uapi/asm/socket.h
+index 60ebaed28a4c..3f7fade998cb 100644
+--- a/arch/mips/include/uapi/asm/socket.h
++++ b/arch/mips/include/uapi/asm/socket.h
+@@ -151,6 +151,8 @@
+ #define SO_PASSPIDFD		76
+ #define SO_PEERPIDFD		77
+ 
++#define SCM_ZC_NOTIFICATION	78
++
+ #if !defined(__KERNEL__)
+ 
+ #if __BITS_PER_LONG == 64
+diff --git a/arch/parisc/include/uapi/asm/socket.h b/arch/parisc/include/uapi/asm/socket.h
+index be264c2b1a11..77f5bee0fdc9 100644
+--- a/arch/parisc/include/uapi/asm/socket.h
++++ b/arch/parisc/include/uapi/asm/socket.h
+@@ -132,6 +132,8 @@
+ #define SO_PASSPIDFD		0x404A
+ #define SO_PEERPIDFD		0x404B
+ 
++#define SCM_ZC_NOTIFICATION	0x404C
++
+ #if !defined(__KERNEL__)
+ 
+ #if __BITS_PER_LONG == 64
+diff --git a/arch/sparc/include/uapi/asm/socket.h b/arch/sparc/include/uapi/asm/socket.h
+index 682da3714686..eb44fc515b45 100644
+--- a/arch/sparc/include/uapi/asm/socket.h
++++ b/arch/sparc/include/uapi/asm/socket.h
+@@ -133,6 +133,8 @@
+ #define SO_PASSPIDFD             0x0055
+ #define SO_PEERPIDFD             0x0056
+ 
++#define SCM_ZC_NOTIFICATION      0x0057
++
+ #if !defined(__KERNEL__)
+ 
+ 
 diff --git a/include/linux/socket.h b/include/linux/socket.h
-index df9cdb8bbfb8..40173c919d0f 100644
+index 40173c919d0f..71e3c6ebfed5 100644
 --- a/include/linux/socket.h
 +++ b/include/linux/socket.h
-@@ -71,6 +71,7 @@ struct msghdr {
- 		void __user	*msg_control_user;
- 	};
- 	bool		msg_control_is_user : 1;
-+	bool		msg_control_copy_to_user : 1;
- 	bool		msg_get_inq : 1;/* return INQ after receive */
- 	unsigned int	msg_flags;	/* flags on received message */
- 	__kernel_size_t	msg_controllen;	/* ancillary data buffer length */
-@@ -168,6 +169,11 @@ static inline struct cmsghdr * cmsg_nxthdr (struct msghdr *__msg, struct cmsghdr
- 	return __cmsg_nxthdr(__msg->msg_control, __msg->msg_controllen, __cmsg);
- }
+@@ -171,7 +171,7 @@ static inline struct cmsghdr * cmsg_nxthdr (struct msghdr *__msg, struct cmsghdr
  
-+static inline bool cmsg_copy_to_user(struct cmsghdr *__cmsg)
-+{
-+	return 0;
-+}
-+
- static inline size_t msg_data_left(struct msghdr *msg)
+ static inline bool cmsg_copy_to_user(struct cmsghdr *__cmsg)
  {
- 	return iov_iter_count(&msg->msg_iter);
-@@ -396,6 +402,8 @@ struct timespec64;
- struct __kernel_timespec;
- struct old_timespec32;
- 
-+DECLARE_STATIC_KEY_FALSE(tx_copy_cmsg_to_user_key);
-+
- struct scm_timestamping_internal {
- 	struct timespec64 ts[3];
- };
-diff --git a/include/net/sock.h b/include/net/sock.h
-index cce23ac4d514..9c728287d21d 100644
---- a/include/net/sock.h
-+++ b/include/net/sock.h
-@@ -1804,7 +1804,7 @@ static inline void sockcm_init(struct sockcm_cookie *sockc,
- 	};
+-	return 0;
++	return __cmsg->cmsg_type == SCM_ZC_NOTIFICATION;
  }
  
--int __sock_cmsg_send(struct sock *sk, struct cmsghdr *cmsg,
-+int __sock_cmsg_send(struct sock *sk, struct msghdr *msg, struct cmsghdr *cmsg,
- 		     struct sockcm_cookie *sockc);
- int sock_cmsg_send(struct sock *sk, struct msghdr *msg,
- 		   struct sockcm_cookie *sockc);
+ static inline size_t msg_data_left(struct msghdr *msg)
+diff --git a/include/uapi/asm-generic/socket.h b/include/uapi/asm-generic/socket.h
+index 8ce8a39a1e5f..02e9159c7944 100644
+--- a/include/uapi/asm-generic/socket.h
++++ b/include/uapi/asm-generic/socket.h
+@@ -135,6 +135,8 @@
+ #define SO_PASSPIDFD		76
+ #define SO_PEERPIDFD		77
+ 
++#define SCM_ZC_NOTIFICATION	78
++
+ #if !defined(__KERNEL__)
+ 
+ #if __BITS_PER_LONG == 64 || (defined(__x86_64__) && defined(__ILP32__))
+diff --git a/include/uapi/linux/socket.h b/include/uapi/linux/socket.h
+index d3fcd3b5ec53..b5b5fa9febb1 100644
+--- a/include/uapi/linux/socket.h
++++ b/include/uapi/linux/socket.h
+@@ -2,6 +2,8 @@
+ #ifndef _UAPI_LINUX_SOCKET_H
+ #define _UAPI_LINUX_SOCKET_H
+ 
++#include <linux/types.h>
++
+ /*
+  * Desired design of maximum size and alignment (see RFC2553)
+  */
+@@ -35,4 +37,25 @@ struct __kernel_sockaddr_storage {
+ #define SOCK_TXREHASH_DISABLED	0
+ #define SOCK_TXREHASH_ENABLED	1
+ 
++#define ZC_NOTIFICATION_MAX	16
++
++/*
++ * A zc_info_elem represents a completion notification for sendmsgs in range
++ * lo to high, zerocopy represents whether the underlying transmission is
++ * zerocopy or not.
++ */
++struct zc_info_elem {
++	__u32 lo;
++	__u32 hi;
++	__u8 zerocopy;
++};
++
++/*
++ * zc_info is the struct used for the SCM_ZC_NOTIFICATION control message.
++ */
++struct zc_info {
++	__u32 size; /* size of the zc_info_elem arr */
++	struct zc_info_elem arr[];
++};
++
+ #endif /* _UAPI_LINUX_SOCKET_H */
 diff --git a/net/core/sock.c b/net/core/sock.c
-index 9abc4fe25953..b2cbe753af1d 100644
+index b2cbe753af1d..37b1b12623ee 100644
 --- a/net/core/sock.c
 +++ b/net/core/sock.c
-@@ -2826,8 +2826,8 @@ struct sk_buff *sock_alloc_send_pskb(struct sock *sk, unsigned long header_len,
+@@ -1481,10 +1481,12 @@ int sk_setsockopt(struct sock *sk, int level, int optname,
+ 			ret = -EOPNOTSUPP;
+ 		}
+ 		if (!ret) {
+-			if (val < 0 || val > 1)
++			if (val < 0 || val > 1) {
+ 				ret = -EINVAL;
+-			else
++			} else {
+ 				sock_valbool_flag(sk, SOCK_ZEROCOPY, valbool);
++				static_branch_enable(&tx_copy_cmsg_to_user_key);
++			}
+ 		}
+ 		break;
+ 
+@@ -2826,8 +2828,8 @@ struct sk_buff *sock_alloc_send_pskb(struct sock *sk, unsigned long header_len,
  }
  EXPORT_SYMBOL(sock_alloc_send_pskb);
  
--int __sock_cmsg_send(struct sock *sk, struct cmsghdr *cmsg,
--		     struct sockcm_cookie *sockc)
-+int __sock_cmsg_send(struct sock *sk, struct msghdr *msg __always_unused,
-+		     struct cmsghdr *cmsg, struct sockcm_cookie *sockc)
+-int __sock_cmsg_send(struct sock *sk, struct msghdr *msg __always_unused,
+-		     struct cmsghdr *cmsg, struct sockcm_cookie *sockc)
++int __sock_cmsg_send(struct sock *sk, struct msghdr *msg, struct cmsghdr *cmsg,
++		     struct sockcm_cookie *sockc)
  {
  	u32 tsflags;
  
-@@ -2881,7 +2881,7 @@ int sock_cmsg_send(struct sock *sk, struct msghdr *msg,
- 			return -EINVAL;
- 		if (cmsg->cmsg_level != SOL_SOCKET)
- 			continue;
--		ret = __sock_cmsg_send(sk, cmsg, sockc);
-+		ret = __sock_cmsg_send(sk, msg, cmsg, sockc);
- 		if (ret)
- 			return ret;
- 	}
-diff --git a/net/ipv4/ip_sockglue.c b/net/ipv4/ip_sockglue.c
-index cf377377b52d..6360b8ba9c84 100644
---- a/net/ipv4/ip_sockglue.c
-+++ b/net/ipv4/ip_sockglue.c
-@@ -267,7 +267,7 @@ int ip_cmsg_send(struct sock *sk, struct msghdr *msg, struct ipcm_cookie *ipc,
- 		}
- #endif
- 		if (cmsg->cmsg_level == SOL_SOCKET) {
--			err = __sock_cmsg_send(sk, cmsg, &ipc->sockc);
-+			err = __sock_cmsg_send(sk, msg, cmsg, &ipc->sockc);
- 			if (err)
- 				return err;
- 			continue;
-diff --git a/net/ipv6/datagram.c b/net/ipv6/datagram.c
-index fff78496803d..c9ae30acf895 100644
---- a/net/ipv6/datagram.c
-+++ b/net/ipv6/datagram.c
-@@ -777,7 +777,7 @@ int ip6_datagram_send_ctl(struct net *net, struct sock *sk,
- 		}
- 
- 		if (cmsg->cmsg_level == SOL_SOCKET) {
--			err = __sock_cmsg_send(sk, cmsg, &ipc6->sockc);
-+			err = __sock_cmsg_send(sk, msg, cmsg, &ipc6->sockc);
- 			if (err)
- 				return err;
- 			continue;
-diff --git a/net/socket.c b/net/socket.c
-index fcbdd5bc47ac..4b65ac92045a 100644
---- a/net/socket.c
-+++ b/net/socket.c
-@@ -2537,8 +2537,49 @@ static int copy_msghdr_from_user(struct msghdr *kmsg,
- 	return err < 0 ? err : 0;
- }
- 
--static int ____sys_sendmsg(struct socket *sock, struct msghdr *msg_sys,
--			   unsigned int flags, struct used_address *used_address,
-+DEFINE_STATIC_KEY_FALSE(tx_copy_cmsg_to_user_key);
+@@ -2863,6 +2865,68 @@ int __sock_cmsg_send(struct sock *sk, struct msghdr *msg __always_unused,
+ 	case SCM_RIGHTS:
+ 	case SCM_CREDENTIALS:
+ 		break;
++	case SCM_ZC_NOTIFICATION: {
++		struct zc_info *zc = CMSG_DATA(cmsg);
++		struct sk_buff_head *q, local_q;
++		int cmsg_data_len, i = 0;
++		unsigned long flags;
++		struct sk_buff *skb;
 +
-+static int sendmsg_copy_cmsg_to_user(struct msghdr *msg_sys,
-+				     struct user_msghdr __user *umsg)
-+{
-+	struct compat_msghdr __user *umsg_compat =
-+				(struct compat_msghdr __user *)umsg;
-+	unsigned int flags = msg_sys->msg_flags;
-+	struct msghdr msg_user = *msg_sys;
-+	unsigned long cmsg_ptr;
-+	struct cmsghdr *cmsg;
-+	int err;
++		if (!sock_flag(sk, SOCK_ZEROCOPY) || sk->sk_family == PF_RDS)
++			return -EINVAL;
 +
-+	msg_user.msg_control_is_user = true;
-+	msg_user.msg_control_user = umsg->msg_control;
-+	cmsg_ptr = (unsigned long)msg_user.msg_control;
-+	for_each_cmsghdr(cmsg, msg_sys) {
-+		if (!CMSG_OK(msg_sys, cmsg))
-+			break;
-+		if (!cmsg_copy_to_user(cmsg))
-+			continue;
-+		err = put_cmsg(&msg_user, cmsg->cmsg_level, cmsg->cmsg_type,
-+			       cmsg->cmsg_len - sizeof(*cmsg), CMSG_DATA(cmsg));
-+		if (err)
-+			return err;
-+	}
++		cmsg_data_len = cmsg->cmsg_len - sizeof(struct cmsghdr);
++		if (cmsg_data_len < sizeof(struct zc_info))
++			return -EINVAL;
 +
-+	err = __put_user((msg_sys->msg_flags & ~MSG_CMSG_COMPAT),
-+			 COMPAT_FLAGS(umsg));
-+	if (err)
-+		return err;
-+	if (MSG_CMSG_COMPAT & flags)
-+		err = __put_user((unsigned long)msg_user.msg_control - cmsg_ptr,
-+				 &umsg_compat->msg_controllen);
-+	else
-+		err = __put_user((unsigned long)msg_user.msg_control - cmsg_ptr,
-+				 &umsg->msg_controllen);
-+	return err;
-+}
++		if (zc->size > ZC_NOTIFICATION_MAX ||
++		    (cmsg_data_len - sizeof(struct zc_info)) !=
++		    (zc->size * sizeof(struct zc_info_elem)))
++			return -EINVAL;
 +
-+static int ____sys_sendmsg(struct socket *sock, struct user_msghdr __user *msg,
-+			   struct msghdr *msg_sys, unsigned int flags,
-+			   struct used_address *used_address,
- 			   unsigned int allowed_msghdr_flags)
- {
- 	unsigned char ctl[sizeof(struct cmsghdr) + 20]
-@@ -2549,6 +2590,8 @@ static int ____sys_sendmsg(struct socket *sock, struct msghdr *msg_sys,
- 	ssize_t err;
- 
- 	err = -ENOBUFS;
-+	if (static_branch_unlikely(&tx_copy_cmsg_to_user_key))
-+		msg_sys->msg_control_copy_to_user = false;
- 
- 	if (msg_sys->msg_controllen > INT_MAX)
- 		goto out;
-@@ -2606,6 +2649,16 @@ static int ____sys_sendmsg(struct socket *sock, struct msghdr *msg_sys,
- 			       used_address->name_len);
- 	}
- 
-+	if (static_branch_unlikely(&tx_copy_cmsg_to_user_key)) {
-+		if (msg_sys->msg_control_copy_to_user && msg && err >= 0) {
-+			ssize_t len = err;
++		q = &sk->sk_error_queue;
++		skb_queue_head_init(&local_q);
 +
-+			err = sendmsg_copy_cmsg_to_user(msg_sys, msg);
-+			if (!err)
-+				err = len;
++		/* Get zerocopy error messages from sk_error_queue, and add them
++		 * to a local queue for later processing. This minimizes the
++		 * code while the spinlock is held and irq is disabled.
++		 */
++		spin_lock_irqsave(&q->lock, flags);
++		skb = skb_peek(q);
++		while (skb && i < zc->size) {
++			struct sk_buff *skb_next = skb_peek_next(skb, q);
++			struct sock_exterr_skb *serr = SKB_EXT_ERR(skb);
++
++			if (serr->ee.ee_errno != 0 ||
++			    serr->ee.ee_origin != SO_EE_ORIGIN_ZEROCOPY) {
++				skb = skb_next;
++				continue;
++			}
++
++			__skb_unlink(skb, q);
++			__skb_queue_tail(&local_q, skb);
++			skb = skb_next;
++			i++;
 +		}
-+	}
++		spin_unlock_irqrestore(&q->lock, flags);
 +
- out_freectl:
- 	if (ctl_buf != ctl)
- 		sock_kfree_s(sock->sk, ctl_buf, ctl_len);
-@@ -2648,8 +2701,8 @@ static int ___sys_sendmsg(struct socket *sock, struct user_msghdr __user *msg,
- 	if (err < 0)
- 		return err;
- 
--	err = ____sys_sendmsg(sock, msg_sys, flags, used_address,
--				allowed_msghdr_flags);
-+	err = ____sys_sendmsg(sock, msg, msg_sys, flags, used_address,
-+			      allowed_msghdr_flags);
- 	kfree(iov);
- 	return err;
- }
-@@ -2660,7 +2713,7 @@ static int ___sys_sendmsg(struct socket *sock, struct user_msghdr __user *msg,
- long __sys_sendmsg_sock(struct socket *sock, struct msghdr *msg,
- 			unsigned int flags)
- {
--	return ____sys_sendmsg(sock, msg, flags, NULL, 0);
-+	return ____sys_sendmsg(sock, NULL, msg, flags, NULL, 0);
- }
- 
- long __sys_sendmsg(int fd, struct user_msghdr __user *msg, unsigned int flags,
++		i = 0;
++		while ((skb = skb_peek(&local_q)) != NULL) {
++			struct sock_exterr_skb *serr = SKB_EXT_ERR(skb);
++
++			zc->arr[i].hi = serr->ee.ee_data;
++			zc->arr[i].lo = serr->ee.ee_info;
++			zc->arr[i].zerocopy = !(serr->ee.ee_code
++						& SO_EE_CODE_ZEROCOPY_COPIED);
++			__skb_unlink(skb, &local_q);
++			consume_skb(skb);
++			i++;
++		}
++
++		zc->size = i;
++		msg->msg_control_copy_to_user = true;
++		break;
++	}
+ 	default:
+ 		return -EINVAL;
+ 	}
 -- 
 2.20.1
 
