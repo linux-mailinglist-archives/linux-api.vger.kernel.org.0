@@ -1,119 +1,265 @@
-Return-Path: <linux-api+bounces-2049-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2050-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EDD1941B25
-	for <lists+linux-api@lfdr.de>; Tue, 30 Jul 2024 18:51:33 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF59A941FE1
+	for <lists+linux-api@lfdr.de>; Tue, 30 Jul 2024 20:42:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 68085B236B4
-	for <lists+linux-api@lfdr.de>; Tue, 30 Jul 2024 16:46:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D2C441C23587
+	for <lists+linux-api@lfdr.de>; Tue, 30 Jul 2024 18:42:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D1BD1448FA;
-	Tue, 30 Jul 2024 16:46:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 774301AA3FC;
+	Tue, 30 Jul 2024 18:41:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="hqt5oVgZ"
 X-Original-To: linux-api@vger.kernel.org
-Received: from vmicros1.altlinux.org (vmicros1.altlinux.org [194.107.17.57])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9687E1A6166;
-	Tue, 30 Jul 2024 16:46:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.107.17.57
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1012B1AA3D9
+	for <linux-api@vger.kernel.org>; Tue, 30 Jul 2024 18:41:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722357964; cv=none; b=W2SUP4ICTxD1i4ZtGddX8pba2mTwIjUwN1uX0WYTX6FCgb7z3DTtJbTy8X8qPp9iGk/bWsh8iedEFkATKrcv9PQurEy6DrAY+O3sgDoNCGQkeJV7jBskztABDzWEHjhvktMW+Hyqh/zFb72w45eUkfohaqu0EoWyYAfD2L2AUxM=
+	t=1722364909; cv=none; b=f3xisynlx+MyjBBNkXqzlNf6w+RtQq/uOIVWv3wEPPfAIqPrAF7omJfBIVQSpV2L/HjngdqGBfBbYRbQpB4Aq2oeYftC3lcUp4R3fQ10rd0qJQJBzDIf15Pf5GtXNX2px6KTmrOsgP+AfUPqcADuVJ7tIkZXYf492E7IB4YhI9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722357964; c=relaxed/simple;
-	bh=GKoqSlvPjpjkXxO95eFdftWUqJBC1IEiCl+9pph3zDs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rRjJUzWtscKuJmioINvnXLrpHewPO3r5S5FxNIQ6AcHPD4tV3uQLvUOuVnYSSEl/wjAOvUhrVfm3jHIRfGje9By47pq6tQNJM83Z3IUPWqq/fxWcupA1ZnhRVps5hfZCgR+tt2ZMllXCSSGVP5GAZ0buaF8zRE/YviJ0aG8zgwU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strace.io; spf=pass smtp.mailfrom=altlinux.org; arc=none smtp.client-ip=194.107.17.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strace.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altlinux.org
-Received: from mua.local.altlinux.org (mua.local.altlinux.org [192.168.1.14])
-	by vmicros1.altlinux.org (Postfix) with ESMTP id 8D0F072C90D;
-	Tue, 30 Jul 2024 19:45:54 +0300 (MSK)
-Received: by mua.local.altlinux.org (Postfix, from userid 508)
-	id 7E6F47CCB3A; Tue, 30 Jul 2024 19:45:54 +0300 (IDT)
-Date: Tue, 30 Jul 2024 19:45:54 +0300
-From: "Dmitry V. Levin" <ldv@strace.io>
-To: Josef Bacik <josef@toxicpanda.com>
-Cc: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org,
-	linux-api@vger.kernel.org, kernel-team@fb.com
-Subject: Re: [PATCH 7/8] fs: add an ioctl to get the mnt ns id from nsfs
-Message-ID: <20240730164554.GA18486@altlinux.org>
-References: <cover.1719243756.git.josef@toxicpanda.com>
- <180449959d5a756af7306d6bda55f41b9d53e3cb.1719243756.git.josef@toxicpanda.com>
+	s=arc-20240116; t=1722364909; c=relaxed/simple;
+	bh=cQu6W4UI8ZhYAkUGkdwfn6ra/TVUApW7l9/Nhh1ufIg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=lA/5WvgP/PHewAOb3D88rmurtPd0NzU2CSSxB+jaBO5zZ9SI9t5DEav+xJd83TgIU1Tt412wGX2wPqKHC0Y1N4uS2NShe5/9YyKCvteGnIQWR4tdoPrUeQ4GBgVNCLhwGgdziS2lYD8M63tFueKEr4h4MkQLU+f5O3LAGYqmgM4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=hqt5oVgZ; arc=none smtp.client-ip=209.85.219.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-6b78c3670d0so26101286d6.1
+        for <linux-api@vger.kernel.org>; Tue, 30 Jul 2024 11:41:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance.com; s=google; t=1722364905; x=1722969705; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=FMSUZZptWgXq4XhSFPCYKksGJubsTg0zmMWwFlEEsGQ=;
+        b=hqt5oVgZQnnHbE06wGXWeJS8wM6HFns3kvimEE3wnKXeu9/OJCT/pI1awKdxWitTVG
+         50QJt3MF8dWJ9bKqsyby7DuUWZps8elty4FjCCU8coS9h1bal5jF9kMEzeLFmyUzyYVG
+         3WqAN0PvliWLxTDW1Mrt34ZFUzqH5GfhES0Flo7AHU/QvjiPZ+EJcM6ujVpAPkP4EDEF
+         V6pDALV+xN0ah4rmndjg/MdVvdWImgRrMVfIvfe3flckR36W4lRuGUxFwge6joGuQK9z
+         CuMtk2fp45zLn5F2Yaooy7Oxg1DEzi6a0g23pi28a0uqLJ71Oy5MVyba6elAP29iWSGd
+         v//A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722364905; x=1722969705;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FMSUZZptWgXq4XhSFPCYKksGJubsTg0zmMWwFlEEsGQ=;
+        b=V2WCQtEapx8Lr0s7bqErwDsFdfwy+Q7LgEBa0DIe4pcjTXF27i0SGqx4F5hgSH9DLR
+         3+7RfTOQgtd3oV9a2tLnxLnmHygb0u69bujP1di3ja6qgTRs6cMjd1xY48orv0+e6XE4
+         vibPXz6ahLdW4ZdJ0oym5G2ps1pBeqZgm/CySiVBwqoM6SLVyiFJWkMXKx8YhkbzrkbO
+         eVnfulbWjLnJAHf2EjGuD6thtAVCBmL6pH60d0hI65/NTrJ3Am9xRBa8wnzwcBSXmJSf
+         c1rmpu+BzElMNhNh2Pba3/ylkFPYPhqcAndi8n0JQ0tagI8NQzmmZZMAKM7M9HeZHkzN
+         bnbg==
+X-Gm-Message-State: AOJu0YzLTxEiwX/JUdo8t9++Ru8mj/0gu68I5ArTepQPqJaOOQovStsO
+	XmEWTf6k1dq5/bNX9PyfnxNYob172itHlwpUxuDp/+aLShdL7o7irhi1SRHcwQI=
+X-Google-Smtp-Source: AGHT+IHu3QxO7K9JwS90h8vXZWn3FRmiyKLJ+Z/nFLdlnRlTlnwHODIKkZCGjGrSpVBvjE40338Udw==
+X-Received: by 2002:a05:6214:415:b0:6b5:7e0b:eafb with SMTP id 6a1803df08f44-6bb55a113f6mr161858606d6.24.1722364904780;
+        Tue, 30 Jul 2024 11:41:44 -0700 (PDT)
+Received: from n191-036-066.byted.org ([139.177.233.173])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6bb3fb07bf7sm66132716d6.137.2024.07.30.11.41.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Jul 2024 11:41:43 -0700 (PDT)
+From: zijianzhang@bytedance.com
+To: netdev@vger.kernel.org
+Cc: linux-api@vger.kernel.org,
+	willemdebruijn.kernel@gmail.com,
+	almasrymina@google.com,
+	edumazet@google.com,
+	davem@davemloft.net,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	dsahern@kernel.org,
+	axboe@kernel.dk,
+	shuah@kernel.org,
+	linux-kselftest@vger.kernel.org,
+	cong.wang@bytedance.com,
+	xiaochun.lu@bytedance.com,
+	Zijian Zhang <zijianzhang@bytedance.com>
+Subject: [PATCH net-next v8 0/3] net: A lightweight zero-copy notification mechanism for MSG_ZEROCOPY
+Date: Tue, 30 Jul 2024 18:41:17 +0000
+Message-Id: <20240730184120.4089835-1-zijianzhang@bytedance.com>
+X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <180449959d5a756af7306d6bda55f41b9d53e3cb.1719243756.git.josef@toxicpanda.com>
+Content-Transfer-Encoding: 8bit
 
-Hi,
+From: Zijian Zhang <zijianzhang@bytedance.com>
 
-On Mon, Jun 24, 2024 at 11:49:50AM -0400, Josef Bacik wrote:
-> In order to utilize the listmount() and statmount() extensions that
-> allow us to call them on different namespaces we need a way to get the
-> mnt namespace id from user space.  Add an ioctl to nsfs that will allow
-> us to extract the mnt namespace id in order to make these new extensions
-> usable.
-> 
-> Signed-off-by: Josef Bacik <josef@toxicpanda.com>
-> ---
->  fs/nsfs.c                 | 14 ++++++++++++++
->  include/uapi/linux/nsfs.h |  2 ++
->  2 files changed, 16 insertions(+)
-> 
-> diff --git a/fs/nsfs.c b/fs/nsfs.c
-> index 07e22a15ef02..af352dadffe1 100644
-> --- a/fs/nsfs.c
-> +++ b/fs/nsfs.c
-> @@ -12,6 +12,7 @@
->  #include <linux/nsfs.h>
->  #include <linux/uaccess.h>
->  
-> +#include "mount.h"
->  #include "internal.h"
->  
->  static struct vfsmount *nsfs_mnt;
-> @@ -143,6 +144,19 @@ static long ns_ioctl(struct file *filp, unsigned int ioctl,
->  		argp = (uid_t __user *) arg;
->  		uid = from_kuid_munged(current_user_ns(), user_ns->owner);
->  		return put_user(uid, argp);
-> +	case NS_GET_MNTNS_ID: {
-> +		struct mnt_namespace *mnt_ns;
-> +		__u64 __user *idp;
-> +		__u64 id;
-> +
-> +		if (ns->ops->type != CLONE_NEWNS)
-> +			return -EINVAL;
-> +
-> +		mnt_ns = container_of(ns, struct mnt_namespace, ns);
-> +		idp = (__u64 __user *)arg;
-> +		id = mnt_ns->seq;
-> +		return put_user(id, idp);
-> +	}
->  	default:
->  		return -ENOTTY;
->  	}
-> diff --git a/include/uapi/linux/nsfs.h b/include/uapi/linux/nsfs.h
-> index a0c8552b64ee..56e8b1639b98 100644
-> --- a/include/uapi/linux/nsfs.h
-> +++ b/include/uapi/linux/nsfs.h
-> @@ -15,5 +15,7 @@
->  #define NS_GET_NSTYPE		_IO(NSIO, 0x3)
->  /* Get owner UID (in the caller's user namespace) for a user namespace */
->  #define NS_GET_OWNER_UID	_IO(NSIO, 0x4)
-> +/* Get the id for a mount namespace */
-> +#define NS_GET_MNTNS_ID		_IO(NSIO, 0x5)
+Original notification mechanism needs poll + recvmmsg which is not
+easy for applcations to accommodate. And, it also incurs unignorable
+overhead including extra system calls.
 
-As the kernel is writing an object of type __u64,
-this has to be defined to _IOR(NSIO, 0x5, __u64) instead,
-see the corresponding comments in uapi/asm-generic/ioctl.h file.
+While making maximum reuse of the existing MSG_ZEROCOPY related code,
+this patch set introduces a new zerocopy socket notification mechanism.
+Users of sendmsg pass a control message as a placeholder for the incoming
+notifications. Upon returning, kernel embeds notifications directly into
+user arguments passed in. By doing so, we can reduce the complexity and
+the overhead for managing notifications.
 
+We also have the logic related to copying cmsg to the userspace in sendmsg
+generic for any possible uses cases in the future. However, it introduces
+ABI change of sendmsg.
+
+Changelog:
+  v1 -> v2:
+    - Reuse errormsg queue in the new notification mechanism,
+      users can actually use these two mechanisms in hybrid way
+      if they want to do so.
+    - Update case SCM_ZC_NOTIFICATION in __sock_cmsg_send
+      1. Regardless of 32-bit, 64-bit program, we will always handle
+      u64 type user address.
+      2. The size of data to copy_to_user is precisely calculated
+      in case of kernel stack leak.
+    - fix (kbuild-bot)
+      1. Add SCM_ZC_NOTIFICATION to arch-specific header files.
+      2. header file types.h in include/uapi/linux/socket.h
+
+  v2 -> v3:
+    - 1. Users can now pass in the address of the zc_info_elem directly
+      with appropriate cmsg_len instead of the ugly user interface. Plus,
+      the handler is now compatible with MSG_CMSG_COMPAT and 32-bit
+      pointer.
+    - 2. Suggested by Willem, another strategy of getting zc info is
+      briefly taking the lock of sk_error_queue and move to a private
+      list, like net_rx_action. I thought sk_error_queue is protected by
+      sock_lock, so that it's impossible for the handling of zc info and
+      users recvmsg from the sk_error_queue at the same time.
+      However, sk_error_queue is protected by its own lock. I am afraid
+      that during the time it is handling the private list, users may
+      fail to get other error messages in the queue via recvmsg. Thus,
+      I don't implement the splice logic in this version. Any comments?
+
+  v3 -> v4:
+    - 1. Change SOCK_ZC_INFO_MAX to 64 to avoid large stack frame size.
+    - 2. Fix minor typos.
+    - 3. Change cfg_zerocopy from int to enum in msg_zerocopy.c
+
+  Initially, we expect users to pass the user address of the user array
+  as a data in cmsg, so that the kernel can copy_to_user to this address
+  directly.
+
+  As Willem commented,
+
+  > The main design issue with this series is this indirection, rather
+  > than passing the array of notifications as cmsg.
+
+  > This trick circumvents having to deal with compat issues and having to
+  > figure out copy_to_user in ____sys_sendmsg (as msg_control is an
+  > in-kernel copy).
+
+  > This is quite hacky, from an API design PoV.
+
+  > As is passing a pointer, but expecting msg_controllen to hold the
+  > length not of the pointer, but of the pointed to user buffer.
+
+  > I had also hoped for more significant savings. Especially with the
+  > higher syscall overhead due to meltdown and spectre mitigations vs
+  > when MSG_ZEROCOPY was introduced and I last tried this optimization.
+
+  We solve it by supporting put_cmsg to userspace in sendmsg path starting
+  from v5.
+
+  v4 -> v5:
+    - 1. Passing user address directly to kernel raises concerns about
+    ABI. In this version, we support put_cmsg to userspace in TX path
+    to solve this problem.
+
+  v5 -> v6:
+    - 1. Cleanly copy cmsg to user upon returning of ___sys_sendmsg
+
+  v6 -> v7:
+    - 1. Remove flag MSG_CMSG_COPY_TO_USER, use a member in msghdr instead
+    - 2. Pass msg to __sock_cmsg_send.
+    - 3. sendmsg_copy_cmsg_to_user should be put at the end of
+    ____sys_sendmsg to make sure msg_sys->msg_control is a valid pointer.
+    - 4. Add struct zc_info to contain the array of zc_info_elem, so that
+    the kernel can update the zc_info->size. Another possible solution is
+    updating the cmsg_len directly, but it will break for_each_cmsghdr.
+    - 5. Update selftest to make cfg_notification_limit have the same
+    semantics in both methods for better comparison.
+
+  v7 -> v8:
+    - 1. Add a static_branch in ____sys_sendmsg to avoid overhead in the
+    hot path.
+    - 2. Add ZC_NOTIFICATION_MAX to limit the max size of zc_info->arr.
+    - 3. Minimize the code in SCM_ZC_NOTIFICATION handler by adding a local
+    sk_buff_head.
+
+* Performance
+
+We update selftests/net/msg_zerocopy.c to accommodate the new mechanism,
+cfg_notification_limit has the same semantics for both methods. Test
+results are as follows, we update skb_orphan_frags_rx to the same as
+skb_orphan_frags to support zerocopy in the localhost test.
+
+cfg_notification_limit = 1, both method get notifications after 1 calling
+of sendmsg. In this case, the new method has around 17% cpu savings in TCP
+and 23% cpu savings in UDP.
++----------------------+---------+---------+---------+---------+
+| Test Type / Protocol | TCP v4  | TCP v6  | UDP v4  | UDP v6  |
++----------------------+---------+---------+---------+---------+
+| ZCopy (MB)           | 7523    | 7706    | 7489    | 7304    |
++----------------------+---------+---------+---------+---------+
+| New ZCopy (MB)       | 8834    | 8993    | 9053    | 9228    |
++----------------------+---------+---------+---------+---------+
+| New ZCopy / ZCopy    | 117.42% | 116.70% | 120.88% | 126.34% |
++----------------------+---------+---------+---------+---------+
+
+cfg_notification_limit = 32, both get notifications after 32 calling of
+sendmsg, which means more chances to coalesce notifications, and less
+overhead of poll + recvmsg for the original method. In this case, the new
+method has around 7% cpu savings in TCP and slightly better cpu usage in
+UDP. In the env of selftest, notifications of TCP are more likely to be
+out of order than UDP, it's easier to coalesce more notifications in UDP.
+The original method can get one notification with range of 32 in a recvmsg
+most of the time. In TCP, most notifications' range is around 2, so the
+original method needs around 16 recvmsgs to get notified in one round.
+That's the reason for the "New ZCopy / ZCopy" diff in TCP and UDP here.
++----------------------+---------+---------+---------+---------+
+| Test Type / Protocol | TCP v4  | TCP v6  | UDP v4  | UDP v6  |
++----------------------+---------+---------+---------+---------+
+| ZCopy (MB)           | 8842    | 8735    | 10072   | 9380    |
++----------------------+---------+---------+---------+---------+
+| New ZCopy (MB)       | 9366    | 9477    | 10108   | 9385    |
++----------------------+---------+---------+---------+---------+
+| New ZCopy / ZCopy    | 106.00% | 108.28% | 100.31% | 100.01% |
++----------------------+---------+---------+---------+---------+
+
+In conclusion, when notification interval is small or notifications are
+hard to be coalesced, the new mechanism is highly recommended. Otherwise,
+the performance gain from the new mechanism is very limited.
+
+Zijian Zhang (3):
+  sock: support copying cmsgs to the user space in sendmsg
+  sock: add MSG_ZEROCOPY notification mechanism based on msg_control
+  selftests: add MSG_ZEROCOPY msg_control notification test
+
+ arch/alpha/include/uapi/asm/socket.h        |   2 +
+ arch/mips/include/uapi/asm/socket.h         |   2 +
+ arch/parisc/include/uapi/asm/socket.h       |   2 +
+ arch/sparc/include/uapi/asm/socket.h        |   2 +
+ include/linux/socket.h                      |   8 ++
+ include/net/sock.h                          |   2 +-
+ include/uapi/asm-generic/socket.h           |   2 +
+ include/uapi/linux/socket.h                 |  23 +++++
+ net/core/sock.c                             |  72 +++++++++++++-
+ net/ipv4/ip_sockglue.c                      |   2 +-
+ net/ipv6/datagram.c                         |   2 +-
+ net/socket.c                                |  63 +++++++++++-
+ tools/testing/selftests/net/msg_zerocopy.c  | 101 ++++++++++++++++++--
+ tools/testing/selftests/net/msg_zerocopy.sh |   1 +
+ 14 files changed, 265 insertions(+), 19 deletions(-)
 
 -- 
-ldv
+2.20.1
+
 
