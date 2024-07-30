@@ -1,62 +1,46 @@
-Return-Path: <linux-api+bounces-2048-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2049-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC2AA941586
-	for <lists+linux-api@lfdr.de>; Tue, 30 Jul 2024 17:39:00 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EDD1941B25
+	for <lists+linux-api@lfdr.de>; Tue, 30 Jul 2024 18:51:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A90B12854A6
-	for <lists+linux-api@lfdr.de>; Tue, 30 Jul 2024 15:38:59 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 68085B236B4
+	for <lists+linux-api@lfdr.de>; Tue, 30 Jul 2024 16:46:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3F1A1A2C08;
-	Tue, 30 Jul 2024 15:38:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="OjhQt4h0"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D1BD1448FA;
+	Tue, 30 Jul 2024 16:46:04 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40E6618A92F;
-	Tue, 30 Jul 2024 15:38:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+Received: from vmicros1.altlinux.org (vmicros1.altlinux.org [194.107.17.57])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9687E1A6166;
+	Tue, 30 Jul 2024 16:46:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.107.17.57
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722353934; cv=none; b=BgcQgUH6fvWU+Zcfs4a6DMx5wkvafao4DUnoV56MdAbp0UgAfUQXieolf1LDP0ff/0ZKqBl3dw2SaI9StE0A1osqevL2Bnp5zm7nwYTxxOTLD0Uas8edGseQSuyh3qs4mnXZ0YgO04AQUb1KEGtMGKT9Gfvtwr0LBtC+uxj7nvo=
+	t=1722357964; cv=none; b=W2SUP4ICTxD1i4ZtGddX8pba2mTwIjUwN1uX0WYTX6FCgb7z3DTtJbTy8X8qPp9iGk/bWsh8iedEFkATKrcv9PQurEy6DrAY+O3sgDoNCGQkeJV7jBskztABDzWEHjhvktMW+Hyqh/zFb72w45eUkfohaqu0EoWyYAfD2L2AUxM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722353934; c=relaxed/simple;
-	bh=i6pgSMEHg/5xofzxdXM7OtXe7jLNxbJqEOi3Np4nYq4=;
+	s=arc-20240116; t=1722357964; c=relaxed/simple;
+	bh=GKoqSlvPjpjkXxO95eFdftWUqJBC1IEiCl+9pph3zDs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jfWazsiyOhblmabNXS0r9FQeNLg+9cANo4LuvrYIfFdkt5I9IjhyRpFyS0m9dV3QVtwOmbWZb6rEhsXtLzlHvj1Cf52qJlbi4hYvLXCySQgKV1rROswzwpYdPv7qMXGXh4ZetInX+ccL07YVGVVgRXzg+amRP83eA7IqXDZuKVs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=OjhQt4h0; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=sxsFs2hPLHi+XqCwIbcUXSHtwWQihjmSFt20iDztleY=; b=OjhQt4h0nWplLdqdaBJKPJppSY
-	cSJWuAlirS4GclWJ3YnUNRh3NnpDmzridD9l932mbQPIX6Qmbv2aoU73rv3Rc/K6+dYwv7dPLXBQV
-	KVoCjXC04w1jOAHjbKwbPiuMcf7tkPIBxXtnUF1SkxRnjZTsiN29RNFSRvFF8FBUu2mdHCwN7q8YQ
-	5nq9tcdmlHik+0XAOBL6woxEVuiKWtst3bxa+VX+7KJVNeYTC/ESAy+/egk4AqAW7DDN28Tjxwvat
-	kanQBisv5IMMxDmcZ7upF8Cyaja2+HkdHjrmglHnvlUG5xoenvgqAZLrREjKzBMjuV+bP9BOrZQi4
-	3dWxqSBA==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sYow7-0000000Fgnv-0KNB;
-	Tue, 30 Jul 2024 15:38:51 +0000
-Date: Tue, 30 Jul 2024 08:38:51 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Dave Chinner <david@fromorbit.com>
-Cc: Theodore Ts'o <tytso@mit.edu>, Mateusz Guzik <mjguzik@gmail.com>,
-	Florian Weimer <fweimer@redhat.com>, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-	Dave Chinner <dchinner@redhat.com>
-Subject: Re: Testing if two open descriptors refer to the same inode
-Message-ID: <ZqkJC5vPKRUkIH6m@infradead.org>
-References: <874j88sn4d.fsf@oldenburg.str.redhat.com>
- <ghqndyn4x7ujxvybbwet5vxiahus4zey6nkfsv6he3d4en6ehu@bq5s23lstzor>
- <20240729133601.GA557749@mit.edu>
- <ZqhQnWQSweXgffdD@dread.disaster.area>
+	 Content-Type:Content-Disposition:In-Reply-To; b=rRjJUzWtscKuJmioINvnXLrpHewPO3r5S5FxNIQ6AcHPD4tV3uQLvUOuVnYSSEl/wjAOvUhrVfm3jHIRfGje9By47pq6tQNJM83Z3IUPWqq/fxWcupA1ZnhRVps5hfZCgR+tt2ZMllXCSSGVP5GAZ0buaF8zRE/YviJ0aG8zgwU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strace.io; spf=pass smtp.mailfrom=altlinux.org; arc=none smtp.client-ip=194.107.17.57
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strace.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altlinux.org
+Received: from mua.local.altlinux.org (mua.local.altlinux.org [192.168.1.14])
+	by vmicros1.altlinux.org (Postfix) with ESMTP id 8D0F072C90D;
+	Tue, 30 Jul 2024 19:45:54 +0300 (MSK)
+Received: by mua.local.altlinux.org (Postfix, from userid 508)
+	id 7E6F47CCB3A; Tue, 30 Jul 2024 19:45:54 +0300 (IDT)
+Date: Tue, 30 Jul 2024 19:45:54 +0300
+From: "Dmitry V. Levin" <ldv@strace.io>
+To: Josef Bacik <josef@toxicpanda.com>
+Cc: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org,
+	linux-api@vger.kernel.org, kernel-team@fb.com
+Subject: Re: [PATCH 7/8] fs: add an ioctl to get the mnt ns id from nsfs
+Message-ID: <20240730164554.GA18486@altlinux.org>
+References: <cover.1719243756.git.josef@toxicpanda.com>
+ <180449959d5a756af7306d6bda55f41b9d53e3cb.1719243756.git.josef@toxicpanda.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -65,32 +49,71 @@ List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZqhQnWQSweXgffdD@dread.disaster.area>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <180449959d5a756af7306d6bda55f41b9d53e3cb.1719243756.git.josef@toxicpanda.com>
 
-On Tue, Jul 30, 2024 at 12:31:57PM +1000, Dave Chinner wrote:
-> There are at least two different "is this inode identical"
-> use cases that {st_dev,st_ino} is being used for.
+Hi,
+
+On Mon, Jun 24, 2024 at 11:49:50AM -0400, Josef Bacik wrote:
+> In order to utilize the listmount() and statmount() extensions that
+> allow us to call them on different namespaces we need a way to get the
+> mnt namespace id from user space.  Add an ioctl to nsfs that will allow
+> us to extract the mnt namespace id in order to make these new extensions
+> usable.
 > 
-> The first, as Florian described, is to determine if two open fds
-> refer to the same inode for collision avoidance.
+> Signed-off-by: Josef Bacik <josef@toxicpanda.com>
+> ---
+>  fs/nsfs.c                 | 14 ++++++++++++++
+>  include/uapi/linux/nsfs.h |  2 ++
+>  2 files changed, 16 insertions(+)
 > 
-> This works on traditional filesystems like ext4 and XFS, but isn't
-> reliable on filesystems with integrated snapshot/subvolume
-> functionality.
+> diff --git a/fs/nsfs.c b/fs/nsfs.c
+> index 07e22a15ef02..af352dadffe1 100644
+> --- a/fs/nsfs.c
+> +++ b/fs/nsfs.c
+> @@ -12,6 +12,7 @@
+>  #include <linux/nsfs.h>
+>  #include <linux/uaccess.h>
+>  
+> +#include "mount.h"
+>  #include "internal.h"
+>  
+>  static struct vfsmount *nsfs_mnt;
+> @@ -143,6 +144,19 @@ static long ns_ioctl(struct file *filp, unsigned int ioctl,
+>  		argp = (uid_t __user *) arg;
+>  		uid = from_kuid_munged(current_user_ns(), user_ns->owner);
+>  		return put_user(uid, argp);
+> +	case NS_GET_MNTNS_ID: {
+> +		struct mnt_namespace *mnt_ns;
+> +		__u64 __user *idp;
+> +		__u64 id;
+> +
+> +		if (ns->ops->type != CLONE_NEWNS)
+> +			return -EINVAL;
+> +
+> +		mnt_ns = container_of(ns, struct mnt_namespace, ns);
+> +		idp = (__u64 __user *)arg;
+> +		id = mnt_ns->seq;
+> +		return put_user(id, idp);
+> +	}
+>  	default:
+>  		return -ENOTTY;
+>  	}
+> diff --git a/include/uapi/linux/nsfs.h b/include/uapi/linux/nsfs.h
+> index a0c8552b64ee..56e8b1639b98 100644
+> --- a/include/uapi/linux/nsfs.h
+> +++ b/include/uapi/linux/nsfs.h
+> @@ -15,5 +15,7 @@
+>  #define NS_GET_NSTYPE		_IO(NSIO, 0x3)
+>  /* Get owner UID (in the caller's user namespace) for a user namespace */
+>  #define NS_GET_OWNER_UID	_IO(NSIO, 0x4)
+> +/* Get the id for a mount namespace */
+> +#define NS_GET_MNTNS_ID		_IO(NSIO, 0x5)
 
-It's not about snapshot, it's about file systems being broken.  Even
-btrfs for example always has a unique st_dev,st_ino pair, it can
-just unexpectly change at any subvolume root and not just at a mount
-point.
+As the kernel is writing an object of type __u64,
+this has to be defined to _IOR(NSIO, 0x5, __u64) instead,
+see the corresponding comments in uapi/asm-generic/ioctl.h file.
 
-> That is our long term challenge: replacing the use of {dev,ino} for
-> data uniqueness disambiguation. Making the identification of owners
-> of non-unique/shared data simple for applications to use and fast
-> for filesystems to resolve will be a challenge.
 
-I don't think there is any way to provide such a guarantee as there
-is so many levels of cloning or dedup, many of which are totally
-invisible to the high level file system interface.
-
+-- 
+ldv
 
