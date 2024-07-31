@@ -1,181 +1,72 @@
-Return-Path: <linux-api+bounces-2054-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2055-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 282C5942600
-	for <lists+linux-api@lfdr.de>; Wed, 31 Jul 2024 07:51:36 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9E3B9428E5
+	for <lists+linux-api@lfdr.de>; Wed, 31 Jul 2024 10:11:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7A6FF281C02
-	for <lists+linux-api@lfdr.de>; Wed, 31 Jul 2024 05:51:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 95928284F07
+	for <lists+linux-api@lfdr.de>; Wed, 31 Jul 2024 08:11:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8EE4B4965D;
-	Wed, 31 Jul 2024 05:51:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MqogeD9e"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1C631A7F83;
+	Wed, 31 Jul 2024 08:11:37 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtpbg156.qq.com (smtpbg156.qq.com [15.184.82.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64AF919478;
-	Wed, 31 Jul 2024 05:51:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CFCF1A7F64;
+	Wed, 31 Jul 2024 08:11:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=15.184.82.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722405091; cv=none; b=plKFSd+S0dUiLG6fxlPpk+Ehp1fO99B4jKIywDryu4ulheRaK9HfKmgpwAwFyF1CCwK6Oy5wGq/sRVpVdIh5gF8boPVL2ZqIle5BOv3627FIog56IPx9RGViqxLX3UWmA2neKexPxjwYhEtaLP/Lf1NMoMY6eu8pjdnAkWy9zS0=
+	t=1722413497; cv=none; b=qMXUo9f2DooPcSa95KrJDjwtYay/Nk9siCOq5EJthOJDj7LTu8Yi9dP7nCmh648LlWPQ+evnicFs4OwiG+KeIzpDkH9zjCTjvwbMPUrwd+huI7Ks6vYQEXGm/iLWFB899GRKopiLeOnjpE4nD2tKCxQDotJDOl0cM4VVuXHO44g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722405091; c=relaxed/simple;
-	bh=UEsjXMA2SABPVP0LGK1Uqnqs5RdT3iO4Qiqk/+tBM3g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DgOyErw7P+J6jSE8jG6ILok+Nu7CZM7PPmBF9i51MOSBCDJ+pHe1WU72EbnhUH+AxPHyHRZKd6pD8m9Xmky0s+cQ0hGMjs/3FTqn8TwkXuNvKdnMEnw5GnHw0iXcIYumRv7dq5RxS8vdekMhovqefnHys7RkmE2DJE4UuzNe580=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MqogeD9e; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A834C116B1;
-	Wed, 31 Jul 2024 05:51:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722405090;
-	bh=UEsjXMA2SABPVP0LGK1Uqnqs5RdT3iO4Qiqk/+tBM3g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MqogeD9eQBRtKLAq0F8jgH6CJxQdc2YCF9iMinZa+GmmooR2hDJX2f44hx6/8fiaY
-	 Bg/tmUNdD9fYASGAPGu3o3PBfOpQB75aklL4Q+Rpx9o3ZKmc5RvD5HBJYAe+GapynX
-	 6Or2eM97BgWWZ+1E0vvj3oQYvGRs/7gqoGHzi0BSngKz+FgEwwtneq7k/mLrNStj13
-	 5IkI3k+mqzuqEzsIUn5GrYlxfos56oHKAp4yWSMgQMSXLvyPFDBIc/c4fkl27vaVBZ
-	 6NIwMOBDE29QqWqqZT09TGkqjowWt5eJ06ePI3jA25Hcx4fzLt7IMsiDSEDEOt4ihK
-	 YnoWK2dIHnB9g==
-Date: Wed, 31 Jul 2024 07:51:26 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: "Dmitry V. Levin" <ldv@strace.io>
-Cc: Josef Bacik <josef@toxicpanda.com>, linux-fsdevel@vger.kernel.org, 
-	linux-api@vger.kernel.org, kernel-team@fb.com
-Subject: Re: [PATCH 7/8] fs: add an ioctl to get the mnt ns id from nsfs
-Message-ID: <20240731-wortgefecht-biogas-72e67e7babc7@brauner>
-References: <cover.1719243756.git.josef@toxicpanda.com>
- <180449959d5a756af7306d6bda55f41b9d53e3cb.1719243756.git.josef@toxicpanda.com>
- <20240730164554.GA18486@altlinux.org>
+	s=arc-20240116; t=1722413497; c=relaxed/simple;
+	bh=BypfphmwdnaG3QjNlnzsAMlpylDCxRuYZ6lhiLgq7eA=;
+	h=From:To:Cc:Subject:Mime-Version:Content-Type:Date:Message-ID; b=MFkIA+S8GuKce8juqtpWRY6+AckQkccRKQWDsU0mlWSPdkN/n/f5dUcDQH+G3ndHdkSQe+8Dl9UjCHx0TQogkijZnp6yYSEndplATahB8r61tRapQ63+kBpGJOKn/lcvCLfOJqrtlSMuXkKjWe+jOnycXdQcqWkKLpbfEBUxRNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=andypan.me; spf=pass smtp.mailfrom=andypan.me; arc=none smtp.client-ip=15.184.82.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=andypan.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=andypan.me
+X-QQ-GoodBg: 0
+X-QQ-SSF: 0000000000000000
+X-QQ-XMRINFO: NI4Ajvh11aEj8Xl/2s1/T8w=
+X-QQ-FEAT: AmBEVSWWrMdJ2Acbs8FXmFR/lFk8w4gz/Y5TrRMjvwKTQqtkyyOcPUPvCZlTF
+	vSl5YpTf3hFnXp2aV4DMQlvdDkZPBx+eFlcFaE0Gm+HYWHtboJZ0npYbGgwUp1aAJv7foyA
+	e2VBzyTqgAhBKIytlTEUo9kUj+wuF0+VlNHjvYWPPsfNp84a4gWh/v1jwHrQtdg9uPj3Ggf
+	kWyLh83W8ydXlR8yFYpWj7PyU1F1RIhxoZKuXgAKVkUXO8uKLqYkc0rLQdVG01lWY/M2D2P
+	9gFkvbOfkCBHEaW70lOcZvKUcl7keL6PXXb6qDyAuAYObS1ULPrLVpKyV64AQDOrtVEg==
+X-QQ-BUSINESS-ORIGIN: 2
+X-QQ-Originating-IP: xR+DW9xn5kl5eHgjdafSzBos0uriB0+z2hyzw7Ec/fI=
+X-QQ-STYLE: 
+X-QQ-mid: t3sz3a-0t1722413447t3804776
+From: "=?utf-8?B?5r2Y5bCR?=" <i@andypan.me>
+To: "=?utf-8?B?aQ==?=" <i@andypan.me>, "=?utf-8?B?QWxlamFuZHJvIENvbG9tYXI=?=" <alx@kernel.org>
+Cc: "=?utf-8?B?bGludXgtbWFu?=" <linux-man@vger.kernel.org>, "=?utf-8?B?bGludXgtYXBp?=" <linux-api@vger.kernel.org>
+Subject: Re:[PATCH v3] epoll.7: clarify the event distribution under edge-triggered mode
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="czhavtllv27b4av2"
-Content-Disposition: inline
-In-Reply-To: <20240730164554.GA18486@altlinux.org>
+Mime-Version: 1.0
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
+Date: Wed, 31 Jul 2024 16:10:46 +0800
+X-Priority: 1
+Message-ID: <tencent_2654F7C90808524075EA4E72@qq.com>
+X-QQ-MIME: TCMime 1.0 by Tencent
+X-Mailer: QQMail 2.x
+X-QQ-Mailer: QQMail 2.x
+X-BIZMAIL-ID: 16183467516893814799
+X-QQ-SENDSIZE: 520
+Received: from qq.com (unknown [127.0.0.1])
+	by smtp.qq.com (ESMTP) with SMTP
+	id ; Wed, 31 Jul 2024 16:10:49 +0800 (CST)
+Feedback-ID: t:andypan.me:qybglogicsvrgz:qybglogicsvrgz5a-0
 
+SGkgYWxsLA0KV291bGQgc29tZW9uZSBoYXZlIGEgbW9tZW50IHRvIHRha2UgYSBsb29rIGF0
+IHRoaXM/
 
---czhavtllv27b4av2
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-
-On Tue, Jul 30, 2024 at 07:45:54PM GMT, Dmitry V. Levin wrote:
-> Hi,
-> 
-> On Mon, Jun 24, 2024 at 11:49:50AM -0400, Josef Bacik wrote:
-> > In order to utilize the listmount() and statmount() extensions that
-> > allow us to call them on different namespaces we need a way to get the
-> > mnt namespace id from user space.  Add an ioctl to nsfs that will allow
-> > us to extract the mnt namespace id in order to make these new extensions
-> > usable.
-> > 
-> > Signed-off-by: Josef Bacik <josef@toxicpanda.com>
-> > ---
-> >  fs/nsfs.c                 | 14 ++++++++++++++
-> >  include/uapi/linux/nsfs.h |  2 ++
-> >  2 files changed, 16 insertions(+)
-> > 
-> > diff --git a/fs/nsfs.c b/fs/nsfs.c
-> > index 07e22a15ef02..af352dadffe1 100644
-> > --- a/fs/nsfs.c
-> > +++ b/fs/nsfs.c
-> > @@ -12,6 +12,7 @@
-> >  #include <linux/nsfs.h>
-> >  #include <linux/uaccess.h>
-> >  
-> > +#include "mount.h"
-> >  #include "internal.h"
-> >  
-> >  static struct vfsmount *nsfs_mnt;
-> > @@ -143,6 +144,19 @@ static long ns_ioctl(struct file *filp, unsigned int ioctl,
-> >  		argp = (uid_t __user *) arg;
-> >  		uid = from_kuid_munged(current_user_ns(), user_ns->owner);
-> >  		return put_user(uid, argp);
-> > +	case NS_GET_MNTNS_ID: {
-> > +		struct mnt_namespace *mnt_ns;
-> > +		__u64 __user *idp;
-> > +		__u64 id;
-> > +
-> > +		if (ns->ops->type != CLONE_NEWNS)
-> > +			return -EINVAL;
-> > +
-> > +		mnt_ns = container_of(ns, struct mnt_namespace, ns);
-> > +		idp = (__u64 __user *)arg;
-> > +		id = mnt_ns->seq;
-> > +		return put_user(id, idp);
-> > +	}
-> >  	default:
-> >  		return -ENOTTY;
-> >  	}
-> > diff --git a/include/uapi/linux/nsfs.h b/include/uapi/linux/nsfs.h
-> > index a0c8552b64ee..56e8b1639b98 100644
-> > --- a/include/uapi/linux/nsfs.h
-> > +++ b/include/uapi/linux/nsfs.h
-> > @@ -15,5 +15,7 @@
-> >  #define NS_GET_NSTYPE		_IO(NSIO, 0x3)
-> >  /* Get owner UID (in the caller's user namespace) for a user namespace */
-> >  #define NS_GET_OWNER_UID	_IO(NSIO, 0x4)
-> > +/* Get the id for a mount namespace */
-> > +#define NS_GET_MNTNS_ID		_IO(NSIO, 0x5)
-> 
-> As the kernel is writing an object of type __u64,
-> this has to be defined to _IOR(NSIO, 0x5, __u64) instead,
-> see the corresponding comments in uapi/asm-generic/ioctl.h file.
-
-Thanks for spotting that. I've pushed a fix to vfs.fixes. See the
-appended patch.
-
---czhavtllv27b4av2
-Content-Type: text/x-diff; charset=utf-8
-Content-Disposition: attachment;
-	filename="0001-nsfs-fix-ioctl-declaration.patch"
-
-From c43a484ddff73f92739f0167c738eb6fd2df78b7 Mon Sep 17 00:00:00 2001
-From: Christian Brauner <brauner@kernel.org>
-Date: Wed, 31 Jul 2024 07:47:27 +0200
-Subject: [PATCH] nsfs: fix ioctl declaration
-
-The kernel is writing an object of type __u64, so the ioctl has to be
-defined to _IOR(NSIO, 0x5, __u64) instead of _IO(NSIO, 0x5).
-
-Reported-by: Dmitry V. Levin <ldv@strace.io>
-Link: https://lore.kernel.org/r/20240730164554.GA18486@altlinux.org
-Signed-off-by: Christian Brauner <brauner@kernel.org>
----
- include/uapi/linux/nsfs.h | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/include/uapi/linux/nsfs.h b/include/uapi/linux/nsfs.h
-index b133211331f6..5fad3d0fcd70 100644
---- a/include/uapi/linux/nsfs.h
-+++ b/include/uapi/linux/nsfs.h
-@@ -3,6 +3,7 @@
- #define __LINUX_NSFS_H
- 
- #include <linux/ioctl.h>
-+#include <linux/types.h>
- 
- #define NSIO	0xb7
- 
-@@ -16,7 +17,7 @@
- /* Get owner UID (in the caller's user namespace) for a user namespace */
- #define NS_GET_OWNER_UID	_IO(NSIO, 0x4)
- /* Get the id for a mount namespace */
--#define NS_GET_MNTNS_ID		_IO(NSIO, 0x5)
-+#define NS_GET_MNTNS_ID		_IOR(NSIO, 0x5, __u64)
- /* Translate pid from target pid namespace into the caller's pid namespace. */
- #define NS_GET_PID_FROM_PIDNS	_IOR(NSIO, 0x6, int)
- /* Return thread-group leader id of pid in the callers pid namespace. */
--- 
-2.43.0
-
-
---czhavtllv27b4av2--
 
