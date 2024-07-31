@@ -1,161 +1,84 @@
-Return-Path: <linux-api+bounces-2072-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2073-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B0FB94330A
-	for <lists+linux-api@lfdr.de>; Wed, 31 Jul 2024 17:21:37 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3BA8943321
+	for <lists+linux-api@lfdr.de>; Wed, 31 Jul 2024 17:24:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 16FC8283FEC
-	for <lists+linux-api@lfdr.de>; Wed, 31 Jul 2024 15:21:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 016201C2432E
+	for <lists+linux-api@lfdr.de>; Wed, 31 Jul 2024 15:24:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35707DF53;
-	Wed, 31 Jul 2024 15:17:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FXaFjEVV"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CCC21BC089;
+	Wed, 31 Jul 2024 15:22:51 +0000 (UTC)
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bg4.exmail.qq.com (bg4.exmail.qq.com [43.155.65.254])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AE4A17BA3;
-	Wed, 31 Jul 2024 15:17:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C7DB12B73;
+	Wed, 31 Jul 2024 15:22:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=43.155.65.254
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722439069; cv=none; b=M8X1faMABO6nUdITkvd8ztP+M2ctiCKuNGDZwyBXl0KtDXcZhf96E/RboofTvvBB0kB3JsPqENFL7poNMDw9oGtugMKHemuikq7n73CvA+CSsBD1Odwg3duvV+PZ5m2ZEujCeOZznnT1g+/CaU95KZCsfYc8wxTPuM591+JOlrM=
+	t=1722439370; cv=none; b=mRlAby6eTu+xWdMv746WP9M6+Q9NGnd1/0OLIQCC2lcCmaXSqtfUI9dM9cMEqXndQndMqnVznePu4FNsUaUOWdqJOhShLwY916amUY+axaIpwb9nYwFzuNA3jDAF98ffd7BSfy55p6AzQDD29bdwXRJqffk0W+SKykbV06GskR0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722439069; c=relaxed/simple;
-	bh=EEwIrVKjjU170csMrkgAB/jxA+j558inEvkmk+4+NUE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=k2zRCaCsBW242oB5Vhqz0jsoJkdo7pPzxxMbOzLEFZsLc2PxCAAvcqymP22mB6T7aEFbNxBYCoLKlZzcaznvsfG9SNDYFrFkUs+uLy/8KK1CdTrWlOtpJGledXeJKIOonifyKbhnN+pfnCuulEbVw3iQtfBTqfKjWjPbhp5GskI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FXaFjEVV; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 8AA98C116B1;
-	Wed, 31 Jul 2024 15:17:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722439068;
-	bh=EEwIrVKjjU170csMrkgAB/jxA+j558inEvkmk+4+NUE=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=FXaFjEVVySGOZ3+xdetRBjgZSuhkLsPrQCWmC7aA4nu9mFmAgHAjdONnh4qBbLr8K
-	 ytI2SMz/GNHVLHcRY7KCwiPRxXajmWMT5iWFEcPi8/O8ScE+XjsqBnPR6bOyKC2Cus
-	 JZ41cTXiMB5EMykQkV5MQ+q7/huKaaqgtKxaLS9Rxx7Yu9SSxw3rWdh+Tip7U214Cu
-	 RYH5nAsCuQhGb4eh7xXq9W8Kq/Wp+uNbQR/hwPIVtClfGH0+vQ3SbmvETgbUKFVAT9
-	 kE8x7700nXLK/sUHk36d21jrn9jQScjn1MaflbeD0igplV+ww3hHH8GkZWTYh2nCMf
-	 Fy8LKXo7jooNg==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FC76C3DA64;
-	Wed, 31 Jul 2024 15:17:47 +0000 (UTC)
-From: Andy Pan via B4 Relay <devnull+i.andypan.me@kernel.org>
-Date: Wed, 31 Jul 2024 15:17:31 +0000
-Subject: [PATCH v4] epoll.7: clarify the event distribution under
- edge-triggered mode
+	s=arc-20240116; t=1722439370; c=relaxed/simple;
+	bh=97ZLzQpF4Hfqofg6YA2ErCs+/A9HhZNWmNNEqNHjG34=;
+	h=From:To:Cc:Subject:Mime-Version:Content-Type:Date:Message-ID:
+	 References:In-Reply-To; b=itcMY3OFQtugQUnhFySled6utA323g/QkvM8267njppgRss4dg8PQUq9Va60kBmUVB0GLt1qL/O4uowCCcfcw7Wf4t9JAwUtDE/v8zW8mNQecd+Z81sOKOs6wwvAG9HtAvbFpQKiP5mwYmLwithctwIqTeVsZKWKi6aLwsxYj/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=andypan.me; spf=pass smtp.mailfrom=andypan.me; arc=none smtp.client-ip=43.155.65.254
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=andypan.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=andypan.me
+X-QQ-GoodBg: 0
+X-QQ-SSF: 0000000000000010
+X-QQ-XMRINFO: MPJ6Tf5t3I/ycC2BItcBVIA=
+X-QQ-FEAT: FwowAM4HOqCrqOq7iTmpVZfa2m7qNeh9E1ine1LMDKbsn3BgMigZS511emphS
+	1kOuDY6Lz/RMyMtXQcgFJez1m4ZzIZPhIx59K9C10wzHvRcOA8GdihAZtVK/XLHcmG9trMq
+	tI32VaMEhLDx480jCjdgXKCCLkLMFYEgk/ugJsrenNM8w8V1p7HHoDrDfBWO3tIoGWMqH30
+	9fTMJU7h9zV5FB8BbKZ9a4LiI8n76LphYSGOs876wc0GXNg8Bp+81m3Fm4HDs6gyopr8WZt
+	okwgjHcTUQxCO+fJZkaUgDh/mq4WJPCLRgqxiw1HWVrv0gt7EHY8gsQK9YxeXxWHj0X+pVz
+	40lRd/VUyTicTbWM9WoQg8c+OlUNA==
+X-QQ-BUSINESS-ORIGIN: 2
+X-QQ-Originating-IP: Voj2I92PkidtzOcCLeDtZH2QtxZ/KFsPH0ptUZpFIRI=
+X-QQ-STYLE: 
+X-QQ-mid: t3sz3a-0t1722439349t5476374
+From: "=?utf-8?B?5r2Y5bCR?=" <i@andypan.me>
+To: "=?utf-8?B?QWxlamFuZHJvIENvbG9tYXI=?=" <alx@kernel.org>
+Cc: "=?utf-8?B?TWljaGFlbCBLZXJyaXNr?=" <mtk.manpages@gmail.com>, "=?utf-8?B?bGludXgtbWFu?=" <linux-man@vger.kernel.org>, "=?utf-8?B?bGludXgtYXBp?=" <linux-api@vger.kernel.org>
+Subject: Re: [PATCH v3] epoll.7: clarify the event distribution under edge-triggered mode
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240731-epoll-et-desc-v4-1-7eb819bdde0d@andypan.me>
-X-B4-Tracking: v=1; b=H4sIAIpVqmYC/33MSw6CMBSF4a2Qjq3pC0oduQ/j4La9SBMEQgmRE
- PZuYeQjOjwn+f6FRBwCRnLKFjLgFGLo2jTUISOuhvaGNPi0iWBCMS00xb5rGooj9RgdZQrBQG5
- YJS1Jph+wCo+9d7mmXYc4dsO85ye+vb9KE6ecSsMsVK7QpTVnaP3cQ3u8I9lSk/jLReLOGCvAF
- YXW+ReXL1yyTy4TLwBKbrlTjPk3vq7rEwW7QXIpAQAA
-To: Alejandro Colomar <alx@kernel.org>
-Cc: linux-man@vger.kernel.org, linux-api@vger.kernel.org, 
- "mtk.manpages" <mtk.manpages@gmail.com>, Andy Pan <panjf2000@gmail.com>, 
- Andy Pan <i@andypan.me>
-X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1722439066; l=3951;
- i=i@andypan.me; s=20240727; h=from:subject:message-id;
- bh=cFFLz7HRfvtxuzSXKqH96ioljLSowE+zdO5R+VVbRbs=;
- b=8dIKNl9Fz+j8+YB1kZkT6UtxXm1uS0nuPWtxb2L8I8+EGaK9IHtlmCRVzjV6oLGt4eU/z05dc
- zAUoBlUsApCBk4+LapDqLZhPiGgpotz5GanxzRL5fx119jYfJhp7FBy
-X-Developer-Key: i=i@andypan.me; a=ed25519;
- pk=ZLGY5dzAGPy8bpSKbl9Jfyp/Ud0eac0BY5cKedQXMcw=
-X-Endpoint-Received: by B4 Relay for i@andypan.me/20240727 with auth_id=190
-X-Original-From: Andy Pan <i@andypan.me>
-Reply-To: i@andypan.me
+Mime-Version: 1.0
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
+Date: Wed, 31 Jul 2024 23:22:29 +0800
+X-Priority: 1
+Message-ID: <tencent_23435D9572735FC704D2B4B1@qq.com>
+X-QQ-MIME: TCMime 1.0 by Tencent
+X-Mailer: QQMail 2.x
+X-QQ-Mailer: QQMail 2.x
+References: <20240730-epoll-et-desc-v3-1-6aa81b1c400d@andypan.me>
+	<2yb4zrih5esl3qldowd34ojg7mjq3xqjmqvq5bb5y6ru4x7rv5@p6ahw4ztu5cf>
+	<tencent_311E460546C884C26FB32E3C@qq.com>
+	<l3suz7pnchnpnd5hhpxk5xqdikdxevp3dsybmhlcmzu6yih66s@zxuvoiunfqwl>
+	<DD88B2A8DED5353D+137af5bf-158d-4e1e-b4ae-c4262434f8a6@Spark>
+	<l5ezb77kqvbmypsvv4nek7ce46sghrm6ox6zbeq7hzd6j2ouv2@mhaihw3rkwjl>
+In-Reply-To: <l5ezb77kqvbmypsvv4nek7ce46sghrm6ox6zbeq7hzd6j2ouv2@mhaihw3rkwjl>
+X-QQ-ReplyHash: 239215721
+X-BIZMAIL-ID: 942928434929424878
+X-QQ-SENDSIZE: 520
+Received: from qq.com (unknown [127.0.0.1])
+	by smtp.qq.com (ESMTP) with SMTP
+	id ; Wed, 31 Jul 2024 23:22:31 +0800 (CST)
+Feedback-ID: t:andypan.me:qybglogicsvrgz:qybglogicsvrgz5a-0
 
-From: Andy Pan <i@andypan.me>
-
-For the moment, the edge-triggered epoll generates an event for each
-receipt of a chunk of data, that is to say, epoll_wait() will return
-and tell us a monitored file descriptor is ready whenever there is a
-new activity on that FD since we were last informed about that FD.
-This is not a real _edge_ implementation for epoll, but it's been
-working this way for years and plenty of projects are relying on it
-to eliminate the overhead of one system call of read(2) per wakeup event.
-
-There are several renowned open-source projects relying on this feature
-for notification function (with eventfd): register eventfd with EPOLLET
-and avoid calling read(2) on the eventfd when there is wakeup event (eventfd being written).
-Examples: nginx [1], netty [2], tokio [3], libevent [4], ect. [5]
-These projects are widely used in today's Internet infrastructures.
-Thus, changing this behavior of epoll ET will fundamentally break them
-and cause a significant negative impact.
-Linux has changed it for pipe before [6], breaking some Android libraries,
-which had got "reverted" somehow. [7] [8]
-
-Nevertheless, the paragraph in the manual pages describing this
-characteristic of epoll ET seems ambiguous, I think a more explict
-sentence should be used to clarify it. We're improving the notification
-mechanism for libuv recently by exploiting this feature with eventfd,
-which brings us a significant performance boost. [9]
-
-Therefore, we (as well as the maintainers of nginx, netty, tokio, etc.)
-would have a sense of security to build an enhanced notification function
-based on this feature if there is a guarantee of retaining this implementation
-of epoll ET for the backward compatibility in the man pages.
-
-[1]: https://github.com/nginx/nginx/blob/efc6a217b92985a1ee211b6bb7337cd2f62deb90/src/event/modules/ngx_epoll_module.c#L386-L457
-[2]: https://github.com/netty/netty/pull/9192
-[3]: https://github.com/tokio-rs/mio/blob/309daae21ecb1d46203a7dbc0cf4c80310240cba/src/sys/unix/waker.rs#L111-L143
-[4]: https://github.com/libevent/libevent/blob/525f5d0a14c9c103be750f2ca175328c25505ea4/event.c#L2597-L2614
-[5]: https://github.com/libuv/libuv/pull/4400#issuecomment-2123798748
-[6]: https://lkml.iu.edu/hypermail/linux/kernel/2010.1/04363.html
-[7]: https://github.com/torvalds/linux/commit/3a34b13a88caeb2800ab44a4918f230041b37dd9
-[8]: https://github.com/torvalds/linux/commit/3b844826b6c6affa80755254da322b017358a2f4
-[9]: https://github.com/libuv/libuv/pull/4400#issuecomment-2103232402
-
-Signed-off-by: Andy Pan <i@andypan.me>
----
-Changes in v4:
-- Move the added sentence elsewhere to make more sense
-- Link to v3: https://lore.kernel.org/r/20240730-epoll-et-desc-v3-1-6aa81b1c400d@andypan.me
-
-Changes in v3:
-- Updated the git commit description
-- Link to v2: https://lore.kernel.org/r/20240727-epoll-et-desc-v2-1-c99b2ac66775@andypan.me
-
-Changes in v2:
-- Added the git commit description based on feedback
-- Link to v1: https://lore.kernel.org/r/20240727-epoll-et-desc-v1-1-390bafc678b9@andypan.me
----
- man/man7/epoll.7 | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/man/man7/epoll.7 b/man/man7/epoll.7
-index 951500131..a7235971d 100644
---- a/man/man7/epoll.7
-+++ b/man/man7/epoll.7
-@@ -121,7 +121,8 @@ .SS Level-triggered and edge-triggered
- meanwhile the remote peer might be expecting a response based on the
- data it already sent.
- The reason for this is that edge-triggered mode
--delivers events only when changes occur on the monitored file descriptor.
-+delivers events only when changes occur on the monitored file descriptor,
-+that is, an event will only be generated upon each receipt of a chunk of data.
- So, in step
- .B 5
- the caller might end up waiting for some data that is already present inside
-
----
-base-commit: cbc0a111e4dceea2037c51098de33e6bc8c16a5c
-change-id: 20240727-epoll-et-desc-04ea9a590f3b
-
-Best regards,
--- 
-Andy Pan <i@andypan.me>
-
+SGkgQWxlamFuZHJvLA0KSSBiZWxpZXZlIEkndmUgZm91bmQgYSBtb3JlIHN1aXRhYmxlIHBs
+YWNlIHRvIHB1dCB0aGlzIGFkZGVkIGNsYXJpZmljYXRpb24gc2VudGVuY2UuIFBsZWFzZSBj
+aGVjayBvdXQgdGhlIFtQQVRDSCB2NF0sIHRoYW5rcyENCg0KLS0tLS0tLS0tLS0NCg0KQmVz
+dCByZWdhcmRzLA0KQW5keSBQYW4=
 
 
