@@ -1,58 +1,59 @@
-Return-Path: <linux-api+bounces-2059-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2060-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C28F942CE5
-	for <lists+linux-api@lfdr.de>; Wed, 31 Jul 2024 13:09:54 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15759942D29
+	for <lists+linux-api@lfdr.de>; Wed, 31 Jul 2024 13:21:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4E9861C21EAD
-	for <lists+linux-api@lfdr.de>; Wed, 31 Jul 2024 11:09:53 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A4119B21EE3
+	for <lists+linux-api@lfdr.de>; Wed, 31 Jul 2024 11:21:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1EB91AD9C2;
-	Wed, 31 Jul 2024 11:07:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9451E1AC434;
+	Wed, 31 Jul 2024 11:21:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IWnkz5BV"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FGXd0EH2"
 X-Original-To: linux-api@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1CA51AD9C1;
-	Wed, 31 Jul 2024 11:07:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CC42200CD;
+	Wed, 31 Jul 2024 11:21:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722424048; cv=none; b=CnGOKgeWzcFsOH8D//BGiOM6KMUx0LeydeT2ubNp3cMeys0VqEAx1ScjmUEGZSPz8ranZJr0XJKnHCWxxmEeD1dMTwFGKZ11XOyVARQ5uVsUPfdpFt/eoXIfYIui1l/J4CBySZsWoFpsVrphqz5eyWpcOLMzglJMXhR0IFMiMEc=
+	t=1722424910; cv=none; b=NQwU0ve1hjErsgTDsNQZnprGEfiHNKQ1zwg7ks/5bmIiYLx4dDEBComvpe0MtWEr05uK9kPjoL5TTJ2dT782XEJxHvADgg3667WxByRpFjHDKZa9XkXTmVCAcAls7zP2H+D4vi8wWoykhlQWEyxMjnbY4SrczP+pADjy0Eh2DL8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722424048; c=relaxed/simple;
-	bh=DKqWK8w0fDRanspTpttIs+NKqSbZLMGMLxtXLXXU28w=;
+	s=arc-20240116; t=1722424910; c=relaxed/simple;
+	bh=YCzsKWIMLYwp9LJnDaTvR+DPD9mLOVzlBXgKcmuF6ks=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sjyju+mJO7oCBgIeF7VIm+eI3N+e5OP3XsaFTxDf9D60lrNQ5m8Qelad7dAJ8v+9WKeRu/6UMqCx+W9d3BFy+pSyVaqdGep0FW3n+bOkc2N4P6DA1nERXMzY8E1pOu3IRU6qDn9nHKYcGMNw2prCIuxxmkvQLtje4282iaJ0/x4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IWnkz5BV; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A103C116B1;
-	Wed, 31 Jul 2024 11:07:27 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=DazjMYN0CuJZMmNFogDSTYoWFkmJCPS7szWpRbuVfWnjiT6LjA7i3II0Qfo5mo77wH2jLsypGDTgID05XzyEe6KA2c7isNTwceX+lcbDx+9uwWswPUSpRZoe+JxKv/YaH6gHoLVwVqX+6KV2L78k2/Vk7lFR6UrL/5GNVLoO1ig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FGXd0EH2; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24955C116B1;
+	Wed, 31 Jul 2024 11:21:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722424048;
-	bh=DKqWK8w0fDRanspTpttIs+NKqSbZLMGMLxtXLXXU28w=;
+	s=k20201202; t=1722424910;
+	bh=YCzsKWIMLYwp9LJnDaTvR+DPD9mLOVzlBXgKcmuF6ks=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IWnkz5BV7KhzbrA0cgSxbocEjf3F9aaK9nrZq/ZBadpwvuPNTEfnhCt5yQ7w+Jsz0
-	 5Jh/7cdEBMps/7ftD5jEBHpP1trquP3Nxa0mPj8kEIdiqmrMomJ2Q2M3VCOWr8JnCy
-	 bQLBxSBwo4GxvWHTmMsFBki+bydpC11/ladqbm4zUSqLPlBZGXETN3SgpJp9DQsZSV
-	 6b7U3tBJnxYIy+HA7VdGSD8QRNxRDvpDXYa6hF+CD2Zu+TorahSoXLmQNsdkoQdoJ9
-	 z5Oqh6oe1140p8BKteNEQoAcJSVUpDrU7jpKQYStB0s3al66CwUcR7VfcP37nik0Ar
-	 bbjJyadutnRvw==
-Date: Wed, 31 Jul 2024 13:07:25 +0200
+	b=FGXd0EH2d5b81Nji1SoQ2ZoGKMH3XpPK7IMMIFMDGVlPrayYrT9JFW9QMM/mjCqrV
+	 3VAOWwMocFAeWcr+KfOxCH9OH8ON8bB1li2TMQhyQH5sCumd9PkR62GvMuUQ4fJ2zF
+	 IxcsOCSx7lA5vDBQiOoqlQCOaW8rnF3hE6OFM+n1qNQTLUsOidu4fUCAMn6ckqTn51
+	 nQWo6HazOBc7hkiqJuzTEc5swWFYo2n/eLX68wpKQwC+9gylWJ9eHEh1FnpqmbJMgs
+	 RHkoBqeJ9WzSWx7XIP6NBWuJxi/71jSLMa0J97ngewjORICyPmUW61BDZlV4cGso27
+	 8aoEPjhsbAPng==
+Date: Wed, 31 Jul 2024 13:21:47 +0200
 From: Alejandro Colomar <alx@kernel.org>
-To: =?utf-8?B?5r2Y5bCR?= <i@andypan.me>, 
-	Michael Kerrisk <mtk.manpages@gmail.com>
-Cc: linux-man <linux-man@vger.kernel.org>, 
-	linux-api <linux-api@vger.kernel.org>
+To: "i@andypan.me" <i@andypan.me>
+Cc: "mtk.manpages" <mtk.manpages@gmail.com>, 
+	linux-man <linux-man@vger.kernel.org>, linux-api <linux-api@vger.kernel.org>
 Subject: Re: [PATCH v3] epoll.7: clarify the event distribution under
  edge-triggered mode
-Message-ID: <l3suz7pnchnpnd5hhpxk5xqdikdxevp3dsybmhlcmzu6yih66s@zxuvoiunfqwl>
+Message-ID: <l5ezb77kqvbmypsvv4nek7ce46sghrm6ox6zbeq7hzd6j2ouv2@mhaihw3rkwjl>
 References: <20240730-epoll-et-desc-v3-1-6aa81b1c400d@andypan.me>
  <2yb4zrih5esl3qldowd34ojg7mjq3xqjmqvq5bb5y6ru4x7rv5@p6ahw4ztu5cf>
  <tencent_311E460546C884C26FB32E3C@qq.com>
+ <l3suz7pnchnpnd5hhpxk5xqdikdxevp3dsybmhlcmzu6yih66s@zxuvoiunfqwl>
+ <DD88B2A8DED5353D+137af5bf-158d-4e1e-b4ae-c4262434f8a6@Spark>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
@@ -60,89 +61,68 @@ List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="5vkejb3smn2gjb2q"
+	protocol="application/pgp-signature"; boundary="qn7mumwwal677ey4"
 Content-Disposition: inline
-In-Reply-To: <tencent_311E460546C884C26FB32E3C@qq.com>
+In-Reply-To: <DD88B2A8DED5353D+137af5bf-158d-4e1e-b4ae-c4262434f8a6@Spark>
 
 
---5vkejb3smn2gjb2q
+--qn7mumwwal677ey4
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 From: Alejandro Colomar <alx@kernel.org>
-To: =?utf-8?B?5r2Y5bCR?= <i@andypan.me>, 
-	Michael Kerrisk <mtk.manpages@gmail.com>
-Cc: linux-man <linux-man@vger.kernel.org>, 
-	linux-api <linux-api@vger.kernel.org>
+To: "i@andypan.me" <i@andypan.me>
+Cc: "mtk.manpages" <mtk.manpages@gmail.com>, 
+	linux-man <linux-man@vger.kernel.org>, linux-api <linux-api@vger.kernel.org>
 Subject: Re: [PATCH v3] epoll.7: clarify the event distribution under
  edge-triggered mode
 References: <20240730-epoll-et-desc-v3-1-6aa81b1c400d@andypan.me>
  <2yb4zrih5esl3qldowd34ojg7mjq3xqjmqvq5bb5y6ru4x7rv5@p6ahw4ztu5cf>
  <tencent_311E460546C884C26FB32E3C@qq.com>
+ <l3suz7pnchnpnd5hhpxk5xqdikdxevp3dsybmhlcmzu6yih66s@zxuvoiunfqwl>
+ <DD88B2A8DED5353D+137af5bf-158d-4e1e-b4ae-c4262434f8a6@Spark>
 MIME-Version: 1.0
-In-Reply-To: <tencent_311E460546C884C26FB32E3C@qq.com>
+In-Reply-To: <DD88B2A8DED5353D+137af5bf-158d-4e1e-b4ae-c4262434f8a6@Spark>
 
-[TO +=3D mtk]
+Hi Andy,
 
-Archive: <https://lore.kernel.org/linux-man/tencent_311E460546C884C26FB32E3=
-C@qq.com/T/>
+On Wed, Jul 31, 2024 at 07:16:38PM GMT, i@andypan.me wrote:
+> OK, I get your point now. In that case, should I start a new paragraph
+> where I put the clarification? If so, where would you suggest I begin
+> writing that new paragraph? Thanks!
 
-Hi,
+Thank you!  I don't have an opinion at the moment.  Feel free to chose
+where you want; we'll see.
 
-On Wed, Jul 31, 2024 at 06:54:26PM GMT, =E6=BD=98=E5=B0=91 wrote:
-> Hi Alejandro,
-> > Since even with edge-triggered epoll, multiple events can be
-> > generated upon receipt of multiple chunks of data, the caller has
-> > the option to specify the EPOLLONESHOT flag, to tell epoll to
-> > disable the associated file descriptor after the receipt of an
-> > event with epoll_wait(2).  When the EPOLLONESHOT flag is
-> > specified, it is the caller's responsibility to rearm the file
-> > descriptor using epoll_ctl(2) with EPOLL_CTL_MOD.
->=20
-> This paragraph in man pages of epoll starts with "Since even with
-> edge-triggered epoll", thus I assume the following sentences of
-> "multiple events can be generated upon receipt of multiple chunks of
-> data" and "that is, an event will be generated upon each receipt of a
-> chunk of data" ought to be talking about EPOLLET naturally. Have I
-> misunderstood something?
-
-I understand it as:
-
-	Since _even_ with edge-triggered epoll [and thus also with other
-	epolls], multiple events can be generated ...
-
-the stuff after the comma applied to at least more than one epoll typer.;
-That's maybe why it's so generic.
-
-However, I think a clarification like to one you suggest could be
-appropriate in the page.  I've added Michael to this mail, who may be
-better placed to help with these APIs.
-
-Have a lovely day!
+Cheers,
 Alex
+
+>=20
+> Best regards,
+> Andy Pan
 
 --=20
 <https://www.alejandro-colomar.es/>
 
---5vkejb3smn2gjb2q
+--qn7mumwwal677ey4
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmaqGu0ACgkQnowa+77/
-2zLKKhAAkSi76XvMU6F+eQPn/Tz3ChDRyVNRFKDuFBFLpFzHEk67BTu85+McDlws
-6jIc6dwyNfMkqI9yaRkh/hrNSbRs+SKL1vCRl7cDxtoRL+p2PEAhmnc5VT0vi1k9
-APc05at6BsyV2nrafljaOITkSVQuftq5Q6tWcWAdKBvMZ153/MHdAl8NI9QOEhpy
-oRiPbs5lt8WeU7Qk693+iRtgOylj6W115rvRcllWqaLcub+OEOYXB41xZ51dFy0C
-d/cQtdR+/f5BgDQr7sM7t3qo0drLMRutQrFcDyuSIZSh8+KDHr09UIQcxRchrC/i
-Xa872Gha6vEDccJ0gxi9WvPhZhG3H7rYMJYhJBioDjtEr9pA2cktikVVrPDFOoHP
-Vs6RGQr5WSIQ7qzyk5sF0fsKT7M6Uq2RAySqu/1f8pwgXb7tu9/YcEOQR9wPttpr
-F+OA+qnKVDnZ+MK0Wz/Iyl+QVBrfyrXASnpETNCN9/w7mGyG2jve7605t+dB9z03
-sVwF9aYmngNhpPeef+iDmUe21aQnf2j0R5foyz6tK+VGMpjWdxpGOL/3Bb+rExl9
-+rqAi03k5DWFo9V3NEUHca62g6UfE1KCfV2bD1sNED/eRt/SsZpo1kCtXy496urB
-uNlH4nBhuSt8Xh22lD7mhSuvfBytOv5/ACwJM+DsmUXkFBnAg6A=
-=mlfe
+iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmaqHkoACgkQnowa+77/
+2zKOsQ/+KrAvoHGZ3R4bM8v40mWRZvNeQn95akpEYa26TM+QKu8y/yz4o/xYFqk+
+UVW9BMecr9Aahb9snOAfa8tfAhVBtrUh9LmgLEoxuT8FVUWxlMHd6DBo+V4jvzGe
+8DuLPSzcFeUcdR1jSUGFD3h/iRz+WOGIrCLsym12+yGOwsdQAfhYTgvSNs2b8N1H
+C2G/OxTRvs3wHcaRnTQnFGMzxcv7L7FEcttxaGMBr9nuOEdiQdQDpVmDb3jZhnbe
+pGFdxMQO3Plw/xYmcb89hwLs7L+qxzp24qapuShtko7jgbN4iwleRyn/TvvCWaW+
+ZpuQCKf4eNXfbsLMz+UYIxyMwLg52s4fSSZrjjRPBKa/jnM5Q9pVV0QXYAlUx3gp
+Is5w5cBY4o1GEOuFFte6lNzbh4h+QSmTIm4c0oX6DNJv0CVlunkRFemxkNMob/Ak
+0CA8AhnqDwGDDTjtpzx+QZrcUloz6A+HW+nYvTBpWJE8YBpmnDojuQ4CjanVGJDn
+wTHv9WVpBnw5Mn3os4/CSx/jGEfc8VD2H3BZdvRreDE6cphiX0fzuji3SD/gVEZJ
+oUhsqAc+jnegGuhseq07f7t5vyve+Atw4599Wck9S1egM/315yseEIHnkqzpBdLy
+/BZHWVqSP5L4jUk7hFfo1YqQQrQZg5X6zoIbFBJ1e7mfq8+md0k=
+=kebS
 -----END PGP SIGNATURE-----
 
---5vkejb3smn2gjb2q--
+--qn7mumwwal677ey4--
 
