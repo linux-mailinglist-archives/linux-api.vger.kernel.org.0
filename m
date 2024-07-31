@@ -1,84 +1,187 @@
-Return-Path: <linux-api+bounces-2073-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2074-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3BA8943321
-	for <lists+linux-api@lfdr.de>; Wed, 31 Jul 2024 17:24:28 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 867BA943567
+	for <lists+linux-api@lfdr.de>; Wed, 31 Jul 2024 20:07:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 016201C2432E
-	for <lists+linux-api@lfdr.de>; Wed, 31 Jul 2024 15:24:28 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 32957283B13
+	for <lists+linux-api@lfdr.de>; Wed, 31 Jul 2024 18:07:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CCC21BC089;
-	Wed, 31 Jul 2024 15:22:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE6FB2868B;
+	Wed, 31 Jul 2024 18:07:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Qmjsv8S3";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="SWUvbruv";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Qmjsv8S3";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="SWUvbruv"
 X-Original-To: linux-api@vger.kernel.org
-Received: from bg4.exmail.qq.com (bg4.exmail.qq.com [43.155.65.254])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C7DB12B73;
-	Wed, 31 Jul 2024 15:22:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=43.155.65.254
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B65041F954;
+	Wed, 31 Jul 2024 18:07:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722439370; cv=none; b=mRlAby6eTu+xWdMv746WP9M6+Q9NGnd1/0OLIQCC2lcCmaXSqtfUI9dM9cMEqXndQndMqnVznePu4FNsUaUOWdqJOhShLwY916amUY+axaIpwb9nYwFzuNA3jDAF98ffd7BSfy55p6AzQDD29bdwXRJqffk0W+SKykbV06GskR0=
+	t=1722449235; cv=none; b=kVOrCENj0MdPO2VX5sygEh8eX84Q/sXcvFhj5lsKwXHSwLEWZxOaHOn9VBtEcT+gkLKOmuX2iBYBJFxjhzwBuWjtpUGij8grT6ahhJPOPER6cxThqbmWMXmjnstXXY75LqXI5ixYDTiy3v3G+9Yme+qVBiuQXJnKCl83TzPqOus=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722439370; c=relaxed/simple;
-	bh=97ZLzQpF4Hfqofg6YA2ErCs+/A9HhZNWmNNEqNHjG34=;
-	h=From:To:Cc:Subject:Mime-Version:Content-Type:Date:Message-ID:
-	 References:In-Reply-To; b=itcMY3OFQtugQUnhFySled6utA323g/QkvM8267njppgRss4dg8PQUq9Va60kBmUVB0GLt1qL/O4uowCCcfcw7Wf4t9JAwUtDE/v8zW8mNQecd+Z81sOKOs6wwvAG9HtAvbFpQKiP5mwYmLwithctwIqTeVsZKWKi6aLwsxYj/g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=andypan.me; spf=pass smtp.mailfrom=andypan.me; arc=none smtp.client-ip=43.155.65.254
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=andypan.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=andypan.me
-X-QQ-GoodBg: 0
-X-QQ-SSF: 0000000000000010
-X-QQ-XMRINFO: MPJ6Tf5t3I/ycC2BItcBVIA=
-X-QQ-FEAT: FwowAM4HOqCrqOq7iTmpVZfa2m7qNeh9E1ine1LMDKbsn3BgMigZS511emphS
-	1kOuDY6Lz/RMyMtXQcgFJez1m4ZzIZPhIx59K9C10wzHvRcOA8GdihAZtVK/XLHcmG9trMq
-	tI32VaMEhLDx480jCjdgXKCCLkLMFYEgk/ugJsrenNM8w8V1p7HHoDrDfBWO3tIoGWMqH30
-	9fTMJU7h9zV5FB8BbKZ9a4LiI8n76LphYSGOs876wc0GXNg8Bp+81m3Fm4HDs6gyopr8WZt
-	okwgjHcTUQxCO+fJZkaUgDh/mq4WJPCLRgqxiw1HWVrv0gt7EHY8gsQK9YxeXxWHj0X+pVz
-	40lRd/VUyTicTbWM9WoQg8c+OlUNA==
-X-QQ-BUSINESS-ORIGIN: 2
-X-QQ-Originating-IP: Voj2I92PkidtzOcCLeDtZH2QtxZ/KFsPH0ptUZpFIRI=
-X-QQ-STYLE: 
-X-QQ-mid: t3sz3a-0t1722439349t5476374
-From: "=?utf-8?B?5r2Y5bCR?=" <i@andypan.me>
-To: "=?utf-8?B?QWxlamFuZHJvIENvbG9tYXI=?=" <alx@kernel.org>
-Cc: "=?utf-8?B?TWljaGFlbCBLZXJyaXNr?=" <mtk.manpages@gmail.com>, "=?utf-8?B?bGludXgtbWFu?=" <linux-man@vger.kernel.org>, "=?utf-8?B?bGludXgtYXBp?=" <linux-api@vger.kernel.org>
-Subject: Re: [PATCH v3] epoll.7: clarify the event distribution under edge-triggered mode
+	s=arc-20240116; t=1722449235; c=relaxed/simple;
+	bh=2uSzs8P1Rp4TWAnNHCI26IxcMq2MH0hB+z16Sl9Qu6E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=isfjEnHN82CPnctF2+zhArSj+N4WB0vFz3rex+W88+ISedU9mvvMieK6KnxlGrUUcKOGYcpmbE1BMyPUWczgIxKxbaFQ4cQQb7Skk5+pmN6yZFj3ETKW/wiL22hk7ZVHnyp3bJUel3tcYiQK7q+76L7EZkX9FZqj+o5HgEOQcbQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Qmjsv8S3; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=SWUvbruv; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Qmjsv8S3; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=SWUvbruv; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id D864F1F86C;
+	Wed, 31 Jul 2024 18:07:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1722449231;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=F7SBrUgvTDAnh5l+GkoOFFdqcfM90kNY/MnFDS/g4X4=;
+	b=Qmjsv8S3JfCcdtFGJGnqftBV0mthI9SOW41l24zjtUCYm6ldkqgnSi78wswv5sZI8RmA22
+	S/NOKHuO9UrgIIDgXMHbTY9QNt8917ysnT83TepDbn2QtLUT+B8+RC5xs01IvV+r/o7HWI
+	9Ap3IE4M7SyfSzVE3sq4te8fv0pMRu4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1722449231;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=F7SBrUgvTDAnh5l+GkoOFFdqcfM90kNY/MnFDS/g4X4=;
+	b=SWUvbruvRbzUhgOiTcV8Qi1HQgZ7J7+F1Z7pHSkyAsKDHnHlwr9z1sxqMkiXqLgcdWe/q+
+	nZ8gXoLP65jqJdBg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1722449231;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=F7SBrUgvTDAnh5l+GkoOFFdqcfM90kNY/MnFDS/g4X4=;
+	b=Qmjsv8S3JfCcdtFGJGnqftBV0mthI9SOW41l24zjtUCYm6ldkqgnSi78wswv5sZI8RmA22
+	S/NOKHuO9UrgIIDgXMHbTY9QNt8917ysnT83TepDbn2QtLUT+B8+RC5xs01IvV+r/o7HWI
+	9Ap3IE4M7SyfSzVE3sq4te8fv0pMRu4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1722449231;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=F7SBrUgvTDAnh5l+GkoOFFdqcfM90kNY/MnFDS/g4X4=;
+	b=SWUvbruvRbzUhgOiTcV8Qi1HQgZ7J7+F1Z7pHSkyAsKDHnHlwr9z1sxqMkiXqLgcdWe/q+
+	nZ8gXoLP65jqJdBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B7CD71368F;
+	Wed, 31 Jul 2024 18:07:11 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id RqZnLE99qmbpMwAAD6G6ig
+	(envelope-from <dsterba@suse.cz>); Wed, 31 Jul 2024 18:07:11 +0000
+Date: Wed, 31 Jul 2024 20:07:02 +0200
+From: David Sterba <dsterba@suse.cz>
+To: Aleksa Sarai <cyphar@cyphar.com>
+Cc: Mateusz Guzik <mjguzik@gmail.com>, Florian Weimer <fweimer@redhat.com>,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org, Dave Chinner <dchinner@redhat.com>,
+	Christian Brauner <brauner@kernel.org>
+Subject: Re: Testing if two open descriptors refer to the same inode
+Message-ID: <20240731180702.GU17473@twin.jikos.cz>
+Reply-To: dsterba@suse.cz
+References: <874j88sn4d.fsf@oldenburg.str.redhat.com>
+ <ghqndyn4x7ujxvybbwet5vxiahus4zey6nkfsv6he3d4en6ehu@bq5s23lstzor>
+ <875xsoqy58.fsf@oldenburg.str.redhat.com>
+ <vmjtzzz7sxctmf7qrf6mw5hdd653elsi423joiiusahei22bft@quvxy4kajtxt>
+ <87sevspit1.fsf@oldenburg.str.redhat.com>
+ <CAGudoHEBNRE+78n=WEY=Z0ZCnLmDFadisR-K2ah4SUO6uSm4TA@mail.gmail.com>
+ <20240729.113049-lax.waffle.foxy.nit-U1v9CY38xge@cyphar.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
-Date: Wed, 31 Jul 2024 23:22:29 +0800
-X-Priority: 1
-Message-ID: <tencent_23435D9572735FC704D2B4B1@qq.com>
-X-QQ-MIME: TCMime 1.0 by Tencent
-X-Mailer: QQMail 2.x
-X-QQ-Mailer: QQMail 2.x
-References: <20240730-epoll-et-desc-v3-1-6aa81b1c400d@andypan.me>
-	<2yb4zrih5esl3qldowd34ojg7mjq3xqjmqvq5bb5y6ru4x7rv5@p6ahw4ztu5cf>
-	<tencent_311E460546C884C26FB32E3C@qq.com>
-	<l3suz7pnchnpnd5hhpxk5xqdikdxevp3dsybmhlcmzu6yih66s@zxuvoiunfqwl>
-	<DD88B2A8DED5353D+137af5bf-158d-4e1e-b4ae-c4262434f8a6@Spark>
-	<l5ezb77kqvbmypsvv4nek7ce46sghrm6ox6zbeq7hzd6j2ouv2@mhaihw3rkwjl>
-In-Reply-To: <l5ezb77kqvbmypsvv4nek7ce46sghrm6ox6zbeq7hzd6j2ouv2@mhaihw3rkwjl>
-X-QQ-ReplyHash: 239215721
-X-BIZMAIL-ID: 942928434929424878
-X-QQ-SENDSIZE: 520
-Received: from qq.com (unknown [127.0.0.1])
-	by smtp.qq.com (ESMTP) with SMTP
-	id ; Wed, 31 Jul 2024 23:22:31 +0800 (CST)
-Feedback-ID: t:andypan.me:qybglogicsvrgz:qybglogicsvrgz5a-0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240729.113049-lax.waffle.foxy.nit-U1v9CY38xge@cyphar.com>
+User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+X-Spam-Level: 
+X-Spamd-Result: default: False [-0.80 / 50.00];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	HAS_REPLYTO(0.30)[dsterba@suse.cz];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,redhat.com,vger.kernel.org,kernel.org];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	REPLYTO_ADDR_EQ_FROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:replyto]
+X-Spam-Flag: NO
+X-Spam-Score: -0.80
 
-SGkgQWxlamFuZHJvLA0KSSBiZWxpZXZlIEkndmUgZm91bmQgYSBtb3JlIHN1aXRhYmxlIHBs
-YWNlIHRvIHB1dCB0aGlzIGFkZGVkIGNsYXJpZmljYXRpb24gc2VudGVuY2UuIFBsZWFzZSBj
-aGVjayBvdXQgdGhlIFtQQVRDSCB2NF0sIHRoYW5rcyENCg0KLS0tLS0tLS0tLS0NCg0KQmVz
-dCByZWdhcmRzLA0KQW5keSBQYW4=
+On Mon, Jul 29, 2024 at 09:40:57PM +1000, Aleksa Sarai wrote:
+> On 2024-07-29, Mateusz Guzik <mjguzik@gmail.com> wrote:
+> > On Mon, Jul 29, 2024 at 12:57 PM Florian Weimer <fweimer@redhat.com> wrote:
+> > > > On Mon, Jul 29, 2024 at 12:40:35PM +0200, Florian Weimer wrote:
+> > > >> > On Mon, Jul 29, 2024 at 08:55:46AM +0200, Florian Weimer wrote:
+> > > >> >> It was pointed out to me that inode numbers on Linux are no longer
+> > > >> >> expected to be unique per file system, even for local file systems.
+> > > >> >
+> > > >> > I don't know if I'm parsing this correctly.
+> > > >> >
+> > > >> > Are you claiming on-disk inode numbers are not guaranteed unique per
+> > > >> > filesystem? It sounds like utter breakage, with capital 'f'.
+> > > >>
+> > > >> Yes, POSIX semantics and traditional Linux semantics for POSIX-like
+> > > >> local file systems are different.
+> > > >
+> > > > Can you link me some threads about this?
+> > >
+> > > Sorry, it was an internal thread.  It's supposed to be common knowledge
+> > > among Linux file system developers.  Aleksa referenced LSF/MM
+> > > discussions.
+> > 
+> > So much for open development :-P
+> 
+> To be clear, this wasn't _decided_ at LSF/MM, it was brought up as a
+> topic. There is an LWN article about the session that mentions the
+> issue[1].
 
+A discussion about inode numbers or subvolumes comes up every year with
+better of worse suggestions what to do about it.
+
+> My understanding is that the btrfs and bcachefs folks independently
+> determined they cannot provide this guarantee. As far as I understand,
+> the reason why is that inode number allocation on btree filesystems
+> stores information about location and some other bits (maybe subvolumes)
+> in the bits, making it harder to guarantee there will be no collisions.
+
+No, on btrfs the inode numbers don't encode anything about location,
+it's a simple number. The inode numbers remain the same when a snapshot
+is taken as it's a 1:1 clone of the file hierarchy, the directory
+representing a subvolume/snapshot has fixed inode number 256. The only
+difference is the internal subvolume id.
 
