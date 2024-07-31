@@ -1,72 +1,158 @@
-Return-Path: <linux-api+bounces-2055-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2056-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9E3B9428E5
-	for <lists+linux-api@lfdr.de>; Wed, 31 Jul 2024 10:11:45 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11267942920
+	for <lists+linux-api@lfdr.de>; Wed, 31 Jul 2024 10:28:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 95928284F07
-	for <lists+linux-api@lfdr.de>; Wed, 31 Jul 2024 08:11:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 348E91C2149C
+	for <lists+linux-api@lfdr.de>; Wed, 31 Jul 2024 08:28:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1C631A7F83;
-	Wed, 31 Jul 2024 08:11:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9DE671A7F99;
+	Wed, 31 Jul 2024 08:28:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="KhuDuMBK"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtpbg156.qq.com (smtpbg156.qq.com [15.184.82.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CFCF1A7F64;
-	Wed, 31 Jul 2024 08:11:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=15.184.82.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 601671A6166;
+	Wed, 31 Jul 2024 08:28:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722413497; cv=none; b=qMXUo9f2DooPcSa95KrJDjwtYay/Nk9siCOq5EJthOJDj7LTu8Yi9dP7nCmh648LlWPQ+evnicFs4OwiG+KeIzpDkH9zjCTjvwbMPUrwd+huI7Ks6vYQEXGm/iLWFB899GRKopiLeOnjpE4nD2tKCxQDotJDOl0cM4VVuXHO44g=
+	t=1722414487; cv=none; b=Qdw65llUOLckA8Zb6iMw/LrdovmPksJMW8Q5bjEFqk4jIrzLFZHhIoTanqLI83daxloN2FXu8m+cq/8u9hC7IVBtERl+llxvwJdVAFhYItLn+r5+OEJ/ObYk/20ONKyGDSV/qLMS40iLHCwYardNXCAsd5Lxxa4+ZIyjQb3YDb0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722413497; c=relaxed/simple;
-	bh=BypfphmwdnaG3QjNlnzsAMlpylDCxRuYZ6lhiLgq7eA=;
-	h=From:To:Cc:Subject:Mime-Version:Content-Type:Date:Message-ID; b=MFkIA+S8GuKce8juqtpWRY6+AckQkccRKQWDsU0mlWSPdkN/n/f5dUcDQH+G3ndHdkSQe+8Dl9UjCHx0TQogkijZnp6yYSEndplATahB8r61tRapQ63+kBpGJOKn/lcvCLfOJqrtlSMuXkKjWe+jOnycXdQcqWkKLpbfEBUxRNY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=andypan.me; spf=pass smtp.mailfrom=andypan.me; arc=none smtp.client-ip=15.184.82.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=andypan.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=andypan.me
-X-QQ-GoodBg: 0
-X-QQ-SSF: 0000000000000000
-X-QQ-XMRINFO: NI4Ajvh11aEj8Xl/2s1/T8w=
-X-QQ-FEAT: AmBEVSWWrMdJ2Acbs8FXmFR/lFk8w4gz/Y5TrRMjvwKTQqtkyyOcPUPvCZlTF
-	vSl5YpTf3hFnXp2aV4DMQlvdDkZPBx+eFlcFaE0Gm+HYWHtboJZ0npYbGgwUp1aAJv7foyA
-	e2VBzyTqgAhBKIytlTEUo9kUj+wuF0+VlNHjvYWPPsfNp84a4gWh/v1jwHrQtdg9uPj3Ggf
-	kWyLh83W8ydXlR8yFYpWj7PyU1F1RIhxoZKuXgAKVkUXO8uKLqYkc0rLQdVG01lWY/M2D2P
-	9gFkvbOfkCBHEaW70lOcZvKUcl7keL6PXXb6qDyAuAYObS1ULPrLVpKyV64AQDOrtVEg==
-X-QQ-BUSINESS-ORIGIN: 2
-X-QQ-Originating-IP: xR+DW9xn5kl5eHgjdafSzBos0uriB0+z2hyzw7Ec/fI=
-X-QQ-STYLE: 
-X-QQ-mid: t3sz3a-0t1722413447t3804776
-From: "=?utf-8?B?5r2Y5bCR?=" <i@andypan.me>
-To: "=?utf-8?B?aQ==?=" <i@andypan.me>, "=?utf-8?B?QWxlamFuZHJvIENvbG9tYXI=?=" <alx@kernel.org>
-Cc: "=?utf-8?B?bGludXgtbWFu?=" <linux-man@vger.kernel.org>, "=?utf-8?B?bGludXgtYXBp?=" <linux-api@vger.kernel.org>
-Subject: Re:[PATCH v3] epoll.7: clarify the event distribution under edge-triggered mode
+	s=arc-20240116; t=1722414487; c=relaxed/simple;
+	bh=mlRazMvsK22c0jA4I5oFJzC0Vc4GmS54awPfGY0DxZw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IeWjvZA1Mf0TCL3H4lkNEYktnGrqPDI4fpLIZjf6HKT+snJgGBZIv0zkI8eD67TbqxoJAUA/btAB1KQOMyzpuB22Oa0JhsURJuhg0a7zil/WzedQAa60wlA3/tnD40lBWY0HKAWx7+zgSlWKayzS6gyJTFCbV822nY34oE0BtlY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=KhuDuMBK; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41705C116B1;
+	Wed, 31 Jul 2024 08:28:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1722414486;
+	bh=mlRazMvsK22c0jA4I5oFJzC0Vc4GmS54awPfGY0DxZw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KhuDuMBK2U1VnCF/kkcwZOdZz3hWwNradWurT5ECsg4k8JUWibkP9qltixp3BiTMw
+	 ry3qmTd1VoOYucQIRJ5J5imc9qUbd3VNqZKwBYI1lanzhRZs12mRYAZEEI+1+wZAj4
+	 7t2XxHES86C/SYSoKCaR06MvVWF0LRpjhL7l8z1w=
+Date: Wed, 31 Jul 2024 10:27:59 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Chris Wulff <Chris.Wulff@biamp.com>
+Cc: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Paul Cercueil <paul@crapouillou.net>, Jan Kara <jack@suse.cz>,
+	Jeff Layton <jlayton@kernel.org>,
+	Dmitry Antipov <dmantipov@yandex.ru>,
+	David Sands <david.sands@biamp.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
+Subject: Re: [PATCH v3] usb: gadget: f_fs: add capability for dfu run-time
+ descriptor
+Message-ID: <2024073122-shakable-photo-67d1@gregkh>
+References: <CO1PR17MB54197F118CBC8783D289B97DE1102@CO1PR17MB5419.namprd17.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
-Date: Wed, 31 Jul 2024 16:10:46 +0800
-X-Priority: 1
-Message-ID: <tencent_2654F7C90808524075EA4E72@qq.com>
-X-QQ-MIME: TCMime 1.0 by Tencent
-X-Mailer: QQMail 2.x
-X-QQ-Mailer: QQMail 2.x
-X-BIZMAIL-ID: 16183467516893814799
-X-QQ-SENDSIZE: 520
-Received: from qq.com (unknown [127.0.0.1])
-	by smtp.qq.com (ESMTP) with SMTP
-	id ; Wed, 31 Jul 2024 16:10:49 +0800 (CST)
-Feedback-ID: t:andypan.me:qybglogicsvrgz:qybglogicsvrgz5a-0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CO1PR17MB54197F118CBC8783D289B97DE1102@CO1PR17MB5419.namprd17.prod.outlook.com>
 
-SGkgYWxsLA0KV291bGQgc29tZW9uZSBoYXZlIGEgbW9tZW50IHRvIHRha2UgYSBsb29rIGF0
-IHRoaXM/
+On Wed, Apr 24, 2024 at 10:14:58PM +0000, Chris Wulff wrote:
+> From: David Sands <david.sands@biamp.com>
+> 
+> Add the ability for FunctionFS driver to be able to create DFU Run-Time
+> descriptors.
 
+Don't you need some userspace documentation for this as well?
+
+> --- a/include/uapi/linux/usb/ch9.h
+> +++ b/include/uapi/linux/usb/ch9.h
+> @@ -254,6 +254,9 @@ struct usb_ctrlrequest {
+>  #define USB_DT_DEVICE_CAPABILITY	0x10
+>  #define USB_DT_WIRELESS_ENDPOINT_COMP	0x11
+>  #define USB_DT_WIRE_ADAPTER		0x21
+> +/* From USB Device Firmware Upgrade Specification, Revision 1.1 */
+> +#define USB_DT_DFU_FUNCTIONAL		0x21
+
+So USB_DT_WIRE_ADAPTER and USB_DT_DFU_FUNCTIONAL are the same?  That
+seems wrong.
+
+> +/* these are from the Wireless USB spec */
+
+What spec?  What "these"?
+
+>  #define USB_DT_RPIPE			0x22
+>  #define USB_DT_CS_RADIO_CONTROL		0x23
+>  /* From the T10 UAS specification */
+> @@ -263,6 +266,7 @@ struct usb_ctrlrequest {
+>  /* From the USB 3.1 spec */
+>  #define	USB_DT_SSP_ISOC_ENDPOINT_COMP	0x31
+>  
+> +
+>  /* Conventional codes for class-specific descriptors.  The convention is
+>   * defined in the USB "Common Class" Spec (3.11).  Individual class specs
+>   * are authoritative for their usage, not the "common class" writeup.
+
+Unneeded change?
+
+> @@ -329,9 +333,10 @@ struct usb_device_descriptor {
+>  #define USB_CLASS_USB_TYPE_C_BRIDGE	0x12
+>  #define USB_CLASS_MISC			0xef
+>  #define USB_CLASS_APP_SPEC		0xfe
+> -#define USB_CLASS_VENDOR_SPEC		0xff
+> +#define USB_SUBCLASS_DFU			0x01
+>  
+> -#define USB_SUBCLASS_VENDOR_SPEC	0xff
+> +#define USB_CLASS_VENDOR_SPEC		0xff
+> +#define USB_SUBCLASS_VENDOR_SPEC		0xff
+
+Why reorder these?
+
+>  
+>  /*-------------------------------------------------------------------------*/
+>  
+> diff --git a/include/uapi/linux/usb/functionfs.h b/include/uapi/linux/usb/functionfs.h
+> index 9f88de9c3d66..6d2061500184 100644
+> --- a/include/uapi/linux/usb/functionfs.h
+> +++ b/include/uapi/linux/usb/functionfs.h
+> @@ -37,6 +37,31 @@ struct usb_endpoint_descriptor_no_audio {
+>  	__u8  bInterval;
+>  } __attribute__((packed));
+>  
+> +/**
+> + * struct usb_dfu_functional_descriptor - DFU Functional descriptor
+> + * @bLength:		Size of the descriptor (bytes)
+> + * @bDescriptorType:	USB_DT_DFU_FUNCTIONAL
+> + * @bmAttributes:	DFU attributes
+> + * @wDetachTimeOut:	Maximum time to wait after DFU_DETACH (ms, le16)
+> + * @wTransferSize:	Maximum number of bytes per control-write (le16)
+> + * @bcdDFUVersion:	DFU Spec version (BCD, le16)
+> + */
+> +struct usb_dfu_functional_descriptor {
+> +	__u8  bLength;
+> +	__u8  bDescriptorType;
+> +	__u8  bmAttributes;
+> +	__le16 wDetachTimeOut;
+> +	__le16 wTransferSize;
+> +	__le16 bcdDFUVersion;
+> +} __attribute__ ((packed));
+> +
+> +/* from DFU functional descriptor bmAttributes */
+> +#define DFU_FUNC_ATT_WILL_DETACH		(1 << 3)
+> +#define DFU_FUNC_ATT_MANIFEST_TOLERANT		(1 << 2)
+> +#define DFU_FUNC_ATT_CAN_UPLOAD			(1 << 1)
+> +#define DFU_FUNC_ATT_CAN_DOWNLOAD		(1 << 0)
+
+Please use proper BIT macros here to make this more obvious.  And in
+sorted order?
+
+thanks,
+
+greg k-h
 
