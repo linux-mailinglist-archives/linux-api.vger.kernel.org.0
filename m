@@ -1,112 +1,167 @@
-Return-Path: <linux-api+bounces-2091-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2092-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D970E94524D
-	for <lists+linux-api@lfdr.de>; Thu,  1 Aug 2024 19:53:33 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C4FA94529F
+	for <lists+linux-api@lfdr.de>; Thu,  1 Aug 2024 20:15:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 16F751C22AF0
-	for <lists+linux-api@lfdr.de>; Thu,  1 Aug 2024 17:53:33 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 933C4B21EAC
+	for <lists+linux-api@lfdr.de>; Thu,  1 Aug 2024 18:15:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B65531B4C2A;
-	Thu,  1 Aug 2024 17:53:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C823A14883C;
+	Thu,  1 Aug 2024 18:15:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UsbY2QEB"
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="Wf5lxz57"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C52F182D8;
-	Thu,  1 Aug 2024 17:53:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9723A13C901
+	for <linux-api@vger.kernel.org>; Thu,  1 Aug 2024 18:15:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722534809; cv=none; b=Y5vQ6343KvxoSFpHztLoxXpsPVK2zNsygyDsaOmJuvQlPApca5570FgachjkH/N2i3xc1t3b1iiqAWhzLudmoYoAceaVzOOS85kzdQIiiwR3cF+MhZCIaxYy/uPmjhVwwo5se82cFqGD/z1/caG5eNKeMH+K+VqfskYzOBxyWks=
+	t=1722536117; cv=none; b=VzucPQ9t/3caIMJbNDEnDdrCI9dE0nLzjykjjEvzRsYKKPXOyeZIWJU3CVlYdoaUYREX96QHkqe58W3aI8VG6uj6F0Pmkj+qISeBbskOM4c6eA1oOe8QNbwDWJV0uxnjhHpvlWUY2gb6RMO2PtlQrSb2+vkRf75rAUY6440Zo1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722534809; c=relaxed/simple;
-	bh=mGLolEufx6bum48H+BAmq0wMhphlEPb+F/nkHuBPXKw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XNn+r2z90jfPHDReNUalT+HjVEdToTVQh10YrVdzLwhgYuCf9SsMF1tjqgIid8w/BL9oWYJ9bScUZydGhMHJxy2HxWa/6mkMFzukzyZdKfICsuGi88Kp7df9QrhnRe4lvuqJ0Ef4+cMOZG+/468pq/ooYh6maLBHQQH4Q4TTuE8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UsbY2QEB; arc=none smtp.client-ip=209.85.219.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-e0be2978a0fso27180276.3;
-        Thu, 01 Aug 2024 10:53:28 -0700 (PDT)
+	s=arc-20240116; t=1722536117; c=relaxed/simple;
+	bh=mDQmscKzC6FkcvJ1nMQ62JAgSYrDQbginlWf3DXeVug=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ImdzutSiMZUxpacntAi2416QHMJqPeb3dxQ5ub8luwaIPzgWP1IN9WYqbcDvzgdKMkcGts8Hk6ZrMpdhBPBNsz2HvlnkMYlky+7FAZUoU/2rU2PEIoPFCutgqf72XHLktkSevM1/FNTwwSlMo7K/J28Gp/7rpokajI2g+u9Ap7s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=Wf5lxz57; arc=none smtp.client-ip=209.85.219.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-6b7b349a98aso49059936d6.3
+        for <linux-api@vger.kernel.org>; Thu, 01 Aug 2024 11:15:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722534807; x=1723139607; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mGLolEufx6bum48H+BAmq0wMhphlEPb+F/nkHuBPXKw=;
-        b=UsbY2QEB7SejjZycKN358DMUYAsbJF0lrAeEG9F6yTVzwCwbcShUyUj3CZh+kIGxGC
-         mB/cSwYBlw3s65BiOFXV1BhdpksSD+s5pEThOpzJbzeuy2RYq43FjM68SLNU0A2E/wUB
-         dpTZJWtiFlZAocjUPiU7SvZr8wYSTMfONxwCaMJuW3KhiebRfFlIedhKVAYxamgAgfEm
-         0xA4ZZx5Rr5aiRX37jpIFic4Vasnl/jP5gLKZUDCi7+IeKqaIbdYvQWmxxPUaPg4OukG
-         agoQT5wjCYwAAw61Ac+fuCJQdluYObEiT4Nm6x854/HhvNfsAO/REQPeRu28MfJePDex
-         7Fuw==
+        d=bytedance.com; s=google; t=1722536114; x=1723140914; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nJmj+uQzxUGHDFeUr2mlYe7UZLaWUNwaH2yLxAFxVq4=;
+        b=Wf5lxz57TGKqV/+tCnAzMC61wbF4yeXaOE1Re5c2PshnMIjIHUsEBTp+8QKey6GR4I
+         HQ9HIF5BBw273drs1FI3QdOdoOCH8KypZnCOBk+0pf1c1UqrtssO2I7/uDmjvEC1uwp5
+         rjN/A+8gw5YcFAB8P1NZ7DfBbn++Rp/92qiv/OmU34AAAZTO9R//MEB+FWIElqHnDkmJ
+         udG8eYQuGG67m9NWTAJs0d91omfG25JxuDKMUUYPGAoDP20qnHovXRvYAYzGYnPB0biQ
+         aVMNiu7VWyvXbLEFMAH99QXkoL+5XW5iUXPiPjZEhMMJ1IFo7EooYqTfuNMlkhWbxImt
+         VydA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722534807; x=1723139607;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mGLolEufx6bum48H+BAmq0wMhphlEPb+F/nkHuBPXKw=;
-        b=pzcfomn2+698lxuQiigAvzAUTOIcFU9nhyKTks6Hr25qu3h8PzqxjEu9TsGKQupMmt
-         0a1A2cVWz2COBhzBtCwPwDWgMGoCXhwMU+99H/GBhwgvcMyL5AJxP/vKUCUnlc5qcwCF
-         JcvRgDKOFjoh7oCSVgvV2yMrxIBacuKebRpT6m588dkmBgJNBaZiXjl0FK+KZUqF/One
-         tIT8BX4PELMH4eX5gcbnD9gwC+UjWNhg2iknyni1tx8YM6gv9bpM02g9YpgZqoASIMH9
-         J6jh8IPVnhSHK7ybw42dLtCIG+/3EIy28ZsNNhrR8/nLhpxqgxO0kerzy23zoTtTDldt
-         6wAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXkCPCf3/3JweVuHXIMgfoSdwdQNsP6W/0B5GclfQD4WgXsMXMtWv/tPns/1ZMWOxRJ8Hr95H5mIC1GsGgdAP0Uvr4VrVgoW2SACuYkM73mlKeiiqQZsgxlEpw5uIA6uAzr2D+3/lmbA2CpHl0hnGfGqK2/GH6OUrxDStMbwgNvdEiW
-X-Gm-Message-State: AOJu0Yz9s3A5DZc+cBi7vxmWo+7Y/OiEAnMQC3yryQ+PIgPhaTIIdWjU
-	Yf7ehwkBcnxcfxozzWqpHXljRZD5jOsnhUwkQq/4rSxLK0FZSjP8+aqA9WDdyJJx/U/aiPBqBS1
-	+KASYJng9MrmIH/vvVroG1gb++AE=
-X-Google-Smtp-Source: AGHT+IGdpJoRQYWy9uB+AHFV/AQvp5FWr8KDs+A2Eq4BrwMEYvt4CDISHnkekaZ6DeZK1ghY0Ezjm0jqUUi94iazTj0=
-X-Received: by 2002:a5b:51:0:b0:e08:5f16:813 with SMTP id 3f1490d57ef6-e0bde4c8fe7mr1010237276.53.1722534807037;
- Thu, 01 Aug 2024 10:53:27 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1722536114; x=1723140914;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nJmj+uQzxUGHDFeUr2mlYe7UZLaWUNwaH2yLxAFxVq4=;
+        b=pLgP+pqZlGjopSMpTqPgtSDSB6SED0wCipEYJFUt6VyJB1HX2h/uazhd9UuYXUOjAK
+         yrSrObhu4wPYPCQ7r4RXDj2wKDmSDOkhqF+k51s14Chg5huoV6K+jxyBcx6zamWL2joF
+         y9kkv91UUMRXQZCzT/7kTV+mog83igedy5slm5srIBmmt/cKDmJfZBxErY3sRfJJZ64B
+         07EBwAr+L9mvXwIGeHYMlbQO3tbGKzkPNwfma6H/kFQCDXR1LX6PhkaMYMbVwArwdag3
+         l3g/7hqlr46uPMAxLOcndRH4ki+cWTRfIBj9Tgr5WX6ICw2OKISzuspgVaPx6aQRhUEq
+         sBuA==
+X-Forwarded-Encrypted: i=1; AJvYcCXw/1wepVNM2rL+TybXFqYhhLBwLQ+EVrSukBhPpKUdgBiZ53jKAFFulHSkAfxujTgQshq1rfm9zkNbV6dKRC2cQit4LZtPymgk
+X-Gm-Message-State: AOJu0YxdMGxPDt6zXU05C8O9vgkNerVEumuBbQV7BZBg3cruH4vg/AOp
+	Zk3wkwuBG+3LFgc4M8nUnjXfTv2zHW4GHLteQ2gJ7sRiUOsF/YqeuT4TpKw8/Bc=
+X-Google-Smtp-Source: AGHT+IH0Ox8LkCy/m2cu9OtkuK3U3PR6Sh/KINpo+GPnGvySb1ILchFJUlHIJbqbWernh826B9k3Dg==
+X-Received: by 2002:a05:6214:4341:b0:6b5:e190:435 with SMTP id 6a1803df08f44-6bb984a6783mr14380676d6.50.1722536114469;
+        Thu, 01 Aug 2024 11:15:14 -0700 (PDT)
+Received: from [10.5.114.153] (ec2-54-92-141-197.compute-1.amazonaws.com. [54.92.141.197])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6bb99a22195sm1159676d6.45.2024.08.01.11.15.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 01 Aug 2024 11:15:14 -0700 (PDT)
+Message-ID: <bd81277b-a443-461d-9bad-5688c7d8565d@bytedance.com>
+Date: Thu, 1 Aug 2024 11:15:11 -0700
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v8 3/3] selftests: add MSG_ZEROCOPY msg_control
+ notification test
+To: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+Cc: netdev@vger.kernel.org, linux-api@vger.kernel.org,
+ almasrymina@google.com, edumazet@google.com, davem@davemloft.net,
+ kuba@kernel.org, pabeni@redhat.com, dsahern@kernel.org, axboe@kernel.dk,
+ shuah@kernel.org, linux-kselftest@vger.kernel.org, cong.wang@bytedance.com,
+ xiaochun.lu@bytedance.com
 References: <20240730184120.4089835-1-zijianzhang@bytedance.com>
- <20240730184120.4089835-3-zijianzhang@bytedance.com> <66aab8b37157d_21c08c2941@willemb.c.googlers.com.notmuch>
- <20240731182908.4584a3e1@kernel.org>
-In-Reply-To: <20240731182908.4584a3e1@kernel.org>
-From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-Date: Thu, 1 Aug 2024 13:52:50 -0400
-Message-ID: <CAF=yD-K5=RSLD0b+0hdp2_dvGbbA04aKygh3f947zM_sgjb=yQ@mail.gmail.com>
-Subject: Re: [PATCH net-next v8 2/3] sock: add MSG_ZEROCOPY notification
- mechanism based on msg_control
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: zijianzhang@bytedance.com, netdev@vger.kernel.org, 
-	linux-api@vger.kernel.org, almasrymina@google.com, edumazet@google.com, 
-	davem@davemloft.net, pabeni@redhat.com, dsahern@kernel.org, axboe@kernel.dk, 
-	shuah@kernel.org, linux-kselftest@vger.kernel.org, cong.wang@bytedance.com, 
-	xiaochun.lu@bytedance.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ <20240730184120.4089835-4-zijianzhang@bytedance.com>
+ <66aabb616714_21c08c29432@willemb.c.googlers.com.notmuch>
+ <570fe8a0-4b93-4f3d-a4d7-34a3a61167e4@bytedance.com>
+ <CAF=yD-Jt6XWSCLfZE1C+9=vcXyG-XcC2q-7Ai-HHSUt=1OrWsg@mail.gmail.com>
+Content-Language: en-US
+From: Zijian Zhang <zijianzhang@bytedance.com>
+In-Reply-To: <CAF=yD-Jt6XWSCLfZE1C+9=vcXyG-XcC2q-7Ai-HHSUt=1OrWsg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jul 31, 2024 at 9:29=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wr=
-ote:
->
-> On Wed, 31 Jul 2024 18:20:35 -0400 Willem de Bruijn wrote:
-> > Btw patchwork shows red for patch 1/3 due to a new error or warning.
-> > Not sure if it's a false positive, but take a look.
->
-> Patchwork is not for contributors, I keep repeating this :|
-> Were you not in the room at netdev when I was talking about NIPA
-> or am I this shit at communicating?
->
-> Next person pointing someone to patchwork will get a task to fix
-> something in NIPA.
+On 8/1/24 10:36 AM, Willem de Bruijn wrote:
+> On Thu, Aug 1, 2024 at 1:30 PM Zijian Zhang <zijianzhang@bytedance.com> wrote:
+>>>
+>>>> -static bool do_sendmsg(int fd, struct msghdr *msg, bool do_zerocopy, int domain)
+>>>> +static void add_zcopy_info(struct msghdr *msg)
+>>>> +{
+>>>> +    struct zc_info *zc_info;
+>>>> +    struct cmsghdr *cm;
+>>>> +
+>>>> +    if (!msg->msg_control)
+>>>> +            error(1, errno, "NULL user arg");
+>>>
+>>> Don't add precondition checks for code entirely under your control.
+>>> This is not a user API.
+>>>
+>>
+>> Ack.
+>>
+>>>> +    cm = (struct cmsghdr *)msg->msg_control;
+>>>> +    cm->cmsg_len = CMSG_LEN(ZC_INFO_SIZE);
+>>>> +    cm->cmsg_level = SOL_SOCKET;
+>>>> +    cm->cmsg_type = SCM_ZC_NOTIFICATION;
+>>>> +
+>>>> +    zc_info = (struct zc_info *)CMSG_DATA(cm);
+>>>> +    zc_info->size = ZC_NOTIFICATION_MAX;
+>>>> +
+>>>> +    added_zcopy_info = true;
+>>>
+>>> Just initialize every time? Is this here to reuse the same msg_control
+>>> as long as metadata is returned?
+>>>
+>>
+>> Yes, the same msg_control will be reused.
+>>
+>> The overall paradiagm is,
+>> start:
+>>     sendmsg(..)
+>>     sendmsg(..)
+>>     ...          sends_since_notify sendmsgs in total
+>>
+>>     add_zcopy_info(..)
+>>     sendmsg(.., msg_control)
+>>     do_recv_completions_sendmsg(..)
+>>     goto start;
+>>
+>> if (sends_since_notify + 1 >= cfg_notification_limit), add_zcopy_info
+>> will be invoked, and the right next sendmsg will have the msg_control
+>> passed in.
+>>
+>> If (added_zcopy_info), do_recv_completions_sendmsg will be invoked,
+>> and added_zcopy_info will be set to false in it.
+> 
+> This does not seem like it would need a global variable?
+> 
 
-:-)
+Agreed, maybe I can use sends_since_notify to check whether we
+need to do_recv_completions_sendmsg, then we get rid of
+added_zcopy_info.
 
-It's a super informative tool. I did miss the point about the intended
-audience, use cases and known limitations (such as false positives).
-Got it now!
 
-Looking forward to the netdev talks and slides online soon.
+>> Btw, before I put some efforts to solve the current issues, I think
+>> I should wait for comments about api change from linux-api@vger.kernel.org?
+> 
+> I'm not sure whether anyone on that list will give feedback.
+> 
+> I would continue with revisions at a normal schedule, as long as that
+> stays in the Cc.
+
+Got it, thanks
 
