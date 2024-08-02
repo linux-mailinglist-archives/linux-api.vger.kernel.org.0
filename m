@@ -1,74 +1,189 @@
-Return-Path: <linux-api+bounces-2095-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2096-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3EF79455D2
-	for <lists+linux-api@lfdr.de>; Fri,  2 Aug 2024 03:00:03 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7289A94560F
+	for <lists+linux-api@lfdr.de>; Fri,  2 Aug 2024 03:44:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8880C283D39
-	for <lists+linux-api@lfdr.de>; Fri,  2 Aug 2024 01:00:02 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C38D5B22821
+	for <lists+linux-api@lfdr.de>; Fri,  2 Aug 2024 01:44:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 068ED7F6;
-	Fri,  2 Aug 2024 00:59:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E80EB19BBA;
+	Fri,  2 Aug 2024 01:44:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="l8kuj9LN"
 X-Original-To: linux-api@vger.kernel.org
-Received: from smtpbg156.qq.com (smtpbg156.qq.com [15.184.82.18])
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF861E541;
-	Fri,  2 Aug 2024 00:59:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=15.184.82.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC514199A2;
+	Fri,  2 Aug 2024 01:44:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722560398; cv=none; b=eZgiX8/hEMjm2z4diiPLbpfhF/BrpKpaVkatjhBXE8Ik4bq7wcFeRAXGsqYs5CEdwk46kb152SXLsZymF3az8EaIfR9SgPvkavyOZgYO+RWvvA6mWszXZ0vXDKsmP5R3LCaTk+VGNyZMA4UI4Ph+dp5tulHnX2RwBHdp9d/wyeI=
+	t=1722563055; cv=none; b=lK9Zs9Dj7MHQx+HKWsHpNLo1nw9C/9nZ2UdQrbduxCPI4K7WV+qcbxV2le21uPzjKYYt90A8tBXyQj/PeQ5qAUASEhuB4mXmzRA889jbBxfinXXAwWKn7E58pz87TSNjqJ7r5flT3TO8BSF9PuQjYaY3c04hU+a6rbz6yFBxQ7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722560398; c=relaxed/simple;
-	bh=Yt1zTBSQabyGu+Xyv5GL52BT9q1FfWS0RHXumKUNkwI=;
-	h=From:To:Cc:Subject:Mime-Version:Content-Type:Date:Message-ID:
-	 References:In-Reply-To; b=RCJTUaAjujw9YiaQdRo3N22srrV8UhX0EJ5cXjaKXp6hVrHj+6aw2erF/uc16V+etnHxuY9pkALWSu3xitqzBmpAv9ssXXI56a2W1JzwYZF/Sp4Dl7F+7e7hgTD98fDCQY0Ig7xN7dczNVPJI56ASWMMbR1aFcPLgzzi7JwhV/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=andypan.me; spf=pass smtp.mailfrom=andypan.me; arc=none smtp.client-ip=15.184.82.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=andypan.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=andypan.me
-X-QQ-GoodBg: 0
-X-QQ-SSF: 0000000000000010
-X-QQ-XMRINFO: OD9hHCdaPRBwq3WW+NvGbIU=
-X-QQ-XMAILINFO: MEKKfKJEJa0uhCsXNMenpPhPfrCjV0WmRNVafHz/DNtL79E5PWeJ7cZoegiVAG1Ji+brnkS3hZol1jFLm2luPp8i8laLSmzEBVrjPHMFRCYDQxQTbrRYMOdSwwCT/wkOQj9Y95d9u/v64thCLTm7Im8LW1TA+J8YMpkok5dZRU4eRp3oqUpiVCJ4wLzNWCCfOr/ZmnvY9NrR7Djd9Bw3sDd4zu2/srHw6UCMnXCsf3SRdRXv0L9x2OVk25fKjxuFZlGAOfWKXSX8a005/zdfdv6qxmRW6AUOPnOiRXBUgGGA1wIJR/X1CWcFqzs4wgYbjJ+FIFVCZQLbaik0OETwOXLV2NiF46V1odMUxk4NEmXJVItzp11DBWy1b5wxkspwhcQzHdhyVUuYdhahiniQbM1SOtz0mjsXWGjGuZEz7jl5FuhUCafUJqw4ynQmVLLFIbjGX8/DVIjlXPcGFq+j1xLSQA0vws2nkl2zcmTCMfkAje9Ue4A2NGEq3qZPhGa8rF7d3zhE1cfJuqPPX3834apXZSS6w/bIjxHqN43dH5dYAgKTaraBMC6ts82tiUc+P8i/Se8yhWnqS7ovp97oILg4nhegU+bdWaJzHAKKX8eEClizABQACKtWIwZvqXAUpl2AHcLDtE1WHDfKyyWYMKzHZGHydTeEPyPXS4022rG9hl4MTsbbTkSyObV0UZnAIJYLJTQ3hubWCJda2HYfVlkOvYhkCnJLgpQqTR09b+HcnjNgMM6iaP6UguHac26+Lily7gDTNoLNJLgqXWrwaPOSktk8NSmSrKKhA3yOtr0z2nTvg54XPbFtQBy24YDA2SS4FUv09Kpnusi3fPu8pity00ke8pvkhSREtn2Wy3wQ
-X-QQ-FEAT: 3C1WcPM5lQ6i2sLB7YWRle+sn1bwZ2c0
-X-QQ-BUSINESS-ORIGIN: 2
-X-QQ-Originating-IP: wRXN/BysJN7QBAs/MNk0E8tp+1w3TNpvc9Pz/FMDv5c=
-X-QQ-STYLE: 
-X-QQ-mid: t3sz3a-0t1722560361t733464
-From: "=?utf-8?B?5r2Y5bCR?=" <i@andypan.me>
-To: "=?utf-8?B?aQ==?=" <i@andypan.me>, "=?utf-8?B?QWxlamFuZHJvIENvbG9tYXI=?=" <alx@kernel.org>
-Cc: "=?utf-8?B?bGludXgtbWFu?=" <linux-man@vger.kernel.org>, "=?utf-8?B?bGludXgtYXBp?=" <linux-api@vger.kernel.org>, "=?utf-8?B?TWljaGFlbCBLZXJyaXNr?=" <mtk.manpages@gmail.com>, "=?utf-8?B?cGFuamYyMDAw?=" <panjf2000@gmail.com>
-Subject: Re:[PATCH v5] epoll.7: clarify the event distribution under edge-triggered mode
+	s=arc-20240116; t=1722563055; c=relaxed/simple;
+	bh=AOHlQpp439hxXb8Yhi0cw6rbI7T9wbusdFDZsoOV5IU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mKxa+cZecpaYHSiMpuCmA7dDMnGqxzTZRyTyxHekLKHq0IU4Dmu0sQ1omm2vCWNXSdbqH2qAV1KCYnTQrEvDDG19mQdWlFvBCacvob6r8Ez96wMe1lQWvIsy+N4EIO15dNPteLBQtOffNh8ZETZwC9adywk08u6ueo1cGhwmkx0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=l8kuj9LN; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4WZpXM4GcRz9sRt;
+	Fri,  2 Aug 2024 03:44:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
+	t=1722563043;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rX5EutK1564BvFK6uRJjpD10n8gil980gFWkU6pBKcA=;
+	b=l8kuj9LNJSkG1HDlE84DRgEPD5l4U2ZvOu8ucxxAt+bBLucAibv9BFY32ZcHRT3HvJb2Oj
+	Rrr/ipAJyEn3TBchVEgoOQnx497Vw9dUw2rj3majF1imXkczlTVl7Kdp5fp0gs8srw9Swr
+	qEux0YiQuY1FSzFwLAEuw3YOt22VnAmovWpN2GOobnNlProTG7bQWk5Dt8Wd7ylJisP975
+	ubaGZg7icectV6xdUI78iaFg18JtnYA0QbWYLELGvdLnVhGdYcDA0u43t8053r8tv/DqmR
+	wiFMHaKxp+2By482c9Dgln4a8MfA6KboPF91OyZFKeDUCqoIri31gt7K2CsJ0Q==
+Date: Fri, 2 Aug 2024 11:43:50 +1000
+From: Aleksa Sarai <cyphar@cyphar.com>
+To: Josef Bacik <josef@toxicpanda.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Chuck Lever <chuck.lever@oracle.com>, 
+	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
+	Alexander Aring <alex.aring@gmail.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>, 
+	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
+	Adrian Hunter <adrian.hunter@intel.com>, linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, linux-perf-users@vger.kernel.org
+Subject: Re: [PATCH RFC v3 0/2] fhandle: expose u64 mount id to
+ name_to_handle_at(2)
+Message-ID: <20240802.010502-peachy.struggle.moldy.shape-YcRNLL7bq7EE@cyphar.com>
+References: <20240801-exportfs-u64-mount-id-v3-0-be5d6283144a@cyphar.com>
+ <20240801142812.GA4187848@perftesting>
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
-Date: Fri, 2 Aug 2024 08:59:21 +0800
-X-Priority: 3
-Message-ID: <tencent_342AFA9D6460DFAB39B5C538@qq.com>
-X-QQ-MIME: TCMime 1.0 by Tencent
-X-Mailer: QQMail 2.x
-X-QQ-Mailer: QQMail 2.x
-References: <20240801-epoll-et-desc-v5-1-7fcb9260a3b2@andypan.me>
-In-Reply-To: <20240801-epoll-et-desc-v5-1-7fcb9260a3b2@andypan.me>
-X-QQ-ReplyHash: 2854828946
-X-BIZMAIL-ID: 1570632980442736828
-X-QQ-SENDSIZE: 520
-Received: from qq.com (unknown [127.0.0.1])
-	by smtp.qq.com (ESMTP) with SMTP
-	id ; Fri, 02 Aug 2024 08:59:22 +0800 (CST)
-Feedback-ID: t:andypan.me:qybglogicsvrgz:qybglogicsvrgz5a-0
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="c7qvxlthxg64t2lg"
+Content-Disposition: inline
+In-Reply-To: <20240801142812.GA4187848@perftesting>
 
-SGkgZm9sa3MsDQpJJ20gbm90IHRyeWluZyB0byBydXNoIHlvdSwgYnV0IHBsZWFzZSBkbyBj
-b25zaWRlciByZXZpZXdpbmcgdGhpcyBwYXRjaCB3aGVuIHlvdSBoYXZlIGEgbW9tZW50LCB0
-aGFua3MhDQotLS0tLS0tLS0tLQ0KQmVzdCByZWdhcmRzLA0KQW5keSBQYW4=
 
+--c7qvxlthxg64t2lg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On 2024-08-01, Josef Bacik <josef@toxicpanda.com> wrote:
+> On Thu, Aug 01, 2024 at 01:52:39PM +1000, Aleksa Sarai wrote:
+> > Now that we provide a unique 64-bit mount ID interface in statx(2), we
+> > can now provide a race-free way for name_to_handle_at(2) to provide a
+> > file handle and corresponding mount without needing to worry about
+> > racing with /proc/mountinfo parsing or having to open a file just to do
+> > statx(2).
+> >=20
+> > While this is not necessary if you are using AT_EMPTY_PATH and don't
+> > care about an extra statx(2) call, users that pass full paths into
+> > name_to_handle_at(2) need to know which mount the file handle comes from
+> > (to make sure they don't try to open_by_handle_at a file handle from a
+> > different filesystem) and switching to AT_EMPTY_PATH would require
+> > allocating a file for every name_to_handle_at(2) call, turning
+> >=20
+> >   err =3D name_to_handle_at(-EBADF, "/foo/bar/baz", &handle, &mntid,
+> >                           AT_HANDLE_MNT_ID_UNIQUE);
+> >=20
+> > into
+> >=20
+> >   int fd =3D openat(-EBADF, "/foo/bar/baz", O_PATH | O_CLOEXEC);
+> >   err1 =3D name_to_handle_at(fd, "", &handle, &unused_mntid, AT_EMPTY_P=
+ATH);
+> >   err2 =3D statx(fd, "", AT_EMPTY_PATH, STATX_MNT_ID_UNIQUE, &statxbuf);
+> >   mntid =3D statxbuf.stx_mnt_id;
+> >   close(fd);
+> >=20
+> > Also, this series adds a patch to clarify how AT_* flag allocation
+> > should work going forwards.
+> >=20
+> > Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
+> > ---
+> > Changes in v3:
+> > - Added a patch describing how AT_* flags should be allocated in the
+> >   future, based on Amir's suggestions.
+> > - Included AT_* aliases for RENAME_* flags to further indicate that
+> >   renameat2(2) is an *at(2) syscall and to indicate that those flags
+> >   have been allocated already in the per-syscall range.
+> > - Switched AT_HANDLE_MNT_ID_UNIQUE to use 0x01 (to reuse
+> >   (AT_)RENAME_NOREPLACE).
+> > - v2: <https://lore.kernel.org/r/20240523-exportfs-u64-mount-id-v2-1-f9=
+f959f17eb1@cyphar.com>
+> > Changes in v2:
+> > - Fixed a few minor compiler warnings and a buggy copy_to_user() check.
+> > - Rename AT_HANDLE_UNIQUE_MOUNT_ID -> AT_HANDLE_MNT_ID_UNIQUE to match =
+statx.
+> > - Switched to using an AT_* bit from 0xFF and defining that range as
+> >   being "per-syscall" for future usage.
+> > - Sync tools/ copy of <linux/fcntl.h> to include changes.
+> > - v1: <https://lore.kernel.org/r/20240520-exportfs-u64-mount-id-v1-1-f5=
+5fd9215b8e@cyphar.com>
+> >=20
+> > ---
+> > Aleksa Sarai (2):
+> >       uapi: explain how per-syscall AT_* flags should be allocated
+> >       fhandle: expose u64 mount id to name_to_handle_at(2)
+> >=20
+>=20
+> Wasn't the conclusion from this discussion last time that we needed to re=
+visit
+> this API completely?  Christoph had some pretty adamant objections.
+
+There was a discussion about reworking the API and I agree with most of
+the issues raised about file handles (I personally don't really like
+this interface and it's a bit of a shame that it seems this is going to
+be the interface that replaces inode numbers) so I'm not at all opposed
+to reworking it.
+
+However, I agree with Christian[1] that we can fix this existing issue
+in the existing API fairly easily and then work on a new API separately.
+The existing usage of name_to_handle_at() is fundamentally unsafe (as
+outlined in the man page) and we can fix that fairly easily.
+
+[1]: https://lore.kernel.org/all/20240527-hagel-thunfisch-75781b0cf75d@brau=
+ner/
+
+> That being said the uapi comments patch looks good to me, you can add
+>=20
+> Reviewed-by: Josef Bacik <josef@toxicpanda.com>
+>=20
+> to that one.  The other one I'm going to let others who have stronger opi=
+nions
+> than me argue about.  Thanks,
+>=20
+> Josef
+
+--=20
+Aleksa Sarai
+Senior Software Engineer (Containers)
+SUSE Linux GmbH
+<https://www.cyphar.com/>
+
+--c7qvxlthxg64t2lg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCZqw51QAKCRAol/rSt+lE
+b4pZAP0REm8hqjt6l74YM2JQI+BQIfgYBKBGk78diZBwiJ5jxgD+KhCe4dt7UT3O
+P4dv9Kd0Ol79OKqHOpG5Fs+2TkIQcQg=
+=Z43g
+-----END PGP SIGNATURE-----
+
+--c7qvxlthxg64t2lg--
 
