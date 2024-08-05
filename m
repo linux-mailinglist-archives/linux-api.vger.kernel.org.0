@@ -1,346 +1,275 @@
-Return-Path: <linux-api+bounces-2114-lists+linux-api=lfdr.de@vger.kernel.org>
+Return-Path: <linux-api+bounces-2115-lists+linux-api=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A06F19481C4
-	for <lists+linux-api@lfdr.de>; Mon,  5 Aug 2024 20:37:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 539A19481FD
+	for <lists+linux-api@lfdr.de>; Mon,  5 Aug 2024 20:55:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1FDF61F2382C
-	for <lists+linux-api@lfdr.de>; Mon,  5 Aug 2024 18:37:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BD76F1F21E6F
+	for <lists+linux-api@lfdr.de>; Mon,  5 Aug 2024 18:55:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94D54165F02;
-	Mon,  5 Aug 2024 18:35:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E32A166F3D;
+	Mon,  5 Aug 2024 18:55:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="nxLGEbTL"
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="iDWrA3pu"
 X-Original-To: linux-api@vger.kernel.org
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 937E416C694
-	for <linux-api@vger.kernel.org>; Mon,  5 Aug 2024 18:35:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD97315F30D
+	for <linux-api@vger.kernel.org>; Mon,  5 Aug 2024 18:55:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722882950; cv=none; b=Sv089tXoeXZIxxK1cVTLltrgPPbkF6ykGyHGO1BGOqOFnyyqO6/Cm9R9DIgHRtiyj3VGNGC0lGL6KCA1kDRRhzamzfKL7dv2QrPqaZdgBpq5DUJx2Yg3eWGxouGKSSblSKXfKfEH9ElGb8atD7jbcMj1zWRv0x3P2tOzQvMt8fA=
+	t=1722884149; cv=none; b=BnLRl2OC3fMxAfeVXCIihBnm1pgHFm1+Jw2c7KCIVnKEtxHQ/OzMXdGVbtGbkP7UvF35IIYfjajCSqiyVJ5PWEw42FgOEz0NRu7muv/6vAHHt+yeDMviSSw/CYTKuN5P/bekyFdJlnKRtM8Er66nD0iEZjP0zEi5/XyPN56GKmg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722882950; c=relaxed/simple;
-	bh=D0mzlxssOH0u5bsVp6DTAXsAQf1X/UzcQAxdRN9MG+c=;
+	s=arc-20240116; t=1722884149; c=relaxed/simple;
+	bh=+RXiaX3iYK0UfkU6Mzxlq6Aau3UDy+Ror9Grq5rFShU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NNQ6pRo2+24jXimuHj1VWOzwsWtPNilyMuNZWD/yNbBaGmKXypOhCeK5kQqKuhGSi97MNgKwQnq/htsFvO+d0xq4eSw6Zes1yimYYrWazJ2exUQS9zEE5P1GfUwaU1CGRKB2k6v4epJ+Dr+jFFXDZOZfMRmdsUOkpGseACzcW5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=nxLGEbTL; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5a1b073d7cdso3090a12.0
-        for <linux-api@vger.kernel.org>; Mon, 05 Aug 2024 11:35:48 -0700 (PDT)
+	 To:Cc:Content-Type; b=SL/Rj/7jIN8OvY1JNJGY2mqTkmtNxHFHez+kic5JaSgGE7svctPbxR7Z/jTaPhK7F7a8Tj/Em2cCqO5/pGy4/iWBzneyvm++8gPC72f5gw5qvID/BMQqThbD04Mi0IS8LQoxl26lOg6DJI+GSMkl9VfrSgNMjWCxlMV0SdIK8/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=iDWrA3pu; arc=none smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-52efa9500e0so12690414e87.3
+        for <linux-api@vger.kernel.org>; Mon, 05 Aug 2024 11:55:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1722882947; x=1723487747; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bThA5FjCHLI5cTw21zmhlv/WBFyj5sN+HqnnHYmexPA=;
-        b=nxLGEbTL7qXrq437ORm+j09CVWyA/0V3JX9uWk/tJ0L5+/QpkWG7rcjiIW2wKa+Br1
-         OTBGaLKzVmDHhto6yTBsZ7w1wNfX8w5AqNZEwYDFYXGEyTiDCmO2BhKok1T8grdRbsFJ
-         0vG8apgZKForvb73AIjFPUesqTCtmO058B1RF+31hzmdcs3wHyei9QIXqnIKGtLIx91E
-         wu34kRi/JWWeswaUh/w7jnWBfrGV8xqIqPxXV62udf2opKamPA8cuLW4vuwywTRo4quX
-         frJ3CrMVMktewu6rCPuV4zmlzP7g99HTfYRGH3XOS4FelAuuqWFx5pSyUGNOc/oJr5UX
-         wIbA==
+        d=linux-foundation.org; s=google; t=1722884145; x=1723488945; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=tyvQPXOot/jroH3JmT/WaEXHZ1voWo5O/ydZzohEKJQ=;
+        b=iDWrA3puYIX81Nno72wOjOAJNkMp/45hqrpJNO+Xyq+EpIc+FQo4UUEnQj5+Q9oXDg
+         KnRoNVJY3Tand5Im/G7VD06h0g6HICXV33wghLYmD9x/PAeCq69AQwGpeZyc4kkvS69m
+         mWqGVEEHLS9xbqHWOmcjaL36YCH2dUBWZxZDU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722882947; x=1723487747;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bThA5FjCHLI5cTw21zmhlv/WBFyj5sN+HqnnHYmexPA=;
-        b=fqAT7NE2dmqSYeejceZlNzswhOelhFz/Z7lFMqoYHfuUc3tRlnQbcLhnghlRnXn2hb
-         2VaG3acSTiY5ZvrLlM3R9BJQnEeZJVNW4bEADrK+afPQCoSVx6bD/bIxY+lJ4eY1J+JP
-         pmtvgu1qz6ee2vCc6IYGOIvdqShx6po54zuvQ2bBeABPCqMJ8SiNgsa1vc5Zu02IkMcN
-         ubuN7fDaviPplh1riIAMQmXYSSpwKVQdzV/x29GDcubEt6kUaruAFgeCe7yrFKgG8LLi
-         ueqbqYu8AQRv6s4LfShSXmLDOq4wxD6AVSSYZwXEZodHOIbWebJUsimZk43VKNEBOlMD
-         YmXw==
-X-Forwarded-Encrypted: i=1; AJvYcCXN+pSfpEk/GBxZ5FFK1HaBbJoLtF6UJRqooJc7x/A3ktA6yejW85hzHOYLyeOHcG5NjxFrjO66B3hS/d6XnzuM9WxN3ACLHLa5
-X-Gm-Message-State: AOJu0YwXmuq1ByJXYdZXCiEBsXZHn/lhEfXC3FV1sldyLMlYQDlqPhBT
-	FL3mUj6vcK1wvP72WGr6AXVyB6DGo+w+kHuXds0em8v7pS/zRdz8qjum5vYAje3UMBdWO+JX1AI
-	7l+hFN5iWO4KuTr6RILAuU2jHXi3u5Hdfs9bm
-X-Google-Smtp-Source: AGHT+IFHW0w+23cEWxRQdQ9i9nzl0CE9JhDT4Dih8izAVQFFjdvtpnnaKmKW0lj5aOxSe7NS6C8BNabcazoemesr9i0=
-X-Received: by 2002:a05:6402:34c7:b0:58b:93:b624 with SMTP id
- 4fb4d7f45d1cf-5bb98241683mr12298a12.1.1722882946512; Mon, 05 Aug 2024
- 11:35:46 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1722884145; x=1723488945;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tyvQPXOot/jroH3JmT/WaEXHZ1voWo5O/ydZzohEKJQ=;
+        b=p3WDTeVhrnjXKinNKzCVgwyLQ/0VPDXPmaj4W5earsAUIF/MUloLPudyuENn36sIoJ
+         4Av4CMZ7KJlcGnjhLBc05a3c4Wpb4oaJDKuULvmxXG0eznFG1k9nqvuVzFerRtQCLd2r
+         2TgxtwE5fTftoLQeN6l5MojFO/WW6ccy5fuqnLcKTLEjQxY81C5eB6JMhrKTwC9J4OR/
+         rPYKyrVMvzrM1PPcYRERl3iOVzRldQ71L+nRyASxie2zLBe0jsZ16Zw6hyv4IpJX7vCl
+         j0aEZ+SNenNC6qUY78Y8LyhAptlEpODqSqnYztwLou/JI8TT5yoApQBJXLzNTXz9/ZQ0
+         hn2g==
+X-Forwarded-Encrypted: i=1; AJvYcCWj4MLAuB0/z8JhBLhm5meXny3uLxdJsxOsmER0dbQ/JS+xzEkXyXGLbN3jvqavIC++eds6BIYm3D5GJOEqqUCRw0xxKMq3I07V
+X-Gm-Message-State: AOJu0YxsKazgXGqApw9fDc7h62e4rSHc++EueROW2OEWSs/jXallwrkg
+	9Xm6Q1ThK3sn8uZc0PKhiXVh3PpmTSnRVKOh8I3QZysn6z3RfenyVWpp2mJiOAeHKMP+IxVDGhA
+	kf54=
+X-Google-Smtp-Source: AGHT+IEhGqfOLhUxHWnt+QvVUYS+ielVzQsdFhan5jeqrSsgj1bxlLdGvoOqBZFbTV3tcXz+ZwJjhw==
+X-Received: by 2002:a05:6512:b16:b0:52c:db06:ee60 with SMTP id 2adb3069b0e04-530bb39d12fmr8967027e87.41.1722884144525;
+        Mon, 05 Aug 2024 11:55:44 -0700 (PDT)
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com. [209.85.208.45])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5b83960f353sm5183428a12.15.2024.08.05.11.55.42
+        for <linux-api@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 05 Aug 2024 11:55:42 -0700 (PDT)
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5af6a1afa7bso12592112a12.1
+        for <linux-api@vger.kernel.org>; Mon, 05 Aug 2024 11:55:42 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUl9MV9Rkdx7oxRywZ0d4T6kQGpbuJ4CBZJwGrQdhAaI2HDkS9G+NK3NC0SYYmuxf+wgZrAuqMDfJ6XIHEtXDoQVp2pGBlVSAUp
+X-Received: by 2002:aa7:d34e:0:b0:5a2:7f47:c729 with SMTP id
+ 4fb4d7f45d1cf-5b7f3bcfee4mr9218233a12.9.1722884141890; Mon, 05 Aug 2024
+ 11:55:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-api@vger.kernel.org
 List-Id: <linux-api.vger.kernel.org>
 List-Subscribe: <mailto:linux-api+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-api+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240704190137.696169-2-mic@digikod.net> <CALmYWFss7qcpR9D_r3pbP_Orxs55t3y3yXJsac1Wz=Hk9Di0Nw@mail.gmail.com>
- <20240717.neaB5Aiy2zah@digikod.net> <CALmYWFt=yXpzhS=HS9FjwVMvx6U1MoR31vK79wxNLhmJm9bBoA@mail.gmail.com>
- <20240718.kaePhei9Ahm9@digikod.net> <CALmYWFto4sw-Q2+J0Gc54POhnM9C8YpnJ44wMz=fd_K3_+dWmw@mail.gmail.com>
- <20240719.shaeK6PaiSie@digikod.net> <CALmYWFsd-=pOPZZmiKvYJ8pOhACsTvW_d+pRjG_C4jD6+Li0AQ@mail.gmail.com>
- <20240719.sah7oeY9pha4@digikod.net> <CALmYWFsAZjU5sMcXTT23Mtw2Y30ewc94FAjKsnuSv1Ex=7fgLQ@mail.gmail.com>
- <20240723.beiTu0qui2ei@digikod.net>
-In-Reply-To: <20240723.beiTu0qui2ei@digikod.net>
-From: Jeff Xu <jeffxu@google.com>
-Date: Mon, 5 Aug 2024 11:35:09 -0700
-Message-ID: <CALmYWFtHQY41PbRwGxge1Wo=8D4ocZfQgRUO47-PF1eJCEr0Sw@mail.gmail.com>
-Subject: Re: [RFC PATCH v19 1/5] exec: Add a new AT_CHECK flag to execveat(2)
-To: =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
-Cc: Al Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	Kees Cook <keescook@chromium.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
-	Paul Moore <paul@paul-moore.com>, "Theodore Ts'o" <tytso@mit.edu>, Alejandro Colomar <alx@kernel.org>, 
-	Aleksa Sarai <cyphar@cyphar.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Andy Lutomirski <luto@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Casey Schaufler <casey@schaufler-ca.com>, Christian Heimes <christian@python.org>, 
-	Dmitry Vyukov <dvyukov@google.com>, Eric Biggers <ebiggers@kernel.org>, 
-	Eric Chiang <ericchiang@google.com>, Fan Wu <wufan@linux.microsoft.com>, 
-	Florian Weimer <fweimer@redhat.com>, Geert Uytterhoeven <geert@linux-m68k.org>, 
-	James Morris <jamorris@linux.microsoft.com>, Jan Kara <jack@suse.cz>, 
-	Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Jordan R Abrahams <ajordanr@google.com>, Lakshmi Ramasubramanian <nramas@linux.microsoft.com>, 
-	Luca Boccassi <bluca@debian.org>, Luis Chamberlain <mcgrof@kernel.org>, 
-	"Madhavan T . Venkataraman" <madvenka@linux.microsoft.com>, Matt Bobrowski <mattbobrowski@google.com>, 
-	Matthew Garrett <mjg59@srcf.ucam.org>, Matthew Wilcox <willy@infradead.org>, 
-	Miklos Szeredi <mszeredi@redhat.com>, Mimi Zohar <zohar@linux.ibm.com>, 
-	Nicolas Bouchinet <nicolas.bouchinet@ssi.gouv.fr>, Scott Shell <scottsh@microsoft.com>, 
-	Shuah Khan <shuah@kernel.org>, Stephen Rothwell <sfr@canb.auug.org.au>, 
-	Steve Dower <steve.dower@python.org>, Steve Grubb <sgrubb@redhat.com>, 
-	Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>, 
-	Vincent Strubel <vincent.strubel@ssi.gouv.fr>, Xiaoming Ni <nixiaoming@huawei.com>, 
-	Yin Fengwei <fengwei.yin@intel.com>, kernel-hardening@lists.openwall.com, 
-	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, Elliott Hughes <enh@google.com>
+References: <202408041602.caa0372-oliver.sang@intel.com> <CAHk-=whbxLj0thXPzN9aW4CcX1D2_dntNu+x9-8uBakamBggLA@mail.gmail.com>
+ <CAKbZUD3B03Zjex4STW8J_1VJhpsYb=1mnZL2-vSaW-CaZdzLiA@mail.gmail.com> <CALmYWFuXVCvAfrcDOCAR72z2_rmnm09QeVVqdhzqjF-fZ9ndUA@mail.gmail.com>
+In-Reply-To: <CALmYWFuXVCvAfrcDOCAR72z2_rmnm09QeVVqdhzqjF-fZ9ndUA@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Mon, 5 Aug 2024 11:55:25 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wgPHCJ0vZMfEP50VPjSVi-CzL0fhTGXgNLQn=Pp9W0DVA@mail.gmail.com>
+Message-ID: <CAHk-=wgPHCJ0vZMfEP50VPjSVi-CzL0fhTGXgNLQn=Pp9W0DVA@mail.gmail.com>
+Subject: Re: [linus:master] [mseal] 8be7258aad: stress-ng.pagemove.page_remaps_per_sec
+ -4.4% regression
+To: Jeff Xu <jeffxu@google.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc: Pedro Falcato <pedro.falcato@gmail.com>, kernel test robot <oliver.sang@intel.com>, 
+	Jeff Xu <jeffxu@chromium.org>, oe-lkp@lists.linux.dev, lkp@intel.com, 
+	linux-kernel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>, 
+	Kees Cook <keescook@chromium.org>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+	Dave Hansen <dave.hansen@intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Guenter Roeck <groeck@chromium.org>, Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Jorge Lucangeli Obes <jorgelo@chromium.org>, Matthew Wilcox <willy@infradead.org>, 
+	Muhammad Usama Anjum <usama.anjum@collabora.com>, =?UTF-8?Q?Stephen_R=C3=B6ttger?= <sroettger@google.com>, 
+	Suren Baghdasaryan <surenb@google.com>, Amer Al Shanawany <amer.shanawany@gmail.com>, 
+	Javier Carrasco <javier.carrasco.cruz@gmail.com>, Shuah Khan <shuah@kernel.org>, 
+	linux-api@vger.kernel.org, linux-mm@kvack.org, ying.huang@intel.com, 
+	feng.tang@intel.com, fengwei.yin@intel.com
+Content-Type: multipart/mixed; boundary="00000000000044bb81061ef439ea"
+
+--00000000000044bb81061ef439ea
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 23, 2024 at 6:15=E2=80=AFAM Micka=C3=ABl Sala=C3=BCn <mic@digik=
-od.net> wrote:
+On Mon, 5 Aug 2024 at 11:11, Jeff Xu <jeffxu@google.com> wrote:
 >
-> On Fri, Jul 19, 2024 at 08:27:18AM -0700, Jeff Xu wrote:
-> > On Fri, Jul 19, 2024 at 8:04=E2=80=AFAM Micka=C3=ABl Sala=C3=BCn <mic@d=
-igikod.net> wrote:
-> > >
-> > > On Fri, Jul 19, 2024 at 07:16:55AM -0700, Jeff Xu wrote:
-> > > > On Fri, Jul 19, 2024 at 1:45=E2=80=AFAM Micka=C3=ABl Sala=C3=BCn <m=
-ic@digikod.net> wrote:
-> > > > >
-> > > > > On Thu, Jul 18, 2024 at 06:29:54PM -0700, Jeff Xu wrote:
-> > > > > > On Thu, Jul 18, 2024 at 5:24=E2=80=AFAM Micka=C3=ABl Sala=C3=BC=
-n <mic@digikod.net> wrote:
-> > > > > > >
-> > > > > > > On Wed, Jul 17, 2024 at 07:08:17PM -0700, Jeff Xu wrote:
-> > > > > > > > On Wed, Jul 17, 2024 at 3:01=E2=80=AFAM Micka=C3=ABl Sala=
-=C3=BCn <mic@digikod.net> wrote:
-> > > > > > > > >
-> > > > > > > > > On Tue, Jul 16, 2024 at 11:33:55PM -0700, Jeff Xu wrote:
-> > > > > > > > > > On Thu, Jul 4, 2024 at 12:02=E2=80=AFPM Micka=C3=ABl Sa=
-la=C3=BCn <mic@digikod.net> wrote:
-> > > > > > > > > > >
-> > > > > > > > > > > Add a new AT_CHECK flag to execveat(2) to check if a =
-file would be
-> > > > > > > > > > > allowed for execution.  The main use case is for scri=
-pt interpreters and
-> > > > > > > > > > > dynamic linkers to check execution permission accordi=
-ng to the kernel's
-> > > > > > > > > > > security policy. Another use case is to add context t=
-o access logs e.g.,
-> > > > > > > > > > > which script (instead of interpreter) accessed a file=
-.  As any
-> > > > > > > > > > > executable code, scripts could also use this check [1=
-].
-> > > > > > > > > > >
-> > > > > > > > > > > This is different than faccessat(2) which only checks=
- file access
-> > > > > > > > > > > rights, but not the full context e.g. mount point's n=
-oexec, stack limit,
-> > > > > > > > > > > and all potential LSM extra checks (e.g. argv, envp, =
-credentials).
-> > > > > > > > > > > Since the use of AT_CHECK follows the exact kernel se=
-mantic as for a
-> > > > > > > > > > > real execution, user space gets the same error codes.
-> > > > > > > > > > >
-> > > > > > > > > > So we concluded that execveat(AT_CHECK) will be used to=
- check the
-> > > > > > > > > > exec, shared object, script and config file (such as se=
-ccomp config),
-> > > > >
-> > > > > > > > > > I think binfmt_elf.c in the kernel needs to check the l=
-d.so to make
-> > > > > > > > > > sure it passes AT_CHECK, before loading it into memory.
-> > > > > > > > >
-> > > > > > > > > All ELF dependencies are opened and checked with open_exe=
-c(), which
-> > > > > > > > > perform the main executability checks (with the __FMODE_E=
-XEC flag).
-> > > > > > > > > Did I miss something?
-> > > > > > > > >
-> > > > > > > > I mean the ld-linux-x86-64.so.2 which is loaded by binfmt i=
-n the kernel.
-> > > > > > > > The app can choose its own dynamic linker path during build=
-, (maybe
-> > > > > > > > even statically link one ?)  This is another reason that re=
-lying on a
-> > > > > > > > userspace only is not enough.
-> > > > > > >
-> > > > > > > The kernel calls open_exec() on all dependencies, including
-> > > > > > > ld-linux-x86-64.so.2, so these files are checked for executab=
-ility too.
-> > > > > > >
-> > > > > > This might not be entirely true. iiuc, kernel  calls open_exec =
-for
-> > > > > > open_exec for interpreter, but not all its dependency (e.g. lib=
-c.so.6)
-> > > > >
-> > > > > Correct, the dynamic linker is in charge of that, which is why it=
- must
-> > > > > be enlighten with execveat+AT_CHECK and securebits checks.
-> > > > >
-> > > > > > load_elf_binary() {
-> > > > > >    interpreter =3D open_exec(elf_interpreter);
-> > > > > > }
-> > > > > >
-> > > > > > libc.so.6 is opened and mapped by dynamic linker.
-> > > > > > so the call sequence is:
-> > > > > >  execve(a.out)
-> > > > > >   - open exec(a.out)
-> > > > > >   - security_bprm_creds(a.out)
-> > > > > >   - open the exec(ld.so)
-> > > > > >   - call open_exec() for interruptor (ld.so)
-> > > > > >   - call execveat(AT_CHECK, ld.so) <-- do we want ld.so going t=
-hrough
-> > > > > > the same check and code path as libc.so below ?
-> > > > >
-> > > > > open_exec() checks are enough.  LSMs can use this information (op=
-en +
-> > > > > __FMODE_EXEC) if needed.  execveat+AT_CHECK is only a user space
-> > > > > request.
-> > > > >
-> > > > Then the ld.so doesn't go through the same security_bprm_creds() ch=
-eck
-> > > > as other .so.
-> > >
-> > > Indeed, but...
-> > >
-> > My point is: we will want all the .so going through the same code
-> > path, so  security_ functions are called consistently across all the
-> > objects, And in the future, if we want to develop additional LSM
-> > functionality based on AT_CHECK, it will be applied to all objects.
->
-> I'll extend the doc to encourage LSMs to check for __FMODE_EXEC, which
-> already is the common security check for all executable dependencies.
-> As extra information, they can get explicit requests by looking at
-> execveat+AT_CHECK call.
->
-I agree that security_file_open + __FMODE_EXEC for checking all
-the .so (e.g for executable memfd) is a better option  than checking at
-security_bprm_creds_for_exec.
+> One thing that you can't walk around is that can_modify_mm must be
+> called prior to arch_unmap, that means in-place check for the munmap
+> is not possible.
 
-But then maybe execveat( AT_CHECK) can return after  calling alloc_bprm ?
-See below call graph:
+Actually, we should move 'arch_unmap()'.
 
-do_execveat_common (AT_CHECK)
--> alloc_bprm
-->->do_open_execat
-->->-> do_filp_open (__FMODE_EXEC)
-->->->->->->> security_file_open
--> bprm_execve
-->-> prepare_exec_creds
-->->-> prepare_creds
-->->->-> security_prepare_creds
-->-> security_bprm_creds_for_exec
+There is only one user of it, and it's pretty pointless.
 
-What is the consideration to mark the end at
-security_bprm_creds_for_exec ? i.e. including brpm_execve,
-prepare_creds, security_prepare_creds, security_bprm_creds_for_exec.
+(Ok, there are two users - x86 also has an 'arch_unmap()', but it's empty).
 
-Since dynamic linker doesn't load ld.so (it is by kernel),  ld.so
-won't go through those  security_prepare_creds and
-security_bprm_creds_for_exec checks like other .so do.
+The reason I say that the current user of arch_unmap() is pointless is
+because this is what the powerpc user does:
 
-> >
-> > Another thing to consider is:  we are asking userspace to make
-> > additional syscall before  loading the file into memory/get executed,
-> > there is a possibility for future expansion of the mechanism, without
-> > asking user space to add another syscall again.
->
-> AT_CHECK is defined with a specific semantic.  Other mechanisms (e.g.
-> LSM policies) could enforce other restrictions following the same
-> semantic.  We need to keep in mind backward compatibility.
->
-> >
-> > I m still not convinced yet that execveat(AT_CHECK) fits more than
-> > faccessat(AT_CHECK)
->
-> faccessat2(2) is dedicated to file permission/attribute check.
-> execveat(2) is dedicated to execution, which is a superset of file
-> permission for executability, plus other checks (e.g. noexec).
->
-That sounds reasonable, but if execveat(AT_CHECK) changes behavior of
-execveat(),  someone might argue that faccessat2(EXEC_CHECK) can be
-made for the executability.
+  static inline void arch_unmap(struct mm_struct *mm,
+                                unsigned long start, unsigned long end)
+  {
+        unsigned long vdso_base = (unsigned long)mm->context.vdso;
 
-I think the decision might depend on what this PATCH intended to
-check, i.e. where we draw the line.
+        if (start <= vdso_base && vdso_base < end)
+                mm->context.vdso = NULL;
+  }
 
-do_open_execat() seems to cover lots of checks for executability, if
-we are ok with the thing that do_open_execat() checks, then
-faccessat(AT_CHECK) calling do_open_execat() is an option, it  won't
-have those "unrelated" calls  in execve path, e.g.  bprm_stack_limits,
-copy argc/env .
+and that would make sense if we didn't have an actual 'vma' that
+matched the vdso. But we do.
 
-However, you mentioned superset of file permission for executability,
-can you elaborate on that ? Is there something not included in
-do_open_execat() but still necessary for execveat(AT_CHECK)? maybe
-security_bprm_creds_for_exec? (this goes back to my  question above)
+I think this code may predate the whole "create a vma for the vdso"
+code. Or maybe it was just always confused.
 
-Thanks
-Best regards,
--Jeff
+Anyway, what the code *should* do is that we should just have a
+->close() function for special mappings, and call that in
+special_mapping_close().
 
+This is an ENTIRELY UNTESTED patch that gets rid of this horrendous wart.
 
+Michael / Nick / Christophe? Note that I didn't even compile-test this
+on x86-64, much less on powerpc.
 
+So please consider this a "maybe something like this" patch, but that
+'arch_unmap()' really is pretty nasty.
 
+Oh, and there was a bug in the error path of the powerpc vdso setup
+code anyway. The patch fixes that too, although considering the
+entirely untested nature of it, the "fixes" is laughably optimistic.
 
+                 Linus
 
+--00000000000044bb81061ef439ea
+Content-Type: text/x-patch; charset="US-ASCII"; name="patch.diff"
+Content-Disposition: attachment; filename="patch.diff"
+Content-Transfer-Encoding: base64
+Content-ID: <f_lzhcoox80>
+X-Attachment-Id: f_lzhcoox80
 
-
-
-
-
-> >
-> >
-> > > >
-> > > > As my previous email, the ChromeOS LSM restricts executable mfd
-> > > > through security_bprm_creds(), the end result is that ld.so can sti=
-ll
-> > > > be executable memfd, but not other .so.
-> > >
-> > > The chromeOS LSM can check that with the security_file_open() hook an=
-d
-> > > the __FMODE_EXEC flag, see Landlock's implementation.  I think this
-> > > should be the only hook implementation that chromeOS LSM needs to add=
-.
-> > >
-> > > >
-> > > > One way to address this is to refactor the necessary code from
-> > > > execveat() code patch, and make it available to call from both kern=
-el
-> > > > and execveat() code paths., but if we do that, we might as well use
-> > > > faccessat2(AT_CHECK)
-> > >
-> > > That's why I think it makes sense to rely on the existing __FMODE_EXE=
-C
-> > > information.
-> > >
-> > > >
-> > > >
-> > > > > >   - transfer the control to ld.so)
-> > > > > >   - ld.so open (libc.so)
-> > > > > >   - ld.so call execveat(AT_CHECK,libc.so) <-- proposed by this =
-patch,
-> > > > > > require dynamic linker change.
-> > > > > >   - ld.so mmap(libc.so,rx)
-> > > > >
-> > > > > Explaining these steps is useful. I'll include that in the next p=
-atch
-> > > > > series.
-> >
+IGFyY2gvcG93ZXJwYy9pbmNsdWRlL2FzbS9tbXVfY29udGV4dC5oIHwgIDkgLS0tLS0tLS0tCiBh
+cmNoL3Bvd2VycGMva2VybmVsL3Zkc28uYyAgICAgICAgICAgICB8IDEyICsrKysrKysrKysrLQog
+YXJjaC94ODYvaW5jbHVkZS9hc20vbW11X2NvbnRleHQuaCAgICAgfCAgNSAtLS0tLQogaW5jbHVk
+ZS9hc20tZ2VuZXJpYy9tbV9ob29rcy5oICAgICAgICAgfCAxMSArKystLS0tLS0tLQogaW5jbHVk
+ZS9saW51eC9tbV90eXBlcy5oICAgICAgICAgICAgICAgfCAgMiArKwogbW0vbW1hcC5jICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgfCAxNSArKysrKystLS0tLS0tLS0KIDYgZmlsZXMgY2hh
+bmdlZCwgMjIgaW5zZXJ0aW9ucygrKSwgMzIgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvYXJj
+aC9wb3dlcnBjL2luY2x1ZGUvYXNtL21tdV9jb250ZXh0LmggYi9hcmNoL3Bvd2VycGMvaW5jbHVk
+ZS9hc20vbW11X2NvbnRleHQuaAppbmRleCAzN2JmZmEwZjc5MTguLmEzMzRhMTM2ODg0OCAxMDA2
+NDQKLS0tIGEvYXJjaC9wb3dlcnBjL2luY2x1ZGUvYXNtL21tdV9jb250ZXh0LmgKKysrIGIvYXJj
+aC9wb3dlcnBjL2luY2x1ZGUvYXNtL21tdV9jb250ZXh0LmgKQEAgLTI2MCwxNSArMjYwLDYgQEAg
+c3RhdGljIGlubGluZSB2b2lkIGVudGVyX2xhenlfdGxiKHN0cnVjdCBtbV9zdHJ1Y3QgKm1tLAog
+CiBleHRlcm4gdm9pZCBhcmNoX2V4aXRfbW1hcChzdHJ1Y3QgbW1fc3RydWN0ICptbSk7CiAKLXN0
+YXRpYyBpbmxpbmUgdm9pZCBhcmNoX3VubWFwKHN0cnVjdCBtbV9zdHJ1Y3QgKm1tLAotCQkJICAg
+ICAgdW5zaWduZWQgbG9uZyBzdGFydCwgdW5zaWduZWQgbG9uZyBlbmQpCi17Ci0JdW5zaWduZWQg
+bG9uZyB2ZHNvX2Jhc2UgPSAodW5zaWduZWQgbG9uZyltbS0+Y29udGV4dC52ZHNvOwotCi0JaWYg
+KHN0YXJ0IDw9IHZkc29fYmFzZSAmJiB2ZHNvX2Jhc2UgPCBlbmQpCi0JCW1tLT5jb250ZXh0LnZk
+c28gPSBOVUxMOwotfQotCiAjaWZkZWYgQ09ORklHX1BQQ19NRU1fS0VZUwogYm9vbCBhcmNoX3Zt
+YV9hY2Nlc3NfcGVybWl0dGVkKHN0cnVjdCB2bV9hcmVhX3N0cnVjdCAqdm1hLCBib29sIHdyaXRl
+LAogCQkJICAgICAgIGJvb2wgZXhlY3V0ZSwgYm9vbCBmb3JlaWduKTsKZGlmZiAtLWdpdCBhL2Fy
+Y2gvcG93ZXJwYy9rZXJuZWwvdmRzby5jIGIvYXJjaC9wb3dlcnBjL2tlcm5lbC92ZHNvLmMKaW5k
+ZXggN2EyZmY5MDEwZjE3Li40ZGU4YWY0M2Y5MjAgMTAwNjQ0Ci0tLSBhL2FyY2gvcG93ZXJwYy9r
+ZXJuZWwvdmRzby5jCisrKyBiL2FyY2gvcG93ZXJwYy9rZXJuZWwvdmRzby5jCkBAIC04MSwxMiAr
+ODEsMjAgQEAgc3RhdGljIGludCB2ZHNvNjRfbXJlbWFwKGNvbnN0IHN0cnVjdCB2bV9zcGVjaWFs
+X21hcHBpbmcgKnNtLCBzdHJ1Y3Qgdm1fYXJlYV9zdHIKIAlyZXR1cm4gdmRzb19tcmVtYXAoc20s
+IG5ld192bWEsICZ2ZHNvNjRfZW5kIC0gJnZkc282NF9zdGFydCk7CiB9CiAKK3N0YXRpYyBpbnQg
+dnZhcl9jbG9zZShjb25zdCBzdHJ1Y3Qgdm1fc3BlY2lhbF9tYXBwaW5nICpzbSwKKwkJICAgICAg
+c3RydWN0IHZtX2FyZWFfc3RydWN0ICp2bWEpCit7CisJc3RydWN0IG1tX3N0cnVjdCAqbW0gPSB2
+bWEtPnZtX21tOworCW1tLT5jb250ZXh0LnZkc28gPSBOVUxMOworfQorCiBzdGF0aWMgdm1fZmF1
+bHRfdCB2dmFyX2ZhdWx0KGNvbnN0IHN0cnVjdCB2bV9zcGVjaWFsX21hcHBpbmcgKnNtLAogCQkJ
+ICAgICBzdHJ1Y3Qgdm1fYXJlYV9zdHJ1Y3QgKnZtYSwgc3RydWN0IHZtX2ZhdWx0ICp2bWYpOwog
+CiBzdGF0aWMgc3RydWN0IHZtX3NwZWNpYWxfbWFwcGluZyB2dmFyX3NwZWMgX19yb19hZnRlcl9p
+bml0ID0gewogCS5uYW1lID0gIlt2dmFyXSIsCiAJLmZhdWx0ID0gdnZhcl9mYXVsdCwKKwkuY2xv
+c2UgPSB2dmFyX2Nsb3NlLAogfTsKIAogc3RhdGljIHN0cnVjdCB2bV9zcGVjaWFsX21hcHBpbmcg
+dmRzbzMyX3NwZWMgX19yb19hZnRlcl9pbml0ID0gewpAQCAtMjA3LDggKzIxNSwxMCBAQCBzdGF0
+aWMgaW50IF9fYXJjaF9zZXR1cF9hZGRpdGlvbmFsX3BhZ2VzKHN0cnVjdCBsaW51eF9iaW5wcm0g
+KmJwcm0sIGludCB1c2VzX2ludAogCXZtYSA9IF9pbnN0YWxsX3NwZWNpYWxfbWFwcGluZyhtbSwg
+dmRzb19iYXNlLCB2dmFyX3NpemUsCiAJCQkJICAgICAgIFZNX1JFQUQgfCBWTV9NQVlSRUFEIHwg
+Vk1fSU8gfAogCQkJCSAgICAgICBWTV9ET05URFVNUCB8IFZNX1BGTk1BUCwgJnZ2YXJfc3BlYyk7
+Ci0JaWYgKElTX0VSUih2bWEpKQorCWlmIChJU19FUlIodm1hKSkgeworCQltbS0+Y29udGV4dC52
+ZHNvID0gTlVMTDsKIAkJcmV0dXJuIFBUUl9FUlIodm1hKTsKKwl9CiAKIAkvKgogCSAqIG91ciB2
+bWEgZmxhZ3MgZG9uJ3QgaGF2ZSBWTV9XUklURSBzbyBieSBkZWZhdWx0LCB0aGUgcHJvY2VzcyBp
+c24ndApkaWZmIC0tZ2l0IGEvYXJjaC94ODYvaW5jbHVkZS9hc20vbW11X2NvbnRleHQuaCBiL2Fy
+Y2gveDg2L2luY2x1ZGUvYXNtL21tdV9jb250ZXh0LmgKaW5kZXggOGRhYzQ1YTJjN2ZjLi44MGYy
+YTMxODdhYTYgMTAwNjQ0Ci0tLSBhL2FyY2gveDg2L2luY2x1ZGUvYXNtL21tdV9jb250ZXh0LmgK
+KysrIGIvYXJjaC94ODYvaW5jbHVkZS9hc20vbW11X2NvbnRleHQuaApAQCAtMjMyLDExICsyMzIs
+NiBAQCBzdGF0aWMgaW5saW5lIGJvb2wgaXNfNjRiaXRfbW0oc3RydWN0IG1tX3N0cnVjdCAqbW0p
+CiB9CiAjZW5kaWYKIAotc3RhdGljIGlubGluZSB2b2lkIGFyY2hfdW5tYXAoc3RydWN0IG1tX3N0
+cnVjdCAqbW0sIHVuc2lnbmVkIGxvbmcgc3RhcnQsCi0JCQkgICAgICB1bnNpZ25lZCBsb25nIGVu
+ZCkKLXsKLX0KLQogLyoKICAqIFdlIG9ubHkgd2FudCB0byBlbmZvcmNlIHByb3RlY3Rpb24ga2V5
+cyBvbiB0aGUgY3VycmVudCBwcm9jZXNzCiAgKiBiZWNhdXNlIHdlIGVmZmVjdGl2ZWx5IGhhdmUg
+bm8gYWNjZXNzIHRvIFBLUlUgZm9yIG90aGVyCmRpZmYgLS1naXQgYS9pbmNsdWRlL2FzbS1nZW5l
+cmljL21tX2hvb2tzLmggYi9pbmNsdWRlL2FzbS1nZW5lcmljL21tX2hvb2tzLmgKaW5kZXggNGRi
+YjE3N2QxMTUwLi42ZWVhM2IzYzFlNjUgMTAwNjQ0Ci0tLSBhL2luY2x1ZGUvYXNtLWdlbmVyaWMv
+bW1faG9va3MuaAorKysgYi9pbmNsdWRlL2FzbS1nZW5lcmljL21tX2hvb2tzLmgKQEAgLTEsOCAr
+MSw4IEBACiAvKiBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMCAqLwogLyoKLSAqIERl
+ZmluZSBnZW5lcmljIG5vLW9wIGhvb2tzIGZvciBhcmNoX2R1cF9tbWFwLCBhcmNoX2V4aXRfbW1h
+cAotICogYW5kIGFyY2hfdW5tYXAgdG8gYmUgaW5jbHVkZWQgaW4gYXNtLUZPTy9tbXVfY29udGV4
+dC5oIGZvciBhbnkKLSAqIGFyY2ggRk9PIHdoaWNoIGRvZXNuJ3QgbmVlZCB0byBob29rIHRoZXNl
+LgorICogRGVmaW5lIGdlbmVyaWMgbm8tb3AgaG9va3MgZm9yIGFyY2hfZHVwX21tYXAgYW5kIGFy
+Y2hfZXhpdF9tbWFwCisgKiB0byBiZSBpbmNsdWRlZCBpbiBhc20tRk9PL21tdV9jb250ZXh0Lmgg
+Zm9yIGFueSBhcmNoIEZPTyB3aGljaAorICogZG9lc24ndCBuZWVkIHRvIGhvb2sgdGhlc2UuCiAg
+Ki8KICNpZm5kZWYgX0FTTV9HRU5FUklDX01NX0hPT0tTX0gKICNkZWZpbmUgX0FTTV9HRU5FUklD
+X01NX0hPT0tTX0gKQEAgLTE3LDExICsxNyw2IEBAIHN0YXRpYyBpbmxpbmUgdm9pZCBhcmNoX2V4
+aXRfbW1hcChzdHJ1Y3QgbW1fc3RydWN0ICptbSkKIHsKIH0KIAotc3RhdGljIGlubGluZSB2b2lk
+IGFyY2hfdW5tYXAoc3RydWN0IG1tX3N0cnVjdCAqbW0sCi0JCQl1bnNpZ25lZCBsb25nIHN0YXJ0
+LCB1bnNpZ25lZCBsb25nIGVuZCkKLXsKLX0KLQogc3RhdGljIGlubGluZSBib29sIGFyY2hfdm1h
+X2FjY2Vzc19wZXJtaXR0ZWQoc3RydWN0IHZtX2FyZWFfc3RydWN0ICp2bWEsCiAJCWJvb2wgd3Jp
+dGUsIGJvb2wgZXhlY3V0ZSwgYm9vbCBmb3JlaWduKQogewpkaWZmIC0tZ2l0IGEvaW5jbHVkZS9s
+aW51eC9tbV90eXBlcy5oIGIvaW5jbHVkZS9saW51eC9tbV90eXBlcy5oCmluZGV4IDQ4NTQyNDk3
+OTI1NC4uZWYzMmQ4N2EzYWRjIDEwMDY0NAotLS0gYS9pbmNsdWRlL2xpbnV4L21tX3R5cGVzLmgK
+KysrIGIvaW5jbHVkZS9saW51eC9tbV90eXBlcy5oCkBAIC0xMzEzLDYgKzEzMTMsOCBAQCBzdHJ1
+Y3Qgdm1fc3BlY2lhbF9tYXBwaW5nIHsKIAogCWludCAoKm1yZW1hcCkoY29uc3Qgc3RydWN0IHZt
+X3NwZWNpYWxfbWFwcGluZyAqc20sCiAJCSAgICAgc3RydWN0IHZtX2FyZWFfc3RydWN0ICpuZXdf
+dm1hKTsKKwl2b2lkICgqY2xvc2UpKGNvbnN0IHN0cnVjdCB2bV9zcGVjaWFsX21hcHBpbmcgKnNt
+LAorCQkgICAgICBzdHJ1Y3Qgdm1fYXJlYV9zdHJ1Y3QgKnZtYSk7CiB9OwogCiBlbnVtIHRsYl9m
+bHVzaF9yZWFzb24gewpkaWZmIC0tZ2l0IGEvbW0vbW1hcC5jIGIvbW0vbW1hcC5jCmluZGV4IGQw
+ZGZjODViMjA5Yi4uYWRhYWYxZWYxOTdhIDEwMDY0NAotLS0gYS9tbS9tbWFwLmMKKysrIGIvbW0v
+bW1hcC5jCkBAIC0yNzg5LDcgKzI3ODksNyBAQCBkb192bWlfYWxpZ25fbXVubWFwKHN0cnVjdCB2
+bWFfaXRlcmF0b3IgKnZtaSwgc3RydWN0IHZtX2FyZWFfc3RydWN0ICp2bWEsCiAgKgogICogVGhp
+cyBmdW5jdGlvbiB0YWtlcyBhIEBtYXMgdGhhdCBpcyBlaXRoZXIgcG9pbnRpbmcgdG8gdGhlIHBy
+ZXZpb3VzIFZNQSBvciBzZXQKICAqIHRvIE1BX1NUQVJUIGFuZCBzZXRzIGl0IHVwIHRvIHJlbW92
+ZSB0aGUgbWFwcGluZyhzKS4gIFRoZSBAbGVuIHdpbGwgYmUKLSAqIGFsaWduZWQgYW5kIGFueSBh
+cmNoX3VubWFwIHdvcmsgd2lsbCBiZSBwcmVmb3JtZWQuCisgKiBhbGlnbmVkLgogICoKICAqIFJl
+dHVybjogMCBvbiBzdWNjZXNzIGFuZCBkcm9wcyB0aGUgbG9jayBpZiBzbyBkaXJlY3RlZCwgZXJy
+b3IgYW5kIGxlYXZlcyB0aGUKICAqIGxvY2sgaGVsZCBvdGhlcndpc2UuCkBAIC0yODA5LDE2ICsy
+ODA5LDEyIEBAIGludCBkb192bWlfbXVubWFwKHN0cnVjdCB2bWFfaXRlcmF0b3IgKnZtaSwgc3Ry
+dWN0IG1tX3N0cnVjdCAqbW0sCiAJCXJldHVybiAtRUlOVkFMOwogCiAJLyoKLQkgKiBDaGVjayBp
+ZiBtZW1vcnkgaXMgc2VhbGVkIGJlZm9yZSBhcmNoX3VubWFwLgotCSAqIFByZXZlbnQgdW5tYXBw
+aW5nIGEgc2VhbGVkIFZNQS4KKwkgKiBDaGVjayBpZiBtZW1vcnkgaXMgc2VhbGVkLCBwcmV2ZW50
+IHVubWFwcGluZyBhIHNlYWxlZCBWTUEuCiAJICogY2FuX21vZGlmeV9tbSBhc3N1bWVzIHdlIGhh
+dmUgYWNxdWlyZWQgdGhlIGxvY2sgb24gTU0uCiAJICovCiAJaWYgKHVubGlrZWx5KCFjYW5fbW9k
+aWZ5X21tKG1tLCBzdGFydCwgZW5kKSkpCiAJCXJldHVybiAtRVBFUk07CiAKLQkgLyogYXJjaF91
+bm1hcCgpIG1pZ2h0IGRvIHVubWFwcyBpdHNlbGYuICAqLwotCWFyY2hfdW5tYXAobW0sIHN0YXJ0
+LCBlbmQpOwotCiAJLyogRmluZCB0aGUgZmlyc3Qgb3ZlcmxhcHBpbmcgVk1BICovCiAJdm1hID0g
+dm1hX2ZpbmQodm1pLCBlbmQpOwogCWlmICghdm1hKSB7CkBAIC0zMjMyLDE0ICszMjI4LDEyIEBA
+IGludCBkb192bWFfbXVubWFwKHN0cnVjdCB2bWFfaXRlcmF0b3IgKnZtaSwgc3RydWN0IHZtX2Fy
+ZWFfc3RydWN0ICp2bWEsCiAJc3RydWN0IG1tX3N0cnVjdCAqbW0gPSB2bWEtPnZtX21tOwogCiAJ
+LyoKLQkgKiBDaGVjayBpZiBtZW1vcnkgaXMgc2VhbGVkIGJlZm9yZSBhcmNoX3VubWFwLgotCSAq
+IFByZXZlbnQgdW5tYXBwaW5nIGEgc2VhbGVkIFZNQS4KKwkgKiBDaGVjayBpZiBtZW1vcnkgaXMg
+c2VhbGVkLCBwcmV2ZW50IHVubWFwcGluZyBhIHNlYWxlZCBWTUEuCiAJICogY2FuX21vZGlmeV9t
+bSBhc3N1bWVzIHdlIGhhdmUgYWNxdWlyZWQgdGhlIGxvY2sgb24gTU0uCiAJICovCiAJaWYgKHVu
+bGlrZWx5KCFjYW5fbW9kaWZ5X21tKG1tLCBzdGFydCwgZW5kKSkpCiAJCXJldHVybiAtRVBFUk07
+CiAKLQlhcmNoX3VubWFwKG1tLCBzdGFydCwgZW5kKTsKIAlyZXR1cm4gZG9fdm1pX2FsaWduX211
+bm1hcCh2bWksIHZtYSwgbW0sIHN0YXJ0LCBlbmQsIHVmLCB1bmxvY2spOwogfQogCkBAIC0zNjI0
+LDYgKzM2MTgsOSBAQCBzdGF0aWMgdm1fZmF1bHRfdCBzcGVjaWFsX21hcHBpbmdfZmF1bHQoc3Ry
+dWN0IHZtX2ZhdWx0ICp2bWYpOwogICovCiBzdGF0aWMgdm9pZCBzcGVjaWFsX21hcHBpbmdfY2xv
+c2Uoc3RydWN0IHZtX2FyZWFfc3RydWN0ICp2bWEpCiB7CisJY29uc3Qgc3RydWN0IHZtX3NwZWNp
+YWxfbWFwcGluZyAqc20gPSB2bWEtPnZtX3ByaXZhdGVfZGF0YTsKKwlpZiAoc20tPmNsb3NlKQor
+CQlzbS0+Y2xvc2Uoc20sIHZtYSk7CiB9CiAKIHN0YXRpYyBjb25zdCBjaGFyICpzcGVjaWFsX21h
+cHBpbmdfbmFtZShzdHJ1Y3Qgdm1fYXJlYV9zdHJ1Y3QgKnZtYSkK
+--00000000000044bb81061ef439ea--
 
